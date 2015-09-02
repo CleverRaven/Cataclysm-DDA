@@ -153,6 +153,10 @@ int utf8_width(const char *s, const bool ignore_tags)
     return w;
 }
 
+int utf8_width(const std::string &str, const bool ignore_tags)
+{
+    return utf8_width(str.c_str(), ignore_tags);
+}
 //Convert cursor position to byte offset
 //returns the first character position in bytes behind the cursor position.
 //If the cursor is not on the first half of the character,

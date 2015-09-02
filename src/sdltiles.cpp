@@ -65,7 +65,7 @@ static bool needupdate = false;
 /** The music we're currently playing. */
 Mix_Music *current_music = NULL;
 std::string current_playlist = "";
-int current_playlist_at = 0;
+size_t current_playlist_at = 0;
 
 struct sound_effect {
     int volume;
@@ -83,8 +83,11 @@ std::map<id_and_variant, std::vector<sound_effect>> sound_effects_p;
 
 struct music_playlist {
     // list of filenames relative to the soundpack location
-    std::vector<std::string> files;
-    std::vector<int> volumes;
+    struct entry {
+        std::string file;
+        int volume;
+    };
+    std::vector<entry> entries;
     bool shuffle;
 
     music_playlist() : shuffle(false) {
@@ -825,7 +828,7 @@ bool Font::draw_window( WINDOW *win, int offsetx, int offsety )
             const int FG = cell.FG;
             const int BG = cell.BG;
             if( codepoint != UNKNOWN_UNICODE ) {
-                const int cw = utf8_width( cell.ch.c_str() );
+                const int cw = utf8_width( cell.ch );
                 if( cw < 1 ) {
                     // utf8_width() may return a negative width
                     continue;
@@ -1980,23 +1983,36 @@ void musicFinished() {
     Mix_FreeMusic(current_music);
     current_music = NULL;
 
+    const auto iter = playlists.find( current_playlist );
+    if( iter == playlists.end() ) {
+        return;
+    }
+    const music_playlist &list = iter->second;
+    if( list.entries.empty() ) {
+        return;
+    }
+
     // Load the next file to play.
     current_playlist_at++;
 
     // Wrap around if we reached the end of the playlist.
-    if(current_playlist_at >= (int)playlists[current_playlist].files.size()) {
+    if( current_playlist_at >= list.entries.size() ) {
         current_playlist_at = 0;
     }
 
-    std::string filename = playlists[current_playlist].files[current_playlist_at];
-    play_music_file(filename, playlists[current_playlist].volumes[current_playlist_at]);
+    const auto &next = list.entries[current_playlist_at];
+    play_music_file( next.file, next.volume );
 }
 #endif
 
 void play_music(std::string playlist) {
 #ifdef SDL_SOUND
-
-    if(playlists[playlist].files.size() == 0) {
+    const auto iter = playlists.find( playlist );
+    if( iter == playlists.end() ) {
+        return;
+    }
+    const music_playlist &list = iter->second;
+    if( list.entries.empty() ) {
         return;
     }
 
@@ -2005,13 +2021,11 @@ void play_music(std::string playlist) {
         return;
     }
 
-    std::string filename = playlists[playlist].files[0];
-    int volume = playlists[playlist].volumes[0];
-
     current_playlist = playlist;
     current_playlist_at = 0;
 
-    play_music_file(filename, volume);
+    const auto &next = list.entries[0];
+    play_music_file( next.file, next.volume );
 #else
     (void)playlist;
 #endif
@@ -2052,8 +2066,8 @@ void sfx::load_playlist( JsonObject &jsobj )
         JsonArray files = playlist.get_array( "files" );
         while( files.has_more() ) {
             JsonObject entry = files.next_object();
-            playlist_to_load.files.push_back( entry.get_string( "file" ) );
-            playlist_to_load.volumes.push_back( entry.get_int( "volume" ) );
+            const music_playlist::entry e{ entry.get_string( "file" ),  entry.get_int( "volume" ) };
+            playlist_to_load.entries.push_back( e );
         }
 
         playlists[playlist_id] = std::move( playlist_to_load );

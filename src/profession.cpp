@@ -69,7 +69,7 @@ void profession::load_profession(JsonObject &jsobj)
     jsarr = jsobj.get_array("skills");
     while (jsarr.has_more()) {
         JsonObject jo = jsarr.next_object();
-        prof.add_skill(jo.get_string("name"),
+        prof.add_skill(skill_id( jo.get_string("name") ),
                        jo.get_int("level"));
     }
     jsarr = jsobj.get_array("addictions");
@@ -204,8 +204,9 @@ void profession::check_definition() const
     }
 
     for( const auto &elem : _starting_skills ) {
-        // Skill::skill shows a debug message if the skill is unknown
-        Skill::skill( elem.first );
+        if( !elem.first.is_valid() ) {
+            debugmsg( "skill %s for profession %s does not exist", elem.first.c_str(), _ident.c_str() );
+        }
     }
 }
 
@@ -255,7 +256,7 @@ void profession::add_addiction(add_type type, int intensity)
 {
     _starting_addictions.push_back(addiction(type, intensity));
 }
-void profession::add_skill(const std::string &skill_name, const int level)
+void profession::add_skill(const skill_id &skill_name, const int level)
 {
     _starting_skills.push_back(StartingSkill(skill_name, level));
 }

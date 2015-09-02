@@ -20,6 +20,7 @@ class item_category;
 struct recipe;
 struct itype;
 class Skill;
+using skill_id = string_id<Skill>;
 class player;
 class item;
 class ma_technique;
@@ -113,10 +114,9 @@ struct islot_armor {
 
 struct islot_book {
     /**
-     * Which skill it upgrades, if any. Can be NULL.
-     * TODO: this should be a pointer to const
+     * Which skill it upgrades, if any. Can be @ref skill_id::NULL_ID.
      */
-    const Skill* skill = nullptr;
+    skill_id skill = NULL_ID;
     /**
      * The skill level the book provides.
      */
@@ -249,7 +249,7 @@ struct islot_gun : common_firing_data {
      * TODO: This is also indicates the type of gun (handgun/rifle/etc.) - that
      * should probably be made explicit.
      */
-    const Skill* skill_used = nullptr;
+    skill_id skill_used = NULL_ID;
     /**
      * Gun durability, affects gun being damaged during shooting.
      */
@@ -297,9 +297,8 @@ struct islot_gunmod : common_firing_data {
     int req_skill = 0;
     /**
      * TODO: document me
-     * TODO: this should be a pointer to const Skill.
      */
-    const Skill* skill_used = nullptr;
+    skill_id skill_used = NULL_ID;
     /**
      * TODO: document me
      */

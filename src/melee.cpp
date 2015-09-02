@@ -27,10 +27,16 @@ static const matec_id WBLOCK_1( "WBLOCK_1" );
 static const matec_id WBLOCK_2( "WBLOCK_2" );
 static const matec_id WBLOCK_3( "WBLOCK_3" );
 
+static const skill_id skill_stabbing( "stabbing" );
+static const skill_id skill_cutting( "cutting" );
+static const skill_id skill_unarmed( "unarmed" );
+static const skill_id skill_bashing( "bashing" );
+static const skill_id skill_melee( "melee" );
+static const skill_id skill_dodge( "dodge" );
+
 void player_hit_message(player* attacker, std::string message,
                         Creature &t, int dam, bool crit);
 void melee_practice( player &u, bool hit, bool unarmed, bool bashing, bool cutting, bool stabbing);
-int  attack_speed(const player &u);
 int  stumble(player &u);
 std::string melee_message( const ma_technique &tech, player &p, const dealt_damage_instance &ddi );
 
@@ -40,7 +46,7 @@ std::string melee_message( const ma_technique &tech, player &p, const dealt_dama
  * STATE QUERIES
  * bool is_armed() - True if we are armed with any weapon.
  * bool unarmed_attack() - True if we are NOT armed with any weapon, but still
- *  true if we're wielding a bionic weapon (at this point, just "bio_claws").
+ *  true if we're wielding a "fist" weapon (cestus, bionic claws etc.).
  *
  * HIT DETERMINATION
  * int hit_roll() - The player's hit roll, to be compared to a monster's or
@@ -57,7 +63,7 @@ bool player::handle_melee_wear()
 {
     // Here is where we handle wear and tear on things we use as melee weapons or shields.
     int material_factor = 1;
-    int damage_chance = dex_cur + ( 2 * get_skill_level("melee") ) + ( 128 / std::max(str_cur,1) );
+    int damage_chance = dex_cur + ( 2 * get_skill_level( skill_melee ) ) + ( 128 / std::max(str_cur,1) );
     // UNBREAKABLE_MELEE items can't be damaged through melee combat usage.
     if ((!weapon.has_flag("UNBREAKABLE_MELEE")) && (is_armed())) {
         // Here we're checking the weapon's material(s) and using the best one to determine how durable it is.
@@ -123,18 +129,19 @@ bool player::handle_melee_wear()
 }
 
 bool player::unarmed_attack() const {
- return (weapon.typeId() == "null" || weapon.has_flag("UNARMED_WEAPON"));
+    return weapon.has_flag("UNARMED_WEAPON");
 }
 
-int player::get_hit_base() const
+int player::get_hit_weapon( const item &weap ) const
 {
-    int unarmed_skill = get_skill_level("unarmed");
-    int bashing_skill = get_skill_level("bashing");
-    int cutting_skill = get_skill_level("cutting");
-    int stabbing_skill = get_skill_level("stabbing");
-    int melee_skill = get_skill_level("melee");
+    // TODO: there is a listing of the same skills in player.cpp
+    int unarmed_skill = get_skill_level( skill_unarmed );
+    int bashing_skill = get_skill_level( skill_bashing );
+    int cutting_skill = get_skill_level( skill_cutting );
+    int stabbing_skill = get_skill_level( skill_stabbing );
+    int melee_skill = get_skill_level( skill_melee );
 
-    if (has_active_bionic("bio_cqb")) {
+    if( has_active_bionic( "bio_cqb" ) ) {
         unarmed_skill = 5;
         bashing_skill = 5;
         cutting_skill = 5;
@@ -145,27 +152,32 @@ int player::get_hit_base() const
     float best_bonus = 0.0;
 
     // Are we unarmed?
-    if( unarmed_attack() ) {
+    if( weap.has_flag("UNARMED_WEAPON") ) {
         best_bonus = unarmed_skill / 2.0f;
     }
 
     // Using a bashing weapon?
-    if( weapon.is_bashing_weapon() ) {
+    if( weap.is_bashing_weapon() ) {
         best_bonus = std::max( best_bonus, bashing_skill / 3.0f );
     }
 
     // Using a cutting weapon?
-    if( weapon.is_cutting_weapon() ) {
+    if( weap.is_cutting_weapon() ) {
         best_bonus = std::max( best_bonus, cutting_skill / 3.0f );
     }
 
     // Using a spear?
-    if( weapon.has_flag("SPEAR") || weapon.has_flag("STAB") ) {
+    if( weap.has_flag("SPEAR") || weap.has_flag("STAB") ) {
         best_bonus = std::max( best_bonus, stabbing_skill / 3.0f );
     }
+    
+    return int(melee_skill / 2.0f + best_bonus);
+}
 
+int player::get_hit_base() const
+{
     // Character::get_hit_base includes stat calculations already
-    return Character::get_hit_base() + int(melee_skill / 2.0f + best_bonus);
+    return Character::get_hit_base() + get_hit_weapon( weapon );
 }
 
 int player::hit_roll() const
@@ -234,11 +246,16 @@ const char *player::get_miss_reason()
     return *reason;
 }
 
-void player::roll_all_damage( bool crit, damage_instance &di, bool average ) const
+void player::roll_all_damage( bool crit, damage_instance &di ) const
 {
-    roll_bash_damage( crit, di, average );
-    roll_cut_damage ( crit, di, average );
-    roll_stab_damage( crit, di, average );
+    roll_all_damage( crit, di, false, weapon );
+}
+
+void player::roll_all_damage( bool crit, damage_instance &di, bool average, const item &weap ) const
+{
+    roll_bash_damage( crit, di, average, weap );
+    roll_cut_damage ( crit, di, average, weap );
+    roll_stab_damage( crit, di, average, weap );
 }
 
 // Melee calculation is in parts. This sets up the attack, then in deal_melee_attack,
@@ -254,7 +271,7 @@ void player::melee_attack(Creature &t, bool allow_special, const matec_id &force
 
     std::string message = is_u ? _("You hit %s") : _("<npcname> hits %s");
 
-    int move_cost = attack_speed(*this);
+    int move_cost = attack_speed( weapon );
 
     const bool critical_hit = scored_crit( t.dodge_roll() );
 
@@ -310,7 +327,7 @@ void player::melee_attack(Creature &t, bool allow_special, const matec_id &force
         }
     } else {
         damage_instance d;
-        roll_all_damage( critical_hit, d, false );
+        roll_all_damage( critical_hit, d );
 
         // Handles effects as well; not done in melee_affect_*
         if( technique.id != tec_none ) {
@@ -383,7 +400,7 @@ void player::melee_attack(Creature &t, bool allow_special, const matec_id &force
         t.check_dead_state();
     }
 
-    const int melee = get_skill_level("melee");
+    const int melee = get_skill_level( skill_melee );
     const int weight_cost = weapon.weight() / ( 12 * std::max( 1, str_cur ) );
     const int encumbrance_cost = ( encumb( bp_arm_l ) + encumb( bp_arm_r ) ) / 5;
     const int mod_sta = ( weight_cost + encumbrance_cost - melee + 20 ) * -1;
@@ -403,7 +420,7 @@ void player::melee_attack(Creature &t, bool allow_special, const matec_id &force
 void player::reach_attack( const tripoint &p )
 {
     matec_id force_technique = tec_none;
-    if( weapon.has_flag( "WHIP" ) && ( skillLevel( "melee" ) > 5) && one_in( 3 ) ) {
+    if( weapon.has_flag( "WHIP" ) && ( skillLevel( skill_melee ) > 5) && one_in( 3 ) ) {
         force_technique = matec_id( "WHIP_DISARM" );
     }
 
@@ -411,10 +428,10 @@ void player::reach_attack( const tripoint &p )
     // Original target size, used when there are monsters in front of our target
     int target_size = critter != nullptr ? critter->get_size() : 2;
 
-    int move_cost = attack_speed( *this );
-    int skill = std::min( 10, (int)get_skill_level("stabbing") );
+    int move_cost = attack_speed( weapon );
+    int skill = std::min( 10, (int)get_skill_level( skill_stabbing ) );
     int t = 0;
-    std::vector<tripoint> path = line_to( pos3(), p, t, 0 );
+    std::vector<tripoint> path = line_to( pos(), p, t, 0 );
     path.pop_back(); // Last point is our critter
     for( const tripoint &p : path ) {
         // Possibly hit some unintended target instead
@@ -467,16 +484,17 @@ int stumble(player &u)
 
 bool player::scored_crit(int target_dodge) const
 {
-    return rng_float( 0, 1.0 ) < crit_chance( hit_roll(), target_dodge );
+    return rng_float( 0, 1.0 ) < crit_chance( hit_roll(), target_dodge, weapon );
 }
 
-double player::crit_chance( int roll_hit, int target_dodge ) const
+double player::crit_chance( int roll_hit, int target_dodge, const item &weap ) const
 {
-    int unarmed_skill = get_skill_level("unarmed");
-    int bashing_skill = get_skill_level("bashing");
-    int cutting_skill = get_skill_level("cutting");
-    int stabbing_skill = get_skill_level("stabbing");
-    int melee_skill = get_skill_level("melee");
+    // TODO: see player.cpp ther eis the same listing of those skill!
+    int unarmed_skill = get_skill_level( skill_unarmed );
+    int bashing_skill = get_skill_level( skill_bashing );
+    int cutting_skill = get_skill_level( skill_cutting );
+    int stabbing_skill = get_skill_level( skill_stabbing );
+    int melee_skill = get_skill_level( skill_melee );
 
     if( has_active_bionic("bio_cqb") ) {
         unarmed_skill = 5;
@@ -487,16 +505,16 @@ double player::crit_chance( int roll_hit, int target_dodge ) const
     }
     // Weapon to-hit roll
     double weapon_crit_chance = 0.5;
-    if( unarmed_attack() ) {
+    if( weap.has_flag("UNARMED_WEAPON") ) {
         // Unarmed attack: 1/2 of unarmed skill is to-hit
         weapon_crit_chance = 0.5 + unarmed_skill * 0.5;
     }
 
-    if( weapon.type->m_to_hit > 0 ) {
+    if( weap.type->m_to_hit > 0 ) {
         // Don't let unarmed bonus stack with good unarmed weapons (it gets crazy high)
-        weapon_crit_chance = std::max( weapon_crit_chance, 0.5 + 0.1 * weapon.type->m_to_hit );
-    } else if( weapon.type->m_to_hit < 0 ) {
-        weapon_crit_chance += 0.1 * weapon.type->m_to_hit;
+        weapon_crit_chance = std::max( weapon_crit_chance, 0.5 + 0.1 * weap.type->m_to_hit );
+    } else if( weap.type->m_to_hit < 0 ) {
+        weapon_crit_chance += 0.1 * weap.type->m_to_hit;
     }
 
     // Dexterity and perception
@@ -505,20 +523,20 @@ double player::crit_chance( int roll_hit, int target_dodge ) const
     // Skill level roll
     int best_skill = 0;
 
-    if( weapon.is_bashing_weapon() && bashing_skill > best_skill ) {
+    if( weap.is_bashing_weapon() && bashing_skill > best_skill ) {
         best_skill = bashing_skill;
     }
 
-    if( weapon.is_cutting_weapon() && cutting_skill > best_skill ) {
+    if( weap.is_cutting_weapon() && cutting_skill > best_skill ) {
         best_skill = cutting_skill;
     }
 
-    if( (weapon.has_flag("SPEAR") || weapon.has_flag("STAB")) &&
+    if( (weap.has_flag("SPEAR") || weap.has_flag("STAB")) &&
         stabbing_skill > best_skill ) {
         best_skill = stabbing_skill;
     }
 
-    if( unarmed_attack() && unarmed_skill > best_skill ) {
+    if( weap.has_flag("UNARMED_WEAPON") && unarmed_skill > best_skill ) {
         best_skill = unarmed_skill;
     }
 
@@ -555,7 +573,7 @@ double player::crit_chance( int roll_hit, int target_dodge ) const
 
 int player::get_dodge_base() const {
     // Creature::get_dodge_base includes stat calculations already
-    return Character::get_dodge_base() + get_skill_level("dodge");
+    return Character::get_dodge_base() + get_skill_level( skill_dodge );
 }
 
 //Returns 1/2*DEX + dodge skill level + static bonuses from mutations
@@ -578,8 +596,8 @@ int player::get_dodge() const
 
 int player::dodge_roll()
 {
-    if ( (shoe_type_count("roller_blades") == 2 && one_in((get_dex() + get_skill_level("dodge")) / 3 )) ||
-          (shoe_type_count("roller_blades") == 1 && one_in((get_dex() + get_skill_level("dodge")) / 8 ))) {
+    if ( (shoe_type_count("roller_blades") == 2 && one_in((get_dex() + get_skill_level( skill_dodge )) / 3 )) ||
+          (shoe_type_count("roller_blades") == 1 && one_in((get_dex() + get_skill_level( skill_dodge )) / 8 ))) {
         if (!has_effect("downed")) {
             // Skaters have a 67% chance to avoid knockdown, and get up a turn quicker.
             if (has_trait("PROF_SKATER")) {
@@ -601,7 +619,7 @@ int player::dodge_roll()
         }
     }
     //Fighting on a pair of quad skates isn't so hard, but fighting while wearing a single skate is.
-    if (shoe_type_count("rollerskates") == 1 && one_in((get_dex() + get_skill_level("dodge")) / 8 )) {
+    if (shoe_type_count("rollerskates") == 1 && one_in((get_dex() + get_skill_level( skill_dodge )) / 8 )) {
         if (has_trait("PROF_SKATER")) {
             if (one_in(3)) {
                 if (!has_effect("downed")) {
@@ -629,7 +647,7 @@ int player::dodge_roll()
     int dodge_stat = get_dodge();
 
     if (dodges_left <= 0) { // We already dodged this turn
-        if (rng(0, get_skill_level("dodge") + dex_cur + 15) <= get_skill_level("dodge") + dex_cur) {
+        if (rng(0, get_skill_level( skill_dodge ) + dex_cur + 15) <= get_skill_level( skill_dodge ) + dex_cur) {
             dodge_stat = rng(dodge_stat/2, dodge_stat); //Penalize multiple dodges per turn
         } else {
             dodge_stat = 0;
@@ -668,13 +686,13 @@ int player::base_damage(bool real_life, int stat) const
     return dam;
 }
 
-void player::roll_bash_damage( bool crit, damage_instance &di, bool average ) const
+void player::roll_bash_damage( bool crit, damage_instance &di, bool average, const item &weap ) const
 {
     float bash_dam = 0.0f;
     int stat = get_str();
 
-    int bashing_skill = get_skill_level("bashing");
-    int unarmed_skill = get_skill_level("unarmed");
+    int bashing_skill = get_skill_level( skill_bashing );
+    int unarmed_skill = get_skill_level( skill_unarmed );
 
     if( has_active_bionic("bio_cqb") ) {
         bashing_skill = 5;
@@ -683,7 +701,7 @@ void player::roll_bash_damage( bool crit, damage_instance &di, bool average ) co
 
     stat += mabuff_bash_bonus();
 
-    const int skill = unarmed_attack() ? unarmed_skill : bashing_skill;
+    const int skill = weap.has_flag("UNARMED_WEAPON") ? unarmed_skill : bashing_skill;
 
     // Kinda ugly
     bash_dam = average ? base_damage( false, stat ) - (stat + 1) / 2 : base_damage( true, stat );
@@ -694,7 +712,7 @@ void player::roll_bash_damage( bool crit, damage_instance &di, bool average ) co
         int mindrunk = 0;
         int maxdrunk = 0;
         const int drunk_dur = get_effect_dur("drunk");
-        if( unarmed_attack() ) {
+        if( weap.has_flag("UNARMED_WEAPON") ) {
             mindrunk = drunk_dur / 600;
             maxdrunk = drunk_dur / 250;
         } else {
@@ -705,12 +723,12 @@ void player::roll_bash_damage( bool crit, damage_instance &di, bool average ) co
         bash_dam += average ? (mindrunk + maxdrunk) * 0.5f : rng(mindrunk, maxdrunk);
     }
 
-    float weap_dam = int(stat / 2) + weapon.damage_bash();
+    float weap_dam = int(stat / 2) + weap.damage_bash();
     float bash_cap = 5 + stat + skill;
     float bash_mul = 1.0f;
 
-    if( unarmed_attack() ) {
-        const int maxdam = int(stat / 2) + unarmed_skill + weapon.damage_bash();
+    if( weap.has_flag("UNARMED_WEAPON") ) {
+        const int maxdam = int(stat / 2) + unarmed_skill + weap.damage_bash();
         weap_dam = average ? maxdam * 0.5f : rng( 0, maxdam );
     } else {
         // 80%, 88%, 96%, 104%, 112%, 116%, 120%, 124%, 128%, 132%
@@ -754,23 +772,23 @@ void player::roll_bash_damage( bool crit, damage_instance &di, bool average ) co
     di.add_damage( DT_BASH, bash_dam, 0, armor_mult, bash_mul );
 }
 
-void player::roll_cut_damage( bool crit, damage_instance &di, bool average ) const
+void player::roll_cut_damage( bool crit, damage_instance &di, bool average, const item &weap ) const
 {
-    const bool stabs = weapon.has_flag("SPEAR") || weapon.has_flag("STAB");
-    float cut_dam = stabs ? 0.0f : mabuff_cut_bonus() + weapon.damage_cut();
+    const bool stabs = weap.has_flag("SPEAR") || weap.has_flag("STAB");
+    float cut_dam = stabs ? 0.0f : mabuff_cut_bonus() + weap.damage_cut();
     float cut_mul = 1.0f;
 
-    int cutting_skill = get_skill_level("cutting");
-    int unarmed_skill = get_skill_level("unarmed");
+    int cutting_skill = get_skill_level( skill_cutting );
+    int unarmed_skill = get_skill_level( skill_unarmed );
 
     if( has_active_bionic("bio_cqb") ) {
         cutting_skill = 5;
     }
 
-    if( unarmed_attack() ) {
+    if( weap.has_flag("UNARMED_WEAPON") ) {
         // TODO: 1-handed weapons that aren't unarmed attacks
         const bool left_empty = !wearing_something_on(bp_hand_l);
-        const bool right_empty = !wearing_something_on(bp_hand_r) && !weapon.has_flag("UNARMED_WEAPON");
+        const bool right_empty = !wearing_something_on(bp_hand_r) && !weap.has_flag("UNARMED_WEAPON");
         if( left_empty || right_empty ) {
             float per_hand = 0.0f;
             if (has_trait("CLAWS") || (has_active_mutation("CLAWS_RETRACT")) ) {
@@ -821,22 +839,22 @@ void player::roll_cut_damage( bool crit, damage_instance &di, bool average ) con
     di.add_damage( DT_CUT, cut_dam, arpen, 0.0f, cut_mul );
 }
 
-void player::roll_stab_damage( bool crit, damage_instance &di, bool average ) const
+void player::roll_stab_damage( bool crit, damage_instance &di, bool average, const item &weap ) const
 {
     (void)average; // No random rolls in stab damage
-    const bool stabs = weapon.has_flag("SPEAR") || weapon.has_flag("STAB");
-    float cut_dam = stabs ? mabuff_cut_bonus() + weapon.damage_cut() : 0.0f;
+    const bool stabs = weap.has_flag("SPEAR") || weap.has_flag("STAB");
+    float cut_dam = stabs ? mabuff_cut_bonus() + weap.damage_cut() : 0.0f;
 
-    int unarmed_skill = get_skill_level("unarmed");
-    int stabbing_skill = get_skill_level("stabbing");
+    int unarmed_skill = get_skill_level( skill_unarmed );
+    int stabbing_skill = get_skill_level( skill_stabbing );
 
     if( has_active_bionic( "bio_cqb" ) ) {
         stabbing_skill = 5;
     }
 
-    if( unarmed_attack() ) {
+    if( weap.has_flag("UNARMED_WEAPON") ) {
         const bool left_empty = !wearing_something_on(bp_hand_l);
-        const bool right_empty = !wearing_something_on(bp_hand_r) && !weapon.has_flag("UNARMED_WEAPON");
+        const bool right_empty = !wearing_something_on(bp_hand_r) && !weap.has_flag("UNARMED_WEAPON");
         if( left_empty || right_empty ) {
             float per_hand = 0.0f;
             if( has_trait("CLAWS") || has_active_mutation("CLAWS_RETRACT") ) {
@@ -902,9 +920,9 @@ int player::roll_stuck_penalty(bool stabbing, const ma_technique &tec) const
 {
     (void)tec;
     // The cost of the weapon getting stuck, in units of move points.
-    const int weapon_speed = attack_speed(*this);
+    const int weapon_speed = attack_speed( weapon );
     int stuck_cost = weapon_speed;
-    int attack_skill = stabbing ? get_skill_level("stabbing") : get_skill_level("cutting");
+    int attack_skill = stabbing ? get_skill_level( skill_stabbing ) : get_skill_level( skill_cutting );
 
     if( has_active_bionic("bio_cqb") ) {
         attack_skill = 5;
@@ -1313,7 +1331,7 @@ void player::dodge_hit(Creature *source, int) {
 
     dodges_left--;
 
-    practice( "dodge", source->get_melee() * 2, source->get_melee() );
+    practice( skill_dodge, source->get_melee() * 2, source->get_melee() );
 
     // check if we have any dodge counters
     matec_id tec = pick_technique(*source, false, true, false);
@@ -1353,9 +1371,9 @@ bool player::block_hit(Creature *source, body_part &bp_hit, damage_instance &dam
         } else if (weapon.has_technique( WBLOCK_1 )) {
             block_bonus = 4;
         }
-        block_score = str_cur + block_bonus + (int)get_skill_level("melee");
+        block_score = str_cur + block_bonus + (int)get_skill_level( skill_melee );
     } else if (can_limb_block()) {
-        block_score = str_cur + (int)get_skill_level("melee") + (int)get_skill_level("unarmed");
+        block_score = str_cur + (int)get_skill_level( skill_melee ) + (int)get_skill_level( skill_unarmed );
     }
 
     // Map block_score to the logistic curve for a number between 1 and 0.
@@ -1627,7 +1645,7 @@ std::string player::melee_special_effects(Creature &t, damage_instance &d, const
 
     // The skill used to counter stuck penalty
     const bool stab = d.type_damage(DT_STAB) > d.type_damage(DT_CUT);
-    int used_skill = stab ? get_skill_level("stabbing") : get_skill_level("cutting");
+    int used_skill = stab ? get_skill_level( skill_stabbing ) : get_skill_level( skill_cutting );
     if( has_active_bionic("bio_cqb") ) {
         used_skill = 5;
     }
@@ -1688,7 +1706,7 @@ std::string player::melee_special_effects(Creature &t, damage_instance &d, const
         }
 
         if( weapon.has_flag("SPEAR") ) {
-            const int stabbing_skill = get_skill_level("stabbing");
+            const int stabbing_skill = get_skill_level( skill_stabbing );
             d.add_damage( DT_CUT, rng( 1, stabbing_skill ) ); //add some extra damage for pulling out a spear
             t.mod_moves(-30);
         }
@@ -1710,7 +1728,7 @@ std::vector<special_attack> player::mutation_attacks(Creature &t) const
     std::string target = t.disp_name();
 
     if ( (has_trait("SABER_TEETH")) && !wearing_something_on(bp_mouth) &&
-         one_in(20 - dex_cur - get_skill_level("unarmed")) ) {
+         one_in(20 - dex_cur - get_skill_level( skill_unarmed )) ) {
         special_attack tmp;
         tmp.stab = (25 + str_cur);
         if (is_player()) {
@@ -1730,10 +1748,10 @@ std::vector<special_attack> player::mutation_attacks(Creature &t) const
     // Ursine/Feline, not so much.  Rat is marginally better.
     if (has_trait("FANGS") && (!wearing_something_on(bp_mouth)) &&
         ((!has_trait("MUZZLE") && !has_trait("MUZZLE_LONG") && !has_trait("MUZZLE_RAT") &&
-          one_in(20 - dex_cur - get_skill_level("unarmed"))) ||
-         (has_trait("MUZZLE_RAT") && one_in(19 - dex_cur - get_skill_level("unarmed"))) ||
-         (has_trait("MUZZLE") && one_in(18 - dex_cur - get_skill_level("unarmed"))) ||
-         (has_trait("MUZZLE_LONG") && one_in(15 - dex_cur - get_skill_level("unarmed"))))) {
+          one_in(20 - dex_cur - get_skill_level( skill_unarmed ))) ||
+         (has_trait("MUZZLE_RAT") && one_in(19 - dex_cur - get_skill_level( skill_unarmed ))) ||
+         (has_trait("MUZZLE") && one_in(18 - dex_cur - get_skill_level( skill_unarmed ))) ||
+         (has_trait("MUZZLE_LONG") && one_in(15 - dex_cur - get_skill_level( skill_unarmed ))))) {
         special_attack tmp;
         tmp.stab = 20;
         if (is_player()) {
@@ -1749,7 +1767,7 @@ std::vector<special_attack> player::mutation_attacks(Creature &t) const
         ret.push_back(tmp);
     }
 
-    if (has_trait("INCISORS") && one_in(18 - dex_cur - get_skill_level("unarmed")) &&
+    if (has_trait("INCISORS") && one_in(18 - dex_cur - get_skill_level( skill_unarmed )) &&
         (!wearing_something_on(bp_mouth))) {
         special_attack tmp;
         tmp.cut = 3;
@@ -1768,7 +1786,7 @@ std::vector<special_attack> player::mutation_attacks(Creature &t) const
     }
 
     if (!has_trait("FANGS") && has_trait("MUZZLE") &&
-        one_in(18 - dex_cur - get_skill_level("unarmed")) &&
+        one_in(18 - dex_cur - get_skill_level( skill_unarmed )) &&
         (!wearing_something_on(bp_mouth))) {
         special_attack tmp;
         tmp.cut = 4;
@@ -1786,7 +1804,7 @@ std::vector<special_attack> player::mutation_attacks(Creature &t) const
     }
 
     if (!has_trait("FANGS") && has_trait("MUZZLE_BEAR") &&
-        one_in(20 - dex_cur - get_skill_level("unarmed")) &&
+        one_in(20 - dex_cur - get_skill_level( skill_unarmed )) &&
         (!wearing_something_on(bp_mouth))) {
         special_attack tmp;
         tmp.cut = 5;
@@ -1804,7 +1822,7 @@ std::vector<special_attack> player::mutation_attacks(Creature &t) const
     }
 
     if (!has_trait("FANGS") && has_trait("MUZZLE_LONG") &&
-        one_in(18 - dex_cur - get_skill_level("unarmed")) &&
+        one_in(18 - dex_cur - get_skill_level( skill_unarmed )) &&
         (!wearing_something_on(bp_mouth))) {
         special_attack tmp;
         tmp.stab = 18;
@@ -1822,7 +1840,7 @@ std::vector<special_attack> player::mutation_attacks(Creature &t) const
     }
 
     if ((has_trait("MANDIBLES") || (has_trait("FANGS_SPIDER") && !has_active_mutation("FANGS_SPIDER"))) &&
-        one_in(22 - dex_cur - get_skill_level("unarmed")) && (!wearing_something_on(bp_mouth))) {
+        one_in(22 - dex_cur - get_skill_level( skill_unarmed )) && (!wearing_something_on(bp_mouth))) {
         special_attack tmp;
         tmp.cut = 12;
         if (is_player()) {
@@ -1837,7 +1855,7 @@ std::vector<special_attack> player::mutation_attacks(Creature &t) const
         }
         ret.push_back(tmp);
     }
-    if (has_active_mutation("FANGS_SPIDER") && one_in(24 - dex_cur - get_skill_level("unarmed")) &&
+    if (has_active_mutation("FANGS_SPIDER") && one_in(24 - dex_cur - get_skill_level( skill_unarmed )) &&
         (!wearing_something_on(bp_mouth)) ) {
         special_attack tmp;
         tmp.stab = 15;
@@ -1854,7 +1872,7 @@ std::vector<special_attack> player::mutation_attacks(Creature &t) const
         ret.push_back(tmp);
     }
 
-    if (has_trait("BEAK") && one_in(15 - dex_cur - get_skill_level("unarmed")) &&
+    if (has_trait("BEAK") && one_in(15 - dex_cur - get_skill_level( skill_unarmed )) &&
         (!wearing_something_on(bp_mouth))) {
         special_attack tmp;
         tmp.stab = 15;
@@ -1868,11 +1886,11 @@ std::vector<special_attack> player::mutation_attacks(Creature &t) const
         ret.push_back(tmp);
     }
 
-    if (has_trait("BEAK_PECK") && one_in(15 - dex_cur - get_skill_level("unarmed")) &&
+    if (has_trait("BEAK_PECK") && one_in(15 - dex_cur - get_skill_level( skill_unarmed )) &&
         (!wearing_something_on(bp_mouth))) {
         // method open to improvement, please feel free to suggest
         // a better way to simulate target's anti-peck efforts
-        int num_hits = (dex_cur + get_skill_level("unarmed") - rng(4, 10));
+        int num_hits = (dex_cur + get_skill_level( skill_unarmed ) - rng(4, 10));
         if (num_hits <= 0) {
             num_hits = 1;
         }
@@ -1910,7 +1928,7 @@ std::vector<special_attack> player::mutation_attacks(Creature &t) const
         ret.push_back(tmp);
     }
 
-    if (has_trait("HOOVES") && one_in(25 - dex_cur - 2 * get_skill_level("unarmed"))) {
+    if (has_trait("HOOVES") && one_in(25 - dex_cur - 2 * get_skill_level( skill_unarmed ))) {
         special_attack tmp;
         tmp.bash = str_cur * 3;
         if (tmp.bash > 40) {
@@ -1929,7 +1947,7 @@ std::vector<special_attack> player::mutation_attacks(Creature &t) const
         ret.push_back(tmp);
     }
 
-    if (has_trait("RAP_TALONS") && one_in(30 - dex_cur - 2 * get_skill_level("unarmed"))) {
+    if (has_trait("RAP_TALONS") && one_in(30 - dex_cur - 2 * get_skill_level( skill_unarmed ))) {
         special_attack tmp;
         tmp.cut = str_cur * 4;
         if (tmp.cut > 60) {
@@ -1948,7 +1966,7 @@ std::vector<special_attack> player::mutation_attacks(Creature &t) const
         ret.push_back(tmp);
     }
 
-    if (has_trait("HORNS") && one_in(20 - dex_cur - get_skill_level("unarmed"))) {
+    if (has_trait("HORNS") && one_in(20 - dex_cur - get_skill_level( skill_unarmed ))) {
         special_attack tmp;
         tmp.bash = 3;
         tmp.stab = 3;
@@ -1965,7 +1983,7 @@ std::vector<special_attack> player::mutation_attacks(Creature &t) const
         ret.push_back(tmp);
     }
 
-    if (has_trait("HORNS_CURLED") && one_in(20 - dex_cur - get_skill_level("unarmed"))) {
+    if (has_trait("HORNS_CURLED") && one_in(20 - dex_cur - get_skill_level( skill_unarmed ))) {
         special_attack tmp;
         tmp.bash = 14;
         if (is_player()) {
@@ -1981,7 +1999,7 @@ std::vector<special_attack> player::mutation_attacks(Creature &t) const
         ret.push_back(tmp);
     }
 
-    if (has_trait("HORNS_POINTED") && one_in(22 - dex_cur - get_skill_level("unarmed"))) {
+    if (has_trait("HORNS_POINTED") && one_in(22 - dex_cur - get_skill_level( skill_unarmed ))) {
         special_attack tmp;
         tmp.stab = 24;
         if (is_player()) {
@@ -1994,7 +2012,7 @@ std::vector<special_attack> player::mutation_attacks(Creature &t) const
         ret.push_back(tmp);
     }
 
-    if (has_trait("ANTLERS") && one_in(20 - dex_cur - get_skill_level("unarmed"))) {
+    if (has_trait("ANTLERS") && one_in(20 - dex_cur - get_skill_level( skill_unarmed ))) {
         special_attack tmp;
         tmp.bash = 4;
         if (is_player()) {
@@ -2279,67 +2297,67 @@ void melee_practice( player &u, bool hit, bool unarmed,
 {
     int min = 2;
     int max = 2;
-    std::string first = "";
-    std::string second = "";
-    std::string third = "";
+    skill_id first = NULL_ID;
+    skill_id second = NULL_ID;
+    skill_id third = NULL_ID;
 
     if (hit) {
         min = 5;
         max = 10;
-        u.practice( "melee", rng(5, 10) );
+        u.practice( skill_melee, rng(5, 10) );
     } else {
-        u.practice( "melee", rng(2, 5) );
+        u.practice( skill_melee, rng(2, 5) );
     }
 
     // type of weapon used determines order of practice
     if (u.weapon.has_flag("SPEAR")) {
-        if (stabbing) first  = "stabbing";
-        if (bashing)  second = "bashing";
-        if (cutting)  third  = "cutting";
+        if (stabbing) first  = skill_stabbing;
+        if (bashing)  second = skill_bashing;
+        if (cutting)  third  = skill_cutting;
     } else if (u.weapon.has_flag("STAB")) {
         // stabbity weapons have a 50-50 chance of raising either stabbing or cutting first
         if (one_in(2)) {
-            if (stabbing) first  = "stabbing";
-            if (cutting)  second = "cutting";
-            if (bashing)  third  = "bashing";
+            if (stabbing) first  = skill_stabbing;
+            if (cutting)  second = skill_cutting;
+            if (bashing)  third  = skill_bashing;
         } else {
-            if (cutting)  first  = "cutting";
-            if (stabbing) second = "stabbing";
-            if (bashing)  third  = "bashing";
+            if (cutting)  first  = skill_cutting;
+            if (stabbing) second = skill_stabbing;
+            if (bashing)  third  = skill_bashing;
         }
     } else if (u.weapon.is_cutting_weapon()) {
-        if (cutting)  first  = "cutting";
-        if (bashing)  second = "bashing";
-        if (stabbing) third  = "stabbing";
+        if (cutting)  first  = skill_cutting;
+        if (bashing)  second = skill_bashing;
+        if (stabbing) third  = skill_stabbing;
     } else {
-        if (bashing)  first  = "bashing";
-        if (cutting)  second = "cutting";
-        if (stabbing) third  = "stabbing";
+        if (bashing)  first  = skill_bashing;
+        if (cutting)  second = skill_cutting;
+        if (stabbing) third  = skill_stabbing;
     }
 
-    if (unarmed) u.practice( "unarmed", rng(min, max) );
-    if (!first.empty())  u.practice( first, rng(min, max) );
-    if (!second.empty()) u.practice( second, rng(min, max) );
-    if (!third.empty())  u.practice( third, rng(min, max) );
+    if (unarmed) u.practice( skill_unarmed, rng(min, max) );
+    if( first )  u.practice( first, rng(min, max) );
+    if( second ) u.practice( second, rng(min, max) );
+    if( third )  u.practice( third, rng(min, max) );
 }
 
-int attack_speed(const player &u)
+int player::attack_speed( const item &weap, const bool average ) const
 {
-    const int base_move_cost = u.weapon.attack_time() / 2;
-    const int melee_skill = u.has_active_bionic("bio_cqb") ? 5 : (int)u.get_skill_level("melee");
+    const int base_move_cost = weap.attack_time() / 2;
+    const int melee_skill = has_active_bionic("bio_cqb") ? 5 : (int)get_skill_level( skill_melee );
     const int skill_cost = (int)( base_move_cost / (std::pow(melee_skill, 3.0f)/400.0 + 1.0));
-    const int dexbonus = rng( 0, u.dex_cur );
-    const int encumbrance_penalty = u.encumb( bp_torso ) +
-                                    ( u.encumb( bp_hand_l ) + u.encumb( bp_hand_r ) ) / 2;
+    const int dexbonus = average ? dex_cur / 2 : rng( 0, dex_cur );
+    const int encumbrance_penalty = encumb( bp_torso ) +
+                                    ( encumb( bp_hand_l ) + encumb( bp_hand_r ) ) / 2;
 
     int move_cost = base_move_cost;
     move_cost += skill_cost;
     move_cost += encumbrance_penalty;
     move_cost -= dexbonus;
 
-    if( u.has_trait("HOLLOW_BONES") ) {
+    if( has_trait("HOLLOW_BONES") ) {
         move_cost *= .8;
-    } else if( u.has_trait("LIGHT_BONES") ) {
+    } else if( has_trait("LIGHT_BONES") ) {
         move_cost *= .9;
     }
 
@@ -2348,4 +2366,72 @@ int attack_speed(const player &u)
     }
 
     return move_cost;
+}
+
+double player::weapon_value( const item &weap ) const
+{
+    double my_value = 0;
+    if( weap.is_gun() ) {
+        int gun_value = 14;
+        const islot_gun* gun = weap.type->gun.get();
+        gun_value += gun->damage;
+        gun_value += int(gun->burst / 2);
+        gun_value += int(gun->clip / 3);
+        gun_value -= int(gun->dispersion / 75);
+        gun_value *= (.5 + (.3 * get_skill_level( skill_id( "gun" ) )));
+        gun_value *= (.3 + (.7 * get_skill_level(gun->skill_used)));
+        my_value += gun_value;
+    }
+
+    my_value = std::max( my_value, melee_value( weap ) );
+
+    return my_value;
+}
+
+double player::melee_value( const item &weap ) const
+{
+    double my_value = 0;
+
+    damage_instance non_crit;
+    roll_all_damage( false, non_crit, true, weap );
+    float avg_dmg = non_crit.total_damage();
+
+    const int accuracy = weap.type->m_to_hit + get_hit_weapon( weap );
+    if( accuracy < 0 ) {
+        // Heavy penalty
+        my_value += accuracy * 5;
+    } else if( accuracy <= 5 ) {
+        // Big bonus
+        my_value += accuracy * 3;
+    } else {
+        // Small bonus above that
+        my_value += 15 + (accuracy - 5);
+    }
+
+    int move_cost = attack_speed( weap, true );
+    static const matec_id rapid_strike( "RAPID" );
+    if( weap.has_technique( rapid_strike ) ) {
+        move_cost /= 2;
+        avg_dmg *= 0.66;
+    }
+
+    const int arbitrary_dodge_target = 5;
+    double crit_ch = crit_chance( accuracy, arbitrary_dodge_target, weap );
+    my_value += crit_ch * 10; // Crits are worth more than just extra damage
+    if( crit_ch > 0.1 ) {
+        damage_instance crit;
+        roll_all_damage( true, crit, true, weap );
+        // Note: intentionally doesn't include rapid attack bonus in crits
+        avg_dmg = (1.0 - crit_ch) * avg_dmg + crit.total_damage() * crit_ch;
+    }
+
+    my_value += avg_dmg * 100 / move_cost;
+
+    return my_value;
+}
+
+double player::unarmed_value() const
+{
+    // TODO: Martial arts
+    return melee_value( ret_null );
 }

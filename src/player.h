@@ -5,6 +5,7 @@
 #include "item.h"
 #include "player_activity.h"
 #include "weighted_list.h"
+#include "morale.h"
 
 #include <unordered_set>
 #include <bitset>
@@ -275,7 +276,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Picks a random valid mutation in a category and mutate_towards() it */
         void mutate_category( const std::string &mut_cat );
         /** Mutates toward the entered mutation, upgrading or removing conflicts if necessary */
-        void mutate_towards( const std::string &mut );
+        bool mutate_towards( const std::string &mut );
         /** Removes a mutation, downgrading to the previous level if possible */
         void remove_mutation( const std::string &mut );
         /** Returns true if the player has the entered mutation child flag */
@@ -466,19 +467,28 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Returns the player's basic hit roll that is compared to the target's dodge roll */
         int hit_roll() const override;
         /** Returns the chance to crit given a hit roll and target's dodge roll */
-        double crit_chance( int hit_roll, int target_dodge ) const;
+        double crit_chance( int hit_roll, int target_dodge, const item &weap ) const;
         /** Returns true if the player scores a critical hit */
         bool scored_crit(int target_dodge = 0) const;
+        /** Returns cost (in moves) of attacking with given item (no modifiers, like stuck) */
+        int attack_speed( const item &weap, bool average = false ) const;
+        /** Gets melee accuracy component from weapon+skills */
+        int get_hit_weapon( const item &weap ) const;
+        /** NPC-related item rating functions */
+        double weapon_value( const item &weap ) const; // Evaluates item as a weapon
+        double melee_value( const item &weap ) const; // As above, but only as melee
+        double unarmed_value() const; // Evaluate yourself!
 
         // If average == true, adds expected values of random rolls instead of rolling.
         /** Adds all 3 types of physical damage to instance */
-        void roll_all_damage( bool crit, damage_instance &di, bool average ) const; 
+        void roll_all_damage( bool crit, damage_instance &di ) const;
+        void roll_all_damage( bool crit, damage_instance &di, bool average, const item &weap ) const;
         /** Adds player's total bash damage to the damage instance */
-        void roll_bash_damage( bool crit, damage_instance &di, bool average ) const;
+        void roll_bash_damage( bool crit, damage_instance &di, bool average, const item &weap ) const;
         /** Adds player's total cut damage to the damage instance */
-        void roll_cut_damage( bool crit, damage_instance &di, bool average ) const;
+        void roll_cut_damage( bool crit, damage_instance &di, bool average, const item &weap ) const;
         /** Adds player's total stab damage to the damage instance */
-        void roll_stab_damage( bool crit, damage_instance &di, bool average ) const;
+        void roll_stab_damage( bool crit, damage_instance &di, bool average, const item &weap ) const;
         /** Returns the number of moves unsticking a weapon will penalize for */
         int roll_stuck_penalty( bool stabbing, const ma_technique &tec ) const;
         std::vector<matec_id> get_all_techniques() const;
@@ -656,9 +666,9 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         bool takeoff( int pos, bool autodrop = false, std::vector<item> *items = nullptr );
         /** Removes the first item in the container's contents and wields it,
          * taking moves based on skill and volume of item being wielded. */
-        void wield_contents(item *container, bool force_invlet, std::string skill_used, int volume_factor);
+        void wield_contents(item *container, bool force_invlet, const skill_id &skill_used, int volume_factor);
         /** Stores an item inside another item, taking moves based on skill and volume of item being stored. */
-        void store(item *container, item *put, std::string skill_used, int volume_factor);
+        void store(item *container, item *put, const skill_id &skill_used, int volume_factor);
         /** Draws the UI and handles player input for the armor re-ordering window */
         void sort_armor();
         /** Uses a tool */
@@ -748,7 +758,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
 
         int adjust_for_focus(int amount) const;
         void practice( const Skill* s, int amount, int cap = 99 );
-        void practice( std::string s, int amount, int cap = 99 );
+        void practice( const skill_id &s, int amount, int cap = 99 );
 
         void assign_activity(activity_type type, int moves, int index = -1, int pos = INT_MIN,
                              std::string name = "");
@@ -756,7 +766,6 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         void cancel_activity();
 
         double convert_weight(int weight) const;
-        bool can_eat(const item &i) const;
         int net_morale(morale_point effect) const;
         int morale_level() const; // Modified by traits, &c
         void add_morale(morale_type type, int bonus, int max_bonus = 0,
@@ -969,8 +978,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         bool last_climate_control_ret;
         std::string move_mode;
         int power_level, max_power_level;
-        int hunger, thirst, fatigue;
-        int stomach_food, stomach_water;
+        int thirst, fatigue;
         int tank_plut, reactor_plut, slow_rad;
         int oxygen;
         int stamina;
@@ -1002,12 +1010,10 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
 
         void set_skill_level(const Skill* _skill, int level);
         void set_skill_level(Skill const &_skill, int level);
-        void set_skill_level(std::string ident, int level);
+        void set_skill_level(const skill_id &ident, int level);
 
         void boost_skill_level(const Skill* _skill, int level);
-        void boost_skill_level(std::string ident, int level);
-
-        void copy_skill_levels(const player *rhs);
+        void boost_skill_level(const skill_id &ident, int level);
 
         std::map<std::string, const recipe *> learned_recipes;
 

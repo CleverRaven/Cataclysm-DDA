@@ -77,7 +77,7 @@
     "allowed_locs": ["cabin"],
     "start_name": "Abandoned Cabin",
     "flags" : ["SUR_START","WIN_START"],
-    "professions" : ["winter_survivor","winter_scavenger","unemployed"]
+    "professions" : ["winter_survivor","winter_scavenger","winter_army","unemployed"]
   },{
     "type": "scenario",
     "ident": "alone",
@@ -161,10 +161,10 @@
     "type": "scenario",
     "ident": "heli_crash",
     "name": "Helicopter crash",
-    "points" : -8,
-    "description": "You've crashed your precious helicopter, it'll never fly again.  Monster don't bother you, life without your Loach is worthless anyway.",
+    "points" : -2,
+    "description": "You've crashed your precious helicopter, it'll never fly again.  Monsters don't bother you, life without your Loach is worthless anyway.",
     "start_name": "Crash site",
-    "professions" : ["unemployed", "bio_soldier"],
+    "professions" : ["soldier", "specops", "bio_soldier"],
     "allowed_locs" : ["field"],
     "map_special": "mx_helicopter",
     "flags": ["HELI_CRASH"]

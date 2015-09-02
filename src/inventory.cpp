@@ -1042,17 +1042,17 @@ item *inventory::most_appropriate_painkiller(int pain)
     return ret;
 }
 
-item *inventory::best_for_melee(player *p)
+item *inventory::best_for_melee( player &p, double &best )
 {
     item *ret = &nullitem;
-    int best = 0;
     for( auto &elem : items ) {
-        int score = elem.front().melee_value( *p );
-        if (score > best) {
+        auto score = p.melee_value( elem.front() );
+        if( score > best ) {
             best = score;
             ret = &( elem.front() );
         }
     }
+
     return ret;
 }
 

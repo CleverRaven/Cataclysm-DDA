@@ -3446,6 +3446,68 @@
             ]
         },
         "flags" : ["SCEN_ONLY"]
+    },
+    {
+        "type": "profession",
+        "ident": "winter_army",
+        "name" : "Military Holdout",
+        "description" : "You must have paid attention to your survival training in boot camp, otherwise you would never have lived long enough to outlast the chain of command and find yourself in this predicament.  The only mission left now is to survive.",
+        "points" : 6,
+        "skills": [
+            {
+                "level": 4,
+                "name": "survival"
+            },
+            {
+                "level": 4,
+                "name": "gun"
+            },
+            {
+                "level": 3,
+                "name": "rifle"
+            },
+            {
+                "level" : 3,
+                "name" : "melee"
+            },
+            {
+                "level": 1,
+                "name": "firstaid"
+            }
+        ],
+
+        "items": {
+            "both": [
+                "socks",
+                "pants_army",
+                "jacket_army",
+                "balclava",
+                "boots_combat",
+                "gloves_tactical",
+                "chestrig",
+                "tac_helmet",
+                "sheath",
+                "canteen",
+                "shoulder_strap",
+                "m4a1",
+                "556",
+                "556",
+                "556",
+                "bayonet",
+                "spare_mag",
+                "mil_mess_kit",
+                "knife_combat",
+                "quikclot"
+            ],
+            "male": [
+                "boxer_shorts"
+            ],
+            "female": [
+                "sports_bra",
+                "panties"
+            ]
+        },
+        "flags" : ["SCEN_ONLY"]
     },{
         "type": "profession",
         "ident": "mall_cop",

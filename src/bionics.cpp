@@ -27,6 +27,10 @@
 #include <algorithm> //std::min
 #include <sstream>
 
+const skill_id skilll_electronics( "electronics" );
+const skill_id skilll_firstaid( "firstaid" );
+const skill_id skilll_mechanics( "mechanics" );
+
 namespace {
 std::map<std::string, bionic_data> bionics;
 std::vector<std::string> faulty_bionics;
@@ -65,12 +69,12 @@ void show_bionics_titlebar(WINDOW *window, player *p, std::string menu_mode)
     werase(window);
 
     std::string caption = _("BIONICS -");
-    int cap_offset = utf8_width(caption.c_str()) + 1;
+    int cap_offset = utf8_width(caption) + 1;
     mvwprintz(window, 0,  0, c_blue, "%s", caption.c_str());
 
     std::stringstream pwr;
     pwr << string_format(_("Power: %i/%i"), int(p->power_level), int(p->max_power_level));
-    int pwr_length = utf8_width(pwr.str().c_str()) + 1;
+    int pwr_length = utf8_width(pwr.str()) + 1;
     mvwprintz(window, 0, getmaxx(window) - pwr_length, c_white, "%s", pwr.str().c_str());
 
     std::string desc;
@@ -398,7 +402,7 @@ void player::power_bionics()
         }
         int tab_x = tabs_start;
         draw_tab(w_tabs, tab_x, active_tab_name, tab_mode == "TAB_ACTIVE");
-        tab_x += tab_step + utf8_width(active_tab_name.c_str());
+        tab_x += tab_step + utf8_width(active_tab_name);
         draw_tab(w_tabs, tab_x, passive_tab_name, tab_mode != "TAB_ACTIVE");
         wrefresh(w_tabs);
 
@@ -1321,9 +1325,9 @@ bool player::uninstall_bionic(std::string const &b_id, int skill_level)
                                 difficulty + 2);
     } else {
         chance_of_success = bionic_manip_cos(int_cur,
-                                skillLevel("electronics"),
-                                skillLevel("firstaid"),
-                                skillLevel("mechanics"),
+                                skillLevel( skilll_electronics ),
+                                skillLevel( skilll_firstaid ),
+                                skillLevel( skilll_mechanics ),
                                 difficulty + 2);
     }
 
@@ -1351,9 +1355,9 @@ bool player::uninstall_bionic(std::string const &b_id, int skill_level)
     if (skill_level == -1)
         use_charges("1st_aid", 1);
 
-    practice( "electronics", int((100 - chance_of_success) * 1.5) );
-    practice( "firstaid", int((100 - chance_of_success) * 1.0) );
-    practice( "mechanics", int((100 - chance_of_success) * 0.5) );
+    practice( skilll_electronics, int((100 - chance_of_success) * 1.5) );
+    practice( skilll_firstaid, int((100 - chance_of_success) * 1.0) );
+    practice( skilll_mechanics, int((100 - chance_of_success) * 0.5) );
 
     int success = chance_of_success - rng(1, 100);
 
@@ -1432,9 +1436,9 @@ bool player::install_bionics(const itype &type, int skill_level)
                                 difficult);
     } else {
         chance_of_success = bionic_manip_cos(int_cur,
-                                skillLevel("electronics"),
-                                skillLevel("firstaid"),
-                                skillLevel("mechanics"),
+                                skillLevel( skilll_electronics ),
+                                skillLevel( skilll_firstaid ),
+                                skillLevel( skilll_mechanics ),
                                 difficult);
     }
 
@@ -1444,9 +1448,9 @@ bool player::install_bionics(const itype &type, int skill_level)
         return false;
     }
 
-    practice( "electronics", int((100 - chance_of_success) * 1.5) );
-    practice( "firstaid", int((100 - chance_of_success) * 1.0) );
-    practice( "mechanics", int((100 - chance_of_success) * 0.5) );
+    practice( skilll_electronics, int((100 - chance_of_success) * 1.5) );
+    practice( skilll_firstaid, int((100 - chance_of_success) * 1.0) );
+    practice( skilll_mechanics, int((100 - chance_of_success) * 0.5) );
     int success = chance_of_success - rng(0, 99);
     if (success > 0) {
         add_memorial_log(pgettext("memorial_male", "Installed bionic: %s."),
@@ -1484,9 +1488,9 @@ void bionics_install_failure(player *u, int difficulty, int success)
     // it would be better for code reuse just to pass in skill as an argument from install_bionic
     // pl_skill should be calculated the same as in install_bionics
     int pl_skill = u->int_cur * 4 +
-                   u->skillLevel("electronics") * 4 +
-                   u->skillLevel("firstaid")    * 3 +
-                   u->skillLevel("mechanics")   * 1;
+                   u->skillLevel( skilll_electronics ) * 4 +
+                   u->skillLevel( skilll_firstaid )    * 3 +
+                   u->skillLevel( skilll_mechanics )   * 1;
     // Medical residents get a substantial assist here
     if (u->has_trait("PROF_MED")) {
         pl_skill += 6;

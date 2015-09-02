@@ -36,6 +36,12 @@ const mtype_id mon_spider_widow_giant_s( "mon_spider_widow_giant_s" );
 const mtype_id mon_turret( "mon_turret" );
 const mtype_id mon_turret_rifle( "mon_turret_rifle" );
 
+const skill_id skill_computer( "computer" );
+const skill_id skill_mechanics( "mechanics" );
+const skill_id skill_carpentry( "carpentry" );
+const skill_id skill_cooking( "cooking" );
+const skill_id skill_survival( "survival" );
+
 static void pick_plant( player *p, map *m, const tripoint &examp, std::string itemType, ter_id new_ter,
                         bool seeds = false );
 
@@ -611,8 +617,8 @@ void iexamine::cardreader(player *p, map *m, const tripoint &examp)
                                  query_yn(_("Use fingerhack on the reader?")));
         if (using_electrohack || using_fingerhack) {
             p->moves -= 500;
-            p->practice( "computer", 20 );
-            int success = rng(p->skillLevel("computer") / 4 - 2, p->skillLevel("computer") * 2);
+            p->practice( skill_computer, 20 );
+            int success = rng(p->skillLevel( skill_computer ) / 4 - 2, p->skillLevel( skill_computer ) * 2);
             success += rng(-3, 3);
             if (using_fingerhack) {
                 success++;
@@ -1005,7 +1011,7 @@ void iexamine::safe(player *p, map *m, const tripoint &examp)
         }
          // 150 minutes +/- 20 minutes per mechanics point away from 3 +/- 10 minutes per
         // perception point away from 8; capped at 30 minutes minimum. *100 to convert to moves
-        int moves = std::max(MINUTES(150) + (p->skillLevel("mechanics") - 3) * MINUTES(-20) +
+        int moves = std::max(MINUTES(150) + (p->skillLevel( skill_mechanics ) - 3) * MINUTES(-20) +
                              (p->get_per() - 8) * MINUTES(-10), MINUTES(30)) * 100;
 
          p->assign_activity( ACT_CRACKING, moves );
@@ -1031,12 +1037,12 @@ void iexamine::gunsafe_ml(player *p, map *m, const tripoint &examp)
         pick_quality = 3;
     }
 
-    p->practice("mechanics", 1);
-    p->moves -= (1000 - (pick_quality * 100)) - (p->dex_cur + p->skillLevel("mechanics")) * 5;
-    int pick_roll = (dice(2, p->skillLevel("mechanics")) + dice(2, p->dex_cur)) * pick_quality;
+    p->practice( skill_mechanics, 1);
+    p->moves -= (1000 - (pick_quality * 100)) - (p->dex_cur + p->skillLevel( skill_mechanics )) * 5;
+    int pick_roll = (dice(2, p->skillLevel( skill_mechanics )) + dice(2, p->dex_cur)) * pick_quality;
     int door_roll = dice(4, 30);
     if (pick_roll >= door_roll) {
-        p->practice("mechanics", 1);
+        p->practice( skill_mechanics, 1);
         add_msg(_("You successfully unlock the gun safe."));
         g->m.furn_set(examp, "f_safe_o");
     } else if (door_roll > (3 * pick_roll)) {
@@ -1064,8 +1070,8 @@ void iexamine::gunsafe_el(player *p, map *m, const tripoint &examp)
                              p->power_level > 0 && query_yn(_("Use fingerhack on the gun safe?")));
     if (using_electrohack || using_fingerhack) {
         p->moves -= 500;
-        p->practice("computer", 20);
-        int success = rng(p->skillLevel("computer") / 4 - 2, p->skillLevel("computer") * 2);
+        p->practice( skill_computer, 20);
+        int success = rng(p->skillLevel( skill_computer ) / 4 - 2, p->skillLevel( skill_computer ) * 2);
         success += rng(-3, 3);
         if (using_fingerhack) {
             success++;
@@ -1281,14 +1287,14 @@ void iexamine::flower_poppy(player *p, map *m, const tripoint &examp)
         none(p, m, examp);
         return;
     }
-    if ( ((p->has_trait("PROBOSCIS")) || (p->has_trait("BEAK_HUM"))) && ((p->hunger) > 0) &&
+    if ( ((p->has_trait("PROBOSCIS")) || (p->has_trait("BEAK_HUM"))) && ((p->get_hunger()) > 0) &&
          (!(p->wearing_something_on(bp_mouth))) ) {
         if (!query_yn(_("You feel woozy as you explore the %s. Drink?"), m->furnname(examp).c_str())) {
             return;
         }
         p->moves -= 150; // You take your time...
         add_msg(_("You slowly suck up the nectar."));
-        p->hunger -= 25;
+        p->mod_hunger(-25);
         p->add_effect("pkill2", 70);
         p->fatigue += 20;
         // Please drink poppy nectar responsibly.
@@ -1332,10 +1338,10 @@ void iexamine::flower_bluebell(player *p, map *m, const tripoint &examp)
         return;
     }
     if ( ((p->has_trait("PROBOSCIS")) || (p->has_trait("BEAK_HUM"))) &&
-         ((p->hunger) > 0) && (!(p->wearing_something_on(bp_mouth))) ) {
+         ((p->get_hunger()) > 0) && (!(p->wearing_something_on(bp_mouth))) ) {
         p->moves -= 50; // Takes 30 seconds
         add_msg(_("You drink some nectar."));
-        p->hunger -= 15;
+        p->mod_hunger(-15);
     }
     if(!query_yn(_("Pick %s?"), m->furnname(examp).c_str())) {
         none(p, m, examp);
@@ -1354,10 +1360,10 @@ void iexamine::flower_dahlia(player *p, map *m, const tripoint &examp)
         return;
     }
     if ( ((p->has_trait("PROBOSCIS")) || (p->has_trait("BEAK_HUM"))) &&
-         ((p->hunger) > 0) && (!(p->wearing_something_on(bp_mouth))) ) {
+         ((p->get_hunger()) > 0) && (!(p->wearing_something_on(bp_mouth))) ) {
         p->moves -= 50; // Takes 30 seconds
         add_msg(_("You drink some nectar."));
-        p->hunger -= 15;
+        p->mod_hunger(-15);
     }
     if(!query_yn(_("Pick %s?"), m->furnname(examp).c_str())) {
         none(p, m, examp);
@@ -1381,10 +1387,10 @@ void iexamine::flower_datura(player *p, map *m, const tripoint &examp)
         return;
     }
     if ( ((p->has_trait("PROBOSCIS")) || (p->has_trait("BEAK_HUM"))) &&
-         ((p->hunger) > 0) && (!(p->wearing_something_on(bp_mouth))) ) {
+         ((p->get_hunger()) > 0) && (!(p->wearing_something_on(bp_mouth))) ) {
         p->moves -= 50; // Takes 30 seconds
         add_msg(_("You drink some nectar."));
-        p->hunger -= 15;
+        p->mod_hunger(-15);
     }
     if(!query_yn(_("Pick %s?"), m->furnname(examp).c_str())) {
         none(p, m, examp);
@@ -1402,10 +1408,10 @@ void iexamine::flower_dandelion(player *p, map *m, const tripoint &examp)
         return;
     }
     if ( ((p->has_trait("PROBOSCIS")) || (p->has_trait("BEAK_HUM"))) &&
-         ((p->hunger) > 0) && (!(p->wearing_something_on(bp_mouth))) ) {
+         ((p->get_hunger()) > 0) && (!(p->wearing_something_on(bp_mouth))) ) {
         p->moves -= 50; // Takes 30 seconds
         add_msg(_("You drink some nectar."));
-        p->hunger -= 15;
+        p->mod_hunger(-15);
     }
     if(!query_yn(_("Pick %s?"), m->furnname(examp).c_str())) {
         none(p, m, examp);
@@ -1434,7 +1440,7 @@ void iexamine::flower_marloss(player *p, map *m, const tripoint &examp)
         add_msg(m_info, _("This flower is still alive, despite the harsh conditions..."));
     }
     if ( ((p->has_trait("PROBOSCIS")) || (p->has_trait("BEAK_HUM"))) &&
-         ((p->hunger) > 0) ) {
+         ((p->get_hunger()) > 0) ) {
             if (!(p->wearing_something_on(bp_mouth))) {
                 if (!query_yn(_("You feel out of place as you explore the %s. Drink?"), m->furnname(examp).c_str())) {
             return;
@@ -1590,7 +1596,7 @@ void iexamine::aggie_plant(player *p, map *m, const tripoint &examp)
         } else if (seedType == "marloss_seed") {
             fungus(p, m, examp);
             m->i_clear(examp);
-            if (p->has_trait("M_DEPENDENT") && ((p->hunger > 500) || p->thirst > 300 )) {
+            if (p->has_trait("M_DEPENDENT") && ((p->get_hunger() > 500) || p->thirst > 300 )) {
                 m->ter_set(examp, t_marloss);
                 add_msg(m_info, _("We have altered this unit's configuration to extract and provide local nutriment.  The Mycus provides."));
             } else if ( (p->has_trait("M_DEFENDER")) || ( (p->has_trait("M_SPORES") || p->has_trait("M_FERTILE")) &&
@@ -1609,7 +1615,7 @@ void iexamine::aggie_plant(player *p, map *m, const tripoint &examp)
             m->i_clear(examp);
             m->furn_set(examp, f_null);
 
-            int skillLevel = p->skillLevel("survival");
+            int skillLevel = p->skillLevel( skill_survival );
             int plantCount = rng(skillLevel / 2, skillLevel);
             if (plantCount >= 12) {
                 plantCount = 12;
@@ -1741,7 +1747,7 @@ void iexamine::kiln_empty(player *p, map *m, const tripoint &examp)
         return;
     }
 
-    SkillLevel &skill = p->skillLevel( "carpentry" );
+    SkillLevel &skill = p->skillLevel( skill_carpentry );
     int loss = 90 - 2 * skill; // We can afford to be inefficient - logs and skeletons are cheap, charcoal isn't
 
     // Burn stuff that should get charred, leave out the rest
@@ -1772,7 +1778,7 @@ void iexamine::kiln_empty(player *p, map *m, const tripoint &examp)
     m->add_item( examp, result );
     add_msg( _("You fire the charcoal kiln.") );
     int practice_amount = ( 10 - skill ) * total_volume / 100; // 50 at 0 skill, 25 at 5, 10 at 8
-    p->practice( "carpentry", practice_amount );
+    p->practice( skill_carpentry, practice_amount );
 }
 
 void iexamine::kiln_full(player *, map *m, const tripoint &examp)
@@ -1957,7 +1963,7 @@ void iexamine::fvat_full(player *p, map *m, const tripoint &examp)
                 m->furn(examp) == f_fvat_full && query_yn(_("Finish brewing?")) ) {
                 //declare fermenting result as the brew's ID minus "brew_"
                 itype_id alcoholType = m->i_at(examp)[0].typeId().substr(5);
-                SkillLevel &cooking = p->skillLevel("cooking");
+                SkillLevel &cooking = p->skillLevel( skill_cooking );
                 if (alcoholType == "hb_beer" && cooking < 5) {
                     alcoholType = alcoholType.substr(3);    //hb_beer -> beer
                 }
@@ -1970,7 +1976,7 @@ void iexamine::fvat_full(player *p, map *m, const tripoint &examp)
                 p->moves -= 500;
 
                 //low xp: you also get xp from crafting the brew
-                p->practice( "cooking", std::min(brew_time / 600, 72) );
+                p->practice( skill_cooking, std::min(brew_time / 600, 72) );
                 add_msg(_("The %s is now ready for bottling."), booze.tname().c_str());
             }
         }
@@ -2160,11 +2166,11 @@ void pick_plant(player *p, map *m, const tripoint &examp,
         return;
     }
 
-    SkillLevel &survival = p->skillLevel("survival");
+    SkillLevel &survival = p->skillLevel( skill_survival );
     if (survival < 1) {
-        p->practice( "survival", rng(5, 12) );
+        p->practice( skill_survival, rng(5, 12) );
     } else if (survival < 6) {
-        p->practice("survival", rng(1, 12 / survival) );
+        p->practice( skill_survival, rng(1, 12 / survival) );
     }
 
     int plantBase = rng(2, 5);
@@ -2186,11 +2192,11 @@ void pick_plant(player *p, map *m, const tripoint &examp,
 void iexamine::harvest_tree_shrub(player *p, map *m, const tripoint &examp)
 {
     if ( ((p->has_trait("PROBOSCIS")) || (p->has_trait("BEAK_HUM"))) &&
-         ((p->hunger) > 0) && (!(p->wearing_something_on(bp_mouth))) &&
+         ((p->get_hunger()) > 0) && (!(p->wearing_something_on(bp_mouth))) &&
          (calendar::turn.get_season() == SUMMER || calendar::turn.get_season() == SPRING) ) {
         p->moves -= 100; // Need to find a blossom (assume there's one somewhere)
         add_msg(_("You find a flower and drink some nectar."));
-        p->hunger -= 15;
+        p->mod_hunger(-15);
     }
     //if the fruit is not ripe yet
     if (calendar::turn.get_season() != m->get_ter_harvest_season(examp)) {
@@ -2278,7 +2284,7 @@ void iexamine::shrub_wildveggies( player *p, map *m, const tripoint &examp )
     }
 
     add_msg( _("You forage through the %s."), m->tername( examp ).c_str() );
-    int move_cost = 100000 / ( 2 * p->skillLevel("survival") + 5 );
+    int move_cost = 100000 / ( 2 * p->skillLevel( skill_survival ) + 5 );
     move_cost /= rng( std::max( 4, p->per_cur ), 4 + p->per_cur * 2 );
     p->assign_activity( ACT_FORAGE, move_cost, 0 );
     p->activity.placement = examp;
@@ -3060,8 +3066,8 @@ void iexamine::pay_gas(player *p, map *m, const tripoint &examp)
                                  query_yn(_("Use fingerhack on the reader?")));
         if (using_electrohack || using_fingerhack) {
             p->moves -= 500;
-            p->practice("computer", 20);
-            int success = rng(p->skillLevel("computer") / 4 - 2, p->skillLevel("computer") * 2);
+            p->practice( skill_computer, 20);
+            int success = rng(p->skillLevel( skill_computer ) / 4 - 2, p->skillLevel( skill_computer ) * 2);
             success += rng(-3, 3);
             if (using_fingerhack) {
                 success++;

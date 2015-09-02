@@ -10,6 +10,9 @@ std::vector< trap* > traplist;
 std::unordered_map< trap_str_id, trap_id > trapmap;
 
 template<>
+const trap_str_id string_id<trap>::NULL_ID( "tr_null" );
+
+template<>
 const trap &int_id<trap>::obj() const
 {
     if( static_cast<size_t>( _id ) >= traplist.size() ) {
@@ -60,6 +63,8 @@ int_id<trap>::int_id( const string_id<trap> &id )
 #include "map.h"
 #include "debug.h"
 #include "translations.h"
+
+const skill_id skill_traps( "traps" );
 
 static std::vector<const trap*> funnel_traps;
 const std::vector<const trap*> trap::get_funnels()
@@ -130,7 +135,7 @@ bool trap::detect_trap( const tripoint &pos, const player &p ) const
            // ...small bonus from stimulants...
            (p.stim > 10 ? rng(1, 2) : 0) +
            // ...bonus from trap skill...
-           (p.get_skill_level("traps") * 2) +
+           (p.get_skill_level( skill_traps ) * 2) +
            // ...luck, might be good, might be bad...
            rng(-4, 4) -
            // ...malus if we are tired...
@@ -265,7 +270,7 @@ void trap::finalize()
     const auto trapfind = []( const char *id ) {
         return trap_str_id( id ).id();
     };
-    tr_null = trapfind("tr_null");
+    tr_null = trap_str_id::NULL_ID.id();
     tr_bubblewrap = trapfind("tr_bubblewrap");
     tr_cot = trapfind("tr_cot");
     tr_brazier = trapfind("tr_brazier");

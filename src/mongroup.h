@@ -53,7 +53,7 @@ struct MonsterGroupResult {
     int pack_size;
 
     MonsterGroupResult()
-    : name( "mon_null" )
+    : name( NULL_ID )
     , pack_size( 0 )
     {
     }

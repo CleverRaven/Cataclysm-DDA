@@ -279,7 +279,7 @@
         "desc": ["You have been poisoned!"],
         "miss_messages": [["You feel bad inside.", 1]],
         "rating": "bad",
-        "resist_trait": "POISRESIST",
+        "resist_traits": ["POISRESIST"],
         "pain_sizing": true,
         "hurt_sizing": true,
         "main_parts_only": true,
@@ -300,7 +300,7 @@
         "desc": ["You have been badly poisoned!"],
         "miss_messages": [["You feel bad inside.", 2]],
         "rating": "bad",
-        "resist_trait": "POISRESIST",
+        "resist_traits": ["POISRESIST"],
         "pain_sizing": true,
         "hurt_sizing": true,
         "main_parts_only": true,
@@ -323,7 +323,7 @@
         "desc": ["Your stomach is extremely upset, and you are quite nauseous."],
         "miss_messages": [["Your stomach bothers you.", 1]],
         "rating": "bad",
-        "resist_trait": "POISRESIST",
+        "resist_traits": ["POISRESIST"],
         "base_mods": {
             "per_mod": [-1],
             "dex_mod": [-1],
@@ -348,7 +348,7 @@
         "miss_messages": [["You feel stiff.", 3]],
         "rating": "bad",
         "max_intensity": 20,
-        "resist_trait": "POISRESIST",
+        "resist_traits": ["POISRESIST"],
         "int_add_val": 1,
         "int_decay_tick": 100,
         "base_mods": {
@@ -547,7 +547,7 @@
         "apply_memorial_log": "Received a deep bite wound.",
         "remove_memorial_log": "Recovered from a bite wound.",
         "apply_message": "The bite wound feels really deep...",
-        "resist_trait": "INFRESIST",
+        "resist_traits": ["INFRESIST"],
         "main_parts_only": true,
         "rating": "bad",
         "int_dur_factor": 1800,
@@ -571,7 +571,7 @@
         "apply_memorial_log": "Contracted an infection.",
         "remove_memorial_log": "Recovered from an infection... this time.",
         "apply_message": "Your bite wound feels infected",
-        "resist_trait": "INFRESIST",
+        "resist_traits": ["INFRESIST"],
         "main_parts_only": true,
         "rating": "bad",
         "int_dur_factor": 4800,
@@ -649,7 +649,7 @@
         "miss_messages": [["You feel sick inside.", 1]],
         "rating": "bad",
         "max_intensity": 3,
-        "resist_trait": "POISRESIST",
+        "resist_traits": ["POISRESIST"],
         "base_mods": {
             "speed_mod": [-10],
             "str_mod": [-1],
@@ -902,7 +902,7 @@
         "remove_memorial_log": "Got over the cold.",
         "apply_message": "You feel a cold coming on...",
         "rating": "bad",
-        "resist_effect": "took_flumed",
+        "resist_effects": ["took_flumed"],
         "miss_messages": [["You're too stuffed up to fight effectively.", 1]],
         "base_mods": {
             "thirst_tick": [300],
@@ -925,7 +925,7 @@
         "remove_memorial_log": "Got over the flu.",
         "apply_message": "You feel a flu coming on...",
         "rating": "bad",
-        "resist_effect": "took_flumed",
+        "resist_effects": ["took_flumed"],
         "base_mods": {
             "thirst_tick": [300],
             "thirst_min": [1],
@@ -1344,7 +1344,7 @@
         "type": "effect_type",
         "id": "tetanus",
         "rating": "bad",
-        "resist_effect": "valium",
+        "resist_effects": ["valium"],
         "base_mods": {
             "dex_mod": [-4, 0]
         }

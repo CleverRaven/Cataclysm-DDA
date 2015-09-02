@@ -21,6 +21,17 @@
 #include "vehicle.h"
 #include "field.h"
 #include "mtype.h"
+#include "skill.h"
+
+const skill_id skill_pistol( "pistol" );
+const skill_id skill_rifle( "rifle" );
+const skill_id skill_smg( "smg" );
+const skill_id skill_shotgun( "shotgun" );
+const skill_id skill_launcher( "launcher" );
+const skill_id skill_archery( "archery" );
+const skill_id skill_throw( "throw" );
+const skill_id skill_gun( "gun" );
+const skill_id skill_melee( "melee" );
 
 int time_to_fire(player &p, const itype &firing);
 int recoil_add(player &p, const item &gun);
@@ -52,21 +63,21 @@ dealt_projectile_attack Creature::projectile_attack( const projectile &proj, con
  * As a simple tweak, we're shifting the ranges so they match,
  * so if you acquire the best of a weapon type you can reach max skill with it.
  */
-int ranged_skill_offset( std::string skill )
+int ranged_skill_offset( const skill_id &skill )
 {
-    if( skill == "pistol" ) {
+    if( skill == skill_pistol ) {
         return 0;
-    } else if( skill == "rifle" ) {
+    } else if( skill == skill_rifle ) {
         return 0;
-    } else if( skill == "smg" ) {
+    } else if( skill == skill_smg ) {
         return 0;
-    } else if( skill == "shotgun" ) {
+    } else if( skill == skill_shotgun ) {
         return 0;
-    } else if( skill == "launcher" ) {
+    } else if( skill == skill_launcher ) {
         return 0;
-    } else if( skill == "archery" ) {
+    } else if( skill == skill_archery ) {
         return 135;
-    } else if( skill == "throw" ) {
+    } else if( skill == skill_throw ) {
         return 195;
     }
     return 0;
@@ -250,8 +261,8 @@ bool player::handle_gun_damage( const itype &firingt, const std::set<std::string
     // As a result this causes no damage to the firearm, note that some guns are waterproof
     // and so are immune to this effect, note also that WATERPROOF_GUN status does not
     // mean the gun will actually be accurate underwater.
-    if (firing->skill_used != Skill::skill("archery") &&
-        firing->skill_used != Skill::skill("throw")) {
+    if (firing->skill_used != skill_archery &&
+        firing->skill_used != skill_throw ) {
         if (is_underwater() && !weapon.has_flag("WATERPROOF_GUN") && one_in(firing->durability)) {
             add_msg_player_or_npc(_("Your %s misfires with a wet click!"),
                                   _("<npcname>'s %s misfires with a wet click!"),
@@ -336,7 +347,7 @@ void player::fire_gun( const tripoint &targ_arg, bool burst )
                  used_weapon->tname().c_str());
         return;
     }
-    const Skill* skill_used = Skill::skill( used_weapon->gun_skill() );
+    const skill_id skill_used = used_weapon->gun_skill();
 
     projectile proj; // damage will be set later
     proj.speed = 1000;
@@ -442,7 +453,7 @@ void player::fire_gun( const tripoint &targ_arg, bool burst )
     }
 
     // chance to disarm an NPC with a whip if skill is high enough
-    if(proj.proj_effects.count("WHIP") && (this->skillLevel("melee") > 5) && one_in(3)) {
+    if(proj.proj_effects.count("WHIP") && (this->skillLevel( skill_melee ) > 5) && one_in(3)) {
         int npcdex = g->npc_at(targ_arg);
         if(npcdex != -1) {
             npc *p = g->active_npc[npcdex];
@@ -463,7 +474,7 @@ void player::fire_gun( const tripoint &targ_arg, bool burst )
         // Burst-fire weapons allow us to pick a new target after killing the first
         const auto critter = g->critter_at( targ, true );
         if ( curshot > 0 && ( critter == nullptr || critter->is_dead_state() ) ) {
-            const int near_range = std::min( 2 + skillLevel( "gun" ), weaponrange );
+            const int near_range = std::min( 2 + skillLevel( skill_gun ), weaponrange );
             auto new_targets = get_targetable_creatures( weaponrange );
             for( auto it = new_targets.begin(); it != new_targets.end(); ) {
                 auto &z = **it;
@@ -490,7 +501,7 @@ void player::fire_gun( const tripoint &targ_arg, bool burst )
                 /* 1 victim list unless wildly spraying */
                 targ = random_entry( new_targets )->pos();
             } else if( ( !trigger_happy || one_in(3) ) &&
-                       ( skillLevel("gun") >= 7 || one_in(7 - skillLevel("gun")) ) ) {
+                       ( skillLevel( skill_gun ) >= 7 || one_in(7 - skillLevel( skill_gun )) ) ) {
                 // Triggerhappy has a higher chance of firing repeatedly.
                 // Otherwise it's dominated by how much practice you've had.
                 return;
@@ -572,7 +583,7 @@ void player::fire_gun( const tripoint &targ_arg, bool burst )
         }
 
         // rifle has less range penalty past LONG_RANGE
-        if (skill_used == Skill::skill("rifle") && range > LONG_RANGE) {
+        if (skill_used == skill_rifle && range > LONG_RANGE) {
             total_dispersion *= 1 - 0.4 * double(range - LONG_RANGE) / double(range);
         }
 
@@ -581,9 +592,9 @@ void player::fire_gun( const tripoint &targ_arg, bool burst )
             if (recoil_add(*this, *used_weapon) % 2 == 1) {
                 recoil++;
             }
-            recoil += recoil_add(*this, *used_weapon) / 2;
+            recoil += recoil_add(*this, *used_weapon) / (has_effect( "on_roof" ) ? 90 : 2);
         } else {
-            recoil += recoil_add(*this, *used_weapon);
+            recoil += recoil_add(*this, *used_weapon) / (has_effect( "on_roof" ) ? 30 : 1);
         }
 
         int adjusted_damage = used_weapon->gun_damage();
@@ -625,9 +636,9 @@ void player::fire_gun( const tripoint &targ_arg, bool burst )
     }
 
     if( train_skill ) {
-        practice( "gun", 15 );
+        practice( skill_gun, 15 );
     } else {
-        practice( "gun", 0 );
+        practice( skill_gun, 0 );
     }
 }
 
@@ -639,7 +650,7 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
     // Base move cost on moves per turn of the weapon
     // and our skill.
     int move_cost = thrown.attack_time() / 2;
-    int skill_cost = (int)(move_cost / (std::pow(skillLevel("throw"), 3.0f) / 400.0 + 1.0));
+    int skill_cost = (int)(move_cost / (std::pow(skillLevel( skill_throw ), 3.0f) / 400.0 + 1.0));
     const int dexbonus = (int)(std::pow(std::max(dex_cur - 8, 0), 0.8) * 3.0);
 
     move_cost += skill_cost;
@@ -665,9 +676,9 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
     tripoint targ = target;
     int deviation = 0;
 
-    const auto skill_used = Skill::skill("throw");
+    const skill_id &skill_used = skill_throw;
     // Throwing attempts below "Basic Competency" level are extra-bad
-    int skill_level = skillLevel("throw");
+    int skill_level = skillLevel( skill_throw );
 
     if( skill_level < 3 ) {
         deviation += rng(0, 8 - skill_level);
@@ -1257,26 +1268,23 @@ int time_to_fire(player &p, const itype &firingt)
         int reduction; // the reduction in time given per skill level.
     };
 
-    static std::map<std::string, time_info_t> const map {
-        {std::string {"pistol"},   {10, 80,  10}},
-        {std::string {"shotgun"},  {70, 150, 25}},
-        {std::string {"smg"},      {20, 80,  10}},
-        {std::string {"rifle"},    {30, 150, 15}},
-        {std::string {"archery"},  {20, 220, 25}},
-        {std::string {"throw"},    {50, 220, 25}},
-        {std::string {"launcher"}, {30, 200, 20}},
-        {std::string {"melee"},    {50, 200, 20}}
+    static std::map<skill_id, time_info_t> const map {
+        {skill_id {"pistol"},   {10, 80,  10}},
+        {skill_id {"shotgun"},  {70, 150, 25}},
+        {skill_id {"smg"},      {20, 80,  10}},
+        {skill_id {"rifle"},    {30, 150, 15}},
+        {skill_id {"archery"},  {20, 220, 25}},
+        {skill_id {"throw"},    {50, 220, 25}},
+        {skill_id {"launcher"}, {30, 200, 20}},
+        {skill_id {"melee"},    {50, 200, 20}}
     };
 
-    auto const &skill_used = firingt.gun.get()->skill_used;
-    auto const it = map.find(skill_used->ident());
-    if (it == std::end(map)) {
-        debugmsg("Why is shooting %s using %s skill?",
-            firingt.nname(1).c_str(), skill_used->name().c_str());
-        return 0;
-    }
+    const skill_id &skill_used = firingt.gun.get()->skill_used;
+    auto const it = map.find( skill_used );
+    // TODO: maybe JSON-ize this in some way? Probably as part of the skill class.
+    static const time_info_t default_info{ 50, 220, 25 };
 
-    time_info_t const &info = it->second;
+    time_info_t const &info = (it == map.end()) ? default_info : it->second;
     return std::max(info.min_time, info.base - info.reduction * p.skillLevel(it->first));
 }
 
@@ -1401,7 +1409,7 @@ static int rand_or_max( bool random, int max )
 
 int player::skill_dispersion( item *weapon, bool random ) const
 {
-    const std::string skill_used = weapon->gun_skill();
+    const skill_id skill_used = weapon->gun_skill();
     const int weapon_skill_level = get_skill_level(skill_used);
     int dispersion = 0; // Measured in Minutes of Arc.
     // Up to 0.75 degrees for each skill point < 10.
@@ -1409,8 +1417,8 @@ int player::skill_dispersion( item *weapon, bool random ) const
         dispersion += rand_or_max( random, 45 * (10 - weapon_skill_level) );
     }
     // Up to 0.25 deg per each skill point < 10.
-    if( get_skill_level("gun") < 10) {
-        dispersion += rand_or_max( random, 15 * (10 - get_skill_level("gun")) );
+    if( get_skill_level( skill_gun ) < 10) {
+        dispersion += rand_or_max( random, 15 * (10 - get_skill_level( skill_gun )) );
     }
     return dispersion;
 }

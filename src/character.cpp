@@ -9,8 +9,6 @@
 #include "field.h"
 #include "messages.h"
 
-#include <map>
-
 Character::Character()
 {
     str_max = 0;
@@ -23,6 +21,9 @@ Character::Character()
     int_cur = 0;
     healthy = 0;
     healthy_mod = 0;
+    hunger = 0;
+    stomach_food = 0;
+    stomach_water = 0;
 
     name = "";
     Creature::set_speed_base(100);
@@ -70,6 +71,8 @@ void Character::mod_stat( const std::string &stat, int modifier )
         mod_healthy( modifier );
     } else if( stat == "healthy_mod" ) {
         mod_healthy_mod( modifier );
+    } else if( stat == "hunger" ) {
+        mod_hunger( modifier );
     } else if( stat == "speed" ) {
         mod_speed_bonus( modifier );
     } else if( stat == "dodge" ) {
@@ -94,7 +97,7 @@ void Character::mod_stat( const std::string &stat, int modifier )
 bool Character::move_effects(bool attacking)
 {
     if (has_effect("downed")) {
-        if (rng(0, 40) > get_dex() + int(get_str() / 2)) {
+        if (rng(0, 40) > get_dex() + get_str() / 2) {
             add_msg_if_player(_("You struggle to stand."));
         } else {
             add_msg_player_or_npc(m_good, _("You stand up."),
@@ -174,7 +177,7 @@ bool Character::move_effects(bool attacking)
     // Currently we only have one thing that forces movement if you succeed, should we get more
     // than this will need to be reworked to only have success effects if /all/ checks succeed
     if (has_effect("in_pit")) {
-        if (rng(0, 40) > get_str() + int(get_dex() / 2)) {
+        if (rng(0, 40) > get_str() + get_dex() / 2) {
             add_msg_if_player(m_bad, _("You try to escape the pit, but slip back in."));
             return false;
         } else {
@@ -190,7 +193,7 @@ bool Character::move_effects(bool attacking)
                 zed_number ++;
             }
         }
-        if (attacking == true || zed_number == 0){
+        if (attacking || zed_number == 0){
             return true;
         }
         if (get_dex() > get_str() ? rng(0, get_dex()) : rng( 0, get_str()) < rng( get_effect_int("grabbed") , 8) ){
@@ -349,7 +352,7 @@ float Character::get_vision_threshold(int light_level) const {
     if( vision_mode_cache.none() || light_level > LIGHT_AMBIENT_LIT ) {
         return LIGHT_AMBIENT_LOW;
     }
-    // As ligt_level goes from LIGHT_AMBIENT_MINIMAL to LIGHT_AMBIENT_LIT,
+    // As light_level goes from LIGHT_AMBIENT_MINIMAL to LIGHT_AMBIENT_LIT,
     // dimming goes from 1.0 to 2.0.
     const float dimming_from_light = 1.0 + (((float)light_level - LIGHT_AMBIENT_MINIMAL) /
                                             (LIGHT_AMBIENT_LIT - LIGHT_AMBIENT_MINIMAL));
@@ -489,11 +492,12 @@ int Character::get_item_position( const item *it ) const
     if( inventory::has_item_with_recursive( weapon, filter ) ) {
         return -1;
     }
-    auto iter = worn.begin();
-    for( size_t i = 0; i < worn.size(); i++, iter++ ) {
-        if( inventory::has_item_with_recursive( *iter, filter ) ) {
+    int i = 0;
+    for( auto &iter : worn ) {
+        if( inventory::has_item_with_recursive( iter, filter ) ) {
             return worn_position_to_index( i );
         }
+        i++;
     }
     return inv.position_by_item( it );
 }
@@ -731,9 +735,9 @@ bool Character::worn_with_flag( std::string flag ) const
     return false;
 }
 
-SkillLevel& Character::skillLevel(std::string ident)
+SkillLevel& Character::skillLevel(const skill_id &ident)
 {
-    return _skills[Skill::skill(ident)];
+    return skillLevel( &ident.obj() );
 }
 
 SkillLevel& Character::skillLevel(const Skill* _skill)
@@ -748,10 +752,9 @@ SkillLevel& Character::skillLevel(Skill const &_skill)
 
 SkillLevel const& Character::get_skill_level(const Skill* _skill) const
 {
-    for( const auto &elem : _skills ) {
-        if( elem.first == _skill ) {
-            return elem.second;
-        }
+    const auto iter = _skills.find( _skill );
+    if( iter != _skills.end() ) {
+        return iter->second;
     }
 
     static SkillLevel const dummy_result;
@@ -763,10 +766,9 @@ SkillLevel const& Character::get_skill_level(const Skill &_skill) const
     return get_skill_level(&_skill);
 }
 
-SkillLevel const& Character::get_skill_level(const std::string &ident) const
+SkillLevel const& Character::get_skill_level(const skill_id &ident) const
 {
-    const Skill* sk = Skill::skill(ident);
-    return get_skill_level(sk);
+    return get_skill_level( &ident.obj() );
 }
 
 void Character::normalize()
@@ -1036,6 +1038,44 @@ void Character::mod_healthy_mod(int nhealthy_mod)
     healthy_mod += nhealthy_mod;
 }
 
+int Character::get_hunger() const
+{
+    return hunger;
+}
+void Character::mod_hunger(int nhunger)
+{
+    hunger += nhunger;
+}
+void Character::set_hunger(int nhunger)
+{
+    hunger = nhunger;
+}
+
+int Character::get_stomach_food() const
+{
+    return stomach_food;
+}
+void Character::mod_stomach_food(int n_stomach_food)
+{
+    stomach_food = std::max(0, stomach_food + n_stomach_food);
+}
+void Character::set_stomach_food(int n_stomach_food)
+{
+    stomach_food = std::max(0, n_stomach_food);
+}
+int Character::get_stomach_water() const
+{
+    return stomach_water;
+}
+void Character::mod_stomach_water(int n_stomach_water)
+{
+    stomach_water = std::max(0, stomach_water + n_stomach_water);
+}
+void Character::set_stomach_water(int n_stomach_water)
+{
+    stomach_water = std::max(0, n_stomach_water);
+}
+
 void Character::reset_bonuses()
 {
     // Reset all bonuses to 0 and mults to 1.0
@@ -1054,7 +1094,7 @@ void Character::update_health(int base_threshold)
     } else if( get_healthy_mod() < -200 ) {
         set_healthy_mod( -200 );
     }
-    const int roll = rng( -100, 100 );
+    const long roll = rng( -100, 100 );
     base_threshold += get_healthy() - get_healthy_mod();
     if( roll > base_threshold ) {
         mod_healthy( 1 );
