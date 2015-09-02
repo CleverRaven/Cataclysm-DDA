@@ -11164,8 +11164,8 @@ can install this mod."), mod->req_skill);
             add_msg(m_info, _("That %s cannot be attached to a launcher."),
                        used->tname().c_str());
             return;
-        } else if ( !mod->acceptible_ammo_types.empty() &&
-                    mod->acceptible_ammo_types.count(guntype->ammo) == 0 ) {
+        } else if ( !mod->acceptable_ammo_types.empty() &&
+                    mod->acceptable_ammo_types.count(guntype->ammo) == 0 ) {
                 add_msg(m_info, _("That %1$s cannot be used on a %2$s."), used->tname().c_str(),
                        ammo_name(guntype->ammo).c_str());
                 return;
