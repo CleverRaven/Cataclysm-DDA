@@ -4,8 +4,11 @@
 #include "creature.h"
 #include "inventory.h"
 #include "bionics.h"
+#include "skill.h"
 
 #include <map>
+
+using skill_id = string_id<Skill>;
 
 enum vision_modes {
     DEBUG_NIGHTVISION,
@@ -51,7 +54,12 @@ class Character : public Creature
         int int_cur;
         int per_cur;
 
-        /** Stat getters for stats exclusive to characters */
+        // The prevalence of getter, setter, and mutator functions here is partially
+        // a result of the slow, piece-wise migration of the player class upwards into
+        // the character class. As enough logic is moved upwards to fully separate
+        // utility upwards out of the player class, as many of these as possible should
+        // be eliminated to allow for proper code separation. (Note: Not "all", many").
+        /** Getters for stats exclusive to characters */
         virtual int get_str() const;
         virtual int get_dex() const;
         virtual int get_per() const;
@@ -67,9 +75,6 @@ class Character : public Creature
         virtual int get_per_bonus() const;
         virtual int get_int_bonus() const;
 
-        virtual int get_healthy() const;
-        virtual int get_healthy_mod() const;
-
         /** Setters for stats exclusive to characters */
         virtual void set_str_bonus(int nstr);
         virtual void set_dex_bonus(int ndex);
@@ -80,10 +85,32 @@ class Character : public Creature
         virtual void mod_per_bonus(int nper);
         virtual void mod_int_bonus(int nint);
 
-        virtual void set_healthy(int nhealthy);
-        virtual void set_healthy_mod(int nhealthy_mod);
+        /** Getters for health values exclusive to characters */
+        virtual int get_healthy() const;
+        virtual int get_healthy_mod() const;
+
+        /** Modifiers for health values exclusive to characters */
         virtual void mod_healthy(int nhealthy);
         virtual void mod_healthy_mod(int nhealthy_mod);
+
+        /** Setters for health values exclusive to characters */
+        virtual void set_healthy(int nhealthy);
+        virtual void set_healthy_mod(int nhealthy_mod);
+
+        /** Getter for need values exclusive to characters */
+        virtual int get_hunger() const;
+        virtual int get_stomach_food() const;
+        virtual int get_stomach_water() const;
+
+        /** Modifiers for need values exclusive to characters */
+        virtual void mod_hunger(int nhunger);
+        virtual void mod_stomach_food(int n_stomach_food);
+        virtual void mod_stomach_water(int n_stomach_water);
+
+        /** Setters for need values exclusive to characters */
+        virtual void set_hunger(int nhunger);
+        virtual void set_stomach_food(int n_stomach_food);
+        virtual void set_stomach_water(int n_stomach_water);
 
         virtual void mod_stat( const std::string &stat, int modifier ) override;
 
@@ -365,12 +392,12 @@ class Character : public Creature
         // --------------- Skill Stuff ---------------
         SkillLevel &skillLevel(const Skill* _skill);
         SkillLevel &skillLevel(Skill const &_skill);
-        SkillLevel &skillLevel(std::string ident);
+        SkillLevel &skillLevel(const skill_id &ident);
 
         /** for serialization */
         SkillLevel const& get_skill_level(const Skill* _skill) const;
         SkillLevel const& get_skill_level(const Skill &_skill) const;
-        SkillLevel const& get_skill_level(const std::string &ident) const;
+        SkillLevel const& get_skill_level(const skill_id &ident) const;
 
         // --------------- Other Stuff ---------------
 
@@ -454,7 +481,8 @@ class Character : public Creature
         int per_bonus;
         int int_bonus;
 
-        int healthy; //How healthy the character is
+        /** How healthy the character is. */
+        int healthy;
         int healthy_mod;
 
         /**
@@ -473,6 +501,9 @@ class Character : public Creature
         void load(JsonObject &jsin);
 
         // --------------- Values ---------------
+        /** Needs (hunger, thirst, fatigue, etc.) */
+        int hunger, stomach_food, stomach_water;
+
         std::map<const Skill*, SkillLevel> _skills;
 
         // Cached vision values.

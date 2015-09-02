@@ -276,7 +276,7 @@ void advanced_inventory::print_items( advanced_inventory_pane &pane, bool active
          x < itemsPerPage ; i++ , x++ ) {
         const auto &sitem = items[i];
         if( sitem.is_category_header() ) {
-            mvwprintz( window, 6 + x, ( columns - utf8_width( sitem.name.c_str() ) - 6 ) / 2, c_cyan, "[%s]",
+            mvwprintz( window, 6 + x, ( columns - utf8_width(sitem.name) - 6 ) / 2, c_cyan, "[%s]",
                        sitem.name.c_str() );
             continue;
         }
@@ -1354,7 +1354,7 @@ void advanced_inventory::display()
             draw_minimap();
             const std::string msg = _( "< [?] show help >" );
             mvwprintz( head, 0,
-                       w_width - ( minimap_width + 2 ) - utf8_width( msg.c_str() ) - 1,
+                       w_width - ( minimap_width + 2 ) - utf8_width(msg) - 1,
                        c_white, msg.c_str() );
             if( g->u.has_watch() ) {
                 const std::string time = calendar::turn.print_time();

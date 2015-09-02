@@ -104,6 +104,10 @@
 const mtype_id mon_fungal_blossom( "mon_fungal_blossom" );
 const mtype_id mon_manhack( "mon_manhack" );
 
+const skill_id skill_melee( "melee" );
+const skill_id skill_dodge( "dodge" );
+const skill_id skill_driving( "driving" );
+
 void advanced_inv(); // player_activity.cpp
 void intro();
 nc_color sev(int a); // Right now, ONLY used for scent debugging....
@@ -165,6 +169,7 @@ void game::load_static_data()
     // Only need to load names once, they do not depend on mods
     init_names();
     narrow_sidebar = OPTIONS["SIDEBAR_STYLE"] == "narrow";
+    right_sidebar = OPTIONS["SIDEBAR_POSITION"] == "right";
     fullscreen = false;
     was_fullscreen = false;
 
@@ -388,7 +393,9 @@ void game::init_ui()
     POSY = TERRAIN_WINDOW_HEIGHT / 2;
 
     // Set up the main UI windows.
-    w_terrain = newwin(TERRAIN_WINDOW_HEIGHT, TERRAIN_WINDOW_WIDTH, VIEW_OFFSET_Y, VIEW_OFFSET_X);
+    w_terrain = newwin(TERRAIN_WINDOW_HEIGHT, TERRAIN_WINDOW_WIDTH,
+                       VIEW_OFFSET_Y, right_sidebar ? VIEW_OFFSET_X :
+                       VIEW_OFFSET_X + sidebarWidth);
     werase(w_terrain);
 
     /**
@@ -476,7 +483,7 @@ void game::init_ui()
     }
 
     int _y = VIEW_OFFSET_Y;
-    int _x = TERMX - VIEW_OFFSET_X - sidebarWidth;
+    int _x = right_sidebar ? TERMX - VIEW_OFFSET_X - sidebarWidth : VIEW_OFFSET_X;
 
     w_minimap = newwin(MINIMAP_HEIGHT, MINIMAP_WIDTH, _y + minimapY, _x + minimapX);
     werase(w_minimap);
@@ -1633,7 +1640,7 @@ int game::inventory_item_menu(int pos, int iStartX, int iWidth, int position)
 
         for (auto &i: menuItems){
             vMenu.push_back(iteminfo(std::get<0>(i), std::get<1>(i), std::get<2>(i), std::get<3>(i)));
-            max_text_length = std::max(max_text_length, utf8_width(std::get<2>(i).c_str()));
+            max_text_length = std::max( max_text_length, utf8_width(std::get<2>(i)) );
         }
 
         max_text_length = std::max(max_text_length, utf8_width(_("<-> Autopickup")));
@@ -2766,7 +2773,7 @@ bool game::handle_action()
                 as_m.entries.push_back(uimenu_entry(2, true, (OPTIONS["FORCE_CAPITAL_YN"] ?
                                                     'N' : 'n'), _("No.")));
 
-                if( u.has_alarm_clock() && u.hunger < -60 && u.has_active_mutation( "HIBERNATE" ) ) {
+                if( u.has_alarm_clock() && u.get_hunger() < -60 && u.has_active_mutation( "HIBERNATE" ) ) {
                     as_m.text =
                         _("You're engorged to hibernate. The alarm would only attract attention. Enter hibernation?");
                 }
@@ -2805,7 +2812,7 @@ bool game::handle_action()
                     as_m.text = data.str();
                 }
                 if( u.has_alarm_clock() &&
-                    !( u.hunger < -60 && u.has_active_mutation( "HIBERNATE" ) ) ) {
+                    !( u.get_hunger() < -60 && u.has_active_mutation( "HIBERNATE" ) ) ) {
                     as_m.entries.push_back(uimenu_entry(3, true, '3',
                                                         _("Set alarm to wake up in 3 hours.")));
                     as_m.entries.push_back(uimenu_entry(4, true, '4',
@@ -3296,7 +3303,8 @@ void game::load(std::string worldname, std::string name)
     load_master(worldname);
     u = player();
     u.name = base64_decode(name);
-    u.ret_null = item("null", 0);
+    // This should be initialized more globally (in player/Character constructor)
+    u.ret_null = item( "null", 0 );
     u.weapon = item("null", 0);
     unserialize(fin);
     fin.close();
@@ -3921,14 +3929,19 @@ void game::debug()
                 nmenu.text = _("Player");
             }
 
-            enum { D_SKILLS, D_STATS, D_ITEMS, D_HP, D_PAIN, D_NEEDS, D_HEALTHY, D_STATUS, D_MISSION, D_TELE };
+            enum { D_SKILLS, D_STATS, D_ITEMS, D_DELETE_ITEMS, D_ITEM_WORN,
+                   D_HP, D_PAIN, D_NEEDS, D_HEALTHY, D_STATUS, D_MISSION, D_TELE,
+                   D_MUTATE };
             nmenu.addentry( D_SKILLS, true, 's', "%s", _("Edit [s]kills") );
             nmenu.addentry( D_STATS, true, 't', "%s", _("Edit s[t]ats") );
             nmenu.addentry( D_ITEMS, true, 'i', "%s", _("Grant [i]tems"));
+            nmenu.addentry( D_DELETE_ITEMS, true, 'd', "%s", _("[d]elete (all) items") );
+            nmenu.addentry( D_ITEM_WORN, true, 'w', "%s", _("[w]ear/[w]ield an item from player's inventory") );
             nmenu.addentry( D_HP, true, 'h', "%s", _("Set [h]it points") );
             nmenu.addentry( D_PAIN, true, 'p', "%s", _("Cause [p]ain") );
             nmenu.addentry( D_HEALTHY, true, 'a', "%s", _("Set he[a]lth") );
             nmenu.addentry( D_NEEDS, true, 'n', "%s", _("Set [n]eeds") );
+            nmenu.addentry( D_MUTATE, true, 'u', "%s", _("M[u]tate") );
             nmenu.addentry( D_STATUS, true, '@', "%s", _("Status Window [@]") );
             nmenu.addentry( D_TELE, true, 'e', "%s", _("t[e]leport") );
             if( p.is_npc() ) {
@@ -3980,6 +3993,29 @@ void game::debug()
                 break;
             case D_ITEMS:
                 wishitem(&p);
+                break;
+            case D_DELETE_ITEMS:
+                if( !query_yn( "Delete all items from the target?" ) ) {
+                    break;
+                }
+
+                p.worn.clear();
+                p.inv.clear();
+                p.weapon = p.ret_null;
+                break;
+            case D_ITEM_WORN:
+            {
+                auto filter = [this]( const item &it ) {
+                    return it.is_armor();
+                };
+                int item_pos = inv_for_filter( "Make target equip:", filter );
+                item &to_wear = u.i_at( item_pos );
+                if( to_wear.is_armor() ) {
+                    p.worn.push_back( to_wear );
+                } else if( !to_wear.is_null() ) {
+                    p.weapon = to_wear;
+                }
+            }
                 break;
             case D_HP:
             {
@@ -4035,33 +4071,48 @@ void game::debug()
             case D_NEEDS:
             {
                 uimenu smenu;
-                smenu.addentry( 0, true, 'h', "%s: %d", _("Hunger"), p.hunger );
+                smenu.addentry( 0, true, 'h', "%s: %d", _("Hunger"), p.get_hunger() );
                 smenu.addentry( 1, true, 't', "%s: %d", _("Thirst"), p.thirst );
                 smenu.addentry( 2, true, 'f', "%s: %d", _("Fatigue"), p.fatigue );
                 smenu.addentry( 999, true, 'q', "%s", _("[q]uit") );
                 smenu.selected = 0;
                 smenu.query();
-                int *bp_ptr = nullptr;
+                int cur;
+                bool valid = false;
                 switch( smenu.ret ) {
                 case 0:
-                    bp_ptr = &p.hunger;
+                    cur = p.get_hunger();
+                    valid = true;
                     break;
                 case 1:
-                    bp_ptr = &p.thirst;
+                    cur = p.thirst;
+                    valid = true;
                     break;
                 case 2:
-                    bp_ptr = &p.fatigue;
+                    cur = p.fatigue;
+                    valid = true;
                     break;
                 default:
                     break;
                 }
-
-                if( bp_ptr != nullptr ) {
-                    int value = query_int( "Set the value to? Currently: %d", *bp_ptr );
-                    // No canceling here
-                    *bp_ptr = value;
+                if( valid ) {
+                    int value = query_int( "Set the value to? Currently: %d", cur );
+                    switch (smenu.ret) {
+                    case 0:
+                        p.set_hunger(value);
+                        break;
+                    case 1:
+                        p.thirst = value;
+                        break;
+                    case 2:
+                        p.fatigue = value;
+                    }
                 }
+
             }
+                break;
+            case D_MUTATE:
+                wishmutate( &p );
                 break;
             case D_HEALTHY:
             {
@@ -4269,7 +4320,7 @@ void game::disp_kills()
         buffer << "<color_" << string_from_color(m.color) << ">";
         buffer << m.sym << " " << m.nname();
         buffer << "</color>";
-        const int w = colum_width - utf8_width(m.nname().c_str());
+        const int w = colum_width - utf8_width(m.nname());
         buffer.width(w - 3); // gap between cols, monster sym, space
         buffer.fill(' ');
         buffer << elem.second;
@@ -5692,8 +5743,8 @@ int game::mon_info(WINDOW *w)
     xcoords[0] = xcoords[4] = width / 3;
     xcoords[1] = xcoords[3] = xcoords[2] = (width / 3) * 2;
     xcoords[5] = xcoords[6] = xcoords[7] = 0;
-    xcoords[2] -= utf8_width(_("East:")) - utf8_width(
-                      _("NE:"));//for the alignment of the 1,2,3 rows on the right edge
+    //for the alignment of the 1,2,3 rows on the right edge
+    xcoords[2] -= utf8_width(_("East:")) - utf8_width(_("NE:"));
     for (int i = 0; i < 8; i++) {
         nc_color c = unique_types[i].empty() && unique_mons[i].empty() ? c_dkgray
                      : (dangerous[i] ? c_ltred : c_ltgray);
@@ -5773,7 +5824,7 @@ int game::mon_info(WINDOW *w)
             const std::string name = mt.nname();
 
             // Move to the next row if necessary. (The +2 is for the "Z ").
-            if (pr.x + 2 + utf8_width(name.c_str()) >= width) {
+            if (pr.x + 2 + utf8_width(name) >= width) {
                 pr.y++;
                 pr.x = 0;
             }
@@ -5793,7 +5844,7 @@ int game::mon_info(WINDOW *w)
                     danger = c_ltgray;
                 }
                 mvwprintz(w, pr.y, pr.x, danger, "%s", name.c_str());
-                pr.x += utf8_width(name.c_str()) + namesep;
+                pr.x += utf8_width(name) + namesep;
             }
         }
     }
@@ -7275,8 +7326,8 @@ void game::smash()
         const int mod_sta = ( (u.weapon.weight() / 100 ) + 20) * -1;
         u.mod_stat("stamina", mod_sta);
 
-        if (u.skillLevel("melee") == 0) {
-            u.practice("melee", rng(0, 1) * rng(0, 1));
+        if (u.skillLevel( skill_melee ) == 0) {
+            u.practice( skill_melee, rng(0, 1) * rng(0, 1));
         }
         if (u.weapon.made_of("glass") &&
             rng(0, u.weapon.volume() + 3) < u.weapon.volume()) {
@@ -7412,7 +7463,7 @@ void game::exam_vehicle(vehicle &veh, const tripoint &p, int cx, int cy)
     vehint.exec(&veh);
     if (vehint.sel_cmd != ' ') {
         int time = 200;
-        int skill = u.skillLevel("mechanics");
+        int skill = u.skillLevel( skill_id( "mechanics" ) );
         int diff = 1;
         if (vehint.sel_vpart_info != NULL) {
             diff = vehint.sel_vpart_info->difficulty + 3;
@@ -7601,118 +7652,31 @@ bool game::forced_gate_closing( const tripoint &p, const ter_id door_type, int b
 // the wall and gate.
 void game::open_gate( const tripoint &p, const ter_id handle_type )
 {
-    int examx = p.x;
-    int examy = p.y;
-    ter_id wall_type;
-    ter_id door_type;
-    ter_id floor_type;
+    int moves = 900;
     const char *pull_message;
-    const char *open_message;
-    const char *close_message;
-    int bash_dmg;
 
     if (handle_type == t_gates_mech_control) {
-        wall_type = t_wall;
-        door_type = t_door_metal_locked;
-        floor_type = t_floor;
         pull_message = _("You turn the handle...");
-        open_message = _("The gate is opened!");
-        close_message = _("The gate is closed!");
-        bash_dmg = 40;
     } else if (handle_type == t_gates_control_concrete) {
-        wall_type = t_concrete_wall;
-        door_type = t_door_metal_locked;
-        floor_type = t_floor;
         pull_message = _("You turn the handle...");
-        open_message = _("The gate is opened!");
-        close_message = _("The gate is closed!");
-        bash_dmg = 40;
     } else if (handle_type == t_barndoor) {
-        wall_type = t_wall_wood;
-        door_type = t_door_metal_locked;
-        floor_type = t_dirtfloor;
         pull_message = _("You pull the rope...");
-        open_message = _("The barn doors opened!");
-        close_message = _("The barn doors closed!");
-        bash_dmg = 40;
     } else if (handle_type == t_palisade_pulley) {
-        wall_type = t_palisade;
-        door_type = t_palisade_gate;
-        floor_type = t_palisade_gate_o;
         pull_message = _("You pull the rope...");
-        open_message = _("The palisade gate swings open!");
-        close_message = _("The palisade gate swings closed with a crash!");
-        bash_dmg = 30;
     } else if ( handle_type == t_gates_control_metal) {
-        wall_type = t_wall_metal;
-        door_type = t_door_metal_locked;
-        floor_type = t_metal_floor;
         pull_message = _("You throw the lever...");
-        open_message = _("The door rises!");
-        close_message = _("The door slams shut!");
-        bash_dmg = 60;
     } else {
         return;
     }
-
+    
     add_msg(pull_message);
-    u.moves -= 900;
     if (handle_type == t_gates_control_metal){
-        g->u.moves -= 300;
+        moves += 300;
     }else{
-        g->u.moves -= 900;
+        moves += 900;
     }
-
-    bool open = false;
-    bool close = false;
-
-    for (int wall_x = -1; wall_x <= 1; wall_x++) {
-        for (int wall_y = -1; wall_y <= 1; wall_y++) {
-            for (int gate_x = -1; gate_x <= 1; gate_x++) {
-                for (int gate_y = -1; gate_y <= 1; gate_y++) {
-                    if ((wall_x + wall_y == 1 || wall_x + wall_y == -1) &&
-                        // make sure wall not diagonally opposite to handle
-                        (gate_x + gate_y == 1 || gate_x + gate_y == -1) &&  // same for gate direction
-                        ((wall_y != 0 && (m.ter(examx + wall_x, examy + wall_y) == wall_type)) ||
-                         //horizontal orientation of the gate
-                         (wall_x != 0 &&
-                          (m.ter(examx + wall_x, examy + wall_y) == wall_type)))) { //vertical orientation of the gate
-
-                        int cur_x = examx + wall_x + gate_x;
-                        int cur_y = examy + wall_y + gate_y;
-
-                        if (!close &&
-                            (m.ter(examx + wall_x + gate_x, examy + wall_y + gate_y) == door_type)) {  //opening the gate...
-                            open = true;
-                            while (m.ter(cur_x, cur_y) == door_type) {
-                                m.ter_set(cur_x, cur_y, floor_type);
-                                cur_x = cur_x + gate_x;
-                                cur_y = cur_y + gate_y;
-                            }
-                        }
-
-                        if (!open &&
-                            (m.ter(examx + wall_x + gate_x, examy + wall_y + gate_y) == floor_type)) {  //closing the gate...
-                            close = true;
-                            while (m.ter(cur_x, cur_y) == floor_type) {
-                                forced_gate_closing( tripoint( cur_x, cur_y, p.z ), door_type, bash_dmg );
-                                cur_x = cur_x + gate_x;
-                                cur_y = cur_y + gate_y;
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    if (open) {
-        add_msg(open_message);
-    } else if (close) {
-        add_msg(close_message);
-    } else {
-        add_msg(_("Nothing happens."));
-    }
+    u.assign_activity( ACT_OPEN_GATE, moves) ;
+    u.activity.placement = p;
 }
 
 void game::moving_vehicle_dismount(int tox, int toy)
@@ -8357,14 +8321,17 @@ void game::zones_manager()
 
     int zone_ui_height = 12;
     const int width = use_narrow_sidebar() ? 45 : 55;
-    WINDOW *w_zones = newwin(TERMY - 2 - zone_ui_height - VIEW_OFFSET_Y * 2, width - 2, VIEW_OFFSET_Y + 1,
-                             TERMX - width + 1 - VIEW_OFFSET_X);
-    WINDOW *w_zones_border = newwin(TERMY - zone_ui_height - VIEW_OFFSET_Y * 2, width, VIEW_OFFSET_Y,
-                                    TERMX - width - VIEW_OFFSET_X);
-    WINDOW *w_zones_info = newwin(zone_ui_height - 1, width - 2, TERMY - zone_ui_height - VIEW_OFFSET_Y,
-                                  TERMX - width + 1 - VIEW_OFFSET_X);
-    WINDOW *w_zones_info_border = newwin(zone_ui_height, width, TERMY - zone_ui_height - VIEW_OFFSET_Y,
-                                         TERMX - width - VIEW_OFFSET_X);
+    const int offsetX = right_sidebar ? TERMX - VIEW_OFFSET_X - width :
+                                        VIEW_OFFSET_X;
+
+    WINDOW *w_zones = newwin(TERMY - 2 - zone_ui_height - VIEW_OFFSET_Y * 2, width - 2,
+                             VIEW_OFFSET_Y + 1, offsetX + 1);
+    WINDOW *w_zones_border = newwin(TERMY - zone_ui_height - VIEW_OFFSET_Y * 2, width,
+                                    VIEW_OFFSET_Y, offsetX);
+    WINDOW *w_zones_info = newwin(zone_ui_height - 1, width - 2,
+                                  TERMY - zone_ui_height - VIEW_OFFSET_Y, offsetX + 1);
+    WINDOW *w_zones_info_border = newwin(zone_ui_height, width,
+                                         TERMY - zone_ui_height - VIEW_OFFSET_Y, offsetX);
 
     zones_manager_draw_borders(w_zones_border, w_zones_info_border, zone_ui_height, width);
     zones_manager_shortcuts(w_zones_info);
@@ -9226,7 +9193,7 @@ void game::reset_item_list_state(WINDOW *window, int height, bool bRadiusSort)
         sSort = _("<s>ort: cat");
     }
 
-    int letters = utf8_width(sSort.c_str());
+    int letters = utf8_width(sSort);
 
     shortcut_print(window, 0, getmaxx(window) - letters, c_white, c_ltgreen, sSort.c_str());
 
@@ -9244,7 +9211,7 @@ void game::reset_item_list_state(WINDOW *window, int height, bool bRadiusSort)
     letters = 0;
     int n = tokens.size();
     for (int i = 0; i < n; i++) {
-        letters += utf8_width(tokens[i].c_str()) - 2; //length ignores < >
+        letters += utf8_width(tokens[i]) - 2; //length ignores < >
     }
 
     int usedwidth = letters;
@@ -9412,17 +9379,20 @@ int game::list_items(const int iLastState)
 {
     int iInfoHeight = std::min(25, TERMY / 2);
     const int width = use_narrow_sidebar() ? 45 : 55;
-    WINDOW *w_items = newwin(TERMY - 2 - iInfoHeight - VIEW_OFFSET_Y * 2, width - 2, VIEW_OFFSET_Y + 1,
-                             TERMX - width + 1 - VIEW_OFFSET_X);
+    const int offsetX = right_sidebar ? TERMX - VIEW_OFFSET_X - width :
+                                        VIEW_OFFSET_X;
+
+    WINDOW *w_items = newwin(TERMY - 2 - iInfoHeight - VIEW_OFFSET_Y * 2, width - 2,
+                             VIEW_OFFSET_Y + 1, offsetX + 1);
     WINDOW_PTR w_itemsptr( w_items );
-    WINDOW *w_items_border = newwin(TERMY - iInfoHeight - VIEW_OFFSET_Y * 2, width, VIEW_OFFSET_Y,
-                                    TERMX - width - VIEW_OFFSET_X);
+    WINDOW *w_items_border = newwin(TERMY - iInfoHeight - VIEW_OFFSET_Y * 2, width,
+                                    VIEW_OFFSET_Y, offsetX);
     WINDOW_PTR w_items_borderptr( w_items_border );
-    WINDOW *w_item_info = newwin(iInfoHeight - 1, width - 2, TERMY - iInfoHeight - VIEW_OFFSET_Y,
-                                 TERMX - width + 1 - VIEW_OFFSET_X);
+    WINDOW *w_item_info = newwin(iInfoHeight - 1, width - 2,
+                                 TERMY - iInfoHeight - VIEW_OFFSET_Y, offsetX + 1);
     WINDOW_PTR w_item_infoptr( w_item_info );
-    WINDOW *w_item_info_border = newwin(iInfoHeight, width, TERMY - iInfoHeight - VIEW_OFFSET_Y,
-                                        TERMX - width - VIEW_OFFSET_X);
+    WINDOW *w_item_info_border = newwin(iInfoHeight, width,
+                                        TERMY - iInfoHeight - VIEW_OFFSET_Y, offsetX);
     WINDOW_PTR w_item_info_borderptr( w_item_info_border );
 
     //Area to search +- of players position.
@@ -9839,17 +9809,20 @@ int game::list_monsters(const int iLastState)
 
     int iInfoHeight = 12;
     const int width = use_narrow_sidebar() ? 45 : 55;
+    const int offsetX = right_sidebar ? TERMX - VIEW_OFFSET_X - width :
+                                        VIEW_OFFSET_X;
+
     WINDOW *w_monsters = newwin(TERMY - 2 - iInfoHeight - VIEW_OFFSET_Y * 2, width - 2,
-                                VIEW_OFFSET_Y + 1, TERMX - width + 1 - VIEW_OFFSET_X);
+                                VIEW_OFFSET_Y + 1, offsetX + 1);
     WINDOW_PTR w_monstersptr( w_monsters );
-    WINDOW *w_monsters_border = newwin(TERMY - iInfoHeight - VIEW_OFFSET_Y * 2, width, VIEW_OFFSET_Y,
-                                       TERMX - width - VIEW_OFFSET_X);
+    WINDOW *w_monsters_border = newwin(TERMY - iInfoHeight - VIEW_OFFSET_Y * 2, width,
+                                       VIEW_OFFSET_Y, offsetX);
     WINDOW_PTR w_monsters_borderptr( w_monsters_border );
-    WINDOW *w_monster_info = newwin(iInfoHeight - 1, width - 2, TERMY - iInfoHeight - VIEW_OFFSET_Y,
-                                    TERMX - width + 1 - VIEW_OFFSET_X);
+    WINDOW *w_monster_info = newwin(iInfoHeight - 1, width - 2,
+                                    TERMY - iInfoHeight - VIEW_OFFSET_Y, offsetX + 1);
     WINDOW_PTR w_monster_infoptr( w_monster_info );
-    WINDOW *w_monster_info_border = newwin(iInfoHeight, width, TERMY - iInfoHeight - VIEW_OFFSET_Y,
-                                           TERMX - width - VIEW_OFFSET_X);
+    WINDOW *w_monster_info_border = newwin(iInfoHeight, width,
+                                           TERMY - iInfoHeight - VIEW_OFFSET_Y, offsetX);
     WINDOW_PTR w_monster_info_borderptr( w_monster_info_border );
 
     uistate.list_item_mon = 2; // remember we've tabbed here
@@ -11124,7 +11097,7 @@ void game::eat(int pos)
     if ((u.has_active_mutation("RUMINANT") || u.has_active_mutation("GRAZER")) &&
         m.ter(u.pos()) == t_underbrush && query_yn(_("Eat underbrush?"))) {
         u.moves -= 400;
-        u.hunger -= 10;
+        u.mod_hunger(-10);
         m.ter_set(u.pos(), t_grass);
         add_msg(_("You eat the underbrush."));
         return;
@@ -11132,12 +11105,12 @@ void game::eat(int pos)
     if (u.has_active_mutation("GRAZER") && m.ter(u.pos()) == t_grass &&
         query_yn(_("Graze?"))) {
         u.moves -= 400;
-        if ((u.hunger < 10) || one_in(20 - u.int_cur)) {
+        if ((u.get_hunger() < 10) || one_in(20 - u.int_cur)) {
             add_msg(_("You eat some of the taller grass, careful to leave some growing."));
-            u.hunger -= 2;
+            u.mod_hunger(-2);
         } else {
             add_msg(_("You eat the grass."));
-            u.hunger -= 5;
+            u.mod_hunger(-5);
             m.ter_set(u.pos(), t_dirt);
         }
         return;
@@ -11613,9 +11586,9 @@ void game::pldrive(int x, int y)
     }
     veh->turn(15 * x);
     if (veh->skidding && veh->valid_wheel_config()) {
-        if (rng(0, veh->velocity) < u.dex_cur + u.skillLevel("driving") * 2) {
+        if (rng(0, veh->velocity) < u.dex_cur + u.skillLevel( skill_driving ) * 2) {
             add_msg(_("You regain control of the %s."), veh->name.c_str());
-            u.practice("driving", veh->velocity / 5);
+            u.practice( skill_driving, veh->velocity / 5 );
             veh->velocity = int(veh->forward_velocity());
             veh->skidding = false;
             veh->move.init(veh->turn_dir);
@@ -11627,7 +11600,7 @@ void game::pldrive(int x, int y)
     }
 
     if (x != 0 && veh->velocity != 0 && one_in(10)) {
-        u.practice("driving", 1);
+        u.practice( skill_driving, 1 );
     }
 }
 
@@ -12289,7 +12262,7 @@ bool game::plmove(int dx, int dy)
         u.burn_move_stamina( previous_moves - u.moves );
 
         // Adjust recoil down
-        u.recoil -= int(u.str_cur / 2) + u.skillLevel("gun");
+        u.recoil -= int(u.str_cur / 2) + u.skillLevel( skill_id( "gun" ) );
         u.recoil = std::max( MIN_RECOIL * 2, u.recoil );
         u.recoil = int(u.recoil / 2);
         if ((!u.has_trait("PARKOUR") && m.move_cost(x, y) > 2) ||
@@ -12628,7 +12601,7 @@ void game::plswim(int x, int y)
         u.remove_effect("glowing");
     }
     int movecost = u.swim_speed();
-    u.practice("swimming", u.is_underwater() ? 2 : 1);
+    u.practice( skill_id( "swimming" ), u.is_underwater() ? 2 : 1);
     if (movecost >= 500) {
         if (!u.is_underwater() && !(u.shoe_type_count("swim_fins") == 2 ||
                                     (u.shoe_type_count("swim_fins") == 1 && one_in(2)))) {
@@ -12805,8 +12778,8 @@ void game::vertical_move(int movez, bool force)
         add_msg(m_warning, _("You try to use the stairs. Suddenly you are blocked by a %s!"),
                 coming_to_stairs[0].name().c_str());
         // Roll.
-        int dexroll = dice(6, u.dex_cur + u.skillLevel("dodge") * 2);
-        int strroll = dice(3, u.str_cur + u.skillLevel("melee") * 1.5);
+        int dexroll = dice(6, u.dex_cur + u.skillLevel( skill_dodge ) * 2);
+        int strroll = dice(3, u.str_cur + u.skillLevel( skill_melee ) * 1.5);
         if (coming_to_stairs.size() > 4) {
             add_msg(_("The are a lot of them on the %s!"), m.tername(u.pos()).c_str());
             dexroll /= 4;
@@ -12985,7 +12958,7 @@ void game::vertical_move(int movez, bool force)
                 } else if (u.has_trait("WEB_RAPPEL")) {
                     if (query_yn(_("There is a sheer drop halfway down. Web-descend?"))) {
                         rope_ladder = true;
-                        if ((rng(4, 8)) < (u.skillLevel("dodge"))) {
+                        if ((rng(4, 8)) < u.skillLevel( skill_dodge )) {
                             add_msg(_("You attach a web and dive down headfirst, flipping upright and landing on your feet."));
                         } else {
                             add_msg(_("You securely web up and work your way down, lowering yourself safely."));
@@ -13001,7 +12974,7 @@ void game::vertical_move(int movez, bool force)
                                 add_msg(m_bad, _("You descend on your vines, though leaving a part of you behind stings."));
                                 u.mod_pain(5);
                                 u.apply_damage( nullptr, bp_torso, 5 );
-                                u.hunger += 10;
+                                u.mod_hunger(10);
                                 u.thirst += 10;
                             } else {
                                 add_msg(_("You gingerly descend using your vines."));
@@ -13009,7 +12982,7 @@ void game::vertical_move(int movez, bool force)
                         } else {
                             add_msg(_("You effortlessly lower yourself and leave a vine rooted for future use."));
                             rope_ladder = true;
-                            u.hunger += 10;
+                            u.mod_hunger(10);
                             u.thirst += 10;
                         }
                     } else {
@@ -14219,7 +14192,7 @@ void game::process_artifact(item *it, player *p)
 
         case AEP_HUNGER:
             if (one_in(100)) {
-                p->hunger++;
+                p->mod_hunger(1);
             }
             break;
 

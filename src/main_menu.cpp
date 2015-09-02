@@ -85,9 +85,9 @@ void game::print_menu(WINDOW *w_open, int iSel, const int iMenuOffsetX, int iMen
 
     int menu_length = 0;
     for( size_t i = 0; i < vMenuItems.size(); ++i ) {
-        menu_length += utf8_width(vMenuItems[i].c_str(), true) + 2;
+        menu_length += utf8_width(vMenuItems[i], true) + 2;
         if (!vMenuHotkeys[i].empty()) {
-            menu_length += utf8_width(vMenuHotkeys[i][0].c_str());
+            menu_length += utf8_width(vMenuHotkeys[i][0]);
         }
     }
     const int free_space = std::max(0, window_width - menu_length - iMenuOffsetX);

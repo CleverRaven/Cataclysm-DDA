@@ -940,6 +940,8 @@
       ["flask_hip", 5],
       ["vibrator", 5],
       ["tux", 1],
+      ["gown", 1],
+      ["long_glove_white", 1],      
       ["veil_wedding", 1],
       ["dress_wedding", 1],
       ["corset", 15],
@@ -1150,6 +1152,8 @@
       ["boxer_briefs", 45],
       ["panties", 70],
       ["boy_shorts", 25],
+      ["gown", 1],
+      ["long_glove_white", 1],      
       ["veil_wedding", 1],
       ["dress_wedding", 1],
       ["tshirt", 80],
@@ -3231,6 +3235,7 @@
       ["tights", 20],
       ["stockings", 20],
       ["knee_high_boots", 20],
+      ["thigh_high_boots", 20],
       ["boots", 70],
       ["flip_flops", 35],
       ["lowtops", 45],
@@ -3322,7 +3327,9 @@
       ["suit", 100],
       ["waistcoat", 70],
       ["tophat", 30],
-      ["tux", 50]
+      ["tux", 50],
+      ["gown", 50],
+      ["long_glove_white", 30]    
     ]
   },{
     "type" : "item_group",
@@ -3415,6 +3422,7 @@
     "items":[
       ["sneakers", 100],
       ["knee_high_boots", 40],
+      ["thigh_high_boots", 40],
       ["boots", 100],
       ["flip_flops", 50],
       ["lowtops", 100],
@@ -3465,6 +3473,7 @@
     "items":[
       ["dress", 55],
       ["sundress", 43],
+      ["gown", 10],
       ["dress_wedding", 2]
     ]
   },{
@@ -3609,6 +3618,8 @@
       ["winter_gloves_army", 10],
       ["army_top", 20],
       ["tux", 1],
+      ["gown", 1],
+      ["long_glove_white", 1],      
       ["veil_wedding", 1],
       ["dress_wedding", 1],
       ["porkpie", 5],
@@ -4472,6 +4483,7 @@
     "id" : "swimmer_pants",
     "items":[
       ["trunks", 80],
+      ["bikini_bottom", 35],
       ["hot_pants", 30]
     ]
   },{
@@ -10303,6 +10315,7 @@
     "id" : "college_lake",
     "items":[
       ["bikini_top", 100],
+      ["bikini_bottom", 100],
       ["trunks", 100],
       ["towel", 100],
       ["goggles_swim", 30],

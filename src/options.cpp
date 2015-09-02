@@ -812,6 +812,13 @@ void init_options()
 
     mOptionsSort["interface"]++;
 
+    //~ sidebar position
+    optionNames["left"] = _("Left");
+    optionNames["right"] = _("Right");
+    OPTIONS["SIDEBAR_POSITION"] = cOpt("interface", _("Sidebar position"),
+                                       _("Switch between sidebar on the left or on the right side. Requires restart."),
+                                       "left,right", "right"
+                                      );
     //~ sidebar style
     optionNames["wider"] = _("Wider");
     optionNames["narrow"] = _("Narrow");

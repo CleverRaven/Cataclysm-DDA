@@ -527,9 +527,8 @@ void game::wishskill(player *p)
     origskills.reserve(Skill::skills.size());
 
     for (auto const &s : Skill::skills) {
-        auto const id    = static_cast<int>(s.id());
         auto const level = static_cast<int>(p->skillLevel(s));
-        skmenu.addentry( id + skoffset, true, -2, _( "@ %d: %s  " ), level, s.name().c_str() );
+        skmenu.addentry( origskills.size() + skoffset, true, -2, _( "@ %d: %s  " ), level, s.name().c_str() );
         origskills.push_back(level);
     }
 
