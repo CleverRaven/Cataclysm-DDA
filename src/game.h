@@ -23,6 +23,7 @@ extern game *g;
 
 extern bool trigdist;
 extern bool use_tiles;
+extern bool fov_3d;
 
 extern const int savegame_version;
 extern int savegame_loading_version;
