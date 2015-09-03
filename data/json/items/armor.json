@@ -7466,7 +7466,7 @@
         "name_plural" : "tactical dump pouches",
         "volume" : 2,
         "material_thickness" : 1,
-        "storage" : 6,
+        "storage" : 8,
         "covers" : ["TORSO"],
         "description" : "An expandable pouch secured with straps.  Provides a bit of extra storage with minimal encumbrance.",
         "weight" : 288,
