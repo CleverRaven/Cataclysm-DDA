@@ -2231,43 +2231,24 @@ void iexamine::tree_pine(player *p, map *m, const tripoint &examp)
 
 void iexamine::tree_hickory(player *p, map *m, const tripoint &examp)
 {    
-    enum options {
-        HARVEST_NUTS,
-        DIG_ROOTS,
-        CANCEL,
-    };
-    uimenu selectmenu;
-    selectmenu.addentry( HARVEST_NUTS, true, MENU_AUTOASSIGN, _("Harvest nuts.") );
-    selectmenu.addentry( DIG_ROOTS, true, MENU_AUTOASSIGN, _("Dig up roots.") );
-    selectmenu.addentry( CANCEL, true, MENU_AUTOASSIGN, _("Cancel") );
-
-    selectmenu.return_invalid = true;
-    selectmenu.text = _("Select an action");
-    selectmenu.selected = 0;
-    selectmenu.query();
-
-    switch( static_cast<options>( selectmenu.ret ) ) {
-    case HARVEST_NUTS:
-        harvest_tree_shrub(p,m,examp);
-        return;
+    harvest_tree_shrub(p,m,examp);
     
-    case DIG_ROOTS:
-        if( !p->has_items_with_quality( "DIG", 1, 1 ) ) {
-            add_msg(m_info, _("You have no tool to dig with..."));
-            return;
-        }
-        if(!query_yn(_("Dig up %s? This kills the tree!"), m->tername(examp).c_str())) {
-            return;
-        }
-        m->spawn_item(p->pos(), "hickory_root", rng(1,4) );
-        m->ter_set(examp, t_tree_hickory_dead);
-        p->moves -= 2000 / ( p->skillLevel( skill_survival ) + 1 ) + 100;
-        return;
-        
-    case CANCEL:
-        none(p, m, examp);
+    if( !p->skillLevel( skill_survival ) > 0 )
+    {
         return;
     }
+    if(!query_yn(_("Dig up %s? This kills the tree!"), m->tername(examp).c_str())) {
+        return;
+    }
+    if( !p->has_items_with_quality( "DIG", 1, 1 ) ) {
+        add_msg(m_info, _("You have no tool to dig with..."));
+        return;
+    }
+    m->spawn_item(p->pos(), "hickory_root", rng(1,4) );
+    m->ter_set(examp, t_tree_hickory_dead);
+    p->moves -= 2000 / ( p->skillLevel( skill_survival ) + 1 ) + 100;
+    return;
+    none(p, m, examp);
 }
 
 void iexamine::tree_bark(player *p, map *m, const tripoint &examp)

@@ -4646,7 +4646,7 @@
   "type" : "recipe",
   "result": "hickory_nut_unshelled",
   "category": "CC_FOOD",
-  "subcategory": "CSC_FOOD_OTHER",
+  "subcategory": "CSC_FOOD_VEGGI",
   "skill_used": "cooking",
   "skills_required": [ "survival", 1 ],
   "difficulty": 0,
@@ -4665,7 +4665,7 @@
   "type" : "recipe",
   "result": "hickory_nut_roasted",
   "category": "CC_FOOD",
-  "subcategory": "CSC_FOOD_OTHER",
+  "subcategory": "CSC_FOOD_VEGGI",
   "skill_used": "cooking",
   "skills_required": [ "survival", 1 ],
   "difficulty": 1,
@@ -4698,7 +4698,8 @@
   "difficulty": 5,
   "time": 48000,
   "reversible": false,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [ ["family_cookbook", 5], ["survival_book", 3] , ["textbook_survival", 3] ],
   "qualities":[
     {"id":"HAMMER","level":1,"amount":1},
     {"id":"COOK","level":3,"amount":1},
@@ -6551,7 +6552,7 @@
   ],
   "components": [
     [
-      [ "hickory_root", 10 ] 
+      [ "hickory_root", 12 ] 
     ],
     [
       [ "water_clean", 1 ],
