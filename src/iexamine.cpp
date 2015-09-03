@@ -2232,9 +2232,7 @@ void iexamine::tree_pine(player *p, map *m, const tripoint &examp)
 void iexamine::tree_hickory(player *p, map *m, const tripoint &examp)
 {    
     harvest_tree_shrub(p,m,examp);
-    
-    if( !p->skillLevel( skill_survival ) > 0 )
-    {
+    if( !p->skillLevel( skill_survival ) > 0 ) {
         return;
     }
     if(!query_yn(_("Dig up %s? This kills the tree!"), m->tername(examp).c_str())) {
