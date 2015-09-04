@@ -157,8 +157,7 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
     // First, check for a simple straight line on flat ground
     // Except when the player is on the line - we need to do regular pathing then
     const tripoint &pl_pos = g->u.pos();
-//    if( f.z == t.z && clear_path( f, t, -1, 2, 2 ) ) {
-if(false){
+    if( f.z == t.z && clear_path( f, t, -1, 2, 2 ) ) {
         const auto line_path = line_to( f, t );
         if( pl_pos.z != f.z ) {
             // Player on different z-level, certainly not on the line

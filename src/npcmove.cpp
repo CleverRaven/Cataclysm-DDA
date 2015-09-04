@@ -1238,6 +1238,7 @@ void npc::move_to( const tripoint &pt )
     // Stairs teleport the player too
     if( rl_dist( pos(), p ) > 1 && p.z == posz() ) {
         // On the same level? Not so much. Something weird happened
+        path.clear();
         move_pause();
     }
     bool attacking = false;
