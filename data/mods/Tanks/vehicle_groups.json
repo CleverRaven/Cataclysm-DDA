@@ -58,5 +58,12 @@
             ["pickup_technical", 150],
             ["tractor_bandit", 150]
         ]
+    },{
+        "type" : "vehicle_group",
+        "id" : "tractor_vehicles",
+        "vehicles" : [
+            ["tractor", 125],
+            ["tractor_bandit", 75]
+        ]
     }
 ]
