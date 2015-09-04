@@ -511,9 +511,6 @@ class game
         // @param center the center of view, same as when calling map::draw
         void draw_critter( const Creature &critter, const tripoint &center );
 
-        nc_color limb_color(player *p, body_part bp, bool bleed = true,
-                            bool bite = true, bool infect = true);
-
         bool opening_screen();// Warn about screen size, then present the main menu
         void mmenu_refresh_title();
         void mmenu_refresh_motd();

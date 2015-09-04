@@ -178,6 +178,18 @@ class Character : public Creature
         void set_mutation(const std::string &flag);
         void unset_mutation(const std::string &flag);
 
+        /**
+         * Displays menu with body part hp, optionally with hp estimation after healing.
+         * Returns selected part.
+         */
+        hp_part body_window( bool precise = false ) const;
+        hp_part body_window( bool show_all, bool precise,
+                             int normal_bonus, int head_bonus, int torso_bonus,
+                             int bleed, int bite, int infect ) const;
+
+        // Returns color which this limb would have in healing menus
+        nc_color limb_color( body_part bp, bool bleed, bool bite, bool infect ) const;
+
  private:
         /** Retrieves a stat mod of a mutation. */
         int get_mod(std::string mut, std::string arg) const;

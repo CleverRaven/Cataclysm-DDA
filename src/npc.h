@@ -735,7 +735,7 @@ public:
  bool enough_time_to_reload(int target, item &gun);
 
 // Physical movement from one tile to the next
- void update_path( const tripoint &p );
+ void update_path( const tripoint &p, bool no_bashing = false );
  bool can_move_to( const tripoint &p ) const;
  void move_to    ( const tripoint &p );
  void move_to_next(); // Next in <path>

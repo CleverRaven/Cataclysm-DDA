@@ -10,7 +10,8 @@
         "visibility" : 20,
         "avoidance" : 0,
         "difficulty" : 0,
-        "action" : "none"
+        "action" : "none",
+        "benign" : true
     },
     {
         "type" : "trap",

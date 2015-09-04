@@ -8,6 +8,7 @@
 #include "map_iterator.h"
 #include "field.h"
 #include "messages.h"
+#include "input.h"
 
 Character::Character()
 {
@@ -1113,4 +1114,184 @@ int Character::get_dodge_base() const
 int Character::get_hit_base() const
 {
     return Creature::get_hit_base() + (get_dex() / 4) + 3;
+}
+
+hp_part Character::body_window( bool precise ) const
+{
+    return body_window( true, precise, 0, 0, 0, 0, 0, 0 );
+}
+
+hp_part Character::body_window( bool show_all, bool precise,
+                                int normal_bonus, int head_bonus, int torso_bonus,
+                                int bleed, int bite, int infect ) const
+{
+    WINDOW *hp_window = newwin(10, 31, (TERMY - 10) / 2, (TERMX - 31) / 2);
+    draw_border(hp_window);
+
+    //trim_and_print(hp_window, 1, 1, getmaxx(hp_window) - 2, c_ltred, _("Use %s:"), item_name.c_str());
+    nc_color color = c_ltgray;
+    bool allowed_result[num_hp_parts] = { false };
+
+    const auto check_part = [&]( hp_part part, std::string part_name,
+                                 int heal_val, int line_num ) {
+        body_part bp = player::hp_to_bp( part );
+        if( show_all ||
+            hp_cur[part] < hp_max[part] ||
+            has_effect("infected", bp) ||
+            has_effect("bite", bp) ||
+            has_effect("bleed", bp) ) {
+            nc_color color = show_all ? c_green :
+                limb_color( bp, bleed, bite, infect );
+            if( color != c_ltgray || heal_val != 0 ) {
+                mvwprintz( hp_window, line_num, 1, color, part_name.c_str() );
+                allowed_result[part] = true;
+            }
+        }
+    };
+
+    check_part( hp_head,  _("1: Head"),      head_bonus,   2 );
+    check_part( hp_torso, _("2: Torso"),     torso_bonus,  3 );
+    check_part( hp_arm_l, _("3: Left Arm"),  normal_bonus, 4 );
+    check_part( hp_arm_r, _("4: Right Arm"), normal_bonus, 5 );
+    check_part( hp_leg_l, _("5: Left Leg"),  normal_bonus, 6 );
+    check_part( hp_leg_r, _("6: Right Leg"), normal_bonus, 7 );
+    mvwprintz( hp_window, 8, 1, c_ltgray, _("7: Exit") );
+    std::string health_bar;
+    for( int i = 0; i < num_hp_parts; i++ ) {
+        if( !allowed_result[i] ) {
+            continue;
+        }
+
+        body_part bp = body_part( i );
+
+        // Have printed the name of the body part, can select it
+        int current_hp = hp_cur[i];
+        if( current_hp != 0 ) {
+            std::tie( health_bar, color ) = get_hp_bar(current_hp, hp_max[i], false);
+            // Drop the bar color, use the state color instead
+            const nc_color state_col = limb_color( bp, true, true, true );
+            color = state_col != c_ltgray ? state_col : c_green;
+            if( precise ) {
+                mvwprintz(hp_window, i + 2, 15, color, "%5d", current_hp);
+            } else {
+                mvwprintz(hp_window, i + 2, 15, color, health_bar.c_str());
+            }
+        } else {
+            // curhp is 0; requires surgical attention
+            // But still could be infected or bleeding
+            const nc_color state_col = limb_color( bp, true, true, true );
+            color = state_col != c_ltgray ? state_col : c_dkgray;
+            mvwprintz(hp_window, i + 2, 15, color, "-----");
+        }
+
+        if( current_hp != 0 ) {
+            switch( hp_part( i ) ) {
+                case hp_head:
+                    current_hp += head_bonus;
+                    break;
+                case hp_torso:
+                    current_hp += torso_bonus;
+                    break;
+                default:
+                    current_hp += normal_bonus;
+                    break;
+            }
+
+            if( current_hp > hp_max[i] ) {
+                current_hp = hp_max[i];
+            } else if (current_hp < 0) {
+                current_hp = 0;
+            }
+
+            if( current_hp == hp_cur[i] &&
+                ( infect <= 0 || !has_effect( "infected", bp ) ) &&
+                ( bite <= 0 || !has_effect( "bite", bp ) ) &&
+                ( bleed <= 0 || !has_effect( "bleed", bp ) ) ) {
+                // Nothing would change
+                continue;
+            }
+
+            mvwprintz( hp_window, i + 2, 20, c_dkgray, " -> " );
+            std::tie( health_bar, color ) = get_hp_bar( current_hp, hp_max[i], false );
+            
+            const nc_color state_col = limb_color( bp, bleed > 0, bite > 0, infect > 0 );
+            color = state_col != c_ltgray ? state_col : c_green;
+            if( precise ) {
+                mvwprintz( hp_window, i + 2, 24, color, "%5d", current_hp );
+            } else {
+                mvwprintz( hp_window, i + 2, 24, color, health_bar.c_str() );
+            }
+        } else {
+            // curhp is 0; requires surgical attention
+            const nc_color state_col = limb_color( bp, bleed > 0, bite > 0, infect > 0 );
+            color = state_col != c_ltgray ? state_col : c_dkgray;
+            mvwprintz(hp_window, i + 2, 24, color, "-----");
+        }
+    }
+    wrefresh(hp_window);
+    char ch;
+    hp_part healed_part = num_hp_parts;
+    do {
+        ch = getch();
+        if (ch == '1') {
+            healed_part = hp_head;
+        } else if (ch == '2') {
+            healed_part = hp_torso;
+        } else if (ch == '3') {
+            healed_part = hp_arm_l;
+        } else if (ch == '4') {
+            healed_part = hp_arm_r;
+        } else if (ch == '5') {
+            healed_part = hp_leg_l;
+        } else if (ch == '6') {
+            healed_part = hp_leg_r;
+        } else if (ch == '7' || ch == KEY_ESCAPE) {
+            healed_part = num_hp_parts;
+            break;
+        }
+    } while (ch < '1' || ch > '7');
+    werase(hp_window);
+    wrefresh(hp_window);
+    delwin(hp_window);
+    refresh();
+
+    return healed_part;
+}
+
+nc_color Character::limb_color( body_part bp, bool bleed, bool bite, bool infect ) const
+{
+    if( bp == num_bp ) {
+        return c_ltgray;
+    }
+
+    int color_bit = 0;
+    nc_color i_color = c_ltgray;
+    if( bleed && has_effect( "bleed", bp ) ) {
+        color_bit += 1;
+    }
+    if( bite && has_effect( "bite", bp ) ) {
+        color_bit += 10;
+    }
+    if( infect && has_effect( "infected", bp ) ) {
+        color_bit += 100;
+    }
+    switch( color_bit ) {
+    case 1:
+        i_color = c_red;
+        break;
+    case 10:
+        i_color = c_blue;
+        break;
+    case 100:
+        i_color = c_green;
+        break;
+    case 11:
+        i_color = c_magenta;
+        break;
+    case 101:
+        i_color = c_yellow;
+        break;
+    }
+
+    return i_color;
 }

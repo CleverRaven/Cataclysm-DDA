@@ -2788,17 +2788,6 @@ std::vector<int> vehicle::boarded_parts() const
     return res;
 }
 
-int vehicle::free_seat() const
-{
-    for (size_t p = 0; p < parts.size(); p++) {
-        if (part_flag (p, VPFLAG_BOARDABLE) &&
-               !parts[p].has_flag(vehicle_part::passenger_flag)) {
-            return (int)p;
-        }
-    }
-    return -1;
-}
-
 player *vehicle::get_passenger(int p) const
 {
     p = part_with_feature (p, VPFLAG_BOARDABLE, false);

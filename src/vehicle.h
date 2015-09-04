@@ -507,7 +507,6 @@ public:
 
     // get a list of part indeces where is a passenger inside
     std::vector<int> boarded_parts() const;
-    int free_seat() const;
 
     // get passenger at part p
     player *get_passenger (int p) const;
