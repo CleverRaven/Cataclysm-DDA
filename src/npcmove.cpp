@@ -1274,7 +1274,7 @@ void npc::move_to( const tripoint &pt, bool no_bashing )
         // Let NPCs push each other when non-hostile
         // TODO: Have them attack each other when hostile
         npc *np = dynamic_cast<npc*>( critter );
-        if( np != nullptr ) {
+        if( np != nullptr && !np->in_sleep_state() ) {
             np->move_away_from( pos(), true );
         }
 
