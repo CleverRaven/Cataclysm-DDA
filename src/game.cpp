@@ -7987,9 +7987,14 @@ bool npc_menu( npc &who )
         g->u.mod_moves( -200 );
     } else if( choice == push ) {
         // TODO: Make NPCs protest when displaced onto dangerous crap
-        add_msg(_("%s moves out of the way."), who.name.c_str());
-        who.move_away_from( g->u.pos() );
+        tripoint oldpos = who.pos();
+        who.move_away_from( g->u.pos(), true );
         g->u.mod_moves( -20 );
+        if( oldpos != who.pos() ) {
+            add_msg(_("%s moves out of the way."), who.name.c_str());
+        } else {
+            add_msg( m_warning, _("%s has nowhere to go!"), who.name.c_str());
+        }
     } else if( choice == examine_wounds ) {
         const bool precise = g->u.get_skill_level( skill_firstaid ) * 4 + g->u.per_cur >= 20;
         who.body_window( precise );

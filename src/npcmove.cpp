@@ -1186,19 +1186,19 @@ void npc::update_path( const tripoint &p, const bool no_bashing )
     }
 }
 
-bool npc::can_move_to( const tripoint &p ) const
+bool npc::can_move_to( const tripoint &p, bool no_bashing ) const
 {
     // Allow moving into any bashable spots, but penalize them during pathing
     return( rl_dist( pos(), p ) <= 1 &&
               (
                 g->m.move_cost( p ) > 0 ||
-                g->m.bash_rating( smash_ability(), p ) > 0 ||
+                ( !no_bashing && g->m.bash_rating( smash_ability(), p ) > 0 ) ||
                 g->m.open_door( p, !g->m.is_outside( pos() ), true )
               )
            );
 }
 
-void npc::move_to( const tripoint &pt )
+void npc::move_to( const tripoint &pt, bool no_bashing )
 {
     if( g->m.has_flag("UNSTABLE", pt ) ) {
         add_effect("bouldering", 1, num_bp, true);
@@ -1242,7 +1242,7 @@ void npc::move_to( const tripoint &pt )
         move_pause();
     }
     bool attacking = false;
-    if( g->mon_at( p ) ){
+    if( g->mon_at( p ) ) {
         attacking = true;
     }
     if( !move_effects(attacking) ) {
@@ -1258,7 +1258,12 @@ void npc::move_to( const tripoint &pt )
         }
         const auto att = attitude_to( *critter );
         if( att == A_HOSTILE ) {
-            melee_attack( *critter, true );
+            if( !no_bashing ) {
+                melee_attack( *critter, true );
+            } else {
+                move_pause();
+            }
+
             return;
         }
 
@@ -1267,9 +1272,10 @@ void npc::move_to( const tripoint &pt )
         }
 
         // Let NPCs push each other when non-hostile
+        // TODO: Have them attack each other when hostile
         npc *np = dynamic_cast<npc*>( critter );
         if( np != nullptr ) {
-            np->move_away_from( pos() );
+            np->move_away_from( pos(), true );
         }
 
         if( critter->pos() == p ) {
@@ -1330,7 +1336,7 @@ void npc::move_to( const tripoint &pt )
                 moves -= (500 - (rng(0,climb) * 20));
                 setpos( p );
             }
-        } else if( smash_ability() > 0 && g->m.is_bashable( p ) &&
+        } else if( !no_bashing && smash_ability() > 0 && g->m.is_bashable( p ) &&
                    g->m.bash_rating( smash_ability(), p ) > 0 ) {
             moves -= int(weapon.is_null() ? 80 : weapon.attack_time() * 0.8);
             g->m.bash( p, smash_ability() );
@@ -1477,10 +1483,10 @@ void npc::avoid_friendly_fire(int target)
     execute_action(action, target);
 }
 
-void npc::move_away_from( const tripoint &pt )
+void npc::move_away_from( const tripoint &pt, bool no_bash_atk )
 {
     tripoint best_pos = pos();
-    int best = 0;
+    int best = -1;
     int chance = 2;
     for( const tripoint &p : g->m.points_in_radius( pos(), 1 ) ) {
         if( p == pos() ) {
@@ -1494,18 +1500,18 @@ void npc::move_away_from( const tripoint &pt )
 
         const int dst = abs( p.x - pt.x ) + abs( p.y - pt.y ) + abs( p.z - pt.z );
         const int val = dst * 1000 / cost;
-        if( val > best && can_move_to( p ) ) {
+        if( val > best && can_move_to( p, no_bash_atk ) ) {
             best_pos = p;
             best = val;
             chance = 2;
-        } else if( ( val == best && one_in( chance ) ) && can_move_to( p ) ) {
+        } else if( ( val == best && one_in( chance ) ) && can_move_to( p, no_bash_atk ) ) {
             best_pos = p;
             best = val;
             chance++;
         }
     }
 
-    move_to( best_pos );
+    move_to( best_pos, no_bash_atk );
 }
 
 void npc::move_pause()

@@ -183,7 +183,8 @@ class Character : public Creature
          * Returns selected part.
          */
         hp_part body_window( bool precise = false ) const;
-        hp_part body_window( bool show_all, bool precise,
+        hp_part body_window( const std::string &menu_header,
+                             bool show_all, bool precise,
                              int normal_bonus, int head_bonus, int torso_bonus,
                              int bleed, int bite, int infect ) const;
 

@@ -301,13 +301,13 @@ int iuse::royal_jelly(player *p, item *it, bool, const tripoint& )
     return it->type->charges_to_use();
 }
 
-static hp_part pick_part_to_heal( player *p,
+static hp_part pick_part_to_heal( player *p, const std::string &menu_header,
                                   int normal_bonus, int head_bonus, int torso_bonus,
                                   int bleed, int bite, int infect, bool force )
 {
     const bool precise = p->has_trait( "SELFAWARE" );
     while( true ) {
-        hp_part healed_part = p->body_window( force, precise,
+        hp_part healed_part = p->body_window( menu_header, force, precise,
                                               normal_bonus, head_bonus, torso_bonus,
                                               bleed, bite, infect );
         if( healed_part == num_hp_parts ) {
@@ -385,7 +385,9 @@ hp_part use_healing_item(player *p, item *it, int normal_power, int head_power,
         }
     } else { // Player--present a menu
         if (p->activity.type != ACT_FIRSTAID) {
-            healed = pick_part_to_heal( p, normal_bonus, head_bonus, torso_bonus,
+            const std::string menu_header = it->tname();
+            healed = pick_part_to_heal( p, menu_header,
+                                        normal_bonus, head_bonus, torso_bonus,
                                         bleed, bite, infect, force );
             if( healed == num_hp_parts ) {
                 return num_hp_parts; // canceled

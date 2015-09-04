@@ -736,11 +736,11 @@ public:
 
 // Physical movement from one tile to the next
  void update_path( const tripoint &p, bool no_bashing = false );
- bool can_move_to( const tripoint &p ) const;
- void move_to    ( const tripoint &p );
+ bool can_move_to( const tripoint &p, bool no_bashing = false ) const;
+ void move_to    ( const tripoint &p, bool no_bashing = false );
  void move_to_next(); // Next in <path>
  void avoid_friendly_fire(int target); // Maneuver so we won't shoot u
- void move_away_from( const tripoint &p );
+ void move_away_from( const tripoint &p, bool no_bashing = false );
  void move_pause(); // Same as if the player pressed '.'
 
 // Item discovery and fetching

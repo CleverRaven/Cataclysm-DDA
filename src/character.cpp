@@ -1118,17 +1118,18 @@ int Character::get_hit_base() const
 
 hp_part Character::body_window( bool precise ) const
 {
-    return body_window( true, precise, 0, 0, 0, 0, 0, 0 );
+    return body_window( disp_name(), true, precise, 0, 0, 0, 0, 0, 0 );
 }
 
-hp_part Character::body_window( bool show_all, bool precise,
+hp_part Character::body_window( const std::string &menu_header,
+                                bool show_all, bool precise,
                                 int normal_bonus, int head_bonus, int torso_bonus,
                                 int bleed, int bite, int infect ) const
 {
     WINDOW *hp_window = newwin(10, 31, (TERMY - 10) / 2, (TERMX - 31) / 2);
     draw_border(hp_window);
 
-    //trim_and_print(hp_window, 1, 1, getmaxx(hp_window) - 2, c_ltred, _("Use %s:"), item_name.c_str());
+    trim_and_print( hp_window, 1, 1, getmaxx(hp_window) - 2, c_ltred, menu_header.c_str() );
     nc_color color = c_ltgray;
     bool allowed_result[num_hp_parts] = { false };
 
