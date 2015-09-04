@@ -217,7 +217,7 @@ if(false){
         // 6 4 8
         constexpr std::array<int, 8> x_offset{{ -1,  1,  0,  0,  1, -1, -1, 1 }};
         constexpr std::array<int, 8> y_offset{{  0,  0, -1,  1, -1,  1, -1, 1 }};
-        for( size_t i = 0; i <= 4; i++ ) {
+        for( size_t i = 0; i < 8; i++ ) {
             const tripoint p( cur.x + x_offset[i], cur.y + y_offset[i], cur.z );
             const int index = flat_index( p.x, p.y );
 
