@@ -737,6 +737,11 @@ bool Character::worn_with_flag( std::string flag ) const
 
 SkillLevel& Character::skillLevel(const skill_id &ident)
 {
+    if( !ident ) {
+        static SkillLevel none;
+        none.level( 0 );
+        return none;
+    }
     return skillLevel( &ident.obj() );
 }
 
@@ -768,6 +773,10 @@ SkillLevel const& Character::get_skill_level(const Skill &_skill) const
 
 SkillLevel const& Character::get_skill_level(const skill_id &ident) const
 {
+    if( !ident ) {
+        static const SkillLevel none{};
+        return none;
+    }
     return get_skill_level( &ident.obj() );
 }
 
