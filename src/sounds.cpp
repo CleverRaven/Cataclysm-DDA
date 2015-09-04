@@ -590,7 +590,7 @@ struct sound_thread {
     bool targ_mon;
     std::string material;
 
-    std::string weapon_skill;
+    skill_id weapon_skill;
     int weapon_volume;
     // volume and angle for calls to play_variant_sound
     int ang_src;
@@ -647,16 +647,20 @@ void sfx::sound_thread::operator()() const
     std::this_thread::sleep_for( std::chrono::milliseconds( rng( 1, 2 ) ) );
     std::string variant_used;
 
-    if( weapon_skill == "bashing" && weapon_volume <= 8 ) {
+    static const skill_id skill_bashing( "bashing" );
+    static const skill_id skill_cutting( "cutting" );
+    static const skill_id skill_stabbing( "stabbing" );
+
+    if( weapon_skill == skill_bashing && weapon_volume <= 8 ) {
         variant_used = "small_bash";
         play_variant_sound( "melee_swing", "small_bash", vol_src, ang_src, 0.8, 1.2 );
-    } else if( weapon_skill == "bashing" && weapon_volume >= 9 ) {
+    } else if( weapon_skill == skill_bashing && weapon_volume >= 9 ) {
         variant_used = "big_bash";
         play_variant_sound( "melee_swing", "big_bash", vol_src, ang_src, 0.8, 1.2 );
-    } else if( ( weapon_skill == "cutting" || weapon_skill == "stabbing" ) && weapon_volume <= 6 ) {
+    } else if( ( weapon_skill == skill_cutting || weapon_skill == skill_stabbing ) && weapon_volume <= 6 ) {
         variant_used = "small_cutting";
         play_variant_sound( "melee_swing", "small_cutting", vol_src, ang_src, 0.8, 1.2 );
-    } else if( ( weapon_skill == "cutting" || weapon_skill == "stabbing" ) && weapon_volume >= 7 ) {
+    } else if( ( weapon_skill == skill_cutting || weapon_skill == skill_stabbing ) && weapon_volume >= 7 ) {
         variant_used = "big_cutting";
         play_variant_sound( "melee_swing", "big_cutting", vol_src, ang_src, 0.8, 1.2 );
     } else {
