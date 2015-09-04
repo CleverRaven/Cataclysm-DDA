@@ -1,9 +1,9 @@
 [
-{
+    {
   "type" : "mapgen",
-  "om_terrain" : ["ranch_camp_67"],
+  "om_terrain" : ["ranch_camp_67_mod"],
   "method": "json",
-  "weight": 250000, "comment": "Intentional attempt to override normal result without tweaking overmap specials",
+  "weight": 250,
   "object": {
    "fill_ter": "t_dirt",
    "rows": [
@@ -33,7 +33,7 @@
     "....//////////////5....."
             ],
             "place_vehicles": [
-                { "vehicle": "tractor", "x": 12, "y": 16, "rotation": 90, "chance": 40  }
+                { "vehicle": "tractor", "x": 12, "y": 16, "rotation": 90, "chance": 25  }
             ],
             "items": {
                 "r": { "item": "hardware", "chance": 50}
@@ -112,9 +112,9 @@
     },
     {
         "type" : "mapgen",
-        "om_terrain" : ["bandit_cabin"],
+        "om_terrain" : ["bandit_cabin_mod"],
         "method": "json",
-        "weight": 250000, "comment": "Intentional attempt to override normal result without tweaking overmap specials",
+        "weight": 250,
         "object": {
             "rows": [
                 "....................^...",
@@ -225,9 +225,9 @@
         }
     },{
         "type" : "mapgen",
-        "om_terrain" : ["hdwr_large_backroom"],
+        "om_terrain" : ["hdwr_large_backroom_mod"],
         "method": "json",
-        "weight": 100000, "comment": "Intentional attempt to override normal result without tweaking overmap specials",
+        "weight": 10,
         "object": {
             "rows": [
             ",,,,,,,,,,,,,,,,,,,,,,,,",
@@ -308,9 +308,9 @@
         }
     },{
         "type" : "mapgen",
-        "om_terrain" : ["mall_a_3"],
+        "om_terrain" : ["mall_a_3_mod"],
         "method": "json",
-        "weight": 250000, "comment": "Intentional attempt to override normal result without tweaking overmap specials",
+        "weight": 250,
         "object": {
             "fill_ter": "t_floor",
             "rows": [
@@ -436,56 +436,259 @@
         }
     },{
         "type" : "mapgen",
-        "om_terrain" : ["bandit_camp_3"],
+        "om_terrain" : ["bandit_camp_1_mod"],
         "method": "json",
-        "weight": 250000, "comment": "Intentional attempt to override normal result without tweaking overmap specials",
+        "weight": 250,
         "object": {
             "fill_ter": "t_dirt",
             "rows": [
-                ",,$/,///,P//WwCw/////Www",
-                "%,/,,///##//WwwwW/////wC",
-                ",,,,,/,/##//WWWWW////Www",
-                ",//,///,/////////////WWW",
+                ",,,,,,,,$,,,%,,$,,,,,,,,",
+                ",,,$,,,,,,,,,,,,,,$,,,$,",
+                ",,,,/,/%$,%/,$//,,,,/,,,",
+                ",$,///,,//,,//,,//,,%,/$",
+                ",//,,$//,/,///////,/////",
+                ",,%////////,/,/,////////",
+                ",,/,///#####////////////",
+                ",%$//,/#K..#############",
+                ",,,//,/#K...r#zzz.....#d",
+                ",$/////#K...r#.z......+.",
+                ",//%,//##r..r#...hh...#.",
+                ",,/,////#r..##..hnnh..##",
+                ",,,,,///#r.....hnnnnh...",
+                ",/,$/,//#r.....hnnnnh...",
+                "%,/,////#r......hnnh....",
+                ",,,/,///#r..##...hh...##",
+                "$,/,///##r..r#........#h",
+                ",////,/#zz..r#zz......#h",
+                ",,,%//,#....r#zz......#h",
+                "///,///#rrr######++#####",
+                ",$,,///#####/zz/////zzzz",
+                ",//,/////P//////////////",
+                ",,,///,//P//WWWWW//WWWWW",
+                ",%,4//,//P//WwwwW//WwwwW"
+            ],
+            "place_items": [
+                { "item": "stash_wood", "chance": 85,  "x": [ 12,12 ], "y": [ 8,10 ] },
+                { "item": "dresser", "chance": 85,  "x": [ 23,23 ], "y": [ 8,8 ] },
+                { "item": "home_hw", "chance": 85,  "x": [ 12,12 ], "y": [ 16,18 ] },
+                { "item": "home_hw", "chance": 85,  "x": [ 21,23 ], "y": [ 20,20 ] },
+                { "item": "home_hw", "chance": 80,  "x": [ 20,20 ], "y": [ 20,20 ] },
+                { "item": "cannedfood", "chance": 90,  "x": [ 9,9 ], "y": [ 10,16 ] },
+                { "item": "cannedfood", "chance": 90,  "x": [ 14,16 ], "y": [ 8,8 ] },
+                { "item": "pasta", "chance": 90,  "x": [ 8,10 ], "y": [ 19,19 ] },
+                { "item": "camping", "chance": 75,  "x": [ 8,10 ], "y": [ 13,13 ] },
+                { "item": "camping", "chance": 75,  "x": [ 8,9 ], "y": [ 17,18 ] },
+                { "item": "electronics", "chance": 75,  "x": [ 23,23 ], "y": [ 16,18 ] }
+            ],
+            "place_npcs": [
+                { "class": "bandit", "x": 15, "y": 13 },
+                { "class": "bandit", "x": 20, "y": 12 },
+                { "class": "thug", "x": 20, "y": 20 }
+            ],
+            "set": [
+                { "point": "trap", "id": "tr_landmine_buried", "x": [ 7, 23 ], "y": [ 2, 5 ], "repeat": [ 2, 6 ] },
+                { "point": "trap", "id": "tr_landmine_buried", "x": [ 2, 6 ], "y": [ 2, 23 ], "repeat": [ 2, 6 ] },
+                { "point": "trap", "id": "tr_rollmat", "x": 13, "y": 23},
+                { "point": "trap", "id": "tr_rollmat", "x": 14, "y": 23}
+            ],
+            "terrain": {
+                "/": "t_dirt",
+                ".": "t_rock_floor",
+                ",": "t_grass",
+                "%": "t_shrub",
+                "#": "t_wall_log",
+                "+": "t_door_c",
+                "P": "t_palisade",
+                "p":  "t_palisade_gate",
+                "x":  "t_palisade_pulley",
+                "@": "t_dirtfloor",
+                "b": "t_dirtfloor",
+                "c": "t_dirtfloor",
+                "d": "t_dirtfloor",
+                "h": "t_dirtfloor",
+                "K": "t_dirtfloor",
+                "L": "t_dirtfloor",
+                "n": "t_dirtfloor",
+                "o": "t_dirtfloor",
+                "r": "t_dirtfloor",
+                "S": "t_dirtfloor",
+                "T": "t_dirtfloor",
+                "W": "t_dirt",
+                "w": "t_dirt",
+                "C": "t_dirt",
+                "z": "t_dirt"
+            },
+            "furniture": {
+                "@": "f_bed",
+                "b": "f_bench",
+                "c": "f_counter",
+                "d": "f_dresser",
+                "h": "f_chair",
+                "K": "f_wood_keg",
+                "L": "f_locker",
+                "n": "f_table",
+                "o": "f_bookcase",
+                "r": "f_rack",
+                "S": "f_sink",
+                "T": "f_toilet",
+                "W": "f_large_canvas_wall",
+                "w": "f_large_groundsheet",
+                "C": "f_center_groundsheet",
+                "z": "f_crate_c"
+            }
+        }
+    },{
+        "type" : "mapgen",
+        "om_terrain" : ["bandit_camp_2_mod"],
+        "method": "json",
+        "weight": 250,
+        "object": {
+            "fill_ter": "t_dirt",
+            "rows": [
+                "%,,,$,,,$,,,$,,,,,,,$,,%",
+                ",,$,,,,%,,,,,,,$,,,,,,,,",
+                ",,//,,,,//%,,/,/,,%,/,$,",
+                "/,,,,,$,,,//,$,,/,,//,,,",
+                "////,/,/////,,//////$,,,",
+                "///////,//,/////////,/,,",
+                "#####///,/////////,,,,,,",
+                "#.@@#///////////###/,/,,",
+                "..@@#PPPPPPPPPPP###//,,%",
+                "....#///////////###/$,,,",
+                ".dd##////////////P,//,,$",
+                "####/////WWWWW///P/,/,,,",
+                "...#/////WwwwW///P//,,/,",
+                "...+//////wCwW///P//,$,/",
+                "...#/////WwwwW///P///,,%",
+                "..##/////WWWWW///P/$/,,,",
+                "...##//////////,/P,/,,,,",
+                "n..h#/////WWWW///P,/,,/,",
+                "..nh#/////WCwW//,P/,$,,,",
+                "#hhh#/////WwwW///##/,/,,",
+                "#####/////W/WW///##/,%,,",
+                "//////////////////////,$",
+                "/////////////////,,/,/,,",
+                "/,//////////////////,,,,"
+            ],
+            "place_items": [
+                { "item": "bed", "chance": 80,  "x": [2,3], "y": [7,8 ] },
+                { "item": "dresser", "chance": 75,  "x": [ 1,2 ], "y": [ 10,10 ] },
+                { "item": "home_hw", "chance": 75,  "x": [ 3,3 ], "y": [ 17,19 ] },
+                { "item": "electronics", "chance": 75,  "x": [ 1,2 ], "y": [ 19,19 ] }
+            ],
+            "place_npcs": [
+                { "class": "bandit", "x": 11, "y": 13 },
+                { "class": "bandit", "x": 15, "y": 22 }
+            ],
+            "set": [
+                { "point": "trap", "id": "tr_landmine_buried", "x": [ 0, 16 ], "y": [ 2, 5 ], "repeat": [ 2, 6 ] },
+                { "point": "trap", "id": "tr_landmine_buried", "x": [ 17, 21 ], "y": [ 2, 21 ], "repeat": [ 2, 6 ] },
+                { "point": "trap", "id": "tr_cot", "x": 12, "y": 18},
+                { "point": "trap", "id": "tr_cot", "x": 12, "y": 19},
+                { "point": "trap", "id": "tr_rollmat", "x": 11, "y": 14},
+                { "point": "trap", "id": "tr_rollmat", "x": 12, "y": 14},
+                { "point": "trap", "id": "tr_rollmat", "x": 11, "y": 12},
+                { "point": "trap", "id": "tr_rollmat", "x": 12, "y": 12}
+            ],
+            "terrain": {
+                "/": "t_dirt",
+                ".": "t_rock_floor",
+                ",": "t_grass",
+                "%": "t_shrub",
+                "#": "t_wall_log",
+                "+": "t_door_c",
+                "P": "t_palisade",
+                "p":  "t_palisade_gate",
+                "x":  "t_palisade_pulley",
+                "@": "t_dirtfloor",
+                "b": "t_dirtfloor",
+                "c": "t_dirtfloor",
+                "d": "t_dirtfloor",
+                "h": "t_dirtfloor",
+                "K": "t_dirtfloor",
+                "L": "t_dirtfloor",
+                "n": "t_dirtfloor",
+                "o": "t_dirtfloor",
+                "r": "t_dirtfloor",
+                "S": "t_dirtfloor",
+                "T": "t_dirtfloor",
+                "W": "t_dirt",
+                "w": "t_dirt",
+                "C": "t_dirt",
+                "z": "t_dirt"
+            },
+            "furniture": {
+                "@": "f_bed",
+                "b": "f_bench",
+                "c": "f_counter",
+                "d": "f_dresser",
+                "h": "f_chair",
+                "K": "f_wood_keg",
+                "L": "f_locker",
+                "n": "f_table",
+                "o": "f_bookcase",
+                "r": "f_rack",
+                "S": "f_sink",
+                "T": "f_toilet",
+                "W": "f_large_canvas_wall",
+                "w": "f_large_groundsheet",
+                "C": "f_center_groundsheet",
+                "z": "f_crate_c"
+            }
+        }
+    },{
+        "type" : "mapgen",
+        "om_terrain" : ["bandit_camp_3_mod"],
+        "method": "json",
+        "weight": 250,
+        "object": {
+            "fill_ter": "t_dirt",
+            "rows": [
+                ",,$/,///,P//WwCw////wCwW",
+                "%,/,,////P//WwwwW//WwwwW",
+                ",,,,,/,/##//WWWWW//WWWWW",
+                ",//,///,##//////////////",
                 ",,/,////////////////////",
-                ",,,,/,//////////////////",
-                ",/,,/,/,,///////////////",
-                ",,/,///////////W/WW//WW/",
-                ",,,,///////////WwwW//Www",
-                ",,,/,,/////////WCwW//WwC",
-                ",$/,//%/##/////WWWW//Www",
-                ",,,,$/,/##///////////WWW",
-                ",,/,//,//P///WWWW///////",
-                ",%,,/,///P///WwwW///zz//",
-                ",,$,//,//P///WCw////zz//",
-                ",%,///,//P///WWWW///////",
-                ",,,,,/,/###/////////////",
-                "$,/,//,/###PPPPPPPPPPP##",
-                ",,/,$,,/###////,//////##",
-                "%,,%/,////,/,///,,,/,///",
-                ",,,,/,,/,,,,/,/,,,,,,,,,",
+                "$%,,/,//////////////////",
+                ",/%,/,/,////////////////",
+                ",,/,////##//////////////",
+                ",,,$////##//////////////",
+                ",,,/,,///P/W/WW///WW/WW/",
+                ",$/,//%/,P/WwwW///WwwwW/",
+                ",,,,$/,//P/WCwW///WwCwW/",
+                ",,/,//,//P/WWWW///WwwwW/",
+                ",%,,/,///P////////WWWWW/",
+                ",,$,//,//P/WWWW/////////",
+                ",%,///,//P/WwwW/////zz//",
+                ",,,,,/,//P,WCw//////zz//",
+                "$,/,//,//P/WWWW/////////",
+                ",,/,$,,//P/////,////////",
+                "%,,%/,//###PPPPPPPPPPP##",
+                ",,,,/,,/###,/,/,,,,,,,##",
                 ",%,$,/,,/,,,$,,,/,,,//$/",
                 ",,,,,,%,,,/,,,$,,/,/,,,%",
                 "$,,%,,$,,,,,%,,,%,,$,,,,"
             ],
-            "place_vehicles": [
-                { "vehicle": "bandit_vehicles", "x": 4, "y": 6, "rotation": 180, "chance": 75 }
-            ],
             "place_items": [
-                { "item": "cannedfood", "chance": 75,  "x": [ 20,21 ], "y": [ 13,14 ] }
+                { "item": "cannedfood", "chance": 75,  "x": [ 20,21 ], "y": [ 15,16 ] }
             ],
             "set": [
-                { "point": "trap", "id": "tr_landmine_buried", "x": [ 3, 7 ], "y": [ 0, 2 ], "repeat": [ 0, 2 ] },
-                { "point": "trap", "id": "tr_landmine_buried", "x": [ 3, 7 ], "y": [ 10, 21 ], "repeat": [ 2, 6 ] },
+                { "point": "trap", "id": "tr_landmine_buried", "x": [ 3, 7 ], "y": [ 0, 3 ], "repeat": [ 0, 2 ] },
+                { "point": "trap", "id": "tr_landmine_buried", "x": [ 3, 7 ], "y": [ 9, 23 ], "repeat": [ 2, 6 ] },
                 { "point": "trap", "id": "tr_landmine_buried", "x": [ 7, 21 ], "y": [ 19, 22 ], "repeat": [ 2, 4 ] },
                 { "point": "trap", "id": "tr_rollmat", "x": 13, "y": 1},
                 { "point": "trap", "id": "tr_rollmat", "x": 14, "y": 1},
-                { "point": "trap", "id": "tr_fur_rollmat", "x": 16, "y": 9},
-                { "point": "trap", "id": "tr_fur_rollmat", "x": 17, "y": 9},
-                { "point": "trap", "id": "tr_rollmat", "x": 14, "y": 13},
-                { "point": "trap", "id": "tr_rollmat", "x": 15, "y": 13}
+                { "point": "trap", "id": "tr_fur_rollmat", "x": 21, "y": 1},
+                { "point": "trap", "id": "tr_fur_rollmat", "x": 22, "y": 1},
+                { "point": "trap", "id": "tr_fur_rollmat", "x": 13, "y": 10},
+                { "point": "trap", "id": "tr_fur_rollmat", "x": 13, "y": 11},
+                { "point": "trap", "id": "tr_rollmat", "x": 12, "y": 15},
+                { "point": "trap", "id": "tr_rollmat", "x": 13, "y": 15},
+                { "point": "trap", "id": "tr_rollmat", "x": 21, "y": 11},
+                { "point": "trap", "id": "tr_rollmat", "x": 21, "y": 12}
             ],
             "place_npcs": [
-                { "class": "bandit", "x": 9, "y": 9 },
+                { "class": "bandit", "x": 11, "y": 6 },
                 { "class": "bandit", "x": 16, "y": 9 },
                 { "class": "bandit", "x": 14, "y": 14 }
             ],
@@ -536,12 +739,112 @@
             }
         }
     },{
+        "type" : "mapgen",
+        "om_terrain" : ["bandit_camp_4_mod"],
+        "method": "json",
+        "weight": 250,
+        "object": {
+            "fill_ter": "t_dirt",
+            "rows": [
+                "////////////////////,/,%",
+                "/////////////////,//$,,,",
+                "/,/////////////////,,,,,",
+                "////////,//////,///,,%,,",
+                "//////####//####/##,/,,,",
+                "//////#rr....rr#,##/,$/,",
+                "//////#........#,P//,,/,",
+                "///////........./P//,,,$",
+                "///////........./P,%/,,,",
+                "///////........#/P//,/$,",
+                "///////.......r#/P//,,/%",
+                "///////.......r#,P/$,/,,",
+                "///////........#,P,/,/,,",
+                "///////........./P/,,,%,",
+                "///////........./P,%/,,,",
+                "//////#........#/P/,,/,,",
+                "//////#rrrrrrrr#/P//$/,,",
+                "//////##########/P,/,,/,",
+                ",///////////,////P,//,$,",
+                "/,/,,/##PPPPPPPPP##/,/,,",
+                ",,,,,/##,,/,,,/,,##///,,",
+                ",,,,/,/,$/,//$,/%/,,,/,,",
+                "/$,/,,%/,,,,,,,,$,,,$,%,",
+                ",//,,,,,$,,,,,%,,,%,,,,,"
+            ],
+            "place_vehicles": [
+                { "vehicle": "motorcycle", "x": 11, "y": 7, "rotation": 180, "chance": 80  },
+                { "vehicle": "bandit_vehicles", "x": 9, "y": 11, "rotation": 180, "chance": 80  },
+                { "vehicle": "motorcycle", "x": 11, "y": 14, "rotation": 180, "chance": 80  }
+            ],
+            "place_items": [
+                { "item": "mechanics", "chance": 65,  "x": [ 7,8 ], "y": [ 5,5 ] },
+                { "item": "mechanics", "chance": 65,  "x": [ 13,14 ], "y": [ 5,5 ] },
+                { "item": "mechanics", "chance": 65,  "x": [ 14,14 ], "y": [ 10,11 ] },
+                { "item": "mechanics", "chance": 65,  "x": [ 7,14 ], "y": [ 16,16 ] }
+            ],
+            "set": [
+                { "point": "trap", "id": "tr_landmine_buried", "x": [ 19, 23 ], "y": [ 2, 18 ], "repeat": [ 2, 6 ] },
+                { "point": "trap", "id": "tr_landmine_buried", "x": [ 7, 23 ], "y": [ 20, 23 ], "repeat": [ 2, 4 ] }
+            ],
+            "place_npcs": [
+                { "class": "thug", "x": 1, "y": 17 },
+                { "class": "bandit", "x": 4, "y": 17 },
+                { "class": "thug", "x": 12, "y": 6 }
+            ],
+            "terrain": {
+                "/": "t_dirt",
+                ".": "t_rock_floor",
+                ",": "t_grass",
+                "%": "t_shrub",
+                "#": "t_wall_log",
+                "+": "t_door_c",
+                "P": "t_palisade",
+                "p":  "t_palisade_gate",
+                "x":  "t_palisade_pulley",
+                "@": "t_dirtfloor",
+                "b": "t_dirtfloor",
+                "c": "t_dirtfloor",
+                "d": "t_dirtfloor",
+                "h": "t_dirtfloor",
+                "K": "t_dirtfloor",
+                "L": "t_dirtfloor",
+                "n": "t_dirtfloor",
+                "o": "t_dirtfloor",
+                "r": "t_dirtfloor",
+                "S": "t_dirtfloor",
+                "T": "t_dirtfloor",
+                "W": "t_dirt",
+                "w": "t_dirt",
+                "C": "t_dirt",
+                "z": "t_dirt"
+            },
+            "furniture": {
+                "@": "f_bed",
+                "b": "f_bench",
+                "c": "f_counter",
+                "d": "f_dresser",
+                "h": "f_chair",
+                "K": "f_wood_keg",
+                "L": "f_locker",
+                "n": "f_table",
+                "o": "f_bookcase",
+                "r": "f_rack",
+                "S": "f_sink",
+                "T": "f_toilet",
+                "W": "f_large_canvas_wall",
+                "w": "f_large_groundsheet",
+                "C": "f_center_groundsheet",
+                "z": "f_crate_c"
+            }
+        }
+    },
+    {
         "type": "mapgen",
         "om_terrain": [
-            "warehouse"
+            "warehouse_mod"
         ],
         "method": "json",
-        "weight": 500000, "comment": "Intentional attempt to override normal result without tweaking overmap specials",
+        "weight": 500,
         "object": {
             "rows":
             [
@@ -628,358 +931,80 @@
                 { "monster": "GROUP_ZOMBIE",  "chance": 2,  "x": [ 2,21 ],  "y": [ 2,21 ] }
             ]
         }
-    },
-    {
-        "type" : "mapgen",
-        "om_terrain" : ["farm"], "comment": "Normal variant, domestic animals",
-        "method": "json",
-        "weight": 250000, "comment": "Intentional attempt to override normal result without tweaking overmap specials",
-        "object": {
-            "rows": [
-                "                        ",
-                "                        ",
-                "                        ",
-                "                        ",
-                "                        ",
-                "                        ",
-                "                        ",
-                "                  &     ",
-                "                        ",
-                "          %%%       %%% ",
-                "###++### |-w---+-----w-|",
-                "#DD____# |uSeuu........|",
-                "#D_____# |o............|",
-                "#_1__1_# |u..........H.|",
-                "#______# |u...|---+----|",
-                "#______# |-+-||kh......|",
-                "#_1__1_# |...|.........w",
-                "#______# |b..+......BB.|",
-                "#____ll# |.ST|.....dBBd|",
-                "###++### |-w-|----w----|",
-                "                        ",
-                "                        ",
-                "FFFFFFFFFFFFFFFFFFFFFFFF",
-                ",,,,,,,,,,,,,,,,,,,,,,,,"
-            ],
-            "place_monsters": [
-                { "monster": "GROUP_DOMESTIC", "x": [ 1, 6 ], "y": [ 11, 18 ], "density": 0.05 }
-            ],
-            "place_vehicles": [
-                { "vehicle": "tractor", "x": 4, "y": 5, "rotation": 270, "chance": 40  }
-            ],
-            "place_items": [
-                { "item": "fridge", "chance": 65,  "x": [12,12 ], "y": [11,11 ] },
-                { "item": "kitchen", "chance": 70,  "x": [13,14 ], "y": [11,11 ] },
-                { "item": "moonshine_brew", "chance": 65,  "x": [13,14 ], "y": [11,11 ] },
-                { "item": "dresser", "chance": 80,  "x": [19,19 ], "y": [18,18 ] },
-                { "item": "dresser", "chance": 80,  "x": [22,22 ], "y": [18,18 ] },
-                { "item": "bedroom", "chance": 65,  "x": [15,22 ], "y": [15,18 ] },
-                { "item": "softdrugs", "chance": 70,  "x": [11,12 ], "y": [16,17 ] },
-                { "item": "bigtools", "chance": 50,  "x": [1,6 ], "y": [11,18 ] },
-                { "item": "homeguns", "chance": 20,  "x": [1,6 ], "y": [11,18 ] },
-                { "item": "bed", "chance": 60,  "x": [20,21 ], "y": [17,18 ] }
-            ],
-            "terrain": {
-                " ": [ "t_grass","t_grass","t_grass","t_grass","t_grass","t_grass","t_grass","t_grass",
-          "t_grass","t_grass","t_grass","t_grass","t_dirt","t_dirt","t_dirt","t_dirt","t_dirt",
-          "t_grass","t_grass","t_grass","t_grass","t_dirt","t_dirt","t_dirt","t_dirt","t_dirt",
-          "t_grass","t_grass","t_grass","t_grass","t_dirt","t_dirt","t_dirt","t_dirt","t_dirt",
-          "t_grass","t_grass","t_grass","t_grass","t_dirt","t_dirt","t_dirt","t_dirt","t_dirt",
-          "t_grass","t_grass","t_grass","t_grass","t_dirt","t_dirt","t_dirt","t_dirt","t_dirt",
-          "t_dirt","t_dirt"],
-                ",": "t_dirt",
-                "F": "t_fence_barbed",
-                ".": "t_floor",
-                "_": "t_dirtfloor",
-                "H": "t_floor",
-                "u": "t_floor",
-                "e": "t_floor",
-                "S": "t_floor",
-                "T": "t_floor",
-                "o": "t_floor",
-                "b": "t_floor",
-                "l": "t_floor",
-                "#": "t_wall_wood",
-                "%": "t_shrub",
-                "1": "t_column",
-                "D": "t_dirtmound",
-                "+": "t_door_c",
-                "-": "t_wall",
-                "|": "t_wall",
-                "w": "t_window_domestic",
-                "k": "t_floor",
-                "h": "t_floor",
-                "B": "t_floor",
-                "d": "t_floor",
-                "&": "t_water_pump"
-            },
-            "furniture": {
-                "H": "f_armchair",
-                "u": "f_cupboard",
-                "e": "f_fridge",
-                "S": "f_sink",
-                "T": "f_toilet",
-                "o": "f_oven",
-                "b": "f_bathtub",
-                "l": "f_locker",
-                "k": "f_desk",
-                "h": "f_chair",
-                "B": "f_bed",
-                "d": "f_dresser"
-            },
-            "toilets": {
-                "T": { }
-            }
-        }
-    },
-    {
-        "type" : "mapgen",
-        "om_terrain" : ["farm"], "comment": "Normal variant, zombies",
-        "method": "json",
-        "weight": 250000, "comment": "Intentional attempt to override normal result without tweaking overmap specials",
-        "object": {
-            "rows": [
-                "                        ",
-                "                        ",
-                "                        ",
-                "                        ",
-                "                        ",
-                "                        ",
-                "                        ",
-                "                  &     ",
-                "                        ",
-                "          %%%       %%% ",
-                "###++### |-w---+-----w-|",
-                "#DD____# |uSeuu........|",
-                "#D_____# |o............|",
-                "#_1__1_# |u..........H.|",
-                "#______# |u...|---+----|",
-                "#______# |-+-||kh......|",
-                "#_1__1_# |...|.........w",
-                "#______# |b..+......BB.|",
-                "#____ll# |.ST|.....dBBd|",
-                "###++### |-w-|----w----|",
-                "                        ",
-                "                        ",
-                "FFFFFFFFFFFFFFFFFFFFFFFF",
-                ",,,,,,,,,,,,,,,,,,,,,,,,"
-            ],
-            "place_monster": [
-                { "x": [ 1, 6 ], "y": [ 11, 18 ], "monster": "mon_zombie", "repeat": [1, 6] }
-            ],
-            "place_vehicles": [
-                { "vehicle": "tractor", "x": 4, "y": 5, "rotation": 270, "chance": 40  }
-            ],
-            "place_items": [
-                { "item": "fridge", "chance": 65,  "x": [12,12 ], "y": [11,11 ] },
-                { "item": "kitchen", "chance": 70,  "x": [13,14 ], "y": [11,11 ] },
-                { "item": "moonshine_brew", "chance": 65,  "x": [13,14 ], "y": [11,11 ] },
-                { "item": "dresser", "chance": 80,  "x": [19,19 ], "y": [18,18 ] },
-                { "item": "dresser", "chance": 80,  "x": [22,22 ], "y": [18,18 ] },
-                { "item": "bedroom", "chance": 65,  "x": [15,22 ], "y": [15,18 ] },
-                { "item": "softdrugs", "chance": 70,  "x": [11,12 ], "y": [16,17 ] },
-                { "item": "bigtools", "chance": 50,  "x": [1,6 ], "y": [11,18 ] },
-                { "item": "homeguns", "chance": 20,  "x": [1,6 ], "y": [11,18 ] },
-                { "item": "bed", "chance": 60,  "x": [20,21 ], "y": [17,18 ] }
-            ],
-            "terrain": {
-                " ": [ "t_grass","t_grass","t_grass","t_grass","t_grass","t_grass","t_grass","t_grass",
-          "t_grass","t_grass","t_grass","t_grass","t_dirt","t_dirt","t_dirt","t_dirt","t_dirt",
-          "t_grass","t_grass","t_grass","t_grass","t_dirt","t_dirt","t_dirt","t_dirt","t_dirt",
-          "t_grass","t_grass","t_grass","t_grass","t_dirt","t_dirt","t_dirt","t_dirt","t_dirt",
-          "t_grass","t_grass","t_grass","t_grass","t_dirt","t_dirt","t_dirt","t_dirt","t_dirt",
-          "t_grass","t_grass","t_grass","t_grass","t_dirt","t_dirt","t_dirt","t_dirt","t_dirt",
-          "t_dirt","t_dirt"],
-                ",": "t_dirt",
-                "F": "t_fence_barbed",
-                ".": "t_floor",
-                "_": "t_dirtfloor",
-                "H": "t_floor",
-                "u": "t_floor",
-                "e": "t_floor",
-                "S": "t_floor",
-                "T": "t_floor",
-                "o": "t_floor",
-                "b": "t_floor",
-                "l": "t_floor",
-                "#": "t_wall_wood",
-                "%": "t_shrub",
-                "1": "t_column",
-                "D": "t_dirtmound",
-                "+": "t_door_c",
-                "-": "t_wall",
-                "|": "t_wall",
-                "w": "t_window_domestic",
-                "k": "t_floor",
-                "h": "t_floor",
-                "B": "t_floor",
-                "d": "t_floor",
-                "&": "t_water_pump"
-            },
-            "furniture": {
-                "H": "f_armchair",
-                "u": "f_cupboard",
-                "e": "f_fridge",
-                "S": "f_sink",
-                "T": "f_toilet",
-                "o": "f_oven",
-                "b": "f_bathtub",
-                "l": "f_locker",
-                "k": "f_desk",
-                "h": "f_chair",
-                "B": "f_bed",
-                "d": "f_dresser"
-            },
-            "toilets": {
-                "T": { }
-            }
-        }
-    },
-    {
-        "type" : "mapgen",
-        "om_terrain" : ["farm"], "comment": "Prepper variant",
-        "method": "json",
-        "weight": 50000, "comment": "Intentional attempt to override normal result without tweaking overmap specials",
-        "object": {
-            "rows": [
-                "                        ",
-                "                        ",
-                "                        ",
-                "                        ",
-                "                        ",
-                "                        ",
-                "                        ",
-                "                  &     ",
-                "                        ",
-                "          %%%       %%% ",
-                "###++### |-w---+-----w-|",
-                "#DD____# |uSeuu..mm....|",
-                "#D_____# |o...........m|",
-                "#_1__1_# |u...........m|",
-                "#______# |u...|---+----|",
-                "#______# |-+-||mm....mm|",
-                "#_1__1_# |...|.........w",
-                "#______# |b..+......BB.|",
-                "#____ll# |.ST|mm...dBBd|",
-                "###++### |-w-|----w----|",
-                "                        ",
-                "                        ",
-                "FFFFFFFFFFFFFFFFFFFFFFFF",
-                ",,,,,,,,,,,,,,,,,,,,,,,,"
-            ],
-            "place_monster": [
-                { "x": [ 1, 6 ], "y": [ 11, 18 ], "monster": "mon_zombie", "repeat": [1, 6] }
-            ],
-            "place_vehicles": [
-                { "vehicle": "tractor_vehicles", "x": 4, "y": 5, "rotation": 270, "chance": 50  }
-            ],
-            "place_items": [
-                { "item": "cannedfood", "chance": 40,  "x": [12,12 ], "y": [11,11 ] },
-                { "item": "cannedfood", "chance": 40,  "x": [10,10 ], "y": [11,11 ] },
-                { "item": "kitchen", "chance": 70,  "x": [10,10 ], "y": [11,11 ] },
-                { "item": "softdrugs", "chance": 40,  "x": [10,10 ], "y": [11,11 ] },
-                { "item": "cannedfood", "chance": 40,  "x": [12,13 ], "y": [11,11 ] },
-                { "item": "kitchen", "chance": 70,  "x": [12,13 ], "y": [11,11 ] },
-                { "item": "softdrugs", "chance": 40,  "x": [12,13 ], "y": [11,11 ] },
-                { "item": "cannedfood", "chance": 40,  "x": [10,10 ], "y": [13,14 ] },
-                { "item": "kitchen", "chance": 70,  "x": [10,10 ], "y": [13,14 ] },
-                { "item": "softdrugs", "chance": 40,  "x": [10,10 ], "y": [13,14 ] },
-                { "item": "trash", "chance": 20,  "x": [11,21 ], "y": [12,13 ], "repeat": [1, 6] },
-                { "item": "livingroom", "chance": 20,  "x": [16,17 ], "y": [11,11 ] },
-                { "item": "survival_armor", "chance": 20,  "x": [16,17 ], "y": [11,11 ] },
-                { "item": "camping", "chance": 20,  "x": [16,17 ], "y": [11,11 ] },
-                { "item": "survival_tools", "chance": 20,  "x": [16,17 ], "y": [11,11 ] },
-                { "item": "bed", "chance": 40,  "x": [16,17 ], "y": [11,11 ] },
-                { "item": "livingroom", "chance": 20,  "x": [14,15 ], "y": [15,15 ] },
-                { "item": "survival_armor", "chance": 20,  "x": [14,15 ], "y": [15,15 ] },
-                { "item": "camping", "chance": 20,  "x": [14,15 ], "y": [15,15 ] },
-                { "item": "survival_tools", "chance": 20,  "x": [14,15 ], "y": [15,15 ] },
-                { "item": "bed", "chance": 40,  "x": [14,15 ], "y": [15,15 ] },
-                { "item": "livingroom", "chance": 20,  "x": [20,21 ], "y": [15,15 ] },
-                { "item": "survival_armor", "chance": 20,  "x": [20,21 ], "y": [15,15 ] },
-                { "item": "camping", "chance": 20,  "x": [20,21 ], "y": [15,15 ] },
-                { "item": "survival_tools", "chance": 20,  "x": [20,21 ], "y": [15,15 ] },
-                { "item": "bed", "chance": 40,  "x": [20,21 ], "y": [15,15 ] },
-                { "item": "livingroom", "chance": 20,  "x": [13,14 ], "y": [18,18 ] },
-                { "item": "survival_armor", "chance": 20,  "x": [13,14 ], "y": [18,18 ] },
-                { "item": "camping", "chance": 20,  "x": [13,14 ], "y": [18,18 ] },
-                { "item": "survival_tools", "chance": 20,  "x": [13,14 ], "y": [18,18 ] },
-                { "item": "bed", "chance": 40,  "x": [13,14 ], "y": [18,18 ] },
-                { "item": "livingroom", "chance": 20,  "x": [21,21 ], "y": [12,13 ] },
-                { "item": "survival_armor", "chance": 20,  "x": [21,21 ], "y": [12,13 ] },
-                { "item": "camping", "chance": 20,  "x": [21,21 ], "y": [12,13 ] },
-                { "item": "survival_tools", "chance": 20,  "x": [21,21 ], "y": [12,13 ] },
-                { "item": "bed", "chance": 40,  "x": [21,21 ], "y": [12,13 ] },
-                { "item": "dresser", "chance": 50,  "x": [19,19 ], "y": [18,18 ] },
-                { "item": "dresser", "chance": 50,  "x": [22,22 ], "y": [18,18 ] },
-                { "item": "bigtools", "chance": 50,  "x": [1,6 ], "y": [11,18 ] },
-                { "item": "homeguns", "chance": 20,  "x": [1,6 ], "y": [11,18 ] },
-                { "item": "livingroom", "chance": 20,  "x": [20,21 ], "y": [17,18 ] },
-                { "item": "survival_armor", "chance": 20,  "x": [20,21 ], "y": [17,18 ] },
-                { "item": "camping", "chance": 20,  "x": [20,21 ], "y": [17,18 ] },
-                { "item": "survival_tools", "chance": 20,  "x": [20,21 ], "y": [17,18 ] },
-                { "item": "bed", "chance": 60,  "x": [20,21 ], "y": [17,18 ] }
-            ],
-            "set": [
-                { "point": "trap", "id": "tr_beartrap", "x": [ 7, 23 ], "y": [ 0, 6 ], "repeat": [ 2, 6 ] },
-                { "point": "trap", "id": "tr_tripwire", "x": [ 7, 23 ], "y": [ 0, 6 ], "repeat": [ 2, 6 ] },
-                { "point": "trap", "id": "tr_pit", "x": [ 7, 23 ], "y": [ 0, 6 ], "repeat": [ 2, 6 ] },
-                { "point": "trap", "id": "tr_beartrap", "x": [ 7, 17 ], "y": [ 7, 8 ], "repeat": [ 1, 4 ] },
-                { "point": "trap", "id": "tr_tripwire", "x": [ 7, 17 ], "y": [ 7, 8 ], "repeat": [ 1, 4 ] },
-                { "point": "trap", "id": "tr_pit", "x": [ 7, 17 ], "y": [ 7, 8 ], "repeat": [ 1, 4 ] },
-                { "point": "trap", "id": "tr_beartrap", "x": [ 19, 23 ], "y": [ 7, 8 ], "repeat": [ 1, 2 ] },
-                { "point": "trap", "id": "tr_tripwire", "x": [ 19, 23 ], "y": [ 7, 8 ], "repeat": [ 1, 2 ] },
-                { "point": "trap", "id": "tr_pit", "x": [ 19, 23 ], "y": [ 7, 8 ], "repeat": [ 1, 2 ] }
-            ],
-            "terrain": {
-                "m": "t_floor",
-                " ": [ "t_grass","t_grass","t_grass","t_grass","t_grass","t_grass","t_grass","t_grass",
-          "t_grass","t_grass","t_grass","t_grass","t_dirt","t_dirt","t_dirt","t_dirt","t_dirt",
-          "t_grass","t_grass","t_grass","t_grass","t_dirt","t_dirt","t_dirt","t_dirt","t_dirt",
-          "t_grass","t_grass","t_grass","t_grass","t_dirt","t_dirt","t_dirt","t_dirt","t_dirt",
-          "t_grass","t_grass","t_grass","t_grass","t_dirt","t_dirt","t_dirt","t_dirt","t_dirt",
-          "t_grass","t_grass","t_grass","t_grass","t_dirt","t_dirt","t_dirt","t_dirt","t_dirt",
-          "t_dirt","t_dirt"],
-                ",": "t_dirt",
-                "F": "t_fence_barbed",
-                ".": "t_floor",
-                "_": "t_dirtfloor",
-                "H": "t_floor",
-                "u": "t_floor",
-                "e": "t_floor",
-                "S": "t_floor",
-                "T": "t_floor",
-                "o": "t_floor",
-                "b": "t_floor",
-                "l": "t_floor",
-                "#": "t_wall_wood",
-                "%": "t_shrub",
-                "1": "t_column",
-                "D": "t_dirtmound",
-                "+": "t_door_c",
-                "-": "t_wall",
-                "|": "t_wall",
-                "w": "t_window_domestic",
-                "B": "t_floor",
-                "d": "t_floor",
-                "&": "t_water_pump"
-            },
-            "furniture": {
-                "m": "f_makeshift_bed",
-                "H": "f_armchair",
-                "u": "f_cupboard",
-                "e": "f_fridge",
-                "S": "f_sink",
-                "T": "f_toilet",
-                "o": "f_oven",
-                "b": "f_bathtub",
-                "l": "f_locker",
-                "B": "f_bed",
-                "d": "f_dresser"
-            },
-            "toilets": {
-                "T": { }
-            }
-        }
+    },{
+        "type" : "overmap_terrain",
+        "id" : "bandit_cabin_mod",
+        "name" : "forest",
+        "sym" : 70,
+        "color" : "green",
+        "see_cost" : 5,
+        "extras" : "field"
+    },{
+        "type" : "overmap_terrain",
+        "id" : "bandit_camp_1_mod",
+        "name" : "forest",
+        "sym" : 70,
+        "color" : "green",
+        "see_cost" : 5,
+        "extras" : "field"
+    },{
+        "type" : "overmap_terrain",
+        "id" : "bandit_camp_2_mod",
+        "name" : "forest",
+        "sym" : 70,
+        "color" : "green",
+        "see_cost" : 5,
+        "extras" : "field"
+    },{
+        "type" : "overmap_terrain",
+        "id" : "bandit_camp_3_mod",
+        "name" : "forest",
+        "sym" : 70,
+        "color" : "green",
+        "see_cost" : 5,
+        "extras" : "field"
+    },{
+        "type" : "overmap_terrain",
+        "id" : "bandit_camp_4_mod",
+        "name" : "forest",
+        "sym" : 70,
+        "color" : "green",
+        "see_cost" : 5,
+        "extras" : "field"
+    },{
+        "type" : "overmap_terrain",
+        "id" : "mall_a_3_mod",
+        "name" : "mall - loading bay",
+        "rotate" : true,
+        "sym" : 77,
+        "color" : "i_ltred",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "hdwr_large_backroom_mod",
+        "name" : "home improvement superstore",
+        "sym" : 72,
+        "color" : "ltgreen_yellow",
+        "see_cost" : 5,
+        "extras" : "field"
+    },{
+        "type" : "overmap_terrain",
+        "id" : "ranch_camp_67_mod",
+        "name" : "garage",
+        "sym" : 79,
+        "color" : "white",
+        "see_cost" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "warehouse_mod",
+        "name" : "small warehouse",
+        "rotate" : true,
+        "sym" : 119,
+        "color" : "light_blue",
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "sidewalk" : true
     }
 ]
