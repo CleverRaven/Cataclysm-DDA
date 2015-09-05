@@ -617,18 +617,18 @@
                 "knife_butter"
             ],
             "male": [
-                "tux",
-                "dress_shoes",
                 "briefs",
-                "socks"
+                "socks",
+                "dress_shoes",
+                "tux"
             ],
             "female": [
-                "maid_hat",
-                "maid_dress",
-                "boots",
-                "bra",
                 "panties",
-                "stockings"
+                "bra",
+                "stockings",
+                "boots",
+                "maid_dress",
+                "maid_hat"
             ]
         }
     },
@@ -802,7 +802,7 @@
                 "lighter",
                 "rope_30",
                 "canteen",
-                "sheath"
+                "scabbard"
             ],
             "male": [
                 "boxer_shorts"
@@ -1558,6 +1558,55 @@
             ]
         },
         "flags": ["SCEN_ONLY"]
+    },
+    {
+        "type": "profession",
+        "ident": "broken_cyborg",
+        "name": "Broken Cyborg",
+        "description": "You were normal once.  Before the tests, before the procedures, before they stripped away every outward sign of your humanity.  You're more machine than man now, but that might prove an advantage against the horrors that await.",
+        "points": -2,
+        "CBMs":[
+            "bio_dis_shock",
+            "bio_dis_acid",
+            "bio_drain",
+            "bio_noise",
+            "bio_power_weakness",
+            "bio_itchy",
+            "bio_nostril",
+            "bio_thumbs",
+            "bio_spasm",
+            "bio_shakes",
+            "bio_leaky",
+            "bio_sleepy",
+            "bio_deformity",
+            "bio_voice",
+            "bio_pokedeye",
+            "bio_ankles",
+            "bio_trip",
+            "bio_stiff",
+            "bio_armor_head",
+            "bio_armor_torso",
+            "bio_armor_arms",
+            "bio_armor_legs",
+            "bio_armor_eyes",
+            "bio_razors",
+            "bio_power_storage",
+            "bio_torsionratchet"
+        ],
+        "items":{
+            "both": [
+                "subsuit_xl",
+                "footrags",
+                "hat_noise_cancelling"
+            ],
+            "male": [
+                "briefs"
+            ],
+            "female": [
+                "bra",
+                "panties"
+            ]
+        }
     },
     {
         "type" : "profession",
@@ -3387,6 +3436,68 @@
                 "762_51",
                 "katana",
                 "scabbard"
+            ],
+            "male": [
+                "boxer_shorts"
+            ],
+            "female": [
+                "sports_bra",
+                "panties"
+            ]
+        },
+        "flags" : ["SCEN_ONLY"]
+    },
+    {
+        "type": "profession",
+        "ident": "winter_army",
+        "name" : "Military Holdout",
+        "description" : "You must have paid attention to your survival training in boot camp, otherwise you would never have lived long enough to outlast the chain of command and find yourself in this predicament.  The only mission left now is to survive.",
+        "points" : 6,
+        "skills": [
+            {
+                "level": 4,
+                "name": "survival"
+            },
+            {
+                "level": 4,
+                "name": "gun"
+            },
+            {
+                "level": 3,
+                "name": "rifle"
+            },
+            {
+                "level" : 3,
+                "name" : "melee"
+            },
+            {
+                "level": 1,
+                "name": "firstaid"
+            }
+        ],
+
+        "items": {
+            "both": [
+                "socks",
+                "pants_army",
+                "jacket_army",
+                "balclava",
+                "boots_combat",
+                "gloves_tactical",
+                "chestrig",
+                "tac_helmet",
+                "sheath",
+                "canteen",
+                "shoulder_strap",
+                "m4a1",
+                "556",
+                "556",
+                "556",
+                "bayonet",
+                "spare_mag",
+                "mil_mess_kit",
+                "knife_combat",
+                "quikclot"
             ],
             "male": [
                 "boxer_shorts"

@@ -62,18 +62,12 @@ struct weight_compare {
     }
 };
 
+const std::map<std::string, m_size> Creature::size_map = {
+    {"TINY", MS_TINY}, {"SMALL", MS_SMALL}, {"MEDIUM", MS_MEDIUM},
+    {"LARGE", MS_LARGE}, {"HUGE", MS_HUGE} };
+
 Creature::Creature()
 {
-    str_max = 0;
-    dex_max = 0;
-    per_max = 0;
-    int_max = 0;
-    str_cur = 0;
-    dex_cur = 0;
-    per_cur = 0;
-    int_cur = 0;
-    healthy = 0;
-    healthy_mod = 0;
     moves = 0;
     pain = 0;
     killer = NULL;
@@ -100,12 +94,6 @@ void Creature::reset()
 }
 void Creature::reset_bonuses()
 {
-    // Reset all bonuses to 0 and mults to 1.0
-    str_bonus = 0;
-    dex_bonus = 0;
-    per_bonus = 0;
-    int_bonus = 0;
-
     num_blocks = 1;
     num_dodges = 1;
     num_blocks_bonus = 0;
@@ -131,29 +119,9 @@ void Creature::reset_bonuses()
 
 void Creature::reset_stats()
 {
-    // Reset our stats to normal levels
-    // Any persistent buffs/debuffs will take place in effects,
-    // player::suffer(), etc.
-
-    // repopulate the stat fields
-    str_cur = str_max + get_str_bonus();
-    dex_cur = dex_max + get_dex_bonus();
-    per_cur = per_max + get_per_bonus();
-    int_cur = int_max + get_int_bonus();
-
-    // Floor for our stats.  No stat changes should occur after this!
-    if (dex_cur < 0) {
-        dex_cur = 0;
-    }
-    if (str_cur < 0) {
-        str_cur = 0;
-    }
-    if (per_cur < 0) {
-        per_cur = 0;
-    }
-    if (int_cur < 0) {
-        int_cur = 0;
-    }
+    // "Creatures" have no stats!
+    // This only exists to simplify cleanup
+    // TODO: Make this not exist
 }
 
 void Creature::process_turn()
@@ -180,13 +148,6 @@ bool Creature::digging() const
 
 bool Creature::sees( const Creature &critter ) const
 {
-    int junk1, junk2;
-    return sees( critter, junk1, junk2 );
-}
-
-extern bool debug_mode;
-bool Creature::sees( const Creature &critter, int &bresen1, int &bresen2 ) const
-{
     if( critter.is_hallucination() ) {
         // hallucinations are imaginations of the player character, npcs or monsters don't hallucinate.
         // Invisible hallucinations would be pretty useless (nobody would see them at all), therefor
@@ -200,49 +161,35 @@ bool Creature::sees( const Creature &critter, int &bresen1, int &bresen2 ) const
         return p == this;
     }
 
-    if( posz() != critter.posz() && !debug_mode ) {
-        return false; // TODO: Remove this
-    }
-
-    const int wanted_range = rl_dist( pos3(), critter.pos3() );
-    if( wanted_range <= 1 ) {
-        return true;
-    } else if( ( wanted_range > 1 && critter.digging() ) ||
-        ( g->m.is_divable( critter.pos3() ) && critter.is_underwater() && !is_underwater() ) ) {
+    if( !fov_3d && posz() != critter.posz() ) {
         return false;
     }
 
-    return sees( critter.pos3(), bresen1, bresen2 );
-}
+    const int wanted_range = rl_dist( pos(), critter.pos() );
+    if( wanted_range <= 1 &&
+        ( posz() == critter.posz() || g->m.valid_move( pos(), critter.pos(), false, true ) ) ) {
+        return true;
+    } else if( ( wanted_range > 1 && critter.digging() ) ||
+        ( critter.is_underwater() && !is_underwater() && g->m.is_divable( critter.pos3() ) ) ) {
+        return false;
+    }
 
-bool Creature::sees( const Creature &critter, int &bresenham_slope ) const
-{
-    int bresen2;
-    return sees( critter, bresenham_slope, bresen2 );
+    return sees( critter.pos(), critter.is_player() );
 }
 
 bool Creature::sees( const int tx, const int ty ) const
 {
-    int bresen1, bresen2;
-    return sees( tripoint( tx, ty, posz() ), bresen1, bresen2 );
+    return sees( tripoint( tx, ty, posz() ) );
 }
 
 bool Creature::sees( const point t ) const
 {
-    int bresen1, bresen2;
-    return sees( tripoint( t, posz() ), bresen1, bresen2 );
+    return sees( tripoint( t, posz() ) );
 }
 
-bool Creature::sees( const int tx, const int ty, int &bresenham_slope ) const
-{
-    int junk;
-    return sees( tripoint( tx, ty, posz() ), bresenham_slope, junk );
-}
-
-bool Creature::sees( const tripoint &t, int &bresen1, int &bresen2 ) const
+bool Creature::sees( const tripoint &t, bool is_player ) const
 {
     // TODO: FoV update
-    bresen2 = 0;
     if( posz() != t.z ) {
         return false;
     }
@@ -254,21 +201,22 @@ bool Creature::sees( const tripoint &t, int &bresen1, int &bresen2 ) const
     if( wanted_range <= range_min ||
         ( wanted_range <= range_day &&
           g->m.ambient_light_at( t ) > g->natural_light_level() ) ) {
+        int range = 0;
         if( g->m.ambient_light_at( t ) > g->natural_light_level() ) {
-            return g->m.sees( pos3(), t, wanted_range, bresen1, bresen2 );
+            range = wanted_range;
         } else {
-            return g->m.sees( pos3(), t, range_min, bresen1, bresen2 );
+            range = range_min;
+        }
+        if( is_player ) {
+            // Special case monster -> player visibility, forcing it to be symmetric with player vision.
+            return range >= wanted_range &&
+                g->m.get_cache_ref(pos().z).seen_cache[pos().x][pos().y] > LIGHT_TRANSPARENCY_SOLID;
+        } else {
+            return g->m.sees( pos3(), t, range );
         }
     } else {
         return false;
     }
-}
-
-bool Creature::sees( const tripoint &t ) const
-{
-    // TODO: FoV update
-    int junk1, junk2;
-    return sees( t, junk1, junk2 );
 }
 
 // Helper function to check if potential area of effect of a weapon overlaps vehicle
@@ -469,42 +417,62 @@ void Creature::deal_melee_hit(Creature *source, int hit_spread, bool critical_hi
     dealt_dam.bp_hit = bp_hit;
 }
 
-// TODO: check this over, see if it's right
 /**
  * Attempts to harm a creature with a projectile.
  *
  * @param source Pointer to the creature who shot the projectile.
- * @param missed_by Deviation of the projectile.
- * @param proj Reference to the projectile hitting the creature.
- * @param dealt_dam A reference storing the damage dealt.
- * @return 0 signals that the projectile should stop,
- *         1 signals that the projectile should not stop (i.e. dodged, passed through).
+ * @param attack A structure describing the attack and its results.
  */
-int Creature::deal_projectile_attack(Creature *source, double missed_by,
-                                     const projectile &proj, dealt_damage_instance &dealt_dam)
+void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack &attack )
 {
-    bool u_see_this = g->u.sees(*this);
-    body_part bp_hit;
+    const double missed_by = attack.missed_by;
+    if( missed_by >= 1.0 ) {
+        // Total miss
+        return;
+    }
 
-    // do 10,speed because speed could potentially be > 10000
-    if (dodge_roll() >= dice(10, proj.speed)) {
-        if (is_player())
-            add_msg(_("You dodge %s projectile!"),
-                    source->disp_name(true).c_str());
-        else if (u_see_this)
-            add_msg(_("%s dodges %s projectile."),
-                    disp_name().c_str(), source->disp_name(true).c_str());
-        return 1;
+    const projectile &proj = attack.proj;
+    dealt_damage_instance &dealt_dam = attack.dealt_dam;
+    const auto &proj_effects = proj.proj_effects;
+
+    const bool u_see_this = g->u.sees(*this);
+
+    const int avoid_roll = dodge_roll();
+    // Do dice(10, speed) instead of dice(speed, 10) because speed could potentially be > 10000
+    const int diff_roll = dice( 10, proj.speed );
+    // Partial dodge, capped at [0.0, 1.0], added to missed_by
+    const double dodge_rescaled = avoid_roll / static_cast<double>( diff_roll );
+    const double goodhit = missed_by + std::max( 0.0, std::min( 1.0, dodge_rescaled ) ) ;
+
+    if( goodhit >= 1.0 ) {
+        // "Avoid" rather than "dodge", because it includes removing self from the line of fire
+        //  rather than just Matrix-style bullet dodging
+        if( source != nullptr && g->u.sees( *source ) ) {
+            add_msg_player_or_npc(
+                m_warning,
+                _("You avoid %s projectile!"),
+                _("<npcname> avoids %s projectile."),
+                source->disp_name(true).c_str() );
+        } else {
+            add_msg_player_or_npc(
+                m_warning,
+                _("You avoid an incoming projectile!"),
+                _("<npcname> avoids an incoming projectile.") );
+        }
+
+        attack.missed_by = 1.0; // Arbitrary value
+        return;
     }
 
     // Bounce applies whether it does damage or not.
-    if (proj.proj_effects.count("BOUNCE")) {
+    if( proj.proj_effects.count( "BOUNCE" ) ) {
         add_effect("bounced", 1);
     }
 
+    body_part bp_hit;
     double hit_value = missed_by + rng_float(-0.5, 0.5);
-    // headshots considered elsewhere
-    if (hit_value <= 0.4) {
+    // Headshots considered elsewhere
+    if( hit_value <= 0.4 ) {
         bp_hit = bp_torso;
     } else if (one_in(4)) {
         if( one_in(2)) {
@@ -520,43 +488,43 @@ int Creature::deal_projectile_attack(Creature *source, double missed_by,
         }
     }
 
-    double monster_speed_penalty = std::max(double(get_speed()) / 80., 1.0);
-    double goodhit = missed_by / monster_speed_penalty;
     double damage_mult = 1.0;
 
     std::string message = "";
     game_message_type gmtSCTcolor = m_neutral;
 
-    if (goodhit <= .1) {
+    if( goodhit < 0.1 ) {
         message = _("Headshot!");
-        source->add_msg_if_player(m_good, message.c_str());
         gmtSCTcolor = m_headshot;
         damage_mult *= rng_float(2.45, 3.35);
         bp_hit = bp_head; // headshot hits the head, of course
-    } else if (goodhit <= .2) {
+    } else if( goodhit < 0.2 ) {
         message = _("Critical!");
-        source->add_msg_if_player(m_good, message.c_str());
         gmtSCTcolor = m_critical;
         damage_mult *= rng_float(1.75, 2.3);
-    } else if (goodhit <= .4) {
+    } else if( goodhit < 0.4 ) {
         message = _("Good hit!");
-        source->add_msg_if_player(m_good, message.c_str());
         gmtSCTcolor = m_good;
         damage_mult *= rng_float(1, 1.5);
-    } else if (goodhit <= .6) {
+    } else if( goodhit < 0.6 ) {
         damage_mult *= rng_float(0.5, 1);
-    } else if (goodhit <= .8) {
+    } else if( goodhit < 0.8 ) {
         message = _("Grazing hit.");
-        source->add_msg_if_player(m_good, message.c_str());
         gmtSCTcolor = m_grazing;
         damage_mult *= rng_float(0, .25);
     } else {
         damage_mult *= 0;
     }
 
+    if( source != nullptr && !message.empty() ) {
+        source->add_msg_if_player(m_good, message.c_str());
+    }
+
+    attack.missed_by = goodhit;
+
     // copy it, since we're mutating
     damage_instance impact = proj.impact;
-    if( item(proj.ammo->id, 0).has_flag("NOGIB") ) {
+    if( proj_effects.count("NOGIB") > 0 ) {
         impact.add_effect("NOGIB");
     }
     impact.mult_damage(damage_mult);
@@ -592,6 +560,16 @@ int Creature::deal_projectile_attack(Creature *source, double missed_by,
             add_effect("onfire", rng(10, 10));
         }
     }
+
+    if( bp_hit == bp_head && proj_effects.count( "BLINDS_EYES" ) ) {
+        // TODO: Change this to require bp_eyes
+        add_env_effect( "blind", bp_eyes, 5, rng( 3, 10 ) );
+    }
+
+    if( proj_effects.count( "APPLY_SAP" ) ) {
+        add_effect( "sap", dealt_dam.total_damage() );
+    }
+
     int stun_strength = 0;
     if (proj.proj_effects.count("BEANBAG")) {
         stun_strength = 4;
@@ -624,15 +602,22 @@ int Creature::deal_projectile_attack(Creature *source, double missed_by,
     }
 
     if(u_see_this) {
-        if (damage_mult == 0) {
-            if(source != NULL) {
-                add_msg(source->is_player() ? _("You miss!") : _("The shot misses!"));
+        if( damage_mult == 0 ) {
+            if( source != nullptr ) {
+                add_msg( source->is_player() ? _("You miss!") : _("The shot misses!") );
             }
-        } else if (dealt_dam.total_damage() == 0) {
-            add_msg(_("The shot reflects off %s %s!"), disp_name(true).c_str(),
+        } else if( dealt_dam.total_damage() == 0 ) {
+            //~ 1$ - monster name, 2$ - monster's bodypart
+            add_msg(_("The shot reflects off %1$s %2$s!"), disp_name(true).c_str(),
                     skin_name().c_str());
-        } else if (source != NULL) {
-            if (source->is_player()) {
+        } else if( is_player() ) {
+                //monster hits player ranged
+                //~ Hit message. 1$s is bodypart name in accusative. 2$d is damage value.
+                add_msg_if_player(m_bad, _( "You were hit in the %1$s for %2$d damage." ),
+                                  body_part_name_accusative(bp_hit).c_str( ),
+                                  dealt_dam.total_damage());
+        } else if( source != nullptr ) {
+            if( source->is_player() ) {
                 //player hits monster ranged
                 SCT.add(posx(), posy(),
                         direction_from(0, 0, posx() - source->posx(), posy() - source->posy()),
@@ -651,21 +636,16 @@ int Creature::deal_projectile_attack(Creature *source, double missed_by,
 
                 add_msg(m_good, _("You hit %s for %d damage."),
                         disp_name().c_str(), dealt_dam.total_damage());
-
-            } else if(this->is_player()) {
-                //monster hits player ranged
-                //~ Hit message. 1$s is bodypart name in accusative. 2$d is damage value.
-                add_msg_if_player(m_bad, _( "You were hit in the %1$s for %2$d damage." ),
-                                  body_part_name_accusative(bp_hit).c_str( ),
-                                  dealt_dam.total_damage());
             } else if( u_see_this ) {
-                add_msg(_("%s shoots %s."),
+                //~ 1$ - shooter, 2$ - target
+                add_msg(_("%1$s shoots %2$s."),
                         source->disp_name().c_str(), disp_name().c_str());
             }
         }
     }
     check_dead_state();
-    return 0;
+    attack.hit_critter = this;
+    attack.missed_by = goodhit;
 }
 
 dealt_damage_instance Creature::deal_damage(Creature *source, body_part bp,
@@ -885,7 +865,7 @@ void Creature::add_effect( efftype_id eff_id, int dur, body_part bp,
                                            effect_types[eff_id].get_apply_memorial_log().c_str()));
         }
         // Perform any effect addition effects.
-        bool reduced = has_effect(e.get_resist_effect()) || has_trait(e.get_resist_trait());
+        bool reduced = resists_effect(e);
         add_eff_effects(e, reduced);
     }
 }
@@ -1010,29 +990,25 @@ void Creature::process_effects()
     }
 }
 
+bool Creature::resists_effect(effect e)
+{
+    for (auto &i : e.get_resist_effects()) {
+        if (has_effect(i)) {
+            return true;
+        }
+    }
+    for (auto &i : e.get_resist_traits()) {
+        if (has_trait(i)) {
+            return true;
+        }
+    }
+    return false;
+}
+
 bool Creature::has_trait(const std::string &flag) const
 {
     (void)flag;
     return false;
-}
-
-void Creature::update_health(int base_threshold)
-{
-    if (get_healthy_mod() > 200) {
-        set_healthy_mod(200);
-    } else if (get_healthy_mod() < -200) {
-        set_healthy_mod(-200);
-    }
-    int roll = rng(-100, 100);
-    base_threshold += get_healthy() - get_healthy_mod();
-    if (roll > base_threshold) {
-        mod_healthy(1);
-    } else if (roll < base_threshold) {
-        mod_healthy(-1);
-    }
-    set_healthy_mod(get_healthy_mod() * 3 / 4);
-
-    add_msg( m_debug, "Health: %d, Health mod: %d", get_healthy(), get_healthy_mod());
 }
 
 // Methods for setting/getting misc key/value pairs.
@@ -1099,74 +1075,6 @@ void Creature::set_killer( Creature * const killer )
     if( killer != nullptr && !killer->is_fake() && this->killer == nullptr ) {
         this->killer = killer;
     }
-}
-
-/*
- * Innate stats getters
- */
-
-// get_stat() always gets total (current) value, NEVER just the base
-// get_stat_bonus() is always just the bonus amount
-int Creature::get_str() const
-{
-    return std::max(0, str_max + str_bonus);
-}
-int Creature::get_dex() const
-{
-    return std::max(0, dex_max + dex_bonus);
-}
-int Creature::get_per() const
-{
-    return std::max(0, per_max + per_bonus);
-}
-int Creature::get_int() const
-{
-    return std::max(0, int_max + int_bonus);
-}
-
-int Creature::get_str_base() const
-{
-    return str_max;
-}
-int Creature::get_dex_base() const
-{
-    return dex_max;
-}
-int Creature::get_per_base() const
-{
-    return per_max;
-}
-int Creature::get_int_base() const
-{
-    return int_max;
-}
-
-
-
-int Creature::get_str_bonus() const
-{
-    return str_bonus;
-}
-int Creature::get_dex_bonus() const
-{
-    return dex_bonus;
-}
-int Creature::get_per_bonus() const
-{
-    return per_bonus;
-}
-int Creature::get_int_bonus() const
-{
-    return int_bonus;
-}
-
-int Creature::get_healthy() const
-{
-    return healthy;
-}
-int Creature::get_healthy_mod() const
-{
-    return healthy_mod;
 }
 
 int Creature::get_num_blocks() const
@@ -1239,11 +1147,11 @@ int Creature::get_speed_base() const
 }
 int Creature::get_dodge_base() const
 {
-    return (get_dex() / 2);
+    return 0;
 }
 int Creature::get_hit_base() const
 {
-    return (get_dex() / 4) + 3;
+    return 0;
 }
 int Creature::get_speed_bonus() const
 {
@@ -1293,75 +1201,9 @@ int Creature::get_throw_resist() const
     return throw_resist;
 }
 
-/*
- * Innate stats setters
- */
-
-void Creature::set_str_bonus(int nstr)
+void Creature::mod_stat( const std::string &stat, int modifier )
 {
-    str_bonus = nstr;
-}
-void Creature::set_dex_bonus(int ndex)
-{
-    dex_bonus = ndex;
-}
-void Creature::set_per_bonus(int nper)
-{
-    per_bonus = nper;
-}
-void Creature::set_int_bonus(int nint)
-{
-    int_bonus = nint;
-}
-void Creature::mod_str_bonus(int nstr)
-{
-    str_bonus += nstr;
-}
-void Creature::mod_dex_bonus(int ndex)
-{
-    dex_bonus += ndex;
-}
-void Creature::mod_per_bonus(int nper)
-{
-    per_bonus += nper;
-}
-void Creature::mod_int_bonus(int nint)
-{
-    int_bonus += nint;
-}
-
-void Creature::set_healthy(int nhealthy)
-{
-    healthy = nhealthy;
-}
-void Creature::mod_healthy(int nhealthy)
-{
-    healthy += nhealthy;
-}
-void Creature::set_healthy_mod(int nhealthy_mod)
-{
-    healthy_mod = nhealthy_mod;
-}
-void Creature::mod_healthy_mod(int nhealthy_mod)
-{
-    healthy_mod += nhealthy_mod;
-}
-
-void Creature::mod_stat( std::string stat, int modifier )
-{
-    if( stat == "str" ) {
-        mod_str_bonus( modifier );
-    } else if( stat == "dex" ) {
-        mod_dex_bonus( modifier );
-    } else if( stat == "per" ) {
-        mod_per_bonus( modifier );
-    } else if( stat == "int" ) {
-        mod_int_bonus( modifier );
-    } else if( stat == "healthy" ) {
-        mod_healthy( modifier );
-    } else if( stat == "healthy_mod" ) {
-        mod_healthy_mod( modifier );
-    } else if( stat == "speed" ) {
+    if( stat == "speed" ) {
         mod_speed_bonus( modifier );
     } else if( stat == "dodge" ) {
         mod_dodge_bonus( modifier );
@@ -1478,7 +1320,7 @@ void Creature::set_throw_resist(int nthrowres)
 
 int Creature::weight_capacity() const
 {
-    int base_carry = 13000 + get_str() * 4000;
+    int base_carry = 13000;
     switch( get_size() ) {
     case MS_TINY:
         base_carry /= 4;
@@ -1558,7 +1400,6 @@ body_part Creature::select_body_part(Creature *source, int hit_roll) const
     add_msg( m_debug, "difference = %d", szdif );
 
     std::map<body_part, double> hit_weights = default_hit_weights[szdif];
-    std::map<body_part, double>::iterator iter;
 
     // If the target is on the ground, even small/tiny creatures may target eyes/head. Also increases chances of larger creatures.
     // Any hit modifiers to locations should go here. (Tags, attack style, etc)

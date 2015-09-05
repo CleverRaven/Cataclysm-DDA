@@ -35,10 +35,9 @@
         "type" : "technique",
         "id" : "DEF_DISARM",
         "name" : "disarm",
-        "messages" : [
-            "You disarm %s",
-            "<npcname> disarms %s"
-        ]
+        "min_unarmed" : 0,
+        "melee_allowed" : true,
+        "disarms" : true
     },{
         "type" : "technique",
         "id" : "GRAB",

@@ -23,9 +23,16 @@ void load_technique(JsonObject &jo)
         tec.name = _(tec.name.c_str());
     }
 
-    JsonArray jsarr = jo.get_array("messages");
-    while (jsarr.has_more()) {
-        tec.messages.push_back(_(jsarr.next_string().c_str()));
+    if( jo.has_member( "messages" ) ) {
+        JsonArray jsarr = jo.get_array("messages");
+        tec.player_message = jsarr.get_string( 0 );
+        if( !tec.player_message.empty() ) {
+            tec.player_message = _(tec.player_message.c_str());
+        }
+        tec.npc_message = jsarr.get_string( 1 );
+        if( !tec.npc_message.empty() ) {
+            tec.npc_message = _(tec.npc_message.c_str());
+        }
     }
 
     tec.reqs.unarmed_allowed = jo.get_bool("unarmed_allowed", false);
@@ -403,11 +410,12 @@ bool ma_requirements::is_valid_player( const player &u ) const
                   (melee_allowed && !u.unarmed_attack() && is_valid_weapon(u.weapon)) ||
                   (u.has_weapon() && martialarts[u.style_selected].has_weapon(u.weapon.type->id) &&
                    is_valid_weapon(u.weapon))) &&
-                 ((u.get_skill_level("melee") >= min_melee &&
-                   u.get_skill_level("unarmed") >= min_unarmed &&
-                   u.get_skill_level("bashing") >= min_bashing &&
-                   u.get_skill_level("cutting") >= min_cutting &&
-                   u.get_skill_level("stabbing") >= min_stabbing) || cqb);
+                   // TODO: same list as in player.cpp
+                 ((u.get_skill_level(skill_id("melee")) >= min_melee &&
+                   u.get_skill_level(skill_id("unarmed")) >= min_unarmed &&
+                   u.get_skill_level(skill_id("bashing")) >= min_bashing &&
+                   u.get_skill_level(skill_id("cutting")) >= min_cutting &&
+                   u.get_skill_level(skill_id("stabbing")) >= min_stabbing) || cqb);
 
     return valid;
 }
@@ -686,21 +694,6 @@ bool martialart::has_weapon(itype_id item) const
     return weapons.count(item);
 }
 
-std::string martialart::melee_verb(matec_id tec_id,  const player &u )
-{
-    for( const auto &elem : techniques ) {
-        const ma_technique &tec = elem.obj();
-        if (tec.id == tec_id) {
-            if (u.is_npc()) {
-                return tec.messages[1];
-            } else {
-                return tec.messages[0];
-            }
-        }
-    }
-    return std::string("%s is attacked by bugs");
-}
-
 // Player stuff
 
 // technique
@@ -738,10 +731,10 @@ bool player::has_grab_break_tec() const
     return false;
 }
 
-bool player::can_leg_block()
+bool player::can_leg_block() const
 {
     const martialart &ma = style_selected.obj();
-    int unarmed_skill = has_active_bionic("bio_cqb") ? 5 : (int)skillLevel("unarmed");
+    int unarmed_skill = has_active_bionic("bio_cqb") ? 5 : (int)get_skill_level(skill_id("unarmed"));
 
     // Success conditions.
     if(hp_cur[hp_leg_l] > 0 || hp_cur[hp_leg_r] > 0) {
@@ -755,10 +748,10 @@ bool player::can_leg_block()
     return false;
 }
 
-bool player::can_arm_block()
+bool player::can_arm_block() const
 {
     const martialart &ma = style_selected.obj();
-    int unarmed_skill = has_active_bionic("bio_cqb") ? 5 : (int)skillLevel("unarmed");
+    int unarmed_skill = has_active_bionic("bio_cqb") ? 5 : (int)get_skill_level(skill_id("unarmed"));
 
     // Success conditions.
     if (hp_cur[hp_arm_l] > 0 || hp_cur[hp_arm_r] > 0) {
@@ -772,7 +765,7 @@ bool player::can_arm_block()
     return false;
 }
 
-bool player::can_limb_block()
+bool player::can_limb_block() const
 {
     return can_arm_block() || can_leg_block();
 }

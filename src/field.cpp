@@ -1002,7 +1002,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                 smoke += 2;
                                 if( cur->getFieldDensity() > 1 &&
                                     one_in( 200 - cur->getFieldDensity() * 50 ) ) {
-                                    destroy( p, true );
+                                    destroy( p, false );
                                 }
 
                             } else if( ter_furn_has_flag( ter, frn, TFLAG_FLAMMABLE_HARD ) &&
@@ -1012,7 +1012,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                 smoke += 2;
                                 if( cur->getFieldDensity() > 1 &&
                                     one_in( 200 - cur->getFieldDensity() * 50 ) ) {
-                                    destroy( p, true );
+                                    destroy( p, false );
                                 }
 
                             } else if( ter_furn_has_flag( ter, frn, TFLAG_FLAMMABLE_ASH ) ) {
@@ -1507,7 +1507,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                         body_part hit = random_body_part();
                                         p->deal_damage( nullptr, hit, damage_instance( DT_BASH, 6 ) );
                                         if (g->u.sees( newp )) {
-                                            add_msg(_("A %s hits %s!"), tmp.tname().c_str(), p->name.c_str());
+                                            add_msg(_("A %1$s hits %2$s!"), tmp.tname().c_str(), p->name.c_str());
                                         }
                                         p->check_dead_state();
                                     }
@@ -1516,7 +1516,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                         monster *mon = &(g->zombie(mondex));
                                         mon->apply_damage( nullptr, bp_torso, 6 - mon->get_armor_bash( bp_torso ) );
                                         if (g->u.sees( newp ))
-                                            add_msg(_("A %s hits the %s!"), tmp.tname().c_str(),
+                                            add_msg(_("A %1$s hits the %2$s!"), tmp.tname().c_str(),
                                                        mon->name().c_str());
                                         mon->check_dead_state();
                                     }
@@ -2362,7 +2362,7 @@ void map::monster_in_field( monster &z )
                     int mon_hit = g->mon_at(newpos);
                     if (mon_hit != -1) {
                         if (g->u.sees(z)) {
-                            add_msg(_("The %s teleports into a %s, killing them both!"),
+                            add_msg(_("The %1$s teleports into a %2$s, killing them both!"),
                                        z.name().c_str(), g->zombie(mon_hit).name().c_str());
                         }
                         g->zombie( mon_hit ).die_in_explosion( &z );

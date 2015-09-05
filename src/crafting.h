@@ -5,6 +5,7 @@
 #include "requirements.h" // requirement_data
 #include "bodypart.h"     // handedness::NONE
 #include "cursesdef.h"    // WINDOW
+#include "string_id.h"
 
 #include <string>
 #include <vector>
@@ -13,6 +14,7 @@
 
 class JsonObject;
 class Skill;
+using skill_id = string_id<Skill>;
 class inventory;
 class player;
 struct recipe;
@@ -51,8 +53,8 @@ struct recipe {
     std::string cat;
     bool contained; // Does the item spawn contained?
     std::string subcat;
-    const Skill* skill_used;
-    std::map<const Skill*, int> required_skills;
+    skill_id skill_used;
+    std::map<skill_id, int> required_skills;
     bool reversible; // can the item be disassembled?
     bool autolearn; // do we learn it just by leveling skills?
     int learn_by_disassembly; // what level (if any) do we learn it by disassembly?
@@ -80,13 +82,6 @@ struct recipe {
 
     ~recipe();
     recipe();
-    recipe(std::string pident, int pid, itype_id pres, std::string pcat,
-           bool pcontained,std::string psubcat, std::string &to_use,
-           std::map<std::string, int> &to_require,
-           bool preversible, bool pautolearn, int plearn_dis,
-           int pmult, bool ppaired, std::vector<byproduct> &bps,
-           int time, int difficulty, double batch_rscale,
-           int batch_rsize);
 
     // Create an item instance as if the recipe was just finished,
     // Contain charges multiplier

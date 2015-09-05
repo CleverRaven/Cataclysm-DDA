@@ -69,8 +69,9 @@ class ma_technique
 
         std::set<std::string> flags;
 
-        // message to be displayed when player (0) or npc (1) uses the technique
-        std::vector<std::string> messages;
+        // message to be displayed when player or npc uses the technique
+        std::string player_message;
+        std::string npc_message;
 
         bool defensive;
         bool dummy;
@@ -247,8 +248,6 @@ class martialart
         bool has_technique( const player &u, matec_id tech ) const;
         // determines if a weapon is valid for this style
         bool has_weapon(std::string item) const;
-        // gets custom melee string for a technique under this style
-        std::string melee_verb(matec_id tech,  const player &u );
 
         matype_id id;
         std::string name;

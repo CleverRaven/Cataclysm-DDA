@@ -99,19 +99,19 @@ weather_datum const& weather_data(weather_type const type)
             &weather_effect::none
         },
         weather_datum {
-            _("Drizzle"), c_ltblue, 1, 1.03, -20, 1, true,
+            _("Drizzle"), c_ltblue, 1, 1.03, -20, 1, false,
             &weather_effect::wet
         },
         weather_datum {
-            _("Rain"), c_blue, 3, 1.1, -30, 4, true,
+            _("Rain"), c_blue, 3, 1.1, -30, 4, false,
             &weather_effect::very_wet
         },
         weather_datum {
-            _("Thunder Storm"), c_dkgray, 4, 1.2, -40, 8, true,
+            _("Thunder Storm"), c_dkgray, 4, 1.2, -40, 8, false,
             &weather_effect::thunder
         },
         weather_datum {
-            _("Lightning Storm"), c_yellow, 4, 1.25, -45, 8, true,
+            _("Lightning Storm"), c_yellow, 4, 1.25, -45, 8, false,
             &weather_effect::lightning
         },
         weather_datum {
@@ -123,15 +123,15 @@ weather_datum const& weather_data(weather_type const type)
             &weather_effect::acid
         },
         weather_datum {
-            _("Flurries"), c_white, 2, 1.12, -15, 2, true,
+            _("Flurries"), c_white, 2, 1.12, -15, 2, false,
             &weather_effect::flurry
         },
         weather_datum {
-            _("Snowing"), c_white, 4, 1.13, -20, 4, true,
+            _("Snowing"), c_white, 4, 1.13, -20, 4, false,
             &weather_effect::snow
         },
         weather_datum {
-            _("Snowstorm"), c_white, 6, 1.2, -30, 6, true,
+            _("Snowstorm"), c_white, 6, 1.2, -30, 6, false,
             &weather_effect::snowstorm
         }
     }};

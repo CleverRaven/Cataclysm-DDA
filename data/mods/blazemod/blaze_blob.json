@@ -161,7 +161,7 @@
         "location" : "on_roof",
         "flags" : ["TURRET", "CARGO", "TOOL_NONE"],
         "breaks_into" : [
-            {"item": "blobshootergrow", "min": 1, "max": 1}
+            {"item": "blobshootergrow"}
         ]
     },
     {
@@ -182,7 +182,7 @@
         "location" : "on_roof",
         "flags" : ["TURRET", "CARGO", "TOOL_NONE"],
         "breaks_into" : [
-            {"item": "blobdartergrow", "min": 1, "max": 1}
+            {"item": "blobdartergrow"}
         ]
     },
     {
@@ -202,7 +202,7 @@
         "location" : "on_roof",
         "flags" : ["TURRET", "TOOL_NONE"],
         "breaks_into" : [
-            {"item": "blobspittergrow", "min": 1, "max": 1}
+            {"item": "blobspittergrow"}
         ]
     },
     {
@@ -223,7 +223,7 @@
         "location" : "on_roof",
         "flags" : ["TURRET", "CARGO", "TOOL_NONE"],
         "breaks_into" : [
-            {"item": "blobslingergrow", "min": 1, "max": 1}
+            {"item": "blobslingergrow"}
         ]
     },
     {
@@ -243,7 +243,7 @@
         "location" : "on_roof",
         "flags" : ["TURRET", "TOOL_NONE"],
         "breaks_into" : [
-            {"item": "bloblancergrow", "min": 1, "max": 1}
+            {"item": "bloblancergrow"}
         ]
     },
     {
@@ -263,8 +263,8 @@
         "location" : "fuel_source",
         "flags" : ["FUEL_TANK", "TOOL_NONE"],
         "breaks_into" : [
-            {"item": "slime_scrap", "min": 6, "max": 12},
-            {"item": "scrap", "min": 5, "max": 8}
+            {"item": "slime_scrap", "count": [6, 12]},
+            {"item": "scrap", "count": [5, 8]}
         ]
     },
     {
@@ -282,7 +282,7 @@
         "location" : "armor",
         "flags" : ["ARMOR", "TOOL_NONE"],
         "breaks_into" : [
-            {"item": "bplategrow", "min": 1, "max": 1}
+            {"item": "bplategrow"}
         ]
     },
     {
@@ -301,7 +301,7 @@
         "location" : "center",
         "flags" : ["SEAT", "BED", "BOARDABLE", "TOOL_NONE", "BELTABLE"],
         "breaks_into" : [
-            {"item": "bseatgrow", "min": 1, "max": 1}
+            {"item": "bseatgrow"}
         ]
     },{
         "type" : "vehicle_part",
@@ -320,7 +320,7 @@
         "location" : "on_seat",
         "flags" : ["SEATBELT", "TOOL_NONE"],
         "breaks_into" : [
-            {"item": "bharnessgrow", "min": 1, "max": 1}
+            {"item": "bharnessgrow"}
         ]
     },
     {
@@ -339,7 +339,7 @@
         "location" : "structure",
         "flags" : ["MOUNTABLE", "TOOL_NONE"],
         "breaks_into" : [
-            {"item": "bframegrow", "min": 1, "max": 1}
+            {"item": "bframegrow"}
         ]
     },{
         "type" : "vehicle_part",
@@ -357,7 +357,7 @@
         "location" : "under",
         "flags" : ["WHEEL", "TOOL_NONE"],
         "breaks_into" : [
-            {"item": "bwheelgrow", "min": 1, "max": 1}
+            {"item": "bwheelgrow"}
         ]
     },
     {
@@ -378,7 +378,7 @@
         "location" : "structure",
         "flags" : ["ENGINE", "WHEEL", "TOOL_NONE", "PROTRUSION", "STABLE"],
         "breaks_into" : [
-            {"item": "benginegrow", "min": 1, "max": 1}
+            {"item": "benginegrow"}
         ]
     },
     {
@@ -399,7 +399,7 @@
         "location" : "engine_block",
         "flags" : ["ENGINE", "WHEEL", "TOOL_NONE"],
         "breaks_into" : [
-            {"item": "benginegrow", "min": 1, "max": 1}
+            {"item": "benginegrow"}
         ]
     },
 {

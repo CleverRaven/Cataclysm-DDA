@@ -145,25 +145,33 @@ class cata_tiles
         void set_draw_scale(int scale);
     protected:
         /** Load tileset, R,G,B, are the color components of the transparent color
-         * throws std::string on errors. Returns the number of tiles that have
-         * been loaded from this tileset image
+         * Returns the number of tiles that have been loaded from this tileset image
+         * @throw std::exception If the image can not be loaded.
          */
         int load_tileset(std::string path, int R, int G, int B);
 
         /**
          * Load tileset config file (json format).
          * If the tileset uses the old system (one image per tileset) the image
-         * path <B>imagepath</B> is used to load the tileset image.
+         * path <B>image_path</B> is used to load the tileset image.
          * Otherwise (the tileset uses the new system) the image pathes
          * are loaded from the json entries.
-         * throws std::string on errors.
+         * @throw std::exception On any error.
+         * @param tileset_root Path to tileset root directory.
+         * @param json_conf Path to json config inside tileset_root.
+         * @param image_path Path to tiles image inside tileset_root.
          */
-        void load_tilejson(std::string path, const std::string &imagepath);
+        void load_tilejson(std::string tileset_root, std::string json_conf, const std::string &image_path);
 
         /**
-         * throws std::string on errors.
+         * Try to load json tileset config. If json valid it lookup
+         * it parses it and load tileset.
+         * @throw std::exception On errors in the tileset definition.
+         * @param tileset_dir Path to tileset root directory.
+         * @param f File stream to read from.
+         * @param image_path
          */
-        void load_tilejson_from_file(std::ifstream &f, const std::string &imagepath);
+        void load_tilejson_from_file(const std::string &tileset_dir, std::ifstream &f, const std::string &image_path);
 
         /**
          * Load tiles from json data.This expects a "tiles" array in
@@ -173,7 +181,7 @@ class cata_tiles
          * image, only tile inidizes (tile_type::fg tile_type::bg) in the interval
          * [0,size].
          * The <B>offset</B> is automatically added to the tile index.
-         * throws std::string on errors.
+         * @throw std::exception On any error.
          */
         void load_tilejson_from_file(JsonObject &config, int offset, int size);
 
@@ -274,10 +282,17 @@ class cata_tiles
         bool draw_omap();
 
     public:
-        /* initialize from an outside file, throws std::string on errors. */
-        void init(std::string load_file_path);
-        /* Reinitializes the tile context using the original screen information, throws std::string on errors  */
-        void reinit(std::string load_file_path);
+        /**
+         * Initialize the current tileset (load tile images, load mapping), using the current
+         * tileset as it is set in the options.
+         * @throw std::exception On any error.
+         */
+        void init();
+        /**
+         * Reinitializes the current tileset, like @ref init, but using the original screen information.
+         * @throw std::exception On any error.
+         */
+        void reinit();
         int get_tile_height() const { return tile_height; }
         int get_tile_width() const { return tile_width; }
         float get_tile_ratiox() const { return tile_ratiox; }

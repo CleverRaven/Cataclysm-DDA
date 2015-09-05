@@ -32,9 +32,7 @@
 #include "npc.h"
 #include "vehicle.h"
 #include "vehicle_group.h"
-#ifdef LUA
 #include "catalua.h"
-#endif
 
 #ifndef sgn
 #define sgn(x) (((x) < 0) ? -1 : 1)
@@ -67,7 +65,6 @@ const mtype_id mon_hazmatbot( "mon_hazmatbot" );
 const mtype_id mon_hunting_horror( "mon_hunting_horror" );
 const mtype_id mon_kreck( "mon_kreck" );
 const mtype_id mon_mi_go( "mon_mi_go" );
-const mtype_id mon_null( "mon_null" );
 const mtype_id mon_secubot( "mon_secubot" );
 const mtype_id mon_sewer_snake( "mon_sewer_snake" );
 const mtype_id mon_shoggoth( "mon_shoggoth" );
@@ -179,13 +176,13 @@ void map::generate(const int x, const int y, const int z, const int turn)
     }
 
     const overmap_spawns &spawns = terrain_type.t().static_spawns;
-    if( spawns.group != mongroup_id( "GROUP_NULL" ) && x_in_y( spawns.chance, 100 ) ) {
+    if( spawns.group && x_in_y( spawns.chance, 100 ) ) {
         int pop = rng( spawns.min_population, spawns.max_population );
         // place_spawns currently depends on the STATIC_SPAWN world option, this
         // must bypass it.
         for( ; pop > 0; pop-- ) {
             MonsterGroupResult spawn_details = MonsterGroupManager::GetResultFromGroup( spawns.group, &pop );
-            if( spawn_details.name == mon_null ) {
+            if( !spawn_details.name ) {
                 continue;
             }
             int tries = 10;
@@ -308,7 +305,6 @@ mapgen_function * load_mapgen_function(JsonObject &jio, const std::string id_bas
                 debugmsg("oter_t[%s]: Invalid mapgen function (missing \"name\" value).", id_base.c_str(), mgtype.c_str() );
             }
         } else if ( mgtype == "lua" ) { // lua script
-#ifdef LUA
             if ( jio.has_string("script") ) { // minified into one\nline
                 const std::string mgscript = jio.get_string("script");
                 ret = new mapgen_function_lua( mgscript, mgweight );
@@ -327,8 +323,8 @@ mapgen_function * load_mapgen_function(JsonObject &jio, const std::string id_bas
             } else {
                 debugmsg("oter_t[%s]: Invalid mapgen function (missing \"script\" or \"file\" value).", id_base.c_str() );
             }
-#else
-            debugmsg("oter_t[%s]: mapgen entry requires a build with LUA=1.",id_base.c_str() );
+#ifndef LUA
+            dbg( D_ERROR ) << "oter_t " << id_base << ": mapgen entry requires a build with LUA=1.";
 #endif
         } else if ( mgtype == "json" ) {
             if ( jio.has_object("object") ) {
@@ -900,7 +896,7 @@ public:
     {
         const trap_str_id sid( tid );
         if( !sid.is_valid() ) {
-            throw std::string( "unknown trap type" );
+            throw std::runtime_error( "unknown trap type" );
         }
         id = sid.id();
     }
@@ -931,7 +927,7 @@ public:
     {
         const auto iter = furnmap.find( tid );
         if( iter == furnmap.end() ) {
-            throw std::string( "unknown furniture type" );
+            throw std::runtime_error( "unknown furniture type" );
         }
         id = iter->second.loadid;
     }
@@ -961,7 +957,7 @@ public:
     {
         const auto iter = termap.find( tid );
         if( iter == termap.end() ) {
-            throw std::string( "unknown terrain type" );
+            throw std::runtime_error( "unknown terrain type" );
         }
         id = iter->second.loadid;
     }
@@ -1067,9 +1063,9 @@ void load_place_mapings_string( JsonObject &pjo, const std::string &key, mapgen_
     if( pjo.has_string( key ) ) {
         try {
             vect.emplace_back( new PieceType( pjo.get_string( key ) ) );
-        } catch( const std::string &err ) {
+        } catch( const std::runtime_error &err ) {
             // Using the json object here adds nice formatting and context information
-            pjo.throw_error( err, key );
+            pjo.throw_error( err.what(), key );
         }
     } else if( pjo.has_object( key ) ) {
         load_place_mapings<PieceType>( pjo.get_object( key ), vect );
@@ -1079,9 +1075,9 @@ void load_place_mapings_string( JsonObject &pjo, const std::string &key, mapgen_
             if( jarr.test_string() ) {
                 try {
                     vect.emplace_back( new PieceType( jarr.next_string() ) );
-                } catch( const std::string &err ) {
+                } catch( const std::runtime_error &err ) {
                     // Using the json object here adds nice formatting and context information
-                    jarr.throw_error( err );
+                    jarr.throw_error( err.what() );
                 }
             } else {
                 load_place_mapings<PieceType>( jarr.next_object(), vect );
@@ -1106,9 +1102,9 @@ void load_place_mapings_alternatively( JsonObject &pjo, const std::string &key, 
             if( jarr.test_string() ) {
                 try {
                     alter->alternatives.emplace_back( jarr.next_string() );
-                } catch( const std::string &err ) {
+                } catch( const std::runtime_error &err ) {
                     // Using the json object here adds nice formatting and context information
-                    jarr.throw_error( err );
+                    jarr.throw_error( err.what() );
                 }
             } else {
                 JsonObject jsi = jarr.next_object();
@@ -1189,7 +1185,7 @@ bool mapgen_function_json::setup() {
         jsin.eat_whitespace();
         char ch = jsin.peek();
         if ( ch != '{' ) {
-            throw string_format("Bad json:\n%s\n",jdata.substr(0,796).c_str());
+            jsin.error( "Bad json" );
         }
         JsonObject jo = jsin.get_object();
         bool qualifies = false;
@@ -1242,7 +1238,7 @@ bool mapgen_function_json::setup() {
                     }
                 }
             } else {
-                throw string_format("  format: no terrain map\n%s\n",jo.str().substr(0,796).c_str());
+                jsin.error( "format: no terrain map" );
             }
             if ( jo.has_object("furniture") ) {
                 pjo = jo.get_object("furniture");
@@ -1323,11 +1319,7 @@ bool mapgen_function_json::setup() {
 
        if ( jo.has_array("set") ) {
             parray = jo.get_array("set");
-            try {
-                setup_setmap( parray );
-            } catch (std::string smerr) {
-                throw string_format("Bad JSON mapgen set array, discarding:\n    %s\n", smerr.c_str() );
-            }
+            setup_setmap( parray );
        }
         if( jo.has_member( "rotation" ) ) {
             rotation = jmapgen_int( jo, "rotation" );
@@ -1349,8 +1341,6 @@ bool mapgen_function_json::setup() {
         objects.load_objects<jmapgen_monster>( jo, "place_monster" );
         objects.load_objects<jmapgen_make_rubble>( jo, "place_rubble" );
 
-#ifdef LUA
-       // silently ignore if unsupported in build
        if ( jo.has_string("lua") ) { // minified into one\nline
            luascript = jo.get_string("lua");
        } else if ( jo.has_array("lua") ) { // or 1 line per entry array
@@ -1361,9 +1351,8 @@ bool mapgen_function_json::setup() {
                luascript += "\n";
            }
        }
-#endif
 
-    } catch (std::string e) {
+    } catch( const JsonError &e ) {
         debugmsg("Bad JSON mapgen, discarding:\n  %s\n", e.c_str() );
         jdata.clear(); // silently fail further attempts
         return false;
@@ -1469,7 +1458,6 @@ bool jmapgen_setmap::apply( map *m ) {
     return true;
 }
 
-void mapgen_lua(map * m, oter_id id, mapgendata md, int t, float d, const std::string & scr);
 /*
  * Apply mapgen as per a derived-from-json recipe; in theory fast, but not very versatile
  */
@@ -1483,14 +1471,9 @@ void mapgen_function_json::generate( map *m, oter_id terrain_type, mapgendata md
     for( auto &elem : setmap_points ) {
         elem.apply( m );
     }
-#ifdef LUA
     if ( ! luascript.empty() ) {
-        mapgen_lua(m, terrain_type, md, t, d, luascript);
+        lua_mapgen( m, std::string( terrain_type ), md, t, d, luascript );
     }
-#else
-    (void)md;
-    (void)t;
-#endif
 
     objects.apply(m, d);
 
@@ -1521,14 +1504,9 @@ void jmapgen_objects::apply(map *m, float density) const {
 ///// lua mapgen functions
 // wip: need moar bindings. Basic stuff works
 
-/*
- * Apply interpreted script; slowest, more versatile eventually.
- */
-void mapgen_lua(map * m,oter_id id,mapgendata md ,int t,float d, const std::string & scr) {
-#ifdef LUA
-    lua_mapgen(m, std::string(id), md, t, d, scr);
-#else
-    (void)scr;
+#ifndef LUA
+int lua_mapgen( map *m, std::string id, mapgendata md, int t, float d, const std::string & )
+{
     mapgen_crater(m,id,md,t,d);
     mapf::formatted_set_simple(m, 0, 6,
 "\
@@ -1543,16 +1521,14 @@ void mapgen_lua(map * m,oter_id id,mapgendata md ,int t,float d, const std::stri
  *     *   *  ***\n\
  *     *   * *   *\n\
  *****  ***  *   *\n\
-", mapf::basic_bind("*", t_paper), mapf::basic_bind("")); // should never happen: overmap loader skips lua mapgens on !LUA builds.
-
-#endif
+", mapf::basic_bind("*", t_paper), mapf::basic_bind(""));
+    return 0;
 }
+#endif
 
-#ifdef LUA
 void mapgen_function_lua::generate( map *m, oter_id terrain_type, mapgendata dat, int t, float d ) {
-    mapgen_lua(m, terrain_type, dat, t, d, scr );
+    lua_mapgen( m, std::string( terrain_type ), dat, t, d, scr );
 }
-#endif
 
 /////////////
 // TODO: clean up variable shadowing in this function
@@ -11661,7 +11637,7 @@ int map::place_items(items_location loc, int chance, int x1, int y1,
                 tries++;
             } while ( is_valid_terrain(px,py) && tries < 20 );
             if (tries < 20) {
-                item_num += put_items_from_loc( loc, tripoint( px, py, abs_sub.z ), turn );
+                item_num += put_items_from_loc( loc, tripoint( px, py, abs_sub.z ), turn ).size();
             }
         }
         if (chance == 100) {
@@ -11671,11 +11647,10 @@ int map::place_items(items_location loc, int chance, int x1, int y1,
     return item_num;
 }
 
-int map::put_items_from_loc(items_location loc, const tripoint &p, int turn)
+std::vector<item*> map::put_items_from_loc(items_location loc, const tripoint &p, int turn)
 {
     const auto items = item_group::items_from(loc, turn);
-    spawn_items( p, items );
-    return items.size();
+    return spawn_items( p, items );
 }
 
 void map::add_spawn(const mtype_id& type, int count, int x, int y, bool friendly,
@@ -11707,33 +11682,48 @@ void map::add_spawn(const mtype_id& type, int count, int x, int y, bool friendly
     place_on_submap->spawns.push_back(tmp);
 }
 
-vehicle *map::add_vehicle(const vgroup_id & type, const point &p, const int dir,
-    const int veh_fuel, const int veh_status, const bool merge_wrecks)
+vehicle *map::add_vehicle(const vproto_id &type, const int x, const int y, const int dir,
+                          const int veh_fuel, const int veh_status, const bool merge_wrecks)
 {
-    return add_vehicle(type.obj().pick(), p.x, p.y, dir, veh_fuel, veh_status, merge_wrecks);
+    return add_vehicle( type, tripoint( x, y, abs_sub.z ),
+                        dir, veh_fuel, veh_status, merge_wrecks);
 }
 
-vehicle *map::add_vehicle(const vproto_id & type, const int x, const int y, const int dir,
+vehicle *map::add_vehicle(const vgroup_id &type, const point &p, const int dir,
+                          const int veh_fuel, const int veh_status, const bool merge_wrecks)
+{
+    return add_vehicle( type.obj().pick(), tripoint( p.x, p.y, abs_sub.z ),
+                        dir, veh_fuel, veh_status, merge_wrecks);
+}
+
+vehicle *map::add_vehicle(const vgroup_id &type, const tripoint &p, const int dir,
+                          const int veh_fuel, const int veh_status, const bool merge_wrecks)
+{
+    return add_vehicle( type.obj().pick(), p,
+                        dir, veh_fuel, veh_status, merge_wrecks);
+}
+
+vehicle *map::add_vehicle(const vproto_id &type, const tripoint &p, const int dir,
                           const int veh_fuel, const int veh_status, const bool merge_wrecks)
 {
     if( !type.is_valid() ) {
         debugmsg("Nonexistent vehicle type: \"%s\"", type.c_str());
-        return NULL;
+        return nullptr;
     }
-    if (x < 0 || x >= SEEX * my_MAPSIZE || y < 0 || y >= SEEY * my_MAPSIZE) {
-        debugmsg("Out of bounds add_vehicle t=%s d=%d x=%d y=%d", type.c_str(), dir, x, y);
-        return NULL;
+    if( !inbounds( p ) ) {
+        debugmsg("Out of bounds add_vehicle t=%s d=%d p=%d,%d,%d", type.c_str(), dir, p.x, p.y, p.z );
+        return nullptr;
     }
 
-    const int smx = x / SEEX;
-    const int smy = y / SEEY;
+    const int smx = p.x / SEEX;
+    const int smy = p.y / SEEY;
     // debugmsg("n=%d x=%d y=%d MAPSIZE=%d ^2=%d", nonant, x, y, MAPSIZE, MAPSIZE*MAPSIZE);
     vehicle *veh = new vehicle(type, veh_fuel, veh_status);
-    veh->posx = x % SEEX;
-    veh->posy = y % SEEY;
+    veh->posx = p.x % SEEX;
+    veh->posy = p.y % SEEY;
     veh->smx = smx;
     veh->smy = smy;
-    veh->smz = abs_sub.z;
+    veh->smz = p.z;
     veh->place_spawn_items();
     veh->face.init( dir );
     veh->turn_dir = dir;
@@ -11741,9 +11731,10 @@ vehicle *map::add_vehicle(const vproto_id & type, const int x, const int y, cons
 //debugmsg("adding veh: %d, sm: %d,%d,%d, pos: %d, %d", veh, veh->smx, veh->smy, veh->smz, veh->posx, veh->posy);
     vehicle *placed_vehicle = add_vehicle_to_map(veh, merge_wrecks);
 
-    if(placed_vehicle != NULL) {
+    if( placed_vehicle != nullptr ) {
         submap *place_on_submap = get_submap_at_grid( placed_vehicle->smx, placed_vehicle->smy, placed_vehicle->smz );
         place_on_submap->vehicles.push_back(placed_vehicle);
+        place_on_submap->is_uniform = false;
 
         auto &ch = get_cache( placed_vehicle->smz );
         ch.vehicle_list.insert(placed_vehicle);
@@ -11766,32 +11757,39 @@ vehicle *map::add_vehicle_to_map(vehicle *veh, const bool merge_wrecks)
 {
     //We only want to check once per square, so loop over all structural parts
     std::vector<int> frame_indices = veh->all_parts_at_location("structure");
+
+    //Check for boat type vehicles that should be placeable in deep water
+    bool can_float = false;
+    if(veh->all_parts_with_feature("FLOATS").size() > 2){
+        can_float = true;
+    }
+
     for (std::vector<int>::const_iterator part = frame_indices.begin();
          part != frame_indices.end(); part++) {
-        const auto p = veh->global_pos() + veh->parts[*part].precalc[0];
+        const auto p = veh->global_pos3() + veh->parts[*part].precalc[0];
 
         //Don't spawn anything in water
-        if (ter_at(p.x, p.y).has_flag(TFLAG_DEEP_WATER)) {
+        if (ter_at( p ).has_flag(TFLAG_DEEP_WATER) && !can_float) {
             delete veh;
-            return NULL;
+            return nullptr;
         }
 
         // Don't spawn shopping carts on top of another vehicle or other obstacle.
         if (veh->type == vproto_id( "shopping_cart" ) ) {
-            if (veh_at(p.x, p.y) != NULL || move_cost(p.x, p.y) == 0) {
+            if (veh_at( p ) != nullptr || move_cost( p ) == 0) {
                 delete veh;
-                return NULL;
+                return nullptr;
             }
         }
 
         //When hitting a wall, only smash the vehicle once (but walls many times)
         bool veh_smashed = false;
         //For other vehicles, simulate collisions with (non-shopping cart) stuff
-        vehicle *other_veh = veh_at(p.x, p.y);
-        if (other_veh != NULL && other_veh->type != vproto_id( "shopping_cart" ) ) {
+        vehicle *other_veh = veh_at( p );
+        if( other_veh != nullptr && other_veh->type != vproto_id( "shopping_cart" ) ) {
             if( !merge_wrecks ) {
                 delete veh;
-                return NULL;
+                return nullptr;
             }
 
             /* There's a vehicle here, so let's fuse them together into wreckage and

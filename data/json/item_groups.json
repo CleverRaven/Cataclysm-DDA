@@ -214,6 +214,7 @@
       ["heels", 50],
       ["coat_rain", 50],
       ["hood_rain", 20],
+      ["jacket_windbreaker", 25],
       ["wetsuit", 2],
       ["wetsuit_spring", 2],
       ["wetsuit_gloves", 3],
@@ -294,6 +295,7 @@
       ["atomic_light", 1],
       ["atomic_lamp", 1],
       ["dog_whistle", 5],
+      ["pet_carrier",2],
       ["dogfood", 10],
       ["catfood", 10],
       ["nic_gum", 2],
@@ -471,6 +473,7 @@
       ["sauce_pesto", 15],
       ["bread", 14],
       ["cornbread", 7],
+      ["flatbread", 7],
       ["crackers", 20],
       ["grahmcrackers", 20],
       ["marshmallow", 20],
@@ -777,7 +780,8 @@
       ["hygrometer", 3],
       ["barometer", 3],
       ["denat_alcohol", 10],
-      ["popcan_stove", 5]
+      ["popcan_stove", 5],
+      ["pet_carrier",3]
     ]
   },{
     "type" : "item_group",
@@ -934,6 +938,8 @@
       ["flask_hip", 5],
       ["vibrator", 5],
       ["tux", 1],
+      ["gown", 1],
+      ["long_glove_white", 1],      
       ["veil_wedding", 1],
       ["dress_wedding", 1],
       ["corset", 15],
@@ -974,7 +980,8 @@
       ["survnote", 2],
       ["mask_guy_fawkes", 5],
       ["magnifying_glass", 2],
-      ["holy_symbol", 5]
+      ["holy_symbol", 5],
+      ["pet_carrier",3]
     ]
   },{
     "type":"item_group",
@@ -1143,6 +1150,8 @@
       ["boxer_briefs", 45],
       ["panties", 70],
       ["boy_shorts", 25],
+      ["gown", 1],
+      ["long_glove_white", 1],      
       ["veil_wedding", 1],
       ["dress_wedding", 1],
       ["tshirt", 80],
@@ -1154,6 +1163,7 @@
       ["sweater", 75],
       ["hoodie", 65],
       ["jacket_light", 50],
+      ["jacket_windbreaker", 25],
       ["jacket_jean", 35],
       ["blazer", 35],
       ["towel", 40],
@@ -1165,6 +1175,7 @@
       ["duster", 12],
       ["sleeveless_duster", 2],
       ["peacoat", 30],
+      ["greatcoat", 15],
       ["vest", 15],
       ["mag_porn", 20],
       ["photo_album", 10],
@@ -1767,6 +1778,7 @@
       ["sauce_pesto", 15],
       ["bread", 14],
       ["cornbread", 7],
+      ["flatbread", 7],
       ["crackers", 20],
       ["grahmcrackers", 20],
       ["marshmallow", 20],
@@ -2331,6 +2343,7 @@
       ["folding_bicycle", 1],
       ["coat_rain",10],
       ["hood_rain", 5],
+      ["jacket_windbreaker", 5],
       ["umbrella",12],
       ["teleumbrella", 5],
       ["blowgun", 5],
@@ -3220,6 +3233,7 @@
       ["tights", 20],
       ["stockings", 20],
       ["knee_high_boots", 20],
+      ["thigh_high_boots", 20],
       ["boots", 70],
       ["flip_flops", 35],
       ["lowtops", 45],
@@ -3287,6 +3301,7 @@
     "id" : "jackets",
     "items":[
       ["jacket_light", 50],
+      ["jacket_windbreaker", 25],
       ["jacket_jean", 35],
       ["blazer", 35],
       ["jacket_leather", 30],
@@ -3310,7 +3325,9 @@
       ["suit", 100],
       ["waistcoat", 70],
       ["tophat", 30],
-      ["tux", 50]
+      ["tux", 50],
+      ["gown", 50],
+      ["long_glove_white", 30]    
     ]
   },{
     "type" : "item_group",
@@ -3318,6 +3335,7 @@
     "items":[
       ["coat_winter", 50],
       ["peacoat", 30],
+      ["greatcoat", 15],
       ["gloves_light", 35],
       ["mittens", 30],
       ["gloves_wool", 33],
@@ -3402,6 +3420,7 @@
     "items":[
       ["sneakers", 100],
       ["knee_high_boots", 40],
+      ["thigh_high_boots", 40],
       ["boots", 100],
       ["flip_flops", 50],
       ["lowtops", 100],
@@ -3452,6 +3471,7 @@
     "items":[
       ["dress", 55],
       ["sundress", 43],
+      ["gown", 10],
       ["dress_wedding", 2]
     ]
   },{
@@ -3520,11 +3540,13 @@
       ["sweater", 75],
       ["hoodie", 65],
       ["jacket_light", 50],
+      ["jacket_windbreaker", 25],
       ["jacket_jean", 35],
       ["blazer", 35],
       ["jacket_leather", 30],
       ["coat_winter", 50],
       ["peacoat", 30],
+      ["greatcoat", 15],
       ["gloves_light", 35],
       ["mittens", 30],
       ["gloves_wool", 33],
@@ -3594,6 +3616,8 @@
       ["winter_gloves_army", 10],
       ["army_top", 20],
       ["tux", 1],
+      ["gown", 1],
+      ["long_glove_white", 1],      
       ["veil_wedding", 1],
       ["dress_wedding", 1],
       ["porkpie", 5],
@@ -3648,6 +3672,7 @@
       ["hoodie", 65],
       ["skirt", 75],
       ["jacket_light", 50],
+      ["jacket_windbreaker", 25],
       ["jacket_jean", 30],
       ["jacket_leather", 30],
       ["bra", 30],
@@ -4101,6 +4126,7 @@
       ["gloves_tactical", 10],
       ["tac_helmet", 15],
       ["tac_fullhelmet", 7],
+      ["helmet_lobster", 7],
       ["glasses_bal", 10],
       ["gloves_medical", 10],
       ["sunglasses", 10],
@@ -4200,6 +4226,7 @@
       ["46mm", 15],
       ["boots_combat", 20],
       ["tac_helmet", 20],
+      ["helmet_lobster", 10],
       ["goggles_nv", 5],
       ["UPS_off", 10]
     ]
@@ -4419,6 +4446,7 @@
       ["carbine_flintlock", 4],
       ["pistol_flintlock", 9],
       ["flintlock_ammo", 7],
+      ["flintlock_shot", 3],
       ["mosin44", 5],
       ["mosin91_30", 5],
       ["mosin91_30_ebr", 1],
@@ -4453,6 +4481,7 @@
     "id" : "swimmer_pants",
     "items":[
       ["trunks", 80],
+      ["bikini_bottom", 35],
       ["hot_pants", 30]
     ]
   },{
@@ -4702,6 +4731,21 @@
       ["smoxygen_tank", 25],
       ["bfipowder", 15],
       ["quikclot", 10]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "ambulance_equipment",
+    "items":[
+      ["stethoscope", 24],
+      ["scissors", 10],
+      ["scalpel", 10],
+      ["syringe", 10],
+      ["adrenaline_injector", 6],
+      ["vacutainer", 2],
+      ["gloves_medical", 15],
+      ["mask_dust", 10],
+      ["medical_tape", 10],
+      ["smoxygen_tank", 3]
     ]
   },{
     "type" : "item_group",
@@ -5243,6 +5287,7 @@
       ["chainmail_vest", 3],
       ["chainmail_arms", 3],
       ["chainmail_legs", 3],
+      ["legguard_metal", 1],
       ["textbook_weapwest", 5],
       ["textbook_weapeast", 5],
       ["textbook_armwest", 5],
@@ -5377,6 +5422,7 @@
       ["coat_fur", 5],
       ["coat_fur_sf", 1],
       ["peacoat", 30],
+      ["greatcoat", 15],
       ["coat_lab", 20],
       ["helmet_army", 40],
       ["helmet_liner", 10],
@@ -5484,6 +5530,7 @@
       ["teleumbrella", 2],
       ["tac_helmet", 5],
       ["tac_fullhelmet", 2],
+      ["helmet_lobster", 2],
       ["textbook_tailor", 12],
       ["swage", 2],
       ["forge", 5],
@@ -6725,18 +6772,19 @@
   },{
     "type" : "item_group",
     "id" : "grenades",
+    "comment" : "Super-high numbers here are to make the granade joke item rare enough.",
     "items":[
-      ["grenade", 3],
-      ["grenade_inc", 3],
-      ["flashbang", 3],
-      ["EMPbomb", 2],
-      ["gasbomb", 3],
-      ["smokebomb", 5],
-      ["dynamite", 5],
-      ["mininuke", 1],
+      ["grenade", 300],
+      ["grenade_inc", 300],
+      ["flashbang", 300],
+      ["EMPbomb", 200],
+      ["gasbomb", 300],
+      ["smokebomb", 500],
+      ["dynamite", 500],
+      ["mininuke", 50],
       ["granade", 1],
-      ["c4", 5],
-      ["tool_black_powder_bomb", 1]
+      ["c4", 500],
+      ["tool_black_powder_bomb", 100]
     ]
   },{
     "type" : "item_group",
@@ -7154,6 +7202,7 @@
       ["cloak_wool", 5],
       ["tac_helmet", 5],
       ["tac_fullhelmet", 2],
+      ["helmet_lobster", 2],
       ["apron_leather", 2],
       ["tool_belt", 5],
       ["sheath", 5]
@@ -7684,6 +7733,7 @@
       ["bio_blaster", 10],
       ["tac_helmet", 5],
       ["tac_fullhelmet", 2],
+      ["helmet_lobster", 2],
       ["lsd", 4],
       ["pocketwatch", 5],
       ["child_book", 20],
@@ -7978,7 +8028,7 @@
       ["m235tpa", 3],
       ["tac_helmet", 5],
       ["tac_fullhelmet", 2],
-      ["tac_helmet", 5],
+      ["helmet_lobster", 2],
       ["cowboy_hat", 4],
       ["mask_bal", 1],
       ["sm_extinguisher", 10],
@@ -8178,6 +8228,7 @@
       ["8mm_inc", 2],
       ["tac_helmet", 10],
       ["tac_fullhelmet", 5],
+      ["helmet_lobster", 5],
       ["gum", 90],
       ["caff_gum", 10],
       ["nic_gum", 1],
@@ -9165,6 +9216,7 @@
       ["sleeveless_duster_leather", 5],
       ["sleeveless_duster_fur", 2],
       ["peacoat", 14],
+      ["greatcoat", 7],
       ["vest_leather", 22],
       ["bunker_coat", 6],
       ["bookplate", 10],
@@ -9254,6 +9306,7 @@
       ["tac_helmet", 22],
       ["helmet_riot", 18],
       ["tac_fullhelmet", 8],
+      ["helmet_lobster", 8],
       ["pot_helmet", 22],
       ["helmet_larmor", 14],
       ["helmet_bone", 22],
@@ -9767,7 +9820,8 @@
       ["helmet_kabuto", 50],
       ["helmet_larmor", 40],
       ["boots_larmor", 40],
-      ["armor_larmor", 40]
+      ["armor_larmor", 40],
+      ["legguard_metal", 10]
     ]
   },{
 "type" : "item_group",
@@ -9808,6 +9862,7 @@
       ["carbine_flintlock", 4],
       ["rifle_flintlock", 60],
       ["flintlock_ammo", 60],
+      ["flintlock_shot", 40],
       ["colt_army", 50],
       ["colt_navy", 50],
       ["36navy", 50],
@@ -10256,6 +10311,7 @@
     "id" : "college_lake",
     "items":[
       ["bikini_top", 100],
+      ["bikini_bottom", 100],
       ["trunks", 100],
       ["towel", 100],
       ["goggles_swim", 30],

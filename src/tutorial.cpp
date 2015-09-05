@@ -59,8 +59,8 @@ bool tutorial_game::init()
  item lighter("lighter", 0);
  lighter.invlet = 'e';
  g->u.inv.add_item(lighter);
- g->u.skillLevel("gun").level(5);
- g->u.skillLevel("melee").level(5);
+ g->u.skillLevel( skill_id( "gun" ) ).level(5);
+ g->u.skillLevel( skill_id( "melee" ) ).level(5);
     g->load_map( overmapbuffer::omt_to_sm_copy( tripoint( lx, ly, 0 ) ) );
  g->u.setx( 2 );
  g->u.sety( 4 );

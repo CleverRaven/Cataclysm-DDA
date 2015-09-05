@@ -16,7 +16,7 @@ using mongroup_id = string_id<MonsterGroup>;
 class overmap;
 
 struct overmap_spawns {
-    overmap_spawns(): group("GROUP_NULL"), min_population(0), max_population(0),
+    overmap_spawns(): group( NULL_ID ), min_population(0), max_population(0),
         chance(0) {};
     mongroup_id group;
     int min_population;
@@ -138,7 +138,7 @@ typedef oter_id oter_iid;
 #define OMSPEC_FREQ 15
 
 struct overmap_special_spawns {
-    overmap_special_spawns(): group("GROUP_NULL"), min_population(0), max_population(0),
+    overmap_special_spawns(): group( NULL_ID ), min_population(0), max_population(0),
         min_radius(0), max_radius(0) {};
     mongroup_id group;
     int min_population;

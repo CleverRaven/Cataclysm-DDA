@@ -5,5 +5,12 @@
     "name" : "Middle of Nowhere",
     "target" : "forest_thick",
     "flags" : ["ALLOW_OUTSIDE"]
+  },
+  {
+    "type" : "start_location",
+    "ident" : "swamp",
+    "name" : "Swamp",
+    "target" : "forest_water",
+    "flags" : ["ALLOW_OUTSIDE"]
   }
 ]

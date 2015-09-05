@@ -1,5 +1,6 @@
 #include "monstergenerator.h"
 #include "color.h"
+#include "creature.h"
 #include "translations.h"
 #include "rng.h"
 #include "debug.h"
@@ -14,6 +15,9 @@
 #include "mtype.h"
 
 template<>
+const mtype_id string_id<mtype>::NULL_ID( "mon_null" );
+
+template<>
 const mtype& string_id<mtype>::obj() const
 {
     return MonsterGenerator::generator().get_mtype( *this );
@@ -25,15 +29,13 @@ bool string_id<mtype>::is_valid() const
     return MonsterGenerator::generator().has_mtype( *this );
 }
 
-const mtype_id mon_null( "mon_null" );
 const mtype_id mon_generator( "mon_generator" );
 const mtype_id mon_zombie_dog( "mon_zombie_dog" );
 const mtype_id mon_fungaloid( "mon_fungaloid" );
-const mongroup_id GROUP_NULL( "GROUP_NULL" );
 
 MonsterGenerator::MonsterGenerator()
 {
-    mon_templates[mon_null] = new mtype();
+    mon_templates[mtype_id::NULL_ID] = new mtype();
     mon_species["spec_null"] = new species_type();
     //ctor
     init_phases();
@@ -42,7 +44,6 @@ MonsterGenerator::MonsterGenerator()
     init_death();
     init_flags();
     init_trigger();
-    init_sizes();
 }
 
 MonsterGenerator::~MonsterGenerator()
@@ -60,7 +61,7 @@ void MonsterGenerator::reset()
         delete elem.second;
     }
     mon_species.clear();
-    mon_templates[mon_null] = new mtype();
+    mon_templates[mtype_id::NULL_ID] = new mtype();
     mon_species["spec_null"] = new species_type();
 }
 
@@ -131,15 +132,6 @@ void MonsterGenerator::init_phases()
     phase_map["LIQUID"] = LIQUID;
     phase_map["GAS"] = GAS;
     phase_map["PLASMA"] = PLASMA;
-}
-
-void MonsterGenerator::init_sizes()
-{
-    size_map["TINY"] = MS_TINY; // Rodent
-    size_map["SMALL"] = MS_SMALL; // Half human
-    size_map["MEDIUM"] = MS_MEDIUM; // Human
-    size_map["LARGE"] = MS_LARGE; // Cow
-    size_map["HUGE"] = MS_HUGE; // TAAAANK
 }
 
 void MonsterGenerator::init_death()
@@ -421,7 +413,7 @@ void MonsterGenerator::load_monster(JsonObject &jo)
             jo.throw_error( "monster symbol should be exactly one console cell width", "symbol" );
         }
         newmon->color = color_from_string(jo.get_string("color"));
-        newmon->size = get_from_string(jo.get_string("size", "MEDIUM"), size_map, MS_MEDIUM);
+        newmon->size = get_from_string(jo.get_string("size", "MEDIUM"), Creature::size_map, MS_MEDIUM);
         newmon->phase = get_from_string(jo.get_string("phase", "SOLID"), phase_map, SOLID);
 
         newmon->difficulty = jo.get_int("diff", 0);
@@ -453,17 +445,9 @@ void MonsterGenerator::load_monster(JsonObject &jo)
             }
         }
 
-        if (jo.has_string("death_drops")) {
-            newmon->death_drops = jo.get_string("death_drops");
-        } else if (jo.has_object("death_drops")) {
-            JsonObject death_frop_json = jo.get_object("death_drops");
-            // Make up a group name, should be unique (include the monster id),
-            newmon->death_drops = newmon->id.str() + "_death_drops_auto";
-            const std::string subtype = death_frop_json.get_string("subtype", "distribution");
-            // and load the entry as a standard item group using the made up name.
-            item_group::load_item_group(death_frop_json, newmon->death_drops, subtype);
-        } else if (jo.has_member("death_drops")) {
-            jo.throw_error("invalid type, must be string or object", "death_drops");
+        if( jo.has_member( "death_drops" ) ) {
+            JsonIn& stream = *jo.get_raw( "death_drops" );
+            newmon->death_drops = item_group::load_item_group( stream, "distribution" );
         }
 
         newmon->dies = get_death_functions(jo, "death_function");
@@ -473,8 +457,8 @@ void MonsterGenerator::load_monster(JsonObject &jo)
         if (jo.has_member("upgrades")) {
             JsonObject upgrades = jo.get_object("upgrades");
             newmon->half_life = upgrades.get_int("half_life", -1);
-            newmon->upgrade_group = mongroup_id( upgrades.get_string("into_group", GROUP_NULL.str() ) );
-            newmon->upgrade_into = mtype_id( upgrades.get_string("into", mon_null.str() ) );
+            newmon->upgrade_group = mongroup_id( upgrades.get_string("into_group", mongroup_id::NULL_ID.str() ) );
+            newmon->upgrade_into = mtype_id( upgrades.get_string("into", mtype_id::NULL_ID.str() ) );
             newmon->upgrades = true;
         }
 
@@ -540,7 +524,7 @@ mtype &MonsterGenerator::get_mtype( const mtype_id& id )
 
     // this is most unlikely and therefor checked last.
     debugmsg( "Could not find monster with type %s", id.c_str() );
-    return *mon_templates[mon_null];
+    return *mon_templates[mtype_id::NULL_ID];
 }
 
 bool MonsterGenerator::has_mtype( const mtype_id& mon ) const
@@ -569,7 +553,7 @@ const mtype_id &MonsterGenerator::get_valid_hallucination() const
 {
     std::vector<mtype_id> potentials;
     for( auto &elem : mon_templates ) {
-        if( elem.first != mon_null && elem.first != mon_generator ) {
+        if( elem.first != NULL_ID && elem.first != mon_generator ) {
             potentials.push_back( elem.first );
         }
     }
@@ -701,10 +685,10 @@ void MonsterGenerator::check_monster_definitions() const
             if( mon->half_life <= 0 ) {
                 debugmsg( "half_life %d (<= 0) of monster %s is invalid", mon->half_life, mon->id.c_str() );
             }
-            if( mon->upgrade_into == mon_null && mon->upgrade_group == GROUP_NULL ) {
+            if( !mon->upgrade_into && !mon->upgrade_group ) {
                 debugmsg( "no into nor into_group defined for monster %s", mon->id.c_str() );
             }
-            if( mon->upgrade_into != mon_null && mon->upgrade_group != GROUP_NULL ) {
+            if( mon->upgrade_into && mon->upgrade_group ) {
                 debugmsg( "both into and into_group defined for monster %s", mon->id.c_str() );
             }
             if( !has_mtype( mon->upgrade_into ) ) {

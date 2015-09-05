@@ -5,15 +5,14 @@ Cataclysm: Dark Days Ahead is a roguelike set in a post-apocalyptic world. While
 
 ## Download
 
-Visit [our website](http://en.cataclysmdda.com/) for download links to all stable and experimental releases
+Visit [our website](http://en.cataclysmdda.com/) for download links to all stable and experimental releases.
 
 The source can either be downloaded as [an archive](https://github.com/CleverRaven/Cataclysm-DDA/archive/master.zip), or you can clone it from [our GitHub repository](https://github.com/CleverRaven/Cataclysm-DDA/).
 
 
 ## Compile
 
-The latest instructions on how to compile can be found on [our wiki](http://www.wiki.cataclysmdda.com/index.php?title=How_to_compile).  See doc/COMPILER_SUPPORT.md for details on which compilers we support.
-
+Please read [COMPILING.md](https://github.com/CleverRaven/Cataclysm-DDA/blob/master/COMPILING.md) - it covers general information and more specific recipes for Linux, OS X, Windows and BSD. We also have an "unofficial" guide on building with `cmake` at [COMPILING-CMAKE.md](https://github.com/CleverRaven/Cataclysm-DDA/blob/master/COMPILING-CMAKE.md).  See [doc/COMPILER_SUPPORT.md] (https://github.com/CleverRaven/Cataclysm-DDA/blob/master/doc/COMPILER_SUPPORT.md) for details on which compilers we support.  And you can always dig for more information in `doc/`.
 
 ## Contribute
 
@@ -31,8 +30,10 @@ http://en.cataclysmdda.com/
 
 Forums:
 http://smf.cataclysmdda.com
+
 Wiki:
 http://wiki.cataclysmdda.com/
+
 GitHub repo:
 https://github.com/CleverRaven/Cataclysm-DDA
 
@@ -44,7 +45,7 @@ http://webchat.freenode.net/?channels=#CataclysmDDA
 
 #### Is there a tutorial?
 
-Yes, you can find the tutorial in the **Special** menu at the main menu. You can also access documentation in-game via the **?** key.
+Yes, you can find the tutorial in the **Special** menu at the main menu. You can also access documentation in-game via the `?` key.
 
 #### How can I change the key bindings?
 

@@ -284,8 +284,8 @@
     {
         "type" : "ammunition_type",
         "id" : "water",
-        "name" : "clean water",
-        "default" : "water_clean"
+        "name" : "water",
+        "default" : "water"
     },
     {
         "type" : "ammunition_type",
@@ -455,12 +455,10 @@
         "name" : "semi-charred fuel",
         "default" : "unfinished_charcoal"
     },
-	{
+    {
         "type" : "ammunition_type",
         "id" : "chemical_spray",
         "name" : "sprayable chemical",
         "default" : "gas_fungicidal"
     }
-	
-
 ]

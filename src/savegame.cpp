@@ -242,7 +242,7 @@ void game::unserialize(std::ifstream & fin)
         data.read("player", u);
         Messages::deserialize( data );
 
-    } catch (std::string jsonerr) {
+    } catch( const JsonError &jsonerr ) {
         debugmsg("Bad save json\n%s", jsonerr.c_str() );
         return;
     }
@@ -276,16 +276,17 @@ void game::load_weather(std::ifstream & fin) {
         int seed(0);
         std::stringstream liness(line);
         liness >> label >> seed;
-        weatherGen->set_seed( seed );
+        weather_gen->set_seed( seed );
     }
 }
 
 void game::save_weather(std::ofstream &fout) {
     fout << "# version " << savegame_version << std::endl;
     fout << "lightning: " << (lightning_active ? "1" : "0") << std::endl;
-    fout << "seed: " << weatherGen->get_seed();
+    fout << "seed: " << weather_gen->get_seed();
 }
-///// overmap
+
+// throws std::exception
 void overmap::unserialize( std::ifstream &fin ) {
 
     if ( fin.peek() == '#' ) {
@@ -476,6 +477,7 @@ static void unserialize_array_from_compacted_sequence( JsonIn &jsin, bool (&arra
     }
 }
 
+// throws std::exception
 void overmap::unserialize_view(std::ifstream &fin)
 {
     // Private/per-character view of the overmap.
@@ -823,7 +825,7 @@ void game::unserialize_master(std::ifstream &fin) {
                 jsin.skip_value();
             }
         }
-    } catch (std::string e) {
+    } catch( const JsonError &e ) {
         debugmsg("error loading master.gsav: %s", e.c_str());
     }
 }
@@ -858,7 +860,7 @@ void game::serialize_master(std::ofstream &fout) {
         json.end_array();
 
         json.end_object();
-    } catch (std::string e) {
+    } catch( const JsonError &e ) {
         debugmsg("error saving to master.gsav: %s", e.c_str());
     }
 }

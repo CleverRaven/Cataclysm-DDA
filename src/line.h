@@ -4,6 +4,7 @@
 #include <vector>
 #include <string>
 #include "enums.h"
+#include <functional>
 #include <math.h>
 
 //! This compile-time useable function combines the sign of each (x, y, z) component into a single integer
@@ -21,7 +22,7 @@ inline constexpr unsigned make_xyz_unit(int const x, int const y, int const z) n
 // This more general version of this function gives correct values for larger inputs.
 unsigned make_xyz(int const x, int const y, int const z);
 
-enum direction : int {
+enum direction : unsigned {
     ABOVENORTHWEST = make_xyz_unit(-1, -1, -1),
     NORTHWEST      = make_xyz_unit(-1, -1,  0),
     BELOWNORTHWEST = make_xyz_unit(-1, -1,  1),
@@ -61,11 +62,20 @@ point direction_XY(direction dir);
 std::string const& direction_name(direction dir);
 std::string const& direction_name_short(direction dir);
 
+/**
+ * The actual bresenham algorithm in 2D and 3D, everything else should call these
+ * and pass in an interact functor to iterate across a line between two points.
+ */
+void bresenham( const int x1, const int y1, const int x2, const int y2, int t,
+                const std::function<bool(const point &)> &interact );
+void bresenham( const tripoint &loc1, const tripoint &loc2, int t, int t2,
+                const std::function<bool(const tripoint &)> &interact );
+
 // The "t" value decides WHICH Bresenham line is used.
-std::vector<point> line_to(int x1, int y1, int x2, int y2, int t);
-std::vector<point> line_to( const point &p1, const point &p2, int t );
+std::vector<point> line_to( int x1, int y1, int x2, int y2, int t = 0 );
+std::vector<point> line_to( const point &p1, const point &p2, int t = 0 );
 // t and t2 decide which Bresenham line is used.
-std::vector<tripoint> line_to(const tripoint &loc1, const tripoint &loc2, int t, int t2);
+std::vector<tripoint> line_to( const tripoint &loc1, const tripoint &loc2, int t = 0, int t2 = 0 );
 // sqrt(dX^2 + dY^2)
 int trig_dist(int x1, int y1, int x2, int y2);
 int trig_dist(const tripoint &loc1, const tripoint &loc2);
@@ -80,6 +90,9 @@ std::pair<std::pair<double, double>, double> slope_of(const std::vector<tripoint
 std::vector<point> continue_line(const std::vector<point> &line, int distance);
 std::vector<tripoint> continue_line(const std::vector<tripoint> &line, int distance);
 std::vector<point> squares_in_direction( int x1, int y1, int x2, int y2 );
+// Returns a vector of squares adjacent to @from that are closer to @to than @from is.
+// Currently limited to the same z-level as @from.
+std::vector<tripoint> squares_closer_to( const tripoint &from, const tripoint &to );
 
 // weird class for 2d vectors where dist is derived from rl_dist
 struct rl_vec2d {

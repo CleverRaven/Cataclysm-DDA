@@ -2,9 +2,9 @@
 
 #include "line.h"
 #include "rng.h"
-#include "test_helpers.h"
 
 #include "stdio.h"
+#include <chrono>
 
 #define SGN(a) (((a)<0) ? -1 : 1)
 // Compare all future line_to implementations to the canonical one.
@@ -69,9 +69,6 @@ std::vector <point> canonical_line_to(const int x1, const int y1, const int x2, 
     }
     return ret;
 }
-
-#define RANDOM_TEST_NUM 1000
-#define COORDINATE_RANGE 99
 
 TEST_CASE("Test bounds for mapping x/y/z/ offsets to direction enum") {
 
@@ -231,60 +228,127 @@ TEST_CASE("Test bounds for mapping x/y/z/ offsets to direction enum") {
   REQUIRE( make_xyz(60, 30, 1) == BELOWSOUTHEAST );
 }
 
-TEST_CASE("Compare line_to() to canonical line_to()") {
+TEST_CASE("squares_closer_to_test") {
+    // TODO: make this ordering agnostic.
+    auto actual = squares_closer_to( {0, 0, 0}, {10, 0, 0} );
+    std::vector<tripoint> expected = {tripoint(1, 0, 0),tripoint(1, 1, 0),tripoint(1, -1, 0)};
+    CHECK( actual == expected );
 
- REQUIRE( trig_dist(0, 0, 0, 0) == 0 );
- REQUIRE( trig_dist(0, 0, 1, 0) == 1 );
+    actual = squares_closer_to( {0, 0, 0}, {-10, -10, 0} );
+    expected = {tripoint(-1, -1, 0),tripoint(-1, 0, 0),tripoint(0, -1, 0)};
+    CHECK( actual == expected );
 
- const int seed = time( NULL );
- std::srand( seed );
+    actual = squares_closer_to( {0, 0, 0}, {10, 10, 0} );
+    expected = {tripoint(1, 1, 0),tripoint(1, 0, 0),tripoint(0, 1, 0)};
+    CHECK( actual == expected );
 
- for( int i = 0; i < RANDOM_TEST_NUM; ++i ) {
-     const int x1 = rng( -COORDINATE_RANGE, COORDINATE_RANGE );
-     const int y1 = rng( -COORDINATE_RANGE, COORDINATE_RANGE );
-     const int x2 = rng( -COORDINATE_RANGE, COORDINATE_RANGE );
-     const int y2 = rng( -COORDINATE_RANGE, COORDINATE_RANGE );
-     int t1 = 0;
-     int t2 = 0;
-     REQUIRE( line_to( x1, y1, x2, y2, t1 ) == canonical_line_to( x1, y1, x2, y2, t2 ) );
- }
+    actual = squares_closer_to( {0, 0, 0}, {10, 9, 0} );
+    expected = {tripoint(1, 0, 0),tripoint(1, 1, 0),tripoint(1, -1, 0),tripoint(0, 1, 0)};
+    CHECK( actual == expected );
 
- {
-     const int x1 = rng( -COORDINATE_RANGE, COORDINATE_RANGE );
-     const int y1 = rng( -COORDINATE_RANGE, COORDINATE_RANGE );
-     const int x2 = rng( -COORDINATE_RANGE, COORDINATE_RANGE );
-     const int y2 = rng( -COORDINATE_RANGE, COORDINATE_RANGE );
-     int t1 = 0;
-     int t2 = 0;
-     long count1 = 0;
-     struct timespec start1;
-     struct timespec end1;
-     clock_gettime( CLOCK_REALTIME, &start1 );
-     #define PERFORMANCE_TEST_ITERATIONS 10000
-     while( count1 < PERFORMANCE_TEST_ITERATIONS ) {
-         line_to( x1, y1, x2, y2, t1 );
-         count1++;
-     }
-     clock_gettime( CLOCK_REALTIME, &end1 );
-     long count2 = 0;
-     struct timespec start2;
-     struct timespec end2;
-     clock_gettime( CLOCK_REALTIME, &start2 );
-     while( count2 < PERFORMANCE_TEST_ITERATIONS ) {
-         canonical_line_to( x1, y1, x2, y2, t2 );
-         count2++;
-     }
-     clock_gettime( CLOCK_REALTIME, &end2 );
-     struct timespec diff1;
-     struct timespec diff2;
-     timespec_subtract( &diff1, &end1, &start1 );
-     timespec_subtract( &diff2, &end2, &start2 );
+    actual = squares_closer_to( {0, 0, 0}, {10, 1, 0} );
+    expected = {tripoint(1, 0, 0),tripoint(1, 1, 0),tripoint(1, -1, 0),tripoint(0, 1, 0)};
+    CHECK( actual == expected );
 
-     // TODO: display this better, I doubt sec.nsec is an accurate rendering,
-     // or at least reliably so.
-     printf( "line_to() executed %d times in %ld.%ld seconds.\n",
-             PERFORMANCE_TEST_ITERATIONS, diff1.tv_sec, diff1.tv_nsec );
-     printf( "canonical_line_to() executed %d times in %ld.%ld seconds.\n",
-             PERFORMANCE_TEST_ITERATIONS, diff2.tv_sec, diff2.tv_nsec );
- }
+    actual = squares_closer_to( {10, 9, 0}, {0, 0, 0} );
+    expected = {tripoint(9, 9, 0),tripoint(9, 10, 0),tripoint(9, 8, 0),tripoint(10,8,0)};
+    CHECK( actual == expected );
+
+    actual = squares_closer_to( {0, 0, 0}, {-10, -9, 0} );
+    expected = {tripoint(-1, 0, 0),tripoint(-1, 1, 0),tripoint(-1, -1, 0),tripoint(0,-1,0)};
+    CHECK( actual == expected );
+
+    actual = squares_closer_to( {10, -10, 0}, {10, 10, 0} );
+    expected = {tripoint(10, -9, 0),tripoint(11, -9, 0),tripoint(9, -9, 0)};
+    CHECK( actual == expected );
+
+    actual = squares_closer_to( {10, -10, 0}, {-10, -5, 0} );
+    expected = {tripoint(9, -10, 0),tripoint(9, -9, 0),tripoint(9, -11, 0),tripoint(10,-9,0)};
+    CHECK( actual == expected );
+}
+
+#define RANDOM_TEST_NUM 1000
+#define COORDINATE_RANGE 99
+
+void line_to_comparison( const int iterations ) {
+    REQUIRE( trig_dist(0, 0, 0, 0) == 0 );
+    REQUIRE( trig_dist(0, 0, 1, 0) == 1 );
+
+    const int seed = time( NULL );
+    std::srand( seed );
+
+    for( int i = 0; i < RANDOM_TEST_NUM; ++i ) {
+        const int x1 = rng( -COORDINATE_RANGE, COORDINATE_RANGE );
+        const int y1 = rng( -COORDINATE_RANGE, COORDINATE_RANGE );
+        const int x2 = rng( -COORDINATE_RANGE, COORDINATE_RANGE );
+        const int y2 = rng( -COORDINATE_RANGE, COORDINATE_RANGE );
+        int t1 = 0;
+        int t2 = 0;
+        REQUIRE( line_to( x1, y1, x2, y2, t1 ) == canonical_line_to( x1, y1, x2, y2, t2 ) );
+    }
+
+    {
+        const int x1 = rng( -COORDINATE_RANGE, COORDINATE_RANGE );
+        const int y1 = rng( -COORDINATE_RANGE, COORDINATE_RANGE );
+        const int x2 = rng( -COORDINATE_RANGE, COORDINATE_RANGE );
+        const int y2 = rng( -COORDINATE_RANGE, COORDINATE_RANGE );
+        int t1 = 0;
+        int t2 = 0;
+        long count1 = 0;
+        auto start1 = std::chrono::high_resolution_clock::now();
+        while( count1 < iterations ) {
+            line_to( x1, y1, x2, y2, t1 );
+            count1++;
+        }
+        auto end1 = std::chrono::high_resolution_clock::now();
+        long count2 = 0;
+        auto start2 = std::chrono::high_resolution_clock::now();
+        while( count2 < iterations ) {
+            canonical_line_to( x1, y1, x2, y2, t2 );
+            count2++;
+        }
+        auto end2 = std::chrono::high_resolution_clock::now();
+
+        if( iterations > 1 ) {
+            long diff1 = std::chrono::duration_cast<std::chrono::microseconds>(end1 - start1).count();
+            long diff2 = std::chrono::duration_cast<std::chrono::microseconds>(end2 - start2).count();
+
+            printf( "line_to() executed %d times in %ld microseconds.\n",
+                    iterations, diff1 );
+            printf( "canonical_line_to() executed %d times in %ld microseconds.\n",
+                    iterations, diff2 );
+        }
+    }
+}
+
+// Check the boundaries of inputs we can give line_to without breaking it.
+TEST_CASE("line_to_boundaries") {
+    for( int i = -60; i < 60; ++i ) {
+        for( int j = -60; j < 60; ++j ) {
+            const int ax = abs(i) * 2;
+            const int ay = abs(j) * 2;
+            const int dominant = std::max(ax, ay);
+            const int minor = std::min(ax, ay);
+            const int ideal_start_offset = minor - (dominant / 2);
+            // get the sign of the start offset.
+            const int st( (ideal_start_offset > 0) - (ideal_start_offset < 0) );
+            const int max_start_offset = std::abs(ideal_start_offset) * 2 + 1;
+            for( int k = -1; k <= max_start_offset; ++k ) {
+                auto line = line_to( 0, 0, i, j, k * st );
+                if( line.back() != point(i, j) ) {
+                    WARN( "Expected (" << i << "," << j << ") but got (" <<
+                          line.back().x << "," << line.back().y << ") with t == " << k );
+                }
+                CHECK( line.back() == point(i, j) );
+            }
+        }
+    }
+}
+
+TEST_CASE("line_to_regression") {
+    line_to_comparison(1);
+}
+
+TEST_CASE("line_to_performance", "[.]") {
+    line_to_comparison(10000);
 }

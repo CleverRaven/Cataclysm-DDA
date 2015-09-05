@@ -1,4 +1,4 @@
-#if (defined SDLTILES)
+#if (defined TILES)
 #include "cata_tiles.h"
 #include "debug.h"
 #include "json.h"
@@ -31,7 +31,6 @@
 
 #define ITEM_HIGHLIGHT "highlight_item"
 
-extern game *g;
 //extern SDL_Surface *screen;
 extern int WindowHeight, WindowWidth;
 extern int fontwidth, fontheight;
@@ -94,76 +93,82 @@ void cata_tiles::clear()
     tile_ids.clear();
 }
 
-void cata_tiles::init(std::string load_file_path)
+void cata_tiles::init()
 {
-    std::string json_path, tileset_path;
-    // get path information from load_file_path
-    get_tile_information(load_file_path, json_path, tileset_path);
-    // send this information to old init to avoid redundant code
-    load_tilejson(json_path, tileset_path);
+    const std::string default_json = FILENAMES["defaulttilejson"];
+    const std::string default_tileset = FILENAMES["defaulttilepng"];
+    const std::string current_tileset = OPTIONS["TILES"].getValue();
+    std::string json_path, tileset_path, config_path;
+
+    // Get curent tileset and it's directory path.
+    if (current_tileset.empty()) {
+        dbg( D_ERROR ) << "Tileset not set in OPTIONS. Corrupted options or empty tileset name";
+        json_path = default_json;
+        tileset_path = default_tileset;
+    } else {
+        dbg( D_INFO ) << "Current OPTIONS tileset is: " << current_tileset;
+    }
+
+    // Build tileset config path
+    config_path = TILESETS[current_tileset];
+    if (config_path.empty()) {
+        dbg( D_ERROR ) << "Tileset with name " << current_tileset << " can't be found or empty string";
+        json_path = default_json;
+        tileset_path = default_tileset;
+    } else {
+        dbg( D_INFO ) << '"' << current_tileset << '"' << " tileset: found config file path: " << config_path;
+        get_tile_information(config_path + '/' + FILENAMES["tileset-conf"],
+                             json_path, tileset_path);
+    }
+
+    // Try to load tileset
+    load_tilejson(config_path, json_path, tileset_path);
 }
 
-void cata_tiles::reinit(std::string load_file_path)
+void cata_tiles::reinit()
 {
     clear_buffer();
     clear();
-    init(load_file_path);
+    init();
 }
 
-void cata_tiles::get_tile_information(std::string dir_path, std::string &json_path, std::string &tileset_path)
+void cata_tiles::get_tile_information(std::string config_path, std::string &json_path, std::string &tileset_path)
 {
-    dbg( D_INFO ) << "Attempting to Initialize JSON and TILESET path information from [" << dir_path << "]";
-    const std::string filename = "tileset.txt";                 // tileset-information-file
-    const std::string default_json = FILENAMES["defaulttilejson"];    // defaults
+    const std::string default_json = FILENAMES["defaulttilejson"];
     const std::string default_tileset = FILENAMES["defaulttilepng"];
 
-    // search for the files (tileset.txt)
-    auto files = get_files_from_path(filename, dir_path, true);
-
-    for(std::vector<std::string>::iterator it = files.begin(); it != files.end(); ++it) {   // iterate through every file found
-        std::ifstream fin;
-        fin.open(it->c_str());
-        if(!fin.is_open()) {
-            fin.close();
-            dbg( D_ERROR ) << "Could not read " << *it << " -- Setting to default values!";
-            json_path = default_json;
-            tileset_path = default_tileset;
-            return;
-        }
-        // should only have 2 values inside it, otherwise is going to only load the last 2 values
-        while(!fin.eof()) {
-            std::string sOption;
-            fin >> sOption;
-
-            if(sOption == "") {
-                getline(fin, sOption);    // Empty line, chomp it
-            } else if(sOption[0] == '#') { // # indicates a comment
-                getline(fin, sOption);
-            } else {
-                if (sOption.find("NAME") != std::string::npos) {
-                    std::string tileset_name;
-                    tileset_name = "";
-                    fin >> tileset_name;
-                    if(tileset_name != OPTIONS["TILES"].getValue()) {   // if the current tileset name isn't the same
-                        // as the current one in the options break
-                        break;                                          // out of the while loop, close the file and
-                    }                                                   // continue with the next file
-                } else if (sOption.find("VIEW") != std::string::npos) { // we don't need the view name here
-                    getline(fin, sOption);                              // so we just skip it
-                } else if (sOption.find("JSON") != std::string::npos) {
-                    fin >> json_path;
-                    json_path = FILENAMES["gfxdir"] + json_path;
-                    dbg( D_INFO ) << "JSON path set to [" << json_path << "].";
-                } else if (sOption.find("TILESET") != std::string::npos) {
-                    fin >> tileset_path;
-                    tileset_path = FILENAMES["gfxdir"] + tileset_path;
-                    dbg( D_INFO ) << "TILESET path set to [" << tileset_path << "].";
-                }
-            }
-        }
-
+    // Get JSON and TILESET vars from config
+    std::ifstream fin;
+    fin.open(config_path.c_str());
+    if(!fin.is_open()) {
         fin.close();
+        dbg( D_ERROR ) << "Can't open " << config_path << " -- Setting default values!";
+        json_path = default_json;
+        tileset_path = default_tileset;
+        return;
     }
+
+    while(!fin.eof()) {
+        std::string sOption;
+        fin >> sOption;
+
+        if(sOption == "") {
+            getline(fin, sOption);
+        } else if(sOption[0] == '#') { // Skip comment
+            getline(fin, sOption);
+        } else if (sOption.find("JSON") != std::string::npos) {
+            fin >> json_path;
+            dbg( D_INFO ) << "JSON path set to [" << json_path << "].";
+        } else if (sOption.find("TILESET") != std::string::npos) {
+            fin >> tileset_path;
+            dbg( D_INFO ) << "TILESET path set to [" << tileset_path << "].";
+        } else {
+            getline(fin, sOption);
+        }
+    }
+
+    fin.close();
+
     if (json_path == "") {
         json_path = default_json;
         dbg( D_INFO ) << "JSON set to default [" << json_path << "].";
@@ -174,19 +179,13 @@ void cata_tiles::get_tile_information(std::string dir_path, std::string &json_pa
     }
 }
 
-int cata_tiles::load_tileset(std::string path, int R, int G, int B)
+int cata_tiles::load_tileset(std::string img_path, int R, int G, int B)
 {
-    std::string img_path = path;
-#ifdef PREFIX   // use the PREFIX path over the current directory
-    img_path = (FILENAMES["base_path"] + "/" + img_path);
-#elif defined DATA_DIR_PREFIX // Used for linux release installs
-    img_path = (FILENAMES["datadir"] + "/" + img_path);
-#endif
     /** reinit tile_atlas */
     SDL_Surface *tile_atlas = IMG_Load(img_path.c_str());
 
     if(!tile_atlas) {
-        throw std::string("Could not load tileset image at ") + img_path + ", error: " + IMG_GetError();
+        throw std::runtime_error( std::string("Could not load tileset image at ") + img_path + ", error: " + IMG_GetError() );
     }
 
         /** get dimensions of the atlas image */
@@ -250,28 +249,30 @@ void cata_tiles::set_draw_scale(int scale) {
     tile_ratioy = ((float)tile_height/(float)fontheight);
 }
 
-void cata_tiles::load_tilejson(std::string path, const std::string &image_path)
+void cata_tiles::load_tilejson(std::string tileset_root, std::string json_conf, const std::string &image_path)
 {
-    dbg( D_INFO ) << "Attempting to Load JSON file " << path;
-    std::ifstream config_file(path.c_str(), std::ifstream::in | std::ifstream::binary);
+    std::string json_path = tileset_root + '/' + json_conf;
+    std::string img_path = tileset_root + '/' + image_path;
+
+    dbg( D_INFO ) << "Attempting to Load JSON file " << json_path;
+    std::ifstream config_file(json_path.c_str(), std::ifstream::in | std::ifstream::binary);
 
     if (!config_file.good()) {
-        throw std::string("failed to open tile info json: ") + path;
+        throw std::runtime_error( std::string("Failed to open tile info json: ") + json_path );
     }
 
-        load_tilejson_from_file( config_file, image_path );
-        if (tile_ids.count("unknown") == 0) {
-            dbg( D_ERROR ) << "the tileset you're using has no 'unknown' tile defined!";
-        }
+    load_tilejson_from_file(tileset_root, config_file, img_path);
+    if (tile_ids.count("unknown") == 0) {
+        dbg( D_ERROR ) << "The tileset you're using has no 'unknown' tile defined!";
+    }
 }
 
-void cata_tiles::load_tilejson_from_file(std::ifstream &f, const std::string &image_path)
+void cata_tiles::load_tilejson_from_file(const std::string &tileset_dir, std::ifstream &f, const std::string &image_path)
 {
     JsonIn config_json(f);
-    // it's all one json object
     JsonObject config = config_json.get_object();
 
-    /** 1) Make sure that the loaded file has the "tile_info" section */
+    // "tile_info" section must exis.
     if (!config.has_member("tile_info")) {
         config.throw_error( "\"tile_info\" missing" );
     }
@@ -289,7 +290,7 @@ void cata_tiles::load_tilejson_from_file(std::ifstream &f, const std::string &im
 
     set_draw_scale(16);
 
-    /** 2) Load tile information if available */
+    // Load tile information if available.
     int offset = 0;
     if (config.has_array("tiles-new")) {
         // new system, several entries
@@ -298,7 +299,7 @@ void cata_tiles::load_tilejson_from_file(std::ifstream &f, const std::string &im
         JsonArray tiles_new = config.get_array("tiles-new");
         while (tiles_new.has_more()) {
             JsonObject tile_part_def = tiles_new.next_object();
-            const std::string tileset_image_path = tile_part_def.get_string("file");
+            const std::string tileset_image_path = tileset_dir + '/' + tile_part_def.get_string("file");
             int R = -1;
             int G = -1;
             int B = -1;
@@ -670,6 +671,15 @@ void cata_tiles::draw( int destx, int desty, const tripoint &center, int width, 
     else if (g->u.posx() + g->u.view_offset.x != g->ter_view_x ||
              g->u.posy() + g->u.view_offset.y != g->ter_view_y) {
         draw_from_id_string("cursor", C_NONE, empty_string, g->ter_view_x, g->ter_view_y, 0, 0);
+    }
+    if( g->u.controlling_vehicle ) {
+        // TODO: interaction with look_around cursor is a little weird.
+        tripoint indicator_offset = g->get_veh_dir_indicator_location();
+        if( indicator_offset != tripoint_min ) {
+            draw_from_id_string( "cursor", C_NONE, empty_string,
+                                 indicator_offset.x + g->u.posx() + g->u.view_offset.x,
+                                 indicator_offset.y + g->u.posy() + g->u.view_offset.y, 0, 0 );
+        }
     }
 
     SDL_RenderSetClipRect(renderer, NULL);
@@ -1423,7 +1433,7 @@ void cata_tiles::draw_explosion_frame()
         }
     }
 }
-#include "debug.h"
+
 void cata_tiles::draw_custom_explosion_frame()
 {
     // TODO: Make the drawing code handle all the missing tiles: <^>v and *

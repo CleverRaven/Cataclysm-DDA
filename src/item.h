@@ -30,6 +30,8 @@ using ammotype = std::string;
 using itype_id = std::string;
 class ma_technique;
 using matec_id = string_id<ma_technique>;
+class Skill;
+using skill_id = string_id<Skill>;
 
 std::string const& rad_badge_color(int rad);
 
@@ -98,7 +100,7 @@ class item : public JsonSerializer, public JsonDeserializer
 {
 public:
  item();
- item(const std::string new_type, unsigned int turn, bool rand = true, handedness handed = NONE);
+ item(const std::string new_type, int turn, bool rand = true, handedness handed = NONE);
 
         /**
          * Make this a corpse of the given monster type.
@@ -207,7 +209,7 @@ public:
      */
     int pick_reload_ammo( const player &u, bool interactive );
  bool reload(player &u, int pos);
- std::string skill() const;
+    skill_id skill() const;
 
     template<typename Archive>
     void io( Archive& );
@@ -275,8 +277,7 @@ public:
     /**
      * Whether the character needs both hands to wield this item.
      */
-    // TODO: make a reference. Make a const reference.
-    bool is_two_handed(player *u);
+    bool is_two_handed( const player &u ) const;
     /** The weapon is considered a suitable melee weapon. */
     bool is_weap() const;
     /** The item is considered a bashing weapon (inflicts a considerable bash damage). */
@@ -287,7 +288,7 @@ public:
      * The most relevant skill used with this melee weapon. Can be "null" if this is not a weapon.
      * Note this function returns null if the item is a gun for which you can use gun_skill() instead.
      */
-    std::string weap_skill() const;
+    skill_id weap_skill() const;
     /*@}*/
 
  /**
@@ -461,10 +462,6 @@ public:
 
  int brewing_time() const;
  void detonate( const tripoint &p ) const;
-// Our value as a weapon, given particular skills
- int  weapon_value(player *p) const;
-// As above, but discounts its use as a ranged weapon
- int  melee_value (player *p);
 
     /**
      * @name Material(s) of the item
@@ -650,7 +647,7 @@ public:
     std::string components_to_string() const;
 
  itype_id typeId() const;
- itype* type;
+ const itype* type;
  std::vector<item> contents;
 
         /**
@@ -659,7 +656,7 @@ public:
          * If non-null, the returned itype is quaranted to have an ammo slot:
          * @code itm.get_curammo()->ammo->damage @endcode will work.
          */
-        itype* get_curammo() const;
+        const itype* get_curammo() const;
         /**
          * Returns the item type id of the currently loaded ammo.
          * Returns "null" if the item is not loaded.
@@ -1005,8 +1002,7 @@ public:
          * How much moves (@ref Creature::moves) it takes to reload this item.
          * This also applies to tools.
          */
-        // TODO: constify u
-        int reload_time(player &u) const;
+        int reload_time( const player &u ) const;
         /**
          * The id of the ammo type (@ref ammunition_type) that can be used by this item.
          * Will return "NULL" if the item does not use a specific ammo type. Items without
@@ -1100,7 +1096,7 @@ public:
          * Note that this function is not like @ref skill, it returns "null" for any non-gun (books)
          * for which skill() would return a skill.
          */
-        std::string gun_skill() const;
+        skill_id gun_skill() const;
         /**
          * Returns the appropriate size for a spare magazine used with this gun. If this is not a gun,
          * it returns 0.
@@ -1196,7 +1192,7 @@ public:
         LIQUID_FILL_ERROR has_valid_capacity_for_liquid(const item &liquid) const;
         std::string name;
         std::bitset<num_bp> covered_bodyparts;
-        itype* curammo;
+        const itype* curammo;
         std::map<std::string, std::string> item_vars;
         const mtype* corpse;
         std::set<matec_id> techniques; // item specific techniques

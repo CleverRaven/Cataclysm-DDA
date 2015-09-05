@@ -9,7 +9,7 @@
 #include <memory>
 
 struct iteminfo;
-enum direction : int;
+enum direction : unsigned;
 
 //      LINE_NESW  - X for on, O for off
 #define LINE_XOXO 4194424 // '|'   Vertical line. ncurses: ACS_VLINE; Unicode: U+2502
@@ -340,6 +340,5 @@ int get_terminal_height();
 bool is_draw_tiles_mode();
 
 void play_music(std::string playlist);
-void play_sound_effect(std::string id, std::string variant, int volume);
 
 #endif

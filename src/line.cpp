@@ -1,68 +1,207 @@
 #include "line.h"
 #include "game.h"
 #include "translations.h"
-#include <stdlib.h>
+#include <cstdlib>
 
 #define SGN(a) (((a)<0) ? -1 : 1)
 
-//Trying to pull points out of a tripoint vector is messy and
-//probably slow, so leaving two full functions for now
-std::vector <point> line_to(const int x1, const int y1, const int x2, const int y2, int t)
+void bresenham( const int x1, const int y1, const int x2, const int y2, int t,
+                const std::function<bool(const point &)> &interact )
 {
-    std::vector<point> ret;
-    // Preallocate the number of cells we need instead of allocating them piecewise.
-    const int numCells = square_dist(tripoint(x1, y1, 0), tripoint(x2, y2, 0));
-    ret.reserve(numCells);
+    // The slope components.
     const int dx = x2 - x1;
     const int dy = y2 - y1;
-
-    point cur;
-    cur.x = x1;
-    cur.y = y1;
-
-    // Draw point
-    if (dx == 0 && dy == 0) {
-        ret.push_back(cur);
-        // Should exit here
-        return ret;
-    }
-
-    // Any ideas why we're multiplying the abs distance by two here?
+    // Signs of slope values.
+    const int sx = (dx == 0) ? 0 : SGN(dx);
+    const int sy = (dy == 0) ? 0 : SGN(dy);
+    // Absolute values of slopes x2 to avoid rounding errors.
     const int ax = abs(dx) * 2;
     const int ay = abs(dy) * 2;
-    const int sx = (dx == 0 ? 0 : SGN(dx)), sy = (dy == 0 ? 0 : SGN(dy));
 
-    // The old version of this algorithm would generate points on the line and check min/max for each point
-    // to determine whether or not to continue generating the line. Since we already know how many points
-    // we need, this method saves us a half-dozen variables and a few calculations.
-    if (ax == ay) {
-        for (int i = 0; i < numCells; i++) {
+    point cur(x1, y1);
+
+    if( ax == ay ) {
+        while( cur.x != x2 ) {
             cur.y += sy;
             cur.x += sx;
-            ret.push_back(cur);
-        } ;
-    } else if (ax > ay) {
-        for (int i = 0; i < numCells; i++) {
-            if (t > 0) {
+            if( !interact( cur ) ) {
+                break;
+            }
+        }
+    } else if( ax > ay ) {
+        while( cur.x != x2 ) {
+            if( t > 0 ) {
                 cur.y += sy;
                 t -= ax;
             }
             cur.x += sx;
             t += ay;
-            ret.push_back(cur);
-        } ;
+            if( !interact( cur ) ) {
+                break;
+            }
+        }
     } else {
-        for (int i = 0; i < numCells; i++) {
-            if (t > 0) {
+        while( cur.y != y2 ) {
+            if( t > 0 ) {
                 cur.x += sx;
                 t -= ay;
             }
             cur.y += sy;
             t += ax;
-            ret.push_back(cur);
-        } ;
+            if( !interact( cur ) ) {
+                break;
+            }
+        }
     }
-    return ret;
+}
+
+void bresenham( const tripoint &loc1, const tripoint &loc2, int t, int t2,
+                const std::function<bool(const tripoint &)> &interact )
+{
+    // The slope components.
+    const int dx = loc2.x - loc1.x;
+    const int dy = loc2.y - loc1.y;
+    const int dz = loc2.z - loc1.z;
+    // The signs of the slopes.
+    const int sx = (dx == 0 ? 0 : SGN(dx));
+    const int sy = (dy == 0 ? 0 : SGN(dy));
+    const int sz = (dz == 0 ? 0 : SGN(dz));
+    // Absolute values of slope components, x2 to avoid rounding errors.
+    const int ax = abs(dx) * 2;
+    const int ay = abs(dy) * 2;
+    const int az = abs(dz) * 2;
+
+    tripoint cur( loc1 );
+
+    if( az == 0 ) {
+        if( ax == ay ) {
+          while( cur.x != loc2.x ) {
+                cur.y += sy;
+                cur.x += sx;
+                if( !interact( cur ) ) {
+                    break;
+                }
+            }
+        } else if (ax > ay) {
+            while( cur.x != loc2.x ) {
+                if( t > 0 ) {
+                    cur.y += sy;
+                    t -= ax;
+                }
+                cur.x += sx;
+                t += ay;
+                if( !interact( cur ) ) {
+                    break;
+                }
+            }
+        } else {
+            while( cur.y != loc2.y ) {
+                if( t > 0 ) {
+                    cur.x += sx;
+                    t -= ay;
+                }
+                cur.y += sy;
+                t += ax;
+                if( !interact( cur ) ) {
+                    break;
+                }
+            }
+        }
+    } else {
+        if( ax == ay && ay == az ) {
+            while( cur.x != loc2.x ) {
+                cur.z += sz;
+                cur.y += sy;
+                cur.x += sx;
+                if( !interact( cur ) ) {
+                    break;
+                }
+            }
+        } else if( (az > ax) && (az > ay) ) {
+            while( cur.z != loc2.z ) {
+                if( t > 0 ) {
+                    cur.x += sx;
+                    t -= az;
+                }
+                if( t2 > 0 ) {
+                    cur.y += sy;
+                    t2 -= az;
+                }
+                cur.z += sz;
+                t += ax;
+                t2 += ay;
+                if( !interact( cur ) ) {
+                    break;
+                }
+            }
+        } else if( ax == ay ) {
+            while( cur.x != loc2.x ) {
+                if( t > 0 ) {
+                    cur.z += sz;
+                    t -= ax;
+                }
+                cur.y += sy;
+                cur.x += sx;
+                t += az;
+                if( !interact( cur ) ) {
+                    break;
+                }
+            }
+        } else if( ax > ay ) {
+            while( cur.x != loc2.x ) {
+                if( t > 0 ) {
+                    cur.y += sy;
+                    t -= ax;
+                }
+                if( t2 > 0 ) {
+                    cur.z += sz;
+                    t2 -= ax;
+                }
+                cur.x += sx;
+                t += ay;
+                t2 += az;
+                if( !interact( cur ) ) {
+                    break;
+                }
+            }
+        } else { //dy > dx >= dz
+            while( cur.y != loc2.y ) {
+                if( t > 0 ) {
+                    cur.x += sx;
+                    t -= ay;
+                }
+                if( t2 > 0 ) {
+                    cur.z += sz;
+                    t2 -= ay;
+                }
+                cur.y += sy;
+                t += ax;
+                t2 += az;
+                if( !interact( cur ) ) {
+                    break;
+                }
+            }
+        }
+    }
+}
+
+//Trying to pull points out of a tripoint vector is messy and
+//probably slow, so leaving two full functions for now
+std::vector<point> line_to(const int x1, const int y1, const int x2, const int y2, int t)
+{
+    std::vector<point> line;
+    // Preallocate the number of cells we need instead of allocating them piecewise.
+    const int numCells = square_dist(tripoint(x1, y1, 0), tripoint(x2, y2, 0));
+    if( numCells == 0 ) {
+        line.push_back( {x1, y1} );
+    } else {
+        line.reserve(numCells);
+        bresenham( x1, y1, x2, y2, t, [&line]( const point &new_point ) {
+            line.push_back(new_point);
+            return true;
+        } );
+    }
+    return line;
 }
 
 std::vector<point> line_to( const point &p1, const point &p2, const int t )
@@ -72,116 +211,19 @@ std::vector<point> line_to( const point &p1, const point &p2, const int t )
 
 std::vector <tripoint> line_to(const tripoint &loc1, const tripoint &loc2, int t, int t2)
 {
-    std::vector<tripoint> ret;
+    std::vector<tripoint> line;
     // Preallocate the number of cells we need instead of allocating them piecewise.
     const int numCells = square_dist(loc1, loc2);
-    ret.reserve(numCells);
-    tripoint cur( loc1 );
-    const int dx = loc2.x - loc1.x;
-    const int dy = loc2.y - loc1.y;
-    const int dz = loc2.z - loc1.z;
-    // Any ideas why we're multiplying the abs distance by two here?
-    const int ax = abs(dx) * 2;
-    const int ay = abs(dy) * 2;
-    const int az = abs(dz) * 2;
-    const int sx = (dx == 0 ? 0 : SGN(dx));
-    const int sy = (dy == 0 ? 0 : SGN(dy));
-    const int sz = (dz == 0 ? 0 : SGN(dz));
-    if (az == 0) {
-        if (ax == ay) {
-            for (int i = 0; i < numCells; i++) {
-                cur.y += sy;
-                cur.x += sx;
-                ret.push_back(cur);
-            } ;
-        } else if (ax > ay) {
-            for (int i = 0; i < numCells; i++) {
-                if (t > 0) {
-                    cur.y += sy;
-                    t -= ax;
-                }
-                cur.x += sx;
-                t += ay;
-                ret.push_back(cur);
-            } ;
-        } else {
-            for (int i = 0; i < numCells; i++) {
-                if (t > 0) {
-                    cur.x += sx;
-                    t -= ay;
-                }
-                cur.y += sy;
-                t += ax;
-                ret.push_back(cur);
-            } ;
-        }
+    if( numCells == 0 ) {
+        line.push_back( loc1 );
     } else {
-        if (ax == ay && ay == az) {
-            for (int i = 0; i < numCells; i++) {
-                cur.z += sz;
-                cur.y += sy;
-                cur.x += sx;
-                ret.push_back(cur);
-            } ;
-        } else if ((az > ax) && (az > ay)) {
-            for (int i = 0; i < numCells; i++) {
-                if (t > 0) {
-                    cur.x += sx;
-                    t -= az;
-                }
-                if (t2 > 0) {
-                    cur.z += sz;
-                    t2 -= ax;
-                }
-                cur.z += sz;
-                t += ax;
-                t2 += ay;
-                ret.push_back(cur);
-            } ;
-        } else if (ax == ay) {
-            for (int i = 0; i < numCells; i++) {
-                if (t > 0) {
-                    cur.z += sz;
-                    t -= ax; // to clarify, ax and az are equivalent in this case
-                }
-                cur.y += sy;
-                cur.x += sx;
-                t += az;
-                ret.push_back(cur);
-            } ;
-        } else if (ax > ay) {
-            for (int i = 0; i < numCells; i++) {
-                if (t > 0) {
-                    cur.y += sy;
-                    t -= ax;
-                }
-                if (t2 > 0) {
-                    cur.z += sz;
-                    t2 -= ax;
-                }
-                cur.x += sx;
-                t += ay;
-                t2 += az;
-                ret.push_back(cur);
-            } ;
-        } else { //dy > dx >= dz
-            for (int i = 0; i < numCells; i++) {
-                if (t > 0) {
-                    cur.x += sx;
-                    t -= ay;
-                }
-                if (t2 > 0) {
-                    cur.z += sz;
-                    t2 -= ay;
-                }
-                cur.y += sy;
-                t += ax;
-                t2 += az;
-                ret.push_back(cur);
-            } ;
-        }
+        line.reserve(numCells);
+        bresenham( loc1, loc2, t, t2, [&line]( const tripoint &new_point ) {
+            line.push_back(new_point);
+            return true;
+        } );
     }
-    return ret;
+    return line;
 }
 
 int trig_dist(const int x1, const int y1, const int x2, const int y2)
@@ -410,6 +452,43 @@ std::string const& direction_name(direction const dir)
 std::string const& direction_name_short(direction const dir)
 {
     return direction_name_impl(dir, true);
+}
+
+// Cardinals are cardinals. Result is cardinal and adjacent sub-cardinals.
+// Sub-Cardinals are sub-cardinals && abs(x) == abs(y). Result is sub-cardinal and adjacent cardinals.
+// Sub-sub-cardinals are direction && abs(x) > abs(y) or vice versa.
+// Result is adjacent cardinal and sub-cardinals, plus the nearest other cardinal.
+// e.g. if the direction is NNE, also include E.
+std::vector<tripoint> squares_closer_to( const tripoint &from, const tripoint &to )
+{
+    std::vector<tripoint> adjacent_closer_squares;
+    const int dx = to.x - from.x;
+    const int dy = to.y - from.y;
+    const int ax = std::abs( dx );
+    const int ay = std::abs( dy );
+    if( ax > ay ) {
+        // X dominant.
+        adjacent_closer_squares.push_back( { from.x + SGN(dx), from.y, from.z } );
+        adjacent_closer_squares.push_back( { from.x + SGN(dx), from.y + 1, from.z } );
+        adjacent_closer_squares.push_back( { from.x + SGN(dx), from.y - 1, from.z } );
+        if( dy != 0 ) {
+            adjacent_closer_squares.push_back( { from.x, from.y + SGN(dy), from.z } );
+        }
+    } else if( ax < ay ) {
+        // Y dominant.
+        adjacent_closer_squares.push_back( { from.x, from.y + SGN(dy), from.z } );
+        adjacent_closer_squares.push_back( { from.x + 1, from.y + SGN(dy), from.z } );
+        adjacent_closer_squares.push_back( { from.x - 1, from.y + SGN(dy), from.z } );
+        if( dx != 0 ) {
+            adjacent_closer_squares.push_back( { from.x + SGN(dx), from.y, from.z } );
+        }
+    } else {
+        // Pure diagonal.
+        adjacent_closer_squares.push_back( { from.x + SGN(dx), from.y + SGN(dy), from.z } );
+        adjacent_closer_squares.push_back( { from.x + SGN(dx), from.y, from.z } );
+        adjacent_closer_squares.push_back( { from.x, from.y + SGN(dy), from.z } );
+    }
+    return adjacent_closer_squares;
 }
 
 // Returns a vector of the adjacent square in the direction of the target,

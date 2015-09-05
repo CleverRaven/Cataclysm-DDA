@@ -400,7 +400,7 @@ IF(TILES)
 
 	IF(SOUND)
 		set_target_properties(cataclysm-tiles PROPERTIES COMPILE_DEFINITIONS
-			"SDLTILES;TILES;SDL_SOUND" )
+			"TILES;SDL_SOUND" )
 
 		target_include_directories(cataclysm-tiles PUBLIC ${OGGVORBIS_INCLUDE_DIR})
 		target_link_libraries(cataclysm-tiles ${OGG_LIBRARY})
@@ -412,7 +412,7 @@ IF(TILES)
 	ELSE(SOUND)
 		# Set additional build props
 		set_target_properties(cataclysm-tiles PROPERTIES COMPILE_DEFINITIONS
-			"SDLTILES;TILES" )
+			"TILES" )
 	ENDIF(SOUND)
 
 	IF(WIN32)

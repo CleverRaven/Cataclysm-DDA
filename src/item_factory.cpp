@@ -38,16 +38,6 @@ static t_string_set item_whitelist;
 
 std::unique_ptr<Item_factory> item_controller( new Item_factory() );
 
-void remove_item(const std::string &itm, std::vector<map_bash_item_drop> &vec)
-{
-    for (size_t i = 0; i < vec.size(); i++) {
-        if (vec[i].itemtype == itm) {
-            vec.erase(vec.begin() + i);
-            i--;
-        }
-    }
-}
-
 bool item_is_blacklisted(const std::string &id)
 {
     if (item_whitelist.count(id) > 0) {
@@ -96,13 +86,6 @@ void Item_factory::finialize_item_blacklist()
         remove_construction_if([&](construction &c) {
             return c.requirements.remove_item(itm);
         });
-
-        for( auto &elem : termap ) {
-            remove_item( itm, elem.second.bash.items );
-        }
-        for( auto &elem : furnmap ) {
-            remove_item( itm, elem.second.bash.items );
-        }
     }
 }
 
@@ -196,7 +179,7 @@ void Item_factory::init()
     iuse_function_list["MYCUS"] = &iuse::mycus;
     iuse_function_list["DOGFOOD"] = &iuse::dogfood;
     iuse_function_list["CATFOOD"] = &iuse::catfood;
-
+    iuse_function_list["CAPTURE_MONSTER_ACT"] = &iuse::capture_monster_act;
     // TOOLS
     iuse_function_list["SEW"] = &iuse::sew;
     iuse_function_list["SEW_ADVANCED"] = &iuse::sew_advanced;
@@ -337,6 +320,10 @@ void Item_factory::init()
     iuse_function_list["REMOTEVEH"] = &iuse::remoteveh;
 
     create_inital_categories();
+
+    // An empty dummy group, it will not spawn anything. However, it makes that item group
+    // id valid, so it can be used all over the place without need to explicitly check for it.
+    m_template_groups["EMPTY_GROUP"] = new Item_group( Item_group::G_COLLECTION, 100 );
 }
 
 void Item_factory::create_inital_categories()
@@ -373,31 +360,38 @@ void Item_factory::add_category(const std::string &id, int sort_rank, const std:
     cat.name = name;
 }
 
-inline int ammo_type_defined(const std::string &ammo)
+/**
+ * Checks that ammo type is fake type or not.
+ * @param ammo type for check.
+ * @return true if ammo type is a fake, false otherwise.
+ */
+static bool fake_ammo_type(const std::string &ammo)
 {
-    if (ammo == "NULL" || ammo == "generic_no_ammo") {
-        return 1; // Known ammo type
+    if (  ammo == "NULL" || ammo == "generic_no_ammo" ||
+          ammo == "pointer_fake_ammo" ) {
+        return true;
     }
-    if (ammo_name(ammo) != "XXX") {
-        return 1; // Known ammo type
-    }
-    if (!item_controller->has_template(ammo)) {
-        return 0; // Unknown ammo type
-    }
-    return 2; // Unknown from ammo_name, but defined as itype
+    return false;
 }
 
 void Item_factory::check_ammo_type(std::ostream &msg, const std::string &ammo) const
 {
-    if (ammo == "NULL" || ammo == "generic_no_ammo") {
+    // Skip fake types
+    if ( fake_ammo_type(ammo) ) {
         return;
     }
-    if (ammo_name(ammo) == "XXX") {
+
+    // Should be skipped too.
+    if ( ammo == "UPS" ) {
+        return;
+    }
+
+    // Check for valid ammo type name.
+    if (ammo_name(ammo) == "none") {
         msg << string_format("ammo type %s not listed in ammo_name() function", ammo.c_str()) << "\n";
     }
-    if (ammo == "UPS") {
-        return;
-    }
+
+    // Search ammo type.
     for( const auto &elem : m_templates ) {
         const auto ammot = elem.second;
         if( !ammot->ammo ) {
@@ -458,6 +452,11 @@ void Item_factory::check_definitions() const
                 }
             }
         }
+        if( type->book ) {
+            if( type->book->skill && !type->book->skill.is_valid() ) {
+                msg << string_format("uses invalid book skill.") << "\n";
+            }
+        }
         if( type->ammo ) {
             check_ammo_type( msg, type->ammo->type );
             if( type->ammo->casing != "NULL" && !has_template( type->ammo->casing ) ) {
@@ -466,8 +465,10 @@ void Item_factory::check_definitions() const
         }
         if( type->gun ) {
             check_ammo_type( msg, type->gun->ammo );
-            if( type->gun->skill_used == nullptr ) {
+            if( !type->gun->skill_used ) {
                 msg << string_format("uses no skill") << "\n";
+            } else if( !type->gun->skill_used.is_valid() ) {
+                msg << "uses an invalid skill " << type->gun->skill_used.str() << "\n";
             }
             if( type->item_tags.count( "BURST_ONLY" ) > 0 && type->item_tags.count( "MODE_BURST" ) < 1 ) {
                 msg << string_format("has BURST_ONLY but no MODE_BURST") << "\n";
@@ -481,10 +482,13 @@ void Item_factory::check_definitions() const
                 if( !has_template( gm ) ){
                     msg << string_format("invalid built-in mod.") << "\n";
                 }
-            }      
+            }
         }
         if( type->gunmod ) {
             check_ammo_type( msg, type->gunmod->newtype );
+            if( type->gunmod->skill_used && !type->gunmod->skill_used.is_valid() ) {
+                msg << string_format("uses invalid gunmod skill.") << "\n";
+            }
         }
         const it_tool *tool = dynamic_cast<const it_tool *>(type);
         if (tool != 0) {
@@ -622,7 +626,7 @@ void Item_factory::load_ammo(JsonObject &jo)
 void Item_factory::load( islot_gun &slot, JsonObject &jo )
 {
     slot.ammo = jo.get_string( "ammo" );
-    slot.skill_used = Skill::skill( jo.get_string( "skill" ) );
+    slot.skill_used = skill_id( jo.get_string( "skill" ) );
     slot.loudness = jo.get_int( "loudness", 0 );
     slot.damage = jo.get_int( "ranged_damage", 0 );
     slot.range = jo.get_int( "range", 0 );
@@ -758,7 +762,7 @@ void Item_factory::load( islot_book &slot, JsonObject &jo )
     slot.fun = jo.get_int( "fun" );
     slot.intel = jo.get_int( "intelligence" );
     slot.time = jo.get_int( "time" );
-    slot.skill = Skill::skill( jo.get_string( "skill" ) );
+    slot.skill = skill_id( jo.get_string( "skill" ) );
     slot.chapters = jo.get_int( "chapters", -1 );
     set_use_methods_from_json( jo, "use_action", slot.use_methods );
 }
@@ -854,8 +858,8 @@ void Item_factory::load( islot_gunmod &slot, JsonObject &jo )
     slot.burst = jo.get_int( "burst_modifier", 0 );
     slot.range = jo.get_int( "range", 0 );
     slot.clip = jo.get_int( "clip_size_modifier", 0 );
-    slot.acceptible_ammo_types = jo.get_tags( "acceptable_ammo" );
-    slot.skill_used = Skill::skill( jo.get_string( "skill", "gun" ) );
+    slot.acceptable_ammo_types = jo.get_tags( "acceptable_ammo" );
+    slot.skill_used = skill_id( jo.get_string( "skill", "gun" ) );
     slot.req_skill = jo.get_int( "skill_required", 0 );
     slot.ups_charges = jo.get_int( "ups_charges", 0 );
 }
@@ -931,7 +935,13 @@ void Item_factory::load_basic_info(JsonObject &jo, itype *new_item_template)
     }
     new_item_template->sym = jo.get_string("symbol")[0];
     new_item_template->color = color_from_string(jo.get_string("color"));
-    new_item_template->description = _(jo.get_string("description").c_str());
+    std::string temp_desc;
+    temp_desc = jo.get_string("description");
+    if ( !temp_desc.empty() ) {
+        new_item_template->description = _(jo.get_string("description").c_str());
+    } else {
+        new_item_template->description = "";
+    }
     if( jo.has_member("material") ){
         set_material_from_json( jo, "material", new_item_template );
     } else {
@@ -1183,7 +1193,7 @@ Item_group *make_group_or_throw(Item_spawn_data *&isd, Item_group::Type t)
     if (ig == NULL) {
         isd = ig = new Item_group(t, 100);
     } else if (ig->type != t) {
-        throw std::string("item group already definded with different type");
+        throw std::runtime_error("item group already defined with different type");
     }
     return ig;
 }
@@ -1192,8 +1202,16 @@ template<typename T>
 bool load_min_max(std::pair<T, T> &pa, JsonObject &obj, const std::string &name)
 {
     bool result = false;
-    result |= obj.read(name, pa.first);
-    result |= obj.read(name, pa.second);
+    if( obj.has_array( name ) ) {
+        // An array means first is min, second entry is max. Both are mandatory.
+        JsonArray arr = obj.get_array( name );
+        result |= arr.read_next( pa.first );
+        result |= arr.read_next( pa.second );
+    } else {
+        // Not an array, should be a single numeric value, which is set as min and max.
+        result |= obj.read( name, pa.first );
+        result |= obj.read( name, pa.second );
+    }
     result |= obj.read(name + "-min", pa.first);
     result |= obj.read(name + "-max", pa.second);
     return result;
@@ -1269,6 +1287,24 @@ void Item_factory::load_item_group(JsonObject &jsobj)
     load_item_group(jsobj, group_id, subtype);
 }
 
+void Item_factory::load_item_group_entries( Item_group& ig, JsonArray& entries )
+{
+    while( entries.has_more() ) {
+        JsonObject subobj = entries.next_object();
+        add_entry( &ig, subobj );
+    }
+}
+
+void Item_factory::load_item_group( JsonArray &entries, const Group_tag &group_id,
+                                    const bool is_collection )
+{
+    const auto type = is_collection ? Item_group::G_COLLECTION : Item_group::G_DISTRIBUTION;
+    Item_spawn_data *&isd = m_template_groups[group_id];
+    Item_group* const ig = make_group_or_throw( isd, type );
+
+    load_item_group_entries( *ig, entries );
+}
+
 void Item_factory::load_item_group(JsonObject &jsobj, const Group_tag &group_id,
                                    const std::string &subtype)
 {
@@ -1301,10 +1337,7 @@ void Item_factory::load_item_group(JsonObject &jsobj, const Group_tag &group_id,
 
     if (jsobj.has_member("entries")) {
         JsonArray items = jsobj.get_array("entries");
-        while (items.has_more()) {
-            JsonObject subobj = items.next_object();
-            add_entry(ig, subobj);
-        }
+        load_item_group_entries( *ig, items );
     }
     if (jsobj.has_member("items")) {
         JsonArray items = jsobj.get_array("items");

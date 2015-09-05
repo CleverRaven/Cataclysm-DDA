@@ -23,6 +23,7 @@ extern game *g;
 
 extern bool trigdist;
 extern bool use_tiles;
+extern bool fov_3d;
 
 extern const int savegame_version;
 extern int savegame_loading_version;
@@ -98,6 +99,7 @@ struct weather_printable;
 class faction;
 class live_view;
 typedef int nc_color;
+struct w_point;
 
 // Note: this is copied from inventory.h
 // Entire inventory.h would also bring item.h here
@@ -169,6 +171,12 @@ class game
         void draw();
         void draw_ter( bool draw_sounds = true );
         void draw_ter( const tripoint &center, bool looking = false, bool draw_sounds = true );
+        /**
+         * Returns the location where the indicator should go relative to the reality bubble,
+         * or tripoint_min to indicate no indicator should be drawn.
+         * Based on the vehicle the player is driving, if any.
+         */
+        tripoint get_veh_dir_indicator_location() const;
         void draw_veh_dir_indicator(void);
 
         /** Make map a reference here, to avoid map.h in game.h */
@@ -261,8 +269,6 @@ class game
         void plfire( bool burst, const tripoint &default_target = tripoint_min );
         /** Cycle fire mode of held item. If `force_gun` is false, also checks turrets on the tile */
         void cycle_item_mode( bool force_gun );
-        void throw_item( player &p, const tripoint &tarp, item &thrown,
-                         std::vector<tripoint> &trajectory );
         /** Target is an interactive function which allows the player to choose a nearby
          *  square.  It display information on any monster/NPC on that square, and also
          *  returns a Bresenham line to that square.  It is called by plfire(),
@@ -408,11 +414,12 @@ class game
         void zoom_in();
         void zoom_out();
 
-        std::unique_ptr<weather_generator> weatherGen;
+        std::unique_ptr<weather_generator> weather_gen;
         signed char temperature;              // The air temperature
         int get_temperature();    // Returns outdoor or indoor temperature of current location
         weather_type weather;   // Weather pattern--SEE weather.h
         bool lightning_active;
+        std::unique_ptr<w_point> weather_precise; // Cached weather data
 
         /**
          * The top left corner of the reality bubble (in submaps coordinates). This is the same
@@ -520,6 +527,7 @@ class game
 
         const int dangerous_proximity;
         bool narrow_sidebar;
+        bool right_sidebar;
         bool fullscreen;
         bool was_fullscreen;
         void exam_vehicle(vehicle &veh, const tripoint &p, int cx = 0,
@@ -536,6 +544,25 @@ class game
                   int freed_volume_capacity, int dirx, int diry,
                   bool to_vehicle = true); // emulate old behaviour normally
         bool make_drop_activity(enum activity_type act, const tripoint &target, bool to_vehicle = true);
+
+        // Forcefully close a door at p.
+        // The function checks for creatures/items/vehicles at that point and
+        // might kill/harm/destroy them.
+        // If there still remains something that prevents the door from closing
+        // (e.g. a very big creatures, a vehicle) the door will not be closed and
+        // the function returns false.
+        // If the door gets closed the terrain at p is set to door_type and
+        // true is returned.
+        // bash_dmg controls how much damage the door does to the
+        // creatures/items/vehicle.
+        // If bash_dmg is 0 or smaller, creatures and vehicles are not damaged
+        // at all and they will prevent the door from closing.
+        // If bash_dmg is smaller than 0, _every_ item on the door tile will
+        // prevent the door from closing. If bash_dmg is 0, only very small items
+        // will do so, if bash_dmg is greater than 0, items won't stop the door
+        // from closing at all.
+        // If the door gets closed the items on the door tile get moved away or destroyed.
+        bool forced_gate_closing( const tripoint &p, const ter_id door_type, int bash_dmg );
     private:
         // Game-start procedures
         void print_menu(WINDOW *w_open, int iSel, const int iMenuOffsetX, int iMenuOffsetY,
@@ -586,25 +613,6 @@ class game
         void open(); // Open a door  'o'
         void close(int closex = -1, int closey = -1); // Close a door  'c'
         void smash(); // Smash terrain
-
-        // Forcefully close a door at p.
-        // The function checks for creatures/items/vehicles at that point and
-        // might kill/harm/destroy them.
-        // If there still remains something that prevents the door from closing
-        // (e.g. a very big creatures, a vehicle) the door will not be closed and
-        // the function returns false.
-        // If the door gets closed the terrain at p is set to door_type and
-        // true is returned.
-        // bash_dmg controls how much damage the door does to the
-        // creatures/items/vehicle.
-        // If bash_dmg is 0 or smaller, creatures and vehicles are not damaged
-        // at all and they will prevent the door from closing.
-        // If bash_dmg is smaller than 0, _every_ item on the door tile will
-        // prevent the door from closing. If bash_dmg is 0, only very small items
-        // will do so, if bash_dmg is greater than 0, items won't stop the door
-        // from closing at all.
-        // If the door gets closed the items on the door tile get moved away or destroyed.
-        bool forced_gate_closing( const tripoint &p, const ter_id door_type, int bash_dmg );
 
         void handbrake ();
         void control_vehicle(); // Use vehicle controls  '^'

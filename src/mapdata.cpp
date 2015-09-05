@@ -7,6 +7,7 @@
 #include "trap.h"
 #include "output.h"
 #include "item.h"
+#include "item_group.h"
 
 #include <unordered_map>
 
@@ -77,15 +78,6 @@ static const std::unordered_map<std::string, ter_bitflags> ter_bitflags_map = { 
     { "NO_FLOOR",                 TFLAG_NO_FLOOR },       // Things should fall when placed on this tile
 } };
 
-void load_map_bash_item_drop_list( JsonArray ja, std::vector<map_bash_item_drop> &items ) {
-    while ( ja.has_more() ) {
-        JsonObject jio = ja.next_object();
-        map_bash_item_drop drop( jio.get_string("item"), jio.get_int("amount"), jio.get_int("minamount", -1) );
-        drop.chance = jio.get_int("chance", -1);
-        items.push_back(drop);
-    }
-}
-
 void load_map_bash_tent_centers( JsonArray ja, std::vector<std::string> &centers ) {
     while ( ja.has_more() ) {
         centers.push_back( ja.next_string() );
@@ -130,8 +122,11 @@ bool map_bash_info::load(JsonObject &jsobj, std::string member, bool isfurniture
         ter_set = j.get_string( "ter_set" );
     }
 
-    if( j.has_array("items") ) {
-        load_map_bash_item_drop_list(j.get_array("items"), items);
+    if( j.has_member( "items" ) ) {
+        JsonIn& stream = *j.get_raw( "items" );
+        drop_group = item_group::load_item_group( stream, "collection" );
+    } else {
+        drop_group = "EMPTY_GROUP";
     }
 
     if( j.has_array("tent_centers") ) {
@@ -153,7 +148,8 @@ bool map_deconstruct_info::load(JsonObject &jsobj, std::string member, bool isfu
     }
     can_do = true;
 
-    load_map_bash_item_drop_list(j.get_array("items"), items);
+    JsonIn& stream = *j.get_raw( "items" );
+    drop_group = item_group::load_item_group( stream, "collection" );
     return true;
 }
 
@@ -460,7 +456,7 @@ ter_id t_null,
     // Tree
     t_tree, t_tree_young, t_tree_apple, t_tree_apple_harvested, t_tree_pear, t_tree_pear_harvested, t_tree_cherry, t_tree_cherry_harvested,
     t_tree_peach, t_tree_peach_harvested, t_tree_apricot, t_tree_apricot_harvested, t_tree_plum, t_tree_plum_harvested,
-    t_tree_pine, t_tree_blackjack, t_tree_deadpine, t_underbrush, t_shrub, t_shrub_blueberry, t_shrub_strawberry, t_trunk,
+    t_tree_pine, t_tree_blackjack, t_tree_birch, t_tree_willow, t_tree_maple, t_tree_deadpine, t_underbrush, t_shrub, t_shrub_blueberry, t_shrub_strawberry, t_trunk,
     t_root_wall,
     t_wax, t_floor_wax,
     t_fence_v, t_fence_h, t_chainfence_v, t_chainfence_h, t_chainfence_posts,
@@ -638,6 +634,9 @@ void set_ter_ids() {
     t_tree_plum_harvested=terfind("t_tree_plum_harvested");
     t_tree_pine=terfind("t_tree_pine");
     t_tree_blackjack=terfind("t_tree_blackjack");
+    t_tree_birch=terfind("t_tree_birch");
+    t_tree_willow=terfind("t_tree_willow");
+    t_tree_maple=terfind("t_tree_maple");
     t_tree_deadpine=terfind("t_tree_deadpine");
     t_underbrush=terfind("t_underbrush");
     t_shrub=terfind("t_shrub");
@@ -910,11 +909,8 @@ ter_furn_id::ter_furn_id() {
 
 void check_bash_items(const map_bash_info &mbi, const std::string &id, bool is_terrain)
 {
-    for( auto &elem : mbi.items ) {
-        const std::string &it = elem.itemtype;
-        if( !item::type_is_defined( it ) ) {
-            debugmsg("%s: bash result item %s does not exist", id.c_str(), it.c_str());
-        }
+    if( !item_group::group_is_defined( mbi.drop_group ) ) {
+        debugmsg( "%s: bash result item group %s does not exist", id.c_str(), mbi.drop_group.c_str() );
     }
     if (mbi.str_max != -1) {
         if (is_terrain && mbi.ter_set.empty()) {
@@ -934,11 +930,8 @@ void check_decon_items(const map_deconstruct_info &mbi, const std::string &id, b
     if (!mbi.can_do) {
         return;
     }
-    for( auto &elem : mbi.items ) {
-        const std::string &it = elem.itemtype;
-        if( !item::type_is_defined( it ) ) {
-            debugmsg("%s: deconstruct result item %s does not exist", id.c_str(), it.c_str());
-        }
+    if( !item_group::group_is_defined( mbi.drop_group ) ) {
+        debugmsg( "%s: deconstruct result item group %s does not exist", id.c_str(), mbi.drop_group.c_str() );
     }
     if (is_terrain && mbi.ter_set.empty()) {
         debugmsg("deconstruct result terrain of %s is undefined/empty", id.c_str());

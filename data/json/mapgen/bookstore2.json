@@ -57,7 +57,7 @@
                 "%": "t_console_broken"
             },
             "furniture": {
-		">": "f_rubble",
+                ">": "f_rubble",
                 "#": "f_counter",
                 "h": "f_chair",
                 "T": "f_table",

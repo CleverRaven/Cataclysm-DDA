@@ -94,6 +94,7 @@ class inventory
         // amount of -1 removes the entire stack.
         template<typename Locator> std::list<item> reduce_stack(const Locator &type, int amount);
 
+        const item &find_item(int position) const;
         item &find_item(int position);
         item &item_by_type(itype_id type);
         item &item_or_container(itype_id type); // returns an item, or a container of it
@@ -145,7 +146,7 @@ class inventory
         int worst_item_value(npc *p) const;
         bool has_enough_painkiller(int pain) const;
         item *most_appropriate_painkiller(int pain);
-        item *best_for_melee(player *p);
+        item *best_for_melee( player &p, double &best );
         item *most_loaded_gun();
 
         void rust_iron_items();

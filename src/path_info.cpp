@@ -186,6 +186,10 @@ void PATH_INFO::set_standard_filenames(void)
     update_pathname("legacy_keymap", "data/keymap.txt");
     update_pathname("legacy_autopickup", "data/auto_pickup.txt");
     update_pathname("legacy_fontdata", FILENAMES["datadir"] + "fontdata.json");
+#ifdef TILES
+    // Default tileset config file.
+    update_pathname("tileset-conf", "tileset.txt");
+#endif
 }
 
 std::string PATH_INFO::find_translated_file( const std::string &pathid,

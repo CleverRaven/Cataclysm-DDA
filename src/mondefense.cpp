@@ -41,7 +41,7 @@ void mdefense::zapback( monster *const m, Creature *const source, projectile con
 
     if( g->u.sees( source->pos() ) ) {
         auto const msg_type = ( source == &g->u ) ? m_bad : m_info;
-        add_msg( msg_type, _( "Striking the %s shocks %s!" ),
+        add_msg( msg_type, _( "Striking the %1$s shocks %2$s!" ),
                  m->name().c_str(), source->disp_name().c_str() );
     }
     source->check_dead_state();

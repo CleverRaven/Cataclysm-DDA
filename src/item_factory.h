@@ -105,6 +105,23 @@ class Item_factory
          */
         void load_item_group(JsonObject &jsobj, const Group_tag &ident, const std::string &subtype);
         /**
+         * Like above, but the above loads data from several members of the object, this function
+         * assume the given array is the "entries" member of the item group.
+         * The entries are loaded via @ref load_item_group_entries.
+         * Assuming the input array looks like `[ x, y, z ]`, this function loads it like the
+         * above would load this object:
+         * \code
+         * {
+         *      "subtype": "depends on is_collection parameter",
+         *      "id": "ident",
+         *      "entries": [ x, y, z ]
+         * }
+         * \endcode
+         * Note that each entrie in the array has to be a JSON object. The other function above
+         * can also load data from arrays of strings, where the strings are item or group ids.
+         */
+        void load_item_group(JsonArray &entries, const Group_tag &ident, bool is_collection);
+        /**
          * Get the item group object. Returns null if the item group does not exists.
          */
         Item_spawn_data *get_group(const Group_tag &id);
@@ -219,11 +236,12 @@ class Item_factory
         typedef std::map<Group_tag, Item_spawn_data *> GroupMap;
         GroupMap m_template_groups;
 
-        // Checks that ammo is listed in ammo_name(),
-        // That there is at least on instance of
-        // this ammo type defined.
-        // If any of this fails, prints a message to the msg
-        // stream.
+        /** Checks that ammo is listed in ammo_name().
+         * At least one instance of this ammo type should be defined.
+         * If any of checks fails, prints a message to the msg stream.
+         * @param msg Stream in which all error messages are printed.
+         * @param ammo Ammo type to check.
+         */
         void check_ammo_type(std::ostream &msg, const std::string &ammo) const;
 
         typedef std::map<std::string, item_category> CategoryMap;
@@ -273,6 +291,7 @@ class Item_factory
         phase_id phase_from_tag(Item_tag name);
 
         void add_entry(Item_group *sg, JsonObject &obj);
+        void load_item_group_entries( Item_group& ig, JsonArray& entries );
 
         void load_basic_info(JsonObject &jo, itype *new_item);
         void tags_from_json(JsonObject &jo, std::string member, std::set<std::string> &tags);

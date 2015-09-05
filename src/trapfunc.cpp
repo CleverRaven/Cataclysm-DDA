@@ -16,6 +16,8 @@ const mtype_id mon_blob( "mon_blob" );
 const mtype_id mon_shadow( "mon_shadow" );
 const mtype_id mon_shadow_snake( "mon_shadow_snake" );
 
+const skill_id skill_throw( "throw" );
+
 // A pit becomes less effective as it fills with corpses.
 float pit_effectiveness( const tripoint &p )
 {
@@ -172,7 +174,7 @@ void trapfunc::tripwire( Creature *c, const tripoint &p )
         monster *z = dynamic_cast<monster *>( c );
         player *n = dynamic_cast<player *>( c );
         if( z != nullptr ) {
-            z->stumble( false );
+            z->stumble();
             if( rng( 0, 10 ) > z->get_dodge() ) {
                 z->apply_damage( nullptr, bp_torso, rng( 1, 4 ) );
             }
@@ -545,7 +547,7 @@ void trapfunc::telepad( Creature *c, const tripoint &p )
                 int mon_hit = g->mon_at( {newposx, newposy, z->posz()} );
                 if( mon_hit != -1 ) {
                     if( g->u.sees( *z ) ) {
-                        add_msg( m_good, _( "The %s teleports into a %s, killing them both!" ),
+                        add_msg( m_good, _( "The %1$s teleports into a %2$s, killing them both!" ),
                                  z->name().c_str(), g->zombie( mon_hit ).name().c_str() );
                     }
                     g->zombie( mon_hit ).die_in_explosion( z );
@@ -874,8 +876,8 @@ void trapfunc::sinkhole( Creature *c, const tripoint &p )
 
     const auto safety_roll = [&]( const std::string &itemname,
                                   const int diff ) {
-        const int roll = rng( pl->skillLevel( "throw" ),
-                              pl->skillLevel( "throw" ) + pl->str_cur + pl->dex_cur );
+        const int roll = rng( pl->skillLevel( skill_throw ),
+                              pl->skillLevel( skill_throw ) + pl->str_cur + pl->dex_cur );
         if( roll < diff ) {
             pl->add_msg_if_player( m_bad, _( "You fail to attach it..." ) );
             pl->use_amount( itemname, 1 );

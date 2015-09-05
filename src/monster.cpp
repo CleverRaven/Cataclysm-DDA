@@ -26,6 +26,7 @@
 #include "mapdata.h"
 #include "mtype.h"
 #include "field.h"
+#include "sounds.h"
 
 #define SGN(a) (((a)<0) ? -1 : 1)
 #define SQR(a) ((a)*(a))
@@ -79,84 +80,87 @@ const mtype_id mon_zombie_tough( "mon_zombie_tough" );
 
 monster::monster()
 {
- position.x = 20;
- position.y = 10;
- position.z = -500; // Some arbitrary number that will cause debugmsgs
- wandf = 0;
- hp = 60;
- moves = 0;
- def_chance = 0;
- friendly = 0;
- anger = 0;
- morale = 2;
- faction = mfaction_id( 0 );
- mission_id = -1;
- no_extra_death_drops = false;
- dead = false;
- made_footstep = false;
- unique_name = "";
- hallucination = false;
- ignoring = 0;
- upgrades = false;
- upgrade_time = -1;
+    position.x = 20;
+    position.y = 10;
+    position.z = -500; // Some arbitrary number that will cause debugmsgs
+    unset_dest();
+    wandf = 0;
+    hp = 60;
+    moves = 0;
+    def_chance = 0;
+    friendly = 0;
+    anger = 0;
+    morale = 2;
+    faction = mfaction_id( 0 );
+    mission_id = -1;
+    no_extra_death_drops = false;
+    dead = false;
+    made_footstep = false;
+    unique_name = "";
+    hallucination = false;
+    ignoring = 0;
+    upgrades = false;
+    upgrade_time = -1;
 }
 
 monster::monster( const mtype_id& id )
 {
- position.x = 20;
- position.y = 10;
- position.z = -500; // Some arbitrary number that will cause debugmsgs
- wandf = 0;
- type = &id.obj();
- moves = type->speed;
- Creature::set_speed_base(type->speed);
- hp = type->hp;
- for( auto &elem : type->sp_freq ) {
-     sp_timeout.push_back( rng( 0, elem ) );
- }
- def_chance = type->def_chance;
- friendly = 0;
- anger = type->agro;
- morale = type->morale;
- faction = type->default_faction;
- mission_id = -1;
- no_extra_death_drops = false;
- dead = false;
- made_footstep = false;
- unique_name = "";
- hallucination = false;
- ignoring = 0;
- ammo = type->starting_ammo;
- upgrades = type->upgrades;
- upgrade_time = -1;
+    position.x = 20;
+    position.y = 10;
+    position.z = -500; // Some arbitrary number that will cause debugmsgs
+    unset_dest();
+    wandf = 0;
+    type = &id.obj();
+    moves = type->speed;
+    Creature::set_speed_base(type->speed);
+    hp = type->hp;
+    for( auto &elem : type->sp_freq ) {
+        sp_timeout.push_back( rng( 0, elem ) );
+    }
+    def_chance = type->def_chance;
+    friendly = 0;
+    anger = type->agro;
+    morale = type->morale;
+    faction = type->default_faction;
+    mission_id = -1;
+    no_extra_death_drops = false;
+    dead = false;
+    made_footstep = false;
+    unique_name = "";
+    hallucination = false;
+    ignoring = 0;
+    ammo = type->starting_ammo;
+    upgrades = type->upgrades;
+    upgrade_time = -1;
 }
 
 monster::monster( const mtype_id& id, const tripoint &p )
 {
- position = p;
- wandf = 0;
- type = &id.obj();
- moves = type->speed;
- Creature::set_speed_base(type->speed);
- hp = type->hp;
- for( auto &elem : type->sp_freq ) {
-     sp_timeout.push_back( elem );
- }
- def_chance = type->def_chance;
- friendly = 0;
- anger = type->agro;
- morale = type->morale;
- faction = type->default_faction;
- mission_id = -1;
- no_extra_death_drops = false;
- dead = false;
- made_footstep = false;
- unique_name = "";
- hallucination = false;
- ignoring = 0;
- ammo = type->starting_ammo;
- upgrades = type->upgrades;
- upgrade_time = -1;
+    position = p;
+    unset_dest();
+    wandf = 0;
+    type = &id.obj();
+    moves = type->speed;
+    Creature::set_speed_base(type->speed);
+    hp = type->hp;
+    for( auto &elem : type->sp_freq ) {
+        sp_timeout.push_back( elem );
+    }
+    def_chance = type->def_chance;
+    friendly = 0;
+    anger = type->agro;
+    morale = type->morale;
+    faction = type->default_faction;
+    mission_id = -1;
+    no_extra_death_drops = false;
+    dead = false;
+    made_footstep = false;
+    unique_name = "";
+    hallucination = false;
+    ignoring = 0;
+    ammo = type->starting_ammo;
+    upgrades = type->upgrades;
+    upgrade_time = -1;
 }
 
 monster::~monster()
@@ -169,8 +173,12 @@ void monster::setpos( const tripoint &p )
         return;
     }
 
+    bool wandering = wander();
     g->update_zombie_pos( *this, p );
     position = p;
+    if( wandering ) {
+        unset_dest();
+    }
 }
 
 const tripoint &monster::pos() const
@@ -261,12 +269,14 @@ void monster::try_upgrade(bool pin_time) {
             return;
         }
 
-        static const mtype_id mon_null( "mon_null" );
-        if( type->upgrade_into != mon_null ) {
+        if( type->upgrade_into ) {
             poly( type->upgrade_into );
         } else {
             const std::vector<mtype_id> monsters = MonsterGroupManager::GetMonstersFromGroup(type->upgrade_group);
-            poly( random_entry( monsters ) );
+            const mtype_id &new_type = random_entry( monsters );
+            if( new_type ) {
+                poly( new_type );
+            }
         }
 
         if (!upgrades) {
@@ -286,6 +296,7 @@ void monster::try_upgrade(bool pin_time) {
 void monster::spawn(const tripoint &p)
 {
     position = p;
+    unset_dest();
 }
 
 std::string monster::name(unsigned int quantity) const
@@ -462,7 +473,7 @@ nc_color monster::color_with_effects() const
     return ret;
 }
 
-bool monster::avoid_trap( const tripoint & /* pos */, const trap &tr )
+bool monster::avoid_trap( const tripoint & /* pos */, const trap &tr ) const
 {
     // The trap position is not used, monsters are to stupid to remember traps. Actually, they do
     // not even see them.
@@ -507,7 +518,7 @@ bool monster::digging() const
 
 bool monster::can_act() const
 {
-    return moves > 0 && !has_flag(MF_IMMOBILE) &&
+    return moves > 0 &&
         ( effects.empty() ||
           ( !has_effect("stunned") && !has_effect("downed") && !has_effect("webbed") ) );
 }
@@ -544,20 +555,9 @@ void monster::load_info(std::string data)
     JsonIn jsin(dump);
     try {
         deserialize(jsin);
-    } catch (std::string jsonerr) {
+    } catch( const JsonError &jsonerr ) {
         debugmsg("monster:load_info: Bad monster json\n%s", jsonerr.c_str() );
     }
-}
-
-void monster::debug(player &u)
-{
-    debugmsg("monster::debug %s has %d steps planned.", name().c_str(), plans.size());
-    debugmsg("monster::debug %s Moves %d Speed %d HP %d",name().c_str(), moves, get_speed(), hp);
-    for (size_t i = 0; i < plans.size(); i++) {
-        const int digit = '0' + (i % 10);
-        mvaddch(plans[i].y - SEEY + u.posy(), plans[i].x - SEEX + u.posx(), digit);
-    }
-    getch();
 }
 
 void monster::shift(int sx, int sy)
@@ -566,11 +566,8 @@ void monster::shift(int sx, int sy)
     const int yshift = sy * SEEY;
     position.x -= xshift;
     position.y -= yshift;
-    for (auto &i : plans) {
-        i.x -= xshift;
-        i.y -= yshift;
-    }
-
+    goal.x -= xshift;
+    goal.y -= yshift;
     if( wandf > 0 ) {
         wander_pos.x -= xshift;
         wander_pos.y -= yshift;
@@ -579,16 +576,12 @@ void monster::shift(int sx, int sy)
 
 tripoint monster::move_target()
 {
-    if( plans.empty() ) {
-        // if we have no plans, pretend it's intentional
-        return pos3();
-    }
-    return plans.back();
+    return goal;
 }
 
 Creature *monster::attack_target()
 {
-    if( plans.empty() ) {
+    if( wander() ) {
         return nullptr;
     }
 
@@ -603,11 +596,11 @@ Creature *monster::attack_target()
 
 bool monster::is_fleeing(player &u) const
 {
- if (has_effect("run"))
-  return true;
- monster_attitude att = attitude(&u);
- return (att == MATT_FLEE ||
-         (att == MATT_FOLLOW && rl_dist( pos3(), u.pos3() ) <= 4));
+    if( has_effect("run") ) {
+        return true;
+    }
+    monster_attitude att = attitude(&u);
+    return (att == MATT_FLEE || (att == MATT_FOLLOW && rl_dist( pos3(), u.pos3() ) <= 4));
 }
 
 Creature::Attitude monster::attitude_to( const Creature &other ) const
@@ -959,6 +952,8 @@ void monster::melee_attack(Creature &target, bool, const matec_id&) {
         if (target.is_player()) {
             if (u_see_me) {
                 //~ 1$s is attacker name, 2$s is bodypart name in accusative.
+                sfx::play_variant_sound( "melee_attack", "monster_melee_hit", sfx::get_heard_volume(target.pos()) );
+                sfx::do_player_death_hurt( dynamic_cast<player&>( target ), 0 );
                 add_msg(m_bad, _("The %1$s hits your %2$s."), name().c_str(),
                         body_part_name_accusative(bp_hit).c_str());
             } else {
@@ -1054,11 +1049,11 @@ void monster::hit_monster(monster &other)
     if( hitspread >= 0 ) {
         other.deal_melee_hit( this, hitspread, false, damage, dealt_dam );
         if( g->u.sees(*this) ) {
-            add_msg(_("The %s hits the %s!"), name().c_str(), other.name().c_str());
+            add_msg(_("The %1$s hits the %2$s!"), name().c_str(), other.name().c_str());
         }
     } else {
         if( g->u.sees( *this ) ) {
-            add_msg(_("The %s misses the %s!"), name().c_str(), other.name().c_str());
+            add_msg(_("The %1$s misses the %2$s!"), name().c_str(), other.name().c_str());
         }
 
         if( !is_hallucination() ) {
@@ -1082,34 +1077,42 @@ int monster::deal_melee_attack(Creature *source, int hitroll)
     return roll;
 }
 
-int monster::deal_projectile_attack(Creature *source, double missed_by,
-                                    const projectile& proj, dealt_damage_instance &dealt_dam) {
-    bool u_see_mon = g->u.sees(*this);
-    // Maxes out at 50% chance with perfect hit
-    if (has_flag(MF_HARDTOSHOOT) && !one_in(10 - 10 * (.8 - missed_by)) && !proj.wide) {
-        if (u_see_mon) {
-            add_msg(_("The shot passes through %s without hitting."), disp_name().c_str());
-        }
-        return 1;
-    }
-    // Not HARDTOSHOOT
-    // if it's a headshot with no head, make it not a headshot
-    if (missed_by < 0.2 && has_flag(MF_NOHEAD)) {
-        missed_by = 0.2;
-    }
-
-    // whip has a chance to scare wildlife
-    if(proj.proj_effects.count("WHIP") && type->in_category("WILDLIFE") && one_in(3)) {
+void monster::deal_projectile_attack( Creature *source, dealt_projectile_attack &attack ) {
+    const auto &proj = attack.proj;
+    double &missed_by = attack.missed_by; // We can change this here
+    const auto &effects = proj.proj_effects;
+    
+    // Whip has a chance to scare wildlife even if it misses
+    if( effects.count("WHIP") && type->in_category("WILDLIFE") && one_in(3) ) {
         add_effect("run", rng(3, 5));
     }
 
-    int went_past = Creature::deal_projectile_attack(source, missed_by, proj, dealt_dam);
-    if( !is_hallucination() && !went_past ) {
+    if( missed_by > 1.0 ) {
+        // Total miss
+        return;
+    }
+
+    const bool u_see_mon = g->u.sees(*this);
+    // Maxes out at 50% chance with perfect hit
+    if( has_flag(MF_HARDTOSHOOT) &&
+        !one_in(10 - 10 * (.8 - missed_by)) &&
+        !effects.count( "WIDE" ) ) {
+        if( u_see_mon ) {
+            add_msg(_("The shot passes through %s without hitting."), disp_name().c_str());
+        }
+        return;
+    }
+    // Not HARDTOSHOOT
+    // if it's a headshot with no head, make it not a headshot
+    if( missed_by < 0.2 && has_flag( MF_NOHEAD ) ) {
+        missed_by = 0.2;
+    }
+
+    Creature::deal_projectile_attack( source, attack );
+    if( !is_hallucination() && attack.hit_critter == this ) {
         // Maybe TODO: Get difficulty from projectile speed/size/missed_by
         on_hit( source, bp_torso, INT_MIN, &proj );
     }
-
-    return went_past;
 }
 
 void monster::deal_damage_handle_type(const damage_unit& du, body_part bp, int& damage, int& pain) {
@@ -1579,7 +1582,7 @@ void monster::die(Creature* nkiller) {
     // TODO: should actually be class Character
     player *ch = dynamic_cast<player*>( get_killer() );
     if( !is_hallucination() && ch != nullptr ) {
-        if( has_flag( MF_GUILT ) || ( ch->has_trait( "PACIFIST" ) && has_flag( MF_HUMAN ) ) ) {
+        if( ( has_flag( MF_GUILT ) && ch->is_player() ) || ( ch->has_trait( "PACIFIST" ) && has_flag( MF_HUMAN ) ) ) {
             // has guilt flag or player is pacifist && monster is humanoid
             mdeath::guilt(this);
         }
@@ -1695,7 +1698,7 @@ void monster::process_effects()
         for( auto &_effect_it : elem.second ) {
             auto &it = _effect_it.second;
             // Monsters don't get trait-based reduction, but they do get effect based reduction
-            bool reduced = has_effect(it.get_resist_effect());
+            bool reduced = resists_effect(it);
 
             mod_speed_bonus(it.get_mod("SPEED", reduced));
 
@@ -1837,7 +1840,7 @@ bool monster::make_fungus()
     }
 
     if( g->u.sees( pos() ) ) {
-        add_msg( m_info, _("The spores transform %s into a %s!"),
+        add_msg( m_info, _("The spores transform %1$s into a %2$s!"),
                          old_name.c_str(), name().c_str() );
     }
 
@@ -1846,8 +1849,8 @@ bool monster::make_fungus()
 
 void monster::make_friendly()
 {
- plans.clear();
- friendly = rng(5, 30) + rng(0, 20);
+    unset_dest();
+    friendly = rng(5, 30) + rng(0, 20);
 }
 
 void monster::make_ally(monster *z) {
@@ -1857,7 +1860,7 @@ void monster::make_ally(monster *z) {
 
 void monster::add_item(item it)
 {
- inv.push_back(it);
+    inv.push_back(it);
 }
 
 bool monster::is_hallucination() const

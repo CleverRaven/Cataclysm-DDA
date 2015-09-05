@@ -38,6 +38,7 @@ enum activity_type : int {    // expanded this enum for readability
     ACT_ADV_INVENTORY,
     ACT_ARMOR_LAYERS,
     ACT_START_FIRE,
+    ACT_OPEN_GATE,
     ACT_FILL_LIQUID,
     ACT_HOTWIRE_CAR,
     ACT_AIM,

@@ -23,8 +23,9 @@
 #include <sstream>
 
 const mtype_id mon_manhack( "mon_manhack" );
-const mtype_id mon_null( "mon_null" );
 const mtype_id mon_secubot( "mon_secubot" );
+
+const skill_id skill_computer( "computer" );
 
 std::vector<std::string> computer::lab_notes;
 int alerts = 0;
@@ -205,7 +206,7 @@ bool computer::hack_attempt(player *p, int Security)
     if (Security == -1) {
         Security = security;    // Set to main system security if no value passed
     }
-    const int hack_skill = p->get_skill_level( "computer" );
+    const int hack_skill = p->get_skill_level( skill_computer );
 
     // Every time you dig for lab notes, (or, in future, do other suspicious stuff?)
     // +2 dice to the system's hack-resistance
@@ -223,7 +224,7 @@ bool computer::hack_attempt(player *p, int Security)
     }
 
     bool successful_attempt = (dice(player_roll, 6) >= dice(Security, 6));
-    p->practice( "computer", (successful_attempt ? (15 + Security * 3) : 7));
+    p->practice( skill_computer, (successful_attempt ? (15 + Security * 3) : 7));
     return successful_attempt;
 }
 
@@ -815,7 +816,7 @@ of pureed bone & LSD."));
                     } else { // Success!
                         const item &blood = g->m.i_at(x, y).front().contents[0];
                         const mtype *mt = blood.get_mtype();
-                        if( mt == nullptr || mt->id == mon_null ) {
+                        if( mt == nullptr || mt->id == NULL_ID ) {
                             print_line(_("Result:  Human blood, no pathogens found."));
                         } else if( mt->in_species( "ZOMBIE" ) ) {
                             if( mt->sym == "Z" ) {

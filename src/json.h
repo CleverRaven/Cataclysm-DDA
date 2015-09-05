@@ -9,6 +9,7 @@
 #include <array>
 #include <map>
 #include <set>
+#include <stdexcept>
 
 /* Cataclysm-DDA homegrown JSON tools
  * copyright CC-BY-SA-3.0 2013 CleverRaven
@@ -30,6 +31,12 @@ class JsonArray;
 class JsonSerializer;
 class JsonDeserializer;
 
+class JsonError : public std::runtime_error {
+public:
+    JsonError( const std::string &msg );
+    const char *c_str() const noexcept { return what(); }
+};
+
 /* JsonIn
  * ======
  *
@@ -44,7 +51,7 @@ class JsonDeserializer;
  *
  *     JsonIn jsin(myistream);
  *     // expecting an array of objects
- *     jsin.start_array(); // throws std::string if array not found
+ *     jsin.start_array(); // throws JsonError if array not found
  *     while (!jsin.end_array()) { // end_array returns false if not the end
  *         JsonObject jo = jsin.get_object();
  *         ... // load object using JsonObject methods
@@ -235,7 +242,7 @@ class JsonIn
                         skip_value();
                     }
                 }
-            } catch (std::string const&) {
+            } catch( const JsonError & ) {
                 return false;
             }
 
@@ -259,7 +266,7 @@ class JsonIn
                     }
                 }
                 return end_array(); // false if json array is too big
-            } catch (std::string const&) {
+            } catch( const JsonError & ) {
                 return false;
             }
         }
@@ -284,7 +291,7 @@ class JsonIn
                         skip_value();
                     }
                 }
-            } catch (std::string const&) {
+            } catch( const JsonError & ) {
                 return false;
             }
 
@@ -313,7 +320,7 @@ class JsonIn
                         skip_value();
                     }
                 }
-            } catch (std::string const&) {
+            } catch( const JsonError & ) {
                 return false;
             }
 
@@ -493,7 +500,7 @@ class JsonOut
  *     my_object_type myobject(id, name, description, points, tags);
  *
  * Here the "id", "name" and "description" members are required.
- * JsonObject will throw a std::string if they are not found,
+ * JsonObject will throw a JsonError if they are not found,
  * identifying the problem and the current position in the input stream.
  *
  * Note that "name" and "description" are passed to gettext for translating.
@@ -654,7 +661,7 @@ class JsonObject
  * has_more() will return false and the loop will terminate.
  *
  * If the next element is not an integer,
- * JsonArray will throw a std::string indicating the problem,
+ * JsonArray will throw a JsonError indicating the problem,
  * and the position in the input stream.
  *
  * To handle arrays with elements of indeterminate type,
@@ -864,5 +871,7 @@ class JsonDeserializer
         JsonDeserializer &operator=(JsonDeserializer &&) = default;
         JsonDeserializer &operator=(const JsonDeserializer &) = default;
 };
+
+std::ostream &operator<<( std::ostream &stream, const JsonError &err );
 
 #endif

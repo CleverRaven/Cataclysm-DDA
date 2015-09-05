@@ -478,13 +478,13 @@ void mapgen_dirtlot(map *m, oter_id, mapgendata, int, float)
     }
     int num_v = rng(0,1) * rng(0,2); // (0, 0, 0, 0, 1, 2) vehicles
     for(int v = 0; v < num_v; v++) {
-        int vy = rng(0, 16) + 4;
-        int vx = rng(0, 16) + 4;
+        const tripoint vp( rng(0, 16) + 4, rng(0, 16) + 4, m->get_abs_sub().z );
         int theta = rng(0,3)*180 + one_in(3)*rng(0,89);
-        if (!m->veh_at(vx,vy)) {
-            m->add_vehicle (vgroup_id("dirtlot"), {vx, vy}, theta, -1, -1);
+        if( !m->veh_at( vp ) ) {
+            m->add_vehicle( vgroup_id("dirtlot"), vp, theta, -1, -1 );
         }
-    }}
+    }
+}
 // todo: more region_settings for forest biome
 void mapgen_forest_general(map *m, oter_id terrain_type, mapgendata dat, int turn, float)
 {
@@ -526,7 +526,7 @@ void mapgen_forest_general(map *m, oter_id terrain_type, mapgendata dat, int tur
             }
             int rn = rng(0, forest_chance);
             if ((forest_chance > 0 && rn > 13) || one_in(100 - forest_chance)) {
-                std::array<std::pair<int, ter_id>, 10> tree_chances = {{
+                std::array<std::pair<int, ter_id>, 13> tree_chances = {{
                         // todo: JSONize this array!
                         // Ensure that these one_in chances
                         // (besides the last) don't add up to more than 1 in 1
@@ -537,6 +537,9 @@ void mapgen_forest_general(map *m, oter_id terrain_type, mapgendata dat, int tur
                         { 350, t_tree_apricot },
                         { 350, t_tree_peach },
                         { 350, t_tree_plum },
+                        { 256, t_tree_birch },
+                        { 256, t_tree_willow },
+                        { 256, t_tree_maple },
                         { 128, t_tree_deadpine },
                         { 16, t_tree_pine },
                         { 16, t_tree_blackjack },

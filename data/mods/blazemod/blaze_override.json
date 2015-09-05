@@ -16,7 +16,7 @@
         "flags" : ["TURRET", "CARGO", "TOOL_NONE", "MANUAL", "UNMOUNT_ON_DAMAGE", "FOLDABLE"],
         "folded_volume": 14,
         "breaks_into" : [
-            {"item": "m249", "min": 0, "max": 1}
+            {"item": "m249", "prob": 50}
         ]
     },{
         "type" : "vehicle_part",
@@ -36,7 +36,7 @@
         "flags" : ["TURRET", "CARGO", "TOOL_NONE", "MANUAL", "UNMOUNT_ON_DAMAGE", "FOLDABLE"],
         "folded_volume": 12,
         "breaks_into" : [
-            {"item": "m1918", "min": 0, "max": 1}
+            {"item": "m1918", "prob": 50}
         ]
     },{
         "type" : "vehicle_part",
@@ -54,7 +54,7 @@
         "flags" : ["UNMOUNT_ON_DAMAGE", "TOOL_NONE", "TURRET", "FOLDABLE", "MANUAL"],
         "folded_volume": 16,
         "breaks_into" : [
-            {"item": "flamethrower", "min": 1, "max": 1}
+            {"item": "flamethrower"}
         ]
     },{
         "type" : "vehicle_part",
@@ -72,7 +72,7 @@
         "flags" : ["TURRET", "TOOL_NONE", "MANUAL", "UNMOUNT_ON_DAMAGE", "FOLDABLE", "NEEDS_BATTERY_MOUNT"],
         "folded_volume": 15,
         "breaks_into" : [
-            {"item": "plasma_rifle", "min": 0, "max": 1}
+            {"item": "plasma_rifle", "prob": 50}
         ]
     },{
         "type" : "vehicle_part",
@@ -91,7 +91,7 @@
         "flags" : ["TURRET", "CARGO", "TOOL_NONE", "MANUAL", "UNMOUNT_ON_DAMAGE", "FOLDABLE", "NEEDS_BATTERY_MOUNT"],
         "folded_volume": 14,
         "breaks_into" : [
-            {"item": "ftk93", "min": 0, "max": 1}
+            {"item": "ftk93", "prob": 50}
         ]
     },{
         "type" : "vehicle_part",
@@ -109,7 +109,7 @@
         "flags" : ["TURRET", "TOOL_NONE", "MANUAL", "UNMOUNT_ON_DAMAGE", "FOLDABLE", "NEEDS_BATTERY_MOUNT"],
         "folded_volume": 16,
         "breaks_into" : [
-            {"item": "nx17", "min": 0, "max": 1}
+            {"item": "nx17", "prob": 50}
         ]
     },{
         "type" : "vehicle_part",
@@ -128,7 +128,7 @@
         "flags" : ["TURRET", "CARGO", "TOOL_NONE", "MANUAL", "UNMOUNT_ON_DAMAGE", "FOLDABLE"],
         "folded_volume": 20,
         "breaks_into" : [
-            {"item": "m2browning", "min": 0, "max": 1}
+            {"item": "m2browning", "prob": 50}
         ]
     },{
         "type" : "vehicle_part",
@@ -148,7 +148,7 @@
         "flags" : ["TURRET", "CARGO", "TOOL_NONE", "MANUAL", "UNMOUNT_ON_DAMAGE", "FOLDABLE"],
         "folded_volume": 16,
         "breaks_into" : [
-            {"item": "m240", "min": 0, "max": 1}
+            {"item": "m240", "prob": 50}
         ]
     },{
         "type" : "vehicle_part",
@@ -168,7 +168,7 @@
         "flags" : ["TURRET", "CARGO", "TOOL_NONE", "MANUAL", "UNMOUNT_ON_DAMAGE", "FOLDABLE"],
         "folded_volume": 16,
         "breaks_into" : [
-            {"item": "m60", "min": 0, "max": 1}
+            {"item": "m60", "prob": 50}
         ]
     },{
         "type" : "vehicle_part",
@@ -188,7 +188,7 @@
         "flags" : ["TURRET", "CARGO", "TOOL_NONE", "MANUAL", "UNMOUNT_ON_DAMAGE", "FOLDABLE"],
         "folded_volume": 18,
         "breaks_into" : [
-            {"item": "abzats", "min": 0, "max": 1}
+            {"item": "abzats", "prob": 50}
         ]
     },{
         "type" : "vehicle_part",
@@ -208,7 +208,7 @@
         "flags" : ["TURRET", "CARGO", "TOOL_NONE", "MANUAL", "UNMOUNT_ON_DAMAGE", "FOLDABLE"],
         "folded_volume": 32,
         "breaks_into" : [
-            {"item": "m134", "min": 0, "max": 1}
+            {"item": "m134", "prob": 50}
         ]
     },{
         "type" : "vehicle_part",
@@ -227,7 +227,7 @@
         "flags" : ["TURRET", "CARGO", "TOOL_NONE", "MANUAL", "UNMOUNT_ON_DAMAGE", "FOLDABLE"],
         "folded_volume": 16,
         "breaks_into" : [
-            {"item": "mark19", "min": 0, "max": 1}
+            {"item": "mark19", "prob": 50}
         ]
     },{
         "type" : "vehicle_part",
@@ -247,7 +247,7 @@
         "flags" : ["TURRET", "CARGO", "TOOL_NONE", "MANUAL", "UNMOUNT_ON_DAMAGE", "FOLDABLE"],
         "folded_volume": 10,
         "breaks_into" : [
-            {"item": "rm614_lmg", "min": 0, "max": 1}
+            {"item": "rm614_lmg", "prob": 50}
         ]
     },{
         "type" : "vehicle_part",
@@ -267,7 +267,7 @@
         "flags" : ["TURRET", "CARGO", "TOOL_NONE", "MANUAL", "UNMOUNT_ON_DAMAGE", "FOLDABLE"],
         "folded_volume": 26,
         "breaks_into" : [
-            {"item": "rm298", "min": 0, "max": 1}
+            {"item": "rm298", "prob": 50}
         ]
     },{
         "type" : "vehicle_part",
@@ -288,10 +288,10 @@
         "folded_volume": 3,
         "flags" : ["ENGINE", "FOLDABLE"],
         "breaks_into" : [
-            {"item": "steel_lump", "min": 1, "max": 2},
-            {"item": "steel_chunk", "min": 1, "max": 2},
-            {"item": "scrap", "min": 1, "max": 2},
-            {"item": "cable", "min": 3, "max": 6}
+            {"item": "steel_lump", "count": [1, 2]},
+            {"item": "steel_chunk", "count": [1, 2]},
+            {"item": "scrap", "count": [1, 2]},
+            {"item": "cable", "charges": [3, 6]}
         ]
     },{
         "type" : "vehicle_part",
@@ -311,7 +311,7 @@
         "flags" : ["FUEL_TANK", "TOOL_NONE", "FOLDABLE"],
         "folded_volume" : 2,
         "breaks_into" : [
-            {"item": "scrap", "min": 1, "max": 2}
+            {"item": "scrap", "count": [1, 2]}
         ]
     },{
         "type" : "vehicle_part",
@@ -331,7 +331,7 @@
         "flags" : ["FUEL_TANK", "FOLDABLE"],
         "folded_volume" : 5,
         "breaks_into" : [
-            {"item": "scrap", "min": 1, "max": 2}
+            {"item": "scrap", "count": [1, 2]}
         ]
     },{
         "type" : "vehicle_part",
@@ -351,7 +351,7 @@
         "flags" : ["FUEL_TANK", "FOLDABLE"],
         "folded_volume" : 5,
         "breaks_into" : [
-            {"item": "scrap", "min": 1, "max": 2}
+            {"item": "scrap", "count": [1, 2]}
         ]
     },{
         "type" : "vehicle_part",
@@ -371,9 +371,9 @@
         "flags" : ["ENGINE", "VARIABLE_SIZE", "FOLDABLE"],
         "folded_volume" : 3,
         "breaks_into" : [
-            {"item": "steel_lump", "min": 2, "max": 4},
-            {"item": "steel_chunk", "min": 2, "max": 4},
-            {"item": "scrap", "min": 2, "max": 4}
+            {"item": "steel_lump", "count": [2, 4]},
+            {"item": "steel_chunk", "count": [2, 4]},
+            {"item": "scrap", "count": [2, 4]}
         ]
     },{
         "type" : "vehicle_part",
@@ -393,9 +393,9 @@
         "flags" : ["ENGINE", "VARIABLE_SIZE", "FOLDABLE"],
         "folded_volume" : 6,
         "breaks_into" : [
-            {"item": "steel_lump", "min": 5, "max": 10},
-            {"item": "steel_chunk", "min": 5, "max": 10},
-            {"item": "scrap", "min": 5, "max": 10}
+            {"item": "steel_lump", "count": [5, 10]},
+            {"item": "steel_chunk", "count": [5, 10]},
+            {"item": "scrap", "count": [5, 10]}
         ]
     },{
         "type" : "vehicle_part",
@@ -412,9 +412,9 @@
         "location" : "fuel_source",
         "flags" : ["BATTERY_MOUNT"],
         "breaks_into" : [
-            {"item": "steel_lump", "min": 0, "max": 1},
-            {"item": "steel_chunk", "min": 1, "max": 2},
-            {"item": "scrap", "min": 0, "max": 3}
+            {"item": "steel_lump", "prob": 50},
+            {"item": "steel_chunk", "count": [1, 2]},
+            {"item": "scrap", "count": [0, 3]}
         ]
     }
 ]

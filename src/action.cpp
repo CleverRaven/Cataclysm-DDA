@@ -430,7 +430,9 @@ bool can_butcher_at( const tripoint &p )
     // TODO: unify this with game::butcher
     const int factor = g->u.butcher_factor();
     auto items = g->m.i_at( p );
-    bool has_corpse, has_item = false;
+    bool has_item = false;
+    bool has_corpse = false;
+
     const inventory &crafting_inv = g->u.crafting_inventory();
     for( auto &items_it : items ) {
         if( items_it.is_corpse() ) {
@@ -543,7 +545,7 @@ action_id handle_action_menu()
         int veh_part = 0;
         vehicle *veh = NULL;
 
-        veh = g->m.veh_at( g->u.posx(), g->u.posy(), veh_part );
+        veh = g->m.veh_at( g->u.pos(), veh_part );
         if( veh ) {
             // Make it 300 to prioritize it before examining the vehicle.
             action_weightings[ACTION_CONTROL_VEHICLE] = 300;
