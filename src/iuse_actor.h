@@ -222,7 +222,7 @@ class consume_drug_iuse : public iuse_actor
         /** How many move points this action takes. */
         int moves;
 
-        consume_drug_iuse() : iuse_actor() { }
+        consume_drug_iuse() : iuse_actor(), moves(100) { }
         virtual ~consume_drug_iuse();
         virtual void load( JsonObject &jo );
         virtual long use(player *, item *, bool, const tripoint& ) const override;
