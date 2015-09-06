@@ -562,6 +562,7 @@
       ["crispycran", 20],
       ["colamdew", 35],
       ["milk", 50],
+      { "item": "egg_bird", "prob": 65, "count-min": 1, "count-max": 12},
       ["yoghurt", 50],
       ["pudding", 60],
       ["veggy_salad", 25],
