@@ -1224,6 +1224,7 @@
                 "45_acp",
                 "tonfa",
                 "tazer",
+                "battery",
                 "gasbomb"
             ],
             "male": [
