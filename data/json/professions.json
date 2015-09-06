@@ -936,7 +936,7 @@
     {
         "type": "profession",
         "ident": "cop",
-        "name": "Cop",
+        "name": "Police Officer",
         "description": "Just a small-town deputy when you got the call, you were still ready to come to the rescue.  Except that soon it was you who needed rescuing - you were lucky to escape with your life.  Who's going to respect your authority when the government this badge represents might not even exist anymore?",
         "points": 2,
         "skills": [
@@ -1071,6 +1071,167 @@
             ],
             "female": [
                 "sports_bra",
+                "boy_shorts"
+            ]
+        }
+    },
+    {
+        "type": "profession",
+        "ident": "swat_heavy",
+        "name": "SWAT CQC Specialist",
+        "description": "A member of the police force's most elite division, your close quarters combat training has kept you alive thus far.  Unfortunately, the breakdown of society has brought you to your current state of affairs; you now fight to simply stay alive.",
+        "points": 5,
+        "skills": [
+            {
+                "level": 3,
+                "name": "gun"
+            },
+            {
+                "level": 3,
+                "name": "shotgun"
+            },
+            {
+                "level": 1,
+                "name": "pistol"
+            },
+            {
+                "level": 1,
+                "name": "melee"
+            },
+            {
+                "level": 1,
+                "name": "bashing"
+            }
+        ],
+        "traits": [
+            "PROF_SWAT"
+        ],
+        "items": {
+            "both": [
+                "socks",
+                "swat_armor",
+                "sholster",
+                "tac_fullhelmet",
+                "boots_combat",
+                "gloves_tactical",
+                "badge_swat",
+                "usp_9mm",
+                "ksg",
+                "shoulder_strap",
+                "shot_00",
+                "shot_beanbag",
+                "9mmfmj",
+                "baton"
+            ],
+            "male": [
+                "boxer_shorts"
+            ],
+            "female": [
+                "sports_bra",
+                "boy_shorts"
+            ]
+        }
+    },
+    {
+        "type": "profession",
+        "ident": "sniper_police",
+        "name": "Police Sniper",
+        "description": "Your skill as a sharpshooter served you well in the line of duty, protecting the innocent with a single, well placed bullet.  Now survival itself is on the line, and you can't afford to miss if you don't want to end up as something's dinner.",
+        "points": 5,
+        "skills": [
+            {
+                "level": 5,
+                "name": "gun"
+            },
+            {
+                "level": 4,
+                "name": "rifle"
+            }
+        ],
+        "traits": [
+            "PROF_POLICE"
+        ],
+        "items": {
+            "both": [
+                "socks",
+                "pants_army",
+                "hoodie",
+                "sneakers",
+                "gloves_tactical",
+                "glasses_bal",
+                "hat_boonie",
+                "badge_deputy",
+                "holster",
+                "wristwatch",
+                "usp_45",
+                "45_acp",
+                "remington_700",
+                "3006",
+                "3006",
+                "rifle_scope"
+            ],
+            "male": [
+                "boxer_shorts"
+            ],
+            "female": [
+                "bra",
+                "boy_shorts"
+            ]
+        }
+    },
+    {
+        "type": "profession",
+        "ident": "riot_police",
+        "name": "Riot Control Officer",
+        "description": "The riots were brutal, and that's before the dead rose and started to devour the living.  Soon it became apparent that the line you were holding was about to break - it was only through a bit of luck and a lot of head-bashing that you got away in one piece, and the worst is yet to come.",
+        "points": 5,
+        "skills": [
+            {
+                "level": 3,
+                "name": "melee"
+            },
+            {
+                "level": 3,
+                "name": "bashing"
+            },
+            {
+                "level": 1,
+                "name": "gun"
+            },
+            {
+                "level": 1,
+                "name": "throw"
+            }
+        ],
+        "traits": [
+            "PROF_POLICE"
+        ],
+        "items": {
+            "both": [
+                "socks",
+                "pants_cargo",
+                "longshirt",
+                "boots_combat",
+                "gloves_tactical",
+                "modularvestkevlar",
+                "mask_gas",
+                "tac_helmet",
+                "armguard_hard",
+                "knee_pads",
+                "badge_deputy",
+                "holster",
+                "usp_45",
+                "45_acp",
+                "tonfa",
+                "tazer",
+                "battery",
+                "gasbomb"
+            ],
+            "male": [
+                "boxer_shorts"
+            ],
+            "female": [
+                "bra",
                 "boy_shorts"
             ]
         }
