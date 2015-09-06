@@ -608,8 +608,8 @@ void vehicle::control_doors() {
     std::vector< int > door_motors = all_parts_with_feature( "DOOR_MOTOR", true );
     std::vector< int > doors_with_motors; // Indices of doors
     std::vector< tripoint > locations; // Locations used to display the doors
-    doors_with_motors.reserve( door_motors.size() );
-    locations.reserve( door_motors.size() );
+    doors_with_motors.reserve( door_motors.size() * 2); // it is possible to have one door to open and one to close for single motor
+    locations.reserve( door_motors.size() * 2);
     if( door_motors.empty() ) {
         debugmsg( "vehicle::control_doors called but no door motors found" );
         return;
@@ -617,17 +617,20 @@ void vehicle::control_doors() {
 
     uimenu pmenu;
     pmenu.title = _("Select door to toggle");
+    int doors[2]; // one door to open and one to close
     for( int p : door_motors ) {
-        int door = part_with_feature( p, "OPENABLE" );
-        if( door == -1 ) {
-            continue;
-        }
+        doors[0] = next_part_to_open(p);
+        doors[1] = next_part_to_close(p);
+        for (int door : doors) {
+            if (door == -1)
+                continue;
 
-        int val = doors_with_motors.size();
-        doors_with_motors.push_back( door );
-        locations.push_back( tripoint( global_pos() + parts[p].precalc[0], smz ) );
-        const char *actname = parts[door].open ? _("Close") : _("Open");
-        pmenu.addentry( val, true, MENU_AUTOASSIGN, "%s %s", actname, part_info( door ).name.c_str() );
+            int val = doors_with_motors.size();
+            doors_with_motors.push_back(door);
+            locations.push_back(tripoint(global_pos() + parts[p].precalc[0], smz));
+            const char *actname = parts[door].open ? _("Close") : _("Open");
+            pmenu.addentry(val, true, MENU_AUTOASSIGN, "%s %s", actname, part_info(door).name.c_str());
+        }
     }
 
     pmenu.addentry( doors_with_motors.size(), true, 'q', _("Cancel") );
