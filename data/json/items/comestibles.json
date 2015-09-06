@@ -746,7 +746,7 @@
         "quench" : 30,
         "healthy" : 0,
         "addiction_potential" : 0,
-        "nutrition" : 30,
+        "nutrition" : 40,
         "description" : "Vegetable stock.  Tasty and fairly nutritious.",
         "price" : 350,
         "material" : "veggy",
