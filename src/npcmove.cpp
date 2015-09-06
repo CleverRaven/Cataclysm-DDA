@@ -440,43 +440,99 @@ void npc::execute_action(npc_action action, int target)
         break;
 
     case npc_follow_embarked:
-        if (in_vehicle) {
+    {
+        int p1;
+        vehicle *veh = g->m.veh_at( g->u.pos(), p1 );
+
+        if( veh == nullptr ) {
+            debugmsg("Following an embarked player with no vehicle at their location?");
+            // TODO: change to wait? - for now pause
             move_pause();
-        } else {
-            int p1;
-            vehicle *veh = g->m.veh_at( g->u.pos3(), p1 );
+            break;
+        }
 
-            if( !veh ) {
-                debugmsg("Following an embarked player with no vehicle at their location?");
-                // TODO: change to wait? - for now pause
-                move_pause();
-            } else {
-                int p2 = veh->free_seat();
-                if( p2 < 0 ) {
-                    // TODO: be angry at player, switch to wait or leave - for now pause
-                    move_pause();
-                } else {
-                    tripoint part_pos = tripoint( veh->global_x() + veh->parts[p2].precalc[0].x,
-                                                  veh->global_y() + veh->parts[p2].precalc[0].y,
-                                                  posz() );
-                    update_path( part_pos );
+        // Try to find the last destination
+        point last_dest( INT_MIN, INT_MIN );
+        if( !path.empty() && g->m.veh_at( path[path.size() - 1], p1 ) == veh && p1 >= 0 ) {
+            last_dest = veh->parts[p1].mount;
+        }
 
-                    // TODO: replace extra hop distance with finding the correct door
-                    //       Hop in the last few squares is mostly to avoid player clash
-                    if( path.size() <= 2 ) {
-                        if( in_vehicle ) {
-                            g->m.unboard_vehicle( pos3() );
-                        }
-                        g->m.board_vehicle( part_pos, this );
-                        move_pause();
-                    } else {
-                        move_to_next();
-                    }
-                }
+        // Prioritize last found path, then seats
+        // Don't change spots if ours is nice
+        int my_spot = 0;
+        std::vector<std::pair<int, int> > seats;
+        for( size_t p2 = 0; p2 < veh->parts.size(); p2++ ) {
+            if( !veh->part_flag( p2, VPFLAG_BOARDABLE ) ) {
+                continue;
+            }
+
+            const player *passenger = veh->get_passenger( p2 );
+            if( passenger != this && passenger != nullptr ) {
+                continue;
+            }
+
+            int priority = 0;
+            if( veh->parts[p2].mount == last_dest ) {   
+                // Shares mount point with last known path
+                // We probably wanted to go there in the last turn
+                priority = 4;
+            } else if( veh->part_flag( p2, "SEAT" ) ) {
+                // Assuming the player "owns" a sensible vehicle,
+                //  seats should be in good spots to occupy
+                priority = veh->part_with_feature( p2, "SEATBELT" ) >= 0 ? 3 : 2;
+            } else if( veh->is_inside( p2 ) ) {
+                priority = 1;
+            }
+
+            if( passenger == this ) {
+                my_spot = priority;
+            }
+
+            seats.push_back( std::make_pair( priority, p2 ) );
+        }
+
+        if( my_spot >= 3 ) {
+            // We won't get any better, so don't try
+            move_pause();
+            break;
+        }
+
+        std::sort( seats.begin(), seats.end(),
+            []( const std::pair<int, int> &l, const std::pair<int, int> &r ) {
+                return l.first > r.first;
+            } );
+
+        if( seats.empty() ) {
+            // TODO: be angry at player, switch to wait or leave - for now pause
+            move_pause();
+            break;
+        }
+
+        // Only check few best seats - pathfinding can get expensive
+        const size_t try_max = std::min<size_t>( 4, seats.size() );
+        for( size_t i = 0; i < try_max; i++ ) {
+            if( seats[i].first < my_spot ) {
+                // We have a nicer spot than this
+                // Note: this will make NPCs steal player's seat...
+                break;
+            }
+
+            const int cur_part = seats[i].second;
+
+            tripoint part_pos = veh->global_pos3() + veh->parts[cur_part].precalc[0];
+            update_path( part_pos, true );
+            if( !path.empty() ) {
+                // All is fine
+                move_to_next();
+                break;
             }
         }
-        break;
 
+        // TODO: Check the rest
+        move_pause();
+    }
+
+        break;
     case npc_talk_to_player:
         talk_to_u();
         moves = 0;
@@ -1102,36 +1158,47 @@ bool npc::enough_time_to_reload(int target, item &gun)
     return (turns_til_reloaded < turns_til_reached);
 }
 
-void npc::update_path( const tripoint &p )
+void npc::update_path( const tripoint &p, const bool no_bashing )
 {
+    if( p == pos() ) {
+        path.clear();
+        return;
+    }
+
+    while( !path.empty() && path[0] == pos() ) {
+        path.erase( path.begin() );
+    }
+
+    const int bash_power = no_bashing ? 0 : smash_ability();
     if( path.empty() ) {
-        path = g->m.route( pos(), p, smash_ability(), 1000 );
+        path = g->m.route( pos(), p, bash_power, 1000 );
         return;
     }
     const tripoint &last = path[path.size() - 1];
-    if( last == p ) {
-        return;    // Our path already leads to that point, no need to recalculate
+    if( last == p && ( path[0].z != posz() || rl_dist( path[0], pos() ) <= 1 ) ) {
+        // Our path already leads to that point, no need to recalculate
+        return;
     }
 
-    path = g->m.route( pos(), p, smash_ability(), 1000 );
+    path = g->m.route( pos(), p, bash_power, 1000 );
     if( !path.empty() && path[0] == pos() ) {
         path.erase( path.begin() );
     }
 }
 
-bool npc::can_move_to( const tripoint &p ) const
+bool npc::can_move_to( const tripoint &p, bool no_bashing ) const
 {
     // Allow moving into any bashable spots, but penalize them during pathing
     return( rl_dist( pos(), p ) <= 1 &&
               (
                 g->m.move_cost( p ) > 0 ||
-                g->m.bash_rating( smash_ability(), p ) > 0 ||
+                ( !no_bashing && g->m.bash_rating( smash_ability(), p ) > 0 ) ||
                 g->m.open_door( p, !g->m.is_outside( pos() ), true )
               )
            );
 }
 
-void npc::move_to( const tripoint &pt )
+void npc::move_to( const tripoint &pt, bool no_bashing )
 {
     if( g->m.has_flag("UNSTABLE", pt ) ) {
         add_effect("bouldering", 1, num_bp, true);
@@ -1170,12 +1237,12 @@ void npc::move_to( const tripoint &pt )
     // "Long steps" are allowed when crossing z-levels
     // Stairs teleport the player too
     if( rl_dist( pos(), p ) > 1 && p.z == posz() ) {
-        std::vector<tripoint> newpath = g->m.find_clear_path( pos3(), p );
-
-        p = newpath[0];
+        // On the same level? Not so much. Something weird happened
+        path.clear();
+        move_pause();
     }
     bool attacking = false;
-    if (g->mon_at(p)){
+    if( g->mon_at( p ) ) {
         attacking = true;
     }
     if( !move_effects(attacking) ) {
@@ -1191,7 +1258,12 @@ void npc::move_to( const tripoint &pt )
         }
         const auto att = attitude_to( *critter );
         if( att == A_HOSTILE ) {
-            melee_attack( *critter, true );
+            if( !no_bashing ) {
+                melee_attack( *critter, true );
+            } else {
+                move_pause();
+            }
+
             return;
         }
 
@@ -1199,8 +1271,17 @@ void npc::move_to( const tripoint &pt )
             say("<let_me_pass>");
         }
 
-        move_pause();
-        return;
+        // Let NPCs push each other when non-hostile
+        // TODO: Have them attack each other when hostile
+        npc *np = dynamic_cast<npc*>( critter );
+        if( np != nullptr && !np->in_sleep_state() ) {
+            np->move_away_from( pos(), true );
+        }
+
+        if( critter->pos() == p ) {
+            move_pause();
+            return;
+        }
     }
 
     if( p.z != posz() ) {
@@ -1240,32 +1321,25 @@ void npc::move_to( const tripoint &pt )
         }
         g->m.creature_on_trap( *this );
         g->m.creature_in_field( *this );
-    } else if( g->m.open_door( p, !g->m.is_outside( pos3() ) ) ) {
+    } else if( g->m.open_door( p, !g->m.is_outside( pos() ) ) ) {
         moves -= 100;
     } else {
-        bool ter_or_furn = g->m.has_flag_ter_or_furn( "CLIMBABLE", p );
-        if (ter_or_furn) {
-            bool u_see_me = g->u.sees( *this );
+        if( g->m.has_flag_ter_or_furn( "CLIMBABLE", p ) ) {
             int climb = dex_cur;
-            if (one_in( climb )) {
-                if( u_see_me ) {
-                    add_msg( m_neutral, _( "%1$s falls tries to climb the %2$s but slips." ), name.c_str(),
-                             ter_or_furn ? g->m.tername(p).c_str() : g->m.furnname(p).c_str());
-                }
+            if( one_in( climb ) ) {
+                add_msg_if_npc( m_neutral, _( "%1$s falls tries to climb the %2$s but slips." ),
+                                name.c_str(), g->m.tername(p).c_str() );
                 moves -= 400;
             } else {
-                if( u_see_me ) {
-                    add_msg( m_neutral, _( "%1$s climbs over the %2$s." ), name.c_str(),
-                         ter_or_furn ? g->m.tername(p).c_str() : g->m.furnname(p).c_str());
-                }
+                add_msg_if_npc( m_neutral, _( "%1$s climbs over the %2$s." ), name.c_str(),
+                                g->m.tername( p ).c_str() );
                 moves -= (500 - (rng(0,climb) * 20));
-                setx( p.x);
-                sety( p.y);
+                setpos( p );
             }
-        } else if (g->m.is_bashable(p) && g->m.bash_rating(str_cur + weapon.type->melee_dam, p) > 0) {
-            moves -= int(weapon.is_null() ? 80 : weapon.attack_time() * 0.8);;
-            int smashskill = str_cur + weapon.type->melee_dam;
-            g->m.bash( p, smashskill );
+        } else if( !no_bashing && smash_ability() > 0 && g->m.is_bashable( p ) &&
+                   g->m.bash_rating( smash_ability(), p ) > 0 ) {
+            moves -= int(weapon.is_null() ? 80 : weapon.attack_time() * 0.8);
+            g->m.bash( p, smash_ability() );
         } else {
             if( attitude == NPCATT_MUG ||
                 attitude == NPCATT_KILL ||
@@ -1273,7 +1347,7 @@ void npc::move_to( const tripoint &pt )
                 attitude = NPCATT_FLEE;
             }
 
-            moves -= 100;
+            moves = 0;
         }
     }
 }
@@ -1409,10 +1483,10 @@ void npc::avoid_friendly_fire(int target)
     execute_action(action, target);
 }
 
-void npc::move_away_from( const tripoint &pt )
+void npc::move_away_from( const tripoint &pt, bool no_bash_atk )
 {
     tripoint best_pos = pos();
-    int best = 0;
+    int best = -1;
     int chance = 2;
     for( const tripoint &p : g->m.points_in_radius( pos(), 1 ) ) {
         if( p == pos() ) {
@@ -1426,18 +1500,18 @@ void npc::move_away_from( const tripoint &pt )
 
         const int dst = abs( p.x - pt.x ) + abs( p.y - pt.y ) + abs( p.z - pt.z );
         const int val = dst * 1000 / cost;
-        if( val > best && can_move_to( p ) ) {
+        if( val > best && can_move_to( p, no_bash_atk ) ) {
             best_pos = p;
             best = val;
             chance = 2;
-        } else if( ( val == best && one_in( chance ) ) && can_move_to( p ) ) {
+        } else if( ( val == best && one_in( chance ) ) && can_move_to( p, no_bash_atk ) ) {
             best_pos = p;
             best = val;
             chance++;
         }
     }
 
-    move_to( best_pos );
+    move_to( best_pos, no_bash_atk );
 }
 
 void npc::move_pause()
@@ -2393,48 +2467,37 @@ void npc::set_destination()
 void npc::go_to_destination()
 {
     const tripoint omt_pos = global_omt_location();
-    int sx = (goal.x > omt_pos.x ? 1 : -1), sy = (goal.y > omt_pos.y ? 1 : -1);
+    const int sx = (goal.x == omt_pos.x) ? 0 : sgn( goal.x - omt_pos.x );
+    const int sy = (goal.y == omt_pos.y) ? 0 : sgn( goal.y - omt_pos.y );
     add_msg( m_debug, "%s going (%d,%d,%d)->(%d,%d,%d)", name.c_str(),
              omt_pos.x, omt_pos.y, omt_pos.z, goal.x, goal.y, goal.z );
-    if (goal.x == omt_pos.x && goal.y == omt_pos.y) { // We're at our desired map square!
+    if( goal.x == omt_pos.x && goal.y == omt_pos.y ) { // We're at our desired map square!
         move_pause();
         reach_destination();
-    } else {
-        if (goal.x == omt_pos.x) {
-            sx = 0;
-        }
-        if (goal.y == omt_pos.y) {
-            sy = 0;
-        }
-        // sx and sy are now equal to the direction we need to move in
-        int x = posx() + 8 * sx, y = posy() + 8 * sy;
-        // x and y are now equal to a local square that's close by
-        tripoint dest;
-        dest.z = posz();
-        int &dx = dest.x;
-        int &dy = dest.y;
-        for( int i = 0; i < 8; i++ ) {
-            for( dx = x - i; dx <= x + i; dx++ ) {
-                for( dy = y - i; dy <= y + i; dy++ ) {
-                    if( ( g->m.move_cost( dest ) > 0 ||
-                         //Needs 20% chance of bashing success to be considered for pathing
-                         g->m.bash_rating( smash_ability(), dest ) >= 2 ||
-                         g->m.open_door( dest, true, true ) ) &&
-                        sees( dest ) ) {
-                        path = g->m.route( pos3(), dest, smash_ability(), 1000 );
-                        if( !path.empty() && can_move_to( path[0] ) ) {
-                            move_to_next();
-                            return;
-                        } else {
-                            move_pause();
-                            return;
-                        }
-                    }
-                }
+        return;
+    } 
+
+    // sx and sy are now equal to the direction we need to move in
+    tripoint dest( posx() + 8 * sx, posy() + 8 * sy, posz() );
+    for( int i = 0; i < 8; i++ ) {
+        if( ( g->m.move_cost( dest ) > 0 ||
+             //Needs 20% chance of bashing success to be considered for pathing
+             g->m.bash_rating( smash_ability(), dest ) >= 2 ||
+             g->m.open_door( dest, true, true ) ) &&
+            ( one_in( 4 ) || sees( dest ) ) ) {
+            update_path( dest );
+            if( !path.empty() && can_move_to( path[0] ) ) {
+                move_to_next();
+                return;
+            } else {
+                move_pause();
+                return;
             }
         }
-        move_pause();
+
+        dest = tripoint( posx() + rng( 0, 16 ) * sx, posy() + rng( 0, 16 ) * sy, goal.z );
     }
+    move_pause();
 }
 
 std::string npc_action_name(npc_action action)

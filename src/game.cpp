@@ -107,6 +107,7 @@ const mtype_id mon_manhack( "mon_manhack" );
 const skill_id skill_melee( "melee" );
 const skill_id skill_dodge( "dodge" );
 const skill_id skill_driving( "driving" );
+const skill_id skill_firstaid( "firstaid" );
 
 void advanced_inv(); // player_activity.cpp
 void intro();
@@ -5134,11 +5135,11 @@ void game::draw_HP()
         const char *str = body_parts[i];
         wmove(w_HP, i * dy, 0);
         if (wide) {
-            wprintz(w_HP, limb_color(&u, part[i]), " ");
+            wprintz(w_HP, u.limb_color(part[i], true, true, true), " ");
         }
-        wprintz(w_HP, limb_color(&u, part[i]), str);
+        wprintz(w_HP, u.limb_color(part[i], true, true, true), str);
         if (!wide) {
-            wprintz(w_HP, limb_color(&u, part[i]), ":");
+            wprintz(w_HP, u.limb_color(part[i], true, true, true), ":");
         }
     }
 
@@ -5170,43 +5171,6 @@ void game::draw_HP()
         u.print_stamina_bar(w_HP);
     }
     wrefresh(w_HP);
-}
-
-nc_color game::limb_color(player *p, body_part bp, bool bleed, bool bite, bool infect)
-{
-    if (bp == num_bp) {
-        return c_ltgray;
-    }
-
-    int color_bit = 0;
-    nc_color i_color = c_ltgray;
-    if (bleed && p->has_effect("bleed", bp)) {
-        color_bit += 1;
-    }
-    if (bite && p->has_effect("bite", bp)) {
-        color_bit += 10;
-    }
-    if (infect && p->has_effect("infected", bp)) {
-        color_bit += 100;
-    }
-    switch (color_bit) {
-    case 1:
-        i_color = c_red;
-        break;
-    case 10:
-        i_color = c_blue;
-        break;
-    case 100:
-        i_color = c_green;
-        break;
-    case 11:
-        i_color = c_magenta;
-        break;
-    case 101:
-        i_color = c_yellow;
-        break;
-    }
-    return i_color;
 }
 
 void game::draw_minimap()
@@ -7985,6 +7949,65 @@ bool pet_menu(monster *z)
     return true;
 }
 
+// Returns true if the menu handled stuff and player shouldn't do anything else
+bool npc_menu( npc &who )
+{
+    enum choices : int {
+        cancel = 0,
+        swap_pos,
+        push,
+        examine_wounds,
+        attack
+    };
+
+    uimenu amenu;
+
+    amenu.selected = 0;
+    amenu.text = string_format( _("What to do with %s?"), who.disp_name().c_str() );
+    amenu.addentry( cancel, true, 'q', _("Cancel") );
+
+    const bool obeys = debug_mode || (who.is_friend() && !who.in_sleep_state());
+    amenu.addentry( swap_pos, obeys, 's', _("Swap positions") );
+    amenu.addentry( push, obeys, 'p', _("Push away") );
+    amenu.addentry( examine_wounds, true, 'w', _("Examine wounds") );
+    amenu.addentry( attack, true, 'a', _("Attack") );
+
+    amenu.query();
+
+    const int choice = amenu.ret;
+    if( choice == cancel ) {
+        return false;
+    }
+
+    if( choice == swap_pos ) {
+        // TODO: Make NPCs protest when displaced onto dangerous crap
+        add_msg(_("You swap places with %s."), who.name.c_str());
+        g->swap_critters( g->u, who );
+        // TODO: Make that depend on stuff
+        g->u.mod_moves( -200 );
+    } else if( choice == push ) {
+        // TODO: Make NPCs protest when displaced onto dangerous crap
+        tripoint oldpos = who.pos();
+        who.move_away_from( g->u.pos(), true );
+        g->u.mod_moves( -20 );
+        if( oldpos != who.pos() ) {
+            add_msg(_("%s moves out of the way."), who.name.c_str());
+        } else {
+            add_msg( m_warning, _("%s has nowhere to go!"), who.name.c_str());
+        }
+    } else if( choice == examine_wounds ) {
+        const bool precise = g->u.get_skill_level( skill_firstaid ) * 4 + g->u.per_cur >= 20;
+        who.body_window( precise );
+    } else if( choice == attack ) {
+        //The NPC knows we started the fight, used for morale penalty.
+        who.hit_by_player = true;
+        g->u.melee_attack( who, true );
+        who.make_angry();
+    }
+
+    return true;
+}
+
 void game::examine()
 {
     examine( tripoint( -1, -1, get_levz() ) );
@@ -8058,8 +8081,15 @@ void game::examine( const tripoint &p )
         Creature *c = critter_at(examp);
         monster *mon = dynamic_cast<monster *>(c);
 
-        if (mon != NULL && mon->has_effect("pet")) {
+        if( mon != nullptr && mon->has_effect("pet") ) {
             if (pet_menu(mon)) {
+                return;
+            }
+        }
+
+        npc *np = dynamic_cast<npc*>( c );
+        if( np != nullptr ) {
+            if( npc_menu( *np ) ) {
                 return;
             }
         }
@@ -11767,9 +11797,11 @@ bool game::plmove(int dx, int dy)
     }
 
     bool displace = false;
-    if (mondex != -1) {
+    if( mondex != -1 ) {
         monster &critter = zombie(mondex);
-        if (critter.friendly == 0 && !(critter.type->has_flag(MF_VERMIN))) {
+        if( critter.friendly == 0 &&
+            !critter.has_effect("pet") &&
+            !critter.type->has_flag(MF_VERMIN) ) {
             if (u.has_destination()) {
                 add_msg(m_warning, _("Monster in the way. Auto-move canceled."));
                 add_msg(m_info, _("Click directly on monster to attack."));
@@ -11800,31 +11832,21 @@ bool game::plmove(int dx, int dy)
         }
     }
     // If not a monster, maybe there's an NPC there
-    if (npcdex != -1) {
+    if( npcdex != -1 ) {
         npc &np = *active_npc[npcdex];
-        bool force_attack = false;
         if( !np.is_enemy() ) {
-            if( !query_yn( _("Really attack %s?"), np.name.c_str() ) ) {
-                if( np.is_friend() && !np.in_sleep_state() ) {
-                    add_msg(_("%s moves out of the way."), np.name.c_str());
-                    np.move_away_from( u.pos3() );
-                }
-
-                return false; // Cancel the attack
-            } else {
-                //The NPC knows we started the fight, used for morale penalty.
-                np.hit_by_player = true;
-                force_attack = true;
-            }
+            npc_menu( np );
+            return false;
         }
 
-        if (u.has_destination() && !force_attack) {
+        if( u.has_destination() ) {
             add_msg(_("NPC in the way, Auto-move canceled."));
             add_msg(m_info, _("Click directly on NPC to attack."));
             u.clear_destination();
             return false;
         }
 
+        np.hit_by_player = true;
         u.melee_attack( np, true );
         np.make_angry();
         return false;
