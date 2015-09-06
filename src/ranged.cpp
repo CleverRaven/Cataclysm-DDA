@@ -1284,7 +1284,7 @@ int time_to_fire(player &p, const itype &firingt)
     static const time_info_t default_info{ 50, 220, 25 };
 
     time_info_t const &info = (it == map.end()) ? default_info : it->second;
-    return std::max(info.min_time, info.base - info.reduction * p.skillLevel(it->first));
+    return std::max(info.min_time, info.base - info.reduction * p.skillLevel( skill_used ));
 }
 
 
