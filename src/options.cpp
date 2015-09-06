@@ -1020,8 +1020,8 @@ void init_options()
     mOptionsSort["world_default"]++;
 
     OPTIONS["CITY_SIZE"] = cOpt("world_default", _("Size of cities"),
-                                _("A number determining how large cities are. Warning, large numbers lead to very slow mapgen."),
-                                1, 16, 4
+                                _("A number determining how large cities are. Warning, large numbers lead to very slow mapgen. 0 disables cities and roads."),
+                                0, 16, 4
                                );
 
     OPTIONS["SPAWN_DENSITY"] = cOpt("world_default", _("Spawn rate scaling factor"),

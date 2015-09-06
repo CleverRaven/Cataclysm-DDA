@@ -2463,6 +2463,9 @@ void overmap::place_cities()
     int NUM_CITIES = dice(4, 4);
     int start_dir;
     int op_city_size = int(ACTIVE_WORLD_OPTIONS["CITY_SIZE"]);
+    if( op_city_size <= 0 ) {
+        return;
+    }
     // Limit number of cities based on average size.
     NUM_CITIES = std::min(NUM_CITIES, int(256 / op_city_size * op_city_size));
 
