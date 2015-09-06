@@ -1,0 +1,21 @@
+[
+    {
+        "type" : "material",
+        "ident" : "essencemat",
+        "name" : "Magical Essence",
+        "bash_resist" : 20,
+        "cut_resist" : 20,
+        "bash_dmg_verb" : "damaged",
+        "cut_dmg_verb" : "damaged",
+        "dmg_adj" : [
+            "lightly damaged",
+            "damaged",
+            "very damaged",
+            "thoroughly damaged"
+        ],
+        "acid_resist" : 99,
+        "elec_resist" : 99,
+        "fire_resist" : 99,
+        "density" : 1
+    }
+]

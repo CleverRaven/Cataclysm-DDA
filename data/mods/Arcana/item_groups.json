@@ -1,0 +1,170 @@
+[
+  {
+    "type" : "item_group",
+    "id" : "magic_items",
+    "items":[
+      ["thunder_sigil", 5],
+      ["bloodscourge", 5],
+      ["gauntlets_necro", 5],
+      ["bloodaxe", 10],
+      ["revenant_crown", 10],
+      ["numbness_potion", 25],
+      ["strength_potion", 20],
+      ["speed_potion", 15],
+      ["healing_potion", 10]
+    ]
+  },
+  {
+    "type" : "item_group",
+    "id" : "magic_tools",
+    "items":[
+      ["offering_chalice", 25],
+      ["offering_chalice_used", 30],
+      ["blood_athame", 20],
+      ["essence_blood", 10]
+    ]
+  },
+  {
+    "type" : "item_group",
+    "id" : "magic_books",
+    "items":[
+      ["book_magicfordummies", 5],
+      ["book_potioncraft", 10],
+      ["book_sacrifice", 10],
+      ["book_bloodmagic", 10]
+    ]
+  },
+  {
+    "type" : "item_group",
+    "id" : "essence",
+    "items":[
+      ["essence", 1]
+    ]
+  },
+  {
+    "type" : "item_group",
+    "id" : "essence_blood",
+    "items":[
+      ["essence_blood", 1]
+    ]
+  },
+  {
+    "type" : "item_group",
+    "id" : "essence_boss",
+    "items":[
+      { "item": "essence", "prob": 100, "charges-min": 2, "charges-max": 5 }
+    ]
+  },
+  {
+    "type" : "item_group",
+    "id" : "essence_nether",
+    "items":[
+      { "item": "essence", "prob": 100, "charges-min": 1, "charges-max": 3 }
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "homebooks",
+    "items":[
+      ["book_magicfordummies", 1],
+      ["book_potioncraft", 1]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "mansion_books",
+    "items":[
+      ["book_magicfordummies", 3],
+      ["book_potioncraft", 8],
+      ["book_sacrifice", 5],
+      ["book_bloodmagic", 5]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "cop_evidence",
+    "items":[
+      ["offering_chalice_used", 1],
+      ["blood_athame", 1]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "vault",
+    "items":[
+      ["offering_chalice", 1],
+      ["blood_athame", 1]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "art",
+    "items":[
+      ["offering_chalice", 1],
+      ["revenant_crown", 1],
+      ["gauntlets_necro", 1],
+      ["thunder_sigil", 1]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "pawn",
+    "items":[
+      ["offering_chalice", 1],
+      ["revenant_crown", 1],
+      ["blood_athame", 1]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "spider",
+    "items":[
+      ["thunder_sigil", 1],
+      ["bloodscourge", 1],
+      ["bloodaxe", 1],
+      ["revenant_crown", 1],
+      ["gauntlets_necro", 1],
+      ["numbness_potion", 1],
+      ["strength_potion", 3],
+      ["speed_potion", 3],
+      ["healing_potion", 5],
+      ["essence", 3],
+      ["essence_blood", 5]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "rare",
+    "items":[
+      ["thunder_sigil", 1],
+      ["bloodscourge", 2],
+      ["bloodaxe", 1],
+      ["revenant_crown", 1],
+      ["gauntlets_necro", 1],
+      ["numbness_potion", 5],
+      ["strength_potion", 3],
+      ["speed_potion", 3],
+      ["healing_potion", 1],
+      ["offering_chalice", 2],
+      ["offering_chalice_used", 4],
+      ["blood_athame", 3],
+      ["essence", 3],
+      ["essence_blood", 3],
+      ["book_magicfordummies", 1],
+      ["book_potioncraft", 1],
+      ["book_sacrifice", 1],
+      ["book_bloodmagic", 1]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "antique_rare",
+    "items":[
+      ["thunder_sigil", 1],
+      ["bloodscourge", 1],
+      ["revenant_crown", 1],
+      ["gauntlets_necro", 1],
+      ["offering_chalice", 1],
+      ["blood_athame", 1]
+    ]
+  },{
+"type" : "item_group",
+"id" : "museum_misc",
+"items" : [
+      ["offering_chalice", 5],
+      ["blood_athame", 5]
+    ]
+  }
+]
+
