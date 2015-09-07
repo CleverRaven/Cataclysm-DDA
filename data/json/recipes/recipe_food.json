@@ -4673,7 +4673,6 @@
   "reversible": false,
   "autolearn": true,
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":1},
     {"id":"COOK","level":1,"amount":1}
   ],
   "tools": [
@@ -4686,7 +4685,7 @@
   ],
   "components": [
     [
-      ["hickory_nut", 1]
+      ["hickory_nut_unshelled", 1]
     ]
   ]
 },{
@@ -4701,7 +4700,6 @@
   "autolearn": false,
   "book_learn": [ ["family_cookbook", 5], ["survival_book", 3] , ["textbook_survival", 3] ],
   "qualities":[
-    {"id":"HAMMER","level":1,"amount":1},
     {"id":"COOK","level":3,"amount":1},
     {"id":"BOIL","level":2,"amount":1}
   ],
@@ -4715,7 +4713,7 @@
   ],
   "components": [
     [
-        ["hickory_nut", 4]
+        ["hickory_nut_unshelled", 4]
     ],
     [
       [ "milk", 1 ],

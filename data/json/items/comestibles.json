@@ -8167,7 +8167,7 @@
         "volume" : 1,
         "cutting" : 0,
         "phase" : "solid",
-        "charges" : 2,
+        "charges" : 1,
         "bashing" : 0,
         "fun" : 0
     },
@@ -8214,10 +8214,10 @@
         "to_hit" : 0,
         "comestible_type" : "DRINK",
         "symbol" : "~",
-        "quench" : 40,
+        "quench" : 10,
         "healthy" : 0,
         "addiction_potential" : 0,
-        "nutrition" : 20,
+        "nutrition" : 15,
         "description" : "Delicious hickory nut ambrosia. A drink worthy of the gods.",
         "price" : 100,
         "material" : ["veggy","milk"],
@@ -8225,10 +8225,10 @@
         "volume" : 1,
         "cutting" : 0,
         "phase" : "liquid",
-        "charges" : 1,
+        "charges" : 4,
         "bashing" : 0,
         "flags" : ["EATEN_HOT"],
-        "fun" : 10
+        "fun" : 5
     },
     {
         "type" : "COMESTIBLE",
