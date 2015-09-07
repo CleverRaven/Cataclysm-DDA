@@ -1343,7 +1343,7 @@ bool monster::will_reach( int x, int y )
         return true;
     }
 
-    if( can_see() && g->m.sees( posx(), posy(), x, y, g->light_level() ) ) {
+    if( can_see() && g->m.sees( pos(), {x, y, posz()}, g->light_level() ) ) {
         return true;
     }
 

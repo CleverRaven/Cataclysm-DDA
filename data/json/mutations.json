@@ -1503,7 +1503,7 @@
         "id" : "CF_HAIR",
         "name" : "Urticating Hairs",
         "points" : 3,
-        "description" : "Significant amounts of your hairs have loosened.  If somme creature tries to attack you, your assailant is quite likely to get fine, bristly chitin in an irritating spot; it doesn't carry your venom but it will be distracting.",
+        "description" : "Significant amounts of your hairs have loosened.  If some creature tries to attack you, your assailant is quite likely to get fine, bristly chitin in an irritating spot; it doesn't carry your venom but it will be distracting.",
         "prereqs" : ["CHITIN_FUR2", "CHITIN_FUR3"],
         "threshreq" : ["THRESH_SPIDER"],
         "category" : ["MUTCAT_SPIDER"]

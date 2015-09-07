@@ -54,9 +54,16 @@
         "type" : "vehicle_group",
         "id" : "bandit_vehicles",
         "vehicles" : [
-            ["motorcycle", 400],
-            ["pickup_technical", 200],
-            ["tractor_bandit", 100]
+            ["motorcycle", 300],
+            ["pickup_technical", 150],
+            ["tractor_bandit", 150]
+        ]
+    },{
+        "type" : "vehicle_group",
+        "id" : "tractor_vehicles",
+        "vehicles" : [
+            ["tractor", 125],
+            ["tractor_bandit", 75]
         ]
     }
 ]

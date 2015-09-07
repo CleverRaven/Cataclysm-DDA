@@ -5716,17 +5716,6 @@ void map::draw_maptile( WINDOW* w, player &u, const tripoint &p, const maptile &
     }
 }
 
-// TODO: Implement this function in FoV update
-bool map::sees( const int Fx, const int Fy, const int Tx, const int Ty, const int range ) const
-{
-    return sees( {Fx, Fy, 0}, {Tx, Ty, 0}, range );
-}
-
-bool map::sees( const point F, const point T, const int range ) const
-{
-    return sees( {F.x, F.y, 0}, {T.x, T.y, 0}, range );
-}
-
 bool map::sees( const tripoint &F, const tripoint &T, const int range ) const
 {
     int dummy = 0;
@@ -5738,24 +5727,42 @@ bool map::sees( const tripoint &F, const tripoint &T, const int range ) const
  **/
 bool map::sees( const tripoint &F, const tripoint &T, const int range, int &bresenham_slope ) const
 {
-    if( (range >= 0 && range < rl_dist(F.x, F.y, T.x, T.y)) ||
-        !INBOUNDS(T.x, T.y) ) {
+    if( (range >= 0 && range < rl_dist( F, T )) ||
+        !inbounds( T ) ) {
         bresenham_slope = 0;
         return false; // Out of range!
     }
     bool visible = true;
-    bresenham( F.x, F.y, T.x, T.y, bresenham_slope,
-               [this, &visible, &T]( const point &new_point ) {
-                   // Exit before checking the last square, it's still visible even if opaque.
-                   if( new_point.x == T.x && new_point.y == T.y ) {
-                       return false;
-                   }
-                   if( !this->trans(new_point.x, new_point.y) ) {
-                       visible = false;
-                       return false;
-                   }
-                   return true;
-               });
+
+    // Ugly `if` for now
+    if( !fov_3d ) {
+        bresenham( F.x, F.y, T.x, T.y, bresenham_slope,
+                   [this, &visible, &T]( const point &new_point ) {
+                       // Exit before checking the last square, it's still visible even if opaque.
+                       if( new_point.x == T.x && new_point.y == T.y ) {
+                           return false;
+                       }
+                       if( !this->trans( tripoint( new_point, T.z ) ) ) {
+                           visible = false;
+                           return false;
+                       }
+                       return true;
+                   });
+        return visible;
+    }
+
+    bresenham( F, T, bresenham_slope, 0,
+                [this, &visible, &T]( const tripoint &new_point ) {
+               // Exit before checking the last square, it's still visible even if opaque.
+               if( new_point == T ) {
+                   return false;
+               }
+               if( !this->trans( new_point ) ) {
+                   visible = false;
+                   return false;
+               }
+               return true;
+           });
     return visible;
 }
 
@@ -5785,22 +5792,50 @@ std::vector<tripoint> map::find_clear_path( const tripoint &source, const tripoi
     return line_to( source, destination, ideal_start_offset, 0 );
 }
 
-bool map::clear_path( const int Fx, const int Fy, const int Tx, const int Ty,
-                      const int range, const int cost_min, const int cost_max ) const
+bool map::clear_path( const tripoint &f, const tripoint &t, const int range,
+                      const int cost_min, const int cost_max ) const
 {
-    if( (range >= 0 && range < rl_dist(Fx, Fy, Tx, Ty)) ||
-        !INBOUNDS(Tx, Ty) ) {
+    // Ugly `if` for now
+    if( !fov_3d ) {
+        if( f.z != t.z ) {
+            return false;
+        }
+
+        if( (range >= 0 && range < rl_dist(f.x, f.y, t.x, t.y)) ||
+            !INBOUNDS(t.x, t.y) ) {
+            return false; // Out of range!
+        }
+        bool is_clear = true;
+        bresenham( f.x, f.y, t.x, t.y, 0,
+                   [this, &is_clear, cost_min, cost_max, &t](const point &new_point ) {
+                       // Exit before checking the last square, it's still reachable even if it is an obstacle.
+                       if( new_point.x == t.x && new_point.y == t.y ) {
+                           return false;
+                       }
+
+                       const int cost = this->move_cost( new_point.x, new_point.y );
+                       if( cost < cost_min || cost > cost_max ) {
+                           is_clear = false;
+                           return false;
+                       }
+                       return true;
+                   } );
+        return is_clear;
+    }
+
+    if( (range >= 0 && range < rl_dist(f, t)) ||
+        !inbounds( t ) ) {
         return false; // Out of range!
     }
     bool is_clear = true;
-    bresenham( Fx, Fy, Tx, Ty, 0,
-               [this, &is_clear, cost_min, cost_max, Tx, Ty](const point &new_point ) {
+    bresenham( f, t, 0, 0,
+               [this, &is_clear, cost_min, cost_max, t](const tripoint &new_point ) {
                    // Exit before checking the last square, it's still reachable even if it is an obstacle.
-                   if( new_point.x == Tx && new_point.y == Ty ) {
+                   if( new_point == t ) {
                        return false;
                    }
 
-                   const int cost = this->move_cost( new_point.x, new_point.y );
+                   const int cost = this->move_cost( new_point );
                    if( cost < cost_min || cost > cost_max ) {
                        is_clear = false;
                        return false;
@@ -5808,17 +5843,6 @@ bool map::clear_path( const int Fx, const int Fy, const int Tx, const int Ty,
                    return true;
                } );
     return is_clear;
-}
-
-// TODO: Z
-bool map::clear_path( const tripoint &f, const tripoint &t, const int range,
-                      const int cost_min, const int cost_max ) const
-{
-    if( f.z != t.z ) {
-        return false;
-    }
-
-    return clear_path( f.x, f.y, t.x, t.y, range, cost_min, cost_max );
 }
 
 bool map::accessible_items( const tripoint &f, const tripoint &t, const int range ) const
@@ -6780,7 +6804,7 @@ void map::build_map_cache( const int zlev, bool skip_lightmap )
         }
     }
 
-    build_seen_cache( tripoint( g->u.posx(), g->u.posy(), zlev ) );
+    build_seen_cache( g->u.pos(), zlev );
     if( !skip_lightmap ) {
         generate_lightmap( zlev );
     }

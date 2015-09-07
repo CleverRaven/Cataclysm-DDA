@@ -310,7 +310,7 @@ struct islot_gunmod : common_firing_data {
     /**
      * TODO: document me
      */
-    std::set<std::string> acceptible_ammo_types;
+    std::set<std::string> acceptable_ammo_types;
     /**
      * TODO: document me
      */

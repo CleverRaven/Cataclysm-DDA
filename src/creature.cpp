@@ -146,7 +146,6 @@ bool Creature::digging() const
     return false;
 }
 
-extern bool debug_mode;
 bool Creature::sees( const Creature &critter ) const
 {
     if( critter.is_hallucination() ) {
@@ -162,19 +161,20 @@ bool Creature::sees( const Creature &critter ) const
         return p == this;
     }
 
-    if( posz() != critter.posz() && !debug_mode ) {
-        return false; // TODO: Remove this
-    }
-
-    const int wanted_range = rl_dist( pos3(), critter.pos3() );
-    if( wanted_range <= 1 ) {
-        return true;
-    } else if( ( wanted_range > 1 && critter.digging() ) ||
-        ( g->m.is_divable( critter.pos3() ) && critter.is_underwater() && !is_underwater() ) ) {
+    if( !fov_3d && posz() != critter.posz() ) {
         return false;
     }
 
-    return sees( critter.pos3(), critter.is_player() );
+    const int wanted_range = rl_dist( pos(), critter.pos() );
+    if( wanted_range <= 1 &&
+        ( posz() == critter.posz() || g->m.valid_move( pos(), critter.pos(), false, true ) ) ) {
+        return true;
+    } else if( ( wanted_range > 1 && critter.digging() ) ||
+        ( critter.is_underwater() && !is_underwater() && g->m.is_divable( critter.pos3() ) ) ) {
+        return false;
+    }
+
+    return sees( critter.pos(), critter.is_player() );
 }
 
 bool Creature::sees( const int tx, const int ty ) const

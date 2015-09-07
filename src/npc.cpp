@@ -1132,11 +1132,11 @@ bool npc::wield(item* it)
 {
     if( !weapon.is_null() ) {
         if ( volume_carried() + weapon.volume() <= volume_capacity() ) {
-            add_msg_if_npc( m_info, _( "<npcname> puts away the %2$s." ), name.c_str(), weapon.tname().c_str() );
+            add_msg_if_npc( m_info, _( "<npcname> puts away the %s." ), weapon.tname().c_str() );
             i_add( remove_weapon() );
             moves -= 15;
         } else { // No room for weapon, so we drop it
-            add_msg_if_npc( m_info, _( "<npcname> drops the %2$s." ), name.c_str(), weapon.tname().c_str() );
+            add_msg_if_npc( m_info, _( "<npcname> drops the %s." ), weapon.tname().c_str() );
             g->m.add_item_or_charges( pos(), remove_weapon() );
         }
     }
@@ -1148,7 +1148,7 @@ bool npc::wield(item* it)
 
     moves -= 15;
     weapon = inv.remove_item(it);
-    add_msg_if_npc( m_info, _( "<npcname> wields a %2$s." ), name.c_str(), weapon.tname().c_str() );
+    add_msg_if_npc( m_info, _( "<npcname> wields a %s." ),  weapon.tname().c_str() );
     return true;
 }
 

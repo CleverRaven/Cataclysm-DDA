@@ -284,7 +284,7 @@
     "special_freq"    : [0],
     "death_function"  : "NORMAL",
     "special_attack"  : ["NONE"],
-    "description"     : "A Smallmouth Bass.  Being intolerant to polution in the water, smallmouth bass are a good indicator of how clean it is.  Just becuase you see them though, doesnt mean you can drink the water without boiling it first.",
+    "description"     : "A Smallmouth bass.  Being intolerant to pollution in the water, smallmouth bass are a good indicator of how clean it is.  Just because you see them though, doesn't mean you can drink the water without boiling it first.",
     "flags"           : ["FISHABLE", "SEES", "SMELLS", "WARM", "SWIMS", "AQUATIC", "VIS30", "BONES"],
     "fear_triggers":["PLAYER_CLOSE", "SOUND"],
     "categories":["WILDLIFE"]

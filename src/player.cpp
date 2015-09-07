@@ -4056,7 +4056,7 @@ int player::sight_range(int light_level) const
      * log(LIGHT_AMBIENT_LOW / light_level) <= LIGHT_TRANSPARENCY_OPEN_AIR * distance
      * log(LIGHT_AMBIENT_LOW / light_level) * (1 / LIGHT_TRANSPARENCY_OPEN_AIR) <= distance
      */
-    int range = -log( get_vision_threshold( g->m.ambient_light_at(pos3()) ) / (float)light_level ) *
+    int range = -log( get_vision_threshold( g->m.ambient_light_at(pos()) ) / (float)light_level ) *
         (1.0 / LIGHT_TRANSPARENCY_OPEN_AIR);
     // int range = log(light_level * LIGHT_AMBIENT_LOW) / LIGHT_TRANSPARENCY_OPEN_AIR;
 
@@ -11164,8 +11164,8 @@ can install this mod."), mod->req_skill);
             add_msg(m_info, _("That %s cannot be attached to a launcher."),
                        used->tname().c_str());
             return;
-        } else if ( !mod->acceptible_ammo_types.empty() &&
-                    mod->acceptible_ammo_types.count(guntype->ammo) == 0 ) {
+        } else if ( !mod->acceptable_ammo_types.empty() &&
+                    mod->acceptable_ammo_types.count(guntype->ammo) == 0 ) {
                 add_msg(m_info, _("That %1$s cannot be used on a %2$s."), used->tname().c_str(),
                        ammo_name(guntype->ammo).c_str());
                 return;
@@ -11413,7 +11413,7 @@ hint_rating player::rate_action_read( const item &it ) const
        }
     }
 
-    if (g && g->m.ambient_light_at(pos()) < 8 && LL_LIT > g->m.light_at(posx(), posy())) {
+    if (g && g->m.ambient_light_at(pos()) < 8 && LL_LIT > g->m.light_at(pos())) {
         return HINT_IFFY;
     } else if (morale_level() < MIN_MORALE_READ && it.type->book->fun <= 0) {
         return HINT_IFFY; //won't read non-fun books when sad
@@ -12295,8 +12295,8 @@ int player::encumb(body_part bp, double &layers, int &armorenc) const
         }
         std::pair<int, int> &this_layer = layer[w.get_layer()];
         int encumber_val = w.get_encumber();
-        // For the purposes of layering penalty, set a min of 1 and a max of 10 per item.
-        int layering_encumbrance = std::min( 10, std::max( 1, encumber_val ) );
+        // For the purposes of layering penalty, set a min of 2 and a max of 10 per item.
+        int layering_encumbrance = std::min( 10, std::max( 2, encumber_val ) );
 
         this_layer.first += layering_encumbrance;
         this_layer.second = std::max(this_layer.second, layering_encumbrance);
