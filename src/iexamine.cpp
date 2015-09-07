@@ -2235,11 +2235,11 @@ void iexamine::tree_hickory(player *p, map *m, const tripoint &examp)
     if( !( p->skillLevel( skill_survival ) > 0 ) ) {
         return;
     }
-    if(!query_yn(_("Dig up %s? This kills the tree!"), m->tername(examp).c_str())) {
-        return;
-    }
     if( !p->has_items_with_quality( "DIG", 1, 1 ) ) {
         add_msg(m_info, _("You have no tool to dig with..."));
+        return;
+    }
+    if(!query_yn(_("Dig up %s? This kills the tree!"), m->tername(examp).c_str())) {
         return;
     }
     m->spawn_item(p->pos(), "hickory_root", rng(1,4) );
