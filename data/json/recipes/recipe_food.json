@@ -3352,15 +3352,14 @@
     ],
     [
       [ "seasoning_italian", 15 ],
--     [ "wild_herbs", 15 ],
--     [ "seasoning_salt", 15 ],
--     [ "soysauce", 2 ],
--     [ "pepper", 20 ],
--     [ "seed_garlic", 6 ],
--     [ "garlic", 1 ],
+      [ "wild_herbs", 15 ],
+      [ "seasoning_salt", 15 ],
+      [ "soysauce", 2 ],
+      [ "pepper", 20 ],
+      [ "seed_garlic", 6 ],
+      [ "garlic", 1 ],
       [ "salt_water", 1 ],
       [ "salt", 1]
-     
     ]
   ]
 },{
