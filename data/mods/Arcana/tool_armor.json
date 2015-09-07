@@ -47,7 +47,7 @@
         "name": "pair of thunder gauntlets",
         "name_plural" : "pairs of thunder gauntlets",
         "description": "A heavy set of plate gauntlets, decorated with silver around the edges of each individual plate.  Touching the bare metal sends a faint electric tingle through you.  Use them to give something a shocking surprise, if you're in melee range.",
-        "price": 46125,
+        "price": 46200,
         "material": ["iron", "leather", "silver"],
         "weight": 1190,
         "volume": 6,
