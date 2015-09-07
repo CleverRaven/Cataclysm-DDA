@@ -617,7 +617,7 @@
     "symbol": "%",
     "color": "brown",
     "name": "hickory nuts",
-    "name_plural": "handfuls of hickory nuts",
+    "name_plural": "hickory nuts",
     "description": "A handful of hard nuts from a hickory tree, still in their shell.",
     "price": 0,
     "material": "wood",
