@@ -239,15 +239,19 @@ void npc::execute_action(npc_action action, int target)
                name.c_str(), target, npc_action_name(action).c_str());
     */
 
+    /*
     // Before doing anything else, if the player is friendly and we're
     // blocking them, get out of the way.
-    if (attitude_to(g->u) == Creature::A_FRIENDLY && rl_dist(pos(), g->u.pos()) == 1) {
+    if( attitude_to(g->u) == Creature::A_FRIENDLY && rl_dist(pos(), g->u.pos()) == 1 ) {
         // We are only blocking movement if we're one tile away from the player.
         if(is_blocking_position(g->u.pos())) {
             move_away_from(g->u.pos());
             return;
         }
     }
+    // Disabled because it causes problems with vehicles
+    // Just use push/swap manually
+    */
 
     std::vector<tripoint> line;
     if( tar != pos3() ) {
@@ -452,6 +456,7 @@ void npc::execute_action(npc_action action, int target)
         }
 
         // Try to find the last destination
+        // This is mount point, not actual position
         point last_dest( INT_MIN, INT_MIN );
         if( !path.empty() && g->m.veh_at( path[path.size() - 1], p1 ) == veh && p1 >= 0 ) {
             last_dest = veh->parts[p1].mount;
@@ -459,7 +464,7 @@ void npc::execute_action(npc_action action, int target)
 
         // Prioritize last found path, then seats
         // Don't change spots if ours is nice
-        int my_spot = 0;
+        int my_spot = -1;
         std::vector<std::pair<int, int> > seats;
         for( size_t p2 = 0; p2 < veh->parts.size(); p2++ ) {
             if( !veh->part_flag( p2, VPFLAG_BOARDABLE ) ) {
@@ -511,7 +516,7 @@ void npc::execute_action(npc_action action, int target)
         // Only check few best seats - pathfinding can get expensive
         const size_t try_max = std::min<size_t>( 4, seats.size() );
         for( size_t i = 0; i < try_max; i++ ) {
-            if( seats[i].first < my_spot ) {
+            if( seats[i].first <= my_spot ) {
                 // We have a nicer spot than this
                 // Note: this will make NPCs steal player's seat...
                 break;
@@ -519,8 +524,8 @@ void npc::execute_action(npc_action action, int target)
 
             const int cur_part = seats[i].second;
 
-            tripoint part_pos = veh->global_pos3() + veh->parts[cur_part].precalc[0];
-            update_path( part_pos, true );
+            tripoint pp = veh->global_pos3() + veh->parts[cur_part].precalc[0];
+            update_path( pp, true );
             if( !path.empty() ) {
                 // All is fine
                 move_to_next();
@@ -1315,10 +1320,11 @@ void npc::move_to( const tripoint &pt, bool no_bashing )
         moves -= run_cost( g->m.combined_movecost( pos(), p ), diag );
         setpos( p );
         int part;
-        vehicle *veh = g->m.veh_at( pos(), part );
+        vehicle *veh = g->m.veh_at( p, part );
         if( veh != nullptr && veh->part_with_feature( part, VPFLAG_BOARDABLE ) >= 0 ) {
-            g->m.board_vehicle( pos(), this );
+            g->m.board_vehicle( p, this );
         }
+
         g->m.creature_on_trap( *this );
         g->m.creature_in_field( *this );
     } else if( g->m.open_door( p, !g->m.is_outside( pos() ) ) ) {
