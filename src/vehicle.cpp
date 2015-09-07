@@ -3101,7 +3101,6 @@ int vehicle::total_power(bool const fueled) const
             pwr += part_power(p); // alternators have negative power
         }
     }
-    pwr += extra_drag;
     if (cnt > 1) {
         pwr = pwr * 4 / (4 + cnt -1);
     }
@@ -3373,6 +3372,11 @@ float vehicle::k_mass() const
     float km = ma0 / (ma0 + (total_mass()) / (8 * (float) wa));
 
     return km;
+}
+
+float vehicle::drag() const
+{
+    return -extra_drag;
 }
 
 float vehicle::strain() const

@@ -434,7 +434,7 @@ bool map::vehproceed()
 
     // k slowdown second.
     const float k_slowdown = (0.1 + veh.k_dynamics()) / ((0.1) + veh.k_mass());
-    const int slowdown = (int)ceil( k_slowdown * base_slowdown );
+    const int slowdown = veh.drag() + (int)ceil( k_slowdown * base_slowdown );
     if( slowdown > abs( veh.velocity ) ) {
         veh.stop();
     } else if( veh.velocity < 0 ) {
