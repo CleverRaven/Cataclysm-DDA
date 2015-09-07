@@ -612,6 +612,9 @@ public:
     // 1.0 means mass won't slow vehicle at all, 0 - it won't move
     float k_mass () const;
 
+    // Extra drag on the vehicle from components other than wheels.
+    float drag() const;
+
     // strain of engine(s) if it works higher that safe speed (0-1.0)
     float strain () const;
 
