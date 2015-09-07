@@ -189,6 +189,8 @@ struct mtype {
         int vision_night; // Vision range in total darkness
 
         int  speed;       // Speed; human = 100
+        // Number of moves per regular attack.
+        int attack_cost;
         unsigned char melee_skill; // Melee hit skill, 20 is superhuman hitting abilities.
         unsigned char melee_dice;  // Number of dice on melee hit
         unsigned char melee_sides; // Number of sides those dice have
