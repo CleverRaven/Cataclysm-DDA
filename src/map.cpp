@@ -327,15 +327,12 @@ void map::on_vehicle_moved( const int smz ) {
 void map::vehmove()
 {
     // give vehicles movement points
-    {
-        VehicleList vehs = get_vehicles();
-        for( auto &vehs_v : vehs ) {
-            vehicle *veh = vehs_v.v;
-            veh->gain_moves();
-            veh->slow_leak();
-            if ( veh->velocity < 0) {
-                veh->beeper_sound();
-            }
+    for( auto &wrapped_veh : get_vehicles() ) {
+        vehicle *veh = wrapped_veh.v;
+        veh->gain_moves();
+        veh->slow_leak();
+        if( veh->velocity < 0 ) {
+            veh->beeper_sound();
         }
     }
 
