@@ -6969,36 +6969,36 @@ bool game::swap_critters( Creature &a, Creature &b )
 
         critter_tracker->swap_positions( *m1, *m2 );
         return true;
-    } else if( second.is_monster() ) {
-        // TODO: Remove the ugly casts when Creature::setpos exists
-        player *u_or_npc = dynamic_cast< player* >( &first );
-        monster *mon = dynamic_cast< monster* >( &second );
-        if( u_or_npc == nullptr || mon == nullptr ) {
-            debugmsg( "Couldn't swap the player or an npc with a monster" );
-            return false;
-        }
+    }
 
-        tripoint temp = mon->pos();
-        mon->setpos( u_or_npc->pos() );
-        u_or_npc->setpos( temp );
-        if( u_or_npc->is_player() ) {
-            update_map( u_or_npc );
-        }
-    } else {
-        // TODO: Also remove casts
-        player *u_or_npc = dynamic_cast< player* >( &first );
-        player *other_npc = dynamic_cast< player* >( &second );
-        if( u_or_npc == nullptr || other_npc == nullptr ) {
-            debugmsg( "Couldn't swap the player or an npc with an npc" );
-            return false;
-        }
+    player *u_or_npc = dynamic_cast< player* >( &first );
+    player *other_npc = dynamic_cast< player* >( &second );
 
-        tripoint temp = u_or_npc->pos();
-        u_or_npc->setpos( second.pos() );
-        other_npc->setpos( temp );
-        if( first.is_player() ) {
-            update_map( u_or_npc );
-        }
+    if( u_or_npc->in_vehicle ) {
+        g->m.unboard_vehicle( u_or_npc->pos() );
+    }
+
+    if( other_npc->in_vehicle ) {
+        g->m.unboard_vehicle( other_npc->pos() );
+    }
+
+    tripoint temp = second.pos();
+    second.setpos( first.pos() );
+    first.setpos( temp );
+
+    int part = -1;
+    vehicle *veh = g->m.veh_at( u_or_npc->pos(), part );
+    if( veh != nullptr && veh->part_with_feature( part, VPFLAG_BOARDABLE ) >= 0 ) {
+        g->m.board_vehicle( u_or_npc->pos(), u_or_npc );
+    }
+
+    vehicle *oveh = g->m.veh_at( other_npc->pos(), part );
+    if( oveh != nullptr && oveh->part_with_feature( part, VPFLAG_BOARDABLE ) >= 0 ) {
+        g->m.board_vehicle( other_npc->pos(), other_npc );
+    }
+
+    if( first.is_player() ) {
+        update_map( u_or_npc );
     }
 
     return true;
@@ -8000,7 +8000,10 @@ bool npc_menu( npc &who )
         who.body_window( precise );
     } else if( choice == attack ) {
         //The NPC knows we started the fight, used for morale penalty.
-        who.hit_by_player = true;
+        if( !who.is_enemy() ) {
+            who.hit_by_player = true;
+        }
+
         g->u.melee_attack( who, true );
         who.make_angry();
     }
@@ -11834,11 +11837,6 @@ bool game::plmove(int dx, int dy)
     // If not a monster, maybe there's an NPC there
     if( npcdex != -1 ) {
         npc &np = *active_npc[npcdex];
-        if( !np.is_enemy() ) {
-            npc_menu( np );
-            return false;
-        }
-
         if( u.has_destination() ) {
             add_msg(_("NPC in the way, Auto-move canceled."));
             add_msg(m_info, _("Click directly on NPC to attack."));
@@ -11846,7 +11844,11 @@ bool game::plmove(int dx, int dy)
             return false;
         }
 
-        np.hit_by_player = true;
+        if( !np.is_enemy() ) {
+            npc_menu( np );
+            return false;
+        }
+
         u.melee_attack( np, true );
         np.make_angry();
         return false;
