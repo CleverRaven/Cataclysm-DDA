@@ -5905,13 +5905,14 @@ void map::draw_maptile( WINDOW* w, player &u, const tripoint &p, const maptile &
         sym = determine_wall_corner( p );
     }
 
-    if (u.has_effect("boomered")) {
+    const auto u_vision = u.get_vision_modes();
+    if( u_vision[BOOMERED] ) {
         tercol = c_magenta;
-    } else if ( u.has_nv() ) {
+    } else if( u_vision[NV_GOGGLES] ) {
         tercol = (bright_light) ? c_white : c_ltgreen;
-    } else if (low_light) {
+    } else if( low_light ) {
         tercol = c_dkgray;
-    } else if (u.has_effect("darkness")) {
+    } else if( u_vision[DARKNESS] ) {
         tercol = c_dkgray;
     }
 

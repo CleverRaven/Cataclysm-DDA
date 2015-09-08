@@ -22,6 +22,8 @@ enum vision_modes {
     FELINE_VISION,
     BIRD_EYE,
     URSINE_VISION,
+    BOOMERED,
+    DARKNESS,
     NUM_VISION_MODES
 };
 
@@ -444,6 +446,10 @@ class Character : public Creature
         std::vector<std::string> get_base_traits() const;
         /** Get the idents of all traits/mutations. */
         std::vector<std::string> get_mutations() const;
+        const std::bitset<NUM_VISION_MODES> &get_vision_modes() const
+        {
+            return vision_mode_cache;
+        }
         /** Empties the trait list */
         void empty_traits();
         void add_traits();
