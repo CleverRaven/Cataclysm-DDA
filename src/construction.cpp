@@ -841,7 +841,7 @@ void construct::done_vehicle(point p)
 
     // Update the vehicle cache immediately,
     // or the vehicle will be invisible for the first couple of turns.
-    g->m.update_vehicle_cache(veh, true);
+    g->m.add_vehicle_to_cache( veh );
 }
 
 void construct::done_deconstruct(point p)

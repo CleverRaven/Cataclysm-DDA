@@ -1138,6 +1138,7 @@ classes = {
             { name = "valid_move", rval = "bool", args = { "tripoint", "tripoint", "bool" } },
             { name = "valid_move", rval = "bool", args = { "tripoint", "tripoint", "bool", "bool" } },
             { name = "veh_part_coordinates", rval = "point", args = { "tripoint" } },
+            { name = "vehproceed", rval = "bool", args = { } },
         }
     },
     ter_t = {
