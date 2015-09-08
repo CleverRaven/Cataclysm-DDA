@@ -5739,7 +5739,7 @@ void map::draw( WINDOW* w, const tripoint &center )
                 if( !apply_vision_effects( w, lighting, cache ) ) {
                     const maptile curr_maptile = maptile( cur_submap, lx, ly );
                     draw_maptile( w, g->u, p, curr_maptile,
-                                  false, true, center.x, center.y,
+                                  false, true, center,
                                   lighting == LL_LOW, lighting == LL_BRIGHT, true );
                 }
 
@@ -5759,9 +5759,15 @@ void map::draw( WINDOW* w, const tripoint &center )
     }
 }
 
-void map::drawsq(WINDOW* w, player &u, const tripoint &p, const bool invert_arg,
-                 const bool show_items_arg, const int view_center_x_arg, const int view_center_y_arg,
-                 const bool low_light, const bool bright_light, const bool inorder)
+void map::drawsq( WINDOW* w, player &u, const tripoint &p,
+                  const bool invert, const bool show_items ) const
+{
+    drawsq( w, u, p, invert, show_items, u.pos(), false, false, false );
+}
+
+void map::drawsq( WINDOW* w, player &u, const tripoint &p, const bool invert_arg,
+                  const bool show_items_arg, const tripoint &view_center,
+                  const bool low_light, const bool bright_light, const bool inorder ) const
 {
     // We only need to draw anything if we're not in tiles mode.
     if( is_draw_tiles_mode() ) {
@@ -5772,23 +5778,16 @@ void map::drawsq(WINDOW* w, player &u, const tripoint &p, const bool invert_arg,
         return;
     }
 
-    const int cx = view_center_x_arg != -1 ? view_center_x_arg : u.posx();
-    const int cy = view_center_y_arg != -1 ? view_center_y_arg : u.posy();
-
     const maptile tile = maptile_at( p );
     draw_maptile( w, u, p, tile, invert_arg, show_items_arg,
-                  cx, cy, low_light, bright_light, inorder );
+                  view_center, low_light, bright_light, inorder );
 }
 
 void map::draw_maptile( WINDOW* w, player &u, const tripoint &p, const maptile &curr_maptile,
-                        const bool invert_arg, const bool show_items_arg,
-                        const int view_center_x_arg, const int view_center_y_arg,
-                        const bool low_light, const bool bright_light, const bool inorder )
+                        bool invert, bool show_items,
+                        const tripoint &view_center,
+                        const bool low_light, const bool bright_light, const bool inorder ) const
 {
-    bool invert = invert_arg;
-    bool show_items = show_items_arg;
-    int cx = view_center_x_arg;
-    int cy = view_center_y_arg;
     nc_color tercol;
     const ter_t &curr_ter = curr_maptile.get_ter_t();
     const furn_t &curr_furn = curr_maptile.get_furn_t();
@@ -5916,11 +5915,11 @@ void map::draw_maptile( WINDOW* w, player &u, const tripoint &p, const maptile &
         tercol = c_dkgray;
     }
 
-    if (invert) {
+    if( invert ) {
         tercol = invert_color(tercol);
-    } else if (hi) {
+    } else if( hi ) {
         tercol = hilite(tercol);
-    } else if (graf) {
+    } else if( graf ) {
         tercol = red_background(tercol);
     }
 
@@ -5929,8 +5928,8 @@ void map::draw_maptile( WINDOW* w, player &u, const tripoint &p, const maptile &
         wputch(w, tercol, sym);
     } else {
         // Otherwise move the cursor before drawing.
-        const int k = p.x + getmaxx(w) / 2 - cx;
-        const int j = p.y + getmaxy(w) / 2 - cy;
+        const int k = p.x + getmaxx(w) / 2 - view_center.x;
+        const int j = p.y + getmaxy(w) / 2 - view_center.y;
         mvwputch(w, j, k, tercol, sym);
     }
 }

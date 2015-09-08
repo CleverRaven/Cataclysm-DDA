@@ -1161,7 +1161,7 @@ std::vector<tripoint> game::target( tripoint &p, const tripoint &low, const trip
             if( critter != nullptr ) {
                 draw_critter( *critter, center );
             } else if( m.sees(u.pos(), p, -1 )) {
-                m.drawsq(w_terrain, u, p, false, true, center.x, center.y);
+                m.drawsq( w_terrain, u, p, false, true, center );
             } else {
                 mvwputch(w_terrain, POSY, POSX, c_black, 'X');
             }

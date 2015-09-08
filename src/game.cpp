@@ -1994,7 +1994,7 @@ input_context game::get_player_input(std::string &action)
                     wmove( w_terrain, location.y - offset_y, location.x - offset_x );
                     if( !m.apply_vision_effects( w_terrain, lighting, cache ) ) {
                         m.drawsq( w_terrain, u, location, false, true,
-                                  u.posx() + u.view_offset.x, u.posy() + u.view_offset.y,
+                                  u.pos() + u.view_offset,
                                   lighting == LL_LOW, lighting == LL_BRIGHT );
                     }
                 }
@@ -2031,7 +2031,7 @@ input_context game::get_player_input(std::string &action)
                                 wmove( w_terrain, location.y - offset_y, location.x - offset_x );
                                 if( !m.apply_vision_effects( w_terrain, lighting, cache ) ) {
                                     m.drawsq( w_terrain, u, location, false, true,
-                                              u.posx() + u.view_offset.x, u.posy() + u.view_offset.y,
+                                              u.pos() + u.view_offset,
                                               lighting == LL_LOW, lighting == LL_BRIGHT );
                                 }
                             }
@@ -8248,10 +8248,10 @@ void game::print_object_info( const tripoint &lp, WINDOW *w_look, const int colu
         mvwprintw(w_look, line++, column, _("There is a %s there. Parts:"), veh->name.c_str());
         line = veh->print_part_desc(w_look, line, (mouse_hover) ? getmaxx(w_look) : 48, veh_part);
         if (!mouse_hover) {
-            m.drawsq( w_terrain, u, lp, true, true, lp.x, lp.y );
+            m.drawsq( w_terrain, u, lp, true, true, lp );
         }
     } else if (!mouse_hover) {
-        m.drawsq(w_terrain, u, lp, true, true, lp.x, lp.y );
+        m.drawsq(w_terrain, u, lp, true, true, lp );
     }
     handle_multi_item_info( lp, w_look, column, line, mouse_hover );
 }
@@ -8645,8 +8645,7 @@ void game::zones_manager()
                                          tripoint( iX, iY, u.posz() + u.view_offset.z ),
                                          false,
                                          false,
-                                         u.posx() + u.view_offset.x,
-                                         u.posy() + u.view_offset.y );
+                                         u.pos() + u.view_offset );
                             } else {
                                 if (u.has_effect("boomered")) {
                                     mvwputch(w_terrain, iY - offset_y, iX - offset_x, c_magenta, '#');
@@ -8810,8 +8809,7 @@ tripoint game::look_around( WINDOW *w_info, const tripoint &start_point,
                                              tripoint( iX, iY, lp.z ),
                                              false,
                                              false,
-                                             lx,
-                                             ly);
+                                             tripoint( lx, ly, u.posz() ) );
                                 } else {
                                     if (u.has_effect("boomered")) {
                                         mvwputch(w_terrain, iY - offset_y - ly + u.posy(), iX - offset_x - lx + u.posx(), c_magenta, '#');

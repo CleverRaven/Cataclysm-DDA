@@ -258,9 +258,13 @@ class map
     * @param view_center_x, view_center_y The center of the viewport to be rendered,
     *        see `center` in `map::draw()`
     */
-    void drawsq( WINDOW* w, player &u, const tripoint &p, const bool invert, const bool show_items,
-                 const int view_center_x = -1, const int view_center_y = -1,
-                 const bool low_light = false, const bool bright_level = false, const bool inorder = false);
+    void drawsq( WINDOW* w, player &u, const tripoint &p,
+                 const bool invert = false, const bool show_items = true ) const;
+    void drawsq( WINDOW* w, player &u, const tripoint &p,
+                 const bool invert, const bool show_items,
+                 const tripoint &view_center,
+                 const bool low_light = false, const bool bright_level = false,
+                 const bool inorder = false) const;
 
     /**
      * Add currently loaded submaps (in @ref grid) to the @ref mapbuffer.
@@ -1256,10 +1260,11 @@ private:
      /**
       * Internal version of the drawsq. Keeps a cached maptile for less re-getting.
       */
-     void draw_maptile( WINDOW* w, player &u, const tripoint &p, const maptile &tile,
-                        const bool invert, const bool show_items,
-                        const int view_center_x, const int view_center_y,
-                        const bool low_light, const bool bright_level, const bool inorder );
+     void draw_maptile( WINDOW* w, player &u, const tripoint &p,
+                        const maptile &tile,
+                        bool invert, bool show_items,
+                        const tripoint &view_center,
+                        bool low_light, bool bright_light, bool inorder ) const;
 
  long determine_wall_corner( const tripoint &p ) const;
  void cache_seen(const int fx, const int fy, const int tx, const int ty, const int max_range);
