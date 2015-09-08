@@ -314,7 +314,7 @@ private:
 
     // Whether a fuel indicator should be printed
     bool should_print_fuel_indicator (itype_id fuelType, bool fullsize) const;
-    
+
     // Vehical fuel indicator (by fuel)
     void print_fuel_indicator (void *w, int y, int x, itype_id fuelType,
                                bool verbose = false, bool desc = false) const;
@@ -394,7 +394,7 @@ public:
     void beeper_sound();
     void play_music();
     void play_chimes();
-
+    void operate_planter();
     // get vpart type info for part number (part at given vector index)
     const vpart_info& part_info (int index, bool include_removed = false) const;
 
@@ -768,6 +768,8 @@ public:
     void interact ();
     //scoop operation,pickups, battery drain, etc.
     void operate_scoop();
+    void operate_reaper();
+    void operate_plow();
     //main method for the control of individual engines
     void control_engines();
     // shows ui menu to select an engine
@@ -799,13 +801,12 @@ public:
     void do_engine_damage(size_t p, int strain);
     //remotely open/close doors
     void control_doors();
-
     // return a vector w/ 'direction' & 'magnitude', in its own sense of the words.
     rl_vec2d velo_vec() const;
     //normalized vectors, from tilerays face & move
     rl_vec2d face_vec() const;
     rl_vec2d move_vec() const;
-
+    void on_move();
     /**
      * Update the submap coordinates smx, smy, and update the tracker info in the overmap
      * (if enabled).
@@ -901,6 +902,7 @@ public:
     int aisle_lights_epower = 0;
     int recharger_epower    = 0; // total power consumed by rechargers
     int camera_epower       = 0; // power consumed by camera system
+    int extra_drag          = 0;
     int scoop_epower        = 0;
     // TODO: change these to a bitset + enum?
     bool cruise_on                  = true;  // cruise control on/off
@@ -923,7 +925,10 @@ public:
     bool check_environmental_effects= false; // has bloody or smoking parts
     bool insides_dirty              = true;  // "inside" flags are outdated and need refreshing
     bool falling                    = false; // Is the vehicle hanging in the air and expected to fall down in the next turn?
-    bool scoop_on                   = false;//Does the vehicle have a scoop? Which picks up items.
+    bool plow_on                    = false; // Is the vehicle running a plow?
+    bool planter_on                 = false; // Is the vehicle sprawing seeds everywhere?
+    bool scoop_on                   = false; //Does the vehicle have a scoop? Which picks up items.
+    bool harvester_on               = false; //Is the combine harvester active?
 };
 
 #endif

@@ -495,7 +495,7 @@ const vehicle *map::vehproceed()
         mdir = veh.move;
     } else if( veh.turn_dir != veh.face.dir() ) {
         // Driver turned vehicle, get turn_dir
-        mdir.init( veh.turn_dir ); 
+        mdir.init( veh.turn_dir );
     } else {
         // Not turning, keep face.dir
         mdir = veh.face;
@@ -620,6 +620,10 @@ void map::move_vehicle( vehicle &veh, const tripoint &dp, const tileray &facing 
             veh.skidding = true;
             veh.turn( coll_turn );
         }
+        // accept new position
+        // if submap changed, we need to process grid from the beginning.
+        // TODO: Allow vehicles to get displaced vertically
+        veh.on_move();
         // Actually change position
         displace_vehicle( pt, dp );
     } else {

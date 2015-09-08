@@ -27,6 +27,7 @@
 #include "mtype.h"
 #include "weather.h"
 #include "map_iterator.h"
+
 #include <fstream>
 #include <sstream>
 #include <stdlib.h>
@@ -102,6 +103,9 @@ enum vehicle_controls {
  toggle_camera,
  release_remote_control,
  toggle_chimes,
+ toggle_plow,
+ toggle_planter,
+ toggle_reaper,
  toggle_scoop
 };
 
@@ -889,7 +893,10 @@ void vehicle::use_controls()
     bool has_camera_control = false;
     bool has_aisle_lights = false;
     bool has_dome_lights = false;
+    bool has_plow = false;
+    bool has_planter = false;
     bool has_scoop = false;
+    bool has_harvester = false;
     for( size_t p = 0; p < parts.size(); p++ ) {
         if (part_flag(p, "CONE_LIGHT")) {
             has_lights = true;
@@ -943,8 +950,14 @@ void vehicle::use_controls()
             } else {
                 has_camera = true;
             }
+        }else if( part_flag(p,"PLOW") ) {
+            has_plow = true;
+        }else if( part_flag(p,"PLANTER") ){
+            has_planter = true;
         } else if( part_flag(p,"SCOOP") ) {
             has_scoop = true;
+        }else if( part_flag(p,"REAPER") ){
+            has_harvester = true;
         }
     }
 
@@ -1057,9 +1070,18 @@ void vehicle::use_controls()
         menu.addentry( toggle_camera, true, 'M', camera_on ?
                        _("Turn off camera system") : _("Turn on camera system") );
     }
+    if( has_plow ){
+        menu.addentry( toggle_plow, true, MENU_AUTOASSIGN, _("Toggle Plow"));
+    }
+    if( has_planter ){
+        menu.addentry( toggle_planter, true, 'P', _("Toggle Planter"));
+    }
     if( has_scoop ) {
         menu.addentry( toggle_scoop, true, 'S', scoop_on ?
                        _("Turn off scoop system") : _("Turn on scoop system") );
+    }
+    if( has_harvester ){
+        menu.addentry( toggle_reaper, true, 'H', harvester_on? _("Turn off reaper"):_("Turn on reaper") );
     }
     menu.addentry( control_cancel, true, ' ', _("Do nothing") );
 
@@ -1247,7 +1269,19 @@ void vehicle::use_controls()
             add_msg( _("Camera system won't turn on") );
         }
         break;
+    case toggle_plow:
+        add_msg( plow_on ? _("Plow system stopped"): _("Plow system started"));
+        plow_on = !plow_on;
+        break;
+    case toggle_planter:
+        add_msg(planter_on ? _("Planter system stopped"): _("Planter system started"));
+        planter_on = !planter_on;
+        break;
     case control_cancel:
+        break;
+    case toggle_reaper:
+        add_msg(harvester_on?_("Reaper turned off"):_("Reaper turned on"));
+        harvester_on = !harvester_on;
         break;
     case toggle_scoop:
         scoop_on = !scoop_on;
@@ -3048,6 +3082,7 @@ int vehicle::total_power(bool const fueled) const
             pwr += part_power(p); // alternators have negative power
         }
     }
+    pwr += extra_drag;
     if (cnt > 1) {
         pwr = pwr * 4 / (4 + cnt -1);
     }
@@ -3350,7 +3385,6 @@ float vehicle::k_mass() const
        return 0;
 
     float ma0 = 50.0;
-
     // calculate safe speed reduction due to mass
     float km = ma0 / (ma0 + (total_mass()) / (8 * (float) wa));
 
@@ -3815,8 +3849,85 @@ void vehicle::idle(bool on_map) {
 
     if( on_map ) {
         update_time();
-        if(scoop_on){
-            operate_scoop();
+    }
+}
+
+void vehicle::on_move(){
+    if(scoop_on){
+        operate_scoop();
+    }
+    if( planter_on ){
+        operate_planter();
+    }
+    if( plow_on ){
+        operate_plow();
+    }
+    if( harvester_on ){
+        operate_reaper();
+    }
+}
+void vehicle::operate_plow(){
+    for( const int plow_id : all_parts_with_feature( "PLOW" ) ){
+        const tripoint start_plow = global_pos3() + parts[plow_id].precalc[0];
+        if( g->m.has_flag("DIGGABLE", start_plow) ){
+            g->m.ter_set( start_plow, t_dirtmound );
+        }else{
+            const int speed = velocity;
+            const int v_damage = rng( 3, speed );
+            damage( plow_id, v_damage, DT_BASH, false );
+            sounds::sound( start_plow, v_damage, _("Clanggggg!") );
+        }
+    }
+}
+void vehicle::operate_reaper(){
+    const tripoint &veh_start=global_pos3();
+    for( const int reaper_id : all_parts_with_feature( "REAPER" ) ){
+        const tripoint start_reaper = veh_start + parts[reaper_id].precalc[0];
+        const int plant_produced =  rng( 1, parts[reaper_id].info().bonus );
+        const int seed_produced = rng(1, 3);
+        item tmp;
+        const tripoint &reaper_pos = start_reaper + parts[reaper_id].precalc[0];
+        if( g->m.furn(reaper_pos) != f_plant_harvest ){
+            continue;
+        }
+        islot_seed &seed_data = *g->m.i_at(reaper_pos).front().type->seed;
+        const std::string &seedType= g->m.i_at(reaper_pos).front().typeId();
+        g->m.furn_set( reaper_pos, f_null );
+        g->m.i_clear( reaper_pos );
+        if( seed_data.spawn_seeds ){
+            tmp = item( seedType, calendar::turn );
+            for(int j=0;j < seed_produced; j++ ){
+                g->m.add_item_or_charges(reaper_pos, tmp);
+            }
+        }
+        tmp = item( seed_data.fruit_id, calendar::turn );
+        for(int j = 0; j < plant_produced; j++){
+            g->m.add_item_or_charges( reaper_pos, tmp );
+        }
+    }
+}
+void vehicle::operate_planter(){
+    std::vector<int> planters = all_parts_with_feature("PLANTER");
+    for( int planter_id : planters ){
+        const tripoint& loc = global_pos3()
+                                   + parts[planter_id].precalc[0];
+        vehicle_stack v = get_items(planter_id);
+        for(auto i = v.begin(); i != v.end(); i++ ){
+            if(i->is_seed()){
+                if( g->m.ter(loc) != t_dirtmound
+                   && part_flag(planter_id,  "ADVANCED_PLANTER" ) ) {//If it is an "advanced model" then it will avoid damaging itself or becoming damaged. It's a real feature.
+                    break;//then don't put the item there.
+                }else if(g->m.ter(loc) == t_dirtmound ) {
+                    g->m.furn_set(loc, f_plant_seed);
+                }else if( !g->m.has_flag( "DIGGABLE", loc ) ) {//If it isn't diggable terrain, then it will most likely be damaged.
+                    damage(planter_id, rng(1, 10), DT_BASH, false);
+                    sounds::sound(global_pos3() + parts[planter_id].precalc[0], rng(10,20), _("Clink"));
+                }
+                i->bday = calendar::turn;
+                g->m.add_item(loc, *i);
+                i = v.erase(i);
+                break;
+            }
         }
     }
 }
@@ -3875,6 +3986,7 @@ void vehicle::operate_scoop()
         }
     }
 }
+
 
 void vehicle::alarm(){
     if (one_in(4)) {
@@ -4814,6 +4926,7 @@ void vehicle::refresh()
     alternator_load = 0;
     camera_epower = 0;
     has_atomic_lights = false;
+    extra_drag = 0;
     // Used to sort part list so it displays properly when examining
     struct sort_veh_part_vector {
         vehicle *veh;
@@ -4884,6 +4997,9 @@ void vehicle::refresh()
         }
         if( vpi.has_flag( "ATOMIC_LIGHT" ) ) {
             has_atomic_lights = true;
+        }
+        if( vpi.has_flag( "EXTRA_DRAG" ) ){
+            extra_drag += vpi.power;
         }
         // Build map of point -> all parts in that point
         const point pt = parts[p].mount;
