@@ -68,19 +68,23 @@ public:
 // if their speed is higher than the monster's speed stat.
 void check_shamble_speed( const std::string monster_type, const tripoint &destination )
 {
-    // Wandering makes things nondeterministic, so look at the distribution rather than a target number.
-    stat move_stats;
-    for( int i = 0; i < 10; ++i ) {
-        move_stats.add( turns_to_destination( monster_type, {0, 0, 0}, destination ) );
-    }
     // Scale the scaling factor based on the ratio of diagonal to cardinal steps.
     const float slope = (destination.x < destination.y) ?
         (destination.x / destination.y) : (destination.y / destination.x);
     const float diagonal_multiplier = 1.0 + (OPTIONS["CIRCLEDIST"] ? (slope * 0.41) : 0.0);
     const float mon_speed = (float)monster( mtype_id( monster_type ) ).get_speed();
     INFO( monster_type << " " << destination );
+    // Wandering makes things nondeterministic, so look at the distribution rather than a target number.
+    stat move_stats;
+    for( int i = 0; i < 10; ++i ) {
+        move_stats.add( turns_to_destination( monster_type, {0, 0, 0}, destination ) );
+        if( ((move_stats.avg() * mon_speed) / (10000.0 * diagonal_multiplier)) ==
+            Approx(1.0).epsilon(0.04) ) {
+            break;
+        }
+    }
     CHECK( ((move_stats.avg() * mon_speed) / (10000.0 * diagonal_multiplier)) ==
-           Approx(1.0).epsilon(0.05));
+           Approx(1.0).epsilon(0.04) );
 }
 
 void monster_check() {
