@@ -2465,13 +2465,25 @@ int vehicle::part_displayed_at(int const local_x, int const local_y) const
     return parts_in_square[top_part];
 }
 
-char vehicle::part_sym(int const p) const
+int vehicle::roof_at_part( const int part ) const
+{
+    std::vector<int> parts_in_square = parts_at_relative( parts[part].mount.x, parts[part].mount.y );
+    for( const int p : parts_in_square ) {
+        if( part_info( p ).location == "on_roof" || part_flag( p, "ROOF" ) ) {
+            return p;
+        }
+    }
+
+    return -1;
+}
+
+char vehicle::part_sym( const int p, const bool exact ) const
 {
     if (p < 0 || p >= (int)parts.size() || parts[p].removed) {
         return ' ';
     }
 
-    int displayed_part = part_displayed_at(parts[p].mount.x, parts[p].mount.y);
+    const int displayed_part = exact ? p : part_displayed_at(parts[p].mount.x, parts[p].mount.y);
 
     if (part_flag (displayed_part, VPFLAG_OPENABLE) && parts[displayed_part].open) {
         return '\''; // open door
@@ -2502,7 +2514,7 @@ const vpart_str_id &vehicle::part_id_string(int const p, char &part_mod) const
     return idinfo;
 }
 
-nc_color vehicle::part_color(int const p) const
+nc_color vehicle::part_color( const int p, const bool exact ) const
 {
     if (p < 0 || p >= (int)parts.size()) {
         return c_black;
@@ -2513,14 +2525,14 @@ nc_color vehicle::part_color(int const p) const
     int parm = -1;
 
     //If armoring is present and the option is set, it colors the visible part
-    if (!!OPTIONS["VEHICLE_ARMOR_COLOR"])
-      parm = part_with_feature(p, VPFLAG_ARMOR, false);
+    if( OPTIONS["VEHICLE_ARMOR_COLOR"] ) {
+        parm = part_with_feature(p, VPFLAG_ARMOR, false);
+    }
 
-    if (parm >= 0) {
+    if( parm >= 0 ) {
         col = part_info(parm).color;
     } else {
-
-        int displayed_part = part_displayed_at(parts[p].mount.x, parts[p].mount.y);
+        const int displayed_part = exact ? p : part_displayed_at(parts[p].mount.x, parts[p].mount.y);
 
         if (displayed_part < 0 || displayed_part >= (int)parts.size()) {
             return c_black;
@@ -2535,6 +2547,10 @@ nc_color vehicle::part_color(int const p) const
             col = part_info(displayed_part).color;
         }
 
+    }
+
+    if( exact ) {
+        return col;
     }
 
     // curtains turn windshields gray

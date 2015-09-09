@@ -1257,14 +1257,22 @@ private:
                               const ter_t &terrain, bool allow_floor,
                               const vehicle *veh, const int part ) const;
 
-     /**
-      * Internal version of the drawsq. Keeps a cached maptile for less re-getting.
-      */
-     void draw_maptile( WINDOW* w, player &u, const tripoint &p,
-                        const maptile &tile,
-                        bool invert, bool show_items,
-                        const tripoint &view_center,
-                        bool low_light, bool bright_light, bool inorder ) const;
+    /**
+     * Internal version of the drawsq. Keeps a cached maptile for less re-getting.
+     * Returns true if it has drawn all it should, false if `draw_from_above` should be called after.
+     */
+    bool draw_maptile( WINDOW* w, player &u, const tripoint &p,
+                       const maptile &tile,
+                       bool invert, bool show_items,
+                       const tripoint &view_center,
+                       bool low_light, bool bright_light, bool inorder ) const;
+    /**
+     * Draws the tile as seen from above.
+     */
+    void draw_from_above( WINDOW* w, player &u, const tripoint &p,
+                          const maptile &tile, bool invert,
+                          const tripoint &view_center,
+                          bool low_light, bool bright_light, bool inorder ) const;
 
  long determine_wall_corner( const tripoint &p ) const;
  void cache_seen(const int fx, const int fy, const int tx, const int ty, const int max_range);

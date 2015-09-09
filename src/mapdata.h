@@ -164,6 +164,7 @@ enum ter_bitflags : int {
     TFLAG_GOES_DOWN,
     TFLAG_GOES_UP,
     TFLAG_NO_FLOOR,
+    TFLAG_SEEN_FROM_ABOVE,
 
     NUM_TERFLAGS
 };

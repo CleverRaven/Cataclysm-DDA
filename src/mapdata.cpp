@@ -76,6 +76,7 @@ static const std::unordered_map<std::string, ter_bitflags> ter_bitflags_map = { 
     { "GOES_DOWN",                TFLAG_GOES_DOWN },      // Allows non-flying creatures to move downwards
     { "GOES_UP",                  TFLAG_GOES_UP },        // Allows non-flying creatures to move upwards
     { "NO_FLOOR",                 TFLAG_NO_FLOOR },       // Things should fall when placed on this tile
+    { "SEEN_FROM_ABOVE",          TFLAG_SEEN_FROM_ABOVE },// This should be visible if the tile above has no floor
 } };
 
 void load_map_bash_tent_centers( JsonArray ja, std::vector<std::string> &centers ) {
