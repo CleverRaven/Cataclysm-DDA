@@ -2487,7 +2487,7 @@
         "color": "brown",
         "move_cost_mod": 3,
         "required_str": 6,
-        "flags": [ "LADDER", "TRANSPARENT" ],
+        "flags": [ "LADDER", "TRANSPARENT", "SEEN_FROM_ABOVE" ],
         "examine_action": "portable_structure",
         "bash": {
             "str_min": 6, "str_max": 40,

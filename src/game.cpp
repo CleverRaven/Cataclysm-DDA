@@ -8208,6 +8208,22 @@ void game::print_terrain_info( const tripoint &lp, WINDOW *w_look, int column, i
         mvwprintw(w_look, ++line, column, _("Sign: %s..."), signage.substr(0, 32).c_str());
     }
 
+    if( m.has_zlevels() && lp.z > -OVERMAP_DEPTH && m.has_flag( TFLAG_NO_FLOOR, lp ) ) {
+        // Print info about stuff below
+        tripoint below( lp.x, lp.y, lp.z - 1 );
+        std::string tile_below = m.tername( below );
+        if( m.has_furn( lp ) ) {
+            furn_t furn = m.furn_at( lp );
+            tile_below += "; " + furn.name;
+        }
+
+        if( m.valid_move( lp, below, false, true ) ) {
+            mvwprintw(w_look, ++line, column, _("%s; Won't support your weight"), tile.c_str());
+        } else {
+            mvwprintw(w_look, ++line, column, _("%s; Can be walked on"), tile.c_str());
+        }
+    }
+
     mvwprintw(w_look, ++line, column, "%s", m.features( lp ).c_str());
     if (line < ending_line) {
         line = ending_line;
@@ -12874,7 +12890,8 @@ void game::vertical_move(int movez, bool force)
 
         std::vector<tripoint> pts;
         for( const auto &pt : m.points_in_radius( stairs, 1 ) ) {
-            if( m.move_cost( pt ) > 0 && !m.has_flag( TFLAG_NO_FLOOR, pt ) ) {
+            if( m.move_cost( pt ) > 0 &&
+                !m.valid_move( pt, tripoint( pt.x, pt.y, pt.z - 1 ), false, true ) ) {
                 pts.push_back( pt );
             }
         }
