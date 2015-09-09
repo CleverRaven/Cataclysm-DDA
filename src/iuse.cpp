@@ -9530,7 +9530,7 @@ int iuse::capture_monster_act( player *p, item *it, bool, const tripoint &pos )
     return 0;
 }
 
-int iuse::ladder( player *p, item *it, bool, const tripoint& )
+int iuse::ladder( player *p, item *, bool, const tripoint& )
 {
     if( !g->m.has_zlevels() ) {
         debugmsg( "Ladder can't be used used in non-z-level mode" );
@@ -9550,5 +9550,5 @@ int iuse::ladder( player *p, item *it, bool, const tripoint& )
     p->add_msg_if_player(_("You set down the ladder."));
     p->moves -= 500;
     g->m.furn_set( dirp, "f_ladder" );
-    return it->type->charges_to_use();
+    return 1;
 }
