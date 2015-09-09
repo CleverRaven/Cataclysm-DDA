@@ -449,11 +449,15 @@ void monster::move()
     // Finished logic section.  By this point, we should have chosen a square to
     //  move to (moved = true).
     if( moved ) { // Actual effects of moving to the square we've chosen
+        // move_to() uses the slope to determine some move speed scaling.
+        const float slope = (destination.x > destination.y) ?
+            (float)destination.y / (float)destination.x :
+            (float)destination.x / (float)destination.y;
         const bool did_something =
             ( !pacified && attack_at( next_step ) ) ||
             ( !pacified && bash_at( next_step ) ) ||
             ( !pacified && push_to( next_step, 0, 0 ) ) ||
-            move_to( next_step );
+            move_to( next_step, false, slope );
         if( !did_something ) {
             moves -= 100; // If we don't do this, we'll get infinite loops.
         }
@@ -881,7 +885,7 @@ bool monster::attack_at( const tripoint &p )
     return false;
 }
 
-bool monster::move_to( const tripoint &p, bool force )
+bool monster::move_to( const tripoint &p, bool force, float slope )
 {
     const bool digs = digging();
     const bool flies = has_flag( MF_FLIES );
@@ -922,7 +926,8 @@ bool monster::move_to( const tripoint &p, bool force )
         // This adjustment is to make it so that monster movement speed relative to the player
         // is consistent even if the monster stumbles,
         // and the same regardless of the distance measurement mode.
-        const float stumble_multiplier = has_flag(MF_STUMBLES) ? (trigdist ? 0.672 : 0.804) : 1.0;
+        const float stumble_multiplier = has_flag(MF_STUMBLES) ?
+            (trigdist ? 0.83 : 1.0 - (0.25 * slope)) : 1.0;
         const int cost = stumble_multiplier *
             (float)(climbs ? calc_climb_cost( pos(), p ) : calc_movecost( pos(), p ));
 
