@@ -7,6 +7,7 @@
 #include "mapdata.h"
 #include "monster.h"
 #include "mtype.h"
+#include "options.h"
 
 #include <string>
 #include <vector>
@@ -76,21 +77,40 @@ void check_shamble_speed( const std::string monster_type, float effective_speed 
         vertical_move.add( turns_to_destination( monster_type, {0, 0, 0}, {0,100,0} ) );
         diagonal_move.add( turns_to_destination( monster_type, {0, 0, 0}, {100,100,0} ) );
     }
-    float speed_factor = 100.0 / (float)monster( mtype_id( monster_type ) ).get_speed();
-    float expected_move_points = 10000.0 / effective_speed;
-    CAPTURE( horizontal_move.avg() );
-    CHECK( horizontal_move.min() >= 100 * speed_factor );
+    const float diagonal_multiplier = (OPTIONS["CIRCLEDIST"] ? 1.41 : 1.0);
+    const float speed_factor = 10000.0 / (float)monster( mtype_id( monster_type ) ).get_speed();
+    const float expected_move_points = 10000.0 / effective_speed;
+    CHECK( horizontal_move.min() >= speed_factor - 1.0 );
     CHECK( horizontal_move.avg() <= expected_move_points + 4 );
     CHECK( horizontal_move.avg() >= expected_move_points - 4 );
-    CHECK( horizontal_move.max() <= 200 * speed_factor );
-    CHECK( vertical_move.min() >= 100 * speed_factor );
+    CHECK( horizontal_move.max() <= 2.0 * speed_factor );
+    CHECK( vertical_move.min() >= speed_factor - 1.0 );
     CHECK( vertical_move.avg() <= expected_move_points + 4 );
     CHECK( vertical_move.avg() >= expected_move_points - 4 );
-    CHECK( vertical_move.max() <= 200 * speed_factor );
-    CHECK( diagonal_move.min() >= 141 * speed_factor );
-    CHECK( diagonal_move.avg() <= (expected_move_points * 1.63) + 4 );
-    CHECK( diagonal_move.avg() >= (expected_move_points * 1.63) - 4 );
-    CHECK( diagonal_move.max() <= 350 * speed_factor );
+    CHECK( vertical_move.max() <= 2.0 * speed_factor );
+    CHECK( diagonal_move.min() >= (diagonal_multiplier * speed_factor) - 1.0 );
+    CHECK( diagonal_move.avg() <= (expected_move_points * diagonal_multiplier) + 4 );
+    CHECK( diagonal_move.avg() >= (expected_move_points * diagonal_multiplier) - 4 );
+    CHECK( diagonal_move.max() <= diagonal_multiplier * 2.0 * speed_factor );
+}
+
+void monster_check() {
+    const float diagonal_multiplier = (OPTIONS["CIRCLEDIST"] ? 1.41 : 1.0);
+    // Have a monster walk some distance in a direction and measure how long it takes.
+    int vert_move = turns_to_destination( "mon_pig", {0,0,0}, {100,0,0} );
+    CHECK( vert_move <= 100 + 2 );
+    CHECK( vert_move >= 100 - 2 );
+    int horiz_move = turns_to_destination( "mon_pig", {0,0,0}, {0,100,0} );
+    CHECK( horiz_move <= 100 + 2 );
+    CHECK( horiz_move >= 100 - 2 );
+    int diag_move = turns_to_destination( "mon_pig", {0,0,0}, {100,100,0} );
+    CHECK( diag_move <= (100 * diagonal_multiplier) + 3 );
+    CHECK( diag_move >= (100 * diagonal_multiplier) - 3 );
+
+    check_shamble_speed( "mon_zombie", 70 );
+    check_shamble_speed( "mon_zombear", 120 );
+    check_shamble_speed( "mon_zombie_dog", 105 );
+    check_shamble_speed( "mon_jabberwock", 140 );
 }
 
 // Characterization test for monster movement speed.
@@ -107,20 +127,11 @@ TEST_CASE("monster_speed") {
     while( g->num_zombies() ) {
         g->remove_zombie( 0 );
     }
-    // Have a monster walk some distance in a direction and measure how long it takes.
-    int vert_move = turns_to_destination( "mon_pig", {0,0,0}, {100,0,0} );
-    CHECK( vert_move <= 100 + 2 );
-    CHECK( vert_move >= 100 - 2 );
-    int horiz_move = turns_to_destination( "mon_pig", {0,0,0}, {0,100,0} );
-    CHECK( horiz_move <= 100 + 2 );
-    CHECK( horiz_move >= 100 - 2 );
-    int diag_move = turns_to_destination( "mon_pig", {0,0,0}, {100,100,0} );
-    CHECK( diag_move <= 141 + 3 );
-    CHECK( diag_move >= 141 - 3 );
-
-    check_shamble_speed( "mon_zombie", 80 );
-    check_shamble_speed( "mon_zombear", 110 );
-    check_shamble_speed( "mon_zombie_dog", 150 );
-    check_shamble_speed( "mon_jabberwock", 180 );
+    OPTIONS["CIRCLEDIST"].setValue("true");
+    trigdist = true;
+    monster_check();
+    OPTIONS["CIRCLEDIST"].setValue("false");
+    trigdist = false;
+    monster_check();
 }
 
