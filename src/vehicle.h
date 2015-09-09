@@ -481,16 +481,17 @@ public:
     int global_part_at( int x, int y ) const;
     int global_part_at( const tripoint &p ) const;
     int part_displayed_at( int local_x, int local_y ) const;
+    int roof_at_part( int p ) const;
 
     // Given a part, finds its index in the vehicle
     int index_of_part(const vehicle_part *part, bool check_removed = false) const;
 
     // get symbol for map
-    char part_sym (int p) const;
+    char part_sym( int p, bool exact = false ) const;
     const vpart_str_id &part_id_string(int p, char &part_mod) const;
 
     // get color for map
-    nc_color part_color (int p) const;
+    nc_color part_color( int p, bool exact = false ) const;
 
     // Vehicle parts description
     int print_part_desc (WINDOW *win, int y1, int width, int p, int hl = -1) const;

@@ -5734,13 +5734,23 @@ void map::draw( WINDOW* w, const tripoint &center )
         const int maxx = std::min( MAPSIZE * SEEX, center.x + getmaxx(w) / 2 + 1 );
         while( x < maxx ) {
             submap *cur_submap = get_submap_at( p, lx, ly );
+            submap *sm_below = p.z > -OVERMAP_DEPTH ?
+                get_submap_at( p.x, p.y, p.z - 1, lx, ly ) : cur_submap;
             while( lx < SEEX && x < maxx )  {
                 const lit_level lighting = visibility_cache[x][y];
                 if( !apply_vision_effects( w, lighting, cache ) ) {
                     const maptile curr_maptile = maptile( cur_submap, lx, ly );
-                    draw_maptile( w, g->u, p, curr_maptile,
-                                  false, true, center.x, center.y,
-                                  lighting == LL_LOW, lighting == LL_BRIGHT, true );
+                    const bool just_this_zlevel =
+                        draw_maptile( w, g->u, p, curr_maptile,
+                                      false, true, center,
+                                      lighting == LL_LOW, lighting == LL_BRIGHT, true );
+                    if( !just_this_zlevel ) {
+                        p.z--;
+                        const maptile tile_below = maptile( sm_below, lx, ly );
+                        draw_from_above( w, g->u, p, tile_below, false, center,
+                                         lighting == LL_LOW, lighting == LL_BRIGHT, false );
+                        p.z++;
+                    }
                 }
 
                 lx++;
@@ -5759,9 +5769,15 @@ void map::draw( WINDOW* w, const tripoint &center )
     }
 }
 
-void map::drawsq(WINDOW* w, player &u, const tripoint &p, const bool invert_arg,
-                 const bool show_items_arg, const int view_center_x_arg, const int view_center_y_arg,
-                 const bool low_light, const bool bright_light, const bool inorder)
+void map::drawsq( WINDOW* w, player &u, const tripoint &p,
+                  const bool invert, const bool show_items ) const
+{
+    drawsq( w, u, p, invert, show_items, u.pos(), false, false, false );
+}
+
+void map::drawsq( WINDOW* w, player &u, const tripoint &p, const bool invert_arg,
+                  const bool show_items_arg, const tripoint &view_center,
+                  const bool low_light, const bool bright_light, const bool inorder ) const
 {
     // We only need to draw anything if we're not in tiles mode.
     if( is_draw_tiles_mode() ) {
@@ -5772,23 +5788,23 @@ void map::drawsq(WINDOW* w, player &u, const tripoint &p, const bool invert_arg,
         return;
     }
 
-    const int cx = view_center_x_arg != -1 ? view_center_x_arg : u.posx();
-    const int cy = view_center_y_arg != -1 ? view_center_y_arg : u.posy();
-
     const maptile tile = maptile_at( p );
-    draw_maptile( w, u, p, tile, invert_arg, show_items_arg,
-                  cx, cy, low_light, bright_light, inorder );
+    const bool done = draw_maptile( w, u, p, tile, invert_arg, show_items_arg,
+                                    view_center, low_light, bright_light, inorder );
+    if( !done ) {
+        tripoint below( p.x, p.y, p.z - 1 );
+        const maptile tile_below = maptile_at( below );
+        draw_from_above( w, u, below, tile_below,
+                         invert_arg, view_center,
+                         low_light, bright_light, false );
+    }
 }
 
-void map::draw_maptile( WINDOW* w, player &u, const tripoint &p, const maptile &curr_maptile,
-                        const bool invert_arg, const bool show_items_arg,
-                        const int view_center_x_arg, const int view_center_y_arg,
-                        const bool low_light, const bool bright_light, const bool inorder )
+bool map::draw_maptile( WINDOW* w, player &u, const tripoint &p, const maptile &curr_maptile,
+                        bool invert, bool show_items,
+                        const tripoint &view_center,
+                        const bool low_light, const bool bright_light, const bool inorder ) const
 {
-    bool invert = invert_arg;
-    bool show_items = show_items_arg;
-    int cx = view_center_x_arg;
-    int cy = view_center_y_arg;
     nc_color tercol;
     const ter_t &curr_ter = curr_maptile.get_ter_t();
     const furn_t &curr_furn = curr_maptile.get_furn_t();
@@ -5905,21 +5921,22 @@ void map::draw_maptile( WINDOW* w, player &u, const tripoint &p, const maptile &
         sym = determine_wall_corner( p );
     }
 
-    if (u.has_effect("boomered")) {
+    const auto u_vision = u.get_vision_modes();
+    if( u_vision[BOOMERED] ) {
         tercol = c_magenta;
-    } else if ( u.has_nv() ) {
+    } else if( u_vision[NV_GOGGLES] ) {
         tercol = (bright_light) ? c_white : c_ltgreen;
-    } else if (low_light) {
+    } else if( low_light ) {
         tercol = c_dkgray;
-    } else if (u.has_effect("darkness")) {
+    } else if( u_vision[DARKNESS] ) {
         tercol = c_dkgray;
     }
 
-    if (invert) {
+    if( invert ) {
         tercol = invert_color(tercol);
-    } else if (hi) {
+    } else if( hi ) {
         tercol = hilite(tercol);
-    } else if (graf) {
+    } else if( graf ) {
         tercol = red_background(tercol);
     }
 
@@ -5928,8 +5945,79 @@ void map::draw_maptile( WINDOW* w, player &u, const tripoint &p, const maptile &
         wputch(w, tercol, sym);
     } else {
         // Otherwise move the cursor before drawing.
-        const int k = p.x + getmaxx(w) / 2 - cx;
-        const int j = p.y + getmaxy(w) / 2 - cy;
+        const int k = p.x + getmaxx(w) / 2 - view_center.x;
+        const int j = p.y + getmaxy(w) / 2 - view_center.y;
+        mvwputch(w, j, k, tercol, sym);
+    }
+
+    return !zlevels || sym != ' ' || p.z <= -OVERMAP_DEPTH || !curr_ter.has_flag( TFLAG_NO_FLOOR );
+}
+
+void map::draw_from_above( WINDOW* w, player &u, const tripoint &p,
+                           const maptile &curr_tile,
+                           const bool invert,
+                           const tripoint &view_center,
+                           bool low_light, bool bright_light, bool inorder ) const
+{
+    static const long AUTO_WALL_PLACEHOLDER = 2; // this should never appear as a real symbol!
+
+    nc_color tercol = c_dkgray;
+    long sym = ' ';
+
+    const ter_t &curr_ter = curr_tile.get_ter_t();
+    const furn_t &curr_furn = curr_tile.get_furn_t();
+    int part_below;
+    const vehicle *veh;
+    if( curr_furn.has_flag( TFLAG_SEEN_FROM_ABOVE ) ) {
+        sym = curr_furn.sym;
+        tercol = curr_furn.color;
+    } else if( curr_furn.movecost < 0 ) {
+        sym = '.';
+        tercol = curr_furn.color;
+    } else if( ( veh = veh_at_internal( p, part_below ) ) != nullptr ) {
+        const int roof = veh->roof_at_part( part_below );
+        const int displayed_part = roof >= 0 ? roof : part_below;
+        sym = special_symbol( veh->face.dir_symbol( veh->part_sym( displayed_part, true ) ) );
+        tercol = (roof >= 0 || veh->obstacle_at_part( part_below ) ) ? c_ltgray : c_ltgray_cyan;
+    } else if( curr_ter.has_flag( TFLAG_SEEN_FROM_ABOVE ) ) {
+        if( curr_ter.has_flag( TFLAG_AUTO_WALL_SYMBOL ) ) {
+            sym = AUTO_WALL_PLACEHOLDER;
+        } else {
+            sym = curr_ter.sym;
+        }
+        tercol = curr_ter.color;
+    } else if( curr_ter.movecost == 0 ) {
+        sym = '.';
+        tercol = curr_ter.color;
+    } else if( !curr_ter.has_flag( TFLAG_NO_FLOOR ) ) {
+        sym = '.';
+        tercol = cyan_background( curr_ter.color );
+    }
+
+    if( sym == AUTO_WALL_PLACEHOLDER ) {
+        sym = determine_wall_corner( p );
+    }
+
+    const auto u_vision = u.get_vision_modes();
+    if( u_vision[BOOMERED] ) {
+        tercol = c_magenta;
+    } else if( u_vision[NV_GOGGLES] ) {
+        tercol = (bright_light) ? c_white : c_ltgreen;
+    } else if( low_light ) {
+        tercol = c_dkgray;
+    } else if( u_vision[DARKNESS] ) {
+        tercol = c_dkgray;
+    }
+
+    if( invert ) {
+        tercol = invert_color(tercol);
+    }
+
+    if( inorder ) {
+        wputch(w, tercol, sym);
+    } else {
+        const int k = p.x + getmaxx(w) / 2 - view_center.x;
+        const int j = p.y + getmaxy(w) / 2 - view_center.y;
         mvwputch(w, j, k, tercol, sym);
     }
 }
