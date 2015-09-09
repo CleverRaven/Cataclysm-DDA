@@ -66,6 +66,7 @@ void player_activity::serialize(JsonOut &json) const
     json.member( "moves_left", moves_left );
     json.member( "index", index );
     json.member( "position", position );
+    json.member( "coords", coords );
     json.member( "name", name );
     json.member( "placement", placement );
     json.member( "values", values );
@@ -89,6 +90,7 @@ void player_activity::deserialize(JsonIn &jsin)
     data.read( "moves_left", moves_left );
     data.read( "index", index );
     position = tmppos;
+    data.read( "coords", coords );
     data.read( "name", name );
     data.read( "placement", placement );
     values = data.get_int_array("values");
