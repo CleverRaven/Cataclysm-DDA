@@ -78,20 +78,17 @@ void check_shamble_speed( const std::string monster_type, float effective_speed 
         diagonal_move.add( turns_to_destination( monster_type, {0, 0, 0}, {100,100,0} ) );
     }
     const float diagonal_multiplier = (OPTIONS["CIRCLEDIST"] ? 1.41 : 1.0);
-    const float speed_factor = 10000.0 / (float)monster( mtype_id( monster_type ) ).get_speed();
+    const float mon_speed = (float)monster( mtype_id( monster_type ) ).get_speed();
     const float expected_move_points = 10000.0 / effective_speed;
-    CHECK( horizontal_move.min() >= speed_factor - 1.0 );
-    CHECK( horizontal_move.avg() <= expected_move_points + 4 );
-    CHECK( horizontal_move.avg() >= expected_move_points - 4 );
-    CHECK( horizontal_move.max() <= 2.0 * speed_factor );
-    CHECK( vertical_move.min() >= speed_factor - 1.0 );
-    CHECK( vertical_move.avg() <= expected_move_points + 4 );
-    CHECK( vertical_move.avg() >= expected_move_points - 4 );
-    CHECK( vertical_move.max() <= 2.0 * speed_factor );
-    CHECK( diagonal_move.min() >= (diagonal_multiplier * speed_factor) - 1.0 );
-    CHECK( diagonal_move.avg() <= (expected_move_points * diagonal_multiplier) + 4 );
-    CHECK( diagonal_move.avg() >= (expected_move_points * diagonal_multiplier) - 4 );
-    CHECK( diagonal_move.max() <= diagonal_multiplier * 2.0 * speed_factor );
+    INFO( "H " << (horizontal_move.avg() * mon_speed) / 10000 );
+    CHECK( horizontal_move.avg() <= expected_move_points + 5 );
+    CHECK( horizontal_move.avg() >= expected_move_points - 5 );
+    INFO( "V " << (vertical_move.avg() * mon_speed) / 10000 );
+    CHECK( vertical_move.avg() <= expected_move_points + 5 );
+    CHECK( vertical_move.avg() >= expected_move_points - 5 );
+    INFO( "D " << (diagonal_move.avg() * mon_speed) / (10000.0 * diagonal_multiplier) );
+    CHECK( diagonal_move.avg() <= (expected_move_points * diagonal_multiplier) + 5 );
+    CHECK( diagonal_move.avg() >= (expected_move_points * diagonal_multiplier) - 5 );
 }
 
 void monster_check() {
@@ -108,8 +105,8 @@ void monster_check() {
     CHECK( diag_move >= (100 * diagonal_multiplier) - 3 );
 
     check_shamble_speed( "mon_zombie", 70 );
-    check_shamble_speed( "mon_zombear", 120 );
     check_shamble_speed( "mon_zombie_dog", 105 );
+    check_shamble_speed( "mon_zombear", 120 );
     check_shamble_speed( "mon_jabberwock", 140 );
 }
 
