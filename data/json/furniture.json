@@ -2455,29 +2455,49 @@
         { "item": "rock", "count": [20, 30] }
       ]
     }
-  },{
-   "type" : "furniture",
-   "id" : "f_clay_kiln",
-   "name": "clay kiln",
-   "symbol": "^",
-   "color": "ltred",
-   "move_cost_mod": -1,
-   "required_str": -1,
-   "crafting_pseudo_item": "brick_kiln",
-   "flags": [ "SEALED", "CONTAINER", "NOITEM"],
-   "deconstruct": {
-     "items": [
-       { "item": "rock", "count": 40 }
-     ]
-   },
-   "examine_action": "reload_furniture",
-   "bash": {
-     "str_min": 18, "str_max": 50,
-     "sound": "crunch!",
-     "sound_fail": "whump.",
-     "items": [
-       { "item": "rock", "count": [20, 30] }
-     ]
-   }
-}
+    },{
+        "type" : "furniture",
+        "id" : "f_clay_kiln",
+        "name": "clay kiln",
+        "symbol": "^",
+        "color": "ltred",
+        "move_cost_mod": -1,
+        "required_str": -1,
+        "crafting_pseudo_item": "brick_kiln",
+        "flags": [ "SEALED", "CONTAINER", "NOITEM"],
+        "deconstruct": {
+            "items": [
+                { "item": "rock", "count": 40 }
+            ]
+        },
+        "examine_action": "reload_furniture",
+        "bash": {
+            "str_min": 18, "str_max": 50,
+            "sound": "crunch!",
+            "sound_fail": "whump.",
+            "items": [
+                { "item": "rock", "count": [20, 30] }
+            ]
+        }
+    },{
+        "type" : "furniture",
+        "id" : "f_ladder",
+        "name": "stepladder",
+        "symbol": "H",
+        "color": "brown",
+        "move_cost_mod": 3,
+        "required_str": 6,
+        "flags": [ "LADDER", "TRANSPARENT" ],
+        "examine_action": "portable_structure",
+        "bash": {
+            "str_min": 6, "str_max": 40,
+            "sound": "smash!",
+            "sound_fail": "whump.",
+            "items": [
+                { "item": "2x4", "count": [4, 10] },
+                { "item": "nail", "charges": [10, 30] },
+                { "item": "splinter", "count": [5, 10] }
+            ]
+        }
+    }
 ]

@@ -1942,7 +1942,7 @@ int map::combined_movecost( const tripoint &from, const tripoint &to,
 bool map::valid_move( const tripoint &from, const tripoint &to,
                       const bool bash, const bool flying ) const
 {
-    if( rl_dist( from, to ) != 1 ) {
+    if( rl_dist( from, to ) != 1 || !inbounds( from ) || !inbounds( to ) ) {
         return false;
     }
 
@@ -1954,8 +1954,10 @@ bool map::valid_move( const tripoint &from, const tripoint &to,
 
     const bool going_up = from.z < to.z;
 
-    const maptile up = maptile_at( going_up ? to : from );
-    const maptile down = maptile_at( going_up ? from : to );
+    const tripoint &up_p = going_up ? to : from;
+    const tripoint &down_p = going_up ? from : to;
+    const maptile up = maptile_at( up_p );
+    const maptile down = maptile_at( down_p );
 
     const ter_t &up_ter = up.get_ter_t();
     const ter_t &down_ter = down.get_ter_t();
@@ -1979,6 +1981,20 @@ bool map::valid_move( const tripoint &from, const tripoint &to,
         return true;
     }
 
+    int part_up;
+    const vehicle *veh_up = veh_at_internal( up_p, part_up );
+    if( veh_up != nullptr ) {
+        // TODO: Hatches below the vehicle, passable frames
+        return false;
+    }
+
+    int part_down;
+    const vehicle *veh_down = veh_at_internal( down_p, part_down );
+    if( veh_down != nullptr && veh_down->roof_at_part( part_down ) >= 0 ) {
+        // TODO: OPEN (and only open) hatches from above
+        return false;
+    }
+
     // Currently only furniture can block movement if everything else is OK
     // TODO: Vehicles with boards in the given spot
     return up.get_furn_t().movecost >= 0;
@@ -1993,17 +2009,30 @@ int map::climb_difficulty( const tripoint &p ) const
         return INT_MAX;
     }
 
+    if( has_flag( "LADDER", p ) ) {
+        // Really easy, but you have to stand on the tile
+        return 1;
+    }
+
     int best_difficulty = INT_MAX;
     int blocks_movement = 0;
     for( const auto &pt : points_in_radius( p, 1 ) ) {
-        if( move_cost( pt ) == 0 ) {
+        if( move_cost_ter_furn( pt ) == 0 ) {
             // TODO: Non-hardcoded climbability
             best_difficulty = std::min( best_difficulty, 10 );
             blocks_movement++;
+        } else {
+            int part;
+            const vehicle *veh = veh_at( pt, part );
+            if( veh != nullptr ) {
+                // Vehicle tiles are quite good for climbing
+                // TODO: Penalize spiked parts?
+                best_difficulty = std::min( best_difficulty, 7 );
+            }
         }
 
-        if( has_flag( "CLIMBABLE", pt ) ) {
-            best_difficulty = std::min( best_difficulty, 5 );
+        if( best_difficulty > 5 && has_flag( "CLIMBABLE", pt ) ) {
+            best_difficulty = 5;
         }
     }
 

@@ -970,8 +970,11 @@ void trapfunc::ledge( Creature *c, const tripoint &p )
 
     int height = 0;
     tripoint where = p;
-    while( g->m.has_flag( TFLAG_NO_FLOOR, where ) ) {
+    tripoint below = where;
+    below.z--;
+    while( g->m.valid_move( where, below, false, true ) ) {
         where.z--;
+        below.z--;
         if( g->critter_at( where ) != nullptr ) {
             where.z++;
             break;
