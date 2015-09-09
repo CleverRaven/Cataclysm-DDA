@@ -10785,7 +10785,7 @@
     "description": "This is a wooden stepladder.  Use it to set it down.",
     "price": 2000,
     "material": "wood",
-    "weight": 60000,
+    "weight": 20000,
     "volume": 200,
     "bashing": 12,
     "cutting": 0,
