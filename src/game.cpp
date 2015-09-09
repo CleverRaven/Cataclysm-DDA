@@ -8212,15 +8212,15 @@ void game::print_terrain_info( const tripoint &lp, WINDOW *w_look, int column, i
         // Print info about stuff below
         tripoint below( lp.x, lp.y, lp.z - 1 );
         std::string tile_below = m.tername( below );
-        if( m.has_furn( lp ) ) {
-            furn_t furn = m.furn_at( lp );
+        if( m.has_furn( below ) ) {
+            furn_t furn = m.furn_at( below );
             tile_below += "; " + furn.name;
         }
 
         if( m.valid_move( lp, below, false, true ) ) {
-            mvwprintw(w_look, ++line, column, _("%s; Won't support your weight"), tile.c_str());
+            mvwprintw(w_look, ++line, column, _("Below: %s; No support"), tile_below.c_str() );
         } else {
-            mvwprintw(w_look, ++line, column, _("%s; Can be walked on"), tile.c_str());
+            mvwprintw(w_look, ++line, column, _("Below: %s; Walkable"), tile_below.c_str() );
         }
     }
 

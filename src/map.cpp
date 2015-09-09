@@ -6020,7 +6020,15 @@ void map::draw_from_above( WINDOW* w, player &u, const tripoint &p,
         tercol = curr_ter.color;
     } else if( !curr_ter.has_flag( TFLAG_NO_FLOOR ) ) {
         sym = '.';
-        tercol = cyan_background( curr_ter.color );
+        if( curr_ter.color != c_cyan ) {
+            // Need a special case here, it doesn't cyanize well
+            tercol = cyan_background( curr_ter.color );
+        } else {
+            tercol = c_black_cyan;
+        }
+    } else {
+        sym = curr_ter.sym;
+        tercol = curr_ter.color;
     }
 
     if( sym == AUTO_WALL_PLACEHOLDER ) {
@@ -6039,11 +6047,11 @@ void map::draw_from_above( WINDOW* w, player &u, const tripoint &p,
     }
 
     if( invert ) {
-        tercol = invert_color(tercol);
+        tercol = invert_color( tercol );
     }
 
     if( inorder ) {
-        wputch(w, tercol, sym);
+        wputch( w, tercol, sym );
     } else {
         const int k = p.x + getmaxx(w) / 2 - view_center.x;
         const int j = p.y + getmaxy(w) / 2 - view_center.y;
