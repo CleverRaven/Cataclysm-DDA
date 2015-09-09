@@ -409,9 +409,11 @@ void monster::move()
     if( moved ) {
         // Implement both avoiding obstacles and staggering.
         moved = false;
-        int switch_chance = 0;
+        float switch_chance = 0.0;
         const bool can_bash = has_flag( MF_BASHES ) || has_flag( MF_BORES );
-        const int distance_to_target = rl_dist( pos(), destination );
+        // This is a float and using trig_dist() because that Does the Right Thing(tm)
+        // in both circular and roguelike distance modes.
+        const float distance_to_target = trig_dist( pos(), destination );
         for( const tripoint &candidate : squares_closer_to( pos(), destination ) ) {
             const Creature *target = g->critter_at( candidate, is_hallucination() );
             // When attacking an adjacent enemy, we're direct.
@@ -430,7 +432,7 @@ void monster::move()
                 !has_flag( MF_ATTACKMON ) && !has_flag( MF_PUSH_MON ) ) {
                 continue;
             }
-            int progress = distance_to_target - rl_dist( candidate, destination );
+            float progress = distance_to_target - trig_dist( candidate, destination );
             switch_chance += progress;
             // Randomly pick one of the viable squares to move to weighted by distance.
             if( x_in_y( progress, switch_chance ) ) {
