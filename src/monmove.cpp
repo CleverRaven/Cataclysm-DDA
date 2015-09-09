@@ -917,9 +917,14 @@ bool monster::move_to( const tripoint &p, bool force )
     }
 
     if( !force ) {
-        const int cost = !climbs ? calc_movecost( pos(), p ) :
-                                   calc_climb_cost( pos(), p );
-        if( cost > 0 ) {
+        // This adjustment is to make it so that monster movement speed relative to the player
+        // is consistent even if the monster stumbles,
+        // and the same regardless of the distance measurement mode.
+        const float stumble_multiplier = has_flag(MF_STUMBLES) ? (trigdist ? 0.672 : 0.804) : 1.0;
+        const int cost = stumble_multiplier *
+            (float)(climbs ? calc_climb_cost( pos(), p ) : calc_movecost( pos(), p ));
+
+       if( cost > 0 ) {
             moves -= cost;
         } else {
             return false;
