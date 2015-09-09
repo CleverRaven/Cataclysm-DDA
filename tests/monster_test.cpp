@@ -65,30 +65,22 @@ public:
 // due to wasted motion from shambling.
 // This is an assertion that an average (i.e. no fleet) survivor with no encumbrance
 // will be able to out-walk (not run, walk) the given monster
-// if their speed is higher than @effective_speed.
-void check_shamble_speed( const std::string monster_type, float effective_speed )
+// if their speed is higher than the monster's speed stat.
+void check_shamble_speed( const std::string monster_type, const tripoint &destination )
 {
     // Wandering makes things nondeterministic, so look at the distribution rather than a target number.
-    stat horizontal_move;
-    stat vertical_move;
-    stat diagonal_move;
+    stat move_stats;
     for( int i = 0; i < 10; ++i ) {
-        horizontal_move.add( turns_to_destination( monster_type, {0, 0, 0}, {100,0,0} ) );
-        vertical_move.add( turns_to_destination( monster_type, {0, 0, 0}, {0,100,0} ) );
-        diagonal_move.add( turns_to_destination( monster_type, {0, 0, 0}, {100,100,0} ) );
+        move_stats.add( turns_to_destination( monster_type, {0, 0, 0}, destination ) );
     }
-    const float diagonal_multiplier = (OPTIONS["CIRCLEDIST"] ? 1.41 : 1.0);
+    // Scale the scaling factor based on the ratio of diagonal to cardinal steps.
+    const float slope = (destination.x < destination.y) ?
+        (destination.x / destination.y) : (destination.y / destination.x);
+    const float diagonal_multiplier = 1.0 + (OPTIONS["CIRCLEDIST"] ? (slope * 0.41) : 0.0);
     const float mon_speed = (float)monster( mtype_id( monster_type ) ).get_speed();
-    const float expected_move_points = 10000.0 / effective_speed;
-    INFO( "H " << (horizontal_move.avg() * mon_speed) / 10000 );
-    CHECK( horizontal_move.avg() <= expected_move_points + 5 );
-    CHECK( horizontal_move.avg() >= expected_move_points - 5 );
-    INFO( "V " << (vertical_move.avg() * mon_speed) / 10000 );
-    CHECK( vertical_move.avg() <= expected_move_points + 5 );
-    CHECK( vertical_move.avg() >= expected_move_points - 5 );
-    INFO( "D " << (diagonal_move.avg() * mon_speed) / (10000.0 * diagonal_multiplier) );
-    CHECK( diagonal_move.avg() <= (expected_move_points * diagonal_multiplier) + 5 );
-    CHECK( diagonal_move.avg() >= (expected_move_points * diagonal_multiplier) - 5 );
+    INFO( monster_type << " " << destination );
+    CHECK( ((move_stats.avg() * mon_speed) / (10000.0 * diagonal_multiplier)) ==
+           Approx(1.0).epsilon(0.05));
 }
 
 void monster_check() {
@@ -104,10 +96,18 @@ void monster_check() {
     CHECK( diag_move <= (100 * diagonal_multiplier) + 3 );
     CHECK( diag_move >= (100 * diagonal_multiplier) - 3 );
 
-    check_shamble_speed( "mon_zombie", 70 );
-    check_shamble_speed( "mon_zombie_dog", 105 );
-    check_shamble_speed( "mon_zombear", 120 );
-    check_shamble_speed( "mon_jabberwock", 140 );
+    check_shamble_speed( "mon_zombie", {100, 0, 0} );
+    check_shamble_speed( "mon_zombie", {0, 100, 0} );
+    check_shamble_speed( "mon_zombie", {100, 0, 0} );
+    check_shamble_speed( "mon_zombie_dog", {100, 0, 0} );
+    check_shamble_speed( "mon_zombie_dog", {0, 100, 0} );
+    check_shamble_speed( "mon_zombie_dog", {100, 100, 0} );
+    check_shamble_speed( "mon_zombear", {100, 0, 0} );
+    check_shamble_speed( "mon_zombear", {0, 100, 0} );
+    check_shamble_speed( "mon_zombear", {100, 100, 0} );
+    check_shamble_speed( "mon_jabberwock", {100, 0, 0} );
+    check_shamble_speed( "mon_jabberwock", {0, 100, 0} );
+    check_shamble_speed( "mon_jabberwock", {100, 100, 0} );
 }
 
 // Characterization test for monster movement speed.
@@ -130,5 +130,10 @@ TEST_CASE("monster_speed") {
     OPTIONS["CIRCLEDIST"].setValue("false");
     trigdist = false;
     monster_check();
+
+    // Check the angles between 0deg and 45deg
+    for( int x = 0; x <= 100; ++x ) {
+        check_shamble_speed( "mon_zombie", {x, 100, 0} );
+    }
 }
 
