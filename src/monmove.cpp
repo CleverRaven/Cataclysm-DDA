@@ -405,6 +405,7 @@ void monster::move()
         }
     }
 
+    tripoint next_step;
     if( moved ) {
         // Implement both avoiding obstacles and staggering.
         moved = false;
@@ -416,7 +417,7 @@ void monster::move()
             // When attacking an adjacent enemy, we're direct.
             if( target != nullptr && attitude_to( *target ) == A_HOSTILE ) {
                 moved = true;
-                destination = candidate;
+                next_step = candidate;
                 break;
             }
             // Bail out if we can't move there and we can't bash.
@@ -434,7 +435,7 @@ void monster::move()
             // Randomly pick one of the viable squares to move to weighted by distance.
             if( x_in_y( progress, switch_chance ) ) {
                 moved = true;
-                destination = candidate;
+                next_step = candidate;
                 // If we stumble, pick a random square, otherwise take the first one,
                 // which is the most direct path.
                 if( !has_flag( MF_STUMBLES ) ) {
@@ -447,10 +448,10 @@ void monster::move()
     //  move to (moved = true).
     if( moved ) { // Actual effects of moving to the square we've chosen
         const bool did_something =
-            ( !pacified && attack_at( destination ) ) ||
-            ( !pacified && bash_at( destination ) ) ||
-            ( !pacified && push_to( destination, 0, 0 ) ) ||
-            move_to( destination );
+            ( !pacified && attack_at( next_step ) ) ||
+            ( !pacified && bash_at( next_step ) ) ||
+            ( !pacified && push_to( next_step, 0, 0 ) ) ||
+            move_to( next_step );
         if( !did_something ) {
             moves -= 100; // If we don't do this, we'll get infinite loops.
         }
