@@ -1363,6 +1363,18 @@
           "rotates": false
         },
         {
+          "id": "electric_primer",
+          "fg": 218,
+          "bg": 505,
+          "rotates": false
+        },
+        {
+          "id": "electric_primer_large",
+          "fg": 218,
+          "bg": 505,
+          "rotates": false
+        },
+        {
           "id": "shot_00",
           "fg": 219,
           "bg": 505,
@@ -2000,6 +2012,18 @@
           "rotates": false
         },
         {
+          "id": "runner_bag",
+          "fg": 322,
+          "bg": 505,
+          "rotates": false
+        },
+        {
+          "id": "survivor_runner_pack",
+          "fg": 322,
+          "bg": 505,
+          "rotates": false
+        },
+        {
           "id": "fc_hairpin",
           "fg": 323,
           "bg": 505,
@@ -2627,6 +2651,12 @@
           "rotates": false
         },
         {
+          "id": "shoes_birchbark",
+          "fg": 420,
+          "bg": 505,
+          "rotates": false
+        },
+        {
           "id": "modularvest",
           "fg": 421,
           "bg": 505,
@@ -2681,6 +2711,12 @@
         },
         {
           "id": "obi_gi",
+          "fg": 425,
+          "bg": 505,
+          "rotates": false
+        },
+        {
+          "id": "judo_belt_black",
           "fg": 425,
           "bg": 505,
           "rotates": false
@@ -2838,6 +2874,18 @@
         },
         {
           "id": "quiver_large",
+          "fg": 452,
+          "bg": 505,
+          "rotates": false
+        },
+        {
+          "id": "quiver_birchbark",
+          "fg": 451,
+          "bg": 505,
+          "rotates": false
+        },
+        {
+          "id": "quiver_large_birchbark",
           "fg": 452,
           "bg": 505,
           "rotates": false
@@ -6813,6 +6861,12 @@
           "rotates": false
         },
         {
+          "id": "strength_potion",
+          "fg": 678,
+          "bg": 505,
+          "rotates": false
+        },
+        {
           "id": "miner_hat",
           "fg": 2295,
           "bg": 505,
@@ -8023,6 +8077,12 @@
           "rotates": false
         },
         {
+          "id": "healing_potion",
+          "fg": 811,
+          "bg": 505,
+          "rotates": false
+        },
+        {
           "id": "sausage",
           "fg": 812,
           "bg": 505,
@@ -8982,6 +9042,18 @@
           "rotates": false
         },
         {
+          "id": "drive_by_wire_controls",
+          "fg": 1232,
+          "bg": 505,
+          "rotates": false
+        },
+        {
+          "id": "robot_controls",
+          "fg": 1232,
+          "bg": 505,
+          "rotates": false
+        },
+        {
           "id": "vitamins",
           "fg": 853,
           "bg": 505,
@@ -9125,6 +9197,11 @@
         },
         {
           "id": "whiskey",
+          "fg": 858,
+          "bg": 505
+        },
+        {
+          "id": "speed_potion",
           "fg": 858,
           "bg": 505
         },
@@ -9673,12 +9750,12 @@
           "additional_tiles": [
             {
               "id": "corner",
-              "fg": 2754,
+              "fg": 1600,
               "bg": 506
             },
             {
               "id": "edge",
-              "fg": 2755,
+              "fg": 1601,
               "bg": 506
             }
           ]
@@ -9709,12 +9786,12 @@
           "additional_tiles": [
             {
               "id": "corner",
-              "fg": 2756,
+              "fg": 1600,
               "bg": 506
             },
             {
               "id": "edge",
-              "fg": 2757,
+              "fg": 1601,
               "bg": 506
             }
           ]
@@ -9881,6 +9958,45 @@
         },
         {
           "id": "fd_smoke",
+          "fg": 1682,
+          "bg": 506,
+          "rotates": false,
+          "multitile": true,
+          "additional_tiles": [
+            {
+              "id": "center",
+              "fg": 1683,
+              "bg": 506
+            },
+            {
+              "id": "corner",
+              "fg": 1684,
+              "bg": 506
+            },
+            {
+              "id": "edge",
+              "fg": 1685,
+              "bg": 506
+            },
+            {
+              "id": "t_connection",
+              "fg": 1687,
+              "bg": 506
+            },
+            {
+              "id": "end_piece",
+              "fg": 1686,
+              "bg": 506
+            },
+            {
+              "id": "unconnected",
+              "fg": 1688,
+              "bg": 506
+            }
+          ]
+        },
+        {
+          "id": "fungal_haze",
           "fg": 1682,
           "bg": 506,
           "rotates": false,
@@ -10512,6 +10628,12 @@
           "bg": 507
         },
         {
+          "id": "book_potioncraft",
+          "fg": 591,
+          "bg": 508,
+          "rotates": false
+        },
+        {
           "id": "textbook_gaswarfare",
           "fg": 591,
           "bg": 507,
@@ -11052,6 +11174,12 @@
           "id": "manual_launcher",
           "fg": 577,
           "bg": 510,
+          "rotates": false
+        },
+        {
+          "id": "textbook_launcher",
+          "fg": 577,
+          "bg": 509,
           "rotates": false
         },
         {
@@ -13793,6 +13921,11 @@
           "rotates": false
         },
         {
+          "id": "fd_fungicidal_gas",
+          "bg": 528,
+          "rotates": false
+        },
+        {
           "id": "weather_acid_drop",
           "bg": 530,
           "rotates": false
@@ -16233,6 +16366,10 @@
           "fg": 954
         },
         {
+          "id": "f_center_groundsheet",
+          "fg": 954
+        },
+        {
           "id": "f_fireplace",
           "fg": 955,
           "rotates": false
@@ -18569,6 +18706,11 @@
         },
         {
           "id": "vp_controls",
+          "fg": 2364,
+          "rotates": true
+        },
+        {
+          "id": "vp_drive_by_wire_controls",
           "fg": 2364,
           "rotates": true
         },
@@ -21186,6 +21328,16 @@
           "rotates": false
         },
         {
+          "id": "hexenhammer",
+          "fg": 2713,
+          "rotates": false
+        },
+        {
+          "id": "hexenhammer_active",
+          "fg": 2714,
+          "rotates": false
+        },
+        {
           "id": "gungnir_replica",
           "fg": 2715,
           "rotates": false
@@ -21389,6 +21541,26 @@
         {
           "id": "tr_raincatcher",
           "fg": 2753,
+          "rotates": false
+        },
+        {
+          "id": "kukri",
+          "fg": 2754,
+          "rotates": false
+        },
+        {
+          "id": "diamond_kukri",
+          "fg": 2755,
+          "rotates": false
+        },
+        {
+          "id": "diamond_rapier",
+          "fg": 2756,
+          "rotates": false
+        },
+        {
+          "id": "diamond_broadsword",
+          "fg": 2757,
           "rotates": false
         },
         {
@@ -21702,6 +21874,426 @@
         {
           "id": "willowbark",
           "fg": 2809,
+          "rotates": false
+        },
+        {
+          "id": "karate_gi",
+          "fg": 2810,
+          "rotates": false
+        },
+        {
+          "id": "judo_gi",
+          "fg": 2810,
+          "rotates": false
+        },
+        {
+          "id": "keikogi",
+          "fg": 2811,
+          "rotates": false
+        },
+        {
+          "id": "tabi_gi",
+          "fg": 2812,
+          "rotates": false
+        },
+        {
+          "id": "tabi_dress",
+          "fg": 2812,
+          "rotates": false
+        },
+        {
+          "id": "judo_belt_white",
+          "fg": 2813,
+          "rotates": false
+        },
+        {
+          "id": "judo_belt_yellow",
+          "fg": 2814,
+          "rotates": false
+        },
+        {
+          "id": "judo_belt_orange",
+          "fg": 2815,
+          "rotates": false
+        },
+        {
+          "id": "judo_belt_green",
+          "fg": 2816,
+          "rotates": false
+        },
+        {
+          "id": "judo_belt_blue",
+          "fg": 2817,
+          "rotates": false
+        },
+        {
+          "id": "judo_belt_brown",
+          "fg": 2818,
+          "rotates": false
+        },
+        {
+          "id": "vp_chime",
+          "fg": 2819,
+          "rotates": true
+        },
+        {
+          "id": "vp_water_purifier",
+          "fg": 2820,
+          "rotates": true
+        },
+        {
+          "id": "v_scoop_item",
+          "fg": 2821,
+          "rotates": false
+        },
+        {
+          "id": "vp_vehicle_scoop",
+          "fg": 2821,
+          "rotates": true
+        },
+        {
+          "id": "vp_robot_controls",
+          "fg": 2822,
+          "rotates": true
+        },
+        {
+          "id": "vp_watercannon",
+          "fg": 2823,
+          "rotates": true
+        },
+        {
+          "id": "saxophone",
+          "fg": 2824,
+          "rotates": false
+        },
+        {
+          "id": "flute",
+          "fg": 2825,
+          "rotates": false
+        },
+        {
+          "id": "clarinet",
+          "fg": 2826,
+          "rotates": false
+        },
+        {
+          "id": "trumpet",
+          "fg": 2827,
+          "rotates": false
+        },
+        {
+          "id": "ukulele",
+          "fg": 2828,
+          "rotates": false
+        },
+        {
+          "id": "banjo",
+          "fg": 2829,
+          "rotates": false
+        },
+        {
+          "id": "violin",
+          "fg": 2830,
+          "rotates": false
+        },
+        {
+          "id": "violin_golden",
+          "fg": 2831,
+          "rotates": false
+        },
+        {
+          "id": "30mm_hedp",
+          "fg": 2832,
+          "rotates": false
+        },
+        {
+          "id": "30mm_hei",
+          "fg": 2833,
+          "rotates": false
+        },
+        {
+          "id": "30mm_casing",
+          "fg": 2834,
+          "rotates": false
+        },
+        {
+          "id": "120mm_casing",
+          "fg": 2835,
+          "rotates": false
+        },
+        {
+          "id": "155mm_casing",
+          "fg": 2835,
+          "rotates": false
+        },
+        {
+          "id": "120mm_usable_ap",
+          "fg": 2836,
+          "rotates": false
+        },
+        {
+          "id": "120mm_usable_shot",
+          "fg": 2837,
+          "rotates": false
+        },
+        {
+          "id": "120mm_usable_slug",
+          "fg": 2837,
+          "rotates": false
+        },
+        {
+          "id": "155mm_shot",
+          "fg": 2838,
+          "rotates": false
+        },
+        {
+          "id": "155mm_slug",
+          "fg": 2838,
+          "rotates": false
+        },
+        {
+          "id": "atgm_heat",
+          "fg": 2839,
+          "rotates": false
+        },
+        {
+          "id": "atgm_launcher",
+          "fg": 2840,
+          "rotates": false
+        },
+        {
+          "id": "essence",
+          "fg": 2841,
+          "rotates": false
+        },
+        {
+          "id": "essence_blood",
+          "fg": 2842,
+          "rotates": false
+        },
+        {
+          "id": "essence_dull",
+          "fg": 2843,
+          "rotates": false
+        },
+        {
+          "id": "book_magicfordummies",
+          "fg": 590,
+          "bg": 511,
+          "rotates": false
+        },
+        {
+          "id": "book_hexenhammer",
+          "fg": 2844,
+          "bg": 508,
+          "rotates": false
+        },
+        {
+          "id": "book_sacrifice",
+          "fg": 2845,
+          "bg": 508,
+          "rotates": false
+        },
+        {
+          "id": "book_bloodmagic",
+          "fg": 2846,
+          "bg": 508,
+          "rotates": false
+        },
+        {
+          "id": "book_summoning",
+          "fg": 2847,
+          "bg": 508,
+          "rotates": false
+        },
+        {
+          "id": "numbness_potion",
+          "fg": 2848,
+          "rotates": false
+        },
+        {
+          "id": "silver_glyph",
+          "fg": 2849,
+          "rotates": false
+        },
+        {
+          "id": "summon_kreck",
+          "fg": 2850,
+          "rotates": false
+        },
+        {
+          "id": "summon_blank",
+          "fg": 2850,
+          "rotates": false
+        },
+        {
+          "id": "summon_flaming_eye",
+          "fg": 2850,
+          "rotates": false
+        },
+        {
+          "id": "summon_hunting_horror",
+          "fg": 2850,
+          "rotates": false
+        },
+        {
+          "id": "summon_flying_polyp",
+          "fg": 2850,
+          "rotates": false
+        },
+        {
+          "id": "summon_mi_go",
+          "fg": 2850,
+          "rotates": false
+        },
+        {
+          "id": "summon_yugg",
+          "fg": 2850,
+          "rotates": false
+        },
+        {
+          "id": "summon_shoggoth",
+          "fg": 2850,
+          "rotates": false
+        },
+        {
+          "id": "mon_spirit_of_fire",
+          "fg": 2851,
+          "rotates": false
+        },
+        {
+          "id": "thunder_sigil",
+          "fg": 2852,
+          "rotates": false
+        },
+        {
+          "id": "bloodscourge",
+          "fg": 2853,
+          "rotates": false
+        },
+        {
+          "id": "ethereal_crossbow",
+          "fg": 2854,
+          "rotates": false
+        },
+        {
+          "id": "bagh_nakha",
+          "fg": 2855,
+          "rotates": false
+        },
+        {
+          "id": "hand_of_armok",
+          "fg": 2856,
+          "rotates": false
+        },
+        {
+          "id": "gilded_aegis",
+          "fg": 2857,
+          "rotates": false
+        },
+        {
+          "id": "revenant_crown",
+          "fg": 2858,
+          "rotates": false
+        },
+        {
+          "id": "gauntlets_necro",
+          "fg": 2859,
+          "rotates": false
+        },
+        {
+          "id": "offering_chalice",
+          "fg": 2860,
+          "rotates": false
+        },
+        {
+          "id": "offering_chalice_active",
+          "fg": 2860,
+          "rotates": false
+        },
+        {
+          "id": "offering_chalice_used",
+          "fg": 2860,
+          "rotates": false
+        },
+        {
+          "id": "blood_athame",
+          "fg": 2861,
+          "rotates": false
+        },
+        {
+          "id": "blood_athame_active",
+          "fg": 2861,
+          "rotates": false
+        },
+        {
+          "id": "sun_sword",
+          "fg": 2862,
+          "rotates": false
+        },
+        {
+          "id": "sun_sword_on",
+          "fg": 2863,
+          "rotates": false
+        },
+        {
+          "id": "bloodaxe",
+          "fg": 2864,
+          "rotates": false
+        },
+        {
+          "id": "bloodaxe_act",
+          "fg": 2865,
+          "rotates": false
+        },
+        {
+          "id": "diamond_zweihander",
+          "fg": 2866,
+          "rotates": false
+        },
+        {
+          "id": "wakizashi",
+          "fg": 2867,
+          "rotates": false
+        },
+        {
+          "id": "wakizashi_fake",
+          "fg": 2867,
+          "rotates": false
+        },
+        {
+          "id": "diamond_wakizashi",
+          "fg": 2868,
+          "rotates": false
+        },
+        {
+          "id": "diamond_nodachi",
+          "fg": 2869,
+          "rotates": false
+        },
+        {
+          "id": "vp_tearer",
+          "fg": 2870,
+          "rotates": true
+        },
+        {
+          "id": "mask_guy_fawkes",
+          "fg": 2871,
+          "rotates": false
+        },
+        {
+          "id": "large_tent_kit",
+          "fg": 2872,
+          "rotates": false
+        },
+        {
+          "id": "shelter_kit",
+          "fg": 2873,
+          "rotates": false
+        },
+        {
+          "id": "mouthpiece",
+          "fg": 2874,
           "rotates": false
         }
       ]
