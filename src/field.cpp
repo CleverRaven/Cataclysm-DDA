@@ -74,7 +74,7 @@ void game::init_fields()
         {
             "fd_acid",
             {_("acid splatter"), _("acid streak"), _("pool of acid")}, '5', 2,
-            {c_ltgreen, c_green, c_green}, {true, true, true}, {true, true, true}, MINUTES(1),
+            {c_ltgreen, c_green, c_green}, {true, true, true}, {true, true, true}, MINUTES(2),
             {0,0,0}
         },
 
@@ -2196,12 +2196,8 @@ void map::monster_in_field( monster &z )
         case fd_acid:
             if( !z.has_flag( MF_FLIES ) ) {
                 if (cur->getFieldDensity() == 3) {
-                    const int d = rng( 4, 10 ) + rng( 2, 8 );
-                    z.deal_damage( nullptr, bp_torso, damage_instance( DT_ACID, d ) );
-                } else {
-                    const int d = rng( cur->getFieldDensity(), cur->getFieldDensity() * 4 );
-                    z.deal_damage( nullptr, bp_torso, damage_instance( DT_ACID, d ) );
-                }
+                const int d = rng( cur->getFieldDensity(), cur->getFieldDensity() * 3 );
+                z.deal_damage( nullptr, bp_torso, damage_instance( DT_ACID, d ) );
                 z.check_dead_state();
             }
             break;
