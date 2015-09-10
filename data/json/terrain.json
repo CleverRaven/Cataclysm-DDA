@@ -4785,7 +4785,8 @@
         "color": "i_cyan",
         "move_cost": 2,
         "trap": "tr_ledge",
-        "flags": ["TRANSPARENT", "NO_FLOOR"]
+        "flags": ["TRANSPARENT", "NO_FLOOR"],
+        "examine_action": "climb_down"
     },{
         "type" : "terrain",
         "id" : "t_flat_roof",

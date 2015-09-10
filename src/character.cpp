@@ -287,12 +287,15 @@ void Character::recalc_hp()
 void Character::recalc_sight_limits()
 {
     sight_max = 9999;
+    vision_mode_cache.reset();
 
     // Set sight_max.
     if (has_effect("blind") || worn_with_flag("BLIND")) {
         sight_max = 0;
+    } else if( has_effect("boomered") && (!(has_trait("PER_SLIME_OK"))) ) {
+        sight_max = 1;
+        vision_mode_cache.set( BOOMERED );
     } else if (has_effect("in_pit") ||
-            (has_effect("boomered") && (!(has_trait("PER_SLIME_OK")))) ||
             (underwater && !has_bionic("bio_membrane") &&
                 !has_trait("MEMBRANE") && !worn_with_flag("SWIM_GOGGLES") &&
                 !has_trait("CEPH_EYES") && !has_trait("PER_SLIME_OK") ) ) {
@@ -307,10 +310,10 @@ void Character::recalc_sight_limits()
     } else if (has_trait("PER_SLIME")) {
         sight_max = 6;
     } else if( has_effect( "darkness" ) ) {
+        vision_mode_cache.set( DARKNESS );
         sight_max = 10;
     }
 
-    vision_mode_cache.reset();
     // Debug-only NV, by vache's request
     if( has_trait("DEBUG_NIGHTVISION") ) {
         vision_mode_cache.set( DEBUG_NIGHTVISION );

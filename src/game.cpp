@@ -1994,7 +1994,7 @@ input_context game::get_player_input(std::string &action)
                     wmove( w_terrain, location.y - offset_y, location.x - offset_x );
                     if( !m.apply_vision_effects( w_terrain, lighting, cache ) ) {
                         m.drawsq( w_terrain, u, location, false, true,
-                                  u.posx() + u.view_offset.x, u.posy() + u.view_offset.y,
+                                  u.pos() + u.view_offset,
                                   lighting == LL_LOW, lighting == LL_BRIGHT );
                     }
                 }
@@ -2031,7 +2031,7 @@ input_context game::get_player_input(std::string &action)
                                 wmove( w_terrain, location.y - offset_y, location.x - offset_x );
                                 if( !m.apply_vision_effects( w_terrain, lighting, cache ) ) {
                                     m.drawsq( w_terrain, u, location, false, true,
-                                              u.posx() + u.view_offset.x, u.posy() + u.view_offset.y,
+                                              u.pos() + u.view_offset,
                                               lighting == LL_LOW, lighting == LL_BRIGHT );
                                 }
                             }
@@ -8208,6 +8208,22 @@ void game::print_terrain_info( const tripoint &lp, WINDOW *w_look, int column, i
         mvwprintw(w_look, ++line, column, _("Sign: %s..."), signage.substr(0, 32).c_str());
     }
 
+    if( m.has_zlevels() && lp.z > -OVERMAP_DEPTH && m.has_flag( TFLAG_NO_FLOOR, lp ) ) {
+        // Print info about stuff below
+        tripoint below( lp.x, lp.y, lp.z - 1 );
+        std::string tile_below = m.tername( below );
+        if( m.has_furn( below ) ) {
+            furn_t furn = m.furn_at( below );
+            tile_below += "; " + furn.name;
+        }
+
+        if( m.valid_move( lp, below, false, true ) ) {
+            mvwprintw(w_look, ++line, column, _("Below: %s; No support"), tile_below.c_str() );
+        } else {
+            mvwprintw(w_look, ++line, column, _("Below: %s; Walkable"), tile_below.c_str() );
+        }
+    }
+
     mvwprintw(w_look, ++line, column, "%s", m.features( lp ).c_str());
     if (line < ending_line) {
         line = ending_line;
@@ -8248,10 +8264,10 @@ void game::print_object_info( const tripoint &lp, WINDOW *w_look, const int colu
         mvwprintw(w_look, line++, column, _("There is a %s there. Parts:"), veh->name.c_str());
         line = veh->print_part_desc(w_look, line, (mouse_hover) ? getmaxx(w_look) : 48, veh_part);
         if (!mouse_hover) {
-            m.drawsq( w_terrain, u, lp, true, true, lp.x, lp.y );
+            m.drawsq( w_terrain, u, lp, true, true, lp );
         }
     } else if (!mouse_hover) {
-        m.drawsq(w_terrain, u, lp, true, true, lp.x, lp.y );
+        m.drawsq(w_terrain, u, lp, true, true, lp );
     }
     handle_multi_item_info( lp, w_look, column, line, mouse_hover );
 }
@@ -8645,8 +8661,7 @@ void game::zones_manager()
                                          tripoint( iX, iY, u.posz() + u.view_offset.z ),
                                          false,
                                          false,
-                                         u.posx() + u.view_offset.x,
-                                         u.posy() + u.view_offset.y );
+                                         u.pos() + u.view_offset );
                             } else {
                                 if (u.has_effect("boomered")) {
                                     mvwputch(w_terrain, iY - offset_y, iX - offset_x, c_magenta, '#');
@@ -8810,8 +8825,7 @@ tripoint game::look_around( WINDOW *w_info, const tripoint &start_point,
                                              tripoint( iX, iY, lp.z ),
                                              false,
                                              false,
-                                             lx,
-                                             ly);
+                                             tripoint( lx, ly, u.posz() ) );
                                 } else {
                                     if (u.has_effect("boomered")) {
                                         mvwputch(w_terrain, iY - offset_y - ly + u.posy(), iX - offset_x - lx + u.posx(), c_magenta, '#');
@@ -11935,7 +11949,7 @@ bool game::plmove(int dx, int dy)
             }
             plswim(x, y);
         }
-    } else if (m.move_cost(x, y) > 0 || pushing_furniture || shifting_furniture || pushing_vehicle) {
+    } else if (m.move_cost( dest_loc ) > 0 || pushing_furniture || shifting_furniture || pushing_vehicle) {
         // move_cost() of 0 = impassible (e.g. a wall)
         u.set_underwater(false);
 
@@ -12876,7 +12890,8 @@ void game::vertical_move(int movez, bool force)
 
         std::vector<tripoint> pts;
         for( const auto &pt : m.points_in_radius( stairs, 1 ) ) {
-            if( m.move_cost( pt ) > 0 && !m.has_flag( TFLAG_NO_FLOOR, pt ) ) {
+            if( m.move_cost( pt ) > 0 &&
+                !m.valid_move( pt, tripoint( pt.x, pt.y, pt.z - 1 ), false, true ) ) {
                 pts.push_back( pt );
             }
         }

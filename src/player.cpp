@@ -5066,7 +5066,7 @@ float player::fall_damage_mod() const
     // Ability to land properly is 2x as important as dexterity itself
     float dex_dodge = dex_cur / 2 + get_skill_level( skill_dodge );
     // Penalize for wearing heavy stuff
-    dex_dodge -= ( ( encumb(bp_leg_l) + encumb(bp_leg_r) ) / 20 ) + ( encumb(bp_torso) / 10 );
+    dex_dodge -= ( ( ( encumb(bp_leg_l) + encumb(bp_leg_r) ) / 2 ) + ( encumb(bp_torso) / 1 ) ) / 10;
     // But prevent it from increasing damage
     dex_dodge = std::max( 0.0f, dex_dodge );
     // 100% damage at 0, 75% at 10, 50% at 20 and so on

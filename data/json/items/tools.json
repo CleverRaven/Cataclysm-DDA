@@ -10775,5 +10775,27 @@
     "cutting" : 0,
     "phase" : "solid",
     "bashing" : 9
+  },
+  {
+    "id": "stepladder",
+    "type": "TOOL",
+    "symbol": "H",
+    "color": "brown",
+    "name": "stepladder",
+    "description": "This is a wooden stepladder.  Use it to set it down.",
+    "price": 2000,
+    "material": "wood",
+    "weight": 20000,
+    "volume": 200,
+    "bashing": 12,
+    "cutting": 0,
+    "to_hit": -3,
+    "max_charges": 0,
+    "initial_charges": 0,
+    "charges_per_use": 0,
+    "turns_per_charge": 0,
+    "ammo": "NULL",
+    "revert_to": "null",
+    "use_action": "LADDER"
   }
 ]

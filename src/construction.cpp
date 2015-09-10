@@ -650,7 +650,7 @@ void place_construction(const std::string &desc)
 
     for( auto &elem : valid ) {
         g->m.drawsq( g->w_terrain, g->u, elem.first, true, false,
-                     g->u.posx() + g->u.view_offset.x, g->u.posy() + g->u.view_offset.y );
+                     g->u.pos() + g->u.view_offset );
     }
     wrefresh(g->w_terrain);
 
