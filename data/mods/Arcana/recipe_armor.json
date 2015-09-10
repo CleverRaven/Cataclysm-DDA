@@ -1,0 +1,67 @@
+[
+{
+  "type" : "recipe",
+  "result": "revenant_crown",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_HEAD",
+  "skill_used": "magic",
+  "skills_required": [ "fabrication", 3 ],
+  "difficulty": 5,
+  "time": 15000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "book_bloodmagic", 5 ]],
+  "qualities":[{"id":"HAMMER","level":3,"amount":1}],
+  "tools": [
+    [ [ "book_bloodmagic", -1 ] ],
+    [ [ "tongs", -1 ] ],
+    [ [ "chisel", -1 ] ],
+    [ [ "anvil", -1 ] ],
+    [ [ "swage", -1 ] ],
+    [
+      [ "forge", 300],
+      [ "char_forge", 60],
+      [ "oxy_torch", 60]
+    ]
+  ],
+  "components": [
+    [ [ "silver_small", 600 ] ],
+    [ [ "diamond", 1 ] ],
+    [ [ "essence_blood", 6 ] ]
+  ]
+},
+{
+  "type" : "recipe",
+  "result": "gauntlets_necro",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_HANDS",
+  "skill_used": "magic",
+  "skills_required": [ "fabrication", 3 ],
+  "difficulty": 6,
+  "time": 30000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "book_sacrifice", 6 ]],
+  "qualities":[{"id":"HAMMER","level":3,"amount":1}],
+  "tools": [
+    [ [ "book_sacrifice", -1 ] ],
+    [ [ "tongs", -1 ] ],
+    [ [ "chisel", -1 ] ],
+    [ [ "anvil", -1 ] ],
+    [ [ "swage", -1 ] ],
+    [
+      [ "forge", 150],
+      [ "char_forge", 30],
+      [ "oxy_torch", 30]
+    ]
+  ],
+  "components": [
+    [ [ "gloves_plate", 1 ] ],
+    [ [ "silver_small", 70 ] ],
+    [
+      [ "essence", 4 ],
+      [ "essence_blood", 12 ]
+    ]
+  ]
+}
+]

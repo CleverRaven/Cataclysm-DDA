@@ -1,0 +1,229 @@
+[
+  {
+    "id": "offering_chalice",
+    "type": "TOOL",
+    "symbol": ";",
+    "color": "yellow",
+    "name": "offering chalice",
+    "description": "This is a strange chalice made of gold, engraved all over with some unfamilar text.  It is filled with a thick black liquid that you seem unable to pour out.  You get the feeling that trying to drink it would be a bad idea.",
+    "price": 161300,
+    "material": "gold",
+    "weight": 2500,
+    "volume": 4,
+    "bashing": 6,
+    "cutting": 0,
+    "to_hit": -1,
+    "max_charges": 0,
+    "initial_charges": 0,
+    "charges_per_use": 0,
+    "turns_per_charge": 0,
+    "ammo": "NULL",
+    "revert_to": "null",
+    "use_action": [
+      "MEDITATE",
+      {
+         "type": "transform",
+         "target": "offering_chalice_active",
+         "active": true,
+         "msg": "You raise the chalice to your lips...",
+         "menu_option_text": "Drink from the chalice"
+      }
+    ]
+  },
+  {
+    "id": "offering_chalice_active",
+    "type": "TOOL",
+    "symbol": ";",
+    "color": "yellow",
+    "name": "offering chalice",
+    "description": "This is a strange chalice made of gold, engraved all over with some unfamilar text.  Maybe you shouldn't be trying to drink from this...",
+    "price": 161300,
+    "material": "gold",
+    "weight": 2500,
+    "volume": 4,
+    "bashing": 6,
+    "cutting": 0,
+    "to_hit": -1,
+    "max_charges": 0,
+    "initial_charges": 0,
+    "charges_per_use": 1,
+    "turns_per_charge": 1,
+    "ammo": "NULL",
+    "revert_to": "offering_chalice_used",
+    "use_action": {
+        "type" : "consume_drug",
+        "activation_message" : "As you drink from the chalice, you feel your breath being drawn from your lungs!",
+        "effects" : [
+            {
+                "id": "offering",
+                "duration": 1
+            }
+        ]
+    }
+  },
+  {
+    "id": "offering_chalice_used",
+    "type": "TOOL",
+    "symbol": ";",
+    "color": "yellow",
+    "name": "drained offering chalice",
+    "description": "This is a strange chalice made of gold, engraved all over with some unfamilar text.  It appears to be empty, but you get the feeling that something remains within it. If you knew the right ritual...",
+    "price": 161300,
+    "material": "gold",
+    "weight": 2500,
+    "volume": 4,
+    "bashing": 6,
+    "cutting": 0,
+    "to_hit": -1,
+    "max_charges": 0,
+    "initial_charges": 0,
+    "charges_per_use": 0,
+    "turns_per_charge": 0,
+    "ammo": "NULL",
+    "revert_to": "null",
+    "use_action": "MEDITATE"
+  },
+  {
+    "id": "blood_athame",
+    "type": "TOOL",
+    "symbol": "/",
+    "color": "red",
+    "name": "silver athame",
+    "description": "An ornate silver dagger, seemingly made for ritual purposes.  It seems sharper than silver has any right to be.",
+    "price": 23500,
+    "material": "silver",
+    "techniques": "RAPID",
+    "weight": 658,
+    "volume": 3,
+    "bashing": 1,
+    "cutting": 14,
+    "flags" : ["STAB", "SHEATH_KNIFE"],
+    "to_hit": 2,
+    "max_charges": 0,
+    "initial_charges": 0,
+    "charges_per_use": 0,
+    "turns_per_charge": 0,
+    "ammo": "NULL",
+    "revert_to": "null",
+    "category": "weapons",
+    "use_action": [
+      {
+          "type": "knife"
+      },
+      {
+         "type": "transform",
+         "target": "blood_athame_active",
+         "active": true,
+         "msg": "The edge of the athame looks too dull to break the skin, yet some strange urge leads you to test this...",
+         "menu_option_text": "Test the blade's sharpness"
+      }
+    ],
+    "qualities": [["CUT", 1], ["BUTCHER", 3]]
+  },
+  {
+    "id": "blood_athame_active",
+    "type": "TOOL",
+    "symbol": "/",
+    "color": "red",
+    "name": "silver athame",
+    "description": "An ornate silver dagger, seemingly made for ritual purposes.  This seems like a stupid idea...",
+    "price": 23500,
+    "material": "silver",
+    "techniques": "RAPID",
+    "weight": 658,
+    "volume": 3,
+    "bashing": 1,
+    "cutting": 14,
+    "flags" : ["STAB", "SHEATH_KNIFE"],
+    "to_hit": 2,
+    "max_charges": 0,
+    "initial_charges": 0,
+    "charges_per_use": 1,
+    "turns_per_charge": 1,
+    "ammo": "NULL",
+    "revert_to": "blood_athame",
+    "category": "weapons",
+    "use_action" : {
+        "type" : "consume_drug",
+        "activation_message" : "Upon drawing the blade across your palm, wounds open elsewhere on your body!",
+        "effects" : [
+            {
+               "id": "bleed",
+                "bp": "TORSO",
+                "duration": 100
+            }
+        ]
+    },
+    "qualities": [["CUT", 1], ["BUTCHER", 3]]
+  },
+  {
+    "id": "bloodaxe",
+    "type": "TOOL",
+    "symbol": ";",
+    "color": "brown",
+    "name": "veinreaver",
+    "description": "A hatchet with its axehead stained the dull color of dried blood, making it appear rusted despite being in usable condition.  Using it will channel blood essence into a nasty explosion.",
+    "price": 2500,
+    "material": ["steel", "wood"],
+    "weight": 907,
+    "volume": 2,
+    "bashing": 12,
+    "cutting": 6,
+    "to_hit": 1,
+    "max_charges": 1,
+    "initial_charges": 0,
+    "charges_per_use": 1,
+    "turns_per_charge": 0,
+    "ammo": "essence_blood_type",
+    "flags" : ["DURABLE_MELEE","CHOP"],
+    "revert_to": "null",
+    "category": "weapons",
+    "qualities": [["CUT", 1], ["HAMMER", 2], ["HAMMER_FINE", 1], ["BUTCHER", 16]],
+    "use_action": [
+      { "type": "knife" },
+      {
+         "type": "transform",
+         "target": "bloodaxe_act",
+         "target_charges": 5,
+         "active": true,
+         "msg": "You draw upon the axe's energy, and the axehead glows a bright red!",
+         "menu_option_text": "Activate explosive rune"
+      }
+    ]
+  },
+  {
+    "id": "bloodaxe_act",
+    "type": "TOOL",
+    "symbol": ";",
+    "color": "brown",
+    "name": "glowing veinreaver",
+    "description": "A hatchet, axehead giving off a wicked red glow.  Throwing it might be a smart idea.",
+    "price": 2500,
+    "material": ["steel", "wood"],
+    "weight": 907,
+    "volume": 2,
+    "bashing": 12,
+    "cutting": 6,
+    "to_hit": 1,
+    "max_charges": 5,
+    "initial_charges": 5,
+    "charges_per_use": 0,
+    "turns_per_charge": 1,
+    "ammo": "NULL",
+    "flags" : ["DURABLE_MELEE","CHOP","LIGHT_8"],
+    "revert_to": "bloodaxe",
+    "category": "weapons",
+    "qualities": [["CUT", 1], ["HAMMER", 2], ["HAMMER_FINE", 1], ["BUTCHER", 16]],
+    "use_action": {
+        "type": "explosion",
+        "sound_volume": 1,
+        "sound_msg": "Drip.",
+        "no_deactivate_msg": "You can't dispel the effect. Might want to try throwing it instead.",
+        "fields_radius": 3,
+        "fields_type": "fd_blood",
+        "fields_min_density": 3,
+        "fields_max_density": 3,
+        "explosion_power": 12
+      }
+  }
+]

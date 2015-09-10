@@ -1,0 +1,73 @@
+[
+    {
+        "id": "revenant_crown",
+        "type": "TOOL_ARMOR",
+        "category" : "clothing",
+        "symbol": "[",
+        "color": "yellow",
+        "name": "revenant crown",
+        "description": "A wicked-looking crown made of silver, decorated with scenes of skeletons in a \"danse macabre\" motif.  A single diamond adorns it, in the center of the scene depicted.  Using it shall yield immunity to poison, food poisoning in particular, in exchange for inreased hunger.",
+        "price": 1052500,
+        "material": ["silver", "diamond"],
+        "weight": 650,
+        "volume": 14,
+        "bashing": 0,
+        "cutting": 0,
+        "to_hit" : -1,
+        "max_charges": 6,
+        "initial_charges": 0,
+        "charges_per_use": 2,
+        "turns_per_charge": 0,
+        "ammo": "essence_blood_type",
+        "use_action" : {
+            "type" : "consume_drug",
+            "activation_message" : "The diamond shimmers with strange red light as you feel a strange hunger, a craving for rotting meat and stagnant water...",
+            "effects" : [
+                {
+                   "id": "revenant_hunger",
+                    "duration": 500
+                }
+            ]
+        },
+        "revert_to": "null",
+        "covers" : ["HEAD"],
+        "flags" : ["VARSIZE"],
+        "storage" : 0,
+        "warmth" : 0,
+        "environmental_protection" : 0,
+        "encumbrance" : 0,
+        "coverage" : 40,
+        "material_thickness" : 1
+    },{
+        "id": "gauntlets_necro",
+        "type": "TOOL_ARMOR",
+        "category" : "armor",
+        "symbol": "[",
+        "color": "light_grey",
+        "name": "pair of thunder gauntlets",
+        "name_plural" : "pairs of thunder gauntlets",
+        "description": "A heavy set of plate gauntlets, decorated with silver around the edges of each individual plate.  Touching the bare metal sends a faint electric tingle through you.  Use them to give something a shocking surprise, if you're in melee range.",
+        "price": 46200,
+        "material": ["iron", "leather", "silver"],
+        "weight": 1190,
+        "volume": 6,
+        "bashing": 7,
+        "cutting": 0,
+        "to_hit" : -2,
+        "max_charges": 4,
+        "initial_charges": 0,
+        "charges_per_use": 1,
+        "turns_per_charge": 0,
+        "ammo": "essence_type",
+        "use_action" : "TAZER",
+        "revert_to": "null",
+        "covers" : ["HANDS"],
+        "flags" : ["VARSIZE", "STURDY"],
+        "storage" : 0,
+        "warmth" : 20,
+        "environmental_protection" : 1,
+        "encumbrance" : 0,
+        "coverage" : 100,
+        "material_thickness" : 4
+    }
+]
