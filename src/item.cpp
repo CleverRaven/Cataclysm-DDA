@@ -974,7 +974,8 @@ std::string item::info(bool showtext, std::vector<iteminfo> &dump_ref) const
                                      get_encumber(), true, "", true, true));
         }
         dump->push_back(iteminfo("ARMOR", _("Protection: Bash: "), "", bash_resist(), true, "", false));
-        dump->push_back(iteminfo("ARMOR", space + _("Cut: "), "", cut_resist(), true, "", true));
+        dump->push_back(iteminfo("ARMOR", space + _("Cut: "), "", cut_resist(), true, "", false));
+        dump->push_back(iteminfo("ARMOR", space + _("Acid: "), "", acid_resist(), true, "", true));
         dump->push_back(iteminfo("ARMOR", _("Environmental protection: "), "",
                                  get_env_resist(), true, "", false));
         dump->push_back(iteminfo("ARMOR", space + _("Storage: "), "", get_storage()));
@@ -2776,20 +2777,16 @@ int item::cut_resist() const
 
 int item::acid_resist() const
 {
-    float resist = 0;
-    // With the multiplying and dividing in previous code, the following
-    // is a coefficient equivalent to the bonuses and maluses hardcoded in
-    // previous versions. Adjust to make you happier/sadder.
-
-    if (is_null()) {
-        return resist;
+    float resist = 0.0;
+    if( is_null() ) {
+        return 0.0;
     }
 
     std::vector<material_type*> mat_types = made_of_types();
     // Not sure why cut and bash get an armor thickness bonus but acid doesn't,
     // but such is the way of the code.
 
-    for (auto mat : mat_types) {
+    for( auto mat : mat_types ) {
         resist += mat->acid_resist();
     }
     // Average based on number of materials.

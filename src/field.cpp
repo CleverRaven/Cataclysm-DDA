@@ -1778,29 +1778,51 @@ void map::player_in_field( player &u )
         {
             // Assume vehicles block acid damage entirely,
             // you're certainly not standing in it.
-            if( veh != nullptr ) {
+            if( u.in_vehicle ) {
                 break;
             }
 
+            const int density = cur->getFieldDensity();
             int total_damage = 0;
             // Use a helper for a bit less boilerplate
-            const auto burn_part = [&]( body_part bp, int damage ) {
+            const auto burn_part = [&]( body_part bp, const int max_damage ) {
+                const int corr = u.get_effect_int( "corroding", bp );
                 // Acid resistance itself protects the items,
                 // environmental protection is needed to prevent it from getting inside.
-                const float environmental_resistance = u.get_env_resist( bp ) + 1;
-                const float effective_resistance = 1.0 - (1.0 / environmental_resistance);
-                auto ddi = u.deal_damage( nullptr, bp, damage_instance( DT_ACID, damage, 0, effective_resistance ) );
+                const int arpen = std::max<int>( 0, corr - u.get_env_resist( bp ) );
+                const int damage = rng( 1, max_damage );
+                auto ddi = u.deal_damage( nullptr, bp, damage_instance( DT_ACID, damage, arpen ) );
                 total_damage += ddi.total_damage();
+                // Represents acid seeping in rather than being splashed on
+                u.add_env_effect( "corroding", bp, 3, rng( 1, density ), bp, false, 0 );
             };
 
-            const int density = cur->getFieldDensity();
-            burn_part( bp_foot_l, rng( density + 1, density * 3 ) );
-            burn_part( bp_foot_r, rng( density + 1, density * 3 ) );
-            burn_part( bp_leg_l, rng( density, density * 2 ) );
-            burn_part( bp_leg_r, rng( density, density * 2 ) );
+            const bool on_ground = u.is_on_ground();
+            burn_part( bp_foot_l, density * 3 );
+            burn_part( bp_foot_r, density * 3 );
+            burn_part( bp_leg_l,  density * 2 );
+            burn_part( bp_leg_r,  density * 2 );
+            if( on_ground ) {
+                // Before, it would just break the legs and leave the survivor alone
+                burn_part( bp_hand_l, density * 2 );
+                burn_part( bp_hand_r, density * 2 );
+                burn_part( bp_torso,  density * 2 );
+                // Less arms = less ability to keep upright
+                if( ( u.has_two_arms() && one_in( 4 ) ) || one_in( 2 ) ) {
+                    burn_part( bp_arm_l, density * 2 );
+                    burn_part( bp_arm_r, density * 2 );
+                    burn_part( bp_head,  density );
+                }
+            }
 
-            if( total_damage > 0 ) {
-                u.add_msg_player_or_npc(m_bad, _("The acid burns your legs and feet!"), _("The acid burns <npcname>s legs and feet!"));
+            if( on_ground && total_damage > 0 ) {
+                u.add_msg_player_or_npc( m_bad, _("The acid burns your body!"),
+                                                _("The acid burns <npcname>s body!") );
+            } else if( total_damage > 0 ) {
+                u.add_msg_player_or_npc( m_bad, _("The acid burns your legs and feet!"),
+                                                _("The acid burns <npcname>s legs and feet!") );
+            } else if( on_ground ) {
+                u.add_msg_if_player( m_warning, _("You're lying in a pool of acid") );
             } else {
                 u.add_msg_if_player( m_warning, _("You're standing in a pool of acid") );
             }

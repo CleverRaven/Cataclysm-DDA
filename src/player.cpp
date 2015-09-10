@@ -1812,11 +1812,7 @@ bool player::digging() const
 
 bool player::is_on_ground() const
 {
-    bool on_ground = false;
-    if(has_effect("downed") || hp_cur[hp_leg_l] == 0 || hp_cur[hp_leg_r] == 0 ){
-        on_ground = true;
-    }
-    return  on_ground;
+    return hp_cur[hp_leg_l] == 0 || hp_cur[hp_leg_r] == 0 || has_effect("downed");
 }
 
 bool player::is_elec_immune() const
