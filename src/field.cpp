@@ -1785,12 +1785,14 @@ void map::player_in_field( player &u )
             const int density = cur->getFieldDensity();
             int total_damage = 0;
             // Use a helper for a bit less boilerplate
-            const auto burn_part = [&]( body_part bp, const int max_damage ) {
+            const auto burn_part = [&]( body_part bp, const int scale ) {
                 const int corr = u.get_effect_int( "corroding", bp );
                 // Acid resistance itself protects the items,
-                // environmental protection is needed to prevent it from getting inside.
-                const int arpen = std::max<int>( 0, corr - u.get_env_resist( bp ) );
-                const int damage = rng( 1, max_damage );
+                //  environmental protection is needed to prevent it from getting inside.
+                // Also rescale arpen for different body parts - they get damaged less, but aren't
+                //  protected any better.
+                const int arpen = std::max<int>( 0, corr - u.get_env_resist( bp ) + (5 - scale) );
+                const int damage = std::max<int>( density, rng( 1, scale ) );
                 auto ddi = u.deal_damage( nullptr, bp, damage_instance( DT_ACID, damage, arpen ) );
                 total_damage += ddi.total_damage();
                 // Represents acid seeping in rather than being splashed on
@@ -1798,20 +1800,20 @@ void map::player_in_field( player &u )
             };
 
             const bool on_ground = u.is_on_ground();
-            burn_part( bp_foot_l, density * 3 );
-            burn_part( bp_foot_r, density * 3 );
-            burn_part( bp_leg_l,  density * 2 );
-            burn_part( bp_leg_r,  density * 2 );
+            burn_part( bp_foot_l, 5 );
+            burn_part( bp_foot_r, 5 );
+            burn_part( bp_leg_l,  4 );
+            burn_part( bp_leg_r,  4 );
             if( on_ground ) {
                 // Before, it would just break the legs and leave the survivor alone
-                burn_part( bp_hand_l, density * 2 );
-                burn_part( bp_hand_r, density * 2 );
-                burn_part( bp_torso,  density * 2 );
+                burn_part( bp_hand_l, 3 );
+                burn_part( bp_hand_r, 3 );
+                burn_part( bp_torso,  3 );
                 // Less arms = less ability to keep upright
                 if( ( u.has_two_arms() && one_in( 4 ) ) || one_in( 2 ) ) {
-                    burn_part( bp_arm_l, density * 2 );
-                    burn_part( bp_arm_r, density * 2 );
-                    burn_part( bp_head,  density );
+                    burn_part( bp_arm_l, 2 );
+                    burn_part( bp_arm_r, 2 );
+                    burn_part( bp_head,  2 );
                 }
             }
 
@@ -2195,7 +2197,6 @@ void map::monster_in_field( monster &z )
 
         case fd_acid:
             if( !z.has_flag( MF_FLIES ) ) {
-                if (cur->getFieldDensity() == 3) {
                 const int d = rng( cur->getFieldDensity(), cur->getFieldDensity() * 3 );
                 z.deal_damage( nullptr, bp_torso, damage_instance( DT_ACID, d ) );
                 z.check_dead_state();
