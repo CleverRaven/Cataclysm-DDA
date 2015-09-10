@@ -1450,7 +1450,7 @@ void map::set(const int x, const int y, const std::string new_terrain, const std
 
 std::string map::name(const int x, const int y)
 {
- return has_furn(x, y) ? furn_at(x, y).name : ter_at(x, y).name;
+    return name( tripoint( x, y, abs_sub.z ) );
 }
 
 bool map::has_furn(const int x, const int y) const
