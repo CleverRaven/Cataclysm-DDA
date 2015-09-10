@@ -1605,7 +1605,14 @@ bool map::can_move_furniture( const tripoint &pos, player *p ) {
 }
 
 std::string map::furnname( const tripoint &p ) {
-    return furn_at( p ).name;
+    const furn_t &f = furn_at( p );
+    if( f.has_flag( "PLANT" ) && !i_at( p ).empty() ) {
+        const item &seed = i_at( p ).front();
+        const std::string &plant = seed.get_plant_name();
+        return string_format( "%s (%s)", f.name.c_str(), plant.c_str() );
+    } else {
+        return f.name;
+    }
 }
 
 // 2D overloads for terrain

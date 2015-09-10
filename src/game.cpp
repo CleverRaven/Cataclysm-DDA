@@ -8184,13 +8184,7 @@ void game::print_terrain_info( const tripoint &lp, WINDOW *w_look, int column, i
     int ending_line = line + 3;
     std::string tile = m.tername( lp );
     if( m.has_furn( lp ) ) {
-        furn_t furn = m.furn_at( lp );
-        tile += "; " + furn.name;
-        if( furn.has_flag( "PLANT" ) && !m.i_at( lp ).empty() ) {
-            // Plant types are defined by seeds.
-            const item &seed = m.i_at( lp )[0];
-            tile += " (" + seed.get_plant_name() + ")";
-        }
+        tile += "; " + m.furnname( lp );
     }
 
     if (m.move_cost( lp ) == 0) {
@@ -8213,8 +8207,7 @@ void game::print_terrain_info( const tripoint &lp, WINDOW *w_look, int column, i
         tripoint below( lp.x, lp.y, lp.z - 1 );
         std::string tile_below = m.tername( below );
         if( m.has_furn( below ) ) {
-            furn_t furn = m.furn_at( below );
-            tile_below += "; " + furn.name;
+            tile_below += "; " + m.furnname( below );
         }
 
         if( m.valid_move( lp, below, false, true ) ) {
