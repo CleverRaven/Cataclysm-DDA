@@ -1586,18 +1586,19 @@ void iexamine::dirtmound(player *p, map *m, const tripoint &examp)
 
 void iexamine::aggie_plant(player *p, map *m, const tripoint &examp)
 {
+    if( m->i_at( examp ).empty() ) {
+        m->i_clear( examp );
+        m->furn_set( examp, f_null );
+        debugmsg( "Missing seed in plant furniture!" );
+        return;
+    }
+    const item &seed = m->i_at( examp ).front();
+    if( !seed.is_seed() ) {
+        debugmsg( "The seed item %s is not a seed!", seed.tname().c_str() );
+        return;
+    }
+
     if (m->furn(examp) == f_plant_harvest && query_yn(_("Harvest plant?"))) {
-        if (m->i_at(examp).empty()) {
-            m->i_clear(examp);
-            m->furn_set(examp, f_null);
-            debugmsg("Missing seeds in harvested plant!");
-            return;
-        }
-        const item &seed = m->i_at( examp )[0];
-        if( !seed.is_seed() ) {
-            debugmsg( "The seed is not a seed!" );
-            return;
-        }
         const islot_seed &seed_data = *seed.type->seed;
         const std::string &seedType = seed.typeId();
         if (seedType == "fungal_seeds") {
