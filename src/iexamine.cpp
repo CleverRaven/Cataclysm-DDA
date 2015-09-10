@@ -2239,6 +2239,26 @@ void iexamine::tree_pine(player *p, map *m, const tripoint &examp)
     m->ter_set(examp, t_tree_deadpine);
 }
 
+void iexamine::tree_hickory(player *p, map *m, const tripoint &examp)
+{    
+    harvest_tree_shrub(p,m,examp);
+    if( !( p->skillLevel( skill_survival ) > 0 ) ) {
+        return;
+    }
+    if( !p->has_items_with_quality( "DIG", 1, 1 ) ) {
+        add_msg(m_info, _("You have no tool to dig with..."));
+        return;
+    }
+    if(!query_yn(_("Dig up %s? This kills the tree!"), m->tername(examp).c_str())) {
+        return;
+    }
+    m->spawn_item(p->pos(), "hickory_root", rng(1,4) );
+    m->ter_set(examp, t_tree_hickory_dead);
+    p->moves -= 2000 / ( p->skillLevel( skill_survival ) + 1 ) + 100;
+    return;
+    none(p, m, examp);
+}
+
 void iexamine::tree_bark(player *p, map *m, const tripoint &examp)
 {
     if(!query_yn(_("Pick %s?"), m->tername(examp).c_str())) {
@@ -3360,6 +3380,9 @@ iexamine_function iexamine_function_from_string(std::string const &function_name
     }
     if ("tree_marloss" == function_name) {
         return &iexamine::tree_marloss;
+    }
+    if ("tree_hickory" == function_name) {
+        return &iexamine::tree_hickory;
     }
     if ("shrub_wildveggies" == function_name) {
         return &iexamine::shrub_wildveggies;

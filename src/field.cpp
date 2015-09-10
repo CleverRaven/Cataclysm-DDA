@@ -74,7 +74,7 @@ void game::init_fields()
         {
             "fd_acid",
             {_("acid splatter"), _("acid streak"), _("pool of acid")}, '5', 2,
-            {c_ltgreen, c_green, c_green}, {true, true, true}, {true, true, true}, MINUTES(1),
+            {c_ltgreen, c_green, c_green}, {true, true, true}, {true, true, true}, MINUTES(2),
             {0,0,0}
         },
 
@@ -1778,29 +1778,53 @@ void map::player_in_field( player &u )
         {
             // Assume vehicles block acid damage entirely,
             // you're certainly not standing in it.
-            if( veh != nullptr ) {
+            if( u.in_vehicle ) {
                 break;
             }
 
+            const int density = cur->getFieldDensity();
             int total_damage = 0;
             // Use a helper for a bit less boilerplate
-            const auto burn_part = [&]( body_part bp, int damage ) {
+            const auto burn_part = [&]( body_part bp, const int scale ) {
+                const int corr = u.get_effect_int( "corroding", bp );
                 // Acid resistance itself protects the items,
-                // environmental protection is needed to prevent it from getting inside.
-                const float environmental_resistance = u.get_env_resist( bp ) + 1;
-                const float effective_resistance = 1.0 - (1.0 / environmental_resistance);
-                auto ddi = u.deal_damage( nullptr, bp, damage_instance( DT_ACID, damage, 0, effective_resistance ) );
+                //  environmental protection is needed to prevent it from getting inside.
+                // Also rescale arpen for different body parts - they get damaged less, but aren't
+                //  protected any better.
+                const int arpen = std::max<int>( 0, corr - u.get_env_resist( bp ) + (5 - scale) );
+                const int damage = std::max<int>( density, rng( 1, scale ) );
+                auto ddi = u.deal_damage( nullptr, bp, damage_instance( DT_ACID, damage, arpen ) );
                 total_damage += ddi.total_damage();
+                // Represents acid seeping in rather than being splashed on
+                u.add_env_effect( "corroding", bp, 3, rng( 1, density ), bp, false, 0 );
             };
 
-            const int density = cur->getFieldDensity();
-            burn_part( bp_foot_l, rng( density + 1, density * 3 ) );
-            burn_part( bp_foot_r, rng( density + 1, density * 3 ) );
-            burn_part( bp_leg_l, rng( density, density * 2 ) );
-            burn_part( bp_leg_r, rng( density, density * 2 ) );
+            const bool on_ground = u.is_on_ground();
+            burn_part( bp_foot_l, 5 );
+            burn_part( bp_foot_r, 5 );
+            burn_part( bp_leg_l,  4 );
+            burn_part( bp_leg_r,  4 );
+            if( on_ground ) {
+                // Before, it would just break the legs and leave the survivor alone
+                burn_part( bp_hand_l, 3 );
+                burn_part( bp_hand_r, 3 );
+                burn_part( bp_torso,  3 );
+                // Less arms = less ability to keep upright
+                if( ( u.has_two_arms() && one_in( 4 ) ) || one_in( 2 ) ) {
+                    burn_part( bp_arm_l, 2 );
+                    burn_part( bp_arm_r, 2 );
+                    burn_part( bp_head,  2 );
+                }
+            }
 
-            if( total_damage > 0 ) {
-                u.add_msg_player_or_npc(m_bad, _("The acid burns your legs and feet!"), _("The acid burns <npcname>s legs and feet!"));
+            if( on_ground && total_damage > 0 ) {
+                u.add_msg_player_or_npc( m_bad, _("The acid burns your body!"),
+                                                _("The acid burns <npcname>s body!") );
+            } else if( total_damage > 0 ) {
+                u.add_msg_player_or_npc( m_bad, _("The acid burns your legs and feet!"),
+                                                _("The acid burns <npcname>s legs and feet!") );
+            } else if( on_ground ) {
+                u.add_msg_if_player( m_warning, _("You're lying in a pool of acid") );
             } else {
                 u.add_msg_if_player( m_warning, _("You're standing in a pool of acid") );
             }
@@ -2173,13 +2197,8 @@ void map::monster_in_field( monster &z )
 
         case fd_acid:
             if( !z.has_flag( MF_FLIES ) ) {
-                if (cur->getFieldDensity() == 3) {
-                    const int d = rng( 4, 10 ) + rng( 2, 8 );
-                    z.deal_damage( nullptr, bp_torso, damage_instance( DT_ACID, d ) );
-                } else {
-                    const int d = rng( cur->getFieldDensity(), cur->getFieldDensity() * 4 );
-                    z.deal_damage( nullptr, bp_torso, damage_instance( DT_ACID, d ) );
-                }
+                const int d = rng( cur->getFieldDensity(), cur->getFieldDensity() * 3 );
+                z.deal_damage( nullptr, bp_torso, damage_instance( DT_ACID, d ) );
                 z.check_dead_state();
             }
             break;

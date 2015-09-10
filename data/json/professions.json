@@ -4409,5 +4409,37 @@
                     "panties"
                 ]
             }
+    },
+    {
+            "type": "profession",
+            "ident": "miner",
+            "name": "Miner",
+            "description": "You're a miner, not a minor!  Your canteen is dry, your jackhammer is out of gas, and you're on your last pair of batteries for your mining helmet...",
+            "points": 0,
+            "items": {
+                "both": [
+                    "socks",
+                    "boots_steel",
+                    "gloves_work",
+                    "knee_pads",
+                    "miner_hat",
+                    "jumpsuit",
+                    "mask_gas",
+                    "jackhammer",
+                    "canteen",
+                    "e_tool",
+                    "tool_belt",
+                    "mbag",
+                    "matches"
+                ],
+                "male": [
+                    "boxer_shorts"
+                ],
+                "female": [
+                    "boy_shorts",
+                    "sports_bra"
+                ]
+            },
+        "flags" : ["SCEN_ONLY"]
     }
 ]
