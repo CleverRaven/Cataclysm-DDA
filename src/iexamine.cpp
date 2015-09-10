@@ -1598,7 +1598,9 @@ void iexamine::aggie_plant(player *p, map *m, const tripoint &examp)
         return;
     }
 
-    if (m->furn(examp) == f_plant_harvest && query_yn(_("Harvest plant?"))) {
+    const std::string pname = seed.get_plant_name();
+
+    if (m->furn(examp) == f_plant_harvest && query_yn(_("Harvest the %s?"), pname.c_str() )) {
         const islot_seed &seed_data = *seed.type->seed;
         const std::string &seedType = seed.typeId();
         if (seedType == "fungal_seeds") {
@@ -1658,15 +1660,15 @@ void iexamine::aggie_plant(player *p, map *m, const tripoint &examp)
         }
     } else if (m->furn(examp) != f_plant_harvest) {
         if (m->i_at(examp).size() > 1) {
-            add_msg(m_info, _("This plant has already been fertilized."));
+            add_msg(m_info, _("This %s has already been fertilized."), pname.c_str() );
             return;
         }
         std::vector<const item *> f_inv = p->all_items_with_flag( "FERTILIZER" );
         if( f_inv.empty() ) {
-        add_msg(m_info, _("You have no fertilizer."));
+        add_msg(m_info, _("You have no fertilizer for the %s."), pname.c_str());
         return;
         }
-        if (query_yn(_("Fertilize plant"))) {
+        if (query_yn(_("Fertilize the %s"), pname.c_str() )) {
         std::vector<itype_id> f_types;
         std::vector<std::string> f_names;
             for( auto &f : f_inv ) {
