@@ -63,7 +63,7 @@ static int sign( int arg )
 void mdefense::acidsplash( monster *const m, Creature *const source, projectile const *const proj )
 {
     // Would be useful to have the attack data here, for cutting vs. bashing etc.
-    if( source == nullptr || m == nullptr ) {
+    if( m == nullptr ) {
         return;
     }
 
@@ -73,27 +73,31 @@ void mdefense::acidsplash( monster *const m, Creature *const source, projectile 
 
     size_t num_drops = rng( 2, 4 );
     player const *const foe = dynamic_cast<player *>( source );
-    if( foe != nullptr && foe->weapon.is_cutting_weapon() ) {
-        num_drops += rng( 1, 2 );
-    }
-
-    if( foe != nullptr && foe->unarmed_attack() ) {
-        damage_instance const burn {
-            DT_ACID, static_cast<float>( rng( 1, 5 ) )
-        };
-
-        if( one_in( 2 ) ) {
-            source->deal_damage( m, bp_hand_l, burn );
-        } else {
-            source->deal_damage( m, bp_hand_r, burn );
+    if( proj == nullptr && foe != nullptr ) {
+        if( foe->weapon.is_cutting_weapon() ) {
+            num_drops += rng( 1, 2 );
         }
 
-        source->add_msg_if_player( m_bad,
-            _("Acid covering %s burns your hand!"), m->disp_name().c_str() );
+        if( foe->unarmed_attack() ) {
+            damage_instance const burn {
+                DT_ACID, static_cast<float>( rng( 1, 5 ) )
+            };
+
+            if( one_in( 2 ) ) {
+                source->deal_damage( m, bp_hand_l, burn );
+            } else {
+                source->deal_damage( m, bp_hand_r, burn );
+            }
+
+            source->add_msg_if_player( m_bad,
+                _("Acid covering %s burns your hand!"), m->disp_name().c_str() );
+        }
     }
 
-    int dx = sign( source->posx() - m->posx() );
-    int dy = sign( source->posy() - m->posy() );
+    const int sx = source == nullptr ? m->posx() : source->posx();
+    const int sy = source == nullptr ? m->posy() : source->posy();
+    const int dx = sign( sx - m->posx() );
+    const int dy = sign( sy - m->posy() );
     bool on_u = false;
     for( size_t i = 0; i < num_drops; i++ ) {
         const int mul = one_in( 2 ) ? 2 : 1;
@@ -106,9 +110,9 @@ void mdefense::acidsplash( monster *const m, Creature *const source, projectile 
         }
     }
 
-    if( g->u.sees( source->pos() ) ) {
+    if( g->u.sees( m->pos() ) ) {
         add_msg( m_warning, _( "Acid sprays out of %s as it is hit!" ),
-                 m->disp_name().c_str(), source->disp_name().c_str() );
+                 m->disp_name().c_str() );
     }
 
     if( on_u ) {
