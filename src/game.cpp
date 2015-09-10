@@ -10400,8 +10400,12 @@ void game::drop_in_direction()
     }
 
     if (!m.can_put_items(dirp)) {
-        add_msg(m_info, _("You can't place items there!"));
-        return;
+        int part = -1;
+        vehicle * const veh = m.veh_at( dirp, part );
+        if( veh == nullptr || veh->part_with_feature( part, "CARGO" ) < 0 ) {
+            add_msg(m_info, _("You can't place items there!"));
+            return;
+        }
     }
 
     make_drop_activity( ACT_DROP, dirp );
