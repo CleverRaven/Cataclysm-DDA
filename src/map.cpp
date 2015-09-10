@@ -1510,7 +1510,7 @@ void map::set( const tripoint &p, const std::string new_terrain, const std::stri
 
 std::string map::name( const tripoint &p )
 {
- return has_furn( p ) ? furn_at( p ).name : ter_at( p ).name;
+    return has_furn( p ) ? furnname( p ) : tername( p );
 }
 
 std::string map::disp_name( const tripoint &p )
