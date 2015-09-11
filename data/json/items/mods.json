@@ -645,7 +645,8 @@
         "flags" : ["NON_STUCK", "SPEAR", "REACH_ATTACK", "BAYONET"],
         "recoil_modifier" : 45,
         "mod_targets" : ["shotgun", "smg", "rifle", "crossbow", "launcher"],
-        "bashing" : 0
+        "bashing" : 0,
+        "qualities": [["CUT", 1]]
     },
     {
         "type" : "GUNMOD",
@@ -665,7 +666,8 @@
         "flags" : ["NON_STUCK", "CHOP", "REACH_ATTACK", "BAYONET"],
         "recoil_modifier" : 105,
         "mod_targets" : ["shotgun", "rifle", "crossbow", "launcher"],
-        "bashing" : 0
+        "bashing" : 0,
+        "qualities": [["CUT", 1]]
     },
     {
         "type" : "GUNMOD",
@@ -685,7 +687,8 @@
         "recoil_modifier" : 45,
         "mod_targets" : ["pistol", "smg", "crossbow"],
         "bashing" : 0,
-        "flags" : ["STAB", "BAYONET"]
+        "flags" : ["STAB", "BAYONET"],
+        "qualities": [["CUT", 1]]
     },
     {
         "type" : "GUNMOD",
@@ -1402,7 +1405,8 @@
         "flags" : ["NON_STUCK", "SPEAR", "BAYONET"],
         "recoil_modifier" : 45,
         "mod_targets" : ["shotgun", "smg", "rifle", "crossbow", "launcher"],
-        "bashing" : 0
+        "bashing" : 0,
+        "qualities": [["CUT", 1]]
     },
     {
         "type" : "GUNMOD",
@@ -1422,7 +1426,8 @@
         "flags" : ["NON_STUCK", "CHOP", "BAYONET"],
         "recoil_modifier" : 105,
         "mod_targets" : ["shotgun", "rifle", "crossbow", "launcher"],
-        "bashing" : 0
+        "bashing" : 0,
+        "qualities": [["CUT", 1]]
     },
     {
         "type" : "GUNMOD",
@@ -1442,7 +1447,8 @@
         "recoil_modifier" : 45,
         "mod_targets" : ["pistol", "smg", "crossbow"],
         "bashing" : 0,
-        "flags" : ["STAB", "BAYONET"]
+        "flags" : ["STAB", "BAYONET"],
+        "qualities": [["CUT", 1]]
     },
     {
         "type" : "GUNMOD",
