@@ -6627,14 +6627,23 @@
     "type" : "item_group",
     "id" : "bots",
     "items":[
-      ["bot_manhack", 2],
-      ["bot_grenade_hack", 2],
+      ["bot_manhack", 8],
+      ["bot_grenade_hack", 4],
       ["bot_flashbang_hack", 2],
       ["bot_gasbomb_hack", 2],
-      ["bot_turret", 2],
+      ["bot_mininuke_hack", 1],
+      ["bot_EMP_hack", 1],
+      ["bot_c4_hack", 1],
+      ["bot_eyebot", 5],
+      ["bot_skitterbot", 5],
+      ["bot_secubot", 3],
+      ["bot_turret", 3],
       ["bot_rifleturret", 2],
-      ["556", 2],
-      ["9mm", 2]
+      ["bot_laserturret", 1],
+      ["bot_turret_bmg", 1],
+      ["50bmg", 2],
+      ["556", 5],
+      ["9mm", 5]
     ]
   },{
     "type" : "item_group",

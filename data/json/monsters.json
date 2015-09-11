@@ -5166,6 +5166,7 @@
     "dodge":3,
     "armor_bash":8,
     "armor_cut":10,
+    "revert_to_itype": "bot_eyebot",
     "death_drops": {
         "groups": [
             [ "robots", 4 ],
@@ -5454,6 +5455,7 @@
     "dodge":0,
     "armor_bash":12,
     "armor_cut":12,
+    "revert_to_itype": "bot_skitterbot",
     "vision_day":50,
     "death_drops": {
         "groups": [
@@ -5487,6 +5489,7 @@
     "dodge":0,
     "armor_bash":14,
     "armor_cut":14,
+    "revert_to_itype": "bot_secubot",
     "vision_day":50,
     "death_drops": {
         "groups": [
@@ -5547,6 +5550,7 @@
     "dodge":8,
     "armor_bash":12,
     "armor_cut":8,
+    "revert_to_itype": "bot_copbot",
     "vision_day":50,
     "death_drops": {
         "groups": [
@@ -5815,6 +5819,7 @@
     "dodge":0,
     "armor_bash":14,
     "armor_cut":16,
+    "revert_to_itype": "bot_turret_bmg",
     "death_drops": {
         "groups": [
             [ "robots", 9 ],
