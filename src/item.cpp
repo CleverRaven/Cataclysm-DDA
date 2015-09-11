@@ -2797,44 +2797,22 @@ int item::acid_resist() const
 
 int item::chip_resistance( bool worst ) const
 {
-    // TODO: Move to material property or calculate from one
-    static const std::map< std::string, int > type_to_resistance = {{
-        {"diamond", 200},
-        {"ceramic", 80},
-        {"hardsteel", 24},
-        {"superalloy", 20},
-        {"steel", 20},
-        {"iron", 16},
-        {"kevlar", 16},
-        {"aluminum", 16},
-        {"stone", 12},
-        {"silver", 12},
-        {"gold", 12},
-        {"lead", 12},
-        {"leather", 10},
-        {"chitin", 10},
-        {"bone", 8},
-        {"wood", 8},
-        {"cotton", 6},
-        {"plastic", 4},
-        {"glass", 1},
-    }};
+    if( damage > 4 ) {
+        return 0;
+    }
 
     int res = worst ? INT_MAX : INT_MIN;
-    for( const auto &mat : made_of() ) {
-        const auto iter = type_to_resistance.find( mat );
-        if( iter != type_to_resistance.end() ) {
-            const int val = iter->second;
-            res = worst ? std::min( res, val ) : std::max( res, val );
-        }
+    for( const auto &mat : made_of_types() ) {
+        const int val = mat->chip_resist();
+        res = worst ? std::min( res, val ) : std::max( res, val );
     }
 
     if( res == INT_MAX || res == INT_MIN ) {
         return 2;
     }
 
-    if( res <= 1 || damage > 4 ) {
-        return 1;
+    if( res <= 0 ) {
+        return 0;
     }
 
     // An item's current state of damage can make it more susceptible to being damaged

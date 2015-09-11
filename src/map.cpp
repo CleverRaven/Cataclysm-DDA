@@ -3159,7 +3159,9 @@ void map::smash_items(const tripoint &p, const int power)
                 damage_chance -= material_factor;
             }
         } else {
-            while( x_in_y( damage_chance, material_factor ) && i->damage < 4 ) {
+            while( ( damage_chance > material_factor ||
+                     x_in_y( damage_chance, material_factor ) ) &&
+                   i->damage < 4 ) {
                 i->damage++;
                 if( type_blood != fd_null ) {
                     for( const tripoint &pt : points_in_radius( p, 1 ) ) {
