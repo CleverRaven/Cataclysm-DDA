@@ -292,7 +292,7 @@ class game
          *  if the player wants to ignore further distractions. */
         bool cancel_activity_or_ignore_query(const char *reason, ...);
         /** Handles players exiting from moving vehicles. */
-        void moving_vehicle_dismount(int tox, int toy);
+        void moving_vehicle_dismount( const tripoint &p );
 
         /** Returns the current remotely controlled vehicle. */
         vehicle *remoteveh();
@@ -612,12 +612,13 @@ class game
         // Handle phasing through walls, returns true if it handled the move
         bool phasing_move( const tripoint &dest );
         // Regular movement. Returns false if it failed for any reason
-        bool walk_move( const tripoint &dest, bool displace_mon );
+        bool walk_move( const tripoint &dest );
         // Places the player at the end of a move; hurts feet, lists items etc.
         void place_player( const tripoint &dest );
         void on_move_effects();
         void wait(); // Long wait (player action)  '^'
         void open(); // Open a door  'o'
+        void close();
         void close( const tripoint &p ); // Close a door  'c'
         void smash(); // Smash terrain
 

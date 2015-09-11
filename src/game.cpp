@@ -7156,7 +7156,7 @@ void game::close( const tripoint &closep )
     } else if (veh) {
         int openable = veh->next_part_to_close(vpart);
         if (openable >= 0) {
-            if (close == u.pos() ) {
+            if( closep == u.pos() ) {
                 add_msg(m_info, _("There's some buffoon in the way!"));
                 return;
             }
@@ -7175,7 +7175,7 @@ void game::close( const tripoint &closep )
                 add_msg(m_info, _("That %s is already closed."), name);
             }
         }
-    } else if(c losep == u.pos()  ) {
+    } else if( closep == u.pos() ) {
         add_msg(m_info, _("There's some buffoon in the way!"));
     } else if (m.has_furn(closep) && m.furn_at(closep).close.empty()) {
         // check for open crate
@@ -7648,19 +7648,19 @@ void game::open_gate( const tripoint &p, const ter_id handle_type )
     u.activity.placement = p;
 }
 
-void game::moving_vehicle_dismount(int tox, int toy)
+void game::moving_vehicle_dismount( const tripoint &dest_loc )
 {
     int vpart;
     vehicle *veh = m.veh_at(u.pos(), vpart);
-    if (!veh) {
+    if( veh == nullptr ) {
         debugmsg("Tried to exit non-existent vehicle.");
         return;
     }
-    if (u.posx() == tox && u.posy() == toy) {
+    if( u.pos() == dest_loc ) {
         debugmsg("Need somewhere to dismount towards.");
         return;
     }
-    tileray ray( tox - u.posx(), toy - u.posy() );
+    tileray ray( dest_loc.x - u.posx(), dest_loc.y - u.posy() );
     const int d = ray.dir(); // TODO:: make dir() const correct!
     add_msg(_("You dive from the %s."), veh->name.c_str());
     m.unboard_vehicle(u.pos());
@@ -8366,7 +8366,7 @@ void game::zones_manager()
 {
     const tripoint stored_view_offset = u.view_offset;
 
-    u.view_offset = {0, 0, 0};
+    u.view_offset = tripoint_zero;
 
     const int offset_x = (u.posx() + u.view_offset.x) - getmaxx(w_terrain) / 2;
     const int offset_y = (u.posy() + u.view_offset.y) - getmaxy(w_terrain) / 2;
@@ -9495,7 +9495,7 @@ int game::list_items(const int iLastState)
 
     const tripoint stored_view_offset = u.view_offset;
 
-    u.view_offset = {0, 0, 0};
+    u.view_offset = tripoint_zero;
 
     int iReturn = -1;
     int iActive = 0; // Item index that we're looking at
@@ -9709,7 +9709,7 @@ int game::list_items(const int iLastState)
                 calcStartPos(iStartPos, iActive, iMaxRows, iItemNum);
 
                 int iNum = 0;
-                active_pos = {0, 0, 0};
+                active_pos = tripoint_zero;
                 std::stringstream sText;
                 bool high = true;
                 bool low = false;
@@ -9882,7 +9882,7 @@ int game::list_monsters(const int iLastState)
     const int iWeaponRange = u.weapon.gun_range(&u);
 
     const tripoint stored_view_offset = u.view_offset;
-    u.view_offset = {0, 0, 0};
+    u.view_offset = tripoint_zero;
 
     int iActive = 0; // monster index that we're looking at
     const int iMaxRows = TERMY - iInfoHeight - 2 - VIEW_OFFSET_Y * 2 - 1;
@@ -10073,26 +10073,21 @@ int game::list_monsters(const int iLastState)
 void game::grab()
 {
     tripoint grabp( 0, 0, 0 );
-    int &grabx = grabp.x;
-    int &graby = grabp.y;
-    if (0 != u.grab_point.x || 0 != u.grab_point.y) {
+    if( u.grab_point != tripoint_zero ) {
         vehicle *veh = m.veh_at( u.pos() + u.grab_point );
         if (veh) {
             add_msg(_("You release the %s."), veh->name.c_str());
-        } else if (m.has_furn(u.posx() + u.grab_point.x, u.posy() + u.grab_point.y)) {
-            add_msg(_("You release the %s."), m.furnname(u.posx() + u.grab_point.x,
-                    u.posy() + u.grab_point.y).c_str());
+        } else if (m.has_furn(u.pos() + u.grab_point)) {
+            add_msg(_("You release the %s."), m.furnname(u.pos() + u.grab_point).c_str());
         }
-        u.grab_point.x = 0;
-        u.grab_point.y = 0;
+        u.grab_point = tripoint_zero;
         u.grab_type = OBJECT_NONE;
         return;
     }
     if (choose_adjacent(_("Grab where?"), grabp )) {
         vehicle *veh = m.veh_at( grabp );
         if (veh != NULL) { // If there's a vehicle, grab that.
-            u.grab_point.x = grabx - u.posx();
-            u.grab_point.y = graby - u.posy();
+            u.grab_point = grabp - u.pos();
             u.grab_type = OBJECT_VEHICLE;
             add_msg(_("You grab the %s."), veh->name.c_str());
         } else if (m.has_furn( grabp )) { // If not, grab furniture if present
@@ -10100,8 +10095,7 @@ void game::grab()
                 add_msg(_("You can not grab the %s"), m.furnname( grabp ).c_str());
                 return;
             }
-            u.grab_point.x = grabx - u.posx();
-            u.grab_point.y = graby - u.posy();
+            u.grab_point = grabp - u.pos();
             u.grab_type = OBJECT_FURNITURE;
             if (!m.can_move_furniture( grabp, &u )) {
                 add_msg(_("You grab the %s. It feels really heavy."), m.furnname( grabp ).c_str());
@@ -11773,9 +11767,9 @@ bool game::plmove(int dx, int dy, int dz)
     if( u.has_effect( "amigara" ) ) {
         int curdist = INT_MAX;
         int newdist = INT_MAX;
-        for( const tripoint &pt : m.points_in_rectangle(
-            tripoint( 0, 0, u.posz() ),
-            tripoint( SEEX * MAPSIZE, SEEY * MAPSIZE, u.posz() ) ) {
+        const tripoint minp = tripoint( 0, 0, u.posz() );
+        const tripoint maxp = tripoint( SEEX * MAPSIZE, SEEY * MAPSIZE, u.posz() );
+        for( const tripoint &pt : m.points_in_rectangle( minp, maxp ) ) {
             if( m.ter( pt ) == t_fault ) {
                 int dist = rl_dist( pt, u.pos() );
                 if( dist < curdist ) {
@@ -11791,13 +11785,6 @@ bool game::plmove(int dx, int dy, int dz)
             add_msg( m_info, _( "You cannot pull yourself away from the faultline..." ) );
             return false;
         }
-    }
-
-    if( m.has_zlevels() &&
-        ( m.has_flag( TFLAG_RAMP, u.pos() ) ||
-          m.has_flag( "RAMP_HIGH", u.pos() ) ) ||
-          m.move_cost( dest_loc ) == 0 ) {
-        
     }
 
     dbg(D_PEDANTIC_INFO) << "game:plmove: From (" << u.posx() << "," << u.posy() << ") to (" <<
@@ -11822,7 +11809,6 @@ bool game::plmove(int dx, int dy, int dz)
         return false;
     }
 
-    bool displace = false;
     if( mondex != -1 ) {
         monster &critter = zombie(mondex);
         if( critter.friendly == 0 &&
@@ -11845,7 +11831,7 @@ bool game::plmove(int dx, int dy, int dz)
                 }
             }
             u.melee_attack(critter, true);
-            if (critter.is_hallucination()) {
+            if( critter.is_hallucination() ) {
                 critter.die( &u );
             }
             draw_hit_mon(dest_loc, critter, critter.is_dead());
@@ -11853,9 +11839,8 @@ bool game::plmove(int dx, int dy, int dz)
         } else if( critter.has_flag( MF_IMMOBILE ) ) {
             add_msg( m_info, _( "You can't displace your %s." ), critter.name().c_str() );
             return false;
-        } else {
-            displace = true;
         }
+        // Successful displacing is handled (much) later
     }
     // If not a monster, maybe there's an NPC there
     if( npcdex != -1 ) {
@@ -11892,7 +11877,7 @@ bool game::plmove(int dx, int dy, int dz)
     if( veh0 != nullptr && abs(veh0->velocity) > 100 ) {
         if( veh1 == nullptr ) {
             if (query_yn(_("Dive from moving vehicle?"))) {
-                moving_vehicle_dismount(x, y);
+                moving_vehicle_dismount( dest_loc );
             }
             return false;
         } else if( veh1 != veh0 ) {
@@ -11926,7 +11911,7 @@ bool game::plmove(int dx, int dy, int dz)
         return true;
     }
 
-    if( walk_move( dest_loc, displacing ) ) {
+    if( walk_move( dest_loc ) ) {
         return true;
     }
 
@@ -11965,46 +11950,28 @@ bool game::plmove(int dx, int dy, int dz)
     return false;
 }
 
-bool game::walk_move( const tripoint &dest_loc, bool displace_mon )
+bool game::walk_move( const tripoint &dest_loc )
 {
-    int vpart0 = -1, vpart1 = -1, dpart = -1;
-    vehicle *veh0 = m.veh_at( u.pos(), vpart0 );
+    int vpart1;
     vehicle *veh1 = m.veh_at( dest_loc, vpart1 );
 
     bool pushing_furniture = false;  // moving -into- furniture tile; skip check for move_cost > 0
     bool pulling_furniture = false;  // moving -away- from furniture tile; check for move_cost > 0
     bool shifting_furniture = false; // moving furniture and staying still; skip check for move_cost > 0
-    bool pushing_vehicle = false;
-    int movecost_modifier = 0;       // pulling moves furniture into our origin square, so this changes to subtract it.
 
-    if( u.grab_point.x != 0 || u.grab_point.y != 0 || u.grab_point.z != 0 ) {
-        if (u.grab_type == OBJECT_VEHICLE) { // default; assume OBJECT_VEHICLE
-            vehicle *grabbed_vehicle = m.veh_at( u.pos() + u.grab_point );
-            // If we're pushing a vehicle, the vehicle tile we'd be "stepping onto" is
-            // actually the current tile.
-            // If there's a vehicle there, it will actually result in failed movement.
-            if (grabbed_vehicle == veh1) {
-                pushing_vehicle = true;
-                veh1 = veh0;
-                vpart1 = vpart0;
-            }
-        } else if (u.grab_type == OBJECT_FURNITURE) {
-            // Determine if furniture grab is valid,
-            // and what we're wanting to do with it based on where it is and where we're going.
-            tripoint fpos = u.pos() + u.grab_point;
-            if (m.has_furn(fpos)) {
-                pushing_furniture = (dx == u.grab_point.x && dy == u.grab_point.y);
-                if (!pushing_furniture) {
-                    point fdest(fpos.x + dx, fpos.y + dy);
-                    pulling_furniture = (fdest.x == u.posx() && fdest.y == u.posy());
-                }
-                shifting_furniture = (pushing_furniture == false && pulling_furniture == false);
-            }
+    const bool grabbed = u.grab_point != tripoint_zero;
+    if( grabbed && u.grab_type == OBJECT_FURNITURE ) {
+        // We only care about shifting, because it's the only one that can change our destination
+        tripoint fpos = u.pos() + u.grab_point;
+        if( m.has_furn( fpos ) ) {
+            const tripoint dp = dest_loc - u.pos();
+            pushing_furniture = dp ==  u.grab_point;
+            pulling_furniture = dp == -u.grab_point;
+            shifting_furniture = !pushing_furniture && !pulling_furniture;
         }
     }
 
-    if( m.move_cost( dest_loc ) <= 0 ||
-        !(pushing_furniture || shifting_furniture || pushing_vehicle) ) {
+    if( m.move_cost( dest_loc ) <= 0 && !grabbed ) {
         return false;
     }
     // move_cost() of 0 = impassible (e.g. a wall)
@@ -12041,7 +12008,7 @@ bool game::walk_move( const tripoint &dest_loc, bool displace_mon )
             }
             if( dangerous && !u.has_trait( "DEBUG_NODMG" ) &&
                 !query_yn(_("Really step into that %s?"), cur.name().c_str())) {
-                return false;
+                return true;
             }
         }
 
@@ -12050,21 +12017,27 @@ bool game::walk_move( const tripoint &dest_loc, bool displace_mon )
             // Hack for now, later ledge should stop being a trap
             if( tr.can_see(dest_loc, u) && !tr.is_benign() &&
                 !query_yn( _("Really step onto that %s?"), tr.name.c_str() ) ) {
-                return false;
+                return true;
             }
         }
     }
+
+    // Calculate cost of moving before push/pull,
+    //  so we don't need to adjust for pulled furniture on our tile
+    const vehicle *grabbed_vehicle = nullptr;
+    if( grabbed && u.grab_type == OBJECT_VEHICLE ) {
+        grabbed_vehicle = m.veh_at( u.pos() + u.grab_point );
+    }
+
+    const int mcost = m.combined_movecost( u.pos(), dest_loc, grabbed_vehicle );
 
     if( grabbed_move( dest_loc - u.pos() ) ) {
         return true;
     }
 
-    // Calculate cost of moving
     bool diag = trigdist && u.posx() != dest_loc.x && u.posy() != dest_loc.y;
     const int previous_moves = u.moves;
-    const int mcost = m.combined_movecost( u.pos(), dest_loc,
-                                          grabbed_vehicle, movecost_modifier);
-    u.moves -= int(u.run_cost( mcost, diag ) * drag_multiplier);
+    u.moves -= u.run_cost( mcost, diag );
 
     u.burn_move_stamina( previous_moves - u.moves );
 
@@ -12072,9 +12045,10 @@ bool game::walk_move( const tripoint &dest_loc, bool displace_mon )
     u.recoil -= int(u.str_cur / 2) + u.skillLevel( skill_id( "gun" ) );
     u.recoil = std::max( MIN_RECOIL * 2, u.recoil );
     u.recoil = int(u.recoil / 2);
-    if ((!u.has_trait("PARKOUR") && m.move_cost(dest_loc) > 2) ||
-        ( u.has_trait("PARKOUR") && m.move_cost(dest_loc) > 4    )) {
-        if (veh1 && m.move_cost(dest_loc) != 2) {
+    const int mcost_total = m.move_cost( dest_loc );
+    const int mcost_no_veh = m.move_cost_ter_furn( dest_loc );
+    if( (!u.has_trait("PARKOUR") && mcost_total > 2) || mcost_total > 4 ) {
+        if( veh1 != nullptr && mcost_no_veh != 2 ) {
             add_msg(m_warning, _("Moving past this %s is slow!"), veh1->part_info(vpart1).name.c_str());
         } else {
             add_msg(m_warning, _("Moving past this %s is slow!"), m.name(dest_loc).c_str());
@@ -12087,12 +12061,12 @@ bool game::walk_move( const tripoint &dest_loc, bool displace_mon )
     return true;
 }
 
-bool game::place_player( const tripoint &dest_loc )
+void game::place_player( const tripoint &dest_loc )
 {
     int vpart1;
     const vehicle *veh1 = m.veh_at( dest_loc, vpart1 );
     if( veh1 != nullptr ) {
-        vehicle_part *part = &(veh1->parts[vpart1]);
+        const vehicle_part *part = &(veh1->parts[vpart1]);
         std::string label = veh1->get_label(part->mount.x, part->mount.y);
         if (label != "") {
             add_msg(m_info, _("Label here: %s"), label.c_str());
@@ -12175,8 +12149,9 @@ bool game::place_player( const tripoint &dest_loc )
         u.remove_effect("onfire");
     }
 
-    int mondex = mon_at( dest_loc );
-    if( mondex != -1 ) { // We displaced a friendly monster!
+    const int mondex = mon_at( dest_loc );
+    if( mondex != -1 ) {
+        // We displaced a monster. It's probably a bug if it wasn't a friendly mon...
         // Immobile monsters can't be displaced.
         monster &critter = zombie( mondex );
         critter.move_to( u.pos(), true ); // Force the movement even though the player is there right now.
@@ -12193,12 +12168,12 @@ bool game::place_player( const tripoint &dest_loc )
     }
 
     // Move the player
-    if( m.has_zlevels() && dest_loc.z != abs_sub.z ) {
+    while( m.has_zlevels() && dest_loc.z != get_levz() ) {
         // Move the entire map first, because vertical_move moves the player
-        vertical_move( dest_loc.z - abs_sub.z, true );
+        vertical_move( sgn(dest_loc.z - get_levz()), true );
     }
 
-    u.set( dest_loc );
+    u.setpos( dest_loc );
     update_map( &u );
 
     //Autopickup
@@ -12309,7 +12284,7 @@ bool game::place_player( const tripoint &dest_loc )
     }
 }
 
-bool game::phasing_move( const tripoint &dest )
+bool game::phasing_move( const tripoint &dest_loc )
 {
     if( !u.has_active_bionic("bio_probability_travel") || u.power_level >= 250 ) {
         return false;
@@ -12319,8 +12294,10 @@ bool game::phasing_move( const tripoint &dest )
     tripoint dest = dest_loc;
     // tile is impassable
     int tunneldist = 0;
+    const int dx = sgn( dest.x - u.posx() );
+    const int dy = sgn( dest.y - u.posy() );
     while( m.move_cost(dest) == 0 ||
-           ( ( mon_at(dest) != -1 || npc_at(dest) != -1 ) && tunneldist > 0 ) ) {
+           ( critter_at( dest ) == nullptr && tunneldist > 0 ) ) {
         //add 1 to tunnel distance for each impassable tile in the line
         tunneldist += 1;
         if (tunneldist * 250 > u.power_level) { //oops, not enough energy! Tunneling costs 250 bionic power per impassable tile
@@ -12334,21 +12311,25 @@ bool game::phasing_move( const tripoint &dest )
             break;    //limit maximum tunneling distance
         }
 
-        dest = tripoint( x + tunneldist * (x - u.posx()), y + tunneldist * (y - u.posy()), u.posz() );
+        dest.x += dx;
+        dest.y += dy;
     }
     if( tunneldist != 0 ) { //you tunneled
         if( u.in_vehicle ) {
-            m.unboard_vehicle(u.pos());
+            m.unboard_vehicle( u.pos() );
         }
         u.charge_power(-(tunneldist * 250)); //tunneling costs 250 bionic power per impassable tile
         u.moves -= 100; //tunneling costs 100 moves
-        //move us the number of tiles we tunneled in the x direction, plus 1 for the last tile.
-        u.setx( u.posx() + (tunneldist + 1) * (x - u.posx()) );
-        u.sety( u.posy() + (tunneldist + 1) * (y - u.posy()) ); //ditto for y
+        // Move us the number of tiles we tunneled in the x direction, plus 1 for the last tile.
+        tunneldist++;
+        dest = u.pos() + tripoint( tunneldist * dx, tunneldist * dy, 0 );
+        u.setpos( dest );
         add_msg(_("You quantum tunnel through the %d-tile wide barrier!"), tunneldist);
-        if (m.veh_at(u.pos(), vpart1) &&
-            m.veh_at(u.pos(), vpart1)->part_with_feature(vpart1, "BOARDABLE") >= 0) {
-            m.board_vehicle(u.pos(), &u);
+        int vpart;
+        const vehicle *veh = m.veh_at( u.pos(), vpart );
+        if( veh != nullptr &&
+            veh->part_with_feature(vpart, "BOARDABLE") >= 0) {
+            m.board_vehicle( u.pos(), &u );
         }
     } else { //or you couldn't tunnel due to lack of energy
         u.charge_power(-250); //failure is expensive!
@@ -12361,15 +12342,15 @@ bool game::phasing_move( const tripoint &dest )
 
 bool game::grabbed_veh_move( const tripoint &dp )
 {
-    grabbed_vehicle = m.veh_at( u.pos() + u.grab_point );
+    vehicle *grabbed_vehicle = m.veh_at( u.pos() + u.grab_point );
     if( nullptr == grabbed_vehicle ) {
         add_msg(m_info, _("No vehicle at grabbed point."));
-        u.grab_point = {0, 0, 0};
+        u.grab_point = tripoint_zero;
         u.grab_type = OBJECT_NONE;
         return false;
     }
 
-    const vehicle *veh_under_player = veh_at( u.pos() );
+    const vehicle *veh_under_player = m.veh_at( u.pos() );
     if( grabbed_vehicle == veh_under_player ) {
         add_msg(m_info, _("You can't move %s while standing on it!"), grabbed_vehicle->name.c_str());
         return true;
@@ -12396,7 +12377,7 @@ bool game::grabbed_veh_move( const tripoint &dp )
     if (grabbed_vehicle->valid_wheel_config() && str_req <= 40 && !wheel_indices.empty() ) {
         //determine movecost for terrain touching wheels
         const tripoint vehpos = grabbed_vehicle->global_pos3();
-        for( auto p : wheel_indices ) {
+        for( int p : wheel_indices ) {
             const tripoint wheel_pos = vehpos + grabbed_vehicle->parts[p].precalc[0];
             const int mapcost = m.move_cost( wheel_pos, grabbed_vehicle );
             mc += (str_req / wheel_indices.size()) * mapcost;
@@ -12420,7 +12401,7 @@ bool game::grabbed_veh_move( const tripoint &dp )
     //final strength check and outcomes
     if (str_req <= u.get_str() ) {
         //calculate exertion factor and movement penalty
-        drag_multiplier += str_req / u.get_str();
+        u.moves -= 100 * str_req / std::max( 1, u.get_str() );
         int ex = dice(1, 3) - 1 + str_req;
         if (ex > u.get_str() ) {
             add_msg(m_bad, _("You strain yourself to move the %s!"), grabbed_vehicle->name.c_str() );
@@ -12441,20 +12422,20 @@ bool game::grabbed_veh_move( const tripoint &dp )
     tripoint dp_veh = -u.grab_point;
     tripoint prev_grab = u.grab_point;
 
-    if( abs(dx + dp_veh.x) == 2 || abs(dp.y + dp_veh.y) == 2 ||
-        ((dp_veh.x + dx) == 0 && (dp_veh.y + dp.y) == 0) ) {
+    if( abs(dp.x + dp_veh.x) == 2 || abs(dp.y + dp_veh.y) == 2 ||
+        ((dp_veh.x + dp.x) == 0 && (dp_veh.y + dp.y) == 0) ) {
         //We are not moving around the veh
-        if ((dp_veh.x + dx) == 0 && (dp_veh.y + dp.y) == 0) {
+        if ((dp_veh.x + dp.x) == 0 && (dp_veh.y + dp.y) == 0) {
             //we are pushing in the direction of veh
             dp_veh = dp;
         } else {
             u.grab_point = -dp;
         }
 
-        if( (abs(dx + dp_veh.x) == 0 || abs(dp.y + dp_veh.y) == 0) &&
+        if( (abs(dp.x + dp_veh.x) == 0 || abs(dp.y + dp_veh.y) == 0) &&
             u.grab_point.x != 0 && u.grab_point.y != 0 ) {
             //We are moving diagonal while veh is diagonal too and one direction is 0
-            dp_veh.x = ((dx + dp_veh.x) == 0) ? 0 : dp_veh.x;
+            dp_veh.x = ((dp.x + dp_veh.x) == 0) ? 0 : dp_veh.x;
             dp_veh.y = ((dp.y + dp_veh.y) == 0) ? 0 : dp_veh.y;
 
             u.grab_point = -dp_veh;
@@ -12468,7 +12449,7 @@ bool game::grabbed_veh_move( const tripoint &dp )
         std::vector<veh_collision> colls;
         // Set player location to illegal value so it can't collide with vehicle.
         const tripoint player_prev = u.pos();
-        u.setpos( {0, 0, 0} );
+        u.setpos( tripoint_zero );
         if( grabbed_vehicle->collision( colls, dp_veh, true ) ) {
             add_msg( _("The %s collides with %s."),
                 grabbed_vehicle->name.c_str(), colls[0].target_name.c_str() );
@@ -12483,10 +12464,9 @@ bool game::grabbed_veh_move( const tripoint &dp )
         tripoint gp = grabbed_vehicle->global_pos3();
         const auto &wheel_indices =
             grabbed_vehicle->wheelcache;
-        for( auto p : wheel_indices ) {
+        for( int p : wheel_indices ) {
             if( one_in(2) ) {
-                tripoint wheel_p =
-                    gp + grabbed_vehicle->parts[p].precalc[0] + dp_veh;
+                tripoint wheel_p = gp + grabbed_vehicle->parts[p].precalc[0] + dp_veh;
                 grabbed_vehicle->handle_trap( wheel_p, p );
             }
         }
@@ -12506,10 +12486,10 @@ bool game::grabbed_furn_move( const tripoint &dp )
     // Can push furniture out of reach.
     tripoint fpos = u.pos() + u.grab_point;
     // supposed position of grabbed furniture
-    if( ! m.has_furn( fpos ) ) {
+    if( !m.has_furn( fpos ) ) {
         // where'd it go? We're grabbing thin air so reset.
         add_msg(m_info, _("No furniture at grabbed point.") );
-        u.grab_point = {0, 0, 0};
+        u.grab_point = tripoint_zero;
         u.grab_type = OBJECT_NONE;
         return false;
     }
@@ -12530,7 +12510,6 @@ bool game::grabbed_furn_move( const tripoint &dp )
         );
 
     const furn_t furntype = m.furn_at(fpos);
-    int furncost = furntype.movecost;
     const int src_items = m.i_at(fpos).size();
     const int dst_items = m.i_at(fdest).size();
     bool dst_item_ok = ( !m.has_flag("NOITEM", fdest) &&
@@ -12549,7 +12528,7 @@ bool game::grabbed_furn_move( const tripoint &dp )
 
     if ( !canmove ) {
         add_msg( _("The %s collides with something."), furntype.name.c_str() );
-        u.moves -= 50; // "oh was that your foot? Sorry :-O"
+        u.moves -= 50;
         return true;
     } else if ( str_req > u.get_str() &&
                 one_in(std::max(20 - str_req - u.get_str(), 2)) ) {
@@ -12560,23 +12539,13 @@ bool game::grabbed_furn_move( const tripoint &dp )
         return true; // furniture and or obstacle wins.
     } else if ( !src_item_ok && dst_items > 0 ) {
         add_msg( _("There's stuff in the way.") );
-        u.moves -= 50; // "oh was that your stuffed parrot? Sorry :-O"
+        u.moves -= 50;
         return true;
     }
 
-    if ( pulling_furniture ) {
-        // normalize movecost for pulling:
-        // furniture moves into our current square -then- we move away
-        if ( furncost < 0 ) {
-            // this will make our exit-tile move cost 0
-            movecost_modifier += m.ter_at(fpos).movecost;
-            // so add the base cost of our exit-tile's terrain.
-        } else {
-            // or it will think we're walking over the furniture we're pulling
-            movecost_modifier += ( 0 - furncost );
-            // so subtract the base cost of our furniture.
-        }
-    }
+    const bool pushing_furniture = dp ==  u.grab_point;
+    const bool pulling_furniture = dp == -u.grab_point;
+    const bool shifting_furniture = !pulling_furniture && !pulling_furniture;
 
     u.moves -= str_req * 10;
     // Additional penalty if we can't comfortably move it.
@@ -12624,23 +12593,25 @@ bool game::grabbed_furn_move( const tripoint &dp )
         }
     }
 
-    if ( shifting_furniture ) { // we didn't move
+    if ( shifting_furniture ) {
+        // We didn't move
         tripoint d_sum = u.grab_point + dp;
         if( abs( d_sum.x ) < 2 && abs( d_sum.y ) < 2 ) {
             u.grab_point = d_sum; // furniture moved relative to us
         } else { // we pushed furniture out of reach
             add_msg( _("You let go of the %s"), furntype.name.c_str() );
-            u.grab_point = {0, 0, 0};
+            u.grab_point = tripoint_zero;
             u.grab_type = OBJECT_NONE;
         }
         return true; // We moved furniture but stayed still.
     } 
 
-    if ( pushing_furniture &&
-                m.move_cost(dest_loc) <= 0 ) { // Not sure how that chair got into a wall, but don't let player follow.
+    if( pushing_furniture &&
+            m.move_cost( fdest ) <= 0 ) {
+        // Not sure how that chair got into a wall, but don't let player follow.
         add_msg( _("You let go of the %1$s as it slides past %2$s"),
-                 furntype.name.c_str(), m.ter_at(dest_loc).name.c_str() );
-        u.grab_point = {0, 0, 0};
+                 furntype.name.c_str(), m.ter_at( fdest ).name.c_str() );
+        u.grab_point = tripoint_zero;
         u.grab_type = OBJECT_NONE;
     }
 
@@ -12649,9 +12620,7 @@ bool game::grabbed_furn_move( const tripoint &dp )
 
 bool game::grabbed_move( const tripoint &dp )
 {
-    float drag_multiplier = 1.0;
-    vehicle *grabbed_vehicle = nullptr;
-    if( u.grab_point.x == 0 && u.grab_point.y == 0 && u.grab_point.z == 0 ) {
+    if( u.grab_point == tripoint_zero ) {
         return false;
     }
 
@@ -12661,7 +12630,7 @@ bool game::grabbed_move( const tripoint &dp )
     }
 
     if( u.grab_type == OBJECT_FURNITURE ) {
-        return grabbed_veh_move( dp );
+        return grabbed_furn_move( dp );
     }
 
     add_msg(m_info, _("Nothing at grabbed point %d,%d,%d or bad grabbed object type."),
@@ -12730,7 +12699,7 @@ void game::plswim( const tripoint &p )
     if( u.in_vehicle ) {
         m.unboard_vehicle( u.pos() );
     }
-    u.setx( p );
+    u.setpos( p );
     update_map( &u );
     {
         int part;
@@ -12985,10 +12954,8 @@ void game::vertical_move(int movez, bool force)
 
     if( force ) {
         // Let go of a grabbed cart.
-        u.grab_point.x = 0;
-        u.grab_point.y = 0;
-        u.grab_point.z = 0;
-    } else if( u.grab_point.x != 0 || u.grab_point.y != 0 || u.grab_point.z != 0 ) {
+        u.grab_point = tripoint_zero;
+    } else if( u.grab_point == tripoint_zero ) {
         // TODO: Warp the cart along with you if you're on an elevator
         add_msg(m_info, _("You can't drag things up and down stairs."));
         return;
