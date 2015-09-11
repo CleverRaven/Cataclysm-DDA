@@ -12022,14 +12022,17 @@ bool game::walk_move( const tripoint &dest_loc )
         }
     }
 
-    // Calculate cost of moving before push/pull,
-    //  so we don't need to adjust for pulled furniture on our tile
     const vehicle *grabbed_vehicle = nullptr;
     if( grabbed && u.grab_type == OBJECT_VEHICLE ) {
         grabbed_vehicle = m.veh_at( u.pos() + u.grab_point );
     }
 
-    const int mcost = m.combined_movecost( u.pos(), dest_loc, grabbed_vehicle );
+    int modifier = 0;
+    if( grabbed && u.grab_type == OBJECT_FURNITURE && u.pos() + u.grab_point == dest_loc ) {
+        modifier = -m.furn_at( dest_loc ).movecost;
+    }
+
+    const int mcost = m.combined_movecost( u.pos(), dest_loc, grabbed_vehicle, modifier );
 
     if( grabbed_move( dest_loc - u.pos() ) ) {
         return true;
@@ -12476,7 +12479,7 @@ bool game::grabbed_veh_move( const tripoint &dp )
         u.grab_point = -(dp + dp_veh);
     }
 
-    return true;
+    return false;
     
 }
 
@@ -12545,7 +12548,7 @@ bool game::grabbed_furn_move( const tripoint &dp )
 
     const bool pushing_furniture = dp ==  u.grab_point;
     const bool pulling_furniture = dp == -u.grab_point;
-    const bool shifting_furniture = !pulling_furniture && !pulling_furniture;
+    const bool shifting_furniture = !pushing_furniture && !pulling_furniture;
 
     u.moves -= str_req * 10;
     // Additional penalty if we can't comfortably move it.

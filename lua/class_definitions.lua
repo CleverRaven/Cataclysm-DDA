@@ -285,7 +285,7 @@ classes = {
             { name = "peek", rval = nil, args = { } },
             { name = "plfire", rval = nil, args = { "bool" } },
             { name = "plfire", rval = nil, args = { "bool", "tripoint" } },
-            { name = "plswim", rval = nil, args = { "int", "int" } },
+            { name = "plswim", rval = nil, args = { "tripoint" } },
             { name = "process_artifact", rval = nil, args = { "item", "player" } },
             { name = "reenter_fullscreen", rval = nil, args = { nil } },
             { name = "refresh_all", rval = nil, args = { } },

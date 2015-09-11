@@ -5199,27 +5199,16 @@ int player::impact( const int force, const tripoint &p )
 
 void player::knock_back_from( const tripoint &p )
 {
-    // TODO: Z
-    const int x = p.x;
-    const int y = p.y;
+    if( p == pos() ) {
+        return;
+    }
 
-    if (x == posx() && y == posy())
-        return; // No effect
     tripoint to = pos();
-    if (x < posx()) {
-        to.x++;
-    }
-    if (x > posx()) {
-        to.x--;
-    }
-    if (y < posy()) {
-        to.y++;
-    }
-    if (y > posy()) {
-        to.y--;
-    }
+    const tripoint dp = pos() - p;
+    to.x += sgn( dp.x );
+    to.y += sgn( dp.y );
 
-// First, see if we hit a monster
+    // First, see if we hit a monster
     int mondex = g->mon_at( to );
     if (mondex != -1) {
         monster *critter = &(g->zombie(mondex));
@@ -5252,22 +5241,21 @@ void player::knock_back_from( const tripoint &p )
     }
 
     // If we're still in the function at this point, we're actually moving a tile!
-    if (g->m.has_flag("LIQUID", to.x, to.y) && g->m.has_flag(TFLAG_DEEP_WATER, to.x, to.y)) {
+    if (g->m.has_flag( "LIQUID", to ) && g->m.has_flag( TFLAG_DEEP_WATER, to )) {
         if (!is_npc()) {
-            g->plswim(to.x, to.y);
+            g->plswim( to );
         }
         // TODO: NPCs can't swim!
-    } else if (g->m.move_cost(to.x, to.y) == 0) { // Wait, it's a wall (or water)
+    } else if (g->m.move_cost( to ) == 0) { // Wait, it's a wall (or water)
 
         // It's some kind of wall.
         apply_damage( nullptr, bp_torso, 3 ); // TODO: who knocked us back? Maybe that creature should be the source of the damage?
         add_effect("stunned", 2);
         add_msg_player_or_npc( _("You bounce off a %s!"), _("<npcname> bounces off a %s!"),
-                               g->m.tername(to.x, to.y).c_str() );
+                               g->m.tername( to ).c_str() );
 
     } else { // It's no wall
-        setx( to.x );
-        sety( to.y );
+        setpos( to );
     }
 }
 
