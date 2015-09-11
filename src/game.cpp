@@ -10075,23 +10075,29 @@ void game::grab()
     tripoint grabp( 0, 0, 0 );
     if( u.grab_point != tripoint_zero ) {
         vehicle *veh = m.veh_at( u.pos() + u.grab_point );
-        if (veh) {
+        if( veh != nullptr ) {
             add_msg(_("You release the %s."), veh->name.c_str());
         } else if (m.has_furn(u.pos() + u.grab_point)) {
             add_msg(_("You release the %s."), m.furnname(u.pos() + u.grab_point).c_str());
         }
+
         u.grab_point = tripoint_zero;
         u.grab_type = OBJECT_NONE;
         return;
     }
-    if (choose_adjacent(_("Grab where?"), grabp )) {
+    if( choose_adjacent(_("Grab where?"), grabp ) ) {
+        if( grabp == u.pos() ) {
+            add_msg( _("You get a hold of yourself.") );
+            return;
+        }
+
         vehicle *veh = m.veh_at( grabp );
-        if (veh != NULL) { // If there's a vehicle, grab that.
+        if( veh != nullptr ) { // If there's a vehicle, grab that.
             u.grab_point = grabp - u.pos();
             u.grab_type = OBJECT_VEHICLE;
             add_msg(_("You grab the %s."), veh->name.c_str());
-        } else if (m.has_furn( grabp )) { // If not, grab furniture if present
-            if (m.furn_at( grabp ).move_str_req < 0) {
+        } else if( m.has_furn( grabp ) ) { // If not, grab furniture if present
+            if( m.furn_at( grabp ).move_str_req < 0 ) {
                 add_msg(_("You can not grab the %s"), m.furnname( grabp ).c_str());
                 return;
             }
