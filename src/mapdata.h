@@ -106,6 +106,12 @@ struct map_deconstruct_info {
  * LIQUIDCONT - Furniture that contains liquid, allows for contents to be accessed in some checks even if SEALED
  * OPENCLOSE_INSIDE - If it's a door (with an 'open' or 'close' field), it can only be opened or closed if you're inside.
  * PERMEABLE - Allows gases to flow through unimpeded.
+ * ALLOW_FIELD_EFFECT - Doesn't block acid and fire acting on items, even if SEALED
+ * NO_FLOOR - Objects should fall from this tile, unless they can fly/are attached to something etc.
+ * SEEN_FROM_ABOVE - Looks the same from above as from below rather than being "tiny"
+ * RAMP_LOW - This is the start of a ramp. Doesn't do anything on its own
+ * RAMP - This is the middle of a ramp. Getting onto it without being on RAMP_LOW is slow. Easy climbing up
+ * RAMP_HIGH - This is the end of a ramp. Creatures can move from here onto higher z-level (and back) easily
  *
  * Currently only used for Fungal conversions
  * WALL - This terrain is an upright obstacle
@@ -165,6 +171,7 @@ enum ter_bitflags : int {
     TFLAG_GOES_UP,
     TFLAG_NO_FLOOR,
     TFLAG_SEEN_FROM_ABOVE,
+    TFLAG_RAMP,
 
     NUM_TERFLAGS
 };
