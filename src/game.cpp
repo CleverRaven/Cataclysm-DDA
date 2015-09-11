@@ -2527,10 +2527,12 @@ bool game::handle_action()
             break;
 
         case ACTION_CLOSE:
-            if (u.has_active_mutation("SHELL2")) {
+            if( u.has_active_mutation( "SHELL2" ) ) {
                 add_msg(m_info, _("You can't close things while you're in your shell."));
-            } else {
+            } else if( mouse_action_x != -1 && mouse_action_y != -1 ) {                
                 close( tripoint( mouse_action_x, mouse_action_y, u.posz() ) );
+            } else {
+                close();
             }
             break;
 
@@ -10085,9 +10087,12 @@ void game::grab()
         u.grab_type = OBJECT_NONE;
         return;
     }
+
     if( choose_adjacent(_("Grab where?"), grabp ) ) {
         if( grabp == u.pos() ) {
             add_msg( _("You get a hold of yourself.") );
+            u.grab_point = tripoint_zero;
+            u.grab_type = OBJECT_NONE;
             return;
         }
 
@@ -12295,7 +12300,7 @@ void game::place_player( const tripoint &dest_loc )
 
 bool game::phasing_move( const tripoint &dest_loc )
 {
-    if( !u.has_active_bionic("bio_probability_travel") || u.power_level >= 250 ) {
+    if( !u.has_active_bionic("bio_probability_travel") || u.power_level < 250 ) {
         return false;
     }
 
@@ -12305,48 +12310,48 @@ bool game::phasing_move( const tripoint &dest_loc )
     int tunneldist = 0;
     const int dx = sgn( dest.x - u.posx() );
     const int dy = sgn( dest.y - u.posy() );
-    while( m.move_cost(dest) == 0 ||
-           ( critter_at( dest ) == nullptr && tunneldist > 0 ) ) {
+    while( m.move_cost( dest ) == 0 ||
+           ( critter_at( dest ) != nullptr && tunneldist > 0 ) ) {
         //add 1 to tunnel distance for each impassable tile in the line
         tunneldist += 1;
-        if (tunneldist * 250 > u.power_level) { //oops, not enough energy! Tunneling costs 250 bionic power per impassable tile
+        if( tunneldist * 250 > u.power_level ) { //oops, not enough energy! Tunneling costs 250 bionic power per impassable tile
             add_msg(_("You try to quantum tunnel through the barrier but are reflected! Try again with more energy!"));
-            tunneldist = 0; //we didn't tunnel anywhere
-            break;
+            u.charge_power(-250);
+            return false;
         }
-        if (tunneldist > 24) {
+
+        if( tunneldist > 24 ) {
             add_msg(m_info, _("It's too dangerous to tunnel that far!"));
-            tunneldist = 0;
-            break;    //limit maximum tunneling distance
+            u.charge_power(-250);
+            return false;
         }
 
         dest.x += dx;
         dest.y += dy;
     }
-    if( tunneldist != 0 ) { //you tunneled
+
+    if( tunneldist != 0 ) {
         if( u.in_vehicle ) {
             m.unboard_vehicle( u.pos() );
         }
+
+        add_msg(_("You quantum tunnel through the %d-tile wide barrier!"), tunneldist);
         u.charge_power(-(tunneldist * 250)); //tunneling costs 250 bionic power per impassable tile
         u.moves -= 100; //tunneling costs 100 moves
-        // Move us the number of tiles we tunneled in the x direction, plus 1 for the last tile.
-        tunneldist++;
-        dest = u.pos() + tripoint( tunneldist * dx, tunneldist * dy, 0 );
         u.setpos( dest );
-        add_msg(_("You quantum tunnel through the %d-tile wide barrier!"), tunneldist);
+
         int vpart;
         const vehicle *veh = m.veh_at( u.pos(), vpart );
         if( veh != nullptr &&
             veh->part_with_feature(vpart, "BOARDABLE") >= 0) {
             m.board_vehicle( u.pos(), &u );
         }
-    } else { //or you couldn't tunnel due to lack of energy
-        u.charge_power(-250); //failure is expensive!
-        return false;
+
+        on_move_effects();
+        return true;
     }
 
-    on_move_effects();
-    return true;
+    return false;
 }
 
 bool game::grabbed_veh_move( const tripoint &dp )

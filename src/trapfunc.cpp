@@ -972,13 +972,6 @@ void trapfunc::ledge( Creature *c, const tripoint &p )
     tripoint where = p;
     tripoint below = where;
     below.z--;
-    if( g->m.has_flag( "RAMP_HIGH" , below ) ||
-        g->m.has_flag( "RAMP" , below ) ||
-        g->m.has_flag( "RAMP_LOW" , below ) ) {
-        // Too low to actually fall, we're just walking down
-        return;
-    }
-
     while( g->m.valid_move( where, below, false, true ) ) {
         where.z--;
         below.z--;
