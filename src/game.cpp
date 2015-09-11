@@ -6218,12 +6218,11 @@ void game::explosion( const tripoint &p, int power, int shrapnel, bool fire, boo
         if( critter_in_center != nullptr ) {
             dealt_projectile_attack dda; // Cool variable name
             dda.proj = proj;
-            // For each shrapnel piece:
-            // 20% chance for 50%-100% base (power to 2 * power)
-            // 20% chance for 0-25% base
-            // 60% chance for nothing
-            // Still, that's a lot of shrapnel to "dodge"
-            dda.missed_by = rng_float( 0.4, 1.4 );
+            // For first shrapnel piece:
+            // 50% chance for 50%-100% base (power to 2 * power)
+            // 50% chance for 0-25% base
+            // Each one after that gets a progressively lower chance of hitting
+            dda.missed_by = rng_float( 0.4, 1.0 ) + (i * 1.0 / shrapnel);
             critter_in_center->deal_projectile_attack( nullptr, dda );
         }
 
