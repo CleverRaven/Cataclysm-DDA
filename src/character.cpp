@@ -1175,7 +1175,16 @@ hp_part Character::body_window( const std::string &menu_header,
             continue;
         }
 
-        body_part bp = body_part( i );
+        body_part bp;
+        switch(i) {
+            case 0: bp = bp_head; break;
+            case 1: bp = bp_torso; break;
+            case 2: bp = bp_arm_l; break;
+            case 3: bp = bp_arm_r; break;
+            case 4: bp = bp_leg_l; break;
+            case 5: bp = bp_leg_r; break;
+            default: debugmsg("unexpected body_part %d", i); break;
+        }
 
         // Have printed the name of the body part, can select it
         int current_hp = hp_cur[i];
