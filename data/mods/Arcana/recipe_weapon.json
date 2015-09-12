@@ -82,6 +82,77 @@
   ]
 },{
   "type" : "recipe",
+  "result": "sun_sword",
+  "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_CUTTING",
+  "skill_used": "magic",
+  "skills_required": [ "fabrication", 4 ],
+  "difficulty": 8,
+  "time": 100000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "book_hexenhammer", 7 ]],
+  "tools": [
+    [ ["book_hexenhammer", -1] ],
+    [ ["hexenhammer", -1] ],
+    [ ["tongs", -1] ],
+    [ ["chisel", -1] ],
+    [ ["anvil", -1] ],
+    [ ["swage", -1] ],
+    [
+      [ "forge", 150],
+      [ "char_forge", 30],
+      [ "oxy_torch", 30]
+    ]
+  ],
+  "components":
+    [
+      [ [ "broadsword", 1 ] ],
+      [ [ "holy_symbol", 1 ] ],
+      [ [ "gold_small", 135 ] ],
+      [ [ "essence_dull", 25 ] ]
+    ]
+},{
+  "type" : "recipe",
+  "result": "hexenhammer",
+  "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_BASHING",
+  "skill_used": "magic",
+  "skills_required": [ "fabrication", 4 ],
+  "difficulty": 4,
+  "time": 100000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "book_hexenhammer", 4 ]],
+  "qualities": [
+    {"id":"HAMMER","level":3,"amount":1}
+  ],
+  "tools": [
+    [ ["book_hexenhammer", -1] ],
+    [ ["tongs", -1] ],
+    [ ["chisel", -1] ],
+    [ ["anvil", -1] ],
+    [ ["swage", -1] ],
+    [
+      [ "forge", 150],
+      [ "char_forge", 30],
+      [ "oxy_torch", 30]
+    ]
+  ],
+  "components": [
+    [ [ "warhammer", 1 ] ],
+    [
+      [ "small_relic", 1 ],
+      [ "holy_symbol", 3 ]
+    ],
+    [ [ "silver_small", 240 ] ],
+    [
+      [ "essence", 1 ],
+      [ "essence_dull", 15 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
   "result": "bloodscourge",
   "category": "CC_WEAPON",
   "subcategory": "CSC_WEAPON_OTHER",
@@ -133,6 +204,37 @@
     [ [ "hatchet", 1 ] ],
     [ [ "rag_bloody", 2 ] ],
     [ [ "essence_blood", 5 ] ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "ethereal_crossbow",
+  "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_RANGED",
+  "skill_used": "magic",
+  "skills_required": [ "fabrication", 1 ],
+  "difficulty": 6,
+  "time": 200000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "book_hexenhammer", 6 ]],
+  "qualities":[{"id":"HAMMER","level":3,"amount":1}],
+  "tools": [
+    [ [ "book_hexenhammer", -1 ] ],
+    [ [ "tongs", -1 ] ],
+    [ [ "chisel", -1 ] ],
+    [ [ "anvil", -1 ] ],
+    [ [ "swage", -1 ] ],
+    [
+      [ "forge", 200],
+      [ "char_forge", 40],
+      [ "oxy_torch", 40]
+    ]
+  ],
+  "components": [
+    [ [ "crossbow", 1 ] ],
+    [ [ "holy_symbol", 1 ] ],
+    [ [ "gold_small", 45 ] ],
+    [ [ "essence_dull", 20 ] ]
   ]
 }
 ]

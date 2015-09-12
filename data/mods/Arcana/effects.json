@@ -82,6 +82,19 @@
     },
     {
         "type": "effect_type",
+        "id": "aegiscure",
+        "name": ["Aegis Cure"],
+        "desc": ["Illness and infection shall be purged."],
+        "removes_effects": ["fungus", "tetanus", "infected", "common_cold", "flu"],
+        "base_mods": {
+            "pain_min": [10],
+            "pain_chance": [1, 1],
+            "fatigue_min": [5],
+            "fatigue_chance": [1, 1]
+        }
+    },
+    {
+        "type": "effect_type",
         "id": "revenant_hunger",
         "name": ["Revenant Hunger"],
         "desc": ["Immunity to poison, increased hunger gain."],

@@ -10,5 +10,11 @@
         "id" : "essence_blood_type",
         "name" : "blood essence",
         "default" : "essence_blood"
+    },
+    {
+        "type" : "ammunition_type",
+        "id" : "essence_dull_type",
+        "name" : "dull essence",
+        "default" : "essence_dull"
     }
 ]
