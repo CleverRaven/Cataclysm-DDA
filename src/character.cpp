@@ -1175,6 +1175,8 @@ hp_part Character::body_window( const std::string &menu_header,
             continue;
         }
 
+        const int line = i + 2;
+
         body_part bp;
         switch(i) {
             case 0: bp = bp_head; break;
@@ -1194,16 +1196,16 @@ hp_part Character::body_window( const std::string &menu_header,
             const nc_color state_col = limb_color( bp, true, true, true );
             color = state_col != c_ltgray ? state_col : c_green;
             if( precise ) {
-                mvwprintz(hp_window, i + 2, 15, color, "%5d", current_hp);
+                mvwprintz(hp_window, line, 15, color, "%5d", current_hp);
             } else {
-                mvwprintz(hp_window, i + 2, 15, color, health_bar.c_str());
+                mvwprintz(hp_window, line, 15, color, health_bar.c_str());
             }
         } else {
             // curhp is 0; requires surgical attention
             // But still could be infected or bleeding
             const nc_color state_col = limb_color( bp, true, true, true );
             color = state_col != c_ltgray ? state_col : c_dkgray;
-            mvwprintz(hp_window, i + 2, 15, color, "-----");
+            mvwprintz(hp_window, line, 15, color, "-----");
         }
 
         if( current_hp != 0 ) {
@@ -1233,21 +1235,21 @@ hp_part Character::body_window( const std::string &menu_header,
                 continue;
             }
 
-            mvwprintz( hp_window, i + 2, 20, c_dkgray, " -> " );
+            mvwprintz( hp_window, line, 20, c_dkgray, " -> " );
             std::tie( health_bar, color ) = get_hp_bar( current_hp, hp_max[i], false );
             
             const nc_color state_col = limb_color( bp, bleed > 0, bite > 0, infect > 0 );
             color = state_col != c_ltgray ? state_col : c_green;
             if( precise ) {
-                mvwprintz( hp_window, i + 2, 24, color, "%5d", current_hp );
+                mvwprintz( hp_window, line, 24, color, "%5d", current_hp );
             } else {
-                mvwprintz( hp_window, i + 2, 24, color, health_bar.c_str() );
+                mvwprintz( hp_window, line, 24, color, health_bar.c_str() );
             }
         } else {
             // curhp is 0; requires surgical attention
             const nc_color state_col = limb_color( bp, bleed > 0, bite > 0, infect > 0 );
             color = state_col != c_ltgray ? state_col : c_dkgray;
-            mvwprintz(hp_window, i + 2, 24, color, "-----");
+            mvwprintz(hp_window, line, 24, color, "-----");
         }
     }
     wrefresh(hp_window);
