@@ -1171,13 +1171,11 @@ hp_part Character::body_window( const std::string &menu_header,
     const auto check_part = [&]( const healable_bp &e ) {
         const body_part bp = e.bp;
         const hp_part part = e.hp;
-        if( show_all ||
-            hp_cur[part] < hp_max[part] ||
+        if( hp_cur[part] < hp_max[part] ||
             has_effect("infected", bp) ||
             has_effect("bite", bp) ||
             has_effect("bleed", bp) ) {
-            nc_color color = show_all ? c_green :
-                limb_color( bp, bleed, bite, infect );
+            nc_color color = limb_color( bp, bleed, bite, infect );
             if( color != c_ltgray || e.bonus != 0 ) {
                 e.allowed = true;
             }
@@ -1194,7 +1192,11 @@ hp_part Character::body_window( const std::string &menu_header,
         const int current_hp = hp_cur[hp];
         const int bonus = e.bonus;
 
+        if( show_all ) {
+            e.allowed = true;
+        } else {
         check_part( e );
+        }
         if( !e.allowed ) {
             continue;
         }
