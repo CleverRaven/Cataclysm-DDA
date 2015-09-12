@@ -541,6 +541,13 @@ public:
     /*@}*/
 
     /**
+     * Returns resistance to being damaged by attack against the item itself.
+     * Calculated from item's materials.
+     * @param worst If this is true, the worst resistance is used. Otherwise the best one.
+     */
+    int chip_resistance( bool worst = false ) const;
+
+    /**
      * Check whether the item has been marked (by calling mark_as_used_by_player)
      * as used by this specific player.
      */

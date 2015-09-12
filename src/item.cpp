@@ -2795,6 +2795,33 @@ int item::acid_resist() const
     return lround(resist);
 }
 
+int item::chip_resistance( bool worst ) const
+{
+    if( damage > 4 ) {
+        return 0;
+    }
+
+    int res = worst ? INT_MAX : INT_MIN;
+    for( const auto &mat : made_of_types() ) {
+        const int val = mat->chip_resist();
+        res = worst ? std::min( res, val ) : std::max( res, val );
+    }
+
+    if( res == INT_MAX || res == INT_MIN ) {
+        return 2;
+    }
+
+    if( res <= 0 ) {
+        return 0;
+    }
+
+    // An item's current state of damage can make it more susceptible to being damaged
+    // 10% less resistance for each point of damage
+    res = res * ( 10 - std::max<int>( 0, damage ) ) / 10;
+
+    return res;
+}
+
 bool item::is_two_handed( const player &u ) const
 {
     if( has_flag("ALWAYS_TWOHAND") ) {

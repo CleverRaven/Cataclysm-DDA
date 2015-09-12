@@ -6066,7 +6066,6 @@ void game::do_blast( const tripoint &p, const int power, const bool fire )
                                         force / 2;
             if( z_offset[i] == 0 ) {
                 // Horizontal - no floor bashing
-                m.smash_items( dest, force );
                 m.bash( dest, bash_force, true, false, false );
             } else if( z_offset[i] > 0 ) {
                 // Should actually bash through the floor first, but that's not really possible yet
@@ -6120,6 +6119,8 @@ void game::do_blast( const tripoint &p, const int power, const bool fire )
             // Too weak to matter
             continue;
         }
+
+        m.smash_items( pt, force );
 
         if( fire ) {
             int density = (force > 50.0f) + (force > 100.0f);
@@ -6217,12 +6218,11 @@ void game::explosion( const tripoint &p, int power, int shrapnel, bool fire, boo
         if( critter_in_center != nullptr ) {
             dealt_projectile_attack dda; // Cool variable name
             dda.proj = proj;
-            // For each shrapnel piece:
-            // 20% chance for 50%-100% base (power to 2 * power)
-            // 20% chance for 0-25% base
-            // 60% chance for nothing
-            // Still, that's a lot of shrapnel to "dodge"
-            dda.missed_by = rng_float( 0.4, 1.4 );
+            // For first shrapnel piece:
+            // 50% chance for 50%-100% base (power to 2 * power)
+            // 50% chance for 0-25% base
+            // Each one after that gets a progressively lower chance of hitting
+            dda.missed_by = rng_float( 0.4, 1.0 ) + (i * 1.0 / shrapnel);
             critter_in_center->deal_projectile_attack( nullptr, dda );
         }
 
