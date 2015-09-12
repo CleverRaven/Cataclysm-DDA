@@ -139,8 +139,8 @@ TEST_CASE("monster_speed") {
     trigdist = false;
     monster_check();
 
-    // Check the angles between 0deg and 45deg
-    for( int x = 0; x <= 100; ++x ) {
+    // Check some angles between 0deg and 45deg
+    for( int x = 0; x <= 100; x += 2 ) {
         check_shamble_speed( "mon_zombie", {x, 100, 0} );
     }
 }
