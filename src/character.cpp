@@ -1220,10 +1220,7 @@ hp_part Character::body_window( const std::string &menu_header,
         if( current_hp != 0 ) {
             const int new_hp = std::max( 0, std::min( maximal_hp, current_hp + bonus ) );
 
-            if( new_hp == current_hp &&
-                ( infect <= 0 || !has_effect( "infected", bp ) ) &&
-                ( bite <= 0 || !has_effect( "bite", bp ) ) &&
-                ( bleed <= 0 || !has_effect( "bleed", bp ) ) ) {
+            if( new_hp == current_hp && !has_curable_effect ) {
                 // Nothing would change
                 continue;
             }
