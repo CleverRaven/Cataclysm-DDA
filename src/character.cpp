@@ -1181,6 +1181,8 @@ hp_part Character::body_window( const std::string &menu_header,
         const bool has_any_effect = all_state_col != c_ltgray;
         // Broken means no HP can be restored, it requires surgical attention.
         const bool limb_is_broken = current_hp == 0;
+        // This considers only the effects that can *not* be removed.
+        const nc_color new_state_col = limb_color( bp, !bleed, !bite, !infect );
 
         if( show_all ) {
             e.allowed = true;
@@ -1230,10 +1232,10 @@ hp_part Character::body_window( const std::string &menu_header,
 
             mvwprintz( hp_window, line, 20, c_dkgray, " -> " );
             
-            const nc_color color = has_curable_effect ? state_col : c_green;
+            const nc_color color = has_any_effect ? new_state_col : c_green;
             print_hp( 24, color, new_hp );
         } else {
-            const nc_color color = has_curable_effect ? state_col : c_dkgray;
+            const nc_color color = has_any_effect ? new_state_col : c_dkgray;
             mvwprintz( hp_window, line, 20, c_dkgray, " -> " );
             print_hp( 24, color, 0 );
         }
