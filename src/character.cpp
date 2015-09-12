@@ -1147,7 +1147,7 @@ hp_part Character::body_window( const std::string &menu_header,
      * have HP) and the body_part. Note that there are more body_parts than hp_parts. For example:
      * Damage to bp_head, bp_eyes and bp_mouth is all applied on the HP of hp_head. */
     struct healable_bp {
-        bool allowed;
+        mutable bool allowed;
         body_part bp;
         hp_part hp;
         std::string name; // Translated name as it appears in the menu.
@@ -1165,8 +1165,9 @@ hp_part Character::body_window( const std::string &menu_header,
 
     nc_color color = c_ltgray;
 
-    const auto check_part = [&]( hp_part part ) {
-        body_part bp = player::hp_to_bp( part );
+    const auto check_part = [&]( const healable_bp &e ) {
+        const body_part bp = e.bp;
+        const hp_part part = e.hp;
         if( show_all ||
             hp_cur[part] < hp_max[part] ||
             has_effect("infected", bp) ||
@@ -1174,18 +1175,12 @@ hp_part Character::body_window( const std::string &menu_header,
             has_effect("bleed", bp) ) {
             nc_color color = show_all ? c_green :
                 limb_color( bp, bleed, bite, infect );
-            if( color != c_ltgray || parts[part].bonus != 0 ) {
-                parts[part].allowed = true;
+            if( color != c_ltgray || e.bonus != 0 ) {
+                e.allowed = true;
             }
         }
     };
 
-    check_part( hp_head );
-    check_part( hp_torso );
-    check_part( hp_arm_l );
-    check_part( hp_arm_r );
-    check_part( hp_leg_l );
-    check_part( hp_leg_r );
     mvwprintz( hp_window, 8, 1, c_ltgray, _("7: Exit") );
     std::string health_bar;
 
@@ -1196,6 +1191,7 @@ hp_part Character::body_window( const std::string &menu_header,
         const int maximal_hp = hp_max[hp];
         const int bonus = e.bonus;
 
+        check_part( e );
         if( !e.allowed ) {
             continue;
         }
