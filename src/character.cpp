@@ -1142,6 +1142,7 @@ hp_part Character::body_window( const std::string &menu_header,
     draw_border(hp_window);
 
     trim_and_print( hp_window, 1, 1, getmaxx(hp_window) - 2, c_ltred, menu_header.c_str() );
+    const int y_off = 2; // 1 for border, 1 for header
 
     /* This struct estabiles some kind of connection between the hp_part (which can be healed and
      * have HP) and the body_part. Note that there are more body_parts than hp_parts. For example:
@@ -1198,7 +1199,7 @@ hp_part Character::body_window( const std::string &menu_header,
             continue;
         }
 
-        const int line = i + 2;
+        const int line = i + y_off;
 
         color = show_all ? c_green : limb_color( bp, bleed, bite, infect );
         mvwprintz( hp_window, line, 1, color, "%d: %s", i + 1, e.name.c_str() );
@@ -1249,7 +1250,7 @@ hp_part Character::body_window( const std::string &menu_header,
             mvwprintz(hp_window, line, 24, color, "-----");
         }
     }
-    mvwprintz( hp_window, parts.size() + 2, 1, c_ltgray, _("%d: Exit"), parts.size() + 1 );
+    mvwprintz( hp_window, parts.size() + y_off, 1, c_ltgray, _("%d: Exit"), parts.size() + 1 );
 
     wrefresh(hp_window);
     char ch;
