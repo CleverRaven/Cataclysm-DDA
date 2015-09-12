@@ -9278,7 +9278,7 @@
   "type" : "recipe",
   "result": "sauerkraut_onions",
   "category": "CC_FOOD",
-  "subcategory": "CSC_FOOD_MEAT",
+  "subcategory": "CSC_FOOD_VEGGI",
   "skill_used": "cooking",
   "difficulty": 3,
   "time": 15000,
