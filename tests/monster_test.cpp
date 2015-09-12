@@ -69,16 +69,14 @@ public:
     int avg() { return _sum / _n; }
 };
 
-// Verify that the named monster has the expected effective speed, which is greatly reduced
+// Verify that the named monster has the expected effective speed, not reduced
 // due to wasted motion from shambling.
-// This is an assertion that an average (i.e. no fleet) survivor with no encumbrance
-// will be able to out-walk (not run, walk) the given monster
-// if their speed is higher than the monster's speed statistics.
 void check_shamble_speed( const std::string monster_type, const tripoint &destination )
 {
     // Scale the scaling factor based on the ratio of diagonal to cardinal steps.
     const float slope = (destination.x < destination.y) ?
-        (destination.x / destination.y) : (destination.y / destination.x);
+        ((float)destination.x / (float)destination.y) :
+        ((float)destination.y / (float)destination.x);
     const float diagonal_multiplier = 1.0 + (OPTIONS["CIRCLEDIST"] ? (slope * 0.41) : 0.0);
     INFO( monster_type << " " << destination );
     // Wandering makes things nondeterministic, so look at the distribution rather than a target number.
@@ -104,9 +102,12 @@ void monster_check() {
     int diag_move = moves_to_destination( "mon_pig", {0,0,0}, {100,100,0} );
     CHECK( (diag_move / (10000.0 * diagonal_multiplier)) == Approx(1.0).epsilon(0.01) );
 
+    check_shamble_speed( "mon_pig", {100, 0, 0} );
+    check_shamble_speed( "mon_pig", {0, 100, 0} );
+    check_shamble_speed( "mon_pig", {100, 100, 0} );
     check_shamble_speed( "mon_zombie", {100, 0, 0} );
     check_shamble_speed( "mon_zombie", {0, 100, 0} );
-    check_shamble_speed( "mon_zombie", {100, 0, 0} );
+    check_shamble_speed( "mon_zombie", {100, 100, 0} );
     check_shamble_speed( "mon_zombie_dog", {100, 0, 0} );
     check_shamble_speed( "mon_zombie_dog", {0, 100, 0} );
     check_shamble_speed( "mon_zombie_dog", {100, 100, 0} );
@@ -116,6 +117,11 @@ void monster_check() {
     check_shamble_speed( "mon_jabberwock", {100, 0, 0} );
     check_shamble_speed( "mon_jabberwock", {0, 100, 0} );
     check_shamble_speed( "mon_jabberwock", {100, 100, 0} );
+
+    // Check some angles between 0deg and 45deg
+    for( int x = 0; x <= 100; x += 2 ) {
+        check_shamble_speed( "mon_zombie", {x, 100, 0} );
+    }
 }
 
 // Characterization test for monster movement speed.
@@ -138,10 +144,5 @@ TEST_CASE("monster_speed") {
     OPTIONS["CIRCLEDIST"].setValue("false");
     trigdist = false;
     monster_check();
-
-    // Check some angles between 0deg and 45deg
-    for( int x = 0; x <= 100; x += 2 ) {
-        check_shamble_speed( "mon_zombie", {x, 100, 0} );
-    }
 }
 
