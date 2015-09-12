@@ -1189,6 +1189,7 @@ hp_part Character::body_window( const std::string &menu_header,
         const body_part bp = e.bp;
         const hp_part hp = e.hp;
         const int maximal_hp = hp_max[hp];
+        const int current_hp = hp_cur[hp];
         const int bonus = e.bonus;
 
         check_part( e );
@@ -1201,7 +1202,6 @@ hp_part Character::body_window( const std::string &menu_header,
         color = show_all ? c_green : limb_color( bp, bleed, bite, infect );
         mvwprintz( hp_window, line, 1, color, "%d: %s", i + 1, e.name.c_str() );
 
-        int current_hp = hp_cur[hp];
         if( current_hp != 0 ) {
             std::tie( health_bar, color ) = get_hp_bar(current_hp, maximal_hp, false);
             // Drop the bar color, use the state color instead
@@ -1221,15 +1221,9 @@ hp_part Character::body_window( const std::string &menu_header,
         }
 
         if( current_hp != 0 ) {
-            current_hp += bonus;
+            const int new_hp = std::max( 0, std::min( maximal_hp, current_hp + bonus ) );
 
-            if( current_hp > maximal_hp ) {
-                current_hp = maximal_hp;
-            } else if (current_hp < 0) {
-                current_hp = 0;
-            }
-
-            if( current_hp == hp_cur[hp] &&
+            if( new_hp == current_hp &&
                 ( infect <= 0 || !has_effect( "infected", bp ) ) &&
                 ( bite <= 0 || !has_effect( "bite", bp ) ) &&
                 ( bleed <= 0 || !has_effect( "bleed", bp ) ) ) {
@@ -1238,12 +1232,12 @@ hp_part Character::body_window( const std::string &menu_header,
             }
 
             mvwprintz( hp_window, line, 20, c_dkgray, " -> " );
-            std::tie( health_bar, color ) = get_hp_bar( current_hp, maximal_hp, false );
+            std::tie( health_bar, color ) = get_hp_bar( new_hp, maximal_hp, false );
             
             const nc_color state_col = limb_color( bp, bleed > 0, bite > 0, infect > 0 );
             color = state_col != c_ltgray ? state_col : c_green;
             if( precise ) {
-                mvwprintz( hp_window, line, 24, color, "%5d", current_hp );
+                mvwprintz( hp_window, line, 24, color, "%5d", new_hp );
             } else {
                 mvwprintz( hp_window, line, 24, color, health_bar.c_str() );
             }
