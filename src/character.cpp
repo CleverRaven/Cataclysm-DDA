@@ -1196,16 +1196,20 @@ hp_part Character::body_window( const std::string &menu_header,
         color = show_all ? c_green : state_col;
         mvwprintz( hp_window, line, 1, color, "%d: %s", i + 1, e.name.c_str() );
 
+        const auto print_hp = [&]( const int x, const nc_color col, const int hp ) {
+            if( precise ) {
+                mvwprintz( hp_window, line, x, col, "%5d", hp );
+            } else {
+                mvwprintz( hp_window, line, x, col, health_bar.c_str() );
+            }
+        };
+
         if( current_hp != 0 ) {
             std::tie( health_bar, color ) = get_hp_bar(current_hp, maximal_hp, false);
             // Drop the bar color, use the state color instead
             const nc_color state_col = limb_color( bp, true, true, true );
             color = state_col != c_ltgray ? state_col : c_green;
-            if( precise ) {
-                mvwprintz(hp_window, line, 15, color, "%5d", current_hp);
-            } else {
-                mvwprintz(hp_window, line, 15, color, health_bar.c_str());
-            }
+            print_hp( 15, color, current_hp );
         } else {
             // curhp is 0; requires surgical attention
             // But still could be infected or bleeding
@@ -1229,11 +1233,7 @@ hp_part Character::body_window( const std::string &menu_header,
             std::tie( health_bar, color ) = get_hp_bar( new_hp, maximal_hp, false );
             
             color = has_curable_effect ? state_col : c_green;
-            if( precise ) {
-                mvwprintz( hp_window, line, 24, color, "%5d", new_hp );
-            } else {
-                mvwprintz( hp_window, line, 24, color, health_bar.c_str() );
-            }
+            print_hp( 24, color, new_hp );
         } else {
             // curhp is 0; requires surgical attention
             color = has_curable_effect ? state_col : c_dkgray;
