@@ -7326,6 +7326,37 @@
         "target_charges": 10
     }
   },
+  
+  {
+    "id": "sauerkraut_ferment",
+    "type": "TOOL",
+    "symbol": "%",
+    "color": "white",
+    "name": "fermenting sauerkraut jar",
+    "description": "This jar contains a batch of sauerkraut set to ferment. You can seal up the jar once the process is completed.",
+    "price": 10,
+    "material": ["glass", "veggy"],
+    "weight": 52,
+    "volume": 1,
+    "bashing": 8,
+    "cutting": 0,
+    "to_hit": 0,
+    "max_charges": 1,
+    "initial_charges": 1,
+    "charges_per_use": 1,
+    "turns_per_charge": 0,
+    "ammo": "NULL",
+    "revert_to": "null",
+    "category" : "food",
+    "use_action": {
+        "type": "delayed_transform",
+        "transform_age": 100800, "//": "7 days, from the suggested recipie of 3 weeks",
+        "not_ready_msg": "The sauerkraut isn't done fermenting yet.",
+        "msg": "You test the batch, and it tastes good, so you seal the jar up for storage.",
+        "moves": 50,
+        "target": "jar_sauerkraut_pickled"
+    }
+  },
 
   {
     "id": "cordless_drill",
