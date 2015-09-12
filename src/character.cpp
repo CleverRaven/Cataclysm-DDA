@@ -1150,21 +1150,22 @@ hp_part Character::body_window( const std::string &menu_header,
         bool allowed;
         body_part bp;
         hp_part hp;
+        int bonus;
     };
     std::array<healable_bp, num_hp_parts> parts = { {
-        { false, bp_head, hp_head },
-        { false, bp_torso, hp_torso },
-        { false, bp_arm_l, hp_arm_l },
-        { false, bp_arm_r, hp_arm_r },
-        { false, bp_leg_l, hp_leg_l },
-        { false, bp_leg_r, hp_leg_r },
+        { false, bp_head, hp_head, head_bonus },
+        { false, bp_torso, hp_torso, torso_bonus },
+        { false, bp_arm_l, hp_arm_l, normal_bonus },
+        { false, bp_arm_r, hp_arm_r, normal_bonus },
+        { false, bp_leg_l, hp_leg_l, normal_bonus },
+        { false, bp_leg_r, hp_leg_r, normal_bonus },
     } };
 
 
     nc_color color = c_ltgray;
 
     const auto check_part = [&]( hp_part part, std::string part_name,
-                                 int heal_val, int line_num ) {
+                                 int line_num ) {
         body_part bp = player::hp_to_bp( part );
         if( show_all ||
             hp_cur[part] < hp_max[part] ||
@@ -1173,19 +1174,19 @@ hp_part Character::body_window( const std::string &menu_header,
             has_effect("bleed", bp) ) {
             nc_color color = show_all ? c_green :
                 limb_color( bp, bleed, bite, infect );
-            if( color != c_ltgray || heal_val != 0 ) {
+            if( color != c_ltgray || parts[part].bonus != 0 ) {
                 mvwprintz( hp_window, line_num, 1, color, part_name.c_str() );
                 parts[part].allowed = true;
             }
         }
     };
 
-    check_part( hp_head,  _("1: Head"),      head_bonus,   2 );
-    check_part( hp_torso, _("2: Torso"),     torso_bonus,  3 );
-    check_part( hp_arm_l, _("3: Left Arm"),  normal_bonus, 4 );
-    check_part( hp_arm_r, _("4: Right Arm"), normal_bonus, 5 );
-    check_part( hp_leg_l, _("5: Left Leg"),  normal_bonus, 6 );
-    check_part( hp_leg_r, _("6: Right Leg"), normal_bonus, 7 );
+    check_part( hp_head,  _("1: Head"),      2 );
+    check_part( hp_torso, _("2: Torso"),     3 );
+    check_part( hp_arm_l, _("3: Left Arm"),  4 );
+    check_part( hp_arm_r, _("4: Right Arm"), 5 );
+    check_part( hp_leg_l, _("5: Left Leg"),  6 );
+    check_part( hp_leg_r, _("6: Right Leg"), 7 );
     mvwprintz( hp_window, 8, 1, c_ltgray, _("7: Exit") );
     std::string health_bar;
 
@@ -1194,6 +1195,7 @@ hp_part Character::body_window( const std::string &menu_header,
         const body_part bp = e.bp;
         const hp_part hp = e.hp;
         const int maximal_hp = hp_max[hp];
+        const int bonus = e.bonus;
 
         if( !e.allowed ) {
             continue;
@@ -1222,17 +1224,7 @@ hp_part Character::body_window( const std::string &menu_header,
         }
 
         if( current_hp != 0 ) {
-            switch( hp ) {
-                case hp_head:
-                    current_hp += head_bonus;
-                    break;
-                case hp_torso:
-                    current_hp += torso_bonus;
-                    break;
-                default:
-                    current_hp += normal_bonus;
-                    break;
-            }
+            current_hp += bonus;
 
             if( current_hp > maximal_hp ) {
                 current_hp = maximal_hp;
