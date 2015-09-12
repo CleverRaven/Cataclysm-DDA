@@ -6924,7 +6924,9 @@
         "target_charges": 3,
         "container": "jar_glass"
     }
-  },{
+  },
+  
+  {
     "id": "jar_tomato_canned",
     "type": "GENERIC",
     "symbol": "%",
@@ -6967,6 +6969,31 @@
         "type": "transform",
         "msg": "You open the jar, exposing it to the atmosphere.",
         "target": "veggy_pickled",
+        "container": "jar_glass"
+    }
+  },
+  
+  {
+    "id": "jar_sauerkraut_pickled",
+    "type": "GENERIC",
+    "symbol": "%",
+    "color": "green",
+    "name": "sealed jar of sauerkraut",
+    "name_plural": "sealed jars of sauerkraut",
+    "description": "This is a sealed glass jar containing sauerkraut.  Use to open and eat to enjoy.",
+    "price": 650,
+    "material": ["glass", "veggy"],
+    "weight": 504,
+    "volume": 2,
+    "bashing": 4,
+    "cutting": 0,
+    "to_hit": 0,
+    "category" : "food",
+    "use_action": {
+        "type": "transform",
+        "msg": "You open the jar, exposing it to the atmosphere.",
+        "target": "sauerkraut",
+		"target_charges": 4,
         "container": "jar_glass"
     }
   },
