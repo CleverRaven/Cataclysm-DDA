@@ -1194,6 +1194,7 @@ hp_part Character::body_window( const std::string &menu_header,
         // This will c_ltgray if the part does not have any effects cured by the item
         // (e.g. it cures only bites, but the part does not have a bite effect)
         const nc_color state_col = limb_color( bp, bleed, bite, infect );
+        const bool has_curable_effect = state_col != c_ltgray;
 
         if( show_all ) {
             e.allowed = true;
@@ -1241,7 +1242,7 @@ hp_part Character::body_window( const std::string &menu_header,
             mvwprintz( hp_window, line, 20, c_dkgray, " -> " );
             std::tie( health_bar, color ) = get_hp_bar( new_hp, maximal_hp, false );
             
-            color = state_col != c_ltgray ? state_col : c_green;
+            color = has_curable_effect ? state_col : c_green;
             if( precise ) {
                 mvwprintz( hp_window, line, 24, color, "%5d", new_hp );
             } else {
@@ -1249,7 +1250,7 @@ hp_part Character::body_window( const std::string &menu_header,
             }
         } else {
             // curhp is 0; requires surgical attention
-            color = state_col != c_ltgray ? state_col : c_dkgray;
+            color = has_curable_effect ? state_col : c_dkgray;
             mvwprintz(hp_window, line, 24, color, "-----");
         }
     }
