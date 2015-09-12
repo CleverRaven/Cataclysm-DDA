@@ -1181,6 +1181,7 @@ hp_part Character::body_window( const std::string &menu_header,
         const bool has_curable_effect = state_col != c_ltgray;
         // The same as in the main UI sidebar. Independent of the capability of the healing item!
         const nc_color all_state_col = limb_color( bp, true, true, true );
+        const bool has_any_effect = all_state_col != c_ltgray;
 
         if( show_all ) {
             e.allowed = true;
@@ -1208,12 +1209,12 @@ hp_part Character::body_window( const std::string &menu_header,
 
         if( current_hp != 0 ) {
             // Drop the bar color, use the state color instead
-            color = all_state_col != c_ltgray ? all_state_col : c_green;
+            color = has_any_effect ? all_state_col : c_green;
             print_hp( 15, color, current_hp );
         } else {
             // curhp is 0; requires surgical attention
             // But still could be infected or bleeding
-            color = all_state_col != c_ltgray ? all_state_col : c_dkgray;
+            color = has_any_effect ? all_state_col : c_dkgray;
             mvwprintz(hp_window, line, 15, color, "-----");
         }
 
