@@ -1165,9 +1165,6 @@ hp_part Character::body_window( const std::string &menu_header,
         { false, bp_leg_r, hp_leg_r, _("Right Leg"), normal_bonus },
     } };
 
-
-    nc_color color = c_ltgray;
-
     for( size_t i = 0; i < parts.size(); i++ ) {
         const auto &e = parts[i];
         const body_part bp = e.bp;
@@ -1195,7 +1192,7 @@ hp_part Character::body_window( const std::string &menu_header,
 
         const int line = i + y_off;
 
-        color = show_all ? c_green : state_col;
+        const nc_color color = show_all ? c_green : state_col;
         mvwprintz( hp_window, line, 1, color, "%d: %s", i + 1, e.name.c_str() );
 
         const auto print_hp = [&]( const int x, const nc_color col, const int hp ) {
@@ -1209,12 +1206,12 @@ hp_part Character::body_window( const std::string &menu_header,
 
         if( current_hp != 0 ) {
             // Drop the bar color, use the state color instead
-            color = has_any_effect ? all_state_col : c_green;
+            const nc_color color = has_any_effect ? all_state_col : c_green;
             print_hp( 15, color, current_hp );
         } else {
             // curhp is 0; requires surgical attention
             // But still could be infected or bleeding
-            color = has_any_effect ? all_state_col : c_dkgray;
+            const nc_color color = has_any_effect ? all_state_col : c_dkgray;
             mvwprintz(hp_window, line, 15, color, "-----");
         }
 
@@ -1228,11 +1225,11 @@ hp_part Character::body_window( const std::string &menu_header,
 
             mvwprintz( hp_window, line, 20, c_dkgray, " -> " );
             
-            color = has_curable_effect ? state_col : c_green;
+            const nc_color color = has_curable_effect ? state_col : c_green;
             print_hp( 24, color, new_hp );
         } else {
             // curhp is 0; requires surgical attention
-            color = has_curable_effect ? state_col : c_dkgray;
+            const nc_color color = has_curable_effect ? state_col : c_dkgray;
             mvwprintz(hp_window, line, 24, color, "-----");
         }
     }
