@@ -3109,8 +3109,9 @@ void map::smash_items(const tripoint &p, const int power)
         return;
     }
 
+    std::vector<item> contents;
     auto items = g->m.i_at(p);
-    for (auto i = items.begin(); i != items.end();) {
+    for( auto i = items.begin(); i != items.end(); ) {
         if (i->active == true) {
             // Get the explosion item actor
             if (i->type->get_use( "explosion" ) != nullptr) {
@@ -3124,71 +3125,69 @@ void map::smash_items(const tripoint &p, const int power)
                 }
             }
         }
-        // The volume check here pretty much only influences corpses and very large items
-        int damage_chance = std::max(1, int(power / (float(i->volume()) / 40.0)));
-        // These are in descending order because the weakest part of an item
-        // determines when it will start to break first. Default chance is 1 in 2
-        // for the first roll
-        int material_factor = 2;
-        if (i->made_of("superalloy") || i->made_of("diamond")){
-            material_factor = 200;
-        }
-        if (i->made_of("ceramic")) {
-            material_factor = 80;
-        }
-        if (i->made_of("hardsteel")) {
-            material_factor = 24;
-        }
-        if (i->made_of("steel") ) {
-            material_factor = 20;
-        }
-        if (i->made_of("iron") || i->made_of("kevlar") || i->made_of("aluminum")) {
-            material_factor = 16;
-        }
-        if (i->made_of("stone") || i->made_of("silver") || i->made_of("gold") || i->made_of("lead")) {
-            material_factor = 12;
-        }
-        if (i->made_of("bone") || i->made_of("chitin") || i->made_of("wood")) {
-            material_factor = 8;
-        }
-        if (i->made_of("leather")) {
-            material_factor = 6;
-        }
-        if (i->made_of("plastic")) {
-            material_factor = 4;
+
+        const float material_factor = i->chip_resistance( true );
+        if( power < material_factor ) {
+            i++;
+            continue;
         }
 
-        // An item's current state of damage can make it more susceptible to being damaged
-        // 20% less resistance for each point of damage (or 20% more for reinforced)
-        material_factor *= 1 - (i->damage * .2);
+        // The volume check here pretty much only influences corpses and very large items
+        const float volume_factor = std::max<float>( 40, i->volume() );
+        float damage_chance = 10.0f * power / volume_factor;
+        // Example:
+        // Power 40 (just below C4 epicenter) vs two-by-four
+        // damage_chance = 10 * 40 / 40 = 10, material_factor = 8
+        // Will deal 1 damage, then 20% chance for another point
+        // Power 20 (grenade minus shrapnel) vs glass bottle
+        // 10 * 20 / 40 = 5 vs 1
+        // 5 damage (destruction)
 
         field_id type_blood = fd_null;
-        if (i->is_corpse()) {
+        if( i->is_corpse() ) {
             type_blood = i->get_mtype()->bloodType();
         }
+        const bool by_charges = i->count_by_charges();
         // See if they were damaged
-        while(x_in_y(damage_chance, material_factor) && i->damage < 4) {
-            i->damage++;
-            if (type_blood != fd_null) {
-                tripoint tmp = p;
-                int &x = tmp.x;
-                int &y = tmp.y;
-                for( x = p.x - 1; x <= p.x + 1; x++ ) {
-                    for( y = p.y - 1; y <= p.y + 1; y++ ) {
+        if( by_charges ) {
+            const int def_charges = i->liquid_charges( 1 );
+            damage_chance *= def_charges;
+            while( ( damage_chance > material_factor ||
+                     x_in_y( damage_chance, material_factor ) ) &&
+                   i->charges > 0 ) {
+                i->charges--;
+                damage_chance -= material_factor;
+            }
+        } else {
+            while( ( damage_chance > material_factor ||
+                     x_in_y( damage_chance, material_factor ) ) &&
+                   i->damage < 4 ) {
+                i->damage++;
+                if( type_blood != fd_null ) {
+                    for( const tripoint &pt : points_in_radius( p, 1 ) ) {
                         if( !one_in(damage_chance) ) {
-                            g->m.add_field( tmp, type_blood, 1, 0 );
+                            g->m.add_field( pt, type_blood, 1, 0 );
                         }
                     }
                 }
+                damage_chance -= material_factor;
             }
-            damage_chance -= material_factor;
         }
         // Remove them if they were damaged too much
-        if (i->damage >= 4) {
-            i = i_rem(p, i);
+        if( i->damage >= 4 || ( by_charges && i->charges == 0 ) ) {
+            // But save the contents
+            for( auto &elem : i->contents ) {
+                contents.push_back( elem );
+            }
+
+            i = i_rem( p, i );
         } else {
             i++;
         }
+    }
+
+    for( auto it : contents ) {
+        add_item_or_charges( p, it );
     }
 }
 

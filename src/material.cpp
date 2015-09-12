@@ -24,6 +24,7 @@ material_type::material_type()
     _acid_resist = 0;
     _elec_resist = 0;
     _fire_resist = 0;
+    _chip_resist = 0;
     _density = 1;
 }
 
@@ -32,7 +33,8 @@ material_type::material_type(std::string ident, std::string name,
                              int bash_resist, int cut_resist,
                              std::string bash_dmg_verb, std::string cut_dmg_verb,
                              std::string dmg_adj[],
-                             int acid_resist, int elec_resist, int fire_resist, int density)
+                             int acid_resist, int elec_resist, int fire_resist,
+                             int chip_resist, int density)
 {
     _ident = ident;
     _name = name;
@@ -49,6 +51,7 @@ material_type::material_type(std::string ident, std::string name,
     _acid_resist = acid_resist;
     _elec_resist = elec_resist;
     _fire_resist = fire_resist;
+    _chip_resist = chip_resist;
     _density = density;
 }
 
@@ -70,6 +73,7 @@ material_type::material_type(std::string ident)
     _acid_resist = mat_type->acid_resist();
     _elec_resist = mat_type->elec_resist();
     _fire_resist = mat_type->fire_resist();
+    _chip_resist = mat_type->chip_resist();
     _density = mat_type->density();
 }
 
@@ -91,6 +95,7 @@ void material_type::load_material(JsonObject &jsobj)
     mat._acid_resist = jsobj.get_int("acid_resist");
     mat._elec_resist = jsobj.get_int("elec_resist");
     mat._fire_resist = jsobj.get_int("fire_resist");
+    mat._chip_resist = jsobj.get_int("chip_resist");
     mat._density = jsobj.get_int("density");
 
     JsonArray jsarr = jsobj.get_array("dmg_adj");
@@ -223,6 +228,11 @@ int material_type::elec_resist() const
 int material_type::fire_resist() const
 {
     return _fire_resist;
+}
+
+int material_type::chip_resist() const
+{
+    return _chip_resist;
 }
 
 int material_type::density() const
