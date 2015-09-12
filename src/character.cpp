@@ -1197,7 +1197,9 @@ hp_part Character::body_window( const std::string &menu_header,
 
         const auto print_hp = [&]( const int x, const nc_color col, const int hp ) {
             const auto bar = get_hp_bar( hp, maximal_hp, false );
-            if( precise ) {
+            if( hp == 0 ) {
+                mvwprintz( hp_window, line, x, col, "-----" );
+            } else if( precise ) {
                 mvwprintz( hp_window, line, x, col, "%5d", hp );
             } else {
                 mvwprintz( hp_window, line, x, col, bar.first.c_str() );
@@ -1212,7 +1214,7 @@ hp_part Character::body_window( const std::string &menu_header,
             // curhp is 0; requires surgical attention
             // But still could be infected or bleeding
             const nc_color color = has_any_effect ? all_state_col : c_dkgray;
-            mvwprintz(hp_window, line, 15, color, "-----");
+            print_hp( 15, color, 0 );
         }
 
         if( current_hp != 0 ) {
@@ -1234,7 +1236,7 @@ hp_part Character::body_window( const std::string &menu_header,
             }
             const nc_color color = has_curable_effect ? state_col : c_dkgray;
             mvwprintz( hp_window, line, 20, c_dkgray, " -> " );
-            mvwprintz( hp_window, line, 24, color, "-----" );
+            print_hp( 24, color, 0 );
         }
     }
     mvwprintz( hp_window, parts.size() + y_off, 1, c_ltgray, _("%d: Exit"), parts.size() + 1 );
