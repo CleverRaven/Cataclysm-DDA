@@ -1147,21 +1147,21 @@ hp_part Character::body_window( const std::string &menu_header,
      * have HP) and the body_part. Note that there are more body_parts than hp_parts. For example:
      * Damage to bp_head, bp_eyes and bp_mouth is all applied on the HP of hp_head. */
     struct healable_bp {
+        bool allowed;
         body_part bp;
         hp_part hp;
     };
     std::array<healable_bp, num_hp_parts> parts = { {
-        { bp_head, hp_head },
-        { bp_torso, hp_torso },
-        { bp_arm_l, hp_arm_l },
-        { bp_arm_r, hp_arm_r },
-        { bp_leg_l, hp_leg_l },
-        { bp_leg_r, hp_leg_r },
+        { false, bp_head, hp_head },
+        { false, bp_torso, hp_torso },
+        { false, bp_arm_l, hp_arm_l },
+        { false, bp_arm_r, hp_arm_r },
+        { false, bp_leg_l, hp_leg_l },
+        { false, bp_leg_r, hp_leg_r },
     } };
 
 
     nc_color color = c_ltgray;
-    bool allowed_result[num_hp_parts] = { false };
 
     const auto check_part = [&]( hp_part part, std::string part_name,
                                  int heal_val, int line_num ) {
@@ -1175,7 +1175,7 @@ hp_part Character::body_window( const std::string &menu_header,
                 limb_color( bp, bleed, bite, infect );
             if( color != c_ltgray || heal_val != 0 ) {
                 mvwprintz( hp_window, line_num, 1, color, part_name.c_str() );
-                allowed_result[part] = true;
+                parts[part].allowed = true;
             }
         }
     };
@@ -1195,7 +1195,7 @@ hp_part Character::body_window( const std::string &menu_header,
         const hp_part hp = e.hp;
         const int maximal_hp = hp_max[hp];
 
-        if( !allowed_result[i] ) {
+        if( !e.allowed ) {
             continue;
         }
 
