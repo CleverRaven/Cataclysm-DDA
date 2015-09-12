@@ -1175,8 +1175,7 @@ hp_part Character::body_window( const std::string &menu_header,
             has_effect("infected", bp) ||
             has_effect("bite", bp) ||
             has_effect("bleed", bp) ) {
-            nc_color color = limb_color( bp, bleed, bite, infect );
-            if( color != c_ltgray || e.bonus != 0 ) {
+            if( e.bonus != 0 ) {
                 e.allowed = true;
             }
         }
@@ -1197,6 +1196,8 @@ hp_part Character::body_window( const std::string &menu_header,
         const bool has_curable_effect = state_col != c_ltgray;
 
         if( show_all ) {
+            e.allowed = true;
+        } else if( has_curable_effect ) {
             e.allowed = true;
         } else {
         check_part( e );
