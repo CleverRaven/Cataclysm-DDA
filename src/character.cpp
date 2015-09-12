@@ -1165,8 +1165,7 @@ hp_part Character::body_window( const std::string &menu_header,
 
     nc_color color = c_ltgray;
 
-    const auto check_part = [&]( hp_part part,
-                                 int line_num ) {
+    const auto check_part = [&]( hp_part part ) {
         body_part bp = player::hp_to_bp( part );
         if( show_all ||
             hp_cur[part] < hp_max[part] ||
@@ -1176,18 +1175,17 @@ hp_part Character::body_window( const std::string &menu_header,
             nc_color color = show_all ? c_green :
                 limb_color( bp, bleed, bite, infect );
             if( color != c_ltgray || parts[part].bonus != 0 ) {
-                mvwprintz( hp_window, line_num, 1, color, "%d: %s", part + 1, parts[part].name.c_str() );
                 parts[part].allowed = true;
             }
         }
     };
 
-    check_part( hp_head,  2 );
-    check_part( hp_torso, 3 );
-    check_part( hp_arm_l, 4 );
-    check_part( hp_arm_r, 5 );
-    check_part( hp_leg_l, 6 );
-    check_part( hp_leg_r, 7 );
+    check_part( hp_head );
+    check_part( hp_torso );
+    check_part( hp_arm_l );
+    check_part( hp_arm_r );
+    check_part( hp_leg_l );
+    check_part( hp_leg_r );
     mvwprintz( hp_window, 8, 1, c_ltgray, _("7: Exit") );
     std::string health_bar;
 
@@ -1204,7 +1202,9 @@ hp_part Character::body_window( const std::string &menu_header,
 
         const int line = i + 2;
 
-        // Have printed the name of the body part, can select it
+        color = show_all ? c_green : limb_color( bp, bleed, bite, infect );
+        mvwprintz( hp_window, line, 1, color, "%d: %s", i + 1, e.name.c_str() );
+
         int current_hp = hp_cur[hp];
         if( current_hp != 0 ) {
             std::tie( health_bar, color ) = get_hp_bar(current_hp, maximal_hp, false);
