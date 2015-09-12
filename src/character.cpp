@@ -1229,8 +1229,12 @@ hp_part Character::body_window( const std::string &menu_header,
             print_hp( 24, color, new_hp );
         } else {
             // curhp is 0; requires surgical attention
+            if( !has_curable_effect ) {
+                continue;
+            }
             const nc_color color = has_curable_effect ? state_col : c_dkgray;
-            mvwprintz(hp_window, line, 24, color, "-----");
+            mvwprintz( hp_window, line, 20, c_dkgray, " -> " );
+            mvwprintz( hp_window, line, 24, color, "-----" );
         }
     }
     mvwprintz( hp_window, parts.size() + y_off, 1, c_ltgray, _("%d: Exit"), parts.size() + 1 );
