@@ -9268,7 +9268,9 @@
     ],
     [
       ["irradiated_lettuce", 2],
-      ["lettuce", 2]
+      ["lettuce", 2],
+	  ["irradiated_cabbage", 2],
+	  ["cabbage", 2]
     ],
     [
       [ "vinegar", 1 ]
