@@ -1153,6 +1153,8 @@ hp_part Character::body_window( const std::string &menu_header,
         std::string name; // Translated name as it appears in the menu.
         int bonus;
     };
+    /* The array of the menu entries show to the player. The entries are displayed in this order,
+     * it may be changed here. */
     std::array<healable_bp, num_hp_parts> parts = { {
         { false, bp_head, hp_head, _("Head"), head_bonus },
         { false, bp_torso, hp_torso, _("Torso"), torso_bonus },
@@ -1254,19 +1256,11 @@ hp_part Character::body_window( const std::string &menu_header,
     hp_part healed_part = num_hp_parts;
     do {
         ch = getch();
-        if (ch == '1') {
-            healed_part = hp_head;
-        } else if (ch == '2') {
-            healed_part = hp_torso;
-        } else if (ch == '3') {
-            healed_part = hp_arm_l;
-        } else if (ch == '4') {
-            healed_part = hp_arm_r;
-        } else if (ch == '5') {
-            healed_part = hp_leg_l;
-        } else if (ch == '6') {
-            healed_part = hp_leg_r;
-        } else if (ch == '7' || ch == KEY_ESCAPE) {
+        const size_t index = ch - '1';
+        if( index < parts.size() && parts[index].allowed ) {
+            healed_part = parts[index].hp;
+            break;
+        } else if( index == parts.size() || ch == KEY_ESCAPE) {
             healed_part = num_hp_parts;
             break;
         }
