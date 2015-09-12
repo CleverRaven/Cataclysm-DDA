@@ -1171,6 +1171,8 @@ hp_part Character::body_window( const std::string &menu_header,
     mvwprintz( hp_window, 8, 1, c_ltgray, _("7: Exit") );
     std::string health_bar;
     for( int i = 0; i < num_hp_parts; i++ ) {
+        const int maximal_hp = hp_max[i];
+
         if( !allowed_result[i] ) {
             continue;
         }
@@ -1191,7 +1193,7 @@ hp_part Character::body_window( const std::string &menu_header,
         // Have printed the name of the body part, can select it
         int current_hp = hp_cur[i];
         if( current_hp != 0 ) {
-            std::tie( health_bar, color ) = get_hp_bar(current_hp, hp_max[i], false);
+            std::tie( health_bar, color ) = get_hp_bar(current_hp, maximal_hp, false);
             // Drop the bar color, use the state color instead
             const nc_color state_col = limb_color( bp, true, true, true );
             color = state_col != c_ltgray ? state_col : c_green;
@@ -1221,8 +1223,8 @@ hp_part Character::body_window( const std::string &menu_header,
                     break;
             }
 
-            if( current_hp > hp_max[i] ) {
-                current_hp = hp_max[i];
+            if( current_hp > maximal_hp ) {
+                current_hp = maximal_hp;
             } else if (current_hp < 0) {
                 current_hp = 0;
             }
@@ -1236,7 +1238,7 @@ hp_part Character::body_window( const std::string &menu_header,
             }
 
             mvwprintz( hp_window, line, 20, c_dkgray, " -> " );
-            std::tie( health_bar, color ) = get_hp_bar( current_hp, hp_max[i], false );
+            std::tie( health_bar, color ) = get_hp_bar( current_hp, maximal_hp, false );
             
             const nc_color state_col = limb_color( bp, bleed > 0, bite > 0, infect > 0 );
             color = state_col != c_ltgray ? state_col : c_green;
