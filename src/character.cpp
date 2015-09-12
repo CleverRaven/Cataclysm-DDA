@@ -1186,6 +1186,8 @@ hp_part Character::body_window( const std::string &menu_header,
             e.allowed = true;
         } else if( has_curable_effect ) {
             e.allowed = true;
+        } else if( limb_is_broken ) {
+            continue;
         } else if( current_hp < maximal_hp && e.bonus != 0 ) {
             e.allowed = true;
         } else {
@@ -1231,9 +1233,6 @@ hp_part Character::body_window( const std::string &menu_header,
             const nc_color color = has_curable_effect ? state_col : c_green;
             print_hp( 24, color, new_hp );
         } else {
-            if( !has_curable_effect ) {
-                continue;
-            }
             const nc_color color = has_curable_effect ? state_col : c_dkgray;
             mvwprintz( hp_window, line, 20, c_dkgray, " -> " );
             print_hp( 24, color, 0 );
