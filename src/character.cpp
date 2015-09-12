@@ -1142,6 +1142,24 @@ hp_part Character::body_window( const std::string &menu_header,
     draw_border(hp_window);
 
     trim_and_print( hp_window, 1, 1, getmaxx(hp_window) - 2, c_ltred, menu_header.c_str() );
+
+    /* This struct estabiles some kind of connection between the hp_part (which can be healed and
+     * have HP) and the body_part. Note that there are more body_parts than hp_parts. For example:
+     * Damage to bp_head, bp_eyes and bp_mouth is all applied on the HP of hp_head. */
+    struct healable_bp {
+        body_part bp;
+        hp_part hp;
+    };
+    std::array<healable_bp, num_hp_parts> parts = { {
+        { bp_head, hp_head },
+        { bp_torso, hp_torso },
+        { bp_arm_l, hp_arm_l },
+        { bp_arm_r, hp_arm_r },
+        { bp_leg_l, hp_leg_l },
+        { bp_leg_r, hp_leg_r },
+    } };
+
+
     nc_color color = c_ltgray;
     bool allowed_result[num_hp_parts] = { false };
 
@@ -1170,8 +1188,12 @@ hp_part Character::body_window( const std::string &menu_header,
     check_part( hp_leg_r, _("6: Right Leg"), normal_bonus, 7 );
     mvwprintz( hp_window, 8, 1, c_ltgray, _("7: Exit") );
     std::string health_bar;
-    for( int i = 0; i < num_hp_parts; i++ ) {
-        const int maximal_hp = hp_max[i];
+
+    for( size_t i = 0; i < parts.size(); i++ ) {
+        const auto &e = parts[i];
+        const body_part bp = e.bp;
+        const hp_part hp = e.hp;
+        const int maximal_hp = hp_max[hp];
 
         if( !allowed_result[i] ) {
             continue;
@@ -1179,19 +1201,8 @@ hp_part Character::body_window( const std::string &menu_header,
 
         const int line = i + 2;
 
-        body_part bp;
-        switch(i) {
-            case 0: bp = bp_head; break;
-            case 1: bp = bp_torso; break;
-            case 2: bp = bp_arm_l; break;
-            case 3: bp = bp_arm_r; break;
-            case 4: bp = bp_leg_l; break;
-            case 5: bp = bp_leg_r; break;
-            default: debugmsg("unexpected body_part %d", i); break;
-        }
-
         // Have printed the name of the body part, can select it
-        int current_hp = hp_cur[i];
+        int current_hp = hp_cur[hp];
         if( current_hp != 0 ) {
             std::tie( health_bar, color ) = get_hp_bar(current_hp, maximal_hp, false);
             // Drop the bar color, use the state color instead
@@ -1211,7 +1222,7 @@ hp_part Character::body_window( const std::string &menu_header,
         }
 
         if( current_hp != 0 ) {
-            switch( hp_part( i ) ) {
+            switch( hp ) {
                 case hp_head:
                     current_hp += head_bonus;
                     break;
@@ -1229,7 +1240,7 @@ hp_part Character::body_window( const std::string &menu_header,
                 current_hp = 0;
             }
 
-            if( current_hp == hp_cur[i] &&
+            if( current_hp == hp_cur[hp] &&
                 ( infect <= 0 || !has_effect( "infected", bp ) ) &&
                 ( bite <= 0 || !has_effect( "bite", bp ) ) &&
                 ( bleed <= 0 || !has_effect( "bleed", bp ) ) ) {
