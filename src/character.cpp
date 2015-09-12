@@ -1167,7 +1167,6 @@ hp_part Character::body_window( const std::string &menu_header,
 
 
     nc_color color = c_ltgray;
-    std::string health_bar;
 
     for( size_t i = 0; i < parts.size(); i++ ) {
         const auto &e = parts[i];
@@ -1197,15 +1196,15 @@ hp_part Character::body_window( const std::string &menu_header,
         mvwprintz( hp_window, line, 1, color, "%d: %s", i + 1, e.name.c_str() );
 
         const auto print_hp = [&]( const int x, const nc_color col, const int hp ) {
+            const auto bar = get_hp_bar( hp, maximal_hp, false );
             if( precise ) {
                 mvwprintz( hp_window, line, x, col, "%5d", hp );
             } else {
-                mvwprintz( hp_window, line, x, col, health_bar.c_str() );
+                mvwprintz( hp_window, line, x, col, bar.first.c_str() );
             }
         };
 
         if( current_hp != 0 ) {
-            std::tie( health_bar, color ) = get_hp_bar(current_hp, maximal_hp, false);
             // Drop the bar color, use the state color instead
             const nc_color state_col = limb_color( bp, true, true, true );
             color = state_col != c_ltgray ? state_col : c_green;
@@ -1230,7 +1229,6 @@ hp_part Character::body_window( const std::string &menu_header,
             }
 
             mvwprintz( hp_window, line, 20, c_dkgray, " -> " );
-            std::tie( health_bar, color ) = get_hp_bar( new_hp, maximal_hp, false );
             
             color = has_curable_effect ? state_col : c_green;
             print_hp( 24, color, new_hp );
