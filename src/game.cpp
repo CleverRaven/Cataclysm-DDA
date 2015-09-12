@@ -566,7 +566,7 @@ void game::setup()
 {
     load_world_modfiles(world_generator->active_world);
 
-    m = std::move( map( static_cast<bool>( ACTIVE_WORLD_OPTIONS["ZLEVELS"] ) ) );
+    m =  map( static_cast<bool>( ACTIVE_WORLD_OPTIONS["ZLEVELS"] ) ) ;
 
     next_npc_id = 1;
     next_faction_id = 1;
