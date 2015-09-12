@@ -1181,7 +1181,6 @@ hp_part Character::body_window( const std::string &menu_header,
         }
     };
 
-    mvwprintz( hp_window, 8, 1, c_ltgray, _("7: Exit") );
     std::string health_bar;
 
     for( size_t i = 0; i < parts.size(); i++ ) {
@@ -1248,6 +1247,8 @@ hp_part Character::body_window( const std::string &menu_header,
             mvwprintz(hp_window, line, 24, color, "-----");
         }
     }
+    mvwprintz( hp_window, parts.size() + 2, 1, c_ltgray, _("%d: Exit"), parts.size() + 1 );
+
     wrefresh(hp_window);
     char ch;
     hp_part healed_part = num_hp_parts;
