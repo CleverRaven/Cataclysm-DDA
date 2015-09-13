@@ -8632,7 +8632,7 @@
       [ "ketchup", 4 ],
       [ "mustard", 4],
       [ "horseradish", 2 ],
-	  [ "sauerkraut", 1 ]
+      [ "sauerkraut", 1 ]
     ],
     [
       [ "water", 1],
@@ -8677,7 +8677,7 @@
     [
       [ "mustard", 4],
       [ "horseradish", 2 ],
-	  [ "sauerkraut", 1 ]
+      [ "sauerkraut", 1 ]
     ]
   ]
 },{
@@ -8751,7 +8751,7 @@
     [
       [ "mustard", 4],
       [ "horseradish", 2 ],
-	  [ "sauerkraut", 1 ]
+      [ "sauerkraut", 1 ]
     ]
   ]
 },{
@@ -9305,7 +9305,7 @@
     ],
     [
       [ "irradiated_onion", 1 ],
-	  [ "onion", 1 ]
+      [ "onion", 1 ]
     ]
   ]
   },{
