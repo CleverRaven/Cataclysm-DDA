@@ -674,7 +674,7 @@ The contents of use_action fields can either be a string indicating a built-in f
 "use_action" : {
     "type" : "consume_drug", // A drug the player can consume.
     "activation_message" : "You smoke your crack rocks.  Mother would be proud.", // Message, ayup.
-    "diseases" : { "high": 15 }, // A disease to inflict and its duration.
+    "effects" : { "high": 15 }, // Effects and their duration.
     "stat_adjustments": {"hunger" : -10}, // Adjustment to make to player stats.
     "fields_produced" : {"cracksmoke" : 2}, // Fields to produce, mostly used for smoke.
     "charges_needed" : { "fire" : 1 }, // Charges to use in the process of consuming the drug.
