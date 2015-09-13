@@ -9272,8 +9272,8 @@
     [
       ["irradiated_lettuce", 2],
       ["lettuce", 2],
-	  ["irradiated_cabbage", 2],
-	  ["cabbage", 2]
+      ["irradiated_cabbage", 2],
+      ["cabbage", 2]
     ]
   ]
 },{
@@ -9753,8 +9753,8 @@
       [ "irradiated_broccoli", 1],
       [ "dandelion_cooked", 1 ],
       [ "veggy_wild_cooked", 1 ],
-	  [ "irradiated_cabbage", 1 ],
-	  [ "cabbage", 1 ]
+      [ "irradiated_cabbage", 1 ],
+      [ "cabbage", 1 ]
     ],
     [
       [ "cucumber", 2 ],
