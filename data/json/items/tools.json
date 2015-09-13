@@ -7350,7 +7350,7 @@
     "category" : "food",
     "use_action": {
         "type": "delayed_transform",
-        "transform_age": 100800, "//": "7 days, from the suggested recipie of 3 weeks",
+        "transform_age": 33600, "//": "2 1/3 days, from the suggested recipie of 1 rl week",
         "not_ready_msg": "The sauerkraut isn't done fermenting yet.",
         "msg": "You test the batch, and it tastes good, so you seal the jar up for storage.",
         "moves": 50,
