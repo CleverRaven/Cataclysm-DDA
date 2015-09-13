@@ -521,9 +521,26 @@ void player::power_bionics()
                 tmp = bionic_by_invlet(ch);
                 if(tmp && tmp != bio_last) {
                     // new bionic selected, update cursor and scroll position
-                    for(cursor = 0; cursor < (int)bio_list.size(); cursor++) {
-                        if(bio_list[cursor] == tmp) {
+                    //check both active and passive separately, avoids cursor overflow
+                    for(cursor = 0; cursor < (int)active.size(); cursor++) {
+                        if(active[cursor] == tmp) {
+                            tab_mode = "TAB_ACTIVE";
+                            redraw = true;
                             break;
+                        }
+                    }
+                    if(cursor >= (int)active.size()) {
+                        tab_mode = "TAB_PASSIVE";
+                        redraw = true;
+                        for(cursor = 0; cursor < (int)passive.size(); cursor++) {
+                            if(passive[cursor] == tmp) {
+                                break;
+                            }
+                        }
+                        //shouldn't be reachable this time
+                        if(cursor >= (int)passive.size()) {
+                            tab_mode = "TAB_ACTIVE";
+                            cursor = 0;
                         }
                     }
                     scroll_position = 0;
