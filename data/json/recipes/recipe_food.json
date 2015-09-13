@@ -9260,11 +9260,11 @@
     [
       [ "water", 1 ],
       [ "water_clean", 1 ]
-	],
-	[
+    ],
+    [
       [ "salt_water", 2 ],
       [ "saline", 5 ],
-	  [ "salt", 1]
+      [ "salt", 1]
     ],
     [
       [ "jar_glass", 1 ]

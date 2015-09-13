@@ -6993,7 +6993,7 @@
         "type": "transform",
         "msg": "You open the jar, exposing it to the atmosphere.",
         "target": "sauerkraut",
-		"target_charges": 4,
+        "target_charges": 4,
         "container": "jar_glass"
     }
   },
