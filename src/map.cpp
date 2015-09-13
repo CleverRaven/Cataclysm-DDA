@@ -1450,7 +1450,7 @@ void map::set(const int x, const int y, const std::string new_terrain, const std
 
 std::string map::name(const int x, const int y)
 {
- return has_furn(x, y) ? furn_at(x, y).name : ter_at(x, y).name;
+    return name( tripoint( x, y, abs_sub.z ) );
 }
 
 bool map::has_furn(const int x, const int y) const
@@ -1510,7 +1510,7 @@ void map::set( const tripoint &p, const std::string new_terrain, const std::stri
 
 std::string map::name( const tripoint &p )
 {
- return has_furn( p ) ? furn_at( p ).name : ter_at( p ).name;
+    return has_furn( p ) ? furnname( p ) : tername( p );
 }
 
 std::string map::disp_name( const tripoint &p )
@@ -1605,7 +1605,14 @@ bool map::can_move_furniture( const tripoint &pos, player *p ) {
 }
 
 std::string map::furnname( const tripoint &p ) {
-    return furn_at( p ).name;
+    const furn_t &f = furn_at( p );
+    if( f.has_flag( "PLANT" ) && !i_at( p ).empty() ) {
+        const item &seed = i_at( p ).front();
+        const std::string &plant = seed.get_plant_name();
+        return string_format( "%s (%s)", f.name.c_str(), plant.c_str() );
+    } else {
+        return f.name;
+    }
 }
 
 // 2D overloads for terrain
