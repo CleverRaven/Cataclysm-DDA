@@ -1092,6 +1092,16 @@ to continue, or <color_yellow>%s</color> to go back and review your world."), ct
 
         const std::string action = ctxt.handle_input();
         if (action == "NEXT_TAB") {
+#ifndef LUA
+            MOD_INFORMATION *temp = NULL;
+            for (std::string &mod : world->active_mod_order) {
+                temp = mman->mod_map[mod];
+                if ( temp->need_lua ) {
+                    popup("Mod '%s' require Lua.", temp->name.c_str());
+                    return -2; // Move back to modselect tab.
+                }
+            }
+#endif
             if (worldname.empty()) {
                 mvwprintz(w_confirmation, namebar_y, namebar_x, h_ltgray, _("_______NO NAME ENTERED!!!!______"));
                 noname = true;
