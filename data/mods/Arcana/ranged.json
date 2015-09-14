@@ -7,7 +7,7 @@
     "name": "symbol of judgement",
     "name_plural": "symbols of judgement",
     "description": "A large golden ring decorated with a trident motif, and inlaid with silver.  For some reason you suspect this to be a perversion of some otherworldly holy symbol, from some cult worlds away.  Firing it calls forth lightning.",
-    "price": 17950,
+    "price": 179500,
     "material": ["gold", "silver"],
     "skill": "magic",
     "ammo": "essence_blood_type",
@@ -28,7 +28,7 @@
     "reload": 400,
     "loudness" : 150,
     "ammo_effects": ["LIGHTNING","BOUNCE"]
-  },{
+},{
     "id": "bloodscourge",
     "type": "GUN",
     "symbol": "/",
