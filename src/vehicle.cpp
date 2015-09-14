@@ -3469,9 +3469,8 @@ void vehicle::consume_fuel( double load = 1.0 )
     }
 }
 
-void vehicle::power_parts( const tripoint &sm_loc )
+void vehicle::power_parts()
 {
-(void)sm_loc;
     int epower = 0;
 
     // Consumers of epower
@@ -6281,21 +6280,32 @@ std::set<tripoint> &vehicle::get_points( const bool force_refresh )
     return occupied_points;
 }
 
-bool is_sm_tile_outside( int smx, int smy, int px, int py, int pz )
+inline int modulo(int v, int m) {
+    // C++11: negative v and positive m result in negative v%m (or 0),
+    // but this is supposed to be mathematical modulo: 0 <= v%m < m,
+    const int r = v % m;
+    // Adding m in that (and only that) case.
+    return r >= 0 ? r : r + m;
+}
+
+bool is_sm_tile_outside( const tripoint &real_global_pos )
 {
-    point pg = overmapbuffer::sm_to_ms_copy( smx, smy );
-    pg.x += px;
-    pg.y += py;
-    point psm = overmapbuffer::ms_to_sm_remain( pg.x, pg.y );
-    // Now psm points to proper submap, and pg gives the submap relative coords
-    auto sm = MAPBUFFER.lookup_submap( psm.x, psm.y, pz );
+    const tripoint smp = overmapbuffer::ms_to_sm_copy( real_global_pos );
+    const int px = modulo( real_global_pos.x, SEEX );
+    const int py = modulo( real_global_pos.y, SEEY );
+    auto sm = MAPBUFFER.lookup_submap( smp );
     if( sm == nullptr ) {
-        debugmsg( "is_sm_tile_outside(): couldn't find submap %d,%d,%d", psm.x, psm.y, pz );
+        debugmsg( "is_sm_tile_outside(): couldn't find submap %d,%d,%d", smp.x, smp.y, smp.z );
         return false;
     }
 
-    return !(sm->ter[pg.x][pg.y].obj().has_flag(TFLAG_INDOORS) ||
-        sm->get_furn(pg.x, pg.y).obj().has_flag(TFLAG_INDOORS));
+    if( px < 0 || px >= SEEX || py < 0 || py >= SEEY ) {
+        debugmsg("err %d,%d", px, py);
+        return false;
+    }
+
+    return !(sm->ter[px][py].obj().has_flag(TFLAG_INDOORS) ||
+        sm->get_furn(px, py).obj().has_flag(TFLAG_INDOORS));
 }
 
 void vehicle::update_time( const calendar &update_to )
@@ -6307,25 +6317,32 @@ void vehicle::update_time( const calendar &update_to )
         return;
     }
 
-    // Stuff below only happens for z-levels >= 0
+    // Weather stuff, only for z-levels >= 0
+    // TODO: Have it wash cars from blood?
+    if( funnels.empty() && solar_panels.empty() ) {
+        return;
+    }
 
-    const tripoint veh_loc = global_pos3();
-    // Don't fill funnels every turn, because rainfall has 10 turn granularity
-    if( !funnels.empty() && ( update_to - update_from >= 10 || one_in( 10 ) ) ) {
+    if( update_to - update_from < 10 && !one_in( 10 + update_to - update_from ) ) {
+        // Weather data accumulation has granularity of 10 turns
+        return;
+    }
+
+    // Get one weather data set per veh, they don't differ much across veh area
+    const tripoint veh_loc = real_global_pos3();
+    auto accum_weather = sum_conditions( update_from, update_to, veh_loc );
+    if( !funnels.empty() ) {
         double rain_amount = 0.0;
         // TODO: double acid_amount = 0.0;
-        // Get one weather data set per veh, they don't differ much
-        rainfall_data rainfall = get_rainfall( update_from, update_to, veh_loc );
         for( int part : funnels ) {
-            const int px = posx + parts[part].precalc[0].x; // veh. origin submap relative
-            const int py = posy + parts[part].precalc[0].y; // as above
-            if( !is_sm_tile_outside( smx, smy, px, py, smz ) ) {
+            const tripoint part_loc = veh_loc + parts[part].precalc[0];
+            if( !is_sm_tile_outside( part_loc ) ) {
                 continue;
             }
 
             const int part_size = part_info( part ).size;
             const double funnel_area_mm = M_PI * part_size * part_size;
-            rain_amount += funnel_charges_per_turn( funnel_area_mm, rainfall.rain_amount );
+            rain_amount += funnel_charges_per_turn( funnel_area_mm, accum_weather.rain_amount );
         }
 
         const int rain_val = divide_roll_remainder( rain_amount, 1.0 );
@@ -6337,19 +6354,17 @@ void vehicle::update_time( const calendar &update_to )
 
     if( !solar_panels.empty() ) {
         int epower = 0;
-        float sunlight = get_sunlight( update_from, update_to, veh_loc );
         for( int part : solar_panels ) {
             if( parts[part].hp <= 0 ) {
                 continue;
             }
 
-            const int px = posx + parts[part].precalc[0].x; // veh. origin submap relative
-            const int py = posy + parts[part].precalc[0].y; // as above
-            if( !is_sm_tile_outside( smx, smy, px, py, smz ) ) {
+            const tripoint part_loc = veh_loc + parts[part].precalc[0];
+            if( !is_sm_tile_outside( part_loc ) ) {
                 continue;
             }
 
-            epower += ( part_epower( part ) * sunlight ) / DAYLIGHT_LEVEL;
+            epower += ( part_epower( part ) * accum_weather.sunlight ) / DAYLIGHT_LEVEL;
         }
 
         if( epower > 0 ) {

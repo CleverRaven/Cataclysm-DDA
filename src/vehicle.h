@@ -553,7 +553,7 @@ public:
 
     void consume_fuel( double load );
 
-    void power_parts( const tripoint &sm_loc );
+    void power_parts();
 
     /**
      * Try to charge our (and, optionally, connected vehicles') batteries by the given amount.
