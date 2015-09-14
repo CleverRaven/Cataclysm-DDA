@@ -4,8 +4,10 @@
 #include "game.h"
 #include "player.h"
 #include "map.h"
+#include "trap.h"
 #include "map_iterator.h"
 #include "vehicle.h"
+#include "veh_type.h"
 #include "submap.h"
 #include "mapdata.h"
 
@@ -143,14 +145,14 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
      * in-bounds point and go to that, then to the real origin/destination.
      */
 
-    if( !inbounds( f ) || !inbounds( t ) ) {
-        // Note: The creature needs to understand not-moving upwards
-        // or else the plans can cause it to do so.
-        if( sees( f, t, -1 ) ) {
-            return find_clear_path( f, t );
-        } else {
-            return {};
-        }
+    if( !inbounds( f ) ) {
+        return {};
+    }
+
+    if( !inbounds( t ) ) {
+        tripoint clipped = t;
+        clip_to_bounds( clipped );
+        return route( f, clipped, bash, maxdist );
     }
     // First, check for a simple straight line on flat ground
     // Except when the player is on the line - we need to do regular pathing then
@@ -208,9 +210,14 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
         }
 
         cur_state = ASL_CLOSED;
-        std::vector<tripoint> neighbors = closest_tripoints_first( 1, cur );
 
-        for( const auto &p : neighbors ) {
+        // 7 3 5
+        // 1 . 2
+        // 6 4 8
+        constexpr std::array<int, 8> x_offset{{ -1,  1,  0,  0,  1, -1, -1, 1 }};
+        constexpr std::array<int, 8> y_offset{{  0,  0, -1,  1, -1,  1, -1, 1 }};
+        for( size_t i = 0; i < 8; i++ ) {
+            const tripoint p( cur.x + x_offset[i], cur.y + y_offset[i], cur.z );
             const int index = flat_index( p.x, p.y );
 
             // TODO: Remove this and instead have sentinels at the edges
@@ -233,7 +240,7 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
             const int rating = ( bash == 0 || cost != 0 ) ? -1 :
                                  bash_rating_internal( bash, furniture, terrain, false, veh, part );
 
-            if( cost == 0 && rating <= 0 && terrain.open.empty() ) {
+            if( cost == 0 && rating <= 0 && terrain.open.empty() && veh == nullptr ) {
                 layer.state[index] = ASL_CLOSED; // Close it so that next time we won't try to calc costs
                 continue;
             }
@@ -242,30 +249,47 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
             if( cost == 0 ) {
                 // Handle all kinds of doors
                 // Only try to open INSIDE doors from the inside
-
                 if( !terrain.open.empty() &&
                     ( !terrain.has_flag( "OPENCLOSE_INSIDE" ) || !is_outside( cur ) ) ) {
                     newg += 4; // To open and then move onto the tile
                 } else if( veh != nullptr ) {
                     part = veh->obstacle_at_part( part );
                     int dummy = -1;
-                    if( !veh->part_flag( part, "OPENCLOSE_INSIDE" ) || veh_at_internal( cur, dummy ) == veh ) {
+                    if( veh->part_flag( part, VPFLAG_OPENABLE ) &&
+                        ( !veh->part_flag( part, "OPENCLOSE_INSIDE" ) ||
+                          veh_at_internal( cur, dummy ) == veh ) ) {
                         // Handle car doors, but don't try to path through curtains
                         newg += 10; // One turn to open, 4 to move there
-                    } else {
+                    } else if( part != -1 && bash > 0 ) {
                         // Car obstacle that isn't a door
-                        newg += veh->parts[part].hp / bash + 8 + 4;
+                        // Or there is no car obstacle, but the car is wedged into an obstacle,
+                        //  in which case part == -1
+                        newg += 2 * veh->parts[part].hp / bash + 8 + 4;
+                    } else {
+                        if( !veh->part_flag( part, VPFLAG_OPENABLE ) ) {
+                            // Won't be openable, don't try from other sides
+                            layer.state[index] = ASL_CLOSED;
+                        }
+
+                        continue;
                     }
                 } else if( rating > 1 ) {
                     // Expected number of turns to bash it down, 1 turn to move there
-                    // and 2 turns of penalty not to trash everything just because we can
-                    newg += ( 20 / rating ) + 2 + 4;
+                    // and 5 turns of penalty not to trash everything just because we can
+                    newg += ( 20 / rating ) + 2 + 10;
                 } else if( rating == 1 ) {
                     // Desperate measures, avoid whenever possible
                     newg += 500;
                 } else {
                     continue; // Unbashable and unopenable from here
                 }
+            }
+
+            const auto &ter_trp = terrain.trap.obj();
+            const auto &trp = ter_trp.is_benign() ? tile.get_trap_t() : ter_trp;
+            if( !trp.is_benign() ) {   
+                // For now make them detect all traps
+                newg += 500;
             }
 
             // If not visited, add as open

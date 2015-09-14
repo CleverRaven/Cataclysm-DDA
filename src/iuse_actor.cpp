@@ -24,6 +24,11 @@
 #include <sstream>
 #include <algorithm>
 
+const skill_id skill_mechanics( "mechanics" );
+const skill_id skill_survival( "survival" );
+const skill_id skill_firstaid( "firstaid" );
+const skill_id skill_fabrication( "fabrication" );
+
 iuse_transform::~iuse_transform()
 {
 }
@@ -459,8 +464,8 @@ void place_monster_iuse::load( JsonObject &obj )
     obj.read( "difficulty", difficulty );
     obj.read( "moves", moves );
     obj.read( "place_randomly", place_randomly );
-    obj.read( "skill1", skill1 );
-    obj.read( "skill2", skill2 );
+    skill1 = skill_id( obj.get_string( "skill1", skill1.str() ) );
+    skill2 = skill_id( obj.get_string( "skill2", skill2.str() ) );
 }
 
 long place_monster_iuse::use( player *p, item *it, bool, const tripoint &pos ) const
@@ -519,10 +524,10 @@ long place_monster_iuse::use( player *p, item *it, bool, const tripoint &pos ) c
     }
     newmon.init_from_item( *it );
     int skill_offset = 0;
-    if( skill1 != "none" ) {
+    if( skill1 ) {
         skill_offset += p->skillLevel( skill1 ) / 2;
     }
-    if( skill2 != "none" ) {
+    if( skill2 ) {
         skill_offset += p->skillLevel( skill2 );
     }
     if( rng( 0, p->int_cur / 2 ) + skill_offset < rng( 0, difficulty ) ) {
@@ -673,12 +678,12 @@ long pick_lock_actor::use( player *p, item *it, bool, const tripoint& ) const
         return 0;
     }
 
-    p->practice( "mechanics", 1 );
-    p->moves -= std::min( 0, ( 1000 - ( pick_quality * 100 ) ) - ( p->dex_cur + p->skillLevel( "mechanics" ) ) * 5 );
-    int pick_roll = ( dice( 2, p->skillLevel( "mechanics" ) ) + dice( 2, p->dex_cur ) - it->damage / 2 ) * pick_quality;
+    p->practice( skill_mechanics, 1 );
+    p->moves -= std::min( 0, ( 1000 - ( pick_quality * 100 ) ) - ( p->dex_cur + p->skillLevel( skill_mechanics ) ) * 5 );
+    int pick_roll = ( dice( 2, p->skillLevel( skill_mechanics ) ) + dice( 2, p->dex_cur ) - it->damage / 2 ) * pick_quality;
     int door_roll = dice( 4, 30 );
     if( pick_roll >= door_roll ) {
-        p->practice( "mechanics", 1 );
+        p->practice( skill_mechanics, 1 );
         p->add_msg_if_player( m_good, "%s", open_message.c_str() );
         g->m.ter_set( dirp, new_type );
     } else if( door_roll > ( 1.5 * pick_roll ) && it->damage < 100 ) {
@@ -857,7 +862,7 @@ int extended_firestarter_actor::calculate_time_for_lens_fire( const player *p, f
     float moves_base = std::pow( 80 / light_level, 8 ) * 1000 ;
     // survival 0 takes 3 * moves_base, survival 1 takes 1,5 * moves_base,
     // max moves capped at moves_base
-    float moves_modifier = 1 / ( p->get_skill_level("survival") * 0.33 + 0.33 );
+    float moves_modifier = 1 / ( p->get_skill_level( skill_survival ) * 0.33 + 0.33 );
     if( moves_modifier < 1 ) {
         moves_modifier = 1;
     }
@@ -882,14 +887,14 @@ long extended_firestarter_actor::use( player *p, item *it, bool, const tripoint 
                 // Keep natural_light_level for comparing throughout the activity.
                 p->activity.values.push_back( g->natural_light_level() );
                 p->activity.placement = pos;
-                p->practice("survival", 5);
+                p->practice( skill_survival, 5 );
             }
         } else {
             p->add_msg_if_player(_("You need direct sunlight to light a fire with this."));
         }
     } else {
         if( prep_firestarter_use(p, it, pos) ) {
-            float skillLevel = float(p->get_skill_level("survival"));
+            float skillLevel = float(p->get_skill_level( skill_survival ));
             // success chance is 100% but time spent is min 5 minutes at skill == 5 and
             // it increases for lower skill levels.
             // max time is 1 hour for 0 survival
@@ -907,7 +912,7 @@ long extended_firestarter_actor::use( player *p, item *it, bool, const tripoint 
             p->add_msg_if_player(m_info, _("At your skill level, it will take around %d minutes to light a fire."), turns / 1000);
             p->assign_activity(ACT_START_FIRE, turns, -1, p->get_item_position(it), it->tname());
             p->activity.placement = pos;
-            p->practice("survival", 10);
+            p->practice( skill_survival, 10 );
             it->charges -= it->type->charges_to_use() * round(moves_modifier);
             return 0;
         }
@@ -1052,7 +1057,7 @@ int salvage_actor::cut_up(player *p, item *it, item *cut) const
     // This can go awry if there is a volume / recipe mismatch.
     int count = cut->volume();
     // Chance of us losing a material component to entropy.
-    int entropy_threshold = std::max(5, 10 - p->skillLevel("fabrication"));
+    int entropy_threshold = std::max(5, 10 - p->skillLevel( skill_fabrication ) );
     // What material components can we get back?
     std::vector<std::string> cut_material_components = cut->made_of();
     // What materials do we salvage (ids and counts).
@@ -1072,8 +1077,7 @@ int salvage_actor::cut_up(player *p, item *it, item *cut) const
     // Time based on number of components.
     p->moves -= moves_per_part * count;
     // Not much practice, and you won't get very far ripping things up.
-    const Skill* isFab = Skill::skill("fabrication");
-    p->practice(isFab, rng(0, 5), 1);
+    p->practice( skill_fabrication, rng(0, 5), 1 );
 
     // Higher fabrication, less chance of entropy, but still a chance.
     if( rng(1, 10) <= entropy_threshold ) {
@@ -1385,7 +1389,7 @@ long enzlave_actor::use( player *p, item *it, bool t, const tripoint& ) const
 
     // Survival skill increases your willingness to get things done,
     // but it doesn't make you feel any less bad about it.
-    if( p->morale_level() <= (15 * (tolerance_level - p->skillLevel("survival") )) - 150 ) {
+    if( p->morale_level() <= (15 * (tolerance_level - p->skillLevel( skill_survival ) )) - 150 ) {
         add_msg(m_neutral, _("The prospect of cutting up the copse and letting it rise again as a slave is too much for you to deal with right now."));
         return 0;
     }
@@ -1413,10 +1417,10 @@ long enzlave_actor::use( player *p, item *it, bool t, const tripoint& ) const
     } else {
         add_msg(m_bad, _("You feel horrible for mutilating and enslaving someone's corpse."));
 
-        int moraleMalus = -50 * (5.0 / (float) p->skillLevel("survival"));
-        int maxMalus = -250 * (5.0 / (float)p->skillLevel("survival"));
-        int duration = 300 * (5.0 / (float)p->skillLevel("survival"));
-        int decayDelay = 30 * (5.0 / (float)p->skillLevel("survival"));
+        int moraleMalus = -50 * (5.0 / (float) p->skillLevel( skill_survival ));
+        int maxMalus = -250 * (5.0 / (float)p->skillLevel( skill_survival ));
+        int duration = 300 * (5.0 / (float)p->skillLevel( skill_survival ));
+        int decayDelay = 30 * (5.0 / (float)p->skillLevel( skill_survival ));
 
         if (p->has_trait("PACIFIST")) {
             moraleMalus *= 5;
@@ -1441,12 +1445,12 @@ long enzlave_actor::use( player *p, item *it, bool t, const tripoint& ) const
     // An average zombie with an undamaged corpse is 0 + 8 + 14 = 22.
     int difficulty = (body->damage * 5) + (mt->hp / 10) + (mt->speed / 5);
     // 0 - 30
-    int skills = p->skillLevel("survival") + p->skillLevel("firstaid") + (p->dex_cur / 2);
+    int skills = p->skillLevel( skill_survival ) + p->skillLevel( skill_firstaid ) + (p->dex_cur / 2);
     skills *= 2;
 
     int success = rng(0, skills) - rng(0, difficulty);
 
-    const int moves = difficulty * 1200 / p->skillLevel("firstaid");
+    const int moves = difficulty * 1200 / p->skillLevel( skill_firstaid );
 
     p->assign_activity(ACT_MAKE_ZLAVE, moves);
     p->activity.values.push_back(success);
@@ -1456,7 +1460,7 @@ long enzlave_actor::use( player *p, item *it, bool t, const tripoint& ) const
 
 bool enzlave_actor::can_use( const player *p, const item*, bool, const tripoint& ) const
 {
-    return p->get_skill_level( "survival" ) > 1 && p->get_skill_level( "firstaid" ) > 1;
+    return p->get_skill_level( skill_survival ) > 1 && p->get_skill_level( skill_firstaid ) > 1;
 }
 
 void fireweapon_off_actor::load( JsonObject &obj )

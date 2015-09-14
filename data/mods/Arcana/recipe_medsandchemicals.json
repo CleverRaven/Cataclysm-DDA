@@ -1,0 +1,199 @@
+[
+{
+  "type" : "recipe",
+  "result": "numbness_potion",
+  "category": "CC_CHEM",
+  "subcategory": "CSC_CHEM_OTHER",
+  "skill_used": "magic",
+  "skills_required": [ "cooking", 5 ],
+  "difficulty": 1,
+  "time": 90000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "book_potioncraft", 0 ]],
+  "qualities":[{"id":"BOIL","level":2,"amount":1}],
+  "tools": [
+    [ [ "book_potioncraft", -1 ] ],
+    [ [ "chemistry_set", 10 ] ],
+    [
+      [ "hotplate", 10 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 10 ],
+      [ "fire", -1 ]
+    ]
+  ],
+  "//": "Denatured alcohol?  Yep, these recipes would all be nasty to drink if magic wasn't involved.",
+  "components": [
+    [
+      [ "chem_ethanol", 1 ],
+      [ "denat_alcohol", 1 ],
+      [ "vodka", 2 ],
+      [ "rum", 2 ],
+      [ "whiskey", 2 ],
+      [ "single_malt_whiskey", 2 ],
+      [ "tequila", 2 ],
+      [ "gin", 2 ],
+      [ "moonshine", 2 ],
+      [ "brandy", 2 ]
+    ],
+    [
+      [ "fat_tainted", 4 ],
+      [ "bone_tainted", 1 ]
+    ],
+    [
+      [ "essence", 1 ],
+      [ "essence_blood", 3 ]
+    ]
+  ]
+},
+{
+  "type" : "recipe",
+  "result": "strength_potion",
+  "category": "CC_CHEM",
+  "subcategory": "CSC_CHEM_OTHER",
+  "skill_used": "magic",
+  "skills_required": [ "cooking", 5 ],
+  "difficulty": 2,
+  "time": 90000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "book_potioncraft", 1 ]],
+  "qualities":[{"id":"BOIL","level":2,"amount":1}],
+  "tools": [
+    [ [ "book_potioncraft", -1 ] ],
+    [ [ "chemistry_set", 10 ] ],
+    [
+      [ "hotplate", 10 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 10 ],
+      [ "fire", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "chem_ethanol", 1 ],
+      [ "denat_alcohol", 1 ],
+      [ "vodka", 2 ],
+      [ "rum", 2 ],
+      [ "whiskey", 2 ],
+      [ "single_malt_whiskey", 2 ],
+      [ "tequila", 2 ],
+      [ "gin", 2 ],
+      [ "moonshine", 2 ],
+      [ "brandy", 2 ]
+    ],
+    [
+      [ "tallow_tainted", 1 ],
+      [ "meal_bone_tainted", 4 ]
+    ],
+    [ [ "material_limestone", 1 ] ],
+    [
+      [ "essence", 1 ],
+      [ "essence_blood", 3 ]
+    ]
+  ]
+},
+{
+  "type" : "recipe",
+  "result": "speed_potion",
+  "category": "CC_CHEM",
+  "subcategory": "CSC_CHEM_OTHER",
+  "skill_used": "magic",
+  "skills_required": [ "cooking", 5 ],
+  "difficulty": 3,
+  "time": 90000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "book_potioncraft", 2 ]],
+  "qualities":[{"id":"BOIL","level":2,"amount":1}],
+  "tools": [
+    [ [ "book_potioncraft", -1 ] ],
+    [ [ "chemistry_set", 10 ] ],
+    [
+      [ "hotplate", 10 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 10 ],
+      [ "fire", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "chem_ethanol", 1 ],
+      [ "denat_alcohol", 1 ],
+      [ "vodka", 2 ],
+      [ "rum", 2 ],
+      [ "whiskey", 2 ],
+      [ "single_malt_whiskey", 2 ],
+      [ "tequila", 2 ],
+      [ "gin", 2 ],
+      [ "moonshine", 2 ],
+      [ "brandy", 2 ]
+    ],
+    [
+      [ "tallow_tainted", 1 ],
+      [ "meal_bone_tainted", 4 ]
+    ],
+    [ [ "material_quicklime", 1 ] ],
+    [
+      [ "lead", 10 ]
+    ],
+    [
+      [ "essence", 1 ],
+      [ "essence_blood", 3 ]
+    ]
+  ]
+},
+{
+  "type" : "recipe",
+  "result": "healing_potion",
+  "category": "CC_CHEM",
+  "subcategory": "CSC_CHEM_OTHER",
+  "skill_used": "magic",
+  "skills_required": [ "cooking", 5 ],
+  "difficulty": 4,
+  "time": 90000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "book_potioncraft", 3 ]],
+  "qualities":[ {"id":"BOIL","level":2,"amount":1}],
+  "tools": [
+    [ [ "book_potioncraft", -1 ] ],
+    [ [ "chemistry_set", 10 ] ],
+    [
+      [ "hotplate", 10 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 10 ],
+      [ "fire", -1 ]
+    ]
+  ],
+ "//": "Ethanol and caustic lime, if you had pearl ash you'd get alkahest. Not a universal solvent, but a good glass cleaner.",
+  "components": [
+    [
+      [ "chem_ethanol", 1 ],
+      [ "denat_alcohol", 1 ],
+      [ "vodka", 2 ],
+      [ "rum", 2 ],
+      [ "whiskey", 2 ],
+      [ "single_malt_whiskey", 2 ],
+      [ "tequila", 2 ],
+      [ "gin", 2 ],
+      [ "moonshine", 2 ],
+      [ "brandy", 2 ]
+    ],
+    [
+      [ "tallow_tainted", 1 ],
+      [ "meal_bone_tainted", 4 ]
+    ],
+    [ [ "material_quicklime", 1 ] ],
+    [ [ "gold_small", 10 ] ],
+    [
+      [ "blood", 1 ],
+      [ "rag_bloody", 3 ]
+    ],
+    [
+      [ "essence", 1 ],
+      [ "essence_blood", 3 ]
+    ]
+  ]
+}
+]

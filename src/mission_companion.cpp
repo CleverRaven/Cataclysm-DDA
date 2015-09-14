@@ -25,6 +25,23 @@
 #include <sstream>
 #include <fstream>
 
+const skill_id skill_dodge( "dodge" );
+const skill_id skill_gun( "gun" );
+const skill_id skill_unarmed( "unarmed" );
+const skill_id skill_cutting( "cutting" );
+const skill_id skill_stabbing( "stabbing" );
+const skill_id skill_bashing( "bashing" );
+const skill_id skill_melee( "melee" );
+const skill_id skill_survival( "survival" );
+const skill_id skill_carpentry( "carpentry" );
+const skill_id skill_mechanics( "mechanics" );
+const skill_id skill_electronics( "electronics" );
+const skill_id skill_firstaid( "firstaid" );
+const skill_id skill_speech( "speech" );
+const skill_id skill_cooking( "cooking" );
+const skill_id skill_traps( "traps" );
+const skill_id skill_archery( "archery" );
+
 void talk_function::bionic_install(npc *p)
 {
     std::vector<item *> bionic_inv = g->u.items_with( []( const item &itm ) {
@@ -568,26 +585,26 @@ void talk_function::caravan_return(npc *p, std::string dest, std::string id)
                         popup("%s", best->name().c_str());
                         elem->practice(best, 10);
                     } else {
-                        elem->practice("melee", 10);
+                        elem->practice( skill_melee, 10);
                     }
                 } else if (y < 70){
-                    elem->practice("survival", 10);
+                    elem->practice( skill_survival, 10);
                 } else if (y < 80){
-                    elem->practice("melee", 10);
+                    elem->practice( skill_melee, 10);
                 } else if (y < 85){
-                    elem->practice("firstaid", 10);
+                    elem->practice( skill_firstaid, 10);
                 } else if (y < 90){
-                    elem->practice("speech", 10);
+                    elem->practice( skill_speech, 10);
                 } else if (y < 92){
-                    elem->practice("bashing", 10);
+                    elem->practice( skill_bashing, 10);
                 } else if (y < 94){
-                    elem->practice("stabbing", 10);
+                    elem->practice( skill_stabbing, 10);
                 } else if (y < 96){
-                    elem->practice("cutting", 10);
+                    elem->practice( skill_cutting, 10);
                 } else if (y < 98){
-                    elem->practice("dodge", 10);
+                    elem->practice( skill_dodge, 10);
                 } else {
-                    elem->practice("unarmed", 10);
+                    elem->practice( skill_unarmed, 10);
                 }
                 i++;
             };
@@ -616,7 +633,7 @@ void talk_function::attack_random(std::vector<npc *> attacker, std::vector<npc *
     if (best != nullptr){
         best_score = att->skillLevel(best);
     }
-    if( rng( -1, best_score ) >= rng( 0, def->skillLevel("dodge") ) ){
+    if( rng( -1, best_score ) >= rng( 0, def->skillLevel( skill_dodge ) ) ){
         def->hp_cur[hp_torso] = 0;
         popup(_("%s is wasted by %s!"), def->name.c_str(), att->name.c_str());
     } else {
@@ -927,9 +944,9 @@ bool talk_function::scavenging_patrol_return(npc *p)
     int experience = rng( 5, 20 );
     if (one_in(4)){
         popup(_("While scavenging, %s's party suddenly found itself set upon by a large mob of undead..."), comp->name.c_str());
-        int skill = comp->skillLevel( "melee" ) + (.5*comp->skillLevel( "survival" )) + comp->skillLevel( "bashing" ) +
-            comp->skillLevel( "cutting" ) + comp->skillLevel( "gun" ) + comp->skillLevel( "stabbing" )
-            + comp->skillLevel( "unarmed" ) + comp->skillLevel( "dodge" ) + 4;
+        int skill = comp->skillLevel( skill_melee ) + (.5*comp->skillLevel( skill_survival )) + comp->skillLevel( skill_bashing ) +
+            comp->skillLevel( skill_cutting ) + comp->skillLevel( skill_gun ) + comp->skillLevel( skill_stabbing )
+            + comp->skillLevel( skill_unarmed ) + comp->skillLevel( skill_dodge ) + 4;
         if (one_in(6)){
             popup(_("Through quick thinking the group was able to evade combat!"));
         } else {
@@ -954,27 +971,27 @@ bool talk_function::scavenging_patrol_return(npc *p)
     while (i < experience){
         y = rng( 0, 100 );
         if( y < 40 ){
-            comp->practice("survival", 10);
+            comp->practice( skill_survival, 10);
         } else if (y < 60){
-            comp->practice("mechanics", 10);
+            comp->practice( skill_mechanics, 10);
         } else if (y < 75){
-            comp->practice("electronics", 10);
+            comp->practice( skill_electronics, 10);
         } else if (y < 81){
-            comp->practice("melee", 10);
+            comp->practice( skill_melee, 10);
         } else if (y < 86){
-            comp->practice("firstaid", 10);
+            comp->practice( skill_firstaid, 10);
         } else if (y < 90){
-            comp->practice("speech", 10);
+            comp->practice( skill_speech, 10);
         } else if (y < 92){
-            comp->practice("bashing", 10);
+            comp->practice( skill_bashing, 10);
         } else if (y < 94){
-            comp->practice("stabbing", 10);
+            comp->practice( skill_stabbing, 10);
         } else if (y < 96){
-            comp->practice("cutting", 10);
+            comp->practice( skill_cutting, 10);
         } else if (y < 98){
-            comp->practice("dodge", 10);
+            comp->practice( skill_dodge, 10);
         } else {
-            comp->practice("unarmed", 10);
+            comp->practice( skill_unarmed, 10);
         }
         i++;
     }
@@ -1001,9 +1018,9 @@ bool talk_function::scavenging_raid_return(npc *p)
     int experience = rng(10,20);
     if (one_in(2)){
         popup(_("While scavenging, %s's party suddenly found itself set upon by a large mob of undead..."), comp->name.c_str());
-        int skill = comp->skillLevel( "melee" ) + (.5*comp->skillLevel( "survival" )) + comp->skillLevel( "bashing" ) +
-            comp->skillLevel( "cutting" ) + comp->skillLevel( "gun" ) + comp->skillLevel( "stabbing" )
-            + comp->skillLevel( "unarmed" ) + comp->skillLevel( "dodge" ) + 4;
+        int skill = comp->skillLevel( skill_melee ) + (.5*comp->skillLevel( skill_survival )) + comp->skillLevel( skill_bashing ) +
+            comp->skillLevel( skill_cutting ) + comp->skillLevel( skill_gun ) + comp->skillLevel( skill_stabbing )
+            + comp->skillLevel( skill_unarmed ) + comp->skillLevel( skill_dodge ) + 4;
         if (one_in(6)){
             popup(_("Through quick thinking the group was able to evade combat!"));
         } else {
@@ -1033,27 +1050,27 @@ bool talk_function::scavenging_raid_return(npc *p)
     while (i < experience){
         y = rng( 0, 100 );
         if (y < 40){
-            comp->practice("survival", 10);
+            comp->practice( skill_survival, 10);
         } else if (y < 60){
-            comp->practice("mechanics", 10);
+            comp->practice( skill_mechanics, 10);
         } else if (y < 75){
-            comp->practice("electronics", 10);
+            comp->practice( skill_electronics, 10);
         } else if (y < 81){
-            comp->practice("melee", 10);
+            comp->practice( skill_melee, 10);
         } else if (y < 86){
-            comp->practice("firstaid", 10);
+            comp->practice( skill_firstaid, 10);
         } else if (y < 90){
-            comp->practice("speech", 10);
+            comp->practice( skill_speech, 10);
         } else if (y < 92){
-            comp->practice("bashing", 10);
+            comp->practice( skill_bashing, 10);
         } else if (y < 94){
-            comp->practice("stabbing", 10);
+            comp->practice( skill_stabbing, 10);
         } else if (y < 96){
-            comp->practice("cutting", 10);
+            comp->practice( skill_cutting, 10);
         } else if (y < 98){
-            comp->practice("dodge", 10);
+            comp->practice( skill_dodge, 10);
         } else {
-            comp->practice("unarmed", 10);
+            comp->practice( skill_unarmed, 10);
         }
         i++;
     }
@@ -1094,15 +1111,15 @@ bool talk_function::labor_return(npc *p)
     while (i < exp){
         y = rng( 0, 100 );
         if (y < 50){
-            comp->practice("carpentry", 5);
+            comp->practice( skill_carpentry, 5);
         } else if (y < 70){
-            comp->practice("survival", 5);
+            comp->practice( skill_survival, 5);
         } else if (y < 85){
-            comp->practice("mechanics", 5);
+            comp->practice( skill_mechanics, 5);
         } else if (y < 92){
-            comp->practice("speech", 5);
+            comp->practice( skill_speech, 5);
         } else{
-            comp->practice("cooking", 5);
+            comp->practice( skill_cooking, 5);
         }
         i++;
     }
@@ -1125,9 +1142,9 @@ bool talk_function::carpenter_return(npc *p)
     }
 
     if (one_in(20)){
-        int skill_1 = comp->skillLevel( "carpentry" );
-        int skill_2 = comp->skillLevel( "dodge" );
-        int skill_3 = comp->skillLevel( "survival" );
+        int skill_1 = comp->skillLevel( skill_carpentry );
+        int skill_2 = comp->skillLevel( skill_dodge );
+        int skill_3 = comp->skillLevel( skill_survival );
         popup(_("While %s was framing a building one of the walls began to collapse..."), comp->name.c_str());
         if( skill_1 > rng( 1, 8 ) ){
             popup(_("In the blink of an eye, %s threw a brace up and averted a disaster."), comp->name.c_str());
@@ -1154,13 +1171,13 @@ bool talk_function::carpenter_return(npc *p)
     while (i < exp){
         y = rng( 0, 100 );
         if (y < 70){
-            comp->practice("carpentry", 10);
+            comp->practice( skill_carpentry, 10);
         } else if (y < 80){
-            comp->practice("survival", 10);
+            comp->practice( skill_survival, 10);
         } else if (y < 90){
-            comp->practice("mechanics", 10);
+            comp->practice( skill_mechanics, 10);
         } else {
-            comp->practice("speech", 10);
+            comp->practice( skill_speech, 10);
         }
         i++;
     }
@@ -1180,17 +1197,17 @@ bool talk_function::forage_return(npc *p)
 
     if (one_in(10)){
         popup(_("While foraging, a beast began to stalk %s..."), comp->name.c_str());
-        int skill_1 = comp->skillLevel( "survival" );
-        int skill_2 = comp->skillLevel( "dodge" );
+        int skill_1 = comp->skillLevel( skill_survival );
+        int skill_2 = comp->skillLevel( skill_dodge );
         if( skill_1 > rng( -2, 8 ) ){
             popup(_("Alerted by a rustle, %s fled to the safety of the outpost!"), comp->name.c_str());
         } else if( skill_2 > rng( -2, 8 ) ) {
             popup(_("As soon as the cougar sprang %s darted to the safety of the outpost!"), comp->name.c_str());
         } else {
             popup(_("%s was caught unaware and was forced to fight the creature at close range!"), comp->name.c_str());
-            int skill = comp->skillLevel( "melee" ) + (.5*comp->skillLevel( "survival" )) + comp->skillLevel( "bashing" ) +
-            comp->skillLevel( "cutting" ) + comp->skillLevel( "stabbing" ) + comp->skillLevel( "unarmed" )
-            + comp->skillLevel( "dodge" );
+            int skill = comp->skillLevel( skill_melee ) + (.5*comp->skillLevel( skill_survival )) + comp->skillLevel( skill_bashing ) +
+            comp->skillLevel( skill_cutting ) + comp->skillLevel( skill_stabbing ) + comp->skillLevel( skill_unarmed )
+            + comp->skillLevel( skill_dodge );
             int monsters = rng( 0, 10 );
             if( skill * rng_float( .80, 1.2 ) > (monsters * rng_float( .8, 1.2 )) ){
                 if( one_in(2) ){
@@ -1221,21 +1238,21 @@ bool talk_function::forage_return(npc *p)
     while (i < exp){
         y = rng( 0, 100 );
         if (y < 60){
-            comp->practice("survival", 7);
+            comp->practice( skill_survival, 7);
         } else if (y < 75){
-            comp->practice("cooking", 7);
+            comp->practice( skill_cooking, 7);
         } else if (y < 85){
-            comp->practice("traps", 7);
+            comp->practice( skill_traps, 7);
         } else if (y < 92){
-            comp->practice("archery", 7);
+            comp->practice( skill_archery, 7);
         } else{
-            comp->practice("gun", 7);
+            comp->practice( skill_gun, 7);
         }
         i++;
     }
 
     popup(_("%s returns from working as a forager having earned $%d and a bit of experience..."), comp->name.c_str(),money);
-    int skill = comp->skillLevel( "survival" );
+    int skill = comp->skillLevel( skill_survival );
     if( skill > rng_float( -.5, 8 ) ) {
         std::string itemlist = "farming_seeds";
         if (one_in(2)){

@@ -1,6 +1,8 @@
 #ifndef PROFESSION_H
 #define PROFESSION_H
 
+#include "string_id.h"
+
 #include <string>
 #include <vector>
 #include <map>
@@ -12,13 +14,15 @@ class JsonArray;
 class JsonObject;
 class addiction;
 enum add_type : int;
+class Skill;
+using skill_id = string_id<Skill>;
 
 typedef std::map<std::string, profession> profmap;
 
 class profession
 {
     public:
-        typedef std::pair<std::string, int> StartingSkill;
+        typedef std::pair<skill_id, int> StartingSkill;
         typedef std::vector<StartingSkill> StartingSkillList;
         struct itypedec {
             std::string type_id;
@@ -57,7 +61,7 @@ class profession
         void add_trait(std::string trait);
         // Starting skills will boost the players level in those skills by a
         // given amount.
-        void add_skill(const std::string &skill_name, const int level);
+        void add_skill(const skill_id &skill_name, const int level);
 
         void check_item_definitions(const itypedecvec &items) const;
 

@@ -991,6 +991,18 @@
     },
     {
         "type" : "keybinding",
+        "id": "DELETE_TEMPLATE",
+        "category": "MAIN_MENU",
+        "name": "Delete template",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"d"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
         "id": "SAVE_TEMPLATE",
         "category": "NEW_CHAR_DESCRIPTION",
         "name": "Save template",

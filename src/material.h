@@ -27,6 +27,7 @@ class material_type
         int _acid_resist;
         int _elec_resist;
         int _fire_resist;
+        int _chip_resist;       // Resistance to physical damage of the item itself
         int _density;   // relative to "powder", which is 1
 
         static material_map _all_materials;
@@ -38,7 +39,8 @@ class material_type
                       int bash_resist, int cut_resist,
                       std::string bash_dmg_verb, std::string cut_dmg_verb,
                       std::string dmg_adj[],
-                      int acid_resist, int elec_resist, int fire_resist, int density);
+                      int acid_resist, int elec_resist, int fire_resist,
+                      int chip_resist, int density);
         material_type(std::string ident);
         static void load_material(JsonObject &jsobj);
 
@@ -65,6 +67,7 @@ class material_type
         int acid_resist() const;
         int elec_resist() const;
         int fire_resist() const;
+        int chip_resist() const;
         int density() const;
 };
 

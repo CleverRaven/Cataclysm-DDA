@@ -3343,6 +3343,14 @@
       [ "zucchini", 1 ],
       [ "veggy", 1 ],
       [ "veggy_wild", 1 ],
+      [ "powder_eggs", 5 ],
+      [ "egg_bird", 1 ],
+      [ "egg_reptile", 1 ],
+      [ "dry_veggy", 2 ],
+      [ "dandelion_cooked", 2 ],
+      [ "dry_mushroom", 2 ]
+    ],
+    [
       [ "seasoning_italian", 15 ],
       [ "wild_herbs", 15 ],
       [ "seasoning_salt", 15 ],
@@ -3350,12 +3358,8 @@
       [ "pepper", 20 ],
       [ "seed_garlic", 6 ],
       [ "garlic", 1 ],
-      [ "powder_eggs", 5 ],
-      [ "egg_bird", 1 ],
-      [ "egg_reptile", 1 ],
-      [ "dry_veggy", 1 ],
-      [ "dandelion_cooked", 1 ],
-      [ "dry_mushroom", 1 ]
+      [ "salt_water", 1 ],
+      [ "salt", 1]
     ]
   ]
 },{
@@ -4640,6 +4644,97 @@
   "components": [
     [
       ["pinecone", 4]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "hickory_nut_unshelled",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_VEGGI",
+  "skill_used": "survival",
+  "difficulty": 1,
+  "time": 6000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities":[
+    {"id":"HAMMER","level":1,"amount":1}
+  ],
+  "components": [
+    [
+      ["hickory_nut", 1]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "hickory_nut_roasted",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_VEGGI",
+  "skill_used": "cooking",
+  "skills_required": [ "survival", 1 ],
+  "difficulty": 1,
+  "time": 24000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities":[
+    {"id":"COOK","level":1,"amount":1}
+  ],
+  "tools": [
+    [
+      ["hotplate", 5],
+      [ "char_smoker", 1 ],
+      ["toolset", 5],
+      ["fire", -1]
+    ]
+  ],
+  "components": [
+    [
+      ["hickory_nut_unshelled", 1]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "hickory_nut_ambrosia",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_DRINKS",
+  "skill_used": "cooking",
+  "difficulty": 5,
+  "time": 48000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [ ["family_cookbook", 5], ["survival_book", 3] , ["textbook_survival", 3] ],
+  "qualities":[
+    {"id":"COOK","level":3,"amount":1},
+    {"id":"BOIL","level":2,"amount":1}
+  ],
+  "tools": [
+    [
+      ["hotplate", 5],
+      [ "char_smoker", 1 ],
+      ["toolset", 5],
+      ["fire", -1]
+    ]
+  ],
+  "components": [
+    [
+        ["hickory_nut_unshelled", 4]
+    ],
+    [
+      [ "milk", 1 ],
+      [ "milk_powder", 1 ],
+      [ "con_milk", 1 ]
+    ],
+    [
+      [ "honeycomb", 1 ],
+      [ "con_milk", 1 ],
+      [ "honey_bottled", 4 ],
+      [ "honey_glassed", 4],
+      [ "sugar", 4 ],
+      [ "syrup", 4 ],
+      [ "beet_syrup", 4]
+    ],
+    [
+      [ "water", 1 ],
+      [ "water_clean", 1 ]
     ]
   ]
 },{
@@ -6426,6 +6521,39 @@
     [
       [ "lye_powder", 100 ],
       [ "bleach", 2 ]
+    ],
+    [
+      [ "water_clean", 1 ],
+      [ "water", 1 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "salt",
+  "id_suffix": "from_hickory",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_OTHER",
+  "skills_required": [ "survival", 2 ],
+  "skill_used": "cooking",
+  "difficulty": 2,
+  "time": 48000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities":[
+    {"id":"CUT","level":1,"amount":1},
+    {"id":"BOIL","level":2,"amount":1}
+  ], 
+  "tools": [
+    [
+      [ "hotplate", 50 ],
+      [ "toolset", 50 ],
+      [ "fire", -1 ],
+      [ "char_smoker", 5 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "hickory_root", 12 ] 
     ],
     [
       [ "water_clean", 1 ],

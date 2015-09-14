@@ -301,6 +301,7 @@ void Item_factory::init()
     iuse_function_list["HAIRKIT"]  = &iuse::hairkit;
     iuse_function_list["WEATHER_TOOL"] = &iuse::weather_tool;
     iuse_function_list["REMOVE_ALL_MODS"] = &iuse::remove_all_mods;
+    iuse_function_list["LADDER"] = &iuse::ladder;
 
     // MACGUFFINS
     iuse_function_list["MCG_NOTE"] = &iuse::mcg_note;
@@ -452,6 +453,11 @@ void Item_factory::check_definitions() const
                 }
             }
         }
+        if( type->book ) {
+            if( type->book->skill && !type->book->skill.is_valid() ) {
+                msg << string_format("uses invalid book skill.") << "\n";
+            }
+        }
         if( type->ammo ) {
             check_ammo_type( msg, type->ammo->type );
             if( type->ammo->casing != "NULL" && !has_template( type->ammo->casing ) ) {
@@ -460,8 +466,10 @@ void Item_factory::check_definitions() const
         }
         if( type->gun ) {
             check_ammo_type( msg, type->gun->ammo );
-            if( type->gun->skill_used == nullptr ) {
+            if( !type->gun->skill_used ) {
                 msg << string_format("uses no skill") << "\n";
+            } else if( !type->gun->skill_used.is_valid() ) {
+                msg << "uses an invalid skill " << type->gun->skill_used.str() << "\n";
             }
             if( type->item_tags.count( "BURST_ONLY" ) > 0 && type->item_tags.count( "MODE_BURST" ) < 1 ) {
                 msg << string_format("has BURST_ONLY but no MODE_BURST") << "\n";
@@ -479,6 +487,9 @@ void Item_factory::check_definitions() const
         }
         if( type->gunmod ) {
             check_ammo_type( msg, type->gunmod->newtype );
+            if( type->gunmod->skill_used && !type->gunmod->skill_used.is_valid() ) {
+                msg << string_format("uses invalid gunmod skill.") << "\n";
+            }
         }
         const it_tool *tool = dynamic_cast<const it_tool *>(type);
         if (tool != 0) {
@@ -616,7 +627,7 @@ void Item_factory::load_ammo(JsonObject &jo)
 void Item_factory::load( islot_gun &slot, JsonObject &jo )
 {
     slot.ammo = jo.get_string( "ammo" );
-    slot.skill_used = Skill::skill( jo.get_string( "skill" ) );
+    slot.skill_used = skill_id( jo.get_string( "skill" ) );
     slot.loudness = jo.get_int( "loudness", 0 );
     slot.damage = jo.get_int( "ranged_damage", 0 );
     slot.range = jo.get_int( "range", 0 );
@@ -752,7 +763,7 @@ void Item_factory::load( islot_book &slot, JsonObject &jo )
     slot.fun = jo.get_int( "fun" );
     slot.intel = jo.get_int( "intelligence" );
     slot.time = jo.get_int( "time" );
-    slot.skill = Skill::skill( jo.get_string( "skill" ) );
+    slot.skill = skill_id( jo.get_string( "skill" ) );
     slot.chapters = jo.get_int( "chapters", -1 );
     set_use_methods_from_json( jo, "use_action", slot.use_methods );
 }
@@ -848,8 +859,8 @@ void Item_factory::load( islot_gunmod &slot, JsonObject &jo )
     slot.burst = jo.get_int( "burst_modifier", 0 );
     slot.range = jo.get_int( "range", 0 );
     slot.clip = jo.get_int( "clip_size_modifier", 0 );
-    slot.acceptible_ammo_types = jo.get_tags( "acceptable_ammo" );
-    slot.skill_used = Skill::skill( jo.get_string( "skill", "gun" ) );
+    slot.acceptable_ammo_types = jo.get_tags( "acceptable_ammo" );
+    slot.skill_used = skill_id( jo.get_string( "skill", "gun" ) );
     slot.req_skill = jo.get_int( "skill_required", 0 );
     slot.ups_charges = jo.get_int( "ups_charges", 0 );
 }

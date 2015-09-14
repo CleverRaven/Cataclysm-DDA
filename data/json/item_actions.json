@@ -54,7 +54,7 @@
     },{
         "type" : "item_action",
         "id" : "MISC_REPAIR",
-        "name" : "Repair wood/bone/chitin"
+        "name" : "Repair wood/paper/bone/chitin"
     },{
         "type" : "item_action",
         "id" : "GUN_REPAIR",

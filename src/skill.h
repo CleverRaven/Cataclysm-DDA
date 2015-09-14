@@ -3,6 +3,7 @@
 
 #include "calendar.h"
 #include "json.h"
+#include "string_id.h"
 
 #include <functional>
 #include <string>
@@ -10,10 +11,12 @@
 #include <set>
 #include <iosfwd>
 
+class Skill;
+using skill_id = string_id<Skill>;
+
 class Skill
 {
-        size_t _id;
-        std::string _ident;
+        skill_id _ident;
 
         std::string _name;
         std::string _description;
@@ -22,10 +25,11 @@ class Skill
     public:
         static std::vector<Skill> skills;
         static void load_skill(JsonObject &jsobj);
-        static const Skill* skill(const std::string& ident);
-        static const Skill* skill(size_t id);
+        // For loading old saves that still have integer-based ids.
+        static const Skill *from_legacy_int( int legacy_id );
 
         static const Skill* random_skill_with_tag(const std::string& tag);
+        static const Skill* random_skill();
 
         static size_t skill_count();
         // clear skill vector, every skill pointer becames invalid!
@@ -35,16 +39,10 @@ class Skill
             std::function<bool (Skill const&, Skill const&)> pred);
 
         Skill();
-        Skill(size_t id, std::string ident, std::string name, std::string description,
+        Skill(skill_id ident, std::string name, std::string description,
               std::set<std::string> tags);
 
-        //DEBUG
-        size_t id() const
-        {
-            return _id;
-        }
-
-        std::string const& ident() const
+        skill_id const& ident() const
         {
             return _ident;
         }

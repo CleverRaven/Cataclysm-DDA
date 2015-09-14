@@ -8,6 +8,7 @@
 #include "map_iterator.h"
 #include "field.h"
 #include "messages.h"
+#include "input.h"
 
 Character::Character()
 {
@@ -286,12 +287,15 @@ void Character::recalc_hp()
 void Character::recalc_sight_limits()
 {
     sight_max = 9999;
+    vision_mode_cache.reset();
 
     // Set sight_max.
     if (has_effect("blind") || worn_with_flag("BLIND")) {
         sight_max = 0;
+    } else if( has_effect("boomered") && (!(has_trait("PER_SLIME_OK"))) ) {
+        sight_max = 1;
+        vision_mode_cache.set( BOOMERED );
     } else if (has_effect("in_pit") ||
-            (has_effect("boomered") && (!(has_trait("PER_SLIME_OK")))) ||
             (underwater && !has_bionic("bio_membrane") &&
                 !has_trait("MEMBRANE") && !worn_with_flag("SWIM_GOGGLES") &&
                 !has_trait("CEPH_EYES") && !has_trait("PER_SLIME_OK") ) ) {
@@ -306,10 +310,10 @@ void Character::recalc_sight_limits()
     } else if (has_trait("PER_SLIME")) {
         sight_max = 6;
     } else if( has_effect( "darkness" ) ) {
+        vision_mode_cache.set( DARKNESS );
         sight_max = 10;
     }
 
-    vision_mode_cache.reset();
     // Debug-only NV, by vache's request
     if( has_trait("DEBUG_NIGHTVISION") ) {
         vision_mode_cache.set( DEBUG_NIGHTVISION );
@@ -735,9 +739,14 @@ bool Character::worn_with_flag( std::string flag ) const
     return false;
 }
 
-SkillLevel& Character::skillLevel(std::string ident)
+SkillLevel& Character::skillLevel(const skill_id &ident)
 {
-    return _skills[Skill::skill(ident)];
+    if( !ident ) {
+        static SkillLevel none;
+        none.level( 0 );
+        return none;
+    }
+    return skillLevel( &ident.obj() );
 }
 
 SkillLevel& Character::skillLevel(const Skill* _skill)
@@ -752,10 +761,9 @@ SkillLevel& Character::skillLevel(Skill const &_skill)
 
 SkillLevel const& Character::get_skill_level(const Skill* _skill) const
 {
-    for( const auto &elem : _skills ) {
-        if( elem.first == _skill ) {
-            return elem.second;
-        }
+    const auto iter = _skills.find( _skill );
+    if( iter != _skills.end() ) {
+        return iter->second;
     }
 
     static SkillLevel const dummy_result;
@@ -767,10 +775,13 @@ SkillLevel const& Character::get_skill_level(const Skill &_skill) const
     return get_skill_level(&_skill);
 }
 
-SkillLevel const& Character::get_skill_level(const std::string &ident) const
+SkillLevel const& Character::get_skill_level(const skill_id &ident) const
 {
-    const Skill* sk = Skill::skill(ident);
-    return get_skill_level(sk);
+    if( !ident ) {
+        static const SkillLevel none{};
+        return none;
+    }
+    return get_skill_level( &ident.obj() );
 }
 
 void Character::normalize()
@@ -1115,4 +1126,178 @@ int Character::get_dodge_base() const
 int Character::get_hit_base() const
 {
     return Creature::get_hit_base() + (get_dex() / 4) + 3;
+}
+
+hp_part Character::body_window( bool precise ) const
+{
+    return body_window( disp_name(), true, precise, 0, 0, 0, 0, 0, 0 );
+}
+
+hp_part Character::body_window( const std::string &menu_header,
+                                bool show_all, bool precise,
+                                int normal_bonus, int head_bonus, int torso_bonus,
+                                int bleed, int bite, int infect ) const
+{
+    WINDOW *hp_window = newwin(10, 31, (TERMY - 10) / 2, (TERMX - 31) / 2);
+    draw_border(hp_window);
+
+    trim_and_print( hp_window, 1, 1, getmaxx(hp_window) - 2, c_ltred, menu_header.c_str() );
+    const int y_off = 2; // 1 for border, 1 for header
+
+    /* This struct estabiles some kind of connection between the hp_part (which can be healed and
+     * have HP) and the body_part. Note that there are more body_parts than hp_parts. For example:
+     * Damage to bp_head, bp_eyes and bp_mouth is all applied on the HP of hp_head. */
+    struct healable_bp {
+        mutable bool allowed;
+        body_part bp;
+        hp_part hp;
+        std::string name; // Translated name as it appears in the menu.
+        int bonus;
+    };
+    /* The array of the menu entries show to the player. The entries are displayed in this order,
+     * it may be changed here. */
+    std::array<healable_bp, num_hp_parts> parts = { {
+        { false, bp_head, hp_head, _("Head"), head_bonus },
+        { false, bp_torso, hp_torso, _("Torso"), torso_bonus },
+        { false, bp_arm_l, hp_arm_l, _("Left Arm"), normal_bonus },
+        { false, bp_arm_r, hp_arm_r, _("Right Arm"), normal_bonus },
+        { false, bp_leg_l, hp_leg_l, _("Left Leg"), normal_bonus },
+        { false, bp_leg_r, hp_leg_r, _("Right Leg"), normal_bonus },
+    } };
+
+    for( size_t i = 0; i < parts.size(); i++ ) {
+        const auto &e = parts[i];
+        const body_part bp = e.bp;
+        const hp_part hp = e.hp;
+        const int maximal_hp = hp_max[hp];
+        const int current_hp = hp_cur[hp];
+        const int bonus = e.bonus;
+        // This will c_ltgray if the part does not have any effects cured by the item
+        // (e.g. it cures only bites, but the part does not have a bite effect)
+        const nc_color state_col = limb_color( bp, bleed, bite, infect );
+        const bool has_curable_effect = state_col != c_ltgray;
+        // The same as in the main UI sidebar. Independent of the capability of the healing item!
+        const nc_color all_state_col = limb_color( bp, true, true, true );
+        const bool has_any_effect = all_state_col != c_ltgray;
+        // Broken means no HP can be restored, it requires surgical attention.
+        const bool limb_is_broken = current_hp == 0;
+        // This considers only the effects that can *not* be removed.
+        const nc_color new_state_col = limb_color( bp, !bleed, !bite, !infect );
+
+        if( show_all ) {
+            e.allowed = true;
+        } else if( has_curable_effect ) {
+            e.allowed = true;
+        } else if( limb_is_broken ) {
+            continue;
+        } else if( current_hp < maximal_hp && e.bonus != 0 ) {
+            e.allowed = true;
+        } else {
+            continue;
+        }
+
+        const int line = i + y_off;
+
+        const nc_color color = show_all ? c_green : state_col;
+        mvwprintz( hp_window, line, 1, color, "%d: %s", i + 1, e.name.c_str() );
+
+        const auto print_hp = [&]( const int x, const nc_color col, const int hp ) {
+            const auto bar = get_hp_bar( hp, maximal_hp, false );
+            if( hp == 0 ) {
+                mvwprintz( hp_window, line, x, col, "-----" );
+            } else if( precise ) {
+                mvwprintz( hp_window, line, x, col, "%5d", hp );
+            } else {
+                mvwprintz( hp_window, line, x, col, bar.first.c_str() );
+            }
+        };
+
+        if( !limb_is_broken ) {
+            // Drop the bar color, use the state color instead
+            const nc_color color = has_any_effect ? all_state_col : c_green;
+            print_hp( 15, color, current_hp );
+        } else {
+            // But still could be infected or bleeding
+            const nc_color color = has_any_effect ? all_state_col : c_dkgray;
+            print_hp( 15, color, 0 );
+        }
+
+        if( !limb_is_broken ) {
+            const int new_hp = std::max( 0, std::min( maximal_hp, current_hp + bonus ) );
+
+            if( new_hp == current_hp && !has_curable_effect ) {
+                // Nothing would change
+                continue;
+            }
+
+            mvwprintz( hp_window, line, 20, c_dkgray, " -> " );
+            
+            const nc_color color = has_any_effect ? new_state_col : c_green;
+            print_hp( 24, color, new_hp );
+        } else {
+            const nc_color color = has_any_effect ? new_state_col : c_dkgray;
+            mvwprintz( hp_window, line, 20, c_dkgray, " -> " );
+            print_hp( 24, color, 0 );
+        }
+    }
+    mvwprintz( hp_window, parts.size() + y_off, 1, c_ltgray, _("%d: Exit"), parts.size() + 1 );
+
+    wrefresh(hp_window);
+    char ch;
+    hp_part healed_part = num_hp_parts;
+    do {
+        ch = getch();
+        const size_t index = ch - '1';
+        if( index < parts.size() && parts[index].allowed ) {
+            healed_part = parts[index].hp;
+            break;
+        } else if( index == parts.size() || ch == KEY_ESCAPE) {
+            healed_part = num_hp_parts;
+            break;
+        }
+    } while (ch < '1' || ch > '7');
+    werase(hp_window);
+    wrefresh(hp_window);
+    delwin(hp_window);
+    refresh();
+
+    return healed_part;
+}
+
+nc_color Character::limb_color( body_part bp, bool bleed, bool bite, bool infect ) const
+{
+    if( bp == num_bp ) {
+        return c_ltgray;
+    }
+
+    int color_bit = 0;
+    nc_color i_color = c_ltgray;
+    if( bleed && has_effect( "bleed", bp ) ) {
+        color_bit += 1;
+    }
+    if( bite && has_effect( "bite", bp ) ) {
+        color_bit += 10;
+    }
+    if( infect && has_effect( "infected", bp ) ) {
+        color_bit += 100;
+    }
+    switch( color_bit ) {
+    case 1:
+        i_color = c_red;
+        break;
+    case 10:
+        i_color = c_blue;
+        break;
+    case 100:
+        i_color = c_green;
+        break;
+    case 11:
+        i_color = c_magenta;
+        break;
+    case 101:
+        i_color = c_yellow;
+        break;
+    }
+
+    return i_color;
 }

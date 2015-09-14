@@ -1877,6 +1877,84 @@
           "rotates": false
         },
         {
+          "id": "bikini_bottom",
+          "fg": 3578,
+          "bg": 632,
+          "rotates": false
+        },
+        {
+          "id": "overlay_worn_bikini_bottom",
+          "fg": 3579,
+          "bg": 632,
+          "rotates": false
+        },
+        {
+          "id": "birchbark",
+          "fg": 3580,
+          "bg": 632,
+          "rotates": false
+        },
+        {
+          "id": "long_glove_white",
+          "fg": 3581,
+          "bg": 632,
+          "rotates": false
+        },
+        {
+          "id": "quiver_birchbark",
+          "fg": 3582,
+          "bg": 632,
+          "rotates": false
+        },
+        {
+          "id": "quiver_large_birchbark",
+          "fg": 3583,
+          "bg": 632,
+          "rotates": false
+        },
+        {
+          "id": "shoes_birchbark",
+          "fg": 3584,
+          "bg": 632,
+          "rotates": false
+        },
+        {
+          "id": "gown",
+          "fg": 3585,
+          "bg": 632,
+          "rotates": false
+        },
+        {
+          "id": "thigh_high_boots",
+          "fg": 3586,
+          "bg": 632,
+          "rotates": false
+        },
+        {
+          "id": "willowbark",
+          "fg": 3587,
+          "bg": 632,
+          "rotates": false
+        },
+        {
+          "id": "overlay_worn_gown",
+          "fg": 3588,
+          "bg": 632,
+          "rotates": false
+        },
+        {
+          "id": "overlay_worn_thigh_high_boots",
+          "fg": 3589,
+          "bg": 632,
+          "rotates": false
+        },
+        {
+          "id": "overlay_worn_long_glove_white",
+          "fg": 3590,
+          "bg": 632,
+          "rotates": false
+        },
+        {
           "id": "bikini_top_fur",
           "fg": 263,
           "bg": 632,
@@ -3090,90 +3168,90 @@
         },
         {
           "id": "hood_wsurvivor",
-          "fg": 2969,
+          "fg": 2968,
           "bg": 632,
           "rotates": false
         },
         {
           "id": "hood_xlsurvivor",
-          "fg": 2969,
+          "fg": 2968,
           "bg": 632,
           "rotates": false
         },
         {
           "id": "hood_lsurvivor",
-          "fg": 2969,
+          "fg": 2968,
           "bg": 632,
           "rotates": false
         },
         {
           "id": "hood_survivor",
-          "fg": 2969,
+          "fg": 2968,
           "bg": 632,
           "rotates": false
         },
         {
           "id": "hood_rain",
-          "fg": 2969,
+          "fg": 2968,
           "bg": 632,
           "rotates": false
         },
         {
           "id": "overlay_worn_hood_rain",
-          "fg": 2970,
+          "fg": 2969,
           "rotates": false
         },
         {
           "id": "wheel_wood",
-          "fg": 2971,
+          "fg": 2970,
           "bg": 632,
           "rotates": false
         },
         {
           "id": "wheel_barrow",
-          "fg": 2971,
+          "fg": 2970,
           "bg": 632,
           "rotates": false
         },
         {
           "id": "vp_wheel_barrow",
-          "fg": 2971,
+          "fg": 2970,
           "bg": 632,
           "rotates": false
         },
         {
           "id": "wheel_wood_b",
-          "fg": 2971,
+          "fg": 2970,
           "bg": 632,
           "rotates": false
         },
         {
           "id": "foldframe",
-          "fg": 2972,
+          "fg": 2971,
           "bg": 632,
           "rotates": false
         },
         {
           "id": "foldwoodframe",
-          "fg": 2972,
+          "fg": 2971,
           "bg": 632,
           "rotates": false
         },
         {
           "id": "f_cattails",
-          "fg": 2973,
+          "fg": 2972,
           "bg": 632,
           "rotates": false
         },
         {
           "id": "cattail_rhizome",
-          "fg": 2974,
+          "fg": 2973,
           "bg": 632,
           "rotates": false
         },
         {
           "id": "cattail_stalk",
-          "fg": 2975,
+          "fg": 2974,
           "bg": 632,
           "rotates": false
         },
@@ -7791,6 +7869,12 @@
           "rotates": false
         },
         {
+          "id": "overlay_bionics_bio_flashlight",
+          "fg": 3016,
+          "bg": 632,
+          "rotates": false
+        },
+        {
           "id": "bio_furnace",
           "fg": 680,
           "bg": 632,
@@ -9025,7 +9109,7 @@
         },
         {
           "id": "generic_folded_vehicle",
-          "fg": 3225,
+          "fg": 2971,
           "bg": 632,
           "rotates": false
         },
@@ -20218,6 +20302,42 @@
           "rotates": false
         },
         {
+          "id": "t_tree_willow_harvested",
+          "fg": 3572,
+          "bg": 669,
+          "rotates": false
+        },
+        {
+          "id": "t_tree_willow_harvested_season_autumn",
+          "fg": 3573,
+          "bg": 669,
+          "rotates": false
+        },
+        {
+          "id": "t_tree_willow_harvested_season_winter",
+          "fg": 3574,
+          "bg": 669,
+          "rotates": false
+        },
+        {
+          "id": "t_tree_birch_harvested_season_autumn",
+          "fg": 3575,
+          "bg": 669,
+          "rotates": false
+        },
+        {
+          "id": "t_tree_birch_harvested",
+          "fg": 3576,
+          "bg": 669,
+          "rotates": false
+        },
+        {
+          "id": "t_tree_birch_harvested_season_winter",
+          "fg": 3577,
+          "bg": 669,
+          "rotates": false
+        },
+        {
           "id": "t_tree_willow",
           "fg": 3557,
           "bg": 640,
@@ -20359,7 +20479,7 @@
         {
           "id": "t_wall",
           "fg": [2918, 2919, 2918, 2919],
-          "bg": 640,
+          "bg": 633,
           "rotates": true,
           "multitile": true,
           "additional_tiles": [
@@ -23032,15 +23152,29 @@
         },
         {
           "id": "t_rock_wall",
-          "fg": 2120,
-          "bg": 660,
-          "rotates": false
+          "fg": [2994, 2993, 2994, 2993],
+          "bg": 632,
+          "rotates": true,
+          "multitile": true,
+          "additional_tiles": [
+            {
+              "id": "corner",
+              "fg": 2992
+            }
+            ]
         },
         {
           "id": "t_rock_wall_half",
-          "fg": 2121,
-          "bg": 660,
-          "rotates": false
+          "fg": [2994, 2993, 2994, 2993],
+          "bg": 632,
+          "rotates": true,
+          "multitile": true,
+          "additional_tiles": [
+            {
+              "id": "corner",
+              "fg": 2992
+            }
+            ]
         },
         {
           "id": "t_covered_well",
@@ -25465,7 +25599,7 @@
         },
         {
           "id": "f_floor_canvas",
-          "fg": 1094,
+          "fg": 3571,
           "rotates": false
         },
         {
@@ -28594,12 +28728,17 @@
           "fg": 1822
         },
         {
-          "id": "overlay_worn_bagh_nakha",
+          "id": "overlay_wielded_bagh_nakha",
           "fg": 1822,
           "rotates": false
         },
         {
           "id": "overlay_wielded_bio_claws_weapon",
+          "fg": 1822,
+          "rotates": false
+        },
+        {
+          "id": "overlay_wielded_bio_claws",
           "fg": 1822,
           "rotates": false
         },

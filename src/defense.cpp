@@ -30,6 +30,8 @@
 #define NUMALIGN(n) ((n) >= 10000 ? 20 : ((n) >= 1000 ? 21 :\
                      ((n) >= 100 ? 22 : ((n) >= 10 ? 23 : 24))))
 
+const skill_id skill_barter( "barter" );
+
 std::string caravan_category_name(caravan_category cat);
 std::vector<itype_id> caravan_items(caravan_category cat);
 std::set<m_flag> monflags_to_add;
@@ -1311,10 +1313,10 @@ void draw_caravan_items(WINDOW *w, std::vector<itype_id> *items,
 
 int caravan_price(player &u, int price)
 {
-    if (u.skillLevel("barter") > 10) {
+    if (u.skillLevel( skill_barter ) > 10) {
         return int( double(price) * .5);
     }
-    return int( double(price) * (1.0 - double(u.skillLevel("barter")) * .05));
+    return int( double(price) * (1.0 - double(u.skillLevel( skill_barter )) * .05));
 }
 
 void defense_game::spawn_wave()

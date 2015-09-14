@@ -104,6 +104,11 @@
 const mtype_id mon_fungal_blossom( "mon_fungal_blossom" );
 const mtype_id mon_manhack( "mon_manhack" );
 
+const skill_id skill_melee( "melee" );
+const skill_id skill_dodge( "dodge" );
+const skill_id skill_driving( "driving" );
+const skill_id skill_firstaid( "firstaid" );
+
 void advanced_inv(); // player_activity.cpp
 void intro();
 nc_color sev(int a); // Right now, ONLY used for scent debugging....
@@ -1989,7 +1994,7 @@ input_context game::get_player_input(std::string &action)
                     wmove( w_terrain, location.y - offset_y, location.x - offset_x );
                     if( !m.apply_vision_effects( w_terrain, lighting, cache ) ) {
                         m.drawsq( w_terrain, u, location, false, true,
-                                  u.posx() + u.view_offset.x, u.posy() + u.view_offset.y,
+                                  u.pos() + u.view_offset,
                                   lighting == LL_LOW, lighting == LL_BRIGHT );
                     }
                 }
@@ -2026,7 +2031,7 @@ input_context game::get_player_input(std::string &action)
                                 wmove( w_terrain, location.y - offset_y, location.x - offset_x );
                                 if( !m.apply_vision_effects( w_terrain, lighting, cache ) ) {
                                     m.drawsq( w_terrain, u, location, false, true,
-                                              u.posx() + u.view_offset.x, u.posy() + u.view_offset.y,
+                                              u.pos() + u.view_offset,
                                               lighting == LL_LOW, lighting == LL_BRIGHT );
                                 }
                             }
@@ -3710,7 +3715,7 @@ void game::debug()
     case 2:
     {
         if( u.in_vehicle ) {
-            m.unboard_vehicle( u.pos3() );
+            m.unboard_vehicle( u.pos() );
         }
 
         auto pt = look_around();
@@ -3720,16 +3725,23 @@ void game::debug()
             pt = u.pos();
             add_msg( _("You teleport to point (%d,%d,%d)"), pt.x, pt.y, pt.z );
         }
+
+        if( m.veh_at( u.pos() ) != nullptr ) {
+            m.board_vehicle( u.pos(), &u );
+        }
     }
         break;
 
     case 3: {
         tripoint tmp = overmap::draw_overmap();
-        if (tmp != overmap::invalid_tripoint) {
+        if( tmp != overmap::invalid_tripoint ) {
             //First offload the active npcs.
             active_npc.clear();
             while( num_zombies() > 0 ) {
                 despawn_monster( 0 );
+            }
+            if( u.in_vehicle ) {
+                m.unboard_vehicle( u.pos3() );
             }
             const int minz = m.has_zlevels() ? -OVERMAP_DEPTH : get_levz();
             const int maxz = m.has_zlevels() ? OVERMAP_HEIGHT : get_levz();
@@ -5130,11 +5142,11 @@ void game::draw_HP()
         const char *str = body_parts[i];
         wmove(w_HP, i * dy, 0);
         if (wide) {
-            wprintz(w_HP, limb_color(&u, part[i]), " ");
+            wprintz(w_HP, u.limb_color(part[i], true, true, true), " ");
         }
-        wprintz(w_HP, limb_color(&u, part[i]), str);
+        wprintz(w_HP, u.limb_color(part[i], true, true, true), str);
         if (!wide) {
-            wprintz(w_HP, limb_color(&u, part[i]), ":");
+            wprintz(w_HP, u.limb_color(part[i], true, true, true), ":");
         }
     }
 
@@ -5166,43 +5178,6 @@ void game::draw_HP()
         u.print_stamina_bar(w_HP);
     }
     wrefresh(w_HP);
-}
-
-nc_color game::limb_color(player *p, body_part bp, bool bleed, bool bite, bool infect)
-{
-    if (bp == num_bp) {
-        return c_ltgray;
-    }
-
-    int color_bit = 0;
-    nc_color i_color = c_ltgray;
-    if (bleed && p->has_effect("bleed", bp)) {
-        color_bit += 1;
-    }
-    if (bite && p->has_effect("bite", bp)) {
-        color_bit += 10;
-    }
-    if (infect && p->has_effect("infected", bp)) {
-        color_bit += 100;
-    }
-    switch (color_bit) {
-    case 1:
-        i_color = c_red;
-        break;
-    case 10:
-        i_color = c_blue;
-        break;
-    case 100:
-        i_color = c_green;
-        break;
-    case 11:
-        i_color = c_magenta;
-        break;
-    case 101:
-        i_color = c_yellow;
-        break;
-    }
-    return i_color;
 }
 
 void game::draw_minimap()
@@ -6091,7 +6066,6 @@ void game::do_blast( const tripoint &p, const int power, const bool fire )
                                         force / 2;
             if( z_offset[i] == 0 ) {
                 // Horizontal - no floor bashing
-                m.smash_items( dest, force );
                 m.bash( dest, bash_force, true, false, false );
             } else if( z_offset[i] > 0 ) {
                 // Should actually bash through the floor first, but that's not really possible yet
@@ -6145,6 +6119,8 @@ void game::do_blast( const tripoint &p, const int power, const bool fire )
             // Too weak to matter
             continue;
         }
+
+        m.smash_items( pt, force );
 
         if( fire ) {
             int density = (force > 50.0f) + (force > 100.0f);
@@ -6242,12 +6218,11 @@ void game::explosion( const tripoint &p, int power, int shrapnel, bool fire, boo
         if( critter_in_center != nullptr ) {
             dealt_projectile_attack dda; // Cool variable name
             dda.proj = proj;
-            // For each shrapnel piece:
-            // 20% chance for 50%-100% base (power to 2 * power)
-            // 20% chance for 0-25% base
-            // 60% chance for nothing
-            // Still, that's a lot of shrapnel to "dodge"
-            dda.missed_by = rng_float( 0.4, 1.4 );
+            // For first shrapnel piece:
+            // 50% chance for 50%-100% base (power to 2 * power)
+            // 50% chance for 0-25% base
+            // Each one after that gets a progressively lower chance of hitting
+            dda.missed_by = rng_float( 0.4, 1.0 ) + (i * 1.0 / shrapnel);
             critter_in_center->deal_projectile_attack( nullptr, dda );
         }
 
@@ -7001,36 +6976,36 @@ bool game::swap_critters( Creature &a, Creature &b )
 
         critter_tracker->swap_positions( *m1, *m2 );
         return true;
-    } else if( second.is_monster() ) {
-        // TODO: Remove the ugly casts when Creature::setpos exists
-        player *u_or_npc = dynamic_cast< player* >( &first );
-        monster *mon = dynamic_cast< monster* >( &second );
-        if( u_or_npc == nullptr || mon == nullptr ) {
-            debugmsg( "Couldn't swap the player or an npc with a monster" );
-            return false;
-        }
+    }
 
-        tripoint temp = mon->pos();
-        mon->setpos( u_or_npc->pos() );
-        u_or_npc->setpos( temp );
-        if( u_or_npc->is_player() ) {
-            update_map( u_or_npc );
-        }
-    } else {
-        // TODO: Also remove casts
-        player *u_or_npc = dynamic_cast< player* >( &first );
-        player *other_npc = dynamic_cast< player* >( &second );
-        if( u_or_npc == nullptr || other_npc == nullptr ) {
-            debugmsg( "Couldn't swap the player or an npc with an npc" );
-            return false;
-        }
+    player *u_or_npc = dynamic_cast< player* >( &first );
+    player *other_npc = dynamic_cast< player* >( &second );
 
-        tripoint temp = u_or_npc->pos();
-        u_or_npc->setpos( second.pos() );
-        other_npc->setpos( temp );
-        if( first.is_player() ) {
-            update_map( u_or_npc );
-        }
+    if( u_or_npc->in_vehicle ) {
+        g->m.unboard_vehicle( u_or_npc->pos() );
+    }
+
+    if( other_npc->in_vehicle ) {
+        g->m.unboard_vehicle( other_npc->pos() );
+    }
+
+    tripoint temp = second.pos();
+    second.setpos( first.pos() );
+    first.setpos( temp );
+
+    int part = -1;
+    vehicle *veh = g->m.veh_at( u_or_npc->pos(), part );
+    if( veh != nullptr && veh->part_with_feature( part, VPFLAG_BOARDABLE ) >= 0 ) {
+        g->m.board_vehicle( u_or_npc->pos(), u_or_npc );
+    }
+
+    vehicle *oveh = g->m.veh_at( other_npc->pos(), part );
+    if( oveh != nullptr && oveh->part_with_feature( part, VPFLAG_BOARDABLE ) >= 0 ) {
+        g->m.board_vehicle( other_npc->pos(), other_npc );
+    }
+
+    if( first.is_player() ) {
+        update_map( u_or_npc );
     }
 
     return true;
@@ -7322,8 +7297,8 @@ void game::smash()
         const int mod_sta = ( (u.weapon.weight() / 100 ) + 20) * -1;
         u.mod_stat("stamina", mod_sta);
 
-        if (u.skillLevel("melee") == 0) {
-            u.practice("melee", rng(0, 1) * rng(0, 1));
+        if (u.skillLevel( skill_melee ) == 0) {
+            u.practice( skill_melee, rng(0, 1) * rng(0, 1));
         }
         if (u.weapon.made_of("glass") &&
             rng(0, u.weapon.volume() + 3) < u.weapon.volume()) {
@@ -7459,7 +7434,7 @@ void game::exam_vehicle(vehicle &veh, const tripoint &p, int cx, int cy)
     vehint.exec(&veh);
     if (vehint.sel_cmd != ' ') {
         int time = 200;
-        int skill = u.skillLevel("mechanics");
+        int skill = u.skillLevel( skill_id( "mechanics" ) );
         int diff = 1;
         if (vehint.sel_vpart_info != NULL) {
             diff = vehint.sel_vpart_info->difficulty + 3;
@@ -7981,6 +7956,68 @@ bool pet_menu(monster *z)
     return true;
 }
 
+// Returns true if the menu handled stuff and player shouldn't do anything else
+bool npc_menu( npc &who )
+{
+    enum choices : int {
+        cancel = 0,
+        swap_pos,
+        push,
+        examine_wounds,
+        attack
+    };
+
+    uimenu amenu;
+
+    amenu.selected = 0;
+    amenu.text = string_format( _("What to do with %s?"), who.disp_name().c_str() );
+    amenu.addentry( cancel, true, 'q', _("Cancel") );
+
+    const bool obeys = debug_mode || (who.is_friend() && !who.in_sleep_state());
+    amenu.addentry( swap_pos, obeys, 's', _("Swap positions") );
+    amenu.addentry( push, obeys, 'p', _("Push away") );
+    amenu.addentry( examine_wounds, true, 'w', _("Examine wounds") );
+    amenu.addentry( attack, true, 'a', _("Attack") );
+
+    amenu.query();
+
+    const int choice = amenu.ret;
+    if( choice == cancel ) {
+        return false;
+    }
+
+    if( choice == swap_pos ) {
+        // TODO: Make NPCs protest when displaced onto dangerous crap
+        add_msg(_("You swap places with %s."), who.name.c_str());
+        g->swap_critters( g->u, who );
+        // TODO: Make that depend on stuff
+        g->u.mod_moves( -200 );
+    } else if( choice == push ) {
+        // TODO: Make NPCs protest when displaced onto dangerous crap
+        tripoint oldpos = who.pos();
+        who.move_away_from( g->u.pos(), true );
+        g->u.mod_moves( -20 );
+        if( oldpos != who.pos() ) {
+            add_msg(_("%s moves out of the way."), who.name.c_str());
+        } else {
+            add_msg( m_warning, _("%s has nowhere to go!"), who.name.c_str());
+        }
+    } else if( choice == examine_wounds ) {
+        const bool precise = g->u.get_skill_level( skill_firstaid ) * 4 + g->u.per_cur >= 20;
+        who.body_window( precise );
+    } else if( choice == attack ) {
+        //The NPC knows we started the fight, used for morale penalty.
+        if( !who.is_enemy() ) {
+            who.hit_by_player = true;
+        }
+
+        g->u.melee_attack( who, true );
+        who.make_angry();
+    }
+
+    return true;
+}
+
 void game::examine()
 {
     examine( tripoint( -1, -1, get_levz() ) );
@@ -8054,8 +8091,15 @@ void game::examine( const tripoint &p )
         Creature *c = critter_at(examp);
         monster *mon = dynamic_cast<monster *>(c);
 
-        if (mon != NULL && mon->has_effect("pet")) {
+        if( mon != nullptr && mon->has_effect("pet") ) {
             if (pet_menu(mon)) {
+                return;
+            }
+        }
+
+        npc *np = dynamic_cast<npc*>( c );
+        if( np != nullptr ) {
+            if( npc_menu( *np ) ) {
                 return;
             }
         }
@@ -8140,13 +8184,7 @@ void game::print_terrain_info( const tripoint &lp, WINDOW *w_look, int column, i
     int ending_line = line + 3;
     std::string tile = m.tername( lp );
     if( m.has_furn( lp ) ) {
-        furn_t furn = m.furn_at( lp );
-        tile += "; " + furn.name;
-        if( furn.has_flag( "PLANT" ) && !m.i_at( lp ).empty() ) {
-            // Plant types are defined by seeds.
-            const item &seed = m.i_at( lp )[0];
-            tile += " (" + seed.get_plant_name() + ")";
-        }
+        tile += "; " + m.furnname( lp );
     }
 
     if (m.move_cost( lp ) == 0) {
@@ -8162,6 +8200,21 @@ void game::print_terrain_info( const tripoint &lp, WINDOW *w_look, int column, i
     } else if (signage.size() > 0) {
         // Truncate to width of window as a guesstimate.
         mvwprintw(w_look, ++line, column, _("Sign: %s..."), signage.substr(0, 32).c_str());
+    }
+
+    if( m.has_zlevels() && lp.z > -OVERMAP_DEPTH && m.has_flag( TFLAG_NO_FLOOR, lp ) ) {
+        // Print info about stuff below
+        tripoint below( lp.x, lp.y, lp.z - 1 );
+        std::string tile_below = m.tername( below );
+        if( m.has_furn( below ) ) {
+            tile_below += "; " + m.furnname( below );
+        }
+
+        if( m.valid_move( lp, below, false, true ) ) {
+            mvwprintw(w_look, ++line, column, _("Below: %s; No support"), tile_below.c_str() );
+        } else {
+            mvwprintw(w_look, ++line, column, _("Below: %s; Walkable"), tile_below.c_str() );
+        }
     }
 
     mvwprintw(w_look, ++line, column, "%s", m.features( lp ).c_str());
@@ -8204,10 +8257,10 @@ void game::print_object_info( const tripoint &lp, WINDOW *w_look, const int colu
         mvwprintw(w_look, line++, column, _("There is a %s there. Parts:"), veh->name.c_str());
         line = veh->print_part_desc(w_look, line, (mouse_hover) ? getmaxx(w_look) : 48, veh_part);
         if (!mouse_hover) {
-            m.drawsq( w_terrain, u, lp, true, true, lp.x, lp.y );
+            m.drawsq( w_terrain, u, lp, true, true, lp );
         }
     } else if (!mouse_hover) {
-        m.drawsq(w_terrain, u, lp, true, true, lp.x, lp.y );
+        m.drawsq(w_terrain, u, lp, true, true, lp );
     }
     handle_multi_item_info( lp, w_look, column, line, mouse_hover );
 }
@@ -8601,8 +8654,7 @@ void game::zones_manager()
                                          tripoint( iX, iY, u.posz() + u.view_offset.z ),
                                          false,
                                          false,
-                                         u.posx() + u.view_offset.x,
-                                         u.posy() + u.view_offset.y );
+                                         u.pos() + u.view_offset );
                             } else {
                                 if (u.has_effect("boomered")) {
                                     mvwputch(w_terrain, iY - offset_y, iX - offset_x, c_magenta, '#');
@@ -8766,8 +8818,7 @@ tripoint game::look_around( WINDOW *w_info, const tripoint &start_point,
                                              tripoint( iX, iY, lp.z ),
                                              false,
                                              false,
-                                             lx,
-                                             ly);
+                                             tripoint( lx, ly, u.posz() ) );
                                 } else {
                                     if (u.has_effect("boomered")) {
                                         mvwputch(w_terrain, iY - offset_y - ly + u.posy(), iX - offset_x - lx + u.posx(), c_magenta, '#');
@@ -10349,8 +10400,12 @@ void game::drop_in_direction()
     }
 
     if (!m.can_put_items(dirp)) {
-        add_msg(m_info, _("You can't place items there!"));
-        return;
+        int part = -1;
+        vehicle * const veh = m.veh_at( dirp, part );
+        if( veh == nullptr || veh->part_with_feature( part, "CARGO" ) < 0 ) {
+            add_msg(m_info, _("You can't place items there!"));
+            return;
+        }
     }
 
     make_drop_activity( ACT_DROP, dirp );
@@ -11582,9 +11637,9 @@ void game::pldrive(int x, int y)
     }
     veh->turn(15 * x);
     if (veh->skidding && veh->valid_wheel_config()) {
-        if (rng(0, veh->velocity) < u.dex_cur + u.skillLevel("driving") * 2) {
+        if (rng(0, veh->velocity) < u.dex_cur + u.skillLevel( skill_driving ) * 2) {
             add_msg(_("You regain control of the %s."), veh->name.c_str());
-            u.practice("driving", veh->velocity / 5);
+            u.practice( skill_driving, veh->velocity / 5 );
             veh->velocity = int(veh->forward_velocity());
             veh->skidding = false;
             veh->move.init(veh->turn_dir);
@@ -11596,7 +11651,7 @@ void game::pldrive(int x, int y)
     }
 
     if (x != 0 && veh->velocity != 0 && one_in(10)) {
-        u.practice("driving", 1);
+        u.practice( skill_driving, 1 );
     }
 }
 
@@ -11763,9 +11818,11 @@ bool game::plmove(int dx, int dy)
     }
 
     bool displace = false;
-    if (mondex != -1) {
+    if( mondex != -1 ) {
         monster &critter = zombie(mondex);
-        if (critter.friendly == 0 && !(critter.type->has_flag(MF_VERMIN))) {
+        if( critter.friendly == 0 &&
+            !critter.has_effect("pet") &&
+            !critter.type->has_flag(MF_VERMIN) ) {
             if (u.has_destination()) {
                 add_msg(m_warning, _("Monster in the way. Auto-move canceled."));
                 add_msg(m_info, _("Click directly on monster to attack."));
@@ -11796,28 +11853,17 @@ bool game::plmove(int dx, int dy)
         }
     }
     // If not a monster, maybe there's an NPC there
-    if (npcdex != -1) {
+    if( npcdex != -1 ) {
         npc &np = *active_npc[npcdex];
-        bool force_attack = false;
-        if( !np.is_enemy() ) {
-            if( !query_yn( _("Really attack %s?"), np.name.c_str() ) ) {
-                if( np.is_friend() && !np.in_sleep_state() ) {
-                    add_msg(_("%s moves out of the way."), np.name.c_str());
-                    np.move_away_from( u.pos3() );
-                }
-
-                return false; // Cancel the attack
-            } else {
-                //The NPC knows we started the fight, used for morale penalty.
-                np.hit_by_player = true;
-                force_attack = true;
-            }
-        }
-
-        if (u.has_destination() && !force_attack) {
+        if( u.has_destination() ) {
             add_msg(_("NPC in the way, Auto-move canceled."));
             add_msg(m_info, _("Click directly on NPC to attack."));
             u.clear_destination();
+            return false;
+        }
+
+        if( !np.is_enemy() ) {
+            npc_menu( np );
             return false;
         }
 
@@ -11900,7 +11946,7 @@ bool game::plmove(int dx, int dy)
             }
             plswim(x, y);
         }
-    } else if (m.move_cost(x, y) > 0 || pushing_furniture || shifting_furniture || pushing_vehicle) {
+    } else if (m.move_cost( dest_loc ) > 0 || pushing_furniture || shifting_furniture || pushing_vehicle) {
         // move_cost() of 0 = impassible (e.g. a wall)
         u.set_underwater(false);
 
@@ -12048,24 +12094,21 @@ bool game::plmove(int dx, int dy)
                             u.grab_point.y = dyVeh * (-1);
                         }
 
+                        tripoint dp_veh( dxVeh, dyVeh, 0 );
                         mdir.init(dxVeh, dyVeh);
                         mdir.advance(1);
                         grabbed_vehicle->turn(mdir.dir() - grabbed_vehicle->face.dir());
                         grabbed_vehicle->face = grabbed_vehicle->turn_dir;
                         grabbed_vehicle->precalc_mounts(1, mdir.dir());
-                        int imp = 0;
-                        std::vector<veh_collision> veh_veh_colls;
-                        std::vector<veh_collision> veh_misc_colls;
-                        bool can_move = true;
+                        std::vector<veh_collision> colls;
                         // Set player location to illegal value so it can't collide with vehicle.
                         int player_prev_x = u.posx();
                         int player_prev_y = u.posy();
                         u.setx( 0 );
                         u.sety( 0 );
-                        if (grabbed_vehicle->collision(veh_veh_colls, veh_misc_colls, dxVeh, dyVeh,
-                                                       can_move, imp, true)) {
-                            // TODO: figure out what we collided with.
-                            add_msg(_("The %s collides with something."), grabbed_vehicle->name.c_str());
+                        if( grabbed_vehicle->collision( colls, dp_veh, true ) ) {
+                            add_msg( _("The %s collides with %s."),
+                                grabbed_vehicle->name.c_str(), colls[0].target_name.c_str() );
                             u.moves -= 10;
                             u.setx( player_prev_x );
                             u.sety( player_prev_y );
@@ -12077,8 +12120,8 @@ bool game::plmove(int dx, int dy)
                         u.sety( player_prev_y );
 
                         tripoint gp = grabbed_vehicle->global_pos3();
-                        std::vector<int> wheel_indices =
-                            grabbed_vehicle->all_parts_with_feature( "WHEEL", false );
+                        const auto &wheel_indices =
+                            grabbed_vehicle->wheelcache;
                         for( auto p : wheel_indices ) {
                             if( one_in(2) ) {
                                 tripoint wheel_p(
@@ -12088,8 +12131,7 @@ bool game::plmove(int dx, int dy)
                                 grabbed_vehicle->handle_trap( wheel_p, p );
                             }
                         }
-                        tripoint gpd( dxVeh, dyVeh, 0 );
-                        m.displace_vehicle( gp, gpd );
+                        m.displace_vehicle( gp, dp_veh );
                     } else {
                         //We are moving around the veh
                         u.grab_point.x = (dx + dxVeh) * (-1);
@@ -12258,7 +12300,7 @@ bool game::plmove(int dx, int dy)
         u.burn_move_stamina( previous_moves - u.moves );
 
         // Adjust recoil down
-        u.recoil -= int(u.str_cur / 2) + u.skillLevel("gun");
+        u.recoil -= int(u.str_cur / 2) + u.skillLevel( skill_id( "gun" ) );
         u.recoil = std::max( MIN_RECOIL * 2, u.recoil );
         u.recoil = int(u.recoil / 2);
         if ((!u.has_trait("PARKOUR") && m.move_cost(x, y) > 2) ||
@@ -12597,7 +12639,7 @@ void game::plswim(int x, int y)
         u.remove_effect("glowing");
     }
     int movecost = u.swim_speed();
-    u.practice("swimming", u.is_underwater() ? 2 : 1);
+    u.practice( skill_id( "swimming" ), u.is_underwater() ? 2 : 1);
     if (movecost >= 500) {
         if (!u.is_underwater() && !(u.shoe_type_count("swim_fins") == 2 ||
                                     (u.shoe_type_count("swim_fins") == 1 && one_in(2)))) {
@@ -12774,8 +12816,8 @@ void game::vertical_move(int movez, bool force)
         add_msg(m_warning, _("You try to use the stairs. Suddenly you are blocked by a %s!"),
                 coming_to_stairs[0].name().c_str());
         // Roll.
-        int dexroll = dice(6, u.dex_cur + u.skillLevel("dodge") * 2);
-        int strroll = dice(3, u.str_cur + u.skillLevel("melee") * 1.5);
+        int dexroll = dice(6, u.dex_cur + u.skillLevel( skill_dodge ) * 2);
+        int strroll = dice(3, u.str_cur + u.skillLevel( skill_melee ) * 1.5);
         if (coming_to_stairs.size() > 4) {
             add_msg(_("The are a lot of them on the %s!"), m.tername(u.pos()).c_str());
             dexroll /= 4;
@@ -12845,7 +12887,8 @@ void game::vertical_move(int movez, bool force)
 
         std::vector<tripoint> pts;
         for( const auto &pt : m.points_in_radius( stairs, 1 ) ) {
-            if( m.move_cost( pt ) > 0 && !m.has_flag( TFLAG_NO_FLOOR, pt ) ) {
+            if( m.move_cost( pt ) > 0 &&
+                !m.valid_move( pt, tripoint( pt.x, pt.y, pt.z - 1 ), false, true ) ) {
                 pts.push_back( pt );
             }
         }
@@ -12954,7 +12997,7 @@ void game::vertical_move(int movez, bool force)
                 } else if (u.has_trait("WEB_RAPPEL")) {
                     if (query_yn(_("There is a sheer drop halfway down. Web-descend?"))) {
                         rope_ladder = true;
-                        if ((rng(4, 8)) < (u.skillLevel("dodge"))) {
+                        if ((rng(4, 8)) < u.skillLevel( skill_dodge )) {
                             add_msg(_("You attach a web and dive down headfirst, flipping upright and landing on your feet."));
                         } else {
                             add_msg(_("You securely web up and work your way down, lowering yourself safely."));

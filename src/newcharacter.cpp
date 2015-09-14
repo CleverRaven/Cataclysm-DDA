@@ -63,8 +63,6 @@ int set_skills(WINDOW *w, player *u, int &points);
 
 int set_description(WINDOW *w, player *u, character_type type, int &points);
 
-const Skill* random_skill();
-
 void save_template(player *u);
 
 bool lcmatch(const std::string &str, const std::string &findstr); // ui.cpp
@@ -286,7 +284,7 @@ int player::create(character_type type, std::string tempname)
                 case 7:
                 case 8:
                 case 9:
-                    const Skill* aSkill = random_skill();
+                    const Skill* aSkill = Skill::random_skill();
                     int level = skillLevel(aSkill);
 
                     if (level < points && level < MAX_SKILL && (level <= 10 || loops > 10000)) {
@@ -442,13 +440,8 @@ int player::create(character_type type, std::string tempname)
     }
 
     // Grab the skills from the profession, if there are any
-    profession::StartingSkillList prof_skills = g->u.prof->skills();
-    for (profession::StartingSkillList::const_iterator iter = prof_skills.begin();
-         iter != prof_skills.end(); ++iter) {
-        assert(Skill::skill(iter->first));
-        if (Skill::skill(iter->first)) {
-            g->u.boost_skill_level(iter->first, iter->second);
-        }
+    for( auto &e : g->u.prof->skills() ) {
+        g->u.boost_skill_level( e.first, e.second );
     }
 
     // Get CBMs
@@ -1226,12 +1219,8 @@ int set_profession(WINDOW *w, player *u, int &points)
             buffer << pgettext( "set_profession_skill", "None" ) << "\n";
         } else {
             for( const auto &sl : prof_skills ) {
-                const auto skill = Skill::skill( sl.first );
-                if( skill == nullptr ) {
-                    continue;  // skip unrecognized skills.
-                }
                 const auto format = pgettext( "set_profession_skill", "%1$s (%2$d)" );
-                buffer << string_format( format, skill->name().c_str(), sl.second ) << "\n";
+                buffer << string_format( format, sl.first.obj().name().c_str(), sl.second ) << "\n";
             }
         }
 
@@ -1408,13 +1397,8 @@ int set_skills(WINDOW *w, player *u, int &points)
                 wprintz(w, (i == cur_pos ? hilite(COL_SKILL_USED) : COL_SKILL_USED),
                         " (%d)", int(u->skillLevel(thisSkill)));
             }
-            profession::StartingSkillList prof_skills = u->prof->skills();//profession skills
-            for( auto &prof_skill : prof_skills ) {
-                const Skill* skill = Skill::skill( prof_skill.first );
-                if (skill == NULL) {
-                    continue;  // skip unrecognized skills.
-                }
-                if (skill->ident() == thisSkill->ident()) {
+            for( auto &prof_skill : u->prof->skills() ) {
+                if( prof_skill.first == thisSkill->ident() ) {
                     wprintz( w, ( i == cur_pos ? h_white : c_white ), " (+%d)",
                              int( prof_skill.second ) );
                     break;
@@ -2128,11 +2112,6 @@ std::string Character::random_bad_trait()
     }
 
     return random_entry( vTraitsBad );
-}
-
-const Skill* random_skill()
-{
-    return Skill::skill(rng(0, Skill::skill_count() - 1));
 }
 
 void save_template(player *u)

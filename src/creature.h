@@ -3,7 +3,6 @@
 
 #include "damage.h"
 #include "pldata.h"
-#include "skill.h"
 #include "json.h"
 #include "effect.h"
 #include "bodypart.h"

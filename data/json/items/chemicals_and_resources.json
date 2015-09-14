@@ -595,5 +595,36 @@
     "recoil" : 0,
     "count" : 14,
     "effects" : []
-   }
+   },
+   {
+    "type":"GENERIC",
+    "id": "hickory_root",
+    "symbol": "/",
+    "color": "brown",
+    "name": "hickory root",
+    "description": "A root from a hickory tree. It has an earthy smell.",
+    "price": 0,
+    "material": "wood",
+    "weight": 500,
+    "volume": 2,
+    "bashing": 0,
+    "cutting": 0,
+    "to_hit": -2
+    },
+    {
+    "type":"GENERIC",
+    "id": "hickory_nut",
+    "symbol": "%",
+    "color": "brown",
+    "name": "hickory nuts",
+    "name_plural": "hickory nuts",
+    "description": "A handful of hard nuts from a hickory tree, still in their shell.",
+    "price": 0,
+    "material": "wood",
+    "weight": 212,
+    "volume": 1,
+    "bashing": 0,
+    "cutting": 0,
+    "to_hit": -2
+    }
 ]

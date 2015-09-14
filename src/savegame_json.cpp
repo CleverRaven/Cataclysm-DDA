@@ -66,6 +66,7 @@ void player_activity::serialize(JsonOut &json) const
     json.member( "moves_left", moves_left );
     json.member( "index", index );
     json.member( "position", position );
+    json.member( "coords", coords );
     json.member( "name", name );
     json.member( "placement", placement );
     json.member( "values", values );
@@ -89,6 +90,7 @@ void player_activity::deserialize(JsonIn &jsin)
     data.read( "moves_left", moves_left );
     data.read( "index", index );
     position = tmppos;
+    data.read( "coords", coords );
     data.read( "name", name );
     data.read( "placement", placement );
     values = data.get_int_array("values");
@@ -242,8 +244,8 @@ void Character::load(JsonObject &data)
     if (data.has_object("skills")) {
         JsonObject pmap = data.get_object("skills");
         for( auto &skill : Skill::skills ) {
-            if( pmap.has_object( skill.ident() ) ) {
-                pmap.read( skill.ident(), skillLevel( &skill ) );
+            if( pmap.has_object( skill.ident().str() ) ) {
+                pmap.read( skill.ident().str(), skillLevel( &skill ) );
             } else {
                 debugmsg( "Load (%s) Missing skill %s", "", skill.ident().c_str() );
             }
@@ -295,7 +297,7 @@ void Character::store(JsonOut &json) const
     json.member( "skills" );
     json.start_object();
     for( auto const &skill : Skill::skills ) {
-        json.member( skill.ident(), get_skill_level(skill) );
+        json.member( skill.ident().str(), get_skill_level(skill) );
     }
     json.end_object();
 }
@@ -751,7 +753,7 @@ void npc_chatbin::deserialize(JsonIn &jsin)
     }
 
     if ( data.read("skill", skill_ident) ) {
-        skill = Skill::skill(skill_ident);
+        skill = &skill_id( skill_ident ).obj();
     }
 
     std::vector<int> tmpmissions;
@@ -827,9 +829,9 @@ void npc_favor::deserialize(JsonIn &jsin)
     jo.read("itype_id", item_id);
     skill = NULL;
     if (jo.has_int("skill_id")) {
-        skill = Skill::skill(jo.get_int("skill_id"));
+        skill = Skill::from_legacy_int( jo.get_int("skill_id") );
     } else if (jo.has_string("skill_id")) {
-        skill = Skill::skill(jo.get_string("skill_id"));
+        skill = &skill_id( jo.get_string("skill_id") ).obj();
     }
 }
 
@@ -1416,6 +1418,7 @@ void vehicle::deserialize(JsonIn &jsin)
     data.read("velocity", velocity);
     data.read("falling", falling);
     data.read("cruise_velocity", cruise_velocity);
+    data.read("vertical_velocity", vertical_velocity);
     data.read("cruise_on", cruise_on);
     data.read("engine_on", engine_on);
     data.read("tracking_on", tracking_on);
@@ -1494,6 +1497,7 @@ void vehicle::serialize(JsonOut &json) const
     json.member( "velocity", velocity );
     json.member( "falling", falling );
     json.member( "cruise_velocity", cruise_velocity );
+    json.member( "vertical_velocity", vertical_velocity );
     json.member( "cruise_on", cruise_on );
     json.member( "engine_on", engine_on );
     json.member( "tracking_on", tracking_on );

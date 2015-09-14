@@ -1,6 +1,7 @@
 #include "iexamine.h"
 #include "game.h"
 #include "map.h"
+#include "map_iterator.h"
 #include "debug.h"
 #include "mapdata.h"
 #include "output.h"
@@ -35,6 +36,12 @@ const mtype_id mon_spider_web_s( "mon_spider_web_s" );
 const mtype_id mon_spider_widow_giant_s( "mon_spider_widow_giant_s" );
 const mtype_id mon_turret( "mon_turret" );
 const mtype_id mon_turret_rifle( "mon_turret_rifle" );
+
+const skill_id skill_computer( "computer" );
+const skill_id skill_mechanics( "mechanics" );
+const skill_id skill_carpentry( "carpentry" );
+const skill_id skill_cooking( "cooking" );
+const skill_id skill_survival( "survival" );
 
 static void pick_plant( player *p, map *m, const tripoint &examp, std::string itemType, ter_id new_ter,
                         bool seeds = false );
@@ -611,8 +618,8 @@ void iexamine::cardreader(player *p, map *m, const tripoint &examp)
                                  query_yn(_("Use fingerhack on the reader?")));
         if (using_electrohack || using_fingerhack) {
             p->moves -= 500;
-            p->practice( "computer", 20 );
-            int success = rng(p->skillLevel("computer") / 4 - 2, p->skillLevel("computer") * 2);
+            p->practice( skill_computer, 20 );
+            int success = rng(p->skillLevel( skill_computer ) / 4 - 2, p->skillLevel( skill_computer ) * 2);
             success += rng(-3, 3);
             if (using_fingerhack) {
                 success++;
@@ -785,29 +792,38 @@ void iexamine::bars(player *p, map *m, const tripoint &examp)
 
 void iexamine::portable_structure(player *p, map *m, const tripoint &examp)
 {
-    int radius = m->furn(examp) == f_center_groundsheet ? 2 : 1;
-    const char *name = m->furn(examp) == f_skin_groundsheet ? _("shelter") : _("tent");
-      // We don't take the name from the item in case "kit" is in
-      // it, instead of just the name of the structure.
-    std::string dropped =
-        m->furn(examp) == f_groundsheet        ? "tent_kit"
-      : m->furn(examp) == f_center_groundsheet ? "large_tent_kit"
-      :                                                 "shelter_kit";
-    if (!query_yn(_("Take down the %s?"), name)) {
-        none(p, m, examp);
+    const auto &fr = m->furn_at( examp );
+    std::string name;
+    std::string dropped;
+    if( fr.id == "f_groundsheet" ) {
+        name = "tent";
+        dropped = "tent_kit";
+    } else if( fr.id == "f_center_groundsheet" ) {
+        name = "tent";
+        dropped = "large_tent_kit";
+    } else if( fr.id == "f_skin_groundsheet" ) {
+        name = "shelter";
+        dropped = "shelter_kit";
+    } else if( fr.id == "f_ladder" ) {
+        name = "ladder";
+        dropped = "stepladder";
+    } else {
+        name = "bug";
+        dropped = "null";
+    }
+
+    if( !query_yn(_("Take down the %s?"), name.c_str() ) ) {
+        none( p, m, examp );
         return;
     }
+
     p->moves -= 200;
-    tripoint tmp = examp;
-    int &i = tmp.x;
-    int &j = tmp.y;
-    for (i = examp.x - radius; i <= examp.x + radius; i++) {
-        for (j = examp.y - radius; j <= examp.y + radius; j++) {
-            m->furn_set(tmp, f_null);
-        }
+    int radius = std::max( 1, fr.bash.collapse_radius );
+    for( const tripoint &pt : m->points_in_radius( examp, radius ) ) {
+        m->furn_set( pt, f_null );
     }
-    add_msg(_("You take down the %s."), name);
-    m->add_item_or_charges(examp, item(dropped, calendar::turn));
+
+    m->add_item_or_charges( examp, item( dropped, calendar::turn ) );
 }
 
 void iexamine::pit(player *p, map *m, const tripoint &examp)
@@ -1005,7 +1021,7 @@ void iexamine::safe(player *p, map *m, const tripoint &examp)
         }
          // 150 minutes +/- 20 minutes per mechanics point away from 3 +/- 10 minutes per
         // perception point away from 8; capped at 30 minutes minimum. *100 to convert to moves
-        int moves = std::max(MINUTES(150) + (p->skillLevel("mechanics") - 3) * MINUTES(-20) +
+        int moves = std::max(MINUTES(150) + (p->skillLevel( skill_mechanics ) - 3) * MINUTES(-20) +
                              (p->get_per() - 8) * MINUTES(-10), MINUTES(30)) * 100;
 
          p->assign_activity( ACT_CRACKING, moves );
@@ -1031,12 +1047,12 @@ void iexamine::gunsafe_ml(player *p, map *m, const tripoint &examp)
         pick_quality = 3;
     }
 
-    p->practice("mechanics", 1);
-    p->moves -= (1000 - (pick_quality * 100)) - (p->dex_cur + p->skillLevel("mechanics")) * 5;
-    int pick_roll = (dice(2, p->skillLevel("mechanics")) + dice(2, p->dex_cur)) * pick_quality;
+    p->practice( skill_mechanics, 1);
+    p->moves -= (1000 - (pick_quality * 100)) - (p->dex_cur + p->skillLevel( skill_mechanics )) * 5;
+    int pick_roll = (dice(2, p->skillLevel( skill_mechanics )) + dice(2, p->dex_cur)) * pick_quality;
     int door_roll = dice(4, 30);
     if (pick_roll >= door_roll) {
-        p->practice("mechanics", 1);
+        p->practice( skill_mechanics, 1);
         add_msg(_("You successfully unlock the gun safe."));
         g->m.furn_set(examp, "f_safe_o");
     } else if (door_roll > (3 * pick_roll)) {
@@ -1064,8 +1080,8 @@ void iexamine::gunsafe_el(player *p, map *m, const tripoint &examp)
                              p->power_level > 0 && query_yn(_("Use fingerhack on the gun safe?")));
     if (using_electrohack || using_fingerhack) {
         p->moves -= 500;
-        p->practice("computer", 20);
-        int success = rng(p->skillLevel("computer") / 4 - 2, p->skillLevel("computer") * 2);
+        p->practice( skill_computer, 20);
+        int success = rng(p->skillLevel( skill_computer ) / 4 - 2, p->skillLevel( skill_computer ) * 2);
         success += rng(-3, 3);
         if (using_fingerhack) {
             success++;
@@ -1570,18 +1586,21 @@ void iexamine::dirtmound(player *p, map *m, const tripoint &examp)
 
 void iexamine::aggie_plant(player *p, map *m, const tripoint &examp)
 {
-    if (m->furn(examp) == f_plant_harvest && query_yn(_("Harvest plant?"))) {
-        if (m->i_at(examp).empty()) {
-            m->i_clear(examp);
-            m->furn_set(examp, f_null);
-            debugmsg("Missing seeds in harvested plant!");
-            return;
-        }
-        const item &seed = m->i_at( examp )[0];
-        if( !seed.is_seed() ) {
-            debugmsg( "The seed is not a seed!" );
-            return;
-        }
+    if( m->i_at( examp ).empty() ) {
+        m->i_clear( examp );
+        m->furn_set( examp, f_null );
+        debugmsg( "Missing seed in plant furniture!" );
+        return;
+    }
+    const item &seed = m->i_at( examp ).front();
+    if( !seed.is_seed() ) {
+        debugmsg( "The seed item %s is not a seed!", seed.tname().c_str() );
+        return;
+    }
+
+    const std::string pname = seed.get_plant_name();
+
+    if (m->furn(examp) == f_plant_harvest && query_yn(_("Harvest the %s?"), pname.c_str() )) {
         const islot_seed &seed_data = *seed.type->seed;
         const std::string &seedType = seed.typeId();
         if (seedType == "fungal_seeds") {
@@ -1609,7 +1628,7 @@ void iexamine::aggie_plant(player *p, map *m, const tripoint &examp)
             m->i_clear(examp);
             m->furn_set(examp, f_null);
 
-            int skillLevel = p->skillLevel("survival");
+            int skillLevel = p->skillLevel( skill_survival );
             int plantCount = rng(skillLevel / 2, skillLevel);
             if (plantCount >= 12) {
                 plantCount = 12;
@@ -1641,15 +1660,15 @@ void iexamine::aggie_plant(player *p, map *m, const tripoint &examp)
         }
     } else if (m->furn(examp) != f_plant_harvest) {
         if (m->i_at(examp).size() > 1) {
-            add_msg(m_info, _("This plant has already been fertilized."));
+            add_msg(m_info, _("This %s has already been fertilized."), pname.c_str() );
             return;
         }
         std::vector<const item *> f_inv = p->all_items_with_flag( "FERTILIZER" );
         if( f_inv.empty() ) {
-        add_msg(m_info, _("You have no fertilizer."));
+        add_msg(m_info, _("You have no fertilizer for the %s."), pname.c_str());
         return;
         }
-        if (query_yn(_("Fertilize plant"))) {
+        if (query_yn(_("Fertilize the %s"), pname.c_str() )) {
         std::vector<itype_id> f_types;
         std::vector<std::string> f_names;
             for( auto &f : f_inv ) {
@@ -1741,7 +1760,7 @@ void iexamine::kiln_empty(player *p, map *m, const tripoint &examp)
         return;
     }
 
-    SkillLevel &skill = p->skillLevel( "carpentry" );
+    SkillLevel &skill = p->skillLevel( skill_carpentry );
     int loss = 90 - 2 * skill; // We can afford to be inefficient - logs and skeletons are cheap, charcoal isn't
 
     // Burn stuff that should get charred, leave out the rest
@@ -1772,7 +1791,7 @@ void iexamine::kiln_empty(player *p, map *m, const tripoint &examp)
     m->add_item( examp, result );
     add_msg( _("You fire the charcoal kiln.") );
     int practice_amount = ( 10 - skill ) * total_volume / 100; // 50 at 0 skill, 25 at 5, 10 at 8
-    p->practice( "carpentry", practice_amount );
+    p->practice( skill_carpentry, practice_amount );
 }
 
 void iexamine::kiln_full(player *, map *m, const tripoint &examp)
@@ -1957,7 +1976,7 @@ void iexamine::fvat_full(player *p, map *m, const tripoint &examp)
                 m->furn(examp) == f_fvat_full && query_yn(_("Finish brewing?")) ) {
                 //declare fermenting result as the brew's ID minus "brew_"
                 itype_id alcoholType = m->i_at(examp)[0].typeId().substr(5);
-                SkillLevel &cooking = p->skillLevel("cooking");
+                SkillLevel &cooking = p->skillLevel( skill_cooking );
                 if (alcoholType == "hb_beer" && cooking < 5) {
                     alcoholType = alcoholType.substr(3);    //hb_beer -> beer
                 }
@@ -1970,7 +1989,7 @@ void iexamine::fvat_full(player *p, map *m, const tripoint &examp)
                 p->moves -= 500;
 
                 //low xp: you also get xp from crafting the brew
-                p->practice( "cooking", std::min(brew_time / 600, 72) );
+                p->practice( skill_cooking, std::min(brew_time / 600, 72) );
                 add_msg(_("The %s is now ready for bottling."), booze.tname().c_str());
             }
         }
@@ -2160,11 +2179,11 @@ void pick_plant(player *p, map *m, const tripoint &examp,
         return;
     }
 
-    SkillLevel &survival = p->skillLevel("survival");
+    SkillLevel &survival = p->skillLevel( skill_survival );
     if (survival < 1) {
-        p->practice( "survival", rng(5, 12) );
+        p->practice( skill_survival, rng(5, 12) );
     } else if (survival < 6) {
-        p->practice("survival", rng(1, 12 / survival) );
+        p->practice( skill_survival, rng(1, 12 / survival) );
     }
 
     int plantBase = rng(2, 5);
@@ -2223,6 +2242,26 @@ void iexamine::tree_pine(player *p, map *m, const tripoint &examp)
     m->ter_set(examp, t_tree_deadpine);
 }
 
+void iexamine::tree_hickory(player *p, map *m, const tripoint &examp)
+{    
+    harvest_tree_shrub(p,m,examp);
+    if( !( p->skillLevel( skill_survival ) > 0 ) ) {
+        return;
+    }
+    if( !p->has_items_with_quality( "DIG", 1, 1 ) ) {
+        add_msg(m_info, _("You have no tool to dig with..."));
+        return;
+    }
+    if(!query_yn(_("Dig up %s? This kills the tree!"), m->tername(examp).c_str())) {
+        return;
+    }
+    m->spawn_item(p->pos(), "hickory_root", rng(1,4) );
+    m->ter_set(examp, t_tree_hickory_dead);
+    p->moves -= 2000 / ( p->skillLevel( skill_survival ) + 1 ) + 100;
+    return;
+    none(p, m, examp);
+}
+
 void iexamine::tree_bark(player *p, map *m, const tripoint &examp)
 {
     if(!query_yn(_("Pick %s?"), m->tername(examp).c_str())) {
@@ -2278,7 +2317,7 @@ void iexamine::shrub_wildveggies( player *p, map *m, const tripoint &examp )
     }
 
     add_msg( _("You forage through the %s."), m->tername( examp ).c_str() );
-    int move_cost = 100000 / ( 2 * p->skillLevel("survival") + 5 );
+    int move_cost = 100000 / ( 2 * p->skillLevel( skill_survival ) + 5 );
     move_cost /= rng( std::max( 4, p->per_cur ), 4 + p->per_cur * 2 );
     p->assign_activity( ACT_FORAGE, move_cost, 0 );
     p->activity.placement = examp;
@@ -3060,8 +3099,8 @@ void iexamine::pay_gas(player *p, map *m, const tripoint &examp)
                                  query_yn(_("Use fingerhack on the reader?")));
         if (using_electrohack || using_fingerhack) {
             p->moves -= 500;
-            p->practice("computer", 20);
-            int success = rng(p->skillLevel("computer") / 4 - 2, p->skillLevel("computer") * 2);
+            p->practice( skill_computer, 20);
+            int success = rng(p->skillLevel( skill_computer ) / 4 - 2, p->skillLevel( skill_computer ) * 2);
             success += rng(-3, 3);
             if (using_fingerhack) {
                 success++;
@@ -3135,6 +3174,63 @@ void iexamine::pay_gas(player *p, map *m, const tripoint &examp)
             return;
         }
     }
+}
+
+void iexamine::climb_down( player *p, map *m, const tripoint &examp )
+{
+    if( !m->has_zlevels() ) {
+        // No climbing down in 2D mode
+        return;
+    }
+
+    if( !m->valid_move( p->pos(), examp, false, true ) ) {
+        // Covered with something
+        return;
+    }
+
+    tripoint where = examp;
+    tripoint below = examp;
+    below.z--;
+    while( m->valid_move( where, below, false, true ) ) {
+        where.z--;
+        below.z--;
+    }
+
+    const int height = examp.z - where.z;
+    if( height == 0 ) {
+        p->add_msg_if_player( _("You can't climb down there") );
+        return;
+    }
+
+    const int climb_cost = p->climbing_cost( where, examp );
+    const auto fall_mod = p->fall_damage_mod();
+    if( height > 1 && !query_yn( _("Looks like %d stories. Jump down?"), height ) ) {
+        return;
+    } else if( height == 1 ) {
+        std::string query;
+        if( climb_cost <= 0 && fall_mod > 0.8 ) {
+            query = _("You probably won't be able to get up and jumping down may hurt. Jump?");
+        } else if( climb_cost <= 0 ) {
+            query = _("You probably won't be able to get back up. Climb down?");
+        } else if( climb_cost < 200 ) {
+            query = _("You should be able to climb back up easily if you climb down there. Climb down?");
+        } else {
+            query = _("You may have problems climbing back up. Climb down?");
+        }
+
+        if( !query_yn( query.c_str() ) ) {
+            return;
+        }
+    }
+
+    p->moves -= 100 + 100 * fall_mod;
+    p->setpos( examp );
+    if( climb_cost > 0 || rng_float( 0.8, 1.0 ) > fall_mod ) {
+        // One tile of falling less (possibly zero)
+        g->vertical_move( -1, true );
+    }
+
+    m->creature_on_trap( *p );
 }
 
 /**
@@ -3288,6 +3384,9 @@ iexamine_function iexamine_function_from_string(std::string const &function_name
     if ("tree_marloss" == function_name) {
         return &iexamine::tree_marloss;
     }
+    if ("tree_hickory" == function_name) {
+        return &iexamine::tree_hickory;
+    }
     if ("shrub_wildveggies" == function_name) {
         return &iexamine::shrub_wildveggies;
     }
@@ -3326,6 +3425,9 @@ iexamine_function iexamine_function_from_string(std::string const &function_name
     }
     if ("kiln_full" == function_name) {
         return &iexamine::kiln_full;
+    }
+    if( "climb_down" == function_name ) {
+        return &iexamine::climb_down;
     }
     //No match found
     debugmsg("Could not find an iexamine function matching '%s'!", function_name.c_str());

@@ -17,6 +17,7 @@
         "acid_resist" : 1,
         "elec_resist" : 0,
         "fire_resist" : 2,
+        "chip_resist" : 15,
         "density" : 58
     }
 ]
