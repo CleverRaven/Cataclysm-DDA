@@ -69,6 +69,21 @@ int get_rot_since( const int startturn, const int endturn, const tripoint &locat
     return ret;
 }
 
+float get_sunlight( const calendar &startturn,
+                    const calendar &endturn,
+                    const tripoint &location )
+{
+    float sunlight = 0.0f;
+    for( calendar turn(startturn); turn < endturn; turn += 10 ) {
+        // TODO: Change this calendar::sunlight "sampling" here into a proper interpolation
+        const float tick_sunlight = turn.sunlight();
+        const auto wtype = g->weather_gen->get_weather_conditions( point( location.x, location.y ), turn );
+        sunlight += std::max<float>( 0.0f, tick_sunlight - weather_data( wtype ).light_modifier );
+    }
+
+    return sunlight;
+}
+
 ////// Funnels.
 rainfall_data get_rainfall( const calendar &startturn,
                             const calendar &endturn,

@@ -327,11 +327,11 @@ class game
         bool spread_fungus( const tripoint &p );
         std::vector<faction *> factions_at( const tripoint &p );
         int &scent( const tripoint &p );
-        float natural_light_level() const;
+        float natural_light_level( int zlev ) const;
         /** Returns coarse number-of-squares of visibility at the current light level.
          * Used by monster and NPC AI.
          */
-        unsigned char light_level() const;
+        unsigned char light_level( int zlev ) const;
         void reset_light_level();
         int assign_npc_id();
         int assign_faction_id();
@@ -756,8 +756,7 @@ class game
         std::map<mtype_id, int> kills;         // Player's kill count
         int moves_since_last_save;
         time_t last_save_timestamp;
-        mutable float latest_lightlevel;
-        mutable calendar latest_lightlevel_turn;
+        mutable std::array<float, OVERMAP_LAYERS> latest_lightlevels;
         // remoteveh() cache
         int remoteveh_cache_turn;
         vehicle *remoteveh_cache;

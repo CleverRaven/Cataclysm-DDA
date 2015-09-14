@@ -1581,7 +1581,7 @@ void player::recalc_speed_bonus()
     // Threshold-crossing has its charms ;-)
     if (g != NULL) {
         if (has_trait("SUNLIGHT_DEPENDENT") && !g->is_in_sunlight(pos())) {
-            mod_speed_bonus(-(g->light_level() >= 12 ? 5 : 10));
+            mod_speed_bonus(-(g->light_level( posz() ) >= 12 ? 5 : 10));
         }
         if ((has_trait("COLDBLOOD4")) && g->get_temperature() > 60) {
             mod_speed_bonus(+int( (g->get_temperature() - 65) / 2));
@@ -2774,7 +2774,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
         line++;
     }
     if (has_trait("SUNLIGHT_DEPENDENT") && !g->is_in_sunlight(pos())) {
-        pen = (g->light_level() >= 12 ? 5 : 10);
+        pen = (g->light_level( posz() ) >= 12 ? 5 : 10);
         mvwprintz(w_speed, line, 1, c_red, _("Out of Sunlight     -%s%d%%"),
                   (pen < 10 ? " " : ""), pen);
         line++;

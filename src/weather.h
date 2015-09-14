@@ -143,9 +143,14 @@ int get_local_humidity(double humidity, weather_type weather, bool sheltered = f
 int get_local_windpower(double windpower, std::string const &omtername = "no name",
                         bool sheltered = false);
 
+// TODO: Merge rainfall and sunlight functions
 rainfall_data get_rainfall( const calendar &startturn,
                             const calendar &endturn,
                             const tripoint &location );
+
+float get_sunlight( const calendar &startturn,
+                    const calendar &endturn,
+                    const tripoint &location );
 
 /**
  * @param it The container item which is to be filled.

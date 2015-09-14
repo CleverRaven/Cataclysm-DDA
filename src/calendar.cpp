@@ -229,11 +229,6 @@ bool calendar::is_night() const
 
 float calendar::sunlight() const
 {
-    //Recent lightning strike has lit the area
-    if( g->lightning_active ) {
-        return DAYLIGHT_LEVEL;
-    }
-
     int seconds = seconds_past_midnight();
     int sunrise_seconds = sunrise().seconds_past_midnight();
     int sunset_seconds = sunset().seconds_past_midnight();

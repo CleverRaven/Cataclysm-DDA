@@ -577,9 +577,6 @@ public:
     // vehicle have fuel for are accounted
     int total_power (bool fueled = true) const;
 
-    // Get combined epower of solar panels
-    int solar_epower( const tripoint &sm_loc ) const;
-
     // Get acceleration gained by combined power of all engines. If fueled == true, then only engines which
     // vehicle have fuel for are accounted
     int acceleration (bool fueled = true) const;
@@ -622,11 +619,11 @@ public:
     bool valid_wheel_config() const;
 
     // idle fuel consumption
-    void idle (bool on_map = true);
+    void idle(bool on_map = true);
     // continuous processing for running vehicle alarms
-    void alarm ();
+    void alarm();
     // leak from broken tanks
-    void slow_leak ();
+    void slow_leak();
 
     // thrust (1) or brake (-1) vehicle
     void thrust (int thd);
@@ -867,11 +864,11 @@ public:
     std::set<tripoint> occupied_points;
     calendar occupied_cache_turn = -1; // Turn occupied points were calculated
 
-    // The below is currently used only for funnels
     // Turn the vehicle was last processed
     calendar last_update_turn = -1;
     // Retroactively pass time spent outside bubble
-    void update_time();
+    // Funnels, solars
+    void update_time( const calendar &update_to );
 
     // save values
     /**

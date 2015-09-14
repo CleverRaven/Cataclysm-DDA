@@ -3070,41 +3070,6 @@ int vehicle::total_power(bool const fueled) const
     return pwr;
 }
 
-int vehicle::solar_epower( const tripoint &sm_loc ) const
-{
-    // this will obviosuly be wrong for vehicles spanning z-levels, when
-    // that gets possible...
-    if( sm_loc.z < 0 ) {
-        return 0;
-    }
-
-    int epower = 0;
-    for( auto &elem : solar_panels ) {
-        if( parts[elem].hp > 0 ) {
-            int px = posx + parts[elem].precalc[0].x; // veh. origin submap relative
-            int py = posy + parts[elem].precalc[0].y; // as above
-            //debugmsg("raw coords: sm %d,%d  sm-rel %d,%d", sm_loc.x, sm_loc.y, px, py);
-            tripoint pg = overmapbuffer::sm_to_ms_copy( sm_loc );
-            pg.x += px;
-            pg.y += py;
-            point psm = overmapbuffer::ms_to_sm_remain( pg.x, pg.y );
-            // now psm points to proper submap, and pg gives the submap relative coords
-            //debugmsg("fixed coords: sm %d,%d, sm-rel %d,%d", psm.x, psm.y, pg.x, pg.y);
-            auto sm = MAPBUFFER.lookup_submap( psm.x, psm.y, sm_loc.z );
-            if( sm == nullptr ) {
-                debugmsg("solar_epower(): couldn't find submap");
-                continue;
-            }
-
-            if( !(sm->ter[pg.x][pg.y].obj().has_flag(TFLAG_INDOORS) ||
-                  sm->get_furn(pg.x, pg.y).obj().has_flag(TFLAG_INDOORS)) ) {
-                epower += ( part_epower( elem ) * g->natural_light_level() ) / DAYLIGHT_LEVEL;
-            }
-        }
-    }
-    return epower;
-}
-
 int vehicle::acceleration(bool const fueled) const
 {
     if ((engine_on && has_engine_type_not(fuel_type_muscle, true)) || skidding) {
@@ -3504,8 +3469,9 @@ void vehicle::consume_fuel( double load = 1.0 )
     }
 }
 
-void vehicle::power_parts( const tripoint &sm_loc )//TODO: more categories of powered part!
+void vehicle::power_parts( const tripoint &sm_loc )
 {
+(void)sm_loc;
     int epower = 0;
 
     // Consumers of epower
@@ -3534,8 +3500,6 @@ void vehicle::power_parts( const tripoint &sm_loc )//TODO: more categories of po
     }
 
     // Producers of epower
-    epower += solar_epower( sm_loc );
-
     if(engine_on) {
         // If the engine is on, the alternators are working.
         int alternators_epower = 0;
@@ -3830,7 +3794,7 @@ void vehicle::idle(bool on_map) {
     }
 
     if( on_map ) {
-        update_time();
+        update_time( calendar::turn );
         if(scoop_on){
             operate_scoop();
         }
@@ -6317,36 +6281,82 @@ std::set<tripoint> &vehicle::get_points( const bool force_refresh )
     return occupied_points;
 }
 
-void vehicle::update_time()
+bool is_sm_tile_outside( int smx, int smy, int px, int py, int pz )
 {
-    tripoint veh_loc = global_pos3();
+    point pg = overmapbuffer::sm_to_ms_copy( smx, smy );
+    pg.x += px;
+    pg.y += py;
+    point psm = overmapbuffer::ms_to_sm_remain( pg.x, pg.y );
+    // Now psm points to proper submap, and pg gives the submap relative coords
+    auto sm = MAPBUFFER.lookup_submap( psm.x, psm.y, pz );
+    if( sm == nullptr ) {
+        debugmsg( "is_sm_tile_outside(): couldn't find submap %d,%d,%d", psm.x, psm.y, pz );
+        return false;
+    }
+
+    return !(sm->ter[pg.x][pg.y].obj().has_flag(TFLAG_INDOORS) ||
+        sm->get_furn(pg.x, pg.y).obj().has_flag(TFLAG_INDOORS));
+}
+
+void vehicle::update_time( const calendar &update_to )
+{
+    const auto update_from = last_update_turn;
+    last_update_turn = update_to;
+
+    if( smz < 0 ) {
+        return;
+    }
+
+    // Stuff below only happens for z-levels >= 0
+
+    const tripoint veh_loc = global_pos3();
     // Don't fill funnels every turn, because rainfall has 10 turn granularity
-    if( smz >= 0 && !funnels.empty() && ( calendar::turn - last_update_turn >= 10 || one_in( 10 ) ) ) {
+    if( !funnels.empty() && ( update_to - update_from >= 10 || one_in( 10 ) ) ) {
         double rain_amount = 0.0;
         // TODO: double acid_amount = 0.0;
-        for( int fun : funnels ) {
-            tripoint location = veh_loc + parts[fun].precalc[0];
-            // Can't use g->is_sheltered
-            // TODO: Fix procing vehicles partially out of map
-            if( g->m.has_flag( TFLAG_INDOORS, location ) ) {
+        // Get one weather data set per veh, they don't differ much
+        rainfall_data rainfall = get_rainfall( update_from, update_to, veh_loc );
+        for( int part : funnels ) {
+            const int px = posx + parts[part].precalc[0].x; // veh. origin submap relative
+            const int py = posy + parts[part].precalc[0].y; // as above
+            if( !is_sm_tile_outside( smx, smy, px, py, smz ) ) {
                 continue;
             }
 
-            rainfall_data rainfall = get_rainfall( last_update_turn, calendar::turn, location );
-
-            const int part_size = part_info( fun ).size;
+            const int part_size = part_info( part ).size;
             const double funnel_area_mm = M_PI * part_size * part_size;
-
             rain_amount += funnel_charges_per_turn( funnel_area_mm, rainfall.rain_amount );
         }
 
         const int rain_val = divide_roll_remainder( rain_amount, 1.0 );
         if( rain_val > 0 ) {
             refill( "water", rain_val );
+            add_msg( m_debug, "%s got %d water from funnels", name.c_str(), rain_val );
         }
     }
 
-    last_update_turn = calendar::turn;
+    if( !solar_panels.empty() ) {
+        int epower = 0;
+        float sunlight = get_sunlight( update_from, update_to, veh_loc );
+        for( int part : solar_panels ) {
+            if( parts[part].hp <= 0 ) {
+                continue;
+            }
+
+            const int px = posx + parts[part].precalc[0].x; // veh. origin submap relative
+            const int py = posy + parts[part].precalc[0].y; // as above
+            if( !is_sm_tile_outside( smx, smy, px, py, smz ) ) {
+                continue;
+            }
+
+            epower += ( part_epower( part ) * sunlight ) / DAYLIGHT_LEVEL;
+        }
+
+        if( epower > 0 ) {
+            add_msg( m_debug, "%s got %d epower from solars", name.c_str(), epower );
+            charge_battery( epower_to_power( epower ) );
+        }
+    }
 }
 
 /*-----------------------------------------------------------------------------

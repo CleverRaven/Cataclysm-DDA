@@ -1094,7 +1094,7 @@ void game::calc_driving_offset(vehicle *veh)
         set_driving_view_offset(point(0, 0));
         return;
     }
-    const int g_light_level = (int)light_level();
+    const int g_light_level = (int)light_level( u.posz() );
     const int light_sight_range = u.sight_range(g_light_level);
     int sight = light_sight_range;
     if (veh->lights_on) {
@@ -1232,6 +1232,7 @@ bool game::do_turn()
     }
 
     update_weather();
+    reset_light_level();
 
     // The following happens when we stay still; 10/40 minutes overdue for spawn
     if ((!u.has_trait("INCONSPICUOUS") && calendar::turn > nextspawn + 100) ||
@@ -5388,19 +5389,28 @@ void game::hallucinate( const tripoint &center )
     wrefresh(w_terrain);
 }
 
-float game::natural_light_level() const
+float game::natural_light_level( const int zlev ) const
 {
-    // Already found the light level for now?
-    if( calendar::turn == latest_lightlevel_turn ) {
-        return latest_lightlevel;
+    if( zlev > OVERMAP_HEIGHT || zlev < -OVERMAP_DEPTH ) {
+        return 0.0;
     }
+
+    if( latest_lightlevels[zlev] > -std::numeric_limits<float>::max() ) {
+        // Already found the light level for now?
+        return latest_lightlevels[zlev];
+    }
+
     float ret = LIGHT_AMBIENT_MINIMAL;
-    // Cache this for multiple uses
-    int lz = get_levz();
 
     // Sunlight/moonlight related stuff, ignore while underground
-    if( lz >= 0 ) {
-        ret = (float)calendar::turn.sunlight();
+    if( zlev >= 0 ) {
+        if( !lightning_active ) {
+            ret = calendar::turn.sunlight();
+        } else {
+            // Recent lightning strike has lit the area
+            ret = DAYLIGHT_LEVEL;
+        }
+
         ret += weather_data(weather).light_modifier;
     }
 
@@ -5413,7 +5423,7 @@ float game::natural_light_level() const
     for( const auto &e : events ) {
         // EVENT_DIM slowly dims the natural sky level, then relights it.
         if( e.type == EVENT_DIM ) {
-            if (lz < 0) {
+            if( zlev < 0 ) {
                 continue;
             }
             int turns_left = e.turn - int(calendar::turn);
@@ -5439,22 +5449,22 @@ float game::natural_light_level() const
     // Cap everything to our minimum light level
     ret = std::max(LIGHT_AMBIENT_MINIMAL, ret);
 
-    latest_lightlevel = ret;
-    latest_lightlevel_turn = calendar::turn;
+    latest_lightlevels[zlev] = ret;
 
     return ret;
 }
 
-unsigned char game::light_level() const
+unsigned char game::light_level( const int zlev ) const
 {
-    const float light = natural_light_level();
+    const float light = natural_light_level( zlev );
     return LIGHT_RANGE(light);
 }
 
 void game::reset_light_level()
 {
-    latest_lightlevel = 0;
-    latest_lightlevel_turn = 0;
+    for( float &lev : latest_lightlevels ) {
+        lev = -std::numeric_limits<float>::max();
+    }
 }
 
 //Gets the next free ID, also used for player ID's.
@@ -7019,7 +7029,7 @@ bool game::is_empty( const tripoint &p )
 
 bool game::is_in_sunlight( const tripoint &p )
 {
-    return (m.is_outside( p ) && light_level() >= 40 &&
+    return (m.is_outside( p ) && light_level( p.z ) >= 40 &&
             (weather == WEATHER_CLEAR || weather == WEATHER_SUNNY));
 }
 
@@ -13249,7 +13259,7 @@ void game::update_map(int &x, int &y)
 void game::update_overmap_seen()
 {
     const tripoint ompos = u.global_omt_location();
-    const int dist = u.overmap_sight_range(light_level());
+    const int dist = u.overmap_sight_range(light_level( u.posz() ));
     // We can always see where we're standing
     overmap_buffer.set_seen(ompos.x, ompos.y, ompos.z, true);
     for (int x = ompos.x - dist; x <= ompos.x + dist; x++) {
