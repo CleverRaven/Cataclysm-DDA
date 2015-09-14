@@ -174,6 +174,7 @@ void mod_manager::load_modfile(JsonObject &jo, const std::string &main_path)
     } else {
         m_desc = _(m_desc.c_str());
     }
+    bool m_need_lua = jo.get_bool("with-lua", false);
     std::string m_path;
     if (jo.has_string("path")) {
         m_path = jo.get_string("path");
@@ -225,6 +226,7 @@ void mod_manager::load_modfile(JsonObject &jo, const std::string &main_path)
     modfile->description = m_desc;
     modfile->dependencies = m_dependencies;
     modfile->path = m_path;
+    modfile->need_lua = m_need_lua;
 
     mod_map[modfile->ident] = modfile;
 }
