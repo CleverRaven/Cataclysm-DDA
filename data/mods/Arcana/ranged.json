@@ -7,7 +7,7 @@
     "name": "symbol of judgement",
     "name_plural": "symbols of judgement",
     "description": "A large golden ring decorated with a trident motif, and inlaid with silver.  For some reason you suspect this to be a perversion of some otherworldly holy symbol, from some cult worlds away.  Firing it calls forth lightning.",
-    "price": 179500,
+    "price": 17950,
     "material": ["gold", "silver"],
     "skill": "magic",
     "ammo": "essence_blood_type",
@@ -28,7 +28,7 @@
     "reload": 400,
     "loudness" : 150,
     "ammo_effects": ["LIGHTNING","BOUNCE"]
-},{
+  },{
     "id": "bloodscourge",
     "type": "GUN",
     "symbol": "/",
@@ -69,7 +69,7 @@
       "description" : "A crossbow decorated with golden symbols, seemingly lacking a bowstring.  Instead it propels bright green bolts of energy, with signifigant armor penetration.",
       "price" : 85300,
       "material" : ["steel", "wood", "gold"],
-      "skill" : "archery",
+      "skill" : "magic",
       "ammo" : "essence_dull_type",
       "weight" : 2928,
       "volume" : 6,
@@ -87,5 +87,36 @@
       "clip_size" : 1,
       "reload" : 800,
       "ammo_effects": ["SHOT"]
+},{
+    "id": "hand_of_armok",
+    "type": "GUN",
+    "symbol": "/",
+    "color": "yellow",
+    "name": "demon claw",
+    "description": "An ornate weapon resembling tiger claws, with blades perpetually glowing red-hot.  Despite this the weapon seems safe to wield. Firing it will smite your enemies with wicked fire, to sate the god of blood.",
+    "price": 200000,
+    "material": ["steel", "essencemat"],
+    "skill": "magic",
+    "ammo": "essence_type",
+    "techniques" : ["WBLOCK_1", "RAPID"],
+    "flags" : ["UNARMED_WEAPON", "UNBREAKABLE_MELEE", "FIRE", "SLICE", "LIGHT_240", "FLAMING"],
+    "weight": 92,
+    "volume": 0,
+    "bashing": 1,
+    "cutting": 6,
+    "to_hit": 3,
+    "ranged_damage": 10,
+    "pierce": 0,
+    "range": 40,
+    "dispersion": 100,
+    "sight_dispersion": 90,
+    "aim_speed" : 3,
+    "recoil": 50,
+    "durability": 10,
+    "clip_size": 1,
+    "reload": 400,
+    "loudness" : 500,
+    "ammo_effects": ["EXPLOSIVE_BIG", "NAPALM_BIG", "TRAIL"],
+    "qualities": [["BUTCHER", 14]]
   }
 ]

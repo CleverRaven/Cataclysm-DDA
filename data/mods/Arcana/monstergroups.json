@@ -1,0 +1,13 @@
+[
+  {
+    "type":"monstergroup",
+    "name" : "GROUP_NETHER_LAVA",
+    "default" : "mon_flying_polyp",
+    "monsters" : [
+      { "monster" : "mon_flying_polyp", "freq" : 25, "cost_multiplier" : 0 },
+      { "monster" : "mon_hunting_horror", "freq" : 240, "cost_multiplier" : 0 },
+      { "monster" : "mon_flaming_eye", "freq" : 120, "cost_multiplier" : 0 }
+    ]
+  }
+]
+
