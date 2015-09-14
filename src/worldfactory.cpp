@@ -930,6 +930,15 @@ int worldfactory::show_worldgen_tab_modselection(WINDOW *win, WORLDPTR world)
             active_header = prev_header;
         } else if (action == "CONFIRM") {
             if (active_header == 0 && !mman_ui->usable_mods.empty()) {
+#ifndef LUA
+                if (mman->mod_map[mman_ui->usable_mods[cursel[0]]]->need_lua) {
+                    popup("Can't add mod. This mod require lua support.");
+                    redraw_active = true;
+                    redraw_shift = true;
+                    draw_modselection_borders(win, &ctxt);
+                    continue;
+                }
+#endif
                 // try-add
                 mman_ui->try_add(mman_ui->usable_mods[cursel[0]], active_mod_order);
                 redraw_active = true;
