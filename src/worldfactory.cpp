@@ -743,7 +743,15 @@ void worldfactory::draw_mod_list( WINDOW *w, int &start, int &cursor, const std:
                 }
             }
             const std::string name = utf8_truncate( mod->name, wwidth );
+#ifndef LUA
+            if ( mod->need_lua ) {
+                mvwprintz( w, c, 4, c_dkgray, "%s", name.c_str() );
+            } else {
+                mvwprintz( w, c, 4, c_white, "%s", name.c_str() );
+            }
+#else
             mvwprintz( w, c, 4, c_white, "%s", name.c_str() );
+#endif
         }
     }
     draw_scrollbar( w, cursor, getmaxy( w ), mods.size(), 0, 0 );
