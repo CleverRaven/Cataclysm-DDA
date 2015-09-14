@@ -14154,7 +14154,7 @@ bool game::spread_fungus( const tripoint &p )
                     } else if (m.has_flag("YOUNG", dest)) {
                         if (one_in(5)) {
                             if( m.get_field_strength( p, fd_fungal_haze ) != 0 ) {
-                                if (one_in(3)) { // young trees are Vulnerable
+                                if (one_in(8)) { // young trees are vulnerable
                                     m.ter_set(dest, t_fungus);
                                     summon_mon( mon_fungal_blossom, p );
                                     if (u.sees(p)) {
@@ -14171,7 +14171,7 @@ bool game::spread_fungus( const tripoint &p )
                     } else if (m.has_flag("TREE", dest)) {
                         if (one_in(10)) {
                             if( m.get_field_strength( p, fd_fungal_haze ) != 0) {
-                                if (one_in(4)) {
+                                if (one_in(10)) {
                                     m.ter_set(dest, t_fungus);
                                     summon_mon( mon_fungal_blossom, p );
                                     if (u.sees(p)) {
