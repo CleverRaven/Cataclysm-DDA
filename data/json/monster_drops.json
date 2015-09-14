@@ -348,9 +348,8 @@
         "id": "marloss_yellow_drops",
         "entries":
         [
-            {"item": "marloss_gel", "prob": 50},
-            {"item": "veggy_tainted", "prob": 75},
-            {"item": "fungal_seeds", "prob": 75}
+            {"item": "marloss_gel"},
+            {"item": "fungal_seeds"}
         ]
     }
 ]
