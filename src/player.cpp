@@ -6037,7 +6037,7 @@ void player::process_effects() {
     if (has_effect("darkness") && g->is_in_sunlight(pos())) {
         remove_effect("darkness");
     }
-    if (has_trait("M_IMMUNE") && has_effect("fungus")) {
+    if (has_trait("THRESH_MYCUS") && has_effect("fungus")) {
         vomit();
         remove_effect("fungus");
         add_msg_if_player(m_bad,  _("We have mistakenly colonized a local guide!  Purging now."));
@@ -6309,7 +6309,7 @@ void player::hardcoded_effects(effect &it)
         } );
     } else if (id == "spores") {
         // Equivalent to X in 150000 + health * 100
-        if ((!has_trait("M_IMMUNE")) && (one_in(100) && x_in_y(intense, 150 + get_healthy() / 10)) ) {
+        if ((!has_trait("THRESH_MYCUS")) && (one_in(100) && x_in_y(intense, 150 + get_healthy() / 10)) ) {
             add_effect("fungus", 1, num_bp, true);
         }
     } else if (id == "fungus") {
@@ -7065,7 +7065,7 @@ void player::hardcoded_effects(effect &it)
             }
         }
         if (one_in(10000)) {
-            if (!has_trait("M_IMMUNE")) {
+            if (!has_trait("THRESH_MYCUS")) {
                 add_effect("fungus", 1, num_bp, true);
             } else {
                 add_msg_if_player(m_info, _("We have many colonists awaiting passage."));

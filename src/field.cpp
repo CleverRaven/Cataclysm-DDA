@@ -1964,7 +1964,7 @@ void map::player_in_field( player &u )
             break;
 
         case fd_fungal_haze:
-            if (!u.has_trait("M_IMMUNE") && (!inside || (inside && one_in(4))) ) {
+            if (!u.has_trait("THRESH_MYCUS") && (!inside || (inside && one_in(4))) ) {
                 u.add_env_effect("fungus", bp_mouth, 4, 100, num_bp, true);
                 u.add_env_effect("fungus", bp_eyes, 4, 100, num_bp, true);
             }

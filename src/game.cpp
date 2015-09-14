@@ -11970,7 +11970,7 @@ bool game::plmove(int dx, int dy)
             case fd_fungal_haze:
                 dangerous = (!((u.get_env_resist(bp_mouth) >= 15) &&
                               (u.get_env_resist(bp_eyes) >= 15) ) &&
-                              !u.has_trait("M_IMMUNE"));
+                              !u.has_trait("THRESH_MYCUS"));
             case fd_electricity:
                 dangerous = !u.is_elec_immune();
                 break;
