@@ -470,14 +470,20 @@ WORLDPTR worldfactory::pick_world( bool show_prompt )
             mvwprintz(w_worlds, i, 0, c_white, "%s", sTemp.str().c_str());
             mvwprintz(w_worlds, i, 4, c_white, "");
 
+            std::string world_name = (world_pages[selpage])[i];
+            size_t saves_num = world_generator->all_worlds[world_name]->world_saves.size();
+
             if (i == sel) {
                 wprintz(w_worlds, c_yellow, ">> ");
             } else {
                 wprintz(w_worlds, c_yellow, "   ");
             }
 
-            wprintz(w_worlds, c_white, "%s (%i)", (world_pages[selpage])[i].c_str(),
-                    world_generator->all_worlds[((world_pages[selpage])[i])]->world_saves.size());
+            if (world_need_lua_build(world_name)) {
+                wprintz(w_worlds, c_dkgray, "%s (%i)", world_name.c_str(), saves_num);
+            } else {
+                wprintz(w_worlds, c_white, "%s (%i)", world_name.c_str(), saves_num);
+            }
         }
 
         //Draw Tabs
@@ -533,6 +539,11 @@ WORLDPTR worldfactory::pick_world( bool show_prompt )
                 }
             } while(world_pages[selpage].empty());
         } else if (action == "CONFIRM") {
+            if (world_need_lua_build(world_pages[selpage][sel])) {
+                popup("Can't start in world [%s]. Some of mods require Lua support.",
+                      world_pages[selpage][sel].c_str());
+                continue;
+            }
             // we are wanting to get out of this by confirmation, so ask if we want to load the level [y/n prompt] and if yes exit
             if (query_yn(_("Do you want to start the game in world [%s]?"),
                          world_pages[selpage][sel].c_str())) {
@@ -1246,6 +1257,25 @@ void worldfactory::draw_worldgen_tabs(WINDOW *w, unsigned int current)
 
     mvwputch(w, FULL_SCREEN_HEIGHT - 1, 0, BORDER_COLOR, LINE_XXOO); // |_
     mvwputch(w, FULL_SCREEN_HEIGHT - 1, FULL_SCREEN_WIDTH - 1, BORDER_COLOR, LINE_XOOX); // _|
+}
+
+
+bool worldfactory::world_need_lua_build(std::string world_name)
+{
+#ifndef LUA
+    WORLDPTR world;
+    MOD_INFORMATION *mod_info;
+
+    world = all_worlds[world_name];
+
+    for (std::string &mod : world->active_mod_order) {
+        mod_info = mman->mod_map[mod];
+        if ( mod_info->need_lua ) {
+            return true;
+        }
+    }
+#endif
+    return false;
 }
 
 bool worldfactory::valid_worldname(std::string name, bool automated)

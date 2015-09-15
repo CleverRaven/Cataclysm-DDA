@@ -75,6 +75,8 @@ class worldfactory
         std::unique_ptr<mod_manager> mman;
         std::unique_ptr<mod_ui> mman_ui;
 
+        bool world_need_lua_build(std::string world_name);
+
         typedef int (worldfactory::*worldgen_display)(WINDOW *, WORLDPTR);
 
         std::vector<worldgen_display> tabs;
