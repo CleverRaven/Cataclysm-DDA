@@ -1659,16 +1659,16 @@ std::string dialogue::dynamic_line( const std::string &topic ) const
 
         long our_ammo = 0;
         if( p->weapon.is_gun() ) {
-            int ammo_index = p->weapon.pick_reload_ammo( *p, false );
             our_ammo = p->weapon.charges;
-            if( ammo_index >= 0 ) {
-                our_ammo += p->i_at( ammo_index ).charges;
+            const auto other_ammo = p->get_ammo( p->weapon.ammo_type() );
+            for( const auto &amm : other_ammo ) {
+                our_ammo += amm->charges;
             }
         }
 
         const double cur_weapon_value = p->weapon_value( p->weapon, our_ammo );
-        add_msg( m_debug, "NPC evaluates own %s: %0.1f",
-                 p->weapon.tname().c_str(), cur_weapon_value );
+        add_msg( m_debug, "NPC evaluates own %s (%d ammo): %0.1f",
+                 p->weapon.tname().c_str(), our_ammo, cur_weapon_value );
         bool taken = false;
         const double new_melee = p->melee_value( given );
         add_msg( m_debug, "NPC evaluates your %s as melee weapon: %0.1f",
@@ -1680,20 +1680,16 @@ std::string dialogue::dynamic_line( const std::string &topic ) const
 
         if( !taken && given.is_gun() ) {
             // Don't take guns for which we have no ammo, even if they look cool
-            int ammo_index = given.pick_reload_ammo( *p, false );
             int ammo_count = given.charges;
-            if( ammo_index >= 0 ) {
-                ammo_count += p->i_at( ammo_index ).charges;
+            const auto other_ammo = p->get_ammo( given.ammo_type() );
+            for( const auto &amm : other_ammo ) {
+                ammo_count += amm->charges;
             }
-            // TODO: Sum more ammo types
             // TODO: Flamethrowers (why would player give a NPC one anyway?) and other multi-charge guns
             double new_any = p->weapon_value( given, ammo_count );
-            if( ammo_count < 6 ) {
-                new_any = new_any * ammo_count / 6;
-            }
 
-            add_msg( m_debug, "NPC evaluates your %s as melee/ranged weapon: %0.1f",
-                     given.tname().c_str(), new_any );
+            add_msg( m_debug, "NPC evaluates your %s (%d ammo): %0.1f",
+                     given.tname().c_str(), ammo_count, new_any );
             if( new_any > cur_weapon_value ) {
                 p->wield( &given );
                 taken = true;
@@ -1704,7 +1700,7 @@ std::string dialogue::dynamic_line( const std::string &topic ) const
             taken = true;
         }
 
-        // TODO: Allow NPCs accepting meds and food
+        // TODO: Allow NPCs accepting meds, food, ammo etc.
         if( taken ) {
             g->u.i_rem( inv_pos );
             g->u.moves -= 100;
