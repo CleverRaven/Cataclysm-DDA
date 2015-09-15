@@ -353,7 +353,8 @@ void vehicle::init_state(int init_veh_fuel, int init_veh_status)
 
     std::map<vpart_id, int> consistent_bignesses;
 
-    last_update_turn = calendar::turn;
+    // More realistically it should be -5 days old
+    last_update_turn = 0;
 
     // veh_fuel_multiplier is percentage of fuel
     // 0 is empty, 100 is full tank, -1 is random 7% to 35%
@@ -6310,9 +6311,6 @@ bool is_sm_tile_outside( const tripoint &real_global_pos )
 
 void vehicle::update_time( const calendar &update_to )
 {
-    const auto update_from = last_update_turn;
-    last_update_turn = update_to;
-
     if( smz < 0 ) {
         return;
     }
@@ -6323,10 +6321,13 @@ void vehicle::update_time( const calendar &update_to )
         return;
     }
 
-    if( update_to - update_from < 10 && !one_in( 10 + update_to - update_from ) ) {
-        // Weather data accumulation has granularity of 10 turns
+    const auto update_from = last_update_turn;
+    if( update_to - update_from < MINUTES(1) ) {
+        // We don't need to check every turn
         return;
     }
+
+    last_update_turn = update_to;
 
     // Get one weather data set per veh, they don't differ much across veh area
     const tripoint veh_loc = real_global_pos3();

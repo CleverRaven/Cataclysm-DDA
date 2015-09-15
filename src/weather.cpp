@@ -69,36 +69,53 @@ int get_rot_since( const int startturn, const int endturn, const tripoint &locat
     return ret;
 }
 
+inline void proc_weather_sum( const weather_type wtype, weather_sum &data,
+                              const calendar &turn, const int tick_size )
+{
+    switch( wtype ) {
+    case WEATHER_DRIZZLE:
+        data.rain_amount += 4;
+        break;
+    case WEATHER_RAINY:
+    case WEATHER_THUNDER:
+    case WEATHER_LIGHTNING:
+        data.rain_amount += 8;
+        break;
+    case WEATHER_ACID_DRIZZLE:
+        data.acid_amount += 4;
+        break;
+    case WEATHER_ACID_RAIN:
+        data.acid_amount += 8;
+        break;
+    default:
+        break;
+    }
+
+    // TODO: Change this calendar::sunlight "sampling" here into a proper interpolation
+    const float tick_sunlight = turn.sunlight() - weather_data( wtype ).light_modifier;
+    data.sunlight += std::max<float>( 0.0f, tick_size * tick_sunlight );
+}
+
 ////// Funnels.
 weather_sum sum_conditions( const calendar &startturn,
                             const calendar &endturn,
                             const tripoint &location )
 {
+    int tick_size = MINUTES(1);
     weather_sum data;
-    for( calendar turn(startturn); turn < endturn; turn += 10 ) {
-        const auto wtype = g->weather_gen->get_weather_conditions( point( location.x, location.y ), turn );
-        switch( wtype ) {
-        case WEATHER_DRIZZLE:
-            data.rain_amount += 4;
-            break;
-        case WEATHER_RAINY:
-        case WEATHER_THUNDER:
-        case WEATHER_LIGHTNING:
-            data.rain_amount += 8;
-            break;
-        case WEATHER_ACID_DRIZZLE:
-            data.acid_amount += 4;
-            break;
-        case WEATHER_ACID_RAIN:
-            data.acid_amount += 8;
-            break;
-        default:
-            break;
+
+    for( calendar turn(startturn); turn < endturn; turn += tick_size ) {
+        const int diff = endturn - startturn;
+        if( diff <= 0 ) {
+            return data;
+        } else if( diff < 10 ) {
+            tick_size = 1;
+        } else if( diff > DAYS(7) ) {
+            tick_size = HOURS(1);
         }
 
-        // TODO: Change this calendar::sunlight "sampling" here into a proper interpolation
-        const float tick_sunlight = turn.sunlight();
-        data.sunlight += std::max<float>( 0.0f, tick_sunlight - weather_data( wtype ).light_modifier );
+        const auto wtype = g->weather_gen->get_weather_conditions( point( location.x, location.y ), turn );
+        proc_weather_sum( wtype, data, turn, tick_size );
     }
 
     return data;
