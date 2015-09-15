@@ -9270,9 +9270,9 @@
       [ "jar_glass", 1 ]
     ],
     [
-      ["irradiated_lettuce", 2],
+      ["veggy", 2],
       ["lettuce", 2],
-      ["irradiated_cabbage", 2],
+      ["veggy_wild", 2],
       ["cabbage", 2]
     ]
   ]
