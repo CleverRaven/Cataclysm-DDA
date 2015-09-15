@@ -10809,11 +10809,8 @@ bool player::wear_item( const item &to_wear, bool interactive )
     last_item = itype_id(to_wear.type->id);
     worn.push_back(to_wear);
 
-    if(interactive)
-    {
-        add_msg_player_or_npc( _("You put on your %s."),
-                               _("<npcname> puts on their %s."),
-                               to_wear.tname().c_str());
+    if( interactive ) {
+        add_msg( _("You put on your %s."), to_wear.tname().c_str() );
         moves -= 350; // TODO: Make this variable?
 
         worn.back().on_wear( *this );
@@ -10831,6 +10828,8 @@ bool player::wear_item( const item &to_wear, bool interactive )
         if( !was_deaf && is_deaf() ) {
             add_msg_if_player( m_info, _( "You're deafened!" ) );
         }
+    } else {
+        add_msg_if_npc( _("<npcname> puts on their %s."), to_wear.tname().c_str() );
     }
 
     item &new_item = worn.back();

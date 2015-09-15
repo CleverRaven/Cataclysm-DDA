@@ -1139,8 +1139,8 @@ bool npc::wear_if_wanted( const item &it )
         }
 
         if( !took_off ) {
-            // Shouldn't happen
-            return false;
+            // Shouldn't happen, but does
+            return wear_item( it, false );
         }
     }
 
