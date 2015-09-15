@@ -10811,7 +10811,9 @@ bool player::wear_item( const item &to_wear, bool interactive )
 
     if(interactive)
     {
-        add_msg_if_player(_("You put on your %s."), to_wear.tname().c_str());
+        add_msg_player_or_npc( _("You put on your %s."),
+                               _("<npcname> puts on their %s."),
+                               to_wear.tname().c_str());
         moves -= 350; // TODO: Make this variable?
 
         worn.back().on_wear( *this );
@@ -10869,7 +10871,7 @@ bool player::takeoff(int inventory_position, bool autodrop, std::vector<item> *i
 
     int worn_index = worn_position_to_index( inventory_position );
     if( static_cast<size_t>( worn_index ) >= worn.size() ) {
-        add_msg( m_info, _("You are not wearing that item.") );
+        add_msg_if_player( m_info, _("You are not wearing that item.") );
         return false;
     }
     bool taken_off = false;
@@ -10889,7 +10891,7 @@ bool player::takeoff(int inventory_position, bool autodrop, std::vector<item> *i
                 continue;
             }
             if( !autodrop && items == nullptr ) {
-                add_msg( m_info, _("You can't take off power armor while wearing other power armor components.") );
+                add_msg_if_player( m_info, _("You can't take off power armor while wearing other power armor components.") );
                 return false;
             }
 
@@ -10898,7 +10900,9 @@ bool player::takeoff(int inventory_position, bool autodrop, std::vector<item> *i
             } else {
                 g->m.add_item_or_charges( pos(), other_armor );
             }
-            add_msg( _("You take off your %s."), other_armor.tname().c_str() );
+            add_msg_player_or_npc( _("You take off your %s."),
+                                   _("<npcname> takes off their %s."),
+                                   other_armor.tname().c_str() );
             iter = worn.erase( iter );
             taken_off = true;
         }
@@ -10919,7 +10923,9 @@ bool player::takeoff(int inventory_position, bool autodrop, std::vector<item> *i
     }
     if( taken_off ) {
         moves -= 250;    // TODO: Make this variable
-        add_msg(_("You take off your %s."), w.tname().c_str());
+        add_msg_player_or_npc( _("You take off your %s."),
+                               _("<npcname> takes off their %s."),
+                               w.tname().c_str() );
         worn.erase( first_iter );
     }
 

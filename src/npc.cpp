@@ -1093,38 +1093,54 @@ bool npc::wear_if_wanted( const item &it )
         29, // bp_foot_l
         29, // bp_foot_r
     }};
-    bool encumb_ok = true;
-    for( size_t i = 0; i < num_bp; i++ ) {
-        const auto bp = static_cast<body_part>( i );
-        if( !it.covers( bp ) ) {
-            continue;
-        }   
 
-        double layers = 0;
-        int armor_enc = 0;
-        int enc = encumb( bp, layers, armor_enc, it );
-        if( enc > max_encumb[i] ) {
-            encumb_ok = false;
-            break;
+    bool encumb_ok = true;
+    while( !worn.empty() ) {
+        // Strip until we can put the new item on
+        // This is one of the reasons this command is not used by the AI
+        for( size_t i = 0; i < num_bp; i++ ) {
+            const auto bp = static_cast<body_part>( i );
+            if( !it.covers( bp ) ) {
+                continue;
+            }
+
+            if( it.get_encumber() > max_encumb[i] ) {
+                // Not a NPC-friendly item
+                return false;
+            }
+
+            double layers = 0;
+            int armor_enc = 0;
+            int enc = encumb( bp, layers, armor_enc, it );
+            if( enc > max_encumb[i] ) {
+                encumb_ok = false;
+                break;
+            }
         }
-    }
-    if( encumb_ok ) {
-        return wear_item( it, false );
-    }
-    // Otherwise, maybe we should take off one or more items and replace them
-    for( size_t j = 0; j < num_bp; j++ ) {
-        const body_part bp = static_cast<body_part>( j );
-        if( !it.covers( bp ) ) {
-            continue;
-        }
-        // Find an item that covers the same body part as the new item
-        auto iter = std::find_if( worn.begin(), worn.end(), [bp]( const item& armor ) {
-            return armor.covers( bp );
-        } );
-        if( iter != worn.end() ) {
-            inv.push_back( *iter );
-            worn.erase( iter );
+
+        if( encumb_ok ) {
             return wear_item( it, false );
+        }
+        // Otherwise, maybe we should take off one or more items and replace them
+        bool took_off = false;
+        for( size_t j = 0; j < num_bp; j++ ) {
+            const body_part bp = static_cast<body_part>( j );
+            if( !it.covers( bp ) ) {
+                continue;
+            }
+            // Find an item that covers the same body part as the new item
+            auto iter = std::find_if( worn.begin(), worn.end(), [bp]( const item& armor ) {
+                return armor.covers( bp );
+            } );
+            if( iter != worn.end() ) {
+                took_off = takeoff( &*iter, true );
+                break;
+            }
+        }
+
+        if( !took_off ) {
+            // Shouldn't happen
+            return false;
         }
     }
 
@@ -1150,12 +1166,17 @@ bool npc::wield(item* it)
     }
 
     if( it->is_null() ) {
-        weapon = *it;
+        weapon = ret_null;
         return true;
     }
 
     moves -= 15;
-    weapon = inv.remove_item(it);
+    if( inv.has_item( it ) ) {
+        weapon = inv.remove_item( it );
+    } else {
+        weapon = *it;
+    }
+
     add_msg_if_npc( m_info, _( "<npcname> wields a %s." ),  weapon.tname().c_str() );
     return true;
 }

@@ -1667,8 +1667,13 @@ std::string dialogue::dynamic_line( const std::string &topic ) const
         }
 
         const double cur_weapon_value = p->weapon_value( p->weapon, our_ammo );
+        add_msg( m_debug, "NPC evaluates own %s: %0.1f",
+                 p->weapon.tname().c_str(), cur_weapon_value );
         bool taken = false;
-        if( p->melee_value( given ) > cur_weapon_value ) {
+        const double new_melee = p->melee_value( given );
+        add_msg( m_debug, "NPC evaluates your %s as melee weapon: %0.1f",
+                 given.tname().c_str(), new_melee );
+        if( new_melee > cur_weapon_value ) {
             p->wield( &given );
             taken = true;
         }
@@ -1682,8 +1687,14 @@ std::string dialogue::dynamic_line( const std::string &topic ) const
             }
             // TODO: Sum more ammo types
             // TODO: Flamethrowers (why would player give a NPC one anyway?) and other multi-charge guns
-            if( ammo_count >= 5 &&
-                p->weapon_value( given, ammo_count ) > cur_weapon_value ) {
+            double new_any = p->weapon_value( given, ammo_count );
+            if( ammo_count < 6 ) {
+                new_any = new_any * ammo_count / 6;
+            }
+
+            add_msg( m_debug, "NPC evaluates your %s as melee/ranged weapon: %0.1f",
+                     given.tname().c_str(), new_any );
+            if( new_any > cur_weapon_value ) {
                 p->wield( &given );
                 taken = true;
             }
