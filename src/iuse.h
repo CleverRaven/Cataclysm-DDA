@@ -91,6 +91,7 @@ public:
     int radio_off           ( player*, item*, bool, const tripoint& );
     int radio_on            ( player*, item*, bool, const tripoint& );
     int horn_bicycle        ( player*, item*, bool, const tripoint& );
+    int tweet               ( player*, item*, bool, const tripoint& );
     int noise_emitter_off   ( player*, item*, bool, const tripoint& );
     int noise_emitter_on    ( player*, item*, bool, const tripoint& );
     int ma_manual           ( player*, item*, bool, const tripoint& );

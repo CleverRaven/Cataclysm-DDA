@@ -195,6 +195,7 @@ void Item_factory::init()
     iuse_function_list["RADIO_OFF"] = &iuse::radio_off;
     iuse_function_list["RADIO_ON"] = &iuse::radio_on;
     iuse_function_list["HORN_BICYCLE"] = &iuse::horn_bicycle;
+    iuse_function_list["TWEET"] = &iuse::tweet;
     iuse_function_list["NOISE_EMITTER_OFF"] = &iuse::noise_emitter_off;
     iuse_function_list["NOISE_EMITTER_ON"] = &iuse::noise_emitter_on;
     iuse_function_list["MA_MANUAL"] = &iuse::ma_manual;

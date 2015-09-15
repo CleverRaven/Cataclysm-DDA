@@ -7511,6 +7511,31 @@
     },
     {
         "type" : "ARMOR",
+        "id" : "slingpack",
+        "name" : "sling pack",
+        "weight" : 566,
+        "color" : "green",
+        "covers" : ["TORSO"],
+        "to_hit" : 0,
+        "storage" : 32,
+        "symbol" : "[",
+        "description" : "A simple single-sling backpack.  Easier to access than a normal backpack, but can't comfortably hold as much.",
+        "price" : 2900,
+        "//": "Depends on if you're getting a cheap school version or something more like a range bag.",
+        "material" : ["cotton", "plastic"],
+        "volume" : 6,
+        "cutting" : 0,
+        "warmth" : 2,
+        "phase" : "solid",
+        "environmental_protection" : 0,
+        "encumbrance" : 7,
+        "bashing" : 1,
+        "coverage" : 30,
+        "flags" : ["BELTED"],
+        "material_thickness" : 1
+    },
+    {
+        "type" : "ARMOR",
         "id" : "runner_bag",
         "name" : "runner pack",
         "weight" : 840,
@@ -7745,7 +7770,7 @@
         "to_hit" : 0,
         "storage" : 0,
         "symbol" : "[",
-        "description" : "A leather quiver worn on the back that can hold 20 arrows.  Activate to store arrows.",
+        "description" : "A leather quiver worn at the waist that can hold 20 arrows.  Activate to store arrows.",
         "price" : 6500,
         "material" : ["leather", "null"],
         "covers" : ["TORSO"],
@@ -7758,7 +7783,7 @@
         "encumbrance" : 5,
         "coverage" : 5,
         "material_thickness" : 1,
-        "flags" : ["QUIVER_20", "BELTED", "VARSIZE", "OVERSIZE"],
+        "flags" : ["QUIVER_20", "WAIST", "VARSIZE", "OVERSIZE"],
         "use_action" : "QUIVER"
     },
     {
@@ -7783,7 +7808,7 @@
         "encumbrance" : 10,
         "coverage" : 5,
         "material_thickness" : 1,
-        "flags" : ["QUIVER_20", "BELTED", "VARSIZE", "OVERSIZE"],
+        "flags" : ["QUIVER_20", "WAIST", "VARSIZE", "OVERSIZE"],
         "use_action" : "QUIVER"
     },
     {
