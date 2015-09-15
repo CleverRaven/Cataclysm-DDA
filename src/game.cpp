@@ -13900,7 +13900,7 @@ bool game::spread_fungus( const tripoint &p )
                                     if (u.sees(p)) {
                                         add_msg(m_warning, _("The young tree blooms forth into a fungal blossom!"));
                                     }
-                                } else if (one_in(2)) {
+                                } else if (one_in(4)) {
                                     m.ter_set(dest, t_marloss_tree);
                                 }
                             } else {
@@ -13917,7 +13917,7 @@ bool game::spread_fungus( const tripoint &p )
                                     if (u.sees(p)) {
                                         add_msg(m_warning, _("The tree blooms forth into a fungal blossom!"));
                                     }
-                                } else if (one_in(3)) {
+                                } else if (one_in(6)) {
                                     m.ter_set(dest, t_marloss_tree);
                                 }
                             } else {
