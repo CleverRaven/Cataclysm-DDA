@@ -1275,6 +1275,8 @@ bool worldfactory::world_need_lua_build(std::string world_name)
         }
     }
 #endif
+    // Prevent unused var error when LUA and RELEASE enabled.
+    world_name.size();
     return false;
 }
 
