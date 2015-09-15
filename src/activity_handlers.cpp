@@ -400,7 +400,7 @@ void activity_handlers::pickup_finish(player_activity *act, player *p)
     for(auto &elem : act->str_values) {
         if(elem == "equip") {
             item &it = p->i_at(act->position);
-            p->wear_item(&it);
+            p->wear_item(it);
         }
     }
 }

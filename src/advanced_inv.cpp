@@ -1867,7 +1867,7 @@ int advanced_inventory::add_item( aim_location destarea, item &new_item, int cou
             g->u.i_add( new_item );
             g->u.moves -= 100;
         } else if( destarea == AIM_WORN ) {
-            rc = g->u.wear_item(&new_item);
+            rc = g->u.wear_item(new_item);
         } else {
             advanced_inv_area &p = squares[destarea];
             if( panes[dest].in_vehicle() ) {

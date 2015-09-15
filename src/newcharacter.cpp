@@ -406,7 +406,7 @@ int player::create(character_type type, std::string tempname)
                 tmp.item_tags.insert("FIT");
             }
             // If wearing an item fails we fail silently.
-            wear_item(&tmp, false);
+            wear_item(tmp, false);
 
             // If item is part of a pair give a second one for the other side
             if (tmp.has_flag("PAIRED")) {
@@ -418,7 +418,7 @@ int player::create(character_type type, std::string tempname)
                     tmp2.item_tags.insert("FIT");
                 }
                 // If wearing an item fails we fail silently.
-                wear_item(&tmp2, false);
+                wear_item(tmp2, false);
             }
             // if something is wet, start it as active with some time to dry off
         } else if(tmp.has_flag("WET")) {

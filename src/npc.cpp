@@ -1070,41 +1070,49 @@ void npc::starting_weapon(npc_class type)
     }
 }
 
-// NOT ACTUALLY USED ANYWHERE
 bool npc::wear_if_wanted( const item &it )
 {
-    if (!it.is_armor()) {
+    // Note: this function isn't good enough to use with NPC AI alone
+    // Restrict it to player's orders for now
+    if( !it.is_armor() ) {
         return false;
     }
 
-    int max_encumb[num_bp];
-    max_encumb[bp_torso] = 19; // Higher if ranged?
-    max_encumb[bp_head] = 30;
-    max_encumb[bp_eyes] = 29; // Lower if using ranged?
-    max_encumb[bp_mouth] = 19;
-    max_encumb[bp_arm_l] = 19; // Split ranged/melee?
-    max_encumb[bp_arm_r] = 19;
-    max_encumb[bp_hand_l] = 29; // Lower if throwing?
-    max_encumb[bp_hand_r] = 29;
-    max_encumb[bp_leg_l] = 19; // Higher if ranged?
-    max_encumb[bp_leg_r] = 19;
-    max_encumb[bp_foot_l] = 29;
-    max_encumb[bp_foot_r] = 29;
+    // TODO: Make it depend on stuff
+    static const std::array<int, num_bp> max_encumb = {{
+        19, // bp_torso - Higher if ranged?
+        30, // bp_head
+        29, // bp_eyes - Lower if using ranged?
+        19, // bp_mouth
+        19, // bp_arm_l - Split ranged/melee?
+        19, // bp_arm_r
+        29, // bp_hand_l - Lower if throwing?
+        29, // bp_hand_r
+        19, // bp_leg_l - Higher if ranged?
+        19, // bp_leg_r
+        29, // bp_foot_l
+        29, // bp_foot_r
+    }};
     bool encumb_ok = true;
-    for (int i = 0; i < num_bp && encumb_ok; i++) {
+    for( size_t i = 0; i < num_bp; i++ ) {
         const auto bp = static_cast<body_part>( i );
-        if( it.covers(bp) && encumb(bp) + it.get_encumber() > max_encumb[i] ) {
+        if( !it.covers( bp ) ) {
+            continue;
+        }   
+
+        double layers = 0;
+        int armor_enc = 0;
+        int enc = encumb( bp, layers, armor_enc, it );
+        if( enc > max_encumb[i] ) {
             encumb_ok = false;
+            break;
         }
     }
     if( encumb_ok ) {
-        // TODO: Layering check
-        // TODO: Multiple identical items check
-        worn.push_back(it);
-        return true;
+        return wear_item( it, false );
     }
     // Otherwise, maybe we should take off one or more items and replace them
-    for( int j = 0; j < num_bp; j++ ) {
+    for( size_t j = 0; j < num_bp; j++ ) {
         const body_part bp = static_cast<body_part>( j );
         if( !it.covers( bp ) ) {
             continue;
@@ -1116,10 +1124,10 @@ bool npc::wear_if_wanted( const item &it )
         if( iter != worn.end() ) {
             inv.push_back( *iter );
             worn.erase( iter );
-            worn.push_back( it );
-            return true;
+            return wear_item( it, false );
         }
     }
+
     return false;
 }
 //to placate clang++

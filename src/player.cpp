@@ -10527,7 +10527,7 @@ bool player::wear(int inventory_position, bool interactive)
         return false;
     }
 
-    if (!wear_item(to_wear, interactive))
+    if (!wear_item(*to_wear, interactive))
     {
         return false;
     }
@@ -10548,27 +10548,27 @@ bool player::wear(int inventory_position, bool interactive)
     return true;
 }
 
-bool player::wear_item(item *to_wear, bool interactive)
+bool player::wear_item( const item &to_wear, bool interactive )
 {
-    if( !to_wear->is_armor() ) {
-        add_msg(m_info, _("Putting on a %s would be tricky."), to_wear->tname().c_str());
+    if( !to_wear.is_armor() ) {
+        add_msg_if_player(m_info, _("Putting on a %s would be tricky."), to_wear.tname().c_str());
         return false;
     }
 
     // are we trying to put on power armor? If so, make sure we don't have any other gear on.
-    if (to_wear->is_power_armor())
+    if (to_wear.is_power_armor())
     {
         for( auto &elem : worn ) {
-            if( ( elem.get_covered_body_parts() & to_wear->get_covered_body_parts() ).any() ) {
+            if( ( elem.get_covered_body_parts() & to_wear.get_covered_body_parts() ).any() ) {
                 if(interactive)
                 {
-                    add_msg(m_info, _("You can't wear power armor over other gear!"));
+                    add_msg_if_player(m_info, _("You can't wear power armor over other gear!"));
                 }
                 return false;
             }
         }
 
-        if (!(to_wear->covers(bp_torso)))
+        if (!(to_wear.covers(bp_torso)))
         {
             bool power_armor = false;
 
@@ -10586,7 +10586,7 @@ bool player::wear_item(item *to_wear, bool interactive)
             {
                 if(interactive)
                 {
-                    add_msg(m_info, _("You can only wear power armor components with power armor!"));
+                    add_msg_if_player(m_info, _("You can only wear power armor components with power armor!"));
                 }
                 return false;
             }
@@ -10594,11 +10594,11 @@ bool player::wear_item(item *to_wear, bool interactive)
 
         for (auto &i : worn)
         {
-            if (i.is_power_armor() && i.typeId() == to_wear->typeId() )
+            if (i.is_power_armor() && i.typeId() == to_wear.typeId() )
             {
                 if(interactive)
                 {
-                    add_msg(m_info, _("You cannot wear more than one %s!"), to_wear->tname().c_str());
+                    add_msg_if_player(m_info, _("You cannot wear more than one %s!"), to_wear.tname().c_str());
                 }
                 return false;
             }
@@ -10607,15 +10607,15 @@ bool player::wear_item(item *to_wear, bool interactive)
     else
     {
         // Only headgear can be worn with power armor, except other power armor components
-        if(!to_wear->covers(bp_head) && !to_wear->covers(bp_eyes) &&
-             !to_wear->covers(bp_head)) {
+        if(!to_wear.covers(bp_head) && !to_wear.covers(bp_eyes) &&
+             !to_wear.covers(bp_head)) {
             for (auto &i : worn)
             {
                 if( i.is_power_armor() )
                 {
                     if(interactive)
                     {
-                        add_msg(m_info, _("You can't wear %s with power armor!"), to_wear->tname().c_str());
+                        add_msg_if_player(m_info, _("You can't wear %s with power armor!"), to_wear.tname().c_str());
                     }
                     return false;
                 }
@@ -10624,215 +10624,216 @@ bool player::wear_item(item *to_wear, bool interactive)
     }
 
     // Make sure we're not wearing 2 of the item already
-    int count = amount_worn(to_wear->typeId());
+    int count = amount_worn(to_wear.typeId());
     if (count == MAX_WORN_PER_TYPE) {
         if(interactive) {
-            add_msg(m_info, _("You can't wear more than two %s at once."),
-                    to_wear->tname(count).c_str());
+            add_msg_if_player(m_info, _("You can't wear more than two %s at once."),
+                    to_wear.tname(count).c_str());
         }
         return false;
     }
 
-    if (!to_wear->has_flag("OVERSIZE")) {
-        if (has_trait("WOOLALLERGY") && (to_wear->made_of("wool") || to_wear->item_tags.count("wooled"))) {
+    if (!to_wear.has_flag("OVERSIZE")) {
+        if (has_trait("WOOLALLERGY") && (to_wear.made_of("wool") || to_wear.item_tags.count("wooled"))) {
             if(interactive) {
-                add_msg(m_info, _("You can't wear that, it's made of wool!"));
+                add_msg_if_player(m_info, _("You can't wear that, it's made of wool!"));
             }
             return false;
         }
 
         // this simply checked if it was zero, I've updated this for the new encumb system
-        if (to_wear->covers(bp_head) && (encumb(bp_head) > 10) && (!(to_wear->get_encumber() < 9))) {
+        if (to_wear.covers(bp_head) && (encumb(bp_head) > 10) && (!(to_wear.get_encumber() < 9))) {
             if(interactive) {
-                add_msg(m_info, wearing_something_on(bp_head) ?
+                add_msg_if_player(m_info, wearing_something_on(bp_head) ?
                                 _("You can't wear another helmet!") : _("You can't wear a helmet!"));
             }
             return false;
         }
 
-        if ((to_wear->covers(bp_hand_l) || to_wear->covers(bp_hand_r) ||
-              to_wear->covers(bp_arm_l) || to_wear->covers(bp_arm_r) ||
-              to_wear->covers(bp_leg_l) || to_wear->covers(bp_leg_r) ||
-              to_wear->covers(bp_foot_l) || to_wear->covers(bp_foot_r) ||
-              to_wear->covers(bp_torso) || to_wear->covers(bp_head)) &&
+        if ((to_wear.covers(bp_hand_l) || to_wear.covers(bp_hand_r) ||
+              to_wear.covers(bp_arm_l) || to_wear.covers(bp_arm_r) ||
+              to_wear.covers(bp_leg_l) || to_wear.covers(bp_leg_r) ||
+              to_wear.covers(bp_foot_l) || to_wear.covers(bp_foot_r) ||
+              to_wear.covers(bp_torso) || to_wear.covers(bp_head)) &&
             (has_trait("HUGE") || has_trait("HUGE_OK"))) {
             if(interactive) {
-                add_msg(m_info, _("The %s is much too small to fit your huge body!"),
-                        to_wear->type_name().c_str());
+                add_msg_if_player(m_info, _("The %s is much too small to fit your huge body!"),
+                        to_wear.type_name().c_str());
             }
             return false;
         }
 
-        if( (to_wear->covers(bp_hand_l) || to_wear->covers(bp_hand_r)) && has_trait("WEBBED") ) {
+        if( (to_wear.covers(bp_hand_l) || to_wear.covers(bp_hand_r)) && has_trait("WEBBED") ) {
             if( interactive ) {
-                add_msg(m_info, _("You cannot put %s over your webbed hands."), to_wear->type_name().c_str());
+                add_msg_if_player(m_info, _("You cannot put %s over your webbed hands."), to_wear.type_name().c_str());
             }
             return false;
         }
 
-        if( (to_wear->covers(bp_hand_l) || to_wear->covers(bp_hand_r)) &&
+        if( (to_wear.covers(bp_hand_l) || to_wear.covers(bp_hand_r)) &&
             (has_trait("ARM_TENTACLES") || has_trait("ARM_TENTACLES_4") ||
              has_trait("ARM_TENTACLES_8")) ) {
             if( interactive ) {
-                add_msg(m_info, _("You cannot put %s over your tentacles."), to_wear->type_name().c_str());
+                add_msg_if_player(m_info, _("You cannot put %s over your tentacles."), to_wear.type_name().c_str());
             }
             return false;
         }
 
-        if( (to_wear->covers(bp_hand_l) || to_wear->covers(bp_hand_r)) && has_trait("TALONS") ) {
+        if( (to_wear.covers(bp_hand_l) || to_wear.covers(bp_hand_r)) && has_trait("TALONS") ) {
             if( interactive ) {
-                add_msg(m_info, _("You cannot put %s over your talons."), to_wear->type_name().c_str());
+                add_msg_if_player(m_info, _("You cannot put %s over your talons."), to_wear.type_name().c_str());
             }
             return false;
         }
 
-        if( (to_wear->covers(bp_hand_l) || to_wear->covers(bp_hand_r)) &&
+        if( (to_wear.covers(bp_hand_l) || to_wear.covers(bp_hand_r)) &&
             (has_trait("PAWS") || has_trait("PAWS_LARGE")) ) {
             if(interactive) {
-                add_msg(m_info, _("You cannot get %s to stay on your paws."), to_wear->type_name().c_str());
+                add_msg_if_player(m_info, _("You cannot get %s to stay on your paws."), to_wear.type_name().c_str());
             }
             return false;
         }
 
-        if( to_wear->covers(bp_mouth) && (has_trait("BEAK") || has_trait("BEAK_PECK") ||
+        if( to_wear.covers(bp_mouth) && (has_trait("BEAK") || has_trait("BEAK_PECK") ||
                                           has_trait("BEAK_HUM")) ) {
             if( interactive ) {
-                add_msg(m_info, _("You cannot put a %s over your beak."), to_wear->type_name().c_str());
+                add_msg_if_player(m_info, _("You cannot put a %s over your beak."), to_wear.type_name().c_str());
             }
             return false;
         }
 
-        if( to_wear->covers(bp_mouth) &&
+        if( to_wear.covers(bp_mouth) &&
             (has_trait("MUZZLE") || has_trait("MUZZLE_BEAR") || has_trait("MUZZLE_LONG") ||
              has_trait("MUZZLE_RAT")) ) {
             if( interactive ) {
-                add_msg(m_info, _("You cannot fit the %s over your muzzle."), to_wear->type_name().c_str());
+                add_msg_if_player(m_info, _("You cannot fit the %s over your muzzle."), to_wear.type_name().c_str());
             }
             return false;
         }
 
-        if( to_wear->covers(bp_mouth) && has_trait("MINOTAUR") ) {
+        if( to_wear.covers(bp_mouth) && has_trait("MINOTAUR") ) {
             if( interactive ) {
-                add_msg(m_info, _("You cannot fit the %s over your snout."), to_wear->type_name().c_str());
+                add_msg_if_player(m_info, _("You cannot fit the %s over your snout."), to_wear.type_name().c_str());
             }
             return false;
         }
 
-        if( to_wear->covers(bp_mouth) && has_trait("SABER_TEETH") ) {
+        if( to_wear.covers(bp_mouth) && has_trait("SABER_TEETH") ) {
             if( interactive ) {
-                add_msg(m_info, _("Your saber teeth are simply too large for %s to fit."), to_wear->type_name().c_str());
+                add_msg_if_player(m_info, _("Your saber teeth are simply too large for %s to fit."), to_wear.type_name().c_str());
             }
             return false;
         }
 
-        if( to_wear->covers(bp_mouth) && has_trait("MANDIBLES") ) {
+        if( to_wear.covers(bp_mouth) && has_trait("MANDIBLES") ) {
             if( interactive ) {
-                add_msg(_("Your mandibles are simply too large for %s to fit."), to_wear->type_name().c_str());
+                add_msg_if_player(_("Your mandibles are simply too large for %s to fit."), to_wear.type_name().c_str());
             }
             return false;
         }
 
-        if( to_wear->covers(bp_mouth) && has_trait("PROBOSCIS") ) {
+        if( to_wear.covers(bp_mouth) && has_trait("PROBOSCIS") ) {
             if( interactive ) {
-                add_msg(m_info, _("Your proboscis is simply too large for %s to fit."), to_wear->type_name().c_str());
+                add_msg_if_player(m_info, _("Your proboscis is simply too large for %s to fit."), to_wear.type_name().c_str());
             }
             return false;
         }
 
-        if( (to_wear->covers(bp_foot_l) || to_wear->covers(bp_foot_r)) && has_trait("HOOVES") ) {
+        if( (to_wear.covers(bp_foot_l) || to_wear.covers(bp_foot_r)) && has_trait("HOOVES") ) {
             if( interactive ) {
-                add_msg(m_info, _("You cannot wear footwear on your hooves."));
+                add_msg_if_player(m_info, _("You cannot wear footwear on your hooves."));
             }
             return false;
         }
 
-        if( (to_wear->covers(bp_foot_l) || to_wear->covers(bp_foot_r)) && has_trait("LEG_TENTACLES") ) {
+        if( (to_wear.covers(bp_foot_l) || to_wear.covers(bp_foot_r)) && has_trait("LEG_TENTACLES") ) {
             if( interactive ) {
-                add_msg(m_info, _("You cannot wear footwear on your tentacles."));
+                add_msg_if_player(m_info, _("You cannot wear footwear on your tentacles."));
             }
             return false;
         }
 
-        if( (to_wear->covers(bp_foot_l) || to_wear->covers(bp_foot_r)) && has_trait("RAP_TALONS")) {
+        if( (to_wear.covers(bp_foot_l) || to_wear.covers(bp_foot_r)) && has_trait("RAP_TALONS")) {
             if( interactive ) {
-                add_msg(m_info, _("Your talons are much too large for footgear."));
+                add_msg_if_player(m_info, _("Your talons are much too large for footgear."));
             }
             return false;
         }
 
-        if( to_wear->covers(bp_head) && has_trait("HORNS_CURLED") ) {
+        if( to_wear.covers(bp_head) && has_trait("HORNS_CURLED") ) {
             if( interactive ) {
-                add_msg(m_info, _("You cannot wear headgear over your horns."));
+                add_msg_if_player(m_info, _("You cannot wear headgear over your horns."));
             }
             return false;
         }
 
-        if( to_wear->covers(bp_torso) && (has_trait("SHELL") || has_trait("SHELL2")) ) {
+        if( to_wear.covers(bp_torso) && (has_trait("SHELL") || has_trait("SHELL2")) ) {
             if( interactive ) {
-                add_msg(m_info, _("You cannot fit that over your shell."));
+                add_msg_if_player(m_info, _("You cannot fit that over your shell."));
             }
             return false;
         }
 
-        if( to_wear->covers(bp_torso) &&
+        if( to_wear.covers(bp_torso) &&
             ((has_trait("INSECT_ARMS")) || (has_trait("ARACHNID_ARMS"))) ) {
             if( interactive ) {
-                add_msg(m_info, _("Your new limbs are too wriggly to fit under that."));
+                add_msg_if_player(m_info, _("Your new limbs are too wriggly to fit under that."));
             }
             return false;
         }
 
-        if( to_wear->covers(bp_head) &&
-            !to_wear->made_of("wool") && !to_wear->made_of("cotton") &&
-            !to_wear->made_of("nomex") && !to_wear->made_of("leather") &&
+        if( to_wear.covers(bp_head) &&
+            !to_wear.made_of("wool") && !to_wear.made_of("cotton") &&
+            !to_wear.made_of("nomex") && !to_wear.made_of("leather") &&
             (has_trait("HORNS_POINTED") || has_trait("ANTENNAE") || has_trait("ANTLERS"))) {
             if( interactive ) {
-                add_msg(m_info, _("You cannot wear a helmet over your %s."),
+                add_msg_if_player(m_info, _("You cannot wear a helmet over your %s."),
                            (has_trait("HORNS_POINTED") ? _("horns") :
                             (has_trait("ANTENNAE") ? _("antennae") : _("antlers"))));
             }
             return false;
         }
 
-        if (((to_wear->covers(bp_foot_l) && is_wearing_shoes("left")) ||
-              (to_wear->covers(bp_foot_r) && is_wearing_shoes("right"))) &&
-              !to_wear->has_flag("BELTED") && !to_wear->has_flag("SKINTIGHT")) {
+        if (((to_wear.covers(bp_foot_l) && is_wearing_shoes("left")) ||
+              (to_wear.covers(bp_foot_r) && is_wearing_shoes("right"))) &&
+              !to_wear.has_flag("BELTED") && !to_wear.has_flag("SKINTIGHT")) {
             // Checks to see if the player is wearing shoes
             if(interactive){
-                add_msg(m_info, _("You're already wearing footwear!"));
+                add_msg_if_player(m_info, _("You're already wearing footwear!"));
             }
             return false;
         }
     }
 
-    if (to_wear->invlet == 0) {
-        inv.assign_empty_invlet( *to_wear, false );
-    }
-
     const bool was_deaf = is_deaf();
-    last_item = itype_id(to_wear->type->id);
-    worn.push_back(*to_wear);
+    last_item = itype_id(to_wear.type->id);
+    worn.push_back(to_wear);
 
     if(interactive)
     {
-        add_msg(_("You put on your %s."), to_wear->tname().c_str());
+        add_msg_if_player(_("You put on your %s."), to_wear.tname().c_str());
         moves -= 350; // TODO: Make this variable?
 
         worn.back().on_wear( *this );
 
         for (body_part i = bp_head; i < num_bp; i = body_part(i + 1))
         {
-            if (to_wear->covers(i) && encumb(i) >= 40)
+            if (to_wear.covers(i) && encumb(i) >= 40)
             {
-                add_msg(m_warning,
+                add_msg_if_player(m_warning,
                     i == bp_eyes ?
                     _("Your %s are very encumbered! %s"):_("Your %s is very encumbered! %s"),
                     body_part_name(body_part(i)).c_str(), encumb_text(body_part(i)).c_str());
             }
         }
         if( !was_deaf && is_deaf() ) {
-            add_msg( m_info, _( "You're deafened!" ) );
+            add_msg_if_player( m_info, _( "You're deafened!" ) );
         }
+    }
+
+    item &new_item = worn.back();
+    if( new_item.invlet == 0 ) {
+        inv.assign_empty_invlet( new_item, false );
     }
 
     recalc_sight_limits();
@@ -12253,23 +12254,11 @@ int player::bonus_warmth(body_part bp) const
     return ret;
 }
 
-int player::encumb( body_part bp ) const
-{
-    int iArmorEnc = 0;
-    double iLayers = 0;
-    return encumb( bp, iLayers, iArmorEnc, ret_null );
-}
-
-int player::encumb( body_part bp, double &layers, int &armorenc ) const
-{
-    return encumb( bp, layers, armorenc, ret_null );
-}
-
 template <typename arr>
 void layer_item( body_part bp, arr &layer, int &armorenc, const item &it, bool power_armor )
 {
     if( !it.covers( bp ) ) {
-        continue;
+        return;
     }
 
     std::pair<int, int> &this_layer = layer[it.get_layer()];
@@ -12304,7 +12293,7 @@ void layer_item( body_part bp, arr &layer, int &armorenc, const item &it, bool p
  * This is currently handled by each of these articles of clothing
  * being on a different layer and/or body part, therefore accumulating no encumbrance.
  */
-int player::encumb( body_part bp, double &layers, int &armorenc, const item &new_item ) const
+int player::item_encumb( body_part bp, double &layers, int &armorenc, const item &new_item ) const
 {
     int ret = 0;
     // First is the total of encumbrance on the given layer,
@@ -12331,13 +12320,33 @@ int player::encumb( body_part bp, double &layers, int &armorenc, const item &new
     }
 
     ret += layers;
+    return std::max( 0, ret );
+}
+
+int player::encumb( body_part bp ) const
+{
+    int iArmorEnc = 0;
+    double iLayers = 0;
+    return encumb( bp, iLayers, iArmorEnc, ret_null );
+}
+
+int player::encumb( body_part bp, double &layers, int &armorenc ) const
+{
+    return encumb( bp, layers, armorenc, ret_null );
+}
+
+int player::encumb( body_part bp, double &layers, int &armorenc, const item &new_item ) const
+{
+    int ret = 0;
+    // Armor
+    ret += item_encumb( bp, layers, armorenc, new_item );
 
     // Bionics and mutation
     ret += mut_cbm_encumb( bp );
     return std::max( 0, ret );
 }
 
-int mut_cbm_encumb( body_part bp ) const
+int player::mut_cbm_encumb( body_part bp ) const
 {
     int ret = 0;
     if( bp != bp_head && bp != bp_mouth && bp != bp_eyes && has_bionic("bio_stiff") ) {
@@ -14130,5 +14139,3 @@ void player::print_encumbrance(WINDOW *win, int min, int max, int line) const
         mvwprintz(win, i + 1 - min, getmaxx(win) - 6, bodytemp_color(i), out.c_str());
     }
 }
-
-

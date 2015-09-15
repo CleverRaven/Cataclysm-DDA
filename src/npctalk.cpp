@@ -1650,6 +1650,57 @@ std::string dialogue::dynamic_line( const std::string &topic ) const
 
         return status.str();
 
+    } else if( topic == "TALK_GIVE_ITEM" ) {
+        const int inv_pos = g->inv( _("Offer what?") );
+        item &given = g->u.i_at( inv_pos );
+        if( given.is_null() ) {
+            return _("Changed your mind?");
+        }
+
+        long our_ammo = 0;
+        if( p->weapon.is_gun() ) {
+            int ammo_index = p->weapon.pick_reload_ammo( *p, false );
+            our_ammo = p->weapon.charges;
+            if( ammo_index >= 0 ) {
+                our_ammo += p->i_at( ammo_index ).charges;
+            }
+        }
+
+        const double cur_weapon_value = p->weapon_value( p->weapon, our_ammo );
+        bool taken = false;
+        if( p->melee_value( given ) > cur_weapon_value ) {
+            p->wield( &given );
+            taken = true;
+        }
+
+        if( !taken && given.is_gun() ) {
+            // Don't take guns for which we have no ammo, even if they look cool
+            int ammo_index = given.pick_reload_ammo( *p, false );
+            int ammo_count = given.charges;
+            if( ammo_index >= 0 ) {
+                ammo_count += p->i_at( ammo_index ).charges;
+            }
+            // TODO: Sum more ammo types
+            // TODO: Flamethrowers (why would player give a NPC one anyway?) and other multi-charge guns
+            if( ammo_count >= 5 &&
+                p->weapon_value( given, ammo_count ) > cur_weapon_value ) {
+                p->wield( &given );
+                taken = true;
+            }
+        }
+
+        if( !taken && p->wear_if_wanted( given ) ) {
+            taken = true;
+        }
+
+        // TODO: Allow NPCs accepting meds and food
+        if( taken ) {
+            g->u.i_rem( inv_pos );
+            g->u.moves -= 100;
+            return _("Thanks!");
+        } else {
+            return _("Nope...");
+        }
     }
 
     return string_format("I don't know what to say for %s. (BUG (npctalk.cpp:dynamic_line))", topic.c_str() );
@@ -2656,6 +2707,9 @@ void dialogue::gen_responses( const std::string &topic )
                 } else {
                     SUCCESS ("TALK_FRIEND_UNCOMFORTABLE");
                 }
+            }
+            if( p->is_following() ) {
+                add_response( _("I want you to use this item"), "TALK_GIVE_ITEM" );
             }
             add_response( _("Miscellaneous rules..."), "TALK_MISC_RULES" );
             add_response( _("I'm going to go my own way for a while."), "TALK_LEAVE" );
