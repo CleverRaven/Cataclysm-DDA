@@ -478,6 +478,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         double weapon_value( const item &weap ) const; // Evaluates item as a weapon
         double melee_value( const item &weap ) const; // As above, but only as melee
         double unarmed_value() const; // Evaluate yourself!
+        double armor_value( const item &armor ) const;
 
         // If average == true, adds expected values of random rolls instead of rolling.
         /** Adds all 3 types of physical damage to instance */
@@ -729,8 +730,12 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         int bonus_warmth(body_part bp) const;
         /** Returns ENC provided by armor, etc. */
         int encumb(body_part bp) const;
-        /** Returns warmth provided by armor, etc., factoring in layering */
+        /** Returns encumbrance caused by armor, etc., factoring in layering */
         int encumb(body_part bp, double &layers, int &armorenc) const;
+        /** As above, but also treats the `new_item` as worn for encumbrance penalty purposes */
+        int encumb( body_part bp, double &layers, int &armorenc, const item &new_item ) const;
+        /** Returns encumbrance from mutations and bionics only */
+        int mut_cbm_encumb( body_part bp ) const;
         /** Returns overall bashing resistance for the body_part */
         int get_armor_bash(body_part bp) const override;
         /** Returns overall cutting resistance for the body_part */

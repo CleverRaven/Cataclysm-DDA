@@ -12257,9 +12257,35 @@ int player::encumb( body_part bp ) const
 {
     int iArmorEnc = 0;
     double iLayers = 0;
-    return encumb(bp, iLayers, iArmorEnc);
+    return encumb( bp, iLayers, iArmorEnc, ret_null );
 }
 
+int player::encumb( body_part bp, double &layers, int &armorenc ) const
+{
+    return encumb( bp, layers, armorenc, ret_null );
+}
+
+template <typename arr>
+void layer_item( body_part bp, arr &layer, int &armorenc, const item &it, bool power_armor )
+{
+    if( !it.covers( bp ) ) {
+        continue;
+    }
+
+    std::pair<int, int> &this_layer = layer[it.get_layer()];
+    int encumber_val = it.get_encumber();
+    // For the purposes of layering penalty, set a min of 2 and a max of 10 per item.
+    int layering_encumbrance = std::min( 10, std::max( 2, encumber_val ) );
+
+    this_layer.first += layering_encumbrance;
+    this_layer.second = std::max(this_layer.second, layering_encumbrance);
+
+    if( it.is_power_armor() && power_armor ) {
+        armorenc += std::max( 0, encumber_val - 40 );
+    } else {
+        armorenc += encumber_val;
+    }
+}
 
 /*
  * Encumbrance logic:
@@ -12278,31 +12304,22 @@ int player::encumb( body_part bp ) const
  * This is currently handled by each of these articles of clothing
  * being on a different layer and/or body part, therefore accumulating no encumbrance.
  */
-int player::encumb(body_part bp, double &layers, int &armorenc) const
+int player::encumb( body_part bp, double &layers, int &armorenc, const item &new_item ) const
 {
     int ret = 0;
     // First is the total of encumbrance on the given layer,
     // and second is the highest encumbrance of any one item on the layer.
     std::array<std::pair<int, int>, MAX_CLOTHING_LAYER> layer = {{{0,0},{0,0},{0,0},{0,0},{0,0}}};
 
+    const bool power_armored = is_wearing_active_power_armor();
     for( auto& w : worn ) {
-        if( !w.covers(bp) ) {
-            continue;
-        }
-        std::pair<int, int> &this_layer = layer[w.get_layer()];
-        int encumber_val = w.get_encumber();
-        // For the purposes of layering penalty, set a min of 2 and a max of 10 per item.
-        int layering_encumbrance = std::min( 10, std::max( 2, encumber_val ) );
-
-        this_layer.first += layering_encumbrance;
-        this_layer.second = std::max(this_layer.second, layering_encumbrance);
-
-        if( w.is_power_armor() && is_wearing_active_power_armor() ) {
-            armorenc += std::max( 0, encumber_val - 40 );
-        } else {
-            armorenc += encumber_val;
-        }
+        layer_item( bp, layer, armorenc, w, power_armored );
     }
+
+    if( !new_item.is_null() ) {
+        layer_item( bp, layer, armorenc, new_item, power_armored );
+    }
+
     armorenc = std::max(0, armorenc);
     ret += armorenc;
 
@@ -12315,69 +12332,69 @@ int player::encumb(body_part bp, double &layers, int &armorenc) const
 
     ret += layers;
 
-    if (volume_carried() > volume_capacity() && bp != bp_head) {
-        ret += 30;
-    }
-
     // Bionics and mutation
-    if ( has_bionic("bio_stiff") && bp != bp_head && bp != bp_mouth && bp != bp_eyes ) {
+    ret += mut_cbm_encumb( bp );
+    return std::max( 0, ret );
+}
+
+int mut_cbm_encumb( body_part bp ) const
+{
+    int ret = 0;
+    if( bp != bp_head && bp != bp_mouth && bp != bp_eyes && has_bionic("bio_stiff") ) {
         ret += 10;
     }
-    if ( (has_trait("CHITIN3") || has_trait("CHITIN_FUR3") ) &&
-      bp != bp_eyes && bp != bp_mouth ) {
+    if( bp != bp_eyes && bp != bp_mouth && (has_trait("CHITIN3") || has_trait("CHITIN_FUR3") ) ) {
         ret += 10;
     }
-    if ( has_trait("SLIT_NOSTRILS") && bp == bp_mouth ) {
+    if( bp == bp_mouth && has_trait("SLIT_NOSTRILS") ) {
         ret += 10;
     }
-    if ( has_trait("ARM_FEATHERS") && (bp == bp_arm_l || bp == bp_arm_r) ) {
+    if( (bp == bp_arm_l || bp == bp_arm_r) && has_trait("ARM_FEATHERS") ) {
         ret += 20;
     }
-    if ( has_trait("INSECT_ARMS") && (bp == bp_arm_l || bp == bp_arm_r) ) {
+    if( (bp == bp_arm_l || bp == bp_arm_r) && has_trait("INSECT_ARMS") ) {
         ret += 30;
     }
-    if ( has_trait("ARACHNID_ARMS") && (bp == bp_arm_l || bp == bp_arm_r) ) {
+    if( (bp == bp_arm_l || bp == bp_arm_r) && has_trait("ARACHNID_ARMS")) {
         ret += 40;
     }
-    if ( has_trait("PAWS") && (bp == bp_hand_l || bp == bp_hand_r) ) {
+    if( (bp == bp_hand_l || bp == bp_hand_r) && has_trait("PAWS") ) {
         ret += 10;
     }
-    if ( has_trait("PAWS_LARGE") && (bp == bp_hand_l || bp == bp_hand_r) ) {
+    if( (bp == bp_hand_l || bp == bp_hand_r) && has_trait("PAWS_LARGE") ) {
         ret += 20;
     }
-    if ( has_trait("LARGE") && (bp == bp_arm_l || bp == bp_arm_r || bp == bp_torso )) {
+    if( (bp == bp_arm_l || bp == bp_arm_r || bp == bp_torso ) && has_trait("LARGE") ) {
         ret += 10;
     }
-    if ( has_trait("WINGS_BUTTERFLY") && (bp == bp_torso )) {
+    if( bp == bp_torso && has_trait("WINGS_BUTTERFLY") ) {
         ret += 10;
     }
-    if ( has_trait("SHELL2") && (bp == bp_torso )) {
+    if( bp == bp_torso && has_trait("SHELL2") ) {
         ret += 10;
     }
-    if ((bp == bp_hand_l || bp == bp_hand_r) &&
+    if( (bp == bp_hand_l || bp == bp_hand_r) &&
         (has_trait("ARM_TENTACLES") || has_trait("ARM_TENTACLES_4") ||
          has_trait("ARM_TENTACLES_8")) ) {
         ret += 30;
     }
-    if ((bp == bp_hand_l || bp == bp_hand_r) &&
+    if( (bp == bp_hand_l || bp == bp_hand_r) &&
         (has_trait("CLAWS_TENTACLE") )) {
         ret += 20;
     }
-    if (bp == bp_mouth &&
+    if( bp == bp_mouth &&
         ( has_bionic("bio_nostril") ) ) {
         ret += 10;
     }
-    if ((bp == bp_hand_l || bp == bp_hand_r) &&
+    if( (bp == bp_hand_l || bp == bp_hand_r) &&
         ( has_bionic("bio_thumbs") ) ) {
         ret += 20;
     }
-    if (bp == bp_eyes &&
+    if( bp == bp_eyes &&
         ( has_bionic("bio_pokedeye") ) ) {
         ret += 10;
     }
-    if ( ret < 0 ) {
-        ret = 0;
-    }
+
     return ret;
 }
 
@@ -14113,3 +14130,5 @@ void player::print_encumbrance(WINDOW *win, int min, int max, int line) const
         mvwprintz(win, i + 1 - min, getmaxx(win) - 6, bodytemp_color(i), out.c_str());
     }
 }
+
+
