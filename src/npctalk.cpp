@@ -1650,6 +1650,64 @@ std::string dialogue::dynamic_line( const std::string &topic ) const
 
         return status.str();
 
+    } else if( topic == "TALK_GIVE_ITEM" ) {
+        const int inv_pos = g->inv( _("Offer what?") );
+        item &given = g->u.i_at( inv_pos );
+        if( given.is_null() ) {
+            return _("Changed your mind?");
+        }
+
+        long our_ammo = 0;
+        if( p->weapon.is_gun() ) {
+            our_ammo = p->weapon.charges;
+            const auto other_ammo = p->get_ammo( p->weapon.ammo_type() );
+            for( const auto &amm : other_ammo ) {
+                our_ammo += amm->charges;
+            }
+        }
+
+        const double cur_weapon_value = p->weapon_value( p->weapon, our_ammo );
+        add_msg( m_debug, "NPC evaluates own %s (%d ammo): %0.1f",
+                 p->weapon.tname().c_str(), our_ammo, cur_weapon_value );
+        bool taken = false;
+        const double new_melee = p->melee_value( given );
+        add_msg( m_debug, "NPC evaluates your %s as melee weapon: %0.1f",
+                 given.tname().c_str(), new_melee );
+        if( new_melee > cur_weapon_value ) {
+            p->wield( &given );
+            taken = true;
+        }
+
+        if( !taken && given.is_gun() ) {
+            // Don't take guns for which we have no ammo, even if they look cool
+            int ammo_count = given.charges;
+            const auto other_ammo = p->get_ammo( given.ammo_type() );
+            for( const auto &amm : other_ammo ) {
+                ammo_count += amm->charges;
+            }
+            // TODO: Flamethrowers (why would player give a NPC one anyway?) and other multi-charge guns
+            double new_any = p->weapon_value( given, ammo_count );
+
+            add_msg( m_debug, "NPC evaluates your %s (%d ammo): %0.1f",
+                     given.tname().c_str(), ammo_count, new_any );
+            if( new_any > cur_weapon_value ) {
+                p->wield( &given );
+                taken = true;
+            }
+        }
+
+        if( !taken && p->wear_if_wanted( given ) ) {
+            taken = true;
+        }
+
+        // TODO: Allow NPCs accepting meds, food, ammo etc.
+        if( taken ) {
+            g->u.i_rem( inv_pos );
+            g->u.moves -= 100;
+            return _("Thanks!");
+        } else {
+            return _("Nope...");
+        }
     }
 
     return string_format("I don't know what to say for %s. (BUG (npctalk.cpp:dynamic_line))", topic.c_str() );
@@ -2656,6 +2714,9 @@ void dialogue::gen_responses( const std::string &topic )
                 } else {
                     SUCCESS ("TALK_FRIEND_UNCOMFORTABLE");
                 }
+            }
+            if( p->is_following() ) {
+                add_response( _("I want you to use this item"), "TALK_GIVE_ITEM" );
             }
             add_response( _("Miscellaneous rules..."), "TALK_MISC_RULES" );
             add_response( _("I'm going to go my own way for a while."), "TALK_LEAVE" );

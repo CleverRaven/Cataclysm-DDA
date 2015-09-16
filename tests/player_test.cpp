@@ -46,7 +46,7 @@ void temperature_check( player *p, int ambient_temp, int target_temp )
 void equip_clothing( player *p, std::string clothing )
 {
     item article(clothing, 0);
-    p->wear_item( &article );
+    p->wear_item( article );
 }
 
 // Run the tests for each of the temperature setpoints.

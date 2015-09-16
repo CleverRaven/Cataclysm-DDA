@@ -475,7 +475,8 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Gets melee accuracy component from weapon+skills */
         int get_hit_weapon( const item &weap ) const;
         /** NPC-related item rating functions */
-        double weapon_value( const item &weap ) const; // Evaluates item as a weapon
+        double weapon_value( const item &weap, long ammo = 10 ) const; // Evaluates item as a weapon
+        double gun_value( const item &weap, long ammo = 10 ) const; // Evaluates item as a gun
         double melee_value( const item &weap ) const; // As above, but only as melee
         double unarmed_value() const; // Evaluate yourself!
 
@@ -659,7 +660,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Wear item; returns false on fail. If interactive is false, don't alert the player or drain moves on completion. */
         bool wear(int pos, bool interactive = true);
         /** Wear item; returns false on fail. If interactive is false, don't alert the player or drain moves on completion. */
-        bool wear_item(item *to_wear, bool interactive = true);
+        bool wear_item( const item &to_wear, bool interactive = true );
         /** Takes off an item, returning false on fail, if an item vector
          *  is given, stores the items in that vector and not in the inventory */
         bool takeoff( item *target, bool autodrop = false, std::vector<item> *items = nullptr );
@@ -729,8 +730,14 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         int bonus_warmth(body_part bp) const;
         /** Returns ENC provided by armor, etc. */
         int encumb(body_part bp) const;
-        /** Returns warmth provided by armor, etc., factoring in layering */
+        /** Returns encumbrance caused by armor, etc., factoring in layering */
         int encumb(body_part bp, double &layers, int &armorenc) const;
+        /** As above, but also treats the `new_item` as worn for encumbrance penalty purposes */
+        int encumb( body_part bp, double &layers, int &armorenc, const item &new_item ) const;
+        /** Returns encumbrance from mutations and bionics only */
+        int mut_cbm_encumb( body_part bp ) const;
+        /** Returns encumbrance from items only */
+        int item_encumb( body_part bp, double &layers, int &armorenc, const item &new_item ) const;
         /** Returns overall bashing resistance for the body_part */
         int get_armor_bash(body_part bp) const override;
         /** Returns overall cutting resistance for the body_part */

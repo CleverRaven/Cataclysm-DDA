@@ -1534,7 +1534,7 @@ void npc::find_item()
 
     fetching_item = false;
     int best_value = minimum_item_value();
-    int range = sight_range( g->light_level() );
+    int range = sight_range( g->light_level( posz() ) );
     if( range > 12 ) {
         range = 12;
     }

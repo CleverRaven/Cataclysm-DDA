@@ -353,7 +353,8 @@ void vehicle::init_state(int init_veh_fuel, int init_veh_status)
 
     std::map<vpart_id, int> consistent_bignesses;
 
-    last_update_turn = calendar::turn;
+    // More realistically it should be -5 days old
+    last_update_turn = 0;
 
     // veh_fuel_multiplier is percentage of fuel
     // 0 is empty, 100 is full tank, -1 is random 7% to 35%
@@ -3070,41 +3071,6 @@ int vehicle::total_power(bool const fueled) const
     return pwr;
 }
 
-int vehicle::solar_epower( const tripoint &sm_loc ) const
-{
-    // this will obviosuly be wrong for vehicles spanning z-levels, when
-    // that gets possible...
-    if( sm_loc.z < 0 ) {
-        return 0;
-    }
-
-    int epower = 0;
-    for( auto &elem : solar_panels ) {
-        if( parts[elem].hp > 0 ) {
-            int px = posx + parts[elem].precalc[0].x; // veh. origin submap relative
-            int py = posy + parts[elem].precalc[0].y; // as above
-            //debugmsg("raw coords: sm %d,%d  sm-rel %d,%d", sm_loc.x, sm_loc.y, px, py);
-            tripoint pg = overmapbuffer::sm_to_ms_copy( sm_loc );
-            pg.x += px;
-            pg.y += py;
-            point psm = overmapbuffer::ms_to_sm_remain( pg.x, pg.y );
-            // now psm points to proper submap, and pg gives the submap relative coords
-            //debugmsg("fixed coords: sm %d,%d, sm-rel %d,%d", psm.x, psm.y, pg.x, pg.y);
-            auto sm = MAPBUFFER.lookup_submap( psm.x, psm.y, sm_loc.z );
-            if( sm == nullptr ) {
-                debugmsg("solar_epower(): couldn't find submap");
-                continue;
-            }
-
-            if( !(sm->ter[pg.x][pg.y].obj().has_flag(TFLAG_INDOORS) ||
-                  sm->get_furn(pg.x, pg.y).obj().has_flag(TFLAG_INDOORS)) ) {
-                epower += ( part_epower( elem ) * g->natural_light_level() ) / DAYLIGHT_LEVEL;
-            }
-        }
-    }
-    return epower;
-}
-
 int vehicle::acceleration(bool const fueled) const
 {
     if ((engine_on && has_engine_type_not(fuel_type_muscle, true)) || skidding) {
@@ -3504,7 +3470,7 @@ void vehicle::consume_fuel( double load = 1.0 )
     }
 }
 
-void vehicle::power_parts( const tripoint &sm_loc )//TODO: more categories of powered part!
+void vehicle::power_parts()
 {
     int epower = 0;
 
@@ -3534,8 +3500,6 @@ void vehicle::power_parts( const tripoint &sm_loc )//TODO: more categories of po
     }
 
     // Producers of epower
-    epower += solar_epower( sm_loc );
-
     if(engine_on) {
         // If the engine is on, the alternators are working.
         int alternators_epower = 0;
@@ -3830,7 +3794,7 @@ void vehicle::idle(bool on_map) {
     }
 
     if( on_map ) {
-        update_time();
+        update_time( calendar::turn );
         if(scoop_on){
             operate_scoop();
         }
@@ -6317,36 +6281,98 @@ std::set<tripoint> &vehicle::get_points( const bool force_refresh )
     return occupied_points;
 }
 
-void vehicle::update_time()
+inline int modulo(int v, int m) {
+    // C++11: negative v and positive m result in negative v%m (or 0),
+    // but this is supposed to be mathematical modulo: 0 <= v%m < m,
+    const int r = v % m;
+    // Adding m in that (and only that) case.
+    return r >= 0 ? r : r + m;
+}
+
+bool is_sm_tile_outside( const tripoint &real_global_pos )
 {
-    tripoint veh_loc = global_pos3();
-    // Don't fill funnels every turn, because rainfall has 10 turn granularity
-    if( smz >= 0 && !funnels.empty() && ( calendar::turn - last_update_turn >= 10 || one_in( 10 ) ) ) {
+    const tripoint smp = overmapbuffer::ms_to_sm_copy( real_global_pos );
+    const int px = modulo( real_global_pos.x, SEEX );
+    const int py = modulo( real_global_pos.y, SEEY );
+    auto sm = MAPBUFFER.lookup_submap( smp );
+    if( sm == nullptr ) {
+        debugmsg( "is_sm_tile_outside(): couldn't find submap %d,%d,%d", smp.x, smp.y, smp.z );
+        return false;
+    }
+
+    if( px < 0 || px >= SEEX || py < 0 || py >= SEEY ) {
+        debugmsg("err %d,%d", px, py);
+        return false;
+    }
+
+    return !(sm->ter[px][py].obj().has_flag(TFLAG_INDOORS) ||
+        sm->get_furn(px, py).obj().has_flag(TFLAG_INDOORS));
+}
+
+void vehicle::update_time( const calendar &update_to )
+{
+    if( smz < 0 ) {
+        return;
+    }
+
+    // Weather stuff, only for z-levels >= 0
+    // TODO: Have it wash cars from blood?
+    if( funnels.empty() && solar_panels.empty() ) {
+        return;
+    }
+
+    const auto update_from = last_update_turn;
+    if( update_to - update_from < MINUTES(1) ) {
+        // We don't need to check every turn
+        return;
+    }
+
+    last_update_turn = update_to;
+
+    // Get one weather data set per veh, they don't differ much across veh area
+    const tripoint veh_loc = real_global_pos3();
+    auto accum_weather = sum_conditions( update_from, update_to, veh_loc );
+    if( !funnels.empty() ) {
         double rain_amount = 0.0;
         // TODO: double acid_amount = 0.0;
-        for( int fun : funnels ) {
-            tripoint location = veh_loc + parts[fun].precalc[0];
-            // Can't use g->is_sheltered
-            // TODO: Fix procing vehicles partially out of map
-            if( g->m.has_flag( TFLAG_INDOORS, location ) ) {
+        for( int part : funnels ) {
+            const tripoint part_loc = veh_loc + parts[part].precalc[0];
+            if( !is_sm_tile_outside( part_loc ) ) {
                 continue;
             }
 
-            rainfall_data rainfall = get_rainfall( last_update_turn, calendar::turn, location );
-
-            const int part_size = part_info( fun ).size;
+            const int part_size = part_info( part ).size;
             const double funnel_area_mm = M_PI * part_size * part_size;
-
-            rain_amount += funnel_charges_per_turn( funnel_area_mm, rainfall.rain_amount );
+            rain_amount += funnel_charges_per_turn( funnel_area_mm, accum_weather.rain_amount );
         }
 
         const int rain_val = divide_roll_remainder( rain_amount, 1.0 );
         if( rain_val > 0 ) {
             refill( "water", rain_val );
+            add_msg( m_debug, "%s got %d water from funnels", name.c_str(), rain_val );
         }
     }
 
-    last_update_turn = calendar::turn;
+    if( !solar_panels.empty() ) {
+        int epower = 0;
+        for( int part : solar_panels ) {
+            if( parts[part].hp <= 0 ) {
+                continue;
+            }
+
+            const tripoint part_loc = veh_loc + parts[part].precalc[0];
+            if( !is_sm_tile_outside( part_loc ) ) {
+                continue;
+            }
+
+            epower += ( part_epower( part ) * accum_weather.sunlight ) / DAYLIGHT_LEVEL;
+        }
+
+        if( epower > 0 ) {
+            add_msg( m_debug, "%s got %d epower from solars", name.c_str(), epower );
+            charge_battery( epower_to_power( epower ) );
+        }
+    }
 }
 
 /*-----------------------------------------------------------------------------

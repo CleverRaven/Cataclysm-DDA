@@ -69,38 +69,56 @@ int get_rot_since( const int startturn, const int endturn, const tripoint &locat
     return ret;
 }
 
+inline void proc_weather_sum( const weather_type wtype, weather_sum &data,
+                              const calendar &turn, const int tick_size )
+{
+    switch( wtype ) {
+    case WEATHER_DRIZZLE:
+        data.rain_amount += 4;
+        break;
+    case WEATHER_RAINY:
+    case WEATHER_THUNDER:
+    case WEATHER_LIGHTNING:
+        data.rain_amount += 8;
+        break;
+    case WEATHER_ACID_DRIZZLE:
+        data.acid_amount += 4;
+        break;
+    case WEATHER_ACID_RAIN:
+        data.acid_amount += 8;
+        break;
+    default:
+        break;
+    }
+
+    // TODO: Change this calendar::sunlight "sampling" here into a proper interpolation
+    const float tick_sunlight = turn.sunlight() - weather_data( wtype ).light_modifier;
+    data.sunlight += std::max<float>( 0.0f, tick_size * tick_sunlight );
+}
+
 ////// Funnels.
-rainfall_data get_rainfall( const calendar &startturn,
+weather_sum sum_conditions( const calendar &startturn,
                             const calendar &endturn,
                             const tripoint &location )
 {
-    rainfall_data rainfall;
-    for( calendar turn(startturn); turn < endturn; turn += 10 ) {
-        switch( g->weather_gen->get_weather_conditions( point( location.x, location.y ), turn ) ) {
-        case WEATHER_DRIZZLE:
-            rainfall.rain_amount += 4;
-            rainfall.rain_turns++;
-            break;
-        case WEATHER_RAINY:
-        case WEATHER_THUNDER:
-        case WEATHER_LIGHTNING:
-            rainfall.rain_amount += 8;
-            rainfall.rain_turns++;
-            break;
-        case WEATHER_ACID_DRIZZLE:
-            rainfall.acid_amount += 4;
-            rainfall.acid_turns++;
-            break;
-        case WEATHER_ACID_RAIN:
-            rainfall.acid_amount += 8;
-            rainfall.acid_turns++;
-            break;
-        default:
-            break;
+    int tick_size = MINUTES(1);
+    weather_sum data;
+
+    for( calendar turn(startturn); turn < endturn; turn += tick_size ) {
+        const int diff = endturn - startturn;
+        if( diff <= 0 ) {
+            return data;
+        } else if( diff < 10 ) {
+            tick_size = 1;
+        } else if( diff > DAYS(7) ) {
+            tick_size = HOURS(1);
         }
+
+        const auto wtype = g->weather_gen->get_weather_conditions( point( location.x, location.y ), turn );
+        proc_weather_sum( wtype, data, turn, tick_size );
     }
 
-    return rainfall;
+    return data;
 }
 
 /**
@@ -116,19 +134,16 @@ void retroactively_fill_from_funnel( item &it, const trap &tr, const calendar &e
     }
 
     it.bday = endturn; // bday == last fill check
-    rainfall_data rainfall = get_rainfall( startturn, endturn, location );
+    auto data = sum_conditions( startturn, endturn, location );
 
     // Technically 0.0 division is OK, but it will be cleaner without it
-    if( rainfall.rain_amount > 0 ) {
-        // This is kinda weird: we're dumping a "block" of water all at once
-        // but the old formula ( rain_turns / turn_per_charge(total_amount) ) resulted in
-        // water being produced at quadratic rate rather than linear with time
-        const int rain = 1.0 / tr.funnel_turns_per_charge( rainfall.rain_amount );
+    if( data.rain_amount > 0 ) {
+        const int rain = 1.0 / tr.funnel_turns_per_charge( data.rain_amount );
         it.add_rain_to_container( false, rain );
     }
 
-    if( rainfall.acid_amount > 0 ) {
-        const int acid = 1.0 / tr.funnel_turns_per_charge( rainfall.acid_amount );
+    if( data.acid_amount > 0 ) {
+        const int acid = 1.0 / tr.funnel_turns_per_charge( data.acid_amount );
         it.add_rain_to_container( true, acid );
     }
 }
