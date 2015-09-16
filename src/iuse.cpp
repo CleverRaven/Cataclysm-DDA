@@ -2076,7 +2076,7 @@ int iuse::marloss_seed(player *p, item *it, bool t, const tripoint &pos)
     return it->type->charges_to_use();
 }
 
-int iuse::marloss_gel(player *p, item *it, bool t, const tripoint &pos)
+int iuse::marloss_gel(player *p, item *it, bool, const tripoint&)
 {
     if (p->is_npc()) {
         return it->type->charges_to_use();
