@@ -59,6 +59,7 @@ class worldfactory
 
         void remove_world(std::string worldname);
         bool valid_worldname(std::string name, bool automated = false);
+        bool world_need_lua_build(std::string world_name);
     protected:
     private:
         std::string pick_random_name();
@@ -74,8 +75,6 @@ class worldfactory
         std::unordered_map<std::string, cOpt> get_world_options(std::string path);
         std::unique_ptr<mod_manager> mman;
         std::unique_ptr<mod_ui> mman_ui;
-
-        bool world_need_lua_build(std::string world_name);
 
         typedef int (worldfactory::*worldgen_display)(WINDOW *, WORLDPTR);
 

@@ -450,8 +450,13 @@ bool game::opening_screen()
                          color1 = c_ltcyan;
                          color2 = h_ltcyan;
                       } else {
-                         color1 = c_white;
-                         color2 = h_white;
+                         if (world_generator->world_need_lua_build(world_name)) {
+                            color1 = c_dkgray;
+                            color2 = h_dkgray;
+                         } else {
+                             color1 = c_white;
+                             color2 = h_white;
+                         }
                       }
                       mvwprintz(w_open, line, 15 + iMenuOffsetX + extra_w / 2,
                                 (sel2 == i ? color2 : color1 ), "%s (%d)",
@@ -614,6 +619,13 @@ bool game::opening_screen()
             }
         } else if (layer == 3) {
             bool available = false;
+            std::string wn = world_generator->all_worldnames[sel2];
+
+            if ( (wn != "TUTORIAL" && wn != "DEFENSE") && world_generator->world_need_lua_build(wn) ) {
+                layer = 2;
+                sel1 = 2;
+                continue;
+            }
             if (sel1 == 2) { // Load Game
                 savegames = world_generator->all_worlds[world_generator->all_worldnames[sel2]]->world_saves;
                 if (savegames.empty()) {
