@@ -1,4 +1,4 @@
-ï»¿#include "item_factory.h"
+#include "item_factory.h"
 #include "enums.h"
 #include "json.h"
 #include "addiction.h"
@@ -194,8 +194,6 @@ void Item_factory::init()
     iuse_function_list["TWO_WAY_RADIO"] = &iuse::two_way_radio;
     iuse_function_list["RADIO_OFF"] = &iuse::radio_off;
     iuse_function_list["RADIO_ON"] = &iuse::radio_on;
-    iuse_function_list["HORN_BICYCLE"] = &iuse::horn_bicycle;
-    iuse_function_list["TWEET"] = &iuse::tweet;
     iuse_function_list["NOISE_EMITTER_OFF"] = &iuse::noise_emitter_off;
     iuse_function_list["NOISE_EMITTER_ON"] = &iuse::noise_emitter_on;
     iuse_function_list["MA_MANUAL"] = &iuse::ma_manual;
@@ -932,7 +930,7 @@ void Item_factory::load_basic_info(JsonObject &jo, itype *new_item_template)
     if (jo.has_member("name_plural")) {
         new_item_template->name_plural = jo.get_string("name_plural").c_str();
     } else {
-        // default behaviour: Assume the regular plural form (appending an â€œsâ€)
+        // default behaviour: Assume the regular plural form (appending an “s”)
         new_item_template->name_plural = (jo.get_string("name") + "s").c_str();
     }
     new_item_template->sym = jo.get_string("symbol")[0];

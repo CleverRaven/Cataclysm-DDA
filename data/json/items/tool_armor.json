@@ -2205,7 +2205,13 @@
         "phase" : "solid",
         "ammo": "NULL",
         "revert_to": "null",
-        "use_action": "TWEET",
+        "use_action": {
+            "type": "manualnoise",
+            "use_message": "You blow the %s.",
+            "noise_message": "FWEEEET!",
+            "noise": 38,
+            "moves": 100
+        },
         "max_charges": 0,
         "initial_charges": 0,
         "charges_per_use": 0,

@@ -3748,21 +3748,6 @@ int iuse::airhorn(player *p, item *it, bool, const tripoint &pos)
     return it->type->charges_to_use();
 }
 
-int iuse::horn_bicycle(player *p, item *it, bool, const tripoint &pos)
-{
-    sounds::sound(pos, 15, _("honk."));
-    p->add_msg_if_player(_("You honk the bicycle horn."));
-    return it->type->charges_to_use();
-}
-
-
-int iuse::tweet(player *p, item *it, bool, const tripoint &pos)
-{
-    sounds::sound(pos, 38, _("FWEEEET!"));
-    p->add_msg_if_player(_("You blow the %s."), it->tname().c_str());
-    return it->type->charges_to_use();
-}
-
 int iuse::noise_emitter_on(player *p, item *it, bool t, const tripoint &pos)
 {
     if (t) { // Normal use

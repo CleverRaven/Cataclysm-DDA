@@ -8259,7 +8259,13 @@
     "ammo": "NULL",
     "revert_to": "null",
     "category": "veh_parts",
-    "use_action": "HORN_BICYCLE"
+    "use_action": {
+        "type": "manualnoise",
+        "use_message": "You honk the %s.",
+        "noise_message": "honk.",
+        "noise": 15,
+        "moves": 100
+    }
   },
 
   {
