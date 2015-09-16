@@ -548,7 +548,7 @@ class manualnoise_actor : public iuse_actor
         virtual ~manualnoise_actor() { }
         virtual void load( JsonObject &jo );
         virtual long use( player*, item*, bool, const tripoint& ) const override;
-        virtual bool can_use( const item*, bool, const tripoint& ) const override;
+        virtual bool can_use( const player*, const item*, bool, const tripoint& ) const override;
         virtual iuse_actor *clone() const override;
 };
 
