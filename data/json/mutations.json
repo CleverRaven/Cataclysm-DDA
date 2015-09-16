@@ -1853,7 +1853,7 @@
         "name" : "Mycus Identity",
         "points" : 0,
         "description" : "This is a dummy mutation",
-        "valid" : false,
+        "valid" : false
     },{
         "type" : "mutation",
         "id" : "PARAIMMUNE",
