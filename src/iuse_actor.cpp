@@ -1599,7 +1599,7 @@ long manualnoise_actor::use( player *p, item *it, bool t, const tripoint& ) cons
     return it->type->charges_to_use();
 }
 
-bool manualnoise_actor::can_use( const player *p, const item *it, bool, const tripoint& ) const
+bool manualnoise_actor::can_use( const item *it, bool, const tripoint& ) const
 {
     return it->charges > it->type->charges_to_use();
 }
