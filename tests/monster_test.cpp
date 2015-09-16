@@ -63,6 +63,70 @@ int moves_to_destination( const std::string &monster_type,
     return 100000;
 }
 
+/**
+ * Simulate a player running from the monster, checking if it can catch up.
+ **/
+bool can_catch_player( const std::string &monster_type, const tripoint &direction_of_flight )
+{
+    player &test_player = g->u;
+    // Strip off any potentially encumbering clothing.
+    std::vector<item> taken_off_items;
+    while( test_player.takeoff( -2, true, &taken_off_items) );
+
+    test_player.setpos( { 65, 65, 0 } );
+    test_player.set_moves( 0 );
+    // Give the player a head start.
+    const tripoint monster_start = { test_player.pos().x - (10 * direction_of_flight.x),
+                                     test_player.pos().y - (10 * direction_of_flight.y),
+                                     test_player.pos().z - (10 * direction_of_flight.z) };
+    monster &test_monster = spawn_test_monster( monster_type, monster_start );
+    // Get it riled up and give it a goal.
+    test_monster.anger = 100;
+    test_monster.set_dest( test_player.pos() );
+    test_monster.set_moves( 0 );
+    const int monster_speed = test_monster.get_speed();
+    const int target_speed = 100;
+
+    int moves_spent = 0;
+    for( int turn = 0; turn < 1000; ++turn ) {
+        test_player.mod_moves( target_speed );
+        while( test_player.moves >= 0 ) {
+            test_player.setpos( test_player.pos() + direction_of_flight );
+            if( test_player.pos().x < SEEX * int(MAPSIZE / 2) ||
+                test_player.pos().y < SEEY * int(MAPSIZE / 2) ||
+                test_player.pos().x >= SEEX * (1 + int(MAPSIZE / 2)) ||
+                test_player.pos().y >= SEEY * (1 + int(MAPSIZE / 2)) ) {
+                g->update_map( &test_player );
+                wipe_map_terrain();
+                for( unsigned int i = 0; i < g->num_zombies(); ) {
+                    if( &g->zombie( i ) == &test_monster ) {
+                        i++;
+                    } else {
+                        g->remove_zombie( i );
+                    }
+                }
+            }
+            test_player.mod_moves( -100 );
+        }
+        test_monster.set_dest( test_player.pos() );
+        test_monster.mod_moves( monster_speed );
+        while( test_monster.moves >= 0 ) {
+            int moves_before = test_monster.moves;
+            test_monster.move();
+            moves_spent += moves_before - test_monster.moves;
+            if( rl_dist( test_monster.pos(), test_player.pos() ) == 1 ) {
+                g->remove_zombie( 0 );
+                return true;
+            } else if( rl_dist( test_monster.pos(), test_player.pos() ) > 50 ) {
+                g->remove_zombie( 0 );
+                return false;
+            }
+        }
+    }
+    g->remove_zombie( 0 );
+    return false;
+}
+
 class statistics {
 private:
     int _n;
@@ -109,6 +173,8 @@ void check_shamble_speed( const std::string monster_type, const tripoint &destin
 }
 
 void monster_check() {
+    // Make sure the player doesn't block the path of the monster being tested.
+    g->u.setpos( { 0, 0, -2 } );
     const float diagonal_multiplier = (OPTIONS["CIRCLEDIST"] ? 1.41 : 1.0);
     // Have a monster walk some distance in a direction and measure how long it takes.
     float vert_move = moves_to_destination( "mon_pig", {0,0,0}, {100,0,0} );
@@ -138,6 +204,12 @@ void monster_check() {
     for( int x = 0; x <= 100; x += 2 ) {
         check_shamble_speed( "mon_zombie", {x, 100, 0} );
     }
+
+    INFO( "Trigdist is " << ( OPTIONS["CIRCLEDIST"] ? "on" : "off" ) );
+    CHECK_FALSE( can_catch_player( "mon_zombie", {1,0,0} ) );
+    CHECK_FALSE( can_catch_player( "mon_zombie", {1,1,0} ) );
+    CHECK( can_catch_player( "mon_zombie_dog", {1,0,0} ) );
+    CHECK( can_catch_player( "mon_zombie_dog", {1,1,0} ) );
 }
 
 // Characterization test for monster movement speed.
