@@ -702,6 +702,10 @@ monster_attitude monster::attitude(player *u) const
                 effective_morale -= 5;
             }
         }
+        if (utype->in_species("FUNGUS" && u->has_trait("MYCUS_THRESH") {
+            // We. Are. The Mycus.
+            effective_anger = 0;
+        }
     }
 
     if (effective_morale < 0) {
