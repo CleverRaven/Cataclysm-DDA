@@ -929,7 +929,7 @@ bool monster::move_to( const tripoint &p, bool force, float slope )
         // is consistent even if the monster stumbles,
         // and the same regardless of the distance measurement mode.
         const float stumble_multiplier = has_flag(MF_STUMBLES) ?
-            (trigdist ? 0.83 : 1.0 - (0.25 * slope)) : 1.0;
+            ( trigdist ? (0.78 * (1.0 + (0.14 * slope))) : (1.0 - (0.25 * slope))) : 1.0;
         const int cost = stumble_multiplier *
             (float)(climbs ? calc_climb_cost( pos(), p ) : calc_movecost( pos(), p ));
 
