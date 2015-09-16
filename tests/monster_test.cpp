@@ -17,16 +17,32 @@ std::ostream& operator << ( std::ostream& os, tripoint const& value ) {
     return os;
 }
 
-int moves_to_destination( const std::string &monster_type,
-                          const tripoint &start, const tripoint &end )
+void wipe_map_terrain()
+{
+    // Remove all the obstacles.
+    const int mapsize = g->m.getmapsize() * SEEX;
+    for( int x = 0; x < mapsize; ++x ) {
+        for( int y = 0; y < mapsize; ++y ) {
+            g->m.set(x, y, t_grass, f_null);
+        }
+    }
+}
+
+monster &spawn_test_monster( const std::string &monster_type, const tripoint &start )
 {
     monster temp_monster( mtype_id(monster_type), start);
     // Bypassing game::add_zombie() since it sometimes upgrades the monster instantly.
     g->critter_tracker->add( temp_monster );
-    monster &test_monster = g->critter_tracker->find( 0 );
-    test_monster.set_dest( end );
-    // Get it riled up.
+    return g->critter_tracker->find( 0 );
+}
+
+int moves_to_destination( const std::string &monster_type,
+                          const tripoint &start, const tripoint &end )
+{
+    monster &test_monster = spawn_test_monster( monster_type, start );
+    // Get it riled up and give it a goal.
     test_monster.anger = 100;
+    test_monster.set_dest( end );
     test_monster.set_moves( 0 );
     const int monster_speed = test_monster.get_speed();
     int moves_spent = 0;
@@ -84,12 +100,12 @@ void check_shamble_speed( const std::string monster_type, const tripoint &destin
     for( int i = 0; i < 10; ++i ) {
         move_stats.add( moves_to_destination( monster_type, {0, 0, 0}, destination ) );
         if( (move_stats.avg() / (10000.0 * diagonal_multiplier)) ==
-            Approx(1.0).epsilon(0.04) ) {
+            Approx(1.0).epsilon(0.02) ) {
             break;
         }
     }
     CHECK( (move_stats.avg() / (10000.0 * diagonal_multiplier)) ==
-           Approx(1.0).epsilon(0.04) );
+           Approx(1.0).epsilon(0.02) );
 }
 
 void monster_check() {
@@ -127,13 +143,7 @@ void monster_check() {
 // Characterization test for monster movement speed.
 // It's not necessarally the one true speed for monsters, we just want notice if it changes.
 TEST_CASE("monster_speed") {
-    // Remove all the obstacles.
-    const int mapsize = g->m.getmapsize() * SEEX;
-    for( int x = 0; x < mapsize; ++x ) {
-        for( int y = 0; y < mapsize; ++y ) {
-            g->m.set(x, y, t_grass, f_null);
-        }
-    }
+    wipe_map_terrain();
     // Remove any interfering monsters.
     while( g->num_zombies() ) {
         g->remove_zombie( 0 );
