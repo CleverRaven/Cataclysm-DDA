@@ -1849,6 +1849,13 @@
         "category" : ["MUTCAT_MEDICAL"]
     },{
         "type" : "mutation",
+        "id" : "M_IMMUNE",
+        "name" : "Mycus Identity",
+        "points" : 0,
+        "description" : "This is a dummy mutation",
+        "valid" : false,
+    },{
+        "type" : "mutation",
         "id" : "PARAIMMUNE",
         "name" : "Parasite Immune",
         "points" : 4,
