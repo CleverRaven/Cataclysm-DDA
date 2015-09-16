@@ -11886,7 +11886,7 @@ bool game::plmove(int dx, int dy, int dz)
     vehicle *veh1 = m.veh_at( dest_loc, vpart1 );
 
     bool veh_closed_door = false;
-    bool outside_vehicle = ( veh0 != nullptr || veh0 != veh1 );
+    bool outside_vehicle = ( veh0 == nullptr || veh0 != veh1 );
     if( veh1 != nullptr ) {
         dpart = veh1->next_part_to_open(vpart1, outside_vehicle);
         veh_closed_door = dpart >= 0 && !veh1->parts[dpart].open;
