@@ -875,17 +875,17 @@ long extended_firestarter_actor::use( player *p, item *it, bool, const tripoint 
     if( need_sunlight ) {
         // Needs the correct weather, light and to be outside.
         if( (g->weather == WEATHER_CLEAR || g->weather == WEATHER_SUNNY) &&
-            g->natural_light_level() >= 60 && !g->m.has_flag( TFLAG_INDOORS, pos ) ) {
+            g->natural_light_level( pos.z ) >= 60 && !g->m.has_flag( TFLAG_INDOORS, pos ) ) {
             if( prep_firestarter_use(p, it, pos ) ) {
                 // turns needed for activity.
-                const int turns = calculate_time_for_lens_fire( p, g->natural_light_level() );
+                const int turns = calculate_time_for_lens_fire( p, g->natural_light_level( pos.z ) );
                 if( turns/1000 > 1 ) {
                     // If it takes less than a minute, no need to inform the player about time.
                     p->add_msg_if_player(m_info, _("If the current weather holds, it will take around %d minutes to light a fire."), turns / 1000);
                 }
                 p->assign_activity( ACT_START_FIRE, turns, -1, p->get_item_position(it), it->tname() );
                 // Keep natural_light_level for comparing throughout the activity.
-                p->activity.values.push_back( g->natural_light_level() );
+                p->activity.values.push_back( g->natural_light_level( pos.z ) );
                 p->activity.placement = pos;
                 p->practice( skill_survival, 5 );
             }
@@ -928,7 +928,7 @@ bool extended_firestarter_actor::can_use( const player* p, const item* it, bool 
 
     if( need_sunlight ) {
         return ( g->weather == WEATHER_CLEAR || g->weather == WEATHER_SUNNY ) &&
-                 g->natural_light_level() >= 60 && !g->m.has_flag( TFLAG_INDOORS, pos );
+                 g->natural_light_level( pos.z ) >= 60 && !g->m.has_flag( TFLAG_INDOORS, pos );
     }
 
     return true;

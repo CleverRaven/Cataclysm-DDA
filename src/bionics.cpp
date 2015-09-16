@@ -521,11 +521,18 @@ void player::power_bionics()
                 tmp = bionic_by_invlet(ch);
                 if(tmp && tmp != bio_last) {
                     // new bionic selected, update cursor and scroll position
-                    for(cursor = 0; cursor < (int)bio_list.size(); cursor++) {
-                        if(bio_list[cursor] == tmp) {
+                    int temp_cursor = 0;
+                    for(temp_cursor = 0; temp_cursor < (int)bio_list.size(); temp_cursor++) {
+                        if(bio_list[temp_cursor] == tmp) {
                             break;
                         }
                     }
+                    // if bionic is not found in current list, ignore the attempt to view/activate
+                    if(temp_cursor >= (int)bio_list.size()) {
+                        continue;
+                    }
+                    //relocate cursor to the bionic that was found
+                    cursor = temp_cursor;
                     scroll_position = 0;
                     while(scroll_position < max_scroll_position && cursor - scroll_position > LIST_HEIGHT - half_list_view_location) {
                         scroll_position++;

@@ -615,7 +615,7 @@ void editmap::update_view( bool update_info )
         mvwprintw(w_info, off++, 1, _("dist: %d u_see: %d v_in: %d scent: %d"),
                   rl_dist( g->u.pos(), target ), g->u.sees( target ), veh_in, g->scent( target ));
         mvwprintw(w_info, off++, 1, _("sight_range: %d, daylight_sight_range: %d,"),
-                  g->u.sight_range( g->light_level() ), g->u.sight_range(DAYLIGHT_LEVEL) );
+                  g->u.sight_range( g->light_level( g->u.posz() ) ), g->u.sight_range(DAYLIGHT_LEVEL) );
         mvwprintw(w_info, off++, 1, _("transparency: %.5f, visibility: %.5f,"),
                   map_cache.transparency_cache[target.x][target.y],
                   map_cache.seen_cache[target.x][target.y] );

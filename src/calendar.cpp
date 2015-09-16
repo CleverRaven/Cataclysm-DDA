@@ -5,6 +5,8 @@
 #include "translations.h"
 #include "game.h"
 
+extern int season_len;
+
 calendar calendar::start;
 calendar calendar::turn;
 
@@ -229,11 +231,6 @@ bool calendar::is_night() const
 
 float calendar::sunlight() const
 {
-    //Recent lightning strike has lit the area
-    if( g->lightning_active ) {
-        return DAYLIGHT_LEVEL;
-    }
-
     int seconds = seconds_past_midnight();
     int sunrise_seconds = sunrise().seconds_past_midnight();
     int sunset_seconds = sunset().seconds_past_midnight();
@@ -388,10 +385,10 @@ std::string calendar::day_of_week() const
 
 int calendar::season_length()
 {
-    if( ACTIVE_WORLD_OPTIONS.empty() || int(ACTIVE_WORLD_OPTIONS["SEASON_LENGTH"]) == 0 ) {
+    if( season_len == 0 ) {
         return 14; // default
     }
-    return int(ACTIVE_WORLD_OPTIONS["SEASON_LENGTH"]);
+    return season_len;
 }
 
 void calendar::sync()
