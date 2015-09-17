@@ -929,7 +929,7 @@ void Item_factory::load_basic_info(JsonObject &jo, itype *new_item_template)
     if (jo.has_member("name_plural")) {
         new_item_template->name_plural = jo.get_string("name_plural").c_str();
     } else {
-        // default behaviour: Assume the regular plural form (appending an “s”)
+        // default behaviour: Assume the regular plural form (appending an â€œsâ€)
         new_item_template->name_plural = (jo.get_string("name") + "s").c_str();
     }
     new_item_template->sym = jo.get_string("symbol")[0];
