@@ -5065,7 +5065,7 @@
     "hp":200,
     "death_function":"NORMAL",
 	"special_attacks":[["BITE", 15],["IMPALE",20]],
-    "description":"Eight-feet-tall penguins bred by the Elder Things. Placid unless otherwise provoked.",
+    "description":"Eight-feet-tall penguins bred by the Elder Things.  Placid unless otherwise provoked.",
     "flags":["HEARS", "KEENNOSE", "GOODHEARING", "SMELLS", "ANIMAL", "WARM", "BONES", "FEATHER", "FAT", "SWIMS", "SUNDEATH"],
 	"anger_triggers":["HURT", "FRIEND_DIED", "FRIEND_ATTACKED"],
     "categories":["WILDLIFE"]
