@@ -478,30 +478,26 @@ void MonsterGenerator::load_monster(JsonObject &jo)
 }
 void MonsterGenerator::load_species(JsonObject &jo)
 {
-    // id, flags, triggers (anger, placate, fear)
-    std::string sid;
-    if (jo.has_member("id")) {
-        sid = jo.get_string("id");
-        if (mon_species.count(sid) > 0) {
-            delete mon_species[sid];
-        }
-
-        std::set<std::string> sflags, sanger, sfear, splacate;
-        sflags = jo.get_tags("flags");
-        sanger = jo.get_tags("anger_triggers");
-        sfear  = jo.get_tags("fear_triggers");
-        splacate = jo.get_tags("placate_triggers");
-
-        std::set<m_flag> flags = get_set_from_tags(sflags, flag_map, MF_NULL);
-        std::set<monster_trigger> anger, fear, placate;
-        anger = get_set_from_tags(sanger, trigger_map, MTRIG_NULL);
-        fear = get_set_from_tags(sfear, trigger_map, MTRIG_NULL);
-        placate = get_set_from_tags(splacate, trigger_map, MTRIG_NULL);
-
-        species_type *new_species = new species_type(sid, flags, anger, fear, placate);
-
-        mon_species[sid] = new_species;
+    const std::string sid = jo.get_string("id");
+    if (mon_species.count(sid) > 0) {
+        delete mon_species[sid];
     }
+
+    std::set<std::string> sflags, sanger, sfear, splacate;
+    sflags = jo.get_tags("flags");
+    sanger = jo.get_tags("anger_triggers");
+    sfear  = jo.get_tags("fear_triggers");
+    splacate = jo.get_tags("placate_triggers");
+
+    std::set<m_flag> flags = get_set_from_tags(sflags, flag_map, MF_NULL);
+    std::set<monster_trigger> anger, fear, placate;
+    anger = get_set_from_tags(sanger, trigger_map, MTRIG_NULL);
+    fear = get_set_from_tags(sfear, trigger_map, MTRIG_NULL);
+    placate = get_set_from_tags(splacate, trigger_map, MTRIG_NULL);
+
+    species_type *new_species = new species_type(sid, flags, anger, fear, placate);
+
+    mon_species[sid] = new_species;
 }
 
 mtype &MonsterGenerator::get_mtype( const mtype_id& id )
