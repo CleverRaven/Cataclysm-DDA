@@ -619,7 +619,7 @@ bool game::opening_screen()
             }
         } else if (layer == 3) {
             bool available = false;
-            std::string wn = world_generator->all_worldnames[sel2];
+            std::string wn = world_generator->all_worldnames[sel3];
 
             if ( (wn != "TUTORIAL" && wn != "DEFENSE") && world_generator->world_need_lua_build(wn) ) {
                 layer = 2;
