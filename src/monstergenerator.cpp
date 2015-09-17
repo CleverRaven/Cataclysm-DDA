@@ -71,7 +71,7 @@ void MonsterGenerator::finalize_mtypes()
         mtype *mon = elem.second;
         apply_species_attributes(mon);
         set_mtype_flags(mon);
-        set_species_ids( mon );
+        set_species_ids( *mon );
     }
 }
 
@@ -365,16 +365,16 @@ void MonsterGenerator::init_flags()
     flag_map["PUSH_MON"] = MF_PUSH_MON;
 }
 
-void MonsterGenerator::set_species_ids( mtype *mon )
+void MonsterGenerator::set_species_ids( mtype &mon )
 {
-    const std::set< std::string > &specs = mon->species;
+    const std::set< std::string > &specs = mon.species;
     std::set< int > ret;
     for( const auto &s : specs ) {
         auto iter = mon_species.find( s );
         if( iter != mon_species.end() ) {
-            mon->species_ptrs.insert( iter->second );
+            mon.species_ptrs.insert( iter->second );
         } else {
-            debugmsg( "Tried to assign species %s to monster %s, but no entry for the species exists", s.c_str(), mon->id.c_str() );
+            debugmsg( "Tried to assign species %s to monster %s, but no entry for the species exists", s.c_str(), mon.id.c_str() );
         }
     }
 }
