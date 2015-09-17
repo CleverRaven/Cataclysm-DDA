@@ -103,7 +103,7 @@ class MonsterGenerator
                                                 T fallback);
 
         // finalization
-        void apply_species_attributes(mtype *mon);
+        void apply_species_attributes( mtype &mon );
         void set_mtype_flags( mtype &mon );
         void set_species_ids( mtype &mon );
 
