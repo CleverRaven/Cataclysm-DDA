@@ -192,7 +192,7 @@
         "healthy" : 0,
         "addiction_potential" : 0,
         "nutrition" : 0,
-        "description" : "Primitive binding material made of cords and natural glue.  Use it to repair items made of wood, bone, or chitin.",
+        "description" : "Primitive binding material made of cords and natural glue.  Use it to repair items made of wood, paper, bone, or chitin.",
         "price" : 100,
         "material" : "cotton",
         "tool" : "null",
