@@ -1976,6 +1976,12 @@ bool map::valid_move( const tripoint &from, const tripoint &to,
 
     if( !up_ter.has_flag( TFLAG_NO_FLOOR ) && !up_ter.has_flag( TFLAG_GOES_DOWN ) ) {
         // Can't move from up to down
+        if( from.x != to.x || from.y != to.y ) {
+            // Break the move into two - vertical then horizontal
+            tripoint midpoint( down_p.x, down_p.y, up_p.z );
+            return valid_move( down_p, midpoint, bash, flying ) &&
+                   valid_move( midpoint, up_p, bash, flying );
+        }
         return false;
     }
 

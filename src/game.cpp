@@ -12013,24 +12013,40 @@ bool game::ramp_move( const tripoint &dest_loc )
         // But we're moving onto one from above
         const tripoint dp = dest_loc - u.pos();
         plmove( dp.x, dp.y, -1 );
+        // No penalty for misaligned stairs here
+        // Also cheaper than climbing up
         return true;
     }
 
-    if( !m.has_flag( "RAMP_END", dest_loc ) ) {
-        // We aren't going in the ramp's direction
-        // TODO: Allow going diagonally to a ramp direction
-        // ie. going N and W on a NW ramp
+    if( m.move_cost_ter_furn( dest_loc ) > 0 ) {
         return false;
     }
 
+    // Try to find an aligned end of the ramp that will make our climb faster
+    // Basically, finish walking on the stairs instead of pulling self up by hand
+    bool aligned_ramps = false;
+    for( const tripoint &pt : m.points_in_radius( u.pos(), 1 ) ) {
+        if( rl_dist( pt, dest_loc ) <= 1.5f && m.has_flag( "RAMP_END", pt ) ) {
+            aligned_ramps = true;
+            break;
+        }
+    }
+
     const tripoint above_u( u.posx(), u.posy(), u.posz() + 1 );
+    const tripoint above_dest( dest_loc.x, dest_loc.y, dest_loc.z + 1 );
     if( !m.valid_move( u.pos(), above_u, false, true ) ) {
         add_msg( m_warning, _("You can't climb here - there's a ceiling above.") );
         return false;
     }
 
     const tripoint dp = dest_loc - u.pos();
+    const tripoint old_pos = u.pos();
     plmove( dp.x, dp.y, 1 );
+    // We can't just take the result of the above function here
+    if( u.pos() != old_pos ) {
+        u.moves -= 50 + (aligned_ramps ? 0 : 50 );
+    }
+
     return true;
 }
 
