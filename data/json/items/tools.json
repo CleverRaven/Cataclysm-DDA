@@ -10811,7 +10811,7 @@
     "volume": 3,
     "bashing": 14,
     "cutting": 3,
-    "flags" : ["STAB", "DURABLE_MELEE"],
+    "flags" : ["DURABLE_MELEE"],
     "techniques": ["WBLOCK_1"], 
     "to_hit": 2,
     "max_charges": 0,
