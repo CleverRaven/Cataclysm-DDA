@@ -104,7 +104,7 @@ class MonsterGenerator
 
         // finalization
         void apply_species_attributes(mtype *mon);
-        void set_mtype_flags(mtype *mon);
+        void set_mtype_flags( mtype &mon );
         void set_species_ids( mtype &mon );
 
         template <typename T> void apply_set_to_set(std::set<T> from, std::set<T> &to);

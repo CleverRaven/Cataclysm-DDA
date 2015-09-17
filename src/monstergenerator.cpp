@@ -70,7 +70,7 @@ void MonsterGenerator::finalize_mtypes()
     for( auto &elem : mon_templates ) {
         mtype *mon = elem.second;
         apply_species_attributes(mon);
-        set_mtype_flags(mon);
+        set_mtype_flags( *mon );
         set_species_ids( *mon );
     }
 }
@@ -90,30 +90,30 @@ void MonsterGenerator::apply_species_attributes(mtype *mon)
         }
     }
 }
-void MonsterGenerator::set_mtype_flags(mtype *mon)
+void MonsterGenerator::set_mtype_flags( mtype &mon )
 {
     // The flag vectors are slow, given how often has_flags() is called,
     // so instead we'll use bitsets and initialize them here.
     m_flag nflag;
-    for (std::set<m_flag>::iterator flag = mon->flags.begin(); flag != mon->flags.end(); ++flag) {
+    for (std::set<m_flag>::iterator flag = mon.flags.begin(); flag != mon.flags.end(); ++flag) {
         nflag = m_flag(*flag);
-        mon->bitflags[nflag] = true;
+        mon.bitflags[nflag] = true;
     }
     monster_trigger ntrig;
-    for (std::set<monster_trigger>::iterator trig = mon->anger.begin(); trig != mon->anger.end();
+    for (std::set<monster_trigger>::iterator trig = mon.anger.begin(); trig != mon.anger.end();
          ++trig) {
         ntrig = monster_trigger(*trig);
-        mon->bitanger[ntrig] = true;
+        mon.bitanger[ntrig] = true;
     }
-    for (std::set<monster_trigger>::iterator trig = mon->fear.begin(); trig != mon->fear.end();
+    for (std::set<monster_trigger>::iterator trig = mon.fear.begin(); trig != mon.fear.end();
          ++trig) {
         ntrig = monster_trigger(*trig);
-        mon->bitfear[ntrig] = true;
+        mon.bitfear[ntrig] = true;
     }
-    for (std::set<monster_trigger>::iterator trig = mon->placate.begin(); trig != mon->placate.end();
+    for (std::set<monster_trigger>::iterator trig = mon.placate.begin(); trig != mon.placate.end();
          ++trig) {
         ntrig = monster_trigger(*trig);
-        mon->bitplacate[ntrig] = true;
+        mon.bitplacate[ntrig] = true;
     }
 }
 
