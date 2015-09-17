@@ -1585,7 +1585,7 @@ long manualnoise_actor::use( player *p, item *it, bool t, const tripoint& ) cons
     if( t ) {
         return 0;
     }
-    if( it->charges <= 0 ) {
+    if( it->type->charges_to_use() != 0 && it->charges < it->type->charges_to_use() ) {
         p->add_msg_if_player( _(no_charges_message.c_str()) );
         return 0;
     }
@@ -1601,7 +1601,7 @@ long manualnoise_actor::use( player *p, item *it, bool t, const tripoint& ) cons
 
 bool manualnoise_actor::can_use( const player*, const item *it, bool, const tripoint& ) const
 {
-    return it->charges > it->type->charges_to_use();
+    return it->charges => it->type->charges_to_use();
 }
 
 iuse_actor *musical_instrument_actor::clone() const
