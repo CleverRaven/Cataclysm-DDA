@@ -3435,11 +3435,11 @@ int item::gun_dispersion( bool with_ammo ) const
             dispersion_sum += elem.type->gunmod->dispersion;
         }
     }
+    dispersion_sum += damage * 60;
     dispersion_sum = std::max(dispersion_sum, 0);
     if( with_ammo && has_curammo() ) {
         dispersion_sum += get_curammo()->ammo->dispersion;
     }
-    dispersion_sum += damage * 60;
     dispersion_sum = std::max(dispersion_sum, 0);
     return dispersion_sum;
 }
