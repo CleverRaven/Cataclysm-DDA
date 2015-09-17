@@ -5955,6 +5955,12 @@
           "rotates": false
         },
         {
+          "id": "hickory_nut_ambrosia",
+          "fg": 722,
+          "bg": 505,
+          "rotates": false
+        },
+        {
           "id": "honeycomb",
           "fg": 721,
           "bg": 505,
@@ -6124,6 +6130,12 @@
         },
         {
           "id": "irradiated_lettuce",
+          "fg": 731,
+          "bg": 505,
+          "rotates": false
+        },
+        {
+          "id": "irradiated_cabbage",
           "fg": 731,
           "bg": 505,
           "rotates": false
@@ -6550,6 +6562,12 @@
         },
         {
           "id": "lettuce",
+          "fg": 731,
+          "bg": 505,
+          "rotates": false
+        },
+        {
+          "id": "cabbage",
           "fg": 731,
           "bg": 505,
           "rotates": false
@@ -8996,6 +9014,12 @@
         {
           "id": "veggy_cooked",
           "fg": 849,
+          "bg": 505,
+          "rotates": false
+        },
+        {
+          "id": "veggy_pickled",
+          "fg": 850,
           "bg": 505,
           "rotates": false
         },
@@ -12173,12 +12197,12 @@
         },
         {
           "id": "t_shrub_blueberry",
-          "fg": 1897,
+          "fg": 2875,
           "bg": 513
         },
         {
           "id": "t_shrub_strawberry",
-          "fg": 1897,
+          "fg": 2875,
           "bg": 513
         },
         {
@@ -12529,12 +12553,12 @@
         },
         {
           "id": "t_shrub_strawberry_harvested",
-          "fg": 1897,
+          "fg": 2875,
           "bg": 513
         },
         {
           "id": "t_shrub_blueberry_harvested",
-          "fg": 1897,
+          "fg": 2875,
           "bg": 513
         },
         {
@@ -15550,12 +15574,12 @@
         },
         {
           "id": "t_shrub_strawberry_season_winter",
-          "fg": 1944,
+          "fg": 2876,
           "bg": 543
         },
         {
           "id": "t_shrub_blueberry_season_winter",
-          "fg": 1944,
+          "fg": 2876,
           "bg": 543
         },
         {
@@ -15571,12 +15595,12 @@
         },
         {
           "id": "t_shrub_blueberry_harvested_season_winter",
-          "fg": 1944,
+          "fg": 2876,
           "bg": 543
         },
         {
           "id": "t_shrub_strawberry_harvested_season_winter",
-          "fg": 1944,
+          "fg": 2876,
           "bg": 543
         },
         {
@@ -19601,6 +19625,16 @@
           "rotates": false
         },
         {
+          "id": "seed_lettuce",
+          "fg": 821,
+          "rotates": false
+        },
+        {
+          "id": "seed_cabbage",
+          "fg": 816,
+          "rotates": false
+        },
+        {
           "id": "stomach",
           "fg": 2499,
           "rotates": false
@@ -19860,6 +19894,11 @@
         },
         {
           "id": "tarp",
+          "fg": 2518,
+          "rotates": false
+        },
+        {
+          "id": "emer_blanket_on",
           "fg": 2518,
           "rotates": false
         },
@@ -21780,15 +21819,33 @@
           "rotates": false
         },
         {
+          "id": "t_tree_birch_season_winter",
+          "fg": 2791,
+          "bg": 543,
+          "rotates": false
+        },
+        {
           "id": "t_tree_maple",
           "fg": 2792,
           "bg": 513,
           "rotates": false
         },
         {
+          "id": "t_tree_maple_season_winter",
+          "fg": 2792,
+          "bg": 543,
+          "rotates": false
+        },
+        {
           "id": "t_tree_willow",
           "fg": 2793,
           "bg": 513,
+          "rotates": false
+        },
+        {
+          "id": "t_tree_willow_season_winter",
+          "fg": 2793,
+          "bg": 543,
           "rotates": false
         },
         {
@@ -21838,8 +21895,20 @@
         },
         {
           "id": "t_tree_hickory",
+          "fg": 2803,
+          "bg": 513,
+          "rotates": false
+        },
+        {
+          "id": "t_tree_hickory_season_autumn",
           "fg": 2802,
           "bg": 513,
+          "rotates": false
+        },
+        {
+          "id": "t_tree_hickory_season_winter",
+          "fg": 2803,
+          "bg": 543,
           "rotates": false
         },
         {
@@ -21849,9 +21918,21 @@
           "rotates": false
         },
         {
-          "id": "t_tree_deadhickory",
+          "id": "t_tree_hickory_harvested_season_winter",
+          "fg": 2803,
+          "bg": 543,
+          "rotates": false
+        },
+        {
+          "id": "t_tree_hickory_dead",
           "fg": 2804,
           "bg": 513,
+          "rotates": false
+        },
+        {
+          "id": "t_tree_hickory_dead_season_winter",
+          "fg": 2804,
+          "bg": 543,
           "rotates": false
         },
         {
@@ -21861,9 +21942,21 @@
           "rotates": false
         },
         {
+          "id": "t_tree_birch_harvested_season_winter",
+          "fg": 2805,
+          "bg": 543,
+          "rotates": false
+        },
+        {
           "id": "t_tree_willow_harvested",
           "fg": 2806,
           "bg": 513,
+          "rotates": false
+        },
+        {
+          "id": "t_tree_willow_harvested_season_winter",
+          "fg": 2806,
+          "bg": 543,
           "rotates": false
         },
         {
@@ -22294,6 +22387,78 @@
         {
           "id": "mouthpiece",
           "fg": 2874,
+          "rotates": false
+        },
+        {
+          "id": "m2browning",
+          "fg": 2877,
+          "rotates": false
+        },
+        {
+          "id": "rm298",
+          "fg": 2877,
+          "rotates": false
+        },
+        {
+          "id": "basketball",
+          "fg": 2878,
+          "rotates": false
+        },
+        {
+          "id": "hickory_root",
+          "fg": 2879,
+          "rotates": false
+        },
+        {
+          "id": "jar_sauerkraut_pickled",
+          "fg": 2880,
+          "bg": 505,
+          "rotates": false
+        },
+        {
+          "id": "sauerkraut_ferment",
+          "fg": 2880,
+          "bg": 505,
+          "rotates": false
+        },
+        {
+          "id": "sauerkraut",
+          "fg": 2881,
+          "rotates": false
+        },
+        {
+          "id": "sauerkraut_onions",
+          "fg": 2881,
+          "rotates": false
+        },
+        {
+          "id": "hickory_nut",
+          "fg": 2882,
+          "rotates": false
+        },
+        {
+          "id": "hickory_nut_unshelled",
+          "fg": 2883,
+          "rotates": false
+        },
+        {
+          "id": "hickory_nut_roasted",
+          "fg": 2884,
+          "rotates": false
+        },
+        {
+          "id": "mon_fish_pickerel",
+          "fg": 2885,
+          "rotates": false
+        },
+        {
+          "id": "f_blade_upright",
+          "fg": 2886,
+          "rotates": false
+        },
+        {
+          "id": "iceaxe",
+          "fg": 2887,
           "rotates": false
         }
       ]
