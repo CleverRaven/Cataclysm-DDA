@@ -106,6 +106,7 @@ struct map_deconstruct_info {
  * LIQUIDCONT - Furniture that contains liquid, allows for contents to be accessed in some checks even if SEALED
  * OPENCLOSE_INSIDE - If it's a door (with an 'open' or 'close' field), it can only be opened or closed if you're inside.
  * PERMEABLE - Allows gases to flow through unimpeded.
+ * RAMP - Higher z-levels can be accessed from this tile
  *
  * Currently only used for Fungal conversions
  * WALL - This terrain is an upright obstacle
@@ -165,6 +166,7 @@ enum ter_bitflags : int {
     TFLAG_GOES_UP,
     TFLAG_NO_FLOOR,
     TFLAG_SEEN_FROM_ABOVE,
+    TFLAG_RAMP,
 
     NUM_TERFLAGS
 };
