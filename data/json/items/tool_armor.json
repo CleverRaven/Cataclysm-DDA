@@ -2208,7 +2208,7 @@
         "use_action": {
             "type": "manualnoise",
             "no_charges_message": "Seeing this is an error.",
-            "use_message": "You blow the %s.",
+            "use_message": "You blow the whistle.", "//": "Use of %s not currently supported.",
             "noise_message": "FWEEEET!",
             "noise": 38,
             "moves": 100

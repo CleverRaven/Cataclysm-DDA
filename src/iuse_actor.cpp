@@ -1592,7 +1592,7 @@ long manualnoise_actor::use( player *p, item *it, bool t, const tripoint& ) cons
     {
         p->moves -= moves;
         if( noise > 0 ) {
-            sounds::sound( p->pos(), noise, _(noise_message.c_str()) );
+            sounds::sound( p->pos(), noise, noise_message.empty() ? "" : _(noise_message.c_str()) );
         }
         p->add_msg_if_player( _(use_message.c_str()) );
     }
