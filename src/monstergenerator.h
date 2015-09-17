@@ -36,12 +36,12 @@ struct species_type {
                  std::set<monster_trigger> _anger,
                  std::set<monster_trigger> _fear,
                  std::set<monster_trigger> _placate)
+    : id( _id )
+    , flags( _flags )
+    , anger_trig( _anger)
+    , fear_trig( _fear )
+    , placate_trig( _placate )
     {
-        id = _id;
-        flags = _flags;
-        anger_trig = _anger;
-        fear_trig = _fear;
-        placate_trig = _placate;
     }
 };
 
