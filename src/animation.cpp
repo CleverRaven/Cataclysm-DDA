@@ -300,14 +300,13 @@ namespace {
 void draw_bullet_curses(WINDOW *const w, player &u, map &m, const tripoint &t,
     char const bullet, tripoint const *const p, bool const wait)
 {
-    int const vx = u.posx() + u.view_offset.x;
-    int const vy = u.posy() + u.view_offset.y;
+    const tripoint vp = u.pos() + u.view_offset;
 
     if( p != nullptr ) {
-        m.drawsq( w, u, *p, false, true, vx, vy );
+        m.drawsq( w, u, *p, false, true, vp );
     }
 
-    mvwputch(w, POSY + (t.y - vy), POSX + (t.x - vx), c_red, bullet);
+    mvwputch(w, POSY + (t.y - vp.y), POSX + (t.x - vp.x), c_red, bullet);
     wrefresh(w);
 
     if (wait) {
@@ -453,7 +452,7 @@ void draw_line_curses(game &g, const tripoint &pos, tripoint const &center,
         if( critter && g.u.sees( *critter ) ) {
             critter->draw( g.w_terrain, center, true );
         } else {
-            g.m.drawsq(g.w_terrain, g.u, p, true, true, center.x, center.y);
+            g.m.drawsq( g.w_terrain, g.u, p, true, true, center );
         }
     }
 }

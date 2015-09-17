@@ -279,6 +279,7 @@ bool game::opening_screen()
     ctxt.register_cardinal();
     ctxt.register_action("QUIT");
     ctxt.register_action("CONFIRM");
+    ctxt.register_action("DELETE_TEMPLATE");
     // for the menu shortcuts
     ctxt.register_action("ANY_INPUT");
     bool start = false;
@@ -760,6 +761,8 @@ bool game::opening_screen()
                     mvwprintz(w_open, iMenuOffsetY - 4, iMenuOffsetX + 20 + extra_w / 2,
                               c_red, _("No templates found!"));
                 } else {
+                    mvwprintz(w_open, iMenuOffsetY - 2, iMenuOffsetX + 20 + extra_w / 2,
+                              c_white, _("Press 'd' to delete a preset."));
                     for (int i = 0; i < (int)templates.size(); i++) {
                         int line = iMenuOffsetY - 4 - i;
                         mvwprintz(w_open, line, 20 + iMenuOffsetX + extra_w / 2,
@@ -789,6 +792,19 @@ bool game::opening_screen()
                     sel1 = 1;
                     layer = 2;
                     print_menu(w_open, sel1, iMenuOffsetX, iMenuOffsetY);
+                } else if (!templates.empty() && action == "DELETE_TEMPLATE") {
+                    if (query_yn(_("Are you sure you want to delete %s?"),
+                                 templates[sel3].c_str())) {
+                        const auto path = FILENAMES["templatedir"] + templates[sel3] + ".template";
+                        if (std::remove(path.c_str()) != 0) {
+                            popup(_("Sorry, something went wrong."));
+                        } else {
+                            templates.erase(templates.begin() + sel3);
+                            if ((size_t)sel3 > templates.size() - 1) {
+                                sel3--;
+                            }
+                        }
+                    }
                 } else if (action == "RIGHT" || action == "CONFIRM") {
                     WORLDPTR world = world_generator->pick_world();
                     if (world == NULL) {

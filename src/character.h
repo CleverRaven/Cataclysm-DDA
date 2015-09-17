@@ -22,6 +22,8 @@ enum vision_modes {
     FELINE_VISION,
     BIRD_EYE,
     URSINE_VISION,
+    BOOMERED,
+    DARKNESS,
     NUM_VISION_MODES
 };
 
@@ -177,6 +179,19 @@ class Character : public Creature
         /** Add or removes a mutation on the player, but does not trigger mutation loss/gain effects. */
         void set_mutation(const std::string &flag);
         void unset_mutation(const std::string &flag);
+
+        /**
+         * Displays menu with body part hp, optionally with hp estimation after healing.
+         * Returns selected part.
+         */
+        hp_part body_window( bool precise = false ) const;
+        hp_part body_window( const std::string &menu_header,
+                             bool show_all, bool precise,
+                             int normal_bonus, int head_bonus, int torso_bonus,
+                             int bleed, int bite, int infect ) const;
+
+        // Returns color which this limb would have in healing menus
+        nc_color limb_color( body_part bp, bool bleed, bool bite, bool infect ) const;
 
  private:
         /** Retrieves a stat mod of a mutation. */
@@ -431,6 +446,10 @@ class Character : public Creature
         std::vector<std::string> get_base_traits() const;
         /** Get the idents of all traits/mutations. */
         std::vector<std::string> get_mutations() const;
+        const std::bitset<NUM_VISION_MODES> &get_vision_modes() const
+        {
+            return vision_mode_cache;
+        }
         /** Empties the trait list */
         void empty_traits();
         void add_traits();

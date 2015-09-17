@@ -21,7 +21,6 @@
 #include "vehicle.h"
 #include "field.h"
 #include "mtype.h"
-#include "skill.h"
 
 const skill_id skill_pistol( "pistol" );
 const skill_id skill_rifle( "rifle" );
@@ -1064,6 +1063,7 @@ std::vector<tripoint> game::target( tripoint &p, const tripoint &low, const trip
         // Draw the player
         draw_critter( g->u, center );
         int line_number = 1;
+        Creature *critter = critter_at( p, true );
         if( p != from ) {
             // Only draw a highlighted trajectory if we can see the endpoint.
             // Provides feedback to the player, and avoids leaking information
@@ -1103,7 +1103,6 @@ std::vector<tripoint> game::target( tripoint &p, const tripoint &low, const trip
                           rl_dist(from, p), range, enemiesmsg.c_str());
             }
 
-            const Creature *critter = critter_at( p, true );
             if( critter != nullptr && u.sees( *critter ) ) {
                 // The 4 is 2 for the border and 2 for aim bars.
                 int available_lines = height - num_instruction_lines - line_number - 4;
@@ -1115,8 +1114,8 @@ std::vector<tripoint> game::target( tripoint &p, const tripoint &low, const trip
             mvwprintw(w_target, line_number++, 1, _("Range: %d, %s"), range, enemiesmsg.c_str());
         }
 
-        if( mode == TARGET_MODE_FIRE && critter_at( p, true ) ) {
-            line_number = u.print_aim_bars( w_target, line_number, relevant, critter_at( p, true ) );
+        if( mode == TARGET_MODE_FIRE && critter != nullptr && u.sees( *critter ) ) {
+            line_number = u.print_aim_bars( w_target, line_number, relevant, critter );
         } else if( mode == TARGET_MODE_TURRET ) {
             line_number = u.draw_turret_aim( w_target, line_number, p );
         }
@@ -1162,7 +1161,7 @@ std::vector<tripoint> game::target( tripoint &p, const tripoint &low, const trip
             if( critter != nullptr ) {
                 draw_critter( *critter, center );
             } else if( m.sees(u.pos(), p, -1 )) {
-                m.drawsq(w_terrain, u, p, false, true, center.x, center.y);
+                m.drawsq( w_terrain, u, p, false, true, center );
             } else {
                 mvwputch(w_terrain, POSY, POSX, c_black, 'X');
             }
@@ -1285,7 +1284,7 @@ int time_to_fire(player &p, const itype &firingt)
     static const time_info_t default_info{ 50, 220, 25 };
 
     time_info_t const &info = (it == map.end()) ? default_info : it->second;
-    return std::max(info.min_time, info.base - info.reduction * p.skillLevel(it->first));
+    return std::max(info.min_time, info.base - info.reduction * p.skillLevel( skill_used ));
 }
 
 

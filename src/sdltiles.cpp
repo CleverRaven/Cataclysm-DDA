@@ -797,14 +797,14 @@ bool Font::draw_window( WINDOW *win, int offsetx, int offsety )
 
             Everything else works on strict equality because there aren't yet IDs for some of them.
             */
-            if ( win == g->w_terrain || win == g->w_minimap || win == g->w_HP || win == g->w_status ||
-                 win == g->w_status2 || win == g->w_messages || win == g->w_location ) {
+            if( g && ( win == g->w_terrain || win == g->w_minimap || win == g->w_HP || win == g->w_status ||
+                 win == g->w_status2 || win == g->w_messages || win == g->w_location ) ) {
                 if ( winBuffer == g->w_terrain || winBuffer == g->w_minimap ||
                      winBuffer == g->w_HP || winBuffer == g->w_status || winBuffer == g->w_status2 ||
                      winBuffer == g->w_messages || winBuffer == g->w_location ) {
                     oldWinCompatible = true;
                 }
-            }else if ( win == g->w_overmap || win == g->w_omlegend ){
+            }else if( g && ( win == g->w_overmap || win == g->w_omlegend ) ) {
                 if ( winBuffer == g->w_overmap || winBuffer == g->w_omlegend ) {
                     oldWinCompatible = true;
                 }

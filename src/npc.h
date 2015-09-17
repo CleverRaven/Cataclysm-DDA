@@ -681,7 +681,7 @@ public:
  int  minimum_item_value(); // The minimum value to want to pick up an item
  void update_worst_item_value(); // Find the worst value in our inventory
  int  value(const item &it);
- bool wear_if_wanted(item it);
+    bool wear_if_wanted( const item &it );
  virtual bool wield(item* it, bool) override;
  virtual bool wield(item* it);
  bool has_healing_item();
@@ -735,12 +735,12 @@ public:
  bool enough_time_to_reload(int target, item &gun);
 
 // Physical movement from one tile to the next
- void update_path( const tripoint &p );
- bool can_move_to( const tripoint &p ) const;
- void move_to    ( const tripoint &p );
+ void update_path( const tripoint &p, bool no_bashing = false );
+ bool can_move_to( const tripoint &p, bool no_bashing = false ) const;
+ void move_to    ( const tripoint &p, bool no_bashing = false );
  void move_to_next(); // Next in <path>
  void avoid_friendly_fire(int target); // Maneuver so we won't shoot u
- void move_away_from( const tripoint &p );
+ void move_away_from( const tripoint &p, bool no_bashing = false );
  void move_pause(); // Same as if the player pressed '.'
 
 // Item discovery and fetching

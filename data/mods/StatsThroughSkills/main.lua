@@ -101,7 +101,7 @@ function MOD.on_day_passed()
 end
 
 function calc_bonus(stat_bonus,skill)
-    skill_level = player:get_skill_level(skill)
+    skill_level = player:get_skill_level(skill_id(skill))
     if (skill_level / 3 < 3) then
         stat_bonus = stat_bonus + skill_level / 3
     else

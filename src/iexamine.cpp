@@ -1,6 +1,7 @@
 #include "iexamine.h"
 #include "game.h"
 #include "map.h"
+#include "map_iterator.h"
 #include "debug.h"
 #include "mapdata.h"
 #include "output.h"
@@ -791,29 +792,38 @@ void iexamine::bars(player *p, map *m, const tripoint &examp)
 
 void iexamine::portable_structure(player *p, map *m, const tripoint &examp)
 {
-    int radius = m->furn(examp) == f_center_groundsheet ? 2 : 1;
-    const char *name = m->furn(examp) == f_skin_groundsheet ? _("shelter") : _("tent");
-      // We don't take the name from the item in case "kit" is in
-      // it, instead of just the name of the structure.
-    std::string dropped =
-        m->furn(examp) == f_groundsheet        ? "tent_kit"
-      : m->furn(examp) == f_center_groundsheet ? "large_tent_kit"
-      :                                                 "shelter_kit";
-    if (!query_yn(_("Take down the %s?"), name)) {
-        none(p, m, examp);
+    const auto &fr = m->furn_at( examp );
+    std::string name;
+    std::string dropped;
+    if( fr.id == "f_groundsheet" ) {
+        name = "tent";
+        dropped = "tent_kit";
+    } else if( fr.id == "f_center_groundsheet" ) {
+        name = "tent";
+        dropped = "large_tent_kit";
+    } else if( fr.id == "f_skin_groundsheet" ) {
+        name = "shelter";
+        dropped = "shelter_kit";
+    } else if( fr.id == "f_ladder" ) {
+        name = "ladder";
+        dropped = "stepladder";
+    } else {
+        name = "bug";
+        dropped = "null";
+    }
+
+    if( !query_yn(_("Take down the %s?"), name.c_str() ) ) {
+        none( p, m, examp );
         return;
     }
+
     p->moves -= 200;
-    tripoint tmp = examp;
-    int &i = tmp.x;
-    int &j = tmp.y;
-    for (i = examp.x - radius; i <= examp.x + radius; i++) {
-        for (j = examp.y - radius; j <= examp.y + radius; j++) {
-            m->furn_set(tmp, f_null);
-        }
+    int radius = std::max( 1, fr.bash.collapse_radius );
+    for( const tripoint &pt : m->points_in_radius( examp, radius ) ) {
+        m->furn_set( pt, f_null );
     }
-    add_msg(_("You take down the %s."), name);
-    m->add_item_or_charges(examp, item(dropped, calendar::turn));
+
+    m->add_item_or_charges( examp, item( dropped, calendar::turn ) );
 }
 
 void iexamine::pit(player *p, map *m, const tripoint &examp)
@@ -1576,18 +1586,21 @@ void iexamine::dirtmound(player *p, map *m, const tripoint &examp)
 
 void iexamine::aggie_plant(player *p, map *m, const tripoint &examp)
 {
-    if (m->furn(examp) == f_plant_harvest && query_yn(_("Harvest plant?"))) {
-        if (m->i_at(examp).empty()) {
-            m->i_clear(examp);
-            m->furn_set(examp, f_null);
-            debugmsg("Missing seeds in harvested plant!");
-            return;
-        }
-        const item &seed = m->i_at( examp )[0];
-        if( !seed.is_seed() ) {
-            debugmsg( "The seed is not a seed!" );
-            return;
-        }
+    if( m->i_at( examp ).empty() ) {
+        m->i_clear( examp );
+        m->furn_set( examp, f_null );
+        debugmsg( "Missing seed in plant furniture!" );
+        return;
+    }
+    const item &seed = m->i_at( examp ).front();
+    if( !seed.is_seed() ) {
+        debugmsg( "The seed item %s is not a seed!", seed.tname().c_str() );
+        return;
+    }
+
+    const std::string pname = seed.get_plant_name();
+
+    if (m->furn(examp) == f_plant_harvest && query_yn(_("Harvest the %s?"), pname.c_str() )) {
         const islot_seed &seed_data = *seed.type->seed;
         const std::string &seedType = seed.typeId();
         if (seedType == "fungal_seeds") {
@@ -1647,15 +1660,15 @@ void iexamine::aggie_plant(player *p, map *m, const tripoint &examp)
         }
     } else if (m->furn(examp) != f_plant_harvest) {
         if (m->i_at(examp).size() > 1) {
-            add_msg(m_info, _("This plant has already been fertilized."));
+            add_msg(m_info, _("This %s has already been fertilized."), pname.c_str() );
             return;
         }
         std::vector<const item *> f_inv = p->all_items_with_flag( "FERTILIZER" );
         if( f_inv.empty() ) {
-        add_msg(m_info, _("You have no fertilizer."));
+        add_msg(m_info, _("You have no fertilizer for the %s."), pname.c_str());
         return;
         }
-        if (query_yn(_("Fertilize plant"))) {
+        if (query_yn(_("Fertilize the %s"), pname.c_str() )) {
         std::vector<itype_id> f_types;
         std::vector<std::string> f_names;
             for( auto &f : f_inv ) {
@@ -2227,6 +2240,26 @@ void iexamine::tree_pine(player *p, map *m, const tripoint &examp)
     m->spawn_item(p->pos(), "pine_bough", 2, 12 );
     m->spawn_item( p->pos(), "pinecone", rng( 1, 4 ) );
     m->ter_set(examp, t_tree_deadpine);
+}
+
+void iexamine::tree_hickory(player *p, map *m, const tripoint &examp)
+{    
+    harvest_tree_shrub(p,m,examp);
+    if( !( p->skillLevel( skill_survival ) > 0 ) ) {
+        return;
+    }
+    if( !p->has_items_with_quality( "DIG", 1, 1 ) ) {
+        add_msg(m_info, _("You have no tool to dig with..."));
+        return;
+    }
+    if(!query_yn(_("Dig up %s? This kills the tree!"), m->tername(examp).c_str())) {
+        return;
+    }
+    m->spawn_item(p->pos(), "hickory_root", rng(1,4) );
+    m->ter_set(examp, t_tree_hickory_dead);
+    p->moves -= 2000 / ( p->skillLevel( skill_survival ) + 1 ) + 100;
+    return;
+    none(p, m, examp);
 }
 
 void iexamine::tree_bark(player *p, map *m, const tripoint &examp)
@@ -3143,6 +3176,63 @@ void iexamine::pay_gas(player *p, map *m, const tripoint &examp)
     }
 }
 
+void iexamine::climb_down( player *p, map *m, const tripoint &examp )
+{
+    if( !m->has_zlevels() ) {
+        // No climbing down in 2D mode
+        return;
+    }
+
+    if( !m->valid_move( p->pos(), examp, false, true ) ) {
+        // Covered with something
+        return;
+    }
+
+    tripoint where = examp;
+    tripoint below = examp;
+    below.z--;
+    while( m->valid_move( where, below, false, true ) ) {
+        where.z--;
+        below.z--;
+    }
+
+    const int height = examp.z - where.z;
+    if( height == 0 ) {
+        p->add_msg_if_player( _("You can't climb down there") );
+        return;
+    }
+
+    const int climb_cost = p->climbing_cost( where, examp );
+    const auto fall_mod = p->fall_damage_mod();
+    if( height > 1 && !query_yn( _("Looks like %d stories. Jump down?"), height ) ) {
+        return;
+    } else if( height == 1 ) {
+        std::string query;
+        if( climb_cost <= 0 && fall_mod > 0.8 ) {
+            query = _("You probably won't be able to get up and jumping down may hurt. Jump?");
+        } else if( climb_cost <= 0 ) {
+            query = _("You probably won't be able to get back up. Climb down?");
+        } else if( climb_cost < 200 ) {
+            query = _("You should be able to climb back up easily if you climb down there. Climb down?");
+        } else {
+            query = _("You may have problems climbing back up. Climb down?");
+        }
+
+        if( !query_yn( query.c_str() ) ) {
+            return;
+        }
+    }
+
+    p->moves -= 100 + 100 * fall_mod;
+    p->setpos( examp );
+    if( climb_cost > 0 || rng_float( 0.8, 1.0 ) > fall_mod ) {
+        // One tile of falling less (possibly zero)
+        g->vertical_move( -1, true );
+    }
+
+    m->creature_on_trap( *p );
+}
+
 /**
 * Given then name of one of the above functions, returns the matching function
 * pointer. If no match is found, defaults to iexamine::none but prints out a
@@ -3294,6 +3384,9 @@ iexamine_function iexamine_function_from_string(std::string const &function_name
     if ("tree_marloss" == function_name) {
         return &iexamine::tree_marloss;
     }
+    if ("tree_hickory" == function_name) {
+        return &iexamine::tree_hickory;
+    }
     if ("shrub_wildveggies" == function_name) {
         return &iexamine::shrub_wildveggies;
     }
@@ -3332,6 +3425,9 @@ iexamine_function iexamine_function_from_string(std::string const &function_name
     }
     if ("kiln_full" == function_name) {
         return &iexamine::kiln_full;
+    }
+    if( "climb_down" == function_name ) {
+        return &iexamine::climb_down;
     }
     //No match found
     debugmsg("Could not find an iexamine function matching '%s'!", function_name.c_str());

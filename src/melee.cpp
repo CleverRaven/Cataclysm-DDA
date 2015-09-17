@@ -62,69 +62,45 @@ bool player::is_armed() const
 bool player::handle_melee_wear()
 {
     // Here is where we handle wear and tear on things we use as melee weapons or shields.
-    int material_factor = 1;
-    int damage_chance = dex_cur + ( 2 * get_skill_level( skill_melee ) ) + ( 128 / std::max(str_cur,1) );
-    // UNBREAKABLE_MELEE items can't be damaged through melee combat usage.
-    if ((!weapon.has_flag("UNBREAKABLE_MELEE")) && (is_armed())) {
-        // Here we're checking the weapon's material(s) and using the best one to determine how durable it is.
-        if (weapon.made_of("plastic")) {
-                    material_factor = 2;
-        }
-        if (weapon.made_of("leather")) {
-                    material_factor = 3;
-        }
-        if (weapon.made_of("bone") || weapon.made_of("chitin") || weapon.made_of("wood")) {
-                    material_factor = 4;
-        }
-        if (weapon.made_of("stone") || weapon.made_of("silver") || weapon.made_of("gold") || weapon.made_of("lead")) {
-                    material_factor = 6;
-        }
-        if (weapon.made_of("iron") || weapon.made_of("kevlar") || weapon.made_of("aluminum")) {
-                    material_factor = 8;
-        }
-        if (weapon.made_of("steel") ) {
-                    material_factor = 10;
-        }
-        if (weapon.made_of("hardsteel")) {
-                    material_factor = 12;
-        }
-        if (weapon.made_of("ceramic")) {
-                    material_factor = 40;
-        }
-        if (weapon.made_of("superalloy") || weapon.made_of("diamond")){
-                    material_factor = 100;
-        }
-        // DURABLE_MELEE items are made to hit stuff and they do it well, so they're considered to be a lot tougher
-        // than other weapons made of the same materials.
-        if (weapon.has_flag("DURABLE_MELEE")) {
-                    material_factor *= 4;
-        }
-        // The weapon's current state of damage can make it more susceptible to further damage.
-        damage_chance -= weapon.damage * 6;
-
-        if (damage_chance < 2) {
-            damage_chance = 2;
-        }
-
-        damage_chance *= material_factor;
-
-        if (weapon.damage < 4 && one_in(damage_chance) && (!weapon.has_flag("UNBREAKABLE_MELEE"))){
-            add_msg_player_or_npc( m_bad, _("Your %s is damaged by the force of the blow!"),
-                                    _("<npcname>'s %s is damaged by the force of the blow!"),
-                                    weapon.tname().c_str());
-            //Don't increment until after the message is displayed
-            weapon.damage++;
-        } else if (weapon.damage >= 4 && one_in(damage_chance) && (!weapon.has_flag("UNBREAKABLE_MELEE"))) {
-            add_msg_player_or_npc( m_bad, _("Your %s is destroyed by the blow!"),
-                                    _("<npcname>'s %s is destroyed by the blow!"),
-                                    weapon.tname().c_str());
-            // Dump its contents on the ground
-            for( auto &elem : weapon.contents ) {
-                g->m.add_item_or_charges( pos3(), elem );
-            }
-            remove_weapon();
-        }
+    if( !is_armed() ) {
+        return true;
     }
+
+    // UNBREAKABLE_MELEE items can't be damaged through melee combat usage.
+    if( weapon.has_flag("UNBREAKABLE_MELEE") ) {
+        return true;
+    }
+
+    const float stat_factor = dex_cur / 2.0f + get_skill_level( skill_melee ) + ( 64.0f / std::max( str_cur, 4 ) );
+    const float material_factor = weapon.chip_resistance();
+    int damage_chance = static_cast<int>( stat_factor * material_factor );
+    // DURABLE_MELEE items are made to hit stuff and they do it well, so they're considered to be a lot tougher
+    // than other weapons made of the same materials.
+    if( weapon.has_flag( "DURABLE_MELEE" ) ) {
+        damage_chance *= 4;
+    }
+
+    if( damage_chance > 0 && !one_in(damage_chance) ) {
+        return true;
+    }
+
+    if( weapon.damage < 4 ){
+        add_msg_player_or_npc( m_bad, _("Your %s is damaged by the force of the blow!"),
+                                _("<npcname>'s %s is damaged by the force of the blow!"),
+                                weapon.tname().c_str());
+        //Don't increment until after the message is displayed
+        weapon.damage++;
+    } else if( weapon.damage >= 4 ) {
+        add_msg_player_or_npc( m_bad, _("Your %s is destroyed by the blow!"),
+                                _("<npcname>'s %s is destroyed by the blow!"),
+                                weapon.tname().c_str());
+        // Dump its contents on the ground
+        for( auto &elem : weapon.contents ) {
+            g->m.add_item_or_charges( pos(), elem );
+        }
+        remove_weapon();
+    }
+
     return true;
 }
 
@@ -2368,24 +2344,67 @@ int player::attack_speed( const item &weap, const bool average ) const
     return move_cost;
 }
 
-double player::weapon_value( const item &weap ) const
+double player::weapon_value( const item &weap, long ammo ) const
 {
-    double my_value = 0;
-    if( weap.is_gun() ) {
-        int gun_value = 14;
-        const islot_gun* gun = weap.type->gun.get();
-        gun_value += gun->damage;
-        gun_value += int(gun->burst / 2);
-        gun_value += int(gun->clip / 3);
-        gun_value -= int(gun->dispersion / 75);
-        gun_value *= (.5 + (.3 * get_skill_level( skill_id( "gun" ) )));
-        gun_value *= (.3 + (.7 * get_skill_level(gun->skill_used)));
-        my_value += gun_value;
+    const double val_gun = gun_value( weap, ammo );
+    const double val_melee = melee_value( weap );
+    const double more = std::max( val_gun, val_melee );
+    const double less = std::min( val_gun, val_melee );
+
+    // A small bonus for guns you can also use to hit stuff with (bayonets etc.)
+    return more + (less / 2.0);
+}
+
+double player::gun_value( const item &weap, long ammo ) const
+{
+    // TODO: Mods
+    // TODO: Allow using a specified type of ammo rather than default
+    if( weap.type->gun.get() == nullptr ) {
+        return 0.0;
     }
 
-    my_value = std::max( my_value, melee_value( weap ) );
+    if( ammo == 0 && !weap.has_flag("NO_AMMO") ) {
+        return 0.0;
+    }
 
-    return my_value;
+    const islot_gun& gun = *weap.type->gun.get();
+    const itype *def_ammo_i = item::find_type( default_ammo( weap.ammo_type() ) );
+    if( def_ammo_i == nullptr || def_ammo_i->ammo == nullptr ) {
+        //debugmsg( "player::gun_value couldn't find ammo for %s", weap.tname().c_str() );
+        return 0.0;
+    }
+
+    const islot_ammo &def_ammo = *def_ammo_i->ammo;
+    double damage_bonus = weap.gun_damage( false ) + def_ammo.damage;
+    damage_bonus += ( weap.gun_pierce( false ) + def_ammo.pierce ) / 2.0;
+    double gun_value = 0.0;
+    gun_value += std::min<double>( gun.clip, ammo ) / 5.0;
+    gun_value -= weap.gun_dispersion( false ) / 60.0 + def_ammo.dispersion / 100.0;
+    gun_value -= weap.gun_recoil( false ) / 150.0 + def_ammo.recoil / 200.0;
+
+    const double skill_scaling =
+        (.5 + (.3 * get_skill_level( skill_id( "gun" ) ))) *
+        (.3 + (.7 * get_skill_level(gun.skill_used)));
+    gun_value *= skill_scaling;
+
+    // Don't penalize high-damage weapons for no skill
+    // Point blank shotgun blasts don't require much skill
+    gun_value += damage_bonus * std::max( 1.0, skill_scaling );
+
+    // Bonus that only applies when we have ammo to spare
+    double multi_ammo_bonus = gun.burst / 2.0;
+    multi_ammo_bonus += gun.clip / 2.5;
+    if( ammo <= 10 && !weap.has_flag("NO_AMMO") ) {
+        gun_value = gun_value * ammo / 10;
+    } else if( ammo < 30 ) {
+        gun_value += multi_ammo_bonus * (30.0 / ammo);
+    } else {
+        gun_value += multi_ammo_bonus;
+    }
+
+    add_msg( m_debug, "%s as gun: %.1f total, %.1f for damage+pierce, %.1f skill scaling",
+             weap.tname().c_str(), gun_value, damage_bonus, skill_scaling );
+    return std::max( 0.0, gun_value );
 }
 
 double player::melee_value( const item &weap ) const
@@ -2427,7 +2446,7 @@ double player::melee_value( const item &weap ) const
 
     my_value += avg_dmg * 100 / move_cost;
 
-    return my_value;
+    return std::max( 0.0, my_value );
 }
 
 double player::unarmed_value() const

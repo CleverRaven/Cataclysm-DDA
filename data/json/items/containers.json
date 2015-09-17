@@ -254,7 +254,7 @@
            "covers" : ["TORSO"],
            "coverage" : 15,
            "material_thickness" : 1,
-           "encumbrance" : 0,
+           "encumbrance" : 1,
            "environmental_protection" : 0,
            "warmth" : 0,
            "storage" : 4

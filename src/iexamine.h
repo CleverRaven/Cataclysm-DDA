@@ -74,6 +74,7 @@ void dirtmound( player *p, map *m, const tripoint &examp );
 void aggie_plant( player *p, map *m, const tripoint &examp );
 void harvest_tree_shrub( player *p, map *m, const tripoint &examp );
 void tree_pine( player *p, map *m, const tripoint &examp );
+void tree_hickory( player *p, map *m, const tripoint &examp );
 void tree_bark( player *p, map *m, const tripoint &examp );
 void shrub_marloss( player *p, map *m, const tripoint &examp );
 void tree_marloss( player *p, map *m, const tripoint &examp );
@@ -91,6 +92,7 @@ void reload_furniture( player *p, map *m, const tripoint &examp );
 void curtains( player *p, map *m, const tripoint &examp );
 void sign( player *p, map *m, const tripoint &examp );
 void pay_gas( player *p, map *m, const tripoint &examp );
+void climb_down( player *p, map *m, const tripoint &examp );
 
 } //namespace iexamine
 
