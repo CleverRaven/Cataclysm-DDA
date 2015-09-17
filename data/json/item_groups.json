@@ -2236,7 +2236,8 @@
       ["fencing_epee", 8],
       ["survnote", 1],
       ["halter_top", 30],
-      ["linuxtshirt", 10]
+      ["linuxtshirt", 10],
+      ["iceaxe, 30"]
     ]
   },{
     "type" : "item_group",
@@ -2571,7 +2572,8 @@
       ["fencing_epee", 10],
       ["survnote", 1],
       ["slingshot", 10],
-      ["wristrocket", 5]
+      ["wristrocket", 5],
+      ["iceaxe", 30]
     ]
   },{
     "type" : "item_group",

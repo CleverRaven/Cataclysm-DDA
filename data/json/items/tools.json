@@ -10855,5 +10855,30 @@
     "ammo": "NULL",
     "revert_to": "null",
     "use_action": "LADDER"
+  },
+  {
+    "id": "iceaxe",
+    "type": "TOOL",
+    "symbol": ";",
+    "color": "dark_gray",
+    "name": "ice axe",
+    "description": "This is an ice axe with hammer on its head, a multi-purpose hiking and climbing tool used by mountaineers.  It is sturdy enough, so you can use it to pry open closed doors or lift manhole covers.",
+    "price": 5000,
+    "material": "steel",
+    "weight": 500,
+    "volume": 3,
+    "bashing": 14,
+    "cutting": 3,
+    "flags" : ["DURABLE_MELEE"],
+    "techniques": ["WBLOCK_1"], 
+    "to_hit": 2,
+    "max_charges": 0,
+    "initial_charges": 0,
+    "charges_per_use": 0,
+    "turns_per_charge": 0,
+    "ammo": "NULL",
+    "revert_to": "null",
+    "use_action": "CROWBAR",
+    "qualities": [["HAMMER", 2], ["HAMMER_FINE", 1]]
   }
 ]
