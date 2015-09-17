@@ -115,6 +115,18 @@ WORLDPTR worldfactory::make_new_world( bool show_prompt )
             delete retworld;
             return NULL;
         }
+    } else { // 'Play NOW'
+#ifndef LUA
+        std::vector<std::string>::iterator mod_it;// = retwordld->active_mod_order.begin();
+        for (mod_it = retworld->active_mod_order.begin(); mod_it != retworld->active_mod_order.end();) {
+            MOD_INFORMATION *minfo = mman->mod_map[*mod_it];
+            if ( minfo->need_lua ) {
+                mod_it = retworld->active_mod_order.erase(mod_it);
+            } else {
+                mod_it++;
+            }
+        }
+#endif
     }
 
     // add world to world list
@@ -371,6 +383,8 @@ WORLDPTR worldfactory::pick_world( bool show_prompt )
     // Filter out special worlds (TUTORIAL | DEFENSE) from world_names.
     for (std::vector<std::string>::iterator it = world_names.begin(); it != world_names.end();) {
         if (*it == "TUTORIAL" || *it == "DEFENSE") {
+            it = world_names.erase(it);
+        } else if (world_need_lua_build(*it)) {
             it = world_names.erase(it);
         } else {
             ++it;
