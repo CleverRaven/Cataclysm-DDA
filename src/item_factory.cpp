@@ -16,6 +16,8 @@
 #include "bionics.h"
 #include "material.h"
 #include "artifact.h"
+#include "veh_type.h"
+
 #include <algorithm>
 #include <sstream>
 
@@ -86,6 +88,15 @@ void Item_factory::finialize_item_blacklist()
         remove_construction_if([&](construction &c) {
             return c.requirements.remove_item(itm);
         });
+    }
+
+    for( auto &vid : vehicle_prototype::get_all() ) {
+        vehicle_prototype &prototype = const_cast<vehicle_prototype&>( vid.obj() );
+        for( vehicle_item_spawn &vis : prototype.item_spawns ) {
+            auto &vec = vis.item_ids;
+            const auto iter = std::remove_if( vec.begin(), vec.end(), item_is_blacklisted );
+            vec.erase( iter, vec.end() );
+        }
     }
 }
 
