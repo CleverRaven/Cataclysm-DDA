@@ -1601,7 +1601,16 @@ long manualnoise_actor::use( player *p, item *it, bool t, const tripoint& ) cons
 
 bool manualnoise_actor::can_use( const player*, const item *it, bool, const tripoint& ) const
 {
-    return it->charges => it->type->charges_to_use();
+    if( it->type->charges_to_use() != 0 && it->charges < it->type->charges_to_use() ) {
+        return false;
+    }
+            if( it->type->charges_to_use() = 0 ) {
+        return true;
+    }
+        if( it->type->charges_to_use() != 0 && it->charges = it->type->charges_to_use() ) {
+        return true;
+    } else
+    return it->charges > it->type->charges_to_use();
 }
 
 iuse_actor *musical_instrument_actor::clone() const
