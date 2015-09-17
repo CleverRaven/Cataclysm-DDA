@@ -68,10 +68,10 @@ void MonsterGenerator::reset()
 void MonsterGenerator::finalize_mtypes()
 {
     for( auto &elem : mon_templates ) {
-        mtype *mon = elem.second;
-        apply_species_attributes( *mon );
-        set_mtype_flags( *mon );
-        set_species_ids( *mon );
+        mtype &mon = *elem.second;
+        apply_species_attributes( mon );
+        set_mtype_flags( mon );
+        set_species_ids( mon );
     }
 }
 
