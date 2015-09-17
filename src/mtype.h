@@ -160,12 +160,13 @@ struct mtype {
         friend class MonsterGenerator;
         std::string name;
         std::string name_plural;
+
+        std::set< int > species_id;
     public:
         mtype_id id;
         std::string description;
         std::set<std::string> species;
         std::set<std::string> categories;
-        std::set< int > species_id;
         mfaction_id default_faction;
         /** UTF-8 encoded symbol, should be exactyle one cell wide. */
         std::string sym;
