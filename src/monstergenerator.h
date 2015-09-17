@@ -23,23 +23,20 @@ using mon_action_defend = void (*)(monster&, Creature*, dealt_projectile_attack 
 using mtype_id = string_id<mtype>;
 
 struct species_type {
-    int short_id;
     std::string id;
     std::set<m_flag> flags;
     std::set<monster_trigger> anger_trig, fear_trig, placate_trig;
 
-    species_type(): short_id(0), id("null_species")
+    species_type(): id("null_species")
     {
 
     }
-    species_type(int _short_id,
-                 std::string _id,
+    species_type(std::string _id,
                  std::set<m_flag> _flags,
                  std::set<monster_trigger> _anger,
                  std::set<monster_trigger> _fear,
                  std::set<monster_trigger> _placate)
     {
-        short_id = _short_id;
         id = _id;
         flags = _flags;
         anger_trig = _anger;

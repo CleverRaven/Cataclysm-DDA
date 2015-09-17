@@ -482,9 +482,7 @@ void MonsterGenerator::load_species(JsonObject &jo)
     std::string sid;
     if (jo.has_member("id")) {
         sid = jo.get_string("id");
-        int species_num = mon_species.size();
         if (mon_species.count(sid) > 0) {
-            species_num = mon_species[sid]->short_id; // Keep it or weird things may happen
             delete mon_species[sid];
         }
 
@@ -500,7 +498,7 @@ void MonsterGenerator::load_species(JsonObject &jo)
         fear = get_set_from_tags(sfear, trigger_map, MTRIG_NULL);
         placate = get_set_from_tags(splacate, trigger_map, MTRIG_NULL);
 
-        species_type *new_species = new species_type(species_num, sid, flags, anger, fear, placate);
+        species_type *new_species = new species_type(sid, flags, anger, fear, placate);
 
         mon_species[sid] = new_species;
     }
