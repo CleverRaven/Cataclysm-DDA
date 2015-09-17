@@ -1568,6 +1568,7 @@ long fireweapon_on_actor::use( player *p, item *it, bool t, const tripoint& ) co
 
 void manualnoise_actor::load( JsonObject &obj )
 {
+    no_charges_message  = obj.get_string( "no_charges_message" );
     use_message         = obj.get_string( "use_message" );
     noise_message       = obj.get_string( "noise_message", "" );
     noise               = obj.get_int( "noise", 0 );
@@ -1584,18 +1585,17 @@ long manualnoise_actor::use( player *p, item *it, bool t, const tripoint& ) cons
     if( t ) {
         return 0;
     }
-
-    p->moves -= moves;
+    if( it->charges <= 0 ) {
+        p->add_msg_if_player( _(no_charges_message.c_str()) );
+        return 0;
+    }
     {
+        p->moves -= moves;
         if( noise > 0 ) {
             sounds::sound( p->pos(), noise, _(noise_message.c_str()) );
-            p->add_msg_if_player( _(use_message.c_str()) );
-        } else {
-            p->add_msg_if_player( _(use_message.c_str()) );
         }
-
+        p->add_msg_if_player( _(use_message.c_str()) );
     }
-
     return it->type->charges_to_use();
 }
 

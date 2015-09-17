@@ -539,9 +539,10 @@ class fireweapon_on_actor : public iuse_actor
 class manualnoise_actor : public iuse_actor
 {
     public:
+        std::string no_charges_message;
         std::string use_message;
         std::string noise_message;
-        int noise; // Should work even with no volume, even if it seems inpossible
+        int noise; // Should work even with no volume, even if it seems impossible
         int moves;
 
         manualnoise_actor() : iuse_actor(), noise(0), moves(0) { }

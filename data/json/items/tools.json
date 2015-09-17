@@ -8261,6 +8261,7 @@
     "category": "veh_parts",
     "use_action": {
         "type": "manualnoise",
+        "no_charges_message": "Seeing this is an error.",
         "use_message": "You honk the %s.",
         "noise_message": "honk.",
         "noise": 15,
@@ -8750,7 +8751,14 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
-    "use_action": "AIRHORN"
+    "use_action": {
+        "type": "manualnoise",
+        "no_charges_message": "You depress the button but no sound comes out.",
+        "use_message": "You honk your %s.",
+        "noise_message": "HOOOOONK!",
+        "noise": 50,
+        "moves": 100
+    }
   },
 
   {

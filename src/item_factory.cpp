@@ -273,7 +273,6 @@ void Item_factory::init()
     iuse_function_list["JET_INJECTOR"] = &iuse::jet_injector;
     iuse_function_list["STIMPACK"] = &iuse::stimpack;
     iuse_function_list["CONTACTS"] = &iuse::contacts;
-    iuse_function_list["AIRHORN"] = &iuse::airhorn;
     iuse_function_list["HOTPLATE"] = &iuse::hotplate;
     iuse_function_list["DOLLCHAT"] = &iuse::talking_doll;
     iuse_function_list["BELL"] = &iuse::bell;

@@ -176,7 +176,6 @@ public:
     int holster_ankle       ( player*, item*, bool, const tripoint& );
     int towel               ( player*, item*, bool, const tripoint& );
     int unfold_generic      ( player*, item*, bool, const tripoint& );
-    int airhorn             ( player*, item*, bool, const tripoint& );
     int adrenaline_injector ( player*, item*, bool, const tripoint& );
     int jet_injector        ( player*, item*, bool, const tripoint& );
     int stimpack            ( player*, item*, bool, const tripoint& );

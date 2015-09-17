@@ -2193,7 +2193,7 @@
         "to_hit" : -1,
         "color" : "light_gray",
         "encumbrance" : 0,
-        "price" : 500,
+        "price" : 200,
         "material" : ["steel", "cotton"],
         "flags" : ["WATER_FRIENDLY"],
         "coverage" : 1,
@@ -2207,6 +2207,7 @@
         "revert_to": "null",
         "use_action": {
             "type": "manualnoise",
+            "no_charges_message": "Seeing this is an error.",
             "use_message": "You blow the %s.",
             "noise_message": "FWEEEET!",
             "noise": 38,
