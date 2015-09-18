@@ -196,8 +196,7 @@
            "material_thickness" : 2,
            "encumbrance" : 0,
            "environmental_protection" : 0,
-           "warmth" : 0,
-           "storage" : 0
+           "warmth" : 0
         },
         "rigid": true,
         "watertight": true,
@@ -226,8 +225,7 @@
            "material_thickness" : 2,
            "encumbrance" : 10,
            "environmental_protection" : 0,
-           "warmth" : 0,
-           "storage" : 0
+           "warmth" : 0
         },
         "rigid": true,
         "watertight": true,
@@ -384,9 +382,8 @@
            "material_thickness" : 2,
            "encumbrance" : 0,
            "environmental_protection" : 0,
-           "warmth" : 0,
-           "storage" : 0
-           },
+           "warmth" : 0
+        },
         "watertight": true,
         "seals": true,
         "flags": ["WAIST"]
@@ -413,8 +410,7 @@
            "material_thickness" : 2,
            "encumbrance" : 10,
            "environmental_protection" : 0,
-           "warmth" : 0,
-           "storage" : 0
+           "warmth" : 0
         },
         "watertight": true,
         "seals": true,
@@ -442,8 +438,7 @@
            "material_thickness" : 2,
            "encumbrance" : 10,
            "environmental_protection" : 0,
-           "warmth" : 0,
-           "storage" : 0
+           "warmth" : 0
         },
         "watertight": true,
         "seals": true,
@@ -608,13 +603,12 @@
         "material": "aluminum",
         "contains": 1,
         "armor_data" : {
-        "covers" : ["TORSO"],
-        "coverage" : 2,
-        "material_thickness" : 1,
-        "encumbrance" : 0,
-        "environmental_protection" : 0,
-        "warmth" : 0,
-        "storage" : 0
+            "covers" : ["TORSO"],
+            "coverage" : 2,
+            "material_thickness" : 1,
+            "encumbrance" : 0,
+            "environmental_protection" : 0,
+            "warmth" : 0
         },
         "rigid": true,
         "watertight": true,

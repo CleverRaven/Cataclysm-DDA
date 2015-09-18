@@ -700,8 +700,7 @@
          "material_thickness" : 1,
          "encumbrance" : 20,
          "environmental_protection" : 0,
-         "warmth" : 0,
-         "storage" : 0
+         "warmth" : 0
       },
       "ranged_damage" : 4,
       "range" : 5,
@@ -736,8 +735,7 @@
          "material_thickness" : 1,
          "encumbrance" : 20,
          "environmental_protection" : 0,
-         "warmth" : 0,
-         "storage" : 0
+         "warmth" : 0
       },
       "ranged_damage" : 3,
       "range" : 6,
@@ -773,8 +771,7 @@
          "material_thickness" : 1,
          "encumbrance" : 20,
          "environmental_protection" : 0,
-         "warmth" : 0,
-         "storage" : 0
+         "warmth" : 0
       },
       "ranged_damage" : 5,
       "range" : 10,
@@ -810,8 +807,7 @@
          "material_thickness" : 1,
          "encumbrance" : 20,
          "environmental_protection" : 0,
-         "warmth" : 0,
-         "storage" : 0
+         "warmth" : 0
       },
       "ranged_damage" : 7,
       "range" : 12,
@@ -847,8 +843,7 @@
          "material_thickness" : 1,
          "encumbrance" : 20,
          "environmental_protection" : 0,
-         "warmth" : 0,
-         "storage" : 0
+         "warmth" : 0
       },
       "ranged_damage" : 9,
       "range" : 14,
@@ -884,8 +879,7 @@
          "material_thickness" : 1,
          "encumbrance" : 20,
          "environmental_protection" : 0,
-         "warmth" : 0,
-         "storage" : 0
+         "warmth" : 0
       },
       "ranged_damage" : 11,
       "range" : 16,
@@ -921,8 +915,7 @@
          "material_thickness" : 1,
          "encumbrance" : 20,
          "environmental_protection" : 0,
-         "warmth" : 0,
-         "storage" : 0
+         "warmth" : 0
       },
       "ranged_damage" : 7,
       "range" : 20,
@@ -958,8 +951,7 @@
          "material_thickness" : 1,
          "encumbrance" : 20,
          "environmental_protection" : 0,
-         "warmth" : 0,
-         "storage" : 0
+         "warmth" : 0
       },
       "ranged_damage" : 15,
       "range" : 18,

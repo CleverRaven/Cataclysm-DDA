@@ -718,7 +718,7 @@ void Item_factory::load( islot_armor &slot, JsonObject &jo )
         slot.env_resist = jo.get_int( "environmental_protection" );
     }
     slot.warmth = jo.get_int( "warmth" );
-    slot.storage = jo.get_int( "storage" );
+    slot.storage = jo.get_int( "storage", 0 );
     slot.power_armor = jo.get_bool( "power_armor", false );
     slot.covers = jo.has_member( "covers" ) ? flags_from_json( jo, "covers", "bodyparts" ) : 0;
     slot.sided = jo.has_member( "covers" ) ? flags_from_json( jo, "covers", "sided" ) : 0;
