@@ -174,7 +174,6 @@ void mod_manager::load_modfile(JsonObject &jo, const std::string &main_path)
     } else {
         m_desc = _(m_desc.c_str());
     }
-    bool m_need_lua = jo.get_bool("with-lua", false);
     std::string m_path;
     if (jo.has_string("path")) {
         m_path = jo.get_string("path");
@@ -191,6 +190,12 @@ void mod_manager::load_modfile(JsonObject &jo, const std::string &main_path)
         // "<folder-of-modinfo.json>/data"
         m_path = main_path + "/data";
     }
+
+    bool m_need_lua = jo.get_bool("with-lua", false);
+    if ( file_exist(m_path + "/main.lua") || file_exist(m_path + "/preload.lua") ) {
+        m_need_lua = true;
+    }
+
     std::vector<std::string> m_dependencies;
 
     if (jo.has_member("dependencies") && jo.has_array("dependencies")) {
