@@ -708,15 +708,7 @@ void Item_factory::load( islot_armor &slot, JsonObject &jo )
     slot.encumber = jo.get_int( "encumbrance" );
     slot.coverage = jo.get_int( "coverage" );
     slot.thickness = jo.get_int( "material_thickness" );
-    // TODO (as of may 2014): sometimes in the future: remove this if clause and accept
-    // only "environmental_protection" and not "enviromental_protection".
-    if( jo.has_member( "enviromental_protection" ) ) {
-        debugmsg( "the item property \"enviromental_protection\" has been renamed to \"environmental_protection\"\n"
-                  "please change the json data for item %d", jo.get_string( "id", "" ).c_str() );
-        slot.env_resist = jo.get_int( "enviromental_protection" );
-    } else {
-        slot.env_resist = jo.get_int( "environmental_protection" );
-    }
+    slot.env_resist = jo.get_int( "environmental_protection" );
     slot.warmth = jo.get_int( "warmth" );
     slot.storage = jo.get_int( "storage", 0 );
     slot.power_armor = jo.get_bool( "power_armor", false );
