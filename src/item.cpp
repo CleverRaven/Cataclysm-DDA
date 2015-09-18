@@ -1250,6 +1250,25 @@ std::string item::info(bool showtext, std::vector<iteminfo> &dump_ref) const
                 dump->push_back(iteminfo("DESCRIPTION", _("This item can be used to make reach attacks.")));
             }
         }
+        
+        //lets display which martial arts styles character can use with this weapon
+        if (g->u.ma_styles.size() > 0)
+        {
+            std::vector<matype_id> valid_styles;
+            std::ostringstream style_buffer;
+            for (auto style : g->u.ma_styles) {
+                if (style.obj().has_weapon(type->id)) {
+                    if (!style_buffer.str().empty()) {
+                        style_buffer << _(", ");
+                    }
+                    style_buffer << style.obj().name;
+                }
+            }
+            if (!style_buffer.str().empty()) {
+                dump->push_back(iteminfo("DESCRIPTION", "--"));
+                dump->push_back(iteminfo("DESCRIPTION", std::string(_("You know how to use this with these martial arts styles: ")) + style_buffer.str()));
+            }
+        }
 
         //See shorten version of this in armor_layers.cpp::clothing_flags_description
         if (is_armor() && has_flag("FIT")) {
