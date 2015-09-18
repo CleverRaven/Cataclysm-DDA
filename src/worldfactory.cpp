@@ -115,6 +115,19 @@ WORLDPTR worldfactory::make_new_world( bool show_prompt )
             delete retworld;
             return NULL;
         }
+    } else { // 'Play NOW'
+#ifndef LUA
+        // Silently remove all Lua mods setted by default.
+        std::vector<std::string>::iterator mod_it;
+        for (mod_it = retworld->active_mod_order.begin(); mod_it != retworld->active_mod_order.end();) {
+            MOD_INFORMATION *minfo = mman->mod_map[*mod_it];
+            if ( minfo->need_lua ) {
+                mod_it = retworld->active_mod_order.erase(mod_it);
+            } else {
+                mod_it++;
+            }
+        }
+#endif
     }
 
     // add world to world list
@@ -372,6 +385,8 @@ WORLDPTR worldfactory::pick_world( bool show_prompt )
     for (std::vector<std::string>::iterator it = world_names.begin(); it != world_names.end();) {
         if (*it == "TUTORIAL" || *it == "DEFENSE") {
             it = world_names.erase(it);
+        } else if (world_need_lua_build(*it)) {
+            it = world_names.erase(it);
         } else {
             ++it;
         }
@@ -470,14 +485,20 @@ WORLDPTR worldfactory::pick_world( bool show_prompt )
             mvwprintz(w_worlds, i, 0, c_white, "%s", sTemp.str().c_str());
             mvwprintz(w_worlds, i, 4, c_white, "");
 
+            std::string world_name = (world_pages[selpage])[i];
+            size_t saves_num = world_generator->all_worlds[world_name]->world_saves.size();
+
             if (i == sel) {
                 wprintz(w_worlds, c_yellow, ">> ");
             } else {
                 wprintz(w_worlds, c_yellow, "   ");
             }
 
-            wprintz(w_worlds, c_white, "%s (%i)", (world_pages[selpage])[i].c_str(),
-                    world_generator->all_worlds[((world_pages[selpage])[i])]->world_saves.size());
+            if (world_need_lua_build(world_name)) {
+                wprintz(w_worlds, c_dkgray, "%s (%i)", world_name.c_str(), saves_num);
+            } else {
+                wprintz(w_worlds, c_white, "%s (%i)", world_name.c_str(), saves_num);
+            }
         }
 
         //Draw Tabs
@@ -533,6 +554,11 @@ WORLDPTR worldfactory::pick_world( bool show_prompt )
                 }
             } while(world_pages[selpage].empty());
         } else if (action == "CONFIRM") {
+            if (world_need_lua_build(world_pages[selpage][sel])) {
+                popup(_("Can't start in world [%s]. Some of mods require Lua support."),
+                      world_pages[selpage][sel].c_str());
+                continue;
+            }
             // we are wanting to get out of this by confirmation, so ask if we want to load the level [y/n prompt] and if yes exit
             if (query_yn(_("Do you want to start the game in world [%s]?"),
                          world_pages[selpage][sel].c_str())) {
@@ -743,7 +769,15 @@ void worldfactory::draw_mod_list( WINDOW *w, int &start, int &cursor, const std:
                 }
             }
             const std::string name = utf8_truncate( mod->name, wwidth );
+#ifndef LUA
+            if ( mod->need_lua ) {
+                mvwprintz( w, c, 4, c_dkgray, "%s", name.c_str() );
+            } else {
+                mvwprintz( w, c, 4, c_white, "%s", name.c_str() );
+            }
+#else
             mvwprintz( w, c, 4, c_white, "%s", name.c_str() );
+#endif
         }
     }
     draw_scrollbar( w, cursor, getmaxy( w ), mods.size(), 0, 0 );
@@ -922,6 +956,15 @@ int worldfactory::show_worldgen_tab_modselection(WINDOW *win, WORLDPTR world)
             active_header = prev_header;
         } else if (action == "CONFIRM") {
             if (active_header == 0 && !mman_ui->usable_mods.empty()) {
+#ifndef LUA
+                if (mman->mod_map[mman_ui->usable_mods[cursel[0]]]->need_lua) {
+                    popup(_("Can't add mod. This mod requires Lua support."));
+                    redraw_active = true;
+                    redraw_shift = true;
+                    draw_modselection_borders(win, &ctxt);
+                    continue;
+                }
+#endif
                 // try-add
                 mman_ui->try_add(mman_ui->usable_mods[cursel[0]], active_mod_order);
                 redraw_active = true;
@@ -1075,6 +1118,16 @@ to continue, or <color_yellow>%s</color> to go back and review your world."), ct
 
         const std::string action = ctxt.handle_input();
         if (action == "NEXT_TAB") {
+#ifndef LUA
+            MOD_INFORMATION *temp = NULL;
+            for (std::string &mod : world->active_mod_order) {
+                temp = mman->mod_map[mod];
+                if ( temp->need_lua ) {
+                    popup(_("Mod '%s' requires Lua support."), temp->name.c_str());
+                    return -2; // Move back to modselect tab.
+                }
+            }
+#endif
             if (worldname.empty()) {
                 mvwprintz(w_confirmation, namebar_y, namebar_x, h_ltgray, _("_______NO NAME ENTERED!!!!______"));
                 noname = true;
@@ -1219,6 +1272,27 @@ void worldfactory::draw_worldgen_tabs(WINDOW *w, unsigned int current)
 
     mvwputch(w, FULL_SCREEN_HEIGHT - 1, 0, BORDER_COLOR, LINE_XXOO); // |_
     mvwputch(w, FULL_SCREEN_HEIGHT - 1, FULL_SCREEN_WIDTH - 1, BORDER_COLOR, LINE_XOOX); // _|
+}
+
+
+bool worldfactory::world_need_lua_build(std::string world_name)
+{
+#ifndef LUA
+    WORLDPTR world;
+    MOD_INFORMATION *mod_info;
+
+    world = all_worlds[world_name];
+
+    for (std::string &mod : world->active_mod_order) {
+        mod_info = mman->mod_map[mod];
+        if ( mod_info->need_lua ) {
+            return true;
+        }
+    }
+#endif
+    // Prevent unused var error when LUA and RELEASE enabled.
+    world_name.size();
+    return false;
 }
 
 bool worldfactory::valid_worldname(std::string name, bool automated)

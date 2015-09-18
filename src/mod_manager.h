@@ -29,6 +29,8 @@ struct MOD_INFORMATION {
     mod_type _type;
     std::vector<std::string> dependencies;
     bool obsolete;
+    /** Mod require Lua support **/
+    bool need_lua;
 
     MOD_INFORMATION() : _type(MT_SUPPLEMENTAL), obsolete(false)
     {
