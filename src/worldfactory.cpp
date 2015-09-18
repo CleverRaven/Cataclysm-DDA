@@ -958,7 +958,7 @@ int worldfactory::show_worldgen_tab_modselection(WINDOW *win, WORLDPTR world)
             if (active_header == 0 && !mman_ui->usable_mods.empty()) {
 #ifndef LUA
                 if (mman->mod_map[mman_ui->usable_mods[cursel[0]]]->need_lua) {
-                    popup(_("Can't add mod. This mod require Lua support."));
+                    popup(_("Can't add mod. This mod requires Lua support."));
                     redraw_active = true;
                     redraw_shift = true;
                     draw_modselection_borders(win, &ctxt);
@@ -1123,7 +1123,7 @@ to continue, or <color_yellow>%s</color> to go back and review your world."), ct
             for (std::string &mod : world->active_mod_order) {
                 temp = mman->mod_map[mod];
                 if ( temp->need_lua ) {
-                    popup(_("Mod '%s' require Lua support."), temp->name.c_str());
+                    popup(_("Mod '%s' requires Lua support."), temp->name.c_str());
                     return -2; // Move back to modselect tab.
                 }
             }
