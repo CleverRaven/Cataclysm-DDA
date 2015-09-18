@@ -1566,6 +1566,44 @@ long fireweapon_on_actor::use( player *p, item *it, bool t, const tripoint& ) co
     return it->type->charges_to_use();
 }
 
+void manualnoise_actor::load( JsonObject &obj )
+{
+    no_charges_message  = obj.get_string( "no_charges_message" );
+    use_message         = obj.get_string( "use_message" );
+    noise_message       = obj.get_string( "noise_message", "" );
+    noise               = obj.get_int( "noise", 0 );
+    moves               = obj.get_int( "moves", 0 );
+}
+
+iuse_actor *manualnoise_actor::clone() const
+{
+    return new manualnoise_actor( *this );
+}
+
+long manualnoise_actor::use( player *p, item *it, bool t, const tripoint& ) const
+{
+    if( t ) {
+        return 0;
+    }
+    if( it->type->charges_to_use() != 0 && it->charges < it->type->charges_to_use() ) {
+        p->add_msg_if_player( _(no_charges_message.c_str()) );
+        return 0;
+    }
+    {
+        p->moves -= moves;
+        if( noise > 0 ) {
+            sounds::sound( p->pos(), noise, noise_message.empty() ? "" : _(noise_message.c_str()) );
+        }
+        p->add_msg_if_player( _(use_message.c_str()) );
+    }
+    return it->type->charges_to_use();
+}
+
+bool manualnoise_actor::can_use( const player*, const item *it, bool, const tripoint& ) const
+{
+    return it->type->charges_to_use() == 0 || it->charges >= it->type->charges_to_use();
+}
+
 iuse_actor *musical_instrument_actor::clone() const
 {
     return new musical_instrument_actor(*this);

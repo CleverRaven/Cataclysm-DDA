@@ -3737,24 +3737,6 @@ int iuse::noise_emitter_off(player *p, item *it, bool, const tripoint& )
     return it->type->charges_to_use();
 }
 
-int iuse::airhorn(player *p, item *it, bool, const tripoint &pos)
-{
-    if (it->charges < it->type->charges_to_use()) {
-        p->add_msg_if_player(_("You depress the button but no sound comes out."));
-    } else {
-        p->add_msg_if_player(_("You honk your airhorn."));
-        sounds::sound(pos, 50, _("HOOOOONK!"));
-    }
-    return it->type->charges_to_use();
-}
-
-int iuse::horn_bicycle(player *p, item *it, bool, const tripoint &pos)
-{
-    sounds::sound(pos, 15, _("honk."));
-    p->add_msg_if_player(_("You honk the bicycle horn."));
-    return it->type->charges_to_use();
-}
-
 int iuse::noise_emitter_on(player *p, item *it, bool t, const tripoint &pos)
 {
     if (t) { // Normal use

@@ -1,4 +1,4 @@
-﻿#include "item_factory.h"
+#include "item_factory.h"
 #include "enums.h"
 #include "json.h"
 #include "addiction.h"
@@ -205,7 +205,6 @@ void Item_factory::init()
     iuse_function_list["TWO_WAY_RADIO"] = &iuse::two_way_radio;
     iuse_function_list["RADIO_OFF"] = &iuse::radio_off;
     iuse_function_list["RADIO_ON"] = &iuse::radio_on;
-    iuse_function_list["HORN_BICYCLE"] = &iuse::horn_bicycle;
     iuse_function_list["NOISE_EMITTER_OFF"] = &iuse::noise_emitter_off;
     iuse_function_list["NOISE_EMITTER_ON"] = &iuse::noise_emitter_on;
     iuse_function_list["MA_MANUAL"] = &iuse::ma_manual;
@@ -285,7 +284,6 @@ void Item_factory::init()
     iuse_function_list["JET_INJECTOR"] = &iuse::jet_injector;
     iuse_function_list["STIMPACK"] = &iuse::stimpack;
     iuse_function_list["CONTACTS"] = &iuse::contacts;
-    iuse_function_list["AIRHORN"] = &iuse::airhorn;
     iuse_function_list["HOTPLATE"] = &iuse::hotplate;
     iuse_function_list["DOLLCHAT"] = &iuse::talking_doll;
     iuse_function_list["BELL"] = &iuse::bell;
@@ -1461,6 +1459,8 @@ void Item_factory::set_uses_from_object(JsonObject obj, std::vector<use_function
         newfun = load_actor<fireweapon_off_actor>( obj );
     } else if( type == "fireweapon_on" ) {
         newfun = load_actor<fireweapon_on_actor>( obj );
+    } else if( type == "manualnoise" ) {
+        newfun = load_actor<manualnoise_actor>( obj );
     } else if( type == "musical_instrument" ) {
         newfun = load_actor<musical_instrument_actor>( obj );
     } else if( type == "knife" ) {

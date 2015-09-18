@@ -801,6 +801,7 @@
                 "knife_rambo",
                 "lighter",
                 "rope_30",
+                "whistle",
                 "canteen",
                 "scabbard"
             ],
@@ -961,7 +962,8 @@
                 "boots",
                 "holster",
                 "usp_45",
-                "45_acp"
+                "45_acp",
+                "whistle"
             ],
             "male": [
                 "boxer_shorts"
@@ -3972,7 +3974,7 @@
                 "both": [
                     "tshirt",
                     "socks",
-                    "backpack",
+                    "slingpack",
                     "sneakers",
                     "jeans",
                     "jacket_light",
@@ -4146,7 +4148,8 @@
                 "scissors",
                 "magnifying_glass",
                 "flashlight",
-                "1st_aid"
+                "1st_aid",
+                "whistle"
             ],
             "male": [
                 "briefs"
@@ -4374,6 +4377,7 @@
             "both": [
                 "baseball",
                 "bat",
+                "whistle",
                 "tank_top",
                 "shorts",
                 "socks",

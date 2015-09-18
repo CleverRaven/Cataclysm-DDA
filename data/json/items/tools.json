@@ -8317,7 +8317,14 @@
     "ammo": "NULL",
     "revert_to": "null",
     "category": "veh_parts",
-    "use_action": "HORN_BICYCLE"
+    "use_action": {
+        "type": "manualnoise",
+        "no_charges_message": "Seeing this is an error.",
+        "use_message": "You honk the bicycle horn.", "//": "Use of %s not currently supported.",
+        "noise_message": "honk.",
+        "noise": 15,
+        "moves": 100
+    }
   },
 
   {
@@ -8802,7 +8809,14 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
-    "use_action": "AIRHORN"
+    "use_action": {
+        "type": "manualnoise",
+        "no_charges_message": "You depress the button but no sound comes out.",
+        "use_message": "You honk your airhorn.", "//": "Use of %s not currently supported.",
+        "noise_message": "HOOOOONK!",
+        "noise": 50,
+        "moves": 100
+    }
   },
 
   {

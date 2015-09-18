@@ -90,7 +90,6 @@ public:
     int directional_antenna ( player*, item*, bool, const tripoint& );
     int radio_off           ( player*, item*, bool, const tripoint& );
     int radio_on            ( player*, item*, bool, const tripoint& );
-    int horn_bicycle        ( player*, item*, bool, const tripoint& );
     int noise_emitter_off   ( player*, item*, bool, const tripoint& );
     int noise_emitter_on    ( player*, item*, bool, const tripoint& );
     int ma_manual           ( player*, item*, bool, const tripoint& );
@@ -177,7 +176,6 @@ public:
     int holster_ankle       ( player*, item*, bool, const tripoint& );
     int towel               ( player*, item*, bool, const tripoint& );
     int unfold_generic      ( player*, item*, bool, const tripoint& );
-    int airhorn             ( player*, item*, bool, const tripoint& );
     int adrenaline_injector ( player*, item*, bool, const tripoint& );
     int jet_injector        ( player*, item*, bool, const tripoint& );
     int stimpack            ( player*, item*, bool, const tripoint& );
