@@ -2344,24 +2344,67 @@ int player::attack_speed( const item &weap, const bool average ) const
     return move_cost;
 }
 
-double player::weapon_value( const item &weap ) const
+double player::weapon_value( const item &weap, long ammo ) const
 {
-    double my_value = 0;
-    if( weap.is_gun() ) {
-        int gun_value = 14;
-        const islot_gun* gun = weap.type->gun.get();
-        gun_value += gun->damage;
-        gun_value += int(gun->burst / 2);
-        gun_value += int(gun->clip / 3);
-        gun_value -= int(gun->dispersion / 75);
-        gun_value *= (.5 + (.3 * get_skill_level( skill_id( "gun" ) )));
-        gun_value *= (.3 + (.7 * get_skill_level(gun->skill_used)));
-        my_value += gun_value;
+    const double val_gun = gun_value( weap, ammo );
+    const double val_melee = melee_value( weap );
+    const double more = std::max( val_gun, val_melee );
+    const double less = std::min( val_gun, val_melee );
+
+    // A small bonus for guns you can also use to hit stuff with (bayonets etc.)
+    return more + (less / 2.0);
+}
+
+double player::gun_value( const item &weap, long ammo ) const
+{
+    // TODO: Mods
+    // TODO: Allow using a specified type of ammo rather than default
+    if( weap.type->gun.get() == nullptr ) {
+        return 0.0;
     }
 
-    my_value = std::max( my_value, melee_value( weap ) );
+    if( ammo == 0 && !weap.has_flag("NO_AMMO") ) {
+        return 0.0;
+    }
 
-    return my_value;
+    const islot_gun& gun = *weap.type->gun.get();
+    const itype *def_ammo_i = item::find_type( default_ammo( weap.ammo_type() ) );
+    if( def_ammo_i == nullptr || def_ammo_i->ammo == nullptr ) {
+        //debugmsg( "player::gun_value couldn't find ammo for %s", weap.tname().c_str() );
+        return 0.0;
+    }
+
+    const islot_ammo &def_ammo = *def_ammo_i->ammo;
+    double damage_bonus = weap.gun_damage( false ) + def_ammo.damage;
+    damage_bonus += ( weap.gun_pierce( false ) + def_ammo.pierce ) / 2.0;
+    double gun_value = 0.0;
+    gun_value += std::min<double>( gun.clip, ammo ) / 5.0;
+    gun_value -= weap.gun_dispersion( false ) / 60.0 + def_ammo.dispersion / 100.0;
+    gun_value -= weap.gun_recoil( false ) / 150.0 + def_ammo.recoil / 200.0;
+
+    const double skill_scaling =
+        (.5 + (.3 * get_skill_level( skill_id( "gun" ) ))) *
+        (.3 + (.7 * get_skill_level(gun.skill_used)));
+    gun_value *= skill_scaling;
+
+    // Don't penalize high-damage weapons for no skill
+    // Point blank shotgun blasts don't require much skill
+    gun_value += damage_bonus * std::max( 1.0, skill_scaling );
+
+    // Bonus that only applies when we have ammo to spare
+    double multi_ammo_bonus = gun.burst / 2.0;
+    multi_ammo_bonus += gun.clip / 2.5;
+    if( ammo <= 10 && !weap.has_flag("NO_AMMO") ) {
+        gun_value = gun_value * ammo / 10;
+    } else if( ammo < 30 ) {
+        gun_value += multi_ammo_bonus * (30.0 / ammo);
+    } else {
+        gun_value += multi_ammo_bonus;
+    }
+
+    add_msg( m_debug, "%s as gun: %.1f total, %.1f for damage+pierce, %.1f skill scaling",
+             weap.tname().c_str(), gun_value, damage_bonus, skill_scaling );
+    return std::max( 0.0, gun_value );
 }
 
 double player::melee_value( const item &weap ) const
@@ -2403,7 +2446,7 @@ double player::melee_value( const item &weap ) const
 
     my_value += avg_dmg * 100 / move_cost;
 
-    return my_value;
+    return std::max( 0.0, my_value );
 }
 
 double player::unarmed_value() const

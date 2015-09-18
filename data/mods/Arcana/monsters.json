@@ -1951,5 +1951,41 @@
     "special_attacks":[["DANCE", 30]],
     "description":"The foulest stench is in the air, \nThe funk of forty thousand years, \nAnd grisly ghouls from every tomb, \nAre closing in to seal your doom!\n\nThe dancer doens't even notice you, it seems like something nearby is controlling it.",
     "flags":["WARM", "BASHES", "DESTROYS", "LEATHER", "NO_BREATHE", "REGENERATES_50", "BONES", "POISON", "FAT"]
+    },{
+    "type" : "MONSTER",
+    "id" : "mon_spirit_of_fire",
+    "name": "spirit of fire",
+    "name_plural": "spirits of fire",
+    "species":"NETHER",
+    "default_faction":"nether",
+    "symbol":"&",
+    "color":"yellow",
+    "size":"HUGE",
+    "material":"null",
+    "diff":50,
+    "aggression":100,
+    "morale":500,
+    "speed":120,
+    "melee_skill":6,
+    "melee_dice":3,
+    "melee_dice_sides":8,
+    "melee_cut":1,
+    "dodge":3,
+    "armor_bash":12,
+    "armor_cut":8,
+    "vision_day":50,
+    "luminance":200,
+    "death_drops": {
+        "subtype": "collection",
+        "//": "boss-level essence",
+        "groups": [
+            [ "essence_boss", 100 ]
+        ]
+    },
+    "hp":750,
+    "death_function":"MELT",
+    "special_attacks":[["FLAMETHROWER", 10]],
+    "description":"A massive animated conflagration, crackling like burning logs as it moves.",
+    "flags":["NOHEAD", "HARDTOSHOOT", "WEBWALK", "FLIES", "FIREY", "WARM", "FIREPROOF", "SEES"]
     }
 ]

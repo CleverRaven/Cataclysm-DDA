@@ -1,0 +1,25 @@
+[
+    {
+        "type" : "furniture",
+        "id" : "f_blade_upright",
+        "name": "upright weapon",
+        "symbol": "|",
+        "bgcolor": "yellow",
+        "move_cost_mod": -2,
+        "required_str": -1,
+        "flags": ["TRANSPARENT"],
+        "deconstruct": {
+            "items": [
+                { "item": "sun_sword", "count": 1 }
+            ]
+        },
+        "bash": {
+            "str_min": 12, "str_max": 40,
+            "sound": "clatter!  The sword topples over.",
+            "sound_fail": "clang!",
+            "items": [
+                { "item": "sun_sword", "count": 1 }
+            ]
+        }
+    }
+]

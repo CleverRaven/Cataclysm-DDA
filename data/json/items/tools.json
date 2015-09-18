@@ -6924,7 +6924,9 @@
         "target_charges": 3,
         "container": "jar_glass"
     }
-  },{
+  },
+  
+  {
     "id": "jar_tomato_canned",
     "type": "GENERIC",
     "symbol": "%",
@@ -6967,6 +6969,31 @@
         "type": "transform",
         "msg": "You open the jar, exposing it to the atmosphere.",
         "target": "veggy_pickled",
+        "container": "jar_glass"
+    }
+  },
+  
+  {
+    "id": "jar_sauerkraut_pickled",
+    "type": "GENERIC",
+    "symbol": "%",
+    "color": "green",
+    "name": "sealed jar of sauerkraut",
+    "name_plural": "sealed jars of sauerkraut",
+    "description": "This is a sealed glass jar containing sauerkraut.  Use to open and eat to enjoy.",
+    "price": 650,
+    "material": ["glass", "veggy"],
+    "weight": 504,
+    "volume": 2,
+    "bashing": 4,
+    "cutting": 0,
+    "to_hit": 0,
+    "category" : "food",
+    "use_action": {
+        "type": "transform",
+        "msg": "You open the jar, exposing it to the atmosphere.",
+        "target": "sauerkraut",
+        "target_charges": 4,
         "container": "jar_glass"
     }
   },
@@ -7297,6 +7324,37 @@
         "container": "flask_glass",
         "target": "yeast",
         "target_charges": 10
+    }
+  },
+  
+  {
+    "id": "sauerkraut_ferment",
+    "type": "TOOL",
+    "symbol": "%",
+    "color": "white",
+    "name": "fermenting sauerkraut jar",
+    "description": "This jar contains a batch of sauerkraut set to ferment. You can seal up the jar once the process is completed.",
+    "price": 10,
+    "material": ["glass", "veggy"],
+    "weight": 52,
+    "volume": 1,
+    "bashing": 8,
+    "cutting": 0,
+    "to_hit": 0,
+    "max_charges": 1,
+    "initial_charges": 1,
+    "charges_per_use": 1,
+    "turns_per_charge": 0,
+    "ammo": "NULL",
+    "revert_to": "null",
+    "category" : "food",
+    "use_action": {
+        "type": "delayed_transform",
+        "transform_age": 33600, "//": "2 1/3 days, from the suggested recipie of 1 rl week",
+        "not_ready_msg": "The sauerkraut isn't done fermenting yet.",
+        "msg": "You test the batch, and it tastes good, so you seal the jar up for storage.",
+        "moves": 50,
+        "target": "jar_sauerkraut_pickled"
     }
   },
 
@@ -8945,7 +9003,7 @@
     "symbol": ";",
     "color": "light_gray",
     "name": "basic repair kit",
-    "description": "This is a portable toolkit.  When supplied with duct tape, it serves as a vital tool for fixing items made of wood, bone, or chitin.  It requires 50 units of duct tape per use.",
+    "description": "This is a portable toolkit.  When supplied with duct tape, it serves as a vital tool for fixing items made of wood, paper, bone, or chitin.  It requires 50 units of duct tape per use.",
     "price": 1000,
     "material": "plastic",
     "weight": 1040,
@@ -9056,7 +9114,7 @@
     "color": "red",
     "name": "toolbox",
     "name_plural":"toolboxes",
-    "description": "This is a stout metal box containing a complete tool kit suitable for most household maintenance and construction activities.  In addition, when supplied with duct tape, it serves as a vital tool for fixing items made of wood, bone, or chitin.  It requires 25 units of duct tape per use.",
+    "description": "This is a stout metal box containing a complete tool kit suitable for most household maintenance and construction activities.  In addition, when supplied with duct tape, it serves as a vital tool for fixing items made of wood, paper, bone, or chitin.  It requires 25 units of duct tape per use.",
     "price": 12999,
     "material": "steel",
     "weight": 3364,
@@ -10797,5 +10855,30 @@
     "ammo": "NULL",
     "revert_to": "null",
     "use_action": "LADDER"
+  },
+  {
+    "id": "iceaxe",
+    "type": "TOOL",
+    "symbol": ";",
+    "color": "dark_gray",
+    "name": "ice axe",
+    "description": "This is an ice axe with hammer on its head, a multi-purpose hiking and climbing tool used by mountaineers.  It is sturdy enough, so you can use it to pry open closed doors or lift manhole covers.",
+    "price": 5000,
+    "material": "steel",
+    "weight": 500,
+    "volume": 3,
+    "bashing": 14,
+    "cutting": 3,
+    "flags" : ["DURABLE_MELEE"],
+    "techniques": ["WBLOCK_1"], 
+    "to_hit": 2,
+    "max_charges": 0,
+    "initial_charges": 0,
+    "charges_per_use": 0,
+    "turns_per_charge": 0,
+    "ammo": "NULL",
+    "revert_to": "null",
+    "use_action": "CROWBAR",
+    "qualities": [["HAMMER", 2], ["HAMMER_FINE", 1]]
   }
 ]

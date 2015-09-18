@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cataclysm-dda 0.C\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-09-07 09:43+0300\n"
+"POT-Creation-Date: 2015-09-14 09:22+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -4330,6 +4330,43 @@ msgid ""
 msgstr ""
 
 #: lang/json/AMMO_from_json.py
+msgid "essence"
+msgid_plural "essence"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for essence
+#: lang/json/AMMO_from_json.py
+msgid ""
+"A strange glowing mote of wispy vapor.  It gives off a soothing warmth and "
+"feels suprisingly solid, almost alive even."
+msgstr ""
+
+#: lang/json/AMMO_from_json.py lang/json/ammunition_type_from_json.py
+msgid "blood essence"
+msgid_plural "blood essence"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for blood essence
+#: lang/json/AMMO_from_json.py
+msgid "A strange glowing mote of wispy vapor, drained from a living creature."
+msgstr ""
+
+#: lang/json/AMMO_from_json.py lang/json/ammunition_type_from_json.py
+msgid "dull essence"
+msgid_plural "dull essence"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for dull essence
+#: lang/json/AMMO_from_json.py
+msgid ""
+"A dark, powdery bit of strange essence, formed from destructively "
+"\"consecrating\" a magic item."
+msgstr ""
+
+#: lang/json/AMMO_from_json.py
 msgid "6.54x42mm 9N8"
 msgid_plural "6.54x42mm 9N8"
 msgstr[0] ""
@@ -6913,12 +6950,12 @@ msgid ""
 msgstr ""
 
 #: lang/json/ARMOR_from_json.py
-msgid "light survivor harness"
-msgid_plural "light survivor harnesses"
+msgid "survivor harness"
+msgid_plural "survivor harnesses"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Description for light survivor harness
+#. ~ Description for survivor harness
 #: lang/json/ARMOR_from_json.py
 msgid ""
 "A custom-built light harness covered with pockets and pouches and a holster "
@@ -6953,12 +6990,12 @@ msgid ""
 msgstr ""
 
 #: lang/json/ARMOR_from_json.py
-msgid "heavy survivor rucksack"
-msgid_plural "heavy survivor rucksacks"
+msgid "survivor rucksack"
+msgid_plural "survivor rucksacks"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Description for heavy survivor rucksack
+#. ~ Description for survivor rucksack
 #: lang/json/ARMOR_from_json.py
 msgid ""
 "A custom-built heavy backpack.  Durable and carefully crafted to hold as "
@@ -6966,12 +7003,12 @@ msgid ""
 msgstr ""
 
 #: lang/json/ARMOR_from_json.py
-msgid "heavy survivor duffel bag"
-msgid_plural "heavy survivor duffel bags"
+msgid "survivor duffel bag"
+msgid_plural "survivor duffel bags"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Description for heavy survivor duffel bag
+#. ~ Description for survivor duffel bag
 #: lang/json/ARMOR_from_json.py
 msgid ""
 "A custom-built heavy duffel bag.  Durable and carefully crafted to hold as "
@@ -10404,8 +10441,7 @@ msgstr[1] ""
 #: lang/json/ARMOR_from_json.py
 msgid ""
 "A pair of customized, kevlar armored cloth boots, modified to provide "
-"maximum protection from harm and the elements, even when knee-deep in the "
-"dead."
+"maximum protection from harm, even when knee-deep in the dead."
 msgstr ""
 
 #: lang/json/ARMOR_from_json.py
@@ -10418,8 +10454,7 @@ msgstr[1] ""
 #: lang/json/ARMOR_from_json.py
 msgid ""
 "A pair of customized leather boots, armored with kevlar and modified to "
-"provide maximum protection from harm and the elements, even when knee-deep "
-"in the dead."
+"provide maximum protection from harm, even when knee-deep in the dead."
 msgstr ""
 
 #: lang/json/ARMOR_from_json.py
@@ -10432,8 +10467,7 @@ msgstr[1] ""
 #: lang/json/ARMOR_from_json.py
 msgid ""
 "A pair of customized kevlar boots, heavily armored with steel and modified "
-"to provide maximum protection from harm and the elements, even when knee-"
-"deep in the dead."
+"to provide maximum protection from harm, even when knee-deep in the dead."
 msgstr ""
 
 #: lang/json/ARMOR_from_json.py
@@ -16028,6 +16062,94 @@ msgid ""
 msgstr ""
 
 #: lang/json/BOOK_from_json.py
+msgid "Apprentice's Notes"
+msgid_plural "Apprentice's Notes"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for Apprentice's Notes
+#: lang/json/BOOK_from_json.py
+msgid ""
+"A series of handwritten notes by a student of some esoteric order.  At first "
+"the subject seems to be simple religious rituals, but it soon delves into "
+"more...anomalous practices."
+msgstr ""
+
+#: lang/json/BOOK_from_json.py
+msgid "History of Alchemy"
+msgid_plural "Histories of Alchemy"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for History of Alchemy
+#: lang/json/BOOK_from_json.py
+msgid ""
+"A series of translated excerpts from several ancient books on the concept of "
+"alchemy, along with annotations.  This book presents an uncoventional "
+"interpretation of the works discussed, and haphazardly segues into the "
+"author's own failed attempt to create the \"lapis philosophorum\" and "
+"\"alkahest\". Despite this, some of the unconventional chemistry discussed "
+"might be useful."
+msgstr ""
+
+#: lang/json/BOOK_from_json.py
+msgid "The Cleansing Flame"
+msgid_plural "The Cleansing Flame"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for The Cleansing Flame
+#: lang/json/BOOK_from_json.py
+msgid ""
+"A book written by some esoteric religious order, dedicated to destroying the "
+"otherworldly things intruding upon this realm.  The tools of their trade "
+"rely on a sanctioned form of magic, using \"consecrated\" essense they "
+"deemed safe to use."
+msgstr ""
+
+#: lang/json/BOOK_from_json.py
+msgid "Oaths to the Chalice"
+msgid_plural "Oaths to the Chalice"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for Oaths to the Chalice
+#: lang/json/BOOK_from_json.py
+msgid ""
+"A strange book with a trident motif on the cover, describing the morbid "
+"rituals of some otherworldly cult.  The level of detail these rituals go "
+"into is disturbing, yet informative."
+msgstr ""
+
+#: lang/json/BOOK_from_json.py
+msgid "Sanguine Codex"
+msgid_plural "Sanguine Codices"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for Sanguine Codex
+#: lang/json/BOOK_from_json.py
+msgid ""
+"A book written in dark, brown ink that almost resembles dried blood.  It "
+"illustrates several painful-looking rituals for drawing powerful energy from "
+"the blood of living creatures."
+msgstr ""
+
+#: lang/json/BOOK_from_json.py
+msgid "To Master the Unknown"
+msgid_plural "To Master the Unknown"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for To Master the Unknown
+#: lang/json/BOOK_from_json.py
+msgid ""
+"A book describing several otherworldy creatures and their origins, or at "
+"least conjecture on those origins.  Stranger still, it describes experiments "
+"in summoning and  ...controlling them?"
+msgstr ""
+
+#: lang/json/BOOK_from_json.py
 msgid "Case #5846, Illegal Gun Modification"
 msgid_plural "Case #5846, Illegal Gun Modification"
 msgstr[0] ""
@@ -19221,6 +19343,41 @@ msgstr[1] ""
 #. ~ Description for pine nuts
 #: lang/json/COMESTIBLE_from_json.py
 msgid "Tasty crunchy nuts from a pinecone."
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "handful of unshelled hickory nuts"
+msgid_plural "handfuls of unshelled hickory nuts"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for handful of unshelled hickory nuts
+#: lang/json/COMESTIBLE_from_json.py
+msgid ""
+"A handful of raw hard nuts from a hickory tree, their shells have been "
+"removed."
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "handful of roasted hickory nut"
+msgid_plural "handfuls of roasted hickory nuts"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for handful of roasted hickory nut
+#: lang/json/COMESTIBLE_from_json.py
+msgid "A handful roasted nuts from a hickory tree."
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "hickory nut ambrosia"
+msgid_plural "hickory nut ambrosias"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for hickory nut ambrosia
+#: lang/json/COMESTIBLE_from_json.py
+msgid "Delicious hickory nut ambrosia. A drink worthy of the gods."
 msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
@@ -24116,6 +24273,85 @@ msgid "Some morel mushroom spores.  You could probably plant these."
 msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
+msgid "black potion"
+msgid_plural "black potion"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Use action activation_message for black potion.
+#: lang/json/COMESTIBLE_from_json.py
+msgid ""
+"You drink the potion and feel a strange numbness spread through your body."
+msgstr ""
+
+#. ~ Description for black potion
+#: lang/json/COMESTIBLE_from_json.py
+msgid ""
+"A strange black liquid that smells like death itself.  The first step "
+"towards creating the elixer of life, allegedly.  Drinking this will numb the "
+"body greatly, but it isn't at all healthy."
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "white potion"
+msgid_plural "white potion"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Use action activation_message for white potion.
+#: lang/json/COMESTIBLE_from_json.py
+msgid "You drink the potion and feel wicked power spread through your body."
+msgstr ""
+
+#. ~ Description for white potion
+#: lang/json/COMESTIBLE_from_json.py
+msgid ""
+"A strange white liquid with a scent that makes your nose itch.  The second "
+"step towards creating the elixer of life, allegedly.  Drinking this will "
+"strengthen the body, but at some cost."
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "yellow potion"
+msgid_plural "yellow potion"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Use action activation_message for yellow potion.
+#: lang/json/COMESTIBLE_from_json.py
+msgid ""
+"You drink the potion and feel a sudden tension spread through your body."
+msgstr ""
+
+#. ~ Description for yellow potion
+#: lang/json/COMESTIBLE_from_json.py
+msgid ""
+"A strange yellow liquid with an intoxicating smell to it.  The third step "
+"towards creating the elixer of life, allegedly.  Drinking this will enhance "
+"your speed and dexterity, but it won't be a pleasant experience."
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "red potion"
+msgid_plural "red potion"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Use action activation_message for red potion.
+#: lang/json/COMESTIBLE_from_json.py
+msgid ""
+"You drink the potion and feel a pleasant warmth spread through your body."
+msgstr ""
+
+#. ~ Description for red potion
+#: lang/json/COMESTIBLE_from_json.py
+msgid ""
+"A strange reddish liquid that gives off a sweet smell.  The elixir of life, "
+"or merely a mimicry?  Drinking this will cure a number of things, but can't "
+"mend existing damage, and taxes your body to do so."
+msgstr ""
+
+#: lang/json/COMESTIBLE_from_json.py
 msgid "resinous cord"
 msgid_plural "resinous cords"
 msgstr[0] ""
@@ -24828,6 +25064,28 @@ msgstr[1] ""
 #. ~ Description for note
 #: lang/json/GENERIC_from_json.py
 msgid "A hand-written paper note."
+msgstr ""
+
+#: lang/json/GENERIC_from_json.py
+msgid "hickory root"
+msgid_plural "hickory roots"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for hickory root
+#: lang/json/GENERIC_from_json.py
+msgid "A root from a hickory tree. It has an earthy smell."
+msgstr ""
+
+#: lang/json/GENERIC_from_json.py
+msgid "hickory nuts"
+msgid_plural "hickory nuts"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for hickory nuts
+#: lang/json/GENERIC_from_json.py
+msgid "A handful of hard nuts from a hickory tree, still in their shell."
 msgstr ""
 
 #. ~ Description for cigarette
@@ -30323,6 +30581,20 @@ msgid "A broken animatronic bunny.  Limp and lifeless."
 msgstr ""
 
 #: lang/json/GENERIC_from_json.py
+msgid "silver glyph"
+msgid_plural "silver glyphs"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for silver glyph
+#: lang/json/GENERIC_from_json.py
+msgid ""
+"A silver emblem resembling a 16-pointed star in a circle.  You feel as "
+"though it could be a powerful arcane device, but there is no magic in it.  "
+"Yet."
+msgstr ""
+
+#: lang/json/GENERIC_from_json.py
 msgid "oars"
 msgid_plural "oars"
 msgstr[0] ""
@@ -34682,6 +34954,48 @@ msgid ""
 msgstr ""
 
 #: lang/json/GUN_from_json.py
+msgid "symbol of judgement"
+msgid_plural "symbols of judgement"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for symbol of judgement
+#: lang/json/GUN_from_json.py
+msgid ""
+"A large golden ring decorated with a trident motif, and inlaid with silver.  "
+"For some reason you suspect this to be a perversion of some otherworldly "
+"holy symbol, from some cult worlds away.  Firing it calls forth lightning."
+msgstr ""
+
+#: lang/json/GUN_from_json.py
+msgid "hellfire stave"
+msgid_plural "hellfire staves"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for hellfire stave
+#: lang/json/GUN_from_json.py
+msgid ""
+"A staff decorated with silver and a skull motif, capped with a strange red "
+"gem.  The metal parts feel uncomfortably warm to the touch.  Firing it "
+"projects a gout of wicked flame."
+msgstr ""
+
+#: lang/json/GUN_from_json.py
+msgid "wraithslayer crossbow"
+msgid_plural "wraithslayer crossbows"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for wraithslayer crossbow
+#: lang/json/GUN_from_json.py
+msgid ""
+"A crossbow decorated with golden symbols, seemingly lacking a bowstring.  "
+"Instead it propels bright green bolts of energy, with signifigant armor "
+"penetration."
+msgstr ""
+
+#: lang/json/GUN_from_json.py
 msgid "pipe rifle: .45"
 msgid_plural "pipe rifles: .45"
 msgstr[0] ""
@@ -36298,6 +36612,17 @@ msgid ""
 msgstr ""
 
 #: lang/json/MOD_INFO_from_json.py
+msgid "Arcana and Magic Items"
+msgstr ""
+
+#. ~ Description for Arcana and Magic Items
+#: lang/json/MOD_INFO_from_json.py
+msgid ""
+"Adds a new skill for creating and using magical items, and alters many "
+"anomalous monsters."
+msgstr ""
+
+#: lang/json/MOD_INFO_from_json.py
 msgid "Boats"
 msgstr ""
 
@@ -36500,12 +36825,12 @@ msgid "Disables zombie revival."
 msgstr ""
 
 #: lang/json/MOD_INFO_from_json.py
-msgid "No Rivtech Guns"
+msgid "No Fictional Guns"
 msgstr ""
 
-#. ~ Description for No Rivtech Guns
+#. ~ Description for No Fictional Guns
 #: lang/json/MOD_INFO_from_json.py
-msgid "Removes Rivtech firearms and ammunition."
+msgid "Removes fictional conventional firearms and ammunition."
 msgstr ""
 
 #: lang/json/MOD_INFO_from_json.py
@@ -36567,6 +36892,15 @@ msgstr ""
 msgid ""
 "Adds a few armored fighting vehicles and other such things, requires Vehicle "
 "Additions Pack."
+msgstr ""
+
+#: lang/json/MOD_INFO_from_json.py
+msgid "Tough Zombies"
+msgstr ""
+
+#. ~ Description for Tough Zombies
+#: lang/json/MOD_INFO_from_json.py
+msgid "Doubles zombie health."
 msgstr ""
 
 #: lang/json/MOD_INFO_from_json.py
@@ -36714,9 +37048,9 @@ msgstr[1] ""
 #. ~ Description for smallmouth bass
 #: lang/json/MONSTER_from_json.py
 msgid ""
-"A Smallmouth Bass.  Being intolerant to polution in the water, smallmouth "
-"bass are a good indicator of how clean it is.  Just becuase you see them "
-"though, doesnt mean you can drink the water without boiling it first."
+"A Smallmouth bass.  Being intolerant to pollution in the water, smallmouth "
+"bass are a good indicator of how clean it is.  Just because you see them "
+"though, doesn't mean you can drink the water without boiling it first."
 msgstr ""
 
 #: lang/json/MONSTER_from_json.py
@@ -39716,7 +40050,7 @@ msgid ""
 "And grisly ghouls from every tomb, \n"
 "Are closing in to seal your doom!\n"
 "\n"
-"The dancer doens't even notice you, it seems like something nearby is "
+"The dancer doesn't even notice you, it seems like something nearby is "
 "controlling it."
 msgstr ""
 
@@ -40075,6 +40409,18 @@ msgid ""
 "A bipedal animatronic wolf, nearly twice your size.  If the animal "
 "counterpart was scary, this robot is terrifying.  Though it is a robot, it "
 "stinks like death."
+msgstr ""
+
+#. ~ Description for zombie dancer
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"The foulest stench is in the air, \n"
+"The funk of forty thousand years, \n"
+"And grisly ghouls from every tomb, \n"
+"Are closing in to seal your doom!\n"
+"\n"
+"The dancer doens't even notice you, it seems like something nearby is "
+"controlling it."
 msgstr ""
 
 #: lang/json/MONSTER_from_json.py
@@ -41321,6 +41667,65 @@ msgstr ""
 msgid ""
 "A brass-plated alto saxophone with a neck strap, so you can wear it while "
 "playing."
+msgstr ""
+
+#: lang/json/TOOL_ARMOR_from_json.py
+msgid "gilded aegis"
+msgid_plural "gilded aegises"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Use action activation_message for gilded aegis.
+#: lang/json/TOOL_ARMOR_from_json.py
+msgid ""
+"A strange, burning heat spreads throughout your body, fading into a dull "
+"ache as the aegis cleanses your body."
+msgstr ""
+
+#. ~ Description for gilded aegis
+#: lang/json/TOOL_ARMOR_from_json.py
+msgid ""
+"A simple leather cloak, richly decorated with scales of gold and several "
+"feathers.  It resembles the hide of a golden dragon or serpent.  Using it "
+"will cure a small number of ailments, if supplied with consecrated essence.  "
+"This taxes the body and can't cure injuries, parasites, or poison."
+msgstr ""
+
+#: lang/json/TOOL_ARMOR_from_json.py
+msgid "revenant crown"
+msgid_plural "revenant crowns"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Use action activation_message for revenant crown.
+#: lang/json/TOOL_ARMOR_from_json.py
+msgid ""
+"The diamond shimmers with strange red light as you feel a strange hunger, a "
+"craving for rotting meat and stagnant water..."
+msgstr ""
+
+#. ~ Description for revenant crown
+#: lang/json/TOOL_ARMOR_from_json.py
+msgid ""
+"A wicked-looking crown made of silver, decorated with scenes of skeletons in "
+"a \"danse macabre\" motif.  A single diamond adorns it, in the center of the "
+"scene depicted.  Using it shall yield immunity to poison, food poisoning in "
+"particular, in exchange for inreased hunger."
+msgstr ""
+
+#: lang/json/TOOL_ARMOR_from_json.py
+msgid "pair of thunder gauntlets"
+msgid_plural "pairs of thunder gauntlets"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for pair of thunder gauntlets
+#: lang/json/TOOL_ARMOR_from_json.py
+msgid ""
+"A heavy set of plate gauntlets, decorated with silver around the edges of "
+"each individual plate.  Touching the bare metal sends a faint electric "
+"tingle through you.  Use them to give something a shocking surprise, if "
+"you're in melee range."
 msgstr ""
 
 #: lang/json/TOOL_from_json.py
@@ -44380,7 +44785,7 @@ msgstr[1] ""
 msgid "This is a sturdy saw, useful for cutting through metal objects."
 msgstr ""
 
-#: lang/json/TOOL_from_json.py src/iexamine.cpp
+#: lang/json/TOOL_from_json.py
 msgid "tent"
 msgid_plural "tents"
 msgstr[0] ""
@@ -47026,6 +47431,17 @@ msgid ""
 "belonged to the best there's ever been."
 msgstr ""
 
+#: lang/json/TOOL_from_json.py lang/json/furniture_from_json.py
+msgid "stepladder"
+msgid_plural "stepladders"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for stepladder
+#: lang/json/TOOL_from_json.py
+msgid "This is a wooden stepladder.  Use it to set it down."
+msgstr ""
+
 #: lang/json/TOOL_from_json.py lang/json/vehicle_part_from_json.py
 msgid "jumper cable"
 msgid_plural "jumper cables"
@@ -47066,6 +47482,392 @@ msgid ""
 "This is the cable of the gods: 50 meters long, no power loss, light as a "
 "feather and fits in a matchbook.  You're sure this wasn't supposed to exist, "
 "and the way it shimmers makes you uneasy."
+msgstr ""
+
+#: lang/json/TOOL_from_json.py
+msgid "offering chalice"
+msgid_plural "offering chalices"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for offering chalice
+#: lang/json/TOOL_from_json.py
+msgid ""
+"This is a strange chalice made of gold, engraved all over with some "
+"unfamilar text.  It is filled with a thick black liquid that you seem unable "
+"to pour out.  You get the feeling that trying to drink it would be a bad "
+"idea."
+msgstr ""
+
+#. ~ Use action activation_message for offering chalice.
+#: lang/json/TOOL_from_json.py
+msgid ""
+"As you drink from the chalice, you feel your breath being drawn from your "
+"lungs!"
+msgstr ""
+
+#. ~ Description for offering chalice
+#: lang/json/TOOL_from_json.py
+msgid ""
+"This is a strange chalice made of gold, engraved all over with some "
+"unfamilar text.  Maybe you shouldn't be trying to drink from this..."
+msgstr ""
+
+#: lang/json/TOOL_from_json.py
+msgid "drained offering chalice"
+msgid_plural "drained offering chalices"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for drained offering chalice
+#: lang/json/TOOL_from_json.py
+msgid ""
+"This is a strange chalice made of gold, engraved all over with some "
+"unfamilar text.  It appears to be empty, but you get the feeling that "
+"something remains within it. If you knew the right ritual..."
+msgstr ""
+
+#: lang/json/TOOL_from_json.py
+msgid "silver athame"
+msgid_plural "silver athames"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for silver athame
+#: lang/json/TOOL_from_json.py
+msgid ""
+"An ornate silver dagger, seemingly made for ritual purposes.  It seems "
+"sharper than silver has any right to be."
+msgstr ""
+
+#. ~ Use action activation_message for silver athame.
+#: lang/json/TOOL_from_json.py
+msgid ""
+"Upon drawing the blade across your palm, wounds open elsewhere on your body!"
+msgstr ""
+
+#. ~ Description for silver athame
+#: lang/json/TOOL_from_json.py
+msgid ""
+"An ornate silver dagger, seemingly made for ritual purposes.  This seems "
+"like a stupid idea..."
+msgstr ""
+
+#: lang/json/TOOL_from_json.py
+msgid "incorruptible sword"
+msgid_plural "incorruptible swords"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for incorruptible sword
+#: lang/json/TOOL_from_json.py
+msgid ""
+"This is some sort of broadsword, decorated with a golden cross motif on the "
+"blade.  When powered by consecrated magical essence, it has the power to cut "
+"through darkness itself."
+msgstr ""
+
+#: lang/json/TOOL_from_json.py
+msgid "incorruptible sword (on)"
+msgid_plural "incorruptible sword (on)s"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for incorruptible sword (on)
+#: lang/json/TOOL_from_json.py
+msgid ""
+"This is some sort of arming sword, decorated with a golden cross motif on "
+"the blade.  The blade is giving off an intense white light, and searing heat."
+msgstr ""
+
+#: lang/json/TOOL_from_json.py
+msgid "hammer of the hunter"
+msgid_plural "hammers of the hunter"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for hammer of the hunter
+#: lang/json/TOOL_from_json.py
+msgid ""
+"A warhammer inlaid with silver, engraved with religious invocations in an "
+"archaic form of Latin.  Many magical items can be purified with this item.  "
+"Using it will channel consecrated essence into a stunning flash, though "
+"using it is a double-edged sword."
+msgstr ""
+
+#: lang/json/TOOL_from_json.py
+msgid "glowing hammer of the hunter"
+msgid_plural "glowing hammers of the hunter"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Use action no_deactivate_msg for glowing hammer of the hunter.
+#: lang/json/TOOL_from_json.py
+msgid "\"Du nicht können halt Hammerzeit.\""
+msgstr ""
+
+#. ~ Description for glowing hammer of the hunter
+#: lang/json/TOOL_from_json.py
+msgid ""
+"A warhammer inlaid with silver, engraved with religious invocations in an "
+"archaic form of Latin.  It is giving off a bright golden glow, soon to be "
+"brighter still."
+msgstr ""
+
+#: lang/json/TOOL_from_json.py
+msgid "glyph of trickery"
+msgid_plural "glyphs of trickery"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Use action friendly_msg for glyph of trickery.
+#: lang/json/TOOL_from_json.py
+msgid ""
+"The kreck looks up at you expectantly, as if wondering what sort of "
+"shenanigans you're plotting."
+msgstr ""
+
+#. ~ Use action hostile_msg for glyph of trickery.
+#: lang/json/TOOL_from_json.py
+msgid ""
+"The kreck mimics your movements erratically, cavorting about to mock you!"
+msgstr ""
+
+#. ~ Description for glyph of trickery
+#: lang/json/TOOL_from_json.py
+msgid ""
+"A strange silver emblem, engraved with depections of groteqsue creatures.  "
+"Using it will call forth a kreck, and bind it to your will. Hopefully."
+msgstr ""
+
+#: lang/json/TOOL_from_json.py
+msgid "glyph of impassiveness"
+msgid_plural "glyphs of impassiveness"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Use action friendly_msg for glyph of impassiveness.
+#: lang/json/TOOL_from_json.py
+msgid ""
+"The featureless visage of the blank body is undeciperable at first, but its "
+"passive posture suggests friendliness."
+msgstr ""
+
+#. ~ Use action hostile_msg for glyph of impassiveness.
+#: lang/json/TOOL_from_json.py
+msgid ""
+"The featureless visage of the blank body is undeciperable at first, but its "
+"body langauge suggests hostility."
+msgstr ""
+
+#. ~ Description for glyph of impassiveness
+#: lang/json/TOOL_from_json.py
+msgid ""
+"A strange silver emblem, engraved with the emotionless faces of unknown "
+"beings.  Using it will call forth a blank body, and bind it to your will. "
+"Hopefully."
+msgstr ""
+
+#: lang/json/TOOL_from_json.py
+msgid "glyph of the beholder"
+msgid_plural "glyphs of the beholder"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Use action friendly_msg for glyph of the beholder.
+#: lang/json/TOOL_from_json.py
+msgid ""
+"You meet the flaming's eye's gaze, and it is the first to blink.  It seems "
+"to be friendly."
+msgstr ""
+
+#. ~ Use action hostile_msg for glyph of the beholder.
+#: lang/json/TOOL_from_json.py
+msgid ""
+"The eye levels a wicked gaze upon you.  This is a staring contest you won't "
+"win."
+msgstr ""
+
+#. ~ Description for glyph of the beholder
+#: lang/json/TOOL_from_json.py
+msgid ""
+"A strange silver emblem, engraved with flame patterns.  Using it will call "
+"forth a flaming eye, and bind it to your will. Hopefully."
+msgstr ""
+
+#: lang/json/TOOL_from_json.py
+msgid "glyph of Crawling Chaos"
+msgid_plural "glyphs of Crawling Chaos"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Use action friendly_msg for glyph of Crawling Chaos.
+#: lang/json/TOOL_from_json.py
+msgid ""
+"The hunting horror is at your beck and call.  A gift from the Stalker among "
+"the Stars?"
+msgstr ""
+
+#. ~ Use action hostile_msg for glyph of Crawling Chaos.
+#: lang/json/TOOL_from_json.py
+msgid ""
+"You feel the gaze of Nyarlathotep upon you.  How foolish of you, to steal "
+"the harrier of the Faceless God!"
+msgstr ""
+
+#. ~ Description for glyph of Crawling Chaos
+#: lang/json/TOOL_from_json.py
+msgid ""
+"A strange silver emblem, erratically engraved with indecipherable runes.  "
+"Using it will call forth a hunting horror, and bind it to your will. "
+"Hopefully.  Using it during the day might be a bad idea."
+msgstr ""
+
+#: lang/json/TOOL_from_json.py
+msgid "glyph of anthozoa"
+msgid_plural "glyphs of anthozoa"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Use action friendly_msg for glyph of anthozoa.
+#: lang/json/TOOL_from_json.py
+msgid ""
+"The flying polyp twitches for a moment, before its movement steadies.  It "
+"seems to be friendly."
+msgstr ""
+
+#. ~ Use action hostile_msg for glyph of anthozoa.
+#: lang/json/TOOL_from_json.py
+msgid ""
+"The flying polyp twitches erratically, reacting to your presence with "
+"apparent hostility!"
+msgstr ""
+
+#. ~ Description for glyph of anthozoa
+#: lang/json/TOOL_from_json.py
+msgid ""
+"A strange silver emblem, engraved with an strange pattern resembling coral.  "
+"Using it will call forth a flying polyp, and bind it to your will. Hopefully."
+msgstr ""
+
+#: lang/json/TOOL_from_json.py
+msgid "glyph of Yuggoth"
+msgid_plural "glyphs of Yuggoth"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Use action friendly_msg for glyph of Yuggoth.
+#: lang/json/TOOL_from_json.py
+msgid ""
+"You recite an incantation, and the mi-go's response is a quiet murmur in "
+"some unknown language.  It seems to be friendly."
+msgstr ""
+
+#. ~ Use action hostile_msg for glyph of Yuggoth.
+#: lang/json/TOOL_from_json.py
+msgid ""
+"You begin to recite an incantation, only for the mi-go to parrot your words, "
+"mocking your effort to control it!"
+msgstr ""
+
+#. ~ Description for glyph of Yuggoth
+#: lang/json/TOOL_from_json.py
+msgid ""
+"A strange silver emblem, engraved with depictions of strange chitinous "
+"entities.  Using it will call forth a mi-go, and bind it to your will. "
+"Hopefully."
+msgstr ""
+
+#: lang/json/TOOL_from_json.py
+msgid "glyph of the platyhelminthes"
+msgid_plural "glyphs of the platyhelminthes"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Use action friendly_msg for glyph of the platyhelminthes.
+#: lang/json/TOOL_from_json.py
+msgid ""
+"With the silver glyph as an offering, you bind the yugg to serve you.  You "
+"feel like this is the opposite of how it normally works."
+msgstr ""
+
+#. ~ Use action hostile_msg for glyph of the platyhelminthes.
+#: lang/json/TOOL_from_json.py
+msgid ""
+"An offering of wealth is not enough to placate a servant of Ubb.  The "
+"creature turns hostile!"
+msgstr ""
+
+#. ~ Description for glyph of the platyhelminthes
+#: lang/json/TOOL_from_json.py
+msgid ""
+"A strange silver emblem, engraved with depictions of ancient, cthonian "
+"wealth.  Using it will call forth a yugg, and bind it to your will. "
+"Hopefully."
+msgstr ""
+
+#: lang/json/TOOL_from_json.py
+msgid "glyph of the Elder Things"
+msgid_plural "glyphs of the Elder Things"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Use action friendly_msg for glyph of the Elder Things.
+#: lang/json/TOOL_from_json.py
+msgid ""
+"You hear a voice in your mind. \"Tekili ...l-li?\"  Your mind exerts a "
+"strange influence upon the shoggoth."
+msgstr ""
+
+#. ~ Use action hostile_msg for glyph of the Elder Things.
+#: lang/json/TOOL_from_json.py
+msgid ""
+"You hear a voice in your mind.  \"Tekeli-li!\"  The shoggoth resists your "
+"efforts to control it!"
+msgstr ""
+
+#. ~ Description for glyph of the Elder Things
+#: lang/json/TOOL_from_json.py
+msgid ""
+"A strange silver emblem, engraved with many strange eye symbols.  Using it "
+"will call forth a shoggoth, and bind it to your will. Hopefully."
+msgstr ""
+
+#: lang/json/TOOL_from_json.py
+msgid "veinreaver"
+msgid_plural "veinreavers"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for veinreaver
+#: lang/json/TOOL_from_json.py
+msgid ""
+"A hatchet with its axehead stained the dull color of dried blood, making it "
+"appear rusted despite being in usable condition.  Using it will channel "
+"blood essence into a nasty explosion."
+msgstr ""
+
+#: lang/json/TOOL_from_json.py
+msgid "glowing veinreaver"
+msgid_plural "glowing veinreavers"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Use action no_deactivate_msg for glowing veinreaver.
+#: lang/json/TOOL_from_json.py
+msgid "You can't dispel the effect. Might want to try throwing it instead."
+msgstr ""
+
+#. ~ Use action sound_msg for glowing veinreaver.
+#: lang/json/TOOL_from_json.py
+msgid "Drip."
+msgstr ""
+
+#. ~ Description for glowing veinreaver
+#: lang/json/TOOL_from_json.py
+msgid ""
+"A hatchet, axehead giving off a wicked red glow.  Throwing it might be a "
+"smart idea."
 msgstr ""
 
 #: lang/json/TOOL_from_json.py lang/json/vehicle_from_json.py
@@ -48268,6 +49070,10 @@ msgstr ""
 
 #: lang/json/ammunition_type_from_json.py
 msgid "sprayable chemical"
+msgstr ""
+
+#: lang/json/ammunition_type_from_json.py
+msgid "magical essence"
 msgstr ""
 
 #: lang/json/ammunition_type_from_json.py
@@ -51535,6 +52341,114 @@ msgid ""
 "Focusing on playing music distracts you, slowing you down."
 msgstr ""
 
+#: lang/json/effects_from_json.py
+msgid "Corroding"
+msgstr ""
+
+#. ~ Description of effect 'Corroding'.
+#: lang/json/effects_from_json.py
+msgid ""
+"You're covered in acid!  It hurts and further lowers your resistance to acid."
+msgstr ""
+
+#. ~ Apply message for effect(s) 'Corroding'.
+#: lang/json/effects_from_json.py
+msgid "You're covered in acid!"
+msgstr ""
+
+#: lang/json/effects_from_json.py
+msgid "Offering"
+msgstr ""
+
+#. ~ Description of effect 'Offering'.
+#: lang/json/effects_from_json.py
+msgid "Something is sapping the life from your body."
+msgstr ""
+
+#. ~ Miss message for effect(s) 'Offering'.
+#: lang/json/effects_from_json.py
+msgid "Your will to fight fades for a moment."
+msgstr ""
+
+#: lang/json/effects_from_json.py
+msgid "Intense Numbness"
+msgstr ""
+
+#. ~ Description of effect 'Intense Numbness'.
+#: lang/json/effects_from_json.py
+msgid "Your body feels incredibly numb."
+msgstr ""
+
+#. ~ Remove message for effect(s) 'Intense Numbness'.
+#: lang/json/effects_from_json.py
+msgid "The numbness fades."
+msgstr ""
+
+#: lang/json/effects_from_json.py
+msgid "Strengthed"
+msgstr ""
+
+#. ~ Description of effect 'Strengthed'.
+#: lang/json/effects_from_json.py
+msgid "You feel mighty, like you could take on the world."
+msgstr ""
+
+#. ~ Remove message for effect(s) 'Strengthed'.
+#: lang/json/effects_from_json.py
+msgid "The unnatural strength leaves your body."
+msgstr ""
+
+#: lang/json/effects_from_json.py
+msgid "Speedy"
+msgstr ""
+
+#. ~ Description of effect 'Speedy'.
+#: lang/json/effects_from_json.py
+msgid "Your heart feels like it's beating dangerously fast."
+msgstr ""
+
+#. ~ Remove message for effect(s) 'Speedy'.
+#: lang/json/effects_from_json.py
+msgid "Your heartbeat slows back down to a normal pace."
+msgstr ""
+
+#: lang/json/effects_from_json.py
+msgid "Elixir"
+msgstr ""
+
+#. ~ Description of effect 'Elixir'.
+#: lang/json/effects_from_json.py
+msgid "Not immortality, but it still feels nice."
+msgstr ""
+
+#. ~ Remove message for effect(s) 'Elixir'.
+#: lang/json/effects_from_json.py
+msgid "The healing effect fades."
+msgstr ""
+
+#: lang/json/effects_from_json.py
+msgid "Aegis Cure"
+msgstr ""
+
+#. ~ Description of effect 'Aegis Cure'.
+#: lang/json/effects_from_json.py
+msgid "Illness and infection shall be purged."
+msgstr ""
+
+#: lang/json/effects_from_json.py
+msgid "Revenant Hunger"
+msgstr ""
+
+#. ~ Description of effect 'Revenant Hunger'.
+#: lang/json/effects_from_json.py
+msgid "Immunity to poison, increased hunger gain."
+msgstr ""
+
+#. ~ Remove message for effect(s) 'Revenant Hunger'.
+#: lang/json/effects_from_json.py
+msgid "Your craving for rotten food subsides."
+msgstr ""
+
 #: lang/json/faction_from_json.py
 msgid "Your Followers"
 msgstr ""
@@ -51640,14 +52554,13 @@ msgid "road barricade"
 msgstr ""
 
 #: lang/json/furniture_from_json.py
-#: lang/json/furniture_from_json.py lang/json/terrain_from_json.py
 #: lang/json/terrain_from_json.py
-#: src/map.cpp src/mapdata.cpp
+#: lang/json/terrain_from_json.py src/map.cpp
+#: src/mapdata.cpp
 msgid "smash!"
 msgstr ""
 
 #: lang/json/furniture_from_json.py
-#: lang/json/furniture_from_json.py lang/json/terrain_from_json.py
 #: lang/json/terrain_from_json.py
 msgid "whump."
 msgstr ""
@@ -51670,7 +52583,7 @@ msgstr ""
 
 #: lang/json/furniture_from_json.py
 #: lang/json/terrain_from_json.py
-#: lang/json/terrain_from_json.py src/iuse.cpp
+#: src/iuse.cpp
 msgid "crunch!"
 msgstr ""
 
@@ -52770,7 +53683,7 @@ msgid "Heat up food"
 msgstr ""
 
 #: lang/json/item_action_from_json.py
-msgid "Repair wood/bone/chitin"
+msgid "Repair wood/paper/bone/chitin"
 msgstr ""
 
 #: lang/json/item_action_from_json.py
@@ -52833,6 +53746,10 @@ msgstr ""
 #: lang/json/item_action_from_json.py
 #: lang/json/item_action_from_json.py src/iuse.cpp
 msgid "Turn off"
+msgstr ""
+
+#: lang/json/item_action_from_json.py
+msgid "Meditate"
 msgstr ""
 
 #: lang/json/keybinding_from_json.py
@@ -53103,6 +54020,10 @@ msgstr ""
 
 #: lang/json/keybinding_from_json.py
 msgid "Start"
+msgstr ""
+
+#: lang/json/keybinding_from_json.py
+msgid "Delete template"
 msgstr ""
 
 #: lang/json/keybinding_from_json.py
@@ -54841,22 +55762,22 @@ msgid "Unknown"
 msgstr ""
 
 #: lang/json/material_from_json.py
-#: src/material.cpp
+#: lang/json/material_from_json.py src/material.cpp
 msgid "damaged"
 msgstr ""
 
 #: lang/json/material_from_json.py
-#: lang/json/material_from_json.py src/material.cpp
+#: src/material.cpp
 msgid "lightly damaged"
 msgstr ""
 
 #: lang/json/material_from_json.py
-#: lang/json/material_from_json.py src/material.cpp
+#: src/material.cpp
 msgid "very damaged"
 msgstr ""
 
 #: lang/json/material_from_json.py
-#: lang/json/material_from_json.py src/material.cpp
+#: src/material.cpp
 msgid "thoroughly damaged"
 msgstr ""
 
@@ -55123,6 +56044,10 @@ msgstr ""
 
 #: lang/json/material_from_json.py
 msgid "Hydrocarbons"
+msgstr ""
+
+#: lang/json/material_from_json.py
+msgid "Magical Essence"
 msgstr ""
 
 #: lang/json/material_from_json.py
@@ -57288,7 +58213,7 @@ msgstr ""
 #. ~ Description for Urticating Hairs
 #: lang/json/mutation_from_json.py
 msgid ""
-"Significant amounts of your hairs have loosened.  If somme creature tries to "
+"Significant amounts of your hairs have loosened.  If some creature tries to "
 "attack you, your assailant is quite likely to get fine, bristly chitin in an "
 "irritating spot; it doesn't carry your venom but it will be distracting."
 msgstr ""
@@ -64211,6 +65136,32 @@ msgstr ""
 
 #: lang/json/professions_from_json.py
 msgctxt "profession_male"
+msgid "Miner"
+msgstr ""
+
+#. ~ Profession (male Miner) description
+#: lang/json/professions_from_json.py
+msgctxt "prof_desc_male"
+msgid ""
+"You're a miner, not a minor!  Your canteen is dry, your jackhammer is out of "
+"gas, and you're on your last pair of batteries for your mining helmet..."
+msgstr ""
+
+#: lang/json/professions_from_json.py
+msgctxt "profession_female"
+msgid "Miner"
+msgstr ""
+
+#. ~ Profession (female Miner) description
+#: lang/json/professions_from_json.py
+msgctxt "prof_desc_female"
+msgid ""
+"You're a miner, not a minor!  Your canteen is dry, your jackhammer is out of "
+"gas, and you're on your last pair of batteries for your mining helmet..."
+msgstr ""
+
+#: lang/json/professions_from_json.py
+msgctxt "profession_male"
 msgid "Wanderer"
 msgstr ""
 
@@ -64740,6 +65691,22 @@ msgstr ""
 msgid "Crash site"
 msgstr ""
 
+#: lang/json/scenario_from_json.py
+msgid "Bottom Of A Mine"
+msgstr ""
+
+#. ~ Description for scenario 'Bottom Of A Mine'.
+#: lang/json/scenario_from_json.py
+msgid ""
+"You were mining along when you found...something.  You're not sure what, but "
+"it sure is dark down here."
+msgstr ""
+
+#. ~ Starting location for scenario 'Bottom Of A Mine'.
+#: lang/json/scenario_from_json.py lang/json/start_location_from_json.py
+msgid "Bottom of a mine"
+msgstr ""
+
 #: lang/json/skill_from_json.py
 msgid "bartering"
 msgstr ""
@@ -65072,6 +66039,18 @@ msgid ""
 "Comprised of an automatic rifle carbine designed to fire a pistol cartridge, "
 "submachine guns can reload and fire quickly, sometimes in bursts, but they "
 "are relatively inaccurate and may be prone to mechanical failures."
+msgstr ""
+
+#: lang/json/skill_from_json.py
+msgid "arcana"
+msgstr ""
+
+#. ~ Description for arcana
+#: lang/json/skill_from_json.py
+msgid ""
+"Your knowledge of strange, anomalous powers from far-off worlds.  While "
+"certain artifacts are beyond mortal understanding, this skill can be used "
+"for creating and using a few odd devices, some with lethal applications."
 msgstr ""
 
 #: lang/json/snippet_from_json.py
@@ -69823,6 +70802,14 @@ msgid "maple tree"
 msgstr ""
 
 #: lang/json/terrain_from_json.py
+msgid "hickory tree"
+msgstr ""
+
+#: lang/json/terrain_from_json.py
+msgid "dead hickory tree"
+msgstr ""
+
+#: lang/json/terrain_from_json.py
 msgid "underbrush"
 msgstr ""
 
@@ -73017,7 +74004,8 @@ msgstr ""
 msgid "Eyes"
 msgstr ""
 
-#: src/armor_layers.cpp src/game.cpp src/player.cpp
+#: src/armor_layers.cpp src/character.cpp src/game.cpp
+#: src/player.cpp
 msgid "Head"
 msgstr ""
 
@@ -73033,7 +74021,8 @@ msgstr ""
 msgid "R. Arm"
 msgstr ""
 
-#: src/armor_layers.cpp src/game.cpp src/player.cpp
+#: src/armor_layers.cpp src/character.cpp src/game.cpp
+#: src/player.cpp
 msgid "Torso"
 msgstr ""
 
@@ -74811,31 +75800,24 @@ msgid "Some items tumble to the ground."
 msgstr ""
 
 #: src/character.cpp
-msgid "1: Head"
+msgid "Left Arm"
 msgstr ""
 
 #: src/character.cpp
-msgid "2: Torso"
+msgid "Right Arm"
 msgstr ""
 
 #: src/character.cpp
-msgid "3: Left Arm"
+msgid "Left Leg"
 msgstr ""
 
 #: src/character.cpp
-msgid "4: Right Arm"
+msgid "Right Leg"
 msgstr ""
 
 #: src/character.cpp
-msgid "5: Left Leg"
-msgstr ""
-
-#: src/character.cpp
-msgid "6: Right Leg"
-msgstr ""
-
-#: src/character.cpp
-msgid "7: Exit"
+#, c-format
+msgid "%d: Exit"
 msgstr ""
 
 #: src/clzones.cpp
@@ -79366,11 +80348,23 @@ msgid "A %1$s hits the %2$s!"
 msgstr ""
 
 #: src/field.cpp
-msgid "The acid burns <npcname>s legs and feet!"
+msgid "The acid burns your body!"
+msgstr ""
+
+#: src/field.cpp
+msgid "The acid burns <npcname>s body!"
 msgstr ""
 
 #: src/field.cpp
 msgid "The acid burns your legs and feet!"
+msgstr ""
+
+#: src/field.cpp
+msgid "The acid burns <npcname>s legs and feet!"
+msgstr ""
+
+#: src/field.cpp
+msgid "You're lying in a pool of acid"
 msgstr ""
 
 #: src/field.cpp
@@ -81172,6 +82166,16 @@ msgid "Sign: %s..."
 msgstr ""
 
 #: src/game.cpp
+#, c-format
+msgid "Below: %s; No support"
+msgstr ""
+
+#: src/game.cpp
+#, c-format
+msgid "Below: %s; Walkable"
+msgstr ""
+
+#: src/game.cpp
 msgid "There are other items there as well."
 msgstr ""
 
@@ -82021,7 +83025,7 @@ msgstr ""
 
 #: src/game.cpp
 #, c-format
-msgid "The %s collides with something."
+msgid "The %s collides with %s."
 msgstr ""
 
 #: src/game.cpp
@@ -82030,6 +83034,11 @@ msgstr ""
 
 #: src/game.cpp
 msgid "No furniture at grabbed point."
+msgstr ""
+
+#: src/game.cpp
+#, c-format
+msgid "The %s collides with something."
 msgstr ""
 
 #: src/game.cpp
@@ -84158,17 +85167,8 @@ msgid "You slide right between the bars."
 msgstr ""
 
 #: src/iexamine.cpp
-msgid "shelter"
-msgstr ""
-
-#: src/iexamine.cpp
 #, c-format
 msgid "Take down the %s?"
-msgstr ""
-
-#: src/iexamine.cpp src/map.cpp
-#, c-format
-msgid "You take down the %s."
 msgstr ""
 
 #: src/iexamine.cpp
@@ -84494,10 +85494,6 @@ msgid "Planted %s"
 msgstr ""
 
 #: src/iexamine.cpp
-msgid "Harvest plant?"
-msgstr ""
-
-#: src/iexamine.cpp
 msgid ""
 "We have altered this unit's configuration to extract and provide local "
 "nutriment.  The Mycus provides."
@@ -84516,15 +85512,18 @@ msgid "The seed blossoms into a flower-looking fungus."
 msgstr ""
 
 #: src/iexamine.cpp
-msgid "This plant has already been fertilized."
+#, c-format
+msgid "This %s has already been fertilized."
 msgstr ""
 
 #: src/iexamine.cpp
-msgid "You have no fertilizer."
+#, c-format
+msgid "You have no fertilizer for the %s."
 msgstr ""
 
 #: src/iexamine.cpp
-msgid "Fertilize plant"
+#, c-format
+msgid "Fertilize the %s"
 msgstr ""
 
 #: src/iexamine.cpp
@@ -84716,6 +85715,15 @@ msgstr ""
 #: src/iexamine.cpp
 #, c-format
 msgid "This %s has already been harvested. Harvest it again next year."
+msgstr ""
+
+#: src/iexamine.cpp
+msgid "You have no tool to dig with..."
+msgstr ""
+
+#: src/iexamine.cpp
+#, c-format
+msgid "Dig up %s? This kills the tree!"
 msgstr ""
 
 #: src/iexamine.cpp
@@ -85014,6 +86022,33 @@ msgstr ""
 
 #: src/iexamine.cpp
 msgid "Unable to refund, no fuel in pump."
+msgstr ""
+
+#: src/iexamine.cpp
+msgid "You can't climb down there"
+msgstr ""
+
+#: src/iexamine.cpp
+#, c-format
+msgid "Looks like %d stories. Jump down?"
+msgstr ""
+
+#: src/iexamine.cpp
+msgid "You probably won't be able to get up and jumping down may hurt. Jump?"
+msgstr ""
+
+#: src/iexamine.cpp
+msgid "You probably won't be able to get back up. Climb down?"
+msgstr ""
+
+#: src/iexamine.cpp
+msgid ""
+"You should be able to climb back up easily if you climb down there. Climb "
+"down?"
+msgstr ""
+
+#: src/iexamine.cpp
+msgid "You may have problems climbing back up. Climb down?"
 msgstr ""
 
 #: src/input.cpp
@@ -85523,6 +86558,10 @@ msgstr ""
 
 #: src/item.cpp
 msgid "Cut: "
+msgstr ""
+
+#: src/item.cpp
+msgid "Acid: "
 msgstr ""
 
 #: src/item.cpp
@@ -89546,6 +90585,10 @@ msgid "You accurize your %s."
 msgstr ""
 
 #: src/iuse.cpp
+msgid "You can't see to repair!"
+msgstr ""
+
+#: src/iuse.cpp
 msgid "You need a fabrication skill of 1 to use this repair kit."
 msgstr ""
 
@@ -89554,7 +90597,7 @@ msgid "Select the item to repair."
 msgstr ""
 
 #: src/iuse.cpp
-msgid "That isn't made of wood, bone, or chitin!"
+msgid "That isn't made of wood, paper, bone, or chitin!"
 msgstr ""
 
 #: src/iuse.cpp
@@ -90361,6 +91404,18 @@ msgstr ""
 #: src/iuse.cpp
 #, c-format
 msgid "The %s can't capture nothing"
+msgstr ""
+
+#: src/iuse.cpp
+msgid "Put the ladder where?"
+msgstr ""
+
+#: src/iuse.cpp
+msgid "Can't place it there."
+msgstr ""
+
+#: src/iuse.cpp
+msgid "You set down the ladder."
 msgstr ""
 
 #: src/iuse_actor.cpp
@@ -91963,9 +93018,27 @@ msgstr ""
 msgid "No templates found!"
 msgstr ""
 
+#: src/main_menu.cpp
+msgid "Press 'd' to delete a preset."
+msgstr ""
+
+#: src/main_menu.cpp
+#, c-format
+msgid "Are you sure you want to delete %s?"
+msgstr ""
+
+#: src/main_menu.cpp
+msgid "Sorry, something went wrong."
+msgstr ""
+
 #: src/map.cpp
 #, c-format
 msgid "Your %s sank."
+msgstr ""
+
+#: src/map.cpp
+#, c-format
+msgid "Your %s can't move on this terrain."
 msgstr ""
 
 #: src/map.cpp
@@ -92014,7 +93087,7 @@ msgstr ""
 
 #: src/map.cpp
 #, c-format
-msgid "The %1$s's %2$s collides with the %3$s's %4$s."
+msgid "The %1$s's %2$s collides with %3$s's %4$s."
 msgstr ""
 
 #: src/map.cpp src/melee.cpp src/monster.cpp src/vehicle.cpp
@@ -92090,6 +93163,11 @@ msgstr ""
 
 #: src/map.cpp
 msgid "The metal bars melt!"
+msgstr ""
+
+#: src/map.cpp
+#, c-format
+msgid "You take down the %s."
 msgstr ""
 
 #: src/map.cpp
@@ -97547,7 +98625,16 @@ msgstr ""
 
 #: src/mondefense.cpp
 #, c-format
+msgid "Acid covering %s burns your hand!"
+msgstr ""
+
+#: src/mondefense.cpp
+#, c-format
 msgid "Acid sprays out of %s as it is hit!"
+msgstr ""
+
+#: src/mondefense.cpp
+msgid "Some acid lands on you!"
 msgstr ""
 
 #: src/monmove.cpp

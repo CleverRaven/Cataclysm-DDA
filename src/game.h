@@ -292,7 +292,7 @@ class game
          *  if the player wants to ignore further distractions. */
         bool cancel_activity_or_ignore_query(const char *reason, ...);
         /** Handles players exiting from moving vehicles. */
-        void moving_vehicle_dismount(int tox, int toy);
+        void moving_vehicle_dismount( const tripoint &p );
 
         /** Returns the current remotely controlled vehicle. */
         vehicle *remoteveh();
@@ -314,7 +314,7 @@ class game
         /** Performs a random short-distance teleport on the given player, granting teleglow if needed. */
         void teleport(player *p = NULL, bool add_teleglow = true);
         /** Handles swimming by the player. Called by plmove(). */
-        void plswim(int x, int y);
+        void plswim( const tripoint &p );
         /** Picks and spawns a random fish from the remaining fish list when a fish is caught. */
         void catch_a_monster(std::vector<monster*> &catchables, const tripoint &pos, player *p, int catch_duration = 0);
         /** Returns the list of currently fishable monsters within distance of the player. */
@@ -327,11 +327,11 @@ class game
         bool spread_fungus( const tripoint &p );
         std::vector<faction *> factions_at( const tripoint &p );
         int &scent( const tripoint &p );
-        float natural_light_level() const;
+        float natural_light_level( int zlev ) const;
         /** Returns coarse number-of-squares of visibility at the current light level.
          * Used by monster and NPC AI.
          */
-        unsigned char light_level() const;
+        unsigned char light_level( int zlev ) const;
         void reset_light_level();
         int assign_npc_id();
         int assign_faction_id();
@@ -604,11 +604,22 @@ class game
         void pldrive(int x, int y); // drive vehicle
         // Standard movement; handles attacks, traps, &c. Returns false if auto move
         // should be canceled
-        bool plmove(int dx, int dy);
+        bool plmove(int dx, int dy, int dz = 0);
+        // Handle pushing during move, returns true if it handled the move
+        bool grabbed_move( const tripoint &dp );
+        bool grabbed_veh_move( const tripoint &dp );
+        bool grabbed_furn_move( const tripoint &dp );
+        // Handle phasing through walls, returns true if it handled the move
+        bool phasing_move( const tripoint &dest );
+        // Regular movement. Returns false if it failed for any reason
+        bool walk_move( const tripoint &dest );
+        // Places the player at the end of a move; hurts feet, lists items etc.
+        void place_player( const tripoint &dest );
         void on_move_effects();
         void wait(); // Long wait (player action)  '^'
         void open(); // Open a door  'o'
-        void close(int closex = -1, int closey = -1); // Close a door  'c'
+        void close();
+        void close( const tripoint &p ); // Close a door  'c'
         void smash(); // Smash terrain
 
         void handbrake ();
@@ -756,8 +767,7 @@ class game
         std::map<mtype_id, int> kills;         // Player's kill count
         int moves_since_last_save;
         time_t last_save_timestamp;
-        mutable float latest_lightlevel;
-        mutable calendar latest_lightlevel_turn;
+        mutable std::array<float, OVERMAP_LAYERS> latest_lightlevels;
         // remoteveh() cache
         int remoteveh_cache_turn;
         vehicle *remoteveh_cache;

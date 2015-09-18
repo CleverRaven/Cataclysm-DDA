@@ -1606,7 +1606,7 @@ void overmap::draw(WINDOW *w, WINDOW *wbar, const tripoint &center,
     nc_color ter_color;
     long ter_sym;
     // sight_points is hoisted for speed reasons.
-    int sight_points = g->u.overmap_sight_range(g->light_level());
+    int sight_points = g->u.overmap_sight_range( g->light_level( g->u.posz() ) );
 
     std::string sZoneName;
     tripoint tripointZone = tripoint(-1, -1, -1);

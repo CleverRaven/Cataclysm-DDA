@@ -1664,14 +1664,14 @@ void monster::die(Creature* nkiller) {
     }
 
     if (anger_adjust != 0 || morale_adjust != 0) {
-        int light = g->light_level();
+        int light = g->light_level( posz() );
         for (size_t i = 0; i < g->num_zombies(); i++) {
             monster &critter = g->zombie( i );
             if( !critter.type->same_species( *type ) ) {
                 continue;
             }
 
-            if( g->m.sees( critter.pos3(), pos3(), light ) ) {
+            if( g->m.sees( critter.pos(), pos(), light ) ) {
                 critter.morale += morale_adjust;
                 critter.anger += anger_adjust;
             }

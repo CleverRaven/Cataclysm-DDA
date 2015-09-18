@@ -78,7 +78,7 @@ void tutorial_game::per_turn()
  } else if (calendar::turn == HOURS(12) + 3)
   add_message(LESSON_INTRO);
 
- if (g->light_level() == 1) {
+ if (g->light_level( g->u.posz() ) == 1) {
   if (g->u.has_amount("flashlight", 1))
    add_message(LESSON_DARK);
   else

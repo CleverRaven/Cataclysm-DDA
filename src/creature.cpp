@@ -200,9 +200,9 @@ bool Creature::sees( const tripoint &t, bool is_player ) const
     const int wanted_range = rl_dist( pos3(), t );
     if( wanted_range <= range_min ||
         ( wanted_range <= range_day &&
-          g->m.ambient_light_at( t ) > g->natural_light_level() ) ) {
+          g->m.ambient_light_at( t ) > g->natural_light_level( t.z ) ) ) {
         int range = 0;
-        if( g->m.ambient_light_at( t ) > g->natural_light_level() ) {
+        if( g->m.ambient_light_at( t ) > g->natural_light_level( t.z ) ) {
             range = wanted_range;
         } else {
             range = range_min;

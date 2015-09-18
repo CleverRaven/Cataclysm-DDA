@@ -8355,7 +8355,7 @@
       [ "tomato", 1]
     ],
     [
-      [ "ketchup", 1 ], [ "mustard", 1], [ "horseradish", 1 ], [ "mayonnaise", 1], [ "bacon", 2 ],  [ "seasoning_salt", 15], [ "soysauce", 1 ]
+      [ "ketchup", 1 ], [ "mustard", 1], [ "horseradish", 1 ], [ "mayonnaise", 1], [ "bacon", 2 ],  [ "seasoning_salt", 15], [ "soysauce", 1 ], [ "sauerkraut", 1 ]
     ]
   ]
 },{
@@ -8475,7 +8475,7 @@
       [ "tomato", 1]
     ],
     [
-      [ "ketchup", 1 ], [ "mustard", 1], [ "horseradish", 1 ], [ "mayonnaise", 1], [ "bacon", 2 ],  [ "seasoning_salt", 15], [ "soysauce", 1 ]
+      [ "ketchup", 1 ], [ "mustard", 1], [ "horseradish", 1 ], [ "mayonnaise", 1], [ "bacon", 2 ],  [ "seasoning_salt", 15], [ "soysauce", 1 ], [ "sauerkraut", 1 ]
     ]
   ]
 },{
@@ -8520,7 +8520,7 @@
       [ "tomato", 1]
     ],
     [
-      [ "ketchup", 1 ], [ "mustard", 1], [ "horseradish", 1 ], [ "mayonnaise", 1], [ "bacon", 2 ],  [ "seasoning_salt", 15 ], [ "soysauce", 1 ]
+      [ "ketchup", 1 ], [ "mustard", 1], [ "horseradish", 1 ], [ "mayonnaise", 1], [ "bacon", 2 ],  [ "seasoning_salt", 15 ], [ "soysauce", 1 ], [ "sauerkraut", 1 ]
     ]
   ]
 },{
@@ -8631,7 +8631,8 @@
     [
       [ "ketchup", 4 ],
       [ "mustard", 4],
-      [ "horseradish", 2 ]
+      [ "horseradish", 2 ],
+      [ "sauerkraut", 1 ]
     ],
     [
       [ "water", 1],
@@ -8675,7 +8676,8 @@
     ],
     [
       [ "mustard", 4],
-      [ "horseradish", 2 ]
+      [ "horseradish", 2 ],
+      [ "sauerkraut", 1 ]
     ]
   ]
 },{
@@ -8748,7 +8750,8 @@
     ],
     [
       [ "mustard", 4],
-      [ "horseradish", 2 ]
+      [ "horseradish", 2 ],
+      [ "sauerkraut", 1 ]
     ]
   ]
 },{
@@ -8853,7 +8856,7 @@
       [ "tomato", 1]
     ],
     [
-      [ "ketchup", 1 ], [ "mustard", 1], [ "horseradish", 1 ], [ "mayonnaise", 1], [ "bacon", 2 ],  [ "seasoning_salt", 15 ], [ "soysauce", 1 ]
+      [ "ketchup", 1 ], [ "mustard", 1], [ "horseradish", 1 ], [ "mayonnaise", 1], [ "bacon", 2 ],  [ "seasoning_salt", 15 ], [ "soysauce", 1 ], [ "sauerkraut", 1 ]
     ]
   ]
 },{
@@ -9233,6 +9236,79 @@
     ]
   ]
 },{
+  "type" : "recipe",
+  "result": "sauerkraut_ferment",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_VEGGI",
+  "skill_used": "cooking",
+  "difficulty": 5,
+  "time": 30000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1},
+    {"id":"COOK","level":3,"amount":1}
+  ], "tools": [
+    [
+      [ "hotplate", 20 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 20 ],
+      [ "fire", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "water", 1 ],
+      [ "water_clean", 1 ]
+    ],
+    [
+      [ "salt_water", 2 ],
+      [ "saline", 5 ],
+      [ "salt", 1]
+    ],
+    [
+      [ "jar_glass", 1 ]
+    ],
+    [
+      ["veggy", 2],
+      ["lettuce", 2],
+      ["veggy_wild", 2],
+      ["cabbage", 2]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "sauerkraut_onions",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_VEGGI",
+  "skill_used": "cooking",
+  "difficulty": 3,
+  "time": 15000,
+  "reversible": false,
+  "autolearn": true,
+  "batch_time_factors":[67, 5],
+  "qualities":[
+    {"id":"COOK","level":1,"amount":1}
+  ], "tools": [
+    [
+      [ "hotplate", 7 ],
+      [ "toolset", 7 ],
+      [ "fire", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "sauerkraut", 1 ]
+    ],
+    [
+      [ "cooking_oil", 1 ]
+    ],
+    [
+      [ "irradiated_onion", 1 ],
+      [ "onion", 1 ]
+    ]
+  ]
+  },{
   "type" : "recipe",
   "result": "jar_meat_pickled",
   "category": "CC_FOOD",
@@ -9676,7 +9752,9 @@
       [ "broccoli", 1],
       [ "irradiated_broccoli", 1],
       [ "dandelion_cooked", 1 ],
-      [ "veggy_wild_cooked", 1 ]
+      [ "veggy_wild_cooked", 1 ],
+      [ "irradiated_cabbage", 1 ],
+      [ "cabbage", 1 ]
     ],
     [
       [ "cucumber", 2 ],
