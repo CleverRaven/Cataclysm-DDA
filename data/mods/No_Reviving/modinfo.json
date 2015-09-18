@@ -4,6 +4,5 @@
         "ident": "no_reviving_zombies",
         "name": "Prevent Zombie Revivication",
         "description": "Disables zombie revival.",
-        "with-lua": true,
         "path": ""
     }

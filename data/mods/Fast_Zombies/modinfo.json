@@ -4,6 +4,5 @@
         "ident": "Fast_Zombies",
         "name": "Fast Zombies",
         "description": "Doubles zombie speed.",
-        "with-lua": true,
         "path": ""
     }
