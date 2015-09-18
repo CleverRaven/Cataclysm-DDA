@@ -38,7 +38,6 @@
         "covers" : ["HEAD"],
         "techniques" : ["WBLOCK_1"],
         "warmth" : 5,
-        "environmental_protection" : 0,
         "encumbrance" : 10,
         "coverage" : 80,
         "material_thickness" : 4
@@ -74,7 +73,6 @@
         "covers" : ["HEAD"],
         "techniques" : ["WBLOCK_1"],
         "warmth" : 5,
-        "environmental_protection" : 0,
         "encumbrance" : 10,
         "coverage" : 80,
         "material_thickness" : 4
@@ -146,7 +144,6 @@
         },
         "covers" : ["FEET"],
         "warmth" : 10,
-        "environmental_protection" : 0,
         "encumbrance" : 0,
         "coverage" : 100,
         "material_thickness" : 1
@@ -181,7 +178,6 @@
         },
         "covers" : ["FEET"],
         "warmth" : 60,
-        "environmental_protection" : 0,
         "encumbrance" : 0,
         "coverage" : 100,
         "material_thickness" : 1
@@ -218,7 +214,6 @@
         },
         "covers" : ["TORSO", "ARMS", "LEGS"],
         "warmth" : 10,
-        "environmental_protection" : 0,
         "encumbrance" : 0,
         "coverage" : 100,
         "material_thickness" : 1
@@ -253,7 +248,6 @@
         },
         "covers" : ["TORSO", "ARMS", "LEGS"],
         "warmth" : 60,
-        "environmental_protection" : 0,
         "encumbrance" : 0,
         "coverage" : 100,
         "material_thickness" : 1
@@ -291,7 +285,6 @@
         },
         "covers" : ["HANDS"],
         "warmth" : 10,
-        "environmental_protection" : 0,
         "encumbrance" : 0,
         "coverage" : 100,
         "material_thickness" : 1
@@ -326,7 +319,6 @@
         },
         "covers" : ["HANDS"],
         "warmth" : 60,
-        "environmental_protection" : 0,
         "encumbrance" : 0,
         "coverage" : 100,
         "material_thickness" : 1
@@ -363,7 +355,6 @@
         },
         "covers" : ["HEAD", "MOUTH"],
         "warmth" : 10,
-        "environmental_protection" : 0,
         "encumbrance" : 0,
         "coverage" : 100,
         "material_thickness" : 1
@@ -398,7 +389,6 @@
         },
         "covers" : ["HEAD", "MOUTH"],
         "warmth" : 60,
-        "environmental_protection" : 0,
         "encumbrance" : 0,
         "coverage" : 100,
         "material_thickness" : 1
@@ -434,7 +424,6 @@
             "need_charges_msg": "The flashlights batteries are dead."
         },
         "warmth" : 0,
-        "environmental_protection" : 0,
         "encumbrance" : 0,
         "coverage" : 0,
         "material_thickness" : 2
@@ -468,7 +457,6 @@
             "target": "wearable_light"
         },
         "warmth" : 0,
-        "environmental_protection" : 0,
         "encumbrance" : 0,
         "coverage" : 0,
         "material_thickness" : 2
@@ -920,7 +908,6 @@
         "revert_to": "null",
         "use_action": "JET_INJECTOR",
         "warmth" : 0,
-        "environmental_protection" : 0,
         "encumbrance" : 0,
         "coverage" : 0,
         "material_thickness" : 3
@@ -950,7 +937,6 @@
         "revert_to": "null",
         "use_action": "STIMPACK",
         "warmth" : 0,
-        "environmental_protection" : 0,
         "encumbrance" : 0,
         "coverage" : 0,
         "material_thickness" : 3
@@ -1121,7 +1107,6 @@
         "to_hit": 0,
         "revert_to": "null",
         "warmth" : 0,
-        "environmental_protection" : 0,
         "encumbrance" : 0,
         "coverage" : 0,
         "material_thickness" : 0
@@ -1178,7 +1163,6 @@
         "to_hit": 0,
         "revert_to": "null",
         "warmth" : 0,
-        "environmental_protection" : 0,
         "encumbrance" : 0,
         "coverage" : 0,
         "material_thickness" : 0
@@ -1236,7 +1220,6 @@
         "revert_to": "null",
         "use_action": "RADGLOVE",
         "warmth" : 0,
-        "environmental_protection" : 0,
         "encumbrance" : 0,
         "coverage" : 0,
         "material_thickness" : 1
@@ -1258,7 +1241,6 @@
         "cutting" : 0,
         "warmth" : 0,
         "phase" : "solid",
-        "environmental_protection" : 0,
         "encumbrance" : 0,
         "bashing" : -3,
         "flags" : ["VARSIZE", "WATER_FRIENDLY", "STURDY", "WAIST", "OVERSIZE"],
@@ -1294,7 +1276,6 @@
             "pick_quality": 3
         },
         "warmth" : 0,
-        "environmental_protection" : 0,
         "encumbrance" : 0,
         "coverage" : 0,
         "material_thickness" : 0
@@ -1322,7 +1303,6 @@
     "revert_to": "null",
     "use_action": "TOWEL",
     "warmth" : 10,
-    "environmental_protection" : 0,
     "encumbrance" : 0,
     "coverage" : 50,
     "material_thickness" : 1
@@ -1351,7 +1331,6 @@
     "use_action": "TOWEL",
     "flags": ["WET"],
     "warmth" : 0,
-    "environmental_protection" : 0,
     "encumbrance" : 0,
     "coverage" : 50,
     "material_thickness" : 1
@@ -1379,7 +1358,6 @@
     "use_action": "TOWEL",
     "flags": ["WET"],
     "warmth" : 0,
-    "environmental_protection" : 0,
     "encumbrance" : 0,
     "coverage" : 50,
     "material_thickness" : 1
@@ -2011,7 +1989,6 @@
         },
         "covers" : ["HEAD", "MOUTH", "TORSO", "ARMS", "LEGS", "HANDS", "FEET"],
         "warmth" : 10,
-        "environmental_protection" : 0,
         "encumbrance" : 0,
         "coverage" : 100,
         "material_thickness" : 1
@@ -2046,7 +2023,6 @@
         },
         "covers" : ["HEAD", "MOUTH", "TORSO", "ARMS", "LEGS", "HANDS", "FEET"],
         "warmth" : 60,
-        "environmental_protection" : 0,
         "encumbrance" : 0,
         "coverage" : 100,
         "material_thickness" : 1
@@ -2079,7 +2055,6 @@
         "cutting" : 0,
         "warmth" : 50,
         "phase" : "solid",
-        "environmental_protection" : 0,
         "encumbrance" : 10,
         "bashing" : -5,
         "flags" : ["VARSIZE", "SKINTIGHT"],
@@ -2115,7 +2090,6 @@
         "cutting" : 0,
         "warmth" : 30,
         "phase" : "solid",
-        "environmental_protection" : 0,
         "encumbrance" : 10,
         "bashing" : -5,
         "flags" : ["VARSIZE", "SKINTIGHT"],
@@ -2158,7 +2132,6 @@
         "cutting" : 0,
         "warmth" : 0,
         "phase" : "solid",
-        "environmental_protection" : 0,
         "encumbrance" : 0,
         "bashing" : -5,
         "flags" : ["BELTED"],
@@ -2202,7 +2175,6 @@
         "cutting" : 0,
         "warmth" : 2,
         "phase" : "solid",
-        "environmental_protection" : 0,
         "encumbrance" : 27,
         "bashing" : 8,
         "flags" : ["BELTED"],
@@ -2246,7 +2218,6 @@
         "cutting" : 0,
         "warmth" : 0,
         "phase" : "solid",
-        "environmental_protection" : 0,
         "encumbrance" : 15,
         "bashing" : 4,
         "flags" : ["BELTED"],
@@ -2291,7 +2262,6 @@
         "cutting" : 0,
         "warmth" : 0,
         "phase" : "solid",
-        "environmental_protection" : 0,
         "encumbrance" : 30,
         "bashing" : 13,
         "coverage" : 20,
@@ -2334,7 +2304,6 @@
         "cutting" : 0,
         "warmth" : 0,
         "phase" : "solid",
-        "environmental_protection" : 0,
         "encumbrance" : 30,
         "bashing" : 12,
         "coverage" : 20,

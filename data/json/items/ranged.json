@@ -382,7 +382,6 @@
         "coverage" : 10,
         "material_thickness" : 1,
         "encumbrance" : 15,
-        "environmental_protection" : 0,
         "warmth" : 0
     },
     "ranged_damage": 1,

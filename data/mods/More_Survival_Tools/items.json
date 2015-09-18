@@ -765,7 +765,6 @@
            "coverage" : 5,
            "material_thickness" : 2,
            "encumbrance" : 5,
-           "environmental_protection" : 0,
            "warmth" : 0
         },
         "rigid": true,

@@ -195,7 +195,6 @@
            "coverage" : 5,
            "material_thickness" : 2,
            "encumbrance" : 0,
-           "environmental_protection" : 0,
            "warmth" : 0
         },
         "rigid": true,
@@ -224,7 +223,6 @@
            "coverage" : 10,
            "material_thickness" : 2,
            "encumbrance" : 10,
-           "environmental_protection" : 0,
            "warmth" : 0
         },
         "rigid": true,
@@ -253,7 +251,6 @@
            "coverage" : 15,
            "material_thickness" : 1,
            "encumbrance" : 1,
-           "environmental_protection" : 0,
            "warmth" : 0,
            "storage" : 4
         },
@@ -381,7 +378,6 @@
            "coverage" : 5,
            "material_thickness" : 2,
            "encumbrance" : 0,
-           "environmental_protection" : 0,
            "warmth" : 0
         },
         "watertight": true,
@@ -409,7 +405,6 @@
            "coverage" : 10,
            "material_thickness" : 2,
            "encumbrance" : 10,
-           "environmental_protection" : 0,
            "warmth" : 0
         },
         "watertight": true,
@@ -437,7 +432,6 @@
            "coverage" : 15,
            "material_thickness" : 2,
            "encumbrance" : 10,
-           "environmental_protection" : 0,
            "warmth" : 0
         },
         "watertight": true,
@@ -607,7 +601,6 @@
             "coverage" : 2,
             "material_thickness" : 1,
             "encumbrance" : 0,
-            "environmental_protection" : 0,
             "warmth" : 0
         },
         "rigid": true,

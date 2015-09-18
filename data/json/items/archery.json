@@ -664,7 +664,6 @@
          "coverage" : 5,
          "material_thickness" : 1,
          "encumbrance" : 20,
-         "environmental_protection" : 0,
          "warmth" : 0
       },
       "ranged_damage" : 4,
@@ -699,7 +698,6 @@
          "coverage" : 5,
          "material_thickness" : 1,
          "encumbrance" : 20,
-         "environmental_protection" : 0,
          "warmth" : 0
       },
       "ranged_damage" : 3,
@@ -735,7 +733,6 @@
          "coverage" : 5,
          "material_thickness" : 1,
          "encumbrance" : 20,
-         "environmental_protection" : 0,
          "warmth" : 0
       },
       "ranged_damage" : 5,
@@ -771,7 +768,6 @@
          "coverage" : 5,
          "material_thickness" : 1,
          "encumbrance" : 20,
-         "environmental_protection" : 0,
          "warmth" : 0
       },
       "ranged_damage" : 7,
@@ -807,7 +803,6 @@
          "coverage" : 5,
          "material_thickness" : 1,
          "encumbrance" : 20,
-         "environmental_protection" : 0,
          "warmth" : 0
       },
       "ranged_damage" : 9,
@@ -843,7 +838,6 @@
          "coverage" : 5,
          "material_thickness" : 1,
          "encumbrance" : 20,
-         "environmental_protection" : 0,
          "warmth" : 0
       },
       "ranged_damage" : 11,
@@ -879,7 +873,6 @@
          "coverage" : 5,
          "material_thickness" : 1,
          "encumbrance" : 20,
-         "environmental_protection" : 0,
          "warmth" : 0
       },
       "ranged_damage" : 7,
@@ -915,7 +908,6 @@
          "coverage" : 5,
          "material_thickness" : 1,
          "encumbrance" : 20,
-         "environmental_protection" : 0,
          "warmth" : 0
       },
       "ranged_damage" : 15,

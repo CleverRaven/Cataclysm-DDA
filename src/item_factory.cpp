@@ -708,8 +708,8 @@ void Item_factory::load( islot_armor &slot, JsonObject &jo )
     slot.encumber = jo.get_int( "encumbrance" );
     slot.coverage = jo.get_int( "coverage" );
     slot.thickness = jo.get_int( "material_thickness" );
-    slot.env_resist = jo.get_int( "environmental_protection" );
-    slot.warmth = jo.get_int( "warmth" );
+    slot.env_resist = jo.get_int( "environmental_protection", 0 );
+    slot.warmth = jo.get_int( "warmth", 0 );
     slot.storage = jo.get_int( "storage", 0 );
     slot.power_armor = jo.get_bool( "power_armor", false );
     slot.covers = jo.has_member( "covers" ) ? flags_from_json( jo, "covers", "bodyparts" ) : 0;
