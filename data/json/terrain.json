@@ -4655,7 +4655,7 @@
         "symbol": "LINE_OXOX",
         "color": "red",
         "move_cost": 0,
-        "flags": ["FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL", "CHIP"],
+        "flags": ["FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "WALL", "CHIP", "AUTO_WALL_SYMBOL"],
         "bash": {
             "str_min": 30, "str_max": 210,
             "sound": "crash!",
