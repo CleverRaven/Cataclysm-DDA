@@ -1326,7 +1326,6 @@
         "phase" : "liquid",
         "ammo_type" : "bfeed",
         "damage" : 0,
-        "pierce" : 0,
         "range" : 0,
         "dispersion" : 0,
         "recoil" : 0,
