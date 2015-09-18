@@ -6084,7 +6084,7 @@ bool map::sees( const tripoint &F, const tripoint &T, const int range, int &bres
     bool visible = true;
 
     // Ugly `if` for now
-    if( !fov_3d ) {
+    if( !fov_3d || F.z == T.z ) {
         bresenham( F.x, F.y, T.x, T.y, bresenham_slope,
                    [this, &visible, &T]( const point &new_point ) {
                        // Exit before checking the last square, it's still visible even if opaque.
@@ -6100,18 +6100,29 @@ bool map::sees( const tripoint &F, const tripoint &T, const int range, int &bres
         return visible;
     }
 
+    tripoint last_point = F;
     bresenham( F, T, bresenham_slope, 0,
-                [this, &visible, &T]( const tripoint &new_point ) {
-               // Exit before checking the last square, it's still visible even if opaque.
-               if( new_point == T ) {
-                   return false;
-               }
-               if( !this->trans( new_point ) ) {
-                   visible = false;
-                   return false;
-               }
-               return true;
-           });
+                [this, &visible, &T, &last_point]( const tripoint &new_point ) {
+                    // Exit before checking the last square, it's still visible even if opaque.
+                    if( new_point == T ) {
+                        return false;
+                    }
+
+                    // TODO: Allow transparent floors (and cache them!)
+                    if( new_point.z != last_point.z &&
+                        valid_move( last_point, new_point, false, true ) ) {
+                        visible = false;
+                        return false;
+                    }
+
+                    if( !this->trans( new_point ) ) {
+                        visible = false;
+                        return false;
+                    }
+
+                    last_point = new_point;
+                    return true;
+                });
     return visible;
 }
 
@@ -6145,11 +6156,11 @@ bool map::clear_path( const tripoint &f, const tripoint &t, const int range,
                       const int cost_min, const int cost_max ) const
 {
     // Ugly `if` for now
-    if( !fov_3d ) {
-        if( f.z != t.z ) {
-            return false;
-        }
+    if( !fov_3d && f.z != t.z ) {
+        return false;
+    }
 
+    if( f.z == t.z ) {
         if( (range >= 0 && range < rl_dist(f.x, f.y, t.x, t.y)) ||
             !INBOUNDS(t.x, t.y) ) {
             return false; // Out of range!
@@ -6177,10 +6188,18 @@ bool map::clear_path( const tripoint &f, const tripoint &t, const int range,
         return false; // Out of range!
     }
     bool is_clear = true;
+    tripoint last_point = f;
     bresenham( f, t, 0, 0,
-               [this, &is_clear, cost_min, cost_max, t](const tripoint &new_point ) {
+               [this, &is_clear, cost_min, cost_max, t, &last_point](const tripoint &new_point ) {
                    // Exit before checking the last square, it's still reachable even if it is an obstacle.
                    if( new_point == t ) {
+                       return false;
+                   }
+
+                   // We have to check a weird case where the move is both vertical and horizontal
+                   if( new_point.z != last_point.z &&
+                       valid_move( last_point, new_point, false, true ) ) {
+                       is_clear = false;
                        return false;
                    }
 
@@ -6189,6 +6208,8 @@ bool map::clear_path( const tripoint &f, const tripoint &t, const int range,
                        is_clear = false;
                        return false;
                    }
+
+                   last_point = new_point;
                    return true;
                } );
     return is_clear;
@@ -7125,29 +7146,36 @@ void map::build_outside_cache( const int zlev )
 
 void map::build_map_cache( const int zlev, bool skip_lightmap )
 {
-    build_outside_cache( zlev );
-    build_transparency_cache( zlev );
+    const int minz = zlevels ? -OVERMAP_DEPTH : zlev;
+    const int maxz = zlevels ? OVERMAP_HEIGHT : zlev;
+    for( int z = minz; z <= maxz; z++ ) {
+        build_outside_cache( z );
+        build_transparency_cache( z );
+    }
 
-    tripoint start( 0, 0, zlev );
-    tripoint end( my_MAPSIZE * SEEX, my_MAPSIZE * SEEY, zlev );
-
+    tripoint start( 0, 0, minz );
+    tripoint end( my_MAPSIZE * SEEX, my_MAPSIZE * SEEY, maxz );
     VehicleList vehs = get_vehicles( start, end );
-    auto &outside_cache = get_cache( zlev ).outside_cache;
-    auto &transparency_cache = get_cache( zlev ).transparency_cache;
     // Cache all the vehicle stuff in one loop
     for( auto &v : vehs ) {
+        auto &ch = get_cache( v.z );
+        auto &outside_cache = ch.outside_cache;
+        auto &transparency_cache = ch.transparency_cache;
         for( size_t part = 0; part < v.v->parts.size(); part++ ) {
             int px = v.x + v.v->parts[part].precalc[0].x;
             int py = v.y + v.v->parts[part].precalc[0].y;
-            if(INBOUNDS(px, py)) {
-                if (v.v->is_inside(part)) {
-                    outside_cache[px][py] = false;
-                }
-                if (v.v->part_flag(part, VPFLAG_OPAQUE) && v.v->parts[part].hp > 0) {
-                    int dpart = v.v->part_with_feature( part, VPFLAG_OPENABLE );
-                    if (dpart < 0 || !v.v->parts[dpart].open) {
-                        transparency_cache[px][py] = LIGHT_TRANSPARENCY_SOLID;
-                    }
+            if( !INBOUNDS( px, py ) ) {
+                continue;
+            }
+
+            if( v.v->is_inside( part ) ) {
+                outside_cache[px][py] = false;
+            }
+
+            if( v.v->part_flag(part, VPFLAG_OPAQUE) && v.v->parts[part].hp > 0 ) {
+                int dpart = v.v->part_with_feature( part, VPFLAG_OPENABLE );
+                if (dpart < 0 || !v.v->parts[dpart].open) {
+                    transparency_cache[px][py] = LIGHT_TRANSPARENCY_SOLID;
                 }
             }
         }

@@ -462,11 +462,16 @@ bool map::pl_sees( const tripoint &t, const int max_range ) const
     if( max_range >= 0 && square_dist( t, g->u.pos3() ) > max_range ) {
         return false;    // Out of range!
     }
-    const auto &map_cache = get_cache_ref( t.z );
-    return map_cache.seen_cache[t.x][t.y] > LIGHT_TRANSPARENCY_SOLID + 0.1 &&
-        ( map_cache.seen_cache[t.x][t.y] * map_cache.lm[t.x][t.y] >
-          g->u.get_vision_threshold( map_cache.lm[g->u.posx()][g->u.posy()] ) ||
-          map_cache.sm[t.x][t.y] > 0.0 );
+
+    if( !fov_3d || t.z == g->get_levz() ) {
+        const auto &map_cache = get_cache_ref( t.z );
+        return map_cache.seen_cache[t.x][t.y] > LIGHT_TRANSPARENCY_SOLID + 0.1 &&
+            ( map_cache.seen_cache[t.x][t.y] * map_cache.lm[t.x][t.y] >
+              g->u.get_vision_threshold( map_cache.lm[g->u.posx()][g->u.posy()] ) ||
+              map_cache.sm[t.x][t.y] > 0.0 );
+    }
+
+    return g->m.sees( g->u.pos(), t, max_range );
 }
 
 /**
@@ -490,27 +495,74 @@ void map::build_seen_cache( const tripoint &origin, const int target_z )
 
     std::uninitialized_fill_n(
         &seen_cache[0][0], MAPSIZE*SEEX * MAPSIZE*SEEY, LIGHT_TRANSPARENCY_SOLID);
-    seen_cache[origin.x][origin.y] = LIGHT_TRANSPARENCY_CLEAR;
 
-    castLight<0, 1, 1, 0, sight_calc, sight_check>(
-        seen_cache, transparency_cache, origin.x, origin.y, 0 );
-    castLight<1, 0, 0, 1, sight_calc, sight_check>(
-        seen_cache, transparency_cache, origin.x, origin.y, 0 );
+    if( !fov_3d ) {
+        seen_cache[origin.x][origin.y] = LIGHT_TRANSPARENCY_CLEAR;
 
-    castLight<0, -1, 1, 0, sight_calc, sight_check>(
-        seen_cache, transparency_cache, origin.x, origin.y, 0 );
-    castLight<-1, 0, 0, 1, sight_calc, sight_check>(
-        seen_cache, transparency_cache, origin.x, origin.y, 0 );
+        castLight<0, 1, 1, 0, sight_calc, sight_check>(
+            seen_cache, transparency_cache, origin.x, origin.y, 0 );
+        castLight<1, 0, 0, 1, sight_calc, sight_check>(
+            seen_cache, transparency_cache, origin.x, origin.y, 0 );
 
-    castLight<0, 1, -1, 0, sight_calc, sight_check>(
-        seen_cache, transparency_cache, origin.x, origin.y, 0 );
-    castLight<1, 0, 0, -1, sight_calc, sight_check>(
-        seen_cache, transparency_cache, origin.x, origin.y, 0 );
+        castLight<0, -1, 1, 0, sight_calc, sight_check>(
+            seen_cache, transparency_cache, origin.x, origin.y, 0 );
+        castLight<-1, 0, 0, 1, sight_calc, sight_check>(
+            seen_cache, transparency_cache, origin.x, origin.y, 0 );
 
-    castLight<0, -1, -1, 0, sight_calc, sight_check>(
-        seen_cache, transparency_cache, origin.x, origin.y, 0 );
-    castLight<-1, 0, 0, -1, sight_calc, sight_check>(
-        seen_cache, transparency_cache, origin.x, origin.y, 0 );
+        castLight<0, 1, -1, 0, sight_calc, sight_check>(
+            seen_cache, transparency_cache, origin.x, origin.y, 0 );
+        castLight<1, 0, 0, -1, sight_calc, sight_check>(
+            seen_cache, transparency_cache, origin.x, origin.y, 0 );
+
+        castLight<0, -1, -1, 0, sight_calc, sight_check>(
+            seen_cache, transparency_cache, origin.x, origin.y, 0 );
+        castLight<-1, 0, 0, -1, sight_calc, sight_check>(
+            seen_cache, transparency_cache, origin.x, origin.y, 0 );
+    } else {
+        if( origin.z == target_z ) {
+            seen_cache[origin.x][origin.y] = LIGHT_TRANSPARENCY_CLEAR;
+        }
+
+        // Beamcasting, as opposed to shadowcasting for 2D
+        const int range = g->u.sight_range( ambient_light_at( g->u.pos() ) );
+        const tripoint start( g->u.posx() - range, g->u.posy() - range, target_z );
+        const tripoint end  ( g->u.posx() + range, g->u.posy() + range, target_z );
+        for( const tripoint &pt : points_in_rectangle( start, end ) ) {
+            // Already seen or too far
+            if( seen_cache[pt.x][pt.y] == LIGHT_TRANSPARENCY_CLEAR ||
+                rl_dist( origin, pt ) > range ) {
+                continue;
+            }
+
+            tripoint last_point = origin;
+            const auto is_seen =
+                [this, &pt, &last_point, &seen_cache]( const tripoint &new_point ) {
+                if( new_point.z != last_point.z &&
+                    !valid_move( last_point, new_point, false, true ) ) {
+                    return false;
+                }
+
+                seen_cache[new_point.x][new_point.y] = LIGHT_TRANSPARENCY_CLEAR;
+
+                if( new_point == pt ) {
+                    return false;
+                }
+
+                if( !this->trans( new_point ) ) {
+                    return false;
+                }
+
+                last_point = new_point;
+                return true;
+            };
+
+            int bresenham_slope = 0;
+            bresenham( origin, pt, bresenham_slope, 0, is_seen );
+        }
+
+        // For now disable mirrors in the ultra-experimental 3D vision
+        return;
+    }
 
     int part;
     if ( vehicle *veh = veh_at( origin, part ) ) {

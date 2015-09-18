@@ -1036,6 +1036,8 @@ public:
  vehicle *add_vehicle(const vproto_id &type, const int x, const int y, const int dir,
                       const int init_veh_fuel = -1, const int init_veh_status = -1,
                       const bool merge_wrecks = true);
+
+    // Note: in 3D mode, will actually build caches on ALL zlevels, but not visibility ones
     void build_map_cache( int zlev, bool skip_lightmap = false );
 
     vehicle *add_vehicle( const vgroup_id &type, const tripoint &p, const int dir,
