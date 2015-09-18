@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cdda-ja\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-09-07 09:43+0300\n"
-"PO-Revision-Date: 2015-09-09 21:48+0000\n"
+"POT-Creation-Date: 2015-09-14 09:22+0300\n"
+"PO-Revision-Date: 2015-09-17 06:58+0000\n"
 "Last-Translator: TEATIME <teatime@r7.dion.ne.jp>\n"
 "Language-Team: Japanese <ja@li.org>\n"
 "Language: ja\n"
@@ -16,8 +16,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Launchpad-Export-Date: 2015-09-10 07:05+0000\n"
-"X-Generator: Launchpad (build 17706)\n"
+"X-Launchpad-Export-Date: 2015-09-18 09:36+0000\n"
+"X-Generator: Launchpad (build 17746)\n"
 "X-Poedit-Bookmarks: 14038,14139,19652,14465,-1,-1,-1,-1,-1,-1\n"
 
 #: lang/json/AMMO_from_json.py
@@ -1416,7 +1416,7 @@ msgstr ""
 #. ~ Description for soap bar
 #: lang/json/AMMO_from_json.py
 msgid "A cleansing agent made into bars."
-msgstr "合成洗剤が固体になったものです。"
+msgstr "合成洗剤を固体にした物です。"
 
 #. ~ Description for pool ball
 #: lang/json/AMMO_from_json.py lang/json/GENERIC_from_json.py
@@ -1445,6 +1445,13 @@ msgid ""
 "functional arrow."
 msgstr ""
 "木から作った荒削りな矢柄です。矢として機能させるには矢尻と矢羽が必要です。"
+
+#. ~ Description for dull essence
+#: lang/json/AMMO_from_json.py
+msgid ""
+"A dark, powdery bit of strange essence, formed from destructively "
+"\"consecrating\" a magic item."
+msgstr ""
 
 #. ~ Description for reloaded shotgun beanbag
 #: lang/json/AMMO_from_json.py
@@ -2167,6 +2174,18 @@ msgstr ""
 "投げやすい様に適当な形に整えられた棒です。ブーメランではないので、手元に戻っ"
 "てくる事はありません。"
 
+#. ~ Description for blood essence
+#: lang/json/AMMO_from_json.py
+msgid "A strange glowing mote of wispy vapor, drained from a living creature."
+msgstr ""
+
+#. ~ Description for essence
+#: lang/json/AMMO_from_json.py
+msgid ""
+"A strange glowing mote of wispy vapor.  It gives off a soothing warmth and "
+"feels suprisingly solid, almost alive even."
+msgstr ""
+
 #. ~ Description for lamp oil
 #: lang/json/AMMO_from_json.py
 msgid "A thin and clean-burning oil made for use in oil lamps."
@@ -2839,7 +2858,7 @@ msgstr[0] "ロケット弾(FFV502/HEDP)"
 #. ~ Description for feather
 #: lang/json/AMMO_from_json.py
 msgid "Feathers from a bird.  Useful for fletching arrows"
-msgstr "鳥の羽毛です。矢羽の作製に適しています。"
+msgstr "鳥の羽です。矢羽の作製に適しています。"
 
 #. ~ Description for gunpowder
 #: lang/json/AMMO_from_json.py
@@ -3901,7 +3920,7 @@ msgid ""
 "its applications in combat are very limited."
 msgstr ""
 "弱いショットガン用の弾薬です。鳥獣の狩猟や小さな標的向きで、戦闘における効果"
-"は限定的です。"
+"は非常に限られます。"
 
 #. ~ Description for yarn
 #: lang/json/AMMO_from_json.py
@@ -3987,6 +4006,11 @@ msgstr[0] "円筒弾(爆発)"
 msgid "blob feed"
 msgid_plural "blob feeds"
 msgstr[0] "飼料(ブロブ)"
+
+#: lang/json/AMMO_from_json.py lang/json/ammunition_type_from_json.py
+msgid "blood essence"
+msgid_plural "blood essence"
+msgstr[0] ""
 
 #: lang/json/AMMO_from_json.py
 msgid "blue paint"
@@ -4112,6 +4136,16 @@ msgstr[0] "綿羽"
 msgid "duct tape"
 msgid_plural "duct tapes"
 msgstr[0] "ダクトテープ"
+
+#: lang/json/AMMO_from_json.py lang/json/ammunition_type_from_json.py
+msgid "dull essence"
+msgid_plural "dull essence"
+msgstr[0] ""
+
+#: lang/json/AMMO_from_json.py
+msgid "essence"
+msgid_plural "essence"
+msgstr[0] ""
 
 #: lang/json/AMMO_from_json.py
 msgid "ethanol"
@@ -5736,7 +5770,7 @@ msgstr ""
 "特注の丈夫なバックパックです。出来る限りの荷物を詰め込める様に手間を掛けて作"
 "られています。"
 
-#. ~ Description for heavy survivor rucksack
+#. ~ Description for survivor rucksack
 #: lang/json/ARMOR_from_json.py
 msgid ""
 "A custom-built heavy backpack.  Durable and carefully crafted to hold as "
@@ -5745,7 +5779,7 @@ msgstr ""
 "特注の丈夫な重量型バックパックです。出来る限りの荷物を詰め込める様に手間を掛"
 "けて作られています。"
 
-#. ~ Description for heavy survivor duffel bag
+#. ~ Description for survivor duffel bag
 #: lang/json/ARMOR_from_json.py
 msgid ""
 "A custom-built heavy duffel bag.  Durable and carefully crafted to hold as "
@@ -5771,7 +5805,7 @@ msgid ""
 "wear.  Activate to sheathe/draw a weapon."
 msgstr ""
 
-#. ~ Description for light survivor harness
+#. ~ Description for survivor harness
 #: lang/json/ARMOR_from_json.py
 msgid ""
 "A custom-built light harness covered with pockets and pouches and a holster "
@@ -6945,16 +6979,14 @@ msgstr "綿製の手袋です。"
 #: lang/json/ARMOR_from_json.py
 msgid ""
 "A pair of customized kevlar boots, heavily armored with steel and modified "
-"to provide maximum protection from harm and the elements, even when knee-"
-"deep in the dead."
+"to provide maximum protection from harm, even when knee-deep in the dead."
 msgstr ""
 
 #. ~ Description for pair of survivor boots
 #: lang/json/ARMOR_from_json.py
 msgid ""
 "A pair of customized leather boots, armored with kevlar and modified to "
-"provide maximum protection from harm and the elements, even when knee-deep "
-"in the dead."
+"provide maximum protection from harm, even when knee-deep in the dead."
 msgstr ""
 
 #. ~ Description for pair of survivor fireboots
@@ -6998,8 +7030,7 @@ msgstr ""
 #: lang/json/ARMOR_from_json.py
 msgid ""
 "A pair of customized, kevlar armored cloth boots, modified to provide "
-"maximum protection from harm and the elements, even when knee-deep in the "
-"dead."
+"maximum protection from harm, even when knee-deep in the dead."
 msgstr ""
 
 #. ~ Description for pair of light survivor gloves
@@ -10354,11 +10385,6 @@ msgid_plural "heavy power armor helmets"
 msgstr[0] "重量型パワーアーマーヘルメット"
 
 #: lang/json/ARMOR_from_json.py
-msgid "heavy survivor duffel bag"
-msgid_plural "heavy survivor duffel bags"
-msgstr[0] "重量サバイバーダッフルバッグ"
-
-#: lang/json/ARMOR_from_json.py
 msgid "heavy survivor helmet"
 msgid_plural "heavy survivor helmets"
 msgstr[0] "重量型サバイバーヘルメット"
@@ -10367,11 +10393,6 @@ msgstr[0] "重量型サバイバーヘルメット"
 msgid "heavy survivor mask"
 msgid_plural "heavy survivor masks"
 msgstr[0] "重量サバイバーマスク"
-
-#: lang/json/ARMOR_from_json.py
-msgid "heavy survivor rucksack"
-msgid_plural "heavy survivor rucksacks"
-msgstr[0] "重量サバイバーリュックサック"
 
 #: lang/json/ARMOR_from_json.py
 msgid "heavy survivor suit"
@@ -10677,11 +10698,6 @@ msgstr[0] "軽量型パワーアーマー"
 msgid "light power armor helmet"
 msgid_plural "light power armor helmets"
 msgstr[0] "軽量型パワーアーマーヘルメット"
-
-#: lang/json/ARMOR_from_json.py
-msgid "light survivor harness"
-msgid_plural "light survivor harnesses"
-msgstr[0] "軽量サバイバーハーネス"
 
 #: lang/json/ARMOR_from_json.py
 msgid "light survivor hood"
@@ -11869,6 +11885,11 @@ msgid_plural "survivor cargo pants"
 msgstr[0] "サバイバーカーゴパンツ"
 
 #: lang/json/ARMOR_from_json.py
+msgid "survivor duffel bag"
+msgid_plural "survivor duffel bags"
+msgstr[0] ""
+
+#: lang/json/ARMOR_from_json.py
 msgid "survivor duster"
 msgid_plural "survivor dusters"
 msgstr[0] "サバイバーダスターコート"
@@ -11894,6 +11915,11 @@ msgid_plural "pairs of survivor goggles"
 msgstr[0] "サバイバーゴーグル"
 
 #: lang/json/ARMOR_from_json.py
+msgid "survivor harness"
+msgid_plural "survivor harnesses"
+msgstr[0] ""
+
+#: lang/json/ARMOR_from_json.py
 msgid "survivor helmet"
 msgid_plural "survivor helmets"
 msgstr[0] "サバイバーヘルメット"
@@ -11907,6 +11933,11 @@ msgstr[0] "サバイバーフード"
 msgid "survivor mask"
 msgid_plural "survivor masks"
 msgstr[0] "サバイバーマスク"
+
+#: lang/json/ARMOR_from_json.py
+msgid "survivor rucksack"
+msgid_plural "survivor rucksacks"
+msgstr[0] ""
 
 #: lang/json/ARMOR_from_json.py
 msgid "survivor runner pack"
@@ -13616,6 +13647,14 @@ msgid ""
 "named J. R. \"Bob\" Dobbs and a concept called 'slack'."
 msgstr ""
 
+#. ~ Description for To Master the Unknown
+#: lang/json/BOOK_from_json.py
+msgid ""
+"A book describing several otherworldy creatures and their origins, or at "
+"least conjecture on those origins.  Stranger still, it describes experiments "
+"in summoning and  ...controlling them?"
+msgstr ""
+
 #. ~ Description for The Homebrewer's Bible
 #: lang/json/BOOK_from_json.py
 msgid ""
@@ -13643,6 +13682,23 @@ msgstr ""
 "空飛ぶスパゲッティモンスター教の主な信条を具体的に綴った福音書です。パスタ"
 "ファリアン(信者)に人類の祖先である海賊として生きる事を進め、八つの本当に止め"
 "て欲しい事について記載されています。"
+
+#. ~ Description for The Cleansing Flame
+#: lang/json/BOOK_from_json.py
+msgid ""
+"A book written by some esoteric religious order, dedicated to destroying the "
+"otherworldly things intruding upon this realm.  The tools of their trade "
+"rely on a sanctioned form of magic, using \"consecrated\" essense they "
+"deemed safe to use."
+msgstr ""
+
+#. ~ Description for Sanguine Codex
+#: lang/json/BOOK_from_json.py
+msgid ""
+"A book written in dark, brown ink that almost resembles dried blood.  It "
+"illustrates several painful-looking rituals for drawing powerful energy from "
+"the blood of living creatures."
+msgstr ""
 
 #. ~ Description for Spetsnaz Knife Techniques
 #: lang/json/BOOK_from_json.py
@@ -14042,6 +14098,25 @@ msgstr ""
 "です。しかし、オートミール、魚、羊の肝臓の新しい用法に混じって、中世のスコッ"
 "トランドの文化と服装についても学ぶ事が出来ます。"
 
+#. ~ Description for Apprentice's Notes
+#: lang/json/BOOK_from_json.py
+msgid ""
+"A series of handwritten notes by a student of some esoteric order.  At first "
+"the subject seems to be simple religious rituals, but it soon delves into "
+"more...anomalous practices."
+msgstr ""
+
+#. ~ Description for History of Alchemy
+#: lang/json/BOOK_from_json.py
+msgid ""
+"A series of translated excerpts from several ancient books on the concept of "
+"alchemy, along with annotations.  This book presents an uncoventional "
+"interpretation of the works discussed, and haphazardly segues into the "
+"author's own failed attempt to create the \"lapis philosophorum\" and "
+"\"alkahest\". Despite this, some of the unconventional chemistry discussed "
+"might be useful."
+msgstr ""
+
 #. ~ Description for Ranch Prospectus
 #: lang/json/BOOK_from_json.py
 msgid ""
@@ -14095,6 +14170,14 @@ msgstr "死刑囚へ読み聞かせる為の小さな本です。"
 #: lang/json/BOOK_from_json.py
 msgid "A small book filled with journal entries in Latin."
 msgstr "ラテン語でびっしりと書かれた小さな日記です。"
+
+#. ~ Description for Oaths to the Chalice
+#: lang/json/BOOK_from_json.py
+msgid ""
+"A strange book with a trident motif on the cover, describing the morbid "
+"rituals of some otherworldly cult.  The level of detail these rituals go "
+"into is disturbing, yet informative."
+msgstr ""
 
 #. ~ Description for comic book
 #: lang/json/BOOK_from_json.py
@@ -14547,6 +14630,11 @@ msgstr ""
 "爆発シーンなど多くの刺激的な写真が載っています"
 
 #: lang/json/BOOK_from_json.py
+msgid "Apprentice's Notes"
+msgid_plural "Apprentice's Notes"
+msgstr[0] ""
+
+#: lang/json/BOOK_from_json.py
 msgid "Archery for Kids"
 msgid_plural "Archery for Kids"
 msgstr[0] "本(学習/子供向け弓術)"
@@ -14799,6 +14887,11 @@ msgid_plural "High Explosives Quarterlies"
 msgstr[0] "本(学習/季刊・高性能爆弾)"
 
 #: lang/json/BOOK_from_json.py
+msgid "History of Alchemy"
+msgid_plural "Histories of Alchemy"
+msgstr[0] ""
+
+#: lang/json/BOOK_from_json.py
 msgid "How to Browse the Web"
 msgid_plural "How to Browse the Webs"
 msgstr[0] "本(学習/ネットサーフィンの仕方)"
@@ -14920,6 +15013,11 @@ msgid ""
 msgstr ""
 "普通ならば、体裁の良い乗用車の広告が満載の雑誌など無価値ですが、この雑誌には"
 "交渉に関する一連の記事が掲載されています。"
+
+#: lang/json/BOOK_from_json.py
+msgid "Oaths to the Chalice"
+msgid_plural "Oaths to the Chalice"
+msgstr[0] ""
 
 #. ~ Description for national weather transcripts
 #: lang/json/BOOK_from_json.py
@@ -15071,6 +15169,11 @@ msgid_plural "SICPs"
 msgstr[0] "本(学習/SICP)"
 
 #: lang/json/BOOK_from_json.py
+msgid "Sanguine Codex"
+msgid_plural "Sanguine Codices"
+msgstr[0] ""
+
+#: lang/json/BOOK_from_json.py
 msgid "Self-Esteem for Dummies"
 msgid_plural "Self-Esteem for Dummies"
 msgstr[0] "本(学習/サルでも分かる自信の付け方)"
@@ -15179,6 +15282,11 @@ msgstr[0] "本(一般/サブゲニアズの書)"
 msgid "The Bowyer's Buddy"
 msgid_plural "The Bowyer's Buddys"
 msgstr[0] "本(学習/弓師の相棒)"
+
+#: lang/json/BOOK_from_json.py
+msgid "The Cleansing Flame"
+msgid_plural "The Cleansing Flame"
+msgstr[0] ""
 
 #: lang/json/BOOK_from_json.py
 msgid "The Compleat Trapper"
@@ -15790,6 +15898,11 @@ msgstr ""
 msgid "Through the Lens"
 msgid_plural "Through the Lens"
 msgstr[0] "本(学習/レンズを通して)"
+
+#: lang/json/BOOK_from_json.py
+msgid "To Master the Unknown"
+msgid_plural "To Master the Unknown"
+msgstr[0] ""
 
 #: lang/json/BOOK_from_json.py
 msgid "To Serve Man"
@@ -16689,10 +16802,22 @@ msgstr "少量のフライドチキンです。これは美味しそうです。
 msgid "A handful of large, purple plums.  Healthy and good for your digestion."
 msgstr "紫色の大きなスモモです。健康に良く、消化を助けます。"
 
+#. ~ Description for handful of unshelled hickory nuts
+#: lang/json/COMESTIBLE_from_json.py
+msgid ""
+"A handful of raw hard nuts from a hickory tree, their shells have been "
+"removed."
+msgstr ""
+
 #. ~ Description for marshmallows
 #: lang/json/COMESTIBLE_from_json.py
 msgid "A handful of squishy, fluffy, puffy, delicious marshmallows."
 msgstr "ぷにぷにで、ふわふわとした、ふっくらと美味しいマシュマロです。"
+
+#. ~ Description for handful of roasted hickory nut
+#: lang/json/COMESTIBLE_from_json.py
+msgid "A handful roasted nuts from a hickory tree."
+msgstr ""
 
 #. ~ Description for boiled egg
 #: lang/json/COMESTIBLE_from_json.py
@@ -17400,6 +17525,38 @@ msgid ""
 "A stout branching rhizome from a cattail plant.  Its crisp white flesh is "
 "very starchy and fibrous, but you really ought to cook it before you attempt "
 "to eat it."
+msgstr ""
+
+#. ~ Description for black potion
+#: lang/json/COMESTIBLE_from_json.py
+msgid ""
+"A strange black liquid that smells like death itself.  The first step "
+"towards creating the elixer of life, allegedly.  Drinking this will numb the "
+"body greatly, but it isn't at all healthy."
+msgstr ""
+
+#. ~ Description for red potion
+#: lang/json/COMESTIBLE_from_json.py
+msgid ""
+"A strange reddish liquid that gives off a sweet smell.  The elixir of life, "
+"or merely a mimicry?  Drinking this will cure a number of things, but can't "
+"mend existing damage, and taxes your body to do so."
+msgstr ""
+
+#. ~ Description for white potion
+#: lang/json/COMESTIBLE_from_json.py
+msgid ""
+"A strange white liquid with a scent that makes your nose itch.  The second "
+"step towards creating the elixer of life, allegedly.  Drinking this will "
+"strengthen the body, but at some cost."
+msgstr ""
+
+#. ~ Description for yellow potion
+#: lang/json/COMESTIBLE_from_json.py
+msgid ""
+"A strange yellow liquid with an intoxicating smell to it.  The third step "
+"towards creating the elixer of life, allegedly.  Drinking this will enhance "
+"your speed and dexterity, but it won't be a pleasant experience."
 msgstr ""
 
 #. ~ Description for diazepam
@@ -18558,6 +18715,11 @@ msgstr "ご飯と野菜を一緒に炒めた料理です。美味しくてとて
 #: lang/json/COMESTIBLE_from_json.py
 msgid "Delicious golden kernels."
 msgstr "美味しい黄金の粒が一杯付いたトウモロコシです。"
+
+#. ~ Description for hickory nut ambrosia
+#: lang/json/COMESTIBLE_from_json.py
+msgid "Delicious hickory nut ambrosia. A drink worthy of the gods."
+msgstr ""
 
 #. ~ Description for lunch meat
 #: lang/json/COMESTIBLE_from_json.py
@@ -20768,6 +20930,29 @@ msgid "Xanax"
 msgid_plural "Xanax"
 msgstr[0] "ザナックス"
 
+#. ~ Use action activation_message for red potion.
+#: lang/json/COMESTIBLE_from_json.py
+msgid ""
+"You drink the potion and feel a pleasant warmth spread through your body."
+msgstr ""
+
+#. ~ Use action activation_message for black potion.
+#: lang/json/COMESTIBLE_from_json.py
+msgid ""
+"You drink the potion and feel a strange numbness spread through your body."
+msgstr ""
+
+#. ~ Use action activation_message for yellow potion.
+#: lang/json/COMESTIBLE_from_json.py
+msgid ""
+"You drink the potion and feel a sudden tension spread through your body."
+msgstr ""
+
+#. ~ Use action activation_message for white potion.
+#: lang/json/COMESTIBLE_from_json.py
+msgid "You drink the potion and feel wicked power spread through your body."
+msgstr ""
+
 #. ~ Use action activation_message for pink tablet.
 #: lang/json/COMESTIBLE_from_json.py
 msgid "You eat the pink tablet."
@@ -21042,6 +21227,11 @@ msgstr[0] "ビスケット"
 msgid "black pepper"
 msgid_plural "black pepper"
 msgstr[0] "黒胡椒"
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "black potion"
+msgid_plural "black potion"
+msgstr[0] ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "blackberry"
@@ -22270,6 +22460,16 @@ msgid_plural "handfuls of dandelions"
 msgstr[0] "タンポポ"
 
 #: lang/json/COMESTIBLE_from_json.py
+msgid "handful of roasted hickory nut"
+msgid_plural "handfuls of roasted hickory nuts"
+msgstr[0] ""
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "handful of unshelled hickory nuts"
+msgid_plural "handfuls of unshelled hickory nuts"
+msgstr[0] ""
+
+#: lang/json/COMESTIBLE_from_json.py
 msgid "hard cheese"
 msgid_plural "hard cheese"
 msgstr[0] "ハードチーズ"
@@ -22298,6 +22498,11 @@ msgstr[0] "ハーブティー"
 msgid "heroin"
 msgid_plural "heroins"
 msgstr[0] "ヘロイン"
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "hickory nut ambrosia"
+msgid_plural "hickory nut ambrosias"
+msgstr[0] ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "hobo helper"
@@ -23358,6 +23563,11 @@ msgid_plural "raw spaghetti"
 msgstr[0] "スパゲッティ(乾燥)"
 
 #: lang/json/COMESTIBLE_from_json.py
+msgid "red potion"
+msgid_plural "red potion"
+msgstr[0] ""
+
+#: lang/json/COMESTIBLE_from_json.py
 msgid "red sauce"
 msgid_plural "red sauces"
 msgstr[0] "トマトソース"
@@ -24038,6 +24248,11 @@ msgid_plural "whiskey worts"
 msgstr[0] "モルトウィスキー"
 
 #: lang/json/COMESTIBLE_from_json.py
+msgid "white potion"
+msgid_plural "white potion"
+msgstr[0] ""
+
+#: lang/json/COMESTIBLE_from_json.py
 msgid "wild apple"
 msgid_plural "wild apples"
 msgstr[0] "ウォッカ(ワイルドアップル)"
@@ -24079,6 +24294,11 @@ msgstr[0] "森のスープ"
 msgid "yeast"
 msgid_plural "yeasts"
 msgstr[0] "酵母"
+
+#: lang/json/COMESTIBLE_from_json.py
+msgid "yellow potion"
+msgid_plural "yellow potion"
+msgstr[0] ""
 
 #: lang/json/COMESTIBLE_from_json.py
 msgid "yoghurt"
@@ -25570,6 +25790,11 @@ msgstr "金製の燭台です。"
 msgid "A hand-written paper note."
 msgstr "手書きのメモです。"
 
+#. ~ Description for hickory nuts
+#: lang/json/GENERIC_from_json.py
+msgid "A handful of hard nuts from a hickory tree, still in their shell."
+msgstr ""
+
 #. ~ Description for tonfa
 #: lang/json/GENERIC_from_json.py
 msgid ""
@@ -26241,6 +26466,11 @@ msgid ""
 "leather."
 msgstr ""
 
+#. ~ Description for hickory root
+#: lang/json/GENERIC_from_json.py
+msgid "A root from a hickory tree. It has an earthy smell."
+msgstr ""
+
 #. ~ Description for flyer
 #: lang/json/GENERIC_from_json.py
 msgid "A scrap of paper."
@@ -26325,6 +26555,14 @@ msgstr "両刃の短いダガーです。指の間から刃が突き出る様に
 #: lang/json/GENERIC_from_json.py
 msgid "A short dart from a fungal fighter.  Makes an average melee weapon."
 msgstr "真菌戦士の短いダーツです。近接武器として利用できます。"
+
+#. ~ Description for silver glyph
+#: lang/json/GENERIC_from_json.py
+msgid ""
+"A silver emblem resembling a 16-pointed star in a circle.  You feel as "
+"though it could be a powerful arcane device, but there is no magic in it.  "
+"Yet."
+msgstr ""
 
 #. ~ Description for cell phone
 #: lang/json/GENERIC_from_json.py
@@ -29338,6 +29576,16 @@ msgid_plural "heavy sticks"
 msgstr[0] "重棒"
 
 #: lang/json/GENERIC_from_json.py
+msgid "hickory nuts"
+msgid_plural "hickory nuts"
+msgstr[0] ""
+
+#: lang/json/GENERIC_from_json.py
+msgid "hickory root"
+msgid_plural "hickory roots"
+msgstr[0] ""
+
+#: lang/json/GENERIC_from_json.py
 msgid "high-quality lens"
 msgid_plural "high-quality lenses"
 msgstr[0] "高性能レンズ"
@@ -30061,6 +30309,11 @@ msgstr[0] "信号受信器"
 msgid "silver bar"
 msgid_plural "silver bars"
 msgstr[0] "延棒(銀)"
+
+#: lang/json/GENERIC_from_json.py
+msgid "silver glyph"
+msgid_plural "silver glyphs"
+msgstr[0] ""
 
 #: lang/json/GENERIC_from_json.py
 msgid "skewer"
@@ -31666,6 +31919,14 @@ msgid ""
 "in .22 Long Rifle."
 msgstr ""
 
+#. ~ Description for wraithslayer crossbow
+#: lang/json/GUN_from_json.py
+msgid ""
+"A crossbow decorated with golden symbols, seemingly lacking a bowstring.  "
+"Instead it propels bright green bolts of energy, with signifigant armor "
+"penetration."
+msgstr ""
+
 #. ~ Description for 2 Shot Special
 #: lang/json/GUN_from_json.py
 msgid ""
@@ -31929,6 +32190,14 @@ msgid ""
 msgstr ""
 "相当量のガスが圧縮されたボンベを持つ大型の火炎放射器です。非常に威嚇的かつ致"
 "命的な武器です。"
+
+#. ~ Description for symbol of judgement
+#: lang/json/GUN_from_json.py
+msgid ""
+"A large golden ring decorated with a trident motif, and inlaid with silver.  "
+"For some reason you suspect this to be a perversion of some otherworldly "
+"holy symbol, from some cult worlds away.  Firing it calls forth lightning."
+msgstr ""
 
 #. ~ Description for Barrett M107A1
 #: lang/json/GUN_from_json.py
@@ -32467,6 +32736,14 @@ msgid ""
 "A sophisticated underwater fishing implement designed to fire a specialized "
 "type of spear using a hand-pump pressure system.  While highly effective "
 "when used underwater, it is nearly useless on dry land."
+msgstr ""
+
+#. ~ Description for hellfire stave
+#: lang/json/GUN_from_json.py
+msgid ""
+"A staff decorated with silver and a skull motif, capped with a strange red "
+"gem.  The metal parts feel uncomfortably warm to the touch.  Firing it "
+"projects a gout of wicked flame."
 msgstr ""
 
 #. ~ Description for S&W 629
@@ -35142,6 +35419,11 @@ msgid_plural "heavy rail rifles"
 msgstr[0] "ライフル(レール/重レールライフル)"
 
 #: lang/json/GUN_from_json.py
+msgid "hellfire stave"
+msgid_plural "hellfire staves"
+msgstr[0] ""
+
+#: lang/json/GUN_from_json.py
 msgid "holdout pistol"
 msgid_plural "holdout pistols"
 msgstr[0] ""
@@ -35659,6 +35941,11 @@ msgid_plural "survivor's six shooters"
 msgstr[0] "ハンドガン(40口径/サバイバーシックスシューター)"
 
 #: lang/json/GUN_from_json.py
+msgid "symbol of judgement"
+msgid_plural "symbols of judgement"
+msgstr[0] ""
+
+#: lang/json/GUN_from_json.py
 msgid "tesla cannon turret"
 msgid_plural "tesla cannon turrets"
 msgstr[0] "タレット(テスラコイル/大砲)"
@@ -35711,6 +35998,11 @@ msgid "water cannon"
 msgid_plural "water cannons"
 msgstr[0] "ランチャー(高圧放水砲)"
 
+#: lang/json/GUN_from_json.py
+msgid "wraithslayer crossbow"
+msgid_plural "wraithslayer crossbows"
+msgstr[0] ""
+
 #: lang/json/ITEM_CATEGORY_from_json.py src/crafting.cpp
 msgid "ARMOR"
 msgstr "防具"
@@ -35749,6 +36041,13 @@ msgid ""
 msgstr ""
 "装甲戦闘車とそれに類似した車両を追加します。注:追加 - 車両パックの導入が必要"
 "です。"
+
+#. ~ Description for Arcana and Magic Items
+#: lang/json/MOD_INFO_from_json.py
+msgid ""
+"Adds a new skill for creating and using magical items, and alters many "
+"anomalous monsters."
+msgstr ""
 
 #. ~ Description for Classic Roguelike Classes
 #: lang/json/MOD_INFO_from_json.py
@@ -35811,6 +36110,10 @@ msgstr ""
 msgid "Animatronic Monsters"
 msgstr "追加 - 動物型ロボット"
 
+#: lang/json/MOD_INFO_from_json.py
+msgid "Arcana and Magic Items"
+msgstr ""
+
 #. ~ Description for Medieval and Historic Content
 #: lang/json/MOD_INFO_from_json.py
 msgid "Assorted fun things for the wannabe knight, legionary, and more."
@@ -35848,6 +36151,11 @@ msgstr "削除 - 宗教"
 #: lang/json/MOD_INFO_from_json.py
 msgid "Disables zombie revival."
 msgstr "ゾンビの復活を無効化します。"
+
+#. ~ Description for Tough Zombies
+#: lang/json/MOD_INFO_from_json.py
+msgid "Doubles zombie health."
+msgstr ""
 
 #. ~ Description for Fast Zombies
 #: lang/json/MOD_INFO_from_json.py
@@ -35928,6 +36236,10 @@ msgid "No Energy Weapons"
 msgstr "削除 - エネルギー武器"
 
 #: lang/json/MOD_INFO_from_json.py
+msgid "No Fictional Guns"
+msgstr ""
+
+#: lang/json/MOD_INFO_from_json.py
 msgid "No Flaming Weapons"
 msgstr "削除 - 発火武器"
 
@@ -35952,21 +36264,12 @@ msgid "No Powered Armor"
 msgstr "削除 - パワーアーマー"
 
 #: lang/json/MOD_INFO_from_json.py
-msgid "No Rivtech Guns"
-msgstr "削除 - 銃器(Rivtech社製)"
-
-#: lang/json/MOD_INFO_from_json.py
 msgid "No Survivor Armor"
 msgstr "削除 - サバイバーアーマー"
 
 #: lang/json/MOD_INFO_from_json.py
 msgid "Prevent Zombie Revivication"
 msgstr "変更 - ゾンビ復活防止"
-
-#. ~ Description for No Rivtech Guns
-#: lang/json/MOD_INFO_from_json.py
-msgid "Removes Rivtech firearms and ammunition."
-msgstr "Rivtech社製の銃器と弾薬を削除します。"
 
 #. ~ Description for No Monsters
 #: lang/json/MOD_INFO_from_json.py
@@ -35988,6 +36291,11 @@ msgstr "旧式の銃器や生産が終了した銃器を削除します。"
 #: lang/json/MOD_INFO_from_json.py
 msgid "Removes energy weapons, coilguns, and specific ammunition."
 msgstr "エネルギー武器、コイルガン、特殊な弾薬を削除します。"
+
+#. ~ Description for No Fictional Guns
+#: lang/json/MOD_INFO_from_json.py
+msgid "Removes fictional conventional firearms and ammunition."
+msgstr ""
 
 #. ~ Description for No Flaming Weapons
 #: lang/json/MOD_INFO_from_json.py
@@ -36051,6 +36359,10 @@ msgid "Tanks and Other Vehicles"
 msgstr "追加 - 戦車と装甲戦闘車"
 
 #: lang/json/MOD_INFO_from_json.py
+msgid "Tough Zombies"
+msgstr ""
+
+#: lang/json/MOD_INFO_from_json.py
 msgid "Vehicle Additions Pack"
 msgstr "追加 - 車両パック"
 
@@ -36080,13 +36392,10 @@ msgstr ""
 #. ~ Description for smallmouth bass
 #: lang/json/MONSTER_from_json.py
 msgid ""
-"A Smallmouth Bass.  Being intolerant to polution in the water, smallmouth "
-"bass are a good indicator of how clean it is.  Just becuase you see them "
-"though, doesnt mean you can drink the water without boiling it first."
+"A Smallmouth bass.  Being intolerant to pollution in the water, smallmouth "
+"bass are a good indicator of how clean it is.  Just because you see them "
+"though, doesn't mean you can drink the water without boiling it first."
 msgstr ""
-"コクチバスです。水質汚染に耐性を持っていますが、良好な水質の指標としても扱わ"
-"れています。要するにコクチバスの生息域では、煮沸せずに水を飲める可能性が高い"
-"という訳です。"
 
 #. ~ Description for animatronic bat
 #: lang/json/MONSTER_from_json.py
@@ -37477,6 +37786,7 @@ msgid ""
 "An automated kamikaze drone, this fist-sized robot appears to have a grenade "
 "inside."
 msgstr ""
+"自動操縦の特攻無人機です。この拳大のロボットは手榴弾を内蔵している様です。"
 
 #. ~ Description for tear gas hack
 #: lang/json/MONSTER_from_json.py
@@ -38171,6 +38481,18 @@ msgid ""
 "controlling it."
 msgstr ""
 
+#. ~ Description for zombie dancer
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"The foulest stench is in the air, \n"
+"The funk of forty thousand years, \n"
+"And grisly ghouls from every tomb, \n"
+"Are closing in to seal your doom!\n"
+"\n"
+"The dancer doesn't even notice you, it seems like something nearby is "
+"controlling it."
+msgstr ""
+
 #. ~ Description for giant black widow spiderling
 #: lang/json/MONSTER_from_json.py
 msgid ""
@@ -38421,6 +38743,8 @@ msgid ""
 "Twice as large as a normal manhack, this flying drone appears to have a "
 "mininuke inside.  If this is targeting you...  Run."
 msgstr ""
+"通常の2倍程の大きさのマンハックです。この空飛ぶ無人機は小型原子爆弾を内蔵して"
+"いる様です。もしも運悪く標的にされたなら...走って逃げるんだ。"
 
 #: lang/json/MONSTER_from_json.py
 msgid "Tyrannosaurus rex"
@@ -39803,6 +40127,15 @@ msgstr ""
 msgid "A harmonica with a holder, so that you can play it without a free hand."
 msgstr ""
 
+#. ~ Description for pair of thunder gauntlets
+#: lang/json/TOOL_ARMOR_from_json.py
+msgid ""
+"A heavy set of plate gauntlets, decorated with silver around the edges of "
+"each individual plate.  Touching the bare metal sends a faint electric "
+"tingle through you.  Use them to give something a shocking surprise, if "
+"you're in melee range."
+msgstr ""
+
 #. ~ Description for fedora
 #: lang/json/TOOL_ARMOR_from_json.py
 msgid ""
@@ -39992,6 +40325,15 @@ msgid ""
 "wear it tighter if you get too cold."
 msgstr ""
 
+#. ~ Description for gilded aegis
+#: lang/json/TOOL_ARMOR_from_json.py
+msgid ""
+"A simple leather cloak, richly decorated with scales of gold and several "
+"feathers.  It resembles the hide of a golden dragon or serpent.  Using it "
+"will cure a small number of ailments, if supplied with consecrated essence.  "
+"This taxes the body and can't cure injuries, parasites, or poison."
+msgstr ""
+
 #. ~ Description for acoustic guitar
 #: lang/json/TOOL_ARMOR_from_json.py
 msgid ""
@@ -40004,6 +40346,13 @@ msgstr ""
 msgid ""
 "A small battery-powered biometric safety device worn on the wrist.  Activate "
 "to check your current level of radiation exposure."
+msgstr ""
+
+#. ~ Use action activation_message for gilded aegis.
+#: lang/json/TOOL_ARMOR_from_json.py
+msgid ""
+"A strange, burning heat spreads throughout your body, fading into a dull "
+"ache as the aegis cleanses your body."
 msgstr ""
 
 #. ~ Description for bagpipes
@@ -40036,6 +40385,15 @@ msgstr ""
 msgid ""
 "A warm wool mask that protects the head and face from cold.  It has a full "
 "face opening that can be adjusted to set how much is exposed."
+msgstr ""
+
+#. ~ Description for revenant crown
+#: lang/json/TOOL_ARMOR_from_json.py
+msgid ""
+"A wicked-looking crown made of silver, decorated with scenes of skeletons in "
+"a \"danse macabre\" motif.  A single diamond adorns it, in the center of the "
+"scene depicted.  Using it shall yield immunity to poison, food poisoning in "
+"particular, in exchange for inreased hunger."
 msgstr ""
 
 #. ~ Description for RM13 combat armor (on)
@@ -40113,6 +40471,13 @@ msgid ""
 "The Rivtech RX11 stimulant delivery system is a jet autoinjector system worn "
 "on the user's body.  A simple press of its activator injects powerful "
 "chemical stimulants into the bloodstream without using a needle."
+msgstr ""
+
+#. ~ Use action activation_message for revenant crown.
+#: lang/json/TOOL_ARMOR_from_json.py
+msgid ""
+"The diamond shimmers with strange red light as you feel a strange hunger, a "
+"craving for rotting meat and stagnant water..."
 msgstr ""
 
 #. ~ Use action need_charges_msg for wearable flashlight.
@@ -40491,6 +40856,11 @@ msgid_plural "fur scarves (loose)"
 msgstr[0] "スカーフ(毛皮)(解いた)"
 
 #: lang/json/TOOL_ARMOR_from_json.py
+msgid "gilded aegis"
+msgid_plural "gilded aegises"
+msgstr[0] ""
+
+#: lang/json/TOOL_ARMOR_from_json.py
 msgid "hairpin"
 msgid_plural "hairpins"
 msgstr[0] "ヘアピン"
@@ -40601,6 +40971,11 @@ msgid_plural "pairs of thermal electric socks (on)"
 msgstr[0] "温熱式靴下(オン)"
 
 #: lang/json/TOOL_ARMOR_from_json.py
+msgid "pair of thunder gauntlets"
+msgid_plural "pairs of thunder gauntlets"
+msgstr[0] ""
+
+#: lang/json/TOOL_ARMOR_from_json.py
 msgid "radiation biomonitor"
 msgid_plural "radiation biomonitors"
 msgstr[0] "放射能生体モニター"
@@ -40614,6 +40989,11 @@ msgstr[0] "リブリーザーマスク"
 msgid "rebreather mask (on)"
 msgid_plural "rebreather masks (on)"
 msgstr[0] "リブリーザーマスク(オン)"
+
+#: lang/json/TOOL_ARMOR_from_json.py
+msgid "revenant crown"
+msgid_plural "revenant crowns"
+msgstr[0] ""
 
 #: lang/json/TOOL_ARMOR_from_json.py
 msgid "saxophone"
@@ -40729,6 +41109,11 @@ msgstr[0] "スカーフ(羊毛)"
 msgid "wool scarf (loose)"
 msgid_plural "wool scarves (loose)"
 msgstr[0] "スカーフ(羊毛)(解いた)"
+
+#. ~ Use action no_deactivate_msg for glowing hammer of the hunter.
+#: lang/json/TOOL_from_json.py
+msgid "\"Du nicht können halt Hammerzeit.\""
+msgstr ""
 
 #. ~ Description for basic fishing rod
 #: lang/json/TOOL_from_json.py
@@ -40878,6 +41263,21 @@ msgstr ""
 msgid ""
 "A folded lightweight plastic rain poncho with a hood.  Use it to unfold for "
 "use."
+msgstr ""
+
+#. ~ Description for veinreaver
+#: lang/json/TOOL_from_json.py
+msgid ""
+"A hatchet with its axehead stained the dull color of dried blood, making it "
+"appear rusted despite being in usable condition.  Using it will channel "
+"blood essence into a nasty explosion."
+msgstr ""
+
+#. ~ Description for glowing veinreaver
+#: lang/json/TOOL_from_json.py
+msgid ""
+"A hatchet, axehead giving off a wicked red glow.  Throwing it might be a "
+"smart idea."
 msgstr ""
 
 #. ~ Description for survivor mess kit
@@ -41231,6 +41631,66 @@ msgstr ""
 msgid "A standard factory-made banjo.  Looks to be in working condition."
 msgstr ""
 
+#. ~ Description for glyph of anthozoa
+#: lang/json/TOOL_from_json.py
+msgid ""
+"A strange silver emblem, engraved with an strange pattern resembling coral.  "
+"Using it will call forth a flying polyp, and bind it to your will. Hopefully."
+msgstr ""
+
+#. ~ Description for glyph of trickery
+#: lang/json/TOOL_from_json.py
+msgid ""
+"A strange silver emblem, engraved with depections of groteqsue creatures.  "
+"Using it will call forth a kreck, and bind it to your will. Hopefully."
+msgstr ""
+
+#. ~ Description for glyph of the platyhelminthes
+#: lang/json/TOOL_from_json.py
+msgid ""
+"A strange silver emblem, engraved with depictions of ancient, cthonian "
+"wealth.  Using it will call forth a yugg, and bind it to your will. "
+"Hopefully."
+msgstr ""
+
+#. ~ Description for glyph of Yuggoth
+#: lang/json/TOOL_from_json.py
+msgid ""
+"A strange silver emblem, engraved with depictions of strange chitinous "
+"entities.  Using it will call forth a mi-go, and bind it to your will. "
+"Hopefully."
+msgstr ""
+
+#. ~ Description for glyph of the beholder
+#: lang/json/TOOL_from_json.py
+msgid ""
+"A strange silver emblem, engraved with flame patterns.  Using it will call "
+"forth a flaming eye, and bind it to your will. Hopefully."
+msgstr ""
+
+#. ~ Description for glyph of the Elder Things
+#: lang/json/TOOL_from_json.py
+msgid ""
+"A strange silver emblem, engraved with many strange eye symbols.  Using it "
+"will call forth a shoggoth, and bind it to your will. Hopefully."
+msgstr ""
+
+#. ~ Description for glyph of impassiveness
+#: lang/json/TOOL_from_json.py
+msgid ""
+"A strange silver emblem, engraved with the emotionless faces of unknown "
+"beings.  Using it will call forth a blank body, and bind it to your will. "
+"Hopefully."
+msgstr ""
+
+#. ~ Description for glyph of Crawling Chaos
+#: lang/json/TOOL_from_json.py
+msgid ""
+"A strange silver emblem, erratically engraved with indecipherable runes.  "
+"Using it will call forth a hunting horror, and bind it to your will. "
+"Hopefully.  Using it during the day might be a bad idea."
+msgstr ""
+
 #. ~ Description for E-Ink Tablet PC
 #: lang/json/TOOL_from_json.py
 msgid ""
@@ -41265,6 +41725,23 @@ msgstr ""
 msgid ""
 "A vehicle frame made of bone.  It's coated in a thick layer of ooze, though "
 "there's greater amounts on the bindings."
+msgstr ""
+
+#. ~ Description for glowing hammer of the hunter
+#: lang/json/TOOL_from_json.py
+msgid ""
+"A warhammer inlaid with silver, engraved with religious invocations in an "
+"archaic form of Latin.  It is giving off a bright golden glow, soon to be "
+"brighter still."
+msgstr ""
+
+#. ~ Description for hammer of the hunter
+#: lang/json/TOOL_from_json.py
+msgid ""
+"A warhammer inlaid with silver, engraved with religious invocations in an "
+"archaic form of Latin.  Many magical items can be purified with this item.  "
+"Using it will channel consecrated essence into a stunning flash, though "
+"using it is a double-edged sword."
 msgstr ""
 
 #. ~ Description for paint brush
@@ -41346,9 +41823,37 @@ msgstr ""
 "ヨーロッパから輸入された特徴的なポケットナイフです。赤いプラスチックの持ち手"
 "の中に様々な小さい道具が隠れています。"
 
+#. ~ Use action hostile_msg for glyph of the platyhelminthes.
+#: lang/json/TOOL_from_json.py
+msgid ""
+"An offering of wealth is not enough to placate a servant of Ubb.  The "
+"creature turns hostile!"
+msgstr ""
+
 #. ~ Description for clarinet
 #: lang/json/TOOL_from_json.py
 msgid "An ornate clarinet made from wood."
+msgstr ""
+
+#. ~ Description for silver athame
+#: lang/json/TOOL_from_json.py
+msgid ""
+"An ornate silver dagger, seemingly made for ritual purposes.  It seems "
+"sharper than silver has any right to be."
+msgstr ""
+
+#. ~ Description for silver athame
+#: lang/json/TOOL_from_json.py
+msgid ""
+"An ornate silver dagger, seemingly made for ritual purposes.  This seems "
+"like a stupid idea..."
+msgstr ""
+
+#. ~ Use action activation_message for offering chalice.
+#: lang/json/TOOL_from_json.py
+msgid ""
+"As you drink from the chalice, you feel your breath being drawn from your "
+"lungs!"
 msgstr ""
 
 #. ~ Use action descriptions for golden fiddle.
@@ -41404,6 +41909,11 @@ msgstr ""
 msgid "Doppler Radar Turbo 2000"
 msgid_plural "Doppler Radar Turbo 2000s"
 msgstr[0] "ドップラーレーダーターボ2000"
+
+#. ~ Use action sound_msg for glowing veinreaver.
+#: lang/json/TOOL_from_json.py
+msgid "Drip."
+msgstr ""
 
 #. ~ Description for integrated toolset
 #: lang/json/TOOL_from_json.py
@@ -41727,6 +42237,27 @@ msgid ""
 "making it as strong as, well, diamonds."
 msgstr ""
 
+#. ~ Use action hostile_msg for glyph of the beholder.
+#: lang/json/TOOL_from_json.py
+msgid ""
+"The eye levels a wicked gaze upon you.  This is a staring contest you won't "
+"win."
+msgstr ""
+
+#. ~ Use action hostile_msg for glyph of impassiveness.
+#: lang/json/TOOL_from_json.py
+msgid ""
+"The featureless visage of the blank body is undeciperable at first, but its "
+"body langauge suggests hostility."
+msgstr ""
+
+#. ~ Use action friendly_msg for glyph of impassiveness.
+#: lang/json/TOOL_from_json.py
+msgid ""
+"The featureless visage of the blank body is undeciperable at first, but its "
+"passive posture suggests friendliness."
+msgstr ""
+
 #. ~ Use action msg for active flare.
 #: lang/json/TOOL_from_json.py
 msgid "The flare sputters out."
@@ -41741,6 +42272,20 @@ msgstr ""
 #: lang/json/TOOL_from_json.py
 msgid "The flashlight's batteries are dead."
 msgstr "懐中電灯の電池が切れています。"
+
+#. ~ Use action hostile_msg for glyph of anthozoa.
+#: lang/json/TOOL_from_json.py
+msgid ""
+"The flying polyp twitches erratically, reacting to your presence with "
+"apparent hostility!"
+msgstr ""
+
+#. ~ Use action friendly_msg for glyph of anthozoa.
+#: lang/json/TOOL_from_json.py
+msgid ""
+"The flying polyp twitches for a moment, before its movement steadies.  It "
+"seems to be friendly."
+msgstr ""
 
 #. ~ Description for dynamite (lit)
 #: lang/json/TOOL_from_json.py
@@ -41763,6 +42308,26 @@ msgstr "ケミカルライトは徐々に消えてしまった。"
 #. ~ Use action friendly_msg for inactive grenade hack.
 #: lang/json/TOOL_from_json.py
 msgid "The grenade hack flies from your hand and surveys the area!"
+msgstr ""
+
+#. ~ Use action friendly_msg for glyph of Crawling Chaos.
+#: lang/json/TOOL_from_json.py
+msgid ""
+"The hunting horror is at your beck and call.  A gift from the Stalker among "
+"the Stars?"
+msgstr ""
+
+#. ~ Use action friendly_msg for glyph of trickery.
+#: lang/json/TOOL_from_json.py
+msgid ""
+"The kreck looks up at you expectantly, as if wondering what sort of "
+"shenanigans you're plotting."
+msgstr ""
+
+#. ~ Use action hostile_msg for glyph of trickery.
+#: lang/json/TOOL_from_json.py
+msgid ""
+"The kreck mimics your movements erratically, cavorting about to mock you!"
 msgstr ""
 
 #. ~ Use action need_charges_msg for gasoline lantern (off).
@@ -42792,7 +43357,7 @@ msgstr ""
 #. ~ Description for makeshift haircut kit
 #: lang/json/TOOL_from_json.py
 msgid "This is a kit with tools for cutting hair."
-msgstr ""
+msgstr "髪を切る為の道具一式です。"
 
 #. ~ Description for makeshift machete
 #: lang/json/TOOL_from_json.py
@@ -43757,6 +44322,30 @@ msgid ""
 "wood, bone, or chitin.  It requires 25 units of duct tape per use."
 msgstr ""
 
+#. ~ Description for drained offering chalice
+#: lang/json/TOOL_from_json.py
+msgid ""
+"This is a strange chalice made of gold, engraved all over with some "
+"unfamilar text.  It appears to be empty, but you get the feeling that "
+"something remains within it. If you knew the right ritual..."
+msgstr ""
+
+#. ~ Description for offering chalice
+#: lang/json/TOOL_from_json.py
+msgid ""
+"This is a strange chalice made of gold, engraved all over with some "
+"unfamilar text.  It is filled with a thick black liquid that you seem unable "
+"to pour out.  You get the feeling that trying to drink it would be a bad "
+"idea."
+msgstr ""
+
+#. ~ Description for offering chalice
+#: lang/json/TOOL_from_json.py
+msgid ""
+"This is a strange chalice made of gold, engraved all over with some "
+"unfamilar text.  Maybe you shouldn't be trying to drink from this..."
+msgstr ""
+
 #. ~ Description for hacksaw
 #: lang/json/TOOL_from_json.py
 msgid "This is a sturdy saw, useful for cutting through metal objects."
@@ -43898,6 +44487,11 @@ msgid ""
 "This is a wooden needle whittled down to a sharp point.  It has a narrow "
 "hole carved into the head for threading."
 msgstr "木を削って作った針です。裁縫に使えます。"
+
+#. ~ Description for stepladder
+#: lang/json/TOOL_from_json.py
+msgid "This is a wooden stepladder.  Use it to set it down."
+msgstr ""
 
 #. ~ Description for active glowstick
 #: lang/json/TOOL_from_json.py
@@ -44248,6 +44842,21 @@ msgid ""
 "become friendly for a short period of time."
 msgstr ""
 
+#. ~ Description for incorruptible sword (on)
+#: lang/json/TOOL_from_json.py
+msgid ""
+"This is some sort of arming sword, decorated with a golden cross motif on "
+"the blade.  The blade is giving off an intense white light, and searing heat."
+msgstr ""
+
+#. ~ Description for incorruptible sword
+#: lang/json/TOOL_from_json.py
+msgid ""
+"This is some sort of broadsword, decorated with a golden cross motif on the "
+"blade.  When powered by consecrated magical essence, it has the power to cut "
+"through darkness itself."
+msgstr ""
+
 #. ~ Description for tripwire trap
 #: lang/json/TOOL_from_json.py
 msgid ""
@@ -44486,6 +45095,12 @@ msgid "UPS conversion mod"
 msgid_plural "UPS conversion mods"
 msgstr[0] "変換キット(UPS)"
 
+#. ~ Use action activation_message for silver athame.
+#: lang/json/TOOL_from_json.py
+msgid ""
+"Upon drawing the blade across your palm, wounds open elsewhere on your body!"
+msgstr ""
+
 #. ~ Description for charcoal water purifier
 #: lang/json/TOOL_from_json.py
 msgid ""
@@ -44508,6 +45123,13 @@ msgstr ""
 #. ~ Use action not_ready_msg for blob feed fermenter.
 #: lang/json/TOOL_from_json.py
 msgid "While it definitely smells ripe, it isn't done."
+msgstr ""
+
+#. ~ Use action friendly_msg for glyph of the platyhelminthes.
+#: lang/json/TOOL_from_json.py
+msgid ""
+"With the silver glyph as an offering, you bind the yugg to serve you.  You "
+"feel like this is the opposite of how it normally works."
 msgstr ""
 
 #: lang/json/TOOL_from_json.py
@@ -44535,6 +45157,13 @@ msgstr ""
 msgid "You arm your radio-detonated pipe bomb."
 msgstr ""
 
+#. ~ Use action hostile_msg for glyph of Yuggoth.
+#: lang/json/TOOL_from_json.py
+msgid ""
+"You begin to recite an incantation, only for the mi-go to parrot your words, "
+"mocking your effort to control it!"
+msgstr ""
+
 #. ~ Use action non_interactive_msg for lightstrip.
 #: lang/json/TOOL_from_json.py
 msgid "You can not deactivate the lightstrip."
@@ -44554,6 +45183,11 @@ msgstr ""
 msgid ""
 "You can't disarm your %s'.  Place it, get away, and use the remote control "
 "to detonate."
+msgstr ""
+
+#. ~ Use action no_deactivate_msg for glowing veinreaver.
+#: lang/json/TOOL_from_json.py
+msgid "You can't dispel the effect. Might want to try throwing it instead."
 msgstr ""
 
 #. ~ Use action non_interactive_msg for active flare.
@@ -44576,12 +45210,33 @@ msgstr ""
 msgid "You carefully unfold the tanning leather hide and shake it clean."
 msgstr ""
 
+#. ~ Use action hostile_msg for glyph of Crawling Chaos.
+#: lang/json/TOOL_from_json.py
+msgid ""
+"You feel the gaze of Nyarlathotep upon you.  How foolish of you, to steal "
+"the harrier of the Faceless God!"
+msgstr ""
+
 #. ~ Use action msg for growing blob grinder.
 #. ~ Use action msg for growing blob wheel.
 #: lang/json/TOOL_from_json.py
 msgid ""
 "You give the blob a hard whack and end up with a bruise, you figure it's "
 "done."
+msgstr ""
+
+#. ~ Use action hostile_msg for glyph of the Elder Things.
+#: lang/json/TOOL_from_json.py
+msgid ""
+"You hear a voice in your mind.  \"Tekeli-li!\"  The shoggoth resists your "
+"efforts to control it!"
+msgstr ""
+
+#. ~ Use action friendly_msg for glyph of the Elder Things.
+#: lang/json/TOOL_from_json.py
+msgid ""
+"You hear a voice in your mind. \"Tekili ...l-li?\"  Your mind exerts a "
+"strange influence upon the shoggoth."
 msgstr ""
 
 #. ~ Use action msg for blob feed fermenter.
@@ -44681,6 +45336,13 @@ msgstr "松明に火を点けました。"
 #: lang/json/TOOL_from_json.py
 msgid "You light the wood."
 msgstr "木材に火を点けました。"
+
+#. ~ Use action friendly_msg for glyph of the beholder.
+#: lang/json/TOOL_from_json.py
+msgid ""
+"You meet the flaming's eye's gaze, and it is the first to blink.  It seems "
+"to be friendly."
+msgstr ""
 
 #. ~ Use action hostile_msg for inactive C-4 hack.
 #: lang/json/TOOL_from_json.py
@@ -44891,6 +45553,13 @@ msgstr "発煙弾のピンを引き抜きました。"
 #: lang/json/TOOL_from_json.py
 msgid "You pull the pin on the teargas canister."
 msgstr "催涙弾のピンを引き抜きました。"
+
+#. ~ Use action friendly_msg for glyph of Yuggoth.
+#: lang/json/TOOL_from_json.py
+msgid ""
+"You recite an incantation, and the mi-go's response is a quiet murmur in "
+"some unknown language.  It seems to be friendly."
+msgstr ""
 
 #. ~ Use action msg for wrapped radiation badge.
 #: lang/json/TOOL_from_json.py
@@ -45529,6 +46198,11 @@ msgid_plural "dormant minions"
 msgstr[0] "下僕(休眠)"
 
 #: lang/json/TOOL_from_json.py
+msgid "drained offering chalice"
+msgid_plural "drained offering chalices"
+msgstr[0] ""
+
+#: lang/json/TOOL_from_json.py
 msgid "dynamite"
 msgid_plural "dynamites"
 msgstr[0] "ダイナマイト"
@@ -45800,9 +46474,59 @@ msgid_plural "glass pipes"
 msgstr[0] "ガラスパイプ"
 
 #: lang/json/TOOL_from_json.py
+msgid "glowing hammer of the hunter"
+msgid_plural "glowing hammers of the hunter"
+msgstr[0] ""
+
+#: lang/json/TOOL_from_json.py
+msgid "glowing veinreaver"
+msgid_plural "glowing veinreavers"
+msgstr[0] ""
+
+#: lang/json/TOOL_from_json.py
 msgid "glowstick"
 msgid_plural "glowsticks"
 msgstr[0] "ケミカルライト"
+
+#: lang/json/TOOL_from_json.py
+msgid "glyph of Crawling Chaos"
+msgid_plural "glyphs of Crawling Chaos"
+msgstr[0] ""
+
+#: lang/json/TOOL_from_json.py
+msgid "glyph of Yuggoth"
+msgid_plural "glyphs of Yuggoth"
+msgstr[0] ""
+
+#: lang/json/TOOL_from_json.py
+msgid "glyph of anthozoa"
+msgid_plural "glyphs of anthozoa"
+msgstr[0] ""
+
+#: lang/json/TOOL_from_json.py
+msgid "glyph of impassiveness"
+msgid_plural "glyphs of impassiveness"
+msgstr[0] ""
+
+#: lang/json/TOOL_from_json.py
+msgid "glyph of the Elder Things"
+msgid_plural "glyphs of the Elder Things"
+msgstr[0] ""
+
+#: lang/json/TOOL_from_json.py
+msgid "glyph of the beholder"
+msgid_plural "glyphs of the beholder"
+msgstr[0] ""
+
+#: lang/json/TOOL_from_json.py
+msgid "glyph of the platyhelminthes"
+msgid_plural "glyphs of the platyhelminthes"
+msgstr[0] ""
+
+#: lang/json/TOOL_from_json.py
+msgid "glyph of trickery"
+msgid_plural "glyphs of trickery"
+msgstr[0] ""
 
 #: lang/json/TOOL_from_json.py
 msgid "gold gas discount card"
@@ -45904,6 +46628,11 @@ msgstr[0] "弓鋸"
 msgid "hammer"
 msgid_plural "hammers"
 msgstr[0] "ハンマー"
+
+#: lang/json/TOOL_from_json.py
+msgid "hammer of the hunter"
+msgid_plural "hammers of the hunter"
+msgstr[0] ""
 
 #: lang/json/TOOL_from_json.py
 msgid "hand axe"
@@ -46049,6 +46778,16 @@ msgstr[0] "タレット(停止)"
 msgid "incendiary grenade"
 msgid_plural "incendiary grenades"
 msgstr[0] "焼夷手榴弾"
+
+#: lang/json/TOOL_from_json.py
+msgid "incorruptible sword"
+msgid_plural "incorruptible swords"
+msgstr[0] ""
+
+#: lang/json/TOOL_from_json.py
+msgid "incorruptible sword (on)"
+msgid_plural "incorruptible sword (on)s"
+msgstr[0] ""
 
 #: lang/json/TOOL_from_json.py lang/json/vehicle_from_json.py
 msgid "inflatable boat"
@@ -46336,6 +47075,11 @@ msgid_plural "noise emitters (on)"
 msgstr[0] "ノイズ発生器(オン)"
 
 #: lang/json/TOOL_from_json.py
+msgid "offering chalice"
+msgid_plural "offering chalices"
+msgstr[0] ""
+
+#: lang/json/TOOL_from_json.py
 msgid "oil lamp (off)"
 msgid_plural "oil lamps (off)"
 msgstr[0] "オイルランプ(オフ)"
@@ -46617,6 +47361,11 @@ msgid_plural "sickles"
 msgstr[0] "鎌"
 
 #: lang/json/TOOL_from_json.py
+msgid "silver athame"
+msgid_plural "silver athames"
+msgstr[0] ""
+
+#: lang/json/TOOL_from_json.py
 msgid "silver gas discount card"
 msgid_plural "silver gas discount cards"
 msgstr[0] "シルバーカード(ガソリン割引)"
@@ -46678,6 +47427,11 @@ msgstr "ジジジジ..."
 msgid "steak knife"
 msgid_plural "steak knives"
 msgstr[0] "ステーキナイフ"
+
+#: lang/json/TOOL_from_json.py lang/json/furniture_from_json.py
+msgid "stepladder"
+msgid_plural "stepladders"
+msgstr[0] ""
 
 #: lang/json/TOOL_from_json.py
 msgid "stethoscope"
@@ -46799,7 +47553,7 @@ msgid "teleporter"
 msgid_plural "teleporters"
 msgstr[0] "瞬間移動装置"
 
-#: lang/json/TOOL_from_json.py src/iexamine.cpp
+#: lang/json/TOOL_from_json.py
 msgid "tent"
 msgid_plural "tents"
 msgstr[0] "テント"
@@ -46883,6 +47637,11 @@ msgstr[0] "採血器"
 msgid "vacuum sealer"
 msgid_plural "vacuum sealers"
 msgstr[0] "真空包装機"
+
+#: lang/json/TOOL_from_json.py
+msgid "veinreaver"
+msgid_plural "veinreavers"
+msgstr[0] ""
 
 #: lang/json/TOOL_from_json.py
 msgid "vibrator"
@@ -47488,6 +48247,10 @@ msgstr "ロケット弾(自作)"
 #: lang/json/ammunition_type_from_json.py
 msgid "javelin"
 msgstr "ジャベリン"
+
+#: lang/json/ammunition_type_from_json.py
+msgid "magical essence"
+msgstr ""
 
 #: lang/json/ammunition_type_from_json.py
 msgid "nails"
@@ -49557,6 +50320,10 @@ msgid "Adrenaline Rush"
 msgstr "アドレナリンラッシュ"
 
 #: lang/json/effects_from_json.py
+msgid "Aegis Cure"
+msgstr ""
+
+#: lang/json/effects_from_json.py
 msgid "Allow to Sleep"
 msgstr "睡眠を許可しました"
 
@@ -49723,6 +50490,10 @@ msgid "Controlled Monster"
 msgstr "支配されたモンスター"
 
 #: lang/json/effects_from_json.py
+msgid "Corroding"
+msgstr ""
+
+#: lang/json/effects_from_json.py
 msgid "Counting Down"
 msgstr "秒読み"
 
@@ -49759,6 +50530,10 @@ msgstr "転倒"
 #: lang/json/effects_from_json.py
 msgid "Drunk"
 msgstr "酒酔い"
+
+#: lang/json/effects_from_json.py
+msgid "Elixir"
+msgstr ""
 
 #: lang/json/effects_from_json.py
 msgid "Experiencing Datura"
@@ -49856,6 +50631,16 @@ msgstr "ヒット&アウェイ(逃走中)"
 msgid "Hot"
 msgstr "高体温(中)"
 
+#. ~ Description of effect 'Aegis Cure'.
+#: lang/json/effects_from_json.py
+msgid "Illness and infection shall be purged."
+msgstr ""
+
+#. ~ Description of effect 'Revenant Hunger'.
+#: lang/json/effects_from_json.py
+msgid "Immunity to poison, increased hunger gain."
+msgstr ""
+
 #: lang/json/effects_from_json.py
 msgid "Impaired hearing"
 msgstr "聴覚障害"
@@ -49871,6 +50656,10 @@ msgstr "感染"
 #: lang/json/effects_from_json.py
 msgid "Influenza"
 msgstr "インフルエンザ"
+
+#: lang/json/effects_from_json.py
+msgid "Intense Numbness"
+msgstr ""
 
 #: lang/json/effects_from_json.py
 msgid "Itchy skin"
@@ -49916,6 +50705,15 @@ msgstr "ニコチン"
 
 #: lang/json/effects_from_json.py
 msgid "No ammo"
+msgstr ""
+
+#. ~ Description of effect 'Elixir'.
+#: lang/json/effects_from_json.py
+msgid "Not immortality, but it still feels nice."
+msgstr ""
+
+#: lang/json/effects_from_json.py
+msgid "Offering"
 msgstr ""
 
 #: lang/json/effects_from_json.py
@@ -50057,6 +50855,10 @@ msgid "Relaxation gas"
 msgstr "精神緩和ガス"
 
 #: lang/json/effects_from_json.py
+msgid "Revenant Hunger"
+msgstr ""
+
+#: lang/json/effects_from_json.py
 msgid "Ringing ears"
 msgstr "耳鳴り"
 
@@ -50092,6 +50894,15 @@ msgstr "鈍重"
 msgid "Smoke"
 msgstr "煙"
 
+#. ~ Description of effect 'Offering'.
+#: lang/json/effects_from_json.py
+msgid "Something is sapping the life from your body."
+msgstr ""
+
+#: lang/json/effects_from_json.py
+msgid "Speedy"
+msgstr ""
+
 #: lang/json/effects_from_json.py
 msgid "Spore coated"
 msgstr "胞子まみれ(大)"
@@ -50118,6 +50929,10 @@ msgstr ""
 "筋力 -3 / 器用 -3 / 知性 -2 / 感覚 -4\n"
 "完全にリラックスしており、動く気力が沸きません。戦闘ですか？多大な努力が必要"
 "ですね。"
+
+#: lang/json/effects_from_json.py
+msgid "Strengthed"
+msgstr ""
 
 #: lang/json/effects_from_json.py
 msgid "Stuck in Pit"
@@ -50166,10 +50981,20 @@ msgstr "咬傷は本当に深そうだ…。"
 msgid "The ceiling collapses on you!"
 msgstr "天井が崩れてきました！"
 
+#. ~ Remove message for effect(s) 'Elixir'.
+#: lang/json/effects_from_json.py
+msgid "The healing effect fades."
+msgstr ""
+
 #. ~ Decay message for effect(s) 'RX12 Healing Comedown, RX12 Healing Rush'.
 #: lang/json/effects_from_json.py
 msgid "The jet injector's chemicals wear off.  You feel AWFUL!"
 msgstr "アドレナリンの爆発が収まりました。酷い気分だ！"
+
+#. ~ Remove message for effect(s) 'Intense Numbness'.
+#: lang/json/effects_from_json.py
+msgid "The numbness fades."
+msgstr ""
 
 #. ~ Miss message for effect(s) 'Sap-coated'.
 #: lang/json/effects_from_json.py
@@ -50195,6 +51020,11 @@ msgstr "太陽が目に焼き付いています。"
 #: lang/json/effects_from_json.py
 msgid "The sunlight's glare makes it hard to see."
 msgstr "日光が眩しくてよく見えない。"
+
+#. ~ Remove message for effect(s) 'Strengthed'.
+#: lang/json/effects_from_json.py
+msgid "The unnatural strength leaves your body."
+msgstr ""
 
 #. ~ Miss message for effect(s) 'Webbed'.
 #: lang/json/effects_from_json.py
@@ -50430,6 +51260,11 @@ msgstr "薬が完全に身体から抜けた様だ。"
 msgid "You feel lightheaded."
 msgstr "目眩がしました。"
 
+#. ~ Description of effect 'Strengthed'.
+#: lang/json/effects_from_json.py
+msgid "You feel mighty, like you could take on the world."
+msgstr ""
+
 #. ~ Description of effect 'Ratting'.
 #: lang/json/effects_from_json.py
 msgid "You feel nauseous and rat-like."
@@ -50567,6 +51402,17 @@ msgstr "身体中、樹液まみれだ！"
 #. ~ Apply message for effect(s) 'Glowing'.
 #: lang/json/effects_from_json.py
 msgid "You're covered in a glowing goo!"
+msgstr ""
+
+#. ~ Apply message for effect(s) 'Corroding'.
+#: lang/json/effects_from_json.py
+msgid "You're covered in acid!"
+msgstr ""
+
+#. ~ Description of effect 'Corroding'.
+#: lang/json/effects_from_json.py
+msgid ""
+"You're covered in acid!  It hurts and further lowers your resistance to acid."
 msgstr ""
 
 #. ~ Apply message for effect(s) 'Boomered'.
@@ -50724,6 +51570,11 @@ msgstr "咬傷から感染したような気がしました。"
 msgid "Your blisters distract you"
 msgstr "水疱の所為で気が散っています。"
 
+#. ~ Description of effect 'Intense Numbness'.
+#: lang/json/effects_from_json.py
+msgid "Your body feels incredibly numb."
+msgstr ""
+
 #. ~ Apply message for effect(s) 'Winded'.
 #: lang/json/effects_from_json.py
 msgid "Your breath gives out!"
@@ -50733,6 +51584,11 @@ msgstr "呼吸が乱れています！"
 #: lang/json/effects_from_json.py
 msgid "Your comedown throws you off."
 msgstr "薬の効果が切れて、気分が落ち込んでいます。"
+
+#. ~ Remove message for effect(s) 'Revenant Hunger'.
+#: lang/json/effects_from_json.py
+msgid "Your craving for rotten food subsides."
+msgstr ""
 
 #. ~ Apply message for effect(s) 'Impaired hearing, Ringing ears, Deaf'.
 #: lang/json/effects_from_json.py
@@ -50759,6 +51615,16 @@ msgstr "手の震えが止まらない。"
 #: lang/json/effects_from_json.py
 msgid "Your hearing is impaired."
 msgstr "聴力が損なわれています。"
+
+#. ~ Description of effect 'Speedy'.
+#: lang/json/effects_from_json.py
+msgid "Your heart feels like it's beating dangerously fast."
+msgstr ""
+
+#. ~ Remove message for effect(s) 'Speedy'.
+#: lang/json/effects_from_json.py
+msgid "Your heartbeat slows back down to a normal pace."
+msgstr ""
 
 #. ~ Description of effect 'Stem cell treatment'.
 #: lang/json/effects_from_json.py
@@ -50804,6 +51670,11 @@ msgstr ""
 #: lang/json/effects_from_json.py
 msgid "Your vision starts to blur."
 msgstr "視界がぼやけ始めました。"
+
+#. ~ Miss message for effect(s) 'Offering'.
+#: lang/json/effects_from_json.py
+msgid "Your will to fight fades for a moment."
+msgstr ""
 
 #. ~ Description for The Free Merchants
 #: lang/json/faction_from_json.py
@@ -52032,6 +52903,10 @@ msgid "Heat up food"
 msgstr "食料を温める"
 
 #: lang/json/item_action_from_json.py
+msgid "Meditate"
+msgstr ""
+
+#: lang/json/item_action_from_json.py
 msgid "Modify Clothing"
 msgstr "衣服を手直しする"
 
@@ -52060,8 +52935,8 @@ msgid "Repair metal/plastic/kevlar"
 msgstr "金属/ﾌﾟﾗｽﾁｯｸ/ｹﾌﾞﾗｰを修理する"
 
 #: lang/json/item_action_from_json.py
-msgid "Repair wood/bone/chitin"
-msgstr "木/骨/キチンを修理する"
+msgid "Repair wood/paper/bone/chitin"
+msgstr ""
 
 #: lang/json/item_action_from_json.py lang/json/keybinding_from_json.py
 msgid "Sew"
@@ -52266,6 +53141,10 @@ msgstr "優先度を下げる"
 #: lang/json/keybinding_from_json.py
 msgid "Delete Note"
 msgstr "メモ削除"
+
+#: lang/json/keybinding_from_json.py
+msgid "Delete template"
+msgstr ""
 
 #: lang/json/keybinding_from_json.py
 msgid "Disable rule"
@@ -54356,6 +55235,10 @@ msgstr "鉛"
 #: lang/json/material_from_json.py
 msgid "Leather"
 msgstr "革"
+
+#: lang/json/material_from_json.py
+msgid "Magical Essence"
+msgstr ""
 
 #: lang/json/material_from_json.py
 msgid "Nomex"
@@ -56761,7 +57644,7 @@ msgstr "大声"
 #. ~ Description for Urticating Hairs
 #: lang/json/mutation_from_json.py
 msgid ""
-"Significant amounts of your hairs have loosened.  If somme creature tries to "
+"Significant amounts of your hairs have loosened.  If some creature tries to "
 "attack you, your assailant is quite likely to get fine, bristly chitin in an "
 "irritating spot; it doesn't carry your venom but it will be distracting."
 msgstr ""
@@ -62026,6 +62909,16 @@ msgstr "新兵"
 
 #: lang/json/professions_from_json.py
 msgctxt "profession_female"
+msgid "Miner"
+msgstr ""
+
+#: lang/json/professions_from_json.py
+msgctxt "profession_male"
+msgid "Miner"
+msgstr ""
+
+#: lang/json/professions_from_json.py
+msgctxt "profession_female"
 msgid "Monk"
 msgstr "修行僧"
 
@@ -64139,6 +65032,22 @@ msgstr ""
 "俺は木こりだ、だいじょうぶだー。災厄の前は木を伐って暮らしていました。だから"
 "気付けたのです、どうやら死体共は木ほど頑丈ではない様だと。"
 
+#. ~ Profession (female Miner) description
+#: lang/json/professions_from_json.py
+msgctxt "prof_desc_female"
+msgid ""
+"You're a miner, not a minor!  Your canteen is dry, your jackhammer is out of "
+"gas, and you're on your last pair of batteries for your mining helmet..."
+msgstr ""
+
+#. ~ Profession (male Miner) description
+#: lang/json/professions_from_json.py
+msgctxt "prof_desc_male"
+msgid ""
+"You're a miner, not a minor!  Your canteen is dry, your jackhammer is out of "
+"gas, and you're on your last pair of batteries for your mining helmet..."
+msgstr ""
+
 #. ~ Profession (female Elementary Student) description
 #: lang/json/professions_from_json.py
 msgctxt "prof_desc_female"
@@ -64565,6 +65474,15 @@ msgid "Assault on Precinct Z"
 msgstr "襲撃されたZ区域"
 
 #: lang/json/scenario_from_json.py
+msgid "Bottom Of A Mine"
+msgstr ""
+
+#. ~ Starting location for scenario 'Bottom Of A Mine'.
+#: lang/json/scenario_from_json.py lang/json/start_location_from_json.py
+msgid "Bottom of a mine"
+msgstr ""
+
+#: lang/json/scenario_from_json.py
 msgid "Burning Building"
 msgstr "燃え盛る建物"
 
@@ -64799,6 +65717,13 @@ msgstr ""
 "な状況に陥る前から、校庭はモンスター共が蔓延る阿鼻叫喚の地獄絵図になっていま"
 "した。学校の外も多分...想像通りの光景が広がっているのでしょう。"
 
+#. ~ Description for scenario 'Bottom Of A Mine'.
+#: lang/json/scenario_from_json.py
+msgid ""
+"You were mining along when you found...something.  You're not sure what, but "
+"it sure is dark down here."
+msgstr ""
+
 #. ~ Description for scenario 'Challenge-Lab'.
 #: lang/json/scenario_from_json.py
 msgid ""
@@ -64884,6 +65809,14 @@ msgid ""
 msgstr ""
 "建物を構築する為の技能です。高レベルになると、複雑な建物を構築する事が出来る"
 "様になり、建設時間が短縮されます。"
+
+#. ~ Description for arcana
+#: lang/json/skill_from_json.py
+msgid ""
+"Your knowledge of strange, anomalous powers from far-off worlds.  While "
+"certain artifacts are beyond mortal understanding, this skill can be used "
+"for creating and using a few odd devices, some with lethal applications."
+msgstr ""
 
 #. ~ Description for marksmanship
 #: lang/json/skill_from_json.py
@@ -65095,6 +66028,10 @@ msgid ""
 msgstr ""
 "資源を活用して便利なアイテムを製作する為の加工技能です。殆どのアイテム作成に"
 "必要な技能です。"
+
+#: lang/json/skill_from_json.py
+msgid "arcana"
+msgstr ""
 
 #: lang/json/skill_from_json.py
 msgid "archery"
@@ -67305,7 +68242,7 @@ msgstr "「後で電話してくれよ。」"
 
 #: lang/json/speech_from_json.py
 msgid "\"Go ahead.\""
-msgstr ""
+msgstr "「どうぞ。」"
 
 #: lang/json/speech_from_json.py
 msgid "\"God damn it!\""
@@ -67473,11 +68410,11 @@ msgstr "「映画はどうだった？」"
 
 #: lang/json/speech_from_json.py
 msgid "\"How was your trip?\""
-msgstr ""
+msgstr "「旅はどうだった？」"
 
 #: lang/json/speech_from_json.py
 msgid "\"How's it going?\""
-msgstr ""
+msgstr "「調子はどうだい？」"
 
 #: lang/json/speech_from_json.py
 msgid "\"How's your dad doing?\""
@@ -67497,7 +68434,7 @@ msgstr ""
 
 #: lang/json/speech_from_json.py
 msgid "\"I got this weird rash a few days ago.\""
-msgstr ""
+msgstr "「数日前から異様な発疹が出てきたんだ。」"
 
 #: lang/json/speech_from_json.py
 msgid "\"I love the smell of napalm in the morning.\""
@@ -67581,7 +68518,7 @@ msgstr "「頭痛がするよ。」"
 
 #: lang/json/speech_from_json.py
 msgid "\"I've got family coming tomorrow.\""
-msgstr ""
+msgstr "「俺(私)は家族が帰ってくる日を待っているんだ。」"
 
 #: lang/json/speech_from_json.py
 msgid "\"I've seen horrors, horrors that you've seen.\""
@@ -67681,7 +68618,7 @@ msgstr ""
 
 #: lang/json/speech_from_json.py
 msgid "\"Let me have a look at it.\""
-msgstr ""
+msgstr "「俺(私)がそれを見てみるよ。」"
 
 #: lang/json/speech_from_json.py
 msgid "\"Let's Party!\""
@@ -67761,7 +68698,7 @@ msgstr ""
 
 #: lang/json/speech_from_json.py
 msgid "\"Oh God, my leg, Oh God!\""
-msgstr "「おお、神よ、私の脚が...おおぉ、神よ！」"
+msgstr "「おお、神よ、俺(私)の脚が...おおぉ、神よ！」"
 
 #: lang/json/speech_from_json.py
 msgid "\"Okay.\""
@@ -67831,7 +68768,7 @@ msgstr "「また後で。」"
 
 #: lang/json/speech_from_json.py
 msgid "\"See you tonight.\""
-msgstr ""
+msgstr "「また今夜ね。」"
 
 #: lang/json/speech_from_json.py
 msgid "\"Seven o'clock.\""
@@ -67966,7 +68903,7 @@ msgstr "「ここは深刻な状況だよ。」"
 
 #: lang/json/speech_from_json.py
 msgid "\"We just don't know.\""
-msgstr "「私には分からないな。」"
+msgstr "「俺(私)には分からないな。」"
 
 #: lang/json/speech_from_json.py
 msgid "\"We should hit up the shooting range later.\""
@@ -68074,7 +69011,7 @@ msgstr ""
 
 #: lang/json/speech_from_json.py
 msgid "\"You're just copying me, aren't you?\""
-msgstr "「君は...私のコピーだよね？」"
+msgstr "「君は...俺(私)のコピーだよね？」"
 
 #: lang/json/speech_from_json.py
 msgid "\"You're new here, aren't you?\""
@@ -68098,7 +69035,7 @@ msgstr "血か...ペロリ...最高の味だ。"
 
 #: lang/json/speech_from_json.py
 msgid "Die for me!"
-msgstr "私の為に死んでくれ！"
+msgstr "俺(私)の為に死んでくれ！"
 
 #: lang/json/speech_from_json.py
 msgid "Do you really need that much honey?"
@@ -68146,7 +69083,7 @@ msgstr "一緒に遊びましょう！"
 
 #: lang/json/speech_from_json.py
 msgid "Let's play... Russian roulette."
-msgstr ""
+msgstr "さぁ、やるぜ...ロシアンルーレットをな。"
 
 #: lang/json/speech_from_json.py
 msgid "May I have a cookie?"
@@ -68167,7 +69104,7 @@ msgstr "ムシャムシャ、美味しいね！最高だよ！"
 
 #: lang/json/speech_from_json.py
 msgid "Please take me with you!"
-msgstr "私を連れて行って！"
+msgstr "俺(私)を連れて行って！"
 
 #: lang/json/speech_from_json.py
 msgid "See you... IN HELL!"
@@ -68175,7 +69112,7 @@ msgstr "じゃあな...地獄で会おうぜ！"
 
 #: lang/json/speech_from_json.py
 msgid "Sing with me!"
-msgstr "私と一緒に歌おう！"
+msgstr "俺(私)と一緒に歌おうよ！"
 
 #: lang/json/speech_from_json.py
 msgid "Stay with me... forever!"
@@ -68187,7 +69124,7 @@ msgstr "遊びの時間だよ！"
 
 #: lang/json/speech_from_json.py
 msgid "Wanna play with me?"
-msgstr "私と一緒に遊ばない？"
+msgstr "俺(私)と一緒に遊ばない？"
 
 #: lang/json/speech_from_json.py
 msgid "What did you do with my Mommy?"
@@ -68207,7 +69144,7 @@ msgstr "君は最高の親友だよ！"
 
 #: lang/json/speech_from_json.py
 msgid "You're the best!"
-msgstr ""
+msgstr "君は最高だよ！"
 
 #: lang/json/speech_from_json.py
 msgid "a beeping sound."
@@ -70227,6 +71164,10 @@ msgid "dark pedestal"
 msgstr "暗い台座"
 
 #: lang/json/terrain_from_json.py
+msgid "dead hickory tree"
+msgstr ""
+
+#: lang/json/terrain_from_json.py
 msgid "dead pine tree"
 msgstr "枯れた松の木"
 
@@ -70389,6 +71330,10 @@ msgstr "半建築壁(荒打漆喰)"
 #: lang/json/terrain_from_json.py
 msgid "heavy machinery"
 msgstr "重機械"
+
+#: lang/json/terrain_from_json.py
+msgid "hickory tree"
+msgstr ""
 
 #: lang/json/terrain_from_json.py
 msgid "high stained glass window"
@@ -70608,7 +71553,7 @@ msgstr "スモモの木"
 
 #: lang/json/terrain_from_json.py
 msgid "plunk."
-msgstr "ドンという音が聞こえました。"
+msgstr "ドンッという音が聞こえました。"
 
 #: lang/json/terrain_from_json.py
 msgid "plutonium generator"
@@ -73627,7 +74572,7 @@ msgstr "環境:"
 msgid "Eyes"
 msgstr "眼"
 
-#: src/armor_layers.cpp src/game.cpp src/player.cpp
+#: src/armor_layers.cpp src/character.cpp src/game.cpp src/player.cpp
 msgid "Head"
 msgstr "頭"
 
@@ -73764,7 +74709,7 @@ msgstr "腰回りに身に付けています。"
 msgid "This is worn over your other clothes."
 msgstr "衣服の上に羽織っています。"
 
-#: src/armor_layers.cpp src/game.cpp src/player.cpp
+#: src/armor_layers.cpp src/character.cpp src/game.cpp src/player.cpp
 msgid "Torso"
 msgstr "胴"
 
@@ -75376,32 +76321,9 @@ msgid "You can't do anything interesting with your %s."
 msgstr ""
 
 #: src/character.cpp
-msgid "1: Head"
-msgstr "1: 頭部"
-
-#: src/character.cpp
-msgid "2: Torso"
-msgstr "2: 胴体"
-
-#: src/character.cpp
-msgid "3: Left Arm"
-msgstr "3: 左腕"
-
-#: src/character.cpp
-msgid "4: Right Arm"
-msgstr "4: 右腕"
-
-#: src/character.cpp
-msgid "5: Left Leg"
-msgstr "5: 左脚"
-
-#: src/character.cpp
-msgid "6: Right Leg"
-msgstr "6: 右脚"
-
-#: src/character.cpp
-msgid "7: Exit"
-msgstr "7: 終了"
+#, c-format
+msgid "%d: Exit"
+msgstr ""
 
 #: src/character.cpp
 msgid "<npcname> breaks out of the grab!"
@@ -75437,6 +76359,22 @@ msgstr "<npcname>は立ち上がりました。"
 
 #: src/character.cpp
 msgid "<npcname> tries to break out of the grab, but fails!"
+msgstr ""
+
+#: src/character.cpp
+msgid "Left Arm"
+msgstr ""
+
+#: src/character.cpp
+msgid "Left Leg"
+msgstr ""
+
+#: src/character.cpp
+msgid "Right Arm"
+msgstr ""
+
+#: src/character.cpp
+msgid "Right Leg"
 msgstr ""
 
 #: src/character.cpp
@@ -79827,8 +80765,16 @@ msgid "The %s makes you feel sick."
 msgstr ""
 
 #: src/field.cpp
+msgid "The acid burns <npcname>s body!"
+msgstr ""
+
+#: src/field.cpp
 msgid "The acid burns <npcname>s legs and feet!"
 msgstr "酸が<npcname>の脚と足を焼きました！"
+
+#: src/field.cpp
+msgid "The acid burns your body!"
+msgstr ""
 
 #: src/field.cpp
 msgid "The acid burns your legs and feet!"
@@ -79922,6 +80868,10 @@ msgstr "身体が燃え尽きました！"
 #: src/field.cpp
 msgid "You're electrocuted!"
 msgstr "身体が感電しました！"
+
+#: src/field.cpp
+msgid "You're lying in a pool of acid"
+msgstr ""
 
 #: src/field.cpp src/iuse.cpp
 msgid "You're paralyzed!"
@@ -80738,6 +81688,16 @@ msgstr "自動移動を取り消しました。"
 #: src/game.cpp
 msgid "Bag item:"
 msgstr "バッグ内のアイテム:"
+
+#: src/game.cpp
+#, c-format
+msgid "Below: %s; No support"
+msgstr ""
+
+#: src/game.cpp
+#, c-format
+msgid "Below: %s; Walkable"
+msgstr ""
 
 #: src/game.cpp
 #, c-format
@@ -81925,6 +82885,11 @@ msgstr ""
 #: src/game.cpp
 #, c-format
 msgid "The %s beeps erratically and deactivates!"
+msgstr ""
+
+#: src/game.cpp
+#, c-format
+msgid "The %s collides with %s."
 msgstr ""
 
 #: src/game.cpp
@@ -84964,7 +85929,7 @@ msgstr "%sに登りますか？"
 
 #: src/iexamine.cpp
 msgid "Climbing the fence is trivial for one such as you."
-msgstr ""
+msgstr "柵を登るなど朝飯前ですね。"
 
 #: src/iexamine.cpp
 msgid "Climbing this is impossible in your current state."
@@ -84972,7 +85937,7 @@ msgstr ""
 
 #: src/iexamine.cpp
 msgid "Create camp"
-msgstr ""
+msgstr "キャンプ作成"
 
 #: src/iexamine.cpp
 msgid "Current gas pump: "
@@ -84987,6 +85952,11 @@ msgstr "お金を預け入れ"
 msgid "Deposit how much? Max: %d cent. (0 to cancel) "
 msgid_plural "Deposit how much? Max: %d cents. (0 to cancel) "
 msgstr[0] "幾ら預け入れますか？最大: %dセント(0で取消) "
+
+#: src/iexamine.cpp
+#, c-format
+msgid "Dig up %s? This kills the tree!"
+msgstr ""
 
 #: src/iexamine.cpp
 msgid "Do what with the curtains?"
@@ -85009,8 +85979,9 @@ msgid "Fence Construction:"
 msgstr "柵の建設:"
 
 #: src/iexamine.cpp
-msgid "Fertilize plant"
-msgstr "作物に肥料を与える"
+#, c-format
+msgid "Fertilize the %s"
+msgstr ""
 
 #: src/iexamine.cpp
 #, c-format
@@ -85055,10 +86026,6 @@ msgstr "ゴールド会員"
 #: src/iexamine.cpp
 msgid "Hack console."
 msgstr "コンソールをハッキングしました。"
-
-#: src/iexamine.cpp
-msgid "Harvest plant?"
-msgstr "作物を収穫しますか？"
 
 #: src/iexamine.cpp
 #, c-format
@@ -85157,6 +86124,11 @@ msgstr "ジャックポットだ！5000ドルを手に入れました！"
 
 #: src/iexamine.cpp
 msgid "Ka-klunk!"
+msgstr ""
+
+#: src/iexamine.cpp
+#, c-format
+msgid "Looks like %d stories. Jump down?"
 msgstr ""
 
 #: src/iexamine.cpp
@@ -85487,6 +86459,11 @@ msgstr "%sは再装填出来ない！"
 
 #: src/iexamine.cpp
 #, c-format
+msgid "This %s has already been fertilized."
+msgstr ""
+
+#: src/iexamine.cpp
+#, c-format
 msgid "This %s has already been harvested. Harvest it again next year."
 msgstr "既に%sは収穫されています。来年、再度収穫する事が出来ます。"
 
@@ -85533,10 +86510,6 @@ msgid ""
 "This pedestal is engraved in eye-shaped diagrams, and has a large semi-"
 "spherical indentation at the top."
 msgstr ""
-
-#: src/iexamine.cpp
-msgid "This plant has already been fertilized."
-msgstr "この作物は既に施肥されています。"
 
 #: src/iexamine.cpp
 msgid "This plant is dead. You can't get it."
@@ -85665,7 +86638,7 @@ msgstr "鉄条網"
 
 #: src/iexamine.cpp
 msgid "With a beep, the empty vending machine shuts down"
-msgstr "ビープ音が鳴り、空の自動販売機がシャットダウンしました。"
+msgstr "ビープ音が鳴り、空の自動販売機が運転を停止しました。"
 
 #: src/iexamine.cpp
 #, c-format
@@ -85699,6 +86672,10 @@ msgstr ""
 #: src/iexamine.cpp
 msgid "You can only move money from charged cash cards!"
 msgstr "振替が出来るのは、自分専用のキャッシュカード(充電済)のみです！"
+
+#: src/iexamine.cpp
+msgid "You can't climb down there"
+msgstr ""
 
 #: src/iexamine.cpp
 msgid "You can't crack a safe while deaf!"
@@ -85801,12 +86778,17 @@ msgid "You have no brew to ferment."
 msgstr ""
 
 #: src/iexamine.cpp
-msgid "You have no fertilizer."
-msgstr "肥料を持っていない。"
+#, c-format
+msgid "You have no fertilizer for the %s."
+msgstr ""
 
 #: src/iexamine.cpp
 msgid "You have no seeds to plant."
 msgstr "種を持っていない。"
+
+#: src/iexamine.cpp
+msgid "You have no tool to dig with..."
+msgstr ""
 
 #: src/iexamine.cpp
 msgid "You hear the rumble of rock shifting."
@@ -85818,6 +86800,10 @@ msgstr "IDカードを挿入します。"
 
 #: src/iexamine.cpp
 msgid "You leave the sign alone."
+msgstr ""
+
+#: src/iexamine.cpp
+msgid "You may have problems climbing back up. Climb down?"
 msgstr ""
 
 #: src/iexamine.cpp
@@ -85854,7 +86840,7 @@ msgstr ""
 
 #: src/iexamine.cpp
 msgid "You need 2 six-foot lengths of rope to do that"
-msgstr ""
+msgstr "2個のロープ(1.8m)が必要です。"
 
 #: src/iexamine.cpp
 msgid "You need a cash card before you can withdraw money!"
@@ -85903,8 +86889,16 @@ msgid "You place a plank of wood over the pit."
 msgstr "穴の上に木の板を設置しました。"
 
 #: src/iexamine.cpp
-msgid "You quickly scale the fence."
+msgid "You probably won't be able to get back up. Climb down?"
 msgstr ""
+
+#: src/iexamine.cpp
+msgid "You probably won't be able to get up and jumping down may hurt. Jump?"
+msgstr ""
+
+#: src/iexamine.cpp
+msgid "You quickly scale the fence."
+msgstr "迅速に柵を登りました。"
 
 #: src/iexamine.cpp
 #, c-format
@@ -85918,6 +86912,12 @@ msgstr "板を取り外しました。"
 #: src/iexamine.cpp src/mission_companion.cpp
 msgid "You saved your seeds for later."
 msgstr "種を取って置く事にしました。"
+
+#: src/iexamine.cpp
+msgid ""
+"You should be able to climb back up easily if you climb down there. Climb "
+"down?"
+msgstr ""
 
 #: src/iexamine.cpp
 msgid "You slide right between the bars."
@@ -85948,11 +86948,6 @@ msgstr "銃保管庫のハッキングに成功しました。"
 #: src/iexamine.cpp
 msgid "You successfully unlock the gun safe."
 msgstr "銃保管庫の開錠に成功しました。"
-
-#: src/iexamine.cpp src/map.cpp
-#, c-format
-msgid "You take down the %s."
-msgstr "%sを分解しました。"
 
 #: src/iexamine.cpp
 msgid "You tear the curtains and curtain rod off the windowframe."
@@ -86009,10 +87004,6 @@ msgstr "ガソリン価格(単位): "
 #, c-format
 msgid "about %d %s"
 msgstr ""
-
-#: src/iexamine.cpp
-msgid "shelter"
-msgstr "シェルター"
 
 #: src/input.cpp src/requirements.cpp
 msgid " or "
@@ -86426,6 +87417,10 @@ msgstr ""
 #, c-format
 msgctxt "memorial_male"
 msgid "Accidental discharge of %s."
+msgstr ""
+
+#: src/item.cpp
+msgid "Acid: "
 msgstr ""
 
 #: src/item.cpp
@@ -87886,6 +88881,10 @@ msgid "Called for help from %s."
 msgstr ""
 
 #: src/iuse.cpp
+msgid "Can't place it there."
+msgstr ""
+
+#: src/iuse.cpp
 #, c-format
 msgid "Capture what with the %s?"
 msgstr ""
@@ -88461,6 +89460,10 @@ msgid "Put the %s where?"
 msgstr "どこに%sを置きますか？"
 
 #: src/iuse.cpp
+msgid "Put the ladder where?"
+msgstr ""
+
+#: src/iuse.cpp
 #, c-format
 msgid "Put up the %s where (%dx%d clear area)?"
 msgstr "どこに%sを設置しますか(%dx%dの場所が必要)？"
@@ -88735,7 +89738,7 @@ msgid "That isn't a knife!"
 msgstr "それはナイフではない！"
 
 #: src/iuse.cpp
-msgid "That isn't made of wood, bone, or chitin!"
+msgid "That isn't made of wood, paper, bone, or chitin!"
 msgstr ""
 
 #: src/iuse.cpp
@@ -89743,6 +90746,10 @@ msgid "You can't see the camera screen, you're blind."
 msgstr "目が見えていないので、カメラの画面が見えない。"
 
 #: src/iuse.cpp
+msgid "You can't see to repair!"
+msgstr ""
+
+#: src/iuse.cpp
 msgid "You can't see to sew!"
 msgstr "暗くて裁縫できない！"
 
@@ -90587,6 +91594,10 @@ msgstr ""
 #: src/iuse.cpp
 msgid "You scream in agony!!"
 msgstr "苦悶の叫び声を上げました！！"
+
+#: src/iuse.cpp
+msgid "You set down the ladder."
+msgstr ""
 
 #: src/iuse.cpp
 msgid "You set the beartrap."
@@ -91451,7 +92462,7 @@ msgstr ""
 #: src/iuse_actor.cpp
 #, c-format
 msgid "The %s scans you and makes angry beeping noises!"
-msgstr ""
+msgstr "%sは貴方を走査すると激しい警告音を発しました！"
 
 #: src/iuse_actor.cpp
 msgid "The door swings open..."
@@ -91531,7 +92542,7 @@ msgstr ""
 #: src/iuse_actor.cpp
 #, c-format
 msgid "You can not cut the %s with itself."
-msgstr ""
+msgstr "%sでそれ自体を切る事は出来ない。"
 
 #: src/iuse_actor.cpp
 msgid ""
@@ -92889,6 +93900,11 @@ msgid "<W|w>orld"
 msgstr "<W|w>世界"
 
 #: src/main_menu.cpp
+#, c-format
+msgid "Are you sure you want to delete %s?"
+msgstr ""
+
+#: src/main_menu.cpp
 msgid "Cataclysm: Dark Days Ahead"
 msgstr "Cataclysm: Dark Days Ahead"
 
@@ -92936,7 +93952,15 @@ msgid "Please report bugs to kevin.granade@gmail.com or post on the forums."
 msgstr ""
 
 #: src/main_menu.cpp
+msgid "Press 'd' to delete a preset."
+msgstr ""
+
+#: src/main_menu.cpp
 msgid "Remove all saves and regenerate world?"
+msgstr ""
+
+#: src/main_menu.cpp
+msgid "Sorry, something went wrong."
 msgstr ""
 
 #: src/main_menu.cpp
@@ -93007,8 +94031,8 @@ msgstr "破壊可能 "
 
 #: src/map.cpp
 #, c-format
-msgid "The %1$s's %2$s collides with the %3$s's %4$s."
-msgstr "%1$sの%2$sは%3$sの%4$sと衝突しました。"
+msgid "The %1$s's %2$s collides with %3$s's %4$s."
+msgstr ""
 
 #: src/map.cpp
 msgid "The metal bars melt!"
@@ -93063,8 +94087,18 @@ msgid "You take %d damage by the power of the impact!"
 msgstr "衝撃で%dのダメージを受けました！"
 
 #: src/map.cpp
+#, c-format
+msgid "You take down the %s."
+msgstr "%sを分解しました。"
+
+#: src/map.cpp
 msgid "You're covered in tiny spores!"
 msgstr "身体中、胞子まみれだ！"
+
+#: src/map.cpp
+#, c-format
+msgid "Your %s can't move on this terrain."
+msgstr ""
 
 #: src/map.cpp
 #, c-format
@@ -93090,7 +94124,7 @@ msgstr ""
 
 #: src/map.cpp src/ranged.cpp
 msgid "splash!"
-msgstr "液体が跳ねる音が聞こえました！"
+msgstr "ピチャンと液体が跳ねる音が聞こえました！"
 
 #: src/map.cpp src/melee.cpp src/monster.cpp src/vehicle.cpp
 #, c-format
@@ -98566,7 +99600,16 @@ msgstr "%sが爆発しました！"
 
 #: src/mondefense.cpp
 #, c-format
+msgid "Acid covering %s burns your hand!"
+msgstr ""
+
+#: src/mondefense.cpp
+#, c-format
 msgid "Acid sprays out of %s as it is hit!"
+msgstr ""
+
+#: src/mondefense.cpp
+msgid "Some acid lands on you!"
 msgstr ""
 
 #: src/mondefense.cpp
@@ -99596,7 +100639,7 @@ msgstr "開始/ゾンビの傍"
 
 #: src/newcharacter.cpp
 msgid "______NO NAME ENTERED!!!______"
-msgstr "______名前が入力されていない！！！______"
+msgstr "______名前が入力されていない！______"
 
 #: src/newcharacter.cpp
 msgid "activated"
@@ -105696,7 +106739,7 @@ msgstr "アルコール依存症"
 msgid ""
 "Alertness comes somewhat fast, and your muscles stretch easier than before "
 "you went to bed."
-msgstr ""
+msgstr "少し早く目が覚めてしまいました。眠る前よりも筋肉の張りが解れました。"
 
 #: src/player.cpp
 msgid ""
@@ -108935,11 +109978,11 @@ msgstr " 投下を中断しますか？"
 
 #: src/player_activity.cpp
 msgid " Stop fiddling with your clothes?"
-msgstr ""
+msgstr " 衣服修繕を中断しますか？"
 
 #: src/player_activity.cpp
 msgid " Stop filling the container?"
-msgstr ""
+msgstr " 容器充填を中断しますか？"
 
 #: src/player_activity.cpp
 msgid " Stop fishing?"
@@ -108951,7 +109994,7 @@ msgstr " 採集を中断しますか？"
 
 #: src/player_activity.cpp
 msgid " Stop hotwiring the vehicle?"
-msgstr ""
+msgstr " 車両のエンジン始動を中断しますか？"
 
 #: src/player_activity.cpp
 msgid " Stop interacting with inventory?"
@@ -109007,7 +110050,7 @@ msgstr " 鍛錬を中断しますか？"
 
 #: src/player_activity.cpp
 msgid " Stop trying to start the vehicle?"
-msgstr ""
+msgstr " 車両制御の試みを中断しますか？"
 
 #: src/player_activity.cpp
 msgid " Stop using first aid?"
@@ -109015,7 +110058,7 @@ msgstr " 応急手当を中断しますか？"
 
 #: src/player_activity.cpp
 msgid " Stop using the ATM?"
-msgstr ""
+msgstr " ATMの使用を中断しますか？"
 
 #: src/player_activity.cpp
 msgid " Stop waiting?"
@@ -109023,7 +110066,7 @@ msgstr " 待機を中断しますか？"
 
 #: src/player_activity.cpp
 msgid " Stop welding?"
-msgstr ""
+msgstr " 溶接を中断しますか？"
 
 #: src/player_activity.cpp
 msgid " Stop working the winch?"
@@ -109119,11 +110162,11 @@ msgstr ""
 
 #: src/ranged.cpp
 msgid "Brrrap!"
-msgstr ""
+msgstr "バァランッ！"
 
 #: src/ranged.cpp
 msgid "Brrrip!"
-msgstr ""
+msgstr "バァリィッ！"
 
 #: src/ranged.cpp
 msgid "Burst"
@@ -109131,15 +110174,15 @@ msgstr "制限点射"
 
 #: src/ranged.cpp
 msgid "Bzaapp!"
-msgstr ""
+msgstr "ビュゥゥン！"
 
 #: src/ranged.cpp
 msgid "Bzap!"
-msgstr ""
+msgstr "ビュンッ！"
 
 #: src/ranged.cpp
 msgid "Bzzt!"
-msgstr ""
+msgstr "ズゥンッ！"
 
 #: src/ranged.cpp
 #, c-format
@@ -109153,11 +110196,11 @@ msgstr "発砲モード: %s"
 
 #: src/ranged.cpp
 msgid "Fwoosh!"
-msgstr ""
+msgstr "ビューッ！"
 
 #: src/ranged.cpp
 msgid "Fzzt!"
-msgstr ""
+msgstr "チュンッ！"
 
 #: src/ranged.cpp
 msgid "Kaboom!!"
@@ -109189,7 +110232,7 @@ msgstr "ババババババッ！という音が聞こえました。"
 
 #: src/ranged.cpp
 msgid "Pew!"
-msgstr ""
+msgstr "ピゥッ！"
 
 #: src/ranged.cpp
 #, c-format
@@ -109246,7 +110289,7 @@ msgstr "ドスン！"
 
 #: src/ranged.cpp
 msgid "Tsewww!"
-msgstr ""
+msgstr "スィィィ！"
 
 #: src/ranged.cpp
 #, c-format
@@ -110092,7 +111135,7 @@ msgstr ""
 
 #: src/veh_interact.cpp
 msgid "Better not remove something while driving."
-msgstr ""
+msgstr "運転中には何も取り外さない方が良いでしょう。。"
 
 #: src/veh_interact.cpp
 msgid "Boat: <color_blue>can swim</color>"
@@ -110648,6 +111691,8 @@ msgstr "%dインチ%s"
 #, c-format
 msgid "%s failed to fire! It isn't loaded and/or powered."
 msgstr ""
+"%sは撃てない！弾薬が装填されていないか、動力が供給されていない、またはその両"
+"方です。"
 
 #: src/vehicle.cpp
 #, c-format
@@ -110846,7 +111891,7 @@ msgstr "警笛を鳴らす"
 
 #: src/vehicle.cpp
 msgid "Hotwire"
-msgstr "ホットワイヤー"
+msgstr "エンジンを掛ける"
 
 #. ~ indicates that a vehicle part is inside
 #: src/vehicle.cpp
@@ -111002,17 +112047,17 @@ msgstr ""
 #: src/vehicle.cpp
 #, c-format
 msgid "The %s makes a deep clunking sound."
-msgstr ""
+msgstr "%sはドスンという荘重な音を発しました。"
 
 #: src/vehicle.cpp
 #, c-format
 msgid "The %s makes a rapid clicking sound."
-msgstr ""
+msgstr "%sはカチッカチッという音を高速で発しました。"
 
 #: src/vehicle.cpp
 #, c-format
 msgid "The %s makes a terrible clanking sound."
-msgstr ""
+msgstr "%sはカンッという恐ろしい音を発しました。"
 
 #: src/vehicle.cpp
 #, c-format
@@ -111112,7 +112157,7 @@ msgstr "ステレオが動かない！"
 
 #: src/vehicle.cpp
 msgid "The vehicle part you were working on has gone!"
-msgstr ""
+msgstr "作業中の車両の部品が壊れてしまいました！"
 
 #: src/vehicle.cpp
 msgid "This turret can't be aimed manually"
@@ -111312,7 +112357,7 @@ msgstr ""
 
 #: src/vehicle.cpp
 msgid "You could use a screwdriver to hotwire it."
-msgstr ""
+msgstr "エンジンを掛けるにはドライバーが必要です。"
 
 #: src/vehicle.cpp
 msgid "You damage the controls."
@@ -111338,7 +112383,7 @@ msgstr "警笛を鳴らしました！"
 
 #: src/vehicle.cpp
 msgid "You honk the horn, but nothing happens."
-msgstr ""
+msgstr "クラクションを鳴らしましたが、何も起こらなかった。"
 
 #: src/vehicle.cpp
 msgid "You leave the controls alone."
@@ -111404,11 +112449,11 @@ msgstr "エンジンは大きな摩擦音を発しています。"
 
 #: src/vehicle.cpp
 msgid "a simple melody blaring from the loudspeakers."
-msgstr ""
+msgstr "拡声器から単純な旋律が鳴り響いています。"
 
 #: src/vehicle.cpp
 msgid "beep!"
-msgstr ""
+msgstr "ビー！"
 
 #: src/vehicle.cpp
 #, c-format
@@ -111445,15 +112490,15 @@ msgstr ""
 
 #: src/vehicle.cpp
 msgid "whoosh!"
-msgstr ""
+msgstr "シュー！"
 
 #: src/vehicle_group.cpp
 msgid "pile-up"
-msgstr ""
+msgstr "多重衝突"
 
 #: src/vehicle_group.cpp
 msgid "policecar pile-up"
-msgstr ""
+msgstr "パトロールカー多重衝突"
 
 #: src/weather.cpp
 #, c-format
@@ -111506,7 +112551,7 @@ msgstr "皮膚に火傷を負う程の酸性雨が降っています！"
 #: src/weather.cpp
 msgid "The acid rain stings, but is mostly harmless for now..."
 msgstr ""
-"雨(酸性)に当たるとヒリヒリと痛みが走りますが、現状では問題ないでしょう..."
+"酸性雨に当たるとヒリヒリと痛みが走りますが、現状では問題ないでしょう..."
 
 #: src/weather.cpp
 #, c-format
@@ -111535,15 +112580,15 @@ msgstr "上空から雷が鳴り響く音が聞こえました。"
 #: src/weather.cpp
 #, c-format
 msgid "Your %s protects you from the acidic drizzle."
-msgstr "%sが小雨(酸性)を防いでいます。"
+msgstr "%sが小酸性雨を防いでいます。"
 
 #: src/weather.cpp
 msgid "Your clothing protects you from the acid rain."
-msgstr "衣類が雨(酸性)を防いでいます。"
+msgstr "衣類が酸性雨を防いでいます。"
 
 #: src/weather.cpp
 msgid "Your clothing protects you from the acidic drizzle."
-msgstr "衣類が小雨(酸性)を防いでいます。"
+msgstr "衣類が小酸性雨を防いでいます。"
 
 #: src/weather.cpp
 msgid "Your power armor protects you from the acid rain."
@@ -111551,11 +112596,11 @@ msgstr "パワーアーマーが酸性雨を防いでいます。"
 
 #: src/weather.cpp
 msgid "Your power armor protects you from the acidic drizzle."
-msgstr "パワーアーマーが小雨(酸性)を防いでいます。"
+msgstr "パワーアーマーが小酸性雨を防いでいます。"
 
 #: src/weather.cpp
 msgid "Your umbrella protects you from the acid rain."
-msgstr "傘が雨(酸性)を防いでいます。"
+msgstr "傘が酸性雨を防いでいます。"
 
 #: src/weather.cpp
 msgid "middle of nowhere"
@@ -111563,11 +112608,11 @@ msgstr "郊外"
 
 #: src/weather_data.cpp
 msgid "Acid Rain"
-msgstr "雨(酸性)"
+msgstr "酸性雨"
 
 #: src/weather_data.cpp
 msgid "Acidic Drizzle"
-msgstr "小雨(酸性)"
+msgstr "小酸性雨"
 
 #: src/weather_data.cpp
 msgid "Clear"
@@ -111702,7 +112747,7 @@ msgstr "モンスターを生成しました、選択を続けるか'q'で終了
 
 #: src/wish.cpp
 msgid "Nonvalid"
-msgstr "非有効"
+msgstr "無効"
 
 #: src/wish.cpp
 msgid "Prereqs, 2d:"
@@ -111787,7 +112832,7 @@ msgstr "--利用可能なMODはありません--"
 #: src/worldfactory.cpp
 #, c-format
 msgid "A world named %s already exists!"
-msgstr ""
+msgstr "%sという名の世界は既に存在しています！"
 
 #: src/worldfactory.cpp
 msgid "Activate / deactive mod"
@@ -111795,7 +112840,7 @@ msgstr "MODの有効/無効化"
 
 #: src/worldfactory.cpp
 msgid "Are you SURE you're finished? World name will be randomly generated."
-msgstr "終了しても宜しいですか？　ワールド名はランダムで生成されます。"
+msgstr "終了しても宜しいですか？　世界名はランダムで生成されます。"
 
 #: src/worldfactory.cpp
 msgid "CONFIRMATION"
@@ -111805,6 +112850,7 @@ msgstr "確認"
 #, c-format
 msgid "Could not open the world file %s, check file permissions."
 msgstr ""
+"世界ファイル(%s)を開けませんでした。ファイルのアクセス権限を確認して下さい。"
 
 #: src/worldfactory.cpp
 msgid "Do you want to abort World Generation?"
@@ -111818,7 +112864,7 @@ msgstr "[%s]でゲームを始めますか？"
 #: src/worldfactory.cpp
 #, c-format
 msgid "Failed to save the world file to %s."
-msgstr ""
+msgstr "ファイル(%s)へのデータ保存に失敗しました。"
 
 #: src/worldfactory.cpp
 msgid "Mod List"
@@ -111859,8 +112905,8 @@ msgid ""
 "is and are ready to continue, or <color_yellow>%s</color> to go back and "
 "review your world."
 msgstr ""
-"世界に満足し、次に行く場合は'%s'を押して下さい。或いは、'%s'で世界を見直す事"
-"も出来ます。"
+"世界に満足し、次に行く場合は<color_yellow>'%s'</color>を押して下さい。或い"
+"は、<color_yellow>'%s'</color>で世界を見直せます。"
 
 #: src/worldfactory.cpp
 msgid "Saved list of active mods as default"
@@ -111880,7 +112926,7 @@ msgstr "世界名:"
 
 #: src/worldfactory.cpp
 msgid "_______NO NAME ENTERED!!!!______"
-msgstr "_______名前が入力されていない！______"
+msgstr "______名前が入力されていない！______"
 
 #~ msgid "The %s fires its %s!"
 #~ msgstr "%sが%sを撃ちました！"
@@ -111891,8 +112937,11 @@ msgstr "_______名前が入力されていない！______"
 #~ msgid "The %s's %s is torn off!"
 #~ msgstr "%sの%sが引き千切られました！"
 
+#~ msgid "The %s's %s runs over something."
+#~ msgstr "%1$sの%2$sが何かを轢きました。"
+
 #~ msgid "The %s's %s runs over %s."
-#~ msgstr "%1$sの%2$sは%3$sの上を通りました。"
+#~ msgstr "%1$sの%2$sが%3$sを轢きました。"
 
 #~ msgid "You hear a %s"
 #~ msgstr "%sという音が聞こえました。"
@@ -112040,8 +113089,32 @@ msgstr "_______名前が入力されていない！______"
 #~ msgid "%s takes %d damage by the power of the impact!"
 #~ msgstr "%sは衝撃で%dのダメージを受けました！"
 
+#~ msgid "The %1$s's %2$s collides with the %3$s's %4$s."
+#~ msgstr "%1$sの%2$sは%3$sの%4$sと衝突しました。"
+
 #~ msgid "You spray a message on the ground."
 #~ msgstr "地面にスプレーでメッセージを書きました。"
+
+#~ msgid "7: Exit"
+#~ msgstr "7: 終了"
+
+#~ msgid "6: Right Leg"
+#~ msgstr "6: 右脚"
+
+#~ msgid "5: Left Leg"
+#~ msgstr "5: 左脚"
+
+#~ msgid "4: Right Arm"
+#~ msgstr "4: 右腕"
+
+#~ msgid "3: Left Arm"
+#~ msgstr "3: 左腕"
+
+#~ msgid "2: Torso"
+#~ msgstr "2: 胴体"
+
+#~ msgid "1: Head"
+#~ msgstr "1: 頭部"
 
 #~ msgid "Use %s:"
 #~ msgstr "%sを使う:"
@@ -112060,6 +113133,21 @@ msgstr "_______名前が入力されていない！______"
 
 #~ msgid "Fill the %s with %s?"
 #~ msgstr "%sに%sを入れますか？"
+
+#~ msgid "Fertilize plant"
+#~ msgstr "作物に肥料を与える"
+
+#~ msgid "You have no fertilizer."
+#~ msgstr "肥料を持っていない。"
+
+#~ msgid "This plant has already been fertilized."
+#~ msgstr "この作物は既に施肥されています。"
+
+#~ msgid "Harvest plant?"
+#~ msgstr "作物を収穫しますか？"
+
+#~ msgid "shelter"
+#~ msgstr "シェルター"
 
 #~ msgid "%s teleports into the middle of a %s!"
 #~ msgstr "%1$sは%2$sの中央に瞬間移動しました！"
@@ -112115,6 +113203,9 @@ msgstr "_______名前が入力されていない！______"
 #~ msgid "%s shoots %s."
 #~ msgstr "%sは%sを撃ちました。"
 
+#~ msgid "The shot reflects off %s %s!"
+#~ msgstr "弾丸は%1$sの%2$sに弾かれました！"
+
 #~ msgid "%s and %s"
 #~ msgstr "%sと%s"
 
@@ -112161,6 +113252,9 @@ msgstr "_______名前が入力されていない！______"
 #~ msgid "home improvment superstore"
 #~ msgstr "大型ホームセンター"
 
+#~ msgid "Repair wood/bone/chitin"
+#~ msgstr "木/骨/キチンを修理する"
+
 #~ msgid "Tape up window"
 #~ msgstr "窓にテープを貼る"
 
@@ -112171,6 +113265,21 @@ msgstr "_______名前が入力されていない！______"
 #~ msgid "geiger ctr (off)"
 #~ msgid_plural "geiger ctrs (off)"
 #~ msgstr[0] "放射線測定器(オフ)"
+
+#~ msgid ""
+#~ "A Smallmouth Bass.  Being intolerant to polution in the water, smallmouth "
+#~ "bass are a good indicator of how clean it is.  Just becuase you see them "
+#~ "though, doesnt mean you can drink the water without boiling it first."
+#~ msgstr ""
+#~ "コクチバスです。水質汚染に耐性を持っていますが、良好な水質の指標としても扱"
+#~ "われています。要するにコクチバスの生息域では、煮沸せずに水を飲める可能性が"
+#~ "高いという訳です。"
+
+#~ msgid "Removes Rivtech firearms and ammunition."
+#~ msgstr "Rivtech社製の銃器と弾薬を削除します。"
+
+#~ msgid "No Rivtech Guns"
+#~ msgstr "削除 - 銃器(Rivtech社製)"
 
 #~ msgid ""
 #~ "A popular carbine, long used by the US military.  Though accurate, small, "
@@ -112206,6 +113315,18 @@ msgstr "_______名前が入力されていない！______"
 #~ msgid "jedi cloak"
 #~ msgid_plural "jedi cloaks"
 #~ msgstr[0] "外套(ジェダイ)"
+
+#~ msgid "heavy survivor duffel bag"
+#~ msgid_plural "heavy survivor duffel bags"
+#~ msgstr[0] "重量サバイバーダッフルバッグ"
+
+#~ msgid "heavy survivor rucksack"
+#~ msgid_plural "heavy survivor rucksacks"
+#~ msgstr[0] "重量サバイバーリュックサック"
+
+#~ msgid "light survivor harness"
+#~ msgid_plural "light survivor harnesses"
+#~ msgstr[0] "軽量サバイバーハーネス"
 
 #~ msgid ""
 #~ "Conical Ball .22 is a variety of .22 ammunition with a very small "
