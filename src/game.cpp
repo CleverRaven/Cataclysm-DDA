@@ -8212,7 +8212,7 @@ void game::print_terrain_info( const tripoint &lp, WINDOW *w_look, int column, i
         mvwprintw(w_look, ++line, column, _("Sign: %s..."), signage.substr(0, 32).c_str());
     }
 
-    if( m.has_zlevels() && lp.z > -OVERMAP_DEPTH && m.has_flag( TFLAG_NO_FLOOR, lp ) ) {
+    if( m.has_zlevels() && lp.z > -OVERMAP_DEPTH && !m.has_floor( lp ) ) {
         // Print info about stuff below
         tripoint below( lp.x, lp.y, lp.z - 1 );
         std::string tile_below = m.tername( below );
@@ -8220,7 +8220,7 @@ void game::print_terrain_info( const tripoint &lp, WINDOW *w_look, int column, i
             tile_below += "; " + m.furnname( below );
         }
 
-        if( m.valid_move( lp, below, false, true ) ) {
+        if( !m.has_floor_or_support( lp ) ) {
             mvwprintw(w_look, ++line, column, _("Below: %s; No support"), tile_below.c_str() );
         } else {
             mvwprintw(w_look, ++line, column, _("Below: %s; Walkable"), tile_below.c_str() );
@@ -11985,13 +11985,6 @@ bool game::plmove(int dx, int dy, int dz)
     return false;
 }
 
-// A temporary function that should be removed when tr_ledge no longer exists
-inline bool is_walkable( const tripoint &pt )
-{
-    const tripoint below( pt.x, pt.y, pt.z - 1 );
-    return !g->m.valid_move( pt, below, false, true );
-}
-
 bool game::ramp_move( const tripoint &dest_loc )
 {
     if( dest_loc.z != u.posz() ) {
@@ -12001,7 +11994,7 @@ bool game::ramp_move( const tripoint &dest_loc )
 
     if( !m.has_flag( TFLAG_RAMP, u.pos() ) ) {
         // We aren't standing on a ramp
-        if( is_walkable( dest_loc ) ) {
+        if( m.has_floor_or_support( dest_loc ) ) {
             return false;
         }
 
@@ -12034,7 +12027,7 @@ bool game::ramp_move( const tripoint &dest_loc )
 
     const tripoint above_u( u.posx(), u.posy(), u.posz() + 1 );
     const tripoint above_dest( dest_loc.x, dest_loc.y, dest_loc.z + 1 );
-    if( !m.valid_move( u.pos(), above_u, false, true ) ) {
+    if( m.has_floor_or_support( above_u ) ) {
         add_msg( m_warning, _("You can't climb here - there's a ceiling above.") );
         return false;
     }
@@ -12145,7 +12138,7 @@ bool game::walk_move( const tripoint &dest_loc )
             const trap &tr = m.tr_at(dest_loc);
             // Hack for now, later ledge should stop being a trap
             if( tr.can_see(dest_loc, u) && !tr.is_benign() &&
-                !is_walkable( dest_loc ) &&
+                m.has_floor( dest_loc ) &&
                 !query_yn( _("Really step onto that %s?"), tr.name.c_str() ) ) {
                 return true;
             }
@@ -13058,7 +13051,7 @@ void game::vertical_move(int movez, bool force)
     tripoint stairs( u.posx(), u.posy(), u.posz() + movez );
     if( m.has_zlevels() && !force && movez == 1 && !m.has_flag( "GOES_UP", u.pos() ) ) {
         // Climbing
-        if( !m.valid_move( u.pos(), stairs, false, true ) ) {
+        if( m.has_floor_or_support( stairs ) ) {
             add_msg( m_info, _("You can't climb here - there's a ceiling above your head") );
             return;
         }
@@ -13072,7 +13065,7 @@ void game::vertical_move(int movez, bool force)
         std::vector<tripoint> pts;
         for( const auto &pt : m.points_in_radius( stairs, 1 ) ) {
             if( m.move_cost( pt ) > 0 &&
-                is_walkable( pt ) ) {
+                m.has_floor_or_support( pt ) ) {
                 pts.push_back( pt );
             }
         }

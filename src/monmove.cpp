@@ -597,7 +597,7 @@ tripoint monster::wander_next()
     const auto try_pos = [&]( const int x, const int y, const int z ) {
         tripoint dest( x, y, z );
         if( ( canbash && g->m.bash_rating( bash_est, dest ) > 0 ) ||
-            ( ( flies || !g->m.valid_move( dest, tripoint( x, y, z - 1 ), false, true ) ) &&
+            ( ( flies || g->m.has_floor_or_support( dest ) ) &&
             can_move_to( dest ) ) ) {
             next = dest;
             return true;

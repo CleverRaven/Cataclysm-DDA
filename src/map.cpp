@@ -2086,6 +2086,12 @@ bool map::supports_above( const tripoint &p ) const
     return false;
 }
 
+bool map::has_floor_or_support( const tripoint &p ) const
+{
+    const tripoint below( p.x, p.y, p.z - 1 );
+    return !valid_move( p, below, false, true );
+}
+
 void map::drop_everything( const tripoint &p )
 {
     if( has_floor( p ) ) {
