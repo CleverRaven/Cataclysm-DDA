@@ -55,6 +55,7 @@ void bresenham( const int x1, const int y1, const int x2, const int y2, int t,
     }
 }
 
+// NOTE: Z-coord direction uses different rules to x/y
 void bresenham( const tripoint &loc1, const tripoint &loc2, int t, int t2,
                 const std::function<bool(const tripoint &)> &interact )
 {
@@ -110,15 +111,20 @@ void bresenham( const tripoint &loc1, const tripoint &loc2, int t, int t2,
     } else {
         if( ax == ay && ay == az ) {
             while( cur.x != loc2.x ) {
-                cur.z += sz;
                 cur.y += sy;
                 cur.x += sx;
+                if( !interact( cur ) ) {
+                    break;
+                }
+
+                cur.z += sz;
                 if( !interact( cur ) ) {
                     break;
                 }
             }
         } else if( (az > ax) && (az > ay) ) {
             while( cur.z != loc2.z ) {
+                const bool moved = t > 0 || t2 > 0;
                 if( t > 0 ) {
                     cur.x += sx;
                     t -= az;
@@ -127,6 +133,12 @@ void bresenham( const tripoint &loc1, const tripoint &loc2, int t, int t2,
                     cur.y += sy;
                     t2 -= az;
                 }
+
+                if( moved && !interact( cur ) ) {
+                    // Don't allow horizontal+vertical diagonals!
+                    break;
+                }
+
                 cur.z += sz;
                 t += ax;
                 t2 += ay;
@@ -136,9 +148,12 @@ void bresenham( const tripoint &loc1, const tripoint &loc2, int t, int t2,
             }
         } else if( ax == ay ) {
             while( cur.x != loc2.x ) {
-                if( t > 0 ) {
+                if( t > ax ) {
                     cur.z += sz;
                     t -= ax;
+                    if( !interact( cur ) ) {
+                        break;
+                    }
                 }
                 cur.y += sy;
                 cur.x += sx;
@@ -152,10 +167,16 @@ void bresenham( const tripoint &loc1, const tripoint &loc2, int t, int t2,
                 if( t > 0 ) {
                     cur.y += sy;
                     t -= ax;
+                    if( t2 > ax && !interact( cur ) ) {
+                        break;
+                    }
                 }
-                if( t2 > 0 ) {
+                if( t2 > ax ) {
                     cur.z += sz;
                     t2 -= ax;
+                    if( !interact( cur ) ) {
+                        break;
+                    }
                 }
                 cur.x += sx;
                 t += ay;
@@ -169,10 +190,16 @@ void bresenham( const tripoint &loc1, const tripoint &loc2, int t, int t2,
                 if( t > 0 ) {
                     cur.x += sx;
                     t -= ay;
+                    if( t2 > ay && !interact( cur ) ) {
+                        break;
+                    }
                 }
-                if( t2 > 0 ) {
+                if( t2 > ay ) {
                     cur.z += sz;
                     t2 -= ay;
+                    if( !interact( cur ) ) {
+                        break;
+                    }
                 }
                 cur.y += sy;
                 t += ax;
