@@ -6110,7 +6110,7 @@ bool map::sees( const tripoint &F, const tripoint &T, const int range, int &bres
 
                     // TODO: Allow transparent floors (and cache them!)
                     if( new_point.z != last_point.z &&
-                        valid_move( last_point, new_point, false, true ) ) {
+                        !valid_move( last_point, new_point, false, true ) ) {
                         visible = false;
                         return false;
                     }
@@ -6198,7 +6198,7 @@ bool map::clear_path( const tripoint &f, const tripoint &t, const int range,
 
                    // We have to check a weird case where the move is both vertical and horizontal
                    if( new_point.z != last_point.z &&
-                       valid_move( last_point, new_point, false, true ) ) {
+                       !valid_move( last_point, new_point, false, true ) ) {
                        is_clear = false;
                        return false;
                    }

@@ -5001,7 +5001,12 @@ void game::draw_ter( const tripoint &center, const bool looking, const bool draw
     const int posx = center.x;
     const int posy = center.y;
 
-    m.build_map_cache( center.z );
+    // TODO: Make it not rebuild the cache all the time (cache point+moves?)
+    if( !looking ) {
+        // If we're looking, the cache is built at start (entering looking mode)
+        m.build_map_cache( center.z );
+    }
+
     m.draw( w_terrain, center );
 
     if( draw_sounds ) {
@@ -8732,7 +8737,7 @@ tripoint game::look_around( WINDOW *w_info, const tripoint &start_point,
     bVMonsterLookFire = false;
     // TODO: Make this `true`
     const bool allow_zlev_move = m.has_zlevels() &&
-        ( debug_mode || u.has_trait( "DEBUG_NIGHTVISION" ) );
+        ( debug_mode || fov_3d || u.has_trait( "DEBUG_NIGHTVISION" ) );
 
     temp_exit_fullscreen();
 

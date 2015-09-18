@@ -189,8 +189,7 @@ bool Creature::sees( const point t ) const
 
 bool Creature::sees( const tripoint &t, bool is_player ) const
 {
-    // TODO: FoV update
-    if( posz() != t.z ) {
+    if( !fov_3d && posz() != t.z ) {
         return false;
     }
 
@@ -212,7 +211,7 @@ bool Creature::sees( const tripoint &t, bool is_player ) const
             return range >= wanted_range &&
                 g->m.get_cache_ref(pos().z).seen_cache[pos().x][pos().y] > LIGHT_TRANSPARENCY_SOLID;
         } else {
-            return g->m.sees( pos3(), t, range );
+            return g->m.sees( pos(), t, range );
         }
     } else {
         return false;

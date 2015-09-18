@@ -463,15 +463,56 @@ bool map::pl_sees( const tripoint &t, const int max_range ) const
         return false;    // Out of range!
     }
 
-    if( !fov_3d || t.z == g->get_levz() ) {
-        const auto &map_cache = get_cache_ref( t.z );
-        return map_cache.seen_cache[t.x][t.y] > LIGHT_TRANSPARENCY_SOLID + 0.1 &&
-            ( map_cache.seen_cache[t.x][t.y] * map_cache.lm[t.x][t.y] >
-              g->u.get_vision_threshold( map_cache.lm[g->u.posx()][g->u.posy()] ) ||
-              map_cache.sm[t.x][t.y] > 0.0 );
-    }
+    const auto &map_cache = get_cache_ref( t.z );
+    return map_cache.seen_cache[t.x][t.y] > LIGHT_TRANSPARENCY_SOLID + 0.1 &&
+        ( map_cache.seen_cache[t.x][t.y] * map_cache.lm[t.x][t.y] >
+          g->u.get_vision_threshold( map_cache.lm[g->u.posx()][g->u.posy()] ) ||
+          map_cache.sm[t.x][t.y] > 0.0 );
+}
 
-    return g->m.sees( g->u.pos(), t, max_range );
+template<float(*calc)(const float &, const float &, const int &),
+         bool(*check)(const float &, const float &)>
+void cast_ray( float (&output_cache)[MAPSIZE*SEEX][MAPSIZE*SEEY],
+               const float (&input_array)[MAPSIZE*SEEX][MAPSIZE*SEEY],
+               const std::function<bool(const tripoint &)> &floor_check,
+               const tripoint &f, const tripoint &t,
+               const int offset_distance, const float numerator )
+{
+    int last_z = f.z;
+    float cumulative_transparency = 0.0f;
+    int distance = 1;
+    const auto ray = [&]( const tripoint &cur ) {
+        if( !(cur.x >= 0 && cur.y >= 0 &&
+              cur.x < SEEX * MAPSIZE &&
+              cur.y < SEEY * MAPSIZE) ) {
+            return false;
+        }
+
+        if( last_z != cur.z ) {
+            const tripoint upper( cur.x, cur.y, std::max( last_z, cur.z ) );
+            if( floor_check ) {
+                return false;
+            }
+
+            last_z = cur.z;
+        }
+
+        const float current_transparency = input_array[ cur.x ][ cur.y ];
+
+        const int dist = rl_dist( f, cur ) + offset_distance;
+        float intensity = calc( numerator, cumulative_transparency, dist );
+        output_cache[cur.x][cur.y] = std::max( output_cache[cur.x][cur.y], intensity );
+        if( !check( current_transparency, intensity ) ) {
+            return false;
+        }
+        // Cumulative average of the transparency values encountered.
+        cumulative_transparency =
+            ((distance - 1) * cumulative_transparency + current_transparency) / distance;
+        distance++;
+        return true;
+    };
+
+    bresenham( f, t, 0, 0, ray );
 }
 
 /**
@@ -523,117 +564,98 @@ void map::build_seen_cache( const tripoint &origin, const int target_z )
             seen_cache[origin.x][origin.y] = LIGHT_TRANSPARENCY_CLEAR;
         }
 
-        // Beamcasting, as opposed to shadowcasting for 2D
+        const auto floor_check = [this]( const tripoint &p ) {
+            const tripoint below( p.x, p.y, p.z - 1 );
+            return !valid_move( p, below, false, true );
+        };
+
+        // Raycasting, as opposed to shadowcasting for 2D
         const int range = g->u.sight_range( ambient_light_at( g->u.pos() ) );
         const tripoint start( g->u.posx() - range, g->u.posy() - range, target_z );
         const tripoint end  ( g->u.posx() + range, g->u.posy() + range, target_z );
         for( const tripoint &pt : points_in_rectangle( start, end ) ) {
-            // Already seen or too far
-            if( seen_cache[pt.x][pt.y] == LIGHT_TRANSPARENCY_CLEAR ||
-                rl_dist( origin, pt ) > range ) {
-                continue;
-            }
-
-            tripoint last_point = origin;
-            const auto is_seen =
-                [this, &pt, &last_point, &seen_cache]( const tripoint &new_point ) {
-                if( new_point.z != last_point.z &&
-                    !valid_move( last_point, new_point, false, true ) ) {
-                    return false;
-                }
-
-                seen_cache[new_point.x][new_point.y] = LIGHT_TRANSPARENCY_CLEAR;
-
-                if( new_point == pt ) {
-                    return false;
-                }
-
-                if( !this->trans( new_point ) ) {
-                    return false;
-                }
-
-                last_point = new_point;
-                return true;
-            };
-
-            int bresenham_slope = 0;
-            bresenham( origin, pt, bresenham_slope, 0, is_seen );
+            cast_ray<sight_calc, sight_check>(
+                seen_cache, transparency_cache, floor_check, origin, pt, 0, 1.0f );
         }
 
-        // For now disable mirrors in the ultra-experimental 3D vision
+        // No vehicles yet
         return;
     }
 
     int part;
-    if ( vehicle *veh = veh_at( origin, part ) ) {
-        // We're inside a vehicle. Do mirror calcs.
-        std::vector<int> mirrors = veh->all_parts_with_feature(VPFLAG_EXTENDS_VISION, true);
-        // Do all the sight checks first to prevent fake multiple reflection
-        // from happening due to mirrors becoming visible due to processing order.
-        // Cameras are also handled here, so that we only need to get through all veh parts once
-        int cam_control = -1;
-        for (std::vector<int>::iterator m_it = mirrors.begin(); m_it != mirrors.end(); /* noop */) {
-            const auto mirror_pos = veh->global_pos() + veh->parts[*m_it].precalc[0];
-            // We can utilize the current state of the seen cache to determine
-            // if the player can see the mirror from their position.
-            if( !veh->part_info( *m_it ).has_flag( "CAMERA" ) &&
-                seen_cache[mirror_pos.x][mirror_pos.y] < LIGHT_TRANSPARENCY_SOLID + 0.1 ) {
-                m_it = mirrors.erase(m_it);
-            } else if( !veh->part_info( *m_it ).has_flag( "CAMERA_CONTROL" ) ) {
-                ++m_it;
-            } else {
-                if( origin.x == mirror_pos.x && origin.y == mirror_pos.y && veh->camera_on ) {
-                    cam_control = *m_it;
-                }
-                m_it = mirrors.erase( m_it );
+    vehicle *veh = veh_at( origin, part );
+    if( veh == nullptr ) {
+        return;
+    }
+
+    // We're inside a vehicle. Do mirror calcs.
+    std::vector<int> mirrors = veh->all_parts_with_feature(VPFLAG_EXTENDS_VISION, true);
+    // Do all the sight checks first to prevent fake multiple reflection
+    // from happening due to mirrors becoming visible due to processing order.
+    // Cameras are also handled here, so that we only need to get through all veh parts once
+    int cam_control = -1;
+    for (std::vector<int>::iterator m_it = mirrors.begin(); m_it != mirrors.end(); /* noop */) {
+        const auto mirror_pos = veh->global_pos() + veh->parts[*m_it].precalc[0];
+        // We can utilize the current state of the seen cache to determine
+        // if the player can see the mirror from their position.
+        if( !veh->part_info( *m_it ).has_flag( "CAMERA" ) &&
+            seen_cache[mirror_pos.x][mirror_pos.y] < LIGHT_TRANSPARENCY_SOLID + 0.1 ) {
+            m_it = mirrors.erase(m_it);
+        } else if( !veh->part_info( *m_it ).has_flag( "CAMERA_CONTROL" ) ) {
+            ++m_it;
+        } else {
+            if( origin.x == mirror_pos.x && origin.y == mirror_pos.y && veh->camera_on ) {
+                cam_control = *m_it;
             }
+            m_it = mirrors.erase( m_it );
+        }
+    }
+
+    for( size_t i = 0; i < mirrors.size(); i++ ) {
+        const int &mirror = mirrors[i];
+        bool is_camera = veh->part_info( mirror ).has_flag( "CAMERA" );
+        if( is_camera && cam_control < 0 ) {
+            continue; // Player not at camera control, so cameras don't work
         }
 
-        for( size_t i = 0; i < mirrors.size(); i++ ) {
-            const int &mirror = mirrors[i];
-            bool is_camera = veh->part_info( mirror ).has_flag( "CAMERA" );
-            if( is_camera && cam_control < 0 ) {
-                continue; // Player not at camera control, so cameras don't work
-            }
+        const auto mirror_pos = veh->global_pos() + veh->parts[mirror].precalc[0];
 
-            const auto mirror_pos = veh->global_pos() + veh->parts[mirror].precalc[0];
-
-            // Determine how far the light has already traveled so mirrors
-            // don't cheat the light distance falloff.
-            int offsetDistance;
-            if( !is_camera ) {
-                offsetDistance = rl_dist(origin.x, origin.y, mirror_pos.x, mirror_pos.y);
-            } else {
-                offsetDistance = 60 - veh->part_info( mirror ).bonus *
-                                      veh->parts[mirror].hp / veh->part_info( mirror ).durability;
-                seen_cache[mirror_pos.x][mirror_pos.y] = LIGHT_TRANSPARENCY_OPEN_AIR;
-            }
-
-            // @todo: Factor in the mirror facing and only cast in the
-            // directions the player's line of sight reflects to.
-            //
-            // The naive solution of making the mirrors act like a second player
-            // at an offset appears to give reasonable results though.
-            castLight<0, 1, 1, 0, sight_calc, sight_check>(
-                seen_cache, transparency_cache, mirror_pos.x, mirror_pos.y, offsetDistance );
-            castLight<1, 0, 0, 1, sight_calc, sight_check>(
-                seen_cache, transparency_cache, mirror_pos.x, mirror_pos.y, offsetDistance );
-
-            castLight<0, -1, 1, 0, sight_calc, sight_check>(
-                seen_cache, transparency_cache, mirror_pos.x, mirror_pos.y, offsetDistance );
-            castLight<-1, 0, 0, 1, sight_calc, sight_check>(
-                seen_cache, transparency_cache, mirror_pos.x, mirror_pos.y, offsetDistance );
-
-            castLight<0, 1, -1, 0, sight_calc, sight_check>(
-                seen_cache, transparency_cache, mirror_pos.x, mirror_pos.y, offsetDistance );
-            castLight<1, 0, 0, -1, sight_calc, sight_check>(
-                seen_cache, transparency_cache, mirror_pos.x, mirror_pos.y, offsetDistance );
-
-            castLight<0, -1, -1, 0, sight_calc, sight_check>(
-                seen_cache, transparency_cache, mirror_pos.x, mirror_pos.y, offsetDistance );
-            castLight<-1, 0, 0, -1, sight_calc, sight_check>(
-                seen_cache, transparency_cache, mirror_pos.x, mirror_pos.y, offsetDistance );
+        // Determine how far the light has already traveled so mirrors
+        // don't cheat the light distance falloff.
+        int offsetDistance;
+        if( !is_camera ) {
+            offsetDistance = rl_dist(origin.x, origin.y, mirror_pos.x, mirror_pos.y);
+        } else {
+            offsetDistance = 60 - veh->part_info( mirror ).bonus *
+                                  veh->parts[mirror].hp / veh->part_info( mirror ).durability;
+            seen_cache[mirror_pos.x][mirror_pos.y] = LIGHT_TRANSPARENCY_OPEN_AIR;
         }
+
+        // @todo: Factor in the mirror facing and only cast in the
+        // directions the player's line of sight reflects to.
+        //
+        // The naive solution of making the mirrors act like a second player
+        // at an offset appears to give reasonable results though.
+
+        castLight<0, 1, 1, 0, sight_calc, sight_check>(
+            seen_cache, transparency_cache, mirror_pos.x, mirror_pos.y, offsetDistance );
+        castLight<1, 0, 0, 1, sight_calc, sight_check>(
+            seen_cache, transparency_cache, mirror_pos.x, mirror_pos.y, offsetDistance );
+
+        castLight<0, -1, 1, 0, sight_calc, sight_check>(
+            seen_cache, transparency_cache, mirror_pos.x, mirror_pos.y, offsetDistance );
+        castLight<-1, 0, 0, 1, sight_calc, sight_check>(
+            seen_cache, transparency_cache, mirror_pos.x, mirror_pos.y, offsetDistance );
+
+        castLight<0, 1, -1, 0, sight_calc, sight_check>(
+            seen_cache, transparency_cache, mirror_pos.x, mirror_pos.y, offsetDistance );
+        castLight<1, 0, 0, -1, sight_calc, sight_check>(
+            seen_cache, transparency_cache, mirror_pos.x, mirror_pos.y, offsetDistance );
+
+        castLight<0, -1, -1, 0, sight_calc, sight_check>(
+            seen_cache, transparency_cache, mirror_pos.x, mirror_pos.y, offsetDistance );
+        castLight<-1, 0, 0, -1, sight_calc, sight_check>(
+            seen_cache, transparency_cache, mirror_pos.x, mirror_pos.y, offsetDistance );
     }
 }
 
