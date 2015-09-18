@@ -273,9 +273,8 @@
         "id" : "vpower",
         "name" : "vortex energy",
         "default" : "vpower"
-    },
-	{
-		"type" : "AMMO",
+    },{
+        "type" : "AMMO",
         "id" : "vpower",
         "category" : "chems",
         "price" : 0,
@@ -292,9 +291,7 @@
         "cutting" : 0,
         "to_hit" : 0,
         "ammo_type" : "vpower",
-        "casing" : "NULL",
         "damage" : 0,
-        "pierce" : 0,
         "range" : 0,
         "dispersion" : 0,
         "recoil" : 0,

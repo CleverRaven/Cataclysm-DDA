@@ -1309,8 +1309,7 @@
      [ "iv_mutagen", 2 ]
     ]
   ]
-},
-    {
+},{
         "type" : "AMMO",
         "id": "bfeed",
         "symbol": "*",
@@ -1326,9 +1325,7 @@
         "to_hit": -3,
         "phase" : "liquid",
         "ammo_type" : "bfeed",
-        "casing" : "NULL",
         "damage" : 0,
-        "pierce" : 0,
         "range" : 0,
         "dispersion" : 0,
         "recoil" : 0,

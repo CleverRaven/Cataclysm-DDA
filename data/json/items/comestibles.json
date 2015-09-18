@@ -36,7 +36,6 @@
         "ammo_data": {
             "ammo_type" : "water",
             "damage" : 0,
-            "pierce" : 0,
             "range" : 0,
             "dispersion" : 0,
             "recoil" : 0,
@@ -76,7 +75,6 @@
         "ammo_data": {
             "ammo_type" : "water",
             "damage" : 0,
-            "pierce" : 0,
             "range" : 0,
             "dispersion" : 0,
             "recoil" : 0,
@@ -16102,7 +16100,6 @@
         "to_hit" : 0,
         "ammo_type" : "NULL",
         "damage" : 0,
-        "pierce" : 0,
         "range" : 0,
         "dispersion" : 0,
         "recoil" : 0,
