@@ -88,7 +88,6 @@
         "cutting": 0,
         "to_hit" : 0,
         "ammo_type" : "wr_dread",
-        "casing" : "NULL",
         "damage" : 6,
         "pierce" : 2,
         "range" : 8,
