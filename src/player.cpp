@@ -1810,6 +1810,14 @@ bool player::digging() const
     return false;
 }
 
+bool player::can_reload()
+{
+    if (!weapon.is_gun()) {
+        return false;
+    }
+    return (weapon.charges < weapon.type->gun->clip && get_ammo(weapon.ammo_type()).size() > 0);
+}
+
 bool player::is_on_ground() const
 {
     return hp_cur[hp_leg_l] == 0 || hp_cur[hp_leg_r] == 0 || has_effect("downed");
@@ -13868,6 +13876,14 @@ std::vector<Creature *> player::get_targetable_creatures( const int range ) cons
           rl_dist( this->pos(), critter.pos() ) <= range;
     } );
 }
+
+std::vector<Creature *> player::get_hostile_creatures() const
+{
+    return get_creatures_if( [this] ( const Creature &critter ) -> bool {
+        return this != &critter && this->sees(critter) && critter.attitude_to(*this) == A_HOSTILE;
+    } );
+}
+
 
 void player::place_corpse()
 {

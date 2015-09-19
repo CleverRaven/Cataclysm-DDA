@@ -323,6 +323,11 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         // see Creature::sees
         bool sees( const Creature &critter ) const override;
         /**
+         * Get all hostile creatures currently visible to this player.
+         */
+         std::vector<Creature*> get_hostile_creatures() const;
+
+        /**
          * Returns all creatures that this player can see and that are in the given
          * range. This player object itself is never included.
          * The player character (g->u) is checked and might be included (if applicable).
@@ -399,6 +404,8 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         bool is_quiet() const;
         /** Returns true if the current martial art works with the player's current weapon */
         bool can_melee() const;
+        /** Returns true if the player's current weapon can be reloaded (ammo must be available). */
+        bool can_reload();
         /** Always returns false, since players can't dig currently */
         bool digging() const override;
         /** Returns true if the player is knocked over or has broken legs */
