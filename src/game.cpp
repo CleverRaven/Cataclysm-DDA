@@ -4976,6 +4976,16 @@ void game::draw_critter( const Creature &critter, const tripoint &center )
         return;
     }
     if( critter.posz() != center.z && m.has_zlevels() ) {
+        static const tripoint up_tripoint( 0, 0, 1 );
+        if( critter.posz() == center.z - 1 &&
+            ( debug_mode || u.sees( critter ) ) &&
+            m.valid_move( critter.pos(), critter.pos() + up_tripoint, false, true ) ) {
+            // Monster is below
+            // TODO: Make this show something more informative than just green 'v'
+            // TODO: Allow looking at this mon with look command
+            // TODO: Redraw this after weather etc. animations
+            mvwputch( w_terrain, my, mx, c_green_cyan, 'v' );
+        }
         return;
     }
     if( u.sees( critter ) || &critter == &u ) {
