@@ -55,6 +55,8 @@ bool Creature_tracker::add( monster &critter )
         if( monsters_list[critter_id]->is_hallucination() ) {
             monsters_list[critter_id]->die( nullptr );
             // But don't remove - that would change the monster order and could segfault
+        } else if( critter.is_hallucination() ) {
+            return false;
         } else {
             debugmsg( "add_zombie: there's already a monster at %d,%d,%d", 
                       critter.posx(), critter.posy(), critter.posz() );

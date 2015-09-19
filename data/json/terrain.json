@@ -5674,5 +5674,43 @@
                 { "item": "scrap", "count": [3, 8] }
             ]
         }
+    },{
+        "type" : "terrain",
+        "id" : "t_low_stairs_begin",
+        "name": "low stairs (beginning section)",
+        "symbol": "<",
+        "color": "dkgray_white",
+        "move_cost": 4,
+        "flags": ["TRANSPARENT", "BASHABLE", "FLAMMABLE", "PLACE_ITEM", "RAMP", "SEEN_FROM_ABOVE"],
+        "bash": {
+            "str_min": 12, "str_max": 50,
+            "sound": "crunch!",
+            "sound_fail": "whump!",
+            "ter_set": "t_floor",
+            "items": [
+                { "item": "2x4", "count": [0, 3] },
+                { "item": "nail", "charges": [1, 5] },
+                { "item": "splinter", "count": [1, 4] }
+            ]
+        }
+    },{
+        "type" : "terrain",
+        "id" : "t_low_stairs_end",
+        "name": "low stairs (end section)",
+        "symbol": "<",
+        "color": "black_white",
+        "move_cost": 0,
+        "flags": ["BASHABLE", "FLAMMABLE", "PLACE_ITEM", "RAMP", "RAMP_END", "SEEN_FROM_ABOVE"],
+        "bash": {
+            "str_min": 20, "str_max": 50,
+            "sound": "crunch!",
+            "sound_fail": "whump!",
+            "ter_set": "t_floor",
+            "items": [
+                { "item": "2x4", "count": [0, 3] },
+                { "item": "nail", "charges": [1, 5] },
+                { "item": "splinter", "count": [1, 4] }
+            ]
+        }
     }
 ]

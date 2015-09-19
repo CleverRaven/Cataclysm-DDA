@@ -1000,6 +1000,7 @@ public:
     bool has_floor( const tripoint &p ) const;
     /** Does this tile support vehicles and furniture above it */
     bool supports_above( const tripoint &p ) const;
+    bool has_floor_or_support( const tripoint &p ) const;
 
     /**
      * Handles map objects of given type (not creatures) falling down.
