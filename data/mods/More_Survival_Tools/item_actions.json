@@ -1,0 +1,8 @@
+[
+    {
+        "type" : "item_action",
+        "id" : "WEATHER_TOOL",
+        "name" : "Check weather information"
+    }
+
+]

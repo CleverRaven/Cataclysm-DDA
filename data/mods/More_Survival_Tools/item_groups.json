@@ -40,7 +40,8 @@
       ["bottle_folding", 10],
       ["mess_tin", 10],
       ["pot_copper", 5],
-      ["canteen_wood", 5]
+      ["canteen_wood", 5],
+      ["whistle_multitool", 5]
     ]
   },{
     "type" : "item_group",
@@ -55,7 +56,8 @@
       ["bottle_folding", 5],
       ["mess_tin", 10],
       ["pot_copper", 5],
-      ["canteen_wood", 5]
+      ["canteen_wood", 5],
+      ["whistle_multitool", 5]
     ]
   },{
     "type" : "item_group",
@@ -101,7 +103,8 @@
       ["esbit_stove", 6],
       ["mess_tin", 8],
       ["pot_copper", 2],
-      ["canteen_wood", 2]
+      ["canteen_wood", 2],
+      ["whistle_multitool", 1]
     ]
   },{
     "type" : "item_group",
