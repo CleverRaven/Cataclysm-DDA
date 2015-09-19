@@ -152,7 +152,6 @@
             "items": [
                 { "item": "stick", "count": 1 },
                 { "item": "sheet", "count": 2 },
-                { "item": "nail", "charges": [3, 4] },
                 { "item": "string_36", "prob": 50 }
             ]
         },
@@ -217,7 +216,6 @@
             "items": [
                 { "item": "stick", "count": 1 },
                 { "item": "sheet", "count": 2 },
-                { "item": "nail", "charges": [3, 4] },
                 { "item": "string_36", "prob": 50 }
             ]
         },
@@ -249,7 +247,7 @@
             "ROAD"
         ],
         "deconstruct": {
-            "ter_set": "t_null",
+            "ter_set": "t_door_frame",
             "items": [
                 { "item": "2x4", "count": 6 },
                 { "item": "rope_6", "count": 2 }
@@ -260,7 +258,7 @@
             "str_min": 3, "str_max": 20, "str_min_blocked": 4, "str_max_blocked": 30,
             "sound": "crack.",
             "sound_fail": "wham.",
-            "ter_set": "t_null",
+            "ter_set": "t_door_frame",
             "items": [
                 { "item": "2x4", "count": [2, 5] },
                 { "item": "rope_6", "count": [0, 1] },

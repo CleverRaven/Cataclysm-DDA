@@ -147,7 +147,7 @@
             { "id": "HAMMER", "level": 2 }
         ] ],
         "components" : [
-            [ [ "nail", 4 ] ],
+            [ [ "nail", 4 ], [ "pointy_stick", 2 ], [ "spike", 2 ] ],
             [ [ "sheet", 2 ] ],
             [ [ "stick", 1 ] ],
             [ [ "string_36", 1 ] ]
@@ -158,7 +158,7 @@
         "type" : "construction",
         "description" : "Build Makeshift Door",
         "category" : "CONSTRUCT",
-        "difficulty" : 1,
+        "difficulty" : 2,
         "time" : 30,
         "qualities": [ [
             { "id": "CUT", "level": 1 }
