@@ -6676,6 +6676,21 @@
         "sym" : 35,
         "color" : "light_gray",
         "see_cost" : 2
+    },{
+        "type" : "overmap_terrain",
+        "id" : "debug_ramps",
+        "name" : "ramp testing area",
+        "rotate" : false,
+        "line_drawing" : false,
+        "sym" : 37,
+        "color" : "white",
+        "see_cost" : 0,
+        "extras" : "none",
+        "known_down" : false,
+        "known_up" : false,
+        "mondensity" : 0,
+        "sidewalk" : false,
+        "allow_road" : false
     }
 ]
 

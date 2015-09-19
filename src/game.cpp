@@ -8212,7 +8212,7 @@ void game::print_terrain_info( const tripoint &lp, WINDOW *w_look, int column, i
         mvwprintw(w_look, ++line, column, _("Sign: %s..."), signage.substr(0, 32).c_str());
     }
 
-    if( m.has_zlevels() && lp.z > -OVERMAP_DEPTH && m.has_flag( TFLAG_NO_FLOOR, lp ) ) {
+    if( m.has_zlevels() && lp.z > -OVERMAP_DEPTH && !m.has_floor( lp ) ) {
         // Print info about stuff below
         tripoint below( lp.x, lp.y, lp.z - 1 );
         std::string tile_below = m.tername( below );
@@ -8220,7 +8220,7 @@ void game::print_terrain_info( const tripoint &lp, WINDOW *w_look, int column, i
             tile_below += "; " + m.furnname( below );
         }
 
-        if( m.valid_move( lp, below, false, true ) ) {
+        if( !m.has_floor_or_support( lp ) ) {
             mvwprintw(w_look, ++line, column, _("Below: %s; No support"), tile_below.c_str() );
         } else {
             mvwprintw(w_look, ++line, column, _("Below: %s; Walkable"), tile_below.c_str() );
@@ -11772,7 +11772,7 @@ bool game::plmove(int dx, int dy, int dz)
     }
 
     tripoint dest_loc;
-    if( u.has_effect( "stunned" ) ) {
+    if( dz == 0 && u.has_effect( "stunned" ) ) {
         dest_loc.x = rng(u.posx() - 1, u.posx() + 1);
         dest_loc.y = rng(u.posy() - 1, u.posy() + 1);
         dest_loc.z = u.posz();
@@ -11780,6 +11780,16 @@ bool game::plmove(int dx, int dy, int dz)
         dest_loc.x = u.posx() + dx;
         dest_loc.y = u.posy() + dy;
         dest_loc.z = u.posz() + dz;
+    }
+
+    if( dest_loc == u.pos() ) {
+        // Well that sure was easy
+        return true;
+    }
+
+    if( dz == 0 && ramp_move( dest_loc ) ) {
+        // TODO: Make it work nice with automove (if it doesn't do so already?)
+        return false;
     }
 
     if( u.has_effect( "amigara" ) ) {
@@ -11805,8 +11815,9 @@ bool game::plmove(int dx, int dy, int dz)
         }
     }
 
-    dbg(D_PEDANTIC_INFO) << "game:plmove: From (" << u.posx() << "," << u.posy() << ") to (" <<
-                         dest_loc.x << "," << dest_loc.y << ")";
+    dbg(D_PEDANTIC_INFO) << "game:plmove: From (" <<
+                         u.posx() << "," << u.posy() << "," << u.posz() << ") to (" <<
+                         dest_loc.x << "," << dest_loc.y << "," << dest_loc.z << ")";
 
     if( disable_robot( dest_loc ) ) {
         return false;
@@ -11950,14 +11961,20 @@ bool game::plmove(int dx, int dy, int dz)
         on_move_effects();
         return true;
     }
-    
+
+    if( m.furn(dest_loc) != f_safe_c && m.open_door( dest_loc, !m.is_outside( u.pos() ) ) ) {
+        u.moves -= 100;
+        return false;
+    }
+
     // Invalid move
-    if( u.has_effect("blind") || u.worn_with_flag("BLIND") || u.has_effect("stunned") ) {
+    const bool waste_moves = u.has_effect("blind") || u.worn_with_flag("BLIND") || u.has_effect("stunned");
+    if( waste_moves || dest_loc.z != u.posz() ) {
         // Only lose movement if we're blind
         add_msg(_("You bump into a %s!"), m.name(dest_loc).c_str());
-        u.moves -= 100;
-    } else if( m.furn(dest_loc) != f_safe_c && m.open_door( dest_loc, !m.is_outside(u.pos())) ) {
-        u.moves -= 100;
+        if( waste_moves ) {
+            u.moves -= 100;
+        }
     } else if( m.ter(dest_loc) == t_door_locked || m.ter(dest_loc) == t_door_locked_peep ||
                m.ter(dest_loc) == t_door_locked_alarm || m.ter(dest_loc) == t_door_locked_interior) {
         // Don't drain move points for learning something you could learn just by looking
@@ -11966,6 +11983,62 @@ bool game::plmove(int dx, int dy, int dz)
         add_msg(_("You rattle the bars but the door is locked!"));
     }
     return false;
+}
+
+bool game::ramp_move( const tripoint &dest_loc )
+{
+    if( dest_loc.z != u.posz() ) {
+        // No recursive ramp_moves
+        return false;
+    }
+
+    // We're moving onto a tile with no support, check if it has a ramp below
+    if( !m.has_floor_or_support( dest_loc ) ) {
+        tripoint below( dest_loc.x, dest_loc.y, dest_loc.z - 1 );
+        if( m.has_flag( TFLAG_RAMP, below ) ) {
+            // But we're moving onto one from above
+            const tripoint dp = dest_loc - u.pos();
+            plmove( dp.x, dp.y, -1 );
+            // No penalty for misaligned stairs here
+            // Also cheaper than climbing up
+            return true;
+        }
+
+        return false;
+    }
+
+    // We're moving from a ramp onto an obstacle
+    if( !m.has_flag( TFLAG_RAMP, u.pos() ) ||
+        m.move_cost_ter_furn( dest_loc ) > 0 ) {
+        return false;
+    }
+
+    // Try to find an aligned end of the ramp that will make our climb faster
+    // Basically, finish walking on the stairs instead of pulling self up by hand
+    bool aligned_ramps = false;
+    for( const tripoint &pt : m.points_in_radius( u.pos(), 1 ) ) {
+        if( rl_dist( pt, dest_loc ) <= 1.5f && m.has_flag( "RAMP_END", pt ) ) {
+            aligned_ramps = true;
+            break;
+        }
+    }
+
+    const tripoint above_u( u.posx(), u.posy(), u.posz() + 1 );
+    const tripoint above_dest( dest_loc.x, dest_loc.y, dest_loc.z + 1 );
+    if( m.has_floor_or_support( above_u ) ) {
+        add_msg( m_warning, _("You can't climb here - there's a ceiling above.") );
+        return false;
+    }
+
+    const tripoint dp = dest_loc - u.pos();
+    const tripoint old_pos = u.pos();
+    plmove( dp.x, dp.y, 1 );
+    // We can't just take the result of the above function here
+    if( u.pos() != old_pos ) {
+        u.moves -= 50 + (aligned_ramps ? 0 : 50 );
+    }
+
+    return true;
 }
 
 bool game::walk_move( const tripoint &dest_loc )
@@ -11982,6 +12055,13 @@ bool game::walk_move( const tripoint &dest_loc )
         const tripoint dp = dest_loc - u.pos();
         pushing = dp ==  u.grab_point;
         pulling = dp == -u.grab_point;
+    }
+
+    if( grabbed && dest_loc.z != u.posz() ) {
+        add_msg( m_warning, _("You let go of the grabbed object") );
+        grabbed = false;
+        u.grab_type = OBJECT_NONE;
+        u.grab_point = tripoint_zero;
     }
 
     // Now make sure we're actually holding something
@@ -12056,6 +12136,7 @@ bool game::walk_move( const tripoint &dest_loc )
             const trap &tr = m.tr_at(dest_loc);
             // Hack for now, later ledge should stop being a trap
             if( tr.can_see(dest_loc, u) && !tr.is_benign() &&
+                m.has_floor( dest_loc ) &&
                 !query_yn( _("Really step onto that %s?"), tr.name.c_str() ) ) {
                 return true;
             }
@@ -12070,6 +12151,8 @@ bool game::walk_move( const tripoint &dest_loc )
     const int mcost = m.combined_movecost( u.pos(), dest_loc, grabbed_vehicle, modifier );
     if( grabbed_move( dest_loc - u.pos() ) ) {
         return true;
+    } else if( mcost == 0 ) {
+        return false;
     }
 
     bool diag = trigdist && u.posx() != dest_loc.x && u.posy() != dest_loc.y;
@@ -12205,9 +12288,9 @@ void game::place_player( const tripoint &dest_loc )
     }
 
     // Move the player
-    while( m.has_zlevels() && dest_loc.z != get_levz() ) {
-        // Move the entire map first, because vertical_move moves the player
-        vertical_move( sgn(dest_loc.z - get_levz()), true );
+    // Start with z-level, to make make it less likely that old functions (2D ones) freak out
+    if( m.has_zlevels() && dest_loc.z != get_levz() ) {
+        vertical_shift( dest_loc.z );
     }
 
     u.setpos( dest_loc );
@@ -12324,6 +12407,11 @@ void game::place_player( const tripoint &dest_loc )
 bool game::phasing_move( const tripoint &dest_loc )
 {
     if( !u.has_active_bionic("bio_probability_travel") || u.power_level < 250 ) {
+        return false;
+    }
+
+    if( dest_loc.z != u.posz() ) {
+        // No vertical phasing yet
         return false;
     }
 
@@ -12667,6 +12755,11 @@ bool game::grabbed_move( const tripoint &dp )
         return false;
     }
 
+    if( dp.z != 0 ) {
+        // No dragging stuff up/down stairs yet!
+        return false;
+    }
+
     // vehicle: pulling, pushing, or moving around the grabbed object.
     if( u.grab_type == OBJECT_VEHICLE ) {
         return grabbed_veh_move( dp );
@@ -12893,7 +12986,7 @@ void game::vertical_move(int movez, bool force)
 {
     // Check if there are monsters are using the stairs.
     bool slippedpast = false;
-    if( !m.has_zlevels() && !coming_to_stairs.empty() ) {
+    if( !m.has_zlevels() && !coming_to_stairs.empty() && !force ) {
         // TODO: Allow travel if zombie couldn't reach stairs, but spawn him when we go up.
         add_msg(m_warning, _("You try to use the stairs. Suddenly you are blocked by a %s!"),
                 coming_to_stairs[0].name().c_str());
@@ -12956,7 +13049,7 @@ void game::vertical_move(int movez, bool force)
     tripoint stairs( u.posx(), u.posy(), u.posz() + movez );
     if( m.has_zlevels() && !force && movez == 1 && !m.has_flag( "GOES_UP", u.pos() ) ) {
         // Climbing
-        if( !m.valid_move( u.pos(), stairs, false, true ) ) {
+        if( m.has_floor_or_support( stairs ) ) {
             add_msg( m_info, _("You can't climb here - there's a ceiling above your head") );
             return;
         }
@@ -12970,7 +13063,7 @@ void game::vertical_move(int movez, bool force)
         std::vector<tripoint> pts;
         for( const auto &pt : m.points_in_radius( stairs, 1 ) ) {
             if( m.move_cost( pt ) > 0 &&
-                !m.valid_move( pt, tripoint( pt.x, pt.y, pt.z - 1 ), false, true ) ) {
+                m.has_floor_or_support( pt ) ) {
                 pts.push_back( pt );
             }
         }
@@ -12998,8 +13091,8 @@ void game::vertical_move(int movez, bool force)
     if( force ) {
         // Let go of a grabbed cart.
         u.grab_point = tripoint_zero;
+        u.grab_type = OBJECT_NONE;
     } else if( u.grab_point != tripoint_zero ) {
-        // TODO: Warp the cart along with you if you're on an elevator
         add_msg(m_info, _("You can't drag things up and down stairs."));
         return;
     }
@@ -13038,6 +13131,7 @@ void game::vertical_move(int movez, bool force)
     );
 
     bool actually_moved = true;
+    // TODO: Remove the stairfinding, make the mapgen gen aligned maps
     if( !force && !climbing ) { // We need to find the stairs.
         stairs.x = -1;
         stairs.y = -1;
@@ -13168,54 +13262,7 @@ void game::vertical_move(int movez, bool force)
         shift_monsters( 0, 0, movez );
     }
 
-    // Clear current scents.
-    for (int x = u.posx() - SCENT_RADIUS; x <= u.posx() + SCENT_RADIUS; x++) {
-        for (int y = u.posy() - SCENT_RADIUS; y <= u.posy() + SCENT_RADIUS; y++) {
-            grscent[x][y] = 0;
-        }
-    }
-
-    // Figure out where we know there are up/down connectors
-    // Fill in all the tiles we know about (e.g. subway stations)
-    static const int REVEAL_RADIUS = 40;
-    const tripoint gpos = u.global_omt_location();
-    for (int x = -REVEAL_RADIUS; x <= REVEAL_RADIUS; x++) {
-        for (int y = -REVEAL_RADIUS; y <= REVEAL_RADIUS; y++) {
-            const int cursx = gpos.x + x;
-            const int cursy = gpos.y + y;
-            if (!overmap_buffer.seen(cursx, cursy, z_before)) {
-                continue;
-            }
-            if (overmap_buffer.has_note(cursx, cursy, z_after)) {
-                // Already has a note -> never add an AUTO-note
-                continue;
-            }
-            const oter_id &ter = overmap_buffer.ter(cursx, cursy, z_before);
-            const oter_id &ter2 = overmap_buffer.ter(cursx, cursy, z_after);
-            if (!!OPTIONS["AUTO_NOTES"]) {
-                if( movez == +1 && otermap[ter].has_flag(known_up) &&
-                    !otermap[ter2].has_flag(known_down) ) {
-                    overmap_buffer.set_seen(cursx, cursy, z_after, true);
-                    overmap_buffer.add_note(cursx, cursy, z_after, _(">:W;AUTO: goes down"));
-                } else if ( movez == -1 && otermap[ter].has_flag(known_down) &&
-                    !otermap[ter2].has_flag(known_up) ) {
-                    overmap_buffer.set_seen(cursx, cursy, z_after, true);
-                    overmap_buffer.add_note(cursx, cursy, z_after, _("<:W;AUTO: goes up"));
-                }
-            }
-        }
-    }
-
     u.moves -= move_cost;
-    if( !m.has_zlevels() ) {
-        m.clear_vehicle_cache( z_before );
-        m.access_cache( z_before ).vehicle_list.clear();
-        m.set_transparency_cache_dirty( z_before );
-        m.set_outside_cache_dirty( z_before );
-        m.load( get_levx(), get_levy(), z_after, true );
-    }
-
-    u.setpos( stairs );
     if (rope_ladder) {
         m.ter_set(u.pos(), t_rope_up);
     }
@@ -13224,15 +13271,99 @@ void game::vertical_move(int movez, bool force)
         m.ter_set(stairs.x, stairs.y, t_manhole);
     }
 
-    m.spawn_monsters( true );
+    vertical_shift( z_after );
+    if( !force ) {
+        u.setpos( stairs );
+    }
 
     // Upon force movement, traps can not be avoided.
     m.creature_on_trap( u, !force );
+}
 
-    // Clear currently active npcs and reload them
-    active_npc.clear();
-    load_npcs();
+void game::vertical_shift( const int z_after )
+{
+    if( z_after < -OVERMAP_DEPTH || z_after > OVERMAP_HEIGHT ) {
+        debugmsg( "Tried to get z-level %d outside allowed range of %d-%d",
+                  z_after, -OVERMAP_DEPTH, OVERMAP_HEIGHT );
+        return;
+    }
+
+    // TODO: Implement dragging stuff up/down
+    u.grab_point = tripoint_zero;
+    u.grab_type = OBJECT_NONE;
+
+    // Clear current scents.
+    for( auto &elem : grscent ) {
+        for( auto &elem_j : elem ) {
+            elem_j = 0;
+        }
+    }
+
+    const int z_before = get_levz();
+    if( !m.has_zlevels() ) {
+        m.clear_vehicle_cache( z_before );
+        m.access_cache( z_before ).vehicle_list.clear();
+        m.set_transparency_cache_dirty( z_before );
+        m.set_outside_cache_dirty( z_before );
+        m.load( get_levx(), get_levy(), z_after, true );
+        shift_monsters( 0, 0, z_after - z_before );
+        // Clear currently active npcs and reload them
+        active_npc.clear();
+        load_npcs();
+    } else {
+        // Shift the map itself
+        m.vertical_shift( z_after );
+    }
+
+    u.setz( z_after );
+    update_map( &u );
+
+    m.spawn_monsters( true );
+
     refresh_all();
+    vertical_notes( z_before, z_after );
+}
+
+void game::vertical_notes( int z_before, int z_after )
+{
+    if( !OPTIONS["AUTO_NOTES"] ) {
+        return;
+    }
+
+    if( z_before == z_after ||
+        !m.inbounds_z( z_before ) || !m.inbounds_z( z_after ) ) {
+        debugmsg( "game::vertical_notes invalid arguments: z_before == %d, z_after == %d",
+                  z_before, z_after );
+        return;
+    }
+    // Figure out where we know there are up/down connectors
+    // Fill in all the tiles we know about (e.g. subway stations)
+    static const int REVEAL_RADIUS = 40;
+    const tripoint gpos = u.global_omt_location();
+    for (int x = -REVEAL_RADIUS; x <= REVEAL_RADIUS; x++) {
+        for (int y = -REVEAL_RADIUS; y <= REVEAL_RADIUS; y++) {
+            const int cursx = gpos.x + x;
+            const int cursy = gpos.y + y;
+            if( !overmap_buffer.seen( cursx, cursy, z_before ) ) {
+                continue;
+            }
+            if( overmap_buffer.has_note( cursx, cursy, z_after ) ) {
+                // Already has a note -> never add an AUTO-note
+                continue;
+            }
+            const oter_id &ter = overmap_buffer.ter(cursx, cursy, z_before);
+            const oter_id &ter2 = overmap_buffer.ter(cursx, cursy, z_after);
+            if( z_after > z_before && otermap[ter].has_flag(known_up) &&
+                !otermap[ter2].has_flag(known_down) ) {
+                overmap_buffer.set_seen(cursx, cursy, z_after, true);
+                overmap_buffer.add_note(cursx, cursy, z_after, _(">:W;AUTO: goes down"));
+            } else if ( z_after < z_before && otermap[ter].has_flag(known_down) &&
+                !otermap[ter2].has_flag(known_up) ) {
+                overmap_buffer.set_seen(cursx, cursy, z_after, true);
+                overmap_buffer.add_note(cursx, cursy, z_after, _("<:W;AUTO: goes up"));
+            }
+        }
+    }
 }
 
 void game::update_map( player *p )
@@ -13353,8 +13484,19 @@ void game::replace_stair_monsters()
 {
     for( auto &elem : coming_to_stairs ) {
         elem.staircount = 0;
-        elem.spawn( { elem.posx(), elem.posy(), get_levz() } );
-        add_zombie( elem );
+        tripoint spawn_point( elem.posx(), elem.posy(), get_levz() );
+        // Find some better spots if current is occupied
+        // If we can't, just destroy the poor monster
+        for( size_t i = 0; i < 10; i++ ) {
+            if( is_empty( spawn_point ) && elem.can_move_to( spawn_point ) ) {
+                elem.spawn( spawn_point );
+                add_zombie( elem );
+                break;
+            }
+
+            spawn_point.x = elem.posx() + rng( -10, 10 );
+            spawn_point.y = elem.posy() + rng( -10, 10 );
+        }
     }
 
     coming_to_stairs.clear();
@@ -13423,6 +13565,7 @@ void game::update_stair_monsters()
         int mposx = stairx[si];
         int mposy = stairy[si];
         monster &critter = coming_to_stairs[i];
+        const tripoint dest{mposx, mposy, g->get_levz()};
 
         // We might be not be visible.
         if( (critter.posx() < 0 - (SEEX * MAPSIZE) / 6 ||
@@ -13434,7 +13577,7 @@ void game::update_stair_monsters()
 
         critter.staircount -= 4;
         // Let the player know zombies are trying to come.
-        if( u.sees( mposx, mposy ) ) {
+        if( u.sees( dest ) ) {
             std::stringstream dump;
             if( critter.staircount > 4 ) {
                 dump << string_format(_("You see a %s on the stairs"), critter.name().c_str());
@@ -13444,40 +13587,40 @@ void game::update_stair_monsters()
                     dump << (from_below ?
                              string_format(_("The %1$s is almost at the top of the %2$s!"),
                                            critter.name().c_str(),
-                                           m.tername(mposx, mposy).c_str()) :
+                                           m.tername(dest).c_str()) :
                              string_format(_("The %1$s is almost at the bottom of the %2$s!"),
                                            critter.name().c_str(),
-                                           m.tername(mposx, mposy).c_str()));
+                                           m.tername(dest).c_str()));
                 }
             }
 
             add_msg(m_warning, dump.str().c_str());
         } else {
-            sounds::sound({mposx, mposy, g->get_levz()}, 5, _("a sound nearby from the stairs!"));
+            sounds::sound(dest, 5, _("a sound nearby from the stairs!"));
         }
 
         if( critter.staircount > 0 ) {
             continue;
         }
 
-        if( is_empty({mposx, mposy, get_levz()}) ) {
-            critter.spawn( {mposx, mposy, get_levz()} );
+        if( is_empty(dest) ) {
+            critter.spawn( dest );
             critter.staircount = 0;
             add_zombie(critter);
-            if (u.sees(mposx, mposy)) {
+            if (u.sees(dest)) {
                 if (!from_below) {
                     add_msg(m_warning, _("The %1$s comes down the %2$s!"),
                             critter.name().c_str(),
-                            m.tername(mposx, mposy).c_str());
+                            m.tername(dest).c_str());
                 } else {
                     add_msg(m_warning, _("The %1$s comes up the %2$s!"),
                             critter.name().c_str(),
-                            m.tername(mposx, mposy).c_str());
+                            m.tername(dest).c_str());
                 }
             }
             coming_to_stairs.erase(coming_to_stairs.begin() + i);
             continue;
-        } else if( u.posx() == mposx && u.posy() == mposy ) {
+        } else if( u.pos() == dest ) {
             // Monster attempts to push player of stairs
             int pushx = -1;
             int pushy = -1;
@@ -13488,7 +13631,7 @@ void game::update_stair_monsters()
             const int creature_push_attempts = 9;
             const int player_throw_resist_chance = 3;
 
-            critter.spawn( tripoint(mposx, mposy, get_levz()) );
+            critter.spawn( dest );
             while (tries < creature_push_attempts) {
                 tries++;
                 pushx = rng(-1, 1), pushy = rng(-1, 1);
@@ -13534,10 +13677,10 @@ void game::update_stair_monsters()
             critter.melee_attack(u, false);
             u.moves -= 50;
             return;
-        } else if( mon_at( {mposx, mposy, get_levz()} ) != -1) {
+        } else if( mon_at( dest ) != -1) {
             // Monster attempts to displace a monster from the stairs
-            monster &other = critter_tracker->find( mon_at({mposx, mposy, get_levz()}) );
-            critter.spawn( tripoint(mposx, mposy, get_levz()) );
+            monster &other = zombie( mon_at( dest ) );
+            critter.spawn( dest );
 
             // the critter is now right on top of another and will push it
             // if it can find a square to push it into inside of his tries.
@@ -13558,7 +13701,7 @@ void game::update_stair_monsters()
                     continue;
                 }
                 if ((mon_at(pos) == -1) && other.can_move_to(pos)) {
-                    other.spawn( tripoint(iposx, iposy, get_levz()) );
+                    other.setpos( tripoint(iposx, iposy, get_levz()) );
                     other.moves -= 50;
                     std::string msg = "";
                     if (one_in(creature_throw_resist)) {

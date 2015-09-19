@@ -1,5 +1,6 @@
 #include "game.h"
 #include "map.h"
+#include "map_iterator.h"
 #include "debug.h"
 #include "trap.h"
 #include "rng.h"
@@ -974,16 +975,39 @@ void trapfunc::ledge( Creature *c, const tripoint &p )
     below.z--;
     while( g->m.valid_move( where, below, false, true ) ) {
         where.z--;
-        below.z--;
         if( g->critter_at( where ) != nullptr ) {
             where.z++;
             break;
         }
 
+        below.z--;
         height++;
     }
 
-    if( height == 0 ) {
+    if( height == 0 && c->is_player() ) {
+        // For now just special case player, NPCs don't "zedwalk"
+        Creature *critter = g->critter_at( below, true );
+        if( critter == nullptr || !critter->is_monster() ) {
+            return;
+        }
+
+        std::vector<tripoint> valid;
+        for( const tripoint &pt : g->m.points_in_radius( below, 1 ) ) {
+            if( g->is_empty( pt ) ) {
+                valid.push_back( pt );
+            }
+        }
+
+        if( valid.empty() ) {
+            critter->setpos( c->pos() );
+            add_msg( m_bad, _("You fall down under %s!"), critter->disp_name().c_str() );
+        } else {
+            critter->setpos( random_entry( valid ) );
+        }
+
+        height++;
+        where.z--;
+    } else if( height == 0 ) {
         return;
     }
 

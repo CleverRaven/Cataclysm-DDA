@@ -522,7 +522,7 @@ tripoint monster::scent_move()
     for( const auto &dest : g->m.points_in_radius( pos(), 1 ) ) {
         int smell = g->scent( dest );
         if( ( can_move_to( dest ) || ( dest == g->u.pos3() ) ||
-              ( can_bash && g->m.bash_rating( bash_estimate(), dest ) >= 0 ) ) ) {
+              ( can_bash && g->m.bash_rating( bash_estimate(), dest ) > 0 ) ) ) {
             if( ( !fleeing && smell > bestsmell ) || ( fleeing && smell < bestsmell ) ) {
                 smoves.clear();
                 smoves.push_back( dest );
@@ -597,7 +597,8 @@ tripoint monster::wander_next()
     const auto try_pos = [&]( const int x, const int y, const int z ) {
         tripoint dest( x, y, z );
         if( ( canbash && g->m.bash_rating( bash_est, dest ) > 0 ) ||
-            ( ( flies || !g->m.has_flag( TFLAG_NO_FLOOR, dest ) ) && can_move_to( dest ) ) ) {
+            ( ( flies || g->m.has_floor_or_support( dest ) ) &&
+            can_move_to( dest ) ) ) {
             next = dest;
             return true;
         }
@@ -606,7 +607,8 @@ tripoint monster::wander_next()
     };
 
     bool found = false;
-    if( z_move && g->m.valid_move( pos(), tripoint( posx(), posy(), z ), false, flies || climbs ) ) {
+    const bool can_climb = z_move && (flies || climbs || g->m.has_flag( TFLAG_RAMP, pos() ));
+    if( z_move && g->m.valid_move( pos(), tripoint( posx(), posy(), z ), false, can_climb ) ) {
         found = true;
         if( ( x_move || y_move ) && try_pos( x, y, z ) ) {
         } else if( y_move && try_pos( x, y2, z ) ) {

@@ -464,8 +464,12 @@ std::vector<tripoint> squares_closer_to( const tripoint &from, const tripoint &t
     std::vector<tripoint> adjacent_closer_squares;
     const int dx = to.x - from.x;
     const int dy = to.y - from.y;
+    const int dz = to.z - from.z;
     const int ax = std::abs( dx );
     const int ay = std::abs( dy );
+    if( dz != 0 ) {
+        adjacent_closer_squares.push_back( { from.x + SGN(dx), from.y + SGN(dy), from.z + SGN(dz) } );
+    }
     if( ax > ay ) {
         // X dominant.
         adjacent_closer_squares.push_back( { from.x + SGN(dx), from.y, from.z } );
@@ -488,6 +492,7 @@ std::vector<tripoint> squares_closer_to( const tripoint &from, const tripoint &t
         adjacent_closer_squares.push_back( { from.x + SGN(dx), from.y, from.z } );
         adjacent_closer_squares.push_back( { from.x, from.y + SGN(dy), from.z } );
     }
+
     return adjacent_closer_squares;
 }
 

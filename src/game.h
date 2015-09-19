@@ -201,6 +201,10 @@ class game
         void flashbang( const tripoint &p, bool player_immune = false );
         /** Moves the player vertically. If force == true then they are falling. */
         void vertical_move(int z, bool force);
+        /** Actual z-level movement part of vertical_move. Doesn't include stair finding, traps etc. */
+        void vertical_shift( int dest_z );
+        /** Add goes up/down auto_notes (if turned on) */
+        void vertical_notes( int z_before, int z_after );
         /** Checks to see if a player can use a computer (not illiterate, etc.) and uses if able. */
         void use_computer( const tripoint &p );
         /** Attempts to refill the give vehicle's part with the player's current weapon. Returns true if successful. */
@@ -609,6 +613,8 @@ class game
         bool grabbed_move( const tripoint &dp );
         bool grabbed_veh_move( const tripoint &dp );
         bool grabbed_furn_move( const tripoint &dp );
+        // Handle moving from a ramp
+        bool ramp_move( const tripoint &dest );
         // Handle phasing through walls, returns true if it handled the move
         bool phasing_move( const tripoint &dest );
         // Regular movement. Returns false if it failed for any reason

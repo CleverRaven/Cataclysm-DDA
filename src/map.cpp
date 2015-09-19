@@ -1976,10 +1976,16 @@ bool map::valid_move( const tripoint &from, const tripoint &to,
 
     if( !up_ter.has_flag( TFLAG_NO_FLOOR ) && !up_ter.has_flag( TFLAG_GOES_DOWN ) ) {
         // Can't move from up to down
+        if( from.x != to.x || from.y != to.y ) {
+            // Break the move into two - vertical then horizontal
+            tripoint midpoint( down_p.x, down_p.y, up_p.z );
+            return valid_move( down_p, midpoint, bash, flying ) &&
+                   valid_move( midpoint, up_p, bash, flying );
+        }
         return false;
     }
 
-    if( !flying && !down_ter.has_flag( TFLAG_GOES_UP ) ) {
+    if( !flying && !down_ter.has_flag( TFLAG_GOES_UP ) && !down_ter.has_flag( TFLAG_RAMP ) ) {
         // Can't safely reach the lower tile
         return false;
     }
@@ -2016,13 +2022,16 @@ int map::climb_difficulty( const tripoint &p ) const
         return INT_MAX;
     }
 
+    int best_difficulty = INT_MAX;
+    int blocks_movement = 0;
     if( has_flag( "LADDER", p ) ) {
         // Really easy, but you have to stand on the tile
         return 1;
+    } else if( has_flag( TFLAG_RAMP, p ) ) {
+        // We're on something stair-like, so halfway there already
+        best_difficulty = 7;
     }
 
-    int best_difficulty = INT_MAX;
-    int blocks_movement = 0;
     for( const auto &pt : points_in_radius( p, 1 ) ) {
         if( move_cost_ter_furn( pt ) == 0 ) {
             // TODO: Non-hardcoded climbability
@@ -2075,6 +2084,12 @@ bool map::supports_above( const tripoint &p ) const
     }
 
     return false;
+}
+
+bool map::has_floor_or_support( const tripoint &p ) const
+{
+    const tripoint below( p.x, p.y, p.z - 1 );
+    return !valid_move( p, below, false, true );
 }
 
 void map::drop_everything( const tripoint &p )
@@ -6017,6 +6032,8 @@ void map::draw_from_above( WINDOW* w, player &u, const tripoint &p,
     } else if( curr_ter.has_flag( TFLAG_SEEN_FROM_ABOVE ) ) {
         if( curr_ter.has_flag( TFLAG_AUTO_WALL_SYMBOL ) ) {
             sym = AUTO_WALL_PLACEHOLDER;
+        } else if( curr_ter.has_flag( TFLAG_RAMP ) ) {
+            sym = '>';
         } else {
             sym = curr_ter.sym;
         }
