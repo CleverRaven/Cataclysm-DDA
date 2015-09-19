@@ -182,7 +182,7 @@
         ],
         "open": "t_door_makeshift_o",
         "deconstruct": {
-            "ter_set": "t_null",
+            "ter_set": "t_door_frame",
             "items": [
                 { "item": "2x4", "count": 6 },
                 { "item": "rope_6", "count": 2 }
@@ -192,7 +192,7 @@
             "str_min": 4, "str_max": 20, "str_min_blocked": 6, "str_max_blocked": 30,
             "sound": "crack.",
             "sound_fail": "wham.",
-            "ter_set": "t_null",
+            "ter_set": "t_door_frame",
             "items": [
                 { "item": "2x4", "count": [2, 5] },
                 { "item": "rope_6", "count": [0, 1] },

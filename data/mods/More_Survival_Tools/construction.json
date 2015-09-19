@@ -167,7 +167,7 @@
             [ [ "2x4", 6 ], [ "stick", 6 ] ],
             [ [ "rope_6", 2 ] ]
         ],
-        "pre_special" : "check_empty",
+        "pre_terrain" : "t_door_frame",
         "post_terrain" : "t_door_makeshift_c"
     }
   ]

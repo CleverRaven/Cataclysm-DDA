@@ -835,28 +835,11 @@
     "to_hit": -5,
     "qualities": [["COOK", 1]]
   },{
-    "type":"GENERIC",
-    "id": "skewer_bone_human",
-    "sub": "skewer", "//": "Don't know if skewers are ever used as tools, but just in case.",
-    "symbol": ",",
-    "color": "white",
-    "name": "human bone skewer",
-    "description": "A selected sliver of some sucker's skeleton.  Perfect for cooking, if you don't think about who it previously belonged to.",
-    "price": 0,
-    "material": ["bone", "hflesh"],
-    "flags": ["NO_SALVAGE"],
-    "weight": 10,
-    "volume": 0,
-    "bashing": 0,
-    "cutting": 0,
-    "to_hit": -5,
-    "qualities": [["COOK", 1]]
-  },{
     "id": "whistle_multitool",
     "type": "TOOL",
     "symbol": ";",
     "color": "dark_grey",
-    "name": "whitle multitool",
+    "name": "whistle multitool",
     "description": "A cheap gadget combining a whistle, thermometer, magnifying glass, and button compass.",
     "price": 200,
     "material": "plastic",
@@ -875,14 +858,12 @@
             "use_message": "You blow the whistle.", "//": "Use of %s not currently supported.",
             "noise_message": "FWEEEET!",
             "noise": 34, "//": "Somewhat lower than the proper whistle.",
-            "moves": 100,
-            "menu_option_text": "Blow the whistle"
+            "moves": 100
       },
       "WEATHER_TOOL",
       {
         "type": "extended_firestarter",
-        "need_sunlight": true,
-        "menu_option_text": "Start a fire"
+        "need_sunlight": true
       }
     ],
     "max_charges": 0,

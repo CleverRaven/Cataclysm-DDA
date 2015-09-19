@@ -1213,18 +1213,12 @@
   "reversible": false,
   "autolearn": true,
   "qualities" : [{"id":"CUT","level":1,"amount":1}],
-  "components": [ [ [ "bone", 1 ] ] ]
-},{
-  "type" : "recipe",
-  "result": "skewer_bone_human",
-  "category": "CC_OTHER",
-  "subcategory": "CSC_OTHER_TOOLS",
-  "difficulty": 0,
-  "time": 1000,
-  "reversible": false,
-  "autolearn": true,
-  "qualities" : [{"id":"CUT","level":1,"amount":1}],
-  "components": [ [ [ "bone_human", 1 ] ] ]
+  "components": [
+    [
+      [ "bone", 1 ],
+      [ "bone_human", 1 ]
+    ]
+  ]
 },{
   "type" : "recipe",
   "result": "carding_paddles",
@@ -1244,8 +1238,7 @@
     ],
     [
       [ "skewer", 20 ],
-      [ "skewer_bone", 20 ],
-      [ "skewer_bone_human", 20 ]
+      [ "skewer_bone", 20 ]
     ]
   ]
 },{
@@ -1263,8 +1256,7 @@
   "components": [
     [
       [ "skewer", 2 ],
-      [ "skewer_bone", 2 ],
-      [ "skewer_bone_human", 2 ]
+      [ "skewer_bone", 2 ]
     ]
   ]
 },{
@@ -1283,8 +1275,7 @@
     [
       [ "bone", 1 ],
       [ "bone_human", 1],
-      [ "skewer_bone", 1 ],
-      [ "skewer_bone_human", 1]
+      [ "skewer_bone", 1 ]
     ]
   ]
 },{
@@ -1313,8 +1304,7 @@
     [
       [ "plastic_chunk", 1 ],
       [ "skewer", 4 ],
-      [ "skewer_bone", 4 ],
-      [ "skewer_bone_human", 4 ]
+      [ "skewer_bone", 4 ]
     ]
   ]
 },{
@@ -1399,8 +1389,7 @@
     ],
     [
       [ "skewer", 3 ],
-      [ "skewer_bone", 3 ],
-      [ "skewer_bone_human", 3 ]
+      [ "skewer_bone", 3 ]
     ]
   ]
 },{
