@@ -512,7 +512,7 @@ void cast_ray( float (&output_cache)[MAPSIZE*SEEX][MAPSIZE*SEEY],
         return true;
     };
 
-    bresenham( f, t, 0, 0, ray );
+    split_bresenham( f, t, 0, 0, ray );
 }
 
 /**

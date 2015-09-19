@@ -6101,7 +6101,7 @@ bool map::sees( const tripoint &F, const tripoint &T, const int range, int &bres
     }
 
     tripoint last_point = F;
-    bresenham( F, T, bresenham_slope, 0,
+    split_bresenham( F, T, bresenham_slope, 0,
                 [this, &visible, &T, &last_point]( const tripoint &new_point ) {
                     // Exit before checking the last square, it's still visible even if opaque.
                     if( new_point == T ) {
@@ -6189,7 +6189,7 @@ bool map::clear_path( const tripoint &f, const tripoint &t, const int range,
     }
     bool is_clear = true;
     tripoint last_point = f;
-    bresenham( f, t, 0, 0,
+    split_bresenham( f, t, 0, 0,
                [this, &is_clear, cost_min, cost_max, t, &last_point](const tripoint &new_point ) {
                    // Exit before checking the last square, it's still reachable even if it is an obstacle.
                    if( new_point == t ) {

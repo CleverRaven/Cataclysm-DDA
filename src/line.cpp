@@ -55,9 +55,157 @@ void bresenham( const int x1, const int y1, const int x2, const int y2, int t,
     }
 }
 
-// NOTE: Z-coord direction uses different rules to x/y
 void bresenham( const tripoint &loc1, const tripoint &loc2, int t, int t2,
                 const std::function<bool(const tripoint &)> &interact )
+{
+    // The slope components.
+    const int dx = loc2.x - loc1.x;
+    const int dy = loc2.y - loc1.y;
+    const int dz = loc2.z - loc1.z;
+    // The signs of the slopes.
+    const int sx = (dx == 0 ? 0 : SGN(dx));
+    const int sy = (dy == 0 ? 0 : SGN(dy));
+    const int sz = (dz == 0 ? 0 : SGN(dz));
+    // Absolute values of slope components, x2 to avoid rounding errors.
+    const int ax = abs(dx) * 2;
+    const int ay = abs(dy) * 2;
+    const int az = abs(dz) * 2;
+
+    tripoint cur( loc1 );
+
+    if( az == 0 ) {
+        if( ax == ay ) {
+          while( cur.x != loc2.x ) {
+                cur.y += sy;
+                cur.x += sx;
+                if( !interact( cur ) ) {
+                    break;
+                }
+            }
+        } else if (ax > ay) {
+            while( cur.x != loc2.x ) {
+                if( t > 0 ) {
+                    cur.y += sy;
+                    t -= ax;
+                }
+                cur.x += sx;
+                t += ay;
+                if( !interact( cur ) ) {
+                    break;
+                }
+            }
+        } else {
+            while( cur.y != loc2.y ) {
+                if( t > 0 ) {
+                    cur.x += sx;
+                    t -= ay;
+                }
+                cur.y += sy;
+                t += ax;
+                if( !interact( cur ) ) {
+                    break;
+                }
+            }
+        }
+    } else {
+        if( ax == ay && ay == az ) {
+            while( cur.x != loc2.x ) {
+                cur.z += sz;
+                cur.y += sy;
+                cur.x += sx;
+                if( !interact( cur ) ) {
+                    break;
+                }
+            }
+        } else if( (az > ax) && (az > ay) ) {
+            while( cur.z != loc2.z ) {
+                if( t > 0 ) {
+                    cur.x += sx;
+                    t -= az;
+                }
+                if( t2 > 0 ) {
+                    cur.y += sy;
+                    t2 -= az;
+                }
+                cur.z += sz;
+                t += ax;
+                t2 += ay;
+                if( !interact( cur ) ) {
+                    break;
+                }
+            }
+        } else if( ax == ay ) {
+            while( cur.x != loc2.x ) {
+                if( t > 0 ) {
+                    cur.z += sz;
+                    t -= ax;
+                }
+                cur.y += sy;
+                cur.x += sx;
+                t += az;
+                if( !interact( cur ) ) {
+                    break;
+                }
+            }
+        } else if( ax > ay ) {
+            while( cur.x != loc2.x ) {
+                if( t > 0 ) {
+                    cur.y += sy;
+                    t -= ax;
+                }
+                if( t2 > 0 ) {
+                    cur.z += sz;
+                    t2 -= ax;
+                }
+                cur.x += sx;
+                t += ay;
+                t2 += az;
+                if( !interact( cur ) ) {
+                    break;
+                }
+            }
+        } else { //dy > dx >= dz
+            while( cur.y != loc2.y ) {
+                if( t > 0 ) {
+                    cur.x += sx;
+                    t -= ay;
+                }
+                if( t2 > 0 ) {
+                    cur.z += sz;
+                    t2 -= ay;
+                }
+                cur.y += sy;
+                t += ax;
+                t2 += az;
+                if( !interact( cur ) ) {
+                    break;
+                }
+            }
+        }
+    }
+}
+
+//Trying to pull points out of a tripoint vector is messy and
+//probably slow, so leaving two full functions for now
+std::vector<point> line_to(const int x1, const int y1, const int x2, const int y2, int t)
+{
+    std::vector<point> line;
+    // Preallocate the number of cells we need instead of allocating them piecewise.
+    const int numCells = square_dist(tripoint(x1, y1, 0), tripoint(x2, y2, 0));
+    if( numCells == 0 ) {
+        line.push_back( {x1, y1} );
+    } else {
+        line.reserve(numCells);
+        bresenham( x1, y1, x2, y2, t, [&line]( const point &new_point ) {
+            line.push_back(new_point);
+            return true;
+        } );
+    }
+    return line;
+}
+
+void split_bresenham( const tripoint &loc1, const tripoint &loc2, int t, int t2,
+                      const std::function<bool(const tripoint &)> &interact )
 {
     // The slope components.
     const int dx = loc2.x - loc1.x;
@@ -147,8 +295,9 @@ void bresenham( const tripoint &loc1, const tripoint &loc2, int t, int t2,
                 }
             }
         } else if( ax == ay ) {
+            t -= ax;
             while( cur.x != loc2.x ) {
-                if( t > ax ) {
+                if( t > 0 ) {
                     cur.z += sz;
                     t -= ax;
                     if( !interact( cur ) ) {
@@ -163,6 +312,7 @@ void bresenham( const tripoint &loc1, const tripoint &loc2, int t, int t2,
                 }
             }
         } else if( ax > ay ) {
+            t2 -= ax;
             while( cur.x != loc2.x ) {
                 if( t > 0 ) {
                     cur.y += sy;
@@ -171,7 +321,7 @@ void bresenham( const tripoint &loc1, const tripoint &loc2, int t, int t2,
                         break;
                     }
                 }
-                if( t2 > ax ) {
+                if( t2 > 0 ) {
                     cur.z += sz;
                     t2 -= ax;
                     if( !interact( cur ) ) {
@@ -186,6 +336,7 @@ void bresenham( const tripoint &loc1, const tripoint &loc2, int t, int t2,
                 }
             }
         } else { //dy > dx >= dz
+            t2 -= ay;
             while( cur.y != loc2.y ) {
                 if( t > 0 ) {
                     cur.x += sx;
@@ -194,7 +345,7 @@ void bresenham( const tripoint &loc1, const tripoint &loc2, int t, int t2,
                         break;
                     }
                 }
-                if( t2 > ay ) {
+                if( t2 > 0 ) {
                     cur.z += sz;
                     t2 -= ay;
                     if( !interact( cur ) ) {
@@ -212,25 +363,6 @@ void bresenham( const tripoint &loc1, const tripoint &loc2, int t, int t2,
     }
 }
 
-//Trying to pull points out of a tripoint vector is messy and
-//probably slow, so leaving two full functions for now
-std::vector<point> line_to(const int x1, const int y1, const int x2, const int y2, int t)
-{
-    std::vector<point> line;
-    // Preallocate the number of cells we need instead of allocating them piecewise.
-    const int numCells = square_dist(tripoint(x1, y1, 0), tripoint(x2, y2, 0));
-    if( numCells == 0 ) {
-        line.push_back( {x1, y1} );
-    } else {
-        line.reserve(numCells);
-        bresenham( x1, y1, x2, y2, t, [&line]( const point &new_point ) {
-            line.push_back(new_point);
-            return true;
-        } );
-    }
-    return line;
-}
-
 std::vector<point> line_to( const point &p1, const point &p2, const int t )
 {
     return line_to( p1.x, p1.y, p2.x, p2.y, t );
@@ -246,6 +378,23 @@ std::vector <tripoint> line_to(const tripoint &loc1, const tripoint &loc2, int t
     } else {
         line.reserve(numCells);
         bresenham( loc1, loc2, t, t2, [&line]( const tripoint &new_point ) {
+            line.push_back(new_point);
+            return true;
+        } );
+    }
+    return line;
+}
+
+std::vector <tripoint> split_line_to(const tripoint &loc1, const tripoint &loc2, int t, int t2)
+{
+    std::vector<tripoint> line;
+    // Preallocate the number of cells we need instead of allocating them piecewise.
+    const int numCells = square_dist(loc1, loc2) + abs(loc1.z - loc2.z);
+    if( numCells == 0 ) {
+        line.push_back( loc1 );
+    } else {
+        line.reserve(numCells);
+        split_bresenham( loc1, loc2, t, t2, [&line]( const tripoint &new_point ) {
             line.push_back(new_point);
             return true;
         } );
