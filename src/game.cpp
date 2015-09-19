@@ -11992,26 +11992,24 @@ bool game::ramp_move( const tripoint &dest_loc )
         return false;
     }
 
-    if( !m.has_flag( TFLAG_RAMP, u.pos() ) ) {
-        // We aren't standing on a ramp
-        if( m.has_floor_or_support( dest_loc ) ) {
-            return false;
-        }
-
+    // We're moving onto a tile with no support, check if it has a ramp below
+    if( !m.has_floor_or_support( dest_loc ) ) {
         tripoint below( dest_loc.x, dest_loc.y, dest_loc.z - 1 );
-        if( !m.has_flag( TFLAG_RAMP, below ) ) {
-            return false;
+        if( m.has_flag( TFLAG_RAMP, below ) ) {
+            // But we're moving onto one from above
+            const tripoint dp = dest_loc - u.pos();
+            plmove( dp.x, dp.y, -1 );
+            // No penalty for misaligned stairs here
+            // Also cheaper than climbing up
+            return true;
         }
 
-        // But we're moving onto one from above
-        const tripoint dp = dest_loc - u.pos();
-        plmove( dp.x, dp.y, -1 );
-        // No penalty for misaligned stairs here
-        // Also cheaper than climbing up
-        return true;
+        return false;
     }
 
-    if( m.move_cost_ter_furn( dest_loc ) > 0 ) {
+    // We're moving from a ramp onto an obstacle
+    if( !m.has_flag( TFLAG_RAMP, u.pos() ) ||
+        m.move_cost_ter_furn( dest_loc ) > 0 ) {
         return false;
     }
 
