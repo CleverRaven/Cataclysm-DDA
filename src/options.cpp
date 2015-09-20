@@ -25,7 +25,6 @@ bool trigdist;
 bool use_tiles;
 bool log_from_top;
 bool fov_3d;
-int season_len;
 
 bool used_tiles_changed;
 #ifdef TILES
@@ -1537,7 +1536,6 @@ void load_options()
     use_tiles = OPTIONS["USE_TILES"]; // cache to global due to heavy usage.
     log_from_top = OPTIONS["SIDEBAR_LOG_FLOW"] == "new_top"; // cache to global due to heavy usage.
     fov_3d = false; // OPTIONS["FOV_3D"];
-    season_len = ACTIVE_WORLD_OPTIONS["SEASON_LENGTH"];
 }
 
 std::string options_header()
@@ -1581,6 +1579,9 @@ void save_options(bool ingame)
                 }
             }
         }
+        if( update_wopt ) {
+            calendar::set_season_length( ACTIVE_WORLD_OPTIONS["SEASON_LENGTH"] );
+        }
     }
 
     fout.close();
@@ -1594,7 +1595,6 @@ void save_options(bool ingame)
     use_tiles = OPTIONS["USE_TILES"]; // and use_tiles
     log_from_top = OPTIONS["SIDEBAR_LOG_FLOW"] == "new_top"; // cache to global due to heavy usage.
     fov_3d = false; // OPTIONS["FOV_3D"];
-    season_len = ACTIVE_WORLD_OPTIONS["SEASON_LENGTH"];
 }
 
 bool use_narrow_sidebar()
