@@ -13328,12 +13328,11 @@ void game::vertical_shift( const int z_after )
 
 void game::vertical_notes( int z_before, int z_after )
 {
-    if( !OPTIONS["AUTO_NOTES"] ) {
+    if( z_before == z_after || !OPTIONS["AUTO_NOTES"] ) {
         return;
     }
 
-    if( z_before == z_after ||
-        !m.inbounds_z( z_before ) || !m.inbounds_z( z_after ) ) {
+    if( !m.inbounds_z( z_before ) || !m.inbounds_z( z_after ) ) {
         debugmsg( "game::vertical_notes invalid arguments: z_before == %d, z_after == %d",
                   z_before, z_after );
         return;
