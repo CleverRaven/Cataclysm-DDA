@@ -3722,12 +3722,18 @@ void game::debug()
         }
 
         auto pt = look_around();
-        if( pt != tripoint_min ) {
-            u.setpos( pt );
-            update_map( &u );
-            pt = u.pos();
-            add_msg( _("You teleport to point (%d,%d,%d)"), pt.x, pt.y, pt.z );
+        if( pt == tripoint_min ) {
+            break;
         }
+
+        if( m.has_zlevels() && pt.z != get_levz() ) {
+            vertical_shift( pt.z );
+        }
+
+        u.setpos( pt );
+        update_map( &u );
+        pt = u.pos();
+        add_msg( _("You teleport to point (%d,%d,%d)"), pt.x, pt.y, pt.z );
 
         if( m.veh_at( u.pos() ) != nullptr ) {
             m.board_vehicle( u.pos(), &u );
