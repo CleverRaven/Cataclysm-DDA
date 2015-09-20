@@ -604,7 +604,7 @@ void init_options()
                                  );
 
     OPTIONS["AUTO_PICKUP_ADJACENT"] = cOpt("general", _("Auto pickup adjacent"),
-                                           _("If true will enable to pickup items one tile around to the player. You can assign No Auto Pickup zones with the Zones Manager 'Y' key for eg. your homebase."),
+                                           _("If true, will enable to pickup items one tile around to the player. You can assign No Auto Pickup zones with the Zones Manager 'Y' key for eg. your homebase."),
                                            false
                                           );
 
@@ -621,7 +621,7 @@ void init_options()
     mOptionsSort["general"]++;
 
     OPTIONS["DANGEROUS_PICKUPS"] = cOpt("general", _("Dangerous pickups"),
-                                        _("If false will cause player to drop new items that cause them to exceed the weight limit."),
+                                        _("If false, will cause player to drop new items that cause them to exceed the weight limit."),
                                         false
                                        );
 
@@ -648,7 +648,7 @@ void init_options()
                                        );
 
     OPTIONS["SAFEMODEVEH"] = cOpt("general", _("Safemode when driving"),
-                                  _("When true, safemode will alert you to hostiles while you are driving a vehicle."),
+                                  _("When true, safemode will alert you of hostiles while you are driving a vehicle."),
                                   false
                                  );
 
@@ -672,7 +672,7 @@ void init_options()
     mOptionsSort["general"]++;
 
     OPTIONS["CIRCLEDIST"] = cOpt("general", _("Circular distances"),
-                                 _("If true, the game will calculate range in a realistic way: light sources will be circles diagonal movement will cover more ground and take longer. If disabled, everything is square: moving to the northwest corner of a building takes as long as moving to the north wall."),
+                                 _("If true, the game will calculate range in a realistic way: light sources will be circles, diagonal movement will cover more ground and take longer. If disabled, everything is square: moving to the northwest corner of a building takes as long as moving to the north wall."),
                                  false
                                 );
 
@@ -686,7 +686,7 @@ void init_options()
                                 );
 
     OPTIONS["AUTO_NOTES"] = cOpt("general", _("Auto notes"),
-                                 _("If true automatically sets notes on places that have stairs that go up or down"),
+                                 _("If true, automatically sets notes on places that have stairs that go up or down"),
                                  false
                                 );
 
@@ -808,7 +808,7 @@ void init_options()
                                          );
 
     OPTIONS["VEHICLE_DIR_INDICATOR"] = cOpt("interface", _("Draw vehicle facing indicator"),
-                                            _("If true, when controlling a vehicle, a white 'X' at distance 10 from the center will display its current facing."),
+                                            _("If true, when controlling a vehicle, a white 'X' (in curses version) or a crosshair (in tiles version) at distance 10 from the center will display its current facing."),
                                             false
                                            );
 
@@ -946,7 +946,7 @@ void init_options()
     mOptionsSort["graphics"]++;
 
     OPTIONS["FULLSCREEN"] = cOpt("graphics", _("Fullscreen"),
-                                 _("Starts Cataclysm in fullscreen-mode. Requires Restart."),
+                                 _("Starts Cataclysm in fullscreen-mode. Requires restart."),
                                  false, COPT_CURSES_HIDE
                                 );
 
@@ -1065,7 +1065,7 @@ void init_options()
     optionNames["autumn"] = _("Autumn");
     optionNames["winter"] = _("Winter");
     OPTIONS["INITIAL_SEASON"] = cOpt("world_default", _("Initial season"),
-                                     _("Season the player starts in.  Options other than the default delay spawn of the character, so food decay and monster spawns will have advanced."),
+                                     _("Season the player starts in. Options other than the default delay spawn of the character, so food decay and monster spawns will have advanced."),
                                      "spring,summer,autumn,winter", "spring");
 
     OPTIONS["SEASON_LENGTH"] = cOpt("world_default", _("Season length"),
@@ -1074,7 +1074,7 @@ void init_options()
                                    );
 
     OPTIONS["CONSTRUCTION_SCALING"] = cOpt("world_default", _("Construction scaling"),
-                                           _(" Multiplies the speed of construction by the given percentage. '0' automatically scales construction to match the world's season length."),
+                                           _("Multiplies the speed of construction by the given percentage. '0' automatically scales construction to match the world's season length."),
                                            0, 1000, 100
                                            );
 
