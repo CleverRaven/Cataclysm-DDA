@@ -12168,7 +12168,7 @@ bool game::walk_move( const tripoint &dest_loc )
     const int mcost_total = m.move_cost( dest_loc );
     const int mcost_no_veh = m.move_cost_ter_furn( dest_loc );
     if( (!u.has_trait("PARKOUR") && mcost_total > 2) || mcost_total > 4 ) {
-        if( veh1 != nullptr && mcost_no_veh != 2 ) {
+        if( veh1 != nullptr && mcost_no_veh == 2 ) {
             add_msg(m_warning, _("Moving past this %s is slow!"), veh1->part_info(vpart1).name.c_str());
         } else {
             add_msg(m_warning, _("Moving past this %s is slow!"), m.name(dest_loc).c_str());
