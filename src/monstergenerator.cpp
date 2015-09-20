@@ -420,6 +420,7 @@ void MonsterGenerator::load_monster(JsonObject &jo)
         newmon->agro = jo.get_int("aggression", 0);
         newmon->morale = jo.get_int("morale", 0);
         newmon->speed = jo.get_int("speed", 0);
+        newmon->attack_cost = jo.get_int("attack_cost", 100);
         newmon->melee_skill = jo.get_int("melee_skill", 0);
         newmon->melee_dice = jo.get_int("melee_dice", 0);
         newmon->melee_sides = jo.get_int("melee_dice_sides", 0);

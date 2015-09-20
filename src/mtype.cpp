@@ -22,6 +22,7 @@ mtype::mtype ()
     agro = 0;
     morale = 0;
     speed = 0;
+    attack_cost = 100;
     melee_skill = 0;
     melee_dice = 0;
     melee_sides = 0;

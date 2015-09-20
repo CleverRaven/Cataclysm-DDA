@@ -900,7 +900,7 @@ void monster::absorb_hit(body_part, damage_instance &dam) {
 }
 
 void monster::melee_attack(Creature &target, bool, const matec_id&) {
-    mod_moves(-100);
+    mod_moves( -type->attack_cost );
     if (type->melee_dice == 0) { // We don't attack, so just return
         return;
     }
@@ -1027,7 +1027,7 @@ void monster::melee_attack(Creature &target, bool, const matec_id&) {
 void monster::hit_monster(monster &other)
 {
     // TODO: Unify this with the function above
-    moves -= 100;
+    mod_moves( -type->attack_cost );
 
     if( this == &other ) {
         return;

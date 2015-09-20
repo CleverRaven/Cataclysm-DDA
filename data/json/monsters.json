@@ -2798,7 +2798,7 @@
         "armor_cut":8,
         "vision_day":50,
         "vision_night":3,
-            "hp":400,
+        "hp":400,
         "death_function":"JABBERWOCKY",
         "special_attacks":[["FLESH_GOLEM", 5]],
         "description":"A putrid amalgamation of body parts from humans and other creatures have fused together in this aberration of flesh.  The eyes of all the heads dart about rapidly and the mouths form a chorus of groaning screams.",
