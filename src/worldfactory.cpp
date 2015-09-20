@@ -10,7 +10,7 @@
 #include "input.h"
 #include "cursesdef.h"
 #include "catacharset.h"
-
+#include "calendar.h"
 #include "name.h"
 
 #include <fstream>
@@ -238,6 +238,7 @@ void worldfactory::set_active_world(WORLDPTR world)
     world_generator->active_world = world;
     if (world) {
         ACTIVE_WORLD_OPTIONS = world->world_options;
+        calendar::set_season_length( ACTIVE_WORLD_OPTIONS["SEASON_LENGTH"] );
     } else {
         ACTIVE_WORLD_OPTIONS.clear();
     }
