@@ -5640,7 +5640,7 @@ void map::update_visibility_cache( visibility_variables &cache, const int zlev )
 }
 
 lit_level map::apparent_light_at( const tripoint &p, const visibility_variables &cache ) const {
-    const int dist = rl_dist(g->u.posx(), g->u.posy(), p.x, p.y);
+    const int dist = rl_dist( g->u.pos(), p );
 
     // Clairvoyance overrides everything.
     if( dist <= cache.u_clairvoyance ) {
@@ -6118,7 +6118,7 @@ bool map::sees( const tripoint &F, const tripoint &T, const int range, int &bres
     }
 
     tripoint last_point = F;
-    split_bresenham( F, T, bresenham_slope, 0,
+    bresenham( F, T, bresenham_slope, 0,
                 [this, &visible, &T, &last_point]( const tripoint &new_point ) {
                     // Exit before checking the last square, it's still visible even if opaque.
                     if( new_point == T ) {
@@ -6126,15 +6126,20 @@ bool map::sees( const tripoint &F, const tripoint &T, const int range, int &bres
                     }
 
                     // TODO: Allow transparent floors (and cache them!)
-                    if( new_point.z != last_point.z &&
-                        !valid_move( last_point, new_point, false, true ) ) {
-                        visible = false;
-                        return false;
-                    }
-
-                    if( !this->trans( new_point ) ) {
-                        visible = false;
-                        return false;
+                    if( new_point.z == last_point.z ) {
+                        if( !this->trans( new_point ) ) {
+                            visible = false;
+                            return false;
+                        }
+                    } else {
+                        const int max_z = std::max( new_point.z, last_point.z );
+                        if( ( has_floor_or_support({new_point.x, new_point.y, max_z}) ||
+                              !trans({new_point.x, new_point.y, last_point.z}) ) &&
+                            ( has_floor_or_support({last_point.x, last_point.y, max_z}) ||
+                              !trans({last_point.x, last_point.y, new_point.z}) ) ) {
+                            visible = false;
+                            return false;
+                        }
                     }
 
                     last_point = new_point;
@@ -6206,29 +6211,46 @@ bool map::clear_path( const tripoint &f, const tripoint &t, const int range,
     }
     bool is_clear = true;
     tripoint last_point = f;
-    split_bresenham( f, t, 0, 0,
-               [this, &is_clear, cost_min, cost_max, t, &last_point](const tripoint &new_point ) {
-                   // Exit before checking the last square, it's still reachable even if it is an obstacle.
-                   if( new_point == t ) {
-                       return false;
-                   }
+    bresenham( f, t, 0, 0,
+        [this, &is_clear, cost_min, cost_max, t, &last_point](const tripoint &new_point ) {
+        // Exit before checking the last square, it's still reachable even if it is an obstacle.
+        if( new_point == t ) {
+            return false;
+        }
 
-                   // We have to check a weird case where the move is both vertical and horizontal
-                   if( new_point.z != last_point.z &&
-                       !valid_move( last_point, new_point, false, true ) ) {
-                       is_clear = false;
-                       return false;
-                   }
+        // We have to check a weird case where the move is both vertical and horizontal
+        if( new_point.z == last_point.z ) {
+            const int cost = move_cost( new_point );
+            if( cost < cost_min || cost > cost_max ) {
+                is_clear = false;
+                return false;
+            }
+        } else {
+            bool this_clear = false;
+            const int max_z = std::max( new_point.z, last_point.z );
+            if( !has_floor_or_support({new_point.x, new_point.y, max_z}) ) {
+                const int cost = move_cost( {new_point.x, new_point.y, last_point.z} );
+                if( cost > cost_min && cost < cost_max ) {
+                    this_clear = true;
+                }
+            }
 
-                   const int cost = this->move_cost( new_point );
-                   if( cost < cost_min || cost > cost_max ) {
-                       is_clear = false;
-                       return false;
-                   }
+            if( !this_clear && has_floor_or_support({last_point.x, last_point.y, max_z}) ) {
+                const int cost = move_cost( {last_point.x, last_point.y, new_point.z} );
+                if( cost > cost_min && cost < cost_max ) {
+                    this_clear = true;
+                }
+            }
 
-                   last_point = new_point;
-                   return true;
-               } );
+            if( !this_clear ) {
+                is_clear = false;
+                return false;
+            }
+        }
+
+        last_point = new_point;
+        return true;
+    } );
     return is_clear;
 }
 

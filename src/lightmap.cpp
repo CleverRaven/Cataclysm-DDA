@@ -473,35 +473,49 @@ bool map::pl_sees( const tripoint &t, const int max_range ) const
 template<float(*calc)(const float &, const float &, const int &),
          bool(*check)(const float &, const float &)>
 void cast_ray( float (&output_cache)[MAPSIZE*SEEX][MAPSIZE*SEEY],
-               const float (&input_array)[MAPSIZE*SEEX][MAPSIZE*SEEY],
+               const std::array<const float (*)[MAPSIZE*SEEX][MAPSIZE*SEEY], OVERMAP_LAYERS> &input_arrays,
                const std::function<bool(const tripoint &)> &floor_check,
                const tripoint &f, const tripoint &t,
                const int offset_distance, const float numerator )
 {
-    int last_z = f.z;
+    tripoint last_point = f;
     float cumulative_transparency = 0.0f;
     int distance = 1;
     const auto ray = [&]( const tripoint &cur ) {
-        if( !(cur.x >= 0 && cur.y >= 0 &&
-              cur.x < SEEX * MAPSIZE &&
-              cur.y < SEEY * MAPSIZE) ) {
-            return false;
-        }
-
-        if( last_z != cur.z ) {
-            const tripoint upper( cur.x, cur.y, std::max( last_z, cur.z ) );
-            if( floor_check ) {
-                return false;
+        float current_transparency;
+        if( last_point.z == cur.z ) {
+            current_transparency = (*input_arrays[cur.z + OVERMAP_DEPTH])[cur.x][cur.y];
+        } else {
+            const int max_z = std::max( cur.z, last_point.z );
+            current_transparency = LIGHT_TRANSPARENCY_SOLID;
+            if( floor_check({cur.x, cur.y, max_z}) ) {
+                current_transparency = (*input_arrays[last_point.z + OVERMAP_DEPTH])[cur.x][cur.y];
             }
 
-            last_z = cur.z;
+            if( floor_check({last_point.x, last_point.y, max_z}) ) {
+                const float here = (*input_arrays[cur.z + OVERMAP_DEPTH])[last_point.x][last_point.y];
+                // Need this weird split because lower is more transparent
+                // except at 0.0 when it becomes totally opaque
+                if( current_transparency == LIGHT_TRANSPARENCY_SOLID ) {
+                    current_transparency = here;
+                } else if( here != LIGHT_TRANSPARENCY_SOLID ) {
+                    current_transparency = std::min( current_transparency, here );
+                }
+            }
+
+            if( current_transparency == LIGHT_TRANSPARENCY_SOLID ) {
+                return false;
+            }
         }
 
-        const float current_transparency = input_array[ cur.x ][ cur.y ];
+        last_point = cur;
 
         const int dist = rl_dist( f, cur ) + offset_distance;
         float intensity = calc( numerator, cumulative_transparency, dist );
-        output_cache[cur.x][cur.y] = std::max( output_cache[cur.x][cur.y], intensity );
+        if( cur.z == t.z ) {
+            output_cache[cur.x][cur.y] = std::max( output_cache[cur.x][cur.y], intensity );
+        }
+
         if( !check( current_transparency, intensity ) ) {
             return false;
         }
@@ -512,7 +526,7 @@ void cast_ray( float (&output_cache)[MAPSIZE*SEEX][MAPSIZE*SEEY],
         return true;
     };
 
-    split_bresenham( f, t, 0, 0, ray );
+    bresenham( f, t, 0, 0, ray );
 }
 
 /**
@@ -564,18 +578,27 @@ void map::build_seen_cache( const tripoint &origin, const int target_z )
             seen_cache[origin.x][origin.y] = LIGHT_TRANSPARENCY_CLEAR;
         }
 
+        // Cache the caches (pointers to them)
+        std::array<const float (*)[MAPSIZE*SEEX][MAPSIZE*SEEY], OVERMAP_LAYERS> transparency_caches;
+        const int minz = std::min( origin.z, target_z );
+        const int maxz = std::max( origin.z, target_z );
+        for( int z = minz; z <= maxz; z++ ) {
+            const auto &cur_cache = get_cache( z );
+            transparency_caches[z + OVERMAP_DEPTH] = &cur_cache.transparency_cache;
+        }
+
         const auto floor_check = [this]( const tripoint &p ) {
             const tripoint below( p.x, p.y, p.z - 1 );
-            return !valid_move( p, below, false, true );
+            return valid_move( p, below, false, true );
         };
 
-        // Raycasting, as opposed to shadowcasting for 2D
+        // Raycasting, as opposed to shadowcasting for 2D (just for now)
         const int range = g->u.sight_range( ambient_light_at( g->u.pos() ) );
         const tripoint start( g->u.posx() - range, g->u.posy() - range, target_z );
         const tripoint end  ( g->u.posx() + range, g->u.posy() + range, target_z );
         for( const tripoint &pt : points_in_rectangle( start, end ) ) {
             cast_ray<sight_calc, sight_check>(
-                seen_cache, transparency_cache, floor_check, origin, pt, 0, 1.0f );
+                seen_cache, transparency_caches, floor_check, origin, pt, 0, 1.0f );
         }
 
         // No vehicles yet
