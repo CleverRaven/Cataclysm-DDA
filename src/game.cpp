@@ -12295,6 +12295,8 @@ void game::place_player( const tripoint &dest_loc )
 
     u.setpos( dest_loc );
     update_map( &u );
+    // Important: don't use dest_loc after this line. `update_map` may have shifted the map
+    // and dest_loc was not adjusted and therefor is still in the un-shifted system and probably wrong.
 
     //Autopickup
     if (OPTIONS["AUTO_PICKUP"] && (!OPTIONS["AUTO_PICKUP_SAFEMODE"] || mostseen == 0) &&
@@ -12316,19 +12318,19 @@ void game::place_player( const tripoint &dest_loc )
     u.ma_onmove_effects();
 
     // Drench the player if swimmable
-    if( m.has_flag( "SWIMMABLE", dest_loc ) ) {
+    if( m.has_flag( "SWIMMABLE", u.pos() ) ) {
         u.drench( 40, mfb(bp_foot_l) | mfb(bp_foot_r) | mfb(bp_leg_l) | mfb(bp_leg_r), false );
     }
 
     // List items here
-    if( !m.has_flag( "SEALED", dest_loc ) ) {
-        if ((u.has_effect("blind") || u.worn_with_flag("BLIND")) && !m.i_at(dest_loc).empty()) {
+    if( !m.has_flag( "SEALED", u.pos() ) ) {
+        if ((u.has_effect("blind") || u.worn_with_flag("BLIND")) && !m.i_at(u.pos()).empty()) {
             add_msg(_("There's something here, but you can't see what it is."));
-        } else if( m.has_items(dest_loc) ) {
+        } else if( m.has_items(u.pos()) ) {
             std::vector<std::string> names;
             std::vector<size_t> counts;
             std::vector<item> items;
-            for( auto &tmpitem : m.i_at( dest_loc ) ) {
+            for( auto &tmpitem : m.i_at( u.pos() ) ) {
 
                 std::string next_tname = tmpitem.tname();
                 std::string next_dname = tmpitem.display_name();
