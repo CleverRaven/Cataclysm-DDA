@@ -8589,7 +8589,7 @@
     "color": "dark_gray",
     "name": "survival knife",
     "name_plural": "survival knives",
-    "description": "This massive combat knife features a hollow handle with a compass built into the pommel and a row of fearsome looking saw teeth along the back of its blade.  Being a Bowie knife on steroids, it is too large for most sheaths.",
+    "description": "This massive Bowie knife features a hollow handle with a compass built into the pommel and a row of fearsome looking saw teeth along the back of its blade.  It is too large for most sheaths.",
     "price": 2000,
     "material": ["steel", "plastic"],
     "flags" : ["STAB", "SHEATH_SWORD"],
