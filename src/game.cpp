@@ -6201,11 +6201,14 @@ void game::do_blast( const tripoint &p, const int power, const bool fire )
             const std::string hit_part_name = body_part_name_accusative( blp.bp );
             const auto dmg_instance = damage_instance( DT_BASH, part_dam, 0, 0.5f );
             const auto result = pl->deal_damage( nullptr, blp.bp, dmg_instance );
+            const int res_dmg = result.total_damage();
 
             add_msg( m_debug, "%s for %d raw, %d actual",
-                     hit_part_name.c_str(), part_dam, result.total_damage() );
-            pl->add_msg_if_player( m_bad, _("Your %s is hit for %d damage!"),
-                     hit_part_name.c_str(), result.total_damage() );
+                     hit_part_name.c_str(), part_dam, res_dmg );
+            if( res_dmg > 0 ) {
+                pl->add_msg_if_player( m_bad, _("Your %s is hit for %d damage!"),
+                                       hit_part_name.c_str(), res_dmg );
+            }
         }
     }
 }
