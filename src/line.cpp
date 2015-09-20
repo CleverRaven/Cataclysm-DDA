@@ -226,16 +226,16 @@ std::vector <tripoint> line_to(const tripoint &loc1, const tripoint &loc2, int t
     return line;
 }
 
-int trig_dist(const int x1, const int y1, const int x2, const int y2)
+float trig_dist(const int x1, const int y1, const int x2, const int y2)
 {
     return trig_dist(tripoint(x1, y1, 0), tripoint(x2, y2, 0));
 }
 
-int trig_dist(const tripoint &loc1, const tripoint &loc2)
+float trig_dist(const tripoint &loc1, const tripoint &loc2)
 {
-    return int (sqrt(double((loc1.x - loc2.x) * (loc1.x - loc2.x)) +
-                     ((loc1.y - loc2.y) * (loc1.y - loc2.y)) +
-                     ((loc1.z - loc2.z) * (loc1.z - loc2.z))));
+    return sqrt(double((loc1.x - loc2.x) * (loc1.x - loc2.x)) +
+                ((loc1.y - loc2.y) * (loc1.y - loc2.y)) +
+                ((loc1.z - loc2.z) * (loc1.z - loc2.z)));
 }
 
 int square_dist(const int x1, const int y1, const int x2, const int y2)

@@ -6336,6 +6336,10 @@ void vehicle::update_time( const calendar &update_to )
         double rain_amount = 0.0;
         // TODO: double acid_amount = 0.0;
         for( int part : funnels ) {
+            if( parts[part].hp <= 0 ) {
+                continue;
+            }
+
             const tripoint part_loc = veh_loc + parts[part].precalc[0];
             if( !is_sm_tile_outside( part_loc ) ) {
                 continue;
