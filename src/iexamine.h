@@ -9,6 +9,7 @@
 #define IEXAMINE_H
 
 #include <string>
+#include <list>
 
 #include "string_id.h"
 
@@ -17,6 +18,7 @@ class item;
 class player;
 class map;
 struct tripoint;
+struct itype;
 struct mtype;
 using mtype_id = string_id<mtype>;
 
@@ -94,6 +96,16 @@ void sign( player *p, map *m, const tripoint &examp );
 void pay_gas( player *p, map *m, const tripoint &examp );
 void climb_down( player *p, map *m, const tripoint &examp );
 
+/**
+ * Items that appear when a generic plant is harvested. Seed @ref islot_seed.
+ * @param type The seed type, must have a @ref itype::seed slot.
+ * @param plant_count Number of fruits to generate.
+ * @param seed_count Number of seeds to generate.
+ * @param byproducts If true, byproducts (like straw, withered plants, see
+ * @ref islot_seed::byproducts) are included.
+ */
+std::list<item> get_harvest_items( const itype &type, int plant_count,
+                                   int seed_count, bool byproducts );
 } //namespace iexamine
 
 using iexamine_function = void ( * )( player *, map *, const tripoint & );
