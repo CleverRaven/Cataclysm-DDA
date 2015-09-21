@@ -1073,10 +1073,12 @@ void vehicle::use_controls()
                        _("Turn off camera system") : _("Turn on camera system") );
     }
     if( has_plow ){
-        menu.addentry( toggle_plow, true, MENU_AUTOASSIGN, _("Toggle Plow"));
+        menu.addentry( toggle_plow, true, MENU_AUTOASSIGN, plow_on ?
+                       _("Turn plow off") : _("Turn plow on") );
     }
     if( has_planter ){
-        menu.addentry( toggle_planter, true, 'P', _("Toggle Planter"));
+        menu.addentry( toggle_planter, true, 'P', planter_on ?
+                       _("Turn planter off") : _("Turn planter on") );
     }
     if( has_scoop ) {
         menu.addentry( toggle_scoop, true, 'S', scoop_on ?
