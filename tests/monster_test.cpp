@@ -28,18 +28,26 @@ int turns_to_destination( const std::string &monster_type,
     // Get it riled up.
     test_monster.anger = 100;
     test_monster.set_moves( 0 );
-    int turn = 0;
-    for( ; test_monster.pos() != test_monster.move_target() && turn < 1000; ++turn ) {
-        test_monster.mod_moves( test_monster.get_speed() );
+    const int monster_speed = test_monster.get_speed();
+    int moves_spent = 0;
+    for( int turn = 0; turn < 1000; ++turn ) {
+        test_monster.mod_moves( monster_speed );
         while( test_monster.moves >= 0 ) {
+            int moves_before = test_monster.moves;
             test_monster.move();
+            moves_spent += moves_before - test_monster.moves;
+            if( test_monster.pos() == test_monster.move_target() ) {
+                g->remove_zombie( 0 );
+                return moves_spent;
+            }
         }
     }
     g->remove_zombie( 0 );
-    return turn;
+    // Return an unreasonably high number.
+    return 100000;
 }
 
-class stat {
+class statistics {
 private:
     int _n;
     int _sum;
@@ -47,7 +55,7 @@ private:
     int _min;
 
 public:
-    stat() : _n(0), _sum(0), _max(INT_MIN), _min(INT_MAX) {}
+    statistics() : _n(0), _sum(0), _max(INT_MIN), _min(INT_MAX) {}
     
     void add( int new_val ) {
         _n++;
@@ -75,7 +83,7 @@ void check_shamble_speed( const std::string monster_type, const tripoint &destin
     const float mon_speed = (float)monster( mtype_id( monster_type ) ).get_speed();
     INFO( monster_type << " " << destination );
     // Wandering makes things nondeterministic, so look at the distribution rather than a target number.
-    stat move_stats;
+    statistics move_stats;
     for( int i = 0; i < 10; ++i ) {
         move_stats.add( turns_to_destination( monster_type, {0, 0, 0}, destination ) );
         if( ((move_stats.avg() * mon_speed) / (10000.0 * diagonal_multiplier)) ==
