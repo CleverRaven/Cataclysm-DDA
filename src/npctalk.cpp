@@ -537,10 +537,10 @@ void npc::talk_to_u()
     // This is necessary so that we don't bug the player over and over
     if( attitude == NPCATT_TALK ) {
         attitude = NPCATT_NULL;
-    } else if( attitude == NPCATT_FLEE && has_mind_control ) {
+    } else if( attitude == NPCATT_FLEE && !has_mind_control ) {
         add_msg(_("%s is fleeing from you!"), name.c_str());
         return;
-    } else if( attitude == NPCATT_KILL && has_mind_control ) {
+    } else if( attitude == NPCATT_KILL && !has_mind_control ) {
         add_msg(_("%s is hostile!"), name.c_str());
         return;
     }

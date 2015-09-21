@@ -11576,15 +11576,22 @@ void game::read()
 void game::chat()
 {
     std::vector<npc *> available;
-    uimenu nmenu;
-    nmenu.text = std::string( _("Who do you want to talk to?") );
-
     for( auto &elem : active_npc ) {
         if( u.sees( elem->pos() ) &&
             rl_dist( u.pos(), elem->pos() ) <= 24 ) {
             available.push_back( elem );
         }
     }
+
+    if( available.size() == 1 ) {
+        available[0]->talk_to_u();
+        u.moves -= 100;
+        refresh_all();
+        return;
+    }
+
+    uimenu nmenu;
+    nmenu.text = std::string( _("Who do you want to talk to?") );
 
     int i = 0;
     for( auto &elem : available ) {
