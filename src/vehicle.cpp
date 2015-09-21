@@ -3881,6 +3881,10 @@ void vehicle::operate_reaper(){
             continue;
         }
         const itype &type = *g->m.i_at(reaper_pos).front().type;
+        if( type.id == "fungal_seeds" || type.id == "marloss_seed" ) {
+            // Otherworldly plants, the earth-made reaper can not handle those.
+            continue;
+        }
         g->m.furn_set( reaper_pos, f_null );
         g->m.i_clear( reaper_pos );
         for( auto &i : iexamine::get_harvest_items( type, plant_produced, seed_produced, false ) ) {
