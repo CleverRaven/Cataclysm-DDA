@@ -3877,23 +3877,14 @@ void vehicle::operate_reaper(){
         const tripoint reaper_pos = veh_start + parts[reaper_id].precalc[0];
         const int plant_produced =  rng( 1, parts[reaper_id].info().bonus );
         const int seed_produced = rng(1, 3);
-        item tmp;
         if( g->m.furn(reaper_pos) != f_plant_harvest ){
             continue;
         }
-        islot_seed &seed_data = *g->m.i_at(reaper_pos).front().type->seed;
-        const std::string &seedType = g->m.i_at(reaper_pos).front().typeId();
+        const itype &type = *g->m.i_at(reaper_pos).front().type;
         g->m.furn_set( reaper_pos, f_null );
         g->m.i_clear( reaper_pos );
-        if( seed_data.spawn_seeds ){
-            tmp = item( seedType, calendar::turn );
-            for( int j = 0; j < seed_produced; j++ ) {
-                g->m.add_item_or_charges(reaper_pos, tmp);
-            }
-        }
-        tmp = item( seed_data.fruit_id, calendar::turn );
-        for( int j = 0; j < plant_produced; j++ ){
-            g->m.add_item_or_charges( reaper_pos, tmp );
+        for( auto &i : iexamine::get_harvest_items( type, plant_produced, seed_produced, false ) ) {
+            g->m.add_item_or_charges( reaper_pos, i );
         }
     }
 }
