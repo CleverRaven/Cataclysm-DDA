@@ -3839,8 +3839,8 @@ void map::shoot( const tripoint &p, projectile &proj, const bool hit_items )
                     g->explosion( p, 40, 0, true);
                 } else {
                     for( const tripoint &pt : points_in_radius( p, 2 ) ) {
-                        if( one_in( 3 ) && move_cost( tmp ) > 0 ) {
-                            spawn_item( tmp, "gasoline" );
+                        if( one_in( 3 ) && move_cost( pt ) > 0 ) {
+                            spawn_item( pt, "gasoline" );
                         }
                     }
 
