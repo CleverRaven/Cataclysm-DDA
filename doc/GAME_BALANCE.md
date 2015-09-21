@@ -121,9 +121,9 @@ Damage per turn should put the weapon into one of those categories:
 
 11-15 - Tools not meant to strike and improvised weapons. Two-by-fours, pointy sticks, pipes, hammers.
 
-16-25 - Dangerous tools or weak dedicated weapons. Golf clubs, two-by-swords, wooden spears, knife spears, hatchets, switchblades, tonfas, quarterstaves.
+16-25 - Dangerous tools or crude dedicated weapons. Golf clubs, two-by-swords, wooden spears, knife spears, hatchets, switchblades, tonfas, quarterstaves.
 
-26-35 - The most dangerous of tools that aren't made to be weapons. Wood and fire axes, steel spears, electric carvers, kukris, bokken, machetes, barbed wire bats.
+26-35 - Good dedicated weapons or the most dangerous of tools. Wood and fire axes, steel spears, electric carvers, kukris, bokken, machetes, barbed wire bats.
 
 36-45 - Weapons of war, well designed to kill humans. Wakizashis, katanas, broadswords, zweihanders, combat knifes, battle axes, war hammers, maces, morningstars.
 
