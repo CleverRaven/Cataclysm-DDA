@@ -385,6 +385,14 @@ class Character : public Creature
         item remove_weapon();
         void remove_mission_items(int mission_id);
 
+        /**
+         * Returns the items that are ammo and have the matching ammo type.
+         */
+        std::vector<const item *> get_ammo( const ammotype &at ) const;
+
+        /** Returns true if the character's current weapon can be reloaded (ammo must be available). */
+        bool can_reload();
+
         int weight_carried() const;
         int volume_carried() const;
         int weight_capacity() const override;
