@@ -541,18 +541,14 @@ action_id handle_action_menu()
     std::map<action_id, int> action_weightings;
 
     // Check if we're in a potential combat situation, if so, sort a few actions to the top.
-    {
-        std::vector<Creature *> enemies_visible = g->u.get_hostile_creatures();
-
-        if(enemies_visible.size()) {
-            // Only prioritize movement options if we're not driving.
-            if(!g->u.controlling_vehicle) {
-                action_weightings[ACTION_TOGGLE_MOVE] = 400;
-            }
-            // Only prioritize fire weapon options if we're wielding a ranged weapon.
-            if(g->u.weapon.is_gun() || g->u.weapon.has_flag( "REACH_ATTACK" ) ) {
-                action_weightings[ACTION_FIRE] = 350;
-            }
+    if(!g->u.get_hostile_creatures().empty()) {
+        // Only prioritize movement options if we're not driving.
+        if(!g->u.controlling_vehicle) {
+            action_weightings[ACTION_TOGGLE_MOVE] = 400;
+        }
+        // Only prioritize fire weapon options if we're wielding a ranged weapon.
+        if(g->u.weapon.is_gun() || g->u.weapon.has_flag( "REACH_ATTACK" ) ) {
+            action_weightings[ACTION_FIRE] = 350;
         }
     }
 
