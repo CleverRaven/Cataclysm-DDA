@@ -137,5 +137,37 @@
         ],
         "pre_flags" : [ "DIGGABLE", "FLAT" ],
         "post_terrain" : "t_raincatcher"
+    },{
+        "type" : "construction",
+        "description" : "Build Door Curtain",
+        "category" : "CONSTRUCT",
+        "difficulty" : 1,
+        "time" : 30,
+        "qualities": [ [
+            { "id": "HAMMER", "level": 2 }
+        ] ],
+        "components" : [
+            [ [ "nail", 4 ], [ "pointy_stick", 2 ], [ "spike", 2 ] ],
+            [ [ "sheet", 2 ] ],
+            [ [ "stick", 1 ] ],
+            [ [ "string_36", 1 ] ]
+        ],
+        "pre_special" : "check_empty",
+        "post_terrain" : "t_door_curtain_c"
+    },{
+        "type" : "construction",
+        "description" : "Build Makeshift Door",
+        "category" : "CONSTRUCT",
+        "difficulty" : 2,
+        "time" : 30,
+        "qualities": [ [
+            { "id": "CUT", "level": 1 }
+        ] ],
+        "components" : [
+            [ [ "2x4", 6 ], [ "stick", 6 ] ],
+            [ [ "rope_6", 2 ] ]
+        ],
+        "pre_terrain" : "t_door_frame",
+        "post_terrain" : "t_door_makeshift_c"
     }
   ]
