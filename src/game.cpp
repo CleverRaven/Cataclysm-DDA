@@ -13124,7 +13124,7 @@ void game::vertical_move(int movez, bool force)
 
     map &maybetmp = m.has_zlevels() ? m : *( tmp_map_ptr.get() );
     if( m.has_zlevels() ) {
-        maybetmp.vertical_shift( z_after );
+        // We no longer need to shift the map here! What joy
     } else {
         maybetmp.load(get_levx(), get_levy(), z_after, false);
     }
@@ -13139,11 +13139,6 @@ void game::vertical_move(int movez, bool force)
     }
 
     if( !actually_moved ) {
-        if( m.has_zlevels() ) {
-            // Have to undo the map shift
-            m.vertical_shift( z_before );
-        }
-
         return;
     }
 
