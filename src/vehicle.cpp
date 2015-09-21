@@ -3874,11 +3874,10 @@ void vehicle::operate_plow(){
 void vehicle::operate_reaper(){
     const tripoint &veh_start = global_pos3();
     for( const int reaper_id : all_parts_with_feature( "REAPER" ) ){
-        const tripoint start_reaper = veh_start + parts[reaper_id].precalc[0];
+        const tripoint reaper_pos = veh_start + parts[reaper_id].precalc[0];
         const int plant_produced =  rng( 1, parts[reaper_id].info().bonus );
         const int seed_produced = rng(1, 3);
         item tmp;
-        const tripoint &reaper_pos = start_reaper + parts[reaper_id].precalc[0];
         if( g->m.furn(reaper_pos) != f_plant_harvest ){
             continue;
         }
