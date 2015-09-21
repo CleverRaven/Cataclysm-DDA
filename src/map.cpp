@@ -817,9 +817,6 @@ void map::move_vehicle( vehicle &veh, const tripoint &dp, const tileray &facing 
             veh.skidding = true;
             veh.turn( coll_turn );
         }
-        // accept new position
-        // if submap changed, we need to process grid from the beginning.
-        // TODO: Allow vehicles to get displaced vertically
         veh.on_move();
         // Actually change position
         displace_vehicle( pt, dp );
