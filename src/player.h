@@ -404,8 +404,6 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         bool is_quiet() const;
         /** Returns true if the current martial art works with the player's current weapon */
         bool can_melee() const;
-        /** Returns true if the player's current weapon can be reloaded (ammo must be available). */
-        bool can_reload();
         /** Always returns false, since players can't dig currently */
         bool digging() const override;
         /** Returns true if the player is knocked over or has broken legs */
@@ -858,10 +856,6 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
          */
         bool has_item(const item *it) const;
         bool has_mission_item(int mission_id) const; // Has item with mission_id
-        /**
-         * Returns the items that are ammo and have the matching ammo type.
-         */
-        std::vector<const item *> get_ammo( const ammotype &at ) const;
         /**
          * Check whether the player has a gun that uses the given type of ammo.
          */

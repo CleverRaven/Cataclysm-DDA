@@ -1810,14 +1810,6 @@ bool player::digging() const
     return false;
 }
 
-bool player::can_reload()
-{
-    if (!weapon.is_gun()) {
-        return false;
-    }
-    return (weapon.charges < weapon.type->gun->clip && get_ammo(weapon.ammo_type()).size() > 0);
-}
-
 bool player::is_on_ground() const
 {
     return hp_cur[hp_leg_l] == 0 || hp_cur[hp_leg_r] == 0 || has_effect("downed");
@@ -13162,13 +13154,6 @@ void player::cancel_activity()
         backlog.push_front( activity );
     }
     activity = player_activity();
-}
-
-std::vector<const item *> player::get_ammo( const ammotype &at ) const
-{
-    return items_with( [at]( const item & it ) {
-        return it.is_ammo() && it.ammo_type() == at;
-    } );
 }
 
 bool player::has_gun_for_ammo( const ammotype &at ) const
