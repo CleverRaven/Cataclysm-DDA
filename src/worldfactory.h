@@ -59,6 +59,12 @@ class worldfactory
 
         void remove_world(std::string worldname);
         bool valid_worldname(std::string name, bool automated = false);
+
+        /** World need CDDA build with Lua support
+         * @param World name to test
+         * @return True if world can't be loaded without Lua support. False otherwise. (When LUA is defined it's allways false).
+        */
+        bool world_need_lua_build(std::string world_name);
     protected:
     private:
         std::string pick_random_name();

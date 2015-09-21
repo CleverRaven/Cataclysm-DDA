@@ -900,7 +900,7 @@ void monster::absorb_hit(body_part, damage_instance &dam) {
 }
 
 void monster::melee_attack(Creature &target, bool, const matec_id&) {
-    mod_moves(-100);
+    mod_moves( -type->attack_cost );
     if (type->melee_dice == 0) { // We don't attack, so just return
         return;
     }
@@ -1027,7 +1027,7 @@ void monster::melee_attack(Creature &target, bool, const matec_id&) {
 void monster::hit_monster(monster &other)
 {
     // TODO: Unify this with the function above
-    moves -= 100;
+    mod_moves( -type->attack_cost );
 
     if( this == &other ) {
         return;
@@ -1664,14 +1664,14 @@ void monster::die(Creature* nkiller) {
     }
 
     if (anger_adjust != 0 || morale_adjust != 0) {
-        int light = g->light_level();
+        int light = g->light_level( posz() );
         for (size_t i = 0; i < g->num_zombies(); i++) {
             monster &critter = g->zombie( i );
             if( !critter.type->same_species( *type ) ) {
                 continue;
             }
 
-            if( g->m.sees( critter.pos3(), pos3(), light ) ) {
+            if( g->m.sees( critter.pos(), pos(), light ) ) {
                 critter.morale += morale_adjust;
                 critter.anger += anger_adjust;
             }

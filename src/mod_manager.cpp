@@ -190,6 +190,12 @@ void mod_manager::load_modfile(JsonObject &jo, const std::string &main_path)
         // "<folder-of-modinfo.json>/data"
         m_path = main_path + "/data";
     }
+
+    bool m_need_lua = jo.get_bool("with-lua", false);
+    if ( file_exist(m_path + "/main.lua") || file_exist(m_path + "/preload.lua") ) {
+        m_need_lua = true;
+    }
+
     std::vector<std::string> m_dependencies;
 
     if (jo.has_member("dependencies") && jo.has_array("dependencies")) {
@@ -225,6 +231,7 @@ void mod_manager::load_modfile(JsonObject &jo, const std::string &main_path)
     modfile->description = m_desc;
     modfile->dependencies = m_dependencies;
     modfile->path = m_path;
+    modfile->need_lua = m_need_lua;
 
     mod_map[modfile->ident] = modfile;
 }

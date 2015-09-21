@@ -113,12 +113,10 @@ struct weather_datum {
     void (*effect)();       //!< Function pointer for weather effects.
 };
 
-struct rainfall_data {
+struct weather_sum {
     int rain_amount = 0;
     int acid_amount = 0;
-
-    int rain_turns = 0;
-    int acid_turns = 0;
+    float sunlight = 0.0f;
 };
 
 std::string const& season_name(int season);
@@ -143,7 +141,7 @@ int get_local_humidity(double humidity, weather_type weather, bool sheltered = f
 int get_local_windpower(double windpower, std::string const &omtername = "no name",
                         bool sheltered = false);
 
-rainfall_data get_rainfall( const calendar &startturn,
+weather_sum sum_conditions( const calendar &startturn,
                             const calendar &endturn,
                             const tripoint &location );
 

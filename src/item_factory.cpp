@@ -1,4 +1,4 @@
-﻿#include "item_factory.h"
+#include "item_factory.h"
 #include "enums.h"
 #include "json.h"
 #include "addiction.h"
@@ -16,6 +16,8 @@
 #include "bionics.h"
 #include "material.h"
 #include "artifact.h"
+#include "veh_type.h"
+
 #include <algorithm>
 #include <sstream>
 
@@ -86,6 +88,15 @@ void Item_factory::finialize_item_blacklist()
         remove_construction_if([&](construction &c) {
             return c.requirements.remove_item(itm);
         });
+    }
+
+    for( auto &vid : vehicle_prototype::get_all() ) {
+        vehicle_prototype &prototype = const_cast<vehicle_prototype&>( vid.obj() );
+        for( vehicle_item_spawn &vis : prototype.item_spawns ) {
+            auto &vec = vis.item_ids;
+            const auto iter = std::remove_if( vec.begin(), vec.end(), item_is_blacklisted );
+            vec.erase( iter, vec.end() );
+        }
     }
 }
 
@@ -194,7 +205,6 @@ void Item_factory::init()
     iuse_function_list["TWO_WAY_RADIO"] = &iuse::two_way_radio;
     iuse_function_list["RADIO_OFF"] = &iuse::radio_off;
     iuse_function_list["RADIO_ON"] = &iuse::radio_on;
-    iuse_function_list["HORN_BICYCLE"] = &iuse::horn_bicycle;
     iuse_function_list["NOISE_EMITTER_OFF"] = &iuse::noise_emitter_off;
     iuse_function_list["NOISE_EMITTER_ON"] = &iuse::noise_emitter_on;
     iuse_function_list["MA_MANUAL"] = &iuse::ma_manual;
@@ -274,7 +284,6 @@ void Item_factory::init()
     iuse_function_list["JET_INJECTOR"] = &iuse::jet_injector;
     iuse_function_list["STIMPACK"] = &iuse::stimpack;
     iuse_function_list["CONTACTS"] = &iuse::contacts;
-    iuse_function_list["AIRHORN"] = &iuse::airhorn;
     iuse_function_list["HOTPLATE"] = &iuse::hotplate;
     iuse_function_list["DOLLCHAT"] = &iuse::talking_doll;
     iuse_function_list["BELL"] = &iuse::bell;
@@ -301,6 +310,7 @@ void Item_factory::init()
     iuse_function_list["HAIRKIT"]  = &iuse::hairkit;
     iuse_function_list["WEATHER_TOOL"] = &iuse::weather_tool;
     iuse_function_list["REMOVE_ALL_MODS"] = &iuse::remove_all_mods;
+    iuse_function_list["LADDER"] = &iuse::ladder;
 
     // MACGUFFINS
     iuse_function_list["MCG_NOTE"] = &iuse::mcg_note;
@@ -606,7 +616,7 @@ void Item_factory::load( islot_ammo &slot, JsonObject &jo )
     slot.type = jo.get_string( "ammo_type" );
     slot.casing = jo.get_string( "casing", "NULL" );
     slot.damage = jo.get_int( "damage" );
-    slot.pierce = jo.get_int( "pierce" );
+    slot.pierce = jo.get_int( "pierce", 0 );
     slot.range = jo.get_int( "range" );
     slot.dispersion = jo.get_int( "dispersion" );
     slot.recoil = jo.get_int( "recoil" );
@@ -707,17 +717,9 @@ void Item_factory::load( islot_armor &slot, JsonObject &jo )
     slot.encumber = jo.get_int( "encumbrance" );
     slot.coverage = jo.get_int( "coverage" );
     slot.thickness = jo.get_int( "material_thickness" );
-    // TODO (as of may 2014): sometimes in the future: remove this if clause and accept
-    // only "environmental_protection" and not "enviromental_protection".
-    if( jo.has_member( "enviromental_protection" ) ) {
-        debugmsg( "the item property \"enviromental_protection\" has been renamed to \"environmental_protection\"\n"
-                  "please change the json data for item %d", jo.get_string( "id", "" ).c_str() );
-        slot.env_resist = jo.get_int( "enviromental_protection" );
-    } else {
-        slot.env_resist = jo.get_int( "environmental_protection" );
-    }
-    slot.warmth = jo.get_int( "warmth" );
-    slot.storage = jo.get_int( "storage" );
+    slot.env_resist = jo.get_int( "environmental_protection", 0 );
+    slot.warmth = jo.get_int( "warmth", 0 );
+    slot.storage = jo.get_int( "storage", 0 );
     slot.power_armor = jo.get_bool( "power_armor", false );
     slot.covers = jo.has_member( "covers" ) ? flags_from_json( jo, "covers", "bodyparts" ) : 0;
     slot.sided = jo.has_member( "covers" ) ? flags_from_json( jo, "covers", "sided" ) : 0;
@@ -1457,6 +1459,8 @@ void Item_factory::set_uses_from_object(JsonObject obj, std::vector<use_function
         newfun = load_actor<fireweapon_off_actor>( obj );
     } else if( type == "fireweapon_on" ) {
         newfun = load_actor<fireweapon_on_actor>( obj );
+    } else if( type == "manualnoise" ) {
+        newfun = load_actor<manualnoise_actor>( obj );
     } else if( type == "musical_instrument" ) {
         newfun = load_actor<musical_instrument_actor>( obj );
     } else if( type == "knife" ) {

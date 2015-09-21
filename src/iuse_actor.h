@@ -534,6 +534,26 @@ class fireweapon_on_actor : public iuse_actor
 };
 
 /**
+ * Makes noise of a given volume
+ */
+class manualnoise_actor : public iuse_actor
+{
+    public:
+        std::string no_charges_message;
+        std::string use_message;
+        std::string noise_message;
+        int noise; // Should work even with no volume, even if it seems impossible
+        int moves;
+
+        manualnoise_actor() : iuse_actor(), noise(0), moves(0) { }
+        virtual ~manualnoise_actor() { }
+        virtual void load( JsonObject &jo );
+        virtual long use( player*, item*, bool, const tripoint& ) const override;
+        virtual bool can_use( const player*, const item*, bool, const tripoint& ) const override;
+        virtual iuse_actor *clone() const override;
+};
+
+/**
  * Plays music
  */
 class musical_instrument_actor : public iuse_actor

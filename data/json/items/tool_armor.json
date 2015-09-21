@@ -37,9 +37,7 @@
         },
         "covers" : ["HEAD"],
         "techniques" : ["WBLOCK_1"],
-        "storage" : 0,
         "warmth" : 5,
-        "environmental_protection" : 0,
         "encumbrance" : 10,
         "coverage" : 80,
         "material_thickness" : 4
@@ -74,12 +72,41 @@
         },
         "covers" : ["HEAD"],
         "techniques" : ["WBLOCK_1"],
-        "storage" : 0,
         "warmth" : 5,
-        "environmental_protection" : 0,
         "encumbrance" : 10,
         "coverage" : 80,
         "material_thickness" : 4
+    },
+    {
+        "type" : "TOOL_ARMOR",
+        "id" : "game_watch",
+        "name" : "game watch",
+        "name_plural" : "game watches",
+        "volume" : 1,
+        "material_thickness" : 0,
+        "storage" : 0,
+        "description" : "A waterproof digital watch with a built-in electronic game system, powered by standard batteries.  Activate to play.",
+        "weight" : 112,
+        "to_hit" : -1,
+        "color" : "light_gray",
+        "encumbrance" : 0,
+        "price" : 6000,
+        "material" : ["plastic", "null"],
+        "flags" : ["WATCH", "WATER_FRIENDLY"],
+        "coverage" : 1,
+        "symbol" : "[",
+        "bashing" : 0,
+        "cutting" : 0,
+        "warmth" : 0,
+        "environmental_protection" : 0,
+        "phase" : "solid",
+        "ammo": "battery",
+        "revert_to": "null",
+        "use_action": "PORTABLE_GAME",
+        "max_charges": 60,
+        "initial_charges": 60,
+        "charges_per_use": 0,
+        "turns_per_charge": 0
     },
     {
         "type" : "TOOL_ARMOR",
@@ -100,7 +127,6 @@
             "type": "consume_drug",
             "activation_message": "You tip your fedora."
         },
-        "storage" : 0,
         "symbol" : "[",
         "description" : "A high-crowned, wide-brimmed, sable colored fedora.  Its brim helps keep the sun out of your eyes.  The perfect hat for treasure hunting.",
         "price" : 7500,
@@ -148,9 +174,7 @@
             "need_charges_msg": "The %s's batteries are dead."
         },
         "covers" : ["FEET"],
-        "storage" : 0,
         "warmth" : 10,
-        "environmental_protection" : 0,
         "encumbrance" : 0,
         "coverage" : 100,
         "material_thickness" : 1
@@ -184,9 +208,7 @@
             "target": "thermal_socks"
         },
         "covers" : ["FEET"],
-        "storage" : 0,
         "warmth" : 60,
-        "environmental_protection" : 0,
         "encumbrance" : 0,
         "coverage" : 100,
         "material_thickness" : 1
@@ -222,9 +244,7 @@
             "need_charges_msg": "The %s's batteries are dead."
         },
         "covers" : ["TORSO", "ARMS", "LEGS"],
-        "storage" : 0,
         "warmth" : 10,
-        "environmental_protection" : 0,
         "encumbrance" : 0,
         "coverage" : 100,
         "material_thickness" : 1
@@ -258,9 +278,7 @@
             "target": "thermal_suit"
         },
         "covers" : ["TORSO", "ARMS", "LEGS"],
-        "storage" : 0,
         "warmth" : 60,
-        "environmental_protection" : 0,
         "encumbrance" : 0,
         "coverage" : 100,
         "material_thickness" : 1
@@ -297,9 +315,7 @@
             "need_charges_msg": "The %s's batteries are dead."
         },
         "covers" : ["HANDS"],
-        "storage" : 0,
         "warmth" : 10,
-        "environmental_protection" : 0,
         "encumbrance" : 0,
         "coverage" : 100,
         "material_thickness" : 1
@@ -333,9 +349,7 @@
             "target": "thermal_gloves"
         },
         "covers" : ["HANDS"],
-        "storage" : 0,
         "warmth" : 60,
-        "environmental_protection" : 0,
         "encumbrance" : 0,
         "coverage" : 100,
         "material_thickness" : 1
@@ -371,9 +385,7 @@
             "need_charges_msg": "The %s's batteries are dead."
         },
         "covers" : ["HEAD", "MOUTH"],
-        "storage" : 0,
         "warmth" : 10,
-        "environmental_protection" : 0,
         "encumbrance" : 0,
         "coverage" : 100,
         "material_thickness" : 1
@@ -407,9 +419,7 @@
             "target": "thermal_mask"
         },
         "covers" : ["HEAD", "MOUTH"],
-        "storage" : 0,
         "warmth" : 60,
-        "environmental_protection" : 0,
         "encumbrance" : 0,
         "coverage" : 100,
         "material_thickness" : 1
@@ -444,9 +454,7 @@
             "need_charges": 1,
             "need_charges_msg": "The flashlights batteries are dead."
         },
-        "storage" : 0,
         "warmth" : 0,
-        "environmental_protection" : 0,
         "encumbrance" : 0,
         "coverage" : 0,
         "material_thickness" : 2
@@ -479,9 +487,7 @@
             "msg": "The %s flicks off.",
             "target": "wearable_light"
         },
-        "storage" : 0,
         "warmth" : 0,
-        "environmental_protection" : 0,
         "encumbrance" : 0,
         "coverage" : 0,
         "material_thickness" : 2
@@ -517,7 +523,6 @@
             "need_charges_msg": "The %s's batteries are dead."
         },
         "covers" : ["MOUTH", "EYES"],
-        "storage" : 0,
         "warmth" : 30,
         "environmental_protection" : 7,
         "encumbrance" : 40,
@@ -553,7 +558,6 @@
             "target": "mask_bunker"
         },
         "covers" : ["MOUTH", "EYES"],
-        "storage" : 0,
         "warmth" : 15,
         "environmental_protection" : 30,
         "encumbrance" : 20,
@@ -654,7 +658,6 @@
             "need_charges_msg": "The %s's filter is used up."
         },
         "covers" : ["MOUTH"],
-        "storage" : 0,
         "warmth" : 10,
         "environmental_protection" : 1,
         "encumbrance" : 30,
@@ -690,7 +693,6 @@
             "target": "rebreather"
         },
         "covers" : ["MOUTH"],
-        "storage" : 0,
         "warmth" : 10,
         "environmental_protection" : 15,
         "encumbrance" : 20,
@@ -728,7 +730,6 @@
             "need_charges_msg": "The %s's filter is used up."
         },
         "covers" : ["MOUTH"],
-        "storage" : 0,
         "warmth" : 10,
         "environmental_protection" : 1,
         "encumbrance" : 30,
@@ -764,7 +765,6 @@
             "target": "rebreather_xl"
         },
         "covers" : ["MOUTH"],
-        "storage" : 0,
         "warmth" : 10,
         "environmental_protection" : 15,
         "encumbrance" : 20,
@@ -802,7 +802,6 @@
             "need_charges_msg": "The %s's batteries are dead."
         },
         "covers" : ["EYES"],
-        "storage" : 0,
         "warmth" : 10,
         "environmental_protection" : 6,
         "encumbrance" : 40,
@@ -838,7 +837,6 @@
             "target": "goggles_nv"
         },
         "covers" : ["EYES"],
-        "storage" : 0,
         "warmth" : 25,
         "environmental_protection" : 6,
         "encumbrance" : 20,
@@ -876,7 +874,6 @@
             "need_charges_msg": "The %s's batteries are dead."
         },
         "covers" : ["EYES"],
-        "storage" : 0,
         "warmth" : 10,
         "environmental_protection" : 6,
         "encumbrance" : 40,
@@ -912,7 +909,6 @@
             "target": "goggles_ir"
         },
         "covers" : ["EYES"],
-        "storage" : 0,
         "warmth" : 25,
         "environmental_protection" : 6,
         "encumbrance" : 20,
@@ -942,9 +938,7 @@
         "ammo": "ampoule",
         "revert_to": "null",
         "use_action": "JET_INJECTOR",
-        "storage" : 0,
         "warmth" : 0,
-        "environmental_protection" : 0,
         "encumbrance" : 0,
         "coverage" : 0,
         "material_thickness" : 3
@@ -973,9 +967,7 @@
         "ammo": "stimpack_ammo",
         "revert_to": "null",
         "use_action": "STIMPACK",
-        "storage" : 0,
         "warmth" : 0,
-        "environmental_protection" : 0,
         "encumbrance" : 0,
         "coverage" : 0,
         "material_thickness" : 3
@@ -1011,7 +1003,6 @@
             "need_charges_msg": "The %s's filter is used up."
         },
         "covers" : ["MOUTH", "EYES"],
-        "storage" : 0,
         "warmth" : 15,
         "environmental_protection" : 10,
         "encumbrance" : 30,
@@ -1047,7 +1038,6 @@
             "target": "mask_h20survivor"
         },
         "covers" : ["MOUTH", "EYES"],
-        "storage" : 0,
         "warmth" : 15,
         "environmental_protection" : 10,
         "encumbrance" : 20,
@@ -1085,7 +1075,6 @@
             "need_charges_msg": "The %s's filter is used up."
         },
         "covers" : ["MOUTH", "EYES"],
-        "storage" : 0,
         "warmth" : 15,
         "environmental_protection" : 10,
         "encumbrance" : 30,
@@ -1121,7 +1110,6 @@
             "target": "mask_h20survivorxl"
         },
         "covers" : ["MOUTH", "EYES"],
-        "storage" : 0,
         "warmth" : 15,
         "environmental_protection" : 10,
         "encumbrance" : 20,
@@ -1149,9 +1137,7 @@
         "use_action": "UNPACK_ITEM",
         "to_hit": 0,
         "revert_to": "null",
-        "storage" : 0,
         "warmth" : 0,
-        "environmental_protection" : 0,
         "encumbrance" : 0,
         "coverage" : 0,
         "material_thickness" : 0
@@ -1180,7 +1166,6 @@
         "use_action": "PACK_ITEM",
         "covers" : ["TORSO", "ARMS"],
         "flags" : ["WATERPROOF", "RAINPROOF", "HOOD", "OVERSIZE", "OUTER"],
-        "storage" : 0,
         "warmth" : 0,
         "environmental_protection" : 1,
         "encumbrance" : 0,
@@ -1208,9 +1193,7 @@
         "use_action": "UNPACK_ITEM",
         "to_hit": 0,
         "revert_to": "null",
-        "storage" : 0,
         "warmth" : 0,
-        "environmental_protection" : 0,
         "encumbrance" : 0,
         "coverage" : 0,
         "material_thickness" : 0
@@ -1239,7 +1222,6 @@
         "use_action": "PACK_ITEM",
         "covers" : ["TORSO", "ARMS", "HANDS", "LEGS", "FEET"],
         "flags" : ["OVERSIZE", "OUTER"],
-        "storage" : 0,
         "warmth" : 50,
         "environmental_protection" : 1,
         "encumbrance" : 50,
@@ -1268,9 +1250,7 @@
         "ammo": "battery",
         "revert_to": "null",
         "use_action": "RADGLOVE",
-        "storage" : 0,
         "warmth" : 0,
-        "environmental_protection" : 0,
         "encumbrance" : 0,
         "coverage" : 0,
         "material_thickness" : 1
@@ -1292,7 +1272,6 @@
         "cutting" : 0,
         "warmth" : 0,
         "phase" : "solid",
-        "environmental_protection" : 0,
         "encumbrance" : 0,
         "bashing" : -3,
         "flags" : ["VARSIZE", "WATER_FRIENDLY", "STURDY", "WAIST", "OVERSIZE"],
@@ -1327,9 +1306,7 @@
             "type": "picklock",
             "pick_quality": 3
         },
-        "storage" : 0,
         "warmth" : 0,
-        "environmental_protection" : 0,
         "encumbrance" : 0,
         "coverage" : 0,
         "material_thickness" : 0
@@ -1356,9 +1333,7 @@
     "ammo": "NULL",
     "revert_to": "null",
     "use_action": "TOWEL",
-    "storage" : 0,
     "warmth" : 10,
-    "environmental_protection" : 0,
     "encumbrance" : 0,
     "coverage" : 50,
     "material_thickness" : 1
@@ -1386,9 +1361,7 @@
     "revert_to": "towel",
     "use_action": "TOWEL",
     "flags": ["WET"],
-    "storage" : 0,
     "warmth" : 0,
-    "environmental_protection" : 0,
     "encumbrance" : 0,
     "coverage" : 50,
     "material_thickness" : 1
@@ -1415,9 +1388,7 @@
     "revert_to": "towel",
     "use_action": "TOWEL",
     "flags": ["WET"],
-    "storage" : 0,
     "warmth" : 0,
-    "environmental_protection" : 0,
     "encumbrance" : 0,
     "coverage" : 50,
     "material_thickness" : 1
@@ -1441,7 +1412,6 @@
             "type": "consume_drug",
             "activation_message": "You tip your fedora."
         },
-        "storage" : 0,
         "symbol" : "[",
         "description" : "Straw fedora hat, comfortable and stylish.  Its brim helps keep the sun out of your eyes.",
         "price" : 5000,
@@ -1486,7 +1456,6 @@
         "revert_to": "null",
         "covers" : ["MOUTH"],
         "flags" : ["OUTER"],
-        "storage" : 0,
         "warmth" : 20,
         "environmental_protection" : 2,
         "encumbrance" : 0,
@@ -1522,7 +1491,6 @@
         },
         "covers" : ["MOUTH"],
         "flags" : ["OUTER"],
-        "storage" : 0,
         "warmth" : 10,
         "environmental_protection" : 1,
         "encumbrance" : 0,
@@ -1558,7 +1526,6 @@
         "revert_to": "null",
         "covers" : ["MOUTH"],
         "flags" : ["OVERSIZE", "POCKETS", "OUTER"],
-        "storage" : 0,
         "warmth" : 20,
         "environmental_protection" : 2,
         "encumbrance" : 0,
@@ -1594,7 +1561,6 @@
         "revert_to": "long_patchwork_scarf",
         "covers" : ["MOUTH"],
         "flags" : ["OVERSIZE", "POCKETS", "OUTER"],
-        "storage" : 0,
         "warmth" : 10,
         "environmental_protection" : 1,
         "encumbrance" : 0,
@@ -1630,7 +1596,6 @@
         "revert_to": "null",
         "covers" : ["MOUTH"],
         "flags" : ["OUTER"],
-        "storage" : 0,
         "warmth" : 30,
         "environmental_protection" : 2,
         "encumbrance" : 0,
@@ -1666,7 +1631,6 @@
         },
         "covers" : ["MOUTH"],
         "flags" : ["OUTER"],
-        "storage" : 0,
         "warmth" : 15,
         "environmental_protection" : 1,
         "encumbrance" : 0,
@@ -1702,7 +1666,6 @@
         "revert_to": "null",
         "covers" : ["MOUTH"],
         "flags" : ["OVERSIZE", "POCKETS", "OUTER"],
-        "storage" : 0,
         "warmth" : 30,
         "environmental_protection" : 2,
         "encumbrance" : 0,
@@ -1738,7 +1701,6 @@
         "revert_to": "long_knit_scarf",
         "covers" : ["MOUTH"],
         "flags" : ["OVERSIZE", "POCKETS", "OUTER"],
-        "storage" : 0,
         "warmth" : 15,
         "environmental_protection" : 1,
         "encumbrance" : 0,
@@ -1774,7 +1736,6 @@
         "revert_to": "null",
         "covers" : ["MOUTH"],
         "flags" : ["OUTER"],
-        "storage" : 0,
         "warmth" : 50,
         "environmental_protection" : 2,
         "encumbrance" : 0,
@@ -1810,7 +1771,6 @@
         },
         "covers" : ["MOUTH"],
         "flags" : ["OUTER"],
-        "storage" : 0,
         "warmth" : 25,
         "environmental_protection" : 1,
         "encumbrance" : 0,
@@ -1846,7 +1806,6 @@
         "revert_to": "null",
         "covers" : ["MOUTH"],
         "flags" : ["OVERSIZE", "POCKETS", "OUTER"],
-        "storage" : 0,
         "warmth" : 50,
         "environmental_protection" : 2,
         "encumbrance" : 0,
@@ -1882,7 +1841,6 @@
         "revert_to": "scarf_long",
         "covers" : ["MOUTH"],
         "flags" : ["OVERSIZE", "POCKETS", "OUTER"],
-        "storage" : 0,
         "warmth" : 25,
         "environmental_protection" : 1,
         "encumbrance" : 0,
@@ -1918,7 +1876,6 @@
         "revert_to": "null",
         "covers" : ["MOUTH"],
         "flags" : ["OUTER"],
-        "storage" : 0,
         "warmth" : 70,
         "environmental_protection" : 3,
         "encumbrance" : 10,
@@ -1954,7 +1911,6 @@
         },
         "covers" : ["MOUTH"],
         "flags" : ["OUTER"],
-        "storage" : 0,
         "warmth" : 35,
         "environmental_protection" : 2,
         "encumbrance" : 10,
@@ -1990,7 +1946,6 @@
         "revert_to": "null",
         "covers" : ["MOUTH"],
         "flags" : ["OVERSIZE", "POCKETS", "OUTER"],
-        "storage" : 0,
         "warmth" : 70,
         "environmental_protection" : 3,
         "encumbrance" : 10,
@@ -2026,7 +1981,6 @@
         "revert_to": "scarf_fur_long",
         "covers" : ["MOUTH"],
         "flags" : ["OVERSIZE", "POCKETS", "OUTER"],
-        "storage" : 0,
         "warmth" : 35,
         "environmental_protection" : 2,
         "encumbrance" : 0,
@@ -2065,9 +2019,7 @@
             "need_charges_msg": "The %s's batteries are dead."
         },
         "covers" : ["HEAD", "MOUTH", "TORSO", "ARMS", "LEGS", "HANDS", "FEET"],
-        "storage" : 0,
         "warmth" : 10,
-        "environmental_protection" : 0,
         "encumbrance" : 0,
         "coverage" : 100,
         "material_thickness" : 1
@@ -2101,9 +2053,7 @@
             "target": "thermal_outfit"
         },
         "covers" : ["HEAD", "MOUTH", "TORSO", "ARMS", "LEGS", "HANDS", "FEET"],
-        "storage" : 0,
         "warmth" : 60,
-        "environmental_protection" : 0,
         "encumbrance" : 0,
         "coverage" : 100,
         "material_thickness" : 1
@@ -2128,7 +2078,6 @@
             "target": "mask_ski_loose"
         },
         "revert_to": "null",
-        "storage" : 0,
         "symbol" : "[",
         "description" : "A warm wool mask that protects the head and face from cold.  It has a full face opening that can be adjusted to set how much is exposed.",
         "price" : 1800,
@@ -2137,7 +2086,6 @@
         "cutting" : 0,
         "warmth" : 50,
         "phase" : "solid",
-        "environmental_protection" : 0,
         "encumbrance" : 10,
         "bashing" : -5,
         "flags" : ["VARSIZE", "SKINTIGHT"],
@@ -2165,7 +2113,6 @@
             "target": "mask_ski"
         },
         "revert_to": "mask_ski",
-        "storage" : 0,
         "symbol" : "[",
         "description" : "A warm wool mask that protects the head and face from cold.  It has a full face opening that can be adjusted to set how much is exposed.",
         "price" : 1800,
@@ -2174,12 +2121,46 @@
         "cutting" : 0,
         "warmth" : 30,
         "phase" : "solid",
-        "environmental_protection" : 0,
         "encumbrance" : 10,
         "bashing" : -5,
         "flags" : ["VARSIZE", "SKINTIGHT"],
         "coverage" : 60,
         "material_thickness" : 3
+    },
+    {
+        "type" : "TOOL_ARMOR",
+        "id" : "whistle",
+        "name" : "whistle",
+        "volume" : 1,
+        "material_thickness" : 0,
+        "description" : "A simple metal whistle, with a cord to wear it around your neck.",
+        "weight" : 25,
+        "to_hit" : -1,
+        "color" : "light_gray",
+        "encumbrance" : 0,
+        "price" : 200,
+        "material" : ["steel", "cotton"],
+        "flags" : ["WATER_FRIENDLY"],
+        "coverage" : 1,
+        "symbol" : "[",
+        "bashing" : 0,
+        "cutting" : 0,
+        "warmth" : 0,
+        "phase" : "solid",
+        "ammo": "NULL",
+        "revert_to": "null",
+        "use_action": {
+            "type": "manualnoise",
+            "no_charges_message": "Seeing this is an error.",
+            "use_message": "You blow the whistle.", "//": "Use of %s not currently supported.",
+            "noise_message": "FWEEEET!",
+            "noise": 38,
+            "moves": 100
+        },
+        "max_charges": 0,
+        "initial_charges": 0,
+        "charges_per_use": 0,
+        "turns_per_charge": 0
     },
     {
         "type" : "TOOL_ARMOR",
@@ -2209,7 +2190,6 @@
             ]
         },
         "revert_to": "null",
-        "storage" : 0,
         "symbol" : "-",
         "description" : "A harmonica with a holder, so that you can play it without a free hand.",
         "price" : 1000,
@@ -2218,7 +2198,6 @@
         "cutting" : 0,
         "warmth" : 0,
         "phase" : "solid",
-        "environmental_protection" : 0,
         "encumbrance" : 0,
         "bashing" : -5,
         "flags" : ["BELTED"],
@@ -2254,7 +2233,6 @@
             ]
         },
         "revert_to": "null",
-        "storage" : 0,
         "symbol" : "-",
         "description" : "A simple wooden acoustic guitar with a strap so you can wear it around, even when not playing.",
         "price" : 1000,
@@ -2263,7 +2241,6 @@
         "cutting" : 0,
         "warmth" : 2,
         "phase" : "solid",
-        "environmental_protection" : 0,
         "encumbrance" : 27,
         "bashing" : 8,
         "flags" : ["BELTED"],
@@ -2299,7 +2276,6 @@
             ]
         },
         "revert_to": "null",
-        "storage" : 0,
         "symbol" : "-",
         "description" : "A traditional musical instrument using enclosed reeds fed from a reservoir of air contained within a leather bag.  It has a strap so you can wear it around, even when not playing.",
         "price" : 10000,
@@ -2308,7 +2284,6 @@
         "cutting" : 0,
         "warmth" : 0,
         "phase" : "solid",
-        "environmental_protection" : 0,
         "encumbrance" : 15,
         "bashing" : 4,
         "flags" : ["BELTED"],
@@ -2344,7 +2319,6 @@
             ]
         },
         "revert_to": "null",
-        "storage" : 0,
         "symbol" : "&",
         "//~" : "ol' is an informal short-form for old, and here is part of big-ol as large-and-cumbersome.",
         "description" : "A big ol' tuba.  Much easier to play when wearing.",
@@ -2354,7 +2328,6 @@
         "cutting" : 0,
         "warmth" : 0,
         "phase" : "solid",
-        "environmental_protection" : 0,
         "encumbrance" : 30,
         "bashing" : 13,
         "coverage" : 20,
@@ -2389,7 +2362,6 @@
             ]
         },
         "revert_to": "null",
-        "storage" : 0,
         "symbol" : "{",
         "description" : "A brass-plated alto saxophone with a neck strap, so you can wear it while playing.",
         "price" : 7500,
@@ -2398,7 +2370,6 @@
         "cutting" : 0,
         "warmth" : 0,
         "phase" : "solid",
-        "environmental_protection" : 0,
         "encumbrance" : 30,
         "bashing" : 12,
         "coverage" : 20,

@@ -896,10 +896,11 @@ item_location game::inv_map_splice(
     indexed_invslice ground_items_slice;
     indexed_invslice veh_items_slice;
 
-    pseudo_inv_to_slice( m.i_at( g->u.pos() ), ground_filter,
-                         ground_items, ground_items_slice,
-                         ground_selectables, cur_invlet );
-
+    if( !m.has_flag( "SEALED", g->u.pos() ) ) {
+        pseudo_inv_to_slice( m.i_at( g->u.pos() ), ground_filter,
+                             ground_items, ground_items_slice,
+                             ground_selectables, cur_invlet );
+    }
 
     int part = -1;
     vehicle *veh = m.veh_at( g->u.pos(), part );
@@ -1106,28 +1107,29 @@ void game::compare( const tripoint &offset )
 {
     const tripoint examp = u.pos3() + offset;
 
-    auto here = m.i_at( examp );
-    typedef std::vector< std::list<item> > pseudo_inventory;
     pseudo_inventory grounditems;
     indexed_invslice grounditems_slice;
-    //Filter out items with the same name (keep only one of them)
-    std::set<std::string> dups;
-    for (size_t i = 0; i < here.size(); i++) {
-        if (dups.count(here[i].tname()) == 0) {
-            grounditems.push_back(std::list<item>(1, here[i]));
+    if( !m.has_flag( "SEALED", g->u.pos() ) ) {
+        auto here = m.i_at( examp );
+        //Filter out items with the same name (keep only one of them)
+        std::set<std::string> dups;
+        for (size_t i = 0; i < here.size(); i++) {
+            if (dups.count(here[i].tname()) == 0) {
+                grounditems.push_back(std::list<item>(1, here[i]));
 
-            //Only the first 10 items get a invlet
-            if ( grounditems.size() <= 10 ) {
-                // invlet: '0' ... '9'
-                grounditems.back().front().invlet = '0' + grounditems.size() - 1;
+                //Only the first 10 items get a invlet
+                if ( grounditems.size() <= 10 ) {
+                    // invlet: '0' ... '9'
+                    grounditems.back().front().invlet = '0' + grounditems.size() - 1;
+                }
+
+                dups.insert(here[i].tname());
             }
-
-            dups.insert(here[i].tname());
         }
-    }
-    for (size_t a = 0; a < grounditems.size(); a++) {
-        // avoid INT_MIN, as it can be confused with "no item at all"
-        grounditems_slice.push_back(indexed_invslice::value_type(&grounditems[a], INT_MIN + a + 1));
+        for (size_t a = 0; a < grounditems.size(); a++) {
+            // avoid INT_MIN, as it can be confused with "no item at all"
+            grounditems_slice.push_back(indexed_invslice::value_type(&grounditems[a], INT_MIN + a + 1));
+        }
     }
     static const item_category category_on_ground(
         "GROUND:",

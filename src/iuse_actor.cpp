@@ -875,17 +875,17 @@ long extended_firestarter_actor::use( player *p, item *it, bool, const tripoint 
     if( need_sunlight ) {
         // Needs the correct weather, light and to be outside.
         if( (g->weather == WEATHER_CLEAR || g->weather == WEATHER_SUNNY) &&
-            g->natural_light_level() >= 60 && !g->m.has_flag( TFLAG_INDOORS, pos ) ) {
+            g->natural_light_level( pos.z ) >= 60 && !g->m.has_flag( TFLAG_INDOORS, pos ) ) {
             if( prep_firestarter_use(p, it, pos ) ) {
                 // turns needed for activity.
-                const int turns = calculate_time_for_lens_fire( p, g->natural_light_level() );
+                const int turns = calculate_time_for_lens_fire( p, g->natural_light_level( pos.z ) );
                 if( turns/1000 > 1 ) {
                     // If it takes less than a minute, no need to inform the player about time.
                     p->add_msg_if_player(m_info, _("If the current weather holds, it will take around %d minutes to light a fire."), turns / 1000);
                 }
                 p->assign_activity( ACT_START_FIRE, turns, -1, p->get_item_position(it), it->tname() );
                 // Keep natural_light_level for comparing throughout the activity.
-                p->activity.values.push_back( g->natural_light_level() );
+                p->activity.values.push_back( g->natural_light_level( pos.z ) );
                 p->activity.placement = pos;
                 p->practice( skill_survival, 5 );
             }
@@ -928,7 +928,7 @@ bool extended_firestarter_actor::can_use( const player* p, const item* it, bool 
 
     if( need_sunlight ) {
         return ( g->weather == WEATHER_CLEAR || g->weather == WEATHER_SUNNY ) &&
-                 g->natural_light_level() >= 60 && !g->m.has_flag( TFLAG_INDOORS, pos );
+                 g->natural_light_level( pos.z ) >= 60 && !g->m.has_flag( TFLAG_INDOORS, pos );
     }
 
     return true;
@@ -1564,6 +1564,44 @@ long fireweapon_on_actor::use( player *p, item *it, bool t, const tripoint& ) co
     }
 
     return it->type->charges_to_use();
+}
+
+void manualnoise_actor::load( JsonObject &obj )
+{
+    no_charges_message  = obj.get_string( "no_charges_message" );
+    use_message         = obj.get_string( "use_message" );
+    noise_message       = obj.get_string( "noise_message", "" );
+    noise               = obj.get_int( "noise", 0 );
+    moves               = obj.get_int( "moves", 0 );
+}
+
+iuse_actor *manualnoise_actor::clone() const
+{
+    return new manualnoise_actor( *this );
+}
+
+long manualnoise_actor::use( player *p, item *it, bool t, const tripoint& ) const
+{
+    if( t ) {
+        return 0;
+    }
+    if( it->type->charges_to_use() != 0 && it->charges < it->type->charges_to_use() ) {
+        p->add_msg_if_player( _(no_charges_message.c_str()) );
+        return 0;
+    }
+    {
+        p->moves -= moves;
+        if( noise > 0 ) {
+            sounds::sound( p->pos(), noise, noise_message.empty() ? "" : _(noise_message.c_str()) );
+        }
+        p->add_msg_if_player( _(use_message.c_str()) );
+    }
+    return it->type->charges_to_use();
+}
+
+bool manualnoise_actor::can_use( const player*, const item *it, bool, const tripoint& ) const
+{
+    return it->type->charges_to_use() == 0 || it->charges >= it->type->charges_to_use();
 }
 
 iuse_actor *musical_instrument_actor::clone() const

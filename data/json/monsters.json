@@ -1877,7 +1877,7 @@
     "hp":140,
     "death_function":["ACID", "NORMAL"],
     "special_attacks":[["ACID_ACCURATE", 3]],
-    "special_when_hit":["ACIDSPLASH", 100],
+    "special_when_hit":["ACIDSPLASH", 50],
     "description":"This body has swollen to immense proportions, but still manages to hold itself together with semi-congealed acid all over its bloated body.  It clumsily moves around, but attacks with a large reserve of acid.",
     "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "ACIDPROOF", "ACID_BLOOD", "NO_BREATHE", "REVIVES", "BONES", "PUSH_MON"]
     },{
@@ -2798,7 +2798,7 @@
         "armor_cut":8,
         "vision_day":50,
         "vision_night":3,
-            "hp":400,
+        "hp":400,
         "death_function":"JABBERWOCKY",
         "special_attacks":[["FLESH_GOLEM", 5]],
         "description":"A putrid amalgamation of body parts from humans and other creatures have fused together in this aberration of flesh.  The eyes of all the heads dart about rapidly and the mouths form a chorus of groaning screams.",
@@ -5040,6 +5040,36 @@
     "description":"A gargantuan protoplasmic blob, constantly reshaping, forming new pseudopods seemingly at will.  All over its body are eyes that form and disappear.  It looks at you with malice.",
     "flags":["SEES", "SMELLS", "SWIMS", "PLASTIC", "SLUDGEPROOF", "ACID_BLOOD", "ACID_PROOF", "NOHEAD", "REGENERATES_50", "ABSORBS", "REGEN_MORALE", "NOGIB"]
     },{
+    "type":"MONSTER",
+    "id":"mon_albino_penguin",
+    "name": "albino penguin",
+    "species":"NETHER",
+    "default_faction":"nether",
+    "symbol":"V",
+    "color":"white",
+    "size":"LARGE",
+    "material":"flesh",
+    "diff":11,
+    "aggression":0,
+    "morale":100,
+    "speed":50,
+    "melee_skill":7,
+    "melee_dice":4,
+    "melee_dice_sides":6,
+    "melee_cut":8,
+    "dodge":2,
+    "armor_bash":6,
+    "armor_cut":2,
+    "vision_day":5,
+    "vision_night":5,
+    "hp":200,
+    "death_function":"NORMAL",
+    "special_attacks":[["BITE", 15],["IMPALE",20]],
+    "description":"Eight-feet-tall ghastly white penguins.  Placid unless otherwise provoked.",
+    "flags":["HEARS", "KEENNOSE", "GOODHEARING", "SMELLS", "ANIMAL", "WARM", "BONES", "FEATHER", "FAT", "SWIMS", "SUNDEATH"],
+    "anger_triggers":["HURT", "FRIEND_DIED", "FRIEND_ATTACKED"],
+    "categories":["WILDLIFE"]
+    },{
     "type" : "MONSTER",
     "id" : "mon_dementia",
     "name": "dementia",
@@ -6438,7 +6468,7 @@
     "hp":10000,
     "death_function":"NORMAL",
     "special_attacks":[["DANCE", 30]],
-    "description":"The foulest stench is in the air, \nThe funk of forty thousand years, \nAnd grisly ghouls from every tomb, \nAre closing in to seal your doom!\n\nThe dancer doens't even notice you, it seems like something nearby is controlling it.",
+    "description":"The foulest stench is in the air, \nThe funk of forty thousand years, \nAnd grisly ghouls from every tomb, \nAre closing in to seal your doom!\n\nThe dancer doesn't even notice you, it seems like something nearby is controlling it.",
     "flags":["WARM", "BASHES", "DESTROYS", "LEATHER", "NO_BREATHE", "REGENERATES_50", "BONES", "POISON", "FAT"]
     }, {
     "type" : "MONSTER",

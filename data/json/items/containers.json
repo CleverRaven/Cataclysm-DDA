@@ -195,9 +195,7 @@
            "coverage" : 5,
            "material_thickness" : 2,
            "encumbrance" : 0,
-           "environmental_protection" : 0,
-           "warmth" : 0,
-           "storage" : 0
+           "warmth" : 0
         },
         "rigid": true,
         "watertight": true,
@@ -225,9 +223,7 @@
            "coverage" : 10,
            "material_thickness" : 2,
            "encumbrance" : 10,
-           "environmental_protection" : 0,
-           "warmth" : 0,
-           "storage" : 0
+           "warmth" : 0
         },
         "rigid": true,
         "watertight": true,
@@ -255,7 +251,6 @@
            "coverage" : 15,
            "material_thickness" : 1,
            "encumbrance" : 1,
-           "environmental_protection" : 0,
            "warmth" : 0,
            "storage" : 4
         },
@@ -383,10 +378,8 @@
            "coverage" : 5,
            "material_thickness" : 2,
            "encumbrance" : 0,
-           "environmental_protection" : 0,
-           "warmth" : 0,
-           "storage" : 0
-           },
+           "warmth" : 0
+        },
         "watertight": true,
         "seals": true,
         "flags": ["WAIST"]
@@ -412,9 +405,7 @@
            "coverage" : 10,
            "material_thickness" : 2,
            "encumbrance" : 10,
-           "environmental_protection" : 0,
-           "warmth" : 0,
-           "storage" : 0
+           "warmth" : 0
         },
         "watertight": true,
         "seals": true,
@@ -441,9 +432,7 @@
            "coverage" : 15,
            "material_thickness" : 2,
            "encumbrance" : 10,
-           "environmental_protection" : 0,
-           "warmth" : 0,
-           "storage" : 0
+           "warmth" : 0
         },
         "watertight": true,
         "seals": true,
@@ -608,13 +597,11 @@
         "material": "aluminum",
         "contains": 1,
         "armor_data" : {
-        "covers" : ["TORSO"],
-        "coverage" : 2,
-        "material_thickness" : 1,
-        "encumbrance" : 0,
-        "environmental_protection" : 0,
-        "warmth" : 0,
-        "storage" : 0
+            "covers" : ["TORSO"],
+            "coverage" : 2,
+            "material_thickness" : 1,
+            "encumbrance" : 0,
+            "warmth" : 0
         },
         "rigid": true,
         "watertight": true,

@@ -314,7 +314,7 @@ void Pickup::pick_one_up( const tripoint &pickup_target, item &newit, vehicle *v
             if (newit.is_armor() &&
                 query_yn(_("Put on the %s?"),
                          newit.display_name().c_str())) {
-                if (g->u.wear_item(&newit)) {
+                if (g->u.wear_item(newit)) {
                     picked_up = true;
                 }
             } else if (g->u.is_armed()) {

@@ -279,6 +279,7 @@ bool game::opening_screen()
     ctxt.register_cardinal();
     ctxt.register_action("QUIT");
     ctxt.register_action("CONFIRM");
+    ctxt.register_action("DELETE_TEMPLATE");
     // for the menu shortcuts
     ctxt.register_action("ANY_INPUT");
     bool start = false;
@@ -449,8 +450,13 @@ bool game::opening_screen()
                          color1 = c_ltcyan;
                          color2 = h_ltcyan;
                       } else {
-                         color1 = c_white;
-                         color2 = h_white;
+                         if (world_generator->world_need_lua_build(world_name)) {
+                            color1 = c_dkgray;
+                            color2 = h_dkgray;
+                         } else {
+                             color1 = c_white;
+                             color2 = h_white;
+                         }
                       }
                       mvwprintz(w_open, line, 15 + iMenuOffsetX + extra_w / 2,
                                 (sel2 == i ? color2 : color1 ), "%s (%d)",
@@ -613,6 +619,13 @@ bool game::opening_screen()
             }
         } else if (layer == 3) {
             bool available = false;
+            std::string wn = world_generator->all_worldnames[sel3];
+
+            if ( (wn != "TUTORIAL" && wn != "DEFENSE") && world_generator->world_need_lua_build(wn) ) {
+                layer = 2;
+                sel1 = 2;
+                continue;
+            }
             if (sel1 == 2) { // Load Game
                 savegames = world_generator->all_worlds[world_generator->all_worldnames[sel2]]->world_saves;
                 if (savegames.empty()) {
@@ -760,6 +773,8 @@ bool game::opening_screen()
                     mvwprintz(w_open, iMenuOffsetY - 4, iMenuOffsetX + 20 + extra_w / 2,
                               c_red, _("No templates found!"));
                 } else {
+                    mvwprintz(w_open, iMenuOffsetY - 2, iMenuOffsetX + 20 + extra_w / 2,
+                              c_white, _("Press 'd' to delete a preset."));
                     for (int i = 0; i < (int)templates.size(); i++) {
                         int line = iMenuOffsetY - 4 - i;
                         mvwprintz(w_open, line, 20 + iMenuOffsetX + extra_w / 2,
@@ -789,6 +804,19 @@ bool game::opening_screen()
                     sel1 = 1;
                     layer = 2;
                     print_menu(w_open, sel1, iMenuOffsetX, iMenuOffsetY);
+                } else if (!templates.empty() && action == "DELETE_TEMPLATE") {
+                    if (query_yn(_("Are you sure you want to delete %s?"),
+                                 templates[sel3].c_str())) {
+                        const auto path = FILENAMES["templatedir"] + templates[sel3] + ".template";
+                        if (std::remove(path.c_str()) != 0) {
+                            popup(_("Sorry, something went wrong."));
+                        } else {
+                            templates.erase(templates.begin() + sel3);
+                            if ((size_t)sel3 > templates.size() - 1) {
+                                sel3--;
+                            }
+                        }
+                    }
                 } else if (action == "RIGHT" || action == "CONFIRM") {
                     WORLDPTR world = world_generator->pick_world();
                     if (world == NULL) {

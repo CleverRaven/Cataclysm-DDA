@@ -1,0 +1,28 @@
+[
+    {
+        "type" : "overmap_terrain",
+        "id" : "curious_structure",
+        "name" : "curious structure",
+        "sym" : 67,
+        "color" : "dark_gray",
+        "see_cost" : 5,
+        "extras" : "field"
+    },{
+        "type" : "overmap_terrain",
+        "id" : "curious_structure_b",
+        "name" : "curious underground structure",
+        "sym" : 67,
+        "color" : "dark_gray",
+        "see_cost" : 5,
+        "extras" : "build"
+    },{
+        "type" : "overmap_terrain",
+        "id" : "curious_structure_b2",
+        "name" : "errie cavern",
+        "sym" : 67,
+        "color" : "red",
+        "see_cost" : 5,
+        "extras" : "build"
+    }
+]
+

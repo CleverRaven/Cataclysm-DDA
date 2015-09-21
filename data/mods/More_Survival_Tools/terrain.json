@@ -136,5 +136,135 @@
                 { "item": "plastic_chunk", "count": [4, 8] }
             ]
         }
+    },{
+        "type" : "terrain",
+        "id" : "t_door_curtain_c",
+        "name": "closed door curtain",
+        "symbol": "+",
+        "color": "dkgray",
+        "move_cost": 0,
+        "flags": [
+            "FLAMMABLE_ASH", "DOOR", "NOITEM", "CONNECT_TO_WALL"
+        ],
+        "open": "t_door_curtain_o",
+        "deconstruct": {
+            "ter_set": "t_null",
+            "items": [
+                { "item": "stick", "count": 1 },
+                { "item": "sheet", "count": 2 },
+                { "item": "string_36", "prob": 50 }
+            ]
+        },
+        "bash": {
+            "str_min": 3, "str_max": 6,
+            "sound": "rrrrip!",
+            "sound_fail": "slap!",
+            "sound_vol": 6,
+            "sound_fail_vol": 3,
+            "ter_set": "t_null",
+            "items": [
+                { "item": "sheet", "count": [0, 1] },
+                { "item": "rag", "count": [2, 5] },
+                { "item": "stick", "count": 1 },
+                { "item": "string_36", "count": 1 }
+            ]
+        }
+    },{
+        "type" : "terrain",
+        "id" : "t_door_makeshift_c",
+        "name": "closed makeshift door",
+        "symbol": "+",
+        "color": "brown",
+        "move_cost": 0,
+        "flags": [
+            "FLAMMABLE_ASH", "DOOR", "NOITEM", "CONNECT_TO_WALL"
+        ],
+        "open": "t_door_makeshift_o",
+        "deconstruct": {
+            "ter_set": "t_door_frame",
+            "items": [
+                { "item": "2x4", "count": 6 },
+                { "item": "rope_6", "count": 2 }
+            ]
+        },
+        "bash": {
+            "str_min": 4, "str_max": 20, "str_min_blocked": 6, "str_max_blocked": 30,
+            "sound": "crack.",
+            "sound_fail": "wham.",
+            "ter_set": "t_door_frame",
+            "items": [
+                { "item": "2x4", "count": [2, 5] },
+                { "item": "rope_6", "count": [0, 1] },
+                { "item": "string_36", "count": [1, 6] },
+                { "item": "splinter", "count": [5, 10] }
+            ]
+        }
+    },{
+        "type" : "terrain",
+        "id" : "t_door_curtain_o",
+        "name": "open door curtain",
+        "symbol": "'",
+        "color": "dkgray",
+        "move_cost": 2,
+        "flags": [
+            "FLAMMABLE_ASH", "TRANSPARENT",
+            "FLAT", "CONNECT_TO_WALL",
+            "ROAD"
+        ],
+        "deconstruct": {
+            "ter_set": "t_null",
+            "items": [
+                { "item": "stick", "count": 1 },
+                { "item": "sheet", "count": 2 },
+                { "item": "string_36", "prob": 50 }
+            ]
+        },
+        "close": "t_door_curtain_c",
+        "bash": {
+            "str_min": 2, "str_max": 6,
+            "sound": "rrrrip!",
+            "sound_fail": "slap!",
+            "sound_vol": 5,
+            "sound_fail_vol": 2,
+            "ter_set": "t_null",
+            "items": [
+                { "item": "sheet", "count": [0, 1] },
+                { "item": "rag", "count": [2, 5] },
+                { "item": "stick", "count": 1 },
+                { "item": "string_36", "count": 1 }
+            ]
+        }
+    },{
+        "type" : "terrain",
+        "id" : "t_door_makeshift_o",
+        "name": "open makeshift door",
+        "symbol": "'",
+        "color": "brown",
+        "move_cost": 2,
+        "flags": [
+            "FLAMMABLE_ASH", "TRANSPARENT",
+            "FLAT", "CONNECT_TO_WALL",
+            "ROAD"
+        ],
+        "deconstruct": {
+            "ter_set": "t_door_frame",
+            "items": [
+                { "item": "2x4", "count": 6 },
+                { "item": "rope_6", "count": 2 }
+            ]
+        },
+        "close": "t_door_makeshift_c",
+        "bash": {
+            "str_min": 3, "str_max": 20, "str_min_blocked": 4, "str_max_blocked": 30,
+            "sound": "crack.",
+            "sound_fail": "wham.",
+            "ter_set": "t_door_frame",
+            "items": [
+                { "item": "2x4", "count": [2, 5] },
+                { "item": "rope_6", "count": [0, 1] },
+                { "item": "string_36", "count": [1, 6] },
+                { "item": "splinter", "count": [5, 10] }
+            ]
+        }
     }
  ]

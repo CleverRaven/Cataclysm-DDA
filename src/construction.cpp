@@ -650,7 +650,7 @@ void place_construction(const std::string &desc)
 
     for( auto &elem : valid ) {
         g->m.drawsq( g->w_terrain, g->u, elem.first, true, false,
-                     g->u.posx() + g->u.view_offset.x, g->u.posy() + g->u.view_offset.y );
+                     g->u.pos() + g->u.view_offset );
     }
     wrefresh(g->w_terrain);
 
@@ -841,7 +841,7 @@ void construct::done_vehicle(point p)
 
     // Update the vehicle cache immediately,
     // or the vehicle will be invisible for the first couple of turns.
-    g->m.update_vehicle_cache(veh, true);
+    g->m.add_vehicle_to_cache( veh );
 }
 
 void construct::done_deconstruct(point p)

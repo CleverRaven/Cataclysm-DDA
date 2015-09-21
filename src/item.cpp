@@ -974,7 +974,8 @@ std::string item::info(bool showtext, std::vector<iteminfo> &dump_ref) const
                                      get_encumber(), true, "", true, true));
         }
         dump->push_back(iteminfo("ARMOR", _("Protection: Bash: "), "", bash_resist(), true, "", false));
-        dump->push_back(iteminfo("ARMOR", space + _("Cut: "), "", cut_resist(), true, "", true));
+        dump->push_back(iteminfo("ARMOR", space + _("Cut: "), "", cut_resist(), true, "", false));
+        dump->push_back(iteminfo("ARMOR", space + _("Acid: "), "", acid_resist(), true, "", true));
         dump->push_back(iteminfo("ARMOR", _("Environmental protection: "), "",
                                  get_env_resist(), true, "", false));
         dump->push_back(iteminfo("ARMOR", space + _("Storage: "), "", get_storage()));
@@ -1247,6 +1248,25 @@ std::string item::info(bool showtext, std::vector<iteminfo> &dump_ref) const
                 dump->push_back(iteminfo("DESCRIPTION", _("This item can be used to make long reach attacks.")));
             } else {
                 dump->push_back(iteminfo("DESCRIPTION", _("This item can be used to make reach attacks.")));
+            }
+        }
+        
+        //lets display which martial arts styles character can use with this weapon
+        if (g->u.ma_styles.size() > 0)
+        {
+            std::vector<matype_id> valid_styles;
+            std::ostringstream style_buffer;
+            for (auto style : g->u.ma_styles) {
+                if (style.obj().has_weapon(type->id)) {
+                    if (!style_buffer.str().empty()) {
+                        style_buffer << _(", ");
+                    }
+                    style_buffer << style.obj().name;
+                }
+            }
+            if (!style_buffer.str().empty()) {
+                dump->push_back(iteminfo("DESCRIPTION", "--"));
+                dump->push_back(iteminfo("DESCRIPTION", std::string(_("You know how to use this with these martial arts styles: ")) + style_buffer.str()));
             }
         }
 
@@ -2776,26 +2796,49 @@ int item::cut_resist() const
 
 int item::acid_resist() const
 {
-    float resist = 0;
-    // With the multiplying and dividing in previous code, the following
-    // is a coefficient equivalent to the bonuses and maluses hardcoded in
-    // previous versions. Adjust to make you happier/sadder.
-
-    if (is_null()) {
-        return resist;
+    float resist = 0.0;
+    if( is_null() ) {
+        return 0.0;
     }
 
     std::vector<material_type*> mat_types = made_of_types();
     // Not sure why cut and bash get an armor thickness bonus but acid doesn't,
     // but such is the way of the code.
 
-    for (auto mat : mat_types) {
+    for( auto mat : mat_types ) {
         resist += mat->acid_resist();
     }
     // Average based on number of materials.
     resist /= mat_types.size();
 
     return lround(resist);
+}
+
+int item::chip_resistance( bool worst ) const
+{
+    if( damage > 4 ) {
+        return 0;
+    }
+
+    int res = worst ? INT_MAX : INT_MIN;
+    for( const auto &mat : made_of_types() ) {
+        const int val = mat->chip_resist();
+        res = worst ? std::min( res, val ) : std::max( res, val );
+    }
+
+    if( res == INT_MAX || res == INT_MIN ) {
+        return 2;
+    }
+
+    if( res <= 0 ) {
+        return 0;
+    }
+
+    // An item's current state of damage can make it more susceptible to being damaged
+    // 10% less resistance for each point of damage
+    res = res * ( 10 - std::max<int>( 0, damage ) ) / 10;
+
+    return res;
 }
 
 bool item::is_two_handed( const player &u ) const
@@ -3411,11 +3454,11 @@ int item::gun_dispersion( bool with_ammo ) const
             dispersion_sum += elem.type->gunmod->dispersion;
         }
     }
+    dispersion_sum += damage * 60;
     dispersion_sum = std::max(dispersion_sum, 0);
     if( with_ammo && has_curammo() ) {
         dispersion_sum += get_curammo()->ammo->dispersion;
     }
-    dispersion_sum += damage * 60;
     dispersion_sum = std::max(dispersion_sum, 0);
     return dispersion_sum;
 }

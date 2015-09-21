@@ -405,18 +405,21 @@ void monster::move()
         }
     }
 
+    tripoint next_step;
     if( moved ) {
         // Implement both avoiding obstacles and staggering.
         moved = false;
-        int switch_chance = 0;
+        float switch_chance = 0.0;
         const bool can_bash = has_flag( MF_BASHES ) || has_flag( MF_BORES );
-        const int distance_to_target = rl_dist( pos(), destination );
+        // This is a float and using trig_dist() because that Does the Right Thing(tm)
+        // in both circular and roguelike distance modes.
+        const float distance_to_target = trig_dist( pos(), destination );
         for( const tripoint &candidate : squares_closer_to( pos(), destination ) ) {
             const Creature *target = g->critter_at( candidate, is_hallucination() );
             // When attacking an adjacent enemy, we're direct.
             if( target != nullptr && attitude_to( *target ) == A_HOSTILE ) {
                 moved = true;
-                destination = candidate;
+                next_step = candidate;
                 break;
             }
             // Bail out if we can't move there and we can't bash.
@@ -429,12 +432,12 @@ void monster::move()
                 !has_flag( MF_ATTACKMON ) && !has_flag( MF_PUSH_MON ) ) {
                 continue;
             }
-            int progress = distance_to_target - rl_dist( candidate, destination );
+            float progress = distance_to_target - trig_dist( candidate, destination );
             switch_chance += progress;
             // Randomly pick one of the viable squares to move to weighted by distance.
             if( x_in_y( progress, switch_chance ) ) {
                 moved = true;
-                destination = candidate;
+                next_step = candidate;
                 // If we stumble, pick a random square, otherwise take the first one,
                 // which is the most direct path.
                 if( !has_flag( MF_STUMBLES ) ) {
@@ -446,11 +449,15 @@ void monster::move()
     // Finished logic section.  By this point, we should have chosen a square to
     //  move to (moved = true).
     if( moved ) { // Actual effects of moving to the square we've chosen
+        // move_to() uses the slope to determine some move speed scaling.
+        const float slope = (destination.x > destination.y) ?
+            (float)destination.y / (float)destination.x :
+            (float)destination.x / (float)destination.y;
         const bool did_something =
-            ( !pacified && attack_at( destination ) ) ||
-            ( !pacified && bash_at( destination ) ) ||
-            ( !pacified && push_to( destination, 0, 0 ) ) ||
-            move_to( destination );
+            ( !pacified && attack_at( next_step ) ) ||
+            ( !pacified && bash_at( next_step ) ) ||
+            ( !pacified && push_to( next_step, 0, 0 ) ) ||
+            move_to( next_step, false, slope );
         if( !did_something ) {
             moves -= 100; // If we don't do this, we'll get infinite loops.
         }
@@ -522,7 +529,7 @@ tripoint monster::scent_move()
     for( const auto &dest : g->m.points_in_radius( pos(), 1 ) ) {
         int smell = g->scent( dest );
         if( ( can_move_to( dest ) || ( dest == g->u.pos3() ) ||
-              ( can_bash && g->m.bash_rating( bash_estimate(), dest ) >= 0 ) ) ) {
+              ( can_bash && g->m.bash_rating( bash_estimate(), dest ) > 0 ) ) ) {
             if( ( !fleeing && smell > bestsmell ) || ( fleeing && smell < bestsmell ) ) {
                 smoves.clear();
                 smoves.push_back( dest );
@@ -597,7 +604,8 @@ tripoint monster::wander_next()
     const auto try_pos = [&]( const int x, const int y, const int z ) {
         tripoint dest( x, y, z );
         if( ( canbash && g->m.bash_rating( bash_est, dest ) > 0 ) ||
-            ( ( flies || !g->m.has_flag( TFLAG_NO_FLOOR, dest ) ) && can_move_to( dest ) ) ) {
+            ( ( flies || g->m.has_floor_or_support( dest ) ) &&
+            can_move_to( dest ) ) ) {
             next = dest;
             return true;
         }
@@ -606,7 +614,8 @@ tripoint monster::wander_next()
     };
 
     bool found = false;
-    if( z_move && g->m.valid_move( pos(), tripoint( posx(), posy(), z ), false, flies || climbs ) ) {
+    const bool can_climb = z_move && (flies || climbs || g->m.has_flag( TFLAG_RAMP, pos() ));
+    if( z_move && g->m.valid_move( pos(), tripoint( posx(), posy(), z ), false, can_climb ) ) {
         found = true;
         if( ( x_move || y_move ) && try_pos( x, y, z ) ) {
         } else if( y_move && try_pos( x, y2, z ) ) {
@@ -878,7 +887,7 @@ bool monster::attack_at( const tripoint &p )
     return false;
 }
 
-bool monster::move_to( const tripoint &p, bool force )
+bool monster::move_to( const tripoint &p, bool force, float slope )
 {
     const bool digs = digging();
     const bool flies = has_flag( MF_FLIES );
@@ -916,9 +925,15 @@ bool monster::move_to( const tripoint &p, bool force )
     }
 
     if( !force ) {
-        const int cost = !climbs ? calc_movecost( pos(), p ) :
-                                   calc_climb_cost( pos(), p );
-        if( cost > 0 ) {
+        // This adjustment is to make it so that monster movement speed relative to the player
+        // is consistent even if the monster stumbles,
+        // and the same regardless of the distance measurement mode.
+        const float stumble_multiplier = has_flag(MF_STUMBLES) ?
+            (trigdist ? 0.83 : 1.0 - (0.25 * slope)) : 1.0;
+        const int cost = stumble_multiplier *
+            (float)(climbs ? calc_climb_cost( pos(), p ) : calc_movecost( pos(), p ));
+
+       if( cost > 0 ) {
             moves -= cost;
         } else {
             return false;
@@ -1343,7 +1358,7 @@ bool monster::will_reach( int x, int y )
         return true;
     }
 
-    if( can_see() && g->m.sees( pos(), {x, y, posz()}, g->light_level() ) ) {
+    if( can_see() && g->m.sees( pos(), {x, y, posz()}, g->light_level( posz() ) ) ) {
         return true;
     }
 

@@ -400,7 +400,7 @@ void activity_handlers::pickup_finish(player_activity *act, player *p)
     for(auto &elem : act->str_values) {
         if(elem == "equip") {
             item &it = p->i_at(act->position);
-            p->wear_item(&it);
+            p->wear_item(it);
         }
     }
 }
@@ -899,7 +899,7 @@ void activity_handlers::start_fire_finish( player_activity *act, player *p )
 
 void activity_handlers::start_fire_lens_do_turn( player_activity *act, player *p )
 {
-    float natural_light_level = g->natural_light_level();
+    float natural_light_level = g->natural_light_level( p->posz() );
     // if the weather changes, we cannot start a fire with a lens. abort activity
     if( !((g->weather == WEATHER_CLEAR) || (g->weather == WEATHER_SUNNY)) ||
         !( natural_light_level >= 60 ) ) {

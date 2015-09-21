@@ -66,6 +66,7 @@ void player_activity::serialize(JsonOut &json) const
     json.member( "moves_left", moves_left );
     json.member( "index", index );
     json.member( "position", position );
+    json.member( "coords", coords );
     json.member( "name", name );
     json.member( "placement", placement );
     json.member( "values", values );
@@ -89,6 +90,7 @@ void player_activity::deserialize(JsonIn &jsin)
     data.read( "moves_left", moves_left );
     data.read( "index", index );
     position = tmppos;
+    data.read( "coords", coords );
     data.read( "name", name );
     data.read( "placement", placement );
     values = data.get_int_array("values");
@@ -1416,6 +1418,7 @@ void vehicle::deserialize(JsonIn &jsin)
     data.read("velocity", velocity);
     data.read("falling", falling);
     data.read("cruise_velocity", cruise_velocity);
+    data.read("vertical_velocity", vertical_velocity);
     data.read("cruise_on", cruise_on);
     data.read("engine_on", engine_on);
     data.read("tracking_on", tracking_on);
@@ -1497,6 +1500,7 @@ void vehicle::serialize(JsonOut &json) const
     json.member( "velocity", velocity );
     json.member( "falling", falling );
     json.member( "cruise_velocity", cruise_velocity );
+    json.member( "vertical_velocity", vertical_velocity );
     json.member( "cruise_on", cruise_on );
     json.member( "engine_on", engine_on );
     json.member( "tracking_on", tracking_on );

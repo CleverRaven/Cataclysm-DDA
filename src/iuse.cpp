@@ -3737,24 +3737,6 @@ int iuse::noise_emitter_off(player *p, item *it, bool, const tripoint& )
     return it->type->charges_to_use();
 }
 
-int iuse::airhorn(player *p, item *it, bool, const tripoint &pos)
-{
-    if (it->charges < it->type->charges_to_use()) {
-        p->add_msg_if_player(_("You depress the button but no sound comes out."));
-    } else {
-        p->add_msg_if_player(_("You honk your airhorn."));
-        sounds::sound(pos, 50, _("HOOOOONK!"));
-    }
-    return it->type->charges_to_use();
-}
-
-int iuse::horn_bicycle(player *p, item *it, bool, const tripoint &pos)
-{
-    sounds::sound(pos, 15, _("honk."));
-    p->add_msg_if_player(_("You honk the bicycle horn."));
-    return it->type->charges_to_use();
-}
-
 int iuse::noise_emitter_on(player *p, item *it, bool t, const tripoint &pos)
 {
     if (t) { // Normal use
@@ -6964,7 +6946,7 @@ int iuse::sheath_sword(player *p, item *it, bool, const tripoint& )
 
             // Glow/Glimmer
             if (p->weapon.has_flag("VORPAL") &&p->weapon.has_technique( matec_id( "VORPAL" ) ) &&
-                  !x_in_y(g->natural_light_level(), 40)) {
+                  !x_in_y(g->natural_light_level( p->posz() ), 40)) {
                 std::string part = "";
                 int roll = rng(1,3);
                 switch (roll) {
@@ -7153,7 +7135,7 @@ int iuse::unfold_generic(player *p, item *it, bool, const tripoint& )
         g->m.destroy_vehicle(veh);
         return 0;
     }
-    g->m.update_vehicle_cache(veh, true);
+    g->m.add_vehicle_to_cache( veh );
 
     std::string unfold_msg = it->get_var( "unfold_msg" );
     if (unfold_msg.size() == 0) {
@@ -7369,12 +7351,16 @@ int iuse::misc_repair(player *p, item *it, bool, const tripoint& )
         p->add_msg_if_player(m_info, _("You can't do that while underwater."));
         return 0;
     }
+    if (p->fine_detail_vision_mod() > 4) {
+        add_msg(m_info, _("You can't see to repair!"));
+        return 0;
+    }
     if (p->skillLevel( skill_fabrication ) < 1) {
         p->add_msg_if_player(m_info, _("You need a fabrication skill of 1 to use this repair kit."));
         return 0;
     }
     int inventory_index = g->inv_for_filter( _("Select the item to repair."), []( const item & itm ) {
-        return !itm.is_gun() && (itm.made_of("wood") || itm.made_of("plastic") ||
+        return !itm.is_gun() && (itm.made_of("wood") || itm.made_of("paper") ||
                                  itm.made_of("bone") || itm.made_of("chitin") ) ;
     } );
     item *fix = &( p->i_at(inventory_index ) );
@@ -7386,9 +7372,9 @@ int iuse::misc_repair(player *p, item *it, bool, const tripoint& )
         p->add_msg_if_player(m_info, _("That requires gunsmithing tools."));
         return 0;
     }
-    if (!(fix->made_of("wood") || fix->made_of("plastic") || fix->made_of("bone") ||
+    if (!(fix->made_of("wood") || fix->made_of("paper") || fix->made_of("bone") ||
           fix->made_of("chitin"))) {
-        p->add_msg_if_player(m_info, _("That isn't made of wood, bone, or chitin!"));
+        p->add_msg_if_player(m_info, _("That isn't made of wood, paper, bone, or chitin!"));
         return 0;
     }
     if (fix->damage == -1) {
@@ -9528,4 +9514,27 @@ int iuse::capture_monster_act( player *p, item *it, bool, const tripoint &pos )
         }
     }
     return 0;
+}
+
+int iuse::ladder( player *p, item *, bool, const tripoint& )
+{
+    if( !g->m.has_zlevels() ) {
+        debugmsg( "Ladder can't be used used in non-z-level mode" );
+        return 0;
+    }
+
+    tripoint dirp;
+    if( !choose_adjacent( _("Put the ladder where?"), dirp ) ) {
+        return 0;
+    }
+
+    if( !g->is_empty( dirp ) || g->m.has_furn( dirp ) ) {
+        p->add_msg_if_player( m_bad, _("Can't place it there."));
+        return 0;
+    }
+
+    p->add_msg_if_player(_("You set down the ladder."));
+    p->moves -= 500;
+    g->m.furn_set( dirp, "f_ladder" );
+    return 1;
 }

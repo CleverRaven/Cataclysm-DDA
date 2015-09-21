@@ -258,9 +258,13 @@ class map
     * @param view_center_x, view_center_y The center of the viewport to be rendered,
     *        see `center` in `map::draw()`
     */
-    void drawsq( WINDOW* w, player &u, const tripoint &p, const bool invert, const bool show_items,
-                 const int view_center_x = -1, const int view_center_y = -1,
-                 const bool low_light = false, const bool bright_level = false, const bool inorder = false);
+    void drawsq( WINDOW* w, player &u, const tripoint &p,
+                 const bool invert = false, const bool show_items = true ) const;
+    void drawsq( WINDOW* w, player &u, const tripoint &p,
+                 const bool invert, const bool show_items,
+                 const tripoint &view_center,
+                 const bool low_light = false, const bool bright_level = false,
+                 const bool inorder = false) const;
 
     /**
      * Add currently loaded submaps (in @ref grid) to the @ref mapbuffer.
@@ -432,15 +436,16 @@ public:
  int coord_to_angle(const int x, const int y, const int tgtx, const int tgty) const;
 // Vehicles: Common to 2D and 3D
     VehicleList get_vehicles();
-    void update_vehicle_cache(vehicle *, const bool brand_new = false);
-    void reset_vehicle_cache( const int zlev );
-    void clear_vehicle_cache( const int zlev );
-    void clear_vehicle_list( const int zlev );
+    void add_vehicle_to_cache( vehicle * );
+    void update_vehicle_cache( vehicle *, int old_zlevel );
+    void reset_vehicle_cache( int zlev );
+    void clear_vehicle_cache( int zlev );
+    void clear_vehicle_list( int zlev );
     void update_vehicle_list( submap * const to, const int zlev );
 
     void destroy_vehicle (vehicle *veh);
     void vehmove();          // Vehicle movement
-    const vehicle *vehproceed(); // Returns the vehicle that moved
+    bool vehproceed(); // Returns true if a vehicle moved, false otherwise
 
 // 3D vehicles
     VehicleList get_vehicles( const tripoint &start, const tripoint &end );
@@ -473,6 +478,21 @@ public:
     void displace_vehicle( tripoint &p, const tripoint &dp );
     // move water under wheels. true if moved
     bool displace_water( const tripoint &dp );
+
+    // Returns the modifier on wheel area due to bad surface
+    // 1.0 on road, 0.0 in air
+    // <0.0 when the vehicle should be destroyed (sunk in water)
+    // TODO: Add the values between 0.0 and 1.0 for offroading
+    // TODO: Remove the ugly sinking vehicle hack
+    float vehicle_traction( vehicle &veh ) const;
+
+    // Like traction, except for water
+    // TODO: Actually implement (this is a stub)
+    // TODO: Test for it when the vehicle sinks rather than when it has VP_FLOATS
+    float vehicle_buoyancy( vehicle &veh ) const;
+
+    // Returns if the vehicle should fall down a z-level
+    bool vehicle_falling( vehicle &veh );
 
     // Executes vehicle-vehicle collision based on vehicle::collision results
     // Returns impulse of the executed collision
@@ -980,6 +1000,7 @@ public:
     bool has_floor( const tripoint &p ) const;
     /** Does this tile support vehicles and furniture above it */
     bool supports_above( const tripoint &p ) const;
+    bool has_floor_or_support( const tripoint &p ) const;
 
     /**
      * Handles map objects of given type (not creatures) falling down.
@@ -1237,13 +1258,22 @@ private:
                               const ter_t &terrain, bool allow_floor,
                               const vehicle *veh, const int part ) const;
 
-     /**
-      * Internal version of the drawsq. Keeps a cached maptile for less re-getting.
-      */
-     void draw_maptile( WINDOW* w, player &u, const tripoint &p, const maptile &tile,
-                        const bool invert, const bool show_items,
-                        const int view_center_x, const int view_center_y,
-                        const bool low_light, const bool bright_level, const bool inorder );
+    /**
+     * Internal version of the drawsq. Keeps a cached maptile for less re-getting.
+     * Returns true if it has drawn all it should, false if `draw_from_above` should be called after.
+     */
+    bool draw_maptile( WINDOW* w, player &u, const tripoint &p,
+                       const maptile &tile,
+                       bool invert, bool show_items,
+                       const tripoint &view_center,
+                       bool low_light, bool bright_light, bool inorder ) const;
+    /**
+     * Draws the tile as seen from above.
+     */
+    void draw_from_above( WINDOW* w, player &u, const tripoint &p,
+                          const maptile &tile, bool invert,
+                          const tripoint &view_center,
+                          bool low_light, bool bright_light, bool inorder ) const;
 
  long determine_wall_corner( const tripoint &p ) const;
  void cache_seen(const int fx, const int fy, const int tx, const int ty, const int max_range);

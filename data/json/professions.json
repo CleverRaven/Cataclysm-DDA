@@ -801,6 +801,7 @@
                 "knife_rambo",
                 "lighter",
                 "rope_30",
+                "whistle",
                 "canteen",
                 "scabbard"
             ],
@@ -961,7 +962,8 @@
                 "boots",
                 "holster",
                 "usp_45",
-                "45_acp"
+                "45_acp",
+                "whistle"
             ],
             "male": [
                 "boxer_shorts"
@@ -3972,7 +3974,7 @@
                 "both": [
                     "tshirt",
                     "socks",
-                    "backpack",
+                    "slingpack",
                     "sneakers",
                     "jeans",
                     "jacket_light",
@@ -4146,7 +4148,8 @@
                 "scissors",
                 "magnifying_glass",
                 "flashlight",
-                "1st_aid"
+                "1st_aid",
+                "whistle"
             ],
             "male": [
                 "briefs"
@@ -4374,6 +4377,7 @@
             "both": [
                 "baseball",
                 "bat",
+                "whistle",
                 "tank_top",
                 "shorts",
                 "socks",
@@ -4409,5 +4413,37 @@
                     "panties"
                 ]
             }
+    },
+    {
+            "type": "profession",
+            "ident": "miner",
+            "name": "Miner",
+            "description": "You're a miner, not a minor!  Your canteen is dry, your jackhammer is out of gas, and you're on your last pair of batteries for your mining helmet...",
+            "points": 0,
+            "items": {
+                "both": [
+                    "socks",
+                    "boots_steel",
+                    "gloves_work",
+                    "knee_pads",
+                    "miner_hat",
+                    "jumpsuit",
+                    "mask_gas",
+                    "jackhammer",
+                    "canteen",
+                    "e_tool",
+                    "tool_belt",
+                    "mbag",
+                    "matches"
+                ],
+                "male": [
+                    "boxer_shorts"
+                ],
+                "female": [
+                    "boy_shorts",
+                    "sports_bra"
+                ]
+            },
+        "flags" : ["SCEN_ONLY"]
     }
 ]

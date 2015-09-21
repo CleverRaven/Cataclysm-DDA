@@ -130,6 +130,15 @@ std::string mod_ui::get_information(MOD_INFORMATION *mod)
         info << note;
     }
 
+#ifndef LUA
+    if ( mod->need_lua ) {
+        std::string lua_msg = "";
+        lua_msg += "<color_red>";
+        lua_msg += _("This mod requires Lua but your CDDA build not support it!");
+        lua_msg += "</color>";
+        info << lua_msg;
+    }
+#endif
     return info.str();
 }
 

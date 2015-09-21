@@ -287,9 +287,31 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
 
             const auto &ter_trp = terrain.trap.obj();
             const auto &trp = ter_trp.is_benign() ? tile.get_trap_t() : ter_trp;
-            if( !trp.is_benign() ) {   
+            if( !trp.is_benign() ) {
                 // For now make them detect all traps
-                newg += 500;
+                if( has_zlevels() && terrain.has_flag( TFLAG_NO_FLOOR ) ) {
+                    // Special case - ledge in z-levels
+                    // Warning: really expensive, needs a cache
+                    // TODO: Walking on vehicles (currently NPCs will phase through floors)
+                    if( valid_move( p, tripoint( p.x, p.y, p.z - 1 ), false, true ) ) {
+                        tripoint below( p.x, p.y, p.z - 1 );
+                        if( !has_flag( TFLAG_NO_FLOOR, below ) ) {
+                            // Otherwise this would have been a huge fall
+                            auto &layer = pf.get_layer( p.z - 1 );
+                            // From cur, not p, because we won't be walking on air
+                            pf.add_point( layer.gscore[parent_index] + 10,
+                                          layer.score[parent_index] + 10 + 2 * rl_dist( below, t ),
+                                          cur, below );
+                        }
+
+                        // Close p, because we won't be walking on it
+                        layer.state[index] = ASL_CLOSED;
+                        continue;
+                    }
+                    // Otherwise it's walkable
+                } else {
+                    newg += 500;
+                }
             }
 
             // If not visited, add as open
@@ -324,6 +346,16 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
                 pf.add_point( layer.gscore[parent_index] + 2,
                               layer.score[parent_index] + 2 * rl_dist( dest, t ),
                               cur, dest );
+            }
+        }
+        if( cur.z < maxz && parent_terrain.has_flag( TFLAG_RAMP ) &&
+            valid_move( cur, tripoint( cur.x, cur.y, cur.z + 1 ), false, true ) ) {
+            auto &layer = pf.get_layer( cur.z + 1 );
+            for( size_t it = 0; it < 8; it++ ) {
+                const tripoint above( cur.x + x_offset[it], cur.y + y_offset[it], cur.z + 1 );
+                pf.add_point( layer.gscore[parent_index] + 4,
+                              layer.score[parent_index] + 4 + 2 * rl_dist( above, t ),
+                              cur, above );
             }
         }
     } while( !done && !pf.empty() );
