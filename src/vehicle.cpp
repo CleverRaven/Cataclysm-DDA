@@ -3913,9 +3913,17 @@ void vehicle::operate_planter(){
                     damage( planter_id, rng(1, 10), DT_BASH, false );
                     sounds::sound( loc, rng(10,20), _("Clink"));
                 }
-                i->bday = calendar::turn;
-                g->m.add_item(loc, *i);
-                i = v.erase(i);
+                if( !i->count_by_charges() || i->charges == 1 ) {
+                    i->bday = calendar::turn;
+                    g->m.add_item( loc, *i );
+                    v.erase( i );
+                } else {
+                    item tmp = *i;
+                    tmp.charges = 1;
+                    tmp.bday = calendar::turn;
+                    g->m.add_item( loc, tmp );
+                    i->charges--;
+                }
                 break;
             }
         }
