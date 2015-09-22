@@ -63,6 +63,10 @@ static int sign( int arg )
 void mdefense::acidsplash( monster &m, Creature *const source, dealt_projectile_attack const *const proj )
 {
     // Would be useful to have the attack data here, for cutting vs. bashing etc.
+    if( proj != nullptr && proj->dealt_dam.total_damage() <= 0 ) {
+        // Projectile didn't penetrate the target, no acid will splash out of it.
+        return;
+    }
     if( proj != nullptr && !one_in( 3 ) ) {
         return; //Less likely for a projectile to deliver enough force
     }
