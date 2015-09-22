@@ -8626,7 +8626,7 @@ void game::zones_manager()
 
                     //Draw direction + distance
                     mvwprintz(w_zones, iNum - start_index, 32, colorLine, "%*d %s",
-                              5, trig_dist( player_absolute_pos, center ),
+                              5, static_cast<int>( trig_dist( player_absolute_pos, center ) ),
                               direction_name_short( direction_from( player_absolute_pos, center ) ).c_str()
                              );
                 }
