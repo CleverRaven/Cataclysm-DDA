@@ -5,9 +5,9 @@
     "name":"Planter Tractor",
     "blueprint":[
         ["&       "],
-        ["&OO    O"],
+        ["+OO    O"],
         ["&HH===#|"],
-        ["&OO    O"],
+        ["+OO    O"],
         ["&       "]
     ],
     "parts":[
@@ -29,16 +29,11 @@
         {"x":-2,"y":-1,"part":"frame_horizontal"},
         {"x":-2,"y":1,"part":"wheel_wide"},
         {"x":-2,"y":-1,"part":"wheel_wide"},
-        {"x":-3,"y":0,"part":"frame_cross"},
+        {"x":-3,"y":0,"part":"seed_drill"},
         {"x":-3,"y":1,"part":"frame_cross"},
         {"x":-3,"y":-1,"part":"frame_cross"},
-        {"x":-3,"y":2,"part":"frame_cross"},
-        {"x":-3,"y":-2,"part":"frame_cross"},
-        {"x":-4,"y":0,"part":"seed_drill"},
-        {"x":-4,"y":1,"part":"seed_drill"},
-        {"x":-4,"y":-1,"part":"seed_drill"},
-        {"x":-4,"y":2,"part":"seed_drill"},
-        {"x":-4,"y":-2,"part":"seed_drill"}
+        {"x":-3,"y":2,"part":"seed_drill"},
+        {"x":-3,"y":-2,"part":"seed_drill"}
     ],
     "items":[]
     },{
@@ -47,9 +42,9 @@
     "name":"Plow Tractor",
     "blueprint":[
         ["&       "],
-        ["&OO    O"],
+        ["+OO    O"],
         ["&HH===#|"],
-        ["&OO    O"],
+        ["+OO    O"],
         ["&       "]
     ],
     "parts":[
@@ -77,8 +72,6 @@
         {"x":-3,"y":2,"part":"frame_cross"},
         {"x":-3,"y":-2,"part":"frame_cross"},
         {"x":-3,"y":0,"part":"plow"},
-        {"x":-3,"y":1,"part":"plow"},
-        {"x":-3,"y":-1,"part":"plow"},
         {"x":-3,"y":2,"part":"plow"},
         {"x":-3,"y":-2,"part":"plow"}
     ],
@@ -90,9 +83,9 @@
     "name":"Reaper Tractor",
     "blueprint":[
         ["&       "],
-        ["&OO    O"],
+        ["+OO    O"],
         ["&HH===#|"],
-        ["&OO    O"],
+        ["+OO    O"],
         ["&       "]
     ],
     "parts":[
@@ -114,16 +107,11 @@
         {"x":-2,"y":-1,"part":"frame_horizontal"},
         {"x":-2,"y":1,"part":"wheel_wide"},
         {"x":-2,"y":-1,"part":"wheel_wide"},
-        {"x":-3,"y":0,"part":"frame_cross"},
+        {"x":-3,"y":0,"part":"reaper"},
         {"x":-3,"y":1,"part":"frame_cross"},
         {"x":-3,"y":-1,"part":"frame_cross"},
-        {"x":-3,"y":2,"part":"frame_cross"},
-        {"x":-3,"y":-2,"part":"frame_cross"},
-        {"x":-4,"y":0,"part":"reaper"},
-        {"x":-4,"y":1,"part":"reaper"},
-        {"x":-4,"y":-1,"part":"reaper"},
-        {"x":-4,"y":2,"part":"reaper"},
-        {"x":-4,"y":-2,"part":"reaper"}
+        {"x":-3,"y":2,"part":"reaper"},
+        {"x":-3,"y":-2,"part":"reaper"}
     ],
     "items":[]
     }
