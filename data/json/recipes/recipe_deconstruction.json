@@ -125,7 +125,93 @@
     {"id":"HAMMER","level":1,"amount":1}
   ], "components": [
     [
-      [ "copper", 70 ]
+      [ "copper", 173 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "spear_copper",
+  "id_suffix": "uncraft",
+  "category": "CC_NONCRAFT",
+  "subcategory": "CSC_NONCRAFT",
+  "difficulty": 0,
+  "time": 1200,
+  "reversible": true,
+  "autolearn": false,
+  "qualities":[{"id":"HAMMER","level":1,"amount":1}],
+  "components": [
+    [ [ "stick", 1 ] ],
+    [ [ "copper", 325 ] ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "copper_knife",
+  "id_suffix": "uncraft",
+  "category": "CC_NONCRAFT",
+  "subcategory": "CSC_NONCRAFT",
+  "difficulty": 0,
+  "time": 600,
+  "reversible": true,
+  "autolearn": false,
+  "qualities":[
+    {"id":"HAMMER","level":1,"amount":1}
+  ], "components": [
+    [
+      [ "copper", 210 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "copper_ax",
+  "id_suffix": "uncraft",
+  "category": "CC_NONCRAFT",
+  "subcategory": "CSC_NONCRAFT",
+  "difficulty": 0,
+  "time": 1200,
+  "reversible": true,
+  "autolearn": false,
+  "qualities":[
+    {"id":"HAMMER","level":1,"amount":1}
+  ], "components": [
+    [
+      [ "stick", 1 ]
+    ],
+    [
+      [ "copper", 1140 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "pot_copper",
+  "id_suffix": "uncraft",
+  "category": "CC_NONCRAFT",
+  "subcategory": "CSC_NONCRAFT",
+  "difficulty": 0,
+  "time": 1200,
+  "reversible": true,
+  "autolearn": false,
+  "qualities":[
+    {"id":"HAMMER","level":1,"amount":1}
+  ], "components": [
+    [
+      [ "copper", 495 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "scrap_copper",
+  "id_suffix": "uncraft",
+  "category": "CC_NONCRAFT",
+  "subcategory": "CSC_NONCRAFT",
+  "difficulty": 0,
+  "time": 1200,
+  "reversible": true,
+  "autolearn": false,
+  "qualities":[
+    {"id":"HAMMER","level":1,"amount":1}
+  ], "components": [
+    [
+      [ "copper", 111 ]
     ]
   ]
 },{
@@ -246,7 +332,7 @@
     {"id":"HAMMER","level":1,"amount":1}
   ], "components": [
     [
-      [ "copper", 30 ]
+      [ "copper", 43 ]
     ]
   ]
 },{
@@ -361,7 +447,7 @@
     {"id":"HAMMER","level":1,"amount":1}
   ], "components": [
     [
-      [ "copper", 20 ]
+      [ "copper", 25 ]
     ]
   ]
   },{

@@ -818,6 +818,47 @@
   ]
 },{
   "type" : "recipe",
+  "result": "copper_ax",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_TOOLS",
+  "skill_used": "fabrication",
+  "skills_required": [ "carpentry", 1 ],
+  "difficulty": 4,
+  "time": 60000,
+  "reversible": false,
+  "autolearn": true,
+  "book_learn": [["mag_survival", 1] , ["atomic_survival", 1] , ["textbook_carpentry", 2]],
+  "qualities":[
+    {"id":"HAMMER","level":1,"amount":1}
+  ],
+  "tools": [
+    [
+      [ "toolset", 10 ],
+      [ "fire", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "stick", 1 ],
+      [ "2x4", 1 ]
+    ],
+    [
+      [ "scrap_copper", 11 ],
+      [ "copper", 1140 ]
+    ],
+    [
+      [ "string_6", 2 ],
+      [ "resin_cord", 2 ],
+      [ "duct_tape", 40 ],
+      [ "sinew", 40 ],
+      [ "thread", 40 ],
+      [ "yarn", 40 ],
+      [ "plant_fibre", 40 ],
+      [ "withered", 2 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
   "result": "primitive_axe",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_TOOLS",
@@ -3501,6 +3542,24 @@
   ]
 },{
   "type" : "recipe",
+  "result": "scrap_copper",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_MATERIALS",
+  "skill_used": "fabrication",
+  "difficulty": 0,
+  "time": 2500,
+  "reversible": false,
+  "autolearn": true,
+  "qualities":[{"id":"HAMMER","level":1,"amount":1}],
+  "tools": [
+    [
+      [ "toolset", 10 ],
+      [ "fire", -1 ]
+    ]
+  ],
+  "components": [ [ [ "copper", 111 ] ] ]
+},{
+  "type" : "recipe",
   "result": "1st_aid",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_MEDICAL",
@@ -4208,6 +4267,31 @@
       [ "steel_chunk", 1 ],
       [ "scrap", 2 ]
     ]
+  ]
+},{
+  "type" : "recipe", "//": "Tin can be melted by fire, but you need something to contain and work with it. Hence the press.",
+  "result": "pot_copper",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_TOOLS",
+  "skill_used": "fabrication",
+  "difficulty": 2,
+  "time": 90000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities":[{"id":"HAMMER","level":3,"amount":1}],
+  "tools": [
+    [ ["press", -1] ],
+    [
+      [ "toolset", 10 ],
+      [ "fire", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "scrap_copper", 5 ],
+      [ "copper", 495 ]
+    ],
+    [ [ "tin", 30 ] ]
   ]
 },{
   "type" : "recipe",
@@ -6272,21 +6356,25 @@
   "time": 90000,
   "reversible": false,
   "autolearn": true,
-  "qualities":[
-    {"id":"HAMMER","level":3,"amount":1}
-  ],
+  "qualities":[{"id":"HAMMER","level":3,"amount":1}],
   "tools": [
     [ ["tongs", -1] ],
     [ ["chisel", -1] ],
     [ ["anvil", -1] ],
     [ ["swage", -1] ],
-    [ ["forge", 50], ["char_forge", 10], ["oxy_torch", 10] ]
+    [
+      ["forge", 50],
+      ["char_forge", 10],
+      ["oxy_torch", 10]
+    ]
   ],
   "components": [
-     [ [ "copper", 90 ] ],
-     [ [ "lead", 70 ], [ "solder_wire", 70 ], [ "silver_small", 70 ] ]
+    [
+      [ "scrap_copper", 2 ],
+      [ "copper", 173 ]
+    ]
   ]
-  },{
+},{
   "type" : "recipe",
   "result": "pilot_light",
   "category": "CC_OTHER",
