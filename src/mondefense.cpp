@@ -11,11 +11,11 @@
 #include "translations.h"
 #include "field.h"
 
-void mdefense::none( monster *, Creature *, const projectile * )
+void mdefense::none( monster *, Creature *, const dealt_projectile_attack * )
 {
 }
 
-void mdefense::zapback( monster *const m, Creature *const source, projectile const *const proj )
+void mdefense::zapback( monster *const m, Creature *const source, dealt_projectile_attack const *const proj )
 {
     // Not a melee attack, attacker lucked out or out of range
     if( source == nullptr || proj != nullptr ||
@@ -60,7 +60,7 @@ static int sign( int arg )
     return 0;
 }
 
-void mdefense::acidsplash( monster *const m, Creature *const source, projectile const *const proj )
+void mdefense::acidsplash( monster *const m, Creature *const source, dealt_projectile_attack const *const proj )
 {
     // Would be useful to have the attack data here, for cutting vs. bashing etc.
     if( m == nullptr ) {
