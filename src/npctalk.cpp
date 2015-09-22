@@ -644,11 +644,11 @@ void npc::talk_to_u()
             int cat = topic_category(d.topic_stack.back());
             do {
                 d.topic_stack.pop_back();
-            } while (cat != -1 && topic_category(d.topic_stack.back()) == cat);
+            } while( cat != -1 && topic_category(d.topic_stack.back()) == cat );
         }
         if (next == "TALK_DONE" || d.topic_stack.empty()) {
             d.done = true;
-        } else if (next != "TALK_NONE") {
+        } else if( next != "TALK_NONE" ) {
             d.topic_stack.push_back(next);
         }
     } while (!d.done);
@@ -1911,7 +1911,6 @@ void dialogue::gen_responses( const std::string &topic )
               && p->myclass != NC_EVAC_SHOPKEEP) {
             RESPONSE(_("Maybe you can teach me something as payment."));
                 SUCCESS("TALK_TRAIN");
-                    SUCCESS_ACTION(&talk_function::clear_mission);
         }
         add_response( _("I'll take cash if you got it!"), "TALK_MISSION_REWARD",
                       &talk_function::mission_reward_cash );
@@ -2556,6 +2555,7 @@ void dialogue::gen_responses( const std::string &topic )
                 std::string text = string_format(_("%s: %d -> %d (cost %d)"), trained->name().c_str(),
                       cur_level, cur_level + 1, cost );
                 add_response( text, "TALK_TRAIN_START", trained );
+                SUCCESS_ACTION(&talk_function::clear_mission);
             }
             for( auto & style_id : styles ) {
                 auto &style = style_id.obj();
@@ -2563,6 +2563,7 @@ void dialogue::gen_responses( const std::string &topic )
                 //~Martial art style (cost in cent)
                 const std::string text = string_format( _("%s (cost %d)"), style.name.c_str(), cost );
                 add_response( text, "TALK_TRAIN_START", style );
+                SUCCESS_ACTION(&talk_function::clear_mission);
             }
             add_response_none( _("Eh, never mind.") );
 
@@ -3673,16 +3674,19 @@ void talk_function::start_training( npc *p )
     int cost;
     int time;
     std::string name;
-    if( p->chatbin.skill == NULL ) {
+    if( p->chatbin.skill != nullptr ) {
+        const Skill *skill = p->chatbin.skill;
+        cost = calc_skill_training_cost( skill );
+        time = calc_skill_training_time( skill );
+        name = skill->ident().str();
+    } else if( p->chatbin.style.is_valid() ) {
         auto &ma_style_id = p->chatbin.style;
         cost = calc_ma_style_training_cost( ma_style_id );
         time = calc_ma_style_training_time( ma_style_id );
         name = p->chatbin.style.str();
     } else {
-        const Skill *skill = p->chatbin.skill;
-        cost = calc_skill_training_cost( skill );
-        time = calc_skill_training_time( skill );
-        name = skill->ident().str();
+        debugmsg( "start_training with no skill or style set" );
+        return;
     }
 
     if( p->op_of_u.owed >= cost ) {
@@ -3925,9 +3929,11 @@ std::string dialogue::opt( const std::string &topic )
         std::stringstream tmp;
         tmp << "\"" << challenge << "\"";
     }
+
     // Parse any tags in challenge
     parse_tags( challenge, alpha, beta );
     capitalize_letter( challenge );
+
     // Prepend "My Name: "
     if( challenge[0] == '&' ) {
         // No name prepended!
