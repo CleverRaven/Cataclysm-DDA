@@ -13315,6 +13315,7 @@ void game::vertical_shift( const int z_after )
         }
     }
 
+    u.setz( z_after );
     const int z_before = get_levz();
     if( !m.has_zlevels() ) {
         m.clear_vehicle_cache( z_before );
@@ -13330,8 +13331,6 @@ void game::vertical_shift( const int z_after )
         // Shift the map itself
         m.vertical_shift( z_after );
     }
-
-    u.setz( z_after );
 
     m.spawn_monsters( true );
 
