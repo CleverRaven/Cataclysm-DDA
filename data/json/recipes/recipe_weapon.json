@@ -70,7 +70,7 @@
   "skill_used": "fabrication",
   "difficulty": 1,
   "time": 5000,
-  "reversible": false,
+  "reversible": true,
   "autolearn": true,
   "qualities":[
     {"id":"HAMMER","level":1,"amount":1}
@@ -95,7 +95,7 @@
     ],
     [
       [ "scrap_copper", 2 ],
-      [ "copper", 210 ]
+      [ "copper", 200 ]
     ]
   ]
 },{
@@ -338,7 +338,7 @@
   "skill_used": "fabrication",
   "difficulty": 3,
   "time": 2400,
-  "reversible": false,
+  "reversible": true,
   "autolearn": true,
   "qualities":[
     {"id":"CUT","level":1,"amount":1},
@@ -376,7 +376,7 @@
     ],
     [
       [ "copper", 3 ],
-      [ "copper", 325 ]
+      [ "copper", 300 ]
     ]
   ]
 },{

@@ -6613,7 +6613,7 @@
     "description": "This is a decent-sized chunk of worked copper affixed to a wooden shaft, to make a crude yet effective axe.",
     "price": 5500,
     "material": ["wood", "copper"],
-    "weight": 3980,
+    "weight": 3700,
     "volume": 14,
     "bashing": 18,
     "cutting": 12,
