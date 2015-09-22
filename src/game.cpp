@@ -11583,13 +11583,6 @@ void game::chat()
         }
     }
 
-    if( available.size() == 1 ) {
-        available[0]->talk_to_u();
-        u.moves -= 100;
-        refresh_all();
-        return;
-    }
-
     uimenu nmenu;
     nmenu.text = std::string( _("Who do you want to talk to?") );
 
