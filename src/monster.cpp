@@ -1978,7 +1978,7 @@ void monster::on_hit( Creature *source, body_part,
                       int, dealt_projectile_attack const* const proj )
 {
     if( !is_hallucination() ) {
-        type->sp_defense( this, source, proj );
+        type->sp_defense( *this, source, proj );
     }
 
     check_dead_state();
