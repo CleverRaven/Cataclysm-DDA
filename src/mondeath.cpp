@@ -31,6 +31,9 @@ const mtype_id mon_sewer_rat( "mon_sewer_rat" );
 const mtype_id mon_thing( "mon_thing" );
 const mtype_id mon_zombie_dancer( "mon_zombie_dancer" );
 const mtype_id mon_zombie_hulk( "mon_zombie_hulk" );
+const mtype_id mon_zombie( "mon_zombie" );
+const mtype_id mon_zombie_fetus( "mon_zombie_fetus" );
+const mtype_id mon_zombie_pregnant("mon_zombie_pregnant");
 
 void mdeath::normal(monster *z)
 {
@@ -721,5 +724,49 @@ void make_mon_corpse(monster *z, int damageLvl)
     if (z->has_effect("no_ammo")) {
         corpse.set_var("no_ammo", "no_ammo");
     }
+    if (corpse.get_mtype()->id==mon_zombie_pregnant){
+	//If zombie is pregnant zombie, convert to zombie and give birth
+        corpse.set_mtype(&mon_zombie.obj());
+        mdeath::preg_zombie(z);
+    }
     g->m.add_item_or_charges(z->pos(), corpse);
+}
+/**
+ * Pregnant zombie birth
+ *
+ * Spawns 1-3 zombie fetuses or a misshapen fetus
+ */
+void mdeath::preg_zombie(monster *z)
+{
+    int num_fetus=rng(0,3);
+    if (g->u.sees(*z)) {
+        switch(num_fetus){
+            case 0:  add_msg(m_mixed, _("You see a misshapen fetus in the pregnant zombie corpse."));
+            break; 
+            case 1: add_msg(m_warning, _("A zombie fetus crawls out of the pregnant zombie corpse."));
+            break;
+            case 2: add_msg(m_warning, _("Two zombie fetuses emerge from the pregant zombie corpse"));
+            break;
+            case 3: add_msg(m_warning, _("You witness the birth of zombie triplets!"));
+            break;
+        }
+    }
+    if(num_fetus==0){
+        g->m.spawn_item(z->pos(), "fetus", 1, 0, calendar::turn, rng(1, 4));
+    }
+    std::vector <tripoint> fetalspots;
+    for( auto &&fetalp : g->m.points_in_radius( z->pos(), 1 ) ) {
+        if (g->is_empty( fetalp ) ) {
+            fetalspots.push_back(fetalp);
+        }
+    }
+    while(num_fetus--){
+        while(!fetalspots.empty()) {
+            const tripoint target = random_entry_removed( fetalspots );
+            if(-1 == g->mon_at( target )) {
+                g->summon_mon(mon_zombie_fetus, target);
+            }
+        }
+    }
+    add_msg(m_mixed, _("The pregnant zombie corpse is now a zombie corpse."));
 }
