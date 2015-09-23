@@ -725,17 +725,13 @@ void make_mon_corpse(monster *z, int damageLvl)
         corpse.set_var("no_ammo", "no_ammo");
     }
     if (corpse.get_mtype()->id==mon_zombie_pregnant){
-	//If zombie is pregnant zombie, convert to zombie and give birth
+		//If zombie is pregnant zombie, convert to zombie and spawn fetuses
         corpse.set_mtype(&mon_zombie.obj());
         mdeath::preg_zombie(z);
     }
     g->m.add_item_or_charges(z->pos(), corpse);
 }
-/**
- * Pregnant zombie birth
- *
- * Spawns 1-3 zombie fetuses or a misshapen fetus
- */
+
 void mdeath::preg_zombie(monster *z)
 {
     int num_fetus=rng(0,3);
