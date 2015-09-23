@@ -13989,6 +13989,11 @@
           "rotates": false
         },
         {
+          "id": "f_ladder",
+          "fg": 1807,
+          "rotates": false
+        },
+        {
           "id": "t_manhole",
           "fg": 1813,
           "bg": 533,
@@ -18172,6 +18177,11 @@
         },
         {
           "id": "dog_whistle",
+          "fg": 2097,
+          "rotates": false
+        },
+        {
+          "id": "whistle_multitool",
           "fg": 2097,
           "rotates": false
         },
@@ -22459,6 +22469,82 @@
         {
           "id": "iceaxe",
           "fg": 2887,
+          "rotates": false
+        },
+        {
+          "id": "t_door_makeshift_c",
+          "fg": 2888,
+          "rotates": false
+        },
+        {
+          "id": "t_door_makeshift_o",
+          "fg": 2889,
+          "bg": 535,
+          "rotates": false
+        },
+        {
+          "id": "t_door_curtain_c",
+          "fg": 2890,
+          "rotates": false
+        },
+        {
+          "id": "t_door_curtain_o",
+          "fg": 2891,
+          "rotates": false
+        },
+        {
+          "id": "whistle",
+          "fg": 2892,
+          "rotates": false
+        },
+        {
+          "id": "slingpack",
+          "fg": 2893,
+          "rotates": false
+        },
+        {
+          "id": "f_bigmirror_b",
+          "fg": 2894,
+          "rotates": false
+        },
+        {
+          "id": "f_standing_tank",
+          "fg": 2895,
+          "rotates": false
+        },
+        {
+          "id": "stepladder",
+          "fg": 2896,
+          "rotates": false
+        },
+        {
+          "id": "mon_albino_penguin",
+          "fg": 2897,
+          "rotates": false
+        },
+        {
+          "id": "vp_solar_panel_v3",
+          "fg": 2898,
+          "rotates": true
+        },
+        {
+          "id": "game_watch",
+          "fg": 2899,
+          "rotates": false
+        },
+        {
+          "id": "skewer_bone",
+          "fg": 2900,
+          "rotates": false
+        },
+        {
+          "id": "mortar_pestle",
+          "fg": 2901,
+          "rotates": false
+        },
+        {
+          "id": "scrap_copper",
+          "fg": 2901,
           "rotates": false
         }
       ]
