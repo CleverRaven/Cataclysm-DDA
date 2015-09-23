@@ -324,54 +324,6 @@
   ]
 },{
   "type" : "recipe",
-  "result": "spear_copper",
-  "category": "CC_WEAPON",
-  "subcategory": "CSC_WEAPON_PIERCING",
-  "skill_used": "fabrication",
-  "difficulty": 3,
-  "time": 2400,
-  "reversible": false,
-  "autolearn": true,
-  "qualities":[
-    {"id":"CUT","level":1,"amount":1},
-    {"id":"HAMMER","level":1,"amount":1}
-  ],
-  "tools": [
-    [
-      [ "toolset", 10 ],
-      [ "fire", -1 ]
-    ]
-  ],
-  "components": [
-    [
-      [ "stick", 1 ],
-      [ "broom", 1 ],
-      [ "mop", 1 ],
-      [ "2x4", 1 ],
-      [ "pool_cue", 1 ],
-      [ "pointy_stick", 1 ]
-    ],
-    [
-      [ "rag", 1 ],
-      [ "felt_patch", 1 ],
-      [ "leather", 1 ],
-      [ "fur", 1 ]
-    ],
-    [
-      [ "plant_fibre", 20 ],
-      [ "sinew", 20 ],
-      [ "thread", 20 ],
-      [ "yarn", 20 ],
-      [ "duct_tape", 20 ],
-      [ "resin_cord", 1 ],
-      [ "withered", 1 ]
-    ],
-    [
-      [ "copper", 200 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
   "result": "javelin_stone",
   "category": "CC_WEAPON",
   "subcategory": "CSC_WEAPON_PIERCING",
@@ -409,91 +361,15 @@
   ]
 },{
   "type" : "recipe",
-  "result": "javelin_copper",
-  "category": "CC_WEAPON",
-  "subcategory": "CSC_WEAPON_PIERCING",
-  "skill_used": "fabrication",
-  "skills_required": [ "throw", 2 ],
-  "difficulty": 2,
-  "time": 50000,
-  "reversible": false,
-  "autolearn": true,
-  "qualities":[
-    {"id":"HAMMER","level":1,"amount":1}
-  ],
-  "tools": [
-    [
-      [ "toolset", 10 ],
-      [ "fire", -1 ]
-    ]
-  ],
-  "components":
-    [
-    [
-      [ "spear_wood", 1 ],
-      [ "pointy_stick", 1 ]
-    ],
-    [
-      [ "rag", 1 ],
-      [ "leather", 1 ],
-      [ "fur", 1 ]
-    ],
-    [
-      [ "plant_fibre", 20 ],
-      [ "sinew", 20 ],
-      [ "thread", 20 ],
-      [ "duct_tape", 20 ]
-    ],
-     [
-     [ "copper", 50 ]
-     ]
-    ]
-},{
-  "type" : "recipe",
-  "result": "copper_knife",
-  "category": "CC_WEAPON",
-  "subcategory": "CSC_WEAPON_PIERCING",
-  "skill_used": "fabrication",
-  "difficulty": 1,
-  "time": 5000,
-  "reversible": false,
-  "autolearn": true,
-  "qualities":[
-    {"id":"HAMMER","level":1,"amount":1}
-  ],
-  "tools": [
-    [
-      [ "toolset", 10 ],
-      [ "fire", -1 ]
-    ]
-  ],
-  "components": [
-    [
-      [ "rag", 1 ],
-      [ "felt_patch", 1 ],
-      [ "duct_tape", 50 ],
-      [ "string_6", 2 ],
-      [ "sinew", 50 ],
-      [ "thread", 50 ],
-      [ "yarn", 50 ],
-      [ "plant_fibre", 50 ],
-      [ "withered", 1 ]
-    ],
-    [
-      [ "copper", 100 ]
-    ]
-  ]
-},
-{
-  "type" : "recipe",
   "result": "copper_ax",
+  "override": true,
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_TOOLS",
   "skill_used": "fabrication",
   "skills_required": [ "carpentry", 1 ],
   "difficulty": 4,
   "time": 60000,
-  "reversible": false,
+  "reversible": true,
   "autolearn": true,
   "book_learn": [["mag_survival", 1] , ["atomic_survival", 1] , ["textbook_carpentry", 2]],
   "qualities":[
@@ -511,7 +387,8 @@
       [ "2x4", 1 ]
     ],
     [
-      [ "copper", 150 ]
+      [ "scrap_copper", 10 ],
+      [ "copper", 1000 ]
     ],
     [
       [ "string_6", 2 ],
@@ -525,7 +402,98 @@
     ]
   ]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
+  "result": "spear_copper",
+  "override": true,
+  "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_PIERCING",
+  "skill_used": "fabrication",
+  "difficulty": 3,
+  "time": 2400,
+  "reversible": true,
+  "autolearn": true,
+  "qualities":[
+    {"id":"CUT","level":1,"amount":1},
+    {"id":"HAMMER","level":1,"amount":1}
+  ],
+  "tools": [
+    [
+      [ "toolset", 10 ],
+      [ "fire", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "stick", 1 ],
+      [ "broom", 1 ],
+      [ "mop", 1 ],
+      [ "2x4", 1 ],
+      [ "pool_cue", 1 ],
+      [ "pointy_stick", 1 ]
+    ],
+    [
+      [ "rag", 1 ],
+      [ "felt_patch", 1 ],
+      [ "leather", 1 ],
+      [ "fur", 1 ]
+    ],
+    [
+      [ "plant_fibre", 20 ],
+      [ "sinew", 20 ],
+      [ "thread", 20 ],
+      [ "yarn", 20 ],
+      [ "duct_tape", 20 ],
+      [ "resin_cord", 1 ],
+      [ "withered", 1 ]
+    ],
+    [
+      [ "copper", 3 ],
+      [ "copper", 300 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "javelin_copper",
+  "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_PIERCING",
+  "skill_used": "fabrication",
+  "skills_required": [ "throw", 2 ],
+  "difficulty": 2,
+  "time": 50000,
+  "reversible": true,
+  "autolearn": true,
+  "qualities":[
+    {"id":"HAMMER","level":1,"amount":1}
+  ],
+  "tools": [
+    [
+      [ "toolset", 10 ],
+      [ "fire", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "spear_wood", 1 ],
+      [ "pointy_stick", 1 ]
+    ],
+    [
+      [ "rag", 1 ],
+      [ "leather", 1 ],
+      [ "fur", 1 ]
+    ],
+    [
+      [ "plant_fibre", 20 ],
+      [ "sinew", 20 ],
+      [ "thread", 20 ],
+      [ "duct_tape", 20 ]
+    ],
+    [
+      [ "scrap_copper", 1 ],
+      [ "copper", 100 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
   "result": "hat_hooded",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_HEAD",
@@ -910,37 +878,6 @@
     ]
   ]
 },{
-  "type" : "recipe", "//": "Tin can be melted by fire, but you need something to contain and work with it. Hence the press.",
-  "result": "pot_copper",
-  "category": "CC_OTHER",
-  "subcategory": "CSC_OTHER_TOOLS",
-  "skill_used": "fabrication",
-  "difficulty": 2,
-  "time": 90000,
-  "reversible": false,
-  "autolearn": true,
-  "qualities":[
-    {"id":"HAMMER","level":3,"amount":1}
-  ],
- "tools": [
-      [
-        ["press", -1]
-      ],
-      [
-        [ "toolset", 10 ],
-        [ "fire", -1 ]
-      ]
-      ],
-  "components":
-    [
-     [
-     [ "copper", 500 ]
-     ],
-     [
-     [ "tin", 30 ]
-     ]
-    ]
-},{
   "type" : "recipe",
   "result": "pot_makeshift",
   "category": "CC_OTHER",
@@ -983,7 +920,8 @@
   "components":
     [
      [
-     [ "copper", 500 ]
+     [ "scrap_copper", 4 ],
+     [ "copper", 400 ]
      ]
     ]
 },{
@@ -1030,117 +968,6 @@
       [ "felt_patch", 2 ],
       [ "leather", 2 ],
       [ "fur", 2 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "spear_copper",
-  "id_suffix": "uncraft",
-  "category": "CC_NONCRAFT",
-  "subcategory": "CSC_NONCRAFT",
-  "difficulty": 0,
-  "time": 1200,
-  "reversible": true,
-  "autolearn": false,
-  "qualities":[
-    {"id":"HAMMER","level":1,"amount":1}
-  ], "components": [
-    [
-      [ "stick", 1 ]
-    ],
-    [
-      [ "copper", 200 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "javelin_copper",
-  "id_suffix": "uncraft",
-  "category": "CC_NONCRAFT",
-  "subcategory": "CSC_NONCRAFT",
-  "difficulty": 0,
-  "time": 1000,
-  "reversible": true,
-  "autolearn": false,
-  "qualities":[
-    {"id":"HAMMER","level":1,"amount":1}
-  ], "components": [
-    [
-      [ "pointy_stick", 1 ]
-    ],
-    [
-      [ "copper", 50 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "copper_knife",
-  "id_suffix": "uncraft",
-  "category": "CC_NONCRAFT",
-  "subcategory": "CSC_NONCRAFT",
-  "difficulty": 0,
-  "time": 600,
-  "reversible": true,
-  "autolearn": false,
-  "qualities":[
-    {"id":"HAMMER","level":1,"amount":1}
-  ], "components": [
-    [
-      [ "copper", 100 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "copper_ax",
-  "id_suffix": "uncraft",
-  "category": "CC_NONCRAFT",
-  "subcategory": "CSC_NONCRAFT",
-  "difficulty": 0,
-  "time": 1200,
-  "reversible": true,
-  "autolearn": false,
-  "qualities":[
-    {"id":"HAMMER","level":1,"amount":1}
-  ], "components": [
-    [
-      [ "stick", 1 ]
-    ],
-    [
-      [ "copper", 150 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "pot_copper",
-  "id_suffix": "uncraft",
-  "category": "CC_NONCRAFT",
-  "subcategory": "CSC_NONCRAFT",
-  "difficulty": 0,
-  "time": 1200,
-  "reversible": true,
-  "autolearn": false,
-  "qualities":[
-    {"id":"HAMMER","level":1,"amount":1}
-  ], "components": [
-    [
-      [ "copper", 500 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "pot_makeshift_copper",
-  "id_suffix": "uncraft",
-  "category": "CC_NONCRAFT",
-  "subcategory": "CSC_NONCRAFT",
-  "difficulty": 0,
-  "time": 1200,
-  "reversible": true,
-  "autolearn": false,
-  "qualities":[
-    {"id":"HAMMER","level":1,"amount":1}
-  ], "components": [
-    [
-      [ "copper", 500 ]
     ]
   ]
 },{
