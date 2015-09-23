@@ -1111,7 +1111,7 @@ void monster::deal_projectile_attack( Creature *source, dealt_projectile_attack 
     Creature::deal_projectile_attack( source, attack );
     if( !is_hallucination() && attack.hit_critter == this ) {
         // Maybe TODO: Get difficulty from projectile speed/size/missed_by
-        on_hit( source, bp_torso, INT_MIN, &proj );
+        on_hit( source, bp_torso, INT_MIN, &attack );
     }
 }
 
@@ -1975,10 +1975,10 @@ void monster::on_dodge( Creature*, int )
 }
 
 void monster::on_hit( Creature *source, body_part,
-                      int, projectile const* const proj )
+                      int, dealt_projectile_attack const* const proj )
 {
     if( !is_hallucination() ) {
-        type->sp_defense( this, source, proj );
+        type->sp_defense( *this, source, proj );
     }
 
     check_dead_state();

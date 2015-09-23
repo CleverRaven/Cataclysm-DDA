@@ -4,6 +4,7 @@
 class monster;
 class Creature;
 struct projectile;
+struct dealt_projectile_attack;
 
 namespace mdefense {
 /**
@@ -12,10 +13,10 @@ namespace mdefense {
     * @param proj The projectile it was hit by or NULL if it
     * was attacked with a melee attack.
     */
-void zapback           (monster *m, Creature *source, const projectile *proj);
-void acidsplash        (monster *m, Creature *source, const projectile *proj);
+void zapback           (monster &m, Creature *source, const dealt_projectile_attack *proj);
+void acidsplash        (monster &m, Creature *source, const dealt_projectile_attack *proj);
 
-void none(monster *, Creature *, const projectile *);
+void none(monster &, Creature *, const dealt_projectile_attack *);
 } //namespace mdefense
 
 #endif

@@ -461,7 +461,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         void on_dodge( Creature *source, int difficulty = INT_MIN ) override;
         /** Handles special defenses from an attack that hit us (source can be null) */
         void on_hit( Creature *source, body_part bp_hit = num_bp,
-                     int difficulty = INT_MIN, projectile const* const proj = nullptr ) override;
+                     int difficulty = INT_MIN, dealt_projectile_attack const* const proj = nullptr ) override;
         /** Handles effects that happen when the player is damaged and aware of the fact. */
         void on_hurt( Creature *source, bool disturb = true );
 

@@ -4591,7 +4591,7 @@ void player::on_dodge( Creature *source, int difficulty )
 }
 
 void player::on_hit( Creature *source, body_part bp_hit,
-                     int difficulty, projectile const* const proj ) {
+                     int difficulty, dealt_projectile_attack const* const proj ) {
     check_dead_state();
     bool u_see = g->u.sees( *this );
     if( source == nullptr || proj != nullptr ) {
