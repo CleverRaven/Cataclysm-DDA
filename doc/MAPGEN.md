@@ -554,6 +554,7 @@ Places a toilet (furniture) and adds water to it. Values:
 ### 2.7.5 "gaspumps"
 Places a gas pump with gasoline (or sometimes diesel) in it. Values:
 - "amount": (optional, integer or min/max array) the amount of fuel to be placed in the pump.
+- "fuel": (optional, string: "gasoline" or "diesel") the type of fuel to be placed in the pump.
 
 ### 2.7.6 "items"
 Places items from an item group. Values:
