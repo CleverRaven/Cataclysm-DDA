@@ -4591,7 +4591,7 @@ void player::on_dodge( Creature *source, int difficulty )
 }
 
 void player::on_hit( Creature *source, body_part bp_hit,
-                     int difficulty, projectile const* const proj ) {
+                     int difficulty, dealt_projectile_attack const* const proj ) {
     check_dead_state();
     bool u_see = g->u.sees( *this );
     if( source == nullptr || proj != nullptr ) {
@@ -13156,13 +13156,6 @@ void player::cancel_activity()
     activity = player_activity();
 }
 
-std::vector<const item *> player::get_ammo( const ammotype &at ) const
-{
-    return items_with( [at]( const item & it ) {
-        return it.is_ammo() && it.ammo_type() == at;
-    } );
-}
-
 bool player::has_gun_for_ammo( const ammotype &at ) const
 {
     return has_item_with( [at]( const item & it ) {
@@ -13868,6 +13861,14 @@ std::vector<Creature *> player::get_targetable_creatures( const int range ) cons
           rl_dist( this->pos(), critter.pos() ) <= range;
     } );
 }
+
+std::vector<Creature *> player::get_hostile_creatures() const
+{
+    return get_creatures_if( [this] ( const Creature &critter ) -> bool {
+        return this != &critter && this->sees(critter) && critter.attitude_to(*this) == A_HOSTILE;
+    } );
+}
+
 
 void player::place_corpse()
 {

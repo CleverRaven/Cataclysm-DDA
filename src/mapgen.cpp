@@ -713,16 +713,28 @@ public:
 class jmapgen_gaspump : public jmapgen_piece {
 public:
     jmapgen_int amount;
+    std::string fuel;
     jmapgen_gaspump( JsonObject &jsi ) : jmapgen_piece()
-    , amount( jsi, "amount", 0, 0 )
+    , amount( jsi, "amount", 0, 0 ), fuel("")
     {
+        if (jsi.has_string("fuel")){
+            fuel = jsi.get_string("fuel");
+
+            // may want to not force this, if we want to support other fuels for some reason
+            if (fuel != "gasoline" && fuel != "diesel"){
+                jsi.throw_error("invalid fuel", "fuel");
+            }
+        }
     }
     void apply( map &m, const size_t x, const size_t y, const float /*mon_density*/ ) const override
     {
-        const long charges = amount.get();
+        long charges = amount.get();
         m.furn_set( x, y, f_null );
         if( charges == 0 ) {
-            m.place_gas_pump( x, y, rng( 10000, 50000 ) );
+            charges = rng( 10000, 50000 );
+        }
+        if (fuel != "") {
+            m.place_gas_pump( x, y, charges, fuel );
         } else {
             m.place_gas_pump( x, y, charges );
         }
@@ -11556,6 +11568,18 @@ void map::place_gas_pump(int x, int y, int charges)
         gas.charges = charges;
         add_item(x, y, gas);
         ter_set(x, y, t_gas_pump);
+    }
+}
+
+void map::place_gas_pump(int x, int y, int charges, std::string fuel_type)
+{
+    item fuel(fuel_type, 0);
+    fuel.charges = charges;
+    add_item(x, y, fuel);
+    if ( fuel_type == "gasoline") {
+        ter_set(x, y, t_gas_pump);
+    } else if ( fuel_type == "diesel") {
+        ter_set(x, y, t_diesel_pump);
     }
 }
 

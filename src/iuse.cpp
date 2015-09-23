@@ -3317,7 +3317,7 @@ int iuse::solder_weld( player *p, item *it, bool, const tripoint& )
     }
 
     static const std::vector<std::string> materials = {{
-        "kevlar", "plastic", "iron", "steel", "hardsteel", "aluminum"
+        "kevlar", "plastic", "iron", "steel", "hardsteel", "aluminum", "copper"
     }};
 
     int pos = g->inv_for_filter( _("Repair what?"), [it]( const item &itm ) {
@@ -3348,7 +3348,8 @@ int iuse::solder_weld( player *p, item *it, bool, const tripoint& )
             std::make_tuple( "iron", "scrap", _("scrap metal") ),
             std::make_tuple( "steel", "scrap", _("scrap metal") ),
             std::make_tuple( "hardsteel", "scrap", _("scrap metal") ),
-            std::make_tuple( "aluminum", "material_aluminium_ingot", _("aluminum ingots") )
+            std::make_tuple( "aluminum", "material_aluminium_ingot", _("aluminum ingots") ),
+            std::make_tuple( "copper", "scrap_copper", _("scrap copper") )
     };
 
     if( &fix == it || any_of( repair_list.begin(), repair_list.end(), [&fix]( const repair_tuple &tup ) {

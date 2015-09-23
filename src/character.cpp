@@ -598,6 +598,21 @@ void Character::remove_mission_items( int mission_id )
     remove_items_with( has_mission_item_filter { mission_id } );
 }
 
+std::vector<const item *> Character::get_ammo( const ammotype &at ) const
+{
+    return items_with( [at]( const item & it ) {
+        return it.is_ammo() && it.ammo_type() == at;
+    } );
+}
+
+bool Character::can_reload()
+{
+    if (!weapon.is_gun()) {
+        return false;
+    }
+    return (weapon.charges < weapon.type->gun->clip && get_ammo(weapon.ammo_type()).size() > 0);
+}
+
 int Character::weight_carried() const
 {
     int ret = 0;
@@ -1231,7 +1246,7 @@ hp_part Character::body_window( const std::string &menu_header,
             }
 
             mvwprintz( hp_window, line, 20, c_dkgray, " -> " );
-            
+
             const nc_color color = has_any_effect ? new_state_col : c_green;
             print_hp( 24, color, new_hp );
         } else {

@@ -392,7 +392,8 @@
             "sound_vol": 16,
             "sound_fail_vol": 12,
             "items": [
-                { "item": "cu_pipe", "count": [0, 3] },
+                { "item": "cu_pipe", "count": [0, 2] },
+                { "item": "scrap_copper", "count": [0, 2] },
                 { "item": "ceramic_shard", "count": [2, 6] },
                 { "item": "glass_shard", "count": [1, 2] }
             ]
@@ -790,7 +791,8 @@
                 { "item": "scrap", "count": [2, 8] },
                 { "item": "steel_chunk", "count": [0, 3] },
                 { "item": "hose", "count": 1 },
-                { "item": "cu_pipe", "count": [3, 6] }
+                { "item": "cu_pipe", "count": [2, 5] },
+                { "item": "scrap_copper", "count": [1, 2] }
             ]
         }
     },{
@@ -820,7 +822,8 @@
                 { "item": "scrap", "count": [2, 8] },
                 { "item": "steel_chunk", "count": [0, 3] },
                 { "item": "hose", "count": 1 },
-                { "item": "cu_pipe", "count": [2, 5] },
+                { "item": "cu_pipe", "count": [1, 4] },
+                { "item": "scrap_copper", "count": [0, 2] },
                 { "item": "glass_shard", "count": [3, 6] }
             ]
         }
@@ -957,7 +960,8 @@
                 { "item": "sheet_metal", "count": [2, 6] },
                 { "item": "cable", "charges": [1, 15] },
                 { "item": "hose", "count": [0, 2] },
-                { "item": "cu_pipe", "count": [2, 5] }
+                { "item": "cu_pipe", "count": [1, 4] },
+                { "item": "scrap_copper", "count": [0, 2] }
             ]
         }
     },{
@@ -1065,7 +1069,8 @@
                 { "item": "scrap", "count": [2, 8] },
                 { "item": "steel_chunk", "count": [0, 3] },
                 { "item": "hose", "count": 1 },
-                { "item": "cu_pipe", "count": [2, 5] }
+                { "item": "cu_pipe", "count": [1, 4] },
+                { "item": "scrap_copper", "count": [0, 2] }
             ]
         }
     },{
@@ -2402,7 +2407,8 @@
                 { "item": "scrap", "count": [2, 8] },
                 { "item": "steel_chunk", "count": [0, 3] },
                 { "item": "hose", "count": 1 },
-                { "item": "cu_pipe", "count": [2, 5] }
+                { "item": "cu_pipe", "count": [1, 4] },
+                { "item": "scrap_copper", "count": [0, 2] }
             ]
         }
     },{

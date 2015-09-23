@@ -121,13 +121,14 @@
   "time": 1200,
   "reversible": true,
   "autolearn": false,
-  "qualities":[
-    {"id":"HAMMER","level":1,"amount":1}
-  ], "components": [
+  "qualities":[ {"id":"HAMMER","level":1,"amount":1} ],
+  "tools": [
     [
-      [ "copper", 70 ]
+      [ "toolset", 10 ],
+      [ "fire", -1 ]
     ]
-  ]
+  ],
+  "components": [ [ [ "copper", 200 ] ] ]
 },{
     "type" : "recipe",
     "result": "silver",
@@ -246,7 +247,7 @@
     {"id":"HAMMER","level":1,"amount":1}
   ], "components": [
     [
-      [ "copper", 30 ]
+      [ "copper", 43 ]
     ]
   ]
 },{
@@ -361,7 +362,7 @@
     {"id":"HAMMER","level":1,"amount":1}
   ], "components": [
     [
-      [ "copper", 20 ]
+      [ "copper", 25 ]
     ]
   ]
   },{

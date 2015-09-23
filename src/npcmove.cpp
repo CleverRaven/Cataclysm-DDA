@@ -1121,14 +1121,6 @@ bool npc::is_blocking_position( const tripoint &p ) {
     return (g->m.move_cost(left) == 0 && g->m.move_cost(right) == 0);
 }
 
-bool npc::can_reload()
-{
-    if (!weapon.is_gun()) {
-        return false;
-    }
-    return (weapon.charges < weapon.type->gun->clip && get_ammo(weapon.ammo_type()).size() > 0);
-}
-
 bool npc::need_to_reload()
 {
     if (!weapon.is_gun()) {

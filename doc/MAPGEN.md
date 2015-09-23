@@ -1,16 +1,16 @@
 * 0 Intro
 	* 0.0 How buildings and terrain are generated
 * 1 Adding mapgen entries.
-        * 1.0 Methods
-        * 1.1 Placement
-		* 1.1.0 Embedded
-		* 1.1.1 Standalone
-        * 1.2 Format and variables
+    * 1.0 Methods
+    * 1.1 Placement
+	    * 1.1.0 Embedded
+	    * 1.1.1 Standalone
+    * 1.2 Format and variables
 		* 1.2.0 "method":
 		* 1.2.1 "om_terrain":
 		* 1.2.1 "weight":
 	* 1.3 How "overmap_terrain" variables affect mapgen
-        * 1.4 Limitations / TODO
+    * 1.4 Limitations / TODO
 * 2 Method: json
 	* 2.0 "fill_ter":
         * 2.1 "rows":
@@ -457,7 +457,7 @@ The mapping is defined with a json object like this:
     ...
 }
 ```
-"<type-of-special>" is one of the types listed below. <data-of-special> is a json object with content specific to the special type. Some types require no data at all or all their data is optional, an empty object is enough for those specials. You can define as many mapping as you want.
+"\<type-of-special\>" is one of the types listed below. \<data-of-special\> is a json object with content specific to the special type. Some types require no data at all or all their data is optional, an empty object is enough for those specials. You can define as many mapping as you want.
 
 Each mapping can be an array, for things that can appear several times on the tile (e.g. items, fields) each entry of the array is applied in order. For traps, furniture and terrain, one entry is randomly chosen (all entries have the same chances) and applied.
 Example (places grass at 2/3 of all '.' square and dirt at 1/3 of them):
@@ -493,7 +493,7 @@ Defining specials through their specific location:
     ...
 }
 ```
-<x> and <y> define where the special is placed (x is horizontal, y vertical). Valid value are in the range 0...23, min-max values are also supported: `"x": [ 0, 23 ], "y": [ 0, 23 ]` places the special anyway on the map.
+\<x\> and \<y\> define where the special is placed (x is horizontal, y vertical). Valid value are in the range 0...23, min-max values are also supported: `"x": [ 0, 23 ], "y": [ 0, 23 ]` places the special anyway on the map.
 
 Example with mapping (the characters 'O' and ';' should appear in the rows array where the specials should appear):
 ```
@@ -554,6 +554,7 @@ Places a toilet (furniture) and adds water to it. Values:
 ### 2.7.5 "gaspumps"
 Places a gas pump with gasoline (or sometimes diesel) in it. Values:
 - "amount": (optional, integer or min/max array) the amount of fuel to be placed in the pump.
+- "fuel": (optional, string: "gasoline" or "diesel") the type of fuel to be placed in the pump.
 
 ### 2.7.6 "items"
 Places items from an item group. Values:

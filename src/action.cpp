@@ -540,6 +540,29 @@ action_id handle_action_menu()
     // Weight >= 200: Special action only available right now
     std::map<action_id, int> action_weightings;
 
+    // Check if we're in a potential combat situation, if so, sort a few actions to the top.
+    if(!g->u.get_hostile_creatures().empty()) {
+        // Only prioritize movement options if we're not driving.
+        if(!g->u.controlling_vehicle) {
+            action_weightings[ACTION_TOGGLE_MOVE] = 400;
+        }
+        // Only prioritize fire weapon options if we're wielding a ranged weapon.
+        if(g->u.weapon.is_gun() || g->u.weapon.has_flag( "REACH_ATTACK" ) ) {
+            action_weightings[ACTION_FIRE] = 350;
+        }
+    }
+
+    // If we're already running, make it simple to toggle running to off.
+    if(g->u.move_mode != "walk") {
+        action_weightings[ACTION_TOGGLE_MOVE] = 300;
+    }
+
+    // If our wielded item is a gun, doesn't have full ammo, and we do have the ammo,
+    // prioritize reloading.
+    if(g->u.can_reload()) {
+        action_weightings[ACTION_RELOAD] = 250;
+    }
+
     // Check if we're on a vehicle, if so, vehicle controls should be top.
     {
         int veh_part = 0;
@@ -685,6 +708,7 @@ action_id handle_action_menu()
             REGISTER_ACTION( ACTION_GRAB );
             REGISTER_ACTION( ACTION_BUTCHER );
         } else if( category == "combat" ) {
+            REGISTER_ACTION( ACTION_TOGGLE_MOVE );
             REGISTER_ACTION( ACTION_FIRE );
             REGISTER_ACTION( ACTION_RELOAD );
             REGISTER_ACTION( ACTION_SELECT_FIRE_MODE );
