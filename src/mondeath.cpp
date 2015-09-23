@@ -756,13 +756,11 @@ void mdeath::preg_zombie(monster *z)
             fetalspots.push_back(fetalp);
         }
     }
-    while(num_fetus--){
-        while(!fetalspots.empty()) {
-            const tripoint target = random_entry_removed( fetalspots );
-            if(-1 == g->mon_at( target )) {
-                g->summon_mon(mon_zombie_fetus, target);
-            }
-        }
-    }
+	const tripoint target = random_entry_removed( fetalspots );
+	while(!fetalspots.empty() && num_fetus--) {
+		if(-1 == g->mon_at( target )) {
+			g->summon_mon(mon_zombie_fetus, target);
+		}
+	}
     add_msg(m_mixed, _("The pregnant zombie corpse is now a zombie corpse."));
 }
