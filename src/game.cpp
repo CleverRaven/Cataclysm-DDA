@@ -3722,12 +3722,18 @@ void game::debug()
         }
 
         auto pt = look_around();
-        if( pt != tripoint_min ) {
-            u.setpos( pt );
-            update_map( &u );
-            pt = u.pos();
-            add_msg( _("You teleport to point (%d,%d,%d)"), pt.x, pt.y, pt.z );
+        if( pt == tripoint_min ) {
+            break;
         }
+
+        if( m.has_zlevels() && pt.z != get_levz() ) {
+            vertical_shift( pt.z );
+        }
+
+        u.setpos( pt );
+        update_map( &u );
+        pt = u.pos();
+        add_msg( _("You teleport to point (%d,%d,%d)"), pt.x, pt.y, pt.z );
 
         if( m.veh_at( u.pos() ) != nullptr ) {
             m.board_vehicle( u.pos(), &u );
@@ -13118,124 +13124,21 @@ void game::vertical_move(int movez, bool force)
 
     map &maybetmp = m.has_zlevels() ? m : *( tmp_map_ptr.get() );
     if( m.has_zlevels() ) {
-        maybetmp.vertical_shift( z_after );
+        // We no longer need to shift the map here! What joy
     } else {
         maybetmp.load(get_levx(), get_levy(), z_after, false);
     }
 
     // Find the corresponding staircase
     bool rope_ladder = false;
-
-    const int omtilesz = SEEX * 2;
-    real_coords rc( m.getabs(u.posx(), u.posy()) );
-    point omtile_align_start(
-        m.getlocal(rc.begin_om_pos())
-    );
-
     bool actually_moved = true;
     // TODO: Remove the stairfinding, make the mapgen gen aligned maps
-    if( !force && !climbing ) { // We need to find the stairs.
-        stairs.x = -1;
-        stairs.y = -1;
-        tripoint dest( -1, -1, z_after );
-        int best = 999;
-        int &i = dest.x;
-        int &j = dest.y;
-        for( i = omtile_align_start.x; i <= omtile_align_start.x + omtilesz; i++ ) {
-            for( j = omtile_align_start.y; j <= omtile_align_start.y + omtilesz; j++ ) {
-                if (rl_dist(u.pos(), dest) <= best &&
-                    ((movez == -1 && maybetmp.has_flag("GOES_UP", dest)) ||
-                     (movez == 1 && (maybetmp.has_flag("GOES_DOWN", dest) ||
-                                     maybetmp.ter(dest) == t_manhole_cover)) ||
-                     ((movez == 2 || movez == -2) && maybetmp.ter(dest) == t_elevator))) {
-                    stairs = dest;
-                    best = rl_dist(u.pos(), dest);
-                }
-            }
-        }
-
-        if( stairs.x == -1 || stairs.y == -1 ) { // No stairs found!
-            stairs = u.pos();
-            stairs.z = z_after;
-            // Check the destination area for lava.
-            if( maybetmp.ter(stairs) == t_lava ){
-                if( movez < 0 &&
-                    !query_yn(_("There is a LOT of heat coming out of there.  Descend anyway?")) ) {
-                    actually_moved = false;
-                } else if( movez > 0 &&
-                           !query_yn(_("There is a LOT of heat coming out of there.  Ascend anyway?")) ){
-                    actually_moved = false;
-                }
-            } else if (movez < 0) {
-                if (maybetmp.move_cost(stairs) == 0) {
-                    popup(_("Halfway down, the way down becomes blocked off."));
-                    actually_moved = false;
-                } else if (u.has_trait("WEB_RAPPEL")) {
-                    if (query_yn(_("There is a sheer drop halfway down. Web-descend?"))) {
-                        rope_ladder = true;
-                        if ((rng(4, 8)) < u.skillLevel( skill_dodge )) {
-                            add_msg(_("You attach a web and dive down headfirst, flipping upright and landing on your feet."));
-                        } else {
-                            add_msg(_("You securely web up and work your way down, lowering yourself safely."));
-                        }
-                    } else {
-                        actually_moved = false;
-                    }
-                } else if (u.has_trait("VINES2") || u.has_trait("VINES3")) {
-                    if (query_yn(_("There is a sheer drop halfway down.  Use your vines to descend?"))) {
-                        if (u.has_trait("VINES2")) {
-                            if (query_yn(_("Detach a vine?  It'll hurt, but you'll be able to climb back up..."))) {
-                                rope_ladder = true;
-                                add_msg(m_bad, _("You descend on your vines, though leaving a part of you behind stings."));
-                                u.mod_pain(5);
-                                u.apply_damage( nullptr, bp_torso, 5 );
-                                u.mod_hunger(10);
-                                u.thirst += 10;
-                            } else {
-                                add_msg(_("You gingerly descend using your vines."));
-                            }
-                        } else {
-                            add_msg(_("You effortlessly lower yourself and leave a vine rooted for future use."));
-                            rope_ladder = true;
-                            u.mod_hunger(10);
-                            u.thirst += 10;
-                        }
-                    } else {
-                        actually_moved = false;
-                    }
-                } else if (u.has_amount("grapnel", 1)) {
-                    if (query_yn(_("There is a sheer drop halfway down. Climb your grappling hook down?"))) {
-                        rope_ladder = true;
-                        u.use_amount("grapnel", 1);
-                    } else {
-                        actually_moved = false;
-                    }
-                } else if (u.has_amount("rope_30", 1)) {
-                    if (query_yn(_("There is a sheer drop halfway down. Climb your rope down?"))) {
-                        rope_ladder = true;
-                        u.use_amount("rope_30", 1);
-                    } else {
-                        actually_moved = false;
-                    }
-
-                } else if (u.has_amount("bullwhip", 1)) {
-                    if (query_yn(_("There is a sheer drop halfway down. Use your whip to lower yourself?"))) {}
-                    else {
-                        actually_moved = false;
-                    }
-                } else if (!query_yn(_("There is a sheer drop halfway down.  Jump?"))) {
-                    actually_moved = false;
-                }
-            }
-        }
+    if( !force && !climbing ) {
+        stairs = find_or_make_stairs( maybetmp, z_after, rope_ladder );
+        actually_moved = stairs != tripoint_min;
     }
 
     if( !actually_moved ) {
-        if( m.has_zlevels() ) {
-            // Have to undo the map shift
-            m.vertical_shift( z_before );
-        }
-
         return;
     }
 
@@ -13265,21 +13168,132 @@ void game::vertical_move(int movez, bool force)
     }
 
     u.moves -= move_cost;
-    if (rope_ladder) {
-        m.ter_set(u.pos(), t_rope_up);
-    }
-    if (m.ter(stairs.x, stairs.y) == t_manhole_cover) {
-        m.spawn_item(stairs.x + rng(-1, 1), stairs.y + rng(-1, 1), "manhole_cover");
-        m.ter_set(stairs.x, stairs.y, t_manhole);
-    }
 
     vertical_shift( z_after );
     if( !force ) {
+        update_map( stairs.x, stairs.y );
         u.setpos( stairs );
     }
 
+    if( rope_ladder ) {
+        m.ter_set( u.pos(), t_rope_up );
+    }
+
+    if( m.ter( stairs ) == t_manhole_cover ) {
+        m.spawn_item( stairs + point( rng(-1, 1), rng(-1, 1) ), "manhole_cover" );
+        m.ter_set( stairs, t_manhole );
+    }
+
+    refresh_all();
     // Upon force movement, traps can not be avoided.
     m.creature_on_trap( u, !force );
+}
+
+tripoint game::find_or_make_stairs( map &mp, const int z_after, bool &rope_ladder )
+{
+    const int omtilesz = SEEX * 2;
+    real_coords rc( m.getabs(u.posx(), u.posy()) );
+    tripoint omtile_align_start( m.getlocal(rc.begin_om_pos()), z_after );
+
+    // Try to find the stairs.
+    tripoint stairs = tripoint_min;
+    int best = INT_MAX;
+    const int movez = z_after - get_levz();
+    for( const tripoint &dest : m.points_in_radius( omtile_align_start, omtilesz ) ) {
+        if( rl_dist( u.pos(), dest ) <= best &&
+            ((movez == -1 && mp.has_flag("GOES_UP", dest)) ||
+             (movez == 1 && (mp.has_flag("GOES_DOWN", dest) ||
+                             mp.ter(dest) == t_manhole_cover)) ||
+             ((movez == 2 || movez == -2) && mp.ter(dest) == t_elevator))) {
+            stairs = dest;
+            best = rl_dist( u.pos(), dest );
+        }
+    }
+
+    if( stairs != tripoint_min ) {
+        // Stairs found
+        return stairs;
+    }
+
+    // No stairs found! Try to make some
+    rope_ladder = false;
+    stairs = u.pos();
+    stairs.z = z_after;
+    // Check the destination area for lava.
+    if( mp.ter(stairs) == t_lava ) {
+        if( movez < 0 &&
+            !query_yn(_("There is a LOT of heat coming out of there.  Descend anyway?")) ) {
+            return tripoint_min;
+        } else if( movez > 0 && !query_yn(_("There is a LOT of heat coming out of there.  Ascend anyway?")) ){
+            return tripoint_min;
+        }
+
+        return stairs;
+    }
+
+    if( movez > 0 ) {
+        // Manhole covers need this to work
+        // Maybe require manhole cover here and fail otherwise?
+        return stairs;
+    }
+
+    if( mp.move_cost( stairs ) == 0 ) {
+        popup(_("Halfway down, the way down becomes blocked off."));
+        return tripoint_min;
+    }
+
+    if( u.has_trait( "WEB_RAPPEL" ) ) {
+        if (query_yn(_("There is a sheer drop halfway down. Web-descend?"))) {
+            rope_ladder = true;
+            if ((rng(4, 8)) < u.skillLevel( skill_dodge )) {
+                add_msg(_("You attach a web and dive down headfirst, flipping upright and landing on your feet."));
+            } else {
+                add_msg(_("You securely web up and work your way down, lowering yourself safely."));
+            }
+        } else {
+            return tripoint_min;
+        }
+    } else if (u.has_trait("VINES2") || u.has_trait("VINES3")) {
+        if (query_yn(_("There is a sheer drop halfway down.  Use your vines to descend?"))) {
+            if (u.has_trait("VINES2")) {
+                if (query_yn(_("Detach a vine?  It'll hurt, but you'll be able to climb back up..."))) {
+                    rope_ladder = true;
+                    add_msg(m_bad, _("You descend on your vines, though leaving a part of you behind stings."));
+                    u.mod_pain(5);
+                    u.apply_damage( nullptr, bp_torso, 5 );
+                    u.mod_hunger(10);
+                    u.thirst += 10;
+                } else {
+                    add_msg(_("You gingerly descend using your vines."));
+                }
+            } else {
+                add_msg(_("You effortlessly lower yourself and leave a vine rooted for future use."));
+                rope_ladder = true;
+                u.mod_hunger(10);
+                u.thirst += 10;
+            }
+        } else {
+            return tripoint_min;
+        }
+    } else if (u.has_amount("grapnel", 1)) {
+        if (query_yn(_("There is a sheer drop halfway down. Climb your grappling hook down?"))) {
+            rope_ladder = true;
+            u.use_amount("grapnel", 1);
+        } else {
+            return tripoint_min;
+        }
+    } else if (u.has_amount("rope_30", 1)) {
+        if (query_yn(_("There is a sheer drop halfway down. Climb your rope down?"))) {
+            rope_ladder = true;
+            u.use_amount("rope_30", 1);
+        } else {
+            return tripoint_min;
+        }
+    } else if( !query_yn( _("There is a sheer drop halfway down.  Jump?") ) ) {
+        return tripoint_min;
+    }
+
+    return stairs;
 }
 
 void game::vertical_shift( const int z_after )
@@ -13301,6 +13315,7 @@ void game::vertical_shift( const int z_after )
         }
     }
 
+    u.setz( z_after );
     const int z_before = get_levz();
     if( !m.has_zlevels() ) {
         m.clear_vehicle_cache( z_before );
@@ -13317,23 +13332,18 @@ void game::vertical_shift( const int z_after )
         m.vertical_shift( z_after );
     }
 
-    u.setz( z_after );
-    update_map( &u );
-
     m.spawn_monsters( true );
 
-    refresh_all();
     vertical_notes( z_before, z_after );
 }
 
 void game::vertical_notes( int z_before, int z_after )
 {
-    if( !OPTIONS["AUTO_NOTES"] ) {
+    if( z_before == z_after || !OPTIONS["AUTO_NOTES"] ) {
         return;
     }
 
-    if( z_before == z_after ||
-        !m.inbounds_z( z_before ) || !m.inbounds_z( z_after ) ) {
+    if( !m.inbounds_z( z_before ) || !m.inbounds_z( z_after ) ) {
         debugmsg( "game::vertical_notes invalid arguments: z_before == %d, z_after == %d",
                   z_before, z_after );
         return;
