@@ -1623,13 +1623,13 @@ void player::recalc_speed_bonus()
 int player::run_cost(int base_cost, bool diag) const
 {
     float movecost = float(base_cost);
-    const bool flatground = movecost < 105;
     if( diag ) {
         movecost *= 0.7071f; // because everything here assumes 100 is base
     }
 
+    const bool flatground = movecost < 105;
     // The "FLAT" tag includes soft surfaces, so not a good fit.
-    const bool offroading = flatground && !g->m.has_flag( "ROAD", pos() );
+    const bool on_road = flatground && g->m.has_flag( "ROAD", pos() );
 
     if (has_trait("PARKOUR") && movecost > 100 ) {
         movecost *= .5f;
@@ -1696,25 +1696,21 @@ int player::run_cost(int base_cost, bool diag) const
     if (has_trait("PONDEROUS3")) {
         movecost *= 1.3f;
     }
-    if (is_wearing("swim_fins")) {
-            movecost *= 1.0f + (0.25f * shoe_type_count("swim_fins"));
+    if( is_wearing("swim_fins") ) {
+        movecost *= 1.5f;
     }
-    if ( (is_wearing("roller_blades")) && !(is_on_ground())) {
-        if (offroading) {
-            movecost *= 1.0f + (0.25f * shoe_type_count("roller_blades"));
-        } else if (flatground) {
-            movecost *= 1.0f - (0.25f * shoe_type_count("roller_blades"));
+    if( is_wearing("roller_blades") ) {
+        if( on_road ) {
+            movecost *= 0.5f;
         } else {
             movecost *= 1.5f;
         }
     }
     // Quad skates might be more stable than inlines,
     // but that also translates into a slower speed when on good surfaces.
-    if ( (is_wearing("rollerskates")) && !(is_on_ground())) {
-        if (offroading) {
-            movecost *= 1.0f + (0.15f * shoe_type_count("rollerskates"));
-        } else if (flatground) {
-            movecost *= 1.0f - (0.15f * shoe_type_count("rollerskates"));
+    if ( is_wearing("rollerskates") ) {
+        if( on_road ) {
+            movecost *= 0.7f;
         } else {
             movecost *= 1.3f;
         }
