@@ -537,8 +537,8 @@ void cast_zlight(
     const std::array<const float (*)[MAPSIZE*SEEX][MAPSIZE*SEEY], OVERMAP_LAYERS> &input_arrays,
     const tripoint &offset, const int offset_distance, const int target_z,
     const float numerator = 1.0f, const int row = 1,
-    float start_major = 1.0f, const float end_major = 1.0f,
-    float start_minor = 1.0f, const float end_minor = 1.0f,
+    float start_major = 1.0f, const float end_major = 0.0f,
+    float start_minor = 1.0f, const float end_minor = 0.0f,
     double cumulative_transparency = LIGHT_TRANSPARENCY_OPEN_AIR )
 {
     float new_start = 0.0f;
@@ -547,14 +547,17 @@ void cast_zlight(
         return;
     }
 
+    /*
     if( zz > 0 && target_z < offset.z ) {
         // We're looking up, we won't see stuff below
         return;
     } else if( zz < 0 && target_z > offset.z ) {
         return;
     }
-    int min_z = std::min( offset.z, target_z );
-    int max_z = std::min( offset.z, target_z );
+    */
+
+    const int min_z = std::min( offset.z, target_z );
+    const int max_z = std::max( offset.z, target_z );
 
     float last_intensity = 0.0;
     // Making this static prevents it from being needlessly constructed/destructed all the time.
@@ -571,8 +574,9 @@ void cast_zlight(
             float trailing_edge_major = (delta.z - 0.5f) / (delta.y + 0.5f);
             float leading_edge_major = (delta.z + 0.5f) / (delta.y - 0.5f);
             current.z = offset.z + delta.x * 00 + delta.y * 00 + delta.z * zz;
-            if( !(current.z <= max_z && current.z >= min_z) ||
-                start_major < leading_edge_major ) {
+            if( current.z > max_z || current.z < min_z ) {
+                continue;
+            } else if( start_major < leading_edge_major ) {
                 continue;
             } else if( end_major > trailing_edge_major ) {
                 break;
@@ -617,22 +621,20 @@ void cast_zlight(
                 if( check( current_transparency, last_intensity ) ) {
                     // We split the block into 3 sub-blocks (sub-frustums actually):
                     // One we processed fully in 2D and only need to extend in last D
-                    float last_leading_major = (delta.z + 1.5f) / (delta.y - 0.5f);
                     cast_zlight<xx, xy, xz, yx, yy, yz, zz, calc, check>(
                         output_cache, input_arrays, offset, offset_distance,
                         target_z, numerator, distance + 1,
-                        start_major, last_leading_major, start_minor, end_minor,
+                        start_major, trailing_edge_major, start_minor, end_minor,
                         ((distance - 1) * cumulative_transparency + current_transparency) / distance );
                     // One from which we shaved one line ("processed in 1D")
                     cast_zlight<xx, xy, xz, yx, yy, yz, zz, calc, check>(
                         output_cache, input_arrays, offset, offset_distance,
                         target_z, numerator, distance,
-                        trailing_edge_major, end_major, start_minor, trailing_edge_minor,
-                        (distance * cumulative_transparency + current_transparency) / (distance + 1) );
+                        leading_edge_major, end_major, start_minor, trailing_edge_minor,
+                        cumulative_transparency );
                     // One we just entered ("processed in 0D" - the first point)
                     // No need to recurse, we're processing it right now
-                    // But we need to crop it to account for the "1D processed" recurse
-                    start_minor = leading_edge_minor;
+                    start_major = leading_edge_major;
                 }
                 // The new span starts at the leading edge of the previous square if it is opaque,
                 // and at the trailing edge of the current square if it is transparent.
@@ -721,24 +723,24 @@ void map::build_seen_cache( const tripoint &origin, const int target_z )
         };
         */
 
-        cast_zlight<0, 1, 0, 1, 0, 0, 1, sight_calc, sight_check>(
+        cast_zlight<0, 1, 0, 1, 0, 0, -1, sight_calc, sight_check>(
             seen_cache, transparency_caches, origin, 0, target_z );
-        cast_zlight<1, 0, 0, 0, 1, 0, 1, sight_calc, sight_check>(
-            seen_cache, transparency_caches, origin, 0, target_z );
-
-        cast_zlight<0, -1, 0, 1, 0, 0, 1, sight_calc, sight_check>(
-            seen_cache, transparency_caches, origin, 0, target_z );
-        cast_zlight<-1, 0, 0, 0, 1, 0, 1, sight_calc, sight_check>(
+        cast_zlight<1, 0, 0, 0, 1, 0, -1, sight_calc, sight_check>(
             seen_cache, transparency_caches, origin, 0, target_z );
 
-        cast_zlight<0, 1, 0, -1, 0, 0, 1, sight_calc, sight_check>(
+        cast_zlight<0, -1, 0, 1, 0, 0, -1, sight_calc, sight_check>(
             seen_cache, transparency_caches, origin, 0, target_z );
-        cast_zlight<1, 0, 0, 0, -1, 0, 1, sight_calc, sight_check>(
+        cast_zlight<-1, 0, 0, 0, 1, 0, -1, sight_calc, sight_check>(
             seen_cache, transparency_caches, origin, 0, target_z );
 
-        cast_zlight<0, -1, 0, -1, 0, 0, 1, sight_calc, sight_check>(
+        cast_zlight<0, 1, 0, -1, 0, 0, -1, sight_calc, sight_check>(
             seen_cache, transparency_caches, origin, 0, target_z );
-        cast_zlight<-1, 0, 0, 0, -1, 0, 1, sight_calc, sight_check>(
+        cast_zlight<1, 0, 0, 0, -1, 0, -1, sight_calc, sight_check>(
+            seen_cache, transparency_caches, origin, 0, target_z );
+
+        cast_zlight<0, -1, 0, -1, 0, 0, -1, sight_calc, sight_check>(
+            seen_cache, transparency_caches, origin, 0, target_z );
+        cast_zlight<-1, 0, 0, 0, -1, 0, -1, sight_calc, sight_check>(
             seen_cache, transparency_caches, origin, 0, target_z );
 
         // No vehicles yet
