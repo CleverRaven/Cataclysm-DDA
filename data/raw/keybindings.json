@@ -1150,15 +1150,6 @@
     },
     {
         "type" : "keybinding",
-        "id": "DRAIN",
-        "category": "VEH_INTERACT",
-        "name": "Drain from tank",
-        "bindings":[
-            { "input_method":"keyboard", "key":"d" }
-        ]
-    },
-    {
-        "type" : "keybinding",
         "id": "RELABEL",
         "category": "VEH_INTERACT",
         "name": "Relabel a portion of a vehicle",
