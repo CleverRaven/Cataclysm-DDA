@@ -2551,7 +2551,7 @@ int iuse::sew_advanced(player *p, item *it, bool, const tripoint& )
 
     // If the picked mod already exists, player wants to destroy it
     if( mod->item_tags.count( the_mod ) ) {
-        if( query_yn( _("Are you sure? You will not gain any materials back.") ) ) {
+        if( query_yn( _("Are you sure?  You will not gain any materials back.") ) ) {
             mod->item_tags.erase( the_mod );
         }
 
