@@ -627,10 +627,22 @@ void cast_zlight(
                         start_major, trailing_edge_major, start_minor, end_minor,
                         ((distance - 1) * cumulative_transparency + current_transparency) / distance );
                     // One from which we shaved one line ("processed in 1D")
+                    float after_leading_edge_major = (delta.z + 1.5f) / (delta.y - 0.5f);
+                    if( after_leading_edge_major >= start_major &&
+                        after_leading_edge_major <= end_major ) {
+                        cast_zlight<xx, xy, xz, yx, yy, yz, zz, calc, check>(
+                            output_cache, input_arrays, offset, offset_distance,
+                            target_z, numerator, distance,
+                            after_leading_edge_major, end_major, start_minor, trailing_edge_minor,
+                            cumulative_transparency );
+                    }
+                    // TODO: This recursion shouldn't be needed
+                    // Or should it?
+                    // This is the line we checked that can't "fit" in the 2D block
                     cast_zlight<xx, xy, xz, yx, yy, yz, zz, calc, check>(
                         output_cache, input_arrays, offset, offset_distance,
-                        target_z, numerator, distance,
-                        leading_edge_major, end_major, start_minor, trailing_edge_minor,
+                        target_z, numerator, distance + 1,
+                        trailing_edge_minor, leading_edge_major, start_minor, trailing_edge_minor,
                         cumulative_transparency );
                     // One we just entered ("processed in 0D" - the first point)
                     // No need to recurse, we're processing it right now
