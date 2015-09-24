@@ -643,7 +643,7 @@ The contents of use_action fields can either be a string indicating a built-in f
 "use_action": {
     "type: : "auto_transform", // Like transform, but it transforms automatically when a condition is met.
     "when_underwater" : "The candle is extinguished.", // Message to display if the item goes underwater, also cause the item to transform when it goes underwater.
-   "non_interactive_message" " "You can not deactivate the lightstrip.",  // Message to display if the player tries to activate the item, also prevents activation by player from working.
+    "non_interactive_message" " "You can not deactivate the lightstrip.",  // Message to display if the player tries to activate the item, also prevents activation by player from working.
 },
 "use_action": {
     "type": "explosion", // An item that explodes when it runs out of charges.
@@ -674,19 +674,20 @@ The contents of use_action fields can either be a string indicating a built-in f
 "use_action" : {
     "type" : "consume_drug", // A drug the player can consume.
     "activation_message" : "You smoke your crack rocks.  Mother would be proud.", // Message, ayup.
-    "diseases" : { "high": 15 }, // A disease to inflict and its duration.
+    "effects" : { "high": 15 }, // Effects and their duration.
     "stat_adjustments": {"hunger" : -10}, // Adjustment to make to player stats.
     "fields_produced" : {"cracksmoke" : 2}, // Fields to produce, mostly used for smoke.
     "charges_needed" : { "fire" : 1 }, // Charges to use in the process of consuming the drug.
-    "tools_needed" : { "apparatus" : -1 } // Tool needed to use the drug.
+    "tools_needed" : { "apparatus" : -1 }, // Tool needed to use the drug.
+    "moves": 50 // Number of moves required in the process, default value is 100.
 },
 "use_action": {
-    "type": "place_monster", // place a turrent / manhack / whatever monster on the map
+    "type": "place_monster", // place a turret / manhack / whatever monster on the map
     "monster_id": "mon_manhack", // monster id, see monsters.json
     "difficulty": 4, // difficulty for programming it (manhacks have 4, turrets 6, ...)
     "hostile_msg": "It's hostile!", // (optional) message when programming the monster failed and it's hostile.
     "friendly_msg": "Good!", // (optional) message when the monster is programmed properly and it's friendly.
-    "place_randomly": true, // if true: places the monser randomly around the player, if false: let the player decide where to put it (default: false)
+    "place_randomly": true, // if true: places the monster randomly around the player, if false: let the player decide where to put it (default: false)
     "skill1": "throw", // Id of a skill, higher skill level means more likely to place a friendly monster.
     "skill2": "unarmed", // Another id, just like the skill1. Both entries are optional.
     "moves": 60 // how many move points the action takes.

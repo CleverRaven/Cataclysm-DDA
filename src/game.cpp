@@ -6162,31 +6162,60 @@ void game::do_blast( const tripoint &p, const int power, const bool fire )
             veh->damage( vpart, force, fire ? DT_HEAT : DT_BASH, false );
         }
 
-        Creature *critter = critter_at( pt );
+        Creature *critter = critter_at( pt, true );
         if( critter == nullptr ) {
             continue;
         }
+
+        add_msg( m_debug, "Blast hits %s with force %.1f",
+                 critter->disp_name().c_str(), force );
 
         player *pl = dynamic_cast<player*>( critter );
         if( pl == nullptr ) {
             // TODO: player's fault?
             const int dmg = force - ( critter->get_armor_bash( bp_torso ) / 2 );
-            critter->apply_damage( nullptr, bp_torso, rng( dmg * 2, dmg * 3 ) );
+            const int actual_dmg = rng( dmg * 2, dmg * 3 );
+            critter->apply_damage( nullptr, bp_torso, actual_dmg );
             critter->check_dead_state();
+            add_msg( m_debug, "Blast hits %s for %d damage", critter->disp_name().c_str(), actual_dmg );
             continue;
         }
 
-        if( pl->is_player() ) {
-            add_msg( m_bad, _("You're caught in the explosion!") );
-        }
+        // Print messages for all NPCs
+        pl->add_msg_player_or_npc( m_bad, _("You're caught in the explosion!"),
+                                          _("<npcname> is caught in the explosion!") );
 
-        pl->deal_damage( nullptr, bp_torso, damage_instance( DT_BASH, rng( force * 2, force * 3 ), 0, 0.5f ) );
-        pl->deal_damage( nullptr, bp_head,  damage_instance( DT_BASH, rng( force * 2, force * 3 ), 0, 0.5f ) );
-        // Hit limbs harder so that it hurts more without being much more deadly
-        pl->deal_damage( nullptr, bp_leg_l, damage_instance( DT_BASH, rng( force * 2, force * 3.5f ), 0, 0.4f ) );
-        pl->deal_damage( nullptr, bp_leg_r, damage_instance( DT_BASH, rng( force * 2, force * 3.5f ), 0, 0.4f ) );
-        pl->deal_damage( nullptr, bp_arm_l, damage_instance( DT_BASH, rng( force * 2, force * 3.5f ), 0, 0.4f ) );
-        pl->deal_damage( nullptr, bp_arm_r, damage_instance( DT_BASH, rng( force * 2, force * 3.5f ), 0, 0.4f ) );
+        struct blastable_part {
+            body_part bp;
+            float low_mul;
+            float high_mul;
+            float armor_mul;
+        };
+
+        static const std::array<blastable_part, 6> blast_parts = { {
+            { bp_torso, 2.0f, 3.0f, 0.5f },
+            { bp_head,  2.0f, 3.0f, 0.5f },
+            // Hit limbs harder so that it hurts more without being much more deadly
+            { bp_leg_l, 2.0f, 3.5f, 0.4f },
+            { bp_leg_r, 2.0f, 3.5f, 0.4f },
+            { bp_arm_l, 2.0f, 3.5f, 0.4f },
+            { bp_arm_r, 2.0f, 3.5f, 0.4f },
+        } };
+
+        for( const auto &blp : blast_parts ) {
+            const int part_dam = rng( force * blp.low_mul, force * blp.high_mul );
+            const std::string hit_part_name = body_part_name_accusative( blp.bp );
+            const auto dmg_instance = damage_instance( DT_BASH, part_dam, 0, 0.5f );
+            const auto result = pl->deal_damage( nullptr, blp.bp, dmg_instance );
+            const int res_dmg = result.total_damage();
+
+            add_msg( m_debug, "%s for %d raw, %d actual",
+                     hit_part_name.c_str(), part_dam, res_dmg );
+            if( res_dmg > 0 ) {
+                pl->add_msg_if_player( m_bad, _("Your %s is hit for %d damage!"),
+                                       hit_part_name.c_str(), res_dmg );
+            }
+        }
     }
 }
 

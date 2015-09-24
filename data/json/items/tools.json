@@ -7804,7 +7804,7 @@
     "max_charges": 0,
     "revert_to": "null",
     "ammo": "NULL",
-    "use_action": "SMOKING_PIPE"
+    "qualities": [["SMOKE_PIPE", 1]]
   },
 
   {
@@ -7828,7 +7828,7 @@
     "max_charges": 0,
     "revert_to": "null",
     "ammo": "NULL",
-    "use_action": "SMOKING_PIPE"
+    "qualities": [["SMOKE_PIPE", 1]]
   },
 
   {
@@ -7852,7 +7852,7 @@
     "max_charges": 0,
     "revert_to": "null",
     "ammo": "NULL",
-    "use_action": "SMOKING_PIPE"
+    "qualities": [["SMOKE_PIPE", 1]]
 },
 
   {
