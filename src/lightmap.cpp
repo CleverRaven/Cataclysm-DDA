@@ -529,6 +529,133 @@ void cast_ray( float (&output_cache)[MAPSIZE*SEEX][MAPSIZE*SEEY],
     bresenham( f, t, 0, 0, ray );
 }
 
+template<int xx, int xy, int xz, int yx, int yy, int yz, int zz,
+         float(*calc)(const float &, const float &, const int &),
+         bool(*check)(const float &, const float &)>
+void cast_zlight(
+    float (&output_cache)[MAPSIZE*SEEX][MAPSIZE*SEEY],
+    const std::array<const float (*)[MAPSIZE*SEEX][MAPSIZE*SEEY], OVERMAP_LAYERS> &input_arrays,
+    const tripoint &offset, const int offset_distance, const int target_z,
+    const float numerator = 1.0f, const int row = 1,
+    float start_major = 1.0f, const float end_major = 1.0f,
+    float start_minor = 1.0f, const float end_minor = 1.0f,
+    double cumulative_transparency = LIGHT_TRANSPARENCY_OPEN_AIR )
+{
+    float new_start = 0.0f;
+    float radius = 60.0f - offset_distance;
+    if( start_major < end_major || start_minor < end_minor ) {
+        return;
+    }
+
+    if( zz > 0 && target_z < offset.z ) {
+        // We're looking up, we won't see stuff below
+        return;
+    } else if( zz < 0 && target_z > offset.z ) {
+        return;
+    }
+    int min_z = std::min( offset.z, target_z );
+    int max_z = std::min( offset.z, target_z );
+
+    float last_intensity = 0.0;
+    // Making this static prevents it from being needlessly constructed/destructed all the time.
+    static const tripoint origin(0, 0, 0);
+    // But each instance of the method needs one of these.
+    tripoint delta(0, 0, 0);
+    tripoint current(0, 0, 0);
+    for( int distance = row; distance <= radius; distance++ ) {
+        delta.y = -distance;
+        bool started_block = false;
+        float current_transparency = 0.0;
+
+        for( delta.z = -distance; delta.z <= 0; delta.z++ ) {
+            float trailing_edge_major = (delta.z - 0.5f) / (delta.y + 0.5f);
+            float leading_edge_major = (delta.z + 0.5f) / (delta.y - 0.5f);
+            current.z = offset.z + delta.x * 00 + delta.y * 00 + delta.z * zz;
+            if( !(current.z <= max_z && current.z >= min_z) ||
+                start_major < leading_edge_major ) {
+                continue;
+            } else if( end_major > trailing_edge_major ) {
+                break;
+            }
+
+            const int z_index = current.z + OVERMAP_DEPTH;
+            for( delta.x = -distance; delta.x <= 0; delta.x++ ) {
+                current.x = offset.x + delta.x * xx + delta.y * xy + delta.z * xz;
+                current.y = offset.y + delta.x * yx + delta.y * yy + delta.z * yz;
+                float trailing_edge_minor = (delta.x - 0.5f) / (delta.y + 0.5f);
+                float leading_edge_minor = (delta.x + 0.5f) / (delta.y - 0.5f);
+
+                if( !(current.x >= 0 && current.y >= 0 &&
+                      current.x < SEEX * MAPSIZE &&
+                      current.y < SEEY * MAPSIZE) || start_minor < leading_edge_minor ) {
+                    continue;
+                } else if( end_minor > trailing_edge_minor ) {
+                    break;
+                }
+
+                if( !started_block ) {
+                    started_block = true;
+                    current_transparency = (*input_arrays[z_index])[current.x][current.y];
+                }
+
+                const int dist = rl_dist( origin, delta ) + offset_distance;
+                last_intensity = calc( numerator, cumulative_transparency, dist );
+                if( current.z == target_z ) {
+                    output_cache[current.x][current.y] =
+                        std::max( output_cache[current.x][current.y], last_intensity );
+                }
+
+                float new_transparency = (*input_arrays[z_index])[current.x][current.y];
+
+                if( new_transparency == current_transparency ) {
+                    // All in order, no need to recurse
+                    new_start = leading_edge_minor;
+                    continue;
+                }
+
+                // Only cast recursively if previous span was not opaque.
+                if( check( current_transparency, last_intensity ) ) {
+                    // We split the block into 3 sub-blocks (sub-frustums actually):
+                    // One we processed fully in 2D and only need to extend in last D
+                    float last_leading_major = (delta.z + 1.5f) / (delta.y - 0.5f);
+                    cast_zlight<xx, xy, xz, yx, yy, yz, zz, calc, check>(
+                        output_cache, input_arrays, offset, offset_distance,
+                        target_z, numerator, distance + 1,
+                        start_major, last_leading_major, start_minor, end_minor,
+                        ((distance - 1) * cumulative_transparency + current_transparency) / distance );
+                    // One from which we shaved one line ("processed in 1D")
+                    cast_zlight<xx, xy, xz, yx, yy, yz, zz, calc, check>(
+                        output_cache, input_arrays, offset, offset_distance,
+                        target_z, numerator, distance,
+                        trailing_edge_major, end_major, start_minor, trailing_edge_minor,
+                        (distance * cumulative_transparency + current_transparency) / (distance + 1) );
+                    // One we just entered ("processed in 0D" - the first point)
+                    // No need to recurse, we're processing it right now
+                    // But we need to crop it to account for the "1D processed" recurse
+                    start_minor = leading_edge_minor;
+                }
+                // The new span starts at the leading edge of the previous square if it is opaque,
+                // and at the trailing edge of the current square if it is transparent.
+                if( current_transparency == LIGHT_TRANSPARENCY_SOLID ) {
+                    start_minor = new_start;
+                } else {
+                    // Note this is the same slope as the recursive call we just made.
+                    start_minor = trailing_edge_minor;
+                }
+                current_transparency = new_transparency;
+                new_start = leading_edge_minor;
+            }
+        }
+        if( !check(current_transparency, last_intensity) ) {
+            // If we reach the end of the span with terrain being opaque, we don't iterate further.
+            break;
+        }
+        // Cumulative average of the transparency values encountered.
+        cumulative_transparency =
+            ((distance - 1) * cumulative_transparency + current_transparency) / distance;
+    }
+}
+
 /**
  * Calculates the Field Of View for the provided map from the given x, y
  * coordinates. Returns a lightmap for a result where the values represent a
@@ -587,19 +714,32 @@ void map::build_seen_cache( const tripoint &origin, const int target_z )
             transparency_caches[z + OVERMAP_DEPTH] = &cur_cache.transparency_cache;
         }
 
+        /*
         const auto floor_check = [this]( const tripoint &p ) {
             const tripoint below( p.x, p.y, p.z - 1 );
             return valid_move( p, below, false, true );
         };
+        */
 
-        // Raycasting, as opposed to shadowcasting for 2D (just for now)
-        const int range = g->u.sight_range( ambient_light_at( g->u.pos() ) );
-        const tripoint start( g->u.posx() - range, g->u.posy() - range, target_z );
-        const tripoint end  ( g->u.posx() + range, g->u.posy() + range, target_z );
-        for( const tripoint &pt : points_in_rectangle( start, end ) ) {
-            cast_ray<sight_calc, sight_check>(
-                seen_cache, transparency_caches, floor_check, origin, pt, 0, 1.0f );
-        }
+        cast_zlight<0, 1, 0, 1, 0, 0, 1, sight_calc, sight_check>(
+            seen_cache, transparency_caches, origin, 0, target_z );
+        cast_zlight<1, 0, 0, 0, 1, 0, 1, sight_calc, sight_check>(
+            seen_cache, transparency_caches, origin, 0, target_z );
+
+        cast_zlight<0, -1, 0, 1, 0, 0, 1, sight_calc, sight_check>(
+            seen_cache, transparency_caches, origin, 0, target_z );
+        cast_zlight<-1, 0, 0, 0, 1, 0, 1, sight_calc, sight_check>(
+            seen_cache, transparency_caches, origin, 0, target_z );
+
+        cast_zlight<0, 1, 0, -1, 0, 0, 1, sight_calc, sight_check>(
+            seen_cache, transparency_caches, origin, 0, target_z );
+        cast_zlight<1, 0, 0, 0, -1, 0, 1, sight_calc, sight_check>(
+            seen_cache, transparency_caches, origin, 0, target_z );
+
+        cast_zlight<0, -1, 0, -1, 0, 0, 1, sight_calc, sight_check>(
+            seen_cache, transparency_caches, origin, 0, target_z );
+        cast_zlight<-1, 0, 0, 0, -1, 0, 1, sight_calc, sight_check>(
+            seen_cache, transparency_caches, origin, 0, target_z );
 
         // No vehicles yet
         return;
