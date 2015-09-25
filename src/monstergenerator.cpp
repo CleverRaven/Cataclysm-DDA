@@ -368,10 +368,8 @@ void MonsterGenerator::init_flags()
 
 void MonsterGenerator::set_species_ids( mtype &mon )
 {
-    const std::set< std::string > &specs = mon.species;
-    std::set< int > ret;
-    for( const auto &s : specs ) {
-        auto iter = mon_species.find( s );
+    for( const auto &s : mon.species ) {
+        const auto iter = mon_species.find( s );
         if( iter != mon_species.end() ) {
             mon.species_ptrs.insert( iter->second );
         } else {
