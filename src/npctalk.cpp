@@ -1330,7 +1330,8 @@ std::string dialogue::dynamic_line( const std::string &topic ) const
             return _("<no><punc> <fuck_you>!");
         }
 
-    } else if( topic == "TALK_TRAIN" ) {
+    } 
+    if( topic == "TALK_TRAIN" ) {
         if( !g->u.backlog.empty() && g->u.backlog.front().type == ACT_TRAIN ) {
             return _("Shall we resume?");
         }
@@ -2445,7 +2446,8 @@ void dialogue::gen_responses( const std::string &topic )
             add_response( _("Maybe another time..."), "TALK_DONE" );
     } else if( topic == "TALK_RANCH_BARBER_JOB" ) {
             add_response( _("..."), "TALK_RANCH_BARBER" );
-    } else if( topic == "TALK_RANCH_BARBER_HIRE" ) {
+    } 
+    if( topic == "TALK_RANCH_BARBER_HIRE" ) {
             add_response( _("..."), "TALK_RANCH_BARBER" );
     } else if( topic == "TALK_RANCH_BARBER_CUT" ) {
             add_response( _("Thanks..."), "TALK_DONE" );
