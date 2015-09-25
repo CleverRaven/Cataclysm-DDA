@@ -541,7 +541,6 @@ void cast_zlight(
     float start_minor = 1.0f, const float end_minor = 0.0f,
     double cumulative_transparency = LIGHT_TRANSPARENCY_OPEN_AIR )
 {
-    float new_start = 0.0f;
     float radius = 60.0f - offset_distance;
     if( start_major < end_major || start_minor < end_minor ) {
         return;
@@ -558,6 +557,9 @@ void cast_zlight(
 
     const int min_z = std::min( offset.z, target_z );
     const int max_z = std::max( offset.z, target_z );
+
+    //float new_start_major = 0.0f;
+    float new_start_minor = 0.0f;
 
     float last_intensity = 0.0;
     // Making this static prevents it from being needlessly constructed/destructed all the time.
@@ -604,6 +606,7 @@ void cast_zlight(
 
                 const int dist = rl_dist( origin, delta ) + offset_distance;
                 last_intensity = calc( numerator, cumulative_transparency, dist );
+                
                 if( current.z == target_z ) {
                     output_cache[current.x][current.y] =
                         std::max( output_cache[current.x][current.y], last_intensity );
@@ -613,19 +616,29 @@ void cast_zlight(
 
                 if( new_transparency == current_transparency ) {
                     // All in order, no need to recurse
-                    new_start = leading_edge_minor;
+                    new_start_minor = leading_edge_minor;
+                    //new_start_major = leading_edge_major;
                     continue;
                 }
 
                 // Only cast recursively if previous span was not opaque.
                 if( check( current_transparency, last_intensity ) ) {
-                    // We split the block into 3 sub-blocks (sub-frustums actually):
+                    // We split the block into 4 sub-blocks (sub-frustums actually):
                     // One we processed fully in 2D and only need to extend in last D
+                    float next_cumulative_transparency =
+                        ((distance - 1) * cumulative_transparency + current_transparency) / distance;
                     cast_zlight<xx, xy, xz, yx, yy, yz, zz, calc, check>(
                         output_cache, input_arrays, offset, offset_distance,
                         target_z, numerator, distance + 1,
                         start_major, trailing_edge_major, start_minor, end_minor,
-                        ((distance - 1) * cumulative_transparency + current_transparency) / distance );
+                        next_cumulative_transparency );
+                    // One line that would become part of the above if it was to the end
+                    // TODO: Merge it with the above in cases where that's possible
+                    cast_zlight<xx, xy, xz, yx, yy, yz, zz, calc, check>(
+                        output_cache, input_arrays, offset, offset_distance,
+                        target_z, numerator, distance + 1,
+                        trailing_edge_major, leading_edge_major, start_minor, trailing_edge_minor,
+                        next_cumulative_transparency );
                     // One from which we shaved one line ("processed in 1D")
                     float after_leading_edge_major = (delta.z + 1.5f) / (delta.y - 0.5f);
                     if( after_leading_edge_major >= start_major &&
@@ -636,28 +649,22 @@ void cast_zlight(
                             after_leading_edge_major, end_major, start_minor, trailing_edge_minor,
                             cumulative_transparency );
                     }
-                    // TODO: This recursion shouldn't be needed
-                    // Or should it?
-                    // This is the line we checked that can't "fit" in the 2D block
-                    cast_zlight<xx, xy, xz, yx, yy, yz, zz, calc, check>(
-                        output_cache, input_arrays, offset, offset_distance,
-                        target_z, numerator, distance + 1,
-                        trailing_edge_minor, leading_edge_major, start_minor, trailing_edge_minor,
-                        cumulative_transparency );
                     // One we just entered ("processed in 0D" - the first point)
                     // No need to recurse, we're processing it right now
-                    start_major = leading_edge_major;
                 }
                 // The new span starts at the leading edge of the previous square if it is opaque,
                 // and at the trailing edge of the current square if it is transparent.
                 if( current_transparency == LIGHT_TRANSPARENCY_SOLID ) {
-                    start_minor = new_start;
+                    start_minor = new_start_minor;
+                    //start_major = new_start_major;
                 } else {
                     // Note this is the same slope as the recursive call we just made.
                     start_minor = trailing_edge_minor;
+                    //start_major = trailing_edge_major;
                 }
                 current_transparency = new_transparency;
-                new_start = leading_edge_minor;
+                new_start_minor = leading_edge_minor;
+                //new_start_major = leading_edge_major;
             }
         }
         if( !check(current_transparency, last_intensity) ) {
