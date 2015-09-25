@@ -77,17 +77,18 @@ void MonsterGenerator::finalize_mtypes()
 
 void MonsterGenerator::apply_species_attributes( mtype &mon )
 {
-    for (std::set<std::string>::iterator spec = mon.species.begin(); spec != mon.species.end();
-         ++spec) {
-        if (mon_species.find(*spec) != mon_species.end()) {
-            species_type *mspec = mon_species[*spec];
-
-            // apply species flags/triggers
-            apply_set_to_set(mspec->flags, mon.flags);
-            apply_set_to_set(mspec->anger_trig, mon.anger);
-            apply_set_to_set(mspec->fear_trig, mon.fear);
-            apply_set_to_set(mspec->placate_trig, mon.placate);
+    for( const auto &spec : mon.species ) {
+        const auto iter = mon_species.find( spec );
+        if( iter == mon_species.end() ) {
+            continue;
         }
+        species_type *mspec = iter->second;
+
+        // apply species flags/triggers
+        apply_set_to_set(mspec->flags, mon.flags);
+        apply_set_to_set(mspec->anger_trig, mon.anger);
+        apply_set_to_set(mspec->fear_trig, mon.fear);
+        apply_set_to_set(mspec->placate_trig, mon.placate);
     }
 }
 void MonsterGenerator::set_mtype_flags( mtype &mon )
