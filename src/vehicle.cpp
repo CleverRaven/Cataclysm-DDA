@@ -3873,27 +3873,21 @@ void vehicle::operate_plow(){
 void vehicle::operate_reaper(){
     const tripoint &veh_start = global_pos3();
     for( const int reaper_id : all_parts_with_feature( "REAPER" ) ){
-        const tripoint start_reaper = veh_start + parts[reaper_id].precalc[0];
+        const tripoint reaper_pos = veh_start + parts[reaper_id].precalc[0];
         const int plant_produced =  rng( 1, parts[reaper_id].info().bonus );
         const int seed_produced = rng(1, 3);
-        item tmp;
-        const tripoint &reaper_pos = start_reaper + parts[reaper_id].precalc[0];
         if( g->m.furn(reaper_pos) != f_plant_harvest ){
             continue;
         }
-        islot_seed &seed_data = *g->m.i_at(reaper_pos).front().type->seed;
-        const std::string &seedType = g->m.i_at(reaper_pos).front().typeId();
+        const itype &type = *g->m.i_at(reaper_pos).front().type;
+        if( type.id == "fungal_seeds" || type.id == "marloss_seed" ) {
+            // Otherworldly plants, the earth-made reaper can not handle those.
+            continue;
+        }
         g->m.furn_set( reaper_pos, f_null );
         g->m.i_clear( reaper_pos );
-        if( seed_data.spawn_seeds ){
-            tmp = item( seedType, calendar::turn );
-            for( int j = 0; j < seed_produced; j++ ) {
-                g->m.add_item_or_charges(reaper_pos, tmp);
-            }
-        }
-        tmp = item( seed_data.fruit_id, calendar::turn );
-        for( int j = 0; j < plant_produced; j++ ){
-            g->m.add_item_or_charges( reaper_pos, tmp );
+        for( auto &i : iexamine::get_harvest_items( type, plant_produced, seed_produced, false ) ) {
+            g->m.add_item_or_charges( reaper_pos, i );
         }
     }
 }
@@ -3914,11 +3908,19 @@ void vehicle::operate_planter(){
                 } else if( !g->m.has_flag( "DIGGABLE", loc ) ) {
                     //If it isn't diggable terrain, then it will most likely be damaged.
                     damage( planter_id, rng(1, 10), DT_BASH, false );
-                    sounds::sound(global_pos3() + parts[planter_id].precalc[0], rng(10,20), _("Clink"));
+                    sounds::sound( loc, rng(10,20), _("Clink"));
                 }
-                i->bday = calendar::turn;
-                g->m.add_item(loc, *i);
-                i = v.erase(i);
+                if( !i->count_by_charges() || i->charges == 1 ) {
+                    i->bday = calendar::turn;
+                    g->m.add_item( loc, *i );
+                    v.erase( i );
+                } else {
+                    item tmp = *i;
+                    tmp.charges = 1;
+                    tmp.bday = calendar::turn;
+                    g->m.add_item( loc, tmp );
+                    i->charges--;
+                }
                 break;
             }
         }
