@@ -7,6 +7,8 @@
 
 #include <algorithm>
 
+const species_id MOLLUSK( "MOLLUSK" );
+
 mtype::mtype ()
 {
     id = NULL_ID;
@@ -140,7 +142,7 @@ field_id mtype::bloodType() const
 
 field_id mtype::gibType() const
 {
-    if (has_flag(MF_LARVA) || in_species("MOLLUSK")) {
+    if (has_flag(MF_LARVA) || in_species( MOLLUSK )) {
         return fd_gibs_invertebrate;
     }
     if( has_material("veggy") ) {

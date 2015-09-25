@@ -15,6 +15,8 @@
 #include "mapdata.h"
 #include "mtype.h"
 
+const species_id FUNGUS( "FUNGUS" );
+
 #define INBOUNDS(x, y) \
  (x >= 0 && x < SEEX * my_MAPSIZE && y >= 0 && y < SEEY * my_MAPSIZE)
 
@@ -2430,7 +2432,7 @@ void map::monster_in_field( monster &z )
             break;
 
         case fd_fungal_haze:
-            if( !z.type->in_species("FUNGUS") &&
+            if( !z.type->in_species( FUNGUS ) &&
                 !z.type->has_flag("NO_BREATHE") &&
                 !z.make_fungus() ) {
                 // Don't insta-kill jabberwocks, that's silly
@@ -2441,7 +2443,7 @@ void map::monster_in_field( monster &z )
             break;
 
         case fd_fungicidal_gas:
-            if( z.type->in_species("FUNGUS") ) {
+            if( z.type->in_species( FUNGUS ) ) {
                 const int density = cur->getFieldDensity();
                 z.moves -= rng( 10 * density, 30 * density );
                 dam += rng( 4, 7 * density );
