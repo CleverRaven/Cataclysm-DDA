@@ -478,10 +478,10 @@ void cast_zlight(
     const std::array<const float (*)[MAPSIZE*SEEX][MAPSIZE*SEEY], OVERMAP_LAYERS> &input_arrays,
     const tripoint &offset, const int offset_distance, const int target_z,
     const std::function<bool(const tripoint &)> &floor_check,
-    const float numerator = 1.0f, const int row = 1,
-    float start_major = 1.0f, const float end_major = 0.0f,
-    float start_minor = 1.0f, const float end_minor = 0.0f,
-    double cumulative_transparency = LIGHT_TRANSPARENCY_OPEN_AIR )
+    const float numerator, const int row,
+    float start_major, const float end_major,
+    float start_minor, const float end_minor,
+    double cumulative_transparency )
 {
     float radius = 60.0f - offset_distance;
     if( start_major < end_major || start_minor < end_minor ) {

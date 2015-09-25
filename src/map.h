@@ -1410,5 +1410,18 @@ template<int xx, int xy, int yx, int yy, float(*calc)(const float &, const float
                     float start = 1.0f, const float end = 0.0f,
                     double cumulative_transparency = LIGHT_TRANSPARENCY_OPEN_AIR );
 
+template<int xx, int xy, int xz, int yx, int yy, int yz, int zz,
+         float(*calc)(const float &, const float &, const int &),
+         bool(*check)(const float &, const float &)>
+void cast_zlight(
+    float (&output_cache)[MAPSIZE*SEEX][MAPSIZE*SEEY],
+    const std::array<const float (*)[MAPSIZE*SEEX][MAPSIZE*SEEY], OVERMAP_LAYERS> &input_arrays,
+    const tripoint &offset, const int offset_distance, const int target_z,
+    const std::function<bool(const tripoint &)> &floor_check,
+    const float numerator = 1.0f, const int row = 1,
+    float start_major = 1.0f, const float end_major = 0.0f,
+    float start_minor = 1.0f, const float end_minor = 0.0f,
+    double cumulative_transparency = LIGHT_TRANSPARENCY_OPEN_AIR );
+
 #endif
 
