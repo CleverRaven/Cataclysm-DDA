@@ -488,15 +488,6 @@ void cast_zlight(
         return;
     }
 
-    /*
-    if( zz > 0 && target_z < offset.z ) {
-        // We're looking up, we won't see stuff below
-        return;
-    } else if( zz < 0 && target_z > offset.z ) {
-        return;
-    }
-    */
-
     const int min_z = std::min( offset.z, target_z );
     const int max_z = std::max( offset.z, target_z );
 
@@ -514,16 +505,17 @@ void cast_zlight(
         bool started_block = false;
         float current_transparency = 0.0;
 
-        for( delta.z = -distance; delta.z <= 0; delta.z++ ) {
-            float trailing_edge_major = (delta.z - 0.5f) / (delta.y + 0.5f);
-            float leading_edge_major = (delta.z + 0.5f) / (delta.y - 0.5f);
+        for( delta.z = 0; delta.z <= distance; delta.z++ ) {
+            float trailing_edge_major = (-delta.z - 0.5f) / (delta.y + 0.5f);
+            float leading_edge_major = (-delta.z + 0.5f) / (delta.y - 0.5f);
             current.z = offset.z + delta.x * 00 + delta.y * 00 + delta.z * zz;
             if( current.z > max_z || current.z < min_z ) {
                 continue;
             } else if( start_major < leading_edge_major ) {
                 continue;
             } else if( end_major > trailing_edge_major ) {
-                break;
+                continue;
+                //break;
             }
 
             const int z_index = current.z + OVERMAP_DEPTH;
@@ -598,9 +590,11 @@ void cast_zlight(
                         trailing_edge_major, leading_edge_major, start_minor, trailing_edge_minor,
                         next_cumulative_transparency );
                     // One from which we shaved one line ("processed in 1D")
-                    float after_leading_edge_major = (delta.z + 1.5f) / (delta.y - 0.5f);
-                    if( after_leading_edge_major >= start_major &&
-                        after_leading_edge_major <= end_major ) {
+                    float after_leading_edge_major = (-delta.z + 1.5f) / (delta.y - 0.5f);
+                    const int floor_z = current.z < origin.z ? current.z + 1 : current.z;
+                    if( after_leading_edge_major <= start_major &&
+                        after_leading_edge_major >= end_major &&
+                        !floor_check( {current.x, current.y, floor_z} ) ) {
                         cast_zlight<xx, xy, xz, yx, yy, yz, zz, calc, check>(
                             output_cache, input_arrays, offset, offset_distance,
                             target_z, floor_check, numerator, distance,
@@ -695,50 +689,48 @@ void map::build_seen_cache( const tripoint &origin, const int target_z )
 
         const auto floor_check = [this]( const tripoint &p ) {
             const tripoint below( p.x, p.y, p.z - 1 );
-            return valid_move( p, below, false, true );
+            return !valid_move( p, below, false, true );
         };
 
-        if( origin.z <= target_z ) {
-            cast_zlight<0, 1, 0, 1, 0, 0, -1, sight_calc, sight_check>(
-                seen_cache, transparency_caches, origin, 0, target_z, floor_check );
-            cast_zlight<1, 0, 0, 0, 1, 0, -1, sight_calc, sight_check>(
-                seen_cache, transparency_caches, origin, 0, target_z, floor_check );
+        // Up
+        cast_zlight<0, 1, 0, 1, 0, 0, -1, sight_calc, sight_check>(
+            seen_cache, transparency_caches, origin, 0, target_z, floor_check );
+        cast_zlight<1, 0, 0, 0, 1, 0, -1, sight_calc, sight_check>(
+            seen_cache, transparency_caches, origin, 0, target_z, floor_check );
 
-            cast_zlight<0, -1, 0, 1, 0, 0, -1, sight_calc, sight_check>(
-                seen_cache, transparency_caches, origin, 0, target_z, floor_check );
-            cast_zlight<-1, 0, 0, 0, 1, 0, -1, sight_calc, sight_check>(
-                seen_cache, transparency_caches, origin, 0, target_z, floor_check );
+        cast_zlight<0, -1, 0, 1, 0, 0, -1, sight_calc, sight_check>(
+            seen_cache, transparency_caches, origin, 0, target_z, floor_check );
+        cast_zlight<-1, 0, 0, 0, 1, 0, -1, sight_calc, sight_check>(
+            seen_cache, transparency_caches, origin, 0, target_z, floor_check );
 
-            cast_zlight<0, 1, 0, -1, 0, 0, -1, sight_calc, sight_check>(
-                seen_cache, transparency_caches, origin, 0, target_z, floor_check );
-            cast_zlight<1, 0, 0, 0, -1, 0, -1, sight_calc, sight_check>(
-                seen_cache, transparency_caches, origin, 0, target_z, floor_check );
+        cast_zlight<0, 1, 0, -1, 0, 0, -1, sight_calc, sight_check>(
+            seen_cache, transparency_caches, origin, 0, target_z, floor_check );
+        cast_zlight<1, 0, 0, 0, -1, 0, -1, sight_calc, sight_check>(
+            seen_cache, transparency_caches, origin, 0, target_z, floor_check );
 
-            cast_zlight<0, -1, 0, -1, 0, 0, -1, sight_calc, sight_check>(
-                seen_cache, transparency_caches, origin, 0, target_z, floor_check );
-            cast_zlight<-1, 0, 0, 0, -1, 0, -1, sight_calc, sight_check>(
-                seen_cache, transparency_caches, origin, 0, target_z, floor_check );
-        } else {
-            cast_zlight<0, 1, 0, 1, 0, 0, 1, sight_calc, sight_check>(
-                seen_cache, transparency_caches, origin, 0, target_z, floor_check );
-            cast_zlight<1, 0, 0, 0, 1, 0, 1, sight_calc, sight_check>(
-                seen_cache, transparency_caches, origin, 0, target_z, floor_check );
+        cast_zlight<0, -1, 0, -1, 0, 0, -1, sight_calc, sight_check>(
+            seen_cache, transparency_caches, origin, 0, target_z, floor_check );
+        cast_zlight<-1, 0, 0, 0, -1, 0, -1, sight_calc, sight_check>(
+            seen_cache, transparency_caches, origin, 0, target_z, floor_check );
+        cast_zlight<0, 1, 0, 1, 0, 0, 1, sight_calc, sight_check>(
+            seen_cache, transparency_caches, origin, 0, target_z, floor_check );
+        cast_zlight<1, 0, 0, 0, 1, 0, 1, sight_calc, sight_check>(
+            seen_cache, transparency_caches, origin, 0, target_z, floor_check );
+        // Down
+        cast_zlight<0, -1, 0, 1, 0, 0, 1, sight_calc, sight_check>(
+            seen_cache, transparency_caches, origin, 0, target_z, floor_check );
+        cast_zlight<-1, 0, 0, 0, 1, 0, 1, sight_calc, sight_check>(
+            seen_cache, transparency_caches, origin, 0, target_z, floor_check );
 
-            cast_zlight<0, -1, 0, 1, 0, 0, 1, sight_calc, sight_check>(
-                seen_cache, transparency_caches, origin, 0, target_z, floor_check );
-            cast_zlight<-1, 0, 0, 0, 1, 0, 1, sight_calc, sight_check>(
-                seen_cache, transparency_caches, origin, 0, target_z, floor_check );
+        cast_zlight<0, 1, 0, -1, 0, 0, 1, sight_calc, sight_check>(
+            seen_cache, transparency_caches, origin, 0, target_z, floor_check );
+        cast_zlight<1, 0, 0, 0, -1, 0, 1, sight_calc, sight_check>(
+            seen_cache, transparency_caches, origin, 0, target_z, floor_check );
 
-            cast_zlight<0, 1, 0, -1, 0, 0, 1, sight_calc, sight_check>(
-                seen_cache, transparency_caches, origin, 0, target_z, floor_check );
-            cast_zlight<1, 0, 0, 0, -1, 0, 1, sight_calc, sight_check>(
-                seen_cache, transparency_caches, origin, 0, target_z, floor_check );
-
-            cast_zlight<0, -1, 0, -1, 0, 0, 1, sight_calc, sight_check>(
-                seen_cache, transparency_caches, origin, 0, target_z, floor_check );
-            cast_zlight<-1, 0, 0, 0, -1, 0, 1, sight_calc, sight_check>(
-                seen_cache, transparency_caches, origin, 0, target_z, floor_check );
-        }
+        cast_zlight<0, -1, 0, -1, 0, 0, 1, sight_calc, sight_check>(
+            seen_cache, transparency_caches, origin, 0, target_z, floor_check );
+        cast_zlight<-1, 0, 0, 0, -1, 0, 1, sight_calc, sight_check>(
+            seen_cache, transparency_caches, origin, 0, target_z, floor_check );
     }
 
     int part;
