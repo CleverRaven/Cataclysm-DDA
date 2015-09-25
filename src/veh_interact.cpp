@@ -71,7 +71,6 @@ veh_interact::veh_interact ()
     main_context.register_action("RENAME");
     main_context.register_action("SIPHON");
     main_context.register_action("TIRE_CHANGE");
-    main_context.register_action("DRAIN");
     main_context.register_action("RELABEL");
     main_context.register_action("PREV_TAB");
     main_context.register_action("NEXT_TAB");
