@@ -470,65 +470,6 @@ bool map::pl_sees( const tripoint &t, const int max_range ) const
           map_cache.sm[t.x][t.y] > 0.0 );
 }
 
-template<float(*calc)(const float &, const float &, const int &),
-         bool(*check)(const float &, const float &)>
-void cast_ray( float (&output_cache)[MAPSIZE*SEEX][MAPSIZE*SEEY],
-               const std::array<const float (*)[MAPSIZE*SEEX][MAPSIZE*SEEY], OVERMAP_LAYERS> &input_arrays,
-               const std::function<bool(const tripoint &)> &floor_check,
-               const tripoint &f, const tripoint &t,
-               const int offset_distance, const float numerator )
-{
-    tripoint last_point = f;
-    float cumulative_transparency = 0.0f;
-    int distance = 1;
-    const auto ray = [&]( const tripoint &cur ) {
-        float current_transparency;
-        if( last_point.z == cur.z ) {
-            current_transparency = (*input_arrays[cur.z + OVERMAP_DEPTH])[cur.x][cur.y];
-        } else {
-            const int max_z = std::max( cur.z, last_point.z );
-            current_transparency = LIGHT_TRANSPARENCY_SOLID;
-            if( floor_check({cur.x, cur.y, max_z}) ) {
-                current_transparency = (*input_arrays[last_point.z + OVERMAP_DEPTH])[cur.x][cur.y];
-            }
-
-            if( floor_check({last_point.x, last_point.y, max_z}) ) {
-                const float here = (*input_arrays[cur.z + OVERMAP_DEPTH])[last_point.x][last_point.y];
-                // Need this weird split because lower is more transparent
-                // except at 0.0 when it becomes totally opaque
-                if( current_transparency == LIGHT_TRANSPARENCY_SOLID ) {
-                    current_transparency = here;
-                } else if( here != LIGHT_TRANSPARENCY_SOLID ) {
-                    current_transparency = std::min( current_transparency, here );
-                }
-            }
-
-            if( current_transparency == LIGHT_TRANSPARENCY_SOLID ) {
-                return false;
-            }
-        }
-
-        last_point = cur;
-
-        const int dist = rl_dist( f, cur ) + offset_distance;
-        float intensity = calc( numerator, cumulative_transparency, dist );
-        if( cur.z == t.z ) {
-            output_cache[cur.x][cur.y] = std::max( output_cache[cur.x][cur.y], intensity );
-        }
-
-        if( !check( current_transparency, intensity ) ) {
-            return false;
-        }
-        // Cumulative average of the transparency values encountered.
-        cumulative_transparency =
-            ((distance - 1) * cumulative_transparency + current_transparency) / distance;
-        distance++;
-        return true;
-    };
-
-    bresenham( f, t, 0, 0, ray );
-}
-
 template<int xx, int xy, int xz, int yx, int yy, int yz, int zz,
          float(*calc)(const float &, const float &, const int &),
          bool(*check)(const float &, const float &)>
@@ -536,6 +477,7 @@ void cast_zlight(
     float (&output_cache)[MAPSIZE*SEEX][MAPSIZE*SEEY],
     const std::array<const float (*)[MAPSIZE*SEEX][MAPSIZE*SEEY], OVERMAP_LAYERS> &input_arrays,
     const tripoint &offset, const int offset_distance, const int target_z,
+    const std::function<bool(const tripoint &)> &floor_check,
     const float numerator = 1.0f, const int row = 1,
     float start_major = 1.0f, const float end_major = 0.0f,
     float start_minor = 1.0f, const float end_minor = 0.0f,
@@ -599,9 +541,27 @@ void cast_zlight(
                     break;
                 }
 
+                float new_transparency = (*input_arrays[z_index])[current.x][current.y];
+                // If we're looking at a tile with floor or roof from the floor/roof side,
+                //  that tile is actually opaque to us.
+                if( new_transparency != LIGHT_TRANSPARENCY_SOLID ) {
+                    if( current.z < origin.z ) {
+                        current.z++;
+                        if( floor_check( current ) ) {
+                            new_transparency = LIGHT_TRANSPARENCY_SOLID;
+                        }
+
+                        current.z--;
+                    } else if( current.z > origin.z ) {
+                        if( floor_check( current ) ) {
+                            new_transparency = LIGHT_TRANSPARENCY_SOLID;
+                        }
+                    }
+                }
+
                 if( !started_block ) {
                     started_block = true;
-                    current_transparency = (*input_arrays[z_index])[current.x][current.y];
+                    current_transparency = new_transparency;
                 }
 
                 const int dist = rl_dist( origin, delta ) + offset_distance;
@@ -611,8 +571,6 @@ void cast_zlight(
                     output_cache[current.x][current.y] =
                         std::max( output_cache[current.x][current.y], last_intensity );
                 }
-
-                float new_transparency = (*input_arrays[z_index])[current.x][current.y];
 
                 if( new_transparency == current_transparency ) {
                     // All in order, no need to recurse
@@ -629,14 +587,14 @@ void cast_zlight(
                         ((distance - 1) * cumulative_transparency + current_transparency) / distance;
                     cast_zlight<xx, xy, xz, yx, yy, yz, zz, calc, check>(
                         output_cache, input_arrays, offset, offset_distance,
-                        target_z, numerator, distance + 1,
+                        target_z, floor_check, numerator, distance + 1,
                         start_major, trailing_edge_major, start_minor, end_minor,
                         next_cumulative_transparency );
                     // One line that would become part of the above if it was to the end
                     // TODO: Merge it with the above in cases where that's possible
                     cast_zlight<xx, xy, xz, yx, yy, yz, zz, calc, check>(
                         output_cache, input_arrays, offset, offset_distance,
-                        target_z, numerator, distance + 1,
+                        target_z, floor_check, numerator, distance + 1,
                         trailing_edge_major, leading_edge_major, start_minor, trailing_edge_minor,
                         next_cumulative_transparency );
                     // One from which we shaved one line ("processed in 1D")
@@ -645,7 +603,7 @@ void cast_zlight(
                         after_leading_edge_major <= end_major ) {
                         cast_zlight<xx, xy, xz, yx, yy, yz, zz, calc, check>(
                             output_cache, input_arrays, offset, offset_distance,
-                            target_z, numerator, distance,
+                            target_z, floor_check, numerator, distance,
                             after_leading_edge_major, end_major, start_minor, trailing_edge_minor,
                             cumulative_transparency );
                     }
@@ -735,53 +693,51 @@ void map::build_seen_cache( const tripoint &origin, const int target_z )
             transparency_caches[z + OVERMAP_DEPTH] = &cur_cache.transparency_cache;
         }
 
-        /*
         const auto floor_check = [this]( const tripoint &p ) {
             const tripoint below( p.x, p.y, p.z - 1 );
             return valid_move( p, below, false, true );
         };
-        */
 
-        if( origin.z >= target_z ) {
+        if( origin.z <= target_z ) {
             cast_zlight<0, 1, 0, 1, 0, 0, -1, sight_calc, sight_check>(
-                seen_cache, transparency_caches, origin, 0, target_z );
+                seen_cache, transparency_caches, origin, 0, target_z, floor_check );
             cast_zlight<1, 0, 0, 0, 1, 0, -1, sight_calc, sight_check>(
-                seen_cache, transparency_caches, origin, 0, target_z );
+                seen_cache, transparency_caches, origin, 0, target_z, floor_check );
 
             cast_zlight<0, -1, 0, 1, 0, 0, -1, sight_calc, sight_check>(
-                seen_cache, transparency_caches, origin, 0, target_z );
+                seen_cache, transparency_caches, origin, 0, target_z, floor_check );
             cast_zlight<-1, 0, 0, 0, 1, 0, -1, sight_calc, sight_check>(
-                seen_cache, transparency_caches, origin, 0, target_z );
+                seen_cache, transparency_caches, origin, 0, target_z, floor_check );
 
             cast_zlight<0, 1, 0, -1, 0, 0, -1, sight_calc, sight_check>(
-                seen_cache, transparency_caches, origin, 0, target_z );
+                seen_cache, transparency_caches, origin, 0, target_z, floor_check );
             cast_zlight<1, 0, 0, 0, -1, 0, -1, sight_calc, sight_check>(
-                seen_cache, transparency_caches, origin, 0, target_z );
+                seen_cache, transparency_caches, origin, 0, target_z, floor_check );
 
             cast_zlight<0, -1, 0, -1, 0, 0, -1, sight_calc, sight_check>(
-                seen_cache, transparency_caches, origin, 0, target_z );
+                seen_cache, transparency_caches, origin, 0, target_z, floor_check );
             cast_zlight<-1, 0, 0, 0, -1, 0, -1, sight_calc, sight_check>(
-                seen_cache, transparency_caches, origin, 0, target_z );
+                seen_cache, transparency_caches, origin, 0, target_z, floor_check );
         } else {
             cast_zlight<0, 1, 0, 1, 0, 0, 1, sight_calc, sight_check>(
-                seen_cache, transparency_caches, origin, 0, target_z );
+                seen_cache, transparency_caches, origin, 0, target_z, floor_check );
             cast_zlight<1, 0, 0, 0, 1, 0, 1, sight_calc, sight_check>(
-                seen_cache, transparency_caches, origin, 0, target_z );
+                seen_cache, transparency_caches, origin, 0, target_z, floor_check );
 
             cast_zlight<0, -1, 0, 1, 0, 0, 1, sight_calc, sight_check>(
-                seen_cache, transparency_caches, origin, 0, target_z );
+                seen_cache, transparency_caches, origin, 0, target_z, floor_check );
             cast_zlight<-1, 0, 0, 0, 1, 0, 1, sight_calc, sight_check>(
-                seen_cache, transparency_caches, origin, 0, target_z );
+                seen_cache, transparency_caches, origin, 0, target_z, floor_check );
 
             cast_zlight<0, 1, 0, -1, 0, 0, 1, sight_calc, sight_check>(
-                seen_cache, transparency_caches, origin, 0, target_z );
+                seen_cache, transparency_caches, origin, 0, target_z, floor_check );
             cast_zlight<1, 0, 0, 0, -1, 0, 1, sight_calc, sight_check>(
-                seen_cache, transparency_caches, origin, 0, target_z );
+                seen_cache, transparency_caches, origin, 0, target_z, floor_check );
 
             cast_zlight<0, -1, 0, -1, 0, 0, 1, sight_calc, sight_check>(
-                seen_cache, transparency_caches, origin, 0, target_z );
+                seen_cache, transparency_caches, origin, 0, target_z, floor_check );
             cast_zlight<-1, 0, 0, 0, -1, 0, 1, sight_calc, sight_check>(
-                seen_cache, transparency_caches, origin, 0, target_z );
+                seen_cache, transparency_caches, origin, 0, target_z, floor_check );
         }
     }
 
