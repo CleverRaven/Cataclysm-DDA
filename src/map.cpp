@@ -323,6 +323,9 @@ void map::destroy_vehicle (vehicle *veh)
             ch.vehicle_list.erase(veh);
             reset_vehicle_cache( zlev );
             current_submap->vehicles.erase (current_submap->vehicles.begin() + i);
+            if( veh->tracking_on ) {
+                overmap_buffer.remove_vehicle( veh );
+            }
             delete veh;
             return;
         }
