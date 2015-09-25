@@ -3614,7 +3614,10 @@ void vehicle::power_parts()
     if( battery_deficit != 0 ) {
         is_alarm_on = false;
         lights_on = false;
-        tracking_on = false;
+        if( tracking_on ) {
+            overmap_buffer.remove_vehicle( this );
+            tracking_on = false;
+        }
         overhead_lights_on = false;
         fridge_on = false;
         stereo_on = false;
