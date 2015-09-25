@@ -29,6 +29,21 @@ bool string_id<mtype>::is_valid() const
     return MonsterGenerator::generator().has_mtype( *this );
 }
 
+template<>
+const species_id string_id<species_type>::NULL_ID( "spec_null" );
+
+template<>
+const species_type& string_id<species_type>::obj() const
+{
+    return MonsterGenerator::generator().get_species( *this );
+}
+
+template<>
+bool string_id<species_type>::is_valid() const
+{
+    return MonsterGenerator::generator().has_species( *this );
+}
+
 const mtype_id mon_generator( "mon_generator" );
 const mtype_id mon_zombie_dog( "mon_zombie_dog" );
 const mtype_id mon_fungaloid( "mon_fungaloid" );
@@ -36,7 +51,7 @@ const mtype_id mon_fungaloid( "mon_fungaloid" );
 MonsterGenerator::MonsterGenerator()
 {
     mon_templates[mtype_id::NULL_ID] = new mtype();
-    mon_species["spec_null"] = new species_type();
+    mon_species[species_id::NULL_ID] = new species_type();
     //ctor
     init_phases();
     init_attack();
@@ -62,7 +77,7 @@ void MonsterGenerator::reset()
     }
     mon_species.clear();
     mon_templates[mtype_id::NULL_ID] = new mtype();
-    mon_species["spec_null"] = new species_type();
+    mon_species[species_id::NULL_ID] = new species_type();
 }
 
 void MonsterGenerator::finalize_mtypes()
@@ -78,19 +93,18 @@ void MonsterGenerator::finalize_mtypes()
 void MonsterGenerator::apply_species_attributes( mtype &mon )
 {
     for( const auto &spec : mon.species ) {
-        const auto iter = mon_species.find( spec );
-        if( iter == mon_species.end() ) {
+        if( !spec.is_valid() ) {
             continue;
         }
-        species_type *mspec = iter->second;
+        const species_type &mspec = spec.obj();
 
-        // apply species flags/triggers
-        apply_set_to_set(mspec->flags, mon.flags);
-        apply_set_to_set(mspec->anger_trig, mon.anger);
-        apply_set_to_set(mspec->fear_trig, mon.fear);
-        apply_set_to_set(mspec->placate_trig, mon.placate);
+        apply_set_to_set( mspec.flags, mon.flags );
+        apply_set_to_set( mspec.anger_trig, mon.anger );
+        apply_set_to_set( mspec.fear_trig, mon.fear );
+        apply_set_to_set( mspec.placate_trig, mon.placate );
     }
 }
+
 void MonsterGenerator::set_mtype_flags( mtype &mon )
 {
     // The flag vectors are slow, given how often has_flags() is called,
@@ -369,9 +383,8 @@ void MonsterGenerator::init_flags()
 void MonsterGenerator::set_species_ids( mtype &mon )
 {
     for( const auto &s : mon.species ) {
-        const auto iter = mon_species.find( s );
-        if( iter != mon_species.end() ) {
-            mon.species_ptrs.insert( iter->second );
+        if( s.is_valid() ) {
+            mon.species_ptrs.insert( &s.obj() );
         } else {
             debugmsg( "Tried to assign species %s to monster %s, but no entry for the species exists", s.c_str(), mon.id.c_str() );
         }
@@ -400,7 +413,9 @@ void MonsterGenerator::load_monster(JsonObject &jo)
         // Have to overwrite the default { "hflesh" } here
         newmon->mat = { jo.get_string("material") };
 
-        newmon->species = jo.get_tags("species");
+        for( auto &s : jo.get_tags( "species" ) ) {
+            newmon->species.insert( species_id( s ) );
+        }
         newmon->categories = jo.get_tags("categories");
 
         // See monfaction.cpp
@@ -497,6 +512,16 @@ void MonsterGenerator::load_species(JsonObject &jo)
     species_type *new_species = new species_type(sid, flags, anger, fear, placate);
 
     mon_species[sid] = new_species;
+}
+
+species_type &MonsterGenerator::get_species( const species_id &id )
+{
+    const auto iter = mon_species.find( id );
+    if( iter != mon_species.end() ) {
+        return *iter->second;
+    }
+    debugmsg( "Could not find species %s", id.c_str() );
+    return *mon_species[species_id::NULL_ID];
 }
 
 mtype &MonsterGenerator::get_mtype( const mtype_id& id )
@@ -658,7 +683,7 @@ void MonsterGenerator::check_monster_definitions() const
     for( const auto &elem : mon_templates ) {
         const mtype *mon = elem.second;
         for( auto &spec : mon->species ) {
-            if( !has_species( spec ) ) {
+            if( !spec.is_valid() ) {
                 debugmsg("monster %s has invalid species %s", mon->id.c_str(), spec.c_str());
             }
         }

@@ -21,14 +21,15 @@ using mon_action_death  = void (*)(monster*);
 using mon_action_attack = void (*)(monster*, int);
 using mon_action_defend = void (*)(monster&, Creature*, dealt_projectile_attack const*);
 using mtype_id = string_id<mtype>;
-using species_id = std::string;
+struct species_type;
+using species_id = string_id<species_type>;
 
 struct species_type {
     species_id id;
     std::set<m_flag> flags;
     std::set<monster_trigger> anger_trig, fear_trig, placate_trig;
 
-    species_type(): id("null_species")
+    species_type(): id( NULL_ID )
     {
 
     }
@@ -72,6 +73,7 @@ class MonsterGenerator
         void check_monster_definitions() const;
 
         mtype &get_mtype( const mtype_id& id );
+        species_type &get_species( const species_id& id );
         bool has_mtype( const mtype_id &id ) const;
         bool has_species( const species_id &species ) const;
         std::map<mtype_id, mtype *> get_all_mtypes() const;

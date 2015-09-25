@@ -1204,7 +1204,7 @@ bool cata_tiles::draw_entity( const Creature &critter, const tripoint &p )
         const auto ent_category = C_MONSTER;
         std::string ent_subcategory = empty_string;
         if( !m->type->species.empty() ) {
-            ent_subcategory = *m->type->species.begin();
+            ent_subcategory = m->type->species.begin()->str();
         }
         const int subtile = corner;
         return draw_from_id_string(ent_name.str(), ent_category, ent_subcategory, p.x, p.y, subtile, 0);

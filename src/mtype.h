@@ -32,7 +32,7 @@ using mongroup_id = string_id<MonsterGroup>;
 struct mtype;
 using mtype_id = string_id<mtype>;
 using mfaction_id = int_id<monfaction>;
-using species_id = std::string;
+using species_id = string_id<species_type>;
 
 typedef std::string itype_id;
 
