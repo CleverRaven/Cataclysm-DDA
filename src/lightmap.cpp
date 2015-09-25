@@ -742,28 +742,47 @@ void map::build_seen_cache( const tripoint &origin, const int target_z )
         };
         */
 
-        cast_zlight<0, 1, 0, 1, 0, 0, -1, sight_calc, sight_check>(
-            seen_cache, transparency_caches, origin, 0, target_z );
-        cast_zlight<1, 0, 0, 0, 1, 0, -1, sight_calc, sight_check>(
-            seen_cache, transparency_caches, origin, 0, target_z );
+        if( origin.z >= target_z ) {
+            cast_zlight<0, 1, 0, 1, 0, 0, -1, sight_calc, sight_check>(
+                seen_cache, transparency_caches, origin, 0, target_z );
+            cast_zlight<1, 0, 0, 0, 1, 0, -1, sight_calc, sight_check>(
+                seen_cache, transparency_caches, origin, 0, target_z );
 
-        cast_zlight<0, -1, 0, 1, 0, 0, -1, sight_calc, sight_check>(
-            seen_cache, transparency_caches, origin, 0, target_z );
-        cast_zlight<-1, 0, 0, 0, 1, 0, -1, sight_calc, sight_check>(
-            seen_cache, transparency_caches, origin, 0, target_z );
+            cast_zlight<0, -1, 0, 1, 0, 0, -1, sight_calc, sight_check>(
+                seen_cache, transparency_caches, origin, 0, target_z );
+            cast_zlight<-1, 0, 0, 0, 1, 0, -1, sight_calc, sight_check>(
+                seen_cache, transparency_caches, origin, 0, target_z );
 
-        cast_zlight<0, 1, 0, -1, 0, 0, -1, sight_calc, sight_check>(
-            seen_cache, transparency_caches, origin, 0, target_z );
-        cast_zlight<1, 0, 0, 0, -1, 0, -1, sight_calc, sight_check>(
-            seen_cache, transparency_caches, origin, 0, target_z );
+            cast_zlight<0, 1, 0, -1, 0, 0, -1, sight_calc, sight_check>(
+                seen_cache, transparency_caches, origin, 0, target_z );
+            cast_zlight<1, 0, 0, 0, -1, 0, -1, sight_calc, sight_check>(
+                seen_cache, transparency_caches, origin, 0, target_z );
 
-        cast_zlight<0, -1, 0, -1, 0, 0, -1, sight_calc, sight_check>(
-            seen_cache, transparency_caches, origin, 0, target_z );
-        cast_zlight<-1, 0, 0, 0, -1, 0, -1, sight_calc, sight_check>(
-            seen_cache, transparency_caches, origin, 0, target_z );
+            cast_zlight<0, -1, 0, -1, 0, 0, -1, sight_calc, sight_check>(
+                seen_cache, transparency_caches, origin, 0, target_z );
+            cast_zlight<-1, 0, 0, 0, -1, 0, -1, sight_calc, sight_check>(
+                seen_cache, transparency_caches, origin, 0, target_z );
+        } else {
+            cast_zlight<0, 1, 0, 1, 0, 0, 1, sight_calc, sight_check>(
+                seen_cache, transparency_caches, origin, 0, target_z );
+            cast_zlight<1, 0, 0, 0, 1, 0, 1, sight_calc, sight_check>(
+                seen_cache, transparency_caches, origin, 0, target_z );
 
-        // No vehicles yet
-        return;
+            cast_zlight<0, -1, 0, 1, 0, 0, 1, sight_calc, sight_check>(
+                seen_cache, transparency_caches, origin, 0, target_z );
+            cast_zlight<-1, 0, 0, 0, 1, 0, 1, sight_calc, sight_check>(
+                seen_cache, transparency_caches, origin, 0, target_z );
+
+            cast_zlight<0, 1, 0, -1, 0, 0, 1, sight_calc, sight_check>(
+                seen_cache, transparency_caches, origin, 0, target_z );
+            cast_zlight<1, 0, 0, 0, -1, 0, 1, sight_calc, sight_check>(
+                seen_cache, transparency_caches, origin, 0, target_z );
+
+            cast_zlight<0, -1, 0, -1, 0, 0, 1, sight_calc, sight_check>(
+                seen_cache, transparency_caches, origin, 0, target_z );
+            cast_zlight<-1, 0, 0, 0, -1, 0, 1, sight_calc, sight_check>(
+                seen_cache, transparency_caches, origin, 0, target_z );
+        }
     }
 
     int part;
