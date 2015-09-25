@@ -1236,7 +1236,9 @@ void vehicle::use_controls()
         add_msg(_("You stop controlling the vehicle."));
         break;
     case convert_vehicle:
-        fold_up();
+        if( fold_up() ) {
+            return; // `this` has been deleted!
+        }
         break;
     case toggle_tracker:
         if (tracking_on)
