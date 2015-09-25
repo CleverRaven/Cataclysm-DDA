@@ -656,10 +656,9 @@ void MonsterGenerator::check_monster_definitions() const
 {
     for( const auto &elem : mon_templates ) {
         const mtype *mon = elem.second;
-        for(std::set<std::string>::iterator spec = mon->species.begin(); spec != mon->species.end();
-            ++spec) {
-            if(!has_species(*spec)) {
-                debugmsg("monster %s has invalid species %s", mon->id.c_str(), spec->c_str());
+        for( auto &spec : mon->species ) {
+            if( !has_species( spec ) ) {
+                debugmsg("monster %s has invalid species %s", mon->id.c_str(), spec.c_str());
             }
         }
         if (!mon->death_drops.empty() && !item_group::group_is_defined(mon->death_drops)) {
