@@ -1509,7 +1509,6 @@ classes = {
             { name = "gibType", rval = "field_id", args = { } },
             { name = "has_flag", rval = "bool", args = { "string" } },
             { name = "in_category", rval = "bool", args = { "string" } },
-            { name = "in_species", rval = "bool", args = { "int" } },
             { name = "in_species", rval = "bool", args = { "string" } },
             { name = "nname", rval = "string", args = { "int" } },
             { name = "nname", rval = "string", args = { } },

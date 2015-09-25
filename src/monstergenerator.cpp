@@ -372,7 +372,7 @@ void MonsterGenerator::set_species_ids( mtype *mon )
     for( const auto &s : specs ) {
         auto iter = mon_species.find( s );
         if( iter != mon_species.end() ) {
-            mon->species_id.insert( iter->second->short_id );
+            mon->species_ptrs.insert( iter->second );
         } else {
             debugmsg( "Tried to assign species %s to monster %s, but no entry for the species exists", s.c_str(), mon->id.c_str() );
         }

@@ -19,6 +19,7 @@ class monster;
 class monfaction;
 struct projectile;
 struct dealt_projectile_attack;
+struct species_type;
 enum field_id : int;
 enum body_part : int;
 enum m_size : int;
@@ -161,7 +162,7 @@ struct mtype {
         std::string name;
         std::string name_plural;
 
-        std::set< int > species_id;
+        std::set< const species_type* > species_ptrs;
     public:
         mtype_id id;
         std::string description;
@@ -247,7 +248,7 @@ struct mtype {
         bool has_placate_trigger(monster_trigger trigger) const;
         bool in_category(std::string category) const;
         bool in_species(std::string _species) const;
-        bool in_species( int spec_id ) const;
+        bool in_species( const species_type &spec ) const;
         //Used for corpses.
         field_id bloodType () const;
         field_id gibType () const;
