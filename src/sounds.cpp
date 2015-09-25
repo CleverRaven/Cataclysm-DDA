@@ -21,7 +21,7 @@
 #ifdef SDL_SOUND
 #include "SDL2/SDL_mixer.h"
 #include <thread>
-#if (defined _WIN32 || defined WINDOWS)
+#if (!defined __MINGW64__ && (defined _WIN32 || defined WINDOWS ))
 #   include "mingw.thread.h"
 #endif
 #endif

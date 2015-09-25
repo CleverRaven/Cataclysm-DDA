@@ -3856,6 +3856,7 @@ void vehicle::on_move(){
         operate_reaper();
     }
 }
+
 void vehicle::operate_plow(){
     for( const int plow_id : all_parts_with_feature( "PLOW" ) ){
         const tripoint start_plow = global_pos3() + parts[plow_id].precalc[0];
