@@ -95,9 +95,9 @@ bool mtype::in_category(std::string category) const
     return (categories.find(category) != categories.end());
 }
 
-bool mtype::in_species(std::string spec) const
+bool mtype::in_species( const species_id &spec ) const
 {
-    return (species.find(spec) != species.end());
+    return species.count( spec ) > 0;
 }
 
 bool mtype::in_species( const species_type &spec ) const

@@ -477,7 +477,7 @@ void MonsterGenerator::load_monster(JsonObject &jo)
 }
 void MonsterGenerator::load_species(JsonObject &jo)
 {
-    const std::string sid = jo.get_string("id");
+    const species_id sid( jo.get_string( "id" ) );
     if (mon_species.count(sid) > 0) {
         delete mon_species[sid];
     }
@@ -525,7 +525,8 @@ bool MonsterGenerator::has_mtype( const mtype_id& mon ) const
 {
     return mon_templates.count(mon) > 0;
 }
-bool MonsterGenerator::has_species(const std::string &species) const
+
+bool MonsterGenerator::has_species( const species_id &species ) const
 {
     return mon_species.count(species) > 0;
 }

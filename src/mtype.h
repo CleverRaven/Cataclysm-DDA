@@ -167,7 +167,7 @@ struct mtype {
     public:
         mtype_id id;
         std::string description;
-        std::set<std::string> species;
+        std::set<species_id> species;
         std::set<std::string> categories;
         mfaction_id default_faction;
         /** UTF-8 encoded symbol, should be exactyle one cell wide. */
@@ -248,7 +248,7 @@ struct mtype {
         bool has_fear_trigger(monster_trigger trigger) const;
         bool has_placate_trigger(monster_trigger trigger) const;
         bool in_category(std::string category) const;
-        bool in_species(std::string _species) const;
+        bool in_species( const species_id &spec ) const;
         bool in_species( const species_type &spec ) const;
         //Used for corpses.
         field_id bloodType () const;

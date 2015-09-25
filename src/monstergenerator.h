@@ -24,7 +24,7 @@ using mtype_id = string_id<mtype>;
 using species_id = std::string;
 
 struct species_type {
-    std::string id;
+    species_id id;
     std::set<m_flag> flags;
     std::set<monster_trigger> anger_trig, fear_trig, placate_trig;
 
@@ -32,7 +32,7 @@ struct species_type {
     {
 
     }
-    species_type(std::string _id,
+    species_type( const species_id &_id,
                  std::set<m_flag> _flags,
                  std::set<monster_trigger> _anger,
                  std::set<monster_trigger> _fear,
@@ -73,7 +73,7 @@ class MonsterGenerator
 
         mtype &get_mtype( const mtype_id& id );
         bool has_mtype( const mtype_id &id ) const;
-        bool has_species(const std::string &species) const;
+        bool has_species( const species_id &species ) const;
         std::map<mtype_id, mtype *> get_all_mtypes() const;
         std::vector<mtype_id> get_all_mtype_ids() const;
         const mtype_id &get_valid_hallucination() const;
@@ -111,7 +111,7 @@ class MonsterGenerator
         template <typename T> void apply_set_to_set(std::set<T> from, std::set<T> &to);
 
         std::map<mtype_id, mtype *> mon_templates;
-        std::map<std::string, species_type *> mon_species;
+        std::map<species_id, species_type *> mon_species;
 
         std::map<std::string, phase_id> phase_map;
         std::map<std::string, mon_action_death> death_map;
