@@ -163,7 +163,7 @@ void remove_radio_mod( item &it, player &p )
     if( !it.has_flag( "RADIO_MOD" ) ) {
         return;
     }
-    p.add_msg_if_player( _( "You remove the radio modification from your %s." ), it.tname().c_str() );
+    p.add_msg_if_player( _( "You remove the radio modification from your %s!" ), it.tname().c_str() );
     item mod( "radio_mod", calendar::turn );
     p.i_add_or_drop( mod, 1 );
     it.item_tags.erase( "RADIO_ACTIVATION" );
@@ -523,7 +523,7 @@ int iuse::caff(player *p, item *it, bool, const tripoint& )
 
 int iuse::atomic_caff(player *p, item *it, bool, const tripoint& )
 {
-    p->add_msg_if_player(m_good, _("Wow! This %s has a kick."), it->tname().c_str());
+    p->add_msg_if_player(m_good, _("Wow!  This %s has a kick."), it->tname().c_str());
     const auto food = dynamic_cast<const it_comest *> (it->type);
     p->fatigue -= food->stim * 12;
     p->radiation += 8;
@@ -2551,7 +2551,7 @@ int iuse::sew_advanced(player *p, item *it, bool, const tripoint& )
 
     // If the picked mod already exists, player wants to destroy it
     if( mod->item_tags.count( the_mod ) ) {
-        if( query_yn( _("Are you sure? You will not gain any materials back") ) ) {
+        if( query_yn( _("Are you sure?  You will not gain any materials back.") ) ) {
             mod->item_tags.erase( the_mod );
         }
 
@@ -4352,7 +4352,7 @@ int iuse::set_trap(player *p, item *it, bool, const tripoint& )
             p->add_msg_if_player(m_info, _("You need a shovel."));
             return 0;
         } else if (!g->m.has_flag("DIGGABLE", posx, posy)) {
-            p->add_msg_if_player(m_info, _("You can't dig in that %s"), g->m.tername(posx, posy).c_str());
+            p->add_msg_if_player(m_info, _("You can't dig in that %s."), g->m.tername(posx, posy).c_str());
             return 0;
         }
     }
@@ -4773,10 +4773,10 @@ int iuse::arrow_flamable(player *p, item *it, bool, const tripoint& )
         return 0;
     }
     if (!p->use_charges_if_avail("fire", 1)) {
-        p->add_msg_if_player(m_info, _("You need a lighter!"));
+        p->add_msg_if_player(m_info, _("You need a source of fire!"));
         return 0;
     }
-    p->add_msg_if_player(_("You light the arrow!."));
+    p->add_msg_if_player(_("You light the arrow!"));
     p->moves -= 150;
     if (it->charges == 1) {
         it->make("arrow_flamming");
@@ -4796,7 +4796,7 @@ int iuse::molotov(player *p, item *it, bool, const tripoint& )
         return 0;
     }
     if (!p->use_charges_if_avail("fire", 1)) {
-        p->add_msg_if_player(m_info, _("You need a lighter!"));
+        p->add_msg_if_player(m_info, _("You need a source of fire!"));
         return 0;
     }
     p->add_msg_if_player(_("You light the Molotov cocktail."));
@@ -4837,7 +4837,7 @@ int iuse::firecracker_pack(player *p, item *it, bool, const tripoint& )
         return 0;
     }
     if (!p->has_charges("fire", 1)) {
-        p->add_msg_if_player(m_info, _("You need a lighter!"));
+        p->add_msg_if_player(m_info, _("You need a source of fire!"));
         return 0;
     }
     WINDOW *w = newwin(5, 41, (TERMY - 5) / 2, (TERMX - 41) / 2);
@@ -4939,7 +4939,7 @@ int iuse::firecracker(player *p, item *it, bool, const tripoint& )
         return 0;
     }
     if (!p->use_charges_if_avail("fire", 1)) {
-        p->add_msg_if_player(m_info, _("You need a lighter!"));
+        p->add_msg_if_player(m_info, _("You need a source of fire!"));
         return 0;
     }
     p->add_msg_if_player(_("You light the firecracker."));
@@ -5246,7 +5246,7 @@ int iuse::shocktonfa_on(player *p, item *it, bool t, const tripoint &pos)
 
     } else {
         if (it->charges <= 0) {
-            p->add_msg_if_player(m_info, _("Your tactical tonfa is out of power"));
+            p->add_msg_if_player(m_info, _("Your tactical tonfa is out of power."));
             it->make("shocktonfa_off");
             it->active = false;
         } else {
@@ -5260,7 +5260,7 @@ int iuse::shocktonfa_on(player *p, item *it, bool t, const tripoint &pos)
                 break;
 
                 case 2: {
-                    p->add_msg_if_player(_("You turn off the light"));
+                    p->add_msg_if_player(_("You turn off the light."));
                     it->make("shocktonfa_off");
                     it->active = false;
                 }
@@ -5819,13 +5819,13 @@ int iuse::torch_lit(player *p, item *it, bool t, const tripoint &pos)
             it->active = false;
         }
     } else if (it->charges <= 0) {
-        p->add_msg_if_player(_("The %s winks out"), it->tname().c_str());
+        p->add_msg_if_player(_("The %s winks out."), it->tname().c_str());
     } else { // Turning it off
         int choice = menu(true, _("torch (lit)"), _("extinguish"),
                           _("light something"), _("cancel"), NULL);
         switch (choice) {
             case 1: {
-                p->add_msg_if_player(_("The torch is extinguished"));
+                p->add_msg_if_player(_("The torch is extinguished."));
                 it->charges -= 1;
                 it->make("torch");
                 it->active = false;
@@ -5866,7 +5866,7 @@ int iuse::battletorch_lit(player *p, item *it, bool t, const tripoint &pos)
                           _("light something"), _("cancel"), NULL);
         switch (choice) {
             case 1: {
-                p->add_msg_if_player(_("The Louisville Slaughterer is extinguished"));
+                p->add_msg_if_player(_("The Louisville Slaughterer is extinguished."));
                 it->charges -= 1;
                 it->make("battletorch");
                 it->active = false;
@@ -6868,7 +6868,7 @@ int iuse::sheath_sword(player *p, item *it, bool, const tripoint& )
                 }
 
                 //~ $1s is a body part, %2$s is the weapon name.
-                p->add_msg_if_player(_("You catch a glimpse of %1$s in the blade of the %2$s"),
+                p->add_msg_if_player(_("You catch a glimpse of %1$s in the blade of the %2$s."),
                                       part.c_str(), p->weapon.tname().c_str());
 
             // diamond swords glimmer in the sunlight
@@ -7205,7 +7205,7 @@ int iuse::gun_repair(player *p, item *it, bool, const tripoint& )
         p->add_msg_if_player(m_info, _("You need a mechanics skill of 2 to use this repair kit."));
         return 0;
     }
-    int inventory_index = g->inv(_("Select the firearm to repair."));
+    int inventory_index = g->inv(_("Select the firearm to repair"));
     item *fix = &(p->i_at(inventory_index));
     if (fix == NULL || fix->is_null()) {
         p->add_msg_if_player(m_info, _("You do not have that item!"));
@@ -8114,7 +8114,7 @@ int iuse::camera(player *p, item *it, bool, const tripoint& )
 
                     // get an empty photo if the target is a hallucination
                     if (zid == sel_zid && (z.is_hallucination() || z.type->in_species("HALLUCINATION"))) {
-                        p->add_msg_if_player(_("Strange...there's nothing in the picture?"));
+                        p->add_msg_if_player(_("Strange... there's nothing in the picture?"));
                         return it->type->charges_to_use();
                     }
 
@@ -9317,7 +9317,7 @@ int iuse::capture_monster_act( player *p, item *it, bool, const tripoint &pos )
                     }
                 }
                 if( valid.empty() ) {
-                    p->add_msg_if_player(_("There is no place to put the %s"),
+                    p->add_msg_if_player(_("There is no place to put the %s."),
                                          it->get_var("contained_name","").c_str());
                     return 0;
                 }
