@@ -15,6 +15,7 @@
 #include <list>
 #include <map>
 #include <string>
+#include <array>
 
 struct itype;
 struct trap;
@@ -183,17 +184,18 @@ private:
     std::bitset<NUM_TERFLAGS> bitflags; // bitfield of -certian- string flags which are heavily checked
 public:
 
+    enum { SEASONS_PER_YEAR = 4 };
     /*
     * The symbol drawn on the screen for the terrain. Please note that there are extensive rules
     * as to which possible object/field/entity in a single square gets drawn and that some symbols
     * are "reserved" such as * and % to do programmatic behavior.
     */
-    long symbol_;
+    std::array<long, SEASONS_PER_YEAR> symbol_;
 
     int movecost;   // The amount of movement points required to pass this terrain by default.
     int max_volume; // Maximal volume of items that can be stored in/on this furniture
 
-    nc_color color_; //The color the sym will draw in on the GUI.
+    std::array<nc_color, SEASONS_PER_YEAR> color_; //The color the sym will draw in on the GUI.
     void load_symbol( JsonObject &jo );
 
     iexamine_function examine; //What happens when the terrain is examined

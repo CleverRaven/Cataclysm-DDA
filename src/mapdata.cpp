@@ -8,6 +8,7 @@
 #include "output.h"
 #include "item.h"
 #include "item_group.h"
+#include "calendar.h"
 
 #include <unordered_map>
 
@@ -156,8 +157,8 @@ furn_t null_furniture_t() {
   furn_t new_furniture;
   new_furniture.id = "f_null";
   new_furniture.name = _("nothing");
-  new_furniture.symbol_ = ' ';
-  new_furniture.color_ = c_white;
+  new_furniture.symbol_.fill( ' ' );
+  new_furniture.color_.fill( c_white );
   new_furniture.movecost = 0;
   new_furniture.move_str_req = -1;
   new_furniture.transparent = true;
@@ -174,8 +175,8 @@ ter_t null_terrain_t() {
   ter_t new_terrain;
   new_terrain.id = "t_null";
   new_terrain.name = _("nothing");
-  new_terrain.symbol_ = ' ';
-  new_terrain.color_ = c_white;
+  new_terrain.symbol_.fill( ' ' );
+  new_terrain.color_.fill( c_white );
   new_terrain.movecost = 2;
   new_terrain.trap = tr_null;
   new_terrain.trap_id_str = "";
@@ -194,27 +195,55 @@ ter_t null_terrain_t() {
   return new_terrain;
 }
 
+long string_to_symbol( JsonIn &js )
+{
+    const std::string s = js.get_string();
+    if( s == "LINE_XOXO" ) {
+        return LINE_XOXO;
+    } else if( s == "LINE_OXOX" ) {
+        return LINE_OXOX;
+    } else if( s.length() != 1 ) {
+        js.error( "Symbol string must be exactly 1 character long." );
+    }
+    return s[0];
+}
+
+template<typename C, typename F>
+void load_season_array( JsonIn &js, C &container, F load_func )
+{
+    if( js.test_array() ) {
+        js.start_array();
+        for( auto &season_entry : container ) {
+            season_entry = load_func( js );
+            js.end_array(); // consume separator
+        }
+    } else {
+        container.fill( load_func( js ) );
+    }
+}
+
+nc_color bgcolor_from_json( JsonIn &js)
+{
+    return bgcolor_from_string( js.get_string() );
+}
+
+nc_color color_from_json( JsonIn &js)
+{
+    return color_from_string( js.get_string() );
+}
+
 void map_data_common_t::load_symbol( JsonObject &jo )
 {
-    const std::string s = jo.get_string( "symbol" );
-    if( s == "LINE_XOXO" ) {
-        symbol_ = LINE_XOXO;
-    } else if( s == "LINE_OXOX" ) {
-        symbol_ = LINE_OXOX;
-    } else if( s.length() != 1 ) {
-        jo.throw_error( "Symbol string must be exactly 1 character long.", "symbol" );
-    } else {
-        symbol_ = s[0];
-    }
+    load_season_array( *jo.get_raw( "symbol" ), symbol_, string_to_symbol );
 
     const bool has_color = jo.has_member( "color" );
     const bool has_bgcolor = jo.has_member( "bgcolor" );
     if( has_color && has_bgcolor ) {
         jo.throw_error( "Found both color and bgcolor, only one of these is allowed." );
     } else if( has_color ) {
-        color_ = color_from_string( jo.get_string( "color" ) );
+        load_season_array( *jo.get_raw( "color" ), color_, color_from_json );
     } else if( has_bgcolor ) {
-        color_ = bgcolor_from_string( jo.get_string( "bgcolor" ) );
+        load_season_array( *jo.get_raw( "bgcolor" ), color_, bgcolor_from_json );
     } else {
         jo.throw_error( "Missing member: one of: \"color\", \"bgcolor\" must exist." );
     }
@@ -222,12 +251,12 @@ void map_data_common_t::load_symbol( JsonObject &jo )
 
 long map_data_common_t::symbol() const
 {
-    return symbol_;
+    return symbol_[calendar::turn.get_season()];
 }
 
 nc_color map_data_common_t::color() const
 {
-    return color_;
+    return color_[calendar::turn.get_season()];
 }
 
 void load_furniture(JsonObject &jsobj)
