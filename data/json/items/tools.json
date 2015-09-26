@@ -3100,7 +3100,7 @@
   },
 
   {
-    "id": "gasbomb_markshift",
+    "id": "gasbomb_makeshift",
     "type": "TOOL",
     "symbol": "*",
     "color": "dark_gray",
