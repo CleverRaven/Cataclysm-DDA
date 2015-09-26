@@ -342,10 +342,6 @@ void shadowcasting_3d_2d( int iterations )
             seen_squares_experiment, transparency_caches, origin, 0, target_z, floor_check );
         cast_zlight<-1, 0, 0, 0, -1, 0, -1, sight_calc, sight_check>(
             seen_squares_experiment, transparency_caches, origin, 0, target_z, floor_check );
-        cast_zlight<0, 1, 0, 1, 0, 0, 1, sight_calc, sight_check>(
-            seen_squares_experiment, transparency_caches, origin, 0, target_z, floor_check );
-        cast_zlight<1, 0, 0, 0, 1, 0, 1, sight_calc, sight_check>(
-            seen_squares_experiment, transparency_caches, origin, 0, target_z, floor_check );
     }
     auto end2 = std::chrono::high_resolution_clock::now();
 

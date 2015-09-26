@@ -483,10 +483,11 @@ void cast_zlight(
     float start_minor, const float end_minor,
     double cumulative_transparency )
 {
-    float radius = 60.0f - offset_distance;
     if( start_major < end_major || start_minor < end_minor ) {
         return;
     }
+
+    float radius = 60.0f - offset_distance;
 
     const int min_z = std::min( offset.z, target_z );
     const int max_z = std::max( offset.z, target_z );
@@ -505,19 +506,23 @@ void cast_zlight(
         bool started_block = false;
         float current_transparency = 0.0;
 
-        for( delta.z = 0; delta.z <= distance; delta.z++ ) {
-            float trailing_edge_major = (-delta.z - 0.5f) / (delta.y + 0.5f);
-            float leading_edge_major = (-delta.z + 0.5f) / (delta.y - 0.5f);
+        for( delta.z = -distance; delta.z <= 0; delta.z++ ) {
+            float trailing_edge_major = (delta.z - 0.5f) / (delta.y + 0.5f);
+            float leading_edge_major = (delta.z + 0.5f) / (delta.y - 0.5f);
             current.z = offset.z + delta.x * 00 + delta.y * 00 + delta.z * zz;
             if( current.z > max_z || current.z < min_z ) {
                 continue;
             } else if( start_major < leading_edge_major ) {
                 continue;
             } else if( end_major > trailing_edge_major ) {
-                continue;
-                //break;
+                break;
             }
 
+            // Need to fix up slopes: 3D shadowcasting them accurate accurate or else it breaks
+            leading_edge_major = std::min( end_major, leading_edge_major );
+            trailing_edge_major = std::max( start_major, trailing_edge_major );
+
+            bool started_span = false;
             const int z_index = current.z + OVERMAP_DEPTH;
             for( delta.x = -distance; delta.x <= 0; delta.x++ ) {
                 current.x = offset.x + delta.x * xx + delta.y * xy + delta.z * xz;
@@ -535,19 +540,20 @@ void cast_zlight(
 
                 float new_transparency = (*input_arrays[z_index])[current.x][current.y];
                 // If we're looking at a tile with floor or roof from the floor/roof side,
-                //  that tile is actually opaque to us.
-                if( new_transparency != LIGHT_TRANSPARENCY_SOLID ) {
-                    if( current.z < origin.z ) {
-                        current.z++;
-                        if( floor_check( current ) ) {
-                            new_transparency = LIGHT_TRANSPARENCY_SOLID;
-                        }
+                //  that tile is actually invisible to us.
+                bool floor_block = false;
+                if( current.z < offset.z ) {
+                    current.z++;
+                    if( floor_check( current ) ) {
+                        floor_block = true;
+                        new_transparency = LIGHT_TRANSPARENCY_SOLID;
+                    }
 
-                        current.z--;
-                    } else if( current.z > origin.z ) {
-                        if( floor_check( current ) ) {
-                            new_transparency = LIGHT_TRANSPARENCY_SOLID;
-                        }
+                    current.z--;
+                } else if( current.z > offset.z ) {
+                    if( floor_check( current ) ) {
+                        floor_block = true;
+                        new_transparency = LIGHT_TRANSPARENCY_SOLID;
                     }
                 }
 
@@ -559,7 +565,7 @@ void cast_zlight(
                 const int dist = rl_dist( origin, delta ) + offset_distance;
                 last_intensity = calc( numerator, cumulative_transparency, dist );
                 
-                if( current.z == target_z ) {
+                if( current.z == target_z && !floor_block ) {
                     output_cache[current.x][current.y] =
                         std::max( output_cache[current.x][current.y], last_intensity );
                 }
@@ -568,42 +574,39 @@ void cast_zlight(
                     // All in order, no need to recurse
                     new_start_minor = leading_edge_minor;
                     //new_start_major = leading_edge_major;
+                    started_span = true;
                     continue;
+                } else if( !started_span ) {
+                    // Need to reset minor slope, because we're starting a new line
+                    new_start_minor = leading_edge_minor;
+                    started_span = true;
                 }
 
-                // Only cast recursively if previous span was not opaque.
+                // We split the block into 4 sub-blocks (sub-frustums actually):
+
+                // One we processed fully in 2D and only need to extend in last D
+                // Only cast recursively horizontally if previous span was not opaque.
                 if( check( current_transparency, last_intensity ) ) {
-                    // We split the block into 4 sub-blocks (sub-frustums actually):
-                    // One we processed fully in 2D and only need to extend in last D
                     float next_cumulative_transparency =
                         ((distance - 1) * cumulative_transparency + current_transparency) / distance;
+                    const bool merge_blocks = end_minor >= trailing_edge_minor;
+                    const float major_mid = merge_blocks ? leading_edge_major : trailing_edge_major;
                     cast_zlight<xx, xy, xz, yx, yy, yz, zz, calc, check>(
                         output_cache, input_arrays, offset, offset_distance,
                         target_z, floor_check, numerator, distance + 1,
-                        start_major, trailing_edge_major, start_minor, end_minor,
+                        start_major, major_mid, start_minor, end_minor,
                         next_cumulative_transparency );
-                    // One line that would become part of the above if it was to the end
-                    // TODO: Merge it with the above in cases where that's possible
-                    cast_zlight<xx, xy, xz, yx, yy, yz, zz, calc, check>(
-                        output_cache, input_arrays, offset, offset_distance,
-                        target_z, floor_check, numerator, distance + 1,
-                        trailing_edge_major, leading_edge_major, start_minor, trailing_edge_minor,
-                        next_cumulative_transparency );
-                    // One from which we shaved one line ("processed in 1D")
-                    float after_leading_edge_major = (-delta.z + 1.5f) / (delta.y - 0.5f);
-                    const int floor_z = current.z < origin.z ? current.z + 1 : current.z;
-                    if( after_leading_edge_major <= start_major &&
-                        after_leading_edge_major >= end_major &&
-                        !floor_check( {current.x, current.y, floor_z} ) ) {
+                    // One line that is too short to be part of the rectangle above
+                    if( !merge_blocks ) {
                         cast_zlight<xx, xy, xz, yx, yy, yz, zz, calc, check>(
                             output_cache, input_arrays, offset, offset_distance,
-                            target_z, floor_check, numerator, distance,
-                            after_leading_edge_major, end_major, start_minor, trailing_edge_minor,
-                            cumulative_transparency );
+                            target_z, floor_check, numerator, distance + 1,
+                            trailing_edge_major, leading_edge_major, start_minor, trailing_edge_minor,
+                            next_cumulative_transparency );
                     }
-                    // One we just entered ("processed in 0D" - the first point)
-                    // No need to recurse, we're processing it right now
                 }
+                // One from which we shaved one line ("processed in 1D")
+                const float old_start_minor = start_minor;
                 // The new span starts at the leading edge of the previous square if it is opaque,
                 // and at the trailing edge of the current square if it is transparent.
                 if( current_transparency == LIGHT_TRANSPARENCY_SOLID ) {
@@ -614,6 +617,17 @@ void cast_zlight(
                     start_minor = trailing_edge_minor;
                     //start_major = trailing_edge_major;
                 }
+                
+                float after_leading_edge_major = (delta.z + 1.5f) / (delta.y - 0.5f);
+                cast_zlight<xx, xy, xz, yx, yy, yz, zz, calc, check>(
+                    output_cache, input_arrays, offset, offset_distance,
+                    target_z, floor_check, numerator, distance,
+                    after_leading_edge_major, end_major, old_start_minor, start_minor,
+                    cumulative_transparency );
+                // One we just entered ("processed in 0D" - the first point)
+                // No need to recurse, we're processing it right now
+                start_major = std::min( start_major, trailing_edge_major );
+
                 current_transparency = new_transparency;
                 new_start_minor = leading_edge_minor;
                 //new_start_major = leading_edge_major;
