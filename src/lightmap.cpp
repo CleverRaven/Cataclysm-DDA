@@ -626,7 +626,7 @@ void cast_zlight(
                     cumulative_transparency );
                 // One we just entered ("processed in 0D" - the first point)
                 // No need to recurse, we're processing it right now
-                start_major = std::min( start_major, trailing_edge_major );
+                start_major = trailing_edge_major;
 
                 current_transparency = new_transparency;
                 new_start_minor = leading_edge_minor;

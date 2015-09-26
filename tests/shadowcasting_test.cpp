@@ -352,6 +352,7 @@ void shadowcasting_3d_2d( int iterations )
                 iterations, diff1 );
         printf( "cast_zlight() executed %d times in %ld microseconds.\n",
                 iterations, diff2 );
+        printf( "new/old execution time ratio: %.02f.\n", (double)diff2 / diff1 );
     }
 
     bool passed = true;
