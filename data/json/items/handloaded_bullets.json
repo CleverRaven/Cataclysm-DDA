@@ -92,7 +92,7 @@
         "recoil" : 315,
         "count" : 5,
         "stack_size" : 25,
-        "effects" : ["COOKOFF", "EXPLOSIVE", "RECYCLED"]
+        "effects" : ["COOKOFF", "EXPLOSIVE_SMALL", "RECYCLED"]
     },
     {
         "type" : "AMMO",

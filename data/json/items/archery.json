@@ -504,7 +504,7 @@
       "dispersion" : 285,
       "recoil" : 0,
       "count" : 5,
-      "effects" : ["EXPLOSIVE"]
+      "effects" : ["EXPLOSIVE_SMALL"]
    },
    {
       "type":"GENERIC",
@@ -522,7 +522,7 @@
       "cutting" : 0,
       "to_hit" : -1,
       "count" : 5,
-      "effects" : ["EXPLOSIVE"]
+      "effects" : ["EXPLOSIVE_SMALL"]
    },
    {
       "type" : "AMMO",
@@ -640,7 +640,7 @@
       "recoil" : 0,
       "count" : 1,
       "stack_size" : 10,
-      "effects" : ["COOKOFF", "EXPLOSIVE"]
+      "effects" : ["COOKOFF", "EXPLOSIVE_SMALL"]
    },
    {
       "id" : "selfbow",

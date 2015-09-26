@@ -4992,8 +4992,10 @@ bool item::update_charger_gun_ammo()
     tmpammo->ammo_effects.clear();
     if( charges == 8 ) {
         tmpammo->ammo_effects.insert( "EXPLOSIVE_BIG" );
-    } else if( charges >= 6 ) {
+    } else if( charges >= 7 ) {
         tmpammo->ammo_effects.insert( "EXPLOSIVE" );
+    } else if( charges >= 6 ) {
+        tmpammo->ammo_effects.insert( "EXPLOSIVE_SMALL" );
     }
     if( charges >= 5 ) {
         tmpammo->ammo_effects.insert( "FLAME" );
