@@ -194,6 +194,7 @@ public:
     int max_volume; // Maximal volume of items that can be stored in/on this furniture
 
     nc_color color; //The color the sym will draw in on the GUI.
+    void load_symbol( JsonObject &jo );
 
     iexamine_function examine; //What happens when the terrain is examined
 

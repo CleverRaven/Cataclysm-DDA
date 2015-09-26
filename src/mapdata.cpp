@@ -194,6 +194,32 @@ ter_t null_terrain_t() {
   return new_terrain;
 }
 
+void map_data_common_t::load_symbol( JsonObject &jo )
+{
+    const std::string s = jo.get_string( "symbol" );
+    if( s == "LINE_XOXO" ) {
+        sym = LINE_XOXO;
+    } else if( s == "LINE_OXOX" ) {
+        sym = LINE_OXOX;
+    } else if( s.length() != 1 ) {
+        jo.throw_error( "Symbol string must be exactly 1 character long.", "symbol" );
+    } else {
+        sym = s[0];
+    }
+
+    const bool has_color = jo.has_member( "color" );
+    const bool has_bgcolor = jo.has_member( "bgcolor" );
+    if( has_color && has_bgcolor ) {
+        jo.throw_error( "Found both color and bgcolor, only one of these is allowed." );
+    } else if( has_color ) {
+        color = color_from_string( jo.get_string( "color" ) );
+    } else if( has_bgcolor ) {
+        color = bgcolor_from_string( jo.get_string( "bgcolor" ) );
+    } else {
+        jo.throw_error( "Missing member: one of: \"color\", \"bgcolor\" must exist." );
+    }
+}
+
 void load_furniture(JsonObject &jsobj)
 {
   if ( furnlist.empty() ) {
@@ -207,20 +233,8 @@ void load_furniture(JsonObject &jsobj)
       return;
   }
   new_furniture.name = _(jsobj.get_string("name").c_str());
-  new_furniture.sym = jsobj.get_string("symbol").c_str()[0];
 
-  bool has_color = jsobj.has_member("color");
-  bool has_bgcolor = jsobj.has_member("bgcolor");
-  if(has_color && has_bgcolor) {
-    debugmsg("Found both color and bgcolor for %s, use only one of these.", new_furniture.name.c_str());
-    new_furniture.color = c_white;
-  } else if(has_color) {
-    new_furniture.color = color_from_string(jsobj.get_string("color"));
-  } else if(has_bgcolor) {
-    new_furniture.color = bgcolor_from_string(jsobj.get_string("bgcolor"));
-  } else {
-    debugmsg("Furniture %s needs at least one of: color, bgcolor.", new_furniture.name.c_str());
-  }
+    new_furniture.load_symbol( jsobj );
 
   new_furniture.movecost = jsobj.get_int("move_cost_mod");
   new_furniture.move_str_req = jsobj.get_int("required_str");
@@ -271,17 +285,8 @@ void load_terrain(JsonObject &jsobj)
   }
   new_terrain.name = _(jsobj.get_string("name").c_str());
 
-  //Special case for the LINE_ symbols
-  std::string symbol = jsobj.get_string("symbol");
-  if("LINE_XOXO" == symbol) {
-    new_terrain.sym = LINE_XOXO;
-  } else if("LINE_OXOX" == symbol) {
-    new_terrain.sym = LINE_OXOX;
-  } else {
-    new_terrain.sym = symbol.c_str()[0];
-  }
+    new_terrain.load_symbol( jsobj );
 
-  new_terrain.color = color_from_string(jsobj.get_string("color"));
   new_terrain.movecost = jsobj.get_int("move_cost");
 
   if(jsobj.has_member("trap")) {
