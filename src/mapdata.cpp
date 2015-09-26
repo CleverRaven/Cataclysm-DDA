@@ -156,8 +156,8 @@ furn_t null_furniture_t() {
   furn_t new_furniture;
   new_furniture.id = "f_null";
   new_furniture.name = _("nothing");
-  new_furniture.sym = ' ';
-  new_furniture.color = c_white;
+  new_furniture.symbol_ = ' ';
+  new_furniture.color_ = c_white;
   new_furniture.movecost = 0;
   new_furniture.move_str_req = -1;
   new_furniture.transparent = true;
@@ -174,8 +174,8 @@ ter_t null_terrain_t() {
   ter_t new_terrain;
   new_terrain.id = "t_null";
   new_terrain.name = _("nothing");
-  new_terrain.sym = ' ';
-  new_terrain.color = c_white;
+  new_terrain.symbol_ = ' ';
+  new_terrain.color_ = c_white;
   new_terrain.movecost = 2;
   new_terrain.trap = tr_null;
   new_terrain.trap_id_str = "";
@@ -198,13 +198,13 @@ void map_data_common_t::load_symbol( JsonObject &jo )
 {
     const std::string s = jo.get_string( "symbol" );
     if( s == "LINE_XOXO" ) {
-        sym = LINE_XOXO;
+        symbol_ = LINE_XOXO;
     } else if( s == "LINE_OXOX" ) {
-        sym = LINE_OXOX;
+        symbol_ = LINE_OXOX;
     } else if( s.length() != 1 ) {
         jo.throw_error( "Symbol string must be exactly 1 character long.", "symbol" );
     } else {
-        sym = s[0];
+        symbol_ = s[0];
     }
 
     const bool has_color = jo.has_member( "color" );
@@ -212,12 +212,22 @@ void map_data_common_t::load_symbol( JsonObject &jo )
     if( has_color && has_bgcolor ) {
         jo.throw_error( "Found both color and bgcolor, only one of these is allowed." );
     } else if( has_color ) {
-        color = color_from_string( jo.get_string( "color" ) );
+        color_ = color_from_string( jo.get_string( "color" ) );
     } else if( has_bgcolor ) {
-        color = bgcolor_from_string( jo.get_string( "bgcolor" ) );
+        color_ = bgcolor_from_string( jo.get_string( "bgcolor" ) );
     } else {
         jo.throw_error( "Missing member: one of: \"color\", \"bgcolor\" must exist." );
     }
+}
+
+long map_data_common_t::symbol() const
+{
+    return symbol_;
+}
+
+nc_color map_data_common_t::color() const
+{
+    return color_;
 }
 
 void load_furniture(JsonObject &jsobj)

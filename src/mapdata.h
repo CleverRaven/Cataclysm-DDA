@@ -188,12 +188,12 @@ public:
     * as to which possible object/field/entity in a single square gets drawn and that some symbols
     * are "reserved" such as * and % to do programmatic behavior.
     */
-    long sym;
+    long symbol_;
 
     int movecost;   // The amount of movement points required to pass this terrain by default.
     int max_volume; // Maximal volume of items that can be stored in/on this furniture
 
-    nc_color color; //The color the sym will draw in on the GUI.
+    nc_color color_; //The color the sym will draw in on the GUI.
     void load_symbol( JsonObject &jo );
 
     iexamine_function examine; //What happens when the terrain is examined
@@ -209,6 +209,9 @@ public:
     }
 
     void set_flag( const std::string &flag );
+
+    long symbol() const;
+    nc_color color() const;
 };
 
 /*
