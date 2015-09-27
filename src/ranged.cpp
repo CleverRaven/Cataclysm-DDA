@@ -128,6 +128,12 @@ dealt_projectile_attack Creature::projectile_attack( const projectile &proj_arg,
         trajectory = g->m.find_clear_path( source, target );
     }
 
+    add_msg( m_debug, "%s proj_atk: shot_dispersion: %.2f",
+             disp_name().c_str(), shot_dispersion );
+    add_msg( m_debug, "missed_by: %.2f target (orig/hit): %d,%d,%d/%d,%d,%d", missed_by,
+             target_arg.x, target_arg.y, target_arg.z,
+             target.x, target.y, target.z );
+
     // Trace the trajectory, doing damage in order
     tripoint &tp = ret.end_point;
     tripoint prev_point = source;

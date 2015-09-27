@@ -13973,6 +13973,24 @@
         "color" : "brown",
         "addiction_type" : "nicotine",
         "spoils_in" : 0,
+        "use_action" : {
+            "type" : "consume_drug",
+            "activation_message" : "You smoke some tobacco.",
+            "effects" : [
+                {
+                    "id": "cig",
+                    "duration": 200
+                }
+            ],
+            "stat_adjustments": {
+                "hunger" : -2,
+                "thirst" : 1
+            },
+            "fields_produced" : {"fd_cigsmoke" : 2},
+            "charges_needed" : { "fire" : 1 },
+            "tools_needed" : { "apparatus" : -1 },
+            "moves" : 250
+        },
         "stim" : 1,
         "container" : "bag_plastic",
         "to_hit" : 0,
@@ -14051,6 +14069,28 @@
         "color" : "green",
         "addiction_type" : "none",
         "spoils_in" : 0,
+        "use_action" : {
+            "type" : "consume_drug",
+            "activation_message" : "You smoke some weed.  Good stuff, man!",
+            "effects" : [
+                {
+                    "id": "weed_high",
+                    "duration": 90
+                },
+                {
+                    "id": "pkill1",
+                    "duration": 60
+                }
+            ],
+            "stat_adjustments": {
+                "hunger" : 4,
+                "thirst" : 6
+            },
+            "fields_produced" : {"fd_weedsmoke" : 2},
+            "charges_needed" : { "fire" : 1 },
+            "tools_needed" : { "apparatus" : -1 },
+            "moves" : 40
+        },
         "stim" : -10,
         "container" : "null",
         "to_hit" : 0,

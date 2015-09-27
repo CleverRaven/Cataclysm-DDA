@@ -353,6 +353,7 @@
       ["jacket_chef", 2],
       ["kernels", 35],
       ["pot", 25],
+      ["pot_copper", 15],
       ["bowl_pewter", 25],
       ["teapot", 15],
       ["pan", 25],
@@ -711,7 +712,8 @@
       ["pan", 80],
       ["waffleiron", 25],
       ["teapot", 25],
-      ["pot", 80]
+      ["pot", 80],
+      ["pot_copper", 20]
     ]
   },{
     "type" : "item_group",
@@ -1112,7 +1114,7 @@
       ["pistol_scope", 14],
       ["improve_sights", 20],
       ["waterproof_gunmod", 4],
-      ["cu_pipe", 10],
+      ["scrap_copper", 10],
       ["5x50_hull", 8],
       ["rm120c", 3],
       ["speargun", 4],
@@ -2258,6 +2260,7 @@
       ["misc_repairkit", 5],
       ["mess_kit", 10],
       ["pot", 20],
+      ["pot_copper", 5],
       ["bowl_pewter", 25],
       ["teapot", 5],
       ["pan", 20],
@@ -2449,6 +2452,7 @@
       ["mess_kit", 10],
       ["popcan_stove", 10],
       ["pot", 20],
+      ["pot_copper", 5],
       ["bowl_pewter", 25],
       ["teapot", 15],
       ["pan", 20],
@@ -3099,7 +3103,7 @@
       ["holo_sight", 20],
       ["rifle_scope", 16],
       ["pistol_scope", 12],
-      ["cu_pipe", 10],
+      ["scrap_copper", 10],
       ["5x50_hull", 8],
       ["waterproof_gunmod", 8],
       ["gun_crossbow", 4],
@@ -3155,7 +3159,7 @@
       ["string_6",10],
       ["string_36",40],
       ["superglue",40],
-      ["cu_pipe",40],
+      ["scrap_copper",40],
       ["battery",30],
       ["nail",40]
     ]
@@ -5327,7 +5331,8 @@
       ["bagh_nakha", 5],
       ["kris", 5],
       ["cheese_hard", 1],
-      ["apron_leather", 1]
+      ["apron_leather", 1],
+      ["pot_copper", 3]
     ]
   },{
     "type" : "item_group",
@@ -7279,6 +7284,7 @@
       ["mess_kit", 10],
       ["hotplate", 10],
       ["popcan_stove", 10],
+      ["pot_copper", 2],
       ["UPS_off", 5],
       ["adv_UPS_off", 3],
       ["canteen", 15],
@@ -8563,7 +8569,7 @@
       ["8mm_civilian", 4],
       ["8mm_jhp", 2],
       ["8mm_fmj", 2],
-      ["cu_pipe", 5],
+      ["scrap_copper", 5],
       ["signal_flare", 5],
       ["8mm_inc", 2],
       ["survnote", 1]
@@ -8768,7 +8774,8 @@
       ["steel_lump", 30],
       ["frame", 20],
       ["hdframe", 20],
-      ["cu_pipe", 50],
+      ["cu_pipe", 25],
+      ["scrap_copper", 50],
       ["rock", 40],
       ["survnote", 1]
     ]
@@ -9828,7 +9835,10 @@
       ["carding_paddles", 2],
       ["scythe", 40],
       ["material_quicklime", 30],
-      ["pitchfork", 40]
+      ["pitchfork", 40],
+      ["v_plow_item",41],
+      ["v_planter_item",41],
+      ["v_reaper_item",41]
     ]
   },{
 "type" : "item_group",
@@ -9846,7 +9856,9 @@
       ["distaff_spindle", 50],
       ["carding_paddles", 50],
       ["knitting_needles", 50],
-      ["pointy_stick", 50]
+      ["pointy_stick", 50],
+      ["copper_knife", 10],
+      ["copper_ax", 10]
     ]
   },{
 "type" : "item_group",

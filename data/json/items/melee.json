@@ -614,6 +614,22 @@
     },
     {
         "type":"GENERIC",
+        "id": "scrap_copper",
+        "symbol": ",",
+        "color": "light_gray",
+        "name": "scrap copper",
+        "category": "spare_parts",
+        "description": "A small chunk of copper, usable for crafting or repairs.",
+        "price": 1000,
+        "material": "copper",
+        "weight": 200,
+        "volume": 1,
+        "bashing": 1,
+        "cutting": 0,
+        "to_hit": -2
+    },
+    {
+        "type":"GENERIC",
         "id": "lead_plate",
         "symbol": ",",
         "color": "dark_gray",
@@ -899,8 +915,23 @@
         "category" : "weapons",
         "use_action": { "type": "knife" },
         "qualities": [["CUT", 1], ["HAMMER", 2], ["HAMMER_FINE", 1], ["BUTCHER", 16]]
-    },
-    {
+    },{
+        "type":"GENERIC",
+        "id": "pot_copper",
+        "symbol": ")",
+        "color": "light_red",
+        "name": "copper pot",
+        "description": "Useful for boiling water when cooking spaghetti and more.  Made from copper, with a lining of tin to prevent metal from leaching into acidic foods.",
+        "price": 4500,
+        "material": "copper",
+        "weight": 1090,
+        "volume": 8,
+        "bashing": 6,
+        "cutting": 0,
+        "category" : "tools",
+        "to_hit": 1,
+        "qualities": [["COOK", 3], ["BOIL", 2], ["CONTAIN", 1], ["CHEM", 1]]
+    },{
         "type":"GENERIC",
         "id": "pot",
         "symbol": ")",
@@ -2631,8 +2662,24 @@
         "flags" : ["SPEAR", "REACH_ATTACK"],
         "price" : 4900,
         "qualities": [["COOK", 1]]
-    },
-    {
+    },{
+        "type":"GENERIC",
+        "id" : "spear_copper",
+        "name" : "copper spear",
+        "description" : "A stout wooden pole with a spearhead worked from copper.",
+        "weight" : 1450,
+        "to_hit" : 1,
+        "color" : "light_red",
+        "symbol" : "/",
+        "material" : ["copper", "wood"],
+        "techniques" : ["WBLOCK_1"],
+        "volume" : 6,
+        "bashing" : 5,
+        "cutting" : 16,
+        "flags" : ["SPEAR", "REACH_ATTACK"],
+        "price" : 1400,
+        "qualities": [["COOK", 1]]
+    },{
         "type":"GENERIC",
         "id" : "spear_steel",
         "name" : "steel spear",

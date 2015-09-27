@@ -6909,6 +6909,9 @@
             "items": {
                 "r": { "item": "hardware", "chance": 50}
             },
+    "place_vehicles":[
+        {"vehicle":"farm_vehicles","x":13,"y":17,"rotation":180}
+    ],
       "terrain": {
         "|": "t_wall",
         "-": "t_wall",

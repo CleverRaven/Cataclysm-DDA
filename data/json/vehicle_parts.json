@@ -5104,5 +5104,83 @@
         "breaks_into" : [
             {"item": "plastic_chunk", "count": [1, 2]}
         ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "plow",
+        "name" : "plow",
+        "symbol" : "&",
+        "color" : "blue",
+        "broken_symbol" : "*",
+        "broken_color" : "light_blue",
+        "damage_modifier" : 40,
+        "durability" : 200,
+        "item" : "v_plow_item",
+        "difficulty" : 4,
+        "location" : "under",
+        "power" : -200,
+        "flags" : ["PLOW", "EXTRA_DRAG"],
+        "breaks_into" : [
+            {"item": "plastic_chunk", "count": [1, 2]}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "seed_drill",
+        "name" : "seed drill",
+        "symbol" : "8",
+        "color" : "blue",
+        "broken_symbol" : "*",
+        "broken_color" : "light_blue",
+        "damage_modifier" : 40,
+        "durability" : 200,
+        "item" : "v_planter_item",
+        "difficulty" : 4,
+        "location" : "structure",
+        "size":50,
+        "power":-100,
+        "flags" : ["PLANTER","PROTRUSION","CARGO", "EXTRA_DRAG"],
+        "breaks_into" : [
+            {"item": "plastic_chunk", "count": [1, 2]},
+            {"item": "scrap", "count" : [1,2] }
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "seed_drill_advanced",
+        "name" : "advanced seed drill",
+        "symbol" : "8",
+        "color" : "blue",
+        "broken_symbol" : "*",
+        "broken_color" : "light_blue",
+        "damage_modifier" : 40,
+        "durability" : 200,
+        "item" : "v_planter_item",
+        "difficulty" : 4,
+        "location" : "structure",
+        "power":-100,
+        "size":70,
+        "flags" : ["PLANTER","PROTRUSION","CARGO", "ADVANCED_PLANTER", "EXTRA_DRAG"],
+        "breaks_into" : [
+            {"item": "plastic_chunk", "count": [1, 2]},
+            {"item": "scrap", "count" : [1,2] }
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "reaper",
+        "name" : "reaper",
+        "symbol" : "/",
+        "color" : "light_grey",
+        "broken_symbol" : "*",
+        "broken_color" : "light_blue",
+        "damage_modifier" : 120,
+        "bonus":7,
+        "power":-100,
+        "durability" : 200,
+        "item" : "v_reaper_item",
+        "difficulty" : 4,
+        "location" : "structure",
+        "flags" : ["REAPER","PROTRUSION","EXTRA_DRAG"],
+        "breaks_into" : [
+            {"item": "plastic_chunk", "count": [1, 2]},
+            {"item": "scrap", "count": [2,4]}
+        ]
     }
 ]

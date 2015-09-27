@@ -64,6 +64,42 @@
   ]
 },{
   "type" : "recipe",
+  "result": "copper_knife",
+  "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_PIERCING",
+  "skill_used": "fabrication",
+  "difficulty": 1,
+  "time": 5000,
+  "reversible": true,
+  "autolearn": true,
+  "qualities":[
+    {"id":"HAMMER","level":1,"amount":1}
+  ],
+  "tools": [
+    [
+      [ "toolset", 10 ],
+      [ "fire", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "rag", 1 ],
+      [ "felt_patch", 1 ],
+      [ "duct_tape", 50 ],
+      [ "string_6", 2 ],
+      [ "sinew", 50 ],
+      [ "thread", 50 ],
+      [ "yarn", 50 ],
+      [ "plant_fibre", 50 ],
+      [ "withered", 1 ]
+    ],
+    [
+      [ "scrap_copper", 2 ],
+      [ "copper", 200 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
   "result": "makeshift_knife",
   "category": "CC_WEAPON",
   "subcategory": "CSC_WEAPON_PIERCING",
@@ -292,6 +328,54 @@
       [ "sinew", 20 ],
       [ "thread", 20 ],
       [ "duct_tape", 20 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "spear_copper",
+  "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_PIERCING",
+  "skill_used": "fabrication",
+  "difficulty": 3,
+  "time": 2400,
+  "reversible": true,
+  "autolearn": true,
+  "qualities":[
+    {"id":"CUT","level":1,"amount":1},
+    {"id":"HAMMER","level":1,"amount":1}
+  ],
+  "tools": [
+    [
+      [ "toolset", 10 ],
+      [ "fire", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "stick", 1 ],
+      [ "broom", 1 ],
+      [ "mop", 1 ],
+      [ "2x4", 1 ],
+      [ "pool_cue", 1 ],
+      [ "pointy_stick", 1 ]
+    ],
+    [
+      [ "rag", 1 ],
+      [ "felt_patch", 1 ],
+      [ "leather", 1 ],
+      [ "fur", 1 ]
+    ],
+    [
+      [ "plant_fibre", 20 ],
+      [ "sinew", 20 ],
+      [ "thread", 20 ],
+      [ "yarn", 20 ],
+      [ "duct_tape", 20 ],
+      [ "withered", 1 ]
+    ],
+    [
+      [ "copper", 3 ],
+      [ "copper", 300 ]
     ]
   ]
 },{

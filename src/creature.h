@@ -218,7 +218,7 @@ class Creature
          * Players should train dodge, possibly counter-attack somehow.
          */
         virtual void on_hit( Creature *source, body_part bp_hit = num_bp,
-                             int difficulty = INT_MIN, projectile const* const proj = nullptr ) = 0;
+                             int difficulty = INT_MIN, dealt_projectile_attack const* const proj = nullptr ) = 0;
 
         virtual bool digging() const;      // MF_DIGS or MF_CAN_DIG and diggable terrain
         virtual bool is_on_ground() const = 0;

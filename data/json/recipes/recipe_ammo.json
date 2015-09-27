@@ -2783,7 +2783,7 @@
       [ "steel_rail", 2],
       [ "bb", 400 ],
       [ "pipe", 2 ],
-      [ "cu_pipe", 4 ],
+      [ "scrap_copper", 4 ],
       [ "copper", 400 ],
       [ "steel_chunk", 2 ],
       [ "clockworks", 4 ]
@@ -2864,7 +2864,6 @@
       [ "nail", 8 ],
       [ "bb", 16 ],
       [ "pipe", 1 ],
-      [ "cu_pipe", 1 ],
       [ "copper", 16 ],
       [ "clockworks", 1 ],
       [ "pebble", 16 ],
