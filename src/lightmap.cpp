@@ -492,7 +492,6 @@ void cast_zlight(
     const int min_z = std::min( offset.z, target_z );
     const int max_z = std::max( offset.z, target_z );
 
-    //float new_start_major = 0.0f;
     float new_start_minor = 0.0f;
 
     float last_intensity = 0.0;
@@ -504,8 +503,9 @@ void cast_zlight(
     for( int distance = row; distance <= radius; distance++ ) {
         delta.y = -distance;
         bool started_block = false;
-        float current_transparency = 0.0;
+        float current_transparency = 0.0f;
 
+        // TODO: Precalculate min/max delta.z based on start/end and distance
         for( delta.z = -distance; delta.z <= 0; delta.z++ ) {
             float trailing_edge_major = (delta.z - 0.5f) / (delta.y + 0.5f);
             float leading_edge_major = (delta.z + 0.5f) / (delta.y - 0.5f);
@@ -517,10 +517,6 @@ void cast_zlight(
             } else if( end_major > trailing_edge_major ) {
                 break;
             }
-
-            // Need to fix up slopes: 3D shadowcasting them accurate accurate or else it breaks
-            leading_edge_major = std::min( end_major, leading_edge_major );
-            trailing_edge_major = std::max( start_major, trailing_edge_major );
 
             bool started_span = false;
             const int z_index = current.z + OVERMAP_DEPTH;
@@ -564,22 +560,22 @@ void cast_zlight(
 
                 const int dist = rl_dist( origin, delta ) + offset_distance;
                 last_intensity = calc( numerator, cumulative_transparency, dist );
-                
+
                 if( current.z == target_z && !floor_block ) {
                     output_cache[current.x][current.y] =
                         std::max( output_cache[current.x][current.y], last_intensity );
                 }
 
-                if( new_transparency == current_transparency ) {
-                    // All in order, no need to recurse
-                    new_start_minor = leading_edge_minor;
-                    //new_start_major = leading_edge_major;
-                    started_span = true;
-                    continue;
-                } else if( !started_span ) {
+                if( !started_span ) {
                     // Need to reset minor slope, because we're starting a new line
                     new_start_minor = leading_edge_minor;
                     started_span = true;
+                }
+
+                if( new_transparency == current_transparency ) {
+                    // All in order, no need to recurse
+                    new_start_minor = leading_edge_minor;
+                    continue;
                 }
 
                 // We split the block into 4 sub-blocks (sub-frustums actually):
@@ -605,17 +601,16 @@ void cast_zlight(
                             next_cumulative_transparency );
                     }
                 }
+
                 // One from which we shaved one line ("processed in 1D")
                 const float old_start_minor = start_minor;
                 // The new span starts at the leading edge of the previous square if it is opaque,
                 // and at the trailing edge of the current square if it is transparent.
                 if( current_transparency == LIGHT_TRANSPARENCY_SOLID ) {
                     start_minor = new_start_minor;
-                    //start_major = new_start_major;
                 } else {
                     // Note this is the same slope as the recursive call we just made.
                     start_minor = trailing_edge_minor;
-                    //start_major = trailing_edge_major;
                 }
                 
                 float after_leading_edge_major = (delta.z + 1.5f) / (delta.y - 0.5f);
@@ -630,7 +625,6 @@ void cast_zlight(
 
                 current_transparency = new_transparency;
                 new_start_minor = leading_edge_minor;
-                //new_start_major = leading_edge_major;
             }
         }
         if( !check(current_transparency, last_intensity) ) {
@@ -694,9 +688,7 @@ void map::build_seen_cache( const tripoint &origin, const int target_z )
 
         // Cache the caches (pointers to them)
         std::array<const float (*)[MAPSIZE*SEEX][MAPSIZE*SEEY], OVERMAP_LAYERS> transparency_caches;
-        const int minz = std::min( origin.z, target_z );
-        const int maxz = std::max( origin.z, target_z );
-        for( int z = minz; z <= maxz; z++ ) {
+        for( int z = -OVERMAP_DEPTH; z <= OVERMAP_HEIGHT; z++ ) {
             const auto &cur_cache = get_cache( z );
             transparency_caches[z + OVERMAP_DEPTH] = &cur_cache.transparency_cache;
         }
