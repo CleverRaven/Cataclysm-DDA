@@ -171,7 +171,7 @@
             {"x": 0, "y": 0, "chance": 10, "items": ["120mm_usable_heat"]},
             {"x": 0, "y": 0, "chance": 5, "items": ["120mm_usable_heat"]},
             {"x": -2, "y": 1, "chance": 60, "items": ["50bmg"]},
-            {"x": -2, "y": 1, "chance": 40, "items": ["50bmg", "50bmg"]}
+            {"x": -2, "y": 1, "chance": 40, "items": ["50bmg", "50bmg"]},
             {"x": 1, "y": 1, "chance": 50, "items": ["50bmg"]},
             {"x": 1, "y": 1, "chance": 40, "items": ["50bmg", "50bmg"]},
             {"x": 1, "y": 1, "chance": 30, "items": ["50bmg", "50bmg", "50bmg"]}
