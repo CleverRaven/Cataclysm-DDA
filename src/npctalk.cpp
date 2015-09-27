@@ -1783,6 +1783,7 @@ void dialogue::gen_responses( const std::string &topic )
             return;
         }
     }
+    // Can be nullptr! Check before deferencing
     mission *miss = p->chatbin.mission_selected;
 
     if( topic == "TALK_GUARD" ) {
@@ -1808,8 +1809,8 @@ void dialogue::gen_responses( const std::string &topic )
             add_response( _("I have news."), "TALK_MISSION_INQUIRE", missions_assigned.front() );
             add_response_none( _("Never mind.") );
         } else {
-            for( auto &miss : missions_assigned ) {
-                add_response( miss->get_type().name, "TALK_MISSION_INQUIRE", miss );
+            for( auto &miss_it : missions_assigned ) {
+                add_response( miss_it->get_type().name, "TALK_MISSION_INQUIRE", miss_it );
             }
             add_response_none( _("Never mind.") );
         }
@@ -1838,7 +1839,9 @@ void dialogue::gen_responses( const std::string &topic )
 
     } else if( topic == "TALK_MISSION_INQUIRE" ) {
         const auto mission = p->chatbin.mission_selected;
-        if( mission->has_failed() ) {
+        if( mission == nullptr ) {
+            debugmsg( "dialogue::gen_responses(\"TALK_MISSION_INQUIRE\") called for null mission" );
+        } else if( mission->has_failed() ) {
             RESPONSE(_("I'm sorry... I failed."));
                 SUCCESS("TALK_MISSION_FAILURE");
                     SUCCESS_OPINION(-1, 0, -1, 1, 0);
@@ -1900,10 +1903,16 @@ void dialogue::gen_responses( const std::string &topic )
         }
 
     } else if( topic == "TALK_MISSION_SUCCESS" ) {
+        int mission_value = 0;
+        if( miss == nullptr ) {
+            debugmsg( "dialogue::gen_responses(\"TALK_MISSION_SUCCESS\") called for null mission" );
+        } else {
+            mission_value = miss->get_value();
+        }
         RESPONSE(_("Glad to help.  I need no payment."));
             SUCCESS("TALK_NONE");
-                SUCCESS_OPINION(miss->get_value() / (OWED_VAL * 4), -1,
-                                miss->get_value() / (OWED_VAL * 2), -1, 0 - miss->get_value());
+                SUCCESS_OPINION(mission_value / (OWED_VAL * 4), -1,
+                                mission_value / (OWED_VAL * 2), -1, 0 - mission_value);
                 SUCCESS_ACTION(&talk_function::clear_mission);
         add_response( _("How about some items as payment?"), "TALK_MISSION_REWARD",
                       &talk_function::mission_reward );
@@ -1918,7 +1927,7 @@ void dialogue::gen_responses( const std::string &topic )
             SUCCESS("TALK_DONE");
                 SUCCESS_ACTION(&talk_function::clear_mission);
                 SUCCESS_OPINION(p->op_of_u.owed / (OWED_VAL * 4), -1,
-                                p->op_of_u.owed / (OWED_VAL * 2), -1, 0 - miss->get_value());
+                                p->op_of_u.owed / (OWED_VAL * 2), -1, 0 - mission_value);
 
     } else if( topic == "TALK_MISSION_SUCCESS_LIE" ) {
         add_response( _("Well, um, sorry."), "TALK_NONE", &talk_function::clear_mission );
@@ -2112,8 +2121,8 @@ void dialogue::gen_responses( const std::string &topic )
 
     } else if( topic == "TALK_OLD_GUARD_NEC_COMMO" ) {
             if (g->u.has_trait("PROF_FED")){
-                for( auto miss : g->u.get_active_missions() ) {
-                    if( miss->name() == "Locate Commo Team" && !p->has_effect(_("gave_quest_item"))){
+                for( auto miss_it : g->u.get_active_missions() ) {
+                    if( miss_it->name() == "Locate Commo Team" && !p->has_effect(_("gave_quest_item"))){
                         add_response( _("[MISSION] The captain sent me to get a frequency list from you."),
                                           "TALK_OLD_GUARD_NEC_COMMO_FREQ" );
                     }
@@ -2237,8 +2246,8 @@ void dialogue::gen_responses( const std::string &topic )
     } else if( topic == "TALK_FREE_MERCHANT_STOCKS_DELIVERED" ) {
             add_response( _("You might be seeing more of me..."), "TALK_FREE_MERCHANT_STOCKS" );
     } else if( topic == "TALK_RANCH_FOREMAN" ) {
-            for( auto miss : g->u.get_active_missions() ) {
-                if( miss->name() == "Retrieve Prospectus" && !p->has_effect(_("gave_quest_item"))){
+            for( auto miss_it : g->u.get_active_missions() ) {
+                if( miss_it->name() == "Retrieve Prospectus" && !p->has_effect(_("gave_quest_item"))){
                     add_response( _("[MISSION] The merchant at the Refugee Center sent me to get a prospectus from you."), "TALK_RANCH_FOREMAN_PROSPECTUS" );
                 }
             }
@@ -2555,7 +2564,6 @@ void dialogue::gen_responses( const std::string &topic )
                 std::string text = string_format(_("%s: %d -> %d (cost %d)"), trained->name().c_str(),
                       cur_level, cur_level + 1, cost );
                 add_response( text, "TALK_TRAIN_START", trained );
-                SUCCESS_ACTION(&talk_function::clear_mission);
             }
             for( auto & style_id : styles ) {
                 auto &style = style_id.obj();
@@ -2563,7 +2571,6 @@ void dialogue::gen_responses( const std::string &topic )
                 //~Martial art style (cost in cent)
                 const std::string text = string_format( _("%s (cost %d)"), style.name.c_str(), cost );
                 add_response( text, "TALK_TRAIN_START", style );
-                SUCCESS_ACTION(&talk_function::clear_mission);
             }
             add_response_none( _("Eh, never mind.") );
 
@@ -3689,7 +3696,10 @@ void talk_function::start_training( npc *p )
         return;
     }
 
-    if( p->op_of_u.owed >= cost ) {
+    mission *miss = p->chatbin.mission_selected;
+    if( miss != nullptr ) {
+        clear_mission( p );
+    } else if( p->op_of_u.owed >= cost ) {
         p->op_of_u.owed -= cost;
     } else if( !trade( p, -cost, _( "Pay for training:" ) ) ) {
         return;
