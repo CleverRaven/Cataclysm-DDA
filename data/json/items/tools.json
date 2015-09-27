@@ -3105,8 +3105,8 @@
     "symbol": "*",
     "color": "dark_gray",
     "name": "makeshift gas canister",
-    "description": "This is a crude gasbomb using household chemicals.  Use this item to pull the pin and light the fuse, turning it into an active gas grenade.  In five turns it will begin to expel a highly toxic gas for some time.  This gas poisons those exposed to it, in addition to obscuring vision and scent.",
-    "price": 2000,
+    "description": "This is a crude gasbomb using household chemicals.  Use this item to arm it. In three turns it will begin to expel a highly toxic gas for a short time.  This gas poisons those exposed to it, in addition to obscuring vision and scent.",
+    "price": 500,
     "material": "steel",
     "weight": 1264,
     "volume": 1,
@@ -3124,9 +3124,9 @@
     "use_action": {
         "type": "transform",
         "target": "gasbomb_makeshift_act",
-        "target_charges": 20,
+        "target_charges": 10,
         "active": true,
-        "msg": "You pull the pin on the makeshift gas canister."
+        "msg": "You arm the makeshift gas canister."
     }
   },
 
@@ -3136,7 +3136,7 @@
     "symbol": "*",
     "color": "dark_gray",
     "name": "active makeshift gas grenade",
-    "description": "This hommade canister of poison gas has had its pin removed, indicating that it is (or will shortly be) expelling highly toxic gas.  You should consider getting rid of it soon.",
+    "description": "This hommade canister of poison gas has been unsealed, and is (or will shortly be) expelling highly toxic gas.  You should consider getting rid of it soon.",
     "price": 0,
     "material": "steel",
     "weight": 1264,
@@ -3144,8 +3144,8 @@
     "bashing": 6,
     "cutting": 0,
     "to_hit": -1,
-    "max_charges": 5,
-    "initial_charges": 5,
+    "max_charges": 3,
+    "initial_charges": 3,
     "charges_per_use": 0,
     "turns_per_charge": 1,
     "ammo": "NULL",
@@ -3154,8 +3154,8 @@
     "use_action": {
         "type": "explosion",
         "sound_volume": 0,
-        "sound_msg": "Tick.",
-        "no_deactivate_msg": "You've already pulled the %s's pin, try throwing it instead.",
+        "sound_msg": "Hiss.",
+        "no_deactivate_msg": "You've already armed the %s, try throwing it instead.",
         "fields_radius": 2,
         "fields_type": "fd_toxic_gas",
         "fields_min_density": 1,
