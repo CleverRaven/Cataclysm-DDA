@@ -4773,11 +4773,9 @@
   ],
   "components": [
     [
-      [ "bleach", 1 ],
       [ "oxy_powder", 100 ]
     ],
     [
-      [ "ammonia", 1 ],
       [ "lye_powder", 100 ]
     ]
   ]
