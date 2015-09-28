@@ -1141,11 +1141,14 @@ void veh_interact::do_remove()
     mvwprintz(w_mode, 0, 1, c_ltgray, _("Choose a part here to remove:"));
     wrefresh (w_mode);
 
-    int first = 0;
-    if(parts_here.size() > 1) {
-        first = 1;
+    const int skilllevel = g->u.skillLevel( skill_mechanics );
+    int pos = 0;
+    for( size_t i = 0; i < parts_here.size(); i++ ) {
+        if( can_remove_part( parts_here[i], skilllevel, msg_width ) ) {
+            pos = i;
+            break;
+        }
     }
-    int pos = first;
     while (true) {
         //these variables seem to fetch the vehicle parts at specified position
         sel_vehicle_part = &veh->parts[parts_here[pos]];
@@ -1154,7 +1157,7 @@ void veh_interact::do_remove()
         werase (w_parts);
         veh->print_part_desc (w_parts, 0, parts_w, cpart, pos);
         wrefresh (w_parts);
-        bool can_remove = can_remove_part(parts_here[pos], g->u.skillLevel( skill_mechanics ), msg_width);
+        bool can_remove = can_remove_part(parts_here[pos], skilllevel, msg_width);
         //read input
         const std::string action = main_context.handle_input();
         if (can_remove && (action == "REMOVE" || action == "CONFIRM")) {
