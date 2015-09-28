@@ -2530,7 +2530,7 @@ bool game::handle_action()
         case ACTION_CLOSE:
             if( u.has_active_mutation( "SHELL2" ) ) {
                 add_msg(m_info, _("You can't close things while you're in your shell."));
-            } else if( mouse_action_x != -1 && mouse_action_y != -1 ) {                
+            } else if( mouse_action_x != -1 && mouse_action_y != -1 ) {
                 close( tripoint( mouse_action_x, mouse_action_y, u.posz() ) );
             } else {
                 close();
@@ -7688,7 +7688,7 @@ void game::open_gate( const tripoint &p, const ter_id handle_type )
     } else {
         return;
     }
-    
+
     add_msg(pull_message);
     if (handle_type == t_gates_control_metal){
         moves += 300;
@@ -12646,7 +12646,7 @@ bool game::grabbed_veh_move( const tripoint &dp )
     }
 
     return false;
-    
+
 }
 
 bool game::grabbed_furn_move( const tripoint &dp )
@@ -12776,7 +12776,7 @@ bool game::grabbed_furn_move( const tripoint &dp )
             u.grab_type = OBJECT_NONE;
         }
         return true; // We moved furniture but stayed still.
-    } 
+    }
 
     if( pushing_furniture && m.move_cost( fpos ) <= 0 ) {
         // Not sure how that chair got into a wall, but don't let player follow.
@@ -13227,12 +13227,13 @@ tripoint game::find_or_make_stairs( map &mp, const int z_after, bool &rope_ladde
     const int omtilesz = SEEX * 2;
     real_coords rc( m.getabs(u.posx(), u.posy()) );
     tripoint omtile_align_start( m.getlocal(rc.begin_om_pos()), z_after );
+    tripoint omtile_align_end( omtile_align_start.x + omtilesz - 1, omtile_align_start.y + omtilesz - 1, omtile_align_start.z );
 
     // Try to find the stairs.
     tripoint stairs = tripoint_min;
     int best = INT_MAX;
     const int movez = z_after - get_levz();
-    for( const tripoint &dest : m.points_in_radius( omtile_align_start, omtilesz ) ) {
+    for( const tripoint &dest : m.points_in_rectangle( omtile_align_start, omtile_align_end ) ) {
         if( rl_dist( u.pos(), dest ) <= best &&
             ((movez == -1 && mp.has_flag("GOES_UP", dest)) ||
              (movez == 1 && (mp.has_flag("GOES_DOWN", dest) ||
