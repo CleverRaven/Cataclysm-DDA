@@ -4553,6 +4553,29 @@ int item::butcher_factor() const
     return butcher_factor;
 }
 
+bool item::is_worn_outermost(const player &p) const
+{
+   auto cover = get_covered_body_parts();
+
+   // Worn vector has innermost item first so iterate reverse until we find
+   // either the item or another occupying the same body part(s)
+   for (auto it = p.worn.rbegin(); it != p.worn.rend(); ++it) {
+      if (&(*it) == this) {
+          return true;
+      }
+      if (it->get_layer() == BELTED_LAYER) {
+          // ignore other items strapped on above this item
+          continue;
+      }
+      if ((cover & it->get_covered_body_parts()).count()) {
+          return false;
+      }
+   }
+
+   // we are not wearing the item at all
+   return false;
+}
+
 static const std::string USED_BY_IDS( "USED_BY_IDS" );
 bool item::already_used_by_player(const player &p) const
 {
