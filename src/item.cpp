@@ -4955,7 +4955,20 @@ bool item::process_tool( player *carrier, const tripoint &pos )
         }
         make( tmp->revert_to );
         active = false;
+        return false;
     }
+
+    // If tool must be worn outermost and this is nolonger the case shutdown the tool
+    if (has_flag("ACT_OUTERMOST") && ! is_worn_outermost(*carrier)) {
+        tmp->invoke( carrier != nullptr ? carrier : &g->u, this, pos );
+        if( tmp->revert_to == "null" ) {
+            return true; // reverts to nothing -> destroy the item
+        }
+        make( tmp->revert_to );
+        active = false;
+        return false;
+    }
+
     // Keep the item
     return false;
 }
