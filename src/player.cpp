@@ -12574,7 +12574,12 @@ bool player::armor_absorb(damage_unit& du, item& armor) {
                     m_neutral, damage_verb, m_info);
         }
 
-        armor.damage++;
+        if (armor.has_flag("FRAGILE")) {
+            armor.damage += rng(2,3);
+        } else {
+            armor.damage++;
+        }
+
         if( armor.damage >= 5 ) {
             //~ %s is armor name
             add_memorial_log( pgettext("memorial_male", "Worn %s was completely destroyed."),
