@@ -1278,6 +1278,9 @@ void worldfactory::draw_worldgen_tabs(WINDOW *w, unsigned int current)
 
 bool worldfactory::world_need_lua_build(std::string world_name)
 {
+    if (world_name.empty()) {
+        return false;
+    }
 #ifndef LUA
     WORLDPTR world;
     MOD_INFORMATION *mod_info;
