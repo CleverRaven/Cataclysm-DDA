@@ -5152,7 +5152,7 @@
         "broken_color" : "light_blue",
         "damage_modifier" : 40,
         "durability" : 200,
-        "item" : "v_planter_item",
+        "item" : "v_planter_item_advanced",
         "difficulty" : 4,
         "location" : "structure",
         "power":-100,
