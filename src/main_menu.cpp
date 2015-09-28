@@ -619,16 +619,18 @@ bool game::opening_screen()
             }
         } else if (layer == 3) {
             bool available = false;
-            std::string wn = world_generator->all_worldnames[sel3];
 
-            if ( (wn != "TUTORIAL" && wn != "DEFENSE") && world_generator->world_need_lua_build(wn) ) {
-                layer = 2;
-                sel1 = 2;
-                continue;
-            }
             if (sel1 == 2) { // Load Game
                 savegames = world_generator->all_worlds[world_generator->all_worldnames[sel2]]->world_saves;
-                if (savegames.empty()) {
+                std::string wn = world_generator->all_worldnames[sel2];
+
+                //hide savegames if lua is not available for a lua-built world
+                if ( (wn != "TUTORIAL" && wn != "DEFENSE") && world_generator->world_need_lua_build(wn) ) {
+                    savegames.clear();
+                    mvwprintz(w_open, iMenuOffsetY - 2, 15 + iMenuOffsetX + extra_w / 2,
+                              c_red, _("This world requires the game to be compiled with Lua."));
+                }
+                else if (savegames.empty()) {
                     mvwprintz(w_open, iMenuOffsetY - 2, 19 + 19 + iMenuOffsetX + extra_w / 2,
                               c_red, _("No save games found!"));
                 } else {
