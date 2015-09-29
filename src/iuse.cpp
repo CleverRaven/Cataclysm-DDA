@@ -6916,6 +6916,13 @@ int iuse::belt_loop (player *p, item *it, bool, const tripoint&)
             return 0;
         }
 
+        // check the player selected an appropriate item
+        if (! put->has_flag("BELT_CLIP")) {
+            p->add_msg_if_player(m_info, _("You can't attach your %s to your %s!"),
+                                           put->tname().c_str(), it->tname().c_str());
+            return 0;
+        }
+
         // only allow items smaller than a certain size
         if (put->volume() > std::atoi(it->get_property("max_volume", "2").c_str())) {
             p->add_msg_if_player(m_info, _("Your %s is too large to fit in your %s!"),
