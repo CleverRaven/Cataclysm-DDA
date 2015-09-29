@@ -4840,7 +4840,7 @@
         "to_hit" : 0,
         "storage" : 8,
         "symbol" : "[",
-        "description" : "A common belt with pockets widely used by handymen and electricians.",
+        "description" : "A common belt with pockets and a small belt loop. Widely used by handymen and electricians",
         "price" : 4500,
         "material" : ["leather", "null"],
         "volume" : 7,
@@ -4850,6 +4850,7 @@
         "encumbrance" : 5,
         "bashing" : 5,
         "flags" : ["WAIST", "VARSIZE"],
+        "use_action": ["BELT_LOOP"],
         "coverage" : 20,
         "material_thickness" : 2
     },
