@@ -896,18 +896,82 @@ Various additional flags, see "doc/JSON_FLAGS.md".
 (Optional) Defines whether the furniture can be deconstructed and if so, what the results shall be. See TODO (write the documentation for this).
 
 ###TERRAIN
-```C++
-"type": "terrain",         //Must always be 'terrain'
-"name": "spiked pit",      //Displayed name of the terrain
-"symbol": "0",             //Symbol used
-"color": "ltred",          //Color of the symbol
-"move_cost": 10,           //Move cost to move through. 2 = normal speed, 0 = impassable
-"trap": "spike_pit",       //(OPTIONAL) trap_id of the trap type.
-                           //If omitted, defaults to tr_null.
-"flags": ["TRANSPARENT", "DIGGABLE"],   //Terrain flags
-"examine_action": "pit"    //(OPTIONAL) Function called when examined, see iexamine.cpp.
-                           //If omitted, defaults to iexamine::none.
+
+```JSON
+{
+    "type": "terrain",
+    "id": "t_spiked_pit",
+    "name": "spiked pit",
+    "symbol": "0",
+    "color": "ltred",
+    "move_cost": 10,
+    "trap": "spike_pit",
+    "max_volume": 4000,
+    "flags": ["TRANSPARENT", "DIGGABLE"],
+    "close": "t_foo_closed",
+    "open": "t_foo_open",
+    "bash": "TODO",
+    "deconstruct": "TODO",
+    "harvestable": "blueberries",
+    "transforms_into": "t_tree_harvested",
+    "harvest_season": "WINTER",
+    "roof": "t_roof",
+    "examine_action": "pit"
+}
 ```
+
+#### "type"
+Fixed string, must be "terrain" to identify the JSON object as such.
+
+#### "id"
+Id of the terrain, this should be unique among all terrain types. By convention (but technically not needed), the id should have the "t_" prefix. This is not translated. It must not be changed later as that would break save compatibility.
+
+#### "name"
+Displayed name of the terrain. This will be translated.
+
+#### "symbol"
+ASCII symbol of the object as it appears in the game. The symbol string must be exactly one character long.
+
+#### "color" or "bgcolor"
+Color of the object as it appears in the game. "color" defines the the foreground color (no background color), "bgcolor" defines a solid background color. You must use EXACTLY ONE of "color" or "bgcolor". 
+
+#### "move_cost"
+Move cost to move through. A value of 0 means it's impassable (e.g. wall). You should not use negative values. The positive value is multiple of 50 move points, e.g. value 2 means the player uses 2*50 = 100 move points when moving across the terrain.
+
+#### "trap"
+(Optional) Id of the build-in trap of that terrain. For example the terrain "t_pit" has the build in trap "tr_pit". Every tile in the game that has the terrain "t_pit" has therefor also an implicit trap "tr_pit" on it. Both are inseparable (the player can not deactivate the build-in trap, but changing the terrain will also deactivate the built-in trap).
+
+#### "max_volume"
+(Optional) Maximal volume that can be used to store items here.
+
+#### "flags"
+Various additional flags, see "doc/JSON_FLAGS.md".
+
+#### "examine_action"
+(Optional) The C++ function that is called when the terrain is examined. See "src/iexamine.h".
+
+#### "close" and "open"
+(Optional) The value should be a terrain id, if either is defined, the player can open / close the terrain. Opening / closing will change the terrain at the affected tile to the given one. For example one could have terrain "t_door_c", which "open"s to "t_door_o" and "t_door_o" in turn "close"s to "t_door_c".
+
+#### "bash"
+(Optional) Defines whether the terrain can be bashed and if so, what happens. See TODO (write the documentation for this).
+
+#### "deconstruct"
+(Optional) Defines whether the terrain can be deconstructed and if so, what the results shall be. See TODO (write the documentation for this).
+
+#### "harvestable"
+(Optional) If defined, the terrain is harvestable. This entry defines the item type of the harvested fruits (or similar). To make this work, you also have to set one of the "harvest_*" examine_action functions.
+
+#### "transforms_into"
+(Optional) Used for various transformation of the terrain. If defined, it must be a valid terrain id. Used for example:
+- When harvesting fruits (to change into the harvested form of the terrain).
+- In combination with the "HARVESTED" flag and "harvest_season" to change the harvested terrain back into a terrain with fruits.
+
+#### "harvest_season"
+(Optional) On of "SUMMER", "AUTUMN", "WINTER", "SPRING", used in combination with the "HARVESTED" flag to revert the terrain back into a terrain that can be harvested.
+
+#### "roof"
+(Optional) The terrain of the terrain on top of this (the roof).
 
 ###SCENARIO
 
