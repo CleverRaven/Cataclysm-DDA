@@ -856,17 +856,8 @@ The format also support snippet ids like above.
 #### "type"
 Fixed string, must be "furniture" to identify the JSON object as such.
 
-#### "id"
-Id of the furniture, this should be unique among all furniture types. By convention (but technically not needed), the id should have the "f_" prefix. This is not translated. It must not be changed later as that would break save compatibility.
-
-#### "name"
-Displayed name of the furniture. This will be translated.
-
-#### "symbol"
-ASCII symbol of the object as it appears in the game. The symbol string must be exactly one character long.
-
-#### "color" or "bgcolor"
-Color of the object as it appears in the game. "color" defines the the foreground color (no background color), "bgcolor" defines a solid background color. You must use EXACTLY ONE of "color" or "bgcolor". 
+#### "id", "name", "symbol", "color", "bgcolor", "max_volume", "open", "close", "bash", "deconstruct", "examine_action", "flags"
+Same as for terrain, see below in the chapter "Common to furniture and terrain".
 
 #### "move_cost_mod"
 Movement cost modifier (-10 = impassable, 0 = no change). This is added to the movecost of the underlying terrain.
@@ -874,26 +865,8 @@ Movement cost modifier (-10 = impassable, 0 = no change). This is added to the m
 #### "required_str"
 Strength required to move the furniture around. Negative values indicate an unmovable furniture.
 
-#### "max_volume"
-(Optional) Maximal volume that can be used to store items here.
-
-#### "flags"
-Various additional flags, see "doc/JSON_FLAGS.md".
-
 #### "crafting_pseudo_item"
 (Optional) Id of an item (tool) that will be available for crafting when this furniture is range (the furniture acts as an item of that type).
-
-#### "examine_action"
-(Optional) The C++ function that is called when the furniture is examined. See "src/iexamine.h".
-
-#### "close" and "open"
-(Optional) The value should be a furniture id, if either is defined, the player can open / close the furniture. Opening / closing will change the furniture at the affected tile to the given one. For example one could have furniture "f_safe_c", which "open"s to "f_safe_o" and "f_safe_o" in turn "close"s to "f_safe_c".
-
-#### "bash"
-(Optional) Defines whether the furniture can be bashed and if so, what happens. See TODO (write the documentation for this).
-
-#### "deconstruct"
-(Optional) Defines whether the furniture can be deconstructed and if so, what the results shall be. See TODO (write the documentation for this).
 
 ###TERRAIN
 
@@ -923,41 +896,14 @@ Various additional flags, see "doc/JSON_FLAGS.md".
 #### "type"
 Fixed string, must be "terrain" to identify the JSON object as such.
 
-#### "id"
-Id of the terrain, this should be unique among all terrain types. By convention (but technically not needed), the id should have the "t_" prefix. This is not translated. It must not be changed later as that would break save compatibility.
-
-#### "name"
-Displayed name of the terrain. This will be translated.
-
-#### "symbol"
-ASCII symbol of the object as it appears in the game. The symbol string must be exactly one character long.
-
-#### "color" or "bgcolor"
-Color of the object as it appears in the game. "color" defines the the foreground color (no background color), "bgcolor" defines a solid background color. You must use EXACTLY ONE of "color" or "bgcolor". 
+#### "id", "name", "symbol", "color", "bgcolor", "max_volume", "open", "close", "bash", "deconstruct", "examine_action", "flags"
+Same as for furniture, see below in the chapter "Common to furniture and terrain".
 
 #### "move_cost"
 Move cost to move through. A value of 0 means it's impassable (e.g. wall). You should not use negative values. The positive value is multiple of 50 move points, e.g. value 2 means the player uses 2*50 = 100 move points when moving across the terrain.
 
 #### "trap"
 (Optional) Id of the build-in trap of that terrain. For example the terrain "t_pit" has the build in trap "tr_pit". Every tile in the game that has the terrain "t_pit" has therefor also an implicit trap "tr_pit" on it. Both are inseparable (the player can not deactivate the build-in trap, but changing the terrain will also deactivate the built-in trap).
-
-#### "max_volume"
-(Optional) Maximal volume that can be used to store items here.
-
-#### "flags"
-Various additional flags, see "doc/JSON_FLAGS.md".
-
-#### "examine_action"
-(Optional) The C++ function that is called when the terrain is examined. See "src/iexamine.h".
-
-#### "close" and "open"
-(Optional) The value should be a terrain id, if either is defined, the player can open / close the terrain. Opening / closing will change the terrain at the affected tile to the given one. For example one could have terrain "t_door_c", which "open"s to "t_door_o" and "t_door_o" in turn "close"s to "t_door_c".
-
-#### "bash"
-(Optional) Defines whether the terrain can be bashed and if so, what happens. See TODO (write the documentation for this).
-
-#### "deconstruct"
-(Optional) Defines whether the terrain can be deconstructed and if so, what the results shall be. See TODO (write the documentation for this).
 
 #### "harvestable"
 (Optional) If defined, the terrain is harvestable. This entry defines the item type of the harvested fruits (or similar). To make this work, you also have to set one of the "harvest_*" examine_action functions.
@@ -972,6 +918,39 @@ Various additional flags, see "doc/JSON_FLAGS.md".
 
 #### "roof"
 (Optional) The terrain of the terrain on top of this (the roof).
+
+### Common to furniture and terrain
+Some values can/must be set for terrain and furniture. They have the same meaning in each case.
+
+#### "id"
+Id of the object, this should be unique among all object of that type (all terrain or all furniture types). By convention (but technically not needed), the id should have the "f_" prefix for furniture and the "t_" prefix for terrain. This is not translated. It must not be changed later as that would break save compatibility.
+
+#### "name"
+Displayed name of the object. This will be translated.
+
+#### "flags"
+(Optional) Various additional flags, see "doc/JSON_FLAGS.md".
+
+#### "symbol"
+ASCII symbol of the object as it appears in the game. The symbol string must be exactly one character long.
+
+#### "color" or "bgcolor"
+Color of the object as it appears in the game. "color" defines the the foreground color (no background color), "bgcolor" defines a solid background color. You must use EXACTLY ONE of "color" or "bgcolor". 
+
+#### "max_volume"
+(Optional) Maximal volume that can be used to store items here.
+
+#### "examine_action"
+(Optional) The C++ function that is called when the object is examined. See "src/iexamine.h".
+
+#### "close" and "open"
+(Optional) The value should be a terrain id (inside a terrain entry) or a furniture id (in a furniture entry). If either is defined, the player can open / close the object. Opening / closing will change the object at the affected tile to the given one. For example one could have object "safe_c", which "open"s to "safe_o" and "safe_o" in turn "close"s to "safe_c". Here "safe_c" and "safe_o" are two different terrain (or furniture) types that have different properties.
+
+#### "bash"
+(Optional) Defines whether the object can be bashed and if so, what happens. See TODO (write the documentation for this).
+
+#### "deconstruct"
+(Optional) Defines whether the object can be deconstructed and if so, what the results shall be. See TODO (write the documentation for this).
 
 ###SCENARIO
 
