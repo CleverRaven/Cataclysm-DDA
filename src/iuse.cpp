@@ -2842,6 +2842,7 @@ int iuse::radio_mod( player *p, item *, bool, const tripoint& )
     p->add_msg_if_player( _( "You modify your %1$s to listen for %2$s activation signal on the radio." ),
                           modded.tname().c_str(), colorname.c_str() );
     modded.item_tags.insert( "RADIO_ACTIVATION" );
+    modded.item_tags.insert( "RADIOCARITEM" );
     modded.item_tags.insert( "RADIO_MOD" );
     modded.item_tags.insert( newtag );
     return 1;
