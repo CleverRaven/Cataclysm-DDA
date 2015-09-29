@@ -905,6 +905,8 @@ Move cost to move through. A value of 0 means it's impassable (e.g. wall). You s
 #### "trap"
 (Optional) Id of the build-in trap of that terrain. For example the terrain "t_pit" has the build in trap "tr_pit". Every tile in the game that has the terrain "t_pit" has therefor also an implicit trap "tr_pit" on it. Both are inseparable (the player can not deactivate the build-in trap, but changing the terrain will also deactivate the built-in trap).
 
+A built-in trap prevents adding any other trap explicitly (by the player nor through mapgen).
+
 #### "harvestable"
 (Optional) If defined, the terrain is harvestable. This entry defines the item type of the harvested fruits (or similar). To make this work, you also have to set one of the "harvest_*" examine_action functions.
 
@@ -988,10 +990,7 @@ TODO
 The terrain / furniture that will be set when the original is destroyed. This is mandatory for bash entries in terrain, but optional for entries in furniture (it defaults to no furniture).
 
 #### "explosive"
-TODO
-
-#### "collapse_radius"
-TODO
+(Optional) If greater than 0, destroying the object causes an explosion with this strength (see `game::explosion`).
 
 #### "destroy_only"
 TODO
@@ -999,8 +998,8 @@ TODO
 #### "bash_below"
 TODO
 
-#### "tent_centers"
-(Optional) For furniture that is part of tents, this defines the id of the center part, which will be destroyed as well when other parts of the tent get bashed.
+#### "tent_centers", "collapse_radius"
+(Optional) For furniture that is part of tents, this defines the id of the center part, which will be destroyed as well when other parts of the tent get bashed. The center is searched for in the given "collapse_radius" radius, it should match the size of the tent.
 
 #### "items"
 (Optional) An item group (inline) or an id of an item group, see doc/ITEM_SPAWN.md. The default subtype is "collection". Upon successful bashing, items from that group will be spawned.
