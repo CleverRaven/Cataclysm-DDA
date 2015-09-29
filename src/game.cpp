@@ -11639,7 +11639,7 @@ void game::read()
             vehicle_stack vs = veh->get_items( part );
 
             // check if item is in vehicle
-            for (item_index = 0; item_index < vs.size();item_index++) {
+            for (item_index = 0; item_index < (int) vs.size();item_index++) {
                 if (it == &vs[item_index]){
                     item_on_veh = true;
                     break;
@@ -11653,7 +11653,7 @@ void game::read()
         map_stack ms = m.i_at(u.pos() );
 
         // check if item is on ground
-        for (item_index = 0; item_index < ms.size();item_index++) {
+        for (item_index = 0; item_index < (int) ms.size();item_index++) {
                 if (it == &ms[item_index]){
                     break;
                 }
