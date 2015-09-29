@@ -9355,12 +9355,13 @@ int iuse::capture_monster_act( player *p, item *it, bool, const tripoint &pos )
         int mon_dex = g->mon_at( target );
         if( mon_dex != -1 ) {
             monster f = g->zombie( mon_dex );
-            const auto iter = it->type->properties.find( "monster_size_capacity" );
-            if( iter == it->type->properties.end() ) {
+
+            if (! it->has_property("monster_size_capacity")) {
                 debugmsg( _("%s has no monster_size_capacity."), it->tname().c_str() );
+                return 0;
             }
 
-            if( f.get_size() > Creature::size_map.at(iter->second) ) {
+            if( f.get_size() > Creature::size_map.at(it->get_property("monster_size_capacity")) ) {
                 p->add_msg_if_player( m_info, _("The %1$s is too big to put in your %2$s."),
                                       f.type->nname().c_str(), it->tname().c_str() );
                 return 0;
