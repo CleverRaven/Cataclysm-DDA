@@ -619,13 +619,16 @@ bool game::opening_screen()
             }
         } else if (layer == 3) {
             bool available = false;
-            std::string wn = world_generator->all_worldnames[sel3];
 
-            if ( (wn != "TUTORIAL" && wn != "DEFENSE") && world_generator->world_need_lua_build(wn) ) {
-                layer = 2;
-                sel1 = 2;
-                continue;
+            if ( (int)world_generator->all_worldnames.size() > sel3) {
+                std::string wn = world_generator->all_worldnames[sel3];
+                if ( (wn != "TUTORIAL" && wn != "DEFENSE") && world_generator->world_need_lua_build(wn) ) {
+                    layer = 2;
+                    sel1 = 2;
+                    continue;
+                }
             }
+
             if (sel1 == 2) { // Load Game
                 savegames = world_generator->all_worlds[world_generator->all_worldnames[sel2]]->world_saves;
                 if (savegames.empty()) {
