@@ -114,6 +114,7 @@ class game
         friend class editmap;
         friend class advanced_inventory;
         friend class DynamicDataLoader; // To allow unloading dynamicly loaded stuff
+        friend class player_activity; // To allow drop of items in player_activity::finish
     public:
         game();
         ~game();

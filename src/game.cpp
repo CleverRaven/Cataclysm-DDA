@@ -11602,14 +11602,78 @@ void game::read()
     auto filter = []( const item &it ) {
         return it.is_book();
     };
-    int pos = inv_for_filter( _("Read:"), filter );
 
-    if (pos == INT_MIN) {
+    auto item_loc = inv_map_splice( filter, _("Read:") );
+
+    const int inv_pos = item_loc.get_inventory_position();
+
+    if( inv_pos != INT_MIN ) {
+        u.reading_from_inventory = true;
+        draw();
+        u.read(inv_pos);
+        return;
+    }
+
+    u.reading_from_inventory = false;
+
+    item *it = item_loc.get_item();
+    if( it == nullptr ) {
         add_msg(_("Never mind."));
         return;
     }
+
+
+    // check if in vehicle as item cannot be in inventory since the above check "inv_pos != INT_MIN" already handle item in inventory
+    // at the moment, only item_location::item_on_person() will set values returned for get_inventory_position(). All others will return INT_MIN
+    bool item_on_veh = false;
+
+    int part = -1;
+    int item_index = 0;
+    vehicle *veh = m.veh_at( u.pos(), part );
+    point veh_pt( INT_MIN, INT_MIN );
+    if( veh != nullptr && part >= 0 ) {
+        part = veh->part_with_feature( part, "CARGO" );
+        if( part != -1 ) {
+            veh_pt = veh->parts[part].mount;
+
+            vehicle_stack vs = veh->get_items( part );
+
+            // check if item is in vehicle
+            for (item_index = 0; item_index < vs.size();item_index++) {
+                if (it == &vs[item_index]){
+                    item_on_veh = true;
+                    break;
+                }
+            }
+        }
+    }
+
+    // get inventory pos from ground if not on vehicle
+    if (!item_on_veh){
+        map_stack ms = m.i_at(u.pos() );
+
+        // check if item is on ground
+        for (item_index = 0; item_index < ms.size();item_index++) {
+                if (it == &ms[item_index]){
+                    break;
+                }
+        }
+    }
+
+    std::list<int> i_i;
+    i_i.push_back(item_index);
+
+    std::list<int> i_q;
+    i_q.push_back(1);
+
+    tripoint relative_pos;
+
+    Pickup::do_pickup( relative_pos /*relative point of same as player */, item_on_veh,
+                        i_i /*item index*/,i_q /*qty of 1*/, true /*autopickup*/);
+
     draw();
-    u.read(pos);
+    u.read(u.inv.size()-1);
+
 }
 
 void game::chat()

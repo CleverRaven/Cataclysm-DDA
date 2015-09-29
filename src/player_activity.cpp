@@ -318,6 +318,14 @@ void player_activity::finish( player *p )
             p->do_read(&(p->i_at(position)));
             if (type == ACT_NULL) {
                 add_msg(_("You finish reading."));
+
+                // below code added in to support reading from ground/vehicles
+                if (!p->reading_from_inventory ){
+                    g->drop(p->inv.size()-1);
+                }
+                else {
+                    p->reading_from_inventory = false;
+                }
             }
             break;
         case ACT_WAIT:
