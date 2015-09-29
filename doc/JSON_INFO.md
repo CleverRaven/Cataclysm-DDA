@@ -831,20 +831,69 @@ The format also support snippet ids like above.
 
 #json jsons
 
-###FURNITURE
-```C++
-"type": "furniture",      //Must always be 'furniture'
-"name": "toilet",         //Displayed name of the furniture
-"symbol": "&",            //Symbol displayed
-"color": "white",         //Glyph color. Alternately use 'bgcolor' to use a solid background color.
-                          //You must use EXACTLY ONE of 'color' or 'bgcolor'.
-"move_cost_mod": 2,       //Movement cost modifier (-10 = impassable, 0 = no change)
-"required_str": 18,       //Strength required to move past the terrain easily
-"flags": ["TRANSPARENT", "BASHABLE", "FLAMMABLE_HARD"],    //Furniture flags
-"crafting_pseudo_item": "anvil", // id of an item (tool) that will be available for crafting when this furniture is range
-"examine_action": "toilet" //(OPTIONAL) Function called when examined, see iexamine.cpp.
-                           //If omitted, defaults to iexamine::none.
+### FURNITURE
+
+```JSON
+{
+    "type": "furniture",
+    "id": "f_toilet",
+    "name": "toilet",
+    "symbol": "&",
+    "color": "white",
+    "move_cost_mod": 2,
+    "required_str": 18,
+    "flags": ["TRANSPARENT", "BASHABLE", "FLAMMABLE_HARD"],
+    "crafting_pseudo_item": "anvil",
+    "examine_action": "toilet",
+    "close": "f_foo_closed",
+    "open": "f_foo_open",
+    "bash": "TODO",
+    "deconstruct": "TODO",
+    "max_volume": 4000
+}
 ```
+
+#### "type"
+Fixed string, must be "furniture" to identify the JSON object as such.
+
+#### "id"
+Id of the furniture, this should be unique among all furniture types. By convention (but technically not needed), the id should have the "f_" prefix. This is not translated. It must not be changed later as that would break save compatibility.
+
+#### "name"
+Displayed name of the furniture. This will be translated.
+
+#### "symbol"
+ASCII symbol of the object as it appears in the game. The symbol string must be exactly one character long.
+
+#### "color" or "bgcolor"
+Color of the object as it appears in the game. "color" defines the the foreground color (no background color), "bgcolor" defines a solid background color. You must use EXACTLY ONE of "color" or "bgcolor". 
+
+#### "move_cost_mod"
+Movement cost modifier (-10 = impassable, 0 = no change). This is added to the movecost of the underlying terrain.
+
+#### "required_str"
+Strength required to move the furniture around. Negative values indicate an unmovable furniture.
+
+#### "max_volume"
+(Optional) Maximal volume that can be used to store items here.
+
+#### "flags"
+Various additional flags, see "doc/JSON_FLAGS.md".
+
+#### "crafting_pseudo_item"
+(Optional) Id of an item (tool) that will be available for crafting when this furniture is range (the furniture acts as an item of that type).
+
+#### "examine_action"
+(Optional) The C++ function that is called when the furniture is examined. See "src/iexamine.h".
+
+#### "close" and "open"
+(Optional) The value should be a furniture id, if either is defined, the player can open / close the furniture. Opening / closing will change the furniture at the affected tile to the given one. For example one could have furniture "f_safe_c", which "open"s to "f_safe_o" and "f_safe_o" in turn "close"s to "f_safe_c".
+
+#### "bash"
+(Optional) Defines whether the furniture can be bashed and if so, what happens. See TODO (write the documentation for this).
+
+#### "deconstruct"
+(Optional) Defines whether the furniture can be deconstructed and if so, what the results shall be. See TODO (write the documentation for this).
 
 ###TERRAIN
 ```C++
