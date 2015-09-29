@@ -1134,7 +1134,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
 
         // Prints message(s) about current health
         void print_health() const;
-        bool reading_from_inventory= false;
+        bool reading_from_inventory = false;
 
     protected:
         // The player's position on the local map.
