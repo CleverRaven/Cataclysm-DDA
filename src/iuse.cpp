@@ -6911,7 +6911,7 @@ int iuse::belt_loop (player *p, item *it, bool, const tripoint&)
     if (it->contents.empty()) {
         // display menu showing only show BELT_CLIP items
         item *put = &(p->i_at(g->inv_for_flag("BELT_CLIP", _("Attach what to belt loop?"), false)));
-        if (put == NULL || put->is_null()) {
+        if (put->is_null()) {
             p->add_msg_if_player(_("Never mind."));
             return 0;
         }
