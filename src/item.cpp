@@ -1485,6 +1485,11 @@ std::string item::info(bool showtext, std::vector<iteminfo> &dump_ref) const
             }
         }
 
+        if (has_flag("BELT_CLIP")) {
+            dump->push_back(iteminfo("DESCRIPTION",
+                _("This item can be clipped or hooked on to a belt loop of the appropriate size.")));
+        }
+
         if (has_flag("LEAK_DAM") && has_flag("RADIOACTIVE") && damage > 0) {
             dump->push_back(iteminfo("DESCRIPTION",
                 _("The casing of this item has cracked, revealing an ominous green glow.")));
