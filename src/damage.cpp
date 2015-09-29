@@ -147,6 +147,10 @@ float resistances::get_effective_resist( const damage_unit &du ) const
 
 void ammo_effects( const tripoint &p, const std::set<std::string> &effects )
 {
+    if( effects.count( "EXPLOSIVE_SMALL" ) > 0 ) {
+        g->explosion( p, 12, 0, false );
+    }
+
     if( effects.count( "EXPLOSIVE" ) > 0 ) {
         g->explosion( p, 24, 0, false );
     }
@@ -199,6 +203,11 @@ void ammo_effects( const tripoint &p, const std::set<std::string> &effects )
         g->explosion( p, 80, 0, false );
     }
 
+    if( effects.count( "TOXICGAS" ) > 0 ) {
+        for( auto &&pt : g->m.points_in_radius( p, 1, 0 ) ) {
+            g->m.add_field( pt, fd_toxic_gas, 3, 0 );
+        }
+    }
     if( effects.count( "TEARGAS" ) > 0 ) {
         for( auto &&pt : g->m.points_in_radius( p, 2, 0 ) ) {
             g->m.add_field( pt, fd_tear_gas, 3, 0 );
@@ -260,6 +269,7 @@ int aoe_size( const std::set<std::string> &tags )
                tags.count( "EXPLOSIVE_BIG" ) ) {
         return 3;
     } else if( tags.count( "EXPLOSIVE" ) ||
+               tags.count( "EXPLOSIVE_SMALL" ) ||
                tags.count( "FRAG" ) ) {
         return 2;
     } else if( tags.count( "ACIDBOMB" ) ||

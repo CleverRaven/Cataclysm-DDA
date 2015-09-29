@@ -46,7 +46,7 @@
   "dispersion" : 50,
   "recoil" : 800,
   "count" : 15,
-  "effects" : ["COOKOFF", "NAPALM", "EXPLOSIVE"]
+  "effects" : ["COOKOFF", "NAPALM", "EXPLOSIVE_SMALL"]
 },{
   "type" : "AMMO",
   "id" : "30mm_slug",
