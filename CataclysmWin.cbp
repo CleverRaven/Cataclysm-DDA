@@ -76,29 +76,24 @@
 				</ExtraCommands>
 			</Target>
 			<Target title="Release (SDL, Sound)">
-				<Option output="../../cataclysm-testing/Cataclysm-Tiles" prefix_auto="0" extension_auto="1" />
-				<Option working_dir="D:/cataclysm-testing" />
-				<Option object_output="D:/cataclysm-testing/obj/ReleaseSoundSDL" />
+				<Option output="Cataclysm-Tiles" prefix_auto="0" extension_auto="1" />
+				<Option object_output="obj/ReleaseSoundSDL/" />
 				<Option type="0" />
 				<Option compiler="gcc" />
 				<Compiler>
-					<Add option="-Os -O2 -m64" />
+					<Add option="-Os -O2" />
 					<Add option="-DTILES" />
 					<Add option="-DSDLTILES" />
 					<Add option="-DSDL_SOUND" />
 					<Add option="-DRELEASE=1" />
 					<Add directory="WinDepend/include" />
 				</Compiler>
-				<ResourceCompiler>
-					<Add directory="WinDepend/include" />
-					<Add directory="WinDepend/lib" />
-				</ResourceCompiler>
 				<Linker>
-					<Add library="WinDepend\lib\libSDL2.dll.a" />
-					<Add library="WinDepend\lib\libSDL2main.a" />
-					<Add library="WinDepend\lib\libSDL2_ttf.dll.a" />
-					<Add library="WinDepend\lib\libSDL2_image.dll.a" />
-					<Add library="WinDepend\lib\libSDL2_mixer.dll.a" />
+					<Add library="libSDL2.dll.a" />
+					<Add library="libSDL2main.a" />
+					<Add library="libSDL2_ttf.dll.a" />
+					<Add library="libSDL2_image.dll.a" />
+					<Add library="libSDL2_mixer.dll.a" />
 					<Add directory="WinDepend/lib" />
 				</Linker>
 			</Target>
@@ -230,14 +225,12 @@
 				</ExtraCommands>
 			</Target>
 			<Target title="Debug (SDL, Sound)">
-				<Option output="../../cataclysm-testing/Cataclysm-Tiles" prefix_auto="0" extension_auto="1" />
-				<Option working_dir="D:/cataclysm-testing" />
-				<Option object_output="D:/cataclysm-testing/obj/DebugSoundSDL" />
+				<Option output="Cataclysm-Tiles" prefix_auto="0" extension_auto="1" />
+				<Option object_output="obj/DebugSoundSDL/" />
 				<Option type="0" />
 				<Option compiler="gcc" />
 				<Compiler>
-					<Add option="-pg" />
-					<Add option="-pg -g -m64" />
+					<Add option="-pg -g" />
 					<Add option="-DTILES" />
 					<Add option="-DSDLTILES" />
 					<Add option="-DSDL_SOUND" />
@@ -431,7 +424,7 @@
 		<Unit filename="src/item_factory.h" />
 		<Unit filename="src/item_group.cpp" />
 		<Unit filename="src/item_group.h" />
-		<Unit filename="src/item_location.cpp" />
+        <Unit filename="src/item_location.cpp" />
 		<Unit filename="src/item_location.h" />
 		<Unit filename="src/item_stack.h" />
 		<Unit filename="src/itype.cpp" />
@@ -498,8 +491,8 @@
 		<Unit filename="src/mondefense.h" />
 		<Unit filename="src/monfaction.cpp" />
 		<Unit filename="src/monfaction.h" />
-		<Unit filename="src/mongroup.cpp" />
 		<Unit filename="src/mongroup.h" />
+		<Unit filename="src/mongroup.cpp" />
 		<Unit filename="src/monmove.cpp" />
 		<Unit filename="src/monster.cpp" />
 		<Unit filename="src/monster.h" />
@@ -578,8 +571,8 @@
 		<Unit filename="src/tileray.h" />
 		<Unit filename="src/translations.cpp" />
 		<Unit filename="src/translations.h" />
-		<Unit filename="src/trap.cpp" />
 		<Unit filename="src/trap.h" />
+		<Unit filename="src/trap.cpp" />
 		<Unit filename="src/trapfunc.cpp" />
 		<Unit filename="src/tutorial.cpp" />
 		<Unit filename="src/tutorial.h" />
@@ -588,8 +581,8 @@
 		<Unit filename="src/uistate.h" />
 		<Unit filename="src/veh_interact.cpp" />
 		<Unit filename="src/veh_interact.h" />
-		<Unit filename="src/veh_type.cpp" />
 		<Unit filename="src/veh_type.h" />
+		<Unit filename="src/veh_type.cpp" />
 		<Unit filename="src/vehicle.cpp" />
 		<Unit filename="src/vehicle.h" />
 		<Unit filename="src/vehicle_group.cpp" />
