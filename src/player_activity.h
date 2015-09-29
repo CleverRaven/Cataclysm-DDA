@@ -50,6 +50,12 @@ enum activity_type : int {    // expanded this enum for readability
     NUM_ACTIVITIES
 };
 
+enum item_from : int {
+    FRM_INV, // from inventory
+    FRM_GND, // from ground
+    FRM_VEH  // from vehicle
+};
+
 class player;
 
 class player_activity : public JsonSerializer, public JsonDeserializer

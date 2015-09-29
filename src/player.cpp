@@ -11410,7 +11410,7 @@ hint_rating player::rate_action_read( const item &it ) const
     return HINT_GOOD;
 }
 
-void player::read(int inventory_position)
+void player::read( int inventory_position, int inv_from )
 {
     // Find the object
     item* it = &i_at(inventory_position);
@@ -11489,6 +11489,8 @@ void player::read(int inventory_position)
         assign_activity( ACT_READ, time - moves, -1, inventory_position );
         // Never trigger studying when skimming the book.
         activity.values.push_back(0);
+        // pushes item_frm into 2nd element
+        activity.values.push_back(inv_from);
         moves = 0;
         return;
     }
@@ -11566,6 +11568,7 @@ void player::read(int inventory_position)
     // activity.get_value(0) == 1 means continuous studing until
     // the player gained the next skill level, this ensured by this:
     activity.values.push_back(study ? 1 : 0);
+    activity.values.push_back(inv_from);
     moves = 0;
 
     // Reinforce any existing morale bonus/penalty, so it doesn't decay

@@ -320,10 +320,8 @@ void player_activity::finish( player *p )
                 add_msg(_("You finish reading."));
 
                 // below code added in to support reading from ground/vehicles
-                if (!p->reading_from_inventory) {
+                if ( values[1] != FRM_INV ) {
                     g->drop(p->inv.size()-1);
-                } else {
-                    p->reading_from_inventory = false;
                 }
             }
             break;
