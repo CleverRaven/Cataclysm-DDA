@@ -963,8 +963,6 @@ Defines the various things that happen when the player or something else bashes 
     "str_max_blocked": 100,
     "str_min_supported": 15,
     "str_max_supported": 100,
-    "str_min_roll": 15,
-    "str_max_roll": 100,
     "sound": "crunch!",
     "sound_vol": 2,
     "sound_fail": "whack!",
@@ -980,7 +978,7 @@ Defines the various things that happen when the player or something else bashes 
 }
 ```
 
-#### "str_min", "str_max", "str_min_blocked", "str_max_blocked", "str_min_supported", "str_max_supported", "str_min_roll", "str_max_roll"
+#### "str_min", "str_max", "str_min_blocked", "str_max_blocked", "str_min_supported", "str_max_supported"
 TODO
 
 #### "sound", "sound_fail", "sound_vol", "sound_fail_vol"
