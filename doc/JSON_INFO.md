@@ -950,7 +950,7 @@ Color of the object as it appears in the game. "color" defines the the foregroun
 (Optional) Defines whether the object can be bashed and if so, what happens. See "map_bash_info".
 
 #### "deconstruct"
-(Optional) Defines whether the object can be deconstructed and if so, what the results shall be. See TODO (write the documentation for this).
+(Optional) Defines whether the object can be deconstructed and if so, what the results shall be. See "map_deconstruct_info".
 
 ### map_bash_info
 Defines the various things that happen when the player or something else bashes terrain or furniture.
@@ -1006,6 +1006,22 @@ TODO
 
 #### "items"
 (Optional) An item group (inline) or an id of an item group, see doc/ITEM_SPAWN.md. The default subtype is "collection". Upon successful bashing, items from that group will be spawned.
+
+### map_deconstruct_info
+
+```JSON
+{
+    "furn_set": "f_safe",
+    "ter_set": "t_dirt",
+    "items": "deconstructed_item_result_group"
+}
+```
+
+#### "furn_set", "ter_set"
+The terrain / furniture that will be set after the original has been deconstructed. "furn_set" is optional (it defaults to no furniture), "ter_set" is only used upon "deconstruct" entries in terrain and is mandatory there.
+
+#### "items"
+(Optional) An item group (inline) or an id of an item group, see doc/ITEM_SPAWN.md. The default subtype is "collection". Upon deconstruction the object, items from that group will be spawned.
 
 ###SCENARIO
 
