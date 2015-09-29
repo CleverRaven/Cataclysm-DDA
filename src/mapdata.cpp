@@ -102,7 +102,7 @@ bool map_bash_info::load(JsonObject &jsobj, std::string member, bool isfurniture
     str_max_supported = j.get_int("str_max_supported", -1);
 
     str_min_roll = j.get_int("str_min_roll", str_min);
-    str_max_roll = j.get_int("str_min_roll", str_max);
+    str_max_roll = j.get_int("str_max_roll", str_max);
 
     explosive = j.get_int("explosive", -1);
 
