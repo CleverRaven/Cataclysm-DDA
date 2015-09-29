@@ -1353,7 +1353,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> &dump_ref) const
         if (is_armor() && has_flag("FRAGILE")) {
             dump->push_back(iteminfo("DESCRIPTION", "--"));
             dump->push_back(iteminfo("DESCRIPTION",
-                _("This item is fragile and is more easily damaged.")));
+                _("This gear is fragile and won't protect you for long.")));
         }
         if (is_armor() && has_flag("DEAF")) {
             dump->push_back(iteminfo("DESCRIPTION", "--"));
