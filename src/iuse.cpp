@@ -6593,7 +6593,7 @@ int iuse::holster_gun(player *p, item *it, bool, const tripoint& )
 {
     // if holster is empty, pull up menu asking what to holster
     if (it->contents.empty()) {
-        int maxvol = std::atoi(it->get_property("holster_size").c_str());
+        int maxvol = it->get_property("holster_size", 0);
         int minvol = maxvol / 3;
 
         auto filter = [maxvol, minvol]( const item &it ) {
@@ -6924,14 +6924,14 @@ int iuse::belt_loop (player *p, item *it, bool, const tripoint&)
         }
 
         // only allow items smaller than a certain size
-        if (put->volume() > std::atoi(it->get_property("max_volume", "2").c_str())) {
+        if (put->volume() > it->get_property("max_volume", 2)) {
             p->add_msg_if_player(m_info, _("Your %s is too large to fit in your %s!"),
                                            put->tname().c_str(), it->tname().c_str());
             return 0;
         }
 
         // only allow items less than a certain weight
-        if (put->weight() > std::atoi(it->get_property("max_weight", "600").c_str())) {
+        if (put->weight() > it->get_property("max_weight", 600)) {
             p->add_msg_if_player(m_info, _("Your %s is too heavy to attach to your %s!"),
                                            put->tname().c_str(), it->tname().c_str());
             return 0;

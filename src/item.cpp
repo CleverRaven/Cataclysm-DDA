@@ -2386,6 +2386,25 @@ std::string item::get_property (const std::string &prop, const std::string& def)
     return it != type->properties.end() ? it->second : def;
 }
 
+int item::get_property (const std::string& prop, int def) const
+{
+    const auto it = type->properties.find(prop);
+    return it != type->properties.end() ? std::atoi(it->second.c_str()) : def;
+}
+
+long item::get_property (const std::string& prop, long def) const
+{
+    const auto it = type->properties.find(prop);
+    return it != type->properties.end() ? std::atol(it->second.c_str()) : def;
+}
+
+double item::get_property (const std::string& prop, double def) const
+{
+    const auto it = type->properties.find(prop);
+    return it != type->properties.end() ? std::atof(it->second.c_str()) : def;
+}
+
+
 bool item::has_quality(std::string quality_id) const
 {
     return has_quality(quality_id, 1);

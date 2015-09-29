@@ -799,17 +799,15 @@ public:
          *
          */
         /*@{*/
-        /**
-          * Check if property exists for this item.
-          */
         bool has_property (const std::string& prop) const;
         /**
-          * Get property for this item.
-          * @param prop name of the property
-          * @param def default value to return if property does not exist
-          * @return copy of either property value or default if property not found
+          * Get typed property for item.
+          * Return same type as the passed default value, or string where no default provided
           */
         std::string get_property (const std::string &prop, const std::string& def = "") const;
+        int get_property (const std::string& prop, int def) const;
+        long get_property (const std::string& prop, long def) const;
+        double get_property (const std::string& prop, double def) const;
         /*@}*/
 
         /**
