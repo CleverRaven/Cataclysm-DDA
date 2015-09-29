@@ -791,6 +791,28 @@ public:
         /*@}*/
 
         /**
+         * @name Item properties
+         *
+         * Properties are specific to an item type so unlike flags the meaning of a property
+         * may not be the same for two different item types. Each item type can have mutliple
+         * properties however duplicate property names are not permitted.
+         *
+         */
+        /*@{*/
+        /**
+          * Check if property exists for this item.
+          */
+        bool has_property (const std::string& prop) const;
+        /**
+          * Get property for this item.
+          * @param prop name of the property
+          * @param def default value to return if property does not exist
+          * @return copy of either property value or default if property not found
+          */
+        std::string get_property (const std::string &prop, const std::string& def = "") const;
+        /*@}*/
+
+        /**
          * @name Light emitting items
          *
          * Items can emit light either through the definition of their type

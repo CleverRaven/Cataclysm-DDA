@@ -2371,6 +2371,16 @@ bool item::has_flag( const std::string &f ) const
     return ret;
 }
 
+bool item::has_property (const std::string& prop) const {
+   return type->properties.find(prop) != type->properties.end();
+}
+
+std::string item::get_property (const std::string &prop, const std::string& def) const
+{
+    const auto it = type->properties.find(prop);
+    return it != type->properties.end() ? it->second : def;
+}
+
 bool item::has_quality(std::string quality_id) const
 {
     return has_quality(quality_id, 1);
