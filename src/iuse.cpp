@@ -6593,12 +6593,7 @@ int iuse::holster_gun(player *p, item *it, bool, const tripoint& )
 {
     // if holster is empty, pull up menu asking what to holster
     if (it->contents.empty()) {
-        int maxvol = 0;
-        // TODO: extract into an item function
-        const auto iter = it->type->properties.find( "holster_size" );
-        if( iter != it->type->properties.end() && iter->second != "0" ) {
-            maxvol = std::atoi( iter->second.c_str() );
-        }
+        int maxvol = std::atoi(it->get_property("holster_size").c_str());
         int minvol = maxvol / 3;
 
         auto filter = [maxvol, minvol]( const item &it ) {
