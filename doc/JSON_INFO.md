@@ -947,10 +947,65 @@ Color of the object as it appears in the game. "color" defines the the foregroun
 (Optional) The value should be a terrain id (inside a terrain entry) or a furniture id (in a furniture entry). If either is defined, the player can open / close the object. Opening / closing will change the object at the affected tile to the given one. For example one could have object "safe_c", which "open"s to "safe_o" and "safe_o" in turn "close"s to "safe_c". Here "safe_c" and "safe_o" are two different terrain (or furniture) types that have different properties.
 
 #### "bash"
-(Optional) Defines whether the object can be bashed and if so, what happens. See TODO (write the documentation for this).
+(Optional) Defines whether the object can be bashed and if so, what happens. See "map_bash_info".
 
 #### "deconstruct"
 (Optional) Defines whether the object can be deconstructed and if so, what the results shall be. See TODO (write the documentation for this).
+
+### map_bash_info
+Defines the various things that happen when the player or something else bashes terrain or furniture.
+
+```JSON
+{
+    "str_min": 80,
+    "str_max": 180,
+    "str_min_blocked": 15,
+    "str_max_blocked": 100,
+    "str_min_supported": 15,
+    "str_max_supported": 100,
+    "str_min_roll": 15,
+    "str_max_roll": 100,
+    "sound": "crunch!",
+    "sound_vol": 2,
+    "sound_fail": "whack!",
+    "sound_fail_vol": 2,
+    "ter_set": "t_dirt",
+    "furn_set": "f_rubble",
+    "explosive": 1,
+    "collapse_radius": 2,
+    "destroy_only": true,
+    "bash_below": true,
+    "tent_centers": ["f_groundsheet", "f_fema_groundsheet", "f_skin_groundsheet"],
+    "items": "bashed_item_result_group"
+}
+```
+
+#### "str_min", "str_max", "str_min_blocked", "str_max_blocked", "str_min_supported", "str_max_supported", "str_min_roll", "str_max_roll"
+TODO
+
+#### "sound", "sound_fail", "sound_vol", "sound_fail_vol"
+(Optional) Sound and volume of the sound that appears upon destroying the bashed object or upon unsuccessfully bashing it (failing). The sound strings are translated (and displayed to the player).
+
+#### "furn_set", "ter_set"
+The terrain / furniture that will be set when the original is destroyed. This is mandatory for bash entries in terrain, but optional for entries in furniture (it defaults to no furniture).
+
+#### "explosive"
+TODO
+
+#### "collapse_radius"
+TODO
+
+#### "destroy_only"
+TODO
+
+#### "bash_below"
+TODO
+
+#### "tent_centers"
+(Optional) For furniture that is part of tents, this defines the id of the center part, which will be destroyed as well when other parts of the tent get bashed.
+
+#### "items"
+(Optional) An item group (inline) or an id of an item group, see doc/ITEM_SPAWN.md. The default subtype is "collection". Upon successful bashing, items from that group will be spawned.
 
 ###SCENARIO
 
