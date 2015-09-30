@@ -432,10 +432,12 @@ void monster::move()
                 !has_flag( MF_ATTACKMON ) && !has_flag( MF_PUSH_MON ) ) {
                 continue;
             }
-            float progress = distance_to_target - trig_dist( candidate, destination );
-            switch_chance += progress;
+            const float progress = distance_to_target - trig_dist( candidate, destination );
+            // The x2 makes the first (and most direct) path twice as likely,
+            // since the chance of switching is 1/1, 1/4, 1/6, 1/8
+            switch_chance += progress * 2;
             // Randomly pick one of the viable squares to move to weighted by distance.
-            if( x_in_y( progress, switch_chance ) ) {
+            if( moved == false || x_in_y( progress, switch_chance ) ) {
                 moved = true;
                 next_step = candidate;
                 // If we stumble, pick a random square, otherwise take the first one,
