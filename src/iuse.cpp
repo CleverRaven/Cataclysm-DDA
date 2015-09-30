@@ -8458,7 +8458,7 @@ int iuse::radiocar(player *p, item *it, bool, const tripoint& )
             p->add_msg_if_player(_("RC car with %s ? How?"),
                                  put->tname().c_str());
             } else {
-                p->add_msg_if_player(_("Your %s is too big or bulky for this RC car."),
+                p->add_msg_if_player(_("Your %s is too heavy or bulky for this RC car."),
                                      put->tname().c_str());
             }
         } else { // Disarm the car
