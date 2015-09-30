@@ -790,7 +790,7 @@
     "symbol": ";",
     "color": "blue",
     "name": "heavy duty flashlight (off)",
-    "name_plural": "flashlights (off)",
+    "name_plural": "heavy duty flashlights (off)",
     "description": "This is a heavy duty tubular aluminium LED flashlight as often used by security guards. Makes for a passable melee weapon. Using this flashlight will turn it on and provide light, assuming it is charged with batteries.",
     "price": 950,
     "material": ["aluminum"],
