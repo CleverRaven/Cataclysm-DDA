@@ -6952,12 +6952,12 @@ int iuse::belt_loop (player *p, item *it, bool, const tripoint&)
             item& get = it->contents[0];
             p->inv.assign_empty_invlet(get, true);
 
+            p->add_msg_if_player(m_info, _("You unclip your %s from your %s!"),
+                                 get.tname().c_str(), it->tname().c_str());
+
             p->moves -= get.volume() * 10;
             p->wield(&(p->i_add(get)));
             it->contents.erase(it->contents.begin());
-
-            p->add_msg_if_player(m_info, _("You unclip your %s from your %s!"),
-                                 get.tname().c_str(), it->tname().c_str());
         }
     }
 
