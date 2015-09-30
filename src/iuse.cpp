@@ -8449,13 +8449,16 @@ int iuse::radiocar(player *p, item *it, bool, const tripoint& )
                 return 0;
             }
 
-            if (put->has_flag("RADIOCARITEM")) {
+            if (put->has_flag("RADIOCARITEM") && ((put->volume() <= 5) || (put->weight() <= 2000))) {
                 p->moves -= 300;
                 p->add_msg_if_player(_("You armed your RC car with %s."),
                                      put->tname().c_str());
                 it->put_in(p->i_rem(inventory_index));
+            } else if (!put->has_flag("RADIOCARITEM")) {
+            p->add_msg_if_player(_("RC car with %s ? How?"),
+                                 put->tname().c_str());
             } else {
-                p->add_msg_if_player(_("RC car with %s ? How?"),
+                p->add_msg_if_player(_("Your %s is too big or bulky for this RC car."),
                                      put->tname().c_str());
             }
         } else { // Disarm the car
