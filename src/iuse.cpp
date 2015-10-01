@@ -73,6 +73,12 @@ const skill_id skill_fabrication( "fabrication" );
 const skill_id skill_electronics( "electronics" );
 const skill_id skill_melee( "melee" );
 
+const species_id ROBOT( "ROBOT" );
+const species_id HALLUCINATION( "HALLUCINATION" );
+const species_id ZOMBIE( "ZOMBIE" );
+const species_id FUNGUS( "FUNGUS" );
+const species_id INSECT( "INSECT" );
+
 void remove_double_ammo_mod( item &it, player &p )
 {
     if( !it.item_tags.count( "DOUBLE_AMMO" ) || it.item_tags.count( "DOUBLE_REACTOR" )) {
@@ -829,7 +835,7 @@ int iuse::fungicide(player *p, item *it, bool, const tripoint& )
                         const int zid = g->mon_at(dest);
                         if (zid >= 0) {  // Spores hit a monster
                             if (g->u.sees(i, j) &&
-                                !g->zombie(zid).type->in_species("FUNGUS")) {
+                                !g->zombie(zid).type->in_species( FUNGUS )) {
                                 add_msg(m_warning, _("The %s is covered in tiny spores!"),
                                         g->zombie(zid).name().c_str());
                             }
@@ -4585,7 +4591,7 @@ int iuse::granade_act(player *, item *it, bool t, const tripoint &pos)
                         tripoint dest( pos.x + i, pos.y + j, pos.z );
                         const int zid = g->mon_at( dest, true );
                         if (zid != -1 &&
-                            (g->zombie(zid).type->in_species("INSECT") ||
+                            (g->zombie(zid).type->in_species( INSECT ) ||
                              g->zombie(zid).is_hallucination())) {
                             g->zombie( zid ).die_in_explosion( nullptr );
                         }
@@ -5011,7 +5017,7 @@ int iuse::pheromone( player *p, item *it, bool, const tripoint &pos )
                 continue;
             }
             monster &critter = g->zombie( mondex );
-            if( critter.type->in_species( "ZOMBIE" ) && critter.friendly == 0 && rng( 0, 500 ) > critter.get_hp() ) {
+            if( critter.type->in_species( ZOMBIE ) && critter.friendly == 0 && rng( 0, 500 ) > critter.get_hp() ) {
                 converts++;
                 critter.make_friendly();
             }
@@ -7361,7 +7367,7 @@ int iuse::robotcontrol(player *p, item *it, bool, const tripoint& )
             int entry_num = 0;
             for( size_t i = 0; i < g->num_zombies(); ++i ) {
                 monster &candidate = g->zombie( i );
-                if( candidate.type->in_species( "ROBOT" ) && candidate.friendly == 0 &&
+                if( candidate.type->in_species( ROBOT ) && candidate.friendly == 0 &&
                     rl_dist( p->pos3(), candidate.pos3() ) <= 10 ) {
                     mons.push_back( &candidate );
                     pick_robot.addentry( entry_num++, true, MENU_AUTOASSIGN, candidate.name() );
@@ -7423,7 +7429,7 @@ int iuse::robotcontrol(player *p, item *it, bool, const tripoint& )
             p->moves -= 100;
             int f = 0; //flag to check if you have robotic allies
             for (size_t i = 0; i < g->num_zombies(); i++) {
-                if (g->zombie(i).friendly != 0 && g->zombie(i).type->in_species("ROBOT")) {
+                if (g->zombie(i).friendly != 0 && g->zombie(i).type->in_species( ROBOT )) {
                     p->add_msg_if_player(_("A following %s goes into passive mode."),
                                          g->zombie(i).name().c_str());
                     g->zombie(i).add_effect("docile", 1, num_bp, true);
@@ -8108,12 +8114,12 @@ int iuse::camera(player *p, item *it, bool, const tripoint& )
                     }
 
                     // shoot past small monsters and hallucinations
-                    if (zid != sel_zid && (z.type->size <= MS_SMALL || z.is_hallucination() || z.type->in_species("HALLUCINATION"))) {
+                    if (zid != sel_zid && (z.type->size <= MS_SMALL || z.is_hallucination() || z.type->in_species( HALLUCINATION ))) {
                         continue;
                     }
 
                     // get an empty photo if the target is a hallucination
-                    if (zid == sel_zid && (z.is_hallucination() || z.type->in_species("HALLUCINATION"))) {
+                    if (zid == sel_zid && (z.is_hallucination() || z.type->in_species( HALLUCINATION ))) {
                         p->add_msg_if_player(_("Strange... there's nothing in the picture?"));
                         return it->type->charges_to_use();
                     }

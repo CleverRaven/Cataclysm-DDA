@@ -1475,6 +1475,13 @@ classes = {
         functions = {
         }
     },
+    species_type = {
+        string_id = "species_id",
+        attributes = {
+        },
+        functions = {
+        }
+    },
     mtype = {
         string_id = "mtype_id",
         attributes = {
@@ -1509,8 +1516,7 @@ classes = {
             { name = "gibType", rval = "field_id", args = { } },
             { name = "has_flag", rval = "bool", args = { "string" } },
             { name = "in_category", rval = "bool", args = { "string" } },
-            { name = "in_species", rval = "bool", args = { "int" } },
-            { name = "in_species", rval = "bool", args = { "string" } },
+            { name = "in_species", rval = "bool", args = { "species_id" } },
             { name = "nname", rval = "string", args = { "int" } },
             { name = "nname", rval = "string", args = { } },
             { name = "same_species", rval = "bool", args = { "mtype" } },

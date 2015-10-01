@@ -109,6 +109,9 @@ const skill_id skill_dodge( "dodge" );
 const skill_id skill_driving( "driving" );
 const skill_id skill_firstaid( "firstaid" );
 
+const species_id ZOMBIE( "ZOMBIE" );
+const species_id PLANT( "PLANT" );
+
 void advanced_inv(); // player_activity.cpp
 void intro();
 nc_color sev(int a); // Right now, ONLY used for scent debugging....
@@ -5678,7 +5681,7 @@ int game::mon_info(WINDOW *w)
             if (!new_seen_mon.empty()) {
                 monster &critter = critter_tracker->find(new_seen_mon.back());
                 cancel_activity_query(_("%s spotted!"), critter.name().c_str());
-                if (u.has_trait("M_DEFENDER") && critter.type->in_species("PLANT")) {
+                if (u.has_trait("M_DEFENDER") && critter.type->in_species( PLANT )) {
                     add_msg(m_warning, _("We have detected a %s."), critter.name().c_str());
                     if (!u.has_effect("adrenaline_mycus")){
                         u.add_effect("adrenaline_mycus", 300);
@@ -7784,7 +7787,7 @@ bool pet_menu(monster *z)
     uimenu amenu;
 
     std::string pet_name = _("dog");
-    if( z->type->in_species("ZOMBIE") ) {
+    if( z->type->in_species( ZOMBIE ) ) {
         pet_name = _("zombie slave");
     }
 
@@ -7813,7 +7816,7 @@ bool pet_menu(monster *z)
         }
     }
 
-    if( z->type->in_species("ZOMBIE") ) {
+    if( z->type->in_species( ZOMBIE ) ) {
         amenu.addentry(pheromone, true, 't', _("Tear out pheromone ball"));
     }
 

@@ -7,6 +7,8 @@
 
 #include <algorithm>
 
+const species_id MOLLUSK( "MOLLUSK" );
+
 mtype::mtype ()
 {
     id = NULL_ID;
@@ -93,20 +95,20 @@ bool mtype::in_category(std::string category) const
     return (categories.find(category) != categories.end());
 }
 
-bool mtype::in_species(std::string spec) const
+bool mtype::in_species( const species_id &spec ) const
 {
-    return (species.find(spec) != species.end());
+    return species.count( spec ) > 0;
 }
 
-bool mtype::in_species( int spec_id ) const
+bool mtype::in_species( const species_type &spec ) const
 {
-    return ( species_id.find(spec_id) != species_id.end() );
+    return species_ptrs.count( &spec ) > 0;
 }
 
 bool mtype::same_species( const mtype &other ) const
 {
-    for( int s : species_id ) {
-        if( other.in_species( s ) ) {
+    for( auto &s : species_ptrs ) {
+        if( other.in_species( *s ) ) {
             return true;
         }
     }
@@ -140,7 +142,7 @@ field_id mtype::bloodType() const
 
 field_id mtype::gibType() const
 {
-    if (has_flag(MF_LARVA) || in_species("MOLLUSK")) {
+    if (has_flag(MF_LARVA) || in_species( MOLLUSK )) {
         return fd_gibs_invertebrate;
     }
     if( has_material("veggy") ) {

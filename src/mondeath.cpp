@@ -32,13 +32,16 @@ const mtype_id mon_thing( "mon_thing" );
 const mtype_id mon_zombie_dancer( "mon_zombie_dancer" );
 const mtype_id mon_zombie_hulk( "mon_zombie_hulk" );
 
+const species_id ZOMBIE( "ZOMBIE" );
+const species_id BLOB( "BLOB" );
+
 void mdeath::normal(monster *z)
 {
     if ((g->u.sees(*z)) && (!z->no_corpse_quiet)) {
         add_msg(m_good, _("The %s dies!"),
                 z->name().c_str()); //Currently it is possible to get multiple messages that a monster died.
     }
-    if ( z->type->in_species("ZOMBIE")) {
+    if ( z->type->in_species( ZOMBIE )) {
             sfx::play_variant_sound( "mon_death", "zombie_death", sfx::get_heard_volume(z->pos()));
         }
     m_size monSize = (z->type->size);
@@ -325,7 +328,7 @@ void mdeath::guilt(monster *z)
     int maxMalus = -250 * (1.0 - ((float) kill_count / maxKills));
     int duration = 300 * (1.0 - ((float) kill_count / maxKills));
     int decayDelay = 30 * (1.0 - ((float) kill_count / maxKills));
-    if (z->type->in_species("ZOMBIE")) {
+    if (z->type->in_species( ZOMBIE )) {
         moraleMalus /= 10;
         if (g->u.has_trait("PACIFIST")) {
             moraleMalus *= 5;
@@ -382,7 +385,7 @@ void mdeath::blobsplit(monster *z)
 void mdeath::brainblob(monster *z) {
     for( size_t i = 0; i < g->num_zombies(); i++ ) {
         monster *candidate = &g->zombie( i );
-        if(candidate->type->in_species("BLOB") && candidate->type->id != mon_blob_brain ) {
+        if(candidate->type->in_species( BLOB ) && candidate->type->id != mon_blob_brain ) {
             candidate->remove_effect("controlled");
         }
     }
@@ -714,7 +717,7 @@ void make_mon_corpse(monster *z, int damageLvl)
     item corpse;
     corpse.make_corpse( z->type->id, calendar::turn, z->unique_name );
     corpse.damage = damageLvl > MAX_DAM ? MAX_DAM : damageLvl;
-    if( z->has_effect("pacified") && z->type->in_species("ZOMBIE") ) {
+    if( z->has_effect("pacified") && z->type->in_species( ZOMBIE ) ) {
         // Pacified corpses have a chance of becoming un-pacified when regenerating.
         corpse.set_var( "zlave", one_in(2) ? "zlave" : "mutilated" );
     }

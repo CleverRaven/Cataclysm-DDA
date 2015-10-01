@@ -40,6 +40,8 @@ const mtype_id mon_zombie( "mon_zombie" );
 const skill_id skill_driving( "driving" );
 const skill_id skill_traps( "traps" );
 
+const species_id FUNGUS( "FUNGUS" );
+
 extern bool is_valid_in_w_terrain(int,int);
 
 #include "overmapbuffer.h"
@@ -3027,7 +3029,7 @@ void map::fungalize( const tripoint &sporep, Creature *origin, double spore_chan
     int mondex = g->mon_at( sporep );
     if( mondex != -1 ) { // Spores hit a monster
         if( g->u.sees(sporep) &&
-            !g->zombie(mondex).type->in_species("FUNGUS")) {
+            !g->zombie(mondex).type->in_species( FUNGUS )) {
             add_msg(_("The %s is covered in tiny spores!"),
                     g->zombie(mondex).name().c_str());
         }
