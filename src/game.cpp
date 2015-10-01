@@ -11619,6 +11619,9 @@ void game::read()
         return;
     }
 
+    if ( !u.can_pickup( true ) ) {
+        return;
+    }
 
     // check if in vehicle as item cannot be in inventory since the above check "inv_pos != INT_MIN" already handle item in inventory
     // at the moment, only item_location::item_on_person() will set values returned for get_inventory_position(). All others will return INT_MIN
@@ -11665,18 +11668,15 @@ void game::read()
 
     item * last_inv = &u.inv.find_item( u.inv.size()-1 );
 
-    if ( !u.can_pickup( true ) ) {
-        return;
-    }
-
     Pickup::do_pickup( relative_pos /*relative point of same as player */, (item_frm == FRM_VEH?true:false),
                         i_i /*item index*/,i_q /*qty of 1*/, true /*autopickup*/ );
 
-    if ( last_inv == &u.inv.find_item(u.inv.size()-1) ) {
+    item * cur_last_inv = &u.inv.find_item( u.inv.size()-1 );
+    if ( last_inv == cur_last_inv ) {
         add_msg( m_info, _("Can't pickup %s. Reading aborted."), it->display_name().c_str() );
     } else {
         draw();
-        u.read( u.inv.size()-1, item_frm );
+        u.read( u.inv.size()-1, item_frm, cur_last_inv );
     }
 }
 

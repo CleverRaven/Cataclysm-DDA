@@ -320,8 +320,29 @@ void player_activity::finish( player *p )
                 add_msg(_("You finish reading."));
 
                 // below code added in to support reading from ground/vehicles
-                if ( values[1] != FRM_INV ) {
-                    g->drop(p->inv.size()-1);
+                uintptr_t ptr_addr = 0;
+
+                // manually set ptr_addr as can't find any atoptr and even stringstream does not support uintptr_t
+                // if there is any better way, please inform me so that I will not be forever ignorant
+                for (auto &digit : str_values[0]) {
+                    if ( digit < '0' || digit > '9' ) {
+                        ptr_addr = reinterpret_cast<uintptr_t> (nullptr);
+                        break;
+                    }
+
+                    ptr_addr = ptr_addr * 10 + digit - '0';
+                }
+
+                item * book = (item *) ptr_addr;
+
+                if ( book != nullptr && values[1] != FRM_INV ) {
+                    int book_pos = p->inv.position_by_item( book );
+
+                    if ( book_pos != INT_MIN ) {
+                        g->drop(book_pos);
+                    } else {
+                        add_msg(_("Dropping of book not done. Please manually drop it."));
+                    }
                 }
             }
             break;
