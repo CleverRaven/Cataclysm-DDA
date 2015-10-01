@@ -1526,6 +1526,13 @@ void game::update_weather()
         if (weather != old_weather && u.has_activity(ACT_WAIT_WEATHER)) {
             u.assign_activity(ACT_WAIT_WEATHER, 0, 0);
         }
+
+        if( weather_data( weather ).sight_penalty !=
+            weather_data( old_weather ).sight_penalty ) {
+            for( int i = -OVERMAP_DEPTH; i <= OVERMAP_HEIGHT; i++ ) {
+                m.set_transparency_cache_dirty( i );
+            }
+        }
     }
 }
 

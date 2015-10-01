@@ -11,6 +11,7 @@
 #include "submap.h"
 #include "mtype.h"
 #include "weather.h"
+#include "shadowcasting.h"
 
 #include <cmath>
 #include <cstring>
@@ -148,7 +149,8 @@ void map::generate_lightmap( const int zlev )
          checking of neighbors.
      * Step 2: After everything else, iterate buffer and apply_light_source only in non-redundant
          directions
-     * Step 3: Profit!
+     * Step 3: ????
+     * Step 4: Profit!
      */
     auto &light_source_buffer = map_cache.light_source_buffer;
     std::memset(light_source_buffer, 0, sizeof(light_source_buffer));
@@ -470,11 +472,17 @@ bool map::pl_sees( const tripoint &t, const int max_range ) const
           map_cache.sm[t.x][t.y] > 0.0 );
 }
 
+// TODO: Remove those variables
+int fov_debug;
+int fov_debug_max;
+int fov_scanned;
+#include "messages.h"
+
 template<int xx, int xy, int xz, int yx, int yy, int yz, int zz,
          float(*calc)(const float &, const float &, const int &),
          bool(*check)(const float &, const float &)>
 void cast_zlight(
-    float (&output_cache)[MAPSIZE*SEEX][MAPSIZE*SEEY],
+    const std::array<float (*)[MAPSIZE*SEEX][MAPSIZE*SEEY], OVERMAP_LAYERS> &output_caches,
     const std::array<const float (*)[MAPSIZE*SEEX][MAPSIZE*SEEY], OVERMAP_LAYERS> &input_arrays,
     const tripoint &offset, const int offset_distance, const int target_z,
     const std::function<bool(const tripoint &)> &floor_check,
@@ -483,16 +491,21 @@ void cast_zlight(
     float start_minor, const float end_minor,
     double cumulative_transparency )
 {
-    if( start_major < end_major || start_minor < end_minor ) {
+    if( start_major >= end_major || start_minor >= end_minor ) {
         return;
     }
 
+if( start_major == 0.0f && end_major == 1.0f && start_minor == 0.0f && end_minor == 1.0f ) fov_debug = 0;
+    fov_debug++;
+
     float radius = 60.0f - offset_distance;
 
-    const int min_z = std::min( offset.z, target_z );
-    const int max_z = std::max( offset.z, target_z );
+    //const int min_z = std::min( offset.z, target_z );
+    //const int max_z = std::max( offset.z, target_z );
+    constexpr int min_z = -OVERMAP_DEPTH;
+    constexpr int max_z = OVERMAP_HEIGHT;
 
-    float new_start_minor = 0.0f;
+    float new_start_minor = 1.0f;
 
     float last_intensity = 0.0;
     // Making this static prevents it from being needlessly constructed/destructed all the time.
@@ -501,26 +514,26 @@ void cast_zlight(
     tripoint delta(0, 0, 0);
     tripoint current(0, 0, 0);
     for( int distance = row; distance <= radius; distance++ ) {
-        delta.y = -distance;
+        delta.y = distance;
         bool started_block = false;
         float current_transparency = 0.0f;
 
         // TODO: Precalculate min/max delta.z based on start/end and distance
-        for( delta.z = -distance; delta.z <= 0; delta.z++ ) {
+        for( delta.z = 0; delta.z <= distance; delta.z++ ) {
             float trailing_edge_major = (delta.z - 0.5f) / (delta.y + 0.5f);
             float leading_edge_major = (delta.z + 0.5f) / (delta.y - 0.5f);
             current.z = offset.z + delta.x * 00 + delta.y * 00 + delta.z * zz;
             if( current.z > max_z || current.z < min_z ) {
                 continue;
-            } else if( start_major < leading_edge_major ) {
+            } else if( start_major > leading_edge_major ) {
                 continue;
-            } else if( end_major > trailing_edge_major ) {
+            } else if( end_major < trailing_edge_major ) {
                 break;
             }
 
             bool started_span = false;
             const int z_index = current.z + OVERMAP_DEPTH;
-            for( delta.x = -distance; delta.x <= 0; delta.x++ ) {
+            for( delta.x = 0; delta.x <= distance; delta.x++ ) {
                 current.x = offset.x + delta.x * xx + delta.y * xy + delta.z * xz;
                 current.y = offset.y + delta.x * yx + delta.y * yy + delta.z * yz;
                 float trailing_edge_minor = (delta.x - 0.5f) / (delta.y + 0.5f);
@@ -528,11 +541,12 @@ void cast_zlight(
 
                 if( !(current.x >= 0 && current.y >= 0 &&
                       current.x < SEEX * MAPSIZE &&
-                      current.y < SEEY * MAPSIZE) || start_minor < leading_edge_minor ) {
+                      current.y < SEEY * MAPSIZE) || start_minor > leading_edge_minor ) {
                     continue;
-                } else if( end_minor > trailing_edge_minor ) {
+                } else if( end_minor < trailing_edge_minor ) {
                     break;
                 }
+fov_scanned++;
 
                 float new_transparency = (*input_arrays[z_index])[current.x][current.y];
                 // If we're looking at a tile with floor or roof from the floor/roof side,
@@ -561,10 +575,12 @@ void cast_zlight(
                 const int dist = rl_dist( origin, delta ) + offset_distance;
                 last_intensity = calc( numerator, cumulative_transparency, dist );
 
-                if( current.z == target_z && !floor_block ) {
-                    output_cache[current.x][current.y] =
-                        std::max( output_cache[current.x][current.y], last_intensity );
+                if( !floor_block ) {
+                    (*output_caches[z_index])[current.x][current.y] =
+                        std::max<float>( (*output_caches[z_index])[current.x][current.y], fov_debug );
+                        //std::max( (*output_caches[z_index])[current.x][current.y], last_intensity );
                 }
+                fov_debug_max = std::max( fov_debug, fov_debug_max );
 
                 if( !started_span ) {
                     // Need to reset minor slope, because we're starting a new line
@@ -585,21 +601,21 @@ void cast_zlight(
                 if( check( current_transparency, last_intensity ) ) {
                     float next_cumulative_transparency =
                         ((distance - 1) * cumulative_transparency + current_transparency) / distance;
-                    const bool merge_blocks = end_minor >= trailing_edge_minor;
-                    const float major_mid = merge_blocks ? leading_edge_major : trailing_edge_major;
+                    //const bool merge_blocks = end_minor <= trailing_edge_minor;
+                    //const float major_mid = merge_blocks ? leading_edge_major : trailing_edge_major;
                     cast_zlight<xx, xy, xz, yx, yy, yz, zz, calc, check>(
-                        output_cache, input_arrays, offset, offset_distance,
+                        output_caches, input_arrays, offset, offset_distance,
                         target_z, floor_check, numerator, distance + 1,
-                        start_major, major_mid, start_minor, end_minor,
+                        start_major, trailing_edge_major, start_minor, end_minor,
                         next_cumulative_transparency );
                     // One line that is too short to be part of the rectangle above
-                    if( !merge_blocks ) {
-                        cast_zlight<xx, xy, xz, yx, yy, yz, zz, calc, check>(
-                            output_cache, input_arrays, offset, offset_distance,
-                            target_z, floor_check, numerator, distance + 1,
-                            trailing_edge_major, leading_edge_major, start_minor, trailing_edge_minor,
-                            next_cumulative_transparency );
-                    }
+                    // trailing_edge_major can be less than start_major
+                    const float trailing_clipped = std::max( trailing_edge_major, start_major );
+                    cast_zlight<xx, xy, xz, yx, yy, yz, zz, calc, check>(
+                        output_caches, input_arrays, offset, offset_distance,
+                        target_z, floor_check, numerator, distance + 1,
+                        trailing_clipped, leading_edge_major, start_minor, trailing_edge_minor,
+                        next_cumulative_transparency );
                 }
 
                 // One from which we shaved one line ("processed in 1D")
@@ -612,21 +628,30 @@ void cast_zlight(
                     // Note this is the same slope as the recursive call we just made.
                     start_minor = trailing_edge_minor;
                 }
-                
-                float after_leading_edge_major = (delta.z + 1.5f) / (delta.y - 0.5f);
+
+                // leading_edge_major plus some epsilon
+                float after_leading_edge_major = (delta.z + 0.50001f) / (delta.y - 0.5f);
                 cast_zlight<xx, xy, xz, yx, yy, yz, zz, calc, check>(
-                    output_cache, input_arrays, offset, offset_distance,
+                    output_caches, input_arrays, offset, offset_distance,
                     target_z, floor_check, numerator, distance,
                     after_leading_edge_major, end_major, old_start_minor, start_minor,
                     cumulative_transparency );
+
                 // One we just entered ("processed in 0D" - the first point)
                 // No need to recurse, we're processing it right now
-                start_major = trailing_edge_major;
+                start_major = std::max( start_major, trailing_edge_major );
 
                 current_transparency = new_transparency;
                 new_start_minor = leading_edge_minor;
             }
         }
+
+        if( !started_block ) {
+            // If we didn't scan at least 1 z-level, don't iterate further
+            // Otherwise we may "phase" through tiles without checking them
+            break;
+        }
+
         if( !check(current_transparency, last_intensity) ) {
             // If we reach the end of the span with terrain being opaque, we don't iterate further.
             break;
@@ -688,9 +713,11 @@ void map::build_seen_cache( const tripoint &origin, const int target_z )
 
         // Cache the caches (pointers to them)
         std::array<const float (*)[MAPSIZE*SEEX][MAPSIZE*SEEY], OVERMAP_LAYERS> transparency_caches;
+        std::array<float (*)[MAPSIZE*SEEX][MAPSIZE*SEEY], OVERMAP_LAYERS> seen_caches;
         for( int z = -OVERMAP_DEPTH; z <= OVERMAP_HEIGHT; z++ ) {
-            const auto &cur_cache = get_cache( z );
+            auto &cur_cache = get_cache( z );
             transparency_caches[z + OVERMAP_DEPTH] = &cur_cache.transparency_cache;
+            seen_caches[z + OVERMAP_DEPTH] = &cur_cache.seen_cache;
         }
 
         const auto floor_check = [this]( const tripoint &p ) {
@@ -698,45 +725,49 @@ void map::build_seen_cache( const tripoint &origin, const int target_z )
             return !valid_move( p, below, false, true );
         };
 
-        // Up
+        fov_debug_max = 0;
+        fov_scanned = 0;
+        // Down
         cast_zlight<0, 1, 0, 1, 0, 0, -1, sight_calc, sight_check>(
-            seen_cache, transparency_caches, origin, 0, target_z, floor_check );
+            seen_caches, transparency_caches, origin, 0, target_z, floor_check );
         cast_zlight<1, 0, 0, 0, 1, 0, -1, sight_calc, sight_check>(
-            seen_cache, transparency_caches, origin, 0, target_z, floor_check );
+            seen_caches, transparency_caches, origin, 0, target_z, floor_check );
 
         cast_zlight<0, -1, 0, 1, 0, 0, -1, sight_calc, sight_check>(
-            seen_cache, transparency_caches, origin, 0, target_z, floor_check );
+            seen_caches, transparency_caches, origin, 0, target_z, floor_check );
         cast_zlight<-1, 0, 0, 0, 1, 0, -1, sight_calc, sight_check>(
-            seen_cache, transparency_caches, origin, 0, target_z, floor_check );
+            seen_caches, transparency_caches, origin, 0, target_z, floor_check );
 
         cast_zlight<0, 1, 0, -1, 0, 0, -1, sight_calc, sight_check>(
-            seen_cache, transparency_caches, origin, 0, target_z, floor_check );
+            seen_caches, transparency_caches, origin, 0, target_z, floor_check );
         cast_zlight<1, 0, 0, 0, -1, 0, -1, sight_calc, sight_check>(
-            seen_cache, transparency_caches, origin, 0, target_z, floor_check );
+            seen_caches, transparency_caches, origin, 0, target_z, floor_check );
 
         cast_zlight<0, -1, 0, -1, 0, 0, -1, sight_calc, sight_check>(
-            seen_cache, transparency_caches, origin, 0, target_z, floor_check );
+            seen_caches, transparency_caches, origin, 0, target_z, floor_check );
         cast_zlight<-1, 0, 0, 0, -1, 0, -1, sight_calc, sight_check>(
-            seen_cache, transparency_caches, origin, 0, target_z, floor_check );
+            seen_caches, transparency_caches, origin, 0, target_z, floor_check );
         cast_zlight<0, 1, 0, 1, 0, 0, 1, sight_calc, sight_check>(
-            seen_cache, transparency_caches, origin, 0, target_z, floor_check );
+            seen_caches, transparency_caches, origin, 0, target_z, floor_check );
         cast_zlight<1, 0, 0, 0, 1, 0, 1, sight_calc, sight_check>(
-            seen_cache, transparency_caches, origin, 0, target_z, floor_check );
-        // Down
+            seen_caches, transparency_caches, origin, 0, target_z, floor_check );
+        // Up
         cast_zlight<0, -1, 0, 1, 0, 0, 1, sight_calc, sight_check>(
-            seen_cache, transparency_caches, origin, 0, target_z, floor_check );
+            seen_caches, transparency_caches, origin, 0, target_z, floor_check );
         cast_zlight<-1, 0, 0, 0, 1, 0, 1, sight_calc, sight_check>(
-            seen_cache, transparency_caches, origin, 0, target_z, floor_check );
+            seen_caches, transparency_caches, origin, 0, target_z, floor_check );
 
         cast_zlight<0, 1, 0, -1, 0, 0, 1, sight_calc, sight_check>(
-            seen_cache, transparency_caches, origin, 0, target_z, floor_check );
+            seen_caches, transparency_caches, origin, 0, target_z, floor_check );
         cast_zlight<1, 0, 0, 0, -1, 0, 1, sight_calc, sight_check>(
-            seen_cache, transparency_caches, origin, 0, target_z, floor_check );
+            seen_caches, transparency_caches, origin, 0, target_z, floor_check );
 
         cast_zlight<0, -1, 0, -1, 0, 0, 1, sight_calc, sight_check>(
-            seen_cache, transparency_caches, origin, 0, target_z, floor_check );
+            seen_caches, transparency_caches, origin, 0, target_z, floor_check );
+        //*/
         cast_zlight<-1, 0, 0, 0, -1, 0, 1, sight_calc, sight_check>(
-            seen_cache, transparency_caches, origin, 0, target_z, floor_check );
+            seen_caches, transparency_caches, origin, 0, target_z, floor_check );
+add_msg("max depth: %d, scanned: %d", fov_debug_max, fov_scanned );
     }
 
     int part;
