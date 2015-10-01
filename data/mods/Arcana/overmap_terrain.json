@@ -23,6 +23,20 @@
         "color" : "red",
         "see_cost" : 5,
         "extras" : "build"
+    },{
+        "type" : "overmap_terrain",
+        "id" : "strange_grove",
+        "name" : "strange grove",
+        "sym" : 84,
+        "color" : "i_green",
+        "see_cost" : 5
+    },{
+        "type" : "overmap_terrain",
+        "id" : "grove_ruins",
+        "name" : "underground ruin",
+        "sym" : 84,
+        "color" : "green",
+        "see_cost" : 5
     }
 ]
 

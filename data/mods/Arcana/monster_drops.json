@@ -210,5 +210,16 @@
             {"item": "fungal_seeds", "prob": 75},
             { "item": "essence", "count-min": 2, "count-max": 5 }
         ]
+    },
+    {
+        "type" : "item_group",
+        "subtype": "collection",
+        "comment": "You get a bane staff and essence",
+        "id": "plant_boss_drops",
+        "entries":
+        [
+            { "item": "scourge_staff", "prob": 100 },
+            { "item": "essence", "count-min": 2, "count-max": 5 }
+        ]
     }
 ]
