@@ -2798,7 +2798,7 @@
         "id" : "t_tree_birch_harvested",
         "name": "birch tree",
         "symbol": "7",
-        "color": [ "brown", "brown", "brown", "brown" ], "//": "barren in winter, not harvestable",
+        "color": "green", "//": "dead, not harvestable",
         "move_cost": 0,
         "flags": ["FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT"],
         "bash": {
@@ -2917,7 +2917,7 @@
         "id" : "t_tree_hickory_dead",
         "name": "dead hickory tree",
         "symbol": "7",
-        "color": "brown",
+        "color": "green", "//": "dead, not usable at all",
         "move_cost": 0,
         "flags": ["FLAMMABLE_ASH", "NOITEM", "SUPPORTS_ROOF", "TREE", "REDUCE_SCENT"],
         "bash": {
