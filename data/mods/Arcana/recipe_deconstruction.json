@@ -264,5 +264,39 @@
     [ [ "scrap", 12 ] ],
     [ [ "essence_dull", 25 ] ]
   ]
+},{
+  "type" : "recipe",
+  "result": "hand_of_armok",
+  "id_suffix": "uncraft",
+  "category": "CC_NONCRAFT",
+  "subcategory": "CSC_NONCRAFT",
+  "skill_used": "magic",
+  "difficulty": 10,
+  "time": 100000,
+  "reversible": true,
+  "autolearn": false,
+  "tools": [
+    [ [ "hexenhammer", -1 ] ],
+    [ [ "book_hexenhammer", -1 ] ],
+    [ [ "fire", -1 ] ]
+  ],
+  "components": [ [ [ "essence_dull", 100 ] ] ]
+},{
+  "type" : "recipe",
+  "result": "scourge_staff",
+  "id_suffix": "uncraft",
+  "category": "CC_NONCRAFT",
+  "subcategory": "CSC_NONCRAFT",
+  "skill_used": "magic",
+  "difficulty": 10,
+  "time": 100000,
+  "reversible": true,
+  "autolearn": false,
+  "tools": [
+    [ [ "hexenhammer", -1 ] ],
+    [ [ "book_hexenhammer", -1 ] ],
+    [ [ "fire", -1 ] ]
+  ],
+  "components": [ [ [ "essence_dull", 100 ] ] ]
 }
 ]
