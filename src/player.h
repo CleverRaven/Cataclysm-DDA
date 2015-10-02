@@ -696,7 +696,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Attempts to install bionics, returns false if the player cancels prior to installation */
         bool install_bionics(const itype &type, int skill_level = -1);
         /** Handles reading effects */
-        void read( int pos, int inv_frm = FRM_INV, item * book_ptr_addr = nullptr );
+        void read( int pos, int inv_frm = FRM_INV );
         /** Completes book reading action. **/
         void do_read( item *book );
         /** Note that we've read a book at least once. **/

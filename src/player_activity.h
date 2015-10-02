@@ -51,10 +51,9 @@ enum activity_type : int {    // expanded this enum for readability
 };
 
 enum item_from : int {
-    FRM_INV, // from inventory
-    FRM_GND, // from ground
-    FRM_VEH,  // from vehicle
-    FRM_NOT_GND // not from ground
+    FRM_INV,  // from inventory
+    FRM_GND,  // from ground
+    FRM_VEH   // from vehicle
 };
 
 class player;

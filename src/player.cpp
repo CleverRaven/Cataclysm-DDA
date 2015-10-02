@@ -11410,7 +11410,7 @@ hint_rating player::rate_action_read( const item &it ) const
     return HINT_GOOD;
 }
 
-void player::read( int inventory_position, int inv_from, item * book_ptr_addr )
+void player::read( int inventory_position, int inv_from )
 {
     // Find the object
     item* it = &i_at(inventory_position);
@@ -11491,7 +11491,6 @@ void player::read( int inventory_position, int inv_from, item * book_ptr_addr )
         activity.values.push_back(0);
         // pushes item_frm into 2nd element
         activity.values.push_back(inv_from);
-        activity.str_values.push_back(to_string((reinterpret_cast<uintptr_t> (book_ptr_addr))));
         moves = 0;
         return;
     }
@@ -11570,7 +11569,6 @@ void player::read( int inventory_position, int inv_from, item * book_ptr_addr )
     // the player gained the next skill level, this ensured by this:
     activity.values.push_back(study ? 1 : 0);
     activity.values.push_back(inv_from);
-    activity.str_values.push_back(to_string((reinterpret_cast<uintptr_t> (book_ptr_addr))));
     moves = 0;
 
     // Reinforce any existing morale bonus/penalty, so it doesn't decay
