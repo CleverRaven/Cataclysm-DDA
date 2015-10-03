@@ -472,12 +472,6 @@ bool map::pl_sees( const tripoint &t, const int max_range ) const
           map_cache.sm[t.x][t.y] > 0.0 );
 }
 
-// TODO: Remove those variables
-int fov_debug;
-int fov_debug_max;
-int fov_scanned;
-#include "messages.h"
-
 template<int xx, int xy, int xz, int yx, int yy, int yz, int zz,
          float(*calc)(const float &, const float &, const int &),
          bool(*check)(const float &, const float &)>
@@ -494,9 +488,6 @@ void cast_zlight(
     if( start_major >= end_major || start_minor >= end_minor ) {
         return;
     }
-
-if( start_major == 0.0f && end_major == 1.0f && start_minor == 0.0f && end_minor == 1.0f && row == 1 ) fov_debug = 0;
-    fov_debug++;
 
     float radius = 60.0f - offset_distance;
 
@@ -546,7 +537,6 @@ if( start_major == 0.0f && end_major == 1.0f && start_minor == 0.0f && end_minor
                 } else if( end_minor < trailing_edge_minor ) {
                     break;
                 }
-fov_scanned++;
 
                 float new_transparency = (*input_arrays[z_index])[current.x][current.y];
                 // If we're looking at a tile with floor or roof from the floor/roof side,
@@ -577,10 +567,8 @@ fov_scanned++;
 
                 if( !floor_block ) {
                     (*output_caches[z_index])[current.x][current.y] =
-                        std::max<float>( (*output_caches[z_index])[current.x][current.y], fov_debug );
-                        //std::max( (*output_caches[z_index])[current.x][current.y], last_intensity );
+                        std::max( (*output_caches[z_index])[current.x][current.y], last_intensity );
                 }
-                fov_debug_max = std::max( fov_debug, fov_debug_max );
 
                 if( !started_span ) {
                     // Need to reset minor slope, because we're starting a new line
@@ -731,8 +719,6 @@ void map::build_seen_cache( const tripoint &origin, const int target_z )
             return !valid_move( p, below, false, true );
         };
 
-        fov_debug_max = 0;
-        fov_scanned = 0;
         // Down
         cast_zlight<0, 1, 0, 1, 0, 0, -1, sight_calc, sight_check>(
             seen_caches, transparency_caches, origin, 0, target_z, floor_check );
@@ -772,7 +758,6 @@ void map::build_seen_cache( const tripoint &origin, const int target_z )
             seen_caches, transparency_caches, origin, 0, target_z, floor_check );
         cast_zlight<-1, 0, 0, 0, -1, 0, 1, sight_calc, sight_check>(
             seen_caches, transparency_caches, origin, 0, target_z, floor_check );
-add_msg("max depth: %d, scanned: %d", fov_debug_max, fov_scanned );
     }
 
     int part;
