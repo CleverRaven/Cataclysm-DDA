@@ -612,11 +612,11 @@ void cata_tiles::draw( int destx, int desty, const tripoint &center, int width, 
 
     // in isometric mode, render the whole reality bubble
     // TODO: make this smarter
-    const int min_x = tile_iso ? MAPSIZE*SEEX : o_x;
+    const int min_x = tile_iso ? MAPSIZE * SEEX : o_x;
     const int max_x = tile_iso ? 0 : sx + o_x;
     const int dx = tile_iso ? -1 : 1; // iso mode renders right to left, for overlap reasons
     const int min_y = tile_iso ? 0 : o_y;
-    const int max_y = tile_iso ? MAPSIZE*SEEX : sy + o_y;
+    const int max_y = tile_iso ? MAPSIZE * SEEX : sy + o_y;
     const int dy = 1;
 
     //limit the render area to what is available in the visibility cache
@@ -634,20 +634,17 @@ void cata_tiles::draw( int destx, int desty, const tripoint &center, int width, 
 
     //set up a default tile for the edges outside the render area
     visibility_type offscreen_type = VIS_DARK;
-    if(cache.u_is_boomered)
-    {
+    if(cache.u_is_boomered) {
         offscreen_type = VIS_BOOMER_DARK;
     }
 
     for( y = min_y; y * dy < max_y * dy; y += dy) {
         for( x = min_x; x * dx < max_x * dx; x += dx) {
             //if the render area is outside the visibility cache, default to the darkened tile
-            if(!tile_iso && ((y<min_visible_y || y>max_visible_y) || (x<min_visible_x || x>max_visible_x)))
-            {
+            if(!tile_iso && ((y < min_visible_y || y > max_visible_y) || (x < min_visible_x ||
+                             x > max_visible_x))) {
                 apply_vision_effects(x, y, offscreen_type);
-            }
-            else
-            {
+            } else {
                 draw_single_tile( temp, ch.visibility_cache[x][y], cache );
             }
         }
