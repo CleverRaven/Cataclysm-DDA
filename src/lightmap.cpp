@@ -495,7 +495,7 @@ void cast_zlight(
         return;
     }
 
-if( start_major == 0.0f && end_major == 1.0f && start_minor == 0.0f && end_minor == 1.0f ) fov_debug = 0;
+if( start_major == 0.0f && end_major == 1.0f && start_minor == 0.0f && end_minor == 1.0f && row == 1 ) fov_debug = 0;
     fov_debug++;
 
     float radius = 60.0f - offset_distance;
@@ -601,21 +601,23 @@ fov_scanned++;
                 if( check( current_transparency, last_intensity ) ) {
                     float next_cumulative_transparency =
                         ((distance - 1) * cumulative_transparency + current_transparency) / distance;
-                    //const bool merge_blocks = end_minor <= trailing_edge_minor;
-                    //const float major_mid = merge_blocks ? leading_edge_major : trailing_edge_major;
-                    cast_zlight<xx, xy, xz, yx, yy, yz, zz, calc, check>(
-                        output_caches, input_arrays, offset, offset_distance,
-                        target_z, floor_check, numerator, distance + 1,
-                        start_major, trailing_edge_major, start_minor, end_minor,
-                        next_cumulative_transparency );
-                    // One line that is too short to be part of the rectangle above
+                    const bool merge_blocks = end_minor <= trailing_edge_minor;
                     // trailing_edge_major can be less than start_major
                     const float trailing_clipped = std::max( trailing_edge_major, start_major );
+                    const float major_mid = merge_blocks ? leading_edge_major : trailing_clipped;
                     cast_zlight<xx, xy, xz, yx, yy, yz, zz, calc, check>(
                         output_caches, input_arrays, offset, offset_distance,
                         target_z, floor_check, numerator, distance + 1,
-                        trailing_clipped, leading_edge_major, start_minor, trailing_edge_minor,
+                        start_major, major_mid, start_minor, end_minor,
                         next_cumulative_transparency );
+                    if( !merge_blocks ) {
+                        // One line that is too short to be part of the rectangle above
+                        cast_zlight<xx, xy, xz, yx, yy, yz, zz, calc, check>(
+                            output_caches, input_arrays, offset, offset_distance,
+                            target_z, floor_check, numerator, distance + 1,
+                            trailing_clipped, leading_edge_major, start_minor, trailing_edge_minor,
+                            next_cumulative_transparency );
+                    }
                 }
 
                 // One from which we shaved one line ("processed in 1D")
@@ -626,7 +628,8 @@ fov_scanned++;
                     start_minor = new_start_minor;
                 } else {
                     // Note this is the same slope as the recursive call we just made.
-                    start_minor = trailing_edge_minor;
+                    start_minor = std::max( start_minor, trailing_edge_minor );
+                    start_major = std::max( start_major, trailing_edge_major );
                 }
 
                 // leading_edge_major plus some epsilon
@@ -639,10 +642,13 @@ fov_scanned++;
 
                 // One we just entered ("processed in 0D" - the first point)
                 // No need to recurse, we're processing it right now
-                start_major = std::max( start_major, trailing_edge_major );
 
                 current_transparency = new_transparency;
                 new_start_minor = leading_edge_minor;
+            }
+
+            if( current_transparency == LIGHT_TRANSPARENCY_SOLID ) {
+                start_major = leading_edge_major;
             }
         }
 
@@ -764,7 +770,6 @@ void map::build_seen_cache( const tripoint &origin, const int target_z )
 
         cast_zlight<0, -1, 0, -1, 0, 0, 1, sight_calc, sight_check>(
             seen_caches, transparency_caches, origin, 0, target_z, floor_check );
-        //*/
         cast_zlight<-1, 0, 0, 0, -1, 0, 1, sight_calc, sight_check>(
             seen_caches, transparency_caches, origin, 0, target_z, floor_check );
 add_msg("max depth: %d, scanned: %d", fov_debug_max, fov_scanned );
