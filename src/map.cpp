@@ -3723,7 +3723,7 @@ void map::shoot( const tripoint &p, projectile &proj, const bool hit_items )
     int vpart;
     vehicle *veh = veh_at(p, vpart);
     if( veh != nullptr ) {
-        dam -= veh->damage( vpart, dam, inc ? DT_HEAT : DT_BASH, hit_items );
+        dam = veh->damage( vpart, dam, inc ? DT_HEAT : DT_BASH, hit_items );
     }
 
     ter_id terrain = ter( p );
