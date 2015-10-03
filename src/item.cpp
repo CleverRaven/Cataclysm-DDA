@@ -1780,13 +1780,15 @@ nc_color item::color_in_inventory() const
         if(u->has_identified( type->id )) {
             auto &tmp = *type->book;
             if( tmp.skill && // Book can improve skill: blue
-                ( u->skillLevel( tmp.skill ) >= tmp.req ) &&
-                ( u->skillLevel( tmp.skill ) < tmp.level ) ) {
+                u->get_skill_level( tmp.skill ).can_train() &&
+                u->get_skill_level( tmp.skill ) >= tmp.req &&
+                u->get_skill_level( tmp.skill ) < tmp.level ) {
                 ret = c_ltblue;
             } else if( !u->studied_all_recipes( *type ) ) { // Book can't improve skill right now, but has more recipes: yellow
                 ret = c_yellow;
             } else if( tmp.skill && // Book can't improve skill right now, but maybe later: pink
-                       u->skillLevel( tmp.skill ) < tmp.level ) {
+                       u->get_skill_level( tmp.skill ).can_train() &&
+                       u->get_skill_level( tmp.skill ) < tmp.level ) {
                 ret = c_pink;
             } else if( !tmp.use_methods.empty() && // Book has function or can teach new martial art: blue
                 // TODO: replace this terrible hack to rely on the item name matching the style name, it's terrible.

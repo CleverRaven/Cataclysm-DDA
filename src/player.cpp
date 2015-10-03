@@ -719,7 +719,8 @@ int player::calc_focus_equilibrium() const
         if( book.is_book() ) {
             auto &bt = *book.type->book;
             // apply a penalty when we're actually learning something
-            if( get_skill_level( bt.skill ) < bt.level ) {
+            const auto &skill_level = get_skill_level( bt.skill );
+            if( skill_level.can_train() && skill_level < bt.level ) {
                 focus_gain_rate -= 50;
             }
         }
@@ -2665,15 +2666,18 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
 
         // Default to not training and not rusting
         nc_color text_color = c_blue;
+        bool not_capped = level.can_train();
         bool training = level.isTraining();
         bool rusting = level.isRusting();
 
-        if(training && rusting) {
+        if( training && rusting ) {
             text_color = c_ltred;
-        } else if (training) {
+        } else if( training && not_capped ) {
             text_color = c_ltblue;
-        } else if (rusting) {
+        } else if( rusting ) {
             text_color = c_red;
+        } else if( !not_capped ) {
+            text_color = c_white;
         }
 
         int level_num = (int)level;
@@ -3184,7 +3188,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
                 const Skill* aSkill = skillslist[i];
                 SkillLevel level = get_skill_level(aSkill);
 
-                bool isLearning = level.isTraining();
+                bool isLearning = level.can_train() && level.isTraining();
                 bool rusting = level.isRusting();
                 int exercise = level.exercise();
 
@@ -3232,7 +3236,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
                 for (size_t i = 0; i < skillslist.size() && i < size_t(skill_win_size_y); i++) {
                     const Skill* thisSkill = skillslist[i];
                     SkillLevel level = get_skill_level(thisSkill);
-                    bool isLearning = level.isTraining();
+                    bool isLearning = level.can_train() && level.isTraining();
                     bool rusting = level.isRusting();
 
                     if (rusting)
@@ -11495,6 +11499,7 @@ void player::read(int inventory_position)
 
 
     const skill_id &skill = tmp->skill;
+    const auto &skill_level = get_skill_level( skill );
     if( !skill ) {
         // special guidebook effect: print a misc. hint when read
         if (it->typeId() == "guidebook") {
@@ -11506,7 +11511,7 @@ void player::read(int inventory_position)
     } else if (morale_level() < MIN_MORALE_READ && tmp->fun <= 0) { // See morale.h
         add_msg(m_info, _("What's the point of studying?  (Your morale is too low!)"));
         return;
-    } else if( get_skill_level( skill ) < tmp->req ) {
+    } else if( skill_level < tmp->req ) {
         add_msg(_("The %s-related jargon flies over your head!"),
                    skill.obj().name().c_str());
         if (tmp->recipes.empty()) {
@@ -11514,17 +11519,19 @@ void player::read(int inventory_position)
         } else {
             add_msg(m_info, _("But you might be able to learn a recipe or two."));
         }
-    } else if (get_skill_level(skill) >= tmp->level && !can_study_recipe(*it->type) &&
+    } else if( skill_level >= tmp->level && !can_study_recipe(*it->type) &&
                !query_yn(tmp->fun > 0 ?
                          _("It would be fun, but your %s skill won't be improved.  Read anyway?") :
                          _("Your %s skill won't be improved.  Read anyway?"),
                          skill.obj().name().c_str())) {
         return;
-    } else if( !continuous && ( get_skill_level(skill) < tmp->level || can_study_recipe(*it->type) ) &&
-                         !query_yn( get_skill_level(skill) < tmp->level ?
-                         _("Study %s until you learn something? (gain a level)") :
-                         _("Study the book until you learn all recipes?"),
-                         skill.obj().name().c_str()) ) {
+    } else if( !continuous &&
+                 ( ( skill_level.can_train() && skill_level < tmp->level ) ||
+                     can_study_recipe(*it->type) ) &&
+                 !query_yn( skill_level.can_train() && skill_level < tmp->level ?
+                 _("Study %s until you learn something? (gain a level)") :
+                 _("Study the book until you learn all recipes?"),
+                 skill.obj().name().c_str()) ) {
         study = false;
     } else {
         //If we just started studying, tell the player how to stop
@@ -11592,7 +11599,7 @@ void player::do_read( item *book )
         items_identified.insert( book->type->id );
 
         add_msg(_("You skim %s to find out what's in it."), book->type_name().c_str());
-        if( skill ) {
+        if( skill && get_skill_level( skill ).can_train() ) {
             add_msg(m_info, _("Can bring your %s skill to %d."),
                     skill.obj().name().c_str(), reading->level);
             if( reading->req != 0 ){
@@ -11691,8 +11698,10 @@ void player::do_read( item *book )
         }
     }
 
-    if( skill && get_skill_level(skill) < reading->level ) {
-        int originalSkillLevel = get_skill_level( skill );
+    if( skill && get_skill_level( skill ) < reading->level &&
+        get_skill_level( skill ).can_train() ) {
+        auto &skill_level = skillLevel( skill );
+        int originalSkillLevel = skill_level;
         int min_ex = reading->time / 10 + int_cur / 4;
         int max_ex = reading->time /  5 + int_cur / 2 - originalSkillLevel;
         if (min_ex < 1) {
@@ -11711,12 +11720,12 @@ void player::do_read( item *book )
         min_ex *= originalSkillLevel + 1;
         max_ex *= originalSkillLevel + 1;
 
-        skillLevel(skill).readBook( min_ex, max_ex, reading->level );
+        skill_level.readBook( min_ex, max_ex, reading->level );
 
         add_msg(_("You learn a little about %s! (%d%%)"), skill.obj().name().c_str(),
-                skillLevel(skill).exercise());
+                skill_level.exercise());
 
-        if (get_skill_level(skill) == originalSkillLevel && activity.get_value(0) == 1) {
+        if( skill_level == originalSkillLevel && activity.get_value(0) == 1 ) {
             // continuously read until player gains a new skill level
             activity.type = ACT_NULL;
             read(activity.position);
@@ -11724,7 +11733,7 @@ void player::do_read( item *book )
             int root_factor = (reading->time / 20);
             double foot_factor = footwear_factor();
             if( (has_trait("ROOTS2") || has_trait("ROOTS3")) &&
-                g->m.has_flag("DIGGABLE", posx(), posy()) &&
+                g->m.has_flag("DIGGABLE", pos()) &&
                 !foot_factor ) {
                 if (get_hunger() > -20) {
                     mod_hunger(-root_factor * foot_factor);
@@ -11739,7 +11748,7 @@ void player::do_read( item *book )
             }
         }
 
-        int new_skill_level = get_skill_level(skill);
+        int new_skill_level = skill_level;
         if (new_skill_level > originalSkillLevel) {
             add_msg(m_good, _("You increase %s to level %d."),
                     skill.obj().name().c_str(),
@@ -11753,7 +11762,7 @@ void player::do_read( item *book )
             }
         }
 
-        if( get_skill_level(skill) == reading->level ) {
+        if( skill_level == reading->level || !skill_level.can_train() ) {
             if( no_recipes ) {
                 add_msg(m_info, _("You can no longer learn from %s."), book->type_name().c_str());
             } else {
@@ -11769,7 +11778,7 @@ void player::do_read( item *book )
         int root_factor = (reading->time / 20);
         double foot_factor = footwear_factor();
         if( (has_trait("ROOTS2") || has_trait("ROOTS3")) &&
-            g->m.has_flag("DIGGABLE", posx(), posy()) &&
+            g->m.has_flag("DIGGABLE", pos()) &&
             !foot_factor ) {
             if (get_hunger() > -20) {
                 mod_hunger(-root_factor * foot_factor);
@@ -12956,6 +12965,12 @@ void player::practice( const Skill* s, int amount, int cap )
         } else {
             amount += amount;
         }
+    }
+
+    if( !level.can_train() ) {
+        // If leveling is disabled, don't train, don't drain focus, don't print anything
+        // Leaving as a skill method rather than global for possible future skill cap setting
+        return;
     }
 
     bool isSavant = has_trait("SAVANT");

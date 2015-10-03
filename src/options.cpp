@@ -985,6 +985,13 @@ void init_options()
 
     mOptionsSort["debug"]++;
 
+    OPTIONS["SKILL_TRAINING_SPEED"] = cOpt("debug", _("Skill training speed"),
+                                 _("Scales experience gained from practicing skills and reading books. 0.5 is half as fast as default, 2.0 is twice as fast, 0.0 disables skill training except for NPC training."),
+                                 0.0, 100.0, 1.0, 0.1
+                                );
+
+    mOptionsSort["debug"]++;
+
     //~ plain, default, normal
     optionNames["vanilla"] = _("Vanilla");
     //~ capped at a value
