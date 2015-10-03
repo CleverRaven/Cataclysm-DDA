@@ -5389,10 +5389,10 @@ void game::hallucinate( const tripoint &center )
                 const ter_t &t = m.ter_at( p );
                 p.x = i + rx + rng(-2, 2);
                 p.y = j + ry + rng(-2, 2);
-                char ter_sym = t.sym;
+                char ter_sym = t.symbol();
                 p.x = i + rx + rng(-2, 2);
                 p.y = j + ry + rng(-2, 2);
-                nc_color ter_col = t.color;
+                nc_color ter_col = t.color();
                 mvwputch(w_terrain, j, i, ter_col, ter_sym);
             }
         }

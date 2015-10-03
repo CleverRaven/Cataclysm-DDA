@@ -1162,24 +1162,26 @@ classes = {
             }
         },
         functions = {
+            { name = "color", rval = "int", args = { } },
+            { name = "symbol", rval = "int", args = { } },
         }
     },
     furn_t = {
         int_id = "furn_id",
         attributes = {
             close = { type = "string", writable = true },
-            color = { type = "int", writable = true },
             id = { type = "string" },
             max_volume = { type = "int", writable = true },
             movecost = { type = "int", writable = true },
             name = { type = "string", writable = true },
             open = { type = "string", writable = true },
-            sym = { type = "int", writable = true },
             transparent = { type = "bool", writable = true },
             loadid = { type = "int" },
             move_str_req = { type = "int", writable = true },
         },
         functions = {
+            { name = "color", rval = "int", args = { } },
+            { name = "symbol", rval = "int", args = { } },
         }
     },
     Creature = {

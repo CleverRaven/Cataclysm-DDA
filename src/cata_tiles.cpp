@@ -738,14 +738,14 @@ bool cata_tiles::draw_from_id_string(std::string id, TILE_CATEGORY category,
         if (category == C_FURNITURE) {
             if (furnmap.count(id) > 0) {
                 const furn_t &f = furnmap[id];
-                sym = f.sym;
-                col = f.color;
+                sym = f.symbol();
+                col = f.color();
             }
         } else if (category == C_TERRAIN) {
             if (termap.count(id) > 0) {
                 const ter_t &t = termap[id];
-                sym = t.sym;
-                col = t.color;
+                sym = t.symbol();
+                col = t.color();
             }
         } else if (category == C_MONSTER) {
             const mtype_id mid( id );
