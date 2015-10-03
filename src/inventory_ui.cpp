@@ -362,7 +362,7 @@ void inventory_selector::print_right_column() const
             item_name = string_format("# %s {%d}", item_name.c_str(), dit->second);
         }
         const char invlet = invlet_or_space(u.weapon);
-        trim_and_print(w_inv, drp_line, right_column_width - 2, right_column_offset, c_ltblue, "%c %s", invlet, item_name.c_str());
+        trim_and_print(w_inv, drp_line, right_column_offset, right_column_width - 4, c_ltblue, "%c %s", invlet, item_name.c_str());
         drp_line++;
     }
     auto iter = u.worn.begin();
