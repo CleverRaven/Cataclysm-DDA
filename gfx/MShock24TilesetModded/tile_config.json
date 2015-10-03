@@ -14574,14 +14574,20 @@
         },
         {
           "id": "t_rock_wall",
-          "fg": 1872,
-          "bg": 534,
+          "fg": 2906,
+          "bg": 513,
+          "rotates": false
+        },
+        {
+          "id": "t_low_stairs_end",
+          "fg": 2906,
+          "bg": 513,
           "rotates": false
         },
         {
           "id": "t_rock_wall_half",
-          "fg": 1873,
-          "bg": 534,
+          "fg": 2905,
+          "bg": 513,
           "rotates": false
         },
         {
@@ -14628,8 +14634,7 @@
         },
         {
           "id": "t_root_wall",
-          "fg": 1874,
-          "bg": 534,
+          "fg": 2904,
           "rotates": false
         },
         {
@@ -17930,6 +17935,11 @@
         },
         {
           "id": "t_slope_up",
+          "fg": 1909,
+          "rotates": false
+        },
+        {
+          "id": "t_low_stairs_begin",
           "fg": 1909,
           "rotates": false
         },
@@ -21976,27 +21986,27 @@
         },
         {
           "id": "willowbark",
-          "fg": 2809,
+          "fg": 2808,
           "rotates": false
         },
         {
           "id": "karate_gi",
-          "fg": 2810,
+          "fg": 2809,
           "rotates": false
         },
         {
           "id": "judo_gi",
-          "fg": 2810,
+          "fg": 2809,
           "rotates": false
         },
         {
           "id": "keikogi",
-          "fg": 2811,
+          "fg": 2810,
           "rotates": false
         },
         {
           "id": "tabi_gi",
-          "fg": 2812,
+          "fg": 2811,
           "rotates": false
         },
         {
@@ -22544,7 +22554,22 @@
         },
         {
           "id": "scrap_copper",
-          "fg": 2901,
+          "fg": 2902,
+          "rotates": false
+        },
+        {
+          "id": "pet_carrier",
+          "fg": 2903,
+          "rotates": false
+        },
+        {
+          "id": "scourge_staff",
+          "fg": 2907,
+          "rotates": false
+        },
+        {
+          "id": "mon_moruboru",
+          "fg": 2908,
           "rotates": false
         }
       ]
