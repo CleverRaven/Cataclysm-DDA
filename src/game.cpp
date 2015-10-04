@@ -374,21 +374,10 @@ void game::init_ui()
      * are set to move everything into the middle of the screen.
      */
     to_map_font_dimension(TERRAIN_WINDOW_WIDTH, TERRAIN_WINDOW_HEIGHT);
-    static const int max_view_size = DAYLIGHT_LEVEL * 2 + 1;
-    if (TERRAIN_WINDOW_WIDTH > max_view_size) {
-        VIEW_OFFSET_X = (TERRAIN_WINDOW_WIDTH - max_view_size) / 2;
-        TERRAIN_WINDOW_TERM_WIDTH = max_view_size * TERRAIN_WINDOW_TERM_WIDTH / TERRAIN_WINDOW_WIDTH;
-        TERRAIN_WINDOW_WIDTH = max_view_size;
-    } else {
-        VIEW_OFFSET_X = 0;
-    }
-    if (TERRAIN_WINDOW_HEIGHT > max_view_size) {
-        VIEW_OFFSET_Y = (TERRAIN_WINDOW_HEIGHT - max_view_size) / 2;
-        TERRAIN_WINDOW_TERM_HEIGHT = max_view_size * TERRAIN_WINDOW_TERM_HEIGHT / TERRAIN_WINDOW_HEIGHT;
-        TERRAIN_WINDOW_HEIGHT = max_view_size;
-    } else {
-        VIEW_OFFSET_Y = 0;
-    }
+
+    VIEW_OFFSET_X = 0;
+    VIEW_OFFSET_Y = 0;
+
     // VIEW_OFFSET_* are in standard font dimension.
     from_map_font_dimension(VIEW_OFFSET_X, VIEW_OFFSET_Y);
 
@@ -486,8 +475,8 @@ void game::init_ui()
         mouseview_w = sidebarWidth - MINIMAP_WIDTH;
     }
 
-    int _y = VIEW_OFFSET_Y;
-    int _x = right_sidebar ? TERMX - VIEW_OFFSET_X - sidebarWidth : VIEW_OFFSET_X;
+    int _y = 0;
+    int _x = right_sidebar ? TERMX - sidebarWidth : 0;
 
     w_minimap = newwin(MINIMAP_HEIGHT, MINIMAP_WIDTH, _y + minimapY, _x + minimapX);
     werase(w_minimap);
@@ -9422,7 +9411,7 @@ void game::zoom_in()
     if (tileset_zoom > MAXIMUM_ZOOM_LEVEL) {
         tileset_zoom = tileset_zoom / 2;
     } else {
-        tileset_zoom = 16;
+        tileset_zoom = 64;
     }
     rescale_tileset(tileset_zoom);
 #endif
@@ -9431,13 +9420,21 @@ void game::zoom_in()
 void game::zoom_out()
 {
 #ifdef TILES
-    if (tileset_zoom == 16) {
+    if (tileset_zoom == 64) {
         tileset_zoom = MAXIMUM_ZOOM_LEVEL;
     } else {
         tileset_zoom = tileset_zoom * 2;
     }
     rescale_tileset(tileset_zoom);
 #endif
+}
+
+void game::reset_zoom()
+{
+#ifdef TILES
+    tileset_zoom = 16;
+    rescale_tileset(tileset_zoom);
+#endif // TILES
 }
 
 void game::list_items_monsters()

@@ -419,6 +419,7 @@ class game
         void reenter_fullscreen(void);
         void zoom_in();
         void zoom_out();
+        void reset_zoom();
 
         std::unique_ptr<weather_generator> weather_gen;
         signed char temperature;              // The air temperature
