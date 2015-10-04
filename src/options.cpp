@@ -1471,7 +1471,8 @@ void show_options(bool ingame)
         //try and keep SDL calls limited to source files that deal specifically with them
         try {
             tilecontext->reinit();
-            g->init_ui();
+            //g->init_ui is called when zoom is changed
+            g->reset_zoom();
             if( ingame ) {
                 g->refresh_all();
                 tilecontext->do_tile_loading_report();
