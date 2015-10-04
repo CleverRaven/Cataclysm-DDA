@@ -127,6 +127,7 @@ void cata_tiles::init()
 
 void cata_tiles::reinit()
 {
+    set_draw_scale(16);
     clear_buffer();
     clear();
     init();
@@ -712,7 +713,7 @@ bool cata_tiles::draw_from_id_string(std::string id, TILE_CATEGORY category,
 
     // check to make sure that we are drawing within a valid area
     // [0->width|height / tile_width|height]
-    if( !tile_iso && 
+    if( !tile_iso &&
         ( x - o_x < 0 || x - o_x >= screentile_width ||
           y - o_y < 0 || y - o_y >= screentile_height )
       ) {
@@ -722,7 +723,7 @@ bool cata_tiles::draw_from_id_string(std::string id, TILE_CATEGORY category,
     constexpr size_t suffix_len = 15;
     constexpr char season_suffix[4][suffix_len] = {
         "_season_spring", "_season_summer", "_season_autumn", "_season_winter"};
-   
+
     std::string seasonal_id = id + season_suffix[calendar::turn.get_season()];
 
     tile_id_iterator it = tile_ids.find(seasonal_id);
@@ -900,7 +901,7 @@ bool cata_tiles::draw_sprite_at(std::vector<int>& spritelist, int x, int y, int 
     int ret = 0;
     // blit foreground based on rotation
     int rotate_sprite, sprite_num;
-    if ( spritelist.empty() ) { 
+    if ( spritelist.empty() ) {
         // render nothing
     } else {
         if ( spritelist.size() == 1 ) {
