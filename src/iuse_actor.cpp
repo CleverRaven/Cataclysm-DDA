@@ -180,8 +180,8 @@ void explosion_iuse::load( JsonObject &obj )
 {
     obj.read( "explosion_power", explosion_power );
     obj.read( "explosion_shrapnel", explosion_shrapnel );
+    obj.read( "explosion_distance_factor", explosion_distance_factor );
     obj.read( "explosion_fire", explosion_fire );
-    obj.read( "explosion_blast", explosion_blast );
     obj.read( "draw_explosion_radius", draw_explosion_radius );
     if( obj.has_member( "draw_explosion_color" ) ) {
         draw_explosion_color = color_from_string( obj.get_string( "draw_explosion_color" ) );
@@ -219,7 +219,7 @@ long explosion_iuse::use(player *p, item *it, bool t, const tripoint &pos) const
         return 0;
     }
     if (explosion_power >= 0) {
-        g->explosion( pos, explosion_power, explosion_shrapnel, explosion_fire, explosion_blast);
+        g->explosion( pos, explosion_power, explosion_distance_factor, explosion_shrapnel, explosion_fire );
     }
     if (draw_explosion_radius >= 0) {
         g->draw_explosion( pos, draw_explosion_radius, draw_explosion_color);

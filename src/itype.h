@@ -42,9 +42,9 @@ std::string const& default_ammo(std::string const &guntype);
 struct explosion_data {
     // Those 4 values are forwarded to game::explosion.
     int power    = -1;
+    float distance_factor = 0.8f;
     int shrapnel = 0;
     bool fire    = false;
-    bool blast   = true;
 };
 
 struct islot_container {
