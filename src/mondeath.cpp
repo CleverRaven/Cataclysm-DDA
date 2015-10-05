@@ -725,42 +725,37 @@ void make_mon_corpse(monster *z, int damageLvl)
         corpse.set_var("no_ammo", "no_ammo");
     }
     if (corpse.get_mtype()->id==mon_pregnant_giant_cockroach){
-		//If zombie is pregnant zombie, convert to zombie and spawn fetuses
+		//If monster is pregnant cockroach, convert to cockroach and spawn nymphs
         corpse.set_mtype(&mon_zombie.obj());
-        mdeath::preg_zombie(z);
+        mdeath::preg_roach(z);
     }
     g->m.add_item_or_charges(z->pos(), corpse);
 }
 
-void mdeath::preg_zombie(monster *z)
+void mdeath::preg_roach(monster *z)
 {
-    int num_fetus=rng(0,3);
+    int num_roach=rng(1,3);
     if (g->u.sees(*z)) {
-        switch(num_fetus){
-            case 0:  add_msg(m_mixed, _("You see a misshapen fetus in the pregnant zombie corpse."));
-            break; 
-            case 1: add_msg(m_warning, _("A zombie fetus crawls out of the pregnant zombie corpse."));
+        switch(num_roach){
+            case 1: add_msg(m_warning, _("A cockroach nymph crawls out of the pregnant giant cockroach corpse."));
             break;
-            case 2: add_msg(m_warning, _("Two zombie fetuses emerge from the pregant zombie corpse"));
+            case 2: add_msg(m_warning, _("Two cockroach nymphs emerge from the pregant giant cockroach corpse"));
             break;
-            case 3: add_msg(m_warning, _("You witness the birth of zombie triplets!"));
+            case 3: add_msg(m_warning, _("You witness the birth of three cockroach nymphs!"));
             break;
         }
     }
-    if(num_fetus==0){
-        g->m.spawn_item(z->pos(), "fetus", 1, 0, calendar::turn, rng(1, 4));
-    }
-    std::vector <tripoint> fetalspots;
-    for( auto &&fetalp : g->m.points_in_radius( z->pos(), 1 ) ) {
-        if (g->is_empty( fetalp ) ) {
-            fetalspots.push_back(fetalp);
+    std::vector <tripoint> roachspots;
+    for( auto &&roachp : g->m.points_in_radius( z->pos(), 1 ) ) {
+        if (g->is_empty( roachp ) ) {
+            roachspots.push_back(roachp);
         }
     }
-	const tripoint target = random_entry_removed( fetalspots );
-	while(!fetalspots.empty() && num_fetus--) {
+	const tripoint target = random_entry_removed( roachspots );
+	while(!roachspots.empty() && num_roach--) {
 		if(-1 == g->mon_at( target )) {
 			g->summon_mon(mon_giant_cockroach_nymph, target);
 		}
 	}
-    add_msg(m_mixed, _("The pregnant zombie corpse is now a zombie corpse."));
+    add_msg(m_mixed, _("The pregnant giant cockroach corpse is now a giant cockroach corpse."));
 }

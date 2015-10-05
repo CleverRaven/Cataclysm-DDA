@@ -36,7 +36,7 @@ void smokeburst     (monster *z); // Explode like a huge smoke bomb.
 void jabberwock     (monster *z); // Snicker-snack!
 void detonate       (monster *z); // Take the enemy with you
 void broken_ammo    (monster *z); // Breaks ammo and then itself
-void preg_zombie    (monster *z); // Spawns 1-3 zombie fetuses, or misshapen fetus
+void preg_roach   (monster *z); // Spawns 1-3 zombie fetuses, or misshapen fetus
 
 void gameover       (monster *z); // Game over!  Defense mode
 } //namespace mdeath
