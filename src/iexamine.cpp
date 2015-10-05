@@ -238,6 +238,7 @@ private:
         card.charges = 0;
         u.i_add(card);
         u.cash -= 100;
+        u.moves -= 100;
         finish_interaction();
 
         return true;
@@ -264,6 +265,7 @@ private:
 
         src->charges -= amount;
         u.cash += amount;
+        u.moves -= 100;
         finish_interaction();
 
         return true;
@@ -285,6 +287,7 @@ private:
 
         dst->charges += amount;
         u.cash -= amount;
+        u.moves -= 100;
         finish_interaction();
 
         return true;
@@ -317,6 +320,7 @@ private:
 
         src->charges -= amount;
         dst->charges += amount;
+        u.moves -= 100;
         finish_interaction();
 
         return true;
