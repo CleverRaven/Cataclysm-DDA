@@ -612,21 +612,41 @@ void cata_tiles::draw( int destx, int desty, const tripoint &center, int width, 
 
     // in isometric mode, render the whole reality bubble
     // TODO: make this smarter
-    const int min_x = tile_iso ? MAPSIZE*SEEX : o_x;
+    const int min_x = tile_iso ? MAPSIZE * SEEX : o_x;
     const int max_x = tile_iso ? 0 : sx + o_x;
     const int dx = tile_iso ? -1 : 1; // iso mode renders right to left, for overlap reasons
     const int min_y = tile_iso ? 0 : o_y;
-    const int max_y = tile_iso ? MAPSIZE*SEEX : sy + o_y;
+    const int max_y = tile_iso ? MAPSIZE * SEEX : sy + o_y;
     const int dy = 1;
+
+    //limit the render area to what is available in the visibility cache
+    const int min_visible_x = 0;
+    const int max_visible_x = MAPSIZE * SEEX - 1;
+
+    const int min_visible_y = 0;
+    const int max_visible_y = MAPSIZE * SEEY - 1;
 
     tripoint temp;
     temp.z = center.z;
     int &x = temp.x;
     int &y = temp.y;
     auto &ch = g->m.access_cache( temp.z );
+
+    //set up a default tile for the edges outside the render area
+    visibility_type offscreen_type = VIS_DARK;
+    if(cache.u_is_boomered) {
+        offscreen_type = VIS_BOOMER_DARK;
+    }
+
     for( y = min_y; y * dy < max_y * dy; y += dy) {
         for( x = min_x; x * dx < max_x * dx; x += dx) {
-            draw_single_tile( temp, ch.visibility_cache[x][y], cache );
+            //if the render area is outside the visibility cache, default to the darkened tile
+            if(!tile_iso && ((y < min_visible_y || y > max_visible_y) || (x < min_visible_x ||
+                             x > max_visible_x))) {
+                apply_vision_effects(x, y, offscreen_type);
+            } else {
+                draw_single_tile( temp, ch.visibility_cache[x][y], cache );
+            }
         }
     }
 
@@ -712,7 +732,7 @@ bool cata_tiles::draw_from_id_string(std::string id, TILE_CATEGORY category,
 
     // check to make sure that we are drawing within a valid area
     // [0->width|height / tile_width|height]
-    if( !tile_iso && 
+    if( !tile_iso &&
         ( x - o_x < 0 || x - o_x >= screentile_width ||
           y - o_y < 0 || y - o_y >= screentile_height )
       ) {
@@ -722,7 +742,7 @@ bool cata_tiles::draw_from_id_string(std::string id, TILE_CATEGORY category,
     constexpr size_t suffix_len = 15;
     constexpr char season_suffix[4][suffix_len] = {
         "_season_spring", "_season_summer", "_season_autumn", "_season_winter"};
-   
+
     std::string seasonal_id = id + season_suffix[calendar::turn.get_season()];
 
     tile_id_iterator it = tile_ids.find(seasonal_id);
@@ -900,7 +920,7 @@ bool cata_tiles::draw_sprite_at(std::vector<int>& spritelist, int x, int y, int 
     int ret = 0;
     // blit foreground based on rotation
     int rotate_sprite, sprite_num;
-    if ( spritelist.empty() ) { 
+    if ( spritelist.empty() ) {
         // render nothing
     } else {
         if ( spritelist.size() == 1 ) {
