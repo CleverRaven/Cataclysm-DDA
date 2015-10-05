@@ -119,6 +119,9 @@ public:
             default:
                 return;
             }
+            if( u.activity.type != ACT_NULL ) {
+                break;
+            }
 
             amenu.redraw();
             g->draw();
