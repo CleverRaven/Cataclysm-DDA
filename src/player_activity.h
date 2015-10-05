@@ -53,7 +53,8 @@ enum activity_type : int {    // expanded this enum for readability
 enum item_from : int {
     FROM_INVENTORY,
     FROM_GROUND,
-    FROM_VEHICLE
+    FROM_VEHICLE,
+    FROM_NOT_INVENTORY
 };
 
 enum read_return_value : int {
@@ -61,6 +62,7 @@ enum read_return_value : int {
     READ_ASSIGN_READ_ACTIVITY, // can't be sure whether read is successful
     READ_SUCCESSFUL_WITHOUT_ASSIGN_READ_ACTIVITY
 };
+
 
 class player;
 

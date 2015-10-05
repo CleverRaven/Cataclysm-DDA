@@ -11619,72 +11619,29 @@ void game::read()
         return;
     }
 
-    if ( !u.can_pickup( true ) ) {
+    if ( !u.can_pickup(true) ) {
         return;
     }
 
-    // check if in vehicle as item cannot be in inventory since the above check "inv_pos != INT_MIN" already handle item in inventory
-    // at the moment, only item_location::item_on_person() will set values returned for get_inventory_position(). All others will return INT_MIN
-    int item_frm = FROM_INVENTORY;
-
-    int part = -1;
-    int item_index = 0;
-    vehicle *veh = m.veh_at( u.pos(), part );
-    if ( veh != nullptr && part >= 0 ) {
-        part = veh->part_with_feature( part, "CARGO" );
-        if ( part != -1 ) {
-            vehicle_stack vs = veh->get_items( part );
-
-            // check if item is in vehicle
-            for ( item_index = 0; item_index < (int) vs.size(); item_index++ ) {
-                if ( it == &vs[item_index] ) {
-                    item_frm = FROM_VEHICLE;
-                    break;
-                }
-            }
-        }
+    if ( !u.can_pickVolume( it->volume() ) ) {
+        add_msg( m_info, _("Can't pickup %s as exceeded allowed volume. Reading aborted."), it->display_name().c_str() );
+        return;
+    } else if ( !u.can_pickWeight( it->weight(), false ) ) {
+        add_msg( m_info, _("Can't pickup %s as exceeded allowed weight. Reading aborted."), it->display_name().c_str() );
+        return;
     }
 
-    // get inventory pos from ground if not on vehicle
-    if ( item_frm != FROM_VEHICLE ) {
-        map_stack ms = m.i_at( u.pos() );
+    item &item_added = u.i_add(*it);
 
-        // check if item is on ground
-        for ( item_index = 0; item_index < (int) ms.size(); item_index++ ) {
-                if ( it == &ms[item_index] ) {
-                    item_frm = FROM_GROUND;
-                    break;
-                }
-        }
-    }
+    add_msg(_("You pick up: %d %s"), 1,
+                        it->display_name(1).c_str());
+    item_loc.remove_item();
 
-    std::list<int> i_i;
-    i_i.push_back( item_index );
+    draw();
 
-    std::list<int> i_q;
-    i_q.push_back( 1 );
-
-    tripoint relative_pos;
-
-    item * last_inv = &u.inv.find_item( u.inv.size()-1 );
-
-    /* since book don't have charges, thus will surely return the book item into last inventory
-
-       However, potential breakage if in the future, there is changes to inventory::add_item.
-    */
-    Pickup::do_pickup( relative_pos /*relative point of same as player */, (item_frm == FROM_VEHICLE?true:false),
-                        i_i /*item index*/,i_q /*qty of 1*/, true /*autopickup*/ );
-
-    item * cur_last_inv = &u.inv.find_item( u.inv.size()-1 );
-    if ( last_inv == cur_last_inv ) {
-        add_msg( m_info, _("Can't pickup %s. Reading aborted."), it->display_name().c_str() );
-    } else {
-        draw();
-        if ( u.read( u.inv.size()-1, item_frm ) != READ_ASSIGN_READ_ACTIVITY ) { // drop book if not assign to activity as activity will
-                                                                                 // handle book drop after finished reading
-            drop(u.inv.size()-1);
-        };
-    }
+    if ( u.read( u.inv.position_by_item( &item_added ), FROM_NOT_INVENTORY ) != READ_ASSIGN_READ_ACTIVITY ) {
+        g->drop( u.inv.position_by_item( &item_added ) );
+    };
 }
 
 void game::chat()
