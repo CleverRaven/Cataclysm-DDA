@@ -319,9 +319,9 @@ void player_activity::finish( player *p )
             if (type == ACT_NULL) {
                 add_msg(_("You finish reading."));
 
-                // for reading of books from ground or vehicle
-                if ( values.size() >= 2 && values[1] != FRM_INV ) {
-                        g->drop(position);
+                // below code is for reading from ground / vehicle
+                if ( values.size() >= 2 && values[1] != FROM_INVENTORY ) {
+                    g->drop(position);
                 }
             }
             break;

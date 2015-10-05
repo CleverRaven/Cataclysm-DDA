@@ -51,10 +51,15 @@ enum activity_type : int {    // expanded this enum for readability
 };
 
 enum item_from : int {
-    FRM_INV,    // from inventory
-    FRM_GND,    // from ground
-    FRM_VEH,    // from vehicle
-    FRM_NOT_GND // not from ground
+    FROM_INVENTORY,
+    FROM_GROUND,
+    FROM_VEHICLE
+};
+
+enum read_return_value : int {
+    READ_FAILS = 0, // set to zero so that can check as boolean for read fails
+    READ_ASSIGN_READ_ACTIVITY, // can't be sure whether read is successful
+    READ_SUCCESSFUL_WITHOUT_ASSIGN_READ_ACTIVITY
 };
 
 class player;
