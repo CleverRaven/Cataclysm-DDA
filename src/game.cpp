@@ -89,6 +89,7 @@
 #include <iterator>
 #include <ctime>
 #include <cstring>
+#include <limits>
 
 #if !(defined _WIN32 || defined WINDOWS || defined TILES)
 #include <langinfo.h>
@@ -10605,17 +10606,18 @@ void game::reassign_item( int pos )
     if( change_from.is_null() ) {
         return;
     }
-    char newch = popup_getkey( _( "%s; enter new letter (press SPACE for none, ESCAPE to cancel)." ),
+    long newch = popup_getkey( _( "%s; enter new letter (press SPACE for none, ESCAPE to cancel)." ),
                                change_from.tname().c_str() );
-    if( newch == ' ' ) {
-        newch = 0;
-    }
     if( newch == KEY_ESCAPE ) {
         add_msg( m_neutral, _( "Never mind." ) );
         return;
     }
-    if( newch != 0 && inv_chars.find( newch ) == std::string::npos ) {
-        add_msg( m_info, _( "%c is not a valid inventory letter." ), newch );
+    if( newch == ' ' ) {
+        newch = 0;
+    } else if( newch > std::numeric_limits<char>::max() || newch < std::numeric_limits<char>::min() ||
+        inv_chars.find( newch ) == std::string::npos ) {
+        add_msg( m_info, _("Invlid inventory letter. Only those characters are valid:\n\n%s"),
+                 inv_chars.c_str() );
         return;
     }
     if( change_from.invlet == newch ) {

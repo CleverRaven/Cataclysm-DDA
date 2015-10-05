@@ -61,6 +61,7 @@
 #include <sstream>
 #include <stdlib.h>
 #include <fstream>
+#include <limits>
 
 const mtype_id mon_dermatik_larva( "mon_dermatik_larva" );
 const mtype_id mon_player_blob( "mon_player_blob" );
@@ -8977,8 +8978,16 @@ item player::reduce_charges( item *it, long quantity )
     return result;
 }
 
-int player::invlet_to_position( char invlet ) const
+int player::invlet_to_position( const long linvlet ) const
 {
+    // Invlets may come from curses, which may also return any kind of key codes, those being
+    // of type long and they can become valid, but different characters when casted to char.
+    // Example: KEY_NPAGE (returned when the player presses the page-down key) is 0x152,
+    // casted to char would yield 0x52, which happesn to be 'R', a valid invlet.
+    if( linvlet > std::numeric_limits<char>::max() || linvlet < std::numeric_limits<char>::min() ) {
+        return INT_MIN;
+    }
+    const char invlet = static_cast<char>( linvlet );
     if( is_npc() ) {
         DebugLog( D_WARNING,  D_GAME ) << "Why do you need to call player::invlet_to_position on npc " << name;
     }
