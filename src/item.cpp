@@ -345,11 +345,6 @@ long item::liquid_units( long charges ) const
     }
 }
 
-bool item::invlet_is_okay()
-{
-    return inv_chars.valid(invlet);
-}
-
 bool item::stacks_with( const item &rhs ) const
 {
     if( type != rhs.type ) {

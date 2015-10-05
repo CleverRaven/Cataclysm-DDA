@@ -398,7 +398,7 @@ void inventory::restack(player *p)
         item &topmost = stack.front();
 
         const int ipos = p->invlet_to_position(topmost.invlet);
-        if (!topmost.invlet_is_okay() || ( ipos != INT_MIN && ipos != idx ) ) {
+        if( !inv_chars.valid( topmost.invlet ) || ( ipos != INT_MIN && ipos != idx ) ) {
             assign_empty_invlet(topmost);
             for( std::list<item>::iterator stack_iter = stack.begin();
                  stack_iter != stack.end(); ++stack_iter ) {
