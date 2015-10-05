@@ -498,7 +498,7 @@ void show_mutations_titlebar(WINDOW *window, player *p, std::string menu_mode)
     wrefresh(window);
 }
 
-std::string Character::trait_by_invlet( const char ch ) const
+std::string Character::trait_by_invlet( const long ch ) const
 {
     for( auto &mut : my_mutations ) {
         if( mut.second.key == ch ) {

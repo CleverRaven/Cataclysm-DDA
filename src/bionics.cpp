@@ -1704,7 +1704,7 @@ bionic& player::bionic_at_index(int i)
     return my_bionics[i];
 }
 
-bionic* player::bionic_by_invlet(char ch) {
+bionic* player::bionic_by_invlet( const long ch ) {
     for( auto &elem : my_bionics ) {
         if( elem.invlet == ch ) {
             return &elem;

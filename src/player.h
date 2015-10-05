@@ -265,7 +265,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Returns the bionic at a given index in my_bionics[] */
         bionic &bionic_at_index(int i);
         /** Returns the bionic with the given invlet, or NULL if no bionic has that invlet */
-        bionic *bionic_by_invlet(char ch);
+        bionic *bionic_by_invlet( long ch );
         /** Returns player lumination based on the brightest active item they are carrying */
         float active_light() const;
 
