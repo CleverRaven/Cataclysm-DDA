@@ -27,6 +27,9 @@
 #include <algorithm> //std::min
 #include <sstream>
 
+// '!', '-' and '=' are uses as default bindings in the menu
+const invlet_wrapper bionic_chars("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ\"#&()*+./:;@[\\]^_{|}");
+
 const skill_id skilll_electronics( "electronics" );
 const skill_id skilll_firstaid( "firstaid" );
 const skill_id skilll_mechanics( "mechanics" );
@@ -443,20 +446,18 @@ void player::power_bionics()
                 continue;
             }
             redraw = true;
-            const char newch = popup_getkey(_("%s; enter new letter."),
+            const long newch = popup_getkey(_("%s; enter new letter."),
                     bionics[tmp->id].name.c_str());
             wrefresh(wBio);
             if(newch == ch || newch == ' ' || newch == KEY_ESCAPE) {
                 continue;
             }
-            bionic *otmp = bionic_by_invlet(newch);
-            // if there is already a bionic with the new invlet, the invlet
-            // is considered valid.
-            if(otmp == nullptr && !inv_chars.valid(newch)) {
-                // TODO separate list of letters for bionics
-                popup(_("%c is not a valid inventory letter."), newch);
+            if( !bionic_chars.valid( newch ) ) {
+                popup( _("Invlid bionic letter. Only those characters are valid:\n\n%s"),
+                       bionic_chars.get_allowed_chars().c_str() );
                 continue;
             }
+            bionic *otmp = bionic_by_invlet(newch);
             if(otmp != nullptr) {
                 std::swap(tmp->invlet, otmp->invlet);
             } else {
@@ -1619,7 +1620,7 @@ void player::add_bionic( std::string const &b )
         return;
     }
     char newinv = ' ';
-    for( auto &inv_char : inv_chars ) {
+    for( auto &inv_char : bionic_chars ) {
         if( bionic_by_invlet( inv_char ) == nullptr ) {
             newinv = inv_char;
             break;
