@@ -117,23 +117,11 @@ public:
             case transfer_money:     result = do_transfer_money();     break;
             case transfer_all_money: result = do_transfer_all_money(); break;
             default:
-                if (amenu.keypress != KEY_ESCAPE) {
-                    continue; // only interested in escape.
-                }
-                //fallthrough
-            case cancel:
-                if (u.activity.type == ACT_ATM) {
-                    u.activity.index = 0; // stop activity
-                }
                 return;
             };
 
             amenu.redraw();
             g->draw();
-        }
-
-        if (u.activity.type != ACT_ATM) {
-            u.assign_activity(ACT_ATM, 0);
         }
     }
 private:
@@ -142,6 +130,9 @@ private:
 
     options choose_option()
     {
+        if( u.activity.type == ACT_ATM ) {
+            return static_cast<options>( u.activity.index );
+        }
         amenu.query();
         uistate.iexamine_atm_selected = amenu.ret;
         return static_cast<options>( amenu.ret );
@@ -332,9 +323,18 @@ private:
     }
 
     bool do_transfer_all_money() {
-        item *dst = choose_card(_("Insert card for bulk deposit."));
-        if (!dst) {
-            return false;
+        item *dst;
+        if( u.activity.type == ACT_ATM ) {
+            u.activity.type = ACT_NULL; // stop for now, if required, it will be created again.
+            dst = &u.i_at( u.activity.position );
+            if( dst->is_null() || dst->typeId() != "cash_card" ) {
+                return false;
+            }
+        } else {
+            dst = choose_card( _("Insert card for bulk deposit.") );
+            if( !dst ) {
+                return false;
+            }
         }
 
         // Sum all cash cards in inventory.
@@ -343,6 +343,13 @@ private:
         for (auto &i : u.inv_dump()) {
             if (i->type->id != "cash_card") {
                 continue;
+            }
+            if( u.moves < 0 ) {
+                // Money from `*i` could be transferred, but we're out of moves, schedule it for
+                // the next turn. Putting this here makes sure there will be something to be
+                // done next turn.
+                u.assign_activity( ACT_ATM, 0, transfer_all_money, u.get_item_position( dst ) );
+                break;
             }
 
             sum        += i->charges;
