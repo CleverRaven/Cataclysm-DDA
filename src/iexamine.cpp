@@ -118,7 +118,7 @@ public:
             case transfer_all_money: result = do_transfer_all_money(); break;
             default:
                 return;
-            };
+            }
 
             amenu.redraw();
             g->draw();
