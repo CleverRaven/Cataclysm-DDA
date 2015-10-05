@@ -177,6 +177,7 @@ void remove_radio_mod( item &it, player &p )
     it.item_tags.erase( "RADIOSIGNAL_1" );
     it.item_tags.erase( "RADIOSIGNAL_2" );
     it.item_tags.erase( "RADIOSIGNAL_3" );
+    it.item_tags.erase( "RADIOCARITEM" );
 }
 
 // Checks that the player does not have an active item with LITCIG flag.
@@ -2848,6 +2849,7 @@ int iuse::radio_mod( player *p, item *, bool, const tripoint& )
     p->add_msg_if_player( _( "You modify your %1$s to listen for %2$s activation signal on the radio." ),
                           modded.tname().c_str(), colorname.c_str() );
     modded.item_tags.insert( "RADIO_ACTIVATION" );
+    modded.item_tags.insert( "RADIOCARITEM" );
     modded.item_tags.insert( "RADIO_MOD" );
     modded.item_tags.insert( newtag );
     return 1;
@@ -8454,13 +8456,16 @@ int iuse::radiocar(player *p, item *it, bool, const tripoint& )
                 return 0;
             }
 
-            if (put->has_flag("RADIOCARITEM")) {
+            if (put->has_flag("RADIOCARITEM") && ((put->volume() <= 5) || (put->weight() <= 2000))) {
                 p->moves -= 300;
                 p->add_msg_if_player(_("You armed your RC car with %s."),
                                      put->tname().c_str());
                 it->put_in(p->i_rem(inventory_index));
+            } else if (!put->has_flag("RADIOCARITEM")) {
+            p->add_msg_if_player(_("RC car with %s ? How?"),
+                                 put->tname().c_str());
             } else {
-                p->add_msg_if_player(_("RC car with %s ? How?"),
+                p->add_msg_if_player(_("Your %s is too heavy or bulky for this RC car."),
                                      put->tname().c_str());
             }
         } else { // Disarm the car
