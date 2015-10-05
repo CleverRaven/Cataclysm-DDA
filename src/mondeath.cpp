@@ -32,8 +32,8 @@ const mtype_id mon_thing( "mon_thing" );
 const mtype_id mon_zombie_dancer( "mon_zombie_dancer" );
 const mtype_id mon_zombie_hulk( "mon_zombie_hulk" );
 const mtype_id mon_zombie( "mon_zombie" );
-const mtype_id mon_zombie_fetus( "mon_zombie_fetus" );
-const mtype_id mon_zombie_pregnant("mon_zombie_pregnant");
+const mtype_id mon_giant_cockroach_nymph( "mon_giant_cockroach_nymph" );
+const mtype_id mon_pregnant_giant_cockroach("mon_pregnant_giant_cockroach");
 
 void mdeath::normal(monster *z)
 {
@@ -724,7 +724,7 @@ void make_mon_corpse(monster *z, int damageLvl)
     if (z->has_effect("no_ammo")) {
         corpse.set_var("no_ammo", "no_ammo");
     }
-    if (corpse.get_mtype()->id==mon_zombie_pregnant){
+    if (corpse.get_mtype()->id==mon_pregnant_giant_cockroach){
 		//If zombie is pregnant zombie, convert to zombie and spawn fetuses
         corpse.set_mtype(&mon_zombie.obj());
         mdeath::preg_zombie(z);
@@ -759,7 +759,7 @@ void mdeath::preg_zombie(monster *z)
 	const tripoint target = random_entry_removed( fetalspots );
 	while(!fetalspots.empty() && num_fetus--) {
 		if(-1 == g->mon_at( target )) {
-			g->summon_mon(mon_zombie_fetus, target);
+			g->summon_mon(mon_giant_cockroach_nymph, target);
 		}
 	}
     add_msg(m_mixed, _("The pregnant zombie corpse is now a zombie corpse."));
