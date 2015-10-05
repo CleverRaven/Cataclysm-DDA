@@ -345,7 +345,7 @@ private:
         // Assuming a bulk interface for cards. Don't want to get people killed doing this.
         long sum = 0;
         for (auto &i : u.inv_dump()) {
-            if (i->type->id != "cash_card") {
+            if( i->charges <= 0 || i->type->id != "cash_card" ) {
                 continue;
             }
             if( u.moves < 0 ) {
