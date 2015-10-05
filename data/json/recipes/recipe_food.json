@@ -64,10 +64,12 @@
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_OTHER",
   "skill_used": "cooking",
-  "difficulty": 0,
+  "difficulty": 4,
+  "skills_required": [ "cooking", 4 ],
   "time": 90000,
   "reversible": false,
-  "autolearn": true,
+  "autolearn": false,
+  "book_learn": [["atomic_survival", 4], ["textbook_chemistry", 5], ["adv_chemistry", 4]],
   "batch_time_factors":[80, 4],
   "qualities":[
     {"id":"BOIL","level":1,"amount":1}
