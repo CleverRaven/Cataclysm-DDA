@@ -341,11 +341,8 @@ private:
             }
         }
 
-        // Sum all cash cards in inventory.
-        // Assuming a bulk interface for cards. Don't want to get people killed doing this.
-        long sum = 0;
         for (auto &i : u.inv_dump()) {
-            if( i->charges <= 0 || i->type->id != "cash_card" ) {
+            if( i == dst || i->charges <= 0 || i->type->id != "cash_card" ) {
                 continue;
             }
             if( u.moves < 0 ) {
@@ -356,12 +353,10 @@ private:
                 break;
             }
 
-            sum        += i->charges;
+            dst->charges += i->charges;
             i->charges =  0;
             u.moves    -= 10;
         }
-
-        dst->charges = sum;
 
         return true;
     }
