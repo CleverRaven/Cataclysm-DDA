@@ -5188,11 +5188,11 @@ static bool trigger_radio_item( item_stack &items, std::list<item>::iterator &n,
         sounds::sound(pos, 6, _("beep."));
         if( n->has_flag("RADIO_INVOKE_PROC") ) {
             // Invoke twice: first to transform, then later to proc
-            process_item( items, n, pos, true );
-            n->charges = 0;
+            // Can't use process_item here - invalidates our iterator
+            n->process( nullptr, pos, true );
         }
         if( n->has_flag("BOMB") ) {
-            // Set charges to 0 to ensure it detonates.
+            // Set charges to 0 to ensure it detonates now.
             n->charges = 0;
         }
         trigger_item = true;
@@ -5203,6 +5203,10 @@ static bool trigger_radio_item( item_stack &items, std::list<item>::iterator &n,
         itype_id bomb_type = n->contents[0].type->id;
 
         n->make(bomb_type);
+        if( n->has_flag("RADIO_INVOKE_PROC") ) {
+            n->process( nullptr, pos, true );
+        }
+        
         n->charges = 0;
         trigger_item = true;
     }
