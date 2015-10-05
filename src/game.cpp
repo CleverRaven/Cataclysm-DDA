@@ -89,7 +89,6 @@
 #include <iterator>
 #include <ctime>
 #include <cstring>
-#include <limits>
 
 #if !(defined _WIN32 || defined WINDOWS || defined TILES)
 #include <langinfo.h>
@@ -10614,10 +10613,9 @@ void game::reassign_item( int pos )
     }
     if( newch == ' ' ) {
         newch = 0;
-    } else if( newch > std::numeric_limits<char>::max() || newch < std::numeric_limits<char>::min() ||
-        inv_chars.find( newch ) == std::string::npos ) {
+    } else if( !inv_chars.valid( newch ) ) {
         add_msg( m_info, _("Invlid inventory letter. Only those characters are valid:\n\n%s"),
-                 inv_chars.c_str() );
+                 inv_chars.get_allowed_chars().c_str() );
         return;
     }
     if( change_from.invlet == newch ) {

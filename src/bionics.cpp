@@ -452,7 +452,7 @@ void player::power_bionics()
             bionic *otmp = bionic_by_invlet(newch);
             // if there is already a bionic with the new invlet, the invlet
             // is considered valid.
-            if(otmp == nullptr && inv_chars.find(newch) == std::string::npos) {
+            if(otmp == nullptr && !inv_chars.valid(newch)) {
                 // TODO separate list of letters for bionics
                 popup(_("%c is not a valid inventory letter."), newch);
                 continue;

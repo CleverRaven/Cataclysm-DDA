@@ -12,8 +12,15 @@
 #include "mapdata.h"
 #include "map_iterator.h"
 
-const std::string inv_chars =
-    "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!\"#&()*+./:;=@[\\]^_{|}";
+const invlet_wrapper inv_chars("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!\"#&()*+./:;=@[\\]^_{|}");
+
+bool invlet_wrapper::valid( const long invlet ) const
+{
+    if( invlet > std::numeric_limits<char>::max() || invlet < std::numeric_limits<char>::min() ) {
+        return false;
+    }
+    return find( static_cast<char>( invlet ) ) != std::string::npos;
+}
 
 inventory::inventory()
 : nullitem()

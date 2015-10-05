@@ -684,7 +684,7 @@ void player::power_mutations()
             const auto other_mut_id = trait_by_invlet( newch );
             // if there is already a mutation with the new key, the key
             // is considered valid.
-            if( other_mut_id.empty() && inv_chars.find(newch) == std::string::npos ) {
+            if( other_mut_id.empty() && !inv_chars.valid(newch) ) {
                 // TODO separate list of letters for mutations
                 popup(_("%c is not a valid inventory letter."), newch);
                 continue;
