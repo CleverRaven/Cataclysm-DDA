@@ -6589,7 +6589,7 @@
     "vision_night":5,
     "hp":40,
     "death_function":"NORMAL",
-    "description":"A mutant cockroach the size of a small dog.  ",
+    "description":"A mutant cockroach the size of a small dog.",
     "flags":["SEES", "HEARS", "SMELLS", "CHITIN", "CLIMBS"]
     },{
     "type" : "MONSTER",
@@ -6615,8 +6615,8 @@
     "vision_day":5,
     "vision_night":5,
     "hp":40,
-    "death_function":"NORMAL",
-    "description":"A mutant cockroach the size of a small dog.  It's abdomen is heavily swollen.  ",
+    "death_function":["NORMAL","PREG_ROACH"],
+    "description":"A mutant cockroach the size of a small dog.  It's abdomen is heavily swollen.",
     "flags":["SEES", "HEARS", "SMELLS", "CHITIN", "CLIMBS"]
     },{
     "type" : "MONSTER",
@@ -6643,7 +6643,7 @@
     "vision_night":3,
     "hp":10,
     "death_function":"NORMAL",
-    "description":"A baby mutant cockroach about the size of a rat.  ",
+    "description":"A baby mutant cockroach about the size of a rat.",
     "flags":["SEES", "HEARS", "SMELLS", "CHITIN", "CLIMBS"]
     }
 ]

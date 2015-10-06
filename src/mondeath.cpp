@@ -724,39 +724,32 @@ void make_mon_corpse(monster *z, int damageLvl)
     if (z->has_effect("no_ammo")) {
         corpse.set_var("no_ammo", "no_ammo");
     }
-    if (corpse.get_mtype()->id==mon_pregnant_giant_cockroach){
-		//If monster is pregnant cockroach, convert to cockroach and spawn nymphs
-        corpse.set_mtype(&mon_giant_cockroach.obj());
-        mdeath::preg_roach(z);
-    }
     g->m.add_item_or_charges(z->pos(), corpse);
 }
 
 void mdeath::preg_roach(monster *z)
 {
     int num_roach=rng(1,3);
-    if (g->u.sees(*z)) {
-        switch(num_roach){
-            case 1: add_msg(m_warning, _("A cockroach nymph crawls out of the pregnant giant cockroach corpse."));
-            break;
-            case 2: add_msg(m_warning, _("Two cockroach nymphs emerge from the pregant giant cockroach corpse"));
-            break;
-            case 3: add_msg(m_warning, _("You witness the birth of three cockroach nymphs!"));
-            break;
-        }
-    }
     std::vector <tripoint> roachspots;
     for( auto &&roachp : g->m.points_in_radius( z->pos(), 1 ) ) {
         if (g->is_empty( roachp ) ) {
             roachspots.push_back(roachp);
         }
     }
-	tripoint target;
-	while(!roachspots.empty() && num_roach--) {
-		target = random_entry_removed( roachspots );
-		if(-1 == g->mon_at( target )) {
-			g->summon_mon(mon_giant_cockroach_nymph, target);
-		}
-	}
-    add_msg(m_mixed, _("The pregnant giant cockroach corpse is now a giant cockroach corpse."));
+    tripoint target;
+    while(!roachspots.empty()) {
+        if(num_roach > 0) {
+            target = random_entry_removed( roachspots );
+            if(-1 == g->mon_at( target )) {
+                g->summon_mon(mon_giant_cockroach_nymph, target);
+                num_roach--;
+                if(g->u.sees(*z)) {
+                    add_msg(m_warning, _("A cockroach nymph crawls out of the pregnant giant cockroach corpse."));
+                }
+            }
+        }
+        else {
+            break;
+        }
+    }
 }

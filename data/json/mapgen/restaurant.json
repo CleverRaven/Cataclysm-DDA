@@ -266,7 +266,7 @@
             ],
             "place_monsters": [
                 {"monster": "GROUP_GROCERY","chance": 5, "x": [7,19],  "y": 19},
-				{"monster": "GROUP_ROACH","chance": 20, "x": [7,19],  "y": 19}
+                {"monster": "GROUP_ROACH","chance": 20, "x": [7,19],  "y": 19}
             ] 
         }
     }
