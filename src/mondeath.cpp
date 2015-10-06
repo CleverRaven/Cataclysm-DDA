@@ -31,7 +31,7 @@ const mtype_id mon_sewer_rat( "mon_sewer_rat" );
 const mtype_id mon_thing( "mon_thing" );
 const mtype_id mon_zombie_dancer( "mon_zombie_dancer" );
 const mtype_id mon_zombie_hulk( "mon_zombie_hulk" );
-const mtype_id mon_zombie( "mon_zombie" );
+const mtype_id mon_giant_cockroach( "mon_giant_cockroach" );
 const mtype_id mon_giant_cockroach_nymph( "mon_giant_cockroach_nymph" );
 const mtype_id mon_pregnant_giant_cockroach("mon_pregnant_giant_cockroach");
 
@@ -726,7 +726,7 @@ void make_mon_corpse(monster *z, int damageLvl)
     }
     if (corpse.get_mtype()->id==mon_pregnant_giant_cockroach){
 		//If monster is pregnant cockroach, convert to cockroach and spawn nymphs
-        corpse.set_mtype(&mon_zombie.obj());
+        corpse.set_mtype(&mon_giant_cockroach.obj());
         mdeath::preg_roach(z);
     }
     g->m.add_item_or_charges(z->pos(), corpse);
@@ -751,8 +751,9 @@ void mdeath::preg_roach(monster *z)
             roachspots.push_back(roachp);
         }
     }
-	const tripoint target = random_entry_removed( roachspots );
+	tripoint target;
 	while(!roachspots.empty() && num_roach--) {
+		target = random_entry_removed( roachspots );
 		if(-1 == g->mon_at( target )) {
 			g->summon_mon(mon_giant_cockroach_nymph, target);
 		}
