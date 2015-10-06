@@ -738,17 +738,15 @@ void mdeath::preg_roach(monster *z)
     }
     tripoint target;
     while(!roachspots.empty()) {
-        if(num_roach > 0) {
-            target = random_entry_removed( roachspots );
-            if(-1 == g->mon_at( target )) {
-                g->summon_mon(mon_giant_cockroach_nymph, target);
-                num_roach--;
-                if(g->u.sees(*z)) {
-                    add_msg(m_warning, _("A cockroach nymph crawls out of the pregnant giant cockroach corpse."));
-                }
+        target = random_entry_removed( roachspots );
+        if(-1 == g->mon_at( target )) {
+            g->summon_mon(mon_giant_cockroach_nymph, target);
+            num_roach--;
+            if(g->u.sees(*z)) {
+                add_msg(m_warning, _("A cockroach nymph crawls out of the pregnant giant cockroach corpse."));
             }
         }
-        else {
+        if (num_roach==0) {
             break;
         }
     }
