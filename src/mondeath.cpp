@@ -734,14 +734,14 @@ void mdeath::preg_roach( monster *z )
 {
     int num_roach = rng( 1, 3 );
     std::vector <tripoint> roachspots;
-    for( const auto &&roachp : g->m.points_in_radius( z->pos(), 1 ) ) {
+    for( const auto &roachp : g->m.points_in_radius( z->pos(), 1 ) ) {
         if( g->is_empty( roachp ) ) {
             roachspots.push_back( roachp );
         }
     }
-    tripoint target;
+
     while( !roachspots.empty() ) {
-        target = random_entry_removed( roachspots );
+        const tripoint target = random_entry_removed( roachspots );
         if( -1 == g->mon_at( target ) ) {
             g->summon_mon( mon_giant_cockroach_nymph, target );
             num_roach--;
