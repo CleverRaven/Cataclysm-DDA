@@ -8087,12 +8087,11 @@ void game::examine()
     examine( examp );
 }
 
-void game::examine( const tripoint &p )
+void game::examine( const tripoint &examp )
 {
-    tripoint examp = p;
     int veh_part = 0;
     vehicle *veh = nullptr;
-    const int curz = p.z;
+    const int curz = examp.z;
 
     veh = m.veh_at(examp, veh_part);
     if (veh) {
