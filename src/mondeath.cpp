@@ -730,26 +730,26 @@ void make_mon_corpse(monster *z, int damageLvl)
     g->m.add_item_or_charges(z->pos(), corpse);
 }
 
-void mdeath::preg_roach(monster *z)
+void mdeath::preg_roach( monster *z )
 {
-    int num_roach=rng(1,3);
+    int num_roach = rng( 1, 3 );
     std::vector <tripoint> roachspots;
-    for( auto &&roachp : g->m.points_in_radius( z->pos(), 1 ) ) {
-        if (g->is_empty( roachp ) ) {
-            roachspots.push_back(roachp);
+    for( const auto &&roachp : g->m.points_in_radius( z->pos(), 1 ) ) {
+        if( g->is_empty( roachp ) ) {
+            roachspots.push_back( roachp );
         }
     }
     tripoint target;
-    while(!roachspots.empty()) {
+    while( !roachspots.empty() ) {
         target = random_entry_removed( roachspots );
-        if(-1 == g->mon_at( target )) {
-            g->summon_mon(mon_giant_cockroach_nymph, target);
+        if( -1 == g->mon_at( target ) ) {
+            g->summon_mon( mon_giant_cockroach_nymph, target );
             num_roach--;
-            if(g->u.sees(*z)) {
+            if( g->u.sees(*z) ) {
                 add_msg(m_warning, _("A cockroach nymph crawls out of the pregnant giant cockroach corpse."));
             }
         }
-        if (num_roach==0) {
+        if( num_roach == 0 ) {
             break;
         }
     }
