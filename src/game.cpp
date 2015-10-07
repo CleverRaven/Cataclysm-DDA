@@ -8090,8 +8090,6 @@ void game::examine()
 void game::examine( const tripoint &p )
 {
     tripoint examp = p;
-    int &examx = examp.x;
-    int &examy = examp.y;
     int veh_part = 0;
     vehicle *veh = nullptr;
     const int curz = p.z;
