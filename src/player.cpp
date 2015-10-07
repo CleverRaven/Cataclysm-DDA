@@ -11410,7 +11410,7 @@ hint_rating player::rate_action_read( const item &it ) const
     return HINT_GOOD;
 }
 
-int player::read( int inventory_position, int inv_from )
+read_return_value player::read( int inventory_position, int inv_from )
 {
     // Find the object
     item* it = &i_at(inventory_position);
@@ -11491,6 +11491,7 @@ int player::read( int inventory_position, int inv_from )
         activity.values.push_back(0);
         // pushes item_frm into 2nd element
         activity.values.push_back(inv_from);
+        activity.str_values.push_back(it->typeId());
         moves = 0;
         return READ_ASSIGN_READ_ACTIVITY;
     }
@@ -11569,6 +11570,7 @@ int player::read( int inventory_position, int inv_from )
     // the player gained the next skill level, this ensured by this:
     activity.values.push_back(study ? 1 : 0);
     activity.values.push_back(inv_from);
+    activity.str_values.push_back(it->typeId());
     moves = 0;
 
     // Reinforce any existing morale bonus/penalty, so it doesn't decay
@@ -11589,6 +11591,11 @@ int player::read( int inventory_position, int inv_from )
 
 void player::do_read( item *book )
 {
+    if ( book->type->book.get() == nullptr) {
+        activity.type = ACT_NULL;
+        return;
+    }
+
     auto reading = book->type->book.get();
     const skill_id &skill = reading->skill;
 
@@ -11796,6 +11803,8 @@ void player::do_read( item *book )
     }
 
     activity.type = ACT_NULL;
+
+    return;
 }
 
 bool player::has_identified( std::string item_id ) const

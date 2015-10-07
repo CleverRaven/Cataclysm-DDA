@@ -316,11 +316,14 @@ void player_activity::finish( player *p )
             break;
         case ACT_READ:
             p->do_read(&(p->i_at(position)));
+
             if (type == ACT_NULL) {
                 add_msg(_("You finish reading."));
 
-                // for reading of books from ground or vehicle
-                if ( values.size() >= 2 && values[1] != FROM_INVENTORY ) {
+                // for reading of books from ground or vehicle. If position somehow is not pointing to correct book, will not drop.
+                // I rather have an extra item than drop the wrong item.
+                if ( values.size() >= 2 && values[1] != FROM_INVENTORY
+                     && str_values.size() >= 1 && p->i_at(position).typeId() == str_values[0] ) {
                         g->drop(position);
                 }
             }

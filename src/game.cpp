@@ -11606,6 +11606,23 @@ void game::read()
     auto item_loc = inv_map_splice( filter, _("Read:") );
 
     const int inv_pos = item_loc.get_inventory_position();
+    item *it = item_loc.get_item();
+
+    if ( it == nullptr ) {
+        add_msg( _("Never mind.") );
+        return;
+    }
+
+    /* although working properly currently without the below, but just put in as a safeguard to future changes
+       where inv_map_splice return a non book item
+       that is returning with inv_pos == INT_MIN and thus been pick up and dropped accidentally
+    */
+    if ( !it->is_book() ) {
+        add_msg( m_info, _("Your %s is not good reading material."),
+                it->tname().c_str() );
+
+        return;
+    }
 
     if ( inv_pos != INT_MIN ) {
         draw();
@@ -11613,34 +11630,25 @@ void game::read()
         return;
     }
 
-    item *it = item_loc.get_item();
-    if ( it == nullptr ) {
-        add_msg( _("Never mind.") );
-        return;
-    }
-
     if ( !u.can_pickup(true) ) {
         return;
     }
 
-    if ( !u.can_pickVolume( it->volume() ) ) {
-        add_msg( m_info, _("Can't pickup %s as exceeded allowed volume. Reading aborted."), it->display_name().c_str() );
-        return;
-    } else if ( !u.can_pickWeight( it->weight(), false ) ) {
-        add_msg( m_info, _("Can't pickup %s as exceeded allowed weight. Reading aborted."), it->display_name().c_str() );
+    if ( !Pickup::can_pick_one_up(u, *it, "Reading aborted.", false /*silent_chk*/, false /* allow_swap */,
+                         false /*chk_keep_hands_free*/, true /*chk_armor*/) ) {
         return;
     }
 
     item &item_added = u.i_add(*it);
 
-    add_msg(_("You pick up: %d %s"), 1,
-                        it->display_name(1).c_str());
+    add_msg( _("You pick up: %d %s"), 1,
+                        it->display_name(1).c_str() );
     item_loc.remove_item();
 
     draw();
 
-    if ( u.read( u.inv.position_by_item( &item_added ), FROM_NOT_INVENTORY ) != READ_ASSIGN_READ_ACTIVITY ) {
-        g->drop( u.inv.position_by_item( &item_added ) );
+    if ( u.read( u.inv.position_by_item(&item_added), FROM_NOT_INVENTORY ) != READ_ASSIGN_READ_ACTIVITY ) {
+        g->drop( u.inv.position_by_item(&item_added) );
     };
 }
 
