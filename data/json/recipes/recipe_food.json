@@ -65,7 +65,6 @@
   "subcategory": "CSC_FOOD_OTHER",
   "skill_used": "cooking",
   "difficulty": 0,
-  "skills_required": [ "cooking" ],
   "time": 90000,
   "reversible": false,
   "autolearn": true,
