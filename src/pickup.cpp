@@ -262,9 +262,16 @@ static bool select_autopickup_items( std::vector<item> &here, std::vector<bool> 
 bool Pickup::can_pick_one_up( player &p, item &newit, std::string append_fail_msg, bool silent_chk,
                               bool allow_swap, bool chk_keep_hands_free, bool chk_armor )
 {
-    // if item is already in inventory
-    if ( p.inv.has_item(&newit) ) {
+    // if item is already in inventory or is weapon
+    if ( p.inv.has_item(&newit) || (p.has_weapon() && &p.weapon == &newit) ) {
         return true;
+    }
+
+    // if item is already worn
+    for( auto &w : p.worn ) {
+        if ( &w == &newit ) {
+            return true;
+        }
     }
 
     if ( !p.can_pickup(false) ) {
@@ -305,18 +312,22 @@ bool Pickup::can_pick_one_up( player &p, item &newit, std::string append_fail_ms
 
             long max_arrows = (long) quiver->max_charges_from_flag( "QUIVER" );
 
-            if ( quiver->contents.empty() || quiver->contents[0].charges < max_arrows ) {
+            if ( quiver->contents.empty() || (quiver->contents[0].charges < max_arrows && quiver->contents[0].type->id == newit.type->id) ) {
                 have_space_in_quiver = true;
                 break;
             }
         }
 
-        if ( !have_space_in_quiver && !p.can_pickVolume( newit.volume() ) ) {
+        if ( !have_space_in_quiver && !p.can_pickVolume(newit.volume()) ) {
                 if ( p.is_player() && !silent_chk ) {
                     add_msg( m_info, _(("There's no room in your inventory for the %s. " + append_fail_msg).c_str()),
                                         newit.tname(newit.charges).c_str() );
                 }
                 return false;
+        }
+
+        if ( have_space_in_quiver ) {
+            return true;
         }
     } // end if( newit.is_ammo() && (newit.ammo_type() == "arrow" || newit.ammo_type() == "bolt"))
 
@@ -326,7 +337,7 @@ bool Pickup::can_pick_one_up( player &p, item &newit, std::string append_fail_ms
         }
 
         if ( allow_swap ) {
-            if ( chk_keep_hands_free && p.keep_hands_free ) {
+            if ( chk_keep_hands_free && p.keep_hands_free && !p.is_armed() ) {
                 if ( p.is_player() && !silent_chk ) {
                     add_msg( m_info, _(("There's no room in your inventory for the %s "
                                        "and you have decided to keep your hands free. " + append_fail_msg).c_str()),
