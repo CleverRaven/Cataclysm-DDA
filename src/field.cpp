@@ -673,10 +673,6 @@ bool map::process_fields_in_submap( submap *const current_submap,
                         if( ter.has_flag( TFLAG_SWIMMABLE ) ) { // Dissipate faster in water
                             cur->setFieldAge( cur->getFieldAge() + 20 );
                         }
-                        if( ter_furn_has_flag( ter, frn, TFLAG_SEALED ) &&
-                            !ter_furn_has_flag( ter, frn, TFLAG_ALLOW_FIELD_EFFECT ) ) {
-                            break;
-                        }
 
                         // Try to fall by a z-level
                         if( !zlevels || p.z <= -OVERMAP_DEPTH ) {
