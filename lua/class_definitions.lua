@@ -768,7 +768,6 @@ classes = {
             { name = "has_var", rval = "bool", args = { "string" } },
             { name = "info", rval = "string", args = { "bool" } },
             { name = "info", rval = "string", args = { } },
-            { name = "invlet_is_okay", rval = "bool", args = { } },
             { name = "is_ammo", rval = "bool", args = { } },
             { name = "is_ammo_container", rval = "bool", args = { } },
             { name = "is_armor", rval = "bool", args = { } },
