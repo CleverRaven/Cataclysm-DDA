@@ -1473,7 +1473,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> &dump_ref) const
         if( is_tool() && has_flag("RADIO_ACTIVATION") ) {
             if( has_flag( "RADIO_MOD" ) ) {
                 dump->push_back(iteminfo("DESCRIPTION",
-                    _("This item has been modified to listen to radio signals. It can still be activated manually.")));
+                    _("This item has been modified to listen to radio signals.  It can still be activated manually.")));
             } else {
                 dump->push_back(iteminfo("DESCRIPTION",
                     _("This item can only be activated by a radio signal.")));
@@ -1588,7 +1588,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> &dump_ref) const
                         _("This food has started to rot, but you can tolerate it.")));
                 } else {
                     dump->push_back(iteminfo("DESCRIPTION",
-                        _("This food has started to rot. Eating it would be a very bad idea.")));
+                        _("This food has started to rot.  Eating it would be a very bad idea.")));
                 }
             } else {
                 dump->push_back(iteminfo("DESCRIPTION",
