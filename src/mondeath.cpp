@@ -734,7 +734,7 @@ void mdeath::preg_roach( monster *z )
 {
     int num_roach = rng( 1, 3 );
     std::vector <tripoint> roachspots;
-    for( const auto &&roachp : g->m.points_in_radius( z->pos(), 1 ) ) {
+    for( const auto &roachp : g->m.points_in_radius( z->pos(), 1 ) ) {
         if( g->is_empty( roachp ) ) {
             roachspots.push_back( roachp );
         }
