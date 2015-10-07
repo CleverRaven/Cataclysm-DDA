@@ -8091,7 +8091,6 @@ void game::examine( const tripoint &examp )
 {
     int veh_part = 0;
     vehicle *veh = nullptr;
-    const int curz = examp.z;
 
     veh = m.veh_at(examp, veh_part);
     if (veh) {
@@ -8123,11 +8122,6 @@ void game::examine( const tripoint &examp )
     // Did the player get moved? Bail out if so; our examp probably
     // isn't valid anymore.
     if( player_pos != u.pos() ) {
-        return;
-    }
-
-    if (curz != get_levz()) {
-        // triggered an elevator
         return;
     }
 
