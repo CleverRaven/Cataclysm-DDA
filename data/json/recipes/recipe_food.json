@@ -64,12 +64,11 @@
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_OTHER",
   "skill_used": "cooking",
-  "difficulty": 4,
-  "skills_required": [ "cooking", 4 ],
+  "difficulty": 0,
+  "skills_required": [ "cooking" ],
   "time": 90000,
   "reversible": false,
-  "autolearn": false,
-  "book_learn": [["atomic_survival", 4], ["textbook_chemistry", 5], ["adv_chemistry", 4]],
+  "autolearn": true,
   "batch_time_factors":[80, 4],
   "qualities":[
     {"id":"BOIL","level":1,"amount":1}
@@ -85,14 +84,11 @@
   ],
   "components": [
     [
-      [ "material_rocksalt", 2 ]
+      [ "material_rocksalt", 4 ]
     ],
     [
       [ "water", 1 ],
       [ "water_clean", 1 ]
-    ],
-    [
-      [ "iodine_solution", 1 ]
     ]
   ]
 },{

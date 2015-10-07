@@ -50,37 +50,6 @@
   ]
 },{
   "type" : "recipe",
-  "result": "iodine_solution",
-  "category": "CC_OTHER",
-  "subcategory": "CSC_OTHER_MEDICAL",
-  "skill_used": "firstaid",
-  "difficulty": 4,
-  "skills_required": [ "cooking", 4 ],
-  "time": 30000,
-  "reversible": false,
-  "autolearn": false,
-  "book_learn": [["atomic_survival", 4], ["textbook_chemistry", 5], ["adv_chemistry", 4]],
-  "qualities":[
-    {"id":"BOIL","level":1,"amount":1}
-  ], "tools": [
-    [
-      [ "hotplate", 3 ],
-      [ "char_smoker", 1 ],
-      [ "toolset", 3 ],
-      [ "fire", -1 ]
-    ]
-  ],
-  "components": [
-    [
-      [ "water_clean", 1 ],
-      [ "water", 1 ]
-    ],
-    [
-      [ "iodine", 1 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
   "result": "acid",
   "category": "CC_CHEM",
   "subcategory": "CSC_CHEM_CHEMICALS",

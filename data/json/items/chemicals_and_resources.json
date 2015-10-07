@@ -583,32 +583,5 @@
     "bashing": 0,
     "cutting": 0,
     "to_hit": -2
-    },
-    {
-    "type" : "AMMO",
-    "id" : "iodine_solution",
-    "name" : "iodine solution",
-    "weight" : 51,
-    "color" : "light_cyan",
-    "addiction_type" : "none",
-    "spoils_in" : 0,
-    "stim" : 0,
-    "container" : "bottle_plastic",
-    "to_hit" : 0,
-    "symbol" : "~",
-    "quench" : 0,
-    "healthy" : 0,
-    "addiction_potential" : 0,
-    "nutrition" : 0,
-    "description" : "A solution of iodine and water, for use in salt refinement.",
-    "price" : 500,
-    "material" : "null",
-    "tool" : "null",
-    "volume" : 1,
-    "cutting" : 0,
-    "phase" : "liquid",
-    "charges" : 5,
-    "bashing" : 0,
-    "fun" : -2
     }
 ]
