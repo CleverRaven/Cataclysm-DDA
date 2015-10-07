@@ -739,9 +739,9 @@ void mdeath::preg_roach( monster *z )
             roachspots.push_back( roachp );
         }
     }
-    tripoint target;
+
     while( !roachspots.empty() ) {
-        target = random_entry_removed( roachspots );
+        const tripoint target = random_entry_removed( roachspots );
         if( -1 == g->mon_at( target ) ) {
             g->summon_mon( mon_giant_cockroach_nymph, target );
             num_roach--;
