@@ -2207,8 +2207,7 @@ bool game::handle_action()
 
     // If performing an action with right mouse button, co-ordinates
     // of location clicked.
-    int mouse_action_x = -1;
-    int mouse_action_y = -1;
+    tripoint mouse_target = tripoint_min;
 
 // do not allow mouse actions while dead
     if( !u.is_dead_state() &&
@@ -2226,6 +2225,7 @@ bool game::handle_action()
             // Not clicked in visible terrain
             return false;
         }
+        mouse_target = tripoint( mx, my, u.posz() );
 
         if (action == "SELECT") {
             bool new_destination = true;
@@ -2246,7 +2246,7 @@ bool game::handle_action()
             }
 
             if (new_destination) {
-                destination_preview = m.route( u.pos3(), tripoint( mx, my, u.posz() ), 0, 1000 );
+                destination_preview = m.route( u.pos3(), mouse_target, 0, 1000 );
                 return false;
             }
         } else if (action == "SEC_SELECT") {
@@ -2260,9 +2260,7 @@ bool game::handle_action()
                 return false;
             }
 
-            mouse_action_x = mx;
-            mouse_action_y = my;
-            int mouse_selected_mondex = mon_at( { mx, my, get_levz() } );
+            int mouse_selected_mondex = mon_at( mouse_target );
             if (mouse_selected_mondex != -1) {
                 monster &critter = critter_tracker->find(mouse_selected_mondex);
                 if (!u.sees(critter)) {
@@ -2533,8 +2531,8 @@ bool game::handle_action()
         case ACTION_CLOSE:
             if( u.has_active_mutation( "SHELL2" ) ) {
                 add_msg(m_info, _("You can't close things while you're in your shell."));
-            } else if( mouse_action_x != -1 && mouse_action_y != -1 ) {
-                close( tripoint( mouse_action_x, mouse_action_y, u.posz() ) );
+            } else if( mouse_target != tripoint_min ) {
+                close( mouse_target );
             } else {
                 close();
             }
@@ -2553,8 +2551,10 @@ bool game::handle_action()
         case ACTION_EXAMINE:
             if (u.has_active_mutation("SHELL2")) {
                 add_msg(m_info, _("You can't examine your surroundings while you're in your shell."));
+            } else if( mouse_target != tripoint_min ) {
+                examine( mouse_target );
             } else {
-                examine( tripoint( mouse_action_x, mouse_action_y, u.posz() ) );
+                examine();
             }
             break;
 
@@ -2676,11 +2676,11 @@ bool game::handle_action()
 
         case ACTION_FIRE:
             // Shell-users may fire a *single-handed* weapon out a port, if need be.
-            plfire( false, tripoint( mouse_action_x, mouse_action_y, u.posz() ) );
+            plfire( false, mouse_target );
             break;
 
         case ACTION_FIRE_BURST:
-            plfire( true, tripoint( mouse_action_x, mouse_action_y, u.posz() ) );
+            plfire( true, mouse_target );
             break;
 
         case ACTION_SELECT_FIRE_MODE:
