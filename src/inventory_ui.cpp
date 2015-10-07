@@ -780,7 +780,7 @@ int game::display_slice(indexed_invslice const &slice, const std::string &title,
         inv_s.display(show_worn);
         const std::string action = inv_s.ctxt.handle_input();
         const long ch = inv_s.ctxt.get_raw_input().get_first_input();
-        const int item_pos = g->u.invlet_to_position(static_cast<char>(ch));
+        const int item_pos = g->u.invlet_to_position( ch );
         if (item_pos != INT_MIN) {
             return item_pos;
         } else if (inv_s.handle_movement(action)) {
@@ -942,7 +942,7 @@ item_location game::inv_map_splice(
         inv_s.display();
         const std::string action = inv_s.ctxt.handle_input();
         const long ch = inv_s.ctxt.get_raw_input().get_first_input();
-        const int item_pos = g->u.invlet_to_position( static_cast<char>( ch ) );
+        const int item_pos = g->u.invlet_to_position( ch );
 
         if( item_pos != INT_MIN ) {
             inv_s.set_to_drop(item_pos, 0);
@@ -1060,7 +1060,7 @@ std::list<std::pair<int, int>> game::multidrop()
         inv_s.display();
         const std::string action = inv_s.ctxt.handle_input();
         const long ch = inv_s.ctxt.get_raw_input().get_first_input();
-        const int item_pos = g->u.invlet_to_position(static_cast<char>(ch));
+        const int item_pos = g->u.invlet_to_position( ch );
         if (ch >= '0' && ch <= '9') {
             count = std::max( 0, count * 10 + ((char)ch - '0') );
         } else if (item_pos != INT_MIN) {
@@ -1151,7 +1151,7 @@ void game::compare( const tripoint &offset )
         inv_s.display();
         const std::string action = inv_s.ctxt.handle_input();
         const long ch = inv_s.ctxt.get_raw_input().get_first_input();
-        const int item_pos = g->u.invlet_to_position(static_cast<char>(ch));
+        const int item_pos = g->u.invlet_to_position( ch );
         if (item_pos != INT_MIN) {
             inv_s.set_to_drop(item_pos, 0);
         } else if (ch >= '0' && ch <= '9' && (size_t) (ch - '0') < grounditems_slice.size()) {
