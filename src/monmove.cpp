@@ -451,15 +451,13 @@ void monster::move()
     // Finished logic section.  By this point, we should have chosen a square to
     //  move to (moved = true).
     if( moved ) { // Actual effects of moving to the square we've chosen
-        // move_to() uses the slope to determine some move speed scaling.
-        const float slope = (destination.x > destination.y) ?
-            (float)destination.y / (float)destination.x :
-            (float)destination.x / (float)destination.y;
         const bool did_something =
             ( !pacified && attack_at( next_step ) ) ||
             ( !pacified && bash_at( next_step ) ) ||
             ( !pacified && push_to( next_step, 0, 0 ) ) ||
-            move_to( next_step, false, slope );
+            // move_to() uses the slope to determine some move speed scaling.
+            move_to( next_step, false,
+                     get_normalized_angle( {pos().x, pos().y}, {destination.x, destination.y} ) );
         if( !did_something ) {
             moves -= 100; // If we don't do this, we'll get infinite loops.
         }

@@ -154,9 +154,7 @@ public:
 void check_shamble_speed( const std::string monster_type, const tripoint &destination )
 {
     // Scale the scaling factor based on the ratio of diagonal to cardinal steps.
-    const float slope = (destination.x < destination.y) ?
-        ((float)destination.x / (float)destination.y) :
-        ((float)destination.y / (float)destination.x);
+    const float slope = get_normalized_angle( {0, 0}, {destination.x, destination.y} );
     const float diagonal_multiplier = 1.0 + (OPTIONS["CIRCLEDIST"] ? (slope * 0.41) : 0.0);
     INFO( monster_type << " " << destination );
     // Wandering makes things nondeterministic, so look at the distribution rather than a target number.
