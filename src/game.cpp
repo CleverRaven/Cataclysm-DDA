@@ -8072,7 +8072,19 @@ bool npc_menu( npc &who )
 
 void game::examine()
 {
-    examine( tripoint( -1, -1, get_levz() ) );
+    // if we are driving a vehicle, examine the
+    // current tile without asking.
+    const vehicle * const veh = m.veh_at( u.pos() );
+    if( veh && veh->player_in_control( u ) ) {
+        examine( u.pos() );
+        return;
+    }
+
+    tripoint examp = u.pos();
+    if( !choose_adjacent_highlight( _("Examine where?"), examp, ACTION_EXAMINE ) ) {
+        return;
+    }
+    examine( examp );
 }
 
 void game::examine( const tripoint &p )
@@ -8083,18 +8095,6 @@ void game::examine( const tripoint &p )
     int veh_part = 0;
     vehicle *veh = nullptr;
     const int curz = p.z;
-
-    if (examx == -1) {
-        // if we are driving a vehicle, examine the
-        // current tile without asking.
-        veh = m.veh_at(u.pos(), veh_part);
-        if (veh && veh->player_in_control(u)) {
-            examx = u.posx();
-            examy = u.posy();
-        } else  if (!choose_adjacent_highlight(_("Examine where?"), examp, ACTION_EXAMINE)) {
-            return;
-        }
-    }
 
     veh = m.veh_at(examp, veh_part);
     if (veh) {
