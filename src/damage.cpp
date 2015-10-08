@@ -168,7 +168,7 @@ void ammo_effects( const tripoint &p, const std::set<std::string> &effects )
     }
 
     if( effects.count( "NAPALM_BIG" ) > 0 ) {
-        g->explosion( p, 24, 0.9, 0, true );
+        g->explosion( p, 24, 0.8, 0, true );
         // More intense fire near the center
         for( auto &&pt : g->m.points_in_radius( p, 3, 0 ) ) {
             g->m.add_field( pt, fd_fire, 1, 0 );
