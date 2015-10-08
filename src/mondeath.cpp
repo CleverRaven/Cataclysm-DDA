@@ -31,6 +31,9 @@ const mtype_id mon_sewer_rat( "mon_sewer_rat" );
 const mtype_id mon_thing( "mon_thing" );
 const mtype_id mon_zombie_dancer( "mon_zombie_dancer" );
 const mtype_id mon_zombie_hulk( "mon_zombie_hulk" );
+const mtype_id mon_giant_cockroach( "mon_giant_cockroach" );
+const mtype_id mon_giant_cockroach_nymph( "mon_giant_cockroach_nymph" );
+const mtype_id mon_pregnant_giant_cockroach("mon_pregnant_giant_cockroach");
 
 const species_id ZOMBIE( "ZOMBIE" );
 const species_id BLOB( "BLOB" );
@@ -725,4 +728,29 @@ void make_mon_corpse(monster *z, int damageLvl)
         corpse.set_var("no_ammo", "no_ammo");
     }
     g->m.add_item_or_charges(z->pos(), corpse);
+}
+
+void mdeath::preg_roach( monster *z )
+{
+    int num_roach = rng( 1, 3 );
+    std::vector <tripoint> roachspots;
+    for( const auto &roachp : g->m.points_in_radius( z->pos(), 1 ) ) {
+        if( g->is_empty( roachp ) ) {
+            roachspots.push_back( roachp );
+        }
+    }
+
+    while( !roachspots.empty() ) {
+        const tripoint target = random_entry_removed( roachspots );
+        if( -1 == g->mon_at( target ) ) {
+            g->summon_mon( mon_giant_cockroach_nymph, target );
+            num_roach--;
+            if( g->u.sees(*z) ) {
+                add_msg(m_warning, _("A cockroach nymph crawls out of the pregnant giant cockroach corpse."));
+            }
+        }
+        if( num_roach == 0 ) {
+            break;
+        }
+    }
 }

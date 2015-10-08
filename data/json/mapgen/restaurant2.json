@@ -103,7 +103,8 @@
                 {"item": "trash",          "chance": 20, "x": [0,2],"y":[3,13], "repeat": [1,2]}
             ],
             "place_monsters": [
-                {"monster": "GROUP_GROCERY","chance": 5, "x": [5, 9], "y": [9, 14]}
+                {"monster": "GROUP_GROCERY","chance": 5, "x": [5, 9], "y": [9, 14]},
+                {"monster": "GROUP_ROACH","chance": 20, "x": [7,19],  "y": 19}
             ]
         }
     }

@@ -364,7 +364,10 @@
       { "monster" : "mon_zombie_pig", "freq" :  10, "cost_multiplier" : 25, "starts" :   72, "pack_size" : [1,5] },
       { "monster" : "mon_zombie_pig", "freq" :  10, "cost_multiplier" : 25, "starts" :  168, "pack_size" : [1,5] },
       { "monster" : "mon_zombie_pig", "freq" :  10, "cost_multiplier" : 25, "starts" :  672, "pack_size" : [1,5] },
-      { "monster" : "mon_zombie_pig", "freq" :  10, "cost_multiplier" : 25, "starts" : 2160, "pack_size" : [1,5] }
+      { "monster" : "mon_zombie_pig", "freq" :  10, "cost_multiplier" : 25, "starts" : 2160, "pack_size" : [1,5] },
+      { "monster" : "mon_giant_cockroach", "freq" :  10, "cost_multiplier" : 1, "pack_size" : [1,5] },
+      { "monster" : "mon_pregnant_giant_cockroach", "freq" :  1, "cost_multiplier" : 3},
+      { "monster" : "mon_giant_cockroach_nymph", "freq" :  5, "cost_multiplier" : 1}
     ]
   },{
     "type":"monstergroup",
@@ -463,6 +466,15 @@
       { "monster" : "mon_ant_larva", "freq" : 40, "cost_multiplier" : 0 },
       { "monster" : "mon_ant_soldier", "freq" : 90, "cost_multiplier" : 5 },
       { "monster" : "mon_ant_queen", "freq" : 0, "cost_multiplier" : 0 }
+    ]
+  },{
+    "type":"monstergroup",
+    "name" : "GROUP_ROACH",
+    "default" : "mon_giant_cockroach",
+    "monsters" : [
+      { "monster" : "mon_giant_cockroach", "freq" : 40, "cost_multiplier" : 0 },
+      { "monster" : "mon_pregnant_giant_cockroach", "freq" : 5, "cost_multiplier" : 2 },
+      { "monster" : "mon_giant_cockroach_nymph", "freq" : 20, "cost_multiplier" : 0 }
     ]
   },{
     "type":"monstergroup",

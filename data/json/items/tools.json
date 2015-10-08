@@ -3105,7 +3105,7 @@
     "symbol": "*",
     "color": "dark_gray",
     "name": "makeshift gas canister",
-    "description": "This is a crude gasbomb using household chemicals.  Use this item to arm it. In three turns it will begin to expel a highly toxic gas for a short time.  This gas poisons those exposed to it, in addition to obscuring vision and scent.",
+    "description": "This is a crude gasbomb using household chemicals.  Use this item to arm it.  In three turns it will begin to expel a highly toxic gas for a short time.  This gas poisons those exposed to it, in addition to obscuring vision and scent.",
     "price": 500,
     "material": "steel",
     "weight": 1264,
