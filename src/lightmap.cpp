@@ -611,7 +611,7 @@ void cast_zlight(
                 if( current_transparency == LIGHT_TRANSPARENCY_SOLID ) {
                     start_minor = new_start_minor;
                 } else {
-                    // Note this is the same slope as the recursive call we just made.
+                    // Note this is the same slope as one of the recursive calls we just made.
                     start_minor = std::max( start_minor, trailing_edge_minor );
                     start_major = std::max( start_major, trailing_edge_major );
                 }

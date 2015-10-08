@@ -273,6 +273,7 @@ void shadowcasting_3d_2d( int iterations )
     float seen_squares_control[MAPSIZE*SEEX][MAPSIZE*SEEY] = {{0}};
     float seen_squares_experiment[MAPSIZE*SEEX][MAPSIZE*SEEY] = {{0}};
     float transparency_cache[MAPSIZE*SEEX][MAPSIZE*SEEY] = {{0}};
+    bool floor_cache[MAPSIZE*SEEX][MAPSIZE*SEEY] = {{0}};
 
     // Initialize the transparency value of each square to a random value.
     for( auto &inner : transparency_cache ) {
@@ -316,34 +317,39 @@ void shadowcasting_3d_2d( int iterations )
     }
     auto end1 = std::chrono::high_resolution_clock::now();
 
-    const int target_z = offsetZ;
     const tripoint origin( offsetX, offsetY, offsetZ );
-    const auto floor_check = []( const tripoint & ) { return false; };
     std::array<const float (*)[MAPSIZE*SEEX][MAPSIZE*SEEY], OVERMAP_LAYERS> transparency_caches;
-    transparency_caches[OVERMAP_DEPTH] = &transparency_cache;
+    std::array<float (*)[MAPSIZE*SEEX][MAPSIZE*SEEY], OVERMAP_LAYERS> seen_caches;
+    std::array<const bool (*)[MAPSIZE*SEEX][MAPSIZE*SEEY], OVERMAP_LAYERS> floor_caches;
+    for( int z = -OVERMAP_DEPTH; z <= OVERMAP_HEIGHT; z++ ) {
+        // TODO: Give some more proper values here
+        transparency_caches[z + OVERMAP_DEPTH] = &transparency_cache;
+        seen_caches[z + OVERMAP_DEPTH] = &seen_squares_experiment;
+        floor_caches[z + OVERMAP_DEPTH] = &floor_cache;
+    }
 
     auto start2 = std::chrono::high_resolution_clock::now();
     for( int i = 0; i < iterations; i++ ) {
         // Then the newer algorithm.
         cast_zlight<0, 1, 0, 1, 0, 0, -1, sight_calc, sight_check>(
-            seen_squares_experiment, transparency_caches, origin, 0, target_z, floor_check );
+            seen_caches, transparency_caches, floor_caches, origin, 0 );
         cast_zlight<1, 0, 0, 0, 1, 0, -1, sight_calc, sight_check>(
-            seen_squares_experiment, transparency_caches, origin, 0, target_z, floor_check );
+            seen_caches, transparency_caches, floor_caches, origin, 0 );
 
         cast_zlight<0, -1, 0, 1, 0, 0, -1, sight_calc, sight_check>(
-            seen_squares_experiment, transparency_caches, origin, 0, target_z, floor_check );
+            seen_caches, transparency_caches, floor_caches, origin, 0 );
         cast_zlight<-1, 0, 0, 0, 1, 0, -1, sight_calc, sight_check>(
-            seen_squares_experiment, transparency_caches, origin, 0, target_z, floor_check );
+            seen_caches, transparency_caches, floor_caches, origin, 0 );
 
         cast_zlight<0, 1, 0, -1, 0, 0, -1, sight_calc, sight_check>(
-            seen_squares_experiment, transparency_caches, origin, 0, target_z, floor_check );
+            seen_caches, transparency_caches, floor_caches, origin, 0 );
         cast_zlight<1, 0, 0, 0, -1, 0, -1, sight_calc, sight_check>(
-            seen_squares_experiment, transparency_caches, origin, 0, target_z, floor_check );
+            seen_caches, transparency_caches, floor_caches, origin, 0 );
 
         cast_zlight<0, -1, 0, -1, 0, 0, -1, sight_calc, sight_check>(
-            seen_squares_experiment, transparency_caches, origin, 0, target_z, floor_check );
+            seen_caches, transparency_caches, floor_caches, origin, 0 );
         cast_zlight<-1, 0, 0, 0, -1, 0, -1, sight_calc, sight_check>(
-            seen_squares_experiment, transparency_caches, origin, 0, target_z, floor_check );
+            seen_caches, transparency_caches, floor_caches, origin, 0 );
     }
     auto end2 = std::chrono::high_resolution_clock::now();
 
