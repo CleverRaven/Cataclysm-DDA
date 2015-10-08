@@ -480,7 +480,7 @@ void iexamine::vending(player * const p, map * const m, const tripoint &examp)
             auto const &elem = item_list[i];
             const int count = elem->second.size();
             const char c = (count < 10) ? ('0' + count) : '*';
-            mvwprintz(w, first_item_offset + line, 1, color, "%c %s", c, elem->first.c_str());
+            trim_and_print(w, first_item_offset + line, 1, w_items_w-3, color, "%c %s", c, elem->first.c_str());
         }
 
         //Draw Scrollbar
@@ -2275,7 +2275,7 @@ void iexamine::tree_pine(player *p, map *m, const tripoint &examp)
 }
 
 void iexamine::tree_hickory(player *p, map *m, const tripoint &examp)
-{    
+{
     harvest_tree_shrub(p,m,examp);
     if( !( p->skillLevel( skill_survival ) > 0 ) ) {
         return;
