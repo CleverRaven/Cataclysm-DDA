@@ -753,6 +753,9 @@
       { "monster" : "mon_spider_wolf_giant", "freq" :  1, "cost_multiplier" : 0, "starts" : 792, "conditions" : ["SPRING", "SUMMER", "AUTUMN"] },
       { "monster" : "mon_spider_wolf_giant", "freq" :  3, "cost_multiplier" : 0, "starts" : 792, "conditions" : ["DUSK", "NIGHT", "DAWN", "SPRING", "SUMMER", "AUTUMN"] },
 
+      { "monster" : "mon_wasp_small", "freq" :  3, "cost_multiplier" : 2, "conditions" : ["SPRING", "SUMMER", "AUTUMN"] },
+      { "monster" : "mon_wasp_small", "freq" : 12, "cost_multiplier" : 2, "conditions" : ["DAWN", "DAY", "SPRING", "SUMMER", "AUTUMN"] },
+
       { "monster" : "mon_wasp", "freq" :  1, "cost_multiplier" : 0,                 "conditions" : ["SPRING", "SUMMER", "AUTUMN"]        },
       { "monster" : "mon_wasp", "freq" :  4, "cost_multiplier" : 0,                 "conditions" : ["DAY", "SPRING", "SUMMER", "AUTUMN"] },
       { "monster" : "mon_wasp", "freq" :  1, "cost_multiplier" : 0, "starts" :  72, "conditions" : ["SPRING", "SUMMER", "AUTUMN"]        },
