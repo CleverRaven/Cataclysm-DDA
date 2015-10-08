@@ -336,8 +336,21 @@ std::pair<std::pair<double, double>, double> slope_of(const std::vector<tripoint
     return ret;
 }
 
+const double PI = 3.14159265359;
+
 float get_normalized_angle( const point &start, const point &end )
 {
+    /*
+    double angle = atan2( start.x - end.x, start.y - end.y );
+    while( angle < 0.0 ) {
+        angle += PI / 2.0;
+    }
+    while( angle > PI / 2.0 ) {
+        angle -= PI / 2.0;
+    }
+    return angle / (PI / 2.0);
+    */
+// Taking the abs value of the difference puts the values in the first quadrant.
     const float absx = std::abs( std::max(start.x, end.x) - std::min(start.x, end.x) );
     const float absy = std::abs( std::max(start.y, end.y) - std::min(start.y, end.y) );
     const float max = std::max( absx, absy );
