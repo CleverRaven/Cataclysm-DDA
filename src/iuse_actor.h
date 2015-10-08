@@ -112,7 +112,7 @@ class explosion_iuse : public iuse_actor
     public:
         // Those 4 values are forwarded to game::explosion.
         // No explosion is done if power < 0
-        int explosion_power;
+        float explosion_power;
         float explosion_distance_factor;
         int explosion_shrapnel;
         bool explosion_fire;

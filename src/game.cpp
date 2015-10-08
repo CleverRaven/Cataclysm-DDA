@@ -6238,7 +6238,9 @@ void game::explosion( const tripoint &p, float power, float factor,
         sfx::play_variant_sound( "explosion", "small", 100);
     }
 
-    if( factor > 0.0f ) {
+    if( factor >= 1.0f ) {
+        debugmsg( "called game::explosion with factor >= 1.0 (infinite size)" );
+    } else if( factor > 0.0f ) {
         do_blast( p, power, factor, fire );
     }
 
