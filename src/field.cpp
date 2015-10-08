@@ -669,7 +669,6 @@ bool map::process_fields_in_submap( submap *const current_submap,
                     case fd_acid:
                     {
                         const auto &ter = map_tile.get_ter_t();
-                        const auto &frn = map_tile.get_furn_t();
                         if( ter.has_flag( TFLAG_SWIMMABLE ) ) { // Dissipate faster in water
                             cur->setFieldAge( cur->getFieldAge() + 20 );
                         }
