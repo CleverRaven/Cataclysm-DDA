@@ -1352,14 +1352,16 @@ void npc::move_to( const tripoint &pt, bool no_bashing )
 
 void npc::move_to_next()
 {
+    while( !path.empty() && pos() == path[0] ) {
+        path.erase( path.begin() );
+    }
+
     if( path.empty() ) {
-        add_msg( m_debug, "npc::move_to_next() called with an empty path!" );
+        add_msg( m_debug, "npc::move_to_next() called with an empty path or path containing only current position" );
         move_pause();
         return;
     }
-    while( pos() == path[0] ) {
-        path.erase( path.begin() );
-    }
+
     move_to( path[0] );
     if( pos() == path[0] ) { // Move was successful
         path.erase( path.begin() );

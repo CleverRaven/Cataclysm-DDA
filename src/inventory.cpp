@@ -12,8 +12,15 @@
 #include "mapdata.h"
 #include "map_iterator.h"
 
-const std::string inv_chars =
-    "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!\"#&()*+./:;=@[\\]^_{|}";
+const invlet_wrapper inv_chars("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!\"#&()*+./:;=@[\\]^_{|}");
+
+bool invlet_wrapper::valid( const long invlet ) const
+{
+    if( invlet > std::numeric_limits<char>::max() || invlet < std::numeric_limits<char>::min() ) {
+        return false;
+    }
+    return find( static_cast<char>( invlet ) ) != std::string::npos;
+}
 
 inventory::inventory()
 : nullitem()
@@ -387,18 +394,21 @@ void inventory::restack(player *p)
     std::list<item> to_restack;
     int idx = 0;
     for (invstack::iterator iter = items.begin(); iter != items.end(); ++iter, ++idx) {
-        const int ipos = p->invlet_to_position(iter->front().invlet);
-        if (!iter->front().invlet_is_okay() || ( ipos != INT_MIN && ipos != idx ) ) {
-            assign_empty_invlet(iter->front());
-            for( std::list<item>::iterator stack_iter = iter->begin();
-                 stack_iter != iter->end(); ++stack_iter ) {
-                stack_iter->invlet = iter->front().invlet;
+        std::list<item> &stack = *iter;
+        item &topmost = stack.front();
+
+        const int ipos = p->invlet_to_position(topmost.invlet);
+        if( !inv_chars.valid( topmost.invlet ) || ( ipos != INT_MIN && ipos != idx ) ) {
+            assign_empty_invlet(topmost);
+            for( std::list<item>::iterator stack_iter = stack.begin();
+                 stack_iter != stack.end(); ++stack_iter ) {
+                stack_iter->invlet = topmost.invlet;
             }
         }
 
         // remove non-matching items, stripping off end of stack so the first item keeps the invlet.
-        while( iter->size() > 1 && !iter->front().stacks_with(iter->back()) ) {
-            to_restack.splice(to_restack.begin(), *iter, --iter->end());
+        while( stack.size() > 1 && !topmost.stacks_with(stack.back()) ) {
+            to_restack.splice(to_restack.begin(), *iter, --stack.end());
         }
     }
 

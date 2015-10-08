@@ -27,6 +27,7 @@
 #include "mtype.h"
 #include "weather.h"
 #include "map_iterator.h"
+
 #include <fstream>
 #include <sstream>
 #include <stdlib.h>
@@ -102,6 +103,9 @@ enum vehicle_controls {
  toggle_camera,
  release_remote_control,
  toggle_chimes,
+ toggle_plow,
+ toggle_planter,
+ toggle_reaper,
  toggle_scoop
 };
 
@@ -890,7 +894,11 @@ void vehicle::use_controls()
     bool has_camera_control = false;
     bool has_aisle_lights = false;
     bool has_dome_lights = false;
+    bool has_plow = false;
+    bool has_planter = false;
     bool has_scoop = false;
+    bool has_reaper = false;
+
     for( size_t p = 0; p < parts.size(); p++ ) {
         if (part_flag(p, "CONE_LIGHT")) {
             has_lights = true;
@@ -944,8 +952,14 @@ void vehicle::use_controls()
             } else {
                 has_camera = true;
             }
+        } else if( part_flag(p,"PLOW") ) {
+            has_plow = true;
+        } else if( part_flag(p,"PLANTER") ) {
+            has_planter = true;
         } else if( part_flag(p,"SCOOP") ) {
             has_scoop = true;
+        } else if( part_flag(p,"REAPER") ) {
+            has_reaper = true;
         }
     }
 
@@ -1058,9 +1072,20 @@ void vehicle::use_controls()
         menu.addentry( toggle_camera, true, 'M', camera_on ?
                        _("Turn off camera system") : _("Turn on camera system") );
     }
+    if( has_plow ){
+        menu.addentry( toggle_plow, true, MENU_AUTOASSIGN, plow_on ?
+                       _("Turn plow off") : _("Turn plow on") );
+    }
+    if( has_planter ){
+        menu.addentry( toggle_planter, true, 'P', planter_on ?
+                       _("Turn planter off") : _("Turn planter on") );
+    }
     if( has_scoop ) {
         menu.addentry( toggle_scoop, true, 'S', scoop_on ?
                        _("Turn off scoop system") : _("Turn on scoop system") );
+    }
+    if( has_reaper ){
+        menu.addentry( toggle_reaper, true, 'H', reaper_on ?  _("Turn off reaper") : _("Turn on reaper") );
     }
     menu.addentry( control_cancel, true, ' ', _("Do nothing") );
 
@@ -1110,7 +1135,7 @@ void vehicle::use_controls()
             stereo_on = !stereo_on;
             add_msg( stereo_on ? _("Turned on music") : _("Turned off music") );
         } else {
-                add_msg(_("The stereo won't come on!"));
+            add_msg(_("The stereo won't come on!"));
         }
         break;
     case toggle_chimes:
@@ -1118,7 +1143,7 @@ void vehicle::use_controls()
             chimes_on = !chimes_on;
             add_msg( chimes_on ? _("Turned on chimes") : _("Turned off chimes") );
         } else {
-                add_msg(_("The chimes won't come on!"));
+            add_msg(_("The chimes won't come on!"));
         }
         break;
     case toggle_overhead_lights:
@@ -1211,7 +1236,9 @@ void vehicle::use_controls()
         add_msg(_("You stop controlling the vehicle."));
         break;
     case convert_vehicle:
-        fold_up();
+        if( fold_up() ) {
+            return; // `this` has been deleted!
+        }
         break;
     case toggle_tracker:
         if (tracking_on)
@@ -1248,12 +1275,25 @@ void vehicle::use_controls()
             add_msg( _("Camera system won't turn on") );
         }
         break;
+    case toggle_plow:
+        add_msg( plow_on ? _("Plow system stopped"): _("Plow system started"));
+        plow_on = !plow_on;
+        break;
+    case toggle_planter:
+        add_msg(planter_on ? _("Planter system stopped"): _("Planter system started"));
+        planter_on = !planter_on;
+        break;
     case control_cancel:
+        break;
+    case toggle_reaper:
+        add_msg(reaper_on?_("Reaper turned off"):_("Reaper turned on"));
+        reaper_on = !reaper_on;
         break;
     case toggle_scoop:
         scoop_on = !scoop_on;
         break;
     }
+    refresh();
 }
 
 bool vehicle::fold_up() {
@@ -1269,7 +1309,7 @@ bool vehicle::fold_up() {
         return false;
     }
 
-    if( velocity>0 ) {
+    if( velocity > 0 ) {
         add_msg(m_warning, _("You can't fold the %s while it's in motion."), name.c_str());
         return false;
     }
@@ -3332,26 +3372,32 @@ float vehicle::k_mass() const
        return 0;
 
     float ma0 = 50.0;
-
     // calculate safe speed reduction due to mass
     float km = ma0 / (ma0 + (total_mass()) / (8 * (float) wa));
 
     return km;
 }
 
+float vehicle::drag() const
+{
+    return -extra_drag;
+}
+
 float vehicle::strain() const
 {
     int mv = max_velocity();
     int sv = safe_velocity();
-    if (mv <= sv)
+    if( mv <= sv ) {
         mv = sv + 1;
-    if (velocity < sv && velocity > -sv)
+    }
+    if( velocity < sv && velocity > -sv ) {
         return 0;
-    else
+    } else {
         return (float) (abs(velocity) - sv) / (float) (mv - sv);
+    }
 }
 
-bool vehicle::sufficient_wheel_config () const
+bool vehicle::sufficient_wheel_config() const
 {
     std::vector<int> floats = all_parts_with_feature(VPFLAG_FLOATS);
     if( !floats.empty() ) {
@@ -3568,7 +3614,10 @@ void vehicle::power_parts()
     if( battery_deficit != 0 ) {
         is_alarm_on = false;
         lights_on = false;
-        tracking_on = false;
+        if( tracking_on ) {
+            overmap_buffer.remove_vehicle( this );
+            tracking_on = false;
+        }
         overhead_lights_on = false;
         fridge_on = false;
         stereo_on = false;
@@ -3795,8 +3844,91 @@ void vehicle::idle(bool on_map) {
 
     if( on_map ) {
         update_time( calendar::turn );
-        if(scoop_on){
-            operate_scoop();
+    }
+}
+
+void vehicle::on_move(){
+    if(scoop_on){
+        operate_scoop();
+    }
+    if( planter_on ){
+        operate_planter();
+    }
+    if( plow_on ){
+        operate_plow();
+    }
+    if( reaper_on ){
+        operate_reaper();
+    }
+}
+
+void vehicle::operate_plow(){
+    for( const int plow_id : all_parts_with_feature( "PLOW" ) ){
+        const tripoint start_plow = global_pos3() + parts[plow_id].precalc[0];
+        if( g->m.has_flag("DIGGABLE", start_plow) ){
+            g->m.ter_set( start_plow, t_dirtmound );
+        } else {
+            const int speed = velocity;
+            const int v_damage = rng( 3, speed );
+            damage( plow_id, v_damage, DT_BASH, false );
+            sounds::sound( start_plow, v_damage, _("Clanggggg!") );
+        }
+    }
+}
+
+void vehicle::operate_reaper(){
+    const tripoint &veh_start = global_pos3();
+    for( const int reaper_id : all_parts_with_feature( "REAPER" ) ){
+        const tripoint reaper_pos = veh_start + parts[reaper_id].precalc[0];
+        const int plant_produced =  rng( 1, parts[reaper_id].info().bonus );
+        const int seed_produced = rng(1, 3);
+        if( g->m.furn(reaper_pos) != f_plant_harvest ){
+            continue;
+        }
+        const itype &type = *g->m.i_at(reaper_pos).front().type;
+        if( type.id == "fungal_seeds" || type.id == "marloss_seed" ) {
+            // Otherworldly plants, the earth-made reaper can not handle those.
+            continue;
+        }
+        g->m.furn_set( reaper_pos, f_null );
+        g->m.i_clear( reaper_pos );
+        for( auto &i : iexamine::get_harvest_items( type, plant_produced, seed_produced, false ) ) {
+            g->m.add_item_or_charges( reaper_pos, i );
+        }
+    }
+}
+
+void vehicle::operate_planter(){
+    std::vector<int> planters = all_parts_with_feature("PLANTER");
+    for( int planter_id : planters ){
+        const tripoint &loc = global_pos3() + parts[planter_id].precalc[0];
+        vehicle_stack v = get_items(planter_id);
+        for( auto i = v.begin(); i != v.end(); i++ ){
+            if( i->is_seed() ){
+                // If it is an "advanced model" then it will avoid damaging itself or becoming damaged. It's a real feature.
+                if( g->m.ter(loc) != t_dirtmound && part_flag(planter_id,  "ADVANCED_PLANTER" ) ) {
+                    //then don't put the item there.
+                    break;
+                } else if( g->m.ter(loc) == t_dirtmound ) {
+                    g->m.furn_set(loc, f_plant_seed);
+                } else if( !g->m.has_flag( "DIGGABLE", loc ) ) {
+                    //If it isn't diggable terrain, then it will most likely be damaged.
+                    damage( planter_id, rng(1, 10), DT_BASH, false );
+                    sounds::sound( loc, rng(10,20), _("Clink"));
+                }
+                if( !i->count_by_charges() || i->charges == 1 ) {
+                    i->bday = calendar::turn;
+                    g->m.add_item( loc, *i );
+                    v.erase( i );
+                } else {
+                    item tmp = *i;
+                    tmp.charges = 1;
+                    tmp.bday = calendar::turn;
+                    g->m.add_item( loc, tmp );
+                    i->charges--;
+                }
+                break;
+            }
         }
     }
 }
@@ -3806,23 +3938,23 @@ void vehicle::operate_scoop()
     std::vector<int> scoops = all_parts_with_feature( "SCOOP" );
     for( int scoop : scoops ) {
         const int chance_to_damage_item = 9;
-        int max_pickup_size = parts[scoop].info().size/10;
+        int max_pickup_size = parts[scoop].info().size / 10;
         const char *sound_msgs[] = {_("Whirrrr"), _("Ker-chunk"), _("Swish"), _("Cugugugugug")};
         sounds::sound( global_pos3() + parts[scoop].precalc[0], rng( 20, 35 ),
                        sound_msgs[rng( 0, 3 )] );
         std::vector<tripoint> parts_points;
         for( const tripoint &current :
-             g->m.points_in_radius( global_pos3() + parts[scoop].precalc[0], 1 ) ) {
+                 g->m.points_in_radius( global_pos3() + parts[scoop].precalc[0], 1 ) ) {
             parts_points.push_back( current );
         }
         for( const tripoint &position : parts_points ) {
             g->m.mop_spills( position );
             if( !g->m.has_items( position ) ) {
-	        continue;
+                continue;
             }
             item *that_item_there = nullptr;
             const map_stack q = g->m.i_at( position );
-            if( g->m.has_flag( "SEALED", position) ){
+            if( g->m.has_flag( "SEALED", position) ) {
                 continue;//ignore it. Street sweepers are not known for their ability to harvest crops.
             }
             size_t itemdex = 0;
@@ -3836,8 +3968,7 @@ void vehicle::operate_scoop()
             if( !that_item_there ) {
                 continue;
             }
-            if( one_in( chance_to_damage_item ) &&
-                that_item_there->damage < 4) {
+            if( one_in( chance_to_damage_item ) && that_item_there->damage < 4 ) {
                 //The scoop will not destroy the item, but it may damage it a bit.
                 that_item_there->damage++;
                 //The scoop gets a lot louder when breaking an item.
@@ -3856,17 +3987,19 @@ void vehicle::operate_scoop()
     }
 }
 
-void vehicle::alarm(){
-    if (one_in(4)) {
+void vehicle::alarm() {
+    if( one_in(4) ) {
         //first check if the alarm is still installed
         bool found_alarm = has_security_working();
 
         //if alarm found, make noise, else set alarm disabled
-        if (found_alarm){
+        if( found_alarm ) {
             const char *sound_msgs[] = { _("WHOOP WHOOP"), _("NEEeu NEEeu NEEeu"), _("BLEEEEEEP"), _("WREEP")};
-            sounds::sound( global_pos3(), (int) rng(45,80), sound_msgs[rng(0,3)]);
-            if (one_in(1000)) is_alarm_on = false;
-        } else{
+            sounds::sound( global_pos3(), (int) rng(45,80), sound_msgs[rng(0,3)] );
+            if( one_in(1000) ) {
+                is_alarm_on = false;
+            }
+        } else {
             is_alarm_on = false;
         }
     }
@@ -3947,7 +4080,7 @@ void vehicle::thrust( int thd ) {
     // Accelerate (true) or brake (false)
     bool thrusting = true;
     if( velocity ) {
-       int sgn = velocity < 0? -1 : 1;
+       int sgn = (velocity < 0) ? -1 : 1;
        thrusting = (sgn == thd);
     }
 
@@ -3963,7 +4096,7 @@ void vehicle::thrust( int thd ) {
         brk = 10 * 100;
     }
     //pos or neg if acc or brake
-    int vel_inc = (thrusting? accel : brk) * thd;
+    int vel_inc = ((thrusting) ? accel : brk) * thd;
     if( thd == -1 && thrusting ) {
         //accelerate 60% if going backward
         vel_inc = .6 * vel_inc;
@@ -4882,6 +5015,7 @@ void vehicle::refresh()
     alternator_load = 0;
     camera_epower = 0;
     has_atomic_lights = false;
+    extra_drag = 0;
     // Used to sort part list so it displays properly when examining
     struct sort_veh_part_vector {
         vehicle *veh;
@@ -4959,6 +5093,15 @@ void vehicle::refresh()
         }
         if( vpi.has_flag( VPFLAG_FLOATS ) ) {
             floating.push_back( p );
+        }
+        if( plow_on && vpi.has_flag( "PLOW" ) ){
+            extra_drag += vpi.power;
+        }
+        if( planter_on && vpi.has_flag( "PLANTER" ) ){
+            extra_drag += vpi.power;
+        }
+        if( reaper_on && vpi.has_flag( "REAPER" ) ){
+            extra_drag += vpi.power;
         }
         // Build map of point -> all parts in that point
         const point pt = parts[p].mount;

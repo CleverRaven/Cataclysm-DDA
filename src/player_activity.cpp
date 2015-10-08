@@ -249,15 +249,7 @@ void player_activity::do_turn( player *p )
             activity_handlers::fill_liquid_do_turn( this, p );
             break;
         case ACT_ATM:
-            // Based on speed, not time
-            if (p->moves <= moves_left) {
-                moves_left -= p->moves;
-                p->moves = 0;
-            } else {
-                p->moves -= moves_left;
-                moves_left = 0;
-            }
-            iexamine::atm(p, nullptr, p->pos());
+            iexamine::atm(p, &g->m, p->pos());
             break;
         case ACT_START_ENGINES:
             moves_left -= 100;

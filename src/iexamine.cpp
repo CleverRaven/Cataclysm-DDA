@@ -94,7 +94,7 @@ namespace {
 class atm_menu {
 public:
     // menu choices
-    enum : int {
+    enum options : int {
         cancel, purchase_card, deposit_money, withdraw_money, transfer_money, transfer_all_money
     };
 
@@ -110,37 +110,36 @@ public:
 
     void start() {
         for (bool result = false; !result; ) {
-            amenu.query();
-
-            switch (uistate.iexamine_atm_selected = amenu.ret) {
+            switch( choose_option() ) {
             case purchase_card:      result = do_purchase_card();      break;
             case deposit_money:      result = do_deposit_money();      break;
             case withdraw_money:     result = do_withdraw_money();     break;
             case transfer_money:     result = do_transfer_money();     break;
             case transfer_all_money: result = do_transfer_all_money(); break;
             default:
-                if (amenu.keypress != KEY_ESCAPE) {
-                    continue; // only interested in escape.
-                }
-                //fallthrough
-            case cancel:
-                if (u.activity.type == ACT_ATM) {
-                    u.activity.index = 0; // stop activity
-                }
                 return;
-            };
+            }
+            if( u.activity.type != ACT_NULL ) {
+                break;
+            }
 
             amenu.redraw();
             g->draw();
-        }
-
-        if (u.activity.type != ACT_ATM) {
-            u.assign_activity(ACT_ATM, 0);
         }
     }
 private:
     void add_choice(int const i, char const *const title) { amenu.addentry(i, true, -1, title); }
     void add_info(int const i, char const *const title) { amenu.addentry(i, false, -1, title); }
+
+    options choose_option()
+    {
+        if( u.activity.type == ACT_ATM ) {
+            return static_cast<options>( u.activity.index );
+        }
+        amenu.query();
+        uistate.iexamine_atm_selected = amenu.ret;
+        return static_cast<options>( amenu.ret );
+    }
 
     //! Reset and repopulate the menu; with a fair bit of work this could be more efficient.
     void reset(bool const clear = true) {
@@ -242,6 +241,7 @@ private:
         card.charges = 0;
         u.i_add(card);
         u.cash -= 100;
+        u.moves -= 100;
         finish_interaction();
 
         return true;
@@ -268,6 +268,7 @@ private:
 
         src->charges -= amount;
         u.cash += amount;
+        u.moves -= 100;
         finish_interaction();
 
         return true;
@@ -289,6 +290,7 @@ private:
 
         dst->charges += amount;
         u.cash -= amount;
+        u.moves -= 100;
         finish_interaction();
 
         return true;
@@ -321,31 +323,43 @@ private:
 
         src->charges -= amount;
         dst->charges += amount;
+        u.moves -= 100;
         finish_interaction();
 
         return true;
     }
 
     bool do_transfer_all_money() {
-        item *dst = choose_card(_("Insert card for bulk deposit."));
-        if (!dst) {
-            return false;
+        item *dst;
+        if( u.activity.type == ACT_ATM ) {
+            u.activity.type = ACT_NULL; // stop for now, if required, it will be created again.
+            dst = &u.i_at( u.activity.position );
+            if( dst->is_null() || dst->typeId() != "cash_card" ) {
+                return false;
+            }
+        } else {
+            dst = choose_card( _("Insert card for bulk deposit.") );
+            if( !dst ) {
+                return false;
+            }
         }
 
-        // Sum all cash cards in inventory.
-        // Assuming a bulk interface for cards. Don't want to get people killed doing this.
-        long sum = 0;
         for (auto &i : u.inv_dump()) {
-            if (i->type->id != "cash_card") {
+            if( i == dst || i->charges <= 0 || i->type->id != "cash_card" ) {
                 continue;
             }
+            if( u.moves < 0 ) {
+                // Money from `*i` could be transferred, but we're out of moves, schedule it for
+                // the next turn. Putting this here makes sure there will be something to be
+                // done next turn.
+                u.assign_activity( ACT_ATM, 0, transfer_all_money, u.get_item_position( dst ) );
+                break;
+            }
 
-            sum        += i->charges;
+            dst->charges += i->charges;
             i->charges =  0;
             u.moves    -= 10;
         }
-
-        dst->charges = sum;
 
         return true;
     }
@@ -1584,6 +1598,41 @@ void iexamine::dirtmound(player *p, map *m, const tripoint &examp)
     add_msg(_("Planted %s"), seed_names[seed_index].c_str());
 }
 
+std::list<item> iexamine::get_harvest_items( const itype &type, const int plant_count,
+                                             const int seed_count, const bool byproducts )
+{
+    std::list<item> result;
+    if( !type.seed ) {
+        return result;
+    }
+    const islot_seed &seed_data = *type.seed;
+    const itype_id &seed_type = type.id;
+
+    const auto add = [&]( const itype_id &id, const int count ) {
+        item new_item( id, calendar::turn );
+        if( new_item.count_by_charges() && count > 0 ) {
+            new_item.charges = count;
+            result.push_back( new_item );
+        } else if( count > 0 ) {
+            result.insert( result.begin(), count, new_item );
+        }
+    };
+
+    if( seed_data.spawn_seeds ) {
+        add( seed_type, seed_count );
+    }
+
+    add( seed_data.fruit_id, plant_count );
+
+    if( byproducts ) {
+        for( auto &b : seed_data.byproducts ) {
+            add( b, 1 );
+        }
+    }
+
+    return result;
+}
+
 void iexamine::aggie_plant(player *p, map *m, const tripoint &examp)
 {
     if( m->i_at( examp ).empty() ) {
@@ -1601,7 +1650,6 @@ void iexamine::aggie_plant(player *p, map *m, const tripoint &examp)
     const std::string pname = seed.get_plant_name();
 
     if (m->furn(examp) == f_plant_harvest && query_yn(_("Harvest the %s?"), pname.c_str() )) {
-        const islot_seed &seed_data = *seed.type->seed;
         const std::string &seedType = seed.typeId();
         if (seedType == "fungal_seeds") {
             fungus(p, m, examp);
@@ -1613,7 +1661,7 @@ void iexamine::aggie_plant(player *p, map *m, const tripoint &examp)
                 m->ter_set(examp, t_marloss);
                 add_msg(m_info, _("We have altered this unit's configuration to extract and provide local nutriment.  The Mycus provides."));
             } else if ( (p->has_trait("M_DEFENDER")) || ( (p->has_trait("M_SPORES") || p->has_trait("M_FERTILE")) &&
-              one_in(2)) ) {
+                one_in(2)) ) {
                 // Note: not Z-level-friendly!
                 g->summon_mon( mon_fungal_blossom, examp );
                 add_msg(m_info, _("The seed blooms forth!  We have brought true beauty to this world."));
@@ -1625,6 +1673,7 @@ void iexamine::aggie_plant(player *p, map *m, const tripoint &examp)
                 add_msg(m_info, _("The seed blossoms into a flower-looking fungus."));
             }
         } else { // Generic seed, use the seed item data
+            const itype &type = *seed.type;
             m->i_clear(examp);
             m->furn_set(examp, f_null);
 
@@ -1635,26 +1684,9 @@ void iexamine::aggie_plant(player *p, map *m, const tripoint &examp)
             } else if( plantCount <= 0 ) {
                 plantCount = 1;
             }
-            item tmp;
-            if( seed_data.spawn_seeds ) {
-                tmp = item( seedType, calendar::turn );
-                const int seedCount = std::max( 1l, rng( plantCount / 4, plantCount / 2 ) );
-                if( tmp.count_by_charges() ) {
-                    tmp.charges = 1;
-                }
-                for( int i = 0; i < seedCount; ++i ) {
-                    m->add_item_or_charges( examp, tmp );
-                }
-            }
-            tmp = item( seed_data.fruit_id, calendar::turn );
-            if( tmp.count_by_charges() ) {
-                tmp.charges = 1;
-            }
-            for( int i = 0; i < plantCount; ++i ) {
-                m->add_item_or_charges( examp, tmp );
-            }
-            for( auto &b : seed_data.byproducts ) {
-                m->spawn_item( examp, b, 1, 1, calendar::turn );
+            const int seedCount = std::max( 1l, rng( plantCount / 4, plantCount / 2 ) );
+            for( auto &i : get_harvest_items( type, plantCount, seedCount, true ) ) {
+                m->add_item_or_charges( examp, i );
             }
             p->moves -= 500;
         }

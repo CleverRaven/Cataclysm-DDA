@@ -33,7 +33,7 @@
     "....//////////////5....."
             ],
             "place_vehicles": [
-                { "vehicle": "tractor", "x": 12, "y": 16, "rotation": 90, "chance": 40  }
+                { "vehicle": "farm_vehicles", "x": 14, "y": 16, "rotation": 90, "chance": 100 }
             ],
             "items": {
                 "r": { "item": "hardware", "chance": 50}
@@ -665,7 +665,7 @@
                 { "monster": "GROUP_DOMESTIC", "x": [ 1, 6 ], "y": [ 11, 18 ], "density": 0.05 }
             ],
             "place_vehicles": [
-                { "vehicle": "tractor", "x": 4, "y": 5, "rotation": 270, "chance": 40  }
+                { "vehicle": "farm_vehicles", "x": 4, "y": 5, "rotation": 270, "chance": 40  }
             ],
             "place_items": [
                 { "item": "fridge", "chance": 65,  "x": [12,12 ], "y": [11,11 ] },
@@ -768,7 +768,7 @@
                 { "x": [ 1, 6 ], "y": [ 11, 18 ], "monster": "mon_zombie", "repeat": [1, 6] }
             ],
             "place_vehicles": [
-                { "vehicle": "tractor", "x": 4, "y": 5, "rotation": 270, "chance": 40  }
+                { "vehicle": "farm_vehicles", "x": 4, "y": 4, "rotation": 270, "chance": 40  }
             ],
             "place_items": [
                 { "item": "fridge", "chance": 65,  "x": [12,12 ], "y": [11,11 ] },
@@ -871,7 +871,7 @@
                 { "x": [ 1, 6 ], "y": [ 11, 18 ], "monster": "mon_zombie", "repeat": [1, 6] }
             ],
             "place_vehicles": [
-                { "vehicle": "tractor_vehicles", "x": 4, "y": 5, "rotation": 270, "chance": 50  }
+                { "vehicle": "farm_vehicles", "x": 4, "y": 4, "rotation": 270, "chance": 50  }
             ],
             "place_items": [
                 { "item": "cannedfood", "chance": 40,  "x": [12,12 ], "y": [11,11 ] },

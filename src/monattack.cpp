@@ -72,6 +72,9 @@ const skill_id skill_unarmed( "unarmed" );
 const skill_id skill_rifle( "rifle" );
 const skill_id skill_launcher( "launcher" );
 
+const species_id ZOMBIE( "ZOMBIE" );
+const species_id BLOB( "BLOB" );
+
 // shared utility functions
 int within_visual_range(monster *z, int max_range) {
     int dist;
@@ -616,7 +619,7 @@ void mattack::resurrect(monster *z, int index)
             if (g->is_empty(tmp) && g->m.sees(z->pos3(), tmp, -1)) {
                 for( auto &i : g->m.i_at( tmp ) ) {
                     if( i.is_corpse() && i.get_mtype()->has_flag(MF_REVIVES) &&
-                          i.get_mtype()->in_species("ZOMBIE") ) {
+                          i.get_mtype()->in_species( ZOMBIE ) ) {
                         corpses.push_back( std::make_pair(tmp, &i) );
                         break;
                     }
@@ -630,7 +633,7 @@ void mattack::resurrect(monster *z, int index)
         bool allies = false;
         for (size_t i = 0; i < g->num_zombies(); i++) {
             monster *zed = &g->zombie(i);
-            if( zed != z && zed->type->has_flag(MF_REVIVES) && zed->type->in_species("ZOMBIE") &&
+            if( zed != z && zed->type->has_flag(MF_REVIVES) && zed->type->in_species( ZOMBIE ) &&
                   z->attitude_to(*zed) == Creature::Attitude::A_FRIENDLY  &&
                   within_target_range(z, zed, 10)) {
                 allies = true;
@@ -1994,7 +1997,7 @@ void mattack::formblob(monster *z, int index)
             } else if (thatmon != -1) {
                 monster &othermon = g->zombie(thatmon);
                 // Hit a monster.  If it's a blob, give it our speed.  Otherwise, blobify it?
-                if( z->get_speed_base() > 40 && othermon.type->in_species( "BLOB" ) ) {
+                if( z->get_speed_base() > 40 && othermon.type->in_species( BLOB ) ) {
                     if( othermon.type->id == mon_blob_brain ) {
                         // Brain blobs don't get sped up, they heal at the cost of the other blob.
                         // But only if they are hurt badly.
@@ -2065,7 +2068,7 @@ void mattack::callblobs(monster *z, int index)
     // Iterate using horrible creature_tracker API.
     for( size_t i = 0; i < g->num_zombies(); i++ ) {
         monster *candidate = &g->zombie( i );
-        if( candidate->type->in_species("BLOB") && candidate->type->id != mon_blob_brain ) {
+        if( candidate->type->in_species( BLOB ) && candidate->type->id != mon_blob_brain ) {
             // Just give the allies consistent assignments.
             // Don't worry about trying to make the orders optimal.
             allies.push_back( candidate );
@@ -2099,7 +2102,7 @@ void mattack::jackson(monster *z, int index)
     // Iterate using horrible creature_tracker API.
     for( size_t i = 0; i < g->num_zombies(); i++ ) {
         monster *candidate = &g->zombie( i );
-        if(candidate->type->in_species("ZOMBIE") && candidate->type->id != mon_zombie_jackson) {
+        if(candidate->type->in_species( ZOMBIE ) && candidate->type->id != mon_zombie_jackson) {
             // Just give the allies consistent assignments.
             // Don't worry about trying to make the orders optimal.
             allies.push_back( candidate );

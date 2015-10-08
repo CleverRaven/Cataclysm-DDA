@@ -1963,7 +1963,7 @@ bool is_draw_tiles_mode() {
 void musicFinished();
 
 void play_music_file(std::string filename, int volume) {
-    const std::string path = (FILENAMES["datadir"] + "/sound/" + filename);
+    const std::string path = (FILENAMES["datadir"] + "sound/" + filename);
     current_music = Mix_LoadMUS(path.c_str());
     if( current_music == nullptr ) {
         dbg( D_ERROR ) << "Failed to load audio file " << path << ": " << Mix_GetError();
@@ -2041,7 +2041,7 @@ void sfx::load_sound_effects( JsonObject &jsobj ) {
     while( jsarr.has_more() ) {
         sound_effect new_sound_effect;
         const std::string file = jsarr.next_string();
-        std::string path = ( FILENAMES[ "datadir" ] + "/sound/" + file );
+        std::string path = ( FILENAMES[ "datadir" ] + "sound/" + file );
         new_sound_effect.chunk.reset( Mix_LoadWAV( path.c_str() ) );
         if( !new_sound_effect.chunk ) {
             dbg( D_ERROR ) << "Failed to load audio file " << path << ": " << Mix_GetError();
@@ -2134,6 +2134,11 @@ Mix_Chunk *do_pitch_shift( Mix_Chunk *s, float pitch ) {
         Sint64 rt_avg = 0;
         Uint32 begin = ( Uint32 )( ( float )i / pitch_real );
         Uint32 end = ( Uint32 )( ( float )( i + 1 ) / pitch_real );
+
+        // check for boundary case
+        if( end > 0 && ( end >= ( s->alen / 4 ) ) )
+            end = begin;
+
         for( j = begin; j <= end; j++ ) {
             lt = ( s->abuf[( 4 * j ) + 1] << 8 ) | ( s->abuf[( 4 * j ) + 0] );
             rt = ( s->abuf[( 4 * j ) + 3] << 8 ) | ( s->abuf[( 4 * j ) + 2] );

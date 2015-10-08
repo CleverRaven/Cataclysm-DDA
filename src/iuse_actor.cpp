@@ -29,6 +29,8 @@ const skill_id skill_survival( "survival" );
 const skill_id skill_firstaid( "firstaid" );
 const skill_id skill_fabrication( "fabrication" );
 
+const species_id ZOMBIE( "ZOMBIE" );
+
 iuse_transform::~iuse_transform()
 {
 }
@@ -361,6 +363,7 @@ void consume_drug_iuse::load( JsonObject &obj )
     }
     obj.read( "stat_adjustments", stat_adjustments );
     obj.read( "fields_produced", fields_produced );
+    obj.read( "moves", moves);
 }
 
 long consume_drug_iuse::use(player *p, item *it, bool, const tripoint& ) const
@@ -418,6 +421,7 @@ long consume_drug_iuse::use(player *p, item *it, bool, const tripoint& ) const
             p->use_charges( consumable->first, consumable->second );
         }
     }
+    p->moves -= moves;
     return it->type->charges_to_use();
 }
 
@@ -1367,7 +1371,7 @@ long enzlave_actor::use( player *p, item *it, bool t, const tripoint& ) const
 
     for( auto &it : items ) {
         const auto mt = it.get_mtype();
-        if( it.is_corpse() && mt->in_species("ZOMBIE") && mt->has_material("flesh") &&
+        if( it.is_corpse() && mt->in_species( ZOMBIE ) && mt->has_material("flesh") &&
             mt->sym == "Z" && it.active && !it.has_var( "zlave" ) ) {
             corpses.push_back( &it );
         }

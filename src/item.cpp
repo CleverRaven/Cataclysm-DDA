@@ -47,6 +47,11 @@ const skill_id skill_bashing( "bashing" );
 const skill_id skill_cutting( "cutting" );
 const skill_id skill_stabbing( "stabbing" );
 
+const species_id FISH( "FISH" );
+const species_id BIRD( "BIRD" );
+const species_id INSECT( "INSECT" );
+const species_id ROBOT( "ROBOT" );
+
 enum item::LIQUID_FILL_ERROR : int {
     L_ERR_NONE, L_ERR_NO_MIX, L_ERR_NOT_CONTAINER, L_ERR_NOT_WATERTIGHT,
     L_ERR_NOT_SEALED, L_ERR_FULL
@@ -338,11 +343,6 @@ long item::liquid_units( long charges ) const
     } else {
         return charges;
     }
-}
-
-bool item::invlet_is_okay()
-{
-    return (inv_chars.find(invlet) != std::string::npos);
 }
 
 bool item::stacks_with( const item &rhs ) const
@@ -1350,6 +1350,11 @@ std::string item::info(bool showtext, std::vector<iteminfo> &dump_ref) const
             dump->push_back(iteminfo("DESCRIPTION",
                 _("This piece of clothing is designed to protect you from harm and withstand a lot of abuse.")));
         }
+        if (is_armor() && has_flag("FRAGILE")) {
+            dump->push_back(iteminfo("DESCRIPTION", "--"));
+            dump->push_back(iteminfo("DESCRIPTION",
+                _("This gear is fragile and won't protect you for long.")));
+        }
         if (is_armor() && has_flag("DEAF")) {
             dump->push_back(iteminfo("DESCRIPTION", "--"));
             dump->push_back(iteminfo("DESCRIPTION",
@@ -1463,7 +1468,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> &dump_ref) const
         if( is_tool() && has_flag("RADIO_ACTIVATION") ) {
             if( has_flag( "RADIO_MOD" ) ) {
                 dump->push_back(iteminfo("DESCRIPTION",
-                    _("This item has been modified to listen to radio signals. It can still be activated manually.")));
+                    _("This item has been modified to listen to radio signals.  It can still be activated manually.")));
             } else {
                 dump->push_back(iteminfo("DESCRIPTION",
                     _("This item can only be activated by a radio signal.")));
@@ -1578,7 +1583,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> &dump_ref) const
                         _("This food has started to rot, but you can tolerate it.")));
                 } else {
                     dump->push_back(iteminfo("DESCRIPTION",
-                        _("This food has started to rot. Eating it would be a very bad idea.")));
+                        _("This food has started to rot.  Eating it would be a very bad idea.")));
                 }
             } else {
                 dump->push_back(iteminfo("DESCRIPTION",
@@ -2134,7 +2139,7 @@ int item::weight() const
         if (made_of("veggy")) {
             ret /= 3;
         }
-        if(corpse->in_species("FISH") || corpse->in_species("BIRD") || corpse->in_species("INSECT") || made_of("bone")) {
+        if( corpse->in_species( FISH ) || corpse->in_species( BIRD ) || corpse->in_species( INSECT ) || made_of("bone")) {
             ret /= 8;
         } else if (made_of("iron") || made_of("steel") || made_of("stone")) {
             ret *= 7;
@@ -4722,7 +4727,7 @@ bool item::process_corpse( player *carrier, const tripoint &pos )
     if( rng( 0, volume() ) > burnt && g->revive_corpse( pos, *this ) ) {
         if( carrier == nullptr ) {
             if( g->u.sees( pos ) ) {
-                if( corpse->in_species( "ROBOT" ) ) {
+                if( corpse->in_species( ROBOT ) ) {
                     add_msg( m_warning, _( "A nearby robot has repaired itself and stands up!" ) );
                 } else {
                     add_msg( m_warning, _( "A nearby corpse rises and moves towards you!" ) );
@@ -4733,7 +4738,7 @@ bool item::process_corpse( player *carrier, const tripoint &pos )
             carrier->add_memorial_log( pgettext( "memorial_male", "Had a %s revive while carrying it." ),
                                        pgettext( "memorial_female", "Had a %s revive while carrying it." ),
                                        tname().c_str() );
-            if( corpse->in_species( "ROBOT" ) ) {
+            if( corpse->in_species( ROBOT ) ) {
                 carrier->add_msg_if_player( m_warning, _( "Oh dear god, a robot you're carrying has started moving!" ) );
             } else {
                 carrier->add_msg_if_player( m_warning, _( "Oh dear god, a corpse you're carrying has started moving!" ) );
@@ -4992,8 +4997,10 @@ bool item::update_charger_gun_ammo()
     tmpammo->ammo_effects.clear();
     if( charges == 8 ) {
         tmpammo->ammo_effects.insert( "EXPLOSIVE_BIG" );
-    } else if( charges >= 6 ) {
+    } else if( charges >= 7 ) {
         tmpammo->ammo_effects.insert( "EXPLOSIVE" );
+    } else if( charges >= 6 ) {
+        tmpammo->ammo_effects.insert( "EXPLOSIVE_SMALL" );
     }
     if( charges >= 5 ) {
         tmpammo->ammo_effects.insert( "FLAME" );

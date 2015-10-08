@@ -19,6 +19,7 @@ class monster;
 class monfaction;
 struct projectile;
 struct dealt_projectile_attack;
+struct species_type;
 enum field_id : int;
 enum body_part : int;
 enum m_size : int;
@@ -31,6 +32,7 @@ using mongroup_id = string_id<MonsterGroup>;
 struct mtype;
 using mtype_id = string_id<mtype>;
 using mfaction_id = int_id<monfaction>;
+using species_id = string_id<species_type>;
 
 typedef std::string itype_id;
 
@@ -160,11 +162,13 @@ struct mtype {
         friend class MonsterGenerator;
         std::string name;
         std::string name_plural;
+
+        std::set< const species_type* > species_ptrs;
     public:
         mtype_id id;
         std::string description;
-        std::set<std::string> species, categories;
-        std::set< int > species_id;
+        std::set<species_id> species;
+        std::set<std::string> categories;
         mfaction_id default_faction;
         /** UTF-8 encoded symbol, should be exactyle one cell wide. */
         std::string sym;
@@ -244,8 +248,8 @@ struct mtype {
         bool has_fear_trigger(monster_trigger trigger) const;
         bool has_placate_trigger(monster_trigger trigger) const;
         bool in_category(std::string category) const;
-        bool in_species(std::string _species) const;
-        bool in_species( int spec_id ) const;
+        bool in_species( const species_id &spec ) const;
+        bool in_species( const species_type &spec ) const;
         //Used for corpses.
         field_id bloodType () const;
         field_id gibType () const;

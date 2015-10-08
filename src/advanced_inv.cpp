@@ -656,7 +656,7 @@ void advanced_inv_area::init()
     }
 
     // remove leading space
-    if( flags.length() ) {
+    if( flags.length() && flags[0] == ' ' ) {
         flags.erase( 0, 1 );
     }
 }

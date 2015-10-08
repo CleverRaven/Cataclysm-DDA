@@ -21,30 +21,29 @@ using mon_action_death  = void (*)(monster*);
 using mon_action_attack = void (*)(monster*, int);
 using mon_action_defend = void (*)(monster&, Creature*, dealt_projectile_attack const*);
 using mtype_id = string_id<mtype>;
+struct species_type;
+using species_id = string_id<species_type>;
 
 struct species_type {
-    int short_id;
-    std::string id;
+    species_id id;
     std::set<m_flag> flags;
     std::set<monster_trigger> anger_trig, fear_trig, placate_trig;
 
-    species_type(): short_id(0), id("null_species")
+    species_type(): id( NULL_ID )
     {
 
     }
-    species_type(int _short_id,
-                 std::string _id,
+    species_type( const species_id &_id,
                  std::set<m_flag> _flags,
                  std::set<monster_trigger> _anger,
                  std::set<monster_trigger> _fear,
                  std::set<monster_trigger> _placate)
+    : id( _id )
+    , flags( _flags )
+    , anger_trig( _anger)
+    , fear_trig( _fear )
+    , placate_trig( _placate )
     {
-        short_id = _short_id;
-        id = _id;
-        flags = _flags;
-        anger_trig = _anger;
-        fear_trig = _fear;
-        placate_trig = _placate;
     }
 };
 
@@ -74,8 +73,9 @@ class MonsterGenerator
         void check_monster_definitions() const;
 
         mtype &get_mtype( const mtype_id& id );
+        species_type &get_species( const species_id& id );
         bool has_mtype( const mtype_id &id ) const;
-        bool has_species(const std::string &species) const;
+        bool has_species( const species_id &species ) const;
         std::map<mtype_id, mtype *> get_all_mtypes() const;
         std::vector<mtype_id> get_all_mtype_ids() const;
         const mtype_id &get_valid_hallucination() const;
@@ -106,14 +106,14 @@ class MonsterGenerator
                                                 T fallback);
 
         // finalization
-        void apply_species_attributes(mtype *mon);
-        void set_mtype_flags(mtype *mon);
-        void set_species_ids(mtype *mon);
+        void apply_species_attributes( mtype &mon );
+        void set_mtype_flags( mtype &mon );
+        void set_species_ids( mtype &mon );
 
         template <typename T> void apply_set_to_set(std::set<T> from, std::set<T> &to);
 
         std::map<mtype_id, mtype *> mon_templates;
-        std::map<std::string, species_type *> mon_species;
+        std::map<species_id, species_type *> mon_species;
 
         std::map<std::string, phase_id> phase_map;
         std::map<std::string, mon_action_death> death_map;

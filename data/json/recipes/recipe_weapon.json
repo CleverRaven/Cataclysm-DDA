@@ -374,7 +374,7 @@
       [ "withered", 1 ]
     ],
     [
-      [ "copper", 3 ],
+      [ "scrap_copper", 3 ],
       [ "copper", 300 ]
     ]
   ]
@@ -1894,7 +1894,8 @@
   ]
 },{
   "type" : "recipe",
-  "result": "gasbomb",
+  "result": "gasbomb_makeshift",
+  "//" : "Displaces older teargas recipe.  Conventional teargas grenades generally aren't trichloramine.",
   "category": "CC_WEAPON",
   "subcategory": "CSC_WEAPON_EXPLOSIVE",
   "skill_used": "cooking",

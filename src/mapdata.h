@@ -15,6 +15,7 @@
 #include <list>
 #include <map>
 #include <string>
+#include <array>
 
 struct itype;
 struct trap;
@@ -33,13 +34,11 @@ using furn_id = int_id<furn_t>;
 
 struct map_bash_info {
     int str_min;            // min str(*) required to bash
-    int str_max;            // max str required: bash succeeds if str >= random # between str_min_roll & str_max_roll
+    int str_max;            // max str required: bash succeeds if str >= random # between str_min & str_max
     int str_min_blocked;    // same as above; alternate values for has_adjacent_furniture(...) == true
     int str_max_blocked;
     int str_min_supported;  // Alternative values for floor supported by something from below
     int str_max_supported;
-    int str_min_roll;       // lower bound of success check; defaults to str_min
-    int str_max_roll;       // upper bound of success check; defaults to str_max
     int explosive;          // Explosion on destruction
     int sound_vol;          // sound volume of breaking terrain/furniture
     int sound_fail_vol;     // sound volume on fail
@@ -55,7 +54,7 @@ struct map_bash_info {
     std::vector<std::string> tent_centers;
     map_bash_info() : str_min(-1), str_max(-1), str_min_blocked(-1), str_max_blocked(-1),
                       str_min_supported(-1), str_max_supported(-1),
-                      str_min_roll(-1), str_max_roll(-1), explosive(0), sound_vol(-1), sound_fail_vol(-1),
+                      explosive(0), sound_vol(-1), sound_fail_vol(-1),
                       collapse_radius(1), destroy_only(false), bash_below(false),
                       drop_group("EMPTY_GROUP"), sound(""), sound_fail(""), ter_set(""), furn_set("") {};
     bool load(JsonObject &jsobj, std::string member, bool is_furniture);
@@ -185,17 +184,19 @@ private:
     std::bitset<NUM_TERFLAGS> bitflags; // bitfield of -certian- string flags which are heavily checked
 public:
 
+    enum { SEASONS_PER_YEAR = 4 };
     /*
     * The symbol drawn on the screen for the terrain. Please note that there are extensive rules
     * as to which possible object/field/entity in a single square gets drawn and that some symbols
     * are "reserved" such as * and % to do programmatic behavior.
     */
-    long sym;
+    std::array<long, SEASONS_PER_YEAR> symbol_;
 
     int movecost;   // The amount of movement points required to pass this terrain by default.
     int max_volume; // Maximal volume of items that can be stored in/on this furniture
 
-    nc_color color; //The color the sym will draw in on the GUI.
+    std::array<nc_color, SEASONS_PER_YEAR> color_; //The color the sym will draw in on the GUI.
+    void load_symbol( JsonObject &jo );
 
     iexamine_function examine; //What happens when the terrain is examined
 
@@ -210,6 +211,9 @@ public:
     }
 
     void set_flag( const std::string &flag );
+
+    long symbol() const;
+    nc_color color() const;
 };
 
 /*

@@ -109,6 +109,9 @@ const skill_id skill_dodge( "dodge" );
 const skill_id skill_driving( "driving" );
 const skill_id skill_firstaid( "firstaid" );
 
+const species_id ZOMBIE( "ZOMBIE" );
+const species_id PLANT( "PLANT" );
+
 void advanced_inv(); // player_activity.cpp
 void intro();
 nc_color sev(int a); // Right now, ONLY used for scent debugging....
@@ -566,7 +569,7 @@ void game::setup()
 {
     load_world_modfiles(world_generator->active_world);
 
-    m = std::move( map( static_cast<bool>( ACTIVE_WORLD_OPTIONS["ZLEVELS"] ) ) );
+    m =  map( static_cast<bool>( ACTIVE_WORLD_OPTIONS["ZLEVELS"] ) ) ;
 
     next_npc_id = 1;
     next_faction_id = 1;
@@ -2211,8 +2214,7 @@ bool game::handle_action()
 
     // If performing an action with right mouse button, co-ordinates
     // of location clicked.
-    int mouse_action_x = -1;
-    int mouse_action_y = -1;
+    tripoint mouse_target = tripoint_min;
 
 // do not allow mouse actions while dead
     if( !u.is_dead_state() &&
@@ -2230,6 +2232,7 @@ bool game::handle_action()
             // Not clicked in visible terrain
             return false;
         }
+        mouse_target = tripoint( mx, my, u.posz() );
 
         if (action == "SELECT") {
             bool new_destination = true;
@@ -2250,7 +2253,7 @@ bool game::handle_action()
             }
 
             if (new_destination) {
-                destination_preview = m.route( u.pos3(), tripoint( mx, my, u.posz() ), 0, 1000 );
+                destination_preview = m.route( u.pos3(), mouse_target, 0, 1000 );
                 return false;
             }
         } else if (action == "SEC_SELECT") {
@@ -2264,9 +2267,7 @@ bool game::handle_action()
                 return false;
             }
 
-            mouse_action_x = mx;
-            mouse_action_y = my;
-            int mouse_selected_mondex = mon_at( { mx, my, get_levz() } );
+            int mouse_selected_mondex = mon_at( mouse_target );
             if (mouse_selected_mondex != -1) {
                 monster &critter = critter_tracker->find(mouse_selected_mondex);
                 if (!u.sees(critter)) {
@@ -2537,8 +2538,8 @@ bool game::handle_action()
         case ACTION_CLOSE:
             if( u.has_active_mutation( "SHELL2" ) ) {
                 add_msg(m_info, _("You can't close things while you're in your shell."));
-            } else if( mouse_action_x != -1 && mouse_action_y != -1 ) {                
-                close( tripoint( mouse_action_x, mouse_action_y, u.posz() ) );
+            } else if( mouse_target != tripoint_min ) {
+                close( mouse_target );
             } else {
                 close();
             }
@@ -2557,8 +2558,10 @@ bool game::handle_action()
         case ACTION_EXAMINE:
             if (u.has_active_mutation("SHELL2")) {
                 add_msg(m_info, _("You can't examine your surroundings while you're in your shell."));
+            } else if( mouse_target != tripoint_min ) {
+                examine( mouse_target );
             } else {
-                examine( tripoint( mouse_action_x, mouse_action_y, u.posz() ) );
+                examine();
             }
             break;
 
@@ -2680,11 +2683,11 @@ bool game::handle_action()
 
         case ACTION_FIRE:
             // Shell-users may fire a *single-handed* weapon out a port, if need be.
-            plfire( false, tripoint( mouse_action_x, mouse_action_y, u.posz() ) );
+            plfire( false, mouse_target );
             break;
 
         case ACTION_FIRE_BURST:
-            plfire( true, tripoint( mouse_action_x, mouse_action_y, u.posz() ) );
+            plfire( true, mouse_target );
             break;
 
         case ACTION_SELECT_FIRE_MODE:
@@ -5408,10 +5411,10 @@ void game::hallucinate( const tripoint &center )
                 const ter_t &t = m.ter_at( p );
                 p.x = i + rx + rng(-2, 2);
                 p.y = j + ry + rng(-2, 2);
-                char ter_sym = t.sym;
+                char ter_sym = t.symbol();
                 p.x = i + rx + rng(-2, 2);
                 p.y = j + ry + rng(-2, 2);
-                nc_color ter_col = t.color;
+                nc_color ter_col = t.color();
                 mvwputch(w_terrain, j, i, ter_col, ter_sym);
             }
         }
@@ -5700,7 +5703,7 @@ int game::mon_info(WINDOW *w)
             if (!new_seen_mon.empty()) {
                 monster &critter = critter_tracker->find(new_seen_mon.back());
                 cancel_activity_query(_("%s spotted!"), critter.name().c_str());
-                if (u.has_trait("M_DEFENDER") && critter.type->in_species("PLANT")) {
+                if (u.has_trait("M_DEFENDER") && critter.type->in_species( PLANT )) {
                     add_msg(m_warning, _("We have detected a %s."), critter.name().c_str());
                     if (!u.has_effect("adrenaline_mycus")){
                         u.add_effect("adrenaline_mycus", 300);
@@ -6184,31 +6187,60 @@ void game::do_blast( const tripoint &p, const int power, const bool fire )
             veh->damage( vpart, force, fire ? DT_HEAT : DT_BASH, false );
         }
 
-        Creature *critter = critter_at( pt );
+        Creature *critter = critter_at( pt, true );
         if( critter == nullptr ) {
             continue;
         }
+
+        add_msg( m_debug, "Blast hits %s with force %.1f",
+                 critter->disp_name().c_str(), force );
 
         player *pl = dynamic_cast<player*>( critter );
         if( pl == nullptr ) {
             // TODO: player's fault?
             const int dmg = force - ( critter->get_armor_bash( bp_torso ) / 2 );
-            critter->apply_damage( nullptr, bp_torso, rng( dmg * 2, dmg * 3 ) );
+            const int actual_dmg = rng( dmg * 2, dmg * 3 );
+            critter->apply_damage( nullptr, bp_torso, actual_dmg );
             critter->check_dead_state();
+            add_msg( m_debug, "Blast hits %s for %d damage", critter->disp_name().c_str(), actual_dmg );
             continue;
         }
 
-        if( pl->is_player() ) {
-            add_msg( m_bad, _("You're caught in the explosion!") );
-        }
+        // Print messages for all NPCs
+        pl->add_msg_player_or_npc( m_bad, _("You're caught in the explosion!"),
+                                          _("<npcname> is caught in the explosion!") );
 
-        pl->deal_damage( nullptr, bp_torso, damage_instance( DT_BASH, rng( force * 2, force * 3 ), 0, 0.5f ) );
-        pl->deal_damage( nullptr, bp_head,  damage_instance( DT_BASH, rng( force * 2, force * 3 ), 0, 0.5f ) );
-        // Hit limbs harder so that it hurts more without being much more deadly
-        pl->deal_damage( nullptr, bp_leg_l, damage_instance( DT_BASH, rng( force * 2, force * 3.5f ), 0, 0.4f ) );
-        pl->deal_damage( nullptr, bp_leg_r, damage_instance( DT_BASH, rng( force * 2, force * 3.5f ), 0, 0.4f ) );
-        pl->deal_damage( nullptr, bp_arm_l, damage_instance( DT_BASH, rng( force * 2, force * 3.5f ), 0, 0.4f ) );
-        pl->deal_damage( nullptr, bp_arm_r, damage_instance( DT_BASH, rng( force * 2, force * 3.5f ), 0, 0.4f ) );
+        struct blastable_part {
+            body_part bp;
+            float low_mul;
+            float high_mul;
+            float armor_mul;
+        };
+
+        static const std::array<blastable_part, 6> blast_parts = { {
+            { bp_torso, 2.0f, 3.0f, 0.5f },
+            { bp_head,  2.0f, 3.0f, 0.5f },
+            // Hit limbs harder so that it hurts more without being much more deadly
+            { bp_leg_l, 2.0f, 3.5f, 0.4f },
+            { bp_leg_r, 2.0f, 3.5f, 0.4f },
+            { bp_arm_l, 2.0f, 3.5f, 0.4f },
+            { bp_arm_r, 2.0f, 3.5f, 0.4f },
+        } };
+
+        for( const auto &blp : blast_parts ) {
+            const int part_dam = rng( force * blp.low_mul, force * blp.high_mul );
+            const std::string hit_part_name = body_part_name_accusative( blp.bp );
+            const auto dmg_instance = damage_instance( DT_BASH, part_dam, 0, 0.5f );
+            const auto result = pl->deal_damage( nullptr, blp.bp, dmg_instance );
+            const int res_dmg = result.total_damage();
+
+            add_msg( m_debug, "%s for %d raw, %d actual",
+                     hit_part_name.c_str(), part_dam, res_dmg );
+            if( res_dmg > 0 ) {
+                pl->add_msg_if_player( m_bad, _("Your %s is hit for %d damage!"),
+                                       hit_part_name.c_str(), res_dmg );
+            }
+        }
     }
 }
 
@@ -7489,13 +7521,17 @@ void game::exam_vehicle(vehicle &veh, const tripoint &p, int cx, int cy)
         // Stored in activity.index and used in the complete_vehicle() callback to finish task.
         switch (vehint.sel_cmd) {
         case 'i':
-            time = setuptime + std::max(mintime, 5000 * diff - skill * 2500);;
+            time = setuptime + std::max(mintime, 5000 * diff - skill * 2500);
+            break;
         case 'r':
-            time = setuptime + std::max(mintime, (8 * diff - skill * 4) * dmg);;
+            time = setuptime + std::max(mintime, (8 * diff - skill * 4) * dmg);
+            break;
         case 'o':
-            time = setuptime + std::max(mintime, 4000 * diff - skill * 2000);;
+            time = setuptime + std::max(mintime, 4000 * diff - skill * 2000);
+            break;
         case 'c':
-            time = setuptime + std::max(mintime, 6000 * diff - skill * 4000);;
+            time = setuptime + std::max(mintime, 6000 * diff - skill * 4000);
+            break;
         }
         u.assign_activity( ACT_VEHICLE, time, (int)vehint.sel_cmd );
         u.activity.values.push_back(veh.global_x());    // values[0]
@@ -7677,7 +7713,7 @@ void game::open_gate( const tripoint &p, const ter_id handle_type )
     } else {
         return;
     }
-    
+
     add_msg(pull_message);
     if (handle_type == t_gates_control_metal){
         moves += 300;
@@ -7773,7 +7809,7 @@ bool pet_menu(monster *z)
     uimenu amenu;
 
     std::string pet_name = _("dog");
-    if( z->type->in_species("ZOMBIE") ) {
+    if( z->type->in_species( ZOMBIE ) ) {
         pet_name = _("zombie slave");
     }
 
@@ -7802,7 +7838,7 @@ bool pet_menu(monster *z)
         }
     }
 
-    if( z->type->in_species("ZOMBIE") ) {
+    if( z->type->in_species( ZOMBIE ) ) {
         amenu.addentry(pheromone, true, 't', _("Tear out pheromone ball"));
     }
 
@@ -8058,29 +8094,25 @@ bool npc_menu( npc &who )
 
 void game::examine()
 {
-    examine( tripoint( -1, -1, get_levz() ) );
+    // if we are driving a vehicle, examine the
+    // current tile without asking.
+    const vehicle * const veh = m.veh_at( u.pos() );
+    if( veh && veh->player_in_control( u ) ) {
+        examine( u.pos() );
+        return;
+    }
+
+    tripoint examp = u.pos();
+    if( !choose_adjacent_highlight( _("Examine where?"), examp, ACTION_EXAMINE ) ) {
+        return;
+    }
+    examine( examp );
 }
 
-void game::examine( const tripoint &p )
+void game::examine( const tripoint &examp )
 {
-    tripoint examp = p;
-    int &examx = examp.x;
-    int &examy = examp.y;
     int veh_part = 0;
     vehicle *veh = nullptr;
-    const int curz = p.z;
-
-    if (examx == -1) {
-        // if we are driving a vehicle, examine the
-        // current tile without asking.
-        veh = m.veh_at(u.pos(), veh_part);
-        if (veh && veh->player_in_control(u)) {
-            examx = u.posx();
-            examy = u.posy();
-        } else  if (!choose_adjacent_highlight(_("Examine where?"), examp, ACTION_EXAMINE)) {
-            return;
-        }
-    }
 
     veh = m.veh_at(examp, veh_part);
     if (veh) {
@@ -8112,11 +8144,6 @@ void game::examine( const tripoint &p )
     // Did the player get moved? Bail out if so; our examp probably
     // isn't valid anymore.
     if( player_pos != u.pos() ) {
-        return;
-    }
-
-    if (curz != get_levz()) {
-        // triggered an elevator
         return;
     }
 
@@ -10591,17 +10618,17 @@ void game::reassign_item( int pos )
     if( change_from.is_null() ) {
         return;
     }
-    char newch = popup_getkey( _( "%s; enter new letter (press SPACE for none, ESCAPE to cancel)." ),
+    long newch = popup_getkey( _( "%s; enter new letter (press SPACE for none, ESCAPE to cancel)." ),
                                change_from.tname().c_str() );
-    if( newch == ' ' ) {
-        newch = 0;
-    }
     if( newch == KEY_ESCAPE ) {
         add_msg( m_neutral, _( "Never mind." ) );
         return;
     }
-    if( newch != 0 && inv_chars.find( newch ) == std::string::npos ) {
-        add_msg( m_info, _( "%c is not a valid inventory letter." ), newch );
+    if( newch == ' ' ) {
+        newch = 0;
+    } else if( !inv_chars.valid( newch ) ) {
+        add_msg( m_info, _("Invlid inventory letter. Only those characters are valid:\n\n%s"),
+                 inv_chars.get_allowed_chars().c_str() );
         return;
     }
     if( change_from.invlet == newch ) {
@@ -12635,7 +12662,7 @@ bool game::grabbed_veh_move( const tripoint &dp )
     }
 
     return false;
-    
+
 }
 
 bool game::grabbed_furn_move( const tripoint &dp )
@@ -12765,7 +12792,7 @@ bool game::grabbed_furn_move( const tripoint &dp )
             u.grab_type = OBJECT_NONE;
         }
         return true; // We moved furniture but stayed still.
-    } 
+    }
 
     if( pushing_furniture && m.move_cost( fpos ) <= 0 ) {
         // Not sure how that chair got into a wall, but don't let player follow.
@@ -13216,12 +13243,13 @@ tripoint game::find_or_make_stairs( map &mp, const int z_after, bool &rope_ladde
     const int omtilesz = SEEX * 2;
     real_coords rc( m.getabs(u.posx(), u.posy()) );
     tripoint omtile_align_start( m.getlocal(rc.begin_om_pos()), z_after );
+    tripoint omtile_align_end( omtile_align_start.x + omtilesz - 1, omtile_align_start.y + omtilesz - 1, omtile_align_start.z );
 
     // Try to find the stairs.
     tripoint stairs = tripoint_min;
     int best = INT_MAX;
     const int movez = z_after - get_levz();
-    for( const tripoint &dest : m.points_in_radius( omtile_align_start, omtilesz ) ) {
+    for( const tripoint &dest : m.points_in_rectangle( omtile_align_start, omtile_align_end ) ) {
         if( rl_dist( u.pos(), dest ) <= best &&
             ((movez == -1 && mp.has_flag("GOES_UP", dest)) ||
              (movez == 1 && (mp.has_flag("GOES_DOWN", dest) ||

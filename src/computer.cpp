@@ -27,6 +27,8 @@ const mtype_id mon_secubot( "mon_secubot" );
 
 const skill_id skill_computer( "computer" );
 
+const species_id ZOMBIE( "ZOMBIE" );
+
 std::vector<std::string> computer::lab_notes;
 int alerts = 0;
 
@@ -818,7 +820,7 @@ of pureed bone & LSD."));
                         const mtype *mt = blood.get_mtype();
                         if( mt == nullptr || mt->id == NULL_ID ) {
                             print_line(_("Result:  Human blood, no pathogens found."));
-                        } else if( mt->in_species( "ZOMBIE" ) ) {
+                        } else if( mt->in_species( ZOMBIE ) ) {
                             if( mt->sym == "Z" ) {
                                 print_line(_("Result:  Human blood.  Unknown pathogen found."));
                             } else {

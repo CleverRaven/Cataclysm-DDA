@@ -643,7 +643,7 @@ The contents of use_action fields can either be a string indicating a built-in f
 "use_action": {
     "type: : "auto_transform", // Like transform, but it transforms automatically when a condition is met.
     "when_underwater" : "The candle is extinguished.", // Message to display if the item goes underwater, also cause the item to transform when it goes underwater.
-   "non_interactive_message" " "You can not deactivate the lightstrip.",  // Message to display if the player tries to activate the item, also prevents activation by player from working.
+    "non_interactive_message" " "You can not deactivate the lightstrip.",  // Message to display if the player tries to activate the item, also prevents activation by player from working.
 },
 "use_action": {
     "type": "explosion", // An item that explodes when it runs out of charges.
@@ -674,19 +674,20 @@ The contents of use_action fields can either be a string indicating a built-in f
 "use_action" : {
     "type" : "consume_drug", // A drug the player can consume.
     "activation_message" : "You smoke your crack rocks.  Mother would be proud.", // Message, ayup.
-    "diseases" : { "high": 15 }, // A disease to inflict and its duration.
+    "effects" : { "high": 15 }, // Effects and their duration.
     "stat_adjustments": {"hunger" : -10}, // Adjustment to make to player stats.
     "fields_produced" : {"cracksmoke" : 2}, // Fields to produce, mostly used for smoke.
     "charges_needed" : { "fire" : 1 }, // Charges to use in the process of consuming the drug.
-    "tools_needed" : { "apparatus" : -1 } // Tool needed to use the drug.
+    "tools_needed" : { "apparatus" : -1 }, // Tool needed to use the drug.
+    "moves": 50 // Number of moves required in the process, default value is 100.
 },
 "use_action": {
-    "type": "place_monster", // place a turrent / manhack / whatever monster on the map
+    "type": "place_monster", // place a turret / manhack / whatever monster on the map
     "monster_id": "mon_manhack", // monster id, see monsters.json
     "difficulty": 4, // difficulty for programming it (manhacks have 4, turrets 6, ...)
     "hostile_msg": "It's hostile!", // (optional) message when programming the monster failed and it's hostile.
     "friendly_msg": "Good!", // (optional) message when the monster is programmed properly and it's friendly.
-    "place_randomly": true, // if true: places the monser randomly around the player, if false: let the player decide where to put it (default: false)
+    "place_randomly": true, // if true: places the monster randomly around the player, if false: let the player decide where to put it (default: false)
     "skill1": "throw", // Id of a skill, higher skill level means more likely to place a friendly monster.
     "skill2": "unarmed", // Another id, just like the skill1. Both entries are optional.
     "moves": 60 // how many move points the action takes.
@@ -830,34 +831,194 @@ The format also support snippet ids like above.
 
 #json jsons
 
-###FURNITURE
-```C++
-"type": "furniture",      //Must always be 'furniture'
-"name": "toilet",         //Displayed name of the furniture
-"symbol": "&",            //Symbol displayed
-"color": "white",         //Glyph color. Alternately use 'bgcolor' to use a solid background color.
-                          //You must use EXACTLY ONE of 'color' or 'bgcolor'.
-"move_cost_mod": 2,       //Movement cost modifier (-10 = impassable, 0 = no change)
-"required_str": 18,       //Strength required to move past the terrain easily
-"flags": ["TRANSPARENT", "BASHABLE", "FLAMMABLE_HARD"],    //Furniture flags
-"crafting_pseudo_item": "anvil", // id of an item (tool) that will be available for crafting when this furniture is range
-"examine_action": "toilet" //(OPTIONAL) Function called when examined, see iexamine.cpp.
-                           //If omitted, defaults to iexamine::none.
+### FURNITURE
+
+```JSON
+{
+    "type": "furniture",
+    "id": "f_toilet",
+    "name": "toilet",
+    "symbol": "&",
+    "color": "white",
+    "move_cost_mod": 2,
+    "required_str": 18,
+    "flags": ["TRANSPARENT", "BASHABLE", "FLAMMABLE_HARD"],
+    "crafting_pseudo_item": "anvil",
+    "examine_action": "toilet",
+    "close": "f_foo_closed",
+    "open": "f_foo_open",
+    "bash": "TODO",
+    "deconstruct": "TODO",
+    "max_volume": 4000
+}
 ```
 
+#### "type"
+Fixed string, must be "furniture" to identify the JSON object as such.
+
+#### "id", "name", "symbol", "color", "bgcolor", "max_volume", "open", "close", "bash", "deconstruct", "examine_action", "flags"
+Same as for terrain, see below in the chapter "Common to furniture and terrain".
+
+#### "move_cost_mod"
+Movement cost modifier (-10 = impassable, 0 = no change). This is added to the movecost of the underlying terrain.
+
+#### "required_str"
+Strength required to move the furniture around. Negative values indicate an unmovable furniture.
+
+#### "crafting_pseudo_item"
+(Optional) Id of an item (tool) that will be available for crafting when this furniture is range (the furniture acts as an item of that type).
+
 ###TERRAIN
-```C++
-"type": "terrain",         //Must always be 'terrain'
-"name": "spiked pit",      //Displayed name of the terrain
-"symbol": "0",             //Symbol used
-"color": "ltred",          //Color of the symbol
-"move_cost": 10,           //Move cost to move through. 2 = normal speed, 0 = impassable
-"trap": "spike_pit",       //(OPTIONAL) trap_id of the trap type.
-                           //If omitted, defaults to tr_null.
-"flags": ["TRANSPARENT", "DIGGABLE"],   //Terrain flags
-"examine_action": "pit"    //(OPTIONAL) Function called when examined, see iexamine.cpp.
-                           //If omitted, defaults to iexamine::none.
+
+```JSON
+{
+    "type": "terrain",
+    "id": "t_spiked_pit",
+    "name": "spiked pit",
+    "symbol": "0",
+    "color": "ltred",
+    "move_cost": 10,
+    "trap": "spike_pit",
+    "max_volume": 4000,
+    "flags": ["TRANSPARENT", "DIGGABLE"],
+    "close": "t_foo_closed",
+    "open": "t_foo_open",
+    "bash": "TODO",
+    "deconstruct": "TODO",
+    "harvestable": "blueberries",
+    "transforms_into": "t_tree_harvested",
+    "harvest_season": "WINTER",
+    "roof": "t_roof",
+    "examine_action": "pit"
+}
 ```
+
+#### "type"
+Fixed string, must be "terrain" to identify the JSON object as such.
+
+#### "id", "name", "symbol", "color", "bgcolor", "max_volume", "open", "close", "bash", "deconstruct", "examine_action", "flags"
+Same as for furniture, see below in the chapter "Common to furniture and terrain".
+
+#### "move_cost"
+Move cost to move through. A value of 0 means it's impassable (e.g. wall). You should not use negative values. The positive value is multiple of 50 move points, e.g. value 2 means the player uses 2*50 = 100 move points when moving across the terrain.
+
+#### "trap"
+(Optional) Id of the build-in trap of that terrain. For example the terrain "t_pit" has the build in trap "tr_pit". Every tile in the game that has the terrain "t_pit" has therefor also an implicit trap "tr_pit" on it. Both are inseparable (the player can not deactivate the build-in trap, but changing the terrain will also deactivate the built-in trap).
+
+A built-in trap prevents adding any other trap explicitly (by the player nor through mapgen).
+
+#### "harvestable"
+(Optional) If defined, the terrain is harvestable. This entry defines the item type of the harvested fruits (or similar). To make this work, you also have to set one of the "harvest_*" examine_action functions.
+
+#### "transforms_into"
+(Optional) Used for various transformation of the terrain. If defined, it must be a valid terrain id. Used for example:
+- When harvesting fruits (to change into the harvested form of the terrain).
+- In combination with the "HARVESTED" flag and "harvest_season" to change the harvested terrain back into a terrain with fruits.
+
+#### "harvest_season"
+(Optional) On of "SUMMER", "AUTUMN", "WINTER", "SPRING", used in combination with the "HARVESTED" flag to revert the terrain back into a terrain that can be harvested.
+
+#### "roof"
+(Optional) The terrain of the terrain on top of this (the roof).
+
+### Common to furniture and terrain
+Some values can/must be set for terrain and furniture. They have the same meaning in each case.
+
+#### "id"
+Id of the object, this should be unique among all object of that type (all terrain or all furniture types). By convention (but technically not needed), the id should have the "f_" prefix for furniture and the "t_" prefix for terrain. This is not translated. It must not be changed later as that would break save compatibility.
+
+#### "name"
+Displayed name of the object. This will be translated.
+
+#### "flags"
+(Optional) Various additional flags, see "doc/JSON_FLAGS.md".
+
+#### "symbol"
+ASCII symbol of the object as it appears in the game. The symbol string must be exactly one character long. This can also be an array of 4 strings, which define the symbol during the different seasons. The first entry defines the symbol during spring. If it's not an array, the same symbol is used all year round.
+
+#### "color" or "bgcolor"
+Color of the object as it appears in the game. "color" defines the the foreground color (no background color), "bgcolor" defines a solid background color. You must use EXACTLY ONE of "color" or "bgcolor". As with the "symbol" value, this can be an array with 4 entries, each entry being the color during the different seasons.
+
+#### "max_volume"
+(Optional) Maximal volume that can be used to store items here.
+
+#### "examine_action"
+(Optional) The C++ function that is called when the object is examined. See "src/iexamine.h".
+
+#### "close" and "open"
+(Optional) The value should be a terrain id (inside a terrain entry) or a furniture id (in a furniture entry). If either is defined, the player can open / close the object. Opening / closing will change the object at the affected tile to the given one. For example one could have object "safe_c", which "open"s to "safe_o" and "safe_o" in turn "close"s to "safe_c". Here "safe_c" and "safe_o" are two different terrain (or furniture) types that have different properties.
+
+#### "bash"
+(Optional) Defines whether the object can be bashed and if so, what happens. See "map_bash_info".
+
+#### "deconstruct"
+(Optional) Defines whether the object can be deconstructed and if so, what the results shall be. See "map_deconstruct_info".
+
+### map_bash_info
+Defines the various things that happen when the player or something else bashes terrain or furniture.
+
+```JSON
+{
+    "str_min": 80,
+    "str_max": 180,
+    "str_min_blocked": 15,
+    "str_max_blocked": 100,
+    "str_min_supported": 15,
+    "str_max_supported": 100,
+    "sound": "crunch!",
+    "sound_vol": 2,
+    "sound_fail": "whack!",
+    "sound_fail_vol": 2,
+    "ter_set": "t_dirt",
+    "furn_set": "f_rubble",
+    "explosive": 1,
+    "collapse_radius": 2,
+    "destroy_only": true,
+    "bash_below": true,
+    "tent_centers": ["f_groundsheet", "f_fema_groundsheet", "f_skin_groundsheet"],
+    "items": "bashed_item_result_group"
+}
+```
+
+#### "str_min", "str_max", "str_min_blocked", "str_max_blocked", "str_min_supported", "str_max_supported"
+TODO
+
+#### "sound", "sound_fail", "sound_vol", "sound_fail_vol"
+(Optional) Sound and volume of the sound that appears upon destroying the bashed object or upon unsuccessfully bashing it (failing). The sound strings are translated (and displayed to the player).
+
+#### "furn_set", "ter_set"
+The terrain / furniture that will be set when the original is destroyed. This is mandatory for bash entries in terrain, but optional for entries in furniture (it defaults to no furniture).
+
+#### "explosive"
+(Optional) If greater than 0, destroying the object causes an explosion with this strength (see `game::explosion`).
+
+#### "destroy_only"
+TODO
+
+#### "bash_below"
+TODO
+
+#### "tent_centers", "collapse_radius"
+(Optional) For furniture that is part of tents, this defines the id of the center part, which will be destroyed as well when other parts of the tent get bashed. The center is searched for in the given "collapse_radius" radius, it should match the size of the tent.
+
+#### "items"
+(Optional) An item group (inline) or an id of an item group, see doc/ITEM_SPAWN.md. The default subtype is "collection". Upon successful bashing, items from that group will be spawned.
+
+### map_deconstruct_info
+
+```JSON
+{
+    "furn_set": "f_safe",
+    "ter_set": "t_dirt",
+    "items": "deconstructed_item_result_group"
+}
+```
+
+#### "furn_set", "ter_set"
+The terrain / furniture that will be set after the original has been deconstructed. "furn_set" is optional (it defaults to no furniture), "ter_set" is only used upon "deconstruct" entries in terrain and is mandatory there.
+
+#### "items"
+(Optional) An item group (inline) or an id of an item group, see doc/ITEM_SPAWN.md. The default subtype is "collection". Upon deconstruction the object, items from that group will be spawned.
 
 ###SCENARIO
 

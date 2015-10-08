@@ -1987,5 +1987,33 @@
     "special_attacks":[["FLAMETHROWER", 10]],
     "description":"A massive animated conflagration, crackling like burning logs as it moves.",
     "flags":["NOHEAD", "HARDTOSHOOT", "WEBWALK", "FLIES", "FIREY", "WARM", "FIREPROOF", "SEES"]
+    },{
+    "type" : "MONSTER",
+    "id" : "mon_moruboru",
+    "//": "Using the romanized Japanese name instead.",
+    "name": "moruboru",
+    "species": ["NETHER", "PLANT"],
+    "default_faction":"moruboru",
+    "symbol":"M",
+    "color":"green",
+    "size":"LARGE",
+    "material":"veggy",
+    "diff":28,
+    "aggression":100,
+    "morale":200,
+    "speed":90,
+    "melee_skill":8,
+    "melee_dice":3,
+    "melee_dice_sides":6,
+    "melee_cut":8,
+    "dodge":0,
+    "armor_bash":12,
+    "armor_cut":8,
+    "hp":680,
+    "death_drops": "plant_boss_drops", "//": "Boss-level essence and an item",
+    "death_function":"NORMAL",
+    "special_attacks":[["BITE", 5], ["TENTACLE", 5]],
+    "description":"A large plantlike creature with a gaping, toothy maw and numerous vines.  A hideous smell permeates the air around it.",
+    "flags":["HEARS", "SMELLS", "BASHES", "NOHEAD", "POISON", "LEAKSGAS", "NO_BREATHE", "PARALYZEVENOM"]
     }
 ]

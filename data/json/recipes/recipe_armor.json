@@ -58,7 +58,8 @@
       [ "modularvest", 1 ]
     ],
     [
-      [ "alloy_plate", 2 ]
+      [ "alloy_plate", 2 ],
+      [ "alloy_sheet", 8 ]
     ]
   ]
 },{

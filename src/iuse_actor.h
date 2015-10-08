@@ -196,7 +196,7 @@ struct effect_data
     int duration;
     body_part bp;
     bool permanent;
-    
+
     effect_data(std::string nid, int dur, body_part nbp, bool perm) :
                     id(nid), duration(dur), bp(nbp), permanent(perm) {};
 };
@@ -219,8 +219,10 @@ class consume_drug_iuse : public iuse_actor
         std::vector<effect_data> effects;
         /** A list of stats and adjustments to them. **/
         std::map<std::string, int> stat_adjustments;
+        /** How many move points this action takes. */
+        int moves;
 
-        consume_drug_iuse() : iuse_actor() { }
+        consume_drug_iuse() : iuse_actor(), moves(100) { }
         virtual ~consume_drug_iuse();
         virtual void load( JsonObject &jo );
         virtual long use(player *, item *, bool, const tripoint& ) const override;

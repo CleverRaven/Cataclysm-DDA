@@ -565,7 +565,7 @@
         "active": true,
         "msg": "You turn the lamp on.",
         "need_fire": 1,
-        "need_fire_msg": "You need a lighter!",
+        "need_fire_msg": "You need a source of fire!",
         "need_charges": 1,
         "need_charges_msg": "The lamp is empty."
     }
@@ -628,7 +628,7 @@
         "active": true,
         "msg": "You turn the lamp on.",
         "need_fire": 1,
-        "need_fire_msg": "You need a lighter!",
+        "need_fire_msg": "You need a source of fire!",
         "need_charges": 1,
         "need_charges_msg": "The lamp is empty."
     }
@@ -2651,7 +2651,7 @@
         "msg": "You light the fuse on the pipe bomb.",
         "active": true,
         "need_fire": 1,
-        "need_fire_msg": "You need a lighter!",
+        "need_fire_msg": "You need a source of fire!",
         "target": "pipebomb_act",
         "target_charges": 3
     }
@@ -3100,6 +3100,70 @@
   },
 
   {
+    "id": "gasbomb_makeshift",
+    "type": "TOOL",
+    "symbol": "*",
+    "color": "dark_gray",
+    "name": "makeshift gas canister",
+    "description": "This is a crude gasbomb using household chemicals.  Use this item to arm it.  In three turns it will begin to expel a highly toxic gas for a short time.  This gas poisons those exposed to it, in addition to obscuring vision and scent.",
+    "price": 500,
+    "material": "steel",
+    "weight": 1264,
+    "volume": 1,
+    "bashing": 6,
+    "cutting": 0,
+    "to_hit": -1,
+    "max_charges": 0,
+    "initial_charges": 0,
+    "charges_per_use": 0,
+    "turns_per_charge": 0,
+    "ammo": "NULL",
+    "flags": ["RADIO_MODABLE", "RADIO_INVOKE_PROC", "BOMB"],
+    "revert_to": "null",
+    "category": "weapons",
+    "use_action": {
+        "type": "transform",
+        "target": "gasbomb_makeshift_act",
+        "target_charges": 10,
+        "active": true,
+        "msg": "You arm the makeshift gas canister."
+    }
+  },
+
+  {
+    "id": "gasbomb_makeshift_act",
+    "type": "TOOL",
+    "symbol": "*",
+    "color": "dark_gray",
+    "name": "active makeshift gas grenade",
+    "description": "This hommade canister of poison gas has been unsealed, and is (or will shortly be) expelling highly toxic gas.  You should consider getting rid of it soon.",
+    "price": 0,
+    "material": "steel",
+    "weight": 1264,
+    "volume": 1,
+    "bashing": 6,
+    "cutting": 0,
+    "to_hit": -1,
+    "max_charges": 3,
+    "initial_charges": 3,
+    "charges_per_use": 0,
+    "turns_per_charge": 1,
+    "ammo": "NULL",
+    "revert_to": "canister_empty",
+    "category": "weapons",
+    "use_action": {
+        "type": "explosion",
+        "sound_volume": 0,
+        "sound_msg": "Hiss.",
+        "no_deactivate_msg": "You've already armed the %s, try throwing it instead.",
+        "fields_radius": 2,
+        "fields_type": "fd_toxic_gas",
+        "fields_min_density": 1,
+        "fields_max_density": 3
+    }
+  },
+
+  {
     "id": "smokebomb",
     "type": "TOOL",
     "symbol": "*",
@@ -3324,7 +3388,7 @@
         "target": "dynamite_act",
         "target_charges": 20,
         "need_fire": 1,
-        "need_fire_msg": "You need a lighter!",
+        "need_fire_msg": "You need a source of fire!",
         "active": true,
         "msg": "You light the dynamite."
     }
@@ -5611,7 +5675,7 @@
         "type": "transform",
         "target": "torch_lit",
         "need_fire": 1,
-        "need_fire_msg": "You need a lighter or fire to light this.",
+        "need_fire_msg": "You need a source of fire to light this.",
         "active": true,
         "msg": "You light the torch."
     }
@@ -5669,7 +5733,7 @@
         "type": "transform",
         "target": "battletorch_lit",
         "need_fire": 1,
-        "need_fire_msg": "You need a lighter or fire to light this.",
+        "need_fire_msg": "You need a source of fire to light this.",
         "active": true,
         "msg": "You light the Louisville Slaughterer."
     }
@@ -5728,7 +5792,7 @@
         "active": true,
         "msg": "You light the candle.",
         "need_fire": 1,
-        "need_fire_msg": "You need a lighter to light this."
+        "need_fire_msg": "You need a source of fire to light this."
     }
   },
 
@@ -7804,7 +7868,7 @@
     "max_charges": 0,
     "revert_to": "null",
     "ammo": "NULL",
-    "use_action": "SMOKING_PIPE"
+    "qualities": [["SMOKE_PIPE", 1]]
   },
 
   {
@@ -7828,7 +7892,7 @@
     "max_charges": 0,
     "revert_to": "null",
     "ammo": "NULL",
-    "use_action": "SMOKING_PIPE"
+    "qualities": [["SMOKE_PIPE", 1]]
   },
 
   {
@@ -7852,7 +7916,7 @@
     "max_charges": 0,
     "revert_to": "null",
     "ammo": "NULL",
-    "use_action": "SMOKING_PIPE"
+    "qualities": [["SMOKE_PIPE", 1]]
 },
 
   {
@@ -8085,7 +8149,7 @@
         "target": "matchbomb_act",
         "target_charges": 20,
         "need_fire": 1,
-        "need_fire_msg": "You need a lighter!",
+        "need_fire_msg": "You need a source of fire!",
         "active": true,
         "msg": "You light the match head bomb."
     }
@@ -8863,7 +8927,6 @@
         "moves": 100
     }
   },
-
   {
     "id": "rx12_injector",
     "type": "TOOL",
@@ -8963,7 +9026,6 @@
     "category": "drugs",
     "use_action": "INHALER"
   },
-
   {
     "id": "eyedrops",
     "type": "TOOL",
@@ -9842,7 +9904,7 @@
         "target": "fertilizer_bomb_act",
         "target_charges": 10,
         "need_fire": 1,
-        "need_fire_msg": "You need a lighter!",
+        "need_fire_msg": "You need a source of fire!",
         "active": true,
         "msg": "You light the %s."
     }

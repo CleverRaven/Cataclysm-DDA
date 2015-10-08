@@ -27,10 +27,39 @@
   ]
 },{
   "type" : "recipe",
+  "result": "40mm_toxicgas",
+  "category": "CC_AMMO",
+  "subcategory": "CSC_AMMO_BULLETS",
+  "skill_used": "fabrication",
+  "skills_required": [ "gun", 1 ],
+  "difficulty": 3,
+  "time": 12500,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "textbook_gaswarfare", 4, "" ] , [ "manual_launcher", 4 ]],
+  "qualities" : [
+    {"id":"SCREW","level":1,"amount":1}
+  ], "components": [
+    [
+      [ "gasbomb_makeshift", 1 ]
+    ],
+    [
+     [ "shotgun_primer", 1 ]
+    ],
+    [
+     [ "gunpowder", 40 ]
+    ],
+    [
+      [ "40mm_casing", 1 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
   "result": "40mm_acidbomb",
   "category": "CC_AMMO",
   "subcategory": "CSC_AMMO_BULLETS",
   "skill_used": "fabrication",
+  "skills_required": [ "gun", 1 ],
   "difficulty": 3,
   "time": 100,
   "reversible": false,
@@ -41,6 +70,12 @@
   ], "components": [
     [
       [ "acidbomb", 1 ]
+    ],
+    [
+     [ "shotgun_primer", 1 ]
+    ],
+    [
+     [ "gunpowder", 40 ]
     ],
     [
       [ "40mm_casing", 1 ]
@@ -4713,6 +4748,35 @@
     ],
     [
       [ "chem_sulphur", 10 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "gas_chloramine",
+  "category": "CC_AMMO",
+  "subcategory": "CSC_AMMO_OTHER",
+  "skill_used": "cooking",
+  "skills_required": [ "survival", 2 ],
+  "difficulty": 3,
+  "time": 8000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "textbook_gaswarfare", 3 ], ["textbook_chemistry", 4], ["adv_chemistry", 3], [ "recipe_labchem", 3], [ "textbook_anarch", 3]],
+  "qualities":[ {"id":"CHEM","level":1,"amount":1} ],
+  "tools": [
+    [
+      [ "fire", -1 ],
+      [ "toolset", 5 ],
+      [ "hotplate", 5 ],
+      [ "char_smoker", 4 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "oxy_powder", 100 ]
+    ],
+    [
+      [ "lye_powder", 100 ]
     ]
   ]
 }

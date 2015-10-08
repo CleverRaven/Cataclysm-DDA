@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cataclysm-dda 0.C\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-09-21 12:42+0300\n"
+"POT-Creation-Date: 2015-09-28 10:03+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -21777,6 +21777,11 @@ msgid_plural "rolling tobaccos"
 msgstr[0] ""
 msgstr[1] ""
 
+#. ~ Use action activation_message for rolling tobacco.
+#: lang/json/COMESTIBLE_from_json.py
+msgid "You smoke some tobacco."
+msgstr ""
+
 #. ~ Description for rolling tobacco
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
@@ -21806,6 +21811,11 @@ msgid "cannabis"
 msgid_plural "cannabis"
 msgstr[0] ""
 msgstr[1] ""
+
+#. ~ Use action activation_message for cannabis.
+#: lang/json/COMESTIBLE_from_json.py
+msgid "You smoke some weed.  Good stuff, man!"
+msgstr ""
 
 #. ~ Description for cannabis
 #: lang/json/COMESTIBLE_from_json.py
@@ -25904,6 +25914,17 @@ msgid ""
 "crafting"
 msgstr ""
 
+#: lang/json/GENERIC_from_json.py src/iuse.cpp
+msgid "scrap copper"
+msgid_plural "scrap coppers"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for scrap copper
+#: lang/json/GENERIC_from_json.py
+msgid "A small chunk of copper, usable for crafting or repairs."
+msgstr ""
+
 #: lang/json/GENERIC_from_json.py
 msgid "lead battery plate"
 msgid_plural "lead battery plates"
@@ -26116,6 +26137,19 @@ msgstr[1] ""
 msgid ""
 "A one-handed hatchet.  Makes a great melee weapon, and is useful both for "
 "chopping things and for use as a hammer."
+msgstr ""
+
+#: lang/json/GENERIC_from_json.py
+msgid "copper pot"
+msgid_plural "copper pots"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for copper pot
+#: lang/json/GENERIC_from_json.py
+msgid ""
+"Useful for boiling water when cooking spaghetti and more.  Made from copper, "
+"with a lining of tin to prevent metal from leaching into acidic foods."
 msgstr ""
 
 #: lang/json/GENERIC_from_json.py
@@ -27401,6 +27435,17 @@ msgstr[1] ""
 msgid ""
 "A wooden spear with a decent grip and a three-pronged trident-like tip.  "
 "Heavy, but good for catching weapons."
+msgstr ""
+
+#: lang/json/GENERIC_from_json.py
+msgid "copper spear"
+msgid_plural "copper spears"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for copper spear
+#: lang/json/GENERIC_from_json.py
+msgid "A stout wooden pole with a spearhead worked from copper."
 msgstr ""
 
 #: lang/json/GENERIC_from_json.py
@@ -30390,6 +30435,58 @@ msgid ""
 "road surface by removing debris and contaminants."
 msgstr ""
 
+#: lang/json/GENERIC_from_json.py lang/json/vehicle_part_from_json.py
+msgid "seed drill"
+msgid_plural "seed drills"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for seed drill
+#: lang/json/GENERIC_from_json.py
+msgid ""
+"An assembly of tubes, spikes, and wheels, that when dragged along the "
+"ground, allows a vehicle to plant seeds automatically in suitably tilled "
+"land."
+msgstr ""
+
+#: lang/json/GENERIC_from_json.py lang/json/vehicle_part_from_json.py
+msgid "reaper"
+msgid_plural "reapers"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for reaper
+#: lang/json/GENERIC_from_json.py
+msgid ""
+"An assembly of a blade, wheels, and a small lever for engaging/disengaging "
+"used to cut down crops prior to picking them up."
+msgstr ""
+
+#: lang/json/GENERIC_from_json.py lang/json/vehicle_part_from_json.py
+msgid "advanced seed drill"
+msgid_plural "advanced seed drills"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for advanced seed drill
+#: lang/json/GENERIC_from_json.py
+msgid ""
+"An assembly of tubes, spikes, and wheels, that when dragged along the "
+"ground, allows a vehicle to plant seeds automatically in suitably tilled "
+"land.  This one is more advanced."
+msgstr ""
+
+#: lang/json/GENERIC_from_json.py lang/json/vehicle_part_from_json.py
+msgid "plow"
+msgid_plural "plows"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for plow
+#: lang/json/GENERIC_from_json.py
+msgid "A heavy assembly of wheels and steel blades that turn up the ground."
+msgstr ""
+
 #: lang/json/GENERIC_from_json.py
 msgid "old broken animatronic fox"
 msgid_plural "old broken animatronic foxes"
@@ -30858,17 +30955,6 @@ msgid "A stout wooden pole with a sharp stone spearhead."
 msgstr ""
 
 #: lang/json/GENERIC_from_json.py
-msgid "copper spear"
-msgid_plural "copper spears"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for copper spear
-#: lang/json/GENERIC_from_json.py
-msgid "A stout wooden pole with a spearhead worked from copper."
-msgstr ""
-
-#: lang/json/GENERIC_from_json.py
 msgid "bone fishing hook"
 msgid_plural "bone fishing hooks"
 msgstr[0] ""
@@ -30891,19 +30977,6 @@ msgid ""
 "A compact military-style pan and tray, designed for heating food over a fire "
 "or portable stove.  It is shallower than a proper pot or pan, and lacks the "
 "integrated heating elements modern mess kits have."
-msgstr ""
-
-#: lang/json/GENERIC_from_json.py
-msgid "copper pot"
-msgid_plural "copper pots"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for copper pot
-#: lang/json/GENERIC_from_json.py
-msgid ""
-"Useful for boiling water when cooking spaghetti and more.  Made from copper, "
-"with a lining of tin to prevent metal from leaching into acidic foods."
 msgstr ""
 
 #: lang/json/GENERIC_from_json.py
@@ -42299,7 +42372,7 @@ msgstr[1] ""
 #. ~ Use action need_fire_msg for fertilizer bomb.
 #: lang/json/TOOL_from_json.py
 #: src/iuse.cpp
-msgid "You need a lighter!"
+msgid "You need a source of fire!"
 msgstr ""
 
 #. ~ Use action need_charges_msg for gasoline lantern (off).
@@ -44993,10 +45066,9 @@ msgstr[1] ""
 
 #. ~ Use action need_fire_msg for torch.
 #. ~ Use action need_fire_msg for Louisville Slaughterer.
-#. ~ Use action need_fire_msg for hobo stove.
-#. ~ Use action need_fire_msg for ember carrier.
+#. ~ Use action need_fire_msg for candle.
 #: lang/json/TOOL_from_json.py
-msgid "You need a lighter or fire to light this."
+msgid "You need a source of fire to light this."
 msgstr ""
 
 #. ~ Use action msg for torch.
@@ -45063,11 +45135,6 @@ msgid "candle"
 msgid_plural "candles"
 msgstr[0] ""
 msgstr[1] ""
-
-#. ~ Use action need_fire_msg for candle.
-#: lang/json/TOOL_from_json.py
-msgid "You need a lighter to light this."
-msgstr ""
 
 #. ~ Use action msg for candle.
 #: lang/json/TOOL_from_json.py
@@ -45460,6 +45527,19 @@ msgid ""
 msgstr ""
 
 #: lang/json/TOOL_from_json.py
+msgid "copper knife"
+msgid_plural "copper knives"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for copper knife
+#: lang/json/TOOL_from_json.py
+msgid ""
+"A knife consisting of crudely-worked copper, and a simple handle.  "
+"Primitive, but a step above stone-age."
+msgstr ""
+
+#: lang/json/TOOL_from_json.py
 msgid "makeshift knife"
 msgid_plural "makeshift knives"
 msgstr[0] ""
@@ -45546,6 +45626,19 @@ msgstr[1] ""
 msgid ""
 "This is a sharpened stone affixed to a stick.  It works passably well as an "
 "axe but really can't compare to a proper axe."
+msgstr ""
+
+#: lang/json/TOOL_from_json.py
+msgid "copper axe"
+msgid_plural "copper axes"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for copper axe
+#: lang/json/TOOL_from_json.py
+msgid ""
+"This is a decent-sized chunk of worked copper affixed to a wooden shaft, to "
+"make a crude yet effective axe."
 msgstr ""
 
 #: lang/json/TOOL_from_json.py
@@ -46296,9 +46389,8 @@ msgstr[1] ""
 #. ~ Description for survival knife
 #: lang/json/TOOL_from_json.py
 msgid ""
-"This massive combat knife features a hollow handle with a compass built into "
-"the pommel and a row of fearsome looking saw teeth along the back of its "
-"blade."
+"This massive knife features a hollow handle with a compass built into the "
+"pommel and a row of fearsome looking saw teeth along the back of its blade."
 msgstr ""
 
 #: lang/json/TOOL_from_json.py
@@ -48223,6 +48315,12 @@ msgid_plural "hobo stoves"
 msgstr[0] ""
 msgstr[1] ""
 
+#. ~ Use action need_fire_msg for hobo stove.
+#. ~ Use action need_fire_msg for ember carrier.
+#: lang/json/TOOL_from_json.py
+msgid "You need a lighter or fire to light this."
+msgstr ""
+
 #. ~ Use action msg for hobo stove.
 #. ~ Use action msg for ember carrier.
 #: lang/json/TOOL_from_json.py
@@ -48295,32 +48393,6 @@ msgstr[1] ""
 msgid ""
 "This is a broad piece of sharpened stone, with enough left untouched to hold "
 "safely.  The swiss army knife of the lower paleolithic."
-msgstr ""
-
-#: lang/json/TOOL_from_json.py
-msgid "copper knife"
-msgid_plural "copper knives"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for copper knife
-#: lang/json/TOOL_from_json.py
-msgid ""
-"A knife consisting of crudely-worked copper, and a simple handle.  "
-"Primitive, but a step above stone-age."
-msgstr ""
-
-#: lang/json/TOOL_from_json.py
-msgid "copper axe"
-msgid_plural "copper axes"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for copper axe
-#: lang/json/TOOL_from_json.py
-msgid ""
-"This is a decent-sized chunk of worked copper affixed to a wooden shaft, to "
-"make a crude yet effective axe."
 msgstr ""
 
 #: lang/json/TOOL_from_json.py
@@ -50096,6 +50168,14 @@ msgid "Build Improvised Shelter"
 msgstr ""
 
 #: lang/json/construction_from_json.py
+msgid "Build Door Curtain"
+msgstr ""
+
+#: lang/json/construction_from_json.py
+msgid "Build Makeshift Door"
+msgstr ""
+
+#: lang/json/construction_from_json.py
 msgid "Build Door"
 msgstr ""
 
@@ -50477,14 +50557,6 @@ msgstr ""
 
 #: lang/json/construction_from_json.py
 msgid "Build Tarp Rain-Catcher"
-msgstr ""
-
-#: lang/json/construction_from_json.py
-msgid "Build Door Curtain"
-msgstr ""
-
-#: lang/json/construction_from_json.py
-msgid "Build Makeshift Door"
 msgstr ""
 
 #: lang/json/dream_from_json.py
@@ -54351,10 +54423,6 @@ msgstr ""
 
 #: lang/json/keybinding_from_json.py
 msgid "Change tire"
-msgstr ""
-
-#: lang/json/keybinding_from_json.py
-msgid "Drain from tank"
 msgstr ""
 
 #: lang/json/keybinding_from_json.py
@@ -70897,6 +70965,30 @@ msgid "open reinforced wood door"
 msgstr ""
 
 #: lang/json/terrain_from_json.py
+msgid "closed door curtain"
+msgstr ""
+
+#: lang/json/terrain_from_json.py
+msgid "closed makeshift door"
+msgstr ""
+
+#: lang/json/terrain_from_json.py
+msgid "crack."
+msgstr ""
+
+#: lang/json/terrain_from_json.py
+msgid "wham."
+msgstr ""
+
+#: lang/json/terrain_from_json.py
+msgid "open door curtain"
+msgstr ""
+
+#: lang/json/terrain_from_json.py
+msgid "open makeshift door"
+msgstr ""
+
+#: lang/json/terrain_from_json.py
 msgid "empty door frame"
 msgstr ""
 
@@ -70910,14 +71002,6 @@ msgstr ""
 
 #: lang/json/terrain_from_json.py
 msgid "closed wooden gate"
-msgstr ""
-
-#: lang/json/terrain_from_json.py
-msgid "crack."
-msgstr ""
-
-#: lang/json/terrain_from_json.py
-msgid "wham."
 msgstr ""
 
 #: lang/json/terrain_from_json.py
@@ -71672,22 +71756,6 @@ msgstr ""
 msgid "tarp raincatcher"
 msgstr ""
 
-#: lang/json/terrain_from_json.py
-msgid "closed door curtain"
-msgstr ""
-
-#: lang/json/terrain_from_json.py
-msgid "closed makeshift door"
-msgstr ""
-
-#: lang/json/terrain_from_json.py
-msgid "open door curtain"
-msgstr ""
-
-#: lang/json/terrain_from_json.py
-msgid "open makeshift door"
-msgstr ""
-
 #: lang/json/tool_quality_from_json.py
 msgid "cutting"
 msgstr ""
@@ -71738,6 +71806,10 @@ msgstr ""
 
 #: lang/json/tool_quality_from_json.py
 msgid "chemical making"
+msgstr ""
+
+#: lang/json/tool_quality_from_json.py
+msgid "smoking"
 msgstr ""
 
 #: lang/json/tool_quality_from_json.py
@@ -72307,6 +72379,18 @@ msgid "Fire Engine"
 msgstr ""
 
 #: lang/json/vehicle_from_json.py
+msgid "Planter Tractor"
+msgstr ""
+
+#: lang/json/vehicle_from_json.py
+msgid "Plow Tractor"
+msgstr ""
+
+#: lang/json/vehicle_from_json.py
+msgid "Reaper Tractor"
+msgstr ""
+
+#: lang/json/vehicle_from_json.py
 msgid "Military Cargo Truck"
 msgstr ""
 
@@ -72427,7 +72511,15 @@ msgid "Bandit Bulldozer"
 msgstr ""
 
 #: lang/json/vehicle_from_json.py
-msgid "Farm Tractor"
+msgid "Heavy Planter Tractor"
+msgstr ""
+
+#: lang/json/vehicle_from_json.py
+msgid "Heavy Plow Tractor"
+msgstr ""
+
+#: lang/json/vehicle_from_json.py
+msgid "Heavy Reaper Tractor"
 msgstr ""
 
 #: lang/json/vehicle_from_json.py
@@ -81904,6 +81996,15 @@ msgid "You're caught in the explosion!"
 msgstr ""
 
 #: src/game.cpp
+msgid "<npcname> is caught in the explosion!"
+msgstr ""
+
+#: src/game.cpp
+#, c-format
+msgid "Your %s is hit for %d damage!"
+msgstr ""
+
+#: src/game.cpp
 msgid "a huge explosion!"
 msgstr ""
 
@@ -83699,10 +83800,6 @@ msgstr ""
 
 #: src/game.cpp
 msgid "There is a sheer drop halfway down. Climb your rope down?"
-msgstr ""
-
-#: src/game.cpp
-msgid "There is a sheer drop halfway down. Use your whip to lower yourself?"
 msgstr ""
 
 #: src/game.cpp
@@ -87848,7 +87945,7 @@ msgstr ""
 
 #: src/iuse.cpp
 #, c-format
-msgid "You remove the radio modification from your %s."
+msgid "You remove the radio modification from your %s!"
 msgstr ""
 
 #: src/iuse.cpp
@@ -87945,36 +88042,11 @@ msgstr ""
 
 #: src/iuse.cpp
 #, c-format
-msgid "Wow! This %s has a kick."
+msgid "Wow!  This %s has a kick."
 msgstr ""
 
 #: src/iuse.cpp
 msgid "You don't have anything to light it with!"
-msgstr ""
-
-#: src/iuse.cpp
-msgid "You need to find something to smoke."
-msgstr ""
-
-#: src/iuse.cpp
-msgid "What would you like to smoke?"
-msgstr ""
-
-#: src/iuse.cpp
-#, c-format
-msgid "You smoke some tobacco out of your %s."
-msgstr ""
-
-#: src/iuse.cpp
-msgid "Ugh, too much smoke... you cough heavily."
-msgstr ""
-
-#: src/iuse.cpp
-msgid "You smoke some weed.  Good stuff, man!"
-msgstr ""
-
-#: src/iuse.cpp
-msgid "You smoke some more weed."
 msgstr ""
 
 #: src/iuse.cpp
@@ -88870,7 +88942,7 @@ msgid "Repair/fit in"
 msgstr ""
 
 #: src/iuse.cpp
-msgid "Are you sure? You will not gain any materials back"
+msgid "Are you sure?  You will not gain any materials back."
 msgstr ""
 
 #: src/iuse.cpp
@@ -89753,7 +89825,7 @@ msgstr ""
 
 #: src/iuse.cpp
 #, c-format
-msgid "You can't dig in that %s"
+msgid "You can't dig in that %s."
 msgstr ""
 
 #: src/iuse.cpp
@@ -89885,7 +89957,7 @@ msgid "You've already released the handle, try throwing it instead."
 msgstr ""
 
 #: src/iuse.cpp
-msgid "You light the arrow!."
+msgid "You light the arrow!"
 msgstr ""
 
 #: src/iuse.cpp
@@ -90027,7 +90099,7 @@ msgid "You turn the light on."
 msgstr ""
 
 #: src/iuse.cpp
-msgid "Your tactical tonfa is out of power"
+msgid "Your tactical tonfa is out of power."
 msgstr ""
 
 #: src/iuse.cpp
@@ -90035,7 +90107,7 @@ msgid "Turn off light"
 msgstr ""
 
 #: src/iuse.cpp
-msgid "You turn off the light"
+msgid "You turn off the light."
 msgstr ""
 
 #: src/iuse.cpp
@@ -90243,7 +90315,7 @@ msgstr ""
 
 #: src/iuse.cpp
 #, c-format
-msgid "The %s winks out"
+msgid "The %s winks out."
 msgstr ""
 
 #: src/iuse.cpp
@@ -90255,10 +90327,6 @@ msgid "light something"
 msgstr ""
 
 #: src/iuse.cpp
-msgid "The torch is extinguished"
-msgstr ""
-
-#: src/iuse.cpp
 msgid "The Louisville Slaughterer is extinguished."
 msgstr ""
 
@@ -90267,7 +90335,8 @@ msgid "The Louisville Slaughterer burns out."
 msgstr ""
 
 #: src/iuse.cpp
-msgid "The Louisville Slaughterer is extinguished"
+#, c-format
+msgid "The %s winks out"
 msgstr ""
 
 #: src/iuse.cpp
@@ -90719,7 +90788,7 @@ msgstr ""
 #. ~ $1s is a body part, %2$s is the weapon name.
 #: src/iuse.cpp
 #, c-format
-msgid "You catch a glimpse of %1$s in the blade of the %2$s"
+msgid "You catch a glimpse of %1$s in the blade of the %2$s."
 msgstr ""
 
 #: src/iuse.cpp
@@ -90877,7 +90946,7 @@ msgid "You need a mechanics skill of 2 to use this repair kit."
 msgstr ""
 
 #: src/iuse.cpp
-msgid "Select the firearm to repair."
+msgid "Select the firearm to repair"
 msgstr ""
 
 #: src/iuse.cpp
@@ -91239,7 +91308,7 @@ msgid "%s looks blinded."
 msgstr ""
 
 #: src/iuse.cpp
-msgid "Strange...there's nothing in the picture?"
+msgid "Strange... there's nothing in the picture?"
 msgstr ""
 
 #: src/iuse.cpp
@@ -91667,7 +91736,7 @@ msgstr ""
 
 #: src/iuse.cpp
 #, c-format
-msgid "There is no place to put the %s"
+msgid "There is no place to put the %s."
 msgstr ""
 
 #: src/iuse.cpp src/iuse_actor.cpp
@@ -111207,11 +111276,35 @@ msgid "Turn on camera system"
 msgstr ""
 
 #: src/vehicle.cpp
+msgid "Turn plow off"
+msgstr ""
+
+#: src/vehicle.cpp
+msgid "Turn plow on"
+msgstr ""
+
+#: src/vehicle.cpp
+msgid "Turn planter off"
+msgstr ""
+
+#: src/vehicle.cpp
+msgid "Turn planter on"
+msgstr ""
+
+#: src/vehicle.cpp
 msgid "Turn off scoop system"
 msgstr ""
 
 #: src/vehicle.cpp
 msgid "Turn on scoop system"
+msgstr ""
+
+#: src/vehicle.cpp
+msgid "Turn off reaper"
+msgstr ""
+
+#: src/vehicle.cpp
+msgid "Turn on reaper"
 msgstr ""
 
 #: src/vehicle.cpp
@@ -111372,6 +111465,30 @@ msgstr ""
 
 #: src/vehicle.cpp
 msgid "Camera system won't turn on"
+msgstr ""
+
+#: src/vehicle.cpp
+msgid "Plow system started"
+msgstr ""
+
+#: src/vehicle.cpp
+msgid "Plow system stopped"
+msgstr ""
+
+#: src/vehicle.cpp
+msgid "Planter system started"
+msgstr ""
+
+#: src/vehicle.cpp
+msgid "Planter system stopped"
+msgstr ""
+
+#: src/vehicle.cpp
+msgid "Reaper turned off"
+msgstr ""
+
+#: src/vehicle.cpp
+msgid "Reaper turned on"
 msgstr ""
 
 #: src/vehicle.cpp
@@ -111541,6 +111658,14 @@ msgstr ""
 
 #: src/vehicle.cpp
 msgid "Your engine emits a loud grinding sound."
+msgstr ""
+
+#: src/vehicle.cpp
+msgid "Clanggggg!"
+msgstr ""
+
+#: src/vehicle.cpp
+msgid "Clink"
 msgstr ""
 
 #: src/vehicle.cpp

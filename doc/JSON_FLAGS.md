@@ -432,6 +432,12 @@ These branches are also the valid entries for the categories of `dreams` in `dre
 - ```INITIAL_PART``` When starting a new vehicle via the construction menu, this vehicle part will be the initial part of the vehicle (if the used item matches the item required for this part).
 - ```SCOOP``` Pulls items from underneath the vehicle to the cargo space of the part. Also mops up liquids. 
   - Uses the ```bonus``` tag to determine the maximum size of the item picked up
+- ```PLANTER``` Plants seeds into tilled dirt, spilling them when the terrain underneath is unsuitable. It is damaged by running it over non-```DIGGABLE``` surfaces.
+  - ```ADVANCED_PLANTER``` This planter doesn't spill seeds and avoids damaging itself on non-diggable surfaces.
+- ```REAPER``` Cuts down mature crops, depositing them on the square
+  - The ```bonus``` tag defines how productive the harvest can be.
+- ```PLOW``` Tills the soil underneath the part while active. Takes damage from unsuitable terrain at a level proportional to the speed of the vehicle.
+- ```EXTRA_DRAG``` tells the vehicle that the part exerts engine power reduction.
 
 ## Ammo
 
@@ -586,6 +592,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```DEAF``` Makes the player deaf.
 - ```ELECTRIC_IMMUNE``` - This gear completely protects you from electric discharges.
 - ```FANCY``` Wearing this clothing gives a morale bonus if the player has the `Stylish` trait.
+- ```FRAGILE``` This gear is less resistant to damage than normal.
 - ```FLOTATION``` Prevents the player from drowning in deep water. Also prevents diving underwater.
 - ```furred``` - This piece of clothing has a fur lining sewn into it to increase its overall warmth.
 - ```HOOD``` Allow this clothing to conditionally cover the head, for additional warmth or water protection., if the player's head isn't encumbered

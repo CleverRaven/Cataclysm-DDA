@@ -447,7 +447,7 @@
       [ "withered", 1 ]
     ],
     [
-      [ "copper", 3 ],
+      [ "scrap_copper", 3 ],
       [ "copper", 300 ]
     ]
   ]
