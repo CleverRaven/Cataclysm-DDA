@@ -300,7 +300,18 @@ void monster_check() {
 
 // Characterization test for monster movement speed.
 // It's not necessarally the one true speed for monsters, we just want notice if it changes.
-TEST_CASE("monster_speed") {
+TEST_CASE("monster_speed_square") {
+    wipe_map_terrain();
+    // Remove any interfering monsters.
+    while( g->num_zombies() ) {
+        g->remove_zombie( 0 );
+    }
+    OPTIONS["CIRCLEDIST"].setValue("false");
+    trigdist = false;
+    monster_check();
+}
+
+TEST_CASE("monster_speed_trig") {
     wipe_map_terrain();
     // Remove any interfering monsters.
     while( g->num_zombies() ) {
@@ -309,8 +320,4 @@ TEST_CASE("monster_speed") {
     OPTIONS["CIRCLEDIST"].setValue("true");
     trigdist = true;
     monster_check();
-    OPTIONS["CIRCLEDIST"].setValue("false");
-    trigdist = false;
-    monster_check();
 }
-
