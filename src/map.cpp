@@ -338,6 +338,7 @@ void map::destroy_vehicle (vehicle *veh)
 void map::on_vehicle_moved( const int smz ) {
     set_outside_cache_dirty( smz );
     set_transparency_cache_dirty( smz );
+    set_floor_cache_dirty( smz );
 }
 
 void map::vehmove()
@@ -1579,6 +1580,10 @@ void map::furn_set( const tripoint &p, const furn_id new_furniture )
         set_outside_cache_dirty( p.z );
     }
 
+    if( old_t.has_flag( TFLAG_NO_FLOOR ) != new_t.has_flag( TFLAG_NO_FLOOR ) ) {
+        set_floor_cache_dirty( p.z );
+    }
+
     // Make sure the furniture falls if it needs to
     support_dirty( p );
     tripoint above( p.x, p.y, p.z + 1 );
@@ -1784,6 +1789,7 @@ void map::ter_set( const tripoint &p, const ter_id new_terrain )
     }
 
     if( new_t.has_flag( TFLAG_NO_FLOOR ) && !old_t.has_flag( TFLAG_NO_FLOOR ) ) {
+        set_floor_cache_dirty( p.z );
         // It's a set, not a flag
         support_cache_dirty.insert( p );
     }
@@ -2064,9 +2070,15 @@ int map::climb_difficulty( const tripoint &p ) const
 
 bool map::has_floor( const tripoint &p ) const
 {
-    return !zlevels ||
-           p.z < -OVERMAP_DEPTH + 1 || p.z > OVERMAP_HEIGHT ||
-           !has_flag( TFLAG_NO_FLOOR, p );
+    if( !zlevels || p.z < -OVERMAP_DEPTH + 1 || p.z > OVERMAP_HEIGHT ) {
+        return true;
+    }
+
+    if( !inbounds( p.x, p.y ) ) {
+        return true;
+    }
+
+    return get_cache_ref( p.z ).floor_cache[p.x][p.y];
 }
 
 bool map::supports_above( const tripoint &p ) const
@@ -6606,6 +6618,7 @@ void map::loadn( const int gridx, const int gridy, const int gridz, const bool u
     // New submap changes the content of the map and all caches must be recalculated
     set_transparency_cache_dirty( gridz );
     set_outside_cache_dirty( gridz );
+    set_floor_cache_dirty( gridz );
     setsubmap( gridn, tmpsub );
 
     for( auto it : tmpsub->vehicles ) {
@@ -7169,6 +7182,46 @@ void map::build_outside_cache( const int zlev )
     ch.outside_cache_dirty = false;
 }
 
+void map::build_floor_cache( const int zlev )
+{
+    auto &ch = get_cache( zlev );
+    if( !ch.floor_cache_dirty ) {
+        return;
+    }
+
+    auto &floor_cache = ch.floor_cache;
+    std::uninitialized_fill_n(
+            &floor_cache[0][0], ( MAPSIZE * SEEX ) * ( MAPSIZE * SEEY ), true );
+
+    for( int smx = 0; smx < my_MAPSIZE; ++smx ) {
+        for( int smy = 0; smy < my_MAPSIZE; ++smy ) {
+            auto const cur_submap = get_submap_at_grid( smx, smy, zlev );
+
+            for( int sx = 0; sx < SEEX; ++sx ) {
+                for( int sy = 0; sy < SEEY; ++sy ) {
+                    // Note: furniture currently can't affect existence of floor
+                    if( cur_submap->get_ter( sx, sy ).obj().has_flag( TFLAG_NO_FLOOR ) ) {
+                        const int x = sx + ( smx * SEEX );
+                        const int y = sy + ( smy * SEEY );
+                        floor_cache[x][y] = false;
+                    }
+                }
+            }
+        }
+    }
+
+    ch.floor_cache_dirty = false;
+}
+
+void map::build_floor_caches()
+{
+    const int minz = zlevels ? -OVERMAP_DEPTH : abs_sub.z;
+    const int maxz = zlevels ? OVERMAP_HEIGHT : abs_sub.z;
+    for( int z = minz; z <= maxz; z++ ) {
+        build_floor_cache( z );
+    }
+}
+
 void map::build_map_cache( const int zlev, bool skip_lightmap )
 {
     const int minz = zlevels ? -OVERMAP_DEPTH : zlev;
@@ -7176,6 +7229,7 @@ void map::build_map_cache( const int zlev, bool skip_lightmap )
     for( int z = minz; z <= maxz; z++ ) {
         build_outside_cache( z );
         build_transparency_cache( z );
+        build_floor_cache( z );
     }
 
     tripoint start( 0, 0, minz );
@@ -7186,6 +7240,7 @@ void map::build_map_cache( const int zlev, bool skip_lightmap )
         auto &ch = get_cache( v.z );
         auto &outside_cache = ch.outside_cache;
         auto &transparency_cache = ch.transparency_cache;
+        auto &floor_cache = ch.floor_cache;
         for( size_t part = 0; part < v.v->parts.size(); part++ ) {
             int px = v.x + v.v->parts[part].precalc[0].x;
             int py = v.y + v.v->parts[part].precalc[0].y;
@@ -7202,6 +7257,10 @@ void map::build_map_cache( const int zlev, bool skip_lightmap )
                 if (dpart < 0 || !v.v->parts[dpart].open) {
                     transparency_cache[px][py] = LIGHT_TRANSPARENCY_SOLID;
                 }
+            }
+
+            if( v.v->part_flag( part, VPFLAG_BOARDABLE ) && v.v->parts[part].hp > 0 ) {
+                floor_cache[px][py] = true;
             }
         }
     }

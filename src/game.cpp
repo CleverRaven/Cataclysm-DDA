@@ -1297,6 +1297,9 @@ bool game::do_turn()
     }
     update_scent();
 
+    // We need floor cache before checking falling 'n stuff
+    m.build_floor_caches();
+
     m.process_falling();
     m.vehmove();
 

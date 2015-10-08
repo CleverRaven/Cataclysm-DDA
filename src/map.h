@@ -143,6 +143,7 @@ struct level_cache {
 
     bool transparency_cache_dirty;
     bool outside_cache_dirty;
+    bool floor_cache_dirty;
 
     float lm[MAPSIZE*SEEX][MAPSIZE*SEEY];
     float sm[MAPSIZE*SEEX][MAPSIZE*SEEY];
@@ -150,6 +151,7 @@ struct level_cache {
     // This is only valid for the duration of generate_lightmap
     float light_source_buffer[MAPSIZE*SEEX][MAPSIZE*SEEY];
     bool outside_cache[MAPSIZE*SEEX][MAPSIZE*SEEY];
+    bool floor_cache[MAPSIZE*SEEX][MAPSIZE*SEEY];
     float transparency_cache[MAPSIZE*SEEX][MAPSIZE*SEEY];
     float seen_cache[MAPSIZE*SEEX][MAPSIZE*SEEY];
     lit_level visibility_cache[MAPSIZE*SEEX][MAPSIZE*SEEY];
@@ -198,30 +200,32 @@ class map
 
 
     /**
-     * Sets a dirty flag on the transparency cache.
+     * Sets a dirty flag on the a given cache.
      *
      * If this isn't set, it's just assumed that
-     * the transparency cache hasn't changed and
+     * the cache hasn't changed and
      * doesn't need to be updated.
      */
+    /*@{*/
     void set_transparency_cache_dirty( const int zlev ) {
         if( inbounds_z( zlev ) ) {
             get_cache( zlev ).transparency_cache_dirty = true;
         }
     }
 
-    /**
-     * Sets a dirty flag on the outside cache.
-     *
-     * If this isn't set, it's just assumed that
-     * the outside cache hasn't changed and
-     * doesn't need to be updated.
-     */
     void set_outside_cache_dirty( const int zlev ) {
         if( inbounds_z( zlev ) ) {
             get_cache( zlev ).outside_cache_dirty = true;
         }
     }
+
+    void set_floor_cache_dirty( const int zlev ) {
+        if( inbounds_z( zlev ) ) {
+            get_cache( zlev ).floor_cache_dirty = true;
+        }
+    }
+    /*@}*/
+
 
     /**
      * Callback invoked when a vehicle has moved.
@@ -1039,7 +1043,7 @@ public:
                       const int init_veh_fuel = -1, const int init_veh_status = -1,
                       const bool merge_wrecks = true);
 
-    // Note: in 3D mode, will actually build caches on ALL zlevels, but not visibility ones
+    // Note: in 3D mode, will actually build caches on ALL zlevels
     void build_map_cache( int zlev, bool skip_lightmap = false );
 
     vehicle *add_vehicle( const vgroup_id &type, const tripoint &p, const int dir,
@@ -1182,6 +1186,9 @@ protected:
  void build_transparency_cache( int zlev );
 public:
  void build_outside_cache( int zlev );
+    void build_floor_cache( int zlev );
+    // We want this visible in `game`, because we want it built earlier in the turn than the rest
+    void build_floor_caches();
 protected:
  void generate_lightmap( int zlev );
  void build_seen_cache( const tripoint &origin, int target_z );

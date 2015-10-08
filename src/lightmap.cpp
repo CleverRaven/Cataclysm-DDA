@@ -478,8 +478,8 @@ template<int xx, int xy, int xz, int yx, int yy, int yz, int zz,
 void cast_zlight(
     const std::array<float (*)[MAPSIZE*SEEX][MAPSIZE*SEEY], OVERMAP_LAYERS> &output_caches,
     const std::array<const float (*)[MAPSIZE*SEEX][MAPSIZE*SEEY], OVERMAP_LAYERS> &input_arrays,
-    const tripoint &offset, const int offset_distance, const int target_z,
-    const std::function<bool(const tripoint &)> &floor_check,
+    const std::array<const bool (*)[MAPSIZE*SEEX][MAPSIZE*SEEY], OVERMAP_LAYERS> &floor_caches,
+    const tripoint &offset, const int offset_distance,
     const float numerator, const int row,
     float start_major, const float end_major,
     float start_minor, const float end_minor,
@@ -491,8 +491,6 @@ void cast_zlight(
 
     float radius = 60.0f - offset_distance;
 
-    //const int min_z = std::min( offset.z, target_z );
-    //const int max_z = std::max( offset.z, target_z );
     constexpr int min_z = -OVERMAP_DEPTH;
     constexpr int max_z = OVERMAP_HEIGHT;
 
@@ -543,15 +541,13 @@ void cast_zlight(
                 //  that tile is actually invisible to us.
                 bool floor_block = false;
                 if( current.z < offset.z ) {
-                    current.z++;
-                    if( floor_check( current ) ) {
+                    // Could go OoB, but that would require offset.z > OVERMAP_HEIGHT
+                    if( (*floor_caches[z_index + 1])[current.x][current.y] ) {
                         floor_block = true;
                         new_transparency = LIGHT_TRANSPARENCY_SOLID;
                     }
-
-                    current.z--;
                 } else if( current.z > offset.z ) {
-                    if( floor_check( current ) ) {
+                    if( (*floor_caches[z_index])[current.x][current.y] ) {
                         floor_block = true;
                         new_transparency = LIGHT_TRANSPARENCY_SOLID;
                     }
@@ -594,15 +590,15 @@ void cast_zlight(
                     const float trailing_clipped = std::max( trailing_edge_major, start_major );
                     const float major_mid = merge_blocks ? leading_edge_major : trailing_clipped;
                     cast_zlight<xx, xy, xz, yx, yy, yz, zz, calc, check>(
-                        output_caches, input_arrays, offset, offset_distance,
-                        target_z, floor_check, numerator, distance + 1,
+                        output_caches, input_arrays, floor_caches,
+                        offset, offset_distance, numerator, distance + 1,
                         start_major, major_mid, start_minor, end_minor,
                         next_cumulative_transparency );
                     if( !merge_blocks ) {
                         // One line that is too short to be part of the rectangle above
                         cast_zlight<xx, xy, xz, yx, yy, yz, zz, calc, check>(
-                            output_caches, input_arrays, offset, offset_distance,
-                            target_z, floor_check, numerator, distance + 1,
+                            output_caches, input_arrays, floor_caches,
+                            offset, offset_distance, numerator, distance + 1,
                             trailing_clipped, leading_edge_major, start_minor, trailing_edge_minor,
                             next_cumulative_transparency );
                     }
@@ -623,8 +619,8 @@ void cast_zlight(
                 // leading_edge_major plus some epsilon
                 float after_leading_edge_major = (delta.z + 0.50001f) / (delta.y - 0.5f);
                 cast_zlight<xx, xy, xz, yx, yy, yz, zz, calc, check>(
-                    output_caches, input_arrays, offset, offset_distance,
-                    target_z, floor_check, numerator, distance,
+                    output_caches, input_arrays, floor_caches,
+                    offset, offset_distance, numerator, distance,
                     after_leading_edge_major, end_major, old_start_minor, start_minor,
                     cumulative_transparency );
 
@@ -708,56 +704,53 @@ void map::build_seen_cache( const tripoint &origin, const int target_z )
         // Cache the caches (pointers to them)
         std::array<const float (*)[MAPSIZE*SEEX][MAPSIZE*SEEY], OVERMAP_LAYERS> transparency_caches;
         std::array<float (*)[MAPSIZE*SEEX][MAPSIZE*SEEY], OVERMAP_LAYERS> seen_caches;
+        std::array<const bool (*)[MAPSIZE*SEEX][MAPSIZE*SEEY], OVERMAP_LAYERS> floor_caches;
         for( int z = -OVERMAP_DEPTH; z <= OVERMAP_HEIGHT; z++ ) {
             auto &cur_cache = get_cache( z );
             transparency_caches[z + OVERMAP_DEPTH] = &cur_cache.transparency_cache;
             seen_caches[z + OVERMAP_DEPTH] = &cur_cache.seen_cache;
+            floor_caches[z + OVERMAP_DEPTH] = &cur_cache.floor_cache;
         }
-
-        const auto floor_check = [this]( const tripoint &p ) {
-            const tripoint below( p.x, p.y, p.z - 1 );
-            return !valid_move( p, below, false, true );
-        };
 
         // Down
         cast_zlight<0, 1, 0, 1, 0, 0, -1, sight_calc, sight_check>(
-            seen_caches, transparency_caches, origin, 0, target_z, floor_check );
+            seen_caches, transparency_caches, floor_caches, origin, 0 );
         cast_zlight<1, 0, 0, 0, 1, 0, -1, sight_calc, sight_check>(
-            seen_caches, transparency_caches, origin, 0, target_z, floor_check );
+            seen_caches, transparency_caches, floor_caches, origin, 0 );
 
         cast_zlight<0, -1, 0, 1, 0, 0, -1, sight_calc, sight_check>(
-            seen_caches, transparency_caches, origin, 0, target_z, floor_check );
+            seen_caches, transparency_caches, floor_caches, origin, 0 );
         cast_zlight<-1, 0, 0, 0, 1, 0, -1, sight_calc, sight_check>(
-            seen_caches, transparency_caches, origin, 0, target_z, floor_check );
+            seen_caches, transparency_caches, floor_caches, origin, 0 );
 
         cast_zlight<0, 1, 0, -1, 0, 0, -1, sight_calc, sight_check>(
-            seen_caches, transparency_caches, origin, 0, target_z, floor_check );
+            seen_caches, transparency_caches, floor_caches, origin, 0 );
         cast_zlight<1, 0, 0, 0, -1, 0, -1, sight_calc, sight_check>(
-            seen_caches, transparency_caches, origin, 0, target_z, floor_check );
+            seen_caches, transparency_caches, floor_caches, origin, 0 );
 
         cast_zlight<0, -1, 0, -1, 0, 0, -1, sight_calc, sight_check>(
-            seen_caches, transparency_caches, origin, 0, target_z, floor_check );
+            seen_caches, transparency_caches, floor_caches, origin, 0 );
         cast_zlight<-1, 0, 0, 0, -1, 0, -1, sight_calc, sight_check>(
-            seen_caches, transparency_caches, origin, 0, target_z, floor_check );
+            seen_caches, transparency_caches, floor_caches, origin, 0 );
         cast_zlight<0, 1, 0, 1, 0, 0, 1, sight_calc, sight_check>(
-            seen_caches, transparency_caches, origin, 0, target_z, floor_check );
+            seen_caches, transparency_caches, floor_caches, origin, 0 );
         cast_zlight<1, 0, 0, 0, 1, 0, 1, sight_calc, sight_check>(
-            seen_caches, transparency_caches, origin, 0, target_z, floor_check );
+            seen_caches, transparency_caches, floor_caches, origin, 0 );
         // Up
         cast_zlight<0, -1, 0, 1, 0, 0, 1, sight_calc, sight_check>(
-            seen_caches, transparency_caches, origin, 0, target_z, floor_check );
+            seen_caches, transparency_caches, floor_caches, origin, 0 );
         cast_zlight<-1, 0, 0, 0, 1, 0, 1, sight_calc, sight_check>(
-            seen_caches, transparency_caches, origin, 0, target_z, floor_check );
+            seen_caches, transparency_caches, floor_caches, origin, 0 );
 
         cast_zlight<0, 1, 0, -1, 0, 0, 1, sight_calc, sight_check>(
-            seen_caches, transparency_caches, origin, 0, target_z, floor_check );
+            seen_caches, transparency_caches, floor_caches, origin, 0 );
         cast_zlight<1, 0, 0, 0, -1, 0, 1, sight_calc, sight_check>(
-            seen_caches, transparency_caches, origin, 0, target_z, floor_check );
+            seen_caches, transparency_caches, floor_caches, origin, 0 );
 
         cast_zlight<0, -1, 0, -1, 0, 0, 1, sight_calc, sight_check>(
-            seen_caches, transparency_caches, origin, 0, target_z, floor_check );
+            seen_caches, transparency_caches, floor_caches, origin, 0 );
         cast_zlight<-1, 0, 0, 0, -1, 0, 1, sight_calc, sight_check>(
-            seen_caches, transparency_caches, origin, 0, target_z, floor_check );
+            seen_caches, transparency_caches, floor_caches, origin, 0 );
     }
 
     int part;
