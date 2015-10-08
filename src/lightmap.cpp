@@ -569,6 +569,8 @@ void cast_zlight(
                 if( !started_span ) {
                     // Need to reset minor slope, because we're starting a new line
                     new_start_minor = leading_edge_minor;
+                    // Need more precision or artifacts happen
+                    leading_edge_minor = start_minor;
                     started_span = true;
                 }
 
