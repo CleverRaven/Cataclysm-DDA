@@ -280,6 +280,31 @@ void monster::plan( const mfactions &factions )
     }
 }
 
+// This is a table of moves spent to stagger in different directions.
+// It was empirically derived by spawning monsters and having them proceed
+// to a destination and recording the moves required.
+// The indices 0 - 99 correspond to a linear progression from 0 slope (orthoganal, i.e. N, E, S, W)
+// to 99 (diagonal, NE, NW, SE, SW).
+// This is a fairly terrible solution, but it's the only approach I can think of that seems to work.
+const static float adjustment_values[] = {
+    117.522, 116.817, 116.112, 115.868, 115.47, 115.164, 114.787, 114.367, 114.25, 113.989,
+    113.765, 113.574, 113.32, 113.163, 112.891, 112.737, 112.59, 112.385, 112.247, 112.117,
+    111.989, 111.776, 111.673, 111.539, 111.456, 111.352, 111.249, 111.17, 111.104, 110.939,
+    110.911, 110.799, 110.766, 110.385, 110.655, 110.478, 110.467, 110.348, 110.287, 110.28,
+    110.204, 110.129, 110.246, 110.025, 109.979, 109.955, 109.928, 109.826, 109.881, 109.682,
+    109.483, 109.813, 109.662, 109.658, 109.783, 109.692, 109.629, 109.574, 109.585, 109.57,
+    109.646, 109.581, 109.599, 109.574, 109.582, 109.573, 109.663, 109.608, 109.497, 109.568,
+    109.51, 109.678, 109.58, 109.572, 109.634, 109.66, 109.654, 109.746, 109.707, 109.765,
+    109.754, 109.809, 109.848, 109.913, 109.868, 109.924, 110.111, 110.076, 110.003, 110.202,
+    110.23, 110.336, 110.233, 110.341, 110.473, 110.589, 110.556, 110.71, 110.695, 110.675,
+    110.656
+};
+
+static float get_stagger_adjust( const tripoint &source, const tripoint &destination ) {
+    const float slope = get_normalized_angle( {source.x, source.y}, {destination.x, destination.y} ) );
+    return 100.0 / adjustment_values[ (int)(slope * 100) ];
+}
+
 // General movement.
 // Currently, priority goes:
 // 1) Special Attack
@@ -406,6 +431,7 @@ void monster::move()
     }
 
     tripoint next_step;
+    const bool staggers = has_flag( MF_STUMBLES );
     if( moved ) {
         // Implement both avoiding obstacles and staggering.
         moved = false;
@@ -442,7 +468,7 @@ void monster::move()
                 next_step = candidate;
                 // If we stumble, pick a random square, otherwise take the first one,
                 // which is the most direct path.
-                if( !has_flag( MF_STUMBLES ) ) {
+                if( !staggers ) {
                     break;
                 }
             }
@@ -455,9 +481,7 @@ void monster::move()
             ( !pacified && attack_at( next_step ) ) ||
             ( !pacified && bash_at( next_step ) ) ||
             ( !pacified && push_to( next_step, 0, 0 ) ) ||
-            // move_to() uses the slope to determine some move speed scaling.
-            move_to( next_step, false,
-                     get_normalized_angle( {pos().x, pos().y}, {destination.x, destination.y} ) );
+            move_to( next_step, false, (staggers ? get_stagger_adjust( pos(), destination ) : 1.0) );
         if( !did_something ) {
             moves -= 100; // If we don't do this, we'll get infinite loops.
         }
@@ -887,7 +911,7 @@ bool monster::attack_at( const tripoint &p )
     return false;
 }
 
-bool monster::move_to( const tripoint &p, bool force, float slope )
+bool monster::move_to( const tripoint &p, bool force, const float stagger_adjustment )
 {
     const bool digs = digging();
     const bool flies = has_flag( MF_FLIES );
@@ -928,9 +952,7 @@ bool monster::move_to( const tripoint &p, bool force, float slope )
         // This adjustment is to make it so that monster movement speed relative to the player
         // is consistent even if the monster stumbles,
         // and the same regardless of the distance measurement mode.
-        const float stumble_multiplier = has_flag(MF_STUMBLES) ?
-            ( trigdist ? (0.78 * (1.0 + (0.14 * slope))) : (1.0 - (0.25 * slope))) : 1.0;
-        const int cost = stumble_multiplier *
+        const int cost = stagger_adjustment *
             (float)(climbs ? calc_climb_cost( pos(), p ) : calc_movecost( pos(), p ));
 
        if( cost > 0 ) {

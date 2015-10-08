@@ -167,11 +167,11 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
          * @param force If this is set to true, the movement will happen even if
          *              there's currently something blocking the destination.
          *
-         * @param slope adjusts move cost in some circumstances.
+         * @param stagger_adjustment is a multiplier for move cost to compensate for staggering.
          *
          * @return true if movement successful, false otherwise
          */
-        bool move_to( const tripoint &p, bool force = false, float slope = 0.0 );
+        bool move_to( const tripoint &p, bool force = false, float stagger_adjustment = 1.0 );
 
         /**
          * Attack any enemies at the given location.
