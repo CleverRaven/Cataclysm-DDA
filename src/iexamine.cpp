@@ -122,9 +122,6 @@ public:
             if( u.activity.type != ACT_NULL ) {
                 break;
             }
-
-            amenu.redraw();
-            g->draw();
         }
     }
 private:
