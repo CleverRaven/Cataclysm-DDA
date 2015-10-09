@@ -363,8 +363,10 @@ void game::init_ui()
      * VIEW_OFFSET_X/VIEW_OFFSET_Y is the position of w_terrain on screen,
      * it is (as every window position) in standard font dimension.
      * As the sidebar is located right of w_terrain it also controls its position.
-     * It is used to move everything into the center of the screen,
-     * when the screen is larger than what the game requires.
+     * It was used to move everything into the center of the screen,
+     * when the screen was larger than what the game required. They are currently
+     * set to zero to prevent the other game windows from being truncated if
+     * w_terrain is too small for the current window.
      *
      * The code here calculates size available for w_terrain, caps it at
      * max_view_size (the maximal view range than any character can have at
@@ -475,8 +477,8 @@ void game::init_ui()
         mouseview_w = sidebarWidth - MINIMAP_WIDTH;
     }
 
-    int _y = 0;
-    int _x = right_sidebar ? TERMX - sidebarWidth : 0;
+    int _y = VIEW_OFFSET_Y;
+    int _x = right_sidebar ? TERMX - VIEW_OFFSET_X - sidebarWidth : VIEW_OFFSET_X;
 
     w_minimap = newwin(MINIMAP_HEIGHT, MINIMAP_WIDTH, _y + minimapY, _x + minimapX);
     werase(w_minimap);
