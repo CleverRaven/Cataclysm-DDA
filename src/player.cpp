@@ -1825,6 +1825,8 @@ bool player::is_immune_effect( const efftype_id &effect ) const
         return is_immune_damage( DT_HEAT );
     } else if( effect == "deaf" ) {
         return worn_with_flag("DEAF") || has_bionic("bio_ears") || is_wearing("rm13_armor_on");
+    } else if( effect == "corroding" ) {
+        return has_trait( "ACIDPROOF" );
     }
 
     return false;
