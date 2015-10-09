@@ -252,52 +252,51 @@ static bool select_autopickup_items( std::vector<item> &here, std::vector<bool> 
 }
 
 
-// parameter definition - append_fail_msg - any other message you want to append to the error message displayed
-//                      - silent_chk - if true, will not display any error message
+// parameter definition - silent_chk - if true, will not display any error message
 //                      - allow_swap - if true, when exceed volume, will always return true (unless current
 //                                     wielded weapon is no_unwield flag set, else return false
 //                      - chk_keep_hands_free - if true, will check for keep_hands_free. Note that this will not have any effect if not
 //                                               allow_swap
 //                      - chk_armor - if true, when item is armor and exceed volume, will return true as player might want to wear it
-bool Pickup::can_pick_one_up( player &p, item &newit, std::string append_fail_msg, bool silent_chk,
-                              bool allow_swap, bool chk_keep_hands_free, bool chk_armor )
+bool Pickup::can_pick_one_up( player &p, const item &newit, const bool silent_chk,
+                              const bool allow_swap, const bool chk_keep_hands_free, const bool chk_armor )
 {
     // if item is already in inventory or is weapon
-    if ( p.inv.has_item(&newit) || (p.has_weapon() && &p.weapon == &newit) ) {
+    if ( p.inv.has_item(&newit) || (p.has_weapon() && &p.weapon == &newit) )  {
         return true;
     }
 
     // if item is already worn
-    for( auto &w : p.worn ) {
-        if ( &w == &newit ) {
+    for( auto &w : p.worn )  {
+        if ( &w == &newit )  {
             return true;
         }
     }
 
-    if ( !p.can_pickup(false) ) {
-        if ( p.is_player() && !silent_chk ) {
-            add_msg( m_info, _(("You cannot pick up items with your %s! " + append_fail_msg).c_str()), p.weapon.tname().c_str() );
+    if ( !p.can_pickup(false) )  {
+        if ( p.is_player() && !silent_chk )  {
+            add_msg( m_info, _("You cannot pick up items with your %s!"), p.weapon.tname().c_str() );
         }
         return false;
     }
 
-    if ( newit.made_of(LIQUID) ) {
+    if ( newit.made_of(LIQUID) )  {
         if ( p.is_player() && !silent_chk ) {
-            add_msg( m_info, _(("You can't pick up a liquid! " + append_fail_msg).c_str()) );
+            add_msg( m_info, _("You can't pick up a liquid!") );
         }
         return false;
     }
 
-    if ( !p.can_pickWeight(newit.weight(), false) ) {
+    if ( !p.can_pickWeight(newit.weight(), false) )  {
         if ( p.is_player() && !silent_chk ) {
-            add_msg( m_info, _(("The %s is too heavy! " + append_fail_msg).c_str()), newit.display_name().c_str() );
+            add_msg( m_info, _("The %s is too heavy!"), newit.display_name().c_str() );
         }
         return false;
     }
 
     // check if there is a quiver that can store at least 1 arrow/bolt
-    if ( newit.is_ammo() && (newit.ammo_type() == "arrow" || newit.ammo_type() == "bolt") ) {
-        std::vector<item *>quivers;
+    if ( newit.is_ammo() && (newit.ammo_type() == "arrow" || newit.ammo_type() == "bolt") )  {
+        std::vector<item *> quivers;
         for ( auto & worn_item : p.worn ) {
             if( worn_item.type->can_use( "QUIVER") ) {
                 quivers.push_back( &worn_item );
@@ -307,7 +306,7 @@ bool Pickup::can_pick_one_up( player &p, item &newit, std::string append_fail_ms
 
         bool have_space_in_quiver = false;
 
-        for ( std::vector<item *>::iterator it = quivers.begin(); it != quivers.end(); it++ ) {
+        for ( std::vector<item *>::iterator it = quivers.begin(); it != quivers.end(); it++ )  {
             item *quiver = *it;
 
             long max_arrows = (long) quiver->max_charges_from_flag( "QUIVER" );
@@ -318,10 +317,9 @@ bool Pickup::can_pick_one_up( player &p, item &newit, std::string append_fail_ms
             }
         }
 
-        if ( !have_space_in_quiver && !p.can_pickVolume(newit.volume()) ) {
+        if ( !have_space_in_quiver && !p.can_pickVolume(newit.volume()) )  {
                 if ( p.is_player() && !silent_chk ) {
-                    add_msg( m_info, _(("There's no room in your inventory for the %s. " + append_fail_msg).c_str()),
-                                        newit.tname(newit.charges).c_str() );
+                    add_msg( m_info, _("There's no room in your inventory for the %s."), newit.tname(newit.charges).c_str() );
                 }
                 return false;
         }
@@ -339,8 +337,8 @@ bool Pickup::can_pick_one_up( player &p, item &newit, std::string append_fail_ms
         if ( allow_swap ) {
             if ( chk_keep_hands_free && p.keep_hands_free && !p.is_armed() ) {
                 if ( p.is_player() && !silent_chk ) {
-                    add_msg( m_info, _(("There's no room in your inventory for the %s "
-                                       "and you have decided to keep your hands free. " + append_fail_msg).c_str()),
+                    add_msg( m_info, _("There's no room in your inventory for the %s "
+                                       "and you have decided to keep your hands free."),
                                         newit.display_name().c_str() );
                 }
                 return false;
@@ -351,7 +349,7 @@ bool Pickup::can_pick_one_up( player &p, item &newit, std::string append_fail_ms
             }
         } else { // !allow_swap
             if ( p.is_player() && !silent_chk ) {
-                add_msg( m_info, _(("There's no room in your inventory for the %s. " + append_fail_msg).c_str()),
+                add_msg( m_info, _("There's no room in your inventory for the %s."),
                                     newit.tname(newit.charges).c_str() );
             }
             return false;

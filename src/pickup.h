@@ -2,13 +2,13 @@
 #define PICKUP_H
 
 #include "enums.h"
-#include "character.h"
 
 #include <map>
 #include <list>
 #include <vector>
 #include <string>
 
+class player;
 class vehicle;
 class item;
 
@@ -18,9 +18,9 @@ class Pickup
         static void do_pickup( const tripoint &pickup_target, bool from_vehicle,
                                std::list<int> &indices, std::list<int> &quantities, bool autopickup );
         static void pick_up( const tripoint &p, int min ); // Pick up items; ',' or via examine()
-        static bool can_pick_one_up( player &c, item &newit, std::string append_fail_msg = "",
-                                     bool silent_chk = false, bool allow_swap = true, bool chk_keep_hands_free = true,
-                                     bool chk_armor = true );
+        static bool can_pick_one_up( player &c, const item &newit,
+                                     const bool silent_chk = false, const bool allow_swap = true, const bool chk_keep_hands_free = true,
+                                     const bool chk_armor = true );
 
     private:
         // No instances of Pickup allowed.

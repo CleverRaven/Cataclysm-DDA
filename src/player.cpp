@@ -11410,7 +11410,7 @@ hint_rating player::rate_action_read( const item &it ) const
     return HINT_GOOD;
 }
 
-read_return_value player::read( int inventory_position, int inv_from )
+read_return_value player::read( int inventory_position, const int inv_from, const tripoint item_fr_loc, const bool item_fr_veh )
 {
     // Find the object
     item* it = &i_at(inventory_position);
@@ -11491,6 +11491,10 @@ read_return_value player::read( int inventory_position, int inv_from )
         activity.values.push_back(0);
         // pushes item_frm into 2nd element
         activity.values.push_back(inv_from);
+        activity.values.push_back(item_fr_loc.x);
+        activity.values.push_back(item_fr_loc.y);
+        activity.values.push_back(item_fr_loc.z);
+        activity.values.push_back(item_fr_veh?-1:0);
         activity.str_values.push_back(it->typeId());
         moves = 0;
         return READ_ASSIGN_READ_ACTIVITY;
@@ -11570,6 +11574,10 @@ read_return_value player::read( int inventory_position, int inv_from )
     // the player gained the next skill level, this ensured by this:
     activity.values.push_back(study ? 1 : 0);
     activity.values.push_back(inv_from);
+    activity.values.push_back(item_fr_loc.x);
+    activity.values.push_back(item_fr_loc.y);
+    activity.values.push_back(item_fr_loc.z);
+    activity.values.push_back(item_fr_veh?-1:0);
     activity.str_values.push_back(it->typeId());
     moves = 0;
 
@@ -11585,7 +11593,6 @@ read_return_value player::read( int inventory_position, int inv_from )
     } else {
         add_morale(MORALE_BOOK, 0, tmp->fun * 15, minutes + 30, minutes, false, it->type);
     }
-
     return READ_ASSIGN_READ_ACTIVITY;
 }
 
