@@ -472,6 +472,8 @@ bool map::pl_sees( const tripoint &t, const int max_range ) const
           map_cache.sm[t.x][t.y] > 0.0 );
 }
 
+#include "messages.h"
+
 template<int xx, int xy, int xz, int yx, int yy, int yz, int zz,
          float(*calc)(const float &, const float &, const int &),
          bool(*check)(const float &, const float &)>
@@ -541,8 +543,8 @@ void cast_zlight(
                 //  that tile is actually invisible to us.
                 bool floor_block = false;
                 if( current.z < offset.z ) {
-                    // Could go OoB, but that would require offset.z > OVERMAP_HEIGHT
-                    if( (*floor_caches[z_index + 1])[current.x][current.y] ) {
+                    if( z_index < (OVERMAP_LAYERS - 1) &&
+                        (*floor_caches[z_index + 1])[current.x][current.y] ) {
                         floor_block = true;
                         new_transparency = LIGHT_TRANSPARENCY_SOLID;
                     }
