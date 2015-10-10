@@ -255,6 +255,12 @@
           "rotates": false
         },
         {
+          "id": "40mm_toxicgas",
+          "fg": 38,
+          "bg": 505,
+          "rotates": false
+        },
+        {
           "id": "40mm_beanbag",
           "fg": 39,
           "bg": 505,
@@ -22570,6 +22576,86 @@
         {
           "id": "mon_moruboru",
           "fg": 2908,
+          "rotates": false
+        },
+        {
+          "id": "vp_plow",
+          "fg": 2909,
+          "rotates": true
+        },
+        {
+          "id": "vp_seed_drill",
+          "fg": 2910,
+          "rotates": true
+        },
+        {
+          "id": "vp_seed_drill_advanced",
+          "fg": 2910,
+          "rotates": true
+        },
+        {
+          "id": "vp_reaper",
+          "fg": 2911,
+          "rotates": true
+        },
+        {
+          "id": "gasbomb_makeshift",
+          "fg": 2912,
+          "rotates": false
+        },
+        {
+          "id": "gasbomb_makeshift_act",
+          "fg": 2913,
+          "rotates": false
+        },
+        {
+          "id": "mon_giant_cockroach_nymph",
+          "fg": 2914,
+          "rotates": false
+        },
+        {
+          "id": "mon_giant_cockroach",
+          "fg": 2915,
+          "rotates": false
+        },
+        {
+          "id": "mon_pregnant_giant_cockroach",
+          "fg": 2916,
+          "rotates": false
+        },
+        {
+          "id": "mon_wasp_small",
+          "fg": 2917,
+          "rotates": false
+        },
+        {
+          "id": "shavingkit",
+          "fg": 2918,
+          "rotates": false
+        },
+        {
+          "id": "survivor_shavingkit",
+          "fg": 2918,
+          "rotates": false
+        },
+        {
+          "id": "elec_hairtrimmer",
+          "fg": 2919,
+          "rotates": false
+        },
+        {
+          "id": "metal_tank_small",
+          "fg": 2920,
+          "rotates": false
+        },
+        {
+          "id": "survivor_hairtrimmer",
+          "fg": 2921,
+          "rotates": false
+        },
+        {
+          "id": "firehelmet",
+          "fg": 2922,
           "rotates": false
         }
       ]
