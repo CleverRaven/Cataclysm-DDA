@@ -9122,7 +9122,7 @@ std::vector<map_item_stack> game::find_nearby_items(int iRadius)
                         item_order.push_back(name);
                         temp_items[name] = map_item_stack( &elem, relative_pos );
                     } else {
-                        temp_items[name].addNewPos( relative_pos );
+                        temp_items[name].addNewPos( &elem, relative_pos );
                     }
 
                 } else {
