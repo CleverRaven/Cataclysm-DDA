@@ -1349,7 +1349,7 @@
     "default_faction":"vermin",
     "symbol":".",
     "color":"dkgray",
-    "size":"SMALL",
+    "size":"TINY",
     "material":"iflesh",
     "diff":1,
     "aggression":10,
