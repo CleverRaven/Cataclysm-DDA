@@ -1347,7 +1347,7 @@
     "name": "wasp",
     "species":"INSECT",
     "default_faction":"vermin",
-    "symbol":"a",
+    "symbol":".",
     "color":"dkgray",
     "size":"SMALL",
     "material":"iflesh",
@@ -1366,7 +1366,7 @@
     "vision_night":5,
     "hp":1,
     "death_function":"NORMAL",
-    "description":"A slender-bodied flying insect, with a painful sting.  They can be somewhat aggresive if disturbed.",
+    "description":"A slender-bodied flying insect, with a painful sting.  They can be somewhat aggressive if disturbed.",
     "flags":["SEES", "SMELLS", "FLIES", "VERMIN", "SMALL_BITES", "HUNTS_VERMIN"],
     "anger_triggers":["HURT", "FRIEND_DIED", "PLAYER_CLOSE", "PLAYER_WEAK"]
     },{
