@@ -65,7 +65,7 @@ std::string const& rad_badge_color(int const rad)
         pair_t {  0, _("green") },
         pair_t { 30, _("blue")  },
         pair_t { 60, _("yellow")},
-        pair_t {120, pgettext("orange as color", "orange")},
+        pair_t {120, pgettext("color", "orange")},
         pair_t {240, _("red")   },
         pair_t {500, _("black") },
     }};
