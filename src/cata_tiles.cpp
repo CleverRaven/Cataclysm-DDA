@@ -51,6 +51,26 @@ static const std::string TILE_CATEGORY_IDS[] = {
     "weather", // C_WEATHER,
 };
 
+struct pixel {
+    int r;
+    int g;
+    int b;
+    int a;
+
+    pixel()
+    {
+        r = 0;
+        g = 0;
+        b = 0;
+        a = 0;
+    }
+
+    bool isBlack()
+    {
+        return (r == 0 && g == 0 && b == 0);
+    }
+};
+
 cata_tiles::cata_tiles(SDL_Renderer *render)
 {
     //ctor
@@ -193,7 +213,7 @@ void cata_tiles::get_tile_information(std::string config_path, std::string &json
     }
 }
 
-inline pixel cata_tiles::get_pixel_color(SDL_Surface *surf, int x, int y, int w)
+inline static pixel get_pixel_color(SDL_Surface *surf, int x, int y, int w)
 {
     pixel pix;
     const auto pixelarray = reinterpret_cast<unsigned char *>(surf->pixels);
@@ -205,7 +225,7 @@ inline pixel cata_tiles::get_pixel_color(SDL_Surface *surf, int x, int y, int w)
     return pix;
 }
 
-inline void cata_tiles::set_pixel_color(SDL_Surface *surf, int x, int y, int w, pixel pix)
+inline static void set_pixel_color(SDL_Surface *surf, int x, int y, int w, pixel pix)
 {
     const auto pixelarray = reinterpret_cast<unsigned char *>(surf->pixels);
     const auto pixel_ptr = pixelarray + (y * w + x) * 4;
@@ -215,55 +235,65 @@ inline void cata_tiles::set_pixel_color(SDL_Surface *surf, int x, int y, int w, 
     pixel_ptr[3] = static_cast<unsigned char>(pix.a);
 }
 
-void cata_tiles::convert_surface_to_grayscale(SDL_Surface *surf)
+static void color_pixel_grayscale(pixel& pix)
 {
-    for(int y = 0; y < surf->h; y++) {
-        for(int x = 0; x < surf->w; x++) {
-            pixel pix = get_pixel_color(surf, x, y, surf->w);
-            int result = (pix.r + pix.b + pix.g) / 3;
-            result = result * 6 / 10;
-            if(result > 255) {
-                result = 255;
-            }
-            pix.r = result;
-            pix.g = result;
-            pix.b = result;
-            set_pixel_color(surf, x, y, surf->w, pix);
-        }
+    bool isBlack = pix.isBlack();
+    int result = (pix.r + pix.b + pix.g) / 3;
+    result = result * 6 / 10;
+    if (result > 255) {
+        result = 255;
     }
+    //workaround for color key 0 on some tilesets
+    if (result<1 && !isBlack){
+        result = 1;
+    }
+    pix.r = result;
+    pix.g = result;
+    pix.b = result;
 }
 
-void cata_tiles::convert_surface_to_nightvision(SDL_Surface *surf)
+static void color_pixel_nightvision(pixel& pix)
 {
-    for(int y = 0; y < surf->h; y++) {
-        for(int x = 0; x < surf->w; x++) {
-            pixel pix = get_pixel_color(surf, x, y, surf->w);
-            int result = (pix.r + pix.b + pix.g) / 3;
-            result = result * 3 / 4 + 64;
-            if(result > 255) {
-                result = 255;
-            }
-            pix.r = result / 4;
-            pix.g = result;
-            pix.b = result / 7;
-            set_pixel_color(surf, x, y, surf->w, pix);
-        }
+    int result = (pix.r + pix.b + pix.g) / 3;
+    result = result * 3 / 4 + 64;
+    if (result > 255) {
+        result = 255;
     }
+    pix.r = result / 4;
+    pix.g = result;
+    pix.b = result / 7;
 }
 
-void cata_tiles::convert_surface_to_overexposed(SDL_Surface *surf)
+static void color_pixel_overexposed(pixel& pix)
 {
-    for(int y = 0; y < surf->h; y++) {
-        for(int x = 0; x < surf->w; x++) {
+    int result = (pix.r + pix.b + pix.g) / 3;
+    result = result / 4 + 192;
+    if (result > 255) {
+        result = 255;
+    }
+    pix.r = result / 4;
+    pix.g = result;
+    pix.b = result / 7;
+}
+
+void cata_tiles::apply_color_filter(SDL_Surface *surf, COLOR_FILTER filter)
+{
+    for (int y = 0; y < surf->h; y++) {
+        for (int x = 0; x < surf->w; x++) {
             pixel pix = get_pixel_color(surf, x, y, surf->w);
-            int result = (pix.r + pix.b + pix.g) / 3;
-            result = result / 4 + 192;
-            if(result > 255) {
-                result = 255;
+            switch (filter){
+                case COLOR_FILTER_GRAYSCALE:
+                    color_pixel_grayscale(pix);
+                    break;
+                case COLOR_FILTER_NIGHTVISION:
+                    color_pixel_nightvision(pix);
+                    break;
+                case COLOR_FILTER_OVEREXPOSED:
+                    color_pixel_overexposed(pix);
+                    break;
+                default:
+                    break;
             }
-            pix.r = result / 4;
-            pix.g = result;
-            pix.b = result / 7;
             set_pixel_color(surf, x, y, surf->w, pix);
         }
     }
@@ -299,9 +329,9 @@ int cata_tiles::load_tileset(std::string img_path, int R, int G, int B)
     }
 
     /** perform color filter conversion here */
-    convert_surface_to_grayscale(shadow_tile_atlas);
-    convert_surface_to_nightvision(nightvision_tile_atlas);
-    convert_surface_to_overexposed(overexposed_tile_atlas);
+    apply_color_filter(shadow_tile_atlas, COLOR_FILTER_GRAYSCALE);
+    apply_color_filter(nightvision_tile_atlas, COLOR_FILTER_NIGHTVISION);
+    apply_color_filter(overexposed_tile_atlas, COLOR_FILTER_OVEREXPOSED);
 
     /** get dimensions of the atlas image */
     int w = tile_atlas->w;

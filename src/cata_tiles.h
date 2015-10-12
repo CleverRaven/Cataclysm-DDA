@@ -59,21 +59,6 @@ struct tile
     }
 };
 
-struct pixel {
-    int r;
-    int g;
-    int b;
-    int a;
-
-    pixel()
-    {
-        r = 0;
-        g = 0;
-        b = 0;
-        a = 0;
-    }
-};
-
 /* Enums */
 enum MULTITILE_TYPE
 {
@@ -102,6 +87,14 @@ enum TILE_CATEGORY
     C_BULLET,
     C_HIT_ENTITY,
     C_WEATHER,
+};
+
+enum COLOR_FILTER
+{
+    COLOR_FILTER_GRAYSCALE,
+    COLOR_FILTER_NIGHTVISION,
+    COLOR_FILTER_OVEREXPOSED,
+    COLOR_FILTER_NONE
 };
 
 /** Typedefs */
@@ -235,12 +228,6 @@ class cata_tiles
 
         /** Surface/Sprite rotation specifics */
         SDL_Surface *create_tile_surface();
-        SDL_Surface *create_tile_surface(int w, int h);
-        void convert_surface_to_grayscale(SDL_Surface *surf);
-        void convert_surface_to_nightvision(SDL_Surface *surf);
-        void convert_surface_to_overexposed(SDL_Surface *surf);
-        inline pixel get_pixel_color(SDL_Surface *surf, int x, int y, int w);
-        inline void set_pixel_color(SDL_Surface *surf, int x, int y, int w, pixel pix);
 
         /* Tile Picking */
         void get_tile_values(const int t, const int *tn, int &subtile, int &rotation);
@@ -261,6 +248,11 @@ class cata_tiles
         void draw_entity_with_overlays( const player &pl, const tripoint &p, lit_level ll );
 
         bool draw_item_highlight(int x, int y);
+
+    private:
+        //surface manipulation
+        SDL_Surface *create_tile_surface(int w, int h);
+        void apply_color_filter(SDL_Surface *surf, COLOR_FILTER filter);
 
     public:
         // Animation layers
@@ -343,21 +335,7 @@ class cata_tiles
         /** Variables */
         SDL_Renderer *renderer;
         tile_map tile_values;
-        tile_map shadow_tile_values;
-        tile_map night_tile_values;
-        tile_map overexposed_tile_values;
         tile_id_map tile_ids;
-
-        /**
-         * The shadow colored tile count is used to prevent index out-of-range issues with using the alternate colored tiles.
-         * Some extra tiles may be created by other methods and added to the main tile_values list.
-         */
-        int shadow_tilecount;
-        /**
-         * Tracks active night vision goggle status for each draw call.
-         * Allows usage of night vision tilesets during sprite rendering.
-         */
-        bool nv_goggles_activated;
 
         int tile_height, tile_width, default_tile_width, default_tile_height;
         // The width and height of the area we can draw in,
@@ -403,10 +381,24 @@ class cata_tiles
         // offset for drawing, in pixels.
         int op_x, op_y;
 
-    protected:
     private:
         void create_default_item_highlight();
         int last_pos_x, last_pos_y;
+        tile_map shadow_tile_values;
+        tile_map night_tile_values;
+        tile_map overexposed_tile_values;
+        /**
+         * The shadow colored tile count is used to prevent index out-of-range issues with using the alternate colored tiles.
+         * Some extra tiles may be created by other methods and added to the main tile_values list.
+         */
+        int shadow_tilecount;
+        /**
+         * Tracks active night vision goggle status for each draw call.
+         * Allows usage of night vision tilesets during sprite rendering.
+         */
+        bool nv_goggles_activated;
+
+
 };
 
 #endif
