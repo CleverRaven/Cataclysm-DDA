@@ -4040,7 +4040,7 @@
     "default_faction":"vermin",
     "symbol":".",
     "color":"brown",
-    "size":"HUGE",
+    "size":"TINY",
     "material":"flesh",
     "diff":1,
     "aggression":0,
