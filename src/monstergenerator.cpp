@@ -570,7 +570,7 @@ std::vector<mtype_id> MonsterGenerator::get_all_mtype_ids() const
     return hold;
 }
 
-const mtype_id &MonsterGenerator::get_valid_hallucination() const
+mtype_id MonsterGenerator::get_valid_hallucination() const
 {
     std::vector<mtype_id> potentials;
     for( auto &elem : mon_templates ) {
