@@ -3236,7 +3236,7 @@ void iexamine::climb_down( player *p, map *m, const tripoint &examp )
     std::string query_str = ngettext("Looks like %d storey. Jump down?",
                                      "Looks like %d stories. Jump down?",
                                      height);
-    if( height > 1 && !query_yn(query_str, height) ) {
+    if( height > 1 && !query_yn(query_str.c_str(), height) ) {
         return;
     } else if( height == 1 ) {
         std::string query;
