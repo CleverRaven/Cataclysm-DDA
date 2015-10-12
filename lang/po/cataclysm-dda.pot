@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cataclysm-dda 0.C\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-10-12 09:30+0300\n"
+"POT-Creation-Date: 2015-10-12 09:50+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -86637,8 +86637,10 @@ msgstr ""
 
 #: src/iexamine.cpp
 #, c-format
-msgid "Looks like %d stories. Jump down?"
-msgstr ""
+msgid "Looks like %d storey. Jump down?"
+msgid_plural "Looks like %d stories. Jump down?"
+msgstr[0] ""
+msgstr[1] ""
 
 #: src/iexamine.cpp
 msgid "You probably won't be able to get up and jumping down may hurt. Jump?"
