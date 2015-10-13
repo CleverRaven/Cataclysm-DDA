@@ -238,7 +238,6 @@ public:
      */
     int butcher_factor() const;
 
- bool invlet_is_okay();
         bool stacks_with( const item &rhs ) const;
         /**
          * Merge charges of the other item into this item.

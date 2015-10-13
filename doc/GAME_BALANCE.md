@@ -97,6 +97,48 @@ A measure of how well-suited the item is for being swung/thrust/etc. This factor
 
 +1 - Well-balanced for swinging or stabbing.  Baseball bat, golf club, swords, quarterstaff, knives.
 
+##Damage
+Weapon's relative strength is based on an approximate formula involving its damage, to-hit, techniques and few other factors.
+This strength will be expressed in "points" or dpt (damage per turn) as damage per turn is the most significant balancing factor.
+
+### Damage per turn
+Melee weapon's relative strength is measured by damage per turn (more precisely: damage per 100 moves). The damage is sum of all damage types (average of min/max where random) from the weapon alone, without including strength in the calculation.
+For bashing weapons, it is assumed the character can achieve the maximum damage, but this strength isn't added to damage (or critical damage).
+
+### To-hit
+While not a direct measure of damage, to-hit bonus has to be included in the calculations, as it has a significant effect on actual damage output (through hit and crit rate).
+
+Each point of to-hit is "worth" roughly a 10% increase/decrease in damage per turn or 2.5 points of damage per turn (whichever is higher).
+
+### Techniques
+Rapid strike technique increases damage per turn by 0.66 / 0.5 = 132%
+Other techniques are generally too situational to be worth any points here.
+
+### Weapon tiers
+Damage per turn should put the weapon into one of those categories:
+
+<10 - Not weapons. Those items may be pressed into service, but are unlikely to be better than fists. Plastic bottles, rocks, boots.
+
+11-15 - Tools not meant to strike and improvised weapons. Two-by-fours, pointy sticks, pipes, hammers.
+
+16-25 - Dangerous tools or crude dedicated weapons. Golf clubs, two-by-swords, wooden spears, knife spears, hatchets, switchblades, tonfas, quarterstaves.
+
+26-35 - Good dedicated weapons or the most dangerous of tools. Wood and fire axes, steel spears, electric carvers, kukris, bokken, machetes, barbed wire bats.
+
+36-45 - Weapons of war, well designed to kill humans. Wakizashis, katanas, broadswords, zweihanders, combat knifes, battle axes, war hammers, maces, morningstars.
+
+46+ - Sci-fi stuff. Diamond katanas, monomolecular blades, lightsabers and chainswords.
+
+## Other melee balancing factors
+### Attack speed
+Out of two weapons with same dpt, the faster one is generally better.
+Faster weapons allow more damage granularity (less overkill), make it less likely to miss a turn (and thus dodge/block recharges) and make positioning easier.
+Slower weapons will pierce armor better, but currently most enemies are very lightly armored.
+
+### Damage type
+At low skill, piercing damage suffers from scaling and bashing damage from damage limit due to low strength and skill. Cutting damage is not affected.
+At high skill, bashing damage is generally the strongest, but still suffers from the damage limit.
+Exotic damage types (currently only fire) do not scale with skills or crits.
 
 # LIQUIDS:
 Multi-charge items are weighed by the charge/use.  If you have an item that contains 40 uses, it'll weigh 40x as much (when found in-game) as you entered in the JSON. Liquids are priced by the 250mL unit, but handled in containers.  This can cause problems if you create something that comes in (say) a gallon jug (15 charges) and price it at the cost of a jug's worth: it'll be 15x as expensive as intended.

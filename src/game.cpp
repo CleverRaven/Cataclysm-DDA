@@ -2207,8 +2207,7 @@ bool game::handle_action()
 
     // If performing an action with right mouse button, co-ordinates
     // of location clicked.
-    int mouse_action_x = -1;
-    int mouse_action_y = -1;
+    tripoint mouse_target = tripoint_min;
 
 // do not allow mouse actions while dead
     if( !u.is_dead_state() &&
@@ -2226,6 +2225,7 @@ bool game::handle_action()
             // Not clicked in visible terrain
             return false;
         }
+        mouse_target = tripoint( mx, my, u.posz() );
 
         if (action == "SELECT") {
             bool new_destination = true;
@@ -2246,7 +2246,7 @@ bool game::handle_action()
             }
 
             if (new_destination) {
-                destination_preview = m.route( u.pos3(), tripoint( mx, my, u.posz() ), 0, 1000 );
+                destination_preview = m.route( u.pos3(), mouse_target, 0, 1000 );
                 return false;
             }
         } else if (action == "SEC_SELECT") {
@@ -2260,9 +2260,7 @@ bool game::handle_action()
                 return false;
             }
 
-            mouse_action_x = mx;
-            mouse_action_y = my;
-            int mouse_selected_mondex = mon_at( { mx, my, get_levz() } );
+            int mouse_selected_mondex = mon_at( mouse_target );
             if (mouse_selected_mondex != -1) {
                 monster &critter = critter_tracker->find(mouse_selected_mondex);
                 if (!u.sees(critter)) {
@@ -2533,8 +2531,8 @@ bool game::handle_action()
         case ACTION_CLOSE:
             if( u.has_active_mutation( "SHELL2" ) ) {
                 add_msg(m_info, _("You can't close things while you're in your shell."));
-            } else if( mouse_action_x != -1 && mouse_action_y != -1 ) {
-                close( tripoint( mouse_action_x, mouse_action_y, u.posz() ) );
+            } else if( mouse_target != tripoint_min ) {
+                close( mouse_target );
             } else {
                 close();
             }
@@ -2553,8 +2551,10 @@ bool game::handle_action()
         case ACTION_EXAMINE:
             if (u.has_active_mutation("SHELL2")) {
                 add_msg(m_info, _("You can't examine your surroundings while you're in your shell."));
+            } else if( mouse_target != tripoint_min ) {
+                examine( mouse_target );
             } else {
-                examine( tripoint( mouse_action_x, mouse_action_y, u.posz() ) );
+                examine();
             }
             break;
 
@@ -2676,11 +2676,11 @@ bool game::handle_action()
 
         case ACTION_FIRE:
             // Shell-users may fire a *single-handed* weapon out a port, if need be.
-            plfire( false, tripoint( mouse_action_x, mouse_action_y, u.posz() ) );
+            plfire( false, mouse_target );
             break;
 
         case ACTION_FIRE_BURST:
-            plfire( true, tripoint( mouse_action_x, mouse_action_y, u.posz() ) );
+            plfire( true, mouse_target );
             break;
 
         case ACTION_SELECT_FIRE_MODE:
@@ -8072,29 +8072,25 @@ bool npc_menu( npc &who )
 
 void game::examine()
 {
-    examine( tripoint( -1, -1, get_levz() ) );
+    // if we are driving a vehicle, examine the
+    // current tile without asking.
+    const vehicle * const veh = m.veh_at( u.pos() );
+    if( veh && veh->player_in_control( u ) ) {
+        examine( u.pos() );
+        return;
+    }
+
+    tripoint examp = u.pos();
+    if( !choose_adjacent_highlight( _("Examine where?"), examp, ACTION_EXAMINE ) ) {
+        return;
+    }
+    examine( examp );
 }
 
-void game::examine( const tripoint &p )
+void game::examine( const tripoint &examp )
 {
-    tripoint examp = p;
-    int &examx = examp.x;
-    int &examy = examp.y;
     int veh_part = 0;
     vehicle *veh = nullptr;
-    const int curz = p.z;
-
-    if (examx == -1) {
-        // if we are driving a vehicle, examine the
-        // current tile without asking.
-        veh = m.veh_at(u.pos(), veh_part);
-        if (veh && veh->player_in_control(u)) {
-            examx = u.posx();
-            examy = u.posy();
-        } else  if (!choose_adjacent_highlight(_("Examine where?"), examp, ACTION_EXAMINE)) {
-            return;
-        }
-    }
 
     veh = m.veh_at(examp, veh_part);
     if (veh) {
@@ -8126,11 +8122,6 @@ void game::examine( const tripoint &p )
     // Did the player get moved? Bail out if so; our examp probably
     // isn't valid anymore.
     if( player_pos != u.pos() ) {
-        return;
-    }
-
-    if (curz != get_levz()) {
-        // triggered an elevator
         return;
     }
 
@@ -10605,17 +10596,17 @@ void game::reassign_item( int pos )
     if( change_from.is_null() ) {
         return;
     }
-    char newch = popup_getkey( _( "%s; enter new letter (press SPACE for none, ESCAPE to cancel)." ),
+    long newch = popup_getkey( _( "%s; enter new letter (press SPACE for none, ESCAPE to cancel)." ),
                                change_from.tname().c_str() );
-    if( newch == ' ' ) {
-        newch = 0;
-    }
     if( newch == KEY_ESCAPE ) {
         add_msg( m_neutral, _( "Never mind." ) );
         return;
     }
-    if( newch != 0 && inv_chars.find( newch ) == std::string::npos ) {
-        add_msg( m_info, _( "%c is not a valid inventory letter." ), newch );
+    if( newch == ' ' ) {
+        newch = 0;
+    } else if( !inv_chars.valid( newch ) ) {
+        add_msg( m_info, _("Invlid inventory letter. Only those characters are valid:\n\n%s"),
+                 inv_chars.get_allowed_chars().c_str() );
         return;
     }
     if( change_from.invlet == newch ) {

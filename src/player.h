@@ -265,7 +265,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Returns the bionic at a given index in my_bionics[] */
         bionic &bionic_at_index(int i);
         /** Returns the bionic with the given invlet, or NULL if no bionic has that invlet */
-        bionic *bionic_by_invlet(char ch);
+        bionic *bionic_by_invlet( long ch );
         /** Returns player lumination based on the brightest active item they are carrying */
         float active_light() const;
 
@@ -815,7 +815,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Return the item position of the item with given invlet, return INT_MIN if
          * the player does not have such an item with that invlet. Don't use this on npcs.
          * Only use the invlet in the user interface, otherwise always use the item position. */
-        int invlet_to_position(char invlet) const;
+        int invlet_to_position(long invlet) const;
 
         const martialart &get_combat_style() const; // Returns the combat style object
         std::vector<item *> inv_dump(); // Inventory + weapon + worn (for death, etc)

@@ -1107,8 +1107,7 @@ Press %s to buy everything in your cart, %s to buy nothing."),
             item tmp( items[0][i] , calendar::turn);
             tmp = tmp.in_its_container();
             for (int j = 0; j < item_count[0][i]; j++) {
-                if (g->u.can_pickVolume(tmp.volume()) && g->u.can_pickWeight(tmp.weight()) &&
-                    g->u.inv.size() < inv_chars.size()) {
+                if (g->u.can_pickVolume(tmp.volume()) && g->u.can_pickWeight(tmp.weight())) {
                     g->u.i_add(tmp);
                 } else { // Could fit it in the inventory!
                     dropped_some = true;
