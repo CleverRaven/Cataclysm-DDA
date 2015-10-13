@@ -11609,7 +11609,6 @@ void game::read()
 void game::chat()
 {
     std::vector<npc *> available;
-
     for( auto &elem : active_npc ) {
         if( u.sees( elem->pos() ) &&
             rl_dist( u.pos(), elem->pos() ) <= 24 ) {
@@ -11617,29 +11616,26 @@ void game::chat()
         }
     }
 
-    if (available.empty()) {
-        add_msg(m_info, _("There's no-one close enough to talk to."));
-        if ( !query_yn(_("No one nearby. Yell?")) ) {
-            return;
-        }
-        u.shout();
+    uimenu nmenu;
+    nmenu.text = std::string( _("Who do you want to talk to?") );
 
-    } else if (available.size() == 1) {
-        available[0]->talk_to_u();
-    } else {
-        std::vector<std::string> npcs;
-
-        for( auto &elem : available ) {
-            npcs.push_back( ( elem )->name );
-        }
-        npcs.push_back(_("Cancel"));
-
-        int npc_choice = menu_vec(true, _("Who do you want to talk to?"), npcs) - 1;
-
-        if (npc_choice >= 0 && size_t(npc_choice) < available.size()) {
-            available[npc_choice]->talk_to_u();
-        }
+    int i = 0;
+    for( auto &elem : available ) {
+        nmenu.addentry( i++, true, MENU_AUTOASSIGN, ( elem )->name );
     }
+
+    nmenu.addentry( i++, true, 'a', _("Yell") );
+    nmenu.addentry( i++, true, 'q', _("Cancel") );
+
+    nmenu.query();
+    if( nmenu.ret < 0 || nmenu.ret > (int)available.size() ) {
+        return;
+    } else if( nmenu.ret == (int)available.size() ) {
+        u.shout();
+    } else {
+        available[nmenu.ret]->talk_to_u();
+    }
+
     u.moves -= 100;
     refresh_all();
 }
