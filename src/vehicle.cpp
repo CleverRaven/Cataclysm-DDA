@@ -110,12 +110,12 @@ enum vehicle_controls {
 };
 
 enum vehicle_controls_simple {
- toggle_cruise_control,
- activate_horn,
- toggle_engine,
- release_control,
- control_cancel,
- convert_vehicle
+ toggle_cruise_control_simple,
+ activate_horn_simple,
+ toggle_engine_simple,
+ release_control_simple,
+ control_cancel_simple,
+ convert_vehicle_simple
 };
 
 class vehicle::turret_ammo_data {
@@ -1322,7 +1322,7 @@ void vehicle::use_controls_simple()
     // Let go without turning the engine off.
     if (g->u.controlling_vehicle &&
         g->m.veh_at(g->u.pos(), vpart) == this) {
-        menu.addentry( release_control, true, 'l', _("Let go of controls") );
+        menu.addentry( release_control_simple, true, 'l', _("Let go of controls") );
     }
 
     bool has_engine = false;
@@ -1337,37 +1337,37 @@ void vehicle::use_controls_simple()
     // Toggle engine on/off, stop driving if we are driving.
     if( has_engine ) {
         if( g->u.controlling_vehicle ) {
-            menu.addentry( toggle_engine, true, 'e', _("Stop driving") );
+            menu.addentry( toggle_engine_simple, true, 'e', _("Stop driving") );
         }
     }
 
-    menu.addentry( toggle_cruise_control, true, 'c', cruise_on ?
+    menu.addentry( toggle_cruise_control_simple, true, 'c', cruise_on ?
                    _("Disable cruise control") : _("Enable cruise control") );
 
     //Honk the horn!
     if (has_horn) {
-        menu.addentry( activate_horn, true, 'o', _("Honk horn") );
+        menu.addentry( activate_horn_simple, true, 'o', _("Honk horn") );
     }
 
     const bool can_be_folded = is_foldable();
     const bool is_convertible = (tags.count("convertible") > 0);
     if( ( can_be_folded || is_convertible ) ) {
-        menu.addentry( convert_vehicle, true, 'f', string_format( _( "Fold %s" ), name.c_str() ) );
+        menu.addentry( convert_vehicle_simple, true, 'f', string_format( _( "Fold %s" ), name.c_str() ) );
     }
 
-    menu.addentry( control_cancel, true, ' ', _("Do nothing") );
+    menu.addentry( control_cancel_simple, true, ' ', _("Do nothing") );
 
     menu.query();
 
     switch( static_cast<vehicle_controls_simple>( menu.ret ) ) {
-    case toggle_cruise_control:
+    case toggle_cruise_control_simple:
         cruise_on = !cruise_on;
         add_msg((cruise_on) ? _("Cruise control turned on") : _("Cruise control turned off"));
         break;
-    case activate_horn:
+    case activate_horn_simple:
         honk_horn();
         break;
-    case toggle_engine:
+    case toggle_engine_simple:
         if( g->u.controlling_vehicle ) {
             //if we are controlling the vehicle, stop it.
             if (engine_on && has_engine_type_not(fuel_type_muscle, true)){
@@ -1386,11 +1386,11 @@ void vehicle::use_controls_simple()
             start_engines();
         }
         break;
-    case release_control:
+    case release_control_simple:
         g->u.controlling_vehicle = false;
         add_msg(_("You let go of the controls."));
         break;
-    case convert_vehicle:
+    case convert_vehicle_simple]:
         if( fold_up() ) {
             return; // `this` has been deleted!
         }
