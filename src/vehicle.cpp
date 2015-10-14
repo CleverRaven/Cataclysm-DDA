@@ -110,8 +110,12 @@ enum vehicle_controls {
 };
 
 enum vehicle_controls_simple {
- toggle_cruise_control_simple,
- activate_horn_simple
+ toggle_cruise_control,
+ activate_horn,
+ toggle_engine,
+ release_control,
+ control_cancel,
+ convert_vehicle
 };
 
 class vehicle::turret_ammo_data {
@@ -1321,10 +1325,11 @@ void vehicle::use_controls_simple()
         menu.addentry( release_control, true, 'l', _("Let go of controls") );
     }
 
+    bool has_engine = false;
     bool has_horn = false;
 
     for( size_t p = 0; p < parts.size(); p++ ) {
-        else if (part_flag(p, "HORN")) {
+        if (part_flag(p, "HORN")) {
             has_horn = true;
         }
     }
@@ -1346,7 +1351,7 @@ void vehicle::use_controls_simple()
 
     const bool can_be_folded = is_foldable();
     const bool is_convertible = (tags.count("convertible") > 0);
-    if( ( can_be_folded || is_convertible ) && !remotely_controlled ) {
+    if( ( can_be_folded || is_convertible ) ) {
         menu.addentry( convert_vehicle, true, 'f', string_format( _( "Fold %s" ), name.c_str() ) );
     }
 
@@ -1354,7 +1359,7 @@ void vehicle::use_controls_simple()
 
     menu.query();
 
-    switch( static_cast<vehicle_controls>( menu.ret ) ) {
+    switch( static_cast<vehicle_controls_simple>( menu.ret ) ) {
     case toggle_cruise_control:
         cruise_on = !cruise_on;
         add_msg((cruise_on) ? _("Cruise control turned on") : _("Cruise control turned off"));
@@ -1363,7 +1368,7 @@ void vehicle::use_controls_simple()
         honk_horn();
         break;
     case toggle_engine:
-        if( g->u.controlling_vehicle ) ) {
+        if( g->u.controlling_vehicle ) {
             //if we are controlling the vehicle, stop it.
             if (engine_on && has_engine_type_not(fuel_type_muscle, true)){
                 add_msg(_("You turn the engine off and let go of the controls."));
