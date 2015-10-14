@@ -749,6 +749,7 @@ void veh_interact::do_install()
                                                    return part.has_flag(VPFLAG_ENGINE) || // Internals
                                                    part.has_flag(VPFLAG_ALTERNATOR) ||
                                                    part.has_flag(VPFLAG_CONTROLS) ||
+                                                   part.has_flag(VPFLAG_CONTROLS_SIMPLE) ||
                                                    part.location == "fuel_source" ||
                                                    part.location == "on_battery_mount" ||
                                                    (part.location.empty() && part.has_flag("FUEL_TANK")); };

@@ -109,6 +109,15 @@ enum vehicle_controls {
  toggle_scoop
 };
 
+enum vehicle_controls_simple {
+ toggle_cruise_control,
+ activate_horn,
+ release_control,
+ control_cancel,
+ convert_vehicle,
+ cont_engines
+};
+
 class vehicle::turret_ammo_data {
 public:
     /** Usable charges, may be 0 if there are none. */
@@ -253,6 +262,11 @@ bool vehicle::player_in_control(player const& p) const
 
     if( g->m.veh_at( p.pos(), veh_part ) == this &&
         part_with_feature(veh_part, VPFLAG_CONTROLS, false) >= 0 && p.controlling_vehicle ) {
+        return true;
+    };
+
+    if( g->m.veh_at( p.pos(), veh_part ) == this &&
+        part_with_feature(veh_part, VPFLAG_CONTROLS_SIMPLE, false) >= 0 && p.controlling_vehicle ) {
         return true;
     }
 
