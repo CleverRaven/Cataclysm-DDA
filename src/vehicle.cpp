@@ -1395,7 +1395,7 @@ void vehicle::use_controls_simple()
             return; // `this` has been deleted!
         }
         break;
-    case control_cancel:
+    case control_cancel_simple:
         break;
     }
     refresh();
