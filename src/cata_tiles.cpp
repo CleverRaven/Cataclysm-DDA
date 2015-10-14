@@ -92,6 +92,7 @@ cata_tiles::cata_tiles(SDL_Renderer *render)
     do_draw_zones = false;
 
     nv_goggles_activated = false;
+    shadow_tilecount = 0;
 
     last_pos_x = 0;
     last_pos_y = 0;
@@ -163,6 +164,7 @@ void cata_tiles::reinit()
 {
     clear_buffer();
     clear();
+    shadow_tilecount = 0;
     init();
 }
 
@@ -349,7 +351,6 @@ int cata_tiles::load_tileset(std::string img_path, int R, int G, int B)
 
     /** split the atlas into tiles using SDL_Rect structs instead of slicing the atlas into individual surfaces */
     int tilecount = 0;
-    shadow_tilecount = 0;
     for (int y = 0; y < sy; y += tile_height) {
         for (int x = 0; x < sx; x += tile_width) {
             source_rect.x = x;
