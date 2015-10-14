@@ -110,12 +110,8 @@ enum vehicle_controls {
 };
 
 enum vehicle_controls_simple {
- toggle_cruise_control,
- activate_horn,
- release_control,
- control_cancel,
- convert_vehicle,
- cont_engines
+ toggle_cruise_control_simple,
+ activate_horn_simple
 };
 
 class vehicle::turret_ammo_data {
@@ -994,6 +990,8 @@ void vehicle::use_controls()
     menu.addentry( toggle_cruise_control, true, 'c', cruise_on ?
                    _("Disable cruise control") : _("Enable cruise control") );
 
+    menu.addentry( toggle_cruise_control_simple, true, 'c', cruise_on ?
+                   _("Disable cruise control") : _("Enable cruise control") );
 
     // Lights if they are there - Note you can turn them on even when damaged, they just don't work
     if (has_lights) {
@@ -1032,6 +1030,9 @@ void vehicle::use_controls()
         menu.addentry( activate_horn, true, 'o', _("Honk horn") );
     }
 
+    if (has_horn) {
+        menu.addentry( activate_horn_simple, true, 'o', _("Honk horn") );
+    }
     // Turrets: off or burst mode
     if (has_turrets) {
         menu.addentry( toggle_turrets, true, 't', turret_mode == turret_mode_off ?
@@ -1120,6 +1121,10 @@ void vehicle::use_controls()
         cruise_on = !cruise_on;
         add_msg((cruise_on) ? _("Cruise control turned on") : _("Cruise control turned off"));
         break;
+    case toggle_cruise_control_simple:
+        cruise_on = !cruise_on;
+        add_msg((cruise_on) ? _("Cruise control turned on") : _("Cruise control turned off"));
+        break;
     case toggle_aisle_lights:
         if(aisle_lights_on || fuel_left(fuel_type_battery, true)) {
             aisle_lights_on = !aisle_lights_on;
@@ -1172,6 +1177,9 @@ void vehicle::use_controls()
         }
         break;
     case activate_horn:
+        honk_horn();
+        break;
+    case activate_horn_simple:
         honk_horn();
         break;
     case toggle_turrets:
