@@ -96,7 +96,7 @@ enum m_flag : int {
     MF_ELECTRIC,            // Shocks unarmed attackers
     MF_ACIDPROOF,           // Immune to acid
     MF_ACIDTRAIL,           // Leaves a trail of acid
-    MF_FIREPROOF,           //Immune to fire
+    MF_FIREPROOF,           // Immune to fire
     MF_SLUDGEPROOF,         // Ignores the effect of sludge trails
     MF_SLUDGETRAIL,         // Causes monster to leave a sludge trap trail when moving
     MF_LEAKSGAS,            // Occasionally leaks gas when moving
@@ -141,6 +141,7 @@ enum m_flag : int {
     MF_INTERIOR_AMMO,       // Monster contain's its ammo inside itself, no need to load on launch.
     MF_CLIMBS,              // Monsters that can climb certain terrain and furniture
     MF_PUSH_MON,            // Monsters that can push creatures out of their way
+	MF_NO_AMMO,				// Monster does not drop ammo when deactivated(workaround for grenade hacks).
     MF_MAX                  // Sets the length of the flags - obviously must be LAST
 };
 
