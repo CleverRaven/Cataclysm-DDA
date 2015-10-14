@@ -363,8 +363,10 @@ void game::init_ui()
      * VIEW_OFFSET_X/VIEW_OFFSET_Y is the position of w_terrain on screen,
      * it is (as every window position) in standard font dimension.
      * As the sidebar is located right of w_terrain it also controls its position.
-     * It is used to move everything into the center of the screen,
-     * when the screen is larger than what the game requires.
+     * It was used to move everything into the center of the screen,
+     * when the screen was larger than what the game required. They are currently
+     * set to zero to prevent the other game windows from being truncated if
+     * w_terrain is too small for the current window.
      *
      * The code here calculates size available for w_terrain, caps it at
      * max_view_size (the maximal view range than any character can have at
@@ -374,21 +376,10 @@ void game::init_ui()
      * are set to move everything into the middle of the screen.
      */
     to_map_font_dimension(TERRAIN_WINDOW_WIDTH, TERRAIN_WINDOW_HEIGHT);
-    static const int max_view_size = DAYLIGHT_LEVEL * 2 + 1;
-    if (TERRAIN_WINDOW_WIDTH > max_view_size) {
-        VIEW_OFFSET_X = (TERRAIN_WINDOW_WIDTH - max_view_size) / 2;
-        TERRAIN_WINDOW_TERM_WIDTH = max_view_size * TERRAIN_WINDOW_TERM_WIDTH / TERRAIN_WINDOW_WIDTH;
-        TERRAIN_WINDOW_WIDTH = max_view_size;
-    } else {
-        VIEW_OFFSET_X = 0;
-    }
-    if (TERRAIN_WINDOW_HEIGHT > max_view_size) {
-        VIEW_OFFSET_Y = (TERRAIN_WINDOW_HEIGHT - max_view_size) / 2;
-        TERRAIN_WINDOW_TERM_HEIGHT = max_view_size * TERRAIN_WINDOW_TERM_HEIGHT / TERRAIN_WINDOW_HEIGHT;
-        TERRAIN_WINDOW_HEIGHT = max_view_size;
-    } else {
-        VIEW_OFFSET_Y = 0;
-    }
+
+    VIEW_OFFSET_X = 0;
+    VIEW_OFFSET_Y = 0;
+
     // VIEW_OFFSET_* are in standard font dimension.
     from_map_font_dimension(VIEW_OFFSET_X, VIEW_OFFSET_Y);
 
@@ -9413,7 +9404,7 @@ void game::zoom_in()
     if (tileset_zoom > MAXIMUM_ZOOM_LEVEL) {
         tileset_zoom = tileset_zoom / 2;
     } else {
-        tileset_zoom = 16;
+        tileset_zoom = 64;
     }
     rescale_tileset(tileset_zoom);
 #endif
@@ -9422,13 +9413,21 @@ void game::zoom_in()
 void game::zoom_out()
 {
 #ifdef TILES
-    if (tileset_zoom == 16) {
+    if (tileset_zoom == 64) {
         tileset_zoom = MAXIMUM_ZOOM_LEVEL;
     } else {
         tileset_zoom = tileset_zoom * 2;
     }
     rescale_tileset(tileset_zoom);
 #endif
+}
+
+void game::reset_zoom()
+{
+#ifdef TILES
+    tileset_zoom = 16;
+    rescale_tileset(tileset_zoom);
+#endif // TILES
 }
 
 void game::list_items_monsters()

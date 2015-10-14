@@ -127,6 +127,7 @@ void cata_tiles::init()
 
 void cata_tiles::reinit()
 {
+    set_draw_scale(16);
     clear_buffer();
     clear();
     init();
