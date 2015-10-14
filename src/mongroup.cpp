@@ -328,18 +328,18 @@ void MonsterGroupManager::LoadMonsterGroup(JsonObject &jo)
             int ends = 0;
             if(mon.has_member("starts")) {
                 if (ACTIVE_WORLD_OPTIONS["MONSTER_UPGRADE_FACTOR"] > 0) {
-                    starts = mon.get_int("starts") * ACTIVE_WORLD_OPTIONS["MONSTER_UPGRADE_FACTOR"] * (calendar::turn.season_length() / 14);
+                    starts = mon.get_int("starts") * ACTIVE_WORLD_OPTIONS["MONSTER_UPGRADE_FACTOR"];
                 } else {
                     // Default value if the monster upgrade factor is set to 0.0 - off
-                    starts = mon.get_int("starts") * (calendar::turn.season_length() / 14);
+                    starts = mon.get_int("starts");
                 }
             }
             if(mon.has_member("ends")) {
                 if (ACTIVE_WORLD_OPTIONS["MONSTER_UPGRADE_FACTOR"] > 0) {
-                    ends = mon.get_int("ends") * ACTIVE_WORLD_OPTIONS["MONSTER_UPGRADE_FACTOR"] * (calendar::turn.season_length() / 14);
+                    ends = mon.get_int("ends") * ACTIVE_WORLD_OPTIONS["MONSTER_UPGRADE_FACTOR"];
                 } else {
                     // Default value if the monster upgrade factor is set to 0.0 - off
-                    ends = mon.get_int("ends") * (calendar::turn.season_length() / 14);
+                    ends = mon.get_int("ends");
                 }
             }
             MonsterGroupEntry new_mon_group = MonsterGroupEntry(name, freq, cost, pack_min, pack_max, starts,
