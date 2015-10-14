@@ -757,7 +757,7 @@ public:
             jsi.throw_error( "no such item group", "item" );
         }
     }
-    void apply( map &m, const size_t x, const size_t y, const size_t xmin, const size_t ymin, const size_t xmax, const size_t ymax, const float /*mon_density*/ ) const override
+    void apply( map &m, const size_t /*x*/, const size_t /*y*/, const size_t xmin, const size_t ymin, const size_t xmax, const size_t ymax, const float /*mon_density*/ ) const override
     {
         m.place_items( group_id, chance.get(), xmin, ymin, xmax, ymax, true, 0 );
     }
