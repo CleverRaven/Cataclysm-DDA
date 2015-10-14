@@ -1390,10 +1390,12 @@ void vehicle::use_controls_simple()
         g->u.controlling_vehicle = false;
         add_msg(_("You let go of the controls."));
         break;
-    case convert_vehicle_simple]:
+    case convert_vehicle_simple:
         if( fold_up() ) {
             return; // `this` has been deleted!
         }
+        break;
+    case control_cancel:
         break;
     }
     refresh();
