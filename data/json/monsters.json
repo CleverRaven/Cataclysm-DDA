@@ -5269,7 +5269,7 @@
     "hp":10,
     "death_function":"BROKEN",
     "description":"An automated anti-personnel drone, a fist-sized robot surrounded by whirring blades.",
-    "flags":["SEES", "FLIES", "NOHEAD", "ELECTRONIC", "HIT_AND_RUN", "NO_BREATHE"]
+    "flags":["SEES", "FLIES", "NOHEAD", "ELECTRONIC", "HIT_AND_RUN", "NO_BREATHE", "INTERIOR_AMMO"]
     },{
     "type" : "MONSTER",
     "id" : "mon_grenade_hack",
