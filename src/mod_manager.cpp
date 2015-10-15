@@ -4,6 +4,7 @@
 #include "output.h"
 #include "worldfactory.h"
 #include "path_info.h"
+#include "translations.h"
 
 #include <math.h>
 #include <queue>
@@ -18,10 +19,14 @@
 
 static std::unordered_set<std::string> obsolete_mod_list;
 static const std::vector<std::pair<std::string, std::string> > categories = {
-    {"", _("NO CATEGORY")},
-    {"creature", _("CREATURE MODS")},
-    {"zlevel", _("Z-LEVEL MODS")},
-    {"exclude", _("EXCLUSION MODS")}
+    {"weapons", _("WEAPON MODS")},
+    {"creatures", _("CREATURE MODS")},
+    {"buildings", _("BUILDING MODS")},
+    {"vehicles", _("VEHICLE MODS")},
+    {"magical", _("MAGICAL MODS")},
+    {"character", _("CHARACTER MODS")},
+    {"exclude", _("EXCLUSION MODS")},
+    {"", _("NO CATEGORY")}
 };
 
 static void load_obsolete_mods( const std::string path )

@@ -4,7 +4,6 @@
   "om_terrain" : ["ranch_camp_67"],
   "method": "json",
   "weight": 250000, "comment": "Intentional attempt to override normal result without tweaking overmap specials",
-  "category": "vehicles",
   "object": {
    "fill_ter": "t_dirt",
    "rows": [
