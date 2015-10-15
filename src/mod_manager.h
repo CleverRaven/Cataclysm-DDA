@@ -3,6 +3,7 @@
 
 #include "dependency_tree.h"
 #include "json.h"
+#include "translations.h"
 
 #include "cursesdef.h"
 #include <string>
@@ -32,9 +33,9 @@ struct MOD_INFORMATION {
     /** Mod require Lua support **/
     bool need_lua;
 
-    MOD_INFORMATION() : _type(MT_SUPPLEMENTAL), obsolete(false)
-    {
-    }
+    std::pair<int, std::string> category;
+
+    MOD_INFORMATION() : _type(MT_SUPPLEMENTAL), obsolete(false), category({-1, ""}) {};
 
     std::string type()
     {
@@ -46,7 +47,7 @@ struct MOD_INFORMATION {
             return "SUPPLEMENTAL";
             break;
         }
-    }
+    };
 };
 
 class mod_manager

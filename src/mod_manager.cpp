@@ -4,7 +4,6 @@
 #include "output.h"
 #include "worldfactory.h"
 #include "path_info.h"
-#include "translations.h"
 
 #include <math.h>
 #include <queue>
@@ -18,6 +17,12 @@
 #define MOD_SEARCH_FILE "modinfo.json"
 
 static std::unordered_set<std::string> obsolete_mod_list;
+static const std::vector<std::pair<std::string, std::string> > categories = {
+    {"", _("NO CATEGORY")},
+    {"creature", _("CREATURE MODS")},
+    {"zlevel", _("Z-LEVEL MODS")},
+    {"exclude", _("EXCLUSION MODS")}
+};
 
 static void load_obsolete_mods( const std::string path )
 {
@@ -143,6 +148,7 @@ void mod_manager::load_modfile(JsonObject &jo, const std::string &main_path)
         // Ignore anything that is not a mod-info
         return;
     }
+
     std::string m_ident = jo.get_string("ident");
     if (has_mod(m_ident)) {
         // TODO: change this to make unique ident for the mod
@@ -160,6 +166,7 @@ void mod_manager::load_modfile(JsonObject &jo, const std::string &main_path)
             m_authors.push_back(jo.get_string("author"));
         }
     }
+
     std::string m_name = jo.get_string("name", "");
     if (m_name.empty()) {
         // "No name" gets confusing if many mods have no name
@@ -168,12 +175,23 @@ void mod_manager::load_modfile(JsonObject &jo, const std::string &main_path)
     } else {
         m_name = _(m_name.c_str());
     }
+
     std::string m_desc = jo.get_string("description", "");
     if (m_desc.empty()) {
         m_desc = _("No description");
     } else {
         m_desc = _(m_desc.c_str());
     }
+
+    std::string m_cat = jo.get_string("category", "");
+    std::pair<int, std::string> p_cat = {-1, ""};
+    for ( size_t i = 0; i < categories.size(); ++i ) {
+        if ( categories[i].first == m_cat ) {
+            p_cat = {i, categories[i].second};
+            break;
+        }
+    }
+
     std::string m_path;
     if (jo.has_string("path")) {
         m_path = jo.get_string("path");
@@ -230,6 +248,7 @@ void mod_manager::load_modfile(JsonObject &jo, const std::string &main_path)
     modfile->name = m_name;
     modfile->description = m_desc;
     modfile->dependencies = m_dependencies;
+    modfile->category = p_cat;
     modfile->path = m_path;
     modfile->need_lua = m_need_lua;
 
