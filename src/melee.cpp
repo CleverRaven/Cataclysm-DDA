@@ -1173,9 +1173,7 @@ void player::perform_technique(const ma_technique &technique, Creature &t, damag
     auto &cut  = get_damage_unit( di.damage_units, DT_CUT );
     auto &stab = get_damage_unit( di.damage_units, DT_STAB );
 
-    //std::string damage_str;
-    //damage_str = string_format(_("damage:%dbash,%dcut,%dstab,%dtotal"), (int)di.type_damage(DT_BASH), (int)di.type_damage(DT_CUT), (int)di.type_damage(DT_STAB), (int)di.total_damage());
-    //add_msg_if_player(damage_str.c_str());
+    add_msg( m_debug, _("damage:%dbash,%dcut,%dstab,%dtotal"), (int)di.type_damage(DT_BASH), (int)di.type_damage(DT_CUT), (int)di.type_damage(DT_STAB), (int)di.total_damage());
     if( bash.amount > 0 ) {
         bash.amount += technique.bash;
         bash.damage_multiplier *= technique.bash_mult;
@@ -1189,8 +1187,7 @@ void player::perform_technique(const ma_technique &technique, Creature &t, damag
         stab.amount += technique.cut;
         stab.damage_multiplier *= technique.cut_mult;
     }
-    //damage_str = string_format(_("damage:%dbash,%dcut,%dstab,%dtotal"), (int)di.type_damage(DT_BASH), (int)di.type_damage(DT_CUT), (int)di.type_damage(DT_STAB), (int)di.total_damage());
-    //add_msg_if_player(damage_str.c_str());
+    add_msg( m_debug, _("damage:%dbash,%dcut,%dstab,%dtotal"), (int)di.type_damage(DT_BASH), (int)di.type_damage(DT_CUT), (int)di.type_damage(DT_STAB), (int)di.total_damage());
 
     move_cost *= technique.speed_mult;
 
