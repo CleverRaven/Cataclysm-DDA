@@ -109,6 +109,15 @@ enum vehicle_controls {
  toggle_scoop
 };
 
+enum vehicle_controls_simple {
+ toggle_cruise_control_simple,
+ activate_horn_simple,
+ toggle_engine_simple,
+ release_control_simple,
+ control_cancel_simple,
+ convert_vehicle_simple
+};
+
 class vehicle::turret_ammo_data {
 public:
     /** Usable charges, may be 0 if there are none. */
@@ -253,6 +262,11 @@ bool vehicle::player_in_control(player const& p) const
 
     if( g->m.veh_at( p.pos(), veh_part ) == this &&
         part_with_feature(veh_part, VPFLAG_CONTROLS, false) >= 0 && p.controlling_vehicle ) {
+        return true;
+    };
+
+    if( g->m.veh_at( p.pos(), veh_part ) == this &&
+        part_with_feature(veh_part, VPFLAG_CONTROLS_SIMPLE, false) >= 0 && p.controlling_vehicle ) {
         return true;
     }
 
@@ -980,7 +994,6 @@ void vehicle::use_controls()
     menu.addentry( toggle_cruise_control, true, 'c', cruise_on ?
                    _("Disable cruise control") : _("Enable cruise control") );
 
-
     // Lights if they are there - Note you can turn them on even when damaged, they just don't work
     if (has_lights) {
         menu.addentry( toggle_lights, true, 'h', lights_on ?
@@ -1291,6 +1304,98 @@ void vehicle::use_controls()
         break;
     case toggle_scoop:
         scoop_on = !scoop_on;
+        break;
+    }
+    refresh();
+}
+
+void vehicle::use_controls_simple()
+{
+    uimenu menu;
+    menu.return_invalid = true;
+    menu.text = _("Basic vehicle controls");
+
+    int vpart;
+
+    if (!interact_vehicle_locked()) return;
+    // Always have this option
+    // Let go without turning the engine off.
+    if (g->u.controlling_vehicle &&
+        g->m.veh_at(g->u.pos(), vpart) == this) {
+        menu.addentry( release_control_simple, true, 'l', _("Let go of controls") );
+    }
+
+    bool has_engine = false;
+    bool has_horn = false;
+
+    for( size_t p = 0; p < parts.size(); p++ ) {
+        if (part_flag(p, "HORN")) {
+            has_horn = true;
+        }
+    }
+
+    // Toggle engine on/off, stop driving if we are driving.
+    if( has_engine ) {
+        if( g->u.controlling_vehicle ) {
+            menu.addentry( toggle_engine_simple, true, 'e', _("Stop driving") );
+        }
+    }
+
+    menu.addentry( toggle_cruise_control_simple, true, 'c', cruise_on ?
+                   _("Disable cruise control") : _("Enable cruise control") );
+
+    //Honk the horn!
+    if (has_horn) {
+        menu.addentry( activate_horn_simple, true, 'o', _("Honk horn") );
+    }
+
+    const bool can_be_folded = is_foldable();
+    const bool is_convertible = (tags.count("convertible") > 0);
+    if( ( can_be_folded || is_convertible ) ) {
+        menu.addentry( convert_vehicle_simple, true, 'f', string_format( _( "Fold %s" ), name.c_str() ) );
+    }
+
+    menu.addentry( control_cancel_simple, true, ' ', _("Do nothing") );
+
+    menu.query();
+
+    switch( static_cast<vehicle_controls_simple>( menu.ret ) ) {
+    case toggle_cruise_control_simple:
+        cruise_on = !cruise_on;
+        add_msg((cruise_on) ? _("Cruise control turned on") : _("Cruise control turned off"));
+        break;
+    case activate_horn_simple:
+        honk_horn();
+        break;
+    case toggle_engine_simple:
+        if( g->u.controlling_vehicle ) {
+            //if we are controlling the vehicle, stop it.
+            if (engine_on && has_engine_type_not(fuel_type_muscle, true)){
+                add_msg(_("You turn the engine off and let go of the controls."));
+            } else {
+                add_msg(_("You let go of the controls."));
+            }
+            engine_on = false;
+            g->u.controlling_vehicle = false;
+            g->setremoteveh( nullptr );
+        } else if (engine_on) {
+            if (has_engine_type_not(fuel_type_muscle, true))
+                add_msg(_("You turn the engine off."));
+            engine_on = false;
+        } else {
+            start_engines();
+        }
+        break;
+    case release_control_simple:
+        g->u.controlling_vehicle = false;
+        add_msg(_("You let go of the controls."));
+        break;
+    case convert_vehicle_simple:
+        if( fold_up() ) {
+            return; // `this` has been deleted!
+        }
+        break;
+    case control_cancel_simple:
         break;
     }
     refresh();

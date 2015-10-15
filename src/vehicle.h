@@ -377,6 +377,9 @@ public:
     // Operate vehicle
     void use_controls();
 
+    // Operate vehicle
+    void use_controls_simple();
+
     // Fold up the vehicle
     bool fold_up();
 

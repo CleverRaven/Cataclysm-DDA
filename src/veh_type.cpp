@@ -44,6 +44,7 @@ static const std::unordered_map<std::string, vpart_bitflags> vpart_bitflag_map =
     { "BOARDABLE", VPFLAG_BOARDABLE },
     { "AISLE", VPFLAG_AISLE },
     { "CONTROLS", VPFLAG_CONTROLS },
+    { "CONTROLS_SIMPLE", VPFLAG_CONTROLS_SIMPLE },
     { "OBSTACLE", VPFLAG_OBSTACLE },
     { "OPAQUE", VPFLAG_OPAQUE },
     { "OPENABLE", VPFLAG_OPENABLE },
