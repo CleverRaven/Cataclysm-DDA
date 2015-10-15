@@ -92,7 +92,6 @@ cata_tiles::cata_tiles(SDL_Renderer *render)
     do_draw_zones = false;
 
     nv_goggles_activated = false;
-    shadow_tilecount = 0;
 
     last_pos_x = 0;
     last_pos_y = 0;
@@ -164,7 +163,6 @@ void cata_tiles::reinit()
 {
     clear_buffer();
     clear();
-    shadow_tilecount = 0;
     init();
 }
 
@@ -278,24 +276,12 @@ static void color_pixel_overexposed(pixel& pix)
     pix.b = result / 7;
 }
 
-void cata_tiles::apply_color_filter(SDL_Surface *surf, COLOR_FILTER filter)
+static void apply_color_filter(SDL_Surface *surf, void (&pixel_converter)(pixel &))
 {
     for (int y = 0; y < surf->h; y++) {
         for (int x = 0; x < surf->w; x++) {
             pixel pix = get_pixel_color(surf, x, y, surf->w);
-            switch (filter){
-                case COLOR_FILTER_GRAYSCALE:
-                    color_pixel_grayscale(pix);
-                    break;
-                case COLOR_FILTER_NIGHTVISION:
-                    color_pixel_nightvision(pix);
-                    break;
-                case COLOR_FILTER_OVEREXPOSED:
-                    color_pixel_overexposed(pix);
-                    break;
-                default:
-                    break;
-            }
+            pixel_converter(pix);
             set_pixel_color(surf, x, y, surf->w, pix);
         }
     }
@@ -331,9 +317,9 @@ int cata_tiles::load_tileset(std::string img_path, int R, int G, int B)
     }
 
     /** perform color filter conversion here */
-    apply_color_filter(shadow_tile_atlas, COLOR_FILTER_GRAYSCALE);
-    apply_color_filter(nightvision_tile_atlas, COLOR_FILTER_NIGHTVISION);
-    apply_color_filter(overexposed_tile_atlas, COLOR_FILTER_OVEREXPOSED);
+    apply_color_filter(shadow_tile_atlas, color_pixel_grayscale);
+    apply_color_filter(nightvision_tile_atlas, color_pixel_nightvision);
+    apply_color_filter(overexposed_tile_atlas, color_pixel_overexposed);
 
     /** get dimensions of the atlas image */
     int w = tile_atlas->w;
@@ -413,7 +399,6 @@ int cata_tiles::load_tileset(std::string img_path, int R, int G, int B)
             }
             if( shadow_tile_tex != nullptr ) {
                 shadow_tile_values.push_back(shadow_tile_tex);
-                shadow_tilecount++;
             }
             if( night_tile_tex != nullptr ) {
                 night_tile_values.push_back(night_tile_tex);
@@ -1141,14 +1126,15 @@ bool cata_tiles::draw_sprite_at(std::vector<int> &spritelist, int x, int y, int 
         SDL_Texture *sprite_tex = tile_values[spritelist[sprite_num]];
         //use night vision colors when in use
         //then use low light tile if available
-        if(apply_night_vision_goggles && spritelist[sprite_num] < shadow_tilecount){
+        if(apply_night_vision_goggles && spritelist[sprite_num] < static_cast<int>(night_tile_values.size())){
             if(ll != LL_LOW){
+                //overexposed tile count should be the same size as night_tile_values.size
                 sprite_tex = overexposed_tile_values[spritelist[sprite_num]];
             } else {
                 sprite_tex = night_tile_values[spritelist[sprite_num]];
             }
         }
-        else if(ll == LL_LOW && spritelist[sprite_num] < shadow_tilecount) {
+        else if(ll == LL_LOW && spritelist[sprite_num] < static_cast<int>(shadow_tile_values.size())) {
             sprite_tex = shadow_tile_values[spritelist[sprite_num]];
         }
         if ( rotate_sprite ) {

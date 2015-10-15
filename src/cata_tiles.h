@@ -89,14 +89,6 @@ enum TILE_CATEGORY
     C_WEATHER,
 };
 
-enum COLOR_FILTER
-{
-    COLOR_FILTER_GRAYSCALE,
-    COLOR_FILTER_NIGHTVISION,
-    COLOR_FILTER_OVEREXPOSED,
-    COLOR_FILTER_NONE
-};
-
 /** Typedefs */
 typedef std::vector<SDL_Texture *> tile_map;
 typedef std::unordered_map<std::string, tile_type *> tile_id_map;
@@ -252,7 +244,6 @@ class cata_tiles
     private:
         //surface manipulation
         SDL_Surface *create_tile_surface(int w, int h);
-        void apply_color_filter(SDL_Surface *surf, COLOR_FILTER filter);
 
     public:
         // Animation layers
@@ -387,11 +378,6 @@ class cata_tiles
         tile_map shadow_tile_values;
         tile_map night_tile_values;
         tile_map overexposed_tile_values;
-        /**
-         * The shadow colored tile count is used to prevent index out-of-range issues with using the alternate colored tiles.
-         * Some extra tiles may be created by other methods and added to the main tile_values list.
-         */
-        int shadow_tilecount;
         /**
          * Tracks active night vision goggle status for each draw call.
          * Allows usage of night vision tilesets during sprite rendering.
