@@ -5,5 +5,6 @@
         "name": "Classic Roguelike Classes",
         "author": "Rivet-the-Zombie",
         "description": "Adds a set of professions which correspond to classic Roguelike character archetypes.",
+	"category": "character",
         "path": ""
     }

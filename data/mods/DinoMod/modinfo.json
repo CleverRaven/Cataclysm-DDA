@@ -4,5 +4,6 @@
         "ident": "DinoMod",
         "name": "DinoMod",
         "description": "Adds dinosaurs.",
+	"category": "creatures",
         "path": ""
     }
