@@ -11752,13 +11752,13 @@ bool game::disable_robot( const tripoint &p )
         }
         u.moves -= 100;
         m.add_item_or_charges( p.x, p.y, critter.to_item() );
-		if (!critter.has_flag(MF_INTERIOR_AMMO)) {
-			for (auto & ammodef : critter.ammo) {
-				if (ammodef.second > 0) {
-					m.spawn_item(p.x, p.y, ammodef.first, 1, ammodef.second, calendar::turn);
-				}
-			}
-		}
+        if (!critter.has_flag(MF_INTERIOR_AMMO)) {
+            for (auto & ammodef : critter.ammo) {
+                if (ammodef.second > 0) {
+                    m.spawn_item(p.x, p.y, ammodef.first, 1, ammodef.second, calendar::turn);
+                }
+            }
+        }
         remove_zombie( mondex );
         return true;
     }

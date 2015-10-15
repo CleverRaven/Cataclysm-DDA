@@ -249,6 +249,7 @@ Flags used to describe monsters and define their properties and abilities.
 - ```CBM_SCI``` May produce a cbm or two from bionics_sci when butchered.
 - ```CBM_OP``` May produce a cbm or two from bionics_op when butchered.
 - ```FISHABLE``` It is fishable.
+- ```INTERIOR_AMMO``` Monster contains ammo inside itself, no need to load on launch. Prevents ammo from being dropped on disable.
 
 ### Special attacks
 Some special attacks are also valid use actions for tools and weapons.
