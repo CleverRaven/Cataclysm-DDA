@@ -5308,6 +5308,12 @@ void vehicle::shift_parts( const point delta )
         elem.mount -= delta;
     }
 
+    decltype(labels) new_labels;
+    for( auto &l : labels ) {
+        new_labels.insert( label( l.x - delta.x, l.y - delta.y, l.text ) );
+    }
+    labels = new_labels;
+
     //Don't use the cache as it hasn't been updated yet
     std::vector<int> origin_parts = parts_at_relative(0, 0, false);
 
