@@ -52,7 +52,7 @@ const MonsterGroup &MonsterGroupManager::GetUpgradedMonsterGroup( const mongroup
 {
     const MonsterGroup *groupptr = &group.obj();
     if (ACTIVE_WORLD_OPTIONS["MONSTER_UPGRADE_FACTOR"] > 0) {
-        const int replace_time = DAYS(groupptr->monster_group_time * ACTIVE_WORLD_OPTIONS["MONSTER_UPGRADE_FACTOR"]) * (calendar::turn.season_length() / 14);
+        const int replace_time = DAYS(groupptr->monster_group_time * ACTIVE_WORLD_OPTIONS["MONSTER_UPGRADE_FACTOR"]);
         while( groupptr->replace_monster_group && calendar::turn.get_turn() > replace_time ) {
             groupptr = &groupptr->new_monster_group.obj();
         }
