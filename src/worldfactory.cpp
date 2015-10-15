@@ -766,7 +766,7 @@ void worldfactory::draw_mod_list( WINDOW *w, int &start, int &cursor, const std:
         std::map<int, std::string> mSortCategory;
         mSortCategory[0] = sLastCategoryName;
 
-        for ( int i = 0; i < mods.size(); ++i ) {
+        for ( size_t i = 0; i < mods.size(); ++i ) {
             if ( sLastCategoryName != mman->mod_map[mods[i]]->category.second ) {
                 sLastCategoryName = mman->mod_map[mods[i]]->category.second;
                 mSortCategory[i + iCatSortNum++] = sLastCategoryName;
