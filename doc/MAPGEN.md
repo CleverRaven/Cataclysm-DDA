@@ -384,14 +384,17 @@ Example: "x": 12, "y": [ 5, 15 ]
 Example: { "item": "livingroom", "x": [ 13, 15 ], "y": 15, "chance": 50 }
 
 #### 2.4.1.0 "x" / "y"
-**required** Spawn coordinates ( specific or random )
+**required** Spawn coordinates ( specific or area rectangle )
 > Value: 0-23
 
 -or-
 
-> Value: [ 0-23, 0-23 ] - random point between [ a, b ]
+> Value: [ 0-23, 0-23 ] - a range between [ a, b ] inclusive
+When using a range, the minimum and maximum values will be used in creating rectangle coordinates to be used by map::place_items.
+Each item from the item group will be placed in a different random location within the rectangle.
 
 Example: "x": 12, "y": [ 5, 15 ]
+These values will produce a rectangle for map::place_items from ( 12, 5 ) to ( 12, 15 ) inclusive.
 
 #### 2.4.1.1 "chance"
 **required** unlike everything else, this is a percentage. Maybe
