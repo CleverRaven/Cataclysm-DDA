@@ -755,33 +755,40 @@ void worldfactory::draw_mod_list( WINDOW *w, int &start, int &cursor, const std:
     werase( w );
 
     const int iMaxRows = getmaxy( w );;
-    int iModNum = 0;
+    int iModNum = mods.size();
+    int iActive = cursor;
 
     if( mods.empty() ) {
         center_print( w, 0, c_red, "%s", text_if_empty.c_str() );
     } else {
-        int iCatSortNum = 1;
-        std::string sLastCategoryName = mman->mod_map[mods[0]]->category.second;
+        int iCatSortNum = 0;
+        std::string sLastCategoryName = "";
         std::map<int, std::string> mSortCategory;
         mSortCategory[0] = sLastCategoryName;
 
-        for ( int i = 1; i < mods.size(); ++i ) {
+        for ( int i = 0; i < mods.size(); ++i ) {
             if ( sLastCategoryName != mman->mod_map[mods[i]]->category.second ) {
                 sLastCategoryName = mman->mod_map[mods[i]]->category.second;
-                mSortCategory[i + iCatSortNum] = sLastCategoryName;
-                iCatSortNum++;
+                mSortCategory[i + iCatSortNum++] = sLastCategoryName;
+                iModNum++;
             }
         }
 
         const size_t wwidth = getmaxx( w ) - 1 - 3; // border (1) + ">> " (3)
-        iModNum = mods.size() + iCatSortNum;
-
-        calcStartPos( start, cursor, iMaxRows, iModNum );
 
         int iNum = 0;
         int index = 0;
         bool bKeepIter = false;
-        int iCatSortOffset = 0;
+        int iCatBeforeCursor = 0;
+
+        for (int i=0; i <= iActive; i++) {
+            if (mSortCategory[i] != "") {
+                iActive++;
+                iCatBeforeCursor++;
+            }
+        }
+
+        calcStartPos( start, iActive, iMaxRows, iModNum );
 
         for (int i=0; i < start; i++) {
             if (mSortCategory[i] != "") {
@@ -791,14 +798,13 @@ void worldfactory::draw_mod_list( WINDOW *w, int &start, int &cursor, const std:
 
         for (auto iter = mods.begin(); iter != mods.end(); ++index) {
             if (iNum >= start && iNum < start + ((iMaxRows > iModNum) ? iModNum : iMaxRows)) {
-                if ( mSortCategory[iNum] != "" ) {
-                    iCatSortOffset++;
+                if ( mSortCategory[iNum] != "") {
                     bKeepIter = true;
-
                     trim_and_print(w, iNum - start, 1, wwidth, c_magenta, "%s", mSortCategory[iNum].c_str());
 
                 } else {
-                    if (iNum == cursor) {
+                    if (iNum == iActive) {
+                        cursor = iActive - iCatBeforeCursor;
                         //mvwprintw( w, iNum - start + iCatSortOffset, 1, "   " );
                         if( is_active_list ) {
                             mvwprintz( w, iNum - start, 1, c_yellow, ">> " );
@@ -812,11 +818,11 @@ void worldfactory::draw_mod_list( WINDOW *w, int &start, int &cursor, const std:
                     if ( mod->need_lua ) {
                         trim_and_print( w, iNum - start, 4, wwidth, c_dkgray, "%s", mod->name.c_str() );
                     } else
-#else
-                    {
-                        trim_and_print( w, c, 4, wwidth, c_white, "%s", mod->name.c_str() );
-                    }
 #endif
+                    {
+                        trim_and_print( w, iNum - start, 4, wwidth, c_white, "%s", mod->name.c_str() );
+                    }
+
                 }
             }
 
@@ -830,7 +836,7 @@ void worldfactory::draw_mod_list( WINDOW *w, int &start, int &cursor, const std:
         }
     }
 
-    draw_scrollbar( w, cursor, iMaxRows, iModNum, 0);
+    draw_scrollbar( w, iActive, iMaxRows, iModNum, 0);
 
     wrefresh( w );
 }

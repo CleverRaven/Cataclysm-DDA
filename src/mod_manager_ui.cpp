@@ -27,7 +27,7 @@ mod_ui::~mod_ui()
 
 bool compare_mod_by_name_and_category(const MOD_INFORMATION *a, const MOD_INFORMATION *b)
 {
-    return ((a->category < b->category) || (a->name < b->name));
+    return ((a->category < b->category) || ((a->category == b->category) && (a->name < b->name)));
 }
 
 void mod_ui::set_usable_mods()
