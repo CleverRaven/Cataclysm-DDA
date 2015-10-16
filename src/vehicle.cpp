@@ -2171,6 +2171,13 @@ bool vehicle::remove_part (int p)
         }
     }
 
+    const auto iter = labels.find( label( parts[p].mount.x, parts[p].mount.y ) );
+    if( iter != labels.end() ) {
+        if( parts_at_relative( parts[p].mount.x, parts[p].mount.y, false ).empty() ) {
+            labels.erase( iter );
+        }
+    }
+
     for( auto &i : get_items(p) ) {
         // Note: this can spawn items on the other side of the wall!
         tripoint dest( part_loc.x + rng( -3, 3 ), part_loc.y + rng( -3, 3 ), smz );
@@ -5307,6 +5314,12 @@ void vehicle::shift_parts( const point delta )
     for( auto &elem : parts ) {
         elem.mount -= delta;
     }
+
+    decltype(labels) new_labels;
+    for( auto &l : labels ) {
+        new_labels.insert( label( l.x - delta.x, l.y - delta.y, l.text ) );
+    }
+    labels = new_labels;
 
     //Don't use the cache as it hasn't been updated yet
     std::vector<int> origin_parts = parts_at_relative(0, 0, false);

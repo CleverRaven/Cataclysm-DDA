@@ -606,7 +606,7 @@ void advanced_inv_area::init()
             if( can_store_in_vehicle() ) {
                 // get storage label
                 const auto part = veh->parts[veh->global_part_at(pos.x, pos.y)];
-                desc[1] = veh->get_label(part.precalc[0].x, part.precalc[0].y);
+                desc[1] = veh->get_label(part.mount.x, part.mount.y);
             }
             // get graffiti or terrain name
             desc[0] = ( g->m.has_graffiti_at( pos ) == true ) ?
