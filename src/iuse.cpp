@@ -1800,9 +1800,9 @@ int iuse::marloss(player *p, item *it, bool t, const tripoint &pos)
      * 6 - Cleanse radiation + Purify
      * 7 - Fully satiate
      * 8 - Vomit
-     * 9 - Give Marloss mutation
+     * 9-16 - Give Marloss mutation
      */
-    int effect = rng(1, 9);
+    int effect = rng(1, 16);
     if (effect <= 3) {
         p->add_msg_if_player(_("This berry tastes extremely strange!"));
         p->mutate();
