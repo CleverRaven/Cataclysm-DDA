@@ -5837,16 +5837,15 @@ int game::mon_info(WINDOW *w)
 
 void game::cleanup_dead()
 {
-    for( size_t i = 0; i < num_zombies(); ) {
+    // Important: `Creature::die` must not be called after creature objects (NPCs, monsters) have
+    // been removed, the dying creature could still have a pointer (the killer) to another creature.
+    for( size_t i = 0; i < num_zombies(); i++ ) {
         monster &critter = critter_tracker->find(i);
         if( critter.is_dead() ) {
             dbg(D_INFO) << string_format("cleanup_dead: critter[%d] %d,%d dead:%c hp:%d %s",
                                          i, critter.posx(), critter.posy(), (critter.is_dead() ? '1' : '0'),
                                          critter.get_hp(), critter.name().c_str());
             critter.die( nullptr );
-            remove_zombie( i );
-        } else {
-            i++;
         }
     }
 
@@ -5862,6 +5861,14 @@ void game::cleanup_dead()
             overmap_buffer.remove_npc( npc_id );
         } else {
             it++;
+        }
+    }
+
+    for( size_t i = 0; i < num_zombies(); ) {
+        if( critter_tracker->find( i ).is_dead() ) {
+            remove_zombie( i );
+        } else {
+            i++;
         }
     }
 }
