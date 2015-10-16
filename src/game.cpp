@@ -12148,7 +12148,7 @@ bool game::walk_move( const tripoint &dest_loc )
             case fd_fungal_haze:
                 dangerous = (!((u.get_env_resist(bp_mouth) >= 15) &&
                               (u.get_env_resist(bp_eyes) >= 15) ) &&
-                              !u.has_trait("M_IMMUNE"));
+                              !u.has_trait("THRESH_MYCUS"));
             case fd_electricity:
                 dangerous = !u.is_elec_immune();
                 break;
@@ -14154,13 +14154,13 @@ bool game::spread_fungus( const tripoint &p )
                     } else if (m.has_flag("YOUNG", dest)) {
                         if (one_in(5)) {
                             if( m.get_field_strength( p, fd_fungal_haze ) != 0 ) {
-                                if (one_in(3)) { // young trees are Vulnerable
+                                if (one_in(8)) { // young trees are vulnerable
                                     m.ter_set(dest, t_fungus);
                                     summon_mon( mon_fungal_blossom, p );
                                     if (u.sees(p)) {
                                         add_msg(m_warning, _("The young tree blooms forth into a fungal blossom!"));
                                     }
-                                } else if (one_in(2)) {
+                                } else if (one_in(4)) {
                                     m.ter_set(dest, t_marloss_tree);
                                 }
                             } else {
@@ -14171,13 +14171,13 @@ bool game::spread_fungus( const tripoint &p )
                     } else if (m.has_flag("TREE", dest)) {
                         if (one_in(10)) {
                             if( m.get_field_strength( p, fd_fungal_haze ) != 0) {
-                                if (one_in(4)) {
+                                if (one_in(10)) {
                                     m.ter_set(dest, t_fungus);
                                     summon_mon( mon_fungal_blossom, p );
                                     if (u.sees(p)) {
                                         add_msg(m_warning, _("The tree blooms forth into a fungal blossom!"));
                                     }
-                                } else if (one_in(3)) {
+                                } else if (one_in(6)) {
                                     m.ter_set(dest, t_marloss_tree);
                                 }
                             } else {

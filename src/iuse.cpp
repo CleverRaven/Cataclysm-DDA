@@ -1988,7 +1988,7 @@ int iuse::marloss_seed(player *p, item *it, bool t, const tripoint &pos)
     return it->type->charges_to_use();
 }
 
-int iuse::marloss_gel(player *p, item *it, bool t, const tripoint &pos)
+int iuse::marloss_gel(player *p, item *it, bool, const tripoint&)
 {
     if (p->is_npc()) {
         return it->type->charges_to_use();
@@ -2039,40 +2039,8 @@ int iuse::marloss_gel(player *p, item *it, bool t, const tripoint &pos)
         return it->type->charges_to_use();
     }
 
-    /* If we're not already carriers of Marloss, roll for a random effect:
-     * 1 - Mutate
-     * 2 - Mutate
-     * 3 - Mutate
-     * 4 - Purify
-     * 5 - Purify
-     * 6 - Cleanse radiation + Purify
-     * 7 - Fully satiate
-     * 8 - Vomit
-     * 9 - Give Marloss mutation
-     */
-    int effect = rng(1, 9);
-    if (effect <= 3) {
-        p->add_msg_if_player(_("This jelly tastes extremely strange!"));
-        p->mutate();
-        // hihi! wavewave! mutation draindrain!
-        p->mod_pain(2 * rng(1, 5));
-        p->mod_hunger(10);
-        p->fatigue += 5;
-        p->thirst += 10;
-    } else if (effect <= 6) { // Radiation cleanse is below
-        p->add_msg_if_player(m_good, _("This jelly makes you feel better all over."));
-        p->pkill += 30;
-        this->purifier(p, it, t, pos);
-        if (effect == 6) {
-            p->radiation = 0;
-        }
-    } else if (effect == 7) {
-        p->add_msg_if_player(m_good, _("This jelly is delicious, and very filling!"));
-        p->set_hunger(-100);
-    } else if (effect == 8) {
-        p->add_msg_if_player(m_bad, _("You take one bite, and immediately vomit!"));
-        p->vomit();
-    } else if (p->crossed_threshold()) { // Mycus Rejection.  Goo already present fights off the fungus.
+    // The gel is concentrated alien stuff -- it will infect you outright.
+    if (p->crossed_threshold()) { // Mycus Rejection.  Goo already present fights off the fungus.
         p->add_msg_if_player(m_bad, _("You feel a familiar warmth, but suddenly it surges into an excruciating burn as you convulse, vomiting, and black out..."));
         p->add_memorial_log(pgettext("memorial_male", "Suffered Marloss Rejection."),
                         pgettext("memorial_female", "Suffered Marloss Rejection."));

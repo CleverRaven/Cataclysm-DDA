@@ -1183,7 +1183,6 @@
         "valid" : false,
         "purifiable": false,
         "category" : ["MUTCAT_MYCUS"],
-        "prereqs" : ["M_IMMUNE"],
         "threshreq" : ["THRESH_MYCUS"],
         "leads_to" : ["M_DEFENDER"],
         "changes_to" : ["M_SKIN2"],
@@ -1645,7 +1644,6 @@
         "description" : "We have developed local blossoms.  The Mycus must grow.",
         "valid" : false,
         "prereqs" : ["M_DEPENDENT"],
-        "prereqs2" : ["M_IMMUNE"],
         "changes_to" : ["M_BLOOM"],
         "cancels" : ["M_SPORES", "M_FERTILE"],
         "threshreq" : ["THRESH_MYCUS"],
@@ -1853,12 +1851,9 @@
         "type" : "mutation",
         "id" : "M_IMMUNE",
         "name" : "Mycus Identity",
-        "points" : 5,
-        "description" : "We have synchronized our local physiology with that of our reproductive systems.  Any spores we may encounter will not attempt to germinate inside the local system.",
-        "valid" : false,
-        "purifiable": false,
-        "threshreq" : ["THRESH_MYCUS"],
-        "category" : ["MUTCAT_MYCUS"]
+        "points" : 0,
+        "description" : "This is a dummy mutation",
+        "valid" : false
     },{
         "type" : "mutation",
         "id" : "PARAIMMUNE",
