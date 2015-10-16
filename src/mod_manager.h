@@ -17,9 +17,9 @@ class mod_ui;
 class game;
 class worldfactory;
 
-extern const std::vector<std::pair<std::string, std::string> > mod_list_categories;
-extern const std::vector<std::pair<std::string, std::string> > mod_list_tabs;
-extern const std::map<std::string, std::string> mod_list_cat_tab;
+const std::vector<std::pair<std::string, std::string> > &get_mod_list_categories();
+const std::vector<std::pair<std::string, std::string> > &get_mod_list_tabs();
+const std::map<std::string, std::string> &get_mod_list_cat_tab();
 
 enum mod_type {
     MT_CORE,

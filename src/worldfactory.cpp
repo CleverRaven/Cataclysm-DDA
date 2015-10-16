@@ -931,14 +931,14 @@ int worldfactory::show_worldgen_tab_modselection(WINDOW *win, WORLDPTR world)
             current_tab_mods.clear();
 
             for (const auto &item : mman_ui->usable_mods) {
-                const auto &iter = mod_list_cat_tab.find(mod_list_categories[mman->mod_map[item]->category.first].first);
+                const auto &iter = get_mod_list_cat_tab().find(get_mod_list_categories()[mman->mod_map[item]->category.first].first);
 
                 std::string sCatTab = "default";
-                if ( iter != mod_list_cat_tab.end() ) {
+                if ( iter != get_mod_list_cat_tab().end() ) {
                     sCatTab = iter->second;
                 }
 
-                if (sCatTab == mod_list_tabs[iCurrentTab].first) {
+                if (sCatTab == get_mod_list_tabs()[iCurrentTab].first) {
                     current_tab_mods.push_back(item);
                 }
 
@@ -979,9 +979,9 @@ int worldfactory::show_worldgen_tab_modselection(WINDOW *win, WORLDPTR world)
 
             //redraw tabs
             mvwprintz(win, 4, 2, c_white, "");
-            for (size_t i = 0; i < mod_list_tabs.size(); i++) {
+            for (size_t i = 0; i < get_mod_list_tabs().size(); i++) {
                 wprintz(win, c_white, "[");
-                wprintz(win, (iCurrentTab == i) ? hilite(c_ltgreen) : c_ltgreen, (mod_list_tabs[i].second).c_str());
+                wprintz(win, (iCurrentTab == (int)i) ? hilite(c_ltgreen) : c_ltgreen, (get_mod_list_tabs()[i].second).c_str());
                 wprintz(win, c_white, "]");
                 wputch(win, BORDER_COLOR, LINE_OXOX);
             }
@@ -1092,7 +1092,7 @@ int worldfactory::show_worldgen_tab_modselection(WINDOW *win, WORLDPTR world)
             }
         } else if (action == "NEXT_TAB") {
             if ( active_header == 0 ) {
-                if ( ++iCurrentTab >= mod_list_tabs.size() ) {
+                if ( ++iCurrentTab >= (int)get_mod_list_tabs().size() ) {
                     iCurrentTab = 0;
                 }
 
@@ -1106,7 +1106,7 @@ int worldfactory::show_worldgen_tab_modselection(WINDOW *win, WORLDPTR world)
         } else if (action == "PREV_TAB") {
             if ( active_header == 0 ) {
                 if ( --iCurrentTab < 0 ) {
-                    iCurrentTab = mod_list_tabs.size()-1;
+                    iCurrentTab = get_mod_list_tabs().size()-1;
                 }
 
                 startsel[0] = 0;
