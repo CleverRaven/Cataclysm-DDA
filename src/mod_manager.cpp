@@ -18,7 +18,7 @@
 #define MOD_SEARCH_FILE "modinfo.json"
 
 static std::unordered_set<std::string> obsolete_mod_list;
-static const std::vector<std::pair<std::string, std::string> > categories = {
+const std::vector<std::pair<std::string, std::string> > mod_list_categories = {
     {"weapons", _("WEAPON MODS")},
     {"creatures", _("CREATURE MODS")},
     {"buildings", _("BUILDING MODS")},
@@ -27,6 +27,22 @@ static const std::vector<std::pair<std::string, std::string> > categories = {
     {"character", _("CHARACTER MODS")},
     {"exclude", _("EXCLUSION MODS")},
     {"", _("NO CATEGORY")}
+};
+
+const std::vector<std::pair<std::string, std::string> > mod_list_tabs = {
+    {"default", _("Default")},
+    {"special", _("Special")}
+};
+
+const std::map<std::string, std::string> mod_list_cat_tab = {
+    {"weapons", "default"},
+    {"creatures", "default"},
+    {"buildings", "default"},
+    {"vehicles", "default"},
+    {"magical", "special"},
+    {"character", "default"},
+    {"exclude", "special"},
+    {"", "default"}
 };
 
 static void load_obsolete_mods( const std::string path )
@@ -190,9 +206,9 @@ void mod_manager::load_modfile(JsonObject &jo, const std::string &main_path)
 
     std::string m_cat = jo.get_string("category", "");
     std::pair<int, std::string> p_cat = {-1, ""};
-    for ( size_t i = 0; i < categories.size(); ++i ) {
-        if ( categories[i].first == m_cat ) {
-            p_cat = {i, categories[i].second};
+    for ( size_t i = 0; i < mod_list_categories.size(); ++i ) {
+        if ( mod_list_categories[i].first == m_cat ) {
+            p_cat = {i, mod_list_categories[i].second};
             break;
         }
     }

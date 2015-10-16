@@ -646,8 +646,8 @@ int worldfactory::show_worldgen_tab_options(WINDOW *win, WORLDPTR world)
     ctxt.register_cardinal();
     ctxt.register_action("HELP_KEYBINDINGS");
     ctxt.register_action("QUIT");
-    ctxt.register_action("NEXT_TAB");
-    ctxt.register_action("PREV_TAB");
+    //ctxt.register_action("NEXT_TAB");
+    //ctxt.register_action("PREV_TAB");
     int iStartPos = 0;
     int iCurrentLine = 0;
 
@@ -897,6 +897,8 @@ int worldfactory::show_worldgen_tab_modselection(WINDOW *win, WORLDPTR world)
     size_t useable_mod_count = mman_ui->usable_mods.size();
     int startsel[2] = {0, 0};
     int cursel[2] = {0, 0};
+    int iCurrentTab = 0;
+    std::vector<std::string> current_tab_mods;
 
     bool redraw_headers = true;
     bool redraw_shift = true;
@@ -904,6 +906,7 @@ int worldfactory::show_worldgen_tab_modselection(WINDOW *win, WORLDPTR world)
     bool redraw_list = true;
     bool redraw_active = true;
     bool selection_changed = false;
+    bool recalc_tabs = true;
 
     while (tab_output == 0) {
         if (redraw_headers) {
@@ -923,6 +926,28 @@ int worldfactory::show_worldgen_tab_modselection(WINDOW *win, WORLDPTR world)
             redraw_shift = true;
             redraw_headers = false;
         }
+
+        if (recalc_tabs) {
+            current_tab_mods.clear();
+
+            for (const auto &item : mman_ui->usable_mods) {
+                const auto &iter = mod_list_cat_tab.find(mod_list_categories[mman->mod_map[item]->category.first].first);
+
+                std::string sCatTab = "default";
+                if ( iter != mod_list_cat_tab.end() ) {
+                    sCatTab = iter->second;
+                }
+
+                if (sCatTab == mod_list_tabs[iCurrentTab].first) {
+                    current_tab_mods.push_back(item);
+                }
+
+                useable_mod_count = current_tab_mods.size();
+            }
+
+            recalc_tabs = false;
+        }
+
         if (selection_changed) {
             if (active_header == 0) {
                 redraw_list = true;
@@ -934,14 +959,15 @@ int worldfactory::show_worldgen_tab_modselection(WINDOW *win, WORLDPTR world)
             selection_changed = false;
             redraw_description = true;
         }
+
         if (redraw_description) {
             werase(w_description);
 
             MOD_INFORMATION *selmod = NULL;
-            if (mman_ui->usable_mods.empty()) {
+            if (current_tab_mods.empty()) {
                 // Do nothing, leave selmod == NULL
             } else if (active_header == 0) {
-                selmod = mman->mod_map[mman_ui->usable_mods[cursel[0]]];
+                selmod = mman->mod_map[current_tab_mods[cursel[0]]];
             } else if (!active_mod_order.empty()) {
                 selmod = mman->mod_map[active_mod_order[cursel[1]]];
             }
@@ -950,15 +976,29 @@ int worldfactory::show_worldgen_tab_modselection(WINDOW *win, WORLDPTR world)
                 fold_and_print(w_description, 0, 1, getmaxx(w_description) - 1,
                                c_white, mman_ui->get_information(selmod));
             }
+
+            //redraw tabs
+            mvwprintz(win, 4, 2, c_white, "");
+            for (size_t i = 0; i < mod_list_tabs.size(); i++) {
+                wprintz(win, c_white, "[");
+                wprintz(win, (iCurrentTab == i) ? hilite(c_ltgreen) : c_ltgreen, (mod_list_tabs[i].second).c_str());
+                wprintz(win, c_white, "]");
+                wputch(win, BORDER_COLOR, LINE_OXOX);
+            }
+
             redraw_description = false;
             wrefresh(w_description);
+            wrefresh(win);
         }
+
         if (redraw_list) {
-            draw_mod_list( w_list, startsel[0], cursel[0], mman_ui->usable_mods, active_header == 0, _("--NO AVAILABLE MODS--") );
+            draw_mod_list( w_list, startsel[0], cursel[0], current_tab_mods, active_header == 0, _("--NO AVAILABLE MODS--") );
         }
+
         if (redraw_active) {
             draw_mod_list( w_active, startsel[1], cursel[1], active_mod_order, active_header == 1, _("--NO ACTIVE MODS--") );
         }
+
         if (redraw_shift) {
             werase(w_shift);
             if (active_header == 1) {
@@ -1012,18 +1052,19 @@ int worldfactory::show_worldgen_tab_modselection(WINDOW *win, WORLDPTR world)
         } else if (action == "LEFT") {
             active_header = prev_header;
         } else if (action == "CONFIRM") {
-            if (active_header == 0 && !mman_ui->usable_mods.empty()) {
+            if (active_header == 0 && !current_tab_mods.empty()) {
 #ifndef LUA
-                if (mman->mod_map[mman_ui->usable_mods[cursel[0]]]->need_lua) {
+                if (mman->mod_map[current_tab_mods[cursel[0]]]->need_lua) {
                     popup(_("Can't add mod. This mod requires Lua support."));
                     redraw_active = true;
                     redraw_shift = true;
                     draw_modselection_borders(win, &ctxt);
+                    redraw_description = true;
                     continue;
                 }
 #endif
                 // try-add
-                mman_ui->try_add(mman_ui->usable_mods[cursel[0]], active_mod_order);
+                mman_ui->try_add(current_tab_mods[cursel[0]], active_mod_order);
                 redraw_active = true;
                 redraw_shift = true;
             } else if (active_header == 1 && !active_mod_order.empty()) {
@@ -1050,13 +1091,39 @@ int worldfactory::show_worldgen_tab_modselection(WINDOW *win, WORLDPTR world)
                 redraw_shift = true;
             }
         } else if (action == "NEXT_TAB") {
+            if ( active_header == 0 ) {
+                if ( ++iCurrentTab >= mod_list_tabs.size() ) {
+                    iCurrentTab = 0;
+                }
+
+                startsel[0] = 0;
+                cursel[0] = 0;
+
+                recalc_tabs = true;
+                redraw_description = true;
+            }
+
+        } else if (action == "PREV_TAB") {
+            if ( active_header == 0 ) {
+                if ( --iCurrentTab < 0 ) {
+                    iCurrentTab = mod_list_tabs.size()-1;
+                }
+
+                startsel[0] = 0;
+                cursel[0] = 0;
+
+                recalc_tabs = true;
+                redraw_description = true;
+            }
+        /*} else if (action == "NEXT_TAB") {
             tab_output = 1;
         } else if (action == "PREV_TAB") {
-            tab_output = -1;
+            tab_output = -1;*/
         } else if (action == "SAVE_DEFAULT_MODS") {
             if(mman->set_default_mods(active_mod_order)) {
                 popup(_("Saved list of active mods as default"));
                 draw_modselection_borders(win, &ctxt);
+                redraw_description = true;
                 redraw_headers = true;
             }
         } else if (action == "HELP_KEYBINDINGS") {
@@ -1068,6 +1135,7 @@ int worldfactory::show_worldgen_tab_modselection(WINDOW *win, WORLDPTR world)
             redraw_active = true;
             draw_worldgen_tabs( win, 0 );
             draw_modselection_borders( win, &ctxt );
+            redraw_description = true;
         } else if (action == "QUIT") {
             tab_output = -999;
         }
@@ -1145,8 +1213,8 @@ int worldfactory::show_worldgen_tab_confirm(WINDOW *win, WORLDPTR world)
     ctxt.register_action("HELP_KEYBINDINGS");
     ctxt.register_action("QUIT");
     ctxt.register_action("ANY_INPUT");
-    ctxt.register_action("NEXT_TAB");
-    ctxt.register_action("PREV_TAB");
+    //ctxt.register_action("NEXT_TAB");
+    //ctxt.register_action("PREV_TAB");
     ctxt.register_action("PICK_RANDOM_WORLDNAME");
 
     std::string worldname = world->world_name;
