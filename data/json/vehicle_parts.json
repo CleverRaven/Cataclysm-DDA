@@ -2635,7 +2635,7 @@
         "item" : "foot_crank",
         "difficulty" : 1,
         "location" : "engine_block",
-        "flags" : ["ENGINE", "FOLDABLE", "MUSCLE_LEGS"],
+        "flags" : ["ENGINE", "FOLDABLE", "MUSCLE_LEGS", "CONTROLS"],
         "breaks_into" : [
             {"item": "steel_chunk", "count": [1, 2]},
             {"item": "scrap", "count": [0, 2]}
@@ -2656,7 +2656,7 @@
         "item" : "hand_rims",
         "difficulty" : 1,
         "location" : "engine_block",
-        "flags" : ["ENGINE", "FOLDABLE", "MUSCLE_ARMS"],
+        "flags" : ["ENGINE", "FOLDABLE", "MUSCLE_ARMS", "CONTROLS"],
         "breaks_into" : [
             {"item": "steel_chunk", "count": [1, 2]},
             {"item": "scrap", "count": [0, 2]}
@@ -3438,7 +3438,7 @@
         "folded_volume": 6,
         "item" : "vehicle_controls",
         "difficulty" : 2,
-        "flags" : ["CONTROLS", "FOLDABLE", "DOME_LIGHT"],
+        "flags" : ["CONTROLS", "FOLDABLE", "DOME_LIGHT", "CTRL_ELECTRONIC"],
         "breaks_into" : [
             {"item": "steel_lump"},
             {"item": "steel_chunk", "count": [1, 3]},
@@ -4909,7 +4909,7 @@
         "durability" : 200,
         "item" : "drive_by_wire_controls",
         "difficulty" : 3,
-        "flags" : ["CONTROLS", "REMOTE_CONTROLS"],
+        "flags" : ["CONTROLS", "REMOTE_CONTROLS", "CTRL_ELECTRONIC"],
         "breaks_into" : [
             {"item": "motor_small"},
             {"item": "steel_chunk", "count": [1, 3]},

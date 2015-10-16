@@ -875,6 +875,13 @@ void vehicle::use_controls()
         menu.addentry( release_remote_control, true, 'l', _("Stop controlling") );
     }
 
+    bool has_electronic_controls = false;
+
+    for( size_t p = 0; p < parts.size(); p++ ) {
+        if (part_flag(p, "CTRL_ELECTRONIC")) {
+            has_electronic_controls = true;
+        }
+    }
 
     bool has_lights = false;
     bool has_stereo = false;
@@ -977,38 +984,39 @@ void vehicle::use_controls()
         menu.addentry( try_disarm_alarm, true, 'z', _("Try to disarm alarm.") );
     }
 
-    menu.addentry( toggle_cruise_control, true, 'c', cruise_on ?
-                   _("Disable cruise control") : _("Enable cruise control") );
-
+    if( has_electronic_controls ) {
+        menu.addentry( toggle_cruise_control, true, 'c', cruise_on ?
+                       _("Disable cruise control") : _("Enable cruise control") );
+    }
 
     // Lights if they are there - Note you can turn them on even when damaged, they just don't work
-    if (has_lights) {
+    if (has_electronic_controls && has_lights) {
         menu.addentry( toggle_lights, true, 'h', lights_on ?
                        _("Turn off headlights") : _("Turn on headlights") );
     }
 
-    if (has_stereo) {
+    if (has_electronic_controls && has_stereo) {
         menu.addentry( toggle_stereo, true, 'm', stereo_on ?
                        _("Turn off stereo") : _("Turn on stereo") );
     }
 
-    if (has_chimes) {
+    if (has_electronic_controls && has_chimes) {
         menu.addentry( toggle_chimes, true, 'i', chimes_on ?
                        _("Turn off chimes") : _("Turn on chimes") );
     }
 
-   if (has_overhead_lights) {
+   if (has_electronic_controls && has_overhead_lights) {
         menu.addentry( toggle_overhead_lights, true, 'v', overhead_lights_on ?
                        _("Turn off overhead lights") : _("Turn on overhead lights") );
    }
 
 
-    if (has_dome_lights && fuel_left( fuel_type_battery, true ) ) {
+    if (has_electronic_controls && has_dome_lights && fuel_left( fuel_type_battery, true ) ) {
         menu.addentry( toggle_dome_lights, true, 'D', dome_lights_on ?
                        _("Turn off dome lights") : _("Turn on dome lights") );
     }
 
-    if (has_aisle_lights) {
+    if (has_electronic_controls && has_aisle_lights) {
         menu.addentry( toggle_aisle_lights, true, 'A', aisle_lights_on ?
                        _("Turn off aisle lights") : _("Turn on aisle lights") );
     }
@@ -1019,18 +1027,18 @@ void vehicle::use_controls()
     }
 
     // Turrets: off or burst mode
-    if (has_turrets) {
+    if (has_electronic_controls && has_turrets) {
         menu.addentry( toggle_turrets, true, 't', turret_mode == turret_mode_off ?
                        _("Enable turrets") : _("Disable turrets") );
     }
 
     // Turn the fridge on/off
-    if (has_fridge) {
+    if (has_electronic_controls && has_fridge) {
         menu.addentry( toggle_fridge, true, 'f', fridge_on ? _("Turn off fridge") : _("Turn on fridge") );
     }
 
     // Turn the recharging station on/off
-    if (has_recharger) {
+    if (has_electronic_controls && has_recharger) {
         menu.addentry( toggle_recharger, true, 'r', recharger_on ? _("Turn off recharger") : _("Turn on recharger") );
     }
 
@@ -1051,7 +1059,7 @@ void vehicle::use_controls()
         menu.addentry( toggle_reactor, true, 'k', reactor_on ? _("Turn off reactor") : _("Turn on reactor") );
     }
     // Toggle doors remotely
-    if (has_door_motor) {
+    if (has_electronic_controls && has_door_motor) {
         menu.addentry( toggle_doors, true, 'd', _("Toggle door") );
     }
     // control an engine
@@ -1059,7 +1067,7 @@ void vehicle::use_controls()
         menu.addentry( cont_engines, true, 'y', _("Control individual engines") );
     }
     // start alarm
-    if (can_trigger_alarm) {
+    if (has_electronic_controls && can_trigger_alarm) {
         menu.addentry( trigger_alarm, true, 'p', _("Trigger alarm") );
     }
     // cycle individual turret modes
@@ -1068,23 +1076,23 @@ void vehicle::use_controls()
         menu.addentry( manual_fire, true, 'w', _("Aim turrets manually") );
     }
     // toggle cameras
-    if( camera_on || ( has_camera && has_camera_control ) ) {
+    if( has_electronic_controls && (camera_on || ( has_camera && has_camera_control )) ) {
         menu.addentry( toggle_camera, true, 'M', camera_on ?
                        _("Turn off camera system") : _("Turn on camera system") );
     }
-    if( has_plow ){
+    if( has_electronic_controls && has_plow ){
         menu.addentry( toggle_plow, true, MENU_AUTOASSIGN, plow_on ?
                        _("Turn plow off") : _("Turn plow on") );
     }
-    if( has_planter ){
+    if( has_electronic_controls && has_planter ){
         menu.addentry( toggle_planter, true, 'P', planter_on ?
                        _("Turn planter off") : _("Turn planter on") );
     }
-    if( has_scoop ) {
+    if( has_electronic_controls && has_scoop ) {
         menu.addentry( toggle_scoop, true, 'S', scoop_on ?
                        _("Turn off scoop system") : _("Turn on scoop system") );
     }
-    if( has_reaper ){
+    if( has_electronic_controls && has_reaper ){
         menu.addentry( toggle_reaper, true, 'H', reaper_on ?  _("Turn off reaper") : _("Turn on reaper") );
     }
     menu.addentry( control_cancel, true, ' ', _("Do nothing") );
@@ -4249,7 +4257,7 @@ bool vehicle::collision( std::vector<veh_collision> &colls,
                          const tripoint &dp,
                          bool just_detect, bool bash_floor )
 {
-    
+
     /*
      * Big TODO:
      * Rewrite this function so that it has "pre-collision" phase (detection)
