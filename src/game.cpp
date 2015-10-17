@@ -5837,29 +5837,36 @@ int game::mon_info(WINDOW *w)
 
 void game::cleanup_dead()
 {
-    for( size_t i = 0; i < num_zombies(); ) {
+    // Important: `Creature::die` must not be called after creature objects (NPCs, monsters) have
+    // been removed, the dying creature could still have a pointer (the killer) to another creature.
+    for( size_t i = 0; i < num_zombies(); i++ ) {
         monster &critter = critter_tracker->find(i);
         if( critter.is_dead() ) {
             dbg(D_INFO) << string_format("cleanup_dead: critter[%d] %d,%d dead:%c hp:%d %s",
                                          i, critter.posx(), critter.posy(), (critter.is_dead() ? '1' : '0'),
                                          critter.get_hp(), critter.name().c_str());
             critter.die( nullptr );
+        }
+    }
+
+    for( auto &n : active_npc ) {
+        if( n->is_dead() ) {
+            n->die( nullptr ); // make sure this has been called to create corpses etc.
+        }
+    }
+
+    // From here on, pointers to creatures get invalidated as dead creatures get removed.
+    for( size_t i = 0; i < num_zombies(); ) {
+        if( critter_tracker->find( i ).is_dead() ) {
             remove_zombie( i );
         } else {
             i++;
         }
     }
-
-    //Cleanup any dead npcs.
-    //This will remove the npc object, it is assumed that they have been transformed into
-    //dead bodies before this.
     for( auto it = active_npc.begin(); it != active_npc.end(); ) {
-        npc *n = *it;
-        if( n->is_dead() ) {
-            n->die( nullptr ); // make sure this has been called to create corpses etc.
-            const int npc_id = n->getID();
+        if( (*it)->is_dead() ) {
+            overmap_buffer.remove_npc( (*it)->getID() );
             it = active_npc.erase( it );
-            overmap_buffer.remove_npc( npc_id );
         } else {
             it++;
         }
