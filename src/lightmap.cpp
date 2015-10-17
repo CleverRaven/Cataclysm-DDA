@@ -603,7 +603,7 @@ void cast_zlight(
                         cast_zlight<xx, xy, xz, yx, yy, yz, zz, calc, check>(
                             output_caches, input_arrays, floor_caches,
                             offset, offset_distance, numerator, distance + 1,
-                            trailing_clipped, leading_edge_major, start_minor, trailing_edge_minor,
+                            major_mid, leading_edge_major, start_minor, trailing_edge_minor,
                             next_cumulative_transparency );
                     }
                 }
