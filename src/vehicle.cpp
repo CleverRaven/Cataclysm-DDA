@@ -6471,19 +6471,18 @@ void vehicle::update_time( const calendar &update_to )
         return;
     }
 
-    // Weather stuff, only for z-levels >= 0
-    // TODO: Have it wash cars from blood?
-    if( funnels.empty() && solar_panels.empty() ) {
-        return;
-    }
-
     const auto update_from = last_update_turn;
     if( update_to - update_from < MINUTES(1) ) {
         // We don't need to check every turn
         return;
     }
-
     last_update_turn = update_to;
+
+    // Weather stuff, only for z-levels >= 0
+    // TODO: Have it wash cars from blood?
+    if( funnels.empty() && solar_panels.empty() ) {
+        return;
+    }
 
     // Get one weather data set per veh, they don't differ much across veh area
     const tripoint veh_loc = real_global_pos3();
