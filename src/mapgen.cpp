@@ -661,7 +661,7 @@ public:
             signage = _( signage.c_str() );
         }
     }
-    void apply( map &m, const size_t xmin, const size_t ymin, const size_t xmax, const size_t ymax, const float mon_density ) const override
+    void apply( map &m, const size_t xmin, const size_t ymin, const size_t xmax, const size_t ymax, const float /*mon_density*/ ) const override
     {
         const int x = rng(xmin, xmax);
         const int y = rng(ymin, ymax);
