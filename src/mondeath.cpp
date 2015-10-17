@@ -457,7 +457,7 @@ void mdeath::explode(monster *z)
         size = 26;
         break;
     }
-    g->explosion(z->pos3(), size, 0, false);
+    g->explosion( z->pos(), size );
 }
 
 void mdeath::focused_beam(monster *z)
@@ -492,7 +492,7 @@ void mdeath::focused_beam(monster *z)
 
     z->inv.clear();
 
-    g->explosion(z->pos3(), 8, 0, false);
+    g->explosion( z->pos(), 8 );
 }
 
 void mdeath::broken(monster *z) {

@@ -4737,8 +4737,8 @@ void vehicle::handle_trap( const tripoint &p, int part )
         // Hit the wheel directly since it ran right over the trap.
         damage_direct( pwh, part_damage );
     }
-    if (expl > 0) {
-        g->explosion( p, expl, shrap, false);
+    if( expl > 0 ) {
+        g->explosion( p, expl, 0.5f, shrap, false );
     }
 }
 
@@ -5498,7 +5498,7 @@ int vehicle::damage_direct( int p, int dmg, damage_type type )
                     g->explosion( tripoint( global_x() + parts[p].precalc[0].x,
                                             global_y() + parts[p].precalc[0].y,
                                             smz ),
-                                  pow, 0, fiery_explosion );
+                                  pow, 0.7, 0, fiery_explosion );
                     parts[p].hp = 0;
                     parts[p].amount = 0;
                 }
