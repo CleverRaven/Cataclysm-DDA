@@ -208,6 +208,44 @@ void check_shamble_speed( const std::string monster_type, const tripoint &destin
            Approx(1.0).epsilon(0.02) );
 }
 
+void test_moves_to_squares( std::string monster_type ) {
+    std::map<int, statistics> turns_at_distance;
+    std::map<float, statistics> turns_at_angle;
+    for( int x = 0; x <= 100; x += 1 ) {
+        for( int y = 0; y <= 100; y += 1 ) {
+            const int distance = square_dist({50,50,0}, {x,y,0});
+            // Scale the scaling factor based on the ratio of diagonal to cardinal steps.
+            const float slope = get_normalized_angle( {50, 50}, {x, y} );
+            const float diagonal_multiplier = 1.0 + (OPTIONS["CIRCLEDIST"] ? (slope * 0.41) : 0.0);
+            if( distance < 5 ) {
+                // Very short ranged tests are squirrely.
+                continue;
+            }
+            turns_at_angle[slope].new_type();
+            for( int i = 0; i < 5; ++i ) {
+                int moves = moves_to_destination( monster_type, {50, 50, 0}, {x, y, 0} );
+                turns_at_distance[distance].add( moves / (diagonal_multiplier * distance) );
+                turns_at_angle[slope].add( moves / (diagonal_multiplier * distance) );
+            }
+        }
+    }
+    std::stringstream slope_map;
+    for( const auto &stat_pair : turns_at_distance ) {
+        INFO( "Monster:" << monster_type << " Dist: " << stat_pair.first << " moves: " << stat_pair.second.avg() );
+        CHECK( stat_pair.second.avg() == Approx(100.0).epsilon(0.03) );
+    }
+    for( const auto &stat_pair : turns_at_angle ) {
+        INFO( "Mnster:" << monster_type << " Slope: " << stat_pair.first <<
+              " moves: " << stat_pair.second.avg() << " types: " << stat_pair.second.types() );
+        slope_map << (int)(stat_pair.first * 100) << " " << stat_pair.second.avg() << "\n" ;
+        CHECK( stat_pair.second.avg() == Approx(100.0).epsilon(0.03) );
+    }
+    std::ofstream data;
+    data.open("slope_test_data_" + monster_type);
+    data << slope_map.str();
+    data.close();
+}
+
 void monster_check() {
     // Make sure the player doesn't block the path of the monster being tested.
     g->u.setpos( { 0, 0, -2 } );
@@ -241,48 +279,9 @@ void monster_check() {
         check_shamble_speed( "mon_zombie", {x, 100, 0} );
     }
 
-    std::map<int, statistics> turns_at_distance;
-    std::map<float, statistics> turns_at_angle;
-    for( int x = 0; x <= 100; x += 2 ) {
-        for( int y = 0; y <= 100; y += 2 ) {
-            const int distance = rl_dist({50,50,0}, {x,y,0});
-                // Scale the scaling factor based on the ratio of diagonal to cardinal steps.
-            const float norm_slope = get_normalized_angle( {50, 50}, {x, y} );
-            const float diagonal_multiplier = 1.0 + (OPTIONS["CIRCLEDIST"] ? (norm_slope * 0.41) : 0.0);
-            if( distance < 5 ) {
-                // Very short ranged tests are squirrely.
-                continue;
-            }
-            const int rise = 50 - y;
-            const int run = 50 - x;
-            const float slope = atan2( run, rise );
-            turns_at_angle[slope].new_type();
-            for( int i = 0; i < 500; ++i ) {
-                int moves = moves_to_destination( "mon_zombie_dog", {50, 50, 0}, {x, y, 0} );
-                turns_at_distance[distance].add( (moves * diagonal_multiplier) / distance );
-                turns_at_angle[slope].add( (moves * diagonal_multiplier) / distance);
-                if( turns_at_angle[slope].avg() == Approx(100.0).epsilon(0.04) ) {
-                    break;
-                }
-            }
-        }
-    }
-    std::stringstream slope_map;
-    for( const auto &stat_pair : turns_at_distance ) {
-        INFO( "Dist: " << stat_pair.first << " moves: " << stat_pair.second.avg() );
-        CHECK( stat_pair.second.avg() == Approx(100.0).epsilon(0.02) );
-    }
-    for( const auto &stat_pair : turns_at_angle ) {
-        WARN( "Slope: " << stat_pair.first << " moves: " << stat_pair.second.avg() <<
-              " types: " << stat_pair.second.types() );
-        slope_map << stat_pair.first << " " << stat_pair.second.avg() << "\n" ;
-        CHECK( stat_pair.second.avg() == Approx(100.0).epsilon(0.04) );
-    }
-    std::ofstream data;
-    data.open("slope_test_data");
-    data << slope_map.str();
-    data.close();
-    
+    test_moves_to_squares("mon_zombie_dog");
+    test_moves_to_squares("mon_pig");
+
     INFO( "Trigdist is " << ( OPTIONS["CIRCLEDIST"] ? "on" : "off" ) );
     int zombie_horizontal_capture_speed = can_catch_player( "mon_zombie", {1,0,0} );
     WARN( zombie_horizontal_capture_speed );
