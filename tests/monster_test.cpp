@@ -134,21 +134,9 @@ int can_catch_player( const std::string &monster_type, const tripoint &direction
             moves_spent += moves_before - test_monster.moves;
             if( rl_dist( test_monster.pos(), test_player.pos() ) == 1 ) {
                 g->remove_zombie( 0 );
-                std::stringstream path_string;
-                for( const auto track_inst : tracker ) {
-                    path_string << track_inst.participant << "," << track_inst.moves << "," <<
-                        track_inst.distance << "," << track_inst.location << " ";
-                }
-                WARN(path_string.str());
                 return turn;
             } else if( rl_dist( test_monster.pos(), test_player.pos() ) > 20 ) {
                 g->remove_zombie( 0 );
-                std::stringstream path_string;
-                for( const auto track_inst : tracker ) {
-                    path_string << track_inst.participant << "," << track_inst.moves << "," <<
-                        track_inst.distance << "," << track_inst.location << " ";
-                }
-                WARN(path_string.str());
                 return -turn;
             }
         }
@@ -274,27 +262,16 @@ void monster_check() {
     check_shamble_speed( "mon_jabberwock", {0, 100, 0} );
     check_shamble_speed( "mon_jabberwock", {100, 100, 0} );
 
-    // Check some angles between 0deg and 45deg
-    for( int x = 0; x <= 100; x += 2 ) {
-        check_shamble_speed( "mon_zombie", {x, 100, 0} );
-    }
-
+    // Check moves to all squares relative to monster start within 50 squares.
     test_moves_to_squares("mon_zombie_dog");
     test_moves_to_squares("mon_pig");
 
+    // Verify that a walking player can escape from a zombie, but is caught by a zombie dog.
     INFO( "Trigdist is " << ( OPTIONS["CIRCLEDIST"] ? "on" : "off" ) );
-    int zombie_horizontal_capture_speed = can_catch_player( "mon_zombie", {1,0,0} );
-    WARN( zombie_horizontal_capture_speed );
-    CHECK( zombie_horizontal_capture_speed < 0 );
-    int zombie_vertical_capture_speed = can_catch_player( "mon_zombie", {1,1,0} );
-    WARN( zombie_vertical_capture_speed );
-    CHECK( zombie_vertical_capture_speed < 0 );
-    int zombie_dog_horizontal_capture_speed = can_catch_player( "mon_zombie_dog", {1,0,0} );
-    WARN( zombie_dog_horizontal_capture_speed );
-    CHECK( zombie_dog_horizontal_capture_speed > 0 );
-    int zombie_dog_vertical_capture_speed = can_catch_player( "mon_zombie_dog", {1,1,0} );
-    WARN( zombie_dog_vertical_capture_speed );
-    CHECK( zombie_dog_vertical_capture_speed > 0 );
+    CHECK( can_catch_player( "mon_zombie", {1,0,0} ) < 0  );
+    CHECK( can_catch_player( "mon_zombie", {1,1,0} ) < 0  );
+    CHECK( can_catch_player( "mon_zombie_dog", {1,0,0} ) > 0  );
+    CHECK( can_catch_player( "mon_zombie_dog", {1,1,0} ) > 0  );
 }
 
 // Characterization test for monster movement speed.
