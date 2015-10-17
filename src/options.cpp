@@ -1038,8 +1038,8 @@ void init_options()
                                     _("A scaling factor that determines density of dynamic NPC spawns."),
                                     0.0, 100.0, 1.0, 0.01
                                    );
-    OPTIONS["MONSTER_UPGRADE_FACTOR"] = cOpt("world_default", _("Monster half-life scaling factor"),
-                                    _("A scaling factor that determines average time in days between monster upgrades. Set to 0.00 to turn off monster upgrades."),
+    OPTIONS["MONSTER_UPGRADE_FACTOR"] = cOpt("world_default", _("Monster evolution scaling factor"),
+                                    _("A scaling factor that determines the time between monster upgrades. A higher number means slower evolution. Set to 0.00 to turn off monster upgrades."),
                                     0.0, 100, 1.0, 0.01
                                    );
 
