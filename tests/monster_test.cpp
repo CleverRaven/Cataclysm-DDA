@@ -196,7 +196,7 @@ void check_shamble_speed( const std::string monster_type, const tripoint &destin
            Approx(1.0).epsilon(0.02) );
 }
 
-void test_moves_to_squares( std::string monster_type ) {
+void test_moves_to_squares( std::string monster_type, bool write_data = false ) {
     std::map<int, statistics> turns_at_distance;
     std::map<float, statistics> turns_at_angle;
     for( int x = 0; x <= 100; x += 1 ) {
@@ -217,7 +217,6 @@ void test_moves_to_squares( std::string monster_type ) {
             }
         }
     }
-    std::stringstream slope_map;
     for( const auto &stat_pair : turns_at_distance ) {
         INFO( "Monster:" << monster_type << " Dist: " << stat_pair.first << " moves: " << stat_pair.second.avg() );
         CHECK( stat_pair.second.avg() == Approx(100.0).epsilon(0.03) );
@@ -225,13 +224,19 @@ void test_moves_to_squares( std::string monster_type ) {
     for( const auto &stat_pair : turns_at_angle ) {
         INFO( "Mnster:" << monster_type << " Slope: " << stat_pair.first <<
               " moves: " << stat_pair.second.avg() << " types: " << stat_pair.second.types() );
-        slope_map << (int)(stat_pair.first * 100) << " " << stat_pair.second.avg() << "\n" ;
         CHECK( stat_pair.second.avg() == Approx(100.0).epsilon(0.03) );
     }
-    std::ofstream data;
-    data.open("slope_test_data_" + monster_type);
-    data << slope_map.str();
-    data.close();
+
+    if( write_data ) {
+        std::stringstream slope_map;
+        for( const auto &stat_pair : turns_at_angle ) {
+            slope_map << (int)(stat_pair.first * 100) << " " << stat_pair.second.avg() << "\n" ;
+        }
+        std::ofstream data;
+        data.open("slope_test_data_" + monster_type);
+        data << slope_map.str();
+        data.close();
+    }
 }
 
 void monster_check() {
@@ -272,6 +277,19 @@ void monster_check() {
     CHECK( can_catch_player( "mon_zombie", {1,1,0} ) < 0  );
     CHECK( can_catch_player( "mon_zombie_dog", {1,0,0} ) > 0  );
     CHECK( can_catch_player( "mon_zombie_dog", {1,1,0} ) > 0  );
+}
+
+// Write out a map of slope at which monster is moving to time required to reach their destination.
+TEST_CASE("write_slope_to_speed_map", "[.]") {
+    wipe_map_terrain();
+    // Remove any interfering monsters.
+    while( g->num_zombies() ) {
+        g->remove_zombie( 0 );
+    }
+    OPTIONS["CIRCLEDIST"].setValue("true");
+    trigdist = true;
+    test_moves_to_squares("mon_zombie_dog", true);
+    test_moves_to_squares("mon_pig", true);
 }
 
 // Characterization test for monster movement speed.
