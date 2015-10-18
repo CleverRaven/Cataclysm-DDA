@@ -222,7 +222,7 @@
            "covers" : ["TORSO"],
            "coverage" : 10,
            "material_thickness" : 2,
-           "encumbrance" : 10,
+           "encumbrance" : 4,
            "warmth" : 0
         },
         "rigid": true,
