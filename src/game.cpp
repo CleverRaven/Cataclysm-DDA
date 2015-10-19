@@ -6403,28 +6403,15 @@ void game::knockback( std::vector<tripoint> &traj, int force, int stun, int dam_
         monster *targ = &critter_tracker->find(zid);
         if (stun > 0) {
             targ->add_effect("stunned", stun);
-            add_msg(ngettext("%s was stunned for %d turn!",
-                             "%s was stunned for %d turns!", stun),
-                    targ->name().c_str(), stun);
+            add_msg(_("%s was stunned!"), targ->name().c_str());
         }
         for (size_t i = 1; i < traj.size(); i++) {
             if (m.move_cost(traj[i].x, traj[i].y) == 0) {
                 targ->setpos(traj[i - 1]);
                 force_remaining = traj.size() - i;
                 if (stun != 0) {
-                    if (targ->has_effect("stunned")) {
-                        targ->add_effect("stunned", force_remaining);
-                        add_msg(ngettext("%s was stunned AGAIN for %d turn!",
-                                         "%s was stunned AGAIN for %d turns!",
-                                         force_remaining),
-                                targ->name().c_str(), force_remaining);
-                    } else {
-                        targ->add_effect("stunned", force_remaining);
-                        add_msg(ngettext("%s was stunned for %d turn!",
-                                         "%s was stunned for %d turns!",
-                                         force_remaining),
-                                targ->name().c_str(), force_remaining);
-                    }
+                    targ->add_effect("stunned", force_remaining);
+                    add_msg(_("%s was stunned!"), targ->name().c_str());
                     add_msg(_("%s slammed into an obstacle!"), targ->name().c_str());
                     targ->apply_damage( nullptr, bp_torso, dam_mult * force_remaining );
                     targ->check_dead_state();
@@ -6436,19 +6423,8 @@ void game::knockback( std::vector<tripoint> &traj, int force, int stun, int dam_
                 targ->setpos(traj[i - 1]);
                 force_remaining = traj.size() - i;
                 if (stun != 0) {
-                    if (targ->has_effect("stunned")) {
-                        targ->add_effect("stunned", force_remaining);
-                        add_msg(ngettext("%s was stunned AGAIN for %d turn!",
-                                         "%s was stunned AGAIN for %d turns!",
-                                         force_remaining),
-                                targ->name().c_str(), force_remaining);
-                    } else {
-                        targ->add_effect("stunned", force_remaining);
-                        add_msg(ngettext("%s was stunned for %d turn!",
-                                         "%s was stunned for %d turns!",
-                                         force_remaining),
-                                targ->name().c_str(), force_remaining);
-                    }
+                     targ->add_effect("stunned", force_remaining);
+                     add_msg(_("%s was stunned!"), targ->name().c_str());
                 }
                 traj.erase(traj.begin(), traj.begin() + i);
                 if (mon_at(traj.front()) != -1) {
@@ -6487,31 +6463,17 @@ void game::knockback( std::vector<tripoint> &traj, int force, int stun, int dam_
         npc *targ = active_npc[npc_at( tp )];
         if (stun > 0) {
             targ->add_effect("stunned", stun);
-            add_msg(ngettext("%s was stunned for %d turn!",
-                             "%s was stunned for %d turns!", stun),
-                    targ->name.c_str(), stun);
+            add_msg(_("%s was stunned!"), targ->name.c_str());
         }
         for (size_t i = 1; i < traj.size(); i++) {
             if (m.move_cost(traj[i].x, traj[i].y) == 0) { // oops, we hit a wall!
                 targ->setpos( traj[i - 1] );
                 force_remaining = traj.size() - i;
                 if (stun != 0) {
-                    if (targ->has_effect("stunned")) {
-                        targ->add_effect("stunned", force_remaining);
-                        if (targ->has_effect("stunned"))
-                            add_msg(ngettext("%s was stunned AGAIN for %d turn!",
-                                             "%s was stunned AGAIN for %d turns!",
-                                             force_remaining),
-                                    targ->name.c_str(), force_remaining);
-                    } else {
-                        targ->add_effect("stunned", force_remaining);
-                        if (targ->has_effect("stunned"))
-                            add_msg(ngettext("%s was stunned for %d turn!",
-                                             "%s was stunned for %d turns!",
-                                             force_remaining),
-                                    targ->name.c_str(), force_remaining);
-                    }
-                    add_msg(_("%s took %d damage! (before armor)"), targ->name.c_str(), dam_mult * force_remaining);
+                    targ->add_effect("stunned", force_remaining);
+                    if (targ->has_effect("stunned"))
+                        add_msg(_("%s was stunned!"), targ->name.c_str());
+
                     body_part bps[] = {
                         bp_head,
                         bp_arm_l, bp_arm_r,
@@ -6534,17 +6496,7 @@ void game::knockback( std::vector<tripoint> &traj, int force, int stun, int dam_
                 targ->setpos( traj[i - 1] );
                 force_remaining = traj.size() - i;
                 if (stun != 0) {
-                    if (targ->has_effect("stunned")) {
-                        add_msg(ngettext("%s was stunned AGAIN for %d turn!",
-                                         "%s was stunned AGAIN for %d turns!",
-                                         force_remaining),
-                                targ->name.c_str(), force_remaining);
-                    } else {
-                        add_msg(ngettext("%s was stunned for %d turn!",
-                                         "%s was stunned for %d turns!",
-                                         force_remaining),
-                                targ->name.c_str(), force_remaining);
-                    }
+                    add_msg(_("%s was stunned!"), targ->name.c_str());
                     targ->add_effect("stunned", force_remaining);
                 }
                 traj.erase(traj.begin(), traj.begin() + i);
