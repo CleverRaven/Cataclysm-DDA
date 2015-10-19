@@ -1363,3 +1363,105 @@ void it_artifact_armor::serialize(JsonOut &json) const
     json.end_object();
 }
 
+namespace io {
+#define PAIR(x) { #x, x }
+static const std::unordered_map<std::string, art_effect_passive> art_effect_passive_values = { {
+    //PAIR( AEP_NULL ), // not really used
+    PAIR( AEP_STR_UP ),
+    PAIR( AEP_DEX_UP ),
+    PAIR( AEP_PER_UP ),
+    PAIR( AEP_INT_UP ),
+    PAIR( AEP_ALL_UP ),
+    PAIR( AEP_SPEED_UP ),
+    PAIR( AEP_IODINE ),
+    PAIR( AEP_SNAKES ),
+    PAIR( AEP_INVISIBLE ),
+    PAIR( AEP_CLAIRVOYANCE ),
+    PAIR( AEP_SUPER_CLAIRVOYANCE ),
+    PAIR( AEP_STEALTH ),
+    PAIR( AEP_EXTINGUISH ),
+    PAIR( AEP_GLOW ),
+    PAIR( AEP_PSYSHIELD ),
+    PAIR( AEP_RESIST_ELECTRICITY ),
+    PAIR( AEP_CARRY_MORE ),
+    PAIR( AEP_SAP_LIFE ),
+    //PAIR( AEP_SPLIT, // not really used
+    PAIR( AEP_HUNGER ),
+    PAIR( AEP_THIRST ),
+    PAIR( AEP_SMOKE ),
+    PAIR( AEP_EVIL ),
+    PAIR( AEP_SCHIZO ),
+    PAIR( AEP_RADIOACTIVE ),
+    PAIR( AEP_MUTAGENIC ),
+    PAIR( AEP_ATTENTION ),
+    PAIR( AEP_STR_DOWN ),
+    PAIR( AEP_DEX_DOWN ),
+    PAIR( AEP_PER_DOWN ),
+    PAIR( AEP_INT_DOWN ),
+    PAIR( AEP_ALL_DOWN ),
+    PAIR( AEP_SPEED_DOWN ),
+    PAIR( AEP_FORCE_TELEPORT ),
+    PAIR( AEP_MOVEMENT_NOISE ),
+    PAIR( AEP_BAD_WEATHER ),
+    PAIR( AEP_SICK ),
+} };
+static const std::unordered_map<std::string, art_effect_active> art_effect_active_values = { {
+    //PAIR( AEA_NULL ), // not really used
+    PAIR( AEA_STORM ),
+    PAIR( AEA_FIREBALL ),
+    PAIR( AEA_ADRENALINE ),
+    PAIR( AEA_MAP ),
+    PAIR( AEA_BLOOD ),
+    PAIR( AEA_FATIGUE ),
+    PAIR( AEA_ACIDBALL ),
+    PAIR( AEA_PULSE ),
+    PAIR( AEA_HEAL ),
+    PAIR( AEA_CONFUSED ),
+    PAIR( AEA_ENTRANCE ),
+    PAIR( AEA_BUGS ),
+    PAIR( AEA_TELEPORT ),
+    PAIR( AEA_LIGHT ),
+    PAIR( AEA_GROWTH ),
+    PAIR( AEA_HURTALL ),
+    //PAIR( AEA_SPLIT ), // not really used
+    PAIR( AEA_RADIATION ),
+    PAIR( AEA_PAIN ),
+    PAIR( AEA_MUTATE ),
+    PAIR( AEA_PARALYZE ),
+    PAIR( AEA_FIRESTORM ),
+    PAIR( AEA_ATTENTION ),
+    PAIR( AEA_TELEGLOW ),
+    PAIR( AEA_NOISE ),
+    PAIR( AEA_SCREAM ),
+    PAIR( AEA_DIM ),
+    PAIR( AEA_FLASH ),
+    PAIR( AEA_VOMIT ),
+    PAIR( AEA_SHADOWS ),
+} };
+static const std::unordered_map<std::string, art_charge> art_charge_values = { {
+    PAIR( ARTC_NULL ),
+    PAIR( ARTC_TIME ),
+    PAIR( ARTC_SOLAR ),
+    PAIR( ARTC_PAIN ),
+    PAIR( ARTC_HP ),
+} };
+#undef PAIR
+
+template<>
+art_effect_passive string_to_enum<art_effect_passive>( const std::string &data )
+{
+    return string_to_enum_look_up( art_effect_passive_values, data );
+}
+
+template<>
+art_effect_active string_to_enum<art_effect_active>( const std::string &data )
+{
+    return string_to_enum_look_up( art_effect_active_values, data );
+}
+
+template<>
+art_charge string_to_enum<art_charge>( const std::string &data )
+{
+    return string_to_enum_look_up( art_charge_values, data );
+}
+} // namespace io
