@@ -223,7 +223,7 @@ static bool select_autopickup_items( std::vector<item> &here, std::vector<bool> 
                 if (OPTIONS["AUTO_PICKUP_ZERO"]) {
                     if (here[i].volume() == 0 &&
                         here[i].weight() <= OPTIONS["AUTO_PICKUP_ZERO"] * 50 &&
-                        checkExcludeRules(sItemName)) {
+                        get_apu().checkExcludeRules(sItemName)) {
                         bPickup = true;
                     }
                 }
@@ -234,7 +234,7 @@ static bool select_autopickup_items( std::vector<item> &here, std::vector<bool> 
                 } else if ( mapAutoPickupItems[sItemName] != "false" ) {
                     //No prematched pickup rule found
                     //items with damage, (fits) or a container
-                    createPickupRules(sItemName);
+                    get_apu().createPickupRules(sItemName);
 
                     if ( mapAutoPickupItems[sItemName] == "true" ) {
                         bPickup = true;

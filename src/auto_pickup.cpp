@@ -19,9 +19,15 @@
 #include <locale>
 
 std::map<std::string, std::string> mapAutoPickupItems;
-std::vector<cPickupRules> vAutoPickupRules[5];
+std::vector<apu::cPickupRules> vAutoPickupRules[5];
 
-void show_auto_pickup()
+apu &get_apu()
+{
+    static apu single_instance;
+    return single_instance;
+}
+
+void apu::show_auto_pickup()
 {
     save_reset_changes(false);
 
@@ -334,7 +340,7 @@ void show_auto_pickup()
     }
 }
 
-void test_pattern(int iCurrentPage, int iCurrentLine)
+void apu::test_pattern(int iCurrentPage, int iCurrentLine)
 {
     std::vector<std::string> vMatchingItems;
     std::string sItemName = "";
@@ -437,92 +443,7 @@ void test_pattern(int iCurrentPage, int iCurrentLine)
     }
 }
 
-void load_auto_pickup(bool bCharacter)
-{
-    std::ifstream fin;
-    std::string sFile = FILENAMES["autopickup"];
-
-    if (bCharacter) {
-        sFile = world_generator->active_world->world_path + "/" + base64_encode(g->u.name) + ".apu.txt";
-    }
-
-    bool legacy_autopickup_loaded = false;
-    fin.open(sFile.c_str());
-    if(!fin.is_open()) {
-        if( !bCharacter ) {
-            fin.open(FILENAMES["legacy_autopickup"].c_str());
-        }
-        if( !fin.is_open() ) {
-            assure_dir_exist(FILENAMES["config_dir"]);
-            create_default_auto_pickup(bCharacter);
-            fin.open(sFile.c_str());
-        } else {
-            legacy_autopickup_loaded = true;
-        }
-
-        if(!fin.is_open()) {
-            DebugLog( D_ERROR, DC_ALL ) << "Could neither read nor create " << sFile;
-            return;
-        }
-    }
-
-    vAutoPickupRules[(bCharacter) ? APU_CHARACTER : APU_GLOBAL].clear();
-
-    std::string sLine;
-    while(!fin.eof()) {
-        getline(fin, sLine);
-
-        if(sLine != "" && sLine[0] != '#') {
-            int iNum = std::count(sLine.begin(), sLine.end(), ';');
-
-            if(iNum != 2) {
-                DebugLog( D_ERROR, DC_ALL ) << "Bad Rule: " << sLine;
-            } else {
-                std::string sRule = "";
-                bool bActive = true;
-                bool bExclude = false;
-
-                size_t iPos = 0;
-                int iCol = 1;
-                do {
-                    iPos = sLine.find(";");
-
-                    std::string sTemp = (iPos == std::string::npos) ? sLine : sLine.substr(0, iPos);
-
-                    if (iCol == 1) {
-                        sRule = sTemp;
-
-                    } else if (iCol == 2) {
-                        bActive = sTemp == "T" || sTemp == "True";
-
-                    } else if (iCol == 3) {
-                        bExclude = sTemp == "T" || sTemp == "True";
-                    }
-
-                    iCol++;
-
-                    if (iPos != std::string::npos) {
-                        sLine = sLine.substr(iPos + 1, sLine.size());
-                    }
-
-                } while(iPos != std::string::npos);
-
-                vAutoPickupRules[(bCharacter) ? APU_CHARACTER : APU_GLOBAL].push_back(cPickupRules(sRule, bActive,
-                        bExclude));
-            }
-        }
-    }
-
-    fin.close();
-    merge_vector();
-    createPickupRules();
-    if( legacy_autopickup_loaded ) {
-        assure_dir_exist(FILENAMES["config_dir"]);
-        save_auto_pickup( bCharacter );
-    }
-}
-
-void merge_vector()
+void apu::merge_vector()
 {
     vAutoPickupRules[APU_MERGED].clear();
 
@@ -537,7 +458,7 @@ void merge_vector()
     }
 }
 
-bool hasPickupRule(std::string sRule)
+bool apu::hasPickupRule(std::string sRule)
 {
     for( auto &elem : vAutoPickupRules[APU_CHARACTER] ) {
         if( sRule.length() == elem.sRule.length() && ci_find_substr( sRule, elem.sRule ) != -1 ) {
@@ -547,7 +468,7 @@ bool hasPickupRule(std::string sRule)
     return false;
 }
 
-void addPickupRule(std::string sRule)
+void apu::addPickupRule(std::string sRule)
 {
     vAutoPickupRules[APU_CHARACTER].push_back(cPickupRules(sRule, true, false));
     merge_vector();
@@ -560,7 +481,7 @@ void addPickupRule(std::string sRule)
     }
 }
 
-void removePickupRule(std::string sRule)
+void apu::removePickupRule(std::string sRule)
 {
     for (std::vector<cPickupRules>::iterator it = vAutoPickupRules[APU_CHARACTER].begin();
          it != vAutoPickupRules[APU_CHARACTER].end(); ++it) {
@@ -574,7 +495,7 @@ void removePickupRule(std::string sRule)
     }
 }
 
-void createPickupRules(const std::string sItemNameIn)
+void apu::createPickupRules(const std::string sItemNameIn)
 {
     if (sItemNameIn == "") {
         mapAutoPickupItems.clear();
@@ -624,7 +545,7 @@ void createPickupRules(const std::string sItemNameIn)
     }
 }
 
-bool checkExcludeRules(const std::string sItemNameIn)
+bool apu::checkExcludeRules(const std::string sItemNameIn)
 {
     for( auto &elem : vAutoPickupRules[APU_MERGED] ) {
         if( elem.bExclude && elem.bActive && auto_pickup_match( sItemNameIn, elem.sRule ) ) {
@@ -635,7 +556,7 @@ bool checkExcludeRules(const std::string sItemNameIn)
     return true;
 }
 
-void save_reset_changes(bool bReset)
+void apu::save_reset_changes(bool bReset)
 {
     for (int i = APU_GLOBAL; i <= APU_CHARACTER; i++) { //Loop through global 1 and character 2
         vAutoPickupRules[i + ((bReset) ? 0 : 2)].clear();
@@ -652,72 +573,13 @@ void save_reset_changes(bool bReset)
     merge_vector();
 }
 
-std::string auto_pickup_header(bool bCharacter)
-{
-    std::string sTemp = (bCharacter) ? "character" : "global";
-    return "# This is the " + sTemp + " auto pickup rules file. The format is\n\
-# <pickup rule>;<dis/enabled>;<in/exclude>\n\n\
-# <pickup rule> Simple text. No other special characters except spaces and *\n\
-# <dis/enabled> Can be T(rue) of F(alse)\n\
-# <in/exclude> Can be T(rue) of F(alse)\n\
-#\n\
-# If # is at the start of a line, it is considered a comment and is ignored.\n\
-# In-line commenting is not allowed. I think.\n\
-#\n\
-# If you want to restore the default auto pickup rules file, simply delete this file.\n\
-# A new auto_pickup.txt will be created next time you play.\
-\n\n";
-}
-
-bool save_auto_pickup(bool bCharacter)
+void apu::create_default_auto_pickup(bool bCharacter)
 {
     std::ofstream fout;
     std::string sFile = FILENAMES["autopickup"];
 
     if (bCharacter) {
-        sFile = world_generator->active_world->world_path + "/" + base64_encode(g->u.name) + ".apu.txt";
-        std::ifstream fin;
-
-        fin.open((world_generator->active_world->world_path + "/" +
-                  base64_encode(g->u.name) + ".sav").c_str());
-        if(!fin.is_open()) {
-            return true;
-        }
-        fin.close();
-    }
-
-    fout.exceptions(std::ios::badbit | std::ios::failbit);
-    try {
-        assure_dir_exist(FILENAMES["config_dir"]);
-        fout.open(sFile.c_str());
-
-        fout << auto_pickup_header(bCharacter) << std::endl;
-        for( auto &elem : vAutoPickupRules[( bCharacter ) ? APU_CHARACTER : APU_GLOBAL] ) {
-            fout << elem.sRule << ";";
-            fout << ( elem.bActive ? "T" : "F" ) << ";";
-            fout << ( elem.bExclude ? "T" : "F" );
-            fout << "\n";
-        }
-
-        if (!bCharacter) {
-            merge_vector();
-            createPickupRules();
-        }
-        fout.close();
-        return true;
-    } catch(std::ios::failure &) {
-        popup(_("Failed to write autopickup rules to %s"), sFile.c_str());
-        return false;
-    }
-}
-
-void create_default_auto_pickup(bool bCharacter)
-{
-    std::ofstream fout;
-    std::string sFile = FILENAMES["autopickup"];
-
-    if (bCharacter) {
-        sFile = world_generator->active_world->world_path + "/" + base64_encode(g->u.name) + ".apu.txt";
+        sFile = world_generator->active_world->world_path + "/" + base64_encode(g->u.name) + ".apu.json";
     }
 
     fout.open(sFile.c_str());
@@ -729,7 +591,7 @@ void create_default_auto_pickup(bool bCharacter)
     fout.close();
 }
 
-std::string trim_rule(std::string sPattern)
+std::string apu::trim_rule(std::string sPattern)
 {
     size_t iPos = 0;
 
@@ -741,7 +603,7 @@ std::string trim_rule(std::string sPattern)
     return sPattern;
 }
 
-bool auto_pickup_match(std::string sText, std::string sPattern)
+bool apu::auto_pickup_match(std::string sText, std::string sPattern)
 {
     //case insenitive search
 
@@ -804,7 +666,7 @@ bool auto_pickup_match(std::string sText, std::string sPattern)
     return true;
 }
 
-std::vector<std::string> &split(const std::string &s, char delim, std::vector<std::string> &elems)
+std::vector<std::string> &apu::split(const std::string &s, char delim, std::vector<std::string> &elems)
 {
     std::stringstream ss(s);
     std::string item;
@@ -820,23 +682,9 @@ std::vector<std::string> &split(const std::string &s, char delim, std::vector<st
     return elems;
 }
 
-// templated version of my_equal so it could work with both char and wchar_t
-template<typename charT>
-struct my_equal {
-    public:
-        my_equal( const std::locale &loc ) : loc_(loc) {}
-
-        bool operator()(charT ch1, charT ch2)
-        {
-            return std::toupper(ch1, loc_) == std::toupper(ch2, loc_);
-        }
-    private:
-        const std::locale &loc_;
-};
-
 // find substring (case insensitive)
 template<typename charT>
-int ci_find_substr( const charT &str1, const charT &str2, const std::locale &loc )
+int apu::ci_find_substr( const charT &str1, const charT &str2, const std::locale &loc )
 {
     typename charT::const_iterator it = std::search( str1.begin(), str1.end(), str2.begin(), str2.end(),
                                         my_equal<typename charT::value_type>(loc) );
@@ -846,3 +694,219 @@ int ci_find_substr( const charT &str1, const charT &str2, const std::locale &loc
         return -1;    // not found
     }
 }
+
+bool apu::save_auto_pickup(bool bCharacter)
+{
+    /*const auto savefile = FILENAMES["apu"];
+
+    try {
+        std::ofstream fout;
+        fout.exceptions(std::ios::badbit | std::ios::failbit);
+
+        fopen_exclusive(fout, savefile.c_str());
+        if(!fout.is_open()) {
+            return true; //trick game into thinking it was saved
+        }
+
+        fout << serialize();
+        fclose_exclusive(fout, savefile.c_str());
+        return true;
+
+    } catch(std::ios::failure &) {
+        popup(_("Failed to save custom colors to %s"), savefile.c_str());
+        return false;
+    }
+
+    return false;*/
+}
+
+void apu::load_auto_pickup(bool bCharacter)
+{
+    std::ifstream fin;
+    std::string sFile = FILENAMES["autopickup"];
+    if (bCharacter) {
+        sFile = world_generator->active_world->world_path + "/" + base64_encode(g->u.name) + ".apu.json";
+    }
+
+    fin.open(sFile.c_str(), std::ifstream::in | std::ifstream::binary);
+
+    if( !fin.good() ) {
+        if (load_auto_pickup_legacy(bCharacter)) {
+            save_auto_pickup(bCharacter);
+        }
+    } else {
+        try {
+            JsonIn jsin(fin);
+            deserialize(jsin);
+        } catch( const JsonError &e ) {
+            DebugLog(D_ERROR, DC_ALL) << "load_auto_pickup: " << e;
+        }
+    }
+
+    fin.close();
+    merge_vector();
+    createPickupRules();
+}
+
+void apu::serialize(JsonOut &json) const
+{
+    /*json.start_array();
+
+    for( size_t j = 0; j < vPages.size(); ++j ) {
+        bool update_wopt = (bIngame && (int)j == iWorldOptPage );
+        for( auto &elem : mPageItems[j] ) {
+            if( OPTIONS[elem].getDefaultText() != "" ) {
+                json.start_object();
+
+                json.member( "info", OPTIONS[elem].getTooltip() );
+                json.member( "default", OPTIONS[elem].getDefaultText( false ) );
+                json.member( "name", elem );
+                json.member( "value", OPTIONS[elem].getValue() );
+
+                json.end_object();
+
+                if ( update_wopt ) {
+                    world_generator->active_world->world_options[elem] = ACTIVE_WORLD_OPTIONS[elem];
+                }
+            }
+        }
+
+        if( update_wopt ) {
+            calendar::set_season_length( ACTIVE_WORLD_OPTIONS["SEASON_LENGTH"] );
+        }
+    }
+
+    json.end_array();*/
+}
+
+void apu::deserialize(JsonIn &jsin)
+{
+    /*jsin.start_array();
+    while (!jsin.end_array()) {
+        JsonObject joOptions = jsin.get_object();
+
+        const std::string name = joOptions.get_string("name");
+        const std::string value = joOptions.get_string("value");
+
+        optionsdata.add_retry(name, value);
+        OPTIONS[ name ].setValue( value );
+    }*/
+}
+
+bool apu::load_auto_pickup_legacy(bool bCharacter)
+{
+    std::ifstream fin;
+    std::string sFile = FILENAMES["legacy_autopickup2"];
+
+    if (bCharacter) {
+        sFile = world_generator->active_world->world_path + "/" + base64_encode(g->u.name) + ".apu.txt";
+    }
+
+    fin.open(sFile.c_str());
+    if(!fin.is_open()) {
+        if( !bCharacter ) {
+            fin.open(FILENAMES["legacy_autopickup"].c_str());
+
+            if( !fin.is_open() ) {
+                assure_dir_exist(FILENAMES["config_dir"]);
+                create_default_auto_pickup(bCharacter);
+
+                DebugLog( D_ERROR, DC_ALL ) << "Could neither read nor create " << sFile;
+                return false;
+            }
+        }
+    }
+
+    vAutoPickupRules[(bCharacter) ? APU_CHARACTER : APU_GLOBAL].clear();
+
+    std::string sLine;
+    while(!fin.eof()) {
+        getline(fin, sLine);
+
+        if(sLine != "" && sLine[0] != '#') {
+            int iNum = std::count(sLine.begin(), sLine.end(), ';');
+
+            if(iNum != 2) {
+                DebugLog( D_ERROR, DC_ALL ) << "Bad Rule: " << sLine;
+            } else {
+                std::string sRule = "";
+                bool bActive = true;
+                bool bExclude = false;
+
+                size_t iPos = 0;
+                int iCol = 1;
+                do {
+                    iPos = sLine.find(";");
+
+                    std::string sTemp = (iPos == std::string::npos) ? sLine : sLine.substr(0, iPos);
+
+                    if (iCol == 1) {
+                        sRule = sTemp;
+
+                    } else if (iCol == 2) {
+                        bActive = sTemp == "T" || sTemp == "True";
+
+                    } else if (iCol == 3) {
+                        bExclude = sTemp == "T" || sTemp == "True";
+                    }
+
+                    iCol++;
+
+                    if (iPos != std::string::npos) {
+                        sLine = sLine.substr(iPos + 1, sLine.size());
+                    }
+
+                } while(iPos != std::string::npos);
+
+                vAutoPickupRules[(bCharacter) ? APU_CHARACTER : APU_GLOBAL].push_back(cPickupRules(sRule, bActive,
+                        bExclude));
+            }
+        }
+    }
+
+    return true;
+}
+
+/*
+bool apu::save_auto_pickup(bool bCharacter)
+{
+    std::ofstream fout;
+    std::string sFile = FILENAMES["autopickup"];
+
+    if (bCharacter) {
+        sFile = world_generator->active_world->world_path + "/" + base64_encode(g->u.name) + ".apu.txt";
+        std::ifstream fin;
+
+        fin.open((world_generator->active_world->world_path + "/" +
+                  base64_encode(g->u.name) + ".sav").c_str());
+        if(!fin.is_open()) {
+            return true;
+        }
+        fin.close();
+    }
+
+    fout.exceptions(std::ios::badbit | std::ios::failbit);
+    try {
+        assure_dir_exist(FILENAMES["config_dir"]);
+        fout.open(sFile.c_str());
+
+        fout << auto_pickup_header(bCharacter) << std::endl;
+        for( auto &elem : vAutoPickupRules[( bCharacter ) ? APU_CHARACTER : APU_GLOBAL] ) {
+            fout << elem.sRule << ";";
+            fout << ( elem.bActive ? "T" : "F" ) << ";";
+            fout << ( elem.bExclude ? "T" : "F" );
+            fout << "\n";
+        }
+
+        if (!bCharacter) {
+            merge_vector();
+            createPickupRules();
+        }
+        fout.close();
+        return true;
+    } catch(std::ios::failure &) {
+        popup(_("Failed to write autopickup rules to %s"), sFile.c_str());
+        return false;
+    }
+}
+*/

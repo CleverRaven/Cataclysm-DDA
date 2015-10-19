@@ -1101,7 +1101,7 @@ void display_help()
             break;
 
         case '3':
-            show_auto_pickup();
+            get_apu().show_auto_pickup();
             werase(w_help);
             break;
 
