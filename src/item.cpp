@@ -3191,10 +3191,7 @@ bool item::is_software() const
 
 bool item::is_artifact() const
 {
-    if( is_null() )
-        return false;
-
-    return type->is_artifact();
+    return type->artifact.get() != nullptr;
 }
 
 int item::get_chapters() const

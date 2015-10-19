@@ -61,11 +61,6 @@ enum art_charge : int {
 class it_artifact_tool : public it_tool, public JsonSerializer, public JsonDeserializer
 {
     public:
-        bool is_artifact() const override
-        {
-            return true;
-        }
-
         using JsonSerializer::serialize;
         void serialize(JsonOut &json) const override;
         using JsonDeserializer::deserialize;
@@ -86,11 +81,6 @@ class it_artifact_tool : public it_tool, public JsonSerializer, public JsonDeser
 class it_artifact_armor : public itype, public JsonSerializer, public JsonDeserializer
 {
     public:
-        bool is_artifact() const override
-        {
-            return true;
-        }
-
         using JsonSerializer::serialize;
         void serialize(JsonOut &json) const override;
         using JsonDeserializer::deserialize;

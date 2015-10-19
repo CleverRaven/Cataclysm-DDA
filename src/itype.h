@@ -554,11 +554,6 @@ public:
         return false;
     }
 
-    virtual bool is_artifact() const
-    {
-        return artifact.get() != nullptr;
-    }
-
     virtual bool count_by_charges() const
     {
         if( ammo ) {
