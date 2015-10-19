@@ -286,7 +286,7 @@ void monster::plan( const mfactions &factions )
 // The indices 0 - 99 correspond to a linear progression from 0 slope (orthoganal, i.e. N, E, S, W)
 // to 99 (diagonal, NE, NW, SE, SW).
 // This is a fairly terrible solution, but it's the only approach I can think of that seems to work.
-const static float adjustment_values[] = {
+const static float trig_adjustment_values[] = {
     117.522, 116.817, 116.112, 115.868, 115.47, 115.164, 114.787, 114.367, 114.25, 113.989,
     113.765, 113.574, 113.32, 113.163, 112.891, 112.737, 112.59, 112.385, 112.247, 112.117,
     111.989, 111.776, 111.673, 111.539, 111.456, 111.352, 111.249, 111.17, 111.104, 110.939,
@@ -300,9 +300,26 @@ const static float adjustment_values[] = {
     110.656
 };
 
+const static float square_adjustment_values[] = {
+    102.356, 102.156, 102.012, 102.308, 102.333, 102.45, 102.624, 102.739, 102.899, 103.04,
+    103.271, 103.323, 103.713, 103.717, 104.002, 104.289, 104.515, 104.611, 104.963, 105.069,
+    105.378, 105.676, 105.944, 106.046, 106.498, 106.61, 106.943, 107.204, 107.482, 107.662,
+    108.004, 108.256, 108.639, 108.519, 109.116, 109.277, 109.726, 109.832, 110.17, 110.502,
+    110.638, 110.877, 111.253, 111.582, 111.798, 112.087, 112.384, 112.582, 113.086, 113.07,
+    113.059, 113.78, 113.977, 114.192, 114.588, 114.689, 115.081, 115.236, 115.528, 115.884,
+    116.011, 116.358, 116.602, 116.944, 117.139, 117.536, 117.441, 117.976, 118.265, 118.487,
+    118.65, 118.877, 119.342, 119.514, 119.847, 119.931, 120.32, 120.548, 120.836, 121.145,
+    121.218, 121.555, 121.935, 121.854, 122.424, 122.505, 122.914, 123.115, 123.359, 123.718,
+    123.865, 124.126, 124.333, 124.705, 124.875, 125.189, 125.54, 125.874, 193.347, 164.547,
+    136.253
+};
+
 static float get_stagger_adjust( const tripoint &source, const tripoint &destination ) {
-    const float slope = get_normalized_angle( {source.x, source.y}, {destination.x, destination.y} ) );
-    return 100.0 / adjustment_values[ (int)(slope * 100) ];
+    const float slope = get_normalized_angle( {source.x, source.y}, {destination.x, destination.y} );
+    if( trigdist ) {
+        return 100.0 / trig_adjustment_values[ (int)(slope * 100) ];
+    }
+    return 100.0 / square_adjustment_values[ (int)(slope * 100) ];
 }
 
 // General movement.
