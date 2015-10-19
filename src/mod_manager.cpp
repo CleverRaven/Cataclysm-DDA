@@ -194,12 +194,23 @@ void mod_manager::load_modfile(JsonObject &jo, const std::string &main_path)
 
     std::string m_cat = jo.get_string("category", "");
     std::pair<int, std::string> p_cat = {-1, ""};
-    for ( size_t i = 0; i < get_mod_list_categories().size(); ++i ) {
-        if ( get_mod_list_categories()[i].first == m_cat ) {
-            p_cat = {i, get_mod_list_categories()[i].second};
+    bool bCatFound = false;
+
+    do {
+        for ( size_t i = 0; i < get_mod_list_categories().size(); ++i ) {
+            if ( get_mod_list_categories()[i].first == m_cat ) {
+                p_cat = {i, get_mod_list_categories()[i].second};
+                bCatFound = true;
+                break;
+            }
+        }
+
+        if (!bCatFound && m_cat != "") {
+            m_cat = "";
+        } else {
             break;
         }
-    }
+    } while (!bCatFound);
 
     std::string m_path;
     if (jo.has_string("path")) {
