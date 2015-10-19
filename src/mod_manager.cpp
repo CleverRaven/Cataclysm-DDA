@@ -36,7 +36,8 @@ const std::vector<std::pair<std::string, std::string> > &get_mod_list_categories
 const std::vector<std::pair<std::string, std::string> > &get_mod_list_tabs() {
     static const std::vector<std::pair<std::string, std::string> > mod_list_tabs = {
         {"default", _("Default")},
-        {"special", _("Special")}
+        {"blacklist", _("Blacklist")},
+        {"balance", _("Balance")}
     };
 
     return mod_list_tabs;
@@ -44,14 +45,8 @@ const std::vector<std::pair<std::string, std::string> > &get_mod_list_tabs() {
 
 const std::map<std::string, std::string> &get_mod_list_cat_tab() {
     static const std::map<std::string, std::string> mod_list_cat_tab = {
-        {"weapons", "default"},
-        {"creatures", "default"},
-        {"buildings", "default"},
-        {"vehicles", "default"},
-        {"magical", "special"},
-        {"character", "default"},
-        {"exclude", "special"},
-        {"", "default"}
+        {"exclude", "blacklist"},
+        {"rebalance", "balance"}
     };
 
     return mod_list_cat_tab;

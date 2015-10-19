@@ -1010,7 +1010,7 @@ int worldfactory::show_worldgen_tab_modselection(WINDOW *win, WORLDPTR world)
         }
 
         if (redraw_list) {
-            draw_mod_list( w_list, startsel[0], cursel[0], mman_ui->usable_mods, active_header == 0, _("--NO AVAILABLE MODS--"), nullptr );
+            draw_mod_list( w_list, startsel[0], cursel[0], current_tab_mods, active_header == 0, _("--NO AVAILABLE MODS--"), nullptr );
         }
         if (redraw_active) {
             draw_mod_list( w_active, startsel[1], cursel[1], active_mod_order, active_header == 1, _("--NO ACTIVE MODS--"), w_shift );
