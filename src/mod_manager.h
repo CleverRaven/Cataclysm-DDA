@@ -10,6 +10,8 @@
 #include <vector>
 #include <map>
 
+const std::vector<std::pair<std::string, std::string> > &get_mod_list_categories();
+
 struct WORLD;
 typedef WORLD *WORLDPTR;
 

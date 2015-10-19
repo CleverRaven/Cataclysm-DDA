@@ -4,6 +4,6 @@
     "ident": "Fast_Zombies",
     "name": "Fast Zombies",
     "description": "Doubles zombie speed.",
-    "category": "creatures",
+    "category": "rebalance",
     "path": ""
 }

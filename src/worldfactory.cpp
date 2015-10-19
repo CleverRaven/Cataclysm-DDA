@@ -750,9 +750,10 @@ int worldfactory::show_worldgen_tab_options(WINDOW *win, WORLDPTR world)
     return 0;
 }
 
-void worldfactory::draw_mod_list( WINDOW *w, int &start, int &cursor, const std::vector<std::string> &mods, bool is_active_list, const std::string &text_if_empty )
+void worldfactory::draw_mod_list( WINDOW *w, int &start, int &cursor, const std::vector<std::string> &mods, bool is_active_list, const std::string &text_if_empty, WINDOW *w_shift )
 {
     werase( w );
+    werase(w_shift);
 
     const int iMaxRows = getmaxy( w );;
     int iModNum = mods.size();
@@ -823,6 +824,25 @@ void worldfactory::draw_mod_list( WINDOW *w, int &start, int &cursor, const std:
                         trim_and_print( w, iNum - start, 4, wwidth, c_white, "%s", mod->name.c_str() );
                     }
 
+                    if (w_shift) {
+                        // get shift information for the active item
+                        std::string shift_display = "";
+                        const size_t iPos = std::distance(mods.begin(), iter);
+
+                        if (mman_ui->can_shift_up(iPos, mods)) {
+                            shift_display += "<color_blue>+</color> ";
+                        } else {
+                            shift_display += "<color_dkgray>+</color> ";
+                        }
+
+                        if (mman_ui->can_shift_down(iPos, mods)) {
+                            shift_display += "<color_blue>-</color>";
+                        } else {
+                            shift_display += "<color_dkgray>-</color>";
+                        }
+
+                        trim_and_print(w_shift, 2 + iNum - start, 1, 3, c_white, shift_display.c_str());
+                    }
                 }
             }
 
@@ -839,6 +859,7 @@ void worldfactory::draw_mod_list( WINDOW *w, int &start, int &cursor, const std:
     draw_scrollbar( w, iActive, iMaxRows, iModNum, 0);
 
     wrefresh( w );
+    wrefresh(w_shift);
 }
 
 int worldfactory::show_worldgen_tab_modselection(WINDOW *win, WORLDPTR world)
@@ -901,7 +922,6 @@ int worldfactory::show_worldgen_tab_modselection(WINDOW *win, WORLDPTR world)
     std::vector<std::string> current_tab_mods;
 
     bool redraw_headers = true;
-    bool redraw_shift = true;
     bool redraw_description = true;
     bool redraw_list = true;
     bool redraw_active = true;
@@ -923,7 +943,6 @@ int worldfactory::show_worldgen_tab_modselection(WINDOW *win, WORLDPTR world)
             }
             redraw_list = true;
             redraw_active = true;
-            redraw_shift = true;
             redraw_headers = false;
         }
 
@@ -953,7 +972,6 @@ int worldfactory::show_worldgen_tab_modselection(WINDOW *win, WORLDPTR world)
                 redraw_list = true;
             }
             if (active_header == 1) {
-                redraw_shift = true;
                 redraw_active = true;
             }
             selection_changed = false;
@@ -992,36 +1010,10 @@ int worldfactory::show_worldgen_tab_modselection(WINDOW *win, WORLDPTR world)
         }
 
         if (redraw_list) {
-            draw_mod_list( w_list, startsel[0], cursel[0], current_tab_mods, active_header == 0, _("--NO AVAILABLE MODS--") );
+            draw_mod_list( w_list, startsel[0], cursel[0], mman_ui->usable_mods, active_header == 0, _("--NO AVAILABLE MODS--"), nullptr );
         }
-
         if (redraw_active) {
-            draw_mod_list( w_active, startsel[1], cursel[1], active_mod_order, active_header == 1, _("--NO ACTIVE MODS--") );
-        }
-
-        if (redraw_shift) {
-            werase(w_shift);
-            if (active_header == 1) {
-                std::stringstream shift_display;
-                // get shift information for whatever is visible in the active list
-                for (size_t i = startsel[1], c = 0; i < active_mod_order.size() &&
-                     (int)c < getmaxy(w_active); ++i, ++c) {
-                    if (mman_ui->can_shift_up(i, active_mod_order)) {
-                        shift_display << "<color_blue>+</color> ";
-                    } else {
-                        shift_display << "<color_dkgray>+</color> ";
-                    }
-                    if (mman_ui->can_shift_down(i, active_mod_order)) {
-                        shift_display << "<color_blue>-</color>";
-                    } else {
-                        shift_display << "<color_dkgray>-</color>";
-                    }
-                    shift_display << "\n";
-                }
-                fold_and_print(w_shift, 2, 1, getmaxx(w_shift), c_white, shift_display.str());
-            }
-            redraw_shift = false;
-            wrefresh(w_shift);
+            draw_mod_list( w_active, startsel[1], cursel[1], active_mod_order, active_header == 1, _("--NO ACTIVE MODS--"), w_shift );
         }
         refresh();
 
@@ -1057,7 +1049,6 @@ int worldfactory::show_worldgen_tab_modselection(WINDOW *win, WORLDPTR world)
                 if (mman->mod_map[current_tab_mods[cursel[0]]]->need_lua) {
                     popup(_("Can't add mod. This mod requires Lua support."));
                     redraw_active = true;
-                    redraw_shift = true;
                     draw_modselection_borders(win, &ctxt);
                     redraw_description = true;
                     continue;
@@ -1066,12 +1057,10 @@ int worldfactory::show_worldgen_tab_modselection(WINDOW *win, WORLDPTR world)
                 // try-add
                 mman_ui->try_add(current_tab_mods[cursel[0]], active_mod_order);
                 redraw_active = true;
-                redraw_shift = true;
             } else if (active_header == 1 && !active_mod_order.empty()) {
                 // try-rem
                 mman_ui->try_rem(cursel[1], active_mod_order);
                 redraw_active = true;
-                redraw_shift = true;
                 if (active_mod_order.empty()) {
                     // switch back to other list, we can't change
                     // anything in the empty active mods list.
@@ -1082,13 +1071,11 @@ int worldfactory::show_worldgen_tab_modselection(WINDOW *win, WORLDPTR world)
             if (active_header == 1 && active_mod_order.size() > 1) {
                 mman_ui->try_shift('+', cursel[1], active_mod_order);
                 redraw_active = true;
-                redraw_shift = true;
             }
         } else if (action == "REMOVE_MOD") {
             if (active_header == 1 && active_mod_order.size() > 1) {
                 mman_ui->try_shift('-', cursel[1], active_mod_order);
                 redraw_active = true;
-                redraw_shift = true;
             }
         } else if (action == "NEXT_TAB") {
             if ( active_header == 0 ) {
@@ -1129,7 +1116,6 @@ int worldfactory::show_worldgen_tab_modselection(WINDOW *win, WORLDPTR world)
         } else if (action == "HELP_KEYBINDINGS") {
             // Redraw all the things!
             redraw_headers = true;
-            redraw_shift = true;
             redraw_description = true;
             redraw_list = true;
             redraw_active = true;
@@ -1142,7 +1128,6 @@ int worldfactory::show_worldgen_tab_modselection(WINDOW *win, WORLDPTR world)
         // RESOLVE INPUTS
         if (last_active_header != (int)active_header) {
             redraw_headers = true;
-            redraw_shift = true;
             redraw_description = true;
         }
         if (last_selection != selection) {
@@ -1151,7 +1136,6 @@ int worldfactory::show_worldgen_tab_modselection(WINDOW *win, WORLDPTR world)
                 cursel[0] = selection;
             } else {
                 redraw_active = true;
-                redraw_shift = true;
                 cursel[1] = selection;
             }
             redraw_description = true;
