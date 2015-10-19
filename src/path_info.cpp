@@ -98,7 +98,7 @@ void PATH_INFO::update_datadir()
 
 void PATH_INFO::update_config_dir()
 {
-    update_pathname("options", FILENAMES["config_dir"] + "options.txt");
+    update_pathname("options", FILENAMES["config_dir"] + "options.json");
     update_pathname("keymap", FILENAMES["config_dir"] + "keymap.txt");
     update_pathname("debug", FILENAMES["config_dir"] + "debug.log");
     update_pathname("fontlist", FILENAMES["config_dir"] + "fontlist.txt");
@@ -172,7 +172,7 @@ void PATH_INFO::set_standard_filenames(void)
 #endif
     update_pathname("graveyarddir", FILENAMES["user_dir"] + "graveyard/");
 
-    update_pathname("options", FILENAMES["config_dir"] + "options.txt");
+    update_pathname("options", FILENAMES["config_dir"] + "options.json");
     update_pathname("keymap", FILENAMES["config_dir"] + "keymap.txt");
     update_pathname("user_keybindings", FILENAMES["config_dir"] + "keybindings.json");
     update_pathname("debug", FILENAMES["config_dir"] + "debug.log");
@@ -183,6 +183,7 @@ void PATH_INFO::set_standard_filenames(void)
 
     // Needed to move files from these legacy locations to the new config directory.
     update_pathname("legacy_options", "data/options.txt");
+    update_pathname("legacy_options2", FILENAMES["config_dir"] + "options.txt");
     update_pathname("legacy_keymap", "data/keymap.txt");
     update_pathname("legacy_autopickup", "data/auto_pickup.txt");
     update_pathname("legacy_fontdata", FILENAMES["datadir"] + "fontdata.json");

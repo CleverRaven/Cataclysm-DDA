@@ -140,7 +140,7 @@ class options_manager : public JsonSerializer, public JsonDeserializer {
 
         void load_options();
         bool save_options(bool ingame = false);
-        void load_options_legacy();
+        bool load_options_legacy();
 
         void show_options(bool ingame = false);
 

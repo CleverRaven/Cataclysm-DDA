@@ -1497,43 +1497,47 @@ void options_manager::show_options(bool ingame)
 
 void options_manager::serialize(JsonOut &json) const
 {
-    /*json.start_array();
-    for( auto &entry : get_all_colors().color_array ) {
-        if ( !entry.name_custom.empty() || !entry.name_invert_custom.empty()) {
-            json.start_object();
+    json.start_array();
 
-            json.member( "name", id_to_name( entry.col_id ) );
-            json.member( "custom", entry.name_custom );
-            json.member( "invertcustom", entry.name_invert_custom );
+    for( size_t j = 0; j < vPages.size(); ++j ) {
+        //bool update_wopt = (ingame && (int)j == iWorldOptPage );
+        for( auto &elem : mPageItems[j] ) {
+            if( OPTIONS[elem].getDefaultText() != "" ) {
+                json.start_object();
 
-            json.end_object();
+                json.member( "info", OPTIONS[elem].getTooltip() );
+                json.member( "default", OPTIONS[elem].getDefaultText( false ) );
+                json.member( "name", elem );
+                json.member( "value", OPTIONS[elem].getValue() );
+
+                json.end_object();
+
+                /*if ( update_wopt ) {
+                    world_generator->active_world->world_options[elem] = ACTIVE_WORLD_OPTIONS[elem];
+                }*/
+            }
         }
+
+        /*if( update_wopt ) {
+            calendar::set_season_length( ACTIVE_WORLD_OPTIONS["SEASON_LENGTH"] );
+        }*/
     }
 
-    json.end_array();*/
+    json.end_array();
 }
 
 void options_manager::deserialize(JsonIn &jsin)
 {
-    /*jsin.start_array();
+    jsin.start_array();
     while (!jsin.end_array()) {
-        JsonObject joColors = jsin.get_object();
+        JsonObject joOptions = jsin.get_object();
 
-        const std::string name = joColors.get_string("name");
-        const std::string name_custom = joColors.get_string("custom");
-        const std::string name_invert_custom = joColors.get_string("invertcustom");
+        const std::string name = joOptions.get_string("name");
+        const std::string value = joOptions.get_string("value");
 
-        color_id id = name_to_id( name );
-        auto &entry = get_all_colors().color_array[id];
-
-        if ( !name_custom.empty() ) {
-            entry.name_custom = name_custom;
-        }
-
-        if ( !name_invert_custom.empty() ) {
-            entry.name_invert_custom = name_invert_custom;
-        }
-    }*/
+        optionsdata.add_retry(name, value);
+        OPTIONS[ name ].setValue( value );
+    }
 }
 
 bool options_manager::save_options(bool ingame)
@@ -1554,7 +1558,7 @@ bool options_manager::save_options(bool ingame)
         return true;
 
     } catch(std::ios::failure &) {
-        popup(_("Failed to save custom colors to %s"), savefile.c_str());
+        popup(_("Failed to save options to %s"), savefile.c_str());
         return false;
     }
 
@@ -1563,108 +1567,43 @@ bool options_manager::save_options(bool ingame)
 
 void options_manager::load_options()
 {
-    load_options_legacy();
-    return;
-
     const auto file = FILENAMES["options"];
 
     std::ifstream fin;
     fin.open(file.c_str(), std::ifstream::in | std::ifstream::binary);
     if( !fin.good() ) {
-        fin.close();
-        return;
-    }
+        if (load_options_legacy()) {
+            save_options();
+        }
 
-    try {
-        JsonIn jsin(fin);
-        deserialize(jsin);
-    } catch( const JsonError &e ) {
-        DebugLog(D_ERROR, DC_ALL) << "load_custom: " << e;
+    } else {
+        try {
+            JsonIn jsin(fin);
+            deserialize(jsin);
+        } catch( const JsonError &e ) {
+            DebugLog(D_ERROR, DC_ALL) << "load_options: " << e;
+        }
     }
 
     fin.close();
-}
 
-/*void save_options(bool ingame)
-{
-    std::ofstream fout;
-    const auto path = FILENAMES["options"];
-    fout.open(path.c_str());
-    if(!fout.is_open()) {
-        popup( _( "Could not open the options file %s, check file permissions." ), path.c_str() );
-        return;
-    }
-
-    fout << options_header() << std::endl;
-
-    for( size_t j = 0; j < vPages.size(); ++j ) {
-        bool update_wopt = (ingame && (int)j == iWorldOptPage );
-        for( auto &elem : mPageItems[j] ) {
-            if( OPTIONS[elem].getDefaultText() != "" ) {
-                fout << "#" << OPTIONS[elem].getTooltip() << std::endl;
-                fout << "#" << OPTIONS[elem].getDefaultText( false ) << std::endl;
-                fout << elem << " " << OPTIONS[elem].getValue() << std::endl << std::endl;
-                if ( update_wopt ) {
-                    world_generator->active_world->world_options[elem] = ACTIVE_WORLD_OPTIONS[elem];
-                }
-            }
-        }
-        if( update_wopt ) {
-            calendar::set_season_length( ACTIVE_WORLD_OPTIONS["SEASON_LENGTH"] );
-        }
-    }
-
-    fout.close();
-    if( fout.fail() ) {
-        popup( _( "Failed to save the options to %s." ), path.c_str() );
-    }
-    if ( ingame ) {
-        world_generator->save_world( world_generator->active_world, false );
-    }
-    trigdist = OPTIONS["CIRCLEDIST"]; // update trigdist as well
-    use_tiles = OPTIONS["USE_TILES"]; // and use_tiles
+    trigdist = OPTIONS["CIRCLEDIST"]; // cache to global due to heavy usage.
+    use_tiles = OPTIONS["USE_TILES"]; // cache to global due to heavy usage.
     log_from_top = OPTIONS["SIDEBAR_LOG_FLOW"] == "new_top"; // cache to global due to heavy usage.
     fov_3d = false; // OPTIONS["FOV_3D"];
+}
 
-}*/
-
-/*
-std::string options_header()
-{
-    return "\
-# This is the options file.  The format is\n\
-# <option name> <option value>\n\
-# <option value> may be any number, positive or negative.  If you use a\n\
-# negative sign, do not put a space between it and the number.\n\
-#\n\
-# If # is at the start of a line, it is considered a comment and is ignored.\n\
-# In-line commenting is not allowed.  I think.\n\
-#\n\
-# If you want to restore the default options, simply delete this file.\n\
-# A new options.txt will be created next time you play.\n\
-\n\
-";
-}*/
-
-void options_manager::load_options_legacy()
+bool options_manager::load_options_legacy()
 {
     std::ifstream fin;
-    bool legacy_options_loaded = false;
-    fin.open(FILENAMES["options"].c_str());
+    // Try at the legacy location.
+    fin.open(FILENAMES["legacy_options"].c_str());
     if(!fin.is_open()) {
-        // Try at the legacy location.
-        fin.open(FILENAMES["legacy_options"].c_str());
+        // Try at the legacy location 2.
+        fin.open(FILENAMES["legacy_options2"].c_str());
         if(!fin.is_open()) {
-            // Create it since it doesn't seem to exist.
-            assure_dir_exist(FILENAMES["config_dir"]);
-            save_options();
-            fin.open(FILENAMES["options"].c_str());
-            if(!fin.is_open()) {
-                DebugLog( D_ERROR, DC_ALL ) << "Could neither read nor create" << FILENAMES["options"];
-                return;
-            }
-        } else {
-            legacy_options_loaded = true;
+            //No legacy txt options found, load json options
+            return false;
         }
     }
 
@@ -1684,16 +1623,8 @@ void options_manager::load_options_legacy()
     }
 
     fin.close();
-    if( legacy_options_loaded ) {
-        // Write out options file at new location.
-        assure_dir_exist(FILENAMES["config_dir"]);
-        save_options();
-    }
 
-    trigdist = OPTIONS["CIRCLEDIST"]; // cache to global due to heavy usage.
-    use_tiles = OPTIONS["USE_TILES"]; // cache to global due to heavy usage.
-    log_from_top = OPTIONS["SIDEBAR_LOG_FLOW"] == "new_top"; // cache to global due to heavy usage.
-    fov_3d = false; // OPTIONS["FOV_3D"];
+    return true;
 }
 
 bool use_narrow_sidebar()
