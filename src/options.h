@@ -25,6 +25,7 @@ extern options_data optionsdata;
 class options_manager : public JsonSerializer, public JsonDeserializer {
     private:
         static std::string build_tilesets_list();
+        bool bIngame;
 
         enum copt_hide_t {
             /** Don't hide this option */

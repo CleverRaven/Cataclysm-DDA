@@ -1500,7 +1500,7 @@ void options_manager::serialize(JsonOut &json) const
     json.start_array();
 
     for( size_t j = 0; j < vPages.size(); ++j ) {
-        //bool update_wopt = (ingame && (int)j == iWorldOptPage );
+        bool update_wopt = (bIngame && (int)j == iWorldOptPage );
         for( auto &elem : mPageItems[j] ) {
             if( OPTIONS[elem].getDefaultText() != "" ) {
                 json.start_object();
@@ -1512,15 +1512,15 @@ void options_manager::serialize(JsonOut &json) const
 
                 json.end_object();
 
-                /*if ( update_wopt ) {
+                if ( update_wopt ) {
                     world_generator->active_world->world_options[elem] = ACTIVE_WORLD_OPTIONS[elem];
-                }*/
+                }
             }
         }
 
-        /*if( update_wopt ) {
+        if( update_wopt ) {
             calendar::set_season_length( ACTIVE_WORLD_OPTIONS["SEASON_LENGTH"] );
-        }*/
+        }
     }
 
     json.end_array();
@@ -1542,6 +1542,7 @@ void options_manager::deserialize(JsonIn &jsin)
 
 bool options_manager::save_options(bool ingame)
 {
+    bIngame = ingame;
     const auto savefile = FILENAMES["options"];
 
     try {
