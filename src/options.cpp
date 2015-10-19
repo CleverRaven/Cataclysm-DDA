@@ -32,14 +32,20 @@ extern cata_tiles *tilecontext;
 #endif // TILES
 
 std::map<std::string, std::string> TILESETS; // All found tilesets: <name, tileset_dir>
-std::unordered_map<std::string, cOpt> OPTIONS;
-std::unordered_map<std::string, cOpt> ACTIVE_WORLD_OPTIONS;
+std::unordered_map<std::string, options_manager::cOpt> OPTIONS;
+std::unordered_map<std::string, options_manager::cOpt> ACTIVE_WORLD_OPTIONS;
 options_data optionsdata; // store extraneous options data that doesn't need to be in OPTIONS,
 std::vector<std::pair<std::string, std::string> > vPages;
 std::map<int, std::vector<std::string> > mPageItems;
 std::map<std::string, int> mOptionsSort;
 std::map<std::string, std::string> optionNames;
 int iWorldOptPage;
+
+options_manager &get_options()
+{
+    static options_manager single_instance;
+    return single_instance;
+}
 
 options_data::options_data()
 {
@@ -98,7 +104,7 @@ void options_data::add_value( const std::string &lvar, const std::string &lval,
 }
 
 //Default constructor
-cOpt::cOpt()
+options_manager::cOpt::cOpt()
 {
     sType = "VOID";
     sPage = "";
@@ -106,7 +112,7 @@ cOpt::cOpt()
 }
 
 //string constructor
-cOpt::cOpt(const std::string sPageIn, const std::string sMenuTextIn, const std::string sTooltipIn,
+options_manager::cOpt::cOpt(const std::string sPageIn, const std::string sMenuTextIn, const std::string sTooltipIn,
            const std::string sItemsIn, std::string sDefaultIn, copt_hide_t opt_hide = COPT_NO_HIDE)
 {
     sPage = sPageIn;
@@ -133,7 +139,7 @@ cOpt::cOpt(const std::string sPageIn, const std::string sMenuTextIn, const std::
 }
 
 //bool constructor
-cOpt::cOpt(const std::string sPageIn, const std::string sMenuTextIn, const std::string sTooltipIn,
+options_manager::cOpt::cOpt(const std::string sPageIn, const std::string sMenuTextIn, const std::string sTooltipIn,
            const bool bDefaultIn, copt_hide_t opt_hide = COPT_NO_HIDE)
 {
     sPage = sPageIn;
@@ -150,7 +156,7 @@ cOpt::cOpt(const std::string sPageIn, const std::string sMenuTextIn, const std::
 }
 
 //int constructor
-cOpt::cOpt(const std::string sPageIn, const std::string sMenuTextIn, const std::string sTooltipIn,
+options_manager::cOpt::cOpt(const std::string sPageIn, const std::string sMenuTextIn, const std::string sTooltipIn,
            const int iMinIn, int iMaxIn, int iDefaultIn, copt_hide_t opt_hide = COPT_NO_HIDE)
 {
     sPage = sPageIn;
@@ -178,7 +184,7 @@ cOpt::cOpt(const std::string sPageIn, const std::string sMenuTextIn, const std::
 }
 
 //float constructor
-cOpt::cOpt(const std::string sPageIn, const std::string sMenuTextIn, const std::string sTooltipIn,
+options_manager::cOpt::cOpt(const std::string sPageIn, const std::string sMenuTextIn, const std::string sTooltipIn,
            const float fMinIn, float fMaxIn, float fDefaultIn, float fStepIn,
            copt_hide_t opt_hide = COPT_NO_HIDE)
 {
@@ -208,7 +214,7 @@ cOpt::cOpt(const std::string sPageIn, const std::string sMenuTextIn, const std::
 }
 
 //helper functions
-bool cOpt::is_hidden()
+bool options_manager::cOpt::is_hidden()
 {
     switch(hide) {
     case COPT_NO_HIDE:
@@ -241,7 +247,7 @@ bool cOpt::is_hidden()
     }
 }
 
-void cOpt::setSortPos(const std::string sPageIn)
+void options_manager::cOpt::setSortPos(const std::string sPageIn)
 {
     if (!is_hidden()) {
         mOptionsSort[sPageIn]++;
@@ -252,32 +258,32 @@ void cOpt::setSortPos(const std::string sPageIn)
     }
 }
 
-int cOpt::getSortPos()
+int options_manager::cOpt::getSortPos()
 {
     return iSortPos;
 }
 
-std::string cOpt::getPage()
+std::string options_manager::cOpt::getPage()
 {
     return sPage;
 }
 
-std::string cOpt::getMenuText()
+std::string options_manager::cOpt::getMenuText()
 {
     return sMenuText;
 }
 
-std::string cOpt::getTooltip()
+std::string options_manager::cOpt::getTooltip()
 {
     return sTooltip;
 }
 
-std::string cOpt::getType()
+std::string options_manager::cOpt::getType()
 {
     return sType;
 }
 
-std::string cOpt::getValue()
+std::string options_manager::cOpt::getValue()
 {
     if (sType == "string") {
         return sSet;
@@ -302,7 +308,7 @@ std::string cOpt::getValue()
     return "";
 }
 
-std::string cOpt::getValueName()
+std::string options_manager::cOpt::getValueName()
 {
     if (sType == "string") {
         return optionNames[sSet];
@@ -314,7 +320,7 @@ std::string cOpt::getValueName()
     return getValue();
 }
 
-std::string cOpt::getDefaultText(const bool bTranslated)
+std::string options_manager::cOpt::getDefaultText(const bool bTranslated)
 {
     if (sType == "string") {
         std::string sItems = "";
@@ -340,7 +346,7 @@ std::string cOpt::getDefaultText(const bool bTranslated)
     return "";
 }
 
-int cOpt::getItemPos(const std::string sSearch)
+int options_manager::cOpt::getItemPos(const std::string sSearch)
 {
     if (sType == "string") {
         for (size_t i = 0; i < vItems.size(); i++) {
@@ -354,7 +360,7 @@ int cOpt::getItemPos(const std::string sSearch)
 }
 
 //set to next item
-void cOpt::setNext()
+void options_manager::cOpt::setNext()
 {
     if (sType == "string") {
         int iNext = getItemPos(sSet) + 1;
@@ -382,7 +388,7 @@ void cOpt::setNext()
 }
 
 //set to prev item
-void cOpt::setPrev()
+void options_manager::cOpt::setPrev()
 {
     if (sType == "string") {
         int iPrev = getItemPos(sSet) - 1;
@@ -410,7 +416,7 @@ void cOpt::setPrev()
 }
 
 //set value
-void cOpt::setValue(float fSetIn)
+void options_manager::cOpt::setValue(float fSetIn)
 {
     if (sType != "float") {
         debugmsg("tried to set a float value to a %s option", sType.c_str());
@@ -423,7 +429,7 @@ void cOpt::setValue(float fSetIn)
 }
 
 //set value
-void cOpt::setValue(std::string sSetIn)
+void options_manager::cOpt::setValue(std::string sSetIn)
 {
     if (sType == "string") {
         if (getItemPos(sSetIn) != -1) {
@@ -454,7 +460,7 @@ void cOpt::setValue(std::string sSetIn)
 }
 
 //Set default class behaviour to float
-cOpt::operator float() const
+options_manager::cOpt::operator float() const
 {
     if (sType == "string") {
         return (!sSet.empty() && sSet == sDefault) ? 1.0f : 0.0f;
@@ -469,7 +475,7 @@ cOpt::operator float() const
     return 0.0f;
 }
 
-cOpt::operator int() const
+options_manager::cOpt::operator int() const
 {
     if (sType == "string") {
         return (!sSet.empty() && sSet == sDefault) ? 1 : 0;
@@ -484,19 +490,19 @@ cOpt::operator int() const
     return 0;
 }
 
-cOpt::operator bool() const
+options_manager::cOpt::operator bool() const
 {
     return static_cast<float>(*this) != 0.0f;
 }
 
 // if (class == "string")
-bool cOpt::operator==(const std::string sCompare) const
+bool options_manager::cOpt::operator==(const std::string sCompare) const
 {
     return (sType == "string" && sSet == sCompare);
 }
 
 // if (class != "string")
-bool cOpt::operator!=(const std::string sCompare) const
+bool options_manager::cOpt::operator!=(const std::string sCompare) const
 {
     return !(*this == sCompare);
 }
@@ -507,7 +513,7 @@ bool cOpt::operator!=(const std::string sCompare) const
  * Furthermore, it builds possible values list for cOpt class.
  * @return One string containing all found tilesets in form "tileset1,tileset2,tileset3,..."
  */
-static std::string build_tilesets_list()
+std::string options_manager::build_tilesets_list()
 {
     const std::string defaultTilesets = "hoder,deon";
     std::string tileset_names;
@@ -571,7 +577,7 @@ static std::string build_tilesets_list()
     return tileset_names;
 }
 
-void init_options()
+void options_manager::init_options()
 {
     OPTIONS.clear();
     ACTIVE_WORLD_OPTIONS.clear();
@@ -1164,7 +1170,7 @@ void init_options()
     }
 }
 
-void show_options(bool ingame)
+void options_manager::show_options(bool ingame)
 {
     auto OPTIONS_OLD = OPTIONS;
     auto WOPTIONS_OLD = ACTIVE_WORLD_OPTIONS;
@@ -1489,7 +1495,158 @@ void show_options(bool ingame)
     delwin(w_options_tooltip);
 }
 
-void load_options()
+void options_manager::serialize(JsonOut &json) const
+{
+    /*json.start_array();
+    for( auto &entry : get_all_colors().color_array ) {
+        if ( !entry.name_custom.empty() || !entry.name_invert_custom.empty()) {
+            json.start_object();
+
+            json.member( "name", id_to_name( entry.col_id ) );
+            json.member( "custom", entry.name_custom );
+            json.member( "invertcustom", entry.name_invert_custom );
+
+            json.end_object();
+        }
+    }
+
+    json.end_array();*/
+}
+
+void options_manager::deserialize(JsonIn &jsin)
+{
+    /*jsin.start_array();
+    while (!jsin.end_array()) {
+        JsonObject joColors = jsin.get_object();
+
+        const std::string name = joColors.get_string("name");
+        const std::string name_custom = joColors.get_string("custom");
+        const std::string name_invert_custom = joColors.get_string("invertcustom");
+
+        color_id id = name_to_id( name );
+        auto &entry = get_all_colors().color_array[id];
+
+        if ( !name_custom.empty() ) {
+            entry.name_custom = name_custom;
+        }
+
+        if ( !name_invert_custom.empty() ) {
+            entry.name_invert_custom = name_invert_custom;
+        }
+    }*/
+}
+
+bool options_manager::save_options(bool ingame)
+{
+    const auto savefile = FILENAMES["options"];
+
+    try {
+        std::ofstream fout;
+        fout.exceptions(std::ios::badbit | std::ios::failbit);
+
+        fopen_exclusive(fout, savefile.c_str());
+        if(!fout.is_open()) {
+            return true; //trick game into thinking it was saved
+        }
+
+        fout << serialize();
+        fclose_exclusive(fout, savefile.c_str());
+        return true;
+
+    } catch(std::ios::failure &) {
+        popup(_("Failed to save custom colors to %s"), savefile.c_str());
+        return false;
+    }
+
+    return false;
+}
+
+void options_manager::load_options()
+{
+    load_options_legacy();
+    return;
+
+    const auto file = FILENAMES["options"];
+
+    std::ifstream fin;
+    fin.open(file.c_str(), std::ifstream::in | std::ifstream::binary);
+    if( !fin.good() ) {
+        fin.close();
+        return;
+    }
+
+    try {
+        JsonIn jsin(fin);
+        deserialize(jsin);
+    } catch( const JsonError &e ) {
+        DebugLog(D_ERROR, DC_ALL) << "load_custom: " << e;
+    }
+
+    fin.close();
+}
+
+/*void save_options(bool ingame)
+{
+    std::ofstream fout;
+    const auto path = FILENAMES["options"];
+    fout.open(path.c_str());
+    if(!fout.is_open()) {
+        popup( _( "Could not open the options file %s, check file permissions." ), path.c_str() );
+        return;
+    }
+
+    fout << options_header() << std::endl;
+
+    for( size_t j = 0; j < vPages.size(); ++j ) {
+        bool update_wopt = (ingame && (int)j == iWorldOptPage );
+        for( auto &elem : mPageItems[j] ) {
+            if( OPTIONS[elem].getDefaultText() != "" ) {
+                fout << "#" << OPTIONS[elem].getTooltip() << std::endl;
+                fout << "#" << OPTIONS[elem].getDefaultText( false ) << std::endl;
+                fout << elem << " " << OPTIONS[elem].getValue() << std::endl << std::endl;
+                if ( update_wopt ) {
+                    world_generator->active_world->world_options[elem] = ACTIVE_WORLD_OPTIONS[elem];
+                }
+            }
+        }
+        if( update_wopt ) {
+            calendar::set_season_length( ACTIVE_WORLD_OPTIONS["SEASON_LENGTH"] );
+        }
+    }
+
+    fout.close();
+    if( fout.fail() ) {
+        popup( _( "Failed to save the options to %s." ), path.c_str() );
+    }
+    if ( ingame ) {
+        world_generator->save_world( world_generator->active_world, false );
+    }
+    trigdist = OPTIONS["CIRCLEDIST"]; // update trigdist as well
+    use_tiles = OPTIONS["USE_TILES"]; // and use_tiles
+    log_from_top = OPTIONS["SIDEBAR_LOG_FLOW"] == "new_top"; // cache to global due to heavy usage.
+    fov_3d = false; // OPTIONS["FOV_3D"];
+
+}*/
+
+/*
+std::string options_header()
+{
+    return "\
+# This is the options file.  The format is\n\
+# <option name> <option value>\n\
+# <option value> may be any number, positive or negative.  If you use a\n\
+# negative sign, do not put a space between it and the number.\n\
+#\n\
+# If # is at the start of a line, it is considered a comment and is ignored.\n\
+# In-line commenting is not allowed.  I think.\n\
+#\n\
+# If you want to restore the default options, simply delete this file.\n\
+# A new options.txt will be created next time you play.\n\
+\n\
+";
+}*/
+
+void options_manager::load_options_legacy()
 {
     std::ifstream fin;
     bool legacy_options_loaded = false;
@@ -1535,65 +1692,6 @@ void load_options()
 
     trigdist = OPTIONS["CIRCLEDIST"]; // cache to global due to heavy usage.
     use_tiles = OPTIONS["USE_TILES"]; // cache to global due to heavy usage.
-    log_from_top = OPTIONS["SIDEBAR_LOG_FLOW"] == "new_top"; // cache to global due to heavy usage.
-    fov_3d = false; // OPTIONS["FOV_3D"];
-}
-
-std::string options_header()
-{
-    return "\
-# This is the options file.  The format is\n\
-# <option name> <option value>\n\
-# <option value> may be any number, positive or negative.  If you use a\n\
-# negative sign, do not put a space between it and the number.\n\
-#\n\
-# If # is at the start of a line, it is considered a comment and is ignored.\n\
-# In-line commenting is not allowed.  I think.\n\
-#\n\
-# If you want to restore the default options, simply delete this file.\n\
-# A new options.txt will be created next time you play.\n\
-\n\
-";
-}
-
-void save_options(bool ingame)
-{
-    std::ofstream fout;
-    const auto path = FILENAMES["options"];
-    fout.open(path.c_str());
-    if(!fout.is_open()) {
-        popup( _( "Could not open the options file %s, check file permissions." ), path.c_str() );
-        return;
-    }
-
-    fout << options_header() << std::endl;
-
-    for( size_t j = 0; j < vPages.size(); ++j ) {
-        bool update_wopt = (ingame && (int)j == iWorldOptPage );
-        for( auto &elem : mPageItems[j] ) {
-            if( OPTIONS[elem].getDefaultText() != "" ) {
-                fout << "#" << OPTIONS[elem].getTooltip() << std::endl;
-                fout << "#" << OPTIONS[elem].getDefaultText( false ) << std::endl;
-                fout << elem << " " << OPTIONS[elem].getValue() << std::endl << std::endl;
-                if ( update_wopt ) {
-                    world_generator->active_world->world_options[elem] = ACTIVE_WORLD_OPTIONS[elem];
-                }
-            }
-        }
-        if( update_wopt ) {
-            calendar::set_season_length( ACTIVE_WORLD_OPTIONS["SEASON_LENGTH"] );
-        }
-    }
-
-    fout.close();
-    if( fout.fail() ) {
-        popup( _( "Failed to save the options to %s." ), path.c_str() );
-    }
-    if ( ingame ) {
-        world_generator->save_world( world_generator->active_world, false );
-    }
-    trigdist = OPTIONS["CIRCLEDIST"]; // update trigdist as well
-    use_tiles = OPTIONS["USE_TILES"]; // and use_tiles
     log_from_top = OPTIONS["SIDEBAR_LOG_FLOW"] == "new_top"; // cache to global due to heavy usage.
     fov_3d = false; // OPTIONS["FOV_3D"];
 }

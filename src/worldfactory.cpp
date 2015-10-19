@@ -1313,9 +1313,9 @@ bool worldfactory::valid_worldname(std::string name, bool automated)
     return false;
 }
 
-std::unordered_map<std::string, cOpt> worldfactory::get_default_world_options()
+std::unordered_map<std::string, options_manager::cOpt> worldfactory::get_default_world_options()
 {
-    std::unordered_map<std::string, cOpt> retoptions;
+    std::unordered_map<std::string, options_manager::cOpt> retoptions;
     for( auto &elem : OPTIONS ) {
         if( elem.second.getPage() == "world_default" ) {
             retoptions[elem.first] = elem.second;
@@ -1324,7 +1324,7 @@ std::unordered_map<std::string, cOpt> worldfactory::get_default_world_options()
     return retoptions;
 }
 
-std::unordered_map<std::string, cOpt> worldfactory::get_world_options(std::string path)
+std::unordered_map<std::string, options_manager::cOpt> worldfactory::get_world_options(std::string path)
 {
     auto retoptions = get_default_world_options();
     std::ifstream fin;
@@ -1333,7 +1333,7 @@ std::unordered_map<std::string, cOpt> worldfactory::get_world_options(std::strin
 
     if (!fin.is_open()) {
         fin.close();
-        save_options();
+        get_options().save_options();
 
         fin.open(path.c_str());
         if (!fin.is_open()) {

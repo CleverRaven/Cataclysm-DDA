@@ -14,7 +14,7 @@
 struct WORLD {
     std::string world_path;
     std::string world_name;
-    std::unordered_map<std::string, cOpt> world_options;
+    std::unordered_map<std::string, options_manager::cOpt> world_options;
     std::vector<std::string> world_saves;
     /**
      * A (possibly empty) list of (idents of) mods that
@@ -76,8 +76,8 @@ class worldfactory
         void draw_worldgen_tabs(WINDOW *win, unsigned int current);
         void draw_mod_list(WINDOW *w, int &start, int &cursor, const std::vector<std::string> &mods, bool is_active_list, const std::string &text_if_empty);
 
-        std::unordered_map<std::string, cOpt> get_default_world_options();
-        std::unordered_map<std::string, cOpt> get_world_options(std::string path);
+        std::unordered_map<std::string, options_manager::cOpt> get_default_world_options();
+        std::unordered_map<std::string, options_manager::cOpt> get_world_options(std::string path);
         std::unique_ptr<mod_manager> mman;
         std::unique_ptr<mod_ui> mman_ui;
 

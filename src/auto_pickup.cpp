@@ -317,7 +317,7 @@ void show_auto_pickup()
             test_pattern(iCurrentPage, iCurrentLine);
         } else if (action == "SWITCH_AUTO_PICKUP_OPTION") {
             OPTIONS["AUTO_PICKUP"].setNext();
-            save_options((g->u.name != ""));
+            get_options().save_options((g->u.name != ""));
         }
     }
 
@@ -556,7 +556,7 @@ void addPickupRule(std::string sRule)
     if (!OPTIONS["AUTO_PICKUP"] &&
         query_yn(_("Autopickup is not enabled in the options. Enable it now?")) ) {
         OPTIONS["AUTO_PICKUP"].setNext();
-        save_options(true);
+        get_options().save_options(true);
     }
 }
 
