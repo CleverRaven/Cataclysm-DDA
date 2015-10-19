@@ -20,12 +20,12 @@
 static std::unordered_set<std::string> obsolete_mod_list;
 const std::vector<std::pair<std::string, std::string> > &get_mod_list_categories() {
     static const std::vector<std::pair<std::string, std::string> > mod_list_categories = {
-        {"weapons", _("WEAPON MODS")},
+        {"items", _("ITEM ADDIDION MODS")},
         {"creatures", _("CREATURE MODS")},
-        {"buildings", _("BUILDING MODS")},
+        {"buildings", _("BUILDINGS MODS")},
         {"vehicles", _("VEHICLE MODS")},
+        {"rebalance", _("REBALANCING MODS")},
         {"magical", _("MAGICAL MODS")},
-        {"character", _("CHARACTER MODS")},
         {"exclude", _("EXCLUSION MODS")},
         {"", _("NO CATEGORY")}
     };
