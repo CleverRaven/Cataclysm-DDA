@@ -3366,7 +3366,7 @@ int iuse::solder_weld( player *p, item *it, bool, const tripoint& )
             }
             fix.damage = 0;
         }
-    } else if (fix.damage == 0 || fix.has_flag("GUN_SIMPLE") {
+    } else if (fix.damage == 0 || fix.has_flag("GUN_SIMPLE")) {
         p->add_msg_if_player(m_info, _("You cannot accurize your %s without gunsmithing tools."), fix.tname().c_str());
         return 0;
     } else if (fix.damage == 0 || (fix.has_flag("VARSIZE") && !fix.has_flag("FIT"))) {
