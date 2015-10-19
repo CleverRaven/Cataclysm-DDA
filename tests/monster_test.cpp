@@ -198,9 +198,11 @@ void check_shamble_speed( const std::string monster_type, const tripoint &destin
 
 void test_moves_to_squares( std::string monster_type, bool write_data = false ) {
     std::map<int, statistics> turns_at_distance;
-    std::map<float, statistics> turns_at_angle;
-    for( int x = 0; x <= 100; x += 1 ) {
-        for( int y = 0; y <= 100; y += 1 ) {
+    std::map<int, statistics> turns_at_angle;
+    // We want to check every square when generating a map, but for testing we can skip a lot for speed.
+    const int test_resolution = write_data ? 1 : 4;
+    for( int x = 0; x <= 100; x += test_resolution ) {
+        for( int y = 0; y <= 100; y += test_resolution ) {
             const int distance = square_dist({50,50,0}, {x,y,0});
             // Scale the scaling factor based on the ratio of diagonal to cardinal steps.
             const float slope = get_normalized_angle( {50, 50}, {x, y} );
@@ -210,10 +212,10 @@ void test_moves_to_squares( std::string monster_type, bool write_data = false ) 
                 continue;
             }
             turns_at_angle[slope].new_type();
-            for( int i = 0; i < 5; ++i ) {
+            for( int i = 0; i < 500; ++i ) {
                 int moves = moves_to_destination( monster_type, {50, 50, 0}, {x, y, 0} );
                 turns_at_distance[distance].add( moves / (diagonal_multiplier * distance) );
-                turns_at_angle[slope].add( moves / (diagonal_multiplier * distance) );
+                turns_at_angle[slope * 100].add( moves / (diagonal_multiplier * distance) );
             }
         }
     }
@@ -230,10 +232,10 @@ void test_moves_to_squares( std::string monster_type, bool write_data = false ) 
     if( write_data ) {
         std::stringstream slope_map;
         for( const auto &stat_pair : turns_at_angle ) {
-            slope_map << (int)(stat_pair.first * 100) << " " << stat_pair.second.avg() << "\n" ;
+            slope_map << stat_pair.first << " " << stat_pair.second.avg() << "\n" ;
         }
         std::ofstream data;
-        data.open("slope_test_data_" + monster_type);
+        data.open("slope_test_data_" + std::string((trigdist ? "trig_" : "square_")) + monster_type);
         data << slope_map.str();
         data.close();
     }
@@ -280,7 +282,7 @@ void monster_check() {
 }
 
 // Write out a map of slope at which monster is moving to time required to reach their destination.
-TEST_CASE("write_slope_to_speed_map", "[.]") {
+TEST_CASE("write_slope_to_speed_map_trig", "[.]") {
     wipe_map_terrain();
     // Remove any interfering monsters.
     while( g->num_zombies() ) {
@@ -288,6 +290,18 @@ TEST_CASE("write_slope_to_speed_map", "[.]") {
     }
     OPTIONS["CIRCLEDIST"].setValue("true");
     trigdist = true;
+    test_moves_to_squares("mon_zombie_dog", true);
+    test_moves_to_squares("mon_pig", true);
+}
+
+TEST_CASE("write_slope_to_speed_map_square", "[.]") {
+    wipe_map_terrain();
+    // Remove any interfering monsters.
+    while( g->num_zombies() ) {
+        g->remove_zombie( 0 );
+    }
+    OPTIONS["CIRCLEDIST"].setValue("false");
+    trigdist = false;
     test_moves_to_squares("mon_zombie_dog", true);
     test_moves_to_squares("mon_pig", true);
 }
