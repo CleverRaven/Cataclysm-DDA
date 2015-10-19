@@ -3234,7 +3234,7 @@ int iuse::solder_weld( player *p, item *it, bool, const tripoint& )
     }};
 
     int pos = g->inv_for_filter( _("Repair what?"), [it]( const item &itm ) {
-        return itm.made_of_any( materials ) && !itm.is_ammo() && !itm.is_gun() && &itm != it;
+        return itm.made_of_any( materials ) && !itm.is_ammo() && (!itm.is_gun() && !itm.has_flag( "GUN_SIMPLE" )) && &itm != it;
     } );
 
     item &fix = p->i_at( pos );
@@ -3242,7 +3242,7 @@ int iuse::solder_weld( player *p, item *it, bool, const tripoint& )
         p->add_msg_if_player(m_info, _("You do not have that item!"));
         return 0;
     }
-    if( fix.is_gun() ) {
+    if( fix.is_gun() !fix.has_flag( "GUN_SIMPLE" ) ) {
         p->add_msg_if_player(m_info, _("That requires gunsmithing tools."));
         return 0;
     }
@@ -3366,6 +3366,9 @@ int iuse::solder_weld( player *p, item *it, bool, const tripoint& )
             }
             fix.damage = 0;
         }
+    } else if (fix.damage == 0 && fix.has_flag("GUN_SIMPLE") {
+        p->add_msg_if_player(m_info, _("You cannot accurize your %s without gunsmithing tools."), fix.tname().c_str());
+        return 0;
     } else if (fix.damage == 0 || (fix.has_flag("VARSIZE") && !fix.has_flag("FIT"))) {
         p->moves -= 500 * p->fine_detail_vision_mod();
         p->practice( skill_mechanics, 10);
@@ -7274,7 +7277,7 @@ int iuse::misc_repair(player *p, item *it, bool, const tripoint& )
         return 0;
     }
     int inventory_index = g->inv_for_filter( _("Select the item to repair."), []( const item & itm ) {
-        return !itm.is_gun() && (itm.made_of("wood") || itm.made_of("paper") ||
+        return ( !itm.is_gun() && !itm.has_flag( "GUN_SIMPLE" ) ) && (itm.made_of("wood") || itm.made_of("paper") ||
                                  itm.made_of("bone") || itm.made_of("chitin") ) ;
     } );
     item *fix = &( p->i_at(inventory_index ) );
@@ -7282,7 +7285,7 @@ int iuse::misc_repair(player *p, item *it, bool, const tripoint& )
         p->add_msg_if_player(m_info, _("You do not have that item!"));
         return 0;
     }
-    if (fix->is_gun()) {
+    if ( fix->is_gun() && !itm.has_flag( "GUN_SIMPLE" )) {
         p->add_msg_if_player(m_info, _("That requires gunsmithing tools."));
         return 0;
     }
@@ -7293,6 +7296,11 @@ int iuse::misc_repair(player *p, item *it, bool, const tripoint& )
     }
     if (fix->damage == -1) {
         p->add_msg_if_player(m_info, _("You cannot improve your %s any more this way."),
+                             fix->tname().c_str());
+        return 0;
+    }
+    if (fix->damage == 0 && itm.has_flag( "GUN_SIMPLE" )) {
+        p->add_msg_if_player(m_info, _("You cannot accurize your %s without gunsmithing tools."),
                              fix->tname().c_str());
         return 0;
     }
