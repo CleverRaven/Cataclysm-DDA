@@ -646,8 +646,8 @@ int worldfactory::show_worldgen_tab_options(WINDOW *win, WORLDPTR world)
     ctxt.register_cardinal();
     ctxt.register_action("HELP_KEYBINDINGS");
     ctxt.register_action("QUIT");
-    //ctxt.register_action("NEXT_TAB");
-    //ctxt.register_action("PREV_TAB");
+    ctxt.register_action("NEXT_TAB");
+    ctxt.register_action("PREV_TAB");
     int iStartPos = 0;
     int iCurrentLine = 0;
 
@@ -883,6 +883,8 @@ int worldfactory::show_worldgen_tab_modselection(WINDOW *win, WORLDPTR world)
     ctxt.register_action("RIGHT", _("Switch to other list"));
     ctxt.register_action("HELP_KEYBINDINGS");
     ctxt.register_action("QUIT");
+    ctxt.register_action("NEXT_CATEGORY_TAB");
+    ctxt.register_action("PREV_CATEGORY_TAB");
     ctxt.register_action("NEXT_TAB");
     ctxt.register_action("PREV_TAB");
     ctxt.register_action("CONFIRM", _("Activate / deactive mod"));
@@ -952,7 +954,7 @@ int worldfactory::show_worldgen_tab_modselection(WINDOW *win, WORLDPTR world)
             for (const auto &item : mman_ui->usable_mods) {
                 const auto &iter = get_mod_list_cat_tab().find(get_mod_list_categories()[mman->mod_map[item]->category.first].first);
 
-                std::string sCatTab = "default";
+                std::string sCatTab = "tab_default";
                 if ( iter != get_mod_list_cat_tab().end() ) {
                     sCatTab = iter->second;
                 }
@@ -1077,7 +1079,7 @@ int worldfactory::show_worldgen_tab_modselection(WINDOW *win, WORLDPTR world)
                 mman_ui->try_shift('-', cursel[1], active_mod_order);
                 redraw_active = true;
             }
-        } else if (action == "NEXT_TAB") {
+        } else if (action == "NEXT_CATEGORY_TAB") {
             if ( active_header == 0 ) {
                 if ( ++iCurrentTab >= (int)get_mod_list_tabs().size() ) {
                     iCurrentTab = 0;
@@ -1090,7 +1092,7 @@ int worldfactory::show_worldgen_tab_modselection(WINDOW *win, WORLDPTR world)
                 redraw_description = true;
             }
 
-        } else if (action == "PREV_TAB") {
+        } else if (action == "PREV_CATEGORY_TAB") {
             if ( active_header == 0 ) {
                 if ( --iCurrentTab < 0 ) {
                     iCurrentTab = get_mod_list_tabs().size()-1;
@@ -1102,10 +1104,10 @@ int worldfactory::show_worldgen_tab_modselection(WINDOW *win, WORLDPTR world)
                 recalc_tabs = true;
                 redraw_description = true;
             }
-        /*} else if (action == "NEXT_TAB") {
+        } else if (action == "NEXT_TAB") {
             tab_output = 1;
         } else if (action == "PREV_TAB") {
-            tab_output = -1;*/
+            tab_output = -1;
         } else if (action == "SAVE_DEFAULT_MODS") {
             if(mman->set_default_mods(active_mod_order)) {
                 popup(_("Saved list of active mods as default"));
@@ -1197,8 +1199,8 @@ int worldfactory::show_worldgen_tab_confirm(WINDOW *win, WORLDPTR world)
     ctxt.register_action("HELP_KEYBINDINGS");
     ctxt.register_action("QUIT");
     ctxt.register_action("ANY_INPUT");
-    //ctxt.register_action("NEXT_TAB");
-    //ctxt.register_action("PREV_TAB");
+    ctxt.register_action("NEXT_TAB");
+    ctxt.register_action("PREV_TAB");
     ctxt.register_action("PICK_RANDOM_WORLDNAME");
 
     std::string worldname = world->world_name;

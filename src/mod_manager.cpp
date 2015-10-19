@@ -35,9 +35,9 @@ const std::vector<std::pair<std::string, std::string> > &get_mod_list_categories
 
 const std::vector<std::pair<std::string, std::string> > &get_mod_list_tabs() {
     static const std::vector<std::pair<std::string, std::string> > mod_list_tabs = {
-        {"default", _("Default")},
-        {"blacklist", _("Blacklist")},
-        {"balance", _("Balance")}
+        {"tab_default", _("Default")},
+        {"tab_blacklist", _("Blacklist")},
+        {"tab_balance", _("Balance")}
     };
 
     return mod_list_tabs;
@@ -45,13 +45,12 @@ const std::vector<std::pair<std::string, std::string> > &get_mod_list_tabs() {
 
 const std::map<std::string, std::string> &get_mod_list_cat_tab() {
     static const std::map<std::string, std::string> mod_list_cat_tab = {
-        {"exclude", "blacklist"},
-        {"rebalance", "balance"}
+        {"exclude", "tab_blacklist"},
+        {"rebalance", "tab_balance"}
     };
 
     return mod_list_cat_tab;
 }
-
 
 static void load_obsolete_mods( const std::string path )
 {
