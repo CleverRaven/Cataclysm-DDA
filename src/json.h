@@ -63,6 +63,17 @@ template<typename E>
 E string_to_enum( const std::string &data );
 template<typename E>
 const std::string enum_to_string( E data );
+
+// Helper function to do the lookup in a container (map or unordered_map)
+template<typename C, typename E = typename C::mapped_type>
+inline E string_to_enum_look_up( const C &container, const std::string &data )
+{
+    const auto iter = container.find( data );
+    if( iter == container.end() ) {
+        throw InvalidEnumString{};
+    }
+    return iter->second;
+}
 /*@}*/
 }
 
