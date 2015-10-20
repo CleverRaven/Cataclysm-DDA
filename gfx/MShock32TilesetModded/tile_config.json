@@ -7899,7 +7899,61 @@
           "rotates": false
         },
         {
+          "id": "rifle_38",
+          "fg": 1329,
+          "bg": 505,
+          "rotates": false
+        },
+        {
+          "id": "rifle_45",
+          "fg": 1329,
+          "bg": 505,
+          "rotates": false
+        },
+        {
+          "id": "smg_22",
+          "fg": 1329,
+          "bg": 505,
+          "rotates": false
+        },
+        {
+          "id": "smg_38",
+          "fg": 1329,
+          "bg": 505,
+          "rotates": false
+        },
+        {
+          "id": "smg_45",
+          "fg": 1329,
+          "bg": 505,
+          "rotates": false
+        },
+        {
           "id": "rifle_9mm",
+          "fg": 1330,
+          "bg": 505,
+          "rotates": false
+        },
+        {
+          "id": "rifle_44",
+          "fg": 1330,
+          "bg": 505,
+          "rotates": false
+        },
+        {
+          "id": "rifle_40",
+          "fg": 1330,
+          "bg": 505,
+          "rotates": false
+        },
+        {
+          "id": "smg_9mm",
+          "fg": 1330,
+          "bg": 505,
+          "rotates": false
+        },
+        {
+          "id": "smg_40",
           "fg": 1330,
           "bg": 505,
           "rotates": false
@@ -20757,6 +20811,7 @@
         {
           "id": "mon_zombie_grappler",
           "fg": 2628,
+          "bg": 515,
           "rotates": false
         },
         {
@@ -22247,6 +22302,7 @@
         {
           "id": "mon_spirit_of_fire",
           "fg": 2851,
+          "bg": 515,
           "rotates": false
         },
         {
@@ -22505,6 +22561,7 @@
         {
           "id": "mon_albino_penguin",
           "fg": 2897,
+          "bg": 515,
           "rotates": false
         },
         {
@@ -22545,6 +22602,7 @@
         {
           "id": "mon_moruboru",
           "fg": 2908,
+          "bg": 515,
           "rotates": false
         },
         {
@@ -22625,6 +22683,47 @@
         {
           "id": "firehelmet",
           "fg": 2922,
+          "rotates": false
+        },
+        {
+          "id": "fd_dazzling",
+          "fg": 2923,
+          "rotates": false
+        },
+        {
+          "id": "mon_compsognathus",
+          "fg": 2924,
+          "bg": 515,
+          "rotates": false
+        },
+        {
+          "id": "mon_gallimimus",
+          "fg": 2925,
+          "bg": 515,
+          "rotates": false
+        },
+        {
+          "id": "mon_titanis",
+          "fg": 2926,
+          "bg": 515,
+          "rotates": false
+        },
+        {
+          "id": "mon_spinosaurus",
+          "fg": 2927,
+          "bg": 515,
+          "rotates": false
+        },
+        {
+          "id": "mon_tyrannosaurus",
+          "fg": 2928,
+          "bg": 515,
+          "rotates": false
+        },
+        {
+          "id": "mon_triceratops",
+          "fg": 2929,
+          "bg": 515,
           "rotates": false
         }
       ]

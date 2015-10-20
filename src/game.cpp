@@ -5837,29 +5837,36 @@ int game::mon_info(WINDOW *w)
 
 void game::cleanup_dead()
 {
-    for( size_t i = 0; i < num_zombies(); ) {
+    // Important: `Creature::die` must not be called after creature objects (NPCs, monsters) have
+    // been removed, the dying creature could still have a pointer (the killer) to another creature.
+    for( size_t i = 0; i < num_zombies(); i++ ) {
         monster &critter = critter_tracker->find(i);
         if( critter.is_dead() ) {
             dbg(D_INFO) << string_format("cleanup_dead: critter[%d] %d,%d dead:%c hp:%d %s",
                                          i, critter.posx(), critter.posy(), (critter.is_dead() ? '1' : '0'),
                                          critter.get_hp(), critter.name().c_str());
             critter.die( nullptr );
+        }
+    }
+
+    for( auto &n : active_npc ) {
+        if( n->is_dead() ) {
+            n->die( nullptr ); // make sure this has been called to create corpses etc.
+        }
+    }
+
+    // From here on, pointers to creatures get invalidated as dead creatures get removed.
+    for( size_t i = 0; i < num_zombies(); ) {
+        if( critter_tracker->find( i ).is_dead() ) {
             remove_zombie( i );
         } else {
             i++;
         }
     }
-
-    //Cleanup any dead npcs.
-    //This will remove the npc object, it is assumed that they have been transformed into
-    //dead bodies before this.
     for( auto it = active_npc.begin(); it != active_npc.end(); ) {
-        npc *n = *it;
-        if( n->is_dead() ) {
-            n->die( nullptr ); // make sure this has been called to create corpses etc.
-            const int npc_id = n->getID();
+        if( (*it)->is_dead() ) {
+            overmap_buffer.remove_npc( (*it)->getID() );
             it = active_npc.erase( it );
-            overmap_buffer.remove_npc( npc_id );
         } else {
             it++;
         }
@@ -6010,12 +6017,12 @@ struct pair_greater_cmp
     }
 };
 
-void game::do_blast( const tripoint &p, const int power, const bool fire )
+void game::do_blast( const tripoint &p, const float power,
+                     const float distance_factor, const bool fire )
 {
     const float tile_dist = 1.0f;
     const float diag_dist = trigdist ? 1.41f * tile_dist : 1.0f * tile_dist;
     const float zlev_dist = 2.0f; // Penalty for going up/down
-    const float distance_factor = 0.8f;
     // 7 3 5
     // 1 . 2
     // 6 4 8
@@ -6028,8 +6035,8 @@ void game::do_blast( const tripoint &p, const int power, const bool fire )
     std::priority_queue< std::pair<float, tripoint>, std::vector< std::pair<float, tripoint> >, pair_greater_cmp > open;
     std::set<tripoint> closed;
     std::map<tripoint, float> dist_map;
-    open.push( std::make_pair( 1.0f, p ) );
-    dist_map[p] = 1.0f;
+    open.push( std::make_pair( 0.0f, p ) );
+    dist_map[p] = 0.0f;
     // Find all points to blast
     while( !open.empty() ) {
         // Add some random factor to effective distance to make it look cooler
@@ -6199,7 +6206,7 @@ void game::do_blast( const tripoint &p, const int power, const bool fire )
         for( const auto &blp : blast_parts ) {
             const int part_dam = rng( force * blp.low_mul, force * blp.high_mul );
             const std::string hit_part_name = body_part_name_accusative( blp.bp );
-            const auto dmg_instance = damage_instance( DT_BASH, part_dam, 0, 0.5f );
+            const auto dmg_instance = damage_instance( DT_BASH, part_dam, 0, blp.armor_mul );
             const auto result = pl->deal_damage( nullptr, blp.bp, dmg_instance );
             const int res_dmg = result.total_damage();
 
@@ -6213,27 +6220,41 @@ void game::do_blast( const tripoint &p, const int power, const bool fire )
     }
 }
 
-void game::explosion( const tripoint &p, int power, int shrapnel, bool fire, bool blast )
-{
-    const int radius = int(sqrt(double(power / 4)));
-    const int noise = power * (fire ? 2 : 10);
 
-    if (power >= 30) {
+void game::explosion( const tripoint &p, float power, float factor,
+                      int shrapnel_count, bool fire )
+{
+    const int noise = power * (fire ? 2 : 10);
+    if( power >= 30 ) {
         sounds::sound( p, noise, _("a huge explosion!") );
         sfx::play_variant_sound( "explosion", "huge", 100);
-    } else if (power >= 4) {
+    } else if( power >= 4 ) {
         sounds::sound( p, noise, _("an explosion!") );
         sfx::play_variant_sound( "explosion", "default", 100);
     } else {
         sounds::sound( p, 3, _("a loud pop!") );
         sfx::play_variant_sound( "explosion", "small", 100);
     }
-    if( blast ) {
-        do_blast( p, power, fire );
+
+    if( factor >= 1.0f ) {
+        debugmsg( "called game::explosion with factor >= 1.0 (infinite size)" );
+    } else if( factor > 0.0f ) {
+        do_blast( p, power, factor, fire );
     }
 
-    // The rest of the function is shrapnel
-    if( shrapnel <= 0 || power < 4 ) {
+    if( shrapnel_count > 0 ) {
+        const int radius = 2 * int(sqrt(double(power / 4)));
+        shrapnel( p, power * 2, shrapnel_count, radius );
+    }
+}
+
+void game::shrapnel( const tripoint &p, int power, int count, int radius )
+{
+    if( power <= 0 ) {
+        return;
+    }
+
+    if( radius < 0 ) {
         return;
     }
 
@@ -6245,15 +6266,13 @@ void game::explosion( const tripoint &p, int power, int shrapnel, bool fire, boo
     proj.speed = 100;
     proj.proj_effects.insert( "DRAW_AS_LINE" );
     proj.proj_effects.insert( "NULL_SOURCE" );
-    for( int i = 0; i < shrapnel; i++ ) {
+    for( int i = 0; i < count; i++ ) {
         // TODO: Z-level shrapnel, but not before z-level ranged attacks
-        tripoint sp{ static_cast<int> (rng( p.x - 2 * radius, p.x + 2 * radius )),
-                     static_cast<int> (rng( p.y - 2 * radius, p.y + 2 * radius )),
+        tripoint sp{ static_cast<int> (rng( p.x - radius, p.x + radius )),
+                     static_cast<int> (rng( p.y - radius, p.y + radius )),
                      p.z };
 
-        // Scaling of the damage happens later, as a result of low accuracy
-        // Big damage, because all shrapnel has low accuracy
-        proj.impact = damage_instance::physical( 2 * power, 2 * power, 0, 0 );
+        proj.impact = damage_instance::physical( power, power, 0, 0 );
 
         Creature *critter_in_center = critter_at( p ); // Very unfortunate critter
         if( critter_in_center != nullptr ) {
@@ -6263,13 +6282,15 @@ void game::explosion( const tripoint &p, int power, int shrapnel, bool fire, boo
             // 50% chance for 50%-100% base (power to 2 * power)
             // 50% chance for 0-25% base
             // Each one after that gets a progressively lower chance of hitting
-            dda.missed_by = rng_float( 0.4, 1.0 ) + (i * 1.0 / shrapnel);
+            dda.missed_by = rng_float( 0.4, 1.0 ) + (i * 1.0 / count);
             critter_in_center->deal_projectile_attack( nullptr, dda );
         }
 
-        // This needs to be high enough to prevent game from thinking that
-        //  the fake npc is scoring headshots.
-        fake_npc.projectile_attack( proj, sp, 3600 );
+        if( sp != p ) {
+            // This needs to be high enough to prevent game from thinking that
+            //  the fake npc is scoring headshots.
+            fake_npc.projectile_attack( proj, sp, 3600 );
+        }
     }
 }
 
@@ -6382,28 +6403,15 @@ void game::knockback( std::vector<tripoint> &traj, int force, int stun, int dam_
         monster *targ = &critter_tracker->find(zid);
         if (stun > 0) {
             targ->add_effect("stunned", stun);
-            add_msg(ngettext("%s was stunned for %d turn!",
-                             "%s was stunned for %d turns!", stun),
-                    targ->name().c_str(), stun);
+            add_msg(_("%s was stunned!"), targ->name().c_str());
         }
         for (size_t i = 1; i < traj.size(); i++) {
             if (m.move_cost(traj[i].x, traj[i].y) == 0) {
                 targ->setpos(traj[i - 1]);
                 force_remaining = traj.size() - i;
                 if (stun != 0) {
-                    if (targ->has_effect("stunned")) {
-                        targ->add_effect("stunned", force_remaining);
-                        add_msg(ngettext("%s was stunned AGAIN for %d turn!",
-                                         "%s was stunned AGAIN for %d turns!",
-                                         force_remaining),
-                                targ->name().c_str(), force_remaining);
-                    } else {
-                        targ->add_effect("stunned", force_remaining);
-                        add_msg(ngettext("%s was stunned for %d turn!",
-                                         "%s was stunned for %d turns!",
-                                         force_remaining),
-                                targ->name().c_str(), force_remaining);
-                    }
+                    targ->add_effect("stunned", force_remaining);
+                    add_msg(_("%s was stunned!"), targ->name().c_str());
                     add_msg(_("%s slammed into an obstacle!"), targ->name().c_str());
                     targ->apply_damage( nullptr, bp_torso, dam_mult * force_remaining );
                     targ->check_dead_state();
@@ -6415,19 +6423,8 @@ void game::knockback( std::vector<tripoint> &traj, int force, int stun, int dam_
                 targ->setpos(traj[i - 1]);
                 force_remaining = traj.size() - i;
                 if (stun != 0) {
-                    if (targ->has_effect("stunned")) {
-                        targ->add_effect("stunned", force_remaining);
-                        add_msg(ngettext("%s was stunned AGAIN for %d turn!",
-                                         "%s was stunned AGAIN for %d turns!",
-                                         force_remaining),
-                                targ->name().c_str(), force_remaining);
-                    } else {
-                        targ->add_effect("stunned", force_remaining);
-                        add_msg(ngettext("%s was stunned for %d turn!",
-                                         "%s was stunned for %d turns!",
-                                         force_remaining),
-                                targ->name().c_str(), force_remaining);
-                    }
+                     targ->add_effect("stunned", force_remaining);
+                     add_msg(_("%s was stunned!"), targ->name().c_str());
                 }
                 traj.erase(traj.begin(), traj.begin() + i);
                 if (mon_at(traj.front()) != -1) {
@@ -6466,31 +6463,17 @@ void game::knockback( std::vector<tripoint> &traj, int force, int stun, int dam_
         npc *targ = active_npc[npc_at( tp )];
         if (stun > 0) {
             targ->add_effect("stunned", stun);
-            add_msg(ngettext("%s was stunned for %d turn!",
-                             "%s was stunned for %d turns!", stun),
-                    targ->name.c_str(), stun);
+            add_msg(_("%s was stunned!"), targ->name.c_str());
         }
         for (size_t i = 1; i < traj.size(); i++) {
             if (m.move_cost(traj[i].x, traj[i].y) == 0) { // oops, we hit a wall!
                 targ->setpos( traj[i - 1] );
                 force_remaining = traj.size() - i;
                 if (stun != 0) {
-                    if (targ->has_effect("stunned")) {
-                        targ->add_effect("stunned", force_remaining);
-                        if (targ->has_effect("stunned"))
-                            add_msg(ngettext("%s was stunned AGAIN for %d turn!",
-                                             "%s was stunned AGAIN for %d turns!",
-                                             force_remaining),
-                                    targ->name.c_str(), force_remaining);
-                    } else {
-                        targ->add_effect("stunned", force_remaining);
-                        if (targ->has_effect("stunned"))
-                            add_msg(ngettext("%s was stunned for %d turn!",
-                                             "%s was stunned for %d turns!",
-                                             force_remaining),
-                                    targ->name.c_str(), force_remaining);
-                    }
-                    add_msg(_("%s took %d damage! (before armor)"), targ->name.c_str(), dam_mult * force_remaining);
+                    targ->add_effect("stunned", force_remaining);
+                    if (targ->has_effect("stunned"))
+                        add_msg(_("%s was stunned!"), targ->name.c_str());
+
                     body_part bps[] = {
                         bp_head,
                         bp_arm_l, bp_arm_r,
@@ -6513,17 +6496,7 @@ void game::knockback( std::vector<tripoint> &traj, int force, int stun, int dam_
                 targ->setpos( traj[i - 1] );
                 force_remaining = traj.size() - i;
                 if (stun != 0) {
-                    if (targ->has_effect("stunned")) {
-                        add_msg(ngettext("%s was stunned AGAIN for %d turn!",
-                                         "%s was stunned AGAIN for %d turns!",
-                                         force_remaining),
-                                targ->name.c_str(), force_remaining);
-                    } else {
-                        add_msg(ngettext("%s was stunned for %d turn!",
-                                         "%s was stunned for %d turns!",
-                                         force_remaining),
-                                targ->name.c_str(), force_remaining);
-                    }
+                    add_msg(_("%s was stunned!"), targ->name.c_str());
                     targ->add_effect("stunned", force_remaining);
                 }
                 traj.erase(traj.begin(), traj.begin() + i);
