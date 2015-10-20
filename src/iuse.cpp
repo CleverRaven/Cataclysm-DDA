@@ -2388,7 +2388,7 @@ int iuse::sew(player *p, item *it, bool, const tripoint& )
 
 static bool is_firearm(item *it)
 { 
-    return it.is_gun() && !it.has_flag("PRIMITIVE_RANGED_WEAPON");
+    return it->is_gun() && !it->has_flag("PRIMITIVE_RANGED_WEAPON");
 }
 
 int iuse::sew_advanced(player *p, item *it, bool, const tripoint& )
@@ -2422,7 +2422,7 @@ int iuse::sew_advanced(player *p, item *it, bool, const tripoint& )
         p->add_msg_if_player(m_info, _("You can only tailor your clothes!"));
         return 0;
     }
-    if (is_firearm(mod)){
+    if (is_firearm(*mod)){
         p->add_msg_if_player(m_info, _("You can't use a tailor's kit on a firearm!"));
         return 0;
     }
@@ -7229,7 +7229,7 @@ int iuse::gun_repair(player *p, item *it, bool, const tripoint& )
         p->add_msg_if_player(m_info, _("You do not have that item!"));
         return 0;
     }
-    if (!is_firearm(fix)) {
+    if (!is_firearm(*fix)) {
         p->add_msg_if_player(m_info, _("That isn't a firearm!"));
         return 0;
     }
@@ -7292,7 +7292,7 @@ int iuse::misc_repair(player *p, item *it, bool, const tripoint& )
         p->add_msg_if_player(m_info, _("You do not have that item!"));
         return 0;
     }
-    if ( is_firearm(fix) ) {
+    if ( is_firearm(*fix) ) {
         p->add_msg_if_player(m_info, _("That requires gunsmithing tools."));
         return 0;
     }
