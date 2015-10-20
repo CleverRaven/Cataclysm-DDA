@@ -227,7 +227,7 @@ void item::init()
     last_rot_check = 0;
 }
 
-void item::make( const std::string new_type )
+void item::make( const std::string new_type, bool scrub )
 {
     const bool was_armor = is_armor();
     type = find_type( new_type );
@@ -241,6 +241,14 @@ void item::make( const std::string new_type )
         } else {
             covered_bodyparts = armor->covers;
         }
+    }
+
+    if (scrub) {
+        components.clear();
+        charges = -1;
+        bday = 0;
+        name = "";
+        curammo = NULL;
     }
 }
 
