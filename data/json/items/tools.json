@@ -7405,7 +7405,7 @@
 
   {
     "id": "flask_yeast",
-    "type": "TOOL",
+    "type": "GENERIC",
     "symbol": "%",
     "color": "white",
     "name": "sealed yeast culture",
@@ -7438,7 +7438,7 @@
   
   {
     "id": "sauerkraut_ferment",
-    "type": "TOOL",
+    "type": "GENERIC",
     "symbol": "%",
     "color": "white",
     "name": "fermenting sauerkraut jar",
