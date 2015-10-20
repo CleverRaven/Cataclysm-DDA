@@ -189,6 +189,8 @@ void game::load_static_data()
     init_artifacts();
     init_faction_data();
 
+    get_apu().load(false); // Load global auto pickup rules
+
     // --- move/delete everything below
     // TODO: move this to player class
     moveCount = 0;
@@ -600,8 +602,6 @@ void game::setup()
             elem_j = 0;
         }
     }
-
-    get_apu().load(false); // Load global auto pickup rules
 
     remoteveh_cache_turn = INT_MIN;
     remoteveh_cache = nullptr;

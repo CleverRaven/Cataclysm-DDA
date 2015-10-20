@@ -771,11 +771,11 @@ void apu::deserialize(JsonIn &jsin)
 
     jsin.start_array();
     while (!jsin.end_array()) {
-        JsonObject joOptions = jsin.get_object();
+        JsonObject joAutopickup = jsin.get_object();
 
-        const std::string sRule = joOptions.get_string("rule");
-        const bool bActive = joOptions.get_bool("active");
-        const bool bExclude = joOptions.get_bool("exclude");
+        const std::string sRule = joAutopickup.get_string("rule");
+        const bool bActive = joAutopickup.get_bool("active");
+        const bool bExclude = joAutopickup.get_bool("exclude");
 
         vAutoPickupRules[(bChar) ? APU_CHARACTER : APU_GLOBAL].push_back(cPickupRules(sRule, bActive, bExclude));
     }
