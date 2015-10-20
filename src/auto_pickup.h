@@ -23,6 +23,18 @@ class apu : public JsonSerializer, public JsonDeserializer {
             private:
                 const std::locale &loc_;
         };
+
+        void test_pattern(int iCurrentPage, int iCurrentLine);
+        std::string trim_rule(std::string sPattern);
+        void merge_vector();
+        void save_reset_changes(bool bReset);
+        bool auto_pickup_match(std::string sText, std::string sPattern);
+        std::vector<std::string> &split(const std::string &s, char delim, std::vector<std::string> &elems);
+        template<typename charT>
+        int ci_find_substr( const charT &str1, const charT &str2, const std::locale &loc = std::locale() );
+
+        bool bChar;
+
     public:
         enum apu_type {
             APU_MERGED = 0,
@@ -54,26 +66,16 @@ class apu : public JsonSerializer, public JsonDeserializer {
                 ~cPickupRules() {};
         };
 
-        void test_pattern(int iCurrentPage, int iCurrentLine);
-        std::string trim_rule(std::string sPattern);
-        void merge_vector();
         bool hasPickupRule(std::string sRule);
         void addPickupRule(std::string sRule);
         void removePickupRule(std::string sRule);
         void createPickupRules(const std::string sItemNameIn = "");
         bool checkExcludeRules(const std::string sItemNameIn);
-        void save_reset_changes(bool bReset);
 
-        void show_auto_pickup();
-        void load_auto_pickup(bool bCharacter);
-        bool save_auto_pickup(bool bCharacter);
-
-        std::string auto_pickup_header(bool bCharacter);
-        void create_default_auto_pickup(bool bCharacter);
-        bool auto_pickup_match(std::string sText, std::string sPattern);
-        std::vector<std::string> &split(const std::string &s, char delim, std::vector<std::string> &elems);
-        template<typename charT>
-        int ci_find_substr( const charT &str1, const charT &str2, const std::locale &loc = std::locale() );
+        void show();
+        void load(bool bCharacter);
+        bool save(bool bCharacter);
+        bool load_legacy(bool bCharacter);
 
         using JsonSerializer::serialize;
         void serialize(JsonOut &json) const override;

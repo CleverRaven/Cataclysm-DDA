@@ -601,7 +601,7 @@ void game::setup()
         }
     }
 
-    get_apu().load_auto_pickup(false); // Load global auto pickup rules
+    get_apu().load(false); // Load global auto pickup rules
 
     remoteveh_cache_turn = INT_MIN;
     remoteveh_cache = nullptr;
@@ -3331,7 +3331,7 @@ void game::load(std::string worldname, std::string name)
     }
 
     init_autosave();
-    get_apu().load_auto_pickup(true); // Load character auto pickup rules
+    get_apu().load(true); // Load character auto pickup rules
     zone_manager::get_manager().load_zones(); // Load character world zones
     load_uistate(worldname);
 
@@ -3490,7 +3490,7 @@ bool game::save()
              !save_factions_missions_npcs() ||
              !save_artifacts() ||
              !save_maps() ||
-             !get_apu().save_auto_pickup(true) || // Save character auto pickup rules
+             !get_apu().save(true) || // Save character auto pickup rules
              !save_uistate()){
             return false;
         } else {

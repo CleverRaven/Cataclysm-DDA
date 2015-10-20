@@ -27,7 +27,7 @@ apu &get_apu()
     return single_instance;
 }
 
-void apu::show_auto_pickup()
+void apu::show()
 {
     save_reset_changes(false);
 
@@ -329,10 +329,10 @@ void apu::show_auto_pickup()
 
     if (bStuffChanged) {
         if(query_yn(_("Save changes?"))) {
-            save_auto_pickup(false);
+            save(false);
 
             if (g->u.name != "") {
-                save_auto_pickup(true);
+                save(true);
             }
         } else {
             save_reset_changes(true);
@@ -573,24 +573,6 @@ void apu::save_reset_changes(bool bReset)
     merge_vector();
 }
 
-void apu::create_default_auto_pickup(bool bCharacter)
-{
-    std::ofstream fout;
-    std::string sFile = FILENAMES["autopickup"];
-
-    if (bCharacter) {
-        sFile = world_generator->active_world->world_path + "/" + base64_encode(g->u.name) + ".apu.json";
-    }
-
-    fout.open(sFile.c_str());
-    if(!fout.is_open()) {
-        return;
-    }
-
-    fout << auto_pickup_header(bCharacter);
-    fout.close();
-}
-
 std::string apu::trim_rule(std::string sPattern)
 {
     size_t iPos = 0;
@@ -695,33 +677,51 @@ int apu::ci_find_substr( const charT &str1, const charT &str2, const std::locale
     }
 }
 
-bool apu::save_auto_pickup(bool bCharacter)
+bool apu::save(bool bCharacter)
 {
-    /*const auto savefile = FILENAMES["apu"];
+    bChar = bCharacter;
+    auto savefile = FILENAMES["autopickup"];
 
     try {
+        if (bCharacter) {
+            savefile = world_generator->active_world->world_path + "/" + base64_encode(g->u.name) + ".apu.json";
+            std::ifstream fin;
+
+            fin.open((world_generator->active_world->world_path + "/" +
+                      base64_encode(g->u.name) + ".sav").c_str());
+            if(!fin.is_open()) {
+                return true; //Character not saved yet.
+            }
+            fin.close();
+        }
+
         std::ofstream fout;
         fout.exceptions(std::ios::badbit | std::ios::failbit);
 
-        fopen_exclusive(fout, savefile.c_str());
+        fout.open(savefile.c_str());
+
         if(!fout.is_open()) {
             return true; //trick game into thinking it was saved
         }
 
-        fout << serialize();
-        fclose_exclusive(fout, savefile.c_str());
+        JsonOut jout( fout, true );
+        serialize(jout);
+
+        fout.close();
         return true;
 
     } catch(std::ios::failure &) {
-        popup(_("Failed to save custom colors to %s"), savefile.c_str());
+        popup(_("Failed to save autopickup to %s"), savefile.c_str());
         return false;
     }
 
-    return false;*/
+    return false;
 }
 
-void apu::load_auto_pickup(bool bCharacter)
+void apu::load(bool bCharacter)
 {
+    bChar = bCharacter;
+
     std::ifstream fin;
     std::string sFile = FILENAMES["autopickup"];
     if (bCharacter) {
@@ -731,15 +731,15 @@ void apu::load_auto_pickup(bool bCharacter)
     fin.open(sFile.c_str(), std::ifstream::in | std::ifstream::binary);
 
     if( !fin.good() ) {
-        if (load_auto_pickup_legacy(bCharacter)) {
-            save_auto_pickup(bCharacter);
+        if (load_legacy(bCharacter)) {
+            save(bCharacter);
         }
     } else {
         try {
             JsonIn jsin(fin);
             deserialize(jsin);
         } catch( const JsonError &e ) {
-            DebugLog(D_ERROR, DC_ALL) << "load_auto_pickup: " << e;
+            DebugLog(D_ERROR, DC_ALL) << "apu::load: " << e;
         }
     }
 
@@ -750,50 +750,38 @@ void apu::load_auto_pickup(bool bCharacter)
 
 void apu::serialize(JsonOut &json) const
 {
-    /*json.start_array();
+    json.start_array();
 
-    for( size_t j = 0; j < vPages.size(); ++j ) {
-        bool update_wopt = (bIngame && (int)j == iWorldOptPage );
-        for( auto &elem : mPageItems[j] ) {
-            if( OPTIONS[elem].getDefaultText() != "" ) {
-                json.start_object();
+    for( auto &elem : vAutoPickupRules[( bChar ) ? APU_CHARACTER : APU_GLOBAL] ) {
+        json.start_object();
 
-                json.member( "info", OPTIONS[elem].getTooltip() );
-                json.member( "default", OPTIONS[elem].getDefaultText( false ) );
-                json.member( "name", elem );
-                json.member( "value", OPTIONS[elem].getValue() );
+        json.member( "rule", elem.sRule );
+        json.member( "active", elem.bActive );
+        json.member( "exclude", elem.bExclude );
 
-                json.end_object();
-
-                if ( update_wopt ) {
-                    world_generator->active_world->world_options[elem] = ACTIVE_WORLD_OPTIONS[elem];
-                }
-            }
-        }
-
-        if( update_wopt ) {
-            calendar::set_season_length( ACTIVE_WORLD_OPTIONS["SEASON_LENGTH"] );
-        }
+        json.end_object();
     }
 
-    json.end_array();*/
+    json.end_array();
 }
 
 void apu::deserialize(JsonIn &jsin)
 {
-    /*jsin.start_array();
+    vAutoPickupRules[(bChar) ? APU_CHARACTER : APU_GLOBAL].clear();
+
+    jsin.start_array();
     while (!jsin.end_array()) {
         JsonObject joOptions = jsin.get_object();
 
-        const std::string name = joOptions.get_string("name");
-        const std::string value = joOptions.get_string("value");
+        const std::string sRule = joOptions.get_string("rule");
+        const bool bActive = joOptions.get_bool("active");
+        const bool bExclude = joOptions.get_bool("exclude");
 
-        optionsdata.add_retry(name, value);
-        OPTIONS[ name ].setValue( value );
-    }*/
+        vAutoPickupRules[(bChar) ? APU_CHARACTER : APU_GLOBAL].push_back(cPickupRules(sRule, bActive, bExclude));
+    }
 }
 
-bool apu::load_auto_pickup_legacy(bool bCharacter)
+bool apu::load_legacy(bool bCharacter)
 {
     std::ifstream fin;
     std::string sFile = FILENAMES["legacy_autopickup2"];
@@ -808,12 +796,11 @@ bool apu::load_auto_pickup_legacy(bool bCharacter)
             fin.open(FILENAMES["legacy_autopickup"].c_str());
 
             if( !fin.is_open() ) {
-                assure_dir_exist(FILENAMES["config_dir"]);
-                create_default_auto_pickup(bCharacter);
-
                 DebugLog( D_ERROR, DC_ALL ) << "Could neither read nor create " << sFile;
                 return false;
             }
+        } else {
+            return false;
         }
     }
 
@@ -866,47 +853,3 @@ bool apu::load_auto_pickup_legacy(bool bCharacter)
 
     return true;
 }
-
-/*
-bool apu::save_auto_pickup(bool bCharacter)
-{
-    std::ofstream fout;
-    std::string sFile = FILENAMES["autopickup"];
-
-    if (bCharacter) {
-        sFile = world_generator->active_world->world_path + "/" + base64_encode(g->u.name) + ".apu.txt";
-        std::ifstream fin;
-
-        fin.open((world_generator->active_world->world_path + "/" +
-                  base64_encode(g->u.name) + ".sav").c_str());
-        if(!fin.is_open()) {
-            return true;
-        }
-        fin.close();
-    }
-
-    fout.exceptions(std::ios::badbit | std::ios::failbit);
-    try {
-        assure_dir_exist(FILENAMES["config_dir"]);
-        fout.open(sFile.c_str());
-
-        fout << auto_pickup_header(bCharacter) << std::endl;
-        for( auto &elem : vAutoPickupRules[( bCharacter ) ? APU_CHARACTER : APU_GLOBAL] ) {
-            fout << elem.sRule << ";";
-            fout << ( elem.bActive ? "T" : "F" ) << ";";
-            fout << ( elem.bExclude ? "T" : "F" );
-            fout << "\n";
-        }
-
-        if (!bCharacter) {
-            merge_vector();
-            createPickupRules();
-        }
-        fout.close();
-        return true;
-    } catch(std::ios::failure &) {
-        popup(_("Failed to write autopickup rules to %s"), sFile.c_str());
-        return false;
-    }
-}
-*/
