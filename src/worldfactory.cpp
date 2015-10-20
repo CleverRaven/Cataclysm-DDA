@@ -1333,7 +1333,7 @@ std::unordered_map<std::string, options_manager::cOpt> worldfactory::get_world_o
 
     if (!fin.is_open()) {
         fin.close();
-        get_options().save_options();
+        get_options().save();
 
         fin.open(path.c_str());
         if (!fin.is_open()) {

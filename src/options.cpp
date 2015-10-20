@@ -577,7 +577,7 @@ std::string options_manager::build_tilesets_list()
     return tileset_names;
 }
 
-void options_manager::init_options()
+void options_manager::init()
 {
     OPTIONS.clear();
     ACTIVE_WORLD_OPTIONS.clear();
@@ -1170,7 +1170,7 @@ void options_manager::init_options()
     }
 }
 
-void options_manager::show_options(bool ingame)
+void options_manager::show(bool ingame)
 {
     auto OPTIONS_OLD = OPTIONS;
     auto WOPTIONS_OLD = ACTIVE_WORLD_OPTIONS;
@@ -1457,7 +1457,7 @@ void options_manager::show_options(bool ingame)
     bool lang_changed = OPTIONS_OLD["USE_LANG"].getValue() != OPTIONS["USE_LANG"].getValue();
     if (bStuffChanged) {
         if(query_yn(_("Save changes?"))) {
-            save_options(ingame && bWorldStuffChanged);
+            save(ingame && bWorldStuffChanged);
         } else {
             used_tiles_changed = false;
             OPTIONS = OPTIONS_OLD;
@@ -1540,7 +1540,7 @@ void options_manager::deserialize(JsonIn &jsin)
     }
 }
 
-bool options_manager::save_options(bool ingame)
+bool options_manager::save(bool ingame)
 {
     bIngame = ingame;
     const auto savefile = FILENAMES["options"];
@@ -1549,13 +1549,16 @@ bool options_manager::save_options(bool ingame)
         std::ofstream fout;
         fout.exceptions(std::ios::badbit | std::ios::failbit);
 
-        fopen_exclusive(fout, savefile.c_str());
+        fout.open(savefile.c_str());
+
         if(!fout.is_open()) {
             return true; //trick game into thinking it was saved
         }
 
-        fout << serialize();
-        fclose_exclusive(fout, savefile.c_str());
+        JsonOut jout( fout, true );
+        serialize(jout);
+
+        fout.close();
         return true;
 
     } catch(std::ios::failure &) {
@@ -1566,15 +1569,15 @@ bool options_manager::save_options(bool ingame)
     return false;
 }
 
-void options_manager::load_options()
+void options_manager::load()
 {
     const auto file = FILENAMES["options"];
 
     std::ifstream fin;
     fin.open(file.c_str(), std::ifstream::in | std::ifstream::binary);
     if( !fin.good() ) {
-        if (load_options_legacy()) {
-            save_options();
+        if (load_legacy()) {
+            save();
         }
 
     } else {
@@ -1582,7 +1585,7 @@ void options_manager::load_options()
             JsonIn jsin(fin);
             deserialize(jsin);
         } catch( const JsonError &e ) {
-            DebugLog(D_ERROR, DC_ALL) << "load_options: " << e;
+            DebugLog(D_ERROR, DC_ALL) << "options_manager::load: " << e;
         }
     }
 
@@ -1594,7 +1597,7 @@ void options_manager::load_options()
     fov_3d = false; // OPTIONS["FOV_3D"];
 }
 
-bool options_manager::load_options_legacy()
+bool options_manager::load_legacy()
 {
     std::ifstream fin;
     // Try at the legacy location.

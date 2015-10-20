@@ -37,6 +37,9 @@ class options_manager : public JsonSerializer, public JsonDeserializer {
             /** Hide this option in non-Windows Curses builds */
             COPT_POSIX_CURSES_HIDE
         };
+
+        bool load_legacy();
+
     public:
         class cOpt
         {
@@ -137,13 +140,10 @@ class options_manager : public JsonSerializer, public JsonDeserializer {
                 float fStep;
         };
 
-        void init_options();
-
-        void load_options();
-        bool save_options(bool ingame = false);
-        bool load_options_legacy();
-
-        void show_options(bool ingame = false);
+        void init();
+        void load();
+        bool save(bool ingame = false);
+        void show(bool ingame = false);
 
         using JsonSerializer::serialize;
         void serialize(JsonOut &json) const override;
