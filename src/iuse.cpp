@@ -79,6 +79,8 @@ const species_id ZOMBIE( "ZOMBIE" );
 const species_id FUNGUS( "FUNGUS" );
 const species_id INSECT( "INSECT" );
 
+static bool is_firearm(const item &it);
+
 void remove_double_ammo_mod( item &it, player &p )
 {
     if( !it.item_tags.count( "DOUBLE_AMMO" ) || it.item_tags.count( "DOUBLE_REACTOR" )) {
@@ -2420,7 +2422,7 @@ int iuse::sew_advanced(player *p, item *it, bool, const tripoint& )
         p->add_msg_if_player(m_info, _("You can only tailor your clothes!"));
         return 0;
     }
-    if (mod->is_firearm()){
+    if (is_firearm(mod)){
         p->add_msg_if_player(m_info, _("You can't use a tailor's kit on a firearm!"));
         return 0;
     }
@@ -3239,7 +3241,7 @@ int iuse::solder_weld( player *p, item *it, bool, const tripoint& )
     }};
 
     int pos = g->inv_for_filter( _("Repair what?"), [it]( const item &itm ) {
-        return itm.made_of_any( materials ) && !itm.is_ammo() && !itm.is_firearm() && &itm != it;
+        return itm.made_of_any( materials ) && !itm.is_ammo() && !is_firearm(itm) && &itm != it;
     } );
 
     item &fix = p->i_at( pos );
@@ -3247,7 +3249,7 @@ int iuse::solder_weld( player *p, item *it, bool, const tripoint& )
         p->add_msg_if_player(m_info, _("You do not have that item!"));
         return 0;
     }
-    if( fix.is_firearm() ) {
+    if( is_firearm(fix) ) {
         p->add_msg_if_player(m_info, _("That requires gunsmithing tools."));
         return 0;
     }
@@ -7227,7 +7229,7 @@ int iuse::gun_repair(player *p, item *it, bool, const tripoint& )
         p->add_msg_if_player(m_info, _("You do not have that item!"));
         return 0;
     }
-    if (!fix->is_firearm()) {
+    if (!is_firearm(fix)) {
         p->add_msg_if_player(m_info, _("That isn't a firearm!"));
         return 0;
     }
@@ -7282,7 +7284,7 @@ int iuse::misc_repair(player *p, item *it, bool, const tripoint& )
         return 0;
     }
     int inventory_index = g->inv_for_filter( _("Select the item to repair."), []( const item & itm ) {
-        return ( !itm.is_firearm() ) && (itm.made_of("wood") || itm.made_of("paper") ||
+        return ( !is_firearm(itm) ) && (itm.made_of("wood") || itm.made_of("paper") ||
                                  itm.made_of("bone") || itm.made_of("chitin") ) ;
     } );
     item *fix = &( p->i_at(inventory_index ) );
@@ -7290,7 +7292,7 @@ int iuse::misc_repair(player *p, item *it, bool, const tripoint& )
         p->add_msg_if_player(m_info, _("You do not have that item!"));
         return 0;
     }
-    if ( fix->is_firearm() ) {
+    if ( is_firearm(fix) ) {
         p->add_msg_if_player(m_info, _("That requires gunsmithing tools."));
         return 0;
     }
