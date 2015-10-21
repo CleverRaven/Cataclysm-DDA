@@ -1281,35 +1281,63 @@ void npc::move_to( const tripoint &pt, bool no_bashing )
         }
     }
 
-    if( p.z != posz() ) {
-        // Z-level move
-        // For now just teleport to the destination
-        // TODO: Make it properly find the tile to move to
-        moves -= 100;
-        setpos( p );
-        return;
-    }
-
     // Boarding moving vehicles is fine, unboarding isn't
+    bool moved = false;
     const vehicle *veh = g->m.veh_at( pos() );
     if( veh != nullptr ) {
         int other_part = -1;
         const vehicle *oveh = g->m.veh_at( p, other_part );
         if( abs(veh->velocity) > 0 &&
             ( oveh != veh ||
-              veh->part_with_feature( other_part, VPFLAG_BOARDABLE ) >= 0 ) ) {
+              veh->part_with_feature( other_part, VPFLAG_BOARDABLE ) < 0 ) ) {
             move_pause();
             return;
         }
-
-        if( in_vehicle ) {        
-            g->m.unboard_vehicle( pos() );
-        }
     }
 
-    if( g->m.move_cost( p ) > 0 ) {
+    if( p.z != posz() ) {
+        // Z-level move
+        // For now just teleport to the destination
+        // TODO: Make it properly find the tile to move to
+        moves -= 100;
+        moved = true;
+    } else if( g->m.move_cost( p ) > 0 ) {
         bool diag = trigdist && posx() != p.x && posy() != p.y;
         moves -= run_cost( g->m.combined_movecost( pos(), p ), diag );
+        moved = true;
+    } else if( g->m.open_door( p, !g->m.is_outside( pos() ) ) ) {
+        moves -= 100;
+    } else if( g->m.has_flag_ter_or_furn( "CLIMBABLE", p ) ) {
+        int climb = dex_cur;
+        if( one_in( climb ) ) {
+            add_msg_if_npc( m_neutral, _( "%1$s falls tries to climb the %2$s but slips." ),
+                            name.c_str(), g->m.tername(p).c_str() );
+            moves -= 400;
+        } else {
+            add_msg_if_npc( m_neutral, _( "%1$s climbs over the %2$s." ), name.c_str(),
+                            g->m.tername( p ).c_str() );
+            moves -= (500 - (rng(0,climb) * 20));
+            moved = true;
+        }
+    } else if( !no_bashing && smash_ability() > 0 && g->m.is_bashable( p ) &&
+               g->m.bash_rating( smash_ability(), p ) > 0 ) {
+        moves -= int(weapon.is_null() ? 80 : weapon.attack_time() * 0.8);
+        g->m.bash( p, smash_ability() );
+    } else {
+        if( attitude == NPCATT_MUG ||
+            attitude == NPCATT_KILL ||
+            attitude == NPCATT_WAIT_FOR_LEAVE ) {
+            attitude = NPCATT_FLEE;
+        }
+
+        moves = 0;
+    }
+
+    if( moved ) {
+        if( in_vehicle ) {
+            g->m.unboard_vehicle( pos() );
+        }
+
         setpos( p );
         int part;
         vehicle *veh = g->m.veh_at( p, part );
@@ -1319,34 +1347,6 @@ void npc::move_to( const tripoint &pt, bool no_bashing )
 
         g->m.creature_on_trap( *this );
         g->m.creature_in_field( *this );
-    } else if( g->m.open_door( p, !g->m.is_outside( pos() ) ) ) {
-        moves -= 100;
-    } else {
-        if( g->m.has_flag_ter_or_furn( "CLIMBABLE", p ) ) {
-            int climb = dex_cur;
-            if( one_in( climb ) ) {
-                add_msg_if_npc( m_neutral, _( "%1$s falls tries to climb the %2$s but slips." ),
-                                name.c_str(), g->m.tername(p).c_str() );
-                moves -= 400;
-            } else {
-                add_msg_if_npc( m_neutral, _( "%1$s climbs over the %2$s." ), name.c_str(),
-                                g->m.tername( p ).c_str() );
-                moves -= (500 - (rng(0,climb) * 20));
-                setpos( p );
-            }
-        } else if( !no_bashing && smash_ability() > 0 && g->m.is_bashable( p ) &&
-                   g->m.bash_rating( smash_ability(), p ) > 0 ) {
-            moves -= int(weapon.is_null() ? 80 : weapon.attack_time() * 0.8);
-            g->m.bash( p, smash_ability() );
-        } else {
-            if( attitude == NPCATT_MUG ||
-                attitude == NPCATT_KILL ||
-                attitude == NPCATT_WAIT_FOR_LEAVE ) {
-                attitude = NPCATT_FLEE;
-            }
-
-            moves = 0;
-        }
     }
 }
 
