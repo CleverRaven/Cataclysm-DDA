@@ -2389,7 +2389,7 @@ int iuse::sew(player *p, item *it, bool, const tripoint& )
     return repair_clothing(p, it, fix, pos);
 }
 
-static bool is_firearm(item *it)
+static bool is_firearm(const item &it)
 { 
     return it.is_gun() && !it.has_flag("PRIMITIVE_RANGED_WEAPON");
 }
