@@ -37,9 +37,13 @@ class cOpt
         //Default constructor
         cOpt();
 
-        //string constructor
+        //string select constructor
         cOpt(const std::string sPageIn, const std::string sMenuTextIn, const std::string sTooltipIn,
              const std::string sItemsIn, std::string sDefaultIn, copt_hide_t opt_hide);
+
+        //string input constructor
+        cOpt(const std::string sPageIn, const std::string sMenuTextIn, const std::string sTooltipIn,
+             const std::string sDefaultIn, const int iMaxLengthIn, copt_hide_t opt_hide);
 
         //bool constructor
         cOpt(const std::string sPageIn, const std::string sMenuTextIn, const std::string sTooltipIn,
@@ -77,6 +81,7 @@ class cOpt
         std::string getDefaultText(const bool bTranslated = true);
 
         int getItemPos(const std::string sSearch);
+        int getMaxLength();
 
         //set to next item
         void setNext();
@@ -110,6 +115,7 @@ class cOpt
         std::string sSet;
         std::vector<std::string> vItems;
         std::string sDefault;
+        int iMaxLength;
 
         //sType == "bool"
         bool bSet;

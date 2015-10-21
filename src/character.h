@@ -449,7 +449,7 @@ class Character : public Creature
         // In newcharacter.cpp
         void empty_skills();
         /** Returns a random name from NAMES_* */
-        void pick_name();
+        void pick_name(bool bUseDefault = true);
         /** Get the idents of all base traits. */
         std::vector<std::string> get_base_traits() const;
         /** Get the idents of all traits/mutations. */
