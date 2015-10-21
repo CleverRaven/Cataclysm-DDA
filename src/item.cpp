@@ -994,9 +994,11 @@ std::string item::info(bool showtext, std::vector<iteminfo> &dump_ref) const
         }
         if( g->u.has_identified( type->id ) ) {
             if( book->skill ) {
-                dump->push_back(iteminfo("BOOK", "",
-                                         string_format(_("Can bring your %s skill to <num>"),
-                                                       book->skill.obj().name().c_str()), book->level));
+                if( g->u.get_skill_level( book->skill ).can_train() ) {
+                    dump->push_back(iteminfo("BOOK", "",
+                                             string_format(_("Can bring your %s skill to <num>"),
+                                                           book->skill.obj().name().c_str()), book->level));
+                }
 
                 if( book->req != 0 ){
                     dump->push_back(iteminfo("BOOK", "",
