@@ -464,7 +464,7 @@ void wprintz(WINDOW *w, nc_color FG, const char *mes, ...)
     wattroff(w, FG);
 }
 
-void draw_border(WINDOW *w, nc_color FG)
+void draw_border(WINDOW *w, nc_color FG) // XXX:
 {
     wattron(w, FG);
     wborder(w, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
@@ -472,7 +472,7 @@ void draw_border(WINDOW *w, nc_color FG)
     wattroff(w, FG);
 }
 
-void draw_tabs(WINDOW *w, int active_tab, ...)
+void draw_tabs(WINDOW *w, int active_tab, ...) // XXX:
 {
     int win_width;
     win_width = getmaxx(w);
@@ -1384,7 +1384,7 @@ void draw_subtab(WINDOW *w, int iOffsetX, std::string sText, bool bSelected, boo
 
 void draw_scrollbar(WINDOW *window, const int iCurrentLine, const int iContentHeight,
                     const int iNumEntries, const int iOffsetY, const int iOffsetX,
-                    nc_color bar_color)
+                    nc_color bar_color) // XXX:
 {
     if (iContentHeight >= iNumEntries) {
         //scrollbar is not required

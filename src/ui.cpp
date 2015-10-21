@@ -2,10 +2,6 @@
 #include "catacharset.h"
 #include "output.h"
 #include "debug.h"
-#include <sstream>
-#include <stdlib.h>
-#include <algorithm>
-#include <iterator>
 #include "input.h"
 #include "cursesdef.h"
 #include "uistate.h"
@@ -13,14 +9,535 @@
 #include "game.h"
 #include "player.h"
 
+#include <sstream>
+#include <stdlib.h>
+#include <algorithm>
+#include <iterator>
+#include <cstring>
+
 #ifdef debuguimenu
 #define dprint(a,...)      mvprintw(a,0,__VA_ARGS__)
 #else
 #define dprint(a,...)      void()
 #endif
 
+//// ui_base ////////////////////////////////////////////////////////////// {{{1
+ui_base::ui_base()
+{
+    ctxt = new input_context(ctxt_name);
+    register_input_actions();
+}
+
+ui_base::~ui_base()
+{
+    delete ctxt;
+}
+
+void ui_base::modify_border(int do_border, nc_color border_color)
+{
+    this->do_border = do_border;
+    this->border_color = border_color;
+}
+
+void ui_base::draw_border()
+{
+    auto *w = window.get();
+    wattron(w, border_color);
+    wborder(w, LINE_XOXO, LINE_XOXO, 
+               LINE_OXOX, LINE_OXOX,
+               LINE_OXXO, LINE_OOXX, 
+               LINE_XXOO, LINE_XOOX);
+    wattroff(w, border_color);
+}
+
+void ui_base::set_error(int code, const std::string &msg)
+{
+    error_code = code;
+    error_msg = msg;
+}
+
+ui_input_code ui_base::handle_input(const std::string &action)
+{
+    return ui_continue;
+}
+
+std::string ui_base::get_input() const
+{
+    return "";
+}
+
+int ui_base::operator ()()
+{
+    return run();
+}
+
+int ui_base::run()
+{
+    while(true) {
+        draw();
+        finish();
+        draw_border();
+        auto code = handle_input(get_input());
+        switch(code) {
+            case ui_error: // ran into an issue
+                debugmsg("ui_error [%d]: %s", error_code, error_msg.c_str());
+                return -1;
+            case ui_exit: // exit normally
+                return return_code;
+            case ui_continue: // continue displaying the ui
+                break;
+            default:    // unknown ui code
+                debugmsg("Invalid ui_input_code given! [%d]", code);
+                return -2;
+        }
+    }
+    // control should not reach here
+}
+
+// set the size of the window
+void ui_base::set_size(const point &s)
+{
+    size = s;
+}
+
+// set the position of the window
+void ui_base::set_position(const point &p)
+{
+    pos = p;
+}
+/////////////////////////////////////////////////////////////////////////// }}}1
+//// ui_functor /////////////////////////////////////////////////////////// {{{1
+void ui_functor::add_function(const ui_callback &uc)
+{
+    functions[uc.name] = uc.func;
+}
+
+void ui_functor::rem_function(const ui_callback &uc)
+{
+    for(auto iter = functions.begin(); iter != functions.end(); ++iter) {
+        if(iter->first == uc.name) {
+            functions.erase(iter);
+            return;
+        }
+    }
+    // check your code homie! :-)
+    assert(false);
+}
+
+void ui_functor::mod_function(const ui_callback &uc)
+{
+    // the function must be present! use add_function() to add a new one! :-)
+    assert(functions.find(uc.name) != functions.end());
+    functions[uc.name] = uc.func;
+}
+/////////////////////////////////////////////////////////////////////////// }}}1
+//// ui_element /////////////////////////////////////////////////////////// {{{1
+void ui_element::draw()
+{
+    finish();
+}
+/////////////////////////////////////////////////////////////////////////// }}}1
+//// ui_scrollbar ///////////////////////////////////////////////////////// {{{1
+void ui_scrollbar::draw()
+{
+    const auto &offset = pos;
+
+    if(size.y >= num_items) {
+        //scrollbar is not required
+        bar_color = BORDER_COLOR;
+    }
+
+    //Clear previous scrollbar
+    for(int i = offset.y; i < offset.y + size.y; i++) {
+        mvwputch(window.get(), i, offset.x, bar_color, LINE_XOXO);
+    }
+
+    if(size.y >= num_items) {
+        wrefresh(window.get());
+        return;
+    }
+
+    if(num_items > 0) {
+        mvwputch(window.get(), offset.y, offset.x, c_ltgreen, '^');
+        mvwputch(window.get(), offset.y + size.y - 1, offset.x, c_ltgreen, 'v');
+
+        int height = ((size.y - 2) * (size.y - 2)) / num_items;
+
+        if (height < 2) {
+            height = 2;
+        }
+
+        const int &line = this->get_line();
+        int y = (line == 0) ? -1 :
+            (line == (num_items - 1)) ? size.y - 3 - height : 
+            (line * (size.y - 3 - height)) / num_items;
+        for(int i = 0; i < height; ++i) {
+            mvwputch(window.get(), i + size.y + 2 + y, offset.x, c_cyan_cyan, LINE_XOXO);
+        }
+    }
+
+    wrefresh(window.get());
+}
+/////////////////////////////////////////////////////////////////////////// }}}1
+//// ui_tabbed //////////////////////////////////////////////////////////// {{{1
+ui_tabbed::ui_tabbed()
+{
+    labels.push_back("NULL");
+}
+
+ui_tabbed::ui_tabbed(const char *start, ...)
+{
+    va_list ap;
+    if(start == nullptr || strlen(start) == 0) {
+        labels.push_back("NULL");
+        return;
+    }
+    labels.push_back(std::string(start));
+    va_start(ap, start);
+    while (const char *label = va_arg(ap, char *)) {
+        labels.push_back(std::string(label));
+    }
+    va_end(ap);
+}
+
+const std::vector<std::string> &ui_tabbed::get_labels() const
+{
+    return labels;
+}
+
+template <typename T>
+void ui_tabbed::set_labels(T v)
+{
+    labels = v;
+}
+
+// yucky duplicate code :-(
+void ui_tabbed::set_labels(const char *start, ...)
+{
+    // free the previous labels
+    labels.clear();
+    va_list ap;
+    if(start == nullptr || strlen(start) == 0) {
+        labels.push_back("NULL");
+        return;
+    }
+    labels.push_back(std::string(start));
+    va_start(ap, start);
+    while (const char *label = va_arg(ap, char *)) {
+        labels.push_back(std::string(label));
+    }
+    va_end(ap);
+}
+
+size_t ui_tabbed::find_label(const std::string &name)
+{
+    int index = -1;
+    for(int i = 0; i < labels.size(); ++i) {
+        if(name == labels[i]) {
+            index = i;
+            break;
+        }
+    }
+    // recheck your code friend! :-)
+    assert(index != -1);
+    return index;
+}
+
+void ui_tabbed::add_label(const std::string &name)
+{
+    labels.push_back(name);
+}
+
+void ui_tabbed::rem_label(const std::string &name)
+{
+    auto elem = labels.begin();
+    std::advance(elem, find_label(name));
+    labels.erase(elem);
+}
+
+void ui_tabbed::mod_label(const std::string &old_name, const std::string &new_name)
+{
+    labels[find_label(old_name)] = new_name;
+}
+
+// TODO: go through the window drawing code to assure sanity
+void ui_tabbed::draw_tabs()
+{
+    auto *w = window.get();
+
+    int win_width;
+    win_width = getmaxx(w);
+
+    // Draw the line under the tabs
+    for (int x = 0; x < win_width; x++) {
+        mvwputch(w, 2, x, c_white, LINE_OXOX);
+    }
+
+    int total_width = 0;
+    for (auto &i : labels) {
+        total_width += i.length() + 6;    // "< |four| >"
+    }
+
+    if (total_width > win_width) {
+        //debugmsg("draw_tabs not given enough space! %s", labels[0]);
+        return;
+    }
+
+    // Extra "buffer" space per each side of each tab
+    double buffer_extra = (win_width - total_width) / (labels.size() * 2);
+    int buffer = static_cast<int>(buffer_extra);
+    // Set buffer_extra to (0, 1); the "extra" whitespace that builds up
+    buffer_extra = buffer_extra - buffer;
+    int xpos = 0;
+    double savings = 0;
+
+    for (size_t i = 0; i < labels.size(); i++) {
+        int length = labels[i].length();
+        xpos += buffer + 2;
+        savings += buffer_extra;
+        if (savings > 1) {
+            savings--;
+            xpos++;
+        }
+        mvwputch(w, 0, xpos, c_white, LINE_OXXO);
+        mvwputch(w, 1, xpos, c_white, LINE_XOXO);
+        mvwputch(w, 0, xpos + length + 1, c_white, LINE_OOXX);
+        mvwputch(w, 1, xpos + length + 1, c_white, LINE_XOXO);
+        if ((int)i == active_tab) {
+            mvwputch(w, 1, xpos - 2, h_white, '<');
+            mvwputch(w, 1, xpos + length + 3, h_white, '>');
+            mvwputch(w, 2, xpos, c_white, LINE_XOOX);
+            mvwputch(w, 2, xpos + length + 1, c_white, LINE_XXOO);
+            mvwprintz(w, 1, xpos + 1, h_white, "%s", labels[i].c_str());
+            for (int x = xpos + 1; x <= xpos + length; x++) {
+                mvwputch(w, 0, x, c_white, LINE_OXOX);
+                mvwputch(w, 2, x, c_black, 'x');
+            }
+        } else {
+            mvwputch(w, 2, xpos, c_white, LINE_XXOX);
+            mvwputch(w, 2, xpos + length + 1, c_white, LINE_XXOX);
+            mvwprintz(w, 1, xpos + 1, c_white, "%s", labels[i].c_str());
+            for (int x = xpos + 1; x <= xpos + length; x++) {
+                mvwputch(w, 0, x, c_white, LINE_OXOX);
+            }
+        }
+        xpos += length + 1 + buffer;
+    }
+}
+
+void ui_tabbed::finish()
+{
+}
+/////////////////////////////////////////////////////////////////////////// }}}1
+//// ui_canvas //////////////////////////////////////////////////////////// {{{1
+/////////////////////////////////////////////////////////////////////////// }}}1
+//// ui_list ////////////////////////////////////////////////////////////// {{{1
+size_t ui_list::find_entry(const std::string &name) const
+{
+    for(size_t i = 0; i < entries.size(); ++i) {
+        if(entries[i].name == name) {
+            return i;
+        }
+    }
+    // entry must be valid!
+    assert(false);
+    return entries.size();
+}
+
+void ui_list::add_entry(const std::string &name, bool enabled, nc_color col, int ret)
+{
+    add_entry(ui_list_entry(name, enabled, col, ret));
+}
+
+void ui_list::add_entry(const ui_list_entry &entry)
+{
+    entries.push_back(entry);
+}
+
+void ui_list::rem_entry(const std::string &name)
+{
+    rem_entry(ui_list_entry(name));
+}
+
+void ui_list::rem_entry(const ui_list_entry &entry)
+{
+    auto iter = entries.begin();
+    std::advance(iter, find_entry(entry.name));
+    entries.erase(iter);
+}
+
+void ui_list::mod_entry(const std::string &name, bool enabled, nc_color col)
+{
+    mod_entry(ui_list_entry(name, enabled, col));
+}
+
+void ui_list::mod_entry(const ui_list_entry &entry)
+{
+    entries[find_entry(entry.name)] = entry;
+}
+
+ui_list_entry ui_list::get_entry(const std::string &name) const
+{
+    return entries[find_entry(name)];
+}
+
+void ui_list::clear()
+{
+    entries.clear();
+}
+
+/////////////////////////////////////////////////////////////////////////// }}}1
+//// ui_container ///////////////////////////////////////////////////////// {{{1
+ui_container::ui_container()
+{
+}
+
+ui_container::ui_container(const point &pos, const point &size)
+{
+    this->pos = pos;
+    this->size = size;
+    set_region_size(size);
+}
+
+ui_container::ui_container(const std::vector<ui_children> &children)
+{
+    auto size = calculate_size(children);
+    set_size(size);
+    set_region_size(size);
+    for(auto &child : children) {
+        add_element(child.name, child.element);
+    }
+}
+
+void ui_container::set_region_size(const point &size)
+{
+    region.resize(size.x * size.y);
+}
+
+bool ui_container::add_region(const point &pos, const point &size)
+{
+    // check to see if any part of the region overlaps before setting anything
+    if(!does_region_overlap(pos, size)) {
+        // region is safe, set bits
+        for(int y = pos.y; y < pos.y + size.y; ++y) {
+            for(int x = pos.x; x < pos.x + size.x; ++x) {
+                region[this->size.x * y + x] = true;
+            }
+        }
+        return true;
+    }
+    return false;
+}
+
+void ui_container::rem_region(const point &pos, const point &size)
+{
+}
+
+bool ui_container::does_region_overlap(const point &pos, const point &size)
+{
+    // points for each of the element's 4 corners
+    const std::array<point, 4> c = {
+        {pos.x, pos.y},
+        {pos.x + size.x, pos.y},
+        {pos.x, pos.y + size.y},
+        {pos.x + size.x, pos.y + size.y}
+    };
+    auto is_inside = [&c](const quad &q) {
+        bool ul = 
+        return (q.x >= 
+    };
+    for(auto &q : region) {
+    }
+}
+
+//bool ui_container::does_region_overlap(const point &pos, const point &size)
+//{
+//    // check the midpoint first, for any overlaps, to save on calculations
+//    const int midpoint = ((pos.y + (size.y / 2)) * this->size.x) + (pos.x + (size.x / 2));
+//    if(region[midpoint] == true) {
+//        return true;
+//    }
+//    // calculate the points for each of the 4 corners
+//    const std::array<int, 4> corners = {
+//        pos.y * this->size.x,                                   // upper left
+//        pos.y * this->size.x + pos.x + size.x,                  // upper right
+//        (pos.y + size.y) * this->size.x,                        // lower left
+//        (pos.y + size.y) * this->size.x + pos.x + size.x        // lower right
+//    };
+//    // verify that the 4 corners are not taken
+//    for(auto &corner : corners) {
+//        if(region[corner] == true) {
+//            return true;
+//        }
+//    }
+//    // defer calculation of quadrant midpoints and fourths to post corner check
+//    const point one_fourth = {size.x / 4, size.y / 4};
+//    const std::array<int, 4> quadrants = {
+//        // quadrant 1
+//        corners[0] + (one_fourth.y * this->size.x) + one_fourth.x,
+//        // quadrant 2
+//        corners[1] + (one_fourth.y * this->size.x) - one_fourth.x,
+//        // quadrant 4
+//        corners[2] - (one_fourth.y * this->size.x) + one_fourth.x,
+//        // quadrant 3
+//        corners[3] - (one_fourth.y * this->size.x) - one_fourth.x
+//    };
+//    // check each quadrant midpoint for a possible region
+//    for(auto &quadrant : quadrants) {
+//        if(region[quadrant] == true) {
+//            return true;
+//        }
+//    }
+//    // fallback to manually check each individual bit in the quadrant
+//    for(int y = pos.y; y < pos.y + size.y; ++y) {
+//        for(int x = pos.x; x < pos.x + size.x; ++x) {
+//            if(region[this->size.x * y + x] == true) {
+//                return true;
+//            }
+//        }
+//    }
+//    return false;
+//}
+
+point ui_container::calculate_size(const std::vector<ui_children> &children)
+{
+    // stores the calculated size
+    point calc = {0, 0};
+    for(auto &child : children) {
+        if(child.element == nullptr) {
+            continue;
+        }
+        auto p = child.element->get_position();
+        auto s = child.element->get_size();
+        // position + size
+        point n(p.x + s.x, p.y + s.y);
+        if(n.x > calc.x) {
+            calc.x = n.x;
+        }
+        if(n.y > calc.y) {
+            calc.y = n.y;
+        }
+    }
+    return calc;
+}
+
+void ui_container::refresh()
+{
+}
+
+void ui_container::add_element(const std::string &name, ui_element *element)
+{
+    children[name] = element;
+}
+
+void ui_container::rem_element(const std::string &name)
+{
+}
+/////////////////////////////////////////////////////////////////////////// }}}1
 
 
+
+//// work in progress ///////////////////////////////////////////////////// {{{1
 ////////////////////////////////////
 int getfoldedwidth (std::vector<std::string> foldedstring)
 {
@@ -100,13 +617,12 @@ uimenu::uimenu(int startx, int width, int starty, std::string title,
 {
     // another quick convenience coonstructor
     init();
-    w_x = startx;
-    w_y = starty;
-    w_width = width;
+    pos = {startx, starty};
+    size.x = width;
     text = title;
     entries = ents;
     query();
-    //dprint(2,"const: ret=%d w_x=%d w_y=%d w_width=%d w_height=%d, text=%s",ret,w_x,w_y,w_width,w_height, text.c_str() );
+    //dprint(2,"const: ret=%d pos.x=%d pos.y=%d size.x=%d size.y=%d, text=%s",ret,pos.x,pos.y,size.x,size.y, text.c_str() );
 }
 
 uimenu::uimenu(bool cancelable, int startx, int width, int starty, std::string title,
@@ -115,13 +631,12 @@ uimenu::uimenu(bool cancelable, int startx, int width, int starty, std::string t
     // another quick convenience coonstructor
     init();
     return_invalid = cancelable;
-    w_x = startx;
-    w_y = starty;
-    w_width = width;
+    pos = {startx, starty};
+    size.x = width;
     text = title;
     entries = ents;
     query();
-    //dprint(2,"const: ret=%d w_x=%d w_y=%d w_width=%d w_height=%d, text=%s",ret,w_x,w_y,w_width,w_height, text.c_str() );
+    //dprint(2,"const: ret=%d pos.x=%d pos.y=%d size.x=%d size.y=%d, text=%s",ret,pos.x,pos.y,size.x,size.y, text.c_str() );
 }
 
 /*
@@ -138,19 +653,19 @@ uimenu::operator int() const
  */
 void uimenu::init()
 {
-    w_x = MENU_AUTOASSIGN;              // starting position
-    w_y = MENU_AUTOASSIGN;              // -1 = auto center
-    w_width = MENU_AUTOASSIGN;          // MENU_AUTOASSIGN = based on text width or max entry width, -2 = based on max entry, folds text
-    w_height =
+    pos.x = MENU_AUTOASSIGN;            // starting position
+    pos.y = MENU_AUTOASSIGN;            // -1 = auto center
+    size.x = MENU_AUTOASSIGN;           // MENU_AUTOASSIGN = based on text width or max entry width, -2 = based on max entry, folds text
+    size.y =
         MENU_AUTOASSIGN; // -1 = autocalculate based on number of entries + number of lines in text // fixme: scrolling list with offset
     ret = UIMENU_INVALID;  // return this unless a valid selection is made ( -1024 )
     text = "";             // header text, after (maybe) folding, populates:
     textformatted.clear(); // folded to textwidth
-    textwidth = MENU_AUTOASSIGN; // if unset, folds according to w_width
+    textwidth = MENU_AUTOASSIGN; // if unset, folds according to size.x
     textalign = MENU_ALIGN_LEFT; // todo
-    title = "";            // Makes use of the top border, no folding, sets min width if w_width is auto
+    title = "";            // Makes use of the top border, no folding, sets min width if size.x is auto
     keypress = 0;          // last keypress from (int)getch()
-    window = NULL;         // our window
+    window.reset(new WINDOW); // our window
     keymap.clear();        // keymap[int] == index, for entries[index]
     selected = 0;          // current highlight, for entries[index]
     entries.clear();       // uimenu_entry(int returnval, bool enabled, int keycode, std::string text, ...todo submenu stuff)
@@ -264,8 +779,8 @@ std::string uimenu::inputfilter()
     std::string identifier = ""; // todo: uimenu.filter_identifier ?
     long key = 0;
     int spos = -1;
-    mvwprintz(window, w_height - 1, 2, border_color, "< ");
-    mvwprintz(window, w_height - 1, w_width - 3, border_color, " >");
+    mvwprintz(window.get(), size.y - 1, 2, border_color, "< ");
+    mvwprintz(window.get(), size.y - 1, size.x - 3, border_color, " >");
     /*
     //debatable merit
         std::string origfilter = filter;
@@ -275,8 +790,8 @@ std::string uimenu::inputfilter()
     */
     do {
         // filter=filter_input->query(filter, false);
-        filter = string_input_win( window, filter, 256, 4, w_height - 1, w_width - 4,
-                                   false, key, spos, identifier, 4, w_height - 1 );
+        filter = string_input_win( window.get(), filter, 256, 4, size.y - 1, size.x - 4,
+                                   false, key, spos, identifier, 4, size.y - 1 );
         // key = filter_input->keypress;
         if ( key != KEY_ESCAPE ) {
             if ( scrollby(0, key) == false ) {
@@ -297,11 +812,11 @@ std::string uimenu::inputfilter()
         filterlist();
     }
 
-    wattron(window, border_color);
-    for( int i = 1; i < w_width - 1; i++ ) {
-        mvwaddch(window, w_height - 1, i, LINE_OXOX);
+    wattron(window.get(), border_color);
+    for( int i = 1; i < size.x - 1; i++ ) {
+        mvwaddch(window.get(), size.y - 1, i, LINE_OXOX);
     }
-    wattroff(window, border_color);
+    wattroff(window.get(), border_color);
 
     return filter;
 }
@@ -311,19 +826,19 @@ std::string uimenu::inputfilter()
  */
 void uimenu::setup()
 {
-    bool w_auto = (w_width == -1 || w_width == -2 );
-    bool w_autofold = ( w_width == -2);
+    bool w_auto = (size.x == -1 || size.x == -2 );
+    bool w_autofold = ( size.x == -2);
 
     if ( w_auto ) {
-        w_width = 4;
+        size.x = 4;
         if ( !title.empty() ) {
-            w_width = title.size() + 5;
+            size.x = title.size() + 5;
         }
     }
 
-    bool h_auto = (w_height == -1);
+    bool h_auto = (size.y == -1);
     if ( h_auto ) {
-        w_height = 4;
+        size.y = 4;
     }
 
     if ( desc_enabled && !(w_auto && h_auto) ) {
@@ -350,12 +865,12 @@ void uimenu::setup()
             if ( entries[ i ].retval == -1 ) {
                 entries[ i ].retval = i;
             }
-            if ( w_auto && w_width < txtwidth + pad + 4 ) {
-                w_width = txtwidth + pad + 4;
+            if ( w_auto && size.x < txtwidth + pad + 4 ) {
+                size.x = txtwidth + pad + 4;
             }
         } else {
-            if ( w_auto && w_width < txtwidth + pad + 4 ) {
-                w_width = txtwidth + pad + 4;    // todo: or +5 if header
+            if ( w_auto && size.x < txtwidth + pad + 4 ) {
+                size.x = txtwidth + pad + 4;    // todo: or +5 if header
             }
         }
         if ( desc_enabled ) {
@@ -389,13 +904,13 @@ void uimenu::setup()
         if (descwidth_final > TERMX) {
             desc_enabled = false; // give up
             debugmsg("description would exceed terminal width (%d vs %d available)", descwidth_final, TERMX);
-        } else if (descwidth_final > w_width) {
-            w_width = descwidth_final;
+        } else if (descwidth_final > size.x) {
+            size.x = descwidth_final;
         }
     }
 
-    if (w_auto && w_width > TERMX) {
-        w_width = TERMX;
+    if (w_auto && size.x > TERMX) {
+        size.x = TERMX;
     }
 
     if(!text.empty() ) {
@@ -404,10 +919,10 @@ void uimenu::setup()
         int realtextwidth = 0;
         if ( textwidth == -1 ) {
             if ( w_autofold || !w_auto ) {
-                realtextwidth = w_width - 4;
+                realtextwidth = size.x - 4;
             } else {
                 realtextwidth = twidth;
-                if ( twidth + 4 > w_width ) {
+                if ( twidth + 4 > size.x ) {
                     if ( realtextwidth + 4 > TERMX ) {
                         realtextwidth = TERMX - 4;
                     }
@@ -420,8 +935,8 @@ void uimenu::setup()
                             realtextwidth = w;
                         }
                     }
-                    if ( realtextwidth + 4 > w_width ) {
-                        w_width = realtextwidth + 4;
+                    if ( realtextwidth + 4 > size.x ) {
+                        size.x = realtextwidth + 4;
                     }
                 }
             }
@@ -434,26 +949,26 @@ void uimenu::setup()
     }
 
     if (h_auto) {
-        w_height = 3 + textformatted.size() + entries.size();
+        size.y = 3 + textformatted.size() + entries.size();
         if (desc_enabled) {
-            int w_height_final = w_height + desc_lines + 1; // add one for border
-            if (w_height_final > TERMY) {
+            int y_final = size.y + desc_lines + 1; // add one for border
+            if (y_final > TERMY) {
                 desc_enabled = false; // give up
                 debugmsg("with description height would exceed terminal height (%d vs %d available)",
-                         w_height_final, TERMY);
+                         y_final, TERMY);
             } else {
-                w_height = w_height_final;
+                size.y = y_final;
             }
         }
     }
 
-    if ( w_height > TERMY ) {
-        w_height = TERMY;
+    if ( size.y > TERMY ) {
+        size.y = TERMY;
     }
 
     vmax = entries.size();
-    if ( vmax + 3 + (int)textformatted.size() > w_height ) {
-        vmax = w_height - 3 - textformatted.size();
+    if ( vmax + 3 + (int)textformatted.size() > size.y ) {
+        vmax = size.y - 3 - textformatted.size();
         if ( vmax < 1 ) {
             if (textformatted.empty()) {
                 popup("Can't display menu options, 0 %d available screen rows are occupied\nThis is probably a bug.\n",
@@ -467,11 +982,11 @@ void uimenu::setup()
         }
     }
 
-    if (w_x == -1) {
-        w_x = int((TERMX - w_width) / 2);
+    if (pos.x == -1) {
+        pos.x = int((TERMX - size.x) / 2);
     }
-    if (w_y == -1) {
-        w_y = int((TERMY - w_height) / 2);
+    if (pos.y == -1) {
+        pos.y = int((TERMY - size.y) / 2);
     }
 
     if ( scrollbar_side == -1 ) {
@@ -480,14 +995,14 @@ void uimenu::setup()
     if ( (int)entries.size() <= vmax ) {
         scrollbar_auto = false;
     }
-    window = newwin(w_height, w_width, w_y, w_x);
+    window.reset(newwin(size.y, size.x, pos.y, pos.x));
 
-    werase(window);
-    draw_border(window, border_color);
+    werase(window.get());
+    draw_border(window.get(), border_color);
     if( !title.empty() ) {
-        mvwprintz(window, 0, 1, border_color, "< ");
-        wprintz(window, title_color, "%s", title.c_str() );
-        wprintz(window, border_color, " >");
+        mvwprintz(window.get(), 0, 1, border_color, "< ");
+        wprintz(window.get(), title_color, "%s", title.c_str() );
+        wprintz(window.get(), border_color, " >");
     }
     fselected = selected;
     if(fselected < 0) {
@@ -515,23 +1030,23 @@ void uimenu::apply_scrollbar()
         last_vshift = vshift;
         last_fsize = fentries.size();
 
-        int sbside = ( scrollbar_side == 0 ? 0 : w_width );
+        int sbside = ( scrollbar_side == 0 ? 0 : size.x );
         int estart = textformatted.size() + 1;
 
         if ( !fentries.empty() && vmax < (int)fentries.size() ) {
-            wattron(window, border_color);
-            mvwaddch(window, estart, sbside, '^');
-            wattroff(window, border_color);
+            wattron(window.get(), border_color);
+            mvwaddch(window.get(), estart, sbside, '^');
+            wattroff(window.get(), border_color);
 
-            wattron(window, scrollbar_nopage_color);
+            wattron(window.get(), scrollbar_nopage_color);
             for( int i = estart + 1; i < estart + vmax - 1; i++ ) {
-                mvwaddch(window, i, sbside, LINE_XOXO);
+                mvwaddch(window.get(), i, sbside, LINE_XOXO);
             }
-            wattroff(window, scrollbar_nopage_color);
+            wattroff(window.get(), scrollbar_nopage_color);
 
-            wattron(window, border_color);
-            mvwaddch(window, estart + vmax - 1, sbside, 'v');
-            wattroff(window, border_color);
+            wattron(window.get(), border_color);
+            mvwaddch(window.get(), estart + vmax - 1, sbside, 'v');
+            wattroff(window.get(), border_color);
 
             int svmax = vmax - 2;
             int fentriessz = fentries.size() - vmax;
@@ -543,18 +1058,18 @@ void uimenu::apply_scrollbar()
             int sbstart = ( vshift * svmaxsz ) / fentriessz;
             int sbend = sbstart + sbsize;
 
-            wattron(window, scrollbar_page_color);
+            wattron(window.get(), scrollbar_page_color);
             for ( int i = sbstart; i < sbend; i++ ) {
-                mvwaddch(window, i + estart + 1, sbside, LINE_XOXO);
+                mvwaddch(window.get(), i + estart + 1, sbside, LINE_XOXO);
             }
-            wattroff(window, scrollbar_page_color);
+            wattroff(window.get(), scrollbar_page_color);
 
         } else {
-            wattron(window, border_color);
+            wattron(window.get(), border_color);
             for( int i = estart; i < estart + vmax; i++ ) {
-                mvwaddch(window, i, sbside, LINE_XOXO);
+                mvwaddch(window.get(), i, sbside, LINE_XOXO);
             }
-            wattroff(window, border_color);
+            wattroff(window.get(), border_color);
         }
     }
 }
@@ -567,17 +1082,17 @@ void uimenu::show()
     if (!started) {
         setup();
     }
-    std::string padspaces = std::string(w_width - 2 - pad_left - pad_right, ' ');
+    std::string padspaces = std::string(size.x - 2 - pad_left - pad_right, ' ');
     const int text_lines = textformatted.size();
     for ( int i = 0; i < text_lines; i++ ) {
-        trim_and_print(window, 1 + i, 2, getmaxx(window) - 4, text_color, "%s", textformatted[i].c_str());
+        trim_and_print(window.get(), 1 + i, 2, getmaxx(window) - 4, text_color, "%s", textformatted[i].c_str());
     }
 
-    mvwputch(window, text_lines + 1, 0, border_color, LINE_XXXO);
-    for ( int i = 1; i < w_width - 1; ++i) {
-        mvwputch(window, text_lines + 1, i, border_color, LINE_OXOX);
+    mvwputch(window.get(), text_lines + 1, 0, border_color, LINE_XXXO);
+    for ( int i = 1; i < size.x - 1; ++i) {
+        mvwputch(window.get(), text_lines + 1, i, border_color, LINE_OXOX);
     }
-    mvwputch(window, text_lines + 1, w_width - 1, border_color, LINE_XOXX);
+    mvwputch(window.get(), text_lines + 1, size.x - 1, border_color, LINE_XOXX);
 
     int estart = text_lines + 2;
 
@@ -594,10 +1109,10 @@ void uimenu::show()
                           );
 
             if ( hilight_full ) {
-                mvwprintz(window, estart + si, pad_left + 1, co , "%s", padspaces.c_str());
+                mvwprintz(window.get(), estart + si, pad_left + 1, co , "%s", padspaces.c_str());
             }
             if(entries[ ei ].enabled && entries[ ei ].hotkey >= 33 && entries[ ei ].hotkey < 126 ) {
-                mvwprintz( window, estart + si, pad_left + 2, ( ei == selected ) ? hilight_color :
+                mvwprintz( window.get(), estart + si, pad_left + 2, ( ei == selected ) ? hilight_color :
                            hotkey_color , "%c", entries[ ei ].hotkey );
             }
             if( padspaces.size() > 3 ) {
@@ -606,46 +1121,46 @@ void uimenu::show()
                 // cases printeing starts at pad_left+1, here it starts at pad_left+4, so 3 cells less
                 // to be used.
                 const auto entry = utf8_wrapper( entries[ ei ].txt );
-                trim_and_print( window, estart + si, pad_left + 4, w_width - 2 - pad_left - pad_right, co, "%s", entry.c_str() );
+                trim_and_print( window.get(), estart + si, pad_left + 4, size.x - 2 - pad_left - pad_right, co, "%s", entry.c_str() );
             }
             if ( !entries[ei].extratxt.txt.empty() ) {
-                mvwprintz( window, estart + si, pad_left + 1 + entries[ ei ].extratxt.left,
+                mvwprintz( window.get(), estart + si, pad_left + 1 + entries[ ei ].extratxt.left,
                            entries[ ei ].extratxt.color, "%s", entries[ ei ].extratxt.txt.c_str() );
             }
             if ( entries[ei].extratxt.sym != 0 ) {
-                mvwputch ( window, estart + si, pad_left + 1 + entries[ ei ].extratxt.left,
+                mvwputch ( window.get(), estart + si, pad_left + 1 + entries[ ei ].extratxt.left,
                            entries[ ei ].extratxt.color, entries[ ei ].extratxt.sym );
             }
             if ( callback != NULL && ei == selected ) {
                 callback->select(ei, this);
             }
         } else {
-            mvwprintz(window, estart + si, pad_left + 1, c_ltgray , "%s", padspaces.c_str());
+            mvwprintz(window.get(), estart + si, pad_left + 1, c_ltgray , "%s", padspaces.c_str());
         }
     }
 
     if ( desc_enabled ) {
         // draw border
-        mvwputch(window, w_height - desc_lines - 2, 0, border_color, LINE_XXXO);
-        for ( int i = 1; i < w_width - 1; ++i) {
-            mvwputch(window, w_height - desc_lines - 2, i, border_color, LINE_OXOX);
+        mvwputch(window.get(), size.y - desc_lines - 2, 0, border_color, LINE_XXXO);
+        for ( int i = 1; i < size.x - 1; ++i) {
+            mvwputch(window.get(), size.y - desc_lines - 2, i, border_color, LINE_OXOX);
         }
-        mvwputch(window, w_height - desc_lines - 2, w_width - 1, border_color, LINE_XOXX);
+        mvwputch(window.get(), size.y - desc_lines - 2, size.x - 1, border_color, LINE_XOXX);
 
         // clear previous desc the ugly way
         for ( int y = desc_lines + 1; y > 1; --y ) {
-            for ( int x = 2; x < w_width - 2; ++x) {
-                mvwputch(window, w_height - y, x, text_color, " ");
+            for ( int x = 2; x < size.x - 2; ++x) {
+                mvwputch(window.get(), size.y - y, x, text_color, " ");
             }
         }
 
         // draw description
-        fold_and_print(window, w_height - desc_lines - 1, 2, w_width - 4, text_color, entries[selected].desc.c_str());
+        fold_and_print(window.get(), size.y - desc_lines - 1, 2, size.x - 4, text_color, entries[selected].desc.c_str());
     }
 
     if ( !filter.empty() ) {
-        mvwprintz( window, w_height - 1, 2, border_color, "< %s >", filter.c_str() );
-        mvwprintz( window, w_height - 1, 4, text_color, "%s", filter.c_str() );
+        mvwprintz( window.get(), size.y - 1, 2, border_color, "< %s >", filter.c_str() );
+        mvwprintz( window.get(), size.y - 1, 4, text_color, "%s", filter.c_str() );
     }
     apply_scrollbar();
 
@@ -657,7 +1172,7 @@ void uimenu::show()
  */
 void uimenu::refresh( bool refresh_callback )
 {
-    wrefresh(window);
+    wrefresh(window.get());
     if ( refresh_callback && callback != NULL ) {
         callback->refresh(this);
     }
@@ -668,15 +1183,15 @@ void uimenu::refresh( bool refresh_callback )
  */
 void uimenu::redraw( bool redraw_callback )
 {
-    draw_border(window, border_color);
+    draw_border(window.get(), border_color);
     if( !title.empty() ) {
-        mvwprintz(window, 0, 1, border_color, "< ");
-        wprintz(window, title_color, "%s", title.c_str() );
-        wprintz(window, border_color, " >");
+        mvwprintz(window.get(), 0, 1, border_color, "< ");
+        wprintz(window.get(), title_color, "%s", title.c_str() );
+        wprintz(window.get(), border_color, " >");
     }
     if ( !filter.empty() ) {
-        mvwprintz(window, w_height - 1, 2, border_color, "< %s >", filter.c_str() );
-        mvwprintz(window, w_height - 1, 4, text_color, "%s", filter.c_str());
+        mvwprintz(window.get(), size.y - 1, 2, border_color, "< %s >", filter.c_str() );
+        mvwprintz(window.get(), size.y - 1, 4, text_color, "%s", filter.c_str());
     }
     (void)redraw_callback; // TODO
     /*
@@ -813,11 +1328,11 @@ uimenu::~uimenu()
 
 void uimenu::reset()
 {
-    if (window != NULL) {
-        werase(window);
-        wrefresh(window);
-        delwin(window);
-        window = NULL;
+    if (window.get() != NULL) {
+        werase(window.get());
+        wrefresh(window.get());
+        delwin(window.get());
+        window.reset(new WINDOW);
     }
 
     init();
@@ -905,4 +1420,4 @@ void pointmenu_cb::refresh( uimenu *menu ) {
     menu->redraw( false );
     menu->show();
 }
-
+/////////////////////////////////////////////////////////////////////////// }}}1
