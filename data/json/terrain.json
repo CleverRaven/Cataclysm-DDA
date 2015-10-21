@@ -2407,7 +2407,8 @@
             "ter_set": "t_rock_floor",
             "items": [
                 { "item": "rock", "count": [3, 7] },
-                { "item": "material_limestone", "charges": [10, 25], "prob": 80 }
+                { "item": "material_limestone", "charges": [10, 25], "prob": 80 },
+                { "item": "material_rocksalt", "count": [2, 5], "prob": 60 }
             ]
         }
     },{

@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cataclysm-dda 0.C\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-09-28 10:03+0300\n"
+"POT-Creation-Date: 2015-10-12 09:50+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -943,6 +943,19 @@ msgstr[1] ""
 #: lang/json/AMMO_from_json.py
 msgid ""
 "A 40mm grenade with a small napalm load, designed to create a burst of flame."
+msgstr ""
+
+#: lang/json/AMMO_from_json.py
+msgid "40mm chemical round"
+msgid_plural "40mm chemical rounds"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for 40mm chemical round
+#: lang/json/AMMO_from_json.py
+msgid ""
+"A 40mm grenade with a toxic gas load.  It will burst in a cloud of hazardous "
+"gas."
 msgstr ""
 
 #: lang/json/AMMO_from_json.py
@@ -2457,6 +2470,19 @@ msgstr[1] ""
 #: lang/json/AMMO_from_json.py
 msgid ""
 "Fungicide enhanced with sulfur to create sprayable anti-fungal ammo for the "
+"chemical thrower.  Best be used with some kind of mask or mouth protection."
+msgstr ""
+
+#: lang/json/AMMO_from_json.py
+msgid "sprayable toxic gas"
+msgid_plural "sprayable toxic gass"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for sprayable toxic gas
+#: lang/json/AMMO_from_json.py
+msgid ""
+"A hazardous mixture made from household cleaners, improvised for use in a "
 "chemical thrower.  Best be used with some kind of mask or mouth protection."
 msgstr ""
 
@@ -27014,6 +27040,17 @@ msgid ""
 msgstr ""
 
 #: lang/json/GENERIC_from_json.py
+msgid "rock salt"
+msgid_plural "rock salt"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for rock salt
+#: lang/json/GENERIC_from_json.py
+msgid "A handful of rock salt crystals.  Could be refined into table salt."
+msgstr ""
+
+#: lang/json/GENERIC_from_json.py
 msgid "ceramic shard"
 msgid_plural "ceramic shards"
 msgstr[0] ""
@@ -27246,8 +27283,8 @@ msgstr[1] ""
 #. ~ Description for sledge hammer
 #: lang/json/GENERIC_from_json.py
 msgid ""
-"A large, heavy hammer.  Makes a good melee weapon for the very strong, but "
-"is nearly useless in the hands of the weak."
+"A large, heavy hammer.  Makes an acceptable melee weapon for the very "
+"strong, but is nearly useless in the hands of the weak."
 msgstr ""
 
 #: lang/json/GENERIC_from_json.py
@@ -35186,8 +35223,22 @@ msgstr[1] ""
 #: lang/json/GUN_from_json.py
 msgid ""
 "An ornate weapon resembling tiger claws, with blades perpetually glowing red-"
-"hot.  Despite this the weapon seems safe to wield. Firing it will smite your "
-"enemies with wicked fire, to sate the god of blood."
+"hot.  Despite this the weapon seems safe to wield.  Firing it will smite "
+"your enemies with wicked fire, to sate the god of blood."
+msgstr ""
+
+#: lang/json/GUN_from_json.py
+msgid "bane staff"
+msgid_plural "bane staves"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for bane staff
+#: lang/json/GUN_from_json.py
+msgid ""
+"A wooden staff decorated with gold, capped with a dark blue gem.  The wood "
+"gives off a faintly acrid smell.  Firing it will produce pools of acid and "
+"toxic fumes."
 msgstr ""
 
 #: lang/json/GUN_from_json.py
@@ -38002,6 +38053,19 @@ msgid ""
 msgstr ""
 
 #: lang/json/MONSTER_from_json.py
+msgid "wasp"
+msgid_plural "wasps"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for wasp
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"A slender-bodied flying insect, with a painful sting.  They can be somewhat "
+"aggresive if disturbed."
+msgstr ""
+
+#: lang/json/MONSTER_from_json.py
 msgid "giant wasp"
 msgid_plural "giant wasps"
 msgstr[0] ""
@@ -40304,6 +40368,40 @@ msgid ""
 msgstr ""
 
 #: lang/json/MONSTER_from_json.py
+msgid "giant cockroach"
+msgid_plural "giant cockroachs"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for giant cockroach
+#: lang/json/MONSTER_from_json.py
+msgid "A mutant cockroach the size of a small dog."
+msgstr ""
+
+#: lang/json/MONSTER_from_json.py
+msgid "pregnant giant cockroach"
+msgid_plural "pregnant giant cockroachs"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for pregnant giant cockroach
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"A mutant cockroach the size of a small dog.  It's abdomen is heavily swollen."
+msgstr ""
+
+#: lang/json/MONSTER_from_json.py
+msgid "giant cockroach nymph"
+msgid_plural "giant cockroach nymphs"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for giant cockroach nymph
+#: lang/json/MONSTER_from_json.py
+msgid "A baby mutant cockroach about the size of a rat."
+msgstr ""
+
+#: lang/json/MONSTER_from_json.py
 msgid "old animatronic fox"
 msgid_plural "old animatronic foxs"
 msgstr[0] ""
@@ -40640,6 +40738,19 @@ msgstr[1] ""
 #: lang/json/MONSTER_from_json.py
 msgid ""
 "A massive animated conflagration, crackling like burning logs as it moves."
+msgstr ""
+
+#: lang/json/MONSTER_from_json.py
+msgid "moruboru"
+msgid_plural "moruborus"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for moruboru
+#: lang/json/MONSTER_from_json.py
+msgid ""
+"A large plantlike creature with a gaping, toothy maw and numerous vines.  A "
+"hideous smell permeates the air around it."
 msgstr ""
 
 #: lang/json/MONSTER_from_json.py
@@ -43811,6 +43922,51 @@ msgid ""
 msgstr ""
 
 #: lang/json/TOOL_from_json.py
+msgid "makeshift gas canister"
+msgid_plural "makeshift gas canisters"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Use action msg for makeshift gas canister.
+#: lang/json/TOOL_from_json.py
+msgid "You arm the makeshift gas canister."
+msgstr ""
+
+#. ~ Description for makeshift gas canister
+#: lang/json/TOOL_from_json.py
+msgid ""
+"This is a crude gasbomb using household chemicals.  Use this item to arm "
+"it.  In three turns it will begin to expel a highly toxic gas for a short "
+"time.  This gas poisons those exposed to it, in addition to obscuring vision "
+"and scent."
+msgstr ""
+
+#: lang/json/TOOL_from_json.py
+msgid "active makeshift gas grenade"
+msgid_plural "active makeshift gas grenades"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Use action no_deactivate_msg for active makeshift gas grenade.
+#: lang/json/TOOL_from_json.py
+#, no-python-format
+msgid "You've already armed the %s, try throwing it instead."
+msgstr ""
+
+#. ~ Use action sound_msg for active makeshift gas grenade.
+#: lang/json/TOOL_from_json.py
+msgid "Hiss."
+msgstr ""
+
+#. ~ Description for active makeshift gas grenade
+#: lang/json/TOOL_from_json.py
+msgid ""
+"This hommade canister of poison gas has been unsealed, and is (or will "
+"shortly be) expelling highly toxic gas.  You should consider getting rid of "
+"it soon."
+msgstr ""
+
+#: lang/json/TOOL_from_json.py
 msgid "smoke bomb"
 msgid_plural "smoke bombs"
 msgstr[0] ""
@@ -45017,7 +45173,7 @@ msgstr ""
 #. ~ Description for battle axe
 #: lang/json/TOOL_from_json.py
 msgid ""
-"This is a massive axe designed for warfare.  Though intended for use as a "
+"This is a huge axe designed for warfare.  Though intended for use as a "
 "weapon, it can also be pressed into service as a rather clumsy woodcutting "
 "tool."
 msgstr ""
@@ -62200,6 +62356,14 @@ msgid "errie cavern"
 msgstr ""
 
 #: lang/json/overmap_terrain_from_json.py
+msgid "strange grove"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
+msgid "underground ruin"
+msgstr ""
+
+#: lang/json/overmap_terrain_from_json.py
 msgid "wildlife field office"
 msgstr ""
 
@@ -75357,9 +75521,12 @@ msgstr ""
 msgid "%s; enter new letter."
 msgstr ""
 
-#: src/bionics.cpp src/game.cpp src/mutation.cpp
+#: src/bionics.cpp
 #, c-format
-msgid "%c is not a valid inventory letter."
+msgid ""
+"Invlid bionic letter. Only those characters are valid:\n"
+"\n"
+"%s"
 msgstr ""
 
 #: src/bionics.cpp
@@ -83008,6 +83175,14 @@ msgid "%s; enter new letter (press SPACE for none, ESCAPE to cancel)."
 msgstr ""
 
 #: src/game.cpp
+#, c-format
+msgid ""
+"Invlid inventory letter. Only those characters are valid:\n"
+"\n"
+"%s"
+msgstr ""
+
+#: src/game.cpp
 msgid "You can't effectively throw while you're in your shell."
 msgstr ""
 
@@ -86462,8 +86637,10 @@ msgstr ""
 
 #: src/iexamine.cpp
 #, c-format
-msgid "Looks like %d stories. Jump down?"
-msgstr ""
+msgid "Looks like %d storey. Jump down?"
+msgid_plural "Looks like %d stories. Jump down?"
+msgstr[0] ""
+msgstr[1] ""
 
 #: src/iexamine.cpp
 msgid "You probably won't be able to get up and jumping down may hurt. Jump?"
@@ -87268,6 +87445,10 @@ msgid ""
 msgstr ""
 
 #: src/item.cpp
+msgid "This gear is fragile and won't protect you for long."
+msgstr ""
+
+#: src/item.cpp
 msgid "This gear prevents you from hearing any sounds."
 msgstr ""
 
@@ -87384,7 +87565,7 @@ msgstr ""
 
 #: src/item.cpp
 msgid ""
-"This item has been modified to listen to radio signals. It can still be "
+"This item has been modified to listen to radio signals.  It can still be "
 "activated manually."
 msgstr ""
 
@@ -87490,7 +87671,7 @@ msgid "This food has started to rot, but you can tolerate it."
 msgstr ""
 
 #: src/item.cpp
-msgid "This food has started to rot. Eating it would be a very bad idea."
+msgid "This food has started to rot.  Eating it would be a very bad idea."
 msgstr ""
 
 #: src/item.cpp
@@ -91431,6 +91612,11 @@ msgid "RC car with %s ? How?"
 msgstr ""
 
 #: src/iuse.cpp
+#, c-format
+msgid "Your %s is too heavy or bulky for this RC car."
+msgstr ""
+
+#: src/iuse.cpp
 msgid "You disarmed your RC car"
 msgstr ""
 
@@ -93388,6 +93574,10 @@ msgstr ""
 
 #: src/main_menu.cpp
 msgid "Special games don't work with shared maps."
+msgstr ""
+
+#: src/main_menu.cpp
+msgid "This world requires the game to be compiled with Lua."
 msgstr ""
 
 #: src/main_menu.cpp
@@ -99010,6 +99200,10 @@ msgstr ""
 msgid "The %s's interior compartment sizzles with destructive energy."
 msgstr ""
 
+#: src/mondeath.cpp
+msgid "A cockroach nymph crawls out of the pregnant giant cockroach corpse."
+msgstr ""
+
 #: src/mondefense.cpp
 #, c-format
 msgid "Striking the %1$s shocks %2$s!"
@@ -99451,6 +99645,14 @@ msgstr ""
 
 #: src/mutation.cpp
 msgid " - Active"
+msgstr ""
+
+#: src/mutation.cpp
+#, c-format
+msgid ""
+"Invlid mutation letter. Only those characters are valid:\n"
+"\n"
+"%s"
 msgstr ""
 
 #: src/mutation.cpp

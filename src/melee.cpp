@@ -1181,10 +1181,10 @@ void player::perform_technique(const ma_technique &technique, Creature &t, damag
     // Cut affects stab damage too since only one of cut/stab is used
     if( cut.amount > 0 && cut.amount > stab.amount ) {
         cut.amount += technique.cut;
-        bash.damage_multiplier *= technique.cut_mult;
+        cut.damage_multiplier *= technique.cut_mult;
     } else if( stab.amount > 0 ) {
         stab.amount += technique.cut;
-        bash.damage_multiplier *= technique.cut_mult;
+        stab.damage_multiplier *= technique.cut_mult;
     }
 
     move_cost *= technique.speed_mult;

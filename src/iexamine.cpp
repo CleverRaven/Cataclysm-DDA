@@ -3233,7 +3233,10 @@ void iexamine::climb_down( player *p, map *m, const tripoint &examp )
 
     const int climb_cost = p->climbing_cost( where, examp );
     const auto fall_mod = p->fall_damage_mod();
-    if( height > 1 && !query_yn( _("Looks like %d stories. Jump down?"), height ) ) {
+    std::string query_str = ngettext("Looks like %d storey. Jump down?",
+                                     "Looks like %d stories. Jump down?",
+                                     height);
+    if( height > 1 && !query_yn(query_str.c_str(), height) ) {
         return;
     } else if( height == 1 ) {
         std::string query;
