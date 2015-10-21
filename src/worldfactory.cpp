@@ -1322,9 +1322,6 @@ bool worldfactory::load_world_options(WORLDPTR &world)
     get_default_world_options(world);
     std::ifstream fin;
 
-    DebugLog( D_ERROR, DC_ALL ) << FILENAMES["worldoptions"];
-    DebugLog( D_ERROR, DC_ALL ) << FILENAMES["legacy_worldoptions"];
-
     auto path = world->world_path + "/" + FILENAMES["worldoptions"];
 
     fin.open(path.c_str());
