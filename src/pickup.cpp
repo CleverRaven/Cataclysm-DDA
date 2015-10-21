@@ -729,11 +729,12 @@ void Pickup::pick_up( const tripoint &pos, int min )
             if ( selected != last_selected ) {
                 last_selected = selected;
                 werase(w_item_info);
+                int iDummy = -1;
                 if ( selected >= 0 && selected <= (int)here.size() - 1 ) {
                     std::vector<iteminfo> vThisItem, vDummy;
                     here[selected].info(true, vThisItem);
 
-                    draw_item_info(w_item_info, "", vThisItem, vDummy, 0, true, true);
+                    draw_item_info(w_item_info, "", vThisItem, vDummy, iDummy, true, true);
                 }
                 draw_border(w_item_info);
                 mvwprintw(w_item_info, 0, 2, "< ");

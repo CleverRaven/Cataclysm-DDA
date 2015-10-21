@@ -1686,9 +1686,8 @@ int game::inventory_item_menu(int pos, int iStartX, int iWidth, int position)
         }
 
         do {
-            cMenu = draw_item_info(popup_x, popup_width, 0, vMenu.size() + iOffsetX * 2,
-                                   "", vMenu, vDummy,
-                                   iSelected >= iOffsetX && iSelected <= iMenuItems ? iSelected : -1);
+            int iSel = iSelected >= iOffsetX && iSelected <= iMenuItems ? iSelected : -1;
+            cMenu = draw_item_info(popup_x, popup_width, 0, vMenu.size() + iOffsetX * 2, "", vMenu, vDummy, iSel);
 
             switch (cMenu) {
             case 'a':
@@ -9517,6 +9516,7 @@ int game::list_items(const int iLastState)
     bool refilter = true;
     int page_num = 0;
     int iCatSortNum = 0;
+    int iScrollPos = 0;
     map_item_stack *activeItem = NULL;
     std::map<int, std::string> mSortCategory;
 
@@ -9526,6 +9526,8 @@ int game::list_items(const int iLastState)
     ctxt.register_action("DOWN", _("Move cursor down"));
     ctxt.register_action("LEFT", _("Previous item"));
     ctxt.register_action("RIGHT", _("Next item"));
+    ctxt.register_action("PAGE_DOWN");
+    ctxt.register_action("PAGE_UP");
     ctxt.register_action("NEXT_TAB");
     ctxt.register_action("PREV_TAB");
     ctxt.register_action("HELP_KEYBINDINGS");
@@ -9568,8 +9570,9 @@ int game::list_items(const int iLastState)
                 std::vector<iteminfo> vThisItem, vDummy;
 
                 activeItem->example->info(true, vThisItem);
+                int iDummy = -1;
                 draw_item_info(0, width - 5, 0, TERMY - VIEW_OFFSET_Y * 2,
-                               activeItem->example->tname(), vThisItem, vDummy);
+                               activeItem->example->tname(), vThisItem, vDummy, iDummy);
                 // wait until the user presses a key to wipe the screen
 
                 iLastActive = tripoint_min;
@@ -9704,6 +9707,10 @@ int game::list_items(const int iLastState)
                 if (page_num < 0) {
                     page_num = 0;
                 }
+            } else if (action == "PAGE_UP") {
+                iScrollPos--;
+            } else if (action == "PAGE_DOWN") {
+                iScrollPos++;
             } else if (action == "NEXT_TAB" || action == "PREV_TAB") {
                 u.view_offset = stored_view_offset;
                 return 1;
@@ -9813,7 +9820,7 @@ int game::list_items(const int iLastState)
                     std::vector<iteminfo> vThisItem, vDummy;
                     activeItem->example->info(true, vThisItem);
 
-                    draw_item_info(w_item_info, "", vThisItem, vDummy, 0, true, true);
+                    draw_item_info(w_item_info, "", vThisItem, vDummy, iScrollPos, true, true);
 
                     //Only redraw trail/terrain if x/y position changed
                     if( active_pos != iLastActive ) {

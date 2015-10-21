@@ -1171,10 +1171,11 @@ void game::compare( const tripoint &offset )
             sItemCh = inv_s.first_item->tname();
             inv_s.second_item->info(true, vItemLastCh);
             sItemLastCh = inv_s.second_item->tname();
+            int iDummy = -1;
             draw_item_info(0, (TERMX - VIEW_OFFSET_X * 2) / 2, 0, TERMY - VIEW_OFFSET_Y * 2,
-                           sItemLastCh, vItemLastCh, vItemCh, -1, true); //without getch()
+                           sItemLastCh, vItemLastCh, vItemCh, iDummy, true); //without getch()
             draw_item_info((TERMX - VIEW_OFFSET_X * 2) / 2, (TERMX - VIEW_OFFSET_X * 2) / 2,
-                           0, TERMY - VIEW_OFFSET_Y * 2, sItemCh, vItemCh, vItemLastCh);
+                           0, TERMY - VIEW_OFFSET_Y * 2, sItemCh, vItemCh, vItemLastCh, iDummy);
             inv_s.dropping = prev_droppings;
             inv_s.second_item = NULL;
         } else {

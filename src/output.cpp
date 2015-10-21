@@ -1053,7 +1053,7 @@ void full_screen_popup(const char *mes, ...)
 int draw_item_info(const int iLeft, const int iWidth, const int iTop, const int iHeight,
                    const std::string sItemName,
                    std::vector<iteminfo> &vItemDisplay, std::vector<iteminfo> &vItemCompare,
-                   const int selected, const bool without_getch, const bool without_border)
+                   int &selected, const bool without_getch, const bool without_border)
 {
     WINDOW *win = newwin(iHeight, iWidth, iTop + VIEW_OFFSET_Y, iLeft + VIEW_OFFSET_X);
 
@@ -1065,7 +1065,7 @@ int draw_item_info(const int iLeft, const int iWidth, const int iTop, const int 
 
 int draw_item_info(WINDOW *win, const std::string sItemName,
                    std::vector<iteminfo> &vItemDisplay, std::vector<iteminfo> &vItemCompare,
-                   const int selected, const bool without_getch, const bool without_border)
+                   int &selected, const bool without_getch, const bool without_border)
 {
     int line_num = 1;
     if (sItemName != "") {
@@ -1180,13 +1180,21 @@ int draw_item_info(WINDOW *win, const std::string sItemName,
         }
     }
 
+    int iLines = 0;
     if( !buffer.str().empty() ) {
         const auto b = without_border ? 1 : 2;
         const auto width = getmaxx( win ) - b * 2;
         const auto height = getmaxy( win );
 
-        const int iLines = fold_and_print( win, line_num, b, width, c_white, buffer.str() );
-        draw_scrollbar(win, 0, height, iLines, 0);
+        iLines = fold_and_print( win, line_num, b, width, c_white, buffer.str() ) - height;
+
+        if (selected < 0) {
+            selected = iLines;
+        } else if (selected > iLines) {
+            selected = 0;
+        }
+
+        draw_scrollbar(win, selected, height, iLines, 1, 1, c_white, false);
     }
 
     if (!without_border) {
@@ -1388,7 +1396,7 @@ void draw_subtab(WINDOW *w, int iOffsetX, std::string sText, bool bSelected, boo
 
 void draw_scrollbar(WINDOW *window, const int iCurrentLine, const int iContentHeight,
                     const int iNumEntries, const int iOffsetY, const int iOffsetX,
-                    nc_color bar_color)
+                    nc_color bar_color, bool bRefresh)
 {
     if (iContentHeight >= iNumEntries) {
         //scrollbar is not required
@@ -1401,7 +1409,9 @@ void draw_scrollbar(WINDOW *window, const int iCurrentLine, const int iContentHe
     }
 
     if (iContentHeight >= iNumEntries) {
-        wrefresh(window);
+        if (bRefresh) {
+            wrefresh(window);
+        }
         return;
     }
 
@@ -1427,7 +1437,9 @@ void draw_scrollbar(WINDOW *window, const int iCurrentLine, const int iContentHe
         }
     }
 
-    wrefresh(window);
+    if (bRefresh) {
+        wrefresh(window);
+    }
 }
 
 void calcStartPos(int &iStartPos, const int iCurrentLine, const int iContentHeight,
