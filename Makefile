@@ -614,6 +614,11 @@ app: appclean version data/osx/AppIcon.icns $(TILESTARGET)
 ifdef SOUND
 	cp -R data/sound $(APPDATADIR)
 endif  # ifdef SOUND
+ifdef LUA
+	mkdir -p $(APPRESOURCESDIR)/lua
+	cp lua/autoexec.lua $(APPRESOURCESDIR)/lua
+	cp lua/class_definitions.lua $(APPRESOURCESDIR)/lua
+endif # ifdef LUA
 	cp -R gfx $(APPRESOURCESDIR)/
 ifdef FRAMEWORK
 	cp -R /Library/Frameworks/SDL2.framework $(APPRESOURCESDIR)/
