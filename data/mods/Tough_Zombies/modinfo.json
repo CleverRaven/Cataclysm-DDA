@@ -1,8 +1,9 @@
-    {
-        "type": "MOD_INFO",
-        "mod-type": "SUPPLEMENTAL",
-        "ident": "Tough_Zombies",
-        "name": "Tough Zombies",
-        "description": "Doubles zombie health.",
-        "path": ""
-    }
+{
+    "type": "MOD_INFO",
+    "mod-type": "SUPPLEMENTAL",
+    "ident": "Tough_Zombies",
+    "name": "Tough Zombies",
+    "description": "Doubles zombie health.",
+    "category": "rebalance",
+    "path": ""
+}
