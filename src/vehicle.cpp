@@ -4430,8 +4430,9 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
         ret.type = veh_coll_bashable;
         e = 0.30;
         // Just a rough rescale for now to obtain approximately equal numbers
-        mass2 = 10 + std::max(0, g->m.bash_strength( p, bash_floor ) - 30);
-        part_dens = 10 + int(float(g->m.bash_strength( p, bash_floor ) ) / 300 * 70);
+        mass2 = ( g->m.bash_resistance( p, bash_floor ) +
+                  g->m.bash_strength( p, bash_floor ) ) / 2;
+        part_dens = 10 + int(float( mass2 ) / 30);
         ret.target_name = g->m.disp_name( p );
     } else if( g->m.move_cost_ter_furn( p ) == 0 ||
                ( bash_floor && !g->m.has_flag( TFLAG_NO_FLOOR, p ) ) ) {
