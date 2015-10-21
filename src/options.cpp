@@ -1513,7 +1513,7 @@ void options_manager::serialize(JsonOut &json) const
                 json.end_object();
 
                 if ( update_wopt ) {
-                    world_generator->active_world->world_options[elem] = ACTIVE_WORLD_OPTIONS[elem];
+                    world_generator->active_world->WORLD_OPTIONS[elem] = ACTIVE_WORLD_OPTIONS[elem];
                 }
             }
         }
