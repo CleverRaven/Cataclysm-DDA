@@ -3511,7 +3511,7 @@ void map::bash_ter_furn( const tripoint &p, bash_params &params )
     }
 
     if( bash->explosive > 0 ) {
-        g->explosion( p, bash->explosive, 0, false );
+        g->explosion( p, bash->explosive, 0.8, 0, false );
     }
 
     if( collapses ) {
@@ -3723,7 +3723,7 @@ void map::shoot( const tripoint &p, projectile &proj, const bool hit_items )
     int vpart;
     vehicle *veh = veh_at(p, vpart);
     if( veh != nullptr ) {
-        dam -= veh->damage( vpart, dam, inc ? DT_HEAT : DT_BASH, hit_items );
+        dam = veh->damage( vpart, dam, inc ? DT_HEAT : DT_BASH, hit_items );
     }
 
     ter_id terrain = ter( p );
@@ -3842,7 +3842,7 @@ void map::shoot( const tripoint &p, projectile &proj, const bool hit_items )
         if (hit_items || one_in(3)) {
             if (dam > 15) {
                 if( inc ) {
-                    g->explosion( p, 40, 0, true);
+                    g->explosion( p, 40, 0.8, 0, true);
                 } else {
                     for( const tripoint &pt : points_in_radius( p, 2 ) ) {
                         if( one_in( 3 ) && move_cost( pt ) > 0 ) {
@@ -5190,11 +5190,11 @@ static bool trigger_radio_item( item_stack &items, std::list<item>::iterator &n,
         sounds::sound(pos, 6, _("beep."));
         if( n->has_flag("RADIO_INVOKE_PROC") ) {
             // Invoke twice: first to transform, then later to proc
-            process_item( items, n, pos, true );
-            n->charges = 0;
+            // Can't use process_item here - invalidates our iterator
+            n->process( nullptr, pos, true );
         }
         if( n->has_flag("BOMB") ) {
-            // Set charges to 0 to ensure it detonates.
+            // Set charges to 0 to ensure it detonates now
             n->charges = 0;
         }
         trigger_item = true;
@@ -5205,6 +5205,10 @@ static bool trigger_radio_item( item_stack &items, std::list<item>::iterator &n,
         itype_id bomb_type = n->contents[0].type->id;
 
         n->make(bomb_type);
+        if( n->has_flag("RADIO_INVOKE_PROC") ) {
+            n->process( nullptr, pos, true );
+        }
+
         n->charges = 0;
         trigger_item = true;
     }

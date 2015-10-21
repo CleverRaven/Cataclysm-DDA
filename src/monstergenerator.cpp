@@ -181,6 +181,7 @@ void MonsterGenerator::init_death()
     death_map["JABBERWOCKY"] = &mdeath::jabberwock; // Snicker-snack!
     death_map["DETONATE"] = &mdeath::detonate; // Take them with you
     death_map["GAMEOVER"] = &mdeath::gameover;// Game over!  Defense mode
+    death_map["PREG_ROACH"] = &mdeath::preg_roach;// Spawn some cockroach nymphs
 
     /* Currently Unimplemented */
     //death_map["SHRIEK"] = &mdeath::shriek;// Screams loudly
@@ -569,7 +570,7 @@ std::vector<mtype_id> MonsterGenerator::get_all_mtype_ids() const
     return hold;
 }
 
-const mtype_id &MonsterGenerator::get_valid_hallucination() const
+mtype_id MonsterGenerator::get_valid_hallucination() const
 {
     std::vector<mtype_id> potentials;
     for( auto &elem : mon_templates ) {

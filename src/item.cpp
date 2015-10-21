@@ -65,7 +65,7 @@ std::string const& rad_badge_color(int const rad)
         pair_t {  0, _("green") },
         pair_t { 30, _("blue")  },
         pair_t { 60, _("yellow")},
-        pair_t {120, _("orange")},
+        pair_t {120, pgettext("color", "orange")},
         pair_t {240, _("red")   },
         pair_t {500, _("black") },
     }};
@@ -343,11 +343,6 @@ long item::liquid_units( long charges ) const
     } else {
         return charges;
     }
-}
-
-bool item::invlet_is_okay()
-{
-    return (inv_chars.find(invlet) != std::string::npos);
 }
 
 bool item::stacks_with( const item &rhs ) const
@@ -1473,7 +1468,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> &dump_ref) const
         if( is_tool() && has_flag("RADIO_ACTIVATION") ) {
             if( has_flag( "RADIO_MOD" ) ) {
                 dump->push_back(iteminfo("DESCRIPTION",
-                    _("This item has been modified to listen to radio signals. It can still be activated manually.")));
+                    _("This item has been modified to listen to radio signals.  It can still be activated manually.")));
             } else {
                 dump->push_back(iteminfo("DESCRIPTION",
                     _("This item can only be activated by a radio signal.")));
@@ -1588,7 +1583,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> &dump_ref) const
                         _("This food has started to rot, but you can tolerate it.")));
                 } else {
                     dump->push_back(iteminfo("DESCRIPTION",
-                        _("This food has started to rot. Eating it would be a very bad idea.")));
+                        _("This food has started to rot.  Eating it would be a very bad idea.")));
                 }
             } else {
                 dump->push_back(iteminfo("DESCRIPTION",
@@ -4465,7 +4460,9 @@ void item::detonate( const tripoint &p ) const
     if (type == NULL || type->explosion_on_fire_data.power < 0) {
         return;
     }
-    g->explosion( p, type->explosion_on_fire_data.power, type->explosion_on_fire_data.shrapnel, type->explosion_on_fire_data.fire, type->explosion_on_fire_data.blast);
+
+    g->explosion( p, type->explosion_on_fire_data.power, type->explosion_on_fire_data.distance_factor,
+                     type->explosion_on_fire_data.shrapnel, type->explosion_on_fire_data.fire );
 }
 
 bool item_ptr_compare_by_charges( const item *left, const item *right)

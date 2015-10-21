@@ -530,7 +530,7 @@ void computer::activate_function(computer_action action, char ch)
                 }
         }
 
-        g->explosion( tripoint( g->u.posx() + 10, g->u.posx() + 21, g->get_levz() ), 200, 0, true); //Only explode once. But make it large.
+        g->explosion( tripoint( g->u.posx() + 10, g->u.posx() + 21, g->get_levz() ), 200, 0.7, 0, true); //Only explode once. But make it large.
 
         //...ERASE MISSILE, OPEN SILO, DISABLE COMPUTER
         // For each level between here and the surface, remove the missile
@@ -1135,7 +1135,7 @@ It takes you forever to find the address on your map...\n"));
                 tripoint p( x, y, g->get_levz() );
                 if (g->m.ter(x, y) == t_elevator || g->m.ter(x, y) == t_vat) {
                     g->m.make_rubble( p, f_rubble_rock, true);
-                    g->explosion( p, 40, 0, true );
+                    g->explosion( p, 40, 0.7, 0, true );
                 }
                 if (g->m.ter(x, y) == t_wall_glass) {
                     g->m.make_rubble( p, f_rubble_rock, true );
@@ -1145,7 +1145,7 @@ It takes you forever to find the address on your map...\n"));
                 }
                 if (g->m.ter(x, y) == t_sewage_pump) {
                     g->m.make_rubble( p, f_rubble_rock, true );
-                    g->explosion( p, 50, 0, true);
+                    g->explosion( p, 50, 0.7, 0, true);
                 }
             }
         }
@@ -1277,7 +1277,7 @@ void computer::activate_failure(computer_failure fail)
                 if (g->m.ter(x, y) == t_sewage_pump) {
                     tripoint p( x, y, g->get_levz() );
                     g->m.make_rubble( p );
-                    g->explosion( p, 10, 0, false);
+                    g->explosion( p, 10 );
                 }
             }
         }
@@ -1320,8 +1320,8 @@ void computer::activate_failure(computer_failure fail)
     case COMPFAIL_AMIGARA:
         g->add_event(EVENT_AMIGARA, int(calendar::turn) + 5);
         g->u.add_effect("amigara", 20);
-        g->explosion( tripoint( rng(0, SEEX * MAPSIZE), rng(0, SEEY * MAPSIZE), g->get_levz() ), 10, 10, false );
-        g->explosion( tripoint( rng(0, SEEX * MAPSIZE), rng(0, SEEY * MAPSIZE), g->get_levz() ), 10, 10, false );
+        g->explosion( tripoint( rng(0, SEEX * MAPSIZE), rng(0, SEEY * MAPSIZE), g->get_levz() ), 10, 0.7, 10, false );
+        g->explosion( tripoint( rng(0, SEEX * MAPSIZE), rng(0, SEEY * MAPSIZE), g->get_levz() ), 10, 0.7, 10, false );
         remove_option( COMPACT_AMIGARA_START );
         break;
 

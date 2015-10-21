@@ -204,11 +204,14 @@ class cata_tiles
         /** How many rows and columns of tiles fit into given dimensions **/
         void get_window_tile_counts(const int width, const int height, int &columns, int &rows) const;
 
-        bool draw_from_id_string(std::string id, int x, int y, int subtile, int rota);
+        bool draw_from_id_string(std::string id, int x, int y, int subtile, int rota, lit_level ll,
+                                 bool apply_night_vision_goggles);
         bool draw_from_id_string(std::string id, TILE_CATEGORY category,
-                                 const std::string &subcategory, int x, int y, int subtile, int rota);
-        bool draw_sprite_at(std::vector<int>& spritelist, int x, int y, int rota);
-        bool draw_tile_at(tile_type *tile, int x, int y, int rota);
+                                 const std::string &subcategory, int x, int y, int subtile, int rota,
+                                 lit_level ll, bool apply_night_vision_goggles);
+        bool draw_sprite_at(std::vector<int>& spritelist, int x, int y, int rota, lit_level ll,
+                            bool apply_night_vision_goggles);
+        bool draw_tile_at(tile_type *tile, int x, int y, int rota, lit_level ll, bool apply_night_vision_goggles);
 
         /**
          * Redraws all the tiles that have changed since the last frame.
@@ -228,15 +231,19 @@ class cata_tiles
         void draw_single_tile( const tripoint &p, const lit_level ll,
                                const visibility_variables &cache );
         bool apply_vision_effects( int x, int y, const visibility_type visibility);
-        bool draw_terrain( const tripoint &p );
-        bool draw_furniture( const tripoint &p );
-        bool draw_trap( const tripoint &p );
-        bool draw_field_or_item( const tripoint &p );
-        bool draw_vpart( const tripoint &p );
-        bool draw_entity( const Creature &critter, const tripoint &p );
-        void draw_entity_with_overlays( const player &pl, const tripoint &p );
+        bool draw_terrain( const tripoint &p, lit_level ll );
+        bool draw_furniture( const tripoint &p, lit_level ll );
+        bool draw_trap( const tripoint &p, lit_level ll );
+        bool draw_field_or_item( const tripoint &p, lit_level ll );
+        bool draw_vpart( const tripoint &p, lit_level ll );
+        bool draw_entity( const Creature &critter, const tripoint &p, lit_level ll );
+        void draw_entity_with_overlays( const player &pl, const tripoint &p, lit_level ll );
 
         bool draw_item_highlight(int x, int y);
+
+    private:
+        //surface manipulation
+        SDL_Surface *create_tile_surface(int w, int h);
 
     public:
         // Animation layers
@@ -365,10 +372,19 @@ class cata_tiles
         // offset for drawing, in pixels.
         int op_x, op_y;
 
-    protected:
     private:
         void create_default_item_highlight();
         int last_pos_x, last_pos_y;
+        tile_map shadow_tile_values;
+        tile_map night_tile_values;
+        tile_map overexposed_tile_values;
+        /**
+         * Tracks active night vision goggle status for each draw call.
+         * Allows usage of night vision tilesets during sprite rendering.
+         */
+        bool nv_goggles_activated;
+
+
 };
 
 #endif

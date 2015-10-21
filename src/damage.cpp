@@ -148,19 +148,19 @@ float resistances::get_effective_resist( const damage_unit &du ) const
 void ammo_effects( const tripoint &p, const std::set<std::string> &effects )
 {
     if( effects.count( "EXPLOSIVE_SMALL" ) > 0 ) {
-        g->explosion( p, 12, 0, false );
+        g->explosion( p, 24, 0.4 );
     }
 
     if( effects.count( "EXPLOSIVE" ) > 0 ) {
-        g->explosion( p, 24, 0, false );
+        g->explosion( p, 24 );
     }
 
     if( effects.count( "FRAG" ) > 0 ) {
-        g->explosion( p, 12, 28, false );
+        g->explosion( p, 24, 0.4, 28, false );
     }
 
     if( effects.count( "NAPALM" ) > 0 ) {
-        g->explosion( p, 4, 0, true );
+        g->explosion( p, 4, 0.7, 0, true );
         // More intense fire near the center
         for( auto &&pt : g->m.points_in_radius( p, 1, 0 ) ) {
             g->m.add_field( pt, fd_fire, 1, 0 );
@@ -168,7 +168,7 @@ void ammo_effects( const tripoint &p, const std::set<std::string> &effects )
     }
 
     if( effects.count( "NAPALM_BIG" ) > 0 ) {
-        g->explosion( p, 48, 0, true );
+        g->explosion( p, 24, 0.8, 0, true );
         // More intense fire near the center
         for( auto &&pt : g->m.points_in_radius( p, 3, 0 ) ) {
             g->m.add_field( pt, fd_fire, 1, 0 );
@@ -176,7 +176,7 @@ void ammo_effects( const tripoint &p, const std::set<std::string> &effects )
     }
 
     if( effects.count( "MININUKE_MOD" ) > 0 ) {
-        g->explosion( p, 450, 0, false );
+        g->explosion( p, 450 );
         for( auto &&pt : g->m.points_in_radius( p, 6, 0 ) ) {
             if( g->m.sees( p, pt, 3 ) &&
                 g->m.move_cost( pt ) > 0 ) {
@@ -196,11 +196,11 @@ void ammo_effects( const tripoint &p, const std::set<std::string> &effects )
     }
 
     if( effects.count( "EXPLOSIVE_BIG" ) > 0 ) {
-        g->explosion( p, 40, 0, false );
+        g->explosion( p, 40 );
     }
 
     if( effects.count( "EXPLOSIVE_HUGE" ) > 0 ) {
-        g->explosion( p, 80, 0, false );
+        g->explosion( p, 80 );
     }
 
     if( effects.count( "TOXICGAS" ) > 0 ) {

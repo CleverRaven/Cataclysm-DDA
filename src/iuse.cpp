@@ -177,6 +177,7 @@ void remove_radio_mod( item &it, player &p )
     it.item_tags.erase( "RADIOSIGNAL_1" );
     it.item_tags.erase( "RADIOSIGNAL_2" );
     it.item_tags.erase( "RADIOSIGNAL_3" );
+    it.item_tags.erase( "RADIOCARITEM" );
 }
 
 // Checks that the player does not have an active item with LITCIG flag.
@@ -1799,9 +1800,9 @@ int iuse::marloss(player *p, item *it, bool t, const tripoint &pos)
      * 6 - Cleanse radiation + Purify
      * 7 - Fully satiate
      * 8 - Vomit
-     * 9 - Give Marloss mutation
+     * 9-16 - Give Marloss mutation
      */
-    int effect = rng(1, 9);
+    int effect = rng(1, 16);
     if (effect <= 3) {
         p->add_msg_if_player(_("This berry tastes extremely strange!"));
         p->mutate();
@@ -2848,6 +2849,7 @@ int iuse::radio_mod( player *p, item *, bool, const tripoint& )
     p->add_msg_if_player( _( "You modify your %1$s to listen for %2$s activation signal on the radio." ),
                           modded.tname().c_str(), colorname.c_str() );
     modded.item_tags.insert( "RADIO_ACTIVATION" );
+    modded.item_tags.insert( "RADIOCARITEM" );
     modded.item_tags.insert( "RADIO_MOD" );
     modded.item_tags.insert( newtag );
     return 1;
@@ -4549,7 +4551,7 @@ int iuse::pipebomb_act(player *, item *it, bool t, const tripoint &pos)
                 add_msg(_("The pipe bomb fizzles out."));
             }
         } else {
-            g->explosion( pos, rng(6, 14), rng(0, 4), false);
+            g->explosion( pos, rng(10, 24), 0.6, rng(0, 4), false);
         }
     }
     return 0;
@@ -4761,7 +4763,7 @@ int iuse::grenade_inc_act(player *p, item *it, bool t, const tripoint &pos)
                 g->m.add_field( flame, fd_fire, rng( 0, 2 ), 0 );
             }
         }
-        g->explosion( pos, 8, 0, true );
+        g->explosion( pos, 8, 0.8, 0, true );
         for (int i = -2; i <= 2; i++) {
             for (int j = -2; j <= 2; j++) {
                 g->m.add_field( { pos.x + i, pos.y + j, pos.z }, fd_incendiary, 3, 0 );
@@ -6118,7 +6120,7 @@ int iuse::artifact(player *p, item *it, bool, const tripoint& )
             case AEA_FIREBALL: {
                 tripoint fireball = g->look_around();
                 if( fireball != tripoint_min ) {
-                    g->explosion( fireball, 8, 0, true );
+                    g->explosion( fireball, 24, 0.5, 0, true );
                 }
             }
             break;
@@ -8454,13 +8456,16 @@ int iuse::radiocar(player *p, item *it, bool, const tripoint& )
                 return 0;
             }
 
-            if (put->has_flag("RADIOCARITEM")) {
+            if (put->has_flag("RADIOCARITEM") && ((put->volume() <= 5) || (put->weight() <= 2000))) {
                 p->moves -= 300;
                 p->add_msg_if_player(_("You armed your RC car with %s."),
                                      put->tname().c_str());
                 it->put_in(p->i_rem(inventory_index));
-            } else {
+            } else if (!put->has_flag("RADIOCARITEM")) {
                 p->add_msg_if_player(_("RC car with %s ? How?"),
+                put->tname().c_str());
+            } else {
+                p->add_msg_if_player(_("Your %s is too heavy or bulky for this RC car."),
                                      put->tname().c_str());
             }
         } else { // Disarm the car

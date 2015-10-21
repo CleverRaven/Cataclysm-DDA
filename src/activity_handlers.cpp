@@ -929,16 +929,7 @@ void activity_handlers::start_fire_lens_do_turn( player_activity *act, player *p
 void activity_handlers::train_finish( player_activity *act, player *p )
 {
     const skill_id sk( act->name );
-    if( !sk.is_valid() ) {
-        auto &mastyle = matype_id( act->name ).obj();
-        // Trained martial arts,
-        add_msg(m_good, _("You learn %s."), mastyle.name.c_str());
-        //~ %s is martial art
-        p->add_memorial_log(pgettext("memorial_male", "Learned %s."),
-                            pgettext("memorial_female", "Learned %s."),
-                            mastyle.name.c_str());
-        p->add_martialart( mastyle.id );
-    } else {
+    if( sk.is_valid() ) {
         const Skill *skill = &sk.obj();
         int new_skill_level = p->skillLevel(skill) + 1;
         p->skillLevel(skill).level(new_skill_level);
@@ -951,8 +942,27 @@ void activity_handlers::train_finish( player_activity *act, player *p )
                                 pgettext("memorial_female", "Reached skill level %1$d in %2$s."),
                                 new_skill_level, skill->name().c_str());
         }
+
+        act->type = ACT_NULL;
+        return;
     }
+
+    const auto &ma_id = matype_id( act->name );
+    if( ma_id.is_valid() ) {
+        const auto &mastyle = ma_id.obj();
+        // Trained martial arts,
+        add_msg(m_good, _("You learn %s."), mastyle.name.c_str());
+        //~ %s is martial art
+        p->add_memorial_log(pgettext("memorial_male", "Learned %s."),
+                            pgettext("memorial_female", "Learned %s."),
+                            mastyle.name.c_str());
+        p->add_martialart( mastyle.id );
+    } else {
+        debugmsg( "train_finish without a valid skill or style name" );
+    }
+
     act->type = ACT_NULL;
+    return;
 }
 
 void activity_handlers::vehicle_finish( player_activity *act, player *pl )

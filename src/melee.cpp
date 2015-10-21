@@ -1169,10 +1169,11 @@ damage_unit &get_damage_unit( std::vector<damage_unit> &di, const damage_type dt
 
 void player::perform_technique(const ma_technique &technique, Creature &t, damage_instance &di, int &move_cost)
 {
-    auto bash = get_damage_unit( di.damage_units, DT_BASH );
-    auto cut  = get_damage_unit( di.damage_units, DT_CUT );
-    auto stab = get_damage_unit( di.damage_units, DT_STAB );
+    auto &bash = get_damage_unit( di.damage_units, DT_BASH );
+    auto &cut  = get_damage_unit( di.damage_units, DT_CUT );
+    auto &stab = get_damage_unit( di.damage_units, DT_STAB );
 
+    add_msg( m_debug, _("damage before tec mult:%dbash,%dcut,%dstab,%dtotal"), (int)di.type_damage(DT_BASH), (int)di.type_damage(DT_CUT), (int)di.type_damage(DT_STAB), (int)di.total_damage());
     if( bash.amount > 0 ) {
         bash.amount += technique.bash;
         bash.damage_multiplier *= technique.bash_mult;
@@ -1181,11 +1182,12 @@ void player::perform_technique(const ma_technique &technique, Creature &t, damag
     // Cut affects stab damage too since only one of cut/stab is used
     if( cut.amount > 0 && cut.amount > stab.amount ) {
         cut.amount += technique.cut;
-        bash.damage_multiplier *= technique.cut_mult;
+        cut.damage_multiplier *= technique.cut_mult;
     } else if( stab.amount > 0 ) {
         stab.amount += technique.cut;
-        bash.damage_multiplier *= technique.cut_mult;
+        stab.damage_multiplier *= technique.cut_mult;
     }
+    add_msg( m_debug, _("damage after tec mult:%dbash,%dcut,%dstab,%dtotal"), (int)di.type_damage(DT_BASH), (int)di.type_damage(DT_CUT), (int)di.type_damage(DT_STAB), (int)di.total_damage());
 
     move_cost *= technique.speed_mult;
 
