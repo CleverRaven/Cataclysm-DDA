@@ -1179,10 +1179,14 @@ int draw_item_info(WINDOW *win, const std::string sItemName,
             }
         }
     }
+
     if( !buffer.str().empty() ) {
         const auto b = without_border ? 1 : 2;
         const auto width = getmaxx( win ) - b * 2;
-        fold_and_print( win, line_num, b, width, c_white, buffer.str() );
+        const auto height = getmaxy( win );
+
+        const int iLines = fold_and_print( win, line_num, b, width, c_white, buffer.str() );
+        draw_scrollbar(win, 0, height, iLines, 0);
     }
 
     if (!without_border) {
