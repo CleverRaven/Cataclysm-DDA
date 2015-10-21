@@ -395,14 +395,10 @@ void cOpt::setNext()
         sSet = vItems[iNext];
 
     } else if (sType == "string_input") {
-        sSet = string_input_popup("", (iMaxLength > 80) ? 80 : ((iMaxLength < sMenuText.length()) ? sMenuText.length() : iMaxLength+1),
+        int iMenuTextLength = sMenuText.length();
+        sSet = string_input_popup("", (iMaxLength > 80) ? 80 : ((iMaxLength < iMenuTextLength) ? iMenuTextLength : iMaxLength+1),
                                   sSet, sMenuText, "", iMaxLength
                                  );
-
-        size_t iPos = 0;
-        while((iPos = sSet.find("\"")) != std::string::npos) {
-            sSet = sSet.substr(0, iPos) + sSet.substr(iPos + 1, sSet.length() - iPos - 1);
-        }
 
     } else if (sType == "bool") {
         bSet = !bSet;
