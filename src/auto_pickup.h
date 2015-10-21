@@ -1,16 +1,16 @@
 #ifndef AUTO_PICKUP_H
 #define AUTO_PICKUP_H
 
-#include <map>
+#include <unordered_map>
 #include <string>
 #include <vector>
 #include <locale>
 #include <algorithm>
 #include "json.h"
 
-class apu : public JsonSerializer, public JsonDeserializer {
+class auto_pickup : public JsonSerializer, public JsonDeserializer {
     private:
-            // templated version of my_equal so it could work with both char and wchar_t
+        // templated version of my_equal so it could work with both char and wchar_t
         template<typename charT>
         struct my_equal {
             public:
@@ -24,67 +24,74 @@ class apu : public JsonSerializer, public JsonDeserializer {
                 const std::locale &loc_;
         };
 
-        void test_pattern(int iCurrentPage, int iCurrentLine);
-        std::string trim_rule(std::string sPattern);
+        void test_pattern(const int iCurrentPage, const int iCurrentLine);
+        std::string trim_rule(const std::string &sPatternIn);
         void merge_vector();
-        void save_reset_changes(bool bReset);
-        bool auto_pickup_match(std::string sText, std::string sPattern);
+        void save_reset_changes(const bool bReset);
+        bool match(const std::string &sTextIn, const std::string &sPatternIn);
         std::vector<std::string> &split(const std::string &s, char delim, std::vector<std::string> &elems);
         template<typename charT>
         int ci_find_substr( const charT &str1, const charT &str2, const std::locale &loc = std::locale() );
 
+        void load(const bool bCharacter);
+        bool save(const bool bCharacter);
+        bool load_legacy(const bool bCharacter);
+
         bool bChar;
 
-    public:
-        enum apu_type {
-            APU_MERGED = 0,
-            APU_GLOBAL,
-            APU_CHARACTER
+        enum type {
+            MERGED = 0,
+            GLOBAL,
+            CHARACTER
         };
 
-        class cPickupRules
+        class cRules
         {
             public:
                 std::string sRule;
                 bool bActive;
                 bool bExclude;
 
-                cPickupRules()
+                cRules()
                 {
                     this->sRule = "";
                     this->bActive = false;
                     this->bExclude = false;
                 }
 
-                cPickupRules(std::string sRuleIn, bool bActiveIn, bool bExcludeIn)
+                cRules(std::string sRuleIn, bool bActiveIn, bool bExcludeIn)
                 {
                     this->sRule = sRuleIn;
                     this->bActive = bActiveIn;
                     this->bExclude = bExcludeIn;
                 }
 
-                ~cPickupRules() {};
+                ~cRules() {};
         };
 
-        bool hasPickupRule(std::string sRule);
-        void addPickupRule(std::string sRule);
-        void removePickupRule(std::string sRule);
-        void createPickupRules(const std::string sItemNameIn = "");
-        bool checkExcludeRules(const std::string sItemNameIn);
+        std::unordered_map<std::string, std::string> mapItems;
+        std::vector<cRules> vRules[5];
+
+    public:
+        bool has_rule(const std::string &sRule);
+        void add_rule(const std::string &sRule);
+        void remove_rule(const std::string &sRule);
+        void create_rules(const std::string &sItemNameIn = "");
+        bool check_exclude_rules(const std::string &sItemNameIn);
+        void clear_character_rules();
+        const std::string &check_item(const std::string &sItemName);
 
         void show();
-        void load(bool bCharacter);
-        bool save(bool bCharacter);
-        bool load_legacy(bool bCharacter);
+        bool save_character();
+        bool save_global();
+        void load_character();
+        void load_global();
 
         using JsonSerializer::serialize;
         void serialize(JsonOut &json) const override;
         void deserialize(JsonIn &jsin) override;
 };
 
-extern std::map<std::string, std::string> mapAutoPickupItems;
-extern std::vector<apu::cPickupRules> vAutoPickupRules[5];
-
-apu &get_apu();
+auto_pickup &get_auto_pickup();
 
 #endif
