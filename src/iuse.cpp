@@ -7280,7 +7280,7 @@ int iuse::misc_repair(player *p, item *it, bool, const tripoint& )
         return 0;
     }
     int inventory_index = g->inv_for_filter( _("Select the item to repair."), []( const item & itm ) {
-        return ( !itm.is_gun() && !itm.has_flag( "PRIMITIVE_RANGED_WEAPON ) ) && (itm.made_of("wood") || itm.made_of("paper") ||
+        return ( !itm.is_gun() && !itm.has_flag( "PRIMITIVE_RANGED_WEAPON" ) ) && (itm.made_of("wood") || itm.made_of("paper") ||
                                  itm.made_of("bone") || itm.made_of("chitin") ) ;
     } );
     item *fix = &( p->i_at(inventory_index ) );
