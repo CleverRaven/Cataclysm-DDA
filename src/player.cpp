@@ -3191,23 +3191,30 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
                 const Skill* aSkill = skillslist[i];
                 SkillLevel level = get_skill_level(aSkill);
 
-                bool isLearning = level.can_train() && level.isTraining();
-                bool rusting = level.isRusting();
-                int exercise = level.exercise();
+                const bool can_train = level.can_train();
+                const bool training = level.isTraining();
+                const bool rusting = level.isRusting();
+                const int exercise = level.exercise();
 
                 if (i == line) {
                     selectedSkill = aSkill;
-                    if (exercise >= 100)
-                        status = isLearning ? h_pink : h_magenta;
-                    else if (rusting)
-                        status = isLearning ? h_ltred : h_red;
-                    else
-                        status = isLearning ? h_ltblue : h_blue;
+                    if( !can_train ) {
+                        status = rusting ? h_ltred : h_white;
+                    } else if( exercise >= 100 ) {
+                        status = training ? h_pink : h_magenta;
+                    } else if( rusting ) {
+                        status = training ? h_ltred : h_red;
+                    } else {
+                        status = training ? h_ltblue : h_blue;
+                    }
                 } else {
-                    if (rusting)
-                        status = isLearning ? c_ltred : c_red;
-                    else
-                        status = isLearning ? c_ltblue : c_blue;
+                    if( rusting ) {
+                        status = training ? c_ltred : c_red;
+                    } else if( !can_train ) {
+                        status = c_white;
+                    } else {
+                        status = training ? c_ltblue : c_blue;
+                    }
                 }
                 mvwprintz(w_skills, 1 + i - min, 1, c_ltgray, "                         ");
                 mvwprintz(w_skills, 1 + i - min, 1, status, "%s:", aSkill->name().c_str());
@@ -3239,13 +3246,17 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
                 for (size_t i = 0; i < skillslist.size() && i < size_t(skill_win_size_y); i++) {
                     const Skill* thisSkill = skillslist[i];
                     SkillLevel level = get_skill_level(thisSkill);
-                    bool isLearning = level.can_train() && level.isTraining();
+                    bool can_train = level.can_train();
+                    bool isLearning = level.isTraining();
                     bool rusting = level.isRusting();
 
-                    if (rusting)
+                    if( rusting ) {
                         status = isLearning ? c_ltred : c_red;
-                    else
+                    } else if( !can_train ) {
+                        status = c_white;
+                    } else {
                         status = isLearning ? c_ltblue : c_blue;
+                    }
 
                     mvwprintz(w_skills, i + 1,  1, status, "%s:", thisSkill->name().c_str());
                     mvwprintz(w_skills, i + 1, 19, status, "%-2d(%2d%%)", (int)level,
