@@ -229,8 +229,8 @@ std::pair<std::string, nc_color> const& get_item_hp_bar(int dmg);
 void draw_tab(WINDOW *w, int iOffsetX, std::string sText, bool bSelected);
 void draw_subtab(WINDOW *w, int iOffsetX, std::string sText, bool bSelected, bool bDecorate = true);
 void draw_scrollbar(WINDOW *window, const int iCurrentLine, const int iContentHeight,
-                    const int iNumEntries, const int iOffsetY = 0, const int iOffsetX = 0,
-                    nc_color bar_color = c_white, bool bRefresh = true);
+                    int iNumEntries, const int iOffsetY = 0, const int iOffsetX = 0,
+                    nc_color bar_color = c_white, bool bRefresh = true, int iFakeEntries = 0);
 void calcStartPos(int &iStartPos, const int iCurrentLine,
                   const int iContentHeight, const int iNumEntries);
 void clear_window(WINDOW *w);

@@ -1186,15 +1186,18 @@ int draw_item_info(WINDOW *win, const std::string sItemName,
         const auto width = getmaxx( win ) - b * 2;
         const auto height = getmaxy( win );
 
-        iLines = fold_and_print( win, line_num, b, width, c_white, buffer.str() ) - height;
+        const auto vFolded = foldstring(buffer.str(), width);
+        iLines = vFolded.size();
 
         if (selected < 0) {
-            selected = iLines;
-        } else if (selected > iLines) {
             selected = 0;
+        } else if (selected > iLines - height) {
+            selected = iLines - height;
         }
 
-        draw_scrollbar(win, selected, height, iLines, 1, 1, c_white, false);
+        fold_and_print_from( win, line_num, b, width, selected, c_white, buffer.str() );
+
+        draw_scrollbar(win, selected, height, iLines, 0, 0, c_white, false, iLines-height);
     }
 
     if (!without_border) {
@@ -1395,8 +1398,8 @@ void draw_subtab(WINDOW *w, int iOffsetX, std::string sText, bool bSelected, boo
 }
 
 void draw_scrollbar(WINDOW *window, const int iCurrentLine, const int iContentHeight,
-                    const int iNumEntries, const int iOffsetY, const int iOffsetX,
-                    nc_color bar_color, bool bRefresh)
+                    int iNumEntries, const int iOffsetY, const int iOffsetX,
+                    nc_color bar_color, bool bRefresh, int iFakeEntries)
 {
     if (iContentHeight >= iNumEntries) {
         //scrollbar is not required
@@ -1415,6 +1418,10 @@ void draw_scrollbar(WINDOW *window, const int iCurrentLine, const int iContentHe
         return;
     }
 
+    if (iFakeEntries > 0) {
+        iNumEntries =  iFakeEntries;
+    }
+
     if (iNumEntries > 0) {
         mvwputch(window, iOffsetY, iOffsetX, c_ltgreen, '^');
         mvwputch(window, iOffsetY + iContentHeight - 1, iOffsetX, c_ltgreen, 'v');
@@ -1423,6 +1430,8 @@ void draw_scrollbar(WINDOW *window, const int iCurrentLine, const int iContentHe
 
         if (iSBHeight < 2) {
             iSBHeight = 2;
+        } else if (iFakeEntries > 0) {
+            iSBHeight = iContentHeight - iNumEntries;
         }
 
         int iStartY = (iCurrentLine * (iContentHeight - 3 - iSBHeight)) / iNumEntries;
