@@ -146,8 +146,6 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
      */
     std::vector<tripoint> ret;
 
-    std::vector<tripoint> ret;
-
     if( !inbounds( f ) ) {
         return ret;
     }
