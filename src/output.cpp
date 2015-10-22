@@ -1120,7 +1120,7 @@ int draw_item_info(WINDOW *win, const std::string sItemName,
     std::ostringstream buffer;
     int line_num = 1;
     if (sItemName != "") {
-        buffer << sItemName.c_str() << "\n \n";
+        buffer << sItemName << "\n \n"; //This space is required, otherwise it won't make an empty line.
     }
 
     int iStartX = 0;
