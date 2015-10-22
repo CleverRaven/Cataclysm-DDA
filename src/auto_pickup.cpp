@@ -115,7 +115,7 @@ void auto_pickup::show()
     ctxt.register_action("MOVE_RULE_UP");
     ctxt.register_action("MOVE_RULE_DOWN");
     ctxt.register_action("TEST_RULE");
-    ctxt.register_action("SWITCH_OPTION");
+    ctxt.register_action("SWITCH_AUTO_PICKUP_OPTION");
     ctxt.register_action("HELP_KEYBINDINGS");
 
     std::stringstream sTemp;
