@@ -468,7 +468,7 @@ void wprintz(WINDOW *w, nc_color FG, const char *mes, ...)
     wattroff(w, FG);
 }
 
-void draw_custom_border(WINDOW *w, nc_color FG, chtype ls, chtype rs, chtype ts, chtype bs, chtype tl, chtype tr, chtype bl, chtype br)
+void draw_custom_border(WINDOW *w, chtype ls, chtype rs, chtype ts, chtype bs, chtype tl, chtype tr, chtype bl, chtype br, nc_color FG)
 {
     wattron(w, FG);
 
@@ -1103,25 +1103,24 @@ void full_screen_popup(const char *mes, ...)
 int draw_item_info(const int iLeft, const int iWidth, const int iTop, const int iHeight,
                    const std::string sItemName,
                    std::vector<iteminfo> &vItemDisplay, std::vector<iteminfo> &vItemCompare,
-                   int &selected, const bool without_getch, const bool without_border)
+                   int &selected, const bool without_getch, const bool without_border, const bool handle_scrolling)
 {
     WINDOW *win = newwin(iHeight, iWidth, iTop + VIEW_OFFSET_Y, iLeft + VIEW_OFFSET_X);
 
     const auto result = draw_item_info(win, sItemName, vItemDisplay, vItemCompare,
-                          selected, without_getch, without_border);
+                          selected, without_getch, without_border, handle_scrolling);
     delwin( win );
     return result;
 }
 
 int draw_item_info(WINDOW *win, const std::string sItemName,
                    std::vector<iteminfo> &vItemDisplay, std::vector<iteminfo> &vItemCompare,
-                   int &selected, const bool without_getch, const bool without_border)
+                   int &selected, const bool without_getch, const bool without_border, const bool handle_scrolling)
 {
+    std::ostringstream buffer;
     int line_num = 1;
     if (sItemName != "") {
-        const int iOffset = (without_border) ? 0 : 2;
-        trim_and_print(win, line_num, iOffset, getmaxx(win) - iOffset, c_white, "%s", sItemName.c_str());
-        line_num = 3;
+        buffer << sItemName.c_str() << "\n \n";
     }
 
     int iStartX = 0;
@@ -1131,7 +1130,7 @@ int draw_item_info(WINDOW *win, const std::string sItemName,
     // Buffering the whole item info text so we can apply proper word wrapping on it.
     // Note that the "MENU" items are *not* included in this buffer, they are only used from
     // game::inventory_item_menu and require specific placing, according to iOffsetX / iOffsetY.
-    std::ostringstream buffer;
+
     for (size_t i = 0; i < vItemDisplay.size(); i++) {
         if (vItemDisplay[i].sType == "MENU") {
             if (vItemDisplay[i].sFmt == "iOffsetY") {
@@ -1230,42 +1229,51 @@ int draw_item_info(WINDOW *win, const std::string sItemName,
         }
     }
 
-    int iLines = 0;
-    if( !buffer.str().empty() ) {
-        const auto b = without_border ? 1 : 2;
-        const auto width = getmaxx( win ) - b * 2;
-        const auto height = getmaxy( win ) - b * 2;
+    int ch;
+    do {
+        int iLines = 0;
+        if( !buffer.str().empty() ) {
+            const auto b = without_border ? 1 : 2;
+            const auto width = getmaxx( win ) - b * 2;
+            const auto height = getmaxy( win ) - 2;
 
-        const auto vFolded = foldstring(buffer.str(), width);
-        iLines = vFolded.size();
+            const auto vFolded = foldstring(buffer.str(), width);
+            iLines = vFolded.size();
 
-        if (selected < 0) {
-            selected = 0;
-        } else if (iLines < height) {
-            selected = 0;
-        } else if (selected >= iLines - height) {
-            selected = iLines - height;
+            if (selected < 0) {
+                selected = 0;
+            } else if (iLines < height) {
+                selected = 0;
+            } else if (selected >= iLines - height) {
+                selected = iLines - height;
+            }
+
+            fold_and_print_from( win, line_num, b, width, selected, c_white, buffer.str() );
+
+            draw_scrollbar(win, selected, height, iLines, 1, 0, c_white, false, iLines-height);
         }
 
-        fold_and_print_from( win, line_num, b, width, selected, c_white, buffer.str() );
-
-        draw_scrollbar(win, selected, height, iLines, 1, 0, c_white, false, iLines-height);
-    }
-
-    if (!without_border) {
-        draw_border(win);
-        wrefresh(win);
-    }
-
-    int ch = (int)' ';
-    if (!without_getch) {
-        ch = (int)getch();
-        if ( selected > 0 && ( ch == '\n' || ch == KEY_RIGHT ) && selected_ret != 0 ) {
-            ch = selected_ret;
-        } else if ( selected == KEY_LEFT ) {
-            ch = (int)' ';
+        if (!without_border) {
+            draw_custom_border(win, buffer.str().empty());
+            wrefresh(win);
         }
-    }
+
+        ch = (int)' ';
+        if (!without_getch) {
+            ch = (int)getch();
+            if ( handle_scrolling && ch == KEY_PPAGE ) {
+                selected--;
+                werase(win);
+            } else if ( handle_scrolling && ch == KEY_NPAGE ) {
+                selected++;
+                werase(win);
+            } else if ( selected > 0 && ( ch == '\n' || ch == KEY_RIGHT ) && selected_ret != 0 ) {
+                ch = selected_ret;
+            } else if ( selected == KEY_LEFT ) {
+                ch = (int)' ';
+            }
+        }
+    } while (handle_scrolling && !without_getch && (ch == KEY_PPAGE || ch == KEY_NPAGE));
 
     return ch;
 }

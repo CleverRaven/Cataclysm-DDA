@@ -154,7 +154,7 @@ void mvwprintz(WINDOW *w, int y, int x, nc_color FG, const char *mes, ...);
 void printz(nc_color FG, const char *mes, ...);
 void wprintz(WINDOW *w, nc_color FG, const char *mes, ...);
 
-void draw_custom_border(WINDOW *w, nc_color FG = BORDER_COLOR, chtype ls = 1, chtype rs = 1, chtype ts = 1, chtype bs = 1, chtype tl = 1, chtype tr = 1, chtype bl = 1, chtype br = 1);
+void draw_custom_border(WINDOW *w, chtype ls = 1, chtype rs = 1, chtype ts = 1, chtype bs = 1, chtype tl = 1, chtype tr = 1, chtype bl = 1, chtype br = 1, nc_color FG = BORDER_COLOR);
 void draw_border(WINDOW *w, nc_color FG = BORDER_COLOR);
 void draw_tabs(WINDOW *w, int active_tab, ...);
 
@@ -195,12 +195,14 @@ void full_screen_popup(const char *mes, ...);
 
 int draw_item_info(WINDOW *win, const std::string sItemName,
                    std::vector<iteminfo> &vItemDisplay, std::vector<iteminfo> &vItemCompare,
-                   int &selected, const bool without_getch = false, const bool without_border = false);
+                   int &selected, const bool without_getch = false, const bool without_border = false,
+                   const bool handle_scrolling = false);
 
 int draw_item_info(const int iLeft, int iWidth, const int iTop, const int iHeight,
                    const std::string sItemName,
                    std::vector<iteminfo> &vItemDisplay, std::vector<iteminfo> &vItemCompare,
-                   int &selected, const bool without_getch = false, const bool without_border = false);
+                   int &selected, const bool without_getch = false, const bool without_border = false,
+                   const bool handle_scrolling = false);
 
 char rand_char();
 long special_symbol (long sym);

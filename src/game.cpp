@@ -9569,9 +9569,10 @@ int game::list_items(const int iLastState)
                 std::vector<iteminfo> vThisItem, vDummy;
 
                 activeItem->example->info(true, vThisItem);
-                int iDummy = -1;
+                int iDummySelect = 0;
                 draw_item_info(0, width - 5, 0, TERMY - VIEW_OFFSET_Y * 2,
-                               activeItem->example->tname(), vThisItem, vDummy, iDummy);
+                               activeItem->example->tname(), vThisItem, vDummy, iDummySelect,
+                               false, false, true);
                 // wait until the user presses a key to wipe the screen
 
                 iLastActive = tripoint_min;
@@ -9835,7 +9836,7 @@ int game::list_items(const int iLastState)
             }
 
             bool bDrawLeft = (ground_items.empty() && iLastState == 1) || filtered_items.empty();
-            draw_custom_border(w_item_info, BORDER_COLOR, bDrawLeft, true, false, true,
+            draw_custom_border(w_item_info, bDrawLeft, true, false, true,
                                LINE_XOXO, LINE_XOXO, true, true);
 
             wrefresh(w_items);

@@ -741,7 +741,7 @@ void Pickup::pick_up( const tripoint &pos, int min )
 
                 draw_item_info(w_item_info, "", vThisItem, vDummy, iScrollPos, true, true);
             }
-            draw_custom_border(w_item_info, BORDER_COLOR, false);
+            draw_custom_border(w_item_info, false);
             mvwprintw(w_item_info, 0, 2, "< ");
             trim_and_print(w_item_info, 0, 4, itemsW - 8, c_white, "%s >", here[selected].display_name().c_str());
             wrefresh(w_item_info);
