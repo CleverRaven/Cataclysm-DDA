@@ -469,7 +469,7 @@
      "color": "dark_gray",
      "name": "battle rifle",
      "name_plural": "battle rifles",
-     "description": "A selective fire battle rifle used by the US military.  It holds thirty rounds of rifle ammo in a detachable magazine.",
+     "description": "A highly modular, selective fire battle rifle used by the US military.  It holds twenty rounds of rifle ammo in a detachable magazine.",
      "price": 295000,
      "material": ["steel", "plastic"],
      "flags": "MODE_BURST",
