@@ -611,6 +611,30 @@
     },
     {
         "type" : "keybinding",
+        "id": "NEXT_CATEGORY_TAB",
+        "category": "MODMANAGER_DIALOG",
+        "name": "Move to next category tab",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"TAB"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "PREV_CATEGORY_TAB",
+        "category": "MODMANAGER_DIALOG",
+        "name": "Move to previous category tab",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"BACKTAB"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
         "id": "PICK_RANDOM_WORLDNAME",
         "category": "WORLDGEN_CONFIRM_DIALOG",
         "name": "Pick random world name",
