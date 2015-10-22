@@ -1644,27 +1644,10 @@ int game::inventory_item_menu(int pos, int iStartX, int iWidth, int position)
         vMenu.push_back(iteminfo("MENU", (bHPR) ? "-" : "+",
                                  (bHPR) ? _("<-> Autopickup") : _("<+> Autopickup"), (bHPR) ? HINT_IFFY : HINT_GOOD));
 
-        int offset_line = 0;
-        int max_line = 0;
-        const std::string str = oThisItem.info(true, vThisItem);
+        int iScrollPos = 0;
+        oThisItem.info(true, vThisItem);
         const std::string item_name = oThisItem.tname();
-        WINDOW *w = newwin(TERMY - VIEW_OFFSET_Y * 2, iWidth, VIEW_OFFSET_Y, iStartX + VIEW_OFFSET_X);
-        WINDOW_PTR wptr( w );
 
-        trim_and_print(w, 1, 2, iWidth - 4, c_white, "%s", item_name.c_str());
-        max_line = fold_and_print_from(w, 3, 2, iWidth - 4, offset_line, c_white, str);
-        if (max_line > TERMY - VIEW_OFFSET_Y * 2 - 5) {
-            wmove(w, 1, iWidth - 3);
-            if (offset_line == 0) {
-                wprintz(w, c_white, "vv");
-            } else if (offset_line > 0 && offset_line + (TERMY - VIEW_OFFSET_Y * 2) - 5 < max_line) {
-                wprintz(w, c_white, "^v");
-            } else {
-                wprintz(w, c_white, "^^");
-            }
-        }
-        draw_border(w);
-        wrefresh(w);
         const int iMenuStart = iOffsetX;
         const int iMenuItems = vMenu.size() - 1;
         int iSelected = iOffsetX - 1;
@@ -1687,6 +1670,8 @@ int game::inventory_item_menu(int pos, int iStartX, int iWidth, int position)
 
         do {
             int iSel = iSelected >= iOffsetX && iSelected <= iMenuItems ? iSelected : -1;
+            draw_item_info(VIEW_OFFSET_Y, iWidth, VIEW_OFFSET_X, TERMY - VIEW_OFFSET_Y * 2, item_name, vThisItem, vDummy,
+                           iScrollPos, true, false, false);
             cMenu = draw_item_info(popup_x, popup_width, 0, vMenu.size() + iOffsetX * 2, "", vMenu, vDummy, iSel);
 
             switch (cMenu) {
@@ -1732,15 +1717,11 @@ int game::inventory_item_menu(int pos, int iStartX, int iWidth, int position)
             case KEY_DOWN:
                 iSelected++;
                 break;
-            case '>':
-                if (offset_line + (TERMY - VIEW_OFFSET_Y * 2) - 5 < max_line) {
-                    offset_line++;
-                }
+            case KEY_PPAGE:
+                iScrollPos--;
                 break;
-            case '<':
-                if (offset_line > 0) {
-                    offset_line--;
-                }
+            case KEY_NPAGE:
+                iScrollPos++;
                 break;
             case '+':
                 if (!bHPR) {
@@ -1762,22 +1743,7 @@ int game::inventory_item_menu(int pos, int iStartX, int iWidth, int position)
             } else if (iSelected > iMenuItems + 1) {
                 iSelected = iMenuStart;
             }
-            werase(w);
-            if (max_line > TERMY - VIEW_OFFSET_Y * 2 - 5) {
-                wmove(w, 1, iWidth - 3);
-                if (offset_line == 0) {
-                    wprintz(w, c_white, "vv");
-                } else if (offset_line > 0 && offset_line + (TERMY - VIEW_OFFSET_Y * 2) - 5 < max_line) {
-                    wprintz(w, c_white, "^v");
-                } else {
-                    wprintz(w, c_white, "^^");
-                }
-            }
-            trim_and_print(w, 1, 2, iWidth - 4, c_white, "%s", item_name.c_str());
-            fold_and_print_from(w, 3, 2, iWidth - 4, offset_line, c_white, str);
-            draw_border(w);
-            wrefresh(w);
-        } while (cMenu == KEY_DOWN || cMenu == KEY_UP || cMenu == '>' || cMenu == '<');
+        } while (cMenu == KEY_DOWN || cMenu == KEY_UP || cMenu == KEY_PPAGE || cMenu == KEY_NPAGE);
     }
     return cMenu;
 }
