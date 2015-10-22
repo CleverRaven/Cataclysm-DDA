@@ -604,7 +604,7 @@ void Pickup::pick_up( const tripoint &pos, int min )
         bool update = true;
         mvwprintw(w_pickup, 0, 0, _("PICK UP"));
         int selected = 0;
-        int last_selected = -1;
+        int iScrollPos = 0;
 
         if(g->was_fullscreen) {
             g->draw_ter();
@@ -626,7 +626,11 @@ void Pickup::pick_up( const tripoint &pos, int min )
                 if( itemcount < 0 ) {
                     itemcount = 0;
                 }
-            } else if ( ch == '<' || ch == KEY_PPAGE ) {
+            } else if ( ch == KEY_PPAGE) {
+                iScrollPos--;
+            } else if ( ch == KEY_NPAGE) {
+                iScrollPos++;
+            } else if ( ch == '<' ) {
                 if ( start > 0 ) {
                     start -= maxitems;
                 } else {
@@ -634,16 +638,18 @@ void Pickup::pick_up( const tripoint &pos, int min )
                 }
                 selected = start;
                 mvwprintw(w_pickup, maxitems + 2, 0, "         ");
-            } else if ( ch == '>' || ch == KEY_NPAGE ) {
+            } else if ( ch == '>' ) {
                 if ( start + maxitems < (int)here.size() ) {
                     start += maxitems;
                 } else {
                     start = 0;
                 }
+                iScrollPos = 0;
                 selected = start;
                 mvwprintw(w_pickup, maxitems + 2, pickupH, "            ");
             } else if ( ch == KEY_UP ) {
                 selected--;
+                iScrollPos = 0;
                 if ( selected < 0 ) {
                     selected = here.size() - 1;
                     start = (int)( here.size() / maxitems ) * maxitems;
@@ -655,6 +661,7 @@ void Pickup::pick_up( const tripoint &pos, int min )
                 }
             } else if ( ch == KEY_DOWN ) {
                 selected++;
+                iScrollPos = 0;
                 if ( selected >= (int)here.size() ) {
                     selected = 0;
                     start = 0;
@@ -678,6 +685,7 @@ void Pickup::pick_up( const tripoint &pos, int min )
                 }
             } else {
                 idx = ( ch <= 127 ) ? pickup_chars.find(ch) : -1;
+                iScrollPos = 0;
             }
 
             if( idx >= 0 && idx < (int)here.size()) {
@@ -726,21 +734,17 @@ void Pickup::pick_up( const tripoint &pos, int min )
                 update = true;
             }
 
-            if ( selected != last_selected ) {
-                last_selected = selected;
-                werase(w_item_info);
-                int iDummy = -1;
-                if ( selected >= 0 && selected <= (int)here.size() - 1 ) {
-                    std::vector<iteminfo> vThisItem, vDummy;
-                    here[selected].info(true, vThisItem);
+            werase(w_item_info);
+            if ( selected >= 0 && selected <= (int)here.size() - 1 ) {
+                std::vector<iteminfo> vThisItem, vDummy;
+                here[selected].info(true, vThisItem);
 
-                    draw_item_info(w_item_info, "", vThisItem, vDummy, iDummy, true, true);
-                }
-                draw_border(w_item_info);
-                mvwprintw(w_item_info, 0, 2, "< ");
-                trim_and_print(w_item_info, 0, 4, itemsW - 8, c_white, "%s >", here[selected].display_name().c_str());
-                wrefresh(w_item_info);
+                draw_item_info(w_item_info, "", vThisItem, vDummy, iScrollPos, true, true);
             }
+            draw_custom_border(w_item_info, BORDER_COLOR, false);
+            mvwprintw(w_item_info, 0, 2, "< ");
+            trim_and_print(w_item_info, 0, 4, itemsW - 8, c_white, "%s >", here[selected].display_name().c_str());
+            wrefresh(w_item_info);
 
             if (ch == ',') {
                 int count = 0;
@@ -807,9 +811,9 @@ void Pickup::pick_up( const tripoint &pos, int min )
             mvwprintw(w_pickup, maxitems + 1, 0,                         unmark);
             mvwprintw(w_pickup, maxitems + 1, (pw - std::strlen(scroll)) / 2, scroll);
             mvwprintw(w_pickup, maxitems + 1,  pw - std::strlen(mark),        mark);
-            const char *prev = _("[pgup] Prev");
+            const char *prev = _("[<] Prev");
             const char *all = _("[,] All");
-            const char *next   = _("[pgdn] Next");
+            const char *next   = _("[>] Next");
             mvwprintw(w_pickup, maxitems + 2, 0, prev);
             mvwprintw(w_pickup, maxitems + 2, (pw - std::strlen(all)) / 2, all);
             mvwprintw(w_pickup, maxitems + 2, pw - std::strlen(next), next);
