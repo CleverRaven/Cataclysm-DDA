@@ -4860,3 +4860,82 @@ bool mattack::dodge_check(monster *z, Creature *target){
     }
     return false;
 }
+
+void mattack::ink_jet(monster *z, int index)
+
+// Monster using this special, shoots a jet's of black ink at its opponent
+// Jet's range and volume, depends on casting monsters size
+// Ink hits random body parts: 
+// if eyes are hit, player/npc is tempeoraly blinded,
+// if other body part(s) are hit, player's scent is suprressed, at a cost of small morale penalty
+
+{
+	// Check if monster can act at all
+	if (!z->can_act()) {
+
+		// Stop running the code futher
+		return;
+	}
+
+	// Get monsters's size. The greater z size is, the longer is the ink jet's reach
+	int max_jet_range = z->get_size() + 1;
+
+	// Get monsters's current attack target, if any
+	Creature *target = z->attack_target();
+
+	if  
+		// if monster doesn't have attack target OR...
+		(target == nullptr ||
+
+		// if distance between monster and it's attack target is greater then ink jet's possible reach OR...
+		rl_dist(z->pos(), target->pos()) > max_jet_range ||
+		
+		// if monster doesn't actualy see it's attack target...
+		!z->sees(*target)) { 
+		
+		// Stop running the code futher
+		return;
+	}
+
+	// create an array of tripoints, a line which mark the path the jet travels, then sprayed from monsters postion into it's targets position
+	std::vector<tripoint> line = g->m.find_clear_path(z->pos(), target->pos());
+
+    // It is possible to use the ability, put it on cooldown
+	z->reset_special(index); 
+
+	// Spraying liqiud is relatively fast action
+	z->moves -= 25;
+
+	// inform the player, if he can see the act of ink spraying
+    bool u_see = g->u.sees(*z);
+	if (u_see) {
+        if (target->is_player || target->is_npc) {
+			target->add_msg_player_or_npc(_("The %s squirts a jet of black ink at you!!"),
+				_("The %s squirts a jet of black ink at <npcname>!"),
+				z->name().c_str());
+		} add_msg(_("The %1$s squirts a jet of black ink at %2$s!"), z->name().c_str(), target->disp_name().c_str());
+	}
+
+
+	for (auto &i : line) {
+		g->m.add_field(i, fd_bile, 1, 0);
+		// If ink hits solid tile, return.
+		if (g->m.move_cost(i) == 0) {
+			g->m.add_field(i, fd_bile, 3, 0);
+			if (g->u.sees(i))
+				add_msg(_("black ink splatters on the %s!"),
+					g->m.tername(i.x, i.y).c_str());
+			return;
+		}
+	}
+	//if (!target->uncanny_dodge()) {
+	//	if (rng(0, 10) > target->get_dodge() || one_in(target->get_dodge())) {
+	//		target->add_env_effect("boomered", bp_eyes, 3, 12);
+	//	}
+	//	else if (u_see) {
+	//		target->add_msg_player_or_npc(_("You dodge the jet of black ink!"),
+	//			_("<npcname> dodges the jet of black ink!"));
+	//	}
+	//	target->on_dodge(z, 10);
+	//}
+}
