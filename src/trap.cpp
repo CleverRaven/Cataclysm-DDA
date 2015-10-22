@@ -93,7 +93,6 @@ void trap::load( JsonObject &jo )
         t.name = _( t.name.c_str() );
     }
     t.id = trap_str_id( jo.get_string( "id" ) );
-    t.loadid = trap_id( traplist.size() );
     t.color = color_from_string( jo.get_string( "color" ) );
     t.sym = jo.get_string( "symbol" ).at( 0 );
     t.visibility = jo.get_int( "visibility" );
@@ -104,8 +103,15 @@ void trap::load( JsonObject &jo )
     t.funnel_radius_mm = jo.get_int( "funnel_radius", 0 );
     t.trigger_weight = jo.get_int( "trigger_weight", -1 );
 
+    const auto iter = trapmap.find( t.id );
+    if( iter == trapmap.end() ) {
+        t.loadid = trap_id( traplist.size() );
+        traplist.push_back( std::move( trap_ptr ) );
+    } else {
+        t.loadid = iter->second;
+        traplist[t.loadid.to_i()] = std::move( trap_ptr );
+    }
     trapmap[t.id] = t.loadid;
-    traplist.push_back( std::move( trap_ptr ) );
 }
 
 void trap::reset()
