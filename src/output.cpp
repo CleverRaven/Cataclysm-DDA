@@ -242,10 +242,14 @@ int fold_and_print_from(WINDOW *w, int begin_y, int begin_x, int width, int begi
 int fold_and_print_from(WINDOW *w, int begin_y, int begin_x, int width, int begin_line,
                         nc_color base_color, const std::string &text)
 {
+    const int iWinHeight = getmaxy(w);
     nc_color color = base_color;
     std::vector<std::string> textformatted;
     textformatted = foldstring(text, width);
     for (size_t line_num = 0; line_num < textformatted.size(); line_num++) {
+        if (line_num + begin_y - begin_line == iWinHeight) {
+            break;
+        }
         if ((int)line_num >= begin_line) {
             wmove(w, line_num + begin_y - begin_line, begin_x);
         }
@@ -461,6 +465,52 @@ void wprintz(WINDOW *w, nc_color FG, const char *mes, ...)
     va_end(ap);
     wattron(w, FG);
     wprintw(w, "%s", text.c_str());
+    wattroff(w, FG);
+}
+
+void draw_custom_border(WINDOW *w, nc_color FG, chtype ls, chtype rs, chtype ts, chtype bs, chtype tl, chtype tr, chtype bl, chtype br)
+{
+    wattron(w, FG);
+
+    const int height = getmaxy(w);
+    const int width = getmaxx(w);
+
+    for (int j = 0; j < height - 1; j++) {
+        if (ls > 0) {
+            mvwputch(w, j, 0, c_ltgray, (ls > 1) ? ls : LINE_XOXO); // |
+        }
+
+        if (rs > 0) {
+            mvwputch(w, j, width - 1, c_ltgray, (rs > 1) ? rs : LINE_XOXO); // |
+        }
+    }
+
+    for (int j = 0; j < width - 1; j++) {
+        if (ts > 0) {
+            mvwputch(w, 0, j, c_ltgray, (ts > 1) ? ts : LINE_OXOX); // --
+        }
+
+        if (bs > 0) {
+            mvwputch(w, height - 1, j, c_ltgray, (bs > 1) ? bs : LINE_OXOX); // --
+        }
+    }
+
+    if (tl > 0) {
+        mvwputch(w, 0, 0, c_ltgray, (tl > 1) ? tl : LINE_OXXO); // |^
+    }
+
+    if (tr > 0) {
+        mvwputch(w, 0, width - 1, c_ltgray, (tr > 1) ? tr : LINE_OOXX); // ^|
+    }
+
+    if (bl > 0) {
+        mvwputch(w, height - 1, 0, c_ltgray, (bl > 1) ? bl : LINE_XXOO); // |_
+    }
+
+    if (br > 0) {
+        mvwputch(w, height - 1, width - 1, c_ltgray, (br > 1) ? br : LINE_XOOX); // _|
+    }
+
     wattroff(w, FG);
 }
 
@@ -1184,20 +1234,22 @@ int draw_item_info(WINDOW *win, const std::string sItemName,
     if( !buffer.str().empty() ) {
         const auto b = without_border ? 1 : 2;
         const auto width = getmaxx( win ) - b * 2;
-        const auto height = getmaxy( win );
+        const auto height = getmaxy( win ) - b * 2;
 
         const auto vFolded = foldstring(buffer.str(), width);
         iLines = vFolded.size();
 
         if (selected < 0) {
             selected = 0;
-        } else if (selected > iLines - height) {
+        } else if (iLines < height) {
+            selected = 0;
+        } else if (selected >= iLines - height) {
             selected = iLines - height;
         }
 
         fold_and_print_from( win, line_num, b, width, selected, c_white, buffer.str() );
 
-        draw_scrollbar(win, selected, height, iLines, 0, 0, c_white, false, iLines-height);
+        draw_scrollbar(win, selected, height, iLines, 1, 0, c_white, false, iLines-height);
     }
 
     if (!without_border) {
@@ -1419,7 +1471,7 @@ void draw_scrollbar(WINDOW *window, const int iCurrentLine, const int iContentHe
     }
 
     if (iFakeEntries > 0) {
-        iNumEntries =  iFakeEntries;
+        iNumEntries = iFakeEntries;
     }
 
     if (iNumEntries > 0) {
@@ -1428,16 +1480,20 @@ void draw_scrollbar(WINDOW *window, const int iCurrentLine, const int iContentHe
 
         int iSBHeight = ((iContentHeight - 2) * (iContentHeight - 2)) / iNumEntries;
 
+        if (iFakeEntries > 0 && iNumEntries < iContentHeight) {
+            iSBHeight = iContentHeight - iNumEntries - 2;
+        }
+
         if (iSBHeight < 2) {
             iSBHeight = 2;
-        } else if (iFakeEntries > 0) {
-            iSBHeight = iContentHeight - iNumEntries;
         }
 
         int iStartY = (iCurrentLine * (iContentHeight - 3 - iSBHeight)) / iNumEntries;
         if (iCurrentLine == 0) {
             iStartY = -1;
-        } else if (iCurrentLine == iNumEntries - 1) {
+        } else if (iFakeEntries > 0 && iCurrentLine == iNumEntries) {
+            iStartY = iContentHeight - 3 - iSBHeight;
+        } else if (iFakeEntries == 0 && iCurrentLine == iNumEntries - 1) {
             iStartY = iContentHeight - 3 - iSBHeight;
         }
 

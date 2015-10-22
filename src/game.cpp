@@ -9142,7 +9142,9 @@ void game::draw_item_filter_rules(WINDOW *window, int rows)
 std::string game::ask_item_priority_high(WINDOW *window, int rows)
 {
     for (int i = 0; i < rows - 1; i++) {
-        mvwprintz(window, i, 1, c_black, "%s", "                                                        ");
+        for (int j = 1; j < getmaxx(window) - 1; j++) {
+            mvwprintz(window, i, j, c_black, "%s", " ");
+        }
     }
 
     mvwprintz(window, 2, 2, c_white, "%s", _("Type part of an item's name to move"));
@@ -9161,7 +9163,9 @@ std::string game::ask_item_priority_high(WINDOW *window, int rows)
 std::string game::ask_item_priority_low(WINDOW *window, int rows)
 {
     for (int i = 0; i < rows - 1; i++) {
-        mvwprintz(window, i, 1, c_black, "%s", "                                                        ");
+        for (int j = 1; j < getmaxx(window) - 1; j++) {
+            mvwprintz(window, i, j, c_black, "%s", " ");
+        }
     }
 
     mvwprintz(window, 2, 2, c_white, "%s", _("Type part of an item's name to move"));
@@ -9440,21 +9444,16 @@ int game::list_items(const int iLastState)
 {
     int iInfoHeight = std::min(25, TERMY / 2);
     const int width = use_narrow_sidebar() ? 45 : 55;
-    const int offsetX = right_sidebar ? TERMX - VIEW_OFFSET_X - width :
-                                        VIEW_OFFSET_X;
+    const int offsetX = right_sidebar ? TERMX - VIEW_OFFSET_X - width : VIEW_OFFSET_X;
 
-    WINDOW *w_items = newwin(TERMY - 2 - iInfoHeight - VIEW_OFFSET_Y * 2, width - 2,
-                             VIEW_OFFSET_Y + 1, offsetX + 1);
+    WINDOW *w_items = newwin(TERMY - 2 - iInfoHeight - VIEW_OFFSET_Y * 2, width - 2,VIEW_OFFSET_Y + 1, offsetX + 1);
     WINDOW_PTR w_itemsptr( w_items );
-    WINDOW *w_items_border = newwin(TERMY - iInfoHeight - VIEW_OFFSET_Y * 2, width,
-                                    VIEW_OFFSET_Y, offsetX);
+
+    WINDOW *w_items_border = newwin(TERMY - iInfoHeight - VIEW_OFFSET_Y * 2, width,VIEW_OFFSET_Y, offsetX);
     WINDOW_PTR w_items_borderptr( w_items_border );
-    WINDOW *w_item_info = newwin(iInfoHeight - 1, width - 2,
-                                 TERMY - iInfoHeight - VIEW_OFFSET_Y, offsetX + 1);
+
+    WINDOW *w_item_info = newwin(iInfoHeight, width, TERMY - iInfoHeight - VIEW_OFFSET_Y, offsetX);
     WINDOW_PTR w_item_infoptr( w_item_info );
-    WINDOW *w_item_info_border = newwin(iInfoHeight, width,
-                                        TERMY - iInfoHeight - VIEW_OFFSET_Y, offsetX);
-    WINDOW_PTR w_item_info_borderptr( w_item_info_border );
 
     //Area to search +- of players position.
     const int iRadius = 12 + (u.per_cur * 2);
@@ -9677,13 +9676,14 @@ int game::list_items(const int iLastState)
             if (reset) {
                 reset_item_list_state(w_items_border, iInfoHeight, sort_radius);
                 reset = false;
+                iScrollPos = 0;
             }
 
             if (action == "UP") {
                 do {
                     iActive--;
                 } while(mSortCategory[iActive] != "");
-
+                iScrollPos = 0;
                 page_num = 0;
                 if (iActive < 0) {
                     iActive = iItemNum - 1;
@@ -9692,7 +9692,7 @@ int game::list_items(const int iLastState)
                 do {
                     iActive++;
                 } while(mSortCategory[iActive] != "");
-
+                iScrollPos = 0;
                 page_num = 0;
                 if (iActive >= iItemNum) {
                     iActive = (mSortCategory[0] != "") ? 1 : 0;
@@ -9834,23 +9834,11 @@ int game::list_items(const int iLastState)
                 draw_scrollbar(w_items_border, iActive, iMaxRows, iItemNum, 1);
             }
 
-            for (int j = 0; j < iInfoHeight - 1; j++) {
-                mvwputch(w_item_info_border, j, 0, c_ltgray, LINE_XOXO);
-            }
-
-            for (int j = 0; j < iInfoHeight - 1; j++) {
-                mvwputch(w_item_info_border, j, width - 1, c_ltgray, LINE_XOXO);
-            }
-
-            for (int j = 0; j < width - 1; j++) {
-                mvwputch(w_item_info_border, iInfoHeight - 1, j, c_ltgray, LINE_OXOX);
-            }
-
-            mvwputch(w_item_info_border, iInfoHeight - 1, 0, c_ltgray, LINE_XXOO);
-            mvwputch(w_item_info_border, iInfoHeight - 1, width - 1, c_ltgray, LINE_XOOX);
+            bool bDrawLeft = (ground_items.empty() && iLastState == 1) || filtered_items.empty();
+            draw_custom_border(w_item_info, BORDER_COLOR, bDrawLeft, true, false, true,
+                               LINE_XOXO, LINE_XOXO, true, true);
 
             wrefresh(w_items);
-            wrefresh(w_item_info_border);
             wrefresh(w_item_info);
 
             refresh();
