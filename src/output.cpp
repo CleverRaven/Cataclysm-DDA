@@ -1230,7 +1230,7 @@ int draw_item_info(WINDOW *win, const std::string sItemName,
     }
 
     int ch;
-    do {
+    while(true) {
         int iLines = 0;
         if( !buffer.str().empty() ) {
             const auto b = without_border ? 1 : 2;
@@ -1250,7 +1250,7 @@ int draw_item_info(WINDOW *win, const std::string sItemName,
 
             fold_and_print_from( win, line_num, b, width, selected, c_white, buffer.str() );
 
-            draw_scrollbar(win, selected, height, iLines, 1, 0, c_white, false, iLines-height);
+            draw_scrollbar(win, selected, height, iLines-height, 1, 0, BORDER_COLOR, false, true);
         }
 
         if (!without_border) {
@@ -1258,22 +1258,27 @@ int draw_item_info(WINDOW *win, const std::string sItemName,
             wrefresh(win);
         }
 
-        ch = (int)' ';
-        if (!without_getch) {
-            ch = (int)getch();
-            if ( handle_scrolling && ch == KEY_PPAGE ) {
-                selected--;
-                werase(win);
-            } else if ( handle_scrolling && ch == KEY_NPAGE ) {
-                selected++;
-                werase(win);
-            } else if ( selected > 0 && ( ch == '\n' || ch == KEY_RIGHT ) && selected_ret != 0 ) {
-                ch = selected_ret;
-            } else if ( selected == KEY_LEFT ) {
-                ch = (int)' ';
-            }
+        if (without_getch) {
+            break;
         }
-    } while (handle_scrolling && !without_getch && (ch == KEY_PPAGE || ch == KEY_NPAGE));
+
+        ch = (int)getch();
+        if ( handle_scrolling && ch == KEY_PPAGE ) {
+            selected--;
+            werase(win);
+        } else if ( handle_scrolling && ch == KEY_NPAGE ) {
+            selected++;
+            werase(win);
+        } else if ( selected > 0 && ( ch == '\n' || ch == KEY_RIGHT ) && selected_ret != 0 ) {
+            ch = selected_ret;
+            break;
+        } else if ( selected == KEY_LEFT ) {
+            ch = (int)' ';
+            break;
+        } else {
+            break;
+        }
+    }
 
     return ch;
 }
@@ -1457,11 +1462,24 @@ void draw_subtab(WINDOW *w, int iOffsetX, std::string sText, bool bSelected, boo
     }
 }
 
+/**
+ * Draw a scrollbar
+ * @param window Pointer of window to draw on
+ * @param iCurrentLine The currently selected line out of the iNumEntries lines
+ * @param iContentHeight Height of the scrollbar
+ * @param iNumEntries Total number of lines to scroll through
+ * @param iOffsetY Y drawing offset
+ * @param iOffsetX X drawing offset
+ * @param bar_color Default line color
+ * @param bRefresh If true, refresh window after drawing the scrollbar
+ * @param bTextScroll If true, will draw the scrollbar even if iContentHeight >= iNumEntries.
+ * Used for scrolling multiline wrapped text. If false, used for scrolling one line selections.
+ **/
 void draw_scrollbar(WINDOW *window, const int iCurrentLine, const int iContentHeight,
-                    int iNumEntries, const int iOffsetY, const int iOffsetX,
-                    nc_color bar_color, bool bRefresh, int iFakeEntries)
+                    const int iNumEntries, const int iOffsetY, const int iOffsetX,
+                    nc_color bar_color, const bool bRefresh, const bool bTextScroll)
 {
-    if (iContentHeight >= iNumEntries) {
+    if (!bTextScroll && iContentHeight >= iNumEntries) {
         //scrollbar is not required
         bar_color = BORDER_COLOR;
     }
@@ -1471,15 +1489,11 @@ void draw_scrollbar(WINDOW *window, const int iCurrentLine, const int iContentHe
         mvwputch(window, i, iOffsetX, bar_color, LINE_XOXO);
     }
 
-    if (iContentHeight >= iNumEntries) {
+    if (!bTextScroll && iContentHeight >= iNumEntries) {
         if (bRefresh) {
             wrefresh(window);
         }
         return;
-    }
-
-    if (iFakeEntries > 0) {
-        iNumEntries = iFakeEntries;
     }
 
     if (iNumEntries > 0) {
@@ -1488,7 +1502,7 @@ void draw_scrollbar(WINDOW *window, const int iCurrentLine, const int iContentHe
 
         int iSBHeight = ((iContentHeight - 2) * (iContentHeight - 2)) / iNumEntries;
 
-        if (iFakeEntries > 0 && iNumEntries < iContentHeight) {
+        if (bTextScroll && iNumEntries < iContentHeight) {
             iSBHeight = iContentHeight - iNumEntries - 2;
         }
 
@@ -1499,9 +1513,9 @@ void draw_scrollbar(WINDOW *window, const int iCurrentLine, const int iContentHe
         int iStartY = (iCurrentLine * (iContentHeight - 3 - iSBHeight)) / iNumEntries;
         if (iCurrentLine == 0) {
             iStartY = -1;
-        } else if (iFakeEntries > 0 && iCurrentLine == iNumEntries) {
+        } else if (bTextScroll && iCurrentLine == iNumEntries) {
             iStartY = iContentHeight - 3 - iSBHeight;
-        } else if (iFakeEntries == 0 && iCurrentLine == iNumEntries - 1) {
+        } else if (!bTextScroll && iCurrentLine == iNumEntries - 1) {
             iStartY = iContentHeight - 3 - iSBHeight;
         }
 

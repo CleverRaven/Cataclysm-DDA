@@ -9086,9 +9086,7 @@ std::vector<map_item_stack> game::filter_item_stacks(std::vector<map_item_stack>
 void game::draw_item_filter_rules(WINDOW *window, int rows)
 {
     for (int i = 0; i < rows - 1; i++) {
-        for (int j = 1; j < getmaxx(window) - 1; j++) {
-            mvwprintz(window, i, j, c_black, "%s", " ");
-        }
+        mvwprintz(window, i, 1, c_black, std::string(getmaxx(window) - 2, ' ').c_str());
     }
 
     mvwprintz(window, 0, 2, c_white, "%s", _("Type part of an item's name to"));
@@ -9108,9 +9106,7 @@ void game::draw_item_filter_rules(WINDOW *window, int rows)
 std::string game::ask_item_priority_high(WINDOW *window, int rows)
 {
     for (int i = 0; i < rows - 1; i++) {
-        for (int j = 1; j < getmaxx(window) - 1; j++) {
-            mvwprintz(window, i, j, c_black, "%s", " ");
-        }
+        mvwprintz(window, i, 1, c_black, std::string(getmaxx(window) - 2, ' ').c_str());
     }
 
     mvwprintz(window, 2, 2, c_white, "%s", _("Type part of an item's name to move"));
@@ -9129,9 +9125,7 @@ std::string game::ask_item_priority_high(WINDOW *window, int rows)
 std::string game::ask_item_priority_low(WINDOW *window, int rows)
 {
     for (int i = 0; i < rows - 1; i++) {
-        for (int j = 1; j < getmaxx(window) - 1; j++) {
-            mvwprintz(window, i, j, c_black, "%s", " ");
-        }
+        mvwprintz(window, i, 1, c_black, std::string(getmaxx(window) - 2, ' ').c_str());
     }
 
     mvwprintz(window, 2, 2, c_white, "%s", _("Type part of an item's name to move"));
