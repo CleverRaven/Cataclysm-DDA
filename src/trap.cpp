@@ -6,7 +6,7 @@
 #include <vector>
 #include <memory>
 
-std::vector< trap* > traplist;
+std::vector< std::unique_ptr<trap> > traplist;
 std::unordered_map< trap_str_id, trap_id > trapmap;
 
 template<>
@@ -105,8 +105,7 @@ void trap::load( JsonObject &jo )
     t.trigger_weight = jo.get_int( "trigger_weight", -1 );
 
     trapmap[t.id] = t.loadid;
-    traplist.push_back( &t );
-    trap_ptr.release();
+    traplist.push_back( std::move( trap_ptr ) );
     if( t.is_funnel() ) {
         funnel_traps.push_back( &t );
     }
@@ -114,9 +113,6 @@ void trap::load( JsonObject &jo )
 
 void trap::reset()
 {
-    for( auto & tptr : traplist ) {
-        delete tptr;
-    }
     traplist.clear();
     trapmap.clear();
     funnel_traps.clear();
