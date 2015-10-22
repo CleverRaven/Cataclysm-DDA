@@ -183,7 +183,7 @@
             },
             "monsters": {
                 "!": { "monster": "GROUP_COFFEE_SHOP_SPITTER", "chance": 1 },
-                " ": { "monster": "GROUP_ZOMBIE", "chance": 100 }
+                " ": { "monster": "GROUP_ZOMBIE", "chance": 2 }
             },
             "toilets": {
                 ";": { }

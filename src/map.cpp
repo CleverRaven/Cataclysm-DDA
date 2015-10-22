@@ -5596,7 +5596,7 @@ void map::update_visibility_cache( visibility_variables &cache, const int zlev )
     cache.u_sight_impaired = g->u.sight_impaired();
     cache.u_is_boomered = g->u.has_effect("boomered");
 
-    int sm_squares_seen[my_MAPSIZE][my_MAPSIZE];
+    int sm_squares_seen[MAPSIZE][MAPSIZE];
     std::memset(sm_squares_seen, 0, sizeof(sm_squares_seen));
 
     auto &visibility_cache = get_cache( zlev ).visibility_cache;
@@ -7079,8 +7079,8 @@ void map::build_outside_cache( const int zlev )
 
     // Make a bigger cache to avoid bounds checking
     // We will later copy it to our regular cache
-    const size_t padded_w = ( my_MAPSIZE * SEEX ) + 2;
-    const size_t padded_h = ( my_MAPSIZE * SEEY ) + 2;
+    const size_t padded_w = ( MAPSIZE * SEEX ) + 2;
+    const size_t padded_h = ( MAPSIZE * SEEY ) + 2;
     bool padded_cache[padded_w][padded_h];
 
     auto &outside_cache = ch.outside_cache;

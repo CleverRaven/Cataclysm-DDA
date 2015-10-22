@@ -144,6 +144,7 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
     /* TODO: If the origin or destination is out of bound, figure out the closest
      * in-bounds point and go to that, then to the real origin/destination.
      */
+    std::vector<tripoint> ret;
 
     std::vector<tripoint> ret;
 

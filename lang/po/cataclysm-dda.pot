@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cataclysm-dda 0.C\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-10-12 09:50+0300\n"
+"POT-Creation-Date: 2015-10-19 13:56+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -3465,40 +3465,41 @@ msgid ""
 msgstr ""
 
 #: lang/json/AMMO_from_json.py
-msgid "reloaded 9mm"
-msgid_plural "reloaded 9mm"
+msgid "reloaded 9x19mm JHP"
+msgid_plural "reloaded 9x19mm JHP"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Description for reloaded 9mm
+#. ~ Description for reloaded 9x19mm JHP
 #: lang/json/AMMO_from_json.py
 msgid ""
-"9 millimeter parabellum is generally regarded as the most popular handgun "
-"cartridge and used by the majority of US police forces.  It is also a very "
-"popular round in sub-machine guns.  This one has been hand-reloaded."
+"9x19mm ammunition with a hand-reloaded jacketed hollow point bullet.  JHP "
+"rounds have inferior penetration to FMJ rounds but their expansion slightly "
+"increases stopping power against unarmored targets and reduces "
+"overpenetration."
 msgstr ""
 
 #: lang/json/AMMO_from_json.py
-msgid "reloaded 9mm +P"
-msgid_plural "reloaded 9mm +P"
+msgid "reloaded 9x19mm +P"
+msgid_plural "reloaded 9x19mm +P"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Description for reloaded 9mm +P
+#. ~ Description for reloaded 9x19mm +P
 #: lang/json/AMMO_from_json.py
 msgid ""
-"Attempts to improve the ballistics of 9mm ammunition lead to high-pressure "
-"rounds.  Increased velocity results in superior accuracy and damage.  This "
-"one has been hand-reloaded."
+"Overpressure 9x19mm ammunition.  The round's increased velocity results in "
+"superior accuracy and stopping power at the cost of higher recoil. This one "
+"has been hand-reloaded."
 msgstr ""
 
 #: lang/json/AMMO_from_json.py
-msgid "reloaded 9mm +P+"
-msgid_plural "reloaded 9mm +P+"
+msgid "reloaded 9x19mm +P+"
+msgid_plural "reloaded 9x19mm +P+"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Description for reloaded 9mm +P+
+#. ~ Description for reloaded 9x19mm +P+
 #: lang/json/AMMO_from_json.py
 msgid ""
 "A step beyond the high-pressure 9mm +P round, the +P+ has an even higher "
@@ -3507,16 +3508,17 @@ msgid ""
 msgstr ""
 
 #: lang/json/AMMO_from_json.py
-msgid "reloaded 9mm FMJ"
-msgid_plural "reloaded 9mm FMJ"
+msgid "reloaded 9x19mm FMJ"
+msgid_plural "reloaded 9x19mm FMJ"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Description for reloaded 9mm FMJ
+#. ~ Description for reloaded 9x19mm FMJ
 #: lang/json/AMMO_from_json.py
 msgid ""
-"A brass-jacketed 9mm Parabellum round.  This increases penetration slightly "
-"at the cost of reduced expansion."
+"9x19mm ammunition with a brass jacketed hand-reloaded bullet.  It is a "
+"popular round for military, law enforcement, and civilian use even after "
+"almost 150 years."
 msgstr ""
 
 #: lang/json/AMMO_from_json.py
@@ -3543,8 +3545,8 @@ msgstr[1] ""
 #: lang/json/AMMO_from_json.py
 msgid ""
 "9x18 millimeter Makarov, an old Soviet pistol cartridge used mainly by the "
-"Makarov PM.  The +P+ has higher internal pressure that offers a degree of "
-"armor-penetrating ability.  This one has been hand-reloaded."
+"Makarov PM. This one has been hand-reloaded to generate higher internal "
+"pressure, boosting flight stability and damage."
 msgstr ""
 
 #: lang/json/AMMO_from_json.py
@@ -3599,8 +3601,8 @@ msgstr[1] ""
 #. ~ Description for reloaded .38 FMJ
 #: lang/json/AMMO_from_json.py
 msgid ""
-"A brass-jacketed .38 round.  This increases penetration slightly at the cost "
-"of reduced expansion.  This one has been hand-reloaded."
+"A hand-reloaded brass-jacketed .38 round.  This increases penetration "
+"slightly at the cost of reduced expansion."
 msgstr ""
 
 #: lang/json/AMMO_from_json.py
@@ -3612,38 +3614,37 @@ msgstr[1] ""
 #. ~ Description for reloaded 10mm Auto
 #: lang/json/AMMO_from_json.py
 msgid ""
-"Originally used by the FBI, the organization eventually abandoned the round "
-"due to its high recoil.  Although respected for its versatility and power, "
-"it has largely been supplanted by the downgraded .40 S&W.  This one has been "
-"hand-reloaded."
+"10mm Auto ammunition with hand-reloaded FMJ bullets.  The 10mm Auto round is "
+"one of the most powerful pistol cartridges available, although its "
+"usefulness is limited by high recoil."
 msgstr ""
 
 #: lang/json/AMMO_from_json.py
-msgid "reloaded .40 S&W"
-msgid_plural "reloaded .40 S&W"
+msgid "reloaded .40 S&W JHP"
+msgid_plural "reloaded .40 S&W JHP"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Description for reloaded .40 S&W
+#. ~ Description for reloaded .40 S&W JHP
 #: lang/json/AMMO_from_json.py
 msgid ""
-"The .40 Smith & Wesson round was developed as an alternative to 10mm Auto "
-"for the FBI after they complained of high recoil.  It is as accurate as 9mm, "
-"but has greater stopping power, leading to widespread use in law "
-"enforcement.  This one has been hand-reloaded."
+".40 S&W JHP ammunition.  The .40 S&W round is a descended from the 10mm Auto "
+"cartridge and maintains most of its predecessor's strengths while reducing "
+"recoil. This one has been reloaded by hand."
 msgstr ""
 
 #: lang/json/AMMO_from_json.py
-msgid "reloaded .40 FMJ"
-msgid_plural "reloaded .40 FMJ"
+msgid "reloaded .40 S&W FMJ"
+msgid_plural "reloaded .40 S&W FMJ"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Description for reloaded .40 FMJ
+#. ~ Description for reloaded .40 S&W FMJ
 #: lang/json/AMMO_from_json.py
 msgid ""
-"A brass-jacketed .40 Smith & Wesson round.  This increases penetration "
-"slightly at the cost of reduced expansion.  This one has been hand-reloaded."
+".40 S&W ammunition with 180gr FMJ bullets.  Designed to retain the 10mm Auto "
+"cartridge's power with lower recoil, the .40 S&W round became popular for "
+"law enforcement and personal defense. This one has been hand-reloaded."
 msgstr ""
 
 #: lang/json/AMMO_from_json.py
@@ -3658,7 +3659,7 @@ msgid ""
 "Described (in 1971) by Dirty Harry as \"the most powerful handgun in the "
 "world,\" the .44 Magnum gained widespread popularity due to its depictions "
 "in the media.  In reality, its intense recoil makes it unsuitable in most "
-"cases."
+"cases. This one has been hand-reloaded."
 msgstr ""
 
 #: lang/json/AMMO_from_json.py
@@ -3676,12 +3677,12 @@ msgid ""
 msgstr ""
 
 #: lang/json/AMMO_from_json.py
-msgid "reloaded .45 ACP"
-msgid_plural "reloaded .45 ACP"
+msgid "reloaded .45 ACP JHP"
+msgid_plural "reloaded .45 ACP JHP"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Description for reloaded .45 ACP
+#. ~ Description for reloaded .45 ACP JHP
 #: lang/json/AMMO_from_json.py
 msgid ""
 "The .45 round was one of the most popular and powerful handgun rounds "
@@ -3706,18 +3707,17 @@ msgid ""
 msgstr ""
 
 #: lang/json/AMMO_from_json.py
-msgid "reloaded .45 Super"
-msgid_plural "reloaded .45 Super"
+msgid "reloaded .45 ACP +P"
+msgid_plural "reloaded .45 ACP +P"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Description for reloaded .45 Super
+#. ~ Description for reloaded .45 ACP +P
 #: lang/json/AMMO_from_json.py
 msgid ""
-"The .45 Super round is an updated variant of .45 ACP.  It is overloaded, "
-"resulting in a great increase in muzzle velocity.  This translates to higher "
-"accuracy and range, a minor armor piercing capability, and greater recoil.  "
-"This one has been hand-reloaded."
+"Overpressure .45 ACP ammunition with hand-reloaded JHP bullets.  This +P "
+"ammunition has higher muzzle energy than typical loads leading to greater "
+"damage, accuracy and recoil."
 msgstr ""
 
 #: lang/json/AMMO_from_json.py
@@ -3729,9 +3729,11 @@ msgstr[1] ""
 #. ~ Description for reloaded .454 Casull
 #: lang/json/AMMO_from_json.py
 msgid ""
-"The .454 Casull round a very powerful revolver round capable of killing huge "
-"game, like elephants, with ease.  It's designed to be used with the Taurus "
-"Raging Bull.  This one has been hand-reloaded."
+".454 Casull ammunition with jacketed soft point bullets.  The .454 Casull "
+"round is derived from .45 Long Colt with a stronger, lengthened case.  It is "
+"an exceptionally powerful cartridge with higher stopping power than many "
+"rifle rounds, although it suffers from extreme recoil making it unsuitable "
+"for most purposes.  This one has been reloaded by hand."
 msgstr ""
 
 #: lang/json/AMMO_from_json.py
@@ -3802,19 +3804,19 @@ msgstr[1] ""
 #. ~ Description for reloaded 7.62x39mm M67
 #: lang/json/AMMO_from_json.py
 msgid ""
-"The M67 variant of the popular 7.62x39mm rifle round was designed to improve "
-"yaw.  This causes the round to tumble inside a target, causing significantly "
-"more damage.  It is still outdone by shattering rounds.  This one has been "
-"hand-reloaded."
+"7.62x39mm M67 rounds.  The inadequate terminal ballistics of the M43 round "
+"led to the development of the M67 round in Yugoslavia in the 1960s.  It "
+"destabilizes much faster than M43 after hitting a target leading to greater "
+"damage.  This one has been hand-reloaded."
 msgstr ""
 
 #: lang/json/AMMO_from_json.py
-msgid "reloaded 5.45x39mm 5N7"
-msgid_plural "reloaded 5.45x39mm 5N7"
+msgid "reloaded 5.45x39mm 7N10"
+msgid_plural "reloaded 5.45x39mm 7N10"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Description for reloaded 5.45x39mm 5N7
+#. ~ Description for reloaded 5.45x39mm 7N10
 #: lang/json/AMMO_from_json.py
 msgid ""
 "The 5.45x39mm was the standard ammunition for the AK series from 1974.  Its "
@@ -3831,9 +3833,8 @@ msgstr[1] ""
 #. ~ Description for reloaded 5.45x39mm 7N22
 #: lang/json/AMMO_from_json.py
 msgid ""
-"This is the armor piercing cartridge with a steel penetrator, it was "
-"introduced in 1998.  There is a tungsten carbide variant too, it is "
-"unavailable in the US though.  This one has been hand-reloaded."
+"Armor piercing 5.45x39mm ammunition with hand-reloaded bullets containing a "
+"steel penetrator.  Developed in 1998 by the Russian military."
 msgstr ""
 
 #: lang/json/AMMO_from_json.py
@@ -3866,17 +3867,17 @@ msgid ""
 msgstr ""
 
 #: lang/json/AMMO_from_json.py
-msgid "reloaded 5.56 incendiary"
-msgid_plural "reloaded 5.56 incendiary"
+msgid "reloaded 5.56 NATO tracer"
+msgid_plural "reloaded 5.56 NATO tracer"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Description for reloaded 5.56 incendiary
+#. ~ Description for reloaded 5.56 NATO tracer
 #: lang/json/AMMO_from_json.py
 msgid ""
-"A hand-reloaded variant of the widely-used 5.56 NATO round, incendiary "
-"rounds are designed to burn hotly upon impact, piercing armor and igniting "
-"flammable substances."
+"A belt of hand-reloaded 5.56 NATO rounds. A hand-made variant of the widely-"
+"used 5.56 NATO round, the ammunition is a one-in-five mix of hand-loaded "
+"5.56 FMJ and 5.56 incendiary rounds designed to burn hotly when fired."
 msgstr ""
 
 #: lang/json/AMMO_from_json.py
@@ -3895,18 +3896,17 @@ msgid ""
 msgstr ""
 
 #: lang/json/AMMO_from_json.py
-msgid "reloaded .30-06 AP"
-msgid_plural "reloaded .30-06 AP"
+msgid "reloaded .30-06 Springfield"
+msgid_plural "reloaded .30-06 Springfield"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Description for reloaded .30-06 AP
+#. ~ Description for reloaded .30-06 Springfield
 #: lang/json/AMMO_from_json.py
 msgid ""
-"The .30-06 is a very powerful rifle round designed for long-range use.  Its "
-"stupendous accuracy and armor piercing capabilities make it one of the most "
-"deadly rounds available, offset only by its drastic recoil and noise.  This "
-"one has been hand-reloaded."
+"Hand-reloaded .30-06 Springfield rounds with soft point bullets.  The .30-06 "
+"cartridge has excellent accuracy, range, and stopping power making it "
+"popular with hunters and snipers for well over a century."
 msgstr ""
 
 #: lang/json/AMMO_from_json.py
@@ -3949,7 +3949,7 @@ msgstr[1] ""
 msgid ""
 "The 7.62x51mm largely replaced the .30-06 round as the standard military "
 "rifle round.  It is lighter, but offers similar velocities, resulting in "
-"greater accuracy and reduced recoil.  This one has been hand-reloaded."
+"great accuracy and reduced recoil.  This one has been hand-reloaded."
 msgstr ""
 
 #: lang/json/AMMO_from_json.py
@@ -3961,9 +3961,9 @@ msgstr[1] ""
 #. ~ Description for reloaded 7.62x51mm incendiary
 #: lang/json/AMMO_from_json.py
 msgid ""
-"A variant of the powerful 7.62x51mm round, incendiary rounds are designed to "
-"burn hotly upon impact, piercing armor and igniting flammable substances.  "
-"This one has been hand-reloaded."
+"A belt of hand-reloaded 7.62 NATO rounds. A hand-made variant of the widely-"
+"used 7.62 NATO round, the ammunition is a one-in-five mix of hand-loaded "
+"7.62 FMJ and 7.62 incendiary rounds designed to burn hotly when fired."
 msgstr ""
 
 #: lang/json/AMMO_from_json.py
@@ -18517,7 +18517,7 @@ msgid ""
 "desserts.  Those people are probably dead."
 msgstr ""
 
-#: lang/json/COMESTIBLE_from_json.py src/item.cpp
+#: lang/json/COMESTIBLE_from_json.py
 msgid "orange"
 msgid_plural "oranges"
 msgstr[0] ""
@@ -38062,7 +38062,7 @@ msgstr[1] ""
 #: lang/json/MONSTER_from_json.py
 msgid ""
 "A slender-bodied flying insect, with a painful sting.  They can be somewhat "
-"aggresive if disturbed."
+"aggressive if disturbed."
 msgstr ""
 
 #: lang/json/MONSTER_from_json.py
@@ -48471,18 +48471,6 @@ msgid_plural "hobo stoves"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Use action need_fire_msg for hobo stove.
-#. ~ Use action need_fire_msg for ember carrier.
-#: lang/json/TOOL_from_json.py
-msgid "You need a lighter or fire to light this."
-msgstr ""
-
-#. ~ Use action msg for hobo stove.
-#. ~ Use action msg for ember carrier.
-#: lang/json/TOOL_from_json.py
-msgid "You light the tinder."
-msgstr ""
-
 #. ~ Description for hobo stove
 #. ~ Description for hobo stove (lit)
 #: lang/json/TOOL_from_json.py
@@ -48515,6 +48503,16 @@ msgid "ember carrier"
 msgid_plural "ember carriers"
 msgstr[0] ""
 msgstr[1] ""
+
+#. ~ Use action need_fire_msg for ember carrier.
+#: lang/json/TOOL_from_json.py
+msgid "You need a lighter or fire to light this."
+msgstr ""
+
+#. ~ Use action msg for ember carrier.
+#: lang/json/TOOL_from_json.py
+msgid "You light the tinder."
+msgstr ""
 
 #. ~ Description for ember carrier
 #: lang/json/TOOL_from_json.py
@@ -61639,6 +61637,15 @@ msgid ""
 "care."
 msgstr ""
 
+#: lang/json/mutation_from_json.py
+msgid "Debug Mind Control"
+msgstr ""
+
+#. ~ Description for Debug Mind Control
+#: lang/json/mutation_from_json.py
+msgid "Mind the bugs, would you kindly?."
+msgstr ""
+
 #: lang/json/overmap_terrain_from_json.py src/mapdata.cpp
 #: src/mapdata.cpp
 msgid "nothing"
@@ -73759,24 +73766,6 @@ msgstr ""
 
 #: src/activity_handlers.cpp
 #, c-format
-msgid "You learn %s."
-msgstr ""
-
-#. ~ %s is martial art
-#: src/activity_handlers.cpp
-#, c-format
-msgctxt "memorial_male"
-msgid "Learned %s."
-msgstr ""
-
-#: src/activity_handlers.cpp
-#, c-format
-msgctxt "memorial_female"
-msgid "Learned %s."
-msgstr ""
-
-#: src/activity_handlers.cpp
-#, c-format
 msgid "You finish training %s to level %d."
 msgstr ""
 
@@ -73792,6 +73781,24 @@ msgstr ""
 #, c-format
 msgctxt "memorial_female"
 msgid "Reached skill level %1$d in %2$s."
+msgstr ""
+
+#: src/activity_handlers.cpp
+#, c-format
+msgid "You learn %s."
+msgstr ""
+
+#. ~ %s is martial art
+#: src/activity_handlers.cpp
+#, c-format
+msgctxt "memorial_male"
+msgid "Learned %s."
+msgstr ""
+
+#: src/activity_handlers.cpp
+#, c-format
+msgctxt "memorial_female"
+msgid "Learned %s."
 msgstr ""
 
 #: src/activity_handlers.cpp
@@ -82211,17 +82218,8 @@ msgstr ""
 
 #: src/game.cpp
 #, c-format
-msgid "%s was stunned for %d turn!"
-msgid_plural "%s was stunned for %d turns!"
-msgstr[0] ""
-msgstr[1] ""
-
-#: src/game.cpp
-#, c-format
-msgid "%s was stunned AGAIN for %d turn!"
-msgid_plural "%s was stunned AGAIN for %d turns!"
-msgstr[0] ""
-msgstr[1] ""
+msgid "%s was stunned!"
+msgstr ""
 
 #: src/game.cpp
 #, c-format
@@ -82256,11 +82254,6 @@ msgstr ""
 #: src/game.cpp src/monmove.cpp
 #, c-format
 msgid "The %s flops around and dies!"
-msgstr ""
-
-#: src/game.cpp
-#, c-format
-msgid "%s took %d damage! (before armor)"
 msgstr ""
 
 #: src/game.cpp
@@ -83455,15 +83448,11 @@ msgid "Read:"
 msgstr ""
 
 #: src/game.cpp
-msgid "There's no-one close enough to talk to."
-msgstr ""
-
-#: src/game.cpp
-msgid "No one nearby. Yell?"
-msgstr ""
-
-#: src/game.cpp
 msgid "Who do you want to talk to?"
+msgstr ""
+
+#: src/game.cpp
+msgid "Yell"
 msgstr ""
 
 #: src/game.cpp
@@ -86813,6 +86802,11 @@ msgstr ""
 
 #: src/item.cpp
 msgid "yellow"
+msgstr ""
+
+#: src/item.cpp
+msgctxt "color"
+msgid "orange"
 msgstr ""
 
 #: src/item.cpp
@@ -94146,6 +94140,16 @@ msgstr ""
 
 #: src/melee.cpp
 msgid "You slip as the ground shifts beneath your feet!"
+msgstr ""
+
+#: src/melee.cpp
+#, c-format
+msgid "damage before tec mult:%dbash,%dcut,%dstab,%dtotal"
+msgstr ""
+
+#: src/melee.cpp
+#, c-format
+msgid "damage after tec mult:%dbash,%dcut,%dstab,%dtotal"
 msgstr ""
 
 #: src/melee.cpp
@@ -103363,6 +103367,10 @@ msgid "Nope..."
 msgstr ""
 
 #: src/npctalk.cpp
+msgid "YES MASTER"
+msgstr ""
+
+#: src/npctalk.cpp
 msgid "Don't mind me..."
 msgstr ""
 
@@ -104438,6 +104446,10 @@ msgid "Sleep when you feel tired."
 msgstr ""
 
 #: src/npctalk.cpp
+msgid "OBEY ME!"
+msgstr ""
+
+#: src/npctalk.cpp
 msgid "Reward"
 msgstr ""
 
@@ -105456,13 +105468,13 @@ msgid "A scaling factor that determines density of dynamic NPC spawns."
 msgstr ""
 
 #: src/options.cpp
-msgid "Monster half-life scaling factor"
+msgid "Monster evolution scaling factor"
 msgstr ""
 
 #: src/options.cpp
 msgid ""
-"A scaling factor that determines average time in days between monster "
-"upgrades. Set to 0.00 to turn off monster upgrades."
+"A scaling factor that determines the time between monster upgrades. A higher "
+"number means slower evolution. Set to 0.00 to turn off monster upgrades."
 msgstr ""
 
 #: src/options.cpp
