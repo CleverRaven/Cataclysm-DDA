@@ -1435,7 +1435,7 @@ bool worldfactory::load_world_options(WORLDPTR &world)
 
     auto path = world->world_path + "/" + FILENAMES["worldoptions"];
 
-    fin.open(path.c_str());
+    fin.open(path.c_str(), std::ifstream::in | std::ifstream::binary);
 
     if (!fin.is_open()) {
         fin.close();
