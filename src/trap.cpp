@@ -106,9 +106,6 @@ void trap::load( JsonObject &jo )
 
     trapmap[t.id] = t.loadid;
     traplist.push_back( std::move( trap_ptr ) );
-    if( t.is_funnel() ) {
-        funnel_traps.push_back( &t );
-    }
 }
 
 void trap::reset()
@@ -263,6 +260,11 @@ void trap::check_consistency()
 
 void trap::finalize()
 {
+    for( auto & tptr : traplist ) {
+        if( tptr->is_funnel() ) {
+            funnel_traps.push_back( tptr.get() );
+        }
+    }
     const auto trapfind = []( const char *id ) {
         return trap_str_id( id ).id();
     };
