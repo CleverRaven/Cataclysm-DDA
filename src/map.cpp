@@ -5595,9 +5595,10 @@ void map::update_visibility_cache( visibility_variables &cache, const int zlev )
     cache.u_clairvoyance = g->u.clairvoyance();
     cache.u_sight_impaired = g->u.sight_impaired();
     cache.u_is_boomered = g->u.has_effect("boomered");
-   
-    std::vector<std::vector<int>> sm_squares_seen(my_MAPSIZE, std::vector<int>(my_MAPSIZE));
-    
+
+    int sm_squares_seen[MAPSIZE][MAPSIZE];
+    std::memset(sm_squares_seen, 0, sizeof(sm_squares_seen));
+
     auto &visibility_cache = get_cache( zlev ).visibility_cache;
 
     tripoint p;
@@ -7078,11 +7079,10 @@ void map::build_outside_cache( const int zlev )
 
     // Make a bigger cache to avoid bounds checking
     // We will later copy it to our regular cache
-    const size_t padded_w = ( my_MAPSIZE * SEEX ) + 2;
-    const size_t padded_h = ( my_MAPSIZE * SEEY ) + 2;
-    
-    //can't use a vector<bool> here beceause of the specialization.
-    std::vector<std::vector<unsigned char>> padded_cache(padded_w, std::vector<unsigned char>(padded_h, 1));
+    const size_t padded_w = ( MAPSIZE * SEEX ) + 2;
+    const size_t padded_h = ( MAPSIZE * SEEY ) + 2;
+    bool padded_cache[padded_w][padded_h];
+
     auto &outside_cache = ch.outside_cache;
     if( zlev < 0 )
     {
@@ -7090,6 +7090,9 @@ void map::build_outside_cache( const int zlev )
             &outside_cache[0][0], ( MAPSIZE * SEEX ) * ( MAPSIZE * SEEY ), false );
         return;
     }
+
+    std::uninitialized_fill_n(
+            &padded_cache[0][0], padded_w * padded_h, true );
 
     for( int smx = 0; smx < my_MAPSIZE; ++smx ) {
         for( int smy = 0; smy < my_MAPSIZE; ++smy ) {
