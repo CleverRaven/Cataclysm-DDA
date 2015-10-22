@@ -12876,6 +12876,8 @@ void game::fling_creature(Creature *c, const int &dir, float flvel, bool control
 
     int steps = 0;
     const bool is_u = (c == &u);
+    // Don't animate critters getting bashed if animations are off
+    const bool animate = is_u || OPTIONS["ANIMATIONS"];
 
     player *p = dynamic_cast<player*>(c);
 
@@ -12958,7 +12960,7 @@ void game::fling_creature(Creature *c, const int &dir, float flvel, bool control
         }
         range--;
         steps++;
-        if( seen || u.sees( *c ) ) {
+        if( animate && (seen || u.sees( *c )) ) {
             draw();
         }
     }
