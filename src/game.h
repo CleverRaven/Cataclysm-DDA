@@ -114,6 +114,7 @@ class game
         friend class editmap;
         friend class advanced_inventory;
         friend class DynamicDataLoader; // To allow unloading dynamicly loaded stuff
+        friend class player_activity; // To allow drop of items in player_activity::finish
     public:
         game();
         ~game();
@@ -412,6 +413,8 @@ class game
                                       item_filter vehicle_filter,
                                       const std::string &title );
         item_location inv_map_splice( item_filter filter, const std::string &title );
+        item_location inv_map_splice_adjacent( item_filter inv_filter, item_filter ground_filter, item_filter vehicle_filter,
+                                               const std::string &title, tripoint& item_coordinates, vehicle *& veh );
 
         // Select items to drop.  Returns a list of pairs of position, quantity.
         std::list<std::pair<int, int>> multidrop();
@@ -648,6 +651,7 @@ class game
         void compare( const tripoint &offset ); // Offset is added to player's position
         void drop(int pos = INT_MIN); // Drop an item  'd'
         void drop_in_direction(); // Drop w/ direction  'D'
+        void drop_an_item_in_location( int pos, int drop_loc_x, int drop_loc_y, int drop_loc_z, bool to_vehicle );
 
         // calculate the time (in player::moves) it takes to drop the
         // items in dropped and dropped_worn.

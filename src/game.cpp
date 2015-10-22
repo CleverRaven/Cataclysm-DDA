@@ -11565,17 +11565,56 @@ void game::wield(int pos)
 
 void game::read()
 {
-    auto filter = []( const item &it ) {
+    auto filter = []( const item &it )  {
         return it.is_book();
     };
-    int pos = inv_for_filter( _("Read:"), filter );
 
-    if (pos == INT_MIN) {
-        add_msg(_("Never mind."));
+    tripoint item_coordinates;
+    vehicle * veh;
+
+    auto item_loc = inv_map_splice_adjacent( filter, filter, filter, _("Read:"), item_coordinates, veh );
+
+    const int inv_pos = item_loc.get_inventory_position();
+    item *it = item_loc.get_item();
+
+    if ( it == nullptr )  {
+        add_msg( _("Never mind.") );
         return;
     }
+
+    if ( !it->is_book() )  {
+        add_msg( m_info, _("Your %s is not good reading material."),
+                it->tname().c_str() );
+
+        return;
+    }
+
+    if ( inv_pos != INT_MIN )  {
+        draw();
+        u.read( inv_pos, FROM_INVENTORY );
+        return;
+    }
+
+    if ( !Pickup::can_pick_one_up(u, *it, false /*silent_chk*/, false /* allow_swap */,
+                         false /*chk_keep_hands_free*/, true /*chk_armor*/) )  {
+        add_msg( _("Reading aborted.") );
+        return;
+    }
+
+    item &item_added = u.i_add(*it);
+
+    add_msg( _("You pick up: %d %s"), 1, it->display_name(1).c_str() );
+    item_loc.remove_item();
+
+    u.moves -= 100;
+
     draw();
-    u.read(pos);
+
+    if ( u.read(u.inv.position_by_item(&item_added), FROM_NOT_INVENTORY, item_coordinates, (veh==nullptr?false:true))
+         != READ_ASSIGN_READ_ACTIVITY )  {
+                drop_an_item_in_location ( u.inv.position_by_item(&item_added),
+                                           item_coordinates.x, item_coordinates.y, item_coordinates.z, (veh==nullptr?false:true) );
+    };
 }
 
 void game::chat()

@@ -11428,20 +11428,20 @@ hint_rating player::rate_action_read( const item &it ) const
     return HINT_GOOD;
 }
 
-void player::read(int inventory_position)
+read_return_value player::read( int inventory_position, const int inv_from, const tripoint item_fr_loc, const bool item_fr_veh )
 {
     // Find the object
     item* it = &i_at(inventory_position);
 
     if (it == NULL || it->is_null()) {
         add_msg(m_info, _("You do not have that item."));
-        return;
+        return READ_FAILS;
     }
 
     if (!it->is_book()) {
         add_msg(m_info, _("Your %s is not good reading material."),
         it->tname().c_str());
-        return;
+        return READ_FAILS;
     }
 
     //Check for NPCs to read for you, negates Illiterate and Far Sighted
@@ -11456,14 +11456,14 @@ void player::read(int inventory_position)
     vehicle *veh = g->m.veh_at( pos() );
     if( veh != nullptr && veh->player_in_control(*this) ) {
         add_msg(m_info, _("It's a bad idea to read while driving!"));
-        return;
+        return READ_FAILS;
     }
 
     // Check if reading is okay
     // check for light level
     if (fine_detail_vision_mod() > 4) {
         add_msg(m_info, _("You can't see to read!"));
-        return;
+        return READ_FAILS;
     }
 
     // check for traits
@@ -11473,7 +11473,7 @@ void player::read(int inventory_position)
         if (assistants != 0){
             add_msg(m_info, _("A fellow survivor reads aloud to you..."));
         } else {
-            return;
+            return READ_FAILS;
         }
     }
 
@@ -11487,7 +11487,7 @@ void player::read(int inventory_position)
         if (assistants != 0){
             add_msg(m_info, _("A fellow survivor reads aloud to you..."));
         } else {
-            return;
+            return READ_FAILS;
         }
     }
 
@@ -11507,8 +11507,15 @@ void player::read(int inventory_position)
         assign_activity( ACT_READ, time - moves, -1, inventory_position );
         // Never trigger studying when skimming the book.
         activity.values.push_back(0);
+        // pushes item_frm into 2nd element
+        activity.values.push_back(inv_from);
+        activity.values.push_back(item_fr_loc.x);
+        activity.values.push_back(item_fr_loc.y);
+        activity.values.push_back(item_fr_loc.z);
+        activity.values.push_back(item_fr_veh?-1:0);
+        activity.str_values.push_back(it->typeId());
         moves = 0;
-        return;
+        return READ_ASSIGN_READ_ACTIVITY;
     }
 
 
@@ -11518,17 +11525,17 @@ void player::read(int inventory_position)
         if (it->typeId() == "guidebook") {
             add_msg(m_info, get_hint().c_str());
             moves -= 100;
-            return;
+            return READ_SUCCESSFUL_WITHOUT_ASSIGN_READ_ACTIVITY;
         }
         // otherwise do nothing as there's no associated skill
     } else if (morale_level() < MIN_MORALE_READ && tmp->fun <= 0) { // See morale.h
         add_msg(m_info, _("What's the point of studying?  (Your morale is too low!)"));
-        return;
+        return READ_FAILS;
     } else if( get_skill_level( skill ) < tmp->req ) {
         add_msg(_("The %s-related jargon flies over your head!"),
                    skill.obj().name().c_str());
         if (tmp->recipes.empty()) {
-            return;
+            return READ_FAILS; // assume read fails as unable to understand jargon and no benefits from reading
         } else {
             add_msg(m_info, _("But you might be able to learn a recipe or two."));
         }
@@ -11537,7 +11544,7 @@ void player::read(int inventory_position)
                          _("It would be fun, but your %s skill won't be improved.  Read anyway?") :
                          _("Your %s skill won't be improved.  Read anyway?"),
                          skill.obj().name().c_str())) {
-        return;
+        return READ_FAILS;
     } else if( !continuous && ( get_skill_level(skill) < tmp->level || can_study_recipe(*it->type) ) &&
                          !query_yn( get_skill_level(skill) < tmp->level ?
                          _("Study %s until you learn something? (gain a level)") :
@@ -11584,6 +11591,12 @@ void player::read(int inventory_position)
     // activity.get_value(0) == 1 means continuous studing until
     // the player gained the next skill level, this ensured by this:
     activity.values.push_back(study ? 1 : 0);
+    activity.values.push_back(inv_from);
+    activity.values.push_back(item_fr_loc.x);
+    activity.values.push_back(item_fr_loc.y);
+    activity.values.push_back(item_fr_loc.z);
+    activity.values.push_back(item_fr_veh?-1:0);
+    activity.str_values.push_back(it->typeId());
     moves = 0;
 
     // Reinforce any existing morale bonus/penalty, so it doesn't decay
@@ -11598,10 +11611,16 @@ void player::read(int inventory_position)
     } else {
         add_morale(MORALE_BOOK, 0, tmp->fun * 15, minutes + 30, minutes, false, it->type);
     }
+    return READ_ASSIGN_READ_ACTIVITY;
 }
 
 void player::do_read( item *book )
 {
+    if ( book->type->book.get() == nullptr) {
+        activity.type = ACT_NULL;
+        return;
+    }
+
     auto reading = book->type->book.get();
     const skill_id &skill = reading->skill;
 
@@ -11809,6 +11828,8 @@ void player::do_read( item *book )
     }
 
     activity.type = ACT_NULL;
+
+    return;
 }
 
 bool player::has_identified( std::string item_id ) const
