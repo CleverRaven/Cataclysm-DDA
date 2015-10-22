@@ -10239,11 +10239,18 @@ bool player::wield(item* it, bool autodrop)
         return false;
     }
 
-    if( it->is_two_handed(*this) && !has_two_arms() ) {
-        add_msg(m_info, _("You cannot wield a %s with only one arm."),
+    if ( it->is_two_handed(*this) && !has_two_arms() ) {
+        if (it->has_flag("ALWAYS_TWOHAND")) {
+            add_msg(m_info, _("The %s can't be wielded with only one arm."),
                 it->tname().c_str());
-        return false;
+                return false;
+        } else {
+        add_msg(m_info, _("You are too weak to wield %s with only one arm."),
+                it->tname().c_str()); 
+                return false;
+        }
     }
+    
     if (!is_armed()) {
         weapon = i_rem(it);
         moves -= 30;
