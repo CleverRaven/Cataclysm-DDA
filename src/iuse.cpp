@@ -6072,7 +6072,8 @@ int iuse::artifact(player *p, item *it, bool, const tripoint& )
                             pgettext("memorial_female", "Activated the %s."),
                             it->tname( 1, false ).c_str());
     }
-    const auto art = dynamic_cast<const it_artifact_tool *>(it->type);
+
+    const auto art = it->type->artifact.get();
     size_t num_used = rng(1, art->effects_activated.size());
     if (num_used < art->effects_activated.size()) {
         num_used += rng(1, art->effects_activated.size() - num_used);

@@ -1084,6 +1084,11 @@ void init_options()
                                            0, 1000, 100
                                            );
 
+    OPTIONS["ETERNAL_SEASON"] = cOpt("world_default", _("Eternal season"),
+                                    _("Keep the initial season for ever."),
+                                    false
+                                   );
+
     mOptionsSort["world_default"]++;
 
     OPTIONS["STATIC_SPAWN"] = cOpt("world_default", _("Static spawn"),

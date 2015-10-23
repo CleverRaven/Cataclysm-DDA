@@ -615,6 +615,103 @@ Every item type can have optional seed data, if the item has seed data, it's con
 }
 ```
 
+###ARTIFACT DATA
+Every item type can have optional artifact properties (which makes it an artifact):
+```JSON
+"artifact_data" : {
+    "charge_type": "ARTC_PAIN",
+    "effects_carried": ["AEP_INT_DOWN"],
+    "effects_wielded": ["AEP_DEX_UP"],
+    "effects_activated": ["AEA_BLOOD", "AEA_NOISE"],
+    "effects_worn": ["AEP_STR_UP"]
+}
+```
+
+#### charge_type
+(optional, default: "ARTC_NULL") How the item is recharged. For this to work, the item needs to be a tool that consumes charges upon invocation and has non-zero max_charges. Possible values (see src/artifact.h for an up-to-date list):
+- "ARTC_NULL" Never recharges!
+- "ARTC_TIME" Very slowly recharges with time
+- "ARTC_SOLAR" Recharges in sunlight
+- "ARTC_PAIN" Creates pain to recharge
+- "ARTC_HP" Drains HP to recharge
+
+#### effects_carried
+(optional, default: empty list) Effects of the artifact when it's in the inventory (main inventory, wielded, or worn) of the player. Possible values (see src/enums.h for an up-to-date list):
+- "AEP_STR_UP" Strength + 4
+- "AEP_DEX_UP" Dexterity + 4
+- "AEP_PER_UP" Perception + 4
+- "AEP_INT_UP" Intelligence + 4
+- "AEP_ALL_UP" All stats + 2
+- "AEP_SPEED_UP" +20 speed
+- "AEP_IODINE" Reduces radiation
+- "AEP_SNAKES" Summons friendly snakes when you're hit
+- "AEP_INVISIBLE" Makes you invisible
+- "AEP_CLAIRVOYANCE" See through walls
+- "AEP_SUPER_CLAIRVOYANCE" See through walls to a great distance
+- "AEP_STEALTH" Your steps are quieted
+- "AEP_EXTINGUISH" May extinguish nearby flames
+- "AEP_GLOW" Four-tile light source
+- "AEP_PSYSHIELD" Protection from stare attacks
+- "AEP_RESIST_ELECTRICITY" Protection from electricity
+- "AEP_CARRY_MORE" Increases carrying capacity by 200
+- "AEP_SAP_LIFE" Killing non-zombie monsters may heal you
+- "AEP_HUNGER" Increases hunger
+- "AEP_THIRST" Increases thirst
+- "AEP_SMOKE" Emits smoke occasionally
+- "AEP_EVIL" Addiction to the power
+- "AEP_SCHIZO" Mimicks schizophrenia
+- "AEP_RADIOACTIVE" Increases your radiation
+- "AEP_MUTAGENIC" Mutates you slowly
+- "AEP_ATTENTION" Draws netherworld attention slowly
+- "AEP_STR_DOWN" Strength - 3
+- "AEP_DEX_DOWN" Dex - 3
+- "AEP_PER_DOWN" Per - 3
+- "AEP_INT_DOWN" Int - 3
+- "AEP_ALL_DOWN" All stats - 2
+- "AEP_SPEED_DOWN" -20 speed
+- "AEP_FORCE_TELEPORT" Occasionally force a teleport
+- "AEP_MOVEMENT_NOISE" Makes noise when you move
+- "AEP_BAD_WEATHER" More likely to experience bad weather
+- "AEP_SICK" Decreases health over time
+
+#### effects_worn
+(optional, default: empty list) Effects of the artifact when it's worn (it must be an armor item to be worn). Possible values are the same as for effects_carried.
+
+#### effects_wielded
+(optional, default: empty list) Effects of the artifact when it's wielded. Possible values are the same as for effects_carried.
+
+#### effects_activated
+(optional, default: empty list) Effects of the artifact when it's activated (which require it to have a `"use_action": "ARTIFACT"` and it must have a non-zero max_charges value). Possible values (see src/artifact.h for an up-to-date list):
+- "AEA_STORM" Emits shock fields
+- "AEA_FIREBALL" Targeted
+- "AEA_ADRENALINE" Adrenaline rush
+- "AEA_MAP" Maps the area around you
+- "AEA_BLOOD" Shoots blood all over
+- "AEA_FATIGUE" Creates interdimensional fatigue
+- "AEA_ACIDBALL" Targeted acid
+- "AEA_PULSE" Destroys adjacent terrain
+- "AEA_HEAL" Heals minor damage
+- "AEA_CONFUSED" Confuses all monsters in view
+- "AEA_ENTRANCE" Chance to make nearby monsters friendly
+- "AEA_BUGS" Chance to summon friendly insects
+- "AEA_TELEPORT" Teleports you
+- "AEA_LIGHT" Temporary light source
+- "AEA_GROWTH" Grow plants, a la triffid queen
+- "AEA_HURTALL" Hurts all monsters!
+- "AEA_RADIATION" Spew radioactive gas
+- "AEA_PAIN" Increases player pain
+- "AEA_MUTATE" Chance of mutation
+- "AEA_PARALYZE" You lose several turns
+- "AEA_FIRESTORM" Spreads minor fire all around you
+- "AEA_ATTENTION" Attention from sub-prime denizens
+- "AEA_TELEGLOW" Teleglow disease
+- "AEA_NOISE" Loud noise
+- "AEA_SCREAM" Noise & morale penalty
+- "AEA_DIM" Darkens the sky slowly
+- "AEA_FLASH" Flashbang
+- "AEA_VOMIT" User vomits
+- "AEA_SHADOWS" Summon shadow creatures
+
 ###SOFTWARE DATA
 Every item type can have software data, it does not have any behavior:
 ```

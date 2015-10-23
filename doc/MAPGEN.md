@@ -18,14 +18,14 @@
 	* 2.1.1 "furniture":
         * 2.3 "set": [ ...
 	        * 2.3.0 "point" { ...
-		        * 2.3.0.0 "id": "..."
-		        * 2.3.0.1 "x" & "y": 123 | [ 12, 34 ]
+		        * 2.3.0.0 "x" & "y": 123 | [ 12, 34 ]
+		        * 2.3.0.1 "id": "..."
 		        * 2.3.0.2 "chance": 123
 		        * 2.3.0.3 "repeat": [ 1, 23 ]
 	        * 2.3.1 "line" {}
-		        * 2.3.1.0 "id"
-		        * 2.3.1.1 "x" & "y"
-		        * 2.3.1.2 "x2" & "y2"
+		        * 2.3.1.0 "x" & "y"
+		        * 2.3.1.1 "x2" & "y2"
+		        * 2.3.1.2 "id"
 		        * 2.3.1.3 "chance"
 		        * 2.3.1.4 "repeat"
 	        * 2.3.2 "square" {}
@@ -360,14 +360,17 @@ The arguments are exactly the same as "line", but "x", "y" and "x2", "y2" define
 Example: { "monster": "GROUP_ZOMBIE", "x": [ 13, 15 ], "y": 15, "chance": 10 }
 
 #### 2.4.0.0 "x" / "y"
-**required** Spawn coordinates ( specific or random )
+**required** Spawn coordinates ( specific or area rectangle )
 > Value: 0-23
 
 -or-
 
 > Value: [ 0-23, 0-23 ] - random point between [ a, b ]
+When using a range, the minimum and maximum values will be used in creating rectangle coordinates to be used by map::place_spawns.
+Each monster generated from the monster group will be placed in a different random location within the rectangle.
 
 Example: "x": 12, "y": [ 5, 15 ]
+These values will produce a rectangle for map::place_spawns from ( 12, 5 ) to ( 12, 15 ) inclusive.
 
 #### 2.4.0.1 "density"
 **optional** magic sauce spawn amount number. Someone else describe this better >.>
@@ -384,14 +387,17 @@ Example: "x": 12, "y": [ 5, 15 ]
 Example: { "item": "livingroom", "x": [ 13, 15 ], "y": 15, "chance": 50 }
 
 #### 2.4.1.0 "x" / "y"
-**required** Spawn coordinates ( specific or random )
+**required** Spawn coordinates ( specific or area rectangle )
 > Value: 0-23
 
 -or-
 
-> Value: [ 0-23, 0-23 ] - random point between [ a, b ]
+> Value: [ 0-23, 0-23 ] - a range between [ a, b ] inclusive
+When using a range, the minimum and maximum values will be used in creating rectangle coordinates to be used by map::place_items.
+Each item from the item group will be placed in a different random location within the rectangle.
 
 Example: "x": 12, "y": [ 5, 15 ]
+These values will produce a rectangle for map::place_items from ( 12, 5 ) to ( 12, 15 ) inclusive.
 
 #### 2.4.1.1 "chance"
 **required** unlike everything else, this is a percentage. Maybe

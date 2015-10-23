@@ -1688,7 +1688,9 @@ void player::complete_craft()
             }
         }
 
-        if( !newit.count_by_charges() ) {
+        // Don't store components for things made by charges,
+        // don't store components for things that can't be uncrafted.
+        if( making->reversible && !newit.count_by_charges() ) {
             // Setting this for items counted by charges gives only problems:
             // those items are automatically merged everywhere (map/vehicle/inventory),
             // which would either loose this information or merge it somehow.

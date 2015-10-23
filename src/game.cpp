@@ -14363,18 +14363,20 @@ void game::process_artifact(item *it, player *p)
     const bool worn = is_worn( *p, it );
     const bool wielded = ( it == &p->weapon );
     std::vector<art_effect_passive> effects;
-    if( worn && it->is_armor() ) {
-        const auto armor = dynamic_cast<const it_artifact_armor *>(it->type);
-        effects = armor->effects_worn;
-    } else if (it->is_tool()) {
-        const auto tool = dynamic_cast<const it_artifact_tool *>(it->type);
-        effects = tool->effects_carried;
-        if (wielded) {
-            effects.insert( effects.end(), tool->effects_wielded.begin(), tool->effects_wielded.end() );
-        }
+    effects = it->type->artifact->effects_carried;
+    if( worn ) {
+        auto &ew = it->type->artifact->effects_worn;
+        effects.insert( effects.end(), ew.begin(), ew.end() );
+    }
+    if( wielded ) {
+        auto &ew = it->type->artifact->effects_wielded;
+        effects.insert( effects.end(), ew.begin(), ew.end() );
+    }
+    if( it->is_tool() ) {
+        const auto tool = dynamic_cast<const it_tool*>( it->type );
         // Recharge it if necessary
         if (it->charges < tool->max_charges) {
-            switch (tool->charge_type) {
+            switch (it->type->artifact->charge_type) {
             case ARTC_NULL:
             case NUM_ARTCS:
                 break; // dummy entries
@@ -14553,17 +14555,26 @@ void game::start_calendar()
         }
     } else {
         if( ACTIVE_WORLD_OPTIONS["INITIAL_SEASON"].getValue() == "spring" ) {
+            calendar::initial_season = SPRING;
             ; // Do nothing.
         } else if( ACTIVE_WORLD_OPTIONS["INITIAL_SEASON"].getValue() == "summer") {
+            calendar::initial_season = SUMMER;
             calendar::start += DAYS((int)ACTIVE_WORLD_OPTIONS["SEASON_LENGTH"]);
         } else if( ACTIVE_WORLD_OPTIONS["INITIAL_SEASON"].getValue() == "autumn" ) {
+            calendar::initial_season = AUTUMN;
             calendar::start += DAYS((int)ACTIVE_WORLD_OPTIONS["SEASON_LENGTH"] * 2);
         } else {
+            calendar::initial_season = WINTER;
             calendar::start += DAYS((int)ACTIVE_WORLD_OPTIONS["SEASON_LENGTH"] * 3);
         }
     }
     calendar::turn = calendar::start;
+
+    if ( ACTIVE_WORLD_OPTIONS["ETERNAL_SEASON"] ) {
+      calendar::eternal_season = true;
+    }
 }
+
 void game::add_artifact_messages(std::vector<art_effect_passive> effects)
 {
     int net_str = 0, net_dex = 0, net_per = 0, net_int = 0, net_speed = 0;
