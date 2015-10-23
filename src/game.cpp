@@ -419,7 +419,7 @@ void game::init_ui()
         hpW = 14;
         statH = 7;
         statW = sidebarWidth - MINIMAP_WIDTH - hpW;
-        locH = 1;
+        locH = 2;
         locW = sidebarWidth;
         stat2H = 2;
         stat2W = sidebarWidth;
@@ -459,7 +459,7 @@ void game::init_ui()
         hpW = 7;
         locX = MINIMAP_WIDTH;
         locY = messY + messH;
-        locH = 1;
+        locH = 2;
         locW = sidebarWidth - locX;
         statX = 0;
         statY = locY + locH;
@@ -4928,6 +4928,23 @@ void game::draw_sidebar()
     if (u.worn_with_flag("THERMOMETER")) {
         wprintz( w_location, c_white, " %s", print_temperature( get_temperature() ).c_str());
     }
+
+    //moon phase display
+    static std::vector<std::string> vMoonPhase = {"(   )", "(  ))", "( | )", "((  )"};
+
+    const int iPhase = int(calendar::turn.moon());
+    std::string sPhase = vMoonPhase[iPhase%4];
+
+    if (iPhase > 0) {
+        sPhase.insert(5 - ((iPhase > 4) ? iPhase%4 : 0), "</color>");
+        sPhase.insert(5 - ((iPhase < 4) ? iPhase+1 : 5), "<color_" + string_from_color(i_black) + ">");
+    }
+
+    trim_and_print( w_location, 1, 0, 10, c_white, "Moon %s", sPhase.c_str() );
+
+    const auto ll = get_light_level(g->u.fine_detail_vision_mod());
+    mvwprintz(w_location, 1, 15, c_ltgray, "%s ", _("Lighting:"));
+    wprintz(w_location, ll.second, ll.first.c_str());
 
     wrefresh(w_location);
 

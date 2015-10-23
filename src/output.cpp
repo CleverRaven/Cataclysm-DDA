@@ -1779,6 +1779,28 @@ std::pair<std::string, nc_color> const& get_item_hp_bar(const int dmg)
     return strings[6];
 }
 
+std::pair<std::string, nc_color> const& get_light_level(const float light)
+{
+    using pair_t = std::pair<std::string, nc_color>;
+    static std::array<pair_t, 6> const strings {{
+        pair_t {_("unknown"), c_pink},
+        pair_t {_("brightly"), c_yellow},
+        pair_t {_("cloudy"), c_white},
+        pair_t {_("shady"), c_ltgray},
+        pair_t {_("dark"), c_dkgray},
+        pair_t {_("very dark"), c_black_white}
+    }};
+
+    const int light_level = ceil(light);
+    if (light_level < 0) {
+        return strings[0];
+    } else if (light_level > 5) {
+        return strings[5];
+    }
+
+    return strings[light_level];
+}
+
 /**
  * Display data in table, each cell contains one entry from the
  * data vector. Allows vertical scrolling if the data does not fit.

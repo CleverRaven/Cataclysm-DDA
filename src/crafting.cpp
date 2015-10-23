@@ -941,26 +941,10 @@ static void draw_recipe_tabs(WINDOW *w, std::string tab, TAB_MODE mode)
     mvwputch(w, 2,  0, BORDER_COLOR, LINE_OXXO); // |^
     mvwputch(w, 2, width - 1, BORDER_COLOR, LINE_OOXX); // ^|
     mvwprintz(w, 0, width - utf8_width(_("Lighting:")), c_ltgray, _("Lighting:"));//Lighting info
-    float light = g->u.fine_detail_vision_mod();
-    const char *str;
-    nc_color color;
-    if (light <= 1) {
-        str = _("brightly");
-        color = c_yellow;
-    } else if (light <= 2) {
-        str = _("cloudy");
-        color = c_white;
-    } else if (light <= 3) {
-        str = _("shady");
-        color = c_ltgray;
-    } else if (light <= 4) {
-        str = _("dark");
-        color = c_dkgray;
-    } else {
-        str = _("very dark");
-        color = c_black_white;
-    }
-    mvwprintz(w, 1, width - 1 - utf8_width(str), color, str);
+
+    auto ll = get_light_level(g->u.fine_detail_vision_mod());
+    mvwprintz(w, 1, width - 1 - utf8_width(ll.first), ll.second, ll.first.c_str());
+
     switch (mode) {
     case NORMAL:
     {
