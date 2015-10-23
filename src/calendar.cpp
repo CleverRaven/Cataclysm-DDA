@@ -241,7 +241,7 @@ float calendar::sunlight() const
 
     int current_phase = int(moon());
     if ( current_phase > int(MOON_PHASE_MAX)/2 ) {
-        current_phase -= int(MOON_PHASE_MAX);
+        current_phase -= (current_phase - int(MOON_PHASE_MAX)/2);
     }
 
     int moonlight = 1 + int(current_phase * MOONLIGHT_PER_QUATER);
