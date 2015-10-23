@@ -639,8 +639,10 @@ void uimenu::show()
             }
         }
 
-        // draw description
-        fold_and_print(window, w_height - desc_lines - 1, 2, w_width - 4, text_color, entries[selected].desc.c_str());
+        if( static_cast<size_t>( selected ) < entries.size() ){
+            fold_and_print( window, w_height - desc_lines - 1, 2, w_width - 4, text_color,
+                            entries[selected].desc );
+        }
     }
 
     if ( !filter.empty() ) {
