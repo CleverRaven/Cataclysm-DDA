@@ -395,10 +395,11 @@ void calendar::sync()
     const int sl = season_length();
     year = turn_number / DAYS(sl * 4);
 
-    if (eternal_season)
-      season = initial_season;
-    else
-      season = season_type(turn_number / DAYS(sl) % 4);
+    if( eternal_season ) {
+        season = initial_season;
+    } else {
+        season = season_type(turn_number / DAYS(sl) % 4);
+    }
 
     day = turn_number / DAYS(1) % sl;
     hour = turn_number / HOURS(1) % 24;
