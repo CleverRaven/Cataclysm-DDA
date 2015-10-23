@@ -410,6 +410,21 @@ bool recipe::check_eligible_containers_for_crafting(int batch) const
             }
         }
 
+        // also check if we're currently in a vehicle that has the necessary storage
+        if(charges_to_store > 0) {
+            vehicle *veh = g->m.veh_at(g->u.pos());
+            if (veh != NULL) {
+                const itype_id &ftype = prod.type->id;
+                int fuel_cap = veh->fuel_capacity(ftype);
+                int fuel_amnt = veh->fuel_left(ftype);
+
+                if(fuel_cap >= 0) {
+                    int fuel_space_left = fuel_cap - fuel_amnt;
+                    charges_to_store -= fuel_space_left;
+                }
+            }
+        }
+
         if (charges_to_store > 0) {
             popup(_("You don't have anything to store %s in!"), prod.tname().c_str());
             return false;
