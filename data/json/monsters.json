@@ -138,7 +138,7 @@
     "hp":30,
 	"special_attacks":[["INK_JET", 10]],
     "death_function":"NORMAL",
-    "description": "A strange canine which has a short sharp beak instead of usual snout. It's fur seems to be soaked in slimy secretions, making the creature give of combined smell of wet dog and fish.",
+    "description": "A strange dog which has a sharp beak instead of it's usual canine snout. It's slick fur is soaked in slimy secretions, giving the creature a combined smell of wet dog and fish.",
     "flags":["SEES", "HEARS", "SMELLS", "ANIMAL", "WARM", "FUR", "HIT_AND_RUN", "KEENNOSE", "BLEED", "ATTACKMON", "BONES", "FAT"],
     "anger_triggers":["HURT", "FRIEND_ATTACKED", "FRIEND_DIED"],
     "placate_triggers":["MEAT"],

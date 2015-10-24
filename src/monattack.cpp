@@ -4932,6 +4932,7 @@ void mattack::ink_jet(monster *z, int index) {
 	if (!target->uncanny_dodge()) {
 		if (rng(0, 10) > target->get_dodge() || one_in(target->get_dodge())) {
 			target->on_dodge(z, 10); // Apperantly does nothing. Will leave it anyway.
+			// TODO: Rewrite this block to use custom bp selection chances
 			for (int i = 0; i < rng(1, 3); i++) {
 				body_part bp = random_body_part();
 				if (bp == bp_eyes) {
