@@ -4277,7 +4277,7 @@ void game::debug()
     break;
     case 26:
     {
-        int time = std::atoi( string_input_popup( _("Set the time to? (One day is 19200)"),
+        int time = std::atoi( string_input_popup( string_format(_("Set the time to? (One day is %i turns)"), int(DAYS(1))),
                                                   20, to_string( (int)calendar::turn ) ).c_str() );
         if( time > 0 ) {
             calendar::turn = time;
