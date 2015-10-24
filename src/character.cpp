@@ -292,9 +292,12 @@ void Character::recalc_sight_limits()
     // Set sight_max.
     if (has_effect("blind") || worn_with_flag("BLIND")) {
         sight_max = 0;
-    } else if( has_effect("boomered") && (!(has_trait("PER_SLIME_OK"))) ) {
-        sight_max = 1;
-        vision_mode_cache.set( BOOMERED );
+	}
+	else if (has_effect("boomered") && (!(has_trait("PER_SLIME_OK")))) {
+		sight_max = 1;
+		vision_mode_cache.set(BOOMERED);
+	} else if (has_effect("ooze_in_eyes") && (!(has_trait("PER_SLIME_OK")))) {
+		sight_max = 1;
     } else if (has_effect("in_pit") ||
             (underwater && !has_bionic("bio_membrane") &&
                 !has_trait("MEMBRANE") && !worn_with_flag("SWIM_GOGGLES") &&

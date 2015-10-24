@@ -799,9 +799,10 @@ int iuse::eyedrops(player *p, item *it, bool, const tripoint& )
     }
     p->add_msg_if_player(_("You use your %s."), it->tname().c_str());
     p->moves -= 150;
-    if (p->has_effect("boomered")) {
-        p->remove_effect("boomered");
-        p->add_msg_if_player(m_good, _("You wash the slime from your eyes."));
+    if (p->has_effect("boomered") || p->has_effect("ooze_in_eyes")) {
+        p->remove_effect("boomered"); 
+		p->remove_effect("ooze_in_eyes");
+        p->add_msg_if_player(m_good, _("You wash the gunk from your eyes."));
     }
     return it->type->charges_to_use();
 }
@@ -6990,7 +6991,9 @@ int iuse::towel(player *p, item *it, bool t, const tripoint& )
     bool slime = p->has_effect("slimed");
     bool boom = p->has_effect("boomered");
     bool glow = p->has_effect("glowing");
-    int mult = slime + boom + glow; // cleaning off more than one at once makes it take longer
+	bool ooze = p->has_effect("ooze_in_eyes");
+	bool ink = p->has_effect("inked");
+    int mult = slime + boom + glow + ooze + ink; // cleaning off more than one at once makes it take longer
     bool towelUsed = false;
 
     // can't use an already wet towel!
@@ -7004,6 +7007,8 @@ int iuse::towel(player *p, item *it, bool t, const tripoint& )
         p->remove_effect("slimed");  // able to clean off all at once
         p->remove_effect("boomered");
         p->remove_effect("glowing");
+		p->remove_effect("ooze_in_eyes");
+		p->remove_effect("inked");
         p->add_msg_if_player(_("You use the %s to clean yourself off, saturating it with slime!"),
                              it->tname().c_str());
 

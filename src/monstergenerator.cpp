@@ -271,6 +271,7 @@ void MonsterGenerator::init_attack()
     attack_map["RANGED_PULL"] = &mattack::ranged_pull;
     attack_map["GRAB"] = &mattack::grab;
     attack_map["GRAB_DRAG"] = &mattack::grab_drag;
+	attack_map["INK_JET"] = &mattack::ink_jet;
 }
 
 void MonsterGenerator::init_defense()
