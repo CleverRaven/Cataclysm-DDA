@@ -22,12 +22,41 @@
     ]
   ],
   "components": [
-    [
-      [ "cloak_leather", 1 ]
-    ],
+    [ [ "cloak_leather", 1 ] ],
     [ [ "feather", 20 ] ],
     [ [ "gold_small", 2000 ] ],
     [ [ "essence_dull", 20 ] ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "somen_clairvoyance",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_HEAD",
+  "skill_used": "magic",
+  "skills_required": [ "tailor", 3 ],
+  "difficulty": 7,
+  "time": 25000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "book_hexenhammer", 7 ]],
+  "qualities":[
+    {"id":"HAMMER","level":2,"amount":1},
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "tools": [
+    [ ["book_hexenhammer", -1] ],
+    [
+      [ "needle_bone", 9 ],
+      [ "needle_wood", 9 ],
+      [ "tailors_kit", 9 ],
+      [ "sewing_kit", 9 ]
+    ]
+  ],
+  "components": [
+    [ [ "leather", 4 ] ],
+    [ [ "scrap", 2 ] ],
+    [ [ "copper", 30 ] ],
+    [ [ "essence_dull", 15 ] ]
   ]
 },{
   "type" : "recipe",
