@@ -4383,7 +4383,7 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
     }
 
     // Non-vehicle collisions can't happen when the vehicle is not moving
-    const int &coll_velocity = vert_coll ? vertical_velocity : velocity;
+    int &coll_velocity = vert_coll ? vertical_velocity : velocity;
     if( !just_detect && coll_velocity == 0 ) {
         return ret;
     }
@@ -4497,31 +4497,33 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
     // in one collision, so accumulate the velocity gain from each hit.
     float vel2 = 0;
     do {
+        smashed = false;
         // Impulse of vehicle
         const float vel1 = coll_velocity / 100.0f;
-        /*
-        // Velocity of car after collision
-        const float vel1_a = e*(mass*vel1 + mass2*vel2)*(mass-mass2)/(mass*mass2);
-        // Velocity of object after collision
-        const float vel2_a = e*(mass*vel1 + mass2*vel2)*(mass2-mass)/(mass*mass2);
-        */
         // Velocity of car after collision
         const float vel1_a = (mass*vel1 + mass2*vel2 + e*mass2*(vel2 - vel1)) / (mass + mass2);
         // Velocity of object after collision
         const float vel2_a = (mass*vel1 + mass2*vel2 + e*mass *(vel1 - vel2)) / (mass + mass2);
         // Lost energy at collision -> deformation energy -> damage
-        const float d_E_old = ((mass*mass2)*(1-e)*(1-e)*(vel1-vel2)*(vel1-vel2)) / (2*mass + 2*mass2);
         const float E_before = 0.5f * (mass * vel1 * vel1)   + 0.5f * (mass2 * vel2 * vel2);
         const float E_after =  0.5f * (mass * vel1_a*vel1_a) + 0.5f * (mass2 * vel2_a*vel2_a);
         const float d_E = E_before - E_after;
-add_msg( m_debug, "Old: %.2f New: %.2f, Before: %.2f, After: %.2f", d_E_old, d_E, E_before, E_after );
-add_msg( m_debug, "vel1: %.2f vel1_a: %.2f vel2: %.2f vel2_a: %.2f", vel1, vel1_a, vel2, vel2_a );
-        if( d_E < 0 ) {
+        if( d_E <= 0 ) {
             // Deformation energy is signed
             // If it's negative, it means something went wrong
-            
+            // But it still does happen sometimes...
+            if( fabs(vel1_a) < fabs(vel1) ) {
+                // Lower vehicle's speed to prevent infinite loops
+                coll_velocity = vel1_a * 90;
+            }
+            if( fabs(vel2_a) > fabs(vel2) ) {
+                vel2 = vel2_a;
+            }
+
+            continue;
         }
 
+        add_msg( m_debug, "Deformation energy: %.2f", d_E );
         // Damage calculation
         // Damage dealt overall
         dmg += d_E / 400;
@@ -4529,12 +4531,11 @@ add_msg( m_debug, "vel1: %.2f vel1_a: %.2f vel2: %.2f vel2_a: %.2f", vel1, vel1_
         // Always if no critters, otherwise if critter is real
         if( critter == nullptr || !critter->is_hallucination() ) {
             part_dmg = dmg * k / 100;
-add_msg( m_debug, "Part damage: %.2f", part_dmg );
+            add_msg( m_debug, "Part collision damage: %.2f", part_dmg );
         }
         // Damage for object
         const float obj_dmg = dmg * (100-k)/100;
 
-        smashed = false;
         if( ret.type == veh_coll_other ) {
         } else if( ret.type == veh_coll_bashable ) {
             // Something bashable -- use map::bash to determine outcome
@@ -4587,7 +4588,7 @@ add_msg( m_debug, "Part damage: %.2f", part_dmg );
                     critter->get_armor_bash( bp_torso );
                 dam = std::max( 0, dam - armor );
                 critter->apply_damage( driver, bp_torso, dam );
-add_msg( m_debug, "Critter damage: %d", dam );
+                add_msg( m_debug, "Critter collision damage: %d", dam );
             }
 
             // Don't fling if vertical - critter got smashed into the ground
@@ -4599,16 +4600,16 @@ add_msg( m_debug, "Critter damage: %d", dam );
                     smashed = true;
                 } else if( critter->is_dead_state() ) {
                     smashed = true;
-                } else if( abs( vel2_a ) > abs( vel2 ) ) {
-add_msg( m_debug, "Before: %.2f After: %.2f", vel2, vel2_a );
+                } else if( fabs( vel2_a ) > fabs( vel2 ) ) {
                     vel2 = vel2_a;
-                } else if( abs(mass * vel1_a) > abs(mass2 * vel2_a) ) {
+                } else if( fabs(mass * vel1_a) > fabs(mass2 * (10.0f - vel2_a)) ) {
                     // Weird case - the collisions should stop happening
                     // but due to the way game works, we can't just bail out
-                    // A hack: compare target's momentum to vehicle's
+                    // A hack: compare the momentum target needs to gain to vehicle's momentum
                     const int angle_sum = vel2_a > 0 ?
                         move.dir() + angle : -(move.dir() + angle);
-                    g->fling_creature( critter, angle_sum, 10.1f );
+                    // We're just pushing, not flinging
+                    g->fling_creature( critter, angle_sum, 10.1f, true );
                     smashed = true;
                 } else {
                     // Vehicle's momentum isn't big enough to push the critter
@@ -4618,11 +4619,7 @@ add_msg( m_debug, "Before: %.2f After: %.2f", vel2, vel2_a );
             }
         }
 
-        if( !vert_coll ) {
-            velocity = vel1_a * 100;
-        } else {
-            vertical_velocity = vel1_a * 100;
-        }
+        coll_velocity = vel1_a * 100;
         // Stop processing when sign inverts, not when we reach 0
     } while( !smashed && sgn( coll_velocity ) == vel_sign );
 
