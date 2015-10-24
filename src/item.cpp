@@ -1825,23 +1825,23 @@ void item::on_wield( player &p  )
     if( &p == &g->u && type->artifact ) {
         g->add_artifact_messages( type->artifact->effects_wielded );
     }
+    if (has_flag("SLOW_WIELD") && (! is_gunmod())) {
+        int d = 32; // arbitrary linear scaling factor
+        if      (is_gun())  d /= std::max((int) p.skillLevel(gun_skill()),  1);
+        else if (is_weap()) d /= std::max((int) p.skillLevel(weap_skill()), 1);
 
-     if (has_flag("SLOW_WIELD") && (! is_gunmod())) {
-         int d = 32; // arbitrary linear scaling factor
-         if      (is_gun())  d /= std::max((int) p.skillLevel(gun_skill()),  1);
-         else if (is_weap()) d /= std::max((int) p.skillLevel(weap_skill()), 1);
+        int const penalty = get_var("volume", (int) type->volume) * d;
+        std::string msg;
+        if (penalty > 50) {
+            if      (penalty > 250) msg = _("It takes you much longer than usual to wield your %s.");
+            else if (penalty > 100) msg = _("It takes you longer than usual to wield your %s.");
+            else                    msg = _("It takes you slightly longer than usual to wield your %s.");
 
-         int const penalty = get_var("volume", (int) type->volume) * d;
-         if (penalty > 50) {
-             std::string msg;
-             if      (penalty > 250) msg = _("It takes you much longer than usual to wield your %s.");
-             else if (penalty > 100) msg = _("It takes you longer than usual to wield your %s.");
-             else                    msg = _("It takes you slightly longer than usual to wield your %s.");
-
-             p.add_msg_if_player(msg.c_str(), tname().c_str());
-             p.moves -= penalty;
-         }
-     }
+            p.add_msg_if_player(msg.c_str(), tname().c_str());
+            p.moves -= penalty;
+        }
+    }
+    p.add_msg_if_player("You wield your %s.", tname().c_str());
 }
 
 void item::on_pickup( Character &p  )

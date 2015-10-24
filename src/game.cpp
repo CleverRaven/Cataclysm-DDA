@@ -189,6 +189,8 @@ void game::load_static_data()
     init_artifacts();
     init_faction_data();
 
+    get_auto_pickup().load_global();
+
     // --- move/delete everything below
     // TODO: move this to player class
     moveCount = 0;
@@ -601,8 +603,6 @@ void game::setup()
         }
     }
 
-    load_auto_pickup(false); // Load global auto pickup rules
-
     remoteveh_cache_turn = INT_MIN;
     remoteveh_cache = nullptr;
     // back to menu for save loading, new game etc
@@ -679,7 +679,7 @@ void game::start_game(std::string worldname)
     u.last_climate_control_ret = false;
 
     //Reset character pickup rules
-    vAutoPickupRules[2].clear();
+    get_auto_pickup().clear_character_rules();
     //Put some NPCs in there!
     create_starting_npcs();
     //Load NPCs. Set nearby npcs to active.
@@ -1611,7 +1611,7 @@ int game::inventory_item_menu(int pos, int iStartX, int iWidth, int position)
         std::vector<iteminfo> vThisItem, vDummy, vMenu;
 
         const int iOffsetX = 2;
-        const bool bHPR = hasPickupRule(oThisItem.tname( 1, false ));
+        const bool bHPR = get_auto_pickup().has_rule(oThisItem.tname( 1, false ));
         const hint_rating rate_drop_item = u.weapon.has_flag("NO_UNWIELD") ? HINT_CANT : HINT_GOOD;
 
         int max_text_length = 0;
@@ -1745,13 +1745,13 @@ int game::inventory_item_menu(int pos, int iStartX, int iWidth, int position)
                 break;
             case '+':
                 if (!bHPR) {
-                    addPickupRule(oThisItem.tname( 1, false ));
+                    get_auto_pickup().add_rule(oThisItem.tname( 1, false ));
                     add_msg(m_info, _("'%s' added to character pickup rules."), oThisItem.tname( 1, false ).c_str());
                 }
                 break;
             case '-':
                 if (bHPR) {
-                    removePickupRule(oThisItem.tname( 1, false ));
+                    get_auto_pickup().remove_rule(oThisItem.tname( 1, false ));
                     add_msg(m_info, _("'%s' removed from character pickup rules."), oThisItem.tname( 1, false ).c_str());
                 }
                 break;
@@ -3331,7 +3331,7 @@ void game::load(std::string worldname, std::string name)
     }
 
     init_autosave();
-    load_auto_pickup(true); // Load character auto pickup rules
+    get_auto_pickup().load_character(); // Load character auto pickup rules
     zone_manager::get_manager().load_zones(); // Load character world zones
     load_uistate(worldname);
 
@@ -3490,7 +3490,7 @@ bool game::save()
              !save_factions_missions_npcs() ||
              !save_artifacts() ||
              !save_maps() ||
-             !save_auto_pickup(true) || // Save character auto pickup rules
+             !get_auto_pickup().save_character() ||
              !save_uistate()){
             return false;
         } else {
