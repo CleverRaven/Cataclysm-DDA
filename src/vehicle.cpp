@@ -4420,10 +4420,10 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
             mass2 = 82;
             break;
         case MS_LARGE:   // Cow
-            mass2 = 200;
+            mass2 = 400;
             break;
         case MS_HUGE:     // TAAAANK
-            mass2 = 500;
+            mass2 = 1000;
             break;
         }
         ret.target_name = critter->disp_name();
@@ -4488,9 +4488,9 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
     float dmg = 0.0f;
     float part_dmg = 0.0f;
     // Calculate Impulse of car
-    const float prev_velocity = velocity / 100.0f;
     int turns_stunned = 0;
 
+    const int prev_velocity = coll_velocity;
     const int vel_sign = sgn( coll_velocity );
     // Velocity of the object we're hitting
     // Assuming it starts at 0, but we'll probably hit it many times
@@ -4516,10 +4516,15 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
         const float d_E = E_before - E_after;
 add_msg( m_debug, "Old: %.2f New: %.2f, Before: %.2f, After: %.2f", d_E_old, d_E, E_before, E_after );
 add_msg( m_debug, "vel1: %.2f vel1_a: %.2f vel2: %.2f vel2_a: %.2f", vel1, vel1_a, vel2, vel2_a );
+        if( d_E < 0 ) {
+            // Deformation energy is signed
+            // If it's negative, it means something went wrong
+            
+        }
 
         // Damage calculation
         // Damage dealt overall
-        dmg += std::abs( d_E / k_mvel );
+        dmg += d_E / 400;
         // Damage for vehicle-part
         // Always if no critters, otherwise if critter is real
         if( critter == nullptr || !critter->is_hallucination() ) {
@@ -4529,8 +4534,8 @@ add_msg( m_debug, "Part damage: %.2f", part_dmg );
         // Damage for object
         const float obj_dmg = dmg * (100-k)/100;
 
+        smashed = false;
         if( ret.type == veh_coll_other ) {
-            smashed = false;
         } else if( ret.type == veh_coll_bashable ) {
             // Something bashable -- use map::bash to determine outcome
             // NOTE: Floor bashing disabled for balance reasons
@@ -4595,14 +4600,20 @@ add_msg( m_debug, "Critter damage: %d", dam );
                 } else if( critter->is_dead_state() ) {
                     smashed = true;
                 } else if( abs( vel2_a ) > abs( vel2 ) ) {
-                    smashed = false;
 add_msg( m_debug, "Before: %.2f After: %.2f", vel2, vel2_a );
                     vel2 = vel2_a;
-                } else {
+                } else if( abs(mass * vel1_a) > abs(mass2 * vel2_a) ) {
                     // Weird case - the collisions should stop happening
                     // but due to the way game works, we can't just bail out
-                    vel2 += sgn( vel2 );
-                    smashed = false;
+                    // A hack: compare target's momentum to vehicle's
+                    const int angle_sum = vel2_a > 0 ?
+                        move.dir() + angle : -(move.dir() + angle);
+                    g->fling_creature( critter, angle_sum, 10.1f );
+                    smashed = true;
+                } else {
+                    // Vehicle's momentum isn't big enough to push the critter
+                    velocity = 0;
+                    break;
                 }
             }
         }
@@ -4661,8 +4672,8 @@ add_msg( m_debug, "Before: %.2f After: %.2f", vel2, vel2_a );
             turn_amount = 120;
         }
         int turn_roll = rng( 0, 100 );
-        //probability of skidding increases with higher delta_v
-        if( turn_roll < std::abs(prev_velocity - (float)(velocity / 100)) * 2 ) {
+        // Probability of skidding increases with higher delta_v
+        if( turn_roll < std::abs((prev_velocity - coll_velocity) / 100.0f * 2.0f) ) {
             //delta_v = vel1 - vel1_a
             //delta_v = 50 mph -> 100% probability of skidding
             //delta_v = 25 mph -> 50% probability of skidding
