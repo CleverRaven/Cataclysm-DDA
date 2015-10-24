@@ -4861,63 +4861,99 @@ bool mattack::dodge_check(monster *z, Creature *target){
     return false;
 }
 
-void mattack::ink_jet(monster *z, int index)
+void mattack::ink_jet(monster *z, int index) {
 
-{
 	if (!z->can_act()) {
-        return;
+		return;
 	}
+
+	int jet_range = 5;
+
+	// TODO: make the creature utilise this ability then escaping the threat
 	Creature *target = z->attack_target();
 
-	if (target == nullptr || rl_dist(z->pos(), target->pos()) > 3 || !z->sees(*target)) { 
+	if (target == nullptr || rl_dist(z->pos(), target->pos()) > jet_range || !z->sees(*target)) {
 		return;
 	}
 
 	std::vector<tripoint> line = g->m.find_clear_path(z->pos(), target->pos());
 
-	z->reset_special(index); 
+	z->reset_special(index);
 
-	z->moves -= 25;
+	z->moves -= 50;
 
-    bool u_see = g->u.sees(*z);
+	// Notify the player, if he sees the use of this ability
+	bool u_see = g->u.sees(*z);
 	if (u_see) {
-        if (target->is_player() || target->is_npc()) {
-			target->add_msg_player_or_npc(m_bad, _("The %s squirts a jet of black ink at you!"),
-				_("The %s squirts a jet of black ink at <npcname>!"),
-				z->name().c_str());
+		if (target->is_player()) {
+			add_msg(m_bad, _("The %s squirts a jet of black ink at you!"), z->name().c_str());
+		}
+		else if (target->is_npc()) {
+
+			if (target->attitude_to(g->u) == Creature::A_FRIENDLY) {
+				add_msg(m_bad, _("The %s squirts a jet of black ink at <npcname>!"),
+					z->name().c_str(), target->disp_name().c_str());
+			}
+			else {
+				add_msg(m_warning, _("The %s squirts a jet of black ink at <npcname>!"),
+					z->name().c_str(), target->disp_name().c_str());
+			}
+		}
+		else if (target->attitude_to(g->u) == Creature::A_FRIENDLY) {
+			add_msg(m_bad, _("The %1$s squirts a jet of black ink at %2$s!"),
+				z->name().c_str(), target->disp_name().c_str());
 		}
 		else {
-			add_msg(m_warning, _("The %1$s squirts a jet of black ink at %2$s!"), z->name().c_str(), target->disp_name().c_str());
+			add_msg(m_warning, _("The %1$s squirts a jet of black ink at %2$s!"),
+				z->name().c_str(), target->disp_name().c_str());
 		}
 	}
 
-
+	// Shoot the jet of ink
 	for (auto &i : line) {
 		if (!g->m.has_flag("SWIMMABLE", i)) {
 			g->m.add_field(i, fd_ink, 1, 0);
-		    // If ink hits solid tile, return.
-			if (g->m.move_cost(i) == 0) {
-				g->m.add_field(i, fd_ink, 3, 0);
-				if (g->u.sees(i))
-					add_msg(_("The ink splatters on the %s!"),
-						g->m.tername(i.x, i.y).c_str());
-				return;
+		}
+		else {
+			g->m.add_field(i, fd_ink_cloud, 2, 0);
+		};
+
+		if (g->m.move_cost(i) == 0) {
+			g->m.add_field(i, fd_ink, 3, 0);
+			if (g->u.sees(i))
+				add_msg(_("The ink splatters on the %s!"),
+					g->m.tername(i.x, i.y).c_str());
+			return;
+		}
+	}
+
+	// Handle the effects of creature, potentially, getting hit by the ink
+	// TODO: make it do something then affecting non player/npc target
+	if (!target->uncanny_dodge()) {
+		if (rng(0, 10) > target->get_dodge() || one_in(target->get_dodge())) {
+			target->on_dodge(z, 10); // Apperantly does nothing. Will leave it anyway.
+			for (int i = 0; i < rng(1, 3); i++) {
+				body_part bp = random_body_part();
+				if (bp == bp_eyes) {
+					target->add_env_effect("ooze_in_eyes", bp_eyes, 5, 25);
+				}
+				else {
+					target->add_env_effect("inked", bp, 4, 40);
+				}
+				// TODO: Figure out the effect system so that multiple aplications of effect stack instead
+				if (target->has_effect("inked")) {
+					break;
+				}
 			}
 		}
-		else if (!g->m.has_flag("DEEP_WATER", i)) {
-			g->m.add_field(i, fd_ink_water, 2, 0);
+		else if (!target->is_monster()) {
+			add_msg(m_good, _("You dodge the jet of black ink!"),
+				_("<npcname> dodges the jet of black ink!"));
 		}
-			return;
-		
+		else {
+			add_msg(m_warning, _("The %s dodges the jet of black ink!"),
+				target->disp_name().c_str());
+		}
+
 	}
-	//if (!target->uncanny_dodge()) {
-	//	if (rng(0, 10) > target->get_dodge() || one_in(target->get_dodge())) {
-	//		target->add_env_effect("boomered", bp_eyes, 3, 12);
-	//	}
-	//	else if (u_see) {
-	//		target->add_msg_player_or_npc(_("You dodge the jet of black ink!"),
-	//			_("<npcname> dodges the jet of black ink!"));
-	//	}
-	//	target->on_dodge(z, 10);
-	//}
 }

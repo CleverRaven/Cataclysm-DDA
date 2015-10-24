@@ -488,6 +488,13 @@ void player::process_turn()
     if ( (has_trait("FLOWERS")) && (!(has_trait("CHLOROMORPH"))) ) {
         norm_scent -= 200;
     }
+	//Apparently, squid ink has smell obscuring properties.
+	//TODO:Figure out how to modify the effect system, so that you could 
+	//calculate increase\decrease\absence of smell through effect system.
+	//For now, scent strenght decrease remains static.
+	if (has_effect("inked")) {
+        norm_scent -= 200;
+	}
     // You *are* a plant.  Unless someone hunts triffids by scent,
     // you don't smell like prey.
     if( has_trait("CHLOROMORPH") ) {
@@ -4137,7 +4144,7 @@ int player::clairvoyance() const
 
 bool player::sight_impaired() const
 {
- return ((( has_effect("boomered") || has_effect("darkness") ) &&
+ return ((( has_effect("boomered") || has_effect("darkness") || has_effect("ooze_in_eyes") ) &&
           (!(has_trait("PER_SLIME_OK")))) ||
   (underwater && !has_bionic("bio_membrane") && !has_trait("MEMBRANE") &&
               !worn_with_flag("SWIM_GOGGLES") && !has_trait("PER_SLIME_OK") &&
@@ -12156,7 +12163,8 @@ float player::fine_detail_vision_mod()
     // that you can generaly see.  There'll still be the haze, but
     // it's annoying rather than limiting.
     if( has_effect("blind") || worn_with_flag("BLIND") ||
-        (( has_effect("boomered") || has_effect("darkness") ) && !has_trait("PER_SLIME_OK")) ) {
+      (( has_effect("boomered") || has_effect("darkness") || has_effect("ooze_in_eyes")) && !has_trait("PER_SLIME_OK")) 
+	  ) {
         return 5.0;
     }
     // Scale linearly as light level approaches LIGHT_AMBIENT_LIT.

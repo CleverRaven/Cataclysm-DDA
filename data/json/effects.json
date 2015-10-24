@@ -443,7 +443,7 @@
         "apply_message": "You're covered in bile!",
         "rating": "bad",
         "base_mods": {
-            "per_mod": [-3],
+            "per_mod": [-6],
             "vomit_chance": [500]
         }
     },
@@ -457,6 +457,25 @@
         "base_mods": {
             "vomit_chance": [500]
         }
+    },
+	{
+        "type": "effect_type",
+        "id": "ooze_in_eyes",
+        "name": ["Gunk in eyes"],
+        "desc": ["There is some sort of substance in your eyes. You can barely see anything now!"],
+        "apply_message": "Your eyes sting and you can keep them barely open, as some sort of liquid splashes into them!",
+        "rating": "bad",
+        "base_mods": {
+            "per_mod": [-6]
+        }
+    },
+	{
+        "type": "effect_type",
+        "id": "inked",
+        "name": ["Soaked in ink"],
+        "desc": ["You are covered in black ink!"],
+        "apply_message": "You're covered in black ink!",
+        "rating": "bad"
     },
     {
         "type": "effect_type",

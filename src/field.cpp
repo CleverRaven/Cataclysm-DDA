@@ -342,16 +342,9 @@ void game::init_fields()
 		},
 
 		{
-			"fd_ink_water",
-			{ _("hazy water"), _("murky water"), _("black water") }, '5', 2,
-			{ c_white, c_dkgray, c_dkgray },{ true, true, true },{ true, true, true }, MINUTES(3),
-			{ 0,0,0 }
-		},
-
-		{
 			"fd_ink_cloud",
-			{ _("hazy water"), _("murky water"), _("black water") }, '8', 8,
-			{ c_white, c_ltgray, c_dkgray },{ true, false, false },{ false, true, true }, MINUTES(3),
+			{ _("hazy water"), _("murky water"), _("black water") }, '6', 2,
+			{ c_white, c_ltgray, c_dkgray },{ true, true, true },{ false, false, false }, MINUTES(15),
 			{ 0,0,0 }
 		}
     };
@@ -521,10 +514,16 @@ bool map::process_fields_in_submap( submap *const current_submap,
             const auto &ter = dst.get_ter_t();
             const auto &frn = dst.get_furn_t();
             // Candidates are existing weaker fields or navigable/flagged tiles with no field.
-            return ( ter_furn_movecost( ter, frn ) > 0 || ter_furn_has_flag( ter, frn, TFLAG_PERMEABLE ) ) &&
-                ( tmpfld == nullptr || tmpfld->getFieldDensity() < cur->getFieldDensity() );
+			// A hacky way to make ink spread only in water, without overhauling the whole function
+			if (curtype == fd_ink_cloud) {
+		        return (ter_furn_movecost(ter, frn) > 0 && ter_furn_has_flag(ter, frn, TFLAG_SWIMMABLE)) &&
+					(tmpfld == nullptr || tmpfld->getFieldDensity() < cur->getFieldDensity());
+			}
+			else {
+				return (ter_furn_movecost(ter, frn) > 0 || ter_furn_has_flag(ter, frn, TFLAG_PERMEABLE)) &&
+					(tmpfld == nullptr || tmpfld->getFieldDensity() < cur->getFieldDensity());
+			}
         };
-
         const auto spread_to = [&]( maptile &dst ) {
             field_entry *candidate_field = dst.find_field( curtype );
             // Nearby gas grows thicker, and ages are shared.
@@ -1251,6 +1250,11 @@ bool map::process_fields_in_submap( submap *const current_submap,
                         dirty_transparency_cache = true;
                         spread_gas( cur, p, curtype, 80, 50 );
                         break;
+
+					case fd_ink_cloud:
+						dirty_transparency_cache = true;
+						spread_gas(cur, p, curtype, 40, 0);
+						break;
 
                     case fd_tear_gas:
                         dirty_transparency_cache = true;

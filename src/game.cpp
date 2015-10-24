@@ -12818,6 +12818,11 @@ void game::plswim( const tripoint &p )
         add_msg(_("The water washes off the glowing goo!"));
         u.remove_effect("glowing");
     }
+	if (u.has_effect("inked")) {
+		add_msg(_("The ink washes off, dissolving into black cloud around you!"));
+		u.remove_effect("inked");
+		m.add_field(p, fd_ink_cloud, 3, 0);
+	}
     int movecost = u.swim_speed();
     u.practice( skill_id( "swimming" ), u.is_underwater() ? 2 : 1);
     if (movecost >= 500) {
