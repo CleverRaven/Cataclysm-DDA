@@ -3244,7 +3244,7 @@ int iuse::solder_weld( player *p, item *it, bool, const tripoint& )
     }};
 
     int pos = g->inv_for_filter( _("Repair what?"), [it]( const item &itm ) {
-        return itm.made_of_any( materials ) && !itm.is_ammo() && is_firearm(itm) && &itm != it;
+        return itm.made_of_any( materials ) && !itm.is_ammo() && !is_firearm(itm) && &itm != it;
     } );
 
     item &fix = p->i_at( pos );
@@ -3376,7 +3376,7 @@ int iuse::solder_weld( player *p, item *it, bool, const tripoint& )
             }
             fix.damage = 0;
         }
-    } else if (fix.damage == 0 || fix.has_flag("PRIMITIVE_RANGED_WEAPON")) {
+    } else if (fix.damage == 0 && fix.has_flag("PRIMITIVE_RANGED_WEAPON")) {
         p->add_msg_if_player(m_info, _("You cannot improve your %s any more this way."), fix.tname().c_str());
         return 0;
     } else if (fix.damage == 0 || (fix.has_flag("VARSIZE") && !fix.has_flag("FIT"))) {
