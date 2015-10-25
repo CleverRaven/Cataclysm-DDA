@@ -4593,28 +4593,27 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
 
             // Don't fling if vertical - critter got smashed into the ground
             if( !vert_coll ) {
-                if( fabs(vel2_a) > 10.0f ) {
+                if( fabs(vel2_a) > 10.0f ||
+                    fabs(e * mass * vel1_a) > fabs(mass2 * (10.0f - vel2_a)) ) {
+                    // Also handle the weird case when we don't have enough force
+                    // but still have to push (in such case compare momentum)
+                    const float push_force = fabs(vel2_a) > 10.0f ? fabs(vel2_a) : 10.1f;
                     const int angle_sum = vel2_a > 0 ?
                         move.dir() + angle : -(move.dir() + angle);
-                    g->fling_creature( critter, angle_sum, fabs(vel2_a) );
-                    smashed = true;
-                } else if( critter->is_dead_state() ) {
-                    smashed = true;
+                    g->fling_creature( critter, angle_sum, push_force );
                 } else if( fabs( vel2_a ) > fabs( vel2 ) ) {
                     vel2 = vel2_a;
-                } else if( fabs(mass * vel1_a) > fabs(mass2 * (10.0f - vel2_a)) ) {
-                    // Weird case - the collisions should stop happening
-                    // but due to the way game works, we can't just bail out
-                    // A hack: compare the momentum target needs to gain to vehicle's momentum
-                    const int angle_sum = vel2_a > 0 ?
-                        move.dir() + angle : -(move.dir() + angle);
-                    // We're just pushing, not flinging
-                    g->fling_creature( critter, angle_sum, 10.1f, true );
-                    smashed = true;
                 } else {
                     // Vehicle's momentum isn't big enough to push the critter
                     velocity = 0;
                     break;
+                }
+
+                if( critter->is_dead_state() ) {
+                    smashed = true;
+                } else {
+                    // Only count critter as pushed away if it actually changed position
+                    smashed = (critter->pos() != p);
                 }
             }
         }
