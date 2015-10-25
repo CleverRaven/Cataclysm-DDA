@@ -493,7 +493,10 @@ void player::process_turn()
 	//calculate increase\decrease\absence of smell through effect system.
 	//For now, scent strenght decrease remains static.
 	if (has_effect("inked")) {
-        norm_scent -= 200;
+        norm_scent -= scent_mod;
+		if (norm_scent < 0) {
+			norm_scent = 0;
+		}
 	}
     // You *are* a plant.  Unless someone hunts triffids by scent,
     // you don't smell like prey.
@@ -6040,6 +6043,11 @@ void player::add_eff_effects(effect e, bool reduced)
             add_pain_msg(e.get_amount("PAIN", reduced), bp);
         }
     }
+	// handle scent_mod
+	if (e.get_amount("SCENT", reduced) > 0) {
+		scent_mod = bound_mod_to_vals(pain, e.get_amount("PAIN", reduced),
+			e.get_max_val("SCENT", reduced), 0);
+	}
     Creature::add_eff_effects(e, reduced);
 }
 

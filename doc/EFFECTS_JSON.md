@@ -407,6 +407,8 @@ Valid arguments:
 "vomit_chance"
 "vomit_chance_bot"
 "vomit_tick"
+
+"scent_mod"
 ```
 Basic definitions:
 ```C++

@@ -279,6 +279,9 @@ bool effect_type::load_mod_data(JsonObject &jsobj, std::string member) {
         extract_effect(j, mod_data, "stamina_chance_bot",member, "STAMINA",  "chance_bot");
         extract_effect(j, mod_data, "stamina_tick",      member, "STAMINA",  "tick");
 
+		// Then scent
+		extract_effect(j, mod_data, "scent_mod", member, "SCENT", "min");
+
         // Then coughing
         extract_effect(j, mod_data, "cough_chance",     member, "COUGH",    "chance_top");
         extract_effect(j, mod_data, "cough_chance_bot", member, "COUGH",    "chance_bot");
@@ -505,6 +508,8 @@ std::string effect::disp_desc(bool reduced) const
     values.push_back(desc_freq(get_percentage("HUNGER", val, reduced), val, _("hunger"), _("sate")));
     val = get_avg_mod("FATIGUE", reduced);
     values.push_back(desc_freq(get_percentage("FATIGUE", val, reduced), val, _("sleepiness"), _("rest")));
+	val = get_avg_mod("SCENT", reduced);
+	values.push_back(desc_freq(get_percentage("SCENT", val, reduced), val, _("scent"), _("scent masking")));
     val = get_avg_mod("COUGH", reduced);
     values.push_back(desc_freq(get_percentage("COUGH", val, reduced), val, _("coughing"), _("coughing")));
     val = get_avg_mod("VOMIT", reduced);

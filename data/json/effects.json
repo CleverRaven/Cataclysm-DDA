@@ -475,7 +475,13 @@
         "name": ["Soaked in ink"],
         "desc": ["You are covered in black ink!"],
         "apply_message": "You're covered in black ink!",
-        "rating": "bad"
+		"int_dur_factor": 300,
+		"base_mods": {
+            "scent_mod": [-50]
+        },
+        "scaling_mods": {
+            "scent_mod": [-50]
+        }
     },
     {
         "type": "effect_type",

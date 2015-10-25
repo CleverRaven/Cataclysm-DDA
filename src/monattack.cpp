@@ -4929,22 +4929,15 @@ void mattack::ink_jet(monster *z, int index) {
 
 	// Handle the effects of creature, potentially, getting hit by the ink
 	// TODO: make it do something then affecting non player/npc target
+	// TODO: if you can't see, you can't dodge this effect
 	if (!target->uncanny_dodge()) {
 		if (rng(0, 10) > target->get_dodge() || one_in(target->get_dodge())) {
-			target->on_dodge(z, 10); // Apperantly does nothing. Will leave it anyway.
-			// TODO: Rewrite this block to use custom bp selection chances
-			for (int i = 0; i < rng(1, 3); i++) {
-				body_part bp = random_body_part();
-				if (bp == bp_eyes) {
-					target->add_env_effect("ooze_in_eyes", bp_eyes, 5, 25);
-				}
-				else {
-					target->add_env_effect("inked", bp, 4, 40);
-				}
-				// TODO: Figure out the effect system so that multiple aplications of effect stack instead
-				if (target->has_effect("inked")) {
-					break;
-				}
+			//target->on_dodge(z, 10); Appearantly, does nothing.
+			if (one_in(5)) {
+				target->add_env_effect("ooze_in_eyes", bp_eyes, 5, 40);
+			}
+			else {
+				(target->add_env_effect("inked", bp_torso, 4, 300));
 			}
 		}
 		else if (!target->is_monster()) {
