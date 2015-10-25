@@ -198,7 +198,8 @@ void check_shamble_speed( const std::string monster_type, const tripoint &destin
 
 void test_moves_to_squares( std::string monster_type, bool write_data = false ) {
     std::map<int, statistics> turns_at_distance;
-    std::map<int, statistics> turns_at_angle;
+    std::map<int, statistics> turns_at_slope;
+    std::map<float, statistics> turns_at_angle;
     // We want to check every square when generating a map, but for testing we can skip a lot for speed.
     const int test_resolution = write_data ? 1 : 4;
     for( int x = 0; x <= 100; x += test_resolution ) {
@@ -211,11 +212,16 @@ void test_moves_to_squares( std::string monster_type, bool write_data = false ) 
                 // Very short ranged tests are squirrely.
                 continue;
             }
-            turns_at_angle[slope].new_type();
-            for( int i = 0; i < 500; ++i ) {
+            const int rise = 50 - y;
+            const int run = 50 - x;
+            const float angle = atan2( run, rise );
+            turns_at_angle[angle].new_type();
+            turns_at_slope[slope].new_type();
+            for( int i = 0; i < 50; ++i ) {
                 int moves = moves_to_destination( monster_type, {50, 50, 0}, {x, y, 0} );
                 turns_at_distance[distance].add( moves / (diagonal_multiplier * distance) );
-                turns_at_angle[slope * 100].add( moves / (diagonal_multiplier * distance) );
+                turns_at_angle[angle].add( moves / (diagonal_multiplier * distance) );
+                turns_at_slope[slope].add( moves / (diagonal_multiplier * distance) );
             }
         }
     }
@@ -223,20 +229,23 @@ void test_moves_to_squares( std::string monster_type, bool write_data = false ) 
         INFO( "Monster:" << monster_type << " Dist: " << stat_pair.first << " moves: " << stat_pair.second.avg() );
         CHECK( stat_pair.second.avg() == Approx(100.0).epsilon(0.03) );
     }
+    for( const auto &stat_pair : turns_at_slope ) {
+        INFO( "Monster:" << monster_type << " Slope: " << stat_pair.first <<
+              " moves: " << stat_pair.second.avg() << " types: " << stat_pair.second.types() );
+        CHECK( stat_pair.second.avg() == Approx(100.0).epsilon(0.03) );
+    }
     for( const auto &stat_pair : turns_at_angle ) {
-        INFO( "Mnster:" << monster_type << " Slope: " << stat_pair.first <<
+        INFO( "Monster:" << monster_type << " Angle: " << stat_pair.first <<
               " moves: " << stat_pair.second.avg() << " types: " << stat_pair.second.types() );
         CHECK( stat_pair.second.avg() == Approx(100.0).epsilon(0.03) );
     }
 
     if( write_data ) {
-        std::stringstream slope_map;
-        for( const auto &stat_pair : turns_at_angle ) {
-            slope_map << stat_pair.first << " " << stat_pair.second.avg() << "\n" ;
-        }
         std::ofstream data;
         data.open("slope_test_data_" + std::string((trigdist ? "trig_" : "square_")) + monster_type);
-        data << slope_map.str();
+        for( const auto &stat_pair : turns_at_angle ) {
+            data << stat_pair.first << " " << stat_pair.second.avg() << "\n" ;
+        }
         data.close();
     }
 }
