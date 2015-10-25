@@ -516,9 +516,9 @@ distclean:
 bindist: $(BINDIST)
 
 ifeq ($(TARGETSYSTEM), LINUX)
-DATA_PREFIX=$(PREFIX)/share/cataclysm-dda/
-BIN_PREFIX=$(PREFIX)/bin
-LOCALE_DIR=$(PREFIX)/share/locale
+DATA_PREFIX=$(DESTDIR)$(PREFIX)/share/cataclysm-dda/
+BIN_PREFIX=$(DESTDIR)$(PREFIX)/bin
+LOCALE_DIR=$(DESTDIR)$(PREFIX)/share/locale
 install: version $(TARGET)
 	mkdir -p $(DATA_PREFIX)
 	mkdir -p $(BIN_PREFIX)
@@ -550,9 +550,9 @@ endif
 endif
 
 ifeq ($(TARGETSYSTEM), CYGWIN)
-DATA_PREFIX=$(PREFIX)/share/cataclysm-dda/
-BIN_PREFIX=$(PREFIX)/bin
-LOCALE_DIR=$(PREFIX)/share/locale
+DATA_PREFIX=$(DESTDIR)$(PREFIX)/share/cataclysm-dda/
+BIN_PREFIX=$(DESTDIR)$(PREFIX)/bin
+LOCALE_DIR=$(DESTDIR)$(PREFIX)/share/locale
 install: version $(TARGET)
 	mkdir -p $(DATA_PREFIX)
 	mkdir -p $(BIN_PREFIX)
