@@ -12874,6 +12874,11 @@ void game::fling_creature(Creature *c, const int &dir, float flvel, bool control
         return;
     }
 
+    if( c->is_dead_state() ) {
+        // Flinging a corpse causes problems, don't enable without testing
+        return;
+    }
+
     int steps = 0;
     const bool is_u = (c == &u);
     // Don't animate critters getting bashed if animations are off
@@ -12904,6 +12909,7 @@ void game::fling_creature(Creature *c, const int &dir, float flvel, bool control
             c->impact( damage, pt );
             // Multiply zed damage by 6 because no body parts
             const int zed_damage = std::max( 0, ( damage - critter.get_armor_bash( bp_torso ) ) * 6 );
+            // TODO: Pass the "flinger" here - it's not the flung critter that deals damage
             critter.apply_damage( c, bp_torso, zed_damage );
             critter.check_dead_state();
             if( !critter.is_dead() ) {
