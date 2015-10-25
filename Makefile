@@ -535,6 +535,9 @@ install: version $(TARGET)
 ifdef TILES
 	cp -R --no-preserve=ownership gfx $(DATA_PREFIX)
 endif
+ifdef SOUND
+	cp -R --no-preserve=ownership data/sound $(DATA_PREFIX)
+endif
 ifdef LUA
 	mkdir -p $(DATA_PREFIX)/lua
 	install --mode=644 lua/autoexec.lua $(DATA_PREFIX)/lua
@@ -565,6 +568,9 @@ install: version $(TARGET)
 	cp -R --no-preserve=ownership data/title $(DATA_PREFIX)
 ifdef TILES
 	cp -R --no-preserve=ownership gfx $(DATA_PREFIX)
+endif
+ifdef SOUND
+	cp -R --no-preserve=ownership data/sound $(DATA_PREFIX)
 endif
 ifdef LUA
 	mkdir -p $(DATA_PREFIX)/lua
