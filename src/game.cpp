@@ -189,6 +189,8 @@ void game::load_static_data()
     init_artifacts();
     init_faction_data();
 
+    get_auto_pickup().load_global();
+
     // --- move/delete everything below
     // TODO: move this to player class
     moveCount = 0;
@@ -601,8 +603,6 @@ void game::setup()
         }
     }
 
-    load_auto_pickup(false); // Load global auto pickup rules
-
     remoteveh_cache_turn = INT_MIN;
     remoteveh_cache = nullptr;
     // back to menu for save loading, new game etc
@@ -679,7 +679,7 @@ void game::start_game(std::string worldname)
     u.last_climate_control_ret = false;
 
     //Reset character pickup rules
-    vAutoPickupRules[2].clear();
+    get_auto_pickup().clear_character_rules();
     //Put some NPCs in there!
     create_starting_npcs();
     //Load NPCs. Set nearby npcs to active.
@@ -1611,7 +1611,7 @@ int game::inventory_item_menu(int pos, int iStartX, int iWidth, int position)
         std::vector<iteminfo> vThisItem, vDummy, vMenu;
 
         const int iOffsetX = 2;
-        const bool bHPR = hasPickupRule(oThisItem.tname( 1, false ));
+        const bool bHPR = get_auto_pickup().has_rule(oThisItem.tname( 1, false ));
         const hint_rating rate_drop_item = u.weapon.has_flag("NO_UNWIELD") ? HINT_CANT : HINT_GOOD;
 
         int max_text_length = 0;
@@ -1745,13 +1745,13 @@ int game::inventory_item_menu(int pos, int iStartX, int iWidth, int position)
                 break;
             case '+':
                 if (!bHPR) {
-                    addPickupRule(oThisItem.tname( 1, false ));
+                    get_auto_pickup().add_rule(oThisItem.tname( 1, false ));
                     add_msg(m_info, _("'%s' added to character pickup rules."), oThisItem.tname( 1, false ).c_str());
                 }
                 break;
             case '-':
                 if (bHPR) {
-                    removePickupRule(oThisItem.tname( 1, false ));
+                    get_auto_pickup().remove_rule(oThisItem.tname( 1, false ));
                     add_msg(m_info, _("'%s' removed from character pickup rules."), oThisItem.tname( 1, false ).c_str());
                 }
                 break;
@@ -3331,7 +3331,7 @@ void game::load(std::string worldname, std::string name)
     }
 
     init_autosave();
-    load_auto_pickup(true); // Load character auto pickup rules
+    get_auto_pickup().load_character(); // Load character auto pickup rules
     zone_manager::get_manager().load_zones(); // Load character world zones
     load_uistate(worldname);
 
@@ -3490,7 +3490,7 @@ bool game::save()
              !save_factions_missions_npcs() ||
              !save_artifacts() ||
              !save_maps() ||
-             !save_auto_pickup(true) || // Save character auto pickup rules
+             !get_auto_pickup().save_character() ||
              !save_uistate()){
             return false;
         } else {
@@ -14365,18 +14365,20 @@ void game::process_artifact(item *it, player *p)
     const bool worn = is_worn( *p, it );
     const bool wielded = ( it == &p->weapon );
     std::vector<art_effect_passive> effects;
-    if( worn && it->is_armor() ) {
-        const auto armor = dynamic_cast<const it_artifact_armor *>(it->type);
-        effects = armor->effects_worn;
-    } else if (it->is_tool()) {
-        const auto tool = dynamic_cast<const it_artifact_tool *>(it->type);
-        effects = tool->effects_carried;
-        if (wielded) {
-            effects.insert( effects.end(), tool->effects_wielded.begin(), tool->effects_wielded.end() );
-        }
+    effects = it->type->artifact->effects_carried;
+    if( worn ) {
+        auto &ew = it->type->artifact->effects_worn;
+        effects.insert( effects.end(), ew.begin(), ew.end() );
+    }
+    if( wielded ) {
+        auto &ew = it->type->artifact->effects_wielded;
+        effects.insert( effects.end(), ew.begin(), ew.end() );
+    }
+    if( it->is_tool() ) {
+        const auto tool = dynamic_cast<const it_tool*>( it->type );
         // Recharge it if necessary
         if (it->charges < tool->max_charges) {
-            switch (tool->charge_type) {
+            switch (it->type->artifact->charge_type) {
             case ARTC_NULL:
             case NUM_ARTCS:
                 break; // dummy entries
@@ -14555,17 +14557,26 @@ void game::start_calendar()
         }
     } else {
         if( ACTIVE_WORLD_OPTIONS["INITIAL_SEASON"].getValue() == "spring" ) {
+            calendar::initial_season = SPRING;
             ; // Do nothing.
         } else if( ACTIVE_WORLD_OPTIONS["INITIAL_SEASON"].getValue() == "summer") {
+            calendar::initial_season = SUMMER;
             calendar::start += DAYS((int)ACTIVE_WORLD_OPTIONS["SEASON_LENGTH"]);
         } else if( ACTIVE_WORLD_OPTIONS["INITIAL_SEASON"].getValue() == "autumn" ) {
+            calendar::initial_season = AUTUMN;
             calendar::start += DAYS((int)ACTIVE_WORLD_OPTIONS["SEASON_LENGTH"] * 2);
         } else {
+            calendar::initial_season = WINTER;
             calendar::start += DAYS((int)ACTIVE_WORLD_OPTIONS["SEASON_LENGTH"] * 3);
         }
     }
     calendar::turn = calendar::start;
+
+    if ( ACTIVE_WORLD_OPTIONS["ETERNAL_SEASON"] ) {
+      calendar::eternal_season = true;
+    }
 }
+
 void game::add_artifact_messages(std::vector<art_effect_passive> effects)
 {
     int net_str = 0, net_dex = 0, net_per = 0, net_int = 0, net_speed = 0;

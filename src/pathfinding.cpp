@@ -144,9 +144,10 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
     /* TODO: If the origin or destination is out of bound, figure out the closest
      * in-bounds point and go to that, then to the real origin/destination.
      */
+    std::vector<tripoint> ret;
 
     if( !inbounds( f ) ) {
-        return {};
+        return ret;
     }
 
     if( !inbounds( t ) ) {
@@ -360,7 +361,6 @@ std::vector<tripoint> map::route( const tripoint &f, const tripoint &t,
         }
     } while( !done && !pf.empty() );
 
-    std::vector<tripoint> ret;
     ret.reserve( rl_dist( f, t ) * 2 );
     if( done ) {
         tripoint cur = t;

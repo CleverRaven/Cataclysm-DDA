@@ -16,8 +16,7 @@
             "hurt_max": [20],
             "hurt_chance": [1, 1]
         }
-    },
-    {
+    },{
         "type": "effect_type",
         "id": "potion_numbness",
         "name": ["Intense Numbness"],
@@ -30,8 +29,7 @@
             "pkill_max_val": [50],
             "speed_mod": [-15]
         }
-    },
-    {
+    },{
         "type": "effect_type",
         "id": "potion_strength",
         "name": ["Strengthed"],
@@ -47,8 +45,7 @@
             "per_mod": [-1],
             "speed_mod": [5]
         }
-    },
-    {
+    },{
         "type": "effect_type",
         "id": "potion_speed",
         "name": ["Speedy"],
@@ -64,8 +61,7 @@
             "per_mod": [2],
             "speed_mod": [25]
         }
-    },
-    {
+    },{
         "type": "effect_type",
         "id": "potion_healing",
         "name": ["Elixir"],
@@ -79,8 +75,8 @@
             "pkill_max_val": [25],
             "speed_mod": [-10]
         }
-    },
-    {
+    },{
+        "//": "Dummied out for the moment, on the off chance someone ports a save with this effect active.",
         "type": "effect_type",
         "id": "aegiscure",
         "name": ["Aegis Cure"],
@@ -92,18 +88,30 @@
             "fatigue_min": [5],
             "fatigue_chance": [1, 1]
         }
-    },
-    {
+    },{
         "type": "effect_type",
         "id": "revenant_hunger",
         "name": ["Revenant Hunger"],
-        "desc": ["Immunity to poison, increased hunger gain."],
+        "desc": ["Immunity to food poisoning and parasites, increased hunger gain."],
         "remove_message": "Your craving for rotten food subsides.",
-        "blocks_effects": ["poison", "badpoison", "foodpoison", "paralyzepoison"],
+        "blocks_effects": ["poison", "badpoison", "foodpoison", "paralyzepoison", "bloodworms", "paincysts", "brainworms", "tapeworm"],
         "max_duration": 100,
         "base_mods": {
             "hunger_min": [1],
-            "hunger_chance": [1, 6]
+            "fatigue_chance": [1, 6]
+        }
+    },{
+        "//": "Will be relevent once cleric ring is obtainable.",
+        "type": "effect_type",
+        "id": "cleric_warding",
+        "name": ["Ward Against Evil"],
+        "desc": ["Protects against various anomalous effects."],
+        "remove_message": "The ring's magical protection fades.",
+        "removes_effects": ["darkness", "rat", "evil", "attention", "teleglow", "amigara"],
+        "blocks_effects": ["darkness", "rat", "evil", "attention", "teleglow", "amigara"],
+        "max_duration": 250,
+        "base_mods": {
+            "speed_mod": [-20]
         }
     }
 ]

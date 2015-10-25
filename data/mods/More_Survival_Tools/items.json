@@ -249,7 +249,7 @@
     "description": "A wooden tool for supporting a javelin, to throw it more effectively than by hand.",
     "price": 500,
     "material": "wood",
-    "flags": ["RELOAD_AND_SHOOT", "NEVER_JAMS"],
+    "flags": ["RELOAD_AND_SHOOT", "NEVER_JAMS", "PRIMITIVE_RANGED_WEAPON"],
     "skill": "throw",
     "ammo": "javelin",
     "weight": 116,

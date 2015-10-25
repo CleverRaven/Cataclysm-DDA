@@ -156,7 +156,7 @@ public:
         item &operator=(item &&) = default;
         item &operator=(const item &) = default;
  virtual ~item();
- void make( const std::string new_type );
+ void make( const std::string new_type, bool scrub = false );
 
     /**
      * Returns the default color of the item (e.g. @ref itype::color).

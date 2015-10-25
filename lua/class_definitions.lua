@@ -1577,7 +1577,6 @@ classes = {
             { name = "has_use", rval = "bool", args = { } },
             { name = "invoke", rval = "int", args = { "player", "item", "tripoint" } },
             { name = "invoke", rval = "int", args = { "player", "item", "tripoint", "string" } },
-            { name = "is_artifact", rval = "bool", args = { } },
             { name = "is_food", rval = "bool", args = { } },
             { name = "is_tool", rval = "bool", args = { } },
             { name = "maximum_charges", rval = "int", args = { } },

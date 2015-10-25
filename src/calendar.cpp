@@ -9,6 +9,8 @@ int calendar::cached_season_length = 14;
 
 calendar calendar::start;
 calendar calendar::turn;
+season_type calendar::initial_season;
+bool calendar::eternal_season = false;
 
 // Internal constants, not part of the calendar interface.
 // Times for sunrise, sunset at equinoxes
@@ -392,7 +394,13 @@ void calendar::sync()
 {
     const int sl = season_length();
     year = turn_number / DAYS(sl * 4);
-    season = season_type(turn_number / DAYS(sl) % 4);
+
+    if( eternal_season ) {
+        season = initial_season;
+    } else {
+        season = season_type(turn_number / DAYS(sl) % 4);
+    }
+
     day = turn_number / DAYS(1) % sl;
     hour = turn_number / HOURS(1) % 24;
     minute = turn_number / MINUTES(1) % 60;
