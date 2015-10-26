@@ -12038,6 +12038,10 @@ int player::sleep_spot( const tripoint &p ) const
         // so it's OK for the value to be that much higher
         sleepy += 24;
     }
+    if (has_effect("meth")) {
+        // Sleep ain't happening until that meth wears off completely.
+        sleepy -= 999;
+    }
     if (has_trait("CHLOROMORPH")) {
         plantsleep = true;
     }
