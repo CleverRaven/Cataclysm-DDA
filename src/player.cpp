@@ -5338,11 +5338,34 @@ int player::hp_percentage() const
 void player::get_sick()
 {
     if (has_trait("DISIMMUNE")) {
+        // In a shocking twist, disease immunity prevents diseases.
         return;
     }
 
-    if (!has_effect("flu") && !has_effect("common_cold") &&
-        one_in(900 + get_healthy() + (has_trait("DISRESISTANT") ? 300 : 0))) {
+    if (has_effect("flu") || has_effect("common_cold")) {
+        // While it's certainly possible to get sick when you already are,
+        // it wouldn't be very fun.
+        return;
+    }
+
+    // Normal people get sick about 2-4 times/year.
+    int base_diseases_per_year = 3;
+    if (has_trait("DISRESISTANT")) {
+        // Disease resistant people only get sick once a year.
+        base_diseases_per_year = 1;
+    }
+
+    // This check runs once every 30 minutes.
+    int checks_per_year = calendar::season_length() * 4 * 24 * 2;
+
+    // Health is in the range [-200,200].
+    // A character who takes vitamins every 6 hours will have ~50 health.
+    // Diseases are half as common for every 50 health you gain.
+    int health_factor = std::pow(2.0f, get_healthy() / 50.0f);
+
+    int disease_rarity = (int) (checks_per_year * health_factor / base_diseases_per_year);
+    add_msg( m_debug, "disease_rarity = %d", disease_rarity);
+    if (one_in(disease_rarity)) {
         if (one_in(6)) {
             add_env_effect("flu", bp_mouth, 3, rng(40000, 80000));
         } else {
