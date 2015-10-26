@@ -5361,7 +5361,7 @@ void player::get_sick()
     // Health is in the range [-200,200].
     // A character who takes vitamins every 6 hours will have ~50 health.
     // Diseases are half as common for every 50 health you gain.
-    int health_factor = std::pow(2.0f, get_healthy() / 50.0f);
+    float health_factor = std::pow(2.0f, get_healthy() / 50.0f);
 
     int disease_rarity = (int) (checks_per_year * health_factor / base_diseases_per_year);
     add_msg( m_debug, "disease_rarity = %d", disease_rarity);
