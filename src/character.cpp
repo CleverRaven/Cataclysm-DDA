@@ -1115,20 +1115,28 @@ void Character::reset_bonuses()
     Creature::reset_bonuses();
 }
 
-void Character::update_health(int base_threshold)
+void Character::update_health(int external_modifiers)
 {
+    // Limit healthy_mod to [-200, 200].
+    // This also sets approximate bounds for the character's health.
     if( get_healthy_mod() > 200 ) {
         set_healthy_mod( 200 );
     } else if( get_healthy_mod() < -200 ) {
         set_healthy_mod( -200 );
     }
+
+    // Over the long run, health tends toward healthy_mod.
+    int break_even = get_healthy() - get_healthy_mod() + external_modifiers;
+
+    // But we allow some random variation.
     const long roll = rng( -100, 100 );
-    base_threshold += get_healthy() - get_healthy_mod();
-    if( roll > base_threshold ) {
+    if( roll > break_even ) {
         mod_healthy( 1 );
-    } else if( roll < base_threshold ) {
+    } else if( roll < break_even ) {
         mod_healthy( -1 );
     }
+
+    // And healthy_mod decays over time.
     set_healthy_mod( get_healthy_mod() * 3 / 4 );
 
     add_msg( m_debug, "Health: %d, Health mod: %d", get_healthy(), get_healthy_mod() );

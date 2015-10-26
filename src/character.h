@@ -121,7 +121,7 @@ class Character : public Creature
         virtual int get_hit_base() const override;
 
         /** Handles health fluctuations over time */
-        virtual void update_health(int base_threshold = 0);
+        virtual void update_health(int external_modifiers = 0);
 
         /** Resets the value of all bonus fields to 0. */
         virtual void reset_bonuses() override;

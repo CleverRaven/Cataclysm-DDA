@@ -5351,12 +5351,15 @@ void player::get_sick()
     }
 }
 
-void player::update_health(int base_threshold)
+void player::update_health(int external_modifiers)
 {
     if (has_artifact_with(AEP_SICK)) {
-        base_threshold += 50;
+        // Carrying a sickness artifact makes your health 50 points worse on
+        // average.  This is the negative equivalent of eating vitamins every
+        // 6 hours.
+        external_modifiers -= 50;
     }
-    Character::update_health(base_threshold);
+    Character::update_health(external_modifiers);
 }
 
 void player::update_needs()
