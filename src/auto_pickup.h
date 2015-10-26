@@ -67,10 +67,6 @@ class auto_pickup : public JsonSerializer, public JsonDeserializer {
                 }
 
                 ~cRules() {};
-
-                cRules clone() {
-                    return cRules(this->sRule, this->bActive, this->bExclude);
-                }
         };
 
         /**

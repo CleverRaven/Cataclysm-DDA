@@ -565,7 +565,7 @@ void auto_pickup::save_reset_changes(const bool bReset)
         vRules[destination].clear();
         for (auto it = vRules[source].begin(); it != vRules[source].end(); ++it) {
             if (it->sRule != "") {
-                vRules[destination].push_back(it->clone());
+                vRules[destination].push_back(*it);
             }
         }
     }
