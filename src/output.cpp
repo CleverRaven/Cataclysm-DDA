@@ -223,7 +223,7 @@ int fold_and_print(WINDOW *w, int begin_y, int begin_x, int width, nc_color base
     nc_color color = base_color;
     std::vector<std::string> textformatted;
     textformatted = foldstring(text, width);
-    for (size_t line_num = 0; line_num < textformatted.size(); line_num++) {
+    for( int line_num = 0; (size_t)line_num < textformatted.size(); line_num++) {
         print_colored_text( w, line_num + begin_y, begin_x, color, base_color, textformatted[line_num] );
     }
     return textformatted.size();
@@ -246,24 +246,24 @@ int fold_and_print_from(WINDOW *w, int begin_y, int begin_x, int width, int begi
     nc_color color = base_color;
     std::vector<std::string> textformatted;
     textformatted = foldstring(text, width);
-    for (size_t line_num = 0; line_num < textformatted.size(); line_num++) {
-        if (line_num + begin_y - begin_line == iWinHeight) {
+    for( int line_num = 0; (size_t)line_num < textformatted.size(); line_num++ ) {
+        if( line_num + begin_y - begin_line == iWinHeight ) {
             break;
         }
-        if ((int)line_num >= begin_line) {
-            wmove(w, line_num + begin_y - begin_line, begin_x);
+        if( line_num >= begin_line ) {
+            wmove( w, line_num + begin_y - begin_line, begin_x );
         }
         // split into colourable sections
-        std::vector<std::string> color_segments = split_by_color(textformatted[line_num]);
+        std::vector<std::string> color_segments = split_by_color( textformatted[line_num] );
         // for each section, get the colour, and print it
         std::vector<std::string>::iterator it;
-        for (it = color_segments.begin(); it != color_segments.end(); ++it) {
-            if (!it->empty() && it->at(0) == '<') {
-                color = get_color_from_tag(*it, base_color);
+        for( it = color_segments.begin(); it != color_segments.end(); ++it ) {
+            if( !it->empty() && it->at(0) == '<' ) {
+                color = get_color_from_tag( *it, base_color );
             }
-            if ((int)line_num >= begin_line) {
-                std::string l = rm_prefix(*it);
-                if(l != "--") { // -- is a newline!
+            if( line_num >= begin_line ) {
+                std::string l = rm_prefix( *it );
+                if( l != "--" ) { // -- is a newline!
                     wprintz(w, color, "%s", rm_prefix(*it).c_str());
                 }
             }
