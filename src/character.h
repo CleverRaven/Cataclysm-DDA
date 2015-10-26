@@ -93,7 +93,7 @@ class Character : public Creature
 
         /** Modifiers for health values exclusive to characters */
         virtual void mod_healthy(int nhealthy);
-        virtual void mod_healthy_mod(int nhealthy_mod);
+        virtual void mod_healthy_mod(int nhealthy_mod, int cap);
 
         /** Setters for health values exclusive to characters */
         virtual void set_healthy(int nhealthy);

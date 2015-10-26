@@ -71,7 +71,12 @@ void Character::mod_stat( const std::string &stat, int modifier )
     } else if( stat == "healthy" ) {
         mod_healthy( modifier );
     } else if( stat == "healthy_mod" ) {
-        mod_healthy_mod( modifier );
+        debugmsg("mod_stat should not be used for healthy_mod");
+        if (modifier < 0) {
+            mod_healthy_mod( modifier, -200 );
+        } else {
+            mod_healthy_mod( modifier, 200 );
+        }
     } else if( stat == "hunger" ) {
         mod_hunger( modifier );
     } else if( stat == "speed" ) {
@@ -1061,9 +1066,38 @@ void Character::set_healthy_mod(int nhealthy_mod)
 {
     healthy_mod = nhealthy_mod;
 }
-void Character::mod_healthy_mod(int nhealthy_mod)
+void Character::mod_healthy_mod(int nhealthy_mod, int cap)
 {
+    // TODO: This really should be a full morale-like system, with per-effect caps
+    //       and durations.  This version prevents any single effect from exceeding its
+    //       intended ceiling, but multiple effects will overlap instead of adding.
+
+    // Cap indicates how far the mod is allowed to shift in this direction.
+    // It can have a different sign to the mod, e.g. for items that treat
+    // extremely low health, but can't make you healthy.
+    int low_cap, high_cap;
+    if (nhealthy_mod < 0) {
+        low_cap = cap;
+        high_cap = 200;
+    } else {
+        low_cap = -200;
+        high_cap = cap;
+    }
+
+    // If we're already out-of-bounds, we don't need to do anything.
+    if (healthy_mod <= low_cap || healthy_mod >= high_cap) {
+        return;
+    }
+
     healthy_mod += nhealthy_mod;
+
+    // Since we already bailed out if we were out-of-bounds, we can
+    // just clamp to the boundaries here.
+    if (healthy_mod < low_cap) {
+        healthy_mod = low_cap;
+    } else if (healthy_mod > high_cap) {
+        healthy_mod = high_cap;
+    }
 }
 
 int Character::get_hunger() const

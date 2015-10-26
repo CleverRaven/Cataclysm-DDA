@@ -6038,8 +6038,10 @@ void player::add_eff_effects(effect e, bool reduced)
     }
     // Add health mod
     if (e.get_amount("H_MOD", reduced) > 0) {
-        mod_healthy_mod(bound_mod_to_vals(get_healthy_mod(), e.get_amount("H_MOD", reduced),
-                        e.get_max_val("H_MOD", reduced), e.get_min_val("H_MOD", reduced)));
+        int bounded = bound_mod_to_vals(get_healthy_mod(), e.get_amount("H_MOD", reduced),
+                e.get_max_val("H_MOD", reduced), e.get_min_val("H_MOD", reduced));
+        // This already applies bounds, so we pass them through.
+        mod_healthy_mod(bounded, get_healthy_mod() + bounded);
     }
     // Add health
     if (e.get_amount("HEALTH", reduced) > 0) {
@@ -6142,8 +6144,11 @@ void player::process_effects() {
             if (val != 0) {
                 mod = 1;
                 if(it.activated(calendar::turn, "H_MOD", val, reduced, mod)) {
-                    mod_healthy_mod(bound_mod_to_vals(get_healthy_mod(), val,
-                                it.get_max_val("H_MOD", reduced), it.get_min_val("H_MOD", reduced)));
+                    int bounded = bound_mod_to_vals(
+                            get_healthy_mod(), val, it.get_max_val("H_MOD", reduced),
+                            it.get_min_val("H_MOD", reduced));
+                    // This already applies bounds, so we pass them through.
+                    mod_healthy_mod(bounded, get_healthy_mod() + bounded);
                 }
             }
 
@@ -7152,7 +7157,7 @@ void player::hardcoded_effects(effect &it)
             add_msg_if_player(m_bad, _("Your head aches faintly."));
         }
         if(one_in(1024)) {
-            mod_healthy_mod(-10);
+            mod_healthy_mod(-10, -100);
             apply_damage( nullptr, bp_head, rng( 0, 1 ) );
             if (!has_effect("visuals")) {
                 add_msg_if_player(m_bad, _("Your vision is getting fuzzy."));
@@ -7160,7 +7165,7 @@ void player::hardcoded_effects(effect &it)
             }
         }
         if(one_in(4096)) {
-            mod_healthy_mod(-10);
+            mod_healthy_mod(-10, -100);
             apply_damage( nullptr, bp_head, rng( 1, 2 ) );
             if (!has_effect("blind")) {
                 add_msg_if_player(m_bad, _("Your vision goes black!"));
@@ -7748,7 +7753,7 @@ void player::suffer()
             if (thirst > -20) {
                 thirst -= 2;
             }
-            mod_healthy_mod(10);
+            mod_healthy_mod(10, 50);
             // No losing oneself in the fertile embrace of rich
             // New England loam.  But it can be a near thing.
             if ( (one_in(int_cur)) && (focus_pool >= 25) ) {
@@ -7761,7 +7766,7 @@ void player::suffer()
             if (thirst > -20) {
                 thirst--;
             }
-            mod_healthy_mod(5);
+            mod_healthy_mod(5, 50);
         }
     }
 
@@ -8374,7 +8379,7 @@ void player::suffer()
         add_effect("shakes", 50);
     }
     if (has_bionic("bio_leaky") && one_in(500)) {
-        mod_healthy_mod(-50);
+        mod_healthy_mod(-50, -200);
     }
     if (has_bionic("bio_sleepy") && one_in(500) && !in_sleep_state()) {
         fatigue++;
@@ -10128,7 +10133,7 @@ void player::consume_effects(item *eaten, const it_comest *comest, bool rotten)
         hunger_factor *= rng_float(0, 1);
         // and takes a health penalty if they aren't adapted
         if (!has_trait("SAPROVORE") && !has_bionic("bio_digestion")) {
-            mod_healthy_mod(-30);
+            mod_healthy_mod(-30, -200);
         }
     }
 
@@ -10142,7 +10147,7 @@ void player::consume_effects(item *eaten, const it_comest *comest, bool rotten)
     mod_stomach_food(nutrition_for(comest) * factor * hunger_factor);
     mod_stomach_water(comest->quench * factor);
     if (unhealthy_allowed || comest->healthy > 0) {
-        mod_healthy_mod(comest->healthy);
+        mod_healthy_mod(comest->healthy, 5 * comest->healthy);
     }
 
     if (comest->stim != 0) {
@@ -10259,7 +10264,7 @@ void player::rooted()
             if (thirst > -20) {
                 thirst--;
             }
-            mod_healthy_mod(5);
+            mod_healthy_mod(5, 50);
         }
     }
 }
@@ -11814,7 +11819,7 @@ void player::do_read( item *book )
                 if (thirst > -20) {
                     thirst -= root_factor * foot_factor;
                 }
-                mod_healthy_mod(root_factor * foot_factor);
+                mod_healthy_mod(root_factor * foot_factor, 50);
             }
             if (activity.type != ACT_NULL) {
                 return;
@@ -11859,7 +11864,7 @@ void player::do_read( item *book )
             if (thirst > -20) {
                 thirst -= root_factor * foot_factor;
             }
-            mod_healthy_mod(root_factor * foot_factor);
+            mod_healthy_mod(root_factor * foot_factor, 50);
         }
         if (activity.type != ACT_NULL) {
             return;
