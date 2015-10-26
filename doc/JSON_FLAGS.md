@@ -250,6 +250,7 @@ Flags used to describe monsters and define their properties and abilities.
 - ```CBM_OP``` May produce a cbm or two from bionics_op when butchered.
 - ```FISHABLE``` It is fishable.
 - ```INTERIOR_AMMO``` Monster contains ammo inside itself, no need to load on launch. Prevents ammo from being dropped on disable.
+- ```INK_SAC``` Then butchred, monster drops a number of ink sacs.
 
 ### Special attacks
 Some special attacks are also valid use actions for tools and weapons.
@@ -264,6 +265,7 @@ Some special attacks are also valid use actions for tools and weapons.
 - ```PULL_METAL_WEAPON``` Pull weapon that's made of iron or steel from the player's hand.
 - ```SMOKECLOUD``` Produces a cloud of smoke.
 - ```BOOMER``` Spit bile.
+- ```INK_JET``` Spit ink. If hits may blind the target.
 - ```RESURRECT``` Revives the dead--again.
 - ```SCIENCE``` Various science/technology related attacks (e.g. manhacks, radioactive beams, etc.)
 - ```GROWPLANTS``` Spawns underbrush, or promotes it to `> young tree > tree`.

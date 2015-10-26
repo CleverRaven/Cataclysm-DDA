@@ -488,16 +488,9 @@ void player::process_turn()
     if ( (has_trait("FLOWERS")) && (!(has_trait("CHLOROMORPH"))) ) {
         norm_scent -= 200;
     }
-	//Apparently, squid ink has smell obscuring properties.
-	//TODO:Figure out how to modify the effect system, so that you could 
-	//calculate increase\decrease\absence of smell through effect system.
-	//For now, scent strenght decrease remains static.
-	if (has_effect("inked")) {
-        norm_scent -= scent_mod;
-		if (norm_scent < 0) {
-			norm_scent = 0;
-		}
-	}
+	//Handle scent effects.
+    norm_scent -= scent_mod;
+
     // You *are* a plant.  Unless someone hunts triffids by scent,
     // you don't smell like prey.
     if( has_trait("CHLOROMORPH") ) {
@@ -507,13 +500,11 @@ void player::process_turn()
     // Scent increases fast at first, and slows down as it approaches normal levels.
     // Estimate it will take about norm_scent * 2 turns to go from 0 - norm_scent / 2
     // Without smelly trait this is about 1.5 hrs. Slows down significantly after that.
-    if (scent < rng(0, norm_scent))
+	if (scent < rng(0, norm_scent))
         scent++;
 
     // Unusually high scent decreases steadily until it reaches normal levels.
-    if (scent > norm_scent)
-        scent--;
-
+	    scent--;
     // We can dodge again! Assuming we can actually move...
     if (moves > 0) {
         blocks_left = get_num_blocks();
@@ -6045,7 +6036,7 @@ void player::add_eff_effects(effect e, bool reduced)
     }
 	// handle scent_mod
 	if (e.get_amount("SCENT", reduced) > 0) {
-		scent_mod = bound_mod_to_vals(pain, e.get_amount("PAIN", reduced),
+		scent_mod = bound_mod_to_vals(scent, e.get_amount("SCENT", reduced),
 			e.get_max_val("SCENT", reduced), 0);
 	}
     Creature::add_eff_effects(e, reduced);

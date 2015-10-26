@@ -1252,7 +1252,6 @@ bool map::process_fields_in_submap( submap *const current_submap,
                         break;
 
 					case fd_ink_cloud:
-						dirty_transparency_cache = true;
 						spread_gas(cur, p, curtype, 40, 0);
 						break;
 

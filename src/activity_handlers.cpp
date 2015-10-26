@@ -218,7 +218,7 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
     fats +=     std::min( 0, roll_butchery() - 4 );
     sinews +=   std::min( 0, roll_butchery() - 8 );
     feathers += std::min( 0, roll_butchery() - 1 );
-	sacs +=     std::min( 0, roll_butchery() - 1 );
+	sacs +=     std::min( 0, roll_butchery() - 3 );
     stomach = roll_butchery() >= 0;
 
     if( bones > 0 ) {
@@ -315,8 +315,8 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
 
 	if (sacs > 0) {
 		if (corpse->has_flag(MF_INK_SAC)) {
-			g->m.spawn_item(p->pos(), "ink_sac", sinews, 0, age);
-			add_msg(m_good, _("You are able to harvest some sacs full of liquid!"));
+			g->m.spawn_item(p->pos(), "ink_sac", sacs, 0, age);
+			add_msg(m_good, _("You harvest some sacs full of liquid!"));
 		}
 	}
 
