@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cataclysm-dda 0.C\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-10-19 13:56+0300\n"
+"POT-Creation-Date: 2015-10-26 12:04+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16128,6 +16128,19 @@ msgid ""
 msgstr ""
 
 #: lang/json/BOOK_from_json.py
+msgid "The Six Pillars"
+msgid_plural "The Six Pillars"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for The Six Pillars
+#: lang/json/BOOK_from_json.py
+msgid ""
+"A book depicting six strange symbols on the cover.  The text uses "
+"mythological concepts and metaphors to disguise magical formulae."
+msgstr ""
+
+#: lang/json/BOOK_from_json.py
 msgid "The Cleansing Flame"
 msgid_plural "The Cleansing Flame"
 msgstr[0] ""
@@ -28500,7 +28513,7 @@ msgstr[1] ""
 #: lang/json/GENERIC_from_json.py
 msgid ""
 "This not-so-little bundle of joy contains Leadworks, LLC's premier "
-"offerings: the Enforcer autorevolver (with holster) & Long Ranger rifle.  "
+"offerings: the Enforcer autorevolver (with holster) and Long Ranger rifle.  "
 "Maintenance kit, batteries for same, and a complimentary copy of the Gun "
 "Owner's Handbook are included.  The perfect investment for a new family "
 "starting out!  Disassemble to unpack and enjoy."
@@ -29444,6 +29457,53 @@ msgstr[1] ""
 #: lang/json/GENERIC_from_json.py
 msgid ""
 "This is a sealed glass jar containing V8.  Use to open and drink to enjoy."
+msgstr ""
+
+#: lang/json/GENERIC_from_json.py
+msgid "sealed yeast culture"
+msgid_plural "sealed yeast cultures"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Use action msg for sealed yeast culture.
+#: lang/json/GENERIC_from_json.py
+msgid "You open the flask and harvest the culture."
+msgstr ""
+
+#. ~ Use action not_ready_msg for sealed yeast culture.
+#: lang/json/GENERIC_from_json.py
+msgid "The yeast isn't done culturing yet."
+msgstr ""
+
+#. ~ Description for sealed yeast culture
+#: lang/json/GENERIC_from_json.py
+msgid ""
+"A sealed flask holding sanitized yeast wort.  You may harvest the yeast "
+"inside when it's done culturing."
+msgstr ""
+
+#: lang/json/GENERIC_from_json.py
+msgid "fermenting sauerkraut jar"
+msgid_plural "fermenting sauerkraut jars"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Use action msg for fermenting sauerkraut jar.
+#: lang/json/GENERIC_from_json.py
+msgid ""
+"You test the batch, and it tastes good, so you seal the jar up for storage."
+msgstr ""
+
+#. ~ Use action not_ready_msg for fermenting sauerkraut jar.
+#: lang/json/GENERIC_from_json.py
+msgid "The sauerkraut isn't done fermenting yet."
+msgstr ""
+
+#. ~ Description for fermenting sauerkraut jar
+#: lang/json/GENERIC_from_json.py
+msgid ""
+"This jar contains a batch of sauerkraut set to ferment. You can seal up the "
+"jar once the process is completed."
 msgstr ""
 
 #: lang/json/GENERIC_from_json.py
@@ -30821,6 +30881,20 @@ msgid ""
 "A silver emblem resembling a 16-pointed star in a circle.  You feel as "
 "though it could be a powerful arcane device, but there is no magic in it.  "
 "Yet."
+msgstr ""
+
+#: lang/json/GENERIC_from_json.py
+msgid "blank scroll"
+msgid_plural "blank scrolls"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for blank scroll
+#: lang/json/GENERIC_from_json.py
+msgid ""
+"A simple sheet of paper, with wooden rollers to support it.  You feel as if "
+"it was meant to have ancient, eldritch text written on it.  But sadly, it's "
+"blank."
 msgstr ""
 
 #: lang/json/GENERIC_from_json.py
@@ -35832,8 +35906,8 @@ msgstr[1] ""
 #. ~ Description for battle rifle
 #: lang/json/GUN_from_json.py
 msgid ""
-"A selective fire battle rifle used by the US military.  It holds thirty "
-"rounds of rifle ammo in a detachable magazine."
+"A highly modular, selective fire battle rifle used by the US military.  It "
+"holds twenty rounds of rifle ammo in a detachable magazine."
 msgstr ""
 
 #: lang/json/GUN_from_json.py
@@ -36981,6 +37055,15 @@ msgid "Adds recipes for replicas of mythological weapons."
 msgstr ""
 
 #: lang/json/MOD_INFO_from_json.py
+msgid "No Acid Zombies"
+msgstr ""
+
+#. ~ Description for No Acid Zombies
+#: lang/json/MOD_INFO_from_json.py
+msgid "Removes all acid-based zombies from the game."
+msgstr ""
+
+#: lang/json/MOD_INFO_from_json.py
 msgid "No Energy Weapons"
 msgstr ""
 
@@ -37086,6 +37169,15 @@ msgstr ""
 #. ~ Description for No Survivor Armor
 #: lang/json/MOD_INFO_from_json.py
 msgid "Removes survivor armor."
+msgstr ""
+
+#: lang/json/MOD_INFO_from_json.py
+msgid "No Triffids"
+msgstr ""
+
+#. ~ Description for No Triffids
+#: lang/json/MOD_INFO_from_json.py
+msgid "Removes triffids from the game."
 msgstr ""
 
 #: lang/json/MOD_INFO_from_json.py
@@ -42034,20 +42126,57 @@ msgid_plural "gilded aegises"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Use action activation_message for gilded aegis.
-#: lang/json/TOOL_ARMOR_from_json.py
-msgid ""
-"A strange, burning heat spreads throughout your body, fading into a dull "
-"ache as the aegis cleanses your body."
-msgstr ""
-
 #. ~ Description for gilded aegis
 #: lang/json/TOOL_ARMOR_from_json.py
 msgid ""
 "A simple leather cloak, richly decorated with scales of gold and several "
 "feathers.  It resembles the hide of a golden dragon or serpent.  Using it "
-"will cure a small number of ailments, if supplied with consecrated essence.  "
-"This taxes the body and can't cure injuries, parasites, or poison."
+"will heal minor injuries, in exchange for inflicting pain."
+msgstr ""
+
+#: lang/json/TOOL_ARMOR_from_json.py
+msgid "mask of insight"
+msgid_plural "masks of insight"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Use action need_charges_msg for mask of insight.
+#: lang/json/TOOL_ARMOR_from_json.py
+msgid "Fuel the mask with consecrated essence, to open your eyes."
+msgstr ""
+
+#. ~ Use action msg for mask of insight.
+#: lang/json/TOOL_ARMOR_from_json.py
+msgid ""
+"The mask appears to contort into a fearsome visage, the eyeholes momentarily "
+"seeming to glow."
+msgstr ""
+
+#. ~ Description for mask of insight
+#: lang/json/TOOL_ARMOR_from_json.py
+msgid ""
+"A mask faced with iron and decorated with copper, depicting the face of some "
+"unknown divine figure.  Fueling it with consecrated essence will grant the "
+"wearer sight beyond sight, within a limited range."
+msgstr ""
+
+#: lang/json/TOOL_ARMOR_from_json.py
+msgid "mask of insight (on)"
+msgid_plural "masks of insight (on)"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Use action msg for mask of insight (on).
+#: lang/json/TOOL_ARMOR_from_json.py
+msgid "The mask's features return to its original impassive expression."
+msgstr ""
+
+#. ~ Description for mask of insight (on)
+#: lang/json/TOOL_ARMOR_from_json.py
+msgid ""
+"A mask faced with iron and decorated with copper, depicting the face of some "
+"unknown divine figure.  The face depicted on the mask seems more menacing "
+"than it did previously."
 msgstr ""
 
 #: lang/json/TOOL_ARMOR_from_json.py
@@ -42068,8 +42197,9 @@ msgstr ""
 msgid ""
 "A wicked-looking crown made of silver, decorated with scenes of skeletons in "
 "a \"danse macabre\" motif.  A single diamond adorns it, in the center of the "
-"scene depicted.  Using it shall yield immunity to poison, food poisoning in "
-"particular, in exchange for inreased hunger."
+"scene depicted.  Using it shall yield immunity to food poisoning and "
+"parasites, in exchange for inreased hunger.  It will not cure existing "
+"ailments, only prevent them."
 msgstr ""
 
 #: lang/json/TOOL_ARMOR_from_json.py
@@ -42085,6 +42215,27 @@ msgid ""
 "each individual plate.  Touching the bare metal sends a faint electric "
 "tingle through you.  Use them to give something a shocking surprise, if "
 "you're in melee range."
+msgstr ""
+
+#: lang/json/TOOL_ARMOR_from_json.py
+msgid "ring of the fallen angel"
+msgid_plural "rings of the fallen angel"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Use action activation_message for ring of the fallen angel.
+#: lang/json/TOOL_ARMOR_from_json.py
+msgid ""
+"A strange energy radiates from the ring's gem, spreading a calming sensation "
+"over you."
+msgstr ""
+
+#. ~ Description for ring of the fallen angel
+#: lang/json/TOOL_ARMOR_from_json.py
+msgid ""
+"A simple silver ring, adorned with a small red gem and a wing motif.  Using "
+"it cures several anomalous ailments, and provides protection from such "
+"effects for a while."
 msgstr ""
 
 #: lang/json/TOOL_from_json.py
@@ -45913,53 +46064,6 @@ msgid ""
 msgstr ""
 
 #: lang/json/TOOL_from_json.py
-msgid "sealed yeast culture"
-msgid_plural "sealed yeast cultures"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Use action msg for sealed yeast culture.
-#: lang/json/TOOL_from_json.py
-msgid "You open the flask and harvest the culture."
-msgstr ""
-
-#. ~ Use action not_ready_msg for sealed yeast culture.
-#: lang/json/TOOL_from_json.py
-msgid "The yeast isn't done culturing yet."
-msgstr ""
-
-#. ~ Description for sealed yeast culture
-#: lang/json/TOOL_from_json.py
-msgid ""
-"A sealed flask holding sanitized yeast wort.  You may harvest the yeast "
-"inside when it's done culturing."
-msgstr ""
-
-#: lang/json/TOOL_from_json.py
-msgid "fermenting sauerkraut jar"
-msgid_plural "fermenting sauerkraut jars"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Use action msg for fermenting sauerkraut jar.
-#: lang/json/TOOL_from_json.py
-msgid ""
-"You test the batch, and it tastes good, so you seal the jar up for storage."
-msgstr ""
-
-#. ~ Use action not_ready_msg for fermenting sauerkraut jar.
-#: lang/json/TOOL_from_json.py
-msgid "The sauerkraut isn't done fermenting yet."
-msgstr ""
-
-#. ~ Description for fermenting sauerkraut jar
-#: lang/json/TOOL_from_json.py
-msgid ""
-"This jar contains a batch of sauerkraut set to ferment. You can seal up the "
-"jar once the process is completed."
-msgstr ""
-
-#: lang/json/TOOL_from_json.py
 msgid "cordless drill"
 msgid_plural "cordless drills"
 msgstr[0] ""
@@ -48040,7 +48144,7 @@ msgstr ""
 
 #: lang/json/TOOL_from_json.py
 msgid "incorruptible sword (on)"
-msgid_plural "incorruptible sword (on)s"
+msgid_plural "incorruptible swords (on)"
 msgstr[0] ""
 msgstr[1] ""
 
@@ -48339,6 +48443,163 @@ msgstr ""
 msgid ""
 "A hatchet, axehead giving off a wicked red glow.  Throwing it might be a "
 "smart idea."
+msgstr ""
+
+#: lang/json/TOOL_from_json.py
+msgid "scroll of light"
+msgid_plural "scrolls of light"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Use action msg for scroll of light.
+#: lang/json/TOOL_from_json.py
+msgid "\"Reveal that which is unseen.\"  You unroll the scroll of light..."
+msgstr ""
+
+#. ~ Description for scroll of light
+#: lang/json/TOOL_from_json.py
+msgid ""
+"This is a scroll, with odd writing and illustrations of a solar motif on "
+"it.  Using it will brighten the sky."
+msgstr ""
+
+#: lang/json/TOOL_from_json.py
+msgid "scroll of darkness"
+msgid_plural "scrolls of mysticism"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Use action msg for scroll of darkness.
+#: lang/json/TOOL_from_json.py
+msgid "\"Do not fear the unknown.\"  You unroll the scroll of darkness..."
+msgstr ""
+
+#. ~ Description for scroll of darkness
+#: lang/json/TOOL_from_json.py
+msgid ""
+"This is a scroll, with odd writing and depictions of the lunar cycles on "
+"it.  Using it will darken the sky temporarily."
+msgstr ""
+
+#: lang/json/TOOL_from_json.py
+msgid "scroll of command"
+msgid_plural "scrolls of command"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Use action msg for scroll of command.
+#: lang/json/TOOL_from_json.py
+msgid ""
+"\"By order, we ascend beyond that of animals.\"  You unroll the scroll of "
+"command..."
+msgstr ""
+
+#. ~ Description for scroll of command
+#: lang/json/TOOL_from_json.py
+msgid ""
+"This is a scroll, with odd writing and images of solders standing in "
+"formation on it.  Using it will attempt to bind nearby creatures to your "
+"will temporarily, at the expense of pain and momentary paralysis."
+msgstr ""
+
+#: lang/json/TOOL_from_json.py
+msgid "scroll of overgrowth"
+msgid_plural "scrolls of overgrowth"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Use action msg for scroll of overgrowth.
+#: lang/json/TOOL_from_json.py
+msgid "\"Do not deny your instincts.\"  You unroll the scroll of overgrowth..."
+msgstr ""
+
+#. ~ Description for scroll of overgrowth
+#: lang/json/TOOL_from_json.py
+msgid ""
+"This is a scroll, with odd writing and exotic natural scenery depicted on "
+"it.  Using it will fill the area with life, causing plants to grow "
+"unaturally and healing you, potentially mutating you as well."
+msgstr ""
+
+#: lang/json/TOOL_from_json.py
+msgid "scroll of sundering"
+msgid_plural "scrolls of sundering"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Use action msg for scroll of sundering.
+#: lang/json/TOOL_from_json.py
+msgid ""
+"\"There is an end to everything.\"  You unroll the scroll of sundering..."
+msgstr ""
+
+#. ~ Description for scroll of sundering
+#: lang/json/TOOL_from_json.py
+msgid ""
+"This is a scroll, with odd writing and scenes of natural disasters on it.  "
+"Using it will call forth a horrid noise, toppling nearby structures and "
+"harming creatures around you.  It might attract unwanted attention as well."
+msgstr ""
+
+#: lang/json/TOOL_from_json.py
+msgid "scroll of discord"
+msgid_plural "scrolls of discord"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Use action msg for scroll of discord.
+#: lang/json/TOOL_from_json.py
+msgid ""
+"\"Cast aside the veil of reality.\"  You unroll the scroll of discord..."
+msgstr ""
+
+#. ~ Description for scroll of discord
+#: lang/json/TOOL_from_json.py
+msgid ""
+"This is a scroll, with odd writing and peculiar swirling symbols on it.  "
+"Using it will warp the fabric of space, teleporting you at random.  "
+"Something might follow you through the gateway."
+msgstr ""
+
+#: lang/json/TOOL_from_json.py
+msgid "cursed blade"
+msgid_plural "cursed blades"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for cursed blade
+#: lang/json/TOOL_from_json.py
+msgid ""
+"A two-handed sword, blade is made of a dark metal, engraved with exotic "
+"runes.  Activating it will grant the wielder a powerful life-draining "
+"weapon, but you won't be able to let go of it until it runs out of energy."
+msgstr ""
+
+#: lang/json/TOOL_from_json.py
+msgid "cursed blade (on)"
+msgid_plural "cursed blades (on)"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Use action msg for cursed blade (on).
+#: lang/json/TOOL_from_json.py
+msgid ""
+"The malevolent energy fades from the cursed blade, returning it to normal."
+msgstr ""
+
+#. ~ Use action non_interactive_msg for cursed blade (on).
+#: lang/json/TOOL_from_json.py
+msgid ""
+"\"The black blade will not be thwarted!\"  The effect cannot be dispeled "
+"until its energy has run out."
+msgstr ""
+
+#. ~ Description for cursed blade (on)
+#: lang/json/TOOL_from_json.py
+msgid ""
+"A two-handed sword, blade is made of a dark metal, engraved with exotic "
+"runes.  You feel as if the blade thirsts for blood, refusing to leave your "
+"grasp until it is sated."
 msgstr ""
 
 #: lang/json/TOOL_from_json.py lang/json/vehicle_from_json.py
@@ -52924,12 +53185,26 @@ msgstr ""
 
 #. ~ Description of effect 'Revenant Hunger'.
 #: lang/json/effects_from_json.py
-msgid "Immunity to poison, increased hunger gain."
+msgid "Immunity to food poisoning and parasites, increased hunger gain."
 msgstr ""
 
 #. ~ Remove message for effect(s) 'Revenant Hunger'.
 #: lang/json/effects_from_json.py
 msgid "Your craving for rotten food subsides."
+msgstr ""
+
+#: lang/json/effects_from_json.py
+msgid "Ward Against Evil"
+msgstr ""
+
+#. ~ Description of effect 'Ward Against Evil'.
+#: lang/json/effects_from_json.py
+msgid "Protects against various anomalous effects."
+msgstr ""
+
+#. ~ Remove message for effect(s) 'Ward Against Evil'.
+#: lang/json/effects_from_json.py
+msgid "The ring's magical protection fades."
 msgstr ""
 
 #: lang/json/faction_from_json.py
@@ -54417,6 +54692,14 @@ msgstr ""
 
 #: lang/json/keybinding_from_json.py
 msgid "Move selected mod down"
+msgstr ""
+
+#: lang/json/keybinding_from_json.py
+msgid "Move to next category tab"
+msgstr ""
+
+#: lang/json/keybinding_from_json.py
+msgid "Move to previous category tab"
 msgstr ""
 
 #: lang/json/keybinding_from_json.py
@@ -75430,7 +75713,7 @@ msgstr ""
 
 #: src/auto_pickup.cpp
 #, c-format
-msgid "Failed to write autopickup rules to %s"
+msgid "Failed to save autopickup to %s"
 msgstr ""
 
 #. ~ Name of a basecamp
@@ -77735,28 +78018,8 @@ msgid ""
 "  Q:fine bolt turning"
 msgstr ""
 
-#: src/crafting.cpp
+#: src/crafting.cpp src/game.cpp
 msgid "Lighting:"
-msgstr ""
-
-#: src/crafting.cpp
-msgid "brightly"
-msgstr ""
-
-#: src/crafting.cpp
-msgid "cloudy"
-msgstr ""
-
-#: src/crafting.cpp
-msgid "shady"
-msgstr ""
-
-#: src/crafting.cpp
-msgid "dark"
-msgstr ""
-
-#: src/crafting.cpp
-msgid "very dark"
 msgstr ""
 
 #: src/crafting.cpp src/item_factory.cpp
@@ -81984,7 +82247,8 @@ msgid "Lua:"
 msgstr ""
 
 #: src/game.cpp
-msgid "Set the time to? (One day is 19200)"
+#, c-format
+msgid "Set the time to? (One day is %i turns)"
 msgstr ""
 
 #: src/game.cpp
@@ -88999,6 +89263,11 @@ msgstr ""
 
 #: src/iuse.cpp
 #, c-format
+msgid "You cannot improve your %s any more this way."
+msgstr ""
+
+#: src/iuse.cpp
+#, c-format
 msgid "You damage your %s!"
 msgstr ""
 
@@ -91126,11 +91395,6 @@ msgstr ""
 
 #: src/iuse.cpp
 msgid "That isn't a firearm!"
-msgstr ""
-
-#: src/iuse.cpp
-#, c-format
-msgid "You cannot improve your %s any more this way."
 msgstr ""
 
 #: src/iuse.cpp
@@ -97642,6 +97906,50 @@ msgstr ""
 
 #: src/missiondef.cpp
 msgid "Find a Book"
+msgstr ""
+
+#: src/mod_manager.cpp
+msgid "ITEM ADDIDION MODS"
+msgstr ""
+
+#: src/mod_manager.cpp
+msgid "CREATURE MODS"
+msgstr ""
+
+#: src/mod_manager.cpp
+msgid "BUILDINGS MODS"
+msgstr ""
+
+#: src/mod_manager.cpp
+msgid "VEHICLE MODS"
+msgstr ""
+
+#: src/mod_manager.cpp
+msgid "REBALANCING MODS"
+msgstr ""
+
+#: src/mod_manager.cpp
+msgid "MAGICAL MODS"
+msgstr ""
+
+#: src/mod_manager.cpp
+msgid "EXCLUSION MODS"
+msgstr ""
+
+#: src/mod_manager.cpp
+msgid "NO CATEGORY"
+msgstr ""
+
+#: src/mod_manager.cpp
+msgid "Default"
+msgstr ""
+
+#: src/mod_manager.cpp
+msgid "Blacklist"
+msgstr ""
+
+#: src/mod_manager.cpp
+msgid "Balance"
 msgstr ""
 
 #. ~ name of a mod that has no name entry, (%s is the mods identifier)
@@ -105382,6 +105690,17 @@ msgstr ""
 msgid "Maximum trait points available for character generation."
 msgstr ""
 
+#: src/options.cpp
+msgid "Skill training speed"
+msgstr ""
+
+#: src/options.cpp
+msgid ""
+"Scales experience gained from practicing skills and reading books. 0.5 is "
+"half as fast as default, 2.0 is twice as fast, 0.0 disables skill training "
+"except for NPC training."
+msgstr ""
+
 #. ~ plain, default, normal
 #: src/options.cpp
 msgid "Vanilla"
@@ -105535,6 +105854,14 @@ msgstr ""
 msgid ""
 "Multiplies the speed of construction by the given percentage. '0' "
 "automatically scales construction to match the world's season length."
+msgstr ""
+
+#: src/options.cpp
+msgid "Eternal season"
+msgstr ""
+
+#: src/options.cpp
+msgid "Keep the initial season for ever."
 msgstr ""
 
 #: src/options.cpp
@@ -105747,6 +106074,30 @@ msgstr ""
 
 #: src/output.cpp
 msgid "(??)"
+msgstr ""
+
+#: src/output.cpp
+msgid "unknown"
+msgstr ""
+
+#: src/output.cpp
+msgid "brightly"
+msgstr ""
+
+#: src/output.cpp
+msgid "cloudy"
+msgstr ""
+
+#: src/output.cpp
+msgid "shady"
+msgstr ""
+
+#: src/output.cpp
+msgid "dark"
+msgstr ""
+
+#: src/output.cpp
+msgid "very dark"
 msgstr ""
 
 #: src/overmap.cpp
@@ -106011,7 +106362,7 @@ msgid "[right] Mark"
 msgstr ""
 
 #: src/pickup.cpp
-msgid "[pgup] Prev"
+msgid "[<] Prev"
 msgstr ""
 
 #: src/pickup.cpp
@@ -106019,7 +106370,7 @@ msgid "[,] All"
 msgstr ""
 
 #: src/pickup.cpp
-msgid "[pgdn] Next"
+msgid "[>] Next"
 msgstr ""
 
 #: src/pickup.cpp
@@ -108857,7 +109208,12 @@ msgstr ""
 
 #: src/player.cpp
 #, c-format
-msgid "You cannot wield a %s with only one arm."
+msgid "The %s can't be wielded with only one arm."
+msgstr ""
+
+#: src/player.cpp
+#, c-format
+msgid "You are too weak to wield %s with only one arm."
 msgstr ""
 
 #: src/player.cpp
