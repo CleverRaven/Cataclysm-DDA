@@ -4738,12 +4738,6 @@
           "rotates": false
         },
         {
-          "id": "brick_kiln",
-          "fg": 1058,
-          "bg": 505,
-          "rotates": false
-        },
-        {
           "id": "char_purifier",
           "fg": 2078,
           "bg": 505,
@@ -8031,6 +8025,12 @@
           "rotates": false
         },
         {
+          "id": "clay_quern",
+          "fg": 2229,
+          "bg": 505,
+          "rotates": false
+        },
+        {
           "id": "rock_sock",
           "fg": 1182,
           "bg": 505,
@@ -9675,6 +9675,11 @@
         },
         {
           "id": "bag_canvas_small",
+          "fg": 867,
+          "bg": 505
+        },
+        {
+          "id": "mortar_build",
           "fg": 867,
           "bg": 505
         },
@@ -16867,6 +16872,10 @@
           "fg": 1190
         },
         {
+          "id": "material_aluminium_ingot",
+          "fg": 1190
+        },
+        {
           "id": "battery_car",
           "fg": 1193,
           "rotates": false
@@ -20214,7 +20223,7 @@
         {
           "id": "t_underbrush_harvested_winter",
           "fg": 2558,
-          "bg": 513,
+          "bg": 543,
           "rotates": false
         },
         {
@@ -22697,6 +22706,12 @@
           "rotates": false
         },
         {
+          "id": "mon_eoraptor",
+          "fg": 2924,
+          "bg": 515,
+          "rotates": false
+        },
+        {
           "id": "mon_gallimimus",
           "fg": 2925,
           "bg": 515,
@@ -22724,6 +22739,178 @@
           "id": "mon_triceratops",
           "fg": 2929,
           "bg": 515,
+          "rotates": false
+        },
+        {
+          "id": "mon_velociraptor",
+          "fg": 2933,
+          "bg": 515,
+          "rotates": false
+        },
+        {
+          "id": "mon_deinonychus",
+          "fg": 2934,
+          "bg": 515,
+          "rotates": false
+        },
+        {
+          "id": "mon_utahraptor",
+          "fg": 2934,
+          "bg": 515,
+          "rotates": false
+        },
+        {
+          "id": "mon_dilophosaurus",
+          "fg": 2934,
+          "bg": 515,
+          "rotates": false
+        },
+        {
+          "id": "mon_parasaurolophus",
+          "fg": 2935,
+          "bg": 515,
+          "rotates": false
+        },
+        {
+          "id": "mon_dimorphodon",
+          "fg": 2936,
+          "bg": 515,
+          "rotates": false
+        },
+        {
+          "id": "brick_kiln",
+          "fg": 2937,
+          "rotates": false
+        },
+        {
+          "id": "scroll_blank",
+          "fg": 2938,
+          "rotates": false
+        },
+        {
+          "id": "scroll_sun",
+          "fg": 2939,
+          "rotates": false
+        },
+        {
+          "id": "scroll_moon",
+          "fg": 2939,
+          "rotates": false
+        },
+        {
+          "id": "scroll_artiface",
+          "fg": 2939,
+          "rotates": false
+        },
+        {
+          "id": "scroll_nature",
+          "fg": 2939,
+          "rotates": false
+        },
+        {
+          "id": "scroll_destruction",
+          "fg": 2939,
+          "rotates": false
+        },
+        {
+          "id": "scroll_subversion",
+          "fg": 2939,
+          "rotates": false
+        },
+        {
+          "id": "scroll_sun_on",
+          "fg": 2940,
+          "rotates": false
+        },
+        {
+          "id": "scroll_moon_on",
+          "fg": 2940,
+          "rotates": false
+        },
+        {
+          "id": "scroll_artiface_on",
+          "fg": 2940,
+          "rotates": false
+        },
+        {
+          "id": "scroll_nature_on",
+          "fg": 2940,
+          "rotates": false
+        },
+        {
+          "id": "scroll_destruction_on",
+          "fg": 2940,
+          "rotates": false
+        },
+        {
+          "id": "scroll_subversion_on",
+          "fg": 2940,
+          "rotates": false
+        },
+        {
+          "id": "book_scrollcraft",
+          "fg": 2941,
+          "bg": 507,
+          "rotates": false
+        },
+        {
+          "id": "somen_clairvoyance",
+          "fg": 2942,
+          "rotates": false
+        },
+        {
+          "id": "somen_clairvoyance_on",
+          "fg": 2943,
+          "rotates": false
+        },
+        {
+          "id": "ring",
+          "fg": 2944,
+          "rotates": false
+        },
+        {
+          "id": "diamond_ring",
+          "fg": 2945,
+          "rotates": false
+        },
+        {
+          "id": "cleric_ring",
+          "fg": 2946,
+          "rotates": false
+        },
+        {
+          "id": "stormbringer",
+          "fg": 2947,
+          "rotates": false
+        },
+        {
+          "id": "stormbringer_on",
+          "fg": 2948,
+          "rotates": false
+        },
+        {
+          "id": "spear_forked",
+          "fg": 2949,
+          "rotates": false
+        },
+        {
+          "id": "pitchfork",
+          "fg": 2950,
+          "rotates": false
+        },
+        {
+          "id": "fencing_foil",
+          "fg": 2951,
+          "rotates": false
+        },
+        {
+          "id": "fencing_epee",
+          "fg": 2951,
+          "rotates": false
+        },
+        {
+          "id": "fencing_sabre",
+          "fg": 2952,
           "rotates": false
         }
       ]
