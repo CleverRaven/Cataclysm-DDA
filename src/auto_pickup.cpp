@@ -160,6 +160,7 @@ void auto_pickup::show()
         //Draw Scrollbar
         draw_scrollbar(w_border, iCurrentLine, iContentHeight,
                        vRules[iCurrentPage].size(), 5);
+        wrefresh(w_border);
 
         calcStartPos(iStartPos, iCurrentLine, iContentHeight,
                      vRules[iCurrentPage].size());

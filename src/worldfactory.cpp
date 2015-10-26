@@ -697,6 +697,7 @@ int worldfactory::show_worldgen_tab_options(WINDOW *win, WORLDPTR world)
         //Draw Scrollbar
         draw_scrollbar(win, iCurrentLine, iContentHeight,
                        mPageItems[iWorldOptPage].size(), iTooltipHeight + 4, 0, BORDER_COLOR);
+        wrefresh(win);
 
         fold_and_print(w_options_tooltip, 0, 0, 78, c_white, "%s #%s",
                        world->WORLD_OPTIONS[mPageItems[iWorldOptPage][iCurrentLine]].getTooltip().c_str(),

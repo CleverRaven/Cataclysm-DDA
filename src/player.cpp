@@ -2983,8 +2983,8 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
             }
 
             print_encumbrance(w_encumb, min, max, line);
-            wrefresh(w_encumb);
             draw_scrollbar(w_encumb, line, encumb_win_size_y, 12, 1);
+            wrefresh(w_encumb);
 
             werase(w_info);
             std::string s;
@@ -3225,13 +3225,13 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
 
             //Draw Scrollbar
             draw_scrollbar(w_skills, line, skill_win_size_y, skillslist.size(), 1);
+            wrefresh(w_skills);
 
             werase(w_info);
 
             if (line < skillslist.size()) {
                 fold_and_print(w_info, 0, 1, FULL_SCREEN_WIDTH-2, c_magenta, selectedSkill->description());
             }
-            wrefresh(w_skills);
             wrefresh(w_info);
 
             action = ctxt.handle_input();

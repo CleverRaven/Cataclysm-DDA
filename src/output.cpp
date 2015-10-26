@@ -1228,7 +1228,7 @@ int draw_item_info(WINDOW *win, const std::string sItemName,
 
             fold_and_print_from( win, line_num, b, width, selected, c_white, buffer.str() );
 
-            draw_scrollbar( win, selected, height, iLines-height, 1, 0, BORDER_COLOR, false, true );
+            draw_scrollbar( win, selected, height, iLines-height, 1, 0, BORDER_COLOR, true );
         }
 
         if( !without_border ) {
@@ -1449,13 +1449,12 @@ void draw_subtab(WINDOW *w, int iOffsetX, std::string sText, bool bSelected, boo
  * @param iOffsetY Y drawing offset
  * @param iOffsetX X drawing offset
  * @param bar_color Default line color
- * @param bRefresh If true, refresh window after drawing the scrollbar
  * @param bTextScroll If true, will draw the scrollbar even if iContentHeight >= iNumEntries.
  * Used for scrolling multiline wrapped text. If false, used for scrolling one line selections.
  **/
 void draw_scrollbar(WINDOW *window, const int iCurrentLine, const int iContentHeight,
                     const int iNumEntries, const int iOffsetY, const int iOffsetX,
-                    nc_color bar_color, const bool bRefresh, const bool bTextScroll)
+                    nc_color bar_color, const bool bTextScroll)
 {
     if (!bTextScroll && iContentHeight >= iNumEntries) {
         //scrollbar is not required
@@ -1468,9 +1467,6 @@ void draw_scrollbar(WINDOW *window, const int iCurrentLine, const int iContentHe
     }
 
     if (!bTextScroll && iContentHeight >= iNumEntries) {
-        if (bRefresh) {
-            wrefresh(window);
-        }
         return;
     }
 
@@ -1500,10 +1496,6 @@ void draw_scrollbar(WINDOW *window, const int iCurrentLine, const int iContentHe
         for (int i = 0; i < iSBHeight; i++) {
             mvwputch(window, i + iOffsetY + 2 + iStartY, iOffsetX, c_cyan_cyan, LINE_XOXO);
         }
-    }
-
-    if (bRefresh) {
-        wrefresh(window);
     }
 }
 
