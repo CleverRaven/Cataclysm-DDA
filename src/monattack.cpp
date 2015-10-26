@@ -4867,7 +4867,7 @@ void mattack::ink_jet(monster *z, int index) {
 		return;
 	}
 
-	int jet_range = 5;
+	int jet_range =  5;
 
 	// TODO: make the creature utilise this ability then escaping the threat
 	Creature *target = z->attack_target();
@@ -4910,6 +4910,7 @@ void mattack::ink_jet(monster *z, int index) {
 	}
 
 	// Shoot the jet of ink
+
 	for (auto &i : line) {
 		if (!g->m.has_flag("SWIMMABLE", i)) {
 			g->m.add_field(i, fd_ink, 1, 0);
@@ -4932,12 +4933,12 @@ void mattack::ink_jet(monster *z, int index) {
 	// TODO: if you can't see, you can't dodge this effect
 	if (!target->uncanny_dodge()) {
 		if (rng(0, 10) > target->get_dodge() || one_in(target->get_dodge())) {
-			//target->on_dodge(z, 10); Appearantly, does nothing.
-			if (one_in(5)) {
-				target->add_env_effect("ooze_in_eyes", bp_eyes, 5, 40);
+			target->on_dodge(z, 10);
+			if ( one_in(5)) {
+				target->add_env_effect( "ooze_in_eyes", bp_eyes, 5, 30 );
 			}
 			else {
-				(target->add_env_effect("inked", bp_torso, 4, 300));
+				target->add_env_effect( "inked", bp_torso, 4, 150 );
 			}
 		}
 		else if (!target->is_monster()) {
