@@ -1229,8 +1229,8 @@ int draw_item_info(WINDOW *win, const std::string sItemName,
         }
     }
 
-    int ch;
-    while(true) {
+    int ch = (int)' ';
+    while( true ) {
         int iLines = 0;
         if( !buffer.str().empty() ) {
             const auto b = without_border ? 1 : 2;
