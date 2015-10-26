@@ -1625,8 +1625,10 @@ void advanced_inventory::display()
                 std::vector<iteminfo> vThisItem, vDummy;
                 it.info( true, vThisItem );
                 int rightWidth = w_width / 2;
+                int iDummySelect = 0;
                 ret = draw_item_info( colstart + ( src == left ? w_width / 2 : 0 ),
-                                      rightWidth, 0, 0, it.tname(), vThisItem, vDummy );
+                                      rightWidth, 0, 0, it.tname(), vThisItem, vDummy, iDummySelect,
+                                      false, false, true );
             }
             if( ret == KEY_NPAGE || ret == KEY_DOWN ) {
                 spane.scroll_by( +1 );
