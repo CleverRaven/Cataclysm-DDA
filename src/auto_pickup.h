@@ -67,9 +67,30 @@ class auto_pickup : public JsonSerializer, public JsonDeserializer {
                 }
 
                 ~cRules() {};
+
+                cRules clone() {
+                    return cRules(this->sRule, this->bActive, this->bExclude);
+                }
         };
 
+        /**
+         * The currently-active set of auto-pickup rules, in a form that allows quick
+         * lookup. When this is filled (by @ref auto_pickup::create_rules()), every
+         * item existing in the game that matches a rule (either white- or blacklist)
+         * is added as the key, with "true" or "false" as the values.
+         */
         std::unordered_map<std::string, std::string> mapItems;
+
+        /**
+         * An ugly hackish mess. Contains:
+         * - vRules[0] aka vRules[MERGED]: the current set of rules; used to fill @ref mapItems.
+         *      Filled by a call to @ref auto_pickup::merge_vector()
+         * - vRules[1,2] aka vRules[GLOBAL,CHARACTER]: current rules split into global and
+         *      character-specific. Allows the editor to show one or the other.
+         * - vRules[3,4]: temporary storage, filled before opening the GUI with the current rules
+         *      from [1,2] (to allow cancelling changes).
+         *      See also @ref auto_pickup::save_reset_changes(bool).
+         */
         std::vector<cRules> vRules[5];
 
     public:
