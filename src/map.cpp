@@ -3404,7 +3404,7 @@ void map::bash_ter_furn( const tripoint &p, bash_params &params )
     }
 
     if( params.destroy ) {
-        sound_volume = smax;
+        sound_volume = smin * 2;
     } else {
         if( sound_vol == -1 ) {
             sound_volume = std::min(int(smin * 1.5), smax);
