@@ -22897,6 +22897,21 @@
           "id": "pitchfork",
           "fg": 2950,
           "rotates": false
+        },
+        {
+          "id": "fencing_foil",
+          "fg": 2951,
+          "rotates": false
+        },
+        {
+          "id": "fencing_epee",
+          "fg": 2951,
+          "rotates": false
+        },
+        {
+          "id": "fencing_sabre",
+          "fg": 2952,
+          "rotates": false
         }
       ]
     },
