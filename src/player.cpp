@@ -6189,7 +6189,9 @@ void player::process_effects() {
 
             // Handle fatigue
             val = it.get_mod("FATIGUE", reduced);
-            if (val != 0) {
+            // Prevent ongoing fatigue effects while asleep.
+            // These are meant to change how fast you get tired, not how long you sleep.
+            if (val != 0 && !in_sleep_state()) {
                 mod = 1;
                 if(it.activated(calendar::turn, "FATIGUE", val, reduced, mod)) {
                     fatigue += bound_mod_to_vals(fatigue, val, it.get_max_val("FATIGUE", reduced),
@@ -8374,7 +8376,7 @@ void player::suffer()
     if (has_bionic("bio_leaky") && one_in(500)) {
         mod_healthy_mod(-50);
     }
-    if (has_bionic("bio_sleepy") && one_in(500)) {
+    if (has_bionic("bio_sleepy") && one_in(500) && !in_sleep_state()) {
         fatigue++;
     }
     if (has_bionic("bio_itchy") && one_in(500) && !has_effect("formication")) {
