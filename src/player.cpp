@@ -11172,7 +11172,7 @@ can install this mod."), mod->req_skill);
             add_msg(m_info, _("That %s cannot be attached to a bow."),
                        used->tname().c_str());
             return;
-        } else if (guntype->skill_used == skill_id("archery") && !mod->used_on_crossbow && guntype->ammo == "bolt") {
+        } else if (guntype->skill_used == skill_id("archery") && !mod->used_on_crossbow && (guntype->ammo == "bolt" || gun->typeId() == "bullet_crossbow")) {
             add_msg(m_info, _("That %s cannot be attached to a crossbow."),
                        used->tname().c_str());
             return;
