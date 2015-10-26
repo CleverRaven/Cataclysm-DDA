@@ -1240,39 +1240,39 @@ int draw_item_info(WINDOW *win, const std::string sItemName,
             const auto vFolded = foldstring(buffer.str(), width);
             iLines = vFolded.size();
 
-            if (selected < 0) {
+            if( selected < 0 ) {
                 selected = 0;
-            } else if (iLines < height) {
+            } else if( iLines < height ) {
                 selected = 0;
-            } else if (selected >= iLines - height) {
+            } else if( selected >= iLines - height ) {
                 selected = iLines - height;
             }
 
             fold_and_print_from( win, line_num, b, width, selected, c_white, buffer.str() );
 
-            draw_scrollbar(win, selected, height, iLines-height, 1, 0, BORDER_COLOR, false, true);
+            draw_scrollbar( win, selected, height, iLines-height, 1, 0, BORDER_COLOR, false, true );
         }
 
-        if (!without_border) {
-            draw_custom_border(win, buffer.str().empty());
-            wrefresh(win);
+        if( !without_border ) {
+            draw_custom_border( win, buffer.str().empty() );
+            wrefresh( win );
         }
 
-        if (without_getch) {
+        if( without_getch ) {
             break;
         }
 
         ch = (int)getch();
-        if ( handle_scrolling && ch == KEY_PPAGE ) {
+        if( handle_scrolling && ch == KEY_PPAGE ) {
             selected--;
             werase(win);
-        } else if ( handle_scrolling && ch == KEY_NPAGE ) {
+        } else if( handle_scrolling && ch == KEY_NPAGE ) {
             selected++;
             werase(win);
-        } else if ( selected > 0 && ( ch == '\n' || ch == KEY_RIGHT ) && selected_ret != 0 ) {
+        } else if( selected > 0 && ( ch == '\n' || ch == KEY_RIGHT ) && selected_ret != 0 ) {
             ch = selected_ret;
             break;
-        } else if ( selected == KEY_LEFT ) {
+        } else if( selected == KEY_LEFT ) {
             ch = (int)' ';
             break;
         } else {
