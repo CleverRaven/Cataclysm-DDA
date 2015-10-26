@@ -801,7 +801,7 @@ int iuse::eyedrops(player *p, item *it, bool, const tripoint& )
     p->moves -= 150;
     if (p->has_effect("boomered") || p->has_effect("ooze_in_eyes")) {
         p->remove_effect("boomered"); 
-		p->remove_effect("ooze_in_eyes");
+        p->remove_effect("ooze_in_eyes");
         p->add_msg_if_player(m_good, _("You wash the gunk from your eyes."));
     }
     return it->type->charges_to_use();
@@ -6991,8 +6991,8 @@ int iuse::towel(player *p, item *it, bool t, const tripoint& )
     bool slime = p->has_effect("slimed");
     bool boom = p->has_effect("boomered");
     bool glow = p->has_effect("glowing");
-	bool ooze = p->has_effect("ooze_in_eyes");
-	bool ink = p->has_effect("inked");
+    bool ooze = p->has_effect("ooze_in_eyes");
+    bool ink = p->has_effect("inked");
     int mult = slime + boom + glow + ooze + ink; // cleaning off more than one at once makes it take longer
     bool towelUsed = false;
 
@@ -7007,8 +7007,8 @@ int iuse::towel(player *p, item *it, bool t, const tripoint& )
         p->remove_effect("slimed");  // able to clean off all at once
         p->remove_effect("boomered");
         p->remove_effect("glowing");
-		p->remove_effect("ooze_in_eyes");
-		p->remove_effect("inked");
+        p->remove_effect("ooze_in_eyes");
+        p->remove_effect("inked");
         p->add_msg_if_player(_("You use the %s to clean yourself off, saturating it with slime!"),
                              it->tname().c_str());
 
@@ -9482,12 +9482,12 @@ int iuse::ladder( player *p, item *, bool, const tripoint& )
 
 int iuse::ink_sac(player *p, item *it, bool, const tripoint& pos)
 {
-	if (p->is_underwater()) {
-		p->add_msg_if_player(m_info, _("You puncture the sac and a black cloud of ink dispresses around you."));
-		g->m.add_field(pos, fd_ink_cloud, 3, 0);
-	} else {
-		p->add_msg_if_player(m_info, _("You cover yourself in black ink."));
-		p->add_effect("inked", 1500);
-	}
-	return it->type->charges_to_use();
+    if (p->is_underwater()) {
+        p->add_msg_if_player(m_info, _("You puncture the sac and a black cloud of ink dispresses around you."));
+        g->m.add_field(pos, fd_ink_cloud, 3, 0);
+    } else {
+        p->add_msg_if_player(m_info, _("You cover yourself in black ink."));
+        p->add_effect("inked", 1500);
+    }
+    return it->type->charges_to_use();
 }

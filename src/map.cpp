@@ -2902,7 +2902,7 @@ void map::decay_fields_and_scent( const int amount )
                                 break;
                             case fd_blood:
                             case fd_bile:
-							case fd_ink:
+                            case fd_ink:
                             case fd_gibs_flesh:
                             case fd_gibs_veggy:
                             case fd_slime:
@@ -2928,7 +2928,7 @@ void map::decay_fields_and_scent( const int amount )
                             case fd_hot_air2:
                             case fd_hot_air3:
                             case fd_hot_air4:
-							case fd_ink_cloud:
+                            case fd_ink_cloud:
                                 cur.setFieldAge( cur.getFieldAge() + amount_gas );
                                 break;
                             default:
@@ -3015,7 +3015,7 @@ void map::mop_spills( const tripoint &p ) {
     remove_field( p, fd_bile );
     remove_field( p, fd_slime );
     remove_field( p, fd_sludge );
-	remove_field( p, fd_ink);
+    remove_field( p, fd_ink);
     int vpart;
     vehicle *veh = veh_at(p, vpart);
     if(veh != 0) {

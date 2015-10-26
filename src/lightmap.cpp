@@ -112,8 +112,8 @@ void map::build_transparency_cache( const int zlev )
                         case fd_fire:
                             value *= 1.0 - ( density * 0.3 );
                             break;
-						case fd_ink_cloud:
-							value *= 1;
+                        case fd_ink_cloud:
+                            value *= 1;
                         default:
                             value = LIGHT_TRANSPARENCY_SOLID;
                             break;

@@ -529,8 +529,8 @@ class Character : public Creature
 
         // --------------- Values ---------------
         /** Needs (hunger, thirst, fatigue, etc.) */
-		int hunger, stomach_food, stomach_water;
-		int scent_mod;
+        int hunger, stomach_food, stomach_water;
+        int scent_mod;
         std::map<const Skill*, SkillLevel> _skills;
 
         // Cached vision values.

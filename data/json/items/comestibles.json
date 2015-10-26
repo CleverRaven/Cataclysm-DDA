@@ -20261,7 +20261,7 @@
         }
 },{
         "type" : "COMESTIBLE",
-		"id" : "ink_sac",
+        "id" : "ink_sac",
         "name" : "ink sac",
         "weight" : 250,
         "color" : "white",

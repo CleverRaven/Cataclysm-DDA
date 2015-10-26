@@ -488,8 +488,8 @@ void player::process_turn()
     if ( (has_trait("FLOWERS")) && (!(has_trait("CHLOROMORPH"))) ) {
         norm_scent -= 200;
     }
-	//Handle scent effects.
-    norm_scent -= scent_mod;
+    //Handle scent effects.
+    norm_scent += scent_mod;
 
     // You *are* a plant.  Unless someone hunts triffids by scent,
     // you don't smell like prey.
@@ -500,11 +500,11 @@ void player::process_turn()
     // Scent increases fast at first, and slows down as it approaches normal levels.
     // Estimate it will take about norm_scent * 2 turns to go from 0 - norm_scent / 2
     // Without smelly trait this is about 1.5 hrs. Slows down significantly after that.
-	if (scent < rng(0, norm_scent))
+    if (scent < rng(0, norm_scent))
         scent++;
 
     // Unusually high scent decreases steadily until it reaches normal levels.
-	    scent--;
+        scent--;
     // We can dodge again! Assuming we can actually move...
     if (moves > 0) {
         blocks_left = get_num_blocks();
@@ -6034,11 +6034,11 @@ void player::add_eff_effects(effect e, bool reduced)
             add_pain_msg(e.get_amount("PAIN", reduced), bp);
         }
     }
-	// handle scent_mod
-	if (e.get_amount("SCENT", reduced) > 0) {
-		scent_mod = bound_mod_to_vals(scent, e.get_amount("SCENT", reduced),
-			e.get_max_val("SCENT", reduced), 0);
-	}
+    // handle scent_mod
+    if (e.get_amount("SCENT", reduced) > 0) {
+        scent_mod = bound_mod_to_vals(scent, e.get_amount("SCENT", reduced),
+            e.get_max_val("SCENT", reduced), 0);
+    }
     Creature::add_eff_effects(e, reduced);
 }
 
@@ -12183,7 +12183,7 @@ float player::fine_detail_vision_mod()
     // it's annoying rather than limiting.
     if( has_effect("blind") || worn_with_flag("BLIND") ||
       (( has_effect("boomered") || has_effect("darkness") || has_effect("ooze_in_eyes")) && !has_trait("PER_SLIME_OK")) 
-	  ) {
+      ) {
         return 5.0;
     }
     // Scale linearly as light level approaches LIGHT_AMBIENT_LIT.
