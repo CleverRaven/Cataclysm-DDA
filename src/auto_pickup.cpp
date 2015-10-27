@@ -549,15 +549,23 @@ bool auto_pickup::check_exclude_rules(const std::string &sItemNameIn)
     return true;
 }
 
+/**
+ * Stores or retrieves the current ruleset from temporary storage.
+ * Used to implement the "cancel changes" capability ("[N]o, don't save") of the
+ * auto-pickup interface.
+ *
+ * @param bReset false to store, true to retrieve.
+ */
 void auto_pickup::save_reset_changes(const bool bReset)
 {
     for (int i = GLOBAL; i <= CHARACTER; i++) { //Loop through global 1 and character 2
-        vRules[i + ((bReset) ? 0 : 2)].clear();
-        for (auto it = vRules[i + ((bReset) ? 2 : 0)].begin();
-             it != vRules[i + ((bReset) ? 2 : 0)].end(); ++it) {
+        int destination = i + ((bReset) ? 0 : 2); // if reset, copy to vRules[1,2]
+        int source = i + ((bReset) ? 2 : 0); // if reset, copy from vRules[3,4]
+                                             // (temp storage from when bReset was false)
+        vRules[destination].clear();
+        for (auto it = vRules[source].begin(); it != vRules[source].end(); ++it) {
             if (it->sRule != "") {
-                vRules[i + ((bReset) ? 0 : 2)].push_back(cRules(
-                            it->sRule, it->bActive, it->bExclude));
+                vRules[destination].push_back(*it);
             }
         }
     }
@@ -722,6 +730,11 @@ bool auto_pickup::save(const bool bCharacter)
 
         JsonOut jout( fout, true );
         serialize(jout);
+
+        if(!bCharacter) {
+            merge_vector();
+            create_rules();
+        }
 
         fout.close();
         return true;
