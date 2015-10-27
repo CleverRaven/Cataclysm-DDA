@@ -339,13 +339,6 @@ void game::init_fields()
             { _("ink splatter"), _("ink stain"), _("puddle of ink") }, '%', 0,
             { c_ltgray, c_ltgray, c_dkgray }, { true, true, true }, { false, false, false }, HOURS(24),
             { 0,0,0 }
-        },
-
-        {
-            "fd_ink_cloud",
-            { _("hazy water"), _("murky water"), _("black water") }, '6', 2,
-            { c_white, c_ltgray, c_dkgray },{ true, true, true },{ false, false, false }, MINUTES(15),
-            { 0,0,0 }
         }
     };
     for(int i = 0; i < num_fields; i++) {
@@ -515,14 +508,8 @@ bool map::process_fields_in_submap( submap *const current_submap,
             const auto &frn = dst.get_furn_t();
             // Candidates are existing weaker fields or navigable/flagged tiles with no field.
             // A hacky way to make ink spread only in water, without overhauling the whole function
-            if (curtype == fd_ink_cloud) {
-                return (ter_furn_movecost(ter, frn) > 0 && ter_furn_has_flag(ter, frn, TFLAG_SWIMMABLE)) &&
-                    (tmpfld == nullptr || tmpfld->getFieldDensity() < cur->getFieldDensity());
-            }
-            else {
-                return (ter_furn_movecost(ter, frn) > 0 || ter_furn_has_flag(ter, frn, TFLAG_PERMEABLE)) &&
-                    (tmpfld == nullptr || tmpfld->getFieldDensity() < cur->getFieldDensity());
-            }
+            return (ter_furn_movecost(ter, frn) > 0 || ter_furn_has_flag(ter, frn, TFLAG_PERMEABLE)) &&
+                (tmpfld == nullptr || tmpfld->getFieldDensity() < cur->getFieldDensity());
         };
         const auto spread_to = [&]( maptile &dst ) {
             field_entry *candidate_field = dst.find_field( curtype );
@@ -1249,15 +1236,6 @@ bool map::process_fields_in_submap( submap *const current_submap,
                     case fd_smoke:
                         dirty_transparency_cache = true;
                         spread_gas( cur, p, curtype, 80, 50 );
-                        break;
-
-                    case fd_ink_cloud:
-                        if (!g->m.has_flag_ter("TFLAG_SWIMMABLE", p)) {
-                            add_field(p, fd_ink, cur->getFieldDensity(), cur->getFieldAge());
-                            cur->setFieldDensity(0);
-                        } else {
-                            spread_gas(cur, p, curtype, 40, 0);
-                        }
                         break;
 
                     case fd_tear_gas:

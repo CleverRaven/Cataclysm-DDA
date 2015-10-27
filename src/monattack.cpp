@@ -4899,13 +4899,7 @@ void mattack::ink_jet(monster *z, int index) {
     // Shoot the jet of ink
 
     for (auto &i : line) {
-        if (!g->m.has_flag("SWIMMABLE", i)) {
-            g->m.add_field(i, fd_ink, 1, 0);
-        }
-        else {
-            g->m.add_field(i, fd_ink_cloud, 2, 0);
-        };
-
+        g->m.add_field(i, fd_ink_cloud, 1, 0);
         if (g->m.move_cost(i) == 0) {
             g->m.add_field(i, fd_ink, 3, 0);
             if (g->u.sees(i))

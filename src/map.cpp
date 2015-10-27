@@ -2928,7 +2928,6 @@ void map::decay_fields_and_scent( const int amount )
                             case fd_hot_air2:
                             case fd_hot_air3:
                             case fd_hot_air4:
-                            case fd_ink_cloud:
                                 cur.setFieldAge( cur.getFieldAge() + amount_gas );
                                 break;
                             default:
