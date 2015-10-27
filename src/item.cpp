@@ -871,12 +871,12 @@ std::string item::info(bool showtext, std::vector<iteminfo> &dump_ref) const
         temp1 << _("Used on: ");
         bool first = true;
         if (mod->used_on_pistol){
-            temp1 << _("Pistols");
+            temp1 << _("pistols");
             first = false;
         }
         if (mod->used_on_shotgun) {
             if (!first) temp1 << ", ";
-            temp1 << _("Shotguns");
+            temp1 << _("shotguns");
             first = false;
         }
         if (mod->used_on_smg){
@@ -886,7 +886,22 @@ std::string item::info(bool showtext, std::vector<iteminfo> &dump_ref) const
         }
         if (mod->used_on_rifle){
             if (!first) temp1 << ", ";
-            temp1 << _("Rifles");
+            temp1 << _("rifles");
+            first = false;
+        }
+        if (mod->used_on_bow){
+            if (!first) temp1 << ", ";
+            temp1 << _("bows");
+            first = false;
+        }
+        if (mod->used_on_crossbow){
+            if (!first) temp1 << ", ";
+            temp1 << _("crossbows");
+            first = false;
+        }
+        if (mod->used_on_launcher){
+            if (!first) temp1 << ", ";
+            temp1 << _("launchers");
             first = false;
         }
 
