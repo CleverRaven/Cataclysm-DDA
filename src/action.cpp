@@ -817,9 +817,9 @@ bool choose_direction( const std::string &message, tripoint &offset, bool allow_
     }
 
     //~ appended to "Close where?" "Pry where?" etc.
-    std::string query_text = message + _( " (Direction button)" );
-    mvwprintw( g->w_terrain, 0, 0, "%s", query_text.c_str() );
-    wrefresh( g->w_terrain );
+    const std::string query_text = message + _( " (Direction button)" );
+    popup(query_text, PF_NO_WAIT_ON_TOP);
+
     const std::string action = ctxt.handle_input();
     if( input_context::get_direction( offset.x, offset.y, action ) ) {
         offset.z = 0;
