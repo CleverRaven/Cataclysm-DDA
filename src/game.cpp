@@ -4261,11 +4261,7 @@ void game::debug()
                 int iPrevDay = calendar::turn.days() + 1;
                 int iNewDay = std::atoi( string_input_popup( _("Set day to?"), 5, to_string( iPrevDay ), "", "", 4, true ).c_str() );
                 if ( iNewDay > 0 && iPrevDay != iNewDay ) {
-                    if ( iNewDay > iPrevDay ) {
-                        calendar::turn += DAYS(iNewDay - iPrevDay);
-                    } else {
-                        calendar::turn -= DAYS(iPrevDay - iNewDay);
-                    }
+                    calendar::turn -= DAYS(iPrevDay - iNewDay);
                 }
             }
             break;
@@ -4274,11 +4270,7 @@ void game::debug()
                 int iPrevHour = calendar::turn.hours();
                 int iNewHour = std::atoi( string_input_popup( _("Set hour to?"), 3, to_string( iPrevHour ), "", "", 2, true ).c_str() );
                 if ( iNewHour >= 0 && iPrevHour != iNewHour ) {
-                    if ( iNewHour > iPrevHour ) {
-                        calendar::turn += HOURS(iNewHour - iPrevHour);
-                    } else {
-                        calendar::turn -= HOURS(iPrevHour - iNewHour);
-                    }
+                    calendar::turn -= HOURS(iPrevHour - iNewHour);
                 }
             }
             break;
@@ -4287,11 +4279,7 @@ void game::debug()
                 int iPrevMin = calendar::turn.minutes();
                 int iNewMin = std::atoi( string_input_popup( _("Set minute to?"), 3, to_string( iPrevMin ), "", "", 2, true ).c_str() );
                 if ( iNewMin >= 0 && iPrevMin != iNewMin ) {
-                    if ( iNewMin > iPrevMin ) {
-                        calendar::turn += MINUTES(iNewMin - iPrevMin);
-                    } else {
-                        calendar::turn -= MINUTES(iPrevMin - iNewMin);
-                    }
+                    calendar::turn -= MINUTES(iPrevMin - iNewMin);
                 }
             }
             break;
