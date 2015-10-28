@@ -139,8 +139,22 @@ int fold_and_print(WINDOW *w, int begin_y, int begin_x, int width, nc_color colo
  */
 int fold_and_print(WINDOW *w, int begin_y, int begin_x, int width, nc_color color,
                    const std::string &text);
+/**
+ * Like @ref fold_and_print, but starts the output with the N-th line of the folded string.
+ * This can be used for scrolling large texts. Parameters have the same meaning as for
+ * @ref fold_and_print, the function therefor handles color tags correctly.
+ * @param begin_line The index of the first line (of the folded string) that is to be printed.
+ * The function basically removes all lines before this one and prints the remaining lines
+ * with `fold_and_print`.
+ * @return Same as `fold_and_print`: the number of lines of the text (after folding). This is
+ * always the same value, regardless of `begin_line`, it can be used to determine the maximal
+ * value for `begin_line`.
+ */
 int fold_and_print_from(WINDOW *w, int begin_y, int begin_x, int width, int begin_line,
                         nc_color color, const char *mes, ...);
+/**
+ * Same as other @ref fold_and_print_from, but does not do any string formatting, the string is uses as is.
+ */
 int fold_and_print_from(WINDOW *w, int begin_y, int begin_x, int width, int begin_line,
                         nc_color color, const std::string &text);
 void trim_and_print(WINDOW *w, int begin_y, int begin_x, int width, nc_color base_color,
