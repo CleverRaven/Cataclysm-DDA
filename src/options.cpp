@@ -26,7 +26,6 @@ bool use_tiles;
 bool log_from_top;
 bool fov_3d;
 
-bool used_tiles_changed;
 #ifdef TILES
 extern cata_tiles *tilecontext;
 #endif // TILES
@@ -77,7 +76,7 @@ void options_data::add_value( const std::string &lvar, const std::string &lval,
     std::map<std::string, std::string>::const_iterator it = post_json_verify.find(lvar);
     if ( it != post_json_verify.end() ) {
         auto ot = OPTIONS.find(lvar);
-        if ( ot != OPTIONS.end() && ot->second.sType == "string" ) {
+        if ( ot != OPTIONS.end() && ot->second.sType == "string_select" ) {
             for(std::vector<std::string>::const_iterator eit = ot->second.vItems.begin();
                 eit != ot->second.vItems.end(); ++eit) {
                 if ( *eit == lval ) { // already in
@@ -105,14 +104,14 @@ cOpt::cOpt()
     hide = COPT_NO_HIDE;
 }
 
-//string constructor
+//string select constructor
 cOpt::cOpt(const std::string sPageIn, const std::string sMenuTextIn, const std::string sTooltipIn,
            const std::string sItemsIn, std::string sDefaultIn, copt_hide_t opt_hide = COPT_NO_HIDE)
 {
     sPage = sPageIn;
     sMenuText = sMenuTextIn;
     sTooltip = sTooltipIn;
-    sType = "string";
+    sType = "string_select";
 
     hide = opt_hide;
 
@@ -128,6 +127,24 @@ cOpt::cOpt(const std::string sPageIn, const std::string sMenuTextIn, const std::
 
     sDefault = sDefaultIn;
     sSet = sDefaultIn;
+
+    setSortPos(sPageIn);
+}
+
+//string input constructor
+cOpt::cOpt(const std::string sPageIn, const std::string sMenuTextIn, const std::string sTooltipIn,
+           const std::string sDefaultIn, const int iMaxLengthIn, copt_hide_t opt_hide = COPT_NO_HIDE)
+{
+    sPage = sPageIn;
+    sMenuText = sMenuTextIn;
+    sTooltip = sTooltipIn;
+    sType = "string_input";
+
+    hide = opt_hide;
+
+    iMaxLength = iMaxLengthIn;
+    sDefault = (iMaxLength > 0) ? sDefaultIn.substr(0, iMaxLength) : sDefaultIn;
+    sSet = sDefault;
 
     setSortPos(sPageIn);
 }
@@ -279,7 +296,7 @@ std::string cOpt::getType()
 
 std::string cOpt::getValue()
 {
-    if (sType == "string") {
+    if (sType == "string_select" || sType == "string_input") {
         return sSet;
 
     } else if (sType == "bool") {
@@ -304,7 +321,7 @@ std::string cOpt::getValue()
 
 std::string cOpt::getValueName()
 {
-    if (sType == "string") {
+    if (sType == "string_select") {
         return optionNames[sSet];
 
     } else if (sType == "bool") {
@@ -316,7 +333,7 @@ std::string cOpt::getValueName()
 
 std::string cOpt::getDefaultText(const bool bTranslated)
 {
-    if (sType == "string") {
+    if (sType == "string_select") {
         std::string sItems = "";
         for( auto &elem : vItems ) {
             if (sItems != "") {
@@ -326,6 +343,9 @@ std::string cOpt::getDefaultText(const bool bTranslated)
         }
         return string_format(_("Default: %s - Values: %s"),
                              (bTranslated) ? optionNames[sDefault].c_str() : sDefault.c_str(), sItems.c_str());
+
+    } else if (sType == "string_input") {
+        return string_format(_("Default: %s"), sDefault.c_str());
 
     } else if (sType == "bool") {
         return (bDefault) ? _("Default: True") : _("Default: False");
@@ -342,7 +362,7 @@ std::string cOpt::getDefaultText(const bool bTranslated)
 
 int cOpt::getItemPos(const std::string sSearch)
 {
-    if (sType == "string") {
+    if (sType == "string_select") {
         for (size_t i = 0; i < vItems.size(); i++) {
             if (vItems[i] == sSearch) {
                 return i;
@@ -353,16 +373,31 @@ int cOpt::getItemPos(const std::string sSearch)
     return -1;
 }
 
+int cOpt::getMaxLength()
+{
+    if (sType == "string_input") {
+        return iMaxLength;
+    }
+
+    return 0;
+}
+
 //set to next item
 void cOpt::setNext()
 {
-    if (sType == "string") {
+    if (sType == "string_select") {
         int iNext = getItemPos(sSet) + 1;
         if (iNext >= (int)vItems.size()) {
             iNext = 0;
         }
 
         sSet = vItems[iNext];
+
+    } else if (sType == "string_input") {
+        int iMenuTextLength = sMenuText.length();
+        sSet = string_input_popup("", (iMaxLength > 80) ? 80 : ((iMaxLength < iMenuTextLength) ? iMenuTextLength : iMaxLength+1),
+                                  sSet, sMenuText, "", iMaxLength
+                                 );
 
     } else if (sType == "bool") {
         bSet = !bSet;
@@ -384,13 +419,16 @@ void cOpt::setNext()
 //set to prev item
 void cOpt::setPrev()
 {
-    if (sType == "string") {
+    if (sType == "string_select") {
         int iPrev = getItemPos(sSet) - 1;
         if (iPrev < 0) {
             iPrev = vItems.size() - 1;
         }
 
         sSet = vItems[iPrev];
+
+    } else if (sType == "string_select") {
+        setNext();
 
     } else if (sType == "bool") {
         bSet = !bSet;
@@ -425,10 +463,13 @@ void cOpt::setValue(float fSetIn)
 //set value
 void cOpt::setValue(std::string sSetIn)
 {
-    if (sType == "string") {
+    if (sType == "string_select") {
         if (getItemPos(sSetIn) != -1) {
             sSet = sSetIn;
         }
+
+    } else if (sType == "string_input") {
+        sSet = (iMaxLength > 0) ? sSetIn.substr(0, iMaxLength) : sSetIn;
 
     } else if (sType == "bool") {
         bSet = (sSetIn == "True" || sSetIn == "true" || sSetIn == "T" || sSetIn == "t");
@@ -456,8 +497,10 @@ void cOpt::setValue(std::string sSetIn)
 //Set default class behaviour to float
 cOpt::operator float() const
 {
-    if (sType == "string") {
+    if (sType == "string_select") {
         return (!sSet.empty() && sSet == sDefault) ? 1.0f : 0.0f;
+    } else if (sType == "string_input") {
+        return (!sSet.empty()) ? 1.0f : 0.0f;
     } else if (sType == "bool") {
         return (bSet) ? 1.0f : 0.0f;
     } else if (sType == "int") {
@@ -471,8 +514,10 @@ cOpt::operator float() const
 
 cOpt::operator int() const
 {
-    if (sType == "string") {
+    if (sType == "string_select") {
         return (!sSet.empty() && sSet == sDefault) ? 1 : 0;
+    } else if (sType == "string_input") {
+        return (!sSet.empty()) ? 1 : 0;
     } else if (sType == "bool") {
         return (bSet) ? 1 : 0;
     } else if (sType == "int") {
@@ -492,7 +537,7 @@ cOpt::operator bool() const
 // if (class == "string")
 bool cOpt::operator==(const std::string sCompare) const
 {
-    return (sType == "string" && sSet == sCompare);
+    return ((sType == "string_select" || sType == "string_input") && sSet == sCompare);
 }
 
 // if (class != "string")
@@ -597,6 +642,13 @@ void init_options()
     tileset_names = build_tilesets_list(); //get the tileset names and set the optionNames
 
     ////////////////////////////GENERAL//////////////////////////
+    OPTIONS["DEF_CHAR_NAME"] = cOpt("general", _("Default character name"),
+                                    _("Set a default character name that will be used instead of a random name on character creation."),
+                                    "", 30
+                                   );
+
+    mOptionsSort["general"]++;
+
     OPTIONS["AUTO_PICKUP"] = cOpt("general", _("Auto pickup enabled"),
                                   _("Enable item auto pickup. Change pickup rules with the Auto Pickup Manager in the Help Menu ?3"),
                                   false
@@ -1229,8 +1281,7 @@ void show_options(bool ingame)
     int iLastPage = 0;
     int iCurrentLine = 0;
     int iStartPos = 0;
-    bool bStuffChanged = false;
-    bool bWorldStuffChanged = false;
+
     input_context ctxt("OPTIONS");
     ctxt.register_cardinal();
     ctxt.register_action("QUIT");
@@ -1240,8 +1291,6 @@ void show_options(bool ingame)
     ctxt.register_action("HELP_KEYBINDINGS");
 
     std::stringstream sTemp;
-
-    used_tiles_changed = false;
 
     while(true) {
         auto &cOPTIONS = ( ingame && iCurrentPage == iWorldOptPage ?
@@ -1377,7 +1426,6 @@ void show_options(bool ingame)
 
         const std::string action = ctxt.handle_input();
 
-        bool bChangedSomething = false;
         if (action == "DOWN") {
             do {
                 iCurrentLine++;
@@ -1395,10 +1443,8 @@ void show_options(bool ingame)
                    );
         } else if (!mPageItems[iCurrentPage].empty() && action == "RIGHT") {
             cOPTIONS[mPageItems[iCurrentPage][iCurrentLine]].setNext();
-            bChangedSomething = true;
         } else if (!mPageItems[iCurrentPage].empty() && action == "LEFT") {
             cOPTIONS[mPageItems[iCurrentPage][iCurrentLine]].setPrev();
-            bChangedSomething = true;
         } else if (action == "NEXT_TAB") {
             iCurrentLine = 0;
             iStartPos = 0;
@@ -1415,9 +1461,8 @@ void show_options(bool ingame)
             }
         } else if (!mPageItems[iCurrentPage].empty() && action == "CONFIRM") {
             cOpt &cur_opt = cOPTIONS[mPageItems[iCurrentPage][iCurrentLine]];
-            if (cur_opt.getType() == "bool" || cur_opt.getType() == "string") {
+            if (cur_opt.getType() == "bool" || cur_opt.getType() == "string_select" || cur_opt.getType() == "string_input" ) {
                 cur_opt.setNext();
-                bChangedSomething = true;
             } else {
                 const bool is_int = cur_opt.getType() == "int";
                 const bool is_float = cur_opt.getType() == "float";
@@ -1434,7 +1479,7 @@ void show_options(bool ingame)
                         ssTemp >> tmpFloat;
                         if (ssTemp) {
                             cur_opt.setValue(tmpFloat);
-                            bChangedSomething = true;
+
                         } else {
                             popup(_("Invalid input: not a number"));
                         }
@@ -1443,31 +1488,44 @@ void show_options(bool ingame)
                         // has taken care that the string contains
                         // only digits, parsing is done in setValue
                         cur_opt.setValue(opt_val);
-                        bChangedSomething = true;
                     }
                 }
             }
         } else if (action == "QUIT") {
             break;
         }
-        if(bChangedSomething) {
-            bStuffChanged = true;
-            if ( iCurrentPage == iWorldOptPage ) {
-                bWorldStuffChanged = true;
+    }
+
+    //Look for changes
+    bool options_changed = false;
+    bool world_optiones_changed = false;
+    bool lang_changed = false;
+    bool used_tiles_changed = false;
+
+    for (auto &iter : OPTIONS_OLD) {
+        if ( iter.second.getValue() != OPTIONS[iter.first].getValue() ) {
+            options_changed = true;
+
+            if ( iter.second.getPage() == "world_default" ) {
+                world_optiones_changed = true;
+            }
+
+            if ( iter.first == "TILES" || iter.first == "USE_TILES" ) {
+                used_tiles_changed = true;
+
+            } else if ( iter.first == "USE_LANG" ) {
+                lang_changed = true;
             }
         }
     }
 
-    used_tiles_changed = (OPTIONS_OLD["TILES"].getValue() != OPTIONS["TILES"].getValue()) ||
-                         (OPTIONS_OLD["USE_TILES"] != OPTIONS["USE_TILES"]);
-    bool lang_changed = OPTIONS_OLD["USE_LANG"].getValue() != OPTIONS["USE_LANG"].getValue();
-    if (bStuffChanged) {
+    if (options_changed) {
         if(query_yn(_("Save changes?"))) {
-            save_options(ingame && bWorldStuffChanged);
+            save_options(ingame && world_optiones_changed);
         } else {
             used_tiles_changed = false;
             OPTIONS = OPTIONS_OLD;
-            if (ingame && bWorldStuffChanged) {
+            if (ingame && world_optiones_changed) {
                 ACTIVE_WORLD_OPTIONS = WOPTIONS_OLD;
             }
         }
