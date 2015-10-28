@@ -244,10 +244,28 @@ int draw_item_info(const int iLeft, int iWidth, const int iTop, const int iHeigh
 char rand_char();
 long special_symbol (long sym);
 
+/**
+ * @name printf-like string formatting.
+ *
+ * These functions perform string formatting, according to the rules of the `printf` function,
+ * see `man 3 printf` or any other documentation.
+ *
+ * In short: the pattern parameter is a string with optional placeholders, which will be
+ * replaced with formatted data from the further arguments. The further arguments must have
+ * a type that matches the type expected by the placeholder.
+ * The placeholders look like this:
+ * - `%s` expects an argument of type `const char*`, which is inserted as is.
+ * - `%d` expects an argument of type `int`, which is formatted as decimal number.
+ * - `%f` expects an argument of type `float` or `double`, which is formatted as decimal number.
+ *
+ * There are more placeholders and options to them (see documentation of `printf`).
+ */
+/*@{*/
 std::string string_format(const char *pattern, ...);
 std::string vstring_format(const char *pattern, va_list argptr);
 std::string string_format(std::string pattern, ...);
 std::string vstring_format(std::string const &pattern, va_list argptr);
+/*@}*/
 
 // TODO: move these elsewhere
 // string manipulations.
