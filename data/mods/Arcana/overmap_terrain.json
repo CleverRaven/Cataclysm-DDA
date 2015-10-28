@@ -37,6 +37,55 @@
         "sym" : 84,
         "color" : "green",
         "see_cost" : 5
+    },{
+        "type" : "overmap_terrain",
+        "id" : "impact_site",
+        "name" : "impact site",
+        "sym" : 67,
+        "color" : "light_red",
+        "see_cost" : 5
+    },{
+        "type" : "overmap_terrain",
+        "id" : "impact_platforms_left",
+        "name" : "floating temple",
+        "sym" : 84,
+        "color" : "blue",
+        "see_cost" : 5
+    },{
+        "type" : "overmap_terrain",
+        "id" : "impact_platforms_center",
+        "name" : "floating temple",
+        "sym" : 84,
+        "color" : "blue",
+        "see_cost" : 5
+    },{
+        "type" : "overmap_terrain",
+        "id" : "impact_platforms_right",
+        "name" : "floating temple",
+        "sym" : 84,
+        "color" : "blue",
+        "see_cost" : 5
+    },{
+        "type" : "overmap_terrain",
+        "id" : "impact_temple_left",
+        "name" : "floating temple",
+        "sym" : 84,
+        "color" : "blue",
+        "see_cost" : 5
+    },{
+        "type" : "overmap_terrain",
+        "id" : "impact_temple_center",
+        "name" : "floating temple",
+        "sym" : 84,
+        "color" : "blue",
+        "see_cost" : 5
+    },{
+        "type" : "overmap_terrain",
+        "id" : "impact_temple_right",
+        "name" : "floating temple",
+        "sym" : 84,
+        "color" : "blue",
+        "see_cost" : 5
     }
 ]
 
