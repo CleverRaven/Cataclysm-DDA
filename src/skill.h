@@ -118,10 +118,11 @@ class SkillLevel : public JsonSerializer, public JsonDeserializer
             return _lastPracticed;
         }
 
-        void train(int amount);
+        void train(int amount, bool skip_scaling = false);
         bool isRusting() const;
         bool rust( bool charged_bio_mem );
         void practice();
+        bool can_train() const;
 
         void readBook(int minimumGain, int maximumGain, int maximumLevel = -1);
 

@@ -1241,7 +1241,7 @@ void player::perform_technique(const ma_technique &technique, Creature &t, damag
         //hit only one valid target (pierce through doesn't spread out)
         if (technique.aoe == "impale") {
             size_t victim = rng(0, mon_targets.size() + npc_targets.size() - 1);
-            if (victim > mon_targets.size()) {
+            if (victim >= mon_targets.size()) {
                 victim -= mon_targets.size();
                 mon_targets.clear();
                 int npc_id = npc_targets[victim];

@@ -4,11 +4,14 @@
 #include "options.h"
 #include "translations.h"
 #include "game.h"
+#include "debug.h"
 
 int calendar::cached_season_length = 14;
 
 calendar calendar::start;
 calendar calendar::turn;
+season_type calendar::initial_season;
+bool calendar::eternal_season = false;
 
 // Internal constants, not part of the calendar interface.
 // Times for sunrise, sunset at equinoxes
@@ -149,13 +152,14 @@ int calendar::seconds_past_midnight() const
 
 moon_phase calendar::moon() const
 {
-    int phase = int(day / (season_length() / 4));
-    //phase %= 4;   Redundant?
-    if (phase == 3) {
-        return MOON_HALF;
-    } else {
-        return moon_phase(phase);
-    }
+    //One full phase every 2 rl months = 2/3 season length
+    static float phase_change_per_day = 1.0 / ((float(season_length()) * 2.0 / 3.0) / float(MOON_PHASE_MAX));
+
+    //Switch moon phase at noon so it stays the same all night
+    const int current_day = round( (calendar::turn.get_turn() + DAYS(1) / 2) / DAYS(1) );
+    const int current_phase = int(round(float(current_day) * phase_change_per_day)) % int(MOON_PHASE_MAX);
+
+    return moon_phase(current_phase);
 }
 
 calendar calendar::sunrise() const
@@ -235,7 +239,12 @@ float calendar::sunlight() const
     int sunrise_seconds = sunrise().seconds_past_midnight();
     int sunset_seconds = sunset().seconds_past_midnight();
 
-    int moonlight = 1 + int(moon()) * MOONLIGHT_LEVEL;
+    int current_phase = int(moon());
+    if ( current_phase > int(MOON_PHASE_MAX)/2 ) {
+        current_phase = int(MOON_PHASE_MAX) - current_phase;
+    }
+
+    int moonlight = 1 + int(current_phase * MOONLIGHT_PER_QUATER);
 
     if( seconds > sunset_seconds + TWILIGHT_SECONDS || seconds < sunrise_seconds ) { // Night
         return moonlight;
@@ -392,7 +401,13 @@ void calendar::sync()
 {
     const int sl = season_length();
     year = turn_number / DAYS(sl * 4);
-    season = season_type(turn_number / DAYS(sl) % 4);
+
+    if( eternal_season ) {
+        season = initial_season;
+    } else {
+        season = season_type(turn_number / DAYS(sl) % 4);
+    }
+
     day = turn_number / DAYS(1) % sl;
     hour = turn_number / HOURS(1) % 24;
     minute = turn_number / MINUTES(1) % 60;

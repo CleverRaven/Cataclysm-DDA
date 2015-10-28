@@ -103,7 +103,7 @@ void PATH_INFO::update_config_dir()
     update_pathname("debug", FILENAMES["config_dir"] + "debug.log");
     update_pathname("fontlist", FILENAMES["config_dir"] + "fontlist.txt");
     update_pathname("fontdata", FILENAMES["config_dir"] + "fonts.json");
-    update_pathname("autopickup", FILENAMES["config_dir"] + "auto_pickup.txt");
+    update_pathname("autopickup", FILENAMES["config_dir"] + "auto_pickup.json");
     update_pathname("custom_colors", FILENAMES["config_dir"] + "custom_colors.json");
 }
 
@@ -178,7 +178,7 @@ void PATH_INFO::set_standard_filenames(void)
     update_pathname("debug", FILENAMES["config_dir"] + "debug.log");
     update_pathname("fontlist", FILENAMES["config_dir"] + "fontlist.txt");
     update_pathname("fontdata", FILENAMES["config_dir"] + "fonts.json");
-    update_pathname("autopickup", FILENAMES["config_dir"] + "auto_pickup.txt");
+    update_pathname("autopickup", FILENAMES["config_dir"] + "auto_pickup.json");
     update_pathname("custom_colors", FILENAMES["config_dir"] + "custom_colors.json");
     update_pathname("worldoptions", "worldoptions.json");
 
@@ -187,6 +187,7 @@ void PATH_INFO::set_standard_filenames(void)
     update_pathname("legacy_options2", FILENAMES["config_dir"] + "options.txt");
     update_pathname("legacy_keymap", "data/keymap.txt");
     update_pathname("legacy_autopickup", "data/auto_pickup.txt");
+    update_pathname("legacy_autopickup2", FILENAMES["config_dir"] + "auto_pickup.txt");
     update_pathname("legacy_fontdata", FILENAMES["datadir"] + "fontdata.json");
     update_pathname("legacy_worldoptions", "worldoptions.txt");
 #ifdef TILES

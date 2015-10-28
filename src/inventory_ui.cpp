@@ -1171,10 +1171,25 @@ void game::compare( const tripoint &offset )
             sItemCh = inv_s.first_item->tname();
             inv_s.second_item->info(true, vItemLastCh);
             sItemLastCh = inv_s.second_item->tname();
-            draw_item_info(0, (TERMX - VIEW_OFFSET_X * 2) / 2, 0, TERMY - VIEW_OFFSET_Y * 2,
-                           sItemLastCh, vItemLastCh, vItemCh, -1, true); //without getch()
-            draw_item_info((TERMX - VIEW_OFFSET_X * 2) / 2, (TERMX - VIEW_OFFSET_X * 2) / 2,
-                           0, TERMY - VIEW_OFFSET_Y * 2, sItemCh, vItemCh, vItemLastCh);
+
+            int iScrollPos = 0;
+            int iScrollPosLast = 0;
+            int ch = (int)' ';
+            do {
+                draw_item_info(0, (TERMX - VIEW_OFFSET_X * 2) / 2, 0, TERMY - VIEW_OFFSET_Y * 2,
+                               sItemLastCh, vItemLastCh, vItemCh, iScrollPosLast, true); //without getch()
+                ch = draw_item_info((TERMX - VIEW_OFFSET_X * 2) / 2, (TERMX - VIEW_OFFSET_X * 2) / 2,
+                                    0, TERMY - VIEW_OFFSET_Y * 2, sItemCh, vItemCh, vItemLastCh, iScrollPos);
+
+                if ( ch == KEY_PPAGE ) {
+                    iScrollPos--;
+                    iScrollPosLast--;
+                } else if ( ch == KEY_NPAGE ) {
+                    iScrollPos++;
+                    iScrollPosLast++;
+                }
+            } while (ch == KEY_PPAGE || ch == KEY_NPAGE);
+
             inv_s.dropping = prev_droppings;
             inv_s.second_item = NULL;
         } else {

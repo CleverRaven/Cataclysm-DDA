@@ -604,6 +604,32 @@ void Item_factory::load_slot_optional( std::unique_ptr<SlotType> &slotptr, JsonO
     load_slot( slotptr, slotjo );
 }
 
+template<typename E>
+void load_optional_enum_array( std::vector<E> &vec, JsonObject &jo, const std::string &member )
+{
+
+    if( !jo.has_member( member ) ) {
+        return;
+    } else if( !jo.has_array( member ) ) {
+        jo.throw_error( "expected array", member );
+    }
+
+    JsonIn &stream = *jo.get_raw( member );
+    stream.start_array();
+    while( !stream.end_array() ) {
+        vec.push_back( stream.get_enum_value<E>() );
+    }
+}
+
+void Item_factory::load( islot_artifact &slot, JsonObject &jo )
+{
+    slot.charge_type = jo.get_enum_value( "charge_type", ARTC_NULL );
+    load_optional_enum_array( slot.effects_wielded, jo, "effects_wielded" );
+    load_optional_enum_array( slot.effects_activated, jo, "effects_activated" );
+    load_optional_enum_array( slot.effects_carried, jo, "effects_carried" );
+    load_optional_enum_array( slot.effects_worn, jo, "effects_worn" );
+}
+
 void Item_factory::load( islot_software &slot, JsonObject &jo )
 {
     slot.type = jo.get_string( "type" );
@@ -948,11 +974,7 @@ void Item_factory::load_basic_info(JsonObject &jo, itype *new_item_template)
     } else {
         new_item_template->materials.push_back("null");
     }
-    Item_tag new_phase = "solid";
-    if (jo.has_member("phase")) {
-        new_phase = jo.get_string("phase");
-    }
-    new_item_template->phase = phase_from_tag(new_phase);
+    new_item_template->phase = jo.get_enum_value( "phase", SOLID );
     new_item_template->volume = jo.get_int("volume");
     new_item_template->weight = jo.get_int("weight");
     new_item_template->melee_dam = jo.get_int("bashing");
@@ -1046,6 +1068,7 @@ void Item_factory::load_basic_info(JsonObject &jo, itype *new_item_template)
     load_slot_optional( new_item_template->ammo, jo, "ammo_data" );
     load_slot_optional( new_item_template->seed, jo, "seed_data" );
     load_slot_optional( new_item_template->software, jo, "software_data" );
+    load_slot_optional( new_item_template->artifact, jo, "artifact_data" );
 }
 
 void Item_factory::load_item_category(JsonObject &jo)
@@ -1530,20 +1553,19 @@ void Item_factory::set_flag_by_string(std::bitset<num_bp> &cur_flags, const std:
 
 }
 
-phase_id Item_factory::phase_from_tag(Item_tag name)
+namespace io {
+static const std::unordered_map<std::string, phase_id> phase_id_values = { {
+    { "liquid", LIQUID },
+    { "solid", SOLID },
+    { "gas", GAS },
+    { "plasma", PLASMA },
+} };
+template<>
+phase_id string_to_enum<phase_id>( const std::string &data )
 {
-    if (name == "liquid") {
-        return LIQUID;
-    } else if (name == "solid") {
-        return SOLID;
-    } else if (name == "gas") {
-        return GAS;
-    } else if (name == "plasma") {
-        return PLASMA;
-    } else {
-        return PNULL;
-    }
+    return string_to_enum_look_up( phase_id_values, data );
 }
+} // namespace io
 
 void Item_factory::set_intvar(std::string tag, unsigned int &var, int min, int max)
 {

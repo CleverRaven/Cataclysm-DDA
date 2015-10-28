@@ -5,8 +5,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Cataclysm-DDA\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-10-12 09:50+0300\n"
-"PO-Revision-Date: 2015-10-13 14:03+0000\n"
+"POT-Creation-Date: 2015-10-26 12:04+0300\n"
+"PO-Revision-Date: 2015-10-15 03:46+0000\n"
 "Last-Translator: 云轩小生 <fifth123@163.com>\n"
 "Language-Team: Chinese (China) (http://www.transifex.com/projects/p/"
 "cataclysm-dda/language/zh_CN/)\n"
@@ -15,8 +15,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Launchpad-Export-Date: 2015-10-14 07:14+0000\n"
-"X-Generator: Launchpad (build 17812)\n"
+"X-Launchpad-Export-Date: 2015-10-28 06:26+0000\n"
+"X-Generator: Launchpad (build 17833)\n"
 
 #: lang/json/AMMO_from_json.py
 msgid ".20 DREAD Pellet"
@@ -251,6 +251,14 @@ msgid ".40 S&W"
 msgid_plural ".40 S&W JHP"
 msgstr[0] ".40 S&W JHP弹"
 
+#. ~ Description for reloaded .40 S&W JHP
+#: lang/json/AMMO_from_json.py
+msgid ""
+".40 S&W JHP ammunition.  The .40 S&W round is a descended from the 10mm Auto "
+"cartridge and maintains most of its predecessor's strengths while reducing "
+"recoil. This one has been reloaded by hand."
+msgstr ""
+
 #. ~ Description for .40 S&W
 #: lang/json/AMMO_from_json.py
 msgid ""
@@ -270,6 +278,14 @@ msgid ""
 msgstr ""
 ".40 S&W FMJ弹带有一个180格令全金属被甲弹头，取代了10mm AUTO弹，在执法部门和私"
 "人护卫中非常受欢迎"
+
+#. ~ Description for reloaded .40 S&W FMJ
+#: lang/json/AMMO_from_json.py
+msgid ""
+".40 S&W ammunition with 180gr FMJ bullets.  Designed to retain the 10mm Auto "
+"cartridge's power with lower recoil, the .40 S&W round became popular for "
+"law enforcement and personal defense. This one has been hand-reloaded."
+msgstr ""
 
 #: lang/json/AMMO_from_json.py
 msgid ".40 casing"
@@ -366,6 +382,16 @@ msgstr ""
 "多步枪子弹都要好的终点弹道性能，但同时它击发时极高的后坐力使得它不适用于大多"
 "数环境。"
 
+#. ~ Description for reloaded .454 Casull
+#: lang/json/AMMO_from_json.py
+msgid ""
+".454 Casull ammunition with jacketed soft point bullets.  The .454 Casull "
+"round is derived from .45 Long Colt with a stronger, lengthened case.  It is "
+"an exceptionally powerful cartridge with higher stopping power than many "
+"rifle rounds, although it suffers from extreme recoil making it unsuitable "
+"for most purposes.  This one has been reloaded by hand."
+msgstr ""
+
 #: lang/json/AMMO_from_json.py
 msgid ".454 Casull casing"
 msgid_plural ".454 Casull casings"
@@ -440,6 +466,14 @@ msgid ""
 msgstr ""
 "10MM AUTO减装弹带有一个180格令全金属被甲弹头，虽然设计这种子弹是为了降低后坐"
 "力，但其依然是最具威力的手枪子弹"
+
+#. ~ Description for reloaded 10mm Auto
+#: lang/json/AMMO_from_json.py
+msgid ""
+"10mm Auto ammunition with hand-reloaded FMJ bullets.  The 10mm Auto round is "
+"one of the most powerful pistol cartridges available, although its "
+"usefulness is limited by high recoil."
+msgstr ""
 
 #: lang/json/AMMO_from_json.py
 msgid "120mm APFSDS"
@@ -837,6 +871,15 @@ msgstr ""
 "世纪60年代，7.62x39mm M67规格子弹在南斯拉夫被研发出来。它在击中目标之后会比"
 "M43型号更快地出现弹头翻滚，给目标造成更大的伤害。"
 
+#. ~ Description for reloaded 7.62x39mm M67
+#: lang/json/AMMO_from_json.py
+msgid ""
+"7.62x39mm M67 rounds.  The inadequate terminal ballistics of the M43 round "
+"led to the development of the M67 round in Yugoslavia in the 1960s.  It "
+"destabilizes much faster than M43 after hitting a target leading to greater "
+"damage.  This one has been hand-reloaded."
+msgstr ""
+
 #: lang/json/AMMO_from_json.py
 msgid "7.62x39mm casing"
 msgid_plural "7.62x39mm casings"
@@ -959,17 +1002,6 @@ msgid "8x40mm incendiary caseless"
 msgid_plural "8x40mm incendiary caseless"
 msgstr[0] "8x40mm 无壳燃烧弹"
 
-#. ~ Description for reloaded 9mm
-#: lang/json/AMMO_from_json.py
-msgid ""
-"9 millimeter parabellum is generally regarded as the most popular handgun "
-"cartridge and used by the majority of US police forces.  It is also a very "
-"popular round in sub-machine guns.  This one has been hand-reloaded."
-msgstr ""
-"九毫米帕拉贝伦子弹是大多数美国警察机关所主要使用的手枪子弹。它一般被认为是最"
-"普遍的手枪子弹，并被大量使用在冲锋枪中。无论是灾变前还是灾变后，都是烂大街的"
-"存在。这是手工重新装药的型号。"
-
 #. ~ Description for PG-7VL rocket
 #: lang/json/AMMO_from_json.py
 msgid "93mm single-stage high-explosive ammunition for the RPG-7."
@@ -990,16 +1022,6 @@ msgstr ""
 "9x18 毫米马卡洛夫手枪弹，主要用于马卡洛夫PM手枪的前苏联制式子弹。正如其名所"
 "示，弹壳长度略短于 9 毫米帕拉贝姆手枪弹。这是手工复装的。"
 
-#. ~ Description for reloaded 9x18mm +P+
-#: lang/json/AMMO_from_json.py
-msgid ""
-"9x18 millimeter Makarov, an old Soviet pistol cartridge used mainly by the "
-"Makarov PM.  The +P+ has higher internal pressure that offers a degree of "
-"armor-penetrating ability.  This one has been hand-reloaded."
-msgstr ""
-"9x18mm 马卡洛夫手枪弹，一种老式苏联手枪弹药，主要用于马卡洛夫PM型手枪。这种加"
-"大膛压的大威力型号可以提高一定量的穿甲性能。这是手工重新装药的型号。"
-
 #. ~ Description for reloaded 9x18mm FMJ
 #: lang/json/AMMO_from_json.py
 msgid ""
@@ -1010,6 +1032,14 @@ msgstr ""
 "9x18mm 马卡洛夫手枪弹，一种老式苏联手枪弹药，主要用于马卡洛夫PM型手枪。这种黄"
 "铜被甲型号可以提高少许穿甲性能，同时击中目标时弹头的碎裂伤害也减少了。这是手"
 "工重新装药的型号。"
+
+#. ~ Description for reloaded 9x18mm +P+
+#: lang/json/AMMO_from_json.py
+msgid ""
+"9x18 millimeter Makarov, an old Soviet pistol cartridge used mainly by the "
+"Makarov PM. This one has been hand-reloaded to generate higher internal "
+"pressure, boosting flight stability and damage."
+msgstr ""
 
 #: lang/json/AMMO_from_json.py
 msgid "9x18mm 57-N-181S"
@@ -1098,6 +1128,23 @@ msgid ""
 msgstr ""
 "黄铜护封的115格令9x19mm口径子弹。他在军队、执法部门和民用领域十分常见，虽然已"
 "经使用超过几乎150年了。"
+
+#. ~ Description for reloaded 9x19mm FMJ
+#: lang/json/AMMO_from_json.py
+msgid ""
+"9x19mm ammunition with a brass jacketed hand-reloaded bullet.  It is a "
+"popular round for military, law enforcement, and civilian use even after "
+"almost 150 years."
+msgstr ""
+
+#. ~ Description for reloaded 9x19mm JHP
+#: lang/json/AMMO_from_json.py
+msgid ""
+"9x19mm ammunition with a hand-reloaded jacketed hollow point bullet.  JHP "
+"rounds have inferior penetration to FMJ rounds but their expansion slightly "
+"increases stopping power against unarmored targets and reduces "
+"overpenetration."
+msgstr ""
 
 #. ~ Description for 120mm APFSDS
 #: lang/json/AMMO_from_json.py
@@ -1363,6 +1410,22 @@ msgstr ""
 "一条7.62 NATO规格标准弹链。这条弹链是由4颗M80子弹和1颗M62曳光弹为一组有序排列"
 "而成，能够帮助射手们更好的瞄准其攻击的目标。"
 
+#. ~ Description for reloaded 5.56 NATO tracer
+#: lang/json/AMMO_from_json.py
+msgid ""
+"A belt of hand-reloaded 5.56 NATO rounds. A hand-made variant of the widely-"
+"used 5.56 NATO round, the ammunition is a one-in-five mix of hand-loaded "
+"5.56 FMJ and 5.56 incendiary rounds designed to burn hotly when fired."
+msgstr ""
+
+#. ~ Description for reloaded 7.62x51mm incendiary
+#: lang/json/AMMO_from_json.py
+msgid ""
+"A belt of hand-reloaded 7.62 NATO rounds. A hand-made variant of the widely-"
+"used 7.62 NATO round, the ammunition is a one-in-five mix of hand-loaded "
+"7.62 FMJ and 7.62 incendiary rounds designed to burn hotly when fired."
+msgstr ""
+
 #. ~ Description for bearings
 #: lang/json/AMMO_from_json.py
 msgid "A box of ball bearings, useful as ammunition for slings."
@@ -1387,30 +1450,6 @@ msgid ""
 msgstr ""
 "黄铜被甲.22口径弹药，有着比普通.22规格弹药更高的穿甲能力。这是用全新弹壳手工"
 "装弹的型号。"
-
-#. ~ Description for reloaded .38 FMJ
-#: lang/json/AMMO_from_json.py
-msgid ""
-"A brass-jacketed .38 round.  This increases penetration slightly at the cost "
-"of reduced expansion.  This one has been hand-reloaded."
-msgstr ""
-".38被甲高穿透力子弹。牺牲少许伤害用来增加穿透力。这是手工重新装药的型号。"
-
-#. ~ Description for reloaded .40 FMJ
-#: lang/json/AMMO_from_json.py
-msgid ""
-"A brass-jacketed .40 Smith & Wesson round.  This increases penetration "
-"slightly at the cost of reduced expansion.  This one has been hand-reloaded."
-msgstr ""
-".40 Smith&Wesson黄铜被甲高穿透力子弹。牺牲少许伤害用来增加穿透力。这是手工重"
-"新装药的型号。"
-
-#. ~ Description for reloaded 9mm FMJ
-#: lang/json/AMMO_from_json.py
-msgid ""
-"A brass-jacketed 9mm Parabellum round.  This increases penetration slightly "
-"at the cost of reduced expansion."
-msgstr "9mm黄铜被甲高穿透力子弹。牺牲少许伤害来增加穿透力。"
 
 #. ~ Description for .44 FMJ
 #: lang/json/AMMO_from_json.py
@@ -1529,6 +1568,13 @@ msgid ""
 "disable."
 msgstr "一种霰弹枪用的防暴霰弹，不致命但是会非常疼。手工重新装药的型号。"
 
+#. ~ Description for reloaded .38 FMJ
+#: lang/json/AMMO_from_json.py
+msgid ""
+"A hand-reloaded brass-jacketed .38 round.  This increases penetration "
+"slightly at the cost of reduced expansion."
+msgstr ""
+
 #. ~ Description for reloaded 00 shot
 #: lang/json/AMMO_from_json.py
 msgid ""
@@ -1557,16 +1603,6 @@ msgid ""
 msgstr ""
 "装满了可爆炸子弹的猎枪。尽管子弹对目标造成不了多大伤害，但是可以在接触目标后"
 "爆炸。手工重新装药的型号。"
-
-#. ~ Description for reloaded 5.56 incendiary
-#: lang/json/AMMO_from_json.py
-msgid ""
-"A hand-reloaded variant of the widely-used 5.56 NATO round, incendiary "
-"rounds are designed to burn hotly upon impact, piercing armor and igniting "
-"flammable substances."
-msgstr ""
-"这是广泛使用的5.56 NATO子弹的一种变种——燃烧弹，它可以剧烈燃烧，产生冲击，穿透"
-"装甲并将周围的可燃物全都烧成灰灰。这是手工重新装药的型号。"
 
 #. ~ Description for sand
 #: lang/json/AMMO_from_json.py
@@ -2219,7 +2255,7 @@ msgstr "一小团细线，能填充到缝纫工具里。"
 msgid "A small spool of solder, able to be used in ammunition and electronics."
 msgstr "一小卷焊料，能够用在弹药和电子制品的制作过程中。"
 
-#. ~ Description for reloaded 9mm +P+
+#. ~ Description for reloaded 9x19mm +P+
 #: lang/json/AMMO_from_json.py
 msgid ""
 "A step beyond the high-pressure 9mm +P round, the +P+ has an even higher "
@@ -2325,16 +2361,6 @@ msgid ""
 msgstr ""
 "这是威力强劲的.30-06子弹的一种变种——燃烧弹，它可以剧烈燃烧，产生冲击，穿透装"
 "甲并将周围的可燃物全都烧成灰灰。"
-
-#. ~ Description for reloaded 7.62x51mm incendiary
-#: lang/json/AMMO_from_json.py
-msgid ""
-"A variant of the powerful 7.62x51mm round, incendiary rounds are designed to "
-"burn hotly upon impact, piercing armor and igniting flammable substances.  "
-"This one has been hand-reloaded."
-msgstr ""
-"这是威力强劲的7.62x51mm子弹的一种变种——燃烧弹，它可以剧烈燃烧，产生冲击，穿透"
-"装甲并将周围的可燃物全都烧成灰灰。"
 
 #. ~ Description for charge
 #: lang/json/AMMO_from_json.py
@@ -2720,6 +2746,13 @@ msgid ""
 "penetrator.  Developed in 1998 by the Russian military."
 msgstr "5.45x39mm规格57格令弹头钢芯穿甲弹。俄毛军1998年荣誉出品。"
 
+#. ~ Description for reloaded 5.45x39mm 7N22
+#: lang/json/AMMO_from_json.py
+msgid ""
+"Armor piercing 5.45x39mm ammunition with hand-reloaded bullets containing a "
+"steel penetrator.  Developed in 1998 by the Russian military."
+msgstr ""
+
 #. ~ Description for heavy rifle ammo, AP
 #: lang/json/AMMO_from_json.py
 msgid ""
@@ -2746,16 +2779,6 @@ msgstr ".30-06 M14A1规格 穿甲燃烧弹。能轻易地击穿绝大多数的�
 msgid ""
 "Assorted bullet materials, useful in constructing a variety of ammunition."
 msgstr "各种各样的弹药原材料，在组装弹药时十分有用。"
-
-#. ~ Description for reloaded 9mm +P
-#: lang/json/AMMO_from_json.py
-msgid ""
-"Attempts to improve the ballistics of 9mm ammunition lead to high-pressure "
-"rounds.  Increased velocity results in superior accuracy and damage.  This "
-"one has been hand-reloaded."
-msgstr ""
-"为了改善9mm弹的弹道学性质而提高了其膛压。由于提高了速度,故准确度和伤害都有所"
-"提升。这是手工重新装药的型号。"
 
 #: lang/json/AMMO_from_json.py
 msgid "BB"
@@ -2865,11 +2888,8 @@ msgid ""
 "Described (in 1971) by Dirty Harry as \"the most powerful handgun in the "
 "world,\" the .44 Magnum gained widespread popularity due to its depictions "
 "in the media.  In reality, its intense recoil makes it unsuitable in most "
-"cases."
+"cases. This one has been hand-reloaded."
 msgstr ""
-"在电影《警探哈里》（1971年）中被描述为”世界上最强大的手枪弹药”。.44麦格农由于"
-"在各影片中的广泛描写而变得知名，但实际上，它过大的后坐力使其并不适用于大多数"
-"场合。"
 
 #. ~ Description for reloaded 4.6x30mm
 #: lang/json/AMMO_from_json.py
@@ -3089,6 +3109,14 @@ msgstr ""
 "手工装药型号中型步枪通用燃烧弹，弹头受到撞击会猛烈燃烧，用来穿甲和点燃易燃材"
 "料。这是手工重新装药的型号。"
 
+#. ~ Description for reloaded .30-06 Springfield
+#: lang/json/AMMO_from_json.py
+msgid ""
+"Hand-reloaded .30-06 Springfield rounds with soft point bullets.  The .30-06 "
+"cartridge has excellent accuracy, range, and stopping power making it "
+"popular with hunters and snipers for well over a century."
+msgstr ""
+
 #. ~ Description for handmade 20x66mm buckshot
 #: lang/json/AMMO_from_json.py
 msgid ""
@@ -3286,18 +3314,6 @@ msgstr ""
 "的微小后坐力、低价格和低噪声抵消了它微不足道的伤害。这是用全新弹壳手工装弹的"
 "型号。"
 
-#. ~ Description for reloaded 10mm Auto
-#: lang/json/AMMO_from_json.py
-msgid ""
-"Originally used by the FBI, the organization eventually abandoned the round "
-"due to its high recoil.  Although respected for its versatility and power, "
-"it has largely been supplanted by the downgraded .40 S&W.  This one has been "
-"hand-reloaded."
-msgstr ""
-"虽然原本由FBI使用，但却因为其太高的后坐力而被逐渐舍弃。虽然仍具有很高的泛用性"
-"和威力它在大部分情况下还是被低一级的.40 S&W弹药所取代。这是手工重新装药的型"
-"号。"
-
 #. ~ Description for .45 ACP +P
 #: lang/json/AMMO_from_json.py
 msgid ""
@@ -3308,6 +3324,14 @@ msgstr ""
 "过压版 .45 ACP规格200格令弹头JHP被甲空尖弹。这种过高膛压的规格弹药能打出更高"
 "的枪口动能，比同种子弹的普通规格有着更高伤害、精准度，和更大的后坐力。"
 
+#. ~ Description for reloaded .45 ACP +P
+#: lang/json/AMMO_from_json.py
+msgid ""
+"Overpressure .45 ACP ammunition with hand-reloaded JHP bullets.  This +P "
+"ammunition has higher muzzle energy than typical loads leading to greater "
+"damage, accuracy and recoil."
+msgstr ""
+
 #. ~ Description for 9x19mm +P
 #: lang/json/AMMO_from_json.py
 msgid ""
@@ -3316,6 +3340,14 @@ msgid ""
 msgstr ""
 "高膛压版的9x19mm口径弹药。在增大后坐力的代价下，子弹的初速度更高，精确度也更"
 "高。"
+
+#. ~ Description for reloaded 9x19mm +P
+#: lang/json/AMMO_from_json.py
+msgid ""
+"Overpressure 9x19mm ammunition.  The round's increased velocity results in "
+"superior accuracy and stopping power at the cost of higher recoil. This one "
+"has been hand-reloaded."
+msgstr ""
 
 #: lang/json/AMMO_from_json.py
 msgid "PG-7VL rocket"
@@ -3554,17 +3586,6 @@ msgstr ""
 "成毁灭性的伤害。由于降低了膛压，比起5.56准确度有所降低。这是手工重新装药的型"
 "号。"
 
-#. ~ Description for reloaded .30-06 AP
-#: lang/json/AMMO_from_json.py
-msgid ""
-"The .30-06 is a very powerful rifle round designed for long-range use.  Its "
-"stupendous accuracy and armor piercing capabilities make it one of the most "
-"deadly rounds available, offset only by its drastic recoil and noise.  This "
-"one has been hand-reloaded."
-msgstr ""
-"30-06步枪弹是专为远距离使用的强大的子弹。其精确度和杀伤力都很高，只是噪音很"
-"大。这是手工重新装药的型号。"
-
 #. ~ Description for reloaded .300 Winchester Magnum
 #: lang/json/AMMO_from_json.py
 msgid ""
@@ -3623,31 +3644,7 @@ msgstr ""
 ".38 特制弹的高膛压版本。由于其高精准度和良好的停止效果非常适合用于近身防卫。"
 "这是手工重新装药的型号。"
 
-#. ~ Description for reloaded .40 S&W
-#: lang/json/AMMO_from_json.py
-msgid ""
-"The .40 Smith & Wesson round was developed as an alternative to 10mm Auto "
-"for the FBI after they complained of high recoil.  It is as accurate as 9mm, "
-"but has greater stopping power, leading to widespread use in law "
-"enforcement.  This one has been hand-reloaded."
-msgstr ""
-"在FBI抱怨10mm Auto弹的高后坐力之后，.40 S&W弹作为一种替代品被研制出来。它的精"
-"准度与9mm弹相同，但具备更强的阻滞力，因此在执法过程中有广泛应用。这是手工重新"
-"装药的型号。"
-
-#. ~ Description for reloaded .45 Super
-#: lang/json/AMMO_from_json.py
-msgid ""
-"The .45 Super round is an updated variant of .45 ACP.  It is overloaded, "
-"resulting in a great increase in muzzle velocity.  This translates to higher "
-"accuracy and range, a minor armor piercing capability, and greater recoil.  "
-"This one has been hand-reloaded."
-msgstr ""
-"标准.45子弹的升级版。由于装填了过量的推进药，因此速度大大提升，随之而来的就是"
-"更高的精确度和射程、少量的穿甲性、和大大提高的后坐力。这是手工重新装药的型"
-"号。"
-
-#. ~ Description for reloaded .45 ACP
+#. ~ Description for reloaded .45 ACP JHP
 #: lang/json/AMMO_from_json.py
 msgid ""
 "The .45 round was one of the most popular and powerful handgun rounds "
@@ -3657,16 +3654,6 @@ msgid ""
 msgstr ""
 "作为二十世纪最流行也是最强大的手枪弹药之一，.45 ACP具有非常好的准确度和威力。"
 "但较大的后坐力和很低的穿甲性是其缺点。这是手工重新装药的型号。"
-
-#. ~ Description for reloaded .454 Casull
-#: lang/json/AMMO_from_json.py
-msgid ""
-"The .454 Casull round a very powerful revolver round capable of killing huge "
-"game, like elephants, with ease.  It's designed to be used with the Taurus "
-"Raging Bull.  This one has been hand-reloaded."
-msgstr ""
-".454 Casull子弹是一种大威力转轮手枪子弹，其威力可以击毙成年大象。它被设计使用"
-"在Taurus公司的Raging Bull左轮手枪上。这是手工重新装药的型号。"
 
 #. ~ Description for .50 BMG Ball
 #: lang/json/AMMO_from_json.py
@@ -3715,7 +3702,7 @@ msgstr ""
 "甲性能，伴随着震碎骨头的后座和震破耳膜的射击爆炸声，使得这种子弹成为最致命的"
 "制式子弹。这是手工重新装填的型号。"
 
-#. ~ Description for reloaded 5.45x39mm 5N7
+#. ~ Description for reloaded 5.45x39mm 7N10
 #: lang/json/AMMO_from_json.py
 msgid ""
 "The 5.45x39mm was the standard ammunition for the AK series from 1974.  Its "
@@ -3752,11 +3739,8 @@ msgstr ""
 msgid ""
 "The 7.62x51mm largely replaced the .30-06 round as the standard military "
 "rifle round.  It is lighter, but offers similar velocities, resulting in "
-"greater accuracy and reduced recoil.  This one has been hand-reloaded."
+"great accuracy and reduced recoil.  This one has been hand-reloaded."
 msgstr ""
-"7.62x51mm子弹绝大程度上替代了.30-06弹药成为军方的标准弹药。它比.30-06弹药更"
-"轻，但有几乎相同的速度，使其具有更高的精准度和更低的后坐力。这是手工重新装药"
-"的型号。"
 
 #. ~ Description for reloaded 7.62x54mmR
 #: lang/json/AMMO_from_json.py
@@ -3774,17 +3758,6 @@ msgid ""
 "The Heckler & Koch 12mm projectiles are used in H&K railguns.  It's made of "
 "a ferromagnetic metal, probably cobalt."
 msgstr "用于H&K电磁枪的子弹。由磁性金属(一般是钴)制成。"
-
-#. ~ Description for reloaded 7.62x39mm M67
-#: lang/json/AMMO_from_json.py
-msgid ""
-"The M67 variant of the popular 7.62x39mm rifle round was designed to improve "
-"yaw.  This causes the round to tumble inside a target, causing significantly "
-"more damage.  It is still outdone by shattering rounds.  This one has been "
-"hand-reloaded."
-msgstr ""
-"M67作为流行的7.62x39mm子弹的另一个版本，其设计是为了提升其子弹滚转，以提升杀"
-"伤性，但仍然不如那些会在体内碎裂的子弹。这是手工重新装药的型号。"
 
 #. ~ Description for quicklime
 #: lang/json/AMMO_from_json.py
@@ -3889,16 +3862,6 @@ msgid ""
 msgstr ""
 "这是一种混合着汽油的固体物质，由于汽油附着在其表面燃烧，温度可以达到很高。主"
 "要用来烧火锅涮人片，当然火焰喷射器也可以使用。"
-
-#. ~ Description for reloaded 5.45x39mm 7N22
-#: lang/json/AMMO_from_json.py
-msgid ""
-"This is the armor piercing cartridge with a steel penetrator, it was "
-"introduced in 1998.  There is a tungsten carbide variant too, it is "
-"unavailable in the US though.  This one has been hand-reloaded."
-msgstr ""
-"这是一种带有钢芯弹头的穿甲弹，在1998年被发布。该种子弹弹头钢芯里有碳化钨材"
-"料，在美国被禁止使用。这是手工重新装药的型号。"
 
 #. ~ Description for fletched metal arrow
 #: lang/json/AMMO_from_json.py
@@ -4830,9 +4793,9 @@ msgid_plural "reloaded .270 Winchester"
 msgstr[0] "复装.270 Winchester弹"
 
 #: lang/json/AMMO_from_json.py
-msgid "reloaded .30-06 AP"
-msgid_plural "reloaded .30-06 AP"
-msgstr[0] "复装.30-06 AP弹"
+msgid "reloaded .30-06 Springfield"
+msgid_plural "reloaded .30-06 Springfield"
+msgstr[0] ""
 
 #: lang/json/AMMO_from_json.py
 msgid "reloaded .30-06 incendiary"
@@ -4870,14 +4833,14 @@ msgid_plural "reloaded .38 Super"
 msgstr[0] "复装.38 超级弹"
 
 #: lang/json/AMMO_from_json.py
-msgid "reloaded .40 FMJ"
-msgid_plural "reloaded .40 FMJ"
-msgstr[0] "复装.40 FMJ弹"
+msgid "reloaded .40 S&W FMJ"
+msgid_plural "reloaded .40 S&W FMJ"
+msgstr[0] ""
 
 #: lang/json/AMMO_from_json.py
-msgid "reloaded .40 S&W"
-msgid_plural "reloaded .40 S&W"
-msgstr[0] "复装.40 S&W弹"
+msgid "reloaded .40 S&W JHP"
+msgid_plural "reloaded .40 S&W JHP"
+msgstr[0] ""
 
 #: lang/json/AMMO_from_json.py
 msgid "reloaded .44 FMJ"
@@ -4890,19 +4853,19 @@ msgid_plural "reloaded .44 Magnum"
 msgstr[0] "复装.44 Magnum弹"
 
 #: lang/json/AMMO_from_json.py
-msgid "reloaded .45 ACP"
-msgid_plural "reloaded .45 ACP"
-msgstr[0] "复装.45 ACP弹"
+msgid "reloaded .45 ACP +P"
+msgid_plural "reloaded .45 ACP +P"
+msgstr[0] ""
+
+#: lang/json/AMMO_from_json.py
+msgid "reloaded .45 ACP JHP"
+msgid_plural "reloaded .45 ACP JHP"
+msgstr[0] ""
 
 #: lang/json/AMMO_from_json.py
 msgid "reloaded .45 FMJ"
 msgid_plural "reloaded .45 FMJ"
 msgstr[0] "复装.45 FMJ弹"
-
-#: lang/json/AMMO_from_json.py
-msgid "reloaded .45 Super"
-msgid_plural "reloaded .45 Super"
-msgstr[0] "复装.45 超级弹"
 
 #: lang/json/AMMO_from_json.py
 msgid "reloaded .454 Casull"
@@ -4980,9 +4943,9 @@ msgid_plural "reloaded 40mm flechettes"
 msgstr[0] "复装40mm 箭形弹"
 
 #: lang/json/AMMO_from_json.py
-msgid "reloaded 5.45x39mm 5N7"
-msgid_plural "reloaded 5.45x39mm 5N7"
-msgstr[0] "复装7.62x39mm 5N7弹"
+msgid "reloaded 5.45x39mm 7N10"
+msgid_plural "reloaded 5.45x39mm 7N10"
+msgstr[0] ""
 
 #: lang/json/AMMO_from_json.py
 msgid "reloaded 5.45x39mm 7N22"
@@ -4995,9 +4958,9 @@ msgid_plural "reloaded 5.56 NATO"
 msgstr[0] "复装5.56 NATO弹"
 
 #: lang/json/AMMO_from_json.py
-msgid "reloaded 5.56 incendiary"
-msgid_plural "reloaded 5.56 incendiary"
-msgstr[0] "复装5.56 燃烧弹"
+msgid "reloaded 5.56 NATO tracer"
+msgid_plural "reloaded 5.56 NATO tracer"
+msgstr[0] ""
 
 #: lang/json/AMMO_from_json.py
 msgid "reloaded 5.7x28mm"
@@ -5040,26 +5003,6 @@ msgid_plural "reloaded 7.62x54mmR"
 msgstr[0] "复装7.62x54mmR弹"
 
 #: lang/json/AMMO_from_json.py
-msgid "reloaded 9mm"
-msgid_plural "reloaded 9mm"
-msgstr[0] "复装9mm"
-
-#: lang/json/AMMO_from_json.py
-msgid "reloaded 9mm +P"
-msgid_plural "reloaded 9mm +P"
-msgstr[0] "复装9mm +P"
-
-#: lang/json/AMMO_from_json.py
-msgid "reloaded 9mm +P+"
-msgid_plural "reloaded 9mm +P+"
-msgstr[0] "复装9mm +P+"
-
-#: lang/json/AMMO_from_json.py
-msgid "reloaded 9mm FMJ"
-msgid_plural "reloaded 9mm FMJ"
-msgstr[0] "复装9mm FMJ弹"
-
-#: lang/json/AMMO_from_json.py
 msgid "reloaded 9x18mm"
 msgid_plural "reloaded 9x18mm"
 msgstr[0] "复装9x18mm"
@@ -5073,6 +5016,26 @@ msgstr[0] "复装9x18mm +P+"
 msgid "reloaded 9x18mm FMJ"
 msgid_plural "reloaded 9x18mm FMJ"
 msgstr[0] "复装9x18mm FMJ"
+
+#: lang/json/AMMO_from_json.py
+msgid "reloaded 9x19mm +P"
+msgid_plural "reloaded 9x19mm +P"
+msgstr[0] ""
+
+#: lang/json/AMMO_from_json.py
+msgid "reloaded 9x19mm +P+"
+msgid_plural "reloaded 9x19mm +P+"
+msgstr[0] ""
+
+#: lang/json/AMMO_from_json.py
+msgid "reloaded 9x19mm FMJ"
+msgid_plural "reloaded 9x19mm FMJ"
+msgstr[0] ""
+
+#: lang/json/AMMO_from_json.py
+msgid "reloaded 9x19mm JHP"
+msgid_plural "reloaded 9x19mm JHP"
+msgstr[0] ""
 
 #: lang/json/AMMO_from_json.py
 msgid "reloaded birdshot"
@@ -13520,6 +13483,13 @@ msgstr ""
 "亚圣教会的宗教典籍，这个教会的教义是-自由散漫，有点奇怪是吧？如果你知道创立这"
 "个宗教的教主是个失败的销售员，你就会明白了。"
 
+#. ~ Description for The Six Pillars
+#: lang/json/BOOK_from_json.py
+msgid ""
+"A book depicting six strange symbols on the cover.  The text uses "
+"mythological concepts and metaphors to disguise magical formulae."
+msgstr ""
+
 #. ~ Description for To Master the Unknown
 #: lang/json/BOOK_from_json.py
 msgid ""
@@ -15230,6 +15200,11 @@ msgstr[0] "现代陷阱技术"
 msgid "The Rules of the Road"
 msgid_plural "The Rules of the Road"
 msgstr[0] "交通法规"
+
+#: lang/json/BOOK_from_json.py
+msgid "The Six Pillars"
+msgid_plural "The Six Pillars"
+msgstr[0] ""
 
 #: lang/json/BOOK_from_json.py
 msgid "The Streetfighter's Sidekick"
@@ -22993,7 +22968,7 @@ msgid "onion seed"
 msgid_plural "onion seeds"
 msgstr[0] "洋葱种子"
 
-#: lang/json/COMESTIBLE_from_json.py src/item.cpp
+#: lang/json/COMESTIBLE_from_json.py
 msgid "orange"
 msgid_plural "oranges"
 msgstr[0] "橘子"
@@ -26252,6 +26227,13 @@ msgid ""
 "A scrap of paper.  Something's written on it, scrawled in bad handwriting."
 msgstr "一张废纸，上面写了些字，但是太潦草了。"
 
+#. ~ Description for sealed yeast culture
+#: lang/json/GENERIC_from_json.py
+msgid ""
+"A sealed flask holding sanitized yeast wort.  You may harvest the yeast "
+"inside when it's done culturing."
+msgstr "装满了洗干净的酵母增殖原料的密封容器。当发酵完毕你就可以收获酵母了。"
+
 #. ~ Description for security camera
 #: lang/json/GENERIC_from_json.py
 msgid ""
@@ -26345,6 +26327,14 @@ msgstr "一个手机。如今只能看时间或者当闹钟。也可以拆成有
 #: lang/json/GENERIC_from_json.py
 msgid "A simple fishing hook."
 msgstr "一个简易鱼钩。"
+
+#. ~ Description for blank scroll
+#: lang/json/GENERIC_from_json.py
+msgid ""
+"A simple sheet of paper, with wooden rollers to support it.  You feel as if "
+"it was meant to have ancient, eldritch text written on it.  But sadly, it's "
+"blank."
+msgstr ""
 
 #. ~ Description for antenna
 #: lang/json/GENERIC_from_json.py
@@ -27852,6 +27842,11 @@ msgstr ""
 msgid "The pedal and gear assembly from a bicycle."
 msgstr "自行车的踏板和齿轮零件。"
 
+#. ~ Use action not_ready_msg for fermenting sauerkraut jar.
+#: lang/json/GENERIC_from_json.py
+msgid "The sauerkraut isn't done fermenting yet."
+msgstr ""
+
 #. ~ Description for joint
 #: lang/json/GENERIC_from_json.py
 msgid ""
@@ -27863,6 +27858,11 @@ msgstr "随着一缕缕青烟从这支大麻烟上飘出，空气中弥漫着大
 #: lang/json/GENERIC_from_json.py
 msgid "The smoke billowing from this cigar has a sweet, musty odor."
 msgstr "烟从这支雪茄翻滚而出，香甜和霉变的味道混合其中。"
+
+#. ~ Use action not_ready_msg for sealed yeast culture.
+#: lang/json/GENERIC_from_json.py
+msgid "The yeast isn't done culturing yet."
+msgstr ""
 
 #. ~ Description for military ID card
 #: lang/json/GENERIC_from_json.py
@@ -28265,6 +28265,13 @@ msgid ""
 "might even enjoy it."
 msgstr "一罐即食腌制人肉。也许你并不讨厌它，笑。"
 
+#. ~ Description for fermenting sauerkraut jar
+#: lang/json/GENERIC_from_json.py
+msgid ""
+"This jar contains a batch of sauerkraut set to ferment. You can seal up the "
+"jar once the process is completed."
+msgstr ""
+
 #. ~ Description for shock absorber
 #: lang/json/GENERIC_from_json.py
 msgid ""
@@ -28317,14 +28324,11 @@ msgstr ""
 #: lang/json/GENERIC_from_json.py
 msgid ""
 "This not-so-little bundle of joy contains Leadworks, LLC's premier "
-"offerings: the Enforcer autorevolver (with holster) & Long Ranger rifle.  "
+"offerings: the Enforcer autorevolver (with holster) and Long Ranger rifle.  "
 "Maintenance kit, batteries for same, and a complimentary copy of the Gun "
 "Owner's Handbook are included.  The perfect investment for a new family "
 "starting out!  Disassemble to unpack and enjoy."
 msgstr ""
-"这一坨一点都不秀气的玩意包含了Leadworks LLC的推荐产品：执法者自动左轮（带套）"
-"&游侠儿长管枪外加枪械维修套件配电池，附赠一本持枪手册的拷贝本。新拓荒家庭的完"
-"美投资品！拆开以后就可以开始作死。"
 
 #. ~ Description for exploding arrowhead
 #: lang/json/GENERIC_from_json.py
@@ -28445,6 +28449,11 @@ msgstr "你折好你的PR-24甩棍。"
 msgid "You collapse your baton."
 msgstr "你折好你的甩棍。"
 
+#. ~ Use action msg for sealed yeast culture.
+#: lang/json/GENERIC_from_json.py
+msgid "You open the flask and harvest the culture."
+msgstr "你打开瓶罐收获培养物。"
+
 #. ~ Use action msg for sealed jar of canned meat.
 #. ~ Use action msg for sealed jar of canned fish.
 #. ~ Use action msg for sealed 3-liter jar of kompot.
@@ -28498,6 +28507,12 @@ msgstr "你甩出你的PR-24甩棍。"
 #: lang/json/GENERIC_from_json.py
 msgid "You snap open your baton."
 msgstr "你甩出你的甩棍。"
+
+#. ~ Use action msg for fermenting sauerkraut jar.
+#: lang/json/GENERIC_from_json.py
+msgid ""
+"You test the batch, and it tastes good, so you seal the jar up for storage."
+msgstr ""
 
 #: lang/json/GENERIC_from_json.py
 msgid "Zui Quan and You"
@@ -28638,6 +28653,11 @@ msgstr[0] ""
 msgid "blade"
 msgid_plural "blades"
 msgstr[0] "大刀片"
+
+#: lang/json/GENERIC_from_json.py
+msgid "blank scroll"
+msgid_plural "blank scrolls"
+msgstr[0] ""
 
 #: lang/json/GENERIC_from_json.py lang/json/vehicle_part_from_json.py
 msgid "blob frame"
@@ -29228,6 +29248,11 @@ msgstr[0] "击剑花剑"
 msgid "fencing saber"
 msgid_plural "fencing sabers"
 msgstr[0] "击剑佩剑"
+
+#: lang/json/GENERIC_from_json.py
+msgid "fermenting sauerkraut jar"
+msgid_plural "fermenting sauerkraut jars"
+msgstr[0] ""
 
 #: lang/json/GENERIC_from_json.py
 msgid "fertilizer"
@@ -30093,6 +30118,11 @@ msgstr[0] "密封蔬菜浓汤罐头"
 msgid "sealed jar of woods soup"
 msgid_plural "sealed jars of woods soup"
 msgstr[0] "密封伍兹汤罐头"
+
+#: lang/json/GENERIC_from_json.py
+msgid "sealed yeast culture"
+msgid_plural "sealed yeast cultures"
+msgstr[0] "密封酵母"
 
 #: lang/json/GENERIC_from_json.py lang/json/vehicle_part_from_json.py
 msgid "seat"
@@ -32085,6 +32115,13 @@ msgstr ""
 "一把为室内近距离格斗和精确射手角色高度定制的M14步枪，这是一把威力强大而又用途"
 "多样的步枪，只是重了一些。"
 
+#. ~ Description for battle rifle
+#: lang/json/GUN_from_json.py
+msgid ""
+"A highly modular, selective fire battle rifle used by the US military.  It "
+"holds twenty rounds of rifle ammo in a detachable magazine."
+msgstr ""
+
 #. ~ Description for pipe gun: revolver ammo
 #: lang/json/GUN_from_json.py
 msgid ""
@@ -32579,13 +32616,6 @@ msgid ""
 msgstr ""
 "一个生锈的机匣，一个Remington 700的枪管，外加破了一半的枪托。把这些东西用胶水"
 "粘出枪的样子，然后用信念去杀死敌人吧。"
-
-#. ~ Description for battle rifle
-#: lang/json/GUN_from_json.py
-msgid ""
-"A selective fire battle rifle used by the US military.  It holds thirty "
-"rounds of rifle ammo in a detachable magazine."
-msgstr ""
 
 #. ~ Description for submachine gun
 #: lang/json/GUN_from_json.py
@@ -36682,6 +36712,10 @@ msgid "Necromancy"
 msgstr "亡灵巫术"
 
 #: lang/json/MOD_INFO_from_json.py
+msgid "No Acid Zombies"
+msgstr ""
+
+#: lang/json/MOD_INFO_from_json.py
 msgid "No Antique Firearms"
 msgstr "禁止老式枪械"
 
@@ -36722,8 +36756,17 @@ msgid "No Survivor Armor"
 msgstr "禁止幸存者装束"
 
 #: lang/json/MOD_INFO_from_json.py
+msgid "No Triffids"
+msgstr ""
+
+#: lang/json/MOD_INFO_from_json.py
 msgid "Prevent Zombie Revivication"
 msgstr "沉睡的丧尸"
+
+#. ~ Description for No Acid Zombies
+#: lang/json/MOD_INFO_from_json.py
+msgid "Removes all acid-based zombies from the game."
+msgstr ""
 
 #. ~ Description for No Monsters
 #: lang/json/MOD_INFO_from_json.py
@@ -36790,6 +36833,11 @@ msgstr "游戏里的所有宗教典籍全部消失，你是个无神论者。"
 #: lang/json/MOD_INFO_from_json.py
 msgid "Removes survivor armor."
 msgstr "移除那些幸存者专属装备。"
+
+#. ~ Description for No Triffids
+#: lang/json/MOD_INFO_from_json.py
+msgid "Removes triffids from the game."
+msgstr ""
 
 #. ~ Description for Generic Guns
 #: lang/json/MOD_INFO_from_json.py
@@ -37873,7 +37921,7 @@ msgstr ""
 #: lang/json/MONSTER_from_json.py
 msgid ""
 "A slender-bodied flying insect, with a painful sting.  They can be somewhat "
-"aggresive if disturbed."
+"aggressive if disturbed."
 msgstr ""
 
 #. ~ Description for swimmer zombie
@@ -40793,6 +40841,22 @@ msgid ""
 "tighter if you get too cold."
 msgstr "长长的羊毛围巾，围住你的口部以提供温暖。太冷了就“使用”它来围紧些吧。"
 
+#. ~ Description for mask of insight
+#: lang/json/TOOL_ARMOR_from_json.py
+msgid ""
+"A mask faced with iron and decorated with copper, depicting the face of some "
+"unknown divine figure.  Fueling it with consecrated essence will grant the "
+"wearer sight beyond sight, within a limited range."
+msgstr ""
+
+#. ~ Description for mask of insight (on)
+#: lang/json/TOOL_ARMOR_from_json.py
+msgid ""
+"A mask faced with iron and decorated with copper, depicting the face of some "
+"unknown divine figure.  The face depicted on the mask seems more menacing "
+"than it did previously."
+msgstr ""
+
 #. ~ Description for rebreather mask (on)
 #: lang/json/TOOL_ARMOR_from_json.py
 msgid ""
@@ -40953,13 +41017,20 @@ msgstr "简单轻便的布围巾，围住你的口部提供温暖。太冷了就
 msgid ""
 "A simple leather cloak, richly decorated with scales of gold and several "
 "feathers.  It resembles the hide of a golden dragon or serpent.  Using it "
-"will cure a small number of ailments, if supplied with consecrated essence.  "
-"This taxes the body and can't cure injuries, parasites, or poison."
+"will heal minor injuries, in exchange for inflicting pain."
 msgstr ""
 
 #. ~ Description for whistle
 #: lang/json/TOOL_ARMOR_from_json.py
 msgid "A simple metal whistle, with a cord to wear it around your neck."
+msgstr ""
+
+#. ~ Description for ring of the fallen angel
+#: lang/json/TOOL_ARMOR_from_json.py
+msgid ""
+"A simple silver ring, adorned with a small red gem and a wing motif.  Using "
+"it cures several anomalous ailments, and provides protection from such "
+"effects for a while."
 msgstr ""
 
 #. ~ Description for acoustic guitar
@@ -40977,11 +41048,11 @@ msgid ""
 "to check your current level of radiation exposure."
 msgstr "一个小型的由电池供电的安全监测设备，激活它来检测你现在的辐射程度。"
 
-#. ~ Use action activation_message for gilded aegis.
+#. ~ Use action activation_message for ring of the fallen angel.
 #: lang/json/TOOL_ARMOR_from_json.py
 msgid ""
-"A strange, burning heat spreads throughout your body, fading into a dull "
-"ache as the aegis cleanses your body."
+"A strange energy radiates from the ring's gem, spreading a calming sensation "
+"over you."
 msgstr ""
 
 #. ~ Description for bagpipes
@@ -41036,13 +41107,19 @@ msgstr ""
 msgid ""
 "A wicked-looking crown made of silver, decorated with scenes of skeletons in "
 "a \"danse macabre\" motif.  A single diamond adorns it, in the center of the "
-"scene depicted.  Using it shall yield immunity to poison, food poisoning in "
-"particular, in exchange for inreased hunger."
+"scene depicted.  Using it shall yield immunity to food poisoning and "
+"parasites, in exchange for inreased hunger.  It will not cure existing "
+"ailments, only prevent them."
 msgstr ""
 
 #. ~ Use action noise_message for whistle.
 #: lang/json/TOOL_ARMOR_from_json.py
 msgid "FWEEEET!"
+msgstr ""
+
+#. ~ Use action need_charges_msg for mask of insight.
+#: lang/json/TOOL_ARMOR_from_json.py
+msgid "Fuel the mask with consecrated essence, to open your eyes."
 msgstr ""
 
 #. ~ Description for RM13 combat armor (on)
@@ -41143,6 +41220,18 @@ msgstr "手电的电池耗尽了。"
 #: lang/json/TOOL_ARMOR_from_json.py
 msgid "The helmet's batteries are dead."
 msgstr "头盔的电池耗尽了。"
+
+#. ~ Use action msg for mask of insight.
+#: lang/json/TOOL_ARMOR_from_json.py
+msgid ""
+"The mask appears to contort into a fearsome visage, the eyeholes momentarily "
+"seeming to glow."
+msgstr ""
+
+#. ~ Use action msg for mask of insight (on).
+#: lang/json/TOOL_ARMOR_from_json.py
+msgid "The mask's features return to its original impassive expression."
+msgstr ""
 
 #. ~ Description for towel
 #: lang/json/TOOL_ARMOR_from_json.py
@@ -41594,6 +41683,16 @@ msgid_plural "long wool scarves (loose)"
 msgstr[0] "长羊毛围巾（松）"
 
 #: lang/json/TOOL_ARMOR_from_json.py
+msgid "mask of insight"
+msgid_plural "masks of insight"
+msgstr[0] ""
+
+#: lang/json/TOOL_ARMOR_from_json.py
+msgid "mask of insight (on)"
+msgid_plural "masks of insight (on)"
+msgstr[0] ""
+
+#: lang/json/TOOL_ARMOR_from_json.py
 msgid "mining helmet"
 msgid_plural "mining helmets"
 msgstr[0] "采矿头盔"
@@ -41666,6 +41765,11 @@ msgstr[0] "呼吸器面罩（开）"
 #: lang/json/TOOL_ARMOR_from_json.py
 msgid "revenant crown"
 msgid_plural "revenant crowns"
+msgstr[0] ""
+
+#: lang/json/TOOL_ARMOR_from_json.py
+msgid "ring of the fallen angel"
+msgid_plural "rings of the fallen angel"
 msgstr[0] ""
 
 #: lang/json/TOOL_ARMOR_from_json.py
@@ -41788,9 +41892,50 @@ msgid "wool scarf (loose)"
 msgid_plural "wool scarves (loose)"
 msgstr[0] "羊毛围巾（松）"
 
+#. ~ Use action msg for scroll of command.
+#: lang/json/TOOL_from_json.py
+msgid ""
+"\"By order, we ascend beyond that of animals.\"  You unroll the scroll of "
+"command..."
+msgstr ""
+
+#. ~ Use action msg for scroll of discord.
+#: lang/json/TOOL_from_json.py
+msgid ""
+"\"Cast aside the veil of reality.\"  You unroll the scroll of discord..."
+msgstr ""
+
+#. ~ Use action msg for scroll of overgrowth.
+#: lang/json/TOOL_from_json.py
+msgid "\"Do not deny your instincts.\"  You unroll the scroll of overgrowth..."
+msgstr ""
+
+#. ~ Use action msg for scroll of darkness.
+#: lang/json/TOOL_from_json.py
+msgid "\"Do not fear the unknown.\"  You unroll the scroll of darkness..."
+msgstr ""
+
 #. ~ Use action no_deactivate_msg for glowing hammer of the hunter.
 #: lang/json/TOOL_from_json.py
 msgid "\"Du nicht können halt Hammerzeit.\""
+msgstr ""
+
+#. ~ Use action msg for scroll of light.
+#: lang/json/TOOL_from_json.py
+msgid "\"Reveal that which is unseen.\"  You unroll the scroll of light..."
+msgstr ""
+
+#. ~ Use action non_interactive_msg for cursed blade (on).
+#: lang/json/TOOL_from_json.py
+msgid ""
+"\"The black blade will not be thwarted!\"  The effect cannot be dispeled "
+"until its energy has run out."
+msgstr ""
+
+#. ~ Use action msg for scroll of sundering.
+#: lang/json/TOOL_from_json.py
+msgid ""
+"\"There is an end to everything.\"  You unroll the scroll of sundering..."
 msgstr ""
 
 #. ~ Description for basic fishing rod
@@ -42260,13 +42405,6 @@ msgstr ""
 "神剑Lævateinn的复制品。传说它有自我意识，可以自行作战。这把复制品上被金银点"
 "缀。"
 
-#. ~ Description for sealed yeast culture
-#: lang/json/TOOL_from_json.py
-msgid ""
-"A sealed flask holding sanitized yeast wort.  You may harvest the yeast "
-"inside when it's done culturing."
-msgstr "装满了洗干净的酵母增殖原料的密封容器。当发酵完毕你就可以收获酵母了。"
-
 #. ~ Description for large batch of curdling milk
 #: lang/json/TOOL_from_json.py
 msgid ""
@@ -42465,6 +42603,22 @@ msgid ""
 msgstr ""
 "一张经过处理的动物毛皮，正在进行必要的化学变化以变成毛皮。当它鞣制完成后你就"
 "可以展开并使用它。"
+
+#. ~ Description for cursed blade
+#: lang/json/TOOL_from_json.py
+msgid ""
+"A two-handed sword, blade is made of a dark metal, engraved with exotic "
+"runes.  Activating it will grant the wielder a powerful life-draining "
+"weapon, but you won't be able to let go of it until it runs out of energy."
+msgstr ""
+
+#. ~ Description for cursed blade (on)
+#: lang/json/TOOL_from_json.py
+msgid ""
+"A two-handed sword, blade is made of a dark metal, engraved with exotic "
+"runes.  You feel as if the blade thirsts for blood, refusing to leave your "
+"grasp until it is sated."
+msgstr ""
 
 #. ~ Description for growing blob frame
 #: lang/json/TOOL_from_json.py
@@ -43128,6 +43282,12 @@ msgstr "灯笼灭了."
 msgid "The lightstrip dies."
 msgstr "小彩灯坏掉了。"
 
+#. ~ Use action msg for cursed blade (on).
+#: lang/json/TOOL_from_json.py
+msgid ""
+"The malevolent energy fades from the cursed blade, returning it to normal."
+msgstr ""
+
 #. ~ Use action friendly_msg for inactive manhack.
 #: lang/json/TOOL_from_json.py
 msgid "The manhack flies from your hand and surveys the area!"
@@ -43161,11 +43321,6 @@ msgid ""
 "it far more deadly."
 msgstr "这个刺剑的尖头覆盖了一层钻石结构碳，真他么致命啊。"
 
-#. ~ Use action not_ready_msg for fermenting sauerkraut jar.
-#: lang/json/TOOL_from_json.py
-msgid "The sauerkraut isn't done fermenting yet."
-msgstr ""
-
 #. ~ Use action need_charges_msg for smart lamp (off).
 #: lang/json/TOOL_from_json.py
 msgid "The smart lamp batteries are dead."
@@ -43185,11 +43340,6 @@ msgstr ""
 #: lang/json/TOOL_from_json.py
 msgid "The tear gas hack flies from your hand and surveys the area!"
 msgstr "这台催泪弹无人机从你手上飞起，在附近区域自动寻找目标中！"
-
-#. ~ Use action not_ready_msg for sealed yeast culture.
-#: lang/json/TOOL_from_json.py
-msgid "The yeast isn't done culturing yet."
-msgstr ""
 
 #. ~ Use action friendly_msg for dormant minion.
 #: lang/json/TOOL_from_json.py
@@ -44712,6 +44862,52 @@ msgid ""
 "functions adequately as a hammer, but really can't compare to a proper one."
 msgstr "一个插着棒子的岩石，勉强可以做锤子，但山寨的毕竟比不过真的。"
 
+#. ~ Description for scroll of darkness
+#: lang/json/TOOL_from_json.py
+msgid ""
+"This is a scroll, with odd writing and depictions of the lunar cycles on "
+"it.  Using it will darken the sky temporarily."
+msgstr ""
+
+#. ~ Description for scroll of overgrowth
+#: lang/json/TOOL_from_json.py
+msgid ""
+"This is a scroll, with odd writing and exotic natural scenery depicted on "
+"it.  Using it will fill the area with life, causing plants to grow "
+"unaturally and healing you, potentially mutating you as well."
+msgstr ""
+
+#. ~ Description for scroll of light
+#: lang/json/TOOL_from_json.py
+msgid ""
+"This is a scroll, with odd writing and illustrations of a solar motif on "
+"it.  Using it will brighten the sky."
+msgstr ""
+
+#. ~ Description for scroll of command
+#: lang/json/TOOL_from_json.py
+msgid ""
+"This is a scroll, with odd writing and images of solders standing in "
+"formation on it.  Using it will attempt to bind nearby creatures to your "
+"will temporarily, at the expense of pain and momentary paralysis."
+msgstr ""
+
+#. ~ Description for scroll of discord
+#: lang/json/TOOL_from_json.py
+msgid ""
+"This is a scroll, with odd writing and peculiar swirling symbols on it.  "
+"Using it will warp the fabric of space, teleporting you at random.  "
+"Something might follow you through the gateway."
+msgstr ""
+
+#. ~ Description for scroll of sundering
+#: lang/json/TOOL_from_json.py
+msgid ""
+"This is a scroll, with odd writing and scenes of natural disasters on it.  "
+"Using it will call forth a horrid noise, toppling nearby structures and "
+"harming creatures around you.  It might attract unwanted attention as well."
+msgstr ""
+
 #. ~ Description for pipe bomb
 #: lang/json/TOOL_from_json.py
 msgid ""
@@ -45812,13 +46008,6 @@ msgstr ""
 "上帝造出来的电缆（上帝造电缆有毛用？）：50米长，零线损，轻如羽毛，卷一卷就能"
 "放进火柴盒！你确信这种东西不可能存在，但事实就摆在眼前，它还在微微发光。"
 
-#. ~ Description for fermenting sauerkraut jar
-#: lang/json/TOOL_from_json.py
-msgid ""
-"This jar contains a batch of sauerkraut set to ferment. You can seal up the "
-"jar once the process is completed."
-msgstr ""
-
 #. ~ Description for wooden smoother
 #: lang/json/TOOL_from_json.py
 msgid ""
@@ -46264,7 +46453,6 @@ msgstr "你点燃了火柴炸弹。"
 msgid "You light the rocket candy on fire.  Throw it!"
 msgstr "你点燃了火箭软糖。快扔掉它！"
 
-#. ~ Use action msg for hobo stove.
 #. ~ Use action msg for ember carrier.
 #: lang/json/TOOL_from_json.py
 msgid "You light the tinder."
@@ -46322,7 +46510,6 @@ msgstr "你没设好这台微型核弹无人机的程序，它现在是敌对的
 msgid "You misprogram the tear gas hack; take cover!"
 msgstr "你没设好这台催泪弹无人机的程序，快找掩护！"
 
-#. ~ Use action need_fire_msg for hobo stove.
 #. ~ Use action need_fire_msg for ember carrier.
 #: lang/json/TOOL_from_json.py
 msgid "You need a lighter or fire to light this."
@@ -46349,11 +46536,6 @@ msgstr ""
 #: lang/json/TOOL_from_json.py
 msgid "You need something to light it with!"
 msgstr "你需要点火工具！"
-
-#. ~ Use action msg for sealed yeast culture.
-#: lang/json/TOOL_from_json.py
-msgid "You open the flask and harvest the culture."
-msgstr "你打开瓶罐收获培养物。"
 
 #. ~ Use action unfold_msg for folding bicycle.
 #: lang/json/TOOL_from_json.py
@@ -46514,12 +46696,6 @@ msgstr "你移除它包装上的防辐射标记,使其暴露于环境辐射。"
 #: lang/json/TOOL_from_json.py
 msgid "You strike your flare and light it."
 msgstr "你点燃了信号弹！"
-
-#. ~ Use action msg for fermenting sauerkraut jar.
-#: lang/json/TOOL_from_json.py
-msgid ""
-"You test the batch, and it tastes good, so you seal the jar up for storage."
-msgstr ""
 
 #. ~ Use action not_ready_msg for growing blob frame.
 #: lang/json/TOOL_from_json.py
@@ -47064,6 +47240,16 @@ msgid_plural "crucibles"
 msgstr[0] "坩埚"
 
 #: lang/json/TOOL_from_json.py
+msgid "cursed blade"
+msgid_plural "cursed blades"
+msgstr[0] ""
+
+#: lang/json/TOOL_from_json.py
+msgid "cursed blade (on)"
+msgid_plural "cursed blades (on)"
+msgstr[0] ""
+
+#: lang/json/TOOL_from_json.py
 msgid "damaged shelter kit"
 msgid_plural "damaged shelter kits"
 msgstr[0] "受损简易棚屋"
@@ -47267,11 +47453,6 @@ msgstr[0] "外接电池组"
 msgid "fake UPS"
 msgid_plural "fake UPS"
 msgstr[0] "测试用UPS"
-
-#: lang/json/TOOL_from_json.py
-msgid "fermenting sauerkraut jar"
-msgid_plural "fermenting sauerkraut jars"
-msgstr[0] ""
 
 #: lang/json/TOOL_from_json.py
 msgid "fertilizer bomb"
@@ -47752,7 +47933,7 @@ msgstr[0] ""
 
 #: lang/json/TOOL_from_json.py
 msgid "incorruptible sword (on)"
-msgid_plural "incorruptible sword (on)s"
+msgid_plural "incorruptible swords (on)"
 msgstr[0] ""
 
 #: lang/json/TOOL_from_json.py lang/json/vehicle_from_json.py
@@ -48286,14 +48467,39 @@ msgid_plural "screwdriver sets"
 msgstr[0] "螺丝刀组"
 
 #: lang/json/TOOL_from_json.py
+msgid "scroll of command"
+msgid_plural "scrolls of command"
+msgstr[0] ""
+
+#: lang/json/TOOL_from_json.py
+msgid "scroll of darkness"
+msgid_plural "scrolls of mysticism"
+msgstr[0] ""
+
+#: lang/json/TOOL_from_json.py
+msgid "scroll of discord"
+msgid_plural "scrolls of discord"
+msgstr[0] ""
+
+#: lang/json/TOOL_from_json.py
+msgid "scroll of light"
+msgid_plural "scrolls of light"
+msgstr[0] ""
+
+#: lang/json/TOOL_from_json.py
+msgid "scroll of overgrowth"
+msgid_plural "scrolls of overgrowth"
+msgstr[0] ""
+
+#: lang/json/TOOL_from_json.py
+msgid "scroll of sundering"
+msgid_plural "scrolls of sundering"
+msgstr[0] ""
+
+#: lang/json/TOOL_from_json.py
 msgid "scythe"
 msgid_plural "scythes"
 msgstr[0] "大镰刀"
-
-#: lang/json/TOOL_from_json.py
-msgid "sealed yeast culture"
-msgid_plural "sealed yeast cultures"
-msgstr[0] "密封酵母"
 
 #: lang/json/TOOL_from_json.py
 msgid "sewing kit"
@@ -51676,7 +51882,7 @@ msgstr ""
 
 #. ~ Description of effect 'Revenant Hunger'.
 #: lang/json/effects_from_json.py
-msgid "Immunity to poison, increased hunger gain."
+msgid "Immunity to food poisoning and parasites, increased hunger gain."
 msgstr ""
 
 #: lang/json/effects_from_json.py
@@ -51792,6 +51998,11 @@ msgstr "弹奏乐器"
 #: lang/json/effects_from_json.py
 msgid "Poisoned"
 msgstr "中毒"
+
+#. ~ Description of effect 'Ward Against Evil'.
+#: lang/json/effects_from_json.py
+msgid "Protects against various anomalous effects."
+msgstr ""
 
 #: lang/json/effects_from_json.py
 msgid "Pus Filled"
@@ -52033,6 +52244,11 @@ msgstr "药效过去了……你觉得好糟糕……"
 msgid "The numbness fades."
 msgstr ""
 
+#. ~ Remove message for effect(s) 'Ward Against Evil'.
+#: lang/json/effects_from_json.py
+msgid "The ring's magical protection fades."
+msgstr ""
+
 #. ~ Miss message for effect(s) 'Sap-coated'.
 #: lang/json/effects_from_json.py
 msgid "The sap's too sticky for you to fight effectively."
@@ -52105,6 +52321,10 @@ msgstr "释放格拉肯"
 #: lang/json/effects_from_json.py
 msgid "Unstable footing"
 msgstr "步履不稳"
+
+#: lang/json/effects_from_json.py
+msgid "Ward Against Evil"
+msgstr ""
 
 #: lang/json/effects_from_json.py
 msgid "Warm"
@@ -54543,6 +54763,14 @@ msgstr "上移选中模组"
 #: lang/json/keybinding_from_json.py
 msgid "Move shape"
 msgstr "移动形状"
+
+#: lang/json/keybinding_from_json.py
+msgid "Move to next category tab"
+msgstr ""
+
+#: lang/json/keybinding_from_json.py
+msgid "Move to previous category tab"
+msgstr ""
 
 #: lang/json/keybinding_from_json.py
 msgid "Move zone down"
@@ -57589,6 +57817,10 @@ msgid "Debug Life Support"
 msgstr "调试生命支持"
 
 #: lang/json/mutation_from_json.py
+msgid "Debug Mind Control"
+msgstr ""
+
+#: lang/json/mutation_from_json.py
 msgid "Debug Silent Walk"
 msgstr "调试静走"
 
@@ -58400,6 +58632,11 @@ msgstr "近身武器训练"
 #: lang/json/mutation_from_json.py
 msgid "Metallassomaiphile"
 msgstr "诱变剂迷恋"
+
+#. ~ Description for Debug Mind Control
+#: lang/json/mutation_from_json.py
+msgid "Mind the bugs, would you kindly?."
+msgstr ""
 
 #: lang/json/mutation_from_json.py
 msgid "Minor Radioactivity"
@@ -61148,15 +61385,15 @@ msgid ""
 "radiation, some of which will be absorbed by you, and some of which will "
 "contaminate the world around you."
 msgstr ""
-"你的身体拥有了放射性！不你不断向周围辐射大量的射线，一些被你自己吸收，一些造"
-"成环境污染。"
+"你的身体拥有了放射性！你不断向周围辐射大量的射线，一些被你自己吸收，一些造成"
+"环境污染。"
 
 #. ~ Description for Minor Radioactivity
 #: lang/json/mutation_from_json.py
 msgid ""
 "Your body has become radioactive!  You continuously emit low levels of "
 "radiation, which results in a chronic case of radiation poisoning."
-msgstr "你的身体拥有了放射性！不你不断向周围辐射少量的射线，有可能辐射中毒哦。"
+msgstr "你的身体拥有了放射性！你不断向周围辐射少量的射线，有可能辐射中毒哦。"
 
 #. ~ Description for Radioactivity
 #: lang/json/mutation_from_json.py
@@ -61165,8 +61402,8 @@ msgid ""
 "radiation, some of which will be absorbed by you, and some of which will "
 "contaminate the world around you."
 msgstr ""
-"你的身体拥有了放射性！不你不断向周围辐射中量的射线，一些被你自己吸收，一些造"
-"成环境污染。"
+"你的身体拥有了放射性！你不断向周围辐射中量的射线，一些被你自己吸收，一些造成"
+"环境污染。"
 
 #. ~ Description for Acid Blood
 #: lang/json/mutation_from_json.py
@@ -76953,8 +77190,8 @@ msgstr "自动拾取功能没有打开。现在打开？"
 
 #: src/auto_pickup.cpp
 #, c-format
-msgid "Failed to write autopickup rules to %s"
-msgstr "向 %s 写入自动拾取规则失败。"
+msgid "Failed to save autopickup to %s"
+msgstr ""
 
 #: src/auto_pickup.cpp src/options.cpp
 msgid "False"
@@ -79562,7 +79799,7 @@ msgstr "照明"
 msgid "Left-handed"
 msgstr "左手"
 
-#: src/crafting.cpp
+#: src/crafting.cpp src/game.cpp
 msgid "Lighting:"
 msgstr "光照："
 
@@ -79858,32 +80095,12 @@ msgid "[b]atch"
 msgstr "[b]批量"
 
 #: src/crafting.cpp
-msgid "brightly"
-msgstr "明亮"
-
-#: src/crafting.cpp
 msgid "cancel [b]atch"
 msgstr "取消 [b]批量"
 
 #: src/crafting.cpp
-msgid "cloudy"
-msgstr "多云"
-
-#: src/crafting.cpp
-msgid "dark"
-msgstr "黑暗"
-
-#: src/crafting.cpp
-msgid "shady"
-msgstr "阴暗"
-
-#: src/crafting.cpp
 msgid "v (more)"
 msgstr "v (更多)"
-
-#: src/crafting.cpp
-msgid "very dark"
-msgstr "漆黑"
 
 #. ~ 1$ - shooter, 2$ - target
 #: src/creature.cpp
@@ -83013,11 +83230,6 @@ msgstr "%s开始驾驶。"
 
 #: src/game.cpp
 #, c-format
-msgid "%s took %d damage! (before armor)"
-msgstr "%s遭受了%d点伤害! (未减护甲)"
-
-#: src/game.cpp
-#, c-format
 msgctxt "memorial_female"
 msgid "%s was killed."
 msgstr "%s被杀了。"
@@ -83030,15 +83242,8 @@ msgstr "%s被杀了。"
 
 #: src/game.cpp
 #, c-format
-msgid "%s was stunned AGAIN for %d turn!"
-msgid_plural "%s was stunned AGAIN for %d turns!"
-msgstr[0] "%s再次被击晕%d回合！"
-
-#: src/game.cpp
-#, c-format
-msgid "%s was stunned for %d turn!"
-msgid_plural "%s was stunned for %d turns!"
-msgstr[0] "%s被打晕%d回合！"
+msgid "%s was stunned!"
+msgstr ""
 
 #: src/game.cpp
 #, c-format
@@ -83966,10 +84171,6 @@ msgid "No furniture at grabbed point."
 msgstr "指定方向没有家具。"
 
 #: src/game.cpp
-msgid "No one nearby. Yell?"
-msgstr ""
-
-#: src/game.cpp
 msgid "No radio car connected."
 msgstr "没有连线的无线遥控车。"
 
@@ -84281,8 +84482,9 @@ msgid "Set the Scent Map sensitivity to (0 to cancel)?"
 msgstr "将气味图敏感度设置为(0为取消）？"
 
 #: src/game.cpp
-msgid "Set the time to? (One day is 19200)"
-msgstr "设定时间到?(从春季开始，每天以14400计，19200即为春季2天上午8点)"
+#, c-format
+msgid "Set the time to? (One day is %i turns)"
+msgstr ""
 
 #: src/game.cpp
 msgid "Show Sound Clustering"
@@ -84765,10 +84967,6 @@ msgid "There's no room in your %1$s's %2$s for that, it's too bulky!"
 msgstr ""
 
 #: src/game.cpp
-msgid "There's no-one close enough to talk to."
-msgstr "周围没有人可以说话。"
-
-#: src/game.cpp
 msgid "There's nothing there to smash!"
 msgstr "没有可以粉碎的东西！"
 
@@ -84984,6 +85182,10 @@ msgstr "世界保留。剩余的人物:%s"
 #, c-format
 msgid "Written here: %s"
 msgstr "这里写着： %s"
+
+#: src/game.cpp
+msgid "Yell"
+msgstr ""
 
 #: src/game.cpp
 msgid "Yes, and save game before sleeping."
@@ -90197,6 +90399,11 @@ msgstr "磅"
 #: src/item.cpp
 msgid "left "
 msgstr "左 "
+
+#: src/item.cpp
+msgctxt "color"
+msgid "orange"
+msgstr ""
 
 #: src/item.cpp
 msgid "right "
@@ -96981,6 +97188,16 @@ msgstr "很多"
 msgid "all"
 msgstr "全部"
 
+#: src/melee.cpp
+#, c-format
+msgid "damage after tec mult:%dbash,%dcut,%dstab,%dtotal"
+msgstr ""
+
+#: src/melee.cpp
+#, c-format
+msgid "damage before tec mult:%dbash,%dcut,%dstab,%dtotal"
+msgstr ""
+
 #. ~ Adjective in "You block <adjective> of the damage with your <weapon>.
 #: src/melee.cpp
 msgid "most"
@@ -100131,9 +100348,33 @@ msgid "Tracker"
 msgstr "追踪者"
 
 #: src/mod_manager.cpp
+msgid "BUILDINGS MODS"
+msgstr ""
+
+#: src/mod_manager.cpp
+msgid "Balance"
+msgstr ""
+
+#: src/mod_manager.cpp
+msgid "Blacklist"
+msgstr ""
+
+#: src/mod_manager.cpp
+msgid "CREATURE MODS"
+msgstr ""
+
+#: src/mod_manager.cpp
 #, c-format
 msgid "Can not open %s for writing"
 msgstr "无法打开 %s 以写入"
+
+#: src/mod_manager.cpp
+msgid "Default"
+msgstr ""
+
+#: src/mod_manager.cpp
+msgid "EXCLUSION MODS"
+msgstr ""
 
 #: src/mod_manager.cpp
 #, c-format
@@ -100151,6 +100392,18 @@ msgid "Failed to write to %s"
 msgstr "写入至 %s 失败"
 
 #: src/mod_manager.cpp
+msgid "ITEM ADDIDION MODS"
+msgstr ""
+
+#: src/mod_manager.cpp
+msgid "MAGICAL MODS"
+msgstr ""
+
+#: src/mod_manager.cpp
+msgid "NO CATEGORY"
+msgstr ""
+
+#: src/mod_manager.cpp
 msgid "No description"
 msgstr "没有描述"
 
@@ -100159,6 +100412,14 @@ msgstr "没有描述"
 #, c-format
 msgid "No name (%s)"
 msgstr "没有名称 (%s)"
+
+#: src/mod_manager.cpp
+msgid "REBALANCING MODS"
+msgstr ""
+
+#: src/mod_manager.cpp
+msgid "VEHICLE MODS"
+msgstr ""
 
 #. ~ delimiter for mod dependency enumeration
 #. ~ delimiter for mod author enumeration
@@ -105897,6 +106158,10 @@ msgid "O..kay..? "
 msgstr "可...以吗？ "
 
 #: src/npctalk.cpp
+msgid "OBEY ME!"
+msgstr ""
+
+#: src/npctalk.cpp
 msgid "OK..."
 msgstr "OK...."
 
@@ -106685,6 +106950,10 @@ msgid "Y: Yell"
 msgstr ""
 
 #: src/npctalk.cpp
+msgid "YES MASTER"
+msgstr ""
+
+#: src/npctalk.cpp
 msgid ""
 "Ya, that representative from the Old Guard asked the two of us to come out "
 "here and begin fortifying this place as a refugee camp.  I'm not sure how "
@@ -107382,12 +107651,6 @@ msgid ""
 msgstr ""
 
 #: src/options.cpp
-msgid ""
-"A scaling factor that determines average time in days between monster "
-"upgrades. Set to 0.00 to turn off monster upgrades."
-msgstr "决定怪物升级平均天数的比例系数。设为 0.00 将关闭怪物升级。"
-
-#: src/options.cpp
 msgid "A scaling factor that determines density of dynamic NPC spawns."
 msgstr "决定动态NPC生成密度的系数。"
 
@@ -107398,6 +107661,12 @@ msgstr "确定物品生成密度的系数"
 #: src/options.cpp
 msgid "A scaling factor that determines density of monster spawns."
 msgstr "设定生成怪物的密度系数"
+
+#: src/options.cpp
+msgid ""
+"A scaling factor that determines the time between monster upgrades. A higher "
+"number means slower evolution. Set to 0.00 to turn off monster upgrades."
+msgstr ""
 
 #: src/options.cpp
 msgid "Adjust the volume of sound effects being played by the game."
@@ -107631,6 +107900,10 @@ msgid ""
 "Enable item auto pickup. Change pickup rules with the Auto Pickup Manager in "
 "the Help Menu ?3"
 msgstr "启动自动拾取。拾取规则在帮助菜单3中。"
+
+#: src/options.cpp
+msgid "Eternal season"
+msgstr ""
 
 #: src/options.cpp
 msgid "Experimental z-levels"
@@ -107888,6 +108161,10 @@ msgid "Item spawn scaling factor"
 msgstr "物品生成比例系数"
 
 #: src/options.cpp
+msgid "Keep the initial season for ever."
+msgstr ""
+
+#: src/options.cpp
 msgid "Language"
 msgstr "语言"
 
@@ -107919,8 +108196,8 @@ msgid "Military"
 msgstr "军用制"
 
 #: src/options.cpp
-msgid "Monster half-life scaling factor"
-msgstr "怪物演化比例系数"
+msgid "Monster evolution scaling factor"
+msgstr ""
 
 #: src/options.cpp
 msgid "Move view by how many squares per keypress."
@@ -108033,6 +108310,13 @@ msgid "Safemode when driving"
 msgstr "驾驶中安全模式"
 
 #: src/options.cpp
+msgid ""
+"Scales experience gained from practicing skills and reading books. 0.5 is "
+"half as fast as default, 2.0 is twice as fast, 0.0 disables skill training "
+"except for NPC training."
+msgstr ""
+
+#: src/options.cpp
 msgid "Season length"
 msgstr "季节长度"
 
@@ -108115,6 +108399,10 @@ msgstr "城镇规模"
 #: src/options.cpp
 msgid "Skill rust"
 msgstr "技能遗忘"
+
+#: src/options.cpp
+msgid "Skill training speed"
+msgstr ""
 
 #: src/options.cpp
 msgid "Snap to target"
@@ -108389,8 +108677,32 @@ msgid "Press any key for more..."
 msgstr "按任意更多..."
 
 #: src/output.cpp
+msgid "brightly"
+msgstr "明亮"
+
+#: src/output.cpp
+msgid "cloudy"
+msgstr "多云"
+
+#: src/output.cpp
 msgid "d: delete history"
 msgstr "d：删除历史记录"
+
+#: src/output.cpp
+msgid "dark"
+msgstr "黑暗"
+
+#: src/output.cpp
+msgid "shady"
+msgstr "阴暗"
+
+#: src/output.cpp
+msgid "unknown"
+msgstr ""
+
+#: src/output.cpp
+msgid "very dark"
+msgstr "漆黑"
 
 #. ~ Translation of query answer letters (y mean yes, n - no)
 #. ~ Translation MUST contain symbols ONLY from ASCII charset. Undefined behavior otherwise.
@@ -108675,16 +108987,16 @@ msgid "[,] All"
 msgstr "[,]所有"
 
 #: src/pickup.cpp
+msgid "[<] Prev"
+msgstr ""
+
+#: src/pickup.cpp
+msgid "[>] Next"
+msgstr ""
+
+#: src/pickup.cpp
 msgid "[left] Unmark"
 msgstr "[左]取消标记"
-
-#: src/pickup.cpp
-msgid "[pgdn] Next"
-msgstr "[pgdn]下页"
-
-#: src/pickup.cpp
-msgid "[pgup] Prev"
-msgstr "[pgup]前页"
 
 #: src/pickup.cpp
 msgid "[right] Mark"
@@ -110276,6 +110588,11 @@ msgstr "钚剂量过大，你真的确定要这么多么？"
 
 #: src/player.cpp
 #, c-format
+msgid "The %s can't be wielded with only one arm."
+msgstr ""
+
+#: src/player.cpp
+#, c-format
 msgid "The %s is much too small to fit your huge body!"
 msgstr "%s 对于你巨大的身体来说太小了，你穿不上！"
 
@@ -110712,6 +111029,11 @@ msgstr "你满头大汗。"
 
 #: src/player.cpp
 #, c-format
+msgid "You are too weak to wield %s with only one arm."
+msgstr ""
+
+#: src/player.cpp
+#, c-format
 msgid "You assimilate your %s."
 msgstr "你吸收了你的 %s 。"
 
@@ -110885,11 +111207,6 @@ msgstr "你头上有角戴不了帽子头盔这类东西。"
 #, c-format
 msgid "You cannot wear more than one %s!"
 msgstr "你不能再穿一个%s!"
-
-#: src/player.cpp
-#, c-format
-msgid "You cannot wield a %s with only one arm."
-msgstr "你只有一只手臂没法拿%s 。"
 
 #: src/player.cpp
 msgid "You consume the sacred human flesh."
@@ -115361,6 +115678,9 @@ msgstr "_______未输入名字!!!!______"
 #~ msgid "That %s cannot be used on a %s."
 #~ msgstr "%s 不能装在 %s 上。"
 
+#~ msgid "You cannot wield a %s with only one arm."
+#~ msgstr "你只有一只手臂没法拿%s 。"
+
 #~ msgid ""
 #~ "You eat the good parts and leave that indigestible plant stuff behind."
 #~ msgstr "你把能吃的地方吃下去了 ,并且留下了植物上那些不能吃的部分 ."
@@ -115408,6 +115728,12 @@ msgstr "_______未输入名字!!!!______"
 #~ msgid "%s was killed in a %s in the middle of nowhere."
 #~ msgstr "%s 被杀死在 %s 之中在某个偏远地点！"
 
+#~ msgid "[pgdn] Next"
+#~ msgstr "[pgdn]下页"
+
+#~ msgid "[pgup] Prev"
+#~ msgstr "[pgup]前页"
+
 #~ msgid "No space for %s; wield instead? (drops %s)"
 #~ msgstr "没有空间装%s了，手持它？ (扔下%s)"
 
@@ -115427,6 +115753,16 @@ msgstr "_______未输入名字!!!!______"
 #~ msgstr ""
 #~ "玩家开始游戏的季节。选择默认之外的选项会延迟角色的出生，因此食物腐败和怪物"
 #~ "刷新被提前了。"
+
+#~ msgid ""
+#~ "A scaling factor that determines average time in days between monster "
+#~ "upgrades. Set to 0.00 to turn off monster upgrades."
+#~ msgstr ""
+#~ "决定怪物升级平均天数的比例系数。设为 0.00 将关闭怪物升级。数值越小怪物进化"
+#~ "越快。"
+
+#~ msgid "Monster half-life scaling factor"
+#~ msgstr "怪物演化比例系数"
 
 #~ msgid ""
 #~ "A number determining how large cities are. Warning, large numbers lead to "
@@ -116016,6 +116352,9 @@ msgstr "_______未输入名字!!!!______"
 #~ msgid "You let go of the %s as it slides past %s"
 #~ msgstr "你松开了%s，在它滑过%s时。"
 
+#~ msgid "There's no-one close enough to talk to."
+#~ msgstr "周围没有人可以说话。"
+
 #~ msgid "You talk to yourself for a moment."
 #~ msgstr "你自言自语了一阵子。"
 
@@ -116078,6 +116417,20 @@ msgstr "_______未输入名字!!!!______"
 #~ msgid "The %s hits the %s."
 #~ msgstr "%s 击打了 %s"
 
+#~ msgid "%s took %d damage! (before armor)"
+#~ msgstr "%s遭受了%d点伤害! (未减护甲)"
+
+#~ msgid "%s was stunned AGAIN for %d turn!"
+#~ msgid_plural "%s was stunned AGAIN for %d turns!"
+#~ msgstr[0] "%s再次被击晕%d回合！"
+
+#~ msgid "%s was stunned for %d turn!"
+#~ msgid_plural "%s was stunned for %d turns!"
+#~ msgstr[0] "%s被打晕%d回合！"
+
+#~ msgid "Set the time to? (One day is 19200)"
+#~ msgstr "设定时间到?(从春季开始，每天以14400计，19200即为春季2天上午8点)"
+
 #~ msgid "The %s teleports into a %s, killing them both!"
 #~ msgstr "%s传送到了%s体内，结果他们都挂了！"
 
@@ -116138,6 +116491,9 @@ msgstr "_______未输入名字!!!!______"
 
 #~ msgid "%c is not a valid inventory letter."
 #~ msgstr "%c 不是道具栏中物品所对应的字母。"
+
+#~ msgid "Failed to write autopickup rules to %s"
+#~ msgstr "向 %s 写入自动拾取规则失败。"
 
 #~ msgid "You found something!"
 #~ msgstr "你发现了某样东西！"
@@ -116478,6 +116834,17 @@ msgstr "_______未输入名字!!!!______"
 #~ msgid_plural "briefcase smgs"
 #~ msgstr[0] "手提箱冲锋枪"
 
+#~ msgid ""
+#~ "This not-so-little bundle of joy contains Leadworks, LLC's premier "
+#~ "offerings: the Enforcer autorevolver (with holster) & Long Ranger rifle.  "
+#~ "Maintenance kit, batteries for same, and a complimentary copy of the Gun "
+#~ "Owner's Handbook are included.  The perfect investment for a new family "
+#~ "starting out!  Disassemble to unpack and enjoy."
+#~ msgstr ""
+#~ "这一坨一点都不秀气的玩意包含了Leadworks LLC的推荐产品：执法者自动左轮（带"
+#~ "套）&游侠儿长管枪外加枪械维修套件配电池，附赠一本持枪手册的拷贝本。新拓荒"
+#~ "家庭的完美投资品！拆开以后就可以开始作死。"
+
 #~ msgid "a fish bowl"
 #~ msgid_plural "fish bowls"
 #~ msgstr[0] "金鱼缸"
@@ -116600,6 +116967,193 @@ msgstr "_______未输入名字!!!!______"
 #~ "Hand-loaded ammunition for pistols, packed with extra powder. It trades "
 #~ "improved damage for increased recoil."
 #~ msgstr "手工装填的手枪过充弹. 拥有更高的杀伤力和后坐力."
+
+#~ msgid ""
+#~ "A variant of the powerful 7.62x51mm round, incendiary rounds are designed "
+#~ "to burn hotly upon impact, piercing armor and igniting flammable "
+#~ "substances.  This one has been hand-reloaded."
+#~ msgstr ""
+#~ "这是威力强劲的7.62x51mm子弹的一种变种——燃烧弹，它可以剧烈燃烧，产生冲击，"
+#~ "穿透装甲并将周围的可燃物全都烧成灰灰。"
+
+#~ msgid ""
+#~ "The 7.62x51mm largely replaced the .30-06 round as the standard military "
+#~ "rifle round.  It is lighter, but offers similar velocities, resulting in "
+#~ "greater accuracy and reduced recoil.  This one has been hand-reloaded."
+#~ msgstr ""
+#~ "7.62x51mm子弹绝大程度上替代了.30-06弹药成为军方的标准弹药。它比.30-06弹药"
+#~ "更轻，但有几乎相同的速度，使其具有更高的精准度和更低的后坐力。这是手工重新"
+#~ "装药的型号。"
+
+#~ msgid ""
+#~ "The .30-06 is a very powerful rifle round designed for long-range use.  "
+#~ "Its stupendous accuracy and armor piercing capabilities make it one of "
+#~ "the most deadly rounds available, offset only by its drastic recoil and "
+#~ "noise.  This one has been hand-reloaded."
+#~ msgstr ""
+#~ "30-06步枪弹是专为远距离使用的强大的子弹。其精确度和杀伤力都很高，只是噪音"
+#~ "很大。这是手工重新装药的型号。"
+
+#~ msgid "reloaded .30-06 AP"
+#~ msgid_plural "reloaded .30-06 AP"
+#~ msgstr[0] "复装.30-06 AP弹"
+
+#~ msgid ""
+#~ "A hand-reloaded variant of the widely-used 5.56 NATO round, incendiary "
+#~ "rounds are designed to burn hotly upon impact, piercing armor and "
+#~ "igniting flammable substances."
+#~ msgstr ""
+#~ "这是广泛使用的5.56 NATO子弹的一种变种——燃烧弹，它可以剧烈燃烧，产生冲击，"
+#~ "穿透装甲并将周围的可燃物全都烧成灰灰。这是手工重新装药的型号。"
+
+#~ msgid "reloaded 5.56 incendiary"
+#~ msgid_plural "reloaded 5.56 incendiary"
+#~ msgstr[0] "复装5.56 燃烧弹"
+
+#~ msgid ""
+#~ "This is the armor piercing cartridge with a steel penetrator, it was "
+#~ "introduced in 1998.  There is a tungsten carbide variant too, it is "
+#~ "unavailable in the US though.  This one has been hand-reloaded."
+#~ msgstr ""
+#~ "这是一种带有钢芯弹头的穿甲弹，在1998年被发布。该种子弹弹头钢芯里有碳化钨材"
+#~ "料，在美国被禁止使用。这是手工重新装药的型号。"
+
+#~ msgid "reloaded 5.45x39mm 5N7"
+#~ msgid_plural "reloaded 5.45x39mm 5N7"
+#~ msgstr[0] "复装7.62x39mm 5N7弹"
+
+#~ msgid ""
+#~ "The M67 variant of the popular 7.62x39mm rifle round was designed to "
+#~ "improve yaw.  This causes the round to tumble inside a target, causing "
+#~ "significantly more damage.  It is still outdone by shattering rounds.  "
+#~ "This one has been hand-reloaded."
+#~ msgstr ""
+#~ "M67作为流行的7.62x39mm子弹的另一个版本，其设计是为了提升其子弹滚转，以提升"
+#~ "杀伤性，但仍然不如那些会在体内碎裂的子弹。这是手工重新装药的型号。"
+
+#~ msgid ""
+#~ "The .454 Casull round a very powerful revolver round capable of killing "
+#~ "huge game, like elephants, with ease.  It's designed to be used with the "
+#~ "Taurus Raging Bull.  This one has been hand-reloaded."
+#~ msgstr ""
+#~ ".454 Casull子弹是一种大威力转轮手枪子弹，其威力可以击毙成年大象。它被设计"
+#~ "使用在Taurus公司的Raging Bull左轮手枪上。这是手工重新装药的型号。"
+
+#~ msgid ""
+#~ "The .45 Super round is an updated variant of .45 ACP.  It is overloaded, "
+#~ "resulting in a great increase in muzzle velocity.  This translates to "
+#~ "higher accuracy and range, a minor armor piercing capability, and greater "
+#~ "recoil.  This one has been hand-reloaded."
+#~ msgstr ""
+#~ "标准.45子弹的升级版。由于装填了过量的推进药，因此速度大大提升，随之而来的"
+#~ "就是更高的精确度和射程、少量的穿甲性、和大大提高的后坐力。这是手工重新装药"
+#~ "的型号。"
+
+#~ msgid "reloaded .45 Super"
+#~ msgid_plural "reloaded .45 Super"
+#~ msgstr[0] "复装.45 超级弹"
+
+#~ msgid "reloaded .45 ACP"
+#~ msgid_plural "reloaded .45 ACP"
+#~ msgstr[0] "复装.45 ACP弹"
+
+#~ msgid ""
+#~ "Described (in 1971) by Dirty Harry as \"the most powerful handgun in the "
+#~ "world,\" the .44 Magnum gained widespread popularity due to its "
+#~ "depictions in the media.  In reality, its intense recoil makes it "
+#~ "unsuitable in most cases."
+#~ msgstr ""
+#~ "在电影《警探哈里》（1971年）中被描述为”世界上最强大的手枪弹药”。.44麦格农"
+#~ "由于在各影片中的广泛描写而变得知名，但实际上，它过大的后坐力使其并不适用于"
+#~ "大多数场合。"
+
+#~ msgid ""
+#~ "A brass-jacketed .40 Smith & Wesson round.  This increases penetration "
+#~ "slightly at the cost of reduced expansion.  This one has been hand-"
+#~ "reloaded."
+#~ msgstr ""
+#~ ".40 Smith&Wesson黄铜被甲高穿透力子弹。牺牲少许伤害用来增加穿透力。这是手工"
+#~ "重新装药的型号。"
+
+#~ msgid "reloaded .40 FMJ"
+#~ msgid_plural "reloaded .40 FMJ"
+#~ msgstr[0] "复装.40 FMJ弹"
+
+#~ msgid ""
+#~ "The .40 Smith & Wesson round was developed as an alternative to 10mm Auto "
+#~ "for the FBI after they complained of high recoil.  It is as accurate as "
+#~ "9mm, but has greater stopping power, leading to widespread use in law "
+#~ "enforcement.  This one has been hand-reloaded."
+#~ msgstr ""
+#~ "在FBI抱怨10mm Auto弹的高后坐力之后，.40 S&W弹作为一种替代品被研制出来。它"
+#~ "的精准度与9mm弹相同，但具备更强的阻滞力，因此在执法过程中有广泛应用。这是"
+#~ "手工重新装药的型号。"
+
+#~ msgid "reloaded .40 S&W"
+#~ msgid_plural "reloaded .40 S&W"
+#~ msgstr[0] "复装.40 S&W弹"
+
+#~ msgid ""
+#~ "Originally used by the FBI, the organization eventually abandoned the "
+#~ "round due to its high recoil.  Although respected for its versatility and "
+#~ "power, it has largely been supplanted by the downgraded .40 S&W.  This "
+#~ "one has been hand-reloaded."
+#~ msgstr ""
+#~ "虽然原本由FBI使用，但却因为其太高的后坐力而被逐渐舍弃。虽然仍具有很高的泛"
+#~ "用性和威力它在大部分情况下还是被低一级的.40 S&W弹药所取代。这是手工重新装"
+#~ "药的型号。"
+
+#~ msgid ""
+#~ "A brass-jacketed .38 round.  This increases penetration slightly at the "
+#~ "cost of reduced expansion.  This one has been hand-reloaded."
+#~ msgstr ""
+#~ ".38被甲高穿透力子弹。牺牲少许伤害用来增加穿透力。这是手工重新装药的型号。"
+
+#~ msgid ""
+#~ "9x18 millimeter Makarov, an old Soviet pistol cartridge used mainly by "
+#~ "the Makarov PM.  The +P+ has higher internal pressure that offers a "
+#~ "degree of armor-penetrating ability.  This one has been hand-reloaded."
+#~ msgstr ""
+#~ "9x18mm 马卡洛夫手枪弹，一种老式苏联手枪弹药，主要用于马卡洛夫PM型手枪。这"
+#~ "种加大膛压的大威力型号可以提高一定量的穿甲性能。这是手工重新装药的型号。"
+
+#~ msgid ""
+#~ "A brass-jacketed 9mm Parabellum round.  This increases penetration "
+#~ "slightly at the cost of reduced expansion."
+#~ msgstr "9mm黄铜被甲高穿透力子弹。牺牲少许伤害来增加穿透力。"
+
+#~ msgid "reloaded 9mm FMJ"
+#~ msgid_plural "reloaded 9mm FMJ"
+#~ msgstr[0] "复装9mm FMJ弹"
+
+#~ msgid "reloaded 9mm +P+"
+#~ msgid_plural "reloaded 9mm +P+"
+#~ msgstr[0] "复装9mm +P+"
+
+#~ msgid ""
+#~ "Attempts to improve the ballistics of 9mm ammunition lead to high-"
+#~ "pressure rounds.  Increased velocity results in superior accuracy and "
+#~ "damage.  This one has been hand-reloaded."
+#~ msgstr ""
+#~ "为了改善9mm弹的弹道学性质而提高了其膛压。由于提高了速度,故准确度和伤害都有"
+#~ "所提升。这是手工重新装药的型号。"
+
+#~ msgid "reloaded 9mm +P"
+#~ msgid_plural "reloaded 9mm +P"
+#~ msgstr[0] "复装9mm +P"
+
+#~ msgid ""
+#~ "9 millimeter parabellum is generally regarded as the most popular handgun "
+#~ "cartridge and used by the majority of US police forces.  It is also a "
+#~ "very popular round in sub-machine guns.  This one has been hand-reloaded."
+#~ msgstr ""
+#~ "九毫米帕拉贝伦子弹是大多数美国警察机关所主要使用的手枪子弹。它一般被认为是"
+#~ "最普遍的手枪子弹，并被大量使用在冲锋枪中。无论是灾变前还是灾变后，都是烂大"
+#~ "街的存在。这是手工重新装药的型号。"
+
+#~ msgid "reloaded 9mm"
+#~ msgid_plural "reloaded 9mm"
+#~ msgstr[0] "复装9mm"
 
 #~ msgid "heavy fletched field point arrow"
 #~ msgid_plural "heavy fletched field point arrows"
