@@ -212,13 +212,38 @@ std::string string_input_win (WINDOW *w, std::string input, int max_length, int 
                               std::string identifier = "", int w_x = -1, int w_y = -1,
                               bool dorefresh = true, bool only_digits = false);
 
-long popup_getkey(const char *mes, ...);
 // for the next two functions, if cancelable is true, esc returns the last option
 int  menu_vec(bool cancelable, const char *mes, const std::vector<std::string> options);
 int  menu_vec(bool cancelable, const char *mes, const std::vector<std::string> &options, const std::string &hotkeys_override);
 int  menu(bool cancelable, const char *mes, ...);
-void popup_top(const char *mes, ...); // Displayed at the top of the screen
-void popup(const char *mes, ...);
+
+/**
+ * @name Popup windows
+ *
+ * Each function displays a popup (above all other windows) with the given (formatted)
+ * text. The popup function with the flags parameters does all the work, the other functions
+ * call it with specific flags. The function can be called with a bitwise combination of flags.
+ *
+ * The functions return the key (taken from @ref getch) that was entered by the user.
+ *
+ * The message is a printf-like string. It may contain color tags, which are used while printing.
+ *
+ * - PF_GET_KEY (ignored when combined with PF_NO_WAIT) cancels the popup on *any* user input.
+ *   Without the flag the popup is only canceled when the user enters new-line, space and escape.
+ *   This flag is passed by @ref popup_getkey.
+ * - PF_NO_WAIT displays the popup, but does not wait for the user input. The popup window is
+ *   immediately destroyed (but will be visible until another window is redrawn over it).
+ *   The function always returns 0 upon this flag, no call to `getch` is done at all.
+ *   This flag is passed by @ref popup_nowait.
+ * - PF_ON_TOP makes the window appear on the top of the screen (at the upper most row). Without
+ *   this flag, the popup is centered on the screen.
+ *   The flag is passed by @ref popup_top.
+ * - PF_FULLSCREEN makes the popup window as big as the whole screen.
+ *   This flag is passed by @ref full_screen_popup.
+ * - PF_NONE is a placeholder for none of the above flags.
+ *
+ */
+/*@{*/
 typedef enum {
     PF_NONE        = 0,
     PF_GET_KEY     = 1 <<  0,
@@ -226,9 +251,14 @@ typedef enum {
     PF_ON_TOP      = 1 <<  2,
     PF_FULLSCREEN  = 1 <<  3,
 } PopupFlags;
+
+long popup_getkey(const char *mes, ...);
+void popup_top(const char *mes, ...);
+void popup_nowait(const char *mes, ...);
+void popup(const char *mes, ...);
 long popup(const std::string &text, PopupFlags flags);
-void popup_nowait(const char *mes, ...); // Doesn't wait for spacebar
 void full_screen_popup(const char *mes, ...);
+/*@}*/
 
 int draw_item_info(WINDOW *win, const std::string sItemName,
                    std::vector<iteminfo> &vItemDisplay, std::vector<iteminfo> &vItemCompare,
