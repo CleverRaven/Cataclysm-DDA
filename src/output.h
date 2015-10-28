@@ -157,6 +157,13 @@ int fold_and_print_from(WINDOW *w, int begin_y, int begin_x, int width, int begi
  */
 int fold_and_print_from(WINDOW *w, int begin_y, int begin_x, int width, int begin_line,
                         nc_color color, const std::string &text);
+/**
+ * Prints a single line of formatted text. The text is automatically trimmed to fit into the given
+ * width. The function handles color tags correctly.
+ * @param begin_x,begin_y The row and column index on which to start the line.
+ * @param width Maximal width of the printed line, if the text is longer, it is cut off.
+ * @param base_color The initially used color. This can be overridden using color tags.
+ */
 void trim_and_print(WINDOW *w, int begin_y, int begin_x, int width, nc_color base_color,
                     const char *mes, ...);
 void center_print(WINDOW *w, int y, nc_color FG, const char *mes, ...);
