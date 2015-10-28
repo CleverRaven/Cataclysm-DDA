@@ -205,17 +205,17 @@
     "vision_day":40,
     "vision_night":5,
     "hp":30,
-    "special_attacks":[["INK_JET", 10], ["TENTACLE_LASH"], 20],
+    "special_attacks":[["INK_JET", 10],["TENTACLE_LASH", 15]],
 	"attack_effs": 
 	[
-    {
+	{
 	"id": "numbpoison",
-	"duration": 15
-    }
-    ],
+	"duration": 30
+	}
+	],
     "death_function":"NORMAL",
 	"starting_ammo" : {"tentacle":2},
-    "description": "A beaked mutated dog with large bulging eyes. Two long tentacles, cowered in wet matted fur, extend from its back. This creatures stench is unbearable.",
+    "description": "A beaked mutated dog with large bulging eyes. Two long tentacles, cowered in wet matted fur, extend from its back. This creature's stench is unbearable.",
     "flags":["SEES", "HEARS", "SMELLS", "ANIMAL", "WARM", "FUR", "HIT_AND_RUN", "KEENNOSE", "BLEED", "ATTACKMON", "BONES", "FAT", "INK_SAC"],
     "anger_triggers":["STALK", "HURT", "FRIEND_ATTACKED", "FRIEND_DIED"],
     "placate_triggers":["MEAT"],
