@@ -360,6 +360,29 @@
             "speed_mod": [-5, -3]
         }
     },
+	{
+        "type": "effect_type",
+        "id": "numbpoison",
+        "name": ["Numbness"],
+        "desc": ["You feel numbness spreading around your body!"],
+        "rating": "bad",
+        "resist_traits": ["POISRESIST"],
+        "pain_sizing": true,
+        "hurt_sizing": true,
+        "main_parts_only": true,
+		"int_dur_factor": 60,
+        "base_mods": {
+            "pkill_tick": [7],
+            "pkill_min": [1, 0]
+			"hurt_min": [1],
+            "hurt_chance": [450, 2700]    
+        },
+		"scaling_mods": {
+		    "pkill_min": [0.2, 0.07]
+			"hurt_min": [0.34, 0.113],
+            "hurt_chance": [-25, -75]
+        }
+    },
     {
         "type": "effect_type",
         "id": "lightsnare",
