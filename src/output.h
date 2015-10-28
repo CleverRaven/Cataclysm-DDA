@@ -119,8 +119,24 @@ void print_colored_text( WINDOW *w, int x, int y, nc_color &cur_color, nc_color 
 int print_scrollable( WINDOW *w, int begin_line, const std::string &text, nc_color base_color, const std::string &scroll_msg );
 
 std::vector<std::string> foldstring (std::string str, int width);
+/**
+ * Format, fold and print text in the given window. The function handles color tags and
+ * uses them while printing. It expects a printf-like format string and matching
+ * arguments to that format (see @ref string_format).
+ * @param begin_x The row index on which to print the first line.
+ * @param begin_y The column index on which to start each line.
+ * @param width The width used to fold the text (see @ref foldstring). `width + begin_y` should be
+ * less than the window width, otherwise the lines will be wrapped by the curses system, which
+ * defeats the purpose of using `foldstring`.
+ * @param color The initially used color. This can be overridden using color tags.
+ * @return The number of lines of the formatted text (after folding). This may be larger than
+ * the height of the window.
+ */
 int fold_and_print(WINDOW *w, int begin_y, int begin_x, int width, nc_color color, const char *mes,
                    ...);
+/**
+ * Same as other @ref fold_and_print, but does not do any string formatting, the string is uses as is.
+ */
 int fold_and_print(WINDOW *w, int begin_y, int begin_x, int width, nc_color color,
                    const std::string &text);
 int fold_and_print_from(WINDOW *w, int begin_y, int begin_x, int width, int begin_line,
