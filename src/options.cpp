@@ -112,7 +112,7 @@ options_manager::cOpt::cOpt()
 
 //string select constructor
 options_manager::cOpt::cOpt(const std::string sPageIn, const std::string sMenuTextIn, const std::string sTooltipIn,
-           const std::string sItemsIn, std::string sDefaultIn, copt_hide_t opt_hide = COPT_NO_HIDE)
+           const std::string sItemsIn, std::string sDefaultIn, copt_hide_t opt_hide)
 {
     sPage = sPageIn;
     sMenuText = sMenuTextIn;
@@ -138,8 +138,8 @@ options_manager::cOpt::cOpt(const std::string sPageIn, const std::string sMenuTe
 }
 
 //string input constructor
-cOpt::cOpt(const std::string sPageIn, const std::string sMenuTextIn, const std::string sTooltipIn,
-           const std::string sDefaultIn, const int iMaxLengthIn, copt_hide_t opt_hide = COPT_NO_HIDE)
+options_manager::cOpt::cOpt(const std::string sPageIn, const std::string sMenuTextIn, const std::string sTooltipIn,
+           const std::string sDefaultIn, const int iMaxLengthIn, copt_hide_t opt_hide)
 {
     sPage = sPageIn;
     sMenuText = sMenuTextIn;
@@ -157,7 +157,7 @@ cOpt::cOpt(const std::string sPageIn, const std::string sMenuTextIn, const std::
 
 //bool constructor
 options_manager::cOpt::cOpt(const std::string sPageIn, const std::string sMenuTextIn, const std::string sTooltipIn,
-           const bool bDefaultIn, copt_hide_t opt_hide = COPT_NO_HIDE)
+           const bool bDefaultIn, copt_hide_t opt_hide)
 {
     sPage = sPageIn;
     sMenuText = sMenuTextIn;
@@ -174,7 +174,7 @@ options_manager::cOpt::cOpt(const std::string sPageIn, const std::string sMenuTe
 
 //int constructor
 options_manager::cOpt::cOpt(const std::string sPageIn, const std::string sMenuTextIn, const std::string sTooltipIn,
-           const int iMinIn, int iMaxIn, int iDefaultIn, copt_hide_t opt_hide = COPT_NO_HIDE)
+           const int iMinIn, int iMaxIn, int iDefaultIn, copt_hide_t opt_hide)
 {
     sPage = sPageIn;
     sMenuText = sMenuTextIn;
@@ -202,8 +202,7 @@ options_manager::cOpt::cOpt(const std::string sPageIn, const std::string sMenuTe
 
 //float constructor
 options_manager::cOpt::cOpt(const std::string sPageIn, const std::string sMenuTextIn, const std::string sTooltipIn,
-           const float fMinIn, float fMaxIn, float fDefaultIn, float fStepIn,
-           copt_hide_t opt_hide = COPT_NO_HIDE)
+           const float fMinIn, float fMaxIn, float fDefaultIn, float fStepIn, copt_hide_t opt_hide)
 {
     sPage = sPageIn;
     sMenuText = sMenuTextIn;
@@ -379,7 +378,7 @@ int options_manager::cOpt::getItemPos(const std::string sSearch)
     return -1;
 }
 
-int cOpt::getMaxLength()
+int options_manager::cOpt::getMaxLength()
 {
     if (sType == "string_input") {
         return iMaxLength;
@@ -1504,7 +1503,7 @@ void options_manager::show(bool ingame)
 
     //Look for changes
     bool options_changed = false;
-    bool world_optiones_changed = false;
+    bool world_options_changed = false;
     bool lang_changed = false;
     bool used_tiles_changed = false;
 
@@ -1513,7 +1512,7 @@ void options_manager::show(bool ingame)
             options_changed = true;
 
             if ( iter.second.getPage() == "world_default" ) {
-                world_optiones_changed = true;
+                world_options_changed = true;
             }
 
             if ( iter.first == "TILES" || iter.first == "USE_TILES" ) {
@@ -1527,11 +1526,11 @@ void options_manager::show(bool ingame)
 
     if (options_changed) {
         if(query_yn(_("Save changes?"))) {
-            save(ingame && world_optiones_changed);
+            save(ingame && world_options_changed);
         } else {
             used_tiles_changed = false;
             OPTIONS = OPTIONS_OLD;
-            if (ingame && world_optiones_changed) {
+            if (ingame && world_options_changed) {
                 ACTIVE_WORLD_OPTIONS = WOPTIONS_OLD;
             }
         }

@@ -48,21 +48,25 @@ class options_manager : public JsonSerializer, public JsonDeserializer {
                 //Default constructor
                 cOpt();
 
-                //string constructor
+                //string select constructor
                 cOpt(const std::string sPageIn, const std::string sMenuTextIn, const std::string sTooltipIn,
-                     const std::string sItemsIn, std::string sDefaultIn, copt_hide_t opt_hide);
+                     const std::string sItemsIn, std::string sDefaultIn, copt_hide_t opt_hide = COPT_NO_HIDE);
+
+                //string input constructor
+                cOpt(const std::string sPageIn, const std::string sMenuTextIn, const std::string sTooltipIn,
+                    const std::string sDefaultIn, const int iMaxLengthIn, copt_hide_t opt_hide = COPT_NO_HIDE);
 
                 //bool constructor
                 cOpt(const std::string sPageIn, const std::string sMenuTextIn, const std::string sTooltipIn,
-                     const bool bDefaultIn, copt_hide_t opt_hide);
+                     const bool bDefaultIn, copt_hide_t opt_hide = COPT_NO_HIDE);
 
                 //int constructor
                 cOpt(const std::string sPageIn, const std::string sMenuTextIn, const std::string sTooltipIn,
-                     const int iMinIn, int iMaxIn, int iDefaultIn, copt_hide_t opt_hide);
+                     const int iMinIn, int iMaxIn, int iDefaultIn, copt_hide_t opt_hide = COPT_NO_HIDE);
 
                 //float constructor
                 cOpt(const std::string sPageIn, const std::string sMenuTextIn, const std::string sTooltipIn,
-                     const float fMinIn, float fMaxIn, float fDefaultIn, float fStepIn, copt_hide_t opt_hide);
+                     const float fMinIn, float fMaxIn, float fDefaultIn, float fStepIn, copt_hide_t opt_hide = COPT_NO_HIDE);
 
                 //Default deconstructor
                 ~cOpt() {};
@@ -88,6 +92,8 @@ class options_manager : public JsonSerializer, public JsonDeserializer {
                 std::string getDefaultText(const bool bTranslated = true);
 
                 int getItemPos(const std::string sSearch);
+
+                int getMaxLength();
 
                 //set to next item
                 void setNext();
@@ -121,6 +127,8 @@ class options_manager : public JsonSerializer, public JsonDeserializer {
                 std::string sSet;
                 std::vector<std::string> vItems;
                 std::string sDefault;
+
+                int iMaxLength;
 
                 //sType == "bool"
                 bool bSet;
