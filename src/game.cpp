@@ -1679,7 +1679,7 @@ int game::inventory_item_menu(int pos, int iStartX, int iWidth, const inventory_
         action_menu.border_color = BORDER_COLOR;
 
         do {
-            draw_item_info(VIEW_OFFSET_Y, iWidth, VIEW_OFFSET_X, TERMY - VIEW_OFFSET_Y * 2, item_name, vThisItem, vDummy,
+            draw_item_info(iStartX, iWidth, VIEW_OFFSET_X, TERMY - VIEW_OFFSET_Y * 2, item_name, vThisItem, vDummy,
                            iScrollPos, true, false, false);
             const int prev_selected = action_menu.selected;
             action_menu.query( false );
