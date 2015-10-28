@@ -26,7 +26,6 @@ bool use_tiles;
 bool log_from_top;
 bool fov_3d;
 
-bool used_tiles_changed;
 #ifdef TILES
 extern cata_tiles *tilecontext;
 #endif // TILES
@@ -1270,8 +1269,7 @@ void show_options(bool ingame)
     int iLastPage = 0;
     int iCurrentLine = 0;
     int iStartPos = 0;
-    bool bStuffChanged = false;
-    bool bWorldStuffChanged = false;
+
     input_context ctxt("OPTIONS");
     ctxt.register_cardinal();
     ctxt.register_action("QUIT");
@@ -1281,8 +1279,6 @@ void show_options(bool ingame)
     ctxt.register_action("HELP_KEYBINDINGS");
 
     std::stringstream sTemp;
-
-    used_tiles_changed = false;
 
     while(true) {
         auto &cOPTIONS = ( ingame && iCurrentPage == iWorldOptPage ?
@@ -1418,7 +1414,6 @@ void show_options(bool ingame)
 
         const std::string action = ctxt.handle_input();
 
-        bool bChangedSomething = false;
         if (action == "DOWN") {
             do {
                 iCurrentLine++;
@@ -1436,10 +1431,8 @@ void show_options(bool ingame)
                    );
         } else if (!mPageItems[iCurrentPage].empty() && action == "RIGHT") {
             cOPTIONS[mPageItems[iCurrentPage][iCurrentLine]].setNext();
-            bChangedSomething = true;
         } else if (!mPageItems[iCurrentPage].empty() && action == "LEFT") {
             cOPTIONS[mPageItems[iCurrentPage][iCurrentLine]].setPrev();
-            bChangedSomething = true;
         } else if (action == "NEXT_TAB") {
             iCurrentLine = 0;
             iStartPos = 0;
@@ -1458,7 +1451,6 @@ void show_options(bool ingame)
             cOpt &cur_opt = cOPTIONS[mPageItems[iCurrentPage][iCurrentLine]];
             if (cur_opt.getType() == "bool" || cur_opt.getType() == "string_select" || cur_opt.getType() == "string_input" ) {
                 cur_opt.setNext();
-                bChangedSomething = true;
             } else {
                 const bool is_int = cur_opt.getType() == "int";
                 const bool is_float = cur_opt.getType() == "float";
@@ -1475,7 +1467,7 @@ void show_options(bool ingame)
                         ssTemp >> tmpFloat;
                         if (ssTemp) {
                             cur_opt.setValue(tmpFloat);
-                            bChangedSomething = true;
+
                         } else {
                             popup(_("Invalid input: not a number"));
                         }
@@ -1484,31 +1476,44 @@ void show_options(bool ingame)
                         // has taken care that the string contains
                         // only digits, parsing is done in setValue
                         cur_opt.setValue(opt_val);
-                        bChangedSomething = true;
                     }
                 }
             }
         } else if (action == "QUIT") {
             break;
         }
-        if(bChangedSomething) {
-            bStuffChanged = true;
-            if ( iCurrentPage == iWorldOptPage ) {
-                bWorldStuffChanged = true;
+    }
+
+    //Look for changes
+    bool options_changed = false;
+    bool world_optiones_changed = false;
+    bool lang_changed = false;
+    bool used_tiles_changed = false;
+
+    for (auto &iter : OPTIONS_OLD) {
+        if ( iter.second.getValue() != OPTIONS[iter.first].getValue() ) {
+            options_changed = true;
+
+            if ( iter.second.getPage() == "world_default" ) {
+                world_optiones_changed = true;
+            }
+
+            if ( iter.first == "TILES" || iter.first == "USE_TILES" ) {
+                used_tiles_changed = true;
+
+            } else if ( iter.first == "USE_LANG" ) {
+                lang_changed = true;
             }
         }
     }
 
-    used_tiles_changed = (OPTIONS_OLD["TILES"].getValue() != OPTIONS["TILES"].getValue()) ||
-                         (OPTIONS_OLD["USE_TILES"] != OPTIONS["USE_TILES"]);
-    bool lang_changed = OPTIONS_OLD["USE_LANG"].getValue() != OPTIONS["USE_LANG"].getValue();
-    if (bStuffChanged) {
+    if (options_changed) {
         if(query_yn(_("Save changes?"))) {
-            save_options(ingame && bWorldStuffChanged);
+            save_options(ingame && world_optiones_changed);
         } else {
             used_tiles_changed = false;
             OPTIONS = OPTIONS_OLD;
-            if (ingame && bWorldStuffChanged) {
+            if (ingame && world_optiones_changed) {
                 ACTIVE_WORLD_OPTIONS = WOPTIONS_OLD;
             }
         }
