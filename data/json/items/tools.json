@@ -10127,7 +10127,7 @@
     "material": "steel",
     "techniques": ["WBLOCK_1", "RAPID", "BRUTAL", "PRECISE"],
     "weight": 478,
-    "volume": 5,
+    "volume": 4,
     "bashing": 7,
     "cutting": 18,
     "flags" : ["CHOP", "DURABLE_MELEE", "SHEATH_SWORD", "IAIJUTSU"],
