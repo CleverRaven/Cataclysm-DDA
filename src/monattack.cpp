@@ -4964,11 +4964,13 @@ void mattack::tentacle_lash(monster *z, int index)
 
     const game_message_type msg_type = target->attitude_to(g->u) == Creature::A_FRIENDLY ? m_bad : m_warning;
 
-    for (int i = 0; i < num_tentacles; i++) {
-        
-        z->moves -= 50;
+    int attacks_made;
 
-        if (g->u.uncanny_dodge()) {
+    for (int i = 0; i < num_tentacles; i++) {
+
+        attacks_made++;
+
+        if (target->uncanny_dodge()) {
             continue;
         }
         if (dodge_check(z, target)) {
@@ -4993,7 +4995,7 @@ void mattack::tentacle_lash(monster *z, int index)
             if (u_see && !target->is_monster()) {
                 target->add_msg_player_or_npc(msg_type,
                     _("The %1$s's tentacle lashes your %2$s!"),
-                    _("The % 1$s's tentacle lashes <npcname>'s %2$s!"),
+                    _("The %1$s's tentacle lashes <npcname>'s %2$s!"),
                     z->name().c_str(),
                     body_part_name_accusative(hit).c_str());
             }
@@ -5027,5 +5029,6 @@ void mattack::tentacle_lash(monster *z, int index)
             }
     }
     // Attacks have been completed
+    z->moves -= attacks_made * 75;
     z->reset_special(index); // Reset timer
 }
