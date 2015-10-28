@@ -203,6 +203,26 @@ std::string remove_color_tags(const std::string &s);
 bool query_yn(const char *mes, ...);
 int  query_int(const char *mes, ...);
 
+/**
+ * Shows a window querying the user for input.
+ *
+ * Returns the input that was entered. If the user cancels the input (e.g. by pressing escape),
+ * an empty string is returned. An empty string may also be returned when the user does not enter
+ * any text and confirms the input (by pressing ENTER). It's currently not possible these two
+ * situations.
+ *
+ * @param title The displayed title, describing what to enter. Color tags can be used.
+ * @param width Width of the input area where the user input appears.
+ * @param input The initially display input. The user can change this.
+ * @param desc An optional text (e.h. help or formatting information) which is displayed
+ * above the input. Color tags can be used.
+ * @param identifier If not empty, this is used to store and retrieve previously entered
+ * text. All calls with the same `identifier` share this history, the history is also stored
+ * when saving the game (see @ref uistate).
+ * @param max_length The maximal length of the text the user can input. More input is simply
+ * ignored and the returned string is never longer than this.
+ * @param only_digits Whether to only allow digits in the string.
+ */
 std::string string_input_popup(std::string title, int width = 0, std::string input = "",
                                std::string desc = "", std::string identifier = "",
                                int max_length = -1, bool only_digits = false);
