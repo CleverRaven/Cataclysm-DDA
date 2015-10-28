@@ -1608,50 +1608,54 @@ int game::inventory_item_menu(int pos, int iStartX, int iWidth, int position)
 
     if (u.has_item(pos)) {
         item &oThisItem = u.i_at(pos);
-        std::vector<iteminfo> vThisItem, vDummy, vMenu;
+        std::vector<iteminfo> vThisItem, vDummy;
 
-        const int iOffsetX = 2;
         const bool bHPR = get_auto_pickup().has_rule(oThisItem.tname( 1, false ));
         const hint_rating rate_drop_item = u.weapon.has_flag("NO_UNWIELD") ? HINT_CANT : HINT_GOOD;
 
         int max_text_length = 0;
-        vMenu.push_back(iteminfo("MENU", "", "iOffsetX", iOffsetX));
-        vMenu.push_back(iteminfo("MENU", "", "iOffsetY", 0));
-
-        std::vector< std::tuple<std::string,std::string,std::string,double> >
-            menuItems {
-                std::make_tuple("MENU", "a", _("<a>ctivate"), u.rate_action_use( oThisItem )),
-                std::make_tuple("MENU", "R", _("<R>ead"), u.rate_action_read( oThisItem )),
-                std::make_tuple("MENU", "E", _("<E>at"), u.rate_action_eat( oThisItem )),
-                std::make_tuple("MENU", "W", _("<W>ear"), u.rate_action_wear( oThisItem )),
-                std::make_tuple("MENU", "w", _("<w>ield"), -999),
-                std::make_tuple("MENU", "t", _("<t>hrow"), -999),
-                std::make_tuple("MENU", "T", _("<T>ake off"), u.rate_action_takeoff( oThisItem )),
-                std::make_tuple("MENU", "d", _("<d>rop"), rate_drop_item),
-                std::make_tuple("MENU", "U", _("<U>nload"), u.rate_action_unload( oThisItem )),
-                std::make_tuple("MENU", "r", _("<r>eload"), u.rate_action_reload( oThisItem )),
-                std::make_tuple("MENU", "D", _("<D>isassemble"), u.rate_action_disassemble( oThisItem )),
-                std::make_tuple("MENU", "=", _("<=> reassign"),-999)
-            };
-
-        for (auto &i: menuItems){
-            vMenu.push_back(iteminfo(std::get<0>(i), std::get<1>(i), std::get<2>(i), std::get<3>(i)));
-            max_text_length = std::max( max_text_length, utf8_width(std::get<2>(i)) );
+        uimenu action_menu;
+        const auto addentry = [&]( const char key, const std::string &text, const hint_rating hint ) {
+            // The char is used as retval from the uimenu *and* as hotkey.
+            action_menu.addentry( key, true, key, text );
+            auto &entry = action_menu.entries.back();
+            switch( hint ) {
+                case HINT_CANT:
+                    entry.text_color = c_ltgray;
+                    break;
+                case HINT_IFFY:
+                    entry.text_color = c_ltred;
+                    break;
+                case HINT_GOOD:
+                    entry.text_color = c_ltgreen;
+                    break;
+            }
+            max_text_length = std::max( max_text_length, utf8_width( text ) );
+        };
+        addentry( 'a', _("activate"), u.rate_action_use( oThisItem ) );
+        addentry( 'R', _("read"), u.rate_action_read( oThisItem ) );
+        addentry( 'E', _("eat"), u.rate_action_eat( oThisItem ) );
+        addentry( 'W', _("wear"), u.rate_action_wear( oThisItem ) );
+        addentry( 'w', _("wield"), HINT_GOOD );
+        addentry( 't', _("throw"), HINT_GOOD );
+        addentry( 'T', _("take off"), u.rate_action_takeoff( oThisItem ) );
+        addentry( 'd', _("drop"), rate_drop_item );
+        addentry( 'U', _("unload"), u.rate_action_unload( oThisItem ) );
+        addentry( 'r', _("reload"), u.rate_action_reload( oThisItem ) );
+        addentry( 'D', _("disassemble"), u.rate_action_disassemble( oThisItem ) );
+        addentry( '=', _("reassign"), HINT_GOOD );
+        if( bHPR ) {
+            addentry( '-', _("Autopickup"), HINT_IFFY );
+        } else {
+            addentry( '+', _("Autopickup"), HINT_GOOD );
         }
-
-        max_text_length = std::max(max_text_length, utf8_width(_("<-> Autopickup")));
-        max_text_length = std::max(max_text_length, utf8_width(_("<+> Autopickup")));
-        vMenu.push_back(iteminfo("MENU", (bHPR) ? "-" : "+",
-                                 (bHPR) ? _("<-> Autopickup") : _("<+> Autopickup"), (bHPR) ? HINT_IFFY : HINT_GOOD));
 
         int iScrollPos = 0;
         oThisItem.info(true, vThisItem);
         const std::string item_name = oThisItem.tname();
 
-        const int iMenuStart = iOffsetX;
-        const int iMenuItems = vMenu.size() - 1;
-        int iSelected = iOffsetX - 1;
-        int popup_width = max_text_length + 2;
+        // +2+2 for border and adjacent spaces, +2 for '<hotkey><space>'
+        int popup_width = max_text_length + 2+2 + 2;
         int popup_x = 0;
         switch (position) {
         case -2:
@@ -1668,11 +1672,31 @@ int game::inventory_item_menu(int pos, int iStartX, int iWidth, int position)
             break; //near the left edge of the terminal window
         }
 
+        // TODO: Ideally the setup of uimenu would be split into calculate variables (size, width...),
+        // and actual window creation. This would allow us to let uimenu calculate the width, we can
+        // use that to adjust its location afterwards.
+        action_menu.w_y = VIEW_OFFSET_Y;
+        action_menu.w_x = popup_x + VIEW_OFFSET_X;
+        action_menu.w_width = popup_width;
+        // Filtering isn't needed, the number of entries is manageable.
+        action_menu.filtering = false;
+        // Default menu border color is different, this matches the border of the item info window.
+        action_menu.border_color = BORDER_COLOR;
+
         do {
-            int iSel = iSelected >= iOffsetX && iSelected <= iMenuItems ? iSelected : -1;
             draw_item_info(VIEW_OFFSET_Y, iWidth, VIEW_OFFSET_X, TERMY - VIEW_OFFSET_Y * 2, item_name, vThisItem, vDummy,
                            iScrollPos, true, false, false);
-            cMenu = draw_item_info(popup_x, popup_width, 0, vMenu.size() + iOffsetX * 2, "", vMenu, vDummy, iSel);
+            const int prev_selected = action_menu.selected;
+            action_menu.query( false );
+            if( action_menu.ret != UIMENU_INVALID ) {
+                cMenu = action_menu.ret; /* Remember: hotkey == retval, see addentry above. */
+            } else if( action_menu.keypress == KEY_RIGHT ) {
+                // Simulate KEY_RIGHT == '\n' (confirm currently selected entry) for compatibility with old version.
+                // TODO: ideally this should be done in the uimenu, maybe via a callback.
+                cMenu = action_menu.entries[action_menu.selected].retval;
+            } else {
+                cMenu = action_menu.keypress;
+            }
 
             switch (cMenu) {
             case 'a':
@@ -1711,16 +1735,19 @@ int game::inventory_item_menu(int pos, int iStartX, int iWidth, int position)
             case '=':
                 reassign_item(pos);
                 break;
-            case KEY_UP:
-                iSelected--;
-                break;
-            case KEY_DOWN:
-                iSelected++;
-                break;
             case KEY_PPAGE:
+                // Prevent the menu from scrolling with this key. TODO: Ideally the menu
+                // could be instructed to ignore these two keys instead of scrolling.
+                action_menu.selected = prev_selected;
+                action_menu.fselected = prev_selected;
+                action_menu.vshift = 0;
                 iScrollPos--;
                 break;
             case KEY_NPAGE:
+                // ditto. See KEY_PPAGE.
+                action_menu.selected = prev_selected;
+                action_menu.fselected = prev_selected;
+                action_menu.vshift = 0;
                 iScrollPos++;
                 break;
             case '+':
@@ -1735,13 +1762,6 @@ int game::inventory_item_menu(int pos, int iStartX, int iWidth, int position)
                     add_msg(m_info, _("'%s' removed from character pickup rules."), oThisItem.tname( 1, false ).c_str());
                 }
                 break;
-            default:
-                break;
-            }
-            if (iSelected < iMenuStart - 1) { // wraparound, but can be hidden
-                iSelected = iMenuItems;
-            } else if (iSelected > iMenuItems + 1) {
-                iSelected = iMenuStart;
             }
         } while (cMenu == KEY_DOWN || cMenu == KEY_UP || cMenu == KEY_PPAGE || cMenu == KEY_NPAGE);
     }
