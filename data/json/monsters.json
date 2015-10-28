@@ -172,7 +172,7 @@
 	[
     {
 	"id": "numbpoison",
-	"duration": 15
+	"duration": 50
     }
     ],
     "death_function":"NORMAL",
@@ -210,7 +210,7 @@
 	[
 	{
 	"id": "numbpoison",
-	"duration": 30
+	"duration": 50
 	}
 	],
     "death_function":"NORMAL",
