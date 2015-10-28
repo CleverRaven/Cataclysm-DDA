@@ -2019,7 +2019,7 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
             redraw = true;
         } else if (action == "PICK_RANDOM_NAME") {
             if(!MAP_SHARING::isSharing()) { // Don't allow random names when sharing maps. We don't need to check at the top as you won't be able to edit the name
-                u->pick_name();
+                u->pick_name(false);
             }
         } else if (action == "CHANGE_GENDER") {
             u->male = !u->male;
