@@ -272,6 +272,7 @@ void MonsterGenerator::init_attack()
     attack_map["GRAB"] = &mattack::grab;
     attack_map["GRAB_DRAG"] = &mattack::grab_drag;
     attack_map["INK_JET"] = &mattack::ink_jet;
+    attack_map["TENTACLE_LASH"] = &mattack::tentacle_lash;
 }
 
 void MonsterGenerator::init_defense()

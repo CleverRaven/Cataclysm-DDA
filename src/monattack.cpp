@@ -4882,24 +4882,27 @@ void mattack::ink_jet(monster *z, int index) {
 
     z->moves -= 50;
 
+    const game_message_type msg_type = target->attitude_to(g->u) == Creature::A_FRIENDLY ? m_bad : m_warning;
+
     // Notify the player, if he sees the use of this ability
     bool u_see = g->u.sees(*z);
 
-    if (u_see || target->is_player()) {
-        const auto msg_type = (target->attitude_to(g->u) == Creature::A_FRIENDLY ? m_bad : m_warning);
-        target->add_msg_player_or_npc(msg_type, (_("The %s squirts a jet of black ink at you!"), z->name().c_str()), 
-            (_("The %s squirts a jet of black ink at <npcname>!"), z->name().c_str()));
+    if (u_see && !target->is_monster()) {
+        target->add_msg_player_or_npc(msg_type, 
+            _("The %s squirts a jet of black ink at you!"),
+            _("The %s squirts a jet of black ink at <npcname>!"),
+            z->name().c_str());
     }
-    else {
-        const auto msg_type = (target->attitude_to(g->u) == Creature::A_FRIENDLY ? m_bad : m_warning);
-        add_msg(msg_type, _("The %1$s squirts a jet of black ink at %2$s!"),
-                z->name().c_str(), target->disp_name().c_str());
+    else if (u_see) {
+        add_msg(msg_type, 
+            _("The %1$s squirts a jet of black ink at %2$s!"),
+            z->name().c_str(), target->disp_name().c_str());
     }
 
     // Shoot the jet of ink
 
     for (auto &i : line) {
-        g->m.add_field(i, fd_ink_cloud, 1, 0);
+        g->m.add_field(i, fd_ink, 1, 0);
         if (g->m.move_cost(i) == 0) {
             g->m.add_field(i, fd_ink, 3, 0);
             if (g->u.sees(i))
@@ -4924,14 +4927,105 @@ void mattack::ink_jet(monster *z, int index) {
                 target->add_env_effect( "inked", bp_torso, 4, 150 );
             }
         }
-        else if (!target->is_monster()) {
-            add_msg(m_good, _("You dodge the jet of black ink!"),
-                _("<npcname> dodges the jet of black ink!")); 
+        else if (u_see && !target->is_monster()) {
+            target->add_msg_player_or_npc( m_good,
+                _("You dodge the jet of black ink!"),
+                _("<npcname> dodges the jet of black ink!") );
         }
-        else {
-          add_msg(m_warning, _("The %s dodges the jet of black ink!"),
-                target->disp_name().c_str());
+        else if (u_see) {
+          add_msg(m_warning, 
+              _("The %s dodges the jet of black ink!"),
+              target->disp_name().c_str());
         }
 
     }
+
+}
+
+void mattack::tentacle_lash(monster *z, int index)
+{
+    Creature *target = z->attack_target();
+
+    int num_tentacles = 0;
+    for (const auto &ammo_entry : z->ammo) {
+        if (ammo_entry.first == "tentacle") {
+            num_tentacles += ammo_entry.second;
+        }
+    }
+    if (target == nullptr ||
+        !z->can_act() ||
+        num_tentacles == 0 ||
+        rl_dist(z->pos(), target->pos()) > 2 ||
+        !z->sees(*target)) {
+        return;
+    }
+
+    bool u_see = g->u.sees(*z);
+
+    const game_message_type msg_type = target->attitude_to(g->u) == Creature::A_FRIENDLY ? m_bad : m_warning;
+
+    for (int i = 0; i < num_tentacles; i++) {
+        
+        z->moves -= 50;
+
+        if (g->u.uncanny_dodge()) {
+            continue;
+        }
+        if (dodge_check(z, target)) {
+            if (u_see && !target->is_monster()) {
+                target->add_msg_player_or_npc(msg_type,
+                    _("The %s lashes tentacle at you, but you dodge it!"),
+                    _("The %s lashes tentacle at <npcname>!, but <npcname> dodges it!"),
+                    z->name().c_str());
+            }
+            else if (u_see) {
+                add_msg(msg_type, _
+                    ("The %1$s lashes tentacle at %2$s, but %2$s dodges it!"),
+                    z->name().c_str(), target->disp_name().c_str());
+            }
+            target->on_dodge(z, z->type->melee_skill * 2);
+            continue;
+        }
+        body_part hit = random_body_part();
+        int dam = rng(1, 10);
+        dam = target->deal_damage(z, hit, damage_instance(DT_BASH, dam)).total_damage();
+        if (dam > 0) {
+            if (u_see && !target->is_monster()) {
+                target->add_msg_player_or_npc(msg_type,
+                    _("The %1$s's tentacle lashes your %2$s!"),
+                    _("The % 1$s's tentacle lashes <npcname>'s %2$s!"),
+                    z->name().c_str(),
+                    body_part_name_accusative(hit).c_str());
+            }
+            else if (u_see) {
+                add_msg(msg_type,
+                    _("The %1$s's tentacle lashes %2$s!"),
+                    z->name().c_str(),
+                    target->disp_name().c_str());
+            }
+            target->on_hit(z, hit, z->type->melee_skill);
+            target->check_dead_state();
+            if (target->is_dead_state()) {
+                break;
+            }
+        }
+        else {
+            if (u_see && !target->is_monster()) {
+                target->add_msg_player_or_npc(msg_type,
+                    _("The %1$s's tentacle lashes ineffectivelly at your %2$s"),
+                    _("The %1$s's tentacle lashes ineffectivelly at <npcname>'s %2$s!"),
+                    z->name().c_str(),
+                    body_part_name_accusative(hit).c_str());
+            }
+            else if (u_see) {
+                add_msg(msg_type,
+                    _("The %1$s's tentacle lashes ineffectivelly at %2$s!"),
+                    z->name().c_str(),
+                    target->disp_name().c_str());
+            }
+            target->on_hit(z, hit, z->type->melee_skill);
+            }
+    }
+    // Attacks have been completed
+    z->reset_special(index); // Reset timer
 }

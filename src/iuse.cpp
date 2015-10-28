@@ -9480,7 +9480,7 @@ int iuse::ladder( player *p, item *, bool, const tripoint& )
     return 1;
 }
 
-int iuse::ink_sac(player *p, item *it, bool, const tripoint& pos)
+int iuse::ink_sac(player *p, item *it, bool, const tripoint&)
 {
     if (p->is_underwater()) {
         p->add_msg_if_player(m_info, _("You can't do that while underwater."));
