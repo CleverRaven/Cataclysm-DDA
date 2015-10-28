@@ -1111,19 +1111,11 @@ int draw_item_info(const int iLeft, const int iWidth, const int iTop, const int 
     return result;
 }
 
-int draw_item_info(WINDOW *win, const std::string sItemName,
-                   std::vector<iteminfo> &vItemDisplay, std::vector<iteminfo> &vItemCompare,
-                   int &selected, const bool without_getch, const bool without_border, const bool handle_scrolling)
+std::string format_item_info( const std::vector<iteminfo> &vItemDisplay,
+                              const std::vector<iteminfo> &vItemCompare )
 {
     std::ostringstream buffer;
-    int line_num = 1;
-    if (sItemName != "") {
-        buffer << sItemName << "\n \n"; //This space is required, otherwise it won't make an empty line.
-    }
-
     bool bStartNewLine = true;
-    int selected_ret = '\n';
-    // Buffering the whole item info text so we can apply proper word wrapping on it.
 
     for (size_t i = 0; i < vItemDisplay.size(); i++) {
         if (vItemDisplay[i].sType == "DESCRIPTION") {
@@ -1198,6 +1190,22 @@ int draw_item_info(WINDOW *win, const std::string sItemName,
             }
         }
     }
+
+    return buffer.str();
+}
+
+int draw_item_info(WINDOW *win, const std::string sItemName,
+                   std::vector<iteminfo> &vItemDisplay, std::vector<iteminfo> &vItemCompare,
+                   int &selected, const bool without_getch, const bool without_border, const bool handle_scrolling)
+{
+    std::ostringstream buffer;
+    int line_num = 1;
+    if (sItemName != "") {
+        buffer << sItemName << "\n \n"; //This space is required, otherwise it won't make an empty line.
+    }
+
+    int selected_ret = '\n';
+    buffer << format_item_info( vItemDisplay, vItemCompare );
 
     int ch = (int)' ';
     while( true ) {
