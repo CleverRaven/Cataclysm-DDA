@@ -1609,7 +1609,7 @@ void advanced_inventory::display()
                 do_return_entry();
                 assert( g->u.has_activity( ACT_ADV_INVENTORY ) );
                 ret = g->inventory_item_menu( idx, colstart + ( src == left ? w_width / 2 : 0 ),
-                                              w_width / 2, ( src == right ? 0 : -1 ) );
+                                              w_width / 2, src == left ? game::LEFT_OF_INFO : game::RIGHT_OF_INFO );
                 if( !g->u.has_activity( ACT_ADV_INVENTORY ) ) {
                     exit = true;
                 } else {

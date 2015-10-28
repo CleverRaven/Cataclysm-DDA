@@ -1595,14 +1595,9 @@ void game::handle_key_blocking_activity()
 * @param pos position of item in inventory
 * @param iStartX Left coord of the item info window
 * @param iWidth width of the item info window (height = height of terminal)
-* @param position It is position of the action menu. Default 0
-*       -2 - near the right edge of the terminal window
-*       -1 - left before item info window
-*       0 - right after item info window
-*       1 - near the left edge of the terminal window
 * @return getch
 */
-int game::inventory_item_menu(int pos, int iStartX, int iWidth, int position)
+int game::inventory_item_menu(int pos, int iStartX, int iWidth, const inventory_item_menu_positon position)
 {
     int cMenu = (int)'+';
 
@@ -1658,18 +1653,18 @@ int game::inventory_item_menu(int pos, int iStartX, int iWidth, int position)
         int popup_width = max_text_length + 2+2 + 2;
         int popup_x = 0;
         switch (position) {
-        case -2:
+        case RIGHT_TERMINAL_EDGE:
             popup_x = 0;
-            break; //near the right edge of the terminal window
-        case -1:
+            break;
+        case LEFT_OF_INFO:
             popup_x = iStartX - popup_width;
-            break; //left before item info window
-        case 0:
+            break;
+        case RIGHT_OF_INFO:
             popup_x = iStartX + iWidth;
-            break; //right after item info window
-        case 1:
+            break;
+        case LEFT_TERMINAL_EDGE:
             popup_x = TERMX - popup_width;
-            break; //near the left edge of the terminal window
+            break;
         }
 
         // TODO: Ideally the setup of uimenu would be split into calculate variables (size, width...),
