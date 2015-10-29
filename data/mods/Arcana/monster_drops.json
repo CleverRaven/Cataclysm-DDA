@@ -177,5 +177,23 @@
             { "item": "scourge_staff", "prob": 100 },
             { "item": "essence", "count-min": 2, "count-max": 5 }
         ]
+    },
+    {
+        "type" : "item_group",
+        "subtype": "collection",
+        "comment": "chalice-specific loot, plus boss-level essence",
+        "id": "archon_drops",
+        "entries":
+        [
+            { "group": "essence_boss", "prob": 100 },
+            { "item": "thunder_sigil", "prob": 100 },
+            { "item": "book_sacrifice", "prob": 50 },
+            { "item": "offering_chalice", "prob": 25 },
+            { "group": "pants", "damage-min": 1, "damage-max": 4 },
+            { "group": "shirts", "damage-min": 1, "damage-max": 4 },
+            { "group": "shoes", "damage-min": 1, "damage-max": 4 },
+            { "group": "jackets", "damage-min": 1, "damage-max": 4, "prob": 20 },
+            { "group": "bags", "damage-min": 1, "damage-max": 4, "prob": 6 }
+        ]
     }
 ]
