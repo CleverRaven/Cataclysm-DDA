@@ -4146,10 +4146,10 @@
         "warmth" : 30,
         "phase" : "solid",
         "environmental_protection" : 1,
-        "encumbrance" : 20,
+        "encumbrance" : 22,
         "bashing" : -2,
         "flags" : ["VARSIZE", "POCKETS", "OUTER"],
-        "coverage" : 95,
+        "coverage" : 90,
         "material_thickness" : 3
     },
     {
@@ -4170,7 +4170,7 @@
         "warmth" : 30,
         "phase" : "solid",
         "environmental_protection" : 1,
-        "encumbrance" : 20,
+        "encumbrance" : 22,
         "bashing" : -2,
         "flags" : ["VARSIZE", "POCKETS", "OUTER"],
         "coverage" : 95,
