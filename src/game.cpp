@@ -8017,11 +8017,13 @@ bool pet_menu(monster *z)
             dog_ceph_mut.push_back(mtype_id("mon_beakhound2"));
             dog_ceph_mut.push_back(mtype_id("mon_beakhound3"));
 
-            for (int i = 0; i < dog_ceph_mut.size(); i++) {
+            int max_mut_lev = dog_ceph_mut.size() - 1;
+
+            for (size_t i = 0; i < dog_ceph_mut.size(); i++) {
                 if (dog_ceph_mut[i] == z->type->id) {
                     int mut_lev = i + mut_str;
-                    if (mut_lev > dog_ceph_mut.size() - 1) {
-                        mut_lev = dog_ceph_mut.size() - 1;
+                    if (mut_lev > max_mut_lev) {
+                        mut_lev = max_mut_lev;
                     }
                     else if (mut_lev < 0) {
                         mut_lev = 0;
