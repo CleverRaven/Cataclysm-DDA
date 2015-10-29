@@ -7786,7 +7786,11 @@ bool pet_menu(monster *z)
         amenu.addentry(pheromone, true, 't', _("Tear out pheromone ball"));
     }
 
-    if (z->type->id == mtype_id("mon_dog"), mtype_id("mon_beakhound"), mtype_id("mon_beakhound2"), mtype_id("mon_beakhound3")) {
+    if (z->type->id == mtype_id("mon_dog") ||
+        z->type->id == mtype_id("mon_beakhound") || 
+        z->type->id == mtype_id("mon_beakhound2") || 
+        z->type->id == mtype_id("mon_beakhound3")) 
+    {
         if (g->u.has_amount("syringe", 1)) {
             amenu.addentry(inject, true, 'i', _("Inject mutagen"));
         }
