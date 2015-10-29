@@ -7745,7 +7745,8 @@ bool pet_menu(monster *z)
         drop_all,
         give_items,
         pheromone,
-        rope
+        rope,
+        inject
     };
 
     uimenu amenu;
@@ -7754,6 +7755,7 @@ bool pet_menu(monster *z)
     if( z->type->in_species( ZOMBIE ) ) {
         pet_name = _("zombie slave");
     }
+    pet_name = z->name();
 
     amenu.selected = 0;
     amenu.text = string_format(_("What to do with your %s?"), pet_name.c_str());
@@ -7782,6 +7784,15 @@ bool pet_menu(monster *z)
 
     if( z->type->in_species( ZOMBIE ) ) {
         amenu.addentry(pheromone, true, 't', _("Tear out pheromone ball"));
+    }
+
+    if (z->type->id == mtype_id("mon_dog"), mtype_id("mon_beakhound"), mtype_id("mon_beakhound2"), mtype_id("mon_beakhound3")) {
+        if (g->u.has_amount("syringe", 1)) {
+            amenu.addentry(inject, true, 'i', _("Inject mutagen"));
+        }
+        else {
+        amenu.addentry(inject, false, 'i', _("You need a syringe"));
+        }
     }
 
     amenu.query();
@@ -7968,9 +7979,68 @@ bool pet_menu(monster *z)
 
         return true;
     }
+    if (inject == choice) {
+        auto filter = [](const item &it) {
+            return it.has_flag("MUTAGEN_CEPHALOPOD") ||
+                   it.has_flag("PURIFIER");
+        };
+        int pos = g->inv_for_filter(_("Injectable mutagen:"), filter);
+        if (pos == INT_MIN) {
+            add_msg(_("Never mind."));
+            return true;
+        }
 
-    return true;
-}
+        item *it = &g->u.i_at(pos);
+
+        if (!(it->has_flag("MUTAGEN_CEPHALOPOD")) &&
+            !(it->has_flag("PURIFIER"))) {
+            add_msg(_("You can't inject that!"));
+            return true;
+        }
+
+        int mut_str = 0;
+        if (!it->has_flag("SERUM")) {
+            mut_str = 1;
+        }
+        else {
+            mut_str = rng(1, 3);
+        }
+        if (it->has_flag("PURIFIER")) {
+            mut_str *= -1;
+        }
+        if (it->has_flag("MUTAGEN_CEPHALOPOD") ||
+            it->has_flag("PURIFIER")) {
+
+            std::vector<mtype_id> dog_ceph_mut;
+            dog_ceph_mut.push_back(mtype_id("mon_dog"));
+            dog_ceph_mut.push_back(mtype_id("mon_beakhound"));
+            dog_ceph_mut.push_back(mtype_id("mon_beakhound2"));
+            dog_ceph_mut.push_back(mtype_id("mon_beakhound3"));
+
+            for (int i = 0; i < dog_ceph_mut.size(); i++) {
+                if (dog_ceph_mut[i] == z->type->id) {
+                    int mut_lev = i + mut_str;
+                    if (mut_lev > dog_ceph_mut.size() - 1) {
+                        mut_lev = dog_ceph_mut.size() - 1;
+                    }
+                    else if (mut_lev < 0) {
+                        mut_lev = 0;
+                    }
+                    z->poly(dog_ceph_mut[mut_lev]);
+                    add_msg(_("You inject the %1$s into the %2$s."),
+                        it->type->nname(1).c_str(), pet_name.c_str());
+                    
+                    g->u.inv.use_charges(it->typeId(), 1);
+
+                    g->u.moves -= 200;
+                    
+                    return true;
+                    }
+                }
+            }
+        }
+      return true;  
+    }
 
 // Returns true if the menu handled stuff and player shouldn't do anything else
 bool npc_menu( npc &who )
