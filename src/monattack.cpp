@@ -4964,7 +4964,7 @@ void mattack::tentacle_lash(monster *z, int index)
 
     const game_message_type msg_type = target->attitude_to(g->u) == Creature::A_FRIENDLY ? m_bad : m_warning;
 
-    int attacks_made;
+    int attacks_made = 0;
 
     for (int i = 0; i < num_tentacles; i++) {
 
