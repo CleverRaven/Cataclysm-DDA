@@ -1647,21 +1647,13 @@ void options_manager::load()
     if( !fin.good() ) {
         if (load_legacy()) {
             if (save()) {
-                std::ifstream fin;
-
-                fin.open(FILENAMES["legacy_options"].c_str());
-                if(!fin.is_open()) {
-                    fin.open(FILENAMES["legacy_options2"].c_str());
-                    if(fin.is_open()) {
-                        fin.close();
-                        remove_file(FILENAMES["legacy_options2"]);
-                    }
-                } else {
-                    fin.close();
+                if(file_exist(FILENAMES["legacy_options"])) {
                     remove_file(FILENAMES["legacy_options"]);
                 }
 
-                fin.close();
+                if(file_exist(FILENAMES["legacy_options2"])) {
+                    remove_file(FILENAMES["legacy_options2"]);
+                }
             }
         }
 
