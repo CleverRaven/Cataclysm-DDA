@@ -267,7 +267,7 @@ int wrefresh(WINDOW *win)
         curses_drawwindow(win);
 
         #if defined(TILES)
-            try_update();
+            try_sdl_update();
         #endif
     }
     return 1;
