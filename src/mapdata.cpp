@@ -8,6 +8,7 @@
 #include "output.h"
 #include "item.h"
 #include "item_group.h"
+#include "calendar.h"
 
 #include <unordered_map>
 
@@ -156,8 +157,8 @@ furn_t null_furniture_t() {
   furn_t new_furniture;
   new_furniture.id = "f_null";
   new_furniture.name = _("nothing");
-  new_furniture.sym = ' ';
-  new_furniture.color = c_white;
+  new_furniture.symbol_.fill( ' ' );
+  new_furniture.color_.fill( c_white );
   new_furniture.movecost = 0;
   new_furniture.move_str_req = -1;
   new_furniture.transparent = true;
@@ -174,8 +175,8 @@ ter_t null_terrain_t() {
   ter_t new_terrain;
   new_terrain.id = "t_null";
   new_terrain.name = _("nothing");
-  new_terrain.sym = ' ';
-  new_terrain.color = c_white;
+  new_terrain.symbol_.fill( ' ' );
+  new_terrain.color_.fill( c_white );
   new_terrain.movecost = 2;
   new_terrain.trap = tr_null;
   new_terrain.trap_id_str = "";
@@ -194,6 +195,70 @@ ter_t null_terrain_t() {
   return new_terrain;
 }
 
+long string_to_symbol( JsonIn &js )
+{
+    const std::string s = js.get_string();
+    if( s == "LINE_XOXO" ) {
+        return LINE_XOXO;
+    } else if( s == "LINE_OXOX" ) {
+        return LINE_OXOX;
+    } else if( s.length() != 1 ) {
+        js.error( "Symbol string must be exactly 1 character long." );
+    }
+    return s[0];
+}
+
+template<typename C, typename F>
+void load_season_array( JsonIn &js, C &container, F load_func )
+{
+    if( js.test_array() ) {
+        js.start_array();
+        for( auto &season_entry : container ) {
+            season_entry = load_func( js );
+            js.end_array(); // consume separator
+        }
+    } else {
+        container.fill( load_func( js ) );
+    }
+}
+
+nc_color bgcolor_from_json( JsonIn &js)
+{
+    return bgcolor_from_string( js.get_string() );
+}
+
+nc_color color_from_json( JsonIn &js)
+{
+    return color_from_string( js.get_string() );
+}
+
+void map_data_common_t::load_symbol( JsonObject &jo )
+{
+    load_season_array( *jo.get_raw( "symbol" ), symbol_, string_to_symbol );
+
+    const bool has_color = jo.has_member( "color" );
+    const bool has_bgcolor = jo.has_member( "bgcolor" );
+    if( has_color && has_bgcolor ) {
+        jo.throw_error( "Found both color and bgcolor, only one of these is allowed." );
+    } else if( has_color ) {
+        load_season_array( *jo.get_raw( "color" ), color_, color_from_json );
+    } else if( has_bgcolor ) {
+        load_season_array( *jo.get_raw( "bgcolor" ), color_, bgcolor_from_json );
+    } else {
+        jo.throw_error( "Missing member: one of: \"color\", \"bgcolor\" must exist." );
+    }
+}
+
+long map_data_common_t::symbol() const
+{
+    return symbol_[calendar::turn.get_season()];
+}
+
+nc_color map_data_common_t::color() const
+{
+    return color_[calendar::turn.get_season()];
+}
+
 void load_furniture(JsonObject &jsobj)
 {
   if ( furnlist.empty() ) {
@@ -207,20 +272,8 @@ void load_furniture(JsonObject &jsobj)
       return;
   }
   new_furniture.name = _(jsobj.get_string("name").c_str());
-  new_furniture.sym = jsobj.get_string("symbol").c_str()[0];
 
-  bool has_color = jsobj.has_member("color");
-  bool has_bgcolor = jsobj.has_member("bgcolor");
-  if(has_color && has_bgcolor) {
-    debugmsg("Found both color and bgcolor for %s, use only one of these.", new_furniture.name.c_str());
-    new_furniture.color = c_white;
-  } else if(has_color) {
-    new_furniture.color = color_from_string(jsobj.get_string("color"));
-  } else if(has_bgcolor) {
-    new_furniture.color = bgcolor_from_string(jsobj.get_string("bgcolor"));
-  } else {
-    debugmsg("Furniture %s needs at least one of: color, bgcolor.", new_furniture.name.c_str());
-  }
+    new_furniture.load_symbol( jsobj );
 
   new_furniture.movecost = jsobj.get_int("move_cost_mod");
   new_furniture.move_str_req = jsobj.get_int("required_str");
@@ -271,17 +324,8 @@ void load_terrain(JsonObject &jsobj)
   }
   new_terrain.name = _(jsobj.get_string("name").c_str());
 
-  //Special case for the LINE_ symbols
-  std::string symbol = jsobj.get_string("symbol");
-  if("LINE_XOXO" == symbol) {
-    new_terrain.sym = LINE_XOXO;
-  } else if("LINE_OXOX" == symbol) {
-    new_terrain.sym = LINE_OXOX;
-  } else {
-    new_terrain.sym = symbol.c_str()[0];
-  }
+    new_terrain.load_symbol( jsobj );
 
-  new_terrain.color = color_from_string(jsobj.get_string("color"));
   new_terrain.movecost = jsobj.get_int("move_cost");
 
   if(jsobj.has_member("trap")) {

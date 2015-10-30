@@ -154,6 +154,7 @@ void mvwprintz(WINDOW *w, int y, int x, nc_color FG, const char *mes, ...);
 void printz(nc_color FG, const char *mes, ...);
 void wprintz(WINDOW *w, nc_color FG, const char *mes, ...);
 
+void draw_custom_border(WINDOW *w, chtype ls = 1, chtype rs = 1, chtype ts = 1, chtype bs = 1, chtype tl = 1, chtype tr = 1, chtype bl = 1, chtype br = 1, nc_color FG = BORDER_COLOR);
 void draw_border(WINDOW *w, nc_color FG = BORDER_COLOR);
 void draw_tabs(WINDOW *w, int active_tab, ...);
 
@@ -194,12 +195,14 @@ void full_screen_popup(const char *mes, ...);
 
 int draw_item_info(WINDOW *win, const std::string sItemName,
                    std::vector<iteminfo> &vItemDisplay, std::vector<iteminfo> &vItemCompare,
-                   const int selected = -1, const bool without_getch = false, const bool without_border = false);
+                   int &selected, const bool without_getch = false, const bool without_border = false,
+                   const bool handle_scrolling = false);
 
 int draw_item_info(const int iLeft, int iWidth, const int iTop, const int iHeight,
                    const std::string sItemName,
                    std::vector<iteminfo> &vItemDisplay, std::vector<iteminfo> &vItemCompare,
-                   const int selected = -1, const bool without_getch = false, const bool without_border = false);
+                   int &selected, const bool without_getch = false, const bool without_border = false,
+                   const bool handle_scrolling = false);
 
 char rand_char();
 long special_symbol (long sym);
@@ -226,11 +229,13 @@ void hit_animation(int iX, int iY, nc_color cColor, const std::string &cTile);
 std::pair<std::string, nc_color> const& get_hp_bar(int cur_hp, int max_hp, bool is_mon = false);
 std::pair<std::string, nc_color> const& get_item_hp_bar(int dmg);
 
+std::pair<std::string, nc_color> const& get_light_level(const float light);
+
 void draw_tab(WINDOW *w, int iOffsetX, std::string sText, bool bSelected);
 void draw_subtab(WINDOW *w, int iOffsetX, std::string sText, bool bSelected, bool bDecorate = true);
 void draw_scrollbar(WINDOW *window, const int iCurrentLine, const int iContentHeight,
                     const int iNumEntries, const int iOffsetY = 0, const int iOffsetX = 0,
-                    nc_color bar_color = c_white);
+                    nc_color bar_color = c_white, const bool bRefresh = true, const bool bTextScroll = false);
 void calcStartPos(int &iStartPos, const int iCurrentLine,
                   const int iContentHeight, const int iNumEntries);
 void clear_window(WINDOW *w);

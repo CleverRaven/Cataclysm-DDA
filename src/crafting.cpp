@@ -410,6 +410,21 @@ bool recipe::check_eligible_containers_for_crafting(int batch) const
             }
         }
 
+        // also check if we're currently in a vehicle that has the necessary storage
+        if(charges_to_store > 0) {
+            vehicle *veh = g->m.veh_at(g->u.pos());
+            if (veh != NULL) {
+                const itype_id &ftype = prod.type->id;
+                int fuel_cap = veh->fuel_capacity(ftype);
+                int fuel_amnt = veh->fuel_left(ftype);
+
+                if(fuel_cap >= 0) {
+                    int fuel_space_left = fuel_cap - fuel_amnt;
+                    charges_to_store -= fuel_space_left;
+                }
+            }
+        }
+
         if (charges_to_store > 0) {
             popup(_("You don't have anything to store %s in!"), prod.tname().c_str());
             return false;
@@ -941,26 +956,10 @@ static void draw_recipe_tabs(WINDOW *w, std::string tab, TAB_MODE mode)
     mvwputch(w, 2,  0, BORDER_COLOR, LINE_OXXO); // |^
     mvwputch(w, 2, width - 1, BORDER_COLOR, LINE_OOXX); // ^|
     mvwprintz(w, 0, width - utf8_width(_("Lighting:")), c_ltgray, _("Lighting:"));//Lighting info
-    float light = g->u.fine_detail_vision_mod();
-    const char *str;
-    nc_color color;
-    if (light <= 1) {
-        str = _("brightly");
-        color = c_yellow;
-    } else if (light <= 2) {
-        str = _("cloudy");
-        color = c_white;
-    } else if (light <= 3) {
-        str = _("shady");
-        color = c_ltgray;
-    } else if (light <= 4) {
-        str = _("dark");
-        color = c_dkgray;
-    } else {
-        str = _("very dark");
-        color = c_black_white;
-    }
-    mvwprintz(w, 1, width - 1 - utf8_width(str), color, str);
+
+    auto ll = get_light_level(g->u.fine_detail_vision_mod());
+    mvwprintz(w, 1, width - 1 - utf8_width(ll.first), ll.second, ll.first.c_str());
+
     switch (mode) {
     case NORMAL:
     {
@@ -1688,7 +1687,9 @@ void player::complete_craft()
             }
         }
 
-        if( !newit.count_by_charges() ) {
+        // Don't store components for things made by charges,
+        // don't store components for things that can't be uncrafted.
+        if( making->reversible && !newit.count_by_charges() ) {
             // Setting this for items counted by charges gives only problems:
             // those items are automatically merged everywhere (map/vehicle/inventory),
             // which would either loose this information or merge it somehow.

@@ -15,6 +15,8 @@
 #include "mapdata.h"
 #include "mtype.h"
 
+const species_id FUNGUS( "FUNGUS" );
+
 #define INBOUNDS(x, y) \
  (x >= 0 && x < SEEX * my_MAPSIZE && y >= 0 && y < SEEY * my_MAPSIZE)
 
@@ -666,39 +668,9 @@ bool map::process_fields_in_submap( submap *const current_submap,
 
                     case fd_acid:
                     {
-                        std::vector<item> contents;
                         const auto &ter = map_tile.get_ter_t();
-                        const auto &frn = map_tile.get_furn_t();
                         if( ter.has_flag( TFLAG_SWIMMABLE ) ) { // Dissipate faster in water
                             cur->setFieldAge( cur->getFieldAge() + 20 );
-                        }
-                        if( ter_furn_has_flag( ter, frn, TFLAG_SEALED ) &&
-                            !ter_furn_has_flag( ter, frn, TFLAG_ALLOW_FIELD_EFFECT ) ) {
-                            break;
-                        }
-                        auto items = i_at( p );
-                        for( auto melting = items.begin(); melting != items.end(); ) {
-                            // see DEVELOPER_FAQ.txt for how acid resistance is calculated
-                            int chance = melting->acid_resist();
-                            if (chance == 0) {
-                                melting->damage++;
-                            } else if (chance > 0 && chance <= 9) {
-                                if (one_in(chance)) {
-                                    melting->damage++;
-                                }
-                            }
-                            if (melting->damage >= 5) {
-                                //Destroy the object, age the field.
-                                cur->setFieldAge(cur->getFieldAge() + melting->volume());
-                                contents.insert( contents.begin(),
-                                                 melting->contents.begin(), melting->contents.end() );
-                                melting = items.erase( melting );
-                            } else {
-                                melting++;
-                            }
-                        }
-                        for( auto &c : contents ) {
-                            add_item_or_charges( p, c );
                         }
 
                         // Try to fall by a z-level
@@ -779,7 +751,6 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                     // Make a copy and let the copy explode.
                                     item tmp = *explosive;
                                     i_rem( p, explosive );
-                                    // TODO: Z
                                     tmp.detonate( p );
                                     // Just restart from the beginning.
                                     explosive = items_here.begin();
@@ -848,9 +819,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                             // large intrinsic effect blows up with half
                                             // the ammos damage in force, for each bullet,
                                             // just creating shrapnel.
-                                            // TODO: Z
-                                            g->explosion( p, ammo_type->damage / 2,
-                                                          true, false, false );
+                                            g->explosion( p, ammo_type->damage / 2, 0.5f, 1 );
                                         } else if( special ) {
                                             // If it has a special effect just trigger it.
                                             ammo_effects( p, ammo_type->ammo_effects );
@@ -2430,7 +2399,7 @@ void map::monster_in_field( monster &z )
             break;
 
         case fd_fungal_haze:
-            if( !z.type->in_species("FUNGUS") &&
+            if( !z.type->in_species( FUNGUS ) &&
                 !z.type->has_flag("NO_BREATHE") &&
                 !z.make_fungus() ) {
                 // Don't insta-kill jabberwocks, that's silly
@@ -2441,7 +2410,7 @@ void map::monster_in_field( monster &z )
             break;
 
         case fd_fungicidal_gas:
-            if( z.type->in_species("FUNGUS") ) {
+            if( z.type->in_species( FUNGUS ) ) {
                 const int density = cur->getFieldDensity();
                 z.moves -= rng( 10 * density, 30 * density );
                 dam += rng( 4, 7 * density );

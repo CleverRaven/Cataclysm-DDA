@@ -37,6 +37,46 @@ public:
     const char *c_str() const noexcept { return what(); }
 };
 
+namespace io {
+/**
+ * @name Enumeration (de)serialization to/from string.
+ *
+ * @ref enum_to_string converts an enumeration value to a string (which can be written to JSON).
+ * The result must be an non-empty string.
+ *
+ * @ref string_to_enum converts the string value back into an enumeration value. The input
+ * is expected to be one of the outputs of @ref enum_to_string. If the given string does
+ * not match an enumeration, an @ref InvalidEnumString is to be thrown.
+ *
+ * @code string_to_enum<E>(enum_to_string<E>(X)) == X @endcode must yield true for all values
+ * of the enumeration E.
+ *
+ * The functions need to be implemented somewhere for each enumeration type they are used on.
+ */
+/*@{*/
+class InvalidEnumString : public std::runtime_error {
+public:
+    InvalidEnumString() : std::runtime_error( "invalid enum string" ) { }
+    InvalidEnumString( const std::string &msg ) : std::runtime_error( msg ) { }
+};
+template<typename E>
+E string_to_enum( const std::string &data );
+template<typename E>
+const std::string enum_to_string( E data );
+
+// Helper function to do the lookup in a container (map or unordered_map)
+template<typename C, typename E = typename C::mapped_type>
+inline E string_to_enum_look_up( const C &container, const std::string &data )
+{
+    const auto iter = container.find( data );
+    if( iter == container.end() ) {
+        throw InvalidEnumString{};
+    }
+    return iter->second;
+}
+/*@}*/
+}
+
 /* JsonIn
  * ======
  *
@@ -170,6 +210,19 @@ class JsonIn
         std::string get_member_name(); // also strips the ':'
         JsonObject get_object();
         JsonArray get_array();
+
+        template<typename E, typename = typename std::enable_if<std::is_enum<E>::value>::type>
+        E get_enum_value()
+        {
+            const auto old_offset = tell();
+            try {
+                return io::string_to_enum<E>( get_string() );
+            } catch( const io::InvalidEnumString & ) {
+                seek( old_offset ); // so the error message points to the correct place.
+                error( "invalid enumeration value" );
+                throw; // ^^ error already throws, but the compiler doesn't know that )-:
+            }
+        }
 
         // container control and iteration
         void start_array(); // verify array start
@@ -421,6 +474,13 @@ class JsonOut
             write(static_cast<typename std::underlying_type<T>::type>(value));
         }
 
+        // enum ~> string
+        template <typename E, typename std::enable_if<std::is_enum<E>::value>::type* = nullptr>
+        void write_as_string(const E value)
+        {
+            write( io::enum_to_string<E>( value ) );
+        }
+
         template <typename T>
         void write_as_array(T const &container) {
             start_array();
@@ -580,6 +640,22 @@ class JsonObject
         double get_float(const std::string &name, const double fallback);
         std::string get_string(const std::string &name);
         std::string get_string(const std::string &name, const std::string &fallback);
+
+        template<typename E, typename = typename std::enable_if<std::is_enum<E>::value>::type>
+        E get_enum_value( const std::string &name, const E fallback )
+        {
+            if( !has_member( name ) ) {
+                return fallback;
+            }
+            jsin->seek( verify_position( name ) );
+            return jsin->get_enum_value<E>();
+        }
+        template<typename E, typename = typename std::enable_if<std::is_enum<E>::value>::type>
+        E get_enum_value( const std::string &name )
+        {
+            jsin->seek( verify_position( name ) );
+            return jsin->get_enum_value<E>();
+        }
 
         // containers by name
         // get_array returns empty array if the member is not found

@@ -4661,5 +4661,13 @@
         "valid" : false,
         "description" : "Crafting and construction requirements bugger off with this one.  Apply with care.",
         "threshold" : true
+    },{
+        "type" : "mutation",
+        "id" : "DEBUG_MIND_CONTROL",
+        "name" : "Debug Mind Control",
+        "points" : 99,
+        "valid" : false,
+        "description" : "Mind the bugs, would you kindly?.",
+        "threshold" : true
     }
 ]

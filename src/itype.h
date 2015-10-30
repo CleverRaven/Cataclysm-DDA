@@ -25,6 +25,9 @@ class player;
 class item;
 class ma_technique;
 using matec_id = string_id<ma_technique>;
+enum art_effect_active : int;
+enum art_charge : int;
+enum art_effect_passive : int;
 
 typedef std::string itype_id;
 typedef std::string ammotype;
@@ -41,10 +44,10 @@ std::string const& default_ammo(std::string const &guntype);
 
 struct explosion_data {
     // Those 4 values are forwarded to game::explosion.
-    int power    = -1;
-    int shrapnel = 0;
-    bool fire    = false;
-    bool blast   = true;
+    float power           = -1.0f;
+    float distance_factor = 0.8f;
+    int shrapnel          = 0;
+    bool fire             = false;
 };
 
 struct islot_container {
@@ -438,6 +441,14 @@ struct islot_spawn {
     islot_spawn() : default_container ("null") { }
 };
 
+struct islot_artifact {
+    art_charge charge_type;
+    std::vector<art_effect_passive> effects_wielded;
+    std::vector<art_effect_active>  effects_activated;
+    std::vector<art_effect_passive> effects_carried;
+    std::vector<art_effect_passive> effects_worn;
+};
+
 struct itype {
     friend class Item_factory;
 
@@ -461,6 +472,7 @@ struct itype {
     std::unique_ptr<islot_spawn> spawn;
     std::unique_ptr<islot_ammo> ammo;
     std::unique_ptr<islot_seed> seed;
+    std::unique_ptr<islot_artifact> artifact;
     /*@}*/
 protected:
     // private because is should only be accessed through itype::nname!
@@ -538,11 +550,6 @@ public:
     }
 
     virtual bool is_tool() const
-    {
-        return false;
-    }
-
-    virtual bool is_artifact() const
     {
         return false;
     }
@@ -646,11 +653,6 @@ struct it_tool : itype {
     bool is_tool() const override
     {
         return true;
-    }
-
-    bool is_artifact() const override
-    {
-        return false;
     }
 
     std::string get_item_type_string() const override

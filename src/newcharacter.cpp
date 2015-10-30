@@ -67,9 +67,13 @@ void save_template(player *u);
 
 bool lcmatch(const std::string &str, const std::string &findstr); // ui.cpp
 
-void Character::pick_name()
+void Character::pick_name(bool bUseDefault)
 {
-    name = Name::generate(male);
+    if (bUseDefault && OPTIONS["DEF_CHAR_NAME"]) {
+        name = OPTIONS["DEF_CHAR_NAME"].getValue();
+    } else {
+        name = Name::generate(male);
+    }
 }
 
 matype_id choose_ma_style( const character_type type, const std::vector<matype_id> &styles )
@@ -1824,6 +1828,8 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
     select_location.setup();
     if(MAP_SHARING::isSharing()) {
         u->name = MAP_SHARING::getUsername();  // set the current username as default character name
+    } else if (OPTIONS["DEF_CHAR_NAME"]) {
+        u->name = OPTIONS["DEF_CHAR_NAME"].getValue();
     }
     do {
         if (redraw) {
@@ -1984,7 +1990,7 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
                     redraw = true;
                     continue;
                 } else {
-                    u->pick_name();
+                    u->pick_name(false);
                     return 1;
                 }
             } else if (query_yn(_("Are you SURE you're finished?"))) {
@@ -2013,7 +2019,7 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
             redraw = true;
         } else if (action == "PICK_RANDOM_NAME") {
             if(!MAP_SHARING::isSharing()) { // Don't allow random names when sharing maps. We don't need to check at the top as you won't be able to edit the name
-                u->pick_name();
+                u->pick_name(false);
             }
         } else if (action == "CHANGE_GENDER") {
             u->male = !u->male;

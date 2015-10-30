@@ -29,6 +29,8 @@ const skill_id skill_survival( "survival" );
 const skill_id skill_firstaid( "firstaid" );
 const skill_id skill_fabrication( "fabrication" );
 
+const species_id ZOMBIE( "ZOMBIE" );
+
 iuse_transform::~iuse_transform()
 {
 }
@@ -93,7 +95,7 @@ long iuse_transform::use(player *p, item *it, bool t, const tripoint &pos ) cons
     } else {
         // Transform into something in a container, assume the content is
         // "created" right now and give the content the current time as birthday
-        it->make(container_id);
+        it->make(container_id, true);
         it->contents.push_back(item(target_id, calendar::turn));
         target = &it->contents.back();
     }
@@ -178,8 +180,8 @@ void explosion_iuse::load( JsonObject &obj )
 {
     obj.read( "explosion_power", explosion_power );
     obj.read( "explosion_shrapnel", explosion_shrapnel );
+    obj.read( "explosion_distance_factor", explosion_distance_factor );
     obj.read( "explosion_fire", explosion_fire );
-    obj.read( "explosion_blast", explosion_blast );
     obj.read( "draw_explosion_radius", draw_explosion_radius );
     if( obj.has_member( "draw_explosion_color" ) ) {
         draw_explosion_color = color_from_string( obj.get_string( "draw_explosion_color" ) );
@@ -217,7 +219,7 @@ long explosion_iuse::use(player *p, item *it, bool t, const tripoint &pos) const
         return 0;
     }
     if (explosion_power >= 0) {
-        g->explosion( pos, explosion_power, explosion_shrapnel, explosion_fire, explosion_blast);
+        g->explosion( pos, explosion_power, explosion_distance_factor, explosion_shrapnel, explosion_fire );
     }
     if (draw_explosion_radius >= 0) {
         g->draw_explosion( pos, draw_explosion_radius, draw_explosion_color);
@@ -681,7 +683,7 @@ long pick_lock_actor::use( player *p, item *it, bool, const tripoint& ) const
     }
 
     p->practice( skill_mechanics, 1 );
-    p->moves -= std::min( 0, ( 1000 - ( pick_quality * 100 ) ) - ( p->dex_cur + p->skillLevel( skill_mechanics ) ) * 5 );
+    p->moves -= std::max(0, ( 1000 - ( pick_quality * 100 ) ) - ( p->dex_cur + p->skillLevel( skill_mechanics ) ) * 5);
     int pick_roll = ( dice( 2, p->skillLevel( skill_mechanics ) ) + dice( 2, p->dex_cur ) - it->damage / 2 ) * pick_quality;
     int door_roll = dice( 4, 30 );
     if( pick_roll >= door_roll ) {
@@ -1369,7 +1371,7 @@ long enzlave_actor::use( player *p, item *it, bool t, const tripoint& ) const
 
     for( auto &it : items ) {
         const auto mt = it.get_mtype();
-        if( it.is_corpse() && mt->in_species("ZOMBIE") && mt->has_material("flesh") &&
+        if( it.is_corpse() && mt->in_species( ZOMBIE ) && mt->has_material("flesh") &&
             mt->sym == "Z" && it.active && !it.has_var( "zlave" ) ) {
             corpses.push_back( &it );
         }

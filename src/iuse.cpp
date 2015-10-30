@@ -73,6 +73,14 @@ const skill_id skill_fabrication( "fabrication" );
 const skill_id skill_electronics( "electronics" );
 const skill_id skill_melee( "melee" );
 
+const species_id ROBOT( "ROBOT" );
+const species_id HALLUCINATION( "HALLUCINATION" );
+const species_id ZOMBIE( "ZOMBIE" );
+const species_id FUNGUS( "FUNGUS" );
+const species_id INSECT( "INSECT" );
+
+static bool is_firearm(const item &it);
+
 void remove_double_ammo_mod( item &it, player &p )
 {
     if( !it.item_tags.count( "DOUBLE_AMMO" ) || it.item_tags.count( "DOUBLE_REACTOR" )) {
@@ -171,6 +179,7 @@ void remove_radio_mod( item &it, player &p )
     it.item_tags.erase( "RADIOSIGNAL_1" );
     it.item_tags.erase( "RADIOSIGNAL_2" );
     it.item_tags.erase( "RADIOSIGNAL_3" );
+    it.item_tags.erase( "RADIOCARITEM" );
 }
 
 // Checks that the player does not have an active item with LITCIG flag.
@@ -829,7 +838,7 @@ int iuse::fungicide(player *p, item *it, bool, const tripoint& )
                         const int zid = g->mon_at(dest);
                         if (zid >= 0) {  // Spores hit a monster
                             if (g->u.sees(i, j) &&
-                                !g->zombie(zid).type->in_species("FUNGUS")) {
+                                !g->zombie(zid).type->in_species( FUNGUS )) {
                                 add_msg(m_warning, _("The %s is covered in tiny spores!"),
                                         g->zombie(zid).name().c_str());
                             }
@@ -1793,9 +1802,9 @@ int iuse::marloss(player *p, item *it, bool t, const tripoint &pos)
      * 6 - Cleanse radiation + Purify
      * 7 - Fully satiate
      * 8 - Vomit
-     * 9 - Give Marloss mutation
+     * 9-16 - Give Marloss mutation
      */
-    int effect = rng(1, 9);
+    int effect = rng(1, 16);
     if (effect <= 3) {
         p->add_msg_if_player(_("This berry tastes extremely strange!"));
         p->mutate();
@@ -2314,6 +2323,9 @@ static int repair_clothing(player *p, item *it, item *fix, int pos) {
             }
             fix->damage = 0;
         }
+    } else if (fix->damage == 0 && fix->has_flag("PRIMITIVE_RANGED_WEAPON")) {
+        p->add_msg_if_player(m_info, _("You cannot improve your %s any more this way."), fix->tname().c_str());
+        return 0;
     } else if (fix->damage == 0 || (fix->has_flag("VARSIZE") && !fix->has_flag("FIT"))) {
         p->moves -= 500 * p->fine_detail_vision_mod();
         p->practice( skill_tailor, 10);
@@ -2377,6 +2389,11 @@ int iuse::sew(player *p, item *it, bool, const tripoint& )
     return repair_clothing(p, it, fix, pos);
 }
 
+static bool is_firearm(const item &it)
+{ 
+    return it.is_gun() && !it.has_flag("PRIMITIVE_RANGED_WEAPON");
+}
+
 int iuse::sew_advanced(player *p, item *it, bool, const tripoint& )
 {
     if( p->is_underwater() ) {
@@ -2408,7 +2425,7 @@ int iuse::sew_advanced(player *p, item *it, bool, const tripoint& )
         p->add_msg_if_player(m_info, _("You can only tailor your clothes!"));
         return 0;
     }
-    if (mod->is_gun()){
+    if (is_firearm(*mod)){
         p->add_msg_if_player(m_info, _("You can't use a tailor's kit on a firearm!"));
         return 0;
     }
@@ -2842,6 +2859,7 @@ int iuse::radio_mod( player *p, item *, bool, const tripoint& )
     p->add_msg_if_player( _( "You modify your %1$s to listen for %2$s activation signal on the radio." ),
                           modded.tname().c_str(), colorname.c_str() );
     modded.item_tags.insert( "RADIO_ACTIVATION" );
+    modded.item_tags.insert( "RADIOCARITEM" );
     modded.item_tags.insert( "RADIO_MOD" );
     modded.item_tags.insert( newtag );
     return 1;
@@ -3226,7 +3244,7 @@ int iuse::solder_weld( player *p, item *it, bool, const tripoint& )
     }};
 
     int pos = g->inv_for_filter( _("Repair what?"), [it]( const item &itm ) {
-        return itm.made_of_any( materials ) && !itm.is_ammo() && !itm.is_gun() && &itm != it;
+        return itm.made_of_any( materials ) && !itm.is_ammo() && !is_firearm(itm) && &itm != it;
     } );
 
     item &fix = p->i_at( pos );
@@ -3234,7 +3252,7 @@ int iuse::solder_weld( player *p, item *it, bool, const tripoint& )
         p->add_msg_if_player(m_info, _("You do not have that item!"));
         return 0;
     }
-    if( fix.is_gun() ) {
+    if( is_firearm(fix) ) {
         p->add_msg_if_player(m_info, _("That requires gunsmithing tools."));
         return 0;
     }
@@ -3358,6 +3376,9 @@ int iuse::solder_weld( player *p, item *it, bool, const tripoint& )
             }
             fix.damage = 0;
         }
+    } else if (fix.damage == 0 && fix.has_flag("PRIMITIVE_RANGED_WEAPON")) {
+        p->add_msg_if_player(m_info, _("You cannot improve your %s any more this way."), fix.tname().c_str());
+        return 0;
     } else if (fix.damage == 0 || (fix.has_flag("VARSIZE") && !fix.has_flag("FIT"))) {
         p->moves -= 500 * p->fine_detail_vision_mod();
         p->practice( skill_mechanics, 10);
@@ -4543,7 +4564,7 @@ int iuse::pipebomb_act(player *, item *it, bool t, const tripoint &pos)
                 add_msg(_("The pipe bomb fizzles out."));
             }
         } else {
-            g->explosion( pos, rng(6, 14), rng(0, 4), false);
+            g->explosion( pos, rng(10, 24), 0.6, rng(0, 4), false);
         }
     }
     return 0;
@@ -4585,7 +4606,7 @@ int iuse::granade_act(player *, item *it, bool t, const tripoint &pos)
                         tripoint dest( pos.x + i, pos.y + j, pos.z );
                         const int zid = g->mon_at( dest, true );
                         if (zid != -1 &&
-                            (g->zombie(zid).type->in_species("INSECT") ||
+                            (g->zombie(zid).type->in_species( INSECT ) ||
                              g->zombie(zid).is_hallucination())) {
                             g->zombie( zid ).die_in_explosion( nullptr );
                         }
@@ -4755,7 +4776,7 @@ int iuse::grenade_inc_act(player *p, item *it, bool t, const tripoint &pos)
                 g->m.add_field( flame, fd_fire, rng( 0, 2 ), 0 );
             }
         }
-        g->explosion( pos, 8, 0, true );
+        g->explosion( pos, 8, 0.8, 0, true );
         for (int i = -2; i <= 2; i++) {
             for (int j = -2; j <= 2; j++) {
                 g->m.add_field( { pos.x + i, pos.y + j, pos.z }, fd_incendiary, 3, 0 );
@@ -5011,7 +5032,7 @@ int iuse::pheromone( player *p, item *it, bool, const tripoint &pos )
                 continue;
             }
             monster &critter = g->zombie( mondex );
-            if( critter.type->in_species( "ZOMBIE" ) && critter.friendly == 0 && rng( 0, 500 ) > critter.get_hp() ) {
+            if( critter.type->in_species( ZOMBIE ) && critter.friendly == 0 && rng( 0, 500 ) > critter.get_hp() ) {
                 converts++;
                 critter.make_friendly();
             }
@@ -6064,7 +6085,8 @@ int iuse::artifact(player *p, item *it, bool, const tripoint& )
                             pgettext("memorial_female", "Activated the %s."),
                             it->tname( 1, false ).c_str());
     }
-    const auto art = dynamic_cast<const it_artifact_tool *>(it->type);
+
+    const auto art = it->type->artifact.get();
     size_t num_used = rng(1, art->effects_activated.size());
     if (num_used < art->effects_activated.size()) {
         num_used += rng(1, art->effects_activated.size() - num_used);
@@ -6112,7 +6134,7 @@ int iuse::artifact(player *p, item *it, bool, const tripoint& )
             case AEA_FIREBALL: {
                 tripoint fireball = g->look_around();
                 if( fireball != tripoint_min ) {
-                    g->explosion( fireball, 8, 0, true );
+                    g->explosion( fireball, 24, 0.5, 0, true );
                 }
             }
             break;
@@ -7211,7 +7233,7 @@ int iuse::gun_repair(player *p, item *it, bool, const tripoint& )
         p->add_msg_if_player(m_info, _("You do not have that item!"));
         return 0;
     }
-    if (!fix->is_gun()) {
+    if (!is_firearm(*fix)) {
         p->add_msg_if_player(m_info, _("That isn't a firearm!"));
         return 0;
     }
@@ -7266,7 +7288,7 @@ int iuse::misc_repair(player *p, item *it, bool, const tripoint& )
         return 0;
     }
     int inventory_index = g->inv_for_filter( _("Select the item to repair."), []( const item & itm ) {
-        return !itm.is_gun() && (itm.made_of("wood") || itm.made_of("paper") ||
+        return ( !is_firearm(itm) ) && (itm.made_of("wood") || itm.made_of("paper") ||
                                  itm.made_of("bone") || itm.made_of("chitin") ) ;
     } );
     item *fix = &( p->i_at(inventory_index ) );
@@ -7274,7 +7296,7 @@ int iuse::misc_repair(player *p, item *it, bool, const tripoint& )
         p->add_msg_if_player(m_info, _("You do not have that item!"));
         return 0;
     }
-    if (fix->is_gun()) {
+    if ( is_firearm(*fix) ) {
         p->add_msg_if_player(m_info, _("That requires gunsmithing tools."));
         return 0;
     }
@@ -7284,6 +7306,11 @@ int iuse::misc_repair(player *p, item *it, bool, const tripoint& )
         return 0;
     }
     if (fix->damage == -1) {
+        p->add_msg_if_player(m_info, _("You cannot improve your %s any more this way."),
+                             fix->tname().c_str());
+        return 0;
+    }
+    if (fix->damage == 0 && fix->has_flag( "PRIMITIVE_RANGED_WEAPON" )) {
         p->add_msg_if_player(m_info, _("You cannot improve your %s any more this way."),
                              fix->tname().c_str());
         return 0;
@@ -7361,7 +7388,7 @@ int iuse::robotcontrol(player *p, item *it, bool, const tripoint& )
             int entry_num = 0;
             for( size_t i = 0; i < g->num_zombies(); ++i ) {
                 monster &candidate = g->zombie( i );
-                if( candidate.type->in_species( "ROBOT" ) && candidate.friendly == 0 &&
+                if( candidate.type->in_species( ROBOT ) && candidate.friendly == 0 &&
                     rl_dist( p->pos3(), candidate.pos3() ) <= 10 ) {
                     mons.push_back( &candidate );
                     pick_robot.addentry( entry_num++, true, MENU_AUTOASSIGN, candidate.name() );
@@ -7423,7 +7450,7 @@ int iuse::robotcontrol(player *p, item *it, bool, const tripoint& )
             p->moves -= 100;
             int f = 0; //flag to check if you have robotic allies
             for (size_t i = 0; i < g->num_zombies(); i++) {
-                if (g->zombie(i).friendly != 0 && g->zombie(i).type->in_species("ROBOT")) {
+                if (g->zombie(i).friendly != 0 && g->zombie(i).type->in_species( ROBOT )) {
                     p->add_msg_if_player(_("A following %s goes into passive mode."),
                                          g->zombie(i).name().c_str());
                     g->zombie(i).add_effect("docile", 1, num_bp, true);
@@ -8108,12 +8135,12 @@ int iuse::camera(player *p, item *it, bool, const tripoint& )
                     }
 
                     // shoot past small monsters and hallucinations
-                    if (zid != sel_zid && (z.type->size <= MS_SMALL || z.is_hallucination() || z.type->in_species("HALLUCINATION"))) {
+                    if (zid != sel_zid && (z.type->size <= MS_SMALL || z.is_hallucination() || z.type->in_species( HALLUCINATION ))) {
                         continue;
                     }
 
                     // get an empty photo if the target is a hallucination
-                    if (zid == sel_zid && (z.is_hallucination() || z.type->in_species("HALLUCINATION"))) {
+                    if (zid == sel_zid && (z.is_hallucination() || z.type->in_species( HALLUCINATION ))) {
                         p->add_msg_if_player(_("Strange... there's nothing in the picture?"));
                         return it->type->charges_to_use();
                     }
@@ -8448,13 +8475,16 @@ int iuse::radiocar(player *p, item *it, bool, const tripoint& )
                 return 0;
             }
 
-            if (put->has_flag("RADIOCARITEM")) {
+            if (put->has_flag("RADIOCARITEM") && ((put->volume() <= 5) || (put->weight() <= 2000))) {
                 p->moves -= 300;
                 p->add_msg_if_player(_("You armed your RC car with %s."),
                                      put->tname().c_str());
                 it->put_in(p->i_rem(inventory_index));
-            } else {
+            } else if (!put->has_flag("RADIOCARITEM")) {
                 p->add_msg_if_player(_("RC car with %s ? How?"),
+                put->tname().c_str());
+            } else {
+                p->add_msg_if_player(_("Your %s is too heavy or bulky for this RC car."),
                                      put->tname().c_str());
             }
         } else { // Disarm the car

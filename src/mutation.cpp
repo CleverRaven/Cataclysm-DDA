@@ -19,6 +19,9 @@
 #include <algorithm> //std::min
 #include <sstream>
 
+// '!' and '=' are uses as default bindings in the menu
+const invlet_wrapper mutation_chars("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ\"#&()*+./:;@[\\]^_{|}");
+
 bool Character::has_trait(const std::string &b) const
 {
     return my_mutations.count( b ) > 0;
@@ -498,7 +501,7 @@ void show_mutations_titlebar(WINDOW *window, player *p, std::string menu_mode)
     wrefresh(window);
 }
 
-std::string Character::trait_by_invlet( const char ch ) const
+std::string Character::trait_by_invlet( const long ch ) const
 {
     for( auto &mut : my_mutations ) {
         if( mut.second.key == ch ) {
@@ -520,7 +523,7 @@ void player::power_mutations()
         }
         // New mutations are initialized with no key at all, so we have to do this here.
         if( mut.second.key == ' ' ) {
-            for( const auto &letter : inv_chars ) {
+            for( const auto &letter : mutation_chars ) {
                 if( trait_by_invlet( letter ).empty() ) {
                     mut.second.key = letter;
                     break;
@@ -675,20 +678,18 @@ void player::power_mutations()
                 continue;
             }
             redraw = true;
-            const char newch = popup_getkey(_("%s; enter new letter."),
+            const long newch = popup_getkey(_("%s; enter new letter."),
                                             mutation_branch::get_name( mut_id ).c_str());
             wrefresh(wBio);
             if(newch == ch || newch == ' ' || newch == KEY_ESCAPE) {
                 continue;
             }
-            const auto other_mut_id = trait_by_invlet( newch );
-            // if there is already a mutation with the new key, the key
-            // is considered valid.
-            if( other_mut_id.empty() && inv_chars.find(newch) == std::string::npos ) {
-                // TODO separate list of letters for mutations
-                popup(_("%c is not a valid inventory letter."), newch);
+            if( !mutation_chars.valid( newch ) ) {
+                popup( _("Invlid mutation letter. Only those characters are valid:\n\n%s"),
+                       mutation_chars.get_allowed_chars().c_str() );
                 continue;
             }
+            const auto other_mut_id = trait_by_invlet( newch );
             if( !other_mut_id.empty() ) {
                 std::swap(my_mutations[mut_id].key, my_mutations[other_mut_id].key);
             } else {

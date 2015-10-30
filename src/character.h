@@ -172,7 +172,7 @@ class Character : public Creature
         /** Returns true if the player has the entered starting trait */
         bool has_base_trait(const std::string &flag) const;
         /** Returns the trait id with the given invlet, or an empty string if no trait has that invlet */
-        std::string trait_by_invlet( char ch ) const;
+        std::string trait_by_invlet( long ch ) const;
 
         /** Toggles a trait on the player and in their mutation list */
         void toggle_trait(const std::string &flag);
@@ -449,7 +449,7 @@ class Character : public Creature
         // In newcharacter.cpp
         void empty_skills();
         /** Returns a random name from NAMES_* */
-        void pick_name();
+        void pick_name(bool bUseDefault = true);
         /** Get the idents of all base traits. */
         std::vector<std::string> get_base_traits() const;
         /** Get the idents of all traits/mutations. */

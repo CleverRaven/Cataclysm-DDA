@@ -78,6 +78,11 @@ const mtype_id mon_zombie_swimmer( "mon_zombie_swimmer" );
 const mtype_id mon_zombie_technician( "mon_zombie_technician" );
 const mtype_id mon_zombie_tough( "mon_zombie_tough" );
 
+const species_id ZOMBIE( "ZOMBIE" );
+const species_id FUNGUS( "FUNGUS" );
+const species_id INSECT( "INSECT" );
+const species_id MAMMAL( "MAMMAL" );
+
 monster::monster()
 {
     position.x = 20;
@@ -315,7 +320,7 @@ std::string monster::name(unsigned int quantity) const
 std::string monster::name_with_armor() const
 {
     std::string ret;
-    if( type->in_species("INSECT") ) {
+    if( type->in_species( INSECT ) ) {
         ret = string_format(_("carapace"));
     } else if( type->has_material("veggy") ) {
         ret = string_format(_("thick bark"));
@@ -657,7 +662,7 @@ monster_attitude monster::attitude(player *u) const
         }
         // Zombies don't understand not attacking NPCs, but dogs and bots should.
         npc *np = dynamic_cast< npc* >( u );
-        if( np != nullptr && np->attitude != NPCATT_KILL && !type->in_species( "ZOMBIE" ) ) {
+        if( np != nullptr && np->attitude != NPCATT_KILL && !type->in_species( ZOMBIE ) ) {
             return MATT_FRIEND;
         }
     }
@@ -672,8 +677,8 @@ monster_attitude monster::attitude(player *u) const
     int effective_morale = morale;
 
     if (u != NULL) {
-        if (((type->in_species("MAMMAL") && u->has_trait("PHEROMONE_MAMMAL")) ||
-             (type->in_species("INSECT") && u->has_trait("PHEROMONE_INSECT"))) &&
+        if (((type->in_species( MAMMAL ) && u->has_trait("PHEROMONE_MAMMAL")) ||
+             (type->in_species( INSECT ) && u->has_trait("PHEROMONE_INSECT"))) &&
             effective_anger >= 10) {
             effective_anger -= 20;
         }
@@ -701,6 +706,10 @@ monster_attitude monster::attitude(player *u) const
             if (effective_anger < 10) {
                 effective_morale -= 5;
             }
+        }
+        if( type->in_species( FUNGUS ) && u->has_trait("MYCUS_THRESH") ) {
+            // We. Are. The Mycus.
+            effective_anger = 0;
         }
     }
 
@@ -1789,7 +1798,7 @@ bool monster::make_fungus()
     }
     char polypick = 0;
     const mtype_id& tid = type->id;
-    if( type->in_species("FUNGUS") ) { // No friendly-fungalizing ;-)
+    if( type->in_species( FUNGUS ) ) { // No friendly-fungalizing ;-)
         return true;
     }
     if( !type->has_material("flesh") && !type->has_material("hflesh") &&

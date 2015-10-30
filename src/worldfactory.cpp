@@ -750,39 +750,117 @@ int worldfactory::show_worldgen_tab_options(WINDOW *win, WORLDPTR world)
     return 0;
 }
 
-void worldfactory::draw_mod_list( WINDOW *w, int &start, int &cursor, const std::vector<std::string> &mods, bool is_active_list, const std::string &text_if_empty )
+void worldfactory::draw_mod_list( WINDOW *w, int &start, int &cursor, const std::vector<std::string> &mods, bool is_active_list, const std::string &text_if_empty, WINDOW *w_shift )
 {
     werase( w );
-    calcStartPos( start, cursor, getmaxy( w ), mods.size() );
+    werase(w_shift);
+
+    const int iMaxRows = getmaxy( w );
+    int iModNum = mods.size();
+    int iActive = cursor;
+
     if( mods.empty() ) {
         center_print( w, 0, c_red, "%s", text_if_empty.c_str() );
     } else {
+        int iCatSortNum = 0;
+        std::string sLastCategoryName = "";
+        std::map<int, std::string> mSortCategory;
+        mSortCategory[0] = sLastCategoryName;
+
+        for( size_t i = 0; i < mods.size(); ++i ) {
+            if ( sLastCategoryName != mman->mod_map[mods[i]]->category.second ) {
+                sLastCategoryName = mman->mod_map[mods[i]]->category.second;
+                mSortCategory[ i + iCatSortNum++ ] = sLastCategoryName;
+                iModNum++;
+            }
+        }
+
         const size_t wwidth = getmaxx( w ) - 1 - 3; // border (1) + ">> " (3)
-        for( size_t i = start, c = 0; i < mods.size() && (int)c < getmaxy( w ); ++i, ++c ) {
-            auto mod = mman->mod_map[mods[i]];
-            if( (int)i != cursor ) {
-                mvwprintw( w, c, 1, "   " );
-            } else {
-                if( is_active_list ) {
-                    mvwprintz( w, c, 1, c_yellow, ">> " );
+
+        int iNum = 0;
+        int index = 0;
+        bool bKeepIter = false;
+        int iCatBeforeCursor = 0;
+
+        for( int i = 0; i <= iActive; i++ ) {
+            if( mSortCategory[i] != "" ) {
+                iActive++;
+                iCatBeforeCursor++;
+            }
+        }
+
+        calcStartPos( start, iActive, iMaxRows, iModNum );
+
+        for( int i = 0; i < start; i++ ) {
+            if( mSortCategory[i] != "" ) {
+                iNum++;
+            }
+        }
+
+        for( auto iter = mods.begin(); iter != mods.end(); ++index ) {
+            if( iNum >= start && iNum < start + ((iMaxRows > iModNum) ? iModNum : iMaxRows) ) {
+                if( mSortCategory[iNum] != "" ) {
+                    bKeepIter = true;
+                    trim_and_print( w, iNum - start, 1, wwidth, c_magenta, "%s", mSortCategory[iNum].c_str() );
+
                 } else {
-                    mvwprintz( w, c, 1, c_blue, ">> " );
+                    if( iNum == iActive ) {
+                        cursor = iActive - iCatBeforeCursor;
+                        //mvwprintw( w, iNum - start + iCatSortOffset, 1, "   " );
+                        if( is_active_list ) {
+                            mvwprintz( w, iNum - start, 1, c_yellow, ">> " );
+                        } else {
+                            mvwprintz( w, iNum - start, 1, c_blue, ">> " );
+                        }
+                    }
+
+                    auto mod = mman->mod_map[*iter];
+#ifndef LUA
+                    if( mod->need_lua ) {
+                        trim_and_print( w, iNum - start, 4, wwidth, c_dkgray, "%s", mod->name.c_str() );
+                    } else {
+                        trim_and_print( w, iNum - start, 4, wwidth, c_white, "%s", mod->name.c_str() );
+                    }
+#else
+                    trim_and_print( w, iNum - start, 4, wwidth, c_white, "%s", mod->name.c_str() );
+#endif
+
+                    if( w_shift ) {
+                        // get shift information for the active item
+                        std::string shift_display = "";
+                        const size_t iPos = std::distance( mods.begin(), iter );
+
+                        if( mman_ui->can_shift_up(iPos, mods) ) {
+                            shift_display += "<color_blue>+</color> ";
+                        } else {
+                            shift_display += "<color_dkgray>+</color> ";
+                        }
+
+                        if( mman_ui->can_shift_down(iPos, mods) ) {
+                            shift_display += "<color_blue>-</color>";
+                        } else {
+                            shift_display += "<color_dkgray>-</color>";
+                        }
+
+                        trim_and_print( w_shift, 2 + iNum - start, 1, 3, c_white, shift_display.c_str() );
+                    }
                 }
             }
-            const std::string name = utf8_truncate( mod->name, wwidth );
-#ifndef LUA
-            if ( mod->need_lua ) {
-                mvwprintz( w, c, 4, c_dkgray, "%s", name.c_str() );
+
+            if( bKeepIter ) {
+                bKeepIter = false;
             } else {
-                mvwprintz( w, c, 4, c_white, "%s", name.c_str() );
+                ++iter;
             }
-#else
-            mvwprintz( w, c, 4, c_white, "%s", name.c_str() );
-#endif
+
+            iNum++;
         }
     }
-    draw_scrollbar( w, cursor, getmaxy( w ), mods.size(), 0, 0 );
+
+    draw_scrollbar( w, iActive, iMaxRows, iModNum, 0);
+
     wrefresh( w );
+    wrefresh(w_shift);
 }
 
 int worldfactory::show_worldgen_tab_modselection(WINDOW *win, WORLDPTR world)
@@ -806,6 +884,8 @@ int worldfactory::show_worldgen_tab_modselection(WINDOW *win, WORLDPTR world)
     ctxt.register_action("RIGHT", _("Switch to other list"));
     ctxt.register_action("HELP_KEYBINDINGS");
     ctxt.register_action("QUIT");
+    ctxt.register_action("NEXT_CATEGORY_TAB");
+    ctxt.register_action("PREV_CATEGORY_TAB");
     ctxt.register_action("NEXT_TAB");
     ctxt.register_action("PREV_TAB");
     ctxt.register_action("CONFIRM", _("Activate / deactive mod"));
@@ -841,13 +921,15 @@ int worldfactory::show_worldgen_tab_modselection(WINDOW *win, WORLDPTR world)
     size_t useable_mod_count = mman_ui->usable_mods.size();
     int startsel[2] = {0, 0};
     int cursel[2] = {0, 0};
+    int iCurrentTab = 0;
+    std::vector<std::string> current_tab_mods;
 
     bool redraw_headers = true;
-    bool redraw_shift = true;
     bool redraw_description = true;
     bool redraw_list = true;
     bool redraw_active = true;
     bool selection_changed = false;
+    bool recalc_tabs = true;
 
     while (tab_output == 0) {
         if (redraw_headers) {
@@ -864,68 +946,77 @@ int worldfactory::show_worldgen_tab_modselection(WINDOW *win, WORLDPTR world)
             }
             redraw_list = true;
             redraw_active = true;
-            redraw_shift = true;
             redraw_headers = false;
         }
-        if (selection_changed) {
-            if (active_header == 0) {
+
+        if( recalc_tabs ) {
+            current_tab_mods.clear();
+
+            for( const auto &item : mman_ui->usable_mods ) {
+                const auto &iter = get_mod_list_cat_tab().find(get_mod_list_categories()[mman->mod_map[item]->category.first].first);
+
+                std::string sCatTab = "tab_default";
+                if( iter != get_mod_list_cat_tab().end() ) {
+                    sCatTab = iter->second;
+                }
+
+                if( sCatTab == get_mod_list_tabs()[iCurrentTab].first ) {
+                    current_tab_mods.push_back(item);
+                }
+
+                useable_mod_count = current_tab_mods.size();
+            }
+
+            recalc_tabs = false;
+        }
+
+        if( selection_changed ) {
+            if( active_header == 0 ) {
                 redraw_list = true;
             }
-            if (active_header == 1) {
-                redraw_shift = true;
+            if( active_header == 1 ) {
                 redraw_active = true;
             }
             selection_changed = false;
             redraw_description = true;
         }
-        if (redraw_description) {
-            werase(w_description);
+
+        if( redraw_description ) {
+            werase( w_description );
 
             MOD_INFORMATION *selmod = NULL;
-            if (mman_ui->usable_mods.empty()) {
+            if( current_tab_mods.empty() ) {
                 // Do nothing, leave selmod == NULL
-            } else if (active_header == 0) {
-                selmod = mman->mod_map[mman_ui->usable_mods[cursel[0]]];
-            } else if (!active_mod_order.empty()) {
+            } else if( active_header == 0 ) {
+                selmod = mman->mod_map[current_tab_mods[cursel[0]]];
+            } else if( !active_mod_order.empty() ) {
                 selmod = mman->mod_map[active_mod_order[cursel[1]]];
             }
 
-            if (selmod != NULL) {
+            if( selmod != NULL ) {
                 fold_and_print(w_description, 0, 1, getmaxx(w_description) - 1,
                                c_white, mman_ui->get_information(selmod));
             }
+
+            //redraw tabs
+            mvwprintz(win, 4, 2, c_white, "");
+            for( size_t i = 0; i < get_mod_list_tabs().size(); i++ ) {
+                wprintz(win, c_white, "[");
+                wprintz(win, (iCurrentTab == (int)i) ? hilite(c_ltgreen) : c_ltgreen, (get_mod_list_tabs()[i].second).c_str());
+                wprintz(win, c_white, "]");
+                wputch(win, BORDER_COLOR, LINE_OXOX);
+            }
+
             redraw_description = false;
             wrefresh(w_description);
+            wrefresh(win);
         }
-        if (redraw_list) {
-            draw_mod_list( w_list, startsel[0], cursel[0], mman_ui->usable_mods, active_header == 0, _("--NO AVAILABLE MODS--") );
+
+        if( redraw_list ) {
+            draw_mod_list( w_list, startsel[0], cursel[0], current_tab_mods, active_header == 0, _("--NO AVAILABLE MODS--"), nullptr );
         }
-        if (redraw_active) {
-            draw_mod_list( w_active, startsel[1], cursel[1], active_mod_order, active_header == 1, _("--NO ACTIVE MODS--") );
-        }
-        if (redraw_shift) {
-            werase(w_shift);
-            if (active_header == 1) {
-                std::stringstream shift_display;
-                // get shift information for whatever is visible in the active list
-                for (size_t i = startsel[1], c = 0; i < active_mod_order.size() &&
-                     (int)c < getmaxy(w_active); ++i, ++c) {
-                    if (mman_ui->can_shift_up(i, active_mod_order)) {
-                        shift_display << "<color_blue>+</color> ";
-                    } else {
-                        shift_display << "<color_dkgray>+</color> ";
-                    }
-                    if (mman_ui->can_shift_down(i, active_mod_order)) {
-                        shift_display << "<color_blue>-</color>";
-                    } else {
-                        shift_display << "<color_dkgray>-</color>";
-                    }
-                    shift_display << "\n";
-                }
-                fold_and_print(w_shift, 2, 1, getmaxx(w_shift), c_white, shift_display.str());
-            }
-            redraw_shift = false;
-            wrefresh(w_shift);
+        if( redraw_active ) {
+            draw_mod_list( w_active, startsel[1], cursel[1], active_mod_order, active_header == 1, _("--NO ACTIVE MODS--"), w_shift );
         }
         refresh();
 
@@ -947,103 +1038,123 @@ int worldfactory::show_worldgen_tab_modselection(WINDOW *win, WORLDPTR world)
 
         const std::string action = ctxt.handle_input();
 
-        if (action == "DOWN") {
+        if( action == "DOWN" ) {
             selection = next_selection;
-        } else if (action == "UP") {
+        } else if( action == "UP" ) {
             selection = prev_selection;
-        } else if (action == "RIGHT") {
+        } else if( action == "RIGHT" ) {
             active_header = next_header;
-        } else if (action == "LEFT") {
+        } else if( action == "LEFT" ) {
             active_header = prev_header;
-        } else if (action == "CONFIRM") {
-            if (active_header == 0 && !mman_ui->usable_mods.empty()) {
+        } else if( action == "CONFIRM" ) {
+            if( active_header == 0 && !current_tab_mods.empty() ) {
 #ifndef LUA
-                if (mman->mod_map[mman_ui->usable_mods[cursel[0]]]->need_lua) {
+                if( mman->mod_map[current_tab_mods[cursel[0]]]->need_lua ) {
                     popup(_("Can't add mod. This mod requires Lua support."));
                     redraw_active = true;
-                    redraw_shift = true;
                     draw_modselection_borders(win, &ctxt);
+                    redraw_description = true;
                     continue;
                 }
 #endif
                 // try-add
-                mman_ui->try_add(mman_ui->usable_mods[cursel[0]], active_mod_order);
+                mman_ui->try_add(current_tab_mods[cursel[0]], active_mod_order);
                 redraw_active = true;
-                redraw_shift = true;
-            } else if (active_header == 1 && !active_mod_order.empty()) {
+            } else if( active_header == 1 && !active_mod_order.empty() ) {
                 // try-rem
                 mman_ui->try_rem(cursel[1], active_mod_order);
                 redraw_active = true;
-                redraw_shift = true;
-                if (active_mod_order.empty()) {
+                if( active_mod_order.empty() ) {
                     // switch back to other list, we can't change
                     // anything in the empty active mods list.
                     active_header = 0;
                 }
             }
-        } else if (action == "ADD_MOD") {
-            if (active_header == 1 && active_mod_order.size() > 1) {
+        } else if( action == "ADD_MOD" ) {
+            if( active_header == 1 && active_mod_order.size() > 1 ) {
                 mman_ui->try_shift('+', cursel[1], active_mod_order);
                 redraw_active = true;
-                redraw_shift = true;
             }
-        } else if (action == "REMOVE_MOD") {
-            if (active_header == 1 && active_mod_order.size() > 1) {
+        } else if( action == "REMOVE_MOD" ) {
+            if( active_header == 1 && active_mod_order.size() > 1 ) {
                 mman_ui->try_shift('-', cursel[1], active_mod_order);
                 redraw_active = true;
-                redraw_shift = true;
             }
-        } else if (action == "NEXT_TAB") {
+        } else if( action == "NEXT_CATEGORY_TAB" ) {
+            if(  active_header == 0  ) {
+                if(  ++iCurrentTab >= (int)get_mod_list_tabs().size()  ) {
+                    iCurrentTab = 0;
+                }
+
+                startsel[0] = 0;
+                cursel[0] = 0;
+
+                recalc_tabs = true;
+                redraw_description = true;
+            }
+
+        } else if( action == "PREV_CATEGORY_TAB" ) {
+            if(  active_header == 0  ) {
+                if(  --iCurrentTab < 0  ) {
+                    iCurrentTab = get_mod_list_tabs().size()-1;
+                }
+
+                startsel[0] = 0;
+                cursel[0] = 0;
+
+                recalc_tabs = true;
+                redraw_description = true;
+            }
+        } else if( action == "NEXT_TAB" ) {
             tab_output = 1;
-        } else if (action == "PREV_TAB") {
+        } else if( action == "PREV_TAB" ) {
             tab_output = -1;
-        } else if (action == "SAVE_DEFAULT_MODS") {
-            if(mman->set_default_mods(active_mod_order)) {
+        } else if( action == "SAVE_DEFAULT_MODS" ) {
+            if(mman->set_default_mods(active_mod_order) ) {
                 popup(_("Saved list of active mods as default"));
                 draw_modselection_borders(win, &ctxt);
+                redraw_description = true;
                 redraw_headers = true;
             }
-        } else if (action == "HELP_KEYBINDINGS") {
+        } else if( action == "HELP_KEYBINDINGS" ) {
             // Redraw all the things!
             redraw_headers = true;
-            redraw_shift = true;
             redraw_description = true;
             redraw_list = true;
             redraw_active = true;
             draw_worldgen_tabs( win, 0 );
             draw_modselection_borders( win, &ctxt );
-        } else if (action == "QUIT") {
+            redraw_description = true;
+        } else if( action == "QUIT" ) {
             tab_output = -999;
         }
         // RESOLVE INPUTS
-        if (last_active_header != (int)active_header) {
+        if( last_active_header != (int)active_header ) {
             redraw_headers = true;
-            redraw_shift = true;
             redraw_description = true;
         }
-        if (last_selection != selection) {
-            if (active_header == 0) {
+        if( last_selection != selection ) {
+            if( active_header == 0 ) {
                 redraw_list = true;
                 cursel[0] = selection;
             } else {
                 redraw_active = true;
-                redraw_shift = true;
                 cursel[1] = selection;
             }
             redraw_description = true;
         }
-        if (active_mod_order.empty()) {
+        if( active_mod_order.empty() ) {
             redraw_active = true;
             cursel[1] = 0;
         }
 
-        if (active_header == 1) {
-            if (active_mod_order.empty()) {
+        if( active_header == 1 ) {
+            if( active_mod_order.empty() ) {
                 cursel[1] = 0;
             } else {
-                if (cursel[1] < 0) {
+                if( cursel[1] < 0 ) {
                     cursel[1] = 0;
-                } else if (cursel[1] >= (int)active_mod_order.size()) {
+                } else if( cursel[1] >= (int)active_mod_order.size() ) {
                     cursel[1] = active_mod_order.size() - 1;
                 }
             }

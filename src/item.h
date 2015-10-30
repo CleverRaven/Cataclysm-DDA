@@ -156,7 +156,7 @@ public:
         item &operator=(item &&) = default;
         item &operator=(const item &) = default;
  virtual ~item();
- void make( const std::string new_type );
+ void make( const std::string new_type, bool scrub = false );
 
     /**
      * Returns the default color of the item (e.g. @ref itype::color).
@@ -238,7 +238,6 @@ public:
      */
     int butcher_factor() const;
 
- bool invlet_is_okay();
         bool stacks_with( const item &rhs ) const;
         /**
          * Merge charges of the other item into this item.
@@ -1227,7 +1226,7 @@ public:
 
  int quiver_store_arrow(item &arrow);
  int max_charges_from_flag(std::string flagName);
- int get_gun_ups_drain() const; 
+ int get_gun_ups_drain() const;
 };
 
 bool item_compare_by_charges( const item& left, const item& right);
@@ -1275,16 +1274,16 @@ class map_item_stack
         map_item_stack( item *it, const tripoint &pos )
         {
             example = it;
-            vIG.push_back(item_group(pos, 1));
-            totalcount = 1;
+            vIG.push_back(item_group(pos, (it->count_by_charges()) ? it->charges : 1));
+            totalcount = (it->count_by_charges()) ? it->charges : 1;
         }
 
         ~map_item_stack() {};
 
-        void addNewPos( const tripoint &pos )
+        void addNewPos( item *it, const tripoint &pos )
         {
-            vIG.push_back(item_group(pos, 1));
-            totalcount++;
+            vIG.push_back(item_group(pos, (it->count_by_charges()) ?it->charges : 1));
+            totalcount += (it->count_by_charges()) ? it->charges : 1;
         }
 
         void incCount()

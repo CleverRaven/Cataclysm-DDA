@@ -47,6 +47,11 @@ const skill_id skill_bashing( "bashing" );
 const skill_id skill_cutting( "cutting" );
 const skill_id skill_stabbing( "stabbing" );
 
+const species_id FISH( "FISH" );
+const species_id BIRD( "BIRD" );
+const species_id INSECT( "INSECT" );
+const species_id ROBOT( "ROBOT" );
+
 enum item::LIQUID_FILL_ERROR : int {
     L_ERR_NONE, L_ERR_NO_MIX, L_ERR_NOT_CONTAINER, L_ERR_NOT_WATERTIGHT,
     L_ERR_NOT_SEALED, L_ERR_FULL
@@ -60,7 +65,7 @@ std::string const& rad_badge_color(int const rad)
         pair_t {  0, _("green") },
         pair_t { 30, _("blue")  },
         pair_t { 60, _("yellow")},
-        pair_t {120, _("orange")},
+        pair_t {120, pgettext("color", "orange")},
         pair_t {240, _("red")   },
         pair_t {500, _("black") },
     }};
@@ -222,7 +227,7 @@ void item::init()
     last_rot_check = 0;
 }
 
-void item::make( const std::string new_type )
+void item::make( const std::string new_type, bool scrub )
 {
     const bool was_armor = is_armor();
     type = find_type( new_type );
@@ -236,6 +241,14 @@ void item::make( const std::string new_type )
         } else {
             covered_bodyparts = armor->covers;
         }
+    }
+
+    if (scrub) {
+        components.clear();
+        charges = -1;
+        bday = 0;
+        name = "";
+        curammo = NULL;
     }
 }
 
@@ -338,11 +351,6 @@ long item::liquid_units( long charges ) const
     } else {
         return charges;
     }
-}
-
-bool item::invlet_is_okay()
-{
-    return (inv_chars.find(invlet) != std::string::npos);
 }
 
 bool item::stacks_with( const item &rhs ) const
@@ -863,12 +871,12 @@ std::string item::info(bool showtext, std::vector<iteminfo> &dump_ref) const
         temp1 << _("Used on: ");
         bool first = true;
         if (mod->used_on_pistol){
-            temp1 << _("Pistols");
+            temp1 << _("pistols");
             first = false;
         }
         if (mod->used_on_shotgun) {
             if (!first) temp1 << ", ";
-            temp1 << _("Shotguns");
+            temp1 << _("shotguns");
             first = false;
         }
         if (mod->used_on_smg){
@@ -878,7 +886,22 @@ std::string item::info(bool showtext, std::vector<iteminfo> &dump_ref) const
         }
         if (mod->used_on_rifle){
             if (!first) temp1 << ", ";
-            temp1 << _("Rifles");
+            temp1 << _("rifles");
+            first = false;
+        }
+        if (mod->used_on_bow){
+            if (!first) temp1 << ", ";
+            temp1 << _("bows");
+            first = false;
+        }
+        if (mod->used_on_crossbow){
+            if (!first) temp1 << ", ";
+            temp1 << _("crossbows");
+            first = false;
+        }
+        if (mod->used_on_launcher){
+            if (!first) temp1 << ", ";
+            temp1 << _("launchers");
             first = false;
         }
 
@@ -994,9 +1017,11 @@ std::string item::info(bool showtext, std::vector<iteminfo> &dump_ref) const
         }
         if( g->u.has_identified( type->id ) ) {
             if( book->skill ) {
-                dump->push_back(iteminfo("BOOK", "",
-                                         string_format(_("Can bring your %s skill to <num>"),
-                                                       book->skill.obj().name().c_str()), book->level));
+                if( g->u.get_skill_level( book->skill ).can_train() ) {
+                    dump->push_back(iteminfo("BOOK", "",
+                                             string_format(_("Can bring your %s skill to <num>"),
+                                                           book->skill.obj().name().c_str()), book->level));
+                }
 
                 if( book->req != 0 ){
                     dump->push_back(iteminfo("BOOK", "",
@@ -1350,6 +1375,11 @@ std::string item::info(bool showtext, std::vector<iteminfo> &dump_ref) const
             dump->push_back(iteminfo("DESCRIPTION",
                 _("This piece of clothing is designed to protect you from harm and withstand a lot of abuse.")));
         }
+        if (is_armor() && has_flag("FRAGILE")) {
+            dump->push_back(iteminfo("DESCRIPTION", "--"));
+            dump->push_back(iteminfo("DESCRIPTION",
+                _("This gear is fragile and won't protect you for long.")));
+        }
         if (is_armor() && has_flag("DEAF")) {
             dump->push_back(iteminfo("DESCRIPTION", "--"));
             dump->push_back(iteminfo("DESCRIPTION",
@@ -1463,7 +1493,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> &dump_ref) const
         if( is_tool() && has_flag("RADIO_ACTIVATION") ) {
             if( has_flag( "RADIO_MOD" ) ) {
                 dump->push_back(iteminfo("DESCRIPTION",
-                    _("This item has been modified to listen to radio signals. It can still be activated manually.")));
+                    _("This item has been modified to listen to radio signals.  It can still be activated manually.")));
             } else {
                 dump->push_back(iteminfo("DESCRIPTION",
                     _("This item can only be activated by a radio signal.")));
@@ -1578,7 +1608,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> &dump_ref) const
                         _("This food has started to rot, but you can tolerate it.")));
                 } else {
                     dump->push_back(iteminfo("DESCRIPTION",
-                        _("This food has started to rot. Eating it would be a very bad idea.")));
+                        _("This food has started to rot.  Eating it would be a very bad idea.")));
                 }
             } else {
                 dump->push_back(iteminfo("DESCRIPTION",
@@ -1770,13 +1800,15 @@ nc_color item::color_in_inventory() const
         if(u->has_identified( type->id )) {
             auto &tmp = *type->book;
             if( tmp.skill && // Book can improve skill: blue
-                ( u->skillLevel( tmp.skill ) >= tmp.req ) &&
-                ( u->skillLevel( tmp.skill ) < tmp.level ) ) {
+                u->get_skill_level( tmp.skill ).can_train() &&
+                u->get_skill_level( tmp.skill ) >= tmp.req &&
+                u->get_skill_level( tmp.skill ) < tmp.level ) {
                 ret = c_ltblue;
             } else if( !u->studied_all_recipes( *type ) ) { // Book can't improve skill right now, but has more recipes: yellow
                 ret = c_yellow;
             } else if( tmp.skill && // Book can't improve skill right now, but maybe later: pink
-                       u->skillLevel( tmp.skill ) < tmp.level ) {
+                       u->get_skill_level( tmp.skill ).can_train() &&
+                       u->get_skill_level( tmp.skill ) < tmp.level ) {
                 ret = c_pink;
             } else if( !tmp.use_methods.empty() && // Book has function or can teach new martial art: blue
                 // TODO: replace this terrible hack to rely on the item name matching the style name, it's terrible.
@@ -1796,45 +1828,42 @@ nc_color item::color_in_inventory() const
 
 void item::on_wear( player &p  )
 {
-    const auto art = dynamic_cast<const it_artifact_armor*>( type );
     // TODO: artifacts currently only work with the player character
-    if( &p == &g->u && art != nullptr ) {
-        g->add_artifact_messages( art->effects_worn );
+    if( &p == &g->u && type->artifact ) {
+        g->add_artifact_messages( type->artifact->effects_worn );
     }
 }
 
 void item::on_wield( player &p  )
 {
-    const auto art = dynamic_cast<const it_artifact_tool*>( type );
     // TODO: artifacts currently only work with the player character
-    if( &p == &g->u && art != nullptr ) {
-        g->add_artifact_messages( art->effects_wielded );
+    if( &p == &g->u && type->artifact ) {
+        g->add_artifact_messages( type->artifact->effects_wielded );
     }
+    if (has_flag("SLOW_WIELD") && (! is_gunmod())) {
+        int d = 32; // arbitrary linear scaling factor
+        if      (is_gun())  d /= std::max((int) p.skillLevel(gun_skill()),  1);
+        else if (is_weap()) d /= std::max((int) p.skillLevel(weap_skill()), 1);
 
-     if (has_flag("SLOW_WIELD") && (! is_gunmod())) {
-         int d = 32; // arbitrary linear scaling factor
-         if      (is_gun())  d /= std::max((int) p.skillLevel(gun_skill()),  1);
-         else if (is_weap()) d /= std::max((int) p.skillLevel(weap_skill()), 1);
+        int const penalty = get_var("volume", (int) type->volume) * d;
+        std::string msg;
+        if (penalty > 50) {
+            if      (penalty > 250) msg = _("It takes you much longer than usual to wield your %s.");
+            else if (penalty > 100) msg = _("It takes you longer than usual to wield your %s.");
+            else                    msg = _("It takes you slightly longer than usual to wield your %s.");
 
-         int const penalty = get_var("volume", (int) type->volume) * d;
-         if (penalty > 50) {
-             std::string msg;
-             if      (penalty > 250) msg = _("It takes you much longer than usual to wield your %s.");
-             else if (penalty > 100) msg = _("It takes you longer than usual to wield your %s.");
-             else                    msg = _("It takes you slightly longer than usual to wield your %s.");
-
-             p.add_msg_if_player(msg.c_str(), tname().c_str());
-             p.moves -= penalty;
-         }
-     }
+            p.add_msg_if_player(msg.c_str(), tname().c_str());
+            p.moves -= penalty;
+        }
+    }
+    p.add_msg_if_player("You wield your %s.", tname().c_str());
 }
 
 void item::on_pickup( Character &p  )
 {
-    const auto art = dynamic_cast<const it_artifact_tool*>( type );
     // TODO: artifacts currently only work with the player character
-    if( &p == &g->u && art != nullptr ) {
-        g->add_artifact_messages( art->effects_carried );
+    if( &p == &g->u && type->artifact ) {
+        g->add_artifact_messages( type->artifact->effects_carried );
     }
 }
 
@@ -2134,7 +2163,7 @@ int item::weight() const
         if (made_of("veggy")) {
             ret /= 3;
         }
-        if(corpse->in_species("FISH") || corpse->in_species("BIRD") || corpse->in_species("INSECT") || made_of("bone")) {
+        if( corpse->in_species( FISH ) || corpse->in_species( BIRD ) || corpse->in_species( INSECT ) || made_of("bone")) {
             ret /= 8;
         } else if (made_of("iron") || made_of("steel") || made_of("stone")) {
             ret *= 7;
@@ -3189,10 +3218,7 @@ bool item::is_software() const
 
 bool item::is_artifact() const
 {
-    if( is_null() )
-        return false;
-
-    return type->is_artifact();
+    return type->artifact.get() != nullptr;
 }
 
 int item::get_chapters() const
@@ -4453,7 +4479,9 @@ void item::detonate( const tripoint &p ) const
     if (type == NULL || type->explosion_on_fire_data.power < 0) {
         return;
     }
-    g->explosion( p, type->explosion_on_fire_data.power, type->explosion_on_fire_data.shrapnel, type->explosion_on_fire_data.fire, type->explosion_on_fire_data.blast);
+
+    g->explosion( p, type->explosion_on_fire_data.power, type->explosion_on_fire_data.distance_factor,
+                     type->explosion_on_fire_data.shrapnel, type->explosion_on_fire_data.fire );
 }
 
 bool item_ptr_compare_by_charges( const item *left, const item *right)
@@ -4722,7 +4750,7 @@ bool item::process_corpse( player *carrier, const tripoint &pos )
     if( rng( 0, volume() ) > burnt && g->revive_corpse( pos, *this ) ) {
         if( carrier == nullptr ) {
             if( g->u.sees( pos ) ) {
-                if( corpse->in_species( "ROBOT" ) ) {
+                if( corpse->in_species( ROBOT ) ) {
                     add_msg( m_warning, _( "A nearby robot has repaired itself and stands up!" ) );
                 } else {
                     add_msg( m_warning, _( "A nearby corpse rises and moves towards you!" ) );
@@ -4733,7 +4761,7 @@ bool item::process_corpse( player *carrier, const tripoint &pos )
             carrier->add_memorial_log( pgettext( "memorial_male", "Had a %s revive while carrying it." ),
                                        pgettext( "memorial_female", "Had a %s revive while carrying it." ),
                                        tname().c_str() );
-            if( corpse->in_species( "ROBOT" ) ) {
+            if( corpse->in_species( ROBOT ) ) {
                 carrier->add_msg_if_player( m_warning, _( "Oh dear god, a robot you're carrying has started moving!" ) );
             } else {
                 carrier->add_msg_if_player( m_warning, _( "Oh dear god, a corpse you're carrying has started moving!" ) );
@@ -5126,36 +5154,36 @@ bool item::reduce_charges( long quantity )
 
 bool item::has_effect_when_wielded( art_effect_passive effect ) const
 {
-    const auto tool = dynamic_cast<const it_artifact_tool*>( type );
-    if( tool != nullptr ) {
-        auto &ew = tool->effects_wielded;
-        if( std::find( ew.begin(), ew.end(), effect ) != ew.end() ) {
-            return true;
-        }
+    if( !type->artifact ) {
+        return false;
+    }
+    auto &ew = type->artifact->effects_wielded;
+    if( std::find( ew.begin(), ew.end(), effect ) != ew.end() ) {
+        return true;
     }
     return false;
 }
 
 bool item::has_effect_when_worn( art_effect_passive effect ) const
 {
-    const auto armor = dynamic_cast<const it_artifact_armor*>( type );
-    if( armor != nullptr ) {
-        auto &ew = armor->effects_worn;
-        if( std::find( ew.begin(), ew.end(), effect ) != ew.end() ) {
-            return true;
-        }
+    if( !type->artifact ) {
+        return false;
+    }
+    auto &ew = type->artifact->effects_worn;
+    if( std::find( ew.begin(), ew.end(), effect ) != ew.end() ) {
+        return true;
     }
     return false;
 }
 
 bool item::has_effect_when_carried( art_effect_passive effect ) const
 {
-    const auto tool = dynamic_cast<const it_artifact_tool*>( type );
-    if( tool != nullptr ) {
-        auto &ec = tool->effects_carried;
-        if( std::find( ec.begin(), ec.end(), effect ) != ec.end() ) {
-            return true;
-        }
+    if( !type->artifact ) {
+        return false;
+    }
+    auto &ec = type->artifact->effects_carried;
+    if( std::find( ec.begin(), ec.end(), effect ) != ec.end() ) {
+        return true;
     }
     for( auto &i : contents ) {
         if( i.has_effect_when_carried( effect ) ) {

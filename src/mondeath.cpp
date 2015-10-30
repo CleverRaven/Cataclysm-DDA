@@ -31,6 +31,12 @@ const mtype_id mon_sewer_rat( "mon_sewer_rat" );
 const mtype_id mon_thing( "mon_thing" );
 const mtype_id mon_zombie_dancer( "mon_zombie_dancer" );
 const mtype_id mon_zombie_hulk( "mon_zombie_hulk" );
+const mtype_id mon_giant_cockroach( "mon_giant_cockroach" );
+const mtype_id mon_giant_cockroach_nymph( "mon_giant_cockroach_nymph" );
+const mtype_id mon_pregnant_giant_cockroach("mon_pregnant_giant_cockroach");
+
+const species_id ZOMBIE( "ZOMBIE" );
+const species_id BLOB( "BLOB" );
 
 void mdeath::normal(monster *z)
 {
@@ -38,7 +44,7 @@ void mdeath::normal(monster *z)
         add_msg(m_good, _("The %s dies!"),
                 z->name().c_str()); //Currently it is possible to get multiple messages that a monster died.
     }
-    if ( z->type->in_species("ZOMBIE")) {
+    if ( z->type->in_species( ZOMBIE )) {
             sfx::play_variant_sound( "mon_death", "zombie_death", sfx::get_heard_volume(z->pos()));
         }
     m_size monSize = (z->type->size);
@@ -325,7 +331,7 @@ void mdeath::guilt(monster *z)
     int maxMalus = -250 * (1.0 - ((float) kill_count / maxKills));
     int duration = 300 * (1.0 - ((float) kill_count / maxKills));
     int decayDelay = 30 * (1.0 - ((float) kill_count / maxKills));
-    if (z->type->in_species("ZOMBIE")) {
+    if (z->type->in_species( ZOMBIE )) {
         moraleMalus /= 10;
         if (g->u.has_trait("PACIFIST")) {
             moraleMalus *= 5;
@@ -382,7 +388,7 @@ void mdeath::blobsplit(monster *z)
 void mdeath::brainblob(monster *z) {
     for( size_t i = 0; i < g->num_zombies(); i++ ) {
         monster *candidate = &g->zombie( i );
-        if(candidate->type->in_species("BLOB") && candidate->type->id != mon_blob_brain ) {
+        if(candidate->type->in_species( BLOB ) && candidate->type->id != mon_blob_brain ) {
             candidate->remove_effect("controlled");
         }
     }
@@ -451,7 +457,7 @@ void mdeath::explode(monster *z)
         size = 26;
         break;
     }
-    g->explosion(z->pos3(), size, 0, false);
+    g->explosion( z->pos(), size );
 }
 
 void mdeath::focused_beam(monster *z)
@@ -486,7 +492,7 @@ void mdeath::focused_beam(monster *z)
 
     z->inv.clear();
 
-    g->explosion(z->pos3(), 8, 0, false);
+    g->explosion( z->pos(), 8 );
 }
 
 void mdeath::broken(monster *z) {
@@ -714,7 +720,7 @@ void make_mon_corpse(monster *z, int damageLvl)
     item corpse;
     corpse.make_corpse( z->type->id, calendar::turn, z->unique_name );
     corpse.damage = damageLvl > MAX_DAM ? MAX_DAM : damageLvl;
-    if( z->has_effect("pacified") && z->type->in_species("ZOMBIE") ) {
+    if( z->has_effect("pacified") && z->type->in_species( ZOMBIE ) ) {
         // Pacified corpses have a chance of becoming un-pacified when regenerating.
         corpse.set_var( "zlave", one_in(2) ? "zlave" : "mutilated" );
     }
@@ -722,4 +728,29 @@ void make_mon_corpse(monster *z, int damageLvl)
         corpse.set_var("no_ammo", "no_ammo");
     }
     g->m.add_item_or_charges(z->pos(), corpse);
+}
+
+void mdeath::preg_roach( monster *z )
+{
+    int num_roach = rng( 1, 3 );
+    std::vector <tripoint> roachspots;
+    for( const auto &roachp : g->m.points_in_radius( z->pos(), 1 ) ) {
+        if( g->is_empty( roachp ) ) {
+            roachspots.push_back( roachp );
+        }
+    }
+
+    while( !roachspots.empty() ) {
+        const tripoint target = random_entry_removed( roachspots );
+        if( -1 == g->mon_at( target ) ) {
+            g->summon_mon( mon_giant_cockroach_nymph, target );
+            num_roach--;
+            if( g->u.sees(*z) ) {
+                add_msg(m_warning, _("A cockroach nymph crawls out of the pregnant giant cockroach corpse."));
+            }
+        }
+        if( num_roach == 0 ) {
+            break;
+        }
+    }
 }

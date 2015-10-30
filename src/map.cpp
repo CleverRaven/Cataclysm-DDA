@@ -40,6 +40,8 @@ const mtype_id mon_zombie( "mon_zombie" );
 const skill_id skill_driving( "driving" );
 const skill_id skill_traps( "traps" );
 
+const species_id FUNGUS( "FUNGUS" );
+
 extern bool is_valid_in_w_terrain(int,int);
 
 #include "overmapbuffer.h"
@@ -705,52 +707,61 @@ void map::move_vehicle( vehicle &veh, const tripoint &dp, const tileray &facing 
     // Find collisions
     // Velocity of car before collision
     // Split into vertical and horizontal movement
-    const int velocity_before = vertical ? veh.vertical_velocity : veh.velocity;
+    const int &coll_velocity = vertical ? veh.vertical_velocity : veh.velocity;
+    const int velocity_before = coll_velocity;
     if( velocity_before == 0 ) {
         debugmsg( "%s tried to move %s with no velocity",
                   veh.name.c_str(), vertical ? "vertically" : "horizontally" );
         return;
     }
 
-    veh.collision( collisions, dp, false );
-
-    // Vehicle collisions
-    std::map<vehicle*, std::vector<veh_collision> > veh_collisions;
     bool veh_veh_coll_flag = false;
-    for( auto &coll : collisions ) {
-        if( coll.type != veh_coll_veh ) {
-            continue;
+    // Try to collide multiple times
+    size_t collision_attempts = 10;
+    do
+    {
+        collisions.clear();
+        veh.collision( collisions, dp, false );
+
+        // Vehicle collisions
+        std::map<vehicle*, std::vector<veh_collision> > veh_collisions;
+        for( auto &coll : collisions ) {
+            if( coll.type != veh_coll_veh ) {
+                continue;
+            }
+
+            veh_veh_coll_flag = true;
+            // Only collide with each vehicle once
+            veh_collisions[ static_cast<vehicle*>( coll.target ) ].push_back( coll );
         }
 
-        veh_veh_coll_flag = true;
-        // Only collide with each vehicle once
-        veh_collisions[ static_cast<vehicle*>( coll.target ) ].push_back( coll );
-    }
-
-    for( auto &pair : veh_collisions ) {
-        impulse += vehicle_vehicle_collision( veh, *pair.first, pair.second );
-    }
-
-    // Non-vehicle collisions
-    for( const auto &coll : collisions ) {
-        if( coll.type == veh_coll_veh ) {
-            continue;
+        for( auto &pair : veh_collisions ) {
+            impulse += vehicle_vehicle_collision( veh, *pair.first, pair.second );
         }
 
-        const point &collision_point = veh.parts[coll.part].mount;
-        const int coll_dmg = coll.imp;
-        impulse += coll_dmg;
-        // Shock damage
-        veh.damage( coll.part, coll_dmg, DT_BASH );
-        veh.damage_all( coll_dmg / 2, coll_dmg, DT_BASH, collision_point );
-    }
+        // Non-vehicle collisions
+        for( const auto &coll : collisions ) {
+            if( coll.type == veh_coll_veh ) {
+                continue;
+            }
+
+            const point &collision_point = veh.parts[coll.part].mount;
+            const int coll_dmg = coll.imp;
+            impulse += coll_dmg;
+            // Shock damage
+            veh.damage( coll.part, coll_dmg, DT_BASH );
+            veh.damage_all( coll_dmg / 2, coll_dmg, DT_BASH, collision_point );
+        }
+    } while( collision_attempts-- > 0 &&
+             sgn(coll_velocity) == sgn(velocity_before) &&
+             !collisions.empty() && !veh_veh_coll_flag );
 
     if( vertical && !collisions.empty() ) {
         // A big hack, should be removed when possible
         veh.vertical_velocity = 0;
     }
 
-    const int velocity_after = vertical ? veh.vertical_velocity : veh.velocity;
+    const int velocity_after = coll_velocity;
     const bool can_move = velocity_after != 0 && sgn(velocity_after) == sgn(velocity_before);
 
     int coll_turn = 0;
@@ -3027,7 +3038,7 @@ void map::fungalize( const tripoint &sporep, Creature *origin, double spore_chan
     int mondex = g->mon_at( sporep );
     if( mondex != -1 ) { // Spores hit a monster
         if( g->u.sees(sporep) &&
-            !g->zombie(mondex).type->in_species("FUNGUS")) {
+            !g->zombie(mondex).type->in_species( FUNGUS )) {
             add_msg(_("The %s is covered in tiny spores!"),
                     g->zombie(mondex).name().c_str());
         }
@@ -3393,7 +3404,7 @@ void map::bash_ter_furn( const tripoint &p, bash_params &params )
     }
 
     if( params.destroy ) {
-        sound_volume = smax;
+        sound_volume = smin * 2;
     } else {
         if( sound_vol == -1 ) {
             sound_volume = std::min(int(smin * 1.5), smax);
@@ -3509,7 +3520,7 @@ void map::bash_ter_furn( const tripoint &p, bash_params &params )
     }
 
     if( bash->explosive > 0 ) {
-        g->explosion( p, bash->explosive, 0, false );
+        g->explosion( p, bash->explosive, 0.8, 0, false );
     }
 
     if( collapses ) {
@@ -3721,7 +3732,7 @@ void map::shoot( const tripoint &p, projectile &proj, const bool hit_items )
     int vpart;
     vehicle *veh = veh_at(p, vpart);
     if( veh != nullptr ) {
-        dam -= veh->damage( vpart, dam, inc ? DT_HEAT : DT_BASH, hit_items );
+        dam = veh->damage( vpart, dam, inc ? DT_HEAT : DT_BASH, hit_items );
     }
 
     ter_id terrain = ter( p );
@@ -3840,7 +3851,7 @@ void map::shoot( const tripoint &p, projectile &proj, const bool hit_items )
         if (hit_items || one_in(3)) {
             if (dam > 15) {
                 if( inc ) {
-                    g->explosion( p, 40, 0, true);
+                    g->explosion( p, 40, 0.8, 0, true);
                 } else {
                     for( const tripoint &pt : points_in_radius( p, 2 ) ) {
                         if( one_in( 3 ) && move_cost( pt ) > 0 ) {
@@ -5188,11 +5199,11 @@ static bool trigger_radio_item( item_stack &items, std::list<item>::iterator &n,
         sounds::sound(pos, 6, _("beep."));
         if( n->has_flag("RADIO_INVOKE_PROC") ) {
             // Invoke twice: first to transform, then later to proc
-            process_item( items, n, pos, true );
-            n->charges = 0;
+            // Can't use process_item here - invalidates our iterator
+            n->process( nullptr, pos, true );
         }
         if( n->has_flag("BOMB") ) {
-            // Set charges to 0 to ensure it detonates.
+            // Set charges to 0 to ensure it detonates now
             n->charges = 0;
         }
         trigger_item = true;
@@ -5203,6 +5214,10 @@ static bool trigger_radio_item( item_stack &items, std::list<item>::iterator &n,
         itype_id bomb_type = n->contents[0].type->id;
 
         n->make(bomb_type);
+        if( n->has_flag("RADIO_INVOKE_PROC") ) {
+            n->process( nullptr, pos, true );
+        }
+
         n->charges = 0;
         trigger_item = true;
     }
@@ -5590,7 +5605,7 @@ void map::update_visibility_cache( visibility_variables &cache, const int zlev )
     cache.u_sight_impaired = g->u.sight_impaired();
     cache.u_is_boomered = g->u.has_effect("boomered");
 
-    int sm_squares_seen[my_MAPSIZE][my_MAPSIZE];
+    int sm_squares_seen[MAPSIZE][MAPSIZE];
     std::memset(sm_squares_seen, 0, sizeof(sm_squares_seen));
 
     auto &visibility_cache = get_cache( zlev ).visibility_cache;
@@ -5847,8 +5862,8 @@ bool map::draw_maptile( WINDOW* w, player &u, const tripoint &p, const maptile &
     static const long AUTO_WALL_PLACEHOLDER = 2; // this should never appear as a real symbol!
 
     if( curr_furn.loadid != f_null ) {
-        sym = curr_furn.sym;
-        tercol = curr_furn.color;
+        sym = curr_furn.symbol();
+        tercol = curr_furn.color();
     } else {
         if( curr_ter.has_flag( TFLAG_AUTO_WALL_SYMBOL ) ) {
             // If the terrain symbol is later overriden by something, we don't need to calculate
@@ -5856,9 +5871,9 @@ bool map::draw_maptile( WINDOW* w, player &u, const tripoint &p, const maptile &
             // placeholder, if it's still the same, we have to calculate the wall symbol.
             sym = AUTO_WALL_PLACEHOLDER;
         } else {
-            sym = curr_ter.sym;
+            sym = curr_ter.symbol();
         }
-        tercol = curr_ter.color;
+        tercol = curr_ter.color();
     }
     if( curr_ter.has_flag( TFLAG_SWIMMABLE ) && curr_ter.has_flag( TFLAG_DEEP_WATER ) && !u.is_underwater() ) {
         show_items = false; // Can only see underwater items if WE are underwater
@@ -5999,11 +6014,11 @@ void map::draw_from_above( WINDOW* w, player &u, const tripoint &p,
     int part_below;
     const vehicle *veh;
     if( curr_furn.has_flag( TFLAG_SEEN_FROM_ABOVE ) ) {
-        sym = curr_furn.sym;
-        tercol = curr_furn.color;
+        sym = curr_furn.symbol();
+        tercol = curr_furn.color();
     } else if( curr_furn.movecost < 0 ) {
         sym = '.';
-        tercol = curr_furn.color;
+        tercol = curr_furn.color();
     } else if( ( veh = veh_at_internal( p, part_below ) ) != nullptr ) {
         const int roof = veh->roof_at_part( part_below );
         const int displayed_part = roof >= 0 ? roof : part_below;
@@ -6015,23 +6030,23 @@ void map::draw_from_above( WINDOW* w, player &u, const tripoint &p,
         } else if( curr_ter.has_flag( TFLAG_RAMP ) ) {
             sym = '>';
         } else {
-            sym = curr_ter.sym;
+            sym = curr_ter.symbol();
         }
-        tercol = curr_ter.color;
+        tercol = curr_ter.color();
     } else if( curr_ter.movecost == 0 ) {
         sym = '.';
-        tercol = curr_ter.color;
+        tercol = curr_ter.color();
     } else if( !curr_ter.has_flag( TFLAG_NO_FLOOR ) ) {
         sym = '.';
-        if( curr_ter.color != c_cyan ) {
+        if( curr_ter.color() != c_cyan ) {
             // Need a special case here, it doesn't cyanize well
-            tercol = cyan_background( curr_ter.color );
+            tercol = cyan_background( curr_ter.color() );
         } else {
             tercol = c_black_cyan;
         }
     } else {
-        sym = curr_ter.sym;
-        tercol = curr_ter.color;
+        sym = curr_ter.symbol();
+        tercol = curr_ter.color();
     }
 
     if( sym == AUTO_WALL_PLACEHOLDER ) {
@@ -7055,7 +7070,7 @@ long map::determine_wall_corner( const tripoint &p ) const
         case 0 | 2 | 0 | 0: return LINE_OXOX; // LINE_OXOO would be better
         case 1 | 0 | 0 | 0: return LINE_XOXO; // LINE_XOOO would be better
 
-        case 0 | 0 | 0 | 0: return ter_at( p ).sym; // technically just a column
+        case 0 | 0 | 0 | 0: return ter_at( p ).symbol(); // technically just a column
 
         default:
             // assert( false );
@@ -7073,8 +7088,8 @@ void map::build_outside_cache( const int zlev )
 
     // Make a bigger cache to avoid bounds checking
     // We will later copy it to our regular cache
-    const size_t padded_w = ( my_MAPSIZE * SEEX ) + 2;
-    const size_t padded_h = ( my_MAPSIZE * SEEY ) + 2;
+    const size_t padded_w = ( MAPSIZE * SEEX ) + 2;
+    const size_t padded_h = ( MAPSIZE * SEEY ) + 2;
     bool padded_cache[padded_w][padded_h];
 
     auto &outside_cache = ch.outside_cache;

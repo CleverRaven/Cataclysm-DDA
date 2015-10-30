@@ -23,7 +23,9 @@
       ["holybook_slack", 1],
       ["holybook_kallisti", 1],
       ["holybook_scientology", 1],
-      ["book_hexenhammer", 10]
+      ["book_hexenhammer", 10],
+      ["book_scrollcraft", 1],
+      ["book_potioncraft", 1]
     ]
   },{
     "type" : "item_group",
@@ -52,9 +54,22 @@
       ["sun_sword", 5],
       ["ethereal_crossbow", 5],
       ["gilded_aegis", 5],
+      ["somen_clairvoyance", 5],
       ["hexenhammer", 10],
       ["healing_potion", 5],
+      ["scroll_sun", 1],
       ["essence_dull", 10]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "cleansing_flame_crafting",
+    "items":[
+      ["gold", 1],
+      ["gold_small", 10],
+      ["silver", 2],
+      ["silver_small", 20],
+      ["scrap", 15],
+      ["copper", 15]
     ]
   },{
         "type" : "item_group",
@@ -67,7 +82,7 @@
             { "group": "pants", "damage": [1, 4]},
             { "group": "shoes", "damage": [1, 4]},
             { "group": "cleansing_flame_gear", "damage": [1, 4], "prob": 10 },
-            { "group": "cleansing_flame_gear_magic", "damage": [1, 4], "prob": 5 },
+            { "group": "cleansing_flame_gear_magic", "prob": 25 },
             { "item": "corpse"}
         ]
   },{
@@ -146,6 +161,9 @@
                 "v": "f_woodstove",
                 "t": "f_bathtub"
             },
+            "place_monsters": [
+                { "monster": "GROUP_ZOMBIE", "x": [ 3, 21 ], "y": [ 8, 21 ], "density": 0.15 }
+            ],
             "toilets": {
                 "T": { }
             },
@@ -249,7 +267,7 @@
                     "furniture": "f_desk"
                 },
                 "r": {
-                    "items": [{ "item": "cleansing_flame_gear", "chance": 20 }, { "item": "cleansing_flame_gear_magic", "chance": 10 }],
+                    "items": [{ "item": "cleansing_flame_gear", "chance": 20 }, { "item": "cleansing_flame_gear_magic", "chance": 10 }, { "item": "cleansing_flame_crafting", "chance": 10 }],
                     "furniture": "f_rack"
                 }
             },

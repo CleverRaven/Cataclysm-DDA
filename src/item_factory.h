@@ -33,6 +33,7 @@ struct islot_spawn;
 struct islot_ammo;
 struct islot_seed;
 struct islot_software;
+struct islot_artifact;
 class item_category;
 
 /**
@@ -280,6 +281,7 @@ class Item_factory
         void load( islot_ammo &slot, JsonObject &jo );
         void load( islot_seed &slot, JsonObject &jo );
         void load( islot_software &slot, JsonObject &jo );
+        void load( islot_artifact &slot, JsonObject &jo );
 
         // used to add the default categories
         void add_category(const std::string &id, int sort_rank, const std::string &name);
@@ -288,7 +290,6 @@ class Item_factory
         void set_use_methods_from_json( JsonObject &jo, std::string member, std::vector<use_function> &use_methods );
         use_function use_from_string(std::string name);
         void set_uses_from_object(JsonObject obj, std::vector<use_function> &use_methods);
-        phase_id phase_from_tag(Item_tag name);
 
         void add_entry(Item_group *sg, JsonObject &obj);
         void load_item_group_entries( Item_group& ig, JsonArray& entries );

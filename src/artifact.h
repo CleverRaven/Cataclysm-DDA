@@ -8,7 +8,7 @@
 #include <string>
 #include <vector>
 
-enum art_effect_active {
+enum art_effect_active : int {
     AEA_NULL = 0,
 
     AEA_STORM, // Emits shock fields
@@ -47,7 +47,7 @@ enum art_effect_active {
     NUM_AEAS
 };
 
-enum art_charge {
+enum art_charge : int {
     ARTC_NULL,  // Never recharges!
     ARTC_TIME,  // Very slowly recharges with time
     ARTC_SOLAR, // Recharges in sunlight
@@ -61,16 +61,6 @@ enum art_charge {
 class it_artifact_tool : public it_tool, public JsonSerializer, public JsonDeserializer
 {
     public:
-        art_charge charge_type;
-        std::vector<art_effect_passive> effects_wielded;
-        std::vector<art_effect_active>  effects_activated;
-        std::vector<art_effect_passive> effects_carried;
-
-        bool is_artifact() const override
-        {
-            return true;
-        }
-
         using JsonSerializer::serialize;
         void serialize(JsonOut &json) const override;
         using JsonDeserializer::deserialize;
@@ -91,13 +81,6 @@ class it_artifact_tool : public it_tool, public JsonSerializer, public JsonDeser
 class it_artifact_armor : public itype, public JsonSerializer, public JsonDeserializer
 {
     public:
-        std::vector<art_effect_passive> effects_worn;
-
-        bool is_artifact() const override
-        {
-            return true;
-        }
-
         using JsonSerializer::serialize;
         void serialize(JsonOut &json) const override;
         using JsonDeserializer::deserialize;

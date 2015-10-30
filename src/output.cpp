@@ -223,7 +223,7 @@ int fold_and_print(WINDOW *w, int begin_y, int begin_x, int width, nc_color base
     nc_color color = base_color;
     std::vector<std::string> textformatted;
     textformatted = foldstring(text, width);
-    for (size_t line_num = 0; line_num < textformatted.size(); line_num++) {
+    for( int line_num = 0; (size_t)line_num < textformatted.size(); line_num++) {
         print_colored_text( w, line_num + begin_y, begin_x, color, base_color, textformatted[line_num] );
     }
     return textformatted.size();
@@ -242,24 +242,28 @@ int fold_and_print_from(WINDOW *w, int begin_y, int begin_x, int width, int begi
 int fold_and_print_from(WINDOW *w, int begin_y, int begin_x, int width, int begin_line,
                         nc_color base_color, const std::string &text)
 {
+    const int iWinHeight = getmaxy(w);
     nc_color color = base_color;
     std::vector<std::string> textformatted;
     textformatted = foldstring(text, width);
-    for (size_t line_num = 0; line_num < textformatted.size(); line_num++) {
-        if ((int)line_num >= begin_line) {
-            wmove(w, line_num + begin_y - begin_line, begin_x);
+    for( int line_num = 0; (size_t)line_num < textformatted.size(); line_num++ ) {
+        if( line_num + begin_y - begin_line == iWinHeight ) {
+            break;
+        }
+        if( line_num >= begin_line ) {
+            wmove( w, line_num + begin_y - begin_line, begin_x );
         }
         // split into colourable sections
-        std::vector<std::string> color_segments = split_by_color(textformatted[line_num]);
+        std::vector<std::string> color_segments = split_by_color( textformatted[line_num] );
         // for each section, get the colour, and print it
         std::vector<std::string>::iterator it;
-        for (it = color_segments.begin(); it != color_segments.end(); ++it) {
-            if (!it->empty() && it->at(0) == '<') {
-                color = get_color_from_tag(*it, base_color);
+        for( it = color_segments.begin(); it != color_segments.end(); ++it ) {
+            if( !it->empty() && it->at(0) == '<' ) {
+                color = get_color_from_tag( *it, base_color );
             }
-            if ((int)line_num >= begin_line) {
-                std::string l = rm_prefix(*it);
-                if(l != "--") { // -- is a newline!
+            if( line_num >= begin_line ) {
+                std::string l = rm_prefix( *it );
+                if( l != "--" ) { // -- is a newline!
                     wprintz(w, color, "%s", rm_prefix(*it).c_str());
                 }
             }
@@ -461,6 +465,52 @@ void wprintz(WINDOW *w, nc_color FG, const char *mes, ...)
     va_end(ap);
     wattron(w, FG);
     wprintw(w, "%s", text.c_str());
+    wattroff(w, FG);
+}
+
+void draw_custom_border(WINDOW *w, chtype ls, chtype rs, chtype ts, chtype bs, chtype tl, chtype tr, chtype bl, chtype br, nc_color FG)
+{
+    wattron(w, FG);
+
+    const int height = getmaxy(w);
+    const int width = getmaxx(w);
+
+    for (int j = 0; j < height - 1; j++) {
+        if (ls > 0) {
+            mvwputch(w, j, 0, c_ltgray, (ls > 1) ? ls : LINE_XOXO); // |
+        }
+
+        if (rs > 0) {
+            mvwputch(w, j, width - 1, c_ltgray, (rs > 1) ? rs : LINE_XOXO); // |
+        }
+    }
+
+    for (int j = 0; j < width - 1; j++) {
+        if (ts > 0) {
+            mvwputch(w, 0, j, c_ltgray, (ts > 1) ? ts : LINE_OXOX); // --
+        }
+
+        if (bs > 0) {
+            mvwputch(w, height - 1, j, c_ltgray, (bs > 1) ? bs : LINE_OXOX); // --
+        }
+    }
+
+    if (tl > 0) {
+        mvwputch(w, 0, 0, c_ltgray, (tl > 1) ? tl : LINE_OXXO); // |^
+    }
+
+    if (tr > 0) {
+        mvwputch(w, 0, width - 1, c_ltgray, (tr > 1) ? tr : LINE_OOXX); // ^|
+    }
+
+    if (bl > 0) {
+        mvwputch(w, height - 1, 0, c_ltgray, (bl > 1) ? bl : LINE_XXOO); // |_
+    }
+
+    if (br > 0) {
+        mvwputch(w, height - 1, width - 1, c_ltgray, (br > 1) ? br : LINE_XOOX); // _|
+    }
+
     wattroff(w, FG);
 }
 
@@ -1053,25 +1103,24 @@ void full_screen_popup(const char *mes, ...)
 int draw_item_info(const int iLeft, const int iWidth, const int iTop, const int iHeight,
                    const std::string sItemName,
                    std::vector<iteminfo> &vItemDisplay, std::vector<iteminfo> &vItemCompare,
-                   const int selected, const bool without_getch, const bool without_border)
+                   int &selected, const bool without_getch, const bool without_border, const bool handle_scrolling)
 {
     WINDOW *win = newwin(iHeight, iWidth, iTop + VIEW_OFFSET_Y, iLeft + VIEW_OFFSET_X);
 
     const auto result = draw_item_info(win, sItemName, vItemDisplay, vItemCompare,
-                          selected, without_getch, without_border);
+                          selected, without_getch, without_border, handle_scrolling);
     delwin( win );
     return result;
 }
 
 int draw_item_info(WINDOW *win, const std::string sItemName,
                    std::vector<iteminfo> &vItemDisplay, std::vector<iteminfo> &vItemCompare,
-                   const int selected, const bool without_getch, const bool without_border)
+                   int &selected, const bool without_getch, const bool without_border, const bool handle_scrolling)
 {
+    std::ostringstream buffer;
     int line_num = 1;
     if (sItemName != "") {
-        const int iOffset = (without_border) ? 0 : 2;
-        trim_and_print(win, line_num, iOffset, getmaxx(win) - iOffset, c_white, "%s", sItemName.c_str());
-        line_num = 3;
+        buffer << sItemName << "\n \n"; //This space is required, otherwise it won't make an empty line.
     }
 
     int iStartX = 0;
@@ -1081,7 +1130,7 @@ int draw_item_info(WINDOW *win, const std::string sItemName,
     // Buffering the whole item info text so we can apply proper word wrapping on it.
     // Note that the "MENU" items are *not* included in this buffer, they are only used from
     // game::inventory_item_menu and require specific placing, according to iOffsetX / iOffsetY.
-    std::ostringstream buffer;
+
     for (size_t i = 0; i < vItemDisplay.size(); i++) {
         if (vItemDisplay[i].sType == "MENU") {
             if (vItemDisplay[i].sFmt == "iOffsetY") {
@@ -1179,24 +1228,55 @@ int draw_item_info(WINDOW *win, const std::string sItemName,
             }
         }
     }
-    if( !buffer.str().empty() ) {
-        const auto b = without_border ? 1 : 2;
-        const auto width = getmaxx( win ) - b * 2;
-        fold_and_print( win, line_num, b, width, c_white, buffer.str() );
-    }
-
-    if (!without_border) {
-        draw_border(win);
-        wrefresh(win);
-    }
 
     int ch = (int)' ';
-    if (!without_getch) {
+    while( true ) {
+        int iLines = 0;
+        if( !buffer.str().empty() ) {
+            const auto b = without_border ? 1 : 2;
+            const auto width = getmaxx( win ) - b * 2;
+            const auto height = getmaxy( win ) - 2;
+
+            const auto vFolded = foldstring(buffer.str(), width);
+            iLines = vFolded.size();
+
+            if( selected < 0 ) {
+                selected = 0;
+            } else if( iLines < height ) {
+                selected = 0;
+            } else if( selected >= iLines - height ) {
+                selected = iLines - height;
+            }
+
+            fold_and_print_from( win, line_num, b, width, selected, c_white, buffer.str() );
+
+            draw_scrollbar( win, selected, height, iLines-height, 1, 0, BORDER_COLOR, false, true );
+        }
+
+        if( !without_border ) {
+            draw_custom_border( win, buffer.str().empty() );
+            wrefresh( win );
+        }
+
+        if( without_getch ) {
+            break;
+        }
+
         ch = (int)getch();
-        if ( selected > 0 && ( ch == '\n' || ch == KEY_RIGHT ) && selected_ret != 0 ) {
+        if( handle_scrolling && ch == KEY_PPAGE ) {
+            selected--;
+            werase(win);
+        } else if( handle_scrolling && ch == KEY_NPAGE ) {
+            selected++;
+            werase(win);
+        } else if( selected > 0 && ( ch == '\n' || ch == KEY_RIGHT ) && selected_ret != 0 ) {
             ch = selected_ret;
-        } else if ( selected == KEY_LEFT ) {
+            break;
+        } else if( selected == KEY_LEFT ) {
             ch = (int)' ';
+            break;
+        } else {
+            break;
         }
     }
 
@@ -1382,11 +1462,24 @@ void draw_subtab(WINDOW *w, int iOffsetX, std::string sText, bool bSelected, boo
     }
 }
 
+/**
+ * Draw a scrollbar
+ * @param window Pointer of window to draw on
+ * @param iCurrentLine The currently selected line out of the iNumEntries lines
+ * @param iContentHeight Height of the scrollbar
+ * @param iNumEntries Total number of lines to scroll through
+ * @param iOffsetY Y drawing offset
+ * @param iOffsetX X drawing offset
+ * @param bar_color Default line color
+ * @param bRefresh If true, refresh window after drawing the scrollbar
+ * @param bTextScroll If true, will draw the scrollbar even if iContentHeight >= iNumEntries.
+ * Used for scrolling multiline wrapped text. If false, used for scrolling one line selections.
+ **/
 void draw_scrollbar(WINDOW *window, const int iCurrentLine, const int iContentHeight,
                     const int iNumEntries, const int iOffsetY, const int iOffsetX,
-                    nc_color bar_color)
+                    nc_color bar_color, const bool bRefresh, const bool bTextScroll)
 {
-    if (iContentHeight >= iNumEntries) {
+    if (!bTextScroll && iContentHeight >= iNumEntries) {
         //scrollbar is not required
         bar_color = BORDER_COLOR;
     }
@@ -1396,8 +1489,10 @@ void draw_scrollbar(WINDOW *window, const int iCurrentLine, const int iContentHe
         mvwputch(window, i, iOffsetX, bar_color, LINE_XOXO);
     }
 
-    if (iContentHeight >= iNumEntries) {
-        wrefresh(window);
+    if (!bTextScroll && iContentHeight >= iNumEntries) {
+        if (bRefresh) {
+            wrefresh(window);
+        }
         return;
     }
 
@@ -1407,6 +1502,10 @@ void draw_scrollbar(WINDOW *window, const int iCurrentLine, const int iContentHe
 
         int iSBHeight = ((iContentHeight - 2) * (iContentHeight - 2)) / iNumEntries;
 
+        if (bTextScroll && iNumEntries < iContentHeight) {
+            iSBHeight = iContentHeight - iNumEntries - 2;
+        }
+
         if (iSBHeight < 2) {
             iSBHeight = 2;
         }
@@ -1414,7 +1513,9 @@ void draw_scrollbar(WINDOW *window, const int iCurrentLine, const int iContentHe
         int iStartY = (iCurrentLine * (iContentHeight - 3 - iSBHeight)) / iNumEntries;
         if (iCurrentLine == 0) {
             iStartY = -1;
-        } else if (iCurrentLine == iNumEntries - 1) {
+        } else if (bTextScroll && iCurrentLine == iNumEntries) {
+            iStartY = iContentHeight - 3 - iSBHeight;
+        } else if (!bTextScroll && iCurrentLine == iNumEntries - 1) {
             iStartY = iContentHeight - 3 - iSBHeight;
         }
 
@@ -1423,7 +1524,9 @@ void draw_scrollbar(WINDOW *window, const int iCurrentLine, const int iContentHe
         }
     }
 
-    wrefresh(window);
+    if (bRefresh) {
+        wrefresh(window);
+    }
 }
 
 void calcStartPos(int &iStartPos, const int iCurrentLine, const int iContentHeight,
@@ -1777,6 +1880,28 @@ std::pair<std::string, nc_color> const& get_item_hp_bar(const int dmg)
     }
 
     return strings[6];
+}
+
+std::pair<std::string, nc_color> const& get_light_level(const float light)
+{
+    using pair_t = std::pair<std::string, nc_color>;
+    static std::array<pair_t, 6> const strings {{
+        pair_t {_("unknown"), c_pink},
+        pair_t {_("brightly"), c_yellow},
+        pair_t {_("cloudy"), c_white},
+        pair_t {_("shady"), c_ltgray},
+        pair_t {_("dark"), c_dkgray},
+        pair_t {_("very dark"), c_black_white}
+    }};
+
+    const int light_level = ceil(light);
+    if (light_level < 0) {
+        return strings[0];
+    } else if (light_level > 5) {
+        return strings[5];
+    }
+
+    return strings[light_level];
 }
 
 /**
