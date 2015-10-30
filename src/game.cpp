@@ -4242,61 +4242,54 @@ void game::debug()
     break;
     case 26:
     {
+        auto set_turn = [&]( const int initial, const int factor, const char * const msg ) {
+            const auto text = string_input_popup( msg, 20, to_string( initial ), "", "", 20, true );
+            if(text.empty()) {
+                return;
+            }
+            const int new_value = std::atoi( text.c_str() );
+            calendar::turn -= (initial - new_value) * factor;
+        };
+
         uimenu smenu;
 
         do {
             const int iSel = smenu.ret;
             smenu.reset();
-            smenu.addentry( 0, true, 'd', "%s: %d", _("day"), calendar::turn.days() + 1 );
-            smenu.addentry( 1, true, 'h', "%s: %d", _("hour"), calendar::turn.hours() );
-            smenu.addentry( 2, true, 'm', "%s: %d", _("minute"), calendar::turn.minutes() );
-            smenu.addentry( 3, true, 't', "%s: %d", _("turn"), calendar::turn.get_turn() );
-            smenu.addentry( 4, true, 'q', "%s", _("quit") );
+            smenu.addentry( 0, true, 'y', "%s: %d", _("year"), calendar::turn.years() );
+            smenu.addentry( 1, true, 's', "%s: %d", _("season"), int(calendar::turn.get_season()) );
+            smenu.addentry( 2, true, 'd', "%s: %d", _("day"), calendar::turn.days() );
+            smenu.addentry( 3, true, 'h', "%s: %d", _("hour"), calendar::turn.hours() );
+            smenu.addentry( 4, true, 'm', "%s: %d", _("minute"), calendar::turn.minutes() );
+            smenu.addentry( 5, true, 't', "%s: %d", _("turn"), calendar::turn.get_turn() );
+            smenu.addentry( 6, true, 'q', "%s", _("quit") );
             smenu.selected = iSel;
             smenu.query();
 
             switch( smenu.ret ) {
             case 0:
-            {
-                int iPrevDay = calendar::turn.days() + 1;
-                int iNewDay = std::atoi( string_input_popup( _("Set day to?"), 5, to_string( iPrevDay ), "", "", 4, true ).c_str() );
-                if ( iNewDay > 0 && iPrevDay != iNewDay ) {
-                    calendar::turn -= DAYS(iPrevDay - iNewDay);
-                }
-            }
-            break;
+                set_turn( calendar::turn.years(), DAYS(1) * calendar::turn.year_length(), _("Set year to?") );
+                break;
             case 1:
-            {
-                int iPrevHour = calendar::turn.hours();
-                int iNewHour = std::atoi( string_input_popup( _("Set hour to?"), 3, to_string( iPrevHour ), "", "", 2, true ).c_str() );
-                if ( iNewHour >= 0 && iPrevHour != iNewHour ) {
-                    calendar::turn -= HOURS(iPrevHour - iNewHour);
-                }
-            }
-            break;
+                set_turn( int(calendar::turn.get_season()), DAYS(1) * calendar::turn.season_length(), _("Set season to? (0 = spring)") );
+                break;
             case 2:
-            {
-                int iPrevMin = calendar::turn.minutes();
-                int iNewMin = std::atoi( string_input_popup( _("Set minute to?"), 3, to_string( iPrevMin ), "", "", 2, true ).c_str() );
-                if ( iNewMin >= 0 && iPrevMin != iNewMin ) {
-                    calendar::turn -= MINUTES(iPrevMin - iNewMin);
-                }
-            }
-            break;
+                set_turn( calendar::turn.days(), DAYS(1), _("Set days to?") );
+                break;
             case 3:
-            {
-                int turn = std::atoi( string_input_popup( string_format(_("Set turn to? (One day is %i turns)"), int(DAYS(1))),
-                                                  20, to_string( calendar::turn.get_turn() ), "", "", 21, true ).c_str() );
-                if( turn > 0 ) {
-                    calendar::turn = turn;
-                }
-            }
-            break;
+                set_turn( calendar::turn.hours(), HOURS(1), _("Set hour to?") );
+                break;
+            case 4:
+                set_turn( calendar::turn.hours(), MINUTES(1), _("Set minute to?") );
+                break;
+            case 5:
+                set_turn( calendar::turn.get_turn(), 1,
+                          string_format(_("Set turn to? (One day is %i turns)"), int(DAYS(1))).c_str() );
+                break;
             default:
-            break;
+                break;
             }
-
-        } while (smenu.ret != 4);
+        } while (smenu.ret != 6);
     }
     break;
     case 27:
