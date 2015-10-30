@@ -74,7 +74,6 @@
 #include "weather.h"
 #include "faction.h"
 #include "live_view.h"
-#include "animation.h"
 
 #include <map>
 #include <set>
@@ -3347,8 +3346,6 @@ void game::load_world_modfiles(WORLDPTR world)
             } else {
                 debugmsg("the world uses an unknown mod %s", mod_ident.c_str());
             }
-
-            try_sdl_update();
         }
         // Load additional mods from that world-specific folder
         load_data_from_dir(world->world_path + "/mods");
