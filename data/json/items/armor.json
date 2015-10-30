@@ -4149,7 +4149,7 @@
         "encumbrance" : 27,
         "bashing" : -2,
         "flags" : ["VARSIZE", "POCKETS", "OUTER"],
-        "coverage" : 90,
+        "coverage" : 85,
         "material_thickness" : 3
     },
     {
@@ -4173,7 +4173,7 @@
         "encumbrance" : 27,
         "bashing" : -2,
         "flags" : ["VARSIZE", "POCKETS", "OUTER"],
-        "coverage" : 95,
+        "coverage" : 90,
         "material_thickness" : 3
     },
     {
