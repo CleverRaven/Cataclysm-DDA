@@ -20269,7 +20269,16 @@
         "color" : "white",
         "addiction_type" : "none",
         "spoils_in" : 0,
-        "use_action" : "INK_SAC",
+        "use_action" : {
+            "type" : "consume_drug",
+            "activation_message" : "You take some oxycodone.",
+            "effects" : [
+                {
+                "id": "inked",
+                "duration": 900
+                }
+            ]
+        },
         "stim" : 0,
         "container" : "null",
         "to_hit" : 0,

@@ -445,10 +445,43 @@ void player::reset_stats()
             mod_dex_bonus( it.get_mod( "DEX", reduced ) );
             mod_per_bonus( it.get_mod( "PER", reduced ) );
             mod_int_bonus( it.get_mod( "INT", reduced ) );
+
         }
     }
 
     Character::reset_stats();
+}
+
+void player::reset_scent()
+{
+    // Set our scent towards the norm
+    scent_norm = 500;
+
+    if (has_trait("WEAKSCENT")) {
+        scent_norm = 300;
+    }
+    if (has_trait("SMELLY")) {
+        scent_norm = 800;
+    }
+    if (has_trait("SMELLY2")) {
+        scent_norm = 1200;
+    }
+    // Not so much that you don't have a scent
+    // but that you smell like a plant, rather than
+    // a human. When was the last time you saw a critter
+    // attack a bluebell or an apple tree?
+    if ((has_trait("FLOWERS")) && (!(has_trait("CHLOROMORPH")))) {
+        scent_norm -= 200;
+    }
+    //scent test code, will delete it.
+    add_msg("norm_scent: %d", scent_norm);
+    add_msg("scent: %d", scent);
+    add_msg("scent_mod: %d", scent_mod);
+    // You *are* a plant.  Unless someone hunts triffids by scent,
+    // you don't smell like prey.
+    if (has_trait("CHLOROMORPH")) {
+        scent_norm = 0;
+    }
 }
 
 void player::process_turn()
@@ -470,49 +503,25 @@ void player::process_turn()
 
     suffer();
 
-    // Set our scent towards the norm
-    int norm_scent = 500;
-    if (has_trait("WEAKSCENT")) {
-        norm_scent = 300;
-    }
-    if (has_trait("SMELLY")) {
-        norm_scent = 800;
-    }
-    if (has_trait("SMELLY2")) {
-        norm_scent = 1200;
-    }
-    // Not so much that you don't have a scent
-    // but that you smell like a plant, rather than
-    // a human. When was the last time you saw a critter
-    // attack a bluebell or an apple tree?
-    if ( (has_trait("FLOWERS")) && (!(has_trait("CHLOROMORPH"))) ) {
-        norm_scent -= 200;
-    }
-    // Handle scent modifier calculated from effects.;
-    norm_scent += scent_mod;
-    if (norm_scent < 0) {
-        norm_scent = 0;
-    }
-    //scent test code, will delete it.
-    add_msg("scent: %d", scent);
-    add_msg("scent_mod: %d", scent_mod);
-    // You *are* a plant.  Unless someone hunts triffids by scent,
-    // you don't smell like prey.
-    if( has_trait("CHLOROMORPH") ) {
-        norm_scent = 0;
+    reset_scent();
+
+    int scent_goal = scent_norm;
+    scent_goal += scent_mod;
+    if (scent_goal < 0) {
+        scent_goal = 0;
     }
 
     // Scent increases fast at first, and slows down as it approaches normal levels.
     // Estimate it will take about norm_scent * 2 turns to go from 0 - norm_scent / 2
     // Without smelly trait this is about 1.5 hrs. Slows down significantly after that.
-    if (scent < 0) {
-        scent = 0;
-    }
-    if (scent < rng(0, norm_scent))
-        scent++;
 
+    if ( scent < rng( 0, scent_goal) ) {
+        scent++;
+    }
     // Unusually high scent decreases steadily until it reaches normal levels.
-        scent--;
+    if ( scent > scent_goal) {
+       scent--;
+    }
     // We can dodge again! Assuming we can actually move...
     if (moves > 0) {
         blocks_left = get_num_blocks();
@@ -6288,17 +6297,14 @@ void player::process_effects() {
                 }
             }
 
-            // calculate scent modifier
-            val = it.get_mod("SCENT", reduced);
+            val = it.get_mod( "SCENT", reduced );
+            add_msg(("intensity: %d"), it.get_intensity());
             if (val != 0) {
-                mod = 1;
-                if (it.activated(calendar::turn, "SCENT", val, reduced, mod)) {
-                    scent_mod += bound_mod_to_vals(scent, val,
-                        it.get_max_val("SCENT", reduced),
-                        it.get_min_val("SCENT", reduced));
-                }
+                scent_mod += bound_mod_to_vals( scent_norm, val,
+                        it.get_max_val( "SCENT", reduced ),
+                        it.get_min_val( "SCENT", reduced ) );
+                
             }
-
             // Speed and stats are handled in recalc_speed_bonus and reset_stats respectively
         }
     }

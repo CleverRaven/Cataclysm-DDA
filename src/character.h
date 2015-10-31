@@ -530,8 +530,6 @@ class Character : public Creature
         // --------------- Values ---------------
         /** Needs (hunger, thirst, fatigue, etc.) */
         int hunger, stomach_food, stomach_water;
-        // scent modifier calculated from all effects
-        int scent_mod;
         std::map<const Skill*, SkillLevel> _skills;
 
         // Cached vision values.

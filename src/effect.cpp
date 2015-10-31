@@ -281,6 +281,7 @@ bool effect_type::load_mod_data(JsonObject &jsobj, std::string member) {
 
         // Then scent
         extract_effect(j, mod_data, "scent_mod",         member, "SCENT", "min");
+        extract_effect(j, mod_data, "scent_min_val",     member, "SCENT", "min_val");
         extract_effect(j, mod_data, "scent_max_val",     member, "SCENT", "max_val");
 
         // Then coughing

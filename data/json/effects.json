@@ -464,7 +464,7 @@
         "apply_message": "You're covered in bile!",
         "rating": "bad",
         "base_mods": {
-            "per_mod": [-6],
+            "per_mod": [-3],
             "vomit_chance": [500]
         }
     },
@@ -487,7 +487,7 @@
         "apply_message": "Your eyes sting and you can keep them barely open!",
         "rating": "bad",
         "base_mods": {
-            "per_mod": [-6]
+            "per_mod": [-3]
         }
     },
     {
@@ -496,10 +496,12 @@
         "name": ["Soaked in ink"],
         "desc": ["You are covered in black ink!"],
         "apply_message": "You're covered in black ink!",
+        "rating": "good",
+        "max_intensity": 100,
         "int_dur_factor": 300,
         "base_mods": {
             "scent_mod": [-50],
-            "scent_max_val": [100]
+            "scent_min_val": [50]
         },
         "scaling_mods": {
             "scent_mod": [-50]
