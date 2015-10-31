@@ -142,6 +142,7 @@ enum m_flag : int {
     MF_CLIMBS,              // Monsters that can climb certain terrain and furniture
     MF_PUSH_MON,            // Monsters that can push creatures out of their way
 	MF_INK_SAC,             // May produce some sacs of ink then butchered
+    MF_MUT_ABLE,            // Lets the game know that you can inject mutagen into this monster, then its your pet.
     MF_MAX                  // Sets the length of the flags - obviously must be LAST
 };
 

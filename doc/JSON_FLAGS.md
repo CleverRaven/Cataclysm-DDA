@@ -250,7 +250,7 @@ Flags used to describe monsters and define their properties and abilities.
 - ```CBM_OP``` May produce a cbm or two from bionics_op when butchered.
 - ```FISHABLE``` It is fishable.
 - ```INTERIOR_AMMO``` Monster contains ammo inside itself, no need to load on launch. Prevents ammo from being dropped on disable.
-- ```INK_SAC``` Then butchred, monster drops a number of ink sacs.
+- ```INK_SAC``` Then butchered, monster drops a number of ink sacs.
 
 ### Special attacks
 Some special attacks are also valid use actions for tools and weapons.
@@ -284,6 +284,7 @@ Some special attacks are also valid use actions for tools and weapons.
 - ```FORMBLOB``` Spawns blobs?
 - ```DOGTHING``` The dog _thing_ spawns into a tentacle dog.
 - ```TENTACLE``` Lashes a tentacle at the player.
+- ```TENTACLE_LASH``` Lashes 1 to n tentacles at attack target, n is number of "tentacle" items monster has as ammo
 - ```VORTEX``` Forms a vortex/tornado that causes damage and throws creatures around.
 - ```GENE_STING``` Shoot a dart at the player that causes a mutation if it connects.
 - ```PARA_STING``` Shoot a paralyzing dart at the player.

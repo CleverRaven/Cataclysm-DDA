@@ -7751,11 +7751,7 @@ bool pet_menu(monster *z)
 
     uimenu amenu;
 
-    std::string pet_name = _("dog");
-    if( z->type->in_species( ZOMBIE ) ) {
-        pet_name = _("zombie slave");
-    }
-    pet_name = z->name();
+    std::string pet_name = z->name();
 
     amenu.selected = 0;
     amenu.text = string_format(_("What to do with your %s?"), pet_name.c_str());
@@ -7786,16 +7782,12 @@ bool pet_menu(monster *z)
         amenu.addentry(pheromone, true, 't', _("Tear out pheromone ball"));
     }
 
-    if (z->type->id == mtype_id("mon_dog") ||
-        z->type->id == mtype_id("mon_beakhound") || 
-        z->type->id == mtype_id("mon_beakhound2") || 
-        z->type->id == mtype_id("mon_beakhound3")) 
+    if (z->has_flag(MF_MUT_ABLE)) 
     {
-        if (g->u.has_amount("syringe", 1)) {
-            amenu.addentry(inject, true, 'i', _("Inject mutagen"));
-        }
-        else {
-        amenu.addentry(inject, false, 'i', _("You need a syringe"));
+        if ( g->u.has_amount( "syringe", 1 ) ) {
+            amenu.addentry( inject, true, 'i', _("Inject mutagen") );
+        } else {
+        amenu.addentry( inject, false, 'i', _("You need a syringe to inject mutagen") );
         }
     }
 
@@ -7983,61 +7975,77 @@ bool pet_menu(monster *z)
 
         return true;
     }
-    if (inject == choice) {
-        auto filter = [](const item &it) {
+    if ( inject == choice ) {
+        auto filter = [] (const item &it) {
             return it.has_flag("MUTAGEN_CEPHALOPOD") ||
                    it.has_flag("PURIFIER");
         };
-        int pos = g->inv_for_filter(_("Injectable mutagen:"), filter);
-        if (pos == INT_MIN) {
-            add_msg(_("Never mind."));
+        int pos = g->inv_for_filter( _("Injectable mutagen:"), filter );
+        if ( pos == INT_MIN ) {
+            add_msg( _("Never mind.") );
             return true;
         }
 
         item *it = &g->u.i_at(pos);
 
-        if (!(it->has_flag("MUTAGEN_CEPHALOPOD")) &&
-            !(it->has_flag("PURIFIER"))) {
+        if ( !( it->has_flag("MUTAGEN_CEPHALOPOD") ) &&
+             !( it->has_flag( "PURIFIER" ) ) ) {
             add_msg(_("You can't inject that!"));
             return true;
         }
 
         int mut_str = 0;
-        if (!it->has_flag("SERUM")) {
+        if ( !it->has_flag( "SERUM" ) ) {
             mut_str = 1;
         }
         else {
             mut_str = rng(1, 3);
         }
-        if (it->has_flag("PURIFIER")) {
+        if ( it->has_flag( "PURIFIER" ) ) {
             mut_str *= -1;
         }
-        if (it->has_flag("MUTAGEN_CEPHALOPOD") ||
-            it->has_flag("PURIFIER")) {
+        if ( it->has_flag( "MUTAGEN_CEPHALOPOD" ) ||
+            it->has_flag( "PURIFIER" ) ) {
 
             std::vector<mtype_id> dog_ceph_mut;
             dog_ceph_mut.push_back(mtype_id("mon_dog"));
             dog_ceph_mut.push_back(mtype_id("mon_beakhound"));
             dog_ceph_mut.push_back(mtype_id("mon_beakhound2"));
             dog_ceph_mut.push_back(mtype_id("mon_beakhound3"));
+            dog_ceph_mut.push_back(mtype_id("mon_beakhound4"));
 
             int max_mut_lev = dog_ceph_mut.size() - 1;
 
-            for (size_t i = 0; i < dog_ceph_mut.size(); i++) {
+            for ( size_t i = 0; i < dog_ceph_mut.size(); i++ ) {
                 if (dog_ceph_mut[i] == z->type->id) {
                     int mut_lev = i + mut_str;
                     if (mut_lev > max_mut_lev) {
                         mut_lev = max_mut_lev;
                     }
+
                     else if (mut_lev < 0) {
                         mut_lev = 0;
                     }
-                    z->poly(dog_ceph_mut[mut_lev]);
+
                     add_msg(_("You inject the %1$s into the %2$s."),
                         it->type->nname(1).c_str(), pet_name.c_str());
-                    
-                    g->u.inv.use_charges(it->typeId(), 1);
+                    if (it->has_flag("SERUM")) {
+                        sounds::sound( z->pos(), 30, _("a howl!"));
+                        z->add_effect("wary", 1800);
+                        z->moves -= 500;
+                    }
 
+                    if ( z->type->id != dog_ceph_mut[mut_lev] && ( it->has_flag("SERUM") || one_in(4) ) ) {
+                        z->poly(dog_ceph_mut[mut_lev]);
+                        add_msg( _("The %s's form shifts right before your eyes!"),
+                            pet_name.c_str() );
+                    } else {
+                        add_msg( _("Nothing seems to happen.") );
+                    }
+                    
+                    g->u.inv.use_charges( it->typeId(), 1 );
+
+                    z->moves -= 200;
                     g->u.moves -= 200;
                     
                     return true;
@@ -8174,10 +8182,13 @@ void game::examine( const tripoint &examp )
         Creature *c = critter_at(examp);
         monster *mon = dynamic_cast<monster *>(c);
 
-        if( mon != nullptr && mon->has_effect("pet") ) {
+        if( mon != nullptr && mon->has_effect("pet") && !mon->has_effect("wary") ) {
             if (pet_menu(mon)) {
                 return;
             }
+        } else if (mon->has_effect("pet") && mon->has_effect("wary")) {
+            add_msg( _("The %s flinches and doesn't let you to get too close to it!"),
+                    mon->name().c_str() );
         }
 
         npc *np = dynamic_cast<npc*>( c );

@@ -115,6 +115,11 @@
         "id": "pet",
         "name": ["Pet"],
         "desc": ["AI tag used for pet critters.  This is a bug if you have it."]
+    },{
+        "type": "effect_type",
+        "id": "wary",
+        "name": ["Wary"],
+        "desc": ["AI tag used for pet to stop the player from accessing the pet menu.  This is a bug if you have it."]
     },
     {
         "type": "effect_type",
@@ -364,21 +369,16 @@
         "type": "effect_type",
         "id": "numbpoison",
         "name": ["Numbness"],
-        "desc": ["You feel numbness spreading around your body!"],
-        "rating": "bad",
+        "desc": ["You feel sluggishness and numbness spreading around your body!"],
+		"miss_messages": [["You feel numb.", 1]],
+        "rating": "mixed",
         "resist_traits": ["POISRESIST"],
-        "pain_sizing": true,
-        "hurt_sizing": true,
         "main_parts_only": true,
-		"int_dur_factor": 50,
         "base_mods": {
 		    "dex_mod": [-3, -1],
-			"stim_tick":[5],
-			"stim_min":[-1, 0]
-        },
-		"scaling_mods": {
-		    "dex_mod": [-0.34, -0.17],
-			"stim_min":[-0.25, -0.1]
+			"speed_mod": [-15, -5],
+			"pkill_tick": [5],
+            "pkill_min": [1]
         }
     },
     {
@@ -498,7 +498,7 @@
         "apply_message": "You're covered in black ink!",
         "int_dur_factor": 300,
         "base_mods": {
-            "scent_mod": [-50]
+            "scent_mod": [-100]
         },
         "scaling_mods": {
             "scent_mod": [-50]

@@ -488,8 +488,11 @@ void player::process_turn()
     if ( (has_trait("FLOWERS")) && (!(has_trait("CHLOROMORPH"))) ) {
         norm_scent -= 200;
     }
-    //Handle scent effects.
+    // Handle scent modifier calculated from effects.;
     norm_scent += scent_mod;
+    if (norm_scent < 0) {
+        norm_scent = 0;
+    }
 
     // You *are* a plant.  Unless someone hunts triffids by scent,
     // you don't smell like prey.
@@ -500,6 +503,9 @@ void player::process_turn()
     // Scent increases fast at first, and slows down as it approaches normal levels.
     // Estimate it will take about norm_scent * 2 turns to go from 0 - norm_scent / 2
     // Without smelly trait this is about 1.5 hrs. Slows down significantly after that.
+    if (scent < 0) {
+        scent = 0;
+    }
     if (scent < rng(0, norm_scent))
         scent++;
 
@@ -6034,11 +6040,7 @@ void player::add_eff_effects(effect e, bool reduced)
             add_pain_msg(e.get_amount("PAIN", reduced), bp);
         }
     }
-    // handle scent_mod
-    if (e.get_amount("SCENT", reduced) > 0) {
-        scent_mod = bound_mod_to_vals(scent, e.get_amount("SCENT", reduced),
-            e.get_max_val("SCENT", reduced), 0);
-    }
+
     Creature::add_eff_effects(e, reduced);
 }
 
@@ -6081,6 +6083,8 @@ void player::process_effects() {
         remove_effect("alarm_clock");
     }
 
+    // Reset scent_mod
+    scent_mod = 0;
     //Human only effects
     for( auto &elem : effects ) {
         for( auto &_effect_it : elem.second ) {
@@ -6279,6 +6283,17 @@ void player::process_effects() {
                     } else if( stamina > get_stamina_max() ) {
                         stamina = get_stamina_max();
                     }
+                }
+            }
+
+            // calculate scent modifier
+            val = it.get_mod("SCENT", reduced);
+            if (val != 0) {
+                mod = 1;
+                if (it.activated(calendar::turn, "SCENT", val, reduced, mod)) {
+                    scent_mod += bound_mod_to_vals(scent, val,
+                        it.get_max_val("SCENT", reduced),
+                        it.get_min_val("SCENT", reduced));
                 }
             }
 

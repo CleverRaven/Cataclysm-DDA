@@ -382,6 +382,7 @@ void MonsterGenerator::init_flags()
     flag_map["INTERIOR_AMMO"] = MF_INTERIOR_AMMO;
     flag_map["PUSH_MON"] = MF_PUSH_MON;
     flag_map["INK_SAC"] = MF_INK_SAC;
+    flag_map["MUT_ABLE"] = MF_MUT_ABLE;
 }
 
 void MonsterGenerator::set_species_ids( mtype &mon )

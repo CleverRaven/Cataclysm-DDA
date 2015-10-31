@@ -507,7 +507,6 @@ bool map::process_fields_in_submap( submap *const current_submap,
             const auto &ter = dst.get_ter_t();
             const auto &frn = dst.get_furn_t();
             // Candidates are existing weaker fields or navigable/flagged tiles with no field.
-            // A hacky way to make ink spread only in water, without overhauling the whole function
             return (ter_furn_movecost(ter, frn) > 0 || ter_furn_has_flag(ter, frn, TFLAG_PERMEABLE)) &&
                 (tmpfld == nullptr || tmpfld->getFieldDensity() < cur->getFieldDensity());
         };

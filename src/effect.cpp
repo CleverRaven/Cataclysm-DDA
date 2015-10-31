@@ -280,7 +280,7 @@ bool effect_type::load_mod_data(JsonObject &jsobj, std::string member) {
         extract_effect(j, mod_data, "stamina_tick",      member, "STAMINA",  "tick");
 
         // Then scent
-        extract_effect(j, mod_data, "scent_mod", member, "SCENT", "min");
+        extract_effect(j, mod_data, "scent_mod",         member, "SCENT",    "min");
 
         // Then coughing
         extract_effect(j, mod_data, "cough_chance",     member, "COUGH",    "chance_top");
