@@ -504,7 +504,7 @@ void player::process_turn()
 
     int scent_goal = scent_norm;
     scent_goal += scent_mod;
-    if (scent_goal < 0) {
+    if ( scent_goal < 0 ) {
         scent_goal = 0;
     }
 
@@ -516,7 +516,7 @@ void player::process_turn()
         scent++;
     }
     // Unusually high scent decreases steadily until it reaches normal levels.
-    if ( scent > scent_goal) {
+    if ( scent > scent_goal ) {
        scent--;
     }
     // We can dodge again! Assuming we can actually move...

@@ -7738,7 +7738,6 @@ bool pet_menu(monster *z)
 {
     enum choices {
         cancel,
-        wary,
         swap_pos,
         push_zlave,
         rename,
@@ -7755,16 +7754,16 @@ bool pet_menu(monster *z)
     std::string pet_name = z->name();
 
     amenu.selected = 0;
-    amenu.text = string_format(_("What to do with your %s?"), pet_name.c_str());
+    if (z->has_effect("wary")) {
+        amenu.text = string_format(_("The %s seems to be wary around you."), pet_name.c_str());
+    } else { 
+        amenu.text = string_format(_("What to do with your %s?"), pet_name.c_str()); 
+    }
     amenu.addentry(cancel, true, 'q', _("Cancel"));
-    
+
     amenu.addentry(swap_pos, true, 's', _("Swap positions"));
     amenu.addentry(push_zlave, true, 'p', _("Push %s"), pet_name.c_str());
     amenu.addentry( rename, true, 'e', _("Rename") );
-
-    if (z->has_effect("wary")) {
-        amenu.addentry(wary, false, 'w', _("The %s is too terrified of you to let you do anything else."), pet_name.c_str());
-    }
 
     if (!z->has_effect("wary")) {
         if (z->has_effect("has_bag")) {
@@ -8151,22 +8150,20 @@ void game::examine(const tripoint &examp)
     int veh_part = 0;
     vehicle *veh = nullptr;
 
-    veh = m.veh_at(examp, veh_part);
+    veh = m.veh_at( examp, veh_part );
     if (veh) {
         if (u.controlling_vehicle) {
-            add_msg(m_info, _("You can't do that while driving."));
-        }
-        else if (abs(veh->velocity) > 0) {
-            add_msg(m_info, _("You can't do that on a moving vehicle."));
-        }
-        else {
-            Pickup::pick_up(examp, 0);
+            add_msg( m_info, _("You can't do that while driving.") );
+        } else if ( abs(veh->velocity) > 0 ) {
+            add_msg( m_info, _("You can't do that on a moving vehicle.") );
+        } else {
+            Pickup::pick_up( examp, 0 );
         }
         return;
     }
 
     if (m.has_flag("CONSOLE", examp)) {
-        use_computer(examp);
+        use_computer( examp );
         return;
     }
     const furn_t &xfurn_t = m.furn_at(examp);
@@ -8176,14 +8173,13 @@ void game::examine(const tripoint &examp)
 
     if (m.has_furn(examp)) {
         xfurn_t.examine(&u, &m, examp);
-    }
-    else {
+    } else {
         xter_t.examine(&u, &m, examp);
     }
 
     // Did the player get moved? Bail out if so; our examp probably
     // isn't valid anymore.
-    if (player_pos != u.pos()) {
+    if ( player_pos != u.pos() ) {
         return;
     }
 
@@ -8196,47 +8192,44 @@ void game::examine(const tripoint &examp)
         Creature *c = critter_at(examp);
         monster *mon = dynamic_cast<monster *>(c);
 
-        if (mon != nullptr && mon->has_effect("pet")) {
-            if (pet_menu(mon)) {
+        if ( mon != nullptr && mon->has_effect("pet") ) {
+            if  (pet_menu(mon) ) {
                 return;
             }
 
             npc *np = dynamic_cast<npc*>(c);
-            if (np != nullptr) {
-                if (npc_menu(*np)) {
+            if ( np != nullptr ) {
+                if ( npc_menu(*np) ) {
                     return;
                 }
             }
         }
 
-        if (!m.tr_at(examp).is_null()) {
-            iexamine::trap(&u, &m, examp);
+        if ( !m.tr_at(examp).is_null() ) {
+            iexamine::trap( &u, &m, examp );
             draw_ter();
         }
 
         // In case of teleport trap or somesuch
-        if (player_pos != u.pos()) {
+        if ( player_pos != u.pos( )) {
             return;
         }
 
-        if (m.has_flag("SEALED", examp)) {
+        if ( m.has_flag( "SEALED", examp ) ) {
             if (none) {
-                if (m.has_flag("UNSTABLE", examp)) {
-                    add_msg(_("The %s is too unstable to remove anything."), m.name(examp).c_str());
-                }
-                else {
-                    add_msg(_("The %s is firmly sealed."), m.name(examp).c_str());
+                if ( m.has_flag( "UNSTABLE", examp ) ) {
+                    add_msg( _("The %s is too unstable to remove anything."), m.name(examp).c_str() );
+                } else {
+                    add_msg( _("The %s is firmly sealed."), m.name(examp).c_str() );
                 }
             }
-        }
-        else {
+        } else {
             //examp has no traps, is a container and doesn't have a special examination function
-            if (m.tr_at(examp).is_null() && m.i_at(examp).empty() &&
+            if ( m.tr_at(examp).is_null() && m.i_at(examp).empty() &&
                 m.has_flag("CONTAINER", examp) && none) {
-                add_msg(_("It is empty."));
-            }
-            else if (!veh) {
-                Pickup::pick_up(examp, 0);
+                add_msg(_("It is empty.") );
+            } else if (!veh) {
+                Pickup::pick_up( examp, 0 );
             }
         }
     }

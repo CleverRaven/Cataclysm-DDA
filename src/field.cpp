@@ -507,9 +507,10 @@ bool map::process_fields_in_submap( submap *const current_submap,
             const auto &ter = dst.get_ter_t();
             const auto &frn = dst.get_furn_t();
             // Candidates are existing weaker fields or navigable/flagged tiles with no field.
-            return (ter_furn_movecost(ter, frn) > 0 || ter_furn_has_flag(ter, frn, TFLAG_PERMEABLE)) &&
-                (tmpfld == nullptr || tmpfld->getFieldDensity() < cur->getFieldDensity());
+            return ( ter_furn_movecost( ter, frn ) > 0 || ter_furn_has_flag( ter, frn, TFLAG_PERMEABLE ) ) &&
+                ( tmpfld == nullptr || tmpfld->getFieldDensity() < cur->getFieldDensity() );
         };
+
         const auto spread_to = [&]( maptile &dst ) {
             field_entry *candidate_field = dst.find_field( curtype );
             // Nearby gas grows thicker, and ages are shared.

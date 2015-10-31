@@ -409,7 +409,9 @@ Valid arguments:
 "vomit_tick"
 
 "scent_mod"
+"scent_min_val"
 "scent_max_val"
+
 ```
 Basic definitions:
 ```C++
