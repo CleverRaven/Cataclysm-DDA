@@ -9479,14 +9479,3 @@ int iuse::ladder( player *p, item *, bool, const tripoint& )
     g->m.furn_set( dirp, "f_ladder" );
     return 1;
 }
-
-int iuse::ink_sac(player *p, item *it, bool, const tripoint&)
-{
-    if (p->is_underwater()) {
-        p->add_msg_if_player(m_info, _("You can't do that while underwater."));
-    } else {
-        p->add_msg_if_player(m_info, _("You cover yourself in black ink."));
-        p->add_effect("inked", 1500);
-    }
-    return it->type->charges_to_use();
-}

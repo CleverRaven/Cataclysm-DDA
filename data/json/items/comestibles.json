@@ -20271,7 +20271,7 @@
         "spoils_in" : 0,
         "use_action" : {
             "type" : "consume_drug",
-            "activation_message" : "You take some oxycodone.",
+            "activation_message" : "You pop the sac's membrane and smear yourself in it's contents.",
             "effects" : [
                 {
                 "id": "inked",
@@ -20288,7 +20288,7 @@
         "healthy" : 0,
         "addiction_potential" : 0,
         "nutrition" : 0,
-        "description" : "A translucent organic sac full of black ink. In hope of masking your scent, you could pop it to smear yourself with it.",
+        "description" : "A translucent organic sac full of black ink. It is known that cephalapod ink has scent masking properties, perhaps you should put this knowledge to use?",
         "price" : 500,
         "material" : "null",
         "tool" : "null",

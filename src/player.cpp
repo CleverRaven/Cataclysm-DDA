@@ -473,10 +473,7 @@ void player::reset_scent()
     if ((has_trait("FLOWERS")) && (!(has_trait("CHLOROMORPH")))) {
         scent_norm -= 200;
     }
-    //scent test code, will delete it.
-    add_msg("norm_scent: %d", scent_norm);
-    add_msg("scent: %d", scent);
-    add_msg("scent_mod: %d", scent_mod);
+
     // You *are* a plant.  Unless someone hunts triffids by scent,
     // you don't smell like prey.
     if (has_trait("CHLOROMORPH")) {
@@ -6298,7 +6295,6 @@ void player::process_effects() {
             }
 
             val = it.get_mod( "SCENT", reduced );
-            add_msg(("intensity: %d"), it.get_intensity());
             if (val != 0) {
                 scent_mod += bound_mod_to_vals( scent_norm, val,
                         it.get_max_val( "SCENT", reduced ),

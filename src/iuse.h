@@ -74,7 +74,6 @@ public:
     int mycus               ( player*, item*, bool, const tripoint& );
     int dogfood             ( player*, item*, bool, const tripoint& );
     int catfood             ( player*, item*, bool, const tripoint& );
-    int ink_sac             ( player*, item*, bool, const tripoint& );
 
 // TOOLS
     int sew                 ( player*, item*, bool, const tripoint& );
