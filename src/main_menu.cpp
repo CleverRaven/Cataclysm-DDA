@@ -347,7 +347,7 @@ bool game::opening_screen()
             }
             if ((action == "UP" || action == "CONFIRM") && sel1 > 0 && sel1 != 7) {
                 if (sel1 == 5) {
-                    show_options();
+                    get_options().show();
                 } else if (sel1 == 6) {
                     display_help();
                 } else if (sel1 == 8) {

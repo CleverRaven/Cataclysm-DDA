@@ -362,8 +362,8 @@ int main(int argc, char *argv[])
     }
 
     // Options strings loaded with system locale
-    init_options();
-    load_options();
+    get_options().init();
+    get_options().load();
 
     set_language(true);
 

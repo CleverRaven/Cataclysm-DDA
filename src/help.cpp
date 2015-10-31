@@ -1096,7 +1096,7 @@ void display_help()
         break;
 
         case '2':
-            show_options(true);
+            get_options().show(true);
             werase(w_help);
             break;
 

@@ -3470,7 +3470,7 @@ bool game::save()
 // Helper predicate to exclude files from deletion when resetting a world directory.
 static bool isForbidden(std::string candidate)
 {
-    if (candidate.find("worldoptions.txt") != std::string::npos ||
+    if (candidate.find(FILENAMES["worldoptions"]) != std::string::npos ||
         candidate.find("mods.json") != std::string::npos) {
         return true;
     }
