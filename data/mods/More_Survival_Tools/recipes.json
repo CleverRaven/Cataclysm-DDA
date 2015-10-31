@@ -1359,5 +1359,62 @@
   "batch_time_factors":[83, 3],
   "tools": [ [ [ "mortar_pestle", -1 ] ] ],
   "components": [ [ ["chitin_piece", 1] ] ]
+},{
+  "type" : "recipe",
+  "result": "tanned_hide",
+  "id_suffix": "scraped",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_MATERIALS",
+  "skill_used": "survival",
+  "difficulty": 1,
+  "time": 30000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [ {"id":"CUT","level":1,"amount":1} ],
+  "components": [ [ [ "tanned_pelt", 1 ] ] ]
+},{
+  "type" : "recipe",
+  "result": "leather",
+  "id_suffix": "scraped",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_MATERIALS",
+  "skill_used": "survival",
+  "difficulty": 1,
+  "time": 6000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [ {"id":"CUT","level":1,"amount":1} ],
+  "components": [ [ [ "fur", 1 ] ] ]
+},{
+  "type" : "recipe",
+  "result": "bolt_bone",
+  "category": "CC_AMMO",
+  "subcategory": "CSC_AMMO_ARROWS",
+  "skill_used": "fabrication",
+  "skills_required": [ "archery", 1 ],
+  "difficulty": 2,
+  "time": 7500,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "components": [
+    [
+      [ "superglue", 10 ],
+      [ "bone_glue", 10 ],
+      [ "thread", 20, "NO_RECOVER" ],
+      [ "sinew", 20, "NO_RECOVER" ],
+      [ "plant_fibre", 20, "NO_RECOVER" ]
+    ],
+    [
+      [ "bone", 5 ],
+      [ "bone_human", 5 ],
+      [ "bone_tainted", 10 ]
+    ],
+    [
+      [ "fletching", 10 ]
+    ]
+  ]
 }
 ]
