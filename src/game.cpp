@@ -2037,9 +2037,7 @@ input_context game::get_player_input(std::string &action)
                 // Display "press X to continue" text at top of main window
                 std::string message = string_format( _("Press %s to accept your fate..."),
                         ctxt.get_desc("QUIT").c_str() );
-                mvwprintz( w_terrain, 0, (TERRAIN_WINDOW_WIDTH / 2) - (message.length() / 2), c_white,
-                           message.c_str() );
-                wrefresh(w_terrain);
+                popup(message, PF_NO_WAIT_ON_TOP);
                 break;
             }
             wrefresh(w_terrain);
@@ -5083,8 +5081,7 @@ void game::draw_ter( const tripoint &center, const bool looking, const bool draw
         input_context ctxt("DEFAULTMODE");
         std::string message = string_format( _("Press %s to accept your fate..."),
                 ctxt.get_desc("QUIT").c_str() );
-        mvwprintz( w_terrain, 0, (TERRAIN_WINDOW_WIDTH / 2) - (message.length() / 2), c_white,
-                   message.c_str() );
+        popup(message, PF_NO_WAIT_ON_TOP);
     }
     wrefresh(w_terrain);
 

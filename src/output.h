@@ -184,10 +184,11 @@ void popup_top(const char *mes, ...); // Displayed at the top of the screen
 void popup(const char *mes, ...);
 typedef enum {
     PF_NONE        = 0,
-    PF_GET_KEY     = 1 <<  0,
-    PF_NO_WAIT     = 1 <<  1,
-    PF_ON_TOP      = 1 <<  2,
-    PF_FULLSCREEN  = 1 <<  3,
+    PF_GET_KEY     = 1 << 0,
+    PF_NO_WAIT     = 1 << 1,
+    PF_ON_TOP      = 1 << 2,
+    PF_FULLSCREEN  = 1 << 3,
+    PF_NO_WAIT_ON_TOP = PF_NO_WAIT | PF_ON_TOP,
 } PopupFlags;
 long popup(const std::string &text, PopupFlags flags);
 void popup_nowait(const char *mes, ...); // Doesn't wait for spacebar
