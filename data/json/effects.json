@@ -365,19 +365,19 @@
             "speed_mod": [-5, -3]
         }
     },
-	{
+    {
         "type": "effect_type",
         "id": "numbpoison",
         "name": ["Numbness"],
         "desc": ["You feel sluggishness and numbness spreading around your body!"],
-		"miss_messages": [["You feel numb.", 1]],
+        "miss_messages": [["You feel numb.", 1]],
         "rating": "mixed",
         "resist_traits": ["POISRESIST"],
         "main_parts_only": true,
         "base_mods": {
-		    "dex_mod": [-3, -1],
-			"speed_mod": [-15, -5],
-			"pkill_tick": [5],
+            "dex_mod": [-3, -1],
+            "speed_mod": [-15, -5],
+            "pkill_tick": [5],
             "pkill_min": [1]
         }
     },
@@ -498,7 +498,8 @@
         "apply_message": "You're covered in black ink!",
         "int_dur_factor": 300,
         "base_mods": {
-            "scent_mod": [-50]
+            "scent_mod": [-50],
+            "scent_max_val": [100]
         },
         "scaling_mods": {
             "scent_mod": [-50]

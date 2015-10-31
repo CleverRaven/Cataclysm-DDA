@@ -493,7 +493,9 @@ void player::process_turn()
     if (norm_scent < 0) {
         norm_scent = 0;
     }
-
+    //scent test code, will delete it.
+    add_msg("scent: %d", scent);
+    add_msg("scent_mod: %d", scent_mod);
     // You *are* a plant.  Unless someone hunts triffids by scent,
     // you don't smell like prey.
     if( has_trait("CHLOROMORPH") ) {

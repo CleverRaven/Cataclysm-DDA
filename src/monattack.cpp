@@ -4884,15 +4884,10 @@ void mattack::ink_jet( monster *z, int index ) {
 
     const game_message_type msg_type = target->attitude_to( g->u ) == Creature::A_FRIENDLY ? m_bad : m_warning;
 
-    // Notify the player, if he sees the use of this ability
-    bool u_see = g->u.sees( *z );
-
-    if ( u_see ) {
-        target->add_msg_player_or_npc( msg_type, 
-            _("The %s squirts a jet of black ink at you!"),
-            _("The %s squirts a jet of black ink at <npcname>!"),
-            z->name().c_str() );
-    }
+    target->add_msg_player_or_npc( msg_type, 
+        _("The %s squirts a jet of black ink at your eyes!"),
+        _("The %s squirts a jet of black ink at <npcname>!'s eyes"),
+        z->name().c_str() );
 
     // Shoot the jet of ink
 
@@ -4914,16 +4909,8 @@ void mattack::ink_jet( monster *z, int index ) {
     if (!target->uncanny_dodge()) {
         if (rng(0, 10) > target->get_dodge() || one_in( target->get_dodge() )) {
             target->on_dodge(z, 10);
-            if ( one_in(5)) {
-                add_msg(m_bad, _("The ink jet hits your eyes!"));
-                target->add_env_effect( "ooze_in_eyes", bp_eyes, 5, 30 );
-                target->add_env_effect( "inked", bp_torso, 4, 25 );
-            }
-            else {
-                target->add_env_effect( "inked", bp_torso, 4, 50 );
-            }
-        }
-        else if (u_see && !target->is_monster()) {
+            target->add_env_effect( "ooze_in_eyes", bp_eyes, 5, 30 );
+        } else {
             target->add_msg_player_or_npc( m_good,
                 _("You dodge the jet of black ink!"),
                 _("<npcname> dodges the jet of black ink!") );
@@ -4933,14 +4920,10 @@ void mattack::ink_jet( monster *z, int index ) {
 
 void mattack::tentacle_lash(monster *z, int index) {
     
-    int num_tent = 0;
-    for (const auto &ammo_entry : z->ammo) {
-        if (ammo_entry.first == "tentacle") {
-            num_tent += ammo_entry.second;
-            if (num_tent == 0) {
-                return;
-            }
-        }
+    int num_tent = z->ammo["tentacle"];
+
+    if (num_tent == 0 || num_tent > 1000) {
+        return;
     }
 
     Creature *target = z->attack_target();
@@ -4976,17 +4959,15 @@ void mattack::tentacle_lash(monster *z, int index) {
 
     //All attacks have been made
     z->moves -= 75 + ((att_made - 1) * 50);
-    if (g->u.sees(*z)) {
-        game_message_type msg_type = target->attitude_to(g->u) == Creature::A_FRIENDLY ? m_bad : m_warning;
-        std::string tent_desc = attacks == 1 ? "tentacle" : "tentacles";
-        std::string tent_eff = att_hit == 0 ? " ineffectively" : "";
-        target->add_msg_player_or_npc( msg_type,
-            _("The %1$s%2$s lashes it's %3$s at you!"),
-            _("The %1$s%2$s lashes it's %3$s at <npcname>!"),
-            z->name().c_str(),
-            tent_eff.c_str(),
-            tent_desc.c_str() );
-    }
+    game_message_type msg_type = target->attitude_to(g->u) == Creature::A_FRIENDLY ? m_bad : m_warning;
+    std::string tent_desc = attacks == 1 ? "tentacle" : "tentacles";
+    std::string tent_eff = att_hit == 0 ? " ineffectively" : "";
+    target->add_msg_player_or_npc( msg_type,
+        _("The %1$s%2$s lashes it's %3$s at you!"),
+        _("The %1$s%2$s lashes it's %3$s at <npcname>!"),
+        z->name().c_str(),
+        tent_eff.c_str(),
+        tent_desc.c_str() );
 
     // Reset timer
     z->reset_special(index);
