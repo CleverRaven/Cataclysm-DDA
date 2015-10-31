@@ -498,7 +498,7 @@
         "apply_message": "You're covered in black ink!",
         "int_dur_factor": 300,
         "base_mods": {
-            "scent_mod": [-100]
+            "scent_mod": [-50]
         },
         "scaling_mods": {
             "scent_mod": [-50]
