@@ -254,7 +254,6 @@ classes = {
             { name = "inventory_item_menu", rval = "int", args = { "int" } },
             { name = "inventory_item_menu", rval = "int", args = { "int", "int" } },
             { name = "inventory_item_menu", rval = "int", args = { "int", "int", "int" } },
-            { name = "inventory_item_menu", rval = "int", args = { "int", "int", "int", "int" } },
             { name = "isBetween", rval = "bool", args = { "int", "int", "int" } },
             { name = "is_empty", rval = "bool", args = { "tripoint" } },
             { name = "is_hostile_nearby", rval = "Creature", args = { } },

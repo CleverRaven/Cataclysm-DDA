@@ -1094,9 +1094,7 @@ void full_screen_popup(const char *mes, ...)
     popup(text, PF_FULLSCREEN);
 }
 
-//note that passing in iteminfo instances with sType == "MENU" or "DESCRIPTION" does special things
-//if sType == "MENU", sFmt == "iOffsetY" or "iOffsetX" also do special things
-//otherwise if sType == "MENU", dValue can be used to control color
+//note that passing in iteminfo instances with sType == "DESCRIPTION" does special things
 //all this should probably be cleaned up at some point, rather than using a function for things it wasn't meant for
 // well frack, half the game uses it so: optional (int)selected argument causes entry highlight, and enter to return entry's key. Also it now returns int
 //@param without_getch don't wait getch, return = (int)' ';
@@ -1113,50 +1111,14 @@ int draw_item_info(const int iLeft, const int iWidth, const int iTop, const int 
     return result;
 }
 
-int draw_item_info(WINDOW *win, const std::string sItemName,
-                   std::vector<iteminfo> &vItemDisplay, std::vector<iteminfo> &vItemCompare,
-                   int &selected, const bool without_getch, const bool without_border, const bool handle_scrolling)
+std::string format_item_info( const std::vector<iteminfo> &vItemDisplay,
+                              const std::vector<iteminfo> &vItemCompare )
 {
     std::ostringstream buffer;
-    int line_num = 1;
-    if (sItemName != "") {
-        buffer << sItemName << "\n \n"; //This space is required, otherwise it won't make an empty line.
-    }
-
-    int iStartX = 0;
     bool bStartNewLine = true;
-    int selected_ret = '\n';
-    std::string spaces(getmaxx(win), ' ');
-    // Buffering the whole item info text so we can apply proper word wrapping on it.
-    // Note that the "MENU" items are *not* included in this buffer, they are only used from
-    // game::inventory_item_menu and require specific placing, according to iOffsetX / iOffsetY.
 
     for (size_t i = 0; i < vItemDisplay.size(); i++) {
-        if (vItemDisplay[i].sType == "MENU") {
-            if (vItemDisplay[i].sFmt == "iOffsetY") {
-                line_num += int(vItemDisplay[i].dValue);
-            } else if (vItemDisplay[i].sFmt == "iOffsetX") {
-                iStartX = int(vItemDisplay[i].dValue);
-            } else {
-                nc_color nameColor = c_ltgreen; //pre-existing behavior, so make it the default
-                //patched to allow variable "name" coloring, e.g. for item examining
-                nc_color bgColor = c_white;     //yes the name makes no sense
-                if (vItemDisplay[i].dValue >= 0) {
-                    if (vItemDisplay[i].dValue < .1 && vItemDisplay[i].dValue > -.1) {
-                        nameColor = c_ltgray;
-                    } else {
-                        nameColor = c_ltred;
-                    }
-                }
-                if ( (int)i == selected && vItemDisplay[i].sName != "" ) {
-                    bgColor = h_white;
-                    selected_ret = (int)vItemDisplay[i].sName.c_str()[0]; // fixme: sanity check(?)
-                }
-                mvwprintz(win, line_num, 0, bgColor, "%s", spaces.c_str() );
-                shortcut_print(win, line_num, iStartX, bgColor, nameColor, vItemDisplay[i].sFmt);
-                line_num++;
-            }
-        } else if (vItemDisplay[i].sType == "DESCRIPTION") {
+        if (vItemDisplay[i].sType == "DESCRIPTION") {
             buffer << "\n";
             if (vItemDisplay[i].bDrawName) {
                 buffer << vItemDisplay[i].sName;
@@ -1228,6 +1190,22 @@ int draw_item_info(WINDOW *win, const std::string sItemName,
             }
         }
     }
+
+    return buffer.str();
+}
+
+int draw_item_info(WINDOW *win, const std::string sItemName,
+                   std::vector<iteminfo> &vItemDisplay, std::vector<iteminfo> &vItemCompare,
+                   int &selected, const bool without_getch, const bool without_border, const bool handle_scrolling)
+{
+    std::ostringstream buffer;
+    int line_num = 1;
+    if (sItemName != "") {
+        buffer << sItemName << "\n \n"; //This space is required, otherwise it won't make an empty line.
+    }
+
+    int selected_ret = '\n';
+    buffer << format_item_info( vItemDisplay, vItemCompare );
 
     int ch = (int)' ';
     while( true ) {
