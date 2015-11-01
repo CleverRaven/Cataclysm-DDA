@@ -4493,20 +4493,21 @@ dynamic_line_t::dynamic_line_t( JsonObject jo )
             const bool wearing = d.alpha->is_wearing( item_id );
             return ( wearing ? yes : no )( d );
         };
-    } else if( jo.has_array( "u_has_trait" ) ) {
-        bool has_the_trait = false;
+    } else if( jo.has_member( "u_has_trait" ) ) {
+        std::vector<std::string> traits_to_check;
         JsonArray jarr =  jo.get_array("u_has_trait");
         while (jarr.has_more()) {
-            if( jo.has_trait( jarr.next_string() ) ) {
-                has_the_trait = true;
-                break;
-            }
+            traits_to_check.push_back( jarr.next_string() );
         }
         const dynamic_line_t yes = from_member( jo, "yes" );
         const dynamic_line_t no = from_member( jo, "no" );
-        function = [has_the_trait, yes, no]( const dialogue &d ) {
-            const bool mutated = d.alpha->has_trait( has_the_trait );
-            return ( mutated ? yes : no )( d );
+        function = [traits_to_check, yes, no]( const dialogue &d ) {
+            for( const auto &trait : traits_to_check ) {
+                if( d.alpha->has_trait( trait ) ) {
+                    return yes( d );
+                }
+            }
+            return no ( d );
         };
     } else {
         jo.throw_error( "no supported" );

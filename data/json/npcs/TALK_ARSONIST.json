@@ -139,6 +139,7 @@
             "u_has_trait": [ "CANINE_EARS", "LUPINE_EARS", "FELINE_EARS", "URSINE_EARS", "ELFA_EARS" ],
             "yes": "Fucking hypocrite...",
             "no": "Screw You!"
+        },
         "responses": [
             {
                 "text": "...",
