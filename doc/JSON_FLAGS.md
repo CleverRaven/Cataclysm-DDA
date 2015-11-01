@@ -251,6 +251,10 @@ Flags used to describe monsters and define their properties and abilities.
 - ```FISHABLE``` It is fishable.
 - ```INTERIOR_AMMO``` Monster contains ammo inside itself, no need to load on launch. Prevents ammo from being dropped on disable.
 - ```INK_SAC``` Then butchered, monster drops a number of ink sacs.
+- ```MUT_ABLE``` Allows for you pet monster to be injected with mutagen.
+- ```TENTACLES2``` Then butchered, monster drops 2 tentacles. Also, controls how much attacks the TENTACLE_LASH does.
+- ```TENTACLES4``` Then butchered, monster drops 4 tentacles. Also, controls how much attacks the TENTACLE_LASH does.
+- ```TENTACLES8``` Then butchered, monster drops 8 tentacles. Also, controls how much attacks the TENTACLE_LASH does.
 
 ### Special attacks
 Some special attacks are also valid use actions for tools and weapons.
@@ -284,7 +288,7 @@ Some special attacks are also valid use actions for tools and weapons.
 - ```FORMBLOB``` Spawns blobs?
 - ```DOGTHING``` The dog _thing_ spawns into a tentacle dog.
 - ```TENTACLE``` Lashes a tentacle at the player.
-- ```TENTACLE_LASH``` Lashes 1 to n tentacles at attack target, n is number of "tentacle" items monster has as ammo
+- ```TENTACLE_LASH``` Lashes 1 to n tentacles at attack target, n is number of tentacles given by TENTACLES2, TENTACLES4, or TENTACLES8 flag.
 - ```VORTEX``` Forms a vortex/tornado that causes damage and throws creatures around.
 - ```GENE_STING``` Shoot a dart at the player that causes a mutation if it connects.
 - ```PARA_STING``` Shoot a paralyzing dart at the player.

@@ -205,9 +205,8 @@
         }
     ],
     "death_function":"NORMAL",
-    "starting_ammo" : {"tentacle":2},
     "description": "A beaked mutated dog with large bulging eyes. Two long tentacles, cowered in wet matted fur, extend from its back. This creature's stench is unbearable.",
-    "flags":["SEES", "HEARS", "SMELLS", "SWIMS", "ANIMAL", "WARM", "FUR", "HIT_AND_RUN", "KEENNOSE", "BLEED", "ATTACKMON", "BONES", "FAT", "INK_SAC", "MUT_ABLE"],
+    "flags":["SEES", "HEARS", "SMELLS", "SWIMS", "ANIMAL", "WARM", "FUR", "HIT_AND_RUN", "KEENNOSE", "BLEED", "ATTACKMON", "BONES", "FAT", "TENTACLES2", "INK_SAC", "MUT_ABLE"],
     "anger_triggers":["HURT", "FRIEND_ATTACKED", "FRIEND_DIED"],
     "placate_triggers":["MEAT"],
     "categories":["WILDLIFE"]
@@ -242,9 +241,8 @@
         }
     ],
     "death_function":"NORMAL",
-    "starting_ammo" : {"tentacle":4},
     "description": "A nimble quadruped with slick pale skin and viscous saliva dripping from its stubby beak. Four tentacles wave from this creature's back.",
-    "flags":["SEES", "HEARS", "SMELLS", "SWIMS", "ANIMAL", "WARM", "HIT_AND_RUN", "KEENNOSE", "BLEED", "ATTACKMON", "BONES", "FAT", "INK_SAC", "MUT_ABLE"],
+    "flags":["SEES", "HEARS", "SMELLS", "SWIMS", "ANIMAL", "WARM", "HIT_AND_RUN", "KEENNOSE", "BLEED", "ATTACKMON", "BONES", "FAT", "TENTACLES4", "INK_SAC", "MUT_ABLE"],
     "anger_triggers":["HURT", "FRIEND_ATTACKED", "FRIEND_DIED"],
     "placate_triggers":["MEAT"],
     "categories":["WILDLIFE"]
@@ -4669,10 +4667,9 @@
     "armor_cut":0,
     "hp":120,
     "death_function":"THING",
-    "starting_ammo" : {"tentacle":4},
     "special_attacks":[["TENTACLE_LASH", 5]],
     "description":"A dog's body with a mass of ropey, black tentacles reaching out from its head.",
-    "flags":["SEES", "SMELLS", "HEARS", "BASHES"]
+    "flags":["SEES", "SMELLS", "HEARS", "BASHES", "TENTACLES4"]
     },{
     "type" : "MONSTER",
     "id" : "mon_thing",
@@ -4696,10 +4693,9 @@
     "armor_cut":0,
     "hp":160,
     "death_function":"MELT",
-    "starting_ammo" : {"tentacle":8},
     "special_attacks":[["TENTACLE_LASH", 5]],
     "description":"An amorphous black creature, detaching and sprouting tentacles without any apparent pause.",
-    "flags":["SMELLS", "HEARS", "NOHEAD", "BASHES", "GROUP_BASH", "SWIMS", "ATTACKMON", "PLASTIC", "ACIDPROOF", "NOGIB", "CLIMBS"]
+    "flags":["SMELLS", "HEARS", "NOHEAD", "BASHES", "GROUP_BASH", "SWIMS", "ATTACKMON", "PLASTIC", "ACIDPROOF", "NOGIB", "CLIMBS", "TENTACLES8"]
     },{
     "type" : "MONSTER",
     "id" : "mon_human_snail",

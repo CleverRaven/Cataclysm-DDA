@@ -4920,9 +4920,17 @@ void mattack::ink_jet( monster *z, int index ) {
 
 void mattack::tentacle_lash(monster *z, int index) {
     
-    int num_tent = z->ammo["tentacle"];
+    int num_tent = 0;
 
-    if (num_tent == 0 || num_tent > 1000) {
+    if (z->has_flag(MF_TENTACLES2)) {
+        num_tent = 2;
+    } else if (z->has_flag(MF_TENTACLES4)) {
+        num_tent = 4;
+    } else if (z->has_flag(MF_TENTACLES8)) {
+        num_tent = 8;
+    }
+
+    if (num_tent == 0) {
         return;
     }
 
