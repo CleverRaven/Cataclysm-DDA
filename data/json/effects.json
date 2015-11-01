@@ -378,7 +378,7 @@
             "dex_mod": [-3, -1],
             "speed_mod": [-20, -10],
             "pkill_tick": [5],
-			"pkill_max_val": [10],
+            "pkill_max_val": [10],
             "pkill_min": [1, 0]
         }
     },
