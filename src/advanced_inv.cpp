@@ -1158,6 +1158,11 @@ bool advanced_inventory::move_all_items(bool nested_call)
         return false;
     }
 
+    // Make sure source and destination are different, otherwise items will disappear
+    if(spane.get_area() == dpane.get_area() && spane.in_vehicle() == dpane.in_vehicle()){
+        return false;
+    }
+
     if( dpane.get_area() == AIM_ALL ) {
         auto loc = dpane.get_area();
         // ask where we want to store the item via the menu
