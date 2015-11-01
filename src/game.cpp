@@ -8198,12 +8198,12 @@ void game::examine(const tripoint &examp)
             if (pet_menu(mon)) {
                 return;
             }
+        }
 
-            npc *np = dynamic_cast<npc*>(c);
-            if (np != nullptr) {
-                if (npc_menu(*np)) {
-                    return;
-                }
+        npc *np = dynamic_cast<npc*>(c);
+        if (np != nullptr) {
+            if (npc_menu(*np)) {
+                return;
             }
         }
     }
