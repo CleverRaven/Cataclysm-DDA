@@ -8072,7 +8072,11 @@ bool npc_menu( npc &who )
             return false;
         }
 
-        g->u.invoke_item( &used, who.pos() );
+        bool did_use = g->u.invoke_item( &used, who.pos() );
+        if( did_use ) {
+            // Note: exiting a body part selection menu counts as use here
+            g->u.mod_moves( -100 );
+        }
     } else if( choice == attack ) {
         //The NPC knows we started the fight, used for morale penalty.
         if( !who.is_enemy() ) {

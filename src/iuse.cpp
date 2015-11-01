@@ -498,7 +498,7 @@ hp_part use_healing_item( player &healer, player &patient, item *it,
     if (patient.has_effect("bite", bp_healed)) {
         if (x_in_y(bite, 100)) {
             patient.remove_effect("bite", bp_healed);
-            heal_msg( m_good, _("You clean the wound."), _("The wound is cleaned") );
+            heal_msg( m_good, _("You clean the wound."), _("The wound is cleaned.") );
         } else {
             heal_msg( m_warning, _("Your wound still aches."), _("The wound still looks bad.") );
         }
@@ -508,15 +508,10 @@ hp_part use_healing_item( player &healer, player &patient, item *it,
             int infected_dur = patient.get_effect_dur("infected", bp_healed);
             patient.remove_effect("infected", bp_healed);
             patient.add_effect("recover", infected_dur);
-            heal_msg( m_good, _("You disinfect the wound."), _("The wound is disinfected") );
+            heal_msg( m_good, _("You disinfect the wound."), _("The wound is disinfected.") );
         } else {
             heal_msg( m_warning, _("Your wound still hurts."), _("The wound still looks nasty.") );
         }
-    }
-
-    if( !player_healing_player ) {
-        // Hack to prevent assigning activity
-        return num_hp_parts;
     }
 
     return healed;
@@ -558,15 +553,20 @@ int iuse::firstaid(player *p, item *it, bool, const tripoint &pos )
     }
 
     player &patient = get_patient( *p, pos );
-    int healed = use_healing_item( *p, patient, it, 14, 10, 18, 95, 99, 95, false);
-    if (healed != num_hp_parts) {
-        // Assign first aid long action.
-        p->assign_activity(ACT_FIRSTAID, 6000 / (p->skillLevel( skill_firstaid ) + 1), 0,
-                           p->get_item_position(it), it->tname());
-        p->activity.values.push_back(healed);
-        p->moves = 0;
+    hp_part healed = use_healing_item( *p, patient, it, 14, 10, 18, 95, 99, 95, false);
+    if( healed == num_hp_parts ) {
+        return 0;
     }
 
+    if( &patient != p ) {   
+        return 1;
+    }
+
+    // Assign first aid long action.
+    p->assign_activity(ACT_FIRSTAID, 6000 / (p->skillLevel( skill_firstaid ) + 1), 0,
+                       p->get_item_position(it), it->tname());
+    p->activity.values.push_back(healed);
+    p->moves = 0;
     return 0;
 }
 

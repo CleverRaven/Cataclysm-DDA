@@ -11083,21 +11083,22 @@ bool player::has_enough_charges( const item &it, bool show_msg ) const
 
 bool player::consume_charges(item *used, long charges_used)
 {
+    // Non-tools can use charges too - when they're comestibles
     const auto tool = dynamic_cast<const it_tool*>(used->type);
-    if( tool == nullptr || charges_used <= 0 ) {
-        // Non-tools don't use charges
-        // Canceled or not used up or whatever
+    const auto comest = dynamic_cast<const it_comest*>(used->type);
+    if( charges_used <= 0 || (tool == nullptr && comest == nullptr) ) {
         return false;
     }
 
-    if( tool->charges_per_use <= 0 ) {
+    if( tool != nullptr && tool->charges_per_use <= 0 ) {
         // An item that doesn't normally expend charges is destroyed instead.
         /* We can't be certain the item is still in the same position,
          * as other items may have been consumed as well, so remove
          * the item directly instead of by its position. */
-        i_rem(used);
+        i_rem( used );
         return true;
     }
+
     if( used->has_flag( "USE_UPS" ) ) {
         use_charges( "UPS", charges_used );
         //Replace 1 with charges it needs to use.
@@ -11107,6 +11108,12 @@ bool player::consume_charges(item *used, long charges_used)
     } else {
         used->charges -= std::min( used->charges, charges_used );
     }
+
+    if( comest != nullptr && used->charges <= 0 ) {
+        i_rem( used );
+        return true;
+    }
+
     // We may have fiddled with the state of the item in the iuse method,
     // so restack to sort things out.
     inv.restack();
