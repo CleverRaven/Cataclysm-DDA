@@ -2443,6 +2443,12 @@
           "rotates": false
         },
         {
+          "id": "jacket_leather_mod",
+          "fg": 390,
+          "bg": 505,
+          "rotates": false
+        },
+        {
           "id": "jacket_light",
           "fg": 391,
           "bg": 505,
@@ -3129,6 +3135,12 @@
         },
         {
           "id": "vest_leather",
+          "fg": 495,
+          "bg": 505,
+          "rotates": false
+        },
+        {
+          "id": "vest_leather_mod",
           "fg": 495,
           "bg": 505,
           "rotates": false
@@ -15062,7 +15074,7 @@
           "additional_tiles": [
             {
               "id": "unconnected",
-              "fg": 1726,
+              "fg": 1947,
               "bg": 535
             },
             {
@@ -19827,14 +19839,14 @@
         },
         {
           "id": "t_brick_wall_halfway",
-          "fg": 1805,
-          "bg": 534,
+          "fg": 2953,
+          "bg": 2637,
           "rotates": false
         },
         {
           "id": "t_brick_wall",
-          "fg": 1805,
-          "bg": 534,
+          "fg": 2954,
+          "bg": 2637,
           "rotates": false
         },
         {
@@ -22911,6 +22923,21 @@
         {
           "id": "fencing_sabre",
           "fg": 2952,
+          "rotates": false
+        },
+        {
+          "id": "mon_archon",
+          "fg": 2955,
+          "rotates": false
+        },
+        {
+          "id": "mon_dracolich",
+          "fg": 2956,
+          "rotates": false
+        },
+        {
+          "id": "bolt_bone",
+          "fg": 2957,
           "rotates": false
         }
       ]
