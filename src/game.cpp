@@ -7767,7 +7767,7 @@ bool pet_menu(monster *z)
     amenu.addentry(push_zlave, true, 'p', _("Push %s"), pet_name.c_str());
     amenu.addentry( rename, true, 'e', _("Rename") );
 
-    if (wary) {
+    if (!wary) {
         if (z->has_effect("has_bag")) {
             amenu.addentry( give_items, true, 'g', _("Place items into bag") );
             amenu.addentry( drop_all, true, 'd', _("Drop all items") );
@@ -7775,7 +7775,7 @@ bool pet_menu(monster *z)
             amenu.addentry( attach_bag, true, 'b', _("Attach bag") );
         }
     }
-    if (wary) {
+    if (!wary) {
         if (z->has_effect("tied")) {
             amenu.addentry( rope, true, 'r', _("Untie") );
         } else {
@@ -7791,7 +7791,7 @@ bool pet_menu(monster *z)
         amenu.addentry(pheromone, true, 't', _("Tear out pheromone ball"));
     }
 
-    if (wary && z->has_flag(MF_MUT_ABLE))
+    if (!wary && z->has_flag(MF_MUT_ABLE))
     {
         if ( g->u.has_amount( "syringe", 1 ) ) {
             amenu.addentry( inject, true, 'i', _("Inject mutagen") );
