@@ -7753,8 +7753,10 @@ bool pet_menu(monster *z)
 
     std::string pet_name = z->name();
 
+    bool wary = z->has_effect("wary");
+
     amenu.selected = 0;
-    if (z->has_effect("wary")) {
+    if (wary) {
         amenu.text = string_format(_("The %s seems to be wary around you."), pet_name.c_str());
     } else { 
         amenu.text = string_format(_("What to do with your %s?"), pet_name.c_str()); 
@@ -7765,24 +7767,21 @@ bool pet_menu(monster *z)
     amenu.addentry(push_zlave, true, 'p', _("Push %s"), pet_name.c_str());
     amenu.addentry( rename, true, 'e', _("Rename") );
 
-    if (!z->has_effect("wary")) {
+    if (wary) {
         if (z->has_effect("has_bag")) {
             amenu.addentry( give_items, true, 'g', _("Place items into bag") );
             amenu.addentry( drop_all, true, 'd', _("Drop all items") );
-        }
-        else {
+        } else {
             amenu.addentry( attach_bag, true, 'b', _("Attach bag") );
         }
     }
-    if (!z->has_effect("wary")) {
+    if (wary) {
         if (z->has_effect("tied")) {
             amenu.addentry( rope, true, 'r', _("Untie") );
-        }
-        else {
+        } else {
             if (g->u.has_amount("rope_6", 1)) {
                 amenu.addentry( rope, true, 'r', _("Tie") );
-            }
-            else {
+            } else {
                 amenu.addentry( rope, false, 'r', _("You need a short rope") );
             }
         }
@@ -7792,7 +7791,7 @@ bool pet_menu(monster *z)
         amenu.addentry(pheromone, true, 't', _("Tear out pheromone ball"));
     }
 
-    if (!z->has_effect("wary") && z->has_flag(MF_MUT_ABLE))
+    if (wary && z->has_flag(MF_MUT_ABLE))
     {
         if ( g->u.has_amount( "syringe", 1 ) ) {
             amenu.addentry( inject, true, 'i', _("Inject mutagen") );
@@ -8027,44 +8026,47 @@ bool pet_menu(monster *z)
             int max_mut_lev = dog_ceph_mut.size() - 1;
 
             for ( size_t i = 0; i < dog_ceph_mut.size(); i++ ) {
-                if (dog_ceph_mut[i] == z->type->id) {
-                    int mut_lev = i + mut_str;
-                    if (mut_lev > max_mut_lev) {
-                        mut_lev = max_mut_lev;
+                if (dog_ceph_mut[i] != z->type->id) {
+                    continue;
                     }
 
-                    else if (mut_lev < 0) {
-                        mut_lev = 0;
-                    }
+                int mut_lev = i + mut_str;
 
-                    add_msg(_("You inject the %1$s into the %2$s."),
-                        it->type->nname(1).c_str(), pet_name.c_str());
-                    if (it->has_flag("SERUM")) {
-                        sounds::sound( z->pos(), 30, _("a howl!"));
-                        z->add_effect("wary", 1800);
-                        z->moves -= 500;
-                    }
-
-                    if ( z->type->id != dog_ceph_mut[mut_lev] && ( it->has_flag("SERUM") || one_in(4) ) ) {
-                        z->poly(dog_ceph_mut[mut_lev]);
-                        add_msg( _("The %s's form shifts right before your eyes!"),
-                            pet_name.c_str() );
-                    } else {
-                        add_msg( _("Nothing seems to happen.") );
-                    }
-                    
-                    g->u.inv.use_charges( it->typeId(), 1 );
-
-                    z->moves -= 200;
-                    g->u.moves -= 200;
-                    
-                    return true;
+                if (mut_lev > max_mut_lev) {
+                    mut_lev = max_mut_lev;
                 }
+                if (mut_lev < 0) {
+                    mut_lev = 0;
+                }
+
+                add_msg( _("You inject the %1$s into the %2$s."),
+                    it->type->nname(1).c_str(), pet_name.c_str() );
+                if (it->has_flag("SERUM")) {
+                    sounds::sound( z->pos(), 30, _("a howl!"));
+                    z->add_effect("wary", 1800);
+                    z->moves -= 500;
+                }
+
+                if ( z->type->id != dog_ceph_mut[mut_lev] && ( it->has_flag("SERUM") || one_in(4) ) ) {
+                    z->poly(dog_ceph_mut[mut_lev]);
+                    add_msg( _("The %s's form shifts right before your eyes!"),
+                        pet_name.c_str() );
+                } else {
+                    add_msg( _("Nothing seems to happen.") );
+                }
+                    
+                g->u.inv.use_charges( it->typeId(), 1 );
+
+                z->moves -= 200;
+                g->u.moves -= 200;
+                    
+                return true;
             }
         }
     }
-      return true;  
-}
+    return true;
+} 
+       
 
 // Returns true if the menu handled stuff and player shouldn't do anything else
 bool npc_menu( npc &who )
@@ -8193,44 +8195,44 @@ void game::examine(const tripoint &examp)
         monster *mon = dynamic_cast<monster *>(c);
 
         if ( mon != nullptr && mon->has_effect("pet") ) {
-            if  (pet_menu(mon) ) {
+            if (pet_menu(mon)) {
                 return;
             }
 
             npc *np = dynamic_cast<npc*>(c);
-            if ( np != nullptr ) {
-                if ( npc_menu(*np) ) {
+            if (np != nullptr) {
+                if (npc_menu(*np)) {
                     return;
                 }
             }
         }
+    }
 
-        if ( !m.tr_at(examp).is_null() ) {
-            iexamine::trap( &u, &m, examp );
-            draw_ter();
-        }
+    if ( !m.tr_at(examp).is_null() ) {
+        iexamine::trap( &u, &m, examp );
+        draw_ter();
+    }
 
-        // In case of teleport trap or somesuch
-        if ( player_pos != u.pos( )) {
-            return;
-        }
+    // In case of teleport trap or somesuch
+    if ( player_pos != u.pos( )) {
+        return;
+    }
 
-        if ( m.has_flag( "SEALED", examp ) ) {
-            if (none) {
-                if ( m.has_flag( "UNSTABLE", examp ) ) {
-                    add_msg( _("The %s is too unstable to remove anything."), m.name(examp).c_str() );
-                } else {
-                    add_msg( _("The %s is firmly sealed."), m.name(examp).c_str() );
-                }
+    if ( m.has_flag( "SEALED", examp ) ) {
+        if (none) {
+            if ( m.has_flag( "UNSTABLE", examp ) ) {
+                add_msg( _("The %s is too unstable to remove anything."), m.name(examp).c_str() );
+            } else {
+                add_msg( _("The %s is firmly sealed."), m.name(examp).c_str() );
             }
-        } else {
-            //examp has no traps, is a container and doesn't have a special examination function
-            if ( m.tr_at(examp).is_null() && m.i_at(examp).empty() &&
-                m.has_flag("CONTAINER", examp) && none) {
-                add_msg(_("It is empty.") );
-            } else if (!veh) {
-                Pickup::pick_up( examp, 0 );
-            }
+        }
+    } else {
+        //examp has no traps, is a container and doesn't have a special examination function
+        if ( m.tr_at(examp).is_null() && m.i_at(examp).empty() &&
+            m.has_flag("CONTAINER", examp) && none) {
+            add_msg(_("It is empty.") );
+        } else if (!veh) {
+            Pickup::pick_up( examp, 0 );
         }
     }
 }

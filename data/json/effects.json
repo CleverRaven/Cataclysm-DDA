@@ -378,7 +378,8 @@
             "dex_mod": [-3, -1],
             "speed_mod": [-15, -5],
             "pkill_tick": [5],
-            "pkill_min": [1]
+			"pkill_max_val": [10]
+            "pkill_min": [1, 0]
         }
     },
     {
@@ -497,7 +498,7 @@
         "desc": ["You are covered in black ink!"],
         "apply_message": "You're covered in black ink!",
         "rating": "good",
-        "max_intensity": 100,
+        "max_intensity": 10,
         "int_dur_factor": 300,
         "base_mods": {
             "scent_mod": [-50],
