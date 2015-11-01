@@ -121,9 +121,9 @@ int fold_and_print(WINDOW *w, int begin_y, int begin_x, int width, nc_color base
     return fold_and_print(w, begin_y, begin_x, width, base_color, text);
 }
 
-void print_colored_text( WINDOW *w, int x, int y, nc_color &color, nc_color base_color, const std::string &text )
+void print_colored_text( WINDOW *w, int y, int x, nc_color &color, nc_color base_color, const std::string &text )
 {
-    wmove( w, x, y );
+    wmove( w, y, x );
     const auto color_segments = split_by_color( text );
     for( auto seg : color_segments ) {
         if( seg.empty() ) {

@@ -110,7 +110,7 @@ int msgtype_to_tilecolor(const game_message_type type, const bool bOldMsg = fals
  * change to a color according to the color tags that are in the text.
  * @param base_color Base color that is used outside of any color tag.
  **/
-void print_colored_text( WINDOW *w, int x, int y, nc_color &cur_color, nc_color base_color, const std::string &text );
+void print_colored_text( WINDOW *w, int y, int x, nc_color &cur_color, nc_color base_color, const std::string &text );
 /**
  * Print word wrapped text (with color tags) into the window.
  * @param begin_line Line in the word wrapped text that is printed first (lines before that are not printed at all).
