@@ -16127,6 +16127,7 @@
         "charges" : 4,
         "stack_size" : 40,
         "bashing" : 0,
+        "flags" : ["USE_ON_NPC"],
         "fun" : 0
     },
     {   "type" : "AMMO",
