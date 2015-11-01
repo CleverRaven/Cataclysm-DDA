@@ -516,9 +516,9 @@ distclean:
 bindist: $(BINDIST)
 
 ifeq ($(TARGETSYSTEM), LINUX)
-DATA_PREFIX=$(PREFIX)/share/cataclysm-dda/
-BIN_PREFIX=$(PREFIX)/bin
-LOCALE_DIR=$(PREFIX)/share/locale
+DATA_PREFIX=$(DESTDIR)$(PREFIX)/share/cataclysm-dda/
+BIN_PREFIX=$(DESTDIR)$(PREFIX)/bin
+LOCALE_DIR=$(DESTDIR)$(PREFIX)/share/locale
 install: version $(TARGET)
 	mkdir -p $(DATA_PREFIX)
 	mkdir -p $(BIN_PREFIX)
@@ -534,6 +534,9 @@ install: version $(TARGET)
 	cp -R --no-preserve=ownership data/title $(DATA_PREFIX)
 ifdef TILES
 	cp -R --no-preserve=ownership gfx $(DATA_PREFIX)
+endif
+ifdef SOUND
+	cp -R --no-preserve=ownership data/sound $(DATA_PREFIX)
 endif
 ifdef LUA
 	mkdir -p $(DATA_PREFIX)/lua
@@ -547,9 +550,9 @@ endif
 endif
 
 ifeq ($(TARGETSYSTEM), CYGWIN)
-DATA_PREFIX=$(PREFIX)/share/cataclysm-dda/
-BIN_PREFIX=$(PREFIX)/bin
-LOCALE_DIR=$(PREFIX)/share/locale
+DATA_PREFIX=$(DESTDIR)$(PREFIX)/share/cataclysm-dda/
+BIN_PREFIX=$(DESTDIR)$(PREFIX)/bin
+LOCALE_DIR=$(DESTDIR)$(PREFIX)/share/locale
 install: version $(TARGET)
 	mkdir -p $(DATA_PREFIX)
 	mkdir -p $(BIN_PREFIX)
@@ -565,6 +568,9 @@ install: version $(TARGET)
 	cp -R --no-preserve=ownership data/title $(DATA_PREFIX)
 ifdef TILES
 	cp -R --no-preserve=ownership gfx $(DATA_PREFIX)
+endif
+ifdef SOUND
+	cp -R --no-preserve=ownership data/sound $(DATA_PREFIX)
 endif
 ifdef LUA
 	mkdir -p $(DATA_PREFIX)/lua
