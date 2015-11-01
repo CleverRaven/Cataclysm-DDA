@@ -114,6 +114,17 @@ The dynamic line is chosen based on whether the player character wears a specifi
 }
 ```
 
+### Based on mutation (trait) possessed by the player character
+The dynamic line is chosen based on whether the player character has a specific trait, both entries are optional, but you should make sure the NPC says something all the time. Both entries are parsed as `dynamic_line`. `u` is the player character. The `u_has_trait` string should be a valid mutation id. The line from `yes` will be shown if the character has that trait, otherwise the line from `no`.
+
+```JSON
+{
+    "u_has_trait": "FELINE_EARS",
+    "yes": "Hello, I like your ears.",
+    "no": "Hello."
+}
+```
+
 ---
 
 ## Responses

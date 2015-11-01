@@ -4457,6 +4457,8 @@ dynamic_line_t dynamic_line_t::from_member( JsonObject &jo, const std::string &m
         return dynamic_line_t( jo.get_object( member_name ) );
     } else if( jo.has_string( member_name ) ) {
         return dynamic_line_t( jo.get_string( member_name ) );
+    } else if( jo.has_string( member_name ) ) {
+        return dynamic_line_t( jo.get_string( member_name ) );
     } else {
         return dynamic_line_t{};
     }
@@ -4490,6 +4492,14 @@ dynamic_line_t::dynamic_line_t( JsonObject jo )
         function = [item_id, yes, no]( const dialogue &d ) {
             const bool wearing = d.alpha->is_wearing( item_id );
             return ( wearing ? yes : no )( d );
+        };
+    } else if( jo.has_member( "u_has_trait" ) ) {
+        const std::string mutation_id = jo.get_string( "u_has_trait" );
+        const dynamic_line_t yes = from_member( jo, "yes" );
+        const dynamic_line_t no = from_member( jo, "no" );
+        function = [mutation_id, yes, no]( const dialogue &d ) {
+            const bool mutated = d.alpha->has_trait( mutation_id );
+            return ( mutated ? yes : no )( d );
         };
     } else {
         jo.throw_error( "no supported" );
