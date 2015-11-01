@@ -20315,17 +20315,17 @@
         "quench" : 0,
         "healthy" : -1,
         "addiction_potential" : 0,
-        "nutrition" : 35,
+        "nutrition" : 10,
         "description" : "A long meaty tentacle. You should probably cook before eating it.",
         "price" : 500,
         "material" : "flesh",
         "tool" : "null",
-        "volume" : 3,
+        "volume" : 1,
         "cutting" : 0,
         "phase" : "solid",
         "charges" : 1,
         "bashing" : 0,
-        "fun" : -20
+        "fun" : -10
     },{
         "type" : "COMESTIBLE",
         "id" : "tentacle_cooked",
@@ -20341,19 +20341,19 @@
         "comestible_type" : "FOOD",
         "symbol" : "s",
         "quench" : 0,
-        "healthy" : -1,
+        "healthy" : 0,
         "addiction_potential" : 0,
-        "nutrition" : 45,
-        "description" : "A cooked tentacle. Doesn't seem to be very appetizing.",
+        "nutrition" : 20,
+        "description" : "A cooked tentacle. Doesn't seem to be too appetizing.",
         "price" : 500,
         "material" : "flesh",
         "tool" : "null",
-        "volume" : 3,
+        "volume" : 1,
         "cutting" : 0,
         "phase" : "solid",
-        "charges" : 2,
+        "charges" : 1,
         "flags" : ["EATEN_HOT"],
         "bashing" : 0,
-        "fun" : -5
+        "fun" : 0
     }
 ]
