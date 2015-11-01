@@ -1701,6 +1701,11 @@ void npc::update_worst_item_value()
 
 int npc::value(const item &it)
 {
+    if( it.is_dangerous() ) {
+        // Live grenade or something similar
+        return -1000;
+    }
+
     int ret = it.price() / 50;
     int weapon_val = weapon_value( it ) - weapon_value( weapon );
     if( weapon_val > 0 ) {

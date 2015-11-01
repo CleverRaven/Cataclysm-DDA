@@ -1659,6 +1659,10 @@ std::string dialogue::dynamic_line( const std::string &topic ) const
             return _("Changed your mind?");
         }
 
+        if( given.is_dangerous() ) {
+            return _("Are you <swear> insane!?");
+        }
+
         long our_ammo = 0;
         if( p->weapon.is_gun() ) {
             our_ammo = p->weapon.charges;
@@ -1700,6 +1704,13 @@ std::string dialogue::dynamic_line( const std::string &topic ) const
 
         if( !taken && p->wear_if_wanted( given ) ) {
             taken = true;
+        }
+
+        if( !taken &&
+            p->can_pickVolume( given.volume() ) &&
+            p->can_pickWeight( given.weight() ) ) {
+            taken = true;
+            p->i_add( given );
         }
 
         // TODO: Allow NPCs accepting meds, food, ammo etc.

@@ -8017,6 +8017,7 @@ bool npc_menu( npc &who )
         swap_pos,
         push,
         examine_wounds,
+        use_item,
         attack
     };
 
@@ -8030,6 +8031,7 @@ bool npc_menu( npc &who )
     amenu.addentry( swap_pos, obeys, 's', _("Swap positions") );
     amenu.addentry( push, obeys, 'p', _("Push away") );
     amenu.addentry( examine_wounds, true, 'w', _("Examine wounds") );
+    amenu.addentry( use_item, true, 'i', _("Use item on") );
     amenu.addentry( attack, true, 'a', _("Attack") );
 
     amenu.query();
@@ -8058,6 +8060,23 @@ bool npc_menu( npc &who )
     } else if( choice == examine_wounds ) {
         const bool precise = g->u.get_skill_level( skill_firstaid ) * 4 + g->u.per_cur >= 20;
         who.body_window( precise );
+    } else if( choice == use_item ) {
+        static const std::string npc_use_flag( "USE_ON_NPC" );
+        const int pos = g->inv_for_filter( _("Use which item:"),[]( const item &it ) {
+            return it.has_flag( npc_use_flag );
+        } );
+
+        item &used = g->u.i_at( pos );
+        if( !used.has_flag( npc_use_flag ) ) {
+            add_msg( _("Never mind") );
+            return false;
+        }
+
+        bool did_use = g->u.invoke_item( &used, who.pos() );
+        if( did_use ) {
+            // Note: exiting a body part selection menu counts as use here
+            g->u.mod_moves( -300 );
+        }
     } else if( choice == attack ) {
         //The NPC knows we started the fight, used for morale penalty.
         if( !who.is_enemy() ) {

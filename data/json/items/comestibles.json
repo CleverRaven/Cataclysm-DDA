@@ -8651,6 +8651,7 @@
         "phase" : "solid",
         "charges" : 2,
         "bashing" : 0,
+        "flags" : ["USE_ON_NPC"],
         "fun" : 0
     },
     {
@@ -13294,6 +13295,7 @@
         "charges" : 3,
         "stack_size": 9,
         "bashing" : 0,
+        "flags" : ["USE_ON_NPC"],
         "fun" : 0
     },
     {
@@ -13324,6 +13326,7 @@
         "charges" : 2,
         "stack_size" : 6,
         "bashing" : 0,
+        "flags" : ["USE_ON_NPC"],
         "fun" : 0
     },
     {
@@ -14704,6 +14707,7 @@
         "phase" : "liquid",
         "charges" : 2,
         "bashing" : 0,
+        "flags" : ["USE_ON_NPC"],
         "fun" : 0
     },
     {
@@ -16091,6 +16095,7 @@
         "charges" : 6,
         "stack_size" : 60,
         "bashing" : 0,
+        "flags" : ["USE_ON_NPC"],
         "fun" : 0
     },
     {
@@ -16122,6 +16127,7 @@
         "charges" : 4,
         "stack_size" : 40,
         "bashing" : 0,
+        "flags" : ["USE_ON_NPC"],
         "fun" : 0
     },
     {   "type" : "AMMO",
