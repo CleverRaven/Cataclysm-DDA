@@ -4493,8 +4493,15 @@ dynamic_line_t::dynamic_line_t( JsonObject jo )
             const bool wearing = d.alpha->is_wearing( item_id );
             return ( wearing ? yes : no )( d );
         };
-    } else if( jo.has_member( "u_has_trait" ) ) {
-        const std::string mutation_id = jo.get_string( "u_has_trait" );
+    } else if( jo.has_array( "u_has_trait" ) ) {
+        bool has_the_trait = false;
+        JsonArray jarr =  json.get_array("u_has_trait");
+        while (jarr.has_more()) {
+            if( u.has_trait( jarr.next_string() ) ) {
+                has_the_trait = true;
+                break;
+            }
+        }
         const dynamic_line_t yes = from_member( jo, "yes" );
         const dynamic_line_t no = from_member( jo, "no" );
         function = [mutation_id, yes, no]( const dialogue &d ) {
