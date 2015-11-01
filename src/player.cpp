@@ -11123,6 +11123,11 @@ void player::use(int inventory_position)
         return;
     }
 
+    if (used->has_flag("ACT_OUTERMOST") && ! used->is_worn_outermost(*this)) {
+        add_msg(m_info, _("To use your %s it must be worn as part of your outermost layer"), used->tname().c_str());
+        return;
+    }
+
     last_item = itype_id(used->type->id);
 
     if (used->is_tool()) {

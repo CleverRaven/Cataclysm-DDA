@@ -547,6 +547,11 @@ public:
     int chip_resistance( bool worst = false ) const;
 
     /**
+     * Check whether the item is worn as part of the outermost layer
+     * @return true if item worn with no items (excluding those in BELTED_LAYER) worn above it
+     */
+    bool is_worn_outermost(const player &p) const;
+    /**
      * Check whether the item has been marked (by calling mark_as_used_by_player)
      * as used by this specific player.
      */

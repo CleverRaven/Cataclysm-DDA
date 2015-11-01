@@ -585,6 +585,7 @@ Techniques may be used by tools, armors, weapons and anything else that can be w
 ### Flags
 Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other item types. Experiment to find which flags work elsewhere.
 
+- ```ACT_OUTERMOST``` Expected to be worn as the outermost layer (with only strapped items above it) or otherwise cannot be activated
 - ```ALARMCLOCK``` Has an alarm-clock feature.
 - ```BELTED``` Layer for backpacks and things worn over outerwear.
 - ```BLIND``` - Blinds the wearer while worn, and provides nominal protection v. flashbang flashes.
