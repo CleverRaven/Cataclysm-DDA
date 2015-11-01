@@ -715,6 +715,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```BREW``` ... Can be put into fermenting vat.
 - ```HIDDEN_POISON``` ... Food is poisonous, visible only with a certain survival skill level.
 - ```HIDDEN_HALLU``` ... Food causes hallucinations, visible only with a certain survival skill level.
+- ```USE_ON_NPC``` Can be used on NPCs (not necessarily by them).
 
 ## Melee
 
