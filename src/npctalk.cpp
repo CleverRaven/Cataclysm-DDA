@@ -4495,17 +4495,17 @@ dynamic_line_t::dynamic_line_t( JsonObject jo )
         };
     } else if( jo.has_array( "u_has_trait" ) ) {
         bool has_the_trait = false;
-        JsonArray jarr =  json.get_array("u_has_trait");
+        JsonArray jarr =  jo.get_array("u_has_trait");
         while (jarr.has_more()) {
-            if( u.has_trait( jarr.next_string() ) ) {
+            if( jo.has_trait( jarr.next_string() ) ) {
                 has_the_trait = true;
                 break;
             }
         }
         const dynamic_line_t yes = from_member( jo, "yes" );
         const dynamic_line_t no = from_member( jo, "no" );
-        function = [mutation_id, yes, no]( const dialogue &d ) {
-            const bool mutated = d.alpha->has_trait( mutation_id );
+        function = [has_the_trait, yes, no]( const dialogue &d ) {
+            const bool mutated = d.alpha->has_trait( has_the_trait );
             return ( mutated ? yes : no )( d );
         };
     } else {
