@@ -538,7 +538,7 @@ bool map::vehproceed()
         mdir = veh.move;
     } else if( veh.turn_dir != veh.face.dir() ) {
         // Driver turned vehicle, get turn_dir
-        mdir.init( veh.turn_dir ); 
+        mdir.init( veh.turn_dir );
     } else {
         // Not turning, keep face.dir
         mdir = veh.face;
@@ -607,7 +607,7 @@ float map::vehicle_traction( vehicle &veh ) const
     const auto &wheel_indices = veh.wheelcache;
     int num_wheels = wheel_indices.size();
     if( num_wheels == 0 ) {
-        // TODO: Assume it is digging in dirt 
+        // TODO: Assume it is digging in dirt
         // TODO: Return something that could be reused for dragging
         return 1.0f;
     }
@@ -994,7 +994,7 @@ float map::vehicle_vehicle_collision( vehicle &veh, vehicle &veh2,
 
         veh.move.init( final1.x, final1.y );
         veh.velocity = final1.norm();
-        
+
         veh2.move.init( final2.x, final2.y );
         veh2.velocity = final2.norm();
         //give veh2 the initiative to proceed next before veh1
@@ -3789,10 +3789,13 @@ void map::shoot( const tripoint &p, projectile &proj, const bool hit_items )
     } else if( terrain == t_window_taped ||
                terrain == t_window_alarm_taped ||
                terrain == t_window ||
+               terrain == t_window_no_curtains ||
+               terrain == t_window_no_curtains_taped ||
                terrain == t_window_alarm ) {
         if (ammo_effects.count("LASER")) {
             if ( terrain == t_window_taped ||
-                 terrain == t_window_alarm_taped ){
+                 terrain == t_window_alarm_taped ||
+                 terrain == t_window_no_curtains_taped ){
                     dam -= rng(1, 5);
                 }
             dam -= rng(0, 5);
@@ -3963,7 +3966,7 @@ bool map::hit_with_acid( const tripoint &p )
         } else {
             return false;
         }
-    } else if( t == t_window || t == t_window_alarm ) {
+    } else if( t == t_window || t == t_window_alarm || t == t_window_no_curtains ) {
         ter_set( p, t_window_empty );
     } else if( t == t_wax ) {
         ter_set( p, t_floor_wax );
