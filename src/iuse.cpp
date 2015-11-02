@@ -477,7 +477,7 @@ hp_part use_healing_item( player &healer, player &patient, item *it,
     const bool player_healing_player = healer.is_player() && patient.is_player();
     // Need a helper here - messages are from healer's point of view
     // but it would be cool if NPCs could use this function too
-    const auto heal_msg = [&]( game_message_type msg_type = m_neutral,
+    const auto heal_msg = [&]( game_message_type msg_type,
         const char *player_player_msg, const char *other_msg ) {
         if( !u_see ) {
             return;
