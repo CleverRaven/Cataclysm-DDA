@@ -1466,7 +1466,11 @@ bool worldfactory::load_world_options(WORLDPTR &world)
             }
             fin.close();
 
-            save_world(world);
+            if ( save_world( world ) ) {
+                if( file_exist( path ) ) {
+                    remove_file( path );
+                }
+            }
 
             return true;
         }
