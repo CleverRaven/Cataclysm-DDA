@@ -353,8 +353,7 @@ bool WinCreate()
         if( renderer == NULL ) {
             dbg( D_ERROR ) << "Failed to initialize accelerated renderer, falling back to software rendering: " << SDL_GetError();
             software_renderer = true;
-        }
-        if( !SetupRenderTarget() ) {
+        } else if( !SetupRenderTarget() ) {
             dbg( D_ERROR ) << "Failed to initialize display buffer under accelerated rendering, falling back to software rendering.";
             software_renderer = true;
             if (display_buffer != NULL) {
@@ -372,8 +371,7 @@ bool WinCreate()
         if( renderer == NULL ) {
             dbg( D_ERROR ) << "Failed to initialize software renderer: " << SDL_GetError();
             return false;
-        }
-        if( !SetupRenderTarget() ) {
+        } else if( !SetupRenderTarget() ) {
             dbg( D_ERROR ) << "Failed to initialize display buffer under software rendering, unable to continue.";
             return false;
         }
