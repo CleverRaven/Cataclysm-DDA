@@ -1856,7 +1856,7 @@ void item::on_wield( player &p  )
             p.moves -= penalty;
         }
     }
-    p.add_msg_if_player("You wield your %s.", tname().c_str());
+    p.add_msg_if_player(_("You wield your %s."), tname().c_str());
 }
 
 void item::on_pickup( Character &p  )
