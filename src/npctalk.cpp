@@ -4457,8 +4457,6 @@ dynamic_line_t dynamic_line_t::from_member( JsonObject &jo, const std::string &m
         return dynamic_line_t( jo.get_object( member_name ) );
     } else if( jo.has_string( member_name ) ) {
         return dynamic_line_t( jo.get_string( member_name ) );
-    } else if( jo.has_string( member_name ) ) {
-        return dynamic_line_t( jo.get_string( member_name ) );
     } else {
         return dynamic_line_t{};
     }
