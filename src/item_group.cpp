@@ -183,7 +183,7 @@ void Item_modifier::modify(item &new_item) const
     long ch = (charges.first == charges.second) ? charges.first : rng(charges.first, charges.second);
     const auto g = new_item.type->gun.get();
     const auto t = dynamic_cast<const it_tool *>(new_item.type);
-   
+
     if(ch != -1) {
         if( new_item.count_by_charges() || new_item.made_of( LIQUID ) ) {
             // food, ammo
@@ -192,12 +192,12 @@ void Item_modifier::modify(item &new_item) const
             new_item.charges = std::max( 1l, ch );
         } else if(t != NULL) {
             new_item.charges = std::min(ch, t->max_charges);
-        } else if (g == nullptr){
-            //not gun, food, ammo or tool. 
+        } else if (g == nullptr) {
+            //not gun, food, ammo or tool.
             new_item.charges = ch;
         }
     }
-    
+
     if( g != nullptr && ( ammo.get() != nullptr || ch > 0 ) ) {
         if( ammo.get() == nullptr ) {
             // In case there is no explicit ammo item defined, use the default ammo
@@ -474,7 +474,7 @@ Group_tag get_unique_group_id()
     }
 }
 
-Group_tag item_group::load_item_group( JsonIn& stream, const std::string& default_subtype )
+Group_tag item_group::load_item_group( JsonIn &stream, const std::string &default_subtype )
 {
     if( stream.test_string() ) {
         return stream.get_string();
@@ -501,6 +501,6 @@ Group_tag item_group::load_item_group( JsonIn& stream, const std::string& defaul
     } else {
         stream.error( "invalid item group, must be string (group id) or object/array (the group data)" );
         // stream.error always throws, this is here to prevent a warning
-        return Group_tag{};
+        return Group_tag {};
     }
 }

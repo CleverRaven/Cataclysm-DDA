@@ -12,11 +12,10 @@
 //! Specifically, (0, -, +) => (0, 1, 2); a base-3 number.
 //! This only works correctly for inputs between -1,-1,-1 and 1,1,1.
 //! For numbers outside that range, use make_xyz().
-inline constexpr unsigned make_xyz_unit(int const x, int const y, int const z) noexcept
-{
-  return ((x > 0) ? 2u : (x < 0) ? 1u : 0u) * 1u +
-         ((y > 0) ? 2u : (y < 0) ? 1u : 0u) * 3u +
-         ((z > 0) ? 2u : (z < 0) ? 1u : 0u) * 9u;
+inline constexpr unsigned make_xyz_unit(int const x, int const y, int const z) noexcept {
+    return ((x > 0) ? 2u : (x < 0) ? 1u : 0u) * 1u +
+    ((y > 0) ? 2u : (y < 0) ? 1u : 0u) * 3u +
+    ((z > 0) ? 2u : (z < 0) ? 1u : 0u) * 9u;
 }
 
 // This more general version of this function gives correct values for larger inputs.
@@ -59,8 +58,8 @@ direction direction_from(int x1, int y1, int x2, int y2) noexcept;
 direction direction_from(tripoint const &p, tripoint const &q);
 
 point direction_XY(direction dir);
-std::string const& direction_name(direction dir);
-std::string const& direction_name_short(direction dir);
+std::string const &direction_name(direction dir);
+std::string const &direction_name_short(direction dir);
 
 /**
  * The actual bresenham algorithm in 2D and 3D, everything else should call these

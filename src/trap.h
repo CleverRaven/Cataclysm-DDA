@@ -20,7 +20,7 @@ struct trapfunc {
     // creature is the creature that triggered the trap,
     // p is the point where the trap is (not where the creature is)
     // creature can be NULL.
-    void none           ( Creature *, const tripoint& ) { };
+    void none           ( Creature *, const tripoint &) { };
     void bubble         ( Creature *creature, const tripoint &p );
     void cot            ( Creature *creature, const tripoint &p );
     void beartrap       ( Creature *creature, const tripoint &p );
@@ -53,7 +53,7 @@ struct trapfunc {
     void snake          ( Creature *creature, const tripoint &p );
 };
 
-typedef void (trapfunc::*trap_function)( Creature *, const tripoint& );
+typedef void (trapfunc::*trap_function)( Creature *, const tripoint &);
 
 struct trap {
         using itype_id = std::string;
@@ -163,7 +163,7 @@ struct trap {
          * Returns all trap objects that are actually funnels (is_funnel returns true for all
          * of them).
          */
-        static const std::vector<const trap*> get_funnels();
+        static const std::vector<const trap *> get_funnels();
         /*@}*/
 
         /*@{*/

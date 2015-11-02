@@ -34,21 +34,22 @@
 #if (defined __MINGW32__ || defined __CYGWIN__)
 size_t strnlen(const char *const start, size_t const maxlen)
 {
-    auto const end = reinterpret_cast<const char*>(memchr(start, '\0', maxlen));
+    auto const end = reinterpret_cast<const char *>(memchr(start, '\0', maxlen));
     return (end) ? static_cast<size_t>(end - start) : maxlen;
 }
 #endif
 
-namespace {
+namespace
+{
 
 #if (defined _WIN32 || defined __WIN32__)
-bool do_mkdir(std::string const& path, int const mode)
+bool do_mkdir(std::string const &path, int const mode)
 {
     (void)mode; //not used on windows
     return mkdir(path.c_str()) == 0;
 }
 #else
-bool do_mkdir(std::string const& path, int const mode)
+bool do_mkdir(std::string const &path, int const mode)
 {
     return mkdir(path.c_str(), mode) == 0;
 }
@@ -100,7 +101,8 @@ bool rename_file(const std::string &old_path, const std::string &new_path)
 }
 #endif
 
-namespace {
+namespace
+{
 
 //TODO move elsewhere.
 template <typename T, size_t N>
@@ -207,7 +209,7 @@ bool name_contains(dirent const &entry, std::string const &match, bool const at_
 //--------------------------------------------------------------------------------------------------
 template <typename Predicate>
 std::vector<std::string> find_file_if_bfs(std::string const &root_path, bool const recurse,
-    Predicate predicate)
+        Predicate predicate)
 {
     std::deque<std::string>  directories {!root_path.empty() ? root_path : "."};
     std::vector<std::string> results;
@@ -218,15 +220,15 @@ std::vector<std::string> find_file_if_bfs(std::string const &root_path, bool con
 
         auto const n_dirs    = static_cast<std::ptrdiff_t>(directories.size());
         auto const n_results = static_cast<std::ptrdiff_t>(results.size());
-        
-        for_each_dir_entry(path, [&](dirent const &entry) {
+
+        for_each_dir_entry(path, [&](dirent const & entry) {
             // exclude special directories.
             if (is_special_dir(entry)) {
                 return;
             }
 
             auto const full_path = path + "/" + entry.d_name;
-            
+
             // don't add files ending in '~'.
             if (full_path.back() == '~') {
                 return;
@@ -259,9 +261,9 @@ std::vector<std::string> find_file_if_bfs(std::string const &root_path, bool con
 
 //--------------------------------------------------------------------------------------------------
 std::vector<std::string> get_files_from_path(std::string const &pattern,
-    std::string const &root_path, bool const recurse, bool const match_extension)
+        std::string const &root_path, bool const recurse, bool const match_extension)
 {
-    return find_file_if_bfs(root_path, recurse, [&](dirent const &entry, bool) {
+    return find_file_if_bfs(root_path, recurse, [&](dirent const & entry, bool) {
         return name_contains(entry, pattern, match_extension);
     });
 }
@@ -273,13 +275,13 @@ std::vector<std::string> get_files_from_path(std::string const &pattern,
   * @return vector or directories without pattern filename at end.
   */
 std::vector<std::string> get_directories_with(std::string const &pattern,
-    std::string const &root_path, bool const recurse)
+        std::string const &root_path, bool const recurse)
 {
     if (pattern.empty()) {
         return std::vector<std::string>();
     }
 
-    auto files = find_file_if_bfs(root_path, recurse, [&](dirent const &entry, bool) {
+    auto files = find_file_if_bfs(root_path, recurse, [&](dirent const & entry, bool) {
         return name_contains(entry, pattern, true);
     });
 
@@ -295,7 +297,7 @@ std::vector<std::string> get_directories_with(std::string const &pattern,
 
 //--------------------------------------------------------------------------------------------------
 std::vector<std::string> get_directories_with(std::vector<std::string> const &patterns,
-    std::string const &root_path, bool const recurse)
+        std::string const &root_path, bool const recurse)
 {
     if (patterns.empty()) {
         return std::vector<std::string>();
@@ -304,8 +306,8 @@ std::vector<std::string> get_directories_with(std::vector<std::string> const &pa
     auto const ext_beg = std::begin(patterns);
     auto const ext_end = std::end(patterns);
 
-    auto files = find_file_if_bfs(root_path, recurse, [&](dirent const &entry, bool) {
-        return std::any_of(ext_beg, ext_end, [&](std::string const& ext) {
+    auto files = find_file_if_bfs(root_path, recurse, [&](dirent const & entry, bool) {
+        return std::any_of(ext_beg, ext_end, [&](std::string const & ext) {
             return name_contains(entry, ext, true);
         });
     });

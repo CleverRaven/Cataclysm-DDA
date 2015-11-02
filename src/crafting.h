@@ -130,7 +130,7 @@ void pick_recipes(const inventory &crafting_inv,
                   std::string subtab, std::string filter);
 void batch_recipes(const inventory &crafting_inv,
                    std::vector<const recipe *> &current,
-                   std::vector<bool> &available, const recipe* r);
+                   std::vector<bool> &available, const recipe *r);
 
 const recipe *find_recipe( std::string id );
 void check_recipe_definitions();

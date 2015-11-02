@@ -268,7 +268,8 @@ class Item_factory
          * slot from that object. If the member does not exists, nothing is done.
          */
         template<typename SlotType>
-        void load_slot_optional( std::unique_ptr<SlotType> &slotptr, JsonObject &jo, const std::string &member );
+        void load_slot_optional( std::unique_ptr<SlotType> &slotptr, JsonObject &jo,
+                                 const std::string &member );
 
         void load( islot_container &slot, JsonObject &jo );
         void load( islot_armor &slot, JsonObject &jo );
@@ -287,12 +288,13 @@ class Item_factory
         void add_category(const std::string &id, int sort_rank, const std::string &name);
 
         //json data handlers
-        void set_use_methods_from_json( JsonObject &jo, std::string member, std::vector<use_function> &use_methods );
+        void set_use_methods_from_json( JsonObject &jo, std::string member,
+                                        std::vector<use_function> &use_methods );
         use_function use_from_string(std::string name);
         void set_uses_from_object(JsonObject obj, std::vector<use_function> &use_methods);
 
         void add_entry(Item_group *sg, JsonObject &obj);
-        void load_item_group_entries( Item_group& ig, JsonArray& entries );
+        void load_item_group_entries( Item_group &ig, JsonArray &entries );
 
         void load_basic_info(JsonObject &jo, itype *new_item);
         void tags_from_json(JsonObject &jo, std::string member, std::set<std::string> &tags);
@@ -301,7 +303,7 @@ class Item_factory
 
         // Currently only used for body part stuff, if used for anything else in the future bitset size may need to be increased.
         std::bitset<num_bp> flags_from_json(JsonObject &jo, const std::string &member,
-                                        std::string flag_type = "");
+                                            std::string flag_type = "");
 
         void set_material_from_json(JsonObject &jo, std::string member, itype *new_item);
         bool is_mod_target(JsonObject &jo, std::string member, std::string weapon);

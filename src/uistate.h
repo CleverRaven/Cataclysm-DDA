@@ -19,7 +19,7 @@ class item;
 */
 class uistatedata : public JsonSerializer, public JsonDeserializer
 {
-    /**** this will set a default value on startup, however to save, see below ****/
+        /**** this will set a default value on startup, however to save, see below ****/
     private:
         // not needed for compilation, but keeps syntax plugins happy
         typedef std::string itype_id;
@@ -54,7 +54,7 @@ class uistatedata : public JsonSerializer, public JsonDeserializer
         bool overmap_blinking = true;           // toggles active blinking of overlays.
         bool overmap_show_overlays = false;     // whether overlays are shown or not.
         bool debug_ranged;
-        tripoint adv_inv_last_coords = {-999, -999, -999};
+        tripoint adv_inv_last_coords = { -999, -999, -999};
         int last_inv_start = -2;
         int last_inv_sel = -2;
         int list_item_mon = -1;
@@ -79,7 +79,7 @@ class uistatedata : public JsonSerializer, public JsonDeserializer
         bool _testing_save = true; // internal: whine on json errors. set false if no complaints in 2 weeks.
         bool _really_testing_save = false; // internal: spammy
 
-        std::vector<std::string>& gethistory(std::string id)
+        std::vector<std::string> &gethistory(std::string id)
         {
             return input_history[id];
         }
@@ -128,9 +128,9 @@ class uistatedata : public JsonSerializer, public JsonDeserializer
 
             json.member("input_history");
             json.start_object();
-            for( auto& e : input_history ) {
+            for( auto &e : input_history ) {
                 json.member( e.first );
-                const std::vector<std::string>& history = e.second;
+                const std::vector<std::string> &history = e.second;
                 json.start_array();
                 int save_start = 0;
                 if ( history.size() > input_history_save_max) {
@@ -211,7 +211,7 @@ class uistatedata : public JsonSerializer, public JsonDeserializer
             for (std::set<std::string>::iterator it = inhist_members.begin();
                  it != inhist_members.end(); ++it) {
                 JsonArray ja = inhist.get_array(*it);
-                std::vector<std::string>& v = gethistory(*it);
+                std::vector<std::string> &v = gethistory(*it);
                 v.clear();
                 while (ja.has_more()) {
                     v.push_back(ja.next_string());

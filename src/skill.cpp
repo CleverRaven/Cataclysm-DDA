@@ -23,7 +23,7 @@ const Skill &string_id<Skill>::obj() const
     }
 
     debugmsg( "unknown skill %s", c_str() );
-    static const Skill dummy{};
+    static const Skill dummy {};
     return dummy;
 }
 
@@ -39,28 +39,28 @@ bool string_id<Skill>::is_valid() const
 }
 
 Skill::Skill()
-  : Skill(NULL_ID, "nothing", "The zen-most skill there is.", std::set<std::string> {})
+    : Skill(NULL_ID, "nothing", "The zen-most skill there is.", std::set<std::string> {})
 {
 }
 
 Skill::Skill(skill_id ident, std::string name, std::string description,
              std::set<std::string> tags)
-  : _ident(std::move(ident)), _name(std::move(name)),
-    _description(std::move(description)), _tags(std::move(tags))
+    : _ident(std::move(ident)), _name(std::move(name)),
+      _description(std::move(description)), _tags(std::move(tags))
 {
 }
 
-std::vector<Skill const*> Skill::get_skills_sorted_by(
-    std::function<bool (Skill const&, Skill const&)> pred)
+std::vector<Skill const *> Skill::get_skills_sorted_by(
+    std::function<bool (Skill const &, Skill const &)> pred)
 {
-    std::vector<Skill const*> result;
+    std::vector<Skill const *> result;
     result.reserve(skills.size());
 
-    std::transform(begin(skills), end(skills), back_inserter(result), [](Skill const& s) {
+    std::transform(begin(skills), end(skills), back_inserter(result), [](Skill const & s) {
         return &s;
     });
 
-    std::sort(begin(result), end(result), [&](Skill const* lhs, Skill const* rhs) {
+    std::sort(begin(result), end(result), [&](Skill const * lhs, Skill const * rhs) {
         return pred(*lhs, *rhs);
     });
 
@@ -75,8 +75,9 @@ void Skill::reset()
 void Skill::load_skill(JsonObject &jsobj)
 {
     skill_id ident = skill_id( jsobj.get_string("ident") );
-    skills.erase(std::remove_if(begin(skills), end(skills), [&](Skill const &s) {
-        return s._ident == ident; }), end(skills));
+    skills.erase(std::remove_if(begin(skills), end(skills), [&](Skill const & s) {
+        return s._ident == ident;
+    }), end(skills));
 
     std::string name           = _(jsobj.get_string("name").c_str());
     std::string description    = _(jsobj.get_string("description").c_str());
@@ -91,14 +92,15 @@ void Skill::load_skill(JsonObject &jsobj)
 const Skill *Skill::from_legacy_int( const int legacy_id )
 {
     static const std::array<skill_id, 28> legacy_skills = { {
-        skill_id::NULL_ID, skill_id("dodge"), skill_id("melee"), skill_id("unarmed"),
-        skill_id("bashing"), skill_id("cutting"), skill_id("stabbing"), skill_id("throw"),
-        skill_id("gun"), skill_id("pistol"), skill_id("shotgun"), skill_id("smg"),
-        skill_id("rifle"), skill_id("archery"), skill_id("launcher"), skill_id("mechanics"),
-        skill_id("electronics"), skill_id("cooking"), skill_id("tailor"), skill_id("carpentry"),
-        skill_id("firstaid"), skill_id("speech"), skill_id("barter"), skill_id("computer"),
-        skill_id("survival"), skill_id("traps"), skill_id("swimming"), skill_id("driving"),
-    } };
+            skill_id::NULL_ID, skill_id("dodge"), skill_id("melee"), skill_id("unarmed"),
+            skill_id("bashing"), skill_id("cutting"), skill_id("stabbing"), skill_id("throw"),
+            skill_id("gun"), skill_id("pistol"), skill_id("shotgun"), skill_id("smg"),
+            skill_id("rifle"), skill_id("archery"), skill_id("launcher"), skill_id("mechanics"),
+            skill_id("electronics"), skill_id("cooking"), skill_id("tailor"), skill_id("carpentry"),
+            skill_id("firstaid"), skill_id("speech"), skill_id("barter"), skill_id("computer"),
+            skill_id("survival"), skill_id("traps"), skill_id("swimming"), skill_id("driving"),
+        }
+    };
     if( static_cast<size_t>( legacy_id ) < legacy_skills.size() ) {
         return &legacy_skills[legacy_id].obj();
     }
@@ -106,9 +108,9 @@ const Skill *Skill::from_legacy_int( const int legacy_id )
     return &skills.front(); // return a non-null pointer because callers might not expect a nullptr
 }
 
-const Skill* Skill::random_skill_with_tag(const std::string& tag)
+const Skill *Skill::random_skill_with_tag(const std::string &tag)
 {
-    std::vector<Skill const*> valid;
+    std::vector<Skill const *> valid;
     for (auto const &s : skills) {
         if (s._tags.count(tag)) {
             valid.push_back(&s);
@@ -121,7 +123,7 @@ const Skill* Skill::random_skill_with_tag(const std::string& tag)
     return random_entry( valid );
 }
 
-const Skill* Skill::random_skill()
+const Skill *Skill::random_skill()
 {
     return &skills[rng( 0, skills.size() - 1 )];
 }
@@ -138,7 +140,7 @@ bool Skill::is_combat_skill() const
 }
 
 SkillLevel::SkillLevel(int level, int exercise, bool isTraining, int lastPracticed)
-  : _level(level), _exercise(exercise), _lastPracticed(lastPracticed), _isTraining(isTraining)
+    : _level(level), _exercise(exercise), _lastPracticed(lastPracticed), _isTraining(isTraining)
 {
     if (lastPracticed <= 0) {
         _lastPracticed = HOURS(ACTIVE_WORLD_OPTIONS["INITIAL_TIME"]);
@@ -147,7 +149,7 @@ SkillLevel::SkillLevel(int level, int exercise, bool isTraining, int lastPractic
 
 SkillLevel::SkillLevel(int minLevel, int maxLevel, int minExercise, int maxExercise,
                        bool isTraining, int lastPracticed)
-  : SkillLevel(rng(minLevel, maxLevel), rng(minExercise, maxExercise), isTraining, lastPracticed)
+    : SkillLevel(rng(minLevel, maxLevel), rng(minExercise, maxExercise), isTraining, lastPracticed)
 
 {
 }
@@ -169,7 +171,8 @@ void SkillLevel::train(int amount, bool skip_scaling)
     }
 }
 
-namespace {
+namespace
+{
 int rustRate(int level)
 {
     // for n = [0, 7]
@@ -244,15 +247,15 @@ double price_adjustment(int barter_skill)
         return 2.0;
     }
     switch (barter_skill) {
-    case 1:
-        return 1.05;
-    case 2:
-        return 1.15;
-    case 3:
-        return 1.30;
-    case 4:
-        return 1.65;
-    default:
-        return 1.0;//should never occur
+        case 1:
+            return 1.05;
+        case 2:
+            return 1.15;
+        case 3:
+            return 1.30;
+        case 4:
+            return 1.65;
+        default:
+            return 1.0;//should never occur
     }
 }

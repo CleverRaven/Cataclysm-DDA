@@ -34,7 +34,7 @@ const use_function *itype::get_use( const std::string &iuse_name ) const
     const use_function *func = item_controller->get_iuse( iuse_name );
     if( func != nullptr ) {
         if( std::find( use_methods.cbegin(), use_methods.cend(),
-                         *func ) != use_methods.cend() ) {
+                       *func ) != use_methods.cend() ) {
             return func;
         }
     }
@@ -96,7 +96,7 @@ std::string ammo_name(std::string const &t)
     return ret;
 }
 
-itype_id const& default_ammo(std::string const &t)
+itype_id const &default_ammo(std::string const &t)
 {
     return ammunition_type::find_ammunition_type(t).default_ammotype();
 }

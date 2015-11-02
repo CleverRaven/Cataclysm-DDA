@@ -19,7 +19,8 @@
 
 static std::unordered_set<std::string> obsolete_mod_list;
 // These accessors are to delay the initialization of the strings in the respective containers until after gettext is initialized.
-const std::vector<std::pair<std::string, std::string> > &get_mod_list_categories() {
+const std::vector<std::pair<std::string, std::string> > &get_mod_list_categories()
+{
     static const std::vector<std::pair<std::string, std::string> > mod_list_categories = {
         {"items", _("ITEM ADDIDION MODS")},
         {"creatures", _("CREATURE MODS")},
@@ -34,7 +35,8 @@ const std::vector<std::pair<std::string, std::string> > &get_mod_list_categories
     return mod_list_categories;
 }
 
-const std::vector<std::pair<std::string, std::string> > &get_mod_list_tabs() {
+const std::vector<std::pair<std::string, std::string> > &get_mod_list_tabs()
+{
     static const std::vector<std::pair<std::string, std::string> > mod_list_tabs = {
         {"tab_default", _("Default")},
         {"tab_blacklist", _("Blacklist")},
@@ -44,7 +46,8 @@ const std::vector<std::pair<std::string, std::string> > &get_mod_list_tabs() {
     return mod_list_tabs;
 }
 
-const std::map<std::string, std::string> &get_mod_list_cat_tab() {
+const std::map<std::string, std::string> &get_mod_list_cat_tab()
+{
     static const std::map<std::string, std::string> mod_list_cat_tab = {
         {"exclude", "tab_blacklist"},
         {"rebalance", "tab_balance"}
@@ -137,7 +140,7 @@ void mod_manager::remove_mod(const std::string &ident)
 
 void mod_manager::remove_invalid_mods( std::vector<std::string> &m ) const
 {
-    m.erase( std::remove_if( m.begin(), m.end(), [this]( const std::string &mod ) {
+    m.erase( std::remove_if( m.begin(), m.end(), [this]( const std::string & mod ) {
         return !has_mod( mod );
     } ), m.end() );
 }
@@ -213,7 +216,7 @@ void mod_manager::load_modfile(JsonObject &jo, const std::string &main_path)
     }
 
     std::string m_cat = jo.get_string("category", "");
-    std::pair<int, std::string> p_cat = {-1, ""};
+    std::pair<int, std::string> p_cat = { -1, ""};
     bool bCatFound = false;
 
     do {

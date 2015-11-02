@@ -17,9 +17,9 @@ class monster;
 class Creature;
 struct projectile;
 struct dealt_projectile_attack;
-using mon_action_death  = void (*)(monster*);
-using mon_action_attack = void (*)(monster*, int);
-using mon_action_defend = void (*)(monster&, Creature*, dealt_projectile_attack const*);
+using mon_action_death  = void (*)(monster *);
+using mon_action_attack = void (*)(monster *, int);
+using mon_action_defend = void (*)(monster &, Creature *, dealt_projectile_attack const *);
 using mtype_id = string_id<mtype>;
 struct species_type;
 using species_id = string_id<species_type>;
@@ -34,15 +34,15 @@ struct species_type {
 
     }
     species_type( const species_id &_id,
-                 std::set<m_flag> _flags,
-                 std::set<monster_trigger> _anger,
-                 std::set<monster_trigger> _fear,
-                 std::set<monster_trigger> _placate)
-    : id( _id )
-    , flags( _flags )
-    , anger_trig( _anger)
-    , fear_trig( _fear )
-    , placate_trig( _placate )
+                  std::set<m_flag> _flags,
+                  std::set<monster_trigger> _anger,
+                  std::set<monster_trigger> _fear,
+                  std::set<monster_trigger> _placate)
+        : id( _id )
+        , flags( _flags )
+        , anger_trig( _anger)
+        , fear_trig( _fear )
+        , placate_trig( _placate )
     {
     }
 };
@@ -68,12 +68,12 @@ class MonsterGenerator
 
         // combines mtype and species information, sets bitflags
         void finalize_mtypes();
-        
+
 
         void check_monster_definitions() const;
 
-        mtype &get_mtype( const mtype_id& id );
-        species_type &get_species( const species_id& id );
+        mtype &get_mtype( const mtype_id &id );
+        species_type &get_species( const species_id &id );
         bool has_mtype( const mtype_id &id ) const;
         bool has_species( const species_id &species ) const;
         std::map<mtype_id, mtype *> get_all_mtypes() const;

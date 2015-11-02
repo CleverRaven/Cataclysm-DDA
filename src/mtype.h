@@ -24,9 +24,9 @@ enum field_id : int;
 enum body_part : int;
 enum m_size : int;
 
-using mon_action_death  = void (*)(monster*);
-using mon_action_attack = void (*)(monster*, int);
-using mon_action_defend = void (*)(monster&, Creature*, dealt_projectile_attack const*);
+using mon_action_death  = void (*)(monster *);
+using mon_action_attack = void (*)(monster *, int);
+using mon_action_defend = void (*)(monster &, Creature *, dealt_projectile_attack const *);
 struct MonsterGroup;
 using mongroup_id = string_id<MonsterGroup>;
 struct mtype;
@@ -145,8 +145,7 @@ enum m_flag : int {
 };
 
 /** Used to store monster effects placed on attack */
-struct mon_effect_data
-{
+struct mon_effect_data {
     std::string id;
     int duration;
     body_part bp;
@@ -154,7 +153,7 @@ struct mon_effect_data
     int chance;
 
     mon_effect_data(std::string nid, int dur, body_part nbp, bool perm, int nchance) :
-                    id(nid), duration(dur), bp(nbp), permanent(perm), chance(nchance) {};
+        id(nid), duration(dur), bp(nbp), permanent(perm), chance(nchance) {};
 };
 
 struct mtype {
@@ -163,7 +162,7 @@ struct mtype {
         std::string name;
         std::string name_plural;
 
-        std::set< const species_type* > species_ptrs;
+        std::set< const species_type * > species_ptrs;
     public:
         mtype_id id;
         std::string description;

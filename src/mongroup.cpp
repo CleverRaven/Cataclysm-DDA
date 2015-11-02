@@ -38,7 +38,7 @@ bool string_id<MonsterGroup>::is_valid() const
 }
 
 template<>
-const MonsterGroup& string_id<MonsterGroup>::obj() const
+const MonsterGroup &string_id<MonsterGroup>::obj() const
 {
     return MonsterGroupManager::GetMonsterGroup( *this );
 }
@@ -48,11 +48,12 @@ bool mongroup::is_safe() const
     return type.obj().is_safe;
 }
 
-const MonsterGroup &MonsterGroupManager::GetUpgradedMonsterGroup( const mongroup_id& group )
+const MonsterGroup &MonsterGroupManager::GetUpgradedMonsterGroup( const mongroup_id &group )
 {
     const MonsterGroup *groupptr = &group.obj();
     if (ACTIVE_WORLD_OPTIONS["MONSTER_UPGRADE_FACTOR"] > 0) {
-        const int replace_time = DAYS(groupptr->monster_group_time * ACTIVE_WORLD_OPTIONS["MONSTER_UPGRADE_FACTOR"]);
+        const int replace_time = DAYS(groupptr->monster_group_time *
+                                      ACTIVE_WORLD_OPTIONS["MONSTER_UPGRADE_FACTOR"]);
         while( groupptr->replace_monster_group && calendar::turn.get_turn() > replace_time ) {
             groupptr = &groupptr->new_monster_group.obj();
         }
@@ -62,7 +63,8 @@ const MonsterGroup &MonsterGroupManager::GetUpgradedMonsterGroup( const mongroup
 
 //Quantity is adjusted directly as a side effect of this function
 MonsterGroupResult MonsterGroupManager::GetResultFromGroup(
-    const mongroup_id& group_name, int *quantity, int turn ){
+    const mongroup_id &group_name, int *quantity, int turn )
+{
     int spawn_chance = rng(1, 1000);
     auto &group = GetUpgradedMonsterGroup( group_name );
     //Our spawn details specify, by default, a single instance of the default monster
@@ -76,7 +78,7 @@ MonsterGroupResult MonsterGroupManager::GetResultFromGroup(
     bool monster_found = false;
     // Step through spawn definitions from the monster group until one is found or
     for( auto it = group.monsters.begin(); it != group.monsters.end() && !monster_found; ++it) {
-        const mtype& mt = it->name.obj();
+        const mtype &mt = it->name.obj();
         // There's a lot of conditions to work through to see if this spawn definition is valid
         bool valid_entry = true;
         // I don't know what turn == -1 is checking for, but it makes monsters always valid for difficulty purposes
@@ -173,7 +175,7 @@ MonsterGroupResult MonsterGroupManager::GetResultFromGroup(
     return spawn_details;
 }
 
-bool MonsterGroup::IsMonsterInGroup( const mtype_id& mtypeid ) const
+bool MonsterGroup::IsMonsterInGroup( const mtype_id &mtypeid ) const
 {
     if( defaultMonster == mtypeid ) {
         return true;
@@ -186,12 +188,12 @@ bool MonsterGroup::IsMonsterInGroup( const mtype_id& mtypeid ) const
     return false;
 }
 
-bool MonsterGroupManager::IsMonsterInGroup(const mongroup_id& group, const mtype_id& monster )
+bool MonsterGroupManager::IsMonsterInGroup(const mongroup_id &group, const mtype_id &monster )
 {
     return group.obj().IsMonsterInGroup( monster );
 }
 
-const mongroup_id& MonsterGroupManager::Monster2Group( const mtype_id& monster )
+const mongroup_id &MonsterGroupManager::Monster2Group( const mtype_id &monster )
 {
     for( auto &g : monsterGroupMap ) {
         if( g.second.IsMonsterInGroup( monster ) ) {
@@ -201,7 +203,7 @@ const mongroup_id& MonsterGroupManager::Monster2Group( const mtype_id& monster )
     return NULL_ID;
 }
 
-std::vector<mtype_id> MonsterGroupManager::GetMonstersFromGroup(const mongroup_id& group)
+std::vector<mtype_id> MonsterGroupManager::GetMonstersFromGroup(const mongroup_id &group)
 {
     const MonsterGroup &g = group.obj();
 
@@ -215,12 +217,12 @@ std::vector<mtype_id> MonsterGroupManager::GetMonstersFromGroup(const mongroup_i
     return monsters;
 }
 
-bool MonsterGroupManager::isValidMonsterGroup(const mongroup_id& group)
+bool MonsterGroupManager::isValidMonsterGroup(const mongroup_id &group)
 {
     return monsterGroupMap.count( group ) > 0;
 }
 
-const MonsterGroup& MonsterGroupManager::GetMonsterGroup(const mongroup_id& group)
+const MonsterGroup &MonsterGroupManager::GetMonsterGroup(const mongroup_id &group)
 {
     const auto it = monsterGroupMap.find(group);
     if(it == monsterGroupMap.end()) {
@@ -251,12 +253,12 @@ void MonsterGroupManager::LoadMonsterWhitelist(JsonObject &jo)
     add_to_set(monster_categories_whitelist, jo, "categories");
 }
 
-bool MonsterGroupManager::monster_is_blacklisted(const mtype_id& m)
+bool MonsterGroupManager::monster_is_blacklisted(const mtype_id &m)
 {
     if(monster_whitelist.count(m.str()) > 0) {
         return false;
     }
-    const mtype& mt = m.obj();
+    const mtype &mt = m.obj();
     for( const auto &elem : monster_categories_whitelist ) {
         if( mt.categories.count( elem ) > 0 ) {
             return false;
@@ -357,7 +359,8 @@ void MonsterGroupManager::LoadMonsterGroup(JsonObject &jo)
         }
     }
     g.replace_monster_group = jo.get_bool("replace_monster_group", false);
-    g.new_monster_group = mongroup_id( jo.get_string("new_monster_group_id", mongroup_id::NULL_ID.str() ) );
+    g.new_monster_group = mongroup_id( jo.get_string("new_monster_group_id",
+                                       mongroup_id::NULL_ID.str() ) );
     g.monster_group_time = jo.get_int("replacement_time", 0);
     g.is_safe = jo.get_bool( "is_safe", false );
 

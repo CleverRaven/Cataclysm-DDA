@@ -39,7 +39,7 @@ struct damage_unit {
     float damage_multiplier;
 
     damage_unit(damage_type dt, float a, int rp, float rm, float mul) :
-    type(dt), amount(a), res_pen(rp), res_mult(rm), damage_multiplier(mul) { }
+        type(dt), amount(a), res_pen(rp), res_mult(rm), damage_multiplier(mul) { }
 };
 
 
@@ -84,28 +84,29 @@ struct resistances {
 };
 
 struct projectile {
-    damage_instance impact;
-    int speed; // how hard is it to dodge? essentially rolls to-hit, bullets have arbitrarily high values but thrown objects have dodgeable values
+        damage_instance impact;
+        int speed; // how hard is it to dodge? essentially rolls to-hit, bullets have arbitrarily high values but thrown objects have dodgeable values
 
-    std::set<std::string> proj_effects;
+        std::set<std::string> proj_effects;
 
-    /**
-     * Returns an item that should be dropped or an item for which is_null() is true
-     *  when item to drop is unset.
-     */
-    const item &get_drop() const;
-    /** Copies item `it` as a drop for this projectile. */
-    void set_drop( const item &it );
-    void set_drop( item &&it );
-    void unset_drop();
+        /**
+         * Returns an item that should be dropped or an item for which is_null() is true
+         *  when item to drop is unset.
+         */
+        const item &get_drop() const;
+        /** Copies item `it` as a drop for this projectile. */
+        void set_drop( const item &it );
+        void set_drop( item &&it );
+        void unset_drop();
 
-    projectile();
-    projectile( const projectile& );
-    projectile( projectile&& ) = default;
-    projectile& operator=( const projectile& );
+        projectile();
+        projectile( const projectile &);
+        projectile( projectile &&) = default;
+        projectile &operator=( const projectile &);
 
-private:
-    std::unique_ptr<item> drop; // Actual item used (to drop contents etc.). Null in case of bullets (they aren't "made of cartridges")
+    private:
+        std::unique_ptr<item>
+        drop; // Actual item used (to drop contents etc.). Null in case of bullets (they aren't "made of cartridges")
 };
 
 struct dealt_projectile_attack {

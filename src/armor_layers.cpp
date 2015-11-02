@@ -9,7 +9,8 @@
 #include <vector>
 #include <string>
 
-namespace {
+namespace
+{
 void draw_mid_pane(WINDOW *win, item const &worn_item);
 
 std::string clothing_layer(item const &worn_item);
@@ -276,7 +277,8 @@ void player::sort_armor()
                 mvwprintz(w_sort_left, drawindex + 1, 2, dam_color[int(tmp_worn[itemindex]->damage + 1)],
                           tmp_worn[itemindex]->type_name(1).c_str());
             }
-            mvwprintz(w_sort_left, drawindex + 1, left_w - 3, c_ltgray, "%3d", tmp_worn[itemindex]->get_storage());
+            mvwprintz(w_sort_left, drawindex + 1, left_w - 3, c_ltgray, "%3d",
+                      tmp_worn[itemindex]->get_storage());
         }
 
         // Left footer
@@ -434,9 +436,9 @@ void player::sort_armor()
             }
         } else if (action == "EQUIP_ARMOR") {
             // filter inventory for all items that are armor/clothing
-            int pos = g->inv_for_unequipped(_("Put on:"), [](const item &it) {
-                        return it.is_armor();
-                    });
+            int pos = g->inv_for_unequipped(_("Put on:"), [](const item & it) {
+                return it.is_armor();
+            });
             // only equip if something valid selected!
             if(pos != INT_MIN) {
                 // wear the item

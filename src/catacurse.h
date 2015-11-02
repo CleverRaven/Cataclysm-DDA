@@ -38,7 +38,8 @@ struct cursecell {
     cursecell(std::string ch) : ch(std::move(ch)) { }
     cursecell() : cursecell(std::string(1, ' ')) { }
 
-    bool operator==(const cursecell &b) const {
+    bool operator==(const cursecell &b) const
+    {
         return FG == b.FG && BG == b.BG && ch == b.ch;
     }
 };

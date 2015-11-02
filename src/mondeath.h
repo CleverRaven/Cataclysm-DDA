@@ -3,7 +3,8 @@
 
 class monster;
 
-namespace mdeath {
+namespace mdeath
+{
 void normal         (monster *z); // Drop a body
 void acid           (monster *z); // Acid instead of a body
 void boomer         (monster *z); // Explodes in vomit :3

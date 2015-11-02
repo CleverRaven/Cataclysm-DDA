@@ -9,8 +9,7 @@
 
 struct itype;
 
-enum morale_type : int
-{
+enum morale_type : int {
     MORALE_NULL = 0,
     MORALE_FOOD_GOOD,
     MORALE_FOOD_HOT,
@@ -69,7 +68,7 @@ enum morale_type : int
     MORALE_PERM_BADTEMPER,
     MORALE_PERM_CONSTRAINED,
     MORALE_GAME_FOUND_KITTEN,
-    
+
     MORALE_HAIRCUT,
     MORALE_SHAVE,
 

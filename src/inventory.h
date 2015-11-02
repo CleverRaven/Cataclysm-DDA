@@ -28,21 +28,25 @@ class salvage_actor;
  * simpler. But it may be changed to derive from `std::set<long>` or similar to get the full
  * range of possible characters.
  */
-class invlet_wrapper : private std::string {
-private:
+class invlet_wrapper : private std::string
+{
+    private:
 
-public:
-    invlet_wrapper( const char *chars ) : std::string( chars ) { }
+    public:
+        invlet_wrapper( const char *chars ) : std::string( chars ) { }
 
-    bool valid( long invlet ) const;
-    std::string get_allowed_chars() const { return *this; }
+        bool valid( long invlet ) const;
+        std::string get_allowed_chars() const
+        {
+            return *this;
+        }
 
-    using std::string::begin;
-    using std::string::end;
-    using std::string::rbegin;
-    using std::string::rend;
-    using std::string::size;
-    using std::string::length;
+        using std::string::begin;
+        using std::string::end;
+        using std::string::rbegin;
+        using std::string::rend;
+        using std::string::size;
+        using std::string::length;
 };
 
 const extern invlet_wrapper inv_chars;
@@ -60,7 +64,7 @@ class inventory
         inventory();
         inventory(inventory &&) = default;
         inventory(const inventory &) = default;
-        inventory &operator=(inventory &&) = default;
+        inventory &operator=(inventory && ) = default;
         inventory &operator=(const inventory &) = default;
 
         inventory &operator+= (const inventory &rhs);
@@ -282,7 +286,7 @@ class inventory
             }
             return result;
         }
-        
+
         template<typename T>
         std::list<item> remove_items_with( T filter )
         {

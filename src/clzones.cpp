@@ -193,7 +193,7 @@ bool zone_manager::save_zones()
         fclose_exclusive( fout, savefile.c_str() );
         return true;
 
-    } catch( std::ios::failure & ) {
+    } catch( std::ios::failure &) {
         popup( _( "Failed to save zones to %s" ), savefile.c_str() );
         return false;
     }

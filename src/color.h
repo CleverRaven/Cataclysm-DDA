@@ -327,9 +327,9 @@ class JsonObject;
 void init_colors();
 
 enum col_attribute {
-WA_NULL = 0,
-HI = 1,
-INV = 2
+    WA_NULL = 0,
+    HI = 1,
+    INV = 2
 };
 
 // Index for highlight cache
@@ -346,7 +346,8 @@ enum hl_enum {
 
 typedef int nc_color;
 
-class color_manager : public JsonSerializer, public JsonDeserializer {
+class color_manager : public JsonSerializer, public JsonDeserializer
+{
     private:
         void add_color( const color_id col, const std::string &name,
                         const nc_color color_pair, const color_id inv_enum );

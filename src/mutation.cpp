@@ -20,7 +20,8 @@
 #include <sstream>
 
 // '!' and '=' are uses as default bindings in the menu
-const invlet_wrapper mutation_chars("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ\"#&()*+./:;@[\\]^_{|}");
+const invlet_wrapper
+mutation_chars("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ\"#&()*+./:;@[\\]^_{|}");
 
 bool Character::has_trait(const std::string &b) const
 {
@@ -225,7 +226,7 @@ void Character::mutation_effect(std::string mut)
         apply_mods(mut, true);
     }
 
-    const auto covers_any = [&bps]( const item& armor ) {
+    const auto covers_any = [&bps]( const item & armor ) {
         for( auto &bp : bps ) {
             if( armor.covers( bp ) ) {
                 return true;
@@ -234,7 +235,7 @@ void Character::mutation_effect(std::string mut)
         return false;
     };
 
-    remove_worn_items_with( [&]( item& armor ) {
+    remove_worn_items_with( [&]( item & armor ) {
         static const std::string mutation_safe = "OVERSIZE";
         if( armor.has_flag( mutation_safe ) ) {
             return false;
@@ -244,7 +245,7 @@ void Character::mutation_effect(std::string mut)
         }
         if( destroy ) {
             add_msg_if_player( m_bad, _("Your %s is destroyed!"), armor.tname().c_str() );
-            for( item& remain : armor.contents ) {
+            for( item &remain : armor.contents ) {
                 g->m.add_item_or_charges( pos(), remain );
             }
         } else {
@@ -311,7 +312,7 @@ void Character::mutation_loss_effect(std::string mut)
     }
 }
 
-bool Character::has_active_mutation(const std::string & b) const
+bool Character::has_active_mutation(const std::string &b) const
 {
     const auto iter = my_mutations.find( b );
     return iter != my_mutations.end() && iter->second.powered;
@@ -325,8 +326,8 @@ void player::activate_mutation( const std::string &mut )
     // You can take yourself halfway to Near Death levels of hunger/thirst.
     // Fatigue can go to Exhausted.
     if ((mdata.hunger && get_hunger() >= 700) || (mdata.thirst && thirst >= 260) ||
-      (mdata.fatigue && fatigue >= EXHAUSTED)) {
-      // Insufficient Foo to *maintain* operation is handled in player::suffer
+        (mdata.fatigue && fatigue >= EXHAUSTED)) {
+        // Insufficient Foo to *maintain* operation is handled in player::suffer
         add_msg(m_warning, _("You feel like using your %s would kill you!"), mdata.name.c_str());
         return;
     }
@@ -338,13 +339,13 @@ void player::activate_mutation( const std::string &mut )
         if (mdata.cooldown > 0) {
             tdata.charge = mdata.cooldown - 1;
         }
-        if (mdata.hunger){
+        if (mdata.hunger) {
             mod_hunger(cost);
         }
-        if (mdata.thirst){
+        if (mdata.thirst) {
             thirst += cost;
         }
-        if (mdata.fatigue){
+        if (mdata.fatigue) {
             fatigue += cost;
         }
         tdata.powered = true;
@@ -357,7 +358,7 @@ void player::activate_mutation( const std::string &mut )
     if( mut == "WEB_WEAVER" ) {
         g->m.add_field(pos(), fd_web, 1, 0);
         add_msg(_("You start spinning web with your spinnerets!"));
-    } else if (mut == "BURROW"){
+    } else if (mut == "BURROW") {
         if (g->u.is_underwater()) {
             add_msg_if_player(m_info, _("You can't do that while underwater."));
             tdata.powered = false;
@@ -390,7 +391,7 @@ void player::activate_mutation( const std::string &mut )
             return;
         }
         g->u.assign_activity(ACT_BURROW, turns, -1, 0);
-        g->u.activity.placement = tripoint(dirx, diry,0);
+        g->u.activity.placement = tripoint(dirx, diry, 0);
         add_msg_if_player(_("You tear into the %s with your teeth and claws."),
                           g->m.tername(dirx, diry).c_str());
         tdata.powered = false;
@@ -430,19 +431,19 @@ void player::activate_mutation( const std::string &mut )
         }
         tdata.powered = false;
         return;
-    } else if ((mut == "NAUSEA") || (mut == "VOMITOUS") ){
+    } else if ((mut == "NAUSEA") || (mut == "VOMITOUS") ) {
         vomit();
         tdata.powered = false;
         return;
-    } else if (mut == "M_FERTILE"){
+    } else if (mut == "M_FERTILE") {
         spores();
         tdata.powered = false;
         return;
-    } else if (mut == "M_BLOOM"){
+    } else if (mut == "M_BLOOM") {
         blossoms();
         tdata.powered = false;
         return;
-    } else if (mut == "VINES3"){
+    } else if (mut == "VINES3") {
         item newit("vine_30", calendar::turn, false);
         if (!can_pickVolume(newit.volume())) { //Accounts for result_mult
             add_msg(_("You detach a vine but don't have room to carry it, so you drop it."));
@@ -632,7 +633,7 @@ void player::power_mutations()
                     }
                     if (!td.powered) {
                         type = c_red;
-                    }else if (td.powered) {
+                    } else if (td.powered) {
                         type = c_ltgreen;
                     } else {
                         type = c_ltred;
@@ -643,7 +644,7 @@ void player::power_mutations()
                     mut_desc << md.name;
                     if ( md.cost > 0 && md.cooldown > 0 ) {
                         mut_desc << string_format( _(" - %d RU / %d turns"),
-                                      md.cost, md.cooldown );
+                                                   md.cost, md.cooldown );
                     } else if ( md.cost > 0 ) {
                         mut_desc << string_format( _(" - %d RU"), md.cost );
                     } else if ( md.cooldown > 0 ) {
@@ -713,7 +714,7 @@ void player::power_mutations()
             werase(w_description);
             draw_exam_window(wBio, DESCRIPTION_LINE_Y, false);
             redraw = true;
-        }else if (action == "HELP_KEYBINDINGS") {
+        } else if (action == "HELP_KEYBINDINGS") {
             redraw = true;
         } else {
             const auto mut_id = trait_by_invlet( ch );
@@ -1175,8 +1176,8 @@ bool player::mutate_towards( const std::string &mut )
         add_msg(rating, _("Your innate %1$s trait turns into %2$s!"),
                 cancel_mdata.name.c_str(), mdata.name.c_str());
         add_memorial_log(pgettext("memorial_male", "'%s' mutation turned into '%s'"),
-                        pgettext("memorial_female", "'%s' mutation turned into '%s'"),
-                        cancel_mdata.name.c_str(), mdata.name.c_str());
+                         pgettext("memorial_female", "'%s' mutation turned into '%s'"),
+                         cancel_mdata.name.c_str(), mdata.name.c_str());
         unset_mutation(canceltrait[i]);
         mutation_loss_effect(canceltrait[i]);
         mutation_effect(mut);

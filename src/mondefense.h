@@ -6,7 +6,8 @@ class Creature;
 struct projectile;
 struct dealt_projectile_attack;
 
-namespace mdefense {
+namespace mdefense
+{
 /**
     * @param m The monster the defends itself.
     * @param source The attacker

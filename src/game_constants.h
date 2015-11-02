@@ -31,14 +31,14 @@
 #define MAPSIZE 11
 
 //More importantly: SEEX defines the size of a nonant, or grid. Same with SEEY.
-                // SEEX is how far the player can see in the X direction (at
+// SEEX is how far the player can see in the X direction (at
 #define SEEX 12 // least, without scrolling).  All map segments will need to be
-                // at least this wide. The map therefore needs to be 3x as wide.
+// at least this wide. The map therefore needs to be 3x as wide.
 
-                // Same as SEEX
+// Same as SEEX
 #define SEEY 12 // Requires 2*SEEY+1= 25 vertical squares
-                // Nuts to 80x24 terms. Mostly exists in graphical clients, and
-                // those fatcats can resize.
+// Nuts to 80x24 terms. Mostly exists in graphical clients, and
+// those fatcats can resize.
 
 // Size of the overmap. This is the number of overmap terrain tiles per dimension in one overmap,
 // it's just like SEEX/SEEY for submaps.

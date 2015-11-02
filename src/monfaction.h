@@ -26,7 +26,8 @@ void load_monster_faction(JsonObject &jo);
 mfaction_id get_or_add_faction( const mfaction_str_id &id );
 }
 
-class monfaction {
+class monfaction
+{
     public:
         mfaction_id loadid;
         mfaction_id base_faction;

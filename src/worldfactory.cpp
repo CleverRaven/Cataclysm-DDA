@@ -48,11 +48,11 @@ WORLD::WORLD()
 }
 
 worldfactory::worldfactory()
-: active_world( nullptr )
-, all_worlds()
-, all_worldnames()
-, mman( nullptr )
-, mman_ui( nullptr )
+    : active_world( nullptr )
+    , all_worlds()
+    , all_worldnames()
+    , mman( nullptr )
+    , mman_ui( nullptr )
 {
     mman.reset( new mod_manager );
     mman->refresh_mod_list();
@@ -148,14 +148,14 @@ WORLDPTR worldfactory::make_new_world(special_game_id special_type)
 {
     std::string worldname;
     switch(special_type) {
-    case SGAME_TUTORIAL:
-        worldname = "TUTORIAL";
-        break;
-    case SGAME_DEFENSE:
-        worldname = "DEFENSE";
-        break;
-    default:
-        return NULL;
+        case SGAME_TUTORIAL:
+            worldname = "TUTORIAL";
+            break;
+        case SGAME_DEFENSE:
+            worldname = "DEFENSE";
+            break;
+        default:
+            return NULL;
     }
 
     // Look through all worlds and see if a world named worldname already exists. If so, then just return it instead of
@@ -744,7 +744,9 @@ int worldfactory::show_worldgen_tab_options(WINDOW *win, WORLDPTR world)
     return 0;
 }
 
-void worldfactory::draw_mod_list( WINDOW *w, int &start, int &cursor, const std::vector<std::string> &mods, bool is_active_list, const std::string &text_if_empty, WINDOW *w_shift )
+void worldfactory::draw_mod_list( WINDOW *w, int &start, int &cursor,
+                                  const std::vector<std::string> &mods, bool is_active_list, const std::string &text_if_empty,
+                                  WINDOW *w_shift )
 {
     werase( w );
     werase(w_shift);
@@ -947,7 +949,8 @@ int worldfactory::show_worldgen_tab_modselection(WINDOW *win, WORLDPTR world)
             current_tab_mods.clear();
 
             for( const auto &item : mman_ui->usable_mods ) {
-                const auto &iter = get_mod_list_cat_tab().find(get_mod_list_categories()[mman->mod_map[item]->category.first].first);
+                const auto &iter = get_mod_list_cat_tab().find(
+                                       get_mod_list_categories()[mman->mod_map[item]->category.first].first);
 
                 std::string sCatTab = "tab_default";
                 if( iter != get_mod_list_cat_tab().end() ) {
@@ -996,7 +999,8 @@ int worldfactory::show_worldgen_tab_modselection(WINDOW *win, WORLDPTR world)
             mvwprintz(win, 4, 2, c_white, "");
             for( size_t i = 0; i < get_mod_list_tabs().size(); i++ ) {
                 wprintz(win, c_white, "[");
-                wprintz(win, (iCurrentTab == (int)i) ? hilite(c_ltgreen) : c_ltgreen, (get_mod_list_tabs()[i].second).c_str());
+                wprintz(win, (iCurrentTab == (int)i) ? hilite(c_ltgreen) : c_ltgreen,
+                        (get_mod_list_tabs()[i].second).c_str());
                 wprintz(win, c_white, "]");
                 wputch(win, BORDER_COLOR, LINE_OXOX);
             }
@@ -1007,10 +1011,12 @@ int worldfactory::show_worldgen_tab_modselection(WINDOW *win, WORLDPTR world)
         }
 
         if( redraw_list ) {
-            draw_mod_list( w_list, startsel[0], cursel[0], current_tab_mods, active_header == 0, _("--NO AVAILABLE MODS--"), nullptr );
+            draw_mod_list( w_list, startsel[0], cursel[0], current_tab_mods, active_header == 0,
+                           _("--NO AVAILABLE MODS--"), nullptr );
         }
         if( redraw_active ) {
-            draw_mod_list( w_active, startsel[1], cursel[1], active_mod_order, active_header == 1, _("--NO ACTIVE MODS--"), w_shift );
+            draw_mod_list( w_active, startsel[1], cursel[1], active_mod_order, active_header == 1,
+                           _("--NO ACTIVE MODS--"), w_shift );
         }
         refresh();
 
@@ -1090,7 +1096,7 @@ int worldfactory::show_worldgen_tab_modselection(WINDOW *win, WORLDPTR world)
         } else if( action == "PREV_CATEGORY_TAB" ) {
             if(  active_header == 0  ) {
                 if(  --iCurrentTab < 0  ) {
-                    iCurrentTab = get_mod_list_tabs().size()-1;
+                    iCurrentTab = get_mod_list_tabs().size() - 1;
                 }
 
                 startsel[0] = 0;
@@ -1179,7 +1185,7 @@ int worldfactory::show_worldgen_tab_confirm(WINDOW *win, WORLDPTR world)
     const int iOffsetX = (TERMX > FULL_SCREEN_WIDTH) ? (TERMX - FULL_SCREEN_WIDTH) / 2 : 0;
     const int iOffsetY = (TERMY > FULL_SCREEN_HEIGHT) ? (TERMY - FULL_SCREEN_HEIGHT) / 2 : 0;
 
-    const char* line_of_32_underscores = "________________________________";
+    const char *line_of_32_underscores = "________________________________";
 
     WINDOW *w_confirmation = newwin(iContentHeight, FULL_SCREEN_WIDTH - 2,
                                     iTooltipHeight + 2 + iOffsetY, 1 + iOffsetX);
@@ -1203,10 +1209,12 @@ int worldfactory::show_worldgen_tab_confirm(WINDOW *win, WORLDPTR world)
         mvwprintz(w_confirmation, namebar_y, 2, c_white, _("World Name:"));
         mvwprintz(w_confirmation, namebar_y, namebar_x, c_ltgray, line_of_32_underscores);
         fold_and_print(w_confirmation, 3, 2, 76, c_ltgray,
-                       _("Press <color_yellow>%s</color> to pick a random name for your world."), ctxt.get_desc("PICK_RANDOM_WORLDNAME").c_str());
+                       _("Press <color_yellow>%s</color> to pick a random name for your world."),
+                       ctxt.get_desc("PICK_RANDOM_WORLDNAME").c_str());
         fold_and_print(w_confirmation, FULL_SCREEN_HEIGHT / 2 - 2, 2, 76, c_ltgray, _("\
 Press <color_yellow>%s</color> when you are satisfied with the world as it is and are ready \
-to continue, or <color_yellow>%s</color> to go back and review your world."), ctxt.get_desc("NEXT_TAB").c_str(), ctxt.get_desc("PREV_TAB").c_str());
+to continue, or <color_yellow>%s</color> to go back and review your world."),
+                       ctxt.get_desc("NEXT_TAB").c_str(), ctxt.get_desc("PREV_TAB").c_str());
         if (!noname) {
             mvwprintz(w_confirmation, namebar_y, namebar_x, c_ltgray, "%s", worldname.c_str());
             if (line == 1) {
@@ -1267,30 +1275,30 @@ to continue, or <color_yellow>%s</color> to go back and review your world."), ct
             const input_event ev = ctxt.get_raw_input();
             const long ch = ev.get_first_input();
             switch (line) {
-            case 1: {
-                utf8_wrapper wrap(worldname);
-                utf8_wrapper newtext( ev.text );
-                if( ch == KEY_BACKSPACE ) {
-                    if (!wrap.empty()) {
-                        wrap.erase(wrap.length() - 1, 1);
+                case 1: {
+                    utf8_wrapper wrap(worldname);
+                    utf8_wrapper newtext( ev.text );
+                    if( ch == KEY_BACKSPACE ) {
+                        if (!wrap.empty()) {
+                            wrap.erase(wrap.length() - 1, 1);
+                            worldname = wrap.str();
+                        }
+                    } else if(ch == KEY_F(2)) {
+                        std::string tmp = get_input_string_from_file();
+                        int tmplen = utf8_width( tmp );
+                        if(tmplen > 0 && tmplen + utf8_width(worldname) < 30) {
+                            worldname.append(tmp);
+                        }
+                    } else if( !newtext.empty() && is_char_allowed( newtext.at( 0 ) ) ) {
+                        // No empty string, no slash, no backslash, no control sequence
+                        wrap.append( newtext );
                         worldname = wrap.str();
                     }
-                } else if(ch == KEY_F(2)) {
-                    std::string tmp = get_input_string_from_file();
-                    int tmplen = utf8_width( tmp );
-                    if(tmplen > 0 && tmplen + utf8_width(worldname) < 30) {
-                        worldname.append(tmp);
-                    }
-                } else if( !newtext.empty() && is_char_allowed( newtext.at( 0 ) ) ) {
-                    // No empty string, no slash, no backslash, no control sequence
-                    wrap.append( newtext );
-                    worldname = wrap.str();
+                    mvwprintz(w_confirmation, namebar_y, namebar_x, c_ltgray, line_of_32_underscores);
+                    mvwprintz(w_confirmation, namebar_y, namebar_x, c_ltgray, "%s", worldname.c_str());
+                    wprintz(w_confirmation, h_ltgray, "_");
                 }
-                mvwprintz(w_confirmation, namebar_y, namebar_x, c_ltgray, line_of_32_underscores);
-                mvwprintz(w_confirmation, namebar_y, namebar_x, c_ltgray, "%s", worldname.c_str());
-                wprintz(w_confirmation, h_ltgray, "_");
-            }
-            break;
+                break;
             }
         }
     } while (true);

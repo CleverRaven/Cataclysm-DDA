@@ -29,7 +29,7 @@ int djb2_hash(const unsigned char *input);
  * \code random_entry( vect, std::string("default") ); \endcode
  */
 template<typename C, typename D, typename V = typename C::value_type>
-inline V random_entry( const C& container, D default_value )
+inline V random_entry( const C &container, D default_value )
 {
     if( container.empty() ) {
         return default_value;
@@ -44,7 +44,7 @@ inline V random_entry( const C& container, D default_value )
  * (statically allocated and therefor always valid) default value.
  */
 template<typename C, typename V = typename C::value_type>
-inline const V& random_entry( const C& container )
+inline const V & random_entry( const C &container )
 {
     if( container.empty() ) {
         static const V default_value = V();
@@ -59,7 +59,7 @@ inline const V& random_entry( const C& container )
  * The container must not be empty!
  */
 template<typename C, typename V = typename C::value_type>
-inline V random_entry_removed( C& container )
+inline V random_entry_removed( C &container )
 {
     auto iter = container.begin();
     std::advance( iter, rng( 0, container.size() - 1 ) );

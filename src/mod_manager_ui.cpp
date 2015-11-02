@@ -45,12 +45,12 @@ void mod_ui::set_usable_mods()
 
     for( auto modinfo : mods ) {
         switch(modinfo->_type) {
-        case MT_CORE:
-            available_cores.push_back(modinfo->ident);
-            break;
-        case MT_SUPPLEMENTAL:
-            available_supplementals.push_back(modinfo->ident);
-            break;
+            case MT_CORE:
+                available_cores.push_back(modinfo->ident);
+                break;
+            case MT_SUPPLEMENTAL:
+                available_supplementals.push_back(modinfo->ident);
+                break;
         }
     }
     std::vector<std::string>::iterator it = ordered_mods.begin();

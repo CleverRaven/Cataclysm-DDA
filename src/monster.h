@@ -36,20 +36,20 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         friend class editmap;
     public:
         monster();
-        monster( const mtype_id& id );
-        monster( const mtype_id& id, const tripoint &pos );
+        monster( const mtype_id &id );
+        monster( const mtype_id &id, const tripoint &pos );
         monster(const monster &) = default;
         monster(monster &&) = default;
         virtual ~monster() override;
         monster &operator=(const monster &) = default;
-        monster &operator=(monster &&) = default;
+        monster &operator=(monster && ) = default;
 
         virtual bool is_monster() const override
         {
             return true;
         }
 
-        void poly( const mtype_id& id );
+        void poly( const mtype_id &id );
         bool can_upgrade();
         void hasten_upgrade();
         void try_upgrade(bool pin_time);
@@ -217,7 +217,7 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         Attitude attitude_to( const Creature &other ) const override;
         void process_triggers(); // Process things that anger/scare us
         void process_trigger(monster_trigger trig, int amount); // Single trigger
-        int trigger_sum( const std::set<monster_trigger>& triggers ) const;
+        int trigger_sum( const std::set<monster_trigger> &triggers ) const;
 
         bool is_underwater() const override;
         bool is_on_ground() const override;
@@ -225,7 +225,7 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         bool has_weapon() const override;
         bool is_dead_state() const override; // check if we should be dead or not
         bool is_elec_immune() const override;
-        bool is_immune_effect( const efftype_id& ) const override;
+        bool is_immune_effect( const efftype_id &) const override;
         bool is_immune_damage( const damage_type ) const override;
 
         void absorb_hit(body_part bp, damage_instance &dam) override;
@@ -235,7 +235,8 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         void melee_attack(Creature &p, bool allow_special, const matec_id &force_technique) override;
         virtual int deal_melee_attack(Creature *source, int hitroll) override;
         virtual void deal_projectile_attack( Creature *source, dealt_projectile_attack &attack ) override;
-        virtual void deal_damage_handle_type(const damage_unit &du, body_part bp, int &damage, int &pain) override;
+        virtual void deal_damage_handle_type(const damage_unit &du, body_part bp, int &damage,
+                                             int &pain) override;
         void apply_damage(Creature *source, body_part bp, int amount) override;
         // create gibs/meat chunks/blood etc all over the place, does not kill, can be called on a dead monster.
         void explode();
@@ -283,7 +284,7 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         void on_dodge( Creature *source, int difficulty = INT_MIN ) override;
         // Something hit us (possibly null source)
         void on_hit( Creature *source, body_part bp_hit = num_bp,
-                     int difficulty = INT_MIN, dealt_projectile_attack const* const proj = nullptr ) override;
+                     int difficulty = INT_MIN, dealt_projectile_attack const *const proj = nullptr ) override;
         // Get torso - monsters don't have body parts (yet?)
         body_part get_random_body_part( bool main ) const override;
 
@@ -306,7 +307,7 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         bool make_fungus();
         void make_friendly();
         /** Makes this monster an ally of the given monster. */
-        void make_ally(monster* z);
+        void make_ally(monster *z);
         void add_item(item it);     // Add an item to inventory
 
         /**
@@ -325,7 +326,8 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         void add_msg_if_npc(const char *msg, ...) const override;
         void add_msg_if_npc(game_message_type type, const char *msg, ...) const override;
         void add_msg_player_or_npc(const char *, const char *npc_str, ...) const override;
-        void add_msg_player_or_npc(game_message_type type, const char *, const char *npc_str, ...) const override;
+        void add_msg_player_or_npc(game_message_type type, const char *, const char *npc_str,
+                                   ...) const override;
 
         // TEMP VALUES
         tripoint wander_pos; // Wander destination - Just try to move in that direction

@@ -142,7 +142,7 @@ void DebugFile::init( std::string filename )
     currentTime() << " : Starting log.";
     if( rename_failed ) {
         DebugLog( D_ERROR, DC_ALL ) << "Moving the previous log file to " << oldfile << " failed.\n" <<
-                                       "Check the file permissions. This program will continue to use the previous log file.";
+                                    "Check the file permissions. This program will continue to use the previous log file.";
     }
 }
 
@@ -254,7 +254,8 @@ struct time_info {
     int mseconds;
 
     template <typename Stream>
-    friend Stream& operator<<(Stream& out, time_info const& t) {
+    friend Stream &operator<<(Stream &out, time_info const &t)
+    {
         using char_t = typename Stream::char_type;
         using base   = std::basic_ostream<char_t>;
 
@@ -273,7 +274,8 @@ time_info get_time() noexcept {
     GetLocalTime(&time);
 
     return time_info { static_cast<int>(time.wHour), static_cast<int>(time.wMinute),
-            static_cast<int>(time.wSecond), static_cast<int>(time.wMilliseconds) };
+                       static_cast<int>(time.wSecond), static_cast<int>(time.wMilliseconds)
+                     };
 }
 #else
 time_info get_time() noexcept {
@@ -284,7 +286,8 @@ time_info get_time() noexcept {
     auto const current = localtime( &tt );
 
     return time_info { current->tm_hour, current->tm_min, current->tm_sec,
-            static_cast<int>(tv.tv_usec / 1000.0 + 0.5) };
+                       static_cast<int>(tv.tv_usec / 1000.0 + 0.5)
+                     };
 }
 #endif
 

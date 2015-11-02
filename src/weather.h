@@ -88,7 +88,8 @@ struct weather_printable {
  * Environmental effects and ramifications of weather.
  * Visibility range changes are done elsewhere.
  */
-namespace weather_effect {
+namespace weather_effect
+{
 void none       (); //!< Fallback weather.
 void glare      ();
 void wet        ();
@@ -119,9 +120,9 @@ struct weather_sum {
     float sunlight = 0.0f;
 };
 
-std::string const& season_name(int season);
-std::string const& season_name_upper(int season);
-weather_datum const& weather_data(weather_type type);
+std::string const &season_name(int season);
+std::string const &season_name_upper(int season);
+weather_datum const &weather_data(weather_type type);
 
 std::string weather_forecast( point const &abs_sm_pos );
 
@@ -151,7 +152,8 @@ weather_sum sum_conditions( const calendar &startturn,
  * by the @ref map, but absolute).
  * @param tr The funnel (trap which acts as a funnel).
  */
-void retroactively_fill_from_funnel( item &it, const trap &tr, const calendar &endturn, const tripoint &pos);
+void retroactively_fill_from_funnel( item &it, const trap &tr, const calendar &endturn,
+                                     const tripoint &pos);
 
 double funnel_charges_per_turn( double surface_area_mm2, double rain_depth_mm_per_hour );
 

@@ -41,7 +41,7 @@ uimenu::uimenu()
 }
 
 // here we emulate the old int ret=menu(bool, "header", "option1", "option2", ...);
-uimenu::uimenu(bool, const char * const mes, ...)
+uimenu::uimenu(bool, const char *const mes, ...)
 {
     init();
     va_list ap;
@@ -611,7 +611,8 @@ void uimenu::show()
                 // cases printeing starts at pad_left+1, here it starts at pad_left+4, so 3 cells less
                 // to be used.
                 const auto entry = utf8_wrapper( entries[ ei ].txt );
-                trim_and_print( window, estart + si, pad_left + 4, w_width - 2 - pad_left - pad_right, co, "%s", entry.c_str() );
+                trim_and_print( window, estart + si, pad_left + 4, w_width - 2 - pad_left - pad_right, co, "%s",
+                                entry.c_str() );
             }
             if ( !entries[ei].extratxt.txt.empty() ) {
                 mvwprintz( window, estart + si, pad_left + 1 + entries[ ei ].extratxt.left,
@@ -644,7 +645,7 @@ void uimenu::show()
             }
         }
 
-        if( static_cast<size_t>( selected ) < entries.size() ){
+        if( static_cast<size_t>( selected ) < entries.size() ) {
             fold_and_print( window, w_height - desc_lines - 1, 2, w_width - 4, text_color,
                             entries[selected].desc );
         }
@@ -887,11 +888,13 @@ pointmenu_cb::pointmenu_cb( const std::vector< tripoint > &pts ) : points( pts )
     last_view = g->u.view_offset;
 }
 
-void pointmenu_cb::select( int /*num*/, uimenu * /*menu*/ ) {
+void pointmenu_cb::select( int /*num*/, uimenu * /*menu*/ )
+{
     g->u.view_offset = last_view;
 }
 
-void pointmenu_cb::refresh( uimenu *menu ) {
+void pointmenu_cb::refresh( uimenu *menu )
+{
     if( last == menu->selected ) {
         return;
     }

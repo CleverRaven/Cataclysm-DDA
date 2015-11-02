@@ -88,7 +88,8 @@ class wish_mutate_callback: public uimenu_callback
                 line2++;
                 mvwprintz(menu->window, line2, startx, c_ltgray, _("Prereqs:"));
                 for (auto &j : mdata.prereqs) {
-                    mvwprintz(menu->window, line2, startx + 11, mcolor(j), "%s", mutation_branch::get_name( j ).c_str());
+                    mvwprintz(menu->window, line2, startx + 11, mcolor(j), "%s",
+                              mutation_branch::get_name( j ).c_str());
                     line2++;
                 }
             }
@@ -97,7 +98,8 @@ class wish_mutate_callback: public uimenu_callback
                 line2++;
                 mvwprintz(menu->window, line2, startx, c_ltgray, _("Prereqs, 2d:"));
                 for (auto &j : mdata.prereqs2) {
-                    mvwprintz(menu->window, line2, startx + 15, mcolor(j), "%s", mutation_branch::get_name( j ).c_str());
+                    mvwprintz(menu->window, line2, startx + 15, mcolor(j), "%s",
+                              mutation_branch::get_name( j ).c_str());
                     line2++;
                 }
             }
@@ -106,7 +108,8 @@ class wish_mutate_callback: public uimenu_callback
                 line2++;
                 mvwprintz(menu->window, line2, startx, c_ltgray, _("Thresholds required:"));
                 for (auto &j : mdata.threshreq) {
-                    mvwprintz(menu->window, line2, startx + 21, mcolor(j), "%s", mutation_branch::get_name( j ).c_str());
+                    mvwprintz(menu->window, line2, startx + 21, mcolor(j), "%s",
+                              mutation_branch::get_name( j ).c_str());
                     line2++;
                 }
             }
@@ -115,7 +118,8 @@ class wish_mutate_callback: public uimenu_callback
                 line2++;
                 mvwprintz(menu->window, line2, startx, c_ltgray, _("Cancels:"));
                 for (auto &j : mdata.cancels) {
-                    mvwprintz(menu->window, line2, startx + 11, mcolor(j), "%s", mutation_branch::get_name( j ).c_str());
+                    mvwprintz(menu->window, line2, startx + 11, mcolor(j), "%s",
+                              mutation_branch::get_name( j ).c_str());
                     line2++;
                 }
             }
@@ -124,7 +128,8 @@ class wish_mutate_callback: public uimenu_callback
                 line2++;
                 mvwprintz(menu->window, line2, startx, c_ltgray, _("Becomes:"));
                 for (auto &j : mdata.replacements) {
-                    mvwprintz(menu->window, line2, startx + 11, mcolor(j), "%s", mutation_branch::get_name( j ).c_str());
+                    mvwprintz(menu->window, line2, startx + 11, mcolor(j), "%s",
+                              mutation_branch::get_name( j ).c_str());
                     line2++;
                 }
             }
@@ -133,7 +138,8 @@ class wish_mutate_callback: public uimenu_callback
                 line2++;
                 mvwprintz(menu->window, line2, startx, c_ltgray, _("Add-ons:"));
                 for (auto &j : mdata.additions) {
-                    mvwprintz(menu->window, line2, startx + 11, mcolor(j), "%s", mutation_branch::get_name( j ).c_str());
+                    mvwprintz(menu->window, line2, startx + 11, mcolor(j), "%s",
+                              mutation_branch::get_name( j ).c_str());
                     line2++;
                 }
             }
@@ -269,12 +275,12 @@ class wish_monster_callback: public uimenu_callback
         monster tmp;           // scrap critter for monster::print_info
         bool started;          // if unset, initialize window
         std::string padding;   // ' ' x window width
-        const std::vector<const mtype*> &mtypes;
+        const std::vector<const mtype *> &mtypes;
 
-        wish_monster_callback( const std::vector<const mtype*>& mtypes )
-        : msg("")
-        , padding("")
-        , mtypes( mtypes )
+        wish_monster_callback( const std::vector<const mtype *> &mtypes )
+            : msg("")
+            , padding("")
+            , mtypes( mtypes )
         {
             started = false;
             friendly = false;
@@ -307,7 +313,7 @@ class wish_monster_callback: public uimenu_callback
             } else if( key == 'h' ) {
                 hallucination = !hallucination;
                 return true;
-            } else if( key == 'd' && group !=0  ) {
+            } else if( key == 'd' && group != 0  ) {
                 group--;
                 return true;
             }
@@ -333,7 +339,7 @@ class wish_monster_callback: public uimenu_callback
             tmp.print_info( w_info, 2, 5, 1 );
 
             std::string header = string_format("#%d: %s (%d)%s", entnum, tmp.type->nname().c_str(),
-                                 group, (hallucination ? _(" (hallucination)") : ""));
+                                               group, (hallucination ? _(" (hallucination)") : ""));
             mvwprintz(w_info, 0, ( getmaxx(w_info) - header.size() ) / 2, c_cyan, "%s",
                       header.c_str());
 
@@ -359,7 +365,7 @@ class wish_monster_callback: public uimenu_callback
 
 void game::wishmonster( const tripoint &p )
 {
-    std::vector<const mtype*> mtypes;
+    std::vector<const mtype *> mtypes;
 
     uimenu wmenu;
     wmenu.w_x = 0;
@@ -528,7 +534,8 @@ void game::wishskill(player *p)
 
     for (auto const &s : Skill::skills) {
         auto const level = static_cast<int>(p->skillLevel(s));
-        skmenu.addentry( origskills.size() + skoffset, true, -2, _( "@ %d: %s  " ), level, s.name().c_str() );
+        skmenu.addentry( origskills.size() + skoffset, true, -2, _( "@ %d: %s  " ), level,
+                         s.name().c_str() );
         origskills.push_back(level);
     }
 

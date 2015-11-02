@@ -144,23 +144,23 @@ class Creature
         /** Make a single melee attack with the currently equipped weapon against the targeted
          *  creature. Should always be overwritten by the appropriate player/NPC/monster function. */
         virtual void melee_attack(Creature &t, bool allow_special,
-                                  const matec_id & technique) = 0;
+                                  const matec_id &technique) = 0;
         /**
          * Calls the to other melee_attack function with an empty technique id (meaning no specific
          * technique should be used).
          */
         void melee_attack(Creature &t, bool allow_special);
 
-        /** 
+        /**
          *  Fires a projectile at the target point from the source point with total_dispersion
          *  dispersion.
          *  Returns the rolled dispersion of the shot and the actually hit point.
          */
         dealt_projectile_attack projectile_attack( const projectile &proj, const tripoint &source,
-                                                   const tripoint &target, double total_dispersion );
+                const tripoint &target, double total_dispersion );
         /** Overloaded version that assumes the projectile comes from this Creature's postion. */
         dealt_projectile_attack projectile_attack( const projectile &proj, const tripoint &target,
-                                                   double total_dispersion );
+                double total_dispersion );
 
         // handles dodges and misses, allowing triggering of martial arts counter
         virtual void dodge_hit(Creature *source, int hit_spread) = 0;
@@ -218,7 +218,7 @@ class Creature
          * Players should train dodge, possibly counter-attack somehow.
          */
         virtual void on_hit( Creature *source, body_part bp_hit = num_bp,
-                             int difficulty = INT_MIN, dealt_projectile_attack const* const proj = nullptr ) = 0;
+                             int difficulty = INT_MIN, dealt_projectile_attack const *const proj = nullptr ) = 0;
 
         virtual bool digging() const;      // MF_DIGS or MF_CAN_DIG and diggable terrain
         virtual bool is_on_ground() const = 0;
@@ -497,11 +497,11 @@ class Creature
         Creature(const Creature &) = default;
         Creature(Creature &&) = default;
         Creature &operator=(const Creature &) = default;
-        Creature &operator=(Creature &&) = default;
+        Creature &operator=(Creature && ) = default;
 
- public:
+    public:
         body_part select_body_part(Creature *source, int hit_roll) const;
- protected:
+    protected:
         /**
          * This function replaces the "<npcname>" substring with the provided NPC name.
          *

@@ -138,24 +138,24 @@ material_type *material_type::base_material()
 int material_type::dam_resist(damage_type damtype) const
 {
     switch (damtype) {
-    case DT_BASH:
-        return _bash_resist;
-        break;
-    case DT_CUT:
-        return _cut_resist;
-        break;
-    case DT_ACID:
-        return _acid_resist;
-        break;
-    case DT_ELECTRIC:
-        return _elec_resist;
-        break;
-    case DT_HEAT:
-        return _fire_resist;
-        break;
-    default:
-        return 0;
-        break;
+        case DT_BASH:
+            return _bash_resist;
+            break;
+        case DT_CUT:
+            return _cut_resist;
+            break;
+        case DT_ACID:
+            return _acid_resist;
+            break;
+        case DT_ELECTRIC:
+            return _elec_resist;
+            break;
+        case DT_HEAT:
+            return _fire_resist;
+            break;
+        default:
+            return 0;
+            break;
     }
 }
 

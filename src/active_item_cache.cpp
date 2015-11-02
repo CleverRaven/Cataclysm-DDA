@@ -2,14 +2,15 @@
 
 void active_item_cache::remove( std::list<item>::iterator it, point location )
 {
-    active_items[it->processing_speed()].remove_if( [&] (const item_reference &active_item) {
-            return location == active_item.location && active_item.item_iterator == it; } );
+    active_items[it->processing_speed()].remove_if( [&] (const item_reference & active_item) {
+        return location == active_item.location && active_item.item_iterator == it;
+    } );
     active_item_set.erase( &*it );
 }
 
 void active_item_cache::add( std::list<item>::iterator it, point location )
 {
-    active_items[it->processing_speed()].push_back( item_reference{ location, it, &*it } );
+    active_items[it->processing_speed()].push_back( item_reference { location, it, &*it } );
     active_item_set.insert( &*it );
 }
 

@@ -259,7 +259,8 @@ void inventory_selector::print_inv_weight_vol(int weight_carried, int vol_carrie
     } else {
         weight_color = c_ltgray;
     }
-    wprintz(w_inv, weight_color, "%6.1f", g->u.convert_weight(weight_carried) + 0.05 ); // +0.05 to round up;
+    wprintz(w_inv, weight_color, "%6.1f",
+            g->u.convert_weight(weight_carried) + 0.05 ); // +0.05 to round up;
     wprintz(w_inv, c_ltgray, "/%-6.1f", g->u.convert_weight(g->u.weight_capacity()));
 
     // Print volume
@@ -362,7 +363,8 @@ void inventory_selector::print_right_column() const
             item_name = string_format("# %s {%d}", item_name.c_str(), dit->second);
         }
         const char invlet = invlet_or_space(u.weapon);
-        trim_and_print(w_inv, drp_line, right_column_offset, right_column_width - 4, c_ltblue, "%c %s", invlet, item_name.c_str());
+        trim_and_print(w_inv, drp_line, right_column_offset, right_column_width - 4, c_ltblue, "%c %s",
+                       invlet, item_name.c_str());
         drp_line++;
     }
     auto iter = u.worn.begin();
@@ -372,7 +374,8 @@ void inventory_selector::print_right_column() const
             continue;
         }
         const char invlet = invlet_or_space(*iter);
-        trim_and_print(w_inv, drp_line, right_column_offset, right_column_width - 4, c_cyan, "%c + %s", invlet, iter->display_name().c_str());
+        trim_and_print(w_inv, drp_line, right_column_offset, right_column_width - 4, c_cyan, "%c + %s",
+                       invlet, iter->display_name().c_str());
         drp_line++;
     }
     for( const auto &elem : dropping ) {
@@ -395,7 +398,8 @@ void inventory_selector::print_right_column() const
         } else {
             item_name = string_format("# %s {%d}", item_name.c_str(), count);
         }
-        trim_and_print(w_inv, drp_line, right_column_offset, right_column_width - 2, col, "%c %s", invlet, item_name.c_str());
+        trim_and_print(w_inv, drp_line, right_column_offset, right_column_width - 2, col, "%c %s", invlet,
+                       item_name.c_str());
         drp_line++;
     }
 }
@@ -677,7 +681,7 @@ void inventory_selector::set_to_drop(int it_pos, int count)
         // because it must get a direct reference to weapon.
         set_drop_count(it_pos, count, u.weapon);
     } else if (it_pos < -1) { // worn
-        item& armor = u.i_at( it_pos );
+        item &armor = u.i_at( it_pos );
         if( armor.is_null() ) {
             return; // invalid it_pos -> ignore
         }
@@ -769,7 +773,8 @@ void inventory_selector::remove_dropping_items( player &u ) const
     }
 }
 
-int game::display_slice(indexed_invslice const &slice, const std::string &title, bool show_worn, const int position)
+int game::display_slice(indexed_invslice const &slice, const std::string &title, bool show_worn,
+                        const int position)
 {
     inventory_selector inv_s(false, false, title);
     inv_s.make_item_list(slice);
@@ -812,7 +817,8 @@ int game::inv_activatable(std::string const &title)
     return display_slice(activatables, title);
 }
 
-int game::inv_for_liquid(const item &liquid, const std::string &title, bool const auto_choose_single)
+int game::inv_for_liquid(const item &liquid, const std::string &title,
+                         bool const auto_choose_single)
 {
     u.inv.restack(&u);
     u.inv.sort();
@@ -826,7 +832,7 @@ int game::inv_for_liquid(const item &liquid, const std::string &title, bool cons
     return display_slice(reduced_inv, title);
 }
 
-int game::inv_for_salvage(const std::string &title, const salvage_actor& actor )
+int game::inv_for_salvage(const std::string &title, const salvage_actor &actor )
 {
     u.inv.restack(&u);
     u.inv.sort();
@@ -883,7 +889,8 @@ item_location game::inv_map_splice( item_filter filter, const std::string &title
 }
 
 item_location game::inv_map_splice(
-    item_filter inv_filter, item_filter ground_filter, item_filter vehicle_filter, const std::string &title )
+    item_filter inv_filter, item_filter ground_filter, item_filter vehicle_filter,
+    const std::string &title )
 {
     char cur_invlet = '0';
 
@@ -992,14 +999,15 @@ item_location game::inv_map_splice(
 
 item *game::inv_map_for_liquid(const item &liquid, const std::string &title)
 {
-    auto filter = [&]( const item &candidate ) {
+    auto filter = [&]( const item & candidate ) {
         return candidate.get_remaining_capacity_for_liquid( liquid ) > 0;
     };
 
     return inv_map_splice( filter, title ).get_item();
 }
 
-int game::inv_for_flag(const std::string &flag, const std::string &title, bool const auto_choose_single)
+int game::inv_for_flag(const std::string &flag, const std::string &title,
+                       bool const auto_choose_single)
 {
     u.inv.restack(&u);
     u.inv.sort();
@@ -1032,7 +1040,7 @@ int game::inv_for_unequipped(std::string const &title, const item_filter filter)
 int inventory::num_items_at_position( int const position )
 {
     if( position < -1 ) {
-        const item& armor = g->u.i_at( position );
+        const item &armor = g->u.i_at( position );
         return armor.count_by_charges() ? armor.charges : 1;
     } else if( position == -1 ) {
         return g->u.weapon.count_by_charges() ? g->u.weapon.charges : 1;
@@ -1040,7 +1048,7 @@ int inventory::num_items_at_position( int const position )
         const std::list<item> &stack = g->u.inv.const_stack(position);
         if( stack.size() == 1 ) {
             return stack.front().count_by_charges() ?
-                stack.front().charges : 1;
+                   stack.front().charges : 1;
         } else {
             return stack.size();
         }

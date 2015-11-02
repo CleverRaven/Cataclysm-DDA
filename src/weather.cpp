@@ -55,7 +55,7 @@ int get_rot_since( const int startturn, const int endturn, const tripoint &locat
     // Ensure food doesn't rot in ice labs, where the
     // temperature is much less than the weather specifies.
     tripoint const omt_pos = overmapbuffer::ms_to_omt_copy( location );
-    oter_id const & oter = overmap_buffer.ter( omt_pos );
+    oter_id const &oter = overmap_buffer.ter( omt_pos );
     // TODO: extract this into a property of the overmap terrain
     if (is_ot_type("ice_lab", oter)) {
         return 0;
@@ -73,22 +73,22 @@ inline void proc_weather_sum( const weather_type wtype, weather_sum &data,
                               const calendar &turn, const int tick_size )
 {
     switch( wtype ) {
-    case WEATHER_DRIZZLE:
-        data.rain_amount += 4;
-        break;
-    case WEATHER_RAINY:
-    case WEATHER_THUNDER:
-    case WEATHER_LIGHTNING:
-        data.rain_amount += 8;
-        break;
-    case WEATHER_ACID_DRIZZLE:
-        data.acid_amount += 4;
-        break;
-    case WEATHER_ACID_RAIN:
-        data.acid_amount += 8;
-        break;
-    default:
-        break;
+        case WEATHER_DRIZZLE:
+            data.rain_amount += 4;
+            break;
+        case WEATHER_RAINY:
+        case WEATHER_THUNDER:
+        case WEATHER_LIGHTNING:
+            data.rain_amount += 8;
+            break;
+        case WEATHER_ACID_DRIZZLE:
+            data.acid_amount += 4;
+            break;
+        case WEATHER_ACID_RAIN:
+            data.acid_amount += 8;
+            break;
+        default:
+            break;
     }
 
     // TODO: Change this calendar::sunlight "sampling" here into a proper interpolation
@@ -630,7 +630,7 @@ std::string print_pressure(float pressure, int decimals)
     ret.precision(decimals);
     ret << std::fixed;
 
-    ret << pressure/10;
+    ret << pressure / 10;
     return rmp_format(_("%s kPa"), ret.str().c_str());
 }
 

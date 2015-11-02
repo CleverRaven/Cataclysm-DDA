@@ -125,7 +125,8 @@ class effect : public JsonSerializer, public JsonDeserializer
             intensity(1),
             start_turn(0)
         { }
-        effect(effect_type *peff_type, int dur, body_part part, bool perm, int nintensity, int nstart_turn) :
+        effect(effect_type *peff_type, int dur, body_part part, bool perm, int nintensity,
+               int nstart_turn) :
             eff_type(peff_type),
             duration(dur),
             bp(part),
@@ -149,7 +150,8 @@ class effect : public JsonSerializer, public JsonDeserializer
         /** Decays effect durations, pushing their id and bp's back to rem_ids and rem_bps for removal later
          *  if their duration is <= 0. This is called in the middle of a loop through all effects, which is
          *  why we aren't allowed to remove the effects here. */
-        void decay(std::vector<std::string> &rem_ids, std::vector<body_part> &rem_bps, unsigned int turn, bool player);
+        void decay(std::vector<std::string> &rem_ids, std::vector<body_part> &rem_bps, unsigned int turn,
+                   bool player);
 
         /** Returns the remaining duration of an effect. */
         int get_duration() const;
@@ -211,7 +213,8 @@ class effect : public JsonSerializer, public JsonDeserializer
         double get_percentage(std::string arg, int val, bool reduced = false) const;
         /** Checks to see if a given modifier type can activate, and performs any rolls required to do so. mod is a direct
          *  multiplier on the overall chance of a modifier type activating. */
-        bool activated(unsigned int turn, std::string arg, int val, bool reduced = false, double mod = 1) const;
+        bool activated(unsigned int turn, std::string arg, int val, bool reduced = false,
+                       double mod = 1) const;
 
         /** Returns the modifier caused by addictions. Currently only handles painkiller addictions. */
         double get_addict_mod(std::string arg, int addict_level) const;

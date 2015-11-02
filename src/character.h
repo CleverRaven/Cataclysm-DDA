@@ -193,13 +193,13 @@ class Character : public Creature
         // Returns color which this limb would have in healing menus
         nc_color limb_color( body_part bp, bool bleed, bool bite, bool infect ) const;
 
- private:
+    private:
         /** Retrieves a stat mod of a mutation. */
         int get_mod(std::string mut, std::string arg) const;
- protected:
+    protected:
         /** Applies stat mods to character. */
         void apply_mods(const std::string &mut, bool add_remove);
- public:
+    public:
         /** Handles things like destruction of armor, etc. */
         void mutation_effect(std::string mut);
         /** Handles what happens when you lose a mutation. */
@@ -217,7 +217,8 @@ class Character : public Creature
 
         struct has_mission_item_filter {
             int mission_id;
-            bool operator()(const item &it) {
+            bool operator()(const item &it)
+            {
                 return it.mission_id == mission_id;
             }
         };
@@ -413,14 +414,14 @@ class Character : public Creature
         bool worn_with_flag( std::string flag ) const;
 
         // --------------- Skill Stuff ---------------
-        SkillLevel &skillLevel(const Skill* _skill);
+        SkillLevel &skillLevel(const Skill *_skill);
         SkillLevel &skillLevel(Skill const &_skill);
         SkillLevel &skillLevel(const skill_id &ident);
 
         /** for serialization */
-        SkillLevel const& get_skill_level(const Skill* _skill) const;
-        SkillLevel const& get_skill_level(const Skill &_skill) const;
-        SkillLevel const& get_skill_level(const skill_id &ident) const;
+        SkillLevel const &get_skill_level(const Skill *_skill) const;
+        SkillLevel const &get_skill_level(const Skill &_skill) const;
+        SkillLevel const &get_skill_level(const skill_id &ident) const;
 
         // --------------- Other Stuff ---------------
 
@@ -483,7 +484,7 @@ class Character : public Creature
         Character(const Character &) = default;
         Character(Character &&) = default;
         Character &operator=(const Character &) = default;
-        Character &operator=(Character &&) = default;
+        Character &operator=(Character && ) = default;
         struct trait_data : public JsonSerializer, public JsonDeserializer {
             /** Key to select the mutation in the UI. */
             char key = ' ';
@@ -531,7 +532,7 @@ class Character : public Creature
         /** Needs (hunger, thirst, fatigue, etc.) */
         int hunger, stomach_food, stomach_water;
 
-        std::map<const Skill*, SkillLevel> _skills;
+        std::map<const Skill *, SkillLevel> _skills;
 
         // Cached vision values.
         std::bitset<NUM_VISION_MODES> vision_mode_cache;
