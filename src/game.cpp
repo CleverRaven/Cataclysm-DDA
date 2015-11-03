@@ -2295,21 +2295,17 @@ bool game::handle_action()
 
     int before_action_moves = u.moves;
 
-    // Use to track if auto-move should be canceled due to a failed
-    // move or obstacle
-    bool continue_auto_move = false;
-
     // quit prompt check (ACTION_QUIT only grabs 'Q')
     if(uquit == QUIT_WATCH && action == "QUIT") {
         uquit = QUIT_DIED;
         return false;
     }
 
-    // I have split the switch(act) into two, so one can be done
-    // for the deathcam as well. It will still be run if you are
-    // alive, so no worries there. KA101 suggested (quite aptly)
-    // that the user should be able to look around, so this
-    // allows that. -Davek
+    // Use to track if auto-move should be canceled due to a failed
+    // move or obstacle
+    bool continue_auto_move = true;
+
+    // These actions are allowed while deathcam is active.
     if( uquit == QUIT_WATCH || !u.is_dead_state() ) {
         switch(act) {
         case ACTION_CENTER:
@@ -2948,7 +2944,6 @@ bool game::handle_action()
                 break;    //don't do anything when sharing and not debugger
             }
             debug();
-            continue_auto_move = true; // A small hack to help with route testing
             refresh_all();
             break;
 
@@ -2994,8 +2989,7 @@ bool game::handle_action()
             break;
         }
     }
-
-    if (!continue_auto_move) {
+    if( !continue_auto_move ) {
         u.clear_destination();
     }
 
@@ -8829,6 +8823,8 @@ tripoint game::look_around( WINDOW *w_info, const tripoint &start_point,
     ctxt.register_action("LIST_ITEMS");
     ctxt.register_action( "LEVEL_UP" );
     ctxt.register_action( "LEVEL_DOWN" );
+    ctxt.register_action( "TRAVEL_TO" );
+    ctxt.register_action( "HELP_KEYBINDINGS" );
 
     const int old_levz = get_levz();
 
@@ -9000,6 +8996,20 @@ tripoint game::look_around( WINDOW *w_info, const tripoint &start_point,
                 lp.z = new_levz;
                 refresh_all();
                 draw_ter( lp, true );
+            } else if( action == "TRAVEL_TO" ) {
+                if( !u.sees( lp ) ) {
+                    add_msg(_("You can't see that destination."));
+                    continue;
+                }
+                auto route = m.route( u.pos3(), lp, 0, 1000 );
+                if( route.size() > 1 ) {
+                    route.pop_back();
+                    u.set_destination( route );
+                } else {
+                    add_msg(m_info, _("You can't travel there."));
+                    continue;
+                }
+                return { INT_MIN, INT_MIN, INT_MIN };
             } else if (!ctxt.get_coordinates(w_terrain, lx, ly)) {
                 int dx, dy;
                 ctxt.get_direction(dx, dy, action);
@@ -9589,6 +9599,7 @@ int game::list_items(const int iLastState)
     ctxt.register_action("PRIORITY_INCREASE");
     ctxt.register_action("PRIORITY_DECREASE");
     ctxt.register_action("SORT");
+    ctxt.register_action("TRAVEL_TO");
 
     do {
         if (!ground_items.empty() || iLastState == 1) {
@@ -9670,6 +9681,18 @@ int game::list_items(const int iLastState)
                 refilter = true;
                 reset = true;
 
+            } else if( action == "TRAVEL_TO" ) {
+                if( !u.sees( u.pos3() + active_pos ) ) {
+                    add_msg(_("You can't see that destination."));
+                }
+                auto route = m.route( u.pos3(), u.pos3() + active_pos, 0, 1000 );
+                if( route.size() > 1 ) {
+                    route.pop_back();
+                    u.set_destination( route );
+                    break;
+                } else {
+                    add_msg(m_info, _("You can't travel there."));
+                }
             }
 
             if ( uistate.list_item_sort == 1 ) {
