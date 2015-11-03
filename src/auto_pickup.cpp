@@ -523,11 +523,11 @@ void auto_pickup::create_rules(const std::string &sItemNameIn)
                     mapItems[sItemNameIn] = "false";
                 }
             } else {
-                //Check exclude patterns against all itemfactory items
-                for( auto &p : item_controller->get_all_itypes() ) {
-                    sItemName = p.second->nname(1);
-                    if( elem.bActive && match( sItemName, elem.sRule ) ) {
-                        mapItems[sItemName] = "false";
+                //only re-exclude items from the existing mapping for now
+                //new exclusions will process during pickup attempts
+                for (auto iter = mapItems.begin(); iter != mapItems.end(); ++iter) {
+                    if( elem.bActive && match( iter->first, elem.sRule ) ) {
+                        mapItems[iter->first] = "false";
                     }
                 }
             }
