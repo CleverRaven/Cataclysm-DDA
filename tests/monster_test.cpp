@@ -19,7 +19,7 @@ std::ostream& operator << ( std::ostream& os, tripoint const& value ) {
     return os;
 }
 
-void wipe_map_terrain()
+static void wipe_map_terrain()
 {
     // Remove all the obstacles.
     const int mapsize = g->m.getmapsize() * SEEX;
@@ -30,7 +30,18 @@ void wipe_map_terrain()
     }
 }
 
-monster &spawn_test_monster( const std::string &monster_type, const tripoint &start )
+static void clear_map()
+{
+    wipe_map_terrain();
+    // Remove any interfering monsters.
+    while( g->num_zombies() ) {
+        g->remove_zombie( 0 );
+    }
+    // Make sure the player doesn't block the path of the monster being tested.
+    g->u.setpos( { 0, 0, -2 } );
+}
+
+static monster &spawn_test_monster( const std::string &monster_type, const tripoint &start )
 {
     monster temp_monster( mtype_id(monster_type), start);
     // Bypassing game::add_zombie() since it sometimes upgrades the monster instantly.
@@ -38,7 +49,7 @@ monster &spawn_test_monster( const std::string &monster_type, const tripoint &st
     return g->critter_tracker->find( 0 );
 }
 
-int moves_to_destination( const std::string &monster_type,
+static int moves_to_destination( const std::string &monster_type,
                           const tripoint &start, const tripoint &end )
 {
     REQUIRE( g->num_zombies() == 0 );
@@ -69,7 +80,7 @@ int moves_to_destination( const std::string &monster_type,
 /**
  * Simulate a player running from the monster, checking if it can catch up.
  **/
-int can_catch_player( const std::string &monster_type, const tripoint &direction_of_flight )
+static int can_catch_player( const std::string &monster_type, const tripoint &direction_of_flight )
 {
     REQUIRE( g->num_zombies() == 0 );
     player &test_player = g->u;
@@ -174,7 +185,7 @@ public:
 
 // Verify that the named monster has the expected effective speed, not reduced
 // due to wasted motion from shambling.
-void check_shamble_speed( const std::string monster_type, const tripoint &destination )
+static void check_shamble_speed( const std::string monster_type, const tripoint &destination )
 {
     // Scale the scaling factor based on the ratio of diagonal to cardinal steps.
     const float slope = get_normalized_angle( {0, 0}, {destination.x, destination.y} );
@@ -196,10 +207,10 @@ void check_shamble_speed( const std::string monster_type, const tripoint &destin
            Approx(1.0).epsilon(0.02) );
 }
 
-void test_moves_to_squares( std::string monster_type, bool write_data = false ) {
+static void test_moves_to_squares( std::string monster_type, bool write_data = false ) {
     std::map<int, statistics> turns_at_distance;
     std::map<int, statistics> turns_at_slope;
-    std::map<float, statistics> turns_at_angle;
+    std::map<int, statistics> turns_at_angle;
     // We want to check every square when generating a map, but for testing we can skip a lot for speed.
     const int test_resolution = write_data ? 1 : 4;
     for( int x = 0; x <= 100; x += test_resolution ) {
@@ -215,12 +226,12 @@ void test_moves_to_squares( std::string monster_type, bool write_data = false ) 
             const int rise = 50 - y;
             const int run = 50 - x;
             const float angle = atan2( run, rise );
-            turns_at_angle[angle].new_type();
+            turns_at_angle[angle * 100].new_type();
             turns_at_slope[slope].new_type();
             for( int i = 0; i < 50; ++i ) {
                 int moves = moves_to_destination( monster_type, {50, 50, 0}, {x, y, 0} );
                 turns_at_distance[distance].add( moves / (diagonal_multiplier * distance) );
-                turns_at_angle[angle].add( moves / (diagonal_multiplier * distance) );
+                turns_at_angle[angle * 100].add( moves / (diagonal_multiplier * distance) );
                 turns_at_slope[slope].add( moves / (diagonal_multiplier * distance) );
             }
         }
@@ -250,9 +261,7 @@ void test_moves_to_squares( std::string monster_type, bool write_data = false ) 
     }
 }
 
-void monster_check() {
-    // Make sure the player doesn't block the path of the monster being tested.
-    g->u.setpos( { 0, 0, -2 } );
+static void monster_check() {
     const float diagonal_multiplier = (OPTIONS["CIRCLEDIST"] ? 1.41 : 1.0);
     // Have a monster walk some distance in a direction and measure how long it takes.
     float vert_move = moves_to_destination( "mon_pig", {0,0,0}, {100,0,0} );
@@ -292,11 +301,7 @@ void monster_check() {
 
 // Write out a map of slope at which monster is moving to time required to reach their destination.
 TEST_CASE("write_slope_to_speed_map_trig", "[.]") {
-    wipe_map_terrain();
-    // Remove any interfering monsters.
-    while( g->num_zombies() ) {
-        g->remove_zombie( 0 );
-    }
+    clear_map();
     OPTIONS["CIRCLEDIST"].setValue("true");
     trigdist = true;
     test_moves_to_squares("mon_zombie_dog", true);
@@ -304,11 +309,7 @@ TEST_CASE("write_slope_to_speed_map_trig", "[.]") {
 }
 
 TEST_CASE("write_slope_to_speed_map_square", "[.]") {
-    wipe_map_terrain();
-    // Remove any interfering monsters.
-    while( g->num_zombies() ) {
-        g->remove_zombie( 0 );
-    }
+    clear_map();
     OPTIONS["CIRCLEDIST"].setValue("false");
     trigdist = false;
     test_moves_to_squares("mon_zombie_dog", true);
@@ -318,22 +319,14 @@ TEST_CASE("write_slope_to_speed_map_square", "[.]") {
 // Characterization test for monster movement speed.
 // It's not necessarally the one true speed for monsters, we just want notice if it changes.
 TEST_CASE("monster_speed_square") {
-    wipe_map_terrain();
-    // Remove any interfering monsters.
-    while( g->num_zombies() ) {
-        g->remove_zombie( 0 );
-    }
+    clear_map();
     OPTIONS["CIRCLEDIST"].setValue("false");
     trigdist = false;
     monster_check();
 }
 
 TEST_CASE("monster_speed_trig") {
-    wipe_map_terrain();
-    // Remove any interfering monsters.
-    while( g->num_zombies() ) {
-        g->remove_zombie( 0 );
-    }
+    clear_map();
     OPTIONS["CIRCLEDIST"].setValue("true");
     trigdist = true;
     monster_check();
