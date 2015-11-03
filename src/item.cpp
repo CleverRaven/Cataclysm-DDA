@@ -1993,7 +1993,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
     {
         food_type = dynamic_cast<const it_comest*>(type);
 
-        if (food_type->spoils != 0 || food_type->crafted_rotten)
+        if (food_type->spoils != 0 || crafted_rotten)
         {
             if(rotten()) {
                 ret << _(" (rotten)");
@@ -2468,7 +2468,7 @@ bool item::rotten() const
     if( comest != nullptr) {
         if (comest->spoils > 0 ) {
             return rot > comest->spoils;
-        } else if (comest->crafted_rotten) {
+        } else if (crafted_rotten) {
             return true;
         }
     }
