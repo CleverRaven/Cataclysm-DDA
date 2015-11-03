@@ -120,9 +120,6 @@
                 "   |-111-|     |-111-|  ",
                 "                        "
             ],
-            "place_item": [
-                { "item": "holy_symbol", "x": [ 12,12 ], "y": [ 9,9 ] }
-            ],
             "add": [
                 { "item": "holy_symbol",  "x": 12, "y": 9, "amount":1 }
             ],
