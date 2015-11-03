@@ -618,7 +618,7 @@ void mattack::resurrect(monster *z, int index)
             tmp.y = j;
             if (g->is_empty(tmp) && g->m.sees(z->pos3(), tmp, -1)) {
                 for( auto &i : g->m.i_at( tmp ) ) {
-                    if( i.is_corpse() && i.get_mtype()->has_flag(MF_REVIVES) &&
+                    if( i.is_corpse() && i.get_mtype()->has_flag(MF_CAN_RAISE) &&
                           i.get_mtype()->in_species( ZOMBIE ) ) {
                         corpses.push_back( std::make_pair(tmp, &i) );
                         break;
@@ -633,7 +633,7 @@ void mattack::resurrect(monster *z, int index)
         bool allies = false;
         for (size_t i = 0; i < g->num_zombies(); i++) {
             monster *zed = &g->zombie(i);
-            if( zed != z && zed->type->has_flag(MF_REVIVES) && zed->type->in_species( ZOMBIE ) &&
+            if( zed != z && zed->type->has_flag(MF_CAN_RAISE) && zed->type->in_species( ZOMBIE ) &&
                   z->attitude_to(*zed) == Creature::Attitude::A_FRIENDLY  &&
                   within_target_range(z, zed, 10)) {
                 allies = true;
