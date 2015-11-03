@@ -1654,6 +1654,7 @@ void player::complete_craft()
     float used_age_tally = 0;
     int used_age_count = 0;
     size_t newit_counter = 0;
+    bool crafted_rotten = false;
     for(item &newit : newits) {
         // messages, learning of recipe, food spoilage calc only once
         if (first) {
@@ -1679,10 +1680,15 @@ void player::complete_craft()
                 }
             }
 
+            crafted_rotten = false;
             for( auto &elem : used ) {
                 if( elem.goes_bad() ) {
                     used_age_tally += elem.get_relative_rot();
                     ++used_age_count;
+                }
+
+                if (elem.rotten() || elem.get_crafted_rotten()) {
+                    crafted_rotten = true;
                 }
             }
         }
@@ -1696,7 +1702,8 @@ void player::complete_craft()
             set_components( newit.components, used, batch_size, newit_counter );
             newit_counter++;
         }
-        finalize_crafted_item( newit, used_age_tally, used_age_count );
+        finalize_crafted_item( newit, used_age_tally, used_age_count, crafted_rotten );
+
         set_item_inventory(newit);
     }
 
@@ -1727,10 +1734,14 @@ void set_item_food(item &newit)
     }
 }
 
-void finalize_crafted_item( item &newit, float used_age_tally, int used_age_count )
+void finalize_crafted_item( item &newit, float used_age_tally, int used_age_count, bool crafted_rotten )
 {
     if( newit.is_food() ) {
         set_item_food( newit );
+
+        if ( crafted_rotten ) {
+            newit.set_crafted_rotten(crafted_rotten);
+        }
     }
     if( used_age_count > 0 && newit.goes_bad() ) {
         set_item_spoilage( newit, used_age_tally, used_age_count );

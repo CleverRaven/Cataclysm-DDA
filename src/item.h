@@ -438,6 +438,12 @@ public:
      * Whether the item will spoil at all.
      */
     bool goes_bad() const;
+    /**
+     * Whether the item was crafted with rotten ingredients
+     */
+    void set_crafted_rotten(bool cr) {
+        crafted_rotten = cr;
+    }
 private:
     /**
      * Accumulated rot of the item. This is compared to it_comest::spoils
@@ -448,7 +454,15 @@ private:
      * The turn when the rot calculation has been done the last time.
      */
     int last_rot_check;
+    /**
+     * Indicates that a crafted item, which has spoil = 0 (never rots), with rotten ingredients is still rotten
+     */
+    bool crafted_rotten;
 public:
+    bool get_crafted_rotten() const
+    {
+        return crafted_rotten;
+    }
     int get_rot() const
     {
         return rot;
@@ -627,7 +641,7 @@ public:
  bool is_software() const;
  bool is_var_veh_part() const;
  bool is_artifact() const;
- 
+
         bool is_dangerous() const; // Is it an active grenade or something similar that will hurt us?
 
         /**

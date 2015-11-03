@@ -1251,6 +1251,7 @@ void item::io( Archive& archive )
     archive.io( "fridge", fridge, 0 );
     archive.io( "rot", rot, 0 );
     archive.io( "last_rot_check", last_rot_check, 0 );
+    archive.io( "crafted_rotten", crafted_rotten, false );
     archive.io( "techniques", techniques, io::empty_default_tag() );
     archive.io( "item_tags", item_tags, io::empty_default_tag() );
     archive.io( "contents", contents, io::empty_default_tag() );
