@@ -856,7 +856,7 @@ void vehicle::smash_security_system(){
     }
 }
 
-void vehicle::use_controls()
+void vehicle::use_controls(const tripoint &pos_global)
 {
     uimenu menu;
     menu.return_invalid = true;
@@ -877,9 +877,19 @@ void vehicle::use_controls()
 
     bool has_electronic_controls = false;
 
-    for( size_t p = 0; p < parts.size(); p++ ) {
-        if (part_flag(p, "CTRL_ELECTRONIC")) {
-            has_electronic_controls = true;
+    if ( remotely_controlled ) {
+        for( size_t p = 0; p < parts.size(); ++p ) {
+            if (part_flag(p, "CTRL_ELECTRONIC")) {
+                has_electronic_controls = true;
+            }
+        }
+    } else {
+        //TODO: Global coords have to be converted to relative position before it will work
+        std::vector<int> parts_for_check = parts_at_relative( pos_global.x, pos_global.y);
+        for (size_t p = 0; p < parts_for_check.size(); ++p) {
+            if (part_flag(parts_for_check[p], "CTRL_ELECTRONIC")) {
+                has_electronic_controls = true;
+            }
         }
     }
 

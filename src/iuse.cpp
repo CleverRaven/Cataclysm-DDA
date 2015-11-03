@@ -329,9 +329,9 @@ static hp_part pick_part_to_heal( player *p, const std::string &menu_header,
         }
 
         if( p->hp_cur[healed_part] == 0 ) {
-            if( healed_part == hp_arm_l || healed_part == hp_arm_r ) { 
+            if( healed_part == hp_arm_l || healed_part == hp_arm_r ) {
                 add_msg( m_info, _("That arm is broken.  It needs surgical attention or a splint.") );
-            } else if( healed_part == hp_leg_l || healed_part == hp_leg_r ) { 
+            } else if( healed_part == hp_leg_l || healed_part == hp_leg_r ) {
                 add_msg( m_info, _("That leg is broken.  It needs surgical attention or a splint.") );
             } else {
                 add_msg( m_info, "That body part is bugged.  It needs developer's attention." );
@@ -8781,7 +8781,7 @@ int iuse::remoteveh(player *p, item *it, bool t, const tripoint &pos)
             veh->start_engines();
         }
     } else if( choice == 3 ) {
-        veh->use_controls();
+        veh->use_controls( pos );
     } else {
         return 0;
     }

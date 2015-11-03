@@ -375,7 +375,7 @@ public:
     void deserialize(JsonIn &jsin) override;
 
     // Operate vehicle
-    void use_controls();
+    void use_controls(const tripoint &pos);
 
     // Fold up the vehicle
     bool fold_up();
