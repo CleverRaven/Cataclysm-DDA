@@ -1633,6 +1633,7 @@ int game::inventory_item_menu(int pos, int iStartX, int iWidth, const inventory_
         addentry( 'W', _("wear"), u.rate_action_wear( oThisItem ) );
         addentry( 'w', _("wield"), HINT_GOOD );
         addentry( 't', _("throw"), HINT_GOOD );
+        addentry( 'c', _("change side"), u.rate_action_change_side( oThisItem ) );
         addentry( 'T', _("take off"), u.rate_action_takeoff( oThisItem ) );
         addentry( 'd', _("drop"), rate_drop_item );
         addentry( 'U', _("unload"), u.rate_action_unload( oThisItem ) );
@@ -1708,6 +1709,9 @@ int game::inventory_item_menu(int pos, int iStartX, int iWidth, const inventory_
                 break;
             case 't':
                 plthrow(pos);
+                break;
+            case 'c':
+                change_side(pos);
                 break;
             case 'T':
                 takeoff(pos);
@@ -11322,6 +11326,23 @@ void game::takeoff(int pos)
     }
 
     if (!u.takeoff(pos)) {
+        add_msg(m_info, _("Invalid selection."));
+    }
+}
+
+void game::change_side(int pos)
+{
+    if (pos == INT_MIN) {
+        auto filter = [this](const item &it) { return u.is_wearing_item(it); };
+        pos = inv_for_filter(_("Change side for item:"), filter);
+    }
+
+    if (pos == INT_MIN) {
+        add_msg(_("Never mind."));
+        return;
+    }
+
+    if (!u.change_side(pos)) {
         add_msg(m_info, _("Invalid selection."));
     }
 }

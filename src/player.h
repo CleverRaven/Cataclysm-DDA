@@ -672,6 +672,8 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         bool wear(int pos, bool interactive = true);
         /** Wear item; returns false on fail. If interactive is false, don't alert the player or drain moves on completion. */
         bool wear_item( const item &to_wear, bool interactive = true );
+        /** Swap side on which item is worn; returns false on fail. If interactive is false, don't alert player or drain moves */
+        bool change_side (int pos, bool interactive = true);
         /** Takes off an item, returning false on fail, if an item vector
          *  is given, stores the items in that vector and not in the inventory */
         bool takeoff( item *target, bool autodrop = false, std::vector<item> *items = nullptr );
@@ -731,6 +733,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
          *  rates usability lower for non-tools (books, etc.) */
         hint_rating rate_action_use( const item &it ) const;
         hint_rating rate_action_wear( const item &it ) const;
+        hint_rating rate_action_change_side( const item &it ) const;
         hint_rating rate_action_eat( const item &it ) const;
         hint_rating rate_action_read( const item &it ) const;
         hint_rating rate_action_takeoff( const item &it ) const;

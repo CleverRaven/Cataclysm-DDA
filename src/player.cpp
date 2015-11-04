@@ -10522,6 +10522,20 @@ hint_rating player::rate_action_wear( const item &it ) const
     return HINT_GOOD;
 }
 
+
+hint_rating player::rate_action_change_side( const item &it ) const {
+   if (! is_wearing_item(it)) {
+      return HINT_IFFY;
+   }
+
+    if (! it.is_sided()) {
+        return HINT_CANT;
+    }
+
+    return HINT_GOOD;
+}
+
+
 bool player::wear(int inventory_position, bool interactive)
 {
     item* to_wear = NULL;
@@ -10861,6 +10875,35 @@ bool player::wear_item( const item &to_wear, bool interactive )
     }
 
     recalc_sight_limits();
+
+    return true;
+}
+
+bool player::change_side (int pos, bool interactive) {
+    int idx = worn_position_to_index(pos);
+    if (static_cast<size_t>(idx) >= worn.size()) {
+        if (interactive) {
+            add_msg_if_player(m_info, _("You are not wearing that item."));
+        }
+        return false;
+    }
+
+    auto it = worn.begin();
+    std::advance(it, idx);
+
+    if (! it->is_sided()) {
+        if (interactive) {
+            add_msg_if_player(m_info, _("You cannot swap the side on which your %s is worn."), it->tname().c_str());
+        }
+        return false;
+    }
+
+    it->set_side(it->get_side() == LEFT ? RIGHT : LEFT);
+
+    if (interactive) {
+        add_msg_if_player(m_info, _("You swap the side on which your %s is worn."), it->tname().c_str());
+        moves -= 250;
+    }
 
     return true;
 }
