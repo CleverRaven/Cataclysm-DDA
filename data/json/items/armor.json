@@ -7368,7 +7368,7 @@
         "description" : "A small holster worn on the ankle.  Activate to sheathe/draw a small pistol or knife",
         "to_hit" : -1,
         "material" : ["leather", "null"],
-        "covers" : ["FEET"],
+        "covers" : ["FOOT_EITHER"],
         "coverage" : 5,
         "cutting" : 0,
         "bashing" : -1,
