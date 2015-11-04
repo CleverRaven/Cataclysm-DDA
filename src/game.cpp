@@ -10723,6 +10723,10 @@ void game::plthrow(int pos)
         return;
     }
 
+    if (u.is_wearing_item(thrown)) {
+        thrown.on_takeoff(u);
+    }
+
     // Throw a single charge of a stacking object.
     if( thrown.count_by_charges() && thrown.charges > 1 ) {
         u.i_at( pos ).charges--;

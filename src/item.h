@@ -697,6 +697,11 @@ public:
          */
         void on_wear( player &p );
         /**
+         * Callback when a player takes off an item. The item is still in the worn items
+         * vector but will be removed immediately after the function returns
+         */
+        void on_takeoff (player &p);
+        /**
          * Callback when a player starts wielding the item. The item is already in the weapon
          * slot and is called from there.
          */

@@ -1813,6 +1813,10 @@ void item::on_wear( player &p  )
     }
 }
 
+void item::on_takeoff (player &p)
+{
+}
+
 void item::on_wield( player &p  )
 {
     // TODO: artifacts currently only work with the player character

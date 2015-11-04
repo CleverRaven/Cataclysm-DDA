@@ -10267,6 +10267,9 @@ bool player::wield(item* it, bool autodrop)
     }
     
     if (!is_armed()) {
+        if (is_wearing_item(*it)) {
+            it->on_takeoff(*this);
+        }
         weapon = i_rem(it);
         moves -= 30;
         weapon.on_wield( *this );
@@ -10274,6 +10277,9 @@ bool player::wield(item* it, bool autodrop)
         return true;
     } else if (volume_carried() + weapon.volume() - it->volume() < volume_capacity()) {
         item tmpweap = remove_weapon();
+        if (is_wearing_item(*it)) {
+            it->on_takeoff(*this);
+        }
         weapon = i_rem(it);
         inv.add_item_keep_invlet(tmpweap);
         inv.unsort();
@@ -10284,6 +10290,9 @@ bool player::wield(item* it, bool autodrop)
     } else if (query_yn(_("No space in inventory for your %s.  Drop it?"),
                         weapon.tname().c_str())) {
         g->m.add_item_or_charges(posx(), posy(), remove_weapon());
+        if (is_wearing_item(*it)) {
+            it->on_takeoff(*this);
+        }
         weapon = i_rem(it);
         inv.unsort();
         moves -= 30;
@@ -10907,8 +10916,10 @@ bool player::takeoff(int inventory_position, bool autodrop, std::vector<item> *i
             }
 
             if( items != nullptr ) {
+                other_armor.on_takeoff(*this);
                 items->push_back( other_armor );
             } else {
+                other_armor.on_takeoff(*this);
                 g->m.add_item_or_charges( pos(), other_armor );
             }
             add_msg_player_or_npc( _("You take off your %s."),
@@ -10920,13 +10931,15 @@ bool player::takeoff(int inventory_position, bool autodrop, std::vector<item> *i
     }
 
     if( items != nullptr ) {
+        w.on_takeoff(*this);
         items->push_back( w );
         taken_off = true;
     } else if (autodrop || volume_capacity() - w.get_storage() >= volume_carried() + w.volume()) {
+        w.on_takeoff(*this);
         inv.add_item_keep_invlet(w);
         taken_off = true;
-    } else if (query_yn(_("No room in inventory for your %s.  Drop it?"),
-            w.tname().c_str())) {
+    } else if (query_yn(_("No room in inventory for your %s.  Drop it?"), w.tname().c_str())) {
+        w.on_takeoff(*this);
         g->m.add_item_or_charges( pos(), w );
         taken_off = true;
     } else {
