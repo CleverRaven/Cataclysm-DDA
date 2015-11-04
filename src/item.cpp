@@ -149,9 +149,6 @@ item::item(const std::string new_type, int turn, bool rand)
             charges = 0;
         }
     }
-    if( type->armor ) {
-      covered_bodyparts = type->armor->covers;
-    }
     if( type->variable_bigness ) {
         bigness = rng( type->variable_bigness->min_bigness, type->variable_bigness->max_bigness );
     }
@@ -204,7 +201,6 @@ void item::init()
     invlet = 0;
     damage = 0;
     burnt = 0;
-    covered_bodyparts.reset();
     poison = 0;
     item_counter = 0;
     type = nullitem();
@@ -221,19 +217,8 @@ void item::init()
 
 void item::make( const std::string new_type, bool scrub )
 {
-    const bool was_armor = is_armor();
     type = find_type( new_type );
     contents.clear();
-    if( was_armor != is_armor() ) {
-        // If changed from armor to non-armor (or reverse), have to recalculate
-        // the coverage.
-        const auto armor = find_armor_data();
-        if( armor == nullptr ) {
-            covered_bodyparts.reset();
-        } else {
-            covered_bodyparts = armor->covers;
-        }
-    }
 
     if (scrub) {
         components.clear();
@@ -263,12 +248,12 @@ bool item::covers( const body_part bp ) const
         // go on another bodypart.
         return bp == bp_torso;
     }
-    return covered_bodyparts.test( bp );
+    return get_covered_body_parts().test(bp);
 }
 
-const std::bitset<num_bp> &item::get_covered_body_parts() const
+const std::bitset<num_bp> item::get_covered_body_parts() const
 {
-    return covered_bodyparts;
+    return type->armor->covers;
 }
 
 item item::in_its_container()
