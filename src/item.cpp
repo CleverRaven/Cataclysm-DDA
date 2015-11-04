@@ -1807,6 +1807,10 @@ nc_color item::color_in_inventory() const
 
 void item::on_wear( player &p  )
 {
+    if (is_sided() && get_side() == BOTH) {
+        set_side(LEFT);
+    }
+
     // TODO: artifacts currently only work with the player character
     if( &p == &g->u && type->artifact ) {
         g->add_artifact_messages( type->artifact->effects_worn );
@@ -1815,6 +1819,9 @@ void item::on_wear( player &p  )
 
 void item::on_takeoff (player &p)
 {
+    if (is_sided()) {
+        set_side(BOTH);
+    }
 }
 
 void item::on_wield( player &p  )
