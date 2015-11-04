@@ -82,7 +82,7 @@ struct islot_armor {
     /**
      * Whether this item can be worn on either side of the body
      */
-    int sided = false;
+    bool sided = false;
     /**
      * How much this item encumbers the player.
      */
