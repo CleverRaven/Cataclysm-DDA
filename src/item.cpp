@@ -1819,6 +1819,8 @@ void item::on_wear( player &p  )
 
 void item::on_takeoff (player &p)
 {
+    (void) p; // suppress unused variable warning
+
     if (is_sided()) {
         set_side(BOTH);
     }
