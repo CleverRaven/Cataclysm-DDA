@@ -10862,10 +10862,8 @@ hint_rating player::rate_action_takeoff( const item &it ) const
         return HINT_CANT;
     }
 
-    for (auto &i : worn) {
-        if (i.invlet == it.invlet) { //surely there must be an easier way to do this?
-            return HINT_GOOD;
-        }
+    if (is_wearing_item(it)) {
+      return HINT_GOOD;
     }
 
     return HINT_IFFY;
@@ -12894,6 +12892,10 @@ bool player::wearing_something_on(body_part bp) const
             return true;
     }
     return false;
+}
+
+bool player::is_wearing_item (const item& it) const {
+   return std::any_of(worn.begin(), worn.end(), [&](const item& elem) { return elem.invlet == it.invlet; });
 }
 
 bool player::is_wearing_shoes(std::string side) const
