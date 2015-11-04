@@ -4074,13 +4074,18 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
     std::vector<item_pricing> yours = p->init_buying( g->u.inv );
 
     // Adjust the prices based on your barter skill.
-    const auto their_adjust = (price_adjustment(p->skillLevel( skill_barter ) - g->u.skillLevel( skill_barter )) +
+    // cap adjustment so nothing is ever sold below value
+    double their_adjust = (price_adjustment(p->skillLevel( skill_barter ) - g->u.skillLevel( skill_barter )) +
                               (p->int_cur - g->u.int_cur) / 20.0);
+    if (their_adjust < 1)
+        their_adjust = 1;
     for( item_pricing &p : theirs ) {
         p.price *= their_adjust;
     }
-    const auto your_adjust = (price_adjustment(g->u.skillLevel( skill_barter ) - p->skillLevel( skill_barter )) +
+    double your_adjust = (price_adjustment(g->u.skillLevel( skill_barter ) - p->skillLevel( skill_barter )) +
                              (g->u.int_cur - p->int_cur) / 20.0);
+    if (your_adjust < 1)
+        your_adjust = 1;
     for( item_pricing &p : yours ) {
         p.price *= your_adjust;
     }
