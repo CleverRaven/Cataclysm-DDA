@@ -2,8 +2,13 @@
     "type": "MOD_INFO",
     "mod-type": "SUPPLEMENTAL",
     "ident": "no_reviving_zombies",
-    "name": "Prevent Zombie Revivication",
-    "description": "Disables zombie revival.",
+    "name": "Prevent Zombie Revivication and Necromancy",
+    "description": "Disables zombie revival, and removes zombie necromancers.",
     "category": "rebalance",
     "path": ""
+},{
+    "type": "MONSTER_BLACKLIST",
+    "monsters": [
+        "mon_zombie_necro"
+    ]
 }
