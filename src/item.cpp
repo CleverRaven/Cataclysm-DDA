@@ -870,45 +870,45 @@ std::string item::info(bool showtext, std::vector<iteminfo> &dump_ref) const
         if (covers(bp_torso)) {
             temp1 << _("The torso. ");
         }
-        if( covers( bp_arm_l ) && covers( bp_arm_r ) ) {
+
+        if (is_sided() && (covers(bp_arm_l) || covers(bp_arm_r))) {
+            temp1 << _("Either arm. ");
+        } else if (covers(bp_arm_l) && covers(bp_arm_r)) {
             temp1 << _("The arms. ");
-        } else {
-            if (covers(bp_arm_l)) {
-                temp1 << _("The left arm. ");
-            }
-            if (covers(bp_arm_r)) {
-                temp1 << _("The right arm. ");
-            }
+        } else if (covers(bp_arm_l)) {
+            temp1 << _("The left arm. ");
+        } else if (covers(bp_arm_r)) {
+            temp1 << _("The right arm. ");
         }
-        if( covers( bp_hand_l ) && covers( bp_hand_r ) ) {
+
+        if (is_sided() && (covers(bp_hand_l) || covers(bp_hand_r))) {
+            temp1 << _("Either hand. ");
+        } else if (covers(bp_hand_l) && covers(bp_hand_r)) {
             temp1 << _("The hands. ");
-        } else {
-            if (covers(bp_hand_l)) {
-                temp1 << _("The left hand. ");
-            }
-            if (covers(bp_hand_r)) {
-                temp1 << _("The right hand. ");
-            }
+        } else if (covers(bp_hand_l)) {
+            temp1 << _("The left hand. ");
+        } else if (covers(bp_hand_r)) {
+            temp1 << _("The right hand. ");
         }
-        if( covers( bp_leg_l ) && covers( bp_leg_r ) ) {
+
+        if (is_sided() && (covers(bp_leg_l) || covers(bp_leg_r))) {
+            temp1 << _("Either leg. ");
+        } else if (covers(bp_leg_l) && covers(bp_leg_r)) {
             temp1 << _("The legs. ");
-        } else {
-            if (covers(bp_leg_l)) {
-                temp1 << _("The left leg. ");
-            }
-            if (covers(bp_leg_r)) {
-                temp1 << _("The right leg. ");
-            }
+        } else if (covers(bp_leg_l)) {
+            temp1 << _("The left leg. ");
+        } else if (covers(bp_leg_r)) {
+            temp1 << _("The right leg. ");
         }
-        if( covers( bp_foot_l ) && covers( bp_foot_r ) ) {
+
+        if (is_sided() && (covers(bp_foot_l) || covers(bp_foot_r))) {
+            temp1 << _("Either foot. ");
+        } else if (covers(bp_foot_l) && covers(bp_foot_r)) {
             temp1 << _("The feet. ");
-        } else {
-            if (covers(bp_foot_l)) {
-                temp1 << _("The left foot. ");
-            }
-            if (covers(bp_foot_r)) {
-                temp1 << _("The right foot. ");
-            }
+        } else if (covers(bp_foot_l)) {
+            temp1 << _("The left foot. ");
+        } else if (covers(bp_foot_r)) {
+            temp1 << _("The right fot. ");
         }
 
         dump->push_back(iteminfo("ARMOR", temp1.str()));
@@ -1244,6 +1244,10 @@ std::string item::info(bool showtext, std::vector<iteminfo> &dump_ref) const
         } else if (is_armor() && has_flag("VARSIZE")) {
             dump->push_back(iteminfo("DESCRIPTION", "--"));
             dump->push_back(iteminfo("DESCRIPTION", _("This piece of clothing can be refitted.")));
+        }
+        if (is_armor() && is_sided()) {
+            dump->push_back(iteminfo("DESCRIPTION", "--"));
+            dump->push_back(iteminfo("DESCRIPTION", _("This item can be worn on either side of the body.")));
         }
         if (is_armor() && has_flag("SKINTIGHT")) {
             dump->push_back(iteminfo("DESCRIPTION", "--"));

@@ -856,6 +856,10 @@ public:
          */
         const std::bitset<num_bp> get_covered_body_parts() const;
         /**
+          * Returns true if item is armor and can be worn on different sides of the body
+          */
+        bool is_sided() const;
+        /**
          * Returns the warmth value that this item has when worn. See player class for temperature
          * related code, or @ref player::warmth. Returned values should be positive. A value
          * of 0 indicates no warmth from this item at all (this is also the default for non-armor).
