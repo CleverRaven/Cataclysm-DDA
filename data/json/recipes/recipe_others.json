@@ -4057,23 +4057,26 @@
   "time": 240000,
   "reversible": false,
   "autolearn": true,
-  "qualities":[
-    {"id":"HAMMER","level":2,"amount":1}
-  ], "tools": [
-      [
+  "qualities":[{"id":"HAMMER","level":2,"amount":1}],
+  "tools": [
+    [
       ["crucible", -1],
       ["crucible_clay", -1]
-      ],
-      [
+    ],
+    [
       [ "forge", 150],
       [ "char_forge", 30],
       [ "oxy_torch", 30]
-      ]
-      ],
-  "components":
-    [
-     [[ "steel_lump", 40 ]]
     ]
+  ],
+  "components": [
+    [
+      [ "steel_chunk", 160 ],
+      [ "steel_lump", 40 ],
+      [ "frame", 4 ],
+      [ "hdframe", 2 ]
+    ]
+  ]
 },{
   "type" : "recipe",
   "result": "crucible",
