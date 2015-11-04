@@ -10963,11 +10963,11 @@ bool player::takeoff(int inventory_position, bool autodrop, std::vector<item> *i
                 return false;
             }
 
+            other_armor.on_takeoff(*this);
+
             if( items != nullptr ) {
-                other_armor.on_takeoff(*this);
                 items->push_back( other_armor );
             } else {
-                other_armor.on_takeoff(*this);
                 g->m.add_item_or_charges( pos(), other_armor );
             }
             add_msg_player_or_npc( _("You take off your %s."),
