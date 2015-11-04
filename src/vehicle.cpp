@@ -865,29 +865,27 @@ void vehicle::use_controls(const tripoint &pos_global)
     int vpart;
 
     if (!interact_vehicle_locked()) return;
-    bool remotely_controlled = g->remoteveh() == this;
-    // Always have this option
-    // Let go without turning the engine off.
-    if (g->u.controlling_vehicle &&
-        g->m.veh_at(g->u.pos(), vpart) == this) {
-        menu.addentry( release_control, true, 'l', _("Let go of controls") );
-    } else if( remotely_controlled ) {
-        menu.addentry( release_remote_control, true, 'l', _("Stop controlling") );
-    }
-
     bool has_electronic_controls = false;
-
-    if ( remotely_controlled ) {
-        for( size_t p = 0; p < parts.size(); ++p ) {
-            if (part_flag(p, "CTRL_ELECTRONIC")) {
+    bool remotely_controlled = g->remoteveh() == this;
+    if (g->m.veh_at(pos_global, vpart) == this) {
+        if ( g->u.controlling_vehicle ) {
+            // Always have this option
+            // Let go without turning the engine off.
+            menu.addentry( release_control, true, 'l', _("Let go of controls") );
+        }
+        std::vector<int> parts_for_check = parts_at_relative( parts[vpart].mount.x,
+                                                              parts[vpart].mount.y);
+        // iterate over all parts in the selected tile
+        for (size_t p = 0; p < parts_for_check.size(); ++p) {
+            if (part_flag(parts_for_check[p], "CTRL_ELECTRONIC")) {
                 has_electronic_controls = true;
             }
         }
-    } else {
-        //TODO: Global coords have to be converted to relative position before it will work
-        std::vector<int> parts_for_check = parts_at_relative( pos_global.x, pos_global.y);
-        for (size_t p = 0; p < parts_for_check.size(); ++p) {
-            if (part_flag(parts_for_check[p], "CTRL_ELECTRONIC")) {
+    } else if( remotely_controlled ) {
+        menu.addentry( release_remote_control, true, 'l', _("Stop controlling") );
+        // iterate over all parts
+        for( size_t p = 0; p < parts.size(); ++p ) {
+            if (part_flag(p, "CTRL_ELECTRONIC")) {
                 has_electronic_controls = true;
             }
         }
