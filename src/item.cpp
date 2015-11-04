@@ -253,12 +253,40 @@ bool item::covers( const body_part bp ) const
 
 const std::bitset<num_bp> item::get_covered_body_parts() const
 {
-    return type->armor->covers;
+    auto res = type->armor->covers;
+
+    switch (get_side()) {
+        case LEFT:
+            res.reset(bp_arm_r);
+            res.reset(bp_hand_r);
+            res.reset(bp_leg_r);
+            res.reset(bp_foot_r);
+            break;
+
+        case RIGHT:
+            res.reset(bp_arm_l);
+            res.reset(bp_hand_l);
+            res.reset(bp_leg_l);
+            res.reset(bp_foot_l);
+            break;
+    }
+
+    return res;
 }
 
 bool item::is_sided() const {
     auto t = find_armor_data();
     return t ? t->sided : false;
+}
+
+int item::get_side() const {
+    return get_var("lateral", BOTH);
+}
+
+bool item::set_side (side s) {
+    if (! is_sided()) return false;
+    set_var("lateral", s);
+    return true;
 }
 
 item item::in_its_container()
@@ -2030,6 +2058,8 @@ std::string item::display_name(unsigned int quantity) const
         return string_format( "%s (%d)", tname( quantity ).c_str(), get_remaining_chapters( g->u ) );
     } else if (charges >= 0 && !has_flag("NO_AMMO")) {
         return string_format("%s (%d)", tname(quantity).c_str(), charges);
+    } else if (get_side() != BOTH) {
+        return string_format("%s (%s)", tname(quantity).c_str(), get_side() == LEFT ? _("left")  : _("right"));
     } else {
         return tname(quantity);
     }
