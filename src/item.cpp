@@ -256,6 +256,11 @@ const std::bitset<num_bp> item::get_covered_body_parts() const
     return type->armor->covers;
 }
 
+bool item::is_sided() const {
+    auto t = find_armor_data();
+    return t ? t->sided : false;
+}
+
 item item::in_its_container()
 {
     if( type->spawn && type->spawn->default_container != "null" ) {
