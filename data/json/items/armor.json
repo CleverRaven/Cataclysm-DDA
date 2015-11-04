@@ -8809,7 +8809,7 @@
         "encumbrance" : 0,
         "price" : 12000,
         "material" : ["steel", "null"],
-        "flags" : ["WATCH", "WATER_FRIENDLY", "THERMOMETER", "BELTED", "FRAGILE"],
+        "flags" : ["WATCH", "WATER_FRIENDLY", "THERMOMETER", "BELTED"],
         "coverage" : 5,
         "symbol" : "[",
         "bashing" : 0,
