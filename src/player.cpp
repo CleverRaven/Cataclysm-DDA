@@ -10524,11 +10524,11 @@ hint_rating player::rate_action_wear( const item &it ) const
 
 
 hint_rating player::rate_action_change_side( const item &it ) const {
-   if (! is_wearing_item(it)) {
+   if (!is_wearing_item(it)) {
       return HINT_IFFY;
    }
 
-    if (! it.is_sided()) {
+    if (!it.is_sided()) {
         return HINT_CANT;
     }
 
@@ -10896,7 +10896,7 @@ bool player::change_side (int pos, bool interactive) {
     auto it = worn.begin();
     std::advance(it, idx);
 
-    if (! it->is_sided()) {
+    if (!it->is_sided()) {
         if (interactive) {
             add_msg_if_player(m_info, _("You cannot swap the side on which your %s is worn."), it->tname().c_str());
         }

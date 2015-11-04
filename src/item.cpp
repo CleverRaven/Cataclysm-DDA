@@ -284,7 +284,7 @@ int item::get_side() const {
 }
 
 bool item::set_side (side s) {
-    if (! is_sided()) return false;
+    if (!is_sided()) return false;
     set_var("lateral", s);
     return true;
 }
