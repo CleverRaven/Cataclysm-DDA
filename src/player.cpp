@@ -12908,7 +12908,7 @@ bool player::wearing_something_on(body_part bp) const
 }
 
 bool player::is_wearing_item (const item& it) const {
-   return std::any_of(worn.begin(), worn.end(), [&](const item& elem) { return elem.invlet == it.invlet; });
+   return std::any_of(worn.begin(), worn.end(), [&](const item& elem) { return &elem == &it; });
 }
 
 bool player::is_wearing_shoes(std::string side) const
