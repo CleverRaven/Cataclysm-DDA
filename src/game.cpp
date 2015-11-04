@@ -10727,7 +10727,7 @@ void game::plthrow(int pos)
         return;
     }
 
-    if (u.is_wearing_item(thrown)) {
+    if (u.is_wearing_item(u.i_at(pos))) {
         thrown.on_takeoff(u);
     }
 
