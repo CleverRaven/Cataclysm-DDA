@@ -10879,6 +10879,11 @@ bool player::wear_item( const item &to_wear, bool interactive )
     return true;
 }
 
+bool player::change_side (item *target, bool interactive)
+{
+    return change_side(get_item_position(target), interactive);
+}
+
 bool player::change_side (int pos, bool interactive) {
     int idx = worn_position_to_index(pos);
     if (static_cast<size_t>(idx) >= worn.size()) {
