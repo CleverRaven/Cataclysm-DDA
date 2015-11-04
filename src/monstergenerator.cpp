@@ -1,4 +1,4 @@
-#include "monstergenerator.h"
+﻿#include "monstergenerator.h"
 #include "color.h"
 #include "creature.h"
 #include "translations.h"
@@ -358,6 +358,7 @@ void MonsterGenerator::init_flags()
     flag_map["REGENERATES_10"] = MF_REGENERATES_10;
     flag_map["FLAMMABLE"] = MF_FLAMMABLE;
     flag_map["REVIVES"] = MF_REVIVES;
+    flag_map["CAN_RAISE"] = MF_CAN_RAISE;
     flag_map["CHITIN"] = MF_CHITIN;
     flag_map["VERMIN"] = MF_VERMIN;
     flag_map["NOGIB"] = MF_NOGIB;

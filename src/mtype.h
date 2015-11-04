@@ -118,6 +118,7 @@ enum m_flag : int {
     MF_REGENERATES_10,      // Monster regenerates very quickly over time
     MF_FLAMMABLE,           // Monster catches fire, burns, and spreads fire to nearby objects
     MF_REVIVES,             // Monster corpse will revive after a short period of time
+    MF_CAN_RAISE,           // Monster corpse can be revived by necromancy special attack, independant of REVIVES flag 
     MF_CHITIN,              // May produce chitin when butchered
     MF_VERMIN,              // Creature is too small for normal combat, butchering, etc.
     MF_NOGIB,               // Creature won't leave gibs / meat chunks when killed with huge damage.

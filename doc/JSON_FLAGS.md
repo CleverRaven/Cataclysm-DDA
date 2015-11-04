@@ -234,6 +234,7 @@ Flags used to describe monsters and define their properties and abilities.
 - ```REGENERATES_10``` Monster regenerates very quickly over time.
 - ```FLAMMABLE``` Monster catches fire, burns, and spreads fire to nearby objects.
 - ```REVIVES``` Monster corpse will revive after a short period of time.
+- ```CAN_RAISE``` Monster corpse can be revived by the necromancy special attack, independent of ability to self-revive.
 - ```CHITIN``` May produce chitin when butchered.
 - ```VERMIN``` Creature is too small for normal combat, butchering etc.
 - ```NOGIB``` Does not leave gibs / meat chunks when killed with huge damage.
