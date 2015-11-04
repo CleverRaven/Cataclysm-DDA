@@ -12430,6 +12430,12 @@ int player::encumb( body_part bp ) const
     return encumb( bp, iLayers, iArmorEnc, ret_null );
 }
 
+int player::encumb( body_part bp, const item &new_item ) const {
+    int iArmorEnc = 0;
+    double iLayers = 0;
+    return encumb( bp, iLayers, iArmorEnc, new_item );
+}
+
 int player::encumb( body_part bp, double &layers, int &armorenc ) const
 {
     return encumb( bp, layers, armorenc, ret_null );

@@ -748,6 +748,8 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         int bonus_warmth(body_part bp) const;
         /** Returns ENC provided by armor, etc. */
         int encumb(body_part bp) const;
+        /** Returns encumbrance that would apply for a body part if `new_item` was also worn */
+        int encumb( body_part bp, const item &new_item ) const;
         /** Returns encumbrance caused by armor, etc., factoring in layering */
         int encumb(body_part bp, double &layers, int &armorenc) const;
         /** As above, but also treats the `new_item` as worn for encumbrance penalty purposes */
