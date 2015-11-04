@@ -713,10 +713,10 @@ void Creature::deal_damage_handle_type(const damage_unit &du, body_part, int &da
             add_effect("onfire", rng(1, 3));
         }
         break;
-    case DT_ELECTRIC: // electrical damage slows us a lot
+    case DT_ELECTRIC: // Electrical damage adds a major speed/dex debuff
         damage += adjusted_damage;
         pain += adjusted_damage / 4;
-        mod_moves(-adjusted_damage * 100);
+        add_effect( "zapped", std::max( adjusted_damage, 2 ) );
         break;
     case DT_COLD: // cold damage slows us a bit and hurts less
         damage += adjusted_damage;

@@ -12595,6 +12595,13 @@ bool player::armor_absorb(damage_unit& du, item& armor) {
     const float mitigation = std::min(effective_resist, du.amount);
     du.amount -= mitigation; // mitigate the damage first
 
+    if( mitigation <= 0 ) {
+        // If it doesn't protect from it at all, it's some weird type,
+        // like electricity (which should not damage clothing)
+        // or fire (for which resistance isn't implemented yet so it would slice power armor)
+        return false;
+    }
+
     // Scale chance of article taking damage based on the number of parts it covers.
     // This represents large articles being able to take more punishment
     // before becoming inneffective or being destroyed.
