@@ -1298,9 +1298,6 @@ void item::io( Archive& archive )
     if( armor != nullptr && covered_bodyparts.none() ) {
         // Fix armor that had no body_part covered, but its type definition says it should
         covered_bodyparts = armor->covers;
-        if (armor->sided.any()) {
-            make_handed( one_in( 2 ) ? LEFT : RIGHT );
-        }
     }
 }
 

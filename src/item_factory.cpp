@@ -747,7 +747,6 @@ void Item_factory::load( islot_armor &slot, JsonObject &jo )
     slot.storage = jo.get_int( "storage", 0 );
     slot.power_armor = jo.get_bool( "power_armor", false );
     slot.covers = jo.has_member( "covers" ) ? flags_from_json( jo, "covers", "bodyparts" ) : 0;
-    slot.sided = jo.has_member( "covers" ) ? flags_from_json( jo, "covers", "sided" ) : 0;
 }
 
 void Item_factory::load_tool(JsonObject &jo)
@@ -1517,9 +1516,7 @@ void Item_factory::set_flag_by_string(std::bitset<num_bp> &cur_flags, const std:
 {
     if (flag_type == "bodyparts") {
         // global defined in bodypart.h
-        if (new_flag == "ARM" || new_flag == "HAND" || new_flag == "LEG" || new_flag == "FOOT") {
-            return;
-        } else if( new_flag == "ARMS" ) {
+        if( new_flag == "ARMS" ) {
             cur_flags.set( bp_arm_l );
             cur_flags.set( bp_arm_r );
         } else if( new_flag == "HANDS" ) {
@@ -1534,23 +1531,7 @@ void Item_factory::set_flag_by_string(std::bitset<num_bp> &cur_flags, const std:
         } else {
             cur_flags.set( get_body_part_token( new_flag ) );
         }
-    } else if (flag_type == "sided") {
-        // global defined in bodypart.h
-        if( new_flag == "ARM" ) {
-            cur_flags.set( bp_arm_l );
-            cur_flags.set( bp_arm_r );
-        } else if( new_flag == "HAND" ) {
-            cur_flags.set( bp_hand_l );
-            cur_flags.set( bp_hand_r );
-        } else if( new_flag == "LEG" ) {
-            cur_flags.set( bp_leg_l );
-            cur_flags.set( bp_leg_r );
-        } else if( new_flag == "FOOT" ) {
-            cur_flags.set( bp_foot_l );
-            cur_flags.set( bp_foot_r );
-        }
     }
-
 }
 
 namespace io {

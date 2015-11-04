@@ -4438,15 +4438,6 @@ std::vector<item*> map::spawn_items(const tripoint &p, const std::vector<item> &
         if (new_item.made_of(LIQUID) && swimmable) {
             continue;
         }
-        if (new_item.is_armor() && new_item.has_flag("PAIRED") && x_in_y(4, 5)) {
-            item new_item2 = new_item;
-            new_item.make_handed( LEFT );
-            new_item2.make_handed( RIGHT );
-            item &it2 = add_item_or_charges(p, new_item2);
-            if( !it2.is_null() ) {
-                ret.push_back( &it2 );
-            }
-        }
         item &it = add_item_or_charges(p, new_item);
         if( !it.is_null() ) {
             ret.push_back( &it );

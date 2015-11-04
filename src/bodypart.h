@@ -21,12 +21,6 @@ enum body_part : int {
     num_bp
 };
 
-enum handedness : int {
-    NONE,
-    LEFT,
-    RIGHT
-};
-
 /** Returns the matching name of the body_part token. */
 std::string body_part_name(body_part bp);
 /** Returns the matching accusative name of the body_part token, i.e. "Shrapnel hits your X".

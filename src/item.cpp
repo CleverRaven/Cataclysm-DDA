@@ -94,7 +94,7 @@ item::item()
     init();
 }
 
-item::item(const std::string new_type, int turn, bool rand, const handedness handed)
+item::item(const std::string new_type, int turn, bool rand)
 {
     init();
     type = find_type( new_type );
@@ -111,7 +111,7 @@ item::item(const std::string new_type, int turn, bool rand, const handedness han
         charges = 0;
         for( auto &gm : type->gun->built_in_mods ){
             if(type_is_defined( gm) ){
-                item temp( gm, turn, rand, handed );
+                item temp( gm, turn, rand );
                 temp.item_tags.insert("IRREMOVABLE");
                 contents.push_back( temp );
             }
@@ -119,7 +119,7 @@ item::item(const std::string new_type, int turn, bool rand, const handedness han
 
         for( auto &gm : type->gun->default_mods ){
             if(type_is_defined( gm ) ){
-                contents.push_back( item( gm, turn, rand, handed ) );
+                contents.push_back( item( gm, turn, rand ) );
             }
         }
     }
@@ -150,15 +150,7 @@ item::item(const std::string new_type, int turn, bool rand, const handedness han
         }
     }
     if( type->armor ) {
-        if( handed != NONE ) {
-            make_handed( handed );
-        } else {
-            if( one_in( 2 ) ) {
-                make_handed( LEFT );
-            } else {
-                make_handed( RIGHT );
-            }
-        }
+      covered_bodyparts = type->armor->covers;
     }
     if( type->variable_bigness ) {
         bigness = rng( type->variable_bigness->min_bigness, type->variable_bigness->max_bigness );
@@ -252,41 +244,6 @@ void item::make( const std::string new_type, bool scrub )
     }
 }
 
-// If armor is sided , add matching bits to cover bitset
-void make_sided_if( const islot_armor &armor, std::bitset<num_bp> &covers, handedness h, body_part bpl, body_part bpr )
-{
-    if( armor.sided.test( bpl ) ) {
-        if( h == RIGHT ) {
-            covers.set( bpr );
-        } else {
-            covers.set( bpl );
-        }
-    }
-}
-
-void item::make_handed( const handedness handed )
-{
-    const auto armor = find_armor_data();
-    if( armor == nullptr ) {
-        return;
-    }
-    item_tags.erase( "RIGHT" );
-    item_tags.erase( "LEFT" );
-    // Always reset the coverage, so to prevent inconsistencies.
-    covered_bodyparts = armor->covers;
-    if( !armor->sided.any() || handed == NONE ) {
-        return;
-    }
-    if( handed == RIGHT ) {
-        item_tags.insert( "RIGHT" );
-    } else {
-        item_tags.insert( "LEFT" );
-    }
-    make_sided_if( *armor, covered_bodyparts, handed, bp_arm_l, bp_arm_r );
-    make_sided_if( *armor, covered_bodyparts, handed, bp_hand_l, bp_hand_r );
-    make_sided_if( *armor, covered_bodyparts, handed, bp_leg_l, bp_leg_r );
-    make_sided_if( *armor, covered_bodyparts, handed, bp_foot_l, bp_foot_r );
-}
 
 bool item::is_null() const
 {
@@ -1986,7 +1943,6 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
     const it_comest* food_type = NULL;
     std::string tagtext = "";
     std::string toolmodtext = "";
-    std::string sidedtext = "";
     ret.str("");
     if (is_food())
     {
@@ -2037,12 +1993,6 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
         toolmodtext = _("atomic ");
     }
 
-    if (has_flag("LEFT")) {
-        sidedtext = _("left ");
-    } else if (has_flag("RIGHT")) {
-        sidedtext = _("right ");
-    }
-
     if(has_flag("WET"))
        ret << _(" (wet)");
 
@@ -2063,10 +2013,9 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
 
     ret.str("");
 
-    //~ This is a string to construct the item name as it is displayed. This format string has been added for maximum flexibility. The strings are: %1$s: Damage text (eg. "bruised"). %2$s: burn adjectives (eg. "burnt"). %3$s: sided adjectives (eg. "left"). %4$s: tool modifier text (eg. "atomic"). %5$s: vehicle part text (eg. "3.8-Liter"). $6$s: main item text (eg. "apple"). %7$s: tags (eg. "(wet) (fits)").
-    ret << string_format(_("%1$s%2$s%3$s%4$s%5$s%6$s%7$s"), damtext.c_str(), burntext.c_str(),
-                        sidedtext.c_str(), toolmodtext.c_str(),
-                        vehtext.c_str(), maintext.c_str(), tagtext.c_str());
+    //~ This is a string to construct the item name as it is displayed. This format string has been added for maximum flexibility. The strings are: %1$s: Damage text (eg. "bruised"). %2$s: burn adjectives (eg. "burnt"). %3$s: tool modifier text (eg. "atomic"). %4$s: vehicle part text (eg. "3.8-Liter"). $5$s: main item text (eg. "apple"). %6s: tags (eg. "(wet) (fits)").
+    ret << string_format(_("%1$s%2$s%3$s%4$s%5$s%6$s"), damtext.c_str(), burntext.c_str(),
+                        toolmodtext.c_str(), vehtext.c_str(), maintext.c_str(), tagtext.c_str());
 
     static const std::string const_str_item_note("item_note");
     if( item_vars.find(const_str_item_note) != item_vars.end() ) {

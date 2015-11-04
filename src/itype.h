@@ -80,11 +80,6 @@ struct islot_armor {
      */
     std::bitset<num_bp> covers;
     /**
-     * Bitfield of enum body_part
-     * TODO: document me.
-     */
-    std::bitset<num_bp> sided;
-    /**
      * How much this item encumbers the player.
      */
     signed char encumber = 0;

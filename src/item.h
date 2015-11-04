@@ -100,7 +100,7 @@ class item : public JsonSerializer, public JsonDeserializer
 {
 public:
  item();
- item(const std::string new_type, int turn, bool rand = true, handedness handed = NONE);
+ item(const std::string new_type, int turn, bool rand = true);
 
         /**
          * Make this a corpse of the given monster type.
@@ -843,15 +843,6 @@ public:
          * return a default value.
          */
         /*@{*/
-        /**
-         * Make this item into a handed item.
-         * All previous handed info is erased and reset.
-         * Does nothing if the item is no armor at all. If the item type is not handed, it is only
-         * reset to be non-handed regardless of the requested handedness.
-         * @param handed The new handedness. If NONE, the item is made non-handed - all handed
-         * information is erased and only the default coverage (@ref islot_armor::covers) is applied.
-         */
-        void make_handed( handedness handed );
         /**
          * Whether this item (when worn) covers the given body part.
          */

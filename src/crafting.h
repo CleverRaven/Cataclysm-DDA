@@ -3,7 +3,6 @@
 
 #include "item.h"         // item
 #include "requirements.h" // requirement_data
-#include "bodypart.h"     // handedness::NONE
 #include "cursesdef.h"    // WINDOW
 #include "string_id.h"
 
@@ -64,7 +63,6 @@ struct recipe {
     double batch_rscale;
     int batch_rsize; // minimum batch size to needed to reach batch_rscale
     int result_mult; // used by certain batch recipes that create more than one stack of the result
-    bool paired;
 
     // only used during loading json data: book_id is the id of an book item, other stuff is copied
     // into @ref islot_book::recipes.
@@ -85,8 +83,8 @@ struct recipe {
 
     // Create an item instance as if the recipe was just finished,
     // Contain charges multiplier
-    item create_result(handedness handed = NONE) const;
-    std::vector<item> create_results(int batch = 1, handedness handed = NONE) const;
+    item create_result() const;
+    std::vector<item> create_results(int batch = 1) const;
 
     // Create byproduct instances as if the recipe was just finished
     std::vector<item> create_byproducts(int batch = 1) const;
