@@ -11333,8 +11333,8 @@ void game::takeoff(int pos)
 void game::change_side(int pos)
 {
     if (pos == INT_MIN) {
-        auto filter = [this](const item &it) { return u.is_wearing_item(it); };
-        pos = inv_for_filter(_("Change side for item:"), filter);
+        pos = inv_for_filter(_("Change side for item:"),
+                             [&](const item &it) { return u.is_wearing_item(it) && it.is_sided(); });
     }
 
     if (pos == INT_MIN) {
