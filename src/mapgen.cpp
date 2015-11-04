@@ -748,6 +748,23 @@ public:
         }
     }
 };
+
+class jmapgen_liquid_item : public jmapgen_piece {
+public:
+    jmapgen_int amount;
+    std::string liquid;
+    jmapgen_liquid_item( JsonObject &jsi ) : jmapgen_piece()
+    , amount( jsi, "amount", 0, 0), liquid("")
+    {
+        if(jsi.has_string("liquid")){
+            liquid = jsi.get_string("liquid");
+        }
+    }
+    void apply( map &m, const jmapgen_int &x, const jmapgen_int &y, const float /*mon_density*/ ) const override
+    {
+    }
+};
+
 /**
  * Place items from an item group.
  * "item": id of the item group.
