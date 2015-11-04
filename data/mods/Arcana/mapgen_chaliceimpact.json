@@ -25,6 +25,15 @@
   },{
         "type" : "item_group",
         "subtype": "collection",
+        "id": "chalice_cult_sacrifice",
+        "entries":
+        [
+            { "item": "essence_blood", "prob": 25},
+            { "item": "corpse"}
+        ]
+  },{
+        "type" : "item_group",
+        "subtype": "collection",
         "id": "chalice_cult_casualty_special",
         "entries":
         [
@@ -85,14 +94,14 @@
             " ": "t_rock_floor",
             "B": "t_rock_floor",
             "P": "t_little_column",
-            "^": "t_pit",
+            "^": "t_pit_shallow",
             "<": "t_stairs_up"
             },
-            "add": [
-                { "item": "corpse", "x": 8, "y": 8, "amount":1},
-                { "item": "corpse", "x": 15, "y": 8, "amount":1},
-                { "item": "corpse", "x": 8, "y": 15, "amount":1 },
-                { "item": "corpse",  "x": 15, "y": 15, "amount":1 }
+            "place_items": [
+                { "item": "chalice_cult_sacrifice", "chance": 100, "x": 8, "y": 8 },
+                { "item": "chalice_cult_sacrifice", "chance": 100, "x": 15, "y": 8 },
+                { "item": "chalice_cult_sacrifice", "chance": 100, "x": 8, "y": 15 },
+                { "item": "chalice_cult_sacrifice", "chance": 100, "x": 15, "y": 15 }
             ],
             "set": [
                 { "point": "trap", "id": "tr_brazier", "x": 8, "y": 8},

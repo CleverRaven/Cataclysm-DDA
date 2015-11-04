@@ -120,8 +120,8 @@
                 "   |-111-|     |-111-|  ",
                 "                        "
             ],
-            "place_item": [
-                { "item": "holy_symbol", "chance": 90, "x": [ 12,12 ], "y": [ 9,9 ] }
+            "add": [
+                { "item": "holy_symbol",  "x": 12, "y": 9, "amount":1 }
             ],
             "terrain": {
                 " ": [ "t_grass", "t_grass", "t_grass", "t_dirt" ],
@@ -311,8 +311,8 @@
                 "##_.__...##...##...__._#",
                 "########################"
             ],
-            "place_item": [
-                { "item": "hand_of_armok", "chance": 100, "x": [ 12,12 ], "y": [ 4,4 ] }
+            "add": [
+                { "item": "hand_of_armok",  "x": 12, "y": 4, "amount":1 }
             ],
             "terrain": {
                 "#": "t_rock",
@@ -328,10 +328,10 @@
                 "r": "f_rack"
             },
             "set": [
-                { "point": "trap", "id": "tr_portal", "x": 5, "y": 3},
-                { "point": "trap", "id": "tr_portal", "x": 19, "y": 3},
-                { "point": "trap", "id": "tr_portal", "x": 5, "y": 20},
-                { "point": "trap", "id": "tr_portal", "x": 19, "y": 20},
+                { "point": "trap", "id": "tr_portal", "x": 5, "y": 2},
+                { "point": "trap", "id": "tr_portal", "x": 19, "y": 2},
+                { "point": "trap", "id": "tr_portal", "x": 3, "y": 21},
+                { "point": "trap", "id": "tr_portal", "x": 21, "y": 21},
                 { "point": "trap", "id": "tr_portal", "x": 12, "y": 11}
             ],
             "place_monsters": [
