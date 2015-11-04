@@ -569,7 +569,9 @@ void player::apply_persistent_morale()
         } else if (has_effect("took_prozac")) {
             pen = int(pen / 2);
         }
-        add_morale(MORALE_PERM_HOARDER, -pen, -pen, 5, 5, true);
+        if (pen > 0) {
+            add_morale(MORALE_PERM_HOARDER, -pen, -pen, 5, 5, true);
+        }
     }
 
     // The stylish get a morale bonus for each body part covered in an item
@@ -10261,11 +10263,11 @@ bool player::wield(item* it, bool autodrop)
                 return false;
         } else {
         add_msg(m_info, _("You are too weak to wield %s with only one arm."),
-                it->tname().c_str()); 
+                it->tname().c_str());
                 return false;
         }
     }
-    
+
     if (!is_armed()) {
         weapon = i_rem(it);
         moves -= 30;
