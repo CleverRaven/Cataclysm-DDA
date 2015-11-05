@@ -11516,13 +11516,6 @@ void game::unload(item &it)
                 return;
             }
         }
-        // If neither the mods nor the gun itself are loaded, try to remove the mods instead.
-        if( it.charges <= 0 ) {
-            while( !it.contents.empty() && !it.has_flag("IRREMOVABLE") ) {
-                u.remove_gunmod( &it, 0 );
-            }
-            return;
-        }
     }
 
     if( it.is_null() ) {
