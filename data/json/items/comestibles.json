@@ -20271,7 +20271,7 @@
         "spoils_in" : 0,
         "use_action" : {
             "type" : "consume_drug",
-            "activation_message" : "You pop the sac's membrane and smear yourself in it's contents.",
+            "activation_message" : "You pop the sac's membrane and smear yourself in its contents.",
             "effects" : [
                 {
                 "id": "inked",
