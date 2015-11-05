@@ -138,6 +138,6 @@ void check_recipe_definitions();
 void set_item_spoilage(item &newit, float used_age_tally, int used_age_count);
 void set_item_food(item &newit);
 void set_item_inventory(item &newit);
-void finalize_crafted_item(item &newit, float used_age_tally, int used_age_count);
+void finalize_crafted_item(item &newit, float used_age_tally, int used_age_count, bool crafted_rotten = false);
 
 #endif

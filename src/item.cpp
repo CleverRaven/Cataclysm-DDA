@@ -225,6 +225,7 @@ void item::init()
     fridge = 0;
     rot = 0;
     last_rot_check = 0;
+    crafted_rotten = false;
 }
 
 void item::make( const std::string new_type, bool scrub )
@@ -1275,7 +1276,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> &dump_ref) const
                 dump->push_back(iteminfo("DESCRIPTION", _("This item can be used to make reach attacks.")));
             }
         }
-        
+
         //lets display which martial arts styles character can use with this weapon
         if (g->u.ma_styles.size() > 0)
         {
@@ -1992,7 +1993,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
     {
         food_type = dynamic_cast<const it_comest*>(type);
 
-        if (food_type->spoils != 0)
+        if (food_type->spoils != 0 || crafted_rotten)
         {
             if(rotten()) {
                 ret << _(" (rotten)");
@@ -2464,8 +2465,12 @@ bool item::is_going_bad() const
 bool item::rotten() const
 {
     const it_comest *comest = dynamic_cast<const it_comest *>( type );
-    if( comest != nullptr && comest->spoils > 0 ) {
-        return rot > comest->spoils;
+    if( comest != nullptr) {
+        if (comest->spoils > 0 ) {
+            return rot > comest->spoils;
+        } else if (crafted_rotten) {
+            return true;
+        }
     }
     return false;
 }
@@ -4450,7 +4455,7 @@ bool item_matches_locator(const item &it, const item *other, int)
     return &it == other;
 }
 
-iteminfo::iteminfo(std::string Type, std::string Name, std::string Fmt, 
+iteminfo::iteminfo(std::string Type, std::string Name, std::string Fmt,
                    double Value, bool _is_int, std::string Plus,
                    bool NewLine, bool LowerIsBetter, bool DrawName)
 {
