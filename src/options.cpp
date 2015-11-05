@@ -889,7 +889,7 @@ void options_manager::init()
     optionNames["new_top"] = _("Top");
     optionNames["new_bottom"] = _("Bottom");
     OPTIONS["SIDEBAR_LOG_FLOW"] = cOpt("interface", _("Sidebar log flow"),
-                                       _("Where new sidebar log messages should show."),
+                                       _("Where new sidebar log messages should show. Requires restart."),
                                        "new_top,new_bottom", "new_bottom"
                                       );
 
