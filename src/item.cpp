@@ -251,7 +251,7 @@ bool item::covers( const body_part bp ) const
     return get_covered_body_parts().test(bp);
 }
 
-const std::bitset<num_bp> item::get_covered_body_parts() const
+std::bitset<num_bp> item::get_covered_body_parts() const
 {
     auto res = type->armor->covers;
 

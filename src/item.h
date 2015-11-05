@@ -859,7 +859,7 @@ public:
          * For testing only a single body part, use @ref covers instead. This function allows you
          * to get the whole covering data in one call.
          */
-        const std::bitset<num_bp> get_covered_body_parts() const;
+        std::bitset<num_bp> get_covered_body_parts() const;
         /**
           * Returns true if item is armor and can be worn on different sides of the body
           */
