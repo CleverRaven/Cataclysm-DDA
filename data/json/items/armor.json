@@ -6290,7 +6290,7 @@
         "id" : "fireman_belt",
         "name" : "firefighter belt",
         "volume" : 2,
-        "material_thickness" : 2,
+        "material_thickness" : 0,
         "storage" : 4,
         "covers" : ["TORSO"],
         "description" : "A stout firefighter's belt.  Useful for keeping your bunker gear up, it also doubles as an equipment belt with a reinforced loop for holding a large tool.",
