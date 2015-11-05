@@ -383,6 +383,7 @@ void MonsterGenerator::init_flags()
     flag_map["PUSH_MON"] = MF_PUSH_MON;
     flag_map["INK_SAC"] = MF_INK_SAC;
     flag_map["MUT_ABLE"] = MF_MUT_ABLE;
+    flag_map["MUTANT"] = MF_MUTANT;
     flag_map["TENTACLES2"] = MF_TENTACLES2;
     flag_map["TENTACLES4"] = MF_TENTACLES4;
     flag_map["TENTACLES8"] = MF_TENTACLES8;

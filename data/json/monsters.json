@@ -139,8 +139,8 @@
     "special_attacks":[["INK_JET", 10]],
     "death_function":"NORMAL",
     "description": "A strange dog which has a sharp beak instead of it's usual canine snout. It's large bulging eyes give it a silly appearance.",
-    "flags":["SEES", "HEARS", "SMELLS", "ANIMAL", "WARM", "FUR", "HIT_AND_RUN", "KEENNOSE", "BLEED", "ATTACKMON", "BONES", "FAT", "INK_SAC", "MUT_ABLE"],
-    "anger_triggers":["HURT", "FRIEND_ATTACKED", "FRIEND_DIED"],
+    "flags":["SEES", "HEARS", "SMELLS", "ANIMAL", "WARM", "FUR", "HIT_AND_RUN", "KEENNOSE", "BLEED", "ATTACKMON", "BONES", "FAT", "INK_SAC", "MUT_ABLE", "MUTANT"],
+    "anger_triggers":["HURT", "FRIEND_ATTACKED", "FRIEND_DIED", "STALK"],
     "placate_triggers":["MEAT"],
     "categories":["WILDLIFE"]
     },{
@@ -170,8 +170,8 @@
     "special_attacks":[["INK_JET", 10]],
     "death_function":"NORMAL",
     "description": "A short beaked canine mutant. It's slick fur is soaked in slimy secretions, giving the creature a combined smell of wet dog and stale fish.",
-    "flags":["SEES", "HEARS", "SMELLS", "SWIMS", "ANIMAL", "WARM", "FUR", "HIT_AND_RUN", "KEENNOSE", "BLEED", "ATTACKMON", "BONES", "FAT", "INK_SAC", "MUT_ABLE"],
-    "anger_triggers":["HURT", "FRIEND_ATTACKED", "FRIEND_DIED"],
+    "flags":["SEES", "HEARS", "SMELLS", "SWIMS", "ANIMAL", "WARM", "FUR", "HIT_AND_RUN", "KEENNOSE", "BLEED", "ATTACKMON", "BONES", "FAT", "INK_SAC", "MUT_ABLE", "MUTANT"],
+    "anger_triggers":["HURT", "FRIEND_ATTACKED", "FRIEND_DIED", "STALK", "PLAYER_WEAK", "PLAYER_CLOSE"],
     "placate_triggers":["MEAT"],
     "categories":["WILDLIFE"]
     },{
@@ -206,8 +206,8 @@
     ],
     "death_function":"NORMAL",
     "description": "A beaked mutated dog with large bulging eyes. Two long tentacles, cowered in wet matted fur, extend from its back. This creature's stench is unbearable.",
-    "flags":["SEES", "HEARS", "SMELLS", "SWIMS", "ANIMAL", "WARM", "FUR", "HIT_AND_RUN", "KEENNOSE", "BLEED", "ATTACKMON", "BONES", "FAT", "TENTACLES2", "INK_SAC", "MUT_ABLE"],
-    "anger_triggers":["HURT", "FRIEND_ATTACKED", "FRIEND_DIED"],
+    "flags":["SEES", "HEARS", "SMELLS", "SWIMS", "ANIMAL", "WARM", "FUR", "HIT_AND_RUN", "KEENNOSE", "BLEED", "ATTACKMON", "BONES", "FAT", "TENTACLES2", "INK_SAC", "MUT_ABLE", "MUTANT"],
+    "anger_triggers":["HURT", "FRIEND_ATTACKED", "FRIEND_DIED", "STALK", "PLAYER_WEAK", "PLAYER_CLOSE"],
     "placate_triggers":["MEAT"],
     "categories":["WILDLIFE"]
     },{
@@ -242,8 +242,8 @@
     ],
     "death_function":"NORMAL",
     "description": "A nimble quadruped with slick pale skin and viscous saliva dripping from its stubby beak. Four tentacles wave from this creature's back.",
-    "flags":["SEES", "HEARS", "SMELLS", "SWIMS", "ANIMAL", "WARM", "HIT_AND_RUN", "KEENNOSE", "BLEED", "ATTACKMON", "BONES", "FAT", "TENTACLES4", "INK_SAC", "MUT_ABLE"],
-    "anger_triggers":["HURT", "FRIEND_ATTACKED", "FRIEND_DIED"],
+    "flags":["SEES", "HEARS", "SMELLS", "SWIMS", "ANIMAL", "WARM", "HIT_AND_RUN", "KEENNOSE", "BLEED", "ATTACKMON", "BONES", "FAT", "TENTACLES4", "INK_SAC", "MUT_ABLE", "MUTANT"],
+    "anger_triggers":["HURT", "FRIEND_ATTACKED", "FRIEND_DIED", "STALK", "PLAYER_WEAK", "PLAYER_CLOSE"],
     "placate_triggers":["MEAT"],
     "categories":["WILDLIFE"]
     },{

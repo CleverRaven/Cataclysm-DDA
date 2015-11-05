@@ -143,6 +143,7 @@ enum m_flag : int {
     MF_PUSH_MON,            // Monsters that can push creatures out of their way
     MF_INK_SAC,             // May produce some sacs of ink then butchered
     MF_MUT_ABLE,            // Lets the game know that you can inject mutagen into this monster, then its your pet.
+    MF_MUTANT,              // Lets the game know that you can inject purifier into this monster, then its your pet.
     MF_TENTACLES2,          // Then butchered, creature drops 2 tentacles. Also, this decides how much attacks tentacle_lash does.
     MF_TENTACLES4,          // Then butchered, creature drops 4 tentacles. Also, this decides how much attacks tentacle_lash does.
     MF_TENTACLES8,          // Then butchered, creature drops 8 tentacles. Also, this decides how much attacks tentacle_lash does.

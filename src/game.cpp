@@ -7986,35 +7986,67 @@ bool pet_menu(monster *z)
     }
     if ( inject == choice ) {
         auto filter = [] (const item &it) {
-            return it.has_flag("MUTAGEN_CEPHALOPOD") ||
-                   it.has_flag("PURIFIER");
+            for (auto cont : it.contents) {
+                return cont.has_flag( "MUTAGEN_CEPHALOPOD" ) || cont.has_flag( "PURIFIER" );
+            }
+            return it.has_flag( "MUTAGEN_CEPHALOPOD" ) || it.has_flag( "PURIFIER" );
         };
+
         int pos = g->inv_for_filter( _("Injectable mutagen:"), filter );
         if ( pos == INT_MIN ) {
             add_msg( _("Never mind.") );
             return true;
         }
+        item &it = g->u.i_at(pos);
 
-        item *it = &g->u.i_at(pos);
+        item &injectable = it;
 
-        if ( !( it->has_flag("MUTAGEN_CEPHALOPOD") ) &&
-             !( it->has_flag( "PURIFIER" ) ) ) {
-            add_msg(_("You can't inject that!"));
+        bool container = false;
+
+        for (auto &cont : it.contents) {
+            if (cont.has_flag( "MUTAGEN_CEPHALOPOD" ) ||
+                cont.has_flag( "PURIFIER" ) ) {
+                injectable = cont;
+                container = true;
+                break;
+            }
+        }
+
+        // Check player's chosen item again, because player may choose a wrong one
+
+        bool found = false;
+
+        if ( !(it.has_flag( "MUTAGEN_CEPHALOPOD" ) || it.has_flag( "PURIFIER" )) ) { 
+            for (auto &cont : it.contents) {
+                if (cont.has_flag( "MUTAGEN_CEPHALOPOD" ) || cont.has_flag( "PURIFIER" )) {
+                    found = true;
+                    break;
+                }
+            }
+            if (!found) {
+                add_msg( _( "You can't inject that!" ) );
+                return true;
+            }
+        }
+
+        if ( !z->has_flag( MF_MUTANT ) && injectable.has_flag( "PURIFIER" ) ) {
+            add_msg( _( "Injecting purifier into %s, would have no effect. Better save it for later use." ), pet_name.c_str() );
             return true;
         }
 
         int mut_str = 0;
-        if ( !it->has_flag( "SERUM" ) ) {
+        if ( !injectable.has_flag( "SERUM" ) ) {
             mut_str = 1;
         }
         else {
             mut_str = rng(1, 3);
         }
-        if ( it->has_flag( "PURIFIER" ) ) {
+        if ( injectable.has_flag( "PURIFIER" ) ) {
             mut_str *= -1;
         }
-        if ( it->has_flag( "MUTAGEN_CEPHALOPOD" ) ||
-            it->has_flag( "PURIFIER" ) ) {
+  
+        if ( injectable.has_flag( "MUTAGEN_CEPHALOPOD" ) ||
+            injectable.has_flag( "PURIFIER" ) ) {
 
             std::vector<mtype_id> dog_ceph_mut;
             dog_ceph_mut.push_back(mtype_id("mon_dog"));
@@ -8026,45 +8058,45 @@ bool pet_menu(monster *z)
             int max_mut_lev = dog_ceph_mut.size() - 1;
 
             for ( size_t i = 0; i < dog_ceph_mut.size(); i++ ) {
-                if (dog_ceph_mut[i] != z->type->id) {
-                    continue;
+
+                if (dog_ceph_mut[i] == z->type->id) {
+
+                    int mut_lev = i + mut_str;
+
+                    if (mut_lev > max_mut_lev) {
+                        mut_lev = max_mut_lev;
+                    }
+                    if (mut_lev < 0) {
+                        mut_lev = 0;
                     }
 
-                int mut_lev = i + mut_str;
+                    add_msg( _("You inject the %1$s into the %2$s."),
+                        injectable.type->nname(1).c_str(), pet_name.c_str() );
+                    if ( injectable.has_flag("SERUM")) {
+                        add_msg( _("The %s releases a painful howl!"), pet_name.c_str() );
+                        sounds::sound( z->pos(), 30, _(""));
+                        z->add_effect("wary", 1800);
+                    }
 
-                if (mut_lev > max_mut_lev) {
-                    mut_lev = max_mut_lev;
-                }
-                if (mut_lev < 0) {
-                    mut_lev = 0;
-                }
+                    if ( z->type->id != dog_ceph_mut[mut_lev] && (injectable.has_flag("SERUM") || one_in(3) ) ) {
+                        z->poly(dog_ceph_mut[mut_lev]);
+                        add_msg( _("The %s's form shifts right before your eyes!"),
+                            pet_name.c_str() );
+                    } else {
+                        add_msg( _("Nothing seems to happen.") );
+                    }
+                    g->u.use_charges( injectable.typeId(), 1);
 
-                add_msg( _("You inject the %1$s into the %2$s."),
-                    it->type->nname(1).c_str(), pet_name.c_str() );
-                if (it->has_flag("SERUM")) {
-                    sounds::sound( z->pos(), 30, _("a howl!"));
-                    z->add_effect("wary", 1800);
-                    z->moves -= 500;
-                }
-
-                if ( z->type->id != dog_ceph_mut[mut_lev] && ( it->has_flag("SERUM") || one_in(4) ) ) {
-                    z->poly(dog_ceph_mut[mut_lev]);
-                    add_msg( _("The %s's form shifts right before your eyes!"),
-                        pet_name.c_str() );
-                } else {
-                    add_msg( _("Nothing seems to happen.") );
-                }
+                    z->moves -= 200;
+                    g->u.moves -= 200;
                     
-                g->u.inv.use_charges( it->typeId(), 1 );
-
-                z->moves -= 200;
-                g->u.moves -= 200;
-                    
-                return true;
+                    return true;
+                
+                }
             }
         }
+        return true;
     }
-    return true;
 } 
        
 
