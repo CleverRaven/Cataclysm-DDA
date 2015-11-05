@@ -13065,6 +13065,41 @@ void game::fling_creature(Creature *c, const int &dir, float flvel, bool control
     }
 }
 
+tripoint point_selection_menu( const std::vector<tripoint> &pts )
+{
+    if( pts.empty() ) {
+        debugmsg( "point_selection_menu called with empty point set" );
+        return tripoint_min;
+    }
+
+    if( pts.size() == 1 ) {
+        return pts[0];
+    }
+
+    const tripoint &upos = g->u.pos();
+    uimenu pmenu;
+    pmenu.title = _("Climb where?");
+    int num = 0;
+    for( const tripoint &pt : pts ) {
+        // TODO: Sort the menu so that it can be used with numpad directions
+        const std::string &direction = direction_name( direction_from( upos.x, upos.y, pt.x, pt.y ) );
+        // TODO: Inform player what is on said tile
+        // But don't just print terrain name (in many cases it will be "open air")
+        pmenu.addentry( num++, true, MENU_AUTOASSIGN, _("Climb %s"), direction.c_str() );
+    }
+
+    pmenu.addentry( num, true, 'q', "%s", _("Cancel") );
+
+    pmenu.selected = num;
+    pmenu.query();
+    const int ret = pmenu.ret;
+    if( ret < 0 || ret >= num ) {
+        return tripoint_min;
+    }
+
+    return pts[ret];
+}
+
 void game::vertical_move(int movez, bool force)
 {
     // Check if there are monsters are using the stairs.
@@ -13151,16 +13186,19 @@ void game::vertical_move(int movez, bool force)
             }
         }
 
-        if( cost > 0 && !pts.empty() ) {
-            climbing = true;
-            move_cost = cost;
-            // TODO: Allow picking this instead of forcing a random one
-            stairs = random_entry( pts );
-        } else {
+        if( cost <= 0 || pts.empty() ) {
             add_msg( m_info, _("You can't climb here - there is no terrain above you that would support your weight") );
             return;
+        } else if( cost > 0 && !pts.empty() ) {
+            // TODO: Make it an extended action
+            climbing = true;
+            move_cost = cost;
+
+            stairs = point_selection_menu( pts );
+            if( stairs == tripoint_min ) {
+                return;
+            }
         }
-        // TODO: Make it an extended action
     }
 
     if( !force && movez == -1 && !m.has_flag( "GOES_DOWN", u.pos() ) ) {
