@@ -10189,7 +10189,7 @@
     "weight": 478,
     "volume": 4,
     "bashing": 7,
-    "cutting": 18,
+    "cutting": 22,
     "flags" : ["CHOP", "DURABLE_MELEE", "SHEATH_SWORD", "IAIJUTSU"],
     "to_hit": 2,
     "max_charges": 0,
