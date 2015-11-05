@@ -477,23 +477,6 @@
             [ [ "stick", 1 ] ],
             [ [ "string_36", 1 ] ]
         ],
-        "pre_terrain" : "t_window",
-        "post_terrain" : "t_window_domestic"
-    },{
-        "type" : "construction",
-        "description" : "Build Window", "//": "Step 3: window with curtains",
-        "category" : "CONSTRUCT",
-        "difficulty" : 2,
-        "time" : 30,
-        "qualities": [ [
-            { "id": "SAW_W", "level": 1 }
-        ] ],
-        "components" : [
-            [ [ "nail", 4 ] ],
-            [ [ "sheet", 2 ] ],
-            [ [ "stick", 1 ] ],
-            [ [ "string_36", 1 ] ]
-        ],
         "pre_terrain" : "t_window_no_curtains",
         "post_terrain" : "t_window_domestic"
     },{
