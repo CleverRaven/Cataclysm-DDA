@@ -5030,6 +5030,9 @@ int iuse::firecracker_pack_act(player *, item *it, bool, const tripoint &pos)
         }
         it->charges -= ex;
     }
+    if (it->charges == 0) {
+        it->charges = -1;
+    }
     return 0;
 }
 
