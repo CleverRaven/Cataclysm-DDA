@@ -468,9 +468,10 @@
         "category" : "CONSTRUCT",
         "difficulty" : 2,
         "time" : 30,
-        "qualities": [ [
-            { "id": "SAW_W", "level": 1 }
-        ] ],
+        "qualities": [
+            [ { "id": "SAW_W", "level": 1 } ],
+            [ { "id": "HAMMER", "level": 2 } ]
+        ],
         "components" : [
             [ [ "nail", 4 ] ],
             [ [ "sheet", 2 ] ],
