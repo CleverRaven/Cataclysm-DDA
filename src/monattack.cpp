@@ -606,6 +606,11 @@ void mattack::resurrect(monster *z, int index)
         z->set_speed_base(std::min(z->type->speed, int(z->get_speed_base() + .1 * z->type->speed)));
     }
 
+    // Make reviving a bit less reliable in a simple way.
+    if( !one_in(4) ) {
+        return;
+    }
+
     std::vector<std::pair<tripoint, item*>> corpses;
     // Find all corpses that we can see within 10 tiles.
     int range = 10;
@@ -618,8 +623,8 @@ void mattack::resurrect(monster *z, int index)
             tmp.y = j;
             if (g->is_empty(tmp) && g->m.sees(z->pos3(), tmp, -1)) {
                 for( auto &i : g->m.i_at( tmp ) ) {
-                    if( i.is_corpse() && i.get_mtype()->has_flag(MF_REVIVES) &&
-                          i.get_mtype()->in_species( ZOMBIE ) ) {
+                    if( i.is_corpse() && i.active && i.get_mtype()->has_flag(MF_REVIVES) &&
+                        i.get_mtype()->in_species( ZOMBIE ) ) {
                         corpses.push_back( std::make_pair(tmp, &i) );
                         break;
                     }
@@ -661,6 +666,7 @@ void mattack::resurrect(monster *z, int index)
     }
 
     std::pair<tripoint, item*> raised = random_entry( corpses );
+    float corpse_damage = raised.second->damage;
     // Did we successfully raise something?
     if (g->revive_corpse(raised.first, *raised.second)) {
         g->m.i_rem( raised.first, raised.second );
@@ -670,8 +676,9 @@ void mattack::resurrect(monster *z, int index)
         }
         z->reset_special(index); // Reset timer
         z->moves -= z->type->speed; // Takes one turn
-        // Lose 20% of our maximum speed
-        z->set_speed_base(z->get_speed_base() - .2 * z->type->speed);
+        // Penalize speed by between 10% and 50% based on how damaged the corpse is.
+        float speed_penalty = 0.1 + (corpse_damage * 0.1);
+        z->set_speed_base(z->get_speed_base() - speed_penalty * z->type->speed);
         const int mondex = g->mon_at(raised.first);
         if( mondex == -1 ) {
             debugmsg( "Misplaced or failed to revive a zombie corpse" );
