@@ -857,6 +857,16 @@ public:
  // Dummy point that indicates that the goal is invalid.
  static const tripoint no_goal_point;
 
+    int last_updated;
+    /**
+     * Do some cleanup and caching as npc is being unloaded from map.
+     */
+    void on_unload();
+    /**
+     * Retroactively update npc.
+     */
+    void on_load();
+
     protected:
         void store(JsonOut &jsout) const;
         void load(JsonObject &jsin);

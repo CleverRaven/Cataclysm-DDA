@@ -942,6 +942,8 @@ void npc::load(JsonObject &data)
         data.read("misc_rules", rules);
         data.read("combat_rules", rules);
     }
+
+    last_updated = data.get_int( "last_updated", calendar::turn );
 }
 
 /*
@@ -1002,6 +1004,8 @@ void npc::store(JsonOut &json) const
     json.member("companion_mission", companion_mission);
     json.member("companion_mission_time", companion_mission_time);
     json.member("restock", restock);
+
+    json.member("last_updated", last_updated);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1159,6 +1163,7 @@ void monster::load(JsonObject &data)
     }
 
     faction = mfaction_str_id( data.get_string( "faction", "" ) );
+    last_updated = data.get_int( "last_updated", calendar::turn );
 }
 
 /*
@@ -1202,6 +1207,7 @@ void monster::store(JsonOut &json) const
     json.member( "underwater", underwater );
     json.member("upgrades", upgrades);
     json.member("upgrade_time", upgrade_time);
+    json.member("last_updated", last_updated);
 
     json.member( "inv", inv );
 }

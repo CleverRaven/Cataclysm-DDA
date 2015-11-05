@@ -1349,7 +1349,7 @@ void talk_function::force_on_force(std::vector<npc *> defender, std::string def_
 void talk_function::companion_leave(npc *comp){
     g->mission_npc.push_back(comp);
     overmap_buffer.hide_npc( comp->getID() );
-    g->active_npc.clear();
+    g->unload_npcs();
     g->load_npcs();
 }
 
@@ -1364,7 +1364,7 @@ void talk_function::companion_lost(npc *comp){
         }
     }
     g->mission_npc = new_mission_npc;
-    g->active_npc.clear();
+    g->unload_npcs();
     g->load_npcs();
 }
 
@@ -1388,7 +1388,7 @@ void talk_function::companion_return(npc *comp){
         }
     }
     g->mission_npc = new_mission_npc;
-    g->active_npc.clear();
+    g->unload_npcs();
     g->load_npcs();
 }
 

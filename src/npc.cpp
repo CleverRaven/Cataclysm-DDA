@@ -2456,6 +2456,19 @@ void npc::add_new_mission( class mission *miss )
     chatbin.add_new_mission( miss );
 }
 
+void npc::on_unload()
+{
+    last_updated = calendar::turn;
+}
+
+void npc::on_load()
+{
+    // TODO: Sleeping, healing etc.
+    const int dt = calendar::turn - last_updated;
+    last_updated = calendar::turn;
+    add_msg( m_debug, "on_load() by %s, %d turns", name.c_str(), dt );
+}
+
 void npc_chatbin::add_new_mission( mission *miss )
 {
     if( miss == nullptr ) {
