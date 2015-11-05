@@ -2388,20 +2388,41 @@ std::string item::get_property (const std::string &prop, const std::string& def)
 
 int item::get_property (const std::string& prop, int def) const
 {
-    const auto it = type->properties.find(prop);
-    return it != type->properties.end() ? std::atoi(it->second.c_str()) : def;
+    long r = get_property(prop, static_cast<long>(def));
+    if (r > std::numeric_limits<int>::min() ||
+        r < std::numeric_limits<int>::max()) {
+        return r;
+    }
+    debugmsg(_("invalid property '%s' for item '%s'"), prop.c_str(), tname().c_str());
+    return def;
 }
 
 long item::get_property (const std::string& prop, long def) const
 {
     const auto it = type->properties.find(prop);
-    return it != type->properties.end() ? std::atol(it->second.c_str()) : def;
+    if (it != type->properties.end()) {
+        char *e = nullptr;
+        long  r = std::strtol(it->second.c_str(), &e, 10);
+        if (it->second.size() && *e == '\0') {
+            return r;
+        }
+        debugmsg(_("invalid property '%s' for item '%s'"), prop.c_str(), tname().c_str());
+    }
+    return def;
 }
 
 double item::get_property (const std::string& prop, double def) const
 {
     const auto it = type->properties.find(prop);
-    return it != type->properties.end() ? std::atof(it->second.c_str()) : def;
+    if (it != type->properties.end()) {
+        char  *e = nullptr;
+        double r = std::strtod(it->second.c_str(), &e);
+        if (it->second.size() && *e == '\0') {
+            return r;
+        }
+        debugmsg(_("invalid property '%s' for item '%s'"), prop.c_str(), tname().c_str());
+    }
+    return def;
 }
 
 
