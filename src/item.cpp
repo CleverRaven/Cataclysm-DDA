@@ -2393,7 +2393,7 @@ int item::get_property (const std::string& prop, int def) const
         r < std::numeric_limits<int>::max()) {
         return r;
     }
-    debugmsg(_("invalid property '%s' for item '%s'"), prop.c_str(), tname().c_str());
+    debugmsg("invalid property '%s' for item '%s'", prop.c_str(), tname().c_str());
     return def;
 }
 
@@ -2406,7 +2406,7 @@ long item::get_property (const std::string& prop, long def) const
         if (it->second.size() && *e == '\0') {
             return r;
         }
-        debugmsg(_("invalid property '%s' for item '%s'"), prop.c_str(), tname().c_str());
+        debugmsg("invalid property '%s' for item '%s'", prop.c_str(), tname().c_str());
     }
     return def;
 }
@@ -2420,7 +2420,7 @@ double item::get_property (const std::string& prop, double def) const
         if (it->second.size() && *e == '\0') {
             return r;
         }
-        debugmsg(_("invalid property '%s' for item '%s'"), prop.c_str(), tname().c_str());
+        debugmsg("invalid property '%s' for item '%s'", prop.c_str(), tname().c_str());
     }
     return def;
 }
