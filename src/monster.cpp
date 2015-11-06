@@ -2063,24 +2063,24 @@ void monster::on_load()
 {
     // Possible TODO: Integrate monster upgrade
     const int dt = calendar::turn - last_updated;
-    if( dt == 0 ) {
-        return;
-    } else if( dt < 0 ) {
-        last_updated = calendar::turn;
-        return;
-    }
-
-    int regen_per_hour = 0;
-    if( has_flag( MF_REGENERATES_50 ) ) {
-        regen_per_hour = HOURS(1) * 50;
-    } else if( has_flag( MF_REGENERATES_10 ) ) {
-        regen_per_hour = HOURS(1) * 10;
-    } else if( has_flag( MF_REVIVES ) ) {
-        regen_per_hour = 1;
-    }
-
-    const int heal_amount = divide_roll_remainder( regen_per_hour * dt, HOURS(1) );
-    const int healed = heal( heal_amount );
     last_updated = calendar::turn;
+    if( dt <= 0 ) {
+        return;
+    }
+
+    float regen = 0.0f;
+    if( has_flag( MF_REGENERATES_50 ) ) {
+        regen = 50.0f;
+    } else if( has_flag( MF_REGENERATES_10 ) ) {
+        regen = 10.0f;
+    } else if( has_flag( MF_REVIVES ) ) {
+        regen = 1.0f / HOURS(1);
+    } else if( type->has_material( "flesh" ) || type->has_material( "veggy" ) ) {
+        // Most living stuff here
+        regen = 0.25f / HOURS(1);
+    }
+
+    const int heal_amount = divide_roll_remainder( regen * dt, 1.0 );
+    const int healed = heal( heal_amount );
     add_msg( m_debug, "on_load() by %s, %d turns, healed %d", name().c_str(), dt, healed );
 }
