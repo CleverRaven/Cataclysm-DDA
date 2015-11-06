@@ -414,7 +414,7 @@ effect &effect::null_effect()
 
 bool effect::is_null() const
 {
-    return this == null_effect();
+    return this == &null_effect;
 }
 
 std::string effect::disp_name() const
