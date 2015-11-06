@@ -406,12 +406,6 @@ bool effect_type::load_decay_msgs(JsonObject &jo, std::string member)
     return false;
 }
 
-effect &effect::null_effect()
-{
-    static effect nul_effect;
-    return nul_effect;
-}
-
 bool effect::is_null() const
 {
     return this == &null_effect;
