@@ -1230,9 +1230,7 @@ bool game::do_turn()
         m.spawn_monsters( false );
     }
 
-    u.update_needs();
-    u.regen();
-    u.update_stamina();
+    u.update_body();
 
     // Auto-save if autosave is enabled
     if (OPTIONS["AUTOSAVE"] &&
@@ -6052,9 +6050,7 @@ void game::monmove()
 
         if( !np->is_dead() ) {
             np->process_active_items();
-            np->update_needs();
-            np->regen();
-            np->update_stamina();
+            np->update_body();
         }
     }
     cleanup_dead();

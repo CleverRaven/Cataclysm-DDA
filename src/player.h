@@ -197,7 +197,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Returns the player's speed for swimming across water tiles */
         int  swim_speed() const;
         /** Maintains body wetness and handles the rate at which the player dries */
-        void update_body_wetness( int turns, const w_point &weather );
+        void update_body_wetness( const w_point &weather );
         /** Updates all "biology" as if `turns` passed */
         void update_body( int turns = 1 );
         /** Increases hunger, thirst, fatigue and stimms wearing off. `rate_multiplier` is for retroactive updates. */
@@ -647,7 +647,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Handles a large number of timers decrementing and other randomized effects */
         void suffer();
         /** Handles the chance for broken limbs to spontaneously heal to 1 HP */
-        void mend();
+        void mend( int rate_multiplier );
         /** Handles player vomiting effects */
         void vomit();
 
