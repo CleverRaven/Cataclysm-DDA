@@ -8213,7 +8213,7 @@ void game::examine( const tripoint &examp )
 
     // Did the player get moved? Bail out if so; our examp probably
     // isn't valid anymore.
-    if (player_pos != u.pos()) {
+    if( player_pos != u.pos() ) {
         return;
     }
 
@@ -8226,7 +8226,7 @@ void game::examine( const tripoint &examp )
         Creature *c = critter_at(examp);
         monster *mon = dynamic_cast<monster *>(c);
 
-        if ( mon != nullptr && mon->has_effect("pet")) {
+        if( mon != nullptr && mon->has_effect("pet") ) {
             if (pet_menu(mon)) {
                 return;
             }
@@ -8234,7 +8234,7 @@ void game::examine( const tripoint &examp )
 
         npc *np = dynamic_cast<npc*>( c );
         if( np != nullptr ) {
-            if ( npc_menu( *np ) ) {
+            if( npc_menu( *np ) ) {
                 return;
             }
         }
