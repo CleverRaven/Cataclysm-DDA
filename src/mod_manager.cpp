@@ -467,9 +467,7 @@ void mod_manager::save_mods_list(WORLDPTR world) const
     if( world->active_mod_order.empty() ) {
         // If we were called from load_mods_list to prune the list,
         // and it's empty now, delete the file.
-        if( file_exist(path) ) {
-            remove_file(path);
-        }
+        remove_file(path);
         return;
     }
     std::ofstream mods_list_file(path.c_str(), std::ios::out | std::ios::binary);

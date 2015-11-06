@@ -1647,13 +1647,8 @@ void options_manager::load()
     if( !fin.good() ) {
         if (load_legacy()) {
             if (save()) {
-                if(file_exist(FILENAMES["legacy_options"])) {
-                    remove_file(FILENAMES["legacy_options"]);
-                }
-
-                if(file_exist(FILENAMES["legacy_options2"])) {
-                    remove_file(FILENAMES["legacy_options2"]);
-                }
+                remove_file(FILENAMES["legacy_options"]);
+                remove_file(FILENAMES["legacy_options2"]);
             }
         }
 

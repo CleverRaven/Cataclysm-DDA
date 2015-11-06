@@ -772,9 +772,7 @@ void auto_pickup::load(const bool bCharacter)
     if( !fin.good() ) {
         if (load_legacy(bCharacter)) {
             if (save(bCharacter)) {
-                if(file_exist(sFile)) {
-                    remove_file(sFile);
-                }
+                remove_file(sFile);
             }
         }
     } else {
