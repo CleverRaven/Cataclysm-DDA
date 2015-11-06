@@ -3719,7 +3719,6 @@ item *item::get_usable_item( const std::string &use_name )
     return nullptr;
 }
 
-
 int item::pick_reload_ammo( const player &u, bool interactive )
 {
     if( is_null() ) {
