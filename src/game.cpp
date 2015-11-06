@@ -783,6 +783,14 @@ void game::unload_npcs()
     active_npc.clear();
 }
 
+void game::reload_npcs()
+{
+    // TODO: Make it not invoke the "on_unload" command for the NPCs that will be loaded anyway
+    // and not invoke "on_load" for those NPCs that avoided unloading this way.
+    unload_npcs();
+    load_npcs();
+}
+
 //Pulls the NPCs that were dumped into the world map on save back into mission_npcs
 void game::load_mission_npcs()
 {
@@ -796,8 +804,7 @@ void game::load_mission_npcs()
         }
     }
 
-    unload_npcs();
-    load_npcs();
+    reload_npcs();
 }
 
 void game::create_starting_npcs()
@@ -13475,9 +13482,7 @@ void game::vertical_shift( const int z_after )
         m.set_outside_cache_dirty( z_before );
         m.load( get_levx(), get_levy(), z_after, true );
         shift_monsters( 0, 0, z_after - z_before );
-        // Clear currently active npcs and reload them
-        unload_npcs();
-        load_npcs();
+        reload_npcs();
     } else {
         // Shift the map itself
         m.vertical_shift( z_after );

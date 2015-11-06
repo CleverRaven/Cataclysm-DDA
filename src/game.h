@@ -319,6 +319,8 @@ class game
         void load_npcs();
         /** Unloads all NPCs */
         void unload_npcs();
+        /** Unloads, then loads the NPCs */
+        void reload_npcs();
         /** Pulls the NPCs that were dumped into the world map on save back into mission_npcs */
         void load_mission_npcs();
         /** Returns the number of kills of the given mon_id by the player. */
