@@ -165,7 +165,9 @@ void sounds::process_sounds()
         // --- Monster sound handling here ---
         // Alert all hordes
         if( vol > 20 && g->get_levz() == 0 ) {
-            int sig_power = ( ( vol > 140 ) ? 140 : vol ) - 20;
+            int sig_power = ( ( vol > 140 ) ? 140 : vol );
+            // With this, volume 100 reaches 20 overmap tiles away.
+            sig_power /= 5;
             const point abs_ms = g->m.getabs( source.x, source.y );
             const point abs_sm = overmapbuffer::ms_to_sm_copy( abs_ms );
             const tripoint target( abs_sm.x, abs_sm.y, source.z );
