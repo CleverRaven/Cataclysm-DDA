@@ -94,7 +94,7 @@ item::item()
     init();
 }
 
-item::item(const std::string new_type, int turn, bool rand, const handedness handed)
+item::item(const std::string new_type, int turn, bool rand)
 {
     init();
     type = find_type( new_type );
@@ -111,7 +111,7 @@ item::item(const std::string new_type, int turn, bool rand, const handedness han
         charges = 0;
         for( auto &gm : type->gun->built_in_mods ){
             if(type_is_defined( gm) ){
-                item temp( gm, turn, rand, handed );
+                item temp( gm, turn, rand );
                 temp.item_tags.insert("IRREMOVABLE");
                 contents.push_back( temp );
             }
@@ -119,7 +119,7 @@ item::item(const std::string new_type, int turn, bool rand, const handedness han
 
         for( auto &gm : type->gun->default_mods ){
             if(type_is_defined( gm ) ){
-                contents.push_back( item( gm, turn, rand, handed ) );
+                contents.push_back( item( gm, turn, rand ) );
             }
         }
     }
@@ -147,17 +147,6 @@ item::item(const std::string new_type, int turn, bool rand, const handedness han
     if( type->gunmod ) {
         if( type->id == "spare_mag" ) {
             charges = 0;
-        }
-    }
-    if( type->armor ) {
-        if( handed != NONE ) {
-            make_handed( handed );
-        } else {
-            if( one_in( 2 ) ) {
-                make_handed( LEFT );
-            } else {
-                make_handed( RIGHT );
-            }
         }
     }
     if( type->variable_bigness ) {
@@ -212,7 +201,6 @@ void item::init()
     invlet = 0;
     damage = 0;
     burnt = 0;
-    covered_bodyparts.reset();
     poison = 0;
     item_counter = 0;
     type = nullitem();
@@ -229,19 +217,8 @@ void item::init()
 
 void item::make( const std::string new_type, bool scrub )
 {
-    const bool was_armor = is_armor();
     type = find_type( new_type );
     contents.clear();
-    if( was_armor != is_armor() ) {
-        // If changed from armor to non-armor (or reverse), have to recalculate
-        // the coverage.
-        const auto armor = find_armor_data();
-        if( armor == nullptr ) {
-            covered_bodyparts.reset();
-        } else {
-            covered_bodyparts = armor->covers;
-        }
-    }
 
     if (scrub) {
         components.clear();
@@ -252,41 +229,6 @@ void item::make( const std::string new_type, bool scrub )
     }
 }
 
-// If armor is sided , add matching bits to cover bitset
-void make_sided_if( const islot_armor &armor, std::bitset<num_bp> &covers, handedness h, body_part bpl, body_part bpr )
-{
-    if( armor.sided.test( bpl ) ) {
-        if( h == RIGHT ) {
-            covers.set( bpr );
-        } else {
-            covers.set( bpl );
-        }
-    }
-}
-
-void item::make_handed( const handedness handed )
-{
-    const auto armor = find_armor_data();
-    if( armor == nullptr ) {
-        return;
-    }
-    item_tags.erase( "RIGHT" );
-    item_tags.erase( "LEFT" );
-    // Always reset the coverage, so to prevent inconsistencies.
-    covered_bodyparts = armor->covers;
-    if( !armor->sided.any() || handed == NONE ) {
-        return;
-    }
-    if( handed == RIGHT ) {
-        item_tags.insert( "RIGHT" );
-    } else {
-        item_tags.insert( "LEFT" );
-    }
-    make_sided_if( *armor, covered_bodyparts, handed, bp_arm_l, bp_arm_r );
-    make_sided_if( *armor, covered_bodyparts, handed, bp_hand_l, bp_hand_r );
-    make_sided_if( *armor, covered_bodyparts, handed, bp_leg_l, bp_leg_r );
-    make_sided_if( *armor, covered_bodyparts, handed, bp_foot_l, bp_foot_r );
-}
 
 bool item::is_null() const
 {
@@ -306,12 +248,51 @@ bool item::covers( const body_part bp ) const
         // go on another bodypart.
         return bp == bp_torso;
     }
-    return covered_bodyparts.test( bp );
+    return get_covered_body_parts().test(bp);
 }
 
-const std::bitset<num_bp> &item::get_covered_body_parts() const
+std::bitset<num_bp> item::get_covered_body_parts() const
 {
-    return covered_bodyparts;
+    auto res = type->armor->covers;
+
+    switch (get_side()) {
+        case LEFT:
+            res.reset(bp_arm_r);
+            res.reset(bp_hand_r);
+            res.reset(bp_leg_r);
+            res.reset(bp_foot_r);
+            break;
+
+        case RIGHT:
+            res.reset(bp_arm_l);
+            res.reset(bp_hand_l);
+            res.reset(bp_leg_l);
+            res.reset(bp_foot_l);
+            break;
+    }
+
+    return res;
+}
+
+bool item::is_sided() const {
+    auto t = find_armor_data();
+    return t ? t->sided : false;
+}
+
+int item::get_side() const {
+    return get_var("lateral", BOTH);
+}
+
+bool item::set_side (side s) {
+    if (!is_sided()) return false;
+
+    if (s == BOTH) {
+        erase_var("lateral");
+    } else {
+        set_var("lateral", s);
+    }
+
+    return true;
 }
 
 item item::in_its_container()
@@ -928,45 +909,45 @@ std::string item::info(bool showtext, std::vector<iteminfo> &dump_ref) const
         if (covers(bp_torso)) {
             temp1 << _("The torso. ");
         }
-        if( covers( bp_arm_l ) && covers( bp_arm_r ) ) {
+
+        if (is_sided() && (covers(bp_arm_l) || covers(bp_arm_r))) {
+            temp1 << _("Either arm. ");
+        } else if (covers(bp_arm_l) && covers(bp_arm_r)) {
             temp1 << _("The arms. ");
-        } else {
-            if (covers(bp_arm_l)) {
-                temp1 << _("The left arm. ");
-            }
-            if (covers(bp_arm_r)) {
-                temp1 << _("The right arm. ");
-            }
+        } else if (covers(bp_arm_l)) {
+            temp1 << _("The left arm. ");
+        } else if (covers(bp_arm_r)) {
+            temp1 << _("The right arm. ");
         }
-        if( covers( bp_hand_l ) && covers( bp_hand_r ) ) {
+
+        if (is_sided() && (covers(bp_hand_l) || covers(bp_hand_r))) {
+            temp1 << _("Either hand. ");
+        } else if (covers(bp_hand_l) && covers(bp_hand_r)) {
             temp1 << _("The hands. ");
-        } else {
-            if (covers(bp_hand_l)) {
-                temp1 << _("The left hand. ");
-            }
-            if (covers(bp_hand_r)) {
-                temp1 << _("The right hand. ");
-            }
+        } else if (covers(bp_hand_l)) {
+            temp1 << _("The left hand. ");
+        } else if (covers(bp_hand_r)) {
+            temp1 << _("The right hand. ");
         }
-        if( covers( bp_leg_l ) && covers( bp_leg_r ) ) {
+
+        if (is_sided() && (covers(bp_leg_l) || covers(bp_leg_r))) {
+            temp1 << _("Either leg. ");
+        } else if (covers(bp_leg_l) && covers(bp_leg_r)) {
             temp1 << _("The legs. ");
-        } else {
-            if (covers(bp_leg_l)) {
-                temp1 << _("The left leg. ");
-            }
-            if (covers(bp_leg_r)) {
-                temp1 << _("The right leg. ");
-            }
+        } else if (covers(bp_leg_l)) {
+            temp1 << _("The left leg. ");
+        } else if (covers(bp_leg_r)) {
+            temp1 << _("The right leg. ");
         }
-        if( covers( bp_foot_l ) && covers( bp_foot_r ) ) {
+
+        if (is_sided() && (covers(bp_foot_l) || covers(bp_foot_r))) {
+            temp1 << _("Either foot. ");
+        } else if (covers(bp_foot_l) && covers(bp_foot_r)) {
             temp1 << _("The feet. ");
-        } else {
-            if (covers(bp_foot_l)) {
-                temp1 << _("The left foot. ");
-            }
-            if (covers(bp_foot_r)) {
-                temp1 << _("The right foot. ");
-            }
+        } else if (covers(bp_foot_l)) {
+            temp1 << _("The left foot. ");
+        } else if (covers(bp_foot_r)) {
+            temp1 << _("The right fot. ");
         }
 
         dump->push_back(iteminfo("ARMOR", temp1.str()));
@@ -1302,6 +1283,10 @@ std::string item::info(bool showtext, std::vector<iteminfo> &dump_ref) const
         } else if (is_armor() && has_flag("VARSIZE")) {
             dump->push_back(iteminfo("DESCRIPTION", "--"));
             dump->push_back(iteminfo("DESCRIPTION", _("This piece of clothing can be refitted.")));
+        }
+        if (is_armor() && is_sided()) {
+            dump->push_back(iteminfo("DESCRIPTION", "--"));
+            dump->push_back(iteminfo("DESCRIPTION", _("This item can be worn on either side of the body.")));
         }
         if (is_armor() && has_flag("SKINTIGHT")) {
             dump->push_back(iteminfo("DESCRIPTION", "--"));
@@ -1828,9 +1813,37 @@ nc_color item::color_in_inventory() const
 
 void item::on_wear( player &p  )
 {
+    if (is_sided() && get_side() == BOTH) {
+        // for sided items wear the item on the side which results in least encumbrance
+        int lhs = 0, rhs = 0;
+
+        set_side(LEFT);
+        lhs += covers(bp_hand_l) ? p.encumb(bp_hand_l, *this) : 0;
+        lhs += covers(bp_arm_l)  ? p.encumb(bp_arm_l,  *this) : 0;
+        lhs += covers(bp_leg_l)  ? p.encumb(bp_leg_l,  *this) : 0;
+        lhs += covers(bp_foot_l) ? p.encumb(bp_foot_l, *this) : 0;
+
+        set_side(RIGHT);
+        rhs += covers(bp_hand_r) ? p.encumb(bp_hand_r, *this) : 0;
+        rhs += covers(bp_arm_r)  ? p.encumb(bp_arm_r,  *this) : 0;
+        rhs += covers(bp_leg_r)  ? p.encumb(bp_leg_r,  *this) : 0;
+        rhs += covers(bp_foot_r) ? p.encumb(bp_foot_r, *this) : 0;
+
+        set_side(lhs <= rhs ? LEFT : RIGHT);
+    }
+
     // TODO: artifacts currently only work with the player character
     if( &p == &g->u && type->artifact ) {
         g->add_artifact_messages( type->artifact->effects_worn );
+    }
+}
+
+void item::on_takeoff (player &p)
+{
+    (void) p; // suppress unused variable warning
+
+    if (is_sided()) {
+        set_side(BOTH);
     }
 }
 
@@ -1986,7 +1999,6 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
     const it_comest* food_type = NULL;
     std::string tagtext = "";
     std::string toolmodtext = "";
-    std::string sidedtext = "";
     ret.str("");
     if (is_food())
     {
@@ -2037,12 +2049,6 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
         toolmodtext = _("atomic ");
     }
 
-    if (has_flag("LEFT")) {
-        sidedtext = _("left ");
-    } else if (has_flag("RIGHT")) {
-        sidedtext = _("right ");
-    }
-
     if(has_flag("WET"))
        ret << _(" (wet)");
 
@@ -2063,10 +2069,9 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
 
     ret.str("");
 
-    //~ This is a string to construct the item name as it is displayed. This format string has been added for maximum flexibility. The strings are: %1$s: Damage text (eg. "bruised"). %2$s: burn adjectives (eg. "burnt"). %3$s: sided adjectives (eg. "left"). %4$s: tool modifier text (eg. "atomic"). %5$s: vehicle part text (eg. "3.8-Liter"). $6$s: main item text (eg. "apple"). %7$s: tags (eg. "(wet) (fits)").
-    ret << string_format(_("%1$s%2$s%3$s%4$s%5$s%6$s%7$s"), damtext.c_str(), burntext.c_str(),
-                        sidedtext.c_str(), toolmodtext.c_str(),
-                        vehtext.c_str(), maintext.c_str(), tagtext.c_str());
+    //~ This is a string to construct the item name as it is displayed. This format string has been added for maximum flexibility. The strings are: %1$s: Damage text (eg. "bruised"). %2$s: burn adjectives (eg. "burnt"). %3$s: tool modifier text (eg. "atomic"). %4$s: vehicle part text (eg. "3.8-Liter"). $5$s: main item text (eg. "apple"). %6s: tags (eg. "(wet) (fits)").
+    ret << string_format(_("%1$s%2$s%3$s%4$s%5$s%6$s"), damtext.c_str(), burntext.c_str(),
+                        toolmodtext.c_str(), vehtext.c_str(), maintext.c_str(), tagtext.c_str());
 
     static const std::string const_str_item_note("item_note");
     if( item_vars.find(const_str_item_note) != item_vars.end() ) {
@@ -2087,6 +2092,8 @@ std::string item::display_name(unsigned int quantity) const
         return string_format( "%s (%d)", tname( quantity ).c_str(), get_remaining_chapters( g->u ) );
     } else if (charges >= 0 && !has_flag("NO_AMMO")) {
         return string_format("%s (%d)", tname(quantity).c_str(), charges);
+    } else if (get_side() != BOTH) {
+        return string_format("%s (%s)", tname(quantity).c_str(), get_side() == LEFT ? _("left")  : _("right"));
     } else {
         return tname(quantity);
     }

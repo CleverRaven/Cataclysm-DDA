@@ -399,8 +399,7 @@ int player::create(character_type type, std::string tempname)
         prof_items.push_back("glasses_reading");
     }
     for( auto &itd : prof_items ) {
-        // Spawn left-handed items as a placeholder, shouldn't affect non-handed items
-        tmp = item(itd.type_id, 0, false, LEFT);
+        tmp = item(itd.type_id, 0, false);
         if( !itd.snippet_id.empty() ) {
             tmp.set_snippet( itd.snippet_id );
         }
@@ -412,18 +411,6 @@ int player::create(character_type type, std::string tempname)
             // If wearing an item fails we fail silently.
             wear_item(tmp, false);
 
-            // If item is part of a pair give a second one for the other side
-            if (tmp.has_flag("PAIRED")) {
-                tmp2 = item(itd.type_id, 0, false, RIGHT);
-                if( !itd.snippet_id.empty() ) {
-                    tmp2.set_snippet( itd.snippet_id );
-                }
-                if(tmp2.has_flag("VARSIZE")) {
-                    tmp2.item_tags.insert("FIT");
-                }
-                // If wearing an item fails we fail silently.
-                wear_item(tmp2, false);
-            }
             // if something is wet, start it as active with some time to dry off
         } else if(tmp.has_flag("WET")) {
             tmp.active = true;

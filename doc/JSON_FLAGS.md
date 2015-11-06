@@ -601,7 +601,6 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```leather_padded``` - This gear has certain parts padded with leather to increase protection without increasing encumbrance.
 - ```OUTER```  Outer garment layer.
 - ```OVERSIZE``` Can always be worn no matter encumbrance/mutations/bionics/etc., but prevents any other clothing being worn over this.
-- ```PAIRED``` - Item usually comes in two, one for the left side and one for the right side.
 - ```POCKETS``` Increases warmth for hands if the player's hands are cold and the player is wielding nothing.
 - ```RAD_PROOF``` - This piece of clothing completely protects you from radiation.
 - ```RAD_RESIST``` - This piece of clothing partially protects you from radiation.
@@ -805,7 +804,6 @@ Those flags are added by the game code to specific items (that specific welder, 
 - ```LITCIG``` Marks a lit smoking item (cigarette, joint etc.).
 - ```WET``` Item is wet and will slowly dry off (e.g. towel).
 - ```REVIVE_SPECIAL``` ... Corpses revives when the player is nearby.
-- ```RIGHT``` or ```LEFT``` Item is handed, the flag indicates which side it is for.
 
 ## Books
 

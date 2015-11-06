@@ -1257,7 +1257,6 @@ void item::io( Archive& archive )
     archive.io( "components", components, io::empty_default_tag() );
     archive.template io<const itype>( "curammo", curammo, load_curammo, []( const itype& i ) { return i.id; } );
     archive.template io<const mtype>( "corpse", corpse, load_corpse, []( const mtype& i ) { return i.id.str(); } );
-    archive.io( "covers", covered_bodyparts, io::default_tag() );
     archive.io( "light", light.luminance, nolight.luminance );
     archive.io( "light_width", light.width, nolight.width );
     archive.io( "light_dir", light.direction, nolight.direction );
@@ -1292,15 +1291,6 @@ void item::io( Archive& archive )
     if( archive.read( "mode", mode ) ) {
         // only for backward compatibility (nowadays mode is stored in item_vars)
         set_gun_mode( mode );
-    }
-
-    const auto armor = type->armor.get();
-    if( armor != nullptr && covered_bodyparts.none() ) {
-        // Fix armor that had no body_part covered, but its type definition says it should
-        covered_bodyparts = armor->covers;
-        if (armor->sided.any()) {
-            make_handed( one_in( 2 ) ? LEFT : RIGHT );
-        }
     }
 }
 
