@@ -2114,6 +2114,35 @@
         }
     },{
         "type" : "terrain",
+        "id" : "t_window_domestic_curtainless",
+        "name": "window",
+        "symbol": "\"",
+        "color": "ltcyan",
+        "move_cost": 0,
+        "flags": [
+            "TRANSPARENT", "BASHABLE", "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF",
+            "OPENCLOSE_INSIDE", "BARRICADABLE_WINDOW", "REDUCE_SCENT"
+        ],
+        "open": "t_window_open_curtainless",
+        "deconstruct": {
+            "ter_set": "t_window_empty",
+            "items": [
+                { "item": "glass_sheet", "amount": 1 },
+                { "item": "nail", "amount": 4, "minamount": 3 }
+            ]
+        },
+        "bash": {
+            "str_min": 1, "str_max": 6,
+            "sound": "glass breaking!",
+            "sound_fail": "whack!",
+            "ter_set": "t_window_frame",
+            "items": [
+                { "item": "glass_shard", "amount": 3 }
+            ]
+        }
+
+    },{
+        "type" : "terrain",
         "id" : "t_window_domestic_taped",
         "name": "taped window",
         "comment": "Taped window with curtains",
@@ -2160,6 +2189,15 @@
                 { "item": "string_36", "count": 1 }
             ]
         }
+    },{
+        "type" : "terrain",
+        "id" : "t_window_open_curtainless",
+        "name": "open window",
+        "symbol": "'",
+        "color": "ltcyan",
+        "move_cost": 4,
+        "flags": ["TRANSPARENT", "FLAMMABLE", "NOITEM", "SUPPORTS_ROOF", "OPENCLOSE_INSIDE", "MOUNTABLE" ],
+        "close": "t_window_domestic_curtainless"
     },{
         "type" : "terrain",
         "id" : "t_curtains",
