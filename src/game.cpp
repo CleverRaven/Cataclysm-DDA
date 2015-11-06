@@ -6255,7 +6255,7 @@ void game::do_blast( const tripoint &p, const float power,
 void game::explosion( const tripoint &p, float power, float factor,
                       int shrapnel_count, bool fire )
 {
-    const int noise = power * (fire ? .5 : 1);
+    const int noise = power * (fire ? 2 : 10);
     if( noise >= 30 ) {
         sounds::sound( p, noise, _("a huge explosion!") );
         sfx::play_variant_sound( "explosion", "huge", 100);
