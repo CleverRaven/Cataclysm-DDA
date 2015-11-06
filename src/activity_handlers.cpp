@@ -797,6 +797,10 @@ void activity_handlers::pulp_do_turn( player_activity *act, player *p )
     }
     // If we reach this, all corpses have been pulped, finish the activity
     act->moves_left = 0;
+    if( num_corpses == 0 ) {
+        add_msg(m_bad, _("The corpse moved before you could finish smashing it!"));
+        return;
+    }
     // TODO: Factor in how long it took to do the smashing.
     add_msg(ngettext("The corpse is thoroughly pulped.",
                      "The corpses are thoroughly pulped.", num_corpses));
