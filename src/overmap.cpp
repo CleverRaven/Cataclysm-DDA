@@ -26,6 +26,7 @@
 #include "mapsharing.h"
 #include "uistate.h"
 #include "mongroup.h"
+#include "mtype.h"
 #include "name.h"
 #include "translations.h"
 #include "mapgen_functions.h"
@@ -2247,6 +2248,51 @@ void overmap::move_hordes()
     }
     // and now back into the monster group map.
     zg.insert( tmpzg.begin(), tmpzg.end() );
+
+
+    if(ACTIVE_WORLD_OPTIONS["REJOIN_HORDE"]) {
+        // Re-absorb zombies into hordes.
+        static const mongroup_id GROUP_ZOMBIE("GROUP_ZOMBIE");
+        const MonsterGroup &zombie_group = MonsterGroupManager::GetMonsterGroup(GROUP_ZOMBIE);
+        // Scan over monsters outside the player's view and place them back into hordes.
+        auto monster_map_it = monster_map.begin();
+        while(monster_map_it != monster_map.end()) {
+            const auto& p = monster_map_it->first;
+            auto& this_monster = monster_map_it->second;
+
+            // Check if the monster is a zombie.
+            if(!zombie_group.IsMonsterInGroup(this_monster.type->id)) {
+                // Don't delete the monster, just increment the iterator.
+                monster_map_it++;
+                continue;
+            }
+
+            // Scan for compatible hordes in this area.
+            mongroup *add_to_group = NULL;
+            auto group_bucket = zg.equal_range(p);
+            std::for_each( group_bucket.first, group_bucket.second,
+                [&](std::pair<const tripoint, mongroup> &horde_entry ) {
+                mongroup &horde = horde_entry.second;
+
+                // We only absorb zombies into GROUP_ZOMBIE hordes
+                if(horde.horde && horde.type == GROUP_ZOMBIE) {
+                    add_to_group = &horde;
+                }
+            });
+
+            // If there is no horde to add the monster to, create one.
+            if(add_to_group == NULL) {
+                mongroup m(GROUP_ZOMBIE, p.x, p.y, p.z, 0, 1);
+                m.horde = true;
+                add_mon_group( m );
+            } else {
+                add_to_group->population += 1;
+            }
+
+            // Delete the monster, continue iterating.
+            monster_map_it = monster_map.erase(monster_map_it);
+        }
+    }
 }
 
 /**
