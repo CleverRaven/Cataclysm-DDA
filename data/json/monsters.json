@@ -2540,7 +2540,7 @@
     "vision_night":3,
     "death_drops": "default_zombie_death_drops",
     "upgrades":{
-      "into": "mon_zombie_grappler",
+      "into": "GROUP_ZOMBIE_GRAB",
       "half_life": 14
     },
     "hp":95,
