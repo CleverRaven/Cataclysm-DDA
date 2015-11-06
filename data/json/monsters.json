@@ -150,7 +150,7 @@
     },{
     "type" : "MONSTER",
     "id" : "mon_beakhound2",
-    "name": "revolting bulge-eyed dog",
+    "name": "muck dog",
     "species":"MAMMAL",
     "default_faction":"dog",
     "symbol":"d",

@@ -4885,8 +4885,8 @@ void mattack::ink_jet( monster *z, int index ) {
     const game_message_type msg_type = target->attitude_to( g->u ) == Creature::A_FRIENDLY ? m_bad : m_warning;
 
     target->add_msg_player_or_npc( msg_type, 
-        _("The %s squirts a jet of black ink at your eyes!"),
-        _("The %s squirts a jet of black ink at <npcname>!'s eyes"),
+        _("The %s squirts a jet of black ink at you"),
+        _("The %s squirts a jet of black ink at <npcname>!"),
         z->name().c_str() );
 
     // Shoot the jet of ink
@@ -4968,8 +4968,8 @@ void mattack::tentacle_lash(monster *z, int index) {
     //All attacks have been made
     z->moves -= 75 + ((att_made - 1) * 50);
     game_message_type msg_type = target->attitude_to(g->u) == Creature::A_FRIENDLY ? m_bad : m_warning;
-    auto tent_desc = ngettext( _("tentacle"), _("tentacles"), attacks );
-    std::string tent_eff = att_hit == 0 ? _(" ineffectively") : _("");
+    auto tent_desc = ngettext( "tentacle", "tentacles", attacks );
+    std::string tent_eff = att_hit == 0 ? _(" ineffectively") : ("");
     target->add_msg_player_or_npc( msg_type,
         _("The %1$s%2$s lashes it's %3$s at you!"),
         _("The %1$s%2$s lashes it's %3$s at <npcname>!"),

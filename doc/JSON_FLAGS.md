@@ -253,9 +253,9 @@ Flags used to describe monsters and define their properties and abilities.
 - ```INK_SAC``` When butchered, monster drops a number of ink sacs.
 - ```MUT_ABLE``` Allows for you pet monster to be injected with mutagen.
 - ```MUTANT``` Tells the game that the monster may be injected with purifier.
-- ```TENTACLES2``` When butchered, monster drops 2 tentacles. Also, controls how much attacks the TENTACLE_LASH does.
-- ```TENTACLES4``` When butchered, monster drops 4 tentacles. Also, controls how much attacks the TENTACLE_LASH does.
-- ```TENTACLES8``` When butchered, monster drops 8 tentacles. Also, controls how much attacks the TENTACLE_LASH does.
+- ```TENTACLES2``` When butchered, monster drops 2 tentacles. Also, controls how many attacks the TENTACLE_LASH does.
+- ```TENTACLES4``` When butchered, monster drops 4 tentacles. Also, controls how many attacks the TENTACLE_LASH does.
+- ```TENTACLES8``` When butchered, monster drops 8 tentacles. Also, controls how many attacks the TENTACLE_LASH does.
 
 ### Special attacks
 Some special attacks are also valid use actions for tools and weapons.
@@ -715,7 +715,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```MUTAGEN_ALPHA``` Causes mutation in the alpha branch.
 - ```MUTAGEN_ELFA``` Causes mutation in the elfa branch.
 - ```MUTAGEN_RAPTOR``` Causes mutation in the raptor branch.
-- ```SERUM``` This mutagen is more powerful then its lesser versions. Used to determinate your pets mutation strength.
+- ```SERUM``` This mutagen is more powerful than its lesser versions. Used to determine your pet's mutation strength.
 - ```PKILL_1``` Minor painkiller.
 - ```PKILL_2``` Moderate painkiller.
 - ```PKILL_3``` Heavy painkiller.
