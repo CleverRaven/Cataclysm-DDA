@@ -8099,8 +8099,7 @@ bool pet_menu(monster *z)
         return true;
     }
 } 
-       
-
+      
 // Returns true if the menu handled stuff and player shouldn't do anything else
 bool npc_menu( npc &who )
 {
@@ -8180,19 +8179,19 @@ void game::examine()
     examine( examp );
 }
 
-void game::examine(const tripoint &examp)
+void game::examine( const tripoint &examp )
 {
     int veh_part = 0;
     vehicle *veh = nullptr;
 
-    veh = m.veh_at( examp, veh_part );
+    veh = m.veh_at(examp, veh_part);
     if (veh) {
         if (u.controlling_vehicle) {
-            add_msg( m_info, _("You can't do that while driving.") );
-        } else if ( abs(veh->velocity) > 0 ) {
-            add_msg( m_info, _("You can't do that on a moving vehicle.") );
+            add_msg(m_info, _("You can't do that while driving."));
+        } else if (abs(veh->velocity) > 0) {
+            add_msg(m_info, _("You can't do that on a moving vehicle."));
         } else {
-            Pickup::pick_up( examp, 0 );
+            Pickup::pick_up( examp, 0);
         }
         return;
     }
@@ -8214,7 +8213,7 @@ void game::examine(const tripoint &examp)
 
     // Did the player get moved? Bail out if so; our examp probably
     // isn't valid anymore.
-    if ( player_pos != u.pos() ) {
+    if (player_pos != u.pos()) {
         return;
     }
 
@@ -8227,45 +8226,45 @@ void game::examine(const tripoint &examp)
         Creature *c = critter_at(examp);
         monster *mon = dynamic_cast<monster *>(c);
 
-        if ( mon != nullptr && mon->has_effect("pet") ) {
+        if ( mon != nullptr && mon->has_effect("pet")) {
             if (pet_menu(mon)) {
                 return;
             }
         }
 
-        npc *np = dynamic_cast<npc*>(c);
-        if (np != nullptr) {
-            if (npc_menu(*np)) {
+        npc *np = dynamic_cast<npc*>( c );
+        if( np != nullptr ) {
+            if ( npc_menu( *np ) ) {
                 return;
             }
         }
     }
 
-    if ( !m.tr_at(examp).is_null() ) {
-        iexamine::trap( &u, &m, examp );
+    if( !m.tr_at( examp ).is_null() ) {
+        iexamine::trap(&u, &m, examp);
         draw_ter();
     }
 
     // In case of teleport trap or somesuch
-    if ( player_pos != u.pos( )) {
+    if( player_pos != u.pos() ) {
         return;
     }
 
-    if ( m.has_flag( "SEALED", examp ) ) {
+    if (m.has_flag("SEALED", examp)) {
         if (none) {
-            if ( m.has_flag( "UNSTABLE", examp ) ) {
-                add_msg( _("The %s is too unstable to remove anything."), m.name(examp).c_str() );
+            if (m.has_flag("UNSTABLE", examp)) {
+                add_msg(_("The %s is too unstable to remove anything."), m.name(examp).c_str());
             } else {
-                add_msg( _("The %s is firmly sealed."), m.name(examp).c_str() );
+                add_msg(_("The %s is firmly sealed."), m.name(examp).c_str());
             }
         }
     } else {
         //examp has no traps, is a container and doesn't have a special examination function
-        if ( m.tr_at(examp).is_null() && m.i_at(examp).empty() &&
+        if( m.tr_at( examp ).is_null() && m.i_at(examp).empty() &&
             m.has_flag("CONTAINER", examp) && none) {
-            add_msg(_("It is empty.") );
+            add_msg(_("It is empty."));
         } else if (!veh) {
-            Pickup::pick_up( examp, 0 );
+            Pickup::pick_up( examp, 0);
         }
     }
 }
