@@ -8054,7 +8054,7 @@ bool pet_menu(monster *z)
             dog_ceph_mut.push_back(mtype_id("mon_beakhound2"));
             dog_ceph_mut.push_back(mtype_id("mon_beakhound3"));
             dog_ceph_mut.push_back(mtype_id("mon_beakhound4"));
-            dog_ceph_mut.push_back( mtype_id("mon_beakhound5"));
+            dog_ceph_mut.push_back(mtype_id("mon_beakhound5"));
 
             int max_mut_lev = dog_ceph_mut.size() - 1;
 
