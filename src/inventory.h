@@ -13,8 +13,6 @@
 class map;
 class npc;
 
-const extern std::string inv_chars;
-
 typedef std::list< std::list<item> > invstack;
 typedef std::vector< std::list<item>* > invslice;
 typedef std::vector< const std::list<item>* > const_invslice;
@@ -22,6 +20,32 @@ typedef std::vector< std::pair<std::list<item>*, int> > indexed_invslice;
 typedef std::function<bool(const item &)> item_filter;
 
 class salvage_actor;
+
+/**
+ * Wrapper to handled a set of valid "inventory" letters. "inventory" can be any set of
+ * objects that the player can access via a single character (e.g. bionics).
+ * The class is (currently) derived from std::string for compatibility and because it's
+ * simpler. But it may be changed to derive from `std::set<long>` or similar to get the full
+ * range of possible characters.
+ */
+class invlet_wrapper : private std::string {
+private:
+
+public:
+    invlet_wrapper( const char *chars ) : std::string( chars ) { }
+
+    bool valid( long invlet ) const;
+    std::string get_allowed_chars() const { return *this; }
+
+    using std::string::begin;
+    using std::string::end;
+    using std::string::rbegin;
+    using std::string::rend;
+    using std::string::size;
+    using std::string::length;
+};
+
+const extern invlet_wrapper inv_chars;
 
 class inventory
 {
@@ -84,12 +108,17 @@ class inventory
          */
         item remove_item(const item *it);
         item remove_item(int position);
+        /**
+         * Randomly select items until the volume quota is filled.
+         */
+        std::list<item> remove_randomly_by_volume(int volume);
         std::list<item> reduce_stack(int position, int quantity);
         std::list<item> reduce_stack(const itype_id &type, int quantity);
 
         // amount of -1 removes the entire stack.
         template<typename Locator> std::list<item> reduce_stack(const Locator &type, int amount);
 
+        const item &find_item(int position) const;
         item &find_item(int position);
         item &item_by_type(itype_id type);
         item &item_or_container(itype_id type); // returns an item, or a container of it
@@ -141,7 +170,7 @@ class inventory
         int worst_item_value(npc *p) const;
         bool has_enough_painkiller(int pain) const;
         item *most_appropriate_painkiller(int pain);
-        item *best_for_melee(player *p);
+        item *best_for_melee( player &p, double &best );
         item *most_loaded_gun();
 
         void rust_iron_items();
@@ -153,8 +182,6 @@ class inventory
 
         // vector rather than list because it's NOT an item stack
         std::vector<item *> active_items();
-
-        void load_invlet_cache( std::ifstream &fin ); // see savegame_legacy.cpp
 
         void json_load_invcache(JsonIn &jsin);
         void json_load_items(JsonIn &jsin);

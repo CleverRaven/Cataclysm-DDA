@@ -26,6 +26,7 @@
 #define MAX_ITEM_IN_SQUARE 4096 // really just a sanity check for functions not tested beyond this. in theory 4096 works (`InvletInvlet)
 #define MAX_VOLUME_IN_SQUARE 4000 // 6.25 dead bears is enough for everybody!
 #define MAX_ITEM_IN_VEHICLE_STORAGE MAX_ITEM_IN_SQUARE // no reason to differ
+#define MAX_WORN_PER_TYPE 2 // only can wear a maximum of two of any type of clothing
 
 #define MAPSIZE 11
 
@@ -38,6 +39,15 @@
 #define SEEY 12 // Requires 2*SEEY+1= 25 vertical squares
                 // Nuts to 80x24 terms. Mostly exists in graphical clients, and
                 // those fatcats can resize.
+
+// Size of the overmap. This is the number of overmap terrain tiles per dimension in one overmap,
+// it's just like SEEX/SEEY for submaps.
+#define OMAPX 180
+#define OMAPY 180
+
+// Items on the map with at most this distance to the player are considered available for crafting,
+// see inventory::form_from_map
+#define PICKUP_RANGE 6
 
 /** Number of z-levels below 0 (not including 0). */
 #define OVERMAP_DEPTH 10

@@ -40,7 +40,7 @@ struct field_t {
 };
 
 //The master list of id's for a field, corresponding to the fieldlist array.
-enum field_id {
+enum field_id : int {
  fd_null = 0,
  fd_blood,
  fd_bile,
@@ -86,6 +86,7 @@ enum field_id {
  fd_hot_air2,
  fd_hot_air3,
  fd_hot_air4,
+ fd_fungicidal_gas,
  num_fields
 };
 

@@ -12,6 +12,7 @@
 #define NAILS_USED 10
 #define CIRC_SAW_USED 20
 #define OXY_CUTTING 10
+#define TIRE_CHANGE_STR_MOD 30
 
 struct vpart_info;
 using vpart_id = int_id<vpart_info>;
@@ -48,6 +49,7 @@ class veh_interact
     private:
         int cpart;
         int page_size;
+        int fuel_index;
         bool vertical_menu;
         WINDOW *w_grid;
         WINDOW *w_mode;
@@ -102,6 +104,7 @@ class veh_interact
          * @return false if the action is not a move action, the index is not changed in this case.
          */
         bool move_in_list(int &pos, const std::string &action, const int size, const int header = 0) const;
+        void move_fuel_cursor(int delta);
 
         void do_install();
         void do_repair();

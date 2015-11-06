@@ -180,12 +180,14 @@ extern pairs *colorpairs;
 extern std::map< std::string, std::vector<int> > consolecolors;
 // color names as read from the json file
 extern std::array<std::string, 16> main_color_names;
+// may throw std::exception
 WINDOW *curses_init();
 int curses_destroy();
 void curses_drawwindow(WINDOW *win);
 void curses_delay(int delay);
 void curses_timeout(int t);
 int curses_getch(WINDOW *win);
+// may throw std::exception
 int curses_start_color();
 
 // Add interface specific (SDL/ncurses/wincurses) initializations here

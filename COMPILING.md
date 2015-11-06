@@ -274,7 +274,7 @@ The Cataclysm source is compiled using `make`.
 * `LOCALIZE=0` disable localization (to get around possible `gettext` errors if it is not setup correctly); omit to use `gettext`.
 * `LANGUAGES="<lang_id_1>[lang_id_2][...]"` compile localization files for specified languages. e.g. `LANGUAGES="zh_CN zh_TW"`
 * `RELEASE=1` build an optimized release version; omit for debug build.
-* `CLANG=1` build with [Clang](http://clang.llvm.org/), the compiler that's included with the latest Command Line Tools for Xcode; omit to built using gcc/g++.
+* `CLANG=1` build with [Clang](http://clang.llvm.org/), the compiler that's included with the latest Command Line Tools for Xcode; omit to build using gcc/g++.
 * `MACPORTS=1` build against dependencies installed via Macports, currently only `gettext` and `ncurses`.
 * `USE_HOME_DIR=1` places user files (config, saves, graveyard, etc) in the user's home directory. For curses builds, this is `/Users/<user>/.cataclysm-dda`, for SDL builds it is `/Users/<user>/Library/Application Support/Cataclysm`.
 
@@ -332,3 +332,265 @@ Workaround: install XCode 3 like that article describes, or disable localization
 
 Open Terminal's preferences, turn on "Use bright colors for bold text" in "Preferences -> Settings -> Text"
 
+
+# Windows
+
+## MinGW Guide
+To compile under windows MinGW you first need to download mingw. An automated GUI installer assistant called mingw-get-setup.exe will make everything a lot easier. I recommend installing it to `C:\MinGW`
+https://sourceforge.net/projects/mingw/files/latest/download
+
+### MinGW setup
+once installed we need to get the right packages. In "Basic Setup", mark `mingw-developer-toolkit`, `mingw32-base` and `mingw32-gcc-g++`
+
+Then install these components using `Installation -> Apply Changes`.
+
+#### Localization
+If we want to compile with localization, we will need gettext and libintl. In "All Packages -> MinGW -> MinGW Autotools" ensure that `mingw32-gettext` and `mingw32-libintl` are installed.
+
+### Required Tiles(SDL) Libraries
+If we want to compile with Tiles (SDL) we have to download a few libraries.
+* `SDL2` http://www.libsdl.org/download-2.0.php chose `SDL2-devel-2.0.X-mingw.tar.gz`.
+* `SDL_ttf` https://www.libsdl.org/projects/SDL_ttf/ chose `SDL2_ttf-devel-2.0.12-mingw.tar.gz`.
+* `SDL_image` https://www.libsdl.org/projects/SDL_image/ chose ` SDL2_image-devel-2.0.0-mingw.tar.gz` 
+* `freetype` http://gnuwin32.sourceforge.net/packages/freetype.htm chose `Binaries` and `Developer files`  
+
+#### Bundled Libraries
+The following archives were pre-bundled for convienience and reduction of head-aches, simply download and extract directly to the root directory of the CDDA source:
+* `64-bit SDL \ Tiles \ Sound \ Lua \ Localization` http://dev.narc.ro/cataclysm/cdda-win64-codeblocks.7z
+
+#### Installing Tiles(SDL) libraries.
+For the first 3 (`SDL2`, `SDL_ttf` and `SDL_image`) you want to extract the include and lib folders from the `i686-w64-mingw32` folders into your MinGW installtion folder. (Reccomended `C:\MinGW`). And the `SDL2_image.dll` and `SDL2_ttf.dll` into your cataclysm root folder.
+
+For freetype you want to grab the include and lib folders from the `freetype-2.X.X-X-lib.zip` and move them into your your MinGW installation folder. Then you want to get the freetype6.dll from the `freetype-2.X.X-X-bin.zip` and move it into your cataclysm root folder.
+
+#### ISSUE - "winapifamily.h" no such file or directoyr
+There seems to be at the moment of writing that a file in SDL is broken and needs to be replaced. 
+https://hg.libsdl.org/SDL/raw-file/e217ed463f25/include/SDL_platform.h 
+Replace SDL_platform.h in the MinGW/include/SDL2 folder and it should be fine.
+
+### Makefile changes
+This probably not the best way to do it. But it seems that you need to remove a few dependenceis from the makefile or it will not build.
+change the line `LDFLAGS += -lfreetype -lpng -lz -ljpeg -lbz2` to `LDFLAGS += -lfreetype`
+
+### Compiling
+Navigate to `MinGW\msys\1.0` and run `msys.bat`. This will start a cmd-like shell where the following entries will be made.
+
+Add the MinGW toolchain to your PATH with `export PATH=$PATH:/c/MinGW/bin`. Replace /c/MinGW/ with the directory into which you installed MinGW (/c/ stands for drive C:, so if it's in F:/foo/bar, you'd use /f/foo/bar).
+
+Navigate to the CDDA source code directory.
+
+Compile using `make TILES=1 NATIVE=win32 LOCALIZE=1` and unless there are problems, it should produce a CDDA binary for you.
+
+If you dont want tiles you can change `TILES` to 0.
+
+If you dont want localization you can change `LOCALIZE` to 0.
+
+## Rough guide to building with only MSYS2
+
+This is a tentative step-by-step guide to building your own CDDA with Tiles, Localization and Lua using only MSYS2. You may want to follow it if the MinGW guide above doesn't work for you or you just feel adventurous. Feedback is very much welcome in terms of issues and/or pull-requests.
+
+This guide assumes you're building on a x86_64 build of Windows. If not adjust the invocations appropriately. It has been tested and proven to work on Windows XP, Windows 7 and Windows 10. Your mileage may vary.
+
+#### 1. Go to https://msys2.github.io/ and download appropriate MSYS (top of the page).
+
+#### 2. Install MSYS2 and leave the Run ticker on. You should end up with a MSYS2 terminal.
+
+#### 3. In the open terminal:
+
+```bash
+pacman --needed -Sy bash pacman pacman-mirrors msys2-runtime
+```
+
+Note: You may close the terminal now and reopen it from the Start menu (MSYS2 Shell, just to be on the safe-er side).
+
+Note: You may need to bash the close button repeatedly. Or use the task manager to kill it.
+
+#### 4. Open an editor that preserves line-endings
+
+Note: Wordpad should do. Or Notepadd++.
+
+#### 5. Open `C:\msys64\etc\pacman.conf` and change:
+
+```bash
+# By default, pacman accepts packages signed by keys that its local keyring
+# trusts (see pacman-key and its man page), as well as unsigned packages.
+#SigLevel = Never
+SigLevel    = Required DatabaseOptional
+LocalFileSigLevel = Optional
+#RemoteFileSigLevel = Required
+```
+
+To:
+
+```bash
+# By default, pacman accepts packages signed by keys that its local keyring
+# trusts (see pacman-key and its man page), as well as unsigned packages.
+SigLevel = Never
+#SigLevel    = Required DatabaseOptional
+LocalFileSigLevel = Optional
+#RemoteFileSigLevel = Required
+```
+
+(Exchange the # on SigLevel). This disables signature checking as it is currently borked.
+
+#### 6. Save the file
+
+#### 7. Run in MSYS2 terminal:
+
+```bash
+pacman -Su
+pacman -S mingw-w64-x86_64-gcc
+pacman -S mingw-w64-x86_64-SDL2 mingw-w64-x86_64-SDL2_image mingw-w64-x86_64-SDL2_mixer mingw-w64-x86_64-SDL2_ttf
+pacman -S mingw-w64-x86_64-pkg-config mingw-w64-x86_64-libwebp
+pacman -S git make
+```
+
+If you wish to build with Lua also run:
+
+```bash
+pacman -S mingw-w64-x86_64-lua
+```
+
+#### 8. Close MSYS2 terminal and open MinGW-w64 Win64 Shell from Start menu and run:
+
+Note: This will download whole CDDA repository. If you're just testing you should probably add `--depth=1`.
+
+```bash
+git clone https://github.com/CleverRaven/Cataclysm-DDA.git
+cd Cataclysm-DDA
+```
+
+#### 9. Open `Makefile` (it's located at `C:\msys64\home\<Your_Login>\Cataclysm-DDA\Makefile`) in an editor that worked before and change:
+
+```Makefile
+   ifeq ($(NATIVE), osx)
+     CXXFLAGS += -O3
+   else
+     CXXFLAGS += -Os
+     LDFLAGS += -s
+   endif
+```
+
+To:
+
+```Makefile
+   ifeq ($(NATIVE), osx)
+     CXXFLAGS += -O3
+   else
+     #CXXFLAGS += -Os
+     LDFLAGS += -s
+   endif
+```
+
+(Comment out `CXXFLAGS += -Os`). Optimizations break `gcc 4.9.2` you get with MSYS2.
+
+Also change:
+
+```Makefile
+   ifeq ($(TARGETSYSTEM),WINDOWS)
+     ifndef DYNAMIC_LINKING
+       # These differ depending on what SDL2 is configured to use.
+       LDFLAGS += -lfreetype -lpng -lz -ljpeg -lbz2
+     else
+```
+
+To:
+
+```Makefile
+   ifeq ($(TARGETSYSTEM),WINDOWS)
+     ifndef DYNAMIC_LINKING
+       # These differ depending on what SDL2 is configured to use.
+       LDFLAGS += -lfreetype -lpng -lz -ltiff -lbz2 -lharfbuzz -lglib-2.0 -llzma -lws2_32 -lintl -liconv -lwebp -ljpeg -luuid
+     else
+```
+
+(Add `-lharfbuzz -lglib-2.0 -llzma -lws2_32 -lintl -liconv -lwebp -ljpeg -luuid`). You'll need these libs for it to link.
+
+#### 10. Compile your CDDA by running:
+
+```bash
+make RELEASE=1 TILES=1 LOCALIZE=0 NATIVE=win64
+```
+
+Note: Add `-jX` where X should be the number of threads/cores your processor has (for speeding the build up).
+
+For:
+- Lua:
+    You'd need to first run:
+    
+    ```bash
+    cd src/lua && lua generate_bindings.lua && cd ../../
+    ```
+
+    Then add `LUA=1` to make invocation
+- Localization: Use `LOCALIZE=1`
+
+That's it. You should get a `cataclysm-tiles.exe` binary in the same folder you've found the `Makefile` in.
+
+# BSDs
+
+There are reports of CDDA building fine on recent OpenBSD and FreeBSD machines (with appropriately recent compilers), and there is some work being done on making the `Makefile` "just work", however we're far from that and BSDs support is mostly based on user contributions. Your mileage may vary. So far essentially all testing has been on amd64, but there is no (known) reason that other architectures shouldn't work, in principle.
+
+### Building on FreeBSD/amd64 10.1 with the system compiler
+
+FreeBSD uses clang as the default compiler as of 10.0, and combines it with libc++ to provide C++11 support out of the box. You will however need gmake (examples for binary packages):
+
+`pkg install gmake`
+
+Tiles builds will also require SDL2:
+
+`pkg install sdl2 sdl2_image sdl2_mixer sdl2_ttf`
+
+Then you should be able to build with something like this (you can of course set CXXFLAGS and LDFLAGS in your .profile or something):
+
+```
+export CXXFLAGS="-I/usr/local/include" LDFLAGS="-L/usr/local/lib"
+gmake # ncurses builds
+gmake TILES=1 # tiles builds
+```
+
+The author has not tested tiles builds, as the build VM lacks X; they do at least compile/link successfully.
+
+### Building ncurses version on FreeBSD/amd64 9.3 with GCC 4.8.4 from ports
+
+For ncurses build add to `Makefile`, before `VERSION`:
+
+```Makefile
+OTHERS += -D_GLIBCXX_USE_C99
+CXX = g++48
+CXXFLAGS += -I/usr/local/lib/gcc48/include
+LDFLAGS += -rpath=/usr/local/lib/gcc48
+```
+Note: or you can `setenv` the above (merging `OTHERS` into `CXXFLAGS`), but you knew that.
+
+And then build with `gmake LOCALIZE=0 RELEASE=1`.
+
+### Building on OpenBSD/amd64 5.7 with GCC 4.9.2 from ports/packages
+
+First, install g++ and gmake from packages (g++ 4.8 or 4.9 should work; 4.9 has been tested):
+
+`pkg_add g++ gmake`
+
+Then you should  be able to build with something like:
+
+`CXX=eg++ gmake`
+
+Only an ncurses build is possible, as SDL2 is currently broken on OpenBSD.
+
+Note that testing effort has been focused on -current, and these instructions applied to it at the time of writing and will probably be maintained for it in the future.
+
+### Building on NetBSD/amd64 7.0RC1 with the system compiler
+
+NetBSD has (or will have) gcc 4.8.4 as of version 7.0, which is new enough to build cataclysm. You will need to install gmake and ncursesw:
+
+`pkgin install gmake ncursesw`
+
+Then you should be able to build with something like this (LDFLAGS for ncurses builds are taken care of by the ncurses configuration script; you can of course set CXXFLAGS/LDFLAGS in your .profile or something):
+
+```
+export CXXFLAGS="-I/usr/pkg/include"
+gmake # ncurses builds
+LDFLAGS="-L/usr/pkg/lib" gmake TILES=1 # tiles builds
+```
+
+SDL builds currently compile, but did not run in my testing - not only do they segfault, but gdb segfaults when reading the debug symbols! Perhaps your mileage will vary.

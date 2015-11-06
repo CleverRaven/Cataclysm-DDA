@@ -10,10 +10,10 @@
 #include "color.h"
 #include "options.h"
 #include "debug.h"
-#include "monstergenerator.h"
 #include "filesystem.h"
 #include "path_info.h"
 #include "mapsharing.h"
+#include "output.h"
 
 #include <cstring>
 #include <ctime>
@@ -362,8 +362,8 @@ int main(int argc, char *argv[])
     }
 
     // Options strings loaded with system locale
-    initOptions();
-    load_options();
+    get_options().init();
+    get_options().load();
 
     set_language(true);
 
@@ -409,10 +409,8 @@ int main(int argc, char *argv[])
             // is only for verifying that stage, so we exit.
             exit_handler(0);
         }
-    } catch(std::string &error_message) {
-        if(!error_message.empty()) {
-            debugmsg("%s", error_message.c_str());
-        }
+    } catch( const std::exception &err ) {
+        debugmsg( "%s", err.what() );
         exit_handler(-999);
     }
 

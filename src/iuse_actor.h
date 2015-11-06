@@ -3,15 +3,18 @@
 
 #include "iuse.h"
 #include "color.h"
-#include "field.h"
 #include "bodypart.h"
 #include "string_id.h"
 #include <limits.h>
 
 struct vehicle_prototype;
 using vproto_id = string_id<vehicle_prototype>;
-
+enum field_id : int;
+struct mtype;
+using mtype_id = string_id<mtype>;
 class JsonObject;
+class Skill;
+using skill_id = string_id<Skill>;
 
 /**
  * Transform an item into a specific type.
@@ -109,10 +112,10 @@ class explosion_iuse : public iuse_actor
     public:
         // Those 4 values are forwarded to game::explosion.
         // No explosion is done if power < 0
-        int explosion_power;
+        float explosion_power;
+        float explosion_distance_factor;
         int explosion_shrapnel;
         bool explosion_fire;
-        bool explosion_blast;
         // Those 2 values are forwarded to game::draw_explosion,
         // Nothing is drawn if radius < 0 (game::explosion might still draw something)
         int draw_explosion_radius;
@@ -139,15 +142,15 @@ class explosion_iuse : public iuse_actor
         explosion_iuse()
             : iuse_actor()
             , explosion_power(-1)
+            , explosion_distance_factor(0.8f)
             , explosion_shrapnel(-1)
             , explosion_fire(false)
-            , explosion_blast(true) // true is the default in game.h
             , draw_explosion_radius(-1)
             , draw_explosion_color(c_white)
             , do_flashbang(false)
             , flashbang_player_immune(false) // false is the default in game.h
             , fields_radius(-1)
-            , fields_type(fd_null)
+            , fields_type()
             , fields_min_density(1)
             , fields_max_density(3)
             , emp_blast_radius(-1)
@@ -193,7 +196,7 @@ struct effect_data
     int duration;
     body_part bp;
     bool permanent;
-    
+
     effect_data(std::string nid, int dur, body_part nbp, bool perm) :
                     id(nid), duration(dur), bp(nbp), permanent(perm) {};
 };
@@ -216,8 +219,10 @@ class consume_drug_iuse : public iuse_actor
         std::vector<effect_data> effects;
         /** A list of stats and adjustments to them. **/
         std::map<std::string, int> stat_adjustments;
+        /** How many move points this action takes. */
+        int moves;
 
-        consume_drug_iuse() : iuse_actor() { }
+        consume_drug_iuse() : iuse_actor(), moves(100) { }
         virtual ~consume_drug_iuse();
         virtual void load( JsonObject &jo );
         virtual long use(player *, item *, bool, const tripoint& ) const override;
@@ -261,7 +266,7 @@ class place_monster_iuse : public iuse_actor
 {
     public:
         /** The monster type id of the monster to create. */
-        std::string mtype_id;
+        mtype_id mtypeid;
         /** If true, place the monster at a random square around the player,
          * otherwise allow the player to select the target square. */
         bool place_randomly;
@@ -274,8 +279,8 @@ class place_monster_iuse : public iuse_actor
         /** Shown when programming the monster failed and it's hostile. Can be empty. */
         std::string hostile_msg;
         /** Skills used to make the monster not hostile when activated. **/
-        std::string skill1;
-        std::string skill2;
+        skill_id skill1 = NULL_ID;
+        skill_id skill2 = NULL_ID;
 
         place_monster_iuse() : iuse_actor(), place_randomly( false ), moves( 100 ), difficulty( 0 ) { }
         virtual ~place_monster_iuse();
@@ -467,6 +472,7 @@ class cauterize_actor : public iuse_actor
         virtual ~cauterize_actor() { }
         virtual void load( JsonObject &jo );
         virtual long use( player*, item*, bool, const tripoint& ) const override;
+        virtual bool can_use( const player*, const item*, bool, const tripoint& ) const override;
         virtual iuse_actor *clone() const override;
 };
 
@@ -526,6 +532,26 @@ class fireweapon_on_actor : public iuse_actor
         virtual ~fireweapon_on_actor() { }
         virtual void load( JsonObject &jo );
         virtual long use( player*, item*, bool, const tripoint& ) const override;
+        virtual iuse_actor *clone() const override;
+};
+
+/**
+ * Makes noise of a given volume
+ */
+class manualnoise_actor : public iuse_actor
+{
+    public:
+        std::string no_charges_message;
+        std::string use_message;
+        std::string noise_message;
+        int noise; // Should work even with no volume, even if it seems impossible
+        int moves;
+
+        manualnoise_actor() : iuse_actor(), noise(0), moves(0) { }
+        virtual ~manualnoise_actor() { }
+        virtual void load( JsonObject &jo );
+        virtual long use( player*, item*, bool, const tripoint& ) const override;
+        virtual bool can_use( const player*, const item*, bool, const tripoint& ) const override;
         virtual iuse_actor *clone() const override;
 };
 

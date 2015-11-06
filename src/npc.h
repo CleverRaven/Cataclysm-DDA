@@ -233,8 +233,6 @@ struct npc_opinion : public JsonSerializer, public JsonDeserializer
     void serialize(JsonOut &jsout) const override;
     using JsonDeserializer::deserialize;
     void deserialize(JsonIn &jsin) override;
-
- void load_legacy(std::stringstream &info);
 };
 
 enum combat_engagement {
@@ -245,22 +243,28 @@ enum combat_engagement {
  ENGAGE_ALL
 };
 
-struct npc_combat_rules : public JsonSerializer, public JsonDeserializer
+struct npc_follower_rules : public JsonSerializer, public JsonDeserializer
 {
- combat_engagement engagement;
- bool use_guns;
- bool use_grenades;
- bool use_silent;
+    combat_engagement engagement;
+    bool use_guns;
+    bool use_grenades;
+    bool use_silent;
 
- npc_combat_rules()
- {
-  engagement = ENGAGE_ALL;
-  use_guns = true;
-  use_grenades = true;
-  use_silent = false;
- };
+    bool allow_pick_up;
+    bool allow_bash;
+    bool allow_sleep;
 
- void load_legacy(std::istream &data);
+    npc_follower_rules()
+    {
+        engagement = ENGAGE_ALL;
+        use_guns = true;
+        use_grenades = true;
+        use_silent = false;
+
+        allow_pick_up = true;
+        allow_bash = true;
+        allow_sleep = false;
+    };
 
     using JsonSerializer::serialize;
     void serialize(JsonOut &jsout) const override;
@@ -548,8 +552,6 @@ struct npc_chatbin : public JsonSerializer, public JsonDeserializer
     void serialize(JsonOut &jsout) const override;
     using JsonDeserializer::deserialize;
     void deserialize(JsonIn &jsin) override;
-
- void load_legacy(std::stringstream &info);
 };
 
 class npc;
@@ -607,9 +609,8 @@ public:
  void starting_weapon(npc_class type);
 
 // Save & load
- virtual void load_legacy(std::stringstream & dump) override;// Overloaded from player
- virtual void load_info(std::string data) override;// Overloaded from player
- virtual std::string save_info() override;
+    virtual void load_info(std::string data) override;// Overloaded from player
+    virtual std::string save_info() const override;
 
     using player::deserialize;
     virtual void deserialize(JsonIn &jsin) override;
@@ -656,25 +657,31 @@ public:
  void told_to_wait();
  void told_to_leave();
  int  follow_distance() const; // How closely do we follow the player?
- int  speed_estimate(int speed) const; // Estimate of a target's speed, usually player
+ int  speed_estimate( const Creature& ) const; // Estimate of a target's speed, usually player
 
 
 // Dialogue and bartering--see npctalk.cpp
  void talk_to_u();
 // Bartering - select items we're willing to buy/sell and set prices
 // Prices are later modified by g->u's barter skill; see dialogue.cpp
-// init_buying() fills <indices> with the indices of items in <you>
- void init_buying(inventory& you, std::vector<item*> &items,
-                  std::vector<int> &prices);
-// init_selling() fills <indices> with the indices of items in our inventory
- void init_selling(std::vector<item*> &items, std::vector<int> &prices);
+    struct item_pricing {
+        item *itm;
+        int price;
+        // Whether this is selected for trading, init_buying and init_selling initialize
+        // this to `false`.
+        bool selected;
+    };
+// returns prices for items in `you`
+    std::vector<item_pricing> init_buying( inventory& you );
+// returns prices and items in the inventory of this NPC
+    std::vector<item_pricing> init_selling();
 // Re-roll the inventory of a shopkeeper
  void shop_restock();
 // Use and assessment of items
  int  minimum_item_value(); // The minimum value to want to pick up an item
  void update_worst_item_value(); // Find the worst value in our inventory
  int  value(const item &it);
- bool wear_if_wanted(item it);
+    bool wear_if_wanted( const item &it );
  virtual bool wield(item* it, bool) override;
  virtual bool wield(item* it);
  bool has_healing_item();
@@ -684,15 +691,16 @@ public:
  void activate_item(int position);
 
 // Interaction and assessment of the world around us
- int  danger_assessment();
- int  average_damage_dealt(); // Our guess at how much damage we can deal
- bool bravery_check(int diff);
- bool emergency(int danger);
- bool is_active() const;
- void say(std::string line, ...) const;
- void decide_needs();
- void die(Creature* killer) override;
- bool is_dead() const;
+    int  danger_assessment();
+    int  average_damage_dealt(); // Our guess at how much damage we can deal
+    bool bravery_check(int diff);
+    bool emergency(int danger);
+    bool is_active() const;
+    void say(std::string line, ...) const;
+    void decide_needs();
+    void die(Creature* killer) override;
+    bool is_dead() const;
+    int smash_ability() const; // How well we smash terrain (not corpses!)
 /* shift() works much like monster::shift(), and is called when the player moves
  * from one submap to an adjacent submap.  It updates our position (shifting by
  * 12 tiles), as well as our plans.
@@ -717,18 +725,21 @@ public:
 
 // Helper functions for ranged combat
  int  confident_range(int position = -1); // >= 50% chance to hit
+ /**
+  * Check if this NPC is blocking movement from the given position
+  */
+ bool is_blocking_position( const tripoint &p );
  bool wont_hit_friend(  const tripoint &p , int position = -1 );
- bool can_reload(); // Wielding a gun that is not fully loaded
  bool need_to_reload(); // Wielding a gun that is empty
  bool enough_time_to_reload(int target, item &gun);
 
 // Physical movement from one tile to the next
- void update_path( const tripoint &p );
- bool can_move_to( const tripoint &p ) const;
- void move_to    ( const tripoint &p );
+ void update_path( const tripoint &p, bool no_bashing = false );
+ bool can_move_to( const tripoint &p, bool no_bashing = false ) const;
+ void move_to    ( const tripoint &p, bool no_bashing = false );
  void move_to_next(); // Next in <path>
  void avoid_friendly_fire(int target); // Maneuver so we won't shoot u
- void move_away_from( const tripoint &p );
+ void move_away_from( const tripoint &p, bool no_bashing = false );
  void move_pause(); // Same as if the player pressed '.'
 
 // Item discovery and fetching
@@ -738,8 +749,7 @@ public:
  npc_action scan_new_items(int target);
 
 // Combat functions and player interaction functions
- void melee_monster (int target);
- void melee_player (player &foe);
+    Creature *get_target( int target ) const;
  void wield_best_melee ();
  void alt_attack (int target);
  void use_escape_item (int position);
@@ -832,12 +842,14 @@ public:
 // Personality & other defining characteristics
  std::string fac_id; // A temp variable used to inform the game which faction to link
  faction *my_fac;
+ std::string companion_mission;
+ int companion_mission_time;
  npc_mission mission;
  npc_personality personality;
  npc_opinion op_of_u;
  npc_chatbin chatbin;
  int patience; // Used when we expect the player to leave the area
- npc_combat_rules combat_rules;
+    npc_follower_rules rules;
  bool marked_for_death; // If true, we die as soon as we respawn!
  bool hit_by_player;
  std::vector<npc_need> needs;

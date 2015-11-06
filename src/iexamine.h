@@ -9,11 +9,18 @@
 #define IEXAMINE_H
 
 #include <string>
+#include <list>
+
+#include "string_id.h"
 
 class game;
 class item;
 class player;
 class map;
+struct tripoint;
+struct itype;
+struct mtype;
+using mtype_id = string_id<mtype>;
 
 namespace iexamine
 {
@@ -23,9 +30,7 @@ namespace iexamine
     * Also spawns eggs.
     * @param montype The monster type of the created spiders.
     */
-void egg_sack_generic( player *p, map *m, const tripoint &examp, const std::string &montype );
-void pick_plant( player *p, map *m, const tripoint &examp, std::string itemType, int new_ter,
-                 bool seeds = false );
+void egg_sack_generic( player *p, map *m, const tripoint &examp, const mtype_id& montype );
 
 void none( player *p, map *m, const tripoint &examp );
 
@@ -71,7 +76,8 @@ void dirtmound( player *p, map *m, const tripoint &examp );
 void aggie_plant( player *p, map *m, const tripoint &examp );
 void harvest_tree_shrub( player *p, map *m, const tripoint &examp );
 void tree_pine( player *p, map *m, const tripoint &examp );
-void tree_blackjack( player *p, map *m, const tripoint &examp );
+void tree_hickory( player *p, map *m, const tripoint &examp );
+void tree_bark( player *p, map *m, const tripoint &examp );
 void shrub_marloss( player *p, map *m, const tripoint &examp );
 void tree_marloss( player *p, map *m, const tripoint &examp );
 void shrub_wildveggies( player *p, map *m, const tripoint &examp );
@@ -88,7 +94,18 @@ void reload_furniture( player *p, map *m, const tripoint &examp );
 void curtains( player *p, map *m, const tripoint &examp );
 void sign( player *p, map *m, const tripoint &examp );
 void pay_gas( player *p, map *m, const tripoint &examp );
+void climb_down( player *p, map *m, const tripoint &examp );
 
+/**
+ * Items that appear when a generic plant is harvested. Seed @ref islot_seed.
+ * @param type The seed type, must have a @ref itype::seed slot.
+ * @param plant_count Number of fruits to generate.
+ * @param seed_count Number of seeds to generate.
+ * @param byproducts If true, byproducts (like straw, withered plants, see
+ * @ref islot_seed::byproducts) are included.
+ */
+std::list<item> get_harvest_items( const itype &type, int plant_count,
+                                   int seed_count, bool byproducts );
 } //namespace iexamine
 
 using iexamine_function = void ( * )( player *, map *, const tripoint & );

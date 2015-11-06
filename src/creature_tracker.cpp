@@ -2,6 +2,7 @@
 #include "monster.h"
 #include "mongroup.h"
 #include "debug.h"
+#include "mtype.h"
 
 Creature_tracker::Creature_tracker()
 {
@@ -13,6 +14,11 @@ Creature_tracker::~Creature_tracker()
 }
 
 monster &Creature_tracker::find(int index)
+{
+    return const_cast<monster &>( const_cast<const Creature_tracker*>(this)->find( index ) );
+}
+
+const monster &Creature_tracker::find( int index ) const
 {
     static monster nullmon;
     if( index < 0 || index >= (int)monsters_list.size() ) {
@@ -39,21 +45,30 @@ int Creature_tracker::mon_at( const tripoint &coords ) const
 
 bool Creature_tracker::add( monster &critter )
 {
-    if( critter.type->id == "mon_null" ) { // Don't wanna spawn null monsters o.O
+    if( critter.type->id == NULL_ID ) { // Don't wanna spawn null monsters o.O
         return false;
     }
 
-    if( -1 != mon_at( critter.pos3() ) ) {
-        debugmsg( "add_zombie: there's already a monster at %d,%d,%d", 
-                  critter.posx(), critter.posy(), critter.posz() );
+    const int critter_id = mon_at( critter.pos() );
+    if( critter_id != -1 ) {
+        // We can spawn stuff on hallucinations, but we need to kill them first
+        if( monsters_list[critter_id]->is_hallucination() ) {
+            monsters_list[critter_id]->die( nullptr );
+            // But don't remove - that would change the monster order and could segfault
+        } else if( critter.is_hallucination() ) {
+            return false;
+        } else {
+            debugmsg( "add_zombie: there's already a monster at %d,%d,%d", 
+                      critter.posx(), critter.posy(), critter.posz() );
+            return false;
+        }
+    }
+
+    if( MonsterGroupManager::monster_is_blacklisted( critter.type->id ) ) {
         return false;
     }
 
-    if( MonsterGroupManager::monster_is_blacklisted(critter.type) ) {
-        return false;
-    }
-
-    monsters_by_location[critter.pos3()] = monsters_list.size();
+    monsters_by_location[critter.pos()] = monsters_list.size();
     monsters_list.push_back(new monster(critter));
     return true;
 }
@@ -73,24 +88,31 @@ bool Creature_tracker::update_pos(const monster &critter, const tripoint &new_po
         return true;
     }
 
-    bool success = false;
     const int critter_id = mon_at( old_pos );
     const int new_critter_id = mon_at( new_pos );
     if( new_critter_id >= 0 ) {
-        const auto &othermon = *monsters_list[new_critter_id];
-        debugmsg( "update_zombie_pos: wanted to move %s to %d,%d,%d, but new location already has %s",
-                  critter.disp_name().c_str(),
-                  new_pos.x, new_pos.y, new_pos.z, othermon.disp_name().c_str() );
-    } else if( critter_id >= 0 ) {
+        auto &othermon = *monsters_list[new_critter_id];
+        if( othermon.is_hallucination() ) {
+            othermon.die( nullptr );
+        } else {
+            debugmsg( "update_zombie_pos: wanted to move %s to %d,%d,%d, but new location already has %s",
+                      critter.disp_name().c_str(),
+                      new_pos.x, new_pos.y, new_pos.z, othermon.disp_name().c_str() );
+            return false;
+        }
+    }
+
+    if( critter_id >= 0 ) {
         if( &critter == monsters_list[critter_id] ) {
             monsters_by_location.erase( old_pos );
             monsters_by_location[new_pos] = critter_id;
-            success = true;
+            return true;
         } else {
             const auto &othermon = *monsters_list[critter_id];
             debugmsg( "update_zombie_pos: wanted to move %s from old location %d,%d,%d, but it had %s instead",
                       critter.disp_name().c_str(),
                       old_pos.x, old_pos.y, old_pos.z, othermon.disp_name().c_str() );
+            return false;
         }
     } else {
         // We're changing the x/y/z coordinates of a zombie that hasn't been added
@@ -100,9 +122,10 @@ bool Creature_tracker::update_pos(const monster &critter, const tripoint &new_po
                  old_pos.x, old_pos.y, old_pos.z, new_pos.x, new_pos.y, new_pos.z );
         // Rebuild cache in case the monster actually IS in the game, just bugged
         rebuild_cache();
+        return false;
     }
 
-    return success;
+    return false;
 }
 
 void Creature_tracker::remove_from_location_map( const monster &critter )
@@ -165,4 +188,28 @@ const std::vector<monster> &Creature_tracker::list() const
         for_now.push_back( *monster_ptr );
     }
     return for_now;
+}
+
+void Creature_tracker::swap_positions( monster &first, monster &second )
+{
+    const int first_mdex = mon_at( first.pos() );
+    const int second_mdex = mon_at( second.pos() );
+    remove_from_location_map( first );
+    remove_from_location_map( second );
+    bool ok = true;
+    if( first_mdex == -1 || second_mdex == -1 || first_mdex == second_mdex ) {
+        debugmsg( "Tried to swap monsters with invalid positions" );
+        ok = false;
+    }
+
+    tripoint temp = second.pos();
+    second.spawn( first.pos() );
+    first.spawn( temp );
+    if( ok ) {
+        monsters_by_location[first.pos()] = first_mdex;
+        monsters_by_location[second.pos()] = second_mdex;
+    } else {
+        // Try to avoid spamming error messages if something weird happens
+        rebuild_cache();
+    }
 }

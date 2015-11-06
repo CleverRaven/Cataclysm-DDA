@@ -8,12 +8,9 @@ end
 
 function tellstuff(item, active, pos)
     game.add_msg("Your foo tells you: str "..player.str_cur.."/"..player.str_max)
-    -- Can't currently check specific bodyparts, sorry.
-    -- Should be player:has_effect("hot", bp_leg_l) or so
-    game.add_msg("Are you hot around the legs? "..tostring(player:has_effect("hot")))
-    -- Can't currently add effects to specific bodyparts, sorry.
-    -- Should be player:add_effect("hot", 10, bp_leg_l)
-    player:add_effect("hot", 10)
+    game.add_msg("Are you hot around the leg? "..tostring(player:has_effect("hot", body_part.bp_leg_l)))
+    -- instead of the globale table, one can also use a string
+    player:add_effect("hot", 10, "bp_leg_l")
     player.fatigue = 0
     game.add_msg("Fatigue: "..player.fatigue)
 end
@@ -95,8 +92,8 @@ function necro()
     for itm in item_stack_iterator(pos) do
         if itm:is_corpse() then
             game.add_msg("Found a corpe: " .. itm:tname())
-            if game.revive_corpse(neighbor, itm) then
-                game.remove_item(pos, itm)
+            if g:revive_corpse(neighbor, itm) then
+                map:i_rem(pos, itm)
                 break
             end
         end

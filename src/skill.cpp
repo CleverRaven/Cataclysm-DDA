@@ -7,16 +7,45 @@
 #include <algorithm>
 #include <iterator>
 
+// TODO: a map, for Barry's sake make this a map.
 std::vector<Skill> Skill::skills;
 
+template<>
+const skill_id string_id<Skill>::NULL_ID( "none" );
+
+template<>
+const Skill &string_id<Skill>::obj() const
+{
+    for( const Skill &skill : Skill::skills ) {
+        if( skill.ident() == *this ) {
+            return skill;
+        }
+    }
+
+    debugmsg( "unknown skill %s", c_str() );
+    static const Skill dummy{};
+    return dummy;
+}
+
+template<>
+bool string_id<Skill>::is_valid() const
+{
+    for( const Skill &skill : Skill::skills ) {
+        if( skill.ident() == *this ) {
+            return true;
+        }
+    }
+    return false;
+}
+
 Skill::Skill()
-  : Skill(0, "null", "nothing", "The zen-most skill there is.", std::set<std::string> {})
+  : Skill(NULL_ID, "nothing", "The zen-most skill there is.", std::set<std::string> {})
 {
 }
 
-Skill::Skill(size_t id, std::string ident, std::string name, std::string description,
+Skill::Skill(skill_id ident, std::string name, std::string description,
              std::set<std::string> tags)
-  : _id(std::move(id)), _ident(std::move(ident)), _name(std::move(name)),
+  : _ident(std::move(ident)), _name(std::move(name)),
     _description(std::move(description)), _tags(std::move(tags))
 {
 }
@@ -45,7 +74,7 @@ void Skill::reset()
 
 void Skill::load_skill(JsonObject &jsobj)
 {
-    std::string ident = jsobj.get_string("ident");
+    skill_id ident = skill_id( jsobj.get_string("ident") );
     skills.erase(std::remove_if(begin(skills), end(skills), [&](Skill const &s) {
         return s._ident == ident; }), end(skills));
 
@@ -55,26 +84,26 @@ void Skill::load_skill(JsonObject &jsobj)
 
     DebugLog( D_INFO, DC_ALL ) << "Loaded skill: " << name;
 
-    skills.emplace_back(skills.size(), std::move(ident), std::move(name), std::move(description),
+    skills.emplace_back(std::move(ident), std::move(name), std::move(description),
                         std::move(tags));
 }
 
-const Skill* Skill::skill(const std::string& ident)
+const Skill *Skill::from_legacy_int( const int legacy_id )
 {
-    for( auto &skill : Skill::skills ) {
-        if( skill._ident == ident ) {
-            return &skill;
-        }
+    static const std::array<skill_id, 28> legacy_skills = { {
+        skill_id::NULL_ID, skill_id("dodge"), skill_id("melee"), skill_id("unarmed"),
+        skill_id("bashing"), skill_id("cutting"), skill_id("stabbing"), skill_id("throw"),
+        skill_id("gun"), skill_id("pistol"), skill_id("shotgun"), skill_id("smg"),
+        skill_id("rifle"), skill_id("archery"), skill_id("launcher"), skill_id("mechanics"),
+        skill_id("electronics"), skill_id("cooking"), skill_id("tailor"), skill_id("carpentry"),
+        skill_id("firstaid"), skill_id("speech"), skill_id("barter"), skill_id("computer"),
+        skill_id("survival"), skill_id("traps"), skill_id("swimming"), skill_id("driving"),
+    } };
+    if( static_cast<size_t>( legacy_id ) < legacy_skills.size() ) {
+        return &legacy_skills[legacy_id].obj();
     }
-    if(ident != "none") {
-        debugmsg("unknown skill %s", ident.c_str());
-    }
-    return nullptr;
-}
-
-const Skill* Skill::skill(size_t id)
-{
-    return &Skill::skills[id];
+    debugmsg( "legacy skill id %d is invalid", legacy_id );
+    return &skills.front(); // return a non-null pointer because callers might not expect a nullptr
 }
 
 const Skill* Skill::random_skill_with_tag(const std::string& tag)
@@ -89,7 +118,12 @@ const Skill* Skill::random_skill_with_tag(const std::string& tag)
         debugmsg( "could not find a skill with the %s tag", tag.c_str() );
         return &skills.front();
     }
-    return valid[rng( 0, valid.size() - 1 )];
+    return random_entry( valid );
+}
+
+const Skill* Skill::random_skill()
+{
+    return &skills[rng( 0, skills.size() - 1 )];
 }
 
 size_t Skill::skill_count()
@@ -118,11 +152,18 @@ SkillLevel::SkillLevel(int minLevel, int maxLevel, int minExercise, int maxExerc
 {
 }
 
-void SkillLevel::train(int amount)
+void SkillLevel::train(int amount, bool skip_scaling)
 {
-    _exercise += amount;
+    if( skip_scaling ) {
+        _exercise += amount;
+    } else {
+        const double scaling = OPTIONS["SKILL_TRAINING_SPEED"];
+        if( scaling > 0.0 ) {
+            _exercise += divide_roll_remainder( amount * scaling, 1.0 );
+        }
+    }
 
-    if (_exercise >= 100 * (_level + 1) * (_level + 1)) {
+    if( _exercise >= 100 * (_level + 1) * (_level + 1) ) {
         _exercise = 0;
         ++_level;
     }
@@ -185,6 +226,11 @@ void SkillLevel::readBook(int minimumGain, int maximumGain, int maximumLevel)
     }
 
     practice();
+}
+
+bool SkillLevel::can_train() const
+{
+    return OPTIONS["SKILL_TRAINING_SPEED"] > 0.0;
 }
 
 //Actually take the difference in barter skill between the two parties involved

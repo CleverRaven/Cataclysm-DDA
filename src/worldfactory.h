@@ -14,7 +14,7 @@
 struct WORLD {
     std::string world_path;
     std::string world_name;
-    std::unordered_map<std::string, cOpt> world_options;
+    std::unordered_map<std::string, options_manager::cOpt> WORLD_OPTIONS;
     std::vector<std::string> world_saves;
     /**
      * A (possibly empty) list of (idents of) mods that
@@ -59,6 +59,12 @@ class worldfactory
 
         void remove_world(std::string worldname);
         bool valid_worldname(std::string name, bool automated = false);
+
+        /** World need CDDA build with Lua support
+         * @param World name to test
+         * @return True if world can't be loaded without Lua support. False otherwise. (When LUA is defined it's allways false).
+        */
+        bool world_need_lua_build(std::string world_name);
     protected:
     private:
         std::string pick_random_name();
@@ -68,10 +74,11 @@ class worldfactory
 
         void draw_modselection_borders(WINDOW *win, input_context *ctxtp);
         void draw_worldgen_tabs(WINDOW *win, unsigned int current);
-        void draw_mod_list(WINDOW *w, int &start, int &cursor, const std::vector<std::string> &mods, bool is_active_list, const std::string &text_if_empty);
+        void draw_mod_list(WINDOW *w, int &start, int &cursor, const std::vector<std::string> &mods, bool is_active_list, const std::string &text_if_empty, WINDOW *w_shift);
 
-        std::unordered_map<std::string, cOpt> get_default_world_options();
-        std::unordered_map<std::string, cOpt> get_world_options(std::string path);
+        void get_default_world_options(WORLDPTR &world);
+        bool load_world_options(WORLDPTR &world);
+
         std::unique_ptr<mod_manager> mman;
         std::unique_ptr<mod_ui> mman_ui;
 

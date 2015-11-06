@@ -301,9 +301,9 @@ bool mission::is_complete( const int _npc_id ) const
             return step >= 1;
 
         case MGOAL_KILL_MONSTER_TYPE:
-            debugmsg( "%d kill count", g->kill_count( monster_type ) );
+            debugmsg( "%d kill count", g->kill_count( mtype_id( monster_type ) ) );
             debugmsg( "%d goal", monster_kill_goal );
-            return g->kill_count( monster_type ) >= monster_kill_goal;
+            return g->kill_count( mtype_id( monster_type ) ) >= monster_kill_goal;
 
         case MGOAL_COMPUTER_TOGGLE:
             return step >= 1;
@@ -423,7 +423,7 @@ void mission::load_info(std::istream &data)
     follow_up = mission_type_id(tmpfollow);
     reward.type = npc_favor_type(reward_id);
     reward.item_id = itype_id( rew_item );
-    reward.skill = Skill::skill( rew_skill );
+    reward.skill = Skill::from_legacy_int( rew_skill );
     item_id = itype_id(itemid);
     item_count = int(item_num);
 }

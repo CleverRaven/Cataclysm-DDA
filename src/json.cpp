@@ -39,7 +39,7 @@ std::string utf16_to_utf8(unsigned ch)
     } else {
         std::stringstream err;
         err << "unknown unicode: " << ch;
-        throw err.str();
+        throw std::runtime_error( err.str() );
     }
 
     buf += utf8Bytes;
@@ -119,7 +119,7 @@ int JsonObject::verify_position(const std::string &name,
     if (pos > start) {
         return pos;
     } else if (throw_exception && !jsin) {
-        throw (std::string)"member lookup on empty object: " + name;
+        throw JsonError( std::string( "member lookup on empty object: " ) + name );
     } else if (throw_exception) {
         jsin->seek(start);
         jsin->error("member not found: " + name);
@@ -484,7 +484,7 @@ std::string JsonArray::str()
 void JsonArray::verify_index(int i)
 {
     if (!jsin) {
-        throw (std::string)"tried to access empty array.";
+        throw JsonError( "tried to access empty array." );
     } else if (i < 0 || size_t(i) >= positions.size()) {
         jsin->seek(start);
         std::stringstream err;
@@ -1007,7 +1007,11 @@ std::string JsonIn::get_string()
                 // TODO: verify that unihex is in fact 4 hex digits.
                 char **endptr = 0;
                 unsigned u = (unsigned)strtoul(unihex, endptr, 16);
-                s += utf16_to_utf8(u);
+                try {
+                    s += utf16_to_utf8(u);
+                } catch( const std::exception &err ) {
+                    error( err.what() );
+                }
             } else {
                 // for anything else, just add the character, i suppose
                 s += ch;
@@ -1030,9 +1034,9 @@ std::string JsonIn::get_string()
         seek(startpos);
         error("couldn't find end of string, reached EOF.");
     } else if (stream->fail()) {
-        throw (std::string)"stream failure while reading string.";
+        throw JsonError( "stream failure while reading string." );
     }
-    throw (std::string)"something went wrong D:";
+    throw JsonError( "something went wrong D:" );
 }
 
 int JsonIn::get_int()
@@ -1147,7 +1151,7 @@ bool JsonIn::get_bool()
     }
     err << "not a boolean value! expected 't' or 'f' but got '" << ch << "'";
     error(err.str(), -1);
-    throw (std::string)"warnings are silly";
+    throw JsonError( "warnings are silly" );
 }
 
 JsonObject JsonIn::get_object()
@@ -1310,6 +1314,36 @@ bool JsonIn::read(char &c)
     return true;
 }
 
+bool JsonIn::read(signed char &c)
+{
+    if (!test_number()) {
+        return false;
+    }
+    // TODO: test for overflow
+    c = get_int();
+    return true;
+}
+
+bool JsonIn::read(short unsigned int &s)
+{
+    if (!test_number()) {
+        return false;
+    }
+    // TODO: test for overflow
+    s = get_int();
+    return true;
+}
+
+bool JsonIn::read(short int &s)
+{
+    if (!test_number()) {
+        return false;
+    }
+    // TODO: test for overflow
+    s = get_int();
+    return true;
+}
+
 bool JsonIn::read(int &i)
 {
     if (!test_number()) {
@@ -1396,7 +1430,7 @@ bool JsonIn::read(JsonDeserializer &j)
     try {
         j.deserialize(*this);
         return true;
-    } catch (std::string e) {
+    } catch( const JsonError & ) {
         return false;
     }
 }
@@ -1443,7 +1477,7 @@ void JsonIn::error(std::string message, int offset)
     err << line_number(offset) << ": " << message;
     // if we can't get more info from the stream don't try
     if (!stream->good()) {
-        throw err.str();
+        throw JsonError( err.str() );
     }
     // also print surrounding few lines of context, if not too large
     err << "\n\n";
@@ -1497,7 +1531,7 @@ void JsonIn::error(std::string message, int offset)
             break;
         }
     }
-    throw err.str();
+    throw JsonError( err.str() );
 }
 
 void JsonIn::rewind(int max_lines, int max_chars)
@@ -1824,6 +1858,16 @@ void JsonDeserializer::deserialize(std::istream &i)
 {
     JsonIn jin(i);
     deserialize(jin);
+}
+
+JsonError::JsonError( const std::string &msg )
+: std::runtime_error( msg )
+{
+}
+
+std::ostream &operator<<( std::ostream &stream, const JsonError &err )
+{
+    return stream << err.what();
 }
 
 // Need to instantiate those template to make them available for other compilation units.

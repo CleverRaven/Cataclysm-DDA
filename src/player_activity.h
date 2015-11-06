@@ -7,7 +7,7 @@
 #include <climits>
 #include <vector>
 
-enum activity_type {    // expanded this enum for readability
+enum activity_type : int {    // expanded this enum for readability
     ACT_NULL = 0,
     ACT_RELOAD,
     ACT_READ,
@@ -38,12 +38,14 @@ enum activity_type {    // expanded this enum for readability
     ACT_ADV_INVENTORY,
     ACT_ARMOR_LAYERS,
     ACT_START_FIRE,
+    ACT_OPEN_GATE,
     ACT_FILL_LIQUID,
     ACT_HOTWIRE_CAR,
     ACT_AIM,
     ACT_ATM,
     ACT_START_ENGINES,
     ACT_OXYTORCH,
+    ACT_CRACKING,
     ACT_WAIT_NPC,
     NUM_ACTIVITIES
 };
@@ -94,6 +96,12 @@ class player_activity : public JsonSerializer, public JsonDeserializer
          * the ACTION_PAUSE key (see game::handle_key_blocking_activity)
          */
         bool is_abortable() const;
+        /**
+         * If this returns true, the activity does not finish. This is
+         * the type of activities that use UI trickery, but must be cancelled
+         * manually!
+         */
+        bool never_completes() const;
         int get_value(size_t index, int def = 0) const;
         std::string get_str_value(size_t index, const std::string def = "") const;
         /**
@@ -108,8 +116,6 @@ class player_activity : public JsonSerializer, public JsonDeserializer
         void serialize(JsonOut &jsout) const override;
         using JsonDeserializer::deserialize;
         void deserialize(JsonIn &jsin) override;
-
-        void load_legacy(std::stringstream &dump);
 
         /**
          * Performs the activity for a single turn. If the activity is complete

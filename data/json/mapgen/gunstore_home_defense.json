@@ -1,255 +1,90 @@
 [
-    {
-        "type"  : "item_group",
-        "id"    : "elecsto_cameras",
-        "items" : [
-            ["camera", 75],
-            ["camera_pro", 25]
-        ]
-    },
-    {
-        "type"  : "item_group",
-        "id"    : "elecsto_lights",
-        "items" : [
-            ["flashlight", 95],
-            ["wearable_light", 65],
-            ["floodlight", 10],
-            ["atomic_light", 1]
-        ]
-    },
-    {
-        "type"  : "item_group",
-        "id"    : "elecsto_pcs",
-        "items" : [
-            ["eink_tablet_pc", 60],
-            ["laptop", 75]
-        ]
-    },
-    {
-        "type"  : "item_group",
-        "id"    : "elecsto_entapl",
-        "items" : [
-            ["television", 50],
-            ["radio", 20],
-            ["stereo", 40]
-        ]
-    },
-    {
-        "type"  : "item_group",
-        "id"    : "elecsto_persele",
-        "items" : [
-            ["portable_game", 65],
-            ["cell_phone", 60],
-            ["mp3", 65],
-            ["pda", 20],
-            ["radio_car_box", 35],
-            ["vibrator", 1]
-        ]
-    },
-    {
-        "type"  : "item_group",
-        "id"    : "elecsto_homapl",
-        "items" : [
-            ["microwave", 65],
-            ["toaster", 65],
-            ["mess_kit", 25],
-            ["hotplate", 30],
-            ["multi_cooker", 15],
-            ["coffeemaker", 45],
-            ["water_purifier", 15],
-            ["dehydrator", 30],
-            ["vac_sealer", 45],
-            ["forge", 5],
-            ["atomic_coffeepot", 2]
-        ]
-    },
-    {
-        "type"  : "item_group",
-        "id"    : "elecsto_diy",
-        "items" : [
-            ["cable", 95],
-            ["battery", 85],
-            ["scrap", 70],
-            ["e_scrap", 95],
-            ["antenna", 50],
-            ["circuit", 35],
-            ["small_lcd_screen", 20],
-            ["RAM", 35],
-            ["processor", 10],
-            ["amplifier", 7],
-            ["transponder", 5],
-            ["receiver", 5],
-            ["soldering_iron", 65],
-            ["solder_wire", 50],
-            ["superglue", 55],
-            ["screwdriver", 60]
-        ]
-    },
-    {
-        "type"  : "item_group",
-        "id"    : "elecsto_displ",
-        "items" : [
-            ["television", 50],
-            ["eink_tablet_pc", 50],
-            ["stereo", 30],
-            ["microwave", 40]
-        ]
-    },
-    {
-        "type"  : "item_group",
-        "id"    : "elecsto_books",
-        "items" : [
-            ["mag_electronics", 60],
-            ["manual_electronics", 50],
-            ["advanced_electronics", 35],
-            ["textbook_electronics", 30],
-            ["radio_book", 40]
-        ]
-    },
-    {
-        "type"  : "item_group",
-        "id"    : "elecsto_stor",
-        "items" : [
-            ["usb_drive", 65],
-            ["mobile_memory_card", 95],
-            ["software_math", 15],
-            ["software_useless", 25],
-            ["software_medical", 5],
-            ["software_hacking", 1]
-        ]
-    },
-    {
-        "type": "mapgen",
-        "om_terrain": [
-          "s_electronics"
-        ],
-        "method": "json",
-        "weight": 150, "comment": "<-- It's not as valuable as the gunsmithing shops are, but it's based on the same model and should be a figurative silver mine, if not a gold mine.",
-        "object": {
-            "rows": [
-                "zs______,______,______sz",
-                "zs______,______,______sz",
-                "zs______,______,______sz",
-                "zs______,______,______sz",
-                "zs______,______,______sz",
-                "zs______,______,______sz",
-                "ssssssssssssssssssssssss",
-                "_--5555--5555--+--55555_",
-                "_|.CCCC..CCCC.^.^|rrrr8_",
-                "_8r.............r|L---|_",
-                "_8r..CCCCrr......x....H_",
-                "_8r..###rr1......#....H_",
-                "_|r..............#...r|_",
-                "_|...######......#c..r|_",
-                "_|r..######..-------I-|_",
-                "_8r..........|EEEEt..F|_",
-                "_8r..xxxwyw..|E.c...cEW_",
-                "_8r..xxxywy..I.......EW_",
-                "_|...........|.##llll^|_",
-                "_|D---D|------L----WW-|_",
-                "_|.S|S.|sssssssddd______",
-                "_|T#|#T|_______ddd______",
-                "_-W---W-________________",
-                "________________________"
-            ],
-            "terrain": {
-                "_": "t_pavement",
-                ",": "t_pavement_y",
-                "s": "t_sidewalk",
-                "-": "t_wall",
-                "|": "t_wall",
-                "5": "t_window_bars_alarm",
-                "8": "t_window_bars_alarm",
-                "1": "t_column",
-                ".": "t_linoleum_gray",
-                "+": "t_door_metal_pickable",
-                "D": "t_door_c",
-                "L": "t_door_metal_pickable",
-                "H": "t_window",
-                "I": "t_door_locked_interior",
-                "w": "t_linoleum_gray",
-                "y": "t_linoleum_gray",
-                "W": "t_curtains",
-                "%": "t_shrub",
-                "x": "t_console_broken",
-                "^": "t_linoleum_gray",
-                "r": "t_linoleum_gray",
-                "l": "t_linoleum_gray",
-                "#": "t_linoleum_gray",
-                "E": "t_linoleum_gray",
-                "t": "t_linoleum_gray",
-                "C": "t_linoleum_gray",
-                "c": "t_linoleum_gray",
-                "F": "t_linoleum_gray",
-                "S": "t_linoleum_gray",
-                "T": "t_linoleum_gray",
-                "d": "t_pavement",
-                "z": "t_shrub"
-            },
-            "furniture": {
-                "_": "f_null",
-                ",": "f_null",
-                "s": "f_null",
-                "-": "f_null",
-                "|": "f_null",
-                "5": "f_null",
-                "8": "f_null",
-                ".": "f_null",
-                "+": "f_null",
-                "D": "f_null",
-                "L": "f_null",
-                "H": "f_null",
-                "w": "f_washer",
-                "y": "f_dryer",
-                "W": "f_null",
-                "%": "f_null",
-                "x": "f_null",
-                "^": "f_indoor_plant",
-                "r": "f_rack",
-                "l": "f_locker",
-                "#": "f_counter",
-                "E": "f_desk",
-                "t": "f_trashcan",
-                "C": "f_displaycase",
-                "c": "f_chair",
-                "F": "f_fridge",
-                "S": "f_sink",
-                "d": "f_dumpster",
-                "z": "f_null"
-            },
-            "toilets": {
-                "T": { }
-            },
-            "add": [
-                { "item": "television", "x": 16, "y": 14, "chance": 30},
-                { "item": "laptop",     "x": 14, "y": 15, "chance": 70},
-                { "item": "multitool",  "x": 21, "y": 17, "chance": 60}
-            ],
-            "place_items": [
-                { "item": "fridgesnacks",    "chance": 70, "x": 21,      "y": 15,      "repeat": [1,2] },
-                { "item": "elecsto_cameras", "chance": 60, "x": [3,6],   "y": 8,       "repeat": 1 },
-                { "item": "bionics_common",  "chance": 50, "x": [9,12],  "y": 8,       "repeat": [2,3] },
-                { "item": "elecsto_lights",  "chance": 70, "x": 2,       "y": [9,12],  "repeat": [2,3] },
-                { "item": "elecsto_pcs",     "chance": 75, "x": [5,8],   "y": 10,      "repeat": 1 },
-                { "item": "elecsto_stor",    "chance": 65, "x": [9,10],  "y": 10,      "repeat": [1,2] },
-                { "item": "elecsto_entapl",  "chance": 50, "x": [5,7],   "y": 11,      "repeat": [2,4] },
-                { "item": "elecsto_persele", "chance": 50, "x": [8,9],   "y": 11,      "repeat": [1,6] },
-                { "item": "elecsto_homapl",  "chance": 80, "x": [5,10],  "y": [13,14], "repeat": [1,2] },
-                { "item": "elecsto_books",   "chance": 75, "x": 2,       "y":  14 },
-                { "item": "elecsto_diy",     "chance": 50, "x": 2,       "y": [15,17], "repeat": [2,3] },
-                { "item": "bionics_common",  "chance": 30, "x": [18,21], "y": 8,       "repeat": 2 },
-                { "item": "elecsto_displ",   "chance": 50, "x": [18,21], "y": 8,       "repeat": [2,3] },
-                { "item": "electronics",     "chance": 50, "x": 21,      "y": [16,17], "repeat": [1,3] },
-                { "item": "elecsto_diy",     "chance": 45, "x": [15,20], "y": 18,      "repeat": [1,2] },
-                { "item": "electronics",     "chance": 65, "x": [17,20], "y": 18,      "repeat": [1,2] },
-                { "item": "electronics",     "chance": 65, "x": [14,17], "y": 14,      "repeat": 1 },
-                { "item": "snacks",          "chance": 85, "x": 16,      "y": 9 },
-                { "item": "magazines",       "chance": 60, "x": 16,      "y": 9 },
-                { "item": "electronics",     "chance": 75, "x": 21,      "y": [12,13], "repeat": [1,2] },
-                { "item": "trash",           "chance": 65, "x": 18,      "y": 15 },
-                { "item": "trash",           "chance": 80, "x": [15,17], "y": [20,21] }
-            ]
+  {
+    "type" : "mapgen",
+    "om_terrain" : [
+	"s_gun"
+    ],
+    "method" : "json",
+    "weight" : 100,
+    "object" :{
+        "rows" : [
+        "_ssssssssssssssssssssss_",
+        "_s@@@@@@@_ssss_@@@@@@@s_",
+        "_s||555||_ssss_||555||s_",
+        "_s|#####5_ssss_5#####|s_",
+        "_s|.....5_ssss_5.....|s_",
+        "_s|.....5_ssss_5.....|s_",
+        "_s|.....|55++55|.....|s_",
+        "_s|..................|s_",
+        "_s|..................|s_",
+        "_s|....rrr....rrr....|s_",
+        "_s|u...rrr....rrr...u|s_",
+        "_s|^................^|s_",
+        "_||u...rrr....rrr...u|s_",
+        "_A|....rrr....rrr....|s_",
+        "_||..................|s_",
+        "_s|..................|s_",
+        "_s||D|||&&&&&&&&||L|||s_",
+        "_s|....|..####..|..cE|s_",
+        "_s|....|........D...E|s_",
+        "_s|S..;|lll##lll|l...|s_",
+        "_s|||||||||||||||||L||s_",
+        "_ssssssssssssssssssssss_",
+        "________________________",
+        "________________________"
+      ],
+      "terrain": {
+        "_": "t_pavement",
+        "s": "t_sidewalk",
+        "|": "t_wall",
+        "5": "t_window_bars_alarm",
+        ".": "t_floor",
+        "+": "t_door_metal_pickable",
+        "D": "t_door_c",
+        "L": "t_door_metal_locked",
+        "@": "t_shrub",
+        "^": "t_floor",
+        "u": "t_floor",
+        "r": "t_floor",
+        "l": "t_floor",
+        "#": "t_floor",
+        "E": "t_floor",
+        "c": "t_floor",
+        "A": "t_atm",
+        "S": "t_floor",
+        ";": "t_floor",
+        "&": "t_bars",
+        "*": "t_door_locked_alarm"
+      },
+      "furniture": {
+        "^": "f_indoor_plant",
+        "r": "f_rack",
+        "l": "f_locker",
+        "#": "f_counter",
+        "E": "f_desk",
+        "c": "f_chair",
+        "S": "f_sink",
+        "u": "f_vending_reinforced"
         },
-    "comment": "end of mapgen entry ---v"
+
+        "toilets": {
+                ";": { }
+        },
+        "place_items":[
+                { "item": "homeguns", "chance": 90,  "x": [ 16,16 ], "y": [ 19,19 ]},
+                { "item": "pistols", "chance": 65 ,  "x": [ 8,14 ], "y": [ 19,19 ], "repeat": [ 1,2 ] },
+                { "item": "shotguns", "chance": 100,  "x": [ 8,14 ], "y": [ 19,19 ], "repeat": [ 0,1 ] },
+                { "item": "gunxtras", "chance": 50,  "x": [ 7,9 ], "y": [ 9,10 ] },
+                { "item": "vending_ammo_pistol", "chance": 80,  "x": 3, "y": 10, "repeat": [ 8,15 ] },
+                { "item": "vending_ammo_shotgun", "chance": 65,  "x": 3, "y": 12, "repeat": [ 8,15 ] },
+                { "item": "vending_ammo_rifle", "chance": 65,  "x": 20, "y": 12, "repeat": [ 8,15 ] },
+                { "item": "ammo", "chance": 65,  "x": 20, "y": 10, "repeat": [ 8,15 ] },
+                { "item": "allguns", "chance": 60, "x": [ 7,9 ], "y": [ 12,13 ] },
+                { "item": "gunsmith_gunparts", "chance": 70, "x": [ 14, 16 ], "y": [ 12,13 ] },
+                { "item": "gunsmith_casings", "chance": 70, "x":[ 14,16 ], "y": [ 12,13 ], "repeat": [ 3, 5 ] },
+                { "item": "ammo", "chance": 50,  "x": [ 3,7 ], "y": 3, "repeat": [ 1,3 ] },
+                { "item": "ammo", "chance": 50,  "x": [ 16,20 ], "y": 3, "repeat": [ 1,3 ] }
+            ]
+        }
     }
 ]

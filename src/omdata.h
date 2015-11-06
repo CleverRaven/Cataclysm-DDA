@@ -13,13 +13,10 @@
 struct MonsterGroup;
 using mongroup_id = string_id<MonsterGroup>;
 
-#define OMAPX 180
-#define OMAPY 180
-
 class overmap;
 
 struct overmap_spawns {
-    overmap_spawns(): group("GROUP_NULL"), min_population(0), max_population(0),
+    overmap_spawns(): group( NULL_ID ), min_population(0), max_population(0),
         chance(0) {};
     mongroup_id group;
     int min_population;
@@ -141,7 +138,7 @@ typedef oter_id oter_iid;
 #define OMSPEC_FREQ 15
 
 struct overmap_special_spawns {
-    overmap_special_spawns(): group("GROUP_NULL"), min_population(0), max_population(0),
+    overmap_special_spawns(): group( NULL_ID ), min_population(0), max_population(0),
         min_radius(0), max_radius(0) {};
     mongroup_id group;
     int min_population;
@@ -178,8 +175,6 @@ class overmap_special
         std::list<std::string> locations;
         std::set<std::string> flags;
 };
-
-extern std::vector<overmap_special> overmap_specials;
 
 void load_overmap_specials(JsonObject &jo);
 

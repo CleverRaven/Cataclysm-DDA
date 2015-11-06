@@ -20,10 +20,14 @@ class item_category;
 struct recipe;
 struct itype;
 class Skill;
+using skill_id = string_id<Skill>;
 class player;
 class item;
 class ma_technique;
 using matec_id = string_id<ma_technique>;
+enum art_effect_active : int;
+enum art_charge : int;
+enum art_effect_passive : int;
 
 typedef std::string itype_id;
 typedef std::string ammotype;
@@ -34,16 +38,16 @@ enum bigness_property_aspect : int {
 };
 
 // Returns the name of a category of ammo (e.g. "shot")
-std::string const& ammo_name(std::string const &t);
+std::string ammo_name(std::string const &t);
 // Returns the default ammo for a category of ammo (e.g. ""00_shot"")
 std::string const& default_ammo(std::string const &guntype);
 
 struct explosion_data {
     // Those 4 values are forwarded to game::explosion.
-    int power    = -1;
-    int shrapnel = 0;
-    bool fire    = false;
-    bool blast   = true;
+    float power           = -1.0f;
+    float distance_factor = 0.8f;
+    int shrapnel          = 0;
+    bool fire             = false;
 };
 
 struct islot_container {
@@ -76,10 +80,9 @@ struct islot_armor {
      */
     std::bitset<num_bp> covers;
     /**
-     * Bitfield of enum body_part
-     * TODO: document me.
+     * Whether this item can be worn on either side of the body
      */
-    std::bitset<num_bp> sided;
+    bool sided = false;
     /**
      * How much this item encumbers the player.
      */
@@ -113,10 +116,9 @@ struct islot_armor {
 
 struct islot_book {
     /**
-     * Which skill it upgrades, if any. Can be NULL.
-     * TODO: this should be a pointer to const
+     * Which skill it upgrades, if any. Can be @ref skill_id::NULL_ID.
      */
-    const Skill* skill = nullptr;
+    skill_id skill = NULL_ID;
     /**
      * The skill level the book provides.
      */
@@ -249,13 +251,13 @@ struct islot_gun : common_firing_data {
      * TODO: This is also indicates the type of gun (handgun/rifle/etc.) - that
      * should probably be made explicit.
      */
-    const Skill* skill_used = nullptr;
+    skill_id skill_used = NULL_ID;
     /**
      * Gun durability, affects gun being damaged during shooting.
      */
     int durability = 0;
     /**
-     * Reload time.
+     * Reload time, in moves.
      */
     int reload_time = 0;
     /**
@@ -280,6 +282,14 @@ struct islot_gun : common_firing_data {
      * that the location can have. The value should be > 0.
      */
     std::map<std::string, int> valid_mod_locations;
+    /**
+    *Built in mods. string is id of mod. These mods will get the IRREMOVABLE flag set.
+    */
+    std::vector<std::string> built_in_mods;
+    /**
+    *Default mods, string is id of mod. These mods are removable but are default on the weapon.
+    */
+    std::vector<std::string> default_mods;
 };
 
 struct islot_gunmod : common_firing_data {
@@ -289,9 +299,8 @@ struct islot_gunmod : common_firing_data {
     int req_skill = 0;
     /**
      * TODO: document me
-     * TODO: this should be a pointer to const Skill.
      */
-    const Skill* skill_used = nullptr;
+    skill_id skill_used = NULL_ID;
     /**
      * TODO: document me
      */
@@ -303,7 +312,7 @@ struct islot_gunmod : common_firing_data {
     /**
      * TODO: document me
      */
-    std::set<std::string> acceptible_ammo_types;
+    std::set<std::string> acceptable_ammo_types;
     /**
      * TODO: document me
      */
@@ -332,6 +341,10 @@ struct islot_gunmod : common_firing_data {
      * TODO: document me
      */
     bool used_on_launcher = false;
+    /**
+    *Allowing a mod to add UPS charge requirement to a gun.
+    */
+    int ups_charges = 0;
 };
 
 struct islot_ammo : common_ranged_data {
@@ -427,6 +440,14 @@ struct islot_spawn {
     islot_spawn() : default_container ("null") { }
 };
 
+struct islot_artifact {
+    art_charge charge_type;
+    std::vector<art_effect_passive> effects_wielded;
+    std::vector<art_effect_active>  effects_activated;
+    std::vector<art_effect_passive> effects_carried;
+    std::vector<art_effect_passive> effects_worn;
+};
+
 struct itype {
     friend class Item_factory;
 
@@ -450,6 +471,7 @@ struct itype {
     std::unique_ptr<islot_spawn> spawn;
     std::unique_ptr<islot_ammo> ammo;
     std::unique_ptr<islot_seed> seed;
+    std::unique_ptr<islot_artifact> artifact;
     /*@}*/
 protected:
     // private because is should only be accessed through itype::nname!
@@ -531,11 +553,6 @@ public:
         return false;
     }
 
-    virtual bool is_artifact() const
-    {
-        return false;
-    }
-
     virtual bool count_by_charges() const
     {
         if( ammo ) {
@@ -557,11 +574,8 @@ public:
     bool has_use() const;
     bool can_use( const std::string &iuse_name ) const;
     const use_function *get_use( const std::string &iuse_name ) const;
-    // Here "invoke" means "actively use". "Tick" means "active item working"
-    long invoke( player *p, item *it, point pos ) const; // Picks first method or returns 0
-    long invoke( player *p, item *it, point pos, const std::string &iuse_name ) const;
-    long tick( player *p, item *it,  point pos ) const;
 
+    // Here "invoke" means "actively use". "Tick" means "active item working"
     long invoke( player *p, item *it, const tripoint &pos ) const; // Picks first method or returns 0
     long invoke( player *p, item *it, const tripoint &pos, const std::string &iuse_name ) const;
     long tick( player *p, item *it, const tripoint &pos ) const;
@@ -638,11 +652,6 @@ struct it_tool : itype {
     bool is_tool() const override
     {
         return true;
-    }
-
-    bool is_artifact() const override
-    {
-        return false;
     }
 
     std::string get_item_type_string() const override

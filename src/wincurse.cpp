@@ -1,4 +1,4 @@
-#if ((!defined TILES) && (!defined SDLTILES) && (defined _WIN32 || defined WINDOWS))
+#if ((!defined TILES) && (defined _WIN32 || defined WINDOWS))
 #define UNICODE 1
 #define _UNICODE 1
 
@@ -683,11 +683,7 @@ int curses_start_color(void)
                 jsin.eat_whitespace();
                 char ch = jsin.peek();
                 if (ch != '{') {
-                    std::stringstream err;
-                    err << jsin.line_number() << ": ";
-                    err << "expected array of objects but found '";
-                    err << ch << "', not '{'";
-                    throw err.str();
+                    jsin.error( string_format( "expected array of objects but found '%c', not '{'", ch ) );
                 }
                 JsonObject jo = jsin.get_object();
                 load_colors(jo);
@@ -695,14 +691,10 @@ int curses_start_color(void)
             }
         } else {
             // not an array?
-            std::stringstream err;
-            err << jsin.line_number() << ": ";
-            err << "expected object or array, but found '" << ch << "'";
-            throw err.str();
+            jsin.error( string_format( "expected object or array, but found '%c'", ch ) );
         }
-    }
-    catch(std::string e){
-        throw FILENAMES["colors"] + ": " + e;
+    } catch( const JsonError &err ){
+        throw std::runtime_error( FILENAMES["colors"] + ": " + err.what() );
     }
 
     if(consolecolors.empty())return SetDIBColorTable(backbuffer, 0, 16, windowsPalette);

@@ -64,6 +64,42 @@
   ]
 },{
   "type" : "recipe",
+  "result": "copper_knife",
+  "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_PIERCING",
+  "skill_used": "fabrication",
+  "difficulty": 1,
+  "time": 5000,
+  "reversible": true,
+  "autolearn": true,
+  "qualities":[
+    {"id":"HAMMER","level":1,"amount":1}
+  ],
+  "tools": [
+    [
+      [ "toolset", 10 ],
+      [ "fire", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "rag", 1 ],
+      [ "felt_patch", 1 ],
+      [ "duct_tape", 50 ],
+      [ "string_6", 2 ],
+      [ "sinew", 50 ],
+      [ "thread", 50 ],
+      [ "yarn", 50 ],
+      [ "plant_fibre", 50 ],
+      [ "withered", 1 ]
+    ],
+    [
+      [ "scrap_copper", 2 ],
+      [ "copper", 200 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
   "result": "makeshift_knife",
   "category": "CC_WEAPON",
   "subcategory": "CSC_WEAPON_PIERCING",
@@ -174,6 +210,23 @@
   ]
 },{
   "type" : "recipe",
+  "result": "sling",
+  "id_suffix": "cord",
+  "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_RANGED",
+  "skill_used": "fabrication",
+  "difficulty": 1,
+  "time": 3000,
+  "reversible": true,
+  "autolearn": true,
+  "components": [
+    [
+      [ "string_36", 3 ],
+      [ "string_6", 18 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
   "result": "slingshot",
   "category": "CC_WEAPON",
   "subcategory": "CSC_WEAPON_RANGED",
@@ -275,6 +328,54 @@
       [ "sinew", 20 ],
       [ "thread", 20 ],
       [ "duct_tape", 20 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "spear_copper",
+  "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_PIERCING",
+  "skill_used": "fabrication",
+  "difficulty": 3,
+  "time": 2400,
+  "reversible": true,
+  "autolearn": true,
+  "qualities":[
+    {"id":"CUT","level":1,"amount":1},
+    {"id":"HAMMER","level":1,"amount":1}
+  ],
+  "tools": [
+    [
+      [ "toolset", 10 ],
+      [ "fire", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "stick", 1 ],
+      [ "broom", 1 ],
+      [ "mop", 1 ],
+      [ "2x4", 1 ],
+      [ "pool_cue", 1 ],
+      [ "pointy_stick", 1 ]
+    ],
+    [
+      [ "rag", 1 ],
+      [ "felt_patch", 1 ],
+      [ "leather", 1 ],
+      [ "fur", 1 ]
+    ],
+    [
+      [ "plant_fibre", 20 ],
+      [ "sinew", 20 ],
+      [ "thread", 20 ],
+      [ "yarn", 20 ],
+      [ "duct_tape", 20 ],
+      [ "withered", 1 ]
+    ],
+    [
+      [ "scrap_copper", 3 ],
+      [ "copper", 300 ]
     ]
   ]
 },{
@@ -700,6 +801,8 @@
       [ "gin", 14 ],
       [ "moonshine", 14 ],
       [ "brandy", 14 ],
+      [ "chem_ethanol", 14],
+      [ "denat_alcohol", 14],
       [ "lamp_oil", 400 ],
       [ "gasoline", 600 ],
       [ "diesel", 600 ]
@@ -725,6 +828,7 @@
       [ "gasoline", 200 ],
       [ "diesel", 200 ],
       [ "gunpowder", 72 ],
+      [ "chem_black_powder", 144 ],
       [ "shot_bird", 6 ],
       [ "shot_00", 3 ],
       [ "shot_slug", 2 ]
@@ -753,8 +857,7 @@
   "components": [
     [
       [ "paper", 5 ],
-      [ "rolling_paper", 30],
-      [ "wrapper", 5]
+      [ "rolling_paper", 32]
     ],
     [
       [ "acid", 2 ]
@@ -1350,6 +1453,37 @@
   ]
 },{
   "type" : "recipe",
+  "result": "pipe_combination_gun",
+  "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_RANGED",
+  "skill_used": "mechanics",
+  "skills_required": [ "gun", 1 ],
+  "difficulty": 4,
+  "time": 18000,
+  "reversible": true,
+  "autolearn": true,
+  "qualities":[
+    {"id":"SAW_M_FINE","level":1,"amount":1},
+    {"id":"SCREW_FINE","level":1,"amount":1}
+  ], "components": [
+    [
+      [ "pipe", 2 ]
+    ],
+    [
+      [ "nail", 2 ]
+    ],
+    [
+      [ "spring", 2 ]
+    ],
+    [
+      [ "scrap", 3 ]
+    ],
+    [
+      [ "2x4", 1 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
   "result": "pipe_shotgunsawn",
   "byproducts": { "id" : "scrap", "amount" : 3 },
   "category": "CC_WEAPON",
@@ -1672,6 +1806,7 @@
     ],
     [
       [ "gunpowder", 72 ],
+      [ "chem_black_powder", 144 ],
       [ "shot_00", 3 ],
       [ "shot_slug", 2 ],
       [ "gasoline", 200 ],
@@ -1759,7 +1894,8 @@
   ]
 },{
   "type" : "recipe",
-  "result": "gasbomb",
+  "result": "gasbomb_makeshift",
+  "//" : "Displaces older teargas recipe.  Conventional teargas grenades generally aren't trichloramine.",
   "category": "CC_WEAPON",
   "subcategory": "CSC_WEAPON_EXPLOSIVE",
   "skill_used": "cooking",
@@ -1969,6 +2105,8 @@
       [ "gin", 7 ],
       [ "moonshine", 7 ],
       [ "brandy", 7 ],
+      [ "chem_ethanol", 7],
+      [ "denat_alcohol", 7],
       [ "tallow", 1 ],
       [ "tallow_tainted", 1 ]
     ],
@@ -2004,6 +2142,8 @@
       [ "gin", 7 ],
       [ "moonshine", 7 ],
       [ "brandy", 7 ],
+      [ "chem_ethanol", 7],
+      [ "denat_alcohol", 7],
       [ "tallow", 1 ],
       [ "tallow_tainted", 1 ]
     ],
@@ -4920,6 +5060,55 @@
   ]
 },{
   "type" : "recipe",
+  "result": "cutlass",
+  "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_CUTTING",
+  "skill_used": "fabrication",
+  "difficulty": 7,
+  "time": 400000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "textbook_weapwest", 6 ], [ "scots_cookbook", 8 ]],
+  "qualities": [
+    {"id":"HAMMER","level":3,"amount":1}
+  ],
+  "tools": [
+      [
+      ["tongs", -1]
+      ],
+      [
+      ["chisel", -1]
+      ],
+      [
+      ["anvil", -1]
+      ],
+      [
+      ["swage", -1]
+      ],
+      [
+      ["forge", 300],
+      [ "char_forge", 60],
+      [ "oxy_torch", 60]
+      ]
+      ],
+  "components":
+    [
+     [
+     [ "steel_lump", 3 ],
+     [ "steel_chunk", 12 ],
+     [ "scrap", 36 ]
+     ],
+     [
+      [ "2x4", 1 ],
+      [ "stick", 2 ]
+     ],
+     [
+      [ "fur", 1 ],
+      [ "leather", 1 ]
+     ]
+    ]
+},{
+  "type" : "recipe",
   "result": "broadsword",
   "category": "CC_WEAPON",
   "subcategory": "CSC_WEAPON_CUTTING",
@@ -5942,9 +6131,9 @@
   "autolearn": true,
   "tools": [],
   "components": [
-    [ [ "glass_shard", 5 ] ],
+    [ [ "rock", 5 ], [ "ceramic_shard", 5 ], [ "sharp_rock", 5 ] ],
     [ [ "stick", 1 ], [ "2x4", 1 ] ],
-    [ [ "superglue", 3 ] ]
+    [ [ "superglue", 1 ], [ "bone_glue", 2 ] ]
   ]
 },{
   "type" : "recipe",
@@ -6054,10 +6243,11 @@
     ],
     [
       [ "paper", 1 ],
-      [ "rolling_paper", 5 ]
+      [ "rolling_paper", 6 ]
     ],
     [
-      [ "gunpowder", 5 ]
+      [ "gunpowder", 5 ],
+      [ "chem_black_powder", 10 ]
     ]
   ]
 },{
@@ -6621,7 +6811,97 @@
         [ "UPS_off", 2]
       ]
     ]
+},
+{
+  "type": "recipe",
+  "result": "abzats",
+  "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_RANGED",
+  "skill_used": "fabrication",
+  "skills_required": [["mechanics", 6], ["gun", 4]],
+  "difficulty": 6,
+  "time": 180000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities": 
+  [
+    {"id":"SAW_M","level":1,"amount":1},
+    {"id":"SAW_M_FINE","level":1,"amount":1},
+    {"id":"SCREW_FINE","level":1,"amount":1},
+    {"id":"WRENCH_FINE","level":1,"amount":1},
+    {"id":"HAMMER","level":2,"amount":1}
+  ],
+  "tools": 
+  [
+    [
+      ["goggles_welding", -1]
+    ],
+    [
+      ["oxy_torch", 60],
+      ["welder", 300],
+      ["welder_crude", 450],
+      ["toolset", 450]
+    ],
+    [
+      ["small_repairkit", 150],
+      ["large_repairkit", 30]
+    ]
+  ], "components": 
+  [
+    [["m2browning", 1]],
+    [["2x4", 1]],
+    [["pipe", 1]],
+    [["steel_lump", 1],
+    ["steel_chunk", 4],
+    ["scrap", 12]]
+  ]
+},
+{
+  "type" : "recipe",
+  "result": "chemical_thrower",
+  "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_RANGED",
+  "skill_used": "mechanics",
+  "skills_required": [ "launcher", 2 ],
+  "difficulty": 6,
+  "time": 12000,
+  "reversible": true,
+  "autolearn": true,
+  "qualities":[
+    {"id":"SAW_M_FINE","level":1,"amount":1},
+    {"id":"SCREW_FINE","level":1,"amount":1},
+    {"id":"HAMMER","level":2,"amount":1}
+  ],
+  "tools": 
+  [
+    [
+      ["goggles_welding", -1]
+    ],
+    [
+      ["oxy_torch", 80],
+      ["welder", 400],
+      ["welder_crude", 550],
+      ["toolset", 550]
+    ]
+  ],
+  "components": [
+    [
+      [ "pilot_light", 1 ]
+    ],
+    [
+      [ "metal_tank_little", 1]
+    ],
+    [
+      [ "pipe", 2 ]
+    ],
+    [
+      [ "hose", 2 ]
+    ],
+    [
+      [ "steel_lump", 1],
+      [ "steel_chunk", 4],
+      [ "scrap", 12]
+    ]
+  ]
 }
-
-
 ]

@@ -87,7 +87,7 @@ struct groundcover_extra {
     std::map<std::string, double> boosted_percent_str;
     std::map<int, ter_furn_id>    weightlist;
     std::map<int, ter_furn_id>    boosted_weightlist;
-    int default_ter               = 0;
+    ter_id default_ter               = t_null;
     int mpercent_coverage         = 0; // % coverage where this is applied (*10000)
     int boost_chance              = 0;
     int boosted_mpercent_coverage = 0;
@@ -98,6 +98,7 @@ struct groundcover_extra {
     groundcover_extra() = default;
 };
 
+struct sid_or_sid;
 /*
  * Spationally relevent overmap and mapgen variables grouped into a set of suggested defaults;
  * eventually region mapping will modify as required and allow for transitions of biomes / demographics in a smoooth fashion
@@ -106,7 +107,7 @@ struct regional_settings {
     std::string id;           //
     std::string default_oter; // 'field'
 
-    id_or_id    default_groundcover; // ie, 'grass_or_dirt'
+    id_or_id<ter_t> default_groundcover; // ie, 'grass_or_dirt'
     sid_or_sid *default_groundcover_str = nullptr;
 
     int num_forests           = 250;  // amount of forest groupings per overmap
@@ -121,7 +122,9 @@ struct regional_settings {
     groundcover_extra field_coverage;
     groundcover_extra forest_coverage;
 
-    regional_settings() : id("null"), default_oter("field"), default_groundcover(0, 0, 0) { }
+    std::unordered_map<std::string, map_extras> region_extras;
+
+    regional_settings() : id("null"), default_oter("field"), default_groundcover(t_null, 0, t_null) { }
     void setup();
     static void setup_oter(oter_weight &oter);
 };
@@ -152,6 +155,8 @@ enum radio_type {
     MESSAGE_BROADCAST,
     WEATHER_RADIO
 };
+
+extern std::map<enum radio_type, std::string> radio_type_names;
 
 #define RADIO_MIN_STRENGTH 80
 #define RADIO_MAX_STRENGTH 200
@@ -193,6 +198,8 @@ class overmap
     overmap(const overmap&) = default;
     overmap(overmap &&) = default;
     overmap(int x, int y);
+    // Argument-less constructor bypasses trying to load matching file, only used for unit testing.
+    overmap();
     ~overmap();
 
     overmap& operator=(overmap const&) = default;
@@ -299,7 +306,12 @@ class overmap
 private:
     std::multimap<tripoint, mongroup> zg;
 public:
-  // TODO: make private
+    /** Unit test enablers to check if a given mongroup is present. */
+    bool mongroup_check(const mongroup &candidate) const;
+    int num_mongroups() const;
+    bool monster_check(const std::pair<tripoint, monster> &candidate) const;
+    int num_monsters() const;
+    // TODO: make private
   std::vector<radio_tower> radios;
   std::vector<npc *> npcs;
   std::map<int, om_vehicle> vehicles;
@@ -328,11 +340,19 @@ public:
   void init_layers();
   // open existing overmap, or generate a new one
   void open();
+ public:
   // parse data in an opened overmap file
-  void unserialize(std::ifstream & fin, std::string const & plrfilename, std::string const & terfilename);
+  void unserialize(std::ifstream &fin);
+  // Parse per-player overmap view data.
+  void unserialize_view(std::ifstream &fin);
+  // Save data in an opened overmap file
+  void serialize(std::ofstream &fin) const;
+  // Save per-player overmap view data.
+  void serialize_view(std::ofstream &fin) const;
   // parse data in an old overmap file
-  bool unserialize_legacy(std::ifstream & fin, std::string const & plrfilename, std::string const & terfilename);
-
+  void unserialize_legacy(std::ifstream &fin);
+  void unserialize_view_legacy(std::ifstream &fin);
+ private:
   void generate(const overmap* north, const overmap* east, const overmap* south, const overmap* west);
   bool generate_sub(int const z);
 
@@ -393,18 +413,17 @@ public:
   void good_road(const std::string &base, int x, int y, int z);
   void good_river(int x, int y, int z);
   oter_id rotate(const oter_id &oter, int dir);
-  bool allowed_terrain(tripoint p, int width, int height, std::list<std::string> allowed);
-  bool allowed_terrain(tripoint p, std::list<tripoint>, std::list<std::string> allowed, std::list<std::string> disallowed);
-  bool allow_special(tripoint p, overmap_special special, int &rotate);
+  bool allowed_terrain( const tripoint& p, int width, int height, const std::list<std::string>& allowed );
+  bool allowed_terrain( const tripoint& p, const std::list<tripoint>& rotated_points,
+                        const std::list<std::string>& allowed, const std::list<std::string>& disallowed );
+  bool allow_special(const overmap_special& special, const tripoint& p, int &rotate);
   // Monsters, radios, etc.
   void place_specials();
-  void place_special(overmap_special special, tripoint p, int rotation);
+  void place_special(const overmap_special& special, const tripoint& p, int rotation);
   void place_mongroups();
   void place_radios();
 
     void add_mon_group(const mongroup &group);
-    // not available because *every* overmap needs location, so use the other constructor.
-    overmap() = delete;
 };
 
 // TODO: readd the stream operators
@@ -430,6 +449,5 @@ void finalize_overmap_terrain();
 
 bool is_river(const oter_id &ter);
 bool is_ot_type(const std::string &otype, const oter_id &oter);
-map_extras& get_extras(const std::string &name);
 
 #endif

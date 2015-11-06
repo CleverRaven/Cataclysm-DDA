@@ -11,7 +11,7 @@
 struct bionic_data {
     bionic_data() = default;
     bionic_data(std::string nname, bool ps, bool tog, int pac, int pad, int pot,
-                int ct, std::string desc, bool fault);
+                int ct, int cap, std::string desc, bool fault);
 
     std::string name;
     std::string description;
@@ -23,6 +23,8 @@ struct bionic_data {
     int power_over_time = 0;
     /** How often a bionic draws power while active in turns */
     int charge_time = 0;
+    /** Power bank size **/
+    int capacity = 0;
     /** True if a bionic is a "faulty" bionic */
     bool faulty = false;
     bool power_source = false;
@@ -40,7 +42,7 @@ struct bionic : public JsonSerializer, public JsonDeserializer {
     int         charge  = 0;
     char        invlet  = 'a';
     bool        powered = false;
-    
+
     bionic()
       : id("bio_batteries") { }
     bionic(std::string pid, char pinvlet)

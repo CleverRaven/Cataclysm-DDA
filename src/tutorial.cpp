@@ -6,10 +6,11 @@
 #include "tutorial.h"
 #include "overmapbuffer.h"
 #include "translations.h"
-#include "monstergenerator.h"
 #include "profession.h"
 #include "overmap.h"
 #include "trap.h"
+
+const mtype_id mon_zombie( "mon_zombie" );
 
 std::vector<std::string> tut_text;
 
@@ -58,8 +59,8 @@ bool tutorial_game::init()
  item lighter("lighter", 0);
  lighter.invlet = 'e';
  g->u.inv.add_item(lighter);
- g->u.skillLevel("gun").level(5);
- g->u.skillLevel("melee").level(5);
+ g->u.skillLevel( skill_id( "gun" ) ).level(5);
+ g->u.skillLevel( skill_id( "melee" ) ).level(5);
     g->load_map( overmapbuffer::omt_to_sm_copy( tripoint( lx, ly, 0 ) ) );
  g->u.setx( 2 );
  g->u.sety( 4 );
@@ -77,7 +78,7 @@ void tutorial_game::per_turn()
  } else if (calendar::turn == HOURS(12) + 3)
   add_message(LESSON_INTRO);
 
- if (g->light_level() == 1) {
+ if (g->light_level( g->u.posz() ) == 1) {
   if (g->u.has_amount("flashlight", 1))
    add_message(LESSON_DARK);
   else
@@ -147,9 +148,9 @@ void tutorial_game::post_action(action_id act)
  switch (act) {
     case ACTION_RELOAD:
     if (g->u.weapon.is_gun() && !tutorials_seen[LESSON_GUN_FIRE]) {
-        g->summon_mon("mon_zombie", tripoint(g->u.posx(), g->u.posy() - 6, g->u.posz()));
-        g->summon_mon("mon_zombie", tripoint(g->u.posx() + 2, g->u.posy() - 5, g->u.posz()));
-        g->summon_mon("mon_zombie", tripoint(g->u.posx() - 2, g->u.posy() - 5, g->u.posz()));
+        g->summon_mon( mon_zombie, tripoint(g->u.posx(), g->u.posy() - 6, g->u.posz()));
+        g->summon_mon( mon_zombie, tripoint(g->u.posx() + 2, g->u.posy() - 5, g->u.posz()));
+        g->summon_mon( mon_zombie, tripoint(g->u.posx() - 2, g->u.posy() - 5, g->u.posz()));
         add_message(LESSON_GUN_FIRE);
     }
     break;
@@ -217,8 +218,6 @@ void tutorial_game::post_action(action_id act)
   else if (it.is_weap())
    add_message(LESSON_GOT_WEAPON);
 
-  if (g->u.volume_carried() > g->u.volume_capacity() - 2)
-   add_message(LESSON_OVERLOADED);
  } break;
 
  default: //TODO: add more actions here

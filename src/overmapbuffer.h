@@ -197,6 +197,13 @@ public:
     void remove_npc(int id);
 
     /**
+     * Find npc by id and if found, erase it from the npc list
+     * but not delete the npc object. This is used for missions
+     * that dispatch an npc on an abstracted quest.
+     */
+    void hide_npc(int id);
+
+    /**
      * Find all places with the specific overmap terrain type.
      * The function only searches on the z-level indicated by
      * origin.

@@ -147,6 +147,12 @@
         "desc": ["AI tag used for bouncing ammo targeting.  This is a bug if you have it."]
     },
     {
+        "type": "effect_type",
+        "id": "pushed",
+        "name": ["Pushed"],
+        "desc": ["AI tag used for monsters pushing each other.  This is a bug if you have it."]
+    },
+    {
         "//": "ACTUAL PLAYER EFFECTS START HERE",
         "type": "effect_type",
         "id": "downed",
@@ -239,7 +245,7 @@
         "desc": [
             "Your hearing is impaired.",
             "You can barely hear anything and your ears hurt.",
-            "You can't hear anything and your head aches from all the noise. You can't converse with NPCs."
+            "You can't hear anything and your head aches from all the noise.  You can't converse with NPCs."
         ],
         "apply_message": "Your ears ring!",
         "remove_message": "You can hear again!",
@@ -273,7 +279,7 @@
         "desc": ["You have been poisoned!"],
         "miss_messages": [["You feel bad inside.", 1]],
         "rating": "bad",
-        "resist_trait": "POISRESIST",
+        "resist_traits": ["POISRESIST"],
         "pain_sizing": true,
         "hurt_sizing": true,
         "main_parts_only": true,
@@ -294,7 +300,7 @@
         "desc": ["You have been badly poisoned!"],
         "miss_messages": [["You feel bad inside.", 2]],
         "rating": "bad",
-        "resist_trait": "POISRESIST",
+        "resist_traits": ["POISRESIST"],
         "pain_sizing": true,
         "hurt_sizing": true,
         "main_parts_only": true,
@@ -317,7 +323,7 @@
         "desc": ["Your stomach is extremely upset, and you are quite nauseous."],
         "miss_messages": [["Your stomach bothers you.", 1]],
         "rating": "bad",
-        "resist_trait": "POISRESIST",
+        "resist_traits": ["POISRESIST"],
         "base_mods": {
             "per_mod": [-1],
             "dex_mod": [-1],
@@ -342,7 +348,7 @@
         "miss_messages": [["You feel stiff.", 3]],
         "rating": "bad",
         "max_intensity": 20,
-        "resist_trait": "POISRESIST",
+        "resist_traits": ["POISRESIST"],
         "int_add_val": 1,
         "int_decay_tick": 100,
         "base_mods": {
@@ -541,14 +547,16 @@
         "apply_memorial_log": "Received a deep bite wound.",
         "remove_memorial_log": "Recovered from a bite wound.",
         "apply_message": "The bite wound feels really deep...",
+        "resist_traits": ["INFRESIST"],
         "main_parts_only": true,
         "rating": "bad",
-        "int_dur_factor": 1200,
+        "int_dur_factor": 1800,
         "scaling_mods": {
-            "dex_mod": [-1],
-            "pain_chance": [100],
+            "dex_mod": [-1, 0],
+            "pain_chance_bot": [200],
+            "pain_chance": [2, 1],
             "pain_min": [1],
-            "pain_max_val": [10]
+            "pain_max_val": [10, 5]
         }
     },
     {
@@ -563,23 +571,25 @@
         "apply_memorial_log": "Contracted an infection.",
         "remove_memorial_log": "Recovered from an infection... this time.",
         "apply_message": "Your bite wound feels infected",
+        "resist_traits": ["INFRESIST"],
         "main_parts_only": true,
         "rating": "bad",
         "int_dur_factor": 4800,
         "base_mods": {
-            "pain_chance": [100],
+            "pain_chance": [2, 1],
+            "pain_chance_bot": [200],
             "pain_min": [1],
-            "pain_max_val": [30],
+            "pain_max_val": [30, 20],
             "str_mod": [-1],
             "dex_mod": [-1],
-            "vomit_chance": [1000],
-            "sleep_min": [60],
+            "vomit_chance": [1000, 1200],
+            "sleep_min": [60, 30],
             "sleep_chance": [-102]
         },
         "scaling_mods": {
-            "pain_max_val": [30],
-            "str_mod": [-1],
-            "dex_mod": [-1],
+            "pain_max_val": [30, 20],
+            "str_mod": [-1, -0.5],
+            "dex_mod": [-1, -0.5],
             "vomit_chance": [-400],
             "sleep_chance": [101]
         }
@@ -639,7 +649,7 @@
         "miss_messages": [["You feel sick inside.", 1]],
         "rating": "bad",
         "max_intensity": 3,
-        "resist_trait": "POISRESIST",
+        "resist_traits": ["POISRESIST"],
         "base_mods": {
             "speed_mod": [-10],
             "str_mod": [-1],
@@ -750,7 +760,16 @@
             "speed_mod": [-2]
         },
         "scaling_mods": {
-            "speed_mod": [-7]
+            "speed_mod": [-7],
+            "int_mod": [-0.5],
+            "dex_mod": [-0.5],
+            "hurt_min": [1],
+            "hurt_chance": [200],
+            "pkill_tick": [10],
+            "pkill_min": [1],
+            "pkill_max_val": [30],
+            "stamina_chance": [2],
+            "stamina_min": [-2]
         }
     },
     {
@@ -883,7 +902,7 @@
         "remove_memorial_log": "Got over the cold.",
         "apply_message": "You feel a cold coming on...",
         "rating": "bad",
-        "resist_effect": "took_flumed",
+        "resist_effects": ["took_flumed"],
         "miss_messages": [["You're too stuffed up to fight effectively.", 1]],
         "base_mods": {
             "thirst_tick": [300],
@@ -906,7 +925,7 @@
         "remove_memorial_log": "Got over the flu.",
         "apply_message": "You feel a flu coming on...",
         "rating": "bad",
-        "resist_effect": "took_flumed",
+        "resist_effects": ["took_flumed"],
         "base_mods": {
             "thirst_tick": [300],
             "thirst_min": [1],
@@ -931,7 +950,7 @@
         "type": "effect_type",
         "id": "cureall",
         "//": "This is the royal jelly effect, it should cure pretty much everything.",
-        "removes_effects": ["fungus", "dermatik", "bloodworms", "paincysts", "brainworm", "tapeworm",
+        "removes_effects": ["fungus", "dermatik", "bloodworms", "paincysts", "brainworms", "tapeworm",
                             "blind", "poison", "stung", "badpoison", "foodpoison", "paralyzepoison",
                             "tetanus", "infected", "asthma", "common_cold", "flu"],
         "base_mods": {
@@ -941,6 +960,12 @@
     {
         "type": "effect_type",
         "id": "evil"
+    },
+    {
+        "type": "effect_type",
+        "id": "raising",
+        "int_add_val": 1,
+        "max_intensity": 100
     },
     {
         "type": "effect_type",
@@ -1299,7 +1324,7 @@
     },
     {
         "type": "effect_type",
-        "id": "brainworm",
+        "id": "brainworms",
         "rating": "bad",
         "base_mods": {
             "pain_chance": [512],
@@ -1325,7 +1350,7 @@
         "type": "effect_type",
         "id": "tetanus",
         "rating": "bad",
-        "resist_effect": "valium",
+        "resist_effects": ["valium"],
         "base_mods": {
             "dex_mod": [-4, 0]
         }
@@ -1412,5 +1437,24 @@
         "//": "On roof of a vehicle, aiming a turret",
         "type": "effect_type",
         "id": "on_roof"
+    },
+    {
+        "type": "effect_type",
+        "id": "corroding",
+        "name": ["Corroding"],
+        "desc": ["You're covered in acid!  It hurts and further lowers your resistance to acid."],
+        "apply_message": "You're covered in acid!",
+        "rating": "bad",
+        "max_duration": 5,
+        "max_intensity": 5,
+        "int_dur_factor": 1,
+        "base_mods": {
+            "hurt_min": [1],
+            "hurt_chance": [1],
+            "hurt_chance_bot": [10]
+        },
+        "scaling_mods": {
+            "hurt_chance": [1]
+        }
     }
 ]

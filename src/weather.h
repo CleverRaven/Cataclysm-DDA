@@ -106,11 +106,17 @@ struct weather_datum {
     std::string name;       //!< UI name of weather type.
     nc_color color;         //!< UI color of weather type.
     int ranged_penalty;     //!< Penalty to ranged attacks.
-    int sight_penalty;      //!< Penalty to max sight range.
+    float sight_penalty;    //!< Penalty to per-square visibility, applied in transparency map.
     int light_modifier;     //!< Modification to ambient light.
     int sound_attn;         //!< Sound attenuation of a given weather type.
     bool dangerous;         //!< If true, our activity gets interrupted.
     void (*effect)();       //!< Function pointer for weather effects.
+};
+
+struct weather_sum {
+    int rain_amount = 0;
+    int acid_amount = 0;
+    float sunlight = 0.0f;
 };
 
 std::string const& season_name(int season);
@@ -135,6 +141,10 @@ int get_local_humidity(double humidity, weather_type weather, bool sheltered = f
 int get_local_windpower(double windpower, std::string const &omtername = "no name",
                         bool sheltered = false);
 
+weather_sum sum_conditions( const calendar &startturn,
+                            const calendar &endturn,
+                            const tripoint &location );
+
 /**
  * @param it The container item which is to be filled.
  * @param pos The absolute position of the funnel (in the map square system, the one used
@@ -142,6 +152,8 @@ int get_local_windpower(double windpower, std::string const &omtername = "no nam
  * @param tr The funnel (trap which acts as a funnel).
  */
 void retroactively_fill_from_funnel( item &it, const trap &tr, const calendar &endturn, const tripoint &pos);
+
+double funnel_charges_per_turn( double surface_area_mm2, double rain_depth_mm_per_hour );
 
 /**
  * Get the amount of rotting that an item would accumulate between start and end turn at the given

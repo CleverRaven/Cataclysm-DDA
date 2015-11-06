@@ -115,8 +115,8 @@
         "type" : "mutation",
         "id" : "NIGHTVISION",
         "name" : "Night Vision",
-        "points" : 1,
-        "description" : "You possess natural night vision, and can see two squares instead of one in pitch blackness.  Activate to toggle NV-visible areas on or off.",
+        "points" : 2,
+        "description" : "You possess natural night vision, and can see further in the dark than most.  Activate to toggle NV-visible areas on or off.",
         "starting_trait" : true,
         "changes_to" : ["NIGHTVISION2"],
         "cancels": ["ELFA_NV", "ELFA_FNV", "FEL_NV", "URSINE_EYE"],
@@ -339,9 +339,10 @@
         "id" : "SELFAWARE",
         "name" : "Self-Aware",
         "points" : 1,
-        "description" : "You get to see your exact amount of HP remaining, instead of only having a vague idea of whether you're in good condition or not.",
+        "description" : "You get to see your exact amount of HP remaining and health, instead of only having a vague idea of whether you're in good condition or not.",
         "starting_trait" : true,
         "valid" : false,
+        "active" : true,
         "category" : ["MUTCAT_MEDICAL"]
     },{
         "type" : "mutation",
@@ -1502,7 +1503,7 @@
         "id" : "CF_HAIR",
         "name" : "Urticating Hairs",
         "points" : 3,
-        "description" : "Significant amounts of your hairs have loosened.  If somme creature tries to attack you, your assailant is quite likely to get fine, bristly chitin in an irritating spot; it doesn't carry your venom but it will be distracting.",
+        "description" : "Significant amounts of your hairs have loosened.  If some creature tries to attack you, your assailant is quite likely to get fine, bristly chitin in an irritating spot; it doesn't carry your venom but it will be distracting.",
         "prereqs" : ["CHITIN_FUR2", "CHITIN_FUR3"],
         "threshreq" : ["THRESH_SPIDER"],
         "category" : ["MUTCAT_SPIDER"]
@@ -1833,8 +1834,8 @@
         "type" : "mutation",
         "id" : "INFRESIST",
         "name" : "Infection Resistant",
-        "points" : 3,
-        "description" : "Your immune system is particularly good at resisting infections.",
+        "points" : 2,
+        "description" : "Your immune system is particularly good at resisting infections.  You have an increased chance for bad wounds and infections to heal on their own, and only suffer reduced penalties from them.",
         "starting_trait" : true,
         "changes_to" : ["INFIMMUNE"],
         "category" : ["MUTCAT_TROGLOBITE", "MUTCAT_RAT", "MUTCAT_MEDICAL"]
@@ -1842,7 +1843,7 @@
         "type" : "mutation",
         "id" : "INFIMMUNE",
         "name" : "Infection Immune",
-        "points" : 5,
+        "points" : 4,
         "description" : "Your bloodstream has developed antibiotic properties.  Your wounds will never become infected.",
         "prereqs" : ["DISRESISTANT"],
         "prereqs2" : ["INFRESIST"],
@@ -1978,7 +1979,7 @@
         "visibility" : 4,
         "ugliness" : 2,
         "mixed_effect" : true,
-        "description" : "You have grown large, curved, and wickedly sharp talons in place of your big toes.  Fortunately, they don't get in the way of your walking.  Unfortunately, they do prevent you from wearing footgear, which does cause some problems.",
+        "description" : "You have grown large, curved, and wickedly sharp talons in place of your big toes.  Fortunately, they don't get in the way of your walking.  Unfortunately, they do prevent you from wearing footgear.",
         "valid" : false,
         "cancels" : ["PADDED_FEET", "LEG_TENTACLES", "HOOVES", "ROOTS1", "ROOTS2", "ROOTS3"],
         "category" : ["MUTCAT_RAPTOR"]
@@ -2015,8 +2016,8 @@
         "name" : "Subterranean Fortitude",
         "points" : 2,
         "description" : "The aches and pains of living underground don't bother you as much.",
-        "prereq" : ["PAINRESIST"],
-        "prereq2" : ["STOCKY_TROGLO"],
+        "prereqs" : ["PAINRESIST"],
+        "prereqs2" : ["STOCKY_TROGLO"],
         "threshreq" : ["THRESH_TROGLOBITE"],
         "category" : ["MUTCAT_TROGLOBITE"]
     },{
@@ -2382,7 +2383,7 @@
         "threshreq" : ["THRESH_URSINE", "THRESH_CATTLE", "THRESH_CHIMERA", "THRESH_MEDICAL", "THRESH_LIZARD", "THRESH_BEAST"],
         "cancels" : ["FLIMSY", "FLIMSY2", "FLIMSY3", "GLASSJAW"],
         "changes_to" : ["MUT_TOUGH2"],
-        "category" : ["MUTCAT_URSINE", "MUTCAT_CATTLE", "MUTCAT_CHIMERA","MUTCAT_BEAST", "MUTCAT_LIZARD"]
+        "category" : ["MUTCAT_URSINE", "MUTCAT_CATTLE", "MUTCAT_CHIMERA","MUTCAT_BEAST", "MUTCAT_LIZARD", "MUTCAT_MEDICAL"]
     },{
         "type" : "mutation",
         "id" : "MUT_TOUGH2",
@@ -4012,7 +4013,7 @@
         "description" : "You occasionally shout uncontrollably.",
         "changes_to" : ["SHOUT2"],
         "category" : ["MUTCAT_RAPTOR"],
-        "active"     :    true,
+        "active"     :    false,
         "cost"       :    3,
         "time"       :    0,
         "fatigue"    :    true,
@@ -4026,7 +4027,7 @@
         "prereqs" : ["SHOUT1"],
         "changes_to" : ["SHOUT3"],
         "category" : ["MUTCAT_BEAST"],
-        "active"     :    true,
+        "active"     :    false,
         "cost"       :    4,
         "time"       :    0,
         "fatigue"    :    true,
@@ -4039,7 +4040,7 @@
         "description" : "You frequently let out a piercing howl.",
         "prereqs" : ["SHOUT2"],
         "category" : ["MUTCAT_CHIMERA", "MUTCAT_LUPINE"],
-        "active"     :    true,
+        "active"     :    false,
         "cost"       :    6,
         "time"       :    0,
         "fatigue"    :    true,
@@ -4484,6 +4485,15 @@
         "profession": true
     },{
         "type" : "mutation",
+        "id" : "PROF_CHURL",
+        "name" : "Churl",
+        "points" : 0,
+        "description" : "Thou art a lewede man, a lowly cowherd, though where thi catel been thou hast not ynn certain.",
+        "valid": false,
+        "purifiable": false,
+        "profession": true
+    },{
+        "type" : "mutation",
         "id" : "PROF_PD_DET",
         "name" : "Police Detective",
         "points" : 0,
@@ -4565,6 +4575,30 @@
         "purifiable": false
     },{
         "type" : "mutation",
+        "id" : "NPC_MISSION_LEV_1",
+        "name" : "Has Level 1 Companion Missions",
+        "points" : 0,
+        "description" : "New mission options have become available!",
+        "valid": false,
+        "purifiable": false
+    },{
+        "type" : "mutation",
+        "id" : "NPC_CONSTRUCTION_LEV_1",
+        "name" : "Has Level 1 Construction Built",
+        "points" : 0,
+        "description" : "New options may have become available!",
+        "valid": false,
+        "purifiable": false
+    },{
+        "type" : "mutation",
+        "id" : "NPC_CONSTRUCTION_LEV_2",
+        "name" : "Has Level 2 Construction Built",
+        "points" : 0,
+        "description" : "New options may have become available!",
+        "valid": false,
+        "purifiable": false
+    },{
+        "type" : "mutation",
         "id" : "DEBUG_NIGHTVISION",
         "name" : "Debug Vision",
         "points" : 99,
@@ -4618,6 +4652,22 @@
         "points" : 99,
         "valid" : false,
         "description" : "Bug repellent forcefield.",
+        "threshold" : true
+    },{
+        "type" : "mutation",
+        "id" : "DEBUG_HS",
+        "name" : "Debug Hammerspace",
+        "points" : 99,
+        "valid" : false,
+        "description" : "Crafting and construction requirements bugger off with this one.  Apply with care.",
+        "threshold" : true
+    },{
+        "type" : "mutation",
+        "id" : "DEBUG_MIND_CONTROL",
+        "name" : "Debug Mind Control",
+        "points" : 99,
+        "valid" : false,
+        "description" : "Mind the bugs, would you kindly?.",
         "threshold" : true
     }
 ]

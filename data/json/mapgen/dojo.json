@@ -59,9 +59,9 @@
             "sound": "crunch.",
             "sound_fail": "whump.",
             "items": [
-                { "item": "straw_pile", "amount": 8, "minamount": 5},
-                { "item": "rag", "amount": 4, "minamount": 2 },
-                { "item": "string_36", "amount": 2, "minamount": 1 }
+                { "item": "straw_pile", "count": [5, 8] },
+                { "item": "rag", "count": [2, 4] },
+                { "item": "string_36", "count": [1, 2] }
             ]
         }
     },

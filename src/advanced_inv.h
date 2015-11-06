@@ -11,8 +11,6 @@ class uimenu;
 class vehicle;
 class item;
 
-typedef std::vector< std::pair<item *, int> > itemslice;
-
 enum aim_location {
     AIM_INVENTORY = 0,
     AIM_SOUTHWEST,
@@ -28,7 +26,10 @@ enum aim_location {
     AIM_ALL,
     AIM_CONTAINER,
     AIM_WORN,
-    NUM_AIM_LOCATIONS
+    NUM_AIM_LOCATIONS,
+    // only useful for AIM_ALL
+    AIM_AROUND_BEGIN = AIM_SOUTHWEST,
+    AIM_AROUND_END   = AIM_NORTHEAST
 };
 
 enum advanced_inv_sortby {
@@ -115,6 +116,7 @@ class item_category;
  * Most members are used only for sorting.
  */
 struct advanced_inv_listitem {
+    typedef std::string itype_id;
     /**
      * Index of the item in the original storage container (or inventory).
      */
@@ -123,10 +125,10 @@ struct advanced_inv_listitem {
      * The location of the item, never AIM_ALL.
      */
     aim_location area;
-    /**
-     * The actual item, this is null, when this entry represents a category header.
-     */
-    item *it;
+    // the id of the item
+    itype_id id;
+    // The list of items, and empty when a header
+    std::list<item*> items;
     /**
      * The displayed name of the item/the category header.
      */
@@ -186,7 +188,16 @@ struct advanced_inv_listitem {
      * @param area The source area, stored in @ref area. Must not be AIM_ALL.
      * @param from_vehicle Is the item from a vehicle cargo space?
      */
-    advanced_inv_listitem(item *an_item, int index, int count, 
+    advanced_inv_listitem(item *an_item, int index, int count,
+            aim_location area, bool from_vehicle);
+    /**
+     * Create a normal item entry.
+     * @param items The list of item pointers, stored in @ref it.
+     * @param index The index, stored in @ref idx.
+     * @param area The source area, stored in @ref area. Must not be AIM_ALL.
+     * @param from_vehicle Is the item from a vehicle cargo space?
+     */
+    advanced_inv_listitem(const std::list<item*> &items, int index,
             aim_location area, bool from_vehicle);
 };
 
@@ -354,10 +365,14 @@ class advanced_inventory
         // store/load settings (such as index, filter, etc)
         void save_settings(bool only_panes);
         void load_settings();
+        // used to return back to AIM when other activities queued are finished
         void do_return_entry();
+        // returns true if currently processing a routine 
+        // (such as `MOVE_ALL_ITEMS' with `AIM_ALL' source)
+        bool is_processing() const;
 
         static std::string get_sortname(advanced_inv_sortby sortby);
-        bool move_all_items();
+        bool move_all_items(bool nested_call = false);
         void print_items(advanced_inventory_pane &pane, bool active);
         void recalc_pane(side p);
         void redraw_pane(side p);
@@ -391,10 +406,18 @@ class advanced_inventory
          * Add the item to the destination area.
          * @param destarea Where add the item to. This must not be AIM_ALL.
          * @param new_item The item to add.
-         * @param inv_item Pointer-pointer for the inventory's item pointer, if applicable.
-         * @return true if adding has been done, false if adding the item failed.
+         * @param count The amount to add items to add.
+         * @return Returns the amount of items that weren't addable, 0 if everything went fine.
          */
-        bool add_item( aim_location destarea, item &new_item );
+        int add_item( aim_location destarea, item &new_item, int count = 1);
+        /**
+         * Remove the item from source area. Must not be used on items with area
+         *      AIM_ALL or AIM_INVENTORY!
+         * @param sitem The item reference that should be removed, along with the source area.
+         * @param count The amount to move of said item.
+         * @return Returns the amount of items that weren't removable, 0 if everything went fine.
+         */
+        int remove_item(advanced_inv_listitem &sitem, int count = 1);
         /**
          * Move content of source container into destination container (destination pane = AIM_CONTAINER)
          * @param src_container Source container
@@ -406,19 +429,14 @@ class advanced_inventory
          * @param destarea Where to move to. This must not be AIM_ALL.
          * @param sitem The source item, it must contain a valid reference to an item!
          * @param amount The input value is ignored, contains the amount that should
-         * be moved. Only valid if this returns true.
+         *      be moved. Only valid if this returns true.
          * @return false if nothing should/can be moved. True only if there can and
-         * should be moved. A return value of true indicates that amount now contains
-         * a valid item count to be moved.
+         *      should be moved. A return value of true indicates that amount now contains
+         *      a valid item count to be moved.
          */
-        bool query_charges(aim_location destarea, const advanced_inv_listitem &sitem, bool askamount, long &amount );
-        /**
-         * Remove the item from source area. Must not be used on items with area
-         * AIM_ALL or AIM_INVENTORY! (but is... and seems to work)
-         * @param sitem The item reference that should be removed, along with the
-         * source area.
-         */
-        void remove_item( advanced_inv_listitem &sitem );
+        bool query_charges(aim_location destarea, const advanced_inv_listitem &sitem, 
+                const std::string &action, long &amount);
+
         void menu_square(uimenu *menu);
 
         static char get_location_key( aim_location area );

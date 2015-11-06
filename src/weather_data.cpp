@@ -83,55 +83,55 @@ weather_datum const& weather_data(weather_type const type)
     static std::array<weather_datum, NUM_WEATHER_TYPES> const data {{
         weather_datum {
             "NULL Weather - BUG (weather_data.cpp:weather_data)", c_magenta,
-            0, 0, 0, 0, false,
+            0, 0.f, 0, 0, false,
             &weather_effect::none
         },
         weather_datum {
-            _("Clear"), c_cyan, 0, 0, 0, 0, false,
+            _("Clear"), c_cyan, 0, 1.f, 0, 0, false,
             &weather_effect::none
         },
         weather_datum {
-            _("Sunny"), c_ltcyan, 0, 0, 20, 0, false,
+            _("Sunny"), c_ltcyan, 0, 1.f, 2, 0, false,
             &weather_effect::glare
         },
         weather_datum {
-            _("Cloudy"), c_ltgray, 0, 2, -20, 0, false,
+            _("Cloudy"), c_ltgray, 0, 1.f, -20, 0, false,
             &weather_effect::none
         },
         weather_datum {
-            _("Drizzle"), c_ltblue, 1, 3, -30, 1, true,
+            _("Drizzle"), c_ltblue, 1, 1.03f, -20, 1, false,
             &weather_effect::wet
         },
         weather_datum {
-            _("Rain"), c_blue, 3, 5, -40, 4, true,
+            _("Rain"), c_blue, 3, 1.1f, -30, 4, false,
             &weather_effect::very_wet
         },
         weather_datum {
-            _("Thunder Storm"), c_dkgray, 4, 7, -50, 8, true,
+            _("Thunder Storm"), c_dkgray, 4, 1.2f, -40, 8, false,
             &weather_effect::thunder
         },
         weather_datum {
-            _("Lightning Storm"), c_yellow, 4, 8, -50, 8, true,
+            _("Lightning Storm"), c_yellow, 4, 1.25f, -45, 8, false,
             &weather_effect::lightning
         },
         weather_datum {
-            _("Acidic Drizzle"), c_ltgreen, 2, 3, -30, 1, true,
+            _("Acidic Drizzle"), c_ltgreen, 2, 1.03f, -20, 1, true,
             &weather_effect::light_acid
         },
         weather_datum {
-            _("Acid Rain"), c_green, 4, 6, -40, 4, true,
+            _("Acid Rain"), c_green, 4, 1.1f, -30, 4, true,
             &weather_effect::acid
         },
         weather_datum {
-            _("Flurries"), c_white, 2, 4, -30, 2, true,
+            _("Flurries"), c_white, 2, 1.12f, -15, 2, false,
             &weather_effect::flurry
         },
         weather_datum {
-            _("Snowing"), c_white, 4, 7, -30, 4, true,
+            _("Snowing"), c_white, 4, 1.13f, -20, 4, false,
             &weather_effect::snow
         },
         weather_datum {
-            _("Snowstorm"), c_white, 6, 10, -55, 6, true,
+            _("Snowstorm"), c_white, 6, 1.2f, -30, 6, false,
             &weather_effect::snowstorm
         }
     }};

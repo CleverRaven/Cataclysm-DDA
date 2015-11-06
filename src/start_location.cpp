@@ -8,6 +8,8 @@
 #include "enums.h"
 #include "json.h"
 #include "overmap.h"
+#include "field.h"
+#include "mapgen.h"
 
 static location_map _locations;
 
@@ -101,17 +103,6 @@ void add_boardable( map &m, const tripoint &p, std::vector<tripoint> &vec )
     vec.push_back( p );
 }
 
-tripoint get_random_from_vec( std::vector<tripoint> &vec )
-{
-    if( vec.empty() ) {
-        return tripoint_min;
-    }
-    const size_t i = rng( 0, vec.size() - 1 );
-    const tripoint p = vec[i];
-    vec.erase( vec.begin() + i );
-    return p;
-}
-
 void board_up( map &m, const tripoint &start, const tripoint &end )
 {
     std::vector<tripoint> furnitures1;
@@ -126,7 +117,7 @@ void board_up( map &m, const tripoint &start, const tripoint &end )
         for( y = start.y; y < end.y; y++ ) {
             bool must_board_around = false;
             const ter_id t = m.ter( x, y );
-            if( t == t_window_domestic || t == t_window ) {
+            if( t == t_window_domestic || t == t_window || t == t_window_no_curtains ) {
                 // Windows are always to the outside and must be boarded
                 must_board_around = true;
                 m.ter_set( p, t_window_boarded );
@@ -178,9 +169,8 @@ void board_up( map &m, const tripoint &start, const tripoint &end )
         }
     }
     while( ( !furnitures1.empty() || !furnitures2.empty() ) && !boardables.empty() ) {
-        const tripoint fp = furnitures1.empty() ?
-            get_random_from_vec( furnitures2 ) : get_random_from_vec( furnitures1 );
-        const tripoint bp = get_random_from_vec( boardables );
+        const tripoint fp = random_entry_removed( furnitures1.empty() ? furnitures2 : furnitures1 );
+        const tripoint bp = random_entry_removed( boardables );
         m.furn_set( bp, m.furn( fp ) );
         m.furn_set( fp, f_null );
         auto destination_items = m.i_at( bp );
@@ -380,4 +370,40 @@ void start_location::burn( const tripoint &omtstart,
         m.add_field( valid[i], fd_fire, 3, 0 );
     }
     m.save();
+}
+
+void start_location::add_map_special( const tripoint &omtstart, const std::string& map_special ) const {
+    const tripoint player_location = overmapbuffer::omt_to_sm_copy( omtstart );
+    tinymap m;
+    m.load( player_location.x, player_location.y, player_location.z, false );
+
+    const auto ptr = MapExtras::get_function( map_special );
+    ptr( m, player_location );
+
+    m.save();
+}
+
+void start_location::handle_heli_crash( player &u ) const {
+    for (int i = 2; i < num_hp_parts; i++) { // Skip head + torso for balance reasons.
+        auto part = hp_part(i);
+        auto bp_part = u.hp_to_bp(part);
+        int roll = int(rng(1, 8));
+        switch (roll) {
+            case 1:
+            case 2:// Damage + Bleed
+                u.add_effect("bleed", 60, bp_part);
+            case 3:
+            case 4:
+            case 5:// Just damage
+            {
+                auto maxHp = u.get_hp_max(part);
+                // Body part health will range from 33% to 66% with occasional bleed
+                int dmg = int(rng(maxHp / 3, maxHp * 2 / 3));
+                u.apply_damage(nullptr, bp_part, dmg);
+                break;
+            }
+            default: // No damage
+                break;
+        }
+    }
 }

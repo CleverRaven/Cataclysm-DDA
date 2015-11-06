@@ -13,6 +13,7 @@
 #include "json.h"
 #include "translations.h"
 #include <string>
+#include <cstdlib>
 
 std::string invent_name();
 std::string invent_adj();
@@ -435,11 +436,11 @@ void faction::randomize()
     if (one_in(4)) {
         do {
             name = string_format(_("The %1$s of %2$s"), noun.c_str(), invent_name().c_str());
-        } while (utf8_width(name.c_str()) > MAX_FAC_NAME_SIZE);
+        } while (utf8_width(name) > MAX_FAC_NAME_SIZE);
     } else if (one_in(2)) {
         do {
             name = string_format(_("The %1$s %2$s"), invent_adj().c_str(), noun.c_str());
-        } while (utf8_width(name.c_str()) > MAX_FAC_NAME_SIZE);
+        } while (utf8_width(name) > MAX_FAC_NAME_SIZE);
     } else {
         do {
             std::string adj;
@@ -454,7 +455,7 @@ void faction::randomize()
             if (one_in(4)) {
                 name = string_format(_("%1$s of %2$s"), name.c_str(), invent_name().c_str());
             }
-        } while (utf8_width(name.c_str()) > MAX_FAC_NAME_SIZE);
+        } while (utf8_width(name) > MAX_FAC_NAME_SIZE);
     }
 }
 
@@ -554,12 +555,12 @@ bool faction::matches_us(faction_value v)
 std::string faction::describe()
 {
     std::string ret;
-    ret = desc + "\n \n" + string_format( _("%s have the ultimate goal of %s."), name.c_str(),
+    ret = desc + "\n \n" + string_format( _("%1$s have the ultimate goal of %2$s."), name.c_str(),
                                           facgoal_data[goal].name.c_str());
     if (job2 == FACJOB_NULL) {
         ret += string_format( _(" Their primary concern is %s."), facjob_data[job1].name.c_str());
     } else {
-        ret += string_format( _(" Their primary concern is %s, but they are also involved in %s."),
+        ret += string_format( _(" Their primary concern is %1$s, but they are also involved in %2$s."),
                               facjob_data[job1].name.c_str(),
                               facjob_data[job2].name.c_str());
     }

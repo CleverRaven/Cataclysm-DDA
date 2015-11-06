@@ -54,7 +54,7 @@
         "bullet": "22_lr",
         "items": [
             ["lead", 2],
-            ["22_casing", 1],
+            ["22_casing_new", 1],
             ["gunpowder", 2]
         ]
     },
@@ -63,7 +63,7 @@
         "bullet": "22_ratshot",
         "items": [
             ["lead", 2],
-            ["22_casing", 1],
+            ["22_casing_new", 1],
             ["gunpowder", 2]
         ]
     },
@@ -72,7 +72,7 @@
         "bullet": "22_cb",
         "items": [
             ["lead", 2],
-            ["22_casing", 1],
+            ["22_casing_new", 1],
             ["gunpowder", 1]
         ]
     },
@@ -81,7 +81,7 @@
         "bullet": "22_fmj",
         "items": [
             ["lead", 2],
-            ["22_casing", 1],
+            ["22_casing_new", 1],
             ["gunpowder", 1],
             ["copper", 2]
         ]
@@ -317,6 +317,28 @@
     },
     {
         "type": "BULLET_PULLING",
+        "bullet": "545",
+        "items": [
+            ["lead", 2],
+            ["545_casing", 1],
+            ["smrifle_primer", 1],
+            ["gunpowder", 5],
+            ["copper", 2]
+        ]
+    },
+    {
+        "type": "BULLET_PULLING",
+        "bullet": "545_ap",
+        "items": [
+            ["lead", 3],
+            ["545_casing", 1],
+            ["smrifle_primer", 1],
+            ["gunpowder", 5],
+            ["copper", 3]
+        ]
+    },
+    {
+        "type": "BULLET_PULLING",
         "bullet": "223",
         "items": [
             ["lead", 2],
@@ -372,6 +394,17 @@
     },
     {
         "type": "BULLET_PULLING",
+        "bullet": "3006fmj",
+        "items": [
+            ["lead", 6],
+            ["3006_casing", 1],
+            ["lgrifle_primer", 1],
+            ["gunpowder", 8],
+            ["copper", 6]
+        ]
+    },
+    {
+        "type": "BULLET_PULLING",
         "bullet": "3006_incendiary",
         "items": [
             ["incendiary", 6],
@@ -416,9 +449,9 @@
     },
     {
         "type": "BULLET_PULLING",
-        "bullet": "5x50",
+        "bullet": "5x50heavy",
         "items": [
-            ["lead", 2],
+            ["lead", 3],
             ["5x50_hull", 1],
             ["smrifle_primer", 1],
             ["gunpowder", 3]
@@ -436,13 +469,101 @@
     },
     {
         "type": "BULLET_PULLING",
-        "bullet": "50",
+        "bullet": "50bmg",
         "items": [
-            ["lead", 21],
+            ["lead", 12],
             ["50_casing", 1],
             ["lgrifle_primer", 1],
-            ["gunpowder", 45],
+            ["gunpowder", 33],
+            ["copper", 9]
+        ]
+    },
+    {
+        "type": "BULLET_PULLING",
+        "bullet": "50ss",
+        "items": [
+            ["50_casing", 1],
+            ["lgrifle_primer", 1],
+            ["gunpowder", 100],
+            ["copper", 27],
+            ["combatnail", 5]
+        ],
+        "//": "Crafting these uses scrap metal instead of lead. Just breaking down into casings, copper and powder felt wrong, and combatnails seemed like a reasonable approximation."
+    },
+    {
+        "type": "BULLET_PULLING",
+        "bullet": "50_incendiary",
+        "items": [
+            ["lead", 20],
+            ["incendiary", 30],
+            ["50_casing", 1],
+            ["lgrifle_primer", 1],
+            ["gunpowder", 100],
+            ["copper", 27]
+        ]
+    },
+    {
+        "type": "BULLET_PULLING",
+        "bullet": "700nx",
+        "items": [
+            ["lead", 14],
+            ["700nx_casing", 1],
+            ["lgrifle_primer", 1],
+            ["gunpowder", 38],
+            ["copper", 9]
+        ]
+    },
+    {
+        "type": "BULLET_PULLING",
+        "bullet": "300_winmag",
+        "items": [
+            ["lead", 8],
+            ["300_casing", 1],
+            ["lgrifle_primer", 1],
+            ["gunpowder", 16],
             ["copper", 21]
+        ]
+    },
+    {
+        "type": "BULLET_PULLING",
+        "bullet": "9x18mm",
+        "items": [
+            ["lead", 4],
+            ["9x18mm_casing", 1],
+            ["lgrifle_primer", 1],
+            ["gunpowder", 3]
+        ]
+    },
+    {
+        "type": "BULLET_PULLING",
+        "bullet": "9x18mmP2",
+        "items": [
+            ["lead", 4],
+            ["9x18mm_casing", 1],
+            ["lgrifle_primer", 1],
+            ["gunpowder", 5]
+        ]
+    },
+    {
+        "type": "BULLET_PULLING",
+        "bullet": "9x18mmfmj",
+        "items": [
+            ["lead", 4],
+            ["9x18mm_casing", 1],
+            ["lgrifle_primer", 1],
+            ["gunpowder", 3],
+            ["copper", 2]
+        ]
+    },
+    {
+        "type": "BULLET_PULLING",
+        "bullet": "762_54R",
+        "items": [
+            ["lead", 3],
+            ["762_casing", 1],
+            ["lgrifle_primer", 1],
+            ["gunpowder", 8],
+            ["copper", 10]
         ]
     }
 ]

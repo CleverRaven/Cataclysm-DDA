@@ -12,7 +12,7 @@
 #include "mutation.h"
 #include "text_snippets.h"
 #include "item_factory.h"
-#include "vehicle_factory.h"
+#include "vehicle_group.h"
 #include "crafting.h"
 #include "computer.h"
 #include "help.h"
@@ -45,14 +45,14 @@
 #include "monfaction.h"
 #include "martialarts.h"
 #include "veh_type.h"
+#include "clzones.h"
+#include "sounds.h"
 
 #include <string>
 #include <vector>
 #include <fstream>
 #include <sstream> // for throwing errors
 #include <locale> // for loading names
-
-#include "savegame.h"
 
 DynamicDataLoader::DynamicDataLoader()
 {
@@ -77,10 +77,7 @@ void DynamicDataLoader::load_object(JsonObject &jo)
     std::string type = jo.get_string("type");
     t_type_function_map::iterator it = type_function_map.find(type);
     if (it == type_function_map.end()) {
-        std::stringstream err;
-        err << jo.line_number() << ": ";
-        err << "unrecognized JSON object, type: \"" << type << "\"";
-        throw err.str();
+        jo.throw_error( "unrecognized JSON object", "type" );
     }
     (*it->second)(jo);
 }
@@ -134,10 +131,8 @@ void DynamicDataLoader::initialize()
     type_function_map["vehicle_part"] = new StaticFunctionAccessor( &vpart_info::load );
     type_function_map["vehicle"] = new StaticFunctionAccessor( &vehicle_prototype::load );
     type_function_map["vehicle_group"] = new StaticFunctionAccessor( &VehicleGroup::load );
-    type_function_map["vehicle_placement"] = new ClassFunctionAccessor<VehicleFactory>(vehicle_controller,
-            &VehicleFactory::load_vehicle_placement);
-    type_function_map["vehicle_spawn"] = new ClassFunctionAccessor<VehicleFactory>(vehicle_controller,
-            &VehicleFactory::load_vehicle_spawn);
+    type_function_map["vehicle_placement"] = new StaticFunctionAccessor( &VehiclePlacement::load );
+    type_function_map["vehicle_spawn"] = new StaticFunctionAccessor( &VehicleSpawn::load );
 
     type_function_map["trap"] = new StaticFunctionAccessor(&trap::load);
     type_function_map["AMMO"] = new ClassFunctionAccessor<Item_factory>(item_controller,
@@ -215,6 +210,8 @@ void DynamicDataLoader::initialize()
 
     type_function_map["MONSTER_FACTION"] =
         new StaticFunctionAccessor(&monfactions::load_monster_faction);
+    type_function_map["sound_effect"] = new StaticFunctionAccessor(&sfx::load_sound_effects);
+    type_function_map["playlist"] = new StaticFunctionAccessor(&sfx::load_playlist);
 
 }
 
@@ -260,8 +257,8 @@ void DynamicDataLoader::load_data_from_path(const std::string &path)
             // parse it
             JsonIn jsin(iss);
             load_all_from_json(jsin);
-        } catch (std::string e) {
-            throw file + ": " + e;
+        } catch( const JsonError &err ) {
+            throw std::runtime_error( file + ": " + err.what() );
         }
     }
 }
@@ -280,11 +277,7 @@ void DynamicDataLoader::load_all_from_json(JsonIn &jsin)
         // if there's anything else in the file, it's an error.
         jsin.eat_whitespace();
         if (jsin.good()) {
-            std::stringstream err;
-            err << jsin.line_number() << ": ";
-            err << "expected single-object file but found '";
-            err << jsin.peek() << "'";
-            throw err.str();
+            jsin.error( string_format( "expected single-object file but found '%c'", jsin.peek() ) );
         }
     } else if (ch == '[') {
         jsin.start_array();
@@ -293,11 +286,7 @@ void DynamicDataLoader::load_all_from_json(JsonIn &jsin)
             jsin.eat_whitespace();
             ch = jsin.peek();
             if (ch != '{') {
-                std::stringstream err;
-                err << jsin.line_number() << ": ";
-                err << "expected array of objects but found '";
-                err << ch << "', not '{'";
-                throw err.str();
+                jsin.error( string_format( "expected array of objects but found '%c', not '{'", ch ) );
             }
             JsonObject jo = jsin.get_object();
             load_object(jo);
@@ -305,10 +294,7 @@ void DynamicDataLoader::load_all_from_json(JsonIn &jsin)
         }
     } else {
         // not an object or an array?
-        std::stringstream err;
-        err << jsin.line_number() << ": ";
-        err << "expected object or array, but found '" << ch << "'";
-        throw err.str();
+        jsin.error( string_format( "expected object or array, but found '%c'", ch ) );
     }
 }
 
@@ -338,10 +324,7 @@ void DynamicDataLoader::unload_data()
     mutation_branch::reset_all();
     reset_bionics();
     clear_tutorial_messages();
-    furnlist.clear();
-    furnmap.clear();
-    terlist.clear();
-    termap.clear();
+    reset_furn_ter();
     MonsterGroupManager::ClearMonsterGroups();
     SNIPPET.clear_snippets();
     vehicle_prototype::reset();

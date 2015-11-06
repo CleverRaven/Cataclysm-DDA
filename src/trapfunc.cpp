@@ -1,15 +1,23 @@
 #include "game.h"
 #include "map.h"
+#include "map_iterator.h"
 #include "debug.h"
 #include "trap.h"
 #include "rng.h"
-#include "monstergenerator.h"
 #include "messages.h"
 #include "sounds.h"
 #include "translations.h"
 #include "event.h"
 #include "npc.h"
 #include "monster.h"
+#include "mapdata.h"
+#include "mtype.h"
+
+const mtype_id mon_blob( "mon_blob" );
+const mtype_id mon_shadow( "mon_shadow" );
+const mtype_id mon_shadow_snake( "mon_shadow_snake" );
+
+const skill_id skill_throw( "throw" );
 
 // A pit becomes less effective as it fills with corpses.
 float pit_effectiveness( const tripoint &p )
@@ -167,7 +175,7 @@ void trapfunc::tripwire( Creature *c, const tripoint &p )
         monster *z = dynamic_cast<monster *>( c );
         player *n = dynamic_cast<player *>( c );
         if( z != nullptr ) {
-            z->stumble( false );
+            z->stumble();
             if( rng( 0, 10 ) > z->get_dodge() ) {
                 z->apply_damage( nullptr, bp_torso, rng( 1, 4 ) );
             }
@@ -183,8 +191,7 @@ void trapfunc::tripwire( Creature *c, const tripoint &p )
                 }
             }
             if( !valid.empty() ) {
-                jk = valid[rng( 0, valid.size() - 1 )];
-                n->setpos( jk );
+                n->setpos( random_entry( valid ) );
             }
             n->moves -= 150;
             if( rng( 5, 20 ) > n->dex_cur ) {
@@ -494,7 +501,7 @@ void trapfunc::landmine( Creature *c, const tripoint &p )
         c->add_memorial_log( pgettext( "memorial_male", "Stepped on a land mine." ),
                              pgettext( "memorial_female", "Stepped on a land mine." ) );
     }
-    g->explosion( p, 10, 8, false );
+    g->explosion( p, 18, 0.5, 8 );
     g->m.remove_trap( p );
 }
 
@@ -506,7 +513,7 @@ void trapfunc::boobytrap( Creature *c, const tripoint &p )
         c->add_memorial_log( pgettext( "memorial_male", "Triggered a booby trap." ),
                              pgettext( "memorial_female", "Triggered a booby trap." ) );
     }
-    g->explosion( p, 18, 12, false );
+    g->explosion( p, 18, 0.6, 12 );
     g->m.remove_trap( p );
 }
 
@@ -541,7 +548,7 @@ void trapfunc::telepad( Creature *c, const tripoint &p )
                 int mon_hit = g->mon_at( {newposx, newposy, z->posz()} );
                 if( mon_hit != -1 ) {
                     if( g->u.sees( *z ) ) {
-                        add_msg( m_good, _( "The %s teleports into a %s, killing them both!" ),
+                        add_msg( m_good, _( "The %1$s teleports into a %2$s, killing them both!" ),
                                  z->name().c_str(), g->zombie( mon_hit ).name().c_str() );
                     }
                     g->zombie( mon_hit ).die_in_explosion( z );
@@ -572,11 +579,11 @@ void trapfunc::goo( Creature *c, const tripoint &p )
                 n->check_dead_state();
             }
         } else if( z != nullptr ) {
-            if( z->type->id == "mon_blob" ) {
+            if( z->type->id == mon_blob ) {
                 z->set_speed_base( z->get_speed_base() + 15 );
                 z->set_hp( z->get_speed() );
             } else {
-                z->poly( GetMType( "mon_blob" ) );
+                z->poly( mon_blob );
                 z->set_speed_base( z->get_speed_base() - 15 );
                 z->set_hp( z->get_speed() );
             }
@@ -870,8 +877,8 @@ void trapfunc::sinkhole( Creature *c, const tripoint &p )
 
     const auto safety_roll = [&]( const std::string &itemname,
                                   const int diff ) {
-        const int roll = rng( pl->skillLevel( "throw" ),
-                              pl->skillLevel( "throw" ) + pl->str_cur + pl->dex_cur );
+        const int roll = rng( pl->skillLevel( skill_throw ),
+                              pl->skillLevel( skill_throw ) + pl->str_cur + pl->dex_cur );
         if( roll < diff ) {
             pl->add_msg_if_player( m_bad, _( "You fail to attach it..." ) );
             pl->use_amount( itemname, 1 );
@@ -898,8 +905,7 @@ void trapfunc::sinkhole( Creature *c, const tripoint &p )
         } else {
             pl->add_msg_player_or_npc( m_good, _( "You pull yourself to safety!" ),
                                                _( "<npcname> steps on a sinkhole, but manages to pull themselves to safety." ) );
-            int index = rng( 0, safe.size() - 1 );
-            pl->setpos( safe[index] );
+            pl->setpos( random_entry( safe ) );
             if( pl == &g->u ) {
                 g->update_map( &g->u );
             }
@@ -933,19 +939,99 @@ void trapfunc::sinkhole( Creature *c, const tripoint &p )
     pit( c, p );
 }
 
-void trapfunc::ledge( Creature *c, const tripoint& )
+void trapfunc::ledge( Creature *c, const tripoint &p )
 {
-    if( c == &g->u ) {
+    if( c == nullptr ) {
+        return;
+    }
+
+    monster *m = dynamic_cast<monster*>( c );
+    if( m != nullptr && m->has_flag( MF_FLIES ) ) {
+        return;
+    }
+
+    if( !g->m.has_zlevels() ) {
+        if( c == &g->u ) {
+            add_msg( m_warning, _( "You fall down a level!" ) );
+            g->u.add_memorial_log( pgettext( "memorial_male", "Fell down a ledge." ),
+                                   pgettext( "memorial_female", "Fell down a ledge." ) );
+            g->vertical_move( -1, true );
+            if( g->u.has_trait("WINGS_BIRD") || ( one_in( 2 ) && g->u.has_trait("WINGS_BUTTERFLY") ) ) {
+                add_msg( _("You flap your wings and flutter down gracefully.") );
+            } else {
+                g->u.impact( 20, p );
+            }
+        } else {
+            c->add_msg_if_npc( _( "<npcname> falls down a level!" ) );
+            c->die( nullptr );
+        }
+
+        return;
+    }
+
+    int height = 0;
+    tripoint where = p;
+    tripoint below = where;
+    below.z--;
+    while( g->m.valid_move( where, below, false, true ) ) {
+        where.z--;
+        if( g->critter_at( where ) != nullptr ) {
+            where.z++;
+            break;
+        }
+
+        below.z--;
+        height++;
+    }
+
+    if( height == 0 && c->is_player() ) {
+        // For now just special case player, NPCs don't "zedwalk"
+        Creature *critter = g->critter_at( below, true );
+        if( critter == nullptr || !critter->is_monster() ) {
+            return;
+        }
+
+        std::vector<tripoint> valid;
+        for( const tripoint &pt : g->m.points_in_radius( below, 1 ) ) {
+            if( g->is_empty( pt ) ) {
+                valid.push_back( pt );
+            }
+        }
+
+        if( valid.empty() ) {
+            critter->setpos( c->pos() );
+            add_msg( m_bad, _("You fall down under %s!"), critter->disp_name().c_str() );
+        } else {
+            critter->setpos( random_entry( valid ) );
+        }
+
+        height++;
+        where.z--;
+    } else if( height == 0 ) {
+        return;
+    }
+
+    c->add_msg_if_npc( _( "<npcname> falls down a level!" ) );
+    player *pl = dynamic_cast<player*>( c );
+    if( pl == nullptr ) {
+        c->setpos( where );
+        c->impact( height * 10, where );
+        return;
+    }
+
+    if( pl->is_player() ) {
         add_msg( m_warning, _( "You fall down a level!" ) );
         g->u.add_memorial_log( pgettext( "memorial_male", "Fell down a ledge." ),
                                pgettext( "memorial_female", "Fell down a ledge." ) );
-        g->vertical_move( -1, true );
-        return;
+        g->vertical_move( -height, true );
+    } else {
+        pl->setpos( where );
     }
-    // TODO; port to Z-levels
-    if( c != nullptr ) {
-        c->add_msg_if_npc( _( "<npcname> falls down a level!" ) );
-        c->die( nullptr );
+    if( pl->has_trait("WINGS_BIRD") || ( one_in( 2 ) && pl->has_trait("WINGS_BUTTERFLY") ) ) {
+        pl->add_msg_player_or_npc( _("You flap your wings and flutter down gracefully."),
+                                   _("<npcname> flaps their wings and flutters down gracefully.") );
+    } else {
+        pl->impact( height * 10, where );
     }
 }
 
@@ -1070,7 +1156,7 @@ void trapfunc::shadow( Creature *c, const tripoint &p )
              !g->m.sees( monp, g->u.pos(), 10 ) );
 
     if( tries < 5 ) {
-        if( g->summon_mon( "mon_shadow", monp ) ) {
+        if( g->summon_mon( mon_shadow, monp ) ) {
             add_msg( m_warning, _( "A shadow forms nearby." ) );
             monster *spawned = g->monster_at( monp );
             spawned->reset_special_rng( 0 );
@@ -1124,7 +1210,7 @@ void trapfunc::snake( Creature *c, const tripoint &p )
 
         if( tries < 5 ) {
             add_msg( m_warning, _( "A shadowy snake forms nearby." ) );
-            g->summon_mon( "mon_shadow_snake", p );
+            g->summon_mon( mon_shadow_snake, p );
             g->m.remove_trap( p );
         }
     }

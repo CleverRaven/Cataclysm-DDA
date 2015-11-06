@@ -1,0 +1,199 @@
+[
+    {
+        "type" : "item_group",
+        "subtype": "collection",
+        "comment": "easy hack for giving Shia essence",
+        "id": "essence_shia",
+        "entries":
+        [
+            { "item": "essence", "prob": 50 },
+            { "group": "magic_items", "prob": 2 },
+            { "group": "magic_consumables", "prob": 4 },
+            { "group": "magic_tools", "prob": 6 },
+            { "group": "magic_books", "prob": 8 },
+            { "group": "shia_stuff", "prob": 100 }
+        ]
+    },
+    {
+        "type" : "item_group",
+        "subtype": "collection",
+        "comment": "contains cloth for an average zombie, also 50% chance of essence and possibly cultist stuff",
+        "id": "essence_zombie_clothes",
+        "entries":
+        [
+            { "item": "essence", "prob": 50 },
+            { "group": "magic_items", "prob": 1 },
+            { "group": "magic_consumables", "prob": 3 },
+            { "group": "magic_tools", "prob": 5 },
+            { "group": "magic_books", "prob": 10 },
+            { "group": "pants", "damage-min": 1, "damage-max": 4 },
+            { "group": "shirts", "damage-min": 1, "damage-max": 4 },
+            { "group": "shoes", "damage-min": 1, "damage-max": 4 },
+            { "group": "jackets", "damage-min": 1, "damage-max": 4, "prob": 20 },
+            { "group": "bags", "damage-min": 1, "damage-max": 4, "prob": 6 }
+        ]
+    },
+    {
+        "type" : "item_group",
+        "subtype": "collection",
+        "comment": "contains cloth for an average zombie, also essence and a high chance of magical loot",
+        "id": "angelic_drops",
+        "entries":
+        [
+            { "item": "essence", "prob": 100 },
+            { "group": "magic_items", "prob": 25 },
+            { "group": "magic_consumables", "prob": 25 },
+            { "group": "magic_books", "prob": 50 },
+            { "group": "magic_tools", "prob": 75 },
+            { "group": "pants", "damage-min": 1, "damage-max": 4 },
+            { "group": "shirts", "damage-min": 1, "damage-max": 4 },
+            { "group": "shoes", "damage-min": 1, "damage-max": 4 },
+            { "group": "jackets", "damage-min": 1, "damage-max": 4, "prob": 20 },
+            { "group": "bags", "damage-min": 1, "damage-max": 4, "prob": 6 }
+        ]
+    },
+    {
+        "type" : "item_group",
+        "subtype": "collection",
+        "comment": "essence (100% change), magic items (5% chance), and magic books (10% chance)",
+        "id": "homunculus_death_drops",
+        "entries":
+        [
+            { "item": "essence", "prob": 100 },
+            { "group": "magic_items", "prob": 5 },
+            { "group": "magic_consumables", "prob": 10 },
+            { "group": "magic_tools", "prob": 10 },
+            { "group": "magic_books", "prob": 15 }
+        ]
+    },
+    {
+        "type" : "item_group",
+        "subtype": "collection",
+        "comment": "contains cloth (always), a cash card (10% chance) a random item (50% chance), an essence (50% chance), and small chance of magical stuff",
+        "id": "essence_zombie_death_drops",
+        "entries":
+        [
+            { "item": "essence", "prob": 50 },
+            { "group": "magic_items", "prob": 1 },
+            { "group": "magic_consumables", "prob": 3 },
+            { "group": "magic_tools", "prob": 3 },
+            { "group": "magic_books", "prob": 5 },
+            { "group": "default_zombie_clothes" },
+            { "group": "default_zombie_items", "prob": 50 },
+            { "item": "cash_card", "prob": 10 }
+        ]
+    },
+    {
+        "type" : "item_group",
+        "subtype": "collection",
+        "comment": "contains cloth (always), a cash card (10% chance) a random item (50% chance), an essence, and small chance of magical gear",
+        "id": "boss_zombie_death_drops",
+        "entries":
+        [
+            { "item": "essence" },
+            { "group": "magic_items", "prob": 5 },
+            { "group": "magic_consumables", "prob": 10 },
+            { "group": "magic_tools", "prob": 15 },
+            { "group": "magic_books", "prob": 20 },
+            { "group": "default_zombie_clothes" },
+            { "group": "default_zombie_items", "prob": 50 },
+            { "item": "cash_card", "prob": 10 }
+        ]
+    },
+    {
+        "type" : "item_group",
+        "subtype": "collection",
+        "comment": "Hax for vault wanderer group, plus 50% chance of essence, and tiny chance of other magical gear",
+        "id": "charred_zombie_death_drops",
+        "entries":
+        [
+            { "item": "essence", "prob": 50 },
+            { "group": "magic_items", "prob": 1 },
+            { "group": "magic_consumables", "prob": 3 },
+            { "group": "magic_tools", "prob": 3 },
+            { "group": "magic_books", "prob": 5 },
+            { "group": "vault_wanderer" }
+        ]
+    },
+    {
+        "type" : "item_group",
+        "subtype": "collection",
+        "comment": "You may or may not get an essense or magical loot.  Only need to add items since we're referencing an existing itemgroup.",
+        "id": "mon_zombie_survivor_death_drops",
+        "entries":
+        [
+            { "item": "essence", "count-min": 0, "count-max": 3 },
+            { "group": "magic_items", "prob": 5 },
+            { "group": "magic_consumables", "prob": 10 },
+            { "group": "magic_tools", "prob": 10 },
+            { "group": "magic_books", "prob": 15 }
+        ]
+    },
+    {
+        "type" : "item_group",
+        "subtype": "collection",
+        "id": "jackson_drops",
+        "comment": "The only being without the queen flag to drop boss-level essence, also gives high odds of magical gear.  Only need to add items since we're referencing an existing itemgroup.",
+        "entries":
+        [
+            { "group": "magic_items", "prob": 25 },
+            { "group": "magic_consumables", "prob": 25 },
+            { "group": "magic_books", "prob": 50 },
+            { "group": "magic_tools", "prob": 75 },
+            { "item": "essence", "count-min": 2, "count-max": 5 }
+        ]
+    },
+    {
+        "type" : "item_group",
+        "subtype": "collection",
+        "id": "mon_dancer_death_drops",
+        "comment": "If you manage this, you earned that essence.",
+        "entries":
+        [
+            { "item": "rag", "damage-min": 1, "damage-max": 4, "count-min": 1, "count-max": 4 },
+            { "group": "pants", "damage-min": 1, "damage-max": 4 },
+            { "group": "default_zombie_items" },
+            { "item": "cash_card" },
+            { "item": "essence", "count-min": 1, "count-max": 3 }
+        ]
+    },
+    {
+        "type" : "item_group",
+        "subtype": "collection",
+        "id": "marloss_yellow_drops",
+        "comment": "Boss-level essence added to standard marloss gel drops.  Only need to add items since we're referencing an existing itemgroup.",
+        "entries":
+        [
+            { "item": "essence", "count-min": 2, "count-max": 5 }
+        ]
+    },
+    {
+        "type" : "item_group",
+        "subtype": "collection",
+        "comment": "You get a bane staff and essence",
+        "id": "plant_boss_drops",
+        "entries":
+        [
+            { "item": "scourge_staff", "prob": 100 },
+            { "item": "essence", "count-min": 2, "count-max": 5 }
+        ]
+    },
+    {
+        "type" : "item_group",
+        "subtype": "collection",
+        "comment": "chalice-specific loot, plus boss-level essence",
+        "id": "archon_drops",
+        "entries":
+        [
+            { "group": "essence_boss", "prob": 100 },
+            { "item": "thunder_sigil", "prob": 100 },
+            { "item": "book_sacrifice", "prob": 50 },
+            { "item": "offering_chalice", "prob": 25 },
+            { "group": "pants", "damage-min": 1, "damage-max": 4 },
+            { "group": "shirts", "damage-min": 1, "damage-max": 4 },
+            { "group": "shoes", "damage-min": 1, "damage-max": 4 },
+            { "group": "jackets", "damage-min": 1, "damage-max": 4, "prob": 20 },
+            { "group": "bags", "damage-min": 1, "damage-max": 4, "prob": 6 }
+        ]
+    }
+]

@@ -30,8 +30,8 @@ public:
     int disinfectant        ( player*, item*, bool, const tripoint& );
     int caff                ( player*, item*, bool, const tripoint& );
     int atomic_caff         ( player*, item*, bool, const tripoint& );
-    int alcohol             ( player*, item*, bool, const tripoint& );
     int alcohol_weak        ( player*, item*, bool, const tripoint& );
+    int alcohol_medium      ( player*, item*, bool, const tripoint& );
     int alcohol_strong      ( player*, item*, bool, const tripoint& );
     int xanax               ( player*, item*, bool, const tripoint& );
     int smoking             ( player*, item*, bool, const tripoint& );
@@ -79,6 +79,7 @@ public:
     int sew                 ( player*, item*, bool, const tripoint& );
     int sew_advanced        ( player*, item*, bool, const tripoint& );
     int extra_battery       ( player*, item*, bool, const tripoint& );
+    int double_reactor      ( player*, item*, bool, const tripoint& );
     int rechargeable_battery( player*, item*, bool, const tripoint& );
     int scissors            ( player*, item*, bool, const tripoint& );
     int extinguisher        ( player*, item*, bool, const tripoint& );
@@ -89,7 +90,6 @@ public:
     int directional_antenna ( player*, item*, bool, const tripoint& );
     int radio_off           ( player*, item*, bool, const tripoint& );
     int radio_on            ( player*, item*, bool, const tripoint& );
-    int horn_bicycle        ( player*, item*, bool, const tripoint& );
     int noise_emitter_off   ( player*, item*, bool, const tripoint& );
     int noise_emitter_on    ( player*, item*, bool, const tripoint& );
     int ma_manual           ( player*, item*, bool, const tripoint& );
@@ -118,6 +118,7 @@ public:
     int teleport            ( player*, item*, bool, const tripoint& );
     int can_goo             ( player*, item*, bool, const tripoint& );
     int throwable_extinguisher_act( player*, item*, bool, const tripoint& );
+    int capture_monster_act ( player*, item*, bool, const tripoint& );
     int pipebomb_act        ( player*, item*, bool, const tripoint& );
     int granade             ( player*, item*, bool, const tripoint& );
     int granade_act         ( player*, item*, bool, const tripoint& );
@@ -173,9 +174,9 @@ public:
     int sheath_knife        ( player*, item*, bool, const tripoint& );
     int holster_gun         ( player*, item*, bool, const tripoint& );
     int holster_ankle       ( player*, item*, bool, const tripoint& );
+    int belt_loop           ( player*, item*, bool, const tripoint& );
     int towel               ( player*, item*, bool, const tripoint& );
     int unfold_generic      ( player*, item*, bool, const tripoint& );
-    int airhorn             ( player*, item*, bool, const tripoint& );
     int adrenaline_injector ( player*, item*, bool, const tripoint& );
     int jet_injector        ( player*, item*, bool, const tripoint& );
     int stimpack            ( player*, item*, bool, const tripoint& );
@@ -202,8 +203,10 @@ public:
     int camera              ( player*, item*, bool, const tripoint& );
     int ehandcuffs          ( player*, item*, bool, const tripoint& );
     int cable_attach        ( player*, item*, bool, const tripoint& );
+    int shavekit            ( player*, item*, bool, const tripoint& );
+    int hairkit             ( player*, item*, bool, const tripoint& );
     int weather_tool        ( player*, item*, bool, const tripoint& );
-    int survivor_belt       ( player*, item*, bool, const tripoint& );
+    int ladder              ( player*, item*, bool, const tripoint& );
 
 // MACGUFFINS
     int mcg_note            ( player*, item*, bool, const tripoint& );
@@ -224,6 +227,9 @@ public:
 
     // Helper for listening to music, might deserve a better home, but not sure where.
     static void play_music( player *p, const tripoint &source, int volume, int max_morale );
+
+    // Helper for handling pesky wannabe-artists
+    static int handle_ground_graffiti( player *p, item *it, const std::string prefix );
 
     static void reset_bullet_pulling();
     static void load_bullet_pulling(JsonObject &jo);

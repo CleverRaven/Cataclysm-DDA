@@ -3,11 +3,9 @@
 
 #include "damage.h"
 #include "pldata.h"
-#include "skill.h"
 #include "json.h"
 #include "effect.h"
 #include "bodypart.h"
-#include "mtype.h"
 #include "output.h"
 #include "cursesdef.h" // WINDOW
 
@@ -19,11 +17,23 @@ class game;
 class JsonObject;
 class JsonOut;
 struct trap;
+enum m_flag : int;
+enum field_id : int;
+
+enum m_size : int {
+    MS_TINY = 0,    // Squirrel
+    MS_SMALL,      // Dog
+    MS_MEDIUM,    // Human
+    MS_LARGE,    // Cow
+    MS_HUGE     // TAAAANK
+};
 
 class Creature
 {
     public:
         virtual ~Creature();
+
+        static const std::map<std::string, m_size> size_map;
 
         virtual std::string disp_name(bool possessive = false) const = 0; // displayname for Creature
         virtual std::string skin_name() const = 0; // name of outer layer, e.g. "armor plates"
@@ -50,19 +60,20 @@ class Creature
         virtual void normalize();
         /** Processes effects and bonuses and allocates move points based on speed. */
         virtual void process_turn();
-        /** Handles both reset steps. Should be called instead of each individual reset function generally. */
-        virtual void reset();
         /** Resets the value of all bonus fields to 0. */
         virtual void reset_bonuses();
-        /** Resets creature stats to normal levels for the start of each turn. Should be idempotent. */
+        /** Does NOTHING, exists to simplify cleanup and should be removed */
         virtual void reset_stats();
+        /** Handles stat and bonus reset. */
+        virtual void reset();
 
         /** Empty function. Should always be overwritten by the appropriate player/NPC/monster version. */
         virtual void die(Creature *killer) = 0;
 
-        /** Should always be overwritten by the appropriate player/NPC/monster version, return 0 just in case. */
+        /** Should always be overwritten by the appropriate player/NPC/monster version. */
         virtual int hit_roll() const = 0;
         virtual int dodge_roll() = 0;
+        virtual int stability_roll() const = 0;
 
         /**
          * Simplified attitude towards any creature:
@@ -85,16 +96,11 @@ class Creature
          * @param tr is the trap that was triggered.
          * @param pos is the location of the trap (not necessarily of the creature) in the main map.
          */
-        virtual bool avoid_trap( const tripoint &pos, const trap &tr ) = 0;
+        virtual bool avoid_trap( const tripoint &pos, const trap &tr ) const = 0;
 
         /**
          * The functions check whether this creature can see the target.
          * The target may either be another creature (critter), or a specific point on the map.
-         *
-         * The bresenham_slope parameter is only set when the target is actually visible. Its
-         * value must be passed to @ref line_to to get a line from this creature to the target
-         * which will pass through transparent terrain only. Using a different value for line_to
-         * may result in a line that passes through opaque terrain.
          *
          * Different creatures types are supposed to only implement the two virtual functions.
          * The other functions are here to give the callers more freedom, they simply forward
@@ -105,14 +111,9 @@ class Creature
          * the other monster is visible.
          */
         /*@{*/
-        virtual bool sees( const Creature &critter, int &bresen1, int &bresen2 ) const;
-        bool sees( const Creature &critter, int &bresenham_slope ) const;
-        bool sees( const Creature &critter ) const;
-        bool sees( int cx, int cy, int &bresenham_slope ) const;
-        bool sees( int tx, int ty ) const;
-        virtual bool sees( const tripoint &t, int &bresen1, int &bresen2 ) const;
-        bool sees( const tripoint &t, int &bresen1 ) const;
-        bool sees( const tripoint &t ) const;
+        virtual bool sees( const Creature &critter ) const;
+        bool sees( int cx, int cy ) const;
+        virtual bool sees( const tripoint &t, bool is_player = false ) const;
         bool sees( point t ) const;
 
         /*@}*/
@@ -155,11 +156,11 @@ class Creature
          *  dispersion.
          *  Returns the rolled dispersion of the shot and the actually hit point.
          */
-        std::pair<double, tripoint> projectile_attack( const projectile &proj, const tripoint &source,
-                                                       const tripoint &target, double total_dispersion );
+        dealt_projectile_attack projectile_attack( const projectile &proj, const tripoint &source,
+                                                   const tripoint &target, double total_dispersion );
         /** Overloaded version that assumes the projectile comes from this Creature's postion. */
-        std::pair<double, tripoint> projectile_attack( const projectile &proj, const tripoint &target,
-                                                       double total_dispersion );
+        dealt_projectile_attack projectile_attack( const projectile &proj, const tripoint &target,
+                                                   double total_dispersion );
 
         // handles dodges and misses, allowing triggering of martial arts counter
         virtual void dodge_hit(Creature *source, int hit_spread) = 0;
@@ -184,11 +185,9 @@ class Creature
         virtual void deal_melee_hit(Creature *source, int hit_spread, bool crit,
                                     const damage_instance &d, dealt_damage_instance &dealt_dam);
 
-        // makes a ranged projectile attack against the creature
-        // dodgeable determines if the dodge stat applies or not, dodge is
-        // reduced for ranged attacks
-        virtual int deal_projectile_attack(Creature *source, double missed_by,
-                                           const projectile &proj, dealt_damage_instance &dealt_dam);
+        // Makes a ranged projectile attack against the creature
+        // Sets relevant values in `attack`.
+        virtual void deal_projectile_attack( Creature *source, dealt_projectile_attack &attack );
 
         /**
          * Deals the damage via an attack. Allows armor mitigation etc.
@@ -219,7 +218,7 @@ class Creature
          * Players should train dodge, possibly counter-attack somehow.
          */
         virtual void on_hit( Creature *source, body_part bp_hit = num_bp,
-                             int difficulty = INT_MIN, projectile const* const proj = nullptr ) = 0;
+                             int difficulty = INT_MIN, dealt_projectile_attack const* const proj = nullptr ) = 0;
 
         virtual bool digging() const;      // MF_DIGS or MF_CAN_DIG and diggable terrain
         virtual bool is_on_ground() const = 0;
@@ -235,6 +234,11 @@ class Creature
         virtual bool is_elec_immune() const = 0;
         virtual bool is_immune_effect( const std::string &type ) const = 0;
         virtual bool is_immune_damage( const damage_type type ) const = 0;
+
+        /** Returns multiplier on fall damage at low velocity (knockback/pit/1 z-level, not 5 z-levels) */
+        virtual float fall_damage_mod() const = 0;
+        /** Deals falling/collision damage with terrain/creature at pos */
+        virtual int impact( int force, const tripoint &pos ) = 0;
 
         /**
          * This function checks the creatures @ref is_dead_state and (if true) calls @ref die.
@@ -257,6 +261,8 @@ class Creature
         {
             return pos();
         }
+
+        virtual void setpos( const tripoint &pos ) = 0;
 
         struct compare_by_dist_to_point {
             tripoint center;
@@ -293,6 +299,8 @@ class Creature
         int get_effect_dur(efftype_id eff_id, body_part bp = num_bp) const;
         /** Returns the intensity of the matching effect. Returns 0 if effect doesn't exist. */
         int get_effect_int(efftype_id eff_id, body_part bp = num_bp) const;
+        /** Returns true if the creature resists an effect */
+        bool resists_effect(effect e);
 
         // Methods for setting/getting misc key/value pairs.
         void set_value( const std::string key, const std::string value );
@@ -305,18 +313,12 @@ class Creature
         /** Returns true if the player has the entered trait, returns false for non-humans */
         virtual bool has_trait(const std::string &flag) const;
 
-        /** Handles health fluctuations over time */
-        virtual void update_health(int base_threshold = 0);
-
         // not-quite-stats, maybe group these with stats later
         virtual void mod_pain(int npain);
         virtual void mod_moves(int nmoves);
         virtual void set_moves(int nmoves);
 
         virtual bool in_sleep_state() const;
-
-        virtual int stability_roll() const = 0;
-        //Returns true if the target will be moved
 
         /*
          * Get/set our killer, this is currently used exclusively to allow
@@ -325,27 +327,9 @@ class Creature
         virtual Creature *get_killer() const;
 
         /*
-         * getters for stats - combat-related stats will all be held within
+         * Getters for stats - combat-related stats will all be held within
          * the Creature and re-calculated during every normalize() call
          */
-        virtual int get_str() const;
-        virtual int get_dex() const;
-        virtual int get_per() const;
-        virtual int get_int() const;
-
-        virtual int get_str_base() const;
-        virtual int get_dex_base() const;
-        virtual int get_per_base() const;
-        virtual int get_int_base() const;
-
-        virtual int get_str_bonus() const;
-        virtual int get_dex_bonus() const;
-        virtual int get_per_bonus() const;
-        virtual int get_int_bonus() const;
-
-        virtual int get_healthy() const;
-        virtual int get_healthy_mod() const;
-
         virtual int get_num_blocks() const;
         virtual int get_num_dodges() const;
         virtual int get_num_blocks_bonus() const;
@@ -405,22 +389,9 @@ class Creature
         virtual int get_throw_resist() const;
 
         /*
-         * setters for stats and boni
+         * Setters for stats and bonuses
          */
-        virtual void set_str_bonus(int nstr);
-        virtual void set_dex_bonus(int ndex);
-        virtual void set_per_bonus(int nper);
-        virtual void set_int_bonus(int nint);
-        virtual void mod_str_bonus(int nstr);
-        virtual void mod_dex_bonus(int ndex);
-        virtual void mod_per_bonus(int nper);
-        virtual void mod_int_bonus(int nint);
-        virtual void mod_stat( std::string stat, int modifier );
-
-        virtual void set_healthy(int nhealthy);
-        virtual void set_healthy_mod(int nhealthy_mod);
-        virtual void mod_healthy(int nhealthy);
-        virtual void mod_healthy_mod(int nhealthy_mod);
+        virtual void mod_stat( const std::string &stat, int modifier );
 
         virtual void set_num_blocks_bonus(int nblocks);
         virtual void set_num_dodges_bonus(int ndodges);
@@ -450,11 +421,6 @@ class Creature
         virtual void set_throw_resist(int nthrowres);
 
         virtual int weight_capacity() const;
-
-        // innate stats, slowly move these to protected as we rewrite more of
-        // the codebase
-        int str_max, dex_max, per_max, int_max,
-            str_cur, dex_cur, per_cur, int_cur;
 
         int moves, pain;
         bool underwater;
@@ -501,14 +467,6 @@ class Creature
         // used for innate bonuses like effects. weapon bonuses will be
         // handled separately
 
-        int str_bonus;
-        int dex_bonus;
-        int per_bonus;
-        int int_bonus;
-
-        int healthy; //How healthy the creature is, currently only used by players
-        int healthy_mod;
-
         int num_blocks; // base number of blocks/dodges per turn
         int num_dodges;
         int num_blocks_bonus; // bonus ""
@@ -541,8 +499,9 @@ class Creature
         Creature &operator=(const Creature &) = default;
         Creature &operator=(Creature &&) = default;
 
-        body_part select_body_part(Creature *source, int hit_roll);
-
+ public:
+        body_part select_body_part(Creature *source, int hit_roll) const;
+ protected:
         /**
          * This function replaces the "<npcname>" substring with the provided NPC name.
          *

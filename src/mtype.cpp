@@ -1,23 +1,30 @@
 #include "mtype.h"
+#include "creature.h"
 #include "translations.h"
 #include "monstergenerator.h"
 #include "mondeath.h"
+#include "field.h"
+
+#include <algorithm>
+
+const species_id MOLLUSK( "MOLLUSK" );
 
 mtype::mtype ()
 {
-    id = "mon_null";
+    id = NULL_ID;
     name = "human";
     name_plural = "humans";
     description = "";
     sym = " ";
     color = c_white;
     size = MS_MEDIUM;
-    mat = "hflesh";
+    mat = {"hflesh"};
     phase = SOLID;
     difficulty = 0;
     agro = 0;
     morale = 0;
     speed = 0;
+    attack_cost = 100;
     melee_skill = 0;
     melee_dice = 0;
     melee_sides = 0;
@@ -27,11 +34,10 @@ mtype::mtype ()
     armor_cut = 0;
     hp = 0;
     def_chance = 0;
-    upgrade_min = -1;
+    upgrades = false;
     half_life = -1;
-    base_upgrade_chance = 0;
-    upgrades_into = "NULL";
-    upgrade_group = mongroup_id( "GROUP_NULL" );
+    upgrade_into = NULL_ID;
+    upgrade_group = NULL_ID;
     dies.push_back(&mdeath::normal);
     sp_attack.push_back(nullptr);
     sp_defense = nullptr;
@@ -64,6 +70,11 @@ void mtype::set_flag(std::string flag, bool state)
     }
 }
 
+bool mtype::has_material( const std::string &material ) const
+{
+    return std::find( mat.begin(), mat.end(),  material ) != mat.end();
+}
+
 bool mtype::has_anger_trigger(monster_trigger trig) const
 {
     return bitanger[trig];
@@ -84,20 +95,20 @@ bool mtype::in_category(std::string category) const
     return (categories.find(category) != categories.end());
 }
 
-bool mtype::in_species(std::string spec) const
+bool mtype::in_species( const species_id &spec ) const
 {
-    return (species.find(spec) != species.end());
+    return species.count( spec ) > 0;
 }
 
-bool mtype::in_species( int spec_id ) const
+bool mtype::in_species( const species_type &spec ) const
 {
-    return ( species_id.find(spec_id) != species_id.end() );
+    return species_ptrs.count( &spec ) > 0;
 }
 
 bool mtype::same_species( const mtype &other ) const
 {
-    for( int s : species_id ) {
-        if( other.in_species( s ) ) {
+    for( auto &s : species_ptrs ) {
+        if( other.in_species( *s ) ) {
             return true;
         }
     }
@@ -117,13 +128,13 @@ field_id mtype::bloodType() const
     if (has_flag(MF_LARVA) || has_flag(MF_ARTHROPOD_BLOOD)) {
         return fd_blood_invertebrate;
     }
-    if (mat == "veggy") {
+    if( has_material("veggy") ) {
         return fd_blood_veggy;
     }
-    if (mat == "iflesh") {
+    if( has_material("iflesh") ) {
         return fd_blood_insect;
     }
-    if( has_flag( MF_WARM ) && mat == "flesh" ) {
+    if( has_flag( MF_WARM ) && has_material("flesh") ) {
         return fd_blood;
     }
     return fd_null;
@@ -131,16 +142,16 @@ field_id mtype::bloodType() const
 
 field_id mtype::gibType() const
 {
-    if (has_flag(MF_LARVA) || in_species("MOLLUSK")) {
+    if (has_flag(MF_LARVA) || in_species( MOLLUSK )) {
         return fd_gibs_invertebrate;
     }
-    if (mat == "veggy") {
+    if( has_material("veggy") ) {
         return fd_gibs_veggy;
     }
-    if (mat == "iflesh") {
+    if( has_material("iflesh") ) {
         return fd_gibs_insect;
     }
-    if (mat == "flesh") {
+    if( has_material("flesh") ) {
         return fd_gibs_flesh;
     }
     // There are other materials not listed here like steel, protoplasmic, powder, null, stone, bone
@@ -150,16 +161,16 @@ field_id mtype::gibType() const
 itype_id mtype::get_meat_itype() const
 {
     if( has_flag( MF_POISON ) ) {
-        if( mat == "flesh" || mat == "hflesh" ) {
+        if( has_material("flesh") || has_material("hflesh") ) {
             return "meat_tainted";
-        } else if( mat == "iflesh" ) {
+        } else if( has_material("iflesh") ) {
             //In the future, insects could drop insect flesh rather than plain ol' meat.
             return "meat_tainted";
-        } else if( mat == "veggy" ) {
+        } else if( has_material("veggy") ) {
             return "veggy_tainted";
         }
     } else {
-        if( mat == "flesh" || mat == "hflesh" ) {
+        if( has_material("flesh") || has_material("hflesh") ) {
             if( has_flag( MF_HUMAN ) ) {
                 return "human_flesh";
             } else if( has_flag( MF_AQUATIC ) ) {
@@ -167,12 +178,12 @@ itype_id mtype::get_meat_itype() const
             } else {
                 return "meat";
             }
-        } else if( mat == "bone" ) {
+        } else if( has_material("bone") ) {
             return "bone_tainted";
-        } else if( mat == "iflesh" ) {
+        } else if( has_material("iflesh") ) {
             //In the future, insects could drop insect flesh rather than plain ol' meat.
             return "meat";
-        } else if( mat == "veggy" ) {
+        } else if( has_material("veggy") ) {
             return "veggy";
         }
     }

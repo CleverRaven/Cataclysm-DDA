@@ -66,7 +66,7 @@ Press q or ESC to return to the game.")) + 1;
     int second_column = getmaxx(win) / 2;
     for (size_t i = 0; i < headers.size(); i++) {
         if (i < half_size) {
-            second_column = std::max(second_column, utf8_width(headers[i].c_str()) + 4);
+            second_column = std::max(second_column, utf8_width(headers[i]) + 4);
         }
         mvwprintz(win, y + i % half_size, (i < half_size ? 1 : second_column),
                   c_white, headers[i].c_str());
@@ -716,13 +716,13 @@ firearms load fully in one action, while shotguns must be loaded one shell at a 
     text.push_back(_("\
 =       Ammunition\n\
 Ammunition is worthless without a gun to load it into. Generally, \
-there are several variants for any particular calibre. Ammunition has \
+there are several variants for any particular caliber. Ammunition has \
 damage, dispersion, and range ratings, and an armor-piercing quality."));
 
     text.push_back(string_format(_("\
 *       Thrown weapon; simple projectile or grenade\n\
 These items are suited for throwing, and many are only useful when thrown, \
-such as grenades, molotov cocktails, or tear gas. Once activated be certain \
+such as grenades, Molotov cocktails, or tear gas. Once activated be certain \
 to throw these items by pressing %s, then the letter of the item to throw."),
                                  press_x(ACTION_THROW, "", "").c_str()));
 
@@ -779,7 +779,7 @@ O           Parking lot - Empty lot, few items. Mostly useless."));
     mvwprintz(win, 13, 0, c_ltcyan,  _("\
 ^>v<        Sporting Goods store - Several survival tools and melee weapons."));
     mvwprintz(win, 14, 0, c_magenta, _("\
-^>v<        Liquor store - Alcohol is good for crafting molotov cocktails."));
+^>v<        Liquor store - Alcohol is good for crafting Molotov cocktails."));
     mvwprintz(win, 15, 0, c_red,     _("\
 ^>v<        Gun store - Firearms and ammunition are very valuable."));
     mvwprintz(win, 16, 0, c_blue,    _("\
@@ -797,7 +797,7 @@ O           Parking lot - Empty lot, few items. Mostly useless."));
         // The color index is not translatable, but the name is.
         std::string color_description = string_format("%s:%s, ", color_pair.first.c_str(),
                                                       _(color_pair.second.c_str()));
-        int pair_width = utf8_width( color_description.c_str() );
+        int pair_width = utf8_width( color_description );
 
         if( column + pair_width > getmaxx(win) ) {
             column = 0;
@@ -1096,12 +1096,12 @@ void display_help()
         break;
 
         case '2':
-            show_options(true);
+            get_options().show(true);
             werase(w_help);
             break;
 
         case '3':
-            show_auto_pickup();
+            get_auto_pickup().show();
             werase(w_help);
             break;
 
@@ -1147,9 +1147,5 @@ void clear_hints()
 
 std::string get_hint()
 {
-    if (hints.empty()) {
-        return "???";
-    } else {
-        return hints[rng(0, hints.size() - 1)];
-    }
+    return random_entry( hints, "???" );
 }

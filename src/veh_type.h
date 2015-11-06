@@ -20,15 +20,6 @@ class JsonObject;
 struct vehicle_item_spawn;
 typedef int nc_color;
 
-/**
- * Represents an entry in the breaks_into list.
- */
-struct break_entry {
-    std::string item_id;
-    int min;
-    int max;
-};
-
 // bitmask backing store of -certian- vpart_info.flags, ones that
 // won't be going away, are involved in core functionality, and are checked frequently
 enum vpart_bitflags : int {
@@ -99,7 +90,7 @@ struct vpart_info {
     itype_id item;      // corresponding item
     int difficulty;     // installation difficulty (mechanics requirement)
     std::string location;   //Where in the vehicle this part goes
-    std::vector<break_entry> breaks_into;
+    std::string breaks_into_group;
 private:
     std::set<std::string> flags;    // flags
     std::bitset<NUM_VPFLAGS> bitflags; // flags checked so often that things slow down due to string cmp
@@ -123,12 +114,6 @@ public:
     static void reset();
 
     static const std::vector<const vpart_info*> &get_all();
-    /**
-     * The id of the null-part. The part should not actually be used, but its id can be used like
-     * a null-pointer. Note that the null-part is still a completely valid part, getting the
-     * vpart_info object of this id will not issue a debug message.
-     */
-    static const vpart_str_id null;
 };
 
 struct vehicle_item_spawn
