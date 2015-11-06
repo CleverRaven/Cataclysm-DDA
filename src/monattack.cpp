@@ -4968,14 +4968,14 @@ void mattack::tentacle_lash(monster *z, int index) {
     //All attacks have been made
     z->moves -= 75 + ((att_made - 1) * 50);
     game_message_type msg_type = target->attitude_to(g->u) == Creature::A_FRIENDLY ? m_bad : m_warning;
-    std::string tent_desc = attacks == 1 ? "tentacle" : "tentacles";
-    std::string tent_eff = att_hit == 0 ? " ineffectively" : "";
+    auto tent_desc = ngettext( _("tentacle"), _("tentacles"), attacks );
+    std::string tent_eff = att_hit == 0 ? _(" ineffectively") : _("");
     target->add_msg_player_or_npc( msg_type,
         _("The %1$s%2$s lashes it's %3$s at you!"),
         _("The %1$s%2$s lashes it's %3$s at <npcname>!"),
         z->name().c_str(),
         tent_eff.c_str(),
-        tent_desc.c_str() );
+        tent_desc );
 
     // Reset timer
     z->reset_special(index);

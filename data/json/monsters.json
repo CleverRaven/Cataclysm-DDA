@@ -119,7 +119,7 @@
     "species":"MAMMAL",
     "default_faction":"dog",
     "symbol":"d",
-    "color":"green",
+    "color":"ltgray",
     "size":"SMALL",
     "material":"flesh",
     "diff":5,
@@ -142,7 +142,7 @@
           "duration": 25
         }
     ],
-    "description": "An ridiculous looking dog, whose eyes have a wide slanted iris and greatly bulge out from its sockets.  Watery saliva constantly dribbles from its open mouth.",
+    "description": "A ridiculous looking dog, whose eyes have a wide slanted iris and greatly bulge out from its sockets.  Watery saliva constantly dribbles from its open mouth.",
     "flags":["SEES", "HEARS", "SMELLS", "ANIMAL", "WARM", "FUR", "HIT_AND_RUN", "KEENNOSE", "BLEED", "ATTACKMON", "BONES", "FAT", "MUT_ABLE", "MUTANT"],
     "anger_triggers":["HURT", "FRIEND_ATTACKED", "FRIEND_DIED", "STALK"],
     "placate_triggers":["MEAT"],
@@ -154,7 +154,7 @@
     "species":"MAMMAL",
     "default_faction":"dog",
     "symbol":"d",
-    "color":"green",
+    "color":"ltgray",
     "size":"SMALL",
     "material":"flesh",
     "diff":5,
@@ -178,7 +178,7 @@
           "duration": 25
         }
     ],
-    "description": "An silly looking dog whose eyes bulge out from it's sockets.  It's slick fur is soaked in sticky slime, giving the creature a combined smell of wet dog and stale fish.",
+    "description": "A silly looking dog whose eyes bulge out from it's sockets.  It's slick fur is soaked in sticky slime, giving the creature a combined smell of wet dog and stale fish.",
     "flags":["SEES", "HEARS", "SMELLS", "SWIMS", "ANIMAL", "WARM", "FUR", "HIT_AND_RUN", "KEENNOSE", "BLEED", "ATTACKMON", "BONES", "FAT", "INK_SAC", "MUT_ABLE", "MUTANT"],
     "anger_triggers":["HURT", "FRIEND_ATTACKED", "FRIEND_DIED", "STALK"],
     "placate_triggers":["MEAT"],
@@ -214,7 +214,7 @@
         }
     ],
     "death_function":"NORMAL",
-    "description": "A mutated dog with large bulging eyes and stubby beak instead of usual canine snout.  This creature's stench is unbearable.",
+    "description": "A mutated dog with a stubby beak instead of its usual canine snout.  This creature's stench is unbearable.",
     "flags":["SEES", "HEARS", "SMELLS", "SWIMS", "ANIMAL", "WARM", "FUR", "HIT_AND_RUN", "KEENNOSE", "BLEED", "ATTACKMON", "BONES", "FAT", "TENTACLES2", "INK_SAC", "MUT_ABLE", "MUTANT"],
     "anger_triggers":["HURT", "FRIEND_ATTACKED", "FRIEND_DIED", "STALK", "PLAYER_WEAK", "PLAYER_CLOSE"],
     "placate_triggers":["MEAT"],
