@@ -234,7 +234,7 @@ static bool select_autopickup_items( std::vector<item> &here, std::vector<bool> 
 
                 //Auto Pickup all items with 0 Volume and Weight <= AUTO_PICKUP_ZERO * 50
                 //items will either be in the autopickup list ("true") or unmatched ("")
-                if (OPTIONS["AUTO_PICKUP_ZERO"]) {
+                if (!bPickup && OPTIONS["AUTO_PICKUP_ZERO"]) {
                     if (here[i].volume() == 0 &&
                         here[i].weight() <= OPTIONS["AUTO_PICKUP_ZERO"] * 50 &&
                         get_auto_pickup().check_item(sItemName) != "false") {

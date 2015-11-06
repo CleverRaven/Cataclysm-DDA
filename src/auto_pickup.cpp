@@ -535,17 +535,6 @@ void auto_pickup::create_rules(const std::string &sItemNameIn)
     }
 }
 
-bool auto_pickup::check_exclude_rules(const std::string &sItemNameIn)
-{
-    for( auto &elem : vRules[MERGED] ) {
-        if( elem.bExclude && elem.bActive && match( sItemNameIn, elem.sRule ) ) {
-            return false;
-        }
-    }
-
-    return true;
-}
-
 /**
  * Stores or retrieves the current ruleset from temporary storage.
  * Used to implement the "cancel changes" capability ("[N]o, don't save") of the
