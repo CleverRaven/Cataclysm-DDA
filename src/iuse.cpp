@@ -334,9 +334,9 @@ static hp_part pick_part_to_heal( const player &healer, const player &patient,
         }
 
         if( patient.hp_cur[healed_part] == 0 ) {
-            if( healed_part == hp_arm_l || healed_part == hp_arm_r ) { 
+            if( healed_part == hp_arm_l || healed_part == hp_arm_r ) {
                 add_msg( m_info, _("That arm is broken.  It needs surgical attention or a splint.") );
-            } else if( healed_part == hp_leg_l || healed_part == hp_leg_r ) { 
+            } else if( healed_part == hp_leg_l || healed_part == hp_leg_r ) {
                 add_msg( m_info, _("That leg is broken.  It needs surgical attention or a splint.") );
             } else {
                 add_msg( m_info, "That body part is bugged.  It needs developer's attention." );
@@ -561,7 +561,7 @@ int iuse::firstaid(player *p, item *it, bool, const tripoint &pos )
         return 0;
     }
 
-    if( &patient != p ) {   
+    if( &patient != p ) {
         return 1;
     }
 
@@ -2470,7 +2470,7 @@ int iuse::sew(player *p, item *it, bool, const tripoint& )
 }
 
 static bool is_firearm(const item &it)
-{ 
+{
     return it.is_gun() && !it.has_flag("PRIMITIVE_RANGED_WEAPON");
 }
 
@@ -3903,10 +3903,10 @@ int iuse::crowbar(player *p, item *it, bool, const tripoint &pos)
         fail_action = _("You pry, but cannot pop open the crate.");
         noisy = true;
         difficulty = 6;
-    } else if (type == t_window_domestic || type == t_curtains) {
+    } else if (type == t_window_domestic || type == t_curtains || type == t_window_no_curtains) {
         succ_action = _("You pry open the window.");
         fail_action = _("You pry, but cannot pry open the window.");
-        new_type = t_window_open;
+        new_type = (type == t_window_no_curtains) ? t_window_no_curtains_open : t_window_open;
         noisy = true;
         difficulty = 6;
     } else if (pry_nails(p, type, dirx, diry)) {
