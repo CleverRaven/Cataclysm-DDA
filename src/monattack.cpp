@@ -606,22 +606,45 @@ void mattack::resurrect(monster *z, int index)
         z->set_speed_base(std::min(z->type->speed, int(z->get_speed_base() + .1 * z->type->speed)));
     }
 
+    int raising_level = 0;
+    if( z->has_effect("raising") ) {
+        raising_level = z->get_effect_int("raising") * 40;
+    }
+
+    bool sees_necromancer = g->u.sees(*z);
     std::vector<std::pair<tripoint, item*>> corpses;
     // Find all corpses that we can see within 10 tiles.
     int range = 10;
     tripoint tmp = z->pos3();
     int x = tmp.x;
     int y = tmp.y;
+    bool found_eligible_corpse = false;
+    int lowest_raise_score = INT_MAX;
     for (int i = x - range; i < x + range; i++) {
         for (int j = y - range; j < y + range; j++) {
             tmp.x = i;
             tmp.y = j;
             if (g->is_empty(tmp) && g->m.sees(z->pos3(), tmp, -1)) {
                 for( auto &i : g->m.i_at( tmp ) ) {
-                    if( i.is_corpse() && i.get_mtype()->has_flag(MF_REVIVES) &&
-                          i.get_mtype()->in_species( ZOMBIE ) ) {
-                        corpses.push_back( std::make_pair(tmp, &i) );
-                        break;
+                    if( i.is_corpse() && i.active && i.get_mtype()->has_flag(MF_REVIVES) &&
+                        i.get_mtype()->in_species( ZOMBIE ) ) {
+                        found_eligible_corpse = true;
+                        if( raising_level == 0 ) {
+                            // Since we have a target, start charging to raise it.
+                            if( sees_necromancer ) {
+                                add_msg(m_info, _("The %s throws its arms wide."), z->name().c_str());
+                            }
+                            while( z->moves >= 0 ) {
+                                z->add_effect( "raising", 10 );
+                                z->moves -= 100;
+                            }
+                            return;
+                        }
+                        int raise_score = (i.damage + 1) * i.get_mtype()->hp;
+                        lowest_raise_score = std::min(lowest_raise_score, raise_score);
+                        if( raise_score <= raising_level ) {
+                            corpses.push_back( std::make_pair(tmp, &i) );
+                        }
                     }
                 }
             }
@@ -629,6 +652,19 @@ void mattack::resurrect(monster *z, int index)
     }
 
     if( corpses.empty() ) { // No nearby corpses
+        if( found_eligible_corpse ) {
+            // There was a corpse, but we haven't charged enough.
+            if( sees_necromancer && one_in(sqrt(lowest_raise_score / 30))) {
+                add_msg(m_info, _("The %s gesticulates wildly."), z->name().c_str());
+            }
+            while( z->moves >= 0 ) {
+                z->add_effect( "raising", 10 );
+                z->moves -= 100;
+                return;
+            }
+        } else if( raising_level != 0 ) {
+            z->remove_effect( "raising" );
+        }
         // Check to see if there are any nearby living zombies to see if we should get angry
         bool allies = false;
         for (size_t i = 0; i < g->num_zombies(); i++) {
@@ -661,17 +697,19 @@ void mattack::resurrect(monster *z, int index)
     }
 
     std::pair<tripoint, item*> raised = random_entry( corpses );
+    float corpse_damage = raised.second->damage;
     // Did we successfully raise something?
     if (g->revive_corpse(raised.first, *raised.second)) {
         g->m.i_rem( raised.first, raised.second );
-        bool sees_necromancer = g->u.sees(*z);
         if( sees_necromancer ) {
-            add_msg(m_info, _("The %s throws its arms wide."), z->name().c_str());
+            add_msg(m_info, _("The %s gestures at a nearby corpse."), z->name().c_str());
         }
+        z->remove_effect("raising");
         z->reset_special(index); // Reset timer
         z->moves -= z->type->speed; // Takes one turn
-        // Lose 20% of our maximum speed
-        z->set_speed_base(z->get_speed_base() - .2 * z->type->speed);
+        // Penalize speed by between 10% and 50% based on how damaged the corpse is.
+        float speed_penalty = 0.1 + (corpse_damage * 0.1);
+        z->set_speed_base(z->get_speed_base() - speed_penalty * z->type->speed);
         const int mondex = g->mon_at(raised.first);
         if( mondex == -1 ) {
             debugmsg( "Misplaced or failed to revive a zombie corpse" );

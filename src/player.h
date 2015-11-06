@@ -672,6 +672,9 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         bool wear(int pos, bool interactive = true);
         /** Wear item; returns false on fail. If interactive is false, don't alert the player or drain moves on completion. */
         bool wear_item( const item &to_wear, bool interactive = true );
+        /** Swap side on which item is worn; returns false on fail. If interactive is false, don't alert player or drain moves */
+        bool change_side (item *target, bool interactive = true);
+        bool change_side (int pos, bool interactive = true);
         /** Takes off an item, returning false on fail, if an item vector
          *  is given, stores the items in that vector and not in the inventory */
         bool takeoff( item *target, bool autodrop = false, std::vector<item> *items = nullptr );
@@ -731,6 +734,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
          *  rates usability lower for non-tools (books, etc.) */
         hint_rating rate_action_use( const item &it ) const;
         hint_rating rate_action_wear( const item &it ) const;
+        hint_rating rate_action_change_side( const item &it ) const;
         hint_rating rate_action_eat( const item &it ) const;
         hint_rating rate_action_read( const item &it ) const;
         hint_rating rate_action_takeoff( const item &it ) const;
@@ -744,6 +748,8 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         int bonus_warmth(body_part bp) const;
         /** Returns ENC provided by armor, etc. */
         int encumb(body_part bp) const;
+        /** Returns encumbrance that would apply for a body part if `new_item` was also worn */
+        int encumb( body_part bp, const item &new_item ) const;
         /** Returns encumbrance caused by armor, etc., factoring in layering */
         int encumb(body_part bp, double &layers, int &armorenc) const;
         /** As above, but also treats the `new_item` as worn for encumbrance penalty purposes */
@@ -764,6 +770,8 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         int get_env_resist(body_part bp) const override;
         /** Returns true if the player is wearing something on the entered body_part */
         bool wearing_something_on(body_part bp) const;
+        /** Returns true if the player is wearing the given item */
+        bool is_wearing_item (const item& it) const;
         /** Returns true if the player is wearing something on their feet that is not SKINTIGHT */
         bool is_wearing_shoes(std::string side = "both") const;
         /** Returns 1 if the player is wearing something on both feet, .5 if on one, and 0 if on neither */

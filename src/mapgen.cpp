@@ -748,6 +748,39 @@ public:
         }
     }
 };
+
+/**
+ * Place a specific liquid into the map.
+ * "liquid": id of the liquid item (item should use charges)
+ * "amount": quantity of liquid placed (a value of 0 uses the default amount)
+ * "chance": chance of liquid being placed, see @ref map::place_items
+ */
+class jmapgen_liquid_item : public jmapgen_piece {
+public:
+    jmapgen_int amount;
+    std::string liquid;
+    jmapgen_int chance;
+    jmapgen_liquid_item( JsonObject &jsi ) : jmapgen_piece()
+    , amount( jsi, "amount", 0, 0)
+    , liquid( jsi.get_string( "liquid" ) )
+    , chance( jsi, "chance", 1, 1 )
+    {
+        if( !item::type_is_defined( itype_id(liquid) ) ) {
+            jsi.throw_error( "no such item type", "liquid" );
+        }
+    }
+    void apply( map &m, const jmapgen_int &x, const jmapgen_int &y, const float /*mon_density*/ ) const override
+    {
+        if ( one_in(chance.get()) ){
+            item newliquid( liquid, calendar::turn );
+            if ( amount.valmax > 0 ){
+                newliquid.charges = amount.get();
+            }
+            m.add_item_or_charges( tripoint(x.get(), y.get(), m.get_abs_sub().z), newliquid );
+        }
+    }
+};
+
 /**
  * Place items from an item group.
  * "item": id of the item group.
@@ -1347,6 +1380,7 @@ bool mapgen_function_json::setup() {
         objects.load_objects<jmapgen_sign>( jo, "place_signs" );
         objects.load_objects<jmapgen_vending_machine>( jo, "place_vendingmachines" );
         objects.load_objects<jmapgen_toilet>( jo, "place_toilets" );
+        objects.load_objects<jmapgen_liquid_item>( jo, "place_liquids" );
         objects.load_objects<jmapgen_gaspump>( jo, "place_gaspumps" );
         objects.load_objects<jmapgen_item_group>( jo, "place_items" );
         objects.load_objects<jmapgen_monster_group>( jo, "place_monsters" );

@@ -130,7 +130,7 @@ int player::create(character_type type, std::string tempname)
             g->u.male = (rng(1, 100) > 50);
 
             if(!MAP_SHARING::isSharing()) {
-                g->u.pick_name();
+                g->u.pick_name(true);
             } else {
                 g->u.name = MAP_SHARING::getUsername();
             }
@@ -138,7 +138,7 @@ int player::create(character_type type, std::string tempname)
         case PLTYPE_RANDOM: {
             g->u.male = (rng(1, 100) > 50);
             if(!MAP_SHARING::isSharing()) {
-                g->u.pick_name();
+                g->u.pick_name(true);
             } else {
                 g->u.name = MAP_SHARING::getUsername();
             }
@@ -399,8 +399,7 @@ int player::create(character_type type, std::string tempname)
         prof_items.push_back("glasses_reading");
     }
     for( auto &itd : prof_items ) {
-        // Spawn left-handed items as a placeholder, shouldn't affect non-handed items
-        tmp = item(itd.type_id, 0, false, LEFT);
+        tmp = item(itd.type_id, 0, false);
         if( !itd.snippet_id.empty() ) {
             tmp.set_snippet( itd.snippet_id );
         }
@@ -412,18 +411,6 @@ int player::create(character_type type, std::string tempname)
             // If wearing an item fails we fail silently.
             wear_item(tmp, false);
 
-            // If item is part of a pair give a second one for the other side
-            if (tmp.has_flag("PAIRED")) {
-                tmp2 = item(itd.type_id, 0, false, RIGHT);
-                if( !itd.snippet_id.empty() ) {
-                    tmp2.set_snippet( itd.snippet_id );
-                }
-                if(tmp2.has_flag("VARSIZE")) {
-                    tmp2.item_tags.insert("FIT");
-                }
-                // If wearing an item fails we fail silently.
-                wear_item(tmp2, false);
-            }
             // if something is wet, start it as active with some time to dry off
         } else if(tmp.has_flag("WET")) {
             tmp.active = true;
@@ -1990,7 +1977,7 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
                     redraw = true;
                     continue;
                 } else {
-                    u->pick_name(false);
+                    u->pick_name();
                     return 1;
                 }
             } else if (query_yn(_("Are you SURE you're finished?"))) {
@@ -2019,7 +2006,7 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
             redraw = true;
         } else if (action == "PICK_RANDOM_NAME") {
             if(!MAP_SHARING::isSharing()) { // Don't allow random names when sharing maps. We don't need to check at the top as you won't be able to edit the name
-                u->pick_name(false);
+                u->pick_name();
             }
         } else if (action == "CHANGE_GENDER") {
             u->male = !u->male;

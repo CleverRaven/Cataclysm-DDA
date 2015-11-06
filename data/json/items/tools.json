@@ -370,6 +370,7 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
+    "flags": ["BELT_CLIP"],
     "use_action": "HAMMER",
     "qualities": [["HAMMER", 3], ["HAMMER_FINE", 1]]
   },
@@ -1740,6 +1741,7 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
+    "flags": ["BELT_CLIP"],
     "use_action": "CROWBAR"
   },
 
@@ -1753,7 +1755,7 @@
     "price": 7500,
     "material": "steel",
     "techniques": ["WIDE", "BRUTAL"],
-    "flags" : ["DURABLE_MELEE"],
+    "flags" : ["DURABLE_MELEE", "BELT_CLIP"],
     "weight": 3600,
     "volume": 5,
     "bashing": 20,
@@ -1788,6 +1790,7 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
+    "flags": ["BELT_CLIP"],
     "use_action": "CROWBAR"
   },
 

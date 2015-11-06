@@ -1649,6 +1649,7 @@ int game::inventory_item_menu(int pos, int iStartX, int iWidth, const inventory_
         addentry( 'W', _("wear"), u.rate_action_wear( oThisItem ) );
         addentry( 'w', _("wield"), HINT_GOOD );
         addentry( 't', _("throw"), HINT_GOOD );
+        addentry( 'c', _("change side"), u.rate_action_change_side( oThisItem ) );
         addentry( 'T', _("take off"), u.rate_action_takeoff( oThisItem ) );
         addentry( 'd', _("drop"), rate_drop_item );
         addentry( 'U', _("unload"), u.rate_action_unload( oThisItem ) );
@@ -1724,6 +1725,9 @@ int game::inventory_item_menu(int pos, int iStartX, int iWidth, const inventory_
                 break;
             case 't':
                 plthrow(pos);
+                break;
+            case 'c':
+                change_side(pos);
                 break;
             case 'T':
                 takeoff(pos);
@@ -10745,6 +10749,10 @@ void game::plthrow(int pos)
         return;
     }
 
+    if (u.is_wearing_item(u.i_at(pos))) {
+        thrown.on_takeoff(u);
+    }
+
     // Throw a single charge of a stacking object.
     if( thrown.count_by_charges() && thrown.charges > 1 ) {
         u.i_at( pos ).charges--;
@@ -11344,6 +11352,23 @@ void game::takeoff(int pos)
     }
 }
 
+void game::change_side(int pos)
+{
+    if (pos == INT_MIN) {
+        pos = inv_for_filter(_("Change side for item:"),
+                             [&](const item &it) { return u.is_wearing_item(it) && it.is_sided(); });
+    }
+
+    if (pos == INT_MIN) {
+        add_msg(_("Never mind."));
+        return;
+    }
+
+    if (!u.change_side(pos)) {
+        add_msg(m_info, _("Invalid selection."));
+    }
+}
+
 void game::reload(int pos)
 {
     item *it = &u.i_at(pos);
@@ -11537,13 +11562,6 @@ void game::unload(item &it)
                 unload( gunmod );
                 return;
             }
-        }
-        // If neither the mods nor the gun itself are loaded, try to remove the mods instead.
-        if( it.charges <= 0 ) {
-            while( !it.contents.empty() ) {
-                u.remove_gunmod( &it, 0 );
-            }
-            return;
         }
     }
 

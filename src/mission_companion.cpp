@@ -1495,7 +1495,8 @@ std::vector<item*> talk_function::loot_building(const tripoint site)
                     bay.get_ter(x,y) == "t_window_domestic" || bay.get_ter(x,y) == "t_window_domestic_taped" ||
                     bay.get_ter(x,y) == "t_window_boarded_noglass" || bay.get_ter(x,y) == "t_window_domestic_taped" ||
                     bay.get_ter(x,y) == "t_window_alarm_taped" || bay.get_ter(x,y) == "t_window_boarded" ||
-                    bay.get_ter(x,y) == "t_curtains" || bay.get_ter(x,y) == "t_window_alarm")
+                    bay.get_ter(x,y) == "t_curtains" || bay.get_ter(x,y) == "t_window_alarm" ||
+                    bay.get_ter(x,y) == "t_window_no_curtains" || bay.get_ter(x,y) == "t_window_no_curtains_taped" )
                     && one_in(4) ){
                 const map_bash_info &bash = bay.ter_at(x,y).bash;
                 bay.ter_set( x, y, bash.ter_set);

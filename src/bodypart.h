@@ -21,8 +21,8 @@ enum body_part : int {
     num_bp
 };
 
-enum handedness : int {
-    NONE,
+enum side : int {
+    BOTH,
     LEFT,
     RIGHT
 };
