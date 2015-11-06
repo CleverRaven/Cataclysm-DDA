@@ -8096,8 +8096,8 @@ bool pet_menu(monster *z)
                 }
             }
         }
-        return true;
     }
+    return true;
 } 
       
 // Returns true if the menu handled stuff and player shouldn't do anything else
