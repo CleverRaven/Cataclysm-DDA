@@ -197,15 +197,25 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Returns the player's speed for swimming across water tiles */
         int  swim_speed() const;
         /** Maintains body wetness and handles the rate at which the player dries */
-        void update_body_wetness( const w_point &weather );
-        /** Increases hunger, thirst, fatigue, stimms wearing off, dying from hunger and dying from overdose */
-        void update_needs();
-        /** Handles passive regeneration of pain and maybe hp, except sleep regeneration.
+        void update_body_wetness( int turns, const w_point &weather );
+        /** Updates all "biology" as if `turns` passed */
+        void update_body( int turns = 1 );
+        /** Increases hunger, thirst, fatigue and stimms wearing off. `rate_multiplier` is for retroactive updates. */
+        void update_needs( int rate_multiplier );
+        /**
+          * Handles passive regeneration of pain and maybe hp, except sleep regeneration.
           * Updates health and checks for sickness.
           */
-        void regen();
+        void regen( int rate_multiplier );
         /** Regenerates stamina */
-        void update_stamina();
+        void update_stamina( int turns );
+        /** Kills the player if too hungry, stimmed up etc., forces tired player to sleep and prints warnings. */
+        void check_needs_extremes();
+        /** Handles hp regen during sleep. */
+        void sleep_hp_regen( int rate_multiplier );
+
+        /** Returns if the player has hibernation mutation and is asleep and well fed */
+        bool is_hibernating() const;
 
         /** Returns true if the player has a conflicting trait to the entered trait
          *  Uses has_opposite_trait(), has_lower_trait(), and has_higher_trait() to determine conflicts.
