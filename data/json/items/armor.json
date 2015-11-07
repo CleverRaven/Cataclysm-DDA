@@ -5988,7 +5988,7 @@
         "id" : "hat_sombrero",
         "name" : "sombrero",
         "weight" : 140,
-        "color" : "orange",
+        "color" : "red",
         "covers" : ["HEAD"],
         "to_hit" : 0,
         "symbol" : "[",
@@ -6002,7 +6002,7 @@
         "environmental_protection" : 4,
         "encumbrance" : 20,
         "//" : "Head encumbrance stops you from wearing additional headgear.  No helmet over a sombrero, sorry.  But brimmed gear gets the anti-glare flag!",
-        "flags" : ["FANCY", "BELTED", "SUN_GLASSES"],
+        "flags" : ["FANCY", "OUTER", "SUN_GLASSES"],
         "bashing" : -5,
         "coverage" : 50,
         "material_thickness" : 2
