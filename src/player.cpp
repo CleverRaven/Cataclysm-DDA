@@ -5608,8 +5608,8 @@ void player::update_needs( int rate_multiplier )
         if( !debug_ls && fatigue_rate > 0.0f ) {
             fatigue += divide_roll_remainder( fatigue_rate * rate_multiplier, 1.0 );
         }
-    } else if( in_sleep_state() && fatigue > 0 ) {
-        const effect &sleep = get_effect( "sleep" );
+    } else if( has_effect( "sleep" ) && fatigue > 0 ) {
+        effect &sleep = get_effect( "sleep" );
         const int intense = sleep.is_null() ? 0 : sleep.get_intensity();
         // Accelerated recovery capped to 2x over 2 hours
         // After 16 hours of activity, equal to 7.25 hours of rest
@@ -5634,7 +5634,13 @@ void player::update_needs( int rate_multiplier )
         recovery_rate -= float(pain - pkill) / 60;
 
         if( recovery_rate > 0.0f ) {
-            fatigue -= divide_roll_remainder( recovery_rate * rate_multiplier, 1.0 );
+            int recovered = divide_roll_remainder( recovery_rate * rate_multiplier, 1.0 );
+            if( fatigue - recovered < -25 ) {
+                fatigue = -25;
+                sleep.set_duration( std::min( sleep.get_duration(), 100 ) );
+            } else {
+                fatigue -= recovered;
+            }
         }
     }
     if( is_player() && wasnt_fatigued && fatigue > DEAD_TIRED && !in_sleep_state() ) {
@@ -7511,6 +7517,10 @@ void player::hardcoded_effects(effect &it)
             it.mod_intensity(1);
         } else if( intense < 1 ) {
             it.set_intensity(1);
+        }
+
+        if( fatigue < -25 ) {
+            it.set_duration(dice(3, 10));
         }
 
         if( fatigue <= 0 && fatigue > -20 ) {
