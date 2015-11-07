@@ -183,6 +183,7 @@ private:
     int _sum;
     int _max;
     int _min;
+    std::vector<int> samples;
 
 public:
     statistics() : _types(0), _n(0), _sum(0), _max(INT_MIN), _min(INT_MAX) {}
@@ -195,12 +196,15 @@ public:
         _sum += new_val;
         _max = std::max(_max, new_val);
         _min = std::min(_min, new_val);
+        samples.push_back(new_val);
     }
     int types() const { return _types; }
     int sum() const { return _sum; }
     int max() const { return _max; }
     int min() const { return _min; }
     float avg() const { return (float)_sum / (float)_n; }
+    int n() const { return _n; }
+    std::vector<int> get_samples() { return samples; }
 };
 
 // Verify that the named monster has the expected effective speed, not reduced
@@ -231,44 +235,62 @@ static void test_moves_to_squares( std::string monster_type, bool write_data = f
     std::map<int, statistics> turns_at_distance;
     std::map<int, statistics> turns_at_slope;
     std::map<int, statistics> turns_at_angle;
-    // We want to check every square when generating a map, but for testing we can skip a lot for speed.
-    const int test_resolution = write_data ? 1 : 4;
-    for( int x = 0; x <= 100; x += test_resolution ) {
-        for( int y = 0; y <= 100; y += test_resolution ) {
-            const int distance = square_dist({50,50,0}, {x,y,0});
-            // Scale the scaling factor based on the ratio of diagonal to cardinal steps.
-            const float slope = get_normalized_angle( {50, 50}, {x, y} );
-            const float diagonal_multiplier = 1.0 + (OPTIONS["CIRCLEDIST"] ? (slope * 0.41) : 0.0);
-            if( distance < 5 ) {
-                // Very short ranged tests are squirrely.
-                continue;
-            }
-            const int rise = 50 - y;
-            const int run = 50 - x;
-            const float angle = atan2( run, rise );
-            turns_at_angle[angle * 100].new_type();
-            turns_at_slope[slope].new_type();
-            for( int i = 0; i < 50; ++i ) {
-                int moves = moves_to_destination( monster_type, {50, 50, 0}, {x, y, 0} );
-                turns_at_distance[distance].add( moves / (diagonal_multiplier * distance) );
-                turns_at_angle[angle * 100].add( moves / (diagonal_multiplier * distance) );
-                turns_at_slope[slope].add( moves / (diagonal_multiplier * distance) );
+    // For the regression test we want just enough samples, for data we want a lot more.
+    const int required_samples = write_data ? 100 : 20;
+    const int sampling_resolution = write_data ? 1 : 20;
+    bool not_enough_samples = true;
+    while( not_enough_samples ) {
+        not_enough_samples = false;
+        for( int x = 0; x <= 100; x += sampling_resolution ) {
+            for( int y = 0; y <= 100; y += sampling_resolution ) {
+                const int distance = square_dist({50,50,0}, {x,y,0});
+                if( distance <= 5 ) {
+                    // Very short ranged tests are squirrely.
+                    continue;
+                }
+                const int rise = 50 - y;
+                const int run = 50 - x;
+                const float angle = atan2( run, rise );
+                // Bail out if we already have enough samples for this angle.
+                if( turns_at_angle[angle * 100].n() >= required_samples ) {
+                    continue;
+                }
+                // Scale the scaling factor based on the ratio of diagonal to cardinal steps.
+                const float slope = get_normalized_angle( {50, 50}, {x, y} );
+                const float diagonal_multiplier = 1.0 + (OPTIONS["CIRCLEDIST"] ? (slope * 0.41) : 0.0);
+                turns_at_angle[angle * 100].new_type();
+                turns_at_slope[slope].new_type();
+                for( int i = 0; i < 5; ++i ) {
+                    const int moves = moves_to_destination( monster_type, {50, 50, 0}, {x, y, 0} );
+                    const int adjusted_moves = moves / (diagonal_multiplier * distance);
+                    turns_at_distance[distance].add( adjusted_moves );
+                    turns_at_angle[angle * 100].add( adjusted_moves );
+                    turns_at_slope[slope].add( adjusted_moves );
+                }
+                if( turns_at_angle[angle * 100].n() < required_samples ) {
+                    not_enough_samples = true;
+                }
             }
         }
     }
     for( const auto &stat_pair : turns_at_distance ) {
         INFO( "Monster:" << monster_type << " Dist: " << stat_pair.first << " moves: " << stat_pair.second.avg() );
-        CHECK( stat_pair.second.avg() == Approx(100.0).epsilon(0.03) );
+        CHECK( stat_pair.second.avg() == Approx(100.0).epsilon(0.1) );
     }
     for( const auto &stat_pair : turns_at_slope ) {
         INFO( "Monster:" << monster_type << " Slope: " << stat_pair.first <<
               " moves: " << stat_pair.second.avg() << " types: " << stat_pair.second.types() );
         CHECK( stat_pair.second.avg() == Approx(100.0).epsilon(0.03) );
     }
-    for( const auto &stat_pair : turns_at_angle ) {
+    for( auto &stat_pair : turns_at_angle ) {
+        std::stringstream sample_string;
+        for( auto sample : stat_pair.second.get_samples() ) {
+            sample_string << sample << ", ";
+        }
         INFO( "Monster:" << monster_type << " Angle: " << stat_pair.first <<
-              " moves: " << stat_pair.second.avg() << " types: " << stat_pair.second.types() );
-        CHECK( stat_pair.second.avg() == Approx(100.0).epsilon(0.03) );
+              " moves: " << stat_pair.second.avg() << " types: " << stat_pair.second.types() <<
+              " samples: " << sample_string.str() );
+        CHECK( stat_pair.second.avg() == Approx(100.0).epsilon(0.05) );
     }
 
     if( write_data ) {
