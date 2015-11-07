@@ -77,6 +77,29 @@ static int moves_to_destination( const std::string &monster_type,
     return 100000;
 }
 
+
+struct track {
+    char participant;
+    int moves;
+    int distance;
+    tripoint location;
+};
+
+std::ostream& operator << ( std::ostream& os, track const& value ) {
+    os << value.participant <<
+        " l:" << value.location <<
+        " d:" << value.distance <<
+        " m:" << value.moves;
+    return os;
+}
+
+std::ostream& operator << ( std::ostream &os, std::vector<track> vec ) {
+    for( auto &track_instance : vec ) {
+        os << track_instance << " ";
+    }
+    return os;
+}
+
 /**
  * Simulate a player running from the monster, checking if it can catch up.
  **/
@@ -103,12 +126,6 @@ static int can_catch_player( const std::string &monster_type, const tripoint &di
     const int target_speed = 100;
 
     int moves_spent = 0;
-    struct track {
-        char participant;
-        int distance;
-        int moves;
-        tripoint location;
-    };
     std::vector<track> tracker;
     for( int turn = 0; turn < 1000; ++turn ) {
         test_player.mod_moves( target_speed );
@@ -144,14 +161,17 @@ static int can_catch_player( const std::string &monster_type, const tripoint &di
                         test_monster.pos()} );
             moves_spent += moves_before - test_monster.moves;
             if( rl_dist( test_monster.pos(), test_player.pos() ) == 1 ) {
+                INFO( tracker );
                 clear_map();
                 return turn;
             } else if( rl_dist( test_monster.pos(), test_player.pos() ) > 20 ) {
+                INFO( tracker );
                 clear_map();
                 return -turn;
             }
         }
     }
+    WARN( tracker );
     clear_map();
     return -1000;
 }
