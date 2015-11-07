@@ -2484,6 +2484,26 @@
         }
     },{
         "type" : "terrain",
+        "id" : "t_boulder",
+        "name": "boulder",
+        "symbol": "0",
+        "color": "white",
+        "move_cost": 0,
+        "flags": ["NOITEM", "SUPPORTS_ROOF", "WALL"],
+        "roof": "t_rock_floor",
+        "bash": {
+            "str_min": 60, "str_max": 400,
+            "sound": "crash!",
+            "sound_fail": "whump!",
+            "ter_set": "t_rock_floor",
+            "items": [
+                { "item": "rock", "count": [3, 7] },
+                { "item": "material_limestone", "charges": [10, 25], "prob": 80 },
+                { "item": "material_rocksalt", "count": [2, 5], "prob": 60 }
+            ]
+        }
+    },{
+        "type" : "terrain",
         "id" : "t_fault",
         "name": "odd fault",
         "symbol": "#",
