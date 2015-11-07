@@ -144,15 +144,15 @@ static int can_catch_player( const std::string &monster_type, const tripoint &di
                         test_monster.pos()} );
             moves_spent += moves_before - test_monster.moves;
             if( rl_dist( test_monster.pos(), test_player.pos() ) == 1 ) {
-                g->remove_zombie( 0 );
+                clear_map();
                 return turn;
             } else if( rl_dist( test_monster.pos(), test_player.pos() ) > 20 ) {
-                g->remove_zombie( 0 );
+                clear_map();
                 return -turn;
             }
         }
     }
-    g->remove_zombie( 0 );
+    clear_map();
     return -1000;
 }
 
