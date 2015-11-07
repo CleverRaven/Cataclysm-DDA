@@ -5988,7 +5988,7 @@
         "id" : "hat_sombrero",
         "name" : "sombrero",
         "weight" : 140,
-        "color" : "red",
+        "color" : "light_red",
         "covers" : ["HEAD"],
         "to_hit" : 0,
         "symbol" : "[",
