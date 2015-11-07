@@ -2093,18 +2093,22 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
 
 std::string item::display_name(unsigned int quantity) const
 {
+    std::string tn = tname(quantity);
+
+    if (get_side() != BOTH) {
+        tn += string_format(" (%s)", get_side() == LEFT ? _("left")  : _("right"));
+    }
+
     // Show count of contents (e.g. amount of liquid in container)
     // or usages remaining, even if 0 (e.g. uses remaining in charcoal smoker).
     if( !is_gun() && contents.size() == 1 && contents[0].charges > 0 ) {
-        return string_format("%s (%d)", tname(quantity).c_str(), contents[0].charges);
+        return string_format("%s (%d)", tn.c_str(), contents[0].charges);
     } else if( is_book() && get_chapters() > 0 ) {
-        return string_format( "%s (%d)", tname( quantity ).c_str(), get_remaining_chapters( g->u ) );
+        return string_format( "%s (%d)", tn.c_str(), get_remaining_chapters( g->u ) );
     } else if (charges >= 0 && !has_flag("NO_AMMO")) {
-        return string_format("%s (%d)", tname(quantity).c_str(), charges);
-    } else if (get_side() != BOTH) {
-        return string_format("%s (%s)", tname(quantity).c_str(), get_side() == LEFT ? _("left")  : _("right"));
+        return string_format("%s (%d)", tn.c_str(), charges);
     } else {
-        return tname(quantity);
+        return tn.c_str();
     }
 }
 
