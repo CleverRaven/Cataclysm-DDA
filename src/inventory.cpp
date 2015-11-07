@@ -12,7 +12,8 @@
 #include "mapdata.h"
 #include "map_iterator.h"
 
-const invlet_wrapper inv_chars("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!\"#&()*+./:;=@[\\]^_{|}");
+const invlet_wrapper
+inv_chars("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!\"#&()*+./:;=@[\\]^_{|}");
 
 bool invlet_wrapper::valid( const long invlet ) const
 {
@@ -23,11 +24,11 @@ bool invlet_wrapper::valid( const long invlet ) const
 }
 
 inventory::inventory()
-: nullitem()
-, nullstack()
-, invlet_cache()
-, items()
-, sorted(false)
+    : nullitem()
+    , nullstack()
+    , invlet_cache()
+    , items()
+    , sorted(false)
 {
 }
 
@@ -662,7 +663,9 @@ std::list<item> inventory::reduce_stack(const itype_id &type, int quantity)
 
 item inventory::remove_item(const item *it)
 {
-    auto tmp = remove_items_with( [&it] (const item &i) { return &i == it; } );
+    auto tmp = remove_items_with( [&it] (const item & i) {
+        return &i == it;
+    } );
     if( !tmp.empty() ) {
         return tmp.front();
     }
@@ -755,7 +758,7 @@ const item &inventory::find_item(int position) const
 
 item &inventory::find_item(int position)
 {
-    return const_cast<item&>( const_cast<const inventory*>(this)->find_item( position ) );
+    return const_cast<item &>( const_cast<const inventory *>(this)->find_item( position ) );
 }
 
 int inventory::invlet_to_position( char invlet ) const
@@ -1136,7 +1139,7 @@ void inventory::assign_empty_invlet(item &it, bool force)
     if( !OPTIONS["AUTO_INV_ASSIGN"] ) {
         return;
     }
-    
+
     player *p = &(g->u);
     std::set<char> cur_inv = p->allocated_invlets();
     itype_id target_type = it.typeId();

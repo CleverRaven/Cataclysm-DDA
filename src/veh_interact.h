@@ -120,7 +120,7 @@ class veh_interact
         void display_stats();
         void display_name();
         void display_mode(char mode);
-        void display_list(size_t pos, std::vector<const vpart_info*> list, const int header = 0);
+        void display_list(size_t pos, std::vector<const vpart_info *> list, const int header = 0);
         void display_details(const vpart_info *part);
         size_t display_esc (WINDOW *w);
 
@@ -152,15 +152,15 @@ class veh_interact
         /* Vector of all vpart TYPES that can be mounted in the current square.
          * Can be converted to a vector<vpart_info>.
          * Updated whenever the cursor moves. */
-        std::vector<const vpart_info*> can_mount;
+        std::vector<const vpart_info *> can_mount;
 
         /* Maps part names to vparts representing different shapes of a part.
          * Used to slim down installable parts list. Only built once. */
-        std::map< std::string, std::vector<const vpart_info*> > vpart_shapes;
+        std::map< std::string, std::vector<const vpart_info *> > vpart_shapes;
 
         /* Vector of all wheel types. Used for changing wheels, so it only needs
          * to be built once. */
-        std::vector<const vpart_info*> wheel_types;
+        std::vector<const vpart_info *> wheel_types;
 
         /* Vector of vparts in the current square that can be repaired. Strictly a
          * subset of parts_here.

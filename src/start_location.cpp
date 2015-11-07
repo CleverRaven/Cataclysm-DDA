@@ -65,7 +65,8 @@ start_location *start_location::find( const std::string ident )
     }
 }
 
-const std::set<std::string> &start_location::flags() const {
+const std::set<std::string> &start_location::flags() const
+{
     return _flags;
 }
 
@@ -225,7 +226,7 @@ tripoint start_location::setup() const
  */
 int rate_location( map &m, const tripoint &p, const bool must_be_inside,
                    const int bash_str, const int attempt,
-                   int (&checked)[MAPSIZE*SEEX][MAPSIZE*SEEY] )
+                   int (&checked)[MAPSIZE *SEEX][MAPSIZE *SEEY] )
 {
     if( ( must_be_inside && m.is_outside( p ) ) ||
         m.move_cost( p ) == 0 ||
@@ -235,12 +236,12 @@ int rate_location( map &m, const tripoint &p, const bool must_be_inside,
 
     // Vector that will be used as a stack
     std::vector<tripoint> st;
-    st.reserve( MAPSIZE*SEEX * MAPSIZE*SEEY );
+    st.reserve( MAPSIZE * SEEX * MAPSIZE * SEEY );
     st.push_back( p );
 
     // If not checked yet and either can be moved into, can be bashed down or opened,
     // add it on the top of the stack.
-    const auto maybe_add = [&]( const int x, const int y, const tripoint &from ) {
+    const auto maybe_add = [&]( const int x, const int y, const tripoint & from ) {
         if( checked[x][y] >= attempt ) {
             return;
         }
@@ -305,7 +306,7 @@ void start_location::place_player( player &u ) const
     // Try some random points at start
 
     int tries = 0;
-    const auto check_spot = [&]( const tripoint &pt ) {
+    const auto check_spot = [&]( const tripoint & pt ) {
         tries++;
         const int rate = rate_location( m, pt, must_be_inside, bash, tries, checked );
         if( best_rate < rate ) {
@@ -342,7 +343,8 @@ void start_location::place_player( player &u ) const
 }
 
 void start_location::burn( const tripoint &omtstart,
-                           const size_t count, const int rad ) const {
+                           const size_t count, const int rad ) const
+{
     const tripoint player_location = overmapbuffer::omt_to_sm_copy( omtstart );
     tinymap m;
     m.load( player_location.x, player_location.y, player_location.z, false );
@@ -372,7 +374,9 @@ void start_location::burn( const tripoint &omtstart,
     m.save();
 }
 
-void start_location::add_map_special( const tripoint &omtstart, const std::string& map_special ) const {
+void start_location::add_map_special( const tripoint &omtstart,
+                                      const std::string &map_special ) const
+{
     const tripoint player_location = overmapbuffer::omt_to_sm_copy( omtstart );
     tinymap m;
     m.load( player_location.x, player_location.y, player_location.z, false );
@@ -383,7 +387,8 @@ void start_location::add_map_special( const tripoint &omtstart, const std::strin
     m.save();
 }
 
-void start_location::handle_heli_crash( player &u ) const {
+void start_location::handle_heli_crash( player &u ) const
+{
     for (int i = 2; i < num_hp_parts; i++) { // Skip head + torso for balance reasons.
         auto part = hp_part(i);
         auto bp_part = u.hp_to_bp(part);
@@ -394,8 +399,7 @@ void start_location::handle_heli_crash( player &u ) const {
                 u.add_effect("bleed", 60, bp_part);
             case 3:
             case 4:
-            case 5:// Just damage
-            {
+            case 5: { // Just damage
                 auto maxHp = u.get_hp_max(part);
                 // Body part health will range from 33% to 66% with occasional bleed
                 int dmg = int(rng(maxHp / 3, maxHp * 2 / 3));

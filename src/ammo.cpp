@@ -5,10 +5,12 @@
 
 #include <unordered_map>
 
-namespace {
+namespace
+{
 using ammo_map_t = std::unordered_map<std::string, ammunition_type>;
 
-ammo_map_t& all_ammunition_types() {
+ammo_map_t &all_ammunition_types()
+{
     static ammo_map_t the_map;
     return the_map;
 }
@@ -17,7 +19,7 @@ ammo_map_t& all_ammunition_types() {
 void ammunition_type::load_ammunition_type(JsonObject &jsobj)
 {
     auto const result = all_ammunition_types().insert(std::make_pair(
-        jsobj.get_string("id"), ammunition_type {}));
+                            jsobj.get_string("id"), ammunition_type {}));
 
     if (!result.second) {
         debugmsg("duplicate ammo id: %s", result.first->first.c_str());
@@ -28,9 +30,9 @@ void ammunition_type::load_ammunition_type(JsonObject &jsobj)
     ammo.default_ammotype_ = jsobj.get_string("default");
 }
 
-ammunition_type const& ammunition_type::find_ammunition_type(std::string const &ident)
+ammunition_type const &ammunition_type::find_ammunition_type(std::string const &ident)
 {
-    auto const& the_map = all_ammunition_types();
+    auto const &the_map = all_ammunition_types();
 
     auto const it = the_map.find(ident);
     if (it != the_map.end()) {
@@ -38,7 +40,9 @@ ammunition_type const& ammunition_type::find_ammunition_type(std::string const &
     }
 
     debugmsg("Tried to get invalid ammunition: %s", ident.c_str());
-    static ammunition_type const null_ammunition {"null"};
+    static ammunition_type const null_ammunition {
+        "null"
+    };
     return null_ammunition;
 }
 

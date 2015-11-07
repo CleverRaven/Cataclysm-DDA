@@ -118,7 +118,7 @@ void PATH_INFO::set_standard_filenames(void)
 #else
         update_pathname("datadir", FILENAMES["base_path"] + "data/");
         update_pathname("gfxdir", FILENAMES["base_path"] + "gfx/");
-        update_pathname("luadir", FILENAMES["base_path"] +"lua/");
+        update_pathname("luadir", FILENAMES["base_path"] + "lua/");
 #endif
     } else {
         update_pathname("datadir", "data/");

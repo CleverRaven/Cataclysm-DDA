@@ -25,14 +25,15 @@ std::unordered_map<std::string, note_color> color_by_string_map;
 void color_manager::finalize()
 {
     static const std::array<std::string, NUM_HL> hilights = {{
-        "",
-        "red",
-        "white",
-        "green",
-        "yellow",
-        "magenta",
-        "cyan"
-    }};
+            "",
+            "red",
+            "white",
+            "green",
+            "yellow",
+            "magenta",
+            "cyan"
+        }
+    };
 
     for( size_t i = 0; i < color_array.size(); i++ ) {
         color_struct &entry = color_array[i];
@@ -105,7 +106,7 @@ color_id color_manager::color_to_id( const nc_color color ) const
     // Optimally this shouldn't happen, but allow for now
     for( size_t i = 0; i < color_array.size(); i++ ) {
         if( color_array[i].color == color ) {
-debugmsg( "Couldn't find color %d, but got id: %s", color, get_name( color ).c_str() );
+            debugmsg( "Couldn't find color %d, but got id: %s", color, get_name( color ).c_str() );
             return color_array[i].col_id;
         }
     }
@@ -129,7 +130,7 @@ nc_color color_manager::get( const color_id col ) const
 std::string color_manager::get_name(const nc_color color) const
 {
     color_id id = color_to_id( color );
-    for ( const auto& iter : name_map ) {
+    for ( const auto &iter : name_map ) {
         if ( iter.second == id ) {
             return iter.first;
         }
@@ -157,7 +158,7 @@ nc_color color_manager::get_random() const
 void color_manager::add_color( const color_id col, const std::string &name,
                                const nc_color color_pair, const color_id inv_id )
 {
-    color_struct st = {color_pair, 0, 0, 0, {{0,0,0,0,0,0,0}}, col, inv_id, "", "" };
+    color_struct st = {color_pair, 0, 0, 0, {{0, 0, 0, 0, 0, 0, 0}}, col, inv_id, "", "" };
     color_array[col] = st;
     inverted_map[color_pair] = col;
     name_map[name] = col;
@@ -171,7 +172,8 @@ nc_color color_manager::get_highlight( const nc_color color, const hl_enum bg ) 
     return hl[bg];
 }
 
-nc_color color_manager::highlight_from_names( const std::string &name, const std::string &bg_name ) const
+nc_color color_manager::highlight_from_names( const std::string &name,
+        const std::string &bg_name ) const
 {
     /*
     //             Base Name      Highlight      Red BG              White BG            Green BG            Yellow BG
@@ -520,7 +522,7 @@ nc_color color_from_string(const std::string &color)
     }
 
     const std::pair<std::string, std::string> pSearch[2] = {{"light_", "lt"}, {"dark_", "dk"}};
-    for (int i=0; i < 2; ++i) {
+    for (int i = 0; i < 2; ++i) {
         size_t pos = 0;
         while ((pos = new_color.find(pSearch[i].first, pos)) != std::string::npos) {
             new_color.replace(pos, pSearch[i].first.length(), pSearch[i].second);
@@ -543,7 +545,7 @@ nc_color color_from_string(const std::string &color)
 std::string string_from_color(const nc_color color)
 {
     std::string sColor = all_colors.get_name(color);
-    sColor = sColor.substr(2, sColor.length()-2);
+    sColor = sColor.substr(2, sColor.length() - 2);
 
     if ( sColor != "unset" ) {
         return sColor;
@@ -564,7 +566,7 @@ nc_color bgcolor_from_string(std::string color)
     color = "i_" + color;
 
     const std::pair<std::string, std::string> pSearch[2] = {{"light_", "lt"}, {"dark_", "dk"}};
-    for (int i=0; i < 2; ++i) {
+    for (int i = 0; i < 2; ++i) {
         size_t pos = 0;
         while ((pos = color.find(pSearch[i].first, pos)) != std::string::npos) {
             color.replace(pos, pSearch[i].first.length(), pSearch[i].second);
@@ -582,17 +584,17 @@ nc_color bgcolor_from_string(std::string color)
 
 nc_color get_color_from_tag(const std::string &s, const nc_color base_color)
 {
-    if (s.empty() || s[0] != '<' || s.substr(0,8) == "</color>") {
+    if (s.empty() || s[0] != '<' || s.substr(0, 8) == "</color>") {
         return base_color;
     }
-    if (s.substr(0,7) != "<color_") {
+    if (s.substr(0, 7) != "<color_") {
         return base_color;
     }
     size_t tag_close = s.find('>');
     if (tag_close == std::string::npos) {
         return base_color;
     }
-    std::string color_name = s.substr(7,tag_close-7);
+    std::string color_name = s.substr(7, tag_close - 7);
     return color_from_string(color_name);
 }
 
@@ -641,16 +643,16 @@ void color_manager::show_gui()
     const int iTotalCols = vLines.size();
 
     WINDOW *w_colors_help = newwin((FULL_SCREEN_HEIGHT / 2) - 2, FULL_SCREEN_WIDTH * 3 / 4,
-                                        7 + iOffsetY + (FULL_SCREEN_HEIGHT / 2) / 2, iOffsetX + 19 / 2);
+                                   7 + iOffsetY + (FULL_SCREEN_HEIGHT / 2) / 2, iOffsetX + 19 / 2);
     WINDOW_PTR w_colors_helpptr( w_colors_help );
 
     WINDOW *w_colors_border = newwin(FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH, iOffsetY, iOffsetX);
     WINDOW_PTR w_colors_borderptr( w_colors_border );
     WINDOW *w_colors_header = newwin(iHeaderHeight, FULL_SCREEN_WIDTH - 2, 1 + iOffsetY,
-                                          1 + iOffsetX);
+                                     1 + iOffsetX);
     WINDOW_PTR w_colors_headerptr( w_colors_header );
     WINDOW *w_colors = newwin(iContentHeight, FULL_SCREEN_WIDTH - 2, iHeaderHeight + 1 + iOffsetY,
-                                   1 + iOffsetX);
+                              1 + iOffsetX);
     WINDOW_PTR w_colorsptr( w_colors );
 
     draw_border(w_colors_border);
@@ -673,8 +675,10 @@ void color_manager::show_gui()
     wrefresh(w_colors_border);
 
     int tmpx = 0;
-    tmpx += shortcut_print(w_colors_header, 0, tmpx, c_white, c_ltgreen, _("<R>emove custom color")) + 2;
-    tmpx += shortcut_print(w_colors_header, 0, tmpx, c_white, c_ltgreen, _("<Arrow Keys> To navigate")) + 2;
+    tmpx += shortcut_print(w_colors_header, 0, tmpx, c_white, c_ltgreen,
+                           _("<R>emove custom color")) + 2;
+    tmpx += shortcut_print(w_colors_header, 0, tmpx, c_white, c_ltgreen,
+                           _("<Arrow Keys> To navigate")) + 2;
     tmpx += shortcut_print(w_colors_header, 0, tmpx, c_white, c_ltgreen, _("<Enter>-Edit")) + 2;
     shortcut_print(w_colors_header, 0, tmpx, c_white, c_ltgreen, _("Load <T>emplate"));
 
@@ -730,26 +734,29 @@ void color_manager::show_gui()
         std::string sActive = "";
 
         // display colormanager
-        for (int i=iStartPos; iter != name_color_map.end(); ++iter, ++i) {
-            if (i >= iStartPos && i < iStartPos + ((iContentHeight > iMaxColors) ? iMaxColors : iContentHeight)) {
+        for (int i = iStartPos; iter != name_color_map.end(); ++iter, ++i) {
+            if (i >= iStartPos &&
+                i < iStartPos + ((iContentHeight > iMaxColors) ? iMaxColors : iContentHeight)) {
                 auto &entry = iter->second;
 
                 if (iCurrentLine == i) {
                     sActive = iter->first;
-                    mvwprintz(w_colors, i - iStartPos, vLines[iCurrentCol-1] + 2, c_yellow, ">");
+                    mvwprintz(w_colors, i - iStartPos, vLines[iCurrentCol - 1] + 2, c_yellow, ">");
                 }
 
                 mvwprintz(w_colors, i - iStartPos, 3, c_white, iter->first.c_str()); //colorname
                 mvwprintz(w_colors, i - iStartPos, 21, entry.color, _("default")); //default color
 
                 if ( !entry.name_custom.empty() ) {
-                    mvwprintz(w_colors, i - iStartPos, 30, name_color_map[entry.name_custom].color, entry.name_custom.c_str()); //custom color
+                    mvwprintz(w_colors, i - iStartPos, 30, name_color_map[entry.name_custom].color,
+                              entry.name_custom.c_str()); //custom color
                 }
 
                 mvwprintz(w_colors, i - iStartPos, 52, entry.invert, _("default")); //invert default color
 
                 if ( !entry.name_invert_custom.empty() ) {
-                    mvwprintz(w_colors, i - iStartPos, 61, name_color_map[entry.name_invert_custom].color, entry.name_invert_custom.c_str()); //invert custom color
+                    mvwprintz(w_colors, i - iStartPos, 61, name_color_map[entry.name_invert_custom].color,
+                              entry.name_invert_custom.c_str()); //invert custom color
                 }
             }
         }
@@ -806,7 +813,7 @@ void color_manager::show_gui()
 
                 ui_templates.text = _("Color templates:");
 
-                for ( const auto& filename : vFiles ) {
+                for ( const auto &filename : vFiles ) {
                     ui_templates.addentry( filename.substr(filename.find_last_of("/") + 1) );
                 }
 
@@ -862,7 +869,8 @@ void color_manager::show_gui()
                     name_custom = " <color_" + iter.second.name_custom + ">" + iter.second.name_custom + "</color>";
                 }
 
-                ui_colors.addentry(string_format( "%-17s <color_%s>%s</color>%s", iter.first.c_str(), sColor.c_str(), sType.c_str(), name_custom.c_str() ) );
+                ui_colors.addentry(string_format( "%-17s <color_%s>%s</color>%s", iter.first.c_str(),
+                                                  sColor.c_str(), sType.c_str(), name_custom.c_str() ) );
 
                 i++;
             }

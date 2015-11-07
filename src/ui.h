@@ -57,11 +57,13 @@ struct uimenu_entry {
     {
         text_color = c_red_red;
     };
-    uimenu_entry(int R, bool E, int K, std::string T, std::string D) : retval(R), enabled(E), hotkey(K), txt(T), desc(D)
+    uimenu_entry(int R, bool E, int K, std::string T, std::string D) : retval(R), enabled(E), hotkey(K),
+        txt(T), desc(D)
     {
         text_color = c_red_red;
     };
-    uimenu_entry(int R, bool E, int K, std::string T, nc_color H, nc_color C) : retval(R), enabled(E), hotkey(K), txt(T),
+    uimenu_entry(int R, bool E, int K, std::string T, nc_color H, nc_color C) : retval(R), enabled(E),
+        hotkey(K), txt(T),
         hotkey_color(H), text_color(C) {};
 };
 
@@ -177,7 +179,8 @@ class uimenu: public ui_container
 
         uimenu(bool cancancel, const char *message, ...);  // legacy menu()
         uimenu(bool cancelable, const char *mes, const std::vector<std::string> options); // legacy menu_vec
-        uimenu(bool cancelable, const char *mes, const std::vector<std::string> &options, const std::string &hotkeys);
+        uimenu(bool cancelable, const char *mes, const std::vector<std::string> &options,
+               const std::string &hotkeys);
         uimenu(bool cancelable, int startx, int width, int starty, std::string title,
                std::vector<uimenu_entry> ents);
         uimenu(int startx, int width, int starty, std::string title, std::vector<uimenu_entry> ents);
@@ -217,7 +220,8 @@ class uimenu: public ui_container
 
 // Callback for uimenu that pairs menu entries with points
 // When an entry is selected, view will be centered on the paired point
-class pointmenu_cb : public uimenu_callback {
+class pointmenu_cb : public uimenu_callback
+{
     private:
         const std::vector< tripoint > &points;
         int last; // to suppress redrawing

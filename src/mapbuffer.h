@@ -5,7 +5,7 @@
 #include <list>
 #include <memory>
 #include <string>
-#include "enums.h" 
+#include "enums.h"
 struct point;
 struct tripoint;
 struct submap;
@@ -61,16 +61,22 @@ class mapbuffer
         typedef std::map<tripoint, submap *> submap_map_t;
 
     public:
-        inline submap_map_t::iterator begin() { return submaps.begin(); }
-        inline submap_map_t::iterator end() { return submaps.end(); }
+        inline submap_map_t::iterator begin()
+        {
+            return submaps.begin();
+        }
+        inline submap_map_t::iterator end()
+        {
+            return submaps.end();
+        }
 
     private:
         // There's a very good reason this is private,
         // if not handled carefully, this can erase in-use submaps and crash the game.
         void remove_submap( tripoint addr );
         submap *unserialize_submaps( const tripoint &p );
-        void save_quad( const std::string &dirname, const std::string &filename, 
-                        const tripoint &om_addr, std::list<tripoint> &submaps_to_delete, 
+        void save_quad( const std::string &dirname, const std::string &filename,
+                        const tripoint &om_addr, std::list<tripoint> &submaps_to_delete,
                         bool delete_after_save );
         submap_map_t submaps;
 };

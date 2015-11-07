@@ -17,7 +17,7 @@ const trap &int_id<trap>::obj() const
 {
     if( static_cast<size_t>( _id ) >= traplist.size() ) {
         debugmsg( "invalid trap id %d", _id );
-        static const trap dummy{};
+        static const trap dummy {};
         return dummy;
     }
     return *traplist[_id];
@@ -54,7 +54,7 @@ bool string_id<trap>::is_valid() const
 
 template<>
 int_id<trap>::int_id( const string_id<trap> &id )
-: _id( id.id() )
+    : _id( id.id() )
 {
 }
 
@@ -66,8 +66,8 @@ int_id<trap>::int_id( const string_id<trap> &id )
 
 const skill_id skill_traps( "traps" );
 
-static std::vector<const trap*> funnel_traps;
-const std::vector<const trap*> trap::get_funnels()
+static std::vector<const trap *> funnel_traps;
+const std::vector<const trap *> trap::get_funnels()
 {
     return funnel_traps;
 }
@@ -190,7 +190,7 @@ bool trap::is_3x3_trap() const
 void trap::on_disarmed( const tripoint &p ) const
 {
     map &m = g->m;
-    for( auto & i : components ) {
+    for( auto &i : components ) {
         m.spawn_item( p.x, p.y, i, 1, 1 );
     }
     // TODO: make this a flag, or include it into the components.
@@ -255,8 +255,8 @@ tr_glass_pit;
 
 void trap::check_consistency()
 {
-    for( auto & tptr : traplist ) {
-        for( auto & i : tptr->components ) {
+    for( auto &tptr : traplist ) {
+        for( auto &i : tptr->components ) {
             if( !item::type_is_defined( i ) ) {
                 debugmsg( "trap %s has unknown item as component %s", tptr->id.c_str(), i.c_str() );
             }
@@ -266,7 +266,7 @@ void trap::check_consistency()
 
 void trap::finalize()
 {
-    for( auto & tptr : traplist ) {
+    for( auto &tptr : traplist ) {
         if( tptr->is_funnel() ) {
             funnel_traps.push_back( tptr.get() );
         }

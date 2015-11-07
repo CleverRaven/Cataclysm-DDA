@@ -49,9 +49,9 @@ static void add_drop_pairs( std::list<item *> &items, std::list<int> &quantities
 }
 
 static void make_drop_activity( enum activity_type act, const tripoint &drop_target,
-    std::list<item *> &selected_items, std::list<int> &item_quantities,
-    std::list<item *> &selected_worn_items, std::list<int> &worn_item_quantities,
-    bool ignoring_interruptions, bool to_vehicle )
+                                std::list<item *> &selected_items, std::list<int> &item_quantities,
+                                std::list<item *> &selected_worn_items, std::list<int> &worn_item_quantities,
+                                bool ignoring_interruptions, bool to_vehicle )
 {
     g->u.assign_activity( act, 0 );
     // This one is only ever called to re-insert the activity into the activity queue.
@@ -76,7 +76,7 @@ static tripoint get_item_pointers_from_activity(
         const bool is_worn = position < -1;
         const bool is_weapon = position == -1;
         if( is_worn ) {
-            item& armor = g->u.i_at( position );
+            item &armor = g->u.i_at( position );
             assert( !armor.is_null() );
             selected_worn_items.push_back( &armor );
             worn_item_quantities.push_back( quantity );
@@ -211,7 +211,8 @@ static void place_item_activity( std::list<item *> &selected_items, std::list<in
 
     if( type == DROP_WORN || type == DROP_NOT_WORN ) {
         // Drop handles move cost.
-        g->drop(dropped_items, dropped_worn_items, g->u.volume_capacity() - prev_volume, drop_target, to_vehicle);
+        g->drop(dropped_items, dropped_worn_items, g->u.volume_capacity() - prev_volume, drop_target,
+                to_vehicle);
     } else { // Stashing on a pet.
         stash_on_pet( dropped_items, dropped_worn_items, drop_target );
     }
@@ -232,7 +233,7 @@ static void activity_on_turn_drop_or_stash( enum activity_type act )
     bool to_vehicle = g->u.activity.values[0];
     g->u.activity.values.erase(g->u.activity.values.begin());
     tripoint drop_target = get_item_pointers_from_activity( selected_items, item_quantities,
-                                                         selected_worn_items, worn_item_quantities );
+                           selected_worn_items, worn_item_quantities );
 
     // Consume the list as long as we don't run out of moves.
     while( g->u.moves >= 0 && !selected_worn_items.empty() ) {
@@ -250,8 +251,8 @@ static void activity_on_turn_drop_or_stash( enum activity_type act )
         return;
     }
     // If we make it here load anything left into a new activity.
-    make_drop_activity( act, drop_target, selected_items, item_quantities, selected_worn_items, 
-            worn_item_quantities, ignoring_interruptions, to_vehicle );
+    make_drop_activity( act, drop_target, selected_items, item_quantities, selected_worn_items,
+                        worn_item_quantities, ignoring_interruptions, to_vehicle );
 }
 
 void activity_on_turn_drop()
@@ -308,7 +309,7 @@ void activity_on_turn_pickup()
 
 // I'd love to have this not duplicate so much code from Pickup::pick_one_up(),
 // but I don't see a clean way to do that.
-static void move_items( const tripoint &src, bool from_vehicle, 
+static void move_items( const tripoint &src, bool from_vehicle,
                         const tripoint &dest, bool to_vehicle,
                         std::list<int> &indices, std::list<int> &quantities )
 {
@@ -346,8 +347,8 @@ static void move_items( const tripoint &src, bool from_vehicle,
         item *temp_item = nullptr;
 
         temp_item = (from_vehicle == true) ?
-            g->m.item_from(s_veh, s_cargo, index) :
-            g->m.item_from(source, index);
+                    g->m.item_from(s_veh, s_cargo, index) :
+                    g->m.item_from(source, index);
 
         if( temp_item == nullptr ) {
             continue; // No such item.
@@ -401,7 +402,7 @@ static void move_items( const tripoint &src, bool from_vehicle,
             if( !to_map ) {
                 to_map = !s_veh->add_item(s_cargo, leftovers);
             }
-            if( to_map ){
+            if( to_map ) {
                 g->m.add_item_or_charges(source, leftovers);
             }
         }

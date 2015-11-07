@@ -76,9 +76,12 @@ struct advanced_inv_area {
     int max_size, max_volume;
 
     advanced_inv_area( aim_location id ) : id( id ) {}
-    advanced_inv_area( aim_location id, int hscreenx, int hscreeny, tripoint off, std::string name, std::string shortname ) :
-        id( id ), hscreenx( hscreenx ), hscreeny( hscreeny ), off( off ), name( name ), shortname( shortname ),
-        pos(0, 0, 0), canputitemsloc( false ), veh( nullptr ), vstor( -1 ), desc( {{"", ""}} ), volume( 0 ), weight( 0 ), max_size( 0 ), max_volume( 0 )
+    advanced_inv_area( aim_location id, int hscreenx, int hscreeny, tripoint off, std::string name,
+                       std::string shortname ) :
+        id( id ), hscreenx( hscreenx ), hscreeny( hscreeny ), off( off ), name( name ),
+        shortname( shortname ),
+        pos(0, 0, 0), canputitemsloc( false ), veh( nullptr ), vstor( -1 ), desc( {{"", ""}} ), volume( 0 ),
+    weight( 0 ), max_size( 0 ), max_volume( 0 )
     {
     }
 
@@ -91,7 +94,7 @@ struct advanced_inv_area {
     // does _not_ check vehicle storage, do that with `can_store_in_vehicle()' below
     bool canputitems( const advanced_inv_listitem *advitem = nullptr );
     // if you want vehicle cargo, specify so via `in_vehicle'
-    item* get_container(bool in_vehicle = false);
+    item *get_container(bool in_vehicle = false);
     void set_container( const advanced_inv_listitem *advitem );
     bool is_container_valid( const item *it ) const;
     void set_container_position();
@@ -128,7 +131,7 @@ struct advanced_inv_listitem {
     // the id of the item
     itype_id id;
     // The list of items, and empty when a header
-    std::list<item*> items;
+    std::list<item *> items;
     /**
      * The displayed name of the item/the category header.
      */
@@ -189,7 +192,7 @@ struct advanced_inv_listitem {
      * @param from_vehicle Is the item from a vehicle cargo space?
      */
     advanced_inv_listitem(item *an_item, int index, int count,
-            aim_location area, bool from_vehicle);
+                          aim_location area, bool from_vehicle);
     /**
      * Create a normal item entry.
      * @param items The list of item pointers, stored in @ref it.
@@ -197,8 +200,8 @@ struct advanced_inv_listitem {
      * @param area The source area, stored in @ref area. Must not be AIM_ALL.
      * @param from_vehicle Is the item from a vehicle cargo space?
      */
-    advanced_inv_listitem(const std::list<item*> &items, int index,
-            aim_location area, bool from_vehicle);
+    advanced_inv_listitem(const std::list<item *> &items, int index,
+                          aim_location area, bool from_vehicle);
 };
 
 /**
@@ -367,7 +370,7 @@ class advanced_inventory
         void load_settings();
         // used to return back to AIM when other activities queued are finished
         void do_return_entry();
-        // returns true if currently processing a routine 
+        // returns true if currently processing a routine
         // (such as `MOVE_ALL_ITEMS' with `AIM_ALL' source)
         bool is_processing() const;
 
@@ -434,8 +437,8 @@ class advanced_inventory
          *      should be moved. A return value of true indicates that amount now contains
          *      a valid item count to be moved.
          */
-        bool query_charges(aim_location destarea, const advanced_inv_listitem &sitem, 
-                const std::string &action, long &amount);
+        bool query_charges(aim_location destarea, const advanced_inv_listitem &sitem,
+                           const std::string &action, long &amount);
 
         void menu_square(uimenu *menu);
 

@@ -22,7 +22,8 @@ class options_data
 
 extern options_data optionsdata;
 
-class options_manager : public JsonSerializer, public JsonDeserializer {
+class options_manager : public JsonSerializer, public JsonDeserializer
+{
     private:
         static std::string build_tilesets_list();
         bool bIngame;
@@ -54,7 +55,7 @@ class options_manager : public JsonSerializer, public JsonDeserializer {
 
                 //string input constructor
                 cOpt(const std::string sPageIn, const std::string sMenuTextIn, const std::string sTooltipIn,
-                    const std::string sDefaultIn, const int iMaxLengthIn, copt_hide_t opt_hide = COPT_NO_HIDE);
+                     const std::string sDefaultIn, const int iMaxLengthIn, copt_hide_t opt_hide = COPT_NO_HIDE);
 
                 //bool constructor
                 cOpt(const std::string sPageIn, const std::string sMenuTextIn, const std::string sTooltipIn,
@@ -66,7 +67,8 @@ class options_manager : public JsonSerializer, public JsonDeserializer {
 
                 //float constructor
                 cOpt(const std::string sPageIn, const std::string sMenuTextIn, const std::string sTooltipIn,
-                     const float fMinIn, float fMaxIn, float fDefaultIn, float fStepIn, copt_hide_t opt_hide = COPT_NO_HIDE);
+                     const float fMinIn, float fMaxIn, float fDefaultIn, float fStepIn,
+                     copt_hide_t opt_hide = COPT_NO_HIDE);
 
                 //Default deconstructor
                 ~cOpt() {};

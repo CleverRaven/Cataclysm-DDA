@@ -106,7 +106,8 @@ int msgtype_to_tilecolor(const game_message_type type, const bool bOldMsg = fals
  * change to a color according to the color tags that are in the text.
  * @param base_color Base color that is used outside of any color tag.
  **/
-void print_colored_text( WINDOW *w, int x, int y, nc_color &cur_color, nc_color base_color, const std::string &text );
+void print_colored_text( WINDOW *w, int x, int y, nc_color &cur_color, nc_color base_color,
+                         const std::string &text );
 /**
  * Print word wrapped text (with color tags) into the window.
  * @param begin_line Line in the word wrapped text that is printed first (lines before that are not printed at all).
@@ -116,7 +117,8 @@ void print_colored_text( WINDOW *w, int x, int y, nc_color &cur_color, nc_color 
  * @return The maximal scrollable offset ([number of lines to be printed] - [lines available in the window]).
  * This allows the caller to restrict the begin_line number on future calls / when modified by the user.
  */
-int print_scrollable( WINDOW *w, int begin_line, const std::string &text, nc_color base_color, const std::string &scroll_msg );
+int print_scrollable( WINDOW *w, int begin_line, const std::string &text, nc_color base_color,
+                      const std::string &scroll_msg );
 
 std::vector<std::string> foldstring (std::string str, int width);
 /**
@@ -191,7 +193,8 @@ void mvwprintz(WINDOW *w, int y, int x, nc_color FG, const char *mes, ...);
 void printz(nc_color FG, const char *mes, ...);
 void wprintz(WINDOW *w, nc_color FG, const char *mes, ...);
 
-void draw_custom_border(WINDOW *w, chtype ls = 1, chtype rs = 1, chtype ts = 1, chtype bs = 1, chtype tl = 1, chtype tr = 1, chtype bl = 1, chtype br = 1, nc_color FG = BORDER_COLOR);
+void draw_custom_border(WINDOW *w, chtype ls = 1, chtype rs = 1, chtype ts = 1, chtype bs = 1,
+                        chtype tl = 1, chtype tr = 1, chtype bl = 1, chtype br = 1, nc_color FG = BORDER_COLOR);
 void draw_border(WINDOW *w, nc_color FG = BORDER_COLOR);
 void draw_tabs(WINDOW *w, int active_tab, ...);
 
@@ -234,7 +237,8 @@ std::string string_input_win (WINDOW *w, std::string input, int max_length, int 
 
 // for the next two functions, if cancelable is true, esc returns the last option
 int  menu_vec(bool cancelable, const char *mes, const std::vector<std::string> options);
-int  menu_vec(bool cancelable, const char *mes, const std::vector<std::string> &options, const std::string &hotkeys_override);
+int  menu_vec(bool cancelable, const char *mes, const std::vector<std::string> &options,
+              const std::string &hotkeys_override);
 int  menu(bool cancelable, const char *mes, ...);
 
 /**
@@ -332,10 +336,10 @@ size_t shortcut_print(WINDOW *w, nc_color color, nc_color colork, const std::str
 // cTile is a UTF-8 strings, and must be a single cell wide!
 void hit_animation(int iX, int iY, nc_color cColor, const std::string &cTile);
 
-std::pair<std::string, nc_color> const& get_hp_bar(int cur_hp, int max_hp, bool is_mon = false);
-std::pair<std::string, nc_color> const& get_item_hp_bar(int dmg);
+std::pair<std::string, nc_color> const &get_hp_bar(int cur_hp, int max_hp, bool is_mon = false);
+std::pair<std::string, nc_color> const &get_item_hp_bar(int dmg);
 
-std::pair<std::string, nc_color> const& get_light_level(const float light);
+std::pair<std::string, nc_color> const &get_light_level(const float light);
 
 void draw_tab(WINDOW *w, int iOffsetX, std::string sText, bool bSelected);
 void draw_subtab(WINDOW *w, int iOffsetX, std::string sText, bool bSelected, bool bDecorate = true);

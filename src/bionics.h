@@ -35,7 +35,7 @@ struct bionic_data {
     bool toggled = false;
 };
 
-bionic_data const& bionic_info(std::string const &id);
+bionic_data const &bionic_info(std::string const &id);
 
 struct bionic : public JsonSerializer, public JsonDeserializer {
     std::string id;
@@ -44,11 +44,12 @@ struct bionic : public JsonSerializer, public JsonDeserializer {
     bool        powered = false;
 
     bionic()
-      : id("bio_batteries") { }
+        : id("bio_batteries") { }
     bionic(std::string pid, char pinvlet)
-      : id(std::move(pid)), invlet(pinvlet) { }
+        : id(std::move(pid)), invlet(pinvlet) { }
 
-    bionic_data const& info() const {
+    bionic_data const &info() const
+    {
         return bionic_info(id);
     }
 
@@ -61,6 +62,6 @@ struct bionic : public JsonSerializer, public JsonDeserializer {
 void draw_exam_window(WINDOW *win, int border_line, bool examination);
 void reset_bionics();
 void load_bionic(JsonObject &jsobj); // load a bionic from JSON
-bool is_valid_bionic(std::string const& id);
+bool is_valid_bionic(std::string const &id);
 
 #endif

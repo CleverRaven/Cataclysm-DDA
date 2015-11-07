@@ -30,7 +30,7 @@ namespace iexamine
     * Also spawns eggs.
     * @param montype The monster type of the created spiders.
     */
-void egg_sack_generic( player *p, map *m, const tripoint &examp, const mtype_id& montype );
+void egg_sack_generic( player *p, map *m, const tripoint &examp, const mtype_id &montype );
 
 void none( player *p, map *m, const tripoint &examp );
 
@@ -108,7 +108,7 @@ std::list<item> get_harvest_items( const itype &type, int plant_count,
                                    int seed_count, bool byproducts );
 } //namespace iexamine
 
-using iexamine_function = void ( * )( player *, map *, const tripoint & );
+using iexamine_function = void ( *)( player *, map *, const tripoint &);
 iexamine_function iexamine_function_from_string( std::string const &function_name );
 
 #endif

@@ -127,7 +127,8 @@ bool choose_adjacent( std::string message, tripoint &p, bool allow_vertical = fa
 bool choose_direction(const std::string &message, int &x, int &y);
 bool choose_adjacent_highlight(std::string message, int &x, int &y, action_id action_to_highlight);
 bool choose_direction( const std::string &message, tripoint &offset, bool allow_vertical = false );
-bool choose_adjacent_highlight( std::string message, tripoint &offset, action_id action_to_highlight );
+bool choose_adjacent_highlight( std::string message, tripoint &offset,
+                                action_id action_to_highlight );
 
 // (Press X (or Y)|Try) to Z
 std::string press_x(action_id act);

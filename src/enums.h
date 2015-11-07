@@ -180,7 +180,7 @@ struct point : public JsonSerializer, public JsonDeserializer {
     point(int X, int Y) : x (X), y (Y) {}
     point(point &&) = default;
     point(const point &) = default;
-    point &operator=(point &&) = default;
+    point &operator=(point && ) = default;
     point &operator=(const point &) = default;
     ~point() {}
     using JsonSerializer::serialize;
@@ -222,14 +222,16 @@ struct point : public JsonSerializer, public JsonDeserializer {
 
 // Make point hashable so it can be used as an unordered_set or unordered_map key,
 // or a component of one.
-namespace std {
-  template <>
-  struct hash<point> {
-      std::size_t operator()(const point& k) const {
-          // Circular shift y by half its width so hash(5,6) != hash(6,5).
-          return std::hash<int>()(k.x) ^ std::hash<int>()( (k.y << 16) | (k.y >> 16) );
-      }
-  };
+namespace std
+{
+template <>
+struct hash<point> {
+    std::size_t operator()(const point &k) const
+    {
+        // Circular shift y by half its width so hash(5,6) != hash(6,5).
+        return std::hash<int>()(k.x) ^ std::hash<int>()( (k.y << 16) | (k.y >> 16) );
+    }
+};
 }
 
 inline bool operator<(const point &a, const point &b)
@@ -253,7 +255,7 @@ struct tripoint : public JsonSerializer, public JsonDeserializer {
     tripoint(int X, int Y, int Z) : x (X), y (Y), z (Z) {}
     tripoint(tripoint &&) = default;
     tripoint(const tripoint &) = default;
-    tripoint &operator=(tripoint &&) = default;
+    tripoint &operator=(tripoint && ) = default;
     tripoint &operator=(const tripoint &) = default;
     explicit tripoint(const point &p, int Z) : x (p.x), y (p.y), z (Z) {}
     ~tripoint() {}
@@ -318,16 +320,18 @@ struct tripoint : public JsonSerializer, public JsonDeserializer {
 
 // Make tripoint hashable so it can be used as an unordered_set or unordered_map key,
 // or a component of one.
-namespace std {
-  template <>
-  struct hash<tripoint> {
-      std::size_t operator()(const tripoint& k) const {
-          // Circular shift y and z so hash(5,6,7) != hash(7,6,5).
-          return std::hash<int>()(k.x) ^
-              std::hash<int>()( (k.y << 10) | (k.y >> 10) ) ^
-              std::hash<int>()( (k.z << 20) | (k.z >> 20) );
-      }
-  };
+namespace std
+{
+template <>
+struct hash<tripoint> {
+    std::size_t operator()(const tripoint &k) const
+    {
+        // Circular shift y and z so hash(5,6,7) != hash(7,6,5).
+        return std::hash<int>()(k.x) ^
+               std::hash<int>()( (k.y << 10) | (k.y >> 10) ) ^
+               std::hash<int>()( (k.z << 20) | (k.z >> 20) );
+    }
+};
 }
 
 inline bool operator==(const tripoint &a, const tripoint &b)
@@ -352,7 +356,13 @@ inline bool operator<(const tripoint &a, const tripoint &b)
     return false;
 }
 
-static const tripoint tripoint_min { INT_MIN, INT_MIN, INT_MIN };
-static const tripoint tripoint_zero { 0, 0, 0 };
+static const tripoint tripoint_min
+{
+    INT_MIN, INT_MIN, INT_MIN
+};
+static const tripoint tripoint_zero
+{
+    0, 0, 0
+};
 
 #endif

@@ -15,7 +15,7 @@ Creature_tracker::~Creature_tracker()
 
 monster &Creature_tracker::find(int index)
 {
-    return const_cast<monster &>( const_cast<const Creature_tracker*>(this)->find( index ) );
+    return const_cast<monster &>( const_cast<const Creature_tracker *>(this)->find( index ) );
 }
 
 const monster &Creature_tracker::find( int index ) const
@@ -58,7 +58,7 @@ bool Creature_tracker::add( monster &critter )
         } else if( critter.is_hallucination() ) {
             return false;
         } else {
-            debugmsg( "add_zombie: there's already a monster at %d,%d,%d", 
+            debugmsg( "add_zombie: there's already a monster at %d,%d,%d",
                       critter.posx(), critter.posy(), critter.posz() );
             return false;
         }

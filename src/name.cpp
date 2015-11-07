@@ -99,7 +99,7 @@ std::string NameGenerator::getName(uint32_t searchFlags)
     }
 
     // Choose a random name
-    int choice = rng(0, nNames-1);
+    int choice = rng(0, nNames - 1);
     for (uint32_t type : types) {
         std::vector<Name> &theseNames = names[type];
         if (choice < int(theseNames.size())) {

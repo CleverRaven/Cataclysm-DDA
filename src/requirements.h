@@ -46,10 +46,12 @@ struct component {
     component() : type("null") , count(0) , available(a_false), recoverable(true)
     {
     }
-    component(const itype_id &TYPE, int COUNT) : type (TYPE), count (COUNT), available(a_false), recoverable(true)
+    component(const itype_id &TYPE, int COUNT) : type (TYPE), count (COUNT), available(a_false),
+        recoverable(true)
     {
     }
-    component(const itype_id &TYPE, int COUNT, bool RECOVERABLE) : type (TYPE), count (COUNT), available(a_false), recoverable(RECOVERABLE)
+    component(const itype_id &TYPE, int COUNT, bool RECOVERABLE) : type (TYPE), count (COUNT),
+        available(a_false), recoverable(RECOVERABLE)
     {
     }
     void check_consistency(const std::string &display_name) const;
@@ -167,11 +169,13 @@ struct requirement_data {
                 const inventory &crafting_inv, int batch = 1) const;
         int print_tools(WINDOW *w, int ypos, int xpos, int width, nc_color col,
                         const inventory &crafting_inv, int batch = 1) const;
-        std::vector<std::string> get_folded_tools_list(int width, nc_color col, const inventory &crafting_inv, int batch = 1) const;
+        std::vector<std::string> get_folded_tools_list(int width, nc_color col,
+                const inventory &crafting_inv, int batch = 1) const;
 
     private:
         bool check_enough_materials(const inventory &crafting_inv, int batch = 1) const;
-        bool check_enough_materials(const item_comp &comp, const inventory &crafting_inv, int batch = 1) const;
+        bool check_enough_materials(const item_comp &comp, const inventory &crafting_inv,
+                                    int batch = 1) const;
 
         template<typename T>
         static void check_consistency(const std::vector< std::vector<T> > &vec,
@@ -180,13 +184,14 @@ struct requirement_data {
         static std::string print_missing_objs(const std::string &header,
                                               const std::vector< std::vector<T> > &objs);
         template<typename T>
-        static bool has_comps(const inventory &crafting_inv, const std::vector< std::vector<T> > &vec, int batch = 1);
+        static bool has_comps(const inventory &crafting_inv, const std::vector< std::vector<T> > &vec,
+                              int batch = 1);
         template<typename T>
         static int print_list(WINDOW *w, int ypos, int xpos, int width, nc_color col,
                               const inventory &crafting_inv, const std::vector< std::vector<T> > &objs, int batch = 1);
         template<typename T>
         static std::vector<std::string> get_folded_list(int width, const inventory &crafting_inv,
-                                   const std::vector< std::vector<T> > &objs, int batch = 1);
+                const std::vector< std::vector<T> > &objs, int batch = 1);
         template<typename T>
         static bool remove_item(const std::string &type, std::vector< std::vector<T> > &vec);
         template<typename T>

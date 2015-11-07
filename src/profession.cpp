@@ -167,7 +167,7 @@ void profession::check_definitions()
 
 void profession::check_item_definitions( const itypedecvec &items ) const
 {
-    for( auto & itd : items ) {
+    for( auto &itd : items ) {
         if( !item::type_is_defined( itd.type_id ) ) {
             debugmsg( "profession %s: item %s does not exist", _ident.c_str() , itd.type_id.c_str() );
         } else if( !itd.snippet_id.empty() ) {
@@ -196,7 +196,7 @@ void profession::check_definition() const
             debugmsg("bionic %s for profession %s does not exist", a.c_str(), _ident.c_str());
         }
     }
-    
+
     for( auto &t : _starting_traits ) {
         if( !mutation_branch::has( t ) ) {
             debugmsg( "trait %s for profession %s does not exist", t.c_str(), _ident.c_str() );

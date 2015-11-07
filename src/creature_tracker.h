@@ -20,7 +20,7 @@ class Creature_tracker
         /** Adds the given monster to the creature_tracker. Returns whether the operation was successful. */
         bool add(monster &critter);
         size_t size() const;
-        /** Updates the position of the given monster to the given point. Returns whether the operation 
+        /** Updates the position of the given monster to the given point. Returns whether the operation
          *  was successful. */
         bool update_pos(const monster &critter, const tripoint &new_pos);
         /** Removes the given monster index from the Creature tracker, adjusting other entries as needed. */

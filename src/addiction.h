@@ -14,7 +14,7 @@ constexpr int MIN_ADDICTION_LEVEL = 3; // Minimum intensity before effects are s
 // cancel_activity is called when the addication effect wants to interrupt the player
 // with an optional pre-translated message.
 void addict_effect(player &u, addiction &add,
-                   std::function<void (char const*)> const &cancel_activity);
+                   std::function<void (char const *)> const &cancel_activity);
 
 std::string addiction_type_name(add_type cur);
 

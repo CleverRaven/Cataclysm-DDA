@@ -42,16 +42,16 @@ void auto_pickup::show()
     const int iTotalCols = mapLines.size() - 1;
 
     WINDOW *w_help = newwin((FULL_SCREEN_HEIGHT / 2) - 2, FULL_SCREEN_WIDTH * 3 / 4,
-                                        7 + iOffsetY + (FULL_SCREEN_HEIGHT / 2) / 2, iOffsetX + 19 / 2);
+                            7 + iOffsetY + (FULL_SCREEN_HEIGHT / 2) / 2, iOffsetX + 19 / 2);
     WINDOW_PTR w_helpptr( w_help );
 
     WINDOW *w_border = newwin(FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH, iOffsetY, iOffsetX);
     WINDOW_PTR w_borderptr( w_border );
     WINDOW *w_header = newwin(iHeaderHeight, FULL_SCREEN_WIDTH - 2, 1 + iOffsetY,
-                                          1 + iOffsetX);
+                              1 + iOffsetX);
     WINDOW_PTR w_headerptr( w_header );
     WINDOW *w = newwin(iContentHeight, FULL_SCREEN_WIDTH - 2, iHeaderHeight + 1 + iOffsetY,
-                                   1 + iOffsetX);
+                       1 + iOffsetX);
     WINDOW_PTR wptr( w );
 
     draw_border(w_border);
@@ -184,12 +184,12 @@ void auto_pickup::show()
                 }
 
                 wprintz(w, (iCurrentLine == i &&
-                                        iCurrentCol == 1) ? hilite(cLineColor) : cLineColor, "%s",
+                            iCurrentCol == 1) ? hilite(cLineColor) : cLineColor, "%s",
                         ((vRules[iCurrentPage][i].sRule == "") ? _("<empty rule>") :
                          vRules[iCurrentPage][i].sRule).c_str());
 
                 mvwprintz(w, i - iStartPos, 52, (iCurrentLine == i &&
-                          iCurrentCol == 2) ? hilite(cLineColor) : cLineColor, "%s",
+                                                 iCurrentCol == 2) ? hilite(cLineColor) : cLineColor, "%s",
                           ((vRules[iCurrentPage][i].bExclude) ? rm_prefix(_("<Exclude>E")).c_str() : rm_prefix(
                                _("<Include>I")).c_str()));
             }
@@ -237,15 +237,15 @@ void auto_pickup::show()
             if (iCurrentLine > (int)vRules[iCurrentPage].size() - 1) {
                 iCurrentLine--;
             }
-            if(iCurrentLine < 0){
+            if(iCurrentLine < 0) {
                 iCurrentLine = 0;
             }
         } else if (action == "COPY_RULE" && currentPageNonEmpty) {
             bStuffChanged = true;
             vRules[iCurrentPage].push_back(cRules(
-                        vRules[iCurrentPage][iCurrentLine].sRule,
-                        vRules[iCurrentPage][iCurrentLine].bActive,
-                        vRules[iCurrentPage][iCurrentLine].bExclude));
+                                               vRules[iCurrentPage][iCurrentLine].sRule,
+                                               vRules[iCurrentPage][iCurrentLine].bActive,
+                                               vRules[iCurrentPage][iCurrentLine].bExclude));
             iCurrentLine = vRules[iCurrentPage].size() - 1;
         } else if (action == "SWAP_RULE_GLOBAL_CHAR" && currentPageNonEmpty) {
             if ((iCurrentPage == 1 && g->u.name != "") || iCurrentPage == 2) {
@@ -561,7 +561,7 @@ void auto_pickup::save_reset_changes(const bool bReset)
     for (int i = GLOBAL; i <= CHARACTER; i++) { //Loop through global 1 and character 2
         int destination = i + ((bReset) ? 0 : 2); // if reset, copy to vRules[1,2]
         int source = i + ((bReset) ? 2 : 0); // if reset, copy from vRules[3,4]
-                                             // (temp storage from when bReset was false)
+        // (temp storage from when bReset was false)
         vRules[destination].clear();
         for (auto it = vRules[source].begin(); it != vRules[source].end(); ++it) {
             if (it->sRule != "") {
@@ -652,7 +652,8 @@ bool auto_pickup::match(const std::string &sTextIn, const std::string &sPatternI
     return true;
 }
 
-std::vector<std::string> &auto_pickup::split(const std::string &s, char delim, std::vector<std::string> &elems)
+std::vector<std::string> &auto_pickup::split(const std::string &s, char delim,
+        std::vector<std::string> &elems)
 {
     std::stringstream ss(s);
     std::string item;

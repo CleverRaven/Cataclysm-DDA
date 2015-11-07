@@ -15,7 +15,8 @@ class string_id;
  *
  */
 template<typename T>
-class int_id {
+class int_id
+{
     public:
         typedef int_id<T> This;
 
@@ -24,7 +25,7 @@ class int_id {
          * places that use it.
          */
         explicit int_id( int const id )
-        : _id( id )
+            : _id( id )
         {
         }
         /**
@@ -32,7 +33,7 @@ class int_id {
          * is just as normal as any other integer value.
          */
         int_id()
-        : _id( 0 )
+            : _id( 0 )
         {
         }
         /**
@@ -44,19 +45,22 @@ class int_id {
         /**
          * Comparison, only useful when the id is used in std::map or std::set as key.
          */
-        bool operator<( const This &rhs ) const {
+        bool operator<( const This &rhs ) const
+        {
             return _id < rhs._id;
         }
         /**
          * The usual comparator, compares the integer id as usual
          */
-        bool operator==( const This &rhs ) const {
+        bool operator==( const This &rhs ) const
+        {
             return _id == rhs._id;
         }
         /**
          * The usual comparator, compares the integer id as usual
          */
-        bool operator!=( const This &rhs ) const {
+        bool operator!=( const This &rhs ) const
+        {
             return _id != rhs._id;
         }
 
@@ -65,13 +69,15 @@ class int_id {
          * have any information as what type of object it refers to (the T template parameter of
          * the class).
          */
-        int to_i() const {
+        int to_i() const
+        {
             return _id;
         }
         /**
          * Conversion to int as with the @ref to_i function.
          */
-        operator int() const {
+        operator int() const
+        {
             return _id;
         }
 
@@ -84,15 +90,15 @@ class int_id {
 };
 
 // Support hashing of int based ids by forwarding the hash of the int.
-namespace std {
-    template<typename T>
-    struct hash< int_id<T> >
+namespace std
+{
+template<typename T>
+struct hash< int_id<T> > {
+    std::size_t operator()( const int_id<T> &v) const
     {
-        std::size_t operator()( const int_id<T> &v) const
-        {
-            return hash<int>()( v.to_i() );
-        }
-    };
+        return hash<int>()( v.to_i() );
+    }
+};
 }
 
 #endif

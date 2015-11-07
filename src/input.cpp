@@ -265,17 +265,17 @@ void input_manager::save()
             for( const auto &event : events ) {
                 jsout.start_object();
                 switch( event.type ) {
-                case CATA_INPUT_KEYBOARD:
-                    jsout.member("input_method", "keyboard");
-                    break;
-                case CATA_INPUT_GAMEPAD:
-                    jsout.member("input_method", "gamepad");
-                    break;
-                case CATA_INPUT_MOUSE:
-                    jsout.member("input_method", "mouse");
-                    break;
-                default:
-                    throw std::runtime_error("unknown input_event_t");
+                    case CATA_INPUT_KEYBOARD:
+                        jsout.member("input_method", "keyboard");
+                        break;
+                    case CATA_INPUT_GAMEPAD:
+                        jsout.member("input_method", "gamepad");
+                        break;
+                    case CATA_INPUT_MOUSE:
+                        jsout.member("input_method", "mouse");
+                        break;
+                    default:
+                        throw std::runtime_error("unknown input_event_t");
                 }
                 jsout.member("key");
                 jsout.start_array();
@@ -655,7 +655,7 @@ std::string input_context::get_available_single_char_hotkeys(std::string request
             if( events_event.type == CATA_INPUT_KEYBOARD && 0 == events_event.modifiers.size() ) {
                 requested_keys.erase( std::remove_if( requested_keys.begin(), requested_keys.end(),
                                                       ContainsPredicate<std::vector<long>, char>(
-                                                          events_event.sequence ) ),
+                                                              events_event.sequence ) ),
                                       requested_keys.end() );
             }
         }
@@ -877,7 +877,8 @@ void input_context::display_help()
     while(true) {
         werase(w_help);
         draw_border(w_help);
-        draw_scrollbar(w_help, scroll_offset, display_height, org_registered_actions.size() - display_height, 8);
+        draw_scrollbar(w_help, scroll_offset, display_height,
+                       org_registered_actions.size() - display_height, 8);
         mvwprintz(w_help, 0, (FULL_SCREEN_WIDTH - utf8_width(_("Keybindings"))) / 2 - 1,
                   c_ltred, " %s ", _("Keybindings"));
 

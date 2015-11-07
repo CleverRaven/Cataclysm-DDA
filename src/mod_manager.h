@@ -41,17 +41,17 @@ struct MOD_INFORMATION {
 
     std::pair<int, std::string> category;
 
-    MOD_INFORMATION() : _type(MT_SUPPLEMENTAL), obsolete(false), category({-1, ""}) {};
+    MOD_INFORMATION() : _type(MT_SUPPLEMENTAL), obsolete(false), category({ -1, ""}) {};
 
     std::string type()
     {
         switch (_type) {
-        case MT_CORE:
-            return "CORE";
-            break;
-        case MT_SUPPLEMENTAL:
-            return "SUPPLEMENTAL";
-            break;
+            case MT_CORE:
+                return "CORE";
+                break;
+            case MT_SUPPLEMENTAL:
+                return "SUPPLEMENTAL";
+                break;
         }
     };
 };

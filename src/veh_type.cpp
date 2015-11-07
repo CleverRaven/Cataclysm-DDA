@@ -73,7 +73,7 @@ std::map<vpart_str_id, vpart_info> vehicle_part_types;
 // Contains pointer into the vehicle_part_types map. It is an implicit mapping of int ids
 // to the matching vpart_info object. To store the object only once, it is in the map and only
 // linked to. Pointers here are always valid.
-std::vector<const vpart_info*> vehicle_part_int_types;
+std::vector<const vpart_info *> vehicle_part_int_types;
 
 template<>
 const vpart_str_id string_id<vpart_info>::NULL_ID( "null" );
@@ -83,7 +83,7 @@ const vpart_info &int_id<vpart_info>::obj() const
 {
     if( static_cast<size_t>( _id ) >= vehicle_part_int_types.size() ) {
         debugmsg( "invalid vehicle part id %d", _id );
-        static const vpart_info dummy{};
+        static const vpart_info dummy {};
         return dummy;
     }
     return *vehicle_part_int_types[_id];
@@ -120,7 +120,7 @@ bool string_id<vpart_info>::is_valid() const
 
 template<>
 int_id<vpart_info>::int_id( const string_id<vpart_info> &id )
-: _id( id.id() )
+    : _id( id.id() )
 {
 }
 
@@ -186,7 +186,7 @@ void vpart_info::load( JsonObject &jo )
     }
 
     if( jo.has_member( "breaks_into" ) ) {
-        JsonIn& stream = *jo.get_raw( "breaks_into" );
+        JsonIn &stream = *jo.get_raw( "breaks_into" );
         next_part.breaks_into_group = item_group::load_item_group( stream, "collection" );
     } else {
         next_part.breaks_into_group = "EMPTY_GROUP";
@@ -214,7 +214,7 @@ void vpart_info::load( JsonObject &jo )
         //Should be hidden by frames
         next_part.z_order = 4;
         next_part.list_order = 8 ;
-    } else if (next_part.location == "on_battery_mount"){
+    } else if (next_part.location == "on_battery_mount") {
         //Should be hidden by frames
         next_part.z_order = 3;
         next_part.list_order = 10;
@@ -272,12 +272,14 @@ void vpart_info::check()
             debugmsg("Error: folded part %s has a volume of 0!", part.name.c_str());
         }
         if( part.has_flag( VPFLAG_FUEL_TANK ) && !item::type_is_defined( part.fuel_type ) ) {
-            debugmsg( "vehicle part %s is a fuel tank, but has invalid fuel type %s (not a valid item id)", part.id.c_str(), part.fuel_type.c_str() );
+            debugmsg( "vehicle part %s is a fuel tank, but has invalid fuel type %s (not a valid item id)",
+                      part.id.c_str(), part.fuel_type.c_str() );
         }
         // For now, ignore invalid item ids, later add a check and assume here they are valid.
         if( part.has_flag( "TURRET" ) && item::type_is_defined( part.item ) ) {
             if( !item::find_type( part.item )->gun ) {
-                debugmsg( "vehicle part %s has the TURRET flag, but is not made from a gun item", part.id.c_str(), part.item.c_str() );
+                debugmsg( "vehicle part %s has the TURRET flag, but is not made from a gun item", part.id.c_str(),
+                          part.item.c_str() );
             }
         }
     }
@@ -289,7 +291,7 @@ void vpart_info::reset()
     vehicle_part_int_types.clear();
 }
 
-const std::vector<const vpart_info*> &vpart_info::get_all()
+const std::vector<const vpart_info *> &vpart_info::get_all()
 {
     return vehicle_part_int_types;
 }
@@ -329,7 +331,7 @@ void vehicle_prototype::load(JsonObject &jo)
     // If the json does not contain a name (the prototype would have no name), it means appending
     // to the existing prototype (the parts are not cleared).
     if( !vproto.parts.empty() && jo.has_string( "name" ) ) {
-        vproto =  vehicle_prototype(); 
+        vproto =  vehicle_prototype();
     }
     if( vproto.parts.empty() ) {
         vproto.name = jo.get_string( "name" );
@@ -445,7 +447,7 @@ void vehicle_prototype::finalize()
 std::vector<vproto_id> vehicle_prototype::get_all()
 {
     std::vector<vproto_id> result;
-    for( auto & vp : vtypes ) {
+    for( auto &vp : vtypes ) {
         result.push_back( vp.first );
     }
     return result;

@@ -123,12 +123,12 @@ void advanced_inventory::load_settings()
         auto square = squares[location];
         // determine the square's veh/map item presence
         bool has_veh_items = (square.can_store_in_vehicle()) ?
-            !square.veh->get_items(square.vstor).empty() : false;
+                             !square.veh->get_items(square.vstor).empty() : false;
         bool has_map_items = !g->m.i_at(square.pos).empty();
         // determine based on map items and settings to show cargo
         bool show_vehicle = (aim_code == exit_re_entry) ?
-            uistate.adv_inv_in_vehicle[i] : (has_veh_items) ?
-            true : (has_map_items) ? false : square.can_store_in_vehicle();
+                            uistate.adv_inv_in_vehicle[i] : (has_veh_items) ?
+                            true : (has_map_items) ? false : square.can_store_in_vehicle();
         panes[i].set_area(square, show_vehicle);
         panes[i].sortby = static_cast<advanced_inv_sortby>(uistate.adv_inv_sort[i]);
         panes[i].index = uistate.adv_inv_index[i];
@@ -610,7 +610,7 @@ void advanced_inv_area::init()
             }
             // get graffiti or terrain name
             desc[0] = ( g->m.has_graffiti_at( pos ) == true ) ?
-                g->m.graffiti_at( pos ) : g->m.ter_at( pos ).name;
+                      g->m.graffiti_at( pos ) : g->m.ter_at( pos ).name;
         default:
             break;
     }
@@ -717,8 +717,8 @@ advanced_inv_listitem::advanced_inv_listitem( item *an_item, int index, int coun
     assert( stacks >= 1 );
 }
 
-advanced_inv_listitem::advanced_inv_listitem(const std::list<item*> &list, int index,
-            aim_location loc, bool veh) :
+advanced_inv_listitem::advanced_inv_listitem(const std::list<item *> &list, int index,
+        aim_location loc, bool veh) :
     idx(index),
     area(loc),
     id(list.front()->type->id),

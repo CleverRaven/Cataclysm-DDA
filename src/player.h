@@ -101,7 +101,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         player(player &&) = default;
         virtual ~player() override;
         player &operator=(const player &) = default;
-        player &operator=(player &&) = default;
+        player &operator=(player && ) = default;
 
         // newcharacter.cpp
         int create(character_type type, std::string tempname = "");
@@ -325,7 +325,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /**
          * Get all hostile creatures currently visible to this player.
          */
-         std::vector<Creature*> get_hostile_creatures() const;
+        std::vector<Creature *> get_hostile_creatures() const;
 
         /**
          * Returns all creatures that this player can see and that are in the given
@@ -334,12 +334,12 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
          * @param range The maximal distance (@ref rl_dist), creatures at this distance or less
          * are included.
          */
-        std::vector<Creature*> get_visible_creatures( int range ) const;
+        std::vector<Creature *> get_visible_creatures( int range ) const;
         /**
          * As above, but includes all creatures the player can detect well enough to target
          * with ranged weapons, e.g. with infared vision.
          */
-        std::vector<Creature*> get_targetable_creatures( int range ) const;
+        std::vector<Creature *> get_targetable_creatures( int range ) const;
         /**
          * Check whether the this player can see the other creature with infrared. This implies
          * this player can see infrared and the target is visible with infrared (is warm).
@@ -413,7 +413,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Returns true is the player is protected from electric shocks */
         bool is_elec_immune() const override;
         /** Returns true if the player is immune to this kind of effect */
-        bool is_immune_effect( const efftype_id& ) const override;
+        bool is_immune_effect( const efftype_id &) const override;
         /** Returns true if the player is immune to this kind of damage */
         bool is_immune_damage( const damage_type ) const override;
 
@@ -467,7 +467,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         void on_dodge( Creature *source, int difficulty = INT_MIN ) override;
         /** Handles special defenses from an attack that hit us (source can be null) */
         void on_hit( Creature *source, body_part bp_hit = num_bp,
-                     int difficulty = INT_MIN, dealt_projectile_attack const* const proj = nullptr ) override;
+                     int difficulty = INT_MIN, dealt_projectile_attack const *const proj = nullptr ) override;
         /** Handles effects that happen when the player is damaged and aware of the fact. */
         void on_hurt( Creature *source, bool disturb = true );
 
@@ -506,11 +506,12 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         std::vector<matec_id> get_all_techniques() const;
 
         /** Returns true if the player has a weapon or martial arts skill available with the entered technique */
-        bool has_technique( const matec_id & tec ) const;
+        bool has_technique( const matec_id &tec ) const;
         /** Returns a random valid technique */
         matec_id pick_technique(Creature &t,
                                 bool crit, bool dodge_counter, bool block_counter);
-        void perform_technique(const ma_technique &technique, Creature &t, damage_instance &di, int &move_cost);
+        void perform_technique(const ma_technique &technique, Creature &t, damage_instance &di,
+                               int &move_cost);
         /** Performs special attacks and their effects (poisonous, stinger, etc.) */
         void perform_special_attacks(Creature &t);
 
@@ -580,7 +581,8 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         int intimidation() const;
 
         /** Calls Creature::deal_damage and handles damaged effects (waking up, etc.) */
-        dealt_damage_instance deal_damage(Creature *source, body_part bp, const damage_instance &d) override;
+        dealt_damage_instance deal_damage(Creature *source, body_part bp,
+                                          const damage_instance &d) override;
         /** Actually hurt the player, hurts a body_part directly, no armor reduction */
         void apply_damage(Creature *source, body_part bp, int amount) override;
         /** Modifies a pain value by player traits before passing it to Creature::mod_pain() */
@@ -681,7 +683,8 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         bool takeoff( int pos, bool autodrop = false, std::vector<item> *items = nullptr );
         /** Removes the first item in the container's contents and wields it,
          * taking moves based on skill and volume of item being wielded. */
-        void wield_contents(item *container, bool force_invlet, const skill_id &skill_used, int volume_factor);
+        void wield_contents(item *container, bool force_invlet, const skill_id &skill_used,
+                            int volume_factor);
         /** Stores an item inside another item, taking moves based on skill and volume of item being stored. */
         void store(item *container, item *put, const skill_id &skill_used, int volume_factor);
         /** Draws the UI and handles player input for the armor re-ordering window */
@@ -695,12 +698,12 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
          * Returns true if it destroys the item. Consumes charges from the item.
          * Multi-use items are ONLY supported when all use_methods are iuse_actor!
          */
-        bool invoke_item( item*, const tripoint &pt );
+        bool invoke_item( item *, const tripoint &pt );
         /** As above, but with a pre-selected method. Debugmsg if this item doesn't have this method. */
-        bool invoke_item( item*, const std::string&, const tripoint &pt );
+        bool invoke_item( item *, const std::string &, const tripoint &pt );
         /** As above two, but with position equal to current position */
-        bool invoke_item( item* );
-        bool invoke_item( item*, const std::string& );
+        bool invoke_item( item *);
+        bool invoke_item( item *, const std::string &);
         /** Consumes charges from a tool or does nothing with a non-tool. Returns true if it destroys the item. */
         bool consume_charges(item *used, long charges_used);
         /** Removes selected gunmod from the entered weapon */
@@ -786,7 +789,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         int get_wind_resistance(body_part bp) const;
 
         int adjust_for_focus(int amount) const;
-        void practice( const Skill* s, int amount, int cap = 99 );
+        void practice( const Skill *s, int amount, int cap = 99 );
         void practice( const skill_id &s, int amount, int cap = 99 );
 
         void assign_activity(activity_type type, int moves, int index = -1, int pos = INT_MIN,
@@ -926,7 +929,8 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         void invalidate_crafting_inventory();
         std::vector<item> get_eligible_containers_for_crafting();
         std::list<item> consume_items(const std::vector<item_comp> &components, int batch = 1);
-        void consume_tools(const std::vector<tool_comp> &tools, int batch = 1, const std::string &hotkeys = DEFAULT_HOTKEYS);
+        void consume_tools(const std::vector<tool_comp> &tools, int batch = 1,
+                           const std::string &hotkeys = DEFAULT_HOTKEYS);
 
         // Auto move methods
         void set_destination(const std::vector<tripoint> &route);
@@ -1033,11 +1037,11 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
 
         int focus_pool;
 
-        void set_skill_level(const Skill* _skill, int level);
+        void set_skill_level(const Skill *_skill, int level);
         void set_skill_level(Skill const &_skill, int level);
         void set_skill_level(const skill_id &ident, int level);
 
-        void boost_skill_level(const Skill* _skill, int level);
+        void boost_skill_level(const Skill *_skill, int level);
         void boost_skill_level(const skill_id &ident, int level);
 
         std::map<std::string, const recipe *> learned_recipes;
@@ -1120,9 +1124,9 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
 
         int add_ammo_to_worn_quiver(item &ammo);
 
-        std::vector<mission*> get_active_missions() const;
-        std::vector<mission*> get_completed_missions() const;
-        std::vector<mission*> get_failed_missions() const;
+        std::vector<mission *> get_active_missions() const;
+        std::vector<mission *> get_completed_missions() const;
+        std::vector<mission *> get_failed_missions() const;
         /**
          * Returns the mission that is currently active. Returns null if mission is active.
          */
@@ -1198,7 +1202,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         int cached_turn;
         tripoint cached_position;
 
-        struct weighted_int_list<const char*> melee_miss_reasons;
+        struct weighted_int_list<const char *> melee_miss_reasons;
 
         int id; // A unique ID number, assigned by the game class private so it cannot be overwritten and cause save game corruptions.
         //NPCs also use this ID value. Values should never be reused.
@@ -1206,15 +1210,15 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
          * Missions that the player has accepted and that are not finished (one
          * way or the other).
          */
-        std::vector<mission*> active_missions;
+        std::vector<mission *> active_missions;
         /**
          * Missions that the player has successfully completed.
          */
-        std::vector<mission*> completed_missions;
+        std::vector<mission *> completed_missions;
         /**
          * Missions that have failed while being assigned to the player.
          */
-        std::vector<mission*> failed_missions;
+        std::vector<mission *> failed_missions;
         /**
          * The currently active mission, or null if no mission is currently in progress.
          */

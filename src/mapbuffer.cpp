@@ -135,7 +135,7 @@ void mapbuffer::save( bool delete_after_save )
         std::stringstream dirname;
         tripoint segment_addr = overmapbuffer::omt_to_seg_copy( om_addr );
         dirname << map_directory.str() << "/" << segment_addr.x << "." <<
-                     segment_addr.y << "." << segment_addr.z;
+                segment_addr.y << "." << segment_addr.z;
 
         std::stringstream quad_path;
         quad_path << dirname.str() << "/" << om_addr.x << "." <<
@@ -156,8 +156,8 @@ void mapbuffer::save( bool delete_after_save )
     }
 }
 
-void mapbuffer::save_quad( const std::string &dirname, const std::string &filename, 
-                           const tripoint &om_addr, std::list<tripoint> &submaps_to_delete, 
+void mapbuffer::save_quad( const std::string &dirname, const std::string &filename,
+                           const tripoint &om_addr, std::list<tripoint> &submaps_to_delete,
                            bool delete_after_save )
 {
     std::vector<point> offsets;
@@ -319,10 +319,10 @@ void mapbuffer::save_quad( const std::string &dirname, const std::string &filena
                     jsout.start_array();
                     for( auto &fld : sm->fld[i][j] ) {
                         const field_entry &cur = fld.second;
-                            // We don't seem to have a string identifier for fields anywhere.
-                            jsout.write( cur.getFieldType() );
-                            jsout.write( cur.getFieldDensity() );
-                            jsout.write( cur.getFieldAge() );
+                        // We don't seem to have a string identifier for fields anywhere.
+                        jsout.write( cur.getFieldType() );
+                        jsout.write( cur.getFieldDensity() );
+                        jsout.write( cur.getFieldAge() );
                     }
                     jsout.end_array();
                 }
@@ -449,19 +449,19 @@ submap *mapbuffer::unserialize_submaps( const tripoint &p )
                                 sm->frn[i][j] = furnmap[ "f_rubble" ].loadid;
                                 sm->itm[i][j].push_back( rock );
                                 sm->itm[i][j].push_back( rock );
-                            } else if (ter_string == "t_wreckage"){
+                            } else if (ter_string == "t_wreckage") {
                                 sm->ter[i][j] = termap[ "t_dirt" ].loadid;
                                 sm->frn[i][j] = furnmap[ "f_wreckage" ].loadid;
                                 sm->itm[i][j].push_back( chunk );
                                 sm->itm[i][j].push_back( chunk );
-                            } else if (ter_string == "t_ash"){
+                            } else if (ter_string == "t_ash") {
                                 sm->ter[i][j] = termap[ "t_dirt" ].loadid;
                                 sm->frn[i][j] = furnmap[ "f_ash" ].loadid;
-                            } else if (ter_string == "t_pwr_sb_support_l"){
+                            } else if (ter_string == "t_pwr_sb_support_l") {
                                 sm->ter[i][j] = termap[ "t_support_l" ].loadid;
-                            } else if (ter_string == "t_pwr_sb_switchgear_l"){
+                            } else if (ter_string == "t_pwr_sb_switchgear_l") {
                                 sm->ter[i][j] = termap[ "t_switchgear_l" ].loadid;
-                            } else if (ter_string == "t_pwr_sb_switchgear_s"){
+                            } else if (ter_string == "t_pwr_sb_switchgear_s") {
                                 sm->ter[i][j] = termap[ "t_switchgear_s" ].loadid;
                             } else {
                                 sm->ter[i][j] = terfind( ter_string );
@@ -566,7 +566,8 @@ submap *mapbuffer::unserialize_submaps( const tripoint &p )
                 jsin.start_array();
                 while( !jsin.end_array() ) {
                     jsin.start_array();
-                    const mtype_id type = mtype_id( jsin.get_string() ); // TODO: json should know how to read an string_id
+                    const mtype_id type = mtype_id(
+                                              jsin.get_string() ); // TODO: json should know how to read an string_id
                     int count = jsin.get_int();
                     int i = jsin.get_int();
                     int j = jsin.get_int();

@@ -8,7 +8,8 @@
 #include <algorithm>
 #include "json.h"
 
-class auto_pickup : public JsonSerializer, public JsonDeserializer {
+class auto_pickup : public JsonSerializer, public JsonDeserializer
+{
     private:
         // templated version of my_equal so it could work with both char and wchar_t
         template<typename charT>

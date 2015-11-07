@@ -28,29 +28,29 @@ class Skill
         // For loading old saves that still have integer-based ids.
         static const Skill *from_legacy_int( int legacy_id );
 
-        static const Skill* random_skill_with_tag(const std::string& tag);
-        static const Skill* random_skill();
+        static const Skill *random_skill_with_tag(const std::string &tag);
+        static const Skill *random_skill();
 
         static size_t skill_count();
         // clear skill vector, every skill pointer becames invalid!
         static void reset();
 
-        static std::vector<Skill const*> get_skills_sorted_by(
-            std::function<bool (Skill const&, Skill const&)> pred);
+        static std::vector<Skill const *> get_skills_sorted_by(
+            std::function<bool (Skill const &, Skill const &)> pred);
 
         Skill();
         Skill(skill_id ident, std::string name, std::string description,
               std::set<std::string> tags);
 
-        skill_id const& ident() const
+        skill_id const &ident() const
         {
             return _ident;
         }
-        std::string const& name() const
+        std::string const &name() const
         {
             return _name;
         }
-        std::string const& description() const
+        std::string const &description() const
         {
             return _description;
         }
@@ -109,7 +109,8 @@ class SkillLevel : public JsonSerializer, public JsonDeserializer
             return raw ? _exercise : _exercise / ( (_level + 1) * (_level + 1) );
         }
 
-        int exercised_level() const {
+        int exercised_level() const
+        {
             return level() * level() * 100 + exercise();
         }
 

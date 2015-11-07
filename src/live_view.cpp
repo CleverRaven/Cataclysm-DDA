@@ -10,7 +10,8 @@
 #include <map>
 #include <string>
 
-namespace {
+namespace
+{
 constexpr int START_LINE = 1;
 constexpr int START_COLUMN = 1;
 
@@ -23,7 +24,7 @@ void print_items(WINDOW *const w, const map_stack &items, int &line)
 
     int const last_line = getmaxy(w) - START_LINE - 1;
     int const max_w = getmaxx(w) - START_COLUMN - 1; // border
-    
+
     for (auto const &it : item_names) {
         if (line == last_line) {
             mvwprintz(w, line++, START_COLUMN, c_yellow, _("More items here..."));
@@ -33,7 +34,7 @@ void print_items(WINDOW *const w, const map_stack &items, int &line)
         if (it.second > 1) {
             //~ item name [quantity]
             trim_and_print(w, line++, START_COLUMN, max_w, c_white, _("%s [%d]"),
-                it.first.c_str(), it.second);
+                           it.first.c_str(), it.second);
         } else {
             trim_and_print(w, line++, START_COLUMN, max_w, c_white, "%s", it.first.c_str());
         }
@@ -82,7 +83,7 @@ void live_view::show(const int x, const int y)
     wprintz(*this, c_green, _("Mouse View"));
     wprintz(*this, c_white, " >");
     int line = START_LINE;
-    
+
     // TODO: Z
     tripoint p( x, y, g->get_levz() );
 

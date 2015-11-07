@@ -4,7 +4,8 @@
 class monster;
 class Creature;
 
-namespace mattack {
+namespace mattack
+{
 void none               (monster *z, int index);
 void antqueen           (monster *z, int index);
 void shriek             (monster *z, int index);
@@ -80,7 +81,8 @@ void ranged_pull        (monster *z, int index);
 void grab               (monster *z, int index);
 void grab_drag          (monster *z, int index);
 void suicide            (monster *z, int index);
-bool thrown_by_judo     (monster *z, int index); //handles zombie getting thrown when u.is_throw_immune()
+bool thrown_by_judo     (monster *z,
+                         int index); //handles zombie getting thrown when u.is_throw_immune()
 void riotbot            (monster *z, int index);
 void stretch_attack     (monster *z, int index);
 void stretch_bite       (monster *z, int index);

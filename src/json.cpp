@@ -44,17 +44,17 @@ std::string utf16_to_utf8(unsigned ch)
 
     buf += utf8Bytes;
     switch (utf8Bytes) {
-    case 4:
-        *--buf = (ch | 0x80) & 0xBF;
-        ch >>= 6;
-    case 3:
-        *--buf = (ch | 0x80) & 0xBF;
-        ch >>= 6;
-    case 2:
-        *--buf = (ch | 0x80) & 0xBF;
-        ch >>= 6;
-    case 1:
-        *--buf = ch | utf8FirstByte[utf8Bytes];
+        case 4:
+            *--buf = (ch | 0x80) & 0xBF;
+            ch >>= 6;
+        case 3:
+            *--buf = (ch | 0x80) & 0xBF;
+            ch >>= 6;
+        case 2:
+            *--buf = (ch | 0x80) & 0xBF;
+            ch >>= 6;
+        case 1:
+            *--buf = ch | utf8FirstByte[utf8Bytes];
     }
     out[utf8Bytes] = '\0';
     return out;
@@ -1430,7 +1430,7 @@ bool JsonIn::read(JsonDeserializer &j)
     try {
         j.deserialize(*this);
         return true;
-    } catch( const JsonError & ) {
+    } catch( const JsonError &) {
         return false;
     }
 }
@@ -1861,7 +1861,7 @@ void JsonDeserializer::deserialize(std::istream &i)
 }
 
 JsonError::JsonError( const std::string &msg )
-: std::runtime_error( msg )
+    : std::runtime_error( msg )
 {
 }
 
