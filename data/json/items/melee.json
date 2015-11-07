@@ -337,7 +337,7 @@
         "name": "grappling hook",
         "description": "A folding grappling hook attached to a stout 30-foot long piece of lightweight cord.  Useful for keeping yourself safe from falls.",
         "techniques" : ["RAPID", "SPIN"],
-        "flags" : ["WRAP", "DURABLE_MELEE"],
+        "flags" : ["WRAP", "DURABLE_MELEE", "BELT_CLIP"],
         "price": 25000,
         "material": ["cotton", "steel"],
         "weight": 760,
