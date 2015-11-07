@@ -20,7 +20,9 @@
               "f_dahlia": 8.3333,
               "f_datura": 4.3333,
               "f_dandelion": 8.3333,
-              "t_boulder": 8.3333
+              "f_boulder_small": 1,
+              "f_boulder_medium": 0.6666,
+              "f_boulder_large": 0.3333
           },
           "boost_chance": 0.833,            "//": "% of fields with boosted plant growth",
           "boosted_percent_coverage": 2.5,  "//": "for the above: total percent coverage jumps to this amount",
