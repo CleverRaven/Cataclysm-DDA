@@ -452,7 +452,7 @@ void game::init_ui()
         messX = MINIMAP_WIDTH;
         messY = 0;
         messW = sidebarWidth - messX;
-        messH = TERRAIN_WINDOW_TERM_HEIGHT - 5; // 1 for w_location + 4 for w_stat, w_messages starts at 0
+        messH = TERRAIN_WINDOW_TERM_HEIGHT - 6; // 1 for w_location + 4 for w_stat, w_messages starts at 0
         hpX = 0;
         hpY = MINIMAP_HEIGHT;
         // under the minimap, but down to the same line as w_location (which is under w_messages)
@@ -465,7 +465,7 @@ void game::init_ui()
         locW = sidebarWidth - locX;
         statX = 0;
         statY = locY + locH;
-        statH = 4;
+        statH = 5;
         statW = sidebarWidth;
 
         // The default style only uses one status window.
