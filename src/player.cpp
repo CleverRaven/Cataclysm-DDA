@@ -5337,27 +5337,36 @@ int player::hp_percentage() const
     return (100 * total_cur) / total_max;
 }
 
+// Returns the number of multiples of tick_length we would "pass" on our way `from` to now
+// For example, if `tick_length` is 1 hour, then going from 0:59 to 1:01 should return 1
+inline int ticks_till_now( int from, int tick_length )
+{
+    return (calendar::turn / tick_length) - (from - 1) / tick_length;
+}
+
 void player::update_body( int turns )
 {
-    if( calendar::once_every(MINUTES(5)) ) {
+    int from = calendar::turn - turns;
+    update_stamina( turns );
+    const int five_mins = ticks_till_now( from, MINUTES(5) );
+    if( five_mins > 0 ) {
         check_needs_extremes();
-        update_needs( 1 );
+        update_needs( five_mins );
         if( has_effect( "sleep" ) ) {
-            sleep_hp_regen( 1 );
+            sleep_hp_regen( five_mins );
         }
     }
 
-    if( calendar::once_every(MINUTES(30)) ) {
-        regen( 1 );
+    const int thirty_mins = ticks_till_now( from, MINUTES(30) );
+    if( thirty_mins > 0 ) {
+        regen( thirty_mins );
         get_sick();
-        mend( 1 );
+        mend( thirty_mins );
     }
 
     if( calendar::once_every(HOURS(6)) ) {
         update_health();
     }
-
-    update_stamina( turns );
 }
 
 void player::get_sick()

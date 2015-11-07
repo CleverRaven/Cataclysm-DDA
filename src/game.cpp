@@ -4312,7 +4312,7 @@ void game::debug()
                 set_turn( calendar::turn.hours(), HOURS(1), _("Set hour to?") );
                 break;
             case 4:
-                set_turn( calendar::turn.hours(), MINUTES(1), _("Set minute to?") );
+                set_turn( calendar::turn.minutes(), MINUTES(1), _("Set minute to?") );
                 break;
             case 5:
                 set_turn( calendar::turn.get_turn(), 1,
