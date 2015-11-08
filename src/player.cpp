@@ -13332,24 +13332,41 @@ std::string player::weapname(bool charges) const
     }
 }
 
-bool player::wield_contents(item *container, bool force_invlet, const skill_id& sk, int factor)
+bool player::wield_contents(item *container, int factor)
 {
     if (container->contents.empty()) {
         debugmsg("Tried to wield contents of empty container (player::wield_contents)");
     }
 
-    item& weap = container->contents[0];
-
-    if (!can_wield(&weap)) {
+    if (!can_wield(&container->contents[0])) {
         return false;
     }
 
-    int mv = (std::max(factor, 1) * weap.volume()) / std::max((int) get_skill_level(sk), 1);
+    int mv = 0;
+
+    if (is_armed()) {
+        if (volume_carried() + weapon.volume() - container->contents[0].volume() < volume_capacity()) {
+            inv.add_item_keep_invlet(remove_weapon());
+            mv += 15;
+        } else if (query_yn(_("No space in inventory for your %s.  Drop it?"), weapon.tname().c_str())) {
+            g->m.add_item_or_charges(posx(), posy(), remove_weapon());
+        } else {
+            return false;
+        }
+        inv.unsort();
+    }
+
+    weapon = container->contents[0];
+    inv.assign_empty_invlet(weapon, true);
+    last_item = itype_id(weapon.type->id);
+    container->contents.erase(container->contents.begin());
+
+    int lvl = get_skill_level(weapon.is_gun() ? weapon.gun_skill() : weapon.weap_skill());
+
+    mv += (weapon.volume() * factor) / std::max(lvl, 1);
     moves -= mv;
 
-    inv.assign_empty_invlet(weap, force_invlet);
-    wield(&(i_add(weap)));
-    container->contents.erase(container->contents.begin());
+    weapon.on_wield(*this, mv);
 
     return true;
 }

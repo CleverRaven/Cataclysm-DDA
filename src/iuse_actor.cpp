@@ -1729,11 +1729,7 @@ long holster_actor::use( player *p, item *it, bool, const tripoint& ) const
         p->add_msg_if_player(_("You need to unwield your %s before using it."), it->tname().c_str());
 
     } else if (!it->contents.empty()) {
-        // wield item contained in the holster
-        if (!p->is_armed() || p->wield(NULL)) {
-            item &obj = it->contents[0];
-            p->wield_contents(it, true, obj.is_gun() ? obj.gun_skill() : obj.weap_skill(), draw_speed);
-        }
+        p->wield_contents(it, draw_speed);
 
     } else {
         // when holster is empty show menu of suitable items that can be holstered
