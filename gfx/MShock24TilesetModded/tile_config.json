@@ -15166,6 +15166,12 @@
           "rotates": false
         },
         {
+          "id": "t_window_no_curtains_open",
+          "fg": 2037,
+          "bg": 535,
+          "rotates": false
+        },
+        {
           "id": "t_door_o_peep",
           "fg": 1762,
           "bg": 535
@@ -18156,6 +18162,12 @@
           "rotates": false
         },
         {
+          "id": "t_window_no_curtains",
+          "fg": 2029,
+          "bg": 535,
+          "rotates": false
+        },
+        {
           "id": "t_window_alarm",
           "fg": 2029,
           "bg": 535,
@@ -18181,6 +18193,12 @@
         },
         {
           "id": "t_window_taped",
+          "fg": 2030,
+          "bg": 535,
+          "rotates": false
+        },
+        {
+          "id": "t_window_no_curtains_taped",
           "fg": 2030,
           "bg": 535,
           "rotates": false
