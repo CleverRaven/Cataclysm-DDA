@@ -9140,7 +9140,7 @@
         "name" : "light survivor body armor",
         "weight" : 3000,
         "color" : "green",
-        "covers" : ["TORSO", "ARMS"],
+        "covers" : ["TORSO"],
         "to_hit" : -3,
         "storage" : 5,
         "symbol" : "[",
