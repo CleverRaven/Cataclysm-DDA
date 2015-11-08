@@ -10271,42 +10271,33 @@ bool player::wield(item* it, bool autodrop)
         }
     }
 
-    if (!is_armed()) {
-        if (is_wearing_item(*it)) {
-            it->on_takeoff(*this);
+    int mv = 0;
+
+    if (is_armed()) {
+        if (volume_carried() + weapon.volume() - it->volume() < volume_capacity()) {
+            inv.add_item_keep_invlet(remove_weapon());
+            mv += 15;
+        } else if (query_yn(_("No space in inventory for your %s.  Drop it?"), weapon.tname().c_str())) {
+            g->m.add_item_or_charges(posx(), posy(), remove_weapon());
+        } else {
+            return false;
         }
-        weapon = i_rem(it);
-        moves -= 30;
-        weapon.on_wield( *this );
-        last_item = itype_id(weapon.type->id);
-        return true;
-    } else if (volume_carried() + weapon.volume() - it->volume() < volume_capacity()) {
-        item tmpweap = remove_weapon();
-        if (is_wearing_item(*it)) {
-            it->on_takeoff(*this);
-        }
-        weapon = i_rem(it);
-        inv.add_item_keep_invlet(tmpweap);
         inv.unsort();
-        moves -= 45;
-        weapon.on_wield( *this );
-        last_item = itype_id(weapon.type->id);
-        return true;
-    } else if (query_yn(_("No space in inventory for your %s.  Drop it?"),
-                        weapon.tname().c_str())) {
-        g->m.add_item_or_charges(posx(), posy(), remove_weapon());
-        if (is_wearing_item(*it)) {
-            it->on_takeoff(*this);
-        }
-        weapon = i_rem(it);
-        inv.unsort();
-        moves -= 30;
-        weapon.on_wield( *this );
-        last_item = itype_id(weapon.type->id);
-        return true;
     }
 
-    return false;
+    if (is_wearing_item(*it)) {
+        it->on_takeoff(*this);
+    }
+
+    mv += 30;
+    moves -= mv;
+
+    weapon = i_rem(it);
+    last_item = itype_id(weapon.type->id);
+
+    weapon.on_wield(*this, mv);
+
+    return true;
 }
 
 // ids of martial art styles that are available with the bio_cqb bionic.
