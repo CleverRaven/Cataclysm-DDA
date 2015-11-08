@@ -194,6 +194,8 @@ void MonsterGenerator::init_attack()
     attack_map["NONE"] = &mattack::none;
     attack_map["ANTQUEEN"] = &mattack::antqueen;
     attack_map["SHRIEK"] = &mattack::shriek;
+    attack_map["SHRIEK_ALERT"] = &mattack::shriek_alert;
+    attack_map["SHRIEK_STUN"] = &mattack::shriek_stun;
     attack_map["RATTLE"] = &mattack::rattle;
     attack_map["HOWL"] = &mattack::howl;
     attack_map["ACID"] = &mattack::acid;
