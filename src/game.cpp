@@ -3860,7 +3860,7 @@ void game::debug()
     case 13: {
         add_msg(m_info, _("Recipe debug."));
         add_msg(_("Your eyes blink rapidly as knowledge floods your brain."));
-        for( auto &recipes_cat_iter : recipes ) {
+        for( auto &recipes_cat_iter : recipes_by_catagory ) {
             for( auto cur_recipe : recipes_cat_iter.second ) {
 
                 if (!(u.learned_recipes.find(cur_recipe->ident) != u.learned_recipes.end()))  {

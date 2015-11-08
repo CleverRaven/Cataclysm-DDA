@@ -7683,8 +7683,8 @@ bool einkpc_download_memory_card(player *p, item *eink, item *mc)
 
         std::vector<const recipe *> candidates;
 
-        for( auto &recipe : recipes ) {
-            for( auto &elem : recipe.second ) {
+        for( auto &catagory : recipes_by_catagory ) {
+            for( auto &elem : catagory.second ) {
 
                 const int dif = ( elem )->difficulty;
 
@@ -9112,8 +9112,8 @@ int iuse::multicooker(player *p, item *it, bool t, const tripoint &pos)
 
             int counter = 1;
 
-            for( auto &recipe : recipes ) {
-                for( auto &elem : recipe.second ) {
+            for( auto &catagory : recipes_by_catagory ) {
+                for( auto &elem : catagory.second ) {
                     if( ( elem )->cat == "CC_FOOD" && ( ( elem )->subcat == "CSC_FOOD_MEAT" ||
                                                         ( elem )->subcat == "CSC_FOOD_VEGGI" ||
                                                         ( elem )->subcat == "CSC_FOOD_PASTA" ) ) {

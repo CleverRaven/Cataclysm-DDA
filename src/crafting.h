@@ -25,7 +25,7 @@ typedef int nc_color; // From color.h
 using itype_id     = std::string; // From itype.h
 
 // Global list of valid recipes
-extern std::map<std::string, std::vector<recipe *>> recipes;
+extern std::map<std::string, std::vector<recipe *>> recipes_by_catagory;
 // Global reverse lookup
 extern std::map<itype_id, std::vector<recipe *>> recipes_by_component;
 

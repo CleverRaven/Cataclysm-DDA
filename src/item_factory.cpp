@@ -73,12 +73,12 @@ void Item_factory::finialize_item_blacklist()
         for( auto &elem : m_template_groups ) {
             elem.second->remove_item( itm );
         }
-        for( auto &recipes_b : recipes ) {
-            for( size_t c = 0; c < recipes_b.second.size(); c++ ) {
-                recipe *r = recipes_b.second[c];
+        for( auto &catagory : recipes_by_catagory ) {
+            for( size_t c = 0; c < catagory.second.size(); c++ ) {
+                recipe *r = catagory.second[c];
                 if( r->result == itm || r->requirements.remove_item(itm) ) {
                     delete r;
-                    recipes_b.second.erase( recipes_b.second.begin() + c );
+                    catagory.second.erase( catagory.second.begin() + c );
                     c--;
                     continue;
                 }
