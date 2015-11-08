@@ -5435,7 +5435,7 @@ void player::check_needs_extremes()
         hp_cur[hp_torso] = 0;
     }
     // Check if we're starving or have starved
-    if (get_hunger() >= 3000) {
+    if( is_player() && get_hunger() >= 3000 ) {
         if (get_hunger() >= 6000) {
             add_msg_if_player(m_bad, _("You have starved to death."));
             add_memorial_log(pgettext("memorial_male", "Died of starvation."),
@@ -5451,7 +5451,7 @@ void player::check_needs_extremes()
     }
 
     // Check if we're dying of thirst
-    if( thirst >= 600 ) {
+    if( is_player() && thirst >= 600 ) {
         if( thirst >= 1200 ) {
             add_msg_if_player(m_bad, _("You have died of dehydration."));
             add_memorial_log(pgettext("memorial_male", "Died of thirst."),
