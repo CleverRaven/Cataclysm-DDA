@@ -7069,54 +7069,6 @@ int iuse::belt_loop (player *p, item *it, bool, const tripoint&)
     return it->type->charges_to_use();
 }
 
-int iuse::boots(player *p, item *it, bool, const tripoint& )
-{
-    int choice = -1;
-    if (it->contents.empty()) {
-        choice = menu(true, _("Using boots:"), _("Put a knife in the boot"), _("Cancel"), NULL);
-    } else if( &p->weapon == it ) {
-        p->add_msg_if_player( _( "You need to stop wielding the %s before using it." ), it->tname().c_str() );
-        return 0;
-    } else if (it->contents.size() == 1) {
-        choice = menu(true, _("Take what:"), it->contents[0].tname().c_str(), _("Put a knife in the boot"),
-                      _("Cancel"), NULL);
-    } else {
-        choice = menu(true, _("Take what:"), it->contents[0].tname().c_str(),
-                      it->contents[1].tname().c_str(), _("Cancel"), NULL);
-    }
-
-    if ((it->contents.size() > 0 && choice == 1) || // Pull 1st
-        (it->contents.size() > 1 && choice == 2)) {  // Pull 2nd
-        p->moves -= 15;
-        item &knife = it->contents[choice - 1];
-        if (!p->is_armed() || p->wield(NULL)) {
-            p->inv.assign_empty_invlet(knife, true);  // force getting an invlet.
-            p->wield(&(p->i_add(knife)));
-            it->contents.erase(it->contents.begin() + choice - 1);
-        }
-    } else if ((it->contents.empty() && choice == 1) || // Put 1st
-               (it->contents.size() == 1 && choice == 2)) { // Put 2st
-        int inventory_index = g->inv_for_flag("SHEATH_KNIFE", _("Put what?"), false);
-        item *put = &(p->i_at(inventory_index));
-        if (put == NULL || put->is_null()) {
-            p->add_msg_if_player(m_info, _("You do not have that item!"));
-            return 0;
-        }
-        if (!put->has_flag("SHEATH_KNIFE")) {
-            p->add_msg_if_player(m_info, _("That isn't a knife!"));
-            return 0;
-        }
-        if (put->volume() > 5) {
-            p->add_msg_if_player(m_info, _("That item does not fit in your boot!"));
-            return 0;
-        }
-        p->moves -= 30;
-        p->add_msg_if_player(_("You put the %s in your boot."), put->tname().c_str());
-        it->put_in(p->i_rem(inventory_index));
-    }
-    return it->type->charges_to_use();
-}
-
 int iuse::towel(player *p, item *it, bool t, const tripoint& )
 {
     if( t ) {

@@ -1444,11 +1444,6 @@ std::string item::info(bool showtext, std::vector<iteminfo> &dump_ref) const
             dump->push_back(iteminfo("DESCRIPTION",
                 _("This gear has an alarm clock feature.")));
         }
-        if (is_armor() && has_flag("BOOTS")) {
-            dump->push_back(iteminfo("DESCRIPTION", "--"));
-            dump->push_back(iteminfo("DESCRIPTION",
-                _("You can store knives in this gear.")));
-        }
         if (is_armor() && has_flag("FANCY")) {
             dump->push_back(iteminfo("DESCRIPTION", "--"));
             dump->push_back(iteminfo("DESCRIPTION",
