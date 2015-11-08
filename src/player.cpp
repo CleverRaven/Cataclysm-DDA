@@ -13332,20 +13332,38 @@ std::string player::weapname(bool charges) const
     }
 }
 
-bool player::wield_contents(item *container, int factor)
+bool player::wield_contents(item *container, int pos, int factor)
 {
     if (container->contents.empty()) {
         debugmsg("Tried to wield contents of empty container (player::wield_contents)");
+        return false;
     }
 
-    if (!can_wield(&container->contents[0])) {
+    // if index not specified and container has multiple items then ask the player to choose one
+    if (pos < 0) {
+        std::vector<std::string> opts;
+        std::transform(container->contents.begin(), container->contents.end(), std::back_inserter(opts),
+                       [](const item& elem) { return elem.display_name(); });
+
+        if (opts.size() > 1) {
+            pos = (uimenu(false, _("Wield what?"), opts)) - 1;
+        } else {
+            pos = 0;
+        }
+    }
+
+    if (pos > static_cast<int>(container->contents.size())) {
+        debugmsg("Tried to wield non-existent item from container (player::wield_contents)");
+    }
+
+    if (!can_wield(&container->contents[pos])) {
         return false;
     }
 
     int mv = 0;
 
     if (is_armed()) {
-        if (volume_carried() + weapon.volume() - container->contents[0].volume() < volume_capacity()) {
+        if (volume_carried() + weapon.volume() - container->contents[pos].volume() < volume_capacity()) {
             inv.add_item_keep_invlet(remove_weapon());
             mv += 15;
         } else if (query_yn(_("No space in inventory for your %s.  Drop it?"), weapon.tname().c_str())) {
@@ -13356,10 +13374,10 @@ bool player::wield_contents(item *container, int factor)
         inv.unsort();
     }
 
-    weapon = container->contents[0];
+    weapon = container->contents[pos];
     inv.assign_empty_invlet(weapon, true);
     last_item = itype_id(weapon.type->id);
-    container->contents.erase(container->contents.begin());
+    container->contents.erase(container->contents.begin() + pos);
 
     int lvl = get_skill_level(weapon.is_gun() ? weapon.gun_skill() : weapon.weap_skill());
 

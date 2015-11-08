@@ -681,9 +681,10 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
          *  is given, stores the items in that vector and not in the inventory */
         bool takeoff( item *target, bool autodrop = false, std::vector<item> *items = nullptr );
         bool takeoff( int pos, bool autodrop = false, std::vector<item> *items = nullptr );
-        /** If first item in container can be wielded removes it consuming moves proportional to weapon skill and volume.
+        /** Try to wield a contained item consuming moves proportional to weapon skill and volume.
+         *  @param pos index of contained item to wield. Set to -1 to show menu if container has more than one item
          *  @param factor scales moves cost and can be set to zero if item should be wielded without any delay */
-        bool wield_contents(item *container, int factor = 10);
+        bool wield_contents(item *container, int pos = 0, int factor = 10);
         /** Stores an item inside another item, taking moves based on skill and volume of item being stored. */
         void store(item *container, item *put, const skill_id &skill_used, int volume_factor);
         /** Draws the UI and handles player input for the armor re-ordering window */
