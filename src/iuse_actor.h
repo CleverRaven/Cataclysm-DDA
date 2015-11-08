@@ -614,8 +614,10 @@ class holster_actor : public iuse_actor
         int multi;
         /** Base move cost per unit volume when wielding the contained item */
         int draw_speed;
-        /** Only items using these weapon skills or item flags can be holstered */
-        std::vector<std::string> allow;
+        /** Guns using any of these skills can be holstered */
+        std::vector<skill_id> skills;
+        /** Items with any of these flags set can be holstered */
+        std::vector<std::string> flags;
 
         holster_actor() : iuse_actor(), max_weight(-1), multi(1), draw_speed(10) { }
         virtual ~holster_actor() { }

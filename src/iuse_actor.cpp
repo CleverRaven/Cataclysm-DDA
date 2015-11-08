@@ -1721,7 +1721,11 @@ void holster_actor::load( JsonObject &obj )
     multi      = obj.get_int("multi",      multi);
     draw_speed = obj.get_int("draw_speed", draw_speed);
 
-    allow = obj.get_string_array("allow");
+    auto tmp = obj.get_string_array("skills");
+    std::transform(tmp.begin(), tmp.end(), std::back_inserter(skills),
+		   [](const std::string& elem) { return skill_id(elem); });
+
+    flags = obj.get_string_array("flags");
 }
 
 long holster_actor::use( player *p, item *it, bool, const tripoint& ) const
@@ -1758,9 +1762,8 @@ long holster_actor::use( player *p, item *it, bool, const tripoint& ) const
                 return false;
             }
 
-            return std::any_of(allow.begin(), allow.end(), [&](const std::string& str) {
-                return e.has_flag(str) || e.gun_skill() == skill_id(str);
-            });
+            return std::any_of(flags.begin(), flags.end(), [&](const std::string& f) { return e.has_flag(f); }) ||
+                   std::find(skills.begin(), skills.end(), e.gun_skill()) != skills.end();
         }));
 
         if (obj.is_null()) {
@@ -1784,8 +1787,9 @@ long holster_actor::use( player *p, item *it, bool, const tripoint& ) const
                                  obj.tname().c_str(), it->tname().c_str());
             return 0;
         }
-        if (!std::any_of(allow.begin(), allow.end(), [&](const std::string& str) {
-                         return obj.has_flag(str) || obj.gun_skill() == skill_id(str); }))
+
+        if (std::none_of(flags.begin(), flags.end(), [&](const std::string& f) { return obj.has_flag(f); }) &&
+            std::find(skills.begin(), skills.end(), obj.gun_skill()) == skills.end())
         {
             p->add_msg_if_player(m_info, _("You can't put your %s in your %s"),
                                  obj.tname().c_str(), it->tname().c_str());

@@ -328,7 +328,7 @@
             "multi": 2,
             "max_volume": 1,
             "draw_speed": 50,
-            "allow": ["SHEATH_KNIFE"]
+            "flags": ["SHEATH_KNIFE"]
         }
     },
     {
@@ -361,7 +361,7 @@
             "multi": 2,
             "max_volume": 1,
             "draw_speed": 50,
-            "allow": ["SHEATH_KNIFE"]
+            "flags": ["SHEATH_KNIFE"]
         }
     },
     {
@@ -394,7 +394,7 @@
             "multi": 2,
             "max_volume": 1,
             "draw_speed": 50,
-            "allow": ["SHEATH_KNIFE"]
+            "flags": ["SHEATH_KNIFE"]
         }
     },
     {
@@ -427,7 +427,7 @@
             "multi": 2,
             "max_volume": 1,
             "draw_speed": 50,
-            "allow": ["SHEATH_KNIFE"]
+            "flags": ["SHEATH_KNIFE"]
         }
     },
     {
@@ -484,7 +484,7 @@
             "multi": 2,
             "max_volume": 1,
             "draw_speed": 50,
-            "allow": ["SHEATH_KNIFE"]
+            "flags": ["SHEATH_KNIFE"]
         }
     },
     {
@@ -517,7 +517,7 @@
             "multi": 2,
             "max_volume": 1,
             "draw_speed": 50,
-            "allow": ["SHEATH_KNIFE"]
+            "flags": ["SHEATH_KNIFE"]
         }
     },
     {
@@ -551,7 +551,7 @@
             "multi": 2,
             "max_volume": 1,
             "draw_speed": 50,
-            "allow": ["SHEATH_KNIFE"]
+            "flags": ["SHEATH_KNIFE"]
         }
     },
     {
@@ -584,7 +584,7 @@
             "multi": 2,
             "max_volume": 1,
             "draw_speed": 50,
-            "allow": ["SHEATH_KNIFE"]
+            "flags": ["SHEATH_KNIFE"]
         }
     },
     {
@@ -617,7 +617,7 @@
             "multi": 2,
             "max_volume": 1,
             "draw_speed": 50,
-            "allow": ["SHEATH_KNIFE"]
+            "flags": ["SHEATH_KNIFE"]
         }
     },
     {
@@ -650,7 +650,7 @@
             "multi": 2,
             "max_volume": 1,
             "draw_speed": 50,
-            "allow": ["SHEATH_KNIFE"]
+            "flags": ["SHEATH_KNIFE"]
         }
     },
     {
@@ -869,7 +869,7 @@
             "multi": 2,
             "max_volume": 1,
             "draw_speed": 50,
-            "allow": ["SHEATH_KNIFE"]
+            "flags": ["SHEATH_KNIFE"]
         }
     },
     {
@@ -903,7 +903,7 @@
             "multi": 2,
             "max_volume": 1,
             "draw_speed": 50,
-            "allow": ["SHEATH_KNIFE"]
+            "flags": ["SHEATH_KNIFE"]
         }
     },
     {
@@ -937,7 +937,7 @@
             "multi": 2,
             "max_volume": 1,
             "draw_speed": 50,
-            "allow": ["SHEATH_KNIFE"]
+            "flags": ["SHEATH_KNIFE"]
         }
     },
     {
@@ -3159,7 +3159,7 @@
             "type": "holster",
             "max_volume": 7,
             "max_weight": 4000,
-            "allow": ["pistol", "smg", "shotgun", "rifle"]
+            "skills": ["pistol", "smg", "shotgun", "rifle"]
         }
     },
         {
@@ -5511,7 +5511,7 @@
             "multi": 2,
             "max_volume": 1,
             "draw_speed": 50,
-            "allow": ["SHEATH_KNIFE"]
+            "flags": ["SHEATH_KNIFE"]
         }
     },
     {
@@ -6477,7 +6477,7 @@
             "multi": 2,
             "max_volume": 1,
             "draw_speed": 50,
-            "allow": ["SHEATH_KNIFE"]
+            "flags": ["SHEATH_KNIFE"]
         }
     },
     {
@@ -7458,7 +7458,7 @@
         "use_action" : {
             "type": "holster",
             "max_volume": 5,
-            "allow": ["pistol", "smg", "shotgun"]
+            "skills": ["pistol", "smg", "shotgun"]
         }
     },
     {
@@ -7486,7 +7486,7 @@
             "type": "holster",
             "max_volume": 4,
             "draw_speed": 3,
-            "allow": ["pistol", "shotgun"]
+            "skills": ["pistol", "shotgun"]
         }
     },
     {
@@ -7515,7 +7515,7 @@
             "max_volume": 15,
             "max_weight": 8000,
             "draw_speed": 20,
-            "allow": ["SHEATH_SWORD"]
+            "flags": ["SHEATH_SWORD"]
         }
     },
     {
@@ -7543,7 +7543,7 @@
             "type": "holster",
             "max_volume": 2,
             "draw_speed": 20,
-            "allow": ["pistol"]
+            "skills": ["pistol"]
         }
     },
     {
@@ -7574,7 +7574,7 @@
             "holster_msg": "You sheath your %s",
             "max_volume": 2,
             "draw_speed": 20,
-            "allow": ["SHEATH_KNIFE"]
+            "flags": ["SHEATH_KNIFE"]
         }
     },
     {
@@ -7605,7 +7605,7 @@
             "holster_msg": "You sheath your %s",
             "max_volume": 3,
             "draw_speed": 5,
-            "allow": ["SHEATH_KNIFE"]
+            "flags": ["SHEATH_KNIFE"]
         }
     },
     {
@@ -7726,7 +7726,7 @@
             "holster_prompt": "Sheath sword",
             "holster_msg": "You sheath your %s",
             "max_volume": 8,
-            "allow": ["SHEATH_SWORD"]
+            "flags": ["SHEATH_SWORD"]
         }
     },
     {
@@ -9373,7 +9373,7 @@
             "multi": 2,
             "max_volume": 1,
             "draw_speed": 50,
-            "allow": ["SHEATH_KNIFE"]
+            "flags": ["SHEATH_KNIFE"]
         }
     },
     {
@@ -9482,7 +9482,7 @@
             "multi": 2,
             "max_volume": 1,
             "draw_speed": 50,
-            "allow": ["SHEATH_KNIFE"]
+            "flags": ["SHEATH_KNIFE"]
         }
     },
     {
@@ -9638,7 +9638,7 @@
             "multi": 2,
             "max_volume": 1,
             "draw_speed": 50,
-            "allow": ["SHEATH_KNIFE"]
+            "flags": ["SHEATH_KNIFE"]
         }
     },
     {
@@ -9794,7 +9794,7 @@
             "multi": 2,
             "max_volume": 1,
             "draw_speed": 50,
-            "allow": ["SHEATH_KNIFE"]
+            "flags": ["SHEATH_KNIFE"]
         }
     },
     {
@@ -9877,7 +9877,7 @@
             "multi": 2,
             "max_volume": 1,
             "draw_speed": 50,
-            "allow": ["SHEATH_KNIFE"]
+            "flags": ["SHEATH_KNIFE"]
         }
     },
     {
@@ -9911,7 +9911,7 @@
             "multi": 2,
             "max_volume": 1,
             "draw_speed": 50,
-            "allow": ["SHEATH_KNIFE"]
+            "flags": ["SHEATH_KNIFE"]
         }
     },
     {
@@ -9945,7 +9945,7 @@
             "multi": 2,
             "max_volume": 1,
             "draw_speed": 50,
-            "allow": ["SHEATH_KNIFE"]
+            "flags": ["SHEATH_KNIFE"]
         }
     },
     {
@@ -10895,7 +10895,7 @@
             "multi": 2,
             "max_volume": 1,
             "draw_speed": 50,
-            "allow": ["SHEATH_KNIFE"]
+            "flags": ["SHEATH_KNIFE"]
         }
     },
     {
@@ -11861,7 +11861,7 @@
             "holster_prompt": "Sheath blade",
             "holster_msg": "You sheath your %s",
             "max_volume": 4,
-            "allow": ["SHEATH_KNIFE", "SHEATH_SWORD"]
+            "flags": ["SHEATH_KNIFE", "SHEATH_SWORD"]
         }
     },
     {
