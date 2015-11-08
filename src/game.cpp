@@ -765,7 +765,7 @@ void game::load_npcs()
             if (temp->my_fac != NULL)
                 temp->my_fac->known_by_u = true;
             active_npc.push_back( temp );
-            just_added.push_back( active_npc[active_npc.size() - 1] );
+            just_added.push_back( temp );
         }
     }
 
