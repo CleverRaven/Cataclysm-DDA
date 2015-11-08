@@ -1648,12 +1648,12 @@ void player::complete_craft()
     if (making->difficulty != 0 && diff_roll > skill_roll * (1 + 0.1 * rng(1, 5))) {
         add_msg(m_bad, _("You fail to make the %s, and waste some materials."),
                 item::nname(making->result).c_str());
-		for (unsigned int i = 0; i < making->requirements.components.size(); i++) {
-            consume_items(comp_selections[i], batch_size); // we consume the items we selected earlier
+		for (const auto &it : comp_selections) {
+            consume_items(it, batch_size); // we consume the items we selected earlier
         }
 
-        for (unsigned int i = 0; i < making->requirements.tools.size(); i++) {
-            consume_tools(tool_selections[i], batch_size);
+        for (const auto &it : tool_selections) {
+            consume_tools(it, batch_size);
         }
         activity.type = ACT_NULL;
         return;
@@ -1670,12 +1670,12 @@ void player::complete_craft()
     // If we're here, the craft was a success!
     // Use up the components and tools
     std::list<item> used;
-    for (unsigned int i = 0; i < making->requirements.components.size(); i++) {
-        std::list<item> tmp = consume_items(comp_selections[i], batch_size); // again, we consume the items we selected earlier
+    for (const auto &it : comp_selections) {
+        std::list<item> tmp = consume_items(it, batch_size); // again, we consume the items we selected earlier
         used.splice(used.end(), tmp);
     }
-	for (unsigned int i = 0; i < making->requirements.tools.size(); i++) {
-        consume_tools(tool_selections[i], batch_size);
+	for (const auto &it : tool_selections) {
+        consume_tools(it, batch_size);
     }
 
     // Set up the new item, and assign an inventory letter if available
