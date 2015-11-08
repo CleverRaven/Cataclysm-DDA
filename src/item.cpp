@@ -1881,6 +1881,11 @@ void item::on_wield( player &p, int mv )
     }
 
     p.add_msg_if_player(msg.c_str(), tname().c_str());
+
+    // diamond knives glimmer in the sunlight
+    if (made_of("diamond") && g->is_in_sunlight(p.pos())) {
+        p.add_msg_if_player(_("The %s glimmers magnificently in the sunlight."), tname().c_str());
+    }
 }
 
 void item::on_pickup( Character &p  )
