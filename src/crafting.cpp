@@ -32,19 +32,13 @@ enum usage {
 	cancel = 5
 };
 
+template<typename CompType>
 struct comp_selection {
-	usage use_from;
-	item_comp comp;
-
-	comp_selection() : use_from(usage::use_from_none), comp(item_comp("", 0)) { }
+    usage use_from = use_from_none;
+    CompType comp;
 };
-
-struct tool_selection {
-	usage use_from;
-	tool_comp comp;
-
-	tool_selection() : use_from(usage::use_from_none), comp(tool_comp("", 0)) { }
-};
+using item_selection = comp_selection<item_comp>;
+using tool_selection = comp_selection<tool_comp>;
 
 enum TAB_MODE {
     NORMAL,
@@ -1588,15 +1582,15 @@ void player::complete_craft()
     }
 
 	/* we select the components we want to use */
-	std::vector<comp_selection> comp_selections = std::vector<comp_selection>();
+	std::vector<item_selection> comp_selections = std::vector<item_selection>();
 	for (auto &it : making->requirements.components) {
-		comp_selection cs = select_component(it, batch_size, true);
-		if (cs.use_from == usage::cancel) {
+		item_selection is = select_component(it, batch_size, true);
+		if (is.use_from == usage::cancel) {
 			/* we canceled componenet selection, so we cancel crafting */
 			activity.type = ACT_NULL;
 			return;
 		}
-		comp_selections.push_back(cs);
+		comp_selections.push_back(is);
 	}
 
 	std::vector<tool_selection> tool_selections = std::vector<tool_selection>();
@@ -1792,12 +1786,12 @@ void set_item_inventory(item &newit)
 }
 
 /* selection of component if a recipe requirement has multiple options (e.g. 'duct tap' or 'welder') */
-comp_selection player::select_component(const std::vector<item_comp> &components, int batch, bool can_cancel) {
+item_selection player::select_component(const std::vector<item_comp> &components, int batch, bool can_cancel) {
 	std::vector<item_comp> player_has;
 	std::vector<item_comp> map_has;
 	std::vector<item_comp> mixed;
 
-	comp_selection selected = comp_selection();
+	item_selection selected;
 	inventory map_inv;
 	map_inv.form_from_map(pos3(), PICKUP_RANGE);
 
@@ -1903,14 +1897,14 @@ comp_selection player::select_component(const std::vector<item_comp> &components
 	return selected;
 }
 
-std::list<item> player::consume_items(const comp_selection &cs, int batch) {
+std::list<item> player::consume_items(const item_selection &is, int batch) {
 	std::list<item> ret;
 
 	if (has_trait("DEBUG_HS")) {
 		return ret;
 	}
 
-	item_comp selected_comp = cs.comp;
+	item_comp selected_comp = is.comp;
 
 	const tripoint &loc = pos3();
 	const bool by_charges = (item::count_by_charges(selected_comp.type) && selected_comp.count > 0);
@@ -1918,7 +1912,7 @@ std::list<item> player::consume_items(const comp_selection &cs, int batch) {
 	long real_count = (selected_comp.count > 0) ? selected_comp.count * batch : abs(selected_comp.count);
 	const bool in_container = (selected_comp.count < 0);
 	// First try to get everything from the map, than (remaining amount) from player
-	if (cs.use_from == usage::use_from_map) {
+	if (is.use_from == usage::use_from_map) {
 		if (by_charges) {
 			std::list<item> tmp = g->m.use_charges(loc, PICKUP_RANGE, selected_comp.type, real_count);
 			ret.splice(ret.end(), tmp);
@@ -1930,7 +1924,7 @@ std::list<item> player::consume_items(const comp_selection &cs, int batch) {
 			ret.splice(ret.end(), tmp);
 		}
 	}
-	if (cs.use_from == usage::use_from_player) {
+	if (is.use_from == usage::use_from_player) {
 		if (by_charges) {
 			std::list<item> tmp = use_charges(selected_comp.type, real_count);
 			ret.splice(ret.end(), tmp);

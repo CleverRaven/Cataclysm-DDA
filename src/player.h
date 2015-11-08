@@ -32,8 +32,9 @@ struct tool_comp;
 class vehicle;
 struct it_comest;
 struct w_point;
-struct comp_selection;
-struct tool_selection;
+template<typename CompType> struct comp_selection;
+using item_selection = comp_selection<item_comp>;
+using tool_selection = comp_selection<tool_comp>;
 
 struct special_attack {
     std::string text;
@@ -927,8 +928,8 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         const inventory &crafting_inventory(); // includes nearby items
         void invalidate_crafting_inventory();
         std::vector<item> get_eligible_containers_for_crafting();
-		comp_selection select_component(const std::vector<item_comp> &components, int batch, bool can_cancel = false);
-		std::list<item> consume_items(const comp_selection &cs, int batch);
+		item_selection select_component(const std::vector<item_comp> &components, int batch, bool can_cancel = false);
+		std::list<item> consume_items(const item_selection &cs, int batch);
         std::list<item> consume_items(const std::vector<item_comp> &components, int batch = 1);
 		tool_selection select_tool(const std::vector<tool_comp> &tools, int batch, const std::string &hotkeys = DEFAULT_HOTKEYS, bool can_cancel = false);
 		void consume_tools(const tool_selection &tool, int batch);
