@@ -2420,13 +2420,13 @@ bool item::has_property( const std::string& prop ) const {
    return type->properties.find(prop) != type->properties.end();
 }
 
-std::string item::get_property( const std::string &prop, const std::string& def ) const
+std::string item::get_property_string( const std::string &prop, const std::string& def ) const
 {
     const auto it = type->properties.find(prop);
     return it != type->properties.end() ? it->second : def;
 }
 
-long item::get_property( const std::string& prop, long def ) const
+long item::get_property_long( const std::string& prop, long def ) const
 {
     const auto it = type->properties.find( prop );
     if  (it != type->properties.end() ) {

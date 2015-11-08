@@ -6698,11 +6698,12 @@ int iuse::holster_gun(player *p, item *it, bool, const tripoint& )
 {
     // if holster is empty, pull up menu asking what to holster
     if (it->contents.empty()) {
-        int maxvol = it->get_property("holster_size", 0);
+        int maxvol = it->get_property_long("holster_size", 0);
         int minvol = maxvol / 3;
 
         auto filter = [maxvol, minvol]( const item &it ) {
-            return it.is_gun() && it.volume() <= maxvol && it.volume() >= minvol && (it.skill() != skill_archery);
+            return it.is_gun() && it.volume() <= maxvol && it.volume() >= minvol &&
+                it.skill() != skill_archery;
         };
         int const inventory_index = g->inv_for_filter( _("Holster what?"), filter );
         item &put = p->i_at( inventory_index );
@@ -7029,14 +7030,14 @@ int iuse::belt_loop (player *p, item *it, bool, const tripoint&)
         }
 
         // only allow items smaller than a certain size
-        if (put.volume() > it->get_property("max_volume", 2)) {
+        if( put.volume() > it->get_property_long( "max_volume", 2 ) ) {
             p->add_msg_if_player(m_info, _("Your %s is too large to fit in your %s!"),
                                            put.tname().c_str(), it->tname().c_str());
             return 0;
         }
 
         // only allow items less than a certain weight
-        if (put.weight() > it->get_property("max_weight", 600)) {
+        if( put.weight() > it->get_property_long( "max_weight", 600 ) ) {
             p->add_msg_if_player(m_info, _("Your %s is too heavy to attach to your %s!"),
                                            put.tname().c_str(), it->tname().c_str());
             return 0;
@@ -9532,7 +9533,7 @@ int iuse::capture_monster_act( player *p, item *it, bool, const tripoint &pos )
                 debugmsg( "%s has no monster_size_capacity.", it->tname().c_str() );
                 return 0;
             }
-            const std::string capacity = it->get_property( "monster_size_capacity" );
+            const std::string capacity = it->get_property_string( "monster_size_capacity" );
             if( Creature::size_map.count( capacity ) == 0 ) {
                 debugmsg( "%s has invalid monster_size_capacity %s.",
                           it->tname().c_str(), capacity.c_str() );
