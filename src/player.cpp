@@ -9164,15 +9164,15 @@ std::vector<item *> player::inv_dump()
     return ret;
 }
 
-std::list<item> player::use_amount(itype_id it, int _quantity, bool use_container)
+std::list<item> player::use_amount(itype_id it, int _quantity)
 {
     std::list<item> ret;
     long quantity = _quantity; // Don't wanny change the function signature right now
-    if (weapon.use_amount(it, quantity, use_container, ret)) {
+    if (weapon.use_amount(it, quantity, ret)) {
         remove_weapon();
     }
     for( auto a = worn.begin(); a != worn.end() && quantity > 0; ) {
-        if( a->use_amount( it, quantity, use_container, ret ) ) {
+        if( a->use_amount( it, quantity, ret ) ) {
             a = worn.erase( a );
         } else {
             ++a;
@@ -9181,7 +9181,7 @@ std::list<item> player::use_amount(itype_id it, int _quantity, bool use_containe
     if (quantity <= 0) {
         return ret;
     }
-    std::list<item> tmp = inv.use_amount(it, quantity, use_container);
+    std::list<item> tmp = inv.use_amount(it, quantity);
     ret.splice(ret.end(), tmp);
     return ret;
 }

@@ -331,11 +331,9 @@ public:
   * @see item::use_charges - this is similar for items, not charges.
   * @param it Type of consumable item.
   * @param quantity How much to consumed.
-  * @param use_container If the contents of an item are used, also use the
-  * container it was in.
   * @param used On success all consumed items will be stored here.
   */
- bool use_amount(const itype_id &it, long &quantity, bool use_container, std::list<item> &used);
+ bool use_amount(const itype_id &it, long &quantity, std::list<item> &used);
 
     /**
      * @name Containers

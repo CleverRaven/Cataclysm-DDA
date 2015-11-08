@@ -864,7 +864,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
 
         // has_amount works ONLY for quantity.
         // has_charges works ONLY for charges.
-        std::list<item> use_amount(itype_id it, int quantity, bool use_container = false);
+        std::list<item> use_amount(itype_id it, int quantity);
         bool use_charges_if_avail(itype_id it, long quantity);// Uses up charges
         std::list<item> use_charges(itype_id it, long quantity);// Uses up charges
         bool has_amount(const itype_id &it, int quantity) const;

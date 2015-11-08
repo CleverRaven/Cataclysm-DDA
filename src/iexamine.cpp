@@ -855,7 +855,7 @@ void iexamine::pit(player *p, map *m, const tripoint &examp)
         if (player_has && map_has) {
             if (query_yn(_("Use the plank at your feet?"))) {
                 long quantity = 1;
-                m->use_amount( p->pos3(), 1, "2x4", quantity, false);
+                m->use_amount( p->pos3(), 1, "2x4", quantity);
             } else {
                 p->use_amount("2x4", 1);
             }
@@ -863,7 +863,7 @@ void iexamine::pit(player *p, map *m, const tripoint &examp)
             p->use_amount("2x4", 1);
         } else if (!player_has && map_has) { // only map has plank
             long quantity = 1;
-            m->use_amount( p->pos3(), 1, "2x4", quantity, false);
+            m->use_amount( p->pos3(), 1, "2x4", quantity);
         }
 
         if( m->ter(examp) == t_pit ) {

@@ -1831,7 +1831,6 @@ std::list<item> player::consume_items(const comp_selection<item_comp> &is, int b
     const bool by_charges = (item::count_by_charges( selected_comp.type ) && selected_comp.count > 0);
     // Count given to use_amount/use_charges, changed by those functions!
     long real_count = (selected_comp.count > 0) ? selected_comp.count * batch : abs(selected_comp.count);
-    const bool in_container = (selected_comp.count < 0);
     // First try to get everything from the map, than (remaining amount) from player
     if (is.use_from & use_from_map) {
         if (by_charges) {
@@ -1839,7 +1838,7 @@ std::list<item> player::consume_items(const comp_selection<item_comp> &is, int b
             ret.splice(ret.end(), tmp);
         } else {
             std::list<item> tmp = g->m.use_amount(loc, PICKUP_RANGE, selected_comp.type,
-                                                  real_count, in_container);
+                                                  real_count);
             remove_ammo(tmp, *this);
             ret.splice(ret.end(), tmp);
         }
@@ -1849,7 +1848,7 @@ std::list<item> player::consume_items(const comp_selection<item_comp> &is, int b
             std::list<item> tmp = use_charges(selected_comp.type, real_count);
             ret.splice(ret.end(), tmp);
         } else {
-            std::list<item> tmp = use_amount(selected_comp.type, real_count, in_container);
+            std::list<item> tmp = use_amount(selected_comp.type, real_count);
             remove_ammo(tmp, *this);
             ret.splice(ret.end(), tmp);
         }
