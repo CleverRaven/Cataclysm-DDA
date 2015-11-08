@@ -13343,11 +13343,6 @@ std::string player::weapname(bool charges) const
 
 bool player::wield_contents(item *container, int pos, int factor)
 {
-    if (container->contents.empty()) {
-        debugmsg("Tried to wield contents of empty container (player::wield_contents)");
-        return false;
-    }
-
     // if index not specified and container has multiple items then ask the player to choose one
     if (pos < 0) {
         std::vector<std::string> opts;
@@ -13361,8 +13356,9 @@ bool player::wield_contents(item *container, int pos, int factor)
         }
     }
 
-    if (pos > static_cast<int>(container->contents.size())) {
+    if (pos >= static_cast<int>(container->contents.size())) {
         debugmsg("Tried to wield non-existent item from container (player::wield_contents)");
+        return false;
     }
 
     if (!can_wield(container->contents[pos])) {
