@@ -1712,8 +1712,8 @@ iuse_actor *holster_actor::clone() const
 
 void holster_actor::load( JsonObject &obj )
 {
-    title = obj.get_string("title", _("Holster what?"));
-    holster_msg = obj.get_string("holster_msg", _("You holster your %s"));
+    holster_prompt = obj.get_string("holster_prompt", _("Holster item"));
+    holster_msg    = obj.get_string("holster_msg",    _("You holster your %s"));
 
     max_volume = obj.get_int("max_volume");
     min_volume = obj.get_int("min_volume", max_volume / 3);
@@ -1733,7 +1733,7 @@ long holster_actor::use( player *p, item *it, bool, const tripoint& ) const
 
     } else {
         // when holster is empty show menu of suitable items that can be holstered
-        item &obj = p->i_at(g->inv_for_filter(title, [&](const item& e) {
+        item &obj = p->i_at(g->inv_for_filter(holster_prompt, [&](const item& e) {
             if (e.volume() > max_volume || e.volume() < min_volume) {
                 return false;
             }

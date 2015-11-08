@@ -7434,6 +7434,7 @@
         "flags" : ["VARSIZE", "BELTED", "OVERSIZE"],
         "use_action" : {
             "type": "holster",
+            "holster_prompt": "Sheath knife",
             "holster_msg": "You sheath your %s",
             "max_volume": 2,
             "draw_speed": 20,
@@ -7464,6 +7465,7 @@
         "material_thickness" : 1,
         "use_action" : {
             "type": "holster",
+            "holster_prompt": "Sheath knife",
             "holster_msg": "You sheath your %s",
             "max_volume": 3,
             "draw_speed": 5,
@@ -11642,6 +11644,7 @@
         "material_thickness" : 2,
         "use_action": {
             "type": "holster",
+            "holster_prompt": "Sheath blade",
             "holster_msg": "You sheath your %s",
             "max_volume": 3,
             "allow": ["SHEATH_KNIFE"]

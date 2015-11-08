@@ -6735,7 +6735,7 @@ int iuse::sheath_sword(player *p, item *it, bool, const tripoint& )
     } else {
         if (!p->is_armed() || p->wield(NULL)) {
             int lvl = p->skillLevel( skill_cutting );
-            p->wield_contents(it, 13);
+            p->wield_contents(it);
 
             // in order to perform iaijutsu, have to pass a roll based on level
             bool iaijutsu =

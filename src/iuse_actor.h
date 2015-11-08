@@ -600,8 +600,8 @@ class musical_instrument_actor : public iuse_actor
 class holster_actor : public iuse_actor
 {
     public:
-        /** Title to show when prompting the player to select an item */
-        std::string title;
+        /** Prompt to use when selecting an item */
+        std::string holster_prompt;
         /** Message to show when holstering an item */
         std::string holster_msg;
         /** Maximum volume of item that can be holstered */
