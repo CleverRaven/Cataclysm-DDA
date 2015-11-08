@@ -811,9 +811,7 @@ public:
           * Return same type as the passed default value, or string where no default provided
           */
         std::string get_property (const std::string &prop, const std::string& def = "") const;
-        int get_property (const std::string& prop, int def) const;
         long get_property (const std::string& prop, long def) const;
-        double get_property (const std::string& prop, double def) const;
         /*@}*/
 
         /**

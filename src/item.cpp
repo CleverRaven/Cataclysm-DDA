@@ -2416,55 +2416,29 @@ bool item::has_flag( const std::string &f ) const
     return ret;
 }
 
-bool item::has_property (const std::string& prop) const {
+bool item::has_property( const std::string& prop ) const {
    return type->properties.find(prop) != type->properties.end();
 }
 
-std::string item::get_property (const std::string &prop, const std::string& def) const
+std::string item::get_property( const std::string &prop, const std::string& def ) const
 {
     const auto it = type->properties.find(prop);
     return it != type->properties.end() ? it->second : def;
 }
 
-int item::get_property (const std::string& prop, int def) const
+long item::get_property( const std::string& prop, long def ) const
 {
-    long r = get_property(prop, static_cast<long>(def));
-    if (r > std::numeric_limits<int>::min() ||
-        r < std::numeric_limits<int>::max()) {
-        return r;
-    }
-    debugmsg("invalid property '%s' for item '%s'", prop.c_str(), tname().c_str());
-    return def;
-}
-
-long item::get_property (const std::string& prop, long def) const
-{
-    const auto it = type->properties.find(prop);
-    if (it != type->properties.end()) {
+    const auto it = type->properties.find( prop );
+    if  (it != type->properties.end() ) {
         char *e = nullptr;
-        long  r = std::strtol(it->second.c_str(), &e, 10);
-        if (it->second.size() && *e == '\0') {
+        long  r = std::strtol( it->second.c_str(), &e, 10 );
+        if( it->second.size() && *e == '\0' ) {
             return r;
         }
         debugmsg("invalid property '%s' for item '%s'", prop.c_str(), tname().c_str());
     }
     return def;
 }
-
-double item::get_property (const std::string& prop, double def) const
-{
-    const auto it = type->properties.find(prop);
-    if (it != type->properties.end()) {
-        char  *e = nullptr;
-        double r = std::strtod(it->second.c_str(), &e);
-        if (it->second.size() && *e == '\0') {
-            return r;
-        }
-        debugmsg("invalid property '%s' for item '%s'", prop.c_str(), tname().c_str());
-    }
-    return def;
-}
-
 
 bool item::has_quality(std::string quality_id) const
 {
