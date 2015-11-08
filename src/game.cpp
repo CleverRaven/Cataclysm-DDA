@@ -1632,7 +1632,7 @@ int game::inventory_item_menu(int pos, int iStartX, int iWidth, const inventory_
         addentry( 'E', _("eat"), u.rate_action_eat( oThisItem ) );
         addentry( 'W', _("wear"), u.rate_action_wear( oThisItem ) );
         addentry( 'w', _("wield"), HINT_GOOD );
-        addentry( 't', _("throw"), HINT_GOOD );
+        addentry( 't', pgettext("action", "throw"), HINT_GOOD );
         addentry( 'c', _("change side"), u.rate_action_change_side( oThisItem ) );
         addentry( 'T', _("take off"), u.rate_action_takeoff( oThisItem ) );
         addentry( 'd', _("drop"), rate_drop_item );
