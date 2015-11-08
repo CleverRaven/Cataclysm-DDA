@@ -10225,16 +10225,16 @@ void player::rooted()
     }
 }
 
-bool player::can_wield(const item *it, bool interactive) const
+bool player::can_wield(const item& it, bool interactive) const
 {
-    if ( it->is_two_handed(*this) && !has_two_arms() ) {
-        if (it->has_flag("ALWAYS_TWOHAND")) {
+    if ( it.is_two_handed(*this) && !has_two_arms() ) {
+        if (it.has_flag("ALWAYS_TWOHAND")) {
             if (interactive) {
-                add_msg(m_info, _("The %s can't be wielded with only one arm."), it->tname().c_str());
+                add_msg(m_info, _("The %s can't be wielded with only one arm."), it.tname().c_str());
             }
         } else {
             if (interactive) {
-                add_msg(m_info, _("You are too weak to wield %s with only one arm."), it->tname().c_str());
+                add_msg(m_info, _("You are too weak to wield %s with only one arm."), it.tname().c_str());
             }
         }
         return false;
@@ -10276,7 +10276,7 @@ bool player::wield(item* it, bool autodrop)
         return false;
     }
 
-    if (!can_wield(it)) {
+    if (!can_wield(*it)) {
         return false;
     }
 
@@ -13365,7 +13365,7 @@ bool player::wield_contents(item *container, int pos, int factor)
         debugmsg("Tried to wield non-existent item from container (player::wield_contents)");
     }
 
-    if (!can_wield(&container->contents[pos])) {
+    if (!can_wield(container->contents[pos])) {
         return false;
     }
 
