@@ -10225,6 +10225,23 @@ void player::rooted()
     }
 }
 
+bool player::can_wield(const item *it, bool interactive) const
+{
+    if ( it->is_two_handed(*this) && !has_two_arms() ) {
+        if (it->has_flag("ALWAYS_TWOHAND")) {
+            if (interactive) {
+                add_msg(m_info, _("The %s can't be wielded with only one arm."), it->tname().c_str());
+            }
+        } else {
+            if (interactive) {
+                add_msg(m_info, _("You are too weak to wield %s with only one arm."), it->tname().c_str());
+            }
+        }
+        return false;
+    }
+    return true;
+}
+
 bool player::wield(item* it, bool autodrop)
 {
     if (weapon.has_flag("NO_UNWIELD")) {
@@ -10259,16 +10276,8 @@ bool player::wield(item* it, bool autodrop)
         return false;
     }
 
-    if ( it->is_two_handed(*this) && !has_two_arms() ) {
-        if (it->has_flag("ALWAYS_TWOHAND")) {
-            add_msg(m_info, _("The %s can't be wielded with only one arm."),
-                it->tname().c_str());
-                return false;
-        } else {
-        add_msg(m_info, _("You are too weak to wield %s with only one arm."),
-                it->tname().c_str());
-                return false;
-        }
+    if (!can_wield(it)) {
+        return false;
     }
 
     int mv = 0;
