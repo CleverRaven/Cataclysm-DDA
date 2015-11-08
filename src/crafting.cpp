@@ -1813,8 +1813,7 @@ item_selection player::select_component(const std::vector<item_comp> &components
 			if (!pl && !mp && charges_of(type) + map_inv.charges_of(type) >= count) {
 				mixed.push_back(component);
 			}
-		}
-		else { // Counting by units, not charges
+		}else { // Counting by units, not charges
 
 			if (has_amount(type, count)) {
 				player_has.push_back(component);
@@ -1840,13 +1839,11 @@ item_selection player::select_component(const std::vector<item_comp> &components
 		else if (map_has.size() == 1) {
 			selected.use_from = usage::use_from_map;
 			selected.comp = map_has[0];
-		}
-		else {
+		} else {
 			selected.use_from = usage::use_from_both;
 			selected.comp = mixed[0];
 		}
-	}
-	else { // Let the player pick which component they want to use
+	} else { // Let the player pick which component they want to use
 		std::vector<std::string> options; // List for the menu_vec below
 										  // Populate options with the names of the items
 		for (auto &map_ha : map_has) {
@@ -1886,8 +1883,7 @@ item_selection player::select_component(const std::vector<item_comp> &components
 			selection -= map_has.size();
 			selected.use_from = usage::use_from_player;
 			selected.comp = player_has[uSelection];
-		}
-		else {
+		} else {
 			uSelection -= map_has.size() + player_has.size();
 			selected.use_from = usage::use_from_both;
 			selected.comp = mixed[uSelection];
@@ -1916,8 +1912,7 @@ std::list<item> player::consume_items(const item_selection &is, int batch) {
 		if (by_charges) {
 			std::list<item> tmp = g->m.use_charges(loc, PICKUP_RANGE, selected_comp.type, real_count);
 			ret.splice(ret.end(), tmp);
-		}
-		else {
+		} else {
 			std::list<item> tmp = g->m.use_amount(loc, PICKUP_RANGE, selected_comp.type,
 				real_count, in_container);
 			remove_ammo(tmp, *this);
@@ -1928,8 +1923,7 @@ std::list<item> player::consume_items(const item_selection &is, int batch) {
 		if (by_charges) {
 			std::list<item> tmp = use_charges(selected_comp.type, real_count);
 			ret.splice(ret.end(), tmp);
-		}
-		else {
+		} else {
 			std::list<item> tmp = use_amount(selected_comp.type, real_count, in_container);
 			remove_ammo(tmp, *this);
 			ret.splice(ret.end(), tmp);
@@ -1988,13 +1982,11 @@ tool_selection player::select_tool(const std::vector<tool_comp> &tools, int batc
 		if (map_has.empty()) {
 			selected.use_from = usage::use_from_player;
 			selected.comp = player_has[0];
-		}
-		else {
+		} else {
 			selected.use_from = usage::use_from_map;
 			selected.comp = map_has[0];
 		}
-	}
-	else { // Variety of options, list them and pick one
+	} else { // Variety of options, list them and pick one
 		   // Populate the list
 		std::vector<std::string> options;
 		for (auto &map_ha : map_has) {
@@ -2020,8 +2012,7 @@ tool_selection player::select_tool(const std::vector<tool_comp> &tools, int batc
 		if (uSelection < map_has.size()) {
 			selected.use_from = usage::use_from_map;
 			selected.comp = map_has[uSelection];
-		}
-		else {
+		} else {
 			uSelection -= map_has.size();
 			selected.use_from = usage::use_from_player;
 			selected.comp = player_has[uSelection];
