@@ -7329,31 +7329,32 @@
     {
         "type" : "ARMOR",
         "id" : "sholster",
-        "name" : "shoulder holster",
-        "weight" : 220,
-        "volume" : 3,
-        "price" : 9000,
+        "name" : "fast draw holster",
+        "weight" : 170,
+        "volume" : 2,
+        "price" : 19000,
         "symbol" : "[",
         "color" : "ltgray",
-        "description" : "A leather strap worn on the torso for holding pistol sized guns.  Activate to holster/draw a gun.",
+        "description" : "A quick draw holster for small guns.  Activate to holster/draw a gun.",
         "to_hit" : -1,
         "material" : ["leather", "null"],
-        "covers" : ["TORSO"],
-        "flags" : ["VARSIZE", "BELTED", "OVERSIZE"],
+        "covers" : ["LEG_EITHER"],
+        "flags" : ["VARSIZE", "WAIST", "OVERSIZE"],
         "coverage" : 5,
         "cutting" : 0,
         "bashing" : -1,
         "warmth" : 0,
         "phase" : "solid",
-        "encumbrance" : 3,
+        "encumbrance" : 1,
         "material_thickness" : 1,
         "use_action" : {
             "type": "holster",
-            "max_volume": 5,
-            "allow": ["pistol", "smg", "shotgun"]
+            "max_volume": 4,
+            "draw_speed": 3,
+            "allow": ["pistol", "shotgun"]
         }
     },
-        {
+    {
         "type" : "ARMOR",
         "id" : "back_holster",
         "name" : "back holster",
