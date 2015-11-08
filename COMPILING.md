@@ -146,7 +146,12 @@ Run:
     PLATFORM="i686-w64-mingw32.static"
     make CROSS="~/src/mxe/usr/bin/${PLATFORM}-" TILES=1 SOUND=1 LUA=1 RELEASE=1 LOCALIZE=1
 
-Change PLATFORM to x86_64-w64-mingw32.static for a 64-bit windows build.
+Change PLATFORM to x86_64-w64-mingw32.static for a 64-bit Windows build.
+
+To create nice zip file with all the required resources for a trouble free copy on Windows use the bindist target like this:
+
+    PLATFORM="i686-w64-mingw32.static"
+    make CROSS="~/src/mxe/usr/bin/${PLATFORM}-" TILES=1 SOUND=1 LUA=1 RELEASE=1 LOCALIZE=1 bindist
 
 ## Linux (native) SDL builds
 
