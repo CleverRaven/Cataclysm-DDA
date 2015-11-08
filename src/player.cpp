@@ -13332,17 +13332,26 @@ std::string player::weapname(bool charges) const
     }
 }
 
-void player::wield_contents(item *container, bool force_invlet,
-                            const skill_id &/*skill_used*/, int /*volume_factor*/)
+bool player::wield_contents(item *container, bool force_invlet, const skill_id& sk, int factor)
 {
-    if(!(container->contents.empty())) {
-        item& weap = container->contents[0];
-        inv.assign_empty_invlet(weap, force_invlet);
-        wield(&(i_add(weap)));
-        container->contents.erase(container->contents.begin());
-    } else {
+    if (container->contents.empty()) {
         debugmsg("Tried to wield contents of empty container (player::wield_contents)");
     }
+
+    item& weap = container->contents[0];
+
+    if (!can_wield(&weap)) {
+        return false;
+    }
+
+    int mv = (std::max(factor, 1) * weap.volume()) / std::max((int) get_skill_level(sk), 1);
+    moves -= mv;
+
+    inv.assign_empty_invlet(weap, force_invlet);
+    wield(&(i_add(weap)));
+    container->contents.erase(container->contents.begin());
+
+    return true;
 }
 
 void player::store(item* container, item* put, const skill_id &skill_used, int volume_factor)
