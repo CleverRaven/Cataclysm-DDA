@@ -27,7 +27,7 @@
 enum usage {
 	use_from_map = 1,
 	use_from_player = 2,
-	use_from_both = 1 | 2, // aka 3 => 01 | 10 = 11 => 3
+	use_from_both = 1 | 2,
 	use_from_none = 4,
 	cancel = 5
 };
@@ -36,14 +36,14 @@ struct comp_selection {
 	usage use_from;
 	item_comp comp;
 
-	comp_selection() : comp(item_comp("", 0)) { }
+	comp_selection() : use_from(usage::use_from_none), comp(item_comp("", 0)) { }
 };
 
 struct tool_selection {
 	usage use_from;
 	tool_comp comp;
 
-	tool_selection() : comp(tool_comp("", 0)) { }
+	tool_selection() : use_from(usage::use_from_none), comp(tool_comp("", 0)) { }
 };
 
 enum TAB_MODE {
