@@ -7374,7 +7374,7 @@
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_STORAGE",
     "skill_used": "tailor",
-    "skills_required": [ "pistol", 1 ],
+    "skills_required": [ "pistol", 2 ],
     "difficulty": 3,
     "time": 15000,
     "reversible": false,
