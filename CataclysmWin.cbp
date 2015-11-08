@@ -62,7 +62,6 @@
 					<Add option="-Os -O2" />
 					<Add option="-DLUA" />
 					<Add option="-DRELEASE=1" />
-<<<<<<< HEAD
 					<Add directory="WinDepend/include" />
 					<Add directory="WinDepend/include/lua5.1" />
 				</Compiler>
@@ -84,8 +83,6 @@
 				<Compiler>
 					<Add option="-Os -O2" />
 					<Add option="-DTILES" />
-=======
->>>>>>> parent of f734793... Replace SDLTILES with just TILES
 					<Add option="-DSDLTILES" />
 					<Add option="-DSDL_SOUND" />
 					<Add option="-DRELEASE=1" />
@@ -233,14 +230,7 @@
 				<Option type="0" />
 				<Option compiler="gcc" />
 				<Compiler>
-<<<<<<< HEAD
 					<Add option="-pg -g" />
-=======
-					<Add option="-Os" />
-					<Add option="-O2" />
-					<Add option="-pg" />
-					<Add option="-DSDLTILES" />
->>>>>>> parent of f734793... Replace SDLTILES with just TILES
 					<Add option="-DTILES" />
 					<Add option="-DSDLTILES" />
 					<Add option="-DSDL_SOUND" />
@@ -262,15 +252,8 @@
 				<Option type="0" />
 				<Option compiler="gcc" />
 				<Compiler>
-<<<<<<< HEAD
 					<Add option="-pg -g" />
 					<Add option="-DLOCALIZE" />
-=======
-					<Add option="-Os" />
-					<Add option="-O2" />
-					<Add option="-pg" />
-					<Add option="-g" />
->>>>>>> parent of f734793... Replace SDLTILES with just TILES
 					<Add option="-DSDLTILES" />
 					<Add option="-DTILES" />
 					<Add directory="WinDepend/include" />
