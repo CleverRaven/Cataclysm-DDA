@@ -9528,12 +9528,17 @@ int iuse::capture_monster_act( player *p, item *it, bool, const tripoint &pos )
         if( mon_dex != -1 ) {
             monster f = g->zombie( mon_dex );
 
-            if (! it->has_property("monster_size_capacity")) {
-                debugmsg( _("%s has no monster_size_capacity."), it->tname().c_str() );
+            if( !it->has_property("monster_size_capacity") ) {
+                debugmsg( "%s has no monster_size_capacity.", it->tname().c_str() );
                 return 0;
             }
-
-            if( f.get_size() > Creature::size_map.at(it->get_property("monster_size_capacity")) ) {
+            const std::string capacity = it->get_property( "monster_size_capacity" );
+            if( Creature::size_map.count( capacity ) == 0 ) {
+                debugmsg( "%s has invalid monster_size_capacity %s.",
+                          it->tname().c_str(), capacity.c_str() );
+                return 0;
+            }
+            if( f.get_size() > Creature::size_map.find( capacity )->second ) {
                 p->add_msg_if_player( m_info, _("The %1$s is too big to put in your %2$s."),
                                       f.type->nname().c_str(), it->tname().c_str() );
                 return 0;
