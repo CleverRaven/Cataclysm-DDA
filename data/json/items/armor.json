@@ -7720,7 +7720,13 @@
         "coverage" : 15,
         "material_thickness" : 1,
         "flags" : ["VARSIZE", "WAIST", "OVERSIZE"],
-        "use_action": "SHEATH_SWORD"
+        "use_action": {
+            "type": "holster",
+            "holster_prompt": "Sheath sword",
+            "holster_msg": "You sheath your %s",
+            "max_volume": 14,
+            "allow": ["SHEATH_SWORD"]
+        }
     },
     {
         "type" : "ARMOR",
