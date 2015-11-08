@@ -6981,35 +6981,6 @@ int iuse::sheath_sword(player *p, item *it, bool, const tripoint& )
     return it->type->charges_to_use();
 }
 
-int iuse::holster_ankle(player *p, item *it, bool b, const tripoint &pos)
-{
-    int choice = -1;
-    // ask whether to store a knife or a pistol
-    if (it->contents.empty()) {
-        choice = menu(true, _("Using ankle holster:"), _("Holster a pistol"),
-                      _("Sheathe a knife"), _("Cancel"), NULL);
-        if (choice == 1) {
-            holster_gun(p, it, b, pos);
-        } else if (choice == 2) {
-            sheath_knife(p, it, b, pos);
-        }
-    } else if( &p->weapon == it ) {
-        p->add_msg_if_player( _( "You need to stop wielding the %s before using it." ), it->tname().c_str() );
-        return 0;
-        // unsheathe knife or draw pistol
-    } else {
-        if (!p->is_armed() || p->wield(NULL)) {
-            item &stored = it->contents[0];
-            if (stored.has_flag("SHEATH_KNIFE")) {
-                sheath_knife(p, it, b, pos);
-            } else {
-                holster_gun(p, it, b, pos);
-            }
-        }
-    }
-    return it->type->charges_to_use();
-}
-
 int iuse::belt_loop (player *p, item *it, bool, const tripoint&)
 {
     // if belt loop empty offer to attach an item otherwise detach the current one

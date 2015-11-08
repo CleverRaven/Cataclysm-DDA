@@ -172,7 +172,6 @@ public:
     int sheath_sword        ( player*, item*, bool, const tripoint& );
     int sheath_knife        ( player*, item*, bool, const tripoint& );
     int holster_gun         ( player*, item*, bool, const tripoint& );
-    int holster_ankle       ( player*, item*, bool, const tripoint& );
     int belt_loop           ( player*, item*, bool, const tripoint& );
     int towel               ( player*, item*, bool, const tripoint& );
     int unfold_generic      ( player*, item*, bool, const tripoint& );
