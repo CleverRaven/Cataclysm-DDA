@@ -538,7 +538,7 @@ bool map::vehproceed()
         mdir = veh.move;
     } else if( veh.turn_dir != veh.face.dir() ) {
         // Driver turned vehicle, get turn_dir
-        mdir.init( veh.turn_dir ); 
+        mdir.init( veh.turn_dir );
     } else {
         // Not turning, keep face.dir
         mdir = veh.face;
@@ -607,7 +607,7 @@ float map::vehicle_traction( vehicle &veh ) const
     const auto &wheel_indices = veh.wheelcache;
     int num_wheels = wheel_indices.size();
     if( num_wheels == 0 ) {
-        // TODO: Assume it is digging in dirt 
+        // TODO: Assume it is digging in dirt
         // TODO: Return something that could be reused for dragging
         return 1.0f;
     }
@@ -994,7 +994,7 @@ float map::vehicle_vehicle_collision( vehicle &veh, vehicle &veh2,
 
         veh.move.init( final1.x, final1.y );
         veh.velocity = final1.norm();
-        
+
         veh2.move.init( final2.x, final2.y );
         veh2.velocity = final2.norm();
         //give veh2 the initiative to proceed next before veh1
@@ -3789,10 +3789,13 @@ void map::shoot( const tripoint &p, projectile &proj, const bool hit_items )
     } else if( terrain == t_window_taped ||
                terrain == t_window_alarm_taped ||
                terrain == t_window ||
+               terrain == t_window_no_curtains ||
+               terrain == t_window_no_curtains_taped ||
                terrain == t_window_alarm ) {
         if (ammo_effects.count("LASER")) {
             if ( terrain == t_window_taped ||
-                 terrain == t_window_alarm_taped ){
+                 terrain == t_window_alarm_taped ||
+                 terrain == t_window_no_curtains_taped ){
                     dam -= rng(1, 5);
                 }
             dam -= rng(0, 5);
@@ -3855,7 +3858,10 @@ void map::shoot( const tripoint &p, projectile &proj, const bool hit_items )
                 } else {
                     for( const tripoint &pt : points_in_radius( p, 2 ) ) {
                         if( one_in( 3 ) && move_cost( pt ) > 0 ) {
-                            spawn_item( pt, "gasoline" );
+                            int gas_amount = rng(10, 100);
+                            item gas_spill("gasoline", calendar::turn);
+                            gas_spill.charges = gas_amount;
+                            add_item_or_charges( pt, gas_spill );
                         }
                     }
 
@@ -3963,7 +3969,7 @@ bool map::hit_with_acid( const tripoint &p )
         } else {
             return false;
         }
-    } else if( t == t_window || t == t_window_alarm ) {
+    } else if( t == t_window || t == t_window_alarm || t == t_window_no_curtains ) {
         ter_set( p, t_window_empty );
     } else if( t == t_wax ) {
         ter_set( p, t_floor_wax );
@@ -4438,15 +4444,6 @@ std::vector<item*> map::spawn_items(const tripoint &p, const std::vector<item> &
         if (new_item.made_of(LIQUID) && swimmable) {
             continue;
         }
-        if (new_item.is_armor() && new_item.has_flag("PAIRED") && x_in_y(4, 5)) {
-            item new_item2 = new_item;
-            new_item.make_handed( LEFT );
-            new_item2.make_handed( RIGHT );
-            item &it2 = add_item_or_charges(p, new_item2);
-            if( !it2.is_null() ) {
-                ret.push_back( &it2 );
-            }
-        }
         item &it = add_item_or_charges(p, new_item);
         if( !it.is_null() ) {
             ret.push_back( &it );
@@ -4560,7 +4557,8 @@ item &map::add_item_or_charges(const tripoint &p, item new_item, int overflow_ra
         return nulitem;
     }
     if( (new_item.made_of(LIQUID) && has_flag("SWIMMABLE", p)) ||
-            has_flag("DESTROY_ITEM", p) || new_item.has_flag("NO_DROP") ) {
+        has_flag("DESTROY_ITEM", p) || new_item.has_flag("NO_DROP") ||
+        (new_item.is_gunmod() && new_item.has_flag("IRREMOVABLE") ) ) {
         // Silently fail on mundane things that prevent item spawn.
         return nulitem;
     }
@@ -4583,11 +4581,8 @@ item &map::add_item_or_charges(const tripoint &p, item new_item, int overflow_ra
         }
 
         if( i_at( p_it ).size() < MAX_ITEM_IN_SQUARE ) {
-            if( !new_item.is_gunmod() ||  !new_item.has_flag("IRREMOVABLE") ) {
-                support_dirty( p_it );
-                return add_item( p_it, new_item );
-            }
-            return nulitem;
+            support_dirty( p_it );
+            return add_item( p_it, new_item );
         }
     }
 

@@ -371,6 +371,18 @@
     },
     {
         "type" : "keybinding",
+        "id": "CHANGE_SIDE",
+        "category": "SORT_ARMOR",
+        "name": "Change side armor is worn on",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"c"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
         "id": "ASSIGN_INVLETS",
         "category": "SORT_ARMOR",
         "name": "Assign invlets to armor",
@@ -952,6 +964,17 @@
             {
                 "input_method":"keyboard",
                 "key":"f"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id":"TRAVEL_TO",
+        "name":"Travel to destination",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"t"
             }
         ]
     },

@@ -4057,23 +4057,26 @@
   "time": 240000,
   "reversible": false,
   "autolearn": true,
-  "qualities":[
-    {"id":"HAMMER","level":2,"amount":1}
-  ], "tools": [
-      [
+  "qualities":[{"id":"HAMMER","level":2,"amount":1}],
+  "tools": [
+    [
       ["crucible", -1],
       ["crucible_clay", -1]
-      ],
-      [
+    ],
+    [
       [ "forge", 150],
       [ "char_forge", 30],
       [ "oxy_torch", 30]
-      ]
-      ],
-  "components":
-    [
-     [[ "steel_lump", 40 ]]
     ]
+  ],
+  "components": [
+    [
+      [ "steel_chunk", 160 ],
+      [ "steel_lump", 40 ],
+      [ "frame", 4 ],
+      [ "hdframe", 2 ]
+    ]
+  ]
 },{
   "type" : "recipe",
   "result": "crucible",
@@ -5082,6 +5085,38 @@
     ],
     [
      [ "wire", 1 ]
+    ]
+   ]
+},{
+    "type" : "recipe",
+  "result": "survivor_scope",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_TOOLS",
+  "skill_used": "fabrication",
+  "difficulty": 4,
+  "time": 10000,
+  "reversible": true,
+  "autolearn": true,
+  "tools": [
+     [
+      [ "mold_plastic", -1 ]
+     ],
+     [
+      [ "fire", -1 ],
+      [ "toolset", 10 ],
+      [ "soldering_iron", 10 ]
+     ]
+    ],
+  "components":
+   [
+    [
+     [ "plastic_chunk", 4 ]
+    ],
+    [
+     [ "lens", 2 ]
+    ],
+    [
+     [ "spring", 1 ]
     ]
    ]
 },{

@@ -704,7 +704,7 @@
         "cutting" : 0,
         "mod_targets" : ["pistol"],
         "bashing" : 0,
-        "flags" : ["RELOAD_ONE"],
+        "flags" : ["RELOAD_ONE", "IRREMOVABLE"],
         "gun_data" : {
             "skill": "shotgun",
             "ammo" : "shot",
@@ -833,7 +833,7 @@
         "cutting" : 0,
         "mod_targets" : ["rifle"],
         "bashing" : 0,
-        "flags" : ["RELOAD_ONE"],
+        "flags" : ["RELOAD_ONE", "IRREMOVABLE"],
         "gun_data" : {
             "skill": "shotgun",
             "ammo" : "shot",
@@ -899,7 +899,7 @@
         "cutting" : 0,
         "mod_targets" : ["shotgun"],
         "bashing" : 0,
-        "flags" : ["RELOAD_ONE"],
+        "flags" : ["RELOAD_ONE", "IRREMOVABLE"],
         "gun_data" : {
             "skill": "shotgun", "//" : "Stats should mirror the main weapon.",
             "ammo" : "shot",

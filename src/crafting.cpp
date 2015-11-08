@@ -55,8 +55,7 @@ recipe::~recipe()
 
 recipe::recipe() :
     id(0), result("null"), contained(false),skill_used( NULL_ID ), reversible(false),
-    autolearn(false), learn_by_disassembly(-1), result_mult(1),
-    paired(false)
+    autolearn(false), learn_by_disassembly(-1), result_mult(1)
 {
 }
 
@@ -172,7 +171,6 @@ void load_recipe(JsonObject &jsobj)
         batch_rsize = jsarr.get_int(1);
     }
     int result_mult = jsobj.get_int("result_mult", 1);
-    bool paired = jsobj.get_bool("paired", false);
 
     std::map<std::string, int> requires_skills;
     jsarr = jsobj.get_array("skills_required");
@@ -233,7 +231,6 @@ void load_recipe(JsonObject &jsobj)
     rec->batch_rscale = batch_rscale;
     rec->batch_rsize = batch_rsize;
     rec->result_mult = result_mult;
-    rec->paired = paired;
 
     rec->requirements.load(jsobj);
 
@@ -1429,9 +1426,9 @@ void player::make_all_craft(const std::string &id_to_make, int batch_size)
     lastrecipe = id_to_make;
 }
 
-item recipe::create_result(handedness handed) const
+item recipe::create_result() const
 {
-    item newit(result, calendar::turn, false, handed);
+    item newit(result, calendar::turn, false);
     if (contained == true) {
         newit = newit.in_its_container();
     }
@@ -1447,17 +1444,17 @@ item recipe::create_result(handedness handed) const
     return newit;
 }
 
-std::vector<item> recipe::create_results(int batch, handedness handed) const
+std::vector<item> recipe::create_results(int batch) const
 {
     std::vector<item> items;
 
     if( !item::count_by_charges( result ) ) {
         for (int i = 0; i < batch; i++) {
-            item newit = create_result(handed);
+            item newit = create_result();
             items.push_back(newit);
         }
     } else {
-        item newit = create_result(handed);
+        item newit = create_result();
         newit.charges *= batch;
         items.push_back(newit);
     }
@@ -1535,18 +1532,6 @@ void player::complete_craft()
         debugmsg( "no recipe with id %d found", activity.index );
         activity.type = ACT_NULL;
         return;
-    }
-
-    handedness handed = NONE;
-    if (making->paired) {
-        switch( menu(true, _("Handedness?:"), _("Left-handed"), _("Right-handed"), NULL) ) {
-            case 1:
-                handed = LEFT;
-                break;
-            case 2:
-                handed = RIGHT;
-                break;
-        }
     }
 
     // # of dice is 75% primary skill, 25% secondary (unless secondary is null)
@@ -1649,7 +1634,7 @@ void player::complete_craft()
     }
 
     // Set up the new item, and assign an inventory letter if available
-    std::vector<item> newits = making->create_results(batch_size, handed);
+    std::vector<item> newits = making->create_results(batch_size);
     bool first = true;
     float used_age_tally = 0;
     int used_age_count = 0;

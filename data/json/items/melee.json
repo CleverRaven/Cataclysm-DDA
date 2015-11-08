@@ -910,7 +910,7 @@
         "volume": 2,
         "bashing": 12,
         "cutting": 6,
-        "flags" : ["DURABLE_MELEE","CHOP"],
+        "flags" : ["DURABLE_MELEE","CHOP","BELT_CLIP"],
         "to_hit": 1,
         "category" : "weapons",
         "use_action": { "type": "knife" },
@@ -2743,7 +2743,7 @@
         "symbol" : "/",
         "material" : ["aluminum", "null"],
         "techniques" : ["WBLOCK_1"],
-        "flags" : ["DURABLE_MELEE"],
+        "flags" : ["DURABLE_MELEE","BELT_CLIP"],
             "use_action": {
             "type": "transform",
             "target": "baton-extended",
@@ -2766,7 +2766,7 @@
         "symbol" : "/",
         "material" : ["aluminum", "null"],
         "techniques" : ["WBLOCK_1"],
-        "flags" : ["DURABLE_MELEE"],
+        "flags" : ["DURABLE_MELEE","BELT_CLIP"],
         "use_action": {
             "type": "transform",
             "target": "baton",

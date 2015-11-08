@@ -569,7 +569,9 @@ void player::apply_persistent_morale()
         } else if (has_effect("took_prozac")) {
             pen = int(pen / 2);
         }
-        add_morale(MORALE_PERM_HOARDER, -pen, -pen, 5, 5, true);
+        if (pen > 0) {
+            add_morale(MORALE_PERM_HOARDER, -pen, -pen, 5, 5, true);
+        }
     }
 
     // The stylish get a morale bonus for each body part covered in an item
@@ -4112,24 +4114,27 @@ int player::overmap_sight_range(int light_level) const
         return (sight / (SEEX / 2) );
     }
     if ((has_amount("binoculars", 1) || has_amount("rifle_scope", 1) ||
-        -1 != weapon.has_gunmod("rifle_scope") ) && !has_trait("EAGLEEYED"))  {
-        if (has_trait("BIRD_EYE")) {
-            return 25;
-        }
+        has_amount("survivor_scope", 1) || -1 != weapon.has_gunmod("rifle_scope") ) && 
+        !has_trait("EAGLEEYED"))  {
+         if (has_trait("BIRD_EYE")) {
+             return 25;
+         }
         return 20;
     }
     else if (!(has_amount("binoculars", 1) || has_amount("rifle_scope", 1) ||
-        -1 != weapon.has_gunmod("rifle_scope") ) && has_trait("EAGLEEYED"))  {
-        if (has_trait("BIRD_EYE")) {
-            return 25;
-        }
+        has_amount("survivor_scope", 1) || -1 != weapon.has_gunmod("rifle_scope") ) && 
+        has_trait("EAGLEEYED"))  {
+         if (has_trait("BIRD_EYE")) {
+             return 25;
+         }
         return 20;
     }
     else if ((has_amount("binoculars", 1) || has_amount("rifle_scope", 1) ||
-        -1 != weapon.has_gunmod("rifle_scope") ) && has_trait("EAGLEEYED"))  {
-        if (has_trait("BIRD_EYE")) {
-            return 30;
-        }
+        has_amount("survivor_scope", 1) || -1 != weapon.has_gunmod("rifle_scope") ) && 
+        has_trait("EAGLEEYED"))  {
+         if (has_trait("BIRD_EYE")) {
+             return 30;
+         }
         return 25;
     }
     else if (has_trait("BIRD_EYE")) {
@@ -10261,12 +10266,15 @@ bool player::wield(item* it, bool autodrop)
                 return false;
         } else {
         add_msg(m_info, _("You are too weak to wield %s with only one arm."),
-                it->tname().c_str()); 
+                it->tname().c_str());
                 return false;
         }
     }
-    
+
     if (!is_armed()) {
+        if (is_wearing_item(*it)) {
+            it->on_takeoff(*this);
+        }
         weapon = i_rem(it);
         moves -= 30;
         weapon.on_wield( *this );
@@ -10274,6 +10282,9 @@ bool player::wield(item* it, bool autodrop)
         return true;
     } else if (volume_carried() + weapon.volume() - it->volume() < volume_capacity()) {
         item tmpweap = remove_weapon();
+        if (is_wearing_item(*it)) {
+            it->on_takeoff(*this);
+        }
         weapon = i_rem(it);
         inv.add_item_keep_invlet(tmpweap);
         inv.unsort();
@@ -10284,6 +10295,9 @@ bool player::wield(item* it, bool autodrop)
     } else if (query_yn(_("No space in inventory for your %s.  Drop it?"),
                         weapon.tname().c_str())) {
         g->m.add_item_or_charges(posx(), posy(), remove_weapon());
+        if (is_wearing_item(*it)) {
+            it->on_takeoff(*this);
+        }
         weapon = i_rem(it);
         inv.unsort();
         moves -= 30;
@@ -10512,6 +10526,20 @@ hint_rating player::rate_action_wear( const item &it ) const
 
     return HINT_GOOD;
 }
+
+
+hint_rating player::rate_action_change_side( const item &it ) const {
+   if (!is_wearing_item(it)) {
+      return HINT_IFFY;
+   }
+
+    if (!it.is_sided()) {
+        return HINT_CANT;
+    }
+
+    return HINT_GOOD;
+}
+
 
 bool player::wear(int inventory_position, bool interactive)
 {
@@ -10856,16 +10884,48 @@ bool player::wear_item( const item &to_wear, bool interactive )
     return true;
 }
 
+bool player::change_side (item *target, bool interactive)
+{
+    return change_side(get_item_position(target), interactive);
+}
+
+bool player::change_side (int pos, bool interactive) {
+    int idx = worn_position_to_index(pos);
+    if (static_cast<size_t>(idx) >= worn.size()) {
+        if (interactive) {
+            add_msg_if_player(m_info, _("You are not wearing that item."));
+        }
+        return false;
+    }
+
+    auto it = worn.begin();
+    std::advance(it, idx);
+
+    if (!it->is_sided()) {
+        if (interactive) {
+            add_msg_if_player(m_info, _("You cannot swap the side on which your %s is worn."), it->tname().c_str());
+        }
+        return false;
+    }
+
+    it->set_side(it->get_side() == LEFT ? RIGHT : LEFT);
+
+    if (interactive) {
+        add_msg_if_player(m_info, _("You swap the side on which your %s is worn."), it->tname().c_str());
+        moves -= 250;
+    }
+
+    return true;
+}
+
 hint_rating player::rate_action_takeoff( const item &it ) const
 {
     if (!it.is_armor()) {
         return HINT_CANT;
     }
 
-    for (auto &i : worn) {
-        if (i.invlet == it.invlet) { //surely there must be an easier way to do this?
-            return HINT_GOOD;
-        }
+    if (is_wearing_item(it)) {
+      return HINT_GOOD;
     }
 
     return HINT_IFFY;
@@ -10908,6 +10968,8 @@ bool player::takeoff(int inventory_position, bool autodrop, std::vector<item> *i
                 return false;
             }
 
+            other_armor.on_takeoff(*this);
+
             if( items != nullptr ) {
                 items->push_back( other_armor );
             } else {
@@ -10922,13 +10984,15 @@ bool player::takeoff(int inventory_position, bool autodrop, std::vector<item> *i
     }
 
     if( items != nullptr ) {
+        w.on_takeoff(*this);
         items->push_back( w );
         taken_off = true;
     } else if (autodrop || volume_capacity() - w.get_storage() >= volume_carried() + w.volume()) {
+        w.on_takeoff(*this);
         inv.add_item_keep_invlet(w);
         taken_off = true;
-    } else if (query_yn(_("No room in inventory for your %s.  Drop it?"),
-            w.tname().c_str())) {
+    } else if (query_yn(_("No room in inventory for your %s.  Drop it?"), w.tname().c_str())) {
+        w.on_takeoff(*this);
         g->m.add_item_or_charges( pos(), w );
         taken_off = true;
     } else {
@@ -12371,6 +12435,12 @@ int player::encumb( body_part bp ) const
     return encumb( bp, iLayers, iArmorEnc, ret_null );
 }
 
+int player::encumb( body_part bp, const item &new_item ) const {
+    int iArmorEnc = 0;
+    double iLayers = 0;
+    return encumb( bp, iLayers, iArmorEnc, new_item );
+}
+
 int player::encumb( body_part bp, double &layers, int &armorenc ) const
 {
     return encumb( bp, layers, armorenc, ret_null );
@@ -12894,6 +12964,10 @@ bool player::wearing_something_on(body_part bp) const
             return true;
     }
     return false;
+}
+
+bool player::is_wearing_item (const item& it) const {
+   return std::any_of(worn.begin(), worn.end(), [&](const item& elem) { return &elem == &it; });
 }
 
 bool player::is_wearing_shoes(std::string side) const

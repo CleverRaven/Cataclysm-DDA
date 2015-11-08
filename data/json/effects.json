@@ -963,6 +963,12 @@
     },
     {
         "type": "effect_type",
+        "id": "raising",
+        "int_add_val": 1,
+        "max_intensity": 100
+    },
+    {
+        "type": "effect_type",
         "id": "attention"
     },
     {

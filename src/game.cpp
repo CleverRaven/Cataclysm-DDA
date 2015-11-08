@@ -1633,6 +1633,7 @@ int game::inventory_item_menu(int pos, int iStartX, int iWidth, const inventory_
         addentry( 'W', _("wear"), u.rate_action_wear( oThisItem ) );
         addentry( 'w', _("wield"), HINT_GOOD );
         addentry( 't', _("throw"), HINT_GOOD );
+        addentry( 'c', _("change side"), u.rate_action_change_side( oThisItem ) );
         addentry( 'T', _("take off"), u.rate_action_takeoff( oThisItem ) );
         addentry( 'd', _("drop"), rate_drop_item );
         addentry( 'U', _("unload"), u.rate_action_unload( oThisItem ) );
@@ -1708,6 +1709,9 @@ int game::inventory_item_menu(int pos, int iStartX, int iWidth, const inventory_
                 break;
             case 't':
                 plthrow(pos);
+                break;
+            case 'c':
+                change_side(pos);
                 break;
             case 'T':
                 takeoff(pos);
@@ -2295,21 +2299,17 @@ bool game::handle_action()
 
     int before_action_moves = u.moves;
 
-    // Use to track if auto-move should be canceled due to a failed
-    // move or obstacle
-    bool continue_auto_move = false;
-
     // quit prompt check (ACTION_QUIT only grabs 'Q')
     if(uquit == QUIT_WATCH && action == "QUIT") {
         uquit = QUIT_DIED;
         return false;
     }
 
-    // I have split the switch(act) into two, so one can be done
-    // for the deathcam as well. It will still be run if you are
-    // alive, so no worries there. KA101 suggested (quite aptly)
-    // that the user should be able to look around, so this
-    // allows that. -Davek
+    // Use to track if auto-move should be canceled due to a failed
+    // move or obstacle
+    bool continue_auto_move = true;
+
+    // These actions are allowed while deathcam is active.
     if( uquit == QUIT_WATCH || !u.is_dead_state() ) {
         switch(act) {
         case ACTION_CENTER:
@@ -2948,7 +2948,6 @@ bool game::handle_action()
                 break;    //don't do anything when sharing and not debugger
             }
             debug();
-            continue_auto_move = true; // A small hack to help with route testing
             refresh_all();
             break;
 
@@ -2994,8 +2993,7 @@ bool game::handle_action()
             break;
         }
     }
-
-    if (!continue_auto_move) {
+    if( !continue_auto_move ) {
         u.clear_destination();
     }
 
@@ -8829,6 +8827,8 @@ tripoint game::look_around( WINDOW *w_info, const tripoint &start_point,
     ctxt.register_action("LIST_ITEMS");
     ctxt.register_action( "LEVEL_UP" );
     ctxt.register_action( "LEVEL_DOWN" );
+    ctxt.register_action( "TRAVEL_TO" );
+    ctxt.register_action( "HELP_KEYBINDINGS" );
 
     const int old_levz = get_levz();
 
@@ -9000,6 +9000,20 @@ tripoint game::look_around( WINDOW *w_info, const tripoint &start_point,
                 lp.z = new_levz;
                 refresh_all();
                 draw_ter( lp, true );
+            } else if( action == "TRAVEL_TO" ) {
+                if( !u.sees( lp ) ) {
+                    add_msg(_("You can't see that destination."));
+                    continue;
+                }
+                auto route = m.route( u.pos3(), lp, 0, 1000 );
+                if( route.size() > 1 ) {
+                    route.pop_back();
+                    u.set_destination( route );
+                } else {
+                    add_msg(m_info, _("You can't travel there."));
+                    continue;
+                }
+                return { INT_MIN, INT_MIN, INT_MIN };
             } else if (!ctxt.get_coordinates(w_terrain, lx, ly)) {
                 int dx, dy;
                 ctxt.get_direction(dx, dy, action);
@@ -9589,6 +9603,7 @@ int game::list_items(const int iLastState)
     ctxt.register_action("PRIORITY_INCREASE");
     ctxt.register_action("PRIORITY_DECREASE");
     ctxt.register_action("SORT");
+    ctxt.register_action("TRAVEL_TO");
 
     do {
         if (!ground_items.empty() || iLastState == 1) {
@@ -9670,6 +9685,18 @@ int game::list_items(const int iLastState)
                 refilter = true;
                 reset = true;
 
+            } else if( action == "TRAVEL_TO" ) {
+                if( !u.sees( u.pos3() + active_pos ) ) {
+                    add_msg(_("You can't see that destination."));
+                }
+                auto route = m.route( u.pos3(), u.pos3() + active_pos, 0, 1000 );
+                if( route.size() > 1 ) {
+                    route.pop_back();
+                    u.set_destination( route );
+                    break;
+                } else {
+                    add_msg(m_info, _("You can't travel there."));
+                }
             }
 
             if ( uistate.list_item_sort == 1 ) {
@@ -10700,6 +10727,10 @@ void game::plthrow(int pos)
         return;
     }
 
+    if (u.is_wearing_item(u.i_at(pos))) {
+        thrown.on_takeoff(u);
+    }
+
     // Throw a single charge of a stacking object.
     if( thrown.count_by_charges() && thrown.charges > 1 ) {
         u.i_at( pos ).charges--;
@@ -11299,6 +11330,23 @@ void game::takeoff(int pos)
     }
 }
 
+void game::change_side(int pos)
+{
+    if (pos == INT_MIN) {
+        pos = inv_for_filter(_("Change side for item:"),
+                             [&](const item &it) { return u.is_wearing_item(it) && it.is_sided(); });
+    }
+
+    if (pos == INT_MIN) {
+        add_msg(_("Never mind."));
+        return;
+    }
+
+    if (!u.change_side(pos)) {
+        add_msg(m_info, _("Invalid selection."));
+    }
+}
+
 void game::reload(int pos)
 {
     item *it = &u.i_at(pos);
@@ -11492,13 +11540,6 @@ void game::unload(item &it)
                 unload( gunmod );
                 return;
             }
-        }
-        // If neither the mods nor the gun itself are loaded, try to remove the mods instead.
-        if( it.charges <= 0 ) {
-            while( !it.contents.empty() ) {
-                u.remove_gunmod( &it, 0 );
-            }
-            return;
         }
     }
 
@@ -13042,6 +13083,41 @@ void game::fling_creature(Creature *c, const int &dir, float flvel, bool control
     }
 }
 
+tripoint point_selection_menu( const std::vector<tripoint> &pts )
+{
+    if( pts.empty() ) {
+        debugmsg( "point_selection_menu called with empty point set" );
+        return tripoint_min;
+    }
+
+    if( pts.size() == 1 ) {
+        return pts[0];
+    }
+
+    const tripoint &upos = g->u.pos();
+    uimenu pmenu;
+    pmenu.title = _("Climb where?");
+    int num = 0;
+    for( const tripoint &pt : pts ) {
+        // TODO: Sort the menu so that it can be used with numpad directions
+        const std::string &direction = direction_name( direction_from( upos.x, upos.y, pt.x, pt.y ) );
+        // TODO: Inform player what is on said tile
+        // But don't just print terrain name (in many cases it will be "open air")
+        pmenu.addentry( num++, true, MENU_AUTOASSIGN, _("Climb %s"), direction.c_str() );
+    }
+
+    pmenu.addentry( num, true, 'q', "%s", _("Cancel") );
+
+    pmenu.selected = num;
+    pmenu.query();
+    const int ret = pmenu.ret;
+    if( ret < 0 || ret >= num ) {
+        return tripoint_min;
+    }
+
+    return pts[ret];
+}
+
 void game::vertical_move(int movez, bool force)
 {
     // Check if there are monsters are using the stairs.
@@ -13128,16 +13204,19 @@ void game::vertical_move(int movez, bool force)
             }
         }
 
-        if( cost > 0 && !pts.empty() ) {
-            climbing = true;
-            move_cost = cost;
-            // TODO: Allow picking this instead of forcing a random one
-            stairs = random_entry( pts );
-        } else {
+        if( cost <= 0 || pts.empty() ) {
             add_msg( m_info, _("You can't climb here - there is no terrain above you that would support your weight") );
             return;
+        } else if( cost > 0 && !pts.empty() ) {
+            // TODO: Make it an extended action
+            climbing = true;
+            move_cost = cost;
+
+            stairs = point_selection_menu( pts );
+            if( stairs == tripoint_min ) {
+                return;
+            }
         }
-        // TODO: Make it an extended action
     }
 
     if( !force && movez == -1 && !m.has_flag( "GOES_DOWN", u.pos() ) ) {

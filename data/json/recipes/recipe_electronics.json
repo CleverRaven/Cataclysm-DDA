@@ -834,6 +834,7 @@
   "difficulty": 4,
   "time": 30000,
   "reversible": true,
+  "decomp_learn": 4,
   "autolearn": false,
   "qualities" : [ {"id":"SCREW","level":1,"amount":1} ],
   "tools": [

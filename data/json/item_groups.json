@@ -255,6 +255,7 @@
       ["hat_knit", 25],
       ["hat_fur", 15],
       ["hat_newsboy", 20],
+      ["hat_sombrero", 3],
       ["helmet_bike", 35],
       ["helmet_motor", 40],
       ["touring_suit", 15],
@@ -851,6 +852,7 @@
       ["towel", 40],
       ["hat_ball", 30],
       ["hat_newsboy", 20],
+      ["hat_sombrero", 3],
       ["backpack", 38],
       ["backpack_leather", 18],
       ["purse", 40],
@@ -3416,6 +3418,7 @@
       ["hat_knit", 40],
       ["hat_fur", 20],
       ["hat_newsboy", 20],
+      ["hat_sombrero", 30],
       ["fedora", 100],
       ["straw_hat", 100],
       ["straw_fedora", 100],
@@ -3599,6 +3602,7 @@
       ["hat_cotton", 45],
       ["hat_knit", 25],
       ["hat_newsboy", 20],
+      ["hat_sombrero", 3],
       ["hat_fur", 15],
       ["UPS_off", 5],
       ["adv_UPS_off", 3],
@@ -5469,6 +5473,7 @@
       ["helmet_liner", 10],
       ["hat_fur", 15],
       ["hat_newsboy", 20],
+      ["hat_sombrero", 5],
       ["holster", 8],
       ["bootstrap", 3],
       ["remington_870", 9],
@@ -9460,6 +9465,7 @@
       ["survivor_mess_kit", 6],
       ["survivor_shavingkit", 3],
       ["survivor_hairtrimmer", 1],
+      ["survivor_scope", 1],
       ["survnote", 30]
     ]
   },{

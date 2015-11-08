@@ -334,9 +334,9 @@ static hp_part pick_part_to_heal( const player &healer, const player &patient,
         }
 
         if( patient.hp_cur[healed_part] == 0 ) {
-            if( healed_part == hp_arm_l || healed_part == hp_arm_r ) { 
+            if( healed_part == hp_arm_l || healed_part == hp_arm_r ) {
                 add_msg( m_info, _("That arm is broken.  It needs surgical attention or a splint.") );
-            } else if( healed_part == hp_leg_l || healed_part == hp_leg_r ) { 
+            } else if( healed_part == hp_leg_l || healed_part == hp_leg_r ) {
                 add_msg( m_info, _("That leg is broken.  It needs surgical attention or a splint.") );
             } else {
                 add_msg( m_info, "That body part is bugged.  It needs developer's attention." );
@@ -561,7 +561,7 @@ int iuse::firstaid(player *p, item *it, bool, const tripoint &pos )
         return 0;
     }
 
-    if( &patient != p ) {   
+    if( &patient != p ) {
         return 1;
     }
 
@@ -2470,7 +2470,7 @@ int iuse::sew(player *p, item *it, bool, const tripoint& )
 }
 
 static bool is_firearm(const item &it)
-{ 
+{
     return it.is_gun() && !it.has_flag("PRIMITIVE_RANGED_WEAPON");
 }
 
@@ -3903,10 +3903,10 @@ int iuse::crowbar(player *p, item *it, bool, const tripoint &pos)
         fail_action = _("You pry, but cannot pop open the crate.");
         noisy = true;
         difficulty = 6;
-    } else if (type == t_window_domestic || type == t_curtains) {
+    } else if (type == t_window_domestic || type == t_curtains || type == t_window_no_curtains) {
         succ_action = _("You pry open the window.");
         fail_action = _("You pry, but cannot pry open the window.");
-        new_type = t_window_open;
+        new_type = (type == t_window_no_curtains) ? t_window_no_curtains_open : t_window_open;
         noisy = true;
         difficulty = 6;
     } else if (pry_nails(p, type, dirx, diry)) {
@@ -5029,6 +5029,9 @@ int iuse::firecracker_pack_act(player *, item *it, bool, const tripoint &pos)
             sounds::sound(pos, 20, _("Bang!"));
         }
         it->charges -= ex;
+    }
+    if (it->charges == 0) {
+        it->charges = -1;
     }
     return 0;
 }
@@ -6695,12 +6698,7 @@ int iuse::holster_gun(player *p, item *it, bool, const tripoint& )
 {
     // if holster is empty, pull up menu asking what to holster
     if (it->contents.empty()) {
-        int maxvol = 0;
-        // TODO: extract into an item function
-        const auto iter = it->type->properties.find( "holster_size" );
-        if( iter != it->type->properties.end() && iter->second != "0" ) {
-            maxvol = std::atoi( iter->second.c_str() );
-        }
+        int maxvol = it->get_property("holster_size", 0);
         int minvol = maxvol / 3;
 
         auto filter = [maxvol, minvol]( const item &it ) {
@@ -7009,6 +7007,65 @@ int iuse::holster_ankle(player *p, item *it, bool b, const tripoint &pos)
             }
         }
     }
+    return it->type->charges_to_use();
+}
+
+int iuse::belt_loop (player *p, item *it, bool, const tripoint&)
+{
+    // if belt loop empty offer to attach an item otherwise detach the current one
+    if (it->contents.empty()) {
+        // display menu showing only show BELT_CLIP items
+        item& put = p->i_at(g->inv_for_flag("BELT_CLIP", _("Attach what to belt loop?"), false));
+        if (put.is_null()) {
+            p->add_msg_if_player(_("Never mind."));
+            return 0;
+        }
+
+        // check the player selected an appropriate item
+        if (! put.has_flag("BELT_CLIP")) {
+            p->add_msg_if_player(m_info, _("You can't attach your %s to your %s!"),
+                                           put.tname().c_str(), it->tname().c_str());
+            return 0;
+        }
+
+        // only allow items smaller than a certain size
+        if (put.volume() > it->get_property("max_volume", 2)) {
+            p->add_msg_if_player(m_info, _("Your %s is too large to fit in your %s!"),
+                                           put.tname().c_str(), it->tname().c_str());
+            return 0;
+        }
+
+        // only allow items less than a certain weight
+        if (put.weight() > it->get_property("max_weight", 600)) {
+            p->add_msg_if_player(m_info, _("Your %s is too heavy to attach to your %s!"),
+                                           put.tname().c_str(), it->tname().c_str());
+            return 0;
+        }
+
+        p->add_msg_if_player(m_info, _("You attach your %s to your %s!"),
+                             put.tname().c_str(), it->tname().c_str());
+
+        p->moves -= put.volume() * 10;
+        it->put_in(p->i_rem(&put));
+
+    } else if (&p->weapon == it) {
+        p->add_msg_if_player( _( "You need to unwield the %s before using it." ), it->tname().c_str() );
+        return 0;
+
+    } else {
+        if (! p->is_armed() || p->wield(NULL)) {
+            item& get = it->contents[0];
+            p->inv.assign_empty_invlet(get, true);
+
+            p->add_msg_if_player(m_info, _("You unclip your %s from your %s!"),
+                                 get.tname().c_str(), it->tname().c_str());
+
+            p->moves -= get.volume() * 10;
+            p->wield(&(p->i_add(get)));
+            it->contents.erase(it->contents.begin());
+        }
+    }
+
     return it->type->charges_to_use();
 }
 
@@ -9470,12 +9527,13 @@ int iuse::capture_monster_act( player *p, item *it, bool, const tripoint &pos )
         int mon_dex = g->mon_at( target );
         if( mon_dex != -1 ) {
             monster f = g->zombie( mon_dex );
-            const auto iter = it->type->properties.find( "monster_size_capacity" );
-            if( iter == it->type->properties.end() ) {
+
+            if (! it->has_property("monster_size_capacity")) {
                 debugmsg( _("%s has no monster_size_capacity."), it->tname().c_str() );
+                return 0;
             }
 
-            if( f.get_size() > Creature::size_map.at(iter->second) ) {
+            if( f.get_size() > Creature::size_map.at(it->get_property("monster_size_capacity")) ) {
                 p->add_msg_if_player( m_info, _("The %1$s is too big to put in your %2$s."),
                                       f.type->nname().c_str(), it->tname().c_str() );
                 return 0;
