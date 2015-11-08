@@ -43,9 +43,9 @@
 
 #include <map>
 
-#ifdef SDLTILES
+#ifdef TILES
 #include "SDL2/SDL.h"
-#endif // SDLTILES
+#endif // TILES
 
 //Used for e^(x) functions
 #include <stdio.h>
@@ -7357,11 +7357,11 @@ void player::hardcoded_effects(effect &it)
         }
     } else if (id == "sleep") {
         set_moves(0);
-        #ifdef SDLTILES
+        #ifdef TILES
         if( calendar::once_every(MINUTES(10)) ) {
             SDL_PumpEvents();
         }
-        #endif // SDLTILES
+        #endif // TILES
         // Hibernating only kicks in whilst Engorged; separate tracking for hunger/thirst here
         // as a safety catch.  One test subject managed to get two Colds during hibernation;
         // since those add fatigue and dry out the character, the subject went for the full 10 days plus

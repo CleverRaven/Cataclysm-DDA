@@ -97,7 +97,7 @@ void live_view::show(const int x, const int y)
         }
     }
 
-#if (defined TILES || defined SDLTILES || defined _WIN32 || defined WINDOWS)
+#if (defined TILES || defined _WIN32 || defined WINDOWS)
     // Because of the way the status UI is done, the live view window must
     // be tall enough to clear the entire height of the viewport below the
     // status bar. This hack allows the border around the live view box to
@@ -114,7 +114,7 @@ void live_view::show(const int x, const int y)
 
     draw_border(*this);
 
-#if (defined TILES || defined SDLTILES || defined _WIN32 || defined WINDOWS)
+#if (defined TILES || defined _WIN32 || defined WINDOWS)
     w_live_view->height = full_height;
 #endif
 
@@ -128,7 +128,7 @@ bool live_view::hide(bool refresh /*= true*/, bool force /*= false*/)
         return false;
     }
 
-#if (defined TILES || defined SDLTILES || defined _WIN32 || defined WINDOWS)
+#if (defined TILES || defined _WIN32 || defined WINDOWS)
     int full_height = w_live_view->height;
     if (use_narrow_sidebar() && last_height > 0) {
         // When using the narrow sidebar mode, the lower part of the screen
@@ -139,7 +139,7 @@ bool live_view::hide(bool refresh /*= true*/, bool force /*= false*/)
 
     werase(*this);
 
-#if (defined TILES || defined SDLTILES || defined _WIN32 || defined WINDOWS)
+#if (defined TILES || defined _WIN32 || defined WINDOWS)
     w_live_view->height = full_height;
 #endif
 

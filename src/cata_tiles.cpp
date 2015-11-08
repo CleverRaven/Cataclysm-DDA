@@ -1,4 +1,4 @@
-#if (defined SDLTILES)
+#if (defined TILES)
 #include "cata_tiles.h"
 #include "debug.h"
 #include "json.h"

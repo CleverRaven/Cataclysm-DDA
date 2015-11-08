@@ -11,9 +11,9 @@
 #include "worldfactory.h"
 #include "catacharset.h"
 
-#ifdef SDLTILES
+#ifdef TILES
 #include "cata_tiles.h"
-#endif // SDLTILES
+#endif // TILES
 
 #include <stdlib.h>
 #include <fstream>
@@ -26,14 +26,9 @@ bool use_tiles;
 bool log_from_top;
 bool fov_3d;
 
-<<<<<<< HEAD
 #ifdef TILES
-=======
-bool used_tiles_changed;
-#ifdef SDLTILES
->>>>>>> parent of f734793... Replace SDLTILES with just TILES
 extern cata_tiles *tilecontext;
-#endif // SDLTILES
+#endif // TILES
 
 std::map<std::string, std::string> TILESETS; // All found tilesets: <name, tileset_dir>
 std::unordered_map<std::string, options_manager::cOpt> OPTIONS;
@@ -242,14 +237,14 @@ bool options_manager::cOpt::is_hidden()
         return false;
 
     case COPT_SDL_HIDE:
-#ifdef SDLTILES
+#ifdef TILES
         return true;
 #else
         return false;
 #endif
 
     case COPT_CURSES_HIDE:
-#ifndef SDLTILES // If not defined. it's curses interface.
+#ifndef TILES // If not defined. it's curses interface.
         return true;
 #else
         return false;
@@ -257,7 +252,7 @@ bool options_manager::cOpt::is_hidden()
 
     case COPT_POSIX_CURSES_HIDE:
         // Check if we on windows and using wincuses.
-#if ((defined TILES && defined SDLTILES) || defined _WIN32 || defined WINDOWS)
+#if (defined TILES || defined _WIN32 || defined WINDOWS)
         return false;
 #else
         return true;
@@ -1385,7 +1380,7 @@ void options_manager::show(bool ingame)
 
         wrefresh(w_options_header);
 
-#if (defined TILES || defined SDLTILES || defined _WIN32 || defined WINDOWS)
+#if (defined TILES || defined _WIN32 || defined WINDOWS)
         if (mPageItems[iCurrentPage][iCurrentLine] == "TERMINAL_X") {
             int new_terminal_x, new_window_width;
             std::stringstream value_conversion(OPTIONS[mPageItems[iCurrentPage][iCurrentLine]].getValueName());
@@ -1546,10 +1541,6 @@ void options_manager::show(bool ingame)
         g->mmenu_refresh_motd();
         g->mmenu_refresh_credits();
     }
-<<<<<<< HEAD
-=======
-#ifdef SDLTILES
->>>>>>> parent of f734793... Replace SDLTILES with just TILES
     if( used_tiles_changed ) {
 #ifdef TILES
         //try and keep SDL calls limited to source files that deal specifically with them
@@ -1565,13 +1556,8 @@ void options_manager::show(bool ingame)
             popup(_("Loading the tileset failed: %s"), err.what());
             use_tiles = false;
         }
-<<<<<<< HEAD
 #endif // TILES
     }
-=======
-    }
-#endif // SDLTILES
->>>>>>> parent of f734793... Replace SDLTILES with just TILES
     delwin(w_options);
     delwin(w_options_border);
     delwin(w_options_header);
