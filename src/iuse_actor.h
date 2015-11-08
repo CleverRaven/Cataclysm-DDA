@@ -594,4 +594,32 @@ class musical_instrument_actor : public iuse_actor
         virtual iuse_actor *clone() const override;
 };
 
+/**
+ * Holster a weapon
+ */
+class holster_actor : public iuse_actor
+{
+    public:
+        /** Title to show when prompting the player to select an item */
+        std::string title;
+        /** Message to show when holstering an item */
+        std::string holster_msg;
+        /** Maximum volume of item that can be holstered */
+        int max_volume;
+        /** Minimum volume that can be holstered or 1/3 of max_volume if unspecified */
+        int min_volume;
+        /** Maximum weight of item. If unspecified no weight limit is imposed */
+        int max_weight;
+        /** Base move cost per unit volume when wielding the contained item */
+        int draw_speed;
+        /** Only items using these weapon skills or item flags can be holstered */
+        std::vector<std::string> allow;
+
+        holster_actor() : iuse_actor(), max_weight(-1), draw_speed(10) { }
+        virtual ~holster_actor() { }
+        virtual void load( JsonObject &jo );
+        virtual long use( player*, item*, bool, const tripoint& ) const override;
+        virtual iuse_actor *clone() const override;
+};
+
 #endif
