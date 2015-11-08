@@ -1718,6 +1718,7 @@ void holster_actor::load( JsonObject &obj )
     max_volume = obj.get_int("max_volume");
     min_volume = obj.get_int("min_volume", max_volume / 3);
     max_weight = obj.get_int("max_weight", max_weight);
+    multi      = obj.get_int("multi",      multi);
     draw_speed = obj.get_int("draw_speed", draw_speed);
 
     allow = obj.get_string_array("allow");
@@ -1727,12 +1728,27 @@ long holster_actor::use( player *p, item *it, bool, const tripoint& ) const
 {
     if (&p->weapon == it) {
         p->add_msg_if_player(_("You need to unwield your %s before using it."), it->tname().c_str());
+        return 0;
+    }
 
-    } else if (!it->contents.empty()) {
-        p->wield_contents(it, draw_speed);
+    int pos = 0;
+    std::vector<std::string> opts;
 
+    if (it->contents.size() < multi) {
+        opts.push_back(holster_prompt);
+        pos = -1;
+    }
+
+    std::transform(it->contents.begin(), it->contents.end(), std::back_inserter(opts),
+                   [](const item& elem) { return string_format(_("Draw %s"), elem.display_name().c_str()); });
+
+    if (opts.size() > 1) {
+        pos += uimenu(false, string_format(_("Use %s"), it->tname().c_str()).c_str(), opts) - 1;
+    }
+
+    if (pos >= 0) {
+        p->wield_contents(it, pos, draw_speed);
     } else {
-        // when holster is empty show menu of suitable items that can be holstered
         item &obj = p->i_at(g->inv_for_filter(holster_prompt, [&](const item& e) {
             if (e.volume() > max_volume || e.volume() < min_volume) {
                 return false;
