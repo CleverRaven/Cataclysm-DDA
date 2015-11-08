@@ -705,9 +705,8 @@ public:
          * Callback when a player starts wielding the item. The item is already in the weapon
          * slot and is called from there.
          * @param mv number of moves *already* spent wielding the weapon
-         * @param container the container (if any) from which the item was wielded
          */
-        void on_wield( player &p, int mv = 0, const item *container = nullptr );
+        void on_wield( player &p, int mv = 0 );
         /**
          * Callback when a player starts carrying the item. The item is already in the inventory
          * and is called from there. This is not called when the item is added to the inventory

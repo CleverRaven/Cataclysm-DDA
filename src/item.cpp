@@ -1851,7 +1851,7 @@ void item::on_takeoff (player &p)
     }
 }
 
-void item::on_wield( player &p, int mv, const item * /* container */ )
+void item::on_wield( player &p, int mv )
 {
     // TODO: artifacts currently only work with the player character
     if( &p == &g->u && type->artifact ) {
