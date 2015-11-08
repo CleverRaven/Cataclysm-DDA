@@ -198,8 +198,9 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         int  swim_speed() const;
         /** Maintains body wetness and handles the rate at which the player dries */
         void update_body_wetness( const w_point &weather );
-        /** Updates all "biology" as if `turns` passed */
-        void update_body( int turns = 1 );
+        /** Updates all "biology" as if time between `from` and `to` passed, or by one turn */
+        void update_body();
+        void update_body( int from, int to );
         /** Increases hunger, thirst, fatigue and stimms wearing off. `rate_multiplier` is for retroactive updates. */
         void update_needs( int rate_multiplier );
         /**

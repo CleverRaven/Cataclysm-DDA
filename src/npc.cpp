@@ -2473,11 +2473,24 @@ void npc::on_unload()
 
 void npc::on_load()
 {
+    const int now = calendar::turn;
     // TODO: Sleeping, healing etc.
-    const int dt = calendar::turn - last_updated;
+    int dt = now - last_updated;
     last_updated = calendar::turn;
-    update_body( dt );
+    // Cap at some reasonable number, say 2 days (2 * 48 * 30 minutes)
+    dt = std::min( dt, 2 * 48 * MINUTES(30) );
+    int cur = now - dt;
     add_msg( m_debug, "on_load() by %s, %d turns", name.c_str(), dt );
+    // First update with 30 minute granularity, then 5 minutes, then turns
+    for( ; cur < now - MINUTES(30); cur += MINUTES(30) ) {
+        update_body( cur, cur + MINUTES(30) );
+    }
+    for( ; cur < now - MINUTES(5); cur += MINUTES(5) ) {
+        update_body( cur, cur + MINUTES(5) );
+    }
+    for( ; cur < now; cur++ ) {
+        update_body( cur, cur + 1 );
+    }
 }
 
 void npc_chatbin::add_new_mission( mission *miss )

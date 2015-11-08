@@ -2084,3 +2084,4 @@ void monster::on_load()
     const int healed = heal( heal_amount );
     add_msg( m_debug, "on_load() by %s, %d turns, healed %d", name().c_str(), dt, healed );
 }
+

@@ -5337,18 +5337,23 @@ int player::hp_percentage() const
     return (100 * total_cur) / total_max;
 }
 
-// Returns the number of multiples of tick_length we would "pass" on our way `from` to now
+// Returns the number of multiples of tick_length we would "pass" on our way `from` to `to`
 // For example, if `tick_length` is 1 hour, then going from 0:59 to 1:01 should return 1
-inline int ticks_till_now( int from, int tick_length )
+inline int ticks_between( int from, int to, int tick_length )
 {
-    return (calendar::turn / tick_length) - (from - 1) / tick_length;
+    return (to / tick_length) - (from - 1) / tick_length;
 }
 
-void player::update_body( int turns )
+void player::update_body()
 {
-    int from = calendar::turn - turns;
-    update_stamina( turns );
-    const int five_mins = ticks_till_now( from, MINUTES(5) );
+    const int now = calendar::turn;
+    update_body( now - 1, now );
+}
+
+void player::update_body( int from, int to )
+{
+    update_stamina( to - from );
+    const int five_mins = ticks_between( from, to, MINUTES(5) );
     if( five_mins > 0 ) {
         check_needs_extremes();
         update_needs( five_mins );
@@ -5357,14 +5362,14 @@ void player::update_body( int turns )
         }
     }
 
-    const int thirty_mins = ticks_till_now( from, MINUTES(30) );
+    const int thirty_mins = ticks_between( from, to, MINUTES(30) );
     if( thirty_mins > 0 ) {
         regen( thirty_mins );
         get_sick();
         mend( thirty_mins );
     }
 
-    if( calendar::once_every(HOURS(6)) ) {
+    if( ticks_between( from, to, HOURS(6) ) ) {
         update_health();
     }
 }
@@ -5608,7 +5613,7 @@ void player::update_needs( int rate_multiplier )
         if( !debug_ls && fatigue_rate > 0.0f ) {
             fatigue += divide_roll_remainder( fatigue_rate * rate_multiplier, 1.0 );
         }
-    } else if( has_effect( "sleep" ) && fatigue > 0 ) {
+    } else if( has_effect( "sleep" ) ) {
         effect &sleep = get_effect( "sleep" );
         const int intense = sleep.is_null() ? 0 : sleep.get_intensity();
         // Accelerated recovery capped to 2x over 2 hours
@@ -5635,9 +5640,10 @@ void player::update_needs( int rate_multiplier )
 
         if( recovery_rate > 0.0f ) {
             int recovered = divide_roll_remainder( recovery_rate * rate_multiplier, 1.0 );
-            if( fatigue - recovered < -25 ) {
+            if( fatigue - recovered < -20 ) {
+                // Should be wake up, but that could prevent some retroactive regeneration
+                sleep.set_duration( 1 );
                 fatigue = -25;
-                sleep.set_duration( std::min( sleep.get_duration(), 100 ) );
             } else {
                 fatigue -= recovered;
             }
@@ -7519,7 +7525,7 @@ void player::hardcoded_effects(effect &it)
             it.set_intensity(1);
         }
 
-        if( fatigue < -25 ) {
+        if( fatigue < -25 && it.get_duration() > 30 ) {
             it.set_duration(dice(3, 10));
         }
 
