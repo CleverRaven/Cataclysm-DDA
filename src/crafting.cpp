@@ -1582,7 +1582,7 @@ void player::complete_craft()
     }
 
 	/* we select the components we want to use */
-	std::vector<item_selection> comp_selections = std::vector<item_selection>();
+	std::vector<item_selection> comp_selections;
 	for (auto &it : making->requirements.components) {
 		item_selection is = select_component(it, batch_size, true);
 		if (is.use_from == usage::cancel) {
@@ -1593,7 +1593,7 @@ void player::complete_craft()
 		comp_selections.push_back(is);
 	}
 
-	std::vector<tool_selection> tool_selections = std::vector<tool_selection>();
+	std::vector<tool_selection> tool_selections;
 	for (auto &it : making->requirements.tools) {
 		tool_selection ts = select_tool(it, batch_size, DEFAULT_HOTKEYS, true);
 		if (ts.use_from == usage::cancel) {
@@ -1956,7 +1956,7 @@ std::list<item> player::consume_items(const std::vector<item_comp> &components, 
 
 tool_selection player::select_tool(const std::vector<tool_comp> &tools, int batch, const std::string &hotkeys, bool can_cancel) {
 
-	tool_selection selected = tool_selection();
+	tool_selection selected;
 
 	bool found_nocharge = false;
 	inventory map_inv;
