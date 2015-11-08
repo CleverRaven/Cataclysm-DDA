@@ -1734,7 +1734,7 @@ long holster_actor::use( player *p, item *it, bool, const tripoint& ) const
     int pos = 0;
     std::vector<std::string> opts;
 
-    if (it->contents.size() < multi) {
+    if ((int) it->contents.size() < multi) {
         opts.push_back(holster_prompt);
         pos = -1;
     }
