@@ -903,7 +903,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         void craft();
         void recraft();
         void long_craft();
-        void make_craft(const std::string &id, int batch_size);
+        void make_craft(const std::string &id, int batch_size, activity_type type = ACT_CRAFT);
         void make_all_craft(const std::string &id, int batch_size);
         void complete_craft();
 
