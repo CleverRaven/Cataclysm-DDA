@@ -5106,6 +5106,61 @@
   ]
 },{
   "type" : "recipe",
+  "result": "lsurvivor_armor",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_TORSO",
+  "skill_used": "tailor",
+  "skills_required" : ["fabrication", 6],
+  "difficulty": 5,
+  "time": 120000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "tools": [
+     [
+      [ "welder", 28 ],
+      [ "soldering_iron", 28 ],
+      [ "toolset", 28 ]
+     ],
+     [
+      [ "needle_bone", 60 ],
+      [ "needle_wood", 60 ],
+      [ "tailors_kit", 60 ],
+      [ "sewing_kit", 60 ]
+    ]
+  ],
+  "components": [
+     [
+      [ "rag", 15 ]
+     ],
+     [
+      [ "coat_rain", 1 ]
+     ],
+     [
+      [ "chestrig", 1 ],
+      [ "legrig", 1 ],
+      [ "vest", 1 ],
+      [ "tool_belt", 1 ],
+      [ "ragpouch", 2 ],
+      [ "leather_pouch", 2 ],
+      [ "dump_pouch", 1 ],
+      [ "purse", 1 ],
+      [ "fanny", 1 ]
+     ],
+     [
+      [ "duct_tape", 150 ]
+     ],
+     [
+      [ "kevlar", 1 ],
+      [ "modularvest", 1 ],
+      [ "swat_armor", 1 ],
+      [ "kevlar_plate", 16 ]
+     ]
+  ]
+},{
+  "type" : "recipe",
   "result": "survivor_suit",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_SUIT",
