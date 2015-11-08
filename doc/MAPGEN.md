@@ -62,7 +62,8 @@
                 * 2.7.12 "terrain"
                 * 2.7.13 "monster"
                 * 2.7.14 "rubble"
-        * 2.6 "rotation":
+                * 2.7.15 "place_liquid"
+        * 2.8 "rotation":
 
 * 3 Method: lua
 	* 3.0 Tested functions
@@ -628,6 +629,20 @@ To use this type with explicit coordinates use the name "place_rubble" (no plura
 "place_rubble": [
     { "x": 10, "y": 1 }
 ]
+```
+
+### 2.7.15 "place_liquids"
+Creates a liquid item at the specified location. Liquids can't currently be picked up (except for gasoline in tanks or pumps), but can be used to add flavor to mapgen.
+Values:
+- "liquid": (required, item id) the item (a liquid)
+- "amount": (optional, integer/min-max array) amount of liquid to place (a value of 0 defaults to the item's default charges)
+- "chance": (optional, integer/min-max array) one-in-X chance of spawning a liquid, default value is 1 (100%)
+
+Example for dropping a default amount of gasoline (200 units) on the ground:
+```JSON
+"place_liquid": [
+    { "liquid": "gasoline", "x": 3, "y": 5 }
+],
 ```
 
 # 2.8 "rotation"

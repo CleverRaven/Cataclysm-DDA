@@ -811,7 +811,6 @@ classes = {
             { name = "make_corpse", rval = nil, args = { "mtype_id", "int" } },
             { name = "make_corpse", rval = nil, args = { "mtype_id", "int", "string" } },
             { name = "make_corpse", rval = nil, args = { } },
-            { name = "make_handed", rval = nil, args = { "handedness" } },
             { name = "mark_as_used_by_player", rval = nil, args = { "player" } },
             { name = "mark_chapter_as_read", rval = nil, args = { "player" } },
             { name = "max_charges_from_flag", rval = "int", args = { "string" } },
@@ -1777,11 +1776,6 @@ enums = {
         "MORALE_HAIRCUT",
         "MORALE_SHAVE",
         "NUM_MORALE_TYPES",
-    },
-    handedness = {
-        "NONE",
-        "LEFT",
-        "RIGHT",
     },
     phase_id = {
         "PNULL",

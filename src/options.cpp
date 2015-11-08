@@ -1614,6 +1614,11 @@ bool options_manager::save(bool ingame)
     bIngame = ingame;
     const auto savefile = FILENAMES["options"];
 
+    trigdist = OPTIONS["CIRCLEDIST"]; // update trigdist as well
+    use_tiles = OPTIONS["USE_TILES"]; // and use_tiles
+    log_from_top = OPTIONS["SIDEBAR_LOG_FLOW"] == "new_top"; // cache to global due to heavy usage.
+    fov_3d = false; // OPTIONS["FOV_3D"];
+
     try {
         std::ofstream fout;
         fout.exceptions(std::ios::badbit | std::ios::failbit);
@@ -1647,13 +1652,8 @@ void options_manager::load()
     if( !fin.good() ) {
         if (load_legacy()) {
             if (save()) {
-                if(file_exist(FILENAMES["legacy_options"])) {
-                    remove_file(FILENAMES["legacy_options"]);
-                }
-
-                if(file_exist(FILENAMES["legacy_options2"])) {
-                    remove_file(FILENAMES["legacy_options2"]);
-                }
+                remove_file(FILENAMES["legacy_options"]);
+                remove_file(FILENAMES["legacy_options2"]);
             }
         }
 

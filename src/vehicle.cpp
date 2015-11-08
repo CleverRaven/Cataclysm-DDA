@@ -4249,7 +4249,7 @@ bool vehicle::collision( std::vector<veh_collision> &colls,
                          const tripoint &dp,
                          bool just_detect, bool bash_floor )
 {
-    
+
     /*
      * Big TODO:
      * Rewrite this function so that it has "pre-collision" phase (detection)
@@ -5558,22 +5558,30 @@ void vehicle::leak_fuel (int p)
     if (!part_flag(p, "FUEL_TANK")) {
         return;
     }
+
     const itype_id &ft = part_info(p).fuel_type;
+    item leak( ft, calendar::turn );
+
     if (ft == fuel_type_gasoline || ft == fuel_type_diesel) {
-        int x = global_x();
-        int y = global_y();
-        for (int i = x - 2; i <= x + 2; i++) {
-            for (int j = y - 2; j <= y + 2; j++) {
-                if (g->m.move_cost(i, j) > 0 && one_in(2)) {
-                    if (parts[p].amount < 100) {
-                        parts[p].amount = 0;
-                        return;
-                    }
-                    tripoint dest( i, j, smz );
-                    g->m.spawn_item( dest, ft );
-                    g->m.spawn_item( dest, ft );
-                    parts[p].amount -= 100;
+        tripoint minp = global_pos3();
+        tripoint maxp = minp;
+        minp.x -= 2;
+        minp.y -= 2;
+        maxp.x += 2;
+        maxp.y += 2;
+
+        for ( const tripoint &pt : g->m.points_in_rectangle(minp, maxp) ){
+            if (g->m.move_cost(pt) > 0 && one_in(2)) {
+                int leak_amount = rng(79, 121);
+
+                if (parts[p].amount < leak_amount) {
+                    parts[p].amount = 0;
+                    return;
                 }
+
+                leak.charges = leak_amount;
+                g->m.add_item_or_charges( pt, leak );
+                parts[p].amount -= leak_amount;
             }
         }
     }

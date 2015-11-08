@@ -94,7 +94,6 @@ class auto_pickup : public JsonSerializer, public JsonDeserializer {
         void add_rule(const std::string &sRule);
         void remove_rule(const std::string &sRule);
         void create_rules(const std::string &sItemNameIn = "");
-        bool check_exclude_rules(const std::string &sItemNameIn);
         void clear_character_rules();
         const std::string &check_item(const std::string &sItemName);
 

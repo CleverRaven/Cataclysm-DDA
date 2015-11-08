@@ -216,6 +216,7 @@ void player::sort_armor()
     ctxt.register_action("PREV_TAB");
     ctxt.register_action("NEXT_TAB");
     ctxt.register_action("MOVE_ARMOR");
+    ctxt.register_action("CHANGE_SIDE");
     ctxt.register_action("ASSIGN_INVLETS");
     ctxt.register_action("EQUIP_ARMOR");
     ctxt.register_action("REMOVE_ARMOR");
@@ -432,6 +433,13 @@ void player::sort_armor()
             } else {
                 selected = leftListIndex;
             }
+        } else if (action == "CHANGE_SIDE") {
+             if (leftListIndex < (int) tmp_worn.size() && tmp_worn[leftListIndex]->is_sided()) {
+                 if (query_yn(_("Swap side for %s?"), tmp_worn[leftListIndex]->tname().c_str())) {
+                     change_side(tmp_worn[leftListIndex]);
+                     wrefresh(w_sort_armor);
+                }
+            }
         } else if (action == "EQUIP_ARMOR") {
             // filter inventory for all items that are armor/clothing
             int pos = g->inv_for_unequipped(_("Put on:"), [](const item &it) {
@@ -458,10 +466,12 @@ void player::sort_armor()
             wrefresh(w_sort_armor);
         } else if (action == "REMOVE_ARMOR") {
             // query (for now)
-            if(query_yn(_("Remove selected armor?"))) {
-                // remove the item, asking to drop it if necessary
-                takeoff(tmp_worn[leftListIndex]);
-                wrefresh(w_sort_armor);
+            if (leftListIndex < (int) tmp_worn.size()) {
+                if (query_yn(_("Remove selected armor?"))) {
+                    // remove the item, asking to drop it if necessary
+                    takeoff(tmp_worn[leftListIndex]);
+                    wrefresh(w_sort_armor);
+                }
             }
         } else if (action == "ASSIGN_INVLETS") {
             // prompt first before doing this (yes yes, more popups...)
@@ -489,6 +499,7 @@ Use the arrow- or keypad keys to navigate the left list.\n\
 Press [%s] to select highlighted armor for reordering.\n\
 Use   [%s] / [%s] to scroll the right list.\n\
 Press [%s] to assign special inventory letters to clothing.\n\
+Press [%s] to change the side on which item is worn.\n\
 Use   [%s] to equip an armor item from the inventory.\n\
 Press [%s] to remove selected armor from oneself.\n\
  \n\
@@ -500,6 +511,7 @@ The sum of these values is the effective encumbrance value your character has fo
                          ctxt.get_desc("PREV_TAB").c_str(),
                          ctxt.get_desc("NEXT_TAB").c_str(),
                          ctxt.get_desc("ASSIGN_INVLETS").c_str(),
+                         ctxt.get_desc("CHANGE_SIDE").c_str(),
                          ctxt.get_desc("EQUIP_ARMOR").c_str(),
                          ctxt.get_desc("REMOVE_ARMOR").c_str()
                         );
