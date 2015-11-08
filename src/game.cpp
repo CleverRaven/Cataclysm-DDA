@@ -1801,7 +1801,7 @@ void game::hide_mouseview()
     }
 }
 
-#ifdef TILES
+#ifdef SDLTILES
 void rescale_tileset(int size);
 #endif
 
@@ -9441,7 +9441,7 @@ void centerlistview( const tripoint &active_item_position )
 #define MAXIMUM_ZOOM_LEVEL 4
 void game::zoom_in()
 {
-#ifdef TILES
+#ifdef SDLTILES
     if (tileset_zoom > MAXIMUM_ZOOM_LEVEL) {
         tileset_zoom = tileset_zoom / 2;
     } else {
@@ -9453,8 +9453,13 @@ void game::zoom_in()
 
 void game::zoom_out()
 {
+<<<<<<< HEAD
 #ifdef TILES
     if (tileset_zoom == 64) {
+=======
+#ifdef SDLTILES
+    if (tileset_zoom == 16) {
+>>>>>>> parent of f734793... Replace SDLTILES with just TILES
         tileset_zoom = MAXIMUM_ZOOM_LEVEL;
     } else {
         tileset_zoom = tileset_zoom * 2;

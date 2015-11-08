@@ -344,7 +344,7 @@ ifdef TILES
     LDFLAGS := $(filter-out -lSDL2main,$(LDFLAGS))
   endif
 
-  DEFINES += -DTILES
+  DEFINES += -DSDLTILES -DTILES
 
   ifeq ($(TARGETSYSTEM),WINDOWS)
     ifndef DYNAMIC_LINKING
