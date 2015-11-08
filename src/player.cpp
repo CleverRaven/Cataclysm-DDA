@@ -3223,7 +3223,6 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
                 mvwprintz(w_skills, 1 + i - min,19, status, "%-2d(%2d%%)", (int)level, (exercise <  0 ? 0 : exercise));
             }
 
-            //Draw Scrollbar
             draw_scrollbar(w_skills, line, skill_win_size_y, skillslist.size(), 1);
             wrefresh(w_skills);
 

@@ -835,7 +835,6 @@ const recipe *select_crafting_recipe( int &batch_size )
 
         }
 
-        //Draw Scrollbar
         draw_scrollbar(w_data, line, dataLines, recmax, 0);
         wrefresh(w_data);
 

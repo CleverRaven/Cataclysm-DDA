@@ -1357,7 +1357,6 @@ void options_manager::show(bool ingame)
                       cLineColor, "%s", value.c_str());
         }
 
-        //Draw Scrollbar
         draw_scrollbar(w_options_border, iCurrentLine, iContentHeight,
                        mPageItems[iCurrentPage].size(), iTooltipHeight + 2, 0, BORDER_COLOR);
         wrefresh(w_options_border);

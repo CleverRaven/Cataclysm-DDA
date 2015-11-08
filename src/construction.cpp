@@ -443,7 +443,6 @@ void construction_menu()
             }
         } // Finished updating
 
-        //Draw Scrollbar.
         draw_scrollbar(w_con, select, iMaxY - 4, constructs.size(), 3);
         wrefresh(w_con);
 

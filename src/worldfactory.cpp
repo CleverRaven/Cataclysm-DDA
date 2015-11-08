@@ -694,7 +694,6 @@ int worldfactory::show_worldgen_tab_options(WINDOW *win, WORLDPTR world)
                       cLineColor, "%s", (world->WORLD_OPTIONS[mPageItems[iWorldOptPage][i]].getValueName()).c_str());
         }
 
-        //Draw Scrollbar
         draw_scrollbar(win, iCurrentLine, iContentHeight,
                        mPageItems[iWorldOptPage].size(), iTooltipHeight + 4, 0, BORDER_COLOR);
         wrefresh(win);

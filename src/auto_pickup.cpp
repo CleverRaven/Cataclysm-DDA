@@ -157,7 +157,6 @@ void auto_pickup::show()
                       _("Please load a character first to use this page!"));
         }
 
-        //Draw Scrollbar
         draw_scrollbar(w_border, iCurrentLine, iContentHeight,
                        vRules[iCurrentPage].size(), 5);
         wrefresh(w_border);

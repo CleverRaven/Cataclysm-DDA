@@ -8648,7 +8648,6 @@ void game::zones_manager()
 
             calcStartPos(start_index, active_index, max_rows, zone_num);
 
-            //Draw Scrollbar
             draw_scrollbar(w_zones_border, active_index, max_rows, zone_num, 1);
             wrefresh(w_zones_border);
 
@@ -9910,7 +9909,6 @@ int game::list_items(const int iLastState)
                     }
                 }
 
-                //Draw Scrollbar
                 draw_scrollbar(w_items_border, iActive, iMaxRows, iItemNum, 1);
                 wrefresh(w_items_border);
             }
@@ -10125,7 +10123,7 @@ int game::list_monsters(const int iLastState)
                     centerlistview( iActivePos );
                     draw_trail_to_square( iActivePos, false );
                 }
-                //Draw Scrollbar
+
                 draw_scrollbar(w_monsters_border, iActive, iMaxRows, iMonsterNum, 1);
                 wrefresh(w_monsters_border);
             }
