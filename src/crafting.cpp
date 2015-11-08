@@ -1590,8 +1590,8 @@ void player::complete_craft()
 	/* we select the components we want to use */
 	std::vector<comp_selection> comp_selections = std::vector<comp_selection>();
 	for (auto &it : making->requirements.components) {
-		comp_selection cs;
-		if ((cs = select_component(it, batch_size, true)).use_from == usage::cancel) {
+		comp_selection cs = select_component(it, batch_size, true);
+		if (cs.use_from == usage::cancel) {
 			/* we canceled componenet selection, so we cancel crafting */
 			activity.type = ACT_NULL;
 			return;
@@ -1601,8 +1601,8 @@ void player::complete_craft()
 
 	std::vector<tool_selection> tool_selections = std::vector<tool_selection>();
 	for (auto &it : making->requirements.tools) {
-		tool_selection ts;
-		if ((ts = select_tool(it, batch_size, DEFAULT_HOTKEYS, true)).use_from == usage::cancel) {
+		tool_selection ts = select_tool(it, batch_size, DEFAULT_HOTKEYS, true);
+		if (ts.use_from == usage::cancel) {
 			/* we canceled tool selection, so we cancel crafting */
 			activity.type = ACT_NULL;
 			return;
