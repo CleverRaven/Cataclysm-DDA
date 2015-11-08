@@ -1882,20 +1882,21 @@ comp_selection player::select_component(const std::vector<item_comp> &components
 			selected.use_from = usage::cancel;
 			return selected;
 		}
+		size_t uSelection = (size_t) selection;
 
-		if (selection < map_has.size()) {
+		if (uSelection < map_has.size()) {
 			selected.use_from = usage::use_from_map;
-			selected.comp = map_has[selection];
+			selected.comp = map_has[uSelection];
 		}
-		else if (selection < map_has.size() + player_has.size()) {
+		else if (uSelection < map_has.size() + player_has.size()) {
 			selection -= map_has.size();
 			selected.use_from = usage::use_from_player;
-			selected.comp = player_has[selection];
+			selected.comp = player_has[uSelection];
 		}
 		else {
-			selection -= map_has.size() + player_has.size();
+			uSelection -= map_has.size() + player_has.size();
 			selected.use_from = usage::use_from_both;
-			selected.comp = mixed[selection];
+			selected.comp = mixed[uSelection];
 		}
 	}
 
@@ -2020,15 +2021,16 @@ tool_selection player::select_tool(const std::vector<tool_comp> &tools, int batc
 		if (selection == -1) {
 			selected.use_from = usage::cancel;
 		}
+		size_t uSelection = (size_t) selection;
 
-		if (selection < map_has.size()) {
+		if (uSelection < map_has.size()) {
 			selected.use_from = usage::use_from_map;
-			selected.comp = map_has[selection];
+			selected.comp = map_has[uSelection];
 		}
 		else {
-			selection -= map_has.size();
+			uSelection -= map_has.size();
 			selected.use_from = usage::use_from_player;
-			selected.comp = player_has[selection];
+			selected.comp = player_has[uSelection];
 		}
 	}
 
