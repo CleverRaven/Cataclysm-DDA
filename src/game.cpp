@@ -10849,8 +10849,7 @@ void game::plfire( bool burst, const tripoint &default_target )
         // get a list of holsters from worn items
         std::vector<item *> holsters;
         for( auto &worn : u.worn ) {
-            if( ((worn.type->can_use("HOLSTER_GUN") && !worn.has_flag("NO_QUICKDRAW")) ||
-                 worn.type->can_use("HOLSTER_ANKLE")) &&
+            if( (worn.type->can_use("holster") && !worn.has_flag("NO_QUICKDRAW")) &&
                 (!worn.contents.empty() && worn.contents[0].is_gun()) ) {
                 holsters.push_back(&worn);
             }
@@ -10874,13 +10873,7 @@ void game::plfire( bool burst, const tripoint &default_target )
             }
 
             if (choice > -1) {
-                u.wield_contents(holsters[choice], true,  holsters[choice]->skill(), 13);
-                u.add_msg_if_player(_("You pull your %1$s from its %2$s and ready it to fire."),
-                                    u.weapon.tname().c_str(), holsters[choice]->type_name(1).c_str());
-                if (u.weapon.charges <= 0) {
-                    u.add_msg_if_player(_("... but it's empty!"));
-                    return;
-                }
+                holsters[choice]->get_use("holster")->call(&u, holsters[choice], false, u.pos());
             }
         }
     }
