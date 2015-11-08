@@ -1648,11 +1648,11 @@ void player::complete_craft()
     if (making->difficulty != 0 && diff_roll > skill_roll * (1 + 0.1 * rng(1, 5))) {
         add_msg(m_bad, _("You fail to make the %s, and waste some materials."),
                 item::nname(making->result).c_str());
-		for (int i = 0; i < making->requirements.components.size(); i++) {
+		for (unsigned int i = 0; i < making->requirements.components.size(); i++) {
             consume_items(comp_selections[i], batch_size); // we consume the items we selected earlier
         }
 
-        for (int i = 0; i < making->requirements.tools.size(); i++) {
+        for (unsigned int i = 0; i < making->requirements.tools.size(); i++) {
             consume_tools(tool_selections[i], batch_size);
         }
         activity.type = ACT_NULL;
@@ -1670,11 +1670,11 @@ void player::complete_craft()
     // If we're here, the craft was a success!
     // Use up the components and tools
     std::list<item> used;
-    for (int i = 0; i < making->requirements.components.size(); i++) {
+    for (unsigned int i = 0; i < making->requirements.components.size(); i++) {
         std::list<item> tmp = consume_items(comp_selections[i], batch_size); // again, we consume the items we selected earlier
         used.splice(used.end(), tmp);
     }
-	for (int i = 0; i < making->requirements.tools.size(); i++) {
+	for (unsigned int i = 0; i < making->requirements.tools.size(); i++) {
         consume_tools(tool_selections[i], batch_size);
     }
 
@@ -1877,7 +1877,7 @@ comp_selection player::select_component(const std::vector<item_comp> &components
 		}
 
 		// Get the selection via a menu popup
-		size_t selection = menu_vec(can_cancel, _("Use which component?"), options) - 1;
+		int selection = menu_vec(can_cancel, _("Use which component?"), options) - 1;
 		if (selection == -1) { // we cancel the selection (probably because a component we expected was not there)
 			selected.use_from = usage::cancel;
 			return selected;
@@ -2016,7 +2016,7 @@ tool_selection player::select_tool(const std::vector<tool_comp> &tools, int batc
 		}
 
 		// Get selection via a popup menu
-		size_t selection = menu_vec(can_cancel, _("Use which tool?"), options, hotkeys) - 1;
+		int selection = menu_vec(can_cancel, _("Use which tool?"), options, hotkeys) - 1;
 		if (selection == -1) {
 			selected.use_from = usage::cancel;
 		}
