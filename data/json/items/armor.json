@@ -7498,7 +7498,7 @@
         "price" : 10000,
         "symbol" : "[",
         "color" : "ltgray",
-        "description" : "A leather scabbard, big enough for almost any sword.  Designed to be strapped to the back.  Activate to sheath/draw a sword",
+        "description" : "A leather scabbard, big enough for almost any sword.  Designed to be strapped to the back and very difficult to draw from without considerable practice.  Activate to sheath/draw a sword",
         "to_hit" : -1,
         "material" : ["leather", "null"],
         "covers" : ["TORSO"],
@@ -7514,6 +7514,7 @@
             "type": "holster",
             "max_volume": 15,
             "max_weight": 8000,
+            "draw_speed": 20,
             "allow": ["SHEATH_SWORD"]
         }
     },
