@@ -126,22 +126,27 @@ Run:
 
 Dependencies:
 
-  * [mxe](http://mxe.cc)
+  * [MXE](http://mxe.cc)
+  * [MXE Requirements](http://mxe.cc/#requirements)
 
 Install:
 
-    sudo apt-get install autoconf bison flex cmake git automake intltool libtool scons yasm
+    sudo apt-get install autoconf automake autopoint bash bison bzip2 cmake flex gettext git g++ gperf intltool libffi-dev libgdk-pixbuf2.0-dev libtool libltdl-dev libssl-dev libxml-parser-perl make openssl p7zip-full patch perl pkg-config python ruby scons sed unzip wget xz-utils g++-multilib libc6-dev-i386 libtool-bin
     mkdir -p ~/src/mxe
-    git clone -b stable https://github.com/mxe/mxe.git ~/src/mxe
+    git clone https://github.com/mxe/mxe.git ~/src/mxe
     cd ~/src/mxe
-    make gcc glib
+    make MXE_TARGETS='x86_64-w64-mingw32.static i686-w64-mingw32.static' sdl2 sdl2_ttf sdl2_image sdl2_mixer gettext lua
+
+If you are not on a Debian derivative (Linux Mint, Ubuntu, etc), you will have to use a different command than apt-get to install [the MXE requirements](http://mxe.cc/#requirements). Building all these packages from MXE might take a while even on a fast computer. Be patient. If you are not planning on building for both 32-bit and 64-bit, you might want to adjust your MXE_TARGETS.
 
 ### Building
 
 Run:
 
-    PATH="${PATH}:~/src/mxe/usr/bin"
-    make CROSS=i686-pc-mingw32-
+    PLATFORM="i686-w64-mingw32.static"
+    make CROSS="~/src/mxe/usr/bin/${PLATFORM}-" TILES=1 SOUND=1 LUA=1 RELEASE=1 LOCALIZE=1
+
+Change PLATFORM to x86_64-w64-mingw32.static for a 64-bit windows build.
 
 ## Linux (native) SDL builds
 
