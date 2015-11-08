@@ -13384,7 +13384,7 @@ bool player::wield_contents(item *container, int pos, int factor)
     mv += (weapon.volume() * factor) / std::max(lvl, 1);
     moves -= mv;
 
-    weapon.on_wield(*this, mv);
+    weapon.on_wield(*this, mv, container);
 
     return true;
 }
