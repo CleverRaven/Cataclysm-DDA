@@ -13947,7 +13947,7 @@ void mx_fumarole(map &m, const tripoint &)
     std::vector<point> fumarole = line_to(x1, y1, x2, y2, 0);
     for (auto &i : fumarole) {
         m.ter_set(i.x, i.y, t_lava);
-        if (one_in(10)){
+        if ( one_in(6) ) {
          m.spawn_item(i.x-1, i.y-1, "chunk_sulfur");
         }
     }
