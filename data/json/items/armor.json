@@ -7492,17 +7492,17 @@
     {
         "type" : "ARMOR",
         "id" : "back_holster",
-        "name" : "back holster",
+        "name" : "back scabbard",
         "weight" : 240,
         "volume" : 5,
         "price" : 10000,
         "symbol" : "[",
         "color" : "ltgray",
-        "description" : "A leather holster, big enough for a rifle or other large gun.  Designed to be strapped to the back.  Activate to holster/draw a gun.",
+        "description" : "A leather scabbard, big enough for almost any sword.  Designed to be strapped to the back.  Activate to sheath/draw a sword",
         "to_hit" : -1,
         "material" : ["leather", "null"],
         "covers" : ["TORSO"],
-        "flags" : ["VARSIZE", "BELTED", "OVERSIZE", "NO_QUICKDRAW"],
+        "flags" : ["VARSIZE", "BELTED", "OVERSIZE"],
         "coverage" : 6,
         "cutting" : 0,
         "bashing" : -1,
@@ -7514,7 +7514,7 @@
             "type": "holster",
             "max_volume": 15,
             "max_weight": 8000,
-            "allow": ["shotgun", "rifle", "launcher"]
+            "allow": ["SHEATH_SWORD"]
         }
     },
     {
@@ -7708,7 +7708,7 @@
         "covers" : ["LEG_EITHER"],
         "to_hit" : 0,
         "symbol" : "[",
-        "description" : "A large, adjustable sheath for holding swords and other large blades.  Activate to sheathe/draw a weapon.",
+        "description" : "A large, adjustable sheath for holding swords and other blades.  Activate to sheathe/draw a weapon.",
         "price" : 6000,
         "material" : ["leather", "wood"],
         "volume" : 7,
@@ -7724,7 +7724,7 @@
             "type": "holster",
             "holster_prompt": "Sheath sword",
             "holster_msg": "You sheath your %s",
-            "max_volume": 14,
+            "max_volume": 8,
             "allow": ["SHEATH_SWORD"]
         }
     },
