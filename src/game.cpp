@@ -10846,35 +10846,32 @@ void game::plfire( bool burst, const tripoint &default_target )
                 return;
             }
         }
-        // get a list of holsters from worn items
-        std::vector<item *> holsters;
-        for( auto &worn : u.worn ) {
-            if( (worn.type->can_use("holster") && !worn.has_flag("NO_QUICKDRAW")) &&
-                (!worn.contents.empty() && worn.contents[0].is_gun()) ) {
-                holsters.push_back(&worn);
+
+        std::vector<std::string> options;
+        std::vector<std::function<void()>> actions;
+
+        for (auto &w : u.worn) {
+            if (w.type->can_use("holster") && !w.has_flag("NO_QUICKDRAW") &&
+                !w.contents.empty() && w.contents[0].is_gun()) {
+                // draw (first) gun contained in holster
+                options.push_back(string_format(_("%s from %s (%d)"),
+                                                  w.contents[0].tname().c_str(),
+                                                  w.type_name().c_str(),
+                                                  w.contents[0].charges));
+
+                actions.push_back([&]{ u.invoke_item(&w, "holster"); });
+
+            } else if (w.is_gun() && w.has_gunmod("shoulder_strap") >= 0) {
+                // wield a weapon
+                options.push_back(w.display_name());
+                actions.push_back([&]{ u.wield(&w); });
             }
         }
-        // TODO: Turret vs. holster choice
-        if( !holsters.empty() ) {
-            int choice = -1;
-            // only one holster found, choose it
-            if( holsters.size() == 1 ) {
-                choice = 0;
-                // ask player which holster to draw from
-            } else {
-                std::vector<std::string> choices;
-                for( auto i : holsters ) {
-                    choices.push_back(string_format(_("%s from %s (%d)"),
-                                                    i->contents[0].tname().c_str(),
-                                                    i->type_name(1).c_str(),
-                                                    i->contents[0].charges));
-                }
-                choice = (uimenu(false, _("Draw what?"), choices)) - 1;
-            }
 
-            if (choice > -1) {
-                holsters[choice]->get_use("holster")->call(&u, holsters[choice], false, u.pos());
-            }
+        if (options.size() == 1) {
+            actions[0]();
+        } else if (options.size() > 1) {
+            actions[(uimenu(false, _("Draw what?"), options)) - 1]();
         }
     }
 
