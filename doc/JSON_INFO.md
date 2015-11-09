@@ -883,6 +883,18 @@ The contents of use_action fields can either be a string indicating a built-in f
     ]
 },
 "use_action": {
+    "type": "holster", // Holster or draw a weapon
+    "holster_prompt": "Holster item", // Prompt to use when selecting an item
+    "holster_msg": "You holster your %s", // Message to show when holstering an item
+    "max_volume": 6, // Maximum volume of each item that can be holstered
+    "min_volume": 3,  // Minimum volume of each item that can be holstered or 1/3 max_volume if unspecified
+    "max_weight": 2000, // Maximum weight of each item. If unspecified no weight limit is imposed
+    "multi": 1, // Total number of items that holster can contain
+    "draw_speed": 10, // Base move cost per unit volume when wielding the contained item
+    "skills": ["pistol", "shotgun"], // Guns using any of these skills can be holstered
+    "flags": ["SHEATH_KNIFE", "SHEATH_SWORD"] // Items with any of these flags set can be holstered
+},
+"use_action": {
     "type": "reveal_map", // reveal specific terrains on the overmap
     "radius": 180, // radius around the player where things are revealed. A single overmap is 180x180 tiles.
     "terrain": ["hiway", "road"], // ids of overmap terrain types that should be revealed (as many as you want).
