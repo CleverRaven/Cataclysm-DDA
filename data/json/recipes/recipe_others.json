@@ -6476,7 +6476,7 @@
   "skills_required": [ "mechanics", 3 ],
   "difficulty": 4,
   "time": 4000,
-  "reversible": false,
+  "reversible": true,
   "autolearn": true,
   "components": [
     [ ["switchblade", 1], ["primitive_knife", 1], ["pockknife", 1], ["knife_steak", 1] ],
