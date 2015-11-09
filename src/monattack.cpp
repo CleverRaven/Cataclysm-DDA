@@ -231,14 +231,16 @@ void mattack::shriek_alert(monster *z, int index)
 
     Creature *target = z->attack_target();
 
-    if(g->u.sees( *z )){
-    add_msg( _("The %s begins shrieking!"), z->name().c_str());
-    }
+
 
     int dist;
     if( target == nullptr || (dist = rl_dist( z->pos(), target->pos() )) > 15 ||
         !z->sees( *target ) ) {
         return;
+    }
+
+    if(g->u.sees( *z )){
+    add_msg( _("The %s begins shrieking!"), z->name().c_str());
     }
 
     z->moves -= 150;
@@ -265,7 +267,7 @@ void mattack::shriek_stun(monster *z, int index)
 
     int target_angle = g->m.coord_to_angle(z->posx(), z->posy(), target->posx(), target->posy());
     int cone_angle = 20;
-    for( const tripoint &cone : g->m.points_in_radius( z->pos(), 4, 1 ) ) {
+    for( const tripoint &cone : g->m.points_in_radius( z->pos(), 4) ) {
         int tile_angle = g->m.coord_to_angle(z->posx(), z->posy(), cone.x, cone.y);
         int diff = abs( target_angle - tile_angle );
         if( diff + cone_angle > 360 || diff > cone_angle || cone == z->pos()) {
@@ -273,18 +275,15 @@ void mattack::shriek_stun(monster *z, int index)
         }
         // affect the target
         g->m.bash( cone, 4, true ); //Small bash to every square, silent to not flood message box
-        if ( g->is_empty(cone) == false ){
-            Creature *target = g->critter_at( cone ); //If a monster is there, chance for stun
-            if ( target == nullptr ){
-                continue;
-            }
-            if ( one_in((dist)) && !(target->is_immune_effect("deaf")) ){
-                target->add_effect("dazed", rng(10,20), bp_head, false, 2);
-                auto msg_type = target == &g->u ? m_bad : m_info;
-                target->add_msg_player_or_npc( msg_type , _("The scream dazes you!"),
-                                                _("The screams seems to daze <npcname>!"));
-            }
+
+        Creature *target = g->critter_at( cone ); //If a monster is there, chance for stun
+        if ( target == nullptr ){
+            continue;
         }
+        if ( one_in((dist/2)) && !(target->is_immune_effect("deaf")) ){
+            target->add_effect("dazed", rng( ( 6 + ( 15 - dist ) ) , 20 ), num_bp, false, 2);
+        }
+
     }
 }
 
