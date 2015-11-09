@@ -498,16 +498,18 @@ void auto_pickup::create_rules(const std::string &sItemNameIn)
 
     std::string sItemName = "";
 
-    //Includes only
+    //process include/exclude in order of rules, global first, then character specific
+    //the MERGED vector is already in the correct order
+    //if a specific item is being added, all the rules need to be checked now
+    //may have some performance issues since exclusion needs to check all items also
     for( auto &elem : vRules[MERGED] ) {
         if( !elem.bExclude ) {
             if (sItemNameIn != "") {
                 if( elem.bActive && match( sItemNameIn, elem.sRule ) ) {
                     mapItems[sItemNameIn] = "true";
-                    break;
                 }
             } else {
-                //Check include paterns against all itemfactory items
+                //Check include patterns against all itemfactory items
                 for( auto &p : item_controller->get_all_itypes() ) {
                     sItemName = p.second->nname(1);
                     if( elem.bActive && match( sItemName, elem.sRule ) ) {
@@ -515,19 +517,14 @@ void auto_pickup::create_rules(const std::string &sItemNameIn)
                     }
                 }
             }
-        }
-    }
-
-    //Excludes only
-    for( auto &elem : vRules[MERGED] ) {
-        if( elem.bExclude ) {
+        } else {
             if (sItemNameIn != "") {
                 if( elem.bActive && match( sItemNameIn, elem.sRule ) ) {
                     mapItems[sItemNameIn] = "false";
-                    return;
                 }
             } else {
-                //Check exclude paterns against all included items
+                //only re-exclude items from the existing mapping for now
+                //new exclusions will process during pickup attempts
                 for (auto iter = mapItems.begin(); iter != mapItems.end(); ++iter) {
                     if( elem.bActive && match( iter->first, elem.sRule ) ) {
                         mapItems[iter->first] = "false";
@@ -536,17 +533,6 @@ void auto_pickup::create_rules(const std::string &sItemNameIn)
             }
         }
     }
-}
-
-bool auto_pickup::check_exclude_rules(const std::string &sItemNameIn)
-{
-    for( auto &elem : vRules[MERGED] ) {
-        if( elem.bExclude && elem.bActive && match( sItemNameIn, elem.sRule ) ) {
-            return false;
-        }
-    }
-
-    return true;
 }
 
 /**

@@ -253,7 +253,11 @@ bool item::covers( const body_part bp ) const
 
 std::bitset<num_bp> item::get_covered_body_parts() const
 {
-    auto res = type->armor->covers;
+    const auto armor = find_armor_data();
+    if( armor == nullptr ) {
+        return std::bitset<num_bp>();
+    }
+    auto res = armor->covers;
 
     switch (get_side()) {
         case LEFT:

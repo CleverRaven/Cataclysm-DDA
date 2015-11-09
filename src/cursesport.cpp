@@ -3,6 +3,7 @@
 #include "output.h"
 #include "color.h"
 #include "catacharset.h"
+#include "animation.h"
 
 #include <cstring> // strlen
 
@@ -264,6 +265,10 @@ int wrefresh(WINDOW *win)
 {
     if( win != nullptr && win->draw ) {
         curses_drawwindow(win);
+
+        #if defined(TILES)
+            try_sdl_update();
+        #endif
     }
     return 1;
 }

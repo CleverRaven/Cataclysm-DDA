@@ -219,15 +219,6 @@ static bool select_autopickup_items( std::vector<item> &here, std::vector<bool> 
                 iNumChecked++;
                 const std::string sItemName = here[i].tname( 1, false );
 
-                //Auto Pickup all items with 0 Volume and Weight <= AUTO_PICKUP_ZERO * 50
-                if (OPTIONS["AUTO_PICKUP_ZERO"]) {
-                    if (here[i].volume() == 0 &&
-                        here[i].weight() <= OPTIONS["AUTO_PICKUP_ZERO"] * 50 &&
-                        get_auto_pickup().check_exclude_rules(sItemName)) {
-                        bPickup = true;
-                    }
-                }
-
                 //Check the Pickup Rules
                 if ( get_auto_pickup().check_item(sItemName) == "true" ) {
                     bPickup = true;
@@ -237,6 +228,16 @@ static bool select_autopickup_items( std::vector<item> &here, std::vector<bool> 
                     get_auto_pickup().create_rules(sItemName);
 
                     if ( get_auto_pickup().check_item(sItemName) == "true" ) {
+                        bPickup = true;
+                    }
+                }
+
+                //Auto Pickup all items with 0 Volume and Weight <= AUTO_PICKUP_ZERO * 50
+                //items will either be in the autopickup list ("true") or unmatched ("")
+                if (!bPickup && OPTIONS["AUTO_PICKUP_ZERO"]) {
+                    if (here[i].volume() == 0 &&
+                        here[i].weight() <= OPTIONS["AUTO_PICKUP_ZERO"] * 50 &&
+                        get_auto_pickup().check_item(sItemName) != "false") {
                         bPickup = true;
                     }
                 }

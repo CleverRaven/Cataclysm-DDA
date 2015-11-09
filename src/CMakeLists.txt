@@ -433,7 +433,7 @@ ENDIF(TILES)
 # Build curses version if requested
 IF(CURSES)
 	IF(WIN32)
-		ADD_EXECUTABLE(cataclysm WIN32
+		ADD_EXECUTABLE(cataclysm
 			${CATACLYSM_DDA_SOURCES}
 			${CATACLYSM_DDA_HEADERS}
 			${CATACLYSM_DDA_SRCS}

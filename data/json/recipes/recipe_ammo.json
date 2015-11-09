@@ -1166,7 +1166,7 @@
   ]
 },{
    "type" : "recipe",
-  "result": "reloaded_9mm",
+  "result": "reloaded_9mmfmj",
   "category": "CC_AMMO",
   "subcategory": "CSC_AMMO_BULLETS",
   "skill_used": "fabrication",
@@ -3663,7 +3663,7 @@
     ]
 },{
     "type" : "recipe",
-    "result": "reloaded_9mmfmj",
+    "result": "reloaded_9mm",
     "category": "CC_AMMO",
     "subcategory": "CSC_AMMO_BULLETS",
     "skill_used": "fabrication",

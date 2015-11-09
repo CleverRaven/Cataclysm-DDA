@@ -254,7 +254,28 @@
             "need_sunlight": true
     }
   },
-
+  {
+    "id": "survivor_scope",
+    "type": "TOOL",
+    "symbol": "o",
+    "color": "dark_green",
+    "name": "survivor telescope",
+    "name_plural": "survivor telescopes",
+    "description": "A homemade collapsible telescope. Too large and inaccurate to use as a weapon scope, but carrying this item in your inventory will double the distance that is mapped around you during your travels.",
+    "price": 600,
+    "material": ["glass", "plastic"],
+    "weight": 500,
+    "volume": 1,
+    "bashing": 0,
+    "cutting": -5,
+    "to_hit": -1,
+    "ammo": "NULL",
+    "revert_to": "null",
+    "max_charges": 0,
+    "initial_charges": 0,
+    "charges_per_use": 0,
+    "turns_per_charge": 0
+  },
   {
     "id": "rock_quern",
     "type": "TOOL",
@@ -9557,7 +9578,7 @@
     "description": "A tablet PC using an efficient color e-ink display.  Before the cataclysm, these were nifty gadgets; now, it's an almost priceless resource.  Runs on conventional batteries.",
     "price": 20000,
     "material": "plastic",
-    "weight": 2000,
+    "weight": 250,
     "volume": 1,
     "bashing": -1,
     "cutting": 0,
