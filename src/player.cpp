@@ -5341,7 +5341,7 @@ int player::hp_percentage() const
 // For example, if `tick_length` is 1 hour, then going from 0:59 to 1:01 should return 1
 inline int ticks_between( int from, int to, int tick_length )
 {
-    return (to / tick_length) - (from - 1) / tick_length;
+    return (to / tick_length) - (from / tick_length);
 }
 
 void player::update_body()
@@ -5554,8 +5554,8 @@ void player::update_needs( int rate_multiplier )
 
     if( asleep && !has_recycler && !hibernating ) {
         // Hunger and thirst advance more slowly while we sleep. This is the standard rate.
-        hunger_rate -= 0.5f;
-        thirst_rate -= 0.5f;
+        hunger_rate *= 0.5f;
+        thirst_rate *= 0.5f;
     } else if( asleep && !has_recycler && hibernating) {
         // Hunger and thirst advance *much* more slowly whilst we hibernate.
         // (int (calendar::turn) % 50 would be zero burn.)
@@ -5563,8 +5563,8 @@ void player::update_needs( int rate_multiplier )
         // until the char wakes.  This was time-trial'd quite thoroughly,so kindly don't "rebalance"
         // without a good explanation and taking a night to make sure it works
         // with the extended sleep duration, OK?
-        hunger_rate -= (5.0f / 7.0f);
-        thirst_rate -= (5.0f / 7.0f);
+        hunger_rate *= (2.0f / 7.0f);
+        thirst_rate *= (2.0f / 7.0f);
     }
 
     if( !debug_ls && hunger_rate > 0.0f ) {
@@ -5583,7 +5583,7 @@ void player::update_needs( int rate_multiplier )
 
     const bool wasnt_fatigued = fatigue <= DEAD_TIRED;
     // Don't increase fatigue if sleeping or trying to sleep or if we're at the cap.
-    if( fatigue < 1050 && !in_sleep_state() && !debug_ls ) {
+    if( fatigue < 1050 && !asleep && !debug_ls ) {
         float fatigue_rate = 1.0f;
         // Wakeful folks don't always gain fatigue!
         if (has_trait("WAKEFUL")) {

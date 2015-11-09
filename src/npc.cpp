@@ -2482,10 +2482,10 @@ void npc::on_load()
     int cur = now - dt;
     add_msg( m_debug, "on_load() by %s, %d turns", name.c_str(), dt );
     // First update with 30 minute granularity, then 5 minutes, then turns
-    for( ; cur < now - MINUTES(30); cur += MINUTES(30) ) {
+    for( ; cur < now - MINUTES(30); cur += MINUTES(30) + 1 ) {
         update_body( cur, cur + MINUTES(30) );
     }
-    for( ; cur < now - MINUTES(5); cur += MINUTES(5) ) {
+    for( ; cur < now - MINUTES(5); cur += MINUTES(5) + 1 ) {
         update_body( cur, cur + MINUTES(5) );
     }
     for( ; cur < now; cur++ ) {
