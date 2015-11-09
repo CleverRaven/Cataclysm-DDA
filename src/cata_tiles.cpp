@@ -916,6 +916,8 @@ void cata_tiles::draw_minimap( int destx, int desty, const tripoint &center, int
                 color.b = 12;
             } else {
                 const auto critter = g->critter_at( p, true );
+                int veh_part = 0;
+                vehicle *veh = g->m.veh_at( p, veh_part );
                 if( critter != nullptr ) {
                     if ( critter->is_player()) {
                         color.r = 0;
@@ -930,6 +932,8 @@ void cata_tiles::draw_minimap( int destx, int desty, const tripoint &center, int
                         color.g = 0;
                         color.b = 0;
                     }
+                } else if (veh != nullptr) {
+                    color = cursesColorToSDL(veh->part_color(veh_part));
                 } else {
                     auto terrain = g->m.ter_at( p );
                     color = cursesColorToSDL(terrain.color());
