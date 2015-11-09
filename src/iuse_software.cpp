@@ -9,6 +9,7 @@
 #include "iuse_software_kitten.h"
 #include "iuse_software_snake.h"
 #include "iuse_software_sokoban.h"
+#include "iuse_software_minesweeper.h"
 #include "translations.h"
 
 #include <string>
@@ -65,6 +66,19 @@ bool play_videogame(std::string function_name, std::map<std::string, std::string
     } else if ( function_name == "sokoban_game" ) {
         sokoban_game sg;
         int iScore = sg.start_game();
+
+        if (iScore >= 5000) {
+            score = 50;
+        } else if (iScore >= 1000) {
+            score = 30;
+        } else {
+            score = 20;
+        }
+
+        return true;
+    } else if ( function_name == "minesweeper_game" ) {
+        minesweeper_game mg;
+        int iScore = mg.start_game();
 
         if (iScore >= 5000) {
             score = 50;
