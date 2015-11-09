@@ -6089,6 +6089,7 @@
     "description": "This is an adjustable crescent wrench.  It could be a decent melee weapon, and is used in many mechanics crafting recipes.",
     "price": 1200,
     "material": "steel",
+    "flags": ["BELT_CLIP"],
     "weight": 907,
     "volume": 2,
     "bashing": 9,
