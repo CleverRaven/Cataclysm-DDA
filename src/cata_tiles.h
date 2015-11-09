@@ -200,6 +200,9 @@ class cata_tiles
     public:
         /** Draw to screen */
         void draw( int destx, int desty, const tripoint &center, int width, int height );
+
+        /** Minimap functionality */
+        void draw_minimap( int destx, int desty, const tripoint &center, int width, int height);
     protected:
         /** How many rows and columns of tiles fit into given dimensions **/
         void get_window_tile_counts(const int width, const int height, int &columns, int &rows) const;

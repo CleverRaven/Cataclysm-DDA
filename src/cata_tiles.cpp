@@ -31,9 +31,10 @@
 
 #define ITEM_HIGHLIGHT "highlight_item"
 
-//extern SDL_Surface *screen;
 extern int WindowHeight, WindowWidth;
 extern int fontwidth, fontheight;
+
+SDL_Color cursesColorToSDL(int color);
 
 static const std::string empty_string;
 static const std::string TILE_CATEGORY_IDS[] = {
@@ -886,6 +887,66 @@ void cata_tiles::draw( int destx, int desty, const tripoint &center, int width, 
 
     SDL_RenderSetClipRect(renderer, NULL);
 }
+
+void cata_tiles::draw_minimap( int destx, int desty, const tripoint &center, int width, int height )
+{
+    if (!g) {
+        return;
+    }
+
+    int start_x = center.x - 40;
+    int start_y = center.y - 40;
+    int tiles_x = 80;
+    int tiles_y = 80;
+    int tile_size_x = std::max(width / tiles_x, 1);
+    int tile_size_y = std::max(height / tiles_y, 1);
+
+    auto &ch = g->m.access_cache( center.z );
+
+    // First draw terrain.
+    for( int y = 0; y < tiles_y; y++) {
+        for( int x = 0; x <= tiles_x; x++) {
+            tripoint p(start_x + x, start_y + y, center.z);
+
+            lit_level lighting = ch.visibility_cache[p.x][p.y];
+            SDL_Color color;
+            if(lighting == LL_DARK || lighting == LL_BLANK) {
+                color.r = 12;
+                color.g = 12;
+                color.b = 12;
+            } else {
+                const auto critter = g->critter_at( p, true );
+                if( critter != nullptr ) {
+                    if ( critter->is_player()) {
+                        color.r = 0;
+                        color.g = 255;
+                        color.b = 0;
+                    } else if ( critter->is_npc()) {
+                        color.r = 0;
+                        color.g = 0;
+                        color.b = 255;
+                    } else {
+                        color.r = 255;
+                        color.g = 0;
+                        color.b = 0;
+                    }
+                } else {
+                    auto terrain = g->m.ter_at( p );
+                    color = cursesColorToSDL(terrain.color());
+                }
+            }
+
+            SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, 255);
+            SDL_Rect rectangle;
+            rectangle.x = destx + x * tile_size_x;
+            rectangle.y = desty + y * tile_size_y;
+            rectangle.w = tile_size_x;
+            rectangle.h = tile_size_y;
+            SDL_RenderFillRect(renderer, &rectangle);
+        }
+    }
+}
+
 
 void cata_tiles::clear_buffer()
 {

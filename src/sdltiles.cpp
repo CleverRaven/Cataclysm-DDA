@@ -765,6 +765,12 @@ void curses_drawwindow(WINDOW *win)
         int wheight = win->height * font->fontheight;
         FillRectDIB(offsetx, offsety, wwidth, wheight, COLOR_BLACK);
         update = true;
+    } else if (g && win == g->w_minimap && OPTIONS["PIXEL_MINIMAP"]) {
+        tilecontext->draw_minimap(
+            win->x * fontwidth, win->y * fontheight,
+            tripoint( g->ter_view_x, g->ter_view_y, g->ter_view_z ),
+            160, 160);
+        update = true;
     } else {
         // Either not using tiles (tilecontext) or not the w_terrain window.
         update = font->draw_window(win);
@@ -1988,6 +1994,12 @@ void to_overmap_font_dimension(int &w, int &h) {
 
 bool is_draw_tiles_mode() {
     return use_tiles;
+}
+
+SDL_Color cursesColorToSDL(int color) {
+    // Extract the color pair ID.
+    int pair = (color & 0x03fe0000) >> 17;
+    return windowsPalette[colorpairs[pair].FG];
 }
 
 #ifdef SDL_SOUND
