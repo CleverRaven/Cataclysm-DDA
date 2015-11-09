@@ -181,7 +181,7 @@
         "color": "green",
         "name": "plastic canteen",
         "category": "other",
-        "description": "A military-style water canteen, with a 1.0 liter capacity commonly worn at the hip.",
+        "description": "A military-style water canteen with a 1.0 liter capacity. Commonly worn at the hip.",
         "price": 800,
         "weight": 135,
         "volume": 4,
