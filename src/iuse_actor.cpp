@@ -1712,8 +1712,8 @@ iuse_actor *holster_actor::clone() const
 
 void holster_actor::load( JsonObject &obj )
 {
-    holster_prompt = obj.get_string("holster_prompt", _("Holster item"));
-    holster_msg    = obj.get_string("holster_msg",    _("You holster your %s"));
+    holster_prompt = obj.get_translated_string("holster_prompt", _("Holster item"));
+    holster_msg    = obj.get_translated_string("holster_msg",    _("You holster your %s"));
 
     max_volume = obj.get_int("max_volume");
     min_volume = obj.get_int("min_volume", max_volume / 3);
