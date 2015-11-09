@@ -6081,7 +6081,7 @@ void game::do_blast( const tripoint &p, const float power,
 
         closed.insert( pt );
 
-        const float force = power * std::pow( distance_factor, distance );
+        const float force = power * std::pow( distance, distance_factor );
         if( force <= 1.0f ) {
             continue;
         }
