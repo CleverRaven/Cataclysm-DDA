@@ -306,14 +306,17 @@ void finalize_recipes()
     }
 }
 
-/* I stuffed crafting_allowed and crafting_can_see into 1 function, since they were always used in tandem */
 bool player::crafting_allowed()
 {
     if (morale_level() < MIN_MORALE_CRAFT) { // See morale.h
         add_msg(m_info, _("Your morale is too low to craft..."));
         return false;
     }
+    return true;
+}
 
+bool player::crafting_can_see()
+{
     if (fine_detail_vision_mod() > 4) {
         add_msg(m_info, _("You can't see to craft!"));
         return false;
@@ -331,7 +334,9 @@ void player::craft()
     int batch_size = 0;
     const recipe *rec = select_crafting_recipe( batch_size );
     if (rec) {
-        make_craft( rec->ident, batch_size );
+        if(crafting_can_see()) {
+            make_craft( rec->ident, batch_size );
+        }
     }
 }
 
@@ -353,13 +358,19 @@ void player::long_craft()
     int batch_size = 0;
     const recipe *rec = select_crafting_recipe( batch_size );
     if (rec) {
-        make_all_craft( rec->ident, batch_size );
+        if(crafting_can_see()) {
+            make_all_craft( rec->ident, batch_size );
+        }
     }
 }
 
 bool player::making_would_work(const std::string &id_to_make, int batch_size)
 {
     if (!crafting_allowed()) {
+        return false;
+    }
+
+    if(!crafting_can_see()) {
         return false;
     }
 
@@ -1406,13 +1417,13 @@ void pick_recipes(const inventory &crafting_inv,
     std::reverse(current.begin(), current.begin() + truecount);
 }
 
-void player::make_craft(const std::string &id_to_make, int batch_size, activity_type type)
+void player::make_craft(const std::string &id_to_make, int batch_size)
 {
     const recipe *recipe_to_make = find_recipe( id_to_make );
     if( recipe_to_make == nullptr ) {
         return;
     }
-    assign_activity(type, recipe_to_make->batch_time(batch_size), recipe_to_make->id);
+    assign_activity(ACT_CRAFT, recipe_to_make->batch_time(batch_size), recipe_to_make->id);
     activity.values.push_back( batch_size );
     last_batch = batch_size;
     lastrecipe = id_to_make;
@@ -1421,7 +1432,14 @@ void player::make_craft(const std::string &id_to_make, int batch_size, activity_
 
 void player::make_all_craft(const std::string &id_to_make, int batch_size)
 {
-    make_craft(id_to_make, batch_size, ACT_LONGCRAFT);
+    const recipe *recipe_to_make = find_recipe( id_to_make );
+    if( recipe_to_make == nullptr ) {
+        return;
+    }
+    assign_activity(ACT_LONGCRAFT, recipe_to_make->batch_time(batch_size), recipe_to_make->id);
+    activity.values.push_back( batch_size );
+    last_batch = batch_size;
+    lastrecipe = id_to_make;
 }
 
 item recipe::create_result() const
