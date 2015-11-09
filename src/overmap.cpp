@@ -2332,9 +2332,9 @@ void overmap::move_hordes()
 
 
     if(ACTIVE_WORLD_OPTIONS["REJOIN_HORDE"]) {
-        // Re-absorb zombies into hordes.
         static const mongroup_id GROUP_ZOMBIE("GROUP_ZOMBIE");
-        const MonsterGroup &zombie_group = MonsterGroupManager::GetMonsterGroup(GROUP_ZOMBIE);
+
+        // Re-absorb zombies into hordes.
         // Scan over monsters outside the player's view and place them back into hordes.
         auto monster_map_it = monster_map.begin();
         while(monster_map_it != monster_map.end()) {
@@ -2342,7 +2342,12 @@ void overmap::move_hordes()
             auto& this_monster = monster_map_it->second;
 
             // Check if the monster is a zombie.
-            if(!zombie_group.IsMonsterInGroup(this_monster.type->id)) {
+            auto& type = *(this_monster.type);
+            if(
+                !type.species.count(species_id("ZOMBIE")) || // Only add zombies to hordes.
+                type.id == mtype_id("mon_jabberwock") || // Jabberwockies are an exception.
+                this_monster.mission_id != -1 // We mustn't delete monsters that are related to missions.
+            ) {
                 // Don't delete the monster, just increment the iterator.
                 monster_map_it++;
                 continue;
