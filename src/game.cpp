@@ -5948,9 +5948,10 @@ void game::monmove()
             int xdir = rng(1, 2) * 2 - 3, ydir = rng(1, 2) * 2 - 3; // -1 or 1
             int startx = critter.posx() - 3 * xdir, endx = critter.posx() + 3 * xdir;
             int starty = critter.posy() - 3 * ydir, endy = critter.posy() + 3 * ydir;
+            int z = critter.posz();
             for (int x = startx; x != endx && !okay; x += xdir) {
                 for (int y = starty; y != endy && !okay; y += ydir) {
-                    tripoint dest( x, y, get_levz() );
+                    tripoint dest( x, y, z );
                     if (critter.can_move_to( dest ) && is_empty( dest )) {
                         critter.setpos( dest );
                         okay = true;
