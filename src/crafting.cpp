@@ -2006,6 +2006,7 @@ tool_selection player::select_tool(const std::vector<tool_comp> &tools, int batc
         int selection = menu_vec( can_cancel, _("Use which tool?"), options, hotkeys ) - 1;
         if( selection == -1 ) {
             selected.use_from = usage::cancel;
+            return selected;
         }
         size_t uSelection = (size_t) selection;
 
