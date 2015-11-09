@@ -2331,7 +2331,7 @@ void overmap::move_hordes()
     zg.insert( tmpzg.begin(), tmpzg.end() );
 
 
-    if(ACTIVE_WORLD_OPTIONS["REJOIN_HORDE"]) {
+    if(ACTIVE_WORLD_OPTIONS["WANDER_SPAWNS"]) {
         static const mongroup_id GROUP_ZOMBIE("GROUP_ZOMBIE");
 
         // Re-absorb zombies into hordes.

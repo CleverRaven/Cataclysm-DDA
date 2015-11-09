@@ -1158,11 +1158,6 @@ void options_manager::init()
                                     false
                                    );
 
-    OPTIONS["REJOIN_HORDE"] = cOpt("world_default", _("Rejoin horde"),
-                                    _("Monsters that have already spawned in the player's view will be put back into monster groups when far enough away from the player."),
-                                    false
-                                   );
-
     OPTIONS["CLASSIC_ZOMBIES"] = cOpt("world_default", _("Classic zombies"),
                                       _("Only spawn classic zombies and natural wildlife. Requires a reset of save folder to take effect. This disables certain buildings."),
                                       false
