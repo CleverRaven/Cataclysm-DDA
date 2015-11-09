@@ -327,19 +327,13 @@ void player_activity::finish( player *p )
             break;
         case ACT_LONGCRAFT:
             {
-                //int batch_size = values.front();
+                int batch_size = values.front();
                 p->complete_craft();
                 type = ACT_NULL;
                 // Workaround for a bug where longcraft can be unset in complete_craft().
-
-                //  I'm not sure if I can't call p.last_craft.making_would_work here, since I don't know where batch_size is coming from.
-                if( p->last_craft.making_would_work() ) {
-                    p->last_craft.execute();
+                if( p->making_would_work( p->lastrecipe, batch_size ) ) {
+                    p->make_all_craft( p->lastrecipe, batch_size );
                 }
-
-                //if( p->making_would_work( p->last_craft.rec->ident, batch_size ) ) {
-                //    p->make_all_craft( p->last_craft.rec->ident, batch_size );
-                //}
             }
             break;
         case ACT_FORAGE:

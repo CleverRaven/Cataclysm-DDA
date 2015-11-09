@@ -36,25 +36,6 @@ template<typename CompType> struct comp_selection;
 using item_selection = comp_selection<item_comp>;
 using tool_selection = comp_selection<tool_comp>;
 
-struct craft_command
-{
-    const recipe* rec = nullptr;
-    int batch_size = 0;
-    activity_type type= ACT_NULL; // either ACT_CRAFT or ACT_LONGCRAFT
-
-    craft_command() {};
-    craft_command( const recipe* to_make, int batch_size, activity_type type ) : rec( to_make ), batch_size( batch_size ), type( type ) {}
-
-    /* check if recipe would work before calling, because this doesn't */
-    void execute();
-    bool making_would_work();
-
-    bool empty()
-    {
-        return rec == nullptr;
-    }
-};
-
 struct special_attack {
     std::string text;
     int bash;
@@ -1074,8 +1055,8 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
 
         std::vector <addiction> addictions;
 
-        craft_command last_craft;
-
+        std::string lastrecipe;
+        int last_batch;
         itype_id lastconsumed;        //used in crafting.cpp and construction.cpp
 
         //Dumps all memorial events into a single newline-delimited string
