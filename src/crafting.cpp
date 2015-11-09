@@ -25,22 +25,6 @@
 #include <math.h>    //sqrt
 #include <algorithm> //std::min
 
-enum usage {
-    use_from_map = 1,
-    use_from_player = 2,
-    use_from_both = 1 | 2,
-    use_from_none = 4,
-    cancel = 5
-};
-
-template<typename CompType>
-struct comp_selection {
-    usage use_from = use_from_none;
-    CompType comp;
-};
-using item_selection = comp_selection<item_comp>;
-using tool_selection = comp_selection<tool_comp>;
-
 enum TAB_MODE {
     NORMAL,
     FILTERED,

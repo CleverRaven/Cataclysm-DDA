@@ -5,6 +5,7 @@
 #include "requirements.h" // requirement_data
 #include "cursesdef.h"    // WINDOW
 #include "string_id.h"
+#include "player_activity.h"
 
 #include <string>
 #include <vector>
@@ -102,6 +103,43 @@ struct recipe {
 
     int batch_time(int batch = 1) const;
 
+};
+
+enum usage {
+    use_from_map = 1,
+    use_from_player = 2,
+    use_from_both = 1 | 2,
+    use_from_none = 4,
+    cancel = 5
+};
+
+template<typename CompType>
+struct comp_selection {
+    usage use_from = use_from_none;
+    CompType comp;
+};
+using item_selection = comp_selection<item_comp>;
+using tool_selection = comp_selection<tool_comp>;
+
+struct craft_command {
+    const recipe* rec = nullptr;
+    int batch_size = 0;
+    activity_type atype = ACT_NULL;
+
+    std::vector<item_selection> used_items;
+    std::vector<tool_selection> used_tools;
+
+    craft_command() {}
+    craft_command( const recipe* to_make, int batch_size, activity_type atype ) :
+        rec( to_make ), batch_size( batch_size ), atype( atype ) {}
+
+    void execute();
+    bool makin_would_work();
+
+    bool empty()
+    {
+        return rec == nullptr;
+    }
 };
 
 // removes any (removable) ammo from the item and stores it in the

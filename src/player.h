@@ -6,6 +6,7 @@
 #include "player_activity.h"
 #include "weighted_list.h"
 #include "morale.h"
+#include "crafting.h"
 
 #include <unordered_set>
 #include <bitset>
@@ -32,9 +33,6 @@ struct tool_comp;
 class vehicle;
 struct it_comest;
 struct w_point;
-template<typename CompType> struct comp_selection;
-using item_selection = comp_selection<item_comp>;
-using tool_selection = comp_selection<tool_comp>;
 
 struct special_attack {
     std::string text;
