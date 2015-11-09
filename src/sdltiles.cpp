@@ -289,7 +289,7 @@ bool WinCreate()
     WindowWidth = TERMINAL_WIDTH * fontwidth;
     WindowHeight = TERMINAL_HEIGHT * fontheight;
 
-    if (OPTIONS["FULLSCREEN"] == "fullscreen" || OPTIONS["FULLSCREEN"] == "true") {
+    if (OPTIONS["FULLSCREEN"] == "fullscreen") {
         window_flags |= SDL_WINDOW_FULLSCREEN;
     } else if (OPTIONS["FULLSCREEN"] == "windowedbl") {
         window_flags |= SDL_WINDOW_FULLSCREEN_DESKTOP;
