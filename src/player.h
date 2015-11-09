@@ -1053,6 +1053,9 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
 
         std::vector <addiction> addictions;
 
+        void make_craft_with_command( const std::string &id_to_make, int batch_size, activity_type atype );
+        craft_command last_craft;
+
         std::string lastrecipe;
         int last_batch;
         itype_id lastconsumed;        //used in crafting.cpp and construction.cpp

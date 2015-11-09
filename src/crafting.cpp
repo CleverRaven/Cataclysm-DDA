@@ -1414,7 +1414,6 @@ void player::make_craft(const std::string &id_to_make, int batch_size)
     lastrecipe = id_to_make;
 }
 
-
 void player::make_all_craft(const std::string &id_to_make, int batch_size)
 {
     const recipe *recipe_to_make = find_recipe( id_to_make );
@@ -1425,6 +1424,74 @@ void player::make_all_craft(const std::string &id_to_make, int batch_size)
     activity.values.push_back( batch_size );
     last_batch = batch_size;
     lastrecipe = id_to_make;
+}
+
+/* very DRY violating and redundant, but it maintains the original functionality too */
+void player::make_craft_with_command( const std::string &id_to_make, int batch_size, activity_type atype )
+{
+    const recipe *recipe_to_make = find_recipe( id_to_make );
+
+    if( recipe_to_make == nullptr ) {
+        return;
+    }
+
+    last_craft = craft_command( recipe_to_make, batch_size, atype );
+    last_craft.execute();
+}
+
+void craft_command::execute()
+{
+    if( empty() )
+        return;
+
+    if( has_selections() ) {
+        /* check player::has_components_available and player::has_tools_available */
+    } else {
+        /* pop up asking to continue */
+    }
+
+    /* make component selections */
+    for( auto &it : rec->requirements.components ) {
+        item_selection is = g->u.select_component( it, batch_size, true );
+        if( is.use_from == usage::cancel ) {
+            return;
+        }
+        item_selections.push_back( is );
+    }
+
+    for( auto &it : rec->requirements.tools ) {
+        tool_selection ts = g->u.select_tool( it, batch_size, DEFAULT_HOTKEYS, true );
+        if( ts.use_from == usage::cancel ) {
+            return;
+        }
+        tool_selections.push_back( ts );
+    }
+
+    switch( atype ) {
+        case ACT_CRAFT:
+            g->u.make_craft( rec->ident, batch_size );
+            break;
+        case ACT_LONGCRAFT:
+            g->u.make_all_craft( rec->ident, batch_size );
+            break;
+        default:
+            // we do nothing
+            break;
+    }
+}
+
+std::list<item> craft_command::consume_components() {
+    std::list<item> used;
+    for( const auto &it : item_selections ) {
+        std::list<item> tmp = g->u.consume_items( it, batch_size ); // we consume the items we selected earlier
+        used.splice(used.end(), tmp);
+    }
+
+    for( const auto &it : tool_selections ) {
+        g->u.consume_tools( it, batch_size );
+    }
+
+    return used;
 }
 
 item recipe::create_result() const
@@ -1566,29 +1633,6 @@ void player::complete_craft()
         skill_dice -= paws_rank_penalty * 4;
     }
 
-    /* we select the components we want to use */
-    std::vector<item_selection> comp_selections;
-    for( auto &it : making->requirements.components ) {
-        item_selection is = select_component( it, batch_size, true );
-        if( is.use_from == usage::cancel ) {
-            /* we canceled componenet selection, so we cancel crafting */
-            activity.type = ACT_NULL;
-            return;
-        }
-        comp_selections.push_back( is );
-    }
-
-    std::vector<tool_selection> tool_selections;
-    for( auto &it : making->requirements.tools ) {
-        tool_selection ts = select_tool( it, batch_size, DEFAULT_HOTKEYS, true );
-        if( ts.use_from == usage::cancel ) {
-            /* we canceled tool selection, so we cancel crafting */
-            activity.type = ACT_NULL;
-            return;
-        }
-        tool_selections.push_back( ts );
-    }
-
     // Sides on dice is 16 plus your current intelligence
     int skill_sides = 16 + int_cur;
 
@@ -1627,12 +1671,16 @@ void player::complete_craft()
     if (making->difficulty != 0 && diff_roll > skill_roll * (1 + 0.1 * rng(1, 5))) {
         add_msg(m_bad, _("You fail to make the %s, and waste some materials."),
                 item::nname(making->result).c_str());
-        for( const auto &it : comp_selections ) {
-            consume_items( it, batch_size ); // we consume the items we selected earlier
-        }
+        if( last_craft.has_selections() ) {
+            last_craft.consume_components();
+        } else {
+            for( const auto &it : making->requirements.components ) {
+                consume_items( it, batch_size ); // we consume the items we selected earlier
+            }
 
-        for( const auto &it : tool_selections ) {
-            consume_tools( it, batch_size );
+            for( const auto &it : making->requirements.tools ) {
+                consume_tools( it, batch_size );
+            }
         }
         activity.type = ACT_NULL;
         return;
@@ -1649,12 +1697,16 @@ void player::complete_craft()
     // If we're here, the craft was a success!
     // Use up the components and tools
     std::list<item> used;
-    for( const auto &it : comp_selections ) {
-        std::list<item> tmp = consume_items( it, batch_size ); // again, we consume the items we selected earlier
-        used.splice(used.end(), tmp);
-    }
-    for( const auto &it : tool_selections ) {
-        consume_tools( it, batch_size );
+    if( last_craft.has_selections() ) {
+        used = last_craft.consume_components();
+    } else {
+        for( const auto &it : making->requirements.components ) {
+            std::list<item> tmp = consume_items( it, batch_size ); // again, we consume the items we selected earlier
+            used.splice(used.end(), tmp);
+        }
+        for( const auto &it : making->requirements.tools ) {
+            consume_tools( it, batch_size );
+        }
     }
 
     // Set up the new item, and assign an inventory letter if available

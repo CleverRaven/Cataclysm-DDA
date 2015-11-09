@@ -126,15 +126,20 @@ struct craft_command {
     int batch_size = 0;
     activity_type atype = ACT_NULL;
 
-    std::vector<item_selection> used_items;
-    std::vector<tool_selection> used_tools;
+    std::vector<item_selection> item_selections;
+    std::vector<tool_selection> tool_selections;
 
     craft_command() {}
     craft_command( const recipe* to_make, int batch_size, activity_type atype ) :
         rec( to_make ), batch_size( batch_size ), atype( atype ) {}
 
     void execute();
-    bool makin_would_work();
+    std::list<item> consume_components();
+
+    bool has_selections()
+    {
+        return !item_selections.empty() && !tool_selections.empty();
+    }
 
     bool empty()
     {
