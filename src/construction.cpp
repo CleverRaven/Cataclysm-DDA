@@ -443,9 +443,8 @@ void construction_menu()
             }
         } // Finished updating
 
-        //Draw Scrollbar.
-        //Doing it here lets us refresh the entire window all at once.
         draw_scrollbar(w_con, select, iMaxY - 4, constructs.size(), 3);
+        wrefresh(w_con);
 
         const std::string action = ctxt.handle_input();
         const long raw_input_char = ctxt.get_raw_input().get_first_input();

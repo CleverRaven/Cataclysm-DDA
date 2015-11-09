@@ -913,10 +913,8 @@ int set_traits(WINDOW *w, player *u, int &points, int max_trait_points)
                 }
             }
 
-            //Draw Scrollbar Good Traits
+            //Draw Scrollbar, one for good and one for bad traits
             draw_scrollbar(w, iCurrentLine[0], iContentHeight, traits_size[0], 5);
-
-            //Draw Scrollbar Bad Traits
             draw_scrollbar(w, iCurrentLine[1], iContentHeight, traits_size[1], 5, getmaxx(w) - 1);
         }
 
@@ -1265,7 +1263,6 @@ int set_profession(WINDOW *w, player *u, int &points)
                   ctxt.get_desc("CHANGE_GENDER").c_str(),
                   sorted_profs[cur_id]->gender_appropriate_name(!u->male).c_str());
 
-        //Draw Scrollbar
         draw_scrollbar(w, cur_id, iContentHeight, profs_length, 5);
 
         wrefresh(w);
@@ -1397,7 +1394,6 @@ int set_skills(WINDOW *w, player *u, int &points)
             }
         }
 
-        //Draw Scrollbar
         draw_scrollbar(w, cur_pos, iContentHeight, num_skills, 5);
 
         wrefresh(w);
