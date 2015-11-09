@@ -2093,23 +2093,31 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
 
 std::string item::display_name(unsigned int quantity) const
 {
-    std::string tn = tname(quantity);
+    std::string name = tname(quantity);
+    std::string side = "";
+    std::string qty  = "";
 
-    if (get_side() != BOTH) {
-        tn += string_format(" (%s)", get_side() == LEFT ? _("left")  : _("right"));
+    switch (get_side()) {
+        case LEFT:
+            side = string_format(" (%s)", _("left"));
+            break;
+        case RIGHT:
+            side = string_format(" (%s)", _("right"));
+            break;
     }
 
-    // Show count of contents (e.g. amount of liquid in container)
-    // or usages remaining, even if 0 (e.g. uses remaining in charcoal smoker).
     if( !is_gun() && contents.size() == 1 && contents[0].charges > 0 ) {
-        return string_format("%s (%d)", tn.c_str(), contents[0].charges);
+        // a container which is not empty
+        qty = string_format(" (%i)", contents[0].charges);
     } else if( is_book() && get_chapters() > 0 ) {
-        return string_format( "%s (%d)", tn.c_str(), get_remaining_chapters( g->u ) );
+        // a book which has remaining unread chapters
+        qty = string_format(" (%i)", get_remaining_chapters(g->u));
     } else if (charges >= 0 && !has_flag("NO_AMMO")) {
-        return string_format("%s (%d)", tn.c_str(), charges);
-    } else {
-        return tn.c_str();
+        // everything else including tools and guns
+        qty = string_format(" (%i)", charges);
     }
+
+    return string_format("%s%s%s", name.c_str(), side.c_str(), qty.c_str());
 }
 
 nc_color item::color() const
