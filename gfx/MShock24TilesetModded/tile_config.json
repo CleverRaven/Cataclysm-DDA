@@ -2252,6 +2252,12 @@
           "rotates": false
         },
         {
+          "id": "sf_watch",
+          "fg": 356,
+          "bg": 505,
+          "rotates": false
+        },
+        {
           "id": "halter_top",
           "fg": 357,
           "rotates": false
@@ -9012,6 +9018,18 @@
           "rotates": false
         },
         {
+          "id": "l_sp_9mm",
+          "fg": 1371,
+          "bg": 505,
+          "rotates": false
+        },
+        {
+          "id": "l_mp_9mm",
+          "fg": 1371,
+          "bg": 505,
+          "rotates": false
+        },
+        {
           "id": "uzi",
           "fg": 1372,
           "bg": 505,
@@ -14658,13 +14676,13 @@
         {
           "id": "t_low_stairs_end",
           "fg": 2906,
-          "bg": 513,
+          "bg": 533,
           "rotates": false
         },
         {
           "id": "t_rock_wall_half",
           "fg": 2905,
-          "bg": 533,
+          "bg": 513,
           "rotates": false
         },
         {
@@ -15143,6 +15161,12 @@
         },
         {
           "id": "t_window_open",
+          "fg": 2037,
+          "bg": 535,
+          "rotates": false
+        },
+        {
+          "id": "t_window_no_curtains_open",
           "fg": 2037,
           "bg": 535,
           "rotates": false
@@ -16810,6 +16834,11 @@
           "rotates": false
         },
         {
+          "id": "thigh_high_boots",
+          "fg": 1116,
+          "rotates": false
+        },
+        {
           "id": "knitting_needles",
           "fg": 1118,
           "rotates": false
@@ -18027,21 +18056,25 @@
         {
           "id": "t_switch_even",
           "fg": 1918,
+          "bg": 1866,
           "rotates": false
         },
         {
           "id": "t_switch_gb",
           "fg": 1919,
+          "bg": 1866,
           "rotates": false
         },
         {
           "id": "t_switch_rb",
           "fg": 1920,
+          "bg": 1866,
           "rotates": false
         },
         {
           "id": "t_switch_rg",
           "fg": 1921,
+          "bg": 1866,
           "rotates": false
         },
         {
@@ -18129,6 +18162,12 @@
           "rotates": false
         },
         {
+          "id": "t_window_no_curtains",
+          "fg": 2029,
+          "bg": 535,
+          "rotates": false
+        },
+        {
           "id": "t_window_alarm",
           "fg": 2029,
           "bg": 535,
@@ -18154,6 +18193,12 @@
         },
         {
           "id": "t_window_taped",
+          "fg": 2030,
+          "bg": 535,
+          "rotates": false
+        },
+        {
+          "id": "t_window_no_curtains_taped",
           "fg": 2030,
           "bg": 535,
           "rotates": false
@@ -22987,6 +23032,16 @@
         {
           "id": "bolt_bone",
           "fg": 2957,
+          "rotates": false
+        },
+        {
+          "id": "etched_skull",
+          "fg": 2958,
+          "rotates": false
+        },
+        {
+          "id": "diamond",
+          "fg": 2959,
           "rotates": false
         }
       ]
