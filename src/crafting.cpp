@@ -1843,18 +1843,24 @@ item_selection player::select_component(const std::vector<item_comp> &components
         }
 
         // Get the selection via a menu popup
-        size_t selection = menu_vec(can_cancel, _("Use which component?"), options) - 1;
-        if (selection < map_has.size()) {
+        int selection = menu_vec(can_cancel, _("Use which component?"), options) - 1;
+        if(selection == -1) {
+            selected.use_from = cancel;
+            return selected;
+        }
+
+        size_t uselection = (size_t) selection;
+        if (uselection < map_has.size()) {
             selected.use_from = usage::use_from_map;
-            selected.comp = map_has[selection];
-        } else if (selection < map_has.size() + player_has.size()) {
-            selection -= map_has.size();
+            selected.comp = map_has[uselection];
+        } else if (uselection < map_has.size() + player_has.size()) {
+            uselection -= map_has.size();
             selected.use_from = usage::use_from_player;
-            selected.comp = player_has[selection];
+            selected.comp = player_has[uselection];
         } else {
-            selection -= map_has.size() + player_has.size();
+            uselection -= map_has.size() + player_has.size();
             selected.use_from = usage::use_from_both;
-            selected.comp = mixed[selection];
+            selected.comp = mixed[uselection];
         }
     }
 
@@ -1970,14 +1976,20 @@ tool_selection player::select_tool(const std::vector<tool_comp> &tools, int batc
         }
 
         // Get selection via a popup menu
-        size_t selection = menu_vec(can_cancel, _("Use which tool?"), options, hotkeys) - 1;
-        if (selection < map_has.size()) {
+        int selection = menu_vec(can_cancel, _("Use which tool?"), options, hotkeys) - 1;
+        if(selection == -1) {
+            selected.use_from = cancel;
+            return selected;
+        }
+
+        size_t uselection= (size_t) selection;
+        if (uselection < map_has.size()) {
             selected.use_from = use_from_map;
-            selected.comp = map_has[selection];
+            selected.comp = map_has[uselection];
         } else {
-            selection -= map_has.size();
+            uselection -= map_has.size();
             selected.use_from = use_from_player;
-            selected.comp = player_has[selection];
+            selected.comp = player_has[uselection];
         }
     }
 
