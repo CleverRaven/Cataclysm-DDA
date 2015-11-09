@@ -4204,7 +4204,7 @@ int iuse::jackhammer(player *p, item *it, bool, const tripoint &pos )
     }
 
     if (
-           (g->m.is_bashable(dirx, diry) && g->m.has_flag("SUPPORTS_ROOF", dirx, diry) &&
+           (g->m.is_bashable(dirx, diry) && (g->m.has_flag("SUPPORTS_ROOF", dirx, diry) || g->m.has_flag("MINEABLE", dirx, diry))&&
                 g->m.ter(dirx, diry) != t_tree) ||
            (g->m.move_cost(dirx, diry) == 2 && g->get_levz() != -1 &&
                 g->m.ter(dirx, diry) != t_dirt && g->m.ter(dirx, diry) != t_grass)) {
@@ -4243,7 +4243,7 @@ int iuse::pickaxe(player *p, item *it, bool, const tripoint& )
         return 0;
     }
     int turns;
-    if (g->m.is_bashable(dirx, diry) && g->m.has_flag("SUPPORTS_ROOF", dirx, diry) &&
+    if (g->m.is_bashable(dirx, diry) && (g->m.has_flag("SUPPORTS_ROOF", dirx, diry) || g->m.has_flag("MINEABLE", dirx, diry)) &&
         g->m.ter(dirx, diry) != t_tree) {
         // Takes about 100 minutes (not quite two hours) base time.  Construction skill can speed this: 3 min off per level.
         turns = (100000 - 3000 * p->skillLevel( skill_carpentry ));

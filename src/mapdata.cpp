@@ -62,6 +62,7 @@ static const std::unordered_map<std::string, ter_bitflags> ter_bitflags_map = { 
     { "INDOORS",                  TFLAG_INDOORS },        // vehicle gain_moves, weather
     { "SHARP",                    TFLAG_SHARP },          // monmove
     { "SUPPORTS_ROOF",            TFLAG_SUPPORTS_ROOF },  // and by building "remodeling" I mean hulkSMASH
+    { "MINEABLE",                 TFLAG_MINEABLE },       // allows mining
     { "SWIMMABLE",                TFLAG_SWIMMABLE },      // monmove, many fields
     { "TRANSPARENT",              TFLAG_TRANSPARENT },    // map::trans / lightmap
     { "NOITEM",                   TFLAG_NOITEM },         // add/spawn_item*()
