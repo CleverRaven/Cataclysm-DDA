@@ -10,7 +10,7 @@
 #include "string_id.h"
 
 // from overmap.h
-struct overmap;
+class overmap;
 
 struct MonsterGroup;
 using mongroup_id = string_id<MonsterGroup>;
