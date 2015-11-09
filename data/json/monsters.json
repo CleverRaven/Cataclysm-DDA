@@ -2605,7 +2605,7 @@
     "hp":100,
     "death_function":["NORMAL"],
     "special_attacks":[["BITE", 2], ["GRAB", 4]],
-    "description":"A distorted and swollen human body. Its jaws have elongated into a crocodile like snout, dripping with foul smelling saliva. Worse yet, the arms are bulging with clusters of sinewy muscle.",
+    "description":"A distorted and swollen human body.  Its jaws have elongated into a crocodile like snout, dripping with foul smelling saliva.",
     "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "BLEED", "GRABS", "NO_BREATHE", "REVIVES", "BONES", "PUSH_MON"]
     },{
     "type" : "MONSTER",
