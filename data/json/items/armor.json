@@ -9167,7 +9167,7 @@
         "color" : "green",
         "covers" : ["LEGS"],
         "to_hit" : -3,
-        "storage" : 20,
+        "storage" : 10,
         "symbol" : "[",
         "description" : "Lightweight, kevlar armored cargo pants designed to hold as much as possible. Strong and mostly waterproof.",
         "price" : 40000,
@@ -9176,12 +9176,12 @@
         "cutting" : 0,
         "warmth" : 15,
         "phase" : "solid",
-        "environmental_protection" : 3,
+        "environmental_protection" : 0,
         "encumbrance" : 15,
         "bashing" : 6,
         "flags" : ["VARSIZE", "WATERPROOF", "POCKETS", "RAINPROOF", "STURDY"],
         "coverage" : 100,
-        "material_thickness" : 4
+        "material_thickness" : 3
     },
     {
         "type" : "ARMOR",
