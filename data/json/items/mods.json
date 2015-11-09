@@ -1112,7 +1112,7 @@
         "location": "sights",
         "sight_dispersion" : 0,
         "aim_speed" : 10,
-        "description" : "A long ranged rifle scope used by civilians and military alike, increases weight but improves accuracy greatly.",
+        "description" : "A long ranged rifle scope used by civilians and military alike, increases weight but improves accuracy greatly. Can also be used in place of binoculars in a pinch.",
         "weight" : 450,
         "to_hit" : -3,
         "color" : "dark_gray",
