@@ -894,10 +894,10 @@ void cata_tiles::draw_minimap( int destx, int desty, const tripoint &center, int
         return;
     }
 
-    int start_x = center.x - 40;
-    int start_y = center.y - 40;
-    int tiles_x = 80;
-    int tiles_y = 80;
+    int start_x = center.x - 50;
+    int start_y = center.y - 50;
+    int tiles_x = 100;
+    int tiles_y = 100;
     int tile_size_x = std::max(width / tiles_x, 1);
     int tile_size_y = std::max(height / tiles_y, 1);
 

@@ -7,6 +7,7 @@
 #include "catacharset.h"
 #include "cursesdef.h"
 #include "debug.h"
+#include "player.h"
 #include <cstring>
 #include <vector>
 #include <fstream>
@@ -768,8 +769,8 @@ void curses_drawwindow(WINDOW *win)
     } else if (g && win == g->w_minimap && OPTIONS["PIXEL_MINIMAP"]) {
         tilecontext->draw_minimap(
             win->x * fontwidth, win->y * fontheight,
-            tripoint( g->ter_view_x, g->ter_view_y, g->ter_view_z ),
-            160, 160);
+            tripoint( g->u.pos().x, g->u.pos().y, g->ter_view_z ),
+            200, 200);
         update = true;
     } else {
         // Either not using tiles (tilecontext) or not the w_terrain window.
