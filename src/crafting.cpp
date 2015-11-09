@@ -19,6 +19,7 @@
 #include "morale.h"
 #include "npc.h"
 #include "vehicle.h"
+#include "ui.h"
 
 #include <queue>
 #include <math.h>    //sqrt
@@ -1581,6 +1582,29 @@ void player::complete_craft()
         skill_dice -= paws_rank_penalty * 4;
     }
 
+    /* we select the components we want to use */
+    std::vector<item_selection> comp_selections;
+    for( auto &it : making->requirements.components ) {
+        item_selection is = select_component( it, batch_size, true );
+        if( is.use_from == usage::cancel ) {
+            /* we canceled componenet selection, so we cancel crafting */
+            activity.type = ACT_NULL;
+            return;
+        }
+        comp_selections.push_back( is );
+    }
+
+    std::vector<tool_selection> tool_selections;
+    for( auto &it : making->requirements.tools ) {
+        tool_selection ts = select_tool( it, batch_size, DEFAULT_HOTKEYS, true );
+        if( ts.use_from == usage::cancel ) {
+            /* we canceled tool selection, so we cancel crafting */
+            activity.type = ACT_NULL;
+            return;
+        }
+        tool_selections.push_back( ts );
+    }
+
     // Sides on dice is 16 plus your current intelligence
     int skill_sides = 16 + int_cur;
 
@@ -1619,12 +1643,12 @@ void player::complete_craft()
     if (making->difficulty != 0 && diff_roll > skill_roll * (1 + 0.1 * rng(1, 5))) {
         add_msg(m_bad, _("You fail to make the %s, and waste some materials."),
                 item::nname(making->result).c_str());
-        for (const auto &it : making->requirements.components) {
-            consume_items(it, batch_size);
+        for( const auto &it : comp_selections ) {
+            consume_items( it, batch_size ); // we consume the items we selected earlier
         }
 
-        for (const auto &it : making->requirements.tools) {
-            consume_tools(it, batch_size);
+        for( const auto &it : tool_selections ) {
+            consume_tools( it, batch_size );
         }
         activity.type = ACT_NULL;
         return;
@@ -1641,12 +1665,12 @@ void player::complete_craft()
     // If we're here, the craft was a success!
     // Use up the components and tools
     std::list<item> used;
-    for (const auto &it : making->requirements.components) {
-        std::list<item> tmp = consume_items(it, batch_size);
+    for( const auto &it : comp_selections ) {
+        std::list<item> tmp = consume_items( it, batch_size ); // again, we consume the items we selected earlier
         used.splice(used.end(), tmp);
     }
-    for (const auto &it : making->requirements.tools) {
-        consume_tools(it, batch_size);
+    for( const auto &it : tool_selections ) {
+        consume_tools( it, batch_size );
     }
 
     // Set up the new item, and assign an inventory letter if available
@@ -1844,7 +1868,7 @@ item_selection player::select_component(const std::vector<item_comp> &components
 
         // Get the selection via a menu popup
         int selection = menu_vec(can_cancel, _("Use which component?"), options) - 1;
-        if(selection == -1) {
+        if(selection == UIMENU_INVALID) {
             selected.use_from = cancel;
             return selected;
         }
@@ -1977,12 +2001,12 @@ tool_selection player::select_tool(const std::vector<tool_comp> &tools, int batc
 
         // Get selection via a popup menu
         int selection = menu_vec(can_cancel, _("Use which tool?"), options, hotkeys) - 1;
-        if(selection == -1) {
+        if(selection == UIMENU_INVALID) {
             selected.use_from = cancel;
             return selected;
         }
 
-        size_t uselection= (size_t) selection;
+        size_t uselection = (size_t) selection;
         if (uselection < map_has.size()) {
             selected.use_from = use_from_map;
             selected.comp = map_has[uselection];
