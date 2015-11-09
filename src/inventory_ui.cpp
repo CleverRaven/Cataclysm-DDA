@@ -1055,7 +1055,7 @@ int inventory::num_items_at_position( int const position )
  */
 bool multidrop_comparison(std::pair<int, int> first, std::pair<int, int> second)
 {
-	return (first.first >= 0 && second.first < -1); //the first is not worn but the second is -> first should indeed come first
+    return (first.first >= 0 && second.first < -1); //the first is not worn but the second is -> first should indeed come first
 }
 
 std::list<std::pair<int, int>> game::multidrop()
@@ -1091,7 +1091,7 @@ std::list<std::pair<int, int>> game::multidrop()
     }
 
     std::list<std::pair<int, int>> dropped_pos_and_qty;
-	dropped_pos_and_qty.sort(multidrop_comparison);
+    dropped_pos_and_qty.sort(multidrop_comparison);
 
     for( auto drop_pair : inv_s.dropping ) {
         int num_to_drop = drop_pair.second;
