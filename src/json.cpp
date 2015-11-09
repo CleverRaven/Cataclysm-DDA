@@ -12,8 +12,6 @@
 #include <vector>
 #include <bitset>
 
-#include "translations.h"
-
 // JSON parsing and serialization tools for Cataclysm-DDA.
 // For documentation, see the included header, json.h.
 
@@ -278,21 +276,6 @@ std::string JsonObject::get_string(const std::string &name, const std::string &f
     }
     jsin->seek(pos);
     return jsin->get_string();
-}
-
-std::string JsonObject::get_translated_string(const std::string &name)
-{
-    return _(get_string(name).c_str());
-}
-
-std::string JsonObject::get_translated_string(const std::string &name, const std::string &fallback)
-{
-    int pos = positions[name];
-    if (pos <= start) {
-        return fallback;
-    }
-    jsin->seek(pos);
-    return _(jsin->get_string().c_str());
 }
 
 /* returning containers by name */

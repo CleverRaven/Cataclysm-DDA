@@ -640,8 +640,6 @@ class JsonObject
         double get_float(const std::string &name, const double fallback);
         std::string get_string(const std::string &name);
         std::string get_string(const std::string &name, const std::string &fallback);
-        std::string get_translated_string(const std::string &name);
-        std::string get_translated_string(const std::string &name, const std::string &fallback);
 
         template<typename E, typename = typename std::enable_if<std::is_enum<E>::value>::type>
         E get_enum_value( const std::string &name, const E fallback )

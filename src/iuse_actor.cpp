@@ -1712,8 +1712,8 @@ iuse_actor *holster_actor::clone() const
 
 void holster_actor::load( JsonObject &obj )
 {
-    holster_prompt = obj.get_translated_string("holster_prompt", _("Holster item"));
-    holster_msg    = obj.get_translated_string("holster_msg",    _("You holster your %s"));
+    holster_prompt = obj.get_string("holster_prompt", "");
+    holster_msg    = obj.get_string("holster_msg",    "");
 
     max_volume = obj.get_int("max_volume");
     min_volume = obj.get_int("min_volume", max_volume / 3);
@@ -1730,6 +1730,8 @@ void holster_actor::load( JsonObject &obj )
 
 long holster_actor::use( player *p, item *it, bool, const tripoint& ) const
 {
+    std::string prompt = holster_prompt.empty() ? _("Holster item") : _(holster_prompt.c_str());
+
     if (&p->weapon == it) {
         p->add_msg_if_player(_("You need to unwield your %s before using it."), it->tname().c_str());
         return 0;
@@ -1739,7 +1741,7 @@ long holster_actor::use( player *p, item *it, bool, const tripoint& ) const
     std::vector<std::string> opts;
 
     if ((int) it->contents.size() < multi) {
-        opts.push_back(holster_prompt);
+        opts.push_back(prompt);
         pos = -1;
     }
 
@@ -1753,7 +1755,7 @@ long holster_actor::use( player *p, item *it, bool, const tripoint& ) const
     if (pos >= 0) {
         p->wield_contents(it, pos, draw_speed);
     } else {
-        item &obj = p->i_at(g->inv_for_filter(holster_prompt, [&](const item& e) {
+        item &obj = p->i_at(g->inv_for_filter(prompt, [&](const item& e) {
             if (e.volume() > max_volume || e.volume() < min_volume) {
                 return false;
             }
@@ -1796,7 +1798,7 @@ long holster_actor::use( player *p, item *it, bool, const tripoint& ) const
             return 0;
         }
 
-        p->add_msg_if_player(holster_msg.c_str(), obj.tname().c_str());
+        p->add_msg_if_player(holster_msg.empty() ? _("You holster your %s") : _(holster_msg.c_str()), obj.tname().c_str());
         p->store(it, &obj, obj.is_gun() ? obj.gun_skill() : obj.weap_skill(), 10);
     }
 
