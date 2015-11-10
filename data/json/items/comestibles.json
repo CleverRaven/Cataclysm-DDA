@@ -5382,10 +5382,10 @@
         "price" : 3000,
         "material" : "flesh",
         "tool" : "null",
-        "volume" : 1,
+        "volume" : 3,
         "cutting" : 0,
         "phase" : "solid",
-        "charges" : 1,
+        "charges" : 3, "//" : "3 chunks of meat"
         "bashing" : 0,
         "flags" : ["EATEN_HOT"],
         "fun" : 5
