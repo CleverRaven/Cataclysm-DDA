@@ -1430,10 +1430,10 @@ void craft_command::execute()
         return;
 
     bool need_selections = true;
-    if( has_cached_selections() ) {
-        inventory map_inv;
-        map_inv.form_from_map( crafter->pos3(), PICKUP_RANGE );
+    inventory map_inv;
+    map_inv.form_from_map( crafter->pos3(), PICKUP_RANGE );
 
+    if( has_cached_selections() ) {
         std::list<item_selection> missing_items = check_item_components_missing( &map_inv );
         std::list<tool_selection> missing_tools = check_tool_components_missing( &map_inv );
 
@@ -1453,7 +1453,7 @@ void craft_command::execute()
     if(need_selections) {
         /* make component selections */
         for( auto &it : rec->requirements.components ) {
-            item_selection is = crafter->select_component( it, batch_size, true );
+            item_selection is = crafter->select_item_component( it, batch_size, &map_inv, true );
             if( is.use_from == cancel ) {
                 return;
             }
@@ -1461,7 +1461,7 @@ void craft_command::execute()
         }
 
         for( auto &it : rec->requirements.tools ) {
-            tool_selection ts = crafter->select_tool( it, batch_size, DEFAULT_HOTKEYS, true );
+            tool_selection ts = crafter->select_tool_component( it, batch_size, &map_inv, DEFAULT_HOTKEYS, true );
             if( ts.use_from == cancel ) {
                 return;
             }
@@ -1900,15 +1900,13 @@ void set_item_inventory(item &newit)
 }
 
 /* selection of component if a recipe requirement has multiple options (e.g. 'duct tap' or 'welder') */
-item_selection player::select_component(const std::vector<item_comp> &components, int batch, bool can_cancel)
+item_selection player::select_item_component(const std::vector<item_comp> &components, int batch, inventory* map_inv, bool can_cancel)
 {
     std::vector<item_comp> player_has;
     std::vector<item_comp> map_has;
     std::vector<item_comp> mixed;
 
     item_selection selected;
-    inventory map_inv;
-    map_inv.form_from_map(pos3(), PICKUP_RANGE);
 
     for( const auto &component : components ) {
         itype_id type = component.type;
@@ -1920,11 +1918,11 @@ item_selection player::select_component(const std::vector<item_comp> &components
                 player_has.push_back( component );
                 pl = true;
             }
-            if (map_inv.has_charges(type, count)) {
+            if (map_inv->has_charges(type, count)) {
                 map_has.push_back( component );
                 mp = true;
             }
-            if (!pl && !mp && charges_of(type) + map_inv.charges_of(type) >= count) {
+            if (!pl && !mp && charges_of(type) + map_inv->charges_of(type) >= count) {
                 mixed.push_back( component );
             }
         } else { // Counting by units, not charges
@@ -1933,11 +1931,11 @@ item_selection player::select_component(const std::vector<item_comp> &components
                 player_has.push_back( component );
                 pl = true;
             }
-            if (map_inv.has_components(type, count)) {
+            if (map_inv->has_components(type, count)) {
                 map_has.push_back( component );
                 mp = true;
             }
-            if (!pl && !mp && amount_of(type) + map_inv.amount_of(type) >= count) {
+            if (!pl && !mp && amount_of(type) + map_inv->amount_of(type) >= count) {
                 mixed.push_back( component );
             }
 
@@ -2054,20 +2052,22 @@ std::list<item> player::consume_items(const item_selection &is, int batch) {
     return ret;
 }
 
-/* I did some encapsulation here before adding anything */
+/* This call is in-efficient when doing it for multiple items with the same map inventory.
+In that case, consider using select_item_component with 1 pre-created map inventory, and then passing the results
+to consume_items */
 std::list<item> player::consume_items( const std::vector<item_comp> &components, int batch )
 {
-    return consume_items( select_component(components, batch), batch );
+    inventory map_inv;
+    map_inv.form_from_map(pos3(), PICKUP_RANGE);
+    return consume_items( select_item_component( components, batch, &map_inv ), batch );
 }
 
-tool_selection player::select_tool( const std::vector<tool_comp> &tools, int batch, const std::string &hotkeys, bool can_cancel )
+tool_selection player::select_tool_component( const std::vector<tool_comp> &tools, int batch, inventory* map_inv, const std::string &hotkeys, bool can_cancel )
 {
 
     tool_selection selected;
 
     bool found_nocharge = false;
-    inventory map_inv;
-    map_inv.form_from_map(pos3(), PICKUP_RANGE);
     std::vector<tool_comp> player_has;
     std::vector<tool_comp> map_has;
     // Use charges of any tools that require charges used
@@ -2078,10 +2078,10 @@ tool_selection player::select_tool( const std::vector<tool_comp> &tools, int bat
             if (has_charges(type, count)) {
                 player_has.push_back(*it);
             }
-            if (map_inv.has_charges(type, count)) {
+            if (map_inv->has_charges(type, count)) {
                 map_has.push_back(*it);
             }
-        } else if (has_amount(type, 1) || map_inv.has_tools(type, 1)) {
+        } else if (has_amount(type, 1) || map_inv->has_tools(type, 1)) {
             found_nocharge = true;
         }
     }
@@ -2152,9 +2152,14 @@ void player::consume_tools(const tool_selection &tool, int batch) {
     // else, use_from_none (or cancel), so we don't use up any tools;
 }
 
+/* This call is in-efficient when doing it for multiple items with the same map inventory.
+In that case, consider using select_tool_component with 1 pre-created map inventory, and then passing the results
+to consume_tools */
 void player::consume_tools( const std::vector<tool_comp> &tools, int batch, const std::string &hotkeys )
 {
-    consume_tools( select_tool(tools, batch, hotkeys), batch );
+    inventory map_inv;
+    map_inv.form_from_map(pos3(), PICKUP_RANGE);
+    consume_tools( select_tool_component( tools, batch, &map_inv, hotkeys ), batch );
 }
 
 const recipe *get_disassemble_recipe(const itype_id &type)
