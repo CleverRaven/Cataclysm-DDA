@@ -838,10 +838,10 @@ constexpr char first_invlet = '0';
 constexpr char last_invlet = '9';
 typedef std::vector< std::list<item> > pseudo_inventory;
 
-template<typename Collection>
-void pseudo_inv_to_slice( Collection here, item_filter filter,
+template<typename Collection, typename Location>
+void pseudo_inv_to_slice( Collection here, Location pos, item_filter filter,
                           pseudo_inventory &item_stacks, indexed_invslice &result_slice,
-                          std::vector<item *> &selectables, char &cur_invlet )
+                          std::vector<std::pair<Location, item *>> &selectables, char &cur_invlet )
 {
     for (auto& candidate : here) {
         if (filter(candidate)) {
@@ -853,7 +853,7 @@ void pseudo_inv_to_slice( Collection here, item_filter filter,
             } else {
                 item_stacks.emplace_back(1, candidate);
                 item_stacks.back().front().invlet = cur_invlet <= last_invlet ? cur_invlet++ : ' ';
-                selectables.push_back(&candidate);
+                selectables.emplace_back(pos, &candidate);
             }
         }
     }
@@ -881,12 +881,12 @@ item_location game::inv_map_splice(
     inv_s.make_item_list(u.inv.slice_filter_by(inv_filter));
 
     // next get items from the ground
-    std::vector<item *> ground_selectables;
+    std::vector<std::pair<tripoint, item *>> ground_selectables;
     indexed_invslice ground_items_slice;
     pseudo_inventory ground_items;
 
     if( !m.has_flag( "SEALED", g->u.pos() ) ) {
-        pseudo_inv_to_slice( m.i_at( g->u.pos() ), ground_filter,
+        pseudo_inv_to_slice( m.i_at( g->u.pos() ), g->u.pos(), ground_filter,
                              ground_items, ground_items_slice,
                              ground_selectables, cur_invlet );
     }
@@ -895,7 +895,7 @@ item_location game::inv_map_splice(
     inv_s.make_item_list(ground_items_slice, &category_on_ground);
 
     // finally get items from vehicles
-    std::vector<item *> vehicle_selectables;
+    std::vector<std::pair<point, item *>> vehicle_selectables;
     indexed_invslice veh_items_slice;
     pseudo_inventory vehicle_items;
 
@@ -906,7 +906,7 @@ item_location game::inv_map_splice(
         part = veh->part_with_feature( part, "CARGO" );
         if( part != -1 ) {
             veh_pt = veh->parts[part].mount;
-            pseudo_inv_to_slice( veh->get_items( part ), vehicle_filter,
+            pseudo_inv_to_slice( veh->get_items( part ), veh_pt, vehicle_filter,
                                  vehicle_items, veh_items_slice,
                                  vehicle_selectables, cur_invlet );
         }
@@ -933,10 +933,10 @@ item_location game::inv_map_splice(
             const size_t index = (size_t)(ch - first_invlet);
             if( index < ground_items_slice.size() ) {
                 // Ground item
-                return item_location::on_map( u.pos(), ground_selectables[index] );
+                return item_location::on_map( ground_selectables[index].first, ground_selectables[index].second );
             } else if( index < ground_items_slice.size() + veh_items_slice.size() ) {
                 // Vehicle item
-                return item_location::on_vehicle( *veh, veh_pt, vehicle_selectables[index] );
+                return item_location::on_vehicle( *veh, vehicle_selectables[index].first, vehicle_selectables[index].second );
             }
         } else if( inv_s.handle_movement( action ) ) {
             // continue with comparison below
@@ -948,14 +948,14 @@ item_location game::inv_map_splice(
             for( size_t i = 0; i < ground_items_slice.size(); i++) {
                 if( &ground_items_slice[i].first->front() == inv_s.first_item ) {
                     // Ground item, may be unindexed
-                    return item_location::on_map( u.pos(), ground_selectables[i] );
+                    return item_location::on_map( ground_selectables[i].first, ground_selectables[i].second );
                 }
             }
 
             for( size_t i = 0; i < veh_items_slice.size(); i++) {
                 if( &veh_items_slice[i].first->front() == inv_s.first_item ) {
                     // Vehicle item
-                    return item_location::on_vehicle( *veh, veh_pt, vehicle_selectables[i] );
+                    return item_location::on_vehicle( *veh, vehicle_selectables[i].first, vehicle_selectables[i].second );
                 }
             }
 
