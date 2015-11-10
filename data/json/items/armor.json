@@ -9176,11 +9176,11 @@
         "cutting" : 0,
         "warmth" : 15,
         "phase" : "solid",
-        "environmental_protection" : 0,
+        "environmental_protection" : 1,
         "encumbrance" : 15,
         "bashing" : 6,
         "flags" : ["VARSIZE", "WATERPROOF", "POCKETS", "RAINPROOF", "STURDY"],
-        "coverage" : 100,
+        "coverage" : 95,
         "material_thickness" : 3
     },
     {
