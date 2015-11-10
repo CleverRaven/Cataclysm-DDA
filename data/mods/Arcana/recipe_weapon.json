@@ -162,7 +162,7 @@
   "time": 100000,
   "reversible": false,
   "autolearn": false,
-  "book_learn": [[ "book_sacrifice", 6 ]],
+  "book_learn": [[ "book_bloodmagic", 6 ]],
   "qualities":[{"id":"HAMMER","level":3,"amount":1}],
   "tools": [
     [ [ "book_bloodmagic", -1 ] ],

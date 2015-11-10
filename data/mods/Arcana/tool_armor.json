@@ -90,7 +90,7 @@
         "charges_per_use": 0,
         "turns_per_charge": 50,
         "ammo": "essence_dull_type",
-        "revert_to": "null",
+        "revert_to": "somen_clairvoyance",
         "use_action": {
             "type": "auto_transform",
             "msg": "The mask's features return to its original impassive expression.",
