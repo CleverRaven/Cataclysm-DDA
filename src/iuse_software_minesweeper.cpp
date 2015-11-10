@@ -22,16 +22,13 @@ minesweeper_game::minesweeper_game()
     iMaxY = FULL_SCREEN_HEIGHT - 2;
     iMaxX = FULL_SCREEN_WIDTH - 2;
 
-    iLevelY = iMaxY;
-    iLevelX = iMaxX;
-
     iOffsetX = 0;
     iOffsetY = 0;
 }
 
 void minesweeper_game::new_level(WINDOW *w_minesweeper)
 {
-    for (size_t iY = 0; iY < iMaxY; iY++) {
+    for (int iY = 0; iY < iMaxY; iY++) {
         mvwputch(w_minesweeper, 1 + iY, 1, c_black, std::string(iMaxX, ' '));
     }
 
@@ -44,12 +41,15 @@ void minesweeper_game::new_level(WINDOW *w_minesweeper)
 
         do {
             if ( iVal < iMin || iVal > iMax ) {
-                iVal = iMax;
+                iVal = iMin;
             }
 
             iVal = std::atoi(string_input_popup(sType.c_str(), 5, std::to_string(iVal), ssTemp.str().c_str(), "", -1, true).c_str());
         } while( iVal < iMin || iVal > iMax);
     };
+
+    iLevelY = iMinY;
+    iLevelX = iMinX;
 
     set_num(_("Level width:"), iLevelX, iMinX, iMaxX);
     set_num(_("Level height:"), iLevelY, iMinY, iMaxY);
@@ -91,7 +91,7 @@ void minesweeper_game::new_level(WINDOW *w_minesweeper)
         }
     }
 
-    for (size_t y = 0; y < iLevelY; y++) {
+    for (int y = 0; y < iLevelY; y++) {
         mvwputch(w_minesweeper, iOffsetY + y, iOffsetX, c_white, std::string(iLevelX, '#'));
     }
 
@@ -152,6 +152,18 @@ int minesweeper_game::start_game()
 
     new_level(w_minesweeper);
 
+    static const std::array<int, 9> aColors = {
+        c_white,
+        c_ltgray,
+        c_cyan,
+        c_blue,
+        c_ltblue,
+        c_green,
+        c_magenta,
+        c_red,
+        c_yellow
+    };
+
     int iScore = 5;
 
     int iPlayerY = 0;
@@ -172,10 +184,12 @@ int minesweeper_game::start_game()
                     }
                 }
 
-                mvwputch(w_minesweeper, iOffsetY + y, iOffsetX + x, (x == iPlayerX && y == iPlayerY) ? hilite(c_white) : c_white, " " );
+                mvwputch(w_minesweeper, iOffsetY + y, iOffsetX + x, c_black, " ");
 
             } else {
-                mvwputch(w_minesweeper, iOffsetY + y, iOffsetX + x, (x == iPlayerX && y == iPlayerY) ? hilite(c_white) : c_white, std::to_string(mLevel[y][x]) );
+                mvwputch(w_minesweeper, iOffsetY + y, iOffsetX + x,
+                         (x == iPlayerX && y == iPlayerY) ? hilite(aColors[mLevel[y][x]]) : aColors[mLevel[y][x]],
+                         std::to_string(mLevel[y][x]));
             }
         }
     };
@@ -201,21 +215,26 @@ int minesweeper_game::start_game()
             if ( iPlayerX + iDirX >= 0 && iPlayerX + iDirX < iLevelX && iPlayerY + iDirY >= 0 && iPlayerY + iDirY < iLevelY ) {
 
                 std::string sGlyph;
+                nc_color cColor;
 
                 for ( int i=0; i < 2; i++ ) {
+                    cColor = c_white;
                     if ( mLevelReveal[iPlayerY][iPlayerX] == flag ) {
                         sGlyph = "!";
+                        cColor = c_yellow;
                     } else if ( mLevelReveal[iPlayerY][iPlayerX] == seen ) {
                         if ( mLevel[iPlayerY][iPlayerX] == 0 ) {
                             sGlyph = " ";
+                            cColor = c_black;
                         } else {
                             sGlyph = std::to_string(mLevel[iPlayerY][iPlayerX]);
+                            cColor = aColors[mLevel[iPlayerY][iPlayerX]];
                         }
                     } else {
                         sGlyph = '#';
                     }
 
-                    mvwputch(w_minesweeper, iOffsetY + iPlayerY, iOffsetX + iPlayerX, (i == 0) ? c_white : hilite(c_white), sGlyph.c_str());
+                    mvwputch(w_minesweeper, iOffsetY + iPlayerY, iOffsetX + iPlayerX, (i == 0) ? cColor : hilite(cColor), sGlyph.c_str());
 
                     if ( i == 0 ) {
                         iPlayerX += iDirX;
