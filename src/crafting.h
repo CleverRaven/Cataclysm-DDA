@@ -23,11 +23,6 @@ typedef int nc_color; // From color.h
 
 using itype_id     = std::string; // From itype.h
 
-// Global list of valid recipes
-extern std::map<std::string, std::vector<recipe *>> recipes;
-// Global reverse lookup
-extern std::map<itype_id, std::vector<recipe *>> recipes_by_component;
-
 struct byproduct {
     itype_id result;
     int charges_mult;
@@ -103,6 +98,53 @@ struct recipe {
     int batch_time(int batch = 1) const;
 
 };
+
+class recipe_dictionary {
+    public:
+        std::map<const std::string, std::vector<recipe *>> by_category;
+        std::map<const itype_id, std::vector<recipe *>> by_component;
+
+        void add_recipe( recipe* rec, const std::string &category );
+        void remove_recipe( recipe* rec );
+        void clear();
+        const std::vector<recipe*> in_catagory( const std::string category );
+        const std::vector<recipe*> of_component( const itype_id &type );
+
+        const recipe* operator[]( const std::string &name )
+        {
+            return recipes_by_ident[name];
+        }
+
+        const recipe* operator[]( int i )
+        {
+            return recipes_by_index[i];
+        }
+
+        size_t size() const
+        {
+            return recipes.size();
+        }
+
+        /* iterators for look up only */
+        std::list<recipe*>::const_iterator begin() const
+        {
+            return recipes.begin();
+        }
+        std::list<recipe*>::const_iterator end() const
+        {
+            return recipes.end();
+        }
+
+    private:
+        std::list<recipe*> recipes;
+        std::map<const std::string, const recipe*> recipes_by_ident;
+        std::map<int, const recipe*> recipes_by_index;
+
+        void add_to_component_lookup( recipe* r );
+        void remove_from_component_lookup( recipe* r );
+};
+
+extern recipe_dictionary recipe_dict;
 
 // removes any (removable) ammo from the item and stores it in the
 // players inventory.

@@ -73,7 +73,8 @@ void Item_factory::finialize_item_blacklist()
         for( auto &elem : m_template_groups ) {
             elem.second->remove_item( itm );
         }
-        for( auto &recipes_b : recipes ) {
+        // FIXME: only recipes from by_category are erased;
+        for( auto &recipes_b : recipe_dict.by_category ) {
             for( size_t c = 0; c < recipes_b.second.size(); c++ ) {
                 recipe *r = recipes_b.second[c];
                 if( r->result == itm || r->requirements.remove_item(itm) ) {

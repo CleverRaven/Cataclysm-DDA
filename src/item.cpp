@@ -1650,7 +1650,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> &dump_ref) const
         } else { // use the contained item
             tid = contents[0].type->id;
         }
-        std::vector<recipe *> &rec = recipes_by_component[tid];
+        std::vector<recipe *> &rec = recipe_dict.by_component[tid];
         if (!rec.empty()) {
             temp1.str("");
             const inventory &inv = g->u.crafting_inventory();

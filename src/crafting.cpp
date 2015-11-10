@@ -32,10 +32,7 @@ enum TAB_MODE {
 
 std::vector<std::string> craft_cat_list;
 std::map<std::string, std::vector<std::string> > craft_subcat_list;
-std::map<std::string, std::vector<recipe *>> recipes;
-std::map<itype_id, std::vector<recipe *>> recipes_by_component;
-std::map<const std::string, const recipe*> recipes_by_ident;
-std::map<int, const recipe*> recipes_by_index;
+recipe_dictionary recipe_dict;
 
 static void draw_recipe_tabs(WINDOW *w, std::string tab, TAB_MODE mode = NORMAL);
 static void draw_recipe_subtabs(WINDOW *w, std::string tab, std::string subtab,
@@ -52,7 +49,7 @@ void remove_from_component_lookup(recipe* r);
 
 recipe::~recipe()
 {
-    remove_from_component_lookup(this);
+    recipe_dict.remove_recipe( this );
 }
 
 recipe::recipe() :
@@ -61,26 +58,65 @@ recipe::recipe() :
 {
 }
 
-void add_to_component_lookup(recipe* r)
+void recipe_dictionary::add_recipe( recipe* rec, const std::string &category )
+{
+    recipes.push_back( rec );
+    add_to_component_lookup( rec );
+    recipes_by_ident[rec->ident] = rec;
+    recipes_by_index[rec->id] = rec;
+    by_category[category].push_back( rec );
+}
+
+void recipe_dictionary::remove_recipe( recipe* rec ) {
+    recipes.remove( rec );
+    remove_from_component_lookup( rec );
+    recipes_by_ident.erase( rec->ident );
+    recipes_by_index.erase( rec->id );
+    // TODO: remove from categories?
+}
+
+void recipe_dictionary::add_to_component_lookup( recipe* r )
 {
     std::unordered_set<itype_id> counted;
-    for (const auto &comp_choices : r->requirements.components) {
-        for (const item_comp &comp : comp_choices) {
-            if (counted.count(comp.type)) {
+    for( const auto &comp_choices : r->requirements.components ) {
+        for( const item_comp &comp : comp_choices ) {
+            if( counted.count(comp.type) ) {
                 continue;
             }
-            counted.insert(comp.type);
-            recipes_by_component[comp.type].push_back(r);
+            counted.insert( comp.type );
+            by_component[comp.type].push_back( r );
         }
     }
 }
 
-void remove_from_component_lookup(recipe* r)
+void recipe_dictionary::remove_from_component_lookup( recipe* r )
 {
-    for (auto &map_item : recipes_by_component) {
+    for( auto &map_item : by_component ) {
         std::vector<recipe *> &rlist = map_item.second;
-        rlist.erase(std::remove(rlist.begin(), rlist.end(), r), rlist.end());
+        rlist.erase( std::remove( rlist.begin(), rlist.end(), r ), rlist.end() );
     }
+}
+
+void recipe_dictionary::clear()
+{
+    by_component.clear();
+    recipes_by_ident.clear();
+    recipes_by_index.clear();
+    by_category.clear();
+    for( auto &recipe : recipes ) {
+        delete recipe;
+    }
+    recipes.clear();
+}
+
+const std::vector<recipe*> recipe_dictionary::in_catagory( const std::string category )
+{
+    return by_category[category];
+}
+
+const std::vector<recipe*> recipe_dictionary::of_component( const itype_id &type )
+{
+    return by_component[type];
 }
 
 void load_recipe_category(JsonObject &jsobj)
@@ -114,7 +150,8 @@ int check_recipe_ident(const std::string &rec_name, JsonObject &jsobj)
 {
     const bool override_existing = jsobj.get_bool("override", false);
     int recipe_count = 0;
-    for( auto &recipe : recipes ) {
+    // FIXME: only recipe from by_category is cleared
+    for( auto &recipe : recipe_dict.by_category ) {
         for( auto list_iter = recipe.second.begin(); list_iter != recipe.second.end(); ++list_iter ) {
             if ((*list_iter)->ident == rec_name) {
                 if (!override_existing) {
@@ -235,49 +272,38 @@ void load_recipe(JsonObject &jsobj)
         rec->booksets.push_back( bd );
     }
 
-    add_to_component_lookup(rec);
-    recipes_by_ident[rec_name] = rec;
-    recipes_by_index[id] = rec;
-    recipes[category].push_back(rec);
+    recipe_dict.add_recipe( rec, category );
 }
 
 void reset_recipes()
 {
-    recipes_by_component.clear();
-    for( auto &recipe : recipes ) {
-        for( auto &elem : recipe.second ) {
-            delete elem;
-        }
-    }
-    recipes.clear();
+    recipe_dict.clear();
 }
 
 void finalize_recipes()
 {
-    for( auto &recipes_it : recipes ) {
-        for( auto r : recipes_it.second ) {
-            for( auto j = r->booksets.begin(); j != r->booksets.end(); ++j ) {
-                const std::string &book_id = j->book_id;
-                if( !item::type_is_defined( book_id ) ) {
-                    debugmsg("book %s for recipe %s does not exist", book_id.c_str(), r->ident.c_str());
-                    continue;
-                }
-                itype *t = item::find_type( book_id );
-                if( !t->book ) {
-                    // TODO: we could make up a book slot?
-                    debugmsg("book %s for recipe %s is not a book", book_id.c_str(), r->ident.c_str());
-                    continue;
-                }
-                islot_book::recipe_with_description_t rwd{ r, j->skill_level, "", j->hidden };
-                if( j->recipe_name.empty() ) {
-                    rwd.name = item::nname( r->result );
-                } else {
-                    rwd.name = _( j->recipe_name.c_str() );
-                }
-                t->book->recipes.insert( rwd );
+    for( auto r : recipe_dict ) {
+        for( auto j = r->booksets.begin(); j != r->booksets.end(); ++j ) {
+            const std::string &book_id = j->book_id;
+            if( !item::type_is_defined( book_id ) ) {
+                debugmsg("book %s for recipe %s does not exist", book_id.c_str(), r->ident.c_str());
+                continue;
             }
-            r->booksets.clear();
+            itype *t = item::find_type( book_id );
+            if( !t->book ) {
+                // TODO: we could make up a book slot?
+                debugmsg("book %s for recipe %s is not a book", book_id.c_str(), r->ident.c_str());
+                continue;
+            }
+            islot_book::recipe_with_description_t rwd{ r, j->skill_level, "", j->hidden };
+            if( j->recipe_name.empty() ) {
+                rwd.name = item::nname( r->result );
+            } else {
+                rwd.name = _( j->recipe_name.c_str() );
+            }
+            t->book->recipes.insert( rwd );
         }
+        r->booksets.clear();
     }
 }
 
@@ -1289,14 +1315,14 @@ void pick_recipes(const inventory &crafting_inv,
     std::vector<recipe *> available_recipes;
 
     if (filter == "") {
-        available_recipes = recipes[tab];
+        available_recipes = recipe_dict.by_category[tab];
     } else {
         // lcmatch needs an all lowercase string to match case-insensitive
         std::transform( filter.begin(), filter.end(), filter.begin(), tolower );
 
-        for( auto &recipe : recipes ) {
-            available_recipes.insert( available_recipes.begin(), recipe.second.begin(),
-                                      recipe.second.end() );
+        for( auto &r_cat : recipe_dict.by_category ) {
+            available_recipes.insert( available_recipes.begin(), r_cat.second.begin(),
+                                      r_cat.second.end() );
         }
     }
 
@@ -1948,12 +1974,10 @@ void player::consume_tools(const std::vector<tool_comp> &tools, int batch, const
 
 const recipe *get_disassemble_recipe(const itype_id &type)
 {
-    for( auto &recipes_cat_iter : recipes ) {
-        for( auto cur_recipe : recipes_cat_iter.second ) {
+    for( auto cur_recipe : recipe_dict ) {
 
-            if (type == cur_recipe->result && cur_recipe->reversible) {
-                return cur_recipe;
-            }
+        if (type == cur_recipe->result && cur_recipe->reversible) {
+            return cur_recipe;
         }
     }
     // no matching disassemble recipe found.
@@ -1967,11 +1991,9 @@ bool player::can_disassemble( const item &dis_item, const inventory &crafting_in
         return true;
     }
 
-    for( auto &recipes_cat_iter : recipes ) {
-        for( auto cur_recipe : recipes_cat_iter.second ) {
-            if( dis_item.type->id == cur_recipe->result && cur_recipe->reversible ) {
-                return can_disassemble( dis_item, cur_recipe, crafting_inv, print_msg );
-            }
+    for( auto cur_recipe : recipe_dict ) {
+        if( dis_item.type->id == cur_recipe->result && cur_recipe->reversible ) {
+            return can_disassemble( dis_item, cur_recipe, crafting_inv, print_msg );
         }
     }
 
@@ -2289,33 +2311,31 @@ void player::complete_disassemble()
     }
 }
 
-const recipe *recipe_by_index(int index)
+const recipe *recipe_by_index( int index )
 {
-    return recipes_by_index[index];
+    return recipe_dict[index];
 }
 
-const recipe *recipe_by_name(const std::string &name)
+const recipe *recipe_by_name( const std::string &name)
 {
-    return recipes_by_ident[name];
+    return recipe_dict[name];
 }
 
 void check_recipe_definitions()
 {
-    for( auto &recipes_map_iter : recipes ) {
-        for( auto &elem : recipes_map_iter.second ) {
-            const recipe &r = *elem;
-            const std::string display_name = std::string("recipe ") + r.ident;
-            r.requirements.check_consistency(display_name);
-            if (!item::type_is_defined(r.result)) {
-                debugmsg("result %s in recipe %s is not a valid item template", r.result.c_str(), r.ident.c_str());
-            }
-            if( r.skill_used && !r.skill_used.is_valid() ) {
-                debugmsg("recipe %s uses invalid skill %s", r.ident.c_str(), r.skill_used.c_str());
-            }
-            for( auto &e : r.required_skills ) {
-                if( e.first && !e.first.is_valid() ) {
-                    debugmsg("recipe %s uses invalid required skill %s", r.ident.c_str(), e.first.c_str());
-                }
+    for( auto &elem : recipe_dict ) {
+        const recipe &r = *elem;
+        const std::string display_name = std::string("recipe ") + r.ident;
+        r.requirements.check_consistency(display_name);
+        if (!item::type_is_defined(r.result)) {
+            debugmsg("result %s in recipe %s is not a valid item template", r.result.c_str(), r.ident.c_str());
+        }
+        if( r.skill_used && !r.skill_used.is_valid() ) {
+            debugmsg("recipe %s uses invalid skill %s", r.ident.c_str(), r.skill_used.c_str());
+        }
+        for( auto &e : r.required_skills ) {
+            if( e.first && !e.first.is_valid() ) {
+                debugmsg("recipe %s uses invalid required skill %s", r.ident.c_str(), e.first.c_str());
             }
         }
     }
