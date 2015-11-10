@@ -35,13 +35,17 @@ Pickup::interact_results Pickup::interact_with_vehicle( vehicle *veh, const trip
     const int craft_part = veh->part_with_feature(veh_root_part, "CRAFTRIG");
     const int chempart = veh->part_with_feature(veh_root_part, "CHEMLAB");
     const int cargo_part = veh->part_with_feature(veh_root_part, "CARGO", false);
-    const int ctrl_part = veh->part_with_feature(veh_root_part, "CONTROLS");
     const int purify_part = veh->part_with_feature(veh_root_part, "WATER_PURIFIER");
+
+    int ctrl_part = veh->part_with_feature(veh_root_part, "CONTROLS");
+    if ( ctrl_part < 0) {
+        ctrl_part = veh->part_with_feature(veh_root_part, "CTRL_ELECTRONIC");
+    }
+
     const bool from_vehicle = veh && cargo_part >= 0 && !veh->get_items(cargo_part).empty();
     const bool can_be_folded = veh->is_foldable();
     const bool is_convertible = (veh->tags.count("convertible") > 0);
     const bool remotely_controlled = g->remoteveh() == veh;
-
     typedef enum {
         EXAMINE, CONTROL, GET_ITEMS, GET_ITEMS_ON_GROUND, FOLD_VEHICLE, USE_HOTPLATE,
         FILL_CONTAINER, DRINK, USE_WELDER, USE_PURIFIER, PURIFY_TANK,

@@ -987,17 +987,15 @@ void vehicle::use_controls(const tripoint &pos)
             menu.addentry( toggle_engine, true, 'e', engine_on ?
                            _("Turn off the engine") : _("Turn on the engine") );
         }
+        if( has_electronic_controls  ) {
+            menu.addentry( toggle_cruise_control, true, 'c', cruise_on ?
+                           _("Disable cruise control") : _("Enable cruise control") );
+        }
     }
 
     if( is_alarm_on && velocity == 0 && !remotely_controlled ) {
         menu.addentry( try_disarm_alarm, true, 'z', _("Try to disarm alarm.") );
     }
-
-    if( has_electronic_controls ) {
-        menu.addentry( toggle_cruise_control, true, 'c', cruise_on ?
-                       _("Disable cruise control") : _("Enable cruise control") );
-    }
-
 
     // Lights if they are there - Note you can turn them on even when damaged, they just don't work
     if ( has_electronic_controls && has_lights ) {
