@@ -14,7 +14,7 @@ class minesweeper_game
         int iMaxX, iMaxY, iMinX, iMinY;
         int iLevelX, iLevelY;
         int iOffsetX, iOffsetY;
-        int iBombs, iMinBombs, iMaxBombs;
+        int iBombs;
 
         std::map<int, std::map<int, int> > mLevel;
 

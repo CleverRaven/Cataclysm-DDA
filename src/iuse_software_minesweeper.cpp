@@ -7,6 +7,7 @@
 #include <vector>
 
 #include "output.h"
+#include "ui.h"
 #include "rng.h"
 #include "map.h"
 #include "input.h"
@@ -16,8 +17,8 @@
 
 minesweeper_game::minesweeper_game()
 {
-    iMinY = 10;
-    iMinX = 10;
+    iMinY = 8;
+    iMinX = 8;
 
     iMaxY = FULL_SCREEN_HEIGHT - 2;
     iMaxX = FULL_SCREEN_WIDTH - 2;
@@ -48,18 +49,43 @@ void minesweeper_game::new_level(WINDOW *w_minesweeper)
         } while( iVal < iMin || iVal > iMax);
     };
 
-    iLevelY = iMinY;
-    iLevelX = iMinX;
+    uimenu difficulty;
+    difficulty.text = _("Game Difficulty");
+    difficulty.entries.push_back(uimenu_entry(0, true, 'b', _("Beginner")));
+    difficulty.entries.push_back(uimenu_entry(1, true, 'i', _("Intermediate")));
+    difficulty.entries.push_back(uimenu_entry(2, true, 'e', _("Expert")));
+    difficulty.entries.push_back(uimenu_entry(3, true, 'c', _("Custom")));
+    difficulty.query();
 
-    set_num(_("Level width:"), iLevelX, iMinX, iMaxX);
-    set_num(_("Level height:"), iLevelY, iMinY, iMaxY);
+    switch (difficulty.ret) {
+    case 0:
+        iLevelY = 8;
+        iLevelX = 8;
+        iBombs = 10;
+        break;
+    case 1:
+        iLevelY = 16;
+        iLevelX = 16;
+        iBombs = 40;
+        break;
+    case 2:
+        iLevelY = 16;
+        iLevelX = 30;
+        iBombs = 99;
+        break;
+    case 3:
+    default:
+        iLevelY = iMinY;
+        iLevelX = iMinX;
 
-    iBombs = iLevelX * iLevelY * 0.2;
+        set_num(_("Level width:"), iLevelX, iMinX, iMaxX);
+        set_num(_("Level height:"), iLevelY, iMinY, iMaxY);
 
-    iMinBombs = iBombs;
-    iMaxBombs = iLevelX * iLevelY * 0.8;
+        iBombs = iLevelX * iLevelY * 0.1;
 
-    set_num(_("Number of bombs:"), iBombs, iMinBombs, iMaxBombs);
+        set_num(_("Number of bombs:"), iBombs, iBombs, iLevelX * iLevelY * 0.6);
+        break;
+    }
 
     iOffsetX = ((iMaxX - iLevelX) / 2) + 1;
     iOffsetY = ((iMaxY - iLevelY) / 2) + 1;
