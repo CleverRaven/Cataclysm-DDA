@@ -22,11 +22,12 @@ typedef std::unordered_map< mfaction_id, mf_attitude > mfaction_att_map;
 namespace monfactions
 {
 void finalize();
-void load_monster_faction(JsonObject &jo);
+void load_monster_faction( JsonObject &jo );
 mfaction_id get_or_add_faction( const mfaction_str_id &id );
 }
 
-class monfaction {
+class monfaction
+{
     public:
         mfaction_id loadid;
         mfaction_id base_faction;
