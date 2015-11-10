@@ -838,8 +838,8 @@ constexpr char first_invlet = '0';
 constexpr char last_invlet = '9';
 typedef std::vector< std::list<item> > pseudo_inventory;
 
-template<typename Collection, typename Filter>
-void pseudo_inv_to_slice( Collection here, Filter filter,
+template<typename Collection>
+void pseudo_inv_to_slice( Collection here, item_filter filter,
                           pseudo_inventory &item_stacks, indexed_invslice &result_slice,
                           std::vector<item *> &selectables, char &cur_invlet )
 {
