@@ -34,6 +34,8 @@ std::vector<std::string> craft_cat_list;
 std::map<std::string, std::vector<std::string> > craft_subcat_list;
 std::map<std::string, std::vector<recipe *>> recipes;
 std::map<itype_id, std::vector<recipe *>> recipes_by_component;
+std::map<std::string, const recipe*> recipes_by_ident;
+std::map<int, const recipe*> recipes_by_index;
 
 static void draw_recipe_tabs(WINDOW *w, std::string tab, TAB_MODE mode = NORMAL);
 static void draw_recipe_subtabs(WINDOW *w, std::string tab, std::string subtab,
@@ -57,18 +59,6 @@ recipe::recipe() :
     id(0), result("null"), contained(false),skill_used( NULL_ID ), reversible(false),
     autolearn(false), learn_by_disassembly(-1), result_mult(1)
 {
-}
-
-const recipe *find_recipe( std::string id )
-{
-    for( auto recipe_list : recipes ) {
-        for( auto recipe : recipe_list.second ) {
-            if( recipe->ident == id ) {
-                return recipe;
-            }
-        }
-    }
-    return nullptr;
 }
 
 void add_to_component_lookup(recipe* r)
@@ -246,7 +236,8 @@ void load_recipe(JsonObject &jsobj)
     }
 
     add_to_component_lookup(rec);
-
+    recipes_by_ident[rec_name] = rec;
+    recipes_by_index[id] = rec;
     recipes[category].push_back(rec);
 }
 
@@ -358,7 +349,7 @@ bool player::making_would_work(const std::string &id_to_make, int batch_size)
         return false;
     }
 
-    const recipe *making = find_recipe( id_to_make );
+    const recipe *making = recipe_by_name( id_to_make );
     if( making == nullptr ) {
         return false;
     }
@@ -1402,7 +1393,7 @@ void pick_recipes(const inventory &crafting_inv,
 
 void player::make_craft(const std::string &id_to_make, int batch_size)
 {
-    const recipe *recipe_to_make = find_recipe( id_to_make );
+    const recipe *recipe_to_make = recipe_by_name( id_to_make );
     if( recipe_to_make == nullptr ) {
         return;
     }
@@ -1415,7 +1406,7 @@ void player::make_craft(const std::string &id_to_make, int batch_size)
 
 void player::make_all_craft(const std::string &id_to_make, int batch_size)
 {
-    const recipe *recipe_to_make = find_recipe( id_to_make );
+    const recipe *recipe_to_make = recipe_by_name( id_to_make );
     if( recipe_to_make == nullptr ) {
         return;
     }

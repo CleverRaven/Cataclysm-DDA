@@ -8041,7 +8041,7 @@ int iuse::einktabletpc(player *p, item *it, bool t, const tripoint &pos)
 
                 candidate_recipes.push_back(s);
 
-                auto recipe = find_recipe( s );
+                auto recipe = recipe_by_name( s );
                 if( recipe ) {
                     rmenu.addentry( k++, true, -1, item::nname( recipe->result ) );
                 }
@@ -8057,7 +8057,7 @@ int iuse::einktabletpc(player *p, item *it, bool t, const tripoint &pos)
                 const auto rec_id = candidate_recipes[rchoice - 1];
                 it->set_var( "RECIPE", rec_id );
 
-                auto recipe = find_recipe( rec_id );
+                auto recipe = recipe_by_name( rec_id );
                 if( recipe ) {
                     p->add_msg_if_player(m_info,
                         _("You change the e-ink screen to show a recipe for %s."),

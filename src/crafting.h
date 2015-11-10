@@ -130,7 +130,6 @@ void batch_recipes(const inventory &crafting_inv,
                    std::vector<const recipe *> &current,
                    std::vector<bool> &available, const recipe* r);
 
-const recipe *find_recipe( std::string id );
 void check_recipe_definitions();
 
 void set_item_spoilage(item &newit, float used_age_tally, int used_age_count);
