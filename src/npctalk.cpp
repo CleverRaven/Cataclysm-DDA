@@ -1653,6 +1653,7 @@ std::string dialogue::dynamic_line( const std::string &topic ) const
         return status.str();
 
     } else if( topic == "TALK_USE_ITEM" || topic == "TALK_GIVE_ITEM" ) {
+        // TODO: Clean it up and break it apart, it is huge now
         const int inv_pos = g->inv( _("Offer what?") );
         item &given = g->u.i_at( inv_pos );
         if( given.is_null() ) {
@@ -1727,7 +1728,7 @@ std::string dialogue::dynamic_line( const std::string &topic ) const
             reason << std::endl;
             reason << _("My current weapon is better than this.");
             reason << std::endl;
-            reason << string_format( _("(new weapon value: %0.1f vs %0.1f)."),
+            reason << string_format( _("(new weapon value: %.1f vs %.1f)."),
                 new_weapon_value, cur_weapon_value );
             if( !given.is_gun() && given.is_armor() ) {
                 reason << std::endl;
@@ -1735,8 +1736,16 @@ std::string dialogue::dynamic_line( const std::string &topic ) const
             }
             if( allow_carry ) {
                 if( !p->can_pickVolume( given.volume() ) ) {
+                    const int free_space = p->volume_capacity() - p->volume_carried();
                     reason << std::endl;
                     reason << string_format( _("I have no space to store it.") );
+                    reason << std::endl;
+                    if( free_space > 0 ) {
+                        reason << string_format( _("I can only store %.2f liters more."),
+                            free_space / 4.0f );
+                    } else {
+                        reason << string_format( _("...or to store anything else for that matter.") );
+                    }
                 }
                 if( !p->can_pickWeight( given.weight() ) ) {
                     reason << std::endl;
