@@ -174,6 +174,8 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
 
         /** Resets stats, and applies effects in an idempotent manner */
         void reset_stats() override;
+        /** Recalculates scent_norm value which tell how character traits affect players change in scent*/
+        void reset_scent();
         /** Resets movement points and applies other non-idempotent changes */
         void process_turn() override;
         /** Calculates the various speed bonuses we will get from mutations, etc. */
@@ -1010,6 +1012,8 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         int recoil;
         int driving_recoil;
         int scent;
+        int scent_norm;
+        int scent_mod;
         int dodges_left, blocks_left;
         int stim, pkill, radiation;
         unsigned long cash;
