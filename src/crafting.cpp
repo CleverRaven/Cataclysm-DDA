@@ -1481,7 +1481,7 @@ void craft_command::execute()
             options.push_back( _( "No" ) );
 
             const std::string str = ss.str(); // we NEED a copy
-            int selection = menu_vec( true, _( str.c_str() ), options );
+            int selection = menu_vec( t, _( str.c_str() ), options );
             if( selection != 1 ) // if we pick anything else than yes, we cancel;
                 return;
         }
@@ -1787,9 +1787,9 @@ void player::complete_craft()
                 item::nname(making->result).c_str());
         if( last_craft.has_cached_selections() ) {
             last_craft.consume_components();
-        } else { // this else is now a fail-safe, since has_selections SHOULD always return true;
+        } else {
             for( const auto &it : making->requirements.components ) {
-                consume_items( it, batch_size ); // we consume the items we selected earlier
+                consume_items( it, batch_size );
             }
 
             for( const auto &it : making->requirements.tools ) {
@@ -1813,9 +1813,9 @@ void player::complete_craft()
     std::list<item> used;
     if( last_craft.has_cached_selections() ) {
         used = last_craft.consume_components();
-    } else { // this else is now a fail-safe, since has_selections SHOULD always return true;
+    } else {
         for( const auto &it : making->requirements.components ) {
-            std::list<item> tmp = consume_items( it, batch_size ); // again, we consume the items we selected earlier
+            std::list<item> tmp = consume_items( it, batch_size );
             used.splice(used.end(), tmp);
         }
         for( const auto &it : making->requirements.tools ) {
