@@ -293,7 +293,7 @@ int minesweeper_game::start_game()
                     popup_top(_("Boom, you're dead! Better luck next time."));
                     action = "QUIT";
 
-                } else {
+                } else if ( mLevelReveal[iPlayerY][iPlayerX] == unknown ) {
                     rec_reveal(iPlayerY, iPlayerX);
                 }
             }
@@ -309,3 +309,4 @@ int minesweeper_game::start_game()
 
     return iScore;
 }
+
