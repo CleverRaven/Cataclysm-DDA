@@ -96,6 +96,7 @@
             {"x": 0, "y": 0, "chance": 1, "items": "roadmap"},
             {"x": 0, "y": 0, "chance": 2, "items": ["beer", "beer", "beer", "beer", "beer", "beer"]},
             {"x": -2, "y": 0, "chance": 7, "item_groups": "car_kit"},
+            {"x": -2, "y": 1, "chance": 7, "items": ["jack", "wheel_wide"]},
             {"x": -2, "y": 0, "chance": 2, "item_groups": "bigtools"}
         ]
     },{
@@ -559,6 +560,7 @@
             {"x": 0, "y": 0, "chance": 5, "item_groups": "fast_food"},
             {"x": -2, "y": 0, "chance": 5, "item_groups": "farming_tools"},
             {"x": -2, "y": 1, "chance": 12, "item_groups": "car_kit"},
+            {"x": -2, "y": 1, "chance": 12, "items": ["jack", "wheel"]},
             {"x": -3, "y": 1, "chance": 10, "item_groups": "car_kit"},
             {"x": -3, "y": 0, "chance": 8, "item_groups": "fuel_gasoline"},
             {"x": -2, "y": 1, "chance": 3, "items": "ax"}
