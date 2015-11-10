@@ -366,6 +366,10 @@
             {
                 "input_method":"keyboard",
                 "key":"s"
+            },
+            {
+                "input_method":"keyboard",
+                "key":"RETURN"
             }
         ]
     },
