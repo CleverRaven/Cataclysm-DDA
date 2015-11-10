@@ -1430,7 +1430,6 @@ void craft_command::execute()
         return;
 
     bool need_selections = true;
-    /* for these checks to work, instead of calling make_craft again, call last_craft.execute() */
     if( has_cached_selections() ) {
         inventory map_inv;
         map_inv.form_from_map( crafter->pos3(), PICKUP_RANGE );
@@ -1480,6 +1479,12 @@ void craft_command::execute()
 std::list<item> craft_command::consume_components()
 {
     std::list<item> used;
+
+    if( empty() ) {
+        debugmsg( "Warning: attempted to consume items from an empty craft_command" );
+        return used;
+    }
+
     for( const auto &it : item_selections ) {
         std::list<item> tmp = crafter->consume_items( it, batch_size ); // we consume the items we selected earlier
         used.splice( used.end(), tmp );
