@@ -207,7 +207,7 @@ Bring up the keybindings menu (Press `?` than `1`), scroll down almost to the bo
 
 ![Debug menu](http://i.imgur.com/RfTxS96.png)
 
-With these commands, you should be able to recreate the proper conditions to test your changes.
+With these commands, you should be able to recreate the proper conditions to test your changes. You can find some more information about the debug menu on [the official wiki](http://www.wiki.cataclysmdda.com/index.php?title=Cheating#The_Debug_Menu).
 
 ## Frequently Asked Questions
 
