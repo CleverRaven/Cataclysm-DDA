@@ -152,7 +152,7 @@ int minesweeper_game::start_game()
 
     new_level(w_minesweeper);
 
-    static const std::array<int, 9> aColors = {
+    static const std::array<int, 9> aColors = {{
         c_white,
         c_ltgray,
         c_cyan,
@@ -162,7 +162,7 @@ int minesweeper_game::start_game()
         c_magenta,
         c_red,
         c_yellow
-    };
+    }};
 
     int iScore = 5;
 
@@ -245,7 +245,7 @@ int minesweeper_game::start_game()
         } else if (action == "FLAG") {
             if ( mLevelReveal[iPlayerY][iPlayerX] == unknown ) {
                 mLevelReveal[iPlayerY][iPlayerX] = flag;
-                mvwputch(w_minesweeper, iOffsetY + iPlayerY, iOffsetX + iPlayerX, hilite(c_white), "!");
+                mvwputch(w_minesweeper, iOffsetY + iPlayerY, iOffsetX + iPlayerX, hilite(c_yellow), "!");
 
             } else if ( mLevelReveal[iPlayerY][iPlayerX] == flag ) {
                 mLevelReveal[iPlayerY][iPlayerX] = unknown;
