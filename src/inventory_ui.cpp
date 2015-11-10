@@ -864,13 +864,13 @@ void pseudo_inv_to_slice( Collection here, Location pos, item_filter filter,
     }
 }
 
-item_location game::inv_map_splice( item_filter filter, const std::string &title )
+item_location game::inv_map_splice( item_filter filter, const std::string &title, int radius )
 {
-    return inv_map_splice( filter, filter, filter, title );
+    return inv_map_splice( filter, filter, filter, title, radius );
 }
 
 item_location game::inv_map_splice(
-    item_filter inv_filter, item_filter ground_filter, item_filter vehicle_filter, const std::string &title )
+    item_filter inv_filter, item_filter ground_filter, item_filter vehicle_filter, const std::string &title, int radius )
 {
     inventory_selector inv_s(false, false, title);
     char cur_invlet = '0';
@@ -880,15 +880,18 @@ item_location game::inv_map_splice(
     u.inv.sort();
     inv_s.make_item_list(u.inv.slice_filter_by(inv_filter));
 
-    // next get items from the ground
+    // next get items from the ground (within radius)
     std::vector<std::pair<tripoint, item *>> ground_selectables;
     indexed_invslice ground_items_slice;
-    pseudo_inventory ground_items;
+    std::vector<pseudo_inventory> ground_items;
 
-    if( !m.has_flag( "SEALED", g->u.pos() ) ) {
-        pseudo_inv_to_slice( m.i_at( g->u.pos() ), g->u.pos(), ground_filter,
-                             ground_items, ground_items_slice,
-                             ground_selectables, cur_invlet );
+    for (const auto& pos : closest_tripoints_first(radius, g->u.pos())) {
+        if (m.accessible_items(g->u.pos(), pos, radius)) {
+            // we only attempt to stack items on the same map tile
+            ground_items.emplace_back();
+            pseudo_inv_to_slice(m.i_at(pos), pos, ground_filter, ground_items.back(),
+                                ground_items_slice, ground_selectables, cur_invlet);
+        }
     }
 
     static const item_category category_on_ground("GROUND:", _("GROUND:"), -1000);
