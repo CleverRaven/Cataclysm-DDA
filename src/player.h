@@ -1053,7 +1053,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
 
         std::vector <addiction> addictions;
 
-        void make_craft_with_command( const std::string &id_to_make, int batch_size, activity_type atype );
+        void make_craft_with_command( const std::string &id_to_make, int batch_size, bool is_long = false );
         craft_command last_craft;
 
         std::string lastrecipe;

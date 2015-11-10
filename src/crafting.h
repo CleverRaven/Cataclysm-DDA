@@ -124,21 +124,21 @@ using tool_selection = comp_selection<tool_comp>;
 struct craft_command {
     const recipe* rec = nullptr;
     int batch_size = 0;
-    activity_type atype = ACT_NULL;
+    bool is_long = false;
 
     std::vector<item_selection> item_selections;
     std::vector<tool_selection> tool_selections;
 
     craft_command() {}
-    craft_command( const recipe* to_make, int batch_size, activity_type atype ) :
-        rec( to_make ), batch_size( batch_size ), atype( atype ) {}
+    craft_command( const recipe* to_make, int batch_size, bool is_long ) :
+        rec( to_make ), batch_size( batch_size ), is_long( is_long ) {}
 
     void execute();
     std::list<item> consume_components();
 
     bool has_selections()
     {
-        return !item_selections.empty() && !tool_selections.empty();
+        return !item_selections.empty();
     }
 
     bool empty()

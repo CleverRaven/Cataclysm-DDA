@@ -1404,30 +1404,15 @@ void pick_recipes(const inventory &crafting_inv,
 
 void player::make_craft(const std::string &id_to_make, int batch_size)
 {
-    const recipe *recipe_to_make = find_recipe( id_to_make );
-    if( recipe_to_make == nullptr ) {
-        return;
-    }
-    assign_activity(ACT_CRAFT, recipe_to_make->batch_time(batch_size), recipe_to_make->id);
-    activity.values.push_back( batch_size );
-    last_batch = batch_size;
-    lastrecipe = id_to_make;
+    make_craft_with_command(id_to_make, batch_size);
 }
 
 void player::make_all_craft(const std::string &id_to_make, int batch_size)
 {
-    const recipe *recipe_to_make = find_recipe( id_to_make );
-    if( recipe_to_make == nullptr ) {
-        return;
-    }
-    assign_activity(ACT_LONGCRAFT, recipe_to_make->batch_time(batch_size), recipe_to_make->id);
-    activity.values.push_back( batch_size );
-    last_batch = batch_size;
-    lastrecipe = id_to_make;
+    make_craft_with_command(id_to_make, batch_size, true);
 }
 
-/* very DRY violating and redundant, but it maintains the original functionality too */
-void player::make_craft_with_command( const std::string &id_to_make, int batch_size, activity_type atype )
+void player::make_craft_with_command( const std::string &id_to_make, int batch_size, bool is_long )
 {
     const recipe *recipe_to_make = find_recipe( id_to_make );
 
@@ -1435,7 +1420,7 @@ void player::make_craft_with_command( const std::string &id_to_make, int batch_s
         return;
     }
 
-    last_craft = craft_command( recipe_to_make, batch_size, atype );
+    last_craft = craft_command( recipe_to_make, batch_size, is_long );
     last_craft.execute();
 }
 
@@ -1444,6 +1429,7 @@ void craft_command::execute()
     if( empty() )
         return;
 
+    /* for these checks to work, instead of calling make_craft again, call last_craft.execute() */
     if( has_selections() ) {
         /* check player::has_components_available and player::has_tools_available */
     } else {
@@ -1467,17 +1453,11 @@ void craft_command::execute()
         tool_selections.push_back( ts );
     }
 
-    switch( atype ) {
-        case ACT_CRAFT:
-            g->u.make_craft( rec->ident, batch_size );
-            break;
-        case ACT_LONGCRAFT:
-            g->u.make_all_craft( rec->ident, batch_size );
-            break;
-        default:
-            // we do nothing
-            break;
-    }
+    g->u.assign_activity(is_long ? ACT_LONGCRAFT : ACT_CRAFT, rec->batch_time(batch_size), rec->id);
+    g->u.activity.values.push_back( batch_size );
+    /* legacy support for lua bindings to last_batch and lastrecipe */
+    g->u.last_batch = batch_size;
+    g->u.lastrecipe = rec->ident;
 }
 
 std::list<item> craft_command::consume_components() {
@@ -1673,7 +1653,7 @@ void player::complete_craft()
                 item::nname(making->result).c_str());
         if( last_craft.has_selections() ) {
             last_craft.consume_components();
-        } else {
+        } else { // this else is now a fail-safe, since has_selections SHOULD always return true;
             for( const auto &it : making->requirements.components ) {
                 consume_items( it, batch_size ); // we consume the items we selected earlier
             }
@@ -1699,7 +1679,7 @@ void player::complete_craft()
     std::list<item> used;
     if( last_craft.has_selections() ) {
         used = last_craft.consume_components();
-    } else {
+    } else { // this else is now a fail-safe, since has_selections SHOULD always return true;
         for( const auto &it : making->requirements.components ) {
             std::list<item> tmp = consume_items( it, batch_size ); // again, we consume the items we selected earlier
             used.splice(used.end(), tmp);
