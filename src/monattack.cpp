@@ -280,8 +280,8 @@ void mattack::shriek_stun(monster *z, int index)
         if ( target == nullptr ){
             continue;
         }
-        if ( one_in((dist/2)) && !(target->is_immune_effect("deaf")) ){
-            target->add_effect("dazed", rng( ( 6 + ( 15 - dist ) ) , 20 ), num_bp, false, 2);
+        if ( one_in(dist/2) && !(target->is_immune_effect("deaf")) ){
+            target->add_effect("dazed", rng( 10 , 20 ), num_bp, false, rng( 1, ( 15 - dist ) / 3 ) );
         }
 
     }
@@ -4146,7 +4146,12 @@ void mattack::longswipe(monster *z, int index)
 
 void mattack::parrot(monster *z, int index)
 {
-    if (one_in(20)) {
+    if ( z->has_effect( "shrieking" ) )
+    {
+        sounds::sound(z->pos(), 120, _("a piercing wail!"), true);
+        z->moves -= 40;
+    }
+    else if (one_in(20)) {
         z->moves -= 100;  // It takes a while
         z->reset_special(index); // Reset timer
         const SpeechBubble speech = get_speech( z->type->id.str() );

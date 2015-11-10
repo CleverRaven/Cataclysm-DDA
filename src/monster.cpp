@@ -1092,7 +1092,7 @@ void monster::deal_projectile_attack( Creature *source, dealt_projectile_attack 
     const auto &proj = attack.proj;
     double &missed_by = attack.missed_by; // We can change this here
     const auto &effects = proj.proj_effects;
-    
+
     // Whip has a chance to scare wildlife even if it misses
     if( effects.count("WHIP") && type->in_category("WILDLIFE") && one_in(3) ) {
         add_effect("run", rng(3, 5));
@@ -1730,10 +1730,6 @@ void monster::process_effects()
                 if (made_of("paper") || made_of("powder") || made_of("wood") || made_of("cotton") ||
                     made_of("wool"))
                     apply_damage( nullptr, bp_torso, rng( 15, 40 ) );
-            }
-            if( id == "shrieking"){
-                 sounds::sound(pos(), 120, _("a piercing wail!"), true);
-                 moves -= 40;
             }
         }
     }
