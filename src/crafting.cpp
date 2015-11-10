@@ -34,7 +34,7 @@ std::vector<std::string> craft_cat_list;
 std::map<std::string, std::vector<std::string> > craft_subcat_list;
 std::map<std::string, std::vector<recipe *>> recipes;
 std::map<itype_id, std::vector<recipe *>> recipes_by_component;
-std::map<std::string, const recipe*> recipes_by_ident;
+std::map<const std::string, const recipe*> recipes_by_ident;
 std::map<int, const recipe*> recipes_by_index;
 
 static void draw_recipe_tabs(WINDOW *w, std::string tab, TAB_MODE mode = NORMAL);
@@ -2291,26 +2291,12 @@ void player::complete_disassemble()
 
 const recipe *recipe_by_index(int index)
 {
-    for (auto map_iter : recipes) {
-        for (auto list_iter : map_iter.second) {
-            if (list_iter->id == index) {
-                return list_iter;
-            }
-        }
-    }
-    return NULL;
+    return recipes_by_index[index];
 }
 
 const recipe *recipe_by_name(const std::string &name)
 {
-    for (auto map_iter : recipes) {
-        for (auto list_iter : map_iter.second) {
-            if (list_iter->ident == name) {
-                return list_iter;
-            }
-        }
-    }
-    return NULL;
+    return recipes_by_ident[name];
 }
 
 void check_recipe_definitions()
