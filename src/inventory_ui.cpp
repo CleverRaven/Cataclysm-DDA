@@ -872,22 +872,32 @@ item_location game::inv_map_splice( item_filter filter, const std::string &title
 item_location game::inv_map_splice(
     item_filter inv_filter, item_filter ground_filter, item_filter vehicle_filter, const std::string &title )
 {
+    inventory_selector inv_s(false, false, title);
     char cur_invlet = '0';
 
-    pseudo_inventory ground_items;
-    pseudo_inventory vehicle_items;
+    // first get matching items from the inventory
+    u.inv.restack(&u);
+    u.inv.sort();
+    inv_s.make_item_list(u.inv.slice_filter_by(inv_filter));
 
+    // next get items from the ground
     std::vector<item *> ground_selectables;
-    std::vector<item *> vehicle_selectables;
-
     indexed_invslice ground_items_slice;
-    indexed_invslice veh_items_slice;
+    pseudo_inventory ground_items;
 
     if( !m.has_flag( "SEALED", g->u.pos() ) ) {
         pseudo_inv_to_slice( m.i_at( g->u.pos() ), ground_filter,
                              ground_items, ground_items_slice,
                              ground_selectables, cur_invlet );
     }
+
+    static const item_category category_on_ground("GROUND:", _("GROUND:"), -1000);
+    inv_s.make_item_list(ground_items_slice, &category_on_ground);
+
+    // finally get items from vehicles
+    std::vector<item *> vehicle_selectables;
+    indexed_invslice veh_items_slice;
+    pseudo_inventory vehicle_items;
 
     int part = -1;
     vehicle *veh = m.veh_at( g->u.pos(), part );
@@ -902,26 +912,9 @@ item_location game::inv_map_splice(
         }
     }
 
-    static const item_category category_on_ground(
-        "GROUND:",
-        _("GROUND:"),
-        -1000
-    );
-
-    static const item_category category_on_veh(
-        "VEHICLE:",
-        _("VEHICLE:"),
-        -2000
-    );
-
-    u.inv.restack(&u);
-    u.inv.sort();
-    const indexed_invslice stacks = u.inv.slice_filter_by( inv_filter );
-
-    inventory_selector inv_s(false, false, title);
-    inv_s.make_item_list(stacks);
-    inv_s.make_item_list(ground_items_slice, &category_on_ground);
+    static const item_category category_on_veh("VEHICLE:", _("VEHICLE:"), -2000);
     inv_s.make_item_list(veh_items_slice, &category_on_veh);
+
     inv_s.prepare_paging();
 
     inventory_selector::drop_map prev_droppings;
