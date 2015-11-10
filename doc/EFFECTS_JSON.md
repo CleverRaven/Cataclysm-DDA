@@ -409,8 +409,8 @@ Valid arguments:
 "vomit_tick"
 
 "scent_mod"
-"vomit_min_val"
-"vomit_max_val"
+"scent_min_val"
+"scent_max_val"
 
 ```
 Basic definitions:

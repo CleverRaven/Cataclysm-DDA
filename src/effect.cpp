@@ -280,9 +280,18 @@ bool effect_type::load_mod_data(JsonObject &jsobj, std::string member) {
         extract_effect(j, mod_data, "stamina_tick",      member, "STAMINA",  "tick");
 
         // Then scent
-        extract_effect(j, mod_data, "scent_mod",         member, "SCENT", "min");
-        extract_effect(j, mod_data, "scent_min_val",     member, "SCENT", "min_val");
-        extract_effect(j, mod_data, "scent_max_val",     member, "SCENT", "max_val");
+        extract_effect( j, mod_data, "scent_mod",         member, "SCENT", "min" );
+        extract_effect( j, mod_data, "scent_min_val",     member, "SCENT", "min_val" );
+        extract_effect( j, mod_data, "scent_max_val",     member, "SCENT", "max_val" );
+
+        // Then armor
+        extract_effect( j, mod_data, "armor_bash_mod", member, "ARMOR_BASH", "min" );
+        extract_effect( j, mod_data, "armor_bash_val", member, "ARMOR_BASH", "min_val" );
+        extract_effect( j, mod_data, "armor_bash_val", member, "ARMOR_BASH", "max_val" );
+
+        extract_effect( j, mod_data, "armor_cut_mod", member, "ARMOR_CUT", "min" );
+        extract_effect( j, mod_data, "armor_cut_val", member, "ARMOR_CUT", "min_val" );
+        extract_effect( j, mod_data, "armor_cut_val", member, "ARMOR_CUT", "max_val" );
         
         // Then coughing
         extract_effect(j, mod_data, "cough_chance",     member, "COUGH",    "chance_top");
@@ -509,9 +518,13 @@ std::string effect::disp_desc(bool reduced) const
     val = get_avg_mod("HUNGER", reduced);
     values.push_back(desc_freq(get_percentage("HUNGER", val, reduced), val, _("hunger"), _("sate")));
     val = get_avg_mod("FATIGUE", reduced);
+    values.push_back( desc_freq( get_percentage( "FATIGUE", val, reduced ), val, _( "sleepiness" ), _( "rest" ) ) );
+    val = get_avg_mod( "SCENT", reduced );
     values.push_back( desc_freq(get_percentage("SCENT", val, reduced), val, _("scent"), _("scent masking")));
-    val = get_avg_mod("SCENT", reduced);
-    values.push_back(desc_freq(get_percentage("FATIGUE", val, reduced), val, _("sleepiness"), _("rest")));
+    val = get_avg_mod( "ARMOR_BASH", reduced );
+    values.push_back( desc_freq( get_percentage( "ARMOR_BASH", val, reduced ), val, _( "bashing resistance" ), _( "bashing vulnerability" ) ) );
+    val = get_avg_mod( "ARMOR_CUT", reduced );
+    values.push_back( desc_freq( get_percentage( "ARMOR_CUT", val, reduced ), val, _( "cutting resistance" ), _( "cutting vulnerability" ) ) );
     val = get_avg_mod("COUGH", reduced);
     values.push_back(desc_freq(get_percentage("COUGH", val, reduced), val, _("coughing"), _("coughing")));
     val = get_avg_mod("VOMIT", reduced);

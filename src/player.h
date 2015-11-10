@@ -592,6 +592,8 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
 
         void add_pain_msg(int val, body_part bp) const;
 
+        static int bound_mod_to_vals( int val, int mod, int max, int min );
+
         /** Heals a body_part for dam */
         void heal(body_part healed, int dam);
         /** Heals an hp_part for dam */
@@ -768,6 +770,9 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         int get_armor_bash_base(body_part bp) const override;
         /** Returns cutting resistance from the creature and armor only */
         int get_armor_cut_base(body_part bp) const override;
+        /** Returns particular resistance gained from effects*/
+        int get_armor_bash_bonus( body_part bp ) const;
+        int get_armor_cut_bonus( body_part bp ) const;
         /** Returns overall env_resist on a body_part */
         int get_env_resist(body_part bp) const override;
         /** Returns true if the player is wearing something on the entered body_part */

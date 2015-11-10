@@ -5837,7 +5837,7 @@ void player::add_pain_msg(int val, body_part bp) const
     }
 }
 
-static int bound_mod_to_vals(int val, int mod, int max, int min)
+int player::bound_mod_to_vals(int val, int mod, int max, int min)
 {
     if (val + mod > max && max != 0) {
         mod = std::max(max - val, 0);
@@ -6296,9 +6296,7 @@ void player::process_effects() {
             if ( val != 0 ) {
                 scent_mod += bound_mod_to_vals( scent_norm, val,
                     it.get_max_val("SCENT", reduced),
-                    it.get_min_val("SCENT", reduced) );
-                
-                    
+                    it.get_min_val("SCENT", reduced) );     
             }
 
             // Speed and stats are handled in recalc_speed_bonus and reset_stats respectively
@@ -12540,12 +12538,12 @@ int player::mut_cbm_encumb( body_part bp ) const
 
 int player::get_armor_bash(body_part bp) const
 {
-    return get_armor_bash_base(bp) + armor_bash_bonus;
+    return get_armor_bash_base(bp) + get_armor_bash_bonus(bp);
 }
 
 int player::get_armor_cut(body_part bp) const
 {
-    return get_armor_cut_base(bp) + armor_cut_bonus;
+    return get_armor_cut_base(bp) + get_armor_cut_bonus(bp);
 }
 
 int player::get_armor_bash_base(body_part bp) const
@@ -12668,6 +12666,46 @@ int player::get_armor_cut_base(body_part bp) const
         ret += 17;
     }
     return ret;
+}
+
+int player::get_armor_bash_bonus( body_part bp ) const
+{
+    int armor_bonus = 0;
+    for ( auto &elem : effects ) {
+        for ( auto &_effect_it : elem.second ) {
+            auto &it = _effect_it.second;
+            bool reduced = resists_effect( it );
+            body_part bp_effect = it.get_bp();
+            int val = 0;
+            val = it.get_mod( "ARMOR_BASH", reduced );
+            if ( val != 0 && (bp_effect == bp || bp_effect == num_bp) ) {
+                armor_bonus += bound_mod_to_vals( get_armor_bash_base( bp ), val,
+                    it.get_max_val( "ARMOR_BASH", reduced ),
+                    it.get_min_val( "ARMOR_BASH", reduced ) );
+            }         
+        }
+    }
+    return armor_bonus;
+}
+
+int player::get_armor_cut_bonus( body_part bp ) const
+{
+    int armor_bonus = 0;
+    for ( auto &elem : effects ) {
+        for ( auto &_effect_it : elem.second ) {
+            auto &it = _effect_it.second;
+            bool reduced = resists_effect( it );
+            body_part bp_effect = it.get_bp();
+            int val = 0;
+            val = it.get_mod( "ARMOR_CUT", reduced );
+            if ( val != 0 && (bp_effect == bp || bp_effect == num_bp) ) {
+                armor_bonus += bound_mod_to_vals( get_armor_cut_base( bp ), val,
+                    it.get_max_val( "ARMOR_CUT", reduced ),
+                    it.get_min_val( "ARMOR_CUT", reduced ) );
+            }
+        }
+    }
+    return armor_bonus;
 }
 
 bool player::armor_absorb(damage_unit& du, item& armor) {
