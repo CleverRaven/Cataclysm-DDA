@@ -121,30 +121,35 @@ struct comp_selection {
 using item_selection = comp_selection<item_comp>;
 using tool_selection = comp_selection<tool_comp>;
 
-struct craft_command {
-    const recipe* rec = nullptr;
-    int batch_size = 0;
-    bool is_long = false;
+class craft_command {
+    public:
+        const recipe* rec = nullptr;
+        int batch_size = 0;
+        bool is_long = false;
+        player* crafter; // This is mainly here for maintainability reasons.
 
-    std::vector<item_selection> item_selections;
-    std::vector<tool_selection> tool_selections;
+        craft_command() {}
+        craft_command( const recipe* to_make, int batch_size, bool is_long, player* crafter ) :
+            rec( to_make ), batch_size( batch_size ), is_long( is_long ), crafter( crafter ) {}
 
-    craft_command() {}
-    craft_command( const recipe* to_make, int batch_size, bool is_long ) :
-        rec( to_make ), batch_size( batch_size ), is_long( is_long ) {}
+        void execute();
+        std::list<item> consume_components();
 
-    void execute();
-    std::list<item> consume_components();
+        bool has_cached_selections()
+        {
+            return !item_selections.empty() || !tool_selections.empty();
+        }
 
-    bool has_selections()
-    {
-        return !item_selections.empty();
-    }
+        bool empty()
+        {
+            return rec == nullptr;
+        }
+    private:
+        std::vector<item_selection> item_selections;
+        std::vector<tool_selection> tool_selections;
 
-    bool empty()
-    {
-        return rec == nullptr;
-    }
+        std::list<item_selection> check_item_components_missing( const inventory* map_inv );
+        std::list<tool_selection> check_tool_components_missing( const inventory* map_inv );
 };
 
 // removes any (removable) ammo from the item and stores it in the
