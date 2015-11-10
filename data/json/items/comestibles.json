@@ -5385,7 +5385,7 @@
         "volume" : 3,
         "cutting" : 0,
         "phase" : "solid",
-        "charges" : 3, "//" : "3 chunks of meat"
+        "charges" : 3, "//" : "3 chunks of meat.",
         "bashing" : 0,
         "flags" : ["EATEN_HOT"],
         "fun" : 5
