@@ -78,7 +78,7 @@ bool play_videogame(std::string function_name, std::map<std::string, std::string
         return true;
     } else if ( function_name == "minesweeper_game" ) {
         minesweeper_game mg;
-        int score = mg.start_game();
+        score = mg.start_game();
 
         return true;
     } else {

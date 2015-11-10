@@ -172,7 +172,7 @@ int minesweeper_game::start_game()
                     }
                 }
 
-                mvwputch(w_minesweeper, iOffsetY + y, iOffsetX + x, (x == iPlayerX && y == iPlayerY) ? hilite(c_white) : c_white, "0" );
+                mvwputch(w_minesweeper, iOffsetY + y, iOffsetX + x, (x == iPlayerX && y == iPlayerY) ? hilite(c_white) : c_white, " " );
 
             } else {
                 mvwputch(w_minesweeper, iOffsetY + y, iOffsetX + x, (x == iPlayerX && y == iPlayerY) ? hilite(c_white) : c_white, std::to_string(mLevel[y][x]) );
@@ -206,7 +206,11 @@ int minesweeper_game::start_game()
                     if ( mLevelReveal[iPlayerY][iPlayerX] == flag ) {
                         sGlyph = "!";
                     } else if ( mLevelReveal[iPlayerY][iPlayerX] == seen ) {
-                        sGlyph = std::to_string(mLevel[iPlayerY][iPlayerX]);
+                        if ( mLevel[iPlayerY][iPlayerX] == 0 ) {
+                            sGlyph = " ";
+                        } else {
+                            sGlyph = std::to_string(mLevel[iPlayerY][iPlayerX]);
+                        }
                     } else {
                         sGlyph = '#';
                     }
@@ -251,7 +255,7 @@ int minesweeper_game::start_game()
 
         } else if (action == "NEW") {
             new_level(w_minesweeper);
-            
+
             iPlayerY = 0;
             iPlayerX = 0;
         }
