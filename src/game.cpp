@@ -7741,7 +7741,7 @@ void game::control_vehicle()
     }
 
     if( veh != nullptr && veh->player_in_control( u ) ) {
-        veh->use_controls();
+        veh->use_controls( u.pos() );
     } else if( veh && veh->part_with_feature( veh_part, "CONTROLS" ) >= 0 && u.in_vehicle ) {
         if( !veh->interact_vehicle_locked() ) { return; }
         if( veh->engine_on ) {
@@ -7765,7 +7765,7 @@ void game::control_vehicle()
             return;
         }
         if (veh->interact_vehicle_locked()){
-            veh->use_controls();
+            veh->use_controls( examp );
         }
     }
 }

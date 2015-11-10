@@ -187,7 +187,7 @@ Pickup::interact_results Pickup::interact_with_vehicle( vehicle *veh, const trip
 
     case CONTROL:
         if( veh->interact_vehicle_locked() ) {
-            veh->use_controls();
+            veh->use_controls(pos);
         }
         return DONE;
 
