@@ -8017,6 +8017,7 @@ bool npc_menu( npc &who )
         push,
         examine_wounds,
         use_item,
+        sort_armor,
         attack
     };
 
@@ -8031,6 +8032,7 @@ bool npc_menu( npc &who )
     amenu.addentry( push, obeys, 'p', _("Push away") );
     amenu.addentry( examine_wounds, true, 'w', _("Examine wounds") );
     amenu.addentry( use_item, true, 'i', _("Use item on") );
+    amenu.addentry( sort_armor, true, 'r', _("Sort armor") );
     amenu.addentry( attack, true, 'a', _("Attack") );
 
     amenu.query();
@@ -8076,6 +8078,9 @@ bool npc_menu( npc &who )
             // Note: exiting a body part selection menu counts as use here
             g->u.mod_moves( -300 );
         }
+    } else if( choice == sort_armor ) {
+        who.sort_armor();
+        g->u.mod_moves( -100 );
     } else if( choice == attack ) {
         //The NPC knows we started the fight, used for morale penalty.
         if( !who.is_enemy() ) {
