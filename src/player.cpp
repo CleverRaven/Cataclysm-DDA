@@ -12537,23 +12537,19 @@ int player::mut_cbm_encumb( body_part bp ) const
 }
 
 int player::get_armor_bash(body_part bp) const
-{
-    return get_armor_bash_base(bp) + get_armor_bash_bonus(bp);
+{   
+    return get_armor_bash_base( bp ) + get_armor_bash_bonus( bp );
 }
 
 int player::get_armor_cut(body_part bp) const
-{
-    return get_armor_cut_base(bp) + get_armor_cut_bonus(bp);
+{   
+    return get_armor_cut_base( bp ) + get_armor_cut_bonus( bp );
 }
 
 int player::get_armor_bash_base(body_part bp) const
 {
     int ret = 0;
-    for (auto &i : worn) {
-        if (i.covers(bp)) {
-            ret += i.bash_resist();
-        }
-    }
+
     if (has_bionic("bio_carbon")) {
         ret += 2;
     }
@@ -12578,6 +12574,18 @@ int player::get_armor_bash_base(body_part bp) const
     if (bp == bp_head && has_trait("LYNX_FUR")) {
         ret++;
     }
+    if ( has_trait( "FEATHERS" ) ) {
+        ret--;
+    }
+    if ( (bp == bp_arm_l || bp == bp_arm_r) && has_trait( "ARM_FEATHERS" ) ) {
+        ret--;
+    }
+    if ( has_trait( "AMORPHOUS" ) ) {
+        ret--;
+        if ( !(has_trait( "INT_SLIME" )) ) {
+            ret -= 3;
+        }
+    }
     if (has_trait("FAT")) {
         ret ++;
     }
@@ -12587,8 +12595,17 @@ int player::get_armor_bash_base(body_part bp) const
     if (has_trait("M_SKIN2")) {
         ret += 3;
     }
-    if (has_trait("CHITIN")) {
+    if (has_trait("CHITIN2") || has_trait( "CHITINFUR3" ) ) {
+        ret += 1;
+    }
+    if ( has_trait( "CHITIN3" ) ) {
         ret += 2;
+    }
+    if ( has_trait( "PLANTSKIN" ) ) {
+        ret--;
+    }
+    if ( has_trait( "BARK" ) ) {
+        ret -= 2;
     }
     if (has_trait("SHELL") && bp == bp_torso) {
         ret += 6;
@@ -12606,11 +12623,7 @@ int player::get_armor_bash_base(body_part bp) const
 int player::get_armor_cut_base(body_part bp) const
 {
     int ret = 0;
-    for (auto &i : worn) {
-        if (i.covers(bp)) {
-            ret += i.cut_resist();
-        }
-    }
+
     if (has_bionic("bio_carbon")) {
         ret += 4;
     }
@@ -12646,15 +12659,20 @@ int player::get_armor_cut_base(body_part bp) const
     if (has_trait("SLEEK_SCALES")) {
         ret += 1;
     }
-    if (has_trait("CHITIN") || has_trait("CHITIN_FUR")) {
+    if (has_trait("CHITIN") || has_trait("CHITIN_FUR") || has_trait( "CHITIN_FUR2" ) ) {
         ret += 2;
     }
-    if (has_trait("CHITIN2") || has_trait("CHITIN_FUR2")) {
+    if (has_trait("CHITIN2") || has_trait("CHITIN_FUR3")) {
         ret += 4;
     }
-    if (has_trait("CHITIN3") || has_trait("CHITIN_FUR3")) {
+    if (has_trait("CHITIN3")) {
         ret += 8;
     }
+
+    if ( (bp == bp_foot_l || bp == bp_foot_r) && has_trait( "HOOVES" ) ) {
+        ret--;
+    }
+
     if (has_trait("SHELL") && bp == bp_torso) {
         ret += 14;
     }
@@ -12828,146 +12846,21 @@ void player::absorb_hit(body_part bp, damage_instance &dam) {
         }
 
         // Next, apply reductions from bionics and traits.
-        if( has_bionic("bio_carbon") ) {
-            switch (elem.type) {
-            case DT_BASH:
-                elem.amount -= 2;
-                break;
-            case DT_CUT:
-                elem.amount -= 4;
-                break;
-            case DT_STAB:
-                elem.amount -= 3.2;
-                break;
-            default:
-                break;
+        if( elem.type == DT_CUT  || elem.type == DT_STAB ) {
+
+            float mod = 1.0;
+            if (elem.type == DT_STAB) {
+                float mod = 0.8;
             }
-        }
-        if( bp == bp_head && has_bionic("bio_armor_head") ) {
-            switch (elem.type) {
-            case DT_BASH:
-            case DT_CUT:
-                elem.amount -= 3;
-                break;
-            case DT_STAB:
-                elem.amount -= 2.4;
-                break;
-            default:
-                break;
-            }
-        } else if( (bp == bp_arm_l || bp == bp_arm_r) && has_bionic("bio_armor_arms") ) {
-            switch (elem.type) {
-            case DT_BASH:
-            case DT_CUT:
-                elem.amount -= 3;
-                break;
-            case DT_STAB:
-                elem.amount -= 2.4;
-                break;
-            default:
-                break;
-            }
-        } else if( bp == bp_torso && has_bionic("bio_armor_torso") ) {
-            switch (elem.type) {
-            case DT_BASH:
-            case DT_CUT:
-                elem.amount -= 3;
-                break;
-            case DT_STAB:
-                elem.amount -= 2.4;
-                break;
-            default:
-                break;
-            }
-        } else if( (bp == bp_leg_l || bp == bp_leg_r) && has_bionic("bio_armor_legs") ) {
-            switch (elem.type) {
-            case DT_BASH:
-            case DT_CUT:
-                elem.amount -= 3;
-                break;
-            case DT_STAB:
-                elem.amount -= 2.4;
-                break;
-            default:
-                break;
-            }
-        } else if( bp == bp_eyes && has_bionic("bio_armor_eyes") ) {
-            switch (elem.type) {
-            case DT_BASH:
-            case DT_CUT:
-                elem.amount -= 3;
-                break;
-            case DT_STAB:
-                elem.amount -= 2.4;
-                break;
-            default:
-                break;
-            }
-        }
-        if( elem.type == DT_CUT ) {
-            if( has_trait("THICKSKIN") ) {
-                elem.amount -= 1;
-            }
-            if( elem.amount > 0 && has_trait("THINSKIN") ) {
-                elem.amount += 1;
-            }
-            if (has_trait("SCALES")) {
-                elem.amount -= 2;
-            }
-            if (has_trait("THICK_SCALES")) {
-                elem.amount -= 4;
-            }
-            if (has_trait("SLEEK_SCALES")) {
-                elem.amount -= 1;
-            }
-            if (has_trait("FAT")) {
-                elem.amount --;
-            }
-            if (has_trait("CHITIN") || has_trait("CHITIN_FUR") || has_trait("CHITIN_FUR2")) {
-                elem.amount -= 2;
-            }
-            if ((bp == bp_foot_l || bp == bp_foot_r) && has_trait("HOOVES")) {
-                elem.amount--;
-            }
-            if (has_trait("CHITIN2")) {
-                elem.amount -= 4;
-            }
-            if (has_trait("CHITIN3") || has_trait("CHITIN_FUR3")) {
-                elem.amount -= 8;
-            }
+
+            elem.amount -= (float)get_armor_cut( bp ) * mod;
+
             elem.amount -= mabuff_arm_cut_bonus();
         }
         if( elem.type == DT_BASH ) {
-            if (has_trait("FEATHERS")) {
-                elem.amount--;
-            }
-            if (has_trait("AMORPHOUS")) {
-                elem.amount--;
-                if (!(has_trait("INT_SLIME"))) {
-                    elem.amount -= 3;
-                }
-            }
-            if ((bp == bp_arm_l || bp == bp_arm_r) && has_trait("ARM_FEATHERS")) {
-                elem.amount--;
-            }
-            if (has_trait("FUR") || has_trait("LUPINE_FUR") || has_trait("URSINE_FUR")) {
-                elem.amount--;
-            }
-            if (bp == bp_head && has_trait("LYNX_FUR")) {
-                elem.amount--;
-            }
-            if (has_trait("CHITIN2")) {
-                elem.amount--;
-            }
-            if (has_trait("CHITIN3") || has_trait("CHITIN_FUR3")) {
-                elem.amount -= 2;
-            }
-            if (has_trait("PLANTSKIN")) {
-                elem.amount--;
-            }
-            if (has_trait("BARK")) {
-                elem.amount -= 2;
-            }
+
+            elem.amount -= get_armor_bash( bp );
+
             if (has_trait("LIGHT_BONES")) {
                 elem.amount *= 1.4;
             }

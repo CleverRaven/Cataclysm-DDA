@@ -412,6 +412,14 @@ Valid arguments:
 "scent_min_val"
 "scent_max_val"
 
+"armor_bash_mod"
+"armor_bash_min_val"
+"armor_bash_max_val"
+
+"armor_cut_mod"
+"armor_cut_min_val"
+"armor_cut_max_val"
+
 ```
 Basic definitions:
 ```C++

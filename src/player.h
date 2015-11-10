@@ -762,15 +762,14 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         int mut_cbm_encumb( body_part bp ) const;
         /** Returns encumbrance from items only */
         int item_encumb( body_part bp, double &layers, int &armorenc, const item &new_item ) const;
-        /** Returns overall bashing resistance for the body_part */
+        /** Returns bashing resistance gained from cbm's, mutations and effects for the body_part */
         int get_armor_bash(body_part bp) const override;
-        /** Returns overall cutting resistance for the body_part */
+        /** Returns overall cutting resistance gained from cbm's, mutations and effects for the body_part */
         int get_armor_cut(body_part bp) const override;
-        /** Returns bashing resistance from the creature and armor only */
+        /** Returns particular resistance gained from bionics and mutations for the body_part */
         int get_armor_bash_base(body_part bp) const override;
-        /** Returns cutting resistance from the creature and armor only */
         int get_armor_cut_base(body_part bp) const override;
-        /** Returns particular resistance gained from effects*/
+        /** Returns particular resistance gained from effects for the body_part*/
         int get_armor_bash_bonus( body_part bp ) const;
         int get_armor_cut_bonus( body_part bp ) const;
         /** Returns overall env_resist on a body_part */

@@ -1311,12 +1311,12 @@ int monster::get_armor_cut(body_part bp) const
 {
     (void) bp;
     // TODO: Add support for worn armor?
-    return int(type->armor_cut) + armor_bash_bonus;
+    return int(type->armor_cut) + get_armor_cut_bonus( bp );
 }
 
 int monster::get_armor_bash( body_part bp ) const {
     (void)bp;
-    return int( type->armor_bash ) + armor_cut_bonus;
+    return int( type->armor_bash ) + get_armor_bash_bonus( bp );
 }
 
 int monster::get_armor_bash_bonus( body_part bp ) const 
