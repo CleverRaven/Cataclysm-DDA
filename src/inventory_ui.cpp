@@ -845,26 +845,14 @@ void pseudo_inv_to_slice( Collection here, Filter filter,
 {
     for (auto& candidate : here) {
         if (filter(candidate)) {
-            // Check if we can stack the item with an existing one
-            bool stacks = false;
-            for( auto &elem : item_stacks ) {
-                if (candidate.stacks_with(elem.back())) {
-                    stacks = true;
-                    elem.emplace_back(candidate);
-                    break;
-                }
-            }
+            auto stack = std::find_if(item_stacks.begin(), item_stacks.end(),
+                                      [&](const std::list<item>& e) { return candidate.stacks_with(e.back()); });
 
-            if( !stacks ) {
+            if (stack != item_stacks.end()) {
+                stack->push_back(candidate);
+            } else {
                 item_stacks.emplace_back(1, candidate);
-
-                if( cur_invlet <= last_invlet ) {
-                    item_stacks.back().front().invlet = cur_invlet;
-                    cur_invlet++;
-                } else {
-                    item_stacks.back().front().invlet = ' ';
-                }
-
+                item_stacks.back().front().invlet = cur_invlet <= last_invlet ? cur_invlet++ : ' ';
                 selectables.push_back(&candidate);
             }
         }
