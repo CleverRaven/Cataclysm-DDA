@@ -1481,7 +1481,7 @@ void craft_command::execute()
             options.push_back( _( "No" ) );
 
             const std::string str = ss.str(); // we NEED a copy
-            int selection = menu_vec( t, _( str.c_str() ), options );
+            int selection = menu_vec( true, _( str.c_str() ), options );
             if( selection != 1 ) // if we pick anything else than yes, we cancel;
                 return;
         }
