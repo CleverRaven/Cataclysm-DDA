@@ -55,11 +55,11 @@ bool play_videogame(std::string function_name, std::map<std::string, std::string
         int iScore = sg.start_game();
 
         if (iScore >= 10000) {
-            score = 50;
-        } else if (iScore >= 5000) {
             score = 30;
+        } else if (iScore >= 5000) {
+            score = 15;
         } else {
-            score = 20;
+            score = 5;
         }
 
         return true;
@@ -68,25 +68,17 @@ bool play_videogame(std::string function_name, std::map<std::string, std::string
         int iScore = sg.start_game();
 
         if (iScore >= 5000) {
-            score = 50;
-        } else if (iScore >= 1000) {
             score = 30;
+        } else if (iScore >= 1000) {
+            score = 15;
         } else {
-            score = 20;
+            score = 5;
         }
 
         return true;
     } else if ( function_name == "minesweeper_game" ) {
         minesweeper_game mg;
-        int iScore = mg.start_game();
-
-        if (iScore >= 5000) {
-            score = 50;
-        } else if (iScore >= 1000) {
-            score = 30;
-        } else {
-            score = 20;
-        }
+        int score = mg.start_game();
 
         return true;
     } else {
