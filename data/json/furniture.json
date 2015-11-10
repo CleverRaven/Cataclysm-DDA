@@ -2505,5 +2505,58 @@
                 { "item": "splinter", "count": [5, 10] }
             ]
         }
+    },{
+        "type" : "furniture",
+        "id" : "f_boulder_small",
+        "name": "small boulder",
+        "symbol": "o",
+        "color": "dkgray",
+        "move_cost_mod": 3,
+        "required_str": 10,
+        "flags": ["TRANSPARENT", "MINEABLE", "UNSTABLE", "TINY"],
+        "bash": {
+            "str_min": 16, "str_max": 40,
+            "sound": "smash!",
+            "sound_fail": "thump.",
+            "items": [
+                { "item": "rock", "count": [1, 6] }              
+            ]
+        }
+      },{
+        "type" : "furniture",
+        "id" : "f_boulder_medium",
+        "name": "medium boulder",
+        "symbol": "0",
+        "color": "dkgray",
+        "move_cost_mod": 6,
+        "required_str": 16,
+        "flags": ["NOITEM", "TRANSPARENT", "MINEABLE", "UNSTABLE", "SHORT", "BASHABLE"],
+        "bash": {
+            "str_min": 32, "str_max": 80,
+            "sound": "smash!",
+            "sound_fail": "thump.",
+            "items": [
+                { "item": "rock", "count": [5, 11] }
+            ]
+        }
+      },{
+        "type" : "furniture",
+        "id" : "f_boulder_large",
+        "name": "large boulder",
+        "symbol": "O",
+        "color": "dkgray",
+        "move_cost_mod": -1,
+        "required_str": 32,
+        "flags": ["NOITEM", "MINEABLE", "BASHABLE"],
+        "bash": {
+            "str_min": 64, "str_max": 160,
+            "sound": "smash!",
+            "sound_fail": "thump.",
+            "items": [
+                { "item": "rock", "count": [10, 22] },
+                { "item": "material_limestone", "charges": [2, 5], "prob": 30 },
+                { "item": "material_rocksalt", "count": [0, 1], "prob": 10 }
+            ]
+        }
     }
 ]

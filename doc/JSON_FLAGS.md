@@ -53,6 +53,7 @@ List of known flags, used in both terrain.json and furniture.json
 - ```CONSOLE``` Used as a computer.
 - ```ALARMED``` Sets off an alarm if smashed.
 - ```SUPPORTS_ROOF``` Used as a boundary for roof construction.
+- ```MINEABLE``` Can be mined with a pickaxe/jackhammer
 - ```INDOORS``` Has a roof over it; blocks rain, sunlight, etc.
 - ```THIN_OBSTACLE``` Passable by players and monsters; vehicles destroy it.
 - ```COLLAPSES``` Has a roof that can collapse.

@@ -480,7 +480,6 @@ void iexamine::vending(player * const p, map * const m, const tripoint &examp)
             trim_and_print(w, first_item_offset + line, 1, w_items_w-3, color, "%c %s", c, elem->first.c_str());
         }
 
-        //Draw Scrollbar
         draw_scrollbar(w, cur_pos, list_lines, num_items, first_item_offset);
         wrefresh(w);
 

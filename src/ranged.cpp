@@ -1028,7 +1028,8 @@ std::vector<tripoint> game::target( tripoint &p, const tripoint &low, const trip
 
         // This chunk of code handles shifting the aim point around
         // at maximum range when using circular distance.
-        if(trigdist && trig_dist( from, p ) > range) {
+        // The range > 1 check ensures that you can alweays at least hit adjacent squares.
+        if(trigdist && range > 1 && trig_dist( from, p ) > range) {
             bool cont = true;
             tripoint cp = p;
             for (size_t i = 0; i < ret.size() && cont; i++) {
@@ -1054,20 +1055,7 @@ std::vector<tripoint> game::target( tripoint &p, const tripoint &low, const trip
                 mvwputch(w_target, i, j, c_white, ' ');
             }
         }
-        /* Start drawing w_terrain things -- possibly move out to centralized
-           draw_terrain_window function as they all should be roughly similar */
-        m.build_map_cache( g->get_levz() ); // part of the TILES drawing code
-        m.draw(w_terrain, center); // embedded in SDL drawing code
-        // Draw the Monsters
-        for (size_t i = 0; i < num_zombies(); i++) {
-            draw_critter( zombie( i ), center );
-        }
-        // Draw the NPCs
-        for (auto &i : active_npc) {
-            draw_critter( *i, center );
-        }
-        // Draw the player
-        draw_critter( g->u, center );
+        draw_ter(center, true);
         int line_number = 1;
         Creature *critter = critter_at( p, true );
         if( p != from ) {

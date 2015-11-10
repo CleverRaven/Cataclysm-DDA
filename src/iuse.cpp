@@ -4204,7 +4204,7 @@ int iuse::jackhammer(player *p, item *it, bool, const tripoint &pos )
     }
 
     if (
-           (g->m.is_bashable(dirx, diry) && g->m.has_flag("SUPPORTS_ROOF", dirx, diry) &&
+           (g->m.is_bashable(dirx, diry) && (g->m.has_flag("SUPPORTS_ROOF", dirx, diry) || g->m.has_flag("MINEABLE", dirx, diry))&&
                 g->m.ter(dirx, diry) != t_tree) ||
            (g->m.move_cost(dirx, diry) == 2 && g->get_levz() != -1 &&
                 g->m.ter(dirx, diry) != t_dirt && g->m.ter(dirx, diry) != t_grass)) {
@@ -4243,7 +4243,7 @@ int iuse::pickaxe(player *p, item *it, bool, const tripoint& )
         return 0;
     }
     int turns;
-    if (g->m.is_bashable(dirx, diry) && g->m.has_flag("SUPPORTS_ROOF", dirx, diry) &&
+    if (g->m.is_bashable(dirx, diry) && (g->m.has_flag("SUPPORTS_ROOF", dirx, diry) || g->m.has_flag("MINEABLE", dirx, diry)) &&
         g->m.ter(dirx, diry) != t_tree) {
         // Takes about 100 minutes (not quite two hours) base time.  Construction skill can speed this: 3 min off per level.
         turns = (100000 - 3000 * p->skillLevel( skill_carpentry ));
@@ -6713,14 +6713,14 @@ int iuse::belt_loop (player *p, item *it, bool, const tripoint&)
         }
 
         // only allow items smaller than a certain size
-        if (put.volume() > it->get_property("max_volume", 2)) {
+        if( put.volume() > it->get_property_long( "max_volume", 2 ) ) {
             p->add_msg_if_player(m_info, _("Your %s is too large to fit in your %s!"),
                                            put.tname().c_str(), it->tname().c_str());
             return 0;
         }
 
         // only allow items less than a certain weight
-        if (put.weight() > it->get_property("max_weight", 600)) {
+        if( put.weight() > it->get_property_long( "max_weight", 600 ) ) {
             p->add_msg_if_player(m_info, _("Your %s is too heavy to attach to your %s!"),
                                            put.tname().c_str(), it->tname().c_str());
             return 0;
@@ -9164,12 +9164,17 @@ int iuse::capture_monster_act( player *p, item *it, bool, const tripoint &pos )
         if( mon_dex != -1 ) {
             monster f = g->zombie( mon_dex );
 
-            if (! it->has_property("monster_size_capacity")) {
-                debugmsg( _("%s has no monster_size_capacity."), it->tname().c_str() );
+            if( !it->has_property("monster_size_capacity") ) {
+                debugmsg( "%s has no monster_size_capacity.", it->tname().c_str() );
                 return 0;
             }
-
-            if( f.get_size() > Creature::size_map.at(it->get_property("monster_size_capacity")) ) {
+            const std::string capacity = it->get_property_string( "monster_size_capacity" );
+            if( Creature::size_map.count( capacity ) == 0 ) {
+                debugmsg( "%s has invalid monster_size_capacity %s.",
+                          it->tname().c_str(), capacity.c_str() );
+                return 0;
+            }
+            if( f.get_size() > Creature::size_map.find( capacity )->second ) {
                 p->add_msg_if_player( m_info, _("The %1$s is too big to put in your %2$s."),
                                       f.type->nname().c_str(), it->tname().c_str() );
                 return 0;

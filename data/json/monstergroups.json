@@ -1251,6 +1251,14 @@
     ]
   },{
     "type":"monstergroup",
+    "name" : "GROUP_ZOMBIE_GRAB",
+    "default" : "mon_zombie_grappler",
+    "monsters" : [
+      { "monster" : "mon_zombie_grappler", "freq" : 40, "cost_multiplier": 0},
+      { "monster" : "mon_zombie_biter", "freq" : 40, "cost_multiplier": 2}
+    ]
+  },{
+    "type":"monstergroup",
     "name" : "GROUP_ZOMBIE_UPGRADE",
     "default" : "mon_zombie_spitter",
     "//" : "Masters pick from here when upgrading; no dogs, bionics, or profession-types",

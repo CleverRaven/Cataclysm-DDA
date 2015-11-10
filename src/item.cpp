@@ -2100,19 +2100,31 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
 
 std::string item::display_name(unsigned int quantity) const
 {
-    // Show count of contents (e.g. amount of liquid in container)
-    // or usages remaining, even if 0 (e.g. uses remaining in charcoal smoker).
-    if( !is_gun() && contents.size() == 1 && contents[0].charges > 0 ) {
-        return string_format("%s (%d)", tname(quantity).c_str(), contents[0].charges);
-    } else if( is_book() && get_chapters() > 0 ) {
-        return string_format( "%s (%d)", tname( quantity ).c_str(), get_remaining_chapters( g->u ) );
-    } else if (charges >= 0 && !has_flag("NO_AMMO")) {
-        return string_format("%s (%d)", tname(quantity).c_str(), charges);
-    } else if (get_side() != BOTH) {
-        return string_format("%s (%s)", tname(quantity).c_str(), get_side() == LEFT ? _("left")  : _("right"));
-    } else {
-        return tname(quantity);
+    std::string name = tname(quantity);
+    std::string side = "";
+    std::string qty  = "";
+
+    switch (get_side()) {
+        case LEFT:
+            side = string_format(" (%s)", _("left"));
+            break;
+        case RIGHT:
+            side = string_format(" (%s)", _("right"));
+            break;
     }
+
+    if( !is_gun() && contents.size() == 1 && contents[0].charges > 0 ) {
+        // a container which is not empty
+        qty = string_format(" (%i)", contents[0].charges);
+    } else if( is_book() && get_chapters() > 0 ) {
+        // a book which has remaining unread chapters
+        qty = string_format(" (%i)", get_remaining_chapters(g->u));
+    } else if (charges >= 0 && !has_flag("NO_AMMO")) {
+        // everything else including tools and guns
+        qty = string_format(" (%i)", charges);
+    }
+
+    return string_format("%s%s%s", name.c_str(), side.c_str(), qty.c_str());
 }
 
 nc_color item::color() const
@@ -2423,55 +2435,29 @@ bool item::has_flag( const std::string &f ) const
     return ret;
 }
 
-bool item::has_property (const std::string& prop) const {
+bool item::has_property( const std::string& prop ) const {
    return type->properties.find(prop) != type->properties.end();
 }
 
-std::string item::get_property (const std::string &prop, const std::string& def) const
+std::string item::get_property_string( const std::string &prop, const std::string& def ) const
 {
     const auto it = type->properties.find(prop);
     return it != type->properties.end() ? it->second : def;
 }
 
-int item::get_property (const std::string& prop, int def) const
+long item::get_property_long( const std::string& prop, long def ) const
 {
-    long r = get_property(prop, static_cast<long>(def));
-    if (r > std::numeric_limits<int>::min() ||
-        r < std::numeric_limits<int>::max()) {
-        return r;
-    }
-    debugmsg("invalid property '%s' for item '%s'", prop.c_str(), tname().c_str());
-    return def;
-}
-
-long item::get_property (const std::string& prop, long def) const
-{
-    const auto it = type->properties.find(prop);
-    if (it != type->properties.end()) {
+    const auto it = type->properties.find( prop );
+    if  (it != type->properties.end() ) {
         char *e = nullptr;
-        long  r = std::strtol(it->second.c_str(), &e, 10);
-        if (it->second.size() && *e == '\0') {
+        long  r = std::strtol( it->second.c_str(), &e, 10 );
+        if( it->second.size() && *e == '\0' ) {
             return r;
         }
         debugmsg("invalid property '%s' for item '%s'", prop.c_str(), tname().c_str());
     }
     return def;
 }
-
-double item::get_property (const std::string& prop, double def) const
-{
-    const auto it = type->properties.find(prop);
-    if (it != type->properties.end()) {
-        char  *e = nullptr;
-        double r = std::strtod(it->second.c_str(), &e);
-        if (it->second.size() && *e == '\0') {
-            return r;
-        }
-        debugmsg("invalid property '%s' for item '%s'", prop.c_str(), tname().c_str());
-    }
-    return def;
-}
-
 
 bool item::has_quality(std::string quality_id) const
 {
