@@ -251,6 +251,9 @@ int minesweeper_game::start_game()
 
         } else if (action == "NEW") {
             new_level(w_minesweeper);
+            
+            iPlayerY = 0;
+            iPlayerX = 0;
         }
 
     } while (action != "QUIT");
