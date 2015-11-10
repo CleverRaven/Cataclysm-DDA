@@ -8698,7 +8698,7 @@
         "encumbrance" : 70,
         "bashing" : 0,
         "symbol" : "[",
-        "flags" : ["WATER_FRIENDLY", "OUTER"],
+        "flags" : ["WATER_FRIENDLY", "OUTER", "SPLINT"],
         "coverage" : 75,
         "material_thickness" : 1
     },
@@ -8720,7 +8720,7 @@
         "encumbrance" : 70,
         "bashing" : 0,
         "symbol" : "[",
-        "flags" : ["WATER_FRIENDLY", "OUTER"],
+        "flags" : ["WATER_FRIENDLY", "OUTER", "SPLINT"],
         "coverage" : 75,
         "material_thickness" : 1
     },

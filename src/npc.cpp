@@ -1094,8 +1094,27 @@ bool npc::wear_if_wanted( const item &it )
         29, // bp_foot_r
     }};
 
+    // Splints ignore limits, but only when being equipped on a broken part
+    // TODO: Drop splints when healed
+    bool splint = it.has_flag( "SPLINT" );
+    if( splint ) {
+        splint = false;
+        for( int i = 0; i < num_hp_parts; i++ ) {
+            hp_part hpp = hp_part( i );
+            body_part bp = player::hp_to_bp( hpp );
+            if( hp_cur[i] <= 0 && it.covers( bp ) ) {
+                splint = true;
+                break;
+            }
+        }
+    }
+
+    if( splint ) {
+        return wear_item( it, false );
+    }
+
     bool encumb_ok = true;
-    while( !worn.empty() ) {
+    do {
         // Strip until we can put the new item on
         // This is one of the reasons this command is not used by the AI
         for( size_t i = 0; i < num_bp; i++ ) {
@@ -1142,7 +1161,7 @@ bool npc::wear_if_wanted( const item &it )
             // Shouldn't happen, but does
             return wear_item( it, false );
         }
-    }
+    } while( !worn.empty() );
 
     return false;
 }
