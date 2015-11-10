@@ -112,10 +112,12 @@ enum usage {
     cancel = 5
 };
 
-template<typename CompType>
+template<typename CompType = component>
 struct comp_selection {
     usage use_from = use_from_none;
     CompType comp;
+
+    std::string nname();
 };
 using item_selection = comp_selection<item_comp>;
 using tool_selection = comp_selection<tool_comp>;
@@ -147,8 +149,8 @@ class craft_command {
         std::vector<item_selection> item_selections;
         std::vector<tool_selection> tool_selections;
 
-        std::list<item_selection> check_item_components_missing( const inventory* map_inv );
-        std::list<tool_selection> check_tool_components_missing( const inventory* map_inv );
+        std::vector<item_selection> check_item_components_missing( const inventory* map_inv );
+        std::vector<tool_selection> check_tool_components_missing( const inventory* map_inv );
 };
 
 // removes any (removable) ammo from the item and stores it in the

@@ -1424,6 +1424,20 @@ void player::make_craft_with_command( const std::string &id_to_make, int batch_s
     last_craft.execute();
 }
 
+template<typename CompType>
+std::string comp_selection<CompType>::nname()
+{
+    switch( use_from ) {
+        case use_from_map:
+            return item::nname( comp.type, comp.count ) + _( " (nearby)" );
+        case use_from_both:
+            return item::nname( comp.type, comp.count ) + _( " (person & nearby)" );
+        default: break;
+    }
+
+    return item::nname( comp.type, comp.count );
+}
+
 void craft_command::execute()
 {
     if( empty() )
@@ -1434,25 +1448,48 @@ void craft_command::execute()
     map_inv.form_from_map( crafter->pos3(), PICKUP_RANGE );
 
     if( has_cached_selections() ) {
-        std::list<item_selection> missing_items = check_item_components_missing( &map_inv );
-        std::list<tool_selection> missing_tools = check_tool_components_missing( &map_inv );
+        std::vector<item_selection> missing_items = check_item_components_missing( &map_inv );
+        std::vector<tool_selection> missing_tools = check_tool_components_missing( &map_inv );
 
         if( missing_items.empty() && missing_tools.empty() ) {
             need_selections = false; // all items we used previously are still there, so we don't need to do selection
         } else {
-            std::vector<std::string> options;
-            options.push_back( "Yes" );
-            options.push_back( "No" );
+            /* create a pop up message */
+            std::stringstream ss;
+            ss << "Some components used previously are missing. Continue?";
 
-            int selection = menu_vec( false, _( "Some components are missing. Continue?" ), options );
+            if( !missing_items.empty() ) {
+                ss << std::endl << "Item(s): ";
+                for( size_t i = 0; i < missing_items.size(); i++ ) {
+                    if( i != 0 )
+                        ss << ", ";
+                    ss << missing_items[i].nname();
+                }
+            }
+
+            if( !missing_tools.empty() ) {
+                ss << std::endl << "Tool(s): ";
+                for( size_t i = 0; i < missing_tools.size(); i++ ) {
+                    if( i != 0 )
+                        ss << ", ";
+                    ss << missing_tools[i].nname();
+                }
+            }
+
+            std::vector<std::string> options;
+            options.push_back( _( "Yes" ) );
+            options.push_back( _( "No" ) );
+
+            const std::string str = ss.str(); // we NEED a copy
+            int selection = menu_vec( false, _( str.c_str() ), options );
             if( selection != 1 ) // if we pick anything else than yes, we cancel;
                 return;
         }
     }
 
-    if(need_selections) {
+    if( need_selections ) {
         /* make component selections */
-        for( auto &it : rec->requirements.components ) {
+        for( const auto &it : rec->requirements.components ) {
             item_selection is = crafter->select_item_component( it, batch_size, &map_inv, true );
             if( is.use_from == cancel ) {
                 return;
@@ -1460,7 +1497,7 @@ void craft_command::execute()
             item_selections.push_back( is );
         }
 
-        for( auto &it : rec->requirements.tools ) {
+        for( const auto &it : rec->requirements.tools ) {
             tool_selection ts = crafter->select_tool_component( it, batch_size, &map_inv, DEFAULT_HOTKEYS, true );
             if( ts.use_from == cancel ) {
                 return;
@@ -1497,9 +1534,9 @@ std::list<item> craft_command::consume_components()
     return used;
 }
 
-std::list<item_selection> craft_command::check_item_components_missing( const inventory* map_inv )
+std::vector<item_selection> craft_command::check_item_components_missing( const inventory* map_inv )
 {
-    std::list<item_selection> missing;
+    std::vector<item_selection> missing;
 
     for( const auto &item_sel : item_selections ) {
         itype_id type = item_sel.comp.type;
@@ -1544,9 +1581,9 @@ std::list<item_selection> craft_command::check_item_components_missing( const in
     return missing;
 }
 
-std::list<tool_selection> craft_command::check_tool_components_missing( const inventory* map_inv )
+std::vector<tool_selection> craft_command::check_tool_components_missing( const inventory* map_inv )
 {
-    std::list<tool_selection> missing;
+    std::vector<tool_selection> missing;
 
     for( const auto &tool_sel : tool_selections ) {
         itype_id type = tool_sel.comp.type;
