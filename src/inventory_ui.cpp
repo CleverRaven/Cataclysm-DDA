@@ -843,21 +843,20 @@ void pseudo_inv_to_slice( Collection here, Filter filter,
                           pseudo_inventory &item_stacks, indexed_invslice &result_slice,
                           std::vector<item *> &selectables, char &cur_invlet )
 {
-
-    for( auto candidate = here.begin(); candidate != here.end(); ++candidate ) {
-        if( filter( *candidate ) ) {
+    for (auto& candidate : here) {
+        if (filter(candidate)) {
             // Check if we can stack the item with an existing one
             bool stacks = false;
             for( auto &elem : item_stacks ) {
-                if( candidate->stacks_with( elem.back() ) ) {
+                if (candidate.stacks_with(elem.back())) {
                     stacks = true;
-                    elem.push_back( *candidate );
+                    elem.emplace_back(candidate);
                     break;
                 }
             }
 
             if( !stacks ) {
-                item_stacks.push_back( std::list<item>( 1, *candidate ) );
+                item_stacks.emplace_back(1, candidate);
 
                 if( cur_invlet <= last_invlet ) {
                     item_stacks.back().front().invlet = cur_invlet;
@@ -866,14 +865,14 @@ void pseudo_inv_to_slice( Collection here, Filter filter,
                     item_stacks.back().front().invlet = ' ';
                 }
 
-                selectables.push_back( &*candidate );
+                selectables.push_back(&candidate);
             }
         }
     }
 
     for( size_t a = 0; a < item_stacks.size(); a++ ) {
         // avoid INT_MIN, as it can be confused with "no item at all"
-        result_slice.push_back( indexed_invslice::value_type( &item_stacks[a], INT_MIN + a + 1 ) );
+        result_slice.emplace_back(&item_stacks[a], INT_MIN + a + 1);
     }
 }
 
