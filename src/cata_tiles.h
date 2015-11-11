@@ -6,8 +6,13 @@
 #include <wordexp.h>
 #endif
 
-#include "SDL2/SDL.h"
-#include "SDL2/SDL_ttf.h"
+#if (defined OSX_SDL_FW)
+#   include "SDL.h"
+#   include "SDL_ttf.h"
+#else
+#   include "SDL2/SDL.h"
+#   include "SDL2/SDL_ttf.h"
+#endif
 
 #include "animation.h"
 #include "map.h"

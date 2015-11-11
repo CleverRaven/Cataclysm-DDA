@@ -19,11 +19,15 @@
 #include "mapdata.h"
 #include <chrono>
 #ifdef SDL_SOUND
-#include "SDL2/SDL_mixer.h"
-#include <thread>
-#if (defined _WIN32 || defined WINDOWS)
-#   include "mingw.thread.h"
-#endif
+#   if (defined OSX_SDL_FW)
+#       include "SDL_mixer.h"
+#   else
+#       include "SDL2/SDL_mixer.h"
+#   endif
+#   include <thread>
+#   if (defined _WIN32 || defined WINDOWS)
+#       include "mingw.thread.h"
+#   endif
 #endif
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_SDL) << __FILE__ << ":" << __LINE__ << ": "

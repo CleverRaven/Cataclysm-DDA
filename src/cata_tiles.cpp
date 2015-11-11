@@ -25,7 +25,11 @@
 #include <algorithm>
 #include <fstream>
 
-#include "SDL2/SDL_image.h"
+#if (defined OSX_SDL_FW)
+#   include "SDL_image.h"
+#else
+#   include "SDL2/SDL_image.h"
+#endif
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_SDL) << __FILE__ << ":" << __LINE__ << ": "
 
