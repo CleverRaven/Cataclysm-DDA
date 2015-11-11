@@ -49,7 +49,7 @@ void remove_from_component_lookup(recipe* r);
 
 recipe::~recipe()
 {
-    recipe_dict.remove_recipe( this );
+    recipe_dict.remove( this );
 }
 
 recipe::recipe() :
@@ -58,7 +58,7 @@ recipe::recipe() :
 {
 }
 
-void recipe_dictionary::add_recipe( recipe* rec, const std::string &category )
+void recipe_dictionary::add( recipe* rec, const std::string &category )
 {
     recipes.push_back( rec );
     add_to_component_lookup( rec );
@@ -67,7 +67,7 @@ void recipe_dictionary::add_recipe( recipe* rec, const std::string &category )
     by_category[category].push_back( rec );
 }
 
-void recipe_dictionary::remove_recipe( recipe* rec ) {
+void recipe_dictionary::remove( recipe* rec ) {
     recipes.remove( rec );
     remove_from_component_lookup( rec );
     by_name.erase( rec->ident );
@@ -261,7 +261,7 @@ void load_recipe(JsonObject &jsobj)
         rec->booksets.push_back( bd );
     }
 
-    recipe_dict.add_recipe( rec, category );
+    recipe_dict.add( rec, category );
 }
 
 void reset_recipes()

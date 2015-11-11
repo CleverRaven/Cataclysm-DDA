@@ -104,18 +104,18 @@ class recipe_dictionary {
         std::map<const std::string, std::vector<recipe *>> by_category;
         std::map<const itype_id, std::vector<recipe *>> by_component;
 
-        void add_recipe( recipe* rec, const std::string &category );
-        void remove_recipe( recipe* rec );
+        void add( recipe* rec, const std::string &category );
+        void remove( recipe* rec );
         void clear();
 
         const recipe* operator[]( const std::string &rec_name )
         {
-            return by_name[name];
+            return by_name[rec_name];
         }
 
         const recipe* operator[]( int rec_id )
         {
-            return by_index[id];
+            return by_index[rec_id];
         }
 
         size_t size() const
