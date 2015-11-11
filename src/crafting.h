@@ -149,8 +149,8 @@ class craft_command {
         std::vector<item_selection> item_selections;
         std::vector<tool_selection> tool_selections;
 
-        std::vector<item_selection> check_item_components_missing( const inventory* map_inv );
-        std::vector<tool_selection> check_tool_components_missing( const inventory* map_inv );
+        std::vector<item_selection> check_item_components_missing( const inventory &map_inv ) const;
+        std::vector<tool_selection> check_tool_components_missing( const inventory &map_inv ) const;
 };
 
 // removes any (removable) ammo from the item and stores it in the

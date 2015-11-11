@@ -1534,7 +1534,7 @@ std::list<item> craft_command::consume_components()
     return used;
 }
 
-std::vector<item_selection> craft_command::check_item_components_missing( const inventory &map_inv )
+std::vector<item_selection> craft_command::check_item_components_missing( const inventory &map_inv ) const
 {
     std::vector<item_selection> missing;
 
@@ -1581,7 +1581,7 @@ std::vector<item_selection> craft_command::check_item_components_missing( const 
     return missing;
 }
 
-std::vector<tool_selection> craft_command::check_tool_components_missing( const inventory &map_inv )
+std::vector<tool_selection> craft_command::check_tool_components_missing( const inventory &map_inv ) const
 {
     std::vector<tool_selection> missing;
 
