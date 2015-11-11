@@ -105,14 +105,12 @@ struct recipe {
 */
 class recipe_dictionary {
     public:
-
-        std::map<const itype_id, std::vector<recipe *>> by_component;
-
         void add( recipe *rec );
         void remove( recipe *rec );
         void clear();
 
         const std::vector<recipe *>& in_category( const std::string &cat );
+        const std::vector<recipe *>& of_component( const itype_id &id );
 
         /** Allows for lookup like: 'recipe_dict[name]'. */
         recipe *operator[]( const std::string &rec_name )
@@ -145,6 +143,7 @@ class recipe_dictionary {
         std::list<recipe *> recipes;
 
         std::map<const std::string, std::vector<recipe *>> by_category;
+        std::map<const itype_id, std::vector<recipe *>> by_component;
 
         std::map<const std::string, recipe *> by_name;
         std::map<int, recipe *> by_index;

@@ -109,6 +109,11 @@ const std::vector<recipe *>& recipe_dictionary::in_category( const std::string &
     return by_category[cat];
 }
 
+const std::vector<recipe *>& recipe_dictionary::of_component( const itype_id &id )
+{
+    return by_component[id];
+}
+
 void load_recipe_category(JsonObject &jsobj)
 {
     JsonArray subcats;

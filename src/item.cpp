@@ -1260,7 +1260,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> &dump_ref) const
                 dump->push_back(iteminfo("DESCRIPTION", _("This item can be used to make reach attacks.")));
             }
         }
-        
+
         //lets display which martial arts styles character can use with this weapon
         if (g->u.ma_styles.size() > 0)
         {
@@ -1650,7 +1650,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> &dump_ref) const
         } else { // use the contained item
             tid = contents[0].type->id;
         }
-        std::vector<recipe *> &rec = recipe_dict.by_component[tid];
+        const std::vector<recipe *> &rec = recipe_dict.of_component(tid);
         if (!rec.empty()) {
             temp1.str("");
             const inventory &inv = g->u.crafting_inventory();
@@ -4502,7 +4502,7 @@ bool item_matches_locator(const item &it, const item *other, int)
     return &it == other;
 }
 
-iteminfo::iteminfo(std::string Type, std::string Name, std::string Fmt, 
+iteminfo::iteminfo(std::string Type, std::string Name, std::string Fmt,
                    double Value, bool _is_int, std::string Plus,
                    bool NewLine, bool LowerIsBetter, bool DrawName)
 {
