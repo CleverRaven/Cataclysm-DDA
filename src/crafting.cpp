@@ -72,7 +72,7 @@ void recipe_dictionary::remove_recipe( recipe* rec ) {
     remove_from_component_lookup( rec );
     by_name.erase( rec->ident );
     by_index.erase( rec->id );
-    // TODO: remove from categories?
+    // FIXME: removing from by_category should be done before deleting
 }
 
 void recipe_dictionary::add_to_component_lookup( recipe* r )
@@ -140,7 +140,6 @@ int check_recipe_ident(const std::string &rec_name, JsonObject &jsobj)
 {
     const bool override_existing = jsobj.get_bool("override", false);
     int recipe_count = 0;
-    // FIXME: only recipe from by_category is cleared
     for( auto &recipe : recipe_dict.by_category ) {
         for( auto list_iter = recipe.second.begin(); list_iter != recipe.second.end(); ++list_iter ) {
             if ((*list_iter)->ident == rec_name) {
