@@ -1432,7 +1432,10 @@ std::string comp_selection<CompType>::nname() const
             return item::nname( comp.type, comp.count ) + _( " (nearby)" );
         case use_from_both:
             return item::nname( comp.type, comp.count ) + _( " (person & nearby)" );
-        default: break;
+        case use_from_player: // Is the same as the default return;
+        case use_from_none:
+        case cancel:
+            break;
     }
 
     return item::nname( comp.type, comp.count );
@@ -1561,7 +1564,9 @@ std::vector<item_selection> craft_command::check_item_components_missing( const 
                         missing.push_back( item_sel );
                     }
                     break;
-                default: break;
+                case use_from_none:
+                case cancel:
+                    break;
             }
         } else { // Counting by units, not charges
             switch( item_sel.use_from ) {
@@ -1580,7 +1585,9 @@ std::vector<item_selection> craft_command::check_item_components_missing( const 
                         missing.push_back( item_sel );
                     }
                     break;
-                default: break;
+                case use_from_none:
+                case cancel:
+                    break;
             }
         }
     }
