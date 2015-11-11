@@ -108,14 +108,14 @@ class recipe_dictionary {
         void remove_recipe( recipe* rec );
         void clear();
 
-        const recipe* operator[]( const std::string &name )
+        const recipe* operator[]( const std::string &rec_name )
         {
             return by_name[name];
         }
 
-        const recipe* operator[]( int i )
+        const recipe* operator[]( int rec_id )
         {
-            return by_index[i];
+            return by_index[id];
         }
 
         size_t size() const
