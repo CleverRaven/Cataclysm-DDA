@@ -436,6 +436,124 @@ void player::reset_stats()
     recalc_sight_limits();
     recalc_speed_bonus();
 
+    // Armor related effects
+
+    if ( has_bionic( "bio_carbon" ) ) {
+        mod_armor( 2, armor_bash_base, num_bp );
+        mod_armor( 4, armor_cut_base, num_bp );
+    }
+    if ( has_bionic( "bio_armor_head" ) ) {
+        mod_armor( 3, armor_bash_base, bp_head );
+        mod_armor( 3, armor_cut_base, bp_head );
+    }
+    if ( has_bionic( "bio_armor_arms" ) ) {
+        mod_armor( 3, armor_bash_base, bp_arm_l );
+        mod_armor( 3, armor_bash_base, bp_arm_r );
+        mod_armor( 3, armor_bash_base, bp_hand_l );
+        mod_armor( 3, armor_bash_base, bp_hand_r );
+        mod_armor( 3, armor_cut_base, bp_arm_l );
+        mod_armor( 3, armor_cut_base, bp_arm_r );
+        mod_armor( 3, armor_cut_base, bp_hand_l );
+        mod_armor( 3, armor_cut_base, bp_hand_r );
+    }
+    if ( has_bionic( "bio_armor_torso" ) ) {
+        mod_armor( 3, armor_bash_base, bp_torso );
+        mod_armor( 3, armor_cut_base, bp_torso );
+    }
+    if ( has_bionic( "bio_armor_legs" ) ) {
+        mod_armor( 3, armor_bash_base, bp_leg_l );
+        mod_armor( 3, armor_bash_base, bp_leg_r );
+        mod_armor( 3, armor_bash_base, bp_foot_l );
+        mod_armor( 3, armor_bash_base, bp_foot_r );
+        mod_armor( 3, armor_cut_base, bp_leg_l );
+        mod_armor( 3, armor_cut_base, bp_leg_r );
+        mod_armor( 3, armor_cut_base, bp_foot_l );
+        mod_armor( 3, armor_cut_base, bp_foot_r );
+    }
+    if ( has_bionic( "bio_armor_eyes" ) ) {
+        mod_armor( 3, armor_bash_base, bp_eyes );
+        mod_armor( 3, armor_cut_base, bp_eyes );
+    }
+    if ( has_trait( "THICKSKIN" ) ) {
+        mod_armor( 1, armor_cut_base, num_bp );
+    }
+    if ( has_trait( "THINSKIN" ) ) {
+        mod_armor( -1, armor_cut_base, num_bp );
+    }
+    if ( has_trait( "FUR" ) || has_trait( "LUPINE_FUR" ) || has_trait( "URSINE_FUR" ) ) {
+        mod_armor( 1, armor_bash_base, num_bp );
+    }
+    if ( has_trait( "LYNX_FUR" ) ) {
+        mod_armor( 1, armor_bash_base, bp_head );
+    }
+    if ( has_trait( "FEATHERS" ) ) {
+        mod_armor( 1, armor_bash_base, num_bp );
+    }
+    if ( has_trait( "ARM_FEATHERS" ) ) {
+        mod_armor( 1, armor_bash_base, bp_arm_l );
+        mod_armor( 1, armor_bash_base, bp_arm_r );
+    }
+    if ( has_trait( "AMORPHOUS" ) ) {
+        mod_armor( 1, armor_bash_base, num_bp );
+        if ( !(has_trait( "INT_SLIME" )) ) {
+            mod_armor( 3, armor_bash_base, num_bp );
+        }
+    }
+    if ( has_trait( "FAT" ) ) {
+        mod_armor( 1, armor_bash_base, num_bp );
+    }
+    if ( has_trait( "M_SKIN" ) ) {
+        mod_armor( 2, armor_bash_base, num_bp );
+        mod_armor( 1, armor_cut_base, num_bp );
+    }
+    if ( has_trait( "M_SKIN2" ) ) {
+        mod_armor( 3, armor_bash_base, num_bp );
+        mod_armor( 3, armor_cut_base, num_bp );
+    }
+    if ( has_trait( "SCALES" ) ) {
+        mod_armor( 2, armor_cut_base, num_bp );
+    }
+    if ( has_trait( "THICK_SCALES" ) ) {
+        mod_armor( 4, armor_cut_base, num_bp );
+    }
+    if ( has_trait( "SLEEK_SCALES" ) ) {
+        mod_armor( 1, armor_cut_base, num_bp );
+    }
+    if ( has_trait( "CHITIN" ) || has_trait( "CHITINFUR" ) || has_trait( "CHITINFUR2" ) ) {
+        mod_armor( 2, armor_cut_base, num_bp );
+    }
+    if ( has_trait( "CHITIN2" ) || has_trait( "CHITINFUR3" ) ) {
+        mod_armor( 1, armor_bash_base, num_bp );
+        mod_armor( 4, armor_cut_base, num_bp );
+    }
+    if ( has_trait( "CHITIN3" ) ) {
+        mod_armor( 2, armor_bash_base, num_bp );
+        mod_armor( 8, armor_cut_base, num_bp );
+    }
+    if ( has_trait( "HOOVES" ) ) {
+        mod_armor( 1, armor_cut_base, bp_foot_r );
+        mod_armor( 1, armor_cut_base, bp_foot_l );
+    }
+    if ( has_trait( "PLANTSKIN" ) ) {
+        mod_armor( 1, armor_bash_base, num_bp );
+    }
+    if ( has_trait( "BARK" ) ) {
+        mod_armor( 2, armor_bash_base, num_bp );
+    }
+    if ( has_trait( "SHELL" ) ) {
+        mod_armor( 6, armor_bash_base, bp_torso );
+        mod_armor( 14, armor_bash_base, bp_torso );
+    }
+    if ( has_trait( "SHELL2" ) && !has_active_mutation( "SHELL2" )) {
+        mod_armor( 9, armor_bash_base, bp_torso );
+        mod_armor( 17, armor_bash_base, bp_torso );
+    }
+    if ( has_active_mutation( "SHELL2" ) ) {
+        // Limbs & head are safe inside the shell! :D
+        mod_armor( 9, armor_bash_base, num_bp );
+        mod_armor( 17, armor_bash_base, num_bp );
+    }
+
     // Effects
     for( auto maps : effects ) {
         for( auto i : maps.second ) {
@@ -5837,17 +5955,6 @@ void player::add_pain_msg(int val, body_part bp) const
     }
 }
 
-int player::bound_mod_to_vals(int val, int mod, int max, int min)
-{
-    if (val + mod > max && max != 0) {
-        mod = std::max(max - val, 0);
-    }
-    if (val + mod < min && min != 0) {
-        mod = std::min(min - val, 0);
-    }
-    return mod;
-}
-
 void player::print_health() const
 {
     if( !is_player() ) {
@@ -6299,6 +6406,23 @@ void player::process_effects() {
                 scent_mod += bound_mod_to_vals( scent_norm, val,
                     it.get_max_val("SCENT", reduced),
                     it.get_min_val("SCENT", reduced) );     
+            }
+
+            // Handle armor bonuses
+            val = it.get_mod( "ARMOR_BASH", reduced );
+            if ( val != 0 ) {
+                int armor_inc = bound_mod_to_vals( get_armor_bash_base( bp ), val,
+                    it.get_max_val( "ARMOR_BASH", reduced ),
+                    it.get_min_val( "ARMOR_BASH", reduced ) );
+                mod_armor( armor_inc, armor_bash_bonus, bp );
+            }
+
+            val = it.get_mod( "ARMOR_CUT", reduced );
+            if ( val != 0 ) {
+                int armor_inc = bound_mod_to_vals( get_armor_cut_base( bp ), val,
+                    it.get_max_val( "ARMOR_CUT", reduced ),
+                    it.get_min_val( "ARMOR_CUT", reduced ) );
+                mod_armor( armor_inc, armor_cut_bonus, bp );
             }
 
             // Speed and stats are handled in recalc_speed_bonus and reset_stats respectively
@@ -12681,193 +12805,33 @@ int player::mut_cbm_encumb( body_part bp ) const
 }
 
 int player::get_armor_bash(body_part bp) const
-{   
-    return get_armor_bash_base( bp ) + get_armor_bash_bonus( bp );
+{
+    return armor_bash_base[bp] + armor_bash_bonus[bp];
 }
 
 int player::get_armor_cut(body_part bp) const
 {   
-    return get_armor_cut_base( bp ) + get_armor_cut_bonus( bp );
+    return armor_cut_base[bp] + armor_cut_bonus[bp];
 }
 
 int player::get_armor_bash_base(body_part bp) const
 {
-    int ret = 0;
-
-    if (has_bionic("bio_carbon")) {
-        ret += 2;
-    }
-    if (bp == bp_head && has_bionic("bio_armor_head")) {
-        ret += 3;
-    }
-    if ((bp == bp_arm_l || bp == bp_arm_r) && has_bionic("bio_armor_arms")) {
-        ret += 3;
-    }
-    if (bp == bp_torso && has_bionic("bio_armor_torso")) {
-        ret += 3;
-    }
-    if ((bp == bp_leg_l || bp == bp_leg_r) && has_bionic("bio_armor_legs")) {
-        ret += 3;
-    }
-    if (bp == bp_eyes && has_bionic("bio_armor_eyes")) {
-        ret += 3;
-    }
-    if (has_trait("FUR") || has_trait("LUPINE_FUR") || has_trait("URSINE_FUR")) {
-        ret++;
-    }
-    if (bp == bp_head && has_trait("LYNX_FUR")) {
-        ret++;
-    }
-    if ( has_trait( "FEATHERS" ) ) {
-        ret--;
-    }
-    if ( (bp == bp_arm_l || bp == bp_arm_r) && has_trait( "ARM_FEATHERS" ) ) {
-        ret--;
-    }
-    if ( has_trait( "AMORPHOUS" ) ) {
-        ret--;
-        if ( !(has_trait( "INT_SLIME" )) ) {
-            ret -= 3;
-        }
-    }
-    if (has_trait("FAT")) {
-        ret ++;
-    }
-    if (has_trait("M_SKIN")) {
-        ret += 2;
-    }
-    if (has_trait("M_SKIN2")) {
-        ret += 3;
-    }
-    if (has_trait("CHITIN2") || has_trait( "CHITINFUR3" ) ) {
-        ret += 1;
-    }
-    if ( has_trait( "CHITIN3" ) ) {
-        ret += 2;
-    }
-    if ( has_trait( "PLANTSKIN" ) ) {
-        ret--;
-    }
-    if ( has_trait( "BARK" ) ) {
-        ret -= 2;
-    }
-    if (has_trait("SHELL") && bp == bp_torso) {
-        ret += 6;
-    }
-    if (has_trait("SHELL2") && !has_active_mutation("SHELL2") && bp == bp_torso) {
-        ret += 9;
-    }
-    if (has_active_mutation("SHELL2")) {
-        // Limbs & head are safe inside the shell! :D
-        ret += 9;
-    }
-    return ret;
+    return armor_bash_base[bp];
 }
 
 int player::get_armor_cut_base(body_part bp) const
 {
-    int ret = 0;
-
-    if (has_bionic("bio_carbon")) {
-        ret += 4;
-    }
-    if (bp == bp_head && has_bionic("bio_armor_head")) {
-        ret += 3;
-    } else if ((bp == bp_arm_l || bp == bp_arm_r) && has_bionic("bio_armor_arms")) {
-        ret += 3;
-    } else if (bp == bp_torso && has_bionic("bio_armor_torso")) {
-        ret += 3;
-    } else if ((bp == bp_leg_l || bp == bp_leg_r) && has_bionic("bio_armor_legs")) {
-        ret += 3;
-    } else if (bp == bp_eyes && has_bionic("bio_armor_eyes")) {
-        ret += 3;
-    }
-    if (has_trait("THICKSKIN")) {
-        ret++;
-    }
-    if (has_trait("THINSKIN")) {
-        ret--;
-    }
-    if (has_trait("M_SKIN")) {
-        ret ++;
-    }
-    if (has_trait("M_SKIN2")) {
-        ret += 3;
-    }
-    if (has_trait("SCALES")) {
-        ret += 2;
-    }
-    if (has_trait("THICK_SCALES")) {
-        ret += 4;
-    }
-    if (has_trait("SLEEK_SCALES")) {
-        ret += 1;
-    }
-    if (has_trait("CHITIN") || has_trait("CHITIN_FUR") || has_trait( "CHITIN_FUR2" ) ) {
-        ret += 2;
-    }
-    if (has_trait("CHITIN2") || has_trait("CHITIN_FUR3")) {
-        ret += 4;
-    }
-    if (has_trait("CHITIN3")) {
-        ret += 8;
-    }
-
-    if ( (bp == bp_foot_l || bp == bp_foot_r) && has_trait( "HOOVES" ) ) {
-        ret--;
-    }
-
-    if (has_trait("SHELL") && bp == bp_torso) {
-        ret += 14;
-    }
-    if (has_trait("SHELL2") && !has_active_mutation("SHELL2") && bp == bp_torso) {
-        ret += 17;
-    }
-    if (has_active_mutation("SHELL2")) {
-        // Limbs & head are safe inside the shell! :D
-        ret += 17;
-    }
-    return ret;
+    return armor_cut_base[bp];
 }
 
 int player::get_armor_bash_bonus( body_part bp ) const
 {
-    int armor_bonus = 0;
-    for ( auto &elem : effects ) {
-        for ( auto &_effect_it : elem.second ) {
-            auto &it = _effect_it.second;
-            bool reduced = resists_effect( it );
-            body_part bp_effect = it.get_bp();
-            int val = 0;
-            val = it.get_mod( "ARMOR_BASH", reduced );
-            if ( val != 0 && (bp_effect == bp || bp_effect == num_bp) ) {
-                armor_bonus += bound_mod_to_vals( get_armor_bash_base( bp ), val,
-                    it.get_max_val( "ARMOR_BASH", reduced ),
-                    it.get_min_val( "ARMOR_BASH", reduced ) );
-            }         
-        }
-    }
-    return armor_bonus;
+    return armor_bash_bonus[bp];
 }
 
 int player::get_armor_cut_bonus( body_part bp ) const
 {
-    int armor_bonus = 0;
-    for ( auto &elem : effects ) {
-        for ( auto &_effect_it : elem.second ) {
-            auto &it = _effect_it.second;
-            bool reduced = resists_effect( it );
-            body_part bp_effect = it.get_bp();
-            int val = 0;
-            val = it.get_mod( "ARMOR_CUT", reduced );
-            if ( val != 0 && (bp_effect == bp || bp_effect == num_bp) ) {
-                armor_bonus += bound_mod_to_vals( get_armor_cut_base( bp ), val,
-                    it.get_max_val( "ARMOR_CUT", reduced ),
-                    it.get_min_val( "ARMOR_CUT", reduced ) );
-            }
-        }
-    }
-    return armor_bonus;
+    return armor_cut_bonus[bp];
 }
 
 bool player::armor_absorb(damage_unit& du, item& armor) {
@@ -12997,7 +12961,7 @@ void player::absorb_hit(body_part bp, damage_instance &dam) {
                 float mod = 0.8;
             }
 
-            elem.amount -= (float)get_armor_cut( bp ) * mod;
+            elem.amount -= mod * get_armor_cut( bp );
 
             elem.amount -= mabuff_arm_cut_bonus();
         }

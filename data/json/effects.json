@@ -1460,28 +1460,28 @@
     {
         "type": "effect_type",
         "id": "skin_rot",
-		"duration_decay": 1,
-		"max_duration": 57599,
-		"max_intensity": 4, 
-		"int_dur_factor": 14400,
+        "duration_decay": 1,
+        "max_duration": 57599,
+        "max_intensity": 4, 
+        "int_dur_factor": 14400,
         "name": ["Itchy skin", "Thinning skin", "Dermal degeneration", "Dermal degeneration"],
         "desc": ["Your skin feels itchy.", "Layer of your skin peel away.", "Your thin skin is cracked.", "Your thin skin is marred by deep cracks."],
         "rating": "bad",
-		"scaling_mods": {
+        "scaling_mods": {
             "armor_cut_mod": [-1]
         }
     },
-	{
+    {
         "type": "effect_type",
         "id": "skin_rot_recovery",
-		"blocks_effects": ["skin_rot"],
-		"max_duration": 57599,
-		"max_intensity": 4, 
-		"int_dur_factor": 14400,
+        "blocks_effects": ["skin_rot"],
+        "max_duration": 57599,
+        "max_intensity": 4, 
+        "int_dur_factor": 14400,
         "name": ["Itchy skin", "Thinning skin", "Dermal degeneration", "Dermal degeneration"],
         "desc": ["Your skin feels itchy.", "Layer of your skin peel away.", "Your thin skin is cracked.", "Your thin skin is marred by deep cracks."],
         "rating": "bad",
-		"scaling_mods": {
+        "scaling_mods": {
             "armor_cut_mod": [-1]
         }
     }

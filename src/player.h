@@ -592,8 +592,6 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
 
         void add_pain_msg(int val, body_part bp) const;
 
-        static int bound_mod_to_vals( int val, int mod, int max, int min );
-
         /** Heals a body_part for dam */
         void heal(body_part healed, int dam);
         /** Heals an hp_part for dam */

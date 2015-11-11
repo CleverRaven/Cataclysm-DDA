@@ -252,6 +252,8 @@ class Creature
          */
         void check_dead_state();
 
+        int bound_mod_to_vals( int val, int mod, int max, int min );
+
         virtual int posx() const = 0;
         virtual int posy() const = 0;
         virtual int posz() const = 0;
@@ -341,8 +343,8 @@ class Creature
         virtual int get_armor_cut(body_part bp) const;
         virtual int get_armor_bash_base(body_part bp) const;
         virtual int get_armor_cut_base(body_part bp) const;
-        virtual int get_armor_bash_bonus() const;
-        virtual int get_armor_cut_bonus() const;
+        virtual int get_armor_bash_bonus(body_part bp) const;
+        virtual int get_armor_cut_bonus(body_part bp) const;
 
         virtual int get_speed() const;
         virtual int get_dodge() const;
@@ -396,9 +398,6 @@ class Creature
         virtual void set_num_blocks_bonus(int nblocks);
         virtual void set_num_dodges_bonus(int ndodges);
 
-        virtual void set_armor_bash_bonus(int nbasharm);
-        virtual void set_armor_cut_bonus(int ncutarm);
-
         virtual void set_speed_base(int nspeed);
         virtual void set_speed_bonus(int nspeed);
         virtual void set_dodge_bonus(int ndodge);
@@ -412,6 +411,10 @@ class Creature
         virtual void mod_hit_bonus(int nhit);
         virtual void mod_bash_bonus(int nbash);
         virtual void mod_cut_bonus(int ncut);
+        // modify or set values of armor_bash_bonus, armor_cut_bonus, armor_bash_base, armor_cut_base arrays.
+        // passing num_bp value will modify all members of array.
+        virtual void mod_armor( int ncut, std::array<int, num_bp> &arr, body_part bp );
+        virtual void set_armor( int ncut, std::array<int, num_bp> &arr, body_part bp );
 
         virtual void set_bash_mult(float nbashmult);
         virtual void set_cut_mult(float ncutmult);
@@ -472,8 +475,10 @@ class Creature
         int num_blocks_bonus; // bonus ""
         int num_dodges_bonus;
 
-        int armor_bash_bonus;
-        int armor_cut_bonus;
+        std::array<int, num_bp> armor_bash_bonus;
+        std::array<int, num_bp> armor_bash_base;
+        std::array<int, num_bp> armor_cut_bonus;
+        std::array<int, num_bp> armor_cut_base;
 
         int speed_base; // only speed needs a base, the rest are assumed at 0 and calced off skills
 

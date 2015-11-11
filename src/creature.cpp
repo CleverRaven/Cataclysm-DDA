@@ -99,8 +99,10 @@ void Creature::reset_bonuses()
     num_blocks_bonus = 0;
     num_dodges_bonus = 0;
 
-    armor_bash_bonus = 0;
-    armor_cut_bonus = 0;
+    set_armor( 0, armor_bash_base, num_bp );
+    set_armor( 0, armor_bash_bonus, num_bp );
+    set_armor( 0, armor_cut_base, num_bp );
+    set_armor( 0, armor_cut_bonus, num_bp );
 
     speed_bonus = 0;
     dodge_bonus = 0;
@@ -1099,29 +1101,29 @@ int Creature::get_env_resist(body_part) const
 {
     return 0;
 }
-int Creature::get_armor_bash(body_part) const
+int Creature::get_armor_bash( body_part bp ) const
 {
-    return armor_bash_bonus;
+    return armor_bash_base[bp] + armor_bash_bonus[bp];
 }
-int Creature::get_armor_cut(body_part) const
+int Creature::get_armor_cut( body_part bp ) const
 {
-    return armor_cut_bonus;
+    return armor_cut_base[bp] + armor_cut_bonus[bp];
 }
-int Creature::get_armor_bash_base(body_part) const
+int Creature::get_armor_bash_base( body_part bp ) const
 {
-    return armor_bash_bonus;
+    return armor_bash_base[bp];
 }
-int Creature::get_armor_cut_base(body_part) const
+int Creature::get_armor_cut_base( body_part bp ) const
 {
-    return armor_cut_bonus;
+    return armor_cut_bonus[bp];
 }
-int Creature::get_armor_bash_bonus() const
+int Creature::get_armor_bash_bonus( body_part bp ) const
 {
-    return armor_bash_bonus;
+    return armor_bash_bonus[bp];
 }
-int Creature::get_armor_cut_bonus() const
+int Creature::get_armor_cut_bonus( body_part bp ) const
 {
-    return armor_cut_bonus;
+    return armor_cut_bonus[bp];
 }
 
 int Creature::get_speed() const
@@ -1234,15 +1236,6 @@ void Creature::set_num_dodges_bonus(int ndodges)
     num_dodges_bonus = ndodges;
 }
 
-void Creature::set_armor_bash_bonus(int nbasharm)
-{
-    armor_bash_bonus = nbasharm;
-}
-void Creature::set_armor_cut_bonus(int ncutarm)
-{
-    armor_cut_bonus = ncutarm;
-}
-
 void Creature::set_speed_base(int nspeed)
 {
     speed_base = nspeed;
@@ -1294,6 +1287,27 @@ void Creature::mod_bash_bonus(int nbash)
 void Creature::mod_cut_bonus(int ncut)
 {
     cut_bonus += ncut;
+}
+
+void Creature::mod_armor( int nvalue, std::array<int, num_bp> &arr, body_part bp = num_bp )
+{
+    if ( bp != num_bp ) {
+        arr[bp] += nvalue;
+    } else {
+        for ( int i = 0; i < arr.size(); i++ ) {
+            arr[i] += nvalue;
+        }
+    }
+}
+
+void Creature::set_armor( int nvalue, std::array<int, num_bp> &arr, body_part bp = num_bp ) {
+    if ( bp != num_bp ) {
+        arr[bp] = nvalue;
+    } else {
+        for ( int i = 0; i < arr.size(); i++ ) {
+            arr[i] = nvalue;
+        }
+    }
 }
 
 void Creature::set_bash_mult(float nbashmult)
@@ -1462,7 +1476,7 @@ void Creature::check_dead_state() {
     }
 }
 
-int bound_mod_to_vals( int val, int mod, int max, int min ) {
+int Creature::bound_mod_to_vals( int val, int mod, int max, int min ) {
     if ( val + mod > max && max != 0 ) {
         mod = std::max( max - val, 0 );
     }
