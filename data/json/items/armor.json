@@ -318,10 +318,18 @@
         "environmental_protection" : 2,
         "encumbrance" : 5,
         "bashing" : 1,
-        "flags" : ["VARSIZE", "WATERPROOF", "BOOTS"],
+        "flags" : ["VARSIZE", "WATERPROOF"],
         "coverage" : 100,
         "material_thickness" : 3,
-        "use_action" : "BOOTS"
+        "use_action" : {
+            "type": "holster",
+             "holster_prompt": "Sheath knife",
+             "holster_msg": "You sheath your %s",
+             "multi": 2,
+             "max_volume": 1,
+             "draw_speed": 80,
+             "flags": ["SHEATH_KNIFE"]
+        }
     },
     {
         "type" : "ARMOR",
@@ -7331,8 +7339,11 @@
         "phase" : "solid",
         "encumbrance" : 3,
         "material_thickness" : 1,
-        "use_action" : "HOLSTER_GUN",
-        "properties" : [["holster_size", "5"]]
+        "use_action" : {
+            "type": "holster",
+            "max_volume": 5,
+            "skills": ["pistol", "smg", "shotgun"]
+        }
     },
     {
         "type" : "ARMOR",
