@@ -53,7 +53,7 @@ recipe::recipe() :
 {
 }
 
-void recipe_dictionary::add( recipe* rec )
+void recipe_dictionary::add( recipe *rec )
 {
     recipes.push_back( rec );
     add_to_component_lookup( rec );
@@ -62,7 +62,7 @@ void recipe_dictionary::add( recipe* rec )
     by_category[rec->cat].push_back( rec );
 }
 
-void recipe_dictionary::remove( recipe* rec ) {
+void recipe_dictionary::remove( recipe *rec ) {
     recipes.remove( rec );
     remove_from_component_lookup( rec );
     by_name.erase( rec->ident );
