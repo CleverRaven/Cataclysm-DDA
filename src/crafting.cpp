@@ -104,6 +104,11 @@ void recipe_dictionary::clear()
     recipes.clear();
 }
 
+std::vector<recipe *>& recipe_dictionary::in_category( const std::string &cat )
+{
+    return by_category[cat];
+}
+
 void load_recipe_category(JsonObject &jsobj)
 {
     JsonArray subcats;
@@ -134,26 +139,24 @@ void reset_recipe_categories()
 int check_recipe_ident(const std::string &rec_name, JsonObject &jsobj)
 {
     const bool override_existing = jsobj.get_bool("override", false);
-    int recipe_count = 0;
-    for( auto &recipe : recipe_dict.by_category ) {
-        for( auto list_iter = recipe.second.begin(); list_iter != recipe.second.end(); ++list_iter ) {
-            if ((*list_iter)->ident == rec_name) {
-                if (!override_existing) {
-                    jsobj.throw_error(
-                        std::string("Recipe name collision (set a unique value for the id_suffix field to fix): ") +
-                        rec_name, "result");
-                }
-                // overriding an existing recipe: delete it and remove the pointer
-                // keep the id,
-                const int tmp_id = (*list_iter)->id;
-                recipe_dict.remove( *list_iter );
-                delete *list_iter;
-                return tmp_id;
+
+    for( auto list_iter : recipe_dict ) {
+        if (list_iter->ident == rec_name) {
+            if (!override_existing) {
+                jsobj.throw_error(
+                    std::string("Recipe name collision (set a unique value for the id_suffix field to fix): ") +
+                    rec_name, "result");
             }
+            // overriding an existing recipe: delete it and remove the pointer
+            // keep the id,
+            const int tmp_id = list_iter->id;
+            recipe_dict.remove( list_iter );
+            delete list_iter;
+            return tmp_id;
         }
-        recipe_count += recipe.second.size();
     }
-    return recipe_count;
+
+    return recipe_dict.size();
 }
 
 void load_recipe(JsonObject &jsobj)
@@ -1300,15 +1303,12 @@ void pick_recipes(const inventory &crafting_inv,
     std::vector<recipe *> available_recipes;
 
     if (filter == "") {
-        available_recipes = recipe_dict.by_category[tab];
+        available_recipes = recipe_dict.in_category(tab);
     } else {
         // lcmatch needs an all lowercase string to match case-insensitive
         std::transform( filter.begin(), filter.end(), filter.begin(), tolower );
 
-        for( auto &r_cat : recipe_dict.by_category ) {
-            available_recipes.insert( available_recipes.begin(), r_cat.second.begin(),
-                                      r_cat.second.end() );
-        }
+        available_recipes.insert( available_recipes.begin(), recipe_dict.begin(), recipe_dict.end() );
     }
 
     current.clear();
