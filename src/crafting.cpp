@@ -1448,8 +1448,8 @@ void craft_command::execute()
     map_inv.form_from_map( crafter->pos3(), PICKUP_RANGE );
 
     if( has_cached_selections() ) {
-        std::vector<item_selection> missing_items = check_item_components_missing( &map_inv );
-        std::vector<tool_selection> missing_tools = check_tool_components_missing( &map_inv );
+        std::vector<item_selection> missing_items = check_item_components_missing( map_inv );
+        std::vector<tool_selection> missing_tools = check_tool_components_missing( map_inv );
 
         if( missing_items.empty() && missing_tools.empty() ) {
             need_selections = false; // all items we used previously are still there, so we don't need to do selection
@@ -1490,7 +1490,7 @@ void craft_command::execute()
     if( need_selections ) {
         /* make component selections */
         for( const auto &it : rec->requirements.components ) {
-            item_selection is = crafter->select_item_component( it, batch_size, &map_inv, true );
+            item_selection is = crafter->select_item_component( it, batch_size, map_inv, true );
             if( is.use_from == cancel ) {
                 return;
             }
@@ -1498,7 +1498,7 @@ void craft_command::execute()
         }
 
         for( const auto &it : rec->requirements.tools ) {
-            tool_selection ts = crafter->select_tool_component( it, batch_size, &map_inv, DEFAULT_HOTKEYS, true );
+            tool_selection ts = crafter->select_tool_component( it, batch_size, map_inv, DEFAULT_HOTKEYS, true );
             if( ts.use_from == cancel ) {
                 return;
             }
@@ -1534,7 +1534,7 @@ std::list<item> craft_command::consume_components()
     return used;
 }
 
-std::vector<item_selection> craft_command::check_item_components_missing( const inventory* map_inv )
+std::vector<item_selection> craft_command::check_item_components_missing( const inventory &map_inv )
 {
     std::vector<item_selection> missing;
 
@@ -1550,11 +1550,11 @@ std::vector<item_selection> craft_command::check_item_components_missing( const 
                         missing.push_back( item_sel );
                         break;
                 case use_from_map:
-                    if( !map_inv->has_charges( type, count ) )
+                    if( !map_inv.has_charges( type, count ) )
                         missing.push_back( item_sel );
                         break;
                 case use_from_both:
-                    if( !( crafter->charges_of( type ) + map_inv->charges_of( type ) >= count ) )
+                    if( !( crafter->charges_of( type ) + map_inv.charges_of( type ) >= count ) )
                         missing.push_back( item_sel );
                         break;
                 default: break;
@@ -1566,11 +1566,11 @@ std::vector<item_selection> craft_command::check_item_components_missing( const 
                         missing.push_back( item_sel );
                         break;
                 case use_from_map:
-                    if( !map_inv->has_components(type, count) )
+                    if( !map_inv.has_components(type, count) )
                         missing.push_back( item_sel );
                         break;
                 case use_from_both:
-                    if( !( crafter->amount_of( type ) + map_inv->amount_of( type ) >= count ) )
+                    if( !( crafter->amount_of( type ) + map_inv.amount_of( type ) >= count ) )
                         missing.push_back( item_sel );
                         break;
                 default: break;
@@ -1581,7 +1581,7 @@ std::vector<item_selection> craft_command::check_item_components_missing( const 
     return missing;
 }
 
-std::vector<tool_selection> craft_command::check_tool_components_missing( const inventory* map_inv )
+std::vector<tool_selection> craft_command::check_tool_components_missing( const inventory &map_inv )
 {
     std::vector<tool_selection> missing;
 
@@ -1595,12 +1595,12 @@ std::vector<tool_selection> craft_command::check_tool_components_missing( const 
                         missing.push_back( tool_sel );
                         break;
                 case use_from_map:
-                    if( !map_inv->has_charges( type, count ) )
+                    if( !map_inv.has_charges( type, count ) )
                         missing.push_back( tool_sel );
                         break;
                 default: break;
             }
-        } else if( crafter->has_amount( type, 1 ) || map_inv->has_tools( type, 1 ) ) {
+        } else if( crafter->has_amount( type, 1 ) || map_inv.has_tools( type, 1 ) ) {
             missing.push_back( tool_sel );
         }
     }
@@ -1937,7 +1937,7 @@ void set_item_inventory(item &newit)
 }
 
 /* selection of component if a recipe requirement has multiple options (e.g. 'duct tap' or 'welder') */
-item_selection player::select_item_component(const std::vector<item_comp> &components, int batch, inventory* map_inv, bool can_cancel)
+item_selection player::select_item_component(const std::vector<item_comp> &components, int batch, inventory &map_inv, bool can_cancel)
 {
     std::vector<item_comp> player_has;
     std::vector<item_comp> map_has;
@@ -1955,11 +1955,11 @@ item_selection player::select_item_component(const std::vector<item_comp> &compo
                 player_has.push_back( component );
                 pl = true;
             }
-            if (map_inv->has_charges(type, count)) {
+            if (map_inv.has_charges(type, count)) {
                 map_has.push_back( component );
                 mp = true;
             }
-            if (!pl && !mp && charges_of(type) + map_inv->charges_of(type) >= count) {
+            if (!pl && !mp && charges_of(type) + map_inv.charges_of(type) >= count) {
                 mixed.push_back( component );
             }
         } else { // Counting by units, not charges
@@ -1968,11 +1968,11 @@ item_selection player::select_item_component(const std::vector<item_comp> &compo
                 player_has.push_back( component );
                 pl = true;
             }
-            if (map_inv->has_components(type, count)) {
+            if (map_inv.has_components(type, count)) {
                 map_has.push_back( component );
                 mp = true;
             }
-            if (!pl && !mp && amount_of(type) + map_inv->amount_of(type) >= count) {
+            if (!pl && !mp && amount_of(type) + map_inv.amount_of(type) >= count) {
                 mixed.push_back( component );
             }
 
@@ -2096,10 +2096,10 @@ std::list<item> player::consume_items( const std::vector<item_comp> &components,
 {
     inventory map_inv;
     map_inv.form_from_map(pos3(), PICKUP_RANGE);
-    return consume_items( select_item_component( components, batch, &map_inv ), batch );
+    return consume_items( select_item_component( components, batch, map_inv ), batch );
 }
 
-tool_selection player::select_tool_component( const std::vector<tool_comp> &tools, int batch, inventory* map_inv, const std::string &hotkeys, bool can_cancel )
+tool_selection player::select_tool_component( const std::vector<tool_comp> &tools, int batch, inventory &map_inv, const std::string &hotkeys, bool can_cancel )
 {
 
     tool_selection selected;
@@ -2115,10 +2115,10 @@ tool_selection player::select_tool_component( const std::vector<tool_comp> &tool
             if (has_charges(type, count)) {
                 player_has.push_back(*it);
             }
-            if (map_inv->has_charges(type, count)) {
+            if (map_inv.has_charges(type, count)) {
                 map_has.push_back(*it);
             }
-        } else if (has_amount(type, 1) || map_inv->has_tools(type, 1)) {
+        } else if (has_amount(type, 1) || map_inv.has_tools(type, 1)) {
             found_nocharge = true;
         }
     }
@@ -2196,7 +2196,7 @@ void player::consume_tools( const std::vector<tool_comp> &tools, int batch, cons
 {
     inventory map_inv;
     map_inv.form_from_map(pos3(), PICKUP_RANGE);
-    consume_tools( select_tool_component( tools, batch, &map_inv, hotkeys ), batch );
+    consume_tools( select_tool_component( tools, batch, map_inv, hotkeys ), batch );
 }
 
 const recipe *get_disassemble_recipe(const itype_id &type)
