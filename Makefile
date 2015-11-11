@@ -276,7 +276,7 @@ ifdef SOUND
   CXXFLAGS += $(shell $(PKG_CONFIG) --cflags SDL2_mixer)
   CXXFLAGS += -DSDL_SOUND
   LDFLAGS += $(shell $(PKG_CONFIG) --libs SDL2_mixer)
-  LDFLAGS += -lvorbisfile -lvorbis -logg
+  LDFLAGS += -lvorbisfile -lvorbis -logg -lpthread
 endif
 
 ifdef LUA
