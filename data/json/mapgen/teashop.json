@@ -1,0 +1,224 @@
+[
+    
+      {
+        "type"  : "item_group",
+        "id"    : "tea_dishes",
+        "items" : [
+          ["ceramic_cup",   70],
+          ["ceramic_plate", 50],
+          ["spoon",   20]
+        ]
+      },
+      {
+        "type"  : "item_group",
+        "id"    : "chair_hat",
+        "items" : [
+          ["hat_newsboy",   10],
+          ["bowhat",   40],
+          ["porkpie",   20]
+        ]
+      },
+      {
+        "type"  : "item_group",
+        "id"    : "chair_torso",
+        "items" : [
+          ["wool_suit",   70],
+          ["suit",   70],
+          ["waistcoat",   70],
+          ["dress_shirt", 70]
+          
+        ]
+      },
+      {
+        "type"  : "item_group",
+        "id"    : "chair_pants",
+        "items" : [
+          ["pants",   70]
+        ]
+      },
+      {
+        "type"  : "item_group",
+        "id"    : "chair_feet",
+        "items" : [
+          ["dress_shoes",   70]
+        ]
+      },
+      {
+        "type"  : "item_group",
+        "id"    : "chair_extra",
+        "items" : [
+          ["cane",   70],
+          ["pocketwatch",   70],
+          ["umbrella",   70],
+          ["manual_fencing",  10]
+        ]
+      },
+      {
+        "type"  : "item_group",
+        "id"    : "corner_reader",
+        "items" : [
+          ["mag_cutting",   70],
+          ["mag_stabbing",   70],
+          ["mag_unarmed",   70],
+          ["manual_dodge",  70],
+          ["novel_spy",  70],
+          ["novel_thriller",  70],
+          ["novel_crime",  70],
+          ["novel_adventure",  70],
+          ["novel_war",  70],
+          ["poetry_book",  30],
+          ["cookbook_human",  10]
+        ]
+      },
+      {
+        "type"  : "item_group",
+        "id"    : "corner_weapon",
+        "items" : [
+          ["tazer",   70],
+          ["knuckle_brass", 70]
+        ]
+      },
+      {
+        "type"  : "item_group",
+        "id"    : "displays",
+        "items" : [
+          ["tea",   70],
+          ["tea_raw",   70],
+          ["ceramic_cup",   70],
+          ["teapot",   70],
+          ["clay_teapot",   70]
+          
+        ]
+      },
+      {
+        "type"  : "item_group",
+        "id"    : "teashop_fridge",
+        "items" : [
+          ["milk",   70]
+        ]
+      },
+      {
+        "type"  : "item_group",
+        "id"    : "teashop_kitchen_counter",
+        "items" : [
+          ["sugar",   30],
+          ["tea_raw",   40],
+          ["teapot",   20],
+          ["spoon",   20]
+        ]
+      },
+    
+    {
+        "type": "mapgen",
+        "om_terrain": ["s_teashop"],
+        "method": "json",
+        "weight": 250,
+        "object": {
+            "fill_ter": "t_floor",
+            "rows": [
+                "...S....................",
+                ".z.S.z..123123123123123.",
+                "...S....SSSSCTCSSSSSCSz.",
+                ".z.S.z..SCTCSSSSCTCSTSz.",
+                "...S....SSSSSCTCSSSSCSz.",
+                ".--+-ooo--OO-OO-OO-OO-..",
+                ".|,,,###|,ctc,,ctc,,t|..",
+                ".|{,,,,,|,,,,,,,,,,,c|..",
+                ".|{,tt,,,,,,c,,,,,,,,O..",
+                ".|{,tt,,,,,ctc,,c,,,,O..",
+                ".|,,,,,,|,,,c,,ctc,,c|..",
+                ".|6####,|c,,,,,,c,,,t|..",
+                ".|c,,,,,|t,,,,c,,,,,c|..",
+                ".|-+----|c,,,ctc,,,,,O..",
+                ".|#.F##K|,,,,,c,,,,c,O..",
+                ".|#.....+,,,,,,,,,ctc|..",
+                ".|#..vv.|,,ctc,,,,,c,|..",
+                ".|-+-------ooo---ooo-|..",
+                "....&&..................",
+                "........................",
+                "........................",
+                "........................",
+                "........................",
+                "........................"
+            ],
+            "terrain": {
+                ".": "t_grass",
+                ",": "t_floor",
+                "{": "t_floor",
+                "c": "t_floor",
+                "t": "t_floor",
+                "C": "t_sidewalk",
+                "T": "t_sidewalk",
+                "S": "t_sidewalk",
+                "_": "t_pavement",
+                "&": "t_pavement",
+                "z": "t_shrub",
+                "1": "t_grass",
+                "2": "t_grass",
+                "3": "t_grass",
+                "6": "t_console_broken",
+                "|": "t_wall",
+                "-": "t_wall",
+                "+": "t_door_c",
+                "O": "t_window_domestic",
+                "o": "t_window",
+                "#": "t_floor",
+                "F": "t_floor",
+                "K": "t_floor",
+                "v": "t_floor"
+            },
+            "furniture": {
+                "c": "f_chair",
+                "t": "f_table",
+                "{": "f_bookcase",
+                "C": "f_chair",
+                "T": "f_table",
+                "&": "f_trashcan",
+                "K": "f_sink",
+                "F": "f_fridge",
+                "v": "f_sink",
+                "#": "f_counter",
+                "1": "f_dandelion",
+                "2": "f_dahlia",
+                "3": "f_bluebell"
+            },
+            "place_signs": [
+                { "x": 4, "y": 4, "signage": "The Red Dragon Tea Shop" }
+            ],
+            "set": [
+                { "point": "terrain", "id": "f_mutpoppy", "x": [ 0 , 23 ], "y": [ 19, 23 ], "repeat": [ 4, 9 ] },
+                { "point": "terrain", "id": "t_shrub", "x": [ 0 , 23 ], "y": [ 19, 23 ], "repeat": [ 4, 9 ] },
+                { "point": "terrain", "id": "f_chamomile", "x": [ 0 , 23 ], "y": [ 19, 23 ], "repeat": [ 4, 9 ] }
+                
+            ],
+            "place_items": [
+                {"item": "tea_dishes", "chance": 30, "x": 11, "y":  6, "repeat": [1,2]},
+                {"item": "tea_dishes", "chance": 30, "x": 16, "y":  6, "repeat": [1,2]},
+                {"item": "tea_dishes", "chance": 30, "x": 12, "y":  9, "repeat": [1,2]},
+                {"item": "tea_dishes", "chance": 30, "x": 16, "y": 10, "repeat": [1,2]},
+                {"item": "tea_dishes", "chance": 30, "x": 20, "y": 11, "repeat": [1,2]},
+                {"item": "tea_dishes", "chance": 30, "x":  9, "y": 12, "repeat": [1,2]},
+                {"item": "tea_dishes", "chance": 30, "x": 14, "y": 13, "repeat": [1,2]},
+                {"item": "tea_dishes", "chance": 30, "x": 19, "y": 15, "repeat": [1,2]},
+                {"item": "tea_dishes", "chance": 30, "x": 12, "y": 16, "repeat": [1,2]},
+                
+                {"item": "corner_reader", "chance": 80, "x": 20, "y":  6, "repeat": [1,2]},
+                {"item": "corner_weapon", "chance": 20, "x": 20, "y":  6},
+                
+                {"item": "chair_extra", "chance": 80, "x": 2, "y": 12, "repeat": [1,2]},
+                {"item": "chair_torso", "chance": 80, "x": 2, "y": 12, "repeat": [1,2]},
+                {"item": "chair_hat", "chance": 30, "x": 2, "y": 12},
+                {"item": "chair_pants", "chance": 30, "x": 2, "y": 12},
+                {"item": "chair_feet", "chance": 30, "x": 2, "y": 12},
+                
+                {"item": "displays", "chance": 30, "x": 2, "y": [7,9], "repeat": [1,3]},
+                {"item": "displays", "chance": 30, "x": [5,7], "y": 6, "repeat": [1,3]},
+                {"item": "displays", "chance": 30, "x": [4,5], "y": [8,9], "repeat": [1,4]},
+                
+                {"item": "teashop_kitchen_counter", "chance": 80, "x": 2, "y": [14,16], "repeat": [1,4]},
+                {"item": "teashop_kitchen_counter", "chance": 80, "x": [5,6], "y": 14, "repeat": [1,3]},
+                {"item": "teashop_fridge", "chance": 80, "x": 2, "y": 13, "repeat": [1,4]}
+            ]            
+        }
+    }
+]
