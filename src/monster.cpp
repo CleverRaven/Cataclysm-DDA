@@ -1309,7 +1309,7 @@ void monster::add_effect( efftype_id eff_id, int dur, body_part bp,
 
 int monster::get_armor_cut(body_part bp) const
 {
-    (void) bp;
+    (void)bp;
     // TODO: Add support for worn armor?
     return int(type->armor_cut) + get_armor_cut_bonus( bp );
 }

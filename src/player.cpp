@@ -454,7 +454,7 @@ void player::reset_stats()
 void player::reset_scent()
 {
     // Set our scent towards the norm
-    int scent_norm = 500;
+    scent_norm = 500;
     if (has_trait( "WEAKSCENT")) {
         scent_norm = 300;
     }
@@ -6089,6 +6089,9 @@ void player::process_effects() {
         remove_effect("alarm_clock");
     }
 
+    //Reset scent modifier granted by effects
+    scent_mod = 0;
+
     //Human only effects
     for( auto &elem : effects ) {
         for( auto &_effect_it : elem.second ) {
@@ -6291,7 +6294,6 @@ void player::process_effects() {
             }
 
             // Handle scent
-            scent_mod = 0;
             val = it.get_mod("SCENT", reduced);
             if ( val != 0 ) {
                 scent_mod += bound_mod_to_vals( scent_norm, val,
@@ -7617,6 +7619,148 @@ void player::hardcoded_effects(effect &it)
                     }
                 }
             }
+        }
+    } else if ( id == "skin_rot" || id == "skin_rot_recovery") {
+        bool recovery = id == "skin_rot_recovery" ? true : false;
+        float heal_chance = 7200.0;
+        float spread_chance = 3600.0;
+        float health = get_healthy();
+        float health_mod = health / 100.0 + 1.0;
+
+        //First, try to spread the disease into a conected body part
+        if (health > 0) {
+            spread_chance *= health_mod;
+        } else if (health < 0) {
+            spread_chance /= health_mod;
+        }
+        if (!recovery && one_in( (int)ceil( spread_chance ) ) ) {
+            switch (bp) {
+            case (bp_head):
+                if (!has_effect( "skin_rot", bp_torso )) {
+                    add_effect( "skin_rot", 1, bp_torso );
+                }
+                break;
+            case (bp_torso):
+                switch ( rng( 1, 4 ) ) {
+                case 1:
+                    if ( !has_effect( "skin_rot", bp_arm_r ) ) {
+                        add_effect( "skin_rot", 1, bp_arm_r );
+                    }
+                    break;
+                case 2:
+                    if ( !has_effect( "skin_rot", bp_arm_l ) ) {
+                        add_effect( "skin_rot", 1, bp_arm_l );
+                    }
+                    break;
+                case 3:
+                    if ( !has_effect( "skin_rot", bp_leg_r ) ) {
+                        add_effect( "skin_rot", 1, bp_leg_r );
+                    }
+                    break;
+                case 4:
+                    if ( !has_effect( "skin_rot", bp_leg_l ) ) {
+                        add_effect( "skin_rot", 1, bp_leg_l );
+                    }
+                    break;
+                }
+                break;
+            case (bp_arm_r):
+                switch ( rng( 1, 2 ) ) {
+                case 1:
+                    if ( !has_effect( "skin_rot", bp_torso ) ) {
+                        add_effect( "skin_rot", 1, bp_torso );
+                    }
+                    break;
+                case 2:
+                    if ( !has_effect( "skin_rot", bp_hand_r ) ) {
+                        add_effect( "skin_rot", 1, bp_hand_r );
+                    }
+                    break;
+                }
+                break;
+            case (bp_hand_r) :
+                if ( !has_effect( "skin_rot", bp_arm_r ) ) {
+                    add_effect( "skin_rot", 1, bp_arm_r );
+                }
+                break;
+            case (bp_arm_l) :
+                switch ( rng( 1, 2 ) ) {
+                case 1:
+                    if ( !has_effect( "skin_rot", bp_torso ) ) {
+                        add_effect( "skin_rot", 1, bp_torso );
+                    }
+                    break;
+                case 2:
+                    if ( !has_effect( "skin_rot", bp_hand_l ) ) {
+                        add_effect( "skin_rot", 1, bp_hand_l );
+                    }
+                    break;
+                }
+                break;
+            case (bp_hand_l) :
+                if ( !has_effect( "skin_rot", bp_arm_l ) ) {
+                    add_effect( "skin_rot", 1, bp_arm_l );
+                }
+                break;
+            case (bp_leg_r) :
+                switch ( rng( 1, 2 ) ) {
+                case 1:
+                    if ( !has_effect( "skin_rot", bp_torso ) ) {
+                        add_effect( "skin_rot", 1, bp_torso );
+                    }
+                    break;
+                case 2:
+                    if ( !has_effect( "skin_rot", bp_foot_r ) ) {
+                        add_effect( "skin_rot", 1, bp_foot_r );
+                    }
+                    break;
+                }
+                break;
+            case (bp_foot_r) :
+                if ( !has_effect( "skin_rot", bp_leg_r ) ) {
+                    add_effect( "skin_rot", 1, bp_leg_r );
+                }
+                break;
+            case (bp_leg_l) :
+                switch ( rng( 1, 2 ) ) {
+                case 1:
+                    if ( !has_effect( "skin_rot", bp_torso ) ) {
+                        add_effect( "skin_rot", 1, bp_torso );
+                    }
+                    break;
+                case 2:
+                    if ( !has_effect( "skin_rot", bp_foot_l ) ) {
+                        add_effect( "skin_rot", 1, bp_foot_l );
+                    }
+                    break;
+                }
+                break;
+            case (bp_foot_l) :
+                if ( !has_effect( "skin_rot", bp_leg_l ) ) {
+                    add_effect( "skin_rot", 1, bp_leg_l );
+                }
+                break;
+            default:
+                break;
+            }                    
+        }
+        //Then, try to open a wound
+        int armor = get_armor_cut( bp );
+        if (intense > 1 && ( armor < 0 ) ) {
+            if ( one_in( 2400 + ( armor * 400) ) ) {
+                add_msg(m_bad, _( "A wound opens on your %s", body_part_name(bp).c_str() ) );
+                add_effect( "bleed",  rng( -(armor) * 5, -(armor) * 15 ), bp);
+            }         
+        }
+        //Last, try to heal the disease 
+        if ( health > 0 ) {
+            heal_chance /= health_mod;
+        } else if ( health < 0 ) {
+            heal_chance *= health_mod;    
+        }
+        if ( !recovery && one_in(  (int) ceil(heal_chance ) ) ) {
+            remove_effect( "skin_rot", bp );
+            add_effect( "skin_rot_recovery", dur, bp );
         }
     }
 }
