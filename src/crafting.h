@@ -124,13 +124,13 @@ using tool_selection = comp_selection<tool_comp>;
 
 class craft_command {
     public:
-        const recipe* rec = nullptr;
+        const recipe *rec = nullptr;
         int batch_size = 0;
         bool is_long = false;
-        player* crafter; // This is mainly here for maintainability reasons.
+        player *crafter; // This is mainly here for maintainability reasons.
 
         craft_command() {}
-        craft_command( const recipe* to_make, int batch_size, bool is_long, player* crafter ) :
+        craft_command( const recipe *to_make, int batch_size, bool is_long, player *crafter ) :
             rec( to_make ), batch_size( batch_size ), is_long( is_long ), crafter( crafter ) {}
 
         void execute();
