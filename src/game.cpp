@@ -1627,19 +1627,19 @@ int game::inventory_item_menu(int pos, int iStartX, int iWidth, const inventory_
             }
             max_text_length = std::max( max_text_length, utf8_width( text ) );
         };
-        addentry( 'a', _("activate"), u.rate_action_use( oThisItem ) );
-        addentry( 'R', _("read"), u.rate_action_read( oThisItem ) );
-        addentry( 'E', _("eat"), u.rate_action_eat( oThisItem ) );
-        addentry( 'W', _("wear"), u.rate_action_wear( oThisItem ) );
-        addentry( 'w', _("wield"), HINT_GOOD );
+        addentry( 'a', pgettext("action", "activate"), u.rate_action_use( oThisItem ) );
+        addentry( 'R', pgettext("action", "read"), u.rate_action_read( oThisItem ) );
+        addentry( 'E', pgettext("action", "eat"), u.rate_action_eat( oThisItem ) );
+        addentry( 'W', pgettext("action", "wear"), u.rate_action_wear( oThisItem ) );
+        addentry( 'w', pgettext("action", "wield"), HINT_GOOD );
         addentry( 't', pgettext("action", "throw"), HINT_GOOD );
-        addentry( 'c', _("change side"), u.rate_action_change_side( oThisItem ) );
-        addentry( 'T', _("take off"), u.rate_action_takeoff( oThisItem ) );
-        addentry( 'd', _("drop"), rate_drop_item );
-        addentry( 'U', _("unload"), u.rate_action_unload( oThisItem ) );
-        addentry( 'r', _("reload"), u.rate_action_reload( oThisItem ) );
-        addentry( 'D', _("disassemble"), u.rate_action_disassemble( oThisItem ) );
-        addentry( '=', _("reassign"), HINT_GOOD );
+        addentry( 'c', pgettext("action", "change side"), u.rate_action_change_side( oThisItem ) );
+        addentry( 'T', pgettext("action", "take off"), u.rate_action_takeoff( oThisItem ) );
+        addentry( 'd', pgettext("action", "drop"), rate_drop_item );
+        addentry( 'U', pgettext("action", "unload"), u.rate_action_unload( oThisItem ) );
+        addentry( 'r', pgettext("action", "reload"), u.rate_action_reload( oThisItem ) );
+        addentry( 'D', pgettext("action", "disassemble"), u.rate_action_disassemble( oThisItem ) );
+        addentry( '=', pgettext("action", "reassign"), HINT_GOOD );
         if( bHPR ) {
             addentry( '-', _("Autopickup"), HINT_IFFY );
         } else {
