@@ -709,6 +709,7 @@ long pick_lock_actor::use( player *p, item *it, bool, const tripoint& ) const
     }
     if( it->damage >= 5 ) {
         p->i_rem(it);
+        return 0;
         }
     return it->type->charges_to_use();
 }
