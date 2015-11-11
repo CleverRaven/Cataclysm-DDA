@@ -869,7 +869,10 @@ item_location game::inv_map_splice(
             auto& current_stack = stacks.back();
             auto& current_slice = slices.back();
 
-            for (item& it : m.i_at(pos)) {
+            auto items = m.i_at(pos);
+            current_stack.reserve(items.size());
+
+            for (item& it : items) {
                 if (ground_filter(it)) {
                     auto match = std::find_if(current_stack.begin(), current_stack.end(), [&](const std::list<item>& e) {
                         return it.stacks_with(e.back());
@@ -900,7 +903,10 @@ item_location game::inv_map_splice(
                 auto& current_stack = stacks.back();
                 auto& current_slice = slices.back();
 
-                for (item& it : veh->get_items(part)) {
+                auto items = veh->get_items(part);
+                current_stack.reserve(items.size());
+
+                for (item& it : items) {
                     if (vehicle_filter(it)) {
                         auto match = std::find_if(current_stack.begin(), current_stack.end(), [&](const std::list<item>& e) {
                             return it.stacks_with(e.back());
