@@ -112,7 +112,7 @@ class recipe_dictionary {
         void remove( recipe *rec );
         void clear();
 
-        std::vector<recipe *>& in_category( const std::string &cat );
+        const std::vector<recipe *>& in_category( const std::string &cat );
 
         /** Allows for lookup like: 'recipe_dict[name]'. */
         recipe *operator[]( const std::string &rec_name )

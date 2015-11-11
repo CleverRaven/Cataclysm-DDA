@@ -104,7 +104,7 @@ void recipe_dictionary::clear()
     recipes.clear();
 }
 
-std::vector<recipe *>& recipe_dictionary::in_category( const std::string &cat )
+const std::vector<recipe *>& recipe_dictionary::in_category( const std::string &cat )
 {
     return by_category[cat];
 }
