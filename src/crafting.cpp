@@ -99,9 +99,14 @@ void recipe_dictionary::remove_from_component_lookup( recipe* r )
 
 void recipe_dictionary::clear()
 {
-    while( !recipes.empty() ) {
-        delete recipes.front();
+    by_component.clear();
+    by_name.clear();
+    by_index.clear();
+    by_category.clear();
+    for( auto &recipe : recipes ) {
+        delete recipe;
     }
+    recipes.clear();
 }
 
 void load_recipe_category(JsonObject &jsobj)
