@@ -643,6 +643,11 @@ ifdef FRAMEWORK
 	cp -R /Library/Frameworks/SDL2.framework $(APPRESOURCESDIR)/
 	cp -R /Library/Frameworks/SDL2_image.framework $(APPRESOURCESDIR)/
 	cp -R /Library/Frameworks/SDL2_ttf.framework $(APPRESOURCESDIR)/
+ifdef SOUND
+	cp -R /Library/Frameworks/SDL2_mixer.framework $(APPRESOURCESDIR)/
+	cp -R /Library/Frameworks/Vorbis.framework $(APPRESOURCESDIR)/
+	cp -R /Library/Frameworks/Ogg.framework $(APPRESOURCESDIR)/
+endif  # ifdef SOUND
 else # libsdl build
 	cp $(SDLLIBSDIR)/libSDL2.dylib $(APPRESOURCESDIR)/
 	cp $(SDLLIBSDIR)/libSDL2_image.dylib $(APPRESOURCESDIR)/
