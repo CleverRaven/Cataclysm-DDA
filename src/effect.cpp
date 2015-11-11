@@ -648,7 +648,7 @@ void effect::decay(std::vector<std::string> &rem_ids, std::vector<body_part> &re
 {
     // Decay duration if not permanent
     if (!is_permanent()) {
-        duration -= 1;
+        duration += eff_type->dur_decay;
         add_msg( m_debug, "ID: %s, Duration %d", get_id().c_str(), duration );
     }
     // Store current intensity for comparison later
@@ -1186,6 +1186,7 @@ void load_effect_type(JsonObject &jo)
 
     new_etype.max_intensity = jo.get_int("max_intensity", 1);
     new_etype.max_duration = jo.get_int("max_duration", 0);
+    new_etype.dur_decay = jo.get_int( "duration_decay", -1 );
     new_etype.dur_add_perc = jo.get_int("dur_add_perc", 100);
     new_etype.int_add_val = jo.get_int("int_add_val", 0);
     new_etype.int_decay_step = jo.get_int("int_decay_step", -1);
