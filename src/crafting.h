@@ -117,7 +117,7 @@ struct comp_selection {
     usage use_from = use_from_none;
     CompType comp;
 
-    std::string nname();
+    std::string nname() const;
 };
 using item_selection = comp_selection<item_comp>;
 using tool_selection = comp_selection<tool_comp>;
@@ -136,12 +136,12 @@ class craft_command {
         void execute();
         std::list<item> consume_components();
 
-        bool has_cached_selections()
+        bool has_cached_selections() const
         {
             return !item_selections.empty() || !tool_selections.empty();
         }
 
-        bool empty()
+        bool empty() const
         {
             return rec == nullptr;
         }

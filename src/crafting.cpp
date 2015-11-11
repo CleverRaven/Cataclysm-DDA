@@ -1425,7 +1425,7 @@ void player::make_craft_with_command( const std::string &id_to_make, int batch_s
 }
 
 template<typename CompType>
-std::string comp_selection<CompType>::nname()
+std::string comp_selection<CompType>::nname() const
 {
     switch( use_from ) {
         case use_from_map:
