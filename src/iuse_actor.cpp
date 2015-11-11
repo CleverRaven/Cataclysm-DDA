@@ -694,6 +694,7 @@ long pick_lock_actor::use( player *p, item *it, bool, const tripoint& ) const
         it->damage++;
         if( it->damage >= 5 ) {
             p->add_msg_if_player( m_bad, _( "The lock stumps your efforts to pick it, and you destroy your tool." ) );
+            p->i_rem(it);
         } else {
             p->add_msg_if_player( m_bad, _( "The lock stumps your efforts to pick it, and you damage your tool." ) );
         }
@@ -707,11 +708,6 @@ long pick_lock_actor::use( player *p, item *it, bool, const tripoint& ) const
             g->add_event( EVENT_WANTED, int( calendar::turn ) + 300, 0, p->global_sm_location() );
         }
     }
-    // Special handling, normally the item isn't used up, but it is if broken.
-    if( it->damage >= 5 ) {
-        return 1;
-    }
-
     return it->type->charges_to_use();
 }
 
