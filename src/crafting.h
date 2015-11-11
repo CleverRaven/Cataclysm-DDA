@@ -98,6 +98,11 @@ struct recipe {
 
 };
 
+/**
+*   Repository class for recipes.
+*
+*   This class is aimed at making (fast) recipes lookups easier from the outside.
+*/
 class recipe_dictionary {
     public:
         std::map<const std::string, std::vector<recipe *>> by_category;
@@ -107,11 +112,13 @@ class recipe_dictionary {
         void remove( recipe *rec );
         void clear();
 
+        /** Allows for lookup like: 'recipe_dict[name]'. */
         const recipe *operator[]( const std::string &rec_name )
         {
             return by_name[rec_name];
         }
 
+        /** Allows for lookup like: 'recipe_dict[id]'. */
         const recipe *operator[]( int rec_id )
         {
             return by_index[rec_id];
@@ -122,7 +129,7 @@ class recipe_dictionary {
             return recipes.size();
         }
 
-        /* iterators for look up only */
+        /** Allows for iteration or all recipes like: 'for( recipe &r : recipe_dict )'. */
         std::list<recipe *>::const_iterator begin() const
         {
             return recipes.begin();
@@ -137,6 +144,7 @@ class recipe_dictionary {
         std::map<const std::string, const recipe *> by_name;
         std::map<int, const recipe *> by_index;
 
+        /** Maps a component to a list of recipes. So we can lookup what we can make with an item */
         void add_to_component_lookup( recipe *r );
         void remove_from_component_lookup( recipe *r );
 };
