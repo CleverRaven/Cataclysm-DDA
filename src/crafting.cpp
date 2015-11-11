@@ -47,11 +47,6 @@ static std::string prev_craft_subcat(const std::string cat, const std::string su
 
 void remove_from_component_lookup(recipe* r);
 
-recipe::~recipe()
-{
-    recipe_dict.remove( this );
-}
-
 recipe::recipe() :
     id(0), result("null"), contained(false),skill_used( NULL_ID ), reversible(false),
     autolearn(false), learn_by_disassembly(-1), result_mult(1)
@@ -151,6 +146,7 @@ int check_recipe_ident(const std::string &rec_name, JsonObject &jsobj)
                 // overriding an existing recipe: delete it and remove the pointer
                 // keep the id,
                 const int tmp_id = (*list_iter)->id;
+                recipe_dict.remove( list_iter );
                 delete *list_iter;
                 return tmp_id;
             }

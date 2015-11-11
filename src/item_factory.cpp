@@ -77,6 +77,7 @@ void Item_factory::finialize_item_blacklist()
             for( size_t c = 0; c < recipes_b.second.size(); c++ ) {
                 recipe *r = recipes_b.second[c];
                 if( r->result == itm || r->requirements.remove_item(itm) ) {
+                    recipe_dict.remove( r );
                     delete r;
                     c--;
                     continue;

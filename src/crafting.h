@@ -73,7 +73,6 @@ struct recipe {
     // Format: skill_name(amount), skill_name(amount)
     std::string required_skills_string() const;
 
-    ~recipe();
     recipe();
 
     // Create an item instance as if the recipe was just finished,
