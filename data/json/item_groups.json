@@ -788,6 +788,7 @@
       ["toolbox", 2],
       ["knitting_needles", 10],
       ["sheath", 15],
+      ["bootsheath", 8],
       ["peephole", 2],
       ["magnifying_glass", 5],
       ["thermometer", 3],
@@ -1933,6 +1934,7 @@
       ["fungicide", 5],
       ["charcoal", 5],
       ["sheath", 10],
+      ["bootsheath", 3],
       ["multitool", 6],
       ["survnote", 1],
       ["fertilizer_commercial",30],
@@ -1993,6 +1995,7 @@
       ["swage", 1],
       ["misc_repairkit", 5],
       ["tool_belt", 5],
+      ["bootsheath", 1],
       ["sheath", 5]
     ]
   },{
@@ -2392,6 +2395,7 @@
       ["grapnel", 1],
       ["razor_blade", 9],
       ["sheath", 5],
+      ["bootsheath", 3],
       ["survnote", 1],
       ["thermometer", 3],
       ["hygrometer", 3],
@@ -2587,6 +2591,7 @@
       ["small_repairkit", 2],
       ["grapnel", 2],
       ["leathersandals", 15],
+      ["bootsheath", 5],
       ["sheath", 5],
       ["fencing_jacket", 10],
       ["fencing_mask", 10],
@@ -5627,6 +5632,7 @@
       ["razor_blade", 6],
       ["scabbard", 4],
       ["sheath", 6],
+      ["bootsheath", 6],
       ["cestus", 1],
       ["battleaxe", 20],
       ["warhammer", 10],
@@ -5761,6 +5767,7 @@
       ["quikclot", 20],
       ["bfipowder", 20],
       ["sheath", 10],
+      ["bootsheath", 10],
       ["survnote", 1]
     ]
   },{
@@ -5899,6 +5906,7 @@
       ["pur_tablets", 5],
       ["razor_blade", 5],
       ["sheath", 5],
+      ["bootsheath", 5],
       ["holster", 4],
       ["survnote", 2]
     ]
@@ -6912,6 +6920,7 @@
       ["grapnel", 3],
       ["glasses_bal", 30],
       ["sheath", 10],
+      ["bootsheath", 8],
       ["holster", 15],
       ["sholster", 10]
     ]
@@ -7197,6 +7206,7 @@
       ["boots_steel", 50],
       ["boots_combat", 50],
       ["boots_hiking", 50],
+      ["bootsheath", 8],
       ["pants_cargo", 70],
       ["shorts_cargo", 50],
       ["pants_army", 30],
@@ -7257,6 +7267,7 @@
       ["helmet_lobster", 2],
       ["apron_leather", 2],
       ["tool_belt", 5],
+      ["bootsheath", 8],
       ["sheath", 5]
     ]
   },{
@@ -7330,6 +7341,7 @@
       ["grapnel", 5],
       ["charcoal", 5],
       ["sheath", 3],
+      ["bootsheath", 2],
       ["holster", 3],
       ["sholster", 2],
       ["toolbox", 1],
@@ -8320,6 +8332,7 @@
       ["grapnel", 1],
       ["bot_laserturret", 1],
       ["sheath", 13],
+      ["bootsheath", 8],
       ["toolbox", 1],
       ["knife_rm42", 4],
       ["survnote", 1],
