@@ -1440,8 +1440,9 @@ std::string comp_selection<CompType>::nname() const
 
 void craft_command::execute()
 {
-    if( empty() )
+    if( empty() ) {
         return;
+    }
 
     bool need_selections = true;
     inventory map_inv;
@@ -1546,33 +1547,39 @@ std::vector<item_selection> craft_command::check_item_components_missing( const 
         if ( item::count_by_charges( type ) && count > 0 ) {
             switch( item_sel.use_from ) {
                 case use_from_player:
-                    if( !crafter->has_charges( type, count ) )
+                    if( !crafter->has_charges( type, count ) ) {
                         missing.push_back( item_sel );
-                        break;
+                    }
+                    break;
                 case use_from_map:
-                    if( !map_inv.has_charges( type, count ) )
+                    if( !map_inv.has_charges( type, count ) ) {
                         missing.push_back( item_sel );
-                        break;
+                    }
+                    break;
                 case use_from_both:
-                    if( !( crafter->charges_of( type ) + map_inv.charges_of( type ) >= count ) )
+                    if( !( crafter->charges_of( type ) + map_inv.charges_of( type ) >= count ) ) {
                         missing.push_back( item_sel );
-                        break;
+                    }
+                    break;
                 default: break;
             }
         } else { // Counting by units, not charges
             switch( item_sel.use_from ) {
                 case use_from_player:
-                    if( !crafter->has_amount( type, count ) )
+                    if( !crafter->has_amount( type, count ) ) {
                         missing.push_back( item_sel );
-                        break;
+                    }
+                    break;
                 case use_from_map:
-                    if( !map_inv.has_components(type, count) )
+                    if( !map_inv.has_components(type, count) ) {
                         missing.push_back( item_sel );
-                        break;
+                    }
+                    break;
                 case use_from_both:
-                    if( !( crafter->amount_of( type ) + map_inv.amount_of( type ) >= count ) )
+                    if( !( crafter->amount_of( type ) + map_inv.amount_of( type ) >= count ) ) {
                         missing.push_back( item_sel );
-                        break;
+                    }
+                    break;
                 default: break;
             }
         }
@@ -1591,13 +1598,15 @@ std::vector<tool_selection> craft_command::check_tool_components_missing( const 
             long count = tool_sel.comp.count * batch_size;
             switch( tool_sel.use_from ) {
                 case use_from_player:
-                    if( !crafter->has_charges( type, count ) )
+                    if( !crafter->has_charges( type, count ) ) {
                         missing.push_back( tool_sel );
-                        break;
+                    }
+                    break;
                 case use_from_map:
-                    if( !map_inv.has_charges( type, count ) )
+                    if( !map_inv.has_charges( type, count ) ) {
                         missing.push_back( tool_sel );
-                        break;
+                    }
+                    break;
                 default: break;
             }
         } else if( crafter->has_amount( type, 1 ) || map_inv.has_tools( type, 1 ) ) {
