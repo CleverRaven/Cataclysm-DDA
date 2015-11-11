@@ -1460,10 +1460,10 @@ void craft_command::execute()
         } else {
             /* create a pop up message */
             std::stringstream ss;
-            ss << "Some components used previously are missing. Continue?";
+            ss << _( "Some components used previously are missing. Continue?" );
 
             if( !missing_items.empty() ) {
-                ss << std::endl << "Item(s): ";
+                ss << std::endl << _( "Item(s): " );
                 for( size_t i = 0; i < missing_items.size(); i++ ) {
                     if( i != 0 ) {
                         ss << ", ";
@@ -1473,7 +1473,7 @@ void craft_command::execute()
             }
 
             if( !missing_tools.empty() ) {
-                ss << std::endl << "Tool(s): ";
+                ss << std::endl << _( "Tool(s): " );
                 for( size_t i = 0; i < missing_tools.size(); i++ ) {
                     if( i != 0 ) {
                         ss << ", ";
@@ -1487,7 +1487,7 @@ void craft_command::execute()
             options.push_back( _( "No" ) );
 
             const std::string str = ss.str(); // we NEED a copy
-            int selection = menu_vec( true, _( str.c_str() ), options );
+            int selection = menu_vec( true, str.c_str(), options );
             if( selection != 1 ) { // if we pick anything else than yes, we cancel;
                 return;
             }
