@@ -62,16 +62,16 @@ void recipe_dictionary::add_recipe( recipe* rec, const std::string &category )
 {
     recipes.push_back( rec );
     add_to_component_lookup( rec );
-    recipes_by_ident[rec->ident] = rec;
-    recipes_by_index[rec->id] = rec;
+    by_name[rec->ident] = rec;
+    by_index[rec->id] = rec;
     by_category[category].push_back( rec );
 }
 
 void recipe_dictionary::remove_recipe( recipe* rec ) {
     recipes.remove( rec );
     remove_from_component_lookup( rec );
-    recipes_by_ident.erase( rec->ident );
-    recipes_by_index.erase( rec->id );
+    by_name.erase( rec->ident );
+    by_index.erase( rec->id );
     // TODO: remove from categories?
 }
 
@@ -100,23 +100,13 @@ void recipe_dictionary::remove_from_component_lookup( recipe* r )
 void recipe_dictionary::clear()
 {
     by_component.clear();
-    recipes_by_ident.clear();
-    recipes_by_index.clear();
+    by_name.clear();
+    by_index.clear();
     by_category.clear();
     for( auto &recipe : recipes ) {
         delete recipe;
     }
     recipes.clear();
-}
-
-const std::vector<recipe*> recipe_dictionary::in_catagory( const std::string category )
-{
-    return by_category[category];
-}
-
-const std::vector<recipe*> recipe_dictionary::of_component( const itype_id &type )
-{
-    return by_component[type];
 }
 
 void load_recipe_category(JsonObject &jsobj)

@@ -107,17 +107,15 @@ class recipe_dictionary {
         void add_recipe( recipe* rec, const std::string &category );
         void remove_recipe( recipe* rec );
         void clear();
-        const std::vector<recipe*> in_catagory( const std::string category );
-        const std::vector<recipe*> of_component( const itype_id &type );
 
         const recipe* operator[]( const std::string &name )
         {
-            return recipes_by_ident[name];
+            return by_name[name];
         }
 
         const recipe* operator[]( int i )
         {
-            return recipes_by_index[i];
+            return by_index[i];
         }
 
         size_t size() const
@@ -137,8 +135,8 @@ class recipe_dictionary {
 
     private:
         std::list<recipe*> recipes;
-        std::map<const std::string, const recipe*> recipes_by_ident;
-        std::map<int, const recipe*> recipes_by_index;
+        std::map<const std::string, const recipe*> by_name;
+        std::map<int, const recipe*> by_index;
 
         void add_to_component_lookup( recipe* r );
         void remove_from_component_lookup( recipe* r );
