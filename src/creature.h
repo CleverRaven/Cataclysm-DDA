@@ -294,7 +294,8 @@ class Creature
          *  of the matching type, targeted or untargeted. */
         bool has_effect(efftype_id eff_id, body_part bp = num_bp) const;
         /** Return the effect that matches the given arguments exactly. */
-        effect get_effect(efftype_id eff_id, body_part bp = num_bp) const;
+        const effect &get_effect(efftype_id eff_id, body_part bp = num_bp) const;
+        effect &get_effect(efftype_id eff_id, body_part bp = num_bp);
         /** Returns the duration of the matching effect. Returns 0 if effect doesn't exist. */
         int get_effect_dur(efftype_id eff_id, body_part bp = num_bp) const;
         /** Returns the intensity of the matching effect. Returns 0 if effect doesn't exist. */

@@ -2041,7 +2041,7 @@ void mattack::formblob(monster *z, int index)
                         // But only if they are hurt badly.
                         if( othermon.get_hp() < othermon.get_hp_max() / 2 ) {
                             didit = true;
-                            othermon.heal( z->get_speed_base() );
+                            othermon.heal( z->get_speed_base(), true );
                             z->set_hp( 0 );
                             return;
                         }

@@ -744,6 +744,7 @@ void game::load_npcs()
     const int radius = int(MAPSIZE / 2) - 1;
     // uses submap coordinates
     std::vector<npc *> npcs = overmap_buffer.get_npcs_near_player(radius);
+    std::vector<npc *> just_added;
     for( auto temp : npcs ) {
         if( temp->is_active() ) {
             continue;
@@ -763,9 +764,31 @@ void game::load_npcs()
         } else {
             if (temp->my_fac != NULL)
                 temp->my_fac->known_by_u = true;
-            active_npc.push_back(temp);
+            active_npc.push_back( temp );
+            just_added.push_back( temp );
         }
     }
+
+    for( auto npc : just_added ) {
+        npc->on_load();
+    }
+}
+
+void game::unload_npcs()
+{
+    for( auto npc : active_npc ) {
+        npc->on_unload();
+    }
+
+    active_npc.clear();
+}
+
+void game::reload_npcs()
+{
+    // TODO: Make it not invoke the "on_unload" command for the NPCs that will be loaded anyway
+    // and not invoke "on_load" for those NPCs that avoided unloading this way.
+    unload_npcs();
+    load_npcs();
 }
 
 //Pulls the NPCs that were dumped into the world map on save back into mission_npcs
@@ -780,8 +803,8 @@ void game::load_mission_npcs()
             overmap_buffer.hide_npc( temp->getID() );
         }
     }
-    active_npc.clear();
-    load_npcs();
+
+    reload_npcs();
 }
 
 void game::create_starting_npcs()
@@ -1214,9 +1237,7 @@ bool game::do_turn()
         m.spawn_monsters( false );
     }
 
-    u.update_needs();
-    u.regen();
-    u.update_stamina();
+    u.update_body();
 
     // Auto-save if autosave is enabled
     if (OPTIONS["AUTOSAVE"] &&
@@ -3715,7 +3736,7 @@ void game::debug()
         tripoint tmp = overmap::draw_overmap();
         if( tmp != overmap::invalid_tripoint ) {
             //First offload the active npcs.
-            active_npc.clear();
+            unload_npcs();
             while( num_zombies() > 0 ) {
                 despawn_monster( 0 );
             }
@@ -4291,7 +4312,7 @@ void game::debug()
                 set_turn( calendar::turn.hours(), HOURS(1), _("Set hour to?") );
                 break;
             case 4:
-                set_turn( calendar::turn.hours(), MINUTES(1), _("Set minute to?") );
+                set_turn( calendar::turn.minutes(), MINUTES(1), _("Set minute to?") );
                 break;
             case 5:
                 set_turn( calendar::turn.get_turn(), 1,
@@ -6037,9 +6058,7 @@ void game::monmove()
 
         if( !np->is_dead() ) {
             np->process_active_items();
-            np->update_needs();
-            np->regen();
-            np->update_stamina();
+            np->update_body();
         }
     }
     cleanup_dead();
@@ -6904,7 +6923,7 @@ Creature const* game::critter_at( const tripoint &p, bool allow_hallucination ) 
 bool game::summon_mon( const mtype_id& id, const tripoint &p )
 {
     monster mon( id );
-    mon.spawn(p);
+    mon.spawn( p );
     return add_zombie(mon, true);
 }
 
@@ -6921,7 +6940,13 @@ bool game::add_zombie(monster &critter, bool pin_upgrade)
                        << critter.posx() << "," << critter.posy() << ","  << critter.posz()
                        << " - " << critter.disp_name();
     }
+
     critter.try_upgrade(pin_upgrade);
+    if( !pin_upgrade ) {
+        critter.on_load();
+    }
+
+    critter.last_updated = calendar::turn;
     return critter_tracker->add(critter);
 }
 
@@ -13290,6 +13315,7 @@ void game::vertical_move(int movez, bool force)
             if( turns < 10 && coming_to_stairs.size() < 8 && critter.will_reach( to_x, to_y )
                 && !slippedpast) {
                 critter.staircount = 10 + turns;
+                critter.on_unload();
                 coming_to_stairs.push_back(critter);
                 remove_zombie( i );
             } else {
@@ -13458,9 +13484,7 @@ void game::vertical_shift( const int z_after )
         m.set_outside_cache_dirty( z_before );
         m.load( get_levx(), get_levy(), z_after, true );
         shift_monsters( 0, 0, z_after - z_before );
-        // Clear currently active npcs and reload them
-        active_npc.clear();
-        load_npcs();
+        reload_npcs();
     } else {
         // Shift the map itself
         m.vertical_shift( z_after );
@@ -13564,6 +13588,7 @@ void game::update_map(int &x, int &y)
         if( (*it)->posx() < 0 - SEEX * 2 || (*it)->posy() < 0 - SEEX * 2 ||
             (*it)->posx() > SEEX * (MAPSIZE + 2) || (*it)->posy() > SEEY * (MAPSIZE + 2) ) {
             //Remove the npc from the active list. It remains in the overmap list.
+            (*it)->on_unload();
             it = active_npc.erase(it);
         } else {
             it++;
@@ -13872,6 +13897,8 @@ void game::despawn_monster(int mondex)
         // hallucinations aren't stored, they come and go as they like,
         overmap_buffer.despawn_monster( critter );
     }
+
+    critter.on_unload();
     remove_zombie( mondex );
 }
 
