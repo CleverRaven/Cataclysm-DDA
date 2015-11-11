@@ -834,7 +834,6 @@ int game::inv_for_salvage(const std::string &title, const salvage_actor& actor )
     return display_slice(reduced_inv, title);
 }
 
-typedef std::vector< std::list<item> > pseudo_inventory;
 item_location game::inv_map_splice( item_filter filter, const std::string &title, int radius )
 {
     return inv_map_splice( filter, filter, filter, title, radius );
@@ -1088,7 +1087,7 @@ void game::compare( const tripoint &offset )
 {
     const tripoint examp = u.pos3() + offset;
 
-    pseudo_inventory grounditems;
+    std::vector<std::list<item>> grounditems;
     indexed_invslice grounditems_slice;
     if( !m.has_flag( "SEALED", g->u.pos() ) ) {
         auto here = m.i_at( examp );
