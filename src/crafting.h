@@ -104,16 +104,16 @@ class recipe_dictionary {
         std::map<const std::string, std::vector<recipe *>> by_category;
         std::map<const itype_id, std::vector<recipe *>> by_component;
 
-        void add( recipe* rec );
-        void remove( recipe* rec );
+        void add( recipe *rec );
+        void remove( recipe *rec );
         void clear();
 
-        const recipe* operator[]( const std::string &rec_name )
+        const recipe *operator[]( const std::string &rec_name )
         {
             return by_name[rec_name];
         }
 
-        const recipe* operator[]( int rec_id )
+        const recipe *operator[]( int rec_id )
         {
             return by_index[rec_id];
         }
@@ -124,22 +124,22 @@ class recipe_dictionary {
         }
 
         /* iterators for look up only */
-        std::list<recipe*>::const_iterator begin() const
+        std::list<recipe *>::const_iterator begin() const
         {
             return recipes.begin();
         }
-        std::list<recipe*>::const_iterator end() const
+        std::list<recipe *>::const_iterator end() const
         {
             return recipes.end();
         }
 
     private:
-        std::list<recipe*> recipes;
-        std::map<const std::string, const recipe*> by_name;
-        std::map<int, const recipe*> by_index;
+        std::list<recipe *> recipes;
+        std::map<const std::string, const recipe *> by_name;
+        std::map<int, const recipe *> by_index;
 
-        void add_to_component_lookup( recipe* r );
-        void remove_from_component_lookup( recipe* r );
+        void add_to_component_lookup( recipe *r );
+        void remove_from_component_lookup( recipe *r );
 };
 
 extern recipe_dictionary recipe_dict;
