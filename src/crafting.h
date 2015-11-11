@@ -104,36 +104,53 @@ struct recipe {
 
 };
 
+/**
+*   enum used by comp_selection to indicate where a component should be consumed from.
+*/
 enum usage {
     use_from_map = 1,
     use_from_player = 2,
     use_from_both = 1 | 2,
     use_from_none = 4,
-    cancel = 5
+    cancel = 5 // FIXME: hacky.
 };
 
+/**
+*   Struct that represents a selection of a component for crafting.
+*/
 template<typename CompType = component>
 struct comp_selection {
+    /** Tells us where the selected component should be used from. */
     usage use_from = use_from_none;
     CompType comp;
 
+    /** provides a translated name for 'comp', suffixed with it's location e.g '(nearby)'. */
     std::string nname() const;
 };
 using item_selection = comp_selection<item_comp>;
 using tool_selection = comp_selection<tool_comp>;
 
+/**
+*   Class that describes a crafting job.
+*
+*   The class has functions to execute the crafting job.
+*/
 class craft_command {
     public:
         const recipe *rec = nullptr;
         int batch_size = 0;
+        /** Indicates the activity_type for this crafting job, Either ACT_CRAFT or ACT_LONGCRAFT. */
         bool is_long = false;
         player *crafter; // This is mainly here for maintainability reasons.
 
+        /** Instantiates an empty craft_command, which can't be executed. */
         craft_command() {}
         craft_command( const recipe *to_make, int batch_size, bool is_long, player *crafter ) :
             rec( to_make ), batch_size( batch_size ), is_long( is_long ), crafter( crafter ) {}
 
+        /** Selects components to use for the craft, then assigns the crafting activity to 'crafter'. */
         void execute();
+        /** Consumes the selected components. Must be called after execute(). */
         std::list<item> consume_components();
 
         bool has_cached_selections() const
@@ -149,7 +166,9 @@ class craft_command {
         std::vector<item_selection> item_selections;
         std::vector<tool_selection> tool_selections;
 
+        /** Checks if tools we selected in a previous call to execute() are still available. */
         std::vector<item_selection> check_item_components_missing( const inventory &map_inv ) const;
+        /** Checks if items we selected in a previous call to execute() are still available. */
         std::vector<tool_selection> check_tool_components_missing( const inventory &map_inv ) const;
 };
 
