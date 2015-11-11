@@ -1465,8 +1465,9 @@ void craft_command::execute()
             if( !missing_items.empty() ) {
                 ss << std::endl << "Item(s): ";
                 for( size_t i = 0; i < missing_items.size(); i++ ) {
-                    if( i != 0 )
+                    if( i != 0 ) {
                         ss << ", ";
+                    }
                     ss << missing_items[i].nname();
                 }
             }
@@ -1474,8 +1475,9 @@ void craft_command::execute()
             if( !missing_tools.empty() ) {
                 ss << std::endl << "Tool(s): ";
                 for( size_t i = 0; i < missing_tools.size(); i++ ) {
-                    if( i != 0 )
+                    if( i != 0 ) {
                         ss << ", ";
+                    }
                     ss << missing_tools[i].nname();
                 }
             }
@@ -1486,8 +1488,9 @@ void craft_command::execute()
 
             const std::string str = ss.str(); // we NEED a copy
             int selection = menu_vec( true, _( str.c_str() ), options );
-            if( selection != 1 ) // if we pick anything else than yes, we cancel;
+            if( selection != 1 ) { // if we pick anything else than yes, we cancel;
                 return;
+            }
         }
     }
 
