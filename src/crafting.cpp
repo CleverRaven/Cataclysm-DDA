@@ -146,7 +146,7 @@ int check_recipe_ident(const std::string &rec_name, JsonObject &jsobj)
                 // overriding an existing recipe: delete it and remove the pointer
                 // keep the id,
                 const int tmp_id = (*list_iter)->id;
-                recipe_dict.remove( list_iter );
+                recipe_dict.remove( *list_iter );
                 delete *list_iter;
                 return tmp_id;
             }
