@@ -205,7 +205,39 @@ Whether you are implementing a new feature or whether you are fixing a bug, it i
 
 Bring up the keybindings menu (Press `?` than `1`), scroll down almost to the bottom and press `+` to add a new key binding. Press the letter that correspond to the *Debug menu* item than press the key you want to use to bring up the debug menu. To test your changes, create a new world with a new character. Once you are in that world, press the key you just assigned for the debug menu and you should see something like this:
 
-![Debug menu](http://i.imgur.com/RfTxS96.png)
+┌────────────────────────────────────────────┐
+│ Debug Functions - Using these is CHEATING! │
+├────────────────────────────────────────────┤
+│ 1 Wish for an item                         │
+│ 2 Teleport - Short Range                   │
+│ 3 Teleport - Long Range                    │
+│ 4 Reveal map                               │
+│ 5 Spawn NPC                                │
+│ 6 Spawn Monster                            │
+│ 7 Check game state...                      │
+│ 8 Kill NPCs                                │
+│ 9 Mutate                                   │
+│ 0 Spawn a vehicle                          │
+│ a Change all skills                        │
+│ b Learn all melee styles                   │
+│ c Unlock all recipes                       │
+│ d Edit player/NPC                          │
+│ e Spawn Artifact                           │
+│ f Spawn Clairvoyance Artifact              │
+│ g Map editor                               │
+│ h Change weather                           │
+│ i Remove all monsters                      │
+│ j Display hordes                           │
+│ k Test Item Group                          │
+│ l Damage Self                              │
+│ m Show Sound Clustering                    │
+│ n Lua Command                              │
+│ o Display weather                          │
+│ p Change time                              │
+│ q Set automove route                       │
+│ r Show mutation category levels            │
+│ s Cancel                                   │
+└────────────────────────────────────────────┘
 
 With these commands, you should be able to recreate the proper conditions to test your changes. You can find some more information about the debug menu on [the official wiki](http://www.wiki.cataclysmdda.com/index.php?title=Cheating#The_Debug_Menu).
 
