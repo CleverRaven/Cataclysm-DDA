@@ -109,7 +109,9 @@ class recipe_dictionary {
         void remove( recipe *rec );
         void clear();
 
+        /** Returns a list of recipes in the 'cat' category */
         const std::vector<recipe *>& in_category( const std::string &cat );
+        /** Returns a list of recipes in which the component with itype_id 'id' can be used */
         const std::vector<recipe *>& of_component( const itype_id &id );
 
         /** Allows for lookup like: 'recipe_dict[name]'. */
