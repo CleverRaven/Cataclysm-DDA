@@ -58,13 +58,13 @@ recipe::recipe() :
 {
 }
 
-void recipe_dictionary::add( recipe* rec, const std::string &category )
+void recipe_dictionary::add( recipe* rec )
 {
     recipes.push_back( rec );
     add_to_component_lookup( rec );
     by_name[rec->ident] = rec;
     by_index[rec->id] = rec;
-    by_category[category].push_back( rec );
+    by_category[rec->cat].push_back( rec );
 }
 
 void recipe_dictionary::remove( recipe* rec ) {
@@ -72,7 +72,7 @@ void recipe_dictionary::remove( recipe* rec ) {
     remove_from_component_lookup( rec );
     by_name.erase( rec->ident );
     by_index.erase( rec->id );
-    // FIXME: removing from by_category should be done before deleting
+    by_category.erase( rec->cat );
 }
 
 void recipe_dictionary::add_to_component_lookup( recipe* r )
@@ -152,7 +152,6 @@ int check_recipe_ident(const std::string &rec_name, JsonObject &jsobj)
                 // keep the id,
                 const int tmp_id = (*list_iter)->id;
                 delete *list_iter;
-                recipe.second.erase( list_iter );
                 return tmp_id;
             }
         }
@@ -261,7 +260,8 @@ void load_recipe(JsonObject &jsobj)
         rec->booksets.push_back( bd );
     }
 
-    recipe_dict.add( rec, category );
+    // Note, a recipe has to be fully instantiated before adding
+    recipe_dict.add( rec );
 }
 
 void reset_recipes()

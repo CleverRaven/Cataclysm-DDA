@@ -78,7 +78,6 @@ void Item_factory::finialize_item_blacklist()
                 recipe *r = recipes_b.second[c];
                 if( r->result == itm || r->requirements.remove_item(itm) ) {
                     delete r;
-                    recipes_b.second.erase( recipes_b.second.begin() + c );
                     c--;
                     continue;
                 }

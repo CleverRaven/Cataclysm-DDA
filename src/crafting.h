@@ -104,7 +104,7 @@ class recipe_dictionary {
         std::map<const std::string, std::vector<recipe *>> by_category;
         std::map<const itype_id, std::vector<recipe *>> by_component;
 
-        void add( recipe* rec, const std::string &category );
+        void add( recipe* rec );
         void remove( recipe* rec );
         void clear();
 
