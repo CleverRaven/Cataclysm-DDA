@@ -668,7 +668,7 @@ classes = {
             { name = "wearing_something_on", rval = "bool", args = { "body_part" } },
             { name = "wield", rval = "bool", args = { "item" } },
             { name = "wield", rval = "bool", args = { "item", "bool" } },
-            { name = "wield_contents", rval = nil, args = { "item", "bool", "skill_id", "int" } },
+            { name = "wield_contents", rval = nil, args = { "item", "int", "int" } },
         }
     },
     item = {

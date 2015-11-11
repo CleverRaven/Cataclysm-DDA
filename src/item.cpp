@@ -1444,11 +1444,6 @@ std::string item::info(bool showtext, std::vector<iteminfo> &dump_ref) const
             dump->push_back(iteminfo("DESCRIPTION",
                 _("This gear has an alarm clock feature.")));
         }
-        if (is_armor() && has_flag("BOOTS")) {
-            dump->push_back(iteminfo("DESCRIPTION", "--"));
-            dump->push_back(iteminfo("DESCRIPTION",
-                _("You can store knives in this gear.")));
-        }
         if (is_armor() && has_flag("FANCY")) {
             dump->push_back(iteminfo("DESCRIPTION", "--"));
             dump->push_back(iteminfo("DESCRIPTION",
@@ -1856,29 +1851,41 @@ void item::on_takeoff (player &p)
     }
 }
 
-void item::on_wield( player &p  )
+void item::on_wield( player &p, int mv )
 {
     // TODO: artifacts currently only work with the player character
     if( &p == &g->u && type->artifact ) {
         g->add_artifact_messages( type->artifact->effects_wielded );
     }
+
     if (has_flag("SLOW_WIELD") && (! is_gunmod())) {
         int d = 32; // arbitrary linear scaling factor
         if      (is_gun())  d /= std::max((int) p.skillLevel(gun_skill()),  1);
         else if (is_weap()) d /= std::max((int) p.skillLevel(weap_skill()), 1);
 
-        int const penalty = get_var("volume", (int) type->volume) * d;
-        std::string msg;
-        if (penalty > 50) {
-            if      (penalty > 250) msg = _("It takes you much longer than usual to wield your %s.");
-            else if (penalty > 100) msg = _("It takes you longer than usual to wield your %s.");
-            else                    msg = _("It takes you slightly longer than usual to wield your %s.");
-
-            p.add_msg_if_player(msg.c_str(), tname().c_str());
-            p.moves -= penalty;
-        }
+        int penalty = get_var("volume", (int) type->volume) * d;
+        p.moves -= penalty;
+        mv += penalty;
     }
-    p.add_msg_if_player(_("You wield your %s."), tname().c_str());
+
+    std::string msg;
+
+    if (mv > 250) {
+        msg = _("It takes you much longer than usual to wield your %s.");
+    } else if (mv > 100) {
+        msg = _("It takes you longer than usual to wield your %s.");
+    } else if (mv > 50) {
+        msg = _("It takes you slightly longer than usual to wield your %s.");
+    } else {
+        msg = _("You wield your %s.");
+    }
+
+    p.add_msg_if_player(msg.c_str(), tname().c_str());
+
+    // diamond knives glimmer in the sunlight
+    if (made_of("diamond") && g->is_in_sunlight(p.pos())) {
+        p.add_msg_if_player(_("The %s glimmers magnificently in the sunlight."), tname().c_str());
+    }
 }
 
 void item::on_pickup( Character &p  )

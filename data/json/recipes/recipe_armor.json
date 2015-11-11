@@ -7374,27 +7374,27 @@
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_STORAGE",
     "skill_used": "tailor",
-    "skills_required": [ "pistol", 1 ],
+    "skills_required": [ "gun", 2 ],
     "difficulty": 3,
-    "time": 15000,
+    "time": 22000,
     "reversible": false,
     "autolearn": true,
     "tools": [
       [
-        [ "needle_bone", 20 ],
-        [ "needle_wood", 20 ],
-        [ "tailors_kit", 20 ],
-        [ "sewing_kit", 20 ]
+        [ "needle_bone", 40 ],
+        [ "needle_wood", 40 ],
+        [ "tailors_kit", 40 ],
+        [ "sewing_kit", 40 ]
       ]
     ],
     "components": [
-      [ [ "leather", 6 ], [ "tanned_hide", 1 ] ],
+      [ [ "leather", 4 ], [ "tanned_hide", 1 ] ],
       [
-        [ "string_36", 2 ],
-        [ "string_6", 12 ],
-        [ "sinew", 40 ],
-        [ "thread", 40 ],
-        [ "plant_fibre", 40 ]
+        [ "string_36", 1 ],
+        [ "string_6", 6 ],
+        [ "sinew", 20 ],
+        [ "thread", 20 ],
+        [ "plant_fibre", 20 ]
       ]
     ]
   },
@@ -7404,7 +7404,7 @@
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_STORAGE",
     "skill_used": "tailor",
-    "skills_required": [ "gun", 1 ],
+    "skills_required": [ "cutting", 2 ],
     "difficulty": 3,
     "time": 18000,
     "reversible": false,
@@ -7460,11 +7460,41 @@
     ]
   },{
     "type" : "recipe",
-    "result": "sheath",
+    "result": "bootsheath",
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_STORAGE",
     "skill_used": "tailor",
     "skills_required": [ "cutting", 1 ],
+    "difficulty": 3,
+    "time": 65000,
+    "reversible": false,
+    "autolearn": true,
+    "tools": [
+      [
+        [ "needle_bone", 10 ],
+        [ "needle_wood", 10 ],
+        [ "tailors_kit", 10 ],
+        [ "sewing_kit", 10 ]
+      ]
+    ],
+     "components": [
+      [
+        [ "leather", 3 ]
+      ],
+      [
+        [ "string_6", 3 ],
+        [ "sinew", 10 ],
+        [ "thread", 10 ],
+        [ "plant_fibre", 10 ]
+      ]
+    ]
+  },{
+    "type" : "recipe",
+    "result": "sheath",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_STORAGE",
+    "skill_used": "tailor",
+    "skills_required": [ "cutting", 2 ],
     "difficulty": 3,
     "time": 15000,
     "reversible": false,
