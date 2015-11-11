@@ -840,7 +840,7 @@ item_location game::inv_map_splice( item_filter filter, const std::string &title
 }
 
 item_location game::inv_map_splice(
-    item_filter inv_filter, item_filter ground_filter, item_filter /** vehicle_filter */, const std::string &title, int radius )
+    item_filter inv_filter, item_filter ground_filter, item_filter vehicle_filter, const std::string &title, int radius )
 {
     inventory_selector inv_s(false, false, title);
 
@@ -851,6 +851,7 @@ item_location game::inv_map_splice(
 
     static const item_category ground_cat ("GROUND:",  _("GROUND:"),  -1000);
     static const item_category nearby_cat ("NEARBY:",  _("NEARBY:"),  -2000);
+    static const item_category vehicle_cat("VEHICLE:", _("VEHICLE:"), -3000);
 
     std::vector<std::vector<std::list<item>>> stacks;
     std::vector<indexed_invslice> slices;
@@ -885,6 +886,38 @@ item_location game::inv_map_splice(
                 }
             }
             inv_s.make_item_list(current_slice, pos == g->u.pos() ? &ground_cat : &nearby_cat);
+        }
+
+        // finally get all matching items in vehicle cargo spaces
+        int part = -1;
+        vehicle *veh = m.veh_at(pos, part);
+        if (veh != nullptr && part >= 0) {
+            part = veh->part_with_feature(part, "CARGO");
+            if (part != -1) {
+                // create a new slice and stack for the current vehicle part
+                stacks.emplace_back();
+                slices.emplace_back();
+                auto& current_stack = stacks.back();
+                auto& current_slice = slices.back();
+
+                for (item& it : veh->get_items(part)) {
+                    if (vehicle_filter(it)) {
+                        auto match = std::find_if(current_stack.begin(), current_stack.end(), [&](const std::list<item>& e) {
+                            return it.stacks_with(e.back());
+                        });
+
+                        if (match != current_stack.end()) {
+                            match->push_back(it);
+                        } else {
+                            current_stack.emplace_back(1, it);
+                            current_stack.back().front().invlet = cur_invlet <= '9' ? cur_invlet++ : ' ';
+                            opts.emplace(&current_stack.back().front(), item_location::on_vehicle(*veh, veh->parts[part].mount, &it));
+                            current_slice.emplace_back(&current_stack.back(), INT_MIN);
+                        }
+                    }
+                }
+                inv_s.make_item_list(current_slice, &vehicle_cat);
+            }
         }
     }
 
