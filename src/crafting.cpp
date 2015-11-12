@@ -1457,60 +1457,14 @@ void craft_command::execute()
 
         if( missing_items.empty() && missing_tools.empty() ) {
             need_selections = false; // all items we used previously are still there, so we don't need to do selection
-        } else {
-            /* create a pop up message */
-            std::stringstream ss;
-            ss << _( "Some components used previously are missing. Continue?" );
-
-            if( !missing_items.empty() ) {
-                ss << std::endl << _( "Item(s): " );
-                for( size_t i = 0; i < missing_items.size(); i++ ) {
-                    if( i != 0 ) {
-                        ss << ", ";
-                    }
-                    ss << missing_items[i].nname();
-                }
-            }
-
-            if( !missing_tools.empty() ) {
-                ss << std::endl << _( "Tool(s): " );
-                for( size_t i = 0; i < missing_tools.size(); i++ ) {
-                    if( i != 0 ) {
-                        ss << ", ";
-                    }
-                    ss << missing_tools[i].nname();
-                }
-            }
-
-            std::vector<std::string> options;
-            options.push_back( _( "Yes" ) );
-            options.push_back( _( "No" ) );
-
-            const std::string str = ss.str(); // we NEED a copy
-            int selection = menu_vec( true, str.c_str(), options );
-            if( selection != 1 ) { // if we pick anything else than yes, we cancel;
-                return;
-            }
+        } else if( !querry_continue( missing_items, missing_tools ) ) {
+            return; // return if the response was 'No'.
         }
     }
 
     if( need_selections ) {
         /* make component selections */
-        for( const auto &it : rec->requirements.components ) {
-            item_selection is = crafter->select_item_component( it, batch_size, map_inv, true );
-            if( is.use_from == cancel ) {
-                return;
-            }
-            item_selections.push_back( is );
-        }
-
-        for( const auto &it : rec->requirements.tools ) {
-            tool_selection ts = crafter->select_tool_component( it, batch_size, map_inv, DEFAULT_HOTKEYS, true );
-            if( ts.use_from == cancel ) {
-                return;
-            }
-            tool_selections.push_back( ts );
-        }
+        select_components( map_inv );
     }
 
     crafter->assign_activity( is_long ? ACT_LONGCRAFT : ACT_CRAFT, rec->batch_time( batch_size ), rec->id );
@@ -1518,6 +1472,59 @@ void craft_command::execute()
     /* legacy support for lua bindings to last_batch and lastrecipe */
     crafter->last_batch = batch_size;
     crafter->lastrecipe = rec->ident;
+}
+
+template<typename T>
+void craft_command::component_list_string( std::stringstream &str, const std::vector<comp_selection<T>> &components ) {
+    for( size_t i = 0; i < components.size(); i++ ) {
+        if( i != 0 ) {
+            str << ", ";
+        }
+        str << components[i].nname();
+    }
+}
+
+void craft_command::select_components( inventory &map_inv )
+{
+    for( const auto &it : rec->requirements.components ) {
+        item_selection is = crafter->select_item_component( it, batch_size, map_inv, true );
+        if( is.use_from == cancel ) {
+            return;
+        }
+        item_selections.push_back( is );
+    }
+
+    for( const auto &it : rec->requirements.tools ) {
+        tool_selection ts = crafter->select_tool_component( it, batch_size, map_inv, DEFAULT_HOTKEYS, true );
+        if( ts.use_from == cancel ) {
+            return;
+        }
+        tool_selections.push_back( ts );
+    }
+}
+
+bool craft_command::querry_continue( const std::vector<item_selection> &missing_items, const std::vector<tool_selection> &missing_tools )
+{
+    std::stringstream ss;
+    ss << _( "Some components used previously are missing. Continue?" );
+
+    if( !missing_items.empty() ) {
+        ss << std::endl << _( "Item(s): " );
+        component_list_string( ss, missing_items );
+    }
+
+    if( !missing_tools.empty() ) {
+        ss << std::endl << _( "Tool(s): " );
+        component_list_string( ss, missing_tools );
+    }
+
+    std::vector<std::string> options;
+    options.push_back( _( "Yes" ) );
+    options.push_back( _( "No" ) );
+
+    const std::string str = ss.str(); // we NEED a copy
+    int selection = menu_vec( true, str.c_str(), options );
+    return selection == 1;
 }
 
 std::list<item> craft_command::consume_components()
@@ -1617,6 +1624,7 @@ std::vector<tool_selection> craft_command::check_tool_components_missing( const 
                         missing.push_back( tool_sel );
                     }
                     break;
+                case use_from_both:
                 case use_from_none:
                 case cancel:
                     break;

@@ -170,6 +170,16 @@ class craft_command {
         std::vector<item_selection> check_item_components_missing( const inventory &map_inv ) const;
         /** Checks if items we selected in a previous call to execute() are still available. */
         std::vector<tool_selection> check_tool_components_missing( const inventory &map_inv ) const;
+
+        /** Does a string join with ', ' of the components in the passed vector and inserts into 'str' */
+        template<typename T = component>
+        void component_list_string( std::stringstream &str, const std::vector<comp_selection<T>> &components );
+
+        /** Selects components to use */
+        void select_components( inventory & map_inv );
+
+        /** Creates a continue pop up asking to continue crafting and listing the missing components */
+        bool querry_continue( const std::vector<item_selection> &missing_items, const std::vector<tool_selection> &missing_tools );
 };
 
 // removes any (removable) ammo from the item and stores it in the
