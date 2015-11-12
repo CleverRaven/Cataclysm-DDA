@@ -4,7 +4,7 @@
 ### Comestibles
 The first way to give a player an effect in-game is through the drug system. To do this your item
 must have a use_action of type "consume_drug".
-```C++
+```JSON
     "use_action" : {
         "type" : "consume_drug",
         "activation_message" : "You take some oxycodone.",
@@ -28,7 +28,7 @@ Notice the "effects" field. Each effect has four potential fields:
 "permanent" - This means the placed effect will be permanent, and will never decrease in duration
 ```
 Valid "bp" entries are (no entry means the effect is untargeted):
-```C++
+```JSON
 "TORSO"
 "HEAD"
 "EYES"
@@ -429,7 +429,7 @@ Valid arguments:
 
 ```
 Basic definitions:
-```JSON
+```
 "X_amount"      - Amount applied of X when effect is placed. Like apply messages it will only trigger on new effects
 "X_min"         - Minimum amount of X applied when roll triggers
 "X_max"         - Maximum amount of X applied when roll triggers (no entry means it will give exactly X_min each time instead of rng(min, max)
@@ -451,7 +451,7 @@ value. If there is only one value given it will always use that amount.
 Base mods and Scaling mods:
 While on intensity = 1 an effect will only have the basic effects of its "base_mods". However for each
 additional intensity it gains it adds the value of each of its "scaling_mods" to the calculations. So:
-```JSON
+```
 Intensity 1 values = base_mods values
 Intensity 2 values = base_mods values + scaling_mods values
 Intensity 3 values = base_mods values + 2 * scaling_mods values
@@ -501,7 +501,7 @@ As it moves up through the different intensities, its name will change. Its desc
 changes, with no additional description added.
 
 As it moves up through the intensity levels its effects will be:
-```JSON
+```
 Intensity 1
     +1 STR
     No other effects (since both "X_chance"s are negative)
