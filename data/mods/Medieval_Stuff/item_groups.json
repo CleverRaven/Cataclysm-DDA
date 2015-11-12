@@ -109,7 +109,14 @@
     "type" : "item_group",
     "id" : "mansion_books",
     "items":[
+      ["manual_swordsmanship", 3],
       ["textbook_armschina", 5]
+    ]
+  },{
+      "type" : "item_group",
+    "id" : "mil_books",
+    "items":[
+      ["manual_pankration", 1]
     ]
   },{
     "type" : "item_group",
@@ -131,5 +138,11 @@
       ["armor_lorica", 25],
       ["legguard_bronze", 20]
     ]
+    },{
+        "type"  : "item_group",
+        "id"    : "dojo_manuals",
+        "items" : [
+            ["manual_pankration", 5]
+        ]
   }
 ]
