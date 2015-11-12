@@ -194,7 +194,7 @@
            "covers" : ["LEG_EITHER"],
            "coverage" : 5,
            "material_thickness" : 2,
-           "encumbrance" : 3,
+           "encumbrance" : 2,
            "warmth" : 0
         },
         "rigid": true,
@@ -377,7 +377,7 @@
            "covers" : ["LEG_EITHER"],
            "coverage" : 5,
            "material_thickness" : 2,
-           "encumbrance" : 2,
+           "encumbrance" : 3,
            "warmth" : 0
         },
         "watertight": true,
