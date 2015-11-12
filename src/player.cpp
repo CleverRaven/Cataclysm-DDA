@@ -7747,15 +7747,15 @@ void player::hardcoded_effects(effect &it)
     } else if ( id == "skin_rot" || id == "skin_rot_recovery") {
         bool recovery = id == "skin_rot_recovery" ? true : false;
         float heal_chance = 7200.0;
-        float spread_chance = 3600.0;
+        float spread_chance = 4500.0;
         float health = get_healthy();
         float health_mod = fabs(health) / 100.0 + 1.0;
 
         //First, try to spread the disease into a conected body part
         if (health > 0) {
-            spread_chance *= health_mod;
+            spread_chance = ( spread_chance - ( intense * 900.0 ) ) * health_mod;
         } else if (health < 0) {
-            spread_chance /= health_mod;
+            spread_chance = ( spread_chance - ( intense * 900.0 ) ) / health_mod;
         }
 
         if (!recovery && one_in( (int)ceil( spread_chance ) ) ) {
@@ -7765,10 +7765,10 @@ void player::hardcoded_effects(effect &it)
                 if ( vect.size() == 1 ) {
                     index = 0;
                 } else {
-                    index = rng( 0, vect.size() );
+                    index = int (rng( 0, vect.size() - 1 ));
                 }
-                if ( !has_effect( "skin_rot", vect[index] ) ) {
-                    add_effect( "skin_rot", vect[index] );
+                if ( !has_effect( "skin_rot", vect[index] ) || !has_effect( "skin_rot_recovery", vect[index] ) ) {
+                    add_effect( "skin_rot", 1, vect[index] );
                 }
             };
 
@@ -7777,7 +7777,7 @@ void player::hardcoded_effects(effect &it)
                 try_infect( { bp_torso } );
                 break;
             case (bp_torso):
-                try_infect( { bp_arm_r, bp_arm_l, bp_leg_r, bp_leg_l, } );
+                try_infect( { bp_arm_r, bp_arm_l, bp_leg_r, bp_leg_l } );
                 break;
             case (bp_arm_r):
                 try_infect( { bp_torso, bp_hand_r } );
@@ -7807,15 +7807,68 @@ void player::hardcoded_effects(effect &it)
                 break;
             }                    
         }
-        //Try to heal the disease 
+        //Then, try to heal the disease 
         if ( health > 0 ) {
             heal_chance /= health_mod;
         } else if ( health < 0 ) {
             heal_chance *= health_mod;    
         }
         if ( !recovery && one_in(  (int) ceil(heal_chance ) ) ) {
-            remove_effect( "skin_rot", bp );
             add_effect( "skin_rot_recovery", dur, bp );
+            remove_effect( "skin_rot", bp );
+        }
+    } else if ( id == "furunculite" ) {
+        float heal_chance = 7200.0;
+        float spread_chance = 4500.0;
+        float health = get_healthy();
+        float health_mod = fabs( health ) / 100.0 + 1.0;
+
+        //First, try to grow a furunculus on a random body part
+        if ( health > 0 ) {
+            spread_chance = ( spread_chance - ( intense * 900.0 ) ) * health_mod;
+        } else if ( health < 0 ) {
+            spread_chance = ( spread_chance - ( intense * 900.0 ) ) / health_mod;
+        }
+
+        if ( one_in( (int)ceil( spread_chance ) ) ) {
+            std::vector<body_part> bp_vector = { bp_head, bp_torso, bp_arm_r, bp_arm_l, bp_hand_r, bp_hand_l, bp_leg_r, bp_leg_l, bp_foot_r, bp_foot_l };
+            int index = int (rng( 0, bp_vector.size() - 1 ));
+            if ( !has_effect( "furunculus", bp_vector[index] ) || !has_effect( "furunculus_wound", bp_vector[index] ) ) {
+                add_effect( "furunculus", 1, bp_vector[index] );
+            }                   
+        }
+
+        //Then, try to heal the disease 
+        if ( health > 0 ) {
+            heal_chance /= health_mod;
+        } else if ( health < 0 ) {
+            heal_chance *= health_mod;
+        }
+
+        if ( one_in( (int)ceil( heal_chance ) ) ) {
+            std::vector<body_part> bp_vector = { bp_head, bp_torso, bp_arm_r, bp_arm_l, bp_hand_r, bp_hand_l, bp_leg_r, bp_leg_l, bp_foot_r, bp_foot_l };
+            for ( int i = 0; i < bp_vector.size(); i++ ) {
+                if ( has_effect( "furunculus", bp_vector[i] ) ) {
+                    int new_dur = get_effect( "furunculus", bp_vector[i] ).get_duration();
+                    remove_effect( "furunculus", bp_vector[i] );
+                    add_effect( "furunculus_recovery", new_dur, bp_vector[i] );
+                }
+            }
+            add_effect( "furunculite_recovery", dur, num_bp );
+            remove_effect( "furunculite", num_bp );
+        }
+    } else if (id == "furunculus" || id == "furunculus_recovery" ) {
+        if ( intense > 3 && wearing_something_on( bp ) && !has_trait( "NOPAIN" ) && calendar::once_every( MINUTES( 5 ) ) ) {
+            mod_pain( rng( 2, 6 ) );
+            focus_pool -= 1;
+            add_msg_if_player( m_bad, _( "The furunculus on your %1$s is being compacted by your clothing." ), body_part_name(bp).c_str() );   
+        }
+        if (id == "furunculus", intense == 5) {
+            mod_pain( rng( 3, 15 ) );
+            add_effect( "bleed", rng(15, 45), bp );
+            add_msg_if_player(m_bad, _("Furunculus on your %s pulses and bursts in shower of pus and blood!"), body_part_name(bp).c_str() );
+            add_effect( "furunculus_wound", 14400, bp );
+            remove_effect( "furunculus", bp );
         }
     }
 }

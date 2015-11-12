@@ -1464,27 +1464,116 @@
         "max_duration": 57599,
         "max_intensity": 4, 
         "int_dur_factor": 14400,
-        "name": ["Itchy skin", "Thinning skin", "Dermal degeneration", "Dermal degeneration"],
-        "desc": ["Your skin feels itchy.", "Layer of your skin peel away.", "Your thin skin is cracked.", "Your thin skin is marred by deep cracks."],
+        "dur_add_perc": 0,
+        "name": ["Itchy skin", 
+                 "Skin erosion", 
+                 "Skin degeneration", 
+                 "Cracked skin"],
+        "desc": ["Your skin feels itchy.  Layers of dead skin peeling away.", 
+                 "Layers of dead skin peeling away.", 
+                 "Layers of your dead skin have peeled away, revealing sensitive red skin beneath.", 
+                 "Your thin skin has eroded even further.  Deep fissures have formed on it.", 
+                 "Your thin skin is marred by deep cracks, with blood slowly seeping from them."],
         "rating": "bad",
         "scaling_mods": {
-            "armor_cut_mod": [-1],
-			"armor_bash_mod": [-1]
+            "armor_cut_mod": [-1.67],
+            "armor_bash_mod": [-1.67]
         }
     },
     {
         "type": "effect_type",
         "id": "skin_rot_recovery",
-        "blocks_effects": ["skin_rot"],
         "max_duration": 57599,
         "max_intensity": 4, 
         "int_dur_factor": 14400,
-        "name": ["Itchy skin", "Thinning skin", "Dermal degeneration", "Dermal degeneration"],
-        "desc": ["Your skin feels itchy.", "Layer of your skin peel away.", "Your thin skin is cracked.", "Your thin skin is marred by deep cracks."],
+        "name": ["Itchy skin", 
+                 "Skin erosion", 
+                 "Skin degeneration", 
+                 "Cracked skin"],
+        "desc": ["Your skin feels itchy.  Layers of dead skin peeling away.", 
+                 "Layers of your dead skin have peeled away, revealing sensitive red skin beneath.", 
+                 "Your thin skin has eroded even further.  Deep fissures have formed on it.", 
+                 "Your thin skin is marred by deep cracks, with blood slowly seeping from them."],
         "rating": "bad",
         "scaling_mods": {
             "armor_cut_mod": [-1],
-			"armor_bash_mod": [-1]
+            "armor_bash_mod": [-1]
+        }
+    },
+    {
+        "type": "effect_type",
+        "id": "furunculite",
+        "duration_decay": 1,
+        "max_duration": 57599,
+        "max_intensity": 4, 
+        "int_dur_factor": 14400,
+        "dur_add_perc": 0,
+        "rating": "bad"
+    },
+    {
+        "type": "effect_type",
+        "id": "furunculite_recovery",
+        "max_duration": 57599,
+        "max_intensity": 4, 
+        "int_dur_factor": 14400,
+        "blocks_effects": ["furunculite"],
+        "rating": "bad"
+    },
+    {
+        "type": "effect_type",
+        "id": "furunculus",
+        "duration_decay": 1,
+        "max_duration": 14400,
+        "max_intensity": 5, 
+        "int_dur_factor": 3600,
+        "name": ["Small lump",
+                 "Abscess",
+                 "Furunculus",
+                 "Great furunculus",
+                 "Great furunculus"],
+        "desc": ["You notice a small lump on your skin.",
+                 "A unpleasant abscess has formed on your skin.",
+                 "A large furunculus has formed on your skin.  It pulses, releasing a burning sensation.",
+                 "An enormous furnculus has overtaken this part of your body.  A simple touch, seems to send burning pain all over your body.",
+                 "An enormous furnculus has overtaken this part of your body.  A simple touch, seems to send burning pain all over your body."],
+        "rating": "bad"
+    },
+    {
+        "type": "effect_type",
+        "id": "furunculus_recovery",
+        "max_duration": 14400,
+        "max_intensity": 4, 
+        "int_dur_factor": 3600,
+        "name": ["Small lump",
+                 "Abscess",
+                 "Furunculus",
+                 "Great furunculus"],
+        "desc": ["A small lump on your skin, which seems to slowly vanish.",
+                 "An unpleasant abscess, formed on your skin.  It seems to be slowly receding.",
+                 "A pulsing furunculus, formed on your skin.  It seems to be slowly receding.",
+                 "An enormous furnculus has overtaken this part of your body.  It's painful to touch, but it seems to be slowly receding."],
+        "rating": "bad"
+    },
+    {
+        "type": "effect_type",
+        "id": "furunculus_wound",
+        "max_intensity": 4, 
+        "int_dur_factor": 3600,
+        "name": ["Small hole", 
+                 "Healing hole", 
+                 "Gaping hole", 
+                 "Putrid hole"],
+        "desc": ["A small hole left behind by a ruptured furunculus.  By now, it's almost closed up.", 
+                 "A healing hole left behind by a ruptured furunculus.  You can still feel its unpleasant smell.", 
+                 "A hole left behind by a ruptured furunculus, with blood and pus streaming from the wound.  It emits powerful and unpleasant smell.", 
+                 "A gaping hole left behind by a ruptured furunculus, with blood and pus constantly streaming from the open wound.  It emits overpowering smell."],
+        "rating": "bad",
+        "base_mods": {
+            "scent_mod": [1]
+        },
+        "scaling_mods": {
+            "scent_mod": [133]
         }
     }
+    
 ]
