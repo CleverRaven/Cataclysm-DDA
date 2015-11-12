@@ -1617,7 +1617,9 @@ std::vector<tool_selection> craft_command::check_tool_components_missing( const 
                         missing.push_back( tool_sel );
                     }
                     break;
-                default: break;
+                case use_from_none:
+                case cancel:
+                    break;
             }
         } else if( crafter->has_amount( type, 1 ) || map_inv.has_tools( type, 1 ) ) {
             missing.push_back( tool_sel );
