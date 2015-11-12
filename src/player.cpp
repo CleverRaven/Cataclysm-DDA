@@ -3318,7 +3318,7 @@ void player::disp_morale()
     // Figure out how wide the name column needs to be.
     int name_column_width = 18;
     for (auto &i : morale) {
-        int length = i.name().length();
+        int length = utf8_width(i.name());
         if ( length > name_column_width) {
             name_column_width = length;
         }
@@ -3344,13 +3344,8 @@ void player::disp_morale()
         std::string name = morale[i].name();
         int bonus = net_morale(morale[i]);
 
-        // Trim the name if need be.
-        if (name.length() > size_t(name_column_width)){
-            name = name.erase(name_column_width-3, std::string::npos) + "...";
-        }
-
         // Print out the name.
-        mvwprintz(w, i + 3,  1, (bonus < 0 ? c_red : c_green), name.c_str());
+        trim_and_print(w, i + 3,  1, name_column_width, (bonus < 0 ? c_red : c_green), name.c_str());
 
         // Print out the number, right-justified.
         mvwprintz(w, i + 3, number_pos, (bonus < 0 ? c_red : c_green),
@@ -4113,7 +4108,7 @@ int player::overmap_sight_range(int light_level) const
         return (sight / (SEEX / 2) );
     }
     if ((has_amount("binoculars", 1) || has_amount("rifle_scope", 1) ||
-        has_amount("survivor_scope", 1) || -1 != weapon.has_gunmod("rifle_scope") ) && 
+        has_amount("survivor_scope", 1) || -1 != weapon.has_gunmod("rifle_scope") ) &&
         !has_trait("EAGLEEYED"))  {
          if (has_trait("BIRD_EYE")) {
              return 25;
@@ -4121,7 +4116,7 @@ int player::overmap_sight_range(int light_level) const
         return 20;
     }
     else if (!(has_amount("binoculars", 1) || has_amount("rifle_scope", 1) ||
-        has_amount("survivor_scope", 1) || -1 != weapon.has_gunmod("rifle_scope") ) && 
+        has_amount("survivor_scope", 1) || -1 != weapon.has_gunmod("rifle_scope") ) &&
         has_trait("EAGLEEYED"))  {
          if (has_trait("BIRD_EYE")) {
              return 25;
@@ -4129,7 +4124,7 @@ int player::overmap_sight_range(int light_level) const
         return 20;
     }
     else if ((has_amount("binoculars", 1) || has_amount("rifle_scope", 1) ||
-        has_amount("survivor_scope", 1) || -1 != weapon.has_gunmod("rifle_scope") ) && 
+        has_amount("survivor_scope", 1) || -1 != weapon.has_gunmod("rifle_scope") ) &&
         has_trait("EAGLEEYED"))  {
          if (has_trait("BIRD_EYE")) {
              return 30;
