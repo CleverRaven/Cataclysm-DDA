@@ -1747,6 +1747,12 @@ void monster::process_effects()
         }
     }
 
+    // Like with player/NPCs - keep the speed above 0
+    const int min_speed_bonus = -0.75 * get_speed_base();
+    if( get_speed_bonus() < min_speed_bonus ) {
+        set_speed_bonus( min_speed_bonus );
+    }
+
     //If this monster has the ability to heal in combat, do it now.
     if( has_flag( MF_REGENERATES_50 ) && heal( 50 ) > 0 && one_in( 2 ) && g->u.sees( *this ) ) {
         add_msg( m_warning, _( "The %s is visibly regenerating!" ), name().c_str() );

@@ -2683,38 +2683,24 @@ void mattack::tazer( monster *z, int index )
 void mattack::taze( monster *z, Creature *target )
 {
     z->moves -= 200;   // It takes a while
-    player *foe = dynamic_cast< player* >( target );
     if( target == nullptr || target->uncanny_dodge() ) {
         return;
     }
 
-    if( target->is_elec_immune() ) {
+    int dam = target->deal_damage( z, bp_torso, damage_instance( DT_ELECTRIC, rng( 1, 5 ) ) ).total_damage();
+    if( dam == 0 ) {
         target->add_msg_player_or_npc( _("The %s unsuccessfully attempts to shock you."),
                                        _("The %s unsuccessfully attempts to shock <npcname>."),
                                        z->name().c_str() );
         return;
     }
 
-    if( foe != nullptr ) {
-        int shock = rng(1, 5);
-        foe->apply_damage( z, bp_torso, shock * rng( 1, 3 ) );
-        foe->moves -= shock * 20;
-        auto m_type = foe == &g->u ? m_bad : m_neutral;
-        target->add_msg_player_or_npc( m_type, _("The %s shocks you!"),
-                                            _("The %s shocks <npcname>!"),
-                                            z->name().c_str() );
-        foe->check_dead_state();
-    } else if( target->is_monster() ) {
-        // From iuse::tazer, but simplified
-        monster *mon = dynamic_cast< monster* >( target );
-        int shock = rng(5, 25);
-        mon->moves -= shock * 100;
-        mon->apply_damage( z, bp_torso, shock );
-        if( g->u.sees( *z ) && g->u.sees( *mon ) ) {
-            add_msg( _("The %1$s shocks the %2$s!"), z->name().c_str(), mon->name().c_str() );
-        }
-        mon->check_dead_state();
-    }
+    auto m_type = target->attitude_to( g->u ) == Creature::A_FRIENDLY ? m_bad : m_neutral;
+    target->add_msg_player_or_npc( m_type,
+                                   _("The %s shocks you!"),
+                                   _("The %s shocks <npcname>!"),
+                                   z->name().c_str() );
+    target->check_dead_state();
 }
 
 void mattack::smg(monster *z, int index)

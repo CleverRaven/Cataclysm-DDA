@@ -1995,19 +1995,23 @@ void map::player_in_field( player &u )
             break;
 
         case fd_electricity:
-            if ( u.is_elec_immune() ) {
-                u.add_msg_player_or_npc( _("The electric cloud doesn't affect you."),
-                                         _("The electric cloud doesn't seem to affect <npcname>.") );
-            } else {
-                u.add_msg_player_or_npc(m_bad, _("You're electrocuted!"), _("<npcname> is electrocuted!"));
-                //small universal damage based on density.
-                u.hurtall(rng(1, cur->getFieldDensity()), nullptr);
-                if (one_in(8 - cur->getFieldDensity()) && !one_in(30 - u.str_cur)) {
-                    //str of 30 stops this from happening.
-                    u.add_msg_player_or_npc(m_bad, _("You're paralyzed!"), _("<npcname> is paralyzed!"));
-                    u.moves -= rng(cur->getFieldDensity() * 150, cur->getFieldDensity() * 200);
-                }
+        {
+            // Small universal damage based on density.
+            int total_damage = 0;
+            for( size_t i = 0; i < num_hp_parts; i++ ) {
+                const body_part bp = player::hp_to_bp( static_cast<hp_part>( i ) );
+                const int dmg = rng( 1, cur->getFieldDensity() );
+                total_damage += u.deal_damage( nullptr, bp, damage_instance( DT_ELECTRIC, dmg ) ).total_damage();
             }
+
+            if( total_damage > 0 ) {
+                u.add_msg_player_or_npc(m_bad, _("You're electrocuted!"), _("<npcname> is electrocuted!"));
+            } else {
+                u.add_msg_player_or_npc( _("The electric cloud doesn't affect you."),
+                                     _("The electric cloud doesn't seem to affect <npcname>.") );
+            }
+        }
+
             break;
 
         case fd_fatigue:
@@ -2327,12 +2331,9 @@ void map::monster_in_field( monster &z )
             break;
 
         case fd_electricity:
-            if( !z.is_elec_immune() ) {
-                dam += rng(1, cur->getFieldDensity());
-                if (one_in(8 - cur->getFieldDensity())) {
-                    z.moves -= cur->getFieldDensity() * 150;
-                }
-            }
+            // We don't want to increase dam, but deal a separate hit so that it can apply effects
+            z.deal_damage( nullptr, bp_torso,
+                           damage_instance( DT_ELECTRIC, rng( 1, cur->getFieldDensity() * 3 ) ) );
             break;
 
         case fd_fatigue:
