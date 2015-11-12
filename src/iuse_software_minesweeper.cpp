@@ -20,8 +20,8 @@ minesweeper_game::minesweeper_game()
     iMinY = 8;
     iMinX = 8;
 
-    iMaxY = FULL_SCREEN_HEIGHT - 2;
-    iMaxX = FULL_SCREEN_WIDTH - 2;
+    iMaxY = 0;
+    iMaxX = 0;
 
     iOffsetX = 0;
     iOffsetY = 0;
@@ -29,9 +29,10 @@ minesweeper_game::minesweeper_game()
 
 void minesweeper_game::new_level(WINDOW *w_minesweeper)
 {
-    for (int iY = 0; iY < iMaxY; iY++) {
-        mvwputch(w_minesweeper, 1 + iY, 1, c_black, std::string(iMaxX, ' '));
-    }
+    iMaxY = getmaxy(w_minesweeper) - 2;
+    iMaxX = getmaxx(w_minesweeper) - 2;
+
+    werase(w_minesweeper);
 
     mLevel.clear();
     mLevelReveal.clear();
@@ -122,6 +123,9 @@ void minesweeper_game::new_level(WINDOW *w_minesweeper)
     }
 
     mvwputch(w_minesweeper, iOffsetY, iOffsetX, hilite(c_white), "#");
+
+    draw_custom_border(w_minesweeper, true, true, true, true, true, true, true, true,
+                       BORDER_COLOR, iOffsetY - 1, iLevelY + 2, iOffsetX - 1, iLevelX + 2);
 }
 
 bool minesweeper_game::check_win()
@@ -142,10 +146,13 @@ int minesweeper_game::start_game()
     const int iCenterX = (TERMX > FULL_SCREEN_WIDTH) ? (TERMX - FULL_SCREEN_WIDTH) / 2 : 0;
     const int iCenterY = (TERMY > FULL_SCREEN_HEIGHT) ? (TERMY - FULL_SCREEN_HEIGHT) / 2 : 0;
 
-    WINDOW *w_minesweeper = newwin(FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH, iCenterY, iCenterX);
+    WINDOW *w_minesweeper_border = newwin(FULL_SCREEN_HEIGHT, FULL_SCREEN_WIDTH, iCenterY, iCenterX);
+    WINDOW_PTR w_minesweeper_borderptr( w_minesweeper_border );
+
+    WINDOW *w_minesweeper = newwin(FULL_SCREEN_HEIGHT - 2, FULL_SCREEN_WIDTH - 2, iCenterY + 1, iCenterX + 1);
     WINDOW_PTR w_minesweeperptr( w_minesweeper );
 
-    draw_border(w_minesweeper);
+    draw_border(w_minesweeper_border);
 
     std::vector<std::string> shortcuts;
     shortcuts.push_back(_("<n>ew level"));
@@ -162,11 +169,13 @@ int minesweeper_game::start_game()
 
     int iPos = FULL_SCREEN_WIDTH - iWidth - 1;
     for( auto &shortcut : shortcuts ) {
-        shortcut_print(w_minesweeper, 0, iPos, c_white, c_ltgreen, shortcut);
+        shortcut_print(w_minesweeper_border, 0, iPos, c_white, c_ltgreen, shortcut);
         iPos += utf8_width(shortcut) + 1;
     }
 
-    mvwputch(w_minesweeper, 0, 2, hilite(c_white), _("Minesweeper"));
+    mvwputch(w_minesweeper_border, 0, 2, hilite(c_white), _("Minesweeper"));
+
+    wrefresh(w_minesweeper_border);
 
     input_context ctxt("MINESWEEPER");
     ctxt.register_cardinal();
@@ -175,8 +184,6 @@ int minesweeper_game::start_game()
     ctxt.register_action("CONFIRM");
     ctxt.register_action("QUIT");
     ctxt.register_action("HELP_KEYBINDINGS");
-
-    new_level(w_minesweeper);
 
     static const std::array<int, 9> aColors = {{
         c_white,
@@ -222,9 +229,16 @@ int minesweeper_game::start_game()
 
     int iDirY, iDirX;
 
-    std::string action;
+    std::string action = "NEW";
 
     do {
+        if (action == "NEW") {
+            new_level(w_minesweeper);
+
+            iPlayerY = 0;
+            iPlayerX = 0;
+        }
+
         wrefresh(w_minesweeper);
 
         if (check_win()) {
@@ -297,12 +311,6 @@ int minesweeper_game::start_game()
                     rec_reveal(iPlayerY, iPlayerX);
                 }
             }
-
-        } else if (action == "NEW") {
-            new_level(w_minesweeper);
-
-            iPlayerY = 0;
-            iPlayerX = 0;
         }
 
     } while (action != "QUIT");
