@@ -750,6 +750,7 @@ void mongroup::serialize(JsonOut &json) const
     json.member("horde", horde);
     json.member("target", target);
     json.member("interest", interest);
+    json.member("horde_behaviour", horde_behaviour);
     json.end_object();
 }
 
@@ -776,6 +777,8 @@ void mongroup::deserialize(JsonIn &json)
             target.deserialize(json);
         } else if( name == "interest" ) {
             interest = json.get_int();
+        } else if( name == "horde_behaviour" ) {
+            horde_behaviour = json.get_string();
         }
     }
 }

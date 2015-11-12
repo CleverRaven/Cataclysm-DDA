@@ -9,6 +9,9 @@
 #include "json.h"
 #include "string_id.h"
 
+// from overmap.h
+class overmap;
+
 struct MonsterGroup;
 using mongroup_id = string_id<MonsterGroup>;
 struct mtype;
@@ -87,6 +90,13 @@ struct mongroup : public JsonSerializer, public JsonDeserializer {
     int interest; //interest to target in percents
     bool dying;
     bool horde;
+
+    /** There are two types of hordes: "city", who try to stick around cities
+     *  and return to them whenever possible.
+     *  And "roam", who roam around the map randomly, not taking care to return
+     *  anywhere.
+     */
+    std::string horde_behaviour;
     bool diffuse;   // group size ind. of dist. from center and radius invariant
     mongroup( const mongroup_id& ptype, int pposx, int pposy, int pposz,
               unsigned int prad, unsigned int ppop )
@@ -112,7 +122,7 @@ struct mongroup : public JsonSerializer, public JsonDeserializer {
         target.x = x;
         target.y = y;
     }
-    void wander();
+    void wander(overmap&);
     void inc_interest(int inc)
     {
         interest += inc;
