@@ -106,6 +106,7 @@ monster::monster()
     ignoring = 0;
     upgrades = false;
     upgrade_time = -1;
+    last_updated = 0;
 }
 
 monster::monster( const mtype_id& id )
@@ -137,6 +138,7 @@ monster::monster( const mtype_id& id )
     ammo = type->starting_ammo;
     upgrades = type->upgrades;
     upgrade_time = -1;
+    last_updated = 0;
 }
 
 monster::monster( const mtype_id& id, const tripoint &p )
@@ -166,6 +168,7 @@ monster::monster( const mtype_id& id, const tripoint &p )
     ammo = type->starting_ammo;
     upgrades = type->upgrades;
     upgrade_time = -1;
+    last_updated = 0;
 }
 
 monster::~monster()
@@ -1168,9 +1171,21 @@ void monster::deal_damage_handle_type(const damage_unit& du, body_part bp, int& 
     Creature::deal_damage_handle_type(du, bp, damage, pain);
 }
 
-void monster::heal( const int delta_hp )
+int monster::heal( const int delta_hp, bool overheal )
 {
+    const int maxhp = type->hp;
+    if( delta_hp <= 0 || (hp >= maxhp && !overheal) ) {
+        return 0;
+    }
+
     hp += delta_hp;
+    if( hp > maxhp && !overheal ) {
+        const int old_hp = hp;
+        hp = maxhp;
+        return maxhp - old_hp;
+    }
+
+    return delta_hp;
 }
 
 void monster::set_hp( const int hp )
@@ -1732,28 +1747,19 @@ void monster::process_effects()
         }
     }
 
-    //If this monster has the ability to heal in combat, do it now.
-    if( has_flag( MF_REGENERATES_50 ) ) {
-        if( hp < type->hp ) {
-            if( one_in( 2 ) && g->u.sees( *this ) ) {
-                add_msg( m_warning, _( "The %s is visibly regenerating!" ), name().c_str() );
-            }
-            hp += 50;
-            if( hp > type->hp ) {
-                hp = type->hp;
-            }
-        }
+    // Like with player/NPCs - keep the speed above 0
+    const int min_speed_bonus = -0.75 * get_speed_base();
+    if( get_speed_bonus() < min_speed_bonus ) {
+        set_speed_bonus( min_speed_bonus );
     }
-    if( has_flag( MF_REGENERATES_10 ) ) {
-        if( hp < type->hp ) {
-            if( one_in( 2 ) && g->u.sees( *this ) ) {
-                add_msg( m_warning, _( "The %s seems a little healthier." ), name().c_str() );
-            }
-            hp += 10;
-            if( hp > type->hp ) {
-                hp = type->hp;
-            }
-        }
+
+    //If this monster has the ability to heal in combat, do it now.
+    if( has_flag( MF_REGENERATES_50 ) && heal( 50 ) > 0 && one_in( 2 ) && g->u.sees( *this ) ) {
+        add_msg( m_warning, _( "The %s is visibly regenerating!" ), name().c_str() );
+    }
+
+    if( has_flag( MF_REGENERATES_10 ) && heal( 10 ) > 0 && one_in( 2 ) && g->u.sees( *this ) ) {
+        add_msg( m_warning, _( "The %s seems a little healthier." ), name().c_str() );
     }
 
     //Monster will regen morale and aggression if it is on max HP
@@ -2053,3 +2059,35 @@ void monster::hear_sound( const tripoint &source, const int vol, const int dist 
         wander_to( tripoint( 2 * posx() - target_x, 2 * posy() - target_y, 2 * posz() - source.z ), wander_turns );
     }
 }
+
+void monster::on_unload()
+{
+    last_updated = calendar::turn;
+}
+
+void monster::on_load()
+{
+    // Possible TODO: Integrate monster upgrade
+    const int dt = calendar::turn - last_updated;
+    last_updated = calendar::turn;
+    if( dt <= 0 ) {
+        return;
+    }
+
+    float regen = 0.0f;
+    if( has_flag( MF_REGENERATES_50 ) ) {
+        regen = 50.0f;
+    } else if( has_flag( MF_REGENERATES_10 ) ) {
+        regen = 10.0f;
+    } else if( has_flag( MF_REVIVES ) ) {
+        regen = 1.0f / HOURS(1);
+    } else if( type->has_material( "flesh" ) || type->has_material( "veggy" ) ) {
+        // Most living stuff here
+        regen = 0.25f / HOURS(1);
+    }
+
+    const int heal_amount = divide_roll_remainder( regen * dt, 1.0 );
+    const int healed = heal( heal_amount );
+    add_msg( m_debug, "on_load() by %s, %d turns, healed %d", name().c_str(), dt, healed );
+}
+

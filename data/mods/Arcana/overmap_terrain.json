@@ -49,40 +49,96 @@
         "id" : "impact_platforms_left",
         "name" : "floating temple",
         "sym" : 84,
-        "color" : "blue",
+        "color" : "light_blue",
         "see_cost" : 5
     },{
         "type" : "overmap_terrain",
         "id" : "impact_platforms_center",
         "name" : "floating temple",
         "sym" : 84,
-        "color" : "blue",
+        "color" : "light_blue",
         "see_cost" : 5
     },{
         "type" : "overmap_terrain",
         "id" : "impact_platforms_right",
         "name" : "floating temple",
         "sym" : 84,
-        "color" : "blue",
+        "color" : "light_blue",
         "see_cost" : 5
     },{
         "type" : "overmap_terrain",
         "id" : "impact_temple_left",
         "name" : "floating temple",
         "sym" : 84,
-        "color" : "blue",
+        "color" : "light_blue",
         "see_cost" : 5
     },{
         "type" : "overmap_terrain",
         "id" : "impact_temple_center",
         "name" : "floating temple",
         "sym" : 84,
-        "color" : "blue",
+        "color" : "light_blue",
         "see_cost" : 5
     },{
         "type" : "overmap_terrain",
         "id" : "impact_temple_right",
         "name" : "floating temple",
+        "sym" : 84,
+        "color" : "light_blue",
+        "see_cost" : 5
+    },{
+        "type" : "overmap_terrain",
+        "id" : "island_temple_1",
+        "name" : "peculiar shrine",
+        "sym" : 84,
+        "color" : "blue",
+        "see_cost" : 5
+    },{
+        "type" : "overmap_terrain",
+        "id" : "island_temple_2",
+        "name" : "peculiar shrine",
+        "sym" : 84,
+        "color" : "blue",
+        "see_cost" : 5
+    },{
+        "type" : "overmap_terrain",
+        "id" : "island_temple_3",
+        "name" : "peculiar shrine",
+        "sym" : 84,
+        "color" : "blue",
+        "see_cost" : 5
+    },{
+        "type" : "overmap_terrain",
+        "id" : "island_temple_4",
+        "name" : "peculiar shrine",
+        "sym" : 84,
+        "color" : "blue",
+        "see_cost" : 5
+    },{
+        "type" : "overmap_terrain",
+        "id" : "island_temple_b_1",
+        "name" : "underground temple",
+        "sym" : 84,
+        "color" : "blue",
+        "see_cost" : 5
+    },{
+        "type" : "overmap_terrain",
+        "id" : "island_temple_b_2",
+        "name" : "underground temple",
+        "sym" : 84,
+        "color" : "blue",
+        "see_cost" : 5
+    },{
+        "type" : "overmap_terrain",
+        "id" : "island_temple_b_3",
+        "name" : "underground temple",
+        "sym" : 84,
+        "color" : "blue",
+        "see_cost" : 5
+    },{
+        "type" : "overmap_terrain",
+        "id" : "island_temple_b_4",
+        "name" : "underground temple",
         "sym" : 84,
         "color" : "blue",
         "see_cost" : 5

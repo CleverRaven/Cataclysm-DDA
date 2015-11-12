@@ -1456,5 +1456,19 @@
         "scaling_mods": {
             "hurt_chance": [1]
         }
+    },
+    {
+        "type": "effect_type",
+        "id": "zapped",
+        "name": ["Zapped"],
+        "desc": ["You've been zapped with electricity and are barely able to move!"],
+        "apply_message": "You're zapped!",
+        "rating": "bad",
+        "max_duration": 2,
+        "dur_add_perc": 20,
+        "base_mods": {
+            "speed_mod": [-1000],
+            "dex_mod": [-100]
+        }
     }
 ]

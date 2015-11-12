@@ -713,10 +713,10 @@ void Creature::deal_damage_handle_type(const damage_unit &du, body_part, int &da
             add_effect("onfire", rng(1, 3));
         }
         break;
-    case DT_ELECTRIC: // electrical damage slows us a lot
+    case DT_ELECTRIC: // Electrical damage adds a major speed/dex debuff
         damage += adjusted_damage;
         pain += adjusted_damage / 4;
-        mod_moves(-adjusted_damage * 100);
+        add_effect( "zapped", std::max( adjusted_damage, 2 ) );
         break;
     case DT_COLD: // cold damage slows us a bit and hurts less
         damage += adjusted_damage;
@@ -936,7 +936,13 @@ bool Creature::has_effect(efftype_id eff_id, body_part bp) const
         return false;
     }
 }
-effect Creature::get_effect(efftype_id eff_id, body_part bp) const
+
+effect &Creature::get_effect(efftype_id eff_id, body_part bp)
+{
+    return const_cast<effect &>( const_cast<const Creature*>(this)->get_effect( eff_id, bp ) );
+}
+
+const effect &Creature::get_effect(efftype_id eff_id, body_part bp) const
 {
     auto got_outer = effects.find(eff_id);
     if(got_outer != effects.end()) {
@@ -945,22 +951,24 @@ effect Creature::get_effect(efftype_id eff_id, body_part bp) const
             return got_inner->second;
         }
     }
-    return effect();
+    return effect::null_effect;
 }
 int Creature::get_effect_dur(efftype_id eff_id, body_part bp) const
 {
-    if(has_effect(eff_id, bp)) {
-        effect tmp = get_effect(eff_id, bp);
-        return tmp.get_duration();
+    const effect &eff = get_effect(eff_id, bp);
+    if( !eff.is_null() ) {
+        return eff.get_duration();
     }
+
     return 0;
 }
 int Creature::get_effect_int(efftype_id eff_id, body_part bp) const
 {
-    if(has_effect(eff_id, bp)) {
-        effect tmp = get_effect(eff_id, bp);
-        return tmp.get_intensity();
+    const effect &eff = get_effect(eff_id, bp);
+    if( !eff.is_null() ) {
+        return eff.get_intensity();
     }
+
     return 0;
 }
 void Creature::process_effects()
