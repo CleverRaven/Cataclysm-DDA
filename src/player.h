@@ -174,6 +174,8 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
 
         /** Resets stats, and applies effects in an idempotent manner */
         void reset_stats() override;
+        /** Recalculates scent_norm value which tell how character traits affect players change in scent*/
+        void reset_scent();
         /** Resets movement points and applies other non-idempotent changes */
         void process_turn() override;
         /** Calculates the various speed bonuses we will get from mutations, etc. */
@@ -602,6 +604,8 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
 
         void add_pain_msg(int val, body_part bp) const;
 
+        static int bound_mod_to_vals( int val, int mod, int max, int min );
+
         /** Heals a body_part for dam */
         void heal(body_part healed, int dam);
         /** Heals an hp_part for dam */
@@ -770,14 +774,16 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         int mut_cbm_encumb( body_part bp ) const;
         /** Returns encumbrance from items only */
         int item_encumb( body_part bp, double &layers, int &armorenc, const item &new_item ) const;
-        /** Returns overall bashing resistance for the body_part */
+        /** Returns bashing resistance gained from cbm's, mutations and effects for the body_part */
         int get_armor_bash(body_part bp) const override;
-        /** Returns overall cutting resistance for the body_part */
+        /** Returns overall cutting resistance gained from cbm's, mutations and effects for the body_part */
         int get_armor_cut(body_part bp) const override;
-        /** Returns bashing resistance from the creature and armor only */
+        /** Returns particular resistance gained from bionics and mutations for the body_part */
         int get_armor_bash_base(body_part bp) const override;
-        /** Returns cutting resistance from the creature and armor only */
         int get_armor_cut_base(body_part bp) const override;
+        /** Returns particular resistance gained from effects for the body_part*/
+        int get_armor_bash_bonus( body_part bp ) const;
+        int get_armor_cut_bonus( body_part bp ) const;
         /** Returns overall env_resist on a body_part */
         int get_env_resist(body_part bp) const override;
         /** Returns true if the player is wearing something on the entered body_part */
@@ -1022,6 +1028,8 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         int recoil;
         int driving_recoil;
         int scent;
+        int scent_norm;
+        int scent_mod;
         int dodges_left, blocks_left;
         int stim, pkill, radiation;
         unsigned long cash;

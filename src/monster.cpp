@@ -1324,15 +1324,52 @@ void monster::add_effect( efftype_id eff_id, int dur, body_part bp,
 
 int monster::get_armor_cut(body_part bp) const
 {
-    (void) bp;
+    (void)bp;
     // TODO: Add support for worn armor?
-    return int(type->armor_cut) + armor_bash_bonus;
+    return int(type->armor_cut) + get_armor_cut_bonus( bp );
 }
 
-int monster::get_armor_bash(body_part bp) const
+int monster::get_armor_bash( body_part bp ) const {
+    (void)bp;
+    return int( type->armor_bash ) + get_armor_bash_bonus( bp );
+}
+
+int monster::get_armor_bash_bonus( body_part bp ) const 
 {
-    (void) bp;
-    return int(type->armor_bash) + armor_cut_bonus;
+    int armor_bonus = 0;
+    for ( auto &elem : effects ) {
+        for ( auto &_effect_it : elem.second ) {
+            auto &it = _effect_it.second;
+            bool reduced = resists_effect( it );   
+            int val = 0;
+            val = it.get_mod( "ARMOR_BASH", reduced );
+            if ( val != 0 ) {
+                armor_bonus += player::bound_mod_to_vals( int( type->armor_bash ), val,
+                    it.get_max_val( "ARMOR_BASH", reduced ),
+                    it.get_min_val( "ARMOR_BASH", reduced ) );
+            }
+        }
+    }
+    return armor_bonus;
+}
+
+int monster::get_armor_cut_bonus( body_part bp ) const 
+{
+    int armor_bonus = 0;
+    for ( auto &elem : effects ) {
+        for ( auto &_effect_it : elem.second ) {
+            auto &it = _effect_it.second;
+            bool reduced = resists_effect( it );
+            int val = 0;
+            val = it.get_mod( "ARMOR_CUT", reduced );
+            if ( val != 0 ) {
+                armor_bonus += player::bound_mod_to_vals( int( type->armor_cut ), val,
+                    it.get_max_val( "ARMOR_CUT", reduced ),
+                    it.get_min_val( "ARMOR_CUT", reduced ) );
+            }
+        }
+    }
+    return armor_bonus;
 }
 
 int monster::hit_roll() const {

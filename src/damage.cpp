@@ -110,9 +110,9 @@ resistances::resistances( item &armor ) : resist_vals( NUM_DT, 0 )
 }
 resistances::resistances( monster &monster ) : resist_vals( NUM_DT, 0 )
 {
-    set_resist( DT_BASH, monster.type->armor_bash );
-    set_resist( DT_CUT, monster.type->armor_cut );
-    set_resist( DT_STAB, 0.8 * monster.type->armor_cut ); // stab dam cares less bout armor
+    set_resist( DT_BASH, monster.get_armor_bash( num_bp ) );
+    set_resist( DT_CUT, monster.get_armor_cut( num_bp ) );
+    set_resist( DT_STAB, 0.8 * monster.get_armor_cut( num_bp ) ); // stab dam cares less bout armor
     set_resist( DT_ACID, monster.type->armor_cut / 2 ); // No acid resist stat yet
 }
 void resistances::set_resist( damage_type dt, int amount )

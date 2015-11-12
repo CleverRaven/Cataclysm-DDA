@@ -212,6 +212,13 @@ Because the "dur_add_perc" = 150 in the example above, the second addition adds 
 a total value of 250 ticks from the two. This can also be below 100%, and should be able to even be negative, leading to
 future applications decreasing the overall time left.
 
+### Duration control
+```C++
+    "duration_decay": 2,    - Defaults to -1
+```
+This value determinates how the effect's duration changes. Negative value makes the effect's duration decrease by the amount specified each turn, 
+and the positive one increases the duration by that amount.
+
 ### Intensities
 Intensities are used to control effect effects, names, and descriptions. They are defined with:
 ```C++
@@ -407,6 +414,19 @@ Valid arguments:
 "vomit_chance"
 "vomit_chance_bot"
 "vomit_tick"
+
+"scent_mod"
+"scent_min_val"
+"scent_max_val"
+
+"armor_bash_mod"
+"armor_bash_min_val"
+"armor_bash_max_val"
+
+"armor_cut_mod"
+"armor_cut_min_val"
+"armor_cut_max_val"
+
 ```
 Basic definitions:
 ```C++

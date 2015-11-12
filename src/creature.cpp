@@ -998,7 +998,7 @@ void Creature::process_effects()
     }
 }
 
-bool Creature::resists_effect(effect e)
+bool Creature::resists_effect(effect e) const
 {
     for (auto &i : e.get_resist_effects()) {
         if (has_effect(i)) {
@@ -1468,4 +1468,14 @@ void Creature::check_dead_state() {
     if( is_dead_state() ) {
         die( nullptr );
     }
+}
+
+int bound_mod_to_vals( int val, int mod, int max, int min ) {
+    if ( val + mod > max && max != 0 ) {
+        mod = std::max( max - val, 0 );
+    }
+    if ( val + mod < min && min != 0 ) {
+        mod = std::min( min - val, 0 );
+    }
+    return mod;
 }

@@ -279,6 +279,20 @@ bool effect_type::load_mod_data(JsonObject &jsobj, std::string member) {
         extract_effect(j, mod_data, "stamina_chance_bot",member, "STAMINA",  "chance_bot");
         extract_effect(j, mod_data, "stamina_tick",      member, "STAMINA",  "tick");
 
+        // Then scent
+        extract_effect( j, mod_data, "scent_mod",         member, "SCENT", "min" );
+        extract_effect( j, mod_data, "scent_min_val",     member, "SCENT", "min_val" );
+        extract_effect( j, mod_data, "scent_max_val",     member, "SCENT", "max_val" );
+
+        // Then armor
+        extract_effect( j, mod_data, "armor_bash_mod", member, "ARMOR_BASH", "min" );
+        extract_effect( j, mod_data, "armor_bash_val", member, "ARMOR_BASH", "min_val" );
+        extract_effect( j, mod_data, "armor_bash_val", member, "ARMOR_BASH", "max_val" );
+
+        extract_effect( j, mod_data, "armor_cut_mod", member, "ARMOR_CUT", "min" );
+        extract_effect( j, mod_data, "armor_cut_val", member, "ARMOR_CUT", "min_val" );
+        extract_effect( j, mod_data, "armor_cut_val", member, "ARMOR_CUT", "max_val" );
+        
         // Then coughing
         extract_effect(j, mod_data, "cough_chance",     member, "COUGH",    "chance_top");
         extract_effect(j, mod_data, "cough_chance_bot", member, "COUGH",    "chance_bot");
@@ -511,7 +525,13 @@ std::string effect::disp_desc(bool reduced) const
     val = get_avg_mod("HUNGER", reduced);
     values.push_back(desc_freq(get_percentage("HUNGER", val, reduced), val, _("hunger"), _("sate")));
     val = get_avg_mod("FATIGUE", reduced);
-    values.push_back(desc_freq(get_percentage("FATIGUE", val, reduced), val, _("sleepiness"), _("rest")));
+    values.push_back( desc_freq( get_percentage( "FATIGUE", val, reduced ), val, _( "sleepiness" ), _( "rest" ) ) );
+    val = get_avg_mod( "SCENT", reduced );
+    values.push_back( desc_freq(get_percentage("SCENT", val, reduced), val, _("scent"), _("scent masking")));
+    val = get_avg_mod( "ARMOR_BASH", reduced );
+    values.push_back( desc_freq( get_percentage( "ARMOR_BASH", val, reduced ), val, _( "bashing resistance" ), _( "bashing vulnerability" ) ) );
+    val = get_avg_mod( "ARMOR_CUT", reduced );
+    values.push_back( desc_freq( get_percentage( "ARMOR_CUT", val, reduced ), val, _( "cutting resistance" ), _( "cutting vulnerability" ) ) );
     val = get_avg_mod("COUGH", reduced);
     values.push_back(desc_freq(get_percentage("COUGH", val, reduced), val, _("coughing"), _("coughing")));
     val = get_avg_mod("VOMIT", reduced);
@@ -635,7 +655,7 @@ void effect::decay(std::vector<std::string> &rem_ids, std::vector<body_part> &re
 {
     // Decay duration if not permanent
     if (!is_permanent()) {
-        duration -= 1;
+        duration += eff_type->dur_decay;
         add_msg( m_debug, "ID: %s, Duration %d", get_id().c_str(), duration );
     }
     // Store current intensity for comparison later
@@ -1173,6 +1193,7 @@ void load_effect_type(JsonObject &jo)
 
     new_etype.max_intensity = jo.get_int("max_intensity", 1);
     new_etype.max_duration = jo.get_int("max_duration", 0);
+    new_etype.dur_decay = jo.get_int( "duration_decay", -1 );
     new_etype.dur_add_perc = jo.get_int("dur_add_perc", 100);
     new_etype.int_add_val = jo.get_int("int_add_val", 0);
     new_etype.int_decay_step = jo.get_int("int_decay_step", -1);

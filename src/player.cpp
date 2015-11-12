@@ -451,6 +451,33 @@ void player::reset_stats()
     Character::reset_stats();
 }
 
+void player::reset_scent()
+{
+    // Set our scent towards the norm
+    scent_norm = 500;
+    if (has_trait( "WEAKSCENT")) {
+        scent_norm = 300;
+    }
+    if (has_trait("SMELLY")) {
+        scent_norm = 800;
+    }
+    if (has_trait( "SMELLY2")) {
+        scent_norm = 1200;
+    }
+    // Not so much that you don't have a scent
+    // but that you smell like a plant, rather than
+    // a human. When was the last time you saw a critter
+    // attack a bluebell or an apple tree?
+    if ((has_trait( "FLOWERS" )) && (!(has_trait("CHLOROMORPH")))) {
+        scent_norm -= 200;
+    }
+    // You *are* a plant.  Unless someone hunts triffids by scent,
+    // you don't smell like prey.
+    if (has_trait( "CHLOROMORPH" )) {
+        scent_norm = 0;
+    }
+}
+
 void player::process_turn()
 {
     Character::process_turn();
@@ -470,38 +497,21 @@ void player::process_turn()
 
     suffer();
 
-    // Set our scent towards the norm
-    int norm_scent = 500;
-    if (has_trait("WEAKSCENT")) {
-        norm_scent = 300;
-    }
-    if (has_trait("SMELLY")) {
-        norm_scent = 800;
-    }
-    if (has_trait("SMELLY2")) {
-        norm_scent = 1200;
-    }
-    // Not so much that you don't have a scent
-    // but that you smell like a plant, rather than
-    // a human. When was the last time you saw a critter
-    // attack a bluebell or an apple tree?
-    if ( (has_trait("FLOWERS")) && (!(has_trait("CHLOROMORPH"))) ) {
-        norm_scent -= 200;
-    }
-    // You *are* a plant.  Unless someone hunts triffids by scent,
-    // you don't smell like prey.
-    if( has_trait("CHLOROMORPH") ) {
-        norm_scent = 0;
-    }
+    reset_scent();
+    int scent_goal = scent_norm + scent_mod;
+        if (scent_goal < 0) {
+            scent_goal = 0;
+        }
 
     // Scent increases fast at first, and slows down as it approaches normal levels.
     // Estimate it will take about norm_scent * 2 turns to go from 0 - norm_scent / 2
     // Without smelly trait this is about 1.5 hrs. Slows down significantly after that.
-    if (scent < rng(0, norm_scent))
+    
+    if (scent < rng(0, scent_goal ))
         scent++;
 
     // Unusually high scent decreases steadily until it reaches normal levels.
-    if (scent > norm_scent)
+    if (scent > scent_goal )
         scent--;
 
     // We can dodge again! Assuming we can actually move...
@@ -5986,7 +5996,7 @@ void player::add_pain_msg(int val, body_part bp) const
     }
 }
 
-static int bound_mod_to_vals(int val, int mod, int max, int min)
+int player::bound_mod_to_vals(int val, int mod, int max, int min)
 {
     if (val + mod > max && max != 0) {
         mod = std::max(max - val, 0);
@@ -6238,6 +6248,9 @@ void player::process_effects() {
         remove_effect("alarm_clock");
     }
 
+    //Reset scent modifier granted by effects
+    scent_mod = 0;
+
     //Human only effects
     for( auto &elem : effects ) {
         for( auto &_effect_it : elem.second ) {
@@ -6437,6 +6450,14 @@ void player::process_effects() {
                         stamina = get_stamina_max();
                     }
                 }
+            }
+
+            // Handle scent
+            val = it.get_mod("SCENT", reduced);
+            if ( val != 0 ) {
+                scent_mod += bound_mod_to_vals( scent_norm, val,
+                    it.get_max_val("SCENT", reduced),
+                    it.get_min_val("SCENT", reduced) );     
             }
 
             // Speed and stats are handled in recalc_speed_bonus and reset_stats respectively
@@ -7681,6 +7702,148 @@ void player::hardcoded_effects(effect &it)
                     }
                 }
             }
+        }
+    } else if ( id == "skin_rot" || id == "skin_rot_recovery") {
+        bool recovery = id == "skin_rot_recovery" ? true : false;
+        float heal_chance = 7200.0;
+        float spread_chance = 3600.0;
+        float health = get_healthy();
+        float health_mod = health / 100.0 + 1.0;
+
+        //First, try to spread the disease into a conected body part
+        if (health > 0) {
+            spread_chance *= health_mod;
+        } else if (health < 0) {
+            spread_chance /= health_mod;
+        }
+        if (!recovery && one_in( (int)ceil( spread_chance ) ) ) {
+            switch (bp) {
+            case (bp_head):
+                if (!has_effect( "skin_rot", bp_torso )) {
+                    add_effect( "skin_rot", 1, bp_torso );
+                }
+                break;
+            case (bp_torso):
+                switch ( rng( 1, 4 ) ) {
+                case 1:
+                    if ( !has_effect( "skin_rot", bp_arm_r ) ) {
+                        add_effect( "skin_rot", 1, bp_arm_r );
+                    }
+                    break;
+                case 2:
+                    if ( !has_effect( "skin_rot", bp_arm_l ) ) {
+                        add_effect( "skin_rot", 1, bp_arm_l );
+                    }
+                    break;
+                case 3:
+                    if ( !has_effect( "skin_rot", bp_leg_r ) ) {
+                        add_effect( "skin_rot", 1, bp_leg_r );
+                    }
+                    break;
+                case 4:
+                    if ( !has_effect( "skin_rot", bp_leg_l ) ) {
+                        add_effect( "skin_rot", 1, bp_leg_l );
+                    }
+                    break;
+                }
+                break;
+            case (bp_arm_r):
+                switch ( rng( 1, 2 ) ) {
+                case 1:
+                    if ( !has_effect( "skin_rot", bp_torso ) ) {
+                        add_effect( "skin_rot", 1, bp_torso );
+                    }
+                    break;
+                case 2:
+                    if ( !has_effect( "skin_rot", bp_hand_r ) ) {
+                        add_effect( "skin_rot", 1, bp_hand_r );
+                    }
+                    break;
+                }
+                break;
+            case (bp_hand_r) :
+                if ( !has_effect( "skin_rot", bp_arm_r ) ) {
+                    add_effect( "skin_rot", 1, bp_arm_r );
+                }
+                break;
+            case (bp_arm_l) :
+                switch ( rng( 1, 2 ) ) {
+                case 1:
+                    if ( !has_effect( "skin_rot", bp_torso ) ) {
+                        add_effect( "skin_rot", 1, bp_torso );
+                    }
+                    break;
+                case 2:
+                    if ( !has_effect( "skin_rot", bp_hand_l ) ) {
+                        add_effect( "skin_rot", 1, bp_hand_l );
+                    }
+                    break;
+                }
+                break;
+            case (bp_hand_l) :
+                if ( !has_effect( "skin_rot", bp_arm_l ) ) {
+                    add_effect( "skin_rot", 1, bp_arm_l );
+                }
+                break;
+            case (bp_leg_r) :
+                switch ( rng( 1, 2 ) ) {
+                case 1:
+                    if ( !has_effect( "skin_rot", bp_torso ) ) {
+                        add_effect( "skin_rot", 1, bp_torso );
+                    }
+                    break;
+                case 2:
+                    if ( !has_effect( "skin_rot", bp_foot_r ) ) {
+                        add_effect( "skin_rot", 1, bp_foot_r );
+                    }
+                    break;
+                }
+                break;
+            case (bp_foot_r) :
+                if ( !has_effect( "skin_rot", bp_leg_r ) ) {
+                    add_effect( "skin_rot", 1, bp_leg_r );
+                }
+                break;
+            case (bp_leg_l) :
+                switch ( rng( 1, 2 ) ) {
+                case 1:
+                    if ( !has_effect( "skin_rot", bp_torso ) ) {
+                        add_effect( "skin_rot", 1, bp_torso );
+                    }
+                    break;
+                case 2:
+                    if ( !has_effect( "skin_rot", bp_foot_l ) ) {
+                        add_effect( "skin_rot", 1, bp_foot_l );
+                    }
+                    break;
+                }
+                break;
+            case (bp_foot_l) :
+                if ( !has_effect( "skin_rot", bp_leg_l ) ) {
+                    add_effect( "skin_rot", 1, bp_leg_l );
+                }
+                break;
+            default:
+                break;
+            }                    
+        }
+        //Then, try to open a wound
+        int armor = get_armor_cut( bp );
+        if (intense > 1 && ( armor < 0 ) ) {
+            if ( one_in( 2400 + ( armor * 400) ) ) {
+                add_msg(m_bad, _( "A wound opens on your %s", body_part_name(bp).c_str() ) );
+                add_effect( "bleed",  rng( -(armor) * 5, -(armor) * 15 ), bp);
+            }         
+        }
+        //Last, try to heal the disease 
+        if ( health > 0 ) {
+            heal_chance /= health_mod;
+        } else if ( health < 0 ) {
+            heal_chance *= health_mod;    
+        }
+        if ( !recovery && one_in(  (int) ceil(heal_chance ) ) ) {
+            remove_effect( "skin_rot", bp );
+            add_effect( "skin_rot_recovery", dur, bp );
         }
     }
 }
@@ -12605,23 +12768,19 @@ int player::mut_cbm_encumb( body_part bp ) const
 }
 
 int player::get_armor_bash(body_part bp) const
-{
-    return get_armor_bash_base(bp) + armor_bash_bonus;
+{   
+    return get_armor_bash_base( bp ) + get_armor_bash_bonus( bp );
 }
 
 int player::get_armor_cut(body_part bp) const
-{
-    return get_armor_cut_base(bp) + armor_cut_bonus;
+{   
+    return get_armor_cut_base( bp ) + get_armor_cut_bonus( bp );
 }
 
 int player::get_armor_bash_base(body_part bp) const
 {
     int ret = 0;
-    for (auto &i : worn) {
-        if (i.covers(bp)) {
-            ret += i.bash_resist();
-        }
-    }
+
     if (has_bionic("bio_carbon")) {
         ret += 2;
     }
@@ -12646,6 +12805,18 @@ int player::get_armor_bash_base(body_part bp) const
     if (bp == bp_head && has_trait("LYNX_FUR")) {
         ret++;
     }
+    if ( has_trait( "FEATHERS" ) ) {
+        ret--;
+    }
+    if ( (bp == bp_arm_l || bp == bp_arm_r) && has_trait( "ARM_FEATHERS" ) ) {
+        ret--;
+    }
+    if ( has_trait( "AMORPHOUS" ) ) {
+        ret--;
+        if ( !(has_trait( "INT_SLIME" )) ) {
+            ret -= 3;
+        }
+    }
     if (has_trait("FAT")) {
         ret ++;
     }
@@ -12655,8 +12826,17 @@ int player::get_armor_bash_base(body_part bp) const
     if (has_trait("M_SKIN2")) {
         ret += 3;
     }
-    if (has_trait("CHITIN")) {
+    if (has_trait("CHITIN2") || has_trait( "CHITINFUR3" ) ) {
+        ret += 1;
+    }
+    if ( has_trait( "CHITIN3" ) ) {
         ret += 2;
+    }
+    if ( has_trait( "PLANTSKIN" ) ) {
+        ret--;
+    }
+    if ( has_trait( "BARK" ) ) {
+        ret -= 2;
     }
     if (has_trait("SHELL") && bp == bp_torso) {
         ret += 6;
@@ -12674,11 +12854,7 @@ int player::get_armor_bash_base(body_part bp) const
 int player::get_armor_cut_base(body_part bp) const
 {
     int ret = 0;
-    for (auto &i : worn) {
-        if (i.covers(bp)) {
-            ret += i.cut_resist();
-        }
-    }
+
     if (has_bionic("bio_carbon")) {
         ret += 4;
     }
@@ -12714,15 +12890,20 @@ int player::get_armor_cut_base(body_part bp) const
     if (has_trait("SLEEK_SCALES")) {
         ret += 1;
     }
-    if (has_trait("CHITIN") || has_trait("CHITIN_FUR")) {
+    if (has_trait("CHITIN") || has_trait("CHITIN_FUR") || has_trait( "CHITIN_FUR2" ) ) {
         ret += 2;
     }
-    if (has_trait("CHITIN2") || has_trait("CHITIN_FUR2")) {
+    if (has_trait("CHITIN2") || has_trait("CHITIN_FUR3")) {
         ret += 4;
     }
-    if (has_trait("CHITIN3") || has_trait("CHITIN_FUR3")) {
+    if (has_trait("CHITIN3")) {
         ret += 8;
     }
+
+    if ( (bp == bp_foot_l || bp == bp_foot_r) && has_trait( "HOOVES" ) ) {
+        ret--;
+    }
+
     if (has_trait("SHELL") && bp == bp_torso) {
         ret += 14;
     }
@@ -12734,6 +12915,46 @@ int player::get_armor_cut_base(body_part bp) const
         ret += 17;
     }
     return ret;
+}
+
+int player::get_armor_bash_bonus( body_part bp ) const
+{
+    int armor_bonus = 0;
+    for ( auto &elem : effects ) {
+        for ( auto &_effect_it : elem.second ) {
+            auto &it = _effect_it.second;
+            bool reduced = resists_effect( it );
+            body_part bp_effect = it.get_bp();
+            int val = 0;
+            val = it.get_mod( "ARMOR_BASH", reduced );
+            if ( val != 0 && (bp_effect == bp || bp_effect == num_bp) ) {
+                armor_bonus += bound_mod_to_vals( get_armor_bash_base( bp ), val,
+                    it.get_max_val( "ARMOR_BASH", reduced ),
+                    it.get_min_val( "ARMOR_BASH", reduced ) );
+            }         
+        }
+    }
+    return armor_bonus;
+}
+
+int player::get_armor_cut_bonus( body_part bp ) const
+{
+    int armor_bonus = 0;
+    for ( auto &elem : effects ) {
+        for ( auto &_effect_it : elem.second ) {
+            auto &it = _effect_it.second;
+            bool reduced = resists_effect( it );
+            body_part bp_effect = it.get_bp();
+            int val = 0;
+            val = it.get_mod( "ARMOR_CUT", reduced );
+            if ( val != 0 && (bp_effect == bp || bp_effect == num_bp) ) {
+                armor_bonus += bound_mod_to_vals( get_armor_cut_base( bp ), val,
+                    it.get_max_val( "ARMOR_CUT", reduced ),
+                    it.get_min_val( "ARMOR_CUT", reduced ) );
+            }
+        }
+    }
+    return armor_bonus;
 }
 
 bool player::armor_absorb(damage_unit& du, item& armor) {
@@ -12856,146 +13077,21 @@ void player::absorb_hit(body_part bp, damage_instance &dam) {
         }
 
         // Next, apply reductions from bionics and traits.
-        if( has_bionic("bio_carbon") ) {
-            switch (elem.type) {
-            case DT_BASH:
-                elem.amount -= 2;
-                break;
-            case DT_CUT:
-                elem.amount -= 4;
-                break;
-            case DT_STAB:
-                elem.amount -= 3.2;
-                break;
-            default:
-                break;
+        if( elem.type == DT_CUT  || elem.type == DT_STAB ) {
+
+            float mod = 1.0;
+            if (elem.type == DT_STAB) {
+                float mod = 0.8;
             }
-        }
-        if( bp == bp_head && has_bionic("bio_armor_head") ) {
-            switch (elem.type) {
-            case DT_BASH:
-            case DT_CUT:
-                elem.amount -= 3;
-                break;
-            case DT_STAB:
-                elem.amount -= 2.4;
-                break;
-            default:
-                break;
-            }
-        } else if( (bp == bp_arm_l || bp == bp_arm_r) && has_bionic("bio_armor_arms") ) {
-            switch (elem.type) {
-            case DT_BASH:
-            case DT_CUT:
-                elem.amount -= 3;
-                break;
-            case DT_STAB:
-                elem.amount -= 2.4;
-                break;
-            default:
-                break;
-            }
-        } else if( bp == bp_torso && has_bionic("bio_armor_torso") ) {
-            switch (elem.type) {
-            case DT_BASH:
-            case DT_CUT:
-                elem.amount -= 3;
-                break;
-            case DT_STAB:
-                elem.amount -= 2.4;
-                break;
-            default:
-                break;
-            }
-        } else if( (bp == bp_leg_l || bp == bp_leg_r) && has_bionic("bio_armor_legs") ) {
-            switch (elem.type) {
-            case DT_BASH:
-            case DT_CUT:
-                elem.amount -= 3;
-                break;
-            case DT_STAB:
-                elem.amount -= 2.4;
-                break;
-            default:
-                break;
-            }
-        } else if( bp == bp_eyes && has_bionic("bio_armor_eyes") ) {
-            switch (elem.type) {
-            case DT_BASH:
-            case DT_CUT:
-                elem.amount -= 3;
-                break;
-            case DT_STAB:
-                elem.amount -= 2.4;
-                break;
-            default:
-                break;
-            }
-        }
-        if( elem.type == DT_CUT ) {
-            if( has_trait("THICKSKIN") ) {
-                elem.amount -= 1;
-            }
-            if( elem.amount > 0 && has_trait("THINSKIN") ) {
-                elem.amount += 1;
-            }
-            if (has_trait("SCALES")) {
-                elem.amount -= 2;
-            }
-            if (has_trait("THICK_SCALES")) {
-                elem.amount -= 4;
-            }
-            if (has_trait("SLEEK_SCALES")) {
-                elem.amount -= 1;
-            }
-            if (has_trait("FAT")) {
-                elem.amount --;
-            }
-            if (has_trait("CHITIN") || has_trait("CHITIN_FUR") || has_trait("CHITIN_FUR2")) {
-                elem.amount -= 2;
-            }
-            if ((bp == bp_foot_l || bp == bp_foot_r) && has_trait("HOOVES")) {
-                elem.amount--;
-            }
-            if (has_trait("CHITIN2")) {
-                elem.amount -= 4;
-            }
-            if (has_trait("CHITIN3") || has_trait("CHITIN_FUR3")) {
-                elem.amount -= 8;
-            }
+
+            elem.amount -= (float)get_armor_cut( bp ) * mod;
+
             elem.amount -= mabuff_arm_cut_bonus();
         }
         if( elem.type == DT_BASH ) {
-            if (has_trait("FEATHERS")) {
-                elem.amount--;
-            }
-            if (has_trait("AMORPHOUS")) {
-                elem.amount--;
-                if (!(has_trait("INT_SLIME"))) {
-                    elem.amount -= 3;
-                }
-            }
-            if ((bp == bp_arm_l || bp == bp_arm_r) && has_trait("ARM_FEATHERS")) {
-                elem.amount--;
-            }
-            if (has_trait("FUR") || has_trait("LUPINE_FUR") || has_trait("URSINE_FUR")) {
-                elem.amount--;
-            }
-            if (bp == bp_head && has_trait("LYNX_FUR")) {
-                elem.amount--;
-            }
-            if (has_trait("CHITIN2")) {
-                elem.amount--;
-            }
-            if (has_trait("CHITIN3") || has_trait("CHITIN_FUR3")) {
-                elem.amount -= 2;
-            }
-            if (has_trait("PLANTSKIN")) {
-                elem.amount--;
-            }
-            if (has_trait("BARK")) {
-                elem.amount -= 2;
-            }
+
+            elem.amount -= get_armor_bash( bp );
+
             if (has_trait("LIGHT_BONES")) {
                 elem.amount *= 1.4;
             }
