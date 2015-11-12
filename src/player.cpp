@@ -7749,7 +7749,7 @@ void player::hardcoded_effects(effect &it)
         float heal_chance = 7200.0;
         float spread_chance = 3600.0;
         float health = get_healthy();
-        float health_mod = health / 100.0 + 1.0;
+        float health_mod = fabs(health) / 100.0 + 1.0;
 
         //First, try to spread the disease into a conected body part
         if (health > 0) {
@@ -7757,126 +7757,57 @@ void player::hardcoded_effects(effect &it)
         } else if (health < 0) {
             spread_chance /= health_mod;
         }
+
         if (!recovery && one_in( (int)ceil( spread_chance ) ) ) {
+
+            const auto try_infect = [this]( std::vector<body_part> vect ) {
+                int index;
+                if ( vect.size() == 1 ) {
+                    index = 0;
+                } else {
+                    index = rng( 0, vect.size() );
+                }
+                if ( !has_effect( "skin_rot", vect[index] ) ) {
+                    add_effect( "skin_rot", vect[index] );
+                }
+            };
+
             switch (bp) {
             case (bp_head):
-                if (!has_effect( "skin_rot", bp_torso )) {
-                    add_effect( "skin_rot", 1, bp_torso );
-                }
+                try_infect( { bp_torso } );
                 break;
             case (bp_torso):
-                switch ( rng( 1, 4 ) ) {
-                case 1:
-                    if ( !has_effect( "skin_rot", bp_arm_r ) ) {
-                        add_effect( "skin_rot", 1, bp_arm_r );
-                    }
-                    break;
-                case 2:
-                    if ( !has_effect( "skin_rot", bp_arm_l ) ) {
-                        add_effect( "skin_rot", 1, bp_arm_l );
-                    }
-                    break;
-                case 3:
-                    if ( !has_effect( "skin_rot", bp_leg_r ) ) {
-                        add_effect( "skin_rot", 1, bp_leg_r );
-                    }
-                    break;
-                case 4:
-                    if ( !has_effect( "skin_rot", bp_leg_l ) ) {
-                        add_effect( "skin_rot", 1, bp_leg_l );
-                    }
-                    break;
-                }
+                try_infect( { bp_arm_r, bp_arm_l, bp_leg_r, bp_leg_l, } );
                 break;
             case (bp_arm_r):
-                switch ( rng( 1, 2 ) ) {
-                case 1:
-                    if ( !has_effect( "skin_rot", bp_torso ) ) {
-                        add_effect( "skin_rot", 1, bp_torso );
-                    }
-                    break;
-                case 2:
-                    if ( !has_effect( "skin_rot", bp_hand_r ) ) {
-                        add_effect( "skin_rot", 1, bp_hand_r );
-                    }
-                    break;
-                }
+                try_infect( { bp_torso, bp_hand_r } );
                 break;
             case (bp_hand_r) :
-                if ( !has_effect( "skin_rot", bp_arm_r ) ) {
-                    add_effect( "skin_rot", 1, bp_arm_r );
-                }
+                try_infect( { bp_arm_r } );
                 break;
             case (bp_arm_l) :
-                switch ( rng( 1, 2 ) ) {
-                case 1:
-                    if ( !has_effect( "skin_rot", bp_torso ) ) {
-                        add_effect( "skin_rot", 1, bp_torso );
-                    }
-                    break;
-                case 2:
-                    if ( !has_effect( "skin_rot", bp_hand_l ) ) {
-                        add_effect( "skin_rot", 1, bp_hand_l );
-                    }
-                    break;
-                }
+                try_infect( { bp_torso, bp_hand_l } );
                 break;
             case (bp_hand_l) :
-                if ( !has_effect( "skin_rot", bp_arm_l ) ) {
-                    add_effect( "skin_rot", 1, bp_arm_l );
-                }
+                try_infect( { bp_arm_l } );
                 break;
             case (bp_leg_r) :
-                switch ( rng( 1, 2 ) ) {
-                case 1:
-                    if ( !has_effect( "skin_rot", bp_torso ) ) {
-                        add_effect( "skin_rot", 1, bp_torso );
-                    }
-                    break;
-                case 2:
-                    if ( !has_effect( "skin_rot", bp_foot_r ) ) {
-                        add_effect( "skin_rot", 1, bp_foot_r );
-                    }
-                    break;
-                }
+                try_infect( { bp_torso, bp_foot_r } );
                 break;
             case (bp_foot_r) :
-                if ( !has_effect( "skin_rot", bp_leg_r ) ) {
-                    add_effect( "skin_rot", 1, bp_leg_r );
-                }
+                try_infect( { bp_leg_r } );
                 break;
             case (bp_leg_l) :
-                switch ( rng( 1, 2 ) ) {
-                case 1:
-                    if ( !has_effect( "skin_rot", bp_torso ) ) {
-                        add_effect( "skin_rot", 1, bp_torso );
-                    }
-                    break;
-                case 2:
-                    if ( !has_effect( "skin_rot", bp_foot_l ) ) {
-                        add_effect( "skin_rot", 1, bp_foot_l );
-                    }
-                    break;
-                }
+                try_infect( { bp_torso, bp_foot_l } );
                 break;
             case (bp_foot_l) :
-                if ( !has_effect( "skin_rot", bp_leg_l ) ) {
-                    add_effect( "skin_rot", 1, bp_leg_l );
-                }
+                try_infect( { bp_leg_l } );
                 break;
             default:
                 break;
             }                    
         }
-        //Then, try to open a wound
-        int armor = get_armor_cut( bp );
-        if (intense > 1 && ( armor < 0 ) ) {
-            if ( one_in( 2400 + ( armor * 400) ) ) {
-                add_msg(m_bad, _( "A wound opens on your %s", body_part_name(bp).c_str() ) );
-                add_effect( "bleed",  rng( -(armor) * 5, -(armor) * 15 ), bp);
-            }         
-        }
-        //Last, try to heal the disease 
+        //Try to heal the disease 
         if ( health > 0 ) {
             heal_chance /= health_mod;
         } else if ( health < 0 ) {

@@ -1468,7 +1468,8 @@
         "desc": ["Your skin feels itchy.", "Layer of your skin peel away.", "Your thin skin is cracked.", "Your thin skin is marred by deep cracks."],
         "rating": "bad",
         "scaling_mods": {
-            "armor_cut_mod": [-1]
+            "armor_cut_mod": [-1],
+			"armor_bash_mod": [-1]
         }
     },
     {
@@ -1482,7 +1483,8 @@
         "desc": ["Your skin feels itchy.", "Layer of your skin peel away.", "Your thin skin is cracked.", "Your thin skin is marred by deep cracks."],
         "rating": "bad",
         "scaling_mods": {
-            "armor_cut_mod": [-1]
+            "armor_cut_mod": [-1],
+			"armor_bash_mod": [-1]
         }
     }
 ]

@@ -21,7 +21,7 @@ must have a use_action of type "consume_drug".
     },
 ```
 Notice the "effects" field. Each effect has four potential fields:
-```C++
+```JSON
 "id" - Required
 "duration" - Required
 "bp" - This will cause the effect to target this body part specifically
@@ -45,7 +45,7 @@ Valid "bp" entries are (no entry means the effect is untargeted):
 
 ### Creature attacks
 Creatures have a field that is almost identical to the one used in the "consume_drug" entry.
-```C++
+```JSON
     "attack_effs": [
         {
             "//": "applying this multiple times makes intensity go up by 3 instead of 1",
@@ -64,14 +64,14 @@ Creatures have a field that is almost identical to the one used in the "consume_
 ```
 The entries in each effect function identically to the ones for "consume_drug" except creatures
 also have an additional field:
-```C++
+```JSON
 "chance" - The percentage chance of the effect being applied on a good hit, defaults to 100%
 ```
 If a creature successfully damages the player and their chance roll succeeds they will apply
 all of the listed effects to the player one after another.
 
 ## Required fields
-```C++
+```JSON
     "type": "effect_type",      - Required
     "id": "xxxx"                - Must be unique
 ```
@@ -79,12 +79,12 @@ all of the listed effects to the player one after another.
 ## Optional fields
 
 ### Max intensity
-```C++
+```JSON
     "max_intensity": 3          - Used for many later fields, defaults to 1
 ```
 
 ### Name
-```C++
+```JSON
     "name": ["XYZ"]
     or
     "name": [
@@ -101,7 +101,7 @@ the intensity in brackets if the current intensity > 1, i.e. "ABC", "ABC [2]", "
 entry of "name" is the empty string ("") or "name" is missing then the effect will not display to the player
 in the status screen.
 
-```C++
+```JSON
     "speed_name" : "XYZ"        - Defaults to the first name value
 ```
 This is the value used in the list of modifiers on a player's speed. It will default to the first entry in "name"
@@ -109,7 +109,7 @@ if it doesn't exist, and if neither one exists or if "speed_name" is the empty s
 appear in the list of modifiers on the players speed (though the effect might still have an effect).
 
 ### Descriptions
-```C++
+```JSON
     "desc": ["XYZ"]
     or
     "desc": [
@@ -124,14 +124,14 @@ from the other effect data. Should a description line be the empty string ("") i
 stat changes in the effect description.
 
 Descriptions also have a second field that can act as a modifier:
-```C++
+```JSON
     "part_descs": true      - Defaults to false if not present
 ```
 If "part_descs" == true then descriptions are preceded by "Your X", where X is the body part name, meaning
 the prior descriptions would appear as "Your left arm ABC".
  
 Descriptions can also have a reduced form:
-```C++
+```JSON
     "reduced_desc": ["XYZ"]
     or
     "reduced_desc": [
@@ -144,12 +144,12 @@ This is the description that will be used if an effect is reduced. By default th
 if it doesn't exist.
  
 ### Rating
-```C++
+```JSON
     "rating": "good"        - Defaults to "neutral" if missing
 ```
 This is used for how the messages when the effect is applied and removed are displayed.
 Valid entries are:
-```C++
+```JSON
 "good"
 "neutral"
 "bad"
@@ -157,7 +157,7 @@ Valid entries are:
 ```
 
 ### Messages
-```C++
+```JSON
     "apply_message": "message",
     "remove_message": "message"
 ```
@@ -166,7 +166,7 @@ displayed upon the addition or removal of the effect. Note: "apply_message" will
 if the effect is being added, not if it is simply incrementing a current effect (so only new bites, etc.).
 
 ### Memorial Log
-```C++
+```JSON
     "apply_memorial_log": "log",
     "remove_memorial_log": "log"
 ```
@@ -175,7 +175,7 @@ respective message to the memorial log on addition or removal of the effect. Sim
 the message fields the "apply_memorial_log" will only be added to the log for new effect additions.
 
 ### Resistances
-```C++
+```JSON
     "resist_trait": "NOPAIN",
     "resist_effect": "flumed"
 ```
@@ -184,7 +184,7 @@ matching trait or effect then they are "resisting" the effect, which changes its
 Effects can only have one "resist_trait" and one "resist_effect" at a time.
 
 ### Removes effects
-```C++
+```JSON
     "removes_effects": ["bite", "flu"]
 ```
 This field will cause an effect to automatically remove any other copies of the listed effects if they are present.
@@ -192,7 +192,7 @@ In the example above the placed effect would automatically cure any bite wounds 
 automatically count for "blocks_effects" as well, no need to duplicate them there.
 
 ### Blocks effects
-```C++
+```JSON
     "blocks_effects": ["cold", "flu"]
 ```
 This field will cause an effect to prevent the placement of the listed effects. In the example above the effect would
@@ -200,7 +200,7 @@ prevent the player from catching the cold or the flu (BUT WOULD NOT CURE ANY ONG
 in "removes_effects" are automatically added to "blocks_effects", no need for manual duplication.
 
 ### Effect limiters
-```C++
+```JSON
     "max_duration": 100,
     "dur_add_perc": 150     - Defaults to 100%
 ```
@@ -213,7 +213,7 @@ a total value of 250 ticks from the two. This can also be below 100%, and should
 future applications decreasing the overall time left.
 
 ### Duration control
-```C++
+```JSON
     "duration_decay": 2,    - Defaults to -1
 ```
 This value determinates how the effect's duration changes. Negative value makes the effect's duration decrease by the amount specified each turn, 
@@ -221,7 +221,7 @@ and the positive one increases the duration by that amount.
 
 ### Intensities
 Intensities are used to control effect effects, names, and descriptions. They are defined with:
-```C++
+```JSON
     "int_add_val": 2        - Defaults to 0! This means future applications will not increase intensity unless changed!
     and/or
     "int_decay_step": -2,    - Defaults to -1
@@ -243,7 +243,7 @@ This can be used to make effects automatically increase or decrease in intensity
 intensity = duration / "int_dur_factor" rounded up (so from 0 to "int_dur_factor" is intensity 1).
 
 ### Miss messages
-```C++
+```JSON
     "miss_messages": [["Your blisters distract you", 1]]
     or
     "miss_messages": [
@@ -254,7 +254,7 @@ intensity = duration / "int_dur_factor" rounded up (so from 0 to "int_dur_factor
 This will add the following miss messages at the given chances while the effect is in effect.
 
 ### Decay messages
-```C++
+```JSON
     "decay_messages": [["The jet injector's chemicals wear off.  You feel AWFUL!", "bad"]]
     or
     "decay_messages": [
@@ -268,14 +268,14 @@ whether through decay ticks or through "int_dur_factor". So if it decayed to int
 "OOGA-BOOGA.  You feel AWFUL!" as a bad message to the player.
 
 ### Targeting modifiers
-```C++
+```JSON
     "main_parts_only": true     - Defaults to false
 ```
 This automatically retargets any effect on a non-main part (hands, eyes, feet, etc.) to the matching
 main part (arms, head, legs, etc.).
 
 ### Effect modifiers
-```C++
+```JSON
     "pkill_addict_reduces": true,   - Defaults to false
     "pain_sizing": true,            - Defaults to false
     "hurt_sizing": true,            - Defaults to false
@@ -286,7 +286,7 @@ them more pkill. "pain_sizing" and "hurt_sizing" cause large/huge mutations to a
 and hurt effects triggering. "harmful_cough" means that the coughs caused by this effect can hurt the player.
 
 ### Effect effects
-```C++
+```JSON
     "base_mods" : {
         arguments
     },
@@ -299,7 +299,7 @@ Decimals are valid but must be formatted as "0.X" or "-0.X". The game will round
 when calculating actually applied values
 
 Valid arguments:
-```C++
+```JSON
 "str_mod"
 "dex_mod"
 "per_mod"
@@ -429,7 +429,7 @@ Valid arguments:
 
 ```
 Basic definitions:
-```C++
+```JSON
 "X_amount"      - Amount applied of X when effect is placed. Like apply messages it will only trigger on new effects
 "X_min"         - Minimum amount of X applied when roll triggers
 "X_max"         - Maximum amount of X applied when roll triggers (no entry means it will give exactly X_min each time instead of rng(min, max)
@@ -440,7 +440,7 @@ Basic definitions:
 "X_tick"        - Effect rolls for X triggering every Y ticks
 ```
 Each argument can also take either one or two values.
-```C++
+```JSON
     "thirst_min": [1]
     or
     "thirst_min": [1, 2]
@@ -451,7 +451,7 @@ value. If there is only one value given it will always use that amount.
 Base mods and Scaling mods:
 While on intensity = 1 an effect will only have the basic effects of its "base_mods". However for each
 additional intensity it gains it adds the value of each of its "scaling_mods" to the calculations. So:
-```C++
+```JSON
 Intensity 1 values = base_mods values
 Intensity 2 values = base_mods values + scaling_mods values
 Intensity 3 values = base_mods values + 2 * scaling_mods values
@@ -464,7 +464,7 @@ The only special case is if base_mods' "X_chance_bot" + intensity * scaling_mods
 as if it were equal to 1 (i.e. trigger every time)
 
 ## Example Effect
-```C++
+```JSON
     "type": "effect_type",
     "id": "drunk",
     "name": [
@@ -501,7 +501,7 @@ As it moves up through the different intensities, its name will change. Its desc
 changes, with no additional description added.
 
 As it moves up through the intensity levels its effects will be:
-```C++
+```JSON
 Intensity 1
     +1 STR
     No other effects (since both "X_chance"s are negative)

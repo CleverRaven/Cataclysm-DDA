@@ -104,6 +104,7 @@ void Creature::reset_bonuses()
     set_armor( 0, armor_cut_base, num_bp );
     set_armor( 0, armor_cut_bonus, num_bp );
 
+
     speed_bonus = 0;
     dodge_bonus = 0;
     block_bonus = 0;
@@ -1300,11 +1301,12 @@ void Creature::mod_armor( int nvalue, std::array<int, num_bp> &arr, body_part bp
     }
 }
 
-void Creature::set_armor( int nvalue, std::array<int, num_bp> &arr, body_part bp = num_bp ) {
-    if ( bp != num_bp ) {
+void Creature::set_armor( int nvalue, std::array<int, num_bp> &arr, body_part bp = num_bp ) 
+{   
+    if (bp != num_bp) {
         arr[bp] = nvalue;
     } else {
-        for ( int i = 0; i < arr.size(); i++ ) {
+        for (int i = 0; i < arr.size(); i++) {
             arr[i] = nvalue;
         }
     }
