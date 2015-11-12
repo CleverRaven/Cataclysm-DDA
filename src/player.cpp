@@ -7746,7 +7746,7 @@ void player::hardcoded_effects(effect &it)
         }
     } else if ( id == "skin_rot" || id == "skin_rot_recovery") {
         bool recovery = id == "skin_rot_recovery" ? true : false;
-        float heal_chance = 7200.0;
+        float heal_chance = 14400.0;
         float spread_chance = 4500.0;
         float health = get_healthy();
         float health_mod = fabs(health) / 100.0 + 1.0;

@@ -1467,10 +1467,9 @@
         "dur_add_perc": 0,
         "name": ["Itchy skin", 
                  "Skin erosion", 
-                 "Skin degeneration", 
-                 "Cracked skin"],
+                 "Cracked skin", 
+                 "Skin degeneration"],
         "desc": ["Your skin feels itchy.  Layers of dead skin peeling away.", 
-                 "Layers of dead skin peeling away.", 
                  "Layers of your dead skin have peeled away, revealing sensitive red skin beneath.", 
                  "Your thin skin has eroded even further.  Deep fissures have formed on it.", 
                  "Your thin skin is marred by deep cracks, with blood slowly seeping from them."],
@@ -1488,16 +1487,16 @@
         "int_dur_factor": 14400,
         "name": ["Itchy skin", 
                  "Skin erosion", 
-                 "Skin degeneration", 
-                 "Cracked skin"],
+                 "Cracked skin", 
+                 "Skin degeneration"],
         "desc": ["Your skin feels itchy.  Layers of dead skin peeling away.", 
                  "Layers of your dead skin have peeled away, revealing sensitive red skin beneath.", 
                  "Your thin skin has eroded even further.  Deep fissures have formed on it.", 
                  "Your thin skin is marred by deep cracks, with blood slowly seeping from them."],
         "rating": "bad",
         "scaling_mods": {
-            "armor_cut_mod": [-1],
-            "armor_bash_mod": [-1]
+            "armor_cut_mod": [-1.67],
+            "armor_bash_mod": [-1.67]
         }
     },
     {

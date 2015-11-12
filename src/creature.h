@@ -252,7 +252,7 @@ class Creature
          */
         void check_dead_state();
 
-        int bound_mod_to_vals( int val, int mod, int max, int min );
+        int static bound_mod_to_vals( int val, int mod, int max, int min );
 
         virtual int posx() const = 0;
         virtual int posy() const = 0;
