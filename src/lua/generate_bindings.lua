@@ -89,7 +89,7 @@ end
 -- Generates a setter function for a specific class and member variable.
 function generate_setter(class_name, member_name, member_type, cpp_name)
     local function_name = class_name.."_set_"..member_name
-    
+
     local text = "static int "..function_name.."(lua_State *L) {"..br
 
     text = text .. tab .. load_instance(class_name)..br
@@ -454,10 +454,10 @@ function generate_functions_static(cpp_type, class, class_name)
     cpp_output = cpp_output .. "};" .. br
 end
 -- Creates the LuaValue<T>::READ_MEMBERS map, containing the getters. Example:
--- const LuaValue<foo>::MRMap LuaValue<foo>::READ_MEMBERS = { { "id", foo_get_id }, ... };
+-- const LuaValue<foo>::MRMap LuaValue<foo>::READ_MEMBERS{ { "id", foo_get_id }, ... };
 function generate_read_members_static(cpp_type, class, class_name)
     cpp_output = cpp_output .. "template<>" .. br
-    cpp_output = cpp_output .. "const " .. cpp_type .. "::MRMap " .. cpp_type .. "::READ_MEMBERS = {" .. br
+    cpp_output = cpp_output .. "const " .. cpp_type .. "::MRMap " .. cpp_type .. "::READ_MEMBERS{" .. br
     while class do
         for key, attribute in pairs(class.attributes) do
             cpp_output = cpp_output .. tab .. "{\"" .. key .. "\", " .. class_name .. "_get_" .. key .. "}," .. br
@@ -467,10 +467,10 @@ function generate_read_members_static(cpp_type, class, class_name)
     cpp_output = cpp_output .. "};" .. br
 end
 -- Creates the LuaValue<T>::READ_MEMBERS map, containing the setters. Example:
--- const LuaValue<foo>::MWMap LuaValue<foo>::WRITE_MEMBERS = { { "id", foo_set_id }, ... };
+-- const LuaValue<foo>::MWMap LuaValue<foo>::WRITE_MEMBERS{ { "id", foo_set_id }, ... };
 function generate_write_members_static(cpp_type, class, class_name)
     cpp_output = cpp_output .. "template<>" .. br
-    cpp_output = cpp_output .. "const " .. cpp_type .. "::MWMap " .. cpp_type .. "::WRITE_MEMBERS = {" .. br
+    cpp_output = cpp_output .. "const " .. cpp_type .. "::MWMap " .. cpp_type .. "::WRITE_MEMBERS{" .. br
     while class do
         for key, attribute in pairs(class.attributes) do
             if attribute.writable then
