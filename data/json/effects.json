@@ -1567,11 +1567,8 @@
                  "A hole left behind by a ruptured furunculus, with blood and pus streaming from the wound.  It emits powerful and unpleasant smell.", 
                  "A gaping hole left behind by a ruptured furunculus, with blood and pus constantly streaming from the open wound.  It emits overpowering smell."],
         "rating": "bad",
-        "base_mods": {
-            "scent_mod": [1]
-        },
         "scaling_mods": {
-            "scent_mod": [133]
+            "scent_mod": [50]
         }
     }
     

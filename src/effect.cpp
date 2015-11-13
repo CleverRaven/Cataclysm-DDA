@@ -493,6 +493,18 @@ std::string effect::disp_desc(bool reduced) const
     } else if (tmp < 0) {
         ret << string_format(_("Speed %d;  "), tmp);
     }
+    tmp = get_avg_mod( "ARMOR_BASH", reduced );
+    if ( tmp > 0 ) {
+        ret << string_format( _( "Bash armor +%d;  " ), tmp );
+    } else if ( tmp < 0 ) {
+        ret << string_format( _( "Bash armor %d;  " ), tmp );
+    }
+    tmp = get_avg_mod( "ARMOR_CUT", reduced );
+    if ( tmp > 0 ) {
+        ret << string_format( _( "Cut armor +%d;  " ), tmp );
+    } else if ( tmp < 0 ) {
+        ret << string_format( _( "Cut armor %d;  " ), tmp );
+    }
     // Newline if necessary
     if (ret.str() != "") {
         ret << "\n";
@@ -521,10 +533,10 @@ std::string effect::disp_desc(bool reduced) const
     values.push_back( desc_freq( get_percentage( "FATIGUE", val, reduced ), val, _( "sleepiness" ), _( "rest" ) ) );
     val = get_avg_mod( "SCENT", reduced );
     values.push_back( desc_freq(get_percentage("SCENT", val, reduced), val, _("scent"), _("scent masking")));
-    val = get_avg_mod( "ARMOR_BASH", reduced );
+    /*val = get_avg_mod( "ARMOR_BASH", reduced );
     values.push_back( desc_freq( get_percentage( "ARMOR_BASH", val, reduced ), val, _( "bashing resistance" ), _( "bashing vulnerability" ) ) );
     val = get_avg_mod( "ARMOR_CUT", reduced );
-    values.push_back( desc_freq( get_percentage( "ARMOR_CUT", val, reduced ), val, _( "cutting resistance" ), _( "cutting vulnerability" ) ) );
+    values.push_back( desc_freq( get_percentage( "ARMOR_CUT", val, reduced ), val, _( "cutting resistance" ), _( "cutting vulnerability" ) ) );*/
     val = get_avg_mod("COUGH", reduced);
     values.push_back(desc_freq(get_percentage("COUGH", val, reduced), val, _("coughing"), _("coughing")));
     val = get_avg_mod("VOMIT", reduced);

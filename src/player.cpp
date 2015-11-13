@@ -6192,6 +6192,17 @@ void player::process_effects() {
         remove_effect("infected");
         remove_effect("recover");
     }
+    if ( has_trait( "DISIMMUNE" ) && (has_effect( "skin_rot" ) || has_effect( "skin_rot_recovery" ) || has_effect( "furunculite" ) || 
+        has_effect( "furunculite_recovery" ) || has_effect( "furunculus" ) || has_effect( "furunculus_recovery" ) || 
+        has_effect( "furunculus_wound" )) ) {
+        remove_effect( "skin_rot" );
+        remove_effect( "skin_rot_recovery" );
+        remove_effect( "furunculite" );
+        remove_effect( "furunculite_recovery" );
+        remove_effect( "furunculus" );
+        remove_effect( "furunculus_recovery" );
+        remove_effect( "furunculus_wound" );
+    }
     if (!(in_sleep_state()) && has_effect("alarm_clock")) {
         remove_effect("alarm_clock");
     }
@@ -7746,6 +7757,7 @@ void player::hardcoded_effects(effect &it)
         }
     } else if ( id == "skin_rot" || id == "skin_rot_recovery") {
         bool recovery = id == "skin_rot_recovery" ? true : false;
+        float resist_mod = has_trait( "DISRESISTANT" ) ? 1.5 : 1.0;
         float heal_chance = 14400.0;
         float spread_chance = 4500.0;
         float health = get_healthy();
@@ -7753,9 +7765,9 @@ void player::hardcoded_effects(effect &it)
 
         //First, try to spread the disease into a conected body part
         if (health > 0) {
-            spread_chance = ( spread_chance - ( intense * 900.0 ) ) * health_mod;
+            spread_chance = ( ( spread_chance - ( intense * 900.0 ) ) * health_mod ) * resist_mod;
         } else if (health < 0) {
-            spread_chance = ( spread_chance - ( intense * 900.0 ) ) / health_mod;
+            spread_chance = ( ( spread_chance - ( intense * 900.0 ) ) / health_mod ) * resist_mod;
         }
 
         if (!recovery && one_in( (int)ceil( spread_chance ) ) ) {
@@ -7809,15 +7821,16 @@ void player::hardcoded_effects(effect &it)
         }
         //Then, try to heal the disease 
         if ( health > 0 ) {
-            heal_chance /= health_mod;
+            heal_chance /= health_mod / resist_mod;
         } else if ( health < 0 ) {
-            heal_chance *= health_mod;    
+            heal_chance *= health_mod / resist_mod;    
         }
         if ( !recovery && one_in(  (int) ceil(heal_chance ) ) ) {
             add_effect( "skin_rot_recovery", dur, bp );
             remove_effect( "skin_rot", bp );
         }
     } else if ( id == "furunculite" ) {
+        float resist_mod = has_trait( "DISRESISTANT" ) ? 1.5 : 1.0;
         float heal_chance = 7200.0;
         float spread_chance = 4500.0;
         float health = get_healthy();
@@ -7825,9 +7838,9 @@ void player::hardcoded_effects(effect &it)
 
         //First, try to grow a furunculus on a random body part
         if ( health > 0 ) {
-            spread_chance = ( spread_chance - ( intense * 900.0 ) ) * health_mod;
+            spread_chance = ( ( spread_chance - ( intense * 900.0 ) ) * health_mod ) * resist_mod;
         } else if ( health < 0 ) {
-            spread_chance = ( spread_chance - ( intense * 900.0 ) ) / health_mod;
+            spread_chance = ( ( spread_chance - ( intense * 900.0 ) ) / health_mod ) * resist_mod;
         }
 
         if ( one_in( (int)ceil( spread_chance ) ) ) {
@@ -7840,9 +7853,9 @@ void player::hardcoded_effects(effect &it)
 
         //Then, try to heal the disease 
         if ( health > 0 ) {
-            heal_chance /= health_mod;
+            heal_chance /= health_mod / resist_mod;
         } else if ( health < 0 ) {
-            heal_chance *= health_mod;
+            heal_chance *= health_mod / resist_mod;
         }
 
         if ( one_in( (int)ceil( heal_chance ) ) ) {
@@ -7864,7 +7877,7 @@ void player::hardcoded_effects(effect &it)
             add_msg_if_player( m_bad, _( "The furunculus on your %1$s is being compacted by your clothing." ), body_part_name(bp).c_str() );   
         }
         if (id == "furunculus", intense == 5) {
-            mod_pain( rng( 3, 15 ) );
+            mod_pain( rng( 4, 12 ) );
             add_effect( "bleed", rng(15, 45), bp );
             add_msg_if_player(m_bad, _("Furunculus on your %s pulses and bursts in shower of pus and blood!"), body_part_name(bp).c_str() );
             add_effect( "furunculus_wound", 14400, bp );
