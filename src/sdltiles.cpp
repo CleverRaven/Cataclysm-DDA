@@ -314,8 +314,10 @@ bool WinCreate()
         SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "0");
     }
 
-    if (OPTIONS["FULLSCREEN"]) {
+    if (OPTIONS["FULLSCREEN"] == "fullscreen") {
         window_flags |= SDL_WINDOW_FULLSCREEN;
+    } else if (OPTIONS["FULLSCREEN"] == "windowedbl") {
+        window_flags |= SDL_WINDOW_FULLSCREEN_DESKTOP;
     }
     window_flags |= SDL_WINDOW_RESIZABLE;
 
@@ -331,7 +333,7 @@ bool WinCreate()
         dbg(D_ERROR) << "SDL_CreateWindow failed: " << SDL_GetError();
         return false;
     }
-    if (window_flags & SDL_WINDOW_FULLSCREEN) {
+    if (window_flags & SDL_WINDOW_FULLSCREEN || window_flags & SDL_WINDOW_FULLSCREEN_DESKTOP) {
         SDL_GetWindowSize(window, &WindowWidth, &WindowHeight);
         // Ignore previous values, use the whole window, but nothing more.
         TERMINAL_WIDTH = WindowWidth / fontwidth;

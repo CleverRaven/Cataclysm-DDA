@@ -1001,9 +1001,11 @@ void options_manager::init()
 
     mOptionsSort["graphics"]++;
 
+    optionNames["fullscreen"] = _("Fullscreen");
+    optionNames["windowedbl"] = _("Windowed borderless");
     OPTIONS["FULLSCREEN"] = cOpt("graphics", _("Fullscreen"),
-                                 _("Starts Cataclysm in fullscreen-mode. Requires restart."),
-                                 false, COPT_CURSES_HIDE
+                                 _("Starts Cataclysm in one of the fullscreen modes. Requires restart."),
+                                 "no,fullscreen,windowedbl", "no", COPT_CURSES_HIDE
                                 );
 
     OPTIONS["SOFTWARE_RENDERING"] = cOpt("graphics", _("Software rendering"),
