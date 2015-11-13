@@ -1,0 +1,569 @@
+[
+    {
+        "type" : "vehicle_part",
+        "id" : "fxlhalfboard_horizontal",
+        "name" : "folding extra light quarterpanel",
+        "symbol" : "h",
+        "color" : "light_gray",
+        "broken_symbol" : "#",
+        "broken_color" : "light_gray",
+        "durability" : 30,
+        "item" : "pipe",
+        "difficulty" : 1,
+        "location" : "center",
+        "folded_volume": 4,
+        "flags" : ["OBSTACLE", "FOLDABLE"],
+        "breaks_into" : [
+            {"item": "pipe", "prob": 50}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "fxlhalfboard_vertical",
+        "name" : "folding extra light quarterpanel",
+        "symbol" : "j",
+        "color" : "light_gray",
+        "broken_symbol" : "#",
+        "broken_color" : "light_gray",
+        "durability" : 30,
+        "item" : "pipe",
+        "difficulty" : 1,
+        "location" : "center",
+        "folded_volume": 4,
+        "flags" : ["OBSTACLE", "FOLDABLE"],
+        "breaks_into" : [
+            {"item": "pipe", "prob": 50}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "fxlhalfboard_nw",
+        "name" : "folding extra light quarterpanel",
+        "symbol" : "y",
+        "color" : "light_gray",
+        "broken_symbol" : "#",
+        "broken_color" : "light_gray",
+        "durability" : 30,
+        "item" : "pipe",
+        "difficulty" : 1,
+        "location" : "center",
+        "folded_volume": 4,
+        "flags" : ["OBSTACLE", "FOLDABLE"],
+        "breaks_into" : [
+            {"item": "pipe", "prob": 50}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "fxlhalfboard_ne",
+        "name" : "folding extra light quarterpanel",
+        "symbol" : "u",
+        "color" : "light_gray",
+        "broken_symbol" : "#",
+        "broken_color" : "light_gray",
+        "durability" : 30,
+        "item" : "pipe",
+        "difficulty" : 1,
+        "location" : "center",
+        "folded_volume": 4,
+        "flags" : ["OBSTACLE", "FOLDABLE"],
+        "breaks_into" : [
+            {"item": "pipe", "prob": 50}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "fxlhalfboard_se",
+        "name" : "folding extra light quarterpanel",
+        "symbol" : "n",
+        "color" : "light_gray",
+        "broken_symbol" : "#",
+        "broken_color" : "light_gray",
+        "durability" : 30,
+        "item" : "pipe",
+        "difficulty" : 1,
+        "location" : "center",
+        "folded_volume": 4,
+        "flags" : ["OBSTACLE", "FOLDABLE"],
+        "breaks_into" : [
+            {"item": "pipe", "prob": 50}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "fxlhalfboard_sw",
+        "name" : "folding extra light quarterpanel",
+        "symbol" : "b",
+        "color" : "light_gray",
+        "broken_symbol" : "#",
+        "broken_color" : "light_gray",
+        "durability" : 30,
+        "item" : "pipe",
+        "difficulty" : 1,
+        "location" : "center",
+        "folded_volume": 4,
+        "flags" : ["OBSTACLE", "FOLDABLE"],
+        "breaks_into" : [
+            {"item": "pipe", "prob": 50}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "fxlhalfboard_horizontal_2",
+        "name" : "folding extra light quarterpanel",
+        "symbol" : "=",
+        "color" : "light_gray",
+        "broken_symbol" : "#",
+        "broken_color" : "light_gray",
+        "durability" : 30,
+        "item" : "pipe",
+        "difficulty" : 1,
+        "location" : "center",
+        "folded_volume": 4,
+        "flags" : ["OBSTACLE", "FOLDABLE"],
+        "breaks_into" : [
+            {"item": "pipe", "prob": 50}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "fxlhalfboard_vertical_2",
+        "name" : "folding extra light quarterpanel",
+        "symbol" : "H",
+        "color" : "light_gray",
+        "broken_symbol" : "#",
+        "broken_color" : "light_gray",
+        "durability" : 30,
+        "item" : "pipe",
+        "difficulty" : 1,
+        "location" : "center",
+        "folded_volume": 4,
+        "flags" : ["OBSTACLE", "FOLDABLE"],
+        "breaks_into" : [
+            {"item": "pipe", "prob": 50}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "aisle_lights",
+        "name" : "aisle lights",
+        "symbol" : "*",
+        "color" : "white",
+        "broken_symbol" : "*",
+        "broken_color" : "light_gray",
+        "durability" : 20,
+        "epower" : -75,
+        "bonus" : 30,
+        "item" : "flashlight",
+        "difficulty" : 1,
+        "location" : "on_ceiling",
+        "folded_volume": 2,
+        "flags" : ["AISLE_LIGHT", "FOLDABLE"],
+        "breaks_into" : [
+            {"item": "scrap", "count": [0, 2]}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "engine_electric_small",
+        "name" : "small electric motor",
+        "symbol" : "*",
+        "color" : "yellow",
+        "broken_symbol" : "#",
+        "broken_color" : "red",
+        "damage_modifier" : 80,
+        "durability" : 120,
+        "power" : 15,
+        "epower" : -6000,
+        "fuel_type" : "battery",
+        "item" : "motor_small",
+        "difficulty" : 1,
+        "location" : "engine_block",
+        "folded_volume": 4,
+        "flags" : ["ENGINE", "FOLDABLE"],
+        "breaks_into" : [
+            {"item": "steel_lump", "count": [1, 2]},
+            {"item": "steel_chunk", "count": [1, 2]},
+            {"item": "scrap", "count": [1, 2]},
+            {"item": "cable", "charges": [3, 6]}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "gas_tank_little",
+        "name" : "gasoline tank (little)",
+        "symbol" : "O",
+        "color" : "light_red",
+        "broken_symbol" : "#",
+        "broken_color" : "red",
+        "damage_modifier" : 80,
+        "durability" : 75,
+        "size" : 650,
+        "fuel_type" : "gasoline",
+        "item" : "metal_tank_little",
+        "difficulty" : 1,
+        "location" : "fuel_source",
+        "folded_volume": 5,
+        "flags" : ["FUEL_TANK", "FOLDABLE"],
+        "breaks_into" : [
+            {"item": "scrap", "count": [1, 2]}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "diesel_tank_little",
+        "name" : "diesel tank (little)",
+        "symbol" : "O",
+        "color" : "green",
+        "broken_symbol" : "#",
+        "broken_color" : "red",
+        "damage_modifier" : 80,
+        "durability" : 75,
+        "size" : 650,
+        "fuel_type" : "diesel",
+        "item" : "metal_tank_little",
+        "difficulty" : 1,
+        "location" : "fuel_source",
+        "folded_volume": 5,
+        "flags" : ["FUEL_TANK", "FOLDABLE"],
+        "breaks_into" : [
+            {"item": "scrap", "count": [1, 2]}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "storage_battery_mount",
+        "name" : "swappable storage battery case",
+        "symbol" : "O",
+        "color" : "light_gray",
+        "broken_symbol" : "#",
+        "broken_color" : "red",
+        "damage_modifier" : 80,
+        "durability" : 300,
+        "item" : "it_battery_mount",
+        "difficulty" : 2,
+        "location" : "fuel_source",
+        "folded_volume": 9,
+        "flags" : ["BATTERY_MOUNT", "FOLDABLE"],
+        "breaks_into" : [
+            {"item": "steel_lump", "prob": 50},
+            {"item": "steel_chunk", "count": [1, 2]},
+            {"item": "scrap", "count": [0, 3]}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "vehicle_alarm",
+        "name" : "security system",
+        "symbol" : ",",
+        "color" : "ltred",
+        "broken_symbol" : ",",
+        "broken_color" : "red",
+        "damage_modifier" : 10,
+        "durability" : 35,
+        "epower" : -300,
+        "bonus" : 25,
+        "item" : "processor",
+        "difficulty" : 6,
+        "location" : "on_controls",
+        "folded_volume": 1,
+        "flags" : ["ON_CONTROLS", "DIFFICULTY_REMOVE", "SECURITY", "FOLDABLE"],
+        "breaks_into" : [
+            {"item": "scrap", "prob": 50}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "solar_panel",
+        "name" : "solar panel",
+        "symbol" : "#",
+        "color" : "yellow",
+        "broken_symbol" : "x",
+        "broken_color" : "yellow",
+        "damage_modifier" : 10,
+        "durability" : 20,
+        "epower" : 111,
+        "item" : "solar_panel",
+        "difficulty" : 4,
+        "location" : "on_roof",
+        "folded_volume": 12,
+        "flags" : ["SOLAR_PANEL", "FOLDABLE"],
+        "breaks_into" : [
+            {"item": "steel_lump", "count": [2, 4]},
+            {"item": "steel_chunk", "count": [2, 4]},
+            {"item": "scrap", "count": [2, 4]},
+            {"item": "solar_cell", "count": [1, 4]}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "reinforced_solar_panel",
+        "name" : "reinforced solar panel",
+        "symbol" : "#",
+        "color" : "light_blue",
+        "broken_symbol" : "x",
+        "broken_color" : "light_gray",
+        "damage_modifier" : 80,
+        "durability" : 300,
+        "epower" : 105,
+        "item" : "reinforced_solar_panel",
+        "difficulty" : 4,
+        "location" : "on_roof",
+        "folded_volume": 26,
+        "flags" : ["SOLAR_PANEL", "FOLDABLE"],
+        "breaks_into" : [
+            {"item": "steel_lump", "count": [4, 7]},
+            {"item": "steel_chunk", "count": [4, 7]},
+            {"item": "scrap", "count": [4, 7]},
+            {"item": "solar_cell", "count": [1, 4]}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "solar_panel_v2",
+        "name" : "upgraded solar panel",
+        "symbol" : "#",
+        "color" : "yellow",
+        "broken_symbol" : "x",
+        "broken_color" : "yellow",
+        "damage_modifier" : 10,
+        "durability" : 20,
+        "epower" : 222,
+        "item" : "solar_panel_v2",
+        "difficulty" : 6,
+        "location" : "on_roof",
+        "folded_volume": 18,
+        "flags" : ["SOLAR_PANEL", "FOLDABLE"],
+        "breaks_into" : [
+            {"item": "steel_lump", "count": [2, 4]},
+            {"item": "steel_chunk", "count": [2, 4]},
+            {"item": "scrap", "count": [2, 4]},
+            {"item": "solar_cell", "count": [1, 6]}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "reinforced_solar_panel_v2",
+        "name" : "upgraded reinforced solar panel",
+        "symbol" : "#",
+        "color" : "light_blue",
+        "broken_symbol" : "x",
+        "broken_color" : "light_gray",
+        "damage_modifier" : 80,
+        "durability" : 300,
+        "epower" : 210,
+        "item" : "reinforced_solar_panel_v2",
+        "difficulty" : 6,
+        "location" : "on_roof",
+        "folded_volume":30,
+        "flags" : ["SOLAR_PANEL", "FOLDABLE"],
+        "breaks_into" : [
+            {"item": "steel_lump", "count": [4, 7]},
+            {"item": "steel_chunk", "count": [4, 7]},
+            {"item": "scrap", "count": [4, 7]},
+            {"item": "solar_cell", "count": [1, 6]}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "solar_panel_v3",
+        "name" : "quantum solar panel",
+        "symbol" : "#",
+        "color" : "yellow",
+        "broken_symbol" : "x",
+        "broken_color" : "light_gray",
+        "damage_modifier" : 10,
+        "durability" : 30,
+        "epower" : 555,
+        "item" : "solar_panel_v3",
+        "difficulty" : 8,
+        "location" : "on_roof",
+        "folded_volume": 18,
+        "flags" : ["SOLAR_PANEL", "FOLDABLE"],
+        "breaks_into" : [
+            {"item": "steel_lump", "count": [4, 4]},
+            {"item": "steel_chunk", "count": [4, 4]},
+            {"item": "scrap", "count": [4, 4]},
+            {"item": "solar_cell", "count": [2, 8]}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "sheet_superalloy",
+        "name" : "superalloy coating",
+        "symbol" : ")",
+        "color" : "dark_gray",
+        "broken_symbol" : ")",
+        "broken_color" : "dark_gray",
+        "durability" : 100,
+        "item" : "alloy_sheet",
+        "difficulty" : 4,
+        "location" : "armor",
+        "folded_volume": 2,
+        "flags" : ["ARMOR", "FOLDABLE"],
+        "breaks_into" : [
+            {"item": "steel_lump", "count": [4, 6]},
+            {"item": "steel_chunk", "count": [4, 6]},
+            {"item": "scrap", "count": [4, 6]}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "cargo_space",
+        "name" : "cargo space",
+        "symbol" : "=",
+        "color" : "light_gray",
+        "broken_symbol" : "#",
+        "broken_color" : "dark_gray",
+        "durability" : 250,
+        "size" : 1000,
+        "item" : "cargo_rack",
+        "difficulty" : 1,
+        "location" : "center",
+        "folded_volume": 250,
+        "flags" : ["AISLE", "BOARDABLE", "CARGO", "COVERED", "FOLDABLE"],
+        "breaks_into" : [
+            {"item": "steel_lump", "count": [6, 8]},
+            {"item": "steel_chunk", "count": [6, 8]},
+            {"item": "scrap", "count": [6, 8]}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "stereo",
+        "name" : "stereo system",
+        "symbol" : "&",
+        "color" : "red",
+        "broken_symbol" : "&",
+        "broken_color" : "light_gray",
+        "damage_modifier" : 0,
+        "durability" : 60,
+        "epower" : -1,
+        "bonus" : 40,
+        "item" : "stereo",
+        "difficulty" : 2,
+        "folded_volume": 14,
+        "flags" : ["STEREO", "FOLDABLE"],
+        "breaks_into" : [
+            {"item": "steel_lump", "count": [3, 5]},
+            {"item": "steel_chunk", "count": [3, 5]},
+            {"item": "scrap", "count": [3, 5]}
+        ]
+    },
+    {
+        "type" : "vehicle_part",
+        "id" : "drive_by_wire_controls",
+        "name" : "drive by wire controls",
+        "symbol" : "$",
+        "color" : "light_red",
+        "broken_symbol" : "$",
+        "broken_color" : "red",
+        "damage_modifier" : 10,
+        "durability" : 200,
+        "item" : "drive_by_wire_controls",
+        "difficulty" : 3,
+        "folded_volume": 15,
+        "flags" : ["CONTROLS", "REMOTE_CONTROLS", "FOLDABLE"],
+        "breaks_into" : [
+            {"item": "motor_small", "count": [1, 1]},
+            {"item": "steel_chunk", "count": [1, 3]},
+            {"item": "scrap", "count": [1, 3]}
+        ]
+    },
+    {
+        "type" : "vehicle_part",
+        "id" : "cam_control",
+        "name" : "camera control system",
+        "symbol" : "#",
+        "color" : "light_blue",
+        "broken_symbol" : "#",
+        "broken_color" : "blue",
+        "damage_modifier" : 20,
+        "durability" : 200,
+        "item" : "camera_control",
+        "epower": -100,
+        "difficulty" : 3,
+        "folded_volume": 16,
+        "flags" : [ "VISION", "CAMERA", "CAMERA_CONTROL", "FOLDABLE" ],
+        "breaks_into" : [
+            {"item": "e_scrap", "count": [4, 10]},
+            {"item": "plastic_chunk", "count": [2, 8]}
+        ]
+    },
+    {
+        "type" : "vehicle_part",
+        "id" : "omnicam",
+        "name" : "security camera",
+        "symbol" : "o",
+        "color" : "light_red",
+        "broken_symbol" : "#",
+        "broken_color" : "red",
+        "damage_modifier" : 10,
+        "durability" : 100,
+        "bonus" : 24,
+        "item" : "omnicamera",
+        "epower": -75,
+        "difficulty" : 4,
+        "location" : "on_roof",
+        "folded_volume": 8,
+        "flags" : [ "VISION", "CAMERA", "FOLDABLE" ],
+        "breaks_into" : [
+            {"item": "e_scrap", "count": [4, 16]},
+            {"item": "plastic_chunk", "count": [2, 8]}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "atomic_lamp",
+        "name" : "atomic lamp",
+        "symbol" : "*",
+        "color" : "light_blue",
+        "broken_symbol" : "*",
+        "broken_color" : "light_gray",
+        "durability" : 20,
+        "epower" : 0,
+        "bonus" : 30,
+        "item" : "atomic_lamp",
+        "difficulty" : 1,
+        "location" : "on_ceiling",
+        "folded_volume": 4,
+        "flags": ["ATOMIC_LIGHT", "LEAK_DAM", "RADIOACTIVE", "FOLDABLE"],
+        "breaks_into" : [
+            {"item": "scrap", "count": [0, 2]}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "atomic_light",
+        "name" : "atomic nightlight",
+        "symbol" : "*",
+        "color" : "light_blue",
+        "broken_symbol" : "*",
+        "broken_color" : "light_gray",
+        "durability" : 20,
+        "epower" : 0,
+        "bonus" : 5,
+        "item" : "atomic_light",
+        "difficulty" : 1,
+        "location" : "on_ceiling",
+        "folded_volume": 2,
+        "flags": ["ATOMIC_LIGHT", "LEAK_DAM", "RADIOACTIVE", "FOLDABLE"],
+        "breaks_into" : [
+            {"item": "scrap", "prob": 50}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "vehicle_clock",
+        "name" : "clock",
+        "symbol" : ":",
+        "color" : "light_gray",
+        "broken_symbol" : ";",
+        "broken_color" : "dark_gray",
+        "durability" : 20,
+        "epower" : 0,
+        "item" : "wristwatch",
+        "difficulty" : 1,
+        "folded_volume": 1,
+        "flags": ["WATCH", "ALARMCLOCK", "FOLDABLE"],
+        "breaks_into" : [
+            {"item": "scrap", "prob": 50}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "fdoor",
+        "name" : "foldable door",
+        "symbol" : "+",
+        "color" : "cyan",
+        "broken_symbol" : "&",
+        "broken_color" : "cyan",
+        "damage_modifier" : 80,
+        "durability" : 50,
+        "size" : 10,
+        "item" : "foldframe",
+        "difficulty" : 2,
+        "location" : "center",
+        "folded_volume": 10,
+        "flags" : ["CARGO", "OBSTACLE", "OPENABLE", "BOARDABLE", "FOLDABLE"],
+        "breaks_into" : [
+            {"item": "steel_chunk", "count": [0, 2]},
+            {"item": "scrap", "count": [1, 2]}
+        ]
+    }
+]

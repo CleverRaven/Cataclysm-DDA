@@ -1,0 +1,120 @@
+[
+    {
+        "type": "item_group",
+        "id": "allguns",
+        "items": [
+          ["ficrico", 2],
+          ["gunsword", 3],
+          ["gunknife", 3],
+          ["50pistol", 2],
+          ["hk_mp5eod", 3],
+          ["ltcarb", 5],
+          ["arccan", 5]
+        ]
+    },
+    {
+        "type": "item_group",
+        "id": "mansion_guns",
+        "items": [
+          ["50pistol", 2],
+          ["ficrico", 2],
+          ["gunknife", 2]
+        ]
+    },
+    {
+        "type": "item_group",
+        "id": "rare",
+        "items": [
+          ["ficrico", 3],
+          ["gunsword", 3],
+          ["gunknife", 4],
+          ["50pistol", 2]
+        ]
+    },
+    {
+      "type" : "item_group",
+      "id" : "pistols",
+      "items":[
+        ["ficrico", 2],
+        ["gunsword", 2],
+        ["gunknife", 2],
+        ["50pistol", 2]
+    ]
+    },
+    {
+      "type" : "item_group",
+      "id" : "rifles",
+      "items":[
+        ["arccan", 5]
+    ]
+    },
+    {
+      "type" : "item_group",
+      "id" : "smg",
+      "items":[
+        ["hk_mp5eod", 2],
+        ["ltcarb", 4]
+      ]
+    },
+    {
+      "type" : "item_group",
+      "id" : "lmoe_guns",
+      "items":[
+        ["hk_mp5eod", 2],
+        ["50pistol", 2]
+      ]
+    },
+    {
+      "type" : "item_group",
+      "id" : "cop_armory",
+      "items":[
+        ["arccan", 5],
+        ["ltcarb", 5]
+      ]
+    },
+    {
+      "type" : "item_group",
+      "id" : "prison_Weapons",
+      "items":[
+        ["ltcarb", 5]
+      ]
+    },
+    {
+      "type" : "item_group",
+      "id" : "cop_weapons",
+      "items":[
+        ["arccan", 5],
+        ["ltcarb", 5]
+      ]
+    },
+    {
+      "type" : "item_group",
+      "id" : "mil_rifles",
+      "items":[
+        ["emas", 5]
+      ]
+    },
+    {
+      "type" : "item_group",
+      "id" : "military",
+      "items":[
+        ["emas", 5]
+      ]
+    },
+    {
+      "type" : "item_group",
+      "id" : "gunxtras",
+      "items":[
+        ["emas", 5],
+        ["retool_flaregun",7]
+      ]
+    },
+    {
+      "type" : "item_group",
+      "id" : "gunsmith_gunparts",
+      "items":[
+        ["emas", 5],
+        ["retool_flaregun",7]
+      ]
+    }
+]

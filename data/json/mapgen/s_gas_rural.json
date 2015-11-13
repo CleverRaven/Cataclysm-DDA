@@ -13,7 +13,7 @@
                 "________________________",
                 "________________________",
                 "________________________",
-                "________________________",
+                "_______O________O_______",
                 "________________________",
                 "________________________",
                 "________________________",
@@ -58,6 +58,7 @@
                 "E": "t_floor",
                 "F": "t_floor",
                 "G": "t_floor",
+                "O": "t_dirt",
                 "H": "t_floor",
                 "z": "t_shrub",
                 "S": "t_sidewalk",
@@ -73,7 +74,6 @@
                 "8": "f_bathtub",
                 "9": "f_rack",
                 ":": "f_dresser",
-                ";": "f_toilet",
                 "=": "f_woodstove",
                 ">": "f_counter",
                 "?": "f_sofa",
@@ -87,11 +87,12 @@
                 "H": "f_armchair",
                 "G": "f_oven"
             },
-          "place_specials": [
-            { "type": "toilet", "x": 20, "y": 21 },
-            { "type": "gaspump", "x": 16, "y": 5 },
-            { "type": "gaspump", "x": 7, "y": 5 }
-            ],
+            "toilets": {
+                ";": { }
+            },
+            "gaspumps": {
+                "O": { }
+            },
         "add": [
             { "item": "shotgun_s", "x": 3, "y": 20 },
             { "item": "pot", "x": 18, "y": 21 },
@@ -106,11 +107,11 @@
                 { "point": "terrain", "id": "t_dirt", "x": [ 0, 23], "y": [ 0,4 ], "repeat": [ 8, 2] }
                 ],
         "comment": "randomly picked from a group ---v",
-        "place_groups": [
+        "place_items": [
             { "item": "bed", "chance": 80, "x": [ 2,3 ],    "y": [ 19, 20 ]},
             { "item": "dresser", "chance": 80, "x": 2,    "y": 21},
             { "item": "fridgesnacks", "chance": 80, "x": [ 2,9 ],    "y": 17},
-            { "item": "fridge", "chance": 80, "x":  17,    "y": 19},				
+            { "item": "fridge", "chance": 80, "x":  17,    "y": 19},
             { "item": "snacks",     "chance": 80, "x": [ 2,5 ],   "y": 15},
             { "item": "behindcounter",     "chance": 80, "x": [ 21,21 ],   "y": [13,14] },
             { "item": "road",     "chance": 20, "x": [ 20,20 ],   "y": [13,14] },

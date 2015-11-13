@@ -45,7 +45,7 @@ Rough list based on building on Arch:
   * Curses: `ncurses`
   * Tiles: `sdl2`, `sdl2_image`, `sdl2_ttf`, `sdl2_mixer`, `freetype2`
 
-E.g. for curses build on Debian and derivatives you'll also need `libncurses5-dev`.
+E.g. for curses build on Debian and derivatives you'll also need `libncurses5-dev` or `libncursesw5-dev`.
 
 Note on optional dependencies:
 
@@ -92,12 +92,12 @@ Building instructions, below, always assume you are running them from the Catacl
 
 Dependencies:
 
-  * ncurses
+  * ncurses or ncursesw (for multi-byte locales)
   * build essentials
 
 Install:
 
-    sudo apt-get install libncurses5-dev build-essential
+    sudo apt-get install libncurses5-dev libncursesw5-dev build-essential
 
 ### Building
 
@@ -110,11 +110,11 @@ Run:
 Dependencies:
 
   * 32-bit toolchain
-  * 32-bit ncurses
+  * 32-bit ncursesw (compatible with both multi-byte and 8-bit locales)
 
 Install:
 
-    sudo apt-get install libc6-dev-i386 lib32stdc++-dev g++-multilib lib32ncurses5-dev
+    sudo apt-get install libc6-dev-i386 lib32stdc++-dev g++-multilib lib32ncursesw5-dev
 
 ### Building
 
@@ -185,46 +185,66 @@ Run:
 
 # Mac OS X
 
-To build Cataclysm on Mac you'll have to get XCode with command line tools (or just download them separately from https://developer.apple.com/downloads/) and Homebrew package manager.
+To build Cataclysm on Mac you'll need [Command Line Tools for Xcode](https://developer.apple.com/downloads/) and the [Homebrew](http://brew.sh) package manager. With Homebrew, you can easily install or build Cataclysm using the Cataclysm forumla on Homebrew Games.
 
-## Step 1: Install SDL2
+## Simple build using Homebrew
 
-SDL2, SDL2\_image, and SDL2\_ttf are needed for the tiles build.
+Once you have Homebrew installed, open Terminal and run one of the following commands.
 
-### Option 1: manual download and install
+For a curses build:
 
-* [**SDL2 framework**](http://www.libsdl.org/download-1.2.php)
-    * Direct download: http://www.libsdl.org/release/SDL2-2.0.3.dmg
+    brew install homebrew/games/cataclysm
 
-* [**SDL2\_image framework**](http://www.libsdl.org/projects/SDL_image/)
-    * Direct download: http://www.libsdl.org/projects/SDL_image/release/SDL2_image-2.0.0.dmg
+For a tiles build:
 
-* [**SDL2\_ttf framework**](http://www.libsdl.org/projects/SDL_ttf/)
-    * Direct download: http://www.libsdl.org/projects/SDL_ttf/release/SDL2_ttf-2.0.12.dmg
+    brew install homebrew/games/cataclysm --with-tiles
+
+For an experimental curses build:
+
+    brew install homebrew/games/cataclysm --HEAD
+
+For an experimental tiles build:
+
+    brew install homebrew/games/cataclysm --with-tiles --HEAD
+
+Whichever build you choose, Homebrew will install the appropriate dependencies as needed. The installation will be in `/usr/local/Cellar/cataclysm` with a symlink named `cataclysm` in `/usr/local/bin`.
+
+To launch Cataclysm, just open Terminal and run `cataclysm`.
+
+To update an experimental build, you must uninstall Cataclysm, then reinstall using one of the above commands. If you want to keep your saved games, be sure to backup the folder `/usr/local/Cellar/cataclysm/HEAD/libexec/save` first, then uninstall Cataclysm using the command:
+
+    brew rm cataclysm
+
+## Advanced info for Developers
+
+For most people, the simple Homebrew installation is enough. For developers, here are some more technical details on building Cataclysm on Mac OS X.
+
+### SDL
+
+SDL2, SDL2_image, and SDL2_ttf are needed for the tiles build. Cataclysm can be built using either the SDL framework, or shared libraries built from source.
+
+The SDL framework files can be downloaded here:
+
+* [**SDL2**](http://www.libsdl.org/download-2.0.php)
+* [**SDL2_image**](http://www.libsdl.org/projects/SDL_image/)
+* [**SDL2_ttf**](http://www.libsdl.org/projects/SDL_ttf/)
 
 Copy `SDL2.framework`, `SDL2_image.framework`, and `SDL2_ttf.framework`
 to `/Library/Frameworks` or `/Users/name/Library/Frameworks`.
 
-### Option 2: Using package manager
+Alternatively, SDL shared libraries can be installed using a package manager:
 
-Alternately, shared libraries (libSDL2, libSDL2\_image, libSDL2\_ttf) can be used
-instead of frameworks. Install with a package manager (Fink, MacPorts,
-Homebrew, pkgsrc) or build and install from source.
-
-For Homebrew (can also install lua):
+For Homebrew:
 
     brew install sdl2 sdl2_image sdl2_ttf
 
-For Macports:
+For MacPorts:
 
     sudo port install libsdl2 libsdl2_image libsdl2_ttf
 
-## Step 2: Install ncurses and gettext
+### ncurses and gettext
 
-ncurses and gettext are needed for localization.
-Install with a package manager, or build from source and install.
-
-**NOTE: ncurses needs wide character support enabled.**
+ncurses (with wide character support enabled) and gettext are needed if you want to build Cataclysm with localization.
 
 For Homebrew:
 
@@ -232,119 +252,345 @@ For Homebrew:
     brew install gettext ncurses
     brew link --force gettext ncurses
 
-**After you build Cataclysm** you might want to to unlink gettext and ncurses with:
+Then, after compiling, be sure to unlink these libraries to prevent conflicts with the OS X shared libraries:
 
     brew unlink gettext ncurses
 
-Reason: if you build other software, these versions might conflict with what the other software expects.
+For MacPorts:
 
-For Macports:
-
-    # gettext depends on ncurses, so you don't need to specify ncurses explicitly
-    # gettext also includes libintl
     sudo port install gettext ncurses
     hash -r
 
-## Step 3: Compile
+### Compiling
 
-### Sample compilation commands for current versions of OS X
+The Cataclysm source is compiled using `make`.
 
-One of the following commands will likely work for you. Tweak flags to suit your needs.
+### Make options
 
-build a release version, use `SDL` + graphical tiles, don't use `gettext`, and use `Clang` for compilation:
-
-    $ make NATIVE=osx OSX_MIN=10.7 RELEASE=1 TILES=1 LOCALIZE=0 CLANG=1
-
-build a release version, use `SDL` + graphical tiles, link to libraries in the OS X `Frameworks` folders, don't use `gettext`, and use `Clang` for compilation:
-
-    $ make NATIVE=osx OSX_MIN=10.7 RELEASE=1 TILES=1 FRAMEWORK=1 LOCALIZE=0 CLANG=1
-
-build a release version, use curses and gettext supplied by Macports:
-
-    $ make NATIVE=osx OSX_MIN=10.7 RELEASE=1 LOCALIZE=1 MACPORTS=1
-
-### Compile localization files for specified languages
-
-If you just want to compile localization files for specified languages, you can add `LANGUAGES="<lang_id_1>[ lang_id_2][ ...]"` option to make command, e.g.
-
-    $ make LANGUAGES="zh_CN zh_TW"
-
-You can get the language ID from the filenames of `*.po` in `lang/po` directory.
-
-Note: Setting `LOCALIZE=1` may not tell `make` to compile those localization files for you.
-
-### Make Options
-
-Description of the options used above. Tweak until things work. More notes are in the `Makefile`.
-
-* `FRAMEWORK=1` attempt to link to libraries under the OS X `Frameworks` folders; omit to use the usual libsdl, libsdl\_image, libsdl\_ttf (e.g. leave out when you `brew install` the packages).
-* `LOCALIZE=0` disable localization (to get around possible `gettext` errors if it is not setup correctly); omit to use `gettext`.
-* `LANGUAGES="<lang_id_1>[ lang_id_2][ ...]"` compile localization files for specified languages. e.g. `LANGUAGES="zh_CN zh_TW"`
-* `NATIVE=osx` build for OS X.
+* `NATIVE=osx` build for OS X. Required for all Mac builds.
 * `OSX_MIN=version` sets `-mmacosx-version-min=` (for OS X > 10.5 set it to 10.6 or higher); omit for 10.5.
-* `RELEASE=1` build an optimized 'release' version; omit for debug build.
 * `TILES=1` build the SDL version with graphical tiles (and graphical ASCII); omit to build with `ncurses`.
-* `CLANG=1` build with [Clang](http://clang.llvm.org/) to get the necessary support for c++11 without needing to reinstall gcc/g++ (which seems like it might cause havoc with certain compilations of things).
-* `TILES=1` build the SDL version with graphical tiles (and graphical ASCII); omit to build with `ncurses`.
-* `MACPORTS` build against dependencies installed via Macports, currently only `gettext` and `ncurses`.
+* `FRAMEWORK=1` (tiles only) link to SDL libraries under the OS X Frameworks folders; omit to use SDL shared libraries from Homebrew or Macports.
+* `LOCALIZE=0` disable localization (to get around possible `gettext` errors if it is not setup correctly); omit to use `gettext`.
+* `LANGUAGES="<lang_id_1>[lang_id_2][...]"` compile localization files for specified languages. e.g. `LANGUAGES="zh_CN zh_TW"`
+* `RELEASE=1` build an optimized release version; omit for debug build.
+* `CLANG=1` build with [Clang](http://clang.llvm.org/), the compiler that's included with the latest Command Line Tools for Xcode; omit to build using gcc/g++.
+* `MACPORTS=1` build against dependencies installed via Macports, currently only `gettext` and `ncurses`.
+* `USE_HOME_DIR=1` places user files (config, saves, graveyard, etc) in the user's home directory. For curses builds, this is `/Users/<user>/.cataclysm-dda`, for SDL builds it is `/Users/<user>/Library/Application Support/Cataclysm`.
 
-## Step 4: Run
+In addition to the options above, there is an `app` make target which will package the tiles build into `Cataclysm.app`, a complete tiles build in a Mac application that can run without Terminal.
 
-    $ ./cataclysm
+For more info, see the comments in the `Makefile`.
 
-or
+### Make examples
 
-    $ ./cataclysm-tiles
+Build a release SDL version using Clang without gettext:
 
-## Step 5 (optional): Application packaging
+    make NATIVE=osx OSX_MIN=10.7 RELEASE=1 TILES=1 LOCALIZE=0 CLANG=1
 
-If you just want to build from source and run the game, this step is not for you.
+Build a release SDL version using Clang, link to libraries in the OS X Frameworks folders, don't use `gettext`, and package it into `Cataclysm.app`:
 
-*The `app` build rule will attempt to automate the instructions listed below.*
+    make app NATIVE=osx OSX_MIN=10.7 RELEASE=1 TILES=1 FRAMEWORK=1 LOCALIZE=0 CLANG=1
 
-Create new folder and name it `Cataclysm.app`.
+Build a release curses version with gettext supplied by Macports:
 
-Put compiled binaries (`./cataclysm-tiles` and/or `./cataclysm`) with `./gfx/` and `./data/` folders inside `/Cataclysm.app/Contents/Resources/`.
+    make NATIVE=osx OSX_MIN=10.7 RELEASE=1 LOCALIZE=1 MACPORTS=1
 
-To bundle SDL libs copy `SDL2.framework`, `SDL2_image.framework`, and `SDL2_ttf.framework` to `/Cataclysm.app/Contents/Resources/libs/` or shared libs homebrew installed from `/usr/local/Cellar/sdl2*/version/lib/lib*`.
+### Compiling localization files
 
-Create folder `/Cataclysm.app/Contents/MacOS` and file ./Cataclysm within it with this content:
+If you just want to compile localization files for specified languages, you can add `LANGUAGES="<lang_id_1>[lang_id_2][...]"` option to make command:
 
-    #!/bin/sh
-    PWD=`dirname "${0}"`
-    OSREV=`uname -r | cut -d. -f1`
-    if [ "$OSREV" -ge 11 ] ; then
-       export DYLD_LIBRARY_PATH=${PWD}/../Resources/libs
-       export DYLD_FRAMEWORK_PATH=${PWD}/../Resources/libs
-    else
-       export DYLD_FALLBACK_LIBRARY_PATH=${PWD}/../Resources/libs
-       export DYLD_FALLBACK_FRAMEWORK_PATH=${PWD}/../Resources/libs
-    fi
-    cd "${PWD}/../Resources/"; ./cataclysm-tiles
+    make LANGUAGES="zh_CN zh_TW"
 
-### Creating a DMG
+You can get the language ID from the filenames of `*.po` in `lang/po` directory. Setting `LOCALIZE=1` may not tell `make` to compile those localization files for you.
 
-  * Create an new folder named Cataclysm
-  * Move your Cataclysm.app into it
-  * Start Disk Utility
-  * File / New -> Disk Image From Folder
-  * Select the Cataclysm folder you created above.
+### Running
 
-Done!
+For curses builds:
+
+    ./cataclysm
+
+For SDL:
+
+    ./cataclysm-tiles
+
+For `app` builds, launch Cataclysm.app from Finder.
 
 ## Troubleshooting
 
 ### ISSUE: crash on startup due to libint.8.dylib aborting
 
-Basically if you're compiling on Mountain Lion or above, it won't be possible to run successfully on older OS X versions due to libint.8 / pthreads version issue.
+If you're compiling on Mountain Lion or above, it won't be possible to run successfully on older OS X versions due to libint.8 / pthreads version issue.
 
-See below (quoted form https://wiki.gnome.org/GTK+/OSX/Building)
+From https://wiki.gnome.org/GTK+/OSX/Building:
 
-"There's another issue with building on Lion or Mountain Lion using either "native" or the 10.7 SDK: Apple has updated the pthreads implementation to provide recursive locking. This would be good except that Gettext's libintl uses this and if the pthreads implementation doesn't provide it it fabricates its own. Since the Lion pthreads does provide it, libintl links the provided function and then crashes when you try to run it against an older version of the library. The simplest solution is to specify the 10.6 SDK when building on Lion, but that won't work on Mountain Lion, which doesn't include it. See below for how to install and use XCode 3 on Lion and later for building applications compatible with earlier versions of OSX."
+> "There's another issue with building on Lion or Mountain Lion using either "native" or the 10.7 SDK: Apple has updated the pthreads implementation to provide recursive locking. This would be good except that Gettext's libintl uses this and if the pthreads implementation doesn't provide it it fabricates its own. Since the Lion pthreads does provide it, libintl links the provided function and then crashes when you try to run it against an older version of the library. The simplest solution is to specify the 10.6 SDK when building on Lion, but that won't work on Mountain Lion, which doesn't include it. See below for how to install and use XCode 3 on Lion and later for building applications compatible with earlier versions of OSX."
 
 Workaround: install XCode 3 like that article describes, or disable localization support in Cataclysm so gettext/libint are not dependencies. Or else simply don't support OS X versions below 10.7.
 
-### ISSUE: Colours don't show up correctly
+### ISSUE: Colors don't show up correctly
 
 Open Terminal's preferences, turn on "Use bright colors for bold text" in "Preferences -> Settings -> Text"
 
+
+# Windows
+
+## MinGW Guide
+To compile under windows MinGW you first need to download mingw. An automated GUI installer assistant called mingw-get-setup.exe will make everything a lot easier. I recommend installing it to `C:\MinGW`
+https://sourceforge.net/projects/mingw/files/latest/download
+
+### MinGW setup
+once installed we need to get the right packages. In "Basic Setup", mark `mingw-developer-toolkit`, `mingw32-base` and `mingw32-gcc-g++`
+
+Then install these components using `Installation -> Apply Changes`.
+
+#### Localization
+If we want to compile with localization, we will need gettext and libintl. In "All Packages -> MinGW -> MinGW Autotools" ensure that `mingw32-gettext` and `mingw32-libintl` are installed.
+
+### Required Tiles(SDL) Libraries
+If we want to compile with Tiles (SDL) we have to download a few libraries.
+* `SDL2` http://www.libsdl.org/download-2.0.php chose `SDL2-devel-2.0.X-mingw.tar.gz`.
+* `SDL_ttf` https://www.libsdl.org/projects/SDL_ttf/ chose `SDL2_ttf-devel-2.0.12-mingw.tar.gz`.
+* `SDL_image` https://www.libsdl.org/projects/SDL_image/ chose ` SDL2_image-devel-2.0.0-mingw.tar.gz` 
+* `freetype` http://gnuwin32.sourceforge.net/packages/freetype.htm chose `Binaries` and `Developer files`  
+
+#### Bundled Libraries
+The following archives were pre-bundled for convienience and reduction of head-aches, simply download and extract directly to the root directory of the CDDA source:
+* `64-bit SDL \ Tiles \ Sound \ Lua \ Localization` http://dev.narc.ro/cataclysm/cdda-win64-codeblocks.7z
+
+#### Installing Tiles(SDL) libraries.
+For the first 3 (`SDL2`, `SDL_ttf` and `SDL_image`) you want to extract the include and lib folders from the `i686-w64-mingw32` folders into your MinGW installtion folder. (Reccomended `C:\MinGW`). And the `SDL2_image.dll` and `SDL2_ttf.dll` into your cataclysm root folder.
+
+For freetype you want to grab the include and lib folders from the `freetype-2.X.X-X-lib.zip` and move them into your your MinGW installation folder. Then you want to get the freetype6.dll from the `freetype-2.X.X-X-bin.zip` and move it into your cataclysm root folder.
+
+#### ISSUE - "winapifamily.h" no such file or directoyr
+There seems to be at the moment of writing that a file in SDL is broken and needs to be replaced. 
+https://hg.libsdl.org/SDL/raw-file/e217ed463f25/include/SDL_platform.h 
+Replace SDL_platform.h in the MinGW/include/SDL2 folder and it should be fine.
+
+### Makefile changes
+This probably not the best way to do it. But it seems that you need to remove a few dependenceis from the makefile or it will not build.
+change the line `LDFLAGS += -lfreetype -lpng -lz -ljpeg -lbz2` to `LDFLAGS += -lfreetype`
+
+### Compiling
+Navigate to `MinGW\msys\1.0` and run `msys.bat`. This will start a cmd-like shell where the following entries will be made.
+
+Add the MinGW toolchain to your PATH with `export PATH=$PATH:/c/MinGW/bin`. Replace /c/MinGW/ with the directory into which you installed MinGW (/c/ stands for drive C:, so if it's in F:/foo/bar, you'd use /f/foo/bar).
+
+Navigate to the CDDA source code directory.
+
+Compile using `make TILES=1 NATIVE=win32 LOCALIZE=1` and unless there are problems, it should produce a CDDA binary for you.
+
+If you dont want tiles you can change `TILES` to 0.
+
+If you dont want localization you can change `LOCALIZE` to 0.
+
+## Rough guide to building with only MSYS2
+
+This is a tentative step-by-step guide to building your own CDDA with Tiles, Localization and Lua using only MSYS2. You may want to follow it if the MinGW guide above doesn't work for you or you just feel adventurous. Feedback is very much welcome in terms of issues and/or pull-requests.
+
+This guide assumes you're building on a x86_64 build of Windows. If not adjust the invocations appropriately. It has been tested and proven to work on Windows XP, Windows 7 and Windows 10. Your mileage may vary.
+
+#### 1. Go to https://msys2.github.io/ and download appropriate MSYS (top of the page).
+
+#### 2. Install MSYS2 and leave the Run ticker on. You should end up with a MSYS2 terminal.
+
+#### 3. In the open terminal:
+
+```bash
+pacman --needed -Sy bash pacman pacman-mirrors msys2-runtime
+```
+
+Note: You may close the terminal now and reopen it from the Start menu (MSYS2 Shell, just to be on the safe-er side).
+
+Note: You may need to bash the close button repeatedly. Or use the task manager to kill it.
+
+#### 4. Open an editor that preserves line-endings
+
+Note: Wordpad should do. Or Notepadd++.
+
+#### 5. Open `C:\msys64\etc\pacman.conf` and change:
+
+```bash
+# By default, pacman accepts packages signed by keys that its local keyring
+# trusts (see pacman-key and its man page), as well as unsigned packages.
+#SigLevel = Never
+SigLevel    = Required DatabaseOptional
+LocalFileSigLevel = Optional
+#RemoteFileSigLevel = Required
+```
+
+To:
+
+```bash
+# By default, pacman accepts packages signed by keys that its local keyring
+# trusts (see pacman-key and its man page), as well as unsigned packages.
+SigLevel = Never
+#SigLevel    = Required DatabaseOptional
+LocalFileSigLevel = Optional
+#RemoteFileSigLevel = Required
+```
+
+(Exchange the # on SigLevel). This disables signature checking as it is currently borked.
+
+#### 6. Save the file
+
+#### 7. Run in MSYS2 terminal:
+
+```bash
+pacman -Su
+pacman -S mingw-w64-x86_64-gcc
+pacman -S mingw-w64-x86_64-SDL2 mingw-w64-x86_64-SDL2_image mingw-w64-x86_64-SDL2_mixer mingw-w64-x86_64-SDL2_ttf
+pacman -S mingw-w64-x86_64-pkg-config mingw-w64-x86_64-libwebp
+pacman -S git make
+```
+
+If you wish to build with Lua also run:
+
+```bash
+pacman -S mingw-w64-x86_64-lua
+```
+
+#### 8. Close MSYS2 terminal and open MinGW-w64 Win64 Shell from Start menu and run:
+
+Note: This will download whole CDDA repository. If you're just testing you should probably add `--depth=1`.
+
+```bash
+git clone https://github.com/CleverRaven/Cataclysm-DDA.git
+cd Cataclysm-DDA
+```
+
+#### 9. Open `Makefile` (it's located at `C:\msys64\home\<Your_Login>\Cataclysm-DDA\Makefile`) in an editor that worked before and change:
+
+```Makefile
+   ifeq ($(NATIVE), osx)
+     CXXFLAGS += -O3
+   else
+     CXXFLAGS += -Os
+     LDFLAGS += -s
+   endif
+```
+
+To:
+
+```Makefile
+   ifeq ($(NATIVE), osx)
+     CXXFLAGS += -O3
+   else
+     #CXXFLAGS += -Os
+     LDFLAGS += -s
+   endif
+```
+
+(Comment out `CXXFLAGS += -Os`). Optimizations break `gcc 4.9.2` you get with MSYS2.
+
+Also change:
+
+```Makefile
+   ifeq ($(TARGETSYSTEM),WINDOWS)
+     ifndef DYNAMIC_LINKING
+       # These differ depending on what SDL2 is configured to use.
+       LDFLAGS += -lfreetype -lpng -lz -ljpeg -lbz2
+     else
+```
+
+To:
+
+```Makefile
+   ifeq ($(TARGETSYSTEM),WINDOWS)
+     ifndef DYNAMIC_LINKING
+       # These differ depending on what SDL2 is configured to use.
+       LDFLAGS += -lfreetype -lpng -lz -ltiff -lbz2 -lharfbuzz -lglib-2.0 -llzma -lws2_32 -lintl -liconv -lwebp -ljpeg -luuid
+     else
+```
+
+(Add `-lharfbuzz -lglib-2.0 -llzma -lws2_32 -lintl -liconv -lwebp -ljpeg -luuid`). You'll need these libs for it to link.
+
+#### 10. Compile your CDDA by running:
+
+```bash
+make RELEASE=1 TILES=1 LOCALIZE=0 NATIVE=win64
+```
+
+Note: Add `-jX` where X should be the number of threads/cores your processor has (for speeding the build up).
+
+For:
+- Lua:
+    You'd need to first run:
+    
+    ```bash
+    cd src/lua && lua generate_bindings.lua && cd ../../
+    ```
+
+    Then add `LUA=1` to make invocation
+- Localization: Use `LOCALIZE=1`
+
+That's it. You should get a `cataclysm-tiles.exe` binary in the same folder you've found the `Makefile` in.
+
+# BSDs
+
+There are reports of CDDA building fine on recent OpenBSD and FreeBSD machines (with appropriately recent compilers), and there is some work being done on making the `Makefile` "just work", however we're far from that and BSDs support is mostly based on user contributions. Your mileage may vary. So far essentially all testing has been on amd64, but there is no (known) reason that other architectures shouldn't work, in principle.
+
+### Building on FreeBSD/amd64 10.1 with the system compiler
+
+FreeBSD uses clang as the default compiler as of 10.0, and combines it with libc++ to provide C++11 support out of the box. You will however need gmake (examples for binary packages):
+
+`pkg install gmake`
+
+Tiles builds will also require SDL2:
+
+`pkg install sdl2 sdl2_image sdl2_mixer sdl2_ttf`
+
+Then you should be able to build with something like this (you can of course set CXXFLAGS and LDFLAGS in your .profile or something):
+
+```
+export CXXFLAGS="-I/usr/local/include" LDFLAGS="-L/usr/local/lib"
+gmake # ncurses builds
+gmake TILES=1 # tiles builds
+```
+
+The author has not tested tiles builds, as the build VM lacks X; they do at least compile/link successfully.
+
+### Building ncurses version on FreeBSD/amd64 9.3 with GCC 4.8.4 from ports
+
+For ncurses build add to `Makefile`, before `VERSION`:
+
+```Makefile
+OTHERS += -D_GLIBCXX_USE_C99
+CXX = g++48
+CXXFLAGS += -I/usr/local/lib/gcc48/include
+LDFLAGS += -rpath=/usr/local/lib/gcc48
+```
+Note: or you can `setenv` the above (merging `OTHERS` into `CXXFLAGS`), but you knew that.
+
+And then build with `gmake LOCALIZE=0 RELEASE=1`.
+
+### Building on OpenBSD/amd64 5.7 with GCC 4.9.2 from ports/packages
+
+First, install g++ and gmake from packages (g++ 4.8 or 4.9 should work; 4.9 has been tested):
+
+`pkg_add g++ gmake`
+
+Then you should  be able to build with something like:
+
+`CXX=eg++ gmake`
+
+Only an ncurses build is possible, as SDL2 is currently broken on OpenBSD.
+
+Note that testing effort has been focused on -current, and these instructions applied to it at the time of writing and will probably be maintained for it in the future.
+
+### Building on NetBSD/amd64 7.0RC1 with the system compiler
+
+NetBSD has (or will have) gcc 4.8.4 as of version 7.0, which is new enough to build cataclysm. You will need to install gmake and ncursesw:
+
+`pkgin install gmake ncursesw`
+
+Then you should be able to build with something like this (LDFLAGS for ncurses builds are taken care of by the ncurses configuration script; you can of course set CXXFLAGS/LDFLAGS in your .profile or something):
+
+```
+export CXXFLAGS="-I/usr/pkg/include"
+gmake # ncurses builds
+LDFLAGS="-L/usr/pkg/lib" gmake TILES=1 # tiles builds
+```
+
+SDL builds currently compile, but did not run in my testing - not only do they segfault, but gdb segfaults when reading the debug symbols! Perhaps your mileage will vary.

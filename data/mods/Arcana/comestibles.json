@@ -1,0 +1,166 @@
+[
+    {
+        "id": "numbness_potion",
+        "type": "COMESTIBLE",
+        "category" : "drugs",
+        "symbol": "~",
+        "color": "dark_grey",
+        "name": "black potion",
+        "name_plural": "black potion",
+        "description": "A strange black liquid that smells like death itself.  The first step towards creating the elixer of life, allegedly.  Drinking this will numb the body greatly, but it isn't at all healthy.",
+        "price": 300,
+        "weight": 300,
+        "volume": 1,
+        "bashing": 0,
+        "cutting": 0,
+        "to_hit": 0,
+        "comestible_type": "DRINK",
+        "tool": "null",
+        "container": "bottle_glass",
+        "quench": -25,
+        "nutrition": 0,
+        "spoils_in": 0,
+        "addiction_potential": 0,
+        "addiction_type" : "none",
+        "charges": 1,
+        "healthy": -5,
+        "fun": -5,
+        "stim": -4,
+        "flags" : ["EATEN_COLD"],
+        "phase": "liquid",
+        "use_action" : {
+            "type" : "consume_drug",
+            "activation_message" : "You drink the potion and feel a strange numbness spread through your body.",
+            "effects" : [
+                {
+                    "id": "potion_numbness",
+                    "duration": 50
+                }
+            ],
+            "stat_adjustments": {"hunger" : 25}
+        }
+    },
+    {
+        "id": "strength_potion",
+        "type": "COMESTIBLE",
+        "category" : "drugs",
+        "symbol": "~",
+        "color": "dark_grey",
+        "name": "white potion",
+        "name_plural": "white potion",
+        "description": "A strange white liquid with a scent that makes your nose itch.  The second step towards creating the elixer of life, allegedly.  Drinking this will strengthen the body, but at some cost.",
+        "price": 400,
+        "weight": 300,
+        "volume": 1,
+        "bashing": 0,
+        "cutting": 0,
+        "to_hit": 0,
+        "comestible_type": "DRINK",
+        "tool": "null",
+        "container": "bottle_glass",
+        "quench": -20,
+        "nutrition": 0,
+        "spoils_in": 0,
+        "addiction_potential": 0,
+        "addiction_type" : "none",
+        "charges": 1,
+        "healthy": -3,
+        "fun": 0,
+        "stim": -2,
+        "flags" : ["EATEN_COLD"],
+        "phase": "liquid",
+        "use_action" : {
+            "type" : "consume_drug",
+            "activation_message" : "You drink the potion and feel wicked power spread through your body.",
+            "effects" : [
+                {
+                    "id": "potion_strength",
+                    "duration": 50
+                }
+            ],
+            "stat_adjustments": {"hunger" : 20}
+        }
+    },
+    {
+        "id": "speed_potion",
+        "type": "COMESTIBLE",
+        "category" : "drugs",
+        "symbol": "~",
+        "color": "dark_grey",
+        "name": "yellow potion",
+        "name_plural": "yellow potion",
+        "description": "A strange yellow liquid with an intoxicating smell to it.  The third step towards creating the elixer of life, allegedly.  Drinking this will enhance your speed and dexterity, but it won't be a pleasant experience.",
+        "price": 700,
+        "weight": 300,
+        "volume": 1,
+        "bashing": 0,
+        "cutting": 0,
+        "to_hit": 0,
+        "comestible_type": "DRINK",
+        "tool": "null",
+        "container": "bottle_glass",
+        "quench": -15,
+        "nutrition": 0,
+        "spoils_in": 0,
+        "addiction_potential": 0,
+        "addiction_type" : "none",
+        "charges": 1,
+        "healthy": -1,
+        "fun": 0,
+        "stim": 2,
+        "flags" : ["EATEN_COLD"],
+        "phase": "liquid",
+        "use_action" : {
+            "type" : "consume_drug",
+            "activation_message" : "You drink the potion and feel a sudden tension spread through your body.",
+            "effects" : [
+                {
+                    "id": "potion_speed",
+                    "duration": 50
+                }
+            ],
+            "stat_adjustments": {"hunger" : 15}
+        }
+    },
+    {
+        "id": "healing_potion",
+        "type": "COMESTIBLE",
+        "category" : "drugs",
+        "symbol": "~",
+        "color": "light_red",
+        "name": "red potion",
+        "name_plural": "red potion",
+        "description": "A strange reddish liquid that gives off a sweet smell.  The elixir of life, or merely a mimicry?  Drinking this will cure a number of things, but can't mend existing damage, and taxes your body to do so.",
+        "price": 2900,
+        "weight": 300,
+        "volume": 1,
+        "bashing": 0,
+        "cutting": 0,
+        "to_hit": 0,
+        "comestible_type": "DRINK",
+        "tool": "null",
+        "container": "bottle_glass",
+        "quench": -10,
+        "nutrition": 0,
+        "spoils_in": 0,
+        "addiction_potential": 0,
+        "addiction_type" : "none",
+        "charges": 1,
+        "healthy": 0,
+        "fun": 5,
+        "stim": 4,
+        "flags" : ["EATEN_COLD"],
+        "phase": "liquid",
+        "use_action" : {
+            "type" : "consume_drug",
+            "activation_message" : "You drink the potion and feel a pleasant warmth spread through your body.",
+            "effects" : [
+                {
+                    "id": "potion_healing",
+                    "duration": 50
+                }
+            ],
+            "stat_adjustments": {"hunger" : 10}
+        }
+    }
+]

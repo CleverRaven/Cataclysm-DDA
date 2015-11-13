@@ -33,7 +33,8 @@
             ["recipe_melee", 10],
             ["manual_taekwondo", 10],
             ["manual_karate", 10],
-            ["manual_muay_thai", 2]
+            ["manual_muay_thai", 2],
+            ["manual_krav_maga",10]
         ]
     },
     {
@@ -98,8 +99,8 @@
                     "p": "t_window_domestic",
                     ",": "t_pavement_y",
                     "-": "t_pavement",
-                    "q": "t_wall_h",
-                    "x": "t_wall_v",
+                    "q": "t_wall",
+                    "x": "t_wall",
                     "+": "t_door_glass_c",
                     "'": "t_door_c",
                     "#": "t_floor",
@@ -122,7 +123,6 @@
                     "s": "t_sidewalk"
                 },
                 "furniture":{
-                    "T": "f_toilet",
                     "S": "f_shower",
                     "L": "f_locker",
                     "B": "f_bench",
@@ -145,9 +145,9 @@
                     { "item": "boxing_misc", "x": [16, 20], "y": [22, 22], "chance": 60, "repeat": [1, 4] },
                     { "item": "vending_drink", "chance": 70, "x": [10, 11], "y": [16, 16] }
                 ],
-                "place_toilets": [
-                    { "x": 11, "y": 22 }
-                ]
+                "toilets": {
+                    "T": { }
+                }
                 }
             }
         ]

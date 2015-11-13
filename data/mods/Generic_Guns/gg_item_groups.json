@@ -1,0 +1,587 @@
+[
+  {
+    "type":"item_group",
+    "id":"homeguns",
+    "guns_with_ammo" : true,
+    "items":[
+      ["levergun_44", 20],
+      ["rm228", 4],
+      ["dart", 5],
+      ["9mm", 40],
+      ["9mmfmj", 8],
+      ["44magnum", 30],
+      ["glock_19", 30],
+      ["m9", 20],
+      ["l_lookout_9mm", 5],
+      ["l_sp_9mm", 4],
+      ["l_mp_9mm", 1],
+      ["rm360_carbine", 1],
+      ["cx4", 25],
+      ["ruger_redhawk", 30],
+      ["mossberg_500", 35],
+      ["rm120c", 4],
+      ["shotgun_sawn", 1],
+      ["rm121aux", 1],
+      ["shot_flechette", 1],
+      ["20x66_shot", 3],
+      ["20x66_flare", 2],
+      ["20x66_frag", 1],
+      ["20x66_slug", 2],
+      ["20x66_flechette", 2],
+      ["shot_hull", 20],
+      ["9mm_casing", 15],
+      ["44_casing", 15],
+      ["223_casing", 15],
+      ["308_casing", 15],
+      ["rm99_pistol", 1],
+      ["rm103a_pistol", 1],
+      ["5x50_hull", 8],
+      ["rm120c", 3],
+      ["needlepistol", 1]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "behindcounter",
+    "guns_with_ammo" : true,
+    "items":[
+      ["shotgun_s", 15],
+      ["shotgun_d", 20],
+      ["mossberg_500", 25],
+      ["ruger_redhawk", 30],
+      ["rm99_pistol", 1],
+      ["rm103a_pistol", 1],
+      ["shotgun_sawn", 15],
+      ["rm228", 2]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "ammo",
+    "items":[
+      ["shot_bird", 20],
+      ["shot_00", 30],
+      ["shot_flechette", 2],
+      ["20x66_shot", 2],
+      ["20x66_exp", 1],
+      ["20x66_inc", 1],
+      ["20x66_flare", 1],
+      ["20x66_frag", 1],
+      ["20x66_slug", 2],
+      ["20x66_flechette", 1],
+      ["20x66_beanbag", 1],
+      ["shot_slug", 30],
+      ["9mm", 40],
+      ["9mmfmj", 5],
+      ["44magnum", 30],
+      ["556", 40],
+      ["762_51", 50],
+      ["shot_beanbag", 5],
+      ["8mm_jhp", 1],
+      ["8mm_fmj", 1],
+      ["8mm_caseless", 1],
+      ["8mm_civilian", 2],
+      ["5x50dart", 2],
+      ["5x50heavy", 1]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "pistols",
+    "items":[
+      ["glock_19", 50],
+      ["m9", 25],
+      ["l_lookout_9mm", 10],
+      ["l_sp_9mm", 10],
+      ["ruger_redhawk", 40],
+      ["l_bak_223", 2],
+      ["rm99_pistol", 2],
+      ["needlepistol", 5],
+      ["rm103a_pistol", 2]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "shotguns",
+    "items":[
+      ["shotgun_s", 20],
+      ["shotgun_d", 20],
+      ["rm228", 5],
+      ["rm120c", 5],
+      ["l_def_12", 10],
+      ["mossberg_500", 30]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "rifles",
+    "items":[
+      ["levergun_44", 15],
+      ["cx4", 15],
+      ["ruger_mini", 30],
+      ["savage_111f", 50],
+      ["m14a", 25],
+      ["rm11b_sniper_rifle", 1]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "smg",
+    "items":[
+      ["calico", 10],
+      ["hk_mp5", 50],
+      ["needlegun", 4],
+      ["rm2000_smg", 2]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "assault",
+    "items":[
+      ["ak47", 30],
+      ["m4a1", 50],
+      ["scar_h", 30],
+      ["m249", 5],
+      ["m240", 1],
+      ["m60", 1],
+      ["rm88_battle_rifle", 5],
+      ["rm51_assault_rifle", 5],
+      ["rm614_lmg", 1],
+      ["l_bak_223", 6],
+      ["rm2000_smg", 5]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "allguns",
+    "items":[
+      ["glock_19", 60],
+      ["m1014", 20],
+      ["m9", 40],
+      ["levergun_44", 20],
+      ["l_lookout_9mm", 5],
+      ["l_sp_9mm", 6],
+      ["l_mp_9mm", 3],
+      ["ruger_redhawk", 50],
+      ["shotgun_s", 40],
+      ["shotgun_d", 40],
+      ["rm228", 2],
+      ["l_def_12", 10],
+      ["l_bak_223", 6],
+      ["mossberg_500", 40],
+      ["rm120c", 2],
+      ["rm20", 1],
+      ["calico", 10],
+      ["hk_mp5", 15],
+      ["cx4", 30],
+      ["m14a", 40],
+      ["ruger_mini", 40],
+      ["savage_111f", 50],
+      ["ak47", 35],
+      ["scar_h", 50],
+      ["m249", 10],
+      ["m240", 5],
+      ["m60", 5],
+      ["rm51_assault_rifle", 5],
+      ["rm360_carbine", 2],
+      ["rm88_battle_rifle", 1],
+      ["rm11b_sniper_rifle", 1],
+      ["rm614_lmg", 1],
+      ["rm298", 1],
+      ["m134", 1],
+      ["rm2000_smg", 1],
+      ["rm99_pistol", 1],
+      ["rm103a_pistol", 1],
+      ["needlegun", 4],
+      ["needlepistol", 2]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "cop_armory",
+    "items":[
+      ["glock_19", 40],
+      ["m9", 15],
+      ["mossberg_500", 40],
+      ["l_def_12", 8],
+      ["ruger_mini", 40],
+      ["savage_111f", 40],
+      ["9mm", 30],
+      ["shot_00", 30],
+      ["shot_beanbag", 20],
+      ["556", 30],
+      ["762_51", 20]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "prison_weapons",
+    "items":[
+      ["glock_19", 10],
+      ["mossberg_500", 40],
+      ["l_def_12", 20],
+      ["ruger_mini", 10],
+      ["savage_111f", 10],
+      ["9mm", 20],
+      ["shot_00", 20],
+      ["shot_beanbag", 40],
+      ["556", 30],
+      ["762_51", 20]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "cop_weapons",
+    "items":[
+      ["glock_19", 20],
+      ["m1014", 20],
+      ["m9", 10],
+      ["rm120c", 2],
+      ["l_def_12", 15],
+      ["mossberg_500", 20],
+      ["shot_00", 40],
+      ["rm20", 1],
+      ["shot_beanbag", 15],
+      ["20x66_beanbag", 10],
+      ["20x66_flare", 3],
+      ["20x66_shot", 5],
+      ["rm99_pistol", 1],
+      ["8mm_fmj", 2],
+      ["8mm_caseless", 3],
+      ["rm802", 2],
+      ["m203", 2],
+      ["m4a1", 2],
+      ["rm121aux", 1],
+      ["hk_mp5", 15],
+      ["9mm", 35],
+      ["l_mp_9mm", 10]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "swat_gear",
+    "subtype": "distribution",
+    "items":[
+      ["glock_19", 30],
+      ["hk_mp5", 10],
+      ["calico", 15],
+      ["m4a1", 15],
+      ["m1014", 20],
+      ["9mm", 70],
+      ["45_acp", 40],
+      ["556", 40],
+      ["shot_00", 50],
+      ["shot_slug", 50]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "contraband",
+    "note": "concealable items only plz",
+    "items":[
+      ["m9", 10]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "lmoe_guns",
+    "guns_with_ammo" : true,
+    "items":[
+      ["556", 50],
+      ["762_51", 40],
+      ["glock_19", 30],
+      ["m9", 7],
+      ["rm99_pistol", 5],
+      ["rm103a_pistol", 2],
+      ["rm228", 5],
+      ["m14a", 25],
+      ["ruger_mini", 10],
+      ["rm120c", 3],
+      ["hk_mp5", 5],
+      ["m4a1", 30],
+      ["m1014", 10],
+      ["m249", 2],
+      ["m240", 1],
+      ["m60", 1],
+      ["ak47", 25]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "mansion_guns",
+    "items":[
+      ["m107a1", 4],
+      ["shotgun_s", 10],
+      ["shotgun_d", 10],
+      ["mossberg_500", 10],
+      ["calico", 6],
+      ["american_180", 4],
+      ["rm360_carbine", 2],
+      ["savage_111f", 10],
+      ["rm120c", 3],
+      ["rm99_pistol", 3],
+      ["rm103a_pistol", 2],
+      ["needlegun", 4],
+      ["needlepistol", 2],
+      ["5x50dart", 4],
+      ["5x50heavy", 2],
+      ["RPG", 1],
+      ["rifle_flintlock", 5],
+      ["carbine_flintlock", 4],
+      ["pistol_flintlock", 9],
+      ["flintlock_ammo", 7]
+    ]
+  },{
+    "type":"item_group",
+    "id":"survivorweapons",
+    "comment": "Please add only weapons and ammo that are easy to scavenge or create ",
+    "guns_with_ammo" : true,
+    "items":[
+      ["556", 10],
+      ["762_51", 10],
+      ["reloaded_9mm", 10],
+      ["9mm", 5],
+      ["9mmfmj", 2],
+      ["rifle_9mm", 20],
+      ["pipe__gun_44", 10],
+      ["hk_mp5", 10],
+      ["glock_19", 10],
+      ["m9", 7],
+      ["cx4", 10],
+      ["m4a1", 1],
+      ["savage_111f", 4],
+      ["mossberg_500", 4],
+      ["shotgun_sawn", 4],
+      ["shotgun_d", 4]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "pawn",
+    "items":[
+      ["rm120c", 2],
+      ["levergun_44", 10],
+      ["ruger_redhawk", 10]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "bots",
+    "items":[
+      ["556", 2],
+      ["9mm", 2]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "mil_hw",
+    "items":[
+      ["556", 50],
+      ["556_incendiary", 20],
+      ["rm802", 5],
+      ["hk_g80", 5],
+      ["12mm", 5],
+      ["rm614_lmg", 2],
+      ["rm298", 1],
+      ["m134", 1],
+      ["m107a1", 8],
+      ["50bmg", 30],
+      ["50ss", 8],
+      ["50_incendiary", 8],
+      ["8mm_fmj", 6],
+      ["8mm_inc", 6],
+      ["8mm_caseless", 6],
+      ["rm20", 3],
+      ["20x66_flechette", 4],
+      ["20x66_slug", 5],
+      ["20x66_exp", 2],
+      ["20x66_frag", 2],
+      ["20x66_flare", 4],
+      ["20x66_inc", 2]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "mil_rifles",
+    "items":[
+      ["556", 20],
+      ["556_incendiary", 10],
+      ["762_51", 20],
+      ["762_51_incendiary", 6],
+      ["m4a1", 30],
+      ["m1014", 5],
+      ["9mm", 10],
+      ["scar_h", 30],
+      ["m249", 5],
+      ["m240", 1],
+      ["m107a1", 5],
+      ["50bmg", 5],
+      ["50ss", 5],
+      ["50_incendiary", 2],
+      ["rm121aux", 1],
+      ["rm51_assault_rifle", 4],
+      ["rm88_battle_rifle", 4],
+      ["rm614_lmg", 1],
+      ["rm2000_smg", 1],
+      ["needlegun", 4],
+      ["5x50dart", 8],
+      ["5x50heavy", 4],
+      ["rm20", 1],
+      ["20x66_shot", 5],
+      ["20x66_exp", 1],
+      ["20x66_inc", 1],
+      ["20x66_flare", 2],
+      ["20x66_frag", 1],
+      ["20x66_slug", 4],
+      ["rm11b_sniper_rifle", 1]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "spider",
+    "items":[
+      ["20x66_shot", 4],
+      ["20x66_exp", 1],
+      ["20x66_inc", 1],
+      ["20x66_flare", 2],
+      ["20x66_frag", 1],
+      ["556", 6],
+      ["556_incendiary", 10],
+      ["762_51", 6],
+      ["762_51_incendiary", 10],
+      ["rm20", 1],
+      ["hk_mp5", 15],
+      ["calico", 10],
+      ["savage_111f", 10],
+      ["ak47", 16],
+      ["m4a1", 5]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "helicopter",
+    "items":[
+      ["m14a", 10],
+      ["m249", 1],
+      ["m240", 1],
+      ["rm614_lmg", 1],
+      ["rm298", 1],
+      ["m134", 1],
+      ["LAW_Packed", 30]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "military",
+    "items":[
+      ["m107a1" , 1],
+      ["50bmg" , 3],
+      ["50ss" , 2],
+      ["50_incendiary" , 2],
+      ["9mm", 8],
+      ["9mmfmj", 4],
+      ["556", 6],
+      ["556_incendiary", 2],
+      ["762_51", 6],
+      ["762_51_incendiary", 6],
+      ["20x66_shot", 4],
+      ["20x66_exp", 1],
+      ["20x66_inc", 1],
+      ["20x66_flare", 2],
+      ["20x66_frag", 1],
+      ["20x66_slug", 4],
+      ["20x66_flechette", 3],
+      ["m9", 6],
+      ["m4a1", 7],
+      ["m1014", 2],
+      ["scar_h", 5],
+      ["m249", 1],
+      ["m240", 1],
+      ["rm802", 6],
+      ["rm51_assault_rifle", 1],
+      ["rm88_battle_rifle", 1],
+      ["rm614_lmg", 1],
+      ["rm2000_smg", 1],
+      ["8mm_caseless", 2],
+      ["rm99_pistol", 1],
+      ["8mm_jhp", 2],
+      ["8mm_fmj", 2],
+      ["rm103a_pistol", 1],
+      ["8mm_inc", 2],
+      ["needlegun", 4],
+      ["needlepistol", 6],
+      ["5x50dart", 8],
+      ["5x50heavy", 4],
+      ["l_bak_223", 6],
+      ["rm11b_sniper_rifle", 1]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "rare",
+    "items":[
+      ["m249", 1],
+      ["m240", 1],
+      ["m60", 1],
+      ["rm51_assault_rifle", 1],
+      ["RPG", 1],
+      ["RPG-7_ammo", 1],
+      ["rm11b_sniper_rifle", 1]
+
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "drugdealer",
+    "items":[
+      ["shot_00", 10],
+      ["9mm", 8],
+      ["20x66_shot", 2],
+      ["glock_19", 15],
+      ["l_lookout_9mm", 5],
+      ["l_sp_9mm", 10],
+      ["shotgun_sawn", 5],
+      ["m9", 5],
+      ["hk_mp5", 10],
+      ["l_bak_223", 4],
+      ["l_mp_9mm", 4],
+      ["rm228", 1],
+      ["RPG", 1],
+      ["RPG-7_ammo", 1]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "vending_ammo_pistol",
+    "items":[
+      ["9mm", 24],
+      ["9mmP2", 24],
+      ["9mmfmj", 12],
+      ["44magnum", 21]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "vending_ammo_rifle",
+    "items":[
+      ["556", 30],
+      ["762_51", 30],
+      ["8mm_jhp", 2],
+      ["8mm_fmj", 2],
+      ["8mm_caseless", 3],
+      ["8mm_civilian", 5],
+      ["8mm_hvp", 1],
+      ["5x50dart", 8],
+      ["5x50heavy", 4],
+      ["8mm_inc", 2]
+    ]
+  },{
+"type" : "item_group",
+"id" : "vending_ammo_shotgun",
+"items":[
+      ["shot_bird", 24],
+      ["shot_00", 40],
+      ["shot_flechette", 6],
+      ["shot_beanbag", 10],
+      ["20x66_shot", 8],
+      ["20x66_exp", 3],
+      ["20x66_inc", 6],
+      ["20x66_flare", 6],
+      ["20x66_frag", 3],
+      ["20x66_slug", 7],
+      ["20x66_flechette", 4],
+      ["20x66_beanbag", 6],
+      ["shot_slug", 20]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "army_pistols",
+    "items" : [
+      ["glock_19", 50],
+      ["9mm", 50]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "army_rifles",
+    "items" : [
+      ["m4a1", 50],
+      ["m249", 10],
+      ["556", 50]
+    ]
+  }
+]
+

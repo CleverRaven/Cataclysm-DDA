@@ -4,14 +4,15 @@
 #include <string>
 #include <vector>
 #include <map>
-#include "pldata.h"
-#include "addiction.h"
-#include "start_location.h"
-#include "skill.h"
-#include "profession.h"
-#include "json.h"
+#include <set>
 
 class scenario;
+class profession;
+class player;
+class JsonArray;
+class JsonObject;
+class addiction;
+enum add_type : int;
 
 typedef std::map<std::string, scenario> scenmap;
 
@@ -41,6 +42,7 @@ private:
     std::vector<std::string> _starting_items_male;
     std::vector<std::string> _starting_items_female;
     std::set<std::string> flags; // flags for some special properties of the scenario
+    std::string _map_special;
 
     void add_items_from_jsonarray(JsonArray jsarr, std::string gender);
     void add_item(std::string item, std::string gender);
@@ -92,6 +94,8 @@ public:
     std::vector<std::string> items() const;
     std::vector<std::string> items_male() const;
     std::vector<std::string> items_female() const;
+    bool has_map_special() const;
+    const std::string& get_map_special() const;
 
 
     /**

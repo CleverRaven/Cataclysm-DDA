@@ -1,6 +1,11 @@
 [
     {
         "type" : "technique",
+        "id" : "tec_none",
+        "name" : "Not at technique at all",
+        "dummy" : true
+    },{
+        "type" : "technique",
         "id" : "WBLOCK_1",
         "name" : "Parry",
         "dummy" : true,
@@ -29,11 +34,10 @@
     },{
         "type" : "technique",
         "id" : "DEF_DISARM",
-        "name" : "", "comment": "not imeplemented -> empty name",
-        "messages" : [
-            "You disarm %s",
-            "<npcname> disarms %s"
-        ]
+        "name" : "disarm",
+        "min_unarmed" : 0,
+        "melee_allowed" : true,
+        "disarms" : true
     },{
         "type" : "technique",
         "id" : "GRAB",
@@ -109,6 +113,20 @@
         ]
     },{
         "type" : "technique",
+        "id" : "VORPAL",
+        "name" : "Vorpal Strike",
+        "min_unarmed" : 0,
+        "unarmed_allowed" : true,
+        "melee_allowed" : true,
+        "cut_mult" : 99,
+        "crit_tec" : true,
+        "weighting" : -250,
+        "messages" : [
+            "Snicker-snack! You behead %s",
+            "Snicker-snack! <npcname> beheads %s"
+        ]
+    },{
+        "type" : "technique",
         "id" : "WRAP",
         "name" : "Wrap attack",
         "min_unarmed" : 0,
@@ -142,6 +160,17 @@
             "<npcname> precisely hits %s"
         ],
         "stun_dur" : 2
+    },{
+        "type" : "technique",
+        "id" : "WHIP_DISARM",
+        "name" : "Disarm",
+        "min_unarmed" : 0,
+        "melee_allowed" : true,
+        "disarms" : true,
+        "messages" : [
+            "You disarm %s using your whip!",
+            "<npcname> disarm %s using their whip!"
+        ]
     },{
         "type" : "technique",
         "id" : "tec_counter",
@@ -239,7 +268,7 @@
             "<npcname> throws a perfect counter at %s"
         ],
         "bash_mult" : 1.35,
-        "quick" : true,
+        "speed_mult" : 0.5,
         "stun_dur" : 2
     },{
         "type" : "technique",
@@ -1190,7 +1219,7 @@
       "cut_mult" : 1.1,
       "bash_mult" : 1.1,
       "//" : "Damage bonus plus Quick is severely powerful--generi-Quick takes a damage nerf.",
-      "quick" : true,
+      "speed_mult" : 0.5,
       "//" : "Minimum effective time for a status in combat is two turns, as you have one deducted on the same turn its applied.",
       "stun_dir" : 2
    },{

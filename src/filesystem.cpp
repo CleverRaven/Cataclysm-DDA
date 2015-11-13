@@ -266,6 +266,33 @@ std::vector<std::string> get_files_from_path(std::string const &pattern,
     });
 }
 
+/** Find directories which containing pattern.
+  * @param pattern Search pattern.
+  * @param root_path Search root.
+  * @param recurse Be recurse or not.
+  * @return vector or directories without pattern filename at end.
+  */
+std::vector<std::string> get_directories_with(std::string const &pattern,
+    std::string const &root_path, bool const recurse)
+{
+    if (pattern.empty()) {
+        return std::vector<std::string>();
+    }
+
+    auto files = find_file_if_bfs(root_path, recurse, [&](dirent const &entry, bool) {
+        return name_contains(entry, pattern, true);
+    });
+
+    // Chop off the file names. Dir path MUST be splitted by '/'
+    for (auto &file : files) {
+        file.erase(file.rfind('/'), std::string::npos);
+    }
+
+    files.erase(std::unique(std::begin(files), std::end(files)), std::end(files));
+
+    return files;
+}
+
 //--------------------------------------------------------------------------------------------------
 std::vector<std::string> get_directories_with(std::vector<std::string> const &patterns,
     std::string const &root_path, bool const recurse)

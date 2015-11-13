@@ -4,23 +4,45 @@
 #include "color.h"
 #include "json.h"
 #include "enums.h"
+#include "string_id.h"
 #include <string>
 #include <vector>
 #include <list>
 #include <set>
 
-#define OMAPX 180
-#define OMAPY 180
+struct MonsterGroup;
+using mongroup_id = string_id<MonsterGroup>;
 
 class overmap;
 
 struct overmap_spawns {
-    overmap_spawns(): group("GROUP_NULL"), min_population(0), max_population(0),
+    overmap_spawns(): group( NULL_ID ), min_population(0), max_population(0),
         chance(0) {};
-    std::string group;
+    mongroup_id group;
     int min_population;
     int max_population;
     int chance;
+};
+ //terrain flags enum! this is for tracking the indices of each flag.
+    //is_asphalt, is_building, is_subway, is_sewer, is_ants,
+    //is_base_terrain, known_down, known_up, is_river,
+    //is_road, has_sidewalk, allow_road, rotates, line_drawing
+enum oter_flags {
+    is_asphalt = 0,
+    is_building,
+    is_subway,
+    is_sewer,
+    is_ants,
+    is_base_terrain,
+    known_down, 
+    known_up, 
+    river_tile, 
+    road_tile, 
+    has_sidewalk, 
+    allow_road,
+    rotates, // does this tile have four versions, one for each direction?
+    line_drawing, // does this tile have 8 versions, including straights, bends, tees, and a fourway?
+    num_oter_flags
 };
 
 struct oter_t {
@@ -31,25 +53,31 @@ struct oter_t {
     nc_color color;
     unsigned char see_cost; // Affects how far the player can see in the overmap
     std::string extras;
-    bool known_down;
-    bool known_up;
     int mondensity;
-    bool sidewalk;
-    bool allow_road;
-    bool is_river;
-    bool is_road;
     // bool disable_default_mapgen;
     // automatically set. We can be wasteful of memory here for num_oters * sizeof(extrastuff), if it'll save us from thousands of string ops
     std::string
     id_base; // base identifier; either the same as id, or id without directional variations. (ie, 'house' / 'house_west' )
     unsigned loadid_base; // self || directional_peers[0]? or seperate base_oter_map ?
     std::vector<int> directional_peers; // fast reliable (?) method of determining whatever_west, etc.
-    bool rotates; // lazy for; directional_peers.size() == 4
-    bool line_drawing; // lazy for; directional_peers.size() == 8
     std::string id_mapgen;  // *only* for mapgen and almost always == id_base. Unless line_drawing / road.
 
     // Spawns are added to the submaps *once* upon mapgen of the submaps
     overmap_spawns static_spawns;
+    //this bitset contains boolean values for:
+    //is_asphalt, is_building, is_subway, is_sewer, is_ants,
+    //is_base_terrain, known_down, known_up, is_river,
+    //is_road, has_sidewalk, allow_road, rotates, line_drawing
+  private:
+    std::bitset<num_oter_flags> flags; //contains a bitset for all the bools this terrain might have.
+  public:
+      bool has_flag(oter_flags flag) const {
+          return flags[flag];
+      }
+      
+      void set_flag(oter_flags flag, bool value = true) {
+          flags[flag] = value;
+      }
 };
 
 struct oter_id {
@@ -58,7 +86,7 @@ struct oter_id {
     // Hi, I'm an
     operator int() const;
     // pretending to be a
-    operator std::string() const;
+    operator std::string const&() const;
     // in order to map
     operator oter_t() const;
 
@@ -110,9 +138,9 @@ typedef oter_id oter_iid;
 #define OMSPEC_FREQ 15
 
 struct overmap_special_spawns {
-    overmap_special_spawns(): group("GROUP_NULL"), min_population(0), max_population(0),
+    overmap_special_spawns(): group( NULL_ID ), min_population(0), max_population(0),
         min_radius(0), max_radius(0) {};
-    std::string group;
+    mongroup_id group;
     int min_population;
     int max_population;
     int min_radius;
@@ -120,6 +148,7 @@ struct overmap_special_spawns {
 };
 
 struct overmap_special_terrain {
+    overmap_special_terrain() : p( 0, 0, 0 ) { };
     tripoint p;
     std::string connect;
     std::string terrain;
@@ -146,8 +175,6 @@ class overmap_special
         std::list<std::string> locations;
         std::set<std::string> flags;
 };
-
-extern std::vector<overmap_special> overmap_specials;
 
 void load_overmap_specials(JsonObject &jo);
 

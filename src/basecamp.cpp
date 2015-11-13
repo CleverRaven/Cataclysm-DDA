@@ -2,6 +2,8 @@
 #include <sstream>
 
 #include "basecamp.h"
+#include "output.h"
+#include "translations.h"
 
 basecamp::basecamp()
     : name(), posx(0), posy(0)
@@ -15,7 +17,8 @@ basecamp::basecamp(std::string const &name_, int const posx_, int const posy_)
 
 std::string basecamp::board_name() const
 {
-    return name + " Board";
+    //~ Name of a basecamp
+    return string_format( _("%s Board"), name.c_str() );
 }
 
 std::string basecamp::save_data() const

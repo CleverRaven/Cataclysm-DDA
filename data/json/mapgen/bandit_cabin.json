@@ -88,7 +88,6 @@
                 "8": "f_bathtub",
                 "9": "f_rack",
                 ":": "f_dresser",
-                ";": "f_toilet",
                 "=": "f_woodstove",
                 "c": "f_counter",
                 "?": "f_sofa",
@@ -106,9 +105,9 @@
                 { "class": "bandit", "x": 5, "y": 16 },
                 { "class": "bandit", "x": 8, "y": 18 }
             ],
-            "place_toilets": [
-                { "x": 15, "y": 2 }
-            ]
+            "toilets": {
+                ";": { }
+            }
         }
     }
 ]

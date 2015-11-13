@@ -1,6 +1,7 @@
 #ifndef DAMAGE_H
 #define DAMAGE_H
 
+#include "enums.h"
 #include "bodypart.h"
 #include "color.h"
 #include <string>
@@ -8,10 +9,13 @@
 #include <set>
 #include <algorithm>
 #include <numeric>
+#include <memory>
 
 struct itype;
+struct tripoint;
 class item;
 class monster;
+class Creature;
 
 enum damage_type {
     DT_NULL = 0, // null damage, doesn't exist
@@ -27,14 +31,6 @@ enum damage_type {
     NUM_DT
 };
 
-enum blast_shape {
-    BS_NONE = 0, // no aoe
-    BS_BLAST, // generic "blast" effect, like grenades
-    BS_RAYS, // randomly scattered rays of damage propragating from impact point
-    BS_CONE, // cone-shaped effect, starting at impact and hitting enemies behind in a cone
-    NUM_BS
-};
-
 struct damage_unit {
     damage_type type;
     float amount;
@@ -42,8 +38,8 @@ struct damage_unit {
     float res_mult;
     float damage_multiplier;
 
-    damage_unit(damage_type dt, float a, int rp, float rm) :
-    type(dt), amount(a), res_pen(rp), res_mult(rm), damage_multiplier(1.0) { }
+    damage_unit(damage_type dt, float a, int rp, float rm, float mul) :
+    type(dt), amount(a), res_pen(rp), res_mult(rm), damage_multiplier(mul) { }
 };
 
 
@@ -54,8 +50,8 @@ struct damage_instance {
     std::set<std::string> effects;
     damage_instance();
     static damage_instance physical(float bash, float cut, float stab, int arpen = 0);
-    void add_damage(damage_type dt, float a, int rp = 0, float rm = 1.0f);
-    damage_instance(damage_type dt, float a, int rp = 0, float rm = 1.0f);
+    void add_damage(damage_type dt, float a, int rp = 0, float rm = 1.0f, float mul = 1.0f);
+    damage_instance(damage_type dt, float a, int rp = 0, float rm = 1.0f, float mul = 1.0f);
     void add_effect( std::string effect );
     void mult_damage(double multiplier);
     float type_damage(damage_type dt) const;
@@ -68,7 +64,6 @@ struct dealt_damage_instance {
     body_part bp_hit;
 
     dealt_damage_instance();
-    //TODO: add check to ensure length
     dealt_damage_instance(std::vector<int> &dealt);
     void set_damage(damage_type dt, int amount);
     int type_damage(damage_type dt) const;
@@ -85,35 +80,45 @@ struct resistances {
     void set_resist(damage_type dt, int amount);
     int type_resist(damage_type dt) const;
 
-    float get_effective_resist(const damage_unit &du);
+    float get_effective_resist(const damage_unit &du) const;
 };
 
 struct projectile {
     damage_instance impact;
-    damage_instance payload;
-    blast_shape aoe_shape;
-    nc_color aoe_color;
-    int aoe_size;
     int speed; // how hard is it to dodge? essentially rolls to-hit, bullets have arbitrarily high values but thrown objects have dodgeable values
-    bool drops; // does it drop ammo units?
-    bool wide; // a shot that "covers" the target, e.g. a shotgun blast or flamethrower napalm
 
-    // TODO: things below here are here temporarily until we finish those
-    // systems
     std::set<std::string> proj_effects;
-    itype *ammo; // projectile's item that gets spawned at impact location, e.g. thrown weapons/bolts
 
-    projectile() :
-        aoe_shape(BS_NONE),
-        aoe_color(c_red),
-        aoe_size(0),
-        speed(0),
-        drops(false),
-        wide(false),
-        ammo(NULL)
-    { }
+    /**
+     * Returns an item that should be dropped or an item for which is_null() is true
+     *  when item to drop is unset.
+     */
+    const item &get_drop() const;
+    /** Copies item `it` as a drop for this projectile. */
+    void set_drop( const item &it );
+    void set_drop( item &&it );
+    void unset_drop();
+
+    projectile();
+    projectile( const projectile& );
+    projectile( projectile&& ) = default;
+    projectile& operator=( const projectile& );
+
+private:
+    std::unique_ptr<item> drop; // Actual item used (to drop contents etc.). Null in case of bullets (they aren't "made of cartridges")
 };
 
-void ammo_effects(int x, int y, const std::set<std::string> &effects);
+struct dealt_projectile_attack {
+    projectile proj; // What we used to deal the attack
+    Creature *hit_critter; // The critter that stopped the projectile or null
+    dealt_damage_instance dealt_dam; // If hit_critter isn't null, hit data is written here
+    tripoint end_point; // Last hit tile (is hit_critter is null, drops should spawn here)
+    double missed_by; // Accuracy of dealt attack
+};
+
+void ammo_effects( const tripoint &p, const std::set<std::string> &effects );
+int aoe_size( const std::set<std::string> &effects );
+
+damage_type dt_by_name( const std::string &name );
 
 #endif

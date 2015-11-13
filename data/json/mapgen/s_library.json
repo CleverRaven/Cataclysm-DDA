@@ -1,0 +1,63 @@
+[
+    {
+        "type": "mapgen",
+        "om_terrain": [
+            "s_library"
+        ],
+        "method": "json",
+        "weight": 1000,
+        "object": {
+            "rows": [
+                "                        ",
+                "                        ",
+                "  ---ww----++----ww---  ",
+                "  |...........c......|  ",
+                "  |bbbbbbb....c......|  ",
+                "  |bbbbbbb....ccccc..|  ",
+                "  w..................w  ",
+                "  w..................w  ",
+                "  |bbbbbbbbbbbbb....b|  ",
+                "  |bbbbbbbbbbbbb....b|  ",
+                "  w.................b|  ",
+                "  w.................b|  ",
+                "  |bbbbbbbbbbbbb....b|  ",
+                "  |bbbbbbbbbbbbb....b|  ",
+                "  w.................b|  ",
+                "  w.................b|  ",
+                "  |bbbbbbbbbbbbb....b|  ",
+                "  ----------------+---  ",
+                "                        ",
+                "                        ",
+                "                        ",
+                "                        ",
+                "                        ",
+                "                        "
+            ],
+            "terrain": {
+                "w": "t_window_domestic",
+                "+": "t_door_c",
+                "|": "t_wall",
+                "-": "t_wall",
+                "b": "t_floor",
+                "c": "t_floor",
+                ".": "t_floor",
+                " ": [ "t_grass", "t_grass", "t_grass", "t_dirt" ]
+            },
+            "furniture": {
+                "b": "f_bookcase",
+                "c": "f_counter"
+            },
+            "place_items": [
+                { "item": "magazines", "chance": 70,  "x": [3,9], "y": 4, "repeat": [1,6] },
+                { "item": "magazines", "chance": 70, "x": 20, "y": [8,16], "repeat": [1,6] },
+                { "item": "novels", "chance": 96, "x": [3,9], "y": 5, "repeat": [1,6] },
+                { "item": "novels", "chance": 96, "x": [3,15], "y": [8,9], "repeat": [1,6] },
+                { "item": "manuals", "chance": 92, "x": [3,15], "y": [12,13], "repeat": [1,6] },
+                { "item": "textbooks", "chance": 88, "x": [3,15], "y": 16, "repeat": [1,6] }
+            ],
+            "place_monsters": [
+                { "monster": "GROUP_ZOMBIE", "chance": 2, "x": [0,0], "y": [23,23], "repeat": [2,3] }
+            ]
+        }
+    }
+]

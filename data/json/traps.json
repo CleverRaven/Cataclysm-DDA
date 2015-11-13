@@ -10,7 +10,8 @@
         "visibility" : 20,
         "avoidance" : 0,
         "difficulty" : 0,
-        "action" : "none"
+        "action" : "none",
+        "benign" : true
     },
     {
         "type" : "trap",
@@ -436,7 +437,7 @@
         "color" : "i_cyan",
         "symbol" : " ",
         "visibility" : 0,
-        "avoidance" : 99,
+        "avoidance" : 99999,
         "difficulty" : 99,
         "action" : "ledge"
     },

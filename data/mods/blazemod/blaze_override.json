@@ -1,0 +1,420 @@
+[
+	{
+        "type" : "vehicle_part",
+        "id" : "m249",
+        "name" : "mounted M249",
+        "symbol" : "t",
+        "color" : "cyan",
+        "broken_symbol" : "#",
+        "broken_color" : "cyan",
+        "damage_modifier" : 80,
+        "durability" : 400,
+        "item" : "m249",
+        "size" : 40,
+        "difficulty" : 4,
+        "location" : "on_roof",
+        "flags" : ["TURRET", "CARGO", "TOOL_NONE", "MANUAL", "UNMOUNT_ON_DAMAGE", "FOLDABLE"],
+        "folded_volume": 14,
+        "breaks_into" : [
+            {"item": "m249", "prob": 50}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "mounted_m1918",
+        "name" : "mounted Browning Automatic Rifle",
+        "symbol" : "t",
+        "color" : "brown",
+        "broken_symbol" : "#",
+        "broken_color" : "cyan",
+        "damage_modifier" : 80,
+        "durability" : 400,
+        "range" : 12,
+        "item" : "m1918",
+        "size" : 40,
+        "difficulty" : 4,
+        "location" : "on_roof",
+        "flags" : ["TURRET", "CARGO", "TOOL_NONE", "MANUAL", "UNMOUNT_ON_DAMAGE", "FOLDABLE"],
+        "folded_volume": 12,
+        "breaks_into" : [
+            {"item": "m1918", "prob": 50}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "flamethrower",
+        "name" : "flamethrower",
+        "symbol" : "t",
+        "color" : "red",
+        "broken_symbol" : "#",
+        "broken_color" : "red",
+        "damage_modifier" : 80,
+        "durability" : 200,
+        "item" : "flamethrower",
+        "difficulty" : 2,
+        "location" : "on_roof",
+        "flags" : ["UNMOUNT_ON_DAMAGE", "TOOL_NONE", "TURRET", "FOLDABLE", "MANUAL"],
+        "folded_volume": 16,
+        "breaks_into" : [
+            {"item": "flamethrower"}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "plasma_gun",
+        "name" : "mounted plasma gun",
+        "symbol" : "t",
+        "color" : "light_blue",
+        "broken_symbol" : "#",
+        "broken_color" : "light_blue",
+        "damage_modifier" : 80,
+        "durability" : 200,
+        "item" : "plasma_rifle",
+        "difficulty" : 8,
+        "location" : "on_roof",
+        "flags" : ["TURRET", "TOOL_NONE", "MANUAL", "UNMOUNT_ON_DAMAGE", "FOLDABLE", "NEEDS_BATTERY_MOUNT"],
+        "folded_volume": 15,
+        "breaks_into" : [
+            {"item": "plasma_rifle", "prob": 50}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "fusion_gun",
+        "name" : "mounted fusion gun",
+        "symbol" : "t",
+        "color" : "magenta",
+        "broken_symbol" : "#",
+        "broken_color" : "magenta",
+        "damage_modifier" : 80,
+        "durability" : 200,
+        "item" : "ftk93",
+        "difficulty" : 8,
+        "size" : 10,
+        "location" : "on_roof",
+        "flags" : ["TURRET", "CARGO", "TOOL_NONE", "MANUAL", "UNMOUNT_ON_DAMAGE", "FOLDABLE", "NEEDS_BATTERY_MOUNT"],
+        "folded_volume": 14,
+        "breaks_into" : [
+            {"item": "ftk93", "prob": 50}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "laser_gun",
+        "name" : "mounted NX17",
+        "symbol" : "t",
+        "color" : "magenta",
+        "broken_symbol" : "#",
+        "broken_color" : "magenta",
+        "damage_modifier" : 80,
+        "durability" : 200,
+        "item" : "nx17",
+        "difficulty" : 13,
+        "location" : "on_roof",
+        "flags" : ["TURRET", "TOOL_NONE", "MANUAL", "UNMOUNT_ON_DAMAGE", "FOLDABLE", "NEEDS_BATTERY_MOUNT"],
+        "folded_volume": 16,
+        "breaks_into" : [
+            {"item": "nx17", "prob": 50}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "mounted_browning",
+        "name" : "mounted M2 Browning",
+        "symbol" : "t",
+        "color" : "green",
+        "broken_symbol" : "#",
+        "broken_color" : "green",
+        "damage_modifier" : 80,
+        "durability" : 400,
+        "item" : "m2browning",
+        "difficulty" : 5,
+        "size" : 40,
+        "location" : "on_roof",
+        "flags" : ["TURRET", "CARGO", "TOOL_NONE", "MANUAL", "UNMOUNT_ON_DAMAGE", "FOLDABLE"],
+        "folded_volume": 20,
+        "breaks_into" : [
+            {"item": "m2browning", "prob": 50}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "mounted_m240",
+        "name" : "mounted M240",
+        "symbol" : "t",
+        "color" : "cyan",
+        "broken_symbol" : "#",
+        "broken_color" : "cyan",
+        "damage_modifier" : 80,
+        "durability" : 400,
+        "range" : 12,
+        "item" : "m240",
+        "difficulty" : 4,
+        "size" : 40,
+        "location" : "on_roof",
+        "flags" : ["TURRET", "CARGO", "TOOL_NONE", "MANUAL", "UNMOUNT_ON_DAMAGE", "FOLDABLE"],
+        "folded_volume": 16,
+        "breaks_into" : [
+            {"item": "m240", "prob": 50}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "mounted_m60",
+        "name" : "mounted M60",
+        "symbol" : "t",
+        "color" : "cyan",
+        "broken_symbol" : "#",
+        "broken_color" : "cyan",
+        "damage_modifier" : 80,
+        "durability" : 400,
+        "range" : 12,
+        "item" : "m60",
+        "difficulty" : 4,
+        "size" : 40,
+        "location" : "on_roof",
+        "flags" : ["TURRET", "CARGO", "TOOL_NONE", "MANUAL", "UNMOUNT_ON_DAMAGE", "FOLDABLE"],
+        "folded_volume": 16,
+        "breaks_into" : [
+            {"item": "m60", "prob": 50}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "mounted_abzats",
+        "name" : "mounted automatic shotgun",
+        "symbol" : "t",
+        "color" : "green",
+        "broken_symbol" : "#",
+        "broken_color" : "green",
+        "damage_modifier" : 80,
+        "durability" : 400,
+        "range" : 12,
+        "item" : "abzats",
+        "difficulty" : 5,
+        "size" : 40,
+        "location" : "on_roof",
+        "flags" : ["TURRET", "CARGO", "TOOL_NONE", "MANUAL", "UNMOUNT_ON_DAMAGE", "FOLDABLE"],
+        "folded_volume": 18,
+        "breaks_into" : [
+            {"item": "abzats", "prob": 50}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "mounted_m134",
+        "name" : "mounted M134D-H Minigun",
+        "symbol" : "t",
+        "color" : "green",
+        "broken_symbol" : "#",
+        "broken_color" : "green",
+        "damage_modifier" : 80,
+        "durability" : 400,
+        "range" : 12,
+        "item" : "m134",
+        "difficulty" : 7,
+        "size" : 40,
+        "location" : "on_roof",
+        "flags" : ["TURRET", "CARGO", "TOOL_NONE", "MANUAL", "UNMOUNT_ON_DAMAGE", "FOLDABLE"],
+        "folded_volume": 32,
+        "breaks_into" : [
+            {"item": "m134", "prob": 50}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "mounted_mk19",
+        "name" : "mounted Mark 19 GL",
+        "symbol" : "t",
+        "color" : "green",
+        "broken_symbol" : "#",
+        "broken_color" : "green",
+        "damage_modifier" : 80,
+        "durability" : 250,
+        "item" : "mark19",
+        "difficulty" : 5,
+        "size" : 40,
+        "location" : "on_roof",
+        "flags" : ["TURRET", "CARGO", "TOOL_NONE", "MANUAL", "UNMOUNT_ON_DAMAGE", "FOLDABLE"],
+        "folded_volume": 16,
+        "breaks_into" : [
+            {"item": "mark19", "prob": 50}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "mounted_rm614",
+        "name" : "mounted RM614 LMG",
+        "symbol" : "t",
+        "color" : "white",
+        "broken_symbol" : "#",
+        "broken_color" : "light_gray",
+        "damage_modifier" : 80,
+        "durability" : 450,
+        "range" : 12,
+        "item" : "rm614_lmg",
+        "difficulty" : 6,
+        "size" : 40,
+        "location" : "on_roof",
+        "flags" : ["TURRET", "CARGO", "TOOL_NONE", "MANUAL", "UNMOUNT_ON_DAMAGE", "FOLDABLE"],
+        "folded_volume": 10,
+        "breaks_into" : [
+            {"item": "rm614_lmg", "prob": 50}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "mounted_rm298",
+        "name" : "mounted RM298 HMG",
+        "symbol" : "t",
+        "color" : "white",
+        "broken_symbol" : "#",
+        "broken_color" : "light_gray",
+        "damage_modifier" : 80,
+        "durability" : 500,
+        "range" : 12,
+        "item" : "rm298",
+        "difficulty" : 6,
+        "size" : 40,
+        "location" : "on_roof",
+        "flags" : ["TURRET", "CARGO", "TOOL_NONE", "MANUAL", "UNMOUNT_ON_DAMAGE", "FOLDABLE"],
+        "folded_volume": 26,
+        "breaks_into" : [
+            {"item": "rm298", "prob": 50}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "engine_electric_small",
+        "name" : "small electric motor",
+        "symbol" : "*",
+        "color" : "yellow",
+        "broken_symbol" : "#",
+        "broken_color" : "red",
+        "damage_modifier" : 80,
+        "durability" : 120,
+        "power" : 35,
+        "epower" : -5000,
+        "fuel_type" : "battery",
+        "item" : "motor_small",
+        "difficulty" : 1,
+        "location" : "engine_block",
+        "folded_volume": 3,
+        "flags" : ["ENGINE", "FOLDABLE"],
+        "breaks_into" : [
+            {"item": "steel_lump", "count": [1, 2]},
+            {"item": "steel_chunk", "count": [1, 2]},
+            {"item": "scrap", "count": [1, 2]},
+            {"item": "cable", "charges": [3, 6]}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "small_storage_battery",
+        "name" : "small storage battery",
+        "symbol" : "O",
+        "color" : "yellow",
+        "broken_symbol" : "#",
+        "broken_color" : "red",
+        "damage_modifier" : 80,
+        "durability" : 200,
+        "size" : 5000,
+        "fuel_type" : "battery",
+        "item" : "small_storage_battery",
+        "difficulty" : 1,
+        "location" : "fuel_source",
+        "flags" : ["FUEL_TANK", "TOOL_NONE", "FOLDABLE"],
+        "folded_volume" : 2,
+        "breaks_into" : [
+            {"item": "scrap", "count": [1, 2]}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "gas_tank_little",
+        "name" : "gasoline tank (little)",
+        "symbol" : "O",
+        "color" : "light_red",
+        "broken_symbol" : "#",
+        "broken_color" : "red",
+        "damage_modifier" : 80,
+        "durability" : 75,
+        "size" : 1000,
+        "fuel_type" : "gasoline",
+        "item" : "metal_tank_little",
+        "difficulty" : 1,
+        "location" : "fuel_source",
+        "flags" : ["FUEL_TANK", "FOLDABLE"],
+        "folded_volume" : 5,
+        "breaks_into" : [
+            {"item": "scrap", "count": [1, 2]}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "diesel_tank_little",
+        "name" : "diesel tank (little)",
+        "symbol" : "O",
+        "color" : "green",
+        "broken_symbol" : "#",
+        "broken_color" : "red",
+        "damage_modifier" : 80,
+        "durability" : 75,
+        "size" : 1000,
+        "fuel_type" : "diesel",
+        "item" : "metal_tank_little",
+        "difficulty" : 1,
+        "location" : "fuel_source",
+        "flags" : ["FUEL_TANK", "FOLDABLE"],
+        "folded_volume" : 5,
+        "breaks_into" : [
+            {"item": "scrap", "count": [1, 2]}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "engine_1cyl_small",
+        "name" : "1-cylinder engine",
+        "symbol" : "*",
+        "color" : "light_red",
+        "broken_symbol" : "#",
+        "broken_color" : "red",
+        "damage_modifier" : 80,
+        "durability" : 120,
+        "epower" : 0,
+        "fuel_type" : "gasoline",
+        "item" : "1cyl_combustion_small",
+        "difficulty" : 2,
+        "location" : "engine_block",
+        "flags" : ["ENGINE", "VARIABLE_SIZE", "FOLDABLE"],
+        "folded_volume" : 3,
+        "breaks_into" : [
+            {"item": "steel_lump", "count": [2, 4]},
+            {"item": "steel_chunk", "count": [2, 4]},
+            {"item": "scrap", "count": [2, 4]}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "engine_1cyl",
+        "name" : "1-cylinder engine",
+        "symbol" : "*",
+        "color" : "light_red",
+        "broken_symbol" : "#",
+        "broken_color" : "red",
+        "damage_modifier" : 80,
+        "durability" : 150,
+        "epower" : 0,
+        "fuel_type" : "gasoline",
+        "item" : "1cyl_combustion",
+        "difficulty" : 2,
+        "location" : "engine_block",
+        "flags" : ["ENGINE", "VARIABLE_SIZE", "FOLDABLE"],
+        "folded_volume" : 6,
+        "breaks_into" : [
+            {"item": "steel_lump", "count": [5, 10]},
+            {"item": "steel_chunk", "count": [5, 10]},
+            {"item": "scrap", "count": [5, 10]}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "storage_battery_mount",
+        "name" : "swappable storage battery case",
+        "symbol" : "O",
+        "color" : "light_gray",
+        "broken_symbol" : "#",
+        "broken_color" : "red",
+        "damage_modifier" : 80,
+        "durability" : 200,
+        "item" : "it_battery_mount",
+        "difficulty" : 2,
+        "location" : "fuel_source",
+        "flags" : ["BATTERY_MOUNT"],
+        "breaks_into" : [
+            {"item": "steel_lump", "prob": 50},
+            {"item": "steel_chunk", "count": [1, 2]},
+            {"item": "scrap", "count": [0, 3]}
+        ]
+    }
+]

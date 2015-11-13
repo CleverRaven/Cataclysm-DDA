@@ -371,6 +371,18 @@
     },
     {
         "type" : "keybinding",
+        "id": "CHANGE_SIDE",
+        "category": "SORT_ARMOR",
+        "name": "Change side armor is worn on",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"c"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
         "id": "ASSIGN_INVLETS",
         "category": "SORT_ARMOR",
         "name": "Assign invlets to armor",
@@ -378,6 +390,30 @@
             {
                 "input_method":"keyboard",
                 "key":"r"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "EQUIP_ARMOR",
+        "category": "SORT_ARMOR",
+        "name": "Equip armor from inventory",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"e"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "REMOVE_ARMOR",
+        "category": "SORT_ARMOR",
+        "name": "Unequip selected armor",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"u"
             }
         ]
     },
@@ -582,6 +618,30 @@
             {
                 "input_method":"keyboard",
                 "key":"-"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "NEXT_CATEGORY_TAB",
+        "category": "MODMANAGER_DIALOG",
+        "name": "Move to next category tab",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"TAB"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "PREV_CATEGORY_TAB",
+        "category": "MODMANAGER_DIALOG",
+        "name": "Move to previous category tab",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"BACKTAB"
             }
         ]
     },
@@ -909,6 +969,17 @@
     },
     {
         "type" : "keybinding",
+        "id":"TRAVEL_TO",
+        "name":"Travel to destination",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"t"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
         "id":"TOGGLE_SNAP_TO_TARGET",
         "name":"Toggle Snap to Target",
         "bindings":[
@@ -967,6 +1038,18 @@
     },
     {
         "type" : "keybinding",
+        "id": "DELETE_TEMPLATE",
+        "category": "MAIN_MENU",
+        "name": "Delete template",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"d"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
         "id": "SAVE_TEMPLATE",
         "category": "NEW_CHAR_DESCRIPTION",
         "name": "Save template",
@@ -977,7 +1060,7 @@
             }
         ]
     },
-	{
+    {
         "type" : "keybinding",
         "id": "REROLL_CHARACTER",
         "category": "NEW_CHAR_DESCRIPTION",
@@ -1022,6 +1105,30 @@
             {
                 "input_method":"keyboard",
                 "key":"/"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "SORT",
+        "category": "NEW_CHAR_PROFESSIONS",
+        "name": "Toggle sorting order",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"s"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "SORT",
+        "category": "NEW_CHAR_SCENARIOS",
+        "name": "Toggle sorting order",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"s"
             }
         ]
     },
@@ -1086,15 +1193,6 @@
         "name": "Change tire",
         "bindings":[
             { "input_method":"keyboard", "key":"c" }
-        ]
-    },
-    {
-        "type" : "keybinding",
-        "id": "DRAIN",
-        "category": "VEH_INTERACT",
-        "name": "Drain from tank",
-        "bindings":[
-            { "input_method":"keyboard", "key":"d" }
         ]
     },
     {
@@ -1289,18 +1387,6 @@
     },
     {
         "type" : "keybinding",
-        "id":"SWAP_BIONIC_TABS",
-        "category":"BIONICS",
-        "name":"Swap current bionic tab view",
-        "bindings":[
-            {
-                "input_method":"keyboard",
-                "key":"TAB"
-            }
-        ]
-    },
-    {
-        "type" : "keybinding",
         "id":"TOGGLE_EXAMINE",
         "category":"MUTATIONS",
         "name":"Toggle activate/examine",
@@ -1388,6 +1474,13 @@
     { "type":"keybinding", "name": "Burst-Fire Wielded Item", "category":"DEFAULTMODE", "id":"fire_burst" },
     { "type":"keybinding", "name": "Craft as long as possible", "category":"DEFAULTMODE", "id":"long_craft" },
     { "type":"keybinding", "name": "Toggle Auto-Safemode", "category":"DEFAULTMODE", "id":"autosafe" },
+    {
+      "type":"keybinding",
+      "name": "Toggle move mode (run/walk)",
+      "category":"DEFAULTMODE",
+      "id":"toggle_move",
+      "bindings": [ {"input_method": "keyboard", "key":"\""} ]
+    },
     {
         "type" : "keybinding",
         "id":"COMPARE",
@@ -1858,6 +1951,22 @@
     },
     {
         "type" : "keybinding",
+        "id": "TOGGLE_VEH",
+        "category": "ADVANCED_INVENTORY",
+        "name": "Toggle vehicle",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"v"
+            },
+            {
+                "input_method":"keyboard",
+                "key":"V"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
         "id": "TOGGLE_AUTO_PICKUP",
         "category": "ADVANCED_INVENTORY",
         "name": "Toggle auto-pickup for item",
@@ -1904,7 +2013,19 @@
         "type" : "keybinding",
         "id": "MOVE_SINGLE_ITEM",
         "category": "ADVANCED_INVENTORY",
-        "name": "Move item",
+        "name": "Move a single item",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"RETURN"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "MOVE_VARIABLE_ITEM",
+        "category": "ADVANCED_INVENTORY",
+        "name": "Move an amount of item",
         "bindings":[
             {
                 "input_method":"keyboard",
@@ -1921,10 +2042,6 @@
             {
                 "input_method":"keyboard",
                 "key":"M"
-            },
-            {
-                "input_method":"keyboard",
-                "key":"RETURN"
             }
         ]
     },
@@ -2130,6 +2247,22 @@
     },
     {
         "type" : "keybinding",
+        "id": "ITEMS_WORN",
+        "category": "ADVANCED_INVENTORY",
+        "name": "Select items currently worn",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"w"
+            },
+            {
+                "input_method":"keyboard",
+                "key":"W"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
         "id": "SEW",
         "category": "ITEM_ACTIONS",
         "name": "Sew",
@@ -2173,6 +2306,38 @@
             {
                 "input_method":"keyboard",
                 "key":"w"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "REMOVE_CUSTOM",
+        "category": "COLORS",
+        "name": "Remove custom color",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"r"
+            },
+            {
+                "input_method":"keyboard",
+                "key":"R"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "LOAD_TEMPLATE",
+        "category": "COLORS",
+        "name": "Load color template",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"t"
+            },
+            {
+                "input_method":"keyboard",
+                "key":"T"
             }
         ]
     }

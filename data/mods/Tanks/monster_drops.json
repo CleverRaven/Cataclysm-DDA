@@ -1,0 +1,15 @@
+[
+    {
+        "type" : "item_group",
+        "subtype": "collection",
+        "id": "mon_tankbot_drops",
+        "entries":
+        [
+            { "item": "120mm_usable_heat", "count-min": 1, "count-max": 3},
+            { "distribution": [
+                { "group": "robots", "prob": 80 },
+                { "group": "tankbot", "prob": 20 }
+            ] }
+        ]
+    }
+]

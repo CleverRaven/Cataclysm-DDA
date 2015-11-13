@@ -6,7 +6,7 @@
 #include "iuse.h" // use_function
 #include "pldata.h" // add_type
 #include "bodypart.h" // body_part::num_bp
-#include "translations.h"
+#include "string_id.h"
 
 #include <string>
 #include <vector>
@@ -20,19 +20,17 @@ class item_category;
 struct recipe;
 struct itype;
 class Skill;
+using skill_id = string_id<Skill>;
 class player;
 class item;
+class ma_technique;
+using matec_id = string_id<ma_technique>;
+enum art_effect_active : int;
+enum art_charge : int;
+enum art_effect_passive : int;
 
 typedef std::string itype_id;
 typedef std::string ammotype;
-
-enum software_type : int {
-    SW_USELESS,
-    SW_HACKING,
-    SW_MEDICAL,
-    SW_SCIENCE,
-    SW_DATA
-};
 
 enum bigness_property_aspect : int {
     BIGNESS_ENGINE_DISPLACEMENT, // combustion engine CC displacement
@@ -40,16 +38,16 @@ enum bigness_property_aspect : int {
 };
 
 // Returns the name of a category of ammo (e.g. "shot")
-std::string ammo_name(std::string t);
+std::string ammo_name(std::string const &t);
 // Returns the default ammo for a category of ammo (e.g. ""00_shot"")
-std::string default_ammo(std::string guntype);
+std::string const& default_ammo(std::string const &guntype);
 
 struct explosion_data {
     // Those 4 values are forwarded to game::explosion.
-    int power    = -1;
-    int shrapnel = 0;
-    bool fire    = false;
-    bool blast   = true;
+    float power           = -1.0f;
+    float distance_factor = 0.8f;
+    int shrapnel          = 0;
+    bool fire             = false;
 };
 
 struct islot_container {
@@ -82,10 +80,9 @@ struct islot_armor {
      */
     std::bitset<num_bp> covers;
     /**
-     * Bitfield of enum body_part
-     * TODO: document me.
+     * Whether this item can be worn on either side of the body
      */
-    std::bitset<num_bp> sided;
+    bool sided = false;
     /**
      * How much this item encumbers the player.
      */
@@ -119,10 +116,9 @@ struct islot_armor {
 
 struct islot_book {
     /**
-     * Which skill it upgrades, if any. Can be NULL.
-     * TODO: this should be a pointer to const
+     * Which skill it upgrades, if any. Can be @ref skill_id::NULL_ID.
      */
-    const Skill* skill = nullptr;
+    skill_id skill = NULL_ID;
     /**
      * The skill level the book provides.
      */
@@ -150,10 +146,35 @@ struct islot_book {
     int chapters = 0;
     /**
      * What recipes can be learned from this book.
-     * Key is the recipe, value is skill level (of the main skill of the recipes) that is required
-     * to learn the recipe.
      */
-    std::map<const recipe *, int> recipes;
+    struct recipe_with_description_t {
+        /**
+         * The recipe that can be learned (never null).
+         */
+        const struct recipe *recipe;
+        /**
+         * The skill level required to learn the recipe.
+         */
+        int skill_level;
+        /**
+         * The name for the recipe as it appears in the book.
+         */
+        std::string name;
+        /**
+         * Hidden means it does not show up in the description of the book.
+         */
+        bool hidden;
+        bool operator<( const recipe_with_description_t &rhs ) const
+        {
+            return recipe < rhs.recipe;
+        }
+        bool is_hidden() const
+        {
+            return hidden;
+        }
+    };
+    typedef std::set<recipe_with_description_t> recipe_list_t;
+    recipe_list_t recipes;
     /**
      * Special effects that can happen after the item has been read. May be empty.
      */
@@ -214,7 +235,7 @@ struct common_firing_data : common_ranged_data {
      */
     int clip = 0;
     /**
-     * TODO: document me
+     * loudness for guns/gunmods
      */
     int loudness = 0;
 };
@@ -230,15 +251,23 @@ struct islot_gun : common_firing_data {
      * TODO: This is also indicates the type of gun (handgun/rifle/etc.) - that
      * should probably be made explicit.
      */
-    const Skill* skill_used = nullptr;
+    skill_id skill_used = NULL_ID;
     /**
      * Gun durability, affects gun being damaged during shooting.
      */
     int durability = 0;
     /**
-     * Reload time.
+     * Reload time, in moves.
      */
     int reload_time = 0;
+    /**
+     * Noise displayed when reloading the weapon.
+     */
+    std::string reload_noise;
+    /**
+     * Volume of the noise made when reloading this weapon.
+     */
+    int reload_noise_volume = 0;
     /**
      * If this uses UPS charges, how many (per shoot), 0 for no UPS charges at all.
      */
@@ -253,6 +282,14 @@ struct islot_gun : common_firing_data {
      * that the location can have. The value should be > 0.
      */
     std::map<std::string, int> valid_mod_locations;
+    /**
+    *Built in mods. string is id of mod. These mods will get the IRREMOVABLE flag set.
+    */
+    std::vector<std::string> built_in_mods;
+    /**
+    *Default mods, string is id of mod. These mods are removable but are default on the weapon.
+    */
+    std::vector<std::string> default_mods;
 };
 
 struct islot_gunmod : common_firing_data {
@@ -262,9 +299,8 @@ struct islot_gunmod : common_firing_data {
     int req_skill = 0;
     /**
      * TODO: document me
-     * TODO: this should be a pointer to const Skill.
      */
-    const Skill* skill_used = nullptr;
+    skill_id skill_used = NULL_ID;
     /**
      * TODO: document me
      */
@@ -276,7 +312,7 @@ struct islot_gunmod : common_firing_data {
     /**
      * TODO: document me
      */
-    std::set<std::string> acceptible_ammo_types;
+    std::set<std::string> acceptable_ammo_types;
     /**
      * TODO: document me
      */
@@ -305,6 +341,10 @@ struct islot_gunmod : common_firing_data {
      * TODO: document me
      */
     bool used_on_launcher = false;
+    /**
+    *Allowing a mod to add UPS charge requirement to a gun.
+    */
+    int ups_charges = 0;
 };
 
 struct islot_ammo : common_ranged_data {
@@ -326,7 +366,7 @@ struct islot_ammo : common_ranged_data {
      */
     std::set<std::string> ammo_effects;
 
-    islot_ammo() : casing {"NULL"} { }
+    islot_ammo() : casing ("NULL") { }
 };
 
 struct islot_variable_bigness {
@@ -357,9 +397,38 @@ struct islot_bionic {
 
 struct islot_software {
     /**
-     * Type of software, see enum.
+     * Type of software, not used by anything at all.
      */
-    software_type swtype = SW_USELESS;
+    std::string type = "USELESS";
+    /**
+     * No used, but it's there is the original data.
+     */
+    int power;
+};
+
+struct islot_seed {
+    /**
+     * Time it takes for a seed to grow (in days, based of off a season length of 91)
+     */
+    int grow = 0;
+    /**
+     * Name of the plant, already translated.
+     */
+    std::string plant_name;
+    /**
+     * Type id of the fruit item.
+     */
+    std::string fruit_id;
+    /**
+     * Whether to spawn seed items additionally to the fruit items.
+     */
+    bool spawn_seeds = true;
+    /**
+     * Additionally items (a list of their item ids) that will spawn when harvesting the plant.
+     */
+    std::vector<std::string> byproducts;
+
+    islot_seed() { }
 };
 
 // Data used when spawning items, should be obsoleted by the spawn system, but
@@ -368,7 +437,15 @@ struct islot_spawn {
     std::string default_container; // The container it comes in
     std::vector<long> rand_charges;
 
-    islot_spawn() : default_container {"null"} { }
+    islot_spawn() : default_container ("null") { }
+};
+
+struct islot_artifact {
+    art_charge charge_type;
+    std::vector<art_effect_passive> effects_wielded;
+    std::vector<art_effect_active>  effects_activated;
+    std::vector<art_effect_passive> effects_carried;
+    std::vector<art_effect_passive> effects_worn;
 };
 
 struct itype {
@@ -393,6 +470,8 @@ struct itype {
     std::unique_ptr<islot_software> software;
     std::unique_ptr<islot_spawn> spawn;
     std::unique_ptr<islot_ammo> ammo;
+    std::unique_ptr<islot_seed> seed;
+    std::unique_ptr<islot_artifact> artifact;
     /*@}*/
 protected:
     // private because is should only be accessed through itype::nname!
@@ -413,8 +492,8 @@ public:
     std::vector<use_function> use_methods; // Special effects of use
 
     std::set<std::string> item_tags;
-    std::set<std::string> techniques;
-    
+    std::set<matec_id> techniques;
+
     // Explosion that happens when the item is set on fire
     explosion_data explosion_on_fire_data;
 
@@ -462,10 +541,7 @@ public:
 
     // Returns the name of the item type in the correct language and with respect to its grammatical number,
     // based on quantity (example: item type “anvil”, nname(4) would return “anvils” (as in “4 anvils”).
-    virtual std::string nname(unsigned int quantity) const
-    {
-        return ngettext(name.c_str(), name_plural.c_str(), quantity);
-    }
+    virtual std::string nname(unsigned int quantity) const;
 
     virtual bool is_food() const
     {
@@ -473,11 +549,6 @@ public:
     }
 
     virtual bool is_tool() const
-    {
-        return false;
-    }
-
-    virtual bool is_artifact() const
     {
         return false;
     }
@@ -503,10 +574,11 @@ public:
     bool has_use() const;
     bool can_use( const std::string &iuse_name ) const;
     const use_function *get_use( const std::string &iuse_name ) const;
+
     // Here "invoke" means "actively use". "Tick" means "active item working"
-    long invoke( player *p, item *it, point pos ) const; // Picks first method or returns 0
-    long invoke( player *p, item *it, point pos, const std::string &iuse_name ) const;
-    long tick( player *p, item *it,  point pos ) const;
+    long invoke( player *p, item *it, const tripoint &pos ) const; // Picks first method or returns 0
+    long invoke( player *p, item *it, const tripoint &pos, const std::string &iuse_name ) const;
+    long tick( player *p, item *it, const tripoint &pos ) const;
 
     itype() : id("null"), name("none"), name_plural("none") {}
 
@@ -540,9 +612,7 @@ struct it_comest : itype {
     int      healthy  = 0;
     unsigned brewtime = 0; // How long it takes for a brew to ferment.
     int      fun      = 0; // How fun its use is
-    
-    // Time it takes for a seed to grow (in days, based of off a season length of 91)
-    unsigned grow = 0;
+
     add_type add = ADD_NULL; // Effects of addiction
 
     it_comest() = default;
@@ -582,11 +652,6 @@ struct it_tool : itype {
     bool is_tool() const override
     {
         return true;
-    }
-
-    bool is_artifact() const override
-    {
-        return false;
     }
 
     std::string get_item_type_string() const override

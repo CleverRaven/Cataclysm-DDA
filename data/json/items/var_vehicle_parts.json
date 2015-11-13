@@ -216,7 +216,7 @@
         "symbol": "m",
         "color": "light_gray",
         "name": "large steel drum",
-        "description": "A large cylinder fashioned out of thick plates of hardened steel, that is normally found on road rollers. Numerous massive spokes, attached to a central axis, reinforce its structure even further, making it an unstoppable force once it starts rolling.",
+        "description": "A large cylinder fashioned out of thick plates of hardened steel, that is normally found on road rollers.  Numerous massive spokes, attached to a central axis, reinforce its structure even further, making it an unstoppable force once it starts rolling.",
         "price": 50000,
         "material": ["steel", "null"],
         "weight": 750000,
@@ -416,7 +416,7 @@
         "category": "veh_parts",
         "bigness-aspect": "ENGINE_DISPLACEMENT"
     },
-   {
+    {
        "type":"VAR_VEH_PART",
        "id": "wheel_metal",
        "symbol": "]",
@@ -434,5 +434,5 @@
        "max-bigness": 20,
        "category": "veh_parts",
        "bigness-aspect": "WHEEL_DIAMETER"
-     }
+    }
 ]

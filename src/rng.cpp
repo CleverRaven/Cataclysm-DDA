@@ -41,6 +41,17 @@ int dice(int number, int sides)
     return ret;
 }
 
+int divide_roll_remainder( double dividend, double divisor )
+{
+    const double div = dividend / divisor;
+    const int trunc = int(div);
+    if( div > trunc && x_in_y( div - trunc, 1.0 ) ) {
+        return trunc + 1;
+    }
+
+    return trunc;
+}
+
 
 // http://www.cse.yorku.ca/~oz/hash.html
 // for world seeding.

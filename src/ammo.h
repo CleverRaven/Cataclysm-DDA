@@ -2,36 +2,32 @@
 #define AMMO_H
 
 #include <string>
-#include <map>
 
-#include "json.h"
-
-class ammunition_type;
-
-typedef std::map<std::string, ammunition_type> ammunition_type_map;
+class JsonObject;
 
 class ammunition_type
 {
-    private:
-        std::string _ident;
-        std::string _name;
-        std::string _default_ammotype;
+    friend class DynamicDataLoader;
+public:
+    ammunition_type() = default;
+    explicit ammunition_type(std::string name) : name_(std::move(name)) { }
 
-        static ammunition_type_map _all_ammunition_type;
+    std::string const& name() const {
+        return name_;
+    }
 
-    public:
-        ammunition_type();
-        ammunition_type(std::string ident, std::string name, std::string default_ammotype);
-        static void load_ammunition_type(JsonObject &jsobj);
+    std::string const& default_ammotype() const {
+        return default_ammotype_;
+    }
 
-        // functions
-        static ammunition_type *find_ammunition_type(std::string ident);
-        // clear ammotype map, every ammotype pointer becames invalid!
-        static void reset();
-        static void check_consistency();
+    static ammunition_type const& find_ammunition_type(std::string const &ident);
+private:
+    std::string name_;
+    std::string default_ammotype_;
 
-        std::string name() const;
-        std::string default_ammotype() const;
+    static void load_ammunition_type(JsonObject &jsobj);
+    static void reset();
+    static void check_consistency();
 };
 
 #endif

@@ -76,8 +76,8 @@
             "_": "t_pavement",
             ",": "t_sidewalk",
             " ": "t_floor",
-            "-": "t_wall_h",
-            "|": "t_wall_v",
+            "-": "t_wall",
+            "|": "t_wall",
             "O": "t_floor",
             "L": "t_door_locked_alarm",
             "@": "t_floor",
@@ -101,8 +101,8 @@
             "B": "t_palisade",
             "!": "t_floor",
             "V": "t_floor",
-            "5": "t_wall_glass_h",
-            "8": "t_wall_glass_v",
+            "5": "t_wall_glass",
+            "8": "t_wall_glass",
             "*": "t_floor"
             },
             "furniture": {

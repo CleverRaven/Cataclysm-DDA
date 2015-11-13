@@ -4,6 +4,7 @@
 #include "player.h"
 #include "morale.h"
 #include "rng.h"
+#include "translations.h"
 
 void addict_effect(player &u, addiction &add,
                    std::function<void (char const*)> const &cancel_activity)

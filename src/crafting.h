@@ -3,8 +3,8 @@
 
 #include "item.h"         // item
 #include "requirements.h" // requirement_data
-#include "bodypart.h"     // handedness::NONE
 #include "cursesdef.h"    // WINDOW
+#include "string_id.h"
 
 #include <string>
 #include <vector>
@@ -13,11 +13,13 @@
 
 class JsonObject;
 class Skill;
+using skill_id = string_id<Skill>;
 class inventory;
 class player;
+struct recipe;
 
 enum body_part : int; // From bodypart.h
-enum nc_color : int; // From color.h
+typedef int nc_color; // From color.h
 
 using itype_id     = std::string; // From itype.h
 
@@ -50,8 +52,8 @@ struct recipe {
     std::string cat;
     bool contained; // Does the item spawn contained?
     std::string subcat;
-    const Skill* skill_used;
-    std::map<const Skill*, int> required_skills;
+    skill_id skill_used;
+    std::map<skill_id, int> required_skills;
     bool reversible; // can the item be disassembled?
     bool autolearn; // do we learn it just by leveling skills?
     int learn_by_disassembly; // what level (if any) do we learn it by disassembly?
@@ -61,11 +63,16 @@ struct recipe {
     double batch_rscale;
     int batch_rsize; // minimum batch size to needed to reach batch_rscale
     int result_mult; // used by certain batch recipes that create more than one stack of the result
-    bool paired;
 
-    // only used during loading json data: books and the skill needed
-    // to learn this recipe from.
-    std::vector<std::pair<std::string, int> > booksets;
+    // only used during loading json data: book_id is the id of an book item, other stuff is copied
+    // into @ref islot_book::recipes.
+    struct bookdata_t {
+        std::string book_id;
+        int skill_level;
+        std::string recipe_name;
+        bool hidden;
+    };
+    std::vector<bookdata_t> booksets;
 
     //Create a string list to describe the skill requirements fir this recipe
     // Format: skill_name(amount), skill_name(amount)
@@ -73,18 +80,11 @@ struct recipe {
 
     ~recipe();
     recipe();
-    recipe(std::string pident, int pid, itype_id pres, std::string pcat,
-           bool pcontained,std::string psubcat, std::string &to_use,
-           std::map<std::string, int> &to_require,
-           bool preversible, bool pautolearn, int plearn_dis,
-           int pmult, bool ppaired, std::vector<byproduct> &bps,
-           int time, int difficulty, double batch_rscale,
-           int batch_rsize);
 
     // Create an item instance as if the recipe was just finished,
     // Contain charges multiplier
-    item create_result(handedness handed = NONE) const;
-    std::vector<item> create_results(int batch = 1, handedness handed = NONE) const;
+    item create_result() const;
+    std::vector<item> create_results(int batch = 1) const;
 
     // Create byproduct instances as if the recipe was just finished
     std::vector<item> create_byproducts(int batch = 1) const;

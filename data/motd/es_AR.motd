@@ -1,7 +1,7 @@
 # Este mensaje puede ser de hasta 21 líneas de largo, pero lo ideal es que sea de menos.
 # El largo máximo de una línea es de 72 caracteres; la siguiente línea es para usar de referencia
 ########################################################################
-Major features in v0.C Cooper:
+Cambios principales de la v0.C Cooper:
 * Luchas entre monstruos.
 * Mejora del sistema de disparo.
 * Controles mejorados de torretas

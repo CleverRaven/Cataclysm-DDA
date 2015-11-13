@@ -9,29 +9,31 @@
 #include "SDL2/SDL.h"
 #include "SDL2/SDL_ttf.h"
 
-#include "game.h"
-#include "options.h"
-#include "mapdata.h"
+#include "animation.h"
+#include "map.h"
+#include "weather.h"
 #include "tile_id_data.h"
 #include "enums.h"
 
+#include <list>
 #include <map>
 #include <vector>
 #include <string>
+#include <unordered_map>
 
 class JsonObject;
+struct visibility_variables;
 
 /** Structures */
 struct tile_type
 {
-    int fg, bg;
+    std::vector<int> fg, bg;
     bool multitile, rotates;
 
     std::vector<std::string> available_subtiles;
 
     tile_type()
     {
-        fg = bg = 0;
         multitile = rotates = false;
         available_subtiles.clear();
     }
@@ -58,15 +60,6 @@ struct tile
 };
 
 /* Enums */
-enum LIGHTING
-{
-    HIDDEN = -1,
-    CLEAR = 0,
-    LIGHT_NORMAL = 1,
-    LIGHT_DARK = 2,
-    BOOMER_NORMAL = 3,
-    BOOMER_DARK = 4
-};
 enum MULTITILE_TYPE
 {
     center,
@@ -152,25 +145,33 @@ class cata_tiles
         void set_draw_scale(int scale);
     protected:
         /** Load tileset, R,G,B, are the color components of the transparent color
-         * throws std::string on errors. Returns the number of tiles that have
-         * been loaded from this tileset image
+         * Returns the number of tiles that have been loaded from this tileset image
+         * @throw std::exception If the image can not be loaded.
          */
         int load_tileset(std::string path, int R, int G, int B);
 
         /**
          * Load tileset config file (json format).
          * If the tileset uses the old system (one image per tileset) the image
-         * path <B>imagepath</B> is used to load the tileset image.
+         * path <B>image_path</B> is used to load the tileset image.
          * Otherwise (the tileset uses the new system) the image pathes
          * are loaded from the json entries.
-         * throws std::string on errors.
+         * @throw std::exception On any error.
+         * @param tileset_root Path to tileset root directory.
+         * @param json_conf Path to json config inside tileset_root.
+         * @param image_path Path to tiles image inside tileset_root.
          */
-        void load_tilejson(std::string path, const std::string &imagepath);
+        void load_tilejson(std::string tileset_root, std::string json_conf, const std::string &image_path);
 
         /**
-         * throws std::string on errors.
+         * Try to load json tileset config. If json valid it lookup
+         * it parses it and load tileset.
+         * @throw std::exception On errors in the tileset definition.
+         * @param tileset_dir Path to tileset root directory.
+         * @param f File stream to read from.
+         * @param image_path
          */
-        void load_tilejson_from_file(std::ifstream &f, const std::string &imagepath);
+        void load_tilejson_from_file(const std::string &tileset_dir, std::ifstream &f, const std::string &image_path);
 
         /**
          * Load tiles from json data.This expects a "tiles" array in
@@ -180,7 +181,7 @@ class cata_tiles
          * image, only tile inidizes (tile_type::fg tile_type::bg) in the interval
          * [0,size].
          * The <B>offset</B> is automatically added to the tile index.
-         * throws std::string on errors.
+         * @throw std::exception On any error.
          */
         void load_tilejson_from_file(JsonObject &config, int offset, int size);
 
@@ -198,15 +199,19 @@ class cata_tiles
         void add_ascii_subtile(tile_type *curr_tile, const std::string &t_id, int fg, const std::string &s_id);
     public:
         /** Draw to screen */
-        void draw(int destx, int desty, int centerx, int centery, int width, int height);
+        void draw( int destx, int desty, const tripoint &center, int width, int height );
     protected:
         /** How many rows and columns of tiles fit into given dimensions **/
         void get_window_tile_counts(const int width, const int height, int &columns, int &rows) const;
 
-        bool draw_from_id_string(std::string id, int x, int y, int subtile, int rota);
+        bool draw_from_id_string(std::string id, int x, int y, int subtile, int rota, lit_level ll,
+                                 bool apply_night_vision_goggles);
         bool draw_from_id_string(std::string id, TILE_CATEGORY category,
-                                 const std::string &subcategory, int x, int y, int subtile, int rota);
-        bool draw_tile_at(tile_type *tile, int x, int y, int rota);
+                                 const std::string &subcategory, int x, int y, int subtile, int rota,
+                                 lit_level ll, bool apply_night_vision_goggles);
+        bool draw_sprite_at(std::vector<int>& spritelist, int x, int y, int rota, lit_level ll,
+                            bool apply_night_vision_goggles);
+        bool draw_tile_at(tile_type *tile, int x, int y, int rota, lit_level ll, bool apply_night_vision_goggles);
 
         /**
          * Redraws all the tiles that have changed since the last frame.
@@ -218,43 +223,53 @@ class cata_tiles
 
         /* Tile Picking */
         void get_tile_values(const int t, const int *tn, int &subtile, int &rotation);
-        void get_wall_values(const int x, const int y, const long vertical_wall_symbol,
-                             const long horizontal_wall_symbol, int &subtile, int &rotation);
-        void get_terrain_orientation(int x, int y, int &rota, int &subtype);
+        void get_wall_values( const tripoint &p, int &subtile, int &rotation );
+        void get_terrain_orientation( const tripoint &p, int &rota, int &subtype );
         void get_rotation_and_subtile(const char val, const int num_connects, int &rota, int &subtype);
 
         /** Drawing Layers */
-        bool draw_lighting(int x, int y, LIGHTING l);
-        bool draw_terrain(int x, int y);
-        bool draw_furniture(int x, int y);
-        bool draw_trap(int x, int y);
-        bool draw_field_or_item(int x, int y);
-        bool draw_vpart(int x, int y);
-        bool draw_entity( const Creature &critter, int x, int y );
-        void draw_entity_with_overlays( const player &p, int x, int y );
+        void draw_single_tile( const tripoint &p, const lit_level ll,
+                               const visibility_variables &cache );
+        bool apply_vision_effects( int x, int y, const visibility_type visibility);
+        bool draw_terrain( const tripoint &p, lit_level ll );
+        bool draw_furniture( const tripoint &p, lit_level ll );
+        bool draw_trap( const tripoint &p, lit_level ll );
+        bool draw_field_or_item( const tripoint &p, lit_level ll );
+        bool draw_vpart( const tripoint &p, lit_level ll );
+        bool draw_entity( const Creature &critter, const tripoint &p, lit_level ll );
+        void draw_entity_with_overlays( const player &pl, const tripoint &p, lit_level ll );
 
         bool draw_item_highlight(int x, int y);
 
+    private:
+        //surface manipulation
+        SDL_Surface *create_tile_surface(int w, int h);
+
     public:
         // Animation layers
-        bool draw_hit(int x, int y);
+        bool draw_hit( const tripoint &p );
 
-        void init_explosion(int x, int y, int radius);
+        void init_explosion( const tripoint &p, int radius );
         void draw_explosion_frame();
         void void_explosion();
 
-        void init_draw_bullet(int x, int y, std::string name);
+        void init_custom_explosion_layer( const std::map<point, explosion_tile> &layer );
+        void draw_custom_explosion_frame();
+        void void_custom_explosion();
+
+        void init_draw_bullet( const tripoint &p, std::string name );
         void draw_bullet_frame();
         void void_bullet();
 
-        void init_draw_hit(int x, int y, std::string name);
+        void init_draw_hit( const tripoint &p, std::string name );
         void draw_hit_frame();
         void void_hit();
 
         void draw_footsteps_frame();
 
         // pseudo-animated layer, not really though.
-        void init_draw_line(int x, int y, std::vector<point> trajectory, std::string line_end_name, bool target_line);
+        void init_draw_line( const tripoint &p, std::vector<tripoint> trajectory,
+                             std::string line_end_name, bool target_line);
         void draw_line();
         void void_line();
 
@@ -266,7 +281,7 @@ class cata_tiles
         void draw_sct_frame();
         void void_sct();
 
-        void init_draw_zones(const point &p_pointStart, const point &p_pointEnd, const point &p_pointOffset);
+        void init_draw_zones( const tripoint &start, const tripoint &end, const tripoint &offset );
         void draw_zones_frame();
         void void_zones();
 
@@ -274,19 +289,39 @@ class cata_tiles
         bool draw_omap();
 
     public:
-        /* initialize from an outside file, throws std::string on errors. */
-        void init(std::string load_file_path);
-        /* Reinitializes the tile context using the original screen information, throws std::string on errors  */
-        void reinit(std::string load_file_path);
+        /**
+         * Initialize the current tileset (load tile images, load mapping), using the current
+         * tileset as it is set in the options.
+         * @throw std::exception On any error.
+         */
+        void init();
+        /**
+         * Reinitializes the current tileset, like @ref init, but using the original screen information.
+         * @throw std::exception On any error.
+         */
+        void reinit();
         int get_tile_height() const { return tile_height; }
         int get_tile_width() const { return tile_width; }
         float get_tile_ratiox() const { return tile_ratiox; }
         float get_tile_ratioy() const { return tile_ratioy; }
+        void do_tile_loading_report();
+        bool tile_iso;
     protected:
         void get_tile_information(std::string dir_path, std::string &json_path, std::string &tileset_path);
+        template <typename maptype>
+        void tile_loading_report(maptype const & tiletypemap, std::string const & label, std::string const & prefix = "");
+        template <typename arraytype>
+        void tile_loading_report(arraytype const & array, int array_length, std::string const & label, std::string const & prefix = "");
+        template <typename basetype>
+        void tile_loading_report(size_t count, std::string const & label, std::string const & prefix);
+        /**
+         * Generic tile_loading_report, begin and end are iterators, id_func translates the iterator
+         * to an id string (result of id_func must be convertible to string).
+         */
+        template<typename Iter, typename Func>
+        void lr_generic( Iter begin, Iter end, Func id_func, const std::string &label, const std::string &prefix );
         /** Lighting */
         void init_light();
-        LIGHTING light_at(int x, int y);
 
         /** Variables */
         SDL_Renderer *renderer;
@@ -302,6 +337,7 @@ class cata_tiles
         bool in_animation;
 
         bool do_draw_explosion;
+        bool do_draw_custom_explosion;
         bool do_draw_bullet;
         bool do_draw_hit;
         bool do_draw_line;
@@ -311,6 +347,8 @@ class cata_tiles
 
         int exp_pos_x, exp_pos_y, exp_rad;
 
+        std::map<point, explosion_tile> custom_explosion_layer;
+
         int bul_pos_x, bul_pos_y;
         std::string bul_id;
 
@@ -319,37 +357,33 @@ class cata_tiles
 
         int line_pos_x, line_pos_y;
         bool is_target_line;
-        std::vector<point> line_trajectory;
+        std::vector<tripoint> line_trajectory;
         std::string line_endpoint_id;
 
         weather_printable anim_weather;
         std::string weather_name;
 
-        point pStartZone;
-        point pEndZone;
-        point pZoneOffset;
+        tripoint zone_start;
+        tripoint zone_end;
+        tripoint zone_offset;
 
         // offset values, in tile coordinates, not pixels
         int o_x, o_y;
         // offset for drawing, in pixels.
         int op_x, op_y;
 
-    protected:
     private:
         void create_default_item_highlight();
-        int
-            sightrange_natural,
-            sightrange_light,
-            sightrange_lowlight,
-            sightrange_max;
-        int
-            u_clairvoyance,
-            g_lightlevel;
-        bool
-            boomered,
-            sight_impaired,
-            bionight_bionic_active;
         int last_pos_x, last_pos_y;
+        tile_map shadow_tile_values;
+        tile_map night_tile_values;
+        tile_map overexposed_tile_values;
+        /**
+         * Tracks active night vision goggle status for each draw call.
+         * Allows usage of night vision tilesets during sprite rendering.
+         */
+        bool nv_goggles_activated;
+
 
 };
 

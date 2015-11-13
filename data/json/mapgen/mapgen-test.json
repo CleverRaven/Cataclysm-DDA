@@ -1,0 +1,183 @@
+[
+    {
+        "//": "This is a test mapgen definition.",
+        "//": "Its contents make no sense, it is supposed to use all the available mapgen possibilities.",
+        "type" : "overmap_terrain",
+        "id" : "mapgen-test",
+        "name" : "",
+        "rotate" : false,
+        "line_drawing" : false,
+        "sym" : 37,
+        "color" : "white",
+        "see_cost" : 0,
+        "extras" : "none",
+        "known_down" : false,
+        "known_up" : false,
+        "mondensity" : 1,
+        "sidewalk" : false,
+        "allow_road" : false
+    },{
+        "type": "mapgen",
+        "om_terrain": [ "mapgen-test" ],
+        "method": "json",
+        "object": {
+            "fill_ter": "t_grass",
+            "//": "Big empty space, the letters in it are used to test the placing of specials through",
+            "//": "the mapping (as opposed to specific coordinates).",
+            "rows": [
+                "                        ",
+                "                        ",
+                "                        ",
+                "                        ",
+                "                        ",
+                "                        ",
+                "                        ",
+                "                        ",
+                "                        ",
+                "                        ",
+                "                        ",
+                "                        ",
+                "tttttttt                ",
+                "tttttttt       ss oo    ",
+                "               ss oo    ",
+                "                        ",
+                "      X                 ",
+                "                        ",
+                "T          B           S",
+                "                        ",
+                "                        ",
+                "   ;;;;----gggg         ",
+                "   ;;;;----gggg         ",
+                " V O . , u fF       Y   "
+            ],
+            "//": [ "This should result in random terrain (either door or pit) on ';'",
+                    "(selected individually for each place) and shrubs at '.'" ],
+            "terrain": {
+                ";": [ "t_door_o", { "ter": "t_pit_spiked" } ],
+                ".": "t_shrub"
+            },
+            "//": [ "This should result in random furniture (either chair or bed) on '-'",
+                    "(selected individually for each place) and a table at ','" ],
+            "furniture": {
+                "-": [ "f_chair", { "furn": "f_bed" } ],
+                ",": "f_table"
+            },
+            "//": "special (unusual) values to see whether they are actually respected by the game",
+            "gaspumps": {
+                "O": { "amount": [ 110, 112 ] }
+            },
+            "vendingmachines": {
+                "V": { "item_group": "farming_seeds" }
+            },
+            "fields": {
+                "B": { "field": "fd_blood", "age": 10, "density": 1 }
+            },
+            "signs": {
+                "S": { "signage": "it works." }
+            },
+            "//": "A monster directly on the blood (-;",
+            "//": "Other monsters on the sign",
+            "monsters": {
+                "B": { "monster": "GROUP_BEE", "density": 1, "chance": 4 },
+                "S": { "monster": "GROUP_ANT", "density": 0.1, "chance": 1 }
+            },
+            "//": "The NPC sits on the toilet (-:",
+            "toilets": {
+                "T": { "amount": [ 44, 46 ] }
+            },
+            "npcs": {
+                "T": { "class": "guard" }
+            },
+            "//": "a stash and another (different) stash with different chance",
+            "items": {
+                "s": { "item": "bionics_tech", "chance": 70 },
+                "o": { "item": "technician_pants", "chance": 20 }
+            },
+            "//": "single-tile vehicles to avoid conflicts with outer parts of the map, chance=100 to spawn always",
+            "vehicles": {
+                "s": { "vehicle": "wheelchair", "chance": 100, "status": 1 },
+                "o": { "vehicle": "welding_cart", "chance": 100, "fuel": 40, "status": 1 }
+            },
+            "//": [ "This also checks whether the array (spawning multiple items at once) works",
+                    "There should be a TV *and* an electrohack at that place",
+                    "There should be some TVs at the 't', but only at some of the 't' (1 in 4 chance)" ],
+            "item": {
+                "u": [
+                    { "item": "television", "chance": 1 },
+                    { "item": "electrohack", "chance": 1 }
+                ],
+                "t": { "item": "television", "chance": 4 }
+            },
+            "//": "This tests both ways to specifiy a trap: a single string or a json object",
+            "//": "It also test support for the array syntax, the result should be randomly chosen traps (different for each place)",
+            "traps": {
+                "F": "tr_cot",
+                "g": [ "tr_funnel", { "trap": "tr_brazier" } ],
+                "f": { "trap": "tr_funnel" }
+            },
+            "monster": {
+                "Y": { "monster": "mon_deer", "friendly": true, "name": "THE DEER" }
+            },
+
+            "//": [ "And now an all-purpose mapping" ],
+            "mapping": {
+                "X": {
+                    "traps": "tr_pit",
+                    "item": { "item": "2x4" },
+                    "items": { "item": "survivorzed_boots", "chance": 30 },
+                    "fields": { "field": "fd_fire" },
+                    "terrain": "t_dirt"
+                }
+            },
+
+            "//": [ "And now the same (nearly) but with explicit coordinates.",
+                    "These spawn in the northern part of the map and they have slightly",
+                    "different values so they are be distinguished." ],
+            "place_gaspumps": [
+                { "x": 1, "y": 1, "amount": [ 200, 222 ] }
+            ],
+            "place_vendingmachines": [
+                { "x": 3, "y": 1, "item_group": "jewelry_front" }
+            ],
+            "place_fields": [
+                { "x": 5, "y": 1, "field": "fd_bile", "age": 20, "density": 2 }
+            ],
+            "place_signs": [
+                { "x": 7, "y": 1, "signage": "it works again." }
+            ],
+            "place_monsters": [
+                { "x": 5, "y": 1, "monster": "GROUP_BEE", "density": 1, "chance": 4 },
+                { "x": 7, "y": 1, "monster": "GROUP_ANT", "density": 0.1, "chance": 1 }
+            ],
+            "place_toilets": [
+                { "x": 9, "y": 1, "amount": [ 88, 111 ] }
+            ],
+            "place_npcs": [
+                { "x": 9, "y": 1, "class": "arsonist" }
+            ],
+            "place_items": [
+                { "x": 1, "y": 3, "item": "bionics_tech", "chance": 70 },
+                { "x": 2, "y": 3, "item": "technician_pants", "chance": 20 }
+            ],
+            "place_vehicles": [
+                { "x": 5, "y": 3, "vehicle": "unicycle", "chance": 100, "status": 1 }
+            ],
+            "place_traps": [
+                { "x": 7, "y": 3, "trap": "tr_funnel" }
+            ],
+            "place_furniture": [
+                { "x": 9, "y": 3, "furn": "f_rack" }
+            ],
+            "place_terrain": [
+                { "x": 11, "y": 3, "ter": "t_rock" }
+            ],
+            "place_monster": [
+                { "x": 13, "y": 3, "monster": "mon_deer", "friendly": true, "name": "THE OTHER DEER" }
+            ],
+            "//": "Some of the squares should have a frame, but not all.",
+            "add": [
+                { "x": [ 0, 7 ], "y": [ 4, 5 ], "item": "frame", "chance": 4, "repeat": 10 }
+            ]
+        }
+    }
+]
