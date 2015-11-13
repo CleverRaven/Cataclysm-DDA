@@ -7767,7 +7767,7 @@ void player::hardcoded_effects(effect &it)
                 } else {
                     index = int (rng( 0, vect.size() - 1 ));
                 }
-                if ( !has_effect( "skin_rot", vect[index] ) || !has_effect( "skin_rot_recovery", vect[index] ) ) {
+                if ( !has_effect( "skin_rot", vect[index] ) && !has_effect( "skin_rot_recovery", vect[index] ) ) {
                     add_effect( "skin_rot", 1, vect[index] );
                 }
             };
@@ -7859,7 +7859,7 @@ void player::hardcoded_effects(effect &it)
         }
     } else if (id == "furunculus" || id == "furunculus_recovery" ) {
         if ( intense > 3 && wearing_something_on( bp ) && !has_trait( "NOPAIN" ) && calendar::once_every( MINUTES( 5 ) ) ) {
-            mod_pain( rng( 2, 6 ) );
+            mod_pain( rng( 1, 4 ) );
             focus_pool -= 1;
             add_msg_if_player( m_bad, _( "The furunculus on your %1$s is being compacted by your clothing." ), body_part_name(bp).c_str() );   
         }
