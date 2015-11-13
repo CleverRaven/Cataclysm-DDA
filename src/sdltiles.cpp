@@ -766,11 +766,14 @@ void curses_drawwindow(WINDOW *win)
         int wheight = win->height * font->fontheight;
         FillRectDIB(offsetx, offsety, wwidth, wheight, COLOR_BLACK);
         update = true;
-    } else if (g && win == g->w_minimap && OPTIONS["PIXEL_MINIMAP"]) {
+    } else if (g && win == g->w_pixel_minimap && OPTIONS["PIXEL_MINIMAP"]) {\
+        // Make sure the entire minimap window is black before drawing.
+        FillRectDIB(win->x * fontwidth, win->y * fontheight,
+                    win->width * fontwidth, win->height * fontheight, COLOR_BLACK);
         tilecontext->draw_minimap(
             win->x * fontwidth, win->y * fontheight,
             tripoint( g->u.pos().x, g->u.pos().y, g->ter_view_z ),
-            200, 200);
+            win->width * font->fontwidth, win->height * font->fontheight);
         update = true;
     } else {
         // Either not using tiles (tilecontext) or not the w_terrain window.

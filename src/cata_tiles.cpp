@@ -894,12 +894,18 @@ void cata_tiles::draw_minimap( int destx, int desty, const tripoint &center, int
         return;
     }
 
-    int start_x = center.x - 50;
-    int start_y = center.y - 50;
-    int tiles_x = 100;
-    int tiles_y = 100;
+    int start_x = center.x - 55;
+    int start_y = center.y - 55;
+    int tiles_x = 110;
+    int tiles_y = 110;
     int tile_size_x = std::max(width / tiles_x, 1);
     int tile_size_y = std::max(height / tiles_y, 1);
+
+    // Center the drawn area within the total area.
+    int drawn_width = tiles_x * tile_size_x;
+    int drawn_height = tiles_y * tile_size_y;
+    int border_width = (width - drawn_width) / 2;
+    int border_height = (height - drawn_height) / 2;
 
     auto &ch = g->m.access_cache( center.z );
 
@@ -915,24 +921,9 @@ void cata_tiles::draw_minimap( int destx, int desty, const tripoint &center, int
                 color.g = 12;
                 color.b = 12;
             } else {
-                const auto critter = g->critter_at( p, true );
                 int veh_part = 0;
                 vehicle *veh = g->m.veh_at( p, veh_part );
-                if( critter != nullptr ) {
-                    if ( critter->is_player()) {
-                        color.r = 0;
-                        color.g = 255;
-                        color.b = 0;
-                    } else if ( critter->is_npc()) {
-                        color.r = 0;
-                        color.g = 0;
-                        color.b = 255;
-                    } else {
-                        color.r = 255;
-                        color.g = 0;
-                        color.b = 0;
-                    }
-                } else if (veh != nullptr) {
+                if (veh != nullptr) {
                     color = cursesColorToSDL(veh->part_color(veh_part));
                 } else {
                     auto terrain = g->m.ter_at( p );
@@ -942,11 +933,36 @@ void cata_tiles::draw_minimap( int destx, int desty, const tripoint &center, int
 
             SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, 255);
             SDL_Rect rectangle;
-            rectangle.x = destx + x * tile_size_x;
-            rectangle.y = desty + y * tile_size_y;
+            rectangle.x = destx + border_width + x * tile_size_x;
+            rectangle.y = desty + border_height + y * tile_size_y;
             rectangle.w = tile_size_x;
             rectangle.h = tile_size_y;
             SDL_RenderFillRect(renderer, &rectangle);
+        }
+    }
+
+    // Now draw critters over terrain.
+    for( int y = 0; y < tiles_y; y++) {
+        for( int x = 0; x <= tiles_x; x++) {
+            tripoint p(start_x + x, start_y + y, center.z);
+
+            lit_level lighting = ch.visibility_cache[p.x][p.y];
+            if(lighting != LL_DARK && lighting != LL_BLANK) {
+                const auto critter = g->critter_at( p, true );
+                if( critter != nullptr ) {
+                    SDL_Color color = cursesColorToSDL(critter->symbol_color());
+                    for(int xOffset = -tile_size_x; xOffset <= tile_size_x; xOffset++) {
+                        for(int yOffset = -tile_size_x + abs(xOffset); yOffset <= tile_size_x - abs(xOffset); yOffset++) {
+                            int divisor = 2 * (abs(yOffset) == tile_size_x - abs(xOffset)) + 1;
+                            SDL_SetRenderDrawColor(renderer, color.r / divisor, color.g / divisor, color.b / divisor, 255);
+
+                            SDL_RenderDrawPoint(renderer,
+                                 destx + border_width + x * tile_size_x + xOffset,
+                                 desty + border_height + y * tile_size_y + yOffset);
+                        }
+                    }
+                }
+            }
         }
     }
 }
