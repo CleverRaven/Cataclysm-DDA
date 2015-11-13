@@ -19,6 +19,7 @@
 #include "morale.h"
 #include "npc.h"
 #include "vehicle.h"
+#include "ui.h"
 
 #include <queue>
 #include <math.h>    //sqrt
@@ -329,7 +330,7 @@ void player::recraft()
     if( lastrecipe.empty() ) {
         popup(_("Craft something first"));
     } else if (making_would_work( lastrecipe, last_batch )) {
-        make_craft( lastrecipe, last_batch );
+        last_craft.execute();
     }
 }
 
@@ -1402,27 +1403,237 @@ void pick_recipes(const inventory &crafting_inv,
 
 void player::make_craft(const std::string &id_to_make, int batch_size)
 {
-    const recipe *recipe_to_make = find_recipe( id_to_make );
-    if( recipe_to_make == nullptr ) {
-        return;
-    }
-    assign_activity(ACT_CRAFT, recipe_to_make->batch_time(batch_size), recipe_to_make->id);
-    activity.values.push_back( batch_size );
-    last_batch = batch_size;
-    lastrecipe = id_to_make;
+    make_craft_with_command(id_to_make, batch_size);
 }
-
 
 void player::make_all_craft(const std::string &id_to_make, int batch_size)
 {
+    make_craft_with_command(id_to_make, batch_size, true);
+}
+
+void player::make_craft_with_command( const std::string &id_to_make, int batch_size, bool is_long )
+{
     const recipe *recipe_to_make = find_recipe( id_to_make );
+
     if( recipe_to_make == nullptr ) {
         return;
     }
-    assign_activity(ACT_LONGCRAFT, recipe_to_make->batch_time(batch_size), recipe_to_make->id);
-    activity.values.push_back( batch_size );
-    last_batch = batch_size;
-    lastrecipe = id_to_make;
+
+    last_craft = craft_command( recipe_to_make, batch_size, is_long, this );
+    last_craft.execute();
+}
+
+template<typename CompType>
+std::string comp_selection<CompType>::nname() const
+{
+    switch( use_from ) {
+        case use_from_map:
+            return item::nname( comp.type, comp.count ) + _( " (nearby)" );
+        case use_from_both:
+            return item::nname( comp.type, comp.count ) + _( " (person & nearby)" );
+        case use_from_player: // Is the same as the default return;
+        case use_from_none:
+        case cancel:
+            break;
+    }
+
+    return item::nname( comp.type, comp.count );
+}
+
+void craft_command::execute()
+{
+    if( empty() ) {
+        return;
+    }
+
+    bool need_selections = true;
+    inventory map_inv;
+    map_inv.form_from_map( crafter->pos3(), PICKUP_RANGE );
+
+    if( has_cached_selections() ) {
+        std::vector<item_selection> missing_items = check_item_components_missing( map_inv );
+        std::vector<tool_selection> missing_tools = check_tool_components_missing( map_inv );
+
+        if( missing_items.empty() && missing_tools.empty() ) {
+            need_selections = false; // all items we used previously are still there, so we don't need to do selection
+        } else if( !querry_continue( missing_items, missing_tools ) ) {
+            return; // return if the response was 'No'.
+        }
+    }
+
+    if( need_selections ) {
+        /* make component selections */
+        select_components( map_inv );
+    }
+
+    crafter->assign_activity( is_long ? ACT_LONGCRAFT : ACT_CRAFT, rec->batch_time( batch_size ), rec->id );
+    crafter->activity.values.push_back( batch_size );
+    /* legacy support for lua bindings to last_batch and lastrecipe */
+    crafter->last_batch = batch_size;
+    crafter->lastrecipe = rec->ident;
+}
+
+template<typename T>
+void craft_command::component_list_string( std::stringstream &str, const std::vector<comp_selection<T>> &components ) {
+    for( size_t i = 0; i < components.size(); i++ ) {
+        if( i != 0 ) {
+            str << ", ";
+        }
+        str << components[i].nname();
+    }
+}
+
+void craft_command::select_components( inventory &map_inv )
+{
+    for( const auto &it : rec->requirements.components ) {
+        item_selection is = crafter->select_item_component( it, batch_size, map_inv, true );
+        if( is.use_from == cancel ) {
+            return;
+        }
+        item_selections.push_back( is );
+    }
+
+    for( const auto &it : rec->requirements.tools ) {
+        tool_selection ts = crafter->select_tool_component( it, batch_size, map_inv, DEFAULT_HOTKEYS, true );
+        if( ts.use_from == cancel ) {
+            return;
+        }
+        tool_selections.push_back( ts );
+    }
+}
+
+bool craft_command::querry_continue( const std::vector<item_selection> &missing_items, const std::vector<tool_selection> &missing_tools )
+{
+    std::stringstream ss;
+    ss << _( "Some components used previously are missing. Continue?" );
+
+    if( !missing_items.empty() ) {
+        ss << std::endl << _( "Item(s): " );
+        component_list_string( ss, missing_items );
+    }
+
+    if( !missing_tools.empty() ) {
+        ss << std::endl << _( "Tool(s): " );
+        component_list_string( ss, missing_tools );
+    }
+
+    std::vector<std::string> options;
+    options.push_back( _( "Yes" ) );
+    options.push_back( _( "No" ) );
+
+    const std::string str = ss.str(); // we NEED a copy
+    int selection = menu_vec( true, str.c_str(), options );
+    return selection == 1;
+}
+
+std::list<item> craft_command::consume_components()
+{
+    std::list<item> used;
+
+    if( empty() ) {
+        debugmsg( "Warning: attempted to consume items from an empty craft_command" );
+        return used;
+    }
+
+    for( const auto &it : item_selections ) {
+        std::list<item> tmp = crafter->consume_items( it, batch_size ); // we consume the items we selected earlier
+        used.splice( used.end(), tmp );
+    }
+
+    for( const auto &it : tool_selections ) {
+        crafter->consume_tools( it, batch_size );
+    }
+
+    return used;
+}
+
+std::vector<item_selection> craft_command::check_item_components_missing( const inventory &map_inv ) const
+{
+    std::vector<item_selection> missing;
+
+    for( const auto &item_sel : item_selections ) {
+        itype_id type = item_sel.comp.type;
+        item_comp component = item_sel.comp;
+        long count = ( component.count > 0 ) ? component.count * batch_size : abs( component.count );
+
+        if ( item::count_by_charges( type ) && count > 0 ) {
+            switch( item_sel.use_from ) {
+                case use_from_player:
+                    if( !crafter->has_charges( type, count ) ) {
+                        missing.push_back( item_sel );
+                    }
+                    break;
+                case use_from_map:
+                    if( !map_inv.has_charges( type, count ) ) {
+                        missing.push_back( item_sel );
+                    }
+                    break;
+                case use_from_both:
+                    if( !( crafter->charges_of( type ) + map_inv.charges_of( type ) >= count ) ) {
+                        missing.push_back( item_sel );
+                    }
+                    break;
+                case use_from_none:
+                case cancel:
+                    break;
+            }
+        } else { // Counting by units, not charges
+            switch( item_sel.use_from ) {
+                case use_from_player:
+                    if( !crafter->has_amount( type, count ) ) {
+                        missing.push_back( item_sel );
+                    }
+                    break;
+                case use_from_map:
+                    if( !map_inv.has_components(type, count) ) {
+                        missing.push_back( item_sel );
+                    }
+                    break;
+                case use_from_both:
+                    if( !( crafter->amount_of( type ) + map_inv.amount_of( type ) >= count ) ) {
+                        missing.push_back( item_sel );
+                    }
+                    break;
+                case use_from_none:
+                case cancel:
+                    break;
+            }
+        }
+    }
+
+    return missing;
+}
+
+std::vector<tool_selection> craft_command::check_tool_components_missing( const inventory &map_inv ) const
+{
+    std::vector<tool_selection> missing;
+
+    for( const auto &tool_sel : tool_selections ) {
+        itype_id type = tool_sel.comp.type;
+        if ( tool_sel.comp.count > 0 ) {
+            long count = tool_sel.comp.count * batch_size;
+            switch( tool_sel.use_from ) {
+                case use_from_player:
+                    if( !crafter->has_charges( type, count ) ) {
+                        missing.push_back( tool_sel );
+                    }
+                    break;
+                case use_from_map:
+                    if( !map_inv.has_charges( type, count ) ) {
+                        missing.push_back( tool_sel );
+                    }
+                    break;
+                case use_from_both:
+                case use_from_none:
+                case cancel:
+                    break;
+            }
+        } else if( crafter->has_amount( type, 1 ) || map_inv.has_tools( type, 1 ) ) {
+            missing.push_back( tool_sel );
+        }
+    }
+
+    return missing;
 }
 
 item recipe::create_result() const
@@ -1602,12 +1813,16 @@ void player::complete_craft()
     if (making->difficulty != 0 && diff_roll > skill_roll * (1 + 0.1 * rng(1, 5))) {
         add_msg(m_bad, _("You fail to make the %s, and waste some materials."),
                 item::nname(making->result).c_str());
-        for (const auto &it : making->requirements.components) {
-            consume_items(it, batch_size);
-        }
+        if( last_craft.has_cached_selections() ) {
+            last_craft.consume_components();
+        } else {
+            for( const auto &it : making->requirements.components ) {
+                consume_items( it, batch_size );
+            }
 
-        for (const auto &it : making->requirements.tools) {
-            consume_tools(it, batch_size);
+            for( const auto &it : making->requirements.tools ) {
+                consume_tools( it, batch_size );
+            }
         }
         activity.type = ACT_NULL;
         return;
@@ -1624,12 +1839,16 @@ void player::complete_craft()
     // If we're here, the craft was a success!
     // Use up the components and tools
     std::list<item> used;
-    for (const auto &it : making->requirements.components) {
-        std::list<item> tmp = consume_items(it, batch_size);
-        used.splice(used.end(), tmp);
-    }
-    for (const auto &it : making->requirements.tools) {
-        consume_tools(it, batch_size);
+    if( last_craft.has_cached_selections() ) {
+        used = last_craft.consume_components();
+    } else {
+        for( const auto &it : making->requirements.components ) {
+            std::list<item> tmp = consume_items( it, batch_size );
+            used.splice(used.end(), tmp);
+        }
+        for( const auto &it : making->requirements.tools ) {
+            consume_tools( it, batch_size );
+        }
     }
 
     // Set up the new item, and assign an inventory letter if available
@@ -1745,27 +1964,14 @@ void set_item_inventory(item &newit)
     }
 }
 
-std::list<item> player::consume_items(const std::vector<item_comp> &components, int batch)
+/* selection of component if a recipe requirement has multiple options (e.g. 'duct tap' or 'welder') */
+item_selection player::select_item_component(const std::vector<item_comp> &components, int batch, inventory &map_inv, bool can_cancel)
 {
-    std::list<item> ret;
-
-    if (has_trait("DEBUG_HS")) {
-        return ret;
-    }
-
-    // For each set of components in the recipe, fill you_have with the list of all
-    // matching ingredients the player has.
     std::vector<item_comp> player_has;
     std::vector<item_comp> map_has;
     std::vector<item_comp> mixed;
-    enum {
-        use_from_map = 1,
-        use_from_player = 2,
-        use_from_both = 1 | 2
-    } use_from;
-    item_comp selected_comp("", 0);
-    inventory map_inv;
-    map_inv.form_from_map(pos3(), PICKUP_RANGE);
+
+    item_selection selected;
 
     for( const auto &component : components ) {
         itype_id type = component.type;
@@ -1801,16 +2007,17 @@ std::list<item> player::consume_items(const std::vector<item_comp> &components, 
         }
     }
 
+    /* select 1 component to use */
     if (player_has.size() + map_has.size() + mixed.size() == 1) { // Only 1 choice
         if (player_has.size() == 1) {
-            use_from = use_from_player;
-            selected_comp = player_has[0];
+            selected.use_from = use_from_player;
+            selected.comp = player_has[0];
         } else if (map_has.size() == 1) {
-            use_from = use_from_map;
-            selected_comp = map_has[0];
+            selected.use_from = use_from_map;
+            selected.comp = map_has[0];
         } else {
-            use_from = use_from_both;
-            selected_comp = mixed[0];
+            selected.use_from = use_from_both;
+            selected.comp = mixed[0];
         }
     } else { // Let the player pick which component they want to use
         std::vector<std::string> options; // List for the menu_vec below
@@ -1832,24 +2039,43 @@ std::list<item> player::consume_items(const std::vector<item_comp> &components, 
             if (!(has_trait("WEB_ROPE"))) {
                 debugmsg("Attempted a recipe with no available components!");
             }
-            return ret;
+            selected.use_from = cancel;
+            return selected;
         }
 
         // Get the selection via a menu popup
-        size_t selection = menu_vec(false, _("Use which component?"), options) - 1;
-        if (selection < map_has.size()) {
-            use_from = use_from_map;
-            selected_comp = map_has[selection];
-        } else if (selection < map_has.size() + player_has.size()) {
-            selection -= map_has.size();
-            use_from = use_from_player;
-            selected_comp = player_has[selection];
+        int selection = menu_vec(can_cancel, _("Use which component?"), options) - 1;
+        if(selection == UIMENU_INVALID) {
+            selected.use_from = cancel;
+            return selected;
+        }
+
+        size_t uselection = (size_t) selection;
+        if (uselection < map_has.size()) {
+            selected.use_from = usage::use_from_map;
+            selected.comp = map_has[uselection];
+        } else if (uselection < map_has.size() + player_has.size()) {
+            uselection -= map_has.size();
+            selected.use_from = usage::use_from_player;
+            selected.comp = player_has[uselection];
         } else {
-            selection -= map_has.size() + player_has.size();
-            use_from = use_from_both;
-            selected_comp = mixed[selection];
+            uselection -= map_has.size() + player_has.size();
+            selected.use_from = usage::use_from_both;
+            selected.comp = mixed[uselection];
         }
     }
+
+    return selected;
+}
+
+std::list<item> player::consume_items(const item_selection &is, int batch) {
+    std::list<item> ret;
+
+    if (has_trait("DEBUG_HS")) {
+        return ret;
+    }
+
+    item_comp selected_comp = is.comp;
 
     const tripoint &loc = pos3();
     const bool by_charges = (item::count_by_charges( selected_comp.type ) && selected_comp.count > 0);
@@ -1857,18 +2083,18 @@ std::list<item> player::consume_items(const std::vector<item_comp> &components, 
     long real_count = (selected_comp.count > 0) ? selected_comp.count * batch : abs(selected_comp.count);
     const bool in_container = (selected_comp.count < 0);
     // First try to get everything from the map, than (remaining amount) from player
-    if (use_from & use_from_map) {
+    if (is.use_from == use_from_map) {
         if (by_charges) {
             std::list<item> tmp = g->m.use_charges(loc, PICKUP_RANGE, selected_comp.type, real_count);
             ret.splice(ret.end(), tmp);
         } else {
             std::list<item> tmp = g->m.use_amount(loc, PICKUP_RANGE, selected_comp.type,
-                                               real_count, in_container);
+                                                  real_count, in_container);
             remove_ammo(tmp, *this);
             ret.splice(ret.end(), tmp);
         }
     }
-    if (use_from & use_from_player) {
+    if (is.use_from == use_from_player) {
         if (by_charges) {
             std::list<item> tmp = use_charges(selected_comp.type, real_count);
             ret.splice(ret.end(), tmp);
@@ -1891,15 +2117,22 @@ std::list<item> player::consume_items(const std::vector<item_comp> &components, 
     return ret;
 }
 
-void player::consume_tools(const std::vector<tool_comp> &tools, int batch, const std::string &hotkeys)
+/* This call is in-efficient when doing it for multiple items with the same map inventory.
+In that case, consider using select_item_component with 1 pre-created map inventory, and then passing the results
+to consume_items */
+std::list<item> player::consume_items( const std::vector<item_comp> &components, int batch )
 {
-    if (has_trait("DEBUG_HS")) {
-        return;
-    }
-
-    bool found_nocharge = false;
     inventory map_inv;
     map_inv.form_from_map(pos3(), PICKUP_RANGE);
+    return consume_items( select_item_component( components, batch, map_inv ), batch );
+}
+
+tool_selection player::select_tool_component( const std::vector<tool_comp> &tools, int batch, inventory &map_inv, const std::string &hotkeys, bool can_cancel )
+{
+
+    tool_selection selected;
+
+    bool found_nocharge = false;
     std::vector<tool_comp> player_has;
     std::vector<tool_comp> map_has;
     // Use charges of any tools that require charges used
@@ -1918,15 +2151,17 @@ void player::consume_tools(const std::vector<tool_comp> &tools, int batch, const
         }
     }
     if (found_nocharge) {
-        return;    // Default to using a tool that doesn't require charges
+        selected.use_from = use_from_none;
+        return selected;    // Default to using a tool that doesn't require charges
     }
 
     if (player_has.size() + map_has.size() == 1) {
-        if(map_has.empty()) {
-            use_charges(player_has[0].type, player_has[0].count * batch);
+        if (map_has.empty()) {
+            selected.use_from = use_from_player;
+            selected.comp = player_has[0];
         } else {
-            long quantity = map_has[0].count * batch;
-            g->m.use_charges(pos3(), PICKUP_RANGE, map_has[0].type, quantity);
+            selected.use_from = use_from_map;
+            selected.comp = map_has[0];
         }
     } else { // Variety of options, list them and pick one
         // Populate the list
@@ -1940,19 +2175,56 @@ void player::consume_tools(const std::vector<tool_comp> &tools, int batch, const
         }
 
         if (options.empty()) { // This SHOULD only happen if cooking with a fire,
-            return;    // and the fire goes out.
+            selected.use_from = use_from_none;
+            return selected;    // and the fire goes out.
         }
 
         // Get selection via a popup menu
-        size_t selection = menu_vec(false, _("Use which tool?"), options, hotkeys) - 1;
-        if (selection < map_has.size()) {
-            long quantity = map_has[selection].count * batch;
-            g->m.use_charges(pos3(), PICKUP_RANGE, map_has[selection].type, quantity );
+        int selection = menu_vec(can_cancel, _("Use which tool?"), options, hotkeys) - 1;
+        if(selection == UIMENU_INVALID) {
+            selected.use_from = cancel;
+            return selected;
+        }
+
+        size_t uselection = (size_t) selection;
+        if (uselection < map_has.size()) {
+            selected.use_from = use_from_map;
+            selected.comp = map_has[uselection];
         } else {
-            selection -= map_has.size();
-            use_charges(player_has[selection].type, player_has[selection].count * batch);
+            uselection -= map_has.size();
+            selected.use_from = use_from_player;
+            selected.comp = player_has[uselection];
         }
     }
+
+    return selected;
+}
+
+/* we use this if we selected the tool earlier */
+void player::consume_tools(const tool_selection &tool, int batch) {
+    if (has_trait("DEBUG_HS")) {
+        return;
+    }
+
+    if (tool.use_from == use_from_player) {
+        use_charges(tool.comp.type, tool.comp.count * batch);
+    }
+    if (tool.use_from == use_from_map) {
+        long quantity = tool.comp.count * batch;
+        g->m.use_charges(pos3(), PICKUP_RANGE, tool.comp.type, quantity);
+    }
+
+    // else, use_from_none (or cancel), so we don't use up any tools;
+}
+
+/* This call is in-efficient when doing it for multiple items with the same map inventory.
+In that case, consider using select_tool_component with 1 pre-created map inventory, and then passing the results
+to consume_tools */
+void player::consume_tools( const std::vector<tool_comp> &tools, int batch, const std::string &hotkeys )
+{
+    inventory map_inv;
+    map_inv.form_from_map(pos3(), PICKUP_RANGE);
+    consume_tools( select_tool_component( tools, batch, map_inv, hotkeys ), batch );
 }
 
 const recipe *get_disassemble_recipe(const itype_id &type)
