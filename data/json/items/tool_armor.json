@@ -557,7 +557,7 @@
         "use_action": {
             "type": "auto_transform",
             "msg": "The %s flicks off.",
-            "target": "wearable_light"
+            "target": "survivor_light"
         },
         "covers" : ["HEAD"],
         "warmth" : 0,
