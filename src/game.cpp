@@ -1087,6 +1087,14 @@ bool game::cleanup_at_end()
             gamemode = new special_game; // null gamemode or something..
         }
     }
+
+    //clear all sound channels
+    sfx::fade_audio_channel( -1, 300 );
+    sfx::fade_audio_group(1, 300);
+    sfx::fade_audio_group(2, 300);
+    sfx::fade_audio_group(3, 300);
+    sfx::fade_audio_group(4, 300);
+
     MAPBUFFER.reset();
     overmap_buffer.clear();
     return true;
