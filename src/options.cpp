@@ -1019,7 +1019,7 @@ void options_manager::init()
                                   );
     OPTIONS["SOUND_EFFECT_VOLUME"] = cOpt("graphics", _("Sound Effect Volume"),
                                    _("Adjust the volume of sound effects being played by the game."),
-                                   0, 200, 0, COPT_CURSES_HIDE
+                                   0, 200, 100, COPT_CURSES_HIDE
                                   );
 
     ////////////////////////////DEBUG////////////////////////////
