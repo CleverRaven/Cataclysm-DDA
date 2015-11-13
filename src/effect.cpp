@@ -292,6 +292,9 @@ bool effect_type::load_mod_data(JsonObject &jsobj, std::string member) {
         extract_effect( j, mod_data, "armor_cut_mod", member, "ARMOR_CUT", "min" );
         extract_effect( j, mod_data, "armor_cut_val", member, "ARMOR_CUT", "min_val" );
         extract_effect( j, mod_data, "armor_cut_val", member, "ARMOR_CUT", "max_val" );
+
+        // Then sight
+        extract_effect( j, mod_data, "sight_max", member, "SIGHT_MAX", "min" );
         
         // Then coughing
         extract_effect(j, mod_data, "cough_chance",     member, "COUGH",    "chance_top");
@@ -533,10 +536,6 @@ std::string effect::disp_desc(bool reduced) const
     values.push_back( desc_freq( get_percentage( "FATIGUE", val, reduced ), val, _( "sleepiness" ), _( "rest" ) ) );
     val = get_avg_mod( "SCENT", reduced );
     values.push_back( desc_freq(get_percentage("SCENT", val, reduced), val, _("scent"), _("scent masking")));
-    /*val = get_avg_mod( "ARMOR_BASH", reduced );
-    values.push_back( desc_freq( get_percentage( "ARMOR_BASH", val, reduced ), val, _( "bashing resistance" ), _( "bashing vulnerability" ) ) );
-    val = get_avg_mod( "ARMOR_CUT", reduced );
-    values.push_back( desc_freq( get_percentage( "ARMOR_CUT", val, reduced ), val, _( "cutting resistance" ), _( "cutting vulnerability" ) ) );*/
     val = get_avg_mod("COUGH", reduced);
     values.push_back(desc_freq(get_percentage("COUGH", val, reduced), val, _("coughing"), _("coughing")));
     val = get_avg_mod("VOMIT", reduced);
@@ -658,10 +657,15 @@ std::string effect::disp_desc(bool reduced) const
 void effect::decay(std::vector<std::string> &rem_ids, std::vector<body_part> &rem_bps,
                    unsigned int turn, bool player)
 {
-    // Decay duration if not permanent
-    if (!is_permanent()) {
+    // Decay duration if not permanent and, in case of positive dur_decay, current duration is less than maximum possible
+    if ( !is_permanent() ) {
         duration += eff_type->dur_decay;
-        add_msg( m_debug, "ID: %s, Duration %d", get_id().c_str(), duration );
+        if ( eff_type->max_duration > 0 && duration > eff_type->max_duration ) {
+            duration = eff_type->max_duration;
+            add_msg( m_debug, "ID: %s, Duration set to %d", get_id().c_str(), duration );
+        } else {
+            add_msg( m_debug, "ID: %s, Duration %d", get_id().c_str(), duration );
+        }
     }
     // Store current intensity for comparison later
     int tmp_int = intensity;
@@ -1199,6 +1203,10 @@ void load_effect_type(JsonObject &jo)
     new_etype.max_intensity = jo.get_int("max_intensity", 1);
     new_etype.max_duration = jo.get_int("max_duration", 0);
     new_etype.dur_decay = jo.get_int( "duration_decay", -1 );
+    // Just in case
+    if ( new_etype.dur_decay > 0 && new_etype.max_duration == 0) {
+        new_etype.max_duration == 1000000;
+    }
     new_etype.dur_add_perc = jo.get_int("dur_add_perc", 100);
     new_etype.int_add_val = jo.get_int("int_add_val", 0);
     new_etype.int_decay_step = jo.get_int("int_decay_step", -1);

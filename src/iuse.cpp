@@ -879,6 +879,10 @@ int iuse::eyedrops(player *p, item *it, bool, const tripoint& )
     }
     p->add_msg_if_player(_("You use your %s."), it->tname().c_str());
     p->moves -= 150;
+    p->add_effect( "eyedrops", 300 );
+    if (p->has_effect("eye_muck") || p->has_effect( "eye_muck_recovery" )) {
+        p->add_msg_if_player( m_good, _( "Your vision clears up." ) );
+    }
     if (p->has_effect("boomered")) {
         p->remove_effect("boomered");
         p->add_msg_if_player(m_good, _("You wash the slime from your eyes."));

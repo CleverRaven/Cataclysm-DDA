@@ -313,6 +313,8 @@ void Character::recalc_sight_limits()
         vision_mode_cache.set( DARKNESS );
         sight_max = 10;
     }
+    // Handle effects
+    sight_max = std::min(sight_max, sight_mod);
 
     // Debug-only NV, by vache's request
     if( has_trait("DEBUG_NIGHTVISION") ) {
@@ -896,6 +898,7 @@ void Character::reset_stats()
     else if (str_max <= 5) {mod_dodge_bonus(1);} // Bonus if we're small
 
     nv_cached = false;
+    sight_mod = 9999;
 
     // Reset our stats to normal levels
     // Any persistent buffs/debuffs will take place in effects,

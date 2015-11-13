@@ -104,7 +104,6 @@ void Creature::reset_bonuses()
     set_armor( 0, armor_cut_base, num_bp );
     set_armor( 0, armor_cut_bonus, num_bp );
 
-
     speed_bonus = 0;
     dodge_bonus = 0;
     block_bonus = 0;

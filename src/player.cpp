@@ -542,16 +542,16 @@ void player::reset_stats()
     }
     if ( has_trait( "SHELL" ) ) {
         mod_armor( 6, armor_bash_base, bp_torso );
-        mod_armor( 14, armor_bash_base, bp_torso );
+        mod_armor( 14, armor_cut_base, bp_torso );
     }
     if ( has_trait( "SHELL2" ) && !has_active_mutation( "SHELL2" )) {
         mod_armor( 9, armor_bash_base, bp_torso );
-        mod_armor( 17, armor_bash_base, bp_torso );
+        mod_armor( 17, armor_cut_base, bp_torso );
     }
     if ( has_active_mutation( "SHELL2" ) ) {
         // Limbs & head are safe inside the shell! :D
         mod_armor( 9, armor_bash_base, num_bp );
-        mod_armor( 17, armor_bash_base, num_bp );
+        mod_armor( 17, armor_cut_base, num_bp );
     }
 
     // Effects
@@ -6192,9 +6192,9 @@ void player::process_effects() {
         remove_effect("infected");
         remove_effect("recover");
     }
-    if ( has_trait( "DISIMMUNE" ) && (has_effect( "skin_rot" ) || has_effect( "skin_rot_recovery" ) || has_effect( "furunculite" ) || 
+    if ( has_trait( "DISIMMUNE" ) && ( has_effect( "skin_rot" ) || has_effect( "skin_rot_recovery" ) || has_effect( "furunculite" ) || 
         has_effect( "furunculite_recovery" ) || has_effect( "furunculus" ) || has_effect( "furunculus_recovery" ) || 
-        has_effect( "furunculus_wound" )) ) {
+        has_effect( "furunculus_wound" ) || has_effect( "eye_muck" ) || has_effect( "eye_muck_recovery" ) ) ) {
         remove_effect( "skin_rot" );
         remove_effect( "skin_rot_recovery" );
         remove_effect( "furunculite" );
@@ -6202,6 +6202,8 @@ void player::process_effects() {
         remove_effect( "furunculus" );
         remove_effect( "furunculus_recovery" );
         remove_effect( "furunculus_wound" );
+        remove_effect( "eye_muck" );
+        remove_effect( "eye_muck_recovery" );
     }
     if (!(in_sleep_state()) && has_effect("alarm_clock")) {
         remove_effect("alarm_clock");
@@ -6436,6 +6438,10 @@ void player::process_effects() {
                 mod_armor( armor_inc, armor_cut_bonus, bp );
             }
 
+            val = it.get_mod( "SIGHT_MAX", reduced );
+            if ( val > 0 ) {
+                sight_mod = std::min(sight_mod, val);
+            }
             // Speed and stats are handled in recalc_speed_bonus and reset_stats respectively
         }
     }
@@ -7882,6 +7888,20 @@ void player::hardcoded_effects(effect &it)
             add_msg_if_player(m_bad, _("Furunculus on your %s pulses and bursts in shower of pus and blood!"), body_part_name(bp).c_str() );
             add_effect( "furunculus_wound", 14400, bp );
             remove_effect( "furunculus", bp );
+        }
+    } else if ( id == "eye_muck" ) {
+        float resist_mod = has_trait( "DISRESISTANT" ) ? 1.5 : 1.0;
+        float heal_chance = 14400.0;
+        float health = get_healthy();
+        float health_mod = fabs( health ) / 100.0 + 1.0;
+        if ( health > 0 ) {
+            heal_chance /= health_mod / resist_mod;
+        } else if ( health < 0 ) {
+            heal_chance *= health_mod / resist_mod;
+        }
+        if ( one_in( (int)ceil( heal_chance ) ) ) {
+            add_effect( "eye_muck_recovery", dur);
+            remove_effect( "eye_muck" );
         }
     }
 }

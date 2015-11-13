@@ -536,6 +536,7 @@ class Character : public Creature
         // Cached vision values.
         std::bitset<NUM_VISION_MODES> vision_mode_cache;
         int sight_max;
+        int sight_mod;
 
         // turn the character expired, if -1 it has not been set yet.
         int turn_died = -1;

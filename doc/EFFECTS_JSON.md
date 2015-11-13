@@ -176,8 +176,8 @@ the message fields the "apply_memorial_log" will only be added to the log for ne
 
 ### Resistances
 ```JSON
-    "resist_trait": "NOPAIN",
-    "resist_effect": "flumed"
+    "resist_traits": ["NOPAIN"],
+    "resist_effects": ["flumed"]
 ```
 These fields are used to determine if an effect is being resisted or not. If the player has the
 matching trait or effect then they are "resisting" the effect, which changes its effects and description.
@@ -426,6 +426,8 @@ Valid arguments:
 "armor_cut_mod"
 "armor_cut_min_val"
 "armor_cut_max_val"
+
+"sight_max"         - must be higher then 0 to have any effect
 
 ```
 Basic definitions:
