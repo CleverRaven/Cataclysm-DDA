@@ -1091,7 +1091,6 @@ std::list<std::pair<int, int>> game::multidrop()
     }
 
     std::list<std::pair<int, int>> dropped_pos_and_qty;
-    dropped_pos_and_qty.sort(multidrop_comparison);
 
     for( auto drop_pair : inv_s.dropping ) {
         int num_to_drop = drop_pair.second;
@@ -1101,6 +1100,7 @@ std::list<std::pair<int, int>> game::multidrop()
         dropped_pos_and_qty.push_back( std::make_pair( drop_pair.first, num_to_drop ) );
     }
 
+    dropped_pos_and_qty.sort(multidrop_comparison);
     return dropped_pos_and_qty;
 }
 
