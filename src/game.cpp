@@ -447,12 +447,15 @@ void game::init_ui()
         mouseview_w = sidebarWidth;
     } else {
         // standard sidebar style
+        locH = 2;
+        statX = 0;
+        statH = 4;
         minimapX = 0;
         minimapY = 0;
         messX = MINIMAP_WIDTH;
         messY = 0;
         messW = sidebarWidth - messX;
-        messH = TERRAIN_WINDOW_TERM_HEIGHT - 5; // 1 for w_location + 4 for w_stat, w_messages starts at 0
+        messH = TERRAIN_WINDOW_TERM_HEIGHT - (locH + statH);
         hpX = 0;
         hpY = MINIMAP_HEIGHT;
         // under the minimap, but down to the same line as w_location (which is under w_messages)
@@ -461,11 +464,8 @@ void game::init_ui()
         hpW = 7;
         locX = MINIMAP_WIDTH;
         locY = messY + messH;
-        locH = 2;
         locW = sidebarWidth - locX;
-        statX = 0;
         statY = locY + locH;
-        statH = 4;
         statW = sidebarWidth;
 
         // The default style only uses one status window.
