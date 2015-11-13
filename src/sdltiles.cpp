@@ -250,6 +250,7 @@ bool WinCreate()
     if (OPTIONS["FULLSCREEN"]) {
         window_flags |= SDL_WINDOW_FULLSCREEN;
     }
+    window_flags |= SDL_WINDOW_RESIZABLE;
 
     window = SDL_CreateWindow(version.c_str(),
             SDL_WINDOWPOS_CENTERED,
@@ -547,6 +548,7 @@ void try_update()
         if( SDL_SetRenderTarget( renderer, NULL ) != 0 ) {
             dbg(D_ERROR) << "SDL_SetRenderTarget failed: " << SDL_GetError();
         }
+        SDL_RenderSetLogicalSize( renderer, WindowWidth, WindowHeight );
         if( SDL_RenderCopy( renderer, display_buffer, NULL, NULL ) != 0 ) {
             dbg(D_ERROR) << "SDL_RenderCopy failed: " << SDL_GetError();
         }
