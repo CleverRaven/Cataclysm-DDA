@@ -1020,6 +1020,11 @@ void options_manager::init()
                                          false, COPT_CURSES_HIDE
                                         );
 
+    OPTIONS["LINEAR_SCALING"] = cOpt("graphics", _("Linear scaling"),
+                                         _("When off uses 'nearest' to give blockier graphics while 'linear' gives smooth graphics."),
+                                         false, COPT_CURSES_HIDE
+                                        );
+
     mOptionsSort["graphics"]++;
 
     OPTIONS["MUSIC_VOLUME"] = cOpt("graphics", _("Music Volume"),
