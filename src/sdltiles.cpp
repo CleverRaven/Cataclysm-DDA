@@ -247,6 +247,12 @@ bool WinCreate()
     WindowWidth = TERMINAL_WIDTH * fontwidth;
     WindowHeight = TERMINAL_HEIGHT * fontheight;
 
+    if (OPTIONS["LINEAR_SCALING"]) {
+        SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "1");
+    } else {
+        SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "0");
+    }
+
     if (OPTIONS["FULLSCREEN"]) {
         window_flags |= SDL_WINDOW_FULLSCREEN;
     }
