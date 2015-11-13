@@ -1020,10 +1020,16 @@ void options_manager::init()
                                          false, COPT_CURSES_HIDE
                                         );
 
-    OPTIONS["LINEAR_SCALING"] = cOpt("graphics", _("Linear scaling"),
-                                         _("When off uses 'nearest' to give blockier graphics while 'linear' gives smooth graphics."),
-                                         false, COPT_CURSES_HIDE
-                                        );
+    //~ Do not scale the game image to the window size.
+    optionNames["none"] = _("No scaling");
+    //~ An algorithm for image scaling.
+    optionNames["nearest"] = _("Nearest neighbor");
+    //~ An algorithm for image scaling.
+    optionNames["linear"] = _("Linear filtering");
+    OPTIONS["SCALING_MODE"] = cOpt("graphics", _("Scaling mode"),
+                                   _("Sets the scaling mode, 'none' (default) displays at the game's native resolution, 'nearest'  uses low-quality but fast scaling, and 'linear' provides high-quality scaling."),
+                                   "none,nearest,linear", "none", COPT_CURSES_HIDE
+        );
 
     mOptionsSort["graphics"]++;
 

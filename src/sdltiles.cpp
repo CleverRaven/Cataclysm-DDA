@@ -308,10 +308,9 @@ bool WinCreate()
     WindowWidth = TERMINAL_WIDTH * fontwidth;
     WindowHeight = TERMINAL_HEIGHT * fontheight;
 
-    if (OPTIONS["LINEAR_SCALING"]) {
-        SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "1");
-    } else {
-        SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "0");
+    if( OPTIONS["SCALING_MODE"] != "none" ) {
+        window_flags |= SDL_WINDOW_RESIZABLE;
+        SDL_SetHint( SDL_HINT_RENDER_SCALE_QUALITY, OPTIONS["SCALING_MODE"].getValue().c_str() );
     }
 
     if (OPTIONS["FULLSCREEN"] == "fullscreen") {
@@ -319,7 +318,6 @@ bool WinCreate()
     } else if (OPTIONS["FULLSCREEN"] == "windowedbl") {
         window_flags |= SDL_WINDOW_FULLSCREEN_DESKTOP;
     }
-    window_flags |= SDL_WINDOW_RESIZABLE;
 
     window = SDL_CreateWindow(version.c_str(),
             SDL_WINDOWPOS_CENTERED,
