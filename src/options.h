@@ -35,7 +35,9 @@ class options_manager : public JsonSerializer, public JsonDeserializer {
             /** Show this option in SDL builds only */
             COPT_CURSES_HIDE,
             /** Hide this option in non-Windows Curses builds */
-            COPT_POSIX_CURSES_HIDE
+            COPT_POSIX_CURSES_HIDE,
+            /** Hide this option in builds without sound support */
+            COPT_NO_SOUND_HIDE
         };
 
         bool load_legacy();

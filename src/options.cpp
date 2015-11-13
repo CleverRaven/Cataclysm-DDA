@@ -258,6 +258,13 @@ bool options_manager::cOpt::is_hidden()
         return true;
 #endif
 
+    case COPT_NO_SOUND_HIDE:
+#ifndef SDL_SOUND // If not defined, we have no sound support.
+        return true;
+#else
+        return false;
+#endif
+
     default:
         return false; // No hide on default
     }
@@ -1017,11 +1024,11 @@ void options_manager::init()
 
     OPTIONS["MUSIC_VOLUME"] = cOpt("graphics", _("Music Volume"),
                                    _("Adjust the volume of the music being played in the background."),
-                                   0, 200, 100, COPT_CURSES_HIDE
+                                   0, 200, 100, COPT_NO_SOUND_HIDE
                                   );
     OPTIONS["SOUND_EFFECT_VOLUME"] = cOpt("graphics", _("Sound Effect Volume"),
                                    _("Adjust the volume of sound effects being played by the game."),
-                                   0, 200, 0, COPT_CURSES_HIDE
+                                   0, 200, 0, COPT_NO_SOUND_HIDE
                                   );
 
     ////////////////////////////DEBUG////////////////////////////
