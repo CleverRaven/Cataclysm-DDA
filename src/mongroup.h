@@ -12,8 +12,6 @@
 
 // from overmap.h
 class overmap;
-// from monster.h
-class monster;
 
 struct MonsterGroup;
 using mongroup_id = string_id<MonsterGroup>;
@@ -126,6 +124,8 @@ struct mongroup : public JsonSerializer, public JsonDeserializer {
       interest(pint), dying(pdie), horde(phorde), diffuse(pdiff) { }
     mongroup() { }
     bool is_safe() const;
+    bool empty() const;
+    void clear();
     void set_target(int x, int y)
     {
         target.x = x;

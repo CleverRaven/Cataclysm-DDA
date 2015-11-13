@@ -6851,14 +6851,14 @@ void map::spawn_monsters_submap_group( const tripoint &gp, mongroup &group, bool
         // Just kill the group. It's not like we're removing existing monsters
         // Unless it's a horde - then don't kill it and let it spawn behind a tree or smoke cloud
         if( !group.horde ) {
-            group.population = 0;
+            group.clear();
         }
 
         return;
     }
 
-    if(group.monsters.empty()) {
-        // If we have no explicit monsters set for this group, populate it on demand.
+    if(pop) {
+        // Populate the group from its population variable.
         for( int m = 0; m < pop; m++ ) {
             MonsterGroupResult spawn_details = MonsterGroupManager::GetResultFromGroup( group.type, &pop );
             if( !spawn_details.name ) {
@@ -6883,8 +6883,7 @@ void map::spawn_monsters_submap_group( const tripoint &gp, mongroup &group, bool
         }
     }
     // indicates the group is empty, and can be removed later
-    group.population = 0;
-    group.monsters.clear();
+    group.clear();
 }
 
 void map::spawn_monsters_submap( const tripoint &gp, bool ignore_sight )

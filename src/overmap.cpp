@@ -2368,7 +2368,7 @@ void overmap::move_hordes()
 
             // If there is no horde to add the monster to, create one.
             if(add_to_group == NULL) {
-                mongroup m(GROUP_ZOMBIE, p.x, p.y, p.z, 0, 1);
+                mongroup m(GROUP_ZOMBIE, p.x, p.y, p.z, 0, 0);
                 m.horde = true;
                 m.monsters.push_back(this_monster);
                 add_mon_group( m );
