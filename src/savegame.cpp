@@ -751,6 +751,12 @@ void mongroup::serialize(JsonOut &json) const
     json.member("target", target);
     json.member("interest", interest);
     json.member("horde_behaviour", horde_behaviour);
+    json.member("monsters");
+    json.start_array();
+    for( auto &i : monsters ) {
+        i.serialize(json);
+    }
+    json.end_array();
     json.end_object();
 }
 
@@ -779,6 +785,13 @@ void mongroup::deserialize(JsonIn &json)
             interest = json.get_int();
         } else if( name == "horde_behaviour" ) {
             horde_behaviour = json.get_string();
+        } else if( name == "monsters" ) {
+            json.start_array();
+            while( !json.end_array() ) {
+                monster new_monster;
+                new_monster.deserialize( json );
+                monsters.push_back( new_monster );
+            }
         }
     }
 }

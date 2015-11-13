@@ -2361,7 +2361,7 @@ void overmap::move_hordes()
                 mongroup &horde = horde_entry.second;
 
                 // We only absorb zombies into GROUP_ZOMBIE hordes
-                if(horde.horde && horde.type == GROUP_ZOMBIE) {
+                if(horde.horde && !horde.monsters.empty() && horde.type == GROUP_ZOMBIE) {
                     add_to_group = &horde;
                 }
             });
@@ -2370,9 +2370,10 @@ void overmap::move_hordes()
             if(add_to_group == NULL) {
                 mongroup m(GROUP_ZOMBIE, p.x, p.y, p.z, 0, 1);
                 m.horde = true;
+                m.monsters.push_back(this_monster);
                 add_mon_group( m );
             } else {
-                add_to_group->population += 1;
+                add_to_group->monsters.push_back(this_monster);
             }
 
             // Delete the monster, continue iterating.

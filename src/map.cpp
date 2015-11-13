@@ -6857,27 +6857,34 @@ void map::spawn_monsters_submap_group( const tripoint &gp, mongroup &group, bool
         return;
     }
 
-    for( int m = 0; m < pop; m++ ) {
-        MonsterGroupResult spawn_details = MonsterGroupManager::GetResultFromGroup( group.type, &pop );
-        if( !spawn_details.name ) {
-            continue;
-        }
-
-        monster tmp( spawn_details.name );
-        for( int i = 0; i < spawn_details.pack_size; i++) {
-            for( int tries = 0; tries < 10 && !locations.empty(); tries++ ) {
-                const tripoint p = random_entry_removed( locations );
-                if( !tmp.can_move_to( p ) ) {
-                    continue; // target can not contain the monster
-                }
-                tmp.spawn( p );
-                g->add_zombie( tmp );
-                break;
+    if(group.monsters.empty()) {
+        // If we have no explicit monsters set for this group, populate it on demand.
+        for( int m = 0; m < pop; m++ ) {
+            MonsterGroupResult spawn_details = MonsterGroupManager::GetResultFromGroup( group.type, &pop );
+            if( !spawn_details.name ) {
+                continue;
             }
+            monster tmp( spawn_details.name );
+            for( int i = 0; i < spawn_details.pack_size; i++) {
+                group.monsters.push_back(tmp);
+            }
+        }
+    }
+
+    for(auto& tmp : group.monsters) {
+        for( int tries = 0; tries < 10 && !locations.empty(); tries++ ) {
+            const tripoint p = random_entry_removed( locations );
+            if( !tmp.can_move_to( p ) ) {
+                continue; // target can not contain the monster
+            }
+            tmp.spawn( p );
+            g->add_zombie( tmp );
+            break;
         }
     }
     // indicates the group is empty, and can be removed later
     group.population = 0;
+    group.monsters.clear();
 }
 
 void map::spawn_monsters_submap( const tripoint &gp, bool ignore_sight )
