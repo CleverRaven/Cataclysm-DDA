@@ -205,8 +205,10 @@ ifeq ($(NATIVE), osx)
   ifeq ($(LOCALIZE), 1)
     LDFLAGS += -lintl
     ifeq ($(MACPORTS), 1)
-      CXXFLAGS += -I$(shell ncursesw5-config --includedir)
-      LDFLAGS += -L$(shell ncursesw5-config --libdir)
+      ifneq ($(TILES), 1)
+        CXXFLAGS += -I$(shell ncursesw6-config --includedir)
+        LDFLAGS += -L$(shell ncursesw6-config --libdir)
+      endif
     endif
   endif
   TARGETSYSTEM=LINUX
@@ -273,10 +275,27 @@ ifdef SOUND
   ifndef TILES
     $(error "SOUND=1 only works with TILES=1")
   endif
-  CXXFLAGS += $(shell $(PKG_CONFIG) --cflags SDL2_mixer)
+  ifeq ($(NATIVE),osx)
+    ifdef FRAMEWORK
+      CXXFLAGS += -I/Library/Frameworks/SDL2_mixer.framework/Headers \
+		-I$(HOME)/Library/Frameworks/SDL2_mixer.framework/Headers
+      LDFLAGS += -framework SDL2_mixer -framework Vorbis -framework Ogg
+    else # libsdl build
+      ifeq ($(MACPORTS), 1)
+        LDFLAGS += -lSDL2_mixer -lvorbisfile -lvorbis -logg
+      else # homebrew
+        CXXFLAGS += $(shell $(PKG_CONFIG) --cflags SDL2_mixer)
+        LDFLAGS += $(shell $(PKG_CONFIG) --libs SDL2_mixer)
+        LDFLAGS += -lvorbisfile -lvorbis -logg
+      endif
+    endif
+  else # not osx
+    CXXFLAGS += $(shell $(PKG_CONFIG) --cflags SDL2_mixer)
+    LDFLAGS += $(shell $(PKG_CONFIG) --libs SDL2_mixer)
+    LDFLAGS += -lvorbisfile -lvorbis -logg
+  endif
+
   CXXFLAGS += -DSDL_SOUND
-  LDFLAGS += $(shell $(PKG_CONFIG) --libs SDL2_mixer)
-  LDFLAGS += -lvorbisfile -lvorbis -logg
 endif
 
 ifdef LUA
