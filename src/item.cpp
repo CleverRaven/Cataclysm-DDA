@@ -5353,16 +5353,16 @@ int item::get_gun_ups_drain() const
 
 bool item::has_label() const
 {
-	return has_var( "item_label" );
+    return has_var( "item_label" );
 }
 
 std::string item::label( unsigned int quantity ) const
 {
-	if ( has_label() ) {
-		return get_var( "item_label" );
-	}
+    if ( has_label() ) {
+        return get_var( "item_label" );
+    }
 
-	return type_name( quantity );
+    return type_name( quantity );
 }
 
 item_category::item_category() : id(), name(), sort_rank( 0 )

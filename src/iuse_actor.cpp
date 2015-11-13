@@ -1194,32 +1194,33 @@ bool inscribe_actor::item_inscription( item *cut, std::string verb, std::string 
         return false;
     }
 
-	enum inscription_type {
-		INSCRIPTION_LABEL,
-		INSCRIPTION_NOTE,
-		INSCRIPTION_CANCEL
-	};
+    enum inscription_type {
+	    INSCRIPTION_LABEL,
+	    INSCRIPTION_NOTE,
+	    INSCRIPTION_CANCEL
+    };
 
-	uimenu menu;
-	menu.text = string_format(_("%s meaning?"), verb.c_str());
-	menu.addentry(INSCRIPTION_LABEL, true, -1, _("It's a label"));
-	menu.addentry(INSCRIPTION_NOTE, true, -1, _("It's a note"));
-	menu.addentry(INSCRIPTION_CANCEL, true, 'q', _("Cancel"));
-	menu.query();
+    uimenu menu;
+    menu.text = string_format(_("%s meaning?"), verb.c_str());
+    menu.addentry(INSCRIPTION_LABEL, true, -1, _("It's a label"));
+    menu.addentry(INSCRIPTION_NOTE, true, -1, _("It's a note"));
+    menu.addentry(INSCRIPTION_CANCEL, true, 'q', _("Cancel"));
+    menu.query();
 
-	std::string carving, carving_type;
-	switch ( menu.ret ) {
-	case INSCRIPTION_LABEL:
-		carving = "item_label";
-		carving_type = "item_label_type";
-		break;
-	case INSCRIPTION_NOTE:
-		carving = "item_note";
-		carving_type = "item_note_type";
-		break;
-	case INSCRIPTION_CANCEL:
-		return false;
-	}
+    std::string carving, carving_type;
+    switch ( menu.ret )
+    {
+    case INSCRIPTION_LABEL:
+	    carving = "item_label";
+	    carving_type = "item_label_type";
+	    break;
+    case INSCRIPTION_NOTE:
+	    carving = "item_note";
+	    carving_type = "item_note_type";
+	    break;
+    case INSCRIPTION_CANCEL:
+	    return false;
+    }
 
     const bool hasnote = cut->has_var( "carving" );
     std::string message = "";
@@ -1230,7 +1231,8 @@ bool inscribe_actor::item_inscription( item *cut, std::string verb, std::string 
                                  (hasnote ? cut->get_var( "item_note" ) : message),
                                  messageprefix, "inscribe_item", 128);
 
-    if( !message.empty() ) {
+    if( !message.empty() )
+    {
         if( hasnote && message == "." ) {
             cut->erase_var( carving );
             cut->erase_var( carving_type );

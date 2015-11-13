@@ -1169,8 +1169,8 @@ void game::compare( const tripoint &offset )
             std::string sItemLastCh, sItemCh, sItemTn;
             inv_s.first_item->info(true, vItemCh);
             sItemCh = inv_s.first_item->tname();
-			sItemTn = inv_s.first_item->type_name();
-			inv_s.second_item->info(true, vItemLastCh);
+            sItemTn = inv_s.first_item->type_name();
+            inv_s.second_item->info(true, vItemLastCh);
             sItemLastCh = inv_s.second_item->tname();
 
             int iScrollPos = 0;
