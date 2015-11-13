@@ -1166,10 +1166,11 @@ void game::compare( const tripoint &offset )
         }
         if (inv_s.second_item != NULL) {
             std::vector<iteminfo> vItemLastCh, vItemCh;
-            std::string sItemLastCh, sItemCh;
+            std::string sItemLastCh, sItemCh, sItemTn;
             inv_s.first_item->info(true, vItemCh);
             sItemCh = inv_s.first_item->tname();
-            inv_s.second_item->info(true, vItemLastCh);
+			sItemTn = inv_s.first_item->type_name();
+			inv_s.second_item->info(true, vItemLastCh);
             sItemLastCh = inv_s.second_item->tname();
 
             int iScrollPos = 0;
@@ -1177,9 +1178,9 @@ void game::compare( const tripoint &offset )
             int ch = (int)' ';
             do {
                 draw_item_info(0, (TERMX - VIEW_OFFSET_X * 2) / 2, 0, TERMY - VIEW_OFFSET_Y * 2,
-                               sItemLastCh, vItemLastCh, vItemCh, iScrollPosLast, true); //without getch()
+                               sItemLastCh, sItemTn, vItemLastCh, vItemCh, iScrollPosLast, true); //without getch()
                 ch = draw_item_info((TERMX - VIEW_OFFSET_X * 2) / 2, (TERMX - VIEW_OFFSET_X * 2) / 2,
-                                    0, TERMY - VIEW_OFFSET_Y * 2, sItemCh, vItemCh, vItemLastCh, iScrollPos);
+                                    0, TERMY - VIEW_OFFSET_Y * 2, sItemCh, sItemTn, vItemCh, vItemLastCh, iScrollPos);
 
                 if ( ch == KEY_PPAGE ) {
                     iScrollPos--;
