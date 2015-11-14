@@ -516,7 +516,7 @@ class Creature
                 input.replace(offset, 9, name);
                 // capitalize the first letter of the name
                 capitalize_letter(input, offset);
-                offset = input.find("<full_name>");
+                offset = input.find("<npcname>");
             }
             return input;
         }
