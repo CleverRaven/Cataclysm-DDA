@@ -579,6 +579,30 @@
         ]
     },
     {
+        "type": "keybinding",
+        "id": "NEW",
+        "category": "MINESWEEPER",
+        "name": "Create New level",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"n"
+            }
+        ]
+    },
+    {
+        "type": "keybinding",
+        "id": "FLAG",
+        "category": "MINESWEEPER",
+        "name": "Toggle Flag",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"f"
+            }
+        ]
+    },
+    {
         "type" : "keybinding",
         "id":"CONFIRM",
         "name":"Confirm Choice",

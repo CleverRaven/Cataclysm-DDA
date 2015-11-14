@@ -441,6 +441,7 @@
 		<Unit filename="src/iuse_software_snake.h" />
 		<Unit filename="src/iuse_software_sokoban.cpp" />
 		<Unit filename="src/iuse_software_sokoban.h" />
+        <Unit filename="src/iuse_software_minesweeper.h" />
 		<Unit filename="src/json.cpp" />
 		<Unit filename="src/json.h" />
 		<Unit filename="src/lightmap.cpp" />
