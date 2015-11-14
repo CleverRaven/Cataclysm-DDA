@@ -5,6 +5,8 @@
 
 using itype_id = std::string; // From itype.h
 
+recipe_dictionary recipe_dict;
+
 void recipe_dictionary::add( recipe *rec )
 {
     recipes.push_back( rec );
