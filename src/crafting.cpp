@@ -297,11 +297,7 @@ bool player::crafting_allowed()
         add_msg(m_info, _("Your morale is too low to craft..."));
         return false;
     }
-    return true;
-}
 
-bool player::crafting_can_see()
-{
     if (fine_detail_vision_mod() > 4) {
         add_msg(m_info, _("You can't see to craft!"));
         return false;
@@ -312,14 +308,10 @@ bool player::crafting_can_see()
 
 void player::craft()
 {
-    if (!crafting_allowed()) {
-        return;
-    }
-
     int batch_size = 0;
     const recipe *rec = select_crafting_recipe( batch_size );
     if (rec) {
-        if(crafting_can_see()) {
+        if ( crafting_allowed() ) {
             make_craft( rec->ident, batch_size );
         }
     }
@@ -336,14 +328,10 @@ void player::recraft()
 
 void player::long_craft()
 {
-    if (!crafting_allowed()) {
-        return;
-    }
-
     int batch_size = 0;
     const recipe *rec = select_crafting_recipe( batch_size );
     if (rec) {
-        if(crafting_can_see()) {
+        if( crafting_allowed() ) {
             make_all_craft( rec->ident, batch_size );
         }
     }
@@ -352,10 +340,6 @@ void player::long_craft()
 bool player::making_would_work(const std::string &id_to_make, int batch_size)
 {
     if (!crafting_allowed()) {
-        return false;
-    }
-
-    if(!crafting_can_see()) {
         return false;
     }
 
