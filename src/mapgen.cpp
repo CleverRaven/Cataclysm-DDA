@@ -33,8 +33,6 @@
 #include "vehicle.h"
 #include "vehicle_group.h"
 #include "catalua.h"
-
-#include "name.h"
 #include "text_snippets.h"
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_MAP_GEN) << __FILE__ << ":" << __LINE__ << ": "
