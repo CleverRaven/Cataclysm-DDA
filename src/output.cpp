@@ -24,6 +24,7 @@
 #include "ui.h"
 #include "item.h"
 #include "line.h"
+#include "name.h"
 
 // Display data
 int TERMX;
@@ -1718,6 +1719,63 @@ std::string string_format(std::string pattern, ...)
     std::string result = vstring_format(pattern.c_str(), ap);
     va_end(ap);
     return result;
+}
+
+std::string replace_given_name_tag(std::string input)
+{
+    size_t offset = input.find("<given_name>");
+    while (offset != std::string::npos) {
+        input.replace(offset, 12, NameGenerator::generator().getName(nameIsGivenName));
+        // capitalize the first letter of the name
+        capitalize_letter(input, offset);
+        offset = input.find("<given_name>");
+    }
+    return input;
+}
+
+std::string replace_family_name_tag(std::string input)
+{
+    size_t offset = input.find("<family_name>");
+    while (offset != std::string::npos) {
+        input.replace(offset, 13, NameGenerator::generator().getName(nameIsFamilyName));
+        // capitalize the first letter of the name
+        capitalize_letter(input, offset);
+        offset = input.find("<family_name>");
+    }
+    return input;
+}
+
+std::string replace_full_name_tag(std::string input)
+{
+    size_t offset = input.find("<full_name>");
+    while (offset != std::string::npos) {
+        input.replace(offset, 11, NameGenerator::generator().getName(nameIsFullName));
+        // capitalize the first letter of the name
+        capitalize_letter(input, offset);
+        offset = input.find("<full_name>");
+    }
+    return input;
+}
+
+std::string replace_name_tags(std::string input)
+{
+    input = replace_full_name_tag(input);
+    input = replace_family_name_tag(input);
+    input = replace_given_name_tag(input);
+    return input;
+}
+
+std::string replace_city_tag(std::string input, std::string name)
+{
+    size_t offset = input.find("<city>");
+    while (offset != std::string::npos) {
+        input.replace(offset, 6, name);
+        // capitalize the first letter of the city
+        capitalize_letter(input, offset);
+
+        offset = input.find("<city>");
+    }
+    return input;
 }
 
 //wrap if for i18n

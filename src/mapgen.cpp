@@ -34,6 +34,9 @@
 #include "vehicle_group.h"
 #include "catalua.h"
 
+#include "name.h"
+#include "text_snippets.h"
+
 #define dbg(x) DebugLog((DebugLevel)(x),D_MAP_GEN) << __FILE__ << ":" << __LINE__ << ": "
 
 #define MON_RADIUS 3
@@ -650,12 +653,11 @@ public:
 class jmapgen_sign : public jmapgen_piece {
 public:
     std::string signage;
+    std::string snippet;
     jmapgen_sign( JsonObject &jsi ) : jmapgen_piece()
-    , signage( jsi.get_string( "signage" ) )
+    , signage( jsi.get_string( "signage", "" ) )
+    , snippet( jsi.get_string( "snippet", "" ) )
     {
-        if( !signage.empty() ) {
-            signage = _( signage.c_str() );
-        }
     }
     void apply( map &m, const jmapgen_int &x, const jmapgen_int &y, const float /*mon_density*/ ) const override
     {
@@ -663,7 +665,35 @@ public:
         const int ry = y.get();
         m.furn_set( rx, ry, f_null );
         m.furn_set( rx, ry, "f_sign" );
-        m.set_signage( tripoint( rx, ry, m.get_abs_sub().z ), signage );
+
+        tripoint abs_sub = m.get_abs_sub();
+        tripoint abs_omt = overmap_buffer.sm_to_omt_copy(abs_sub);
+
+        std::string signtext;
+
+        if( !snippet.empty() ) {
+            // select a snippet from the category
+            signtext = SNIPPET.get( SNIPPET.assign( snippet ) );
+        } else if( !signage.empty() ) {
+            signtext = signage;
+        } else {
+            // throw some sort of error
+            debugmsg("jmapgen_sign with no signage or snippet defined");
+            return;
+        }
+        if (!signtext.empty() ) {
+            // replace tags
+            signtext = _( signtext.c_str() );
+
+            signtext = apply_all_tags(signtext, overmap_buffer.get_existing_om_global(abs_omt)->nearest_city(abs_omt.x, abs_omt.y).name);
+        }
+        m.set_signage( tripoint( rx, ry, m.get_abs_sub().z ), signtext );
+    }
+    std::string apply_all_tags(std::string signtext, std::string cityname) const
+    {
+        signtext = replace_city_tag(signtext, cityname);
+        signtext = replace_name_tags(signtext);
+        return signtext;
     }
 };
 /**

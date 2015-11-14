@@ -222,6 +222,8 @@ class overmap
      */
     std::vector<point> find_terrain(const std::string &term, int zlevel);
 
+    const city& nearest_city(int x, int y);
+
     oter_id& ter(const int x, const int y, const int z);
     const oter_id get_ter(const int x, const int y, const int z) const;
     bool&   seen(int x, int y, int z);
