@@ -1416,7 +1416,6 @@ void pick_recipes(const inventory &crafting_inv,
 
 void player::make_craft(const std::string &id_to_make, int batch_size)
 {
-    const recipe *recipe_to_make = recipe_by_name( id_to_make );
     make_craft_with_command(id_to_make, batch_size);
 }
 
@@ -1427,7 +1426,7 @@ void player::make_all_craft(const std::string &id_to_make, int batch_size)
 
 void player::make_craft_with_command( const std::string &id_to_make, int batch_size, bool is_long )
 {
-    const recipe *recipe_to_make = find_recipe( id_to_make );
+    const recipe *recipe_to_make = recipe_by_name( id_to_make );
 
     if( recipe_to_make == nullptr ) {
         return;
