@@ -633,10 +633,7 @@ void game::start_game(std::string worldname)
     new_game = true;
     start_calendar();
     nextweather = calendar::turn;
-
-    //limit rand amount on some systems
-    //weather noise generator can't deal with large values
-    weather_gen->set_seed( rand() % 32768 );
+    weather_gen->set_seed( rand() );
     safe_mode = (OPTIONS["SAFEMODE"] ? SAFE_MODE_ON : SAFE_MODE_OFF);
     mostseen = 0; // ...and mostseen is 0, we haven't seen any monsters yet.
 

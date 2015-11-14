@@ -280,9 +280,7 @@ void game::load_weather(std::ifstream & fin) {
         int seed(0);
         std::stringstream liness(line);
         liness >> label >> seed;
-        //limit seed size from old saves
-        //weather noise generator can't deal with large values
-        weather_gen->set_seed( seed % 32768 );
+        weather_gen->set_seed( seed );
     }
 }
 
