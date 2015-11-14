@@ -293,7 +293,9 @@ int iuse::sewage(player *p, item *it, bool, const tripoint& )
     }
     p->vomit();
     if (one_in(4)) {
-        p->mutate();
+        if ( !p->block_mutation() ) {
+            p->mutate();
+        }
     }
     return it->type->charges_to_use();
 }
@@ -1461,7 +1463,11 @@ int iuse::mutagen(player *p, item *it, bool, const tripoint& )
     // Generic "mutagen".
     if (it->has_flag("MUTAGEN_STRONG")) {
         mutation_category = "";
-        p->mutate();
+        if ( !p->block_mutation() ) {
+            p->mutate();
+        } else {
+            return it->type->charges_to_use();
+        }
         p->mod_pain(2 * rng(1, 5));
         p->mod_hunger(10);
         p->fatigue += 5;
@@ -1492,7 +1498,11 @@ int iuse::mutagen(player *p, item *it, bool, const tripoint& )
         mutation_category = "";
         // Stuff like the limbs, the tainted tornado, etc.
         if (!one_in(3)) {
-            p->mutate();
+            if ( !p->block_mutation() ) {
+                p->mutate();
+            } else {
+                return it->type->charges_to_use();
+            }
             p->mod_pain(2 * rng(1, 5));
             p->mod_hunger(10);
             p->fatigue += 5;
@@ -1509,7 +1519,11 @@ int iuse::mutagen(player *p, item *it, bool, const tripoint& )
             if (it->has_flag("MUTAGEN_" + m_category.category)) {
                 mutation_category = "MUTCAT_" + m_category.category;
                 p->add_msg_if_player(m_category.mutagen_message.c_str());
-                p->mutate_category(mutation_category);
+                if ( !p->block_mutation() ) {
+                    p->mutate_category( mutation_category );
+                } else {
+                    return it->type->charges_to_use();                
+                }
                 p->mod_pain(m_category.mutagen_pain * rng(1, 5));
                 p->mod_hunger(m_category.mutagen_hunger);
                 p->fatigue += m_category.mutagen_fatigue;
@@ -1630,7 +1644,11 @@ int iuse::mut_iv(player *p, item *it, bool, const tripoint& )
             p->add_msg_if_player(m_bad, _("You inject yoursel-arRGH!"));
             sounds::sound(p->pos(), 15 + 3 * p->str_cur, _("You scream in agony!!"));
         }
-        p->mutate();
+        if ( !p->block_mutation() ) {
+            p->mutate();
+        } else {
+            return it->type->charges_to_use();
+        }
         p->mod_pain(1 * rng(1, 4));
         //Standard IV-mutagen effect: 10 hunger/thirst & 5 Fatigue *per mutation*.
         // Numbers may vary based on mutagen.
@@ -1694,7 +1712,11 @@ int iuse::mut_iv(player *p, item *it, bool, const tripoint& )
                     sounds::sound(p->pos(), m_category.iv_noise + p->str_cur, m_category.iv_sound_message);
                 }
                 for (int i=0; i < m_category.iv_min_mutations; i++){
-                    p->mutate_category(mutation_category);
+                    if ( !p->block_mutation() ) {
+                        p->mutate_category( mutation_category );
+                    } else {
+                        return it->type->charges_to_use();
+                    }
                     p->mod_pain(m_category.iv_pain * rng(1, 5));
                     p->mod_hunger(m_category.iv_hunger);
                     p->fatigue += m_category.iv_fatigue;
@@ -1702,7 +1724,7 @@ int iuse::mut_iv(player *p, item *it, bool, const tripoint& )
                 }
                 for (int i=0; i < m_category.iv_additional_mutations; i++){
                     if (!one_in(m_category.iv_additional_mutations_chance)) {
-                        p->mutate_category(mutation_category);
+                        p->mutate_category( mutation_category );
                         p->mod_pain(m_category.iv_pain * rng(1, 5));
                         p->mod_hunger(m_category.iv_hunger);
                         p->fatigue += m_category.iv_fatigue;
@@ -6401,7 +6423,9 @@ int iuse::artifact(player *p, item *it, bool, const tripoint& )
 
             case AEA_MUTATE:
                 if (!one_in(3)) {
-                    p->mutate();
+                    if ( !p->block_mutation() ) {
+                        p->mutate();
+                    }
                 }
                 break;
 

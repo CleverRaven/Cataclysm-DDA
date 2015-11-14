@@ -963,7 +963,9 @@ void mattack::science(monster *const z, int const index) // I said SCIENCE again
             target->add_msg_player_or_npc(_("You dodge the beam!"),
                                           _("<npcname> dodges the beam!"));
         } else if (one_in(att_rad_mutate_chance)) {
-            foe->mutate();
+            if ( !g->u.block_mutation() ) {
+                foe->mutate();
+            };
         } else {
             target->add_msg_if_player(m_bad, _("You get pins and needles all over."));
             foe->radiation += rng(att_rad_dose_min, att_rad_dose_max);
@@ -2461,7 +2463,9 @@ void mattack::gene_sting(monster *z, int index)
     z->moves -= 150;
     z->reset_special(index); // Reset timer
     add_msg(m_bad, _("The %s shoots a dart into you!"), z->name().c_str());
-    g->u.mutate();
+    if ( !g->u.block_mutation() ) {
+        g->u.mutate();
+    }
 }
 
 void mattack::para_sting(monster *z, int index)

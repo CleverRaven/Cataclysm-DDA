@@ -279,6 +279,9 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         void mutate_category( const std::string &mut_cat );
         /** Mutates toward the entered mutation, upgrading or removing conflicts if necessary */
         bool mutate_towards( const std::string &mut );
+        /** Checks for mutation blockers. If they exist, applies their effect on player and
+        return True, if they don't exist, returns false*/
+        bool block_mutation();
         /** Removes a mutation, downgrading to the previous level if possible */
         void remove_mutation( const std::string &mut );
         /** Returns true if the player has the entered mutation child flag */

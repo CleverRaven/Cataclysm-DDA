@@ -1204,6 +1204,24 @@ bool player::mutate_towards( const std::string &mut )
     return true;
 }
 
+bool player::block_mutation() {
+    if ( has_effect( "mut_blockers" ) ) {
+        add_msg_if_player( _("You feel your insides move, flesh separate from bone and skin shift on its own. Then, everything snaps back into its places, violently.") );
+        remove_effect( "mut_blockers" );
+        mod_pain( rng( 30, 60 ) );
+        hurtall( rng( 5, 20 ), nullptr );
+        for (int i = 0; i < rng( 2, 5); i++) {
+            add_effect( "bleed", rng(20, 50), random_body_part( true ) );
+        }
+        if ( is_player() ) {
+            add_memorial_log( pgettext( "memorial_male", "Morpho-blockers triggered an anti-mutation reaction." ),
+                              pgettext( "memorial_female", "Morpho-blockers triggered an anti-mutation reaction." ) );
+        }
+        return true;
+    }
+    return false;
+}
+
 void player::remove_mutation( const std::string &mut )
 {
     const auto &mdata = mutation_branch::get( mut );

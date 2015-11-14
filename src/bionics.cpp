@@ -1580,7 +1580,9 @@ void bionics_install_failure(player *u, int difficulty, int success)
     case 4:
         add_msg(m_mixed, _("You do damage to your genetics, causing mutation!"));
         while (failure_level > 0) {
-            u->mutate();
+            if (!u->block_mutation()) {
+                u->mutate();
+            }
             failure_level -= rng(1, failure_level + 2);
         }
         break;

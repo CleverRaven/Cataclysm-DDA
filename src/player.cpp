@@ -6560,10 +6560,14 @@ void player::hardcoded_effects(effect &it)
         it.set_intensity(dur / 10);
         if (rng(0, 100) < dur / 10) {
             if (!one_in(5)) {
-                mutate_category("MUTCAT_RAT");
+                if ( !block_mutation() ) {
+                    mutate_category( "MUTCAT_RAT" );
+                }
                 it.mult_duration(.2);
             } else {
-                mutate_category("MUTCAT_TROGLOBITE");
+                if ( !block_mutation() ) {
+                    mutate_category( "MUTCAT_TROGLOBITE" );
+                }
                 it.mult_duration(.33);
             }
         } else if (rng(0, 100) < dur / 8) {
@@ -7199,7 +7203,9 @@ void player::hardcoded_effects(effect &it)
             }
             if (one_in(3500 - int(.25 * (dur - 3600)))) {
                 add_msg_if_player(m_bad, _("You shudder suddenly."));
-                mutate();
+                if ( !block_mutation() ) {
+                    mutate();
+                }
                 if (one_in(4)) {
                     // Set ourselves up for removal
                     it.set_duration(0);
@@ -7769,7 +7775,12 @@ void player::hardcoded_effects(effect &it)
         float health = get_healthy();
         float health_mod = fabs(health) / 100.0 + 1.0;
 
-        //First, try to spread the disease into a conected body part
+        //First, try to cause itchiness
+        if ( one_in(500 + (250 * intense)) ) {
+        add_effect( "formication", rng(5, 100) );
+        }
+
+        //Next, try to spread the disease into a conected body part
         if (health > 0) {
             spread_chance = ( ( spread_chance - ( intense * 900.0 ) ) * health_mod ) * resist_mod;
         } else if (health < 0) {
@@ -7880,7 +7891,7 @@ void player::hardcoded_effects(effect &it)
         if ( intense > 3 && wearing_something_on( bp ) && !has_trait( "NOPAIN" ) && calendar::once_every( MINUTES( 5 ) ) ) {
             mod_pain( rng( 1, 4 ) );
             focus_pool -= 1;
-            add_msg_if_player( m_bad, _( "The furunculus on your %1$s is being compacted by your clothing." ), body_part_name(bp).c_str() );   
+            add_msg_if_player( m_bad, _( "The furunculus on your %1$s is being compacted by your clothing!" ), body_part_name(bp).c_str() );   
         }
         if (id == "furunculus", intense == 5) {
             mod_pain( rng( 4, 12 ) );
@@ -8417,13 +8428,19 @@ void player::suffer()
     }
 
     if (has_trait("UNSTABLE") && one_in(28800)) { // Average once per 2 days
-        mutate();
+        if ( !block_mutation() ) {
+            mutate();
+        }
     }
     if (has_trait("CHAOTIC") && one_in(7200)) { // Should be once every 12 hours
-        mutate();
+        if ( !block_mutation() ) {
+            mutate();
+        }
     }
     if (has_artifact_with(AEP_MUTAGENIC) && one_in(28800)) {
-        mutate();
+        if ( !block_mutation() ) {
+            mutate();
+        }
     }
     if (has_artifact_with(AEP_FORCE_TELEPORT) && one_in(600)) {
         g->teleport(this);
@@ -8501,7 +8518,9 @@ void player::suffer()
             radiation = 2000;
         }
         if (OPTIONS["RAD_MUTATION"] && rng(60, 2500) < radiation) {
-            mutate();
+            if ( !block_mutation() ) {
+                mutate();
+            }
             radiation /= 2;
             radiation -= 5;
         } else if (radiation > 100 && rng(1, 1500) < radiation) {

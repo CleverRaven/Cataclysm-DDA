@@ -952,7 +952,9 @@
         "//": "This is the royal jelly effect, it should cure pretty much everything.",
         "removes_effects": ["fungus", "dermatik", "bloodworms", "paincysts", "brainworms", "tapeworm",
                             "blind", "poison", "stung", "badpoison", "foodpoison", "paralyzepoison",
-                            "tetanus", "infected", "asthma", "common_cold", "flu"],
+                            "tetanus", "infected", "asthma", "common_cold", "flu", "skin_rot", 
+							"skin_rot_recovery", "furunculite", "furunculus", "furunculus_recovery",
+							"eye_muck", "eye_muck_recovery"],
         "base_mods": {
             "pkill_min": [5]
         }
@@ -1686,6 +1688,12 @@
         "type": "effect_type",
         "id": "eyedrops",
         "max_duration": 300
+    },
+    {
+        "type": "effect_type",
+        "id": "mut_blockers",
+		"apply_memorial_log": "Infected with morpho-blockers.",
+		"remove_memorial_log": "Morpho-blockers were expulsed from your body."
     }
     
 ]
