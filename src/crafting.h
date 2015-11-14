@@ -5,7 +5,6 @@
 #include "requirements.h" // requirement_data
 #include "cursesdef.h"    // WINDOW
 #include "string_id.h"
-#include "recipe_dictionary.h"
 
 #include <string>
 #include <vector>
