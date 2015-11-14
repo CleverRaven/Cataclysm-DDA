@@ -2080,7 +2080,7 @@ std::list<item> player::consume_items(const comp_selection<item_comp> &is, int b
     long real_count = (selected_comp.count > 0) ? selected_comp.count * batch : abs(selected_comp.count);
     const bool in_container = (selected_comp.count < 0);
     // First try to get everything from the map, than (remaining amount) from player
-    if (is.use_from == use_from_map) {
+    if (is.use_from & use_from_map) {
         if (by_charges) {
             std::list<item> tmp = g->m.use_charges(loc, PICKUP_RANGE, selected_comp.type, real_count);
             ret.splice(ret.end(), tmp);
@@ -2091,7 +2091,7 @@ std::list<item> player::consume_items(const comp_selection<item_comp> &is, int b
             ret.splice(ret.end(), tmp);
         }
     }
-    if (is.use_from == use_from_player) {
+    if (is.use_from & use_from_player) {
         if (by_charges) {
             std::list<item> tmp = use_charges(selected_comp.type, real_count);
             ret.splice(ret.end(), tmp);
@@ -2203,10 +2203,10 @@ void player::consume_tools(const comp_selection<tool_comp> &tool, int batch) {
         return;
     }
 
-    if (tool.use_from == use_from_player) {
+    if (tool.use_from & use_from_player) {
         use_charges(tool.comp.type, tool.comp.count * batch);
     }
-    if (tool.use_from == use_from_map) {
+    if (tool.use_from & use_from_map) {
         long quantity = tool.comp.count * batch;
         g->m.use_charges(pos3(), PICKUP_RANGE, tool.comp.type, quantity);
     }
