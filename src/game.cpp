@@ -3893,12 +3893,9 @@ void game::debug()
     case 13: {
         add_msg(m_info, _("Recipe debug."));
         add_msg(_("Your eyes blink rapidly as knowledge floods your brain."));
-        for( auto &recipes_cat_iter : recipes ) {
-            for( auto cur_recipe : recipes_cat_iter.second ) {
-
-                if (!(u.learned_recipes.find(cur_recipe->ident) != u.learned_recipes.end()))  {
-                    u.learn_recipe( (recipe *)cur_recipe );
-                }
+        for( auto cur_recipe : recipe_dict ) {
+            if (!(u.learned_recipes.find(cur_recipe->ident) != u.learned_recipes.end()))  {
+                u.learn_recipe( (recipe *)cur_recipe );
             }
         }
         add_msg(m_good, _("You know how to craft that now."));
@@ -6288,10 +6285,10 @@ void game::explosion( const tripoint &p, float power, float factor,
                       int shrapnel_count, bool fire )
 {
     const int noise = power * (fire ? 2 : 10);
-    if( power >= 30 ) {
+    if( noise >= 30 ) {
         sounds::sound( p, noise, _("a huge explosion!") );
         sfx::play_variant_sound( "explosion", "huge", 100);
-    } else if( power >= 4 ) {
+    } else if( noise >= 4 ) {
         sounds::sound( p, noise, _("an explosion!") );
         sfx::play_variant_sound( "explosion", "default", 100);
     } else {
@@ -8050,6 +8047,7 @@ bool npc_menu( npc &who )
         push,
         examine_wounds,
         use_item,
+        sort_armor,
         attack
     };
 
@@ -8064,6 +8062,7 @@ bool npc_menu( npc &who )
     amenu.addentry( push, obeys, 'p', _("Push away") );
     amenu.addentry( examine_wounds, true, 'w', _("Examine wounds") );
     amenu.addentry( use_item, true, 'i', _("Use item on") );
+    amenu.addentry( sort_armor, true, 'r', _("Sort armor") );
     amenu.addentry( attack, true, 'a', _("Attack") );
 
     amenu.query();
@@ -8109,6 +8108,9 @@ bool npc_menu( npc &who )
             // Note: exiting a body part selection menu counts as use here
             g->u.mod_moves( -300 );
         }
+    } else if( choice == sort_armor ) {
+        who.sort_armor();
+        g->u.mod_moves( -100 );
     } else if( choice == attack ) {
         //The NPC knows we started the fight, used for morale penalty.
         if( !who.is_enemy() ) {
