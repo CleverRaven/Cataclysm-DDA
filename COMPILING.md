@@ -359,9 +359,16 @@ The following archives were pre-bundled for convienience and reduction of head-a
 * `64-bit SDL \ Tiles \ Sound \ Lua \ Localization` http://dev.narc.ro/cataclysm/cdda-win64-codeblocks.7z
 
 #### Installing Tiles(SDL) libraries.
-For the first 3 (`SDL2`, `SDL_ttf` and `SDL_image`) you want to extract the include and lib folders from the `i686-w64-mingw32` folders into your MinGW installtion folder. (Reccomended `C:\MinGW`). And the `SDL2_image.dll` and `SDL2_ttf.dll` into your cataclysm root folder.
+For the first 3 (`SDL2`, `SDL_ttf` and `SDL_image`) you want to extract the include and lib folders from the `i686-w64-mingw32` folders into your MinGW installation folder. (Recommended `C:\MinGW`). And the `SDL2_image.dll` and `SDL2_ttf.dll` into your cataclysm root folder.
 
 For freetype you want to grab the include and lib folders from the `freetype-2.X.X-X-lib.zip` and move them into your your MinGW installation folder. Then you want to get the freetype6.dll from the `freetype-2.X.X-X-bin.zip` and move it into your cataclysm root folder.
+
+### Required ncurses Libraries
+If you do not want to compile with Tiles (SDL), you will need to download ncurses for MinGW.
+* `ncurses` http://invisible-island.net/ncurses/ choose `32-bit` from the MinGW Port section
+
+#### Installing ncurses libraries.
+Extract the ncurses zip into the MinGW installation folder. (Recommended `C:\MinGW`).
 
 #### ISSUE - "winapifamily.h" no such file or directoyr
 There seems to be at the moment of writing that a file in SDL is broken and needs to be replaced. 
@@ -377,9 +384,9 @@ Navigate to the CDDA source code directory.
 
 Compile using `make TILES=1 NATIVE=win32 LOCALIZE=1 RELEASE=1` and unless there are problems, it should produce a CDDA binary for you.
 
-If you dont want tiles you can change `TILES` to 0.
+If you dont want tiles you can remove `TILES=1`. Make sure you have the ncurses library.
 
-If you dont want localization you can change `LOCALIZE` to 0.
+If you dont want localization you can remove `LOCALIZE=1`.
 
 ## Rough guide to building with only MSYS2
 

@@ -379,7 +379,11 @@ else
     CXXFLAGS += $(shell ncursesw5-config --cflags)
     LDFLAGS += $(shell ncursesw5-config --libs)
   else
-    LDFLAGS += -lncurses
+    ifeq ($(NATIVE), win32) # MinGW
+      LDFLAGS += -lncursesw -lpsapi
+    else
+      LDFLAGS += -lncurses
+    endif
   endif
 endif
 
