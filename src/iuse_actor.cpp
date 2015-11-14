@@ -707,11 +707,10 @@ long pick_lock_actor::use( player *p, item *it, bool, const tripoint& ) const
             g->add_event( EVENT_WANTED, int( calendar::turn ) + 300, 0, p->global_sm_location() );
         }
     }
-    // Special handling, normally the item isn't used up, but it is if broken.
     if( it->damage >= 5 ) {
-        return 1;
-    }
-
+        p->i_rem(it);
+        return 0;
+        }
     return it->type->charges_to_use();
 }
 

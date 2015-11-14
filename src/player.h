@@ -6,6 +6,7 @@
 #include "player_activity.h"
 #include "weighted_list.h"
 #include "morale.h"
+#include "crafting.h"
 
 #include <unordered_set>
 #include <bitset>
@@ -937,8 +938,18 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         const inventory &crafting_inventory(); // includes nearby items
         void invalidate_crafting_inventory();
         std::vector<item> get_eligible_containers_for_crafting();
-        std::list<item> consume_items(const std::vector<item_comp> &components, int batch = 1);
-        void consume_tools(const std::vector<tool_comp> &tools, int batch = 1, const std::string &hotkeys = DEFAULT_HOTKEYS);
+        comp_selection<item_comp> select_item_component( const std::vector<item_comp> &components,
+                                                         int batch, inventory &map_inv,
+                                                         bool can_cancel = false );
+        std::list<item> consume_items( const comp_selection<item_comp> &cs, int batch );
+        std::list<item> consume_items( const std::vector<item_comp> &components, int batch = 1 );
+        comp_selection<tool_comp> select_tool_component( const std::vector<tool_comp> &tools,
+                                                         int batch, inventory &map_inv,
+                                                         const std::string &hotkeys = DEFAULT_HOTKEYS,
+                                                         bool can_cancel = false );
+        void consume_tools( const comp_selection<tool_comp> &tool, int batch );
+        void consume_tools( const std::vector<tool_comp> &tools, int batch = 1,
+                            const std::string &hotkeys = DEFAULT_HOTKEYS );
 
         // Auto move methods
         void set_destination(const std::vector<tripoint> &route);
@@ -1059,6 +1070,9 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         bool keep_hands_free;
 
         std::vector <addiction> addictions;
+
+        void make_craft_with_command( const std::string &id_to_make, int batch_size, bool is_long = false );
+        craft_command last_craft;
 
         std::string lastrecipe;
         int last_batch;

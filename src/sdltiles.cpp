@@ -308,8 +308,15 @@ bool WinCreate()
     WindowWidth = TERMINAL_WIDTH * fontwidth;
     WindowHeight = TERMINAL_HEIGHT * fontheight;
 
-    if (OPTIONS["FULLSCREEN"]) {
+    if( OPTIONS["SCALING_MODE"] != "none" ) {
+        window_flags |= SDL_WINDOW_RESIZABLE;
+        SDL_SetHint( SDL_HINT_RENDER_SCALE_QUALITY, OPTIONS["SCALING_MODE"].getValue().c_str() );
+    }
+
+    if (OPTIONS["FULLSCREEN"] == "fullscreen") {
         window_flags |= SDL_WINDOW_FULLSCREEN;
+    } else if (OPTIONS["FULLSCREEN"] == "windowedbl") {
+        window_flags |= SDL_WINDOW_FULLSCREEN_DESKTOP;
     }
 
     window = SDL_CreateWindow(version.c_str(),
@@ -324,7 +331,7 @@ bool WinCreate()
         dbg(D_ERROR) << "SDL_CreateWindow failed: " << SDL_GetError();
         return false;
     }
-    if (window_flags & SDL_WINDOW_FULLSCREEN) {
+    if (window_flags & SDL_WINDOW_FULLSCREEN || window_flags & SDL_WINDOW_FULLSCREEN_DESKTOP) {
         SDL_GetWindowSize(window, &WindowWidth, &WindowHeight);
         // Ignore previous values, use the whole window, but nothing more.
         TERMINAL_WIDTH = WindowWidth / fontwidth;
@@ -621,6 +628,7 @@ void try_sdl_update()
         if( SDL_SetRenderTarget( renderer, NULL ) != 0 ) {
             dbg(D_ERROR) << "SDL_SetRenderTarget failed: " << SDL_GetError();
         }
+        SDL_RenderSetLogicalSize( renderer, WindowWidth, WindowHeight );
         if( SDL_RenderCopy( renderer, display_buffer, NULL, NULL ) != 0 ) {
             dbg(D_ERROR) << "SDL_RenderCopy failed: " << SDL_GetError();
         }

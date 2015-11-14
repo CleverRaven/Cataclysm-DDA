@@ -447,12 +447,15 @@ void game::init_ui()
         mouseview_w = sidebarWidth;
     } else {
         // standard sidebar style
+        locH = 2;
+        statX = 0;
+        statH = 4;
         minimapX = 0;
         minimapY = 0;
         messX = MINIMAP_WIDTH;
         messY = 0;
         messW = sidebarWidth - messX;
-        messH = TERRAIN_WINDOW_TERM_HEIGHT - 5; // 1 for w_location + 4 for w_stat, w_messages starts at 0
+        messH = TERRAIN_WINDOW_TERM_HEIGHT - (locH + statH);
         hpX = 0;
         hpY = MINIMAP_HEIGHT;
         // under the minimap, but down to the same line as w_location (which is under w_messages)
@@ -461,11 +464,8 @@ void game::init_ui()
         hpW = 7;
         locX = MINIMAP_WIDTH;
         locY = messY + messH;
-        locH = 2;
         locW = sidebarWidth - locX;
-        statX = 0;
         statY = locY + locH;
-        statH = 4;
         statW = sidebarWidth;
 
         // The default style only uses one status window.
@@ -1087,6 +1087,14 @@ bool game::cleanup_at_end()
             gamemode = new special_game; // null gamemode or something..
         }
     }
+
+    //clear all sound channels
+    sfx::fade_audio_channel( -1, 300 );
+    sfx::fade_audio_group(1, 300);
+    sfx::fade_audio_group(2, 300);
+    sfx::fade_audio_group(3, 300);
+    sfx::fade_audio_group(4, 300);
+
     MAPBUFFER.reset();
     overmap_buffer.clear();
     return true;
@@ -1648,19 +1656,19 @@ int game::inventory_item_menu(int pos, int iStartX, int iWidth, const inventory_
             }
             max_text_length = std::max( max_text_length, utf8_width( text ) );
         };
-        addentry( 'a', _("activate"), u.rate_action_use( oThisItem ) );
-        addentry( 'R', _("read"), u.rate_action_read( oThisItem ) );
-        addentry( 'E', _("eat"), u.rate_action_eat( oThisItem ) );
-        addentry( 'W', _("wear"), u.rate_action_wear( oThisItem ) );
-        addentry( 'w', _("wield"), HINT_GOOD );
-        addentry( 't', _("throw"), HINT_GOOD );
-        addentry( 'c', _("change side"), u.rate_action_change_side( oThisItem ) );
-        addentry( 'T', _("take off"), u.rate_action_takeoff( oThisItem ) );
-        addentry( 'd', _("drop"), rate_drop_item );
-        addentry( 'U', _("unload"), u.rate_action_unload( oThisItem ) );
-        addentry( 'r', _("reload"), u.rate_action_reload( oThisItem ) );
-        addentry( 'D', _("disassemble"), u.rate_action_disassemble( oThisItem ) );
-        addentry( '=', _("reassign"), HINT_GOOD );
+        addentry( 'a', pgettext("action", "activate"), u.rate_action_use( oThisItem ) );
+        addentry( 'R', pgettext("action", "read"), u.rate_action_read( oThisItem ) );
+        addentry( 'E', pgettext("action", "eat"), u.rate_action_eat( oThisItem ) );
+        addentry( 'W', pgettext("action", "wear"), u.rate_action_wear( oThisItem ) );
+        addentry( 'w', pgettext("action", "wield"), HINT_GOOD );
+        addentry( 't', pgettext("action", "throw"), HINT_GOOD );
+        addentry( 'c', pgettext("action", "change side"), u.rate_action_change_side( oThisItem ) );
+        addentry( 'T', pgettext("action", "take off"), u.rate_action_takeoff( oThisItem ) );
+        addentry( 'd', pgettext("action", "drop"), rate_drop_item );
+        addentry( 'U', pgettext("action", "unload"), u.rate_action_unload( oThisItem ) );
+        addentry( 'r', pgettext("action", "reload"), u.rate_action_reload( oThisItem ) );
+        addentry( 'D', pgettext("action", "disassemble"), u.rate_action_disassemble( oThisItem ) );
+        addentry( '=', pgettext("action", "reassign"), HINT_GOOD );
         if( bHPR ) {
             addentry( '-', _("Autopickup"), HINT_IFFY );
         } else {
