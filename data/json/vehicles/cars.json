@@ -740,7 +740,7 @@
             {"x": 0, "y": 0, "chance": 8, "item_groups": "car_misc"},
             {"x": 2, "y": 0, "chance": 6, "item_groups": "car_kit"},
             {"x": 2, "y": 1, "chance": 8, "item_groups": "car_kit"},
-            {"x": -2, "y": 1, "chance": 8, "items": ["jack", "wheel"]}
+            {"x": 2, "y": 1, "chance": 8, "items": ["jack", "wheel"]}
         ]
     },{
         "type" : "vehicle",
@@ -819,7 +819,7 @@
         ],
          "items" : [
             {"x": -2, "y": 0, "chance": 3, "item_groups": "car_kit"},
-            {"x": -2, "y": 1, "chance": 3, "items": ["jack", "wheel"]}
+            {"x": -2, "y": 0, "chance": 3, "items": ["jack", "wheel"]}
         ]
     },{
         "type" : "vehicle",
