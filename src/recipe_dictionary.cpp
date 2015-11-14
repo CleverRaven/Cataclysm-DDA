@@ -1,5 +1,9 @@
 #include "recipe_dictionary.h"
+#include "crafting.h"
+
 #include <algorithm> //std::remove
+
+using itype_id = std::string; // From itype.h
 
 void recipe_dictionary::add( recipe *rec )
 {

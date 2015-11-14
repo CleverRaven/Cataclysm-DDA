@@ -74,6 +74,7 @@
 #include "weather.h"
 #include "faction.h"
 #include "live_view.h"
+#include "recipe_dictionary.h"
 
 #include <map>
 #include <set>

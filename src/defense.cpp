@@ -7,6 +7,7 @@
 #include "mtype.h"
 #include "overmapbuffer.h"
 #include "crafting.h"
+#include "recipe_dictionary.h"
 #include "monstergenerator.h"
 #include "construction.h"
 #include "messages.h"

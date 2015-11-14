@@ -1,14 +1,13 @@
 #ifndef RECIPE_DICTIONARY_H
 #define RECIPE_DICTIONARY_H
 
-#include "crafting.h" // for recipe, FIXME: circular dependency -> possible fix: move recipe to this file?
-
 #include <string>
 #include <vector>
 #include <map>
 #include <list>
 
 struct recipe;
+using itype_id = std::string; // From itype.h
 
 /**
 *   Repository class for recipes.

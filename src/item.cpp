@@ -19,6 +19,7 @@
 #include "compatibility.h"
 #include "translations.h"
 #include "crafting.h"
+#include "recipe_dictionary.h"
 #include "martialarts.h"
 #include "npc.h"
 #include "ui.h"

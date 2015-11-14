@@ -10,6 +10,7 @@
 #include "options.h"
 #include "output.h"
 #include "crafting.h"
+#include "recipe_dictionary.h"
 #include "inventory.h"
 #include "catacharset.h"
 #include "messages.h"
