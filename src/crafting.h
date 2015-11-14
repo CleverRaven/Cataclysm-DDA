@@ -112,7 +112,7 @@ enum usage {
     use_from_player = 2,
     use_from_both = 1 | 2,
     use_from_none = 4,
-    cancel = 5 // FIXME: hacky.
+    cancel = 8 // FIXME: hacky.
 };
 
 /**
@@ -127,8 +127,6 @@ struct comp_selection {
     /** provides a translated name for 'comp', suffixed with it's location e.g '(nearby)'. */
     std::string nname() const;
 };
-using item_selection = comp_selection<item_comp>;
-using tool_selection = comp_selection<tool_comp>;
 
 /**
 *   Class that describes a crafting job.
@@ -137,12 +135,6 @@ using tool_selection = comp_selection<tool_comp>;
 */
 class craft_command {
     public:
-        const recipe *rec = nullptr;
-        int batch_size = 0;
-        /** Indicates the activity_type for this crafting job, Either ACT_CRAFT or ACT_LONGCRAFT. */
-        bool is_long = false;
-        player *crafter; // This is mainly here for maintainability reasons.
-
         /** Instantiates an empty craft_command, which can't be executed. */
         craft_command() {}
         craft_command( const recipe *to_make, int batch_size, bool is_long, player *crafter ) :
@@ -163,23 +155,33 @@ class craft_command {
             return rec == nullptr;
         }
     private:
-        std::vector<item_selection> item_selections;
-        std::vector<tool_selection> tool_selections;
+        const recipe *rec = nullptr;
+        int batch_size = 0;
+        /** Indicates the activity_type for this crafting job, Either ACT_CRAFT or ACT_LONGCRAFT. */
+        bool is_long = false;
+        player *crafter; // This is mainly here for maintainability reasons.
+
+        std::vector<comp_selection<item_comp>> item_selections;
+        std::vector<comp_selection<tool_comp>> tool_selections;
 
         /** Checks if tools we selected in a previous call to execute() are still available. */
-        std::vector<item_selection> check_item_components_missing( const inventory &map_inv ) const;
+        std::vector<comp_selection<item_comp>>
+            check_item_components_missing( const inventory &map_inv ) const;
         /** Checks if items we selected in a previous call to execute() are still available. */
-        std::vector<tool_selection> check_tool_components_missing( const inventory &map_inv ) const;
+        std::vector<comp_selection<tool_comp>>
+            check_tool_components_missing( const inventory &map_inv ) const;
 
         /** Does a string join with ', ' of the components in the passed vector and inserts into 'str' */
         template<typename T = component>
-        void component_list_string( std::stringstream &str, const std::vector<comp_selection<T>> &components );
+        void component_list_string( std::stringstream &str,
+                                    const std::vector<comp_selection<T>> &components );
 
         /** Selects components to use */
         void select_components( inventory & map_inv );
 
         /** Creates a continue pop up asking to continue crafting and listing the missing components */
-        bool querry_continue( const std::vector<item_selection> &missing_items, const std::vector<tool_selection> &missing_tools );
+        bool query_continue( const std::vector<comp_selection<item_comp>> &missing_items,
+                             const std::vector<comp_selection<tool_comp>> &missing_tools );
 };
 
 // removes any (removable) ammo from the item and stores it in the

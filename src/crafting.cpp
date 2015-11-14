@@ -752,8 +752,9 @@ const recipe *select_crafting_recipe( int &batch_size )
             nc_color col = (available[line] ? c_white : c_ltgray);
             ypos = 0;
 
-            component_print_buffer = current[line]->requirements.get_folded_components_list( FULL_SCREEN_WIDTH - 30 - 1, col, crafting_inv, (batch) ? line + 1 : 1);
-            if(!g->u.knows_recipe( current[line] )) {
+            component_print_buffer = current[line]->requirements.get_folded_components_list(
+                FULL_SCREEN_WIDTH - 30 - 1, col, crafting_inv, (batch) ? line + 1 : 1 );
+            if( !g->u.knows_recipe( current[line] ) ) {
                 component_print_buffer.push_back(_("Recipe not memorized yet"));
             }
 
@@ -792,24 +793,27 @@ const recipe *select_crafting_recipe( int &batch_size )
                               // Macs don't seem to like passing this as a class, so force it to int
                               (int)g->u.skillLevel(current[line]->skill_used));
                 }
-                ypos += current[line]->print_time(w_data, ypos, 30, FULL_SCREEN_WIDTH - 30 - 1, col, (batch) ? line + 1 : 1);
+                ypos += current[line]->print_time( w_data, ypos, 30, FULL_SCREEN_WIDTH - 30 - 1, col,
+                                                   (batch) ? line + 1 : 1 );
                 ypos += current[line]->print_items(w_data, ypos, 30, col, (batch) ? line + 1 : 1);
             }
             if(display_mode == 0 || display_mode == 1) {
-                ypos += current[line]->requirements.print_tools(w_data, ypos, 30, FULL_SCREEN_WIDTH - 30 - 1, col, crafting_inv,
-                                                   (batch) ? line + 1 : 1);
+                ypos += current[line]->requirements.print_tools(
+                    w_data, ypos, 30, FULL_SCREEN_WIDTH - 30 - 1, col,
+                    crafting_inv, (batch) ? line + 1 : 1 );
             }
 
             //color needs to be preserved in case part of the previous page was cut off
             nc_color stored_color = col;
-            if(display_mode > 2){
+            if( display_mode > 2 ){
                 stored_color = rotated_color;
-            }else{
+            } else {
                 rotated_color = col;
             }
             int components_printed = 0;
-            for( size_t i = static_cast<size_t>( componentPrintOffset ); i < component_print_buffer.size(); i++ ){
-                if( ypos >= componentPrintHeight ){
+            for( size_t i = static_cast<size_t>( componentPrintOffset );
+                 i < component_print_buffer.size(); i++ ) {
+                if( ypos >= componentPrintHeight ) {
                     break;
                 }
 
@@ -817,7 +821,8 @@ const recipe *select_crafting_recipe( int &batch_size )
                 print_colored_text(w_data, ypos++, 30, stored_color, col, component_print_buffer[i]);
             }
 
-            if( ypos >= componentPrintHeight && component_print_buffer.size() > static_cast<size_t>( components_printed ) ){
+            if( ypos >= componentPrintHeight &&
+                component_print_buffer.size() > static_cast<size_t>( components_printed ) ) {
                 mvwprintz(w_data, ypos++, 30, col, _("v (more)"));
                 rotated_color = stored_color;
             }
@@ -1137,7 +1142,8 @@ int recipe::print_items(WINDOW *w, int ypos, int xpos, nc_color col, int batch) 
 void recipe::print_item(WINDOW *w, int ypos, int xpos, nc_color col, const byproduct &bp, int batch) const
 {
     item it(bp.result, calendar::turn, false);
-    std::string str = string_format(_("> %d %s"), (it.charges > 0) ? bp.amount : bp.amount * batch, it.tname().c_str());
+    std::string str = string_format( _("> %d %s"), (it.charges > 0) ? bp.amount : bp.amount * batch,
+                                     it.tname().c_str() );
     if (it.charges > 0) {
         str = string_format(_("%s (%d)"), str.c_str(), it.charges * bp.charges_mult * batch);
     }
@@ -1451,12 +1457,12 @@ void craft_command::execute()
     map_inv.form_from_map( crafter->pos3(), PICKUP_RANGE );
 
     if( has_cached_selections() ) {
-        std::vector<item_selection> missing_items = check_item_components_missing( map_inv );
-        std::vector<tool_selection> missing_tools = check_tool_components_missing( map_inv );
+        std::vector<comp_selection<item_comp>> missing_items = check_item_components_missing( map_inv );
+        std::vector<comp_selection<tool_comp>> missing_tools = check_tool_components_missing( map_inv );
 
         if( missing_items.empty() && missing_tools.empty() ) {
             need_selections = false; // all items we used previously are still there, so we don't need to do selection
-        } else if( !querry_continue( missing_items, missing_tools ) ) {
+        } else if( !query_continue( missing_items, missing_tools ) ) {
             return; // return if the response was 'No'.
         }
     }
@@ -1486,7 +1492,7 @@ void craft_command::component_list_string( std::stringstream &str, const std::ve
 void craft_command::select_components( inventory &map_inv )
 {
     for( const auto &it : rec->requirements.components ) {
-        item_selection is = crafter->select_item_component( it, batch_size, map_inv, true );
+        comp_selection<item_comp> is = crafter->select_item_component( it, batch_size, map_inv, true );
         if( is.use_from == cancel ) {
             return;
         }
@@ -1494,7 +1500,8 @@ void craft_command::select_components( inventory &map_inv )
     }
 
     for( const auto &it : rec->requirements.tools ) {
-        tool_selection ts = crafter->select_tool_component( it, batch_size, map_inv, DEFAULT_HOTKEYS, true );
+        comp_selection<tool_comp> ts = crafter->select_tool_component(
+            it, batch_size, map_inv, DEFAULT_HOTKEYS, true );
         if( ts.use_from == cancel ) {
             return;
         }
@@ -1502,8 +1509,8 @@ void craft_command::select_components( inventory &map_inv )
     }
 }
 
-bool craft_command::querry_continue( const std::vector<item_selection> &missing_items, const std::vector<tool_selection> &missing_tools )
-{
+bool craft_command::query_continue( const std::vector<comp_selection<item_comp>> &missing_items,
+                                    const std::vector<comp_selection<tool_comp>> &missing_tools ) {
     std::stringstream ss;
     ss << _( "Some components used previously are missing. Continue?" );
 
@@ -1526,8 +1533,7 @@ bool craft_command::querry_continue( const std::vector<item_selection> &missing_
     return selection == 1;
 }
 
-std::list<item> craft_command::consume_components()
-{
+std::list<item> craft_command::consume_components() {
     std::list<item> used;
 
     if( empty() ) {
@@ -1547,9 +1553,9 @@ std::list<item> craft_command::consume_components()
     return used;
 }
 
-std::vector<item_selection> craft_command::check_item_components_missing( const inventory &map_inv ) const
-{
-    std::vector<item_selection> missing;
+std::vector<comp_selection<item_comp>>
+craft_command::check_item_components_missing( const inventory &map_inv ) const {
+    std::vector<comp_selection<item_comp>> missing;
 
     for( const auto &item_sel : item_selections ) {
         itype_id type = item_sel.comp.type;
@@ -1604,9 +1610,9 @@ std::vector<item_selection> craft_command::check_item_components_missing( const 
     return missing;
 }
 
-std::vector<tool_selection> craft_command::check_tool_components_missing( const inventory &map_inv ) const
-{
-    std::vector<tool_selection> missing;
+std::vector<comp_selection<tool_comp>> craft_command::check_tool_components_missing(
+                                        const inventory &map_inv ) const {
+    std::vector<comp_selection<tool_comp>> missing;
 
     for( const auto &tool_sel : tool_selections ) {
         itype_id type = tool_sel.comp.type;
@@ -1636,8 +1642,7 @@ std::vector<tool_selection> craft_command::check_tool_components_missing( const 
     return missing;
 }
 
-item recipe::create_result() const
-{
+item recipe::create_result() const {
     item newit(result, calendar::turn, false);
     if (contained == true) {
         newit = newit.in_its_container();
@@ -1711,7 +1716,8 @@ bool recipe::has_byproducts() const
 
 // @param offset is the index of the created item in the range [0, batch_size-1],
 // it makes sure that the used items are distributed equally among the new items.
-void set_components( std::vector<item> &components, const std::list<item> &used, const int batch_size, const size_t offset )
+void set_components( std::vector<item> &components, const std::list<item> &used,
+                     const int batch_size, const size_t offset )
 {
     if( batch_size <= 1 ) {
         components.insert( components.begin(), used.begin(), used.end() );
@@ -1965,13 +1971,13 @@ void set_item_inventory(item &newit)
 }
 
 /* selection of component if a recipe requirement has multiple options (e.g. 'duct tap' or 'welder') */
-item_selection player::select_item_component(const std::vector<item_comp> &components, int batch, inventory &map_inv, bool can_cancel)
+comp_selection<item_comp> player::select_item_component(const std::vector<item_comp> &components, int batch, inventory &map_inv, bool can_cancel)
 {
     std::vector<item_comp> player_has;
     std::vector<item_comp> map_has;
     std::vector<item_comp> mixed;
 
-    item_selection selected;
+    comp_selection<item_comp> selected;
 
     for( const auto &component : components ) {
         itype_id type = component.type;
@@ -2068,7 +2074,7 @@ item_selection player::select_item_component(const std::vector<item_comp> &compo
     return selected;
 }
 
-std::list<item> player::consume_items(const item_selection &is, int batch) {
+std::list<item> player::consume_items(const comp_selection<item_comp> &is, int batch) {
     std::list<item> ret;
 
     if (has_trait("DEBUG_HS")) {
@@ -2120,17 +2126,17 @@ std::list<item> player::consume_items(const item_selection &is, int batch) {
 /* This call is in-efficient when doing it for multiple items with the same map inventory.
 In that case, consider using select_item_component with 1 pre-created map inventory, and then passing the results
 to consume_items */
-std::list<item> player::consume_items( const std::vector<item_comp> &components, int batch )
-{
+std::list<item> player::consume_items( const std::vector<item_comp> &components, int batch ) {
     inventory map_inv;
     map_inv.form_from_map(pos3(), PICKUP_RANGE);
     return consume_items( select_item_component( components, batch, map_inv ), batch );
 }
 
-tool_selection player::select_tool_component( const std::vector<tool_comp> &tools, int batch, inventory &map_inv, const std::string &hotkeys, bool can_cancel )
-{
+comp_selection<tool_comp>
+player::select_tool_component( const std::vector<tool_comp> &tools, int batch, inventory &map_inv,
+                               const std::string &hotkeys, bool can_cancel ) {
 
-    tool_selection selected;
+    comp_selection<tool_comp> selected;
 
     bool found_nocharge = false;
     std::vector<tool_comp> player_has;
@@ -2201,7 +2207,7 @@ tool_selection player::select_tool_component( const std::vector<tool_comp> &tool
 }
 
 /* we use this if we selected the tool earlier */
-void player::consume_tools(const tool_selection &tool, int batch) {
+void player::consume_tools(const comp_selection<tool_comp> &tool, int batch) {
     if (has_trait("DEBUG_HS")) {
         return;
     }
