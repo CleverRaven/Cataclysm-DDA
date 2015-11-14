@@ -349,12 +349,7 @@ ifdef TILES
   ifeq ($(TARGETSYSTEM),WINDOWS)
     ifndef DYNAMIC_LINKING
       # These differ depending on what SDL2 is configured to use.
-      ifneq (,$(findstring mingw32,$(CROSS)))
-      	# We need to add a few libraries for MXE cross-compile
-        LDFLAGS += -lfreetype -lwebp -lcomctl32 -lharfbuzz -lglib-2.0 -lws2_32 -lintl -lpng -lz -ljpeg -lbz2
-      else
-        LDFLAGS += -lfreetype -lpng -lz -ljpeg -lbz2
-      endif
+      LDFLAGS += -lfreetype -lpng -lz -ljpeg -lbz2
     else
       # Currently none needed by the game itself (only used by SDL2 layer).
       # Placeholder for future use (savegame compression, etc).
