@@ -25,6 +25,28 @@
     "count" : 100
    },
 {
+    "type" : "GENERIC",
+    "id" : "chunk_sulfur",
+    "category" : "spare_parts",
+    "price" : 50,
+    "name" : "chunk of sulfur",
+    "name_plural" : "chunks of sulfur",
+    "symbol" : "*",
+    "color" : "yellow",
+    "description" : "A large chunk of pure sulfur.  Break it up to use it.",
+    "material" : "powder",
+    "volume" : 5,
+    "weight" : 500,
+    "bashing" : 1,
+    "cutting" : 0,
+    "to_hit" : 0,
+    "ammo_type" : "components",
+    "damage" : 0,
+    "range" : 0,
+    "dispersion" : 0,
+    "recoil" : 0
+   },
+{
     "type" : "AMMO",
     "id" : "chem_aluminium_powder",
     "category" : "spare_parts",

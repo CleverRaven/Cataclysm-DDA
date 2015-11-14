@@ -225,11 +225,25 @@ void player::sort_armor()
 
     bool exit = false;
     while( !exit ) {
-        // totally hoisted this from advanced_inv
-        if( g->u.moves < 0 ) {
-            g->u.assign_activity( ACT_ARMOR_LAYERS, 0 );
-            g->u.activity.auto_resume = true;
-            return;
+        if( is_player() ) {
+            // Totally hoisted this from advanced_inv
+            if( g->u.moves < 0 ) {
+                g->u.assign_activity( ACT_ARMOR_LAYERS, 0 );
+                g->u.activity.auto_resume = true;
+                return;
+            }
+        } else {
+            // Player is sorting NPC's armor here
+            // TODO: Add all sorts of checks here, to prevent player from wasting NPC moves
+            if( rl_dist( g->u.pos(), pos() ) > 1 ) {
+                return;
+            }
+            if( attitude_to( g->u ) != Creature::A_FRIENDLY ) {
+                return;
+            }
+            if( moves < -200 ) {
+                return;
+            }
         }
         werase(w_sort_cat);
         werase(w_sort_left);
@@ -359,7 +373,17 @@ void player::sort_armor()
         wrefresh(w_sort_middle);
         wrefresh(w_sort_right);
 
+        // A set of actions that we can only execute if is_player() is true
+        static const std::set<std::string> not_allowed_npc = {{
+            "EQUIP_ARMOR", "REMOVE_ARMOR", "ASSIGN_INVLETS"
+        }};
+
         const std::string action = ctxt.handle_input();
+        if( !is_player() && not_allowed_npc.count( action ) > 0 ) {
+            popup( _("Can't use that action on an NPC") );
+            continue;
+        }
+
         if (action == "UP" && leftListSize > 0) {
             leftListIndex--;
             if (leftListIndex < 0) {

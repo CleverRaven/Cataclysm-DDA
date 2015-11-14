@@ -6872,6 +6872,26 @@
     ]
   ]
   },{
+
+  "type" : "recipe",
+  "result": "chem_sulphur",
+  "byproducts": { "id" : "chem_sulphur", "amount" : 4 },
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_PARTS",
+  "skill_used": "fabrication",
+  "difficulty": 1,
+  "time": 1000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities": [
+        {"id":"HAMMER","level":1,"amount":1}
+      ],
+  "components": [
+    [
+        [ "chunk_sulfur", 1 ]
+    ]
+  ]
+  },{
   "type" : "recipe",
   "result": "cured_hide",
   "category": "CC_OTHER",

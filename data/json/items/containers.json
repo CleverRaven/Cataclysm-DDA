@@ -181,7 +181,7 @@
         "color": "green",
         "name": "plastic canteen",
         "category": "other",
-        "description": "A large military-style water canteen, with a 1.5 liter capacity and carrying strap.",
+        "description": "A military-style water canteen with a 1.5 liter capacity.  Commonly worn at the hip.",
         "price": 800,
         "weight": 155,
         "volume": 6,
@@ -191,10 +191,10 @@
         "material": "plastic",
         "contains": 6,
         "armor_data" : {
-           "covers" : ["TORSO"],
+           "covers" : ["LEG_EITHER"],
            "coverage" : 5,
            "material_thickness" : 2,
-           "encumbrance" : 0,
+           "encumbrance" : 2,
            "warmth" : 0
         },
         "rigid": true,
@@ -374,10 +374,10 @@
         "material": "leather",
         "contains": 6,
         "armor_data" : {
-           "covers" : ["TORSO"],
+           "covers" : ["LEG_EITHER"],
            "coverage" : 5,
            "material_thickness" : 2,
-           "encumbrance" : 0,
+           "encumbrance" : 3,
            "warmth" : 0
         },
         "watertight": true,
@@ -597,7 +597,7 @@
         "material": "aluminum",
         "contains": 1,
         "armor_data" : {
-            "covers" : ["TORSO"],
+            "covers" : ["LEG_EITHER"],
             "coverage" : 2,
             "material_thickness" : 1,
             "encumbrance" : 0,
