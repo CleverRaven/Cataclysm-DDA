@@ -5755,7 +5755,12 @@ void map::draw( WINDOW* w, const tripoint &center )
     int &x = p.x;
     int &y = p.y;
     for( y = center.y - getmaxy(w) / 2; y <= center.y + getmaxy(w) / 2; y++ ) {
+        if( y - center.y + getmaxy(w) / 2 >= getmaxy(w) ){
+            continue;
+        }
+
         wmove( w, y - center.y + getmaxy(w) / 2, 0 );
+
         if( y < 0 || y >= MAPSIZE * SEEY ) {
             for( int x = 0; x < getmaxx(w); x++ ) {
                 wputch( w, c_black, ' ' );
@@ -5771,7 +5776,8 @@ void map::draw( WINDOW* w, const tripoint &center )
 
         int lx;
         int ly;
-        const int maxx = std::min( MAPSIZE * SEEX, center.x + getmaxx(w) / 2 + 1 );
+        const int maxxrender = center.x - getmaxx(w) / 2 + getmaxx(w);
+        const int maxx = std::min( MAPSIZE * SEEX, maxxrender );
         while( x < maxx ) {
             submap *cur_submap = get_submap_at( p, lx, ly );
             submap *sm_below = p.z > -OVERMAP_DEPTH ?
@@ -5798,7 +5804,7 @@ void map::draw( WINDOW* w, const tripoint &center )
             }
         }
 
-        while( x <= center.x + getmaxx(w) / 2 ) {
+        while( x < maxxrender ) {
             wputch( w, c_black, ' ' );
             x++;
         }
