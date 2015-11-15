@@ -5,6 +5,7 @@
 #include <vector>
 #include <map>
 #include <list>
+#include <functional>
 
 struct recipe;
 using itype_id = std::string; // From itype.h
@@ -47,6 +48,12 @@ class recipe_dictionary
         std::list<recipe *>::const_iterator end() const {
             return recipes.end();
         }
+
+        /**
+         * Goes over all recipes and calls the predicate, if it returns true, the recipe
+         * is removed *and* deleted.
+         */
+        void delete_if( const std::function<bool(recipe &)> &pred );
 
     private:
         std::list<recipe *> recipes;
