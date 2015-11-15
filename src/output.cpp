@@ -1721,7 +1721,7 @@ std::string string_format(std::string pattern, ...)
     return result;
 }
 
-std::string replace_name_tags(std::string input)
+void replace_name_tags(std::string & input)
 {
     // these need to replace each tag with a new randomly generated name
     while (input.find("<full_name>") != std::string::npos) {
@@ -1733,13 +1733,11 @@ std::string replace_name_tags(std::string input)
     while (input.find("<given_name>") != std::string::npos) {
         replace_substring(input, "<given_name>", NameGenerator::generator().getName(nameIsGivenName), false );
     }
-    return input;
 }
 
-std::string replace_city_tag(std::string input, std::string name)
+void replace_city_tag(std::string & input, const std::string & name)
 {
     replace_substring(input, "<city>", name, true);
-    return input;
 }
 
 void replace_substring(std::string & input, const std::string & substring, const std::string & replacement, bool all)

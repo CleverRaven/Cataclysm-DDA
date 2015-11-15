@@ -689,10 +689,10 @@ public:
         }
         m.set_signage( tripoint( rx, ry, m.get_abs_sub().z ), signtext );
     }
-    std::string apply_all_tags(std::string signtext, std::string cityname) const
+    std::string apply_all_tags(std::string signtext, const std::string & cityname) const
     {
-        signtext = replace_city_tag(signtext, cityname);
-        signtext = replace_name_tags(signtext);
+        replace_city_tag(signtext, cityname);
+        replace_name_tags(signtext);
         return signtext;
     }
 };
