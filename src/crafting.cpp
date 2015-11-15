@@ -893,13 +893,14 @@ static void draw_recipe_tabs(WINDOW *w, std::string tab, TAB_MODE mode)
     mvwputch(w, 2, width - 1, BORDER_COLOR, LINE_OOXX); // ^|
 
     // Draw a "can craft" indicator
-    mvwprintz(w, 0, width - utf8_width(_("Can Craft:")), c_ltgray, _("Can Craft:"));//
-    bool al = g->u.fine_detail_vision_mod() <= 4;
-    bool am = g->u.morale_level() >= MIN_MORALE_CRAFT;
-    int tmpwidth = width - 1 - utf8_width("L/M");
-    mvwprintz(w, 1, tmpwidth, (al ? c_green : c_red)  , "L");
-    mvwprintz(w, 1, tmpwidth + utf8_width("L"), c_ltgray, "/");
-    mvwprintz(w, 1, tmpwidth + utf8_width("L/"), (am ? c_green : c_red)  , "M");
+    mvwprintz(w, 0, width - utf8_width(_("Can Craft:")), c_ltgray, _("Can Craft:"));
+    if( g->u.fine_detail_vision_mod() > 4 ) {
+        mvwprintz(w, 1, utf8_width( _( "too dark" ) ),  c_red  , _( "too dark" ));
+    } else if( g->u.morale_level() < MIN_MORALE_CRAFT ) {
+        mvwprintz(w, 1, utf8_width( _( "too sad" ) ),  c_red  , _( "too sad" ));
+    } else {
+        mvwprintz(w, 1, utf8_width( _( "yes" ) ),  c_green  , _( "yes" ));
+    }
 
     switch (mode) {
     case NORMAL:
