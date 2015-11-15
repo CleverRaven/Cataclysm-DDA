@@ -10885,8 +10885,8 @@ void game::plfire( bool burst, const tripoint &default_target )
             }
         }
 
-        std::vector<std::string> options;
-        std::vector<std::function<void()>> actions;
+        std::vector<std::string> options(1, _("Cancel"));
+        std::vector<std::function<void()>> actions(1, []{});
 
         for (auto &w : u.worn) {
             if (w.type->can_use("holster") && !w.has_flag("NO_QUICKDRAW") &&
@@ -10906,9 +10906,7 @@ void game::plfire( bool burst, const tripoint &default_target )
             }
         }
 
-        if (options.size() == 1) {
-            actions[0]();
-        } else if (options.size() > 1) {
+        if (options.size() > 1) {
             actions[(uimenu(false, _("Draw what?"), options)) - 1]();
         }
     }
