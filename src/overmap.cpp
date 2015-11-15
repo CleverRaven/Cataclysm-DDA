@@ -4369,21 +4369,6 @@ void overmap::add_mon_group(const mongroup &group)
     DebugLog( D_ERROR, D_GAME ) << group.type.str() << ": " << group.population << " => " << xpop;
 }
 
-const city& overmap::nearest_city(int x, int y)
-{
-    // note: cities (the structure) do not cross overmaps
-    int nearest = -1;
-    int min = 999;
-    for (int i = 0; i < cities.size(); i++) {
-        int distance = rl_dist(cities[i].x, cities[i].y, x, y);
-        min = std::min(min, distance);
-        if (distance == min) {
-            nearest = i;
-        }
-    }
-    return cities[nearest];
-}
-
 const point overmap::invalid_point = point(INT_MIN, INT_MIN);
 const tripoint overmap::invalid_tripoint = tripoint(INT_MIN, INT_MIN, INT_MIN);
 //oter_id overmap::nulloter = "";

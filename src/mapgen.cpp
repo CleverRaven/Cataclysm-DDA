@@ -656,6 +656,9 @@ public:
     , signage( jsi.get_string( "signage", "" ) )
     , snippet( jsi.get_string( "snippet", "" ) )
     {
+        if (signage.empty() && snippet.empty()) {
+            jsi.throw_error("jmapgen_sign: needs either signage or snippet");
+        }
     }
     void apply( map &m, const jmapgen_int &x, const jmapgen_int &y, const float /*mon_density*/ ) const override
     {
@@ -665,7 +668,6 @@ public:
         m.furn_set( rx, ry, "f_sign" );
 
         tripoint abs_sub = m.get_abs_sub();
-        tripoint abs_omt = overmap_buffer.sm_to_omt_copy(abs_sub);
 
         std::string signtext;
 
@@ -674,16 +676,16 @@ public:
             signtext = SNIPPET.get( SNIPPET.assign( snippet ) );
         } else if( !signage.empty() ) {
             signtext = signage;
-        } else {
-            // throw some sort of error
-            debugmsg("jmapgen_sign with no signage or snippet defined");
-            return;
         }
         if (!signtext.empty() ) {
             // replace tags
             signtext = _( signtext.c_str() );
 
-            signtext = apply_all_tags(signtext, overmap_buffer.get_existing_om_global(abs_omt)->nearest_city(abs_omt.x, abs_omt.y).name);
+            std::string cityname = "illegible city name";
+            if (overmap_buffer.closest_city(abs_sub).city != nullptr) {
+                cityname = overmap_buffer.closest_city(abs_sub).city->name;
+            }
+            signtext = apply_all_tags(signtext, cityname);
         }
         m.set_signage( tripoint( rx, ry, m.get_abs_sub().z ), signtext );
     }

@@ -1721,61 +1721,35 @@ std::string string_format(std::string pattern, ...)
     return result;
 }
 
-std::string replace_given_name_tag(std::string input)
-{
-    size_t offset = input.find("<given_name>");
-    while (offset != std::string::npos) {
-        input.replace(offset, 12, NameGenerator::generator().getName(nameIsGivenName));
-        // capitalize the first letter of the name
-        capitalize_letter(input, offset);
-        offset = input.find("<given_name>");
-    }
-    return input;
-}
-
-std::string replace_family_name_tag(std::string input)
-{
-    size_t offset = input.find("<family_name>");
-    while (offset != std::string::npos) {
-        input.replace(offset, 13, NameGenerator::generator().getName(nameIsFamilyName));
-        // capitalize the first letter of the name
-        capitalize_letter(input, offset);
-        offset = input.find("<family_name>");
-    }
-    return input;
-}
-
-std::string replace_full_name_tag(std::string input)
-{
-    size_t offset = input.find("<full_name>");
-    while (offset != std::string::npos) {
-        input.replace(offset, 11, NameGenerator::generator().getName(nameIsFullName));
-        // capitalize the first letter of the name
-        capitalize_letter(input, offset);
-        offset = input.find("<full_name>");
-    }
-    return input;
-}
-
 std::string replace_name_tags(std::string input)
 {
-    input = replace_full_name_tag(input);
-    input = replace_family_name_tag(input);
-    input = replace_given_name_tag(input);
+    while (input.find("<full_name>") != std::string::npos) {
+        replace_substring(input, "<full_name>", NameGenerator::generator().getName(nameIsFullName) );
+    }
+    while (input.find("<family_name>") != std::string::npos) {
+        replace_substring(input, "<family_name>", NameGenerator::generator().getName(nameIsFamilyName) );
+    }
+    while (input.find("<given_name>") != std::string::npos) {
+        replace_substring(input, "<given_name>", NameGenerator::generator().getName(nameIsGivenName) );
+    }
     return input;
 }
 
 std::string replace_city_tag(std::string input, std::string name)
 {
-    size_t offset = input.find("<city>");
-    while (offset != std::string::npos) {
-        input.replace(offset, 6, name);
-        // capitalize the first letter of the city
-        capitalize_letter(input, offset);
-
-        offset = input.find("<city>");
+    while (input.find("<city>") != std::string::npos) {
+        replace_substring(input, "<city>", name);
     }
     return input;
+}
+
+// NOTE: this will only replace the first occurrence of the substring.
+void replace_substring(std::string & input, const std::string & substring, const std::string & replacement)
+{
+    size_t len = substring.length();
+    size_t offset = input.find(substring);
+
+    input.replace(offset, len, replacement);
 }
 
 //wrap if for i18n
