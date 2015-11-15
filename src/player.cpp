@@ -10231,8 +10231,9 @@ void player::consume_effects(item *eaten, const it_comest *comest, bool rotten)
     thirst -= comest->quench * factor;
     mod_stomach_food(nutrition_for(comest) * factor * hunger_factor);
     mod_stomach_water(comest->quench * factor);
-    if (unhealthy_allowed || comest->healthy > 0) {
-        mod_healthy_mod(comest->healthy, 5 * comest->healthy);
+    if( unhealthy_allowed || comest->healthy > 0 ) {
+        // Effectively no upper cap on healthy food, moderate cap on unhealthy food.
+        mod_healthy_mod( comest->healthy, (comest->healthy > 0) ? 200 : -50 );
     }
 
     if (comest->stim != 0) {
@@ -10265,16 +10266,16 @@ void player::consume_effects(item *eaten, const it_comest *comest, bool rotten)
             add_morale(MORALE_FOOD_GOOD, fun * 3, fun * 6, 60, 30, false, comest);
         }
         if (has_trait("GOURMAND") && !(has_active_mutation("HIBERNATE"))) {
-        if ((nutrition_for(comest) > 0 && get_hunger() < -60) || (comest->quench > 0 && thirst < -60)) {
-            add_msg_if_player(_("You can't finish it all!"));
+            if ((nutrition_for(comest) > 0 && get_hunger() < -60) || (comest->quench > 0 && thirst < -60)) {
+                add_msg_if_player(_("You can't finish it all!"));
+            }
+            if (get_hunger() < -60) {
+                set_hunger(-60);
+            }
+            if (thirst < -60) {
+                thirst = -60;
+            }
         }
-        if (get_hunger() < -60) {
-            set_hunger(-60);
-        }
-        if (thirst < -60) {
-            thirst = -60;
-        }
-    }
     } if (has_active_mutation("HIBERNATE")) {
          if ((nutrition_for(comest) > 0 && get_hunger() < -60) || (comest->quench > 0 && thirst < -60)) { //Tell the player what's going on
             add_msg_if_player(_("You gorge yourself, preparing to hibernate."));
@@ -12201,10 +12202,6 @@ int player::sleep_spot( const tripoint &p ) const
         // so it's OK for the value to be that much higher
         sleepy += 24;
     }
-    if (has_effect("meth")) {
-        // Sleep ain't happening until that meth wears off completely.
-        sleepy -= 999;
-    }
     if (has_trait("CHLOROMORPH")) {
         plantsleep = true;
     }
@@ -12309,9 +12306,13 @@ int player::sleep_spot( const tripoint &p ) const
 
 bool player::can_sleep()
 {
+    if( has_effect( "meth" ) ) {
+        // Sleep ain't happening until that meth wears off completely.
+        return false;
+    }
     int sleepy = sleep_spot( pos3() );
-    sleepy += rng(-8, 8);
-    if (sleepy > 0) {
+    sleepy += rng( -8, 8 );
+    if( sleepy > 0 ) {
         return true;
     }
     return false;

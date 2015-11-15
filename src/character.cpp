@@ -70,13 +70,6 @@ void Character::mod_stat( const std::string &stat, int modifier )
         mod_int_bonus( modifier );
     } else if( stat == "healthy" ) {
         mod_healthy( modifier );
-    } else if( stat == "healthy_mod" ) {
-        debugmsg("mod_stat should not be used for healthy_mod");
-        if (modifier < 0) {
-            mod_healthy_mod( modifier, -200 );
-        } else {
-            mod_healthy_mod( modifier, 200 );
-        }
     } else if( stat == "hunger" ) {
         mod_hunger( modifier );
     } else if( stat == "speed" ) {
@@ -1075,8 +1068,9 @@ void Character::mod_healthy_mod(int nhealthy_mod, int cap)
     // Cap indicates how far the mod is allowed to shift in this direction.
     // It can have a different sign to the mod, e.g. for items that treat
     // extremely low health, but can't make you healthy.
-    int low_cap, high_cap;
-    if (nhealthy_mod < 0) {
+    int low_cap;
+    int high_cap;
+    if( nhealthy_mod < 0 ) {
         low_cap = cap;
         high_cap = 200;
     } else {
@@ -1085,7 +1079,8 @@ void Character::mod_healthy_mod(int nhealthy_mod, int cap)
     }
 
     // If we're already out-of-bounds, we don't need to do anything.
-    if (healthy_mod <= low_cap || healthy_mod >= high_cap) {
+    if( (healthy_mod <= low_cap && nhealthy_mod < 0) ||
+        (healthy_mod >= high_cap && nhealthy_mod > 0) ) {
         return;
     }
 
@@ -1093,11 +1088,8 @@ void Character::mod_healthy_mod(int nhealthy_mod, int cap)
 
     // Since we already bailed out if we were out-of-bounds, we can
     // just clamp to the boundaries here.
-    if (healthy_mod < low_cap) {
-        healthy_mod = low_cap;
-    } else if (healthy_mod > high_cap) {
-        healthy_mod = high_cap;
-    }
+    healthy_mod = std::min( healthy_mod, high_cap );
+    healthy_mod = std::max( healthy_mod, low_cap );
 }
 
 int Character::get_hunger() const
