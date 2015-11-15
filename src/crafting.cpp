@@ -881,6 +881,21 @@ const recipe *select_crafting_recipe( int &batch_size )
     return chosen;
 }
 
+// Anchors top-right
+static void draw_indicator(WINDOW *w, int window_width, int margin_x, int margin_y)
+{
+    int x_align = window_width - margin_x;
+    // Draw text
+    mvwprintz(w, margin_y, x_align - utf8_width(_("can craft:")), i_ltgray, _("can craft:"));
+    if( g->u.fine_detail_vision_mod() > 4 ) {
+        mvwprintz(w, margin_y + 1, x_align - 1 - utf8_width( _( "too dark" ) ),  i_red  , _( "too dark" ));
+    } else if( g->u.morale_level() < MIN_MORALE_CRAFT ) {
+        mvwprintz(w, margin_y + 1, x_align - 1 - utf8_width( _( "too sad" ) ),  i_red  , _( "too sad" ));
+    } else {
+        mvwprintz(w, margin_y + 1, x_align - 1 - utf8_width( _( "yes" ) ),  i_green  , _( "yes" ));
+    }
+}
+
 static void draw_recipe_tabs(WINDOW *w, std::string tab, TAB_MODE mode)
 {
     werase(w);
@@ -893,14 +908,7 @@ static void draw_recipe_tabs(WINDOW *w, std::string tab, TAB_MODE mode)
     mvwputch(w, 2, width - 1, BORDER_COLOR, LINE_OOXX); // ^|
 
     // Draw a "can craft" indicator
-    mvwprintz(w, 0, width - utf8_width(_("Can Craft:")), c_ltgray, _("Can Craft:"));
-    if( g->u.fine_detail_vision_mod() > 4 ) {
-        mvwprintz(w, 1, utf8_width( _( "too dark" ) ),  c_red  , _( "too dark" ));
-    } else if( g->u.morale_level() < MIN_MORALE_CRAFT ) {
-        mvwprintz(w, 1, utf8_width( _( "too sad" ) ),  c_red  , _( "too sad" ));
-    } else {
-        mvwprintz(w, 1, utf8_width( _( "yes" ) ),  c_green  , _( "yes" ));
-    }
+    draw_indicator(w, width, 1, 0);
 
     switch (mode) {
     case NORMAL:
