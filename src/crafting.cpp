@@ -11,7 +11,6 @@
 #include "crafting.h"
 #include "recipe_dictionary.h"
 #include "inventory.h"
-#include "catacharset.h"
 #include "messages.h"
 #include "itype.h"
 #include "rng.h"
