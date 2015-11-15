@@ -219,6 +219,8 @@ endif
 ifeq ($(NATIVE), win32)
 # Any reason not to use -m32 on MinGW32?
   TARGETSYSTEM=WINDOWS
+  # Fix for MinGW bug http://ehc.ac/p/mingw/bugs/2250/
+  CXXFLAGS += -D__NO_INLINE__
 else
   # Win64 (MinGW-w64? 64bit isn't currently working.)
   ifeq ($(NATIVE), win64)
@@ -349,7 +351,11 @@ ifdef TILES
   ifeq ($(TARGETSYSTEM),WINDOWS)
     ifndef DYNAMIC_LINKING
       # These differ depending on what SDL2 is configured to use.
-      LDFLAGS += -lfreetype -lpng -lz -ljpeg -lbz2
+      ifeq ($(NATIVE), win32) # MinGW
+        LDFLAGS += -lfreetype
+      else
+        LDFLAGS += -lfreetype -lpng -lz -ljpeg -lbz2
+      endif
     else
       # Currently none needed by the game itself (only used by SDL2 layer).
       # Placeholder for future use (savegame compression, etc).
@@ -373,7 +379,11 @@ else
     CXXFLAGS += $(shell ncursesw5-config --cflags)
     LDFLAGS += $(shell ncursesw5-config --libs)
   else
-    LDFLAGS += -lncurses
+    ifeq ($(NATIVE), win32) # MinGW
+      LDFLAGS += -lncursesw -lpsapi
+    else
+      LDFLAGS += -lncurses
+    endif
   endif
 endif
 
