@@ -25,6 +25,19 @@ void recipe_dictionary::remove( recipe *rec )
     cat_vec.erase( std::remove( cat_vec.begin(), cat_vec.end(), rec ), cat_vec.end() );
 }
 
+void recipe_dictionary::delete_if( const std::function<bool(recipe &)> &pred )
+{
+    for( auto iter = recipes.begin(); iter != recipes.end(); ) {
+        recipe * const r = *iter;
+        // Already moving to the next, so we can erase the recipe without invalidating `iter`.
+        ++iter;
+        if( pred( *r ) ) {
+            remove( r );
+            delete r;
+        }
+    }
+}
+
 void recipe_dictionary::add_to_component_lookup( recipe *r )
 {
     std::unordered_set<itype_id> counted;

@@ -74,15 +74,9 @@ void Item_factory::finialize_item_blacklist()
         for( auto &elem : m_template_groups ) {
             elem.second->remove_item( itm );
         }
-        for( size_t c = 0; c < recipe_dict.size(); c++ ) {
-            recipe *r = recipe_dict[c];
-            if( r->result == itm || r->requirements.remove_item(itm) ) {
-                recipe_dict.remove( r );
-                delete r;
-                c--;
-                continue;
-            }
-        }
+        recipe_dict.delete_if( [&]( recipe &r ) {
+            return r.result == itm || r.requirements.remove_item( itm );
+        } );
 
         remove_construction_if([&](construction &c) {
             return c.requirements.remove_item(itm);
