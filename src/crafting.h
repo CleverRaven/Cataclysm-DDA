@@ -178,7 +178,8 @@ class craft_command {
         bool query_continue( const std::vector<comp_selection<item_comp>> &missing_items,
                              const std::vector<comp_selection<tool_comp>> &missing_tools );
 };
-
+extern std::vector<std::string> craft_cat_list;
+extern std::map<std::string, std::vector<std::string> > craft_subcat_list;
 extern recipe_dictionary recipe_dict;
 
 // removes any (removable) ammo from the item and stores it in the
