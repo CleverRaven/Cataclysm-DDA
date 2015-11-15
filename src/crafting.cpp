@@ -891,10 +891,15 @@ static void draw_recipe_tabs(WINDOW *w, std::string tab, TAB_MODE mode)
 
     mvwputch(w, 2,  0, BORDER_COLOR, LINE_OXXO); // |^
     mvwputch(w, 2, width - 1, BORDER_COLOR, LINE_OOXX); // ^|
-    mvwprintz(w, 0, width - utf8_width(_("Lighting:")), c_ltgray, _("Lighting:"));//Lighting info
 
-    auto ll = get_light_level(g->u.fine_detail_vision_mod());
-    mvwprintz(w, 1, width - 1 - utf8_width(ll.first), ll.second, ll.first.c_str());
+    // Draw a "can craft" indicator
+    mvwprintz(w, 0, width - utf8_width(_("Can Craft:")), c_ltgray, _("Can Craft:"));//
+    bool al = g->u.fine_detail_vision_mod() <= 4;
+    bool am = g->u.morale_level() >= MIN_MORALE_CRAFT;
+    int tmpwidth = width - 1 - utf8_width("L/M");
+    mvwprintz(w, 1, tmpwidth, (al ? c_green : c_red)  , "L");
+    mvwprintz(w, 1, tmpwidth + utf8_width("L"), c_ltgray, "/");
+    mvwprintz(w, 1, tmpwidth + utf8_width("L/"), (am ? c_green : c_red)  , "M");
 
     switch (mode) {
     case NORMAL:
