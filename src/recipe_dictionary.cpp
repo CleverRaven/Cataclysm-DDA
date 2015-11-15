@@ -20,7 +20,9 @@ void recipe_dictionary::remove( recipe *rec )
     remove_from_component_lookup( rec );
     by_name.erase( rec->ident );
     by_index.erase( rec->id );
-    by_category.erase( rec->cat );
+    // Terse name for category vector since it's repeated so many times.
+    auto &cat_vec = by_category[rec->cat];
+    cat_vec.erase( std::remove( cat_vec.begin(), cat_vec.end(), rec ), cat_vec.end() );
 }
 
 void recipe_dictionary::add_to_component_lookup( recipe *r )
