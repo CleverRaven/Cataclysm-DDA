@@ -511,13 +511,7 @@ class Creature
          */
         inline std::string replace_with_npc_name(std::string input, std::string name) const
         {
-            size_t offset = input.find("<npcname>");
-            while (offset != std::string::npos) {
-                input.replace(offset, 9, name);
-                // capitalize the first letter of the name
-                capitalize_letter(input, offset);
-                offset = input.find("<npcname>");
-            }
+            replace_substring(input, "<npcname>", name, true);
             return input;
         }
 

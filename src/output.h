@@ -323,7 +323,7 @@ std::string vstring_format(std::string const &pattern, va_list argptr);
 std::string replace_name_tags(std::string input);
 std::string replace_city_tag(std::string input, std::string name);
 
-void replace_substring(std::string & input, const std::string & substring, const std::string & replacement);
+void replace_substring(std::string & input, const std::string & substring, const std::string & replacement, bool all);
 
 std::string &capitalize_letter(std::string &pattern, size_t n = 0);
 std::string rm_prefix(std::string str, char c1 = '<', char c2 = '>');

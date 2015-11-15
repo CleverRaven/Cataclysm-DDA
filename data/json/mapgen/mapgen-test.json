@@ -8,6 +8,10 @@
         "category" : "mapgen_test",
         "text": "Snippets should also support tags like <full_name>, <given_name>, <family_name>, and <city>"
     },{
+        "type" : "snippet",
+        "category" : "mapgen_test",
+        "text": "This should repeat the same city several times: <city>, <city>, <city>"
+    },{
         "//": "This is a test mapgen definition.",
         "//": "Its contents make no sense, it is supposed to use all the available mapgen possibilities.",
         "type" : "overmap_terrain",

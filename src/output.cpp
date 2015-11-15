@@ -1723,33 +1723,36 @@ std::string string_format(std::string pattern, ...)
 
 std::string replace_name_tags(std::string input)
 {
+    // these need to replace each tag with a new randomly generated name
     while (input.find("<full_name>") != std::string::npos) {
-        replace_substring(input, "<full_name>", NameGenerator::generator().getName(nameIsFullName) );
+        replace_substring(input, "<full_name>", NameGenerator::generator().getName(nameIsFullName), false );
     }
     while (input.find("<family_name>") != std::string::npos) {
-        replace_substring(input, "<family_name>", NameGenerator::generator().getName(nameIsFamilyName) );
+        replace_substring(input, "<family_name>", NameGenerator::generator().getName(nameIsFamilyName), false );
     }
     while (input.find("<given_name>") != std::string::npos) {
-        replace_substring(input, "<given_name>", NameGenerator::generator().getName(nameIsGivenName) );
+        replace_substring(input, "<given_name>", NameGenerator::generator().getName(nameIsGivenName), false );
     }
     return input;
 }
 
 std::string replace_city_tag(std::string input, std::string name)
 {
-    while (input.find("<city>") != std::string::npos) {
-        replace_substring(input, "<city>", name);
-    }
+    replace_substring(input, "<city>", name, true);
     return input;
 }
 
-// NOTE: this will only replace the first occurrence of the substring.
-void replace_substring(std::string & input, const std::string & substring, const std::string & replacement)
+void replace_substring(std::string & input, const std::string & substring, const std::string & replacement, bool all)
 {
-    size_t len = substring.length();
-    size_t offset = input.find(substring);
-
-    input.replace(offset, len, replacement);
+    if (all) {
+        while (input.find(substring) != std::string::npos) {
+            replace_substring(input, substring, replacement, false);
+        }
+    } else {
+        size_t len = substring.length();
+        size_t offset = input.find(substring);
+        input.replace(offset, len, replacement);
+    }
 }
 
 //wrap if for i18n
