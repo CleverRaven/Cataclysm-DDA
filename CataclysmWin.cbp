@@ -540,6 +540,8 @@
 		<Unit filename="src/profession.cpp" />
 		<Unit filename="src/profession.h" />
 		<Unit filename="src/ranged.cpp" />
+		<Unit filename="src/recipe_dictionary.cpp" />
+		<Unit filename="src/recipe_dictionary.h" />
 		<Unit filename="src/requirements.cpp" />
 		<Unit filename="src/requirements.h" />
 		<Unit filename="src/resource.rc">

@@ -5,6 +5,7 @@
 #include "translations.h"
 #include "item_group.h"
 #include "crafting.h"
+#include "recipe_dictionary.h"
 #include "iuse_actor.h"
 #include "item.h"
 #include "mapdata.h"
