@@ -483,6 +483,8 @@ $(ODIR)/%.o: $(SRC_DIR)/%.rc
 
 src/version.h: version
 
+src/version.cpp: src/version.h
+
 $(LUASRC_DIR)/catabindings.cpp: $(LUA_DIR)/class_definitions.lua $(LUASRC_DIR)/generate_bindings.lua
 	cd $(LUASRC_DIR) && $(LUA_BINARY) generate_bindings.lua
 
