@@ -6679,7 +6679,7 @@ int iuse::holster_gun(player *p, item *it, bool, const tripoint& )
             }
 
             p->add_msg_if_player(message.c_str(), gun.tname().c_str(), it->tname().c_str());
-            p->wield_contents(it, true, t_gun->skill_used, 13);
+            p->wield_contents(it, 0, 13);
         }
     }
     return it->type->charges_to_use();
@@ -6737,7 +6737,7 @@ int iuse::sheath_knife(player *p, item *it, bool, const tripoint& )
         // else unsheathe a sheathed weapon and have the player wield it
     } else {
         if (!p->is_armed() || p->wield(NULL)) {
-            p->wield_contents(it, true, skill_cutting, 13);
+            p->wield_contents(it, 0, 13);
 
             int lvl = p->skillLevel( skill_cutting );
             std::string message;
@@ -6803,7 +6803,7 @@ int iuse::sheath_sword(player *p, item *it, bool, const tripoint& )
     } else {
         if (!p->is_armed() || p->wield(NULL)) {
             int lvl = p->skillLevel( skill_cutting );
-            p->wield_contents(it, true, skill_cutting, 13);
+            p->wield_contents(it, 0, 13);
 
             // in order to perform iaijutsu, have to pass a roll based on level
             bool iaijutsu =

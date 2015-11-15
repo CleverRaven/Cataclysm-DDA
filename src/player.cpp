@@ -10311,6 +10311,23 @@ void player::rooted()
     }
 }
 
+bool player::can_wield(const item& it, bool interactive) const
+{
+    if ( it.is_two_handed(*this) && !has_two_arms() ) {
+        if (it.has_flag("ALWAYS_TWOHAND")) {
+            if (interactive) {
+                add_msg(m_info, _("The %s can't be wielded with only one arm."), it.tname().c_str());
+            }
+        } else {
+            if (interactive) {
+                add_msg(m_info, _("You are too weak to wield %s with only one arm."), it.tname().c_str());
+            }
+        }
+        return false;
+    }
+    return true;
+}
+
 bool player::wield(item* it, bool autodrop)
 {
     if (weapon.has_flag("NO_UNWIELD")) {
@@ -10345,54 +10362,37 @@ bool player::wield(item* it, bool autodrop)
         return false;
     }
 
-    if ( it->is_two_handed(*this) && !has_two_arms() ) {
-        if (it->has_flag("ALWAYS_TWOHAND")) {
-            add_msg(m_info, _("The %s can't be wielded with only one arm."),
-                it->tname().c_str());
-                return false;
+    if (!can_wield(*it)) {
+        return false;
+    }
+
+    int mv = 0;
+
+    if (is_armed()) {
+        if (volume_carried() + weapon.volume() - it->volume() < volume_capacity()) {
+            inv.add_item_keep_invlet(remove_weapon());
+            mv += 15;
+        } else if (query_yn(_("No space in inventory for your %s.  Drop it?"), weapon.tname().c_str())) {
+            g->m.add_item_or_charges(posx(), posy(), remove_weapon());
         } else {
-        add_msg(m_info, _("You are too weak to wield %s with only one arm."),
-                it->tname().c_str());
-                return false;
+            return false;
         }
+        inv.unsort();
     }
 
-    if (!is_armed()) {
-        if (is_wearing_item(*it)) {
-            it->on_takeoff(*this);
-        }
-        weapon = i_rem(it);
-        moves -= 30;
-        weapon.on_wield( *this );
-        last_item = itype_id(weapon.type->id);
-        return true;
-    } else if (volume_carried() + weapon.volume() - it->volume() < volume_capacity()) {
-        item tmpweap = remove_weapon();
-        if (is_wearing_item(*it)) {
-            it->on_takeoff(*this);
-        }
-        weapon = i_rem(it);
-        inv.add_item_keep_invlet(tmpweap);
-        inv.unsort();
-        moves -= 45;
-        weapon.on_wield( *this );
-        last_item = itype_id(weapon.type->id);
-        return true;
-    } else if (query_yn(_("No space in inventory for your %s.  Drop it?"),
-                        weapon.tname().c_str())) {
-        g->m.add_item_or_charges(posx(), posy(), remove_weapon());
-        if (is_wearing_item(*it)) {
-            it->on_takeoff(*this);
-        }
-        weapon = i_rem(it);
-        inv.unsort();
-        moves -= 30;
-        weapon.on_wield( *this );
-        last_item = itype_id(weapon.type->id);
-        return true;
+    if (is_wearing_item(*it)) {
+        it->on_takeoff(*this);
     }
 
-    return false;
+    mv += 30;
+    moves -= mv;
+
+    weapon = i_rem(it);
+    last_item = itype_id(weapon.type->id);
+
+    weapon.on_wield(*this, mv);
+
+    return true;
 }
 
 // ids of martial art styles that are available with the bio_cqb bionic.
@@ -13425,17 +13425,57 @@ std::string player::weapname(bool charges) const
     }
 }
 
-void player::wield_contents(item *container, bool force_invlet,
-                            const skill_id &/*skill_used*/, int /*volume_factor*/)
+bool player::wield_contents(item *container, int pos, int factor)
 {
-    if(!(container->contents.empty())) {
-        item& weap = container->contents[0];
-        inv.assign_empty_invlet(weap, force_invlet);
-        wield(&(i_add(weap)));
-        container->contents.erase(container->contents.begin());
-    } else {
-        debugmsg("Tried to wield contents of empty container (player::wield_contents)");
+    // if index not specified and container has multiple items then ask the player to choose one
+    if (pos < 0) {
+        std::vector<std::string> opts;
+        std::transform(container->contents.begin(), container->contents.end(), std::back_inserter(opts),
+                       [](const item& elem) { return elem.display_name(); });
+
+        if (opts.size() > 1) {
+            pos = (uimenu(false, _("Wield what?"), opts)) - 1;
+        } else {
+            pos = 0;
+        }
     }
+
+    if (pos >= static_cast<int>(container->contents.size())) {
+        debugmsg("Tried to wield non-existent item from container (player::wield_contents)");
+        return false;
+    }
+
+    if (!can_wield(container->contents[pos])) {
+        return false;
+    }
+
+    int mv = 0;
+
+    if (is_armed()) {
+        if (volume_carried() + weapon.volume() - container->contents[pos].volume() < volume_capacity()) {
+            inv.add_item_keep_invlet(remove_weapon());
+            mv += 15;
+        } else if (query_yn(_("No space in inventory for your %s.  Drop it?"), weapon.tname().c_str())) {
+            g->m.add_item_or_charges(posx(), posy(), remove_weapon());
+        } else {
+            return false;
+        }
+        inv.unsort();
+    }
+
+    weapon = container->contents[pos];
+    inv.assign_empty_invlet(weapon, true);
+    last_item = itype_id(weapon.type->id);
+    container->contents.erase(container->contents.begin() + pos);
+
+    int lvl = get_skill_level(weapon.is_gun() ? weapon.gun_skill() : weapon.weap_skill());
+
+    mv += (weapon.volume() * factor) / std::max(lvl, 1);
+    moves -= mv;
+
+    weapon.on_wield(*this, mv);
+
+    return true;
 }
 
 void player::store(item* container, item* put, const skill_id &skill_used, int volume_factor)
