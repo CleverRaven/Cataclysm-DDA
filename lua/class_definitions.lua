@@ -162,7 +162,7 @@ classes = {
             { name = "set_stomach_water", rval = nil, args = { "int" } },
             { name = "mod_dex_bonus", rval = nil, args = { "int" } },
             { name = "mod_healthy", rval = nil, args = { "int" } },
-            { name = "mod_healthy_mod", rval = nil, args = { "int" } },
+            { name = "mod_healthy_mod", rval = nil, args = { "int", "int" } },
             { name = "mod_per_bonus", rval = nil, args = { "int" } },
             { name = "mod_str_bonus", rval = nil, args = { "int" } },
             { name = "mod_hunger", rval = nil, args = { "int" } },

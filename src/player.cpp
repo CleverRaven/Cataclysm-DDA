@@ -5375,26 +5375,67 @@ void player::get_sick()
 {
     // NPCs are too dumb to handle infections now
     if( is_npc() || has_trait("DISIMMUNE") ) {
+        // In a shocking twist, disease immunity prevents diseases.
         return;
     }
 
-    if (!has_effect("flu") && !has_effect("common_cold") &&
-        one_in(900 + get_healthy() + (has_trait("DISRESISTANT") ? 300 : 0))) {
+    if (has_effect("flu") || has_effect("common_cold")) {
+        // While it's certainly possible to get sick when you already are,
+        // it wouldn't be very fun.
+        return;
+    }
+
+    // Normal people get sick about 2-4 times/year.
+    int base_diseases_per_year = 3;
+    if (has_trait("DISRESISTANT")) {
+        // Disease resistant people only get sick once a year.
+        base_diseases_per_year = 1;
+    }
+
+    // This check runs once every 30 minutes.
+    int checks_per_year = calendar::season_length() * 4 * 24 * 2;
+
+    // Health is in the range [-200,200].
+    // A character who takes vitamins every 6 hours will have ~50 health.
+    // Diseases are half as common for every 50 health you gain.
+    float health_factor = std::pow(2.0f, get_healthy() / 50.0f);
+
+    int disease_rarity = (int) (checks_per_year * health_factor / base_diseases_per_year);
+    add_msg( m_debug, "disease_rarity = %d", disease_rarity);
+    if (one_in(disease_rarity)) {
+        // Disease duration is scaled according to the length of the year.
+        // (We assume the year is still as long as usual, and season_length
+        //  just sets a time scale.)
+        float day_scale = std::max(1.0f, 91.0f / calendar::season_length());
         if (one_in(6)) {
-            add_env_effect("flu", bp_mouth, 3, rng(40000, 80000));
+            // The flu typically lasts 3-10 days.
+            int short_flu = DAYS(3);
+            int long_flu = DAYS(10);
+            int duration = (int) (rng(short_flu, long_flu) / day_scale);
+            // No matter how short your seasons, you still get to be sick for at least
+            // one full in-game day.
+            add_env_effect("flu", bp_mouth, 3, std::max(DAYS(1), duration));
         } else {
-            add_env_effect("common_cold", bp_mouth, 3, rng(20000, 60000));
+            // A cold typically lasts 1-14 days.
+            int short_cold = DAYS(1);
+            int long_cold = DAYS(14);
+            int duration = (int) (rng(short_cold, long_cold) / day_scale);
+            // No matter how short your seasons, you still get to be sick for at least
+            // one full in-game day.
+            add_env_effect("common_cold", bp_mouth, 3, std::max(DAYS(1), duration));
         }
     }
 }
 
-void player::update_health(int base_threshold)
+void player::update_health(int external_modifiers)
 {
     if( has_artifact_with( AEP_SICK ) ) {
-        base_threshold += 50;
+        // Carrying a sickness artifact makes your health 50 points worse on
+        // average.  This is the negative equivalent of eating vitamins every
+        // 6 hours.
+        external_modifiers -= 50;
     }
-
-    Character::update_health(base_threshold);
+    Character::update_health( external_modifiers );
 }
 
 void player::check_needs_extremes()
@@ -6154,8 +6195,10 @@ void player::add_eff_effects(effect e, bool reduced)
     }
     // Add health mod
     if (e.get_amount("H_MOD", reduced) > 0) {
-        mod_healthy_mod(bound_mod_to_vals(get_healthy_mod(), e.get_amount("H_MOD", reduced),
-                        e.get_max_val("H_MOD", reduced), e.get_min_val("H_MOD", reduced)));
+        int bounded = bound_mod_to_vals(get_healthy_mod(), e.get_amount("H_MOD", reduced),
+                e.get_max_val("H_MOD", reduced), e.get_min_val("H_MOD", reduced));
+        // This already applies bounds, so we pass them through.
+        mod_healthy_mod(bounded, get_healthy_mod() + bounded);
     }
     // Add health
     if (e.get_amount("HEALTH", reduced) > 0) {
@@ -6258,8 +6301,11 @@ void player::process_effects() {
             if (val != 0) {
                 mod = 1;
                 if(it.activated(calendar::turn, "H_MOD", val, reduced, mod)) {
-                    mod_healthy_mod(bound_mod_to_vals(get_healthy_mod(), val,
-                                it.get_max_val("H_MOD", reduced), it.get_min_val("H_MOD", reduced)));
+                    int bounded = bound_mod_to_vals(
+                            get_healthy_mod(), val, it.get_max_val("H_MOD", reduced),
+                            it.get_min_val("H_MOD", reduced));
+                    // This already applies bounds, so we pass them through.
+                    mod_healthy_mod(bounded, get_healthy_mod() + bounded);
                 }
             }
 
@@ -6305,7 +6351,9 @@ void player::process_effects() {
 
             // Handle fatigue
             val = it.get_mod("FATIGUE", reduced);
-            if (val != 0) {
+            // Prevent ongoing fatigue effects while asleep.
+            // These are meant to change how fast you get tired, not how long you sleep.
+            if (val != 0 && !in_sleep_state()) {
                 mod = 1;
                 if(it.activated(calendar::turn, "FATIGUE", val, reduced, mod)) {
                     fatigue += bound_mod_to_vals(fatigue, val, it.get_max_val("FATIGUE", reduced),
@@ -7266,7 +7314,7 @@ void player::hardcoded_effects(effect &it)
             add_msg_if_player(m_bad, _("Your head aches faintly."));
         }
         if(one_in(1024)) {
-            mod_healthy_mod(-10);
+            mod_healthy_mod(-10, -100);
             apply_damage( nullptr, bp_head, rng( 0, 1 ) );
             if (!has_effect("visuals")) {
                 add_msg_if_player(m_bad, _("Your vision is getting fuzzy."));
@@ -7274,7 +7322,7 @@ void player::hardcoded_effects(effect &it)
             }
         }
         if(one_in(4096)) {
-            mod_healthy_mod(-10);
+            mod_healthy_mod(-10, -100);
             apply_damage( nullptr, bp_head, rng( 1, 2 ) );
             if (!has_effect("blind")) {
                 add_msg_if_player(m_bad, _("Your vision goes black!"));
@@ -7786,7 +7834,7 @@ void player::suffer()
             if (thirst > -20) {
                 thirst -= 2;
             }
-            mod_healthy_mod(10);
+            mod_healthy_mod(10, 50);
             // No losing oneself in the fertile embrace of rich
             // New England loam.  But it can be a near thing.
             if ( (one_in(int_cur)) && (focus_pool >= 25) ) {
@@ -7799,7 +7847,7 @@ void player::suffer()
             if (thirst > -20) {
                 thirst--;
             }
-            mod_healthy_mod(5);
+            mod_healthy_mod(5, 50);
         }
     }
 
@@ -8411,9 +8459,9 @@ void player::suffer()
         add_effect("shakes", 50);
     }
     if (has_bionic("bio_leaky") && one_in(500)) {
-        mod_healthy_mod(-50);
+        mod_healthy_mod(-50, -200);
     }
-    if (has_bionic("bio_sleepy") && one_in(500)) {
+    if (has_bionic("bio_sleepy") && one_in(500) && !in_sleep_state()) {
         fatigue++;
     }
     if (has_bionic("bio_itchy") && one_in(500) && !has_effect("formication")) {
@@ -10170,7 +10218,7 @@ void player::consume_effects(item *eaten, const it_comest *comest, bool rotten)
         hunger_factor *= rng_float(0, 1);
         // and takes a health penalty if they aren't adapted
         if (!has_trait("SAPROVORE") && !has_bionic("bio_digestion")) {
-            mod_healthy_mod(-30);
+            mod_healthy_mod(-30, -200);
         }
     }
 
@@ -10184,7 +10232,7 @@ void player::consume_effects(item *eaten, const it_comest *comest, bool rotten)
     mod_stomach_food(nutrition_for(comest) * factor * hunger_factor);
     mod_stomach_water(comest->quench * factor);
     if (unhealthy_allowed || comest->healthy > 0) {
-        mod_healthy_mod(comest->healthy);
+        mod_healthy_mod(comest->healthy, 5 * comest->healthy);
     }
 
     if (comest->stim != 0) {
@@ -10301,7 +10349,7 @@ void player::rooted()
             if (thirst > -20) {
                 thirst--;
             }
-            mod_healthy_mod(5);
+            mod_healthy_mod(5, 50);
         }
     }
 }
@@ -11934,7 +11982,7 @@ void player::do_read( item *book )
                 if (thirst > -20) {
                     thirst -= root_factor * foot_factor;
                 }
-                mod_healthy_mod(root_factor * foot_factor);
+                mod_healthy_mod(root_factor * foot_factor, 50);
             }
             if (activity.type != ACT_NULL) {
                 return;
@@ -11979,7 +12027,7 @@ void player::do_read( item *book )
             if (thirst > -20) {
                 thirst -= root_factor * foot_factor;
             }
-            mod_healthy_mod(root_factor * foot_factor);
+            mod_healthy_mod(root_factor * foot_factor, 50);
         }
         if (activity.type != ACT_NULL) {
             return;
@@ -12152,6 +12200,10 @@ int player::sleep_spot( const tripoint &p ) const
         // Low fatigue (being rested) has a much stronger effect than high fatigue
         // so it's OK for the value to be that much higher
         sleepy += 24;
+    }
+    if (has_effect("meth")) {
+        // Sleep ain't happening until that meth wears off completely.
+        sleepy -= 999;
     }
     if (has_trait("CHLOROMORPH")) {
         plantsleep = true;

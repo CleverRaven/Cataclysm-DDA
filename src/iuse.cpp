@@ -1122,7 +1122,7 @@ int iuse::meth(player *p, item *it, bool, const tripoint& )
 int iuse::vitamins(player *p, item *it, bool, const tripoint& )
 {
     p->add_msg_if_player(_("You take some vitamins."));
-    p->mod_healthy_mod(50);
+    p->mod_healthy_mod(50, 50);
     return it->type->charges_to_use();
 }
 
@@ -1130,7 +1130,7 @@ int iuse::vaccine(player *p, item *it, bool, const tripoint& )
 {
     p->add_msg_if_player(_("You inject the vaccine."));
     p->add_msg_if_player(m_good, _("You feel tough."));
-    p->mod_healthy_mod(200);
+    p->mod_healthy_mod(200, 200);
     p->mod_pain(3);
     item syringe( "syringe", it->bday );
     p->i_add( syringe );
@@ -1329,7 +1329,7 @@ int iuse::plantblech(player *p, item *it, bool, const tripoint &pos)
         //reverses the harmful values of drinking fertilizer
         p->mod_hunger(p->nutrition_for(food) * multiplier);
         p->thirst -= food->quench * multiplier;
-        p->mod_healthy_mod(food->healthy * multiplier);
+        p->mod_healthy_mod(food->healthy * multiplier, food->healthy * multiplier);
         p->add_morale(MORALE_FOOD_GOOD, -10 * multiplier, 60, 60, 30, false, food);
         return it->type->charges_to_use();
     } else {
@@ -2251,7 +2251,7 @@ int iuse::mycus(player *p, item *it, bool t, const tripoint &pos)
         p->fatigue += 5;
         p->thirst += 10;
         p->vomit(); // no hunger/quench benefit for you
-        p->mod_healthy_mod(-8);
+        p->mod_healthy_mod(-8, -50);
     }
     return it->type->charges_to_use();
 }

@@ -632,7 +632,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Handles the chance to be infected by random diseases */
         void get_sick();
         /** Handles health fluctuations over time, redirects into Creature::update_health */
-        void update_health(int base_threshold = 0) override;
+        void update_health(int external_modifiers = 0) override;
         /** Returns list of rc items in player inventory. **/
         std::list<item *> get_radio_items();
 
