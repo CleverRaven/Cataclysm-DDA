@@ -14,7 +14,8 @@ void recipe_dictionary::add( recipe *rec )
     by_category[rec->cat].push_back( rec );
 }
 
-void recipe_dictionary::remove( recipe *rec ) {
+void recipe_dictionary::remove( recipe *rec )
+{
     recipes.remove( rec );
     remove_from_component_lookup( rec );
     by_name.erase( rec->ident );
@@ -22,12 +23,12 @@ void recipe_dictionary::remove( recipe *rec ) {
     by_category.erase( rec->cat );
 }
 
-void recipe_dictionary::add_to_component_lookup( recipe* r )
+void recipe_dictionary::add_to_component_lookup( recipe *r )
 {
     std::unordered_set<itype_id> counted;
     for( const auto &comp_choices : r->requirements.components ) {
         for( const item_comp &comp : comp_choices ) {
-            if( counted.count(comp.type) ) {
+            if( counted.count( comp.type ) ) {
                 continue;
             }
             counted.insert( comp.type );
@@ -36,7 +37,7 @@ void recipe_dictionary::add_to_component_lookup( recipe* r )
     }
 }
 
-void recipe_dictionary::remove_from_component_lookup( recipe* r )
+void recipe_dictionary::remove_from_component_lookup( recipe *r )
 {
     for( auto &map_item : by_component ) {
         std::vector<recipe *> &rlist = map_item.second;
@@ -56,12 +57,12 @@ void recipe_dictionary::clear()
     recipes.clear();
 }
 
-const std::vector<recipe *>& recipe_dictionary::in_category( const std::string &cat )
+const std::vector<recipe *> &recipe_dictionary::in_category( const std::string &cat )
 {
     return by_category[cat];
 }
 
-const std::vector<recipe *>& recipe_dictionary::of_component( const itype_id &id )
+const std::vector<recipe *> &recipe_dictionary::of_component( const itype_id &id )
 {
     return by_component[id];
 }

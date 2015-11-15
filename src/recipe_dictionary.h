@@ -14,7 +14,8 @@ using itype_id = std::string; // From itype.h
 *
 *   This class is aimed at making (fast) recipe lookups easier from the outside.
 */
-class recipe_dictionary {
+class recipe_dictionary
+{
     public:
         void add( recipe *rec );
         void remove( recipe *rec );
@@ -26,29 +27,24 @@ class recipe_dictionary {
         const std::vector<recipe *> &of_component( const itype_id &id );
 
         /** Allows for lookup like: 'recipe_dict[name]'. */
-        recipe *operator[]( const std::string &rec_name )
-        {
+        recipe *operator[]( const std::string &rec_name ) {
             return by_name[rec_name];
         }
 
         /** Allows for lookup like: 'recipe_dict[id]'. */
-        recipe *operator[]( int rec_id )
-        {
+        recipe *operator[]( int rec_id ) {
             return by_index[rec_id];
         }
 
-        size_t size() const
-        {
+        size_t size() const {
             return recipes.size();
         }
 
         /** Allows for iteration over all recipes like: 'for( recipe &r : recipe_dict )'. */
-        std::list<recipe *>::const_iterator begin() const
-        {
+        std::list<recipe *>::const_iterator begin() const {
             return recipes.begin();
         }
-        std::list<recipe *>::const_iterator end() const
-        {
+        std::list<recipe *>::const_iterator end() const {
             return recipes.end();
         }
 
