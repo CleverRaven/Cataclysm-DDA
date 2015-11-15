@@ -1735,12 +1735,12 @@ void replace_name_tags(std::string & input)
     }
 }
 
-void replace_city_tag(std::string & input, const std::string & name)
+void replace_city_tag(std::string &input, const std::string &name)
 {
     replace_substring(input, "<city>", name, true);
 }
 
-void replace_substring(std::string & input, const std::string & substring, const std::string & replacement, bool all)
+void replace_substring(std::string &input, const std::string &substring, const std::string &replacement, bool all)
 {
     if (all) {
         while (input.find(substring) != std::string::npos) {

@@ -682,14 +682,15 @@ public:
             signtext = _( signtext.c_str() );
 
             std::string cityname = "illegible city name";
-            if (overmap_buffer.closest_city(abs_sub).city != nullptr) {
-                cityname = overmap_buffer.closest_city(abs_sub).city->name;
+            city* c = overmap_buffer.closest_city(abs_sub).city;
+            if (c != nullptr) {
+                cityname = c->name;
             }
             signtext = apply_all_tags(signtext, cityname);
         }
         m.set_signage( tripoint( rx, ry, m.get_abs_sub().z ), signtext );
     }
-    std::string apply_all_tags(std::string signtext, const std::string & cityname) const
+    std::string apply_all_tags(std::string signtext, const std::string &cityname) const
     {
         replace_city_tag(signtext, cityname);
         replace_name_tags(signtext);
