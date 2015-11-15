@@ -5392,8 +5392,8 @@ void player::get_sick()
         base_diseases_per_year = 1;
     }
 
-    // This check runs once every 30 minutes.
-    int checks_per_year = calendar::season_length() * 4 * 24 * 2;
+    // This check runs once every 30 minutes, so double to get hours, *24 to get days.
+    const int checks_per_year = 2 * 24 * 365;
 
     // Health is in the range [-200,200].
     // A character who takes vitamins every 6 hours will have ~50 health.
@@ -5403,26 +5403,18 @@ void player::get_sick()
     int disease_rarity = (int) (checks_per_year * health_factor / base_diseases_per_year);
     add_msg( m_debug, "disease_rarity = %d", disease_rarity);
     if (one_in(disease_rarity)) {
-        // Disease duration is scaled according to the length of the year.
-        // (We assume the year is still as long as usual, and season_length
-        //  just sets a time scale.)
-        float day_scale = std::max(1.0f, 91.0f / calendar::season_length());
         if (one_in(6)) {
             // The flu typically lasts 3-10 days.
-            int short_flu = DAYS(3);
-            int long_flu = DAYS(10);
-            int duration = (int) (rng(short_flu, long_flu) / day_scale);
-            // No matter how short your seasons, you still get to be sick for at least
-            // one full in-game day.
-            add_env_effect("flu", bp_mouth, 3, std::max(DAYS(1), duration));
+            const int short_flu = DAYS(3);
+            const int long_flu = DAYS(10);
+            const int duration = rng(short_flu, long_flu);
+            add_env_effect("flu", bp_mouth, 3, duration);
         } else {
             // A cold typically lasts 1-14 days.
             int short_cold = DAYS(1);
             int long_cold = DAYS(14);
-            int duration = (int) (rng(short_cold, long_cold) / day_scale);
-            // No matter how short your seasons, you still get to be sick for at least
-            // one full in-game day.
-            add_env_effect("common_cold", bp_mouth, 3, std::max(DAYS(1), duration));
+            int duration = rng(short_cold, long_cold);
+            add_env_effect("common_cold", bp_mouth, 3, duration);
         }
     }
 }
