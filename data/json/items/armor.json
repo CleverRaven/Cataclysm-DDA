@@ -7572,7 +7572,7 @@
         "color" : "brown",
         "to_hit" : 0,
         "symbol" : "|",
-        "description" : "A small leather sleeve for holding knives and other small blades.  Activate to sheathe/draw a weapon.",
+        "description" : "A leather sheath for holding knives and other small blades.  It is easy to use without much practice.  Activate to sheathe/draw a weapon.",
         "price" : 3500,
         "material" : ["leather", "null"],
         "covers" : ["LEG_EITHER"],
@@ -7585,7 +7585,14 @@
         "encumbrance" : 0,
         "coverage" : 5,
         "material_thickness" : 1,
-        "use_action": "SHEATH_KNIFE"
+        "use_action" : {
+            "type": "holster",
+            "holster_prompt": "Sheath knife",
+            "holster_msg": "You sheath your %s",
+            "max_volume": 3,
+            "draw_speed": 3,
+            "flags": ["SHEATH_KNIFE"]
+        }
     },
     {
         "type" : "ARMOR",
