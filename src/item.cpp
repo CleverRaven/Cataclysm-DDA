@@ -1275,7 +1275,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> &info) const
             if (!tec_buffer.str().empty()) {
                 tec_buffer << _(", ");
             }
-            tec_buffer << tec.name;
+            tec_buffer << "<stat>" << tec.name << "</stat>";
         }
         for( const auto &elem : techniques ) {
             const ma_technique &tec = elem.obj();
@@ -1285,9 +1285,10 @@ std::string item::info(bool showtext, std::vector<iteminfo> &info) const
             if (!tec_buffer.str().empty()) {
                 tec_buffer << _(", ");
             }
-            tec_buffer << tec.name;
+            tec_buffer << "<stat>" << tec.name << "</stat>";
         }
         if (!tec_buffer.str().empty()) {
+            insert_empty_line();
             info.push_back(iteminfo("DESCRIPTION", std::string(_("Techniques: ")) + tec_buffer.str()));
         }
 
@@ -1556,7 +1557,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> &info) const
             g->u.roll_all_damage( false, non_crit, true, *this );
             damage_instance crit;
             g->u.roll_all_damage( true, crit, true, *this );
-
+            insert_empty_line();
             info.push_back(iteminfo("DESCRIPTION", string_format(_("Average melee damage:") ) ) );
             info.push_back(iteminfo("DESCRIPTION",
                         string_format(_( "Critical hit chance %d%% - %d%%"),
