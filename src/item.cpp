@@ -1566,7 +1566,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> &info) const
             }
         }
 
-        if( debug_mode || g->u.get_skill_level( skill_melee ) > 2 ) {
+        if( debug_mode || (g->u.get_skill_level( skill_melee ) > 2 && ( damage_bash() > 0 || damage_cut() > 0 )) ) {
             damage_instance non_crit;
             g->u.roll_all_damage( false, non_crit, true, *this );
             damage_instance crit;
