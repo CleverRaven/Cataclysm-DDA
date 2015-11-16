@@ -178,8 +178,6 @@ class craft_command {
         bool query_continue( const std::vector<comp_selection<item_comp>> &missing_items,
                              const std::vector<comp_selection<tool_comp>> &missing_tools );
 };
-extern std::vector<std::string> craft_cat_list;
-extern std::map<std::string, std::vector<std::string> > craft_subcat_list;
 extern recipe_dictionary recipe_dict;
 
 // removes any (removable) ammo from the item and stores it in the
@@ -188,8 +186,6 @@ void remove_ammo(item *dis_item, player &p);
 // same as above but for each item in the list
 void remove_ammo(std::list<item> &dis_items, player &p);
 
-void load_recipe_category(JsonObject &jsobj);
-void reset_recipe_categories();
 void load_recipe(JsonObject &jsobj);
 void reset_recipes();
 const recipe *recipe_by_index(int index);

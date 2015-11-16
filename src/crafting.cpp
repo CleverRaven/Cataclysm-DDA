@@ -25,9 +25,6 @@
 #include <math.h>    //sqrt
 #include <algorithm> //std::min
 
-std::vector<std::string> craft_cat_list;
-std::map<std::string, std::vector<std::string> > craft_subcat_list;
-
 recipe_dictionary recipe_dict;
 
 void remove_from_component_lookup(recipe* r);
@@ -36,29 +33,6 @@ recipe::recipe() :
     id(0), result("null"), contained(false),skill_used( NULL_ID ), reversible(false),
     autolearn(false), learn_by_disassembly(-1), result_mult(1)
 {
-}
-
-void load_recipe_category(JsonObject &jsobj)
-{
-    JsonArray subcats;
-    std::string category = jsobj.get_string("id");
-    // Don't store noncraft as a category.
-    // We're storing the subcategory so we can look it up in load_recipes
-    // for the fallback subcategory.
-    if( category != "CC_NONCRAFT" ) {
-        craft_cat_list.push_back( category );
-    }
-    craft_subcat_list[category] = std::vector<std::string>();
-    subcats = jsobj.get_array("recipe_subcategories");
-    while (subcats.has_more()) {
-        craft_subcat_list[category].push_back( subcats.next_string() );
-    }
-}
-
-void reset_recipe_categories()
-{
-    craft_cat_list.clear();
-    craft_subcat_list.clear();
 }
 
 // Check that the given recipe ident (rec_name) is unique, throw if not,
