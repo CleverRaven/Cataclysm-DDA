@@ -19,7 +19,7 @@
 #include "npc.h"
 #include "vehicle.h"
 #include "ui.h"
-#include "crafting_GUI.h"
+#include "crafting_gui.h"
 
 #include <queue>
 #include <math.h>    //sqrt

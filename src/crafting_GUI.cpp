@@ -1,4 +1,4 @@
-#include "crafting_GUI.h"
+#include "crafting_gui.h"
 
 #include "crafting.h"
 #include "recipe_dictionary.h"
