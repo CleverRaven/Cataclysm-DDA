@@ -563,11 +563,11 @@ std::string item::info(bool showtext, std::vector<iteminfo> &info) const
     };
 
     if( !is_null() ) {
-        info.push_back(iteminfo("BASE", _("Category: "), get_category().name, -999, true, "", false));
+        info.push_back(iteminfo("BASE", _("Category: "), "<header>" + get_category().name + "</header>", -999, true, "", false));
         info.push_back(iteminfo("BASE", space + _("Price: "), "<num>",
                                  (double)price() / 100, false, "$", true, true));
 
-        info.push_back(iteminfo("BASE", _("Volume: "), "", volume(), true, "", false, true));
+        info.push_back(iteminfo("BASE", _("<bold>Volume</bold>: "), "", volume(), true, "", false, true));
         info.push_back(iteminfo("BASE", space + _("Weight: "),
                                  string_format("<num> %s",
                                                OPTIONS["USE_METRIC_WEIGHTS"].getValue() == "lbs" ?
@@ -599,7 +599,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> &info) const
                     if (made_of_something) {
                         material_list.append(", ");
                     }
-                    material_list.append(next_material->name());
+                    material_list.append("<stat>" + next_material->name() + "</stat>");
                     made_of_something = true;
                 }
             }
@@ -651,7 +651,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> &info) const
     }
     if( food_item != nullptr ) {
         const auto food = dynamic_cast<const it_comest*>( food_item->type );
-        info.push_back(iteminfo("FOOD", _("Nutrition: "), "", g->u.nutrition_for(food), true, "", false, true));
+        info.push_back(iteminfo("FOOD", _("<bold>Nutrition</bold>: "), "", g->u.nutrition_for(food), true, "", false, true));
         info.push_back(iteminfo("FOOD", space + _("Quench: "), "", food->quench));
         info.push_back(iteminfo("FOOD", _("Enjoyability: "), "", food->fun));
         info.push_back(iteminfo("FOOD", _("Portions: "), "", abs(int(food_item->charges))));
@@ -994,10 +994,10 @@ std::string item::info(bool showtext, std::vector<iteminfo> &info) const
         insert_empty_line();
 
         if (has_flag("FIT")) {
-            info.push_back(iteminfo("ARMOR", _("Encumberment: "), _("<num> <info>(fits)</info>"),
+            info.push_back(iteminfo("ARMOR", _("<bold>Encumberment</bold>: "), _("<num> <info>(fits)</info>"),
                                      get_encumber(), true, "", false, true));
         } else {
-            info.push_back(iteminfo("ARMOR", _("Encumberment: "), "",
+            info.push_back(iteminfo("ARMOR", _("<bold>Encumberment</bold>: "), "",
                                      get_encumber(), true, "", false, true));
         }
 
@@ -1122,7 +1122,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> &info) const
             std::string temp_fmt;
             const std::string t_ammo_name = ammo_name(tool->ammo_id);
 
-            info.push_back(iteminfo("TOOL", string_format(_("Charges: %d"), charges)));
+            info.push_back(iteminfo("TOOL", string_format(_("<bold>Charges</bold>: %d"), charges)));
 
             if (has_flag("DOUBLE_AMMO")) {
                 t_max = tool->max_charges * 2;
@@ -1474,27 +1474,33 @@ std::string item::info(bool showtext, std::vector<iteminfo> &info) const
                 _("This piece of clothing is <info>very fancy</info>.")));
         }
         if (is_armor() && type->id == "rad_badge") {
+            insert_empty_line();
             info.push_back(iteminfo("DESCRIPTION",
                 string_format(_("The film strip on the badge is %s."),
                               rad_badge_color(irridation).c_str())));
         }
         if (is_tool() && has_flag("DOUBLE_AMMO")) {
+            insert_empty_line();
             info.push_back(iteminfo("DESCRIPTION",
                                      _("This tool has <good>double</good> the normal <info>maximum charges</info>.")));
         }
         if (is_tool() && has_flag("ATOMIC_AMMO")) {
+            insert_empty_line();
             info.push_back(iteminfo("DESCRIPTION",
                 _("This tool has been modified to run off <info>plutonium cells</info> instead of batteries.")));
         }
         if (is_tool() && has_flag("RECHARGE")) {
+            insert_empty_line();
             info.push_back(iteminfo("DESCRIPTION",
                 _("This tool has been modified to use a <info>rechargeable power cell</info> and is <neutral>not compatible</neutral> with <info>standard batteries<info>.")));
         }
         if (is_tool() && has_flag("USE_UPS")) {
+            insert_empty_line();
             info.push_back(iteminfo("DESCRIPTION",
                 _("This tool has been modified to use a <info>universal power supply</info> and is <neutral>not compatible</neutral> with <info>standard batteries</info>.")));
         }
         if( is_tool() && has_flag("RADIO_ACTIVATION") ) {
+            insert_empty_line();
             if( has_flag( "RADIO_MOD" ) ) {
                 info.push_back(iteminfo("DESCRIPTION",
                     _("This item has been modified to listen to <info>radio signals</info>.  It can still be activated manually.")));
@@ -1520,31 +1526,37 @@ std::string item::info(bool showtext, std::vector<iteminfo> &info) const
         }
 
         if (has_flag("BELT_CLIP")) {
+            insert_empty_line();
             info.push_back(iteminfo("DESCRIPTION",
                 _("This item can be <neutral>clipped or hooked</neutral> on to a <info>belt loop</info> of the appropriate size.")));
         }
 
         if (has_flag("LEAK_DAM") && has_flag("RADIOACTIVE") && damage > 0) {
+            insert_empty_line();
             info.push_back(iteminfo("DESCRIPTION",
                 _("The casing of this item has <neutral>cracked</neutral>, revealing an <info>ominous green glow</info>.")));
         }
 
         if (has_flag("LEAK_ALWAYS") && has_flag("RADIOACTIVE")) {
+            insert_empty_line();
             info.push_back(iteminfo("DESCRIPTION",
                                      _("This object is <neutral>surrounded</neutral> by a <info>sickly green glow</info>.")));
         }
 
         if (is_food() && has_flag("HIDDEN_POISON") && g->u.skillLevel( skill_survival ).level() >= 3) {
+            insert_empty_line();
             info.push_back(iteminfo("DESCRIPTION",
                                      _("On closer inspection, this appears to be <bad>poisonous</bad>.")));
         }
 
         if (is_food() && has_flag("HIDDEN_HALLU") && g->u.skillLevel( skill_survival ).level() >= 5) {
+            insert_empty_line();
             info.push_back(iteminfo("DESCRIPTION",
                 _("On closer inspection, this appears to be <neutral>hallucinogenic</neutral>.")));
         }
 
         if ((is_food() && has_flag("BREW")) || (is_food_container() && contents[0].has_flag("BREW"))) {
+            insert_empty_line();
             int btime = ( is_food_container() ) ? contents[0].brewing_time() : brewing_time();
             if (btime <= 28800)
                 info.push_back(iteminfo("DESCRIPTION",
@@ -1572,7 +1584,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> &info) const
             damage_instance crit;
             g->u.roll_all_damage( true, crit, true, *this );
             insert_empty_line();
-            info.push_back(iteminfo("DESCRIPTION", string_format(_("Average damage when used as a melee weapon:") ) ) );
+            info.push_back(iteminfo("DESCRIPTION", string_format(_("Average melee damage:") ) ) );
             info.push_back(iteminfo("DESCRIPTION",
                         string_format(_( "Critical hit chance %d%% - %d%%"),
                                          int(g->u.crit_chance( 0, 100, *this ) * 100),
@@ -4530,15 +4542,18 @@ iteminfo::iteminfo(std::string Type, std::string Name, std::string Fmt,
                    bool NewLine, bool LowerIsBetter, bool DrawName)
 {
     static auto replace_info_colors = [&](std::string text) {
-        static const std::vector<std::pair<std::string, nc_color>> info_colors = {
-            {"info", c_cyan},
-            {"good", c_green},
-            {"bad", c_red},
-            {"neutral", c_brown}
+        static const std::vector<std::pair<std::string, std::string>> info_colors = {
+            {"info", get_all_colors().get_name(c_cyan)},
+            {"stat", get_all_colors().get_name(c_blue)},
+            {"header", get_all_colors().get_name(c_magenta)},
+            {"bold", get_all_colors().get_name(c_white)},
+            {"good", get_all_colors().get_name(c_green)},
+            {"bad", get_all_colors().get_name(c_red)},
+            {"neutral", get_all_colors().get_name(c_brown)}
         };
 
         for ( auto &elem : info_colors ) {
-            text = string_replace(text, "<" + elem.first + ">", "<color_" + get_all_colors().get_name(elem.second) + ">");
+            text = string_replace(text, "<" + elem.first + ">", "<color_" + elem.second + ">");
             text = string_replace(text, "</" + elem.first + ">", "</color>");
         }
 
