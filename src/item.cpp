@@ -872,37 +872,37 @@ std::string item::info(bool showtext, std::vector<iteminfo> &info) const
         temp1 << _("Used on: ");
         bool first = true;
         if (mod->used_on_pistol){
-            temp1 << _("pistols");
+            temp1 << _("<info>pistols</info>");
             first = false;
         }
         if (mod->used_on_shotgun) {
             if (!first) temp1 << ", ";
-            temp1 << _("shotguns");
+            temp1 << _("<info>shotguns</info>");
             first = false;
         }
         if (mod->used_on_smg){
             if (!first) temp1 << ", ";
-            temp1 << _("SMGs");
+            temp1 << _("<info>SMGs</info>");
             first = false;
         }
         if (mod->used_on_rifle){
             if (!first) temp1 << ", ";
-            temp1 << _("rifles");
+            temp1 << _("<info>rifles</info>");
             first = false;
         }
         if (mod->used_on_bow){
             if (!first) temp1 << ", ";
-            temp1 << _("bows");
+            temp1 << _("<info>bows</info>");
             first = false;
         }
         if (mod->used_on_crossbow){
             if (!first) temp1 << ", ";
-            temp1 << _("crossbows");
+            temp1 << _("<info>crossbows</info>");
             first = false;
         }
         if (mod->used_on_launcher){
             if (!first) temp1 << ", ";
-            temp1 << _("launchers");
+            temp1 << _("<info>launchers</info>");
             first = false;
         }
 
@@ -918,56 +918,56 @@ std::string item::info(bool showtext, std::vector<iteminfo> &info) const
         temp1.str("");
         temp1 << _("Covers: ");
         if (covers(bp_head)) {
-            temp1 << _("The head. ");
+            temp1 << _("The <info>head</info>. ");
         }
         if (covers(bp_eyes)) {
-            temp1 << _("The eyes. ");
+            temp1 << _("The <info>eyes</info>. ");
         }
         if (covers(bp_mouth)) {
-            temp1 << _("The mouth. ");
+            temp1 << _("The <info>mouth</info>. ");
         }
         if (covers(bp_torso)) {
-            temp1 << _("The torso. ");
+            temp1 << _("The <info>torso</info>. ");
         }
 
         if (is_sided() && (covers(bp_arm_l) || covers(bp_arm_r))) {
-            temp1 << _("Either arm. ");
+            temp1 << _("Either <info>arm</info>. ");
         } else if (covers(bp_arm_l) && covers(bp_arm_r)) {
-            temp1 << _("The arms. ");
+            temp1 << _("The <info>arms</info>. ");
         } else if (covers(bp_arm_l)) {
-            temp1 << _("The left arm. ");
+            temp1 << _("The <info>left arm</info>. ");
         } else if (covers(bp_arm_r)) {
-            temp1 << _("The right arm. ");
+            temp1 << _("The r<info>ight arm</info>. ");
         }
 
         if (is_sided() && (covers(bp_hand_l) || covers(bp_hand_r))) {
-            temp1 << _("Either hand. ");
+            temp1 << _("Either <info>hand</info>. ");
         } else if (covers(bp_hand_l) && covers(bp_hand_r)) {
-            temp1 << _("The hands. ");
+            temp1 << _("The <info>hands</info>. ");
         } else if (covers(bp_hand_l)) {
-            temp1 << _("The left hand. ");
+            temp1 << _("The <info>left hand</info>. ");
         } else if (covers(bp_hand_r)) {
-            temp1 << _("The right hand. ");
+            temp1 << _("The <info>right hand</info>. ");
         }
 
         if (is_sided() && (covers(bp_leg_l) || covers(bp_leg_r))) {
-            temp1 << _("Either leg. ");
+            temp1 << _("Either <info>leg</info>. ");
         } else if (covers(bp_leg_l) && covers(bp_leg_r)) {
-            temp1 << _("The legs. ");
+            temp1 << _("The <info>legs</info>. ");
         } else if (covers(bp_leg_l)) {
-            temp1 << _("The left leg. ");
+            temp1 << _("The <info>left leg</info>. ");
         } else if (covers(bp_leg_r)) {
-            temp1 << _("The right leg. ");
+            temp1 << _("The <info>right leg</info>. ");
         }
 
         if (is_sided() && (covers(bp_foot_l) || covers(bp_foot_r))) {
-            temp1 << _("Either foot. ");
+            temp1 << _("Either <info>foot</info>. ");
         } else if (covers(bp_foot_l) && covers(bp_foot_r)) {
-            temp1 << _("The feet. ");
+            temp1 << _("The <info>feet</info>. ");
         } else if (covers(bp_foot_l)) {
-            temp1 << _("The left foot. ");
+            temp1 << _("The <info>left foot</info>. ");
         } else if (covers(bp_foot_r)) {
-            temp1 << _("The right fot. ");
+            temp1 << _("The <info>right foot</info>. ");
         }
 
         info.push_back(iteminfo("ARMOR", temp1.str()));
@@ -975,15 +975,15 @@ std::string item::info(bool showtext, std::vector<iteminfo> &info) const
         temp1.str("");
         temp1 << _("Layer: ");
         if (has_flag("SKINTIGHT")) {
-            temp1 << _("Close to skin. ");
+            temp1 << _("<neutral>Close to skin</neutral>. ");
         } else if (has_flag("BELTED")) {
-            temp1 << _("Strapped. ");
+            temp1 << _("<neutral>Strapped</neutral>. ");
         } else if (has_flag("OUTER")) {
-            temp1 << _("Outer. ");
+            temp1 << _("<neutral>Outer</neutral>. ");
         } else if (has_flag("WAIST")) {
-            temp1 << _("Waist. ");
+            temp1 << _("<neutral>Waist</neutral>. ");
         } else {
-            temp1 << _("Normal. ");
+            temp1 << _("<neutral>Normal</neutral>. ");
         }
 
         info.push_back(iteminfo("ARMOR", temp1.str()));
@@ -994,7 +994,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> &info) const
         insert_empty_line();
 
         if (has_flag("FIT")) {
-            info.push_back(iteminfo("ARMOR", _("Encumberment: "), _("<num> (fits)"),
+            info.push_back(iteminfo("ARMOR", _("Encumberment: "), _("<num> <info>(fits)</info>"),
                                      get_encumber(), true, "", false, true));
         } else {
             info.push_back(iteminfo("ARMOR", _("Encumberment: "), "",
@@ -1619,7 +1619,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> &info) const
                         _("This food has started to <neutral>rot</neutral>, but <info>you can tolerate it</info>.")));
                 } else {
                     info.push_back(iteminfo("DESCRIPTION",
-                        _("This food has started to <bad>rot</bad>.  <info>Eating it</info> would be a <bad>very bad idea</bad>.")));
+                        _("This food has started to <bad>rot</bad>.  <info>Eating</info> it would be a <bad>very bad idea</bad>.")));
                 }
             } else {
                 info.push_back(iteminfo("DESCRIPTION",
@@ -1680,10 +1680,10 @@ std::string item::info(bool showtext, std::vector<iteminfo> &info) const
             }
             if (known_recipes.size() > 24) {
                 insert_empty_line();
-                info.push_back(iteminfo("DESCRIPTION", _("You know dozens of things you <info>could craft with it</info>.")));
+                info.push_back(iteminfo("DESCRIPTION", _("You know dozens of things you could craft with it.")));
             } else if (known_recipes.size() > 12) {
                 insert_empty_line();
-                info.push_back(iteminfo("DESCRIPTION", _("You <info>could use it to craft</info> various other things.")));
+                info.push_back(iteminfo("DESCRIPTION", _("You could use it to craft various other things.")));
             } else {
                 bool found_recipe = false;
                 for (recipe* r : known_recipes) {
