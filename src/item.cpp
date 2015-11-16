@@ -559,7 +559,9 @@ std::string item::info(bool showtext, std::vector<iteminfo> &info) const
     const bool debug = g != nullptr && ( debug_mode || g->u.has_artifact_with(AEP_SUPER_CLAIRVOYANCE) );
 
     auto insert_empty_line = [&]() {
-        info.push_back(iteminfo("DESCRIPTION", "--"));
+        if ( info.back().sFmt != "--" ) {
+            info.push_back(iteminfo("DESCRIPTION", "--"));
+        }
     };
 
     if( !is_null() ) {
@@ -1317,278 +1319,233 @@ std::string item::info(bool showtext, std::vector<iteminfo> &info) const
             }
         }
 
+        insert_empty_line();
+
         //See shorten version of this in armor_layers.cpp::clothing_flags_description
         if (is_armor() && has_flag("FIT")) {
-            insert_empty_line();
-            info.push_back(iteminfo("DESCRIPTION", _("This piece of clothing <info>fits</info> you perfectly.")));
+            info.push_back(iteminfo("DESCRIPTION", _("* This piece of clothing <info>fits</info> you perfectly.")));
         } else if (is_armor() && has_flag("VARSIZE")) {
-            insert_empty_line();
-            info.push_back(iteminfo("DESCRIPTION", _("This piece of clothing <info>can be refitted</info>.")));
+            info.push_back(iteminfo("DESCRIPTION", _("* This piece of clothing <info>can be refitted</info>.")));
         }
         if (is_armor() && is_sided()) {
-            insert_empty_line();
-            info.push_back(iteminfo("DESCRIPTION", _("This item can be worn on <info>either side</info> of the body.")));
+            info.push_back(iteminfo("DESCRIPTION", _("* This item can be worn on <info>either side</info> of the body.")));
         }
         if (is_armor() && has_flag("SKINTIGHT")) {
-            insert_empty_line();
             info.push_back(iteminfo("DESCRIPTION",
-                _("This piece of clothing <info>lies close</info> to the skin.")));
+                _("* This piece of clothing <info>lies close</info> to the skin.")));
         } else if (is_armor() && has_flag("BELTED")) {
-            insert_empty_line();
             info.push_back(iteminfo("DESCRIPTION",
-                _("This gear is <info>strapped</info> onto you.")));
+                _("* This gear is <info>strapped</info> onto you.")));
         } else if (is_armor() && has_flag("WAIST")) {
-            insert_empty_line();
             info.push_back(iteminfo("DESCRIPTION",
-                _("This gear is worn on or around your <info>waist</info>.")));
+                _("* This gear is worn on or around your <info>waist</info>.")));
         } else if (is_armor() && has_flag("OUTER")) {
-            insert_empty_line();
             info.push_back(iteminfo("DESCRIPTION",
-                _("This gear is generally <info>worn over</info> clothing.")));
+                _("* This gear is generally <info>worn over</info> clothing.")));
         } else if (is_armor()) {
-            insert_empty_line();
             info.push_back(iteminfo("DESCRIPTION",
-                _("This gear is generally worn as clothing.")));
+                _("* This gear is generally worn as clothing.")));
         }
         if (is_armor() && has_flag("OVERSIZE")) {
-            insert_empty_line();
             info.push_back(iteminfo("DESCRIPTION",
-                _("This piece of clothing is large enough to accommodate <info>mutated anatomy</info>.")));
+                _("* This piece of clothing is large enough to accommodate <info>mutated anatomy</info>.")));
         }
         if (is_armor() && has_flag("POCKETS")) {
-            insert_empty_line();
             info.push_back(iteminfo("DESCRIPTION",
-                _("This piece of clothing has <info>pockets</info> to warm your hands.  Put away your weapon to warm your hands in the pockets.")));
+                _("* This piece of clothing has <info>pockets</info> to warm your hands.  Put away your weapon to warm your hands in the pockets.")));
         }
         if (is_armor() && has_flag("HOOD")) {
-            insert_empty_line();
             info.push_back(iteminfo("DESCRIPTION",
-                _("This piece of clothing has a <info>hood</info> to keep your head warm.  Leave your head unencumbered to put on the hood.")));
+                _("* This piece of clothing has a <info>hood</info> to keep your head warm.  Leave your head unencumbered to put on the hood.")));
         }
         if (is_armor() && has_flag("COLLAR")) {
-            insert_empty_line();
             info.push_back(iteminfo("DESCRIPTION",
-                _("This piece of clothing has a <info>wide collar</info> that can keep your mouth warm.  Leave your mouth unencumbered to raise the collar.")));
+                _("* This piece of clothing has a <info>wide collar</info> that can keep your mouth warm.  Leave your mouth unencumbered to raise the collar.")));
         }
         if (is_armor() && has_flag("RAINPROOF")) {
-            insert_empty_line();
             info.push_back(iteminfo("DESCRIPTION",
-                _("This piece of clothing is designed to keep you <info>dry</info> in the rain.")));
+                _("* This piece of clothing is designed to keep you <info>dry</info> in the rain.")));
         }
         if (is_armor() && has_flag("SUN_GLASSES")) {
-            insert_empty_line();
             info.push_back(iteminfo("DESCRIPTION",
-                _("This piece of clothing keeps the <info>glare</info> out of your eyes.")));
+                _("* This piece of clothing keeps the <info>glare</info> out of your eyes.")));
         }
         if (is_armor() && has_flag("WATER_FRIENDLY")) {
-            insert_empty_line();
             info.push_back(iteminfo("DESCRIPTION",
-                _("This piece of clothing <good>performs well</good> even when <info>soaking wet</info>. This can feel good.")));
+                _("* This piece of clothing <good>performs well</good> even when <info>soaking wet</info>. This can feel good.")));
         }
         if (is_armor() && has_flag("WATERPROOF")) {
-            insert_empty_line();
             info.push_back(iteminfo("DESCRIPTION",
-                _("This piece of clothing <info>won't let water through</info>.  Unless you jump in the river or something like that.")));
+                _("* This piece of clothing <info>won't let water through</info>.  Unless you jump in the river or something like that.")));
         }
         if (is_armor() && has_flag("STURDY")) {
-            insert_empty_line();
             info.push_back(iteminfo("DESCRIPTION",
-                _("This piece of clothing is designed to <good>protect</good> you from harm and withstand <info>a lot of abuse</info>.")));
+                _("* This piece of clothing is designed to <good>protect</good> you from harm and withstand <info>a lot of abuse</info>.")));
         }
         if (is_armor() && has_flag("FRAGILE")) {
-            insert_empty_line();
             info.push_back(iteminfo("DESCRIPTION",
-                _("This gear is <bad>fragile</bad> and <info>won't protect you for long</info>.")));
+                _("* This gear is <bad>fragile</bad> and <info>won't protect you for long</info>.")));
         }
         if (is_armor() && has_flag("DEAF")) {
-            insert_empty_line();
             info.push_back(iteminfo("DESCRIPTION",
-                _("This gear <bad>prevents</bad> you from <info>hearing any sounds</info>.")));
+                _("* This gear <bad>prevents</bad> you from <info>hearing any sounds</info>.")));
         }
         if (is_armor() && has_flag("BLIND")) {
-            insert_empty_line();
             info.push_back(iteminfo("DESCRIPTION",
-                _("This gear <bad>prevents</bad> you from <info>seeing</info> anything.")));
+                _("* This gear <bad>prevents</bad> you from <info>seeing</info> anything.")));
         }
         if (is_armor() && has_flag("SWIM_GOGGLES")) {
-            insert_empty_line();
             info.push_back(iteminfo("DESCRIPTION",
-                _("This piece of clothing allows you to <good>see much further</good> <info>under water</info>.")));
+                _("* This piece of clothing allows you to <good>see much further</good> <info>under water</info>.")));
         }
         if (is_armor() && item_tags.count("wooled")) {
-            insert_empty_line();
             info.push_back(iteminfo("DESCRIPTION",
-                _("This piece of clothing has a wool lining sewn into it to <good>increase</good> its overall <info>warmth<info>.")));
+                _("* This piece of clothing has a wool lining sewn into it to <good>increase</good> its overall <info>warmth<info>.")));
         }
         if (is_armor() && item_tags.count("furred")) {
-            insert_empty_line();
             info.push_back(iteminfo("DESCRIPTION",
-                _("This piece of clothing has a fur lining sewn into it to <good>increase</good> its overall <info>warmth</info>.")));
+                _("* This piece of clothing has a fur lining sewn into it to <good>increase</good> its overall <info>warmth</info>.")));
         }
         if (is_armor() && item_tags.count("leather_padded")) {
-            insert_empty_line();
             info.push_back(iteminfo("DESCRIPTION",
-                _("This gear has certain parts padded with leather to <good>increase protection</good> with moderate <bad>increase to encumbrance</bad>.")));
+                _("* This gear has certain parts padded with leather to <good>increase protection</good> with moderate <bad>increase to encumbrance</bad>.")));
         }
         if (is_armor() && item_tags.count("kevlar_padded")) {
-            insert_empty_line();
             info.push_back(iteminfo("DESCRIPTION",
-                _("This gear has Kevlar inserted into strategic locations to <good>increase protection</good> with some <bad>increase to encumbrance<bad>.")));
+                _("* This gear has Kevlar inserted into strategic locations to <good>increase protection</good> with some <bad>increase to encumbrance<bad>.")));
         }
         if (is_armor() && has_flag("FLOTATION")) {
-            insert_empty_line();
             info.push_back(iteminfo("DESCRIPTION",
-                _("This piece of clothing <neutral>prevents</neutral> you from <info>going underwater</info> (including voluntary diving).")));
+                _("* This piece of clothing <neutral>prevents</neutral> you from <info>going underwater</info> (including voluntary diving).")));
         }
         if (is_armor() && has_flag("RAD_PROOF")) {
-            insert_empty_line();
             info.push_back(iteminfo("DESCRIPTION",
-                _("This piece of clothing <good>completely protects</good> you from <info>radiation</info>.")));
+                _("* This piece of clothing <good>completely protects</good> you from <info>radiation</info>.")));
         } else if (is_armor() && has_flag("RAD_RESIST")) {
-            insert_empty_line();
             info.push_back(iteminfo("DESCRIPTION",
-                _("This piece of clothing <neutral>partially protects</neutral> you from <info>radiation</info>.")));
+                _("* This piece of clothing <neutral>partially protects</neutral> you from <info>radiation</info>.")));
         } else if( is_armor() && is_power_armor() ) {
-            insert_empty_line();
             info.push_back(iteminfo("DESCRIPTION",
-                _("This gear is a part of power armor.")));
+                _("* This gear is a part of power armor.")));
             if (covers(bp_head)) {
                 info.push_back(iteminfo("DESCRIPTION",
-                    _("When worn with a power armor suit, it will <good>fully protect</good> you from <info>radiation</info>.")));
+                    _("* When worn with a power armor suit, it will <good>fully protect</good> you from <info>radiation</info>.")));
             } else {
                 info.push_back(iteminfo("DESCRIPTION",
-                    _("When worn with a power armor helmet, it will <good>fully protect</good> you from <info>radiation</info>.")));
+                    _("* When worn with a power armor helmet, it will <good>fully protect</good> you from <info>radiation</info>.")));
             }
         }
         if (is_armor() && has_flag("ELECTRIC_IMMUNE")) {
-            insert_empty_line();
             info.push_back(iteminfo("DESCRIPTION",
-                _("This gear <good>completely protects</good> you from <info>electric discharges</info>.")));
+                _("* This gear <good>completely protects</good> you from <info>electric discharges</info>.")));
         }
         if (is_armor() && has_flag("THERMOMETER")) {
-            insert_empty_line();
             info.push_back(iteminfo("DESCRIPTION",
-                _("This gear is equipped with an <info>accurate thermometer</info>.")));
+                _("* This gear is equipped with an <info>accurate thermometer</info>.")));
         }
         if (is_armor() && has_flag("ALARMCLOCK")) {
-            insert_empty_line();
             info.push_back(iteminfo("DESCRIPTION",
-                _("This gear has an <info>alarm clock</info> feature.")));
+                _("* This gear has an <info>alarm clock</info> feature.")));
         }
         if (is_armor() && has_flag("BOOTS")) {
-            insert_empty_line();
             info.push_back(iteminfo("DESCRIPTION",
-                _("You can <info>store knives</info> in this gear.")));
+                _("* You can <info>store knives</info> in this gear.")));
         }
         if (is_armor() && has_flag("FANCY")) {
-            insert_empty_line();
             info.push_back(iteminfo("DESCRIPTION",
-                _("This piece of clothing is <info>fancy</info>.")));
+                _("* This piece of clothing is <info>fancy</info>.")));
         } else if (is_armor() && has_flag("SUPER_FANCY")) {
-            insert_empty_line();
             info.push_back(iteminfo("DESCRIPTION",
-                _("This piece of clothing is <info>very fancy</info>.")));
+                _("* This piece of clothing is <info>very fancy</info>.")));
         }
         if (is_armor() && type->id == "rad_badge") {
-            insert_empty_line();
             info.push_back(iteminfo("DESCRIPTION",
-                string_format(_("The film strip on the badge is %s."),
+                string_format(_("* The film strip on the badge is %s."),
                               rad_badge_color(irridation).c_str())));
         }
         if (is_tool() && has_flag("DOUBLE_AMMO")) {
-            insert_empty_line();
             info.push_back(iteminfo("DESCRIPTION",
-                                     _("This tool has <good>double</good> the normal <info>maximum charges</info>.")));
+                 _("* This tool has <good>double</good> the normal <info>maximum charges</info>.")));
         }
         if (is_tool() && has_flag("ATOMIC_AMMO")) {
-            insert_empty_line();
             info.push_back(iteminfo("DESCRIPTION",
-                _("This tool has been modified to run off <info>plutonium cells</info> instead of batteries.")));
+                _("* This tool has been modified to run off <info>plutonium cells</info> instead of batteries.")));
         }
         if (is_tool() && has_flag("RECHARGE")) {
-            insert_empty_line();
             info.push_back(iteminfo("DESCRIPTION",
-                _("This tool has been modified to use a <info>rechargeable power cell</info> and is <neutral>not compatible</neutral> with <info>standard batteries<info>.")));
+                _("* This tool has been modified to use a <info>rechargeable power cell</info> and is <neutral>not compatible</neutral> with <info>standard batteries<info>.")));
         }
         if (is_tool() && has_flag("USE_UPS")) {
-            insert_empty_line();
             info.push_back(iteminfo("DESCRIPTION",
-                _("This tool has been modified to use a <info>universal power supply</info> and is <neutral>not compatible</neutral> with <info>standard batteries</info>.")));
+                _("* This tool has been modified to use a <info>universal power supply</info> and is <neutral>not compatible</neutral> with <info>standard batteries</info>.")));
         }
         if( is_tool() && has_flag("RADIO_ACTIVATION") ) {
-            insert_empty_line();
             if( has_flag( "RADIO_MOD" ) ) {
                 info.push_back(iteminfo("DESCRIPTION",
-                    _("This item has been modified to listen to <info>radio signals</info>.  It can still be activated manually.")));
+                    _("* This item has been modified to listen to <info>radio signals</info>.  It can still be activated manually.")));
             } else {
                 info.push_back(iteminfo("DESCRIPTION",
-                    _("This item can only be activated by a <info>radio signal</info>.")));
+                    _("* This item can only be activated by a <info>radio signal</info>.")));
             }
 
             if( has_flag("RADIOSIGNAL_1") ) {
-                info.push_back(iteminfo("DESCRIPTION", _("It will be activated by <color_c_red>\"Red\"</color> radio signal.")));
+                info.push_back(iteminfo("DESCRIPTION", _("* It will be activated by <color_c_red>\"Red\"</color> radio signal.")));
             } else if( has_flag("RADIOSIGNAL_2") ) {
-                info.push_back(iteminfo("DESCRIPTION", _("It will be activated by <color_c_blue>\"Blue\"</color> radio signal.")));
+                info.push_back(iteminfo("DESCRIPTION", _("* It will be activated by <color_c_blue>\"Blue\"</color> radio signal.")));
             } else if( has_flag("RADIOSIGNAL_3") ) {
-                info.push_back(iteminfo("DESCRIPTION", _("It will be activated by <color_c_green>\"Green\"</color> radio signal.")));
+                info.push_back(iteminfo("DESCRIPTION", _("* It will be activated by <color_c_green>\"Green\"</color> radio signal.")));
             } else {
-                info.push_back(iteminfo("DESCRIPTION", _("It is <bad>bugged</bad> and does not actually listen to <info>radio signals</info>.")));
+                info.push_back(iteminfo("DESCRIPTION", _("* It is <bad>bugged</bad> and does not actually listen to <info>radio signals</info>.")));
             }
 
             if( has_flag( "RADIO_INVOKE_PROC" ) ) {
                 info.push_back(iteminfo("DESCRIPTION",
-                    _("Activating this item with a <info>radio signal</info> will <neutral>detonate</neutral> it immediately.")));
+                    _("* Activating this item with a <info>radio signal</info> will <neutral>detonate</neutral> it immediately.")));
             }
         }
 
         if (has_flag("BELT_CLIP")) {
-            insert_empty_line();
             info.push_back(iteminfo("DESCRIPTION",
-                _("This item can be <neutral>clipped or hooked</neutral> on to a <info>belt loop</info> of the appropriate size.")));
+                _("* This item can be <neutral>clipped or hooked</neutral> on to a <info>belt loop</info> of the appropriate size.")));
         }
 
         if (has_flag("LEAK_DAM") && has_flag("RADIOACTIVE") && damage > 0) {
-            insert_empty_line();
             info.push_back(iteminfo("DESCRIPTION",
-                _("The casing of this item has <neutral>cracked</neutral>, revealing an <info>ominous green glow</info>.")));
+                _("* The casing of this item has <neutral>cracked</neutral>, revealing an <info>ominous green glow</info>.")));
         }
 
         if (has_flag("LEAK_ALWAYS") && has_flag("RADIOACTIVE")) {
-            insert_empty_line();
             info.push_back(iteminfo("DESCRIPTION",
-                                     _("This object is <neutral>surrounded</neutral> by a <info>sickly green glow</info>.")));
+                _("* This object is <neutral>surrounded</neutral> by a <info>sickly green glow</info>.")));
         }
 
         if (is_food() && has_flag("HIDDEN_POISON") && g->u.skillLevel( skill_survival ).level() >= 3) {
-            insert_empty_line();
             info.push_back(iteminfo("DESCRIPTION",
-                                     _("On closer inspection, this appears to be <bad>poisonous</bad>.")));
+                _("* On closer inspection, this appears to be <bad>poisonous</bad>.")));
         }
 
         if (is_food() && has_flag("HIDDEN_HALLU") && g->u.skillLevel( skill_survival ).level() >= 5) {
-            insert_empty_line();
             info.push_back(iteminfo("DESCRIPTION",
-                _("On closer inspection, this appears to be <neutral>hallucinogenic</neutral>.")));
+                _("* On closer inspection, this appears to be <neutral>hallucinogenic</neutral>.")));
         }
 
         if ((is_food() && has_flag("BREW")) || (is_food_container() && contents[0].has_flag("BREW"))) {
-            insert_empty_line();
             int btime = ( is_food_container() ) ? contents[0].brewing_time() : brewing_time();
             if (btime <= 28800)
                 info.push_back(iteminfo("DESCRIPTION",
-                    string_format(ngettext("Once set in a vat, this will ferment in around %d hour.",
-                                           "Once set in a vat, this will ferment in around %d hours.", btime / 100),
+                    string_format(ngettext("* Once set in a vat, this will ferment in around %d hour.",
+                                           "* Once set in a vat, this will ferment in around %d hours.", btime / 100),
                                   btime / 600)));
             else {
                 btime = 0.5 + btime / 7200; //Round down to 12-hour intervals
                 if (btime % 2 == 1) {
                     info.push_back(iteminfo("DESCRIPTION",
-                        string_format(_("Once set in a vat, this will ferment in around %d and a half days."),
+                        string_format(_("* Once set in a vat, this will ferment in around %d and a half days."),
                                       btime / 2)));
                 } else {
                     info.push_back(iteminfo("DESCRIPTION",
-                        string_format(ngettext("Once set in a vat, this will ferment in around %d day.",
-                                               "Once set in a vat, this will ferment in around %d days.", btime / 2),
+                        string_format(ngettext("* Once set in a vat, this will ferment in around %d day.",
+                                               "* Once set in a vat, this will ferment in around %d days.", btime / 2),
                                       btime / 2)));
                 }
             }
@@ -1599,7 +1556,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> &info) const
             g->u.roll_all_damage( false, non_crit, true, *this );
             damage_instance crit;
             g->u.roll_all_damage( true, crit, true, *this );
-            insert_empty_line();
+
             info.push_back(iteminfo("DESCRIPTION", string_format(_("Average melee damage:") ) ) );
             info.push_back(iteminfo("DESCRIPTION",
                         string_format(_( "Critical hit chance %d%% - %d%%"),
