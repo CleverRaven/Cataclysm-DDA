@@ -19,11 +19,7 @@
 #include "mapdata.h"
 #include <chrono>
 #ifdef SDL_SOUND
-#   if (defined OSX_SDL_FW)
-#       include "SDL_mixer.h"
-#   else
-#       include "SDL2/SDL_mixer.h"
-#   endif
+#   include <SDL_mixer.h>
 #   include <thread>
 #   if (defined _WIN32 || defined WINDOWS)
 #       include "mingw.thread.h"

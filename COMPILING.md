@@ -236,7 +236,7 @@ If you want sound support, you will need an additional SDL framework:
 
 * [**SDL2_mixer**](https://www.libsdl.org/projects/SDL_mixer/)
 
-Copy `SDL2_mixer.framework`, `SDL2_mixer.framework/Frameworks/Vorbis.framework` and `SDL2_mixer.framework/Frameworks/Ogg.framework` to `/Library/Frameworks` or `/Users/name/Library/Frameworks`.
+Copy `SDL2_mixer.framework` to `/Library/Frameworks` or `/Users/name/Library/Frameworks`.
 
 Alternatively, SDL shared libraries can be installed using a package manager:
 

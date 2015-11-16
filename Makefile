@@ -279,7 +279,9 @@ ifdef SOUND
     ifdef FRAMEWORK
       CXXFLAGS += -I/Library/Frameworks/SDL2_mixer.framework/Headers \
 		-I$(HOME)/Library/Frameworks/SDL2_mixer.framework/Headers
-      LDFLAGS += -framework SDL2_mixer -framework Vorbis -framework Ogg
+      LDFLAGS += -F/Library/Frameworks/SDL2_mixer.framework/Frameworks \
+		 -F$(HOME)/Library/Frameworks/SDL2_mixer.framework/Frameworks \
+		 -framework SDL2_mixer -framework Vorbis -framework Ogg
     else # libsdl build
       CXXFLAGS += $(shell $(PKG_CONFIG) --cflags SDL2_mixer)
       LDFLAGS += $(shell $(PKG_CONFIG) --libs SDL2_mixer)
@@ -326,7 +328,6 @@ ifdef TILES
   BINDIST_EXTRAS += gfx
   ifeq ($(NATIVE),osx)
     ifdef FRAMEWORK
-      DEFINES += -DOSX_SDL_FW
       OSX_INC = -F/Library/Frameworks \
 		-F$(HOME)/Library/Frameworks \
 		-I/Library/Frameworks/SDL2.framework/Headers \
@@ -657,8 +658,9 @@ ifdef FRAMEWORK
 	cp -R /Library/Frameworks/SDL2_ttf.framework $(APPRESOURCESDIR)/
 ifdef SOUND
 	cp -R /Library/Frameworks/SDL2_mixer.framework $(APPRESOURCESDIR)/
-	cp -R /Library/Frameworks/Vorbis.framework $(APPRESOURCESDIR)/
-	cp -R /Library/Frameworks/Ogg.framework $(APPRESOURCESDIR)/
+	cd $(APPRESOURCESDIR)/ && ln -s SDL2_mixer.framework/Frameworks/Vorbis.framework Vorbis.framework
+	cd $(APPRESOURCESDIR)/ && ln -s SDL2_mixer.framework/Frameworks/Ogg.framework Ogg.framework
+	cd $(APPRESOURCESDIR)/SDL2_mixer.framework/Frameworks && find . -type d -maxdepth 1 -not -name '*Vorbis.framework' -not -name '*Ogg.framework' -not -name '.' | xargs rm -rf
 endif  # ifdef SOUND
 else # libsdl build
 	cp $(SDLLIBSDIR)/libSDL2.dylib $(APPRESOURCESDIR)/
