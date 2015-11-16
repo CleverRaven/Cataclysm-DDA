@@ -203,7 +203,7 @@ class game
         /** Helper for explosion, does the actual blast. */
         void do_blast( const tripoint &p, float power, float factor, bool fire );
         /** Helper - finds the cover relevent to the explosion **/
-        std::set<tripoint, double> find_cover( const tripoint &p, float power, float factor, bool fire );
+        std::map<tripoint, double> find_cover( const tripoint &p, float power);
         /** Shoot shrapnel from point p */
         void shrapnel( const tripoint &p, int power, int count, int radius );
         /** Triggers a flashbang explosion at p. */

@@ -6081,14 +6081,15 @@ void game::explosion( const tripoint &p, float power, float factor,
 void game::do_blast( const tripoint &p, const float power,
                      const float distance_factor, const bool fire )
 {
+    if(distance_factor != 0.5) { /* Temporarily need to consume the parameter */ }
     int max_radius = ceil(sqrt(power / 10));
-    std::set<tripoint, double> cover = find_cover(p, max_radius);
-    std::vector<tripoint> points = g->m.closest_tripoints_first(p, max_radius);
+    std::map<tripoint, double> cover = find_cover(p, max_radius);
+    std::vector<tripoint> points = closest_tripoints_first(p, max_radius);
     
     // Do concussive damage at each explosion point
     for(tripoint &pt : points) {
         float force = power;
-        if(p != pt) { force = force / std::pow( distance, 2.0 ); }
+        if(p != pt) { force = force / std::pow( trig_dist(p, pt), 2.0 ); }
         force = force * cover[pt];
         
         if( force <= 1.0f ) {
@@ -6219,7 +6220,7 @@ void game::do_blast( const tripoint &p, const float power,
     }
 }
 
-std::set<tripoint, double> find_cover(const tripoint &p, const int max_radius)
+std::map<tripoint, double> find_cover(const tripoint &p, const int max_radius)
 {    
     std::map<tripoint, double> cover;
     cover[p] = 1.0;

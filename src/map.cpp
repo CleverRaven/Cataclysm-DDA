@@ -7253,7 +7253,7 @@ std::set<tripoint> get_shell_tripoints(int radius, const tripoint &center)
     return out;
 }
 
-std::set<tripoint> get_neighbor_tripoints(tripoint &p)
+std::set<tripoint> get_neighbor_tripoints(const tripoint &p)
 {
     std::set<tripoint> out;
     out.insert(p + tripoint(0,1,0));
