@@ -264,12 +264,7 @@ void Item_factory::init()
     iuse_function_list["RAG"] = &iuse::rag;
     iuse_function_list["LAW"] = &iuse::LAW;
     iuse_function_list["HEATPACK"] = &iuse::heatpack;
-    iuse_function_list["BOOTS"] = &iuse::boots;
     iuse_function_list["QUIVER"] = &iuse::quiver;
-    iuse_function_list["SHEATH_SWORD"] = &iuse::sheath_sword;
-    iuse_function_list["SHEATH_KNIFE"] = &iuse::sheath_knife;
-    iuse_function_list["HOLSTER_GUN"] = &iuse::holster_gun;
-    iuse_function_list["HOLSTER_ANKLE"] = &iuse::holster_ankle;
     iuse_function_list["BELT_LOOP"] = &iuse::belt_loop;
     iuse_function_list["TOWEL"] = &iuse::towel;
     iuse_function_list["UNFOLD_GENERIC"] = &iuse::unfold_generic;
