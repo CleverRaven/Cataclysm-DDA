@@ -19,6 +19,7 @@
 #include "compatibility.h"
 #include "translations.h"
 #include "crafting.h"
+#include "recipe_dictionary.h"
 #include "martialarts.h"
 #include "npc.h"
 #include "ui.h"
@@ -1260,7 +1261,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> &dump_ref) const
                 dump->push_back(iteminfo("DESCRIPTION", _("This item can be used to make reach attacks.")));
             }
         }
-        
+
         //lets display which martial arts styles character can use with this weapon
         if (g->u.ma_styles.size() > 0)
         {
@@ -1650,7 +1651,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> &dump_ref) const
         } else { // use the contained item
             tid = contents[0].type->id;
         }
-        std::vector<recipe *> &rec = recipes_by_component[tid];
+        const std::vector<recipe *> &rec = recipe_dict.of_component(tid);
         if (!rec.empty()) {
             temp1.str("");
             const inventory &inv = g->u.crafting_inventory();
@@ -1856,29 +1857,36 @@ void item::on_takeoff (player &p)
     }
 }
 
-void item::on_wield( player &p  )
+void item::on_wield( player &p, int mv )
 {
     // TODO: artifacts currently only work with the player character
     if( &p == &g->u && type->artifact ) {
         g->add_artifact_messages( type->artifact->effects_wielded );
     }
+
     if (has_flag("SLOW_WIELD") && (! is_gunmod())) {
         int d = 32; // arbitrary linear scaling factor
         if      (is_gun())  d /= std::max((int) p.skillLevel(gun_skill()),  1);
         else if (is_weap()) d /= std::max((int) p.skillLevel(weap_skill()), 1);
 
-        int const penalty = get_var("volume", (int) type->volume) * d;
-        std::string msg;
-        if (penalty > 50) {
-            if      (penalty > 250) msg = _("It takes you much longer than usual to wield your %s.");
-            else if (penalty > 100) msg = _("It takes you longer than usual to wield your %s.");
-            else                    msg = _("It takes you slightly longer than usual to wield your %s.");
-
-            p.add_msg_if_player(msg.c_str(), tname().c_str());
-            p.moves -= penalty;
-        }
+        int penalty = get_var("volume", (int) type->volume) * d;
+        p.moves -= penalty;
+        mv += penalty;
     }
-    p.add_msg_if_player(_("You wield your %s."), tname().c_str());
+
+    std::string msg;
+
+    if (mv > 250) {
+        msg = _("It takes you much longer than usual to wield your %s.");
+    } else if (mv > 100) {
+        msg = _("It takes you longer than usual to wield your %s.");
+    } else if (mv > 50) {
+        msg = _("It takes you slightly longer than usual to wield your %s.");
+    } else {
+        msg = _("You wield your %s.");
+    }
+
+    p.add_msg_if_player(msg.c_str(), tname().c_str());
 }
 
 void item::on_pickup( Character &p  )
@@ -4502,7 +4510,7 @@ bool item_matches_locator(const item &it, const item *other, int)
     return &it == other;
 }
 
-iteminfo::iteminfo(std::string Type, std::string Name, std::string Fmt, 
+iteminfo::iteminfo(std::string Type, std::string Name, std::string Fmt,
                    double Value, bool _is_int, std::string Plus,
                    bool NewLine, bool LowerIsBetter, bool DrawName)
 {

@@ -48,6 +48,16 @@ bool mongroup::is_safe() const
     return type.obj().is_safe;
 }
 
+bool mongroup::empty() const
+{
+    return (population <= 0) && monsters.empty();
+}
+
+void mongroup::clear() {
+    population = 0;
+    monsters.clear();
+}
+
 const MonsterGroup &MonsterGroupManager::GetUpgradedMonsterGroup( const mongroup_id& group )
 {
     const MonsterGroup *groupptr = &group.obj();

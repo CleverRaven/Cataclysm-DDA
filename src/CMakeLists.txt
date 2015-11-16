@@ -248,6 +248,7 @@ SET (CATACLYSM_DDA_HEADERS
     ${CMAKE_SOURCE_DIR}/src/martialarts.h
     ${CMAKE_SOURCE_DIR}/src/iexamine.h
     ${CMAKE_SOURCE_DIR}/src/iuse_software_sokoban.h
+    ${CMAKE_SOURCE_DIR}/src/iuse_software_minesweeper.h
     ${CMAKE_SOURCE_DIR}/src/options.h
     ${CMAKE_SOURCE_DIR}/src/get_version.h
     ${CMAKE_SOURCE_DIR}/src/mapsharing.h
@@ -371,7 +372,7 @@ IF(TILES)
 
 	IF (NOT DYNAMIC_LINKING)
 		# SDL, SDL_Image, SDL_ttf deps are required for static build
-		target_include_directories(cataclysm-tiles PUBLIC 
+		target_include_directories(cataclysm-tiles PUBLIC
 			${FREETYPE_INCLUDE_DIRS}
 			${PNG_INCLUDE_DIRS}
 			${JPEG_INCLUDE_DIR}
@@ -406,7 +407,7 @@ IF(TILES)
 		target_link_libraries(cataclysm-tiles ${OGG_LIBRARY})
 		target_link_libraries(cataclysm-tiles ${VORBIS_LIBRARY})
 		target_link_libraries(cataclysm-tiles ${VORBISFILE_LIBRARY})
-	
+
 		target_include_directories(cataclysm-tiles PUBLIC ${SDL2_MIXER_INCLUDE_DIRS})
 		target_link_libraries(cataclysm-tiles ${SDL2_MIXER_LIBRARIES})
 	ELSE(SOUND)

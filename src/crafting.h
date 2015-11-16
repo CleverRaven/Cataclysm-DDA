@@ -11,6 +11,7 @@
 #include <map>
 #include <list>
 
+class recipe_dictionary;
 class JsonObject;
 class Skill;
 using skill_id = string_id<Skill>;
@@ -22,11 +23,6 @@ enum body_part : int; // From bodypart.h
 typedef int nc_color; // From color.h
 
 using itype_id     = std::string; // From itype.h
-
-// Global list of valid recipes
-extern std::map<std::string, std::vector<recipe *>> recipes;
-// Global reverse lookup
-extern std::map<itype_id, std::vector<recipe *>> recipes_by_component;
 
 struct byproduct {
     itype_id result;
@@ -78,7 +74,6 @@ struct recipe {
     // Format: skill_name(amount), skill_name(amount)
     std::string required_skills_string() const;
 
-    ~recipe();
     recipe();
 
     // Create an item instance as if the recipe was just finished,
@@ -103,6 +98,88 @@ struct recipe {
     int batch_time(int batch = 1) const;
 
 };
+
+/**
+*   enum used by comp_selection to indicate where a component should be consumed from.
+*/
+enum usage {
+    use_from_map = 1,
+    use_from_player = 2,
+    use_from_both = 1 | 2,
+    use_from_none = 4,
+    cancel = 8 // FIXME: hacky.
+};
+
+/**
+*   Struct that represents a selection of a component for crafting.
+*/
+template<typename CompType = component>
+struct comp_selection {
+    /** Tells us where the selected component should be used from. */
+    usage use_from = use_from_none;
+    CompType comp;
+
+    /** provides a translated name for 'comp', suffixed with it's location e.g '(nearby)'. */
+    std::string nname() const;
+};
+
+/**
+*   Class that describes a crafting job.
+*
+*   The class has functions to execute the crafting job.
+*/
+class craft_command {
+    public:
+        /** Instantiates an empty craft_command, which can't be executed. */
+        craft_command() {}
+        craft_command( const recipe *to_make, int batch_size, bool is_long, player *crafter ) :
+            rec( to_make ), batch_size( batch_size ), is_long( is_long ), crafter( crafter ) {}
+
+        /** Selects components to use for the craft, then assigns the crafting activity to 'crafter'. */
+        void execute();
+        /** Consumes the selected components. Must be called after execute(). */
+        std::list<item> consume_components();
+
+        bool has_cached_selections() const
+        {
+            return !item_selections.empty() || !tool_selections.empty();
+        }
+
+        bool empty() const
+        {
+            return rec == nullptr;
+        }
+    private:
+        const recipe *rec = nullptr;
+        int batch_size = 0;
+        /** Indicates the activity_type for this crafting job, Either ACT_CRAFT or ACT_LONGCRAFT. */
+        bool is_long = false;
+        player *crafter; // This is mainly here for maintainability reasons.
+
+        std::vector<comp_selection<item_comp>> item_selections;
+        std::vector<comp_selection<tool_comp>> tool_selections;
+
+        /** Checks if tools we selected in a previous call to execute() are still available. */
+        std::vector<comp_selection<item_comp>>
+            check_item_components_missing( const inventory &map_inv ) const;
+        /** Checks if items we selected in a previous call to execute() are still available. */
+        std::vector<comp_selection<tool_comp>>
+            check_tool_components_missing( const inventory &map_inv ) const;
+
+        /** Does a string join with ', ' of the components in the passed vector and inserts into 'str' */
+        template<typename T = component>
+        void component_list_string( std::stringstream &str,
+                                    const std::vector<comp_selection<T>> &components );
+
+        /** Selects components to use */
+        void select_components( inventory & map_inv );
+
+        /** Creates a continue pop up asking to continue crafting and listing the missing components */
+        bool query_continue( const std::vector<comp_selection<item_comp>> &missing_items,
+                             const std::vector<comp_selection<tool_comp>> &missing_tools );
+};
+
+extern recipe_dictionary recipe_dict;
 
 // removes any (removable) ammo from the item and stores it in the
 // players inventory.
@@ -130,7 +207,6 @@ void batch_recipes(const inventory &crafting_inv,
                    std::vector<const recipe *> &current,
                    std::vector<bool> &available, const recipe* r);
 
-const recipe *find_recipe( std::string id );
 void check_recipe_definitions();
 
 void set_item_spoilage(item &newit, float used_age_tally, int used_age_count);

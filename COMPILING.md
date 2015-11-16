@@ -105,44 +105,6 @@ Run:
 
     make
 
-## Cross-compiling to linux 32-bit from linux 64-bit
-
-Dependencies:
-
-  * 32-bit toolchain
-  * 32-bit ncursesw (compatible with both multi-byte and 8-bit locales)
-
-Install:
-
-    sudo apt-get install libc6-dev-i386 lib32stdc++-dev g++-multilib lib32ncursesw5-dev
-
-### Building
-
-Run:
-
-    make NATIVE=linux32
-
-## Cross-compile to Windows from Linux
-
-Dependencies:
-
-  * [mxe](http://mxe.cc)
-
-Install:
-
-    sudo apt-get install autoconf bison flex cmake git automake intltool libtool scons yasm
-    mkdir -p ~/src/mxe
-    git clone -b stable https://github.com/mxe/mxe.git ~/src/mxe
-    cd ~/src/mxe
-    make gcc glib
-
-### Building
-
-Run:
-
-    PATH="${PATH}:~/src/mxe/usr/bin"
-    make CROSS=i686-pc-mingw32-
-
 ## Linux (native) SDL builds
 
 Dependencies:
@@ -162,26 +124,64 @@ Run:
 
     make TILES=1
 
-## Cross-compile to Windows SDL from Linux
+## Cross-compiling to linux 32-bit from linux 64-bit
 
 Dependencies:
 
-  * [mxe](http://mxe.cc)
+  * 32-bit toolchain
+  * 32-bit ncursesw (compatible with both multi-byte and 8-bit locales)
 
 Install:
 
-    sudo apt-get install autoconf bison flex cmake git automake intltool libtool scons yasm
-    mkdir -p ~/src/mxe
-    git clone -b stable https://github.com/mxe/mxe.git ~/src/mxe
-    cd ~/src/mxe
-    make sdl sdl_ttf
+    sudo apt-get install libc6-dev-i386 lib32stdc++-dev g++-multilib lib32ncursesw5-dev
 
 ### Building
 
 Run:
 
-    PATH="${PATH}:~/src/mxe/usr/bin"
-    make TILES=1 CROSS=i686-pc-mingw32-
+    make NATIVE=linux32
+
+## Cross-compile to Windows from Linux
+
+To cross-compile to Windows from Linux, you will need MXE. The main difference between the native build process and this one, is the use of the CROSS flag for make. The other make flags are still applicable.
+
+  * `CROSS=` - should be the full path to MXE g++ without the *g++* part at the end
+
+Dependencies:
+
+  * [MXE](http://mxe.cc)
+  * [MXE Requirements](http://mxe.cc/#requirements)
+
+Install:
+
+    sudo apt-get install autoconf automake autopoint bash bison bzip2 cmake flex gettext git g++ gperf intltool libffi-dev libgdk-pixbuf2.0-dev libtool libltdl-dev libssl-dev libxml-parser-perl make openssl p7zip-full patch perl pkg-config python ruby scons sed unzip wget xz-utils g++-multilib libc6-dev-i386 libtool-bin
+    mkdir -p ~/src/mxe
+    git clone https://github.com/mxe/mxe.git ~/src/mxe
+    cd ~/src/mxe
+    make MXE_TARGETS='x86_64-w64-mingw32.static i686-w64-mingw32.static' sdl2 sdl2_ttf sdl2_image sdl2_mixer gettext lua ncurses
+
+If you are not on a Debian derivative (Linux Mint, Ubuntu, etc), you will have to use a different command than apt-get to install [the MXE requirements](http://mxe.cc/#requirements). Building all these packages from MXE might take a while even on a fast computer. Be patient. If you are not planning on building for both 32-bit and 64-bit, you might want to adjust your MXE_TARGETS.
+
+### Building (SDL)
+
+Run:
+
+    PLATFORM="i686-w64-mingw32.static"
+    make CROSS="~/src/mxe/usr/bin/${PLATFORM}-" TILES=1 SOUND=1 LUA=1 RELEASE=1 LOCALIZE=1
+
+Change PLATFORM to x86_64-w64-mingw32.static for a 64-bit Windows build.
+
+To create nice zip file with all the required resources for a trouble free copy on Windows use the bindist target like this:
+
+    PLATFORM="i686-w64-mingw32.static"
+    make CROSS="~/src/mxe/usr/bin/${PLATFORM}-" TILES=1 SOUND=1 LUA=1 RELEASE=1 LOCALIZE=1 bindist
+
+### Building (ncurses)
+
+Run:
+
+    PLATFORM="i686-w64-mingw32.static"
+    make CROSS="~/src/mxe/usr/bin/${PLATFORM}-" LUA=1 RELEASE=1 LOCALIZE=1
 
 # Mac OS X
 
@@ -453,16 +453,12 @@ LocalFileSigLevel = Optional
 #### 7. Run in MSYS2 terminal:
 
 ```bash
+update-core
 pacman -Su
 pacman -S mingw-w64-x86_64-gcc
 pacman -S mingw-w64-x86_64-SDL2 mingw-w64-x86_64-SDL2_image mingw-w64-x86_64-SDL2_mixer mingw-w64-x86_64-SDL2_ttf
 pacman -S mingw-w64-x86_64-pkg-config mingw-w64-x86_64-libwebp
 pacman -S git make
-```
-
-If you wish to build with Lua also run:
-
-```bash
 pacman -S mingw-w64-x86_64-lua
 ```
 
@@ -475,72 +471,15 @@ git clone https://github.com/CleverRaven/Cataclysm-DDA.git
 cd Cataclysm-DDA
 ```
 
-#### 9. Open `Makefile` (it's located at `C:\msys64\home\<Your_Login>\Cataclysm-DDA\Makefile`) in an editor that worked before and change:
-
-```Makefile
-   ifeq ($(NATIVE), osx)
-     CXXFLAGS += -O3
-   else
-     CXXFLAGS += -Os
-     LDFLAGS += -s
-   endif
-```
-
-To:
-
-```Makefile
-   ifeq ($(NATIVE), osx)
-     CXXFLAGS += -O3
-   else
-     #CXXFLAGS += -Os
-     LDFLAGS += -s
-   endif
-```
-
-(Comment out `CXXFLAGS += -Os`). Optimizations break `gcc 4.9.2` you get with MSYS2.
-
-Also change:
-
-```Makefile
-   ifeq ($(TARGETSYSTEM),WINDOWS)
-     ifndef DYNAMIC_LINKING
-       # These differ depending on what SDL2 is configured to use.
-       LDFLAGS += -lfreetype -lpng -lz -ljpeg -lbz2
-     else
-```
-
-To:
-
-```Makefile
-   ifeq ($(TARGETSYSTEM),WINDOWS)
-     ifndef DYNAMIC_LINKING
-       # These differ depending on what SDL2 is configured to use.
-       LDFLAGS += -lfreetype -lpng -lz -ltiff -lbz2 -lharfbuzz -lglib-2.0 -llzma -lws2_32 -lintl -liconv -lwebp -ljpeg -luuid
-     else
-```
-
-(Add `-lharfbuzz -lglib-2.0 -llzma -lws2_32 -lintl -liconv -lwebp -ljpeg -luuid`). You'll need these libs for it to link.
-
-#### 10. Compile your CDDA by running:
+#### 9. Compile your CDDA by running:
 
 ```bash
-make RELEASE=1 TILES=1 LOCALIZE=0 NATIVE=win64
+make MSYS2=1 RELEASE=1 TILES=1 LOCALIZE=1 SOUND=1 LUA=1 NATIVE=win64
 ```
 
-Note: Add `-jX` where X should be the number of threads/cores your processor has (for speeding the build up).
+Note: You cannot naively use `-jX` to speed up your building process with `LUA=1`. You must first run `cd src/lua/ && lua generate_bindings.lua && cd ../..` if you want to use `-jX`. X should be the number of threads/cores your processor has.
 
-For:
-- Lua:
-    You'd need to first run:
-    
-    ```bash
-    cd src/lua && lua generate_bindings.lua && cd ../../
-    ```
-
-    Then add `LUA=1` to make invocation
-- Localization: Use `LOCALIZE=1`
-
-That's it. You should get a `cataclysm-tiles.exe` binary in the same folder you've found the `Makefile` in.
+That's it. You should get a `cataclysm-tiles.exe` binary in the same folder you've found the `Makefile` in. The make flags are the same as the ones described above. For instance, if you do not want to build with sound support, you can remove `SOUND=1`.
 
 # BSDs
 

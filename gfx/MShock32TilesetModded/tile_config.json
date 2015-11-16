@@ -2740,6 +2740,12 @@
           "rotates": false
         },
         {
+          "id": "bikini_bottom",
+          "fg": 427,
+          "bg": 505,
+          "rotates": false
+        },
+        {
           "id": "pants",
           "fg": 428,
           "bg": 505,
@@ -9699,7 +9705,17 @@
           "bg": 505
         },
         {
+          "id": "nicotine_liquid",
+          "fg": 871,
+          "bg": 505
+        },
+        {
           "id": "bag_canvas",
+          "fg": 866,
+          "bg": 505
+        },
+        {
+          "id": "swag_bag",
           "fg": 866,
           "bg": 505
         },
@@ -16809,11 +16825,6 @@
           "rotates": false
         },
         {
-          "id": "thigh_high_boots",
-          "fg": 1116,
-          "rotates": false
-        },
-        {
           "id": "knitting_needles",
           "fg": 1118,
           "rotates": false
@@ -22366,6 +22377,16 @@
           "rotates": false
         },
         {
+          "id": "summon_dark_wyrm",
+          "fg": 2850,
+          "rotates": false
+        },
+        {
+          "id": "summon_jabberwock",
+          "fg": 2850,
+          "rotates": false
+        },
+        {
           "id": "mon_spirit_of_fire",
           "fg": 2851,
           "bg": 515,
@@ -22993,6 +23014,162 @@
         {
           "id": "diamond",
           "fg": 2959,
+          "rotates": false
+        },
+        {
+          "id": "gobag",
+          "fg": 2960,
+          "rotates": false
+        },
+        {
+          "id": "survivor_duffel_bag",
+          "fg": 2961,
+          "rotates": false
+        },
+        {
+          "id": "survivor_pack",
+          "fg": 2962,
+          "rotates": false
+        },
+        {
+          "id": "hat_sombrero",
+          "fg": 2963,
+          "rotates": false
+        },
+        {
+          "id": "straw_hat",
+          "fg": 2964,
+          "rotates": false
+        },
+        {
+          "id": "powder_candy",
+          "fg": 2965,
+          "rotates": false
+        },
+        {
+          "id": "f_boulder_small",
+          "fg": 2966,
+          "rotates": false
+        },
+        {
+          "id": "f_boulder_medium",
+          "fg": 2967,
+          "rotates": false
+        },
+        {
+          "id": "f_boulder_large",
+          "fg": 2968,
+          "rotates": false
+        },
+        {
+          "id": "mon_zombie_biter",
+          "fg": 2969,
+          "bg": 515,
+          "rotates": false
+        },
+        {
+          "id": "survivor_scope",
+          "fg": 2970,
+          "rotates": false
+        },
+        {
+          "id": "armor_wyrm",
+          "fg": 2971,
+          "rotates": false
+        },
+        {
+          "id": "robe_shadow",
+          "fg": 2972,
+          "rotates": false
+        },
+        {
+          "id": "robe_shadow_on",
+          "fg": 2973,
+          "rotates": false
+        },
+        {
+          "id": "spear_pestilence",
+          "fg": 2974,
+          "rotates": false
+        },
+        {
+          "id": "lawn_dart",
+          "fg": 2975,
+          "rotates": false
+        },
+        {
+          "id": "heavy_flashlight",
+          "fg": 2976,
+          "rotates": false
+        },
+        {
+          "id": "heavy_flashlight_on",
+          "fg": 2977,
+          "rotates": false
+        },
+        {
+          "id": "survivor_light",
+          "fg": 2978,
+          "rotates": false
+        },
+        {
+          "id": "survivor_light_on",
+          "fg": 2979,
+          "rotates": false
+        },
+        {
+          "id": "f_chamomile",
+          "fg": 2980,
+          "rotates": false
+        },
+        {
+          "id": "morphine",
+          "fg": 2981,
+          "rotates": false
+        },
+        {
+          "id": "skinny_tie",
+          "fg": 2982,
+          "rotates": false
+        },
+        {
+          "id": "tool_black_powder_bomb",
+          "fg": 2983,
+          "rotates": false
+        },
+        {
+          "id": "tool_black_powder_bomb_act",
+          "fg": 2984,
+          "rotates": false
+        },
+        {
+          "id": "thigh_high_boots",
+          "fg": 2985,
+          "rotates": false
+        },
+        {
+          "id": "tieclip",
+          "fg": 2986,
+          "rotates": false
+        },
+        {
+          "id": "copper_bracelet",
+          "fg": 2987,
+          "rotates": false
+        },
+        {
+          "id": "silver_bracelet",
+          "fg": 2988,
+          "rotates": false
+        },
+        {
+          "id": "gold_bracelet",
+          "fg": 2989,
+          "rotates": false
+        },
+        {
+          "id": "mon_zombie_screecher",
+          "fg": 2990,
           "rotates": false
         }
       ]

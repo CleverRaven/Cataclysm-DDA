@@ -2039,9 +2039,9 @@
     "death_drops": "archon_drops", "//": "Here, have some chalice-specific loot",
     "hp":400,
     "death_function":["NORMAL"],
-    "special_attacks":[["FEAR_PARALYZE", 50], ["SHOCKSTORM", 25], ["PARROT", 25]],
+    "special_attacks":[["FEAR_PARALYZE", 40], ["SHOCKSTORM", 15], ["PARROT", 25]],
     "description":"A tall, robed figure twisted into a mockery of the human form, brandishing a strange golden talisman.  You feel an otherworldly presence about it.",
-    "flags":["SEES", "HEARS", "SMELLS", "WARM", "ATTACKMON", "HUMAN", "BONES", "FLIES"]
+    "flags":["SEES", "HEARS", "SMELLS", "WARM", "HUMAN", "BONES", "FLIES"]
     },{
     "type" : "MONSTER",
     "id" : "mon_dracolich",
@@ -2076,6 +2076,6 @@
     "death_function":"NORMAL",
     "special_attacks":[["FLESH_GOLEM", 5], ["BITE", 10], ["FLAMETHROWER", 10]],
     "description":"A massive, reptilian creature with batlike wings.  Its body is withered and rotten, large chunks of flesh stripped to the bone, and the membranes of its wings are in tatters.  You wonder how such a large beast could fly in the first place, let alone in that condition.",
-    "flags":["SEES", "SMELLS", "KEENNOSE", "HEARS", "WARM", "FIREPROOF", "FLIES", "BASHES", "ATTACKMON", "POISON", "BONES", "BLEED", "REVIVES", "NO_BREATHE"]
+    "flags":["SEES", "SMELLS", "KEENNOSE", "HEARS", "WARM", "FIREPROOF", "FLIES", "BASHES", "POISON", "BONES", "BLEED", "REVIVES", "NO_BREATHE"]
     }
 ]

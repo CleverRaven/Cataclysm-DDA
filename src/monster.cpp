@@ -1326,13 +1326,13 @@ int monster::get_armor_cut(body_part bp) const
 {
     (void) bp;
     // TODO: Add support for worn armor?
-    return int(type->armor_cut) + armor_bash_bonus;
+    return int(type->armor_cut) + armor_cut_bonus;
 }
 
 int monster::get_armor_bash(body_part bp) const
 {
     (void) bp;
-    return int(type->armor_bash) + armor_cut_bonus;
+    return int(type->armor_bash) + armor_bash_bonus;
 }
 
 int monster::hit_roll() const {
@@ -1745,6 +1745,12 @@ void monster::process_effects()
                     apply_damage( nullptr, bp_torso, rng( 15, 40 ) );
             }
         }
+    }
+
+    // Like with player/NPCs - keep the speed above 0
+    const int min_speed_bonus = -0.75 * get_speed_base();
+    if( get_speed_bonus() < min_speed_bonus ) {
+        set_speed_bonus( min_speed_bonus );
     }
 
     //If this monster has the ability to heal in combat, do it now.

@@ -468,47 +468,48 @@ void wprintz(WINDOW *w, nc_color FG, const char *mes, ...)
     wattroff(w, FG);
 }
 
-void draw_custom_border(WINDOW *w, chtype ls, chtype rs, chtype ts, chtype bs, chtype tl, chtype tr, chtype bl, chtype br, nc_color FG)
+void draw_custom_border(WINDOW *w, chtype ls, chtype rs, chtype ts, chtype bs, chtype tl, chtype tr,
+                        chtype bl, chtype br, nc_color FG, int posy, int height, int posx, int width)
 {
     wattron(w, FG);
 
-    const int height = getmaxy(w);
-    const int width = getmaxx(w);
+    height = (height == 0) ? getmaxy(w) - posy : height;
+    width = (width == 0) ? getmaxx(w) - posx : width;
 
-    for (int j = 0; j < height - 1; j++) {
+    for (int j = posy; j < height + posy - 1; j++) {
         if (ls > 0) {
-            mvwputch(w, j, 0, c_ltgray, (ls > 1) ? ls : LINE_XOXO); // |
+            mvwputch(w, j, posx, c_ltgray, (ls > 1) ? ls : LINE_XOXO); // |
         }
 
         if (rs > 0) {
-            mvwputch(w, j, width - 1, c_ltgray, (rs > 1) ? rs : LINE_XOXO); // |
+            mvwputch(w, j, posx + width - 1, c_ltgray, (rs > 1) ? rs : LINE_XOXO); // |
         }
     }
 
-    for (int j = 0; j < width - 1; j++) {
+    for (int j = posx; j < width + posx - 1; j++) {
         if (ts > 0) {
-            mvwputch(w, 0, j, c_ltgray, (ts > 1) ? ts : LINE_OXOX); // --
+            mvwputch(w, posy, j, c_ltgray, (ts > 1) ? ts : LINE_OXOX); // --
         }
 
         if (bs > 0) {
-            mvwputch(w, height - 1, j, c_ltgray, (bs > 1) ? bs : LINE_OXOX); // --
+            mvwputch(w, posy + height - 1, j, c_ltgray, (bs > 1) ? bs : LINE_OXOX); // --
         }
     }
 
     if (tl > 0) {
-        mvwputch(w, 0, 0, c_ltgray, (tl > 1) ? tl : LINE_OXXO); // |^
+        mvwputch(w, posy, posx, c_ltgray, (tl > 1) ? tl : LINE_OXXO); // |^
     }
 
     if (tr > 0) {
-        mvwputch(w, 0, width - 1, c_ltgray, (tr > 1) ? tr : LINE_OOXX); // ^|
+        mvwputch(w, posy, posx + width - 1, c_ltgray, (tr > 1) ? tr : LINE_OOXX); // ^|
     }
 
     if (bl > 0) {
-        mvwputch(w, height - 1, 0, c_ltgray, (bl > 1) ? bl : LINE_XXOO); // |_
+        mvwputch(w, posy + height - 1, posx + 0, c_ltgray, (bl > 1) ? bl : LINE_XXOO); // |_
     }
 
     if (br > 0) {
-        mvwputch(w, height - 1, width - 1, c_ltgray, (br > 1) ? br : LINE_XOOX); // _|
+        mvwputch(w, posy + height - 1, posx + width - 1, c_ltgray, (br > 1) ? br : LINE_XOOX); // _|
     }
 
     wattroff(w, FG);

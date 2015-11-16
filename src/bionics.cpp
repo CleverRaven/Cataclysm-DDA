@@ -882,7 +882,7 @@ bool player::activate_bionic(int b, bool eff_only)
         }
     } else if(bio.id == "bio_leukocyte") {
         set_healthy(std::min(100, get_healthy() + 2));
-        mod_healthy_mod(20);
+        mod_healthy_mod(20, 100);
     } else if(bio.id == "bio_geiger") {
         add_msg(m_info, _("Your radiation level: %d"), radiation);
     } else if(bio.id == "bio_radscrubber") {

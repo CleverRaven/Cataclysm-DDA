@@ -6508,10 +6508,10 @@
   "skills_required": [ "mechanics", 3 ],
   "difficulty": 4,
   "time": 4000,
-  "reversible": false,
+  "reversible": true,
   "autolearn": true,
   "components": [
-    [ ["switchblade", 1], ["primitive_knife", 1], ["pockknife", 1], ["knife_steak", 1] ],
+    [ ["pockknife", 1], ["primitive_knife", 1], ["switchblade", 1], ["knife_steak", 1] ],
     [ [ "screwdriver", 1 ] ],
     [ [ "hacksaw", 1 ] ],
     [ [ "wrench", 1 ] ],
@@ -6869,6 +6869,26 @@
   "components": [
     [
         [ "coal", 1 ]
+    ]
+  ]
+  },{
+
+  "type" : "recipe",
+  "result": "chem_sulphur",
+  "byproducts": { "id" : "chem_sulphur", "amount" : 4 },
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_PARTS",
+  "skill_used": "fabrication",
+  "difficulty": 1,
+  "time": 1000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities": [
+        {"id":"HAMMER","level":1,"amount":1}
+      ],
+  "components": [
+    [
+        [ "chunk_sulfur", 1 ]
     ]
   ]
   },{
