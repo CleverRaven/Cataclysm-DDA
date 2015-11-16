@@ -322,6 +322,7 @@ std::string vstring_format(std::string const &pattern, va_list argptr);
 // TODO: move these elsewhere
 // string manipulations.
 
+std::string string_replace(std::string text, const std::string &before, const std::string &after);
 std::string &capitalize_letter(std::string &pattern, size_t n = 0);
 std::string rm_prefix(std::string str, char c1 = '<', char c2 = '>');
 #define rmp_format(...) rm_prefix(string_format(__VA_ARGS__))

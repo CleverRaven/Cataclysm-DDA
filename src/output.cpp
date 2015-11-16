@@ -1112,6 +1112,20 @@ int draw_item_info(const int iLeft, const int iWidth, const int iTop, const int 
     return result;
 }
 
+std::string string_replace(std::string text, const std::string &before, const std::string &after)
+{
+    while(true) {
+        size_t pos = text.find(before);
+        if (pos != std::string::npos) {
+            text.replace(pos, before.length(), after);
+        } else {
+            break;
+        }
+    }
+
+    return text;
+}
+
 std::string format_item_info( const std::vector<iteminfo> &vItemDisplay,
                               const std::vector<iteminfo> &vItemCompare )
 {
