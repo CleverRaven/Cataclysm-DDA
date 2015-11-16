@@ -3141,9 +3141,9 @@
         "color" : "green",
         "covers" : ["TORSO"],
         "to_hit" : 0,
-        "storage" : 15,
+        "storage" : 12,
         "symbol" : "[",
-        "description" : "A custom-built light harness covered with pockets and pouches and a holster for a handgun.  Durable and carefully crafted to be comfortable to wear.  Activate to holster/draw a pistol.",
+        "description" : "A custom-built light harness covered with pouches and including an integral tactical sling for a small rifle or other such weapon.  Durable and carefully crafted to be comfortable to wear.  Activate to holster/draw your weapon.",
         "price" : 20000,
         "material" : ["leather", "cotton"],
         "volume" : 5,
@@ -3155,8 +3155,12 @@
         "flags" : ["VARSIZE", "WATER_FRIENDLY", "STURDY", "WAIST"],
         "coverage" : 20,
         "material_thickness" : 2,
-        "use_action" : "HOLSTER_GUN",
-        "properties" : [["holster_size", "5"]]
+        "use_action" : {
+            "type": "holster",
+             "max_volume": 8,
+             "draw_speed": 5,
+             "skills": ["smg", "shotgun", "rifle"]
+        }
     },
         {
         "type" : "ARMOR",
