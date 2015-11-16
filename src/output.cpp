@@ -1165,13 +1165,13 @@ std::string format_item_info( const std::vector<iteminfo> &vItemDisplay,
             }
 
             if (vItemDisplay[i].sValue != "-999") {
-                nc_color thisColor = c_white;
+                nc_color thisColor = c_ltgray;
                 for (auto &k : vItemCompare) {
                     if (k.sValue != "-999") {
                         if (vItemDisplay[i].sName == k.sName && vItemDisplay[i].sType == k.sType) {
                             if (vItemDisplay[i].dValue > k.dValue - .1 &&
                                 vItemDisplay[i].dValue < k.dValue + .1) {
-                                thisColor = c_white;
+                                thisColor = c_ltgray;
                             } else if (vItemDisplay[i].dValue > k.dValue) {
                                 if (vItemDisplay[i].bLowerIsBetter) {
                                     thisColor = c_ltred;
@@ -1241,7 +1241,7 @@ int draw_item_info(WINDOW *win, const std::string sItemName,
                 selected = iLines - height;
             }
 
-            fold_and_print_from( win, line_num, b, width, selected, c_white, buffer.str() );
+            fold_and_print_from( win, line_num, b, width, selected, c_ltgray, buffer.str() );
 
             draw_scrollbar( win, selected, height, iLines-height, 1, 0, BORDER_COLOR, true );
         }
