@@ -863,8 +863,11 @@ void vehicle::use_controls(const tripoint &pos)
     menu.text = _("Vehicle controls");
 
     int vpart;
-    if (!interact_vehicle_locked()) return;
+    if (!interact_vehicle_locked()) {
+        return;
+    }
 
+    bool has_basic_controls = false;
     bool has_electronic_controls = false;
     bool remotely_controlled = g->remoteveh() == this;
 
@@ -878,6 +881,9 @@ void vehicle::use_controls(const tripoint &pos)
                                                               parts[vpart].mount.y);
         // iterate over all parts in the selected tile
         for (size_t p = 0; p < parts_for_check.size(); ++p) {
+            if (part_flag(parts_for_check[p], "CONTROLS")) {
+                has_basic_controls = true;
+            }
             if (part_flag(parts_for_check[p], "CTRL_ELECTRONIC")) {
                 has_electronic_controls = true;
             }
@@ -891,7 +897,10 @@ void vehicle::use_controls(const tripoint &pos)
             }
         }
     }
-
+    if( !has_basic_controls && !has_electronic_controls ) {
+        add_msg(m_info, _("No controls there."));
+        return;
+    }
     bool has_lights = false;
     bool has_stereo = false;
     bool has_chimes = false;
