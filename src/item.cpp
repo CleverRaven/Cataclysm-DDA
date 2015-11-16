@@ -671,14 +671,17 @@ std::string item::info(bool showtext, std::vector<iteminfo> &info) const
         if (ammo->type != "NULL") {
             info.push_back(iteminfo("AMMO", _("Type: "), ammo_name(ammo->type)));
         }
-        info.push_back(iteminfo("AMMO", _("Damage: "), "", ammo->damage, true, "", false, false));
-        info.push_back(iteminfo("AMMO", space + _("Armor-pierce: "), "",
-                                 ammo->pierce, true, "", true, false));
-        info.push_back(iteminfo("AMMO", _("Range: "), "",
-                                 ammo->range, true, "", false, false));
-        info.push_back(iteminfo("AMMO", space + _("Dispersion: "), "",
-                                 ammo->dispersion, true, "", true, true));
-        info.push_back(iteminfo("AMMO", _("Recoil: "), "", ammo->recoil, true, "", true, true));
+
+        if ( ammo->damage > 0 ) {
+            info.push_back(iteminfo("AMMO", _("Damage: "), "", ammo->damage, true, "", false, false));
+            info.push_back(iteminfo("AMMO", space + _("Armor-pierce: "), "",
+                                    ammo->pierce, true, "", true, false));
+            info.push_back(iteminfo("AMMO", _("Range: "), "",
+                                    ammo->range, true, "", false, false));
+            info.push_back(iteminfo("AMMO", space + _("Dispersion: "), "",
+                                    ammo->dispersion, true, "", true, true));
+            info.push_back(iteminfo("AMMO", _("Recoil: "), "", ammo->recoil, true, "", true, true));
+        }
         info.push_back(iteminfo("AMMO", _("Default stack size: "), "", ammo->def_charges, true, "", true, false));
     }
 
