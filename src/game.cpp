@@ -6081,106 +6081,42 @@ void game::explosion( const tripoint &p, float power, float factor,
 void game::do_blast( const tripoint &p, const float power,
                      const float distance_factor, const bool fire )
 {
-    const float tile_dist = 1.0f;
-    const float diag_dist = trigdist ? 1.41f * tile_dist : 1.0f * tile_dist;
-    const float zlev_dist = 2.0f; // Penalty for going up/down
-    // 7 3 5
-    // 1 . 2
-    // 6 4 8
-    // 9 and 10 are up and down
-    constexpr std::array<int, 10> x_offset{{ -1,  1,  0,  0,  1, -1, -1, 1, 0,  0 }};
-    constexpr std::array<int, 10> y_offset{{  0,  0, -1,  1, -1,  1, -1, 1, 0,  0 }};
-    constexpr std::array<int, 10> z_offset{{  0,  0,  0,  0,  0,  0,  0, 0, 1, -1 }};
-    const size_t max_index = m.has_zlevels() ? 10 : 8;
-
-    std::priority_queue< std::pair<float, tripoint>, std::vector< std::pair<float, tripoint> >, pair_greater_cmp > open;
-    std::set<tripoint> closed;
-    std::map<tripoint, float> dist_map;
-    open.push( std::make_pair( 0.0f, p ) );
-    dist_map[p] = 0.0f;
-    // Find all points to blast
-    while( !open.empty() ) {
-        // Add some random factor to effective distance to make it look cooler
-        const float distance = open.top().first * rng_float( 1.0f, 1.2f );
-        const tripoint pt = open.top().second;
-        open.pop();
-
-        if( closed.count( pt ) != 0 ) {
-            continue;
-        }
-
-        closed.insert( pt );
-
-        const float force = power * std::pow( distance, distance_factor );
+    distance_factor = 0.5; // temporary measure
+    int max_radius = ceil(sqrt(power / 10));
+    std::set<tripoint, double> cover = find_cover(p, max_radius);
+    std::vector<tripoint> points = g->m.closest_tripoints_first(p, max_radius);
+    
+    // Do concussive damage at each explosion point
+    for(tripoint &pt : points) {
+        float force = power;
+        if(p != pt) { force = force / std::pow( distance, 2.0 ); }
+        force = force * cover[pt];
+        
         if( force <= 1.0f ) {
+            // Too weak to matter
             continue;
         }
-
-        if( m.move_cost( pt ) == 0 && pt != p ) {
-            // Don't propagate further
-            continue;
-        }
-
-        // Those will be used for making "shaped charges"
-        // Don't check up/down (for now) - this will make 2D/3D balancing easier
-        int empty_neighbors = 0;
-        for( size_t i = 0; i < 8; i++ ) {
-            tripoint dest( pt.x + x_offset[i], pt.y + y_offset[i], pt.z + z_offset[i] );
-            if( closed.count( dest ) == 0 && m.valid_move( pt, dest, false, true ) ) {
-                empty_neighbors++;
-            }
-        }
-
-        empty_neighbors = std::max( 1, empty_neighbors );
-        // Iterate over all neighbors. Bash all of them, propagate to some
-        for( size_t i = 0; i < max_index; i++ ) {
-            tripoint dest( pt.x + x_offset[i], pt.y + y_offset[i], pt.z + z_offset[i] );
-            if( closed.count( dest ) != 0 ) {
-                continue;
-            }
-
-            // Up to 200% bonus for shaped charge
-            // But not if the explosion is fiery, then only half the force and no bonus
-            const float bash_force = !fire ?
-                                        force + ( 2 * force / empty_neighbors ) :
-                                        force / 2;
-            if( z_offset[i] == 0 ) {
-                // Horizontal - no floor bashing
-                m.bash( dest, bash_force, true, false, false );
-            } else if( z_offset[i] > 0 ) {
-                // Should actually bash through the floor first, but that's not really possible yet
-                m.bash( dest, bash_force, true, false, true );
-            } else if( !m.valid_move( pt, dest, false, true ) ) {
-                // Only bash through floor if it doesn't exist
-                // Bash the current tile's floor, not the one's below
-                m.bash( pt, bash_force, true, false, true );
-            }
-
-            float next_dist = distance;
-            next_dist += ( x_offset[i] == 0 || y_offset[i] == 0 ) ? tile_dist : diag_dist;
-            if( z_offset[i] != 0 ) {
-                if( !m.valid_move( pt, dest, false, true ) ) {
-                    continue;
-                }
-
-                next_dist += zlev_dist;
-            }
-
-            if( dist_map.count( dest ) == 0 || dist_map[dest] > next_dist ) {
-                open.push( std::make_pair( next_dist, dest ) );
-                dist_map[dest] = next_dist;
-            }
-        }
+        //bash this point
+        m.bash( pt, bash_force, true, false, false );
     }
+    
 
     // Draw the explosion
     std::map<tripoint, nc_color> explosion_colors;
-    for( auto &pt : closed ) {
+    for( auto &pt : points ) {
+        //TODO: work out how power translates to force
+        float force = power;
+        if(p != pt) { force = power / std::pow( trig_dist(p, pt), 2.0 ); }
+        force = force * cover[pt];
+        
+        if( force < 1.0f ) {
+            // Too weak to matter
+            continue;
+        }
         if( m.move_cost( pt ) == 0 ) {
             continue;
         }
 
-        const float force = power * std::pow( distance_factor, dist_map.at( pt ) );
         nc_color col = c_red;
         if( force < 10 ) {
             col = c_white;
@@ -6190,11 +6126,14 @@ void game::do_blast( const tripoint &p, const float power,
 
         explosion_colors[pt] = col;
     }
-
     draw_custom_explosion( u.pos(), explosion_colors );
 
-    for( const tripoint &pt : closed ) {
-        const float force = power * std::pow( distance_factor, dist_map.at( pt ) );
+    for( const tripoint &pt : points ) {
+        //TODO: work out how power translates to force
+        float force = power;
+        if(p != pt) { force = power / std::pow( trig_dist(p, pt), 2.0 ); }
+        force = force * cover[pt];
+        
         if( force < 1.0f ) {
             // Too weak to matter
             continue;
@@ -6281,11 +6220,8 @@ void game::do_blast( const tripoint &p, const float power,
     }
 }
 
-void new_blast( const tripoint &p, const float power,
-				const float distance_factor, const bool fire )
-{
-    int max_radius = ceil(sqrt(power / 10));
-    
+std::set<tripoint, double> find_cover(const tripoint &p, const int max_radius)
+{    
     std::map<tripoint, double> cover;
     cover[p] = 1.0;
     if(g->m.has_furn(p)) { cover[p] = 0.75; }
@@ -6310,7 +6246,7 @@ void new_blast( const tripoint &p, const float power,
                 }
             }
             
-            //weight direct cover higher
+            //weight LoS-blocking adjacent cover significantly higher
             std::vector<tripoint> line = line_to(pt, p, 0, 0);
             if(g->m.has_furn(line[0])) { cover_sum = 1.0 * 2; }
             count += 2;
@@ -6323,7 +6259,7 @@ void new_blast( const tripoint &p, const float power,
         last_shell = shell;
     }
     
-        
+    return cover;
 }
 
 void game::shrapnel( const tripoint &p, int power, int count, int radius )
