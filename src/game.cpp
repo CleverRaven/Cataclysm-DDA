@@ -6084,7 +6084,7 @@ void game::do_blast( const tripoint &p, const float power,
     if(distance_factor != 0.5) { /* Temporarily need to consume the parameter */ }
     int max_radius = ceil(sqrt(power / 10));
     std::map<tripoint, double> cover = find_cover(p, max_radius);
-    std::vector<tripoint> points = closest_tripoints_first(p, max_radius);
+    std::vector<tripoint> points = closest_tripoints_first(max_radius, p);
     
     // Do concussive damage at each explosion point
     for(tripoint &pt : points) {
@@ -6231,7 +6231,6 @@ std::map<tripoint, double> find_cover(const tripoint &p, const int max_radius)
     
     //process cover amounts
     for(int i = 1; i < max_radius; ++i) {
-        double cover_sum;
         std::set<tripoint> shell = get_shell_tripoints(i, p);
         for(tripoint pt : shell) {
             double cover_sum = 0;
@@ -6264,16 +6263,11 @@ std::map<tripoint, double> find_cover(const tripoint &p, const int max_radius)
 
 void game::shrapnel( const tripoint &p, int power, int count, int radius )
 {
-    if( power <= 0 ) {
-        return;
-    }
+    if( power <= 0 || radius < 0 || count < 1) { return; }
 
-    if( radius < 0 ) {
-        return;
-    }
-
-    tripoint_range extents = g->m.points_in_radius(p, radius, 0);
-    std::map<tripoint, double> 
+    //tripoint_range extents = 
+    g->m.points_in_radius(p, radius, 0);
+//    std::map<tripoint, double> 
 }
 
 void game::flashbang( const tripoint &p, bool player_immune)
