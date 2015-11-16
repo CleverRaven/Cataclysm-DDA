@@ -655,6 +655,9 @@ std::string item::info(bool showtext, std::vector<iteminfo> &info) const
         if ( g->u.nutrition_for(food) != 0 || food->quench != 0 ) {
             info.push_back(iteminfo("FOOD", _("<bold>Nutrition</bold>: "), "", g->u.nutrition_for(food), true, "", false, true));
             info.push_back(iteminfo("FOOD", space + _("Quench: "), "", food->quench));
+        }
+
+        if ( food->fun != 0 ) {
             info.push_back(iteminfo("FOOD", _("Enjoyability: "), "", food->fun));
         }
 
@@ -992,8 +995,8 @@ std::string item::info(bool showtext, std::vector<iteminfo> &info) const
 
         info.push_back(iteminfo("ARMOR", temp1.str()));
 
-        info.push_back(iteminfo("ARMOR", _("Coverage: "), "<num>% ", get_coverage(), true, "", false));
-        info.push_back(iteminfo("ARMOR", _("Warmth: "), "", get_warmth()));
+        info.push_back(iteminfo("ARMOR", _("Coverage: "), "<num>%", get_coverage(), true, "", false));
+        info.push_back(iteminfo("ARMOR", space + _("Warmth: "), "", get_warmth()));
 
         insert_empty_line();
 
