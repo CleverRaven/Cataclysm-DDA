@@ -711,7 +711,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> &info) const
         const auto skill = &mod->gun_skill().obj();
 
         info.push_back(iteminfo("GUN", _("Skill used: "), "<info>" + skill->name() + "</info>"));
-        info.push_back(iteminfo("GUN", _("Ammunition: "), string_format(ngettext("<num> round of %s", "<num> rounds of %s", mod->clip_size()),
+        info.push_back(iteminfo("GUN", _("<bold>Ammunition</bold>: "), string_format(ngettext("<num> round of %s", "<num> rounds of %s", mod->clip_size()),
                                  ammo_name(mod->ammo_type()).c_str()), mod->clip_size(), true));
 
         info.push_back(iteminfo("GUN", _("Damage: "), "", mod->gun_damage( false ), true, "", false, false));
@@ -816,7 +816,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> &info) const
                         }else{
                             temp1 << ", ";
                         }
-                        temp1 << _mn.tname();
+                        temp1 << "<stat>" << _mn.tname() << "</stat>";
                     }
                 }
                 iternum++;
@@ -865,7 +865,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> &info) const
                                      (mod->burst > 0 ? "+" : "")));
 
         if (mod->newtype != "NULL") {
-            info.push_back(iteminfo("GUNMOD", _("Ammo: ") + ammo_name(mod->newtype)));
+            info.push_back(iteminfo("GUNMOD", string_format( _("Ammo: <stat>%s</stat>") + ammo_name(mod->newtype) ) ) );
         }
 
         temp1.str("");
@@ -975,15 +975,15 @@ std::string item::info(bool showtext, std::vector<iteminfo> &info) const
         temp1.str("");
         temp1 << _("Layer: ");
         if (has_flag("SKINTIGHT")) {
-            temp1 << _("<neutral>Close to skin</neutral>. ");
+            temp1 << _("<stat>Close to skin</stat>. ");
         } else if (has_flag("BELTED")) {
-            temp1 << _("<neutral>Strapped</neutral>. ");
+            temp1 << _("<stat>Strapped</stat>. ");
         } else if (has_flag("OUTER")) {
-            temp1 << _("<neutral>Outer</neutral>. ");
+            temp1 << _("<stat>Outer</stat>. ");
         } else if (has_flag("WAIST")) {
-            temp1 << _("<neutral>Waist</neutral>. ");
+            temp1 << _("<stat>Waist</stat>. ");
         } else {
-            temp1 << _("<neutral>Normal</neutral>. ");
+            temp1 << _("<stat>Normal</stat>. ");
         }
 
         info.push_back(iteminfo("ARMOR", temp1.str()));
@@ -1100,19 +1100,28 @@ std::string item::info(bool showtext, std::vector<iteminfo> &info) const
     }
     if( is_container() ) {
         const auto &c = *type->container;
+
+        info.push_back(iteminfo("ARMOR", temp1.str()));
+
+        temp1.str("");
+        temp1 << _("This Container ");
+
         if( c.rigid ) {
-            info.push_back( iteminfo( "CONTAINER", _( "This item is <info>rigid</info>." ) ) );
+            temp1 << _( "is <info>rigid</info>, " );
         }
         if( c.seals ) {
-            info.push_back( iteminfo( "CONTAINER", _( "This container can be <info>resealed</info>." ) ) );
+            temp1 << _( "can be <info>resealed</info>, " );
         }
         if( c.watertight ) {
-            info.push_back( iteminfo( "CONTAINER", _( "This container is <info>watertight</info>." ) ) );
+            temp1 << _( "is <info>watertight</info>, " );
         }
         if( c.preserves ) {
-            info.push_back( iteminfo( "CONTAINER", _( "This container <good>preserves</good> its contents from <info>spoiling</info>." ) ) );
+            temp1 << _( "<good>preserves spoiling</good>, " );
         }
-        info.push_back( iteminfo( "CONTAINER", string_format( _( "This container can store <info>%.2f liters</info>." ), c.contains / 4.0 ) ) );
+
+        temp1 << string_format( _( "can store <info>%.2f liters</info>." ), c.contains / 4.0 );
+
+        info.push_back( iteminfo( "CONTAINER", temp1.str() ) );
     }
     if( is_tool() ) {
         const auto tool = dynamic_cast<const it_tool*>(type);
@@ -1643,7 +1652,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> &info) const
         std::map<std::string, std::string>::const_iterator item_note_type = item_vars.find("item_note_type");
 
         if ( item_note != item_vars.end() ) {
-            info.push_back(iteminfo("DESCRIPTION", "\n" ));
+            insert_empty_line();
             std::string ntext = "";
             if ( item_note_type != item_vars.end() ) {
                 ntext += string_format(_("%1$s on the %2$s is: "),
@@ -1656,15 +1665,15 @@ std::string item::info(bool showtext, std::vector<iteminfo> &info) const
 
         // describe contents
         if (!contents.empty()) {
-            if (is_gun()) {//Mods description
+            if (is_gun()) { //Mods description
                 for( auto &elem : contents ) {
                     const auto mod = elem.type->gunmod.get();
                     temp1.str("");
                     if( elem.has_flag("IRREMOVABLE") ){
                         temp1 << _("[Integrated]");
                     }
-                    temp1 << " " << elem.tname() << " (" << _( mod->location.c_str() ) << ")";
-                    info.push_back(iteminfo("DESCRIPTION", temp1.str()));
+                    temp1 << "\n \n" << _("Mod: ") << "<bold>" << elem.tname() << "</bold> (" << _( mod->location.c_str() ) << ")";
+                    info.push_back( iteminfo( "DESCRIPTION", temp1.str() ) );
                     info.push_back( iteminfo( "DESCRIPTION", elem.type->description ) );
                 }
             } else {
