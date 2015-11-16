@@ -6052,7 +6052,7 @@ struct pair_greater_cmp
 void game::explosion( const tripoint &p, float power, float factor,
                       int shrapnel_count, bool fire )
 {
-    factor = 0.5; //patch for now - will need to expand deeper before done
+    factor = 0.5; //patch for now - TODO: expand deeper before done
     
     const int noise = power * (fire ? 2 : 10);
     if( noise >= 30 ) {
@@ -6081,7 +6081,6 @@ void game::explosion( const tripoint &p, float power, float factor,
 void game::do_blast( const tripoint &p, const float power,
                      const float distance_factor, const bool fire )
 {
-    distance_factor = 0.5; // temporary measure
     int max_radius = ceil(sqrt(power / 10));
     std::set<tripoint, double> cover = find_cover(p, max_radius);
     std::vector<tripoint> points = g->m.closest_tripoints_first(p, max_radius);
@@ -6272,7 +6271,6 @@ void game::shrapnel( const tripoint &p, int power, int count, int radius )
         return;
     }
 
-    
     tripoint_range extents = g->m.points_in_radius(p, radius, 0);
     std::map<tripoint, double> 
 }
