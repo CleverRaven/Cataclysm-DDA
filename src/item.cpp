@@ -651,9 +651,13 @@ std::string item::info(bool showtext, std::vector<iteminfo> &info) const
     }
     if( food_item != nullptr ) {
         const auto food = dynamic_cast<const it_comest*>( food_item->type );
-        info.push_back(iteminfo("FOOD", _("<bold>Nutrition</bold>: "), "", g->u.nutrition_for(food), true, "", false, true));
-        info.push_back(iteminfo("FOOD", space + _("Quench: "), "", food->quench));
-        info.push_back(iteminfo("FOOD", _("Enjoyability: "), "", food->fun));
+
+        if ( g->u.nutrition_for(food) != 0 || food->quench != 0 ) {
+            info.push_back(iteminfo("FOOD", _("<bold>Nutrition</bold>: "), "", g->u.nutrition_for(food), true, "", false, true));
+            info.push_back(iteminfo("FOOD", space + _("Quench: "), "", food->quench));
+            info.push_back(iteminfo("FOOD", _("Enjoyability: "), "", food->fun));
+        }
+
         info.push_back(iteminfo("FOOD", _("Portions: "), "", abs(int(food_item->charges))));
         if (food_item->corpse != NULL && ( debug == true || ( g != NULL &&
              ( g->u.has_bionic("bio_scent_vision") || g->u.has_trait("CARNIVORE") ||
@@ -673,7 +677,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> &info) const
         }
 
         if ( ammo->damage > 0 ) {
-            info.push_back(iteminfo("AMMO", _("Damage: "), "", ammo->damage, true, "", false, false));
+            info.push_back(iteminfo("AMMO", _("<bold>Damage</bold>: "), "", ammo->damage, true, "", false, false));
             info.push_back(iteminfo("AMMO", space + _("Armor-pierce: "), "",
                                     ammo->pierce, true, "", true, false));
             info.push_back(iteminfo("AMMO", _("Range: "), "",
