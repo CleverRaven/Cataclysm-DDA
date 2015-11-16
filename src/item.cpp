@@ -1644,7 +1644,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> &info) const
                 }
             } else {
                 info.push_back(iteminfo("DESCRIPTION",
-                        _("This food is <neutral>perishable</neutral>, and <info>will eventually rot</info>.")));
+                        _("This food is <neutral>perishable</neutral>, and will eventually rot.")));
             }
 
         }
