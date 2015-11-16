@@ -7494,7 +7494,7 @@
         "price" : 10000,
         "symbol" : "[",
         "color" : "ltgray",
-        "description" : "A leather holster, big enough for a rifle or other large gun.  Designed to be strapped to the back.  Activate to holster/draw a gun.",
+        "description" : "A leather holster, big enough for a rifle or other large gun.  Designed to be strapped to the back.  Whilst initially cumbersome it becomes much easier to use with practice. Activate to holster/draw a gun.",
         "to_hit" : -1,
         "material" : ["leather", "null"],
         "covers" : ["TORSO"],
@@ -7506,8 +7506,12 @@
         "phase" : "solid",
         "encumbrance" : 5,
         "material_thickness" : 1,
-        "use_action" : "HOLSTER_GUN",
-        "properties" : [["holster_size", "15"]]
+        "use_action" : {
+            "type": "holster",
+            "max_volume": 15,
+            "draw_speed": 20,
+            "skills": ["smg", "shotgun", "rifle", "launcher"]
+        }
     },
     {
         "type" : "ARMOR",
