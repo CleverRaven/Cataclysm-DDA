@@ -89,6 +89,7 @@
 #include <iterator>
 #include <ctime>
 #include <cstring>
+#include <cmath>
 
 #if !(defined _WIN32 || defined WINDOWS || defined TILES)
 #include <langinfo.h>
@@ -6252,6 +6253,82 @@ void game::do_blast( const tripoint &p, const float power,
 }
 
 
+void new_blast( const tripoint &p, const float power,
+				const float distance_factor, const bool fire )
+{
+    int max_radius = ceil(sqrt(power / 10));
+    
+    std::map<tripoint, double> cover;
+    cover[p] = 1.0;
+    if(g->m.has_furn(p)) { cover[p] = 0.75; }
+    
+    std::set<tripoint> last_shell;
+    last_shell.insert(p);
+    
+    //process cover amounts in the radius
+    for(size_t i = 1; i < max_radius; ++i) {
+        double cover_sum;
+        std::set<tripoint> shell = get_shell_tripoints(i, p);
+        for(tripoint pt : shell) {
+            double cover_sum = 0;
+            int count = 0;
+            
+            //neighboring cover
+            for(tripoint neighbor : get_neighbor_tripoints(p)) {
+                if(last_shell.count(neighbor) > 0) {
+                    if(g->m.has_furn(neighbor)) { cover_sum += 1.0 }   //actual neighboring cover
+                    else    { cover_sum += cover[neighbor] * 0.50; }   //carry over distant cover, reduced
+                    ++count;
+                }
+            }
+            
+            //weight direct cover higher
+            std::vector<tripoint> line = line_to(pt, p, 0, 0);
+            if(g->m.has_furn(line[0])) { cover_sum = 0.5 * 2; }
+            count += 2;
+            
+            //can use cover here in a pinch
+            if(cover_sum / count > 0.90 && g->m.has_furn(pt)) { cover_sum += 0.90; ++count; }
+            
+            cover[pt] = cover_sum / count;
+        }
+        last_shell = shell;
+    }
+    
+    
+}
+
+std::set<tripoint> get_shell_tripoints(int radius, const tripoint &center)
+{
+    std::set<tripoint> out;
+    if(radius <= 0) { out.insert(center); return out; }
+    std::vector<tripoint> outer = closest_tripoints_first(radius, center);
+    std::vector<tripoint> inner = closest_tripoints_first(radius - 1, center);
+    
+    for(tripoint op : outer) {
+        bool foundit = false;
+        for(tripoint ip : inner) {
+            if(op == ip) { foundit = true; break; }
+        }
+        if(!foundit) { out.insert(op); }
+    }
+    return out;
+}
+
+std::set<tripoint> get_neighbor_tripoints(tripoint &p)
+{
+    std::set<tripoint> out;
+    out.insert(p + tripoint(0,1,0));
+    out.insert(p + tripoint(0,-1,0));
+    out.insert(p + tripoint(1,0,0));
+    out.insert(p + tripoint(-1,0,0));
+    out.insert(p + tripoint(1,1,0));
+    out.insert(p + tripoint(-1,-1,0));
+    out.insert(p + tripoint(1,-1,0));
+    out.insert(p + tripoint(-1,1,0));
+    return out;
+}
+
 void game::explosion( const tripoint &p, float power, float factor,
                       int shrapnel_count, bool fire )
 {
@@ -6289,40 +6366,9 @@ void game::shrapnel( const tripoint &p, int power, int count, int radius )
         return;
     }
 
-    npc fake_npc;
-    fake_npc.name = _("Shrapnel");
-    fake_npc.set_fake(true);
-    fake_npc.setpos( p );
-    projectile proj;
-    proj.speed = 100;
-    proj.proj_effects.insert( "DRAW_AS_LINE" );
-    proj.proj_effects.insert( "NULL_SOURCE" );
-    for( int i = 0; i < count; i++ ) {
-        // TODO: Z-level shrapnel, but not before z-level ranged attacks
-        tripoint sp{ static_cast<int> (rng( p.x - radius, p.x + radius )),
-                     static_cast<int> (rng( p.y - radius, p.y + radius )),
-                     p.z };
-
-        proj.impact = damage_instance::physical( power, power, 0, 0 );
-
-        Creature *critter_in_center = critter_at( p ); // Very unfortunate critter
-        if( critter_in_center != nullptr ) {
-            dealt_projectile_attack dda; // Cool variable name
-            dda.proj = proj;
-            // For first shrapnel piece:
-            // 50% chance for 50%-100% base (power to 2 * power)
-            // 50% chance for 0-25% base
-            // Each one after that gets a progressively lower chance of hitting
-            dda.missed_by = rng_float( 0.4, 1.0 ) + (i * 1.0 / count);
-            critter_in_center->deal_projectile_attack( nullptr, dda );
-        }
-
-        if( sp != p ) {
-            // This needs to be high enough to prevent game from thinking that
-            //  the fake npc is scoring headshots.
-            fake_npc.projectile_attack( proj, sp, 3600 );
-        }
-    }
+    
+    tripoint_range extents = g->m.points_in_radius(p, radius, 0);
+    std::map<tripoint, double> 
 }
 
 void game::flashbang( const tripoint &p, bool player_immune)
