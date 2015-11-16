@@ -6049,6 +6049,35 @@ struct pair_greater_cmp
     }
 };
 
+void game::explosion( const tripoint &p, float power, float factor,
+                      int shrapnel_count, bool fire )
+{
+    factor = 0.5; //patch for now - will need to expand deeper before done
+    
+    const int noise = power * (fire ? 2 : 10);
+    if( noise >= 30 ) {
+        sounds::sound( p, noise, _("a huge explosion!") );
+        sfx::play_variant_sound( "explosion", "huge", 100);
+    } else if( noise >= 4 ) {
+        sounds::sound( p, noise, _("an explosion!") );
+        sfx::play_variant_sound( "explosion", "default", 100);
+    } else {
+        sounds::sound( p, 3, _("a loud pop!") );
+        sfx::play_variant_sound( "explosion", "small", 100);
+    }
+
+    if( factor >= 1.0f ) {
+        debugmsg( "called game::explosion with factor >= 1.0 (infinite size)" );
+    } else if( factor > 0.0f ) {
+        do_blast( p, power, factor, fire );
+    }
+
+    if( shrapnel_count > 0 ) {
+        const int radius = int(sqrt(double(power / 10)));
+        shrapnel( p, power, shrapnel_count, radius );
+    }
+}
+
 void game::do_blast( const tripoint &p, const float power,
                      const float distance_factor, const bool fire )
 {
@@ -6252,7 +6281,6 @@ void game::do_blast( const tripoint &p, const float power,
     }
 }
 
-
 void new_blast( const tripoint &p, const float power,
 				const float distance_factor, const bool fire )
 {
@@ -6265,8 +6293,8 @@ void new_blast( const tripoint &p, const float power,
     std::set<tripoint> last_shell;
     last_shell.insert(p);
     
-    //process cover amounts in the radius
-    for(size_t i = 1; i < max_radius; ++i) {
+    //process cover amounts
+    for(int i = 1; i < max_radius; ++i) {
         double cover_sum;
         std::set<tripoint> shell = get_shell_tripoints(i, p);
         for(tripoint pt : shell) {
@@ -6276,7 +6304,7 @@ void new_blast( const tripoint &p, const float power,
             //neighboring cover
             for(tripoint neighbor : get_neighbor_tripoints(p)) {
                 if(last_shell.count(neighbor) > 0) {
-                    if(g->m.has_furn(neighbor)) { cover_sum += 1.0 }   //actual neighboring cover
+                    if(g->m.has_furn(neighbor)) { cover_sum += 1.0; }  //actual neighboring cover
                     else    { cover_sum += cover[neighbor] * 0.50; }   //carry over distant cover, reduced
                     ++count;
                 }
@@ -6284,10 +6312,10 @@ void new_blast( const tripoint &p, const float power,
             
             //weight direct cover higher
             std::vector<tripoint> line = line_to(pt, p, 0, 0);
-            if(g->m.has_furn(line[0])) { cover_sum = 0.5 * 2; }
+            if(g->m.has_furn(line[0])) { cover_sum = 1.0 * 2; }
             count += 2;
             
-            //can use cover here in a pinch
+            //same-tile furniture likely enough to provide mindless critters a bit of cover, if only by accident
             if(cover_sum / count > 0.90 && g->m.has_furn(pt)) { cover_sum += 0.90; ++count; }
             
             cover[pt] = cover_sum / count;
@@ -6295,65 +6323,7 @@ void new_blast( const tripoint &p, const float power,
         last_shell = shell;
     }
     
-    
-}
-
-std::set<tripoint> get_shell_tripoints(int radius, const tripoint &center)
-{
-    std::set<tripoint> out;
-    if(radius <= 0) { out.insert(center); return out; }
-    std::vector<tripoint> outer = closest_tripoints_first(radius, center);
-    std::vector<tripoint> inner = closest_tripoints_first(radius - 1, center);
-    
-    for(tripoint op : outer) {
-        bool foundit = false;
-        for(tripoint ip : inner) {
-            if(op == ip) { foundit = true; break; }
-        }
-        if(!foundit) { out.insert(op); }
-    }
-    return out;
-}
-
-std::set<tripoint> get_neighbor_tripoints(tripoint &p)
-{
-    std::set<tripoint> out;
-    out.insert(p + tripoint(0,1,0));
-    out.insert(p + tripoint(0,-1,0));
-    out.insert(p + tripoint(1,0,0));
-    out.insert(p + tripoint(-1,0,0));
-    out.insert(p + tripoint(1,1,0));
-    out.insert(p + tripoint(-1,-1,0));
-    out.insert(p + tripoint(1,-1,0));
-    out.insert(p + tripoint(-1,1,0));
-    return out;
-}
-
-void game::explosion( const tripoint &p, float power, float factor,
-                      int shrapnel_count, bool fire )
-{
-    const int noise = power * (fire ? 2 : 10);
-    if( noise >= 30 ) {
-        sounds::sound( p, noise, _("a huge explosion!") );
-        sfx::play_variant_sound( "explosion", "huge", 100);
-    } else if( noise >= 4 ) {
-        sounds::sound( p, noise, _("an explosion!") );
-        sfx::play_variant_sound( "explosion", "default", 100);
-    } else {
-        sounds::sound( p, 3, _("a loud pop!") );
-        sfx::play_variant_sound( "explosion", "small", 100);
-    }
-
-    if( factor >= 1.0f ) {
-        debugmsg( "called game::explosion with factor >= 1.0 (infinite size)" );
-    } else if( factor > 0.0f ) {
-        do_blast( p, power, factor, fire );
-    }
-
-    if( shrapnel_count > 0 ) {
-        const int radius = 2 * int(sqrt(double(power / 4)));
-        shrapnel( p, power * 2, shrapnel_count, radius );
-    }
+        
 }
 
 void game::shrapnel( const tripoint &p, int power, int count, int radius )

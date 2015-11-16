@@ -196,7 +196,7 @@ class game
         void add_event(event_type type, int on_turn, int faction_id, tripoint where);
         bool event_queued(event_type type) const;
         /** Create explosion at p of intensity (power) with (shrapnel) chunks of shrapnel.
-            Explosion intensity formula is roughly power*factor^distance.
+            Explosion intensity formula is roughly power*distance^factor.
             If factor <= 0, no blast is produced */
         void explosion( const tripoint &p, float power, float factor = 0.8f,
                         int shrapnel = 0, bool fire = false );

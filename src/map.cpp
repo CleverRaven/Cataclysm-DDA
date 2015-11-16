@@ -7235,6 +7235,38 @@ std::vector<tripoint> closest_tripoints_first( int radius, const tripoint &cente
     }
     return points;
 }
+
+std::set<tripoint> get_shell_tripoints(int radius, const tripoint &center)
+{
+    std::set<tripoint> out;
+    if(radius <= 0) { out.insert(center); return out; }
+    std::vector<tripoint> outer = closest_tripoints_first(radius, center);
+    std::vector<tripoint> inner = closest_tripoints_first(radius - 1, center);
+    
+    for(tripoint op : outer) {
+        bool foundit = false;
+        for(tripoint ip : inner) {
+            if(op == ip) { foundit = true; break; }
+        }
+        if(!foundit) { out.insert(op); }
+    }
+    return out;
+}
+
+std::set<tripoint> get_neighbor_tripoints(tripoint &p)
+{
+    std::set<tripoint> out;
+    out.insert(p + tripoint(0,1,0));
+    out.insert(p + tripoint(0,-1,0));
+    out.insert(p + tripoint(1,0,0));
+    out.insert(p + tripoint(-1,0,0));
+    out.insert(p + tripoint(1,1,0));
+    out.insert(p + tripoint(-1,-1,0));
+    out.insert(p + tripoint(1,-1,0));
+    out.insert(p + tripoint(-1,1,0));
+    return out;
+}
+
 //////////
 ///// coordinate helpers
 
