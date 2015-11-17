@@ -179,8 +179,6 @@ class craft_command {
                              const std::vector<comp_selection<tool_comp>> &missing_tools );
 };
 
-extern recipe_dictionary recipe_dict;
-
 // removes any (removable) ammo from the item and stores it in the
 // players inventory.
 void remove_ammo(item *dis_item, player &p);

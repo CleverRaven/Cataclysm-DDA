@@ -69,4 +69,6 @@ class recipe_dictionary
         void remove_from_component_lookup( recipe *r );
 };
 
+extern recipe_dictionary recipe_dict;
+
 #endif
