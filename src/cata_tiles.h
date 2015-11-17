@@ -100,6 +100,11 @@ typedef std::unordered_map<std::string, tile_type *> tile_id_map;
 typedef tile_map::iterator tile_iterator;
 typedef tile_id_map::iterator tile_id_iterator;
 
+struct SDL_Surface_deleter {
+    void operator()( SDL_Surface *const ptr );
+};
+using SDL_Surface_Ptr = std::unique_ptr<SDL_Surface, SDL_Surface_deleter>;
+
 // Cache of a single tile, used to avoid redrawing what didn't change.
 struct tile_drawing_cache {
 
@@ -223,7 +228,7 @@ class cata_tiles
         void clear_buffer();
 
         /** Surface/Sprite rotation specifics */
-        SDL_Surface *create_tile_surface();
+        SDL_Surface_Ptr create_tile_surface();
 
         /* Tile Picking */
         void get_tile_values(const int t, const int *tn, int &subtile, int &rotation);
@@ -247,7 +252,7 @@ class cata_tiles
 
     private:
         //surface manipulation
-        SDL_Surface *create_tile_surface(int w, int h);
+        SDL_Surface_Ptr create_tile_surface(int w, int h);
 
     public:
         // Animation layers
