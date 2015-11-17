@@ -51,6 +51,13 @@ static const std::string TILE_CATEGORY_IDS[] = {
     "weather", // C_WEATHER,
 };
 
+void SDL_Texture_deleter::operator()( SDL_Texture *const ptr )
+{
+    if( ptr ) {
+        SDL_DestroyTexture( ptr );
+    }
+}
+
 struct pixel {
     int r;
     int g;
@@ -105,21 +112,9 @@ cata_tiles::~cata_tiles()
 void cata_tiles::clear()
 {
     // release maps
-    for (tile_iterator it = tile_values.begin(); it != tile_values.end(); ++it) {
-        SDL_DestroyTexture(*it);
-    }
     tile_values.clear();
-    for (tile_iterator it = shadow_tile_values.begin(); it != shadow_tile_values.end(); ++it) {
-        SDL_DestroyTexture(*it);
-    }
     shadow_tile_values.clear();
-    for (tile_iterator it = night_tile_values.begin(); it != night_tile_values.end(); ++it) {
-        SDL_DestroyTexture(*it);
-    }
     night_tile_values.clear();
-    for (tile_iterator it = overexposed_tile_values.begin(); it != overexposed_tile_values.end(); ++it) {
-        SDL_DestroyTexture(*it);
-    }
     overexposed_tile_values.clear();
     for (tile_id_iterator it = tile_ids.begin(); it != tile_ids.end(); ++it) {
         it->second = NULL;
@@ -358,9 +353,9 @@ int cata_tiles::load_tileset(std::string img_path, int R, int G, int B)
                 SDL_SetSurfaceRLE(tile_surf, true);
             }
 
-            SDL_Texture *tile_tex = SDL_CreateTextureFromSurface(renderer, tile_surf);
+            SDL_Texture_Ptr tile_tex( SDL_CreateTextureFromSurface( renderer, tile_surf ) );
 
-            if( tile_tex == nullptr ) {
+            if( !tile_tex ) {
                 dbg( D_ERROR) << "failed to create texture: " << SDL_GetError();
             }
 
@@ -369,8 +364,8 @@ int cata_tiles::load_tileset(std::string img_path, int R, int G, int B)
                 dbg( D_ERROR ) << "SDL_BlitSurface failed: " << SDL_GetError();
             }
 
-            SDL_Texture *shadow_tile_tex = SDL_CreateTextureFromSurface(renderer, tile_surf);
-            if( shadow_tile_tex == nullptr ) {
+            SDL_Texture_Ptr shadow_tile_tex( SDL_CreateTextureFromSurface( renderer, tile_surf ) );
+            if( !shadow_tile_tex ) {
                 dbg( D_ERROR) << "failed to create texture: " << SDL_GetError();
             }
 
@@ -378,8 +373,8 @@ int cata_tiles::load_tileset(std::string img_path, int R, int G, int B)
                 dbg( D_ERROR ) << "SDL_BlitSurface failed: " << SDL_GetError();
             }
 
-            SDL_Texture *night_tile_tex = SDL_CreateTextureFromSurface(renderer, tile_surf);
-            if( night_tile_tex == nullptr ) {
+            SDL_Texture_Ptr night_tile_tex( SDL_CreateTextureFromSurface( renderer, tile_surf ) );
+            if( !night_tile_tex ) {
                 dbg( D_ERROR) << "failed to create texture: " << SDL_GetError();
             }
 
@@ -387,25 +382,25 @@ int cata_tiles::load_tileset(std::string img_path, int R, int G, int B)
                 dbg( D_ERROR ) << "SDL_BlitSurface failed: " << SDL_GetError();
             }
 
-            SDL_Texture *overexposed_tile_tex = SDL_CreateTextureFromSurface(renderer, tile_surf);
+            SDL_Texture_Ptr overexposed_tile_tex( SDL_CreateTextureFromSurface( renderer, tile_surf ) );
             if( overexposed_tile_tex == nullptr ) {
                 dbg( D_ERROR) << "failed to create texture: " << SDL_GetError();
             }
 
             SDL_FreeSurface(tile_surf);
 
-            if( tile_tex != nullptr ) {
-                tile_values.push_back(tile_tex);
+            if( tile_tex ) {
+                tile_values.push_back( std::move( tile_tex ) );
                 tilecount++;
             }
-            if( shadow_tile_tex != nullptr ) {
-                shadow_tile_values.push_back(shadow_tile_tex);
+            if( shadow_tile_tex ) {
+                shadow_tile_values.push_back( std::move( shadow_tile_tex ) );
             }
-            if( night_tile_tex != nullptr ) {
-                night_tile_values.push_back(night_tile_tex);
+            if( night_tile_tex ) {
+                night_tile_values.push_back( std::move( night_tile_tex ) );
             }
-            if( overexposed_tile_tex != nullptr ) {
-                overexposed_tile_values.push_back(overexposed_tile_tex);
+            if( overexposed_tile_tex ) {
+                overexposed_tile_values.push_back( std::move( overexposed_tile_tex ) );
             }
         }
     }
@@ -1124,19 +1119,19 @@ bool cata_tiles::draw_sprite_at(std::vector<int> &spritelist, int x, int y, int 
             sprite_num = rota % spritelist.size();
         }
 
-        SDL_Texture *sprite_tex = tile_values[spritelist[sprite_num]];
+        SDL_Texture *sprite_tex = tile_values[spritelist[sprite_num]].get();
         //use night vision colors when in use
         //then use low light tile if available
         if(apply_night_vision_goggles && spritelist[sprite_num] < static_cast<int>(night_tile_values.size())){
             if(ll != LL_LOW){
                 //overexposed tile count should be the same size as night_tile_values.size
-                sprite_tex = overexposed_tile_values[spritelist[sprite_num]];
+                sprite_tex = overexposed_tile_values[spritelist[sprite_num]].get();
             } else {
-                sprite_tex = night_tile_values[spritelist[sprite_num]];
+                sprite_tex = night_tile_values[spritelist[sprite_num]].get();
             }
         }
         else if(ll == LL_LOW && spritelist[sprite_num] < static_cast<int>(shadow_tile_values.size())) {
-            sprite_tex = shadow_tile_values[spritelist[sprite_num]];
+            sprite_tex = shadow_tile_values[spritelist[sprite_num]].get();
         }
         if ( rotate_sprite ) {
             switch ( rota ) {
@@ -1521,14 +1516,14 @@ void cata_tiles::create_default_item_highlight()
         return;
     }
     SDL_FillRect(surface, NULL, SDL_MapRGBA(surface->format, 0, 0, 127, highlight_alpha));
-    SDL_Texture *texture = SDL_CreateTextureFromSurface(renderer, surface);
-    if( texture == nullptr ) {
+    SDL_Texture_Ptr texture( SDL_CreateTextureFromSurface( renderer, surface ) );
+    if( !texture ) {
         dbg( D_ERROR ) << "Failed to create texture: " << SDL_GetError();
     }
     SDL_FreeSurface(surface);
 
-    if( texture != nullptr ) {
-    tile_values.push_back(texture);
+    if( texture ) {
+    tile_values.push_back( std::move( texture ) );
     tile_type *type = new tile_type;
     type->fg.push_back(index);
     tile_ids[key] = type;

@@ -90,7 +90,11 @@ enum TILE_CATEGORY
 };
 
 /** Typedefs */
-typedef std::vector<SDL_Texture *> tile_map;
+struct SDL_Texture_deleter {
+    void operator()( SDL_Texture *const ptr );
+};
+using SDL_Texture_Ptr = std::unique_ptr<SDL_Texture, SDL_Texture_deleter>;
+using tile_map = std::vector<SDL_Texture_Ptr>;
 typedef std::unordered_map<std::string, tile_type *> tile_id_map;
 
 typedef tile_map::iterator tile_iterator;
