@@ -123,9 +123,6 @@ void cata_tiles::clear()
     shadow_tile_values.clear();
     night_tile_values.clear();
     overexposed_tile_values.clear();
-    for (tile_id_iterator it = tile_ids.begin(); it != tile_ids.end(); ++it) {
-        it->second = NULL;
-    }
     tile_ids.clear();
 }
 
@@ -505,7 +502,7 @@ void cata_tiles::load_tilejson_from_file(const std::string &tileset_dir, std::if
     // eliminate any sprite references that are too high to exist
     // also eliminate negative sprite references
     for( auto it = tile_ids.begin(); it != tile_ids.end(); ) {
-        auto &td = *it->second;
+        auto &td = it->second;
         td.fg.erase(std::remove_if(td.fg.begin(), td.fg.end(),
                                [&](int i) { return i >= offset || i < 0; }), td.fg.end());
         td.bg.erase(std::remove_if(td.bg.begin(), td.bg.end(),
@@ -520,14 +517,13 @@ void cata_tiles::load_tilejson_from_file(const std::string &tileset_dir, std::if
     }
 }
 
-void cata_tiles::add_ascii_subtile(tile_type *curr_tile, const std::string &t_id, int fg, const std::string &s_id)
+void cata_tiles::add_ascii_subtile(tile_type &curr_tile, const std::string &t_id, int fg, const std::string &s_id)
 {
     const std::string m_id = t_id + "_" + s_id;
-    tile_type *curr_subtile = new tile_type();
-    curr_subtile->fg.push_back(fg);
-    curr_subtile->rotates = true;
-    tile_ids[m_id] = curr_subtile;
-    curr_tile->available_subtiles.push_back(s_id);
+    tile_type &curr_subtile = tile_ids[m_id];
+    curr_subtile.fg.push_back(fg);
+    curr_subtile.rotates = true;
+    curr_tile.available_subtiles.push_back(s_id);
 }
 
 void cata_tiles::load_ascii_tilejson_from_file(JsonObject &config, int offset, int size)
@@ -595,47 +591,46 @@ void cata_tiles::load_ascii_set(JsonObject &entry, int offset, int size)
         id[6] = static_cast<char>(ascii_char);
         id[7] = static_cast<char>(FG);
         id[8] = static_cast<char>(-1);
-        tile_type *curr_tile = new tile_type();
-        curr_tile->fg.push_back(index_in_image + offset);
+        tile_type &curr_tile = tile_ids[id];
+        curr_tile.fg.push_back(index_in_image + offset);
         switch(ascii_char) {
         case LINE_OXOX_C://box bottom/top side (horizontal line)
-            curr_tile->fg[0] = 205 + base_offset;
+            curr_tile.fg[0] = 205 + base_offset;
             break;
         case LINE_XOXO_C://box left/right side (vertical line)
-            curr_tile->fg[0] = 186 + base_offset;
+            curr_tile.fg[0] = 186 + base_offset;
             break;
         case LINE_OXXO_C://box top left
-            curr_tile->fg[0] = 201 + base_offset;
+            curr_tile.fg[0] = 201 + base_offset;
             break;
         case LINE_OOXX_C://box top right
-            curr_tile->fg[0] = 187 + base_offset;
+            curr_tile.fg[0] = 187 + base_offset;
             break;
         case LINE_XOOX_C://box bottom right
-            curr_tile->fg[0] = 188 + base_offset;
+            curr_tile.fg[0] = 188 + base_offset;
             break;
         case LINE_XXOO_C://box bottom left
-            curr_tile->fg[0] = 200 + base_offset;
+            curr_tile.fg[0] = 200 + base_offset;
             break;
         case LINE_XXOX_C://box bottom north T (left, right, up)
-            curr_tile->fg[0] = 202 + base_offset;
+            curr_tile.fg[0] = 202 + base_offset;
             break;
         case LINE_XXXO_C://box bottom east T (up, right, down)
-            curr_tile->fg[0] = 208 + base_offset;
+            curr_tile.fg[0] = 208 + base_offset;
             break;
         case LINE_OXXX_C://box bottom south T (left, right, down)
-            curr_tile->fg[0] = 203 + base_offset;
+            curr_tile.fg[0] = 203 + base_offset;
             break;
         case LINE_XXXX_C://box X (left down up right)
-            curr_tile->fg[0] = 206 + base_offset;
+            curr_tile.fg[0] = 206 + base_offset;
             break;
         case LINE_XOXX_C://box bottom east T (left, down, up)
-            curr_tile->fg[0] = 184 + base_offset;
+            curr_tile.fg[0] = 184 + base_offset;
             break;
         }
-        tile_ids[id] = curr_tile;
         if (ascii_char == LINE_XOXO_C || ascii_char == LINE_OXOX_C) {
-            curr_tile->rotates = false;
-            curr_tile->multitile = true;
+            curr_tile.rotates = false;
+            curr_tile.multitile = true;
             add_ascii_subtile(curr_tile, id, 206 + base_offset, "center");
             add_ascii_subtile(curr_tile, id, 201 + base_offset, "corner");
             add_ascii_subtile(curr_tile, id, 186 + base_offset, "edge");
@@ -657,7 +652,7 @@ void cata_tiles::load_tilejson_from_file(JsonObject &config, int offset, int siz
         JsonObject entry = tiles.next_object();
 
         std::string t_id = entry.get_string("id");
-        tile_type *curr_tile = load_tile(entry, t_id, offset, size);
+        tile_type &curr_tile = load_tile(entry, t_id, offset, size);
         bool t_multi = entry.get_bool("multitile", false);
         bool t_rota = entry.get_bool("rotates", t_multi);
         if (t_multi) {
@@ -667,33 +662,33 @@ void cata_tiles::load_tilejson_from_file(JsonObject &config, int offset, int siz
                 JsonObject subentry = subentries.next_object();
                 const std::string s_id = subentry.get_string("id");
                 const std::string m_id = t_id + "_" + s_id;
-                tile_type *curr_subtile = load_tile(subentry, m_id, offset, size);
-                curr_subtile->rotates = true;
-                curr_tile->available_subtiles.push_back(s_id);
+                tile_type &curr_subtile = load_tile(subentry, m_id, offset, size);
+                curr_subtile.rotates = true;
+                curr_tile.available_subtiles.push_back(s_id);
             }
         }
 
         // write the information of the base tile to curr_tile
-        curr_tile->multitile = t_multi;
-        curr_tile->rotates = t_rota;
+        curr_tile.multitile = t_multi;
+        curr_tile.rotates = t_rota;
     }
     dbg( D_INFO ) << "Tile Width: " << tile_width << " Tile Height: " << tile_height << " Tile Definitions: " << tile_ids.size();
 }
 
-tile_type *cata_tiles::load_tile(JsonObject &entry, const std::string &id, int offset, int size)
+tile_type &cata_tiles::load_tile(JsonObject &entry, const std::string &id, int offset, int size)
 {
-    tile_type *curr_subtile = new tile_type();
+    tile_type &curr_subtile = tile_ids[id];
 
     if ( entry.has_array("fg") ) {
         JsonArray fg_array = entry.get_array("fg");
         while (fg_array.has_more()) {
             const int fg = fg_array.next_int();
             if ( fg >= 0 ) {
-                curr_subtile->fg.push_back(fg);
+                curr_subtile.fg.push_back(fg);
             }
         }
     } else if (entry.has_int("fg") && entry.get_int("fg") >= 0) {
-        curr_subtile->fg.push_back(entry.get_int("fg"));
+        curr_subtile.fg.push_back(entry.get_int("fg"));
     }
 
     if ( entry.has_array("bg") ) {
@@ -701,14 +696,14 @@ tile_type *cata_tiles::load_tile(JsonObject &entry, const std::string &id, int o
         while (bg_array.has_more()) {
             const int bg = bg_array.next_int();
             if ( bg >= 0 ) {
-                curr_subtile->bg.push_back(bg);
+                curr_subtile.bg.push_back(bg);
             }
         }
     } else if (entry.has_int("bg") && entry.get_int("bg") >= 0) {
-        curr_subtile->bg.push_back(entry.get_int("bg"));
+        curr_subtile.bg.push_back(entry.get_int("bg"));
     }
 
-    for (auto& fg : curr_subtile->fg) {
+    for (auto& fg : curr_subtile.fg) {
         if (fg < 0 || fg >= size) {
             entry.throw_error("invalid value for fg (out of range)", "fg");
         } else {
@@ -716,15 +711,13 @@ tile_type *cata_tiles::load_tile(JsonObject &entry, const std::string &id, int o
         }
     }
 
-    for (auto& bg : curr_subtile->bg) {
+    for (auto& bg : curr_subtile.bg) {
         if (bg < 0 || bg >= size) {
             entry.throw_error("invalid value for bg (out of range)", "bg");
         } else {
             bg += offset;
         }
     }
-
-    tile_ids[id] = curr_subtile;
 
     return curr_subtile;
 }
@@ -1053,10 +1046,10 @@ bool cata_tiles::draw_from_id_string(std::string id, TILE_CATEGORY category,
         return false;
     }
 
-    tile_type *display_tile = it->second;
+    tile_type &display_tile = it->second;
     // check to see if the display_tile is multitile, and if so if it has the key related to subtile
-    if (subtile != -1 && display_tile->multitile) {
-        auto const &display_subtiles = display_tile->available_subtiles;
+    if (subtile != -1 && display_tile.multitile) {
+        auto const &display_subtiles = display_tile.available_subtiles;
         auto const end = std::end(display_subtiles);
         if (std::find(begin(display_subtiles), end, multitile_keys[subtile]) != end) {
             // append subtile name to tile and re-find display_tile
@@ -1067,7 +1060,7 @@ bool cata_tiles::draw_from_id_string(std::string id, TILE_CATEGORY category,
     }
 
     // make sure we aren't going to rotate the tile if it shouldn't be rotated
-    if (!display_tile->rotates) {
+    if (!display_tile.rotates) {
         rota = 0;
     }
 
@@ -1092,7 +1085,7 @@ bool cata_tiles::draw_from_id_string(std::string id, TILE_CATEGORY category,
     return true;
 }
 
-bool cata_tiles::draw_sprite_at(std::vector<int> &spritelist, int x, int y, int rota, lit_level ll,
+bool cata_tiles::draw_sprite_at(const std::vector<int> &spritelist, int x, int y, int rota, lit_level ll,
                                 bool apply_night_vision_goggles)
 {
     SDL_Rect destination;
@@ -1172,11 +1165,11 @@ bool cata_tiles::draw_sprite_at(std::vector<int> &spritelist, int x, int y, int 
     return true;
 }
 
-bool cata_tiles::draw_tile_at(tile_type *tile, int x, int y, int rota, lit_level ll,
+bool cata_tiles::draw_tile_at(const tile_type &tile, int x, int y, int rota, lit_level ll,
                               bool apply_night_vision_goggles)
 {
-    draw_sprite_at(tile->bg, x, y, (tile->bg.size() < 2) ? 0 : rota, ll, apply_night_vision_goggles);
-    draw_sprite_at(tile->fg, x, y, rota, ll, apply_night_vision_goggles);
+    draw_sprite_at(tile.bg, x, y, (tile.bg.size() < 2) ? 0 : rota, ll, apply_night_vision_goggles);
+    draw_sprite_at(tile.fg, x, y, rota, ll, apply_night_vision_goggles);
     return true;
 }
 
@@ -1524,9 +1517,7 @@ void cata_tiles::create_default_item_highlight()
 
     if( texture ) {
     tile_values.push_back( std::move( texture ) );
-    tile_type *type = new tile_type;
-    type->fg.push_back(index);
-    tile_ids[key] = type;
+    tile_ids[key].fg.push_back(index);
     }
 }
 

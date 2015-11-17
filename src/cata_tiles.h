@@ -95,7 +95,7 @@ struct SDL_Texture_deleter {
 };
 using SDL_Texture_Ptr = std::unique_ptr<SDL_Texture, SDL_Texture_deleter>;
 using tile_map = std::vector<SDL_Texture_Ptr>;
-typedef std::unordered_map<std::string, tile_type *> tile_id_map;
+typedef std::unordered_map<std::string, tile_type> tile_id_map;
 
 typedef tile_map::iterator tile_iterator;
 typedef tile_id_map::iterator tile_id_iterator;
@@ -201,11 +201,11 @@ class cata_tiles
          * If it's in that interval, adds offset to it, if it's not in the
          * interval (and not -1), throw an std::string error.
          */
-        tile_type *load_tile(JsonObject &entry, const std::string &id, int offset, int size);
+        tile_type &load_tile(JsonObject &entry, const std::string &id, int offset, int size);
 
         void load_ascii_tilejson_from_file(JsonObject &config, int offset, int size);
         void load_ascii_set(JsonObject &entry, int offset, int size);
-        void add_ascii_subtile(tile_type *curr_tile, const std::string &t_id, int fg, const std::string &s_id);
+        void add_ascii_subtile(tile_type &curr_tile, const std::string &t_id, int fg, const std::string &s_id);
     public:
         /** Draw to screen */
         void draw( int destx, int desty, const tripoint &center, int width, int height );
@@ -218,9 +218,9 @@ class cata_tiles
         bool draw_from_id_string(std::string id, TILE_CATEGORY category,
                                  const std::string &subcategory, int x, int y, int subtile, int rota,
                                  lit_level ll, bool apply_night_vision_goggles);
-        bool draw_sprite_at(std::vector<int>& spritelist, int x, int y, int rota, lit_level ll,
+        bool draw_sprite_at(const std::vector<int>& spritelist, int x, int y, int rota, lit_level ll,
                             bool apply_night_vision_goggles);
-        bool draw_tile_at(tile_type *tile, int x, int y, int rota, lit_level ll, bool apply_night_vision_goggles);
+        bool draw_tile_at(const tile_type &tile, int x, int y, int rota, lit_level ll, bool apply_night_vision_goggles);
 
         /**
          * Redraws all the tiles that have changed since the last frame.
