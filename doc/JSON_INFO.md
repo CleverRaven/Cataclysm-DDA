@@ -16,7 +16,19 @@
 * mutations.json     - traits/mutations
 * vehicle_groups.json - vehicle spawn groups
 * vehicle_parts.json - vehicle parts, does NOT affect flag effects
-* vehicles.json      - vehicle definitions
+
+##raw/vehicles
+groups of vehicle definitions with self-explanatory names of files:
+* bikes.json
+* cars.json
+* carts.json
+* emergency.json
+* farm.json
+* military.json
+* trucks.json
+* utility.json
+* vans_busses.json
+* vehicles.json
 
 ##raw/items
 * archery.json       - bows and arrows
