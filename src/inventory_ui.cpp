@@ -1047,6 +1047,17 @@ int inventory::num_items_at_position( int const position )
     }
 }
 
+/**
+ * Sort items for multidroping to avoid dropping containers before contained items.
+ *
+ * Written to specification required by std::list::sort. Negative position
+ * implying worn is taken from character.cpp's definition of Character::i_at.
+ */
+bool multidrop_comparison(std::pair<int, int> first, std::pair<int, int> second)
+{
+    return (first.first >= 0 && second.first < -1); //the first is not worn but the second is -> first should indeed come first
+}
+
 std::list<std::pair<int, int>> game::multidrop()
 {
     u.inv.restack(&u);
@@ -1089,6 +1100,7 @@ std::list<std::pair<int, int>> game::multidrop()
         dropped_pos_and_qty.push_back( std::make_pair( drop_pair.first, num_to_drop ) );
     }
 
+    dropped_pos_and_qty.sort(multidrop_comparison);
     return dropped_pos_and_qty;
 }
 
