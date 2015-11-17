@@ -1516,8 +1516,8 @@ void cata_tiles::create_default_item_highlight()
     }
 
     if( texture ) {
-    tile_values.push_back( std::move( texture ) );
-    tile_ids[key].fg.push_back(index);
+        tile_values.push_back( std::move( texture ) );
+        tile_ids[key].fg.push_back( index );
     }
 }
 
