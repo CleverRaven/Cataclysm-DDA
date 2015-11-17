@@ -35,7 +35,6 @@ struct tile_type
     tile_type()
     {
         multitile = rotates = false;
-        available_subtiles.clear();
     }
 };
 
