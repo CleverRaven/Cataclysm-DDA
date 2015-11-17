@@ -20,7 +20,6 @@
 #include "vehicle.h"
 #include "mapdata.h"
 #include "field.h"
-#include "cursesdef.h"
 
 #include <map>
 #include <set>

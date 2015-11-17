@@ -5,7 +5,6 @@
 #include "output.h"
 #include "item.h"
 #include "translations.h"
-#include "cursesdef.h"
 
 #include <vector>
 #include <string>

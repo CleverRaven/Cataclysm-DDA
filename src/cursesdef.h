@@ -3,15 +3,17 @@
 
 #if (defined TILES || defined _WIN32 || defined WINDOWS)
 #include "catacurse.h"
-extern void try_sdl_update();
 #elif (defined __CYGWIN__)
 #include "ncurses/curses.h"
 void init_interface();
-void try_sdl_update(){}
 #else
 #include <curses.h>
 void init_interface();
-void try_sdl_update(){}
 #endif
+
+#ifndef TILES
+//provide an empty method so curses and non-curses can use the same code
+void try_sdl_update();
+#endif // TILES
 
 #endif

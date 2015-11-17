@@ -11,7 +11,6 @@
 #include "input.h"
 #include "worldfactory.h"
 #include "itype.h"
-#include "cursesdef.h"
 
 #include <stdlib.h>
 #include <fstream>

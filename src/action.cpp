@@ -15,7 +15,6 @@
 #include "trap.h"
 #include "itype.h"
 #include "mapdata.h"
-#include "cursesdef.h"
 
 #include <istream>
 #include <sstream>
