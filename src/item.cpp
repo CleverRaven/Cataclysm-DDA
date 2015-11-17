@@ -1113,7 +1113,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> &info) const
         info.push_back(iteminfo("ARMOR", temp1.str()));
 
         temp1.str("");
-        temp1 << _("This Container ");
+        temp1 << _("This container ");
 
         if( c.rigid ) {
             temp1 << _( "is <info>rigid</info>, " );
