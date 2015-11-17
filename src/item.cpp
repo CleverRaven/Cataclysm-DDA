@@ -559,7 +559,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> &info) const
     const bool debug = g != nullptr && ( debug_mode || g->u.has_artifact_with(AEP_SUPER_CLAIRVOYANCE) );
 
     auto insert_empty_line = [&]() {
-        if ( info.back().sFmt != "--" ) {
+        if ( info.back().sName != "--" ) {
             info.push_back(iteminfo("DESCRIPTION", "--"));
         }
     };
@@ -1693,6 +1693,10 @@ std::string item::info(bool showtext, std::vector<iteminfo> &info) const
                 }
             }
         }
+    }
+
+    if ( info.back().sName == "--" ) {
+        info.pop_back();
     }
 
     temp1.str("");
