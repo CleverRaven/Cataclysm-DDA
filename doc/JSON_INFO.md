@@ -99,7 +99,7 @@ The syntax listed here is still valid.
   { "monster" : "mon_ant_soldier", "freq" : 90, "multiplier" : 5 }, // the default monster will fill in the remaining. "multiplier" increases
   { "monster" : "mon_ant_queen", "freq" : 0, "multiplier" : 0 }     // how much each monster counts for in a spawn group (i.e. will spawn 5 larva or 1 soldier)
   { "monster" : "mon_thing",              // Monsters id
-    "freq" : 100,                         // Chance of occurence, out of a thousand
+    "freq" : 100,                         // Chance of occurrence, out of a thousand
     "multiplier" : 0,                     // How many monsters each monster in this definition should count as, if spawning a limited number of monsters
     // The minimum and maximum number of monsters in this group that should spawn together. Optional, defaults [1,1]
     "pack_size" : [3,5],                    
@@ -307,11 +307,11 @@ The syntax listed here is still valid.
 ```
 ###VEHICLE PLACEMENT
 ```C++
-"id":"road_straight_wrecks",            // Unique ID. Must be one continuous word, use underscores if necessary
-"locations":[ {                 // List of potential vehicle locations. When this placement is used, one of those locations will be chosen at random.
-  "x" : [0,19],           //    The x placement. Can be a single value or a range of possibilities.
-  "y" : 8,          //    The y placement. Can be a single value or a range of possibilities.
-  "facing" : [90,270] // The facing of the vehicle. Can be a single value or an array of possible values.
+"id":"road_straight_wrecks",  // Unique ID. Must be one continuous word, use underscores if necessary
+"locations":[ {               // List of potential vehicle locations. When this placement is used, one of those locations will be chosen at random.
+  "x" : [0,19],               // The x placement. Can be a single value or a range of possibilities.
+  "y" : 8,                    // The y placement. Can be a single value or a range of possibilities.
+  "facing" : [90,270]         // The facing of the vehicle. Can be a single value or an array of possible values.
 } ]
 ```
 ###VEHICLE SPAWN
@@ -355,11 +355,11 @@ The syntax listed here is still valid.
 "price" : 500,        // Used when bartering with NPC's
 "name" : "birdshot",  // In-game name displayed
 "symbol" : "=",       // ASCII character used in-game
-"color" : "red",      // ASCII character colour
+"color" : "red",      // ASCII character color
 "description" : "Weak shotgun ammunition. Designed for hunting birds and other small game, its applications in combat are very limited.", // In-game description
 "material" : "plastic", // Material types.  See materials.json for possible options
 "volume" : 2,         // Volume, measured in 1/4 liters
-"weight" : 34,        // Weight, measuted in grams
+"weight" : 34,        // Weight, measured in grams
 "bashing" : 1,        // Bashing damage caused by using it as a melee weapon
 "cutting" : 0,        // Cutting damage caused by using it as a melee weapon
 "to_hit" : 0,         // To-hit bonus if using it as a melee weapon
@@ -379,12 +379,12 @@ The syntax listed here is still valid.
 "id" : "socks",       // Unique ID. Must be one continuous word, use underscores if necessary
 "name" : "socks",     // The name appearing in the examine box.  Can be more than one word separated by spaces
 "weight" : 350,       // Weight of the item in grams
-"color" : "blue",     // ASCII character colour
+"color" : "blue",     // ASCII character color
 "to_hit" : 0,         // To-hit bonus if using it as a melee weapon (whatever for?)
 "symbol" : "[",       // ASCII character used in-game
 "description" : "Socks. Put 'em on your feet.", // Description of the item
 "price" : 100,        // Used when bartering with NPCs
-"material" : ["COTTON"],    // Material types, can abe as many as you want.  See materials.json for possible options
+"material" : ["COTTON"],    // Material types, can be as many as you want.  See materials.json for possible options
 "volume" : 1,         // Volume, measured in 1/4 liters
 "cutting" : 0,        // Cutting damage caused by using it as a melee weapon
 "phase" : "solid",    // What phase it is
@@ -401,9 +401,9 @@ Armor can be define like this:
 "storage" : 0,        // How many volume storage slots it adds
 "warmth" : 10,        // How much warmth clothing provides
 "environmental_protection" : 0,  // How much environmental protection it affords
-"encumberance" : 0,   // Base encumbrance (unfitted value)
+"encumbrance" : 0,   // Base encumbrance (unfitted value)
 "coverage" : 80,      // What percentage of body part
-"material_thickness" : 1  // Thickness of material, in millimetre units (approximately).  Generally ranges between 1 - 5, more unusual armour types go up to 10 or more
+"material_thickness" : 1  // Thickness of material, in millimetre units (approximately).  Generally ranges between 1 - 5, more unusual armor types go up to 10 or more
 "power_armor" : false, // If this is a power armor item (those are special).
 ```
 Alternately, every item (book, tool, gun, even food) can be used as armor if it has armor_data:
@@ -415,7 +415,7 @@ Alternately, every item (book, tool, gun, even food) can be used as armor if it 
     "storage" : 0,
     "warmth" : 10,
     "environmental_protection" : 0,
-    "encumberance" : 0,
+    "encumbrance" : 0,
     "coverage" : 80,
     "material_thickness" : 1
     "power_armor" : false
@@ -472,7 +472,7 @@ Never use `yellow` and `red`, those colors are reserved for sounds and infrared 
 "id" : "crack",       // Unique ID. Must be one continuous word, use underscores if necessary
 "name" : "crack",     // In-game name displayed
 "weight" : 1,         // Weight, measured in grams
-"color" : "white",    // ASCII character colour
+"color" : "white",    // ASCII character color
 "addiction_type" : "crack", // Addiction type
 "spoils_in" : 0,      // How long a comestible is good for. 0 = no spoilage
 "use_action" : "CRACK", // What effects a comestible has when used, see special definitions below
@@ -516,12 +516,12 @@ Alternately, every item can be used as container:
 }
 ```
 This defines a armor (you need to add all the armor specific entries), but makes it usable as container.
-It could also be written as a generic item ("tpye": "GENERIC") with "armor_data" and "container_data" entries.
+It could also be written as a generic item ("type": "GENERIC") with "armor_data" and "container_data" entries.
 ###MELEE
 ```C++
 "id": "hatchet",      // Unique ID. Must be one continuous word, use underscores if necessary
 "symbol": ";",        // ASCII character used in-game
-"color": "light_gray", // ASCII character colour
+"color": "light_gray", // ASCII character color
 "name": "hatchet",    // In-game name displayed
 "description": "A one-handed hatchet. Makes a great melee weapon, and is useful both for cutting wood, and for use as a hammer.", // In-game description
 "price": 95,          // Used when bartering with NPCs
@@ -573,7 +573,7 @@ Alternately, every item (book, tool, armor, even food) can be used as gun if it 
 "id": "torch_lit",    // Unique ID. Must be one continuous word, use underscores if necessary
 "type": "TOOL",       // Defines this as a TOOL
 "symbol": "/",        // ASCII character used in-game
-"color": "brown",     // ASCII character colour
+"color": "brown",     // ASCII character color
 "name": "torch (lit)", // In-game name displayed
 "description": "A large stick, wrapped in gasoline soaked rags. This is burning, producing plenty of light", // In-game description
 "price": 0,           // Used when bartering with NPCs
