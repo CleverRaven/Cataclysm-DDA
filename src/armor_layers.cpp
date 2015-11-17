@@ -5,6 +5,7 @@
 #include "output.h"
 #include "item.h"
 #include "translations.h"
+#include "cursesdef.h"
 
 #include <vector>
 #include <string>
@@ -377,6 +378,8 @@ void player::sort_armor()
         static const std::set<std::string> not_allowed_npc = {{
             "EQUIP_ARMOR", "REMOVE_ARMOR", "ASSIGN_INVLETS"
         }};
+
+        try_sdl_update();
 
         const std::string action = ctxt.handle_input();
         if( !is_player() && not_allowed_npc.count( action ) > 0 ) {

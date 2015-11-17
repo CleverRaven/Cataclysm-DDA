@@ -318,6 +318,8 @@ int sokoban_game::start_game()
             draw_level(w_sokoban);
             wrefresh(w_sokoban);
 
+            try_sdl_update();
+
             //Check input
             action = ctxt.handle_input();
         }

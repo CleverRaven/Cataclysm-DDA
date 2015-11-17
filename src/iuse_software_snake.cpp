@@ -204,6 +204,9 @@ int snake_game::start_game()
 
         //Check input
         timeout(iGameSpeed);
+
+        try_sdl_update();
+
         const std::string action = ctxt.handle_input();
         timeout(-1);
 
@@ -234,6 +237,9 @@ int snake_game::start_game()
     } while (true);
 
     snake_over(w_snake, iScore);
+
+    try_sdl_update();
+
     while(ctxt.handle_input() != "QUIT") {
         // try again
     }

@@ -1278,6 +1278,7 @@ bool game::do_turn()
                 sounds::process_sound_markers( &u );
                 if (u.activity.type == ACT_NULL) {
                     draw();
+                    try_sdl_update();
                 }
 
                 if (handle_action()) {
@@ -1602,6 +1603,9 @@ void game::handle_key_blocking_activity()
     if (u.activity.moves_left > 0 && u.activity.is_abortable()) {
         input_context ctxt = get_default_mode_input_context();
         timeout(1);
+
+        try_sdl_update();
+
         const std::string action = ctxt.handle_input();
         timeout(-1);
         if (action == "pause") {
@@ -1812,6 +1816,8 @@ bool game::handle_mouseview(input_context &ctxt, std::string &action)
             }
         }
     } while (action == "MOUSE_MOVE"); // Freeze animation when moving the mouse
+
+    try_sdl_update();
 
     if (action != "TIMEOUT" && ctxt.get_raw_input().get_first_input() != ERR) {
         // Keyboard event, break out of animation loop
@@ -4701,6 +4707,9 @@ faction *game::list_factions(std::string title)
             wrefresh(w_info);
             redraw = false;
         }
+
+        try_sdl_update();
+
         const std::string action = ctxt.handle_input();
         if (action == "DOWN") {
             mvwprintz(w_list, sel + 2, 1, c_white, "%s", cur_frac->name.c_str());
@@ -4829,6 +4838,9 @@ void game::list_missions()
         }
 
         wrefresh(w_missions);
+
+        try_sdl_update();
+
         const std::string action = ctxt.handle_input();
         if (action == "RIGHT") {
             tab++;
@@ -9959,6 +9971,8 @@ int game::list_items(const int iLastState)
 
             refresh();
 
+            try_sdl_update();
+
             action = ctxt.handle_input();
         } else {
             iReturn = 0;
@@ -10182,6 +10196,8 @@ int game::list_monsters(const int iLastState)
             wrefresh(w_monster_info);
 
             refresh();
+
+            try_sdl_update();
 
             action = ctxt.handle_input();
     } while (action != "QUIT");

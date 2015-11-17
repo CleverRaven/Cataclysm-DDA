@@ -20,6 +20,7 @@
 #include "vehicle.h"
 #include "mapdata.h"
 #include "field.h"
+#include "cursesdef.h"
 
 #include <map>
 #include <set>
@@ -1377,6 +1378,8 @@ void advanced_inventory::display()
         // current item in source pane, might be null
         advanced_inv_listitem *sitem = spane.get_cur_item_ptr();
         aim_location changeSquare;
+
+        try_sdl_update();
 
         const std::string action = (is_processing()) ? "MOVE_ALL_ITEMS" : ctxt.handle_input();
         if( action == "CATEGORY_SELECTION" ) {

@@ -129,7 +129,7 @@ public:
         if (type == m_debug && !debug_mode) {
             return;
         }
-        
+
         if (coalesce_messages(msg, type)) {
             return;
         }
@@ -185,7 +185,7 @@ void Messages::deserialize( JsonObject &json )
     if (!json.has_member("player_messages")) {
         return;
     }
-    
+
     JsonObject obj = json.get_object( "player_messages" );
     obj.read( "messages", player_messages.impl_->messages );
     obj.read( "curmes", player_messages.impl_->curmes );
@@ -275,6 +275,8 @@ void Messages::display_messages()
         }
         wrefresh(w);
 
+        try_sdl_update();
+
         const std::string &action = ctxt.handle_input();
         if (action == "DOWN" && offset + 1 < msg_count) {
             offset++;
@@ -294,7 +296,7 @@ void Messages::display_messages(WINDOW *const ipk_target, int const left, int co
     if (!size()) {
         return;
     }
-    
+
     int const maxlength = right - left;
     int line = log_from_top ? top : bottom;
 

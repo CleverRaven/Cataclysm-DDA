@@ -2061,6 +2061,9 @@ tripoint overmap::draw_overmap(const tripoint &orig, const draw_data_t &data)
     do {
         timeout( BLINK_SPEED );
         draw(g->w_overmap, g->w_omlegend, curs, orig, uistate.overmap_show_overlays, show_explored, &ictxt, data);
+
+        try_sdl_update();
+
         action = ictxt.handle_input();
         timeout(-1);
 
@@ -2164,6 +2167,9 @@ tripoint overmap::draw_overmap(const tripoint &orig, const draw_data_t &data)
                 mvwprintz(w_search, 11, 1, c_white, _("q or ESC to return."));
                 wrefresh(w_search);
                 timeout( BLINK_SPEED );
+
+                try_sdl_update();
+
                 action = ctxt.handle_input();
                 timeout(-1);
                 if (uistate.overmap_blinking) {

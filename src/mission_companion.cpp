@@ -392,6 +392,9 @@ bool talk_function::outpost_missions(npc *p, std::string id, std::string title)
             wrefresh(w_info);
             redraw = false;
         }
+
+        try_sdl_update();
+
         const std::string action = ctxt.handle_input();
         if (action == "DOWN") {
             mvwprintz(w_list, sel + 2, 1, c_white, "-%s", cur_key.c_str());

@@ -695,6 +695,9 @@ int set_stats(WINDOW *w, player *u, int &points)
 
         wrefresh(w);
         wrefresh(w_description);
+
+        try_sdl_update();
+
         const std::string action = ctxt.handle_input();
         if (action == "DOWN") {
             if (sel < 4) {
@@ -920,6 +923,9 @@ int set_traits(WINDOW *w, player *u, int &points, int max_trait_points)
 
         wrefresh(w);
         wrefresh(w_description);
+
+        try_sdl_update();
+
         const std::string action = ctxt.handle_input();
         if (action == "LEFT") {
             iCurWorkingPage--;
@@ -1271,6 +1277,8 @@ int set_profession(WINDOW *w, player *u, int &points)
         wrefresh(w_genderswap);
         wrefresh(w_sorting);
 
+        try_sdl_update();
+
         const std::string action = ctxt.handle_input();
         if (action == "DOWN") {
             cur_id++;
@@ -1398,6 +1406,9 @@ int set_skills(WINDOW *w, player *u, int &points)
 
         wrefresh(w);
         wrefresh(w_description);
+
+        try_sdl_update();
+
         const std::string action = ctxt.handle_input();
         if (action == "DOWN") {
             cur_pos++;
@@ -1707,6 +1718,8 @@ int set_scenario(WINDOW *w, player *u, int &points)
         wrefresh(w_location);
         wrefresh(w_flags);
 
+        try_sdl_update();
+
         const std::string action = ctxt.handle_input();
         if (action == "DOWN") {
             cur_id++;
@@ -1954,6 +1967,8 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
         mvwprintz(w_profession, 0, 0, COL_HEADER, _("Profession: "));
         wprintz (w_profession, c_ltgray, u->prof->gender_appropriate_name(u->male).c_str());
         wrefresh(w_profession);
+
+        try_sdl_update();
 
         const std::string action = ctxt.handle_input();
 

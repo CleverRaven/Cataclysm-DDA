@@ -2938,6 +2938,8 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
                 wrefresh(w_stats);
                 wrefresh(w_info);
 
+                try_sdl_update();
+
                 action = ctxt.handle_input();
                 if (action == "DOWN") {
                     line++;
@@ -3031,6 +3033,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
             fold_and_print( w_info, 0, 1, FULL_SCREEN_WIDTH - 2, c_magenta, s );
             wrefresh(w_info);
 
+            try_sdl_update();
 
             action = ctxt.handle_input();
             if (action == "DOWN") {
@@ -3090,6 +3093,8 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
             wrefresh(w_traits);
             wrefresh(w_info);
 
+            try_sdl_update();
+
             action = ctxt.handle_input();
             if (action == "DOWN") {
                 if (line < traitslist.size() - 1)
@@ -3145,6 +3150,8 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
             }
             wrefresh(w_effects);
             wrefresh(w_info);
+
+            try_sdl_update();
 
             action = ctxt.handle_input();
             if (action == "DOWN") {
@@ -3232,6 +3239,8 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
                 fold_and_print(w_info, 0, 1, FULL_SCREEN_WIDTH-2, c_magenta, selectedSkill->description());
             }
             wrefresh(w_info);
+
+            try_sdl_update();
 
             action = ctxt.handle_input();
             if (action == "DOWN") {

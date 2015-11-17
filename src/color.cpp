@@ -756,6 +756,8 @@ void color_manager::show_gui()
 
         wrefresh(w_colors);
 
+        try_sdl_update();
+
         const std::string action = ctxt.handle_input();
 
         if (action == "QUIT") {

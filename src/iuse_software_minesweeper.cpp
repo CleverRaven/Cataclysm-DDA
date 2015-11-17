@@ -248,6 +248,8 @@ int minesweeper_game::start_game()
 
             action = "QUIT";
         } else {
+            try_sdl_update();
+
             action = ctxt.handle_input();
         }
 

@@ -494,6 +494,8 @@ void defense_game::setup()
     ctxt.register_action("HELP_KEYBINDINGS");
 
     while (true) {
+        try_sdl_update();
+
         const std::string action = ctxt.handle_input();
 
         if (action == "START") {
@@ -922,6 +924,8 @@ void defense_game::caravan()
     bool done = false;
     bool cancel = false;
     while (!done) {
+        try_sdl_update();
+
         const std::string action = ctxt.handle_input();
         if (action == "HELP") {
             popup_top(_("\

@@ -922,6 +922,8 @@ void input_context::display_help()
         wrefresh(w_help);
         refresh();
 
+        try_sdl_update();
+
         // In addition to the modifiable hotkeys, we also check for hardcoded
         // keys, e.g. '+', '-', '=', in order to prevent the user from
         // entering an unrecoverable state.

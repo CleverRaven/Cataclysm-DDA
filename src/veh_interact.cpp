@@ -264,6 +264,8 @@ void veh_interact::do_main_loop()
     move_cursor (0, 0); // display w_disp & w_parts
     bool finish = false;
     while (!finish) {
+        try_sdl_update();
+
         const std::string action = main_context.handle_input();
         int dx, dy;
         if (main_context.get_direction(dx, dy, action)) {
@@ -399,7 +401,7 @@ task_reason veh_interact::cant_do (char mode)
     bool has_skill = true;
     bool pass_checks = false; // Used in refill only
     bool has_str = false;
-    
+
     switch (mode) {
     case 'i': // install mode
         enough_morale = g->u.morale_level() >= MIN_MORALE_CRAFT;
@@ -781,6 +783,8 @@ void veh_interact::do_install()
 
         bool can_install = can_install_part(msg_width);
 
+        try_sdl_update();
+
         const std::string action = main_context.handle_input();
         if (action == "INSTALL" || action == "CONFIRM"){
             if (can_install) {
@@ -941,6 +945,9 @@ void veh_interact::do_repair()
                            item::nname( itm ).c_str());
         }
         wrefresh (w_msg);
+
+        try_sdl_update();
+
         const std::string action = main_context.handle_input();
         if ((action == "REPAIR" || action == "CONFIRM") &&
             has_comps &&
@@ -1158,6 +1165,9 @@ void veh_interact::do_remove()
         veh->print_part_desc (w_parts, 0, parts_w, cpart, pos);
         wrefresh (w_parts);
         bool can_remove = can_remove_part(parts_here[pos], skilllevel, msg_width);
+
+        try_sdl_update();
+
         //read input
         const std::string action = main_context.handle_input();
         if (can_remove && (action == "REMOVE" || action == "CONFIRM")) {
@@ -1232,7 +1242,7 @@ void veh_interact::do_tirechange()
                        has_wrench ? "ltgreen" : "red",
                        has_jack ? "ltgreen" : "red",
                        has_str ? "ltgreen" : "red",
-                       needed_strength);                       
+                       needed_strength);
         wrefresh (w_msg);
         return;
     case MOVING_VEHICLE:
@@ -1254,6 +1264,9 @@ void veh_interact::do_tirechange()
         bool has_tools = (has_jack || has_str) && has_wrench;
         werase (w_msg);
         wrefresh (w_msg);
+
+        try_sdl_update();
+
         const std::string action = main_context.handle_input();
         if ((action == "TIRE_CHANGE" || action == "CONFIRM") && has_comps && has_tools && is_wheel) {
             sel_cmd = 'c';
