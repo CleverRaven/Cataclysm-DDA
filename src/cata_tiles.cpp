@@ -919,7 +919,7 @@ bool cata_tiles::draw_from_id_string(std::string id, TILE_CATEGORY category,
 
     std::string seasonal_id = id + season_suffix[calendar::turn.get_season()];
 
-    tile_id_iterator it = tile_ids.find(seasonal_id);
+    auto it = tile_ids.find(seasonal_id);
     if (it == tile_ids.end()) {
         it = tile_ids.find(id);
     } else {

@@ -94,11 +94,6 @@ struct SDL_Texture_deleter {
     void operator()( SDL_Texture *const ptr );
 };
 using SDL_Texture_Ptr = std::unique_ptr<SDL_Texture, SDL_Texture_deleter>;
-using tile_map = std::vector<SDL_Texture_Ptr>;
-typedef std::unordered_map<std::string, tile_type> tile_id_map;
-
-typedef tile_map::iterator tile_iterator;
-typedef tile_id_map::iterator tile_id_iterator;
 
 struct SDL_Surface_deleter {
     void operator()( SDL_Surface *const ptr );
@@ -334,8 +329,8 @@ class cata_tiles
 
         /** Variables */
         SDL_Renderer *renderer;
-        tile_map tile_values;
-        tile_id_map tile_ids;
+        std::vector<SDL_Texture_Ptr> tile_values;
+        std::unordered_map<std::string, tile_type> tile_ids;
 
         int tile_height, tile_width, default_tile_width, default_tile_height;
         // The width and height of the area we can draw in,
@@ -384,9 +379,9 @@ class cata_tiles
     private:
         void create_default_item_highlight();
         int last_pos_x, last_pos_y;
-        tile_map shadow_tile_values;
-        tile_map night_tile_values;
-        tile_map overexposed_tile_values;
+        std::vector<SDL_Texture_Ptr> shadow_tile_values;
+        std::vector<SDL_Texture_Ptr> night_tile_values;
+        std::vector<SDL_Texture_Ptr> overexposed_tile_values;
         /**
          * Tracks active night vision goggle status for each draw call.
          * Allows usage of night vision tilesets during sprite rendering.
