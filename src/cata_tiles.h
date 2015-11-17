@@ -28,14 +28,10 @@ struct visibility_variables;
 struct tile_type
 {
     std::vector<int> fg, bg;
-    bool multitile, rotates;
+    bool multitile = false;
+    bool rotates = false;
 
     std::vector<std::string> available_subtiles;
-
-    tile_type()
-    {
-        multitile = rotates = false;
-    }
 };
 
 struct tile
