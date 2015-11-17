@@ -1,27 +1,15 @@
-#include "game.h"
-#include "output.h"
-#include "catacharset.h"
-#include "crafting.h"
-#include "options.h"
-#include "debug.h"
-#include "iuse.h"
 #include "iuse_software.h"
+
 #include "iuse_software_kitten.h"
 #include "iuse_software_snake.h"
 #include "iuse_software_sokoban.h"
 #include "iuse_software_minesweeper.h"
+
+#include "output.h"
 #include "translations.h"
 
 #include <string>
-#include <cassert>
-#include <cmath>
-#include <cstdio>
-#include <cstdlib>
-#include <cstring>
-#include <iostream>
-#include <iterator>
 #include <map>
-#include <vector>
 
 bool play_videogame(std::string function_name, std::map<std::string, std::string> &game_data,
                     int &score)
