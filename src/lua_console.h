@@ -18,7 +18,7 @@ class lua_console {
         void run();
     private:
         const int width = TERMX;
-        const int lines = 10; // 5 lines
+        const int lines = 10;
 
         WINDOW *cWin;
         WINDOW *iWin;
