@@ -7772,9 +7772,11 @@ void game::control_vehicle()
     }
 
     if( veh != nullptr && veh->player_in_control( u ) ) {
-        veh->use_controls();
+        veh->use_controls( u.pos() );
     } else if( veh && veh->part_with_feature( veh_part, "CONTROLS" ) >= 0 && u.in_vehicle ) {
-        if( !veh->interact_vehicle_locked() ) { return; }
+        if( !veh->interact_vehicle_locked() ) {
+            return;
+        }
         if( veh->engine_on ) {
             u.controlling_vehicle = true;
             add_msg( _("You take control of the %s."), veh->name.c_str() );
@@ -7791,12 +7793,8 @@ void game::control_vehicle()
             add_msg(_("No vehicle there."));
             return;
         }
-        if (veh->part_with_feature(veh_part, "CONTROLS") < 0) {
-            add_msg(m_info, _("No controls there."));
-            return;
-        }
         if (veh->interact_vehicle_locked()){
-            veh->use_controls();
+            veh->use_controls( examp );
         }
     }
 }

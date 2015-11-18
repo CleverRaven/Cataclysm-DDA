@@ -412,6 +412,7 @@ These branches are also the valid entries for the categories of `dreams` in `dre
 - ```FUEL_TANK``` Storage device for a fuel type.
 - ```FRIDGE``` Can refrigerate items.
 - ```CONTROLS``` Can be used to control the vehicle.
+- ```CTRL_ELECTRONIC``` Controls electrical and electronic systems of the vehicle.
 - ```MUFFLER``` Muffles the noise a vehicle makes while running.
 - ```CURTAIN``` Can be installed over a part flagged with `WINDOW`, and functions the same as blinds found on windows in buildings.
 - ```SOLAR_PANEL``` Recharges vehicle batteries when exposed to sunlight. Has a 1 in 4 chance of being broken on car generation.
