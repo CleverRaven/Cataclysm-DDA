@@ -87,7 +87,7 @@ void lua_console::run()
         }
         lua_error_stream = std::stringstream(); // empty the buffer
 #else
-        text_stack.push_back( "This build does not support lua." );
+        text_stack.push_back( {"This build does not support lua.", c_red} );
 #endif // LUA
     }
 }
