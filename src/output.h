@@ -228,11 +228,17 @@ std::string string_input_popup(std::string title, int width = 0, std::string inp
                                std::string desc = "", std::string identifier = "",
                                int max_length = -1, bool only_digits = false);
 
+/**
+* Basic invokable interface
+*/
 class Invokable {
     public:
         virtual void operator()() = 0;
 };
 
+/**
+* Class for doing callbacks to member functions.
+*/
 template<class T>
 class action_callback : public Invokable {
         T *instance;
@@ -246,6 +252,9 @@ class action_callback : public Invokable {
         }
 };
 
+/**
+* Adapter for function pointer to Invokable.
+*/
 class basic_callback : public Invokable {
         void (*func)();
     public:

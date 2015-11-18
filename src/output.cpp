@@ -954,6 +954,8 @@ std::string string_input_win(WINDOW *w, std::string input, int max_length, int s
         if( callbacks[ch] ) {
             (*callbacks[ch])();
         }
+        // This goes here, so we don't return before checking
+        // callbacks in case there is one mapped to KEY_ESCAPE
         if( ch == KEY_ESCAPE ) {
             return "";
         }
