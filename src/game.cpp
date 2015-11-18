@@ -436,6 +436,10 @@ void game::init_ui()
         minimapH = minimapW / 2 * OPTIONS["PIXEL_MINIMAP"];
         messH = TERRAIN_WINDOW_TERM_HEIGHT - (statH + locH + stat2H + minimapH);
         messW = sidebarWidth;
+        if (messH < 8) {
+            minimapH -= 8 - messH;
+            messH = 8;
+        }
 
         // Now position the elements relative to each other.
         minimapX = 0;
@@ -465,10 +469,14 @@ void game::init_ui()
         minimapY = 0;
         messX = MINIMAP_WIDTH;
         messY = 0;
+        messW = sidebarWidth - messX;
         minimapW = messW * OPTIONS["PIXEL_MINIMAP"];
         minimapH = minimapW / 2 * OPTIONS["PIXEL_MINIMAP"];
-        messW = sidebarWidth - messX;
         messH = TERRAIN_WINDOW_TERM_HEIGHT - (locH + statH + minimapH); // 1 for w_location + 4 for w_stat, w_messages starts at 0
+        if (messH < 8) {
+            minimapH -= 8 - messH;
+            messH = 8;
+        }
         pixelminimapX = MINIMAP_WIDTH;
         pixelminimapY = messH;
         hpX = 0;
