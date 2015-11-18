@@ -271,7 +271,7 @@ game::~game()
     delete gamemode;
     delwin(w_terrain);
     delwin(w_minimap);
-    delwin(w_minimap);
+    delwin(w_pixel_minimap);
     delwin(w_HP);
     delwin(w_messages);
     delwin(w_location);
