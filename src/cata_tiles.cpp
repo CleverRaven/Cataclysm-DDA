@@ -923,8 +923,12 @@ void cata_tiles::draw_minimap( int destx, int desty, const tripoint &center, int
             } else {
                 int veh_part = 0;
                 vehicle *veh = g->m.veh_at( p, veh_part );
+                auto furniture = g->m.furn_at( p );
                 if (veh != nullptr) {
                     color = cursesColorToSDL(veh->part_color(veh_part));
+                } else if ( g->m.has_furn( p ) ) {
+                    auto furniture = g->m.furn_at( p );
+                    color = cursesColorToSDL(furniture.color());
                 } else {
                     auto terrain = g->m.ter_at( p );
                     color = cursesColorToSDL(terrain.color());
