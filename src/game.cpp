@@ -43,6 +43,7 @@
 #include "start_location.h"
 #include "debug.h"
 #include "catalua.h"
+#include "lua_console.h"
 #include "sounds.h"
 #include "iuse_actor.h"
 #include "mutation.h"
@@ -3701,7 +3702,7 @@ void game::debug()
                       _("Test Item Group"), // 21
                       _("Damage Self"), //22
                       _("Show Sound Clustering"), //23
-                      _("Lua Command"), // 24
+                      _("Lua Console"), // 24
                       _("Display weather"), // 25
                       _("Change time"), // 26
                       _("Set automove route"), // 27
@@ -4271,8 +4272,9 @@ void game::debug()
     break;
 
     case 24: {
-        std::string luacode = string_input_popup(_("Lua:"), TERMX, "", "", "LUA");
-        call_lua(luacode);
+        lua_console console;
+        console.run();
+        console.dispose();
     }
     break;
     case 25:

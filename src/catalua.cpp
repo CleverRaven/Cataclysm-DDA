@@ -723,6 +723,15 @@ int call_lua(std::string tocall)
     return err;
 }
 
+std::string get_lua_response( std::string call )
+{
+    lua_State *L = lua_state;
+    update_globals(L);
+    luaL_dostring(L, call.c_str());
+    std::string response = lua_tostring_wrapper(L, -1);
+    lua_pop(L, 1);
+    return response;
+}
 
 void lua_callback(const char *callback_name)
 {
