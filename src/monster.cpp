@@ -233,7 +233,7 @@ void monster::hasten_upgrade() {
 // Checking for return value of -1 is necessary.
 int monster::next_upgrade_time() {
     const int scaled_half_life = type->half_life * ACTIVE_WORLD_OPTIONS["MONSTER_UPGRADE_FACTOR"];
-    int day = 0;
+    int day = scaled_half_life;
     for (int i = 0; i < UPGRADE_MAX_ITERS; i++) {
         if (one_in(2)) {
             day += rng(0, scaled_half_life);
