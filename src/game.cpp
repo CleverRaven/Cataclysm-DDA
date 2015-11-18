@@ -419,9 +419,6 @@ void game::init_ui()
     int mouseview_y, mouseview_h, mouseview_w;
     int minimapW, minimapH, pixelminimapX, pixelminimapY;
 
-    minimapH = 16 * OPTIONS["PIXEL_MINIMAP"];
-    minimapW = 32 * OPTIONS["PIXEL_MINIMAP"];
-
     if (use_narrow_sidebar()) {
         // First, figure out how large each element will be.
         hpH = 7;
