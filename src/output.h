@@ -235,15 +235,26 @@ class Invokable {
 
 template<class T>
 class action_callback : public Invokable {
-    T *instance;
-    void (T::*func)();
-public:
-    action_callback(T *instance, void (T::*func)()) : instance(instance), func(func) {}
+        T *instance;
+        void (T::*func)();
+    public:
+        action_callback(T *instance, void (T::*func)()) : instance(instance), func(func) {}
 
-    void operator()() override
-    {
-        ((instance)->*(func))();
-    }
+        void operator()() override
+        {
+            ((instance)->*(func))();
+        }
+};
+
+class basic_callback : public Invokable {
+        void (*func)();
+    public:
+        basic_callback(void (*func)()) : func(func) {}
+
+        void operator()() override
+        {
+            func();
+        }
 };
 
 std::string string_input_win (WINDOW *w, std::string input, int max_length, int startx,
