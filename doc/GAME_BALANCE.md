@@ -144,14 +144,14 @@ Exotic damage types (currently only fire) do not scale with skills or crits.
 ## Ammo stats
 The damage of ammunition is the square root of a round's muzzle energy in joules rounded to the nearest integer with an arbitrary increase or decrease to account for terminal ballistics. A similar system for calculating recoil is planned but not currently being worked on. The figures used to calculate stats and any other relevant information are presented in table below. Damage of handloaded ammo is set to 92% (rounded down) of their factory counterparts.
 
-Ammo ID            | Description                 | Muzzle Energy, J | Damage     | Comment |
+Ammo ID            | Description                 | Muzzle Energy, J | Damage     | Applied Modifiers / Comments |
 -------------------|-----------------------------|------------------|------------|---------|
 .22LR              | 40gr unjacketed bullet      | 141              | √141 = 12  |         |
 .22LR FMJ          | 30gr FMJ bullet             | 277              | √277 = 17  |         |
 9x19mm FMJ         | 115gr FMJ bullet            | 420              | √420 = 24  |         |
 9x19mm +P          | 115gr JHP bullet            | 632              | √632 = 25  |         |
 9x19mm +P+         | 115gr JHP bullet            | 678              | √678 = 26  |         |
-9x19mm JHP         | 116gr JHP bullet            | 533              | √533 = 23  | damage increased by 3 <???> |
+9x19mm JHP         | 116gr JHP bullet            | 533              | √533 = 23  | damage increased by 3 |
 9x18mm 57-N-181S   | 93gr FMJ bullet             | 251              | √251 = 16  |         |
 9x18mm SP-7        | 93gr bullet                 | 417              | √417 = 20  |         |
 9x18mm RG028       | 93gr hardened steel core bullet | 317          | √317 = 18  | damage reduced by 4 |
