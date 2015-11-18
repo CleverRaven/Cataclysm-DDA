@@ -26,6 +26,8 @@
 #include "mapdata.h"
 #include "mtype.h"
 #include "field.h"
+#include "map_iterator.h"
+#include <map>
 
 #include <algorithm>
 
@@ -219,6 +221,70 @@ void mattack::shriek(monster *z, int index)
     z->moves -= 240;   // It takes a while
     z->reset_special(index); // Reset timer
     sounds::sound(z->pos(), 50, _("a terrible shriek!"));
+}
+
+void mattack::shriek_alert(monster *z, int index)
+{
+    if( !z->can_act() || z->has_effect("shrieking")) {
+        return;
+    }
+
+    Creature *target = z->attack_target();
+
+
+
+    int dist;
+    if( target == nullptr || (dist = rl_dist( z->pos(), target->pos() )) > 15 ||
+        !z->sees( *target ) ) {
+        return;
+    }
+
+    if(g->u.sees( *z )){
+    add_msg( _("The %s begins shrieking!"), z->name().c_str());
+    }
+
+    z->moves -= 150;
+    z->reset_special(index); // Reset timer
+    sounds::sound(z->pos(), 120, _("a piercing wail!"));
+    z->add_effect("shrieking", 10);
+
+}
+
+void mattack::shriek_stun(monster *z, int index)
+{
+    if( !z->can_act() || !z->has_effect("shrieking")) {
+        return;
+    }
+
+    Creature *target = z->attack_target();
+    int dist;
+    if( target == nullptr || (dist = rl_dist( z->pos(), target->pos() )) > 7 ||
+        !z->sees( *target ) ) {
+        return;
+    }
+
+    z->reset_special(index); // Reset timer
+
+    int target_angle = g->m.coord_to_angle(z->posx(), z->posy(), target->posx(), target->posy());
+    int cone_angle = 20;
+    for( const tripoint &cone : g->m.points_in_radius( z->pos(), 4) ) {
+        int tile_angle = g->m.coord_to_angle(z->posx(), z->posy(), cone.x, cone.y);
+        int diff = abs( target_angle - tile_angle );
+        if( diff + cone_angle > 360 || diff > cone_angle || cone == z->pos()) {
+        continue; // skip the target, because it's outside cone or it's the source
+        }
+        // affect the target
+        g->m.bash( cone, 4, true ); //Small bash to every square, silent to not flood message box
+
+        Creature *target = g->critter_at( cone ); //If a monster is there, chance for stun
+        if ( target == nullptr ){
+            continue;
+        }
+        if ( one_in(dist/2) && !(target->is_immune_effect("deaf")) ){
+            target->add_effect("dazed", rng( 10 , 20 ), num_bp, false, rng( 1, ( 15 - dist ) / 3 ) );
+        }
+
+    }
 }
 
 void mattack::howl(monster *z, int index)
@@ -4066,7 +4132,12 @@ void mattack::longswipe(monster *z, int index)
 
 void mattack::parrot(monster *z, int index)
 {
-    if (one_in(20)) {
+    if ( z->has_effect( "shrieking" ) )
+    {
+        sounds::sound(z->pos(), 120, _("a piercing wail!"), true);
+        z->moves -= 40;
+    }
+    else if (one_in(20)) {
         z->moves -= 100;  // It takes a while
         z->reset_special(index); // Reset timer
         const SpeechBubble speech = get_speech( z->type->id.str() );
