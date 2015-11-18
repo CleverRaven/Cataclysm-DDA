@@ -240,11 +240,11 @@ class Invokable {
 * Class for doing callbacks to member functions.
 */
 template<class T>
-class action_callback : public Invokable {
+class instance_invokable : public Invokable {
         T *instance;
         void (T::*func)();
     public:
-        action_callback(T *instance, void (T::*func)()) : instance(instance), func(func) {}
+        instance_invokable(T *instance, void (T::*func)()) : instance(instance), func(func) {}
 
         void operator()() override
         {
@@ -255,10 +255,10 @@ class action_callback : public Invokable {
 /**
 * Adapter for function pointer to Invokable.
 */
-class basic_callback : public Invokable {
+class basic_invokable : public Invokable {
         void (*func)();
     public:
-        basic_callback(void (*func)()) : func(func) {}
+        basic_invokable(void (*func)()) : func(func) {}
 
         void operator()() override
         {
