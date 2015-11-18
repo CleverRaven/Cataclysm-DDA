@@ -119,7 +119,7 @@ std::string lua_tostring_wrapper( lua_State* const L, int const stack_position )
 
 // Given a Lua return code and a file that it happened in, print a debugmsg with the error and path.
 // Returns true if there was an error, false if there was no error at all.
-bool lua_report_error(lua_State *L, int err, const char *path, bool simple = false) {
+bool lua_report_error( lua_State *L, int err, const char *path, bool simple = false ) {
     if( err == LUA_OK || err == LUA_ERRRUN ) {
         // No error or error message already shown via traceback function.
         return err != LUA_OK;
@@ -127,7 +127,7 @@ bool lua_report_error(lua_State *L, int err, const char *path, bool simple = fal
     const std::string error = lua_tostring_wrapper( L, -1 );
     switch(err) {
         case LUA_ERRSYNTAX:
-            if(!simple) {
+            if( !simple ) {
                 lua_error_stream << "Lua returned syntax error for "  << path  << std::endl;
             }
             lua_error_stream << error;
@@ -136,13 +136,13 @@ bool lua_report_error(lua_State *L, int err, const char *path, bool simple = fal
             lua_error_stream << "Lua is out of memory";
             break;
         case LUA_ERRFILE:
-            if(!simple) {
+            if( !simple ) {
                 lua_error_stream << "Lua returned file io error for " << path << std::endl;
             }
             lua_error_stream << error;
             break;
         default:
-            if(!simple) {
+            if( !simple ) {
                 lua_error_stream << string_format( "Lua returned unknown error %d for ", err) << path << std::endl;
             }
             lua_error_stream << error;
@@ -1035,11 +1035,11 @@ static int game_dofile(lua_State *L)
     return 0;
 }
 
-static int game_myPrint(lua_State *L)
+static int game_myPrint( lua_State *L )
 {
-    int argc = lua_gettop(L);
-    for( int i = argc; i > 0; i--) {
-        lua_output_stream << lua_tostring_wrapper(L, -i);
+    int argc = lua_gettop( L );
+    for( int i = argc; i > 0; i-- ) {
+        lua_output_stream << lua_tostring_wrapper( L, -i );
     }
     lua_output_stream << std::endl;
     return 0;
@@ -1097,7 +1097,7 @@ void game::init_lua()
     LuaEnum<body_part>::export_global( lua_state, "body_part" );
 
     // override default print to our version
-    lua_register(lua_state,"print", game_myPrint);
+    lua_register( lua_state, "print", game_myPrint );
 
     // Load lua-side metatables etc.
     lua_dofile(lua_state, FILENAMES["class_defslua"].c_str());
