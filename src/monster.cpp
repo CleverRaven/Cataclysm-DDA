@@ -223,7 +223,7 @@ void monster::hasten_upgrade() {
     }
 
     const int scaled_half_life = type->half_life * ACTIVE_WORLD_OPTIONS["MONSTER_UPGRADE_FACTOR"];
-    upgrade_time -= rng(1, scaled_half_life);
+    upgrade_time -= rng(scaled_half_life / 4, scaled_half_life * 4);
     if (upgrade_time < 0) {
         upgrade_time = 0;
     }
