@@ -35,9 +35,11 @@ class lua_console {
         void scroll_up();
         void scroll_down();
 
-        instance_invokable<lua_console> quit_callback = instance_invokable<lua_console>(this, &lua_console::quit);
-        instance_invokable<lua_console> scroll_up_callback = instance_invokable<lua_console>(this, &lua_console::scroll_up);
-        instance_invokable<lua_console> scroll_down_callback = instance_invokable<lua_console>(this, &lua_console::scroll_down);
+        std::map<long, std::function<void()>> callbacks {
+            {KEY_ESCAPE, [this](){ this->quit(); }},
+            {KEY_NPAGE, [this](){ this->scroll_up(); }},
+            {KEY_PPAGE, [this](){ this->scroll_down(); }}
+        };
 };
 
 #endif // LUA_CONSOLE_H
