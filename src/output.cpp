@@ -757,7 +757,7 @@ std::string string_input_popup(std::string title, int width, std::string input, 
 
 std::string string_input_win(WINDOW *w, std::string input, int max_length, int startx, int starty,
                              int endx, bool loop, long &ch, int &pos, std::string identifier,
-                             int w_x, int w_y, bool dorefresh, bool only_digits)
+                             int w_x, int w_y, bool dorefresh, bool only_digits, std::map<long, Invokable *> callbacks)
 {
     utf8_wrapper ret(input);
     nc_color string_color = c_magenta;
@@ -857,9 +857,7 @@ std::string string_input_win(WINDOW *w, std::string input, int max_length, int s
         const std::string action = ctxt.handle_input();
         const input_event ev = ctxt.get_raw_input();
         ch = ev.type == CATA_INPUT_KEYBOARD ? ev.get_first_input() : 0;
-        if( ch == KEY_ESCAPE ) {
-            return "";
-        } else if (ch == '\n') {
+        if (ch == '\n') {
             return_key = true;
         } else if (ch == KEY_UP ) {
             if(!identifier.empty()) {
@@ -953,6 +951,13 @@ std::string string_input_win(WINDOW *w, std::string input, int max_length, int s
             pos += t.length();
             redraw = true;
         }
+        if( callbacks[ch] ) {
+            (*callbacks[ch])();
+        }
+        if( ch == KEY_ESCAPE ) {
+            return "";
+        }
+
         if (return_key) {//"/n" return code
             {
                 if(!identifier.empty() && !ret.empty() ) {

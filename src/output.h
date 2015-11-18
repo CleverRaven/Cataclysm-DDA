@@ -228,10 +228,29 @@ std::string string_input_popup(std::string title, int width = 0, std::string inp
                                std::string desc = "", std::string identifier = "",
                                int max_length = -1, bool only_digits = false);
 
+class Invokable {
+    public:
+        virtual void operator()() = 0;
+};
+
+template<class T>
+class action_callback : public Invokable {
+    T *instance;
+    void (T::*func)();
+public:
+    action_callback(T *instance, void (T::*func)()) : instance(instance), func(func) {}
+
+    void operator()() override
+    {
+        ((instance)->*(func))();
+    }
+};
+
 std::string string_input_win (WINDOW *w, std::string input, int max_length, int startx,
                               int starty, int endx, bool loop, long &key, int &pos,
                               std::string identifier = "", int w_x = -1, int w_y = -1,
-                              bool dorefresh = true, bool only_digits = false);
+                              bool dorefresh = true, bool only_digits = false,
+                              std::map<long, Invokable *> callbacks = std::map<long, Invokable *>());
 
 // for the next two functions, if cancelable is true, esc returns the last option
 int  menu_vec(bool cancelable, const char *mes, const std::vector<std::string> options);
