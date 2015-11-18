@@ -668,6 +668,12 @@ else # libsdl build
 	cp $(SDLLIBSDIR)/libSDL2_ttf.dylib $(APPRESOURCESDIR)/
 endif  # ifdef FRAMEWORK
 
+dmgdistclean:
+	rm -f Cataclysm.dmg
+
+dmgdist: app dmgdistclean
+	dmgbuild -s data/osx/dmgsettings.py "Cataclysm DDA" Cataclysm.dmg
+
 endif  # ifeq ($(NATIVE), osx)
 endif  # ifdef TILES
 
