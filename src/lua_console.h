@@ -36,9 +36,9 @@ class lua_console {
         void scroll_up();
         void scroll_down();
 
-        instance_invokable<lua_console> quit_callback = instance_invokable<lua_console>(this, quit);
-        instance_invokable<lua_console> scroll_up_callback = instance_invokable<lua_console>(this, scroll_up);
-        instance_invokable<lua_console> scroll_down_callback = instance_invokable<lua_console>(this, scroll_down);
+        instance_invokable<lua_console> quit_callback = instance_invokable<lua_console>(this, &quit);
+        instance_invokable<lua_console> scroll_up_callback = instance_invokable<lua_console>(this, &scroll_up);
+        instance_invokable<lua_console> scroll_down_callback = instance_invokable<lua_console>(this, &scroll_down);
 };
 
 #endif // LUA_CONSOLE_H
