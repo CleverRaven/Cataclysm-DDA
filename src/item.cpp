@@ -558,7 +558,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> &info) const
     std::string space="  ";
     const bool debug = g != nullptr && ( debug_mode || g->u.has_artifact_with(AEP_SUPER_CLAIRVOYANCE) );
 
-    auto insert_empty_line = [&]() {
+    auto insert_separation_line = [&]() {
         if ( info.back().sName != "--" ) {
             info.push_back(iteminfo("DESCRIPTION", "--"));
         }
@@ -591,7 +591,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> &info) const
                                     attack_time(), true, "", true, true));
         }
 
-        insert_empty_line();
+        insert_separation_line();
 
         if (made_of().size() > 0) {
             std::string material_list;
@@ -804,7 +804,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> &info) const
         }
 
         if (!gun->valid_mod_locations.empty()) {
-            insert_empty_line();
+            insert_separation_line();
 
             temp1.str("");
             temp1 << _("Mod Locations:") << "\n";
@@ -1000,7 +1000,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> &info) const
         info.push_back(iteminfo("ARMOR", _("Coverage: "), "<num>%", get_coverage(), true, "", false));
         info.push_back(iteminfo("ARMOR", space + _("Warmth: "), "", get_warmth()));
 
-        insert_empty_line();
+        insert_separation_line();
 
         if (has_flag("FIT")) {
             info.push_back(iteminfo("ARMOR", _("<bold>Encumberment</bold>: "), _("<num> <info>(fits)</info>"),
@@ -1020,7 +1020,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> &info) const
     }
     if( is_book() ) {
 
-        insert_empty_line();
+        insert_separation_line();
         auto book = type->book.get();
         // Some things about a book you CAN tell by it's cover.
         if( !book->skill ) {
@@ -1096,7 +1096,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> &info) const
                     ngettext("This book contains %1$d crafting recipe: %2$s",
                              "This book contains %1$d crafting recipes: %2$s", recipe_list.size()),
                     recipe_list.size(), recipes.c_str());
-                insert_empty_line();
+                insert_separation_line();
                 info.push_back(iteminfo("DESCRIPTION", recipe_line));
             }
             if( recipe_list.size() != book->recipes.size() ) {
@@ -1228,7 +1228,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> &info) const
                 }
                 buffer << it.front().to_string();
             }
-            insert_empty_line();
+            insert_separation_line();
             info.push_back( iteminfo( "DESCRIPTION", _("Disassembling this item might yield:") ) );
             info.push_back( iteminfo( "DESCRIPTION", buffer.str().c_str() ) );
         }
@@ -1257,7 +1257,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> &info) const
 
     if ( showtext && !is_null() ) {
         const std::map<std::string, std::string>::const_iterator idescription = item_vars.find("description");
-        insert_empty_line();
+        insert_separation_line();
         if( !type->snippet_category.empty() ) {
             // Just use the dynamic description
             info.push_back( iteminfo("DESCRIPTION", SNIPPET.get(note)) );
@@ -1288,12 +1288,12 @@ std::string item::info(bool showtext, std::vector<iteminfo> &info) const
             tec_buffer << "<stat>" << tec.name << "</stat>";
         }
         if (!tec_buffer.str().empty()) {
-            insert_empty_line();
+            insert_separation_line();
             info.push_back(iteminfo("DESCRIPTION", std::string(_("Techniques: ")) + tec_buffer.str()));
         }
 
         if( !is_gunmod() && has_flag( "REACH_ATTACK" ) ) {
-            insert_empty_line();
+            insert_separation_line();
             if( has_flag( "REACH3" ) ) {
                 info.push_back(iteminfo("DESCRIPTION", _("This item can be used to make <info>long reach attacks</info>.")));
             } else {
@@ -1315,12 +1315,12 @@ std::string item::info(bool showtext, std::vector<iteminfo> &info) const
                 }
             }
             if (!style_buffer.str().empty()) {
-                insert_empty_line();
+                insert_separation_line();
                 info.push_back(iteminfo("DESCRIPTION", std::string(_("You know how to use this with these martial arts styles: ")) + style_buffer.str()));
             }
         }
 
-        insert_empty_line();
+        insert_separation_line();
 
         //See shorten version of this in armor_layers.cpp::clothing_flags_description
         if (is_armor() && has_flag("FIT")) {
@@ -1557,7 +1557,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> &info) const
             g->u.roll_all_damage( false, non_crit, true, *this );
             damage_instance crit;
             g->u.roll_all_damage( true, crit, true, *this );
-            insert_empty_line();
+            insert_separation_line();
             info.push_back(iteminfo("DESCRIPTION", string_format(_("Average melee damage:") ) ) );
             info.push_back(iteminfo("DESCRIPTION",
                         string_format(_( "Critical hit chance %d%% - %d%%"),
@@ -1617,7 +1617,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> &info) const
         std::map<std::string, std::string>::const_iterator item_note_type = item_vars.find("item_note_type");
 
         if ( item_note != item_vars.end() ) {
-            insert_empty_line();
+            insert_separation_line();
             std::string ntext = "";
             if ( item_note_type != item_vars.end() ) {
                 ntext += string_format(_("%1$s on the %2$s is: "),
@@ -1637,7 +1637,8 @@ std::string item::info(bool showtext, std::vector<iteminfo> &info) const
                     if( elem.has_flag("IRREMOVABLE") ){
                         temp1 << _("[Integrated]");
                     }
-                    temp1 << "\n \n" << _("Mod: ") << "<bold>" << elem.tname() << "</bold> (" << _( mod->location.c_str() ) << ")";
+                    temp1 << _("Mod: ") << "<bold>" << elem.tname() << "</bold> (" << _( mod->location.c_str() ) << ")";
+                    insert_separation_line();
                     info.push_back( iteminfo( "DESCRIPTION", temp1.str() ) );
                     info.push_back( iteminfo( "DESCRIPTION", elem.type->description ) );
                 }
@@ -1665,10 +1666,10 @@ std::string item::info(bool showtext, std::vector<iteminfo> &info) const
                 }
             }
             if (known_recipes.size() > 24) {
-                insert_empty_line();
+                insert_separation_line();
                 info.push_back(iteminfo("DESCRIPTION", _("You know dozens of things you could craft with it.")));
             } else if (known_recipes.size() > 12) {
-                insert_empty_line();
+                insert_separation_line();
                 info.push_back(iteminfo("DESCRIPTION", _("You could use it to craft various other things.")));
             } else {
                 bool found_recipe = false;
@@ -1688,7 +1689,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> &info) const
                     }
                 }
                 if (found_recipe) {
-                    insert_empty_line();
+                    insert_separation_line();
                     info.push_back(iteminfo("DESCRIPTION", string_format(_("You could use it to craft: %s"), temp1.str().c_str())));
                 }
             }

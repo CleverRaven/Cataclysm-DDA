@@ -263,8 +263,12 @@ int fold_and_print_from(WINDOW *w, int begin_y, int begin_x, int width, int begi
             }
             if( line_num >= begin_line ) {
                 std::string l = rm_prefix( *it );
-                if( l != "--" ) { // -- is a newline!
+                if( l != "--" ) { // -- is a separation line!
                     wprintz(w, color, "%s", rm_prefix(*it).c_str());
+                } else {
+                    for (int i = 0; i < width; i++) {
+                        wputch(w, c_dkgray, LINE_OXOX);
+                    }
                 }
             }
         }
