@@ -12620,7 +12620,7 @@
         "color" : "light_gray",
         "covers" : ["TORSO"],
         "to_hit" : 0,
-        "storage" : 30,
+        "storage" : 20,
         "symbol" : "[",
         "description" : "A pair of pants with bottom ends tied with the string, and then it passed through the belt loops so the knapsack can be carried on the back.",
         "flags" : ["BELTED"],
