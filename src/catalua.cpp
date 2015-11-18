@@ -1039,8 +1039,7 @@ static int game_myPrint(lua_State *L)
 {
     int argc = lua_gettop(L);
     for( int i = argc; i > 0; i--) {
-        std::string param = lua_tostring_wrapper(L, -i);
-        lua_output_stream << param;
+        lua_output_stream << lua_tostring_wrapper(L, -i);
     }
     lua_output_stream << std::endl;
     return 0;
