@@ -5048,7 +5048,6 @@ void game::draw_sidebar()
 
     // Force a refresh of the pixel minimap.
     werase(w_pixel_minimap);
-    w_pixel_minimap->draw = true;
     wrefresh(w_pixel_minimap);
 }
 
