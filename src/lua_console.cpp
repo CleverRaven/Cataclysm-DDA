@@ -1,9 +1,6 @@
 #include "lua_console.h"
 
 #include "catalua.h"
-#include "catacurse.h"
-
-#include "debug.h"
 #include "catacharset.h"
 
 lua_console::lua_console() : cWin(newwin(lines, width, 0, 0)), iWin(newwin(1, width,lines, 0))
