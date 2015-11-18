@@ -72,12 +72,14 @@ void lua_console::run()
         while( std::getline(lua_output_stream, line) ) {
             text_stack.push_back( {line, c_white} );
         }
-        lua_output_stream = std::stringstream(); // empty the buffer
+        lua_output_stream.str(std::string()); // empty the buffer
+        lua_output_stream.clear();
 
         while( std::getline(lua_error_stream, line) ) {
             text_stack.push_back( {line, c_red} );
         }
-        lua_error_stream = std::stringstream(); // empty the buffer
+        lua_error_stream.str(std::string()); // empty the buffer
+        lua_error_stream.clear();
 #else
         text_stack.push_back( {"This build does not support lua.", c_red} );
 #endif // LUA
