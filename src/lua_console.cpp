@@ -6,10 +6,8 @@
 #include "debug.h"
 #include "catacharset.h"
 
-lua_console::lua_console()
+lua_console::lua_console() : cWin(newwin(lines, width, 0, 0)), iWin(newwin(1, width,lines, 0))
 {
-    cWin = newwin(lines, width, 0, 0);
-    iWin = newwin(1, width,lines, 0);
 }
 
 void lua_console::dispose()
@@ -24,7 +22,7 @@ std::string lua_console::get_input()
 {
     long key = 0;
     int pos = -1;
-    return string_input_win(iWin, "", width, 0, 0, width, true, key, pos, "LUA", iWin->x, iWin->y, true, false,
+    return string_input_win(iWin, "", width, 0, 0, width, true, key, pos, "LUA", width, 1, true, false,
         (std::map<long, Invokable *> {
             {KEY_ESCAPE, &quit_callback},
             {KEY_NPAGE, &scroll_up_callback},
@@ -73,9 +71,6 @@ void lua_console::run()
 #ifdef LUA
         call_lua( input );
         std::string line;
-        if( line == "" ) {
-            continue; // no need to parse if we have no input.
-        }
 
         while( std::getline(lua_output_stream, line) ) {
             text_stack.push_back( {line, c_white} );

@@ -128,22 +128,22 @@ bool lua_report_error(lua_State *L, int err, const char *path, bool simple = fal
     switch(err) {
         case LUA_ERRSYNTAX:
             if(!simple) {
-                lua_error_stream << string_format( "Lua returned syntax error for %s", path ) << std::endl;
+                lua_error_stream << "Lua returned syntax error for "  << path  << std::endl;
             }
             lua_error_stream << error;
             break;
         case LUA_ERRMEM:
-            lua_error_stream << string_format( "Lua is out of memory" );
+            lua_error_stream << "Lua is out of memory";
             break;
         case LUA_ERRFILE:
             if(!simple) {
-                lua_error_stream << string_format( "Lua returned file io error for %s", path ) << std::endl;
+                lua_error_stream << "Lua returned file io error for " << path << std::endl;
             }
             lua_error_stream << error;
             break;
         default:
             if(!simple) {
-                lua_error_stream << string_format( "Lua returned unknown error %d for %s", err, path ) << std::endl;
+                lua_error_stream << string_format( "Lua returned unknown error %d for ", err) << path << std::endl;
             }
             lua_error_stream << error;
             break;

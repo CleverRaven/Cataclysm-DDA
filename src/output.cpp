@@ -857,7 +857,12 @@ std::string string_input_win(WINDOW *w, std::string input, int max_length, int s
         const std::string action = ctxt.handle_input();
         const input_event ev = ctxt.get_raw_input();
         ch = ev.type == CATA_INPUT_KEYBOARD ? ev.get_first_input() : 0;
-        if (ch == '\n') {
+        if( callbacks[ch] ) {
+            (*callbacks[ch])();
+        }
+        if( ch == KEY_ESCAPE ) {
+            return "";
+        } else if (ch == '\n') {
             return_key = true;
         } else if (ch == KEY_UP ) {
             if(!identifier.empty()) {
@@ -950,14 +955,6 @@ std::string string_input_win(WINDOW *w, std::string input, int max_length, int s
             ret.insert( pos, t );
             pos += t.length();
             redraw = true;
-        }
-        if( callbacks[ch] ) {
-            (*callbacks[ch])();
-        }
-        // This goes here, so we don't return before checking
-        // callbacks in case there is one mapped to KEY_ESCAPE
-        if( ch == KEY_ESCAPE ) {
-            return "";
         }
 
         if (return_key) {//"/n" return code
