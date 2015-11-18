@@ -23,11 +23,7 @@
 #include <libintl.h>
 #endif
 #include "translations.h"
-#if (defined OSX_SDL_FW)
-#include "SDL.h"
-#elif (defined OSX_SDL_LIBS)
-#include "SDL/SDL.h"
-#endif
+#include <SDL.h>
 
 void exit_handler(int s);
 

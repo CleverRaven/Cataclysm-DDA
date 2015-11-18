@@ -275,14 +275,29 @@ ifdef SOUND
   ifndef TILES
     $(error "SOUND=1 only works with TILES=1")
   endif
-  CXXFLAGS += $(shell $(PKG_CONFIG) --cflags SDL2_mixer)
-  CXXFLAGS += -DSDL_SOUND
-  LDFLAGS += $(shell $(PKG_CONFIG) --libs SDL2_mixer)
-  LDFLAGS += -lvorbisfile -lvorbis -logg -lpthread
+  ifeq ($(NATIVE),osx)
+    ifdef FRAMEWORK
+      CXXFLAGS += -I/Library/Frameworks/SDL2_mixer.framework/Headers \
+		-I$(HOME)/Library/Frameworks/SDL2_mixer.framework/Headers
+      LDFLAGS += -F/Library/Frameworks/SDL2_mixer.framework/Frameworks \
+		 -F$(HOME)/Library/Frameworks/SDL2_mixer.framework/Frameworks \
+		 -framework SDL2_mixer -framework Vorbis -framework Ogg
+    else # libsdl build
+      CXXFLAGS += $(shell $(PKG_CONFIG) --cflags SDL2_mixer)
+      LDFLAGS += $(shell $(PKG_CONFIG) --libs SDL2_mixer)
+      LDFLAGS += -lvorbisfile -lvorbis -logg
+    endif
+  else # not osx
+    CXXFLAGS += $(shell $(PKG_CONFIG) --cflags SDL2_mixer)
+    LDFLAGS += $(shell $(PKG_CONFIG) --libs SDL2_mixer)
+    LDFLAGS += -lvorbisfile -lvorbis -logg -lpthread
+  endif
 
   ifdef MSYS2
     LDFLAGS += -lmad
   endif
+  
+  CXXFLAGS += -DSDL_SOUND
 endif
 
 ifdef LUA
@@ -313,7 +328,6 @@ ifdef TILES
   BINDIST_EXTRAS += gfx
   ifeq ($(NATIVE),osx)
     ifdef FRAMEWORK
-      DEFINES += -DOSX_SDL_FW
       OSX_INC = -F/Library/Frameworks \
 		-F$(HOME)/Library/Frameworks \
 		-I/Library/Frameworks/SDL2.framework/Headers \
@@ -642,6 +656,12 @@ ifdef FRAMEWORK
 	cp -R /Library/Frameworks/SDL2.framework $(APPRESOURCESDIR)/
 	cp -R /Library/Frameworks/SDL2_image.framework $(APPRESOURCESDIR)/
 	cp -R /Library/Frameworks/SDL2_ttf.framework $(APPRESOURCESDIR)/
+ifdef SOUND
+	cp -R /Library/Frameworks/SDL2_mixer.framework $(APPRESOURCESDIR)/
+	cd $(APPRESOURCESDIR)/ && ln -s SDL2_mixer.framework/Frameworks/Vorbis.framework Vorbis.framework
+	cd $(APPRESOURCESDIR)/ && ln -s SDL2_mixer.framework/Frameworks/Ogg.framework Ogg.framework
+	cd $(APPRESOURCESDIR)/SDL2_mixer.framework/Frameworks && find . -type d -maxdepth 1 -not -name '*Vorbis.framework' -not -name '*Ogg.framework' -not -name '.' | xargs rm -rf
+endif  # ifdef SOUND
 else # libsdl build
 	cp $(SDLLIBSDIR)/libSDL2.dylib $(APPRESOURCESDIR)/
 	cp $(SDLLIBSDIR)/libSDL2_image.dylib $(APPRESOURCESDIR)/
