@@ -740,7 +740,7 @@ void Pickup::pick_up( const tripoint &pos, int min )
                 std::vector<iteminfo> vThisItem, vDummy;
                 here[selected].info(true, vThisItem);
 
-                draw_item_info(w_item_info, "", vThisItem, vDummy, iScrollPos, true, true);
+                draw_item_info(w_item_info, "", "", vThisItem, vDummy, iScrollPos, true, true);
             }
             draw_custom_border(w_item_info, false);
             mvwprintw(w_item_info, 0, 2, "< ");

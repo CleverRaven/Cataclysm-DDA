@@ -1699,7 +1699,6 @@ int game::inventory_item_menu(int pos, int iStartX, int iWidth, const inventory_
 
         int iScrollPos = 0;
         oThisItem.info(true, vThisItem);
-        const std::string item_name = oThisItem.tname();
 
         // +2+2 for border and adjacent spaces, +2 for '<hotkey><space>'
         int popup_width = max_text_length + 2+2 + 2;
@@ -1731,7 +1730,7 @@ int game::inventory_item_menu(int pos, int iStartX, int iWidth, const inventory_
         action_menu.border_color = BORDER_COLOR;
 
         do {
-            draw_item_info(iStartX, iWidth, VIEW_OFFSET_X, TERMY - VIEW_OFFSET_Y * 2, item_name, vThisItem, vDummy,
+            draw_item_info(iStartX, iWidth, VIEW_OFFSET_X, TERMY - VIEW_OFFSET_Y * 2, oThisItem.tname(), oThisItem.type_name(), vThisItem, vDummy,
                            iScrollPos, true, false, false);
             const int prev_selected = action_menu.selected;
             action_menu.query( false );
@@ -9697,7 +9696,7 @@ int game::list_items(const int iLastState)
                 activeItem->example->info(true, vThisItem);
                 int iDummySelect = 0;
                 draw_item_info(0, width - 5, 0, TERMY - VIEW_OFFSET_Y * 2,
-                               activeItem->example->tname(), vThisItem, vDummy, iDummySelect,
+                               activeItem->example->tname(), activeItem->example->type_name(), vThisItem, vDummy, iDummySelect,
                                false, false, true);
                 // wait until the user presses a key to wipe the screen
 
@@ -9959,7 +9958,7 @@ int game::list_items(const int iLastState)
                     std::vector<iteminfo> vThisItem, vDummy;
                     activeItem->example->info(true, vThisItem);
 
-                    draw_item_info(w_item_info, "", vThisItem, vDummy, iScrollPos, true, true);
+                    draw_item_info(w_item_info, "", "", vThisItem, vDummy, iScrollPos, true, true);
 
                     //Only redraw trail/terrain if x/y position changed
                     if( active_pos != iLastActive ) {

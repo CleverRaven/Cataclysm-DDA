@@ -282,13 +282,13 @@ long popup(const std::string &text, PopupFlags flags);
 void full_screen_popup(const char *mes, ...);
 /*@}*/
 
-int draw_item_info(WINDOW *win, const std::string sItemName,
+int draw_item_info(WINDOW *win, const std::string sItemName, const std::string sTypeName,
                    std::vector<iteminfo> &vItemDisplay, std::vector<iteminfo> &vItemCompare,
                    int &selected, const bool without_getch = false, const bool without_border = false,
                    const bool handle_scrolling = false);
 
 int draw_item_info(const int iLeft, int iWidth, const int iTop, const int iHeight,
-                   const std::string sItemName,
+                   const std::string sItemName, const std::string sTypeName,
                    std::vector<iteminfo> &vItemDisplay, std::vector<iteminfo> &vItemCompare,
                    int &selected, const bool without_getch = false, const bool without_border = false,
                    const bool handle_scrolling = false);

@@ -1219,6 +1219,14 @@ public:
          */
         static bool type_is_defined( const itype_id &id );
 
+        /**
+        * Returns true if item has "item_label" itemvar
+        */
+        bool has_label() const;
+        /**
+        * Returns label from "item_label" itemvar and quantity
+        */
+        std::string label( unsigned int quantity = 0 ) const;
     private:
         /** Reset all members to default, making this a null item. */
         void init();

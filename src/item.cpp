@@ -1982,7 +1982,7 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
     }
     else if (is_gun() && !contents.empty() ) {
         ret.str("");
-        ret << type_name(quantity);
+        ret << label(quantity);
         for( size_t i = 0; i < contents.size(); ++i ) {
             if( !contents.at(i).has_flag("IRREMOVABLE") ){
                 ret << "+";
@@ -1992,25 +1992,25 @@ std::string item::tname( unsigned int quantity, bool with_prefix ) const
     } else if( is_armor() && item_tags.count("wooled") + item_tags.count("furred") +
         item_tags.count("leather_padded") + item_tags.count("kevlar_padded") > 0 ) {
         ret.str("");
-        ret << type_name(quantity);
+        ret << label(quantity);
         ret << "+";
         maintext = ret.str();
     } else if (contents.size() == 1) {
         if(contents[0].made_of(LIQUID)) {
-            maintext = rmp_format(_("<item_name>%s of %s"), type_name(quantity).c_str(), contents[0].tname( quantity, with_prefix ).c_str());
+            maintext = rmp_format(_("<item_name>%s of %s"), label(quantity).c_str(), contents[0].tname( quantity, with_prefix ).c_str());
         } else if (contents[0].is_food()) {
-            maintext = contents[0].charges > 1 ? rmp_format(_("<item_name>%s of %s"), type_name(quantity).c_str(),
+            maintext = contents[0].charges > 1 ? rmp_format(_("<item_name>%s of %s"), label(quantity).c_str(),
                                                             contents[0].tname(contents[0].charges, with_prefix).c_str()) :
-                                                 rmp_format(_("<item_name>%s of %s"), type_name(quantity).c_str(),
+                                                 rmp_format(_("<item_name>%s of %s"), label(quantity).c_str(),
                                                             contents[0].tname( quantity, with_prefix ).c_str());
         } else {
-            maintext = rmp_format(_("<item_name>%s with %s"), type_name(quantity).c_str(), contents[0].tname( quantity, with_prefix ).c_str());
+            maintext = rmp_format(_("<item_name>%s with %s"), label(quantity).c_str(), contents[0].tname( quantity, with_prefix ).c_str());
         }
     }
     else if (!contents.empty()) {
-        maintext = rmp_format(_("<item_name>%s, full"), type_name(quantity).c_str());
+        maintext = rmp_format(_("<item_name>%s, full"), label(quantity).c_str());
     } else {
-        maintext = type_name(quantity);
+        maintext = label(quantity);
     }
 
     const it_comest* food_type = NULL;
@@ -5357,6 +5357,20 @@ int item::get_gun_ups_drain() const
         }
     }
     return draincount;
+}
+
+bool item::has_label() const
+{
+    return has_var( "item_label" );
+}
+
+std::string item::label( unsigned int quantity ) const
+{
+    if ( has_label() ) {
+        return get_var( "item_label" );
+    }
+
+    return type_name( quantity );
 }
 
 item_category::item_category() : id(), name(), sort_rank( 0 )
