@@ -100,8 +100,6 @@ void mapgen_basement_game(map *m, oter_id terrain_type, mapgendata dat, int turn
 void mapgen_basement_spiders(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 // autogen.sh
 void mapgen_office_doctor(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
-void mapgen_apartments_con_tower_1_entrance(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
-void mapgen_apartments_con_tower_1(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 void mapgen_apartments_mod_tower_1_entrance(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 void mapgen_apartments_mod_tower_1(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 void mapgen_office_tower_1_entrance(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);

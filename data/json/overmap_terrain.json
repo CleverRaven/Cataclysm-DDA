@@ -404,19 +404,41 @@
         "sidewalk" : true
     },{
         "type" : "overmap_terrain",
-        "id" : "apartments_con_tower_1_entrance",
+        "id" : "apartments_con_tower_NW",
         "name" : "apartment tower",
         "sym" : 65,
         "color" : "light_green",
+        "rotate" : true,
         "see_cost" : 5,
         "mondensity" : 2,
         "sidewalk" : true
     },{
         "type" : "overmap_terrain",
-        "id" : "apartments_con_tower_1",
+        "id" : "apartments_con_tower_NE",
         "name" : "apartment tower",
         "sym" : 65,
         "color" : "light_green",
+        "rotate" : true,
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "apartments_con_tower_SW",
+        "name" : "apartment tower",
+        "sym" : 65,
+        "color" : "light_green",
+        "rotate" : true,
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "apartments_con_tower_SE",
+        "name" : "apartment tower",
+        "sym" : 65,
+        "color" : "light_green",
+        "rotate" : true,
         "see_cost" : 5,
         "mondensity" : 2,
         "sidewalk" : true
