@@ -1195,9 +1195,9 @@ bool inscribe_actor::item_inscription( item *cut, std::string verb, std::string 
     }
 
     enum inscription_type {
-	    INSCRIPTION_LABEL,
-	    INSCRIPTION_NOTE,
-	    INSCRIPTION_CANCEL
+        INSCRIPTION_LABEL,
+        INSCRIPTION_NOTE,
+        INSCRIPTION_CANCEL
     };
 
     uimenu menu;
@@ -1211,15 +1211,15 @@ bool inscribe_actor::item_inscription( item *cut, std::string verb, std::string 
     switch ( menu.ret )
     {
     case INSCRIPTION_LABEL:
-	    carving = "item_label";
-	    carving_type = "item_label_type";
-	    break;
+        carving = "item_label";
+        carving_type = "item_label_type";
+        break;
     case INSCRIPTION_NOTE:
-	    carving = "item_note";
-	    carving_type = "item_note_type";
-	    break;
+        carving = "item_note";
+        carving_type = "item_note_type";
+        break;
     case INSCRIPTION_CANCEL:
-	    return false;
+        return false;
     }
 
     const bool hasnote = cut->has_var( carving );

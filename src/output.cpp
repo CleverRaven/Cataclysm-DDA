@@ -1200,13 +1200,13 @@ int draw_item_info(WINDOW *win, const std::string sItemName, const std::string s
 {
     std::ostringstream buffer;
     int line_num = 1;
-	if (sItemName != "") {
-		buffer << sItemName << "\n";
-	}
-	if (sItemName != sTypeName && sTypeName != "") {
+    if (sItemName != "") {
+        buffer << sItemName << "\n";
+    }
+    if (sItemName != sTypeName && sTypeName != "") {
         buffer << sTypeName << "\n";
     }
-	buffer << " \n"; //This space is required, otherwise it won't make an empty line.
+    buffer << " \n"; //This space is required, otherwise it won't make an empty line.
 
     int selected_ret = '\n';
     buffer << format_item_info( vItemDisplay, vItemCompare );
