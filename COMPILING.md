@@ -340,9 +340,9 @@ You can build a nice dmg distribution file with the `dmgdist` target. You will n
     # dmgbuild install
     sudo pip install dmgbuild pyobjc-framework-Quartz
 
-Once `dmgbuild` is installed, you will be able to use the `dmgdist` target like this:
+Once `dmgbuild` is installed, you will be able to use the `dmgdist` target like this. The use of `USE_HOME_DIR=1` is important here because it will allow for an easy upgrade of the game while keeping the user config and his saves in his home directory.
 
-    make dmgdist NATIVE=osx OSX_MIN=10.7 RELEASE=1 TILES=1 FRAMEWORK=1 LOCALIZE=0 CLANG=1
+    make dmgdist NATIVE=osx OSX_MIN=10.7 RELEASE=1 TILES=1 FRAMEWORK=1 LOCALIZE=0 CLANG=1 USE_HOME_DIR=1
 
 You should see a `Cataclysm.dmg` file.
 
