@@ -7,6 +7,7 @@
 #include "catacharset.h"
 #include "cursesdef.h"
 #include "debug.h"
+#include "player.h"
 #include <cstring>
 #include <vector>
 #include <fstream>
@@ -764,6 +765,15 @@ void curses_drawwindow(WINDOW *win)
         int wwidth = win->width * font->fontwidth;
         int wheight = win->height * font->fontheight;
         FillRectDIB(offsetx, offsety, wwidth, wheight, COLOR_BLACK);
+        update = true;
+    } else if (g && win == g->w_pixel_minimap && OPTIONS["PIXEL_MINIMAP"]) {\
+        // Make sure the entire minimap window is black before drawing.
+        FillRectDIB(win->x * fontwidth, win->y * fontheight,
+                    win->width * fontwidth, win->height * fontheight, COLOR_BLACK);
+        tilecontext->draw_minimap(
+            win->x * fontwidth, win->y * fontheight,
+            tripoint( g->u.pos().x, g->u.pos().y, g->ter_view_z ),
+            win->width * font->fontwidth, win->height * font->fontheight);
         update = true;
     } else {
         // Either not using tiles (tilecontext) or not the w_terrain window.
@@ -1988,6 +1998,12 @@ void to_overmap_font_dimension(int &w, int &h) {
 
 bool is_draw_tiles_mode() {
     return use_tiles;
+}
+
+SDL_Color cursesColorToSDL(int color) {
+    // Extract the color pair ID.
+    int pair = (color & 0x03fe0000) >> 17;
+    return windowsPalette[colorpairs[pair].FG];
 }
 
 #ifdef SDL_SOUND
