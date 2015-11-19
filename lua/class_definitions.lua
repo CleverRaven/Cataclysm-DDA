@@ -412,7 +412,6 @@ classes = {
             { name = "cough", rval = nil, args = { } },
             { name = "craft", rval = nil, args = { } },
             { name = "crafting_allowed", rval = "bool", args = { } },
-            { name = "crafting_can_see", rval = "bool", args = { } },
             { name = "crossed_threshold", rval = "bool", args = { } },
             { name = "deactivate_bionic", rval = "bool", args = { "int" } },
             { name = "deactivate_bionic", rval = "bool", args = { "int", "bool" } },

@@ -245,16 +245,12 @@ void finalize_recipes()
 
 bool player::crafting_allowed()
 {
-    if (morale_level() < MIN_MORALE_CRAFT) { // See morale.h
+    if ( has_moral_to_craft() ) { // See morale.h
         add_msg(m_info, _("Your morale is too low to craft..."));
         return false;
     }
-    return true;
-}
 
-bool player::crafting_can_see()
-{
-    if (fine_detail_vision_mod() > 4) {
+    if ( can_see_to_craft() ) {
         add_msg(m_info, _("You can't see to craft!"));
         return false;
     }
@@ -262,16 +258,22 @@ bool player::crafting_can_see()
     return true;
 }
 
+bool player::can_see_to_craft()
+{
+    return fine_detail_vision_mod() > 4;
+}
+
+bool player::has_moral_to_craft()
+{
+    return morale_level() < MIN_MORALE_CRAFT;
+}
+
 void player::craft()
 {
-    if (!crafting_allowed()) {
-        return;
-    }
-
     int batch_size = 0;
     const recipe *rec = select_crafting_recipe( batch_size );
     if (rec) {
-        if(crafting_can_see()) {
+        if ( crafting_allowed() ) {
             make_craft( rec->ident, batch_size );
         }
     }
@@ -288,14 +290,10 @@ void player::recraft()
 
 void player::long_craft()
 {
-    if (!crafting_allowed()) {
-        return;
-    }
-
     int batch_size = 0;
     const recipe *rec = select_crafting_recipe( batch_size );
     if (rec) {
-        if(crafting_can_see()) {
+        if( crafting_allowed() ) {
             make_all_craft( rec->ident, batch_size );
         }
     }
@@ -304,10 +302,6 @@ void player::long_craft()
 bool player::making_would_work(const std::string &id_to_make, int batch_size)
 {
     if (!crafting_allowed()) {
-        return false;
-    }
-
-    if(!crafting_can_see()) {
         return false;
     }
 
@@ -899,6 +893,21 @@ const recipe *select_crafting_recipe( int &batch_size )
     return chosen;
 }
 
+// Anchors top-right
+static void draw_can_craft_indicator(WINDOW *w, int window_width, int margin_x, int margin_y)
+{
+    int x_align = window_width - margin_x;
+    // Draw text
+    mvwprintz(w, margin_y, x_align - utf8_width(_("can craft:")), c_ltgray, _("can craft:"));
+    if( g->u.can_see_to_craft() ) {
+        mvwprintz(w, margin_y + 1, x_align - 1 - utf8_width( _( "too dark" ) ),  i_red  , _( "too dark" ));
+    } else if( g->u.has_moral_to_craft() ) {
+        mvwprintz(w, margin_y + 1, x_align - 1 - utf8_width( _( "too sad" ) ),  i_red  , _( "too sad" ));
+    } else {
+        mvwprintz(w, margin_y + 1, x_align - 1 - utf8_width( _( "yes" ) ),  i_green  , _( "yes" ));
+    }
+}
+
 static void draw_recipe_tabs(WINDOW *w, std::string tab, TAB_MODE mode)
 {
     werase(w);
@@ -909,10 +918,9 @@ static void draw_recipe_tabs(WINDOW *w, std::string tab, TAB_MODE mode)
 
     mvwputch(w, 2,  0, BORDER_COLOR, LINE_OXXO); // |^
     mvwputch(w, 2, width - 1, BORDER_COLOR, LINE_OOXX); // ^|
-    mvwprintz(w, 0, width - utf8_width(_("Lighting:")), c_ltgray, _("Lighting:"));//Lighting info
 
-    auto ll = get_light_level(g->u.fine_detail_vision_mod());
-    mvwprintz(w, 1, width - 1 - utf8_width(ll.first), ll.second, ll.first.c_str());
+    // Draw a "can craft" indicator
+    draw_can_craft_indicator(w, width, 1, 0);
 
     switch (mode) {
     case NORMAL:
