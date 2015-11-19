@@ -1,5 +1,17 @@
 [
     {
+        "type" : "snippet",
+        "category" : "mapgen_test",
+        "text": "This is a test of the sign snippet system"
+    },{
+        "type" : "snippet",
+        "category" : "mapgen_test",
+        "text": "Snippets should also support tags like <full_name>, <given_name>, <family_name>, and <city>"
+    },{
+        "type" : "snippet",
+        "category" : "mapgen_test",
+        "text": "This should repeat the same city several times: <city>, <city>, <city>"
+    },{
         "//": "This is a test mapgen definition.",
         "//": "Its contents make no sense, it is supposed to use all the available mapgen possibilities.",
         "type" : "overmap_terrain",
@@ -143,7 +155,10 @@
                 { "x": 5, "y": 1, "field": "fd_bile", "age": 20, "density": 2 }
             ],
             "place_signs": [
-                { "x": 7, "y": 1, "signage": "it works again." }
+                { "x": 7, "y": 1, "signage": "it works again." },
+                { "x": 7, "y": 2, "signage": "<given_name> <family_name> owned <full_name> at <city>" },
+                { "x": 8, "y": 2, "snippet": "mapgen_test" },
+                { "x": 8, "y": 1, "signage": "<given_name>, <given_name>, and <given_name> were here!" }
             ],
             "place_monsters": [
                 { "x": 5, "y": 1, "monster": "GROUP_BEE", "density": 1, "chance": 4 },

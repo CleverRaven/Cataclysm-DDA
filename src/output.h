@@ -321,6 +321,10 @@ std::string vstring_format(std::string const &pattern, va_list argptr);
 
 // TODO: move these elsewhere
 // string manipulations.
+void replace_name_tags(std::string & input);
+void replace_city_tag(std::string & input, const std::string & name);
+
+void replace_substring(std::string & input, const std::string & substring, const std::string & replacement, bool all);
 
 std::string &capitalize_letter(std::string &pattern, size_t n = 0);
 std::string rm_prefix(std::string str, char c1 = '<', char c2 = '>');
