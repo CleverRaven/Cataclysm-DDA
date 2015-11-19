@@ -26,24 +26,25 @@ class tileray
         int steps;      // how many steps we advanced so far
         bool infinite;  // ray is infinite (end will always return true)
     public:
-        tileray ();
-        tileray (int adx, int ady);
-        tileray (int adir);
+        tileray();
+        tileray( int adx, int ady );
+        tileray( int adir );
 
-        void init (int adx, int ady);   // init ray with dx,dy
-        void init (int adir);           // init ray with direction
+        void init( int adx, int ady );  // init ray with dx,dy
+        void init( int adir );          // init ray with direction
 
-        int dx () const;      // return dx of last advance (-1 to 1)
-        int dy () const;      // return dy of last advance (-1 to 1)
-        int dir () const;     // return direction of ray (degrees)
-        int dir4 () const;    // return 4-sided direction (0 = east, 1 = south, 2 = west, 3 = north)
-        long dir_symbol (long sym) const; // convert certain symbols from north-facing variant into current dir facing
-        int ortho_dx (int od) const; // return dx for point at "od" distance in orthogonal direction
-        int ortho_dy (int od) const; // return dy for point at "od" distance in orthogonal direction
-        bool mostly_vertical () const; // return if ray is mostly vertical
+        int dx() const;       // return dx of last advance (-1 to 1)
+        int dy() const;       // return dy of last advance (-1 to 1)
+        int dir() const;      // return direction of ray (degrees)
+        int dir4() const;     // return 4-sided direction (0 = east, 1 = south, 2 = west, 3 = north)
+        long dir_symbol( long sym )
+        const; // convert certain symbols from north-facing variant into current dir facing
+        int ortho_dx( int od ) const; // return dx for point at "od" distance in orthogonal direction
+        int ortho_dy( int od ) const; // return dy for point at "od" distance in orthogonal direction
+        bool mostly_vertical() const;  // return if ray is mostly vertical
 
-        void advance (int num = 1); // move to the next tile (calculate last dx, dy)
-        bool end ();     // do we reach the end of (dx,dy) defined ray?
+        void advance( int num = 1 ); // move to the next tile (calculate last dx, dy)
+        bool end();      // do we reach the end of (dx,dy) defined ray?
 };
 
 #endif
