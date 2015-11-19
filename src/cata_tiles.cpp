@@ -888,6 +888,19 @@ void cata_tiles::draw( int destx, int desty, const tripoint &center, int width, 
     SDL_RenderSetClipRect(renderer, NULL);
 }
 
+void cata_tiles::draw_rhombus(int destx, int desty, int size, SDL_Color color) {
+    for(int xOffset = -size; xOffset <= size; xOffset++) {
+        for(int yOffset = -size + abs(xOffset); yOffset <= size - abs(xOffset); yOffset++) {
+            int divisor = 2 * (abs(yOffset) == size - abs(xOffset)) + 1;
+            SDL_SetRenderDrawColor(renderer, color.r / divisor, color.g / divisor, color.b / divisor, 255);
+
+            SDL_RenderDrawPoint(renderer,
+                 destx + xOffset,
+                 desty + yOffset);
+        }
+    }
+}
+
 void cata_tiles::draw_minimap( int destx, int desty, const tripoint &center, int width, int height )
 {
     if (!g) {
@@ -923,14 +936,13 @@ void cata_tiles::draw_minimap( int destx, int desty, const tripoint &center, int
             } else {
                 int veh_part = 0;
                 vehicle *veh = g->m.veh_at( p, veh_part );
-                auto furniture = g->m.furn_at( p );
                 if (veh != nullptr) {
                     color = cursesColorToSDL(veh->part_color(veh_part));
                 } else if ( g->m.has_furn( p ) ) {
-                    auto furniture = g->m.furn_at( p );
+                    auto& furniture = g->m.furn_at( p );
                     color = cursesColorToSDL(furniture.color());
                 } else {
-                    auto terrain = g->m.ter_at( p );
+                    auto& terrain = g->m.ter_at( p );
                     color = cursesColorToSDL(terrain.color());
                 }
             }
@@ -954,17 +966,12 @@ void cata_tiles::draw_minimap( int destx, int desty, const tripoint &center, int
             if(lighting != LL_DARK && lighting != LL_BLANK) {
                 const auto critter = g->critter_at( p, true );
                 if( critter != nullptr ) {
-                    SDL_Color color = cursesColorToSDL(critter->symbol_color());
-                    for(int xOffset = -tile_size_x; xOffset <= tile_size_x; xOffset++) {
-                        for(int yOffset = -tile_size_x + abs(xOffset); yOffset <= tile_size_x - abs(xOffset); yOffset++) {
-                            int divisor = 2 * (abs(yOffset) == tile_size_x - abs(xOffset)) + 1;
-                            SDL_SetRenderDrawColor(renderer, color.r / divisor, color.g / divisor, color.b / divisor, 255);
-
-                            SDL_RenderDrawPoint(renderer,
-                                 destx + border_width + x * tile_size_x + xOffset,
-                                 desty + border_height + y * tile_size_y + yOffset);
-                        }
-                    }
+                    draw_rhombus(
+                        destx + border_width + x * tile_size_x,
+                        desty + border_height + y * tile_size_y,
+                        tile_size_x,
+                        cursesColorToSDL(critter->symbol_color())
+                    );
                 }
             }
         }
