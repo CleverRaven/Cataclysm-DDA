@@ -19540,17 +19540,38 @@
         {
           "id": "vp_reinforced_solar_panel",
           "fg": 2439,
-          "rotates": true
+          "rotates": true,
+          "multitile": true,
+          "additional_tiles": [
+            {
+              "id": "broken",
+              "fg": 3018
+            }
+          ]
         },
         {
           "id": "vp_reinforced_solar_panel_v2",
           "fg": 2440,
-          "rotates": true
+          "rotates": true,
+          "multitile": true,
+          "additional_tiles": [
+            {
+              "id": "broken",
+              "fg": 3019
+            }
+          ]
         },
         {
           "id": "vp_reinforced_windshield",
           "fg": 2441,
-          "rotates": true
+          "rotates": true,
+          "multitile": true,
+          "additional_tiles": [
+            {
+              "id": "broken",
+              "fg": 3020
+            }
+          ]
         },
         {
           "id": "vp_roof_wood",
@@ -19573,9 +19594,33 @@
           "rotates": true
         },
         {
+          "id": "vp_solar_panel",
+          "fg": 2445,
+          "rotates": true,
+          "multitile": true,
+          "additional_tiles": [
+            {
+              "id": "broken",
+              "fg": 3015
+            }
+          ]
+        },
+        {
           "id": "vp_solar_panel_v2",
           "fg": 2446,
           "rotates": true
+        },
+        {
+          "id": "vp_solar_panel_v2",
+          "fg": 2446,
+          "rotates": true,
+          "multitile": true,
+          "additional_tiles": [
+            {
+              "id": "broken",
+              "fg": 3016
+            }
+          ]
         },
         {
           "id": "vp_spike",
@@ -22768,7 +22813,14 @@
         {
           "id": "vp_solar_panel_v3",
           "fg": 2898,
-          "rotates": true
+          "rotates": true,
+          "multitile": true,
+          "additional_tiles": [
+            {
+              "id": "broken",
+              "fg": 3017
+            }
+          ]
         },
         {
           "id": "game_watch",
