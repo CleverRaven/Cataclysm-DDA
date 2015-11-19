@@ -156,23 +156,23 @@ void talk_function::bionic_remove(npc *p)
 void talk_function::companion_mission(npc *p)
 {
  std::string id = "NONE";
- std::string title = "Outpost Missions";
+ std::string title = _("Outpost Missions");
  unsigned int a = -1;
  if (p->name.find("Scavenger Boss") != a){
     id = "SCAVENGER";
-    title = "Junkshop Missions";
+    title = _("Junkshop Missions");
  }
  if (p->name.find("Crop Overseer") != a){
     id = "COMMUNE CROPS";
-    title = "Agricultural Missions";
+    title = _("Agricultural Missions");
  }
  if (p->name.find("Foreman") != a){
     id = "FOREMAN";
-    title = "Construction Missions";
+    title = _("Construction Missions");
  }
  if (p->name.find(", Merchant") != a){
     id = "REFUGEE MERCHANT";
-    title = "Free Merchant Missions";
+    title = _("Free Merchant Missions");
  }
  talk_function::outpost_missions(p, id, title);
 }
@@ -185,28 +185,28 @@ bool talk_function::outpost_missions(npc *p, std::string id, std::string title)
     std::string entry, entry_aux;
 
     if (id == "SCAVENGER"){
-        col_missions["Assign Scavenging Patrol"] = "Profit: $25-$500\nDanger: Low\nTime: 10 hour missions\n \n"
+        col_missions["Assign Scavenging Patrol"] = _("Profit: $25-$500\nDanger: Low\nTime: 10 hour missions\n \n"
             "Assigning one of your allies to patrol the surrounding wilderness and isolated buildings presents "
             "the opportunity to build survival skills while engaging in relatively safe combat against isolated "
-            "creatures.";
+            "creatures.");
         keys.push_back("Assign Scavenging Patrol");
         npc_list = companion_list(p->name+"_scavenging_patrol");
         if (npc_list.size()>0){
-            entry = "Profit: $25-$500\nDanger: Low\nTime: 10 hour missions\n \nPatrol Roster:\n";
+            entry = _("Profit: $25-$500\nDanger: Low\nTime: 10 hour missions\n \nPatrol Roster:\n");
             for( auto &elem : npc_list ) {
                 entry = entry + "  " + elem->name + " ["+ to_string((calendar::turn.get_turn()-elem->companion_mission_time)/600) +" hours] \n";
             }
-            entry = entry + "\n \nDo you wish to bring your allies back into your party?";
+            entry = entry + _("\n \nDo you wish to bring your allies back into your party?");
             col_missions["Retrieve Scavenging Patrol"] = entry;
             keys.push_back("Retrieve Scavenging Patrol");
         }
     }
 
     if (id == "SCAVENGER" && p->has_trait("NPC_MISSION_LEV_1")){
-        col_missions["Assign Scavenging Raid"] = "Profit: $200-$1000\nDanger: Medium\nTime: 10 hour missions\n \n"
+        col_missions["Assign Scavenging Raid"] = _("Profit: $200-$1000\nDanger: Medium\nTime: 10 hour missions\n \n"
             "Scavenging raids target formerly populated areas to loot as many valuable items as possible before "
             "being surrounded by the undead.  Combat is to be expected and assistance from the rest of the party "
-            "can't be guaranteed.  The rewards are greater and there is a chance of the companion bringing back items.";
+            "can't be guaranteed.  The rewards are greater and there is a chance of the companion bringing back items.");
         keys.push_back("Assign Scavenging Raid");
         npc_list = companion_list(p->name+"_scavenging_raid");
         if (npc_list.size()>0){
@@ -221,34 +221,34 @@ bool talk_function::outpost_missions(npc *p, std::string id, std::string title)
     }
 
     if (id == "FOREMAN"){
-        col_missions["Assign Ally to Menial Labor"] = "Profit: $8/hour\nDanger: Minimal\nTime: 1 hour minimum\n \n"
+        col_missions["Assign Ally to Menial Labor"] = _("Profit: $8/hour\nDanger: Minimal\nTime: 1 hour minimum\n \n"
             "Assigning one of your allies to menial labor is a safe way to teach them basic skills and build "
-            "reputation with the outpost.  Don't expect much of a reward though.";
+            "reputation with the outpost.  Don't expect much of a reward though.");
         keys.push_back("Assign Ally to Menial Labor");
         npc_list = companion_list(p->name+"_labor");
         if (npc_list.size()>0){
-            entry = "Profit: $8/hour\nDanger: Minimal\nTime: 1 hour minimum\n \nLabor Roster:\n";
+            entry = _("Profit: $8/hour\nDanger: Minimal\nTime: 1 hour minimum\n \nLabor Roster:\n");
             for( auto &elem : npc_list ) {
                 entry = entry + "  " + elem->name + " ["+ to_string((calendar::turn.get_turn()-elem->companion_mission_time)/600) +" hours] \n";
             }
-            entry = entry + "\n \nDo you wish to bring your allies back into your party?";
+            entry = entry + _("\n \nDo you wish to bring your allies back into your party?");
             col_missions["Recover Ally from Menial Labor"] = entry;
             keys.push_back("Recover Ally from Menial Labor");
         }
     }
 
     if (id == "FOREMAN" && p->has_trait("NPC_MISSION_LEV_1")){
-        col_missions["Assign Ally to Carpentry Work"] = "Profit: $12/hour\nDanger: Minimal\nTime: 1 hour minimum\n \n"
+        col_missions["Assign Ally to Carpentry Work"] = _("Profit: $12/hour\nDanger: Minimal\nTime: 1 hour minimum\n \n"
             "Carpentry work requires more skill than menial labor while offering modestly improved pay.  It is "
-            "unlikely that your companions will face combat but there are hazards working on makeshift buildings.";
+            "unlikely that your companions will face combat but there are hazards working on makeshift buildings.");
         keys.push_back("Assign Ally to Carpentry Work");
         npc_list = companion_list(p->name+"_carpenter");
         if (npc_list.size()>0){
-            entry = "Profit: $12/hour\nDanger: Minimal\nTime: 1 hour minimum\n \nLabor Roster:\n";
+            entry = _("Profit: $12/hour\nDanger: Minimal\nTime: 1 hour minimum\n \nLabor Roster:\n");
             for( auto &elem : npc_list ) {
                 entry = entry + "  " + elem->name + " ["+ to_string((calendar::turn.get_turn()-elem->companion_mission_time)/600) +" hours] \n";
             }
-            entry = entry + "\n \nDo you wish to bring your allies back into your party?";
+            entry = entry + _("\n \nDo you wish to bring your allies back into your party?");
             col_missions["Recover Ally from Carpentry Work"] = entry;
             keys.push_back("Recover Ally from Carpentry Work");
         }
@@ -300,11 +300,11 @@ bool talk_function::outpost_missions(npc *p, std::string id, std::string title)
         keys.push_back("Assign Ally to Forage for Food");
         npc_list = companion_list(p->name+"_forage");
         if (npc_list.size()>0){
-            entry = "Profit: $10/hour\nDanger: Low\nTime: 4 hour minimum\n \nLabor Roster:\n";
+            entry = _("Profit: $10/hour\nDanger: Low\nTime: 4 hour minimum\n \nLabor Roster:\n");
             for( auto &elem : npc_list ) {
                 entry = entry + "  " + elem->name + " ["+ to_string((calendar::turn.get_turn()-elem->companion_mission_time)/600) +" hours] \n";
             }
-            entry = entry + "\n \nDo you wish to bring your allies back into your party?";
+            entry = entry + _("\n \nDo you wish to bring your allies back into your party?");
             col_missions["Recover Ally from Foraging"] = entry;
             keys.push_back("Recover Ally from Foraging");
         }
