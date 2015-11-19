@@ -19,7 +19,7 @@ std::string lua_console::get_input()
 {
     long key = 0;
     int pos = -1;
-    return string_input_win( iWin, "", width, 0, 0, width, true, key, pos, "LUA", width, 1, true, false, callbacks );
+    return string_input_win( iWin, "", width, 0, 0, width, true, key, pos, "LUA", 0, lines, true, false, callbacks );
 }
 
 void lua_console::draw()
@@ -43,7 +43,7 @@ void lua_console::quit()
 
 void lua_console::scroll_down()
 {
-    scroll = std::min( std::max( (int) text_stack.size() - lines, 0 ), scroll + 1 );
+    scroll = std::min( std::max( ((int) text_stack.size()) - lines, 0 ), scroll + 1 );
     draw();
 }
 
