@@ -720,7 +720,9 @@ std::string item::info(bool showtext, std::vector<iteminfo> &info) const
         const auto skill = &mod->gun_skill().obj();
 
         info.push_back(iteminfo("GUN", _("Skill used: "), "<info>" + skill->name() + "</info>"));
-        info.push_back(iteminfo("GUN", _("<bold>Ammunition</bold>: "), string_format(ngettext("<num> round of %s", "<num> rounds of %s", mod->clip_size()),
+        info.push_back(iteminfo("GUN", _("<bold>Ammunition</bold>: "), string_format(ngettext("<num> <stat>round of %s</stat>",
+                                                                                              "<num> <stat>rounds of %s</stat>",
+                                                                                     mod->clip_size()),
                                  ammo_name(mod->ammo_type()).c_str()), mod->clip_size(), true));
 
         info.push_back(iteminfo("GUN", _("Damage: "), "", mod->gun_damage( false ), true, "", false, false));
@@ -792,13 +794,13 @@ std::string item::info(bool showtext, std::vector<iteminfo> &info) const
 
         if (mod->burst_size() == 0) {
             if (skill->ident() == skill_id( "pistol" ) && has_flag("RELOAD_ONE")) {
-                info.push_back(iteminfo("GUN", _("<info>Revolver</info>.")));
+                info.push_back(iteminfo("GUN", _("Fire mode: <info>Revolver</info>.")));
             } else {
-                info.push_back(iteminfo("GUN", _("<info>Semi-automatic</info>.")));
+                info.push_back(iteminfo("GUN", _("Fire mode: <info>Semi-automatic</info>.")));
             }
         } else {
             if (has_flag("BURST_ONLY")) {
-                info.push_back(iteminfo("GUN", _("<info>Fully-automatic</info> (burst only).")));
+                info.push_back(iteminfo("GUN", _("Fire mode: <info>Fully-automatic</info> (burst only).")));
             }
             info.push_back(iteminfo("GUN", _("Burst size: "), "", mod->burst_size()));
         }
@@ -807,14 +809,14 @@ std::string item::info(bool showtext, std::vector<iteminfo> &info) const
             insert_separation_line();
 
             temp1.str("");
-            temp1 << _("Mod Locations:") << "\n";
+            temp1 << _("<bold>Mods:<bold> ");
             int iternum = 0;
             for( auto &elem : gun->valid_mod_locations ) {
                 if (iternum != 0) {
                     temp1 << "; ";
                 }
                 const int free_slots = ( elem ).second - get_free_mod_locations( ( elem ).first );
-                temp1 << free_slots << "/" << ( elem ).second << " " << _( ( elem ).first.c_str() );
+                temp1 << "<bold>" << free_slots << "/" << ( elem ).second << "</bold> " << _( ( elem ).first.c_str() );
                 bool first_mods = true;
                 for( auto &_mn : contents ) {
                     const auto mod = _mn.type->gunmod.get();
@@ -1033,33 +1035,33 @@ std::string item::info(bool showtext, std::vector<iteminfo> &info) const
             if( book->skill ) {
                 if( g->u.get_skill_level( book->skill ).can_train() ) {
                     info.push_back(iteminfo("BOOK", "",
-                                             string_format(_("Can bring your <info>%s skill to <num></info>"),
+                                             string_format(_("Can bring your <info>%s skill to</info> <num>"),
                                                            book->skill.obj().name().c_str()), book->level));
                 }
 
                 if( book->req != 0 ){
                     info.push_back(iteminfo("BOOK", "",
-                                             string_format(_("<info>Requires %s level <num></info> to understand."),
+                                             string_format(_("<info>Requires %s level</info> <num> to understand."),
                                                            book->skill.obj().name().c_str()),
                                              book->req, true, "", true, true));
                 }
             }
 
-            info.push_back(iteminfo("BOOK", "", _("Requires <info>intelligence of <num></info> to easily read."),
+            info.push_back(iteminfo("BOOK", "", _("Requires <info>intelligence of</info> <num> to easily read."),
                                      book->intel, true, "", true, true));
             if (book->fun != 0) {
                 info.push_back(iteminfo("BOOK", "",
                                          _("Reading this book affects your morale by <num>"),
                                          book->fun, true, (book->fun > 0 ? "+" : "")));
             }
-            info.push_back(iteminfo("BOOK", "", ngettext("A chapter of this book takes <info><num> minute to read</info>.",
-                                                          "A chapter of this book takes <info><num> minutes to read</info>.",
+            info.push_back(iteminfo("BOOK", "", ngettext("A chapter of this book takes <num> <info>minute to read</info>.",
+                                                          "A chapter of this book takes <num> <info>minutes to read</info>.",
                                                           book->time),
                                      book->time, true, "", true, true));
             if( book->chapters > 0 ) {
                 const int unread = get_remaining_chapters( g->u );
-                info.push_back( iteminfo( "BOOK", "", ngettext( "This book has <info><num> unread chapter</info>.",
-                                                                 "This book has <info><num> unread chapters</info>.",
+                info.push_back( iteminfo( "BOOK", "", ngettext( "This book has <num> <info>unread chapter</info>.",
+                                                                 "This book has <num> <info>unread chapters</info>.",
                                                                  unread ),
                                            unread ) );
             }
@@ -1718,7 +1720,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> &info) const
             temp1 << elem.sFmt.c_str();
         }
         if( elem.sValue != "-999" ) {
-            temp1 << elem.sPlus << elem.sValue;
+            temp1 << elem.sPlus << "<color_c_brown>" << elem.sValue << "</color>";
         }
         temp1 << sPost;
         temp1 << ( ( elem.bNewLine ) ? "\n" : "" );
