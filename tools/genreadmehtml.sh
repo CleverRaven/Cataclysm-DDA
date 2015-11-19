@@ -1,5 +1,5 @@
 #!/usr/bin/env sh
-MARKDOWN_CMD="markdown_py2 ../README.md"
+MARKDOWN_CMD="python3 -m markdown -o html5 -n <../README.md"
 
 cat > ../README.html <<EOF
 <html>
