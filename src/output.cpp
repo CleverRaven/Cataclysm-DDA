@@ -1130,6 +1130,27 @@ std::string string_replace(std::string text, const std::string &before, const st
     return text;
 }
 
+std::string replace_colors(std::string text)
+{
+    static const std::vector<std::pair<std::string, std::string>> info_colors = {
+        {"info", get_all_colors().get_name(c_cyan)},
+        {"stat", get_all_colors().get_name(c_blue)},
+        {"header", get_all_colors().get_name(c_magenta)},
+        {"bold", get_all_colors().get_name(c_white)},
+        {"dark", get_all_colors().get_name(c_dkgray)},
+        {"good", get_all_colors().get_name(c_green)},
+        {"bad", get_all_colors().get_name(c_red)},
+        {"neutral", get_all_colors().get_name(c_brown)}
+    };
+
+    for ( auto &elem : info_colors ) {
+        text = string_replace(text, "<" + elem.first + ">", "<color_" + elem.second + ">");
+        text = string_replace(text, "</" + elem.first + ">", "</color>");
+    }
+
+    return text;
+}
+
 std::string format_item_info( const std::vector<iteminfo> &vItemDisplay,
                               const std::vector<iteminfo> &vItemCompare )
 {

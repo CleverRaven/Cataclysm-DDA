@@ -1683,11 +1683,11 @@ std::string item::info(bool showtext, std::vector<iteminfo> &info) const
                     // darken recipes you can't currently craft
                     bool can_make = r->can_make_with_inventory(inv);
                     if (!can_make) {
-                        temp1 << "<color_dkgray>";
+                        temp1 << "<dark>";
                     }
                     temp1 << item::nname(r->result);
                     if (!can_make) {
-                        temp1 << "</color>";
+                        temp1 << "</dark>";
                     }
                 }
                 if (found_recipe) {
@@ -1720,13 +1720,13 @@ std::string item::info(bool showtext, std::vector<iteminfo> &info) const
             temp1 << elem.sFmt.c_str();
         }
         if( elem.sValue != "-999" ) {
-            temp1 << elem.sPlus << "<color_c_brown>" << elem.sValue << "</color>";
+            temp1 << elem.sPlus << "<neutral>" << elem.sValue << "</neutral>";
         }
         temp1 << sPost;
         temp1 << ( ( elem.bNewLine ) ? "\n" : "" );
     }
 
-    return temp1.str();
+    return replace_colors(temp1.str());
 }
 
 int item::get_free_mod_locations(const std::string &location) const
@@ -4522,28 +4522,9 @@ iteminfo::iteminfo(std::string Type, std::string Name, std::string Fmt,
                    double Value, bool _is_int, std::string Plus,
                    bool NewLine, bool LowerIsBetter, bool DrawName)
 {
-    static auto replace_info_colors = [&](std::string text) {
-        static const std::vector<std::pair<std::string, std::string>> info_colors = {
-            {"info", get_all_colors().get_name(c_cyan)},
-            {"stat", get_all_colors().get_name(c_blue)},
-            {"header", get_all_colors().get_name(c_magenta)},
-            {"bold", get_all_colors().get_name(c_white)},
-            {"good", get_all_colors().get_name(c_green)},
-            {"bad", get_all_colors().get_name(c_red)},
-            {"neutral", get_all_colors().get_name(c_brown)}
-        };
-
-        for ( auto &elem : info_colors ) {
-            text = string_replace(text, "<" + elem.first + ">", "<color_" + elem.second + ">");
-            text = string_replace(text, "</" + elem.first + ">", "</color>");
-        }
-
-        return text;
-    };
-
     sType = Type;
-    sName = replace_info_colors(Name);
-    sFmt = replace_info_colors(Fmt);
+    sName = replace_colors(Name);
+    sFmt = replace_colors(Fmt);
     is_int = _is_int;
     dValue = Value;
     std::stringstream convert;
