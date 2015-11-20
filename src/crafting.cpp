@@ -203,16 +203,12 @@ void finalize_recipes()
 
 bool player::crafting_allowed()
 {
-    if (morale_level() < MIN_MORALE_CRAFT) { // See morale.h
+    if ( has_moral_to_craft() ) { // See morale.h
         add_msg(m_info, _("Your morale is too low to craft..."));
         return false;
     }
-    return true;
-}
 
-bool player::crafting_can_see()
-{
-    if (fine_detail_vision_mod() > 4) {
+    if ( can_see_to_craft() ) {
         add_msg(m_info, _("You can't see to craft!"));
         return false;
     }
@@ -220,16 +216,22 @@ bool player::crafting_can_see()
     return true;
 }
 
+bool player::can_see_to_craft()
+{
+    return fine_detail_vision_mod() > 4;
+}
+
+bool player::has_moral_to_craft()
+{
+    return morale_level() < MIN_MORALE_CRAFT;
+}
+
 void player::craft()
 {
-    if (!crafting_allowed()) {
-        return;
-    }
-
     int batch_size = 0;
     const recipe *rec = select_crafting_recipe( batch_size );
     if (rec) {
-        if(crafting_can_see()) {
+        if ( crafting_allowed() ) {
             make_craft( rec->ident, batch_size );
         }
     }
@@ -246,14 +248,10 @@ void player::recraft()
 
 void player::long_craft()
 {
-    if (!crafting_allowed()) {
-        return;
-    }
-
     int batch_size = 0;
     const recipe *rec = select_crafting_recipe( batch_size );
     if (rec) {
-        if(crafting_can_see()) {
+        if( crafting_allowed() ) {
             make_all_craft( rec->ident, batch_size );
         }
     }
@@ -262,10 +260,6 @@ void player::long_craft()
 bool player::making_would_work(const std::string &id_to_make, int batch_size)
 {
     if (!crafting_allowed()) {
-        return false;
-    }
-
-    if(!crafting_can_see()) {
         return false;
     }
 

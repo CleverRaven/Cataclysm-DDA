@@ -1129,7 +1129,7 @@ void options_manager::init()
                                    );
     OPTIONS["MONSTER_UPGRADE_FACTOR"] = cOpt("world_default", _("Monster evolution scaling factor"),
                                     _("A scaling factor that determines the time between monster upgrades. A higher number means slower evolution. Set to 0.00 to turn off monster upgrades."),
-                                    0.0, 100, 1.0, 0.01
+                                    0.0, 100, 4.0, 0.01
                                    );
 
     mOptionsSort["world_default"]++;

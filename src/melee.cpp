@@ -146,7 +146,7 @@ int player::get_hit_weapon( const item &weap ) const
     if( weap.has_flag("SPEAR") || weap.has_flag("STAB") ) {
         best_bonus = std::max( best_bonus, stabbing_skill / 3.0f );
     }
-    
+
     return int(melee_skill / 2.0f + best_bonus);
 }
 
@@ -2334,7 +2334,7 @@ int player::attack_speed( const item &weap, const bool average ) const
     const int dexbonus = average ? dex_cur / 2 : rng( 0, dex_cur );
     const int encumbrance_penalty = encumb( bp_torso ) +
                                     ( encumb( bp_hand_l ) + encumb( bp_hand_r ) ) / 2;
-    const float stamina_ratio = stamina / get_stamina_max();
+    const float stamina_ratio = (float)stamina / (float)get_stamina_max();
     // Increase cost multiplier linearly from 1.0 to 2.0 as stamina goes from 25% to 0%.
     const float stamina_penalty = 1.0 + ( (stamina_ratio < 0.25) ?
                                           ((0.25 - stamina_ratio) * 4.0) : 0.0 );

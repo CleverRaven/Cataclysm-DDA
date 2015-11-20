@@ -547,8 +547,9 @@ Places a new NPC. Values:
 - "class": (required, string) the npc class id, see data/json/npcs/npc.json or define your own npc class.
 
 ### 2.7.2 "signs"
-Places a sign (furniture f_sign) with a message written on it. Values:
-- "signage": (required, string) the message that should appear on the sign.
+Places a sign (furniture f_sign) with a message written on it. Either "signage" or "snippet" must be defined.  The message may include tags like \<full_name\>, \<given_name\>, and \<family_name\> that will insert a randomly generated name, or \<city\> that will insert the nearest city name.  Values:
+- "signage": (optional, string) the message that should appear on the sign.
+- "snippet": (optional, string) a category of snippets that can appear on the sign.
 
 ### 2.7.3 "vendingmachines"
 Places a vending machine (furniture) and fills it with items. The machine can sometimes spawn as broken one. Values:

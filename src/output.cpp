@@ -24,6 +24,7 @@
 #include "ui.h"
 #include "item.h"
 #include "line.h"
+#include "name.h"
 
 // Display data
 int TERMX;
@@ -1723,6 +1724,38 @@ std::string string_format(std::string pattern, ...)
     std::string result = vstring_format(pattern.c_str(), ap);
     va_end(ap);
     return result;
+}
+
+void replace_name_tags(std::string & input)
+{
+    // these need to replace each tag with a new randomly generated name
+    while (input.find("<full_name>") != std::string::npos) {
+        replace_substring(input, "<full_name>", NameGenerator::generator().getName(nameIsFullName), false );
+    }
+    while (input.find("<family_name>") != std::string::npos) {
+        replace_substring(input, "<family_name>", NameGenerator::generator().getName(nameIsFamilyName), false );
+    }
+    while (input.find("<given_name>") != std::string::npos) {
+        replace_substring(input, "<given_name>", NameGenerator::generator().getName(nameIsGivenName), false );
+    }
+}
+
+void replace_city_tag(std::string &input, const std::string &name)
+{
+    replace_substring(input, "<city>", name, true);
+}
+
+void replace_substring(std::string &input, const std::string &substring, const std::string &replacement, bool all)
+{
+    if (all) {
+        while (input.find(substring) != std::string::npos) {
+            replace_substring(input, substring, replacement, false);
+        }
+    } else {
+        size_t len = substring.length();
+        size_t offset = input.find(substring);
+        input.replace(offset, len, replacement);
+    }
 }
 
 //wrap if for i18n
