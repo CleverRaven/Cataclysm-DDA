@@ -2248,10 +2248,6 @@ void mongroup::wander(overmap& om)
     if(horde_behaviour == "city") {
         // Find a nearby city to return to..
         for(const city& check_city : om.cities) {
-            // Monsters shouldn't always wander directly to the nearest city, add
-            // a bit of randomness.
-            if(one_in(3)) continue;
-
             // Check if this is the nearest city so far.
             int distance = rl_dist(check_city.x, check_city.y, pos.x, pos.y);
             if(!target_city || distance < target_distance) {
