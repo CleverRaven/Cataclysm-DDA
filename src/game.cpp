@@ -14207,6 +14207,57 @@ std::vector<faction *> game::factions_at( const tripoint &p )
     return ret;
 }
 
+nc_color sev(int a)
+{
+    switch (a) {
+    case 0:
+        return c_cyan;
+    case 1:
+        return c_ltcyan;
+    case 2:
+        return c_ltblue;
+    case 3:
+        return c_blue;
+    case 4:
+        return c_ltgreen;
+    case 5:
+        return c_green;
+    case 6:
+        return c_yellow;
+    case 7:
+        return c_pink;
+    case 8:
+        return c_ltred;
+    case 9:
+        return c_red;
+    case 10:
+        return c_magenta;
+    case 11:
+        return c_brown;
+    case 12:
+        return c_cyan_red;
+    case 13:
+        return c_ltcyan_red;
+    case 14:
+        return c_ltblue_red;
+    case 15:
+        return c_blue_red;
+    case 16:
+        return c_ltgreen_red;
+    case 17:
+        return c_green_red;
+    case 18:
+        return c_yellow_red;
+    case 19:
+        return c_pink_red;
+    case 20:
+        return c_magenta_red;
+    case 21:
+        return c_brown_red;
+    }
+    return c_dkgray;
+}
+
 void game::display_scent()
 {
     int div = query_int(_("Set the Scent Map sensitivity to (0 to cancel)?"));

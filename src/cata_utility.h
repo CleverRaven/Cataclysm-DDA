@@ -5,7 +5,6 @@
 #include <string>
 #include <vector>
 
-typedef int nc_color;
 class item;
 class Creature;
 class map_item_stack;
@@ -36,7 +35,6 @@ int list_filter_low_priority(std::vector<map_item_stack> &stack, int start,
 
 int calculate_drop_cost(std::vector<item> &dropped, const std::vector<item> &dropped_worn,
                               int freed_volume_capacity);
-nc_color sev(int a);
 
 double logarithmic(double t);
 double logarithmic_range(int min, int max, int pos);
