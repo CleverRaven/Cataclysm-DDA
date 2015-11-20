@@ -6263,6 +6263,40 @@ std::map<tripoint, double> find_cover(const tripoint &p, const int max_radius)
     return cover;
 }
 
+//power of a fragment that makes it to the square
+static float frag_pow(const tripoint &p, const tripoint &pt, int power) { return power * pow(1.0 / trig_dist(p, pt), 2); }
+
+//number of fragments that make it to a tile
+static int frag_count(const tripoint &p, tripoint &pt, int count, const std::vector<tripoint> &los)
+{
+    //if line of sight isn't clear (this excludes glass, bars, etc.), then let's assume total protection for now
+    if(! g->m.sees(p, pt, trig_dist(p, pt) + 2)) { return 0; }
+    
+    //handle the epicenter
+    if(los.size() == 0) { return ceil(count * (g->m.has_furn(p) ? 0.5 : 1.0) * 0.75); }
+    
+    //just to make sure...
+    if(los[0] != p) { los.insert(los.begin(), p); }
+    if(los[los.size()-1] != pt) { los.push_back(p); }
+    
+    float frag_count = count;
+    //losses from...
+    for(size_type d = 1; d < los.size(); ++d) {
+        //...falloff & dispersion (i.e. distance-based)
+        frag_count = frag_count * 0.9 / (d-1 == 0 ? 8 : (float)d / ((float)d-1.0)); //lose 10% to falloff, and (d-1)/d to dispersion - falloff arbitrary, dispersion not
+        //only account for distance-based on last tile
+        if(los[d] == pt) { continue; }
+        //...furniture
+        if(g->m.has_furn(los[d])) { frag_count = frag_count *  0.80; }              //lose 20% to intervening furniture - arbitrary
+        //...creatures
+        Creature *critter = g->m.critter_at(los[d]);
+        if(critter != nullptr) { frag_count = frag_count * 0.25; }                  //lose 75% to intervening creature - arbitrary
+    }
+    
+    //account for a quarter of fragments not hitting on the way past
+    return ceil(frag_count * 0.75);
+}
+
 void game::shrapnel( const tripoint &p, int power, int count, int radius )
 {
     if( power <= 0 || radius < 0 || count < 1) { return; }
@@ -6272,12 +6306,12 @@ void game::shrapnel( const tripoint &p, int power, int count, int radius )
     std::map<std::vector<tripoint>, int> frags_plan;
     std::vector<tripoint> extents = closest_tripoints_first(radius, p);
     //1st pass, so that we can take into account things that would be destroyed
-    for(int i = 0; i < extents.size(); ++i) {
+    for(size_t i = 0; i < extents.size(); ++i) {
         const tripoint pt = extents[i];
         std::vector<tripoint> los = line_to(p, pt);
         frags_plan[pt] = frag_count(p, pt, count, los);
     }
-    for(const tripoint &pt : extents) {
+    for(tripoint &pt : extents) {
         int frags = frags_plan[pt];
         float fpow = frag_pow(p, pt, power);
         //if there is a creature here, hit it
@@ -6292,40 +6326,6 @@ void game::shrapnel( const tripoint &p, int power, int count, int radius )
         const float bash_force = frags * fpow * 0.80; //TODO - refine this conversion if need be (maybe only do fpow?)
         m.bash( pt, bash_force, true, false, false );
     }
-}
-
-//power of a fragment that makes it to the square
-static float frag_pow(const tripoint &p, const tripoint &pt, int power) { return power * pow(1.0 / trig_dist(p, pt), 2); }
-
-//number of fragments that make it to a tile
-static int frag_count(const tripoint &p, const tripoint &pt, int count, const std::vector<tripoint> &los)
-{
-    //if line of sight isn't clear (this excludes glass, bars, etc.), then let's assume total protection for now
-    if(! g->m.sees(p, pt, max_radius)) { return 0; }
-    
-    //handle the epicenter
-    if(los.size() == 0) { return ceil(count * (g->m.has_furn(p) ? 0.5 : 1.0) * 0.75); }
-    
-    //just to make sure...
-    if(los[0] != p) { los.push_front(p); }
-    if(los[los.size()-1] != pt) { los.push_back(p); }
-    
-    float frag_count = count;
-    //losses from...
-    for(int d = 1; d < los.size(); ++d) {
-        //...falloff & dispersion (i.e. distance-based)
-        frag_count = frag_count * 0.9 / (d-1 == 0 ? 8 : (float)d / ((float)d-1.0)); //lose 10% to falloff, and (d-1)/d to dispersion - falloff arbitrary, dispersion not
-        //only account for distance-based on last tile
-        if(los[d] == pt) { continue; }
-        //...furniture
-        if(g->m.has_furn(los[d])) { frag_count = frag_count *  0.80; }              //lose 20% to intervening furniture - arbitrary
-        //...creatures
-        Creature *critter = critter_at(los[d]);
-        if(critter != nullptr) { frag_count = frag_count * 0.25; }                  //lose 75% to intervening creature - arbitrary
-    }
-    
-    //account for a quarter of fragments not hitting on the way past
-    return ceil(frag_count * 0.75);
 }
 
 void game::flashbang( const tripoint &p, bool player_immune)
