@@ -383,11 +383,11 @@ int player::create(character_type type, std::string tempname)
 
     //Learn recipes
     for( auto &cur_recipe : recipe_dict ) {
-        if ( !cur_recipe->autolearn &&
-            g->u.has_recipe_requirements(cur_recipe) &&
-            cur_recipe->ident.find("uncraft") == std::string::npos
-           )  {
-            g->u.learn_recipe(cur_recipe);
+        if ( !cur_recipe->autolearn && g->u.has_recipe_requirements(cur_recipe) &&
+            cur_recipe->ident.find("uncraft") == std::string::npos &&
+            !(g->u.learned_recipes.find(cur_recipe->ident) != g->u.learned_recipes.end()) ) {
+
+            g->u.learn_recipe( (recipe *)cur_recipe );
         }
     }
 
@@ -1349,7 +1349,6 @@ int set_skills(WINDOW *w, player *u, int &points)
     int cur_pos = 0;
     const Skill* currentSkill = sorted_skills[cur_pos];
     int selected = 0;
-    int line_num = 1;
 
     input_context ctxt("NEW_CHAR_SKILLS");
     ctxt.register_cardinal();
@@ -1370,10 +1369,12 @@ int set_skills(WINDOW *w, player *u, int &points)
                   currentSkill->name().c_str(), cost);
 
         std::map<std::string, std::stringstream > recipes;
-        for( auto &cur_recipe : recipe_dict ) {
+        for( auto cur_recipe : recipe_dict ) {
+            auto req_skill = cur_recipe->required_skills.find(currentSkill->ident());
+            int skill = (req_skill != cur_recipe->required_skills.end()) ? req_skill->second : 0;
+
             if ( !cur_recipe->autolearn &&
-                 ( cur_recipe->skill_used == currentSkill->ident() ||
-                   cur_recipe->required_skills[currentSkill->ident()] > 0 ) &&
+                 ( cur_recipe->skill_used == currentSkill->ident() || skill > 0 ) &&
                  u->has_recipe_requirements(cur_recipe) &&
                  cur_recipe->ident.find("uncraft") == std::string::npos
                )  {
@@ -1382,24 +1383,8 @@ int set_skills(WINDOW *w, player *u, int &points)
                     recipes[cur_recipe->skill_used.obj().name()] << ", ";
                 }
 
-                /*
-                int skill = ((cur_recipe->required_skills[currentSkill->ident()] > 0) ?
-                             cur_recipe->required_skills[currentSkill->ident()] :
-                             cur_recipe->difficulty);
-
-                if ( cur_recipe->skill_used != currentSkill->ident() ) {
-                    skill = ((cur_recipe->required_skills[currentSkill->ident()] > 0) ?
-                             cur_recipe->difficulty :
-                             cur_recipe->required_skills[currentSkill->ident()]);
-                }
-
-                recipes[cur_recipe->skill_used.obj().name()] << item::nname(cur_recipe->result) << " (" << skill << ")";
-                */
-
                 recipes[cur_recipe->skill_used.obj().name()] << item::nname(cur_recipe->result) << " ("
-                                                             << ((cur_recipe->required_skills[currentSkill->ident()] > 0) ?
-                                                                 cur_recipe->required_skills[currentSkill->ident()] :
-                                                                 cur_recipe->difficulty)
+                                                             << ((skill > 0) ? skill : cur_recipe->difficulty)
                                                              << ")";
             }
         }
@@ -1433,7 +1418,7 @@ int set_skills(WINDOW *w, player *u, int &points)
             selected = iLines - iContentHeight;
         }
 
-        fold_and_print_from( w_description, line_num, 0, getmaxx(w_description), selected, COL_SKILL_USED, rec_disp.str() );
+        fold_and_print_from( w_description, 0, 0, getmaxx(w_description), selected, COL_SKILL_USED, rec_disp.str() );
 
         draw_scrollbar( w, selected, iContentHeight, iLines-iContentHeight, 5, getmaxx(w) - 1, BORDER_COLOR, true );
 
