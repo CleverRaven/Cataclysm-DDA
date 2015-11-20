@@ -7,6 +7,7 @@
 #include "catacharset.h"
 #include "cursesdef.h"
 #include "debug.h"
+#include "player.h"
 #include <cstring>
 #include <vector>
 #include <fstream>
@@ -734,12 +735,16 @@ void curses_drawwindow(WINDOW *win)
         // When the terrain updates, predraw a black space around its edge
         // to keep various former interface elements from showing through the gaps
         // TODO: Maybe track down screen changes and use g->w_blackspace to draw this instead
+
+        //calculate width differences between map_font and font
+        int partial_width = std::max(TERRAIN_WINDOW_TERM_WIDTH * fontwidth - TERRAIN_WINDOW_WIDTH * map_font->fontwidth, 0);
+        int partial_height = std::max(TERRAIN_WINDOW_TERM_HEIGHT * fontheight - TERRAIN_WINDOW_HEIGHT * map_font->fontheight, 0);
         //Gap between terrain and lower window edge
-        FillRectDIB(win->x * fontwidth, (win->y + TERRAIN_WINDOW_TERM_HEIGHT - 1) * fontheight,
-                    TERRAIN_WINDOW_TERM_WIDTH * fontwidth, fontheight, COLOR_BLACK);
+        FillRectDIB(win->x * map_font->fontwidth, (win->y + TERRAIN_WINDOW_HEIGHT) * map_font->fontheight,
+                    TERRAIN_WINDOW_WIDTH * map_font->fontwidth + partial_width, partial_height, COLOR_BLACK);
         //Gap between terrain and sidebar
-        FillRectDIB((win->x + TERRAIN_WINDOW_TERM_WIDTH - 1) * fontwidth, win->y * fontheight,
-                    fontwidth, TERRAIN_WINDOW_TERM_HEIGHT * fontheight, COLOR_BLACK);
+        FillRectDIB((win->x + TERRAIN_WINDOW_WIDTH) * map_font->fontwidth, win->y * map_font->fontheight,
+                    partial_width, TERRAIN_WINDOW_HEIGHT * map_font->fontheight + partial_height, COLOR_BLACK);
         // Special font for the terrain window
         update = map_font->draw_window(win);
     } else if (g && win == g->w_overmap && overmap_font != NULL) {
@@ -760,6 +765,15 @@ void curses_drawwindow(WINDOW *win)
         int wwidth = win->width * font->fontwidth;
         int wheight = win->height * font->fontheight;
         FillRectDIB(offsetx, offsety, wwidth, wheight, COLOR_BLACK);
+        update = true;
+    } else if (g && win == g->w_pixel_minimap && OPTIONS["PIXEL_MINIMAP"]) {\
+        // Make sure the entire minimap window is black before drawing.
+        FillRectDIB(win->x * fontwidth, win->y * fontheight,
+                    win->width * fontwidth, win->height * fontheight, COLOR_BLACK);
+        tilecontext->draw_minimap(
+            win->x * fontwidth, win->y * fontheight,
+            tripoint( g->u.pos().x, g->u.pos().y, g->ter_view_z ),
+            win->width * font->fontwidth, win->height * font->fontheight);
         update = true;
     } else {
         // Either not using tiles (tilecontext) or not the w_terrain window.
@@ -1984,6 +1998,12 @@ void to_overmap_font_dimension(int &w, int &h) {
 
 bool is_draw_tiles_mode() {
     return use_tiles;
+}
+
+SDL_Color cursesColorToSDL(int color) {
+    // Extract the color pair ID.
+    int pair = (color & 0x03fe0000) >> 17;
+    return windowsPalette[colorpairs[pair].FG];
 }
 
 #ifdef SDL_SOUND

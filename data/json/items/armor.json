@@ -318,10 +318,18 @@
         "environmental_protection" : 2,
         "encumbrance" : 5,
         "bashing" : 1,
-        "flags" : ["VARSIZE", "WATERPROOF", "BOOTS"],
+        "flags" : ["VARSIZE", "WATERPROOF"],
         "coverage" : 100,
         "material_thickness" : 3,
-        "use_action" : "BOOTS"
+        "use_action" : {
+            "type": "holster",
+             "holster_prompt": "Sheath knife",
+             "holster_msg": "You sheath your %s",
+             "multi": 2,
+             "max_volume": 1,
+             "draw_speed": 80,
+             "flags": ["SHEATH_KNIFE"]
+        }
     },
     {
         "type" : "ARMOR",
@@ -7331,8 +7339,11 @@
         "phase" : "solid",
         "encumbrance" : 3,
         "material_thickness" : 1,
-        "use_action" : "HOLSTER_GUN",
-        "properties" : [["holster_size", "5"]]
+        "use_action" : {
+            "type": "holster",
+            "max_volume": 5,
+            "skills": ["pistol", "smg", "shotgun"]
+        }
     },
     {
         "type" : "ARMOR",
@@ -7391,7 +7402,7 @@
         "price" : 7400,
         "symbol" : "[",
         "color" : "brown",
-        "description" : "A small holster worn on the ankle.  Activate to sheathe/draw a small pistol or knife",
+        "description" : "A small concealed holster worn on the ankle.  It is awkward to use without practice.  Activate to holster/draw a small pistol",
         "to_hit" : -1,
         "material" : ["leather", "null"],
         "covers" : ["FOOT_EITHER"],
@@ -7403,8 +7414,42 @@
         "encumbrance" : 3,
         "material_thickness" : 1,
         "flags" : ["VARSIZE", "BELTED", "OVERSIZE"],
-        "use_action" : "HOLSTER_ANKLE",
-        "properties" : [["holster_size", "3"]]
+        "use_action" : {
+            "type": "holster",
+            "max_volume": 2,
+            "draw_speed": 30,
+            "skills": ["pistol"]
+        }
+    },
+    {
+        "type" : "ARMOR",
+        "id" : "bootsheath",
+        "name" : "ankle sheath",
+        "weight" : 160,
+        "volume" : 2,
+        "price" : 5200,
+        "symbol" : "[",
+        "color" : "brown",
+        "description" : "A small concealed knife sheath worn on the ankle.  It is awkward to use without practice.  Activate to sheathe/draw a weapon.",
+        "to_hit" : -1,
+        "material" : ["leather", "null"],
+        "covers" : ["FOOT_EITHER"],
+        "coverage" : 5,
+        "cutting" : 0,
+        "bashing" : -1,
+        "warmth" : 0,
+        "phase" : "solid",
+        "encumbrance" : 2,
+        "material_thickness" : 1,
+        "flags" : ["VARSIZE", "BELTED", "OVERSIZE"],
+        "use_action" : {
+            "type": "holster",
+            "holster_prompt": "Sheath knife",
+            "holster_msg": "You sheath your %s",
+            "max_volume": 2,
+            "draw_speed": 30,
+            "flags": ["SHEATH_KNIFE"]
+        }
     },
     {
         "type" : "ARMOR",
@@ -9132,6 +9177,56 @@
         "flags" : ["VARSIZE", "WATERPROOF", "POCKETS", "HOOD", "RAINPROOF", "STURDY"],
         "coverage" : 100,
         "material_thickness" : 4
+    },
+    {
+        "type" : "ARMOR",
+        "id" : "lsurvivor_armor",
+        "category" : "armor",
+        "name" : "light survivor body armor",
+        "weight" : 3000,
+        "color" : "green",
+        "covers" : ["TORSO"],
+        "to_hit" : -3,
+        "storage" : 10,
+        "symbol" : "[",
+        "description" : "Lightweight, custom built body armor made from kevlar and tough fabric.  Mostly waterproof.",
+        "price" : 60000,
+        "material" : ["kevlar", "cotton"],
+        "volume" : 24,
+        "cutting" : 0,
+        "warmth" : 15,
+        "phase" : "solid",
+        "environmental_protection" : 1,
+        "encumbrance" : 15,
+        "bashing" : 6,
+        "flags" : ["VARSIZE", "WATERPROOF", "RAINPROOF", "STURDY"],
+        "coverage" : 95,
+        "material_thickness" : 4
+    },
+    {
+        "type" : "ARMOR",
+        "id" : "lsurvivor_pants",
+        "category" : "armor",
+        "name" : "light survivor cargo pants",
+        "weight" : 2100,
+        "color" : "green",
+        "covers" : ["LEGS"],
+        "to_hit" : -3,
+        "storage" : 10,
+        "symbol" : "[",
+        "description" : "Lightweight, kevlar armored cargo pants designed to hold as much as possible.  Strong and mostly waterproof.",
+        "price" : 40000,
+        "material" : ["kevlar", "cotton"],
+        "volume" : 14,
+        "cutting" : 0,
+        "warmth" : 15,
+        "phase" : "solid",
+        "environmental_protection" : 1,
+        "encumbrance" : 15,
+        "bashing" : 6,
+        "flags" : ["VARSIZE", "WATERPROOF", "POCKETS", "RAINPROOF", "STURDY"],
+        "coverage" : 95,
+        "material_thickness" : 3
     },
     {
         "type" : "ARMOR",

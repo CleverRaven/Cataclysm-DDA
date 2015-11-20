@@ -541,25 +541,25 @@ action_id handle_action_menu()
     std::map<action_id, int> action_weightings;
 
     // Check if we're in a potential combat situation, if so, sort a few actions to the top.
-    if(!g->u.get_hostile_creatures().empty()) {
+    if( !g->u.get_hostile_creatures().empty() ) {
         // Only prioritize movement options if we're not driving.
-        if(!g->u.controlling_vehicle) {
+        if( !g->u.controlling_vehicle ) {
             action_weightings[ACTION_TOGGLE_MOVE] = 400;
         }
         // Only prioritize fire weapon options if we're wielding a ranged weapon.
-        if(g->u.weapon.is_gun() || g->u.weapon.has_flag( "REACH_ATTACK" ) ) {
+        if( g->u.weapon.is_gun() || g->u.weapon.has_flag( "REACH_ATTACK" ) ) {
             action_weightings[ACTION_FIRE] = 350;
         }
     }
 
     // If we're already running, make it simple to toggle running to off.
-    if(g->u.move_mode != "walk") {
+    if( g->u.move_mode != "walk" ) {
         action_weightings[ACTION_TOGGLE_MOVE] = 300;
     }
 
     // If our wielded item is a gun, doesn't have full ammo, and we do have the ammo,
     // prioritize reloading.
-    if(g->u.can_reload()) {
+    if( g->u.can_reload() ) {
         action_weightings[ACTION_RELOAD] = 250;
     }
 
@@ -818,7 +818,7 @@ bool choose_direction( const std::string &message, tripoint &offset, bool allow_
 
     //~ appended to "Close where?" "Pry where?" etc.
     const std::string query_text = message + _( " (Direction button)" );
-    popup(query_text, PF_NO_WAIT_ON_TOP);
+    popup( query_text, PF_NO_WAIT_ON_TOP );
 
     const std::string action = ctxt.handle_input();
     if( input_context::get_direction( offset.x, offset.y, action ) ) {

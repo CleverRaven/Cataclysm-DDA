@@ -1193,23 +1193,51 @@ bool inscribe_actor::item_inscription( item *cut, std::string verb, std::string 
         return false;
     }
 
-    const bool hasnote = cut->has_var( "item_note" );
+    enum inscription_type {
+        INSCRIPTION_LABEL,
+        INSCRIPTION_NOTE,
+        INSCRIPTION_CANCEL
+    };
+
+    uimenu menu;
+    menu.text = string_format(_("%s meaning?"), verb.c_str());
+    menu.addentry(INSCRIPTION_LABEL, true, -1, _("It's a label"));
+    menu.addentry(INSCRIPTION_NOTE, true, -1, _("It's a note"));
+    menu.addentry(INSCRIPTION_CANCEL, true, 'q', _("Cancel"));
+    menu.query();
+
+    std::string carving, carving_type;
+    switch ( menu.ret )
+    {
+    case INSCRIPTION_LABEL:
+        carving = "item_label";
+        carving_type = "item_label_type";
+        break;
+    case INSCRIPTION_NOTE:
+        carving = "item_note";
+        carving_type = "item_note_type";
+        break;
+    case INSCRIPTION_CANCEL:
+        return false;
+    }
+
+    const bool hasnote = cut->has_var( carving );
     std::string message = "";
     std::string messageprefix = string_format(hasnote ? _("(To delete, input one '.')\n") : "") +
                                 string_format(_("%1$s on the %2$s is: "),
                                         gerund.c_str(), cut->type_name().c_str());
     message = string_input_popup(string_format(_("%s what?"), verb.c_str()), 64,
-                                 (hasnote ? cut->get_var( "item_note" ) : message),
+                                 (hasnote ? cut->get_var( carving ) : message),
                                  messageprefix, "inscribe_item", 128);
 
-    if( !message.empty() ) {
+    if( !message.empty() )
+    {
         if( hasnote && message == "." ) {
-            cut->erase_var( "item_note" );
-            cut->erase_var( "item_note_type" );
-            cut->erase_var( "item_note_typez" );
+            cut->erase_var( carving );
+            cut->erase_var( carving_type );
         } else {
-            cut->set_var( "item_note", message );
-            cut->set_var( "item_note_type", gerund );
+            cut->set_var( carving, message );
+            cut->set_var( carving_type, gerund );
         }
     }
 
@@ -1702,4 +1730,112 @@ bool musical_instrument_actor::can_use( const player *p, const item*, bool, cons
     }
 
     return true;
+}
+
+iuse_actor *holster_actor::clone() const
+{
+    return new holster_actor( *this );
+}
+
+void holster_actor::load( JsonObject &obj )
+{
+    holster_prompt = obj.get_string( "holster_prompt", "" );
+    holster_msg    = obj.get_string( "holster_msg",    "" );
+
+    max_volume = obj.get_int( "max_volume" );
+    min_volume = obj.get_int( "min_volume", max_volume / 3 );
+    max_weight = obj.get_int( "max_weight", max_weight );
+    multi      = obj.get_int( "multi",      multi );
+    draw_speed = obj.get_int( "draw_speed", draw_speed );
+
+    auto tmp = obj.get_string_array( "skills" );
+    std::transform( tmp.begin(), tmp.end(), std::back_inserter( skills ),
+    []( const std::string & elem ) {
+        return skill_id( elem );
+    } );
+
+    flags = obj.get_string_array( "flags" );
+}
+
+long holster_actor::use( player *p, item *it, bool, const tripoint & ) const
+{
+    std::string prompt = holster_prompt.empty() ? _( "Holster item" ) : _( holster_prompt.c_str() );
+
+    if( &p->weapon == it ) {
+        p->add_msg_if_player( _( "You need to unwield your %s before using it." ), it->tname().c_str() );
+        return 0;
+    }
+
+    int pos = 0;
+    std::vector<std::string> opts;
+
+    if( ( int ) it->contents.size() < multi ) {
+        opts.push_back( prompt );
+        pos = -1;
+    }
+
+    std::transform( it->contents.begin(), it->contents.end(), std::back_inserter( opts ),
+    []( const item & elem ) {
+        return string_format( _( "Draw %s" ), elem.display_name().c_str() );
+    } );
+
+    if( opts.size() > 1 ) {
+        pos += uimenu( false, string_format( _( "Use %s" ), it->tname().c_str() ).c_str(), opts ) - 1;
+    }
+
+    if( pos >= 0 ) {
+        p->wield_contents( it, pos, draw_speed );
+    } else {
+        item &obj = p->i_at( g->inv_for_filter( prompt, [&]( const item & e ) {
+            if( e.volume() > max_volume || e.volume() < min_volume ) {
+                return false;
+            }
+
+            if( max_weight > 0 && e.weight() > max_weight ) {
+                return false;
+            }
+
+            return std::any_of( flags.begin(), flags.end(), [&]( const std::string & f ) {
+                return e.has_flag( f );
+            } ) ||
+            std::find( skills.begin(), skills.end(), e.gun_skill() ) != skills.end();
+        } ) );
+
+        if( obj.is_null() ) {
+            p->add_msg_if_player( _( "Never mind." ) );
+            return 0;
+        }
+
+        // if selected item is unsuitable inform the player why not
+        if( obj.volume() > max_volume ) {
+            p->add_msg_if_player( m_info, _( "Your %s is too big to fit in your %s" ),
+                                  obj.tname().c_str(), it->tname().c_str() );
+            return 0;
+        }
+        if( obj.volume() < min_volume ) {
+            p->add_msg_if_player( m_info, _( "Your %s is too small to fit in your %s" ),
+                                  obj.tname().c_str(), it->tname().c_str() );
+            return 0;
+        }
+        if( max_weight > 0 && obj.weight() > max_weight ) {
+            p->add_msg_if_player( m_info, _( "Your %s is too heavy to fit in your %s" ),
+                                  obj.tname().c_str(), it->tname().c_str() );
+            return 0;
+        }
+
+        if( std::none_of( flags.begin(), flags.end(), [&]( const std::string & f ) {
+        return obj.has_flag( f );
+        } ) &&
+        std::find( skills.begin(), skills.end(), obj.gun_skill() ) == skills.end() ) {
+            p->add_msg_if_player( m_info, _( "You can't put your %s in your %s" ),
+                                  obj.tname().c_str(), it->tname().c_str() );
+            return 0;
+        }
+
+        p->add_msg_if_player( holster_msg.empty() ? _( "You holster your %s" ) : _( holster_msg.c_str() ),
+                              obj.tname().c_str() );
+        p->store( it, &obj, obj.is_gun() ? obj.gun_skill() : obj.weap_skill(), 10 );
+    }
+
+    return 0;
 }

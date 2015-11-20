@@ -162,7 +162,7 @@ classes = {
             { name = "set_stomach_water", rval = nil, args = { "int" } },
             { name = "mod_dex_bonus", rval = nil, args = { "int" } },
             { name = "mod_healthy", rval = nil, args = { "int" } },
-            { name = "mod_healthy_mod", rval = nil, args = { "int" } },
+            { name = "mod_healthy_mod", rval = nil, args = { "int", "int" } },
             { name = "mod_per_bonus", rval = nil, args = { "int" } },
             { name = "mod_str_bonus", rval = nil, args = { "int" } },
             { name = "mod_hunger", rval = nil, args = { "int" } },
@@ -668,7 +668,7 @@ classes = {
             { name = "wearing_something_on", rval = "bool", args = { "body_part" } },
             { name = "wield", rval = "bool", args = { "item" } },
             { name = "wield", rval = "bool", args = { "item", "bool" } },
-            { name = "wield_contents", rval = nil, args = { "item", "bool", "skill_id", "int" } },
+            { name = "wield_contents", rval = nil, args = { "item", "int", "int" } },
         }
     },
     item = {

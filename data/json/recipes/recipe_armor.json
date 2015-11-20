@@ -5106,6 +5106,111 @@
   ]
 },{
   "type" : "recipe",
+  "result": "lsurvivor_armor",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_TORSO",
+  "skill_used": "tailor",
+  "skills_required" : ["fabrication", 6],
+  "difficulty": 5,
+  "time": 120000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "tools": [
+     [
+      [ "welder", 18 ],
+      [ "soldering_iron", 18 ],
+      [ "toolset", 18 ]
+     ],
+     [
+      [ "needle_bone", 60 ],
+      [ "needle_wood", 60 ],
+      [ "tailors_kit", 60 ],
+      [ "sewing_kit", 60 ]
+    ]
+  ],
+  "components": [
+     [
+      [ "rag", 15 ]
+     ],
+     [
+      [ "coat_rain", 1 ]
+     ],
+     [
+      [ "chestrig", 1 ],
+      [ "legrig", 1 ],
+      [ "vest", 1 ],
+      [ "tool_belt", 1 ],
+      [ "ragpouch", 2 ],
+      [ "leather_pouch", 2 ],
+      [ "dump_pouch", 1 ],
+      [ "purse", 1 ],
+      [ "fanny", 1 ]
+     ],
+     [
+      [ "duct_tape", 150 ]
+     ],
+     [
+      [ "kevlar", 1 ],
+      [ "modularvest", 1 ],
+      [ "swat_armor", 1 ],
+      [ "kevlar_plate", 16 ]
+     ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "lsurvivor_pants",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_LEGS",
+  "skill_used": "tailor",
+  "skills_required" : ["fabrication", 6],
+  "difficulty": 5,
+  "time": 60000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "tools": [
+     [
+      [ "welder", 10 ],
+      [ "soldering_iron", 10 ],
+      [ "toolset", 10 ]
+     ],
+     [
+      [ "needle_bone", 40 ],
+      [ "needle_wood", 40 ],
+      [ "tailors_kit", 40 ],
+      [ "sewing_kit", 40 ]
+    ]
+  ],
+  "components": [
+     [
+      [ "rag", 15 ]
+     ],
+     [
+      [ "bag_plastic", 4 ]
+     ],
+     [
+      [ "legrig", 1 ],
+      [ "tool_belt", 1 ],
+      [ "ragpouch", 4 ],
+      [ "leather_pouch", 2 ],
+      [ "dump_pouch", 1 ],
+      [ "purse", 2 ],
+      [ "fanny", 2 ]
+     ],
+     [
+      [ "duct_tape", 50 ]
+     ],
+     [
+      [ "kevlar_plate", 8 ]
+     ]
+  ]
+},{
+  "type" : "recipe",
   "result": "survivor_suit",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_SUIT",
@@ -7437,6 +7542,36 @@
     "skills_required": [ "gun", 1 ],
     "difficulty": 3,
     "time": 75000,
+    "reversible": false,
+    "autolearn": true,
+    "tools": [
+      [
+        [ "needle_bone", 10 ],
+        [ "needle_wood", 10 ],
+        [ "tailors_kit", 10 ],
+        [ "sewing_kit", 10 ]
+      ]
+    ],
+     "components": [
+      [
+        [ "leather", 3 ]
+      ],
+      [
+        [ "string_6", 3 ],
+        [ "sinew", 10 ],
+        [ "thread", 10 ],
+        [ "plant_fibre", 10 ]
+      ]
+    ]
+  },{
+    "type" : "recipe",
+    "result": "bootsheath",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_STORAGE",
+    "skill_used": "tailor",
+    "skills_required": [ "stabbing", 1 ],
+    "difficulty": 3,
+    "time": 65000,
     "reversible": false,
     "autolearn": true,
     "tools": [

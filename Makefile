@@ -44,6 +44,8 @@
 #  make USE_HOME_DIR=1
 # Use dynamic linking (requires system libraries).
 #  make DYNAMIC_LINKING=1
+# Use MSYS2 as the build environment on Windows
+#  make MSYS2=1
 
 # comment these to toggle them as one sees fit.
 # DEBUG is best turned on if you plan to debug in gdb -- please do!
@@ -277,6 +279,10 @@ ifdef SOUND
   CXXFLAGS += -DSDL_SOUND
   LDFLAGS += $(shell $(PKG_CONFIG) --libs SDL2_mixer)
   LDFLAGS += -lvorbisfile -lvorbis -logg -lpthread
+
+  ifdef MSYS2
+    LDFLAGS += -lmad
+  endif
 endif
 
 ifdef LUA
@@ -349,7 +355,11 @@ ifdef TILES
   ifeq ($(TARGETSYSTEM),WINDOWS)
     ifndef DYNAMIC_LINKING
       # These differ depending on what SDL2 is configured to use.
-      LDFLAGS += -lfreetype -lpng -lz -ljpeg -lbz2
+      ifdef MSYS2
+        LDFLAGS += -lfreetype -lpng -lz -ltiff -lbz2 -lharfbuzz -lglib-2.0 -llzma -lws2_32 -lintl -liconv -lwebp -ljpeg -luuid
+      else
+        LDFLAGS += -lfreetype -lpng -lz -ljpeg -lbz2
+      endif
     else
       # Currently none needed by the game itself (only used by SDL2 layer).
       # Placeholder for future use (savegame compression, etc).
@@ -481,7 +491,9 @@ $(ODIR)/%.o: $(SRC_DIR)/%.cpp
 $(ODIR)/%.o: $(SRC_DIR)/%.rc
 	$(RC) $(RFLAGS) $< -o $@
 
-version.cpp: version
+src/version.h: version
+
+src/version.cpp: src/version.h
 
 $(LUASRC_DIR)/catabindings.cpp: $(LUA_DIR)/class_definitions.lua $(LUASRC_DIR)/generate_bindings.lua
 	cd $(LUASRC_DIR) && $(LUA_BINARY) generate_bindings.lua

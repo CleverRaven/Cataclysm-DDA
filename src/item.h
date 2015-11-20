@@ -704,8 +704,9 @@ public:
         /**
          * Callback when a player starts wielding the item. The item is already in the weapon
          * slot and is called from there.
+         * @param mv number of moves *already* spent wielding the weapon
          */
-        void on_wield( player &p );
+        void on_wield( player &p, int mv = 0 );
         /**
          * Callback when a player starts carrying the item. The item is already in the inventory
          * and is called from there. This is not called when the item is added to the inventory
@@ -1218,6 +1219,14 @@ public:
          */
         static bool type_is_defined( const itype_id &id );
 
+        /**
+        * Returns true if item has "item_label" itemvar
+        */
+        bool has_label() const;
+        /**
+        * Returns label from "item_label" itemvar and quantity
+        */
+        std::string label( unsigned int quantity = 0 ) const;
     private:
         /** Reset all members to default, making this a null item. */
         void init();

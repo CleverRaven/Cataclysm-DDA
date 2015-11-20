@@ -74,15 +74,9 @@ void Item_factory::finialize_item_blacklist()
         for( auto &elem : m_template_groups ) {
             elem.second->remove_item( itm );
         }
-        for( size_t c = 0; c < recipe_dict.size(); c++ ) {
-            recipe *r = recipe_dict[c];
-            if( r->result == itm || r->requirements.remove_item(itm) ) {
-                recipe_dict.remove( r );
-                delete r;
-                c--;
-                continue;
-            }
-        }
+        recipe_dict.delete_if( [&]( recipe &r ) {
+            return r.result == itm || r.requirements.remove_item( itm );
+        } );
 
         remove_construction_if([&](construction &c) {
             return c.requirements.remove_item(itm);
@@ -827,15 +821,7 @@ void Item_factory::load_comestible(JsonObject &jo)
         comest_template->stack_size = comest_template->def_charges;
     }
     comest_template->stim = jo.get_int("stim", 0);
-    // TODO: sometimes in the future: remove this if clause and accept
-    // only "healthy" and not "heal".
-    if (jo.has_member("heal")) {
-        debugmsg("the item property \"heal\" has been renamed to \"healthy\"\n"
-                 "please change the json data for item %d", comest_template->id.c_str());
-        comest_template->healthy = jo.get_int("heal");
-    } else {
-        comest_template->healthy = jo.get_int("healthy", 0);
-    }
+    comest_template->healthy = jo.get_int("healthy", 0);
     comest_template->fun = jo.get_int("fun", 0);
 
     comest_template->add = addiction_type(jo.get_string("addiction_type"));
@@ -1492,6 +1478,8 @@ void Item_factory::set_uses_from_object(JsonObject obj, std::vector<use_function
         newfun = load_actor<manualnoise_actor>( obj );
     } else if( type == "musical_instrument" ) {
         newfun = load_actor<musical_instrument_actor>( obj );
+    } else if( type == "holster" ) {
+        newfun = load_actor<holster_actor>( obj );
     } else if( type == "knife" ) {
         use_methods.push_back( load_actor<salvage_actor>( obj, "salvage" ) );
         use_methods.push_back( load_actor<inscribe_actor>( obj, "inscribe" ) );
