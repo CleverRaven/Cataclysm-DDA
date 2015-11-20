@@ -381,6 +381,15 @@ int player::create(character_type type, std::string tempname)
     ret_null = item("null", 0);
     weapon = ret_null;
 
+    //Learn recipes
+    for( auto &cur_recipe : recipe_dict ) {
+        if ( !cur_recipe->autolearn &&
+            g->u.has_recipe_requirements(cur_recipe) &&
+            cur_recipe->ident.find("uncraft") == std::string::npos
+           )  {
+            g->u.learn_recipe(cur_recipe);
+        }
+    }
 
     item tmp; //gets used several times
     item tmp2;
@@ -1386,7 +1395,7 @@ int set_skills(WINDOW *w, player *u, int &points)
 
                 recipes[cur_recipe->skill_used.obj().name()] << item::nname(cur_recipe->result) << " (" << skill << ")";
                 */
-                
+
                 recipes[cur_recipe->skill_used.obj().name()] << item::nname(cur_recipe->result) << " ("
                                                              << ((cur_recipe->required_skills[currentSkill->ident()] > 0) ?
                                                                  cur_recipe->required_skills[currentSkill->ident()] :
