@@ -1367,7 +1367,7 @@ bool player::block_hit(Creature *source, body_part &bp_hit, damage_instance &dam
     // will have a score in the high 20s and will block about 80% of damage.
     // As the block score approaches 40, damage making it through will dwindle
     // to nothing, at which point we're relying on attackers hitting enough to drain blocks.
-    const float physical_block_multiplier = logistic_range( 0, 40, block_score );
+    const float physical_block_multiplier = logarithmic_range( 0, 40, block_score );
 
     float total_damage = 0.0;
     float damage_blocked = 0.0;

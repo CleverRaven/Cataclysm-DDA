@@ -933,7 +933,7 @@ void player::update_bodytemp()
         }
         // Represents the fact that the body generates heat when it is cold.
         // TODO : should this increase hunger?
-        double scaled_temperature = logistic_range( BODYTEMP_VERY_COLD, BODYTEMP_VERY_HOT,
+        double scaled_temperature = logarithmic_range( BODYTEMP_VERY_COLD, BODYTEMP_VERY_HOT,
                                                     temp_cur[i] );
         // Produces a smooth curve between 30.0 and 60.0.
         float homeostasis_adjustement = 30.0 * (1.0 + scaled_temperature);
@@ -8825,7 +8825,7 @@ int player::net_morale(morale_point effect) const
     // reduce it appropriately.
     if (effect.age > effect.decay_start)
     {
-        bonus *= logistic_range(effect.decay_start,
+        bonus *= logarithmic_range(effect.decay_start,
                                 effect.duration, effect.age);
     }
 
@@ -8889,7 +8889,7 @@ void player::add_morale(morale_type type, int bonus, int max_bonus,
 
             // Scale the morale bonus to its current level.
             if (i.age > i.decay_start) {
-                i.bonus *= logistic_range(i.decay_start, i.duration, i.age);
+                i.bonus *= logarithmic_range(i.decay_start, i.duration, i.age);
             }
 
             // If we're capping the existing effect, we can use the new duration
