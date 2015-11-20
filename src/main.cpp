@@ -23,7 +23,6 @@
 #include <libintl.h>
 #endif
 #include "translations.h"
-#include <SDL.h>
 
 void exit_handler(int s);
 
