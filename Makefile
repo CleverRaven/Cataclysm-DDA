@@ -350,6 +350,8 @@ ifdef TILES
     endif
   else # not osx
     CXXFLAGS += $(shell $(SDL2_CONFIG) --cflags)
+    CXXFLAGS += $(shell $(PKG_CONFIG) SDL2_image --cflags)
+    CXXFLAGS += $(shell $(PKG_CONFIG) SDL2_ttf --cflags)
 
     ifdef STATIC
       LDFLAGS += $(shell $(SDL2_CONFIG) --static-libs)

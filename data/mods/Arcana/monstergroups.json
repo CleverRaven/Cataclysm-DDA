@@ -22,8 +22,9 @@
   },{
     "type":"monstergroup",
     "name" : "GROUP_IMPACT_FLYING",
-    "default" : "mon_flying_polyp",
+    "default" : "mon_vortex",
     "monsters" : [
+      { "monster" : "mon_vortex", "freq" : 50, "cost_multiplier" : 0 },
       { "monster" : "mon_flying_polyp", "freq" : 75, "cost_multiplier" : 0 },
       { "monster" : "mon_flaming_eye", "freq" : 120, "cost_multiplier" : 0 }
     ]

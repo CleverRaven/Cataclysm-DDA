@@ -24,8 +24,7 @@ struct dream {
     std::string category; // The category that will trigger the dream
     int strength; // The category strength required for the dream
 
-    dream()
-    {
+    dream() {
         category = "";
         strength = 0;
     }
@@ -33,21 +32,29 @@ struct dream {
 
 struct mutation_branch {
     using MutationMap = std::unordered_map<std::string, mutation_branch>;
-    bool valid = false; // True if this is a valid mutation (False for "unavailable from generic mutagen")
-    bool purifiable; // True if Purifier can remove it (False for *Special* mutations)
-    bool threshold; // True if it's a threshold itself, and shouldn't be obtained *easily* (False by default)
-    bool profession; // True if this is a trait associated with professional training/experience, so profession/quest ONLY
-    bool mixed_effect  = false; // Wheather it has positive as well as negative effects.
-    bool startingtrait = false; // Starting Trait True/False
+    // True if this is a valid mutation (False for "unavailable from generic mutagen").
+    bool valid = false;
+    // True if Purifier can remove it (False for *Special* mutations).
+    bool purifiable;
+    // True if it's a threshold itself, and shouldn't be obtained *easily* (False by default).
+    bool threshold;
+    // True if this is a trait associated with professional training/experience, so profession/quest ONLY.
+    bool profession;
+    // Wheather it has positive as well as negative effects.
+    bool mixed_effect  = false;
+    bool startingtrait = false;
     bool activated     = false;
-    bool fatigue       = false; //IF any of the three are true, it drains that as the "cost"
+    // IF any of the three are true, it drains that as the "cost"
+    bool fatigue       = false;
     bool hunger        = false;
     bool thirst        = false;
-    int points     = 0; // How many points it costs in character creation
-    int visibility = 0; // How visible it is
-    int ugliness   = 0; // How ugly it is
+    // How many points it costs in character creation
+    int points     = 0;
+    int visibility = 0;
+    int ugliness   = 0;
     int cost       = 0;
-    int cooldown   = 0; // costs are consumed consumed every N turns,
+    // costs are consumed consumed every cooldown turns,
+    int cooldown   = 0;
     std::vector<std::string> prereqs; // Prerequisites; Only one is required
     std::vector<std::string> prereqs2; // Prerequisites; need one from here too
     std::vector<std::string> threshreq; // Prerequisites; dedicated slot to needing thresholds
@@ -58,7 +65,8 @@ struct mutation_branch {
     std::map<body_part, tripoint> protection; // Mutation wet effects
     /** Key pair is <active: bool, mod type: "STR"> */
     std::unordered_map<std::pair<bool, std::string>, int> mods; // Mutation stat mods
-    std::vector<matype_id> initial_ma_styles; // Martial art styles that can be chosen upon character generation
+    std::vector<matype_id>
+    initial_ma_styles; // Martial art styles that can be chosen upon character generation
     std::string name;
     std::string description;
     /**
@@ -91,7 +99,7 @@ struct mutation_branch {
     static void check_consistency();
 };
 
-void load_mutation_category(JsonObject &jsobj);
-void load_dream(JsonObject &jsobj);
+void load_mutation_category( JsonObject &jsobj );
+void load_dream( JsonObject &jsobj );
 
 #endif

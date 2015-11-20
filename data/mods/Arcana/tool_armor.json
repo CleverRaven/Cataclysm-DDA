@@ -286,7 +286,7 @@
         "storage" : 0,
         "warmth" : 20,
         "environmental_protection" : 1,
-        "encumbrance" : 0,
+        "encumbrance" : 20,
         "coverage" : 100,
         "material_thickness" : 4
     },{

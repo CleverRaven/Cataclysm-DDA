@@ -474,6 +474,7 @@ class game
         WINDOW *w_overmap;
         WINDOW *w_omlegend;
         WINDOW *w_minimap;
+        WINDOW *w_pixel_minimap;
         WINDOW *w_HP;
         WINDOW *w_messages;
         WINDOW *w_location;

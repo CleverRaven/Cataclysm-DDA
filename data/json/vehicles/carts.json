@@ -9,7 +9,6 @@
             {"x": 0, "y": 0, "part": "folding_seat"},
             {"x": 0, "y": 0, "part": "wheel_wheelchair"},
             {"x": 0, "y": 0, "part": "hand_rims"},
-            {"x": 0, "y": 0, "part": "controls"},
             {"x": 0, "y": 0, "part": "basketsm"}
         ]
     },{
@@ -82,7 +81,7 @@
             {"x": 0, "y": 0, "part": "wheel_caster"},
             {"x": 0, "y": 0, "part": "small_storage_battery"},
             {"x": 0, "y": 0, "part": "minifridge"},
-            {"x": 0, "y": 0, "part": "controls"}
+            {"x": 0, "y": 0, "part": "controls_electronic"}
         ]
     },{
         "type" : "vehicle",
@@ -100,7 +99,7 @@
             {"x": 0, "y": 0, "part": "xlframe_vertical_2"},
             {"x": 0, "y": 0, "part": "wheel_caster"},
             {"x": 0, "y": 0, "part": "minifridge"},
-            {"x": 0, "y": 0, "part": "controls"}
+            {"x": 0, "y": 0, "part": "controls_electronic"}
         ],
         "items" : [
             {"x": -1, "y": 0, "chance": 30, "items": "cheeseburger"},
