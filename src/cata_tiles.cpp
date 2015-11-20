@@ -31,9 +31,10 @@
 
 #define ITEM_HIGHLIGHT "highlight_item"
 
-//extern SDL_Surface *screen;
 extern int WindowHeight, WindowWidth;
 extern int fontwidth, fontheight;
+
+SDL_Color cursesColorToSDL(int color);
 
 static const std::string empty_string;
 static const std::string TILE_CATEGORY_IDS[] = {
@@ -886,6 +887,97 @@ void cata_tiles::draw( int destx, int desty, const tripoint &center, int width, 
 
     SDL_RenderSetClipRect(renderer, NULL);
 }
+
+void cata_tiles::draw_rhombus(int destx, int desty, int size, SDL_Color color) {
+    for(int xOffset = -size; xOffset <= size; xOffset++) {
+        for(int yOffset = -size + abs(xOffset); yOffset <= size - abs(xOffset); yOffset++) {
+            int divisor = 2 * (abs(yOffset) == size - abs(xOffset)) + 1;
+            SDL_SetRenderDrawColor(renderer, color.r / divisor, color.g / divisor, color.b / divisor, 255);
+
+            SDL_RenderDrawPoint(renderer,
+                 destx + xOffset,
+                 desty + yOffset);
+        }
+    }
+}
+
+void cata_tiles::draw_minimap( int destx, int desty, const tripoint &center, int width, int height )
+{
+    if (!g) {
+        return;
+    }
+
+    int start_x = center.x - 55;
+    int start_y = center.y - 55;
+    int tiles_x = 110;
+    int tiles_y = 110;
+    int tile_size_x = std::max(width / tiles_x, 1);
+    int tile_size_y = std::max(height / tiles_y, 1);
+
+    // Center the drawn area within the total area.
+    int drawn_width = tiles_x * tile_size_x;
+    int drawn_height = tiles_y * tile_size_y;
+    int border_width = (width - drawn_width) / 2;
+    int border_height = (height - drawn_height) / 2;
+
+    auto &ch = g->m.access_cache( center.z );
+
+    // First draw terrain.
+    for( int y = 0; y < tiles_y; y++) {
+        for( int x = 0; x <= tiles_x; x++) {
+            tripoint p(start_x + x, start_y + y, center.z);
+
+            lit_level lighting = ch.visibility_cache[p.x][p.y];
+            SDL_Color color;
+            if(lighting == LL_DARK || lighting == LL_BLANK) {
+                color.r = 12;
+                color.g = 12;
+                color.b = 12;
+            } else {
+                int veh_part = 0;
+                vehicle *veh = g->m.veh_at( p, veh_part );
+                if (veh != nullptr) {
+                    color = cursesColorToSDL(veh->part_color(veh_part));
+                } else if ( g->m.has_furn( p ) ) {
+                    auto& furniture = g->m.furn_at( p );
+                    color = cursesColorToSDL(furniture.color());
+                } else {
+                    auto& terrain = g->m.ter_at( p );
+                    color = cursesColorToSDL(terrain.color());
+                }
+            }
+
+            SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, 255);
+            SDL_Rect rectangle;
+            rectangle.x = destx + border_width + x * tile_size_x;
+            rectangle.y = desty + border_height + y * tile_size_y;
+            rectangle.w = tile_size_x;
+            rectangle.h = tile_size_y;
+            SDL_RenderFillRect(renderer, &rectangle);
+        }
+    }
+
+    // Now draw critters over terrain.
+    for( int y = 0; y < tiles_y; y++) {
+        for( int x = 0; x <= tiles_x; x++) {
+            tripoint p(start_x + x, start_y + y, center.z);
+
+            lit_level lighting = ch.visibility_cache[p.x][p.y];
+            if(lighting != LL_DARK && lighting != LL_BLANK) {
+                const auto critter = g->critter_at( p, true );
+                if( critter != nullptr ) {
+                    draw_rhombus(
+                        destx + border_width + x * tile_size_x,
+                        desty + border_height + y * tile_size_y,
+                        tile_size_x,
+                        cursesColorToSDL(critter->symbol_color())
+                    );
+                }
+            }
+        }
+    }
+}
+
 
 void cata_tiles::clear_buffer()
 {

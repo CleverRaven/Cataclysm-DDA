@@ -29,19 +29,19 @@ Pickup::interact_results Pickup::interact_with_vehicle( vehicle *veh, const trip
     const bool has_items_on_ground = g->m.sees_some_items( pos, g->u );
     const bool items_are_sealed = g->m.has_flag( "SEALED", pos );
 
-    const int k_part = veh->part_with_feature(veh_root_part, "KITCHEN");
-    const int wtr_part = veh->part_with_feature(veh_root_part, "FAUCET");
-    const int w_part = veh->part_with_feature(veh_root_part, "WELDRIG");
-    const int craft_part = veh->part_with_feature(veh_root_part, "CRAFTRIG");
-    const int chempart = veh->part_with_feature(veh_root_part, "CHEMLAB");
+    const bool has_kitchen = (veh->part_with_feature(veh_root_part, "KITCHEN") >= 0);
+    const bool has_faucet = (veh->part_with_feature(veh_root_part, "FAUCET") >= 0);
+    const bool has_weldrig = (veh->part_with_feature(veh_root_part, "WELDRIG") >= 0);
+    const bool has_craftrig = (veh->part_with_feature(veh_root_part, "CRAFTRIG") >= 0);
+    const bool has_chemlab = (veh->part_with_feature(veh_root_part, "CHEMLAB") >= 0);
+    const bool has_purify = (veh->part_with_feature(veh_root_part, "WATER_PURIFIER") >=0);
+    const bool has_controls = ((veh->part_with_feature(veh_root_part, "CONTROLS") >= 0) ||
+                               (veh->part_with_feature(veh_root_part, "CTRL_ELECTRONIC") >=0));
     const int cargo_part = veh->part_with_feature(veh_root_part, "CARGO", false);
-    const int ctrl_part = veh->part_with_feature(veh_root_part, "CONTROLS");
-    const int purify_part = veh->part_with_feature(veh_root_part, "WATER_PURIFIER");
     const bool from_vehicle = veh && cargo_part >= 0 && !veh->get_items(cargo_part).empty();
     const bool can_be_folded = veh->is_foldable();
     const bool is_convertible = (veh->tags.count("convertible") > 0);
     const bool remotely_controlled = g->remoteveh() == veh;
-
     typedef enum {
         EXAMINE, CONTROL, GET_ITEMS, GET_ITEMS_ON_GROUND, FOLD_VEHICLE, USE_HOTPLATE,
         FILL_CONTAINER, DRINK, USE_WELDER, USE_PURIFIER, PURIFY_TANK,
@@ -50,7 +50,7 @@ Pickup::interact_results Pickup::interact_with_vehicle( vehicle *veh, const trip
 
     selectmenu.addentry( EXAMINE, true, 'e', _("Examine vehicle") );
 
-    if (ctrl_part >= 0) {
+    if( has_controls ) {
         selectmenu.addentry( CONTROL, true, 'v', _("Control vehicle") );
     }
 
@@ -66,25 +66,25 @@ Pickup::interact_results Pickup::interact_with_vehicle( vehicle *veh, const trip
         selectmenu.addentry( FOLD_VEHICLE, true, 'f', _("Fold vehicle") );
     }
 
-    if((k_part >= 0 || chempart >= 0) && veh->fuel_left("battery") > 0) {
+    if( ( has_kitchen || has_chemlab ) && veh->fuel_left("battery") > 0) {
         selectmenu.addentry( USE_HOTPLATE, true, 'h', _("Use the hotplate") );
     }
 
-    if((k_part >= 0 || wtr_part >= 0) && veh->fuel_left("water_clean") > 0) {
+    if( ( has_kitchen || has_faucet ) && veh->fuel_left("water_clean") > 0) {
         selectmenu.addentry( FILL_CONTAINER, true, 'c', _("Fill a container with water") );
 
         selectmenu.addentry( DRINK, true, 'd', _("Have a drink") );
     }
 
-    if(w_part >= 0 && veh->fuel_left("battery") > 0) {
+    if( has_weldrig && veh->fuel_left("battery") > 0 ) {
         selectmenu.addentry( USE_WELDER, true, 'w', _("Use the welding rig?") );
     }
 
-    if( ( craft_part >= 0 || purify_part >= 0 ) && veh->fuel_left("battery") > 0 ) {
+    if( ( has_craftrig || has_purify ) && veh->fuel_left("battery") > 0 ) {
         selectmenu.addentry( USE_PURIFIER, true, 'p', _("Purify water in carried container") );
     }
 
-    if( ( craft_part >= 0 || purify_part >= 0 ) && veh->fuel_left("battery") > 0 &&
+    if( ( has_craftrig || has_purify ) && veh->fuel_left("battery") > 0 &&
         veh->fuel_left("water") > 0 &&
         veh->fuel_capacity("water_clean") > veh->fuel_left("water_clean") ) {
         selectmenu.addentry( PURIFY_TANK, true, 'P', _("Purify water in vehicle's tank") );
@@ -187,7 +187,7 @@ Pickup::interact_results Pickup::interact_with_vehicle( vehicle *veh, const trip
 
     case CONTROL:
         if( veh->interact_vehicle_locked() ) {
-            veh->use_controls();
+            veh->use_controls(pos);
         }
         return DONE;
 
@@ -740,7 +740,7 @@ void Pickup::pick_up( const tripoint &pos, int min )
                 std::vector<iteminfo> vThisItem, vDummy;
                 here[selected].info(true, vThisItem);
 
-                draw_item_info(w_item_info, "", vThisItem, vDummy, iScrollPos, true, true);
+                draw_item_info(w_item_info, "", "", vThisItem, vDummy, iScrollPos, true, true);
             }
             draw_custom_border(w_item_info, false);
             mvwprintw(w_item_info, 0, 2, "< ");

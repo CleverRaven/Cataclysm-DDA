@@ -1100,13 +1100,13 @@ void full_screen_popup(const char *mes, ...)
 // well frack, half the game uses it so: optional (int)selected argument causes entry highlight, and enter to return entry's key. Also it now returns int
 //@param without_getch don't wait getch, return = (int)' ';
 int draw_item_info(const int iLeft, const int iWidth, const int iTop, const int iHeight,
-                   const std::string sItemName,
+                   const std::string sItemName, const std::string sTypeName,
                    std::vector<iteminfo> &vItemDisplay, std::vector<iteminfo> &vItemCompare,
                    int &selected, const bool without_getch, const bool without_border, const bool handle_scrolling)
 {
     WINDOW *win = newwin(iHeight, iWidth, iTop + VIEW_OFFSET_Y, iLeft + VIEW_OFFSET_X);
 
-    const auto result = draw_item_info(win, sItemName, vItemDisplay, vItemCompare,
+    const auto result = draw_item_info(win, sItemName, sTypeName, vItemDisplay, vItemCompare,
                           selected, without_getch, without_border, handle_scrolling);
     delwin( win );
     return result;
@@ -1195,15 +1195,19 @@ std::string format_item_info( const std::vector<iteminfo> &vItemDisplay,
     return buffer.str();
 }
 
-int draw_item_info(WINDOW *win, const std::string sItemName,
+int draw_item_info(WINDOW *win, const std::string sItemName, const std::string sTypeName,
                    std::vector<iteminfo> &vItemDisplay, std::vector<iteminfo> &vItemCompare,
                    int &selected, const bool without_getch, const bool without_border, const bool handle_scrolling)
 {
     std::ostringstream buffer;
     int line_num = 1;
     if (sItemName != "") {
-        buffer << sItemName << "\n \n"; //This space is required, otherwise it won't make an empty line.
+        buffer << sItemName << "\n";
     }
+    if (sItemName != sTypeName && sTypeName != "") {
+        buffer << sTypeName << "\n";
+    }
+    buffer << " \n"; //This space is required, otherwise it won't make an empty line.
 
     int selected_ret = '\n';
     buffer << format_item_info( vItemDisplay, vItemCompare );

@@ -10225,7 +10225,7 @@ void player::consume_effects(item *eaten, const it_comest *comest, bool rotten)
     mod_stomach_water(comest->quench * factor);
     if( unhealthy_allowed || comest->healthy > 0 ) {
         // Effectively no upper cap on healthy food, moderate cap on unhealthy food.
-        mod_healthy_mod( comest->healthy, (comest->healthy > 0) ? 200 : -50 );
+        mod_healthy_mod( comest->healthy, (comest->healthy >= 0) ? 200 : -50 );
     }
 
     if (comest->stim != 0) {

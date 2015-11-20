@@ -370,6 +370,8 @@
 		<Unit filename="src/construction.cpp" />
 		<Unit filename="src/construction.h" />
 		<Unit filename="src/coordinates.h" />
+		<Unit filename="src/craft_command.cpp" />
+		<Unit filename="src/craft_command.h" />
 		<Unit filename="src/crafting.cpp" />
 		<Unit filename="src/crafting.h" />
 		<Unit filename="src/creature.cpp" />
@@ -441,7 +443,8 @@
 		<Unit filename="src/iuse_software_snake.h" />
 		<Unit filename="src/iuse_software_sokoban.cpp" />
 		<Unit filename="src/iuse_software_sokoban.h" />
-        <Unit filename="src/iuse_software_minesweeper.h" />
+		<Unit filename="src/iuse_software_minesweeper.h" />
+		<Unit filename="src/iuse_software_minesweeper.cpp" />
 		<Unit filename="src/json.cpp" />
 		<Unit filename="src/json.h" />
 		<Unit filename="src/lightmap.cpp" />

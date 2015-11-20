@@ -14,8 +14,8 @@
 
 zone_manager::zone_manager()
 {
-    types["NO_AUTO_PICKUP"] = _("No Auto Pickup");
-    types["NO_NPC_PICKUP"] = _("No NPC Pickup");
+    types["NO_AUTO_PICKUP"] = _( "No Auto Pickup" );
+    types["NO_NPC_PICKUP"] = _( "No NPC Pickup" );
 }
 
 void zone_manager::zone_data::set_name()

@@ -1193,23 +1193,51 @@ bool inscribe_actor::item_inscription( item *cut, std::string verb, std::string 
         return false;
     }
 
-    const bool hasnote = cut->has_var( "item_note" );
+    enum inscription_type {
+        INSCRIPTION_LABEL,
+        INSCRIPTION_NOTE,
+        INSCRIPTION_CANCEL
+    };
+
+    uimenu menu;
+    menu.text = string_format(_("%s meaning?"), verb.c_str());
+    menu.addentry(INSCRIPTION_LABEL, true, -1, _("It's a label"));
+    menu.addentry(INSCRIPTION_NOTE, true, -1, _("It's a note"));
+    menu.addentry(INSCRIPTION_CANCEL, true, 'q', _("Cancel"));
+    menu.query();
+
+    std::string carving, carving_type;
+    switch ( menu.ret )
+    {
+    case INSCRIPTION_LABEL:
+        carving = "item_label";
+        carving_type = "item_label_type";
+        break;
+    case INSCRIPTION_NOTE:
+        carving = "item_note";
+        carving_type = "item_note_type";
+        break;
+    case INSCRIPTION_CANCEL:
+        return false;
+    }
+
+    const bool hasnote = cut->has_var( carving );
     std::string message = "";
     std::string messageprefix = string_format(hasnote ? _("(To delete, input one '.')\n") : "") +
                                 string_format(_("%1$s on the %2$s is: "),
                                         gerund.c_str(), cut->type_name().c_str());
     message = string_input_popup(string_format(_("%s what?"), verb.c_str()), 64,
-                                 (hasnote ? cut->get_var( "item_note" ) : message),
+                                 (hasnote ? cut->get_var( carving ) : message),
                                  messageprefix, "inscribe_item", 128);
 
-    if( !message.empty() ) {
+    if( !message.empty() )
+    {
         if( hasnote && message == "." ) {
-            cut->erase_var( "item_note" );
-            cut->erase_var( "item_note_type" );
-            cut->erase_var( "item_note_typez" );
+            cut->erase_var( carving );
+            cut->erase_var( carving_type );
         } else {
-            cut->set_var( "item_note", message );
-            cut->set_var( "item_note_type", gerund );
+            cut->set_var( carving, message );
+            cut->set_var( carving_type, gerund );
         }
     }
 
