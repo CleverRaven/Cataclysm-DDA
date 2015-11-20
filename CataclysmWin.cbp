@@ -351,6 +351,8 @@
 		<Unit filename="src/calendar.h" />
 		<Unit filename="src/cata_tiles.cpp" />
 		<Unit filename="src/cata_tiles.h" />
+		<Unit filename="src/cata_utility.cpp" />
+		<Unit filename="src/cata_utility.h" />
 		<Unit filename="src/catacharset.cpp" />
 		<Unit filename="src/catacharset.h" />
 		<Unit filename="src/catacurse.h" />
@@ -426,7 +428,7 @@
 		<Unit filename="src/item_factory.h" />
 		<Unit filename="src/item_group.cpp" />
 		<Unit filename="src/item_group.h" />
-        <Unit filename="src/item_location.cpp" />
+		<Unit filename="src/item_location.cpp" />
 		<Unit filename="src/item_location.h" />
 		<Unit filename="src/item_stack.h" />
 		<Unit filename="src/itype.cpp" />
@@ -439,12 +441,12 @@
 		<Unit filename="src/iuse_software.h" />
 		<Unit filename="src/iuse_software_kitten.cpp" />
 		<Unit filename="src/iuse_software_kitten.h" />
+		<Unit filename="src/iuse_software_minesweeper.cpp" />
+		<Unit filename="src/iuse_software_minesweeper.h" />
 		<Unit filename="src/iuse_software_snake.cpp" />
 		<Unit filename="src/iuse_software_snake.h" />
 		<Unit filename="src/iuse_software_sokoban.cpp" />
 		<Unit filename="src/iuse_software_sokoban.h" />
-		<Unit filename="src/iuse_software_minesweeper.h" />
-		<Unit filename="src/iuse_software_minesweeper.cpp" />
 		<Unit filename="src/json.cpp" />
 		<Unit filename="src/json.h" />
 		<Unit filename="src/lightmap.cpp" />
@@ -495,8 +497,8 @@
 		<Unit filename="src/mondefense.h" />
 		<Unit filename="src/monfaction.cpp" />
 		<Unit filename="src/monfaction.h" />
-		<Unit filename="src/mongroup.h" />
 		<Unit filename="src/mongroup.cpp" />
+		<Unit filename="src/mongroup.h" />
 		<Unit filename="src/monmove.cpp" />
 		<Unit filename="src/monster.cpp" />
 		<Unit filename="src/monster.h" />
@@ -577,8 +579,8 @@
 		<Unit filename="src/tileray.h" />
 		<Unit filename="src/translations.cpp" />
 		<Unit filename="src/translations.h" />
-		<Unit filename="src/trap.h" />
 		<Unit filename="src/trap.cpp" />
+		<Unit filename="src/trap.h" />
 		<Unit filename="src/trapfunc.cpp" />
 		<Unit filename="src/tutorial.cpp" />
 		<Unit filename="src/tutorial.h" />
@@ -587,8 +589,8 @@
 		<Unit filename="src/uistate.h" />
 		<Unit filename="src/veh_interact.cpp" />
 		<Unit filename="src/veh_interact.h" />
-		<Unit filename="src/veh_type.h" />
 		<Unit filename="src/veh_type.cpp" />
+		<Unit filename="src/veh_type.h" />
 		<Unit filename="src/vehicle.cpp" />
 		<Unit filename="src/vehicle.h" />
 		<Unit filename="src/vehicle_group.cpp" />

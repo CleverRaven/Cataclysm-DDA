@@ -25,6 +25,7 @@
 #include "mtype.h"
 #include "weather.h"
 #include "sounds.h"
+#include "cata_utility.h"
 
 #include <sstream>
 #include <algorithm>
@@ -2403,7 +2404,7 @@ void iexamine::recycler(player *p, map *m, const tripoint &examp)
     // Get format for printing weights, convert weight to that format,
     const std::string format = OPTIONS["USE_METRIC_WEIGHTS"].getValue() == "lbs" ? _("%.3f lbs") :
                                _("%.3f kg");
-    const std::string weight_str = string_format(format, p->convert_weight(steel_weight));
+    const std::string weight_str = string_format(format, convert_weight(steel_weight));
     as_m.text = string_format(_("Recycle %s metal into:"), weight_str.c_str());
     add_recyle_menu_entry(as_m, norm_recover_weight, 'l', "steel_lump");
     add_recyle_menu_entry(as_m, norm_recover_weight, 'S', "sheet_metal");

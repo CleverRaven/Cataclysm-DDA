@@ -12,6 +12,8 @@
 #include "catacharset.h"
 #include "item_location.h"
 #include "vehicle.h"
+#include "cata_utility.h"
+
 #include <string>
 #include <vector>
 #include <map>
@@ -259,8 +261,8 @@ void inventory_selector::print_inv_weight_vol(int weight_carried, int vol_carrie
     } else {
         weight_color = c_ltgray;
     }
-    wprintz(w_inv, weight_color, "%6.1f", g->u.convert_weight(weight_carried) + 0.05 ); // +0.05 to round up;
-    wprintz(w_inv, c_ltgray, "/%-6.1f", g->u.convert_weight(g->u.weight_capacity()));
+    wprintz(w_inv, weight_color, "%6.1f", convert_weight(weight_carried) + 0.05 ); // +0.05 to round up;
+    wprintz(w_inv, c_ltgray, "/%-6.1f", convert_weight(g->u.weight_capacity()));
 
     // Print volume
     mvwprintw(w_inv, 0, 61, _("Volume: "));

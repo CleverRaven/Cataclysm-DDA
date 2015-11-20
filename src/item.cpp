@@ -29,6 +29,7 @@
 #include "weather.h"
 #include "morale.h"
 #include "catacharset.h"
+#include "cata_utility.h"
 
 #include <cmath> // floor
 #include <sstream>
@@ -565,7 +566,7 @@ std::string item::info(bool showtext, std::vector<iteminfo> &dump_ref) const
                                  string_format("<num> %s",
                                                OPTIONS["USE_METRIC_WEIGHTS"].getValue() == "lbs" ?
                                                _("lbs") : _("kg")),
-                                 g->u.convert_weight(weight()), false, "", true, true));
+                                 convert_weight(weight()), false, "", true, true));
         dump->push_back(iteminfo("BASE", _("Bash: "), "", damage_bash(), true, "", false));
         if( has_flag("SPEAR") ) {
             dump->push_back(iteminfo("BASE", _(" Pierce: "), "", damage_cut(), true, "", false));

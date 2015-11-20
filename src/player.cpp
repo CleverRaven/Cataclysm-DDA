@@ -40,6 +40,7 @@
 #include "submap.h"
 #include "mtype.h"
 #include "weather_gen.h"
+#include "cata_utility.h"
 
 #include <map>
 
@@ -6014,17 +6015,6 @@ void player::add_pain_msg(int val, body_part bp) const
     }
 }
 
-static int bound_mod_to_vals(int val, int mod, int max, int min)
-{
-    if (val + mod > max && max != 0) {
-        mod = std::max(max - val, 0);
-    }
-    if (val + mod < min && min != 0) {
-        mod = std::min(min - val, 0);
-    }
-    return mod;
-}
-
 void player::print_health() const
 {
     if( !is_player() ) {
@@ -8825,18 +8815,6 @@ void player::update_body_wetness( const w_point &weather )
         }
     }
     // TODO: Make clothing slow down drying
-}
-
-double player::convert_weight(int weight) const
-{
-    double ret;
-    ret = double(weight);
-    if (OPTIONS["USE_METRIC_WEIGHTS"] == "kg") {
-        ret /= 1000;
-    } else {
-        ret /= 453.6;
-    }
-    return ret;
 }
 
 int player::net_morale(morale_point effect) const
@@ -13661,48 +13639,6 @@ int player::climbing_cost( const tripoint &from, const tripoint &to ) const
 
     return 50 + diff * 100;
     // TODO: All sorts of mutations, equipment weight etc.
-}
-
-// --- Library functions ---
-// This stuff could be moved elsewhere, but there
-// doesn't seem to be a good place to put it right now.
-
-// Basic logistic function.
-double player::logistic(double t) const
-{
-    return 1 / (1 + exp(-t));
-}
-
-// Logistic curve [-6,6], flipped and scaled to
-// range from 1 to 0 as pos goes from min to max.
-double player::logistic_range(int min, int max, int pos) const
-{
-    const double LOGI_CUTOFF = 4;
-    const double LOGI_MIN = logistic(-LOGI_CUTOFF);
-    const double LOGI_MAX = logistic(+LOGI_CUTOFF);
-    const double LOGI_RANGE = LOGI_MAX - LOGI_MIN;
-    // Anything beyond [min,max] gets clamped.
-    if (pos < min)
-    {
-        return 1.0;
-    }
-    else if (pos > max)
-    {
-        return 0.0;
-    }
-
-    // Normalize the pos to [0,1]
-    double range = max - min;
-    double unit_pos = (pos - min) / range;
-
-    // Scale and flip it to [+LOGI_CUTOFF,-LOGI_CUTOFF]
-    double scaled_pos = LOGI_CUTOFF - 2 * LOGI_CUTOFF * unit_pos;
-
-    // Get the raw logistic value.
-    double raw_logistic = logistic(scaled_pos);
-
-    // Scale the output to [0,1]
-    return (raw_logistic - LOGI_MIN) / LOGI_RANGE;
 }
 
 void player::environmental_revert_effect()

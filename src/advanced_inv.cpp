@@ -20,6 +20,7 @@
 #include "vehicle.h"
 #include "mapdata.h"
 #include "field.h"
+#include "cata_utility.h"
 
 #include <map>
 #include <set>
@@ -212,16 +213,16 @@ void advanced_inventory::print_items( advanced_inventory_pane &pane, bool active
     if( pane.get_area() == AIM_INVENTORY || pane.get_area() == AIM_WORN ) {
         //right align
         int hrightcol = columns -
-                        to_string( g->u.convert_weight( g->u.weight_carried() ) ).length() - 3 - //"xxx.y/"
-                        to_string( g->u.convert_weight( g->u.weight_capacity() ) ).length() - 3 - //"xxx.y_"
+                        to_string( convert_weight( g->u.weight_carried() ) ).length() - 3 - //"xxx.y/"
+                        to_string( convert_weight( g->u.weight_capacity() ) ).length() - 3 - //"xxx.y_"
                         to_string( g->u.volume_carried() ).length() - 1 - //"xxx/"
                         to_string( g->u.volume_capacity() ).length() - 1; //"xxx|"
         nc_color color = c_ltgreen;//red color if overload
         if( g->u.weight_carried() > g->u.weight_capacity() ) {
             color = c_red;
         }
-        mvwprintz( window, 4, hrightcol, color, "%.1f", g->u.convert_weight( g->u.weight_carried() ) );
-        wprintz( window, c_ltgray, "/%.1f ", g->u.convert_weight( g->u.weight_capacity() ) );
+        mvwprintz( window, 4, hrightcol, color, "%.1f", convert_weight( g->u.weight_carried() ) );
+        wprintz( window, c_ltgray, "/%.1f ", convert_weight( g->u.weight_capacity() ) );
         if( g->u.volume_carried() > g->u.volume_capacity() ) {
             color = c_red;
         } else {
@@ -233,7 +234,7 @@ void advanced_inventory::print_items( advanced_inventory_pane &pane, bool active
         std::string head;
         if( pane.get_area() == AIM_ALL ) {
             head = string_format( "%3.1f %3d",
-                                  g->u.convert_weight( squares[pane.get_area()].weight ),
+                                  convert_weight( squares[pane.get_area()].weight ),
                                   squares[pane.get_area()].volume );
         } else {
             int maxvolume = 0;
@@ -245,7 +246,7 @@ void advanced_inventory::print_items( advanced_inventory_pane &pane, bool active
             } else {
                 maxvolume = g->m.max_volume( s.pos );
             }
-            head = string_format( "%3.1f %3d/%3d", g->u.convert_weight( s.weight ), s.volume, maxvolume );
+            head = string_format( "%3.1f %3d/%3d", convert_weight( s.weight ), s.volume, maxvolume );
         }
         mvwprintz( window, 4, columns - 1 - head.length(), norm, "%s", head.c_str() );
     }
@@ -329,7 +330,7 @@ void advanced_inventory::print_items( advanced_inventory_pane &pane, bool active
         }
 
         //print weight column
-        double it_weight = g->u.convert_weight( sitem.weight );
+        double it_weight = convert_weight( sitem.weight );
         size_t w_precision;
         print_color = ( it_weight > 0 ) ? thiscolor : thiscolordark;
 
@@ -786,7 +787,7 @@ bool advanced_inventory_pane::is_filtered( const item *it ) const
 
     std::string str = it->tname();
     if( filtercache.find( str ) == filtercache.end() ) {
-        bool match = !g->list_items_match( it, filter );
+        bool match = !list_items_match( it, filter );
         filtercache[ str ] = match;
 
         return match;
