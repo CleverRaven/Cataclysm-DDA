@@ -2,6 +2,9 @@
 
 #include "options.h"
 #include "material.h"
+#include "enums.h"
+#include "item.h"
+#include "creature.h"
 
 #include <algorithm>
 
@@ -162,6 +165,11 @@ bool compare_by_dist_attitude::operator()(Creature *a, Creature *b) const
         return aa < ab;
     }
     return rl_dist( a->pos(), u.pos() ) < rl_dist( b->pos(), u.pos() );
+}
+
+bool pair_greater_cmp::operator()( const std::pair<int, tripoint> &a, const std::pair<int, tripoint> &b )
+{
+    return a.first > b.first;
 }
 
 nc_color sev(int a)

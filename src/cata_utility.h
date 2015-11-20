@@ -1,22 +1,18 @@
 #ifndef CATA_UTILITY_H
 #define CATA_UTILITY_H
 
-#include "enums.h"
-#include "creature.h"
-#include "item.h"
-
 #include <utility>
 #include <string>
 #include <vector>
 
 typedef int nc_color;
+class item;
+class Creature;
+class map_item_stack;
+struct tripoint;
 
-struct pair_greater_cmp
-{
-    bool operator()( const std::pair<int, tripoint> &a, const std::pair<int, tripoint> &b )
-    {
-        return a.first > b.first;
-    }
+struct pair_greater_cmp {
+    bool operator()( const std::pair<int, tripoint> &a, const std::pair<int, tripoint> &b );
 };
 
 // TODO: Put this into a header (which one?) and maybe move the implementation somewhere else.
