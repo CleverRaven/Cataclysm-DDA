@@ -18,6 +18,7 @@
 #include "addiction.h"
 #include "ui.h"
 #include "mutation.h"
+#include "recipe_dictionary.h"
 #ifndef _MSC_VER
 #include <unistd.h>
 #endif
@@ -1338,9 +1339,13 @@ int set_skills(WINDOW *w, player *u, int &points)
     const int num_skills = Skill::skills.size();
     int cur_pos = 0;
     const Skill* currentSkill = sorted_skills[cur_pos];
+    int selected = 0;
+    int line_num = 1;
 
     input_context ctxt("NEW_CHAR_SKILLS");
     ctxt.register_cardinal();
+    ctxt.register_action("PAGE_DOWN");
+    ctxt.register_action("PAGE_UP");
     ctxt.register_action("PREV_TAB");
     ctxt.register_action("NEXT_TAB");
     ctxt.register_action("HELP_KEYBINDINGS");
@@ -1354,8 +1359,74 @@ int set_skills(WINDOW *w, player *u, int &points)
         mvwprintz(w, 3, 31, points >= cost ? COL_SKILL_USED : c_ltred,
                   ngettext("Upgrading %s costs %d point", "Upgrading %s costs %d points", cost),
                   currentSkill->name().c_str(), cost);
-        fold_and_print(w_description, 0, 0, getmaxx(w_description), COL_SKILL_USED,
-                       currentSkill->description());
+
+        std::map<std::string, std::stringstream > recipes;
+        for( auto &cur_recipe : recipe_dict ) {
+            if ( !cur_recipe->autolearn &&
+                 ( cur_recipe->skill_used == currentSkill->ident() ||
+                   cur_recipe->required_skills[currentSkill->ident()] > 0 ) &&
+                 u->has_recipe_requirements(cur_recipe) &&
+                 cur_recipe->ident.find("uncraft") == std::string::npos
+               )  {
+
+                if ( recipes[cur_recipe->skill_used.obj().name()].str() != "" ) {
+                    recipes[cur_recipe->skill_used.obj().name()] << ", ";
+                }
+
+                /*
+                int skill = ((cur_recipe->required_skills[currentSkill->ident()] > 0) ?
+                             cur_recipe->required_skills[currentSkill->ident()] :
+                             cur_recipe->difficulty);
+
+                if ( cur_recipe->skill_used != currentSkill->ident() ) {
+                    skill = ((cur_recipe->required_skills[currentSkill->ident()] > 0) ?
+                             cur_recipe->difficulty :
+                             cur_recipe->required_skills[currentSkill->ident()]);
+                }
+
+                recipes[cur_recipe->skill_used.obj().name()] << item::nname(cur_recipe->result) << " (" << skill << ")";
+                */
+                
+                recipes[cur_recipe->skill_used.obj().name()] << item::nname(cur_recipe->result) << " ("
+                                                             << ((cur_recipe->required_skills[currentSkill->ident()] > 0) ?
+                                                                 cur_recipe->required_skills[currentSkill->ident()] :
+                                                                 cur_recipe->difficulty)
+                                                             << ")";
+            }
+        }
+
+        std::stringstream rec_disp;
+        rec_disp << currentSkill->description() << "<color_c_ltgray>";
+
+        if (recipes.find(currentSkill->name()) != recipes.end()) {
+            rec_disp << "\n \n<color_c_brown>" << recipes[currentSkill->name()].str() << "</color>";
+        }
+
+        for ( auto iter = recipes.begin(); iter != recipes.end(); ++iter ) {
+            if ( iter->first != currentSkill->name() ) {
+                if ( rec_disp.str() != "" ) {
+                    rec_disp << "\n \n";
+                }
+                rec_disp << "<color_c_white>[" << iter->first << "]</color>\n<color_c_ltgray>" << (iter->second).str() << "</color>";
+            }
+        }
+
+        rec_disp << "</color>";
+
+        const auto vFolded = foldstring(rec_disp.str(), getmaxx(w_description));
+        int iLines = vFolded.size();
+
+        if( selected < 0 ) {
+            selected = 0;
+        } else if( iLines < iContentHeight ) {
+            selected = 0;
+        } else if( selected >= iLines - iContentHeight ) {
+            selected = iLines - iContentHeight;
+        }
+
+        fold_and_print_from( w_description, line_num, 0, getmaxx(w_description), selected, COL_SKILL_USED, rec_disp.str() );
+
+        draw_scrollbar( w, selected, iContentHeight, iLines-iContentHeight, 5, getmaxx(w) - 1, BORDER_COLOR, true );
 
         int first_i, end_i, base_y;
         if (cur_pos < iHalf) {
@@ -1433,6 +1504,10 @@ int set_skills(WINDOW *w, player *u, int &points)
                     level.level(level + 1);
                 }
             }
+        } else if (action == "PAGE_DOWN") {
+            selected++;
+        } else if (action == "PAGE_UP") {
+            selected--;
         } else if (action == "PREV_TAB") {
             delwin(w_description);
             return -1;
