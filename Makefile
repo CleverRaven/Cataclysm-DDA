@@ -633,9 +633,8 @@ ifdef SOUND
 	cp -R data/sound $(APPDATADIR)
 endif  # ifdef SOUND
 ifdef LUA
-	mkdir -p $(APPRESOURCESDIR)/lua
-	cp lua/autoexec.lua $(APPRESOURCESDIR)/lua
-	cp lua/class_definitions.lua $(APPRESOURCESDIR)/lua
+	cp -R lua $(APPRESOURCESDIR)/
+	LIBLUA=$$(otool -L $(TILESTARGET) | grep liblua | sed -n 's/\(.*\.dylib\).*/\1/p') && cp $$LIBLUA $(APPRESOURCESDIR)/
 endif # ifdef LUA
 	cp -R gfx $(APPRESOURCESDIR)/
 ifdef FRAMEWORK
