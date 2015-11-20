@@ -906,7 +906,9 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         bool studied_all_recipes(const itype &book) const;
 
         // crafting.cpp
-        bool crafting_allowed(); // is morale high enough to craft?
+        bool crafting_allowed(); // can_see_to_craft() && has_morale_to_craft()
+        bool can_see_to_craft();
+        bool has_moral_to_craft();
         bool can_make(const recipe *r, int batch_size = 1); // have components?
         bool making_would_work(const std::string &id_to_make, int batch_size);
         void craft();

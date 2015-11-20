@@ -243,17 +243,27 @@ void finalize_recipes()
 
 bool player::crafting_allowed()
 {
-    if (morale_level() < MIN_MORALE_CRAFT) { // See morale.h
+    if ( has_moral_to_craft() ) { // See morale.h
         add_msg(m_info, _("Your morale is too low to craft..."));
         return false;
     }
 
-    if (fine_detail_vision_mod() > 4) {
+    if ( can_see_to_craft() ) {
         add_msg(m_info, _("You can't see to craft!"));
         return false;
     }
 
     return true;
+}
+
+bool player::can_see_to_craft()
+{
+    return fine_detail_vision_mod() > 4;
+}
+
+bool player::has_moral_to_craft()
+{
+    return morale_level() < MIN_MORALE_CRAFT;
 }
 
 void player::craft()
@@ -887,9 +897,9 @@ static void draw_can_craft_indicator(WINDOW *w, int window_width, int margin_x, 
     int x_align = window_width - margin_x;
     // Draw text
     mvwprintz(w, margin_y, x_align - utf8_width(_("can craft:")), c_ltgray, _("can craft:"));
-    if( g->u.fine_detail_vision_mod() > 4 ) {
+    if( g->u.can_see_to_craft() ) {
         mvwprintz(w, margin_y + 1, x_align - 1 - utf8_width( _( "too dark" ) ),  i_red  , _( "too dark" ));
-    } else if( g->u.morale_level() < MIN_MORALE_CRAFT ) {
+    } else if( g->u.has_moral_to_craft() ) {
         mvwprintz(w, margin_y + 1, x_align - 1 - utf8_width( _( "too sad" ) ),  i_red  , _( "too sad" ));
     } else {
         mvwprintz(w, margin_y + 1, x_align - 1 - utf8_width( _( "yes" ) ),  i_green  , _( "yes" ));
