@@ -1926,6 +1926,14 @@ bool advanced_inventory::move_content( item &src_container, item &dest_container
         return false;
     }
 
+    if ( !src_container.is_sealable_container() ) {
+        long max_charges = dest_container.get_remaining_capacity_for_liquid( src );
+        if ( src.charges > max_charges ) {
+            popup( _( "You can't partially unload liquids from unsealable container." ) );
+            return false;
+        }
+    }
+
     std::string err;
     if( !dest_container.fill_with( src, err ) ) {
         popup( err.c_str() );
