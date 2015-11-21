@@ -6385,7 +6385,7 @@
     "revert_to": "null",
     "use_action": {
         "type": "inscribe",
-        "werb": "Write",
+        "verb": "Write",
         "gerund": "Written",
         "on_terrain": true,
         "material_restricted": false
@@ -6414,7 +6414,7 @@
     "revert_to": "null",
     "use_action": {
         "type": "inscribe",
-        "werb": "Write",
+        "verb": "Write",
         "gerund": "Written",
         "on_terrain": true,
         "material_restricted": false
