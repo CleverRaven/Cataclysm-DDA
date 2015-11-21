@@ -13101,6 +13101,16 @@ bool player::wearing_something_on(body_part bp) const
     return false;
 }
 
+
+bool player::natural_attack_restricted_on(body_part bp) const
+{
+    for (auto &i : worn) {
+        if ((i.covers(bp)) && (!i.has_flag("ALLOWS_NATURAL_ATTACKS")))
+            return true;
+    }
+    return false;
+}
+
 bool player::is_wearing_item (const item& it) const {
    return std::any_of(worn.begin(), worn.end(), [&](const item& elem) { return &elem == &it; });
 }
