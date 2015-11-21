@@ -11321,7 +11321,8 @@ void game::eat(int pos)
                 it.type->id != "1st_aid"; // temporary "solution" to #12991
     };
 
-    auto item_loc = inv_map_splice( filter, _("Consume item:") );
+    // Can consume items from inventory or within one tile (including in vehicles)
+    auto item_loc = inv_map_splice( filter, _("Consume item:"), 1);
 
     const int inv_pos = item_loc.get_inventory_position();
     if( inv_pos != INT_MIN ) {
