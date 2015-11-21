@@ -840,19 +840,20 @@ item_location game::inv_map_splice( item_filter filter, const std::string &title
 }
 
 item_location game::inv_map_splice(
-    item_filter inv_filter, item_filter ground_filter, item_filter vehicle_filter, const std::string &title, int radius )
+    item_filter inv_filter, item_filter ground_filter, item_filter vehicle_filter,
+    const std::string &title, int radius )
 {
-    inventory_selector inv_s(false, false, title);
+    inventory_selector inv_s( false, false, title );
 
     // first get matching items from the inventory
-    u.inv.restack(&u);
+    u.inv.restack( &u );
     u.inv.sort();
-    inv_s.make_item_list(u.inv.slice_filter_by(inv_filter));
+    inv_s.make_item_list( u.inv.slice_filter_by( inv_filter ) );
 
     // items are stacked per tile considering vehicle and map tiles separately
-    static const item_category ground_cat ("GROUND:",  _("GROUND:"),  -1000);
-    static const item_category nearby_cat ("NEARBY:",  _("NEARBY:"),  -2000);
-    static const item_category vehicle_cat("VEHICLE:", _("VEHICLE:"), -3000);
+    static const item_category ground_cat( "GROUND:",  _( "GROUND:" ),  -1000 );
+    static const item_category nearby_cat( "NEARBY:",  _( "NEARBY:" ),  -2000 );
+    static const item_category vehicle_cat( "VEHICLE:", _( "VEHICLE:" ), -3000 );
 
     // in the below loops identical items on the same tile are grouped into lists
     // each element of stacks represents one tile and is a vector of such lists
@@ -872,79 +873,82 @@ item_location game::inv_map_splice(
     char cur_invlet = min_invlet;
     std::vector<item_location> invlets;
 
-    for (const auto& pos : closest_tripoints_first(radius, g->u.pos())) {
+    for( const auto &pos : closest_tripoints_first( radius, g->u.pos() ) ) {
         // second get all matching items on the map within radius
-        if (m.accessible_items(g->u.pos(), pos, radius)) {
-            auto items = m.i_at(pos);
+        if( m.accessible_items( g->u.pos(), pos, radius ) ) {
+            auto items = m.i_at( pos );
 
             // create a new slice and stack for the current map tile
             stacks.emplace_back();
             slices.emplace_back();
 
             // reserve sufficient capacity to ensure reallocation is not required
-            auto& current_stack = stacks.back();
-            current_stack.reserve(items.size());
+            auto &current_stack = stacks.back();
+            current_stack.reserve( items.size() );
 
-            for (item& it : items) {
-                if (ground_filter(it)) {
-                    auto match = std::find_if(current_stack.begin(), current_stack.end(), [&](const std::list<item>& e) {
-                        return it.stacks_with(e.back());
-                    });
-                    if (match != current_stack.end()) {
-                        match->push_back(it);
+            for( item &it : items ) {
+                if( ground_filter( it ) ) {
+                    auto match = std::find_if( current_stack.begin(),
+                    current_stack.end(), [&]( const std::list<item> &e ) {
+                        return it.stacks_with( e.back() );
+                    } );
+                    if( match != current_stack.end() ) {
+                        match->push_back( it );
                     } else {
                         // item doesn't stack with any previous so start new list and append to current indexed_invslice
-                        current_stack.emplace_back(1, it);
-                        slices.back().emplace_back(&current_stack.back(), INT_MIN);
-                        opts.emplace(&current_stack.back().front(), item_location::on_map(pos, &it));
+                        current_stack.emplace_back( 1, it );
+                        slices.back().emplace_back( &current_stack.back(), INT_MIN );
+                        opts.emplace( &current_stack.back().front(), item_location::on_map( pos, &it ) );
 
-                        if (cur_invlet <= max_invlet) {
+                        if( cur_invlet <= max_invlet ) {
                             current_stack.back().front().invlet = cur_invlet++;
-                            invlets.emplace_back(item_location::on_map(pos, &it));
+                            invlets.emplace_back( item_location::on_map( pos, &it ) );
                         }
                     }
                 }
             }
-            inv_s.make_item_list(slices.back(), pos == g->u.pos() ? &ground_cat : &nearby_cat);
+            inv_s.make_item_list( slices.back(), pos == g->u.pos() ? &ground_cat : &nearby_cat );
         }
 
         // finally get all matching items in vehicle cargo spaces
         int part = -1;
-        vehicle *veh = m.veh_at(pos, part);
-        if (veh && part >= 0) {
-            part = veh->part_with_feature(part, "CARGO");
-            if (part != -1) {
-                auto items = veh->get_items(part);
+        vehicle *veh = m.veh_at( pos, part );
+        if( veh && part >= 0 ) {
+            part = veh->part_with_feature( part, "CARGO" );
+            if( part != -1 ) {
+                auto items = veh->get_items( part );
 
                 // create a new slice and stack for the current vehicle part
                 stacks.emplace_back();
                 slices.emplace_back();
 
                 // reserve sufficient capacity to ensure reallocation is not required
-                auto& current_stack = stacks.back();
-                current_stack.reserve(items.size());
+                auto &current_stack = stacks.back();
+                current_stack.reserve( items.size() );
 
-                for (item& it : items) {
-                    if (vehicle_filter(it)) {
-                        auto match = std::find_if(current_stack.begin(), current_stack.end(), [&](const std::list<item>& e) {
-                            return it.stacks_with(e.back());
-                        });
-                        if (match != current_stack.end()) {
-                            match->push_back(it);
+                for( item &it : items ) {
+                    if( vehicle_filter( it ) ) {
+                        auto match = std::find_if( current_stack.begin(),
+                        current_stack.end(), [&]( const std::list<item> &e ) {
+                            return it.stacks_with( e.back() );
+                        } );
+                        if( match != current_stack.end() ) {
+                            match->push_back( it );
                         } else {
                             // item doesn't stack with any previous so start new list and append to current indexed_invslice
-                            current_stack.emplace_back(1, it);
-                            slices.back().emplace_back(&current_stack.back(), INT_MIN);
-                            opts.emplace(&current_stack.back().front(), item_location::on_vehicle(*veh, veh->parts[part].mount, &it));
+                            current_stack.emplace_back( 1, it );
+                            slices.back().emplace_back( &current_stack.back(), INT_MIN );
+                            opts.emplace( &current_stack.back().front(), item_location::on_vehicle( *veh,
+                                          veh->parts[part].mount, &it ) );
 
-                            if (cur_invlet <= max_invlet) {
+                            if( cur_invlet <= max_invlet ) {
                                 current_stack.back().front().invlet = cur_invlet++;
-                                invlets.emplace_back(item_location::on_vehicle(*veh, veh->parts[part].mount, &it));
+                                invlets.emplace_back( item_location::on_vehicle( *veh, veh->parts[part].mount, &it ) );
                             }
                         }
                     }
                 }
-                inv_s.make_item_list(slices.back(), &vehicle_cat);
+                inv_s.make_item_list( slices.back(), &vehicle_cat );
             }
         }
     }
@@ -959,12 +963,12 @@ item_location game::inv_map_splice(
 
         if( item_pos != INT_MIN ) {
             // Indexed item in inventory
-            inv_s.set_to_drop(item_pos, 0);
-            return item_location::on_character(u, inv_s.first_item);
+            inv_s.set_to_drop( item_pos, 0 );
+            return item_location::on_character( u, inv_s.first_item );
 
-        } else if (ch >= min_invlet && ch <= max_invlet) {
+        } else if( ch >= min_invlet && ch <= max_invlet ) {
             // Indexed item on ground or in vehicle
-            return std::move(invlets[ch - min_invlet]);
+            return std::move( invlets[ch - min_invlet] );
 
         } else if( inv_s.handle_movement( action ) ) {
             // continue with comparison below
@@ -973,16 +977,16 @@ item_location game::inv_map_splice(
             return item_location::nowhere();
 
         } else if( action == "RIGHT" || action == "CONFIRM" ) {
-            inv_s.set_selected_to_drop(0);
+            inv_s.set_selected_to_drop( 0 );
 
             // Item in inventory
-            if (inv_s.get_selected_item_position() != INT_MIN) {
-                return item_location::on_character(u, inv_s.first_item);
+            if( inv_s.get_selected_item_position() != INT_MIN ) {
+                return item_location::on_character( u, inv_s.first_item );
             }
             // Item on ground or in vehicle
-            auto it = opts.find(inv_s.first_item);
-            if (it != opts.end()) {
-               return std::move(it->second);
+            auto it = opts.find( inv_s.first_item );
+            if( it != opts.end() ) {
+                return std::move( it->second );
             }
 
             return item_location::nowhere();
