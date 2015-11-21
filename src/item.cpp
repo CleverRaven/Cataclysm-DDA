@@ -1319,6 +1319,11 @@ std::string item::info(bool showtext, std::vector<iteminfo> &dump_ref) const
             dump->push_back(iteminfo("DESCRIPTION",
                 _("This piece of clothing is large enough to accommodate mutated anatomy.")));
         }
+        if (is_armor() && has_flag("ALLOWS_NATURAL_ATTACKS")) {
+            dump->push_back(iteminfo("DESCRIPTION", "--"));
+            dump->push_back(iteminfo("DESCRIPTION",
+                _("This piece of clothing won't hinder claws or other special attacks.")));
+        }
         if (is_armor() && has_flag("POCKETS")) {
             dump->push_back(iteminfo("DESCRIPTION", "--"));
             dump->push_back(iteminfo("DESCRIPTION",

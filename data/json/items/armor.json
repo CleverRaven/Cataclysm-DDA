@@ -646,7 +646,7 @@
         "phase" : "solid",
         "encumbrance" : 35,
         "bashing" : -4,
-        "flags" : ["VARSIZE","WATER_FRIENDLY"],
+        "flags" : ["VARSIZE", "WATER_FRIENDLY", "ALLOWS_NATURAL_ATTACKS"],
         "coverage" : 10,
         "material_thickness" : 1
     },
@@ -669,7 +669,7 @@
         "phase" : "solid",
         "encumbrance" : 5,
         "bashing" : 0,
-        "flags" : ["VARSIZE","WATER_FRIENDLY"],
+        "flags" : ["VARSIZE", "WATER_FRIENDLY", "ALLOWS_NATURAL_ATTACKS"],
         "coverage" : 20,
         "material_thickness" : 1
     },
@@ -692,7 +692,7 @@
         "phase" : "solid",
         "encumbrance" : 10,
         "bashing" : 0,
-        "flags" : ["VARSIZE", "WATER_FRIENDLY"],
+        "flags" : ["VARSIZE", "WATER_FRIENDLY", "ALLOWS_NATURAL_ATTACKS"],
         "coverage" : 40,
         "material_thickness" : 2
     },
@@ -3638,7 +3638,7 @@
         "to_hit" : 0,
         "symbol" : "[",
         "description" : "Rags tied around your feet.  Not much of an improvement over being barefoot, still better than nothing.",
-        "flags" : ["SKINTIGHT", "OVERSIZE"],
+        "flags" : ["SKINTIGHT", "OVERSIZE", "ALLOWS_NATURAL_ATTACKS"],
         "price" : 500,
         "material" : ["cotton", "null"],
         "volume" : 1,
@@ -3661,7 +3661,7 @@
         "to_hit" : 0,
         "symbol" : "[",
         "description" : "Felt patches tied around your feet.  Not much of an improvement over being barefoot, still better than nothing.",
-        "flags" : ["SKINTIGHT", "OVERSIZE"],
+        "flags" : ["SKINTIGHT", "OVERSIZE", "ALLOWS_NATURAL_ATTACKS"],
         "price" : 500,
         "material" : ["wool", "null"],
         "volume" : 1,
@@ -5306,7 +5306,7 @@
         "phase" : "solid",
         "encumbrance" : 0,
         "bashing" : -3,
-        "flags" : ["VARSIZE", "WATER_FRIENDLY"],
+        "flags" : ["VARSIZE", "WATER_FRIENDLY", "ALLOWS_NATURAL_ATTACKS"],
         "coverage" : 50,
         "material_thickness" : 1
     },
@@ -5330,7 +5330,7 @@
         "phase" : "solid",
         "encumbrance" : 3,
         "bashing" : -3,
-        "flags" : ["VARSIZE"],
+        "flags" : ["VARSIZE", "ALLOWS_NATURAL_ATTACKS"],
         "coverage" : 50,
         "material_thickness" : 1
     },
@@ -5526,7 +5526,7 @@
         "environmental_protection" : 1,
         "encumbrance" : 10,
         "bashing" : 2,
-        "flags" : ["VARSIZE", "STURDY"],
+        "flags" : ["VARSIZE", "STURDY", "ALLOWS_NATURAL_ATTACKS"],
         "coverage" : 60,
         "material_thickness" : 3
     },
@@ -7413,7 +7413,7 @@
         "phase" : "solid",
         "encumbrance" : 3,
         "material_thickness" : 1,
-        "flags" : ["VARSIZE", "BELTED", "OVERSIZE"],
+        "flags" : ["VARSIZE", "BELTED", "OVERSIZE", "ALLOWS_NATURAL_ATTACKS"],
         "use_action" : {
             "type": "holster",
             "max_volume": 2,
@@ -7441,7 +7441,7 @@
         "phase" : "solid",
         "encumbrance" : 2,
         "material_thickness" : 1,
-        "flags" : ["VARSIZE", "BELTED", "OVERSIZE"],
+        "flags" : ["VARSIZE", "BELTED", "OVERSIZE", "ALLOWS_NATURAL_ATTACKS"],
         "use_action" : {
             "type": "holster",
             "holster_prompt": "Sheath knife",
@@ -8155,7 +8155,7 @@
         "environmental_protection" : 1,
         "encumbrance" : 50,
         "bashing" : -5,
-        "flags" : ["OVERSIZE", "OUTER"],
+        "flags" : ["OVERSIZE", "OUTER", "ALLOWS_NATURAL_ATTACKS"],
         "material_thickness" : 1
     },
     {
@@ -8177,7 +8177,7 @@
         "encumbrance" : 15,
         "bashing" : 0,
         "coverage" : 100,
-        "flags" : ["OVERSIZE", "OUTER"],
+        "flags" : ["OVERSIZE", "OUTER", "ALLOWS_NATURAL_ATTACKS"],
         "material_thickness" : 3
     },
     {
@@ -8200,7 +8200,7 @@
         "encumbrance" : 35,
         "bashing" : -5,
         "coverage" : 100,
-        "flags" : ["OVERSIZE", "OUTER"],
+        "flags" : ["OVERSIZE", "OUTER", "ALLOWS_NATURAL_ATTACKS"],
         "material_thickness" : 3
     },
     {
@@ -8223,7 +8223,7 @@
         "encumbrance" : 45,
         "bashing" : -5,
         "coverage" : 100,
-        "flags" : ["OVERSIZE", "OUTER"],
+        "flags" : ["OVERSIZE", "OUTER", "ALLOWS_NATURAL_ATTACKS"],
         "material_thickness" : 3
     },
     {
@@ -8246,7 +8246,7 @@
         "encumbrance" : 55,
         "bashing" : -5,
         "coverage" : 100,
-        "flags" : ["OVERSIZE", "OUTER"],
+        "flags" : ["OVERSIZE", "OUTER", "ALLOWS_NATURAL_ATTACKS"],
         "material_thickness" : 4
     },
     {
@@ -9126,7 +9126,7 @@
         "phase" : "solid",
         "encumbrance" : 0,
         "bashing" : -3,
-        "flags" : ["VARSIZE", "SKINTIGHT", "OVERSIZE"],
+        "flags" : ["VARSIZE", "SKINTIGHT", "OVERSIZE", "ALLOWS_NATURAL_ATTACKS"],
         "coverage" : 50,
         "material_thickness" : 1
     },
@@ -9149,7 +9149,7 @@
         "phase" : "solid",
         "encumbrance" : 5,
         "bashing" : -3,
-        "flags" : ["VARSIZE", "SKINTIGHT", "OVERSIZE"],
+        "flags" : ["VARSIZE", "SKINTIGHT", "OVERSIZE", "ALLOWS_NATURAL_ATTACKS"],
         "coverage" : 50,
         "material_thickness" : 1
     },
@@ -10766,7 +10766,7 @@
         "environmental_protection" : 3,
         "encumbrance" : 40,
         "bashing" : 10,
-        "flags" : ["OVERSIZE", "VARSIZE", "WATERPROOF", "STURDY", "OUTER"],
+        "flags" : ["OVERSIZE", "VARSIZE", "WATERPROOF", "STURDY", "OUTER", "ALLOWS_NATURAL_ATTACKS"],
         "coverage" : 100,
         "material_thickness" : 3
     },
@@ -11538,7 +11538,7 @@
         "phase" : "solid",
         "encumbrance" : 10,
         "bashing" : 0,
-        "flags" : ["VARSIZE", "WATER_FRIENDLY"],
+        "flags" : ["VARSIZE", "WATER_FRIENDLY", "ALLOWS_NATURAL_ATTACKS"],
         "coverage" : 30,
         "material_thickness" : 2
     },
@@ -11608,7 +11608,7 @@
         "phase" : "solid",
         "encumbrance" : 10,
         "bashing" : -3,
-        "flags" : ["VARSIZE", "OVERSIZE"],
+        "flags" : ["VARSIZE", "OVERSIZE", "ALLOWS_NATURAL_ATTACKS"],
         "coverage" : 50,
         "material_thickness" : 1
     },
@@ -11631,7 +11631,7 @@
         "phase" : "solid",
         "encumbrance" : 10,
         "bashing" : -3,
-        "flags" : ["VARSIZE", "OVERSIZE"],
+        "flags" : ["VARSIZE", "OVERSIZE", "ALLOWS_NATURAL_ATTACKS"],
         "coverage" : 50,
         "material_thickness" : 1
     },
@@ -11646,7 +11646,7 @@
         "to_hit" : 0,
         "symbol" : "[",
         "description" : "Leather patches tied around your feet.  Not much of an improvement over being barefoot, still better than nothing.",
-        "flags" : ["OVERSIZE"],
+        "flags" : ["OVERSIZE", "ALLOWS_NATURAL_ATTACKS"],
         "price" : 525,
         "material" : ["leather", "null"],
         "volume" : 2,
@@ -11669,7 +11669,7 @@
         "to_hit" : 0,
         "symbol" : "[",
         "description" : "Fur pelts tied around your feet.  Not much of an improvement over being barefoot, still better than nothing.",
-        "flags" : ["OVERSIZE"],
+        "flags" : ["OVERSIZE", "ALLOWS_NATURAL_ATTACKS"],
         "price" : 700,
         "material" : ["fur", "null"],
         "volume" : 2,
@@ -12178,7 +12178,7 @@
         "environmental_protection" : 2,
         "encumbrance" : 10,
         "bashing" : -5,
-        "flags" : ["OVERSIZE", "HOOD"],
+        "flags" : ["OVERSIZE", "HOOD", "ALLOWS_NATURAL_ATTACKS"],
         "coverage" : 85,
         "material_thickness" : 2
     },
@@ -12494,7 +12494,7 @@
         "phase" : "solid",
         "encumbrance" : 20,
         "bashing" : -5,
-        "flags" : ["OVERSIZE", "HOOD", "FANCY"],
+        "flags" : ["OVERSIZE", "HOOD", "FANCY", "ALLOWS_NATURAL_ATTACKS"],
         "coverage" : 70,
         "material_thickness" : 3
     },
