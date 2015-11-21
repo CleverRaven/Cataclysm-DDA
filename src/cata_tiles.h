@@ -203,7 +203,7 @@ class cata_tiles
 
         /** Minimap functionality */
         void draw_minimap( int destx, int desty, const tripoint &center, int width, int height);
-        void draw_rhombus( int destx, int desty, int size, SDL_Color color);
+        void draw_rhombus( int destx, int desty, int size, SDL_Color color, int widthLimit, int heightLimit);
     protected:
         /** How many rows and columns of tiles fit into given dimensions **/
         void get_window_tile_counts(const int width, const int height, int &columns, int &rows) const;
