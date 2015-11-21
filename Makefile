@@ -150,6 +150,7 @@ endif
 ifdef CLANG
   ifeq ($(NATIVE), osx)
     OTHERS += -stdlib=libc++
+    LDFLAGS += -stdlib=libc++
   endif
   ifdef CCACHE
     CXX = CCACHE_CPP2=1 ccache $(CROSS)clang++
@@ -203,6 +204,7 @@ ifeq ($(NATIVE), osx)
   OSX_MIN = 10.5
   DEFINES += -DMACOSX
   CXXFLAGS += -mmacosx-version-min=$(OSX_MIN)
+  LDFLAGS += -mmacosx-version-min=$(OSX_MIN)
   WARNINGS = -Werror -Wall -Wextra -Wno-switch -Wno-sign-compare -Wno-missing-braces
   ifeq ($(LOCALIZE), 1)
     LDFLAGS += -lintl
@@ -629,6 +631,8 @@ app: appclean version data/osx/AppIcon.icns $(TILESTARGET)
 	cp -R data/motd $(APPDATADIR)
 	cp -R data/credits $(APPDATADIR)
 	cp -R data/title $(APPDATADIR)
+	# bundle libc++ to fix bad buggy version on osx 10.7
+	LIBCPP=$$(otool -L $(TILESTARGET) | grep libc++ | sed -n 's/\(.*\.dylib\).*/\1/p') && cp $$LIBCPP $(APPRESOURCESDIR)/ && cp $$(dirname "$$LIBCPP")/libc++abi.dylib $(APPRESOURCESDIR)/
 ifdef SOUND
 	cp -R data/sound $(APPDATADIR)
 endif  # ifdef SOUND
