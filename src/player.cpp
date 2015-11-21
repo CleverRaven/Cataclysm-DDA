@@ -9403,8 +9403,16 @@ std::list<item> player::use_charges(itype_id it, long quantity)
 int player::butcher_factor() const
 {
     int result = INT_MIN;
-    if ((has_bionic("bio_tools")) || (has_trait("CLAWS")) || (has_trait("CLAWS_RAT")) || (has_trait("CLAWS_ST")) || (has_active_mutation("CLAWS_RETRACT")) || (has_trait("TALONS"))) {
+    if (has_bionic("bio_tools")) {
         item tmp( "toolset", 0 );
+        result = tmp.butcher_factor();
+    }
+    if ((has_trait("CLAWS")) || (has_trait("CLAWS_RAT")) || (has_active_mutation("CLAWS_RETRACT")) || (has_trait("TALONS"))) {
+        item tmp( "toolset", 0 );
+        result = tmp.butcher_factor();
+    }
+    if ((has_bionic("bio_razor")) || (has_trait("CLAWS_ST"))) {
+        item tmp( "butcher_razor", 0 );
         result = tmp.butcher_factor();
     }
     result = std::max( result, inv.butcher_factor() );
