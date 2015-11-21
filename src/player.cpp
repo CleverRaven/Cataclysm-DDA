@@ -13957,32 +13957,21 @@ bool player::sees( const Creature &critter ) const
     return Creature::sees( critter );
 }
 
-bool player::can_pickup(bool print_msg) const
+bool player::has_container_for( const item &newit ) const
 {
-    if (weapon.has_flag("NO_PICKUP")) {
-        if( print_msg && is_player() ) {
-            add_msg(m_info, _("You cannot pick up items with your %s!"), weapon.tname().c_str());
-        }
-        return false;
-    }
-    return true;
-}
-
-bool player::has_container_for(const item &newit) const
-{
-    if (!newit.made_of(LIQUID)) {
+    if( !newit.made_of( LIQUID ) ) {
         // Currently only liquids need a container
         return true;
     }
     unsigned charges = newit.charges;
-    charges -= weapon.get_remaining_capacity_for_liquid(newit);
+    charges -= weapon.get_remaining_capacity_for_liquid( newit );
     for( auto& w : worn ) {
-        charges -= w.get_remaining_capacity_for_liquid(newit);
+        charges -= w.get_remaining_capacity_for_liquid( newit );
     }
-    for (size_t i = 0; i < inv.size() && charges > 0; i++) {
-        const std::list<item>&items = inv.const_stack(i);
+    for( size_t i = 0; i < inv.size() && charges > 0; i++ ) {
+        const std::list<item>&items = inv.const_stack( i );
         // Assume that each item in the stack has the same remaining capacity
-        charges -= items.front().get_remaining_capacity_for_liquid(newit) * items.size();
+        charges -= items.front().get_remaining_capacity_for_liquid( newit ) * items.size();
     }
     return charges <= 0;
 }
