@@ -270,7 +270,6 @@ void Item_factory::init()
     iuse_function_list["SHEATH_KNIFE"] = &iuse::sheath_knife;
     iuse_function_list["HOLSTER_GUN"] = &iuse::holster_gun;
     iuse_function_list["HOLSTER_ANKLE"] = &iuse::holster_ankle;
-    iuse_function_list["BELT_LOOP"] = &iuse::belt_loop;
     iuse_function_list["TOWEL"] = &iuse::towel;
     iuse_function_list["UNFOLD_GENERIC"] = &iuse::unfold_generic;
     iuse_function_list["ADRENALINE_INJECTOR"] = &iuse::adrenaline_injector;
