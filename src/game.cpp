@@ -158,7 +158,8 @@ game::game() :
     mostseen(0),
     gamemode(NULL),
     lookHeight(13),
-    tileset_zoom(16)
+    tileset_zoom(16),
+    pixel_minimap_option(0)
 {
     world_generator = new worldfactory();
     // do nothing, everything that was in here is moved to init_data() which is called immediately after g = new game; in main.cpp
@@ -271,7 +272,7 @@ game::~game()
     delete gamemode;
     delwin(w_terrain);
     delwin(w_minimap);
-    if (OPTIONS["PIXEL_MINIMAP"]){
+    if (pixel_minimap_option){
         delwin(w_pixel_minimap);
     }
     delwin(w_HP);
@@ -421,7 +422,8 @@ void game::init_ui()
     int mouseview_y, mouseview_h, mouseview_w;
     int pixelminimapW, pixelminimapH, pixelminimapX, pixelminimapY;
 
-    int pixel_minimap_option = 0;
+    //class variable to track the option being active
+    pixel_minimap_option = 0;
     bool pixel_minimap_custom_height = false;
 
 #ifdef TILES
@@ -527,7 +529,7 @@ void game::init_ui()
     w_messages = newwin(messH, messW, _y + messY, _x + messX);
     werase(w_messages);
 
-    if (OPTIONS["PIXEL_MINIMAP"]){
+    if (pixel_minimap_option){
         w_pixel_minimap = newwin(pixelminimapH, pixelminimapW, _y + pixelminimapY, _x + pixelminimapX);
         werase(w_pixel_minimap);
     }
@@ -5066,7 +5068,7 @@ void game::draw_sidebar()
 
     // Force a refresh of the pixel minimap.
     // only do so if it is in use
-    if(OPTIONS["PIXEL_MINIMAP"] && w_pixel_minimap){
+    if(pixel_minimap_option && w_pixel_minimap){
         werase(w_pixel_minimap);
         wrefresh(w_pixel_minimap);
     }
