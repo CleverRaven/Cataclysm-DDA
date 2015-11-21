@@ -868,9 +868,12 @@ item_location game::inv_map_splice(
             auto items = m.i_at(pos);
 
             // create a new slice and stack for the current map tile
-            stacks.emplace_back(items.size());
+            stacks.emplace_back();
             slices.emplace_back();
+
+            // reserve sufficient capacity to ensure reallocation is not required
             auto& current_stack = stacks.back();
+            current_stack.reserve(items.size());
 
             for (item& it : items) {
                 if (ground_filter(it)) {
@@ -902,9 +905,12 @@ item_location game::inv_map_splice(
                 auto items = veh->get_items(part);
 
                 // create a new slice and stack for the current vehicle part
-                stacks.emplace_back(items.size());
+                stacks.emplace_back();
                 slices.emplace_back();
+
+                // reserve sufficient capacity to ensure reallocation is not required
                 auto& current_stack = stacks.back();
+                current_stack.reserve(items.size());
 
                 for (item& it : items) {
                     if (vehicle_filter(it)) {
