@@ -913,22 +913,27 @@ void cata_tiles::draw_minimap( int destx, int desty, const tripoint &center, int
     const int miny = 0;
     const int maxx = MAPSIZE * SEEX;
     const int maxy = MAPSIZE * SEEY;
-    int tiles_range_x = (MAPSIZE - 2) * SEEX;
-    int tiles_range_y = (MAPSIZE - 2) * SEEY;
-    int tile_size_x = std::max(width / tiles_range_x, 1);
-    int tile_size_y = std::max(height / tiles_range_y, 1);
-    int tiles_x_limit = std::min(width / tile_size_x, tiles_range_x);
-    int tiles_y_limit = std::min(height / tile_size_y, tiles_range_y);
-    int start_x = center.x - tiles_x_limit / 2;
-    int start_y = center.y - tiles_y_limit / 2;
+
+    const int tiles_range_x = (MAPSIZE - 2) * SEEX;
+    const int tiles_range_y = (MAPSIZE - 2) * SEEY;
+    const int tile_size_x = std::max(width / tiles_range_x, 1);
+    const int tile_size_y = std::max(height / tiles_range_y, 1);
+    const int tiles_x_limit = std::min(width / tile_size_x, tiles_range_x);
+    const int tiles_y_limit = std::min(height / tile_size_y, tiles_range_y);
+    const int start_x = center.x - tiles_x_limit / 2;
+    const int start_y = center.y - tiles_y_limit / 2;
 
     // Center the drawn area within the total area.
-    int drawn_width = tiles_x_limit * tile_size_x;
-    int drawn_height = tiles_y_limit * tile_size_y;
-    int border_width = std::max((width - drawn_width) / 2, 0);
-    int border_height = std::max((height - drawn_height) / 2, 0);
+    const int drawn_width = tiles_x_limit * tile_size_x;
+    const int drawn_height = tiles_y_limit * tile_size_y;
+    const int border_width = std::max((width - drawn_width) / 2, 0);
+    const int border_height = std::max((height - drawn_height) / 2, 0);
 
     auto &ch = g->m.access_cache( center.z );
+
+    SDL_Rect rectangle;
+    rectangle.w = tile_size_x;
+    rectangle.h = tile_size_y;
 
     // First draw terrain.
     for( int y = 0; y < tiles_y_limit; y++) {
@@ -963,11 +968,8 @@ void cata_tiles::draw_minimap( int destx, int desty, const tripoint &center, int
             if(border_width + x * tile_size_x < width &&
                 border_height + y * tile_size_y < height){
                 SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, 255);
-                SDL_Rect rectangle;
                 rectangle.x = destx + border_width + x * tile_size_x;
                 rectangle.y = desty + border_height + y * tile_size_y;
-                rectangle.w = tile_size_x;
-                rectangle.h = tile_size_y;
                 SDL_RenderFillRect(renderer, &rectangle);
             }
         }
