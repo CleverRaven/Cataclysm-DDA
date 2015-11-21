@@ -6383,7 +6383,13 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
-    "use_action": "SPRAY_CAN"
+    "use_action": {
+        "type": "inscribe",
+        "werb": "Write",
+        "gerund": "Written",
+        "on_terrain": true,
+        "material_restricted": false
+    }
   },
 
   {
@@ -6406,7 +6412,13 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
-    "use_action": "SPRAY_CAN"
+    "use_action": {
+        "type": "inscribe",
+        "werb": "Write",
+        "gerund": "Written",
+        "on_terrain": true,
+        "material_restricted": false
+    }
   },
 
   {

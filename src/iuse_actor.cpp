@@ -1168,6 +1168,9 @@ void inscribe_actor::load( JsonObject &obj )
         material_whitelist.push_back("silver");
     }
 
+    verb = obj.get_string( "verb", _("Carve") );
+    gerund = obj.get_string( "gerund", _("Carved") );
+
     if( !on_items && !on_terrain ) {
         obj.throw_error( "Tried to create an useless inscribe_actor, at least on of \"on_items\" or \"on_terrain\" should be true" );
     }
@@ -1178,7 +1181,7 @@ iuse_actor *inscribe_actor::clone() const
     return new inscribe_actor( *this );
 }
 
-bool inscribe_actor::item_inscription( item *cut, std::string verb, std::string gerund ) const
+bool inscribe_actor::item_inscription( item *cut ) const
 {
     if( !cut->made_of(SOLID) ) {
         add_msg( m_info, _("You can't inscribe an item that isn't solid!") );
@@ -1254,7 +1257,7 @@ long inscribe_actor::use( player *p, item *it, bool t, const tripoint& ) const
     int choice = INT_MAX;
     if( on_terrain && on_items ) {
         uimenu imenu;
-        imenu.text = _("Write on what?");
+        imenu.text = string_format( _("%s on what?"), verb.c_str() );
         imenu.addentry( 0, true, MENU_AUTOASSIGN, _("The ground") );
         imenu.addentry( 1, true, MENU_AUTOASSIGN, _("An item") );
         imenu.addentry( 2, true, MENU_AUTOASSIGN, _("Cancel") );
@@ -1271,13 +1274,13 @@ long inscribe_actor::use( player *p, item *it, bool t, const tripoint& ) const
     }
 
     if( choice == 0 ) {
-        return iuse::handle_ground_graffiti( p, it, _("Write what?") );
+        return iuse::handle_ground_graffiti( p, it, string_format( _("%s what?"), verb.c_str()) );
     }
 
     int pos = g->inv( _("Inscribe which item?") );
     item *cut = &( p->i_at(pos) );
     // inscribe_item returns false if the action fails or is canceled somehow.
-    if( item_inscription( cut, verb, gerund ) ) {
+    if( item_inscription( cut ) ) {
         return it->type->charges_to_use();
     }
 
