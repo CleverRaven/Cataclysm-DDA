@@ -1910,8 +1910,8 @@ int advanced_inventory::add_item( aim_location destarea, item &new_item, int cou
 
 bool advanced_inventory::move_content( item &src_container, item &dest_container )
 {
-    if( !src_container.is_watertight_container() ) {
-        popup( _( "Source must be watertight container." ) );
+    if( !src_container.is_container() ) {
+        popup( _( "Source must be container." ) );
         return false;
     }
     if( src_container.is_container_empty() ) {
