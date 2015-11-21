@@ -849,14 +849,24 @@ item_location game::inv_map_splice(
     u.inv.sort();
     inv_s.make_item_list(u.inv.slice_filter_by(inv_filter));
 
+    // items are stacked per tile considering vehicle and map tiles separately
     static const item_category ground_cat ("GROUND:",  _("GROUND:"),  -1000);
     static const item_category nearby_cat ("NEARBY:",  _("NEARBY:"),  -2000);
     static const item_category vehicle_cat("VEHICLE:", _("VEHICLE:"), -3000);
 
+    // in the below loops identical items on the same tile are grouped into lists
+    // each element of stacks represents one tile and is a vector of such lists
     std::vector<std::vector<std::list<item>>> stacks;
+
+    // an indexed_invslice is created for each map or vehicle tile
+    // each list of items created above for the tile will be added to it
     std::vector<indexed_invslice> slices;
+
+    // inv_s.first_item will later contain the chosen item as a pointer to first item
+    // of one of the above lists so use this as the key when storing the item location
     std::unordered_map<item *, item_location> opts;
 
+    // the closest 10 items also have their location added to the invlets vector
     const char min_invlet = '0';
     const char max_invlet = '9';
     char cur_invlet = min_invlet;
@@ -883,13 +893,15 @@ item_location game::inv_map_splice(
                     if (match != current_stack.end()) {
                         match->push_back(it);
                     } else {
+                        // item doesn't stack with any previous so start new list and append to current indexed_invslice
                         current_stack.emplace_back(1, it);
+                        slices.back().emplace_back(&current_stack.back(), INT_MIN);
+                        opts.emplace(&current_stack.back().front(), item_location::on_map(pos, &it));
+
                         if (cur_invlet <= max_invlet) {
                             current_stack.back().front().invlet = cur_invlet++;
                             invlets.emplace_back(item_location::on_map(pos, &it));
                         }
-                        opts.emplace(&current_stack.back().front(), item_location::on_map(pos, &it));
-                        slices.back().emplace_back(&current_stack.back(), INT_MIN);
                     }
                 }
             }
@@ -920,13 +932,15 @@ item_location game::inv_map_splice(
                         if (match != current_stack.end()) {
                             match->push_back(it);
                         } else {
+                            // item doesn't stack with any previous so start new list and append to current indexed_invslice
                             current_stack.emplace_back(1, it);
+                            slices.back().emplace_back(&current_stack.back(), INT_MIN);
+                            opts.emplace(&current_stack.back().front(), item_location::on_vehicle(*veh, veh->parts[part].mount, &it));
+
                             if (cur_invlet <= max_invlet) {
                                 current_stack.back().front().invlet = cur_invlet++;
                                 invlets.emplace_back(item_location::on_vehicle(*veh, veh->parts[part].mount, &it));
                             }
-                            opts.emplace(&current_stack.back().front(), item_location::on_vehicle(*veh, veh->parts[part].mount, &it));
-                            slices.back().emplace_back(&current_stack.back(), INT_MIN);
                         }
                     }
                 }
