@@ -698,8 +698,8 @@ std::string item::info(bool showtext, std::vector<iteminfo> &dump_ref) const
         const auto skill = &mod->gun_skill().obj();
 
         dump->push_back(iteminfo("GUN", _("Skill used: "), skill->name()));
-        dump->push_back(iteminfo("GUN", _("Ammunition: "), string_format(ngettext("<num> round of %s", "<num> rounds of %s", mod->clip_size()),
-                                 ammo_name(mod->ammo_type()).c_str()), mod->clip_size(), true));
+        dump->push_back(iteminfo("GUN", _("Ammunition: "), string_format(ngettext("<num> round of %s", "<num> rounds of %s", mod->ammo_capacity()),
+                                 ammo_name(mod->ammo_type()).c_str()), mod->ammo_capacity(), true));
 
         dump->push_back(iteminfo("GUN", _("Damage: "), "", mod->gun_damage( false ), true, "", false, false));
         if (has_ammo) {
@@ -1098,81 +1098,75 @@ std::string item::info(bool showtext, std::vector<iteminfo> &dump_ref) const
     if( is_tool() ) {
         const auto tool = dynamic_cast<const it_tool*>(type);
 
-        if ((tool->max_charges)!=0) {
-            int t_max;
+        if( ammo_capacity() != 0 ) {
             std::string temp_fmt;
             const std::string t_ammo_name = ammo_name(tool->ammo_id);
 
-            dump->push_back(iteminfo("TOOL", string_format(_("Charges: %d"), charges)));
+            dump->push_back(iteminfo("TOOL", string_format(_("Charges: %d"), ammo_remaining())));
 
             if (has_flag("DOUBLE_AMMO")) {
-                t_max = tool->max_charges * 2;
                 if (tool->ammo_id != "NULL") {
                     //~ "%s" is ammunition type. This types can't be plural.
                     temp_fmt = ngettext("Maximum <num> charge (doubled) of %s.",
                                         "Maximum <num> charges (doubled) of %s.",
-                                         t_max);
+                                         ammo_capacity());
                     temp_fmt = string_format(temp_fmt, t_ammo_name.c_str());
                 } else {
                     temp_fmt = ngettext("Maximum <num> charge (doubled).",
                                         "Maximum <num> charges (doubled).",
-                                         t_max);
+                                         ammo_capacity());
                 }
             } else if (has_flag("RECHARGE")) {
-                t_max = tool->max_charges;
                 if (tool->ammo_id != "NULL") {
                     //~ "%s" is ammunition type. This types can't be plural.
                     temp_fmt = ngettext("Maximum <num> charge (rechargeable) of %s",
                                         "Maximum <num> charges (rechargeable) of %s.",
-                                        t_max);
+                                        ammo_capacity());
                     temp_fmt = string_format(temp_fmt, t_ammo_name.c_str());
                 } else {
                     temp_fmt = ngettext("Maximum <num> charge (rechargeable).",
                                         "Maximum <num> charges (rechargeable).",
-                                        t_max);
+                                        ammo_capacity());
                 }
             } else if (has_flag("DOUBLE_AMMO") && has_flag("RECHARGE")) {
-                t_max = tool->max_charges * 2;
                 if (tool->ammo_id != "NULL") {
                     //~ "%s" is ammunition type. This types can't be plural.
                     temp_fmt = ngettext("Maximum <num> charge (rechargeable) (doubled) of %s.",
                                         "Maximum <num> charges (rechargeable) (doubled) of %s.",
-                                        t_max);
+                                        ammo_capacity());
                     temp_fmt = string_format(temp_fmt, t_ammo_name.c_str());
                 } else {
                     temp_fmt = ngettext("Maximum <num> charge (rechargeable) (doubled).",
                                         "Maximum <num> charges (rechargeable) (doubled).",
-                                        t_max);
+                                        ammo_capacity());
                 }
-                dump->push_back(iteminfo("TOOL", "", temp_fmt, t_max));
+                dump->push_back(iteminfo("TOOL", "", temp_fmt, ammo_capacity()));
             } else if (has_flag("ATOMIC_AMMO")) {
-                t_max = tool->max_charges * 100;
                 if (tool->ammo_id != "NULL") {
                     //~ "%s" is ammunition type. This types can't be plural.
                     temp_fmt = ngettext("Maximum <num> charge of %s.",
                                         "Maximum <num> charges of %s.",
-                                        t_max);
+                                        ammo_capacity());
                     temp_fmt = string_format(temp_fmt, ammo_name("plutonium").c_str());
                 } else {
                     temp_fmt = ngettext("Maximum <num> charge.",
                                         "Maximum <num> charges.",
-                                        t_max);
+                                        ammo_capacity());
                 }
             } else {
-                t_max = tool->max_charges;
                 if (tool->ammo_id != "NULL") {
                     //~ "%s" is ammunition type. This types can't be plural.
                     temp_fmt = ngettext("Maximum <num> charge of %s.",
                                         "Maximum <num> charges of %s.",
-                                        t_max);
+                                        ammo_capacity());
                     temp_fmt = string_format(temp_fmt, t_ammo_name.c_str());
                 } else {
                     temp_fmt = ngettext("Maximum <num> charge.",
                                         "Maximum <num> charges.",
-                                        t_max);
+                                        ammo_capacity());
                 }
             }
-            dump->push_back(iteminfo("TOOL", "", temp_fmt, t_max));
+            dump->push_back(iteminfo("TOOL", "", temp_fmt, ammo_capacity()));
         }
     }
 
@@ -2114,14 +2108,16 @@ std::string item::display_name(unsigned int quantity) const
             break;
     }
 
-    if( !is_gun() && contents.size() == 1 && contents[0].charges > 0 ) {
+    if( is_container() && contents.size() == 1 && contents[0].charges > 0 ) {
         // a container which is not empty
         qty = string_format(" (%i)", contents[0].charges);
     } else if( is_book() && get_chapters() > 0 ) {
         // a book which has remaining unread chapters
         qty = string_format(" (%i)", get_remaining_chapters(g->u));
-    } else if (charges >= 0 && !has_flag("NO_AMMO")) {
-        // everything else including tools and guns
+    } else if( ammo_capacity() > 0 ) {
+        // anything that can be reloaded including tools, guns and auxiliary gunmods
+        qty = string_format(" (%i)", ammo_remaining());
+    } else if( is_ammo() || is_food() ) {
         qty = string_format(" (%i)", charges);
     }
 
