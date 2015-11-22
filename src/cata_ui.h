@@ -19,10 +19,13 @@ struct ui_rect {
     ui_rect( size_t size_x, size_t size_y, unsigned int x, unsigned int y );
 };
 
+class ui_window;
+
 class ui_element {
     protected:
         bool show = true;
         ui_rect rect;
+        const ui_window *parent;
     public:
         ui_element(size_t size_x, size_t size_y, unsigned int x = 0, unsigned int y = 0);
         virtual ~ui_element() = default;
@@ -32,29 +35,38 @@ class ui_element {
 
         const ui_rect &get_rect() const;
 
+        // needed for ui_window;
+        virtual void set_parent(const ui_window *parent);
+
         virtual void set_visible(bool visible);
         virtual bool is_visible() const;
 };
 
 // composite pattern
-class ui_window : public ui_element{
+// this is a little complex, to adapt to the existing WINDOW, but I think it's worth it
+// we cant make ui_window extend ui_element, because we can't add a ui_window using add_child(ui_element);
+// the problem is that we can't set a window's start_x and start_y after we created it.
+class ui_window : public ui_element {
     protected:
+        int global_x;
+        int global_y;
+
         WINDOW *win;
 
         std::list<ui_element *> children;
-        std::list<ui_window *> window_children;
     public:
-        ui_window(size_t size_x, size_t size_y, unsigned int x = 0, unsigned int y = 0, ui_window *parent = nullptr);
-        virtual ui_element *clone() const;
+        ui_window(size_t size_x, size_t size_y, unsigned int x = 0, unsigned int y = 0);
+        ui_window(const ui_window &);
+        virtual ui_element *clone() const override;
         ~ui_window();
 
-        void draw();
-        virtual void draw( WINDOW* );
+        void draw( WINDOW* );
+        virtual void draw();
+
+        void set_parent( const ui_window *parent ) override;
 
         template<typename T = ui_element>
         T *add_child( const T &child );
-
-        ui_window *add_child( const ui_window &child );
 };
 
 class ui_label : public ui_element {
@@ -74,10 +86,10 @@ class ui_label : public ui_element {
 
 class bordered_window : public ui_window {
     public:
-        bordered_window(size_t size_x, size_t size_y, unsigned int x = 0, unsigned int y = 0, ui_window *parent = nullptr);
+        bordered_window(size_t size_x, size_t size_y, unsigned int x = 0, unsigned int y = 0);
         virtual ui_element *clone() const override;
 
-        void draw(WINDOW *) override;
+        void draw() override;
 
         nc_color border_color = BORDER_COLOR;
 };
@@ -160,10 +172,10 @@ class tabbed_window : public bordered_window {
 
         int draw_tab(const std::string &, bool, int, WINDOW *) const;
     public:
-        tabbed_window(size_t size_x, size_t size_y, unsigned int x = 0, unsigned int y = 0, ui_window *parent = nullptr);
+        tabbed_window(size_t size_x, size_t size_y, unsigned int x = 0, unsigned int y = 0);
         virtual ui_element *clone() const override;
 
-        virtual void draw( WINDOW *win ) override;
+        void draw() override;
 
         void add_tab(std::string tab);
 
