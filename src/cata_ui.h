@@ -49,8 +49,7 @@ class ui_window : public ui_element {
     private:
         void set_parent( const ui_window *parent ) override;
 
-        int global_x;
-        int global_y;
+        int global_x, global_y;
 
         std::list<ui_element *> children;
     protected:
@@ -58,13 +57,13 @@ class ui_window : public ui_element {
 
         virtual ui_element *clone() const override;
         virtual WINDOW *get_win() const override;
-        virtual void draw_internal();
+        virtual void draw() override;
     public:
         ui_window(size_t size_x, size_t size_y, unsigned int x = 0, unsigned int y = 0);
         ui_window(const ui_window &);
         ~ui_window() override;
 
-        void draw() override;
+        void render();
 
         template<typename T = ui_element>
         T *add_child( const T &child );
@@ -88,7 +87,7 @@ class ui_label : public ui_element {
 class bordered_window : public ui_window {
     protected:
         virtual ui_element *clone() const override;
-        virtual void draw_internal() override;
+        virtual void draw() override;
     public:
         bordered_window(size_t size_x, size_t size_y, unsigned int x = 0, unsigned int y = 0);
 
@@ -138,19 +137,19 @@ class smiley_indicator : public ui_element {
         void set_state( smiley_state new_state );
 };
 
-class char_tile {
+class ui_tile {
     public:
         long sym;
         nc_color color;
 
-        char_tile(long tile_char, nc_color tile_color);
+        ui_tile(long tile_char, nc_color tile_color);
 
-        void draw( WINDOW *, int, int ) const;
+        virtual void draw( WINDOW *, int, int ) const;
 };
 
 class tile_panel : public ui_element {
     private:
-        std::function<const char_tile(int, int, int)> tile_at;
+        std::function<const ui_tile(int, int, int)> tile_at;
         tripoint center;
 
         unsigned int x_radius;
@@ -159,7 +158,7 @@ class tile_panel : public ui_element {
         virtual ui_element *clone() const override;
         virtual void draw() override;
     public:
-        tile_panel(tripoint center, std::function<const char_tile(int, int, int)> tile_at,
+        tile_panel(tripoint center, std::function<const ui_tile(int, int, int)> tile_at,
                    size_t size_x, size_t size_y, unsigned int x = 0, unsigned int y = 0);
 
         void set_center(tripoint new_center);
@@ -174,7 +173,7 @@ class tabbed_window : public bordered_window {
         int draw_tab(const std::string &, bool, int, WINDOW *) const;
     protected:
         virtual ui_element *clone() const override;
-        virtual void draw_internal() override;
+        virtual void draw() override;
     public:
         tabbed_window(size_t size_x, size_t size_y, unsigned int x = 0, unsigned int y = 0);
 

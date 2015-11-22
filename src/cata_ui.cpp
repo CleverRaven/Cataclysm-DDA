@@ -36,18 +36,14 @@ ui_window::~ui_window()
     delwin( win );
 }
 
-void ui_window::draw()
+void ui_window::render()
 {
-    if( !(parent && parent->win == win) ) { // not really needed...
-        return;
-    }
-
-    werase( this->win );
-    draw_internal();
-    wrefresh( this->win );
+    werase( win );
+    draw();
+    wrefresh( win );
 }
 
-void ui_window::draw_internal()
+void ui_window::draw()
 {
     for( auto &child : children ) {
         if( child->is_visible() ) {
@@ -146,14 +142,14 @@ ui_element *bordered_window::clone() const
     return new bordered_window(*this);
 }
 
-void bordered_window::draw_internal()
+void bordered_window::draw()
 {
     wattron(win, border_color);
     wborder(win, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
             LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
     wattroff(win, border_color);
 
-    ui_window::draw_internal();
+    ui_window::draw();
 }
 
 health_bar::health_bar(size_t size_x, unsigned int x, unsigned int y) : ui_element(size_x, 1, x, y),
@@ -273,7 +269,7 @@ void smiley_indicator::set_state( smiley_state new_state )
     }
 }
 
-tile_panel::tile_panel(tripoint center, std::function<const char_tile(int, int, int)> tile_at,
+tile_panel::tile_panel(tripoint center, std::function<const ui_tile(int, int, int)> tile_at,
                        size_t size_x, size_t size_y, unsigned int x, unsigned int y)
                        : ui_element(size_x, size_y, x, y), tile_at(tile_at), center(center)
 {
@@ -324,12 +320,12 @@ const tripoint &tile_panel::get_center() const
     return center;
 }
 
-void char_tile::draw( WINDOW *win, int x, int y ) const
+void ui_tile::draw( WINDOW *win, int x, int y ) const
 {
     mvwputch(win, x, y, color, sym);
 }
 
-char_tile::char_tile(long sym, nc_color color) : sym(sym), color(color)
+ui_tile::ui_tile(long sym, nc_color color) : sym(sym), color(color)
 {
 }
 
@@ -379,9 +375,9 @@ int tabbed_window::draw_tab(const std::string &tab, bool selected, int x_offset,
     return width;
 }
 
-void tabbed_window::draw_internal()
+void tabbed_window::draw()
 {
-    bordered_window::draw_internal();
+    bordered_window::draw();
     int x_offset = 1;
     for(unsigned int i = 0; i < tabs.size(); i++) {
         x_offset += draw_tab(tabs[i], tab_index == i, x_offset, win) + 1;
