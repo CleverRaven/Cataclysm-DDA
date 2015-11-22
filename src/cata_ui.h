@@ -170,7 +170,7 @@ class tabbed_window : public bordered_window {
         std::vector<std::string> tabs;
         unsigned int tab_index;
 
-        int draw_tab(const std::string &, bool, int, WINDOW *) const;
+        int draw_tab(const std::string &, bool, int) const;
     protected:
         virtual ui_element *clone() const override;
         virtual void draw() override;

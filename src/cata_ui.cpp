@@ -338,7 +338,7 @@ ui_element *tabbed_window::clone() const
     return new tabbed_window(*this);
 }
 
-int tabbed_window::draw_tab(const std::string &tab, bool selected, int x_offset, WINDOW *win) const
+int tabbed_window::draw_tab(const std::string &tab, bool selected, int x_offset) const
 {
     int gy = rect.y;
     int gx = rect.x + x_offset;
@@ -380,7 +380,7 @@ void tabbed_window::draw()
     bordered_window::draw();
     int x_offset = 1;
     for(unsigned int i = 0; i < tabs.size(); i++) {
-        x_offset += draw_tab(tabs[i], tab_index == i, x_offset, win) + 1;
+        x_offset += draw_tab(tabs[i], tab_index == i, x_offset) + 1;
     }
 }
 
