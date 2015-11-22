@@ -3758,7 +3758,7 @@ long item::ammo_capacity() const
             res *= 2;
         }
         if( has_flag("ATOMIC_AMMO") ) {
-            res *= 1000;
+            res *= 100;
         }
     }
 
