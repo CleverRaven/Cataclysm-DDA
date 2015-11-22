@@ -2938,6 +2938,8 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
                 wrefresh(w_stats);
                 wrefresh(w_info);
 
+                try_sdl_update();
+
                 action = ctxt.handle_input();
                 if (action == "DOWN") {
                     line++;
@@ -3031,6 +3033,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
             fold_and_print( w_info, 0, 1, FULL_SCREEN_WIDTH - 2, c_magenta, s );
             wrefresh(w_info);
 
+            try_sdl_update();
 
             action = ctxt.handle_input();
             if (action == "DOWN") {
@@ -3090,6 +3093,8 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
             wrefresh(w_traits);
             wrefresh(w_info);
 
+            try_sdl_update();
+
             action = ctxt.handle_input();
             if (action == "DOWN") {
                 if (line < traitslist.size() - 1)
@@ -3145,6 +3150,8 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
             }
             wrefresh(w_effects);
             wrefresh(w_info);
+
+            try_sdl_update();
 
             action = ctxt.handle_input();
             if (action == "DOWN") {
@@ -3232,6 +3239,8 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
                 fold_and_print(w_info, 0, 1, FULL_SCREEN_WIDTH-2, c_magenta, selectedSkill->description());
             }
             wrefresh(w_info);
+
+            try_sdl_update();
 
             action = ctxt.handle_input();
             if (action == "DOWN") {
@@ -4700,6 +4709,8 @@ void player::on_hurt( Creature *source, bool disturb /*= true*/ )
             } else {
                 g->cancel_activity_query(_("You were hurt!"));
             }
+            g->draw();
+            try_sdl_update();
         }
     }
 
@@ -4924,6 +4935,8 @@ void player::mod_pain(int npain) {
         // effects from constantly asking you to stop crafting.
         if (!is_npc() && felt_pain >= 2) {
             g->cancel_activity_query(_("Ouch, something hurts!"));
+            g->draw();
+            try_sdl_update();
         }
         // Only a large pain burst will actually wake people while sleeping.
         if(in_sleep_state()) {
@@ -5685,6 +5698,8 @@ void player::update_needs( int rate_multiplier )
                 press_x(ACTION_SLEEP).c_str());
         } else {
             g->cancel_activity_query(_("You're feeling tired."));
+            g->draw();
+            try_sdl_update();
         }
     }
 
@@ -7139,6 +7154,8 @@ void player::hardcoded_effects(effect &it)
                 if (g->u.sees( dest )) {
                     g->cancel_activity_query(_("A monster appears nearby!"));
                     add_msg_if_player(m_warning, _("A portal opens nearby, and a monster crawls through!"));
+                    g->draw();
+                    try_sdl_update();
                 }
                 it.mult_duration(.25);
             }
@@ -7222,6 +7239,8 @@ void player::hardcoded_effects(effect &it)
                     if (g->u.sees(x, y)) {
                         g->cancel_activity_query(_("A monster appears nearby!"));
                         add_msg(m_warning, _("A portal opens nearby, and a monster crawls through!"));
+                        g->draw();
+                        try_sdl_update();
                     }
                     if (one_in(2)) {
                         // Set ourselves up for removal
@@ -7877,6 +7896,8 @@ void player::suffer()
                     } else {
                         g->cancel_activity();
                     }
+                    g->draw();
+                    try_sdl_update();
                 });
             }
             addictions[i].sated--;
@@ -8085,6 +8106,8 @@ void player::suffer()
             add_effect("asthma", 50 * rng(1, 4));
             if (!is_npc()) {
                 g->cancel_activity_query(_("You have an asthma attack!"));
+                g->draw();
+                try_sdl_update();
             }
         }
     }

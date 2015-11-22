@@ -500,6 +500,8 @@ void iexamine::vending(player * const p, map * const m, const tripoint &examp)
         mvwprintw(w_item_info, 0, 1, "<%s>", name.c_str());
         wrefresh(w_item_info);
 
+        try_sdl_update();
+
         const std::string &action = ctxt.handle_input();
         if (action == "DOWN") {
             cur_pos = (cur_pos + 1) % num_items;

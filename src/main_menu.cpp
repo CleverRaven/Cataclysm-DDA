@@ -314,6 +314,8 @@ bool game::opening_screen()
                 refresh();
             }
 
+            try_sdl_update();
+
             std::string action = ctxt.handle_input();
             std::string sInput = ctxt.get_raw_input().text;
             // check automatic menu shortcuts
@@ -371,6 +373,8 @@ bool game::opening_screen()
                 print_menu_items(w_open, vSubItems, sel2, iMenuOffsetY - 2, iMenuOffsetX);
                 wrefresh(w_open);
                 refresh();
+
+                try_sdl_update();
 
                 std::string action = ctxt.handle_input();
                 std::string sInput = ctxt.get_raw_input().text;
@@ -465,6 +469,9 @@ bool game::opening_screen()
                 }
                 wrefresh(w_open);
                 refresh();
+
+                try_sdl_update();
+
                 const std::string action = ctxt.handle_input();
                 if (world_generator->all_worldnames.empty() && (action == "DOWN" || action == "CONFIRM")) {
                     layer = 1;
@@ -519,6 +526,9 @@ bool game::opening_screen()
                 print_menu_items(w_open, world_subs, sel2, yoffset, xoffset - (xlen / 4));
                 wrefresh(w_open);
                 refresh();
+
+                try_sdl_update();
+
                 std::string action = ctxt.handle_input();
                 std::string sInput = ctxt.get_raw_input().text;
                 for (int i = 0; i < world_subs_to_display; ++i) {
@@ -580,6 +590,9 @@ bool game::opening_screen()
 
                 wrefresh(w_open);
                 refresh();
+
+                try_sdl_update();
+
                 std::string action = ctxt.handle_input();
                 if (action == "LEFT") {
                     if (sel2 > 0) {
@@ -657,6 +670,9 @@ bool game::opening_screen()
                 }
                 wrefresh(w_open);
                 refresh();
+
+                try_sdl_update();
+
                 std::string action = ctxt.handle_input();
                 if (savegames.empty() && (action == "DOWN" || action == "CONFIRM")) {
                     layer = 2;
@@ -709,6 +725,9 @@ bool game::opening_screen()
                 }
                 wrefresh(w_open);
                 refresh();
+
+                try_sdl_update();
+
                 std::string action = ctxt.handle_input();
 
                 if (action == "DOWN") {
@@ -785,6 +804,9 @@ bool game::opening_screen()
                 }
                 wrefresh(w_open);
                 refresh();
+
+                try_sdl_update();
+
                 std::string action = ctxt.handle_input();
                 if (action == "DOWN") {
                     if (sel3 > 0) {

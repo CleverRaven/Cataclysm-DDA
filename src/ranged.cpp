@@ -1124,6 +1124,8 @@ std::vector<tripoint> game::target( tripoint &p, const tripoint &low, const trip
             // skip retrieving input and go straight to the action.
             action = u.activity.str_values[0];
         } else {
+            try_sdl_update();
+
             action = ctxt.handle_input();
         }
         // Clear the activity if any, we'll re-set it later if we need to.

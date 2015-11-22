@@ -1320,6 +1320,7 @@ bool game::do_turn()
                 sounds::process_sound_markers( &u );
                 if (u.activity.type == ACT_NULL) {
                     draw();
+                    try_sdl_update();
                 }
 
                 if (handle_action()) {
@@ -1399,6 +1400,7 @@ bool game::do_turn()
     if( u.has_effect("sleep") && calendar::once_every(MINUTES(30)) ) {
         draw();
         refresh();
+        try_sdl_update();
     }
 
     u.update_bodytemp();
@@ -1490,6 +1492,7 @@ void game::process_activity()
 
     if( calendar::once_every(MINUTES(5)) ) {
         draw();
+        try_sdl_update();
     }
 
     while( u.moves > 0 && u.activity.type != ACT_NULL ) {
@@ -1587,6 +1590,8 @@ void game::update_weather()
             get_levz() >= 0 && m.is_outside(u.pos())
             && !u.has_activity(ACT_WAIT_WEATHER)) {
             cancel_activity_query(_("The weather changed to %s!"), weather_data(weather).name.c_str());
+            draw();
+            try_sdl_update();
         }
 
         if (weather != old_weather && u.has_activity(ACT_WAIT_WEATHER)) {
@@ -1638,16 +1643,23 @@ void game::handle_key_blocking_activity()
                     hostile_critter->disp_name().c_str()) ) {
                 return;
             }
+            draw();
+            try_sdl_update();
         }
     }
 
     if (u.activity.moves_left > 0 && u.activity.is_abortable()) {
         input_context ctxt = get_default_mode_input_context();
         timeout(1);
+
+        try_sdl_update();
+
         const std::string action = ctxt.handle_input();
         timeout(-1);
         if (action == "pause") {
             cancel_activity_query(_("Confirm:"));
+            draw();
+            try_sdl_update();
         } else if (action == "player_data") {
             u.disp_info();
             refresh_all();
@@ -1853,6 +1865,8 @@ bool game::handle_mouseview(input_context &ctxt, std::string &action)
             }
         }
     } while (action == "MOUSE_MOVE"); // Freeze animation when moving the mouse
+
+    try_sdl_update();
 
     if (action != "TIMEOUT" && ctxt.get_raw_input().get_first_input() != ERR) {
         // Keyboard event, break out of animation loop
@@ -3404,6 +3418,7 @@ void game::load(std::string worldname, std::string name)
 
     u.reset();
     draw();
+    try_sdl_update();
 }
 
 void game::load_world_modfiles(WORLDPTR world)
@@ -4742,6 +4757,9 @@ faction *game::list_factions(std::string title)
             wrefresh(w_info);
             redraw = false;
         }
+
+        try_sdl_update();
+
         const std::string action = ctxt.handle_input();
         if (action == "DOWN") {
             mvwprintz(w_list, sel + 2, 1, c_white, "%s", cur_frac->name.c_str());
@@ -4870,6 +4888,9 @@ void game::list_missions()
         }
 
         wrefresh(w_missions);
+
+        try_sdl_update();
+
         const std::string action = ctxt.handle_input();
         if (action == "RIGHT") {
             tab++;
@@ -5211,6 +5232,7 @@ void game::refresh_all()
 
     draw();
     refresh();
+    try_sdl_update();
 }
 
 void game::draw_HP()
@@ -5777,11 +5799,16 @@ int game::mon_info(WINDOW *w)
         }
     }
 
+    //check for cancellation message and draw back over the popup when cancelled
+    //bool needed to avoid infinite loop
+    bool cancel_queried = false;
+
     if (newseen > mostseen) {
         if (newseen - mostseen == 1) {
             if (!new_seen_mon.empty()) {
                 monster &critter = critter_tracker->find(new_seen_mon.back());
                 cancel_activity_query(_("%s spotted!"), critter.name().c_str());
+                cancel_queried = true;
                 if (u.has_trait("M_DEFENDER") && critter.type->in_species( PLANT )) {
                     add_msg(m_warning, _("We have detected a %s."), critter.name().c_str());
                     if (!u.has_effect("adrenaline_mycus")){
@@ -5796,10 +5823,13 @@ int game::mon_info(WINDOW *w)
             } else {
                 //Hostile NPC
                 cancel_activity_query(_("Hostile survivor spotted!"));
+                cancel_queried = true;
             }
         } else {
             cancel_activity_query(_("Monsters spotted!"));
+            cancel_queried = true;
         }
+
         turnssincelastmon = 0;
         if (safe_mode == SAFE_MODE_ON) {
             safe_mode = SAFE_MODE_STOP; // Stop movement!
@@ -5816,6 +5846,11 @@ int game::mon_info(WINDOW *w)
     }
 
     mostseen = newseen;
+
+    if (cancel_queried){
+        draw();
+        try_sdl_update();
+    }
 
     // Print the direction headings
     // Reminder:
@@ -6064,6 +6099,8 @@ void game::monmove()
                 u.charge_power(-25);
                 add_msg(m_warning, _("Your motion alarm goes off!"));
                 cancel_activity_query(_("Your motion alarm goes off!"));
+                draw();
+                try_sdl_update();
                 if (u.in_sleep_state()) {
                     u.wake_up();
                 }
@@ -10005,6 +10042,8 @@ int game::list_items(const int iLastState)
 
             refresh();
 
+            try_sdl_update();
+
             action = ctxt.handle_input();
         } else {
             iReturn = 0;
@@ -10228,6 +10267,8 @@ int game::list_monsters(const int iLastState)
             wrefresh(w_monster_info);
 
             refresh();
+
+            try_sdl_update();
 
             action = ctxt.handle_input();
     } while (action != "QUIT");
@@ -11736,6 +11777,7 @@ void game::read()
         return;
     }
     draw();
+    try_sdl_update();
     u.read(pos);
 }
 
@@ -13129,6 +13171,7 @@ void game::fling_creature(Creature *c, const int &dir, float flvel, bool control
         steps++;
         if( animate && (seen || u.sees( *c )) ) {
             draw();
+            try_sdl_update();
         }
     }
 

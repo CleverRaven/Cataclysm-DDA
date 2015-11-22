@@ -1459,6 +1459,8 @@ void options_manager::show(bool ingame)
 
         wrefresh(w_options);
 
+        try_sdl_update();
+
         const std::string action = ctxt.handle_input();
 
         if (action == "DOWN") {

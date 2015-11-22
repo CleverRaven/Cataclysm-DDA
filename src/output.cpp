@@ -855,6 +855,9 @@ std::string string_input_win(WINDOW *w, std::string input, int max_length, int s
             wrefresh(w);
         }
         bool return_key = false;
+
+        try_sdl_update();
+
         const std::string action = ctxt.handle_input();
         const input_event ev = ctxt.get_raw_input();
         ch = ev.type == CATA_INPUT_KEYBOARD ? ev.get_first_input() : 0;
@@ -1066,6 +1069,9 @@ long popup(const std::string &text, PopupFlags flags)
     wrefresh(w);
     delwin(w);
     refresh();
+
+    try_sdl_update();
+
     return ch;
 }
 

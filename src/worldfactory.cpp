@@ -516,6 +516,8 @@ WORLDPTR worldfactory::pick_world( bool show_prompt )
 
         wrefresh(w_worlds);
 
+        try_sdl_update();
+
         const std::string action = ctxt.handle_input();
 
         if (action == "QUIT") {
@@ -705,6 +707,8 @@ int worldfactory::show_worldgen_tab_options(WINDOW *win, WORLDPTR world)
         wrefresh(w_options_tooltip);
         wrefresh(w_options);
         refresh();
+
+        try_sdl_update();
 
         const std::string action = ctxt.handle_input();
         if (action == "DOWN") {
@@ -1030,6 +1034,8 @@ int worldfactory::show_worldgen_tab_modselection(WINDOW *win, WORLDPTR world)
             prev_selection = (prev_selection < 0) ? active_mod_order.size() - 1 : prev_selection;
         }
 
+        try_sdl_update();
+
         const std::string action = ctxt.handle_input();
 
         if( action == "DOWN" ) {
@@ -1221,6 +1227,8 @@ to continue, or <color_yellow>%s</color> to go back and review your world."), ct
         wrefresh(win);
         wrefresh(w_confirmation);
         refresh();
+
+        try_sdl_update();
 
         const std::string action = ctxt.handle_input();
         if (action == "NEXT_TAB") {

@@ -446,6 +446,8 @@ void construction_menu()
         draw_scrollbar(w_con, select, iMaxY - 4, constructs.size(), 3);
         wrefresh(w_con);
 
+        try_sdl_update();
+
         const std::string action = ctxt.handle_input();
         const long raw_input_char = ctxt.get_raw_input().get_first_input();
 
@@ -674,16 +676,16 @@ void complete_construction()
     player &u = g->u;
     const construction &built = constructions[u.activity.index];
 
-    u.practice( built.skill, (int)( (10 + 15*built.difficulty) * (1 + built.time/30000.0) ), 
+    u.practice( built.skill, (int)( (10 + 15*built.difficulty) * (1 + built.time/30000.0) ),
                     (int)(built.difficulty * 1.25) );
-                   
+
 
     // Friendly NPCs gain exp from assisting or watching...
     for( auto &elem : g->active_npc ) {
         if (rl_dist( elem->pos(), u.pos() ) < PICKUP_RANGE && elem->is_friend()){
             //If the NPC can understand what you are doing, they gain more exp
             if (elem->skillLevel(built.skill) >= built.difficulty){
-                elem->practice( built.skill, (int)( (10 + 15*built.difficulty) * (1 + built.time/30000.0) ), 
+                elem->practice( built.skill, (int)( (10 + 15*built.difficulty) * (1 + built.time/30000.0) ),
                                     (int)(built.difficulty * 1.25) );
                 add_msg(m_info, _("%s assists you with the work..."), elem->name.c_str());
             //NPC near you isn't skilled enough to help
@@ -1582,8 +1584,8 @@ float construction::time_scale() const
 int construction::adjusted_time() const
 {
     int basic = time;
-    int assistants = 0;                
-    
+    int assistants = 0;
+
     for( auto &elem : g->active_npc ) {
         if (rl_dist( elem->pos(), g->u.pos() ) < PICKUP_RANGE && elem->is_friend()){
             if (elem->skillLevel(skill) >= difficulty)
@@ -1594,9 +1596,9 @@ int construction::adjusted_time() const
         basic = basic * .75;
     if (basic <= time * .4)
         basic = time * .4;
-        
+
     basic *= time_scale();
-    
+
     return basic;
 }
 

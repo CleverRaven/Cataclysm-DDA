@@ -197,6 +197,8 @@ void auto_pickup::show()
 
         wrefresh(w);
 
+        try_sdl_update();
+
         const std::string action = ctxt.handle_input();
 
         if (action == "NEXT_TAB") {
@@ -422,6 +424,8 @@ void auto_pickup::test_pattern(const int iCurrentPage, const int iCurrentLine)
         }
 
         wrefresh(w_test_rule_content);
+
+        try_sdl_update();
 
         const std::string action = ctxt.handle_input();
         if (action == "DOWN") {

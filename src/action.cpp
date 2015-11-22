@@ -820,6 +820,8 @@ bool choose_direction( const std::string &message, tripoint &offset, bool allow_
     const std::string query_text = message + _( " (Direction button)" );
     popup( query_text, PF_NO_WAIT_ON_TOP );
 
+    try_sdl_update();
+
     const std::string action = ctxt.handle_input();
     if( input_context::get_direction( offset.x, offset.y, action ) ) {
         offset.z = 0;

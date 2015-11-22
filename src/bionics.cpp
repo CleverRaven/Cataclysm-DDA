@@ -434,6 +434,8 @@ void player::power_bionics()
             wrefresh(w_description);
         }
 
+        try_sdl_update();
+
         const std::string action = ctxt.handle_input();
         const long ch = ctxt.get_raw_input().get_first_input();
         bionic *tmp = NULL;

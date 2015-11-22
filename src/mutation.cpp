@@ -668,6 +668,9 @@ void player::power_mutations()
         }
         wrefresh(wBio);
         show_mutations_titlebar(w_title, this, menu_mode);
+
+        try_sdl_update();
+
         const std::string action = ctxt.handle_input();
         const long ch = ctxt.get_raw_input().get_first_input();
         if (menu_mode == "reassigning") {

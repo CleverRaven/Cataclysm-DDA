@@ -778,6 +778,9 @@ int game::display_slice(indexed_invslice const &slice, const std::string &title,
 
     while(true) {
         inv_s.display(show_worn);
+
+        try_sdl_update();
+
         const std::string action = inv_s.ctxt.handle_input();
         const long ch = inv_s.ctxt.get_raw_input().get_first_input();
         const int item_pos = g->u.invlet_to_position( ch );
@@ -957,6 +960,9 @@ item_location game::inv_map_splice(
 
     while( true ) {
         inv_s.display();
+
+        try_sdl_update();
+
         const std::string action = inv_s.ctxt.handle_input();
         const long ch = inv_s.ctxt.get_raw_input().get_first_input();
         const int item_pos = g->u.invlet_to_position( ch );
@@ -1062,6 +1068,9 @@ std::list<std::pair<int, int>> game::multidrop()
     int count = 0;
     while(true) {
         inv_s.display();
+
+        try_sdl_update();
+
         const std::string action = inv_s.ctxt.handle_input();
         const long ch = inv_s.ctxt.get_raw_input().get_first_input();
         const int item_pos = g->u.invlet_to_position( ch );
@@ -1153,6 +1162,9 @@ void game::compare( const tripoint &offset )
     inventory_selector::drop_map prev_droppings;
     while(true) {
         inv_s.display();
+
+        try_sdl_update();
+
         const std::string action = inv_s.ctxt.handle_input();
         const long ch = inv_s.ctxt.get_raw_input().get_first_input();
         const int item_pos = g->u.invlet_to_position( ch );

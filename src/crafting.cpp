@@ -790,6 +790,8 @@ const recipe *select_crafting_recipe( int &batch_size )
         draw_scrollbar(w_data, line, dataLines, recmax, 0);
         wrefresh(w_data);
 
+        try_sdl_update();
+
         const std::string action = ctxt.handle_input();
         if (action == "CYCLE_MODE") {
             display_mode = display_mode + 1;

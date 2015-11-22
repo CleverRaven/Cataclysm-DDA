@@ -385,7 +385,11 @@ tripoint editmap::edit()
         uphelp( pgettext( "map editor", "[t]rap, [f]ield, [HJKL] move++, [v] showall" ),
                 pgettext( "map editor", "[g] terrain/furn, [o] mapgen, [i]tems, [q]uit" ),
                 pgettext( "map editor state", "Looking around" ) );
+
         timeout( BLINK_SPEED );
+
+        try_sdl_update();
+
         action = ctxt.handle_input();
         timeout( -1 );
 
@@ -934,6 +938,8 @@ int editmap::edit_ter()
 
         wrefresh( w_pickter );
 
+        try_sdl_update();
+
         action = ctxt.handle_input();
         lastsel_ter = sel_ter;
         lastsel_frn = sel_frn;
@@ -1258,6 +1264,8 @@ int editmap::edit_trp()
         }
         wrefresh( w_picktrap );
 
+        try_sdl_update();
+
         action = ctxt.handle_input();
         if( action == "UP" ) {
             increment( trsel, -1, num_trap_types );
@@ -1572,6 +1580,9 @@ int editmap::select_shape( shapetype shape, int mode )
             _( "[enter] accept, [q] abort, [v] showall" ),
             ( moveall == true ? _( "Moving selection" ) : _( "Resizing selection" ) ) );
         timeout( BLINK_SPEED );
+
+        try_sdl_update();
+
         action = ctxt.handle_input();
         timeout( -1 );
         if( action == "RESIZE" ) {
@@ -1882,6 +1893,9 @@ int editmap::mapgen_retarget()
 
     do {
         timeout( BLINK_SPEED );
+
+        try_sdl_update();
+
         action = ctxt.handle_input();
         timeout( -1 );
         blink = !blink;

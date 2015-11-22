@@ -378,6 +378,8 @@ void player::sort_armor()
             "EQUIP_ARMOR", "REMOVE_ARMOR", "ASSIGN_INVLETS"
         }};
 
+        try_sdl_update();
+
         const std::string action = ctxt.handle_input();
         if( !is_player() && not_allowed_npc.count( action ) > 0 ) {
             popup( _("Can't use that action on an NPC") );
