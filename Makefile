@@ -376,10 +376,16 @@ ifdef TILES
   ifeq ($(TARGETSYSTEM),WINDOWS)
     ifndef DYNAMIC_LINKING
       # These differ depending on what SDL2 is configured to use.
-      ifdef MSYS2
-        LDFLAGS += -lfreetype -lpng -lz -ltiff -lbz2 -lharfbuzz -lglib-2.0 -llzma -lws2_32 -lintl -liconv -lwebp -ljpeg -luuid
+      ifneq (,$(findstring mingw32,$(CROSS)))
+        # We use pkg-config to find out which libs are needed with MXE
+        LDFLAGS += $(shell $(PKG_CONFIG) SDL2_image --libs)
+        LDFLAGS += $(shell $(PKG_CONFIG) SDL2_ttf --libs)
       else
-        LDFLAGS += -lfreetype -lpng -lz -ljpeg -lbz2
+        ifdef MSYS2
+          LDFLAGS += -lfreetype -lpng -lz -ltiff -lbz2 -lharfbuzz -lglib-2.0 -llzma -lws2_32 -lintl -liconv -lwebp -ljpeg -luuid
+        else
+          LDFLAGS += -lfreetype -lpng -lz -ljpeg -lbz2
+        endif
       endif
     else
       # Currently none needed by the game itself (only used by SDL2 layer).
