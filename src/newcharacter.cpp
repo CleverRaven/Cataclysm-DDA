@@ -383,11 +383,11 @@ int player::create(character_type type, std::string tempname)
 
     //Learn recipes
     for( auto &cur_recipe : recipe_dict ) {
-        if ( !cur_recipe->autolearn && g->u.has_recipe_requirements(cur_recipe) &&
+        if ( !cur_recipe->autolearn && has_recipe_requirements(cur_recipe) &&
             cur_recipe->ident.find("uncraft") == std::string::npos &&
-            !(g->u.learned_recipes.find(cur_recipe->ident) != g->u.learned_recipes.end()) ) {
+            !(learned_recipes.find(cur_recipe->ident) != learned_recipes.end()) ) {
 
-            g->u.learn_recipe( (recipe *)cur_recipe );
+            learn_recipe( (recipe *)cur_recipe );
         }
     }
 
@@ -1368,46 +1368,53 @@ int set_skills(WINDOW *w, player *u, int &points)
                   ngettext("Upgrading %s costs %d point", "Upgrading %s costs %d points", cost),
                   currentSkill->name().c_str(), cost);
 
-        std::map<std::string, std::stringstream > recipes;
+        std::map<std::string, std::vector<std::pair<std::string, int> > > recipes;
         for( auto cur_recipe : recipe_dict ) {
+            //Find out if the current skill and its level is in the requirement list
             auto req_skill = cur_recipe->required_skills.find(currentSkill->ident());
             int skill = (req_skill != cur_recipe->required_skills.end()) ? req_skill->second : 0;
 
-            if ( !cur_recipe->autolearn &&
-                 ( cur_recipe->skill_used == currentSkill->ident() || skill > 0 ) &&
-                 u->has_recipe_requirements(cur_recipe) &&
-                 cur_recipe->ident.find("uncraft") == std::string::npos
+            if ( !cur_recipe->autolearn && //Don't show autolearend recipes
+                 ( cur_recipe->skill_used == currentSkill->ident() || skill > 0 ) && //Current skill is required in recipe
+                 u->has_recipe_requirements(cur_recipe) && //All skill requirements are met to craft recipe
+                 cur_recipe->ident.find("uncraft") == std::string::npos //Recipe is not an uncraft recipe
                )  {
 
-                if ( recipes[cur_recipe->skill_used.obj().name()].str() != "" ) {
-                    recipes[cur_recipe->skill_used.obj().name()] << ", ";
-                }
-
-                recipes[cur_recipe->skill_used.obj().name()] << item::nname(cur_recipe->result) << " ("
-                                                             << ((skill > 0) ? skill : cur_recipe->difficulty)
-                                                             << ")";
+                recipes[cur_recipe->skill_used.obj().name()].push_back(
+                    make_pair(item::nname(cur_recipe->result), ((skill > 0) ? skill : cur_recipe->difficulty))
+                );
             }
         }
 
-        std::stringstream rec_disp;
-        rec_disp << currentSkill->description() << "<color_c_ltgray>";
-
-        if (recipes.find(currentSkill->name()) != recipes.end()) {
-            rec_disp << "\n \n<color_c_brown>" << recipes[currentSkill->name()].str() << "</color>";
-        }
+        std::string rec_disp = "<color_c_ltgray>";
 
         for ( auto iter = recipes.begin(); iter != recipes.end(); ++iter ) {
-            if ( iter->first != currentSkill->name() ) {
-                if ( rec_disp.str() != "" ) {
-                    rec_disp << "\n \n";
+            std::sort(iter->second.begin(), iter->second.end(),
+                         [](const std::pair<std::string, int>& lhs, const std::pair<std::string, int>& rhs) {
+                             return lhs.second < rhs.second;
+                         }
+                     );
+
+            std::string rec_temp = "";
+            for ( auto rec = iter->second.begin(); rec != iter->second.end(); ++rec ) {
+                if ( rec_temp != "" ) {
+                    rec_temp += ", ";
                 }
-                rec_disp << "<color_c_white>[" << iter->first << "]</color>\n<color_c_ltgray>" << (iter->second).str() << "</color>";
+                rec_temp += rec->first + " (" + to_string(rec->second) + ")";
+            }
+
+            if ( iter->first == currentSkill->name() ) {
+                rec_disp = "\n \n<color_c_brown>" + rec_temp + "</color>" + rec_disp;
+            } else {
+                rec_disp += "\n \n<color_c_white>[" + iter->first + "]\n" + rec_temp + "</color>";
             }
         }
 
-        rec_disp << "</color>";
+        rec_disp += "</color>";
 
-        const auto vFolded = foldstring(rec_disp.str(), getmaxx(w_description));
+        rec_disp = currentSkill->description() + rec_disp;
+
+        const auto vFolded = foldstring(rec_disp, getmaxx(w_description));
         int iLines = vFolded.size();
 
         if( selected < 0 ) {
@@ -1418,7 +1425,7 @@ int set_skills(WINDOW *w, player *u, int &points)
             selected = iLines - iContentHeight;
         }
 
-        fold_and_print_from( w_description, 0, 0, getmaxx(w_description), selected, COL_SKILL_USED, rec_disp.str() );
+        fold_and_print_from( w_description, 0, 0, getmaxx(w_description), selected, COL_SKILL_USED, rec_disp );
 
         draw_scrollbar( w, selected, iContentHeight, iLines-iContentHeight, 5, getmaxx(w) - 1, BORDER_COLOR, true );
 
