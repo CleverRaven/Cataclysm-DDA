@@ -9408,11 +9408,11 @@ int player::butcher_factor() const
     result = std::max( result, tmp.butcher_factor() );
     }
     if ((has_trait("CLAWS")) || (has_trait("CLAWS_RAT")) || (has_active_mutation("CLAWS_RETRACT")) || (has_trait("TALONS"))) {
-        item tmp( "toolset", 0 );
+        tmp.butcher_factor( -50 );
     result = std::max( result, tmp.butcher_factor() );
     }
     if ((has_bionic("bio_razor")) || (has_trait("CLAWS_ST"))) {
-        item tmp( "butcher_razor", 0 );
+        tmp.butcher_factor( -25 );
     result = std::max( result, tmp.butcher_factor() );
     }
     result = std::max( result, inv.butcher_factor() );
@@ -13113,7 +13113,7 @@ bool player::wearing_something_on(body_part bp) const
 bool player::natural_attack_restricted_on(body_part bp) const
 {
     for (auto &i : worn) {
-        if ((i.covers(bp)) && (!i.has_flag("ALLOWS_NATURAL_ATTACKS")))
+        if { (i.covers(bp)) && (!i.has_flag("ALLOWS_NATURAL_ATTACKS")) }
             return true;
     }
     return false;
