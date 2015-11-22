@@ -221,7 +221,7 @@ For most people, the simple Homebrew installation is enough. For developers, her
 
 ### SDL
 
-SDL2, SDL2_image, and SDL2_ttf are needed for the tiles build. Cataclysm can be built using either the SDL framework, or shared libraries built from source.
+SDL2, SDL2_image, and SDL2_ttf are needed for the tiles build. Optionally, you can add SDL2_mixer for sound support. Cataclysm can be built using either the SDL framework, or shared libraries built from source.
 
 The SDL framework files can be downloaded here:
 
@@ -232,15 +232,29 @@ The SDL framework files can be downloaded here:
 Copy `SDL2.framework`, `SDL2_image.framework`, and `SDL2_ttf.framework`
 to `/Library/Frameworks` or `/Users/name/Library/Frameworks`.
 
+If you want sound support, you will need an additional SDL framework:
+
+* [**SDL2_mixer**](https://www.libsdl.org/projects/SDL_mixer/)
+
+Copy `SDL2_mixer.framework` to `/Library/Frameworks` or `/Users/name/Library/Frameworks`.
+
 Alternatively, SDL shared libraries can be installed using a package manager:
 
 For Homebrew:
 
     brew install sdl2 sdl2_image sdl2_ttf
 
+with sound:
+
+    brew install sdl2_mixer libvorbis libogg
+
 For MacPorts:
 
     sudo port install libsdl2 libsdl2_image libsdl2_ttf
+
+with sound:
+
+    sudo port install libsdl2_mixer libvorbis libogg
 
 ### ncurses and gettext
 
@@ -270,6 +284,7 @@ The Cataclysm source is compiled using `make`.
 * `NATIVE=osx` build for OS X. Required for all Mac builds.
 * `OSX_MIN=version` sets `-mmacosx-version-min=` (for OS X > 10.5 set it to 10.6 or higher); omit for 10.5.
 * `TILES=1` build the SDL version with graphical tiles (and graphical ASCII); omit to build with `ncurses`.
+* `SOUND=1` - if you want sound; this requires `TILES=1` and the additional dependencies mentioned above.
 * `FRAMEWORK=1` (tiles only) link to SDL libraries under the OS X Frameworks folders; omit to use SDL shared libraries from Homebrew or Macports.
 * `LOCALIZE=0` disable localization (to get around possible `gettext` errors if it is not setup correctly); omit to use `gettext`.
 * `LANGUAGES="<lang_id_1>[lang_id_2][...]"` compile localization files for specified languages. e.g. `LANGUAGES="zh_CN zh_TW"`
@@ -315,6 +330,21 @@ For SDL:
     ./cataclysm-tiles
 
 For `app` builds, launch Cataclysm.app from Finder.
+
+### dmg distribution
+
+You can build a nice dmg distribution file with the `dmgdist` target. You will need a tool called [dmgbuild](https://pypi.python.org/pypi/dmgbuild). To install this tool, you will need Python first. If you are on Mac OS X >= 10.8, Python 2.7 is pre-installed with the OS. If you are on an older version of OS X, you can download Python [on their official website](https://www.python.org/downloads/) or install it with homebrew `brew install python`. Once you have Python, you should be able to install `dmgbuild` by running:
+
+    # This install pip. It might not be required if it is already installed.
+    curl --silent --show-error --retry 5 https://bootstrap.pypa.io/get-pip.py | sudo python
+    # dmgbuild install
+    sudo pip install dmgbuild pyobjc-framework-Quartz
+
+Once `dmgbuild` is installed, you will be able to use the `dmgdist` target like this. The use of `USE_HOME_DIR=1` is important here because it will allow for an easy upgrade of the game while keeping the user config and his saves in his home directory.
+
+    make dmgdist NATIVE=osx OSX_MIN=10.7 RELEASE=1 TILES=1 FRAMEWORK=1 LOCALIZE=0 CLANG=1 USE_HOME_DIR=1
+
+You should see a `Cataclysm.dmg` file.
 
 ## Troubleshooting
 
