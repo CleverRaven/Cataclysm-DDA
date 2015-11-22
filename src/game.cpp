@@ -11702,17 +11702,37 @@ void game::wield(int pos)
 
 void game::read()
 {
-    auto filter = []( const item &it ) {
-        return it.is_book();
-    };
-    int pos = inv_for_filter( _("Read:"), filter );
+    // Can read items from inventory or within one tile (including in vehicles)
+    auto loc = inv_map_splice([](const item& it){ return it.is_book(); }, _("Read:"), 1);
 
-    if (pos == INT_MIN) {
-        add_msg(_("Never mind."));
+    item *book = loc.get_item();
+    if( !book ) {
+        add_msg( _("Never mind.") );
         return;
     }
-    draw();
-    u.read(pos);
+
+    int pos = u.get_item_position(book);
+
+    // book is already in the inventory so attempt reading
+    if( pos != INT_MIN ) {
+        u.read(pos);
+        return;
+    }
+
+    if( u.volume_carried() + book->volume() > u.volume_capacity() ) {
+        add_msg( _("No space in inventory for %s"), book->tname().c_str());
+        return;
+    }
+
+    // add book to inventory and attempt to read it
+    pos = u.get_item_position(&u.i_add(*book));
+    if( u.read(pos) ) {
+        // we started reading so remove book from map or vehicle tile
+        loc.remove_item();
+    } else {
+        // we failed so don't hold on to the book
+        u.i_rem(pos);
+    }
 }
 
 void game::chat()
