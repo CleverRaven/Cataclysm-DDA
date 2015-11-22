@@ -11518,6 +11518,11 @@
           "bg": 510
         },
         {
+          "id": "manual_niten",
+          "fg": 595,
+          "bg": 510
+        },
+        {
           "id": "modern_tanner",
           "fg": 562,
           "bg": 510
