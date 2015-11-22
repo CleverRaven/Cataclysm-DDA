@@ -10,36 +10,18 @@
 typedef int nc_color;
 
 // so we can pass around dimensions.
-class ui_rect {
-    private:
-        const ui_rect *parent;
+struct ui_rect {
+    // Size of the rect.
+    size_t size_x, size_y;
+    //position of the rect. (within the parent)
+    unsigned int x, y;
 
-        // Position of the rect relative to the parent.
-        // These are private because we need the setters to be used.
-        unsigned int x, y;
-        unsigned int global_x, global_y;
-    public:
-        // Size of the rect.
-        size_t size_x, size_y;
-
-        ui_rect( size_t size_x, size_t size_y, unsigned int x, unsigned int y );
-
-        void set_parent(const ui_rect *p_rect);
-
-        unsigned int get_x() const;
-        void set_x(unsigned int new_x);
-
-        unsigned int get_y() const;
-        void set_y(unsigned int new_y);
-
-        unsigned int get_global_x() const;
-        unsigned int get_global_y() const;
+    ui_rect( size_t size_x, size_t size_y, unsigned int x, unsigned int y );
 };
 
 class ui_element {
     protected:
         bool show = true;
-
         ui_rect rect;
     public:
         ui_element(size_t size_x, size_t size_y, unsigned int x = 0, unsigned int y = 0);
@@ -48,8 +30,6 @@ class ui_element {
         virtual void draw( WINDOW * ) = 0;
         virtual ui_element *clone() const = 0;
 
-        virtual void set_parent(ui_element *parent);
-
         const ui_rect &get_rect() const;
 
         virtual void set_visible(bool visible);
@@ -57,34 +37,24 @@ class ui_element {
 };
 
 // composite pattern
-class ui_window {
+class ui_window : public ui_element{
     protected:
         WINDOW *win;
 
         std::list<ui_element *> children;
+        std::list<ui_window *> window_children;
     public:
-        ui_window(size_t size_x, size_t size_y, unsigned int x = 0, unsigned int y = 0);
+        ui_window(size_t size_x, size_t size_y, unsigned int x = 0, unsigned int y = 0, ui_window *parent = nullptr);
+        virtual ui_element *clone() const;
         ~ui_window();
 
-        virtual void draw();
-
-        template<typename T = ui_element>
-        T *add_child( const T &child );
-};
-
-// similar to window but different
-class ui_panel : public ui_element {
-    public:
-        std::list<ui_element *> children;
-    public:
-        ui_panel(size_t size_x, size_t size_y, unsigned int x = 0, unsigned int y = 0);
-        virtual ui_element *clone() const override;
-        ~ui_panel();
+        void draw();
+        virtual void draw( WINDOW* );
 
         template<typename T = ui_element>
         T *add_child( const T &child );
 
-        virtual void draw( WINDOW * ) override;
+        ui_window *add_child( const ui_window &child );
 };
 
 class ui_label : public ui_element {
@@ -102,12 +72,12 @@ class ui_label : public ui_element {
         nc_color text_color = c_white;
 };
 
-class bordered_panel : public ui_panel {
+class bordered_window : public ui_window {
     public:
-        bordered_panel(size_t size_x, size_t size_y, unsigned int x = 0, unsigned int y = 0);
+        bordered_window(size_t size_x, size_t size_y, unsigned int x = 0, unsigned int y = 0, ui_window *parent = nullptr);
         virtual ui_element *clone() const override;
 
-        virtual void draw( WINDOW * ) override;
+        void draw(WINDOW *) override;
 
         nc_color border_color = BORDER_COLOR;
 };
@@ -183,17 +153,17 @@ class tile_panel : public ui_element {
         const tripoint &get_center() const;
 };
 
-class tabbed_panel : public bordered_panel {
+class tabbed_window : public bordered_window {
     private:
         std::vector<std::string> tabs;
         unsigned int tab_index;
 
         int draw_tab(const std::string &, bool, int, WINDOW *) const;
     public:
-        tabbed_panel(size_t size_x, size_t size_y, unsigned int x = 0, unsigned int y = 0);
+        tabbed_window(size_t size_x, size_t size_y, unsigned int x = 0, unsigned int y = 0, ui_window *parent = nullptr);
         virtual ui_element *clone() const override;
 
-        virtual void draw( WINDOW * ) override;
+        virtual void draw( WINDOW *win ) override;
 
         void add_tab(std::string tab);
 

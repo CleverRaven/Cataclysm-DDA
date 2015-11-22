@@ -5,55 +5,38 @@
 #include <cmath>
 #include <array>
 
-ui_rect::ui_rect( size_t size_x, size_t size_y, unsigned int x, unsigned int y ) : x( x ), y( y ), global_x(x), global_y(y), size_x( size_x ), size_y( size_y )
+ui_rect::ui_rect( size_t size_x, size_t size_y, unsigned int x, unsigned int y ) : size_x( size_x ), size_y( size_y ), x( x ), y( y )
 {
 }
 
-void ui_rect::set_parent(const ui_rect *p_rect)
+ui_window::ui_window( size_t size_x, size_t size_y, unsigned int x, unsigned int y, ui_window *parent ) : ui_element(size_x, size_y, x, y)
 {
-    parent = p_rect;
+    int global_x = x;
+    int global_y = y;
     if(parent) {
-        global_x = x + parent->x;
-        global_y = y + parent->y;
-    } else {
-        global_x = x;
-        global_y = y;
+        auto p_rect = parent->get_rect();
+        global_x += p_rect.x;
+        global_y += p_rect.y;
     }
+    win = newwin(size_y, size_x, global_y, global_x);
 }
 
-unsigned int ui_rect::get_x() const
+ui_element *ui_window::clone() const
 {
-    return x;
-}
+    auto window_clone = new ui_window(*this);
+    window_clone->children.clear();
+    window_clone->window_children.clear();
 
-void ui_rect::set_x(unsigned int new_x)
-{
-    x = new_x;
-    global_x = x + parent->x;
-}
+    for(auto child : children) {
+        window_clone->add_child(*child);
+    }
 
-unsigned int ui_rect::get_y() const
-{
-    return y;
-}
+    for(auto child : window_children) {
+        window_clone->add_child(*child);
+    }
 
-void ui_rect::set_y(unsigned int new_y)
-{
-    y = new_y;
-    global_y = y + parent->y;
-}
-
-unsigned int ui_rect::get_global_x() const
-{
-    return global_x;
-}
-unsigned int ui_rect::get_global_y() const
-{
-    return global_y;
-}
-
-ui_window::ui_window( size_t size_x, size_t size_y, unsigned int x, unsigned int y ) : win( newwin(size_x, size_y, x, y) )
-{
+    window_clone->win = newwin(rect.size_y, rect.size_x, rect.y, rect.x);
+    return window_clone;
 }
 
 ui_window::~ui_window()
@@ -67,12 +50,23 @@ ui_window::~ui_window()
 void ui_window::draw()
 {
     werase( win );
+    draw(win);
+    wrefresh( win );
+}
+
+void ui_window::draw(WINDOW *win)
+{
     for( auto &child : children ) {
         if( child->is_visible() ) {
             child->draw( win );
         }
     }
-    wrefresh( win );
+
+    for( auto &child : window_children ) {
+        if( child->is_visible() ) {
+            child->draw();
+        }
+    }
 }
 
 template<typename T>
@@ -81,6 +75,13 @@ T *ui_window::add_child( const T &child )
     auto child_clone = child.clone();
     children.push_back( child_clone );
     return (T *) child_clone;
+}
+
+ui_window *ui_window::add_child( const ui_window &child )
+{
+    auto child_clone = (ui_window *) child.clone();
+    window_children.push_back(child_clone);
+    return child_clone;
 }
 
 ui_element::ui_element(size_t size_x, size_t size_y, unsigned int x, unsigned int y) : rect(ui_rect(size_x, size_y, x, y))
@@ -97,61 +98,9 @@ bool ui_element::is_visible() const
     return show;
 }
 
-void ui_element::set_parent(ui_element *parent)
-{
-    if(parent) {
-        rect.set_parent(&parent->get_rect());
-    } else {
-        rect.set_parent( nullptr );
-    }
-}
-
 const ui_rect &ui_element::get_rect() const
 {
     return rect;
-}
-
-ui_panel::ui_panel(size_t size_x, size_t size_y, unsigned int x, unsigned int y) : ui_element(size_x, size_y, x, y)
-{
-}
-
-ui_panel::~ui_panel()
-{
-    while( children.size() > 0 ) {
-        delete children.back();
-    }
-}
-
-ui_element *ui_panel::clone() const
-{
-    auto panel_clone = new ui_panel(*this);
-    panel_clone->children.clear();
-
-    for(const auto &child : children) {
-        panel_clone->children.push_back(child->clone());
-    }
-
-    return panel_clone;
-}
-
-template<typename T>
-T *ui_panel::add_child( const T &child )
-{
-    auto child_clone = child.clone();
-
-    child_clone->set_parent(this);
-
-    children.push_back( child_clone );
-    return (T *) child_clone;
-}
-
-void ui_panel::draw( WINDOW *win )
-{
-    for(auto &child : children) {
-        if( child->is_visible() ) {
-            child->draw( win );
-        }
-    }
 }
 
 ui_label::ui_label( std::string text ,unsigned int x, unsigned int y ) : ui_element( utf8_width( text.c_str() ), 1, x, y ), text( text )
@@ -165,7 +114,7 @@ ui_element *ui_label::clone() const
 
 void ui_label::draw( WINDOW *win )
 {
-    mvwprintz( win, rect.get_global_y(), rect.get_global_x(), text_color, text.c_str() );
+    mvwprintz( win, rect.y, rect.x, text_color, text.c_str() );
 }
 
 void ui_label::set_text( std::string new_text )
@@ -174,23 +123,23 @@ void ui_label::set_text( std::string new_text )
     rect.size_x = new_text.size();
 }
 
-bordered_panel::bordered_panel(size_t size_x, size_t size_y, unsigned int x, unsigned int y ) : ui_panel(size_x, size_y, x, y)
+bordered_window::bordered_window(size_t size_x, size_t size_y, unsigned int x, unsigned int y, ui_window *parent ) : ui_window(size_x, size_y, x, y, parent)
 {
 }
 
-ui_element *bordered_panel::clone() const
+ui_element *bordered_window::clone() const
 {
-    return new bordered_panel(*this);
+    return new bordered_window(*this);
 }
 
-void bordered_panel::draw( WINDOW *win )
+void bordered_window::draw( WINDOW *win )
 {
     wattron(win, border_color);
     wborder(win, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
             LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
     wattroff(win, border_color);
 
-    ui_panel::draw( win );
+    ui_window::draw();
 }
 
 health_bar::health_bar(size_t size_x, unsigned int x, unsigned int y) : ui_element(size_x, 1, x, y),
@@ -208,7 +157,7 @@ ui_element *health_bar::clone() const
 
 void health_bar::draw( WINDOW *win )
 {
-    mvwprintz( win, rect.get_global_y(), rect.get_global_x(), bar_color, bar_str.c_str() );
+    mvwprintz( win, rect.y, rect.x, bar_color, bar_str.c_str() );
 }
 
 void health_bar::refresh_bar( bool overloaded, float percentage )
@@ -270,7 +219,7 @@ ui_element *smiley_indicator::clone() const
 
 void smiley_indicator::draw( WINDOW *win )
 {
-    mvwprintz( win, rect.get_global_y(), rect.get_global_x(), smiley_color, smiley_str.c_str() );
+    mvwprintz( win, rect.y, rect.x, smiley_color, smiley_str.c_str() );
 }
 
 void smiley_indicator::set_state( smiley_state new_state )
@@ -331,7 +280,7 @@ void tile_panel::draw( WINDOW *win )
 
     for(unsigned int x = start_x; x <= end_x; x++) {
         for(unsigned int y = start_y; y <= end_y; y++) {
-            tile_at(x, y, center.z).draw( win, rect.get_global_x() + x, rect.get_global_y() + y );
+            tile_at(x, y, center.z).draw( win, rect.x + x, rect.y + y );
         }
     }
 }
@@ -355,19 +304,19 @@ char_tile::char_tile(long sym, nc_color color) : sym(sym), color(color)
 {
 }
 
-tabbed_panel::tabbed_panel(size_t size_x, size_t size_y, unsigned int x, unsigned int y) : bordered_panel(size_x, size_y, x, y)
+tabbed_window::tabbed_window(size_t size_x, size_t size_y, unsigned int x, unsigned int y, ui_window *parent) : bordered_window(size_x, size_y, x, y, parent)
 {
 }
 
-ui_element *tabbed_panel::clone() const
+ui_element *tabbed_window::clone() const
 {
-    return new tabbed_panel(*this);
+    return new tabbed_window(*this);
 }
 
-int tabbed_panel::draw_tab(const std::string &tab, bool selected, int x_offset, WINDOW *win) const
+int tabbed_window::draw_tab(const std::string &tab, bool selected, int x_offset, WINDOW *win) const
 {
-    int gy = rect.get_global_y();
-    int gx = rect.get_global_x() + x_offset;
+    int gy = rect.y;
+    int gx = rect.x + x_offset;
 
     int width = utf8_width(tab.c_str()) + 2;
     //print top border
@@ -401,21 +350,21 @@ int tabbed_panel::draw_tab(const std::string &tab, bool selected, int x_offset, 
     return width;
 }
 
-void tabbed_panel::draw( WINDOW *win )
+void tabbed_window::draw( WINDOW *win )
 {
-    bordered_panel::draw( win );
+    bordered_window::draw( win );
     int x_offset = 1;
     for(unsigned int i = 0; i < tabs.size(); i++) {
         x_offset += draw_tab(tabs[i], tab_index == i, x_offset, win) + 1;
     }
 }
 
-void tabbed_panel::add_tab(std::string tab)
+void tabbed_window::add_tab(std::string tab)
 {
     tabs.push_back(tab);
 }
 
-void tabbed_panel::next_tab()
+void tabbed_window::next_tab()
 {
     if( tab_index == tabs.size() - 1 ){
         tab_index = 0;
@@ -424,7 +373,7 @@ void tabbed_panel::next_tab()
     }
 }
 
-void tabbed_panel::previous_tab()
+void tabbed_window::previous_tab()
 {
     if( tab_index == 0 ){
         tab_index = tabs.size() - 1;
@@ -434,7 +383,7 @@ void tabbed_panel::previous_tab()
 }
 
 
-const std::string &tabbed_panel::current_tab() const
+const std::string &tabbed_window::current_tab() const
 {
     return tabs[tab_index];
 }
