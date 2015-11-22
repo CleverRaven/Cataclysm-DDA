@@ -374,6 +374,8 @@
 		<Unit filename="src/craft_command.h" />
 		<Unit filename="src/crafting.cpp" />
 		<Unit filename="src/crafting.h" />
+		<Unit filename="src/crafting_gui.cpp" />
+		<Unit filename="src/crafting_gui.h" />
 		<Unit filename="src/creature.cpp" />
 		<Unit filename="src/creature.h" />
 		<Unit filename="src/creature_tracker.cpp" />
