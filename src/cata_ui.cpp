@@ -378,7 +378,7 @@ int tabbed_window::draw_tab(const std::string &tab, bool selected, int x_offset)
 void tabbed_window::draw()
 {
     bordered_window::draw();
-    int x_offset = 1;
+    int x_offset = 1; // leave space for selection bracket
     for(unsigned int i = 0; i < tabs.size(); i++) {
         x_offset += draw_tab(tabs[i], tab_index == i, x_offset) + 1;
     }

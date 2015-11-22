@@ -9,7 +9,20 @@
 
 typedef int nc_color;
 
-// so we can pass around dimensions.
+/**
+ * \defgroup Cata_ui "Cataclysm's ui framework."
+ *
+ * As you might expect, the ui framework is implemented with the composite pattern.
+ * This allows us to nest some ui elements within another. We only need to call 'render'
+ * on the top level object, and the composite pattern takes care of the rest.
+ * @{
+ */
+
+/**
+* Class that represents a rectangle.
+*
+*  Holds dimensions and position.
+*/
 struct ui_rect {
     // Size of the rect.
     size_t size_x, size_y;
@@ -21,6 +34,11 @@ struct ui_rect {
 
 class ui_window;
 
+/**
+* Most basic ui element.
+*
+* This abstract class is used to implement the ui's composite pattern.
+*/
 class ui_element {
     friend class ui_window; // so we don't have to make draw, clone and set_parent public
     private:
@@ -43,7 +61,12 @@ class ui_element {
         bool is_visible() const;
 };
 
-// composite pattern
+/**
+* The basis for a ui composition.
+*
+* This is the class in the framework that holds nested elements.
+* It is also the only class in the framework with a public 'draw' function (render).
+*/
 class ui_window : public ui_element {
     friend class ui_element;
     private:
@@ -69,6 +92,9 @@ class ui_window : public ui_element {
         T *add_child( const T &child );
 };
 
+/**
+* A simple text label
+*/
 class ui_label : public ui_element {
     private:
         std::string text;
@@ -84,6 +110,9 @@ class ui_label : public ui_element {
         nc_color text_color = c_white;
 };
 
+/**
+* A window with a border
+*/
 class bordered_window : public ui_window {
     protected:
         virtual ui_element *clone() const override;
@@ -114,7 +143,6 @@ class health_bar : public ui_element {
         void set_health_percentage( float percentage );
 };
 
-
 class smiley_indicator : public ui_element {
     private:
         enum smiley_state {
@@ -137,6 +165,13 @@ class smiley_indicator : public ui_element {
         void set_state( smiley_state new_state );
 };
 
+/**
+* Class that represents a basic cataclysm tile.
+*
+* This basic class has just a color and symbol, and a virtual
+* draw function. To draw other kinds off tiles (like ones using a tile set),
+* extend from this class and override it's draw method.
+*/
 class ui_tile {
     public:
         long sym;
@@ -147,6 +182,14 @@ class ui_tile {
         virtual void draw( WINDOW *, int, int ) const;
 };
 
+/**
+* A panel that draws tiles.
+*
+* This tile will always have an odd size in both x and y.
+* A 'center' tripoint is passed that represents the focus of this panel.
+* Along with that a function to retrieve tiles in specific locations is passed,
+* this is used to fill in the area around the center.
+*/
 class tile_panel : public ui_element {
     private:
         std::function<const ui_tile(int, int, int)> tile_at;
@@ -165,6 +208,9 @@ class tile_panel : public ui_element {
         const tripoint &get_center() const;
 };
 
+/**
+* A window with tabs at the top.
+*/
 class tabbed_window : public bordered_window {
     private:
         std::vector<std::string> tabs;
@@ -183,5 +229,7 @@ class tabbed_window : public bordered_window {
         void previous_tab();
         const std::string &current_tab() const;
 };
+
+///@}
 
 #endif // CATA_UI_H
