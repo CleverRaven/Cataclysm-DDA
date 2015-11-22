@@ -888,15 +888,17 @@ void cata_tiles::draw( int destx, int desty, const tripoint &center, int width, 
     SDL_RenderSetClipRect(renderer, NULL);
 }
 
-void cata_tiles::draw_rhombus(int destx, int desty, int size, SDL_Color color) {
+void cata_tiles::draw_rhombus(int destx, int desty, int size, SDL_Color color, int widthLimit, int heightLimit) {
     for(int xOffset = -size; xOffset <= size; xOffset++) {
         for(int yOffset = -size + abs(xOffset); yOffset <= size - abs(xOffset); yOffset++) {
-            int divisor = 2 * (abs(yOffset) == size - abs(xOffset)) + 1;
-            SDL_SetRenderDrawColor(renderer, color.r / divisor, color.g / divisor, color.b / divisor, 255);
+            if(xOffset < widthLimit && yOffset < heightLimit){
+                int divisor = 2 * (abs(yOffset) == size - abs(xOffset)) + 1;
+                SDL_SetRenderDrawColor(renderer, color.r / divisor, color.g / divisor, color.b / divisor, 255);
 
-            SDL_RenderDrawPoint(renderer,
-                 destx + xOffset,
-                 desty + yOffset);
+                SDL_RenderDrawPoint(renderer,
+                     destx + xOffset,
+                     desty + yOffset);
+            }
         }
     }
 }
@@ -907,24 +909,41 @@ void cata_tiles::draw_minimap( int destx, int desty, const tripoint &center, int
         return;
     }
 
-    int start_x = center.x - 55;
-    int start_y = center.y - 55;
-    int tiles_x = 110;
-    int tiles_y = 110;
-    int tile_size_x = std::max(width / tiles_x, 1);
-    int tile_size_y = std::max(height / tiles_y, 1);
+    const int minx = 0;
+    const int miny = 0;
+    const int maxx = MAPSIZE * SEEX;
+    const int maxy = MAPSIZE * SEEY;
+
+    const int tiles_range_x = (MAPSIZE - 2) * SEEX;
+    const int tiles_range_y = (MAPSIZE - 2) * SEEY;
+    const int tile_size_x = std::max(width / tiles_range_x, 1);
+    const int tile_size_y = std::max(height / tiles_range_y, 1);
+    const int tiles_x_limit = std::min(width / tile_size_x, tiles_range_x);
+    const int tiles_y_limit = std::min(height / tile_size_y, tiles_range_y);
+    const int start_x = center.x - tiles_x_limit / 2;
+    const int start_y = center.y - tiles_y_limit / 2;
 
     // Center the drawn area within the total area.
-    int drawn_width = tiles_x * tile_size_x;
-    int drawn_height = tiles_y * tile_size_y;
-    int border_width = (width - drawn_width) / 2;
-    int border_height = (height - drawn_height) / 2;
+    const int drawn_width = tiles_x_limit * tile_size_x;
+    const int drawn_height = tiles_y_limit * tile_size_y;
+    const int border_width = std::max((width - drawn_width) / 2, 0);
+    const int border_height = std::max((height - drawn_height) / 2, 0);
 
     auto &ch = g->m.access_cache( center.z );
 
+    SDL_Rect rectangle;
+    rectangle.w = tile_size_x;
+    rectangle.h = tile_size_y;
+
     // First draw terrain.
-    for( int y = 0; y < tiles_y; y++) {
-        for( int x = 0; x <= tiles_x; x++) {
+    for( int y = 0; y < tiles_y_limit; y++) {
+        if(start_y + y < miny || start_y + y >= maxy){
+            continue;
+        }
+        for( int x = 0; x <= tiles_x_limit; x++) {
+            if(start_x + x < minx || start_x + x >= maxx){
+                continue;
+            }
             tripoint p(start_x + x, start_y + y, center.z);
 
             lit_level lighting = ch.visibility_cache[p.x][p.y];
@@ -946,20 +965,25 @@ void cata_tiles::draw_minimap( int destx, int desty, const tripoint &center, int
                     color = cursesColorToSDL(terrain.color());
                 }
             }
-
-            SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, 255);
-            SDL_Rect rectangle;
-            rectangle.x = destx + border_width + x * tile_size_x;
-            rectangle.y = desty + border_height + y * tile_size_y;
-            rectangle.w = tile_size_x;
-            rectangle.h = tile_size_y;
-            SDL_RenderFillRect(renderer, &rectangle);
+            if(border_width + x * tile_size_x < width &&
+                border_height + y * tile_size_y < height){
+                SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, 255);
+                rectangle.x = destx + border_width + x * tile_size_x;
+                rectangle.y = desty + border_height + y * tile_size_y;
+                SDL_RenderFillRect(renderer, &rectangle);
+            }
         }
     }
 
     // Now draw critters over terrain.
-    for( int y = 0; y < tiles_y; y++) {
-        for( int x = 0; x <= tiles_x; x++) {
+    for( int y = 0; y < tiles_y_limit; y++) {
+        if(start_y + y < miny || start_y + y >= maxy){
+            continue;
+        }
+        for( int x = 0; x <= tiles_x_limit; x++) {
+            if(start_x + x < minx || start_x + x >= maxx){
+                continue;
+            }
             tripoint p(start_x + x, start_y + y, center.z);
 
             lit_level lighting = ch.visibility_cache[p.x][p.y];
@@ -970,7 +994,9 @@ void cata_tiles::draw_minimap( int destx, int desty, const tripoint &center, int
                         destx + border_width + x * tile_size_x,
                         desty + border_height + y * tile_size_y,
                         tile_size_x,
-                        cursesColorToSDL(critter->symbol_color())
+                        cursesColorToSDL(critter->symbol_color()),
+                        width,
+                        height
                     );
                 }
             }

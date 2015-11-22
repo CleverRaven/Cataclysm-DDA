@@ -813,6 +813,9 @@ class game
 
         void move_save_to_graveyard();
         bool save_player_data();
+
+        //pixel minimap management
+        int pixel_minimap_option;
 };
 
 #endif

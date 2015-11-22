@@ -158,7 +158,8 @@ game::game() :
     mostseen(0),
     gamemode(NULL),
     lookHeight(13),
-    tileset_zoom(16)
+    tileset_zoom(16),
+    pixel_minimap_option(0)
 {
     world_generator = new worldfactory();
     // do nothing, everything that was in here is moved to init_data() which is called immediately after g = new game; in main.cpp
@@ -271,7 +272,9 @@ game::~game()
     delete gamemode;
     delwin(w_terrain);
     delwin(w_minimap);
-    delwin(w_pixel_minimap);
+    if (pixel_minimap_option){
+        delwin(w_pixel_minimap);
+    }
     delwin(w_HP);
     delwin(w_messages);
     delwin(w_location);
@@ -417,7 +420,16 @@ void game::init_ui()
     int statX, statY, statW, statH;
     int stat2X, stat2Y, stat2W, stat2H;
     int mouseview_y, mouseview_h, mouseview_w;
-    int minimapW, minimapH, pixelminimapX, pixelminimapY;
+    int pixelminimapW, pixelminimapH, pixelminimapX, pixelminimapY;
+
+    //class variable to track the option being active
+    pixel_minimap_option = 0;
+    bool pixel_minimap_custom_height = false;
+
+#ifdef TILES
+    pixel_minimap_option = OPTIONS["PIXEL_MINIMAP"];
+    pixel_minimap_custom_height = OPTIONS["PIXEL_MINIMAP_HEIGHT"] > 0;
+#endif // TILES
 
     if (use_narrow_sidebar()) {
         // First, figure out how large each element will be.
@@ -429,13 +441,16 @@ void game::init_ui()
         locW = sidebarWidth;
         stat2H = 2;
         stat2W = sidebarWidth;
-        minimapW = sidebarWidth * OPTIONS["PIXEL_MINIMAP"];
-        minimapH = minimapW / 2 * OPTIONS["PIXEL_MINIMAP"];
-        messH = TERRAIN_WINDOW_TERM_HEIGHT - (statH + locH + stat2H + minimapH);
+        pixelminimapW = sidebarWidth * pixel_minimap_option;
+        pixelminimapH = (pixelminimapW / 2) * pixel_minimap_option;
+        if (pixel_minimap_custom_height && pixelminimapH > OPTIONS["PIXEL_MINIMAP_HEIGHT"]){
+            pixelminimapH = OPTIONS["PIXEL_MINIMAP_HEIGHT"];
+        }
+        messH = TERRAIN_WINDOW_TERM_HEIGHT - (statH + locH + stat2H + pixelminimapH);
         messW = sidebarWidth;
-        if (messH < 8) {
-            minimapH -= 8 - messH;
-            messH = 8;
+        if (messH < 9) {
+            pixelminimapH -= 9 - messH;
+            messH = 9;
         }
 
         // Now position the elements relative to each other.
@@ -467,12 +482,15 @@ void game::init_ui()
         messX = MINIMAP_WIDTH;
         messY = 0;
         messW = sidebarWidth - messX;
-        minimapW = messW * OPTIONS["PIXEL_MINIMAP"];
-        minimapH = minimapW / 2 * OPTIONS["PIXEL_MINIMAP"];
-        messH = TERRAIN_WINDOW_TERM_HEIGHT - (locH + statH + minimapH); // 1 for w_location + 4 for w_stat, w_messages starts at 0
-        if (messH < 8) {
-            minimapH -= 8 - messH;
-            messH = 8;
+        pixelminimapW = messW * pixel_minimap_option;
+        pixelminimapH = (pixelminimapW / 2) * pixel_minimap_option;
+        if (pixel_minimap_custom_height && pixelminimapH > OPTIONS["PIXEL_MINIMAP_HEIGHT"]){
+            pixelminimapH = OPTIONS["PIXEL_MINIMAP_HEIGHT"];
+        }
+        messH = TERRAIN_WINDOW_TERM_HEIGHT - (locH + statH + pixelminimapH); // 1 for w_location + 4 for w_stat, w_messages starts at 0
+        if (messH < 9) {
+            pixelminimapH -= 9 - messH;
+            messH = 9;
         }
         pixelminimapX = MINIMAP_WIDTH;
         pixelminimapY = messH;
@@ -480,10 +498,10 @@ void game::init_ui()
         hpY = MINIMAP_HEIGHT;
         // under the minimap, but down to the same line as w_location (which is under w_messages)
         // so it erases the space between w_terrain and (w_messages and w_location)
-        hpH = messH - MINIMAP_HEIGHT + 3;
+        hpH = messH + pixelminimapH - MINIMAP_HEIGHT + 3;
         hpW = 7;
         locX = MINIMAP_WIDTH;
-        locY = messY + messH;
+        locY = messY + messH + pixelminimapH;
         locW = sidebarWidth - locX;
         statY = locY + locH;
         statW = sidebarWidth;
@@ -511,7 +529,10 @@ void game::init_ui()
     w_messages = newwin(messH, messW, _y + messY, _x + messX);
     werase(w_messages);
 
-    w_pixel_minimap = newwin(minimapH, minimapW, _y + pixelminimapY, _x + pixelminimapX);
+    if (pixel_minimap_option){
+        w_pixel_minimap = newwin(pixelminimapH, pixelminimapW, _y + pixelminimapY, _x + pixelminimapX);
+        werase(w_pixel_minimap);
+    }
 
     w_location = newwin(locH, locW, _y + locY, _x + locX);
     werase(w_location);
@@ -5046,8 +5067,11 @@ void game::draw_sidebar()
     draw_minimap();
 
     // Force a refresh of the pixel minimap.
-    werase(w_pixel_minimap);
-    wrefresh(w_pixel_minimap);
+    // only do so if it is in use
+    if(pixel_minimap_option && w_pixel_minimap){
+        werase(w_pixel_minimap);
+        wrefresh(w_pixel_minimap);
+    }
 }
 
 bool game::isBetween(int test, int down, int up)
