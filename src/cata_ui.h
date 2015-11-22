@@ -23,28 +23,29 @@ class ui_window;
 
 class ui_element {
     friend class ui_window; // so we don't have to make draw, clone and set_parent public
+    private:
+        const ui_window *parent;
+        virtual void set_parent(const ui_window *parent);
     protected:
         bool show = true;
         ui_rect rect;
-        const ui_window *parent;
 
         virtual void draw( WINDOW * ) = 0;
         virtual ui_element *clone() const = 0;
-
-        // needed for ui_window;
-        virtual void set_parent(const ui_window *parent);
     public:
         ui_element(size_t size_x, size_t size_y, unsigned int x = 0, unsigned int y = 0);
         virtual ~ui_element() = default;
 
         const ui_rect &get_rect() const;
 
-        virtual void set_visible(bool visible);
-        virtual bool is_visible() const;
+        void set_visible(bool visible);
+        bool is_visible() const;
 };
 
 // composite pattern
 class ui_window : public ui_element {
+    private:
+        void set_parent( const ui_window *parent ) override;
     protected:
         int global_x;
         int global_y;
@@ -55,15 +56,14 @@ class ui_window : public ui_element {
 
         virtual ui_element *clone() const override;
         void draw( WINDOW* );
-        void set_parent( const ui_window *parent ) override;
 
         virtual void draw_internal();
     public:
         ui_window(size_t size_x, size_t size_y, unsigned int x = 0, unsigned int y = 0);
         ui_window(const ui_window &);
-        ~ui_window();
+        ~ui_window() override;
 
-        virtual void draw();
+        void draw();
 
         template<typename T = ui_element>
         T *add_child( const T &child );
