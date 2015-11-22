@@ -10,9 +10,9 @@
 typedef int nc_color;
 
 // so we can pass around dimensions.
-class rect {
+class ui_rect {
     private:
-        const rect *parent;
+        const ui_rect *parent;
 
         // Position of the rect relative to the parent.
         // These are private because we need the setters to be used.
@@ -22,9 +22,9 @@ class rect {
         // Size of the rect.
         size_t size_x, size_y;
 
-        rect( size_t size_x, size_t size_y, unsigned int x, unsigned int y );
+        ui_rect( size_t size_x, size_t size_y, unsigned int x, unsigned int y );
 
-        void set_parent(const rect *p_rect);
+        void set_parent(const ui_rect *p_rect);
 
         unsigned int get_x() const;
         void set_x(unsigned int new_x);
@@ -40,7 +40,7 @@ class ui_element {
     protected:
         bool show = true;
 
-        rect el_rect;
+        ui_rect rect;
     public:
         ui_element(size_t size_x, size_t size_y, unsigned int x = 0, unsigned int y = 0);
         virtual ~ui_element() = default;
@@ -50,7 +50,7 @@ class ui_element {
 
         virtual void set_parent(ui_element *parent);
 
-        const rect &get_rect() const;
+        const ui_rect &get_rect() const;
 
         virtual void set_visible(bool visible);
         virtual bool is_visible() const;

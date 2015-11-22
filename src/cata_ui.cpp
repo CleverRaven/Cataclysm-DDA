@@ -5,11 +5,11 @@
 #include <cmath>
 #include <array>
 
-rect::rect( size_t size_x, size_t size_y, unsigned int x, unsigned int y ) : x( x ), y( y ), global_x(x), global_y(y), size_x( size_x ), size_y( size_y )
+ui_rect::ui_rect( size_t size_x, size_t size_y, unsigned int x, unsigned int y ) : x( x ), y( y ), global_x(x), global_y(y), size_x( size_x ), size_y( size_y )
 {
 }
 
-void rect::set_parent(const rect *p_rect)
+void ui_rect::set_parent(const ui_rect *p_rect)
 {
     parent = p_rect;
     if(parent) {
@@ -21,33 +21,33 @@ void rect::set_parent(const rect *p_rect)
     }
 }
 
-unsigned int rect::get_x() const
+unsigned int ui_rect::get_x() const
 {
     return x;
 }
 
-void rect::set_x(unsigned int new_x)
+void ui_rect::set_x(unsigned int new_x)
 {
     x = new_x;
     global_x = x + parent->x;
 }
 
-unsigned int rect::get_y() const
+unsigned int ui_rect::get_y() const
 {
     return y;
 }
 
-void rect::set_y(unsigned int new_y)
+void ui_rect::set_y(unsigned int new_y)
 {
     y = new_y;
     global_y = y + parent->y;
 }
 
-unsigned int rect::get_global_x() const
+unsigned int ui_rect::get_global_x() const
 {
     return global_x;
 }
-unsigned int rect::get_global_y() const
+unsigned int ui_rect::get_global_y() const
 {
     return global_y;
 }
@@ -83,7 +83,7 @@ T *ui_window::add_child( const T &child )
     return (T *) child_clone;
 }
 
-ui_element::ui_element(size_t size_x, size_t size_y, unsigned int x, unsigned int y) : el_rect(rect(size_x, size_y, x, y))
+ui_element::ui_element(size_t size_x, size_t size_y, unsigned int x, unsigned int y) : rect(ui_rect(size_x, size_y, x, y))
 {
 }
 
@@ -100,15 +100,15 @@ bool ui_element::is_visible() const
 void ui_element::set_parent(ui_element *parent)
 {
     if(parent) {
-        el_rect.set_parent(&parent->get_rect());
+        rect.set_parent(&parent->get_rect());
     } else {
-        el_rect.set_parent( nullptr );
+        rect.set_parent( nullptr );
     }
 }
 
-const rect &ui_element::get_rect() const
+const ui_rect &ui_element::get_rect() const
 {
-    return el_rect;
+    return rect;
 }
 
 ui_panel::ui_panel(size_t size_x, size_t size_y, unsigned int x, unsigned int y) : ui_element(size_x, size_y, x, y)
@@ -165,13 +165,13 @@ ui_element *ui_label::clone() const
 
 void ui_label::draw( WINDOW *win )
 {
-    mvwprintz( win, el_rect.get_global_y(), el_rect.get_global_x(), text_color, text.c_str() );
+    mvwprintz( win, rect.get_global_y(), rect.get_global_x(), text_color, text.c_str() );
 }
 
 void ui_label::set_text( std::string new_text )
 {
     text = new_text;
-    el_rect.size_x = new_text.size();
+    rect.size_x = new_text.size();
 }
 
 bordered_panel::bordered_panel(size_t size_x, size_t size_y, unsigned int x, unsigned int y ) : ui_panel(size_x, size_y, x, y)
@@ -196,7 +196,7 @@ void bordered_panel::draw( WINDOW *win )
 health_bar::health_bar(size_t size_x, unsigned int x, unsigned int y) : ui_element(size_x, 1, x, y),
                        max_health(size_x * points_per_char), current_health(max_health)
 {
-    for(unsigned int i = 0; i < el_rect.size_x; i++) {
+    for(unsigned int i = 0; i < rect.size_x; i++) {
         bar_str += "|";
     }
 }
@@ -208,18 +208,18 @@ ui_element *health_bar::clone() const
 
 void health_bar::draw( WINDOW *win )
 {
-    mvwprintz( win, el_rect.get_global_y(), el_rect.get_global_x(), bar_color, bar_str.c_str() );
+    mvwprintz( win, rect.get_global_y(), rect.get_global_x(), bar_color, bar_str.c_str() );
 }
 
 void health_bar::refresh_bar( bool overloaded, float percentage )
 {
     bar_str = "";
     if( overloaded ) {
-        for(unsigned int i = 0; i < el_rect.size_x; i++) {
+        for(unsigned int i = 0; i < rect.size_x; i++) {
             bar_str += "*";
         }
     } else {
-        for(unsigned int i = 0; i < el_rect.size_x; i++) {
+        for(unsigned int i = 0; i < rect.size_x; i++) {
             unsigned int char_health = current_health - (i * points_per_char);
             if(char_health <= 0) {
                 bar_str += ".";
@@ -270,7 +270,7 @@ ui_element *smiley_indicator::clone() const
 
 void smiley_indicator::draw( WINDOW *win )
 {
-    mvwprintz( win, el_rect.get_global_y(), el_rect.get_global_x(), smiley_color, smiley_str.c_str() );
+    mvwprintz( win, rect.get_global_y(), rect.get_global_x(), smiley_color, smiley_str.c_str() );
 }
 
 void smiley_indicator::set_state( smiley_state new_state )
@@ -305,14 +305,14 @@ tile_panel::tile_panel(tripoint center, std::function<const char_tile(int, int, 
                        : ui_element(size_x, size_y, x, y), tile_at(tile_at), center(center)
 {
     if(size_x % 2 == 0) {
-        el_rect.size_x += 1;
+        rect.size_x += 1;
     }
     if(size_y % 2 == 0) {
-        el_rect.size_y += 1;
+        rect.size_y += 1;
     }
 
-    x_radius = (el_rect.size_x - 1) / 2;
-    y_radius = (el_rect.size_y - 1) / 2;
+    x_radius = (rect.size_x - 1) / 2;
+    y_radius = (rect.size_y - 1) / 2;
 }
 
 ui_element *tile_panel::clone() const
@@ -331,7 +331,7 @@ void tile_panel::draw( WINDOW *win )
 
     for(unsigned int x = start_x; x <= end_x; x++) {
         for(unsigned int y = start_y; y <= end_y; y++) {
-            tile_at(x, y, center.z).draw( win, el_rect.get_global_x() + x, el_rect.get_global_y() + y );
+            tile_at(x, y, center.z).draw( win, rect.get_global_x() + x, rect.get_global_y() + y );
         }
     }
 }
@@ -366,8 +366,8 @@ ui_element *tabbed_panel::clone() const
 
 int tabbed_panel::draw_tab(const std::string &tab, bool selected, int x_offset, WINDOW *win) const
 {
-    int gy = el_rect.get_global_y();
-    int gx = el_rect.get_global_x() + x_offset;
+    int gy = rect.get_global_y();
+    int gx = rect.get_global_x() + x_offset;
 
     int width = utf8_width(tab.c_str()) + 2;
     //print top border
