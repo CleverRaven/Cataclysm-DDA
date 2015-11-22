@@ -3736,6 +3736,54 @@ int item::gun_range( const player *p ) const
     return std::max( 0, ret );
 }
 
+long item::ammo_remaining() const
+{
+    if( is_tool() ) {
+        return charges;
+    }
+
+    if( is_gun() ) {
+        // includes auxiliary gunmods
+        // @todo handle magazines
+        return charges;
+    }
+
+    return 0;
+}
+
+long item::ammo_capacity() const
+{
+    long res = 0;
+
+    if( is_tool() ) {
+        res = type->maximum_charges();
+
+        if( has_flag("DOUBLE_AMMO") ) {
+            res *= 2;
+        }
+        if( has_flag("ATOMIC_AMMO") ) {
+            res *= 1000;
+        }
+    }
+
+    if( is_gun() ) {
+        // @todo handle magazines
+        res = type->gun->clip;
+
+        for( auto &e : contents ) {
+            if( e.is_gunmod() && !e.is_auxiliary_gunmod() ) {
+                res += res * e.type->gunmod->clip / 100;
+            }
+        }
+    }
+
+    if( has_flag("NO_AMMO") ) {
+        res = 0;
+    }
+
+    return res;
+}
+
 ammotype item::ammo_type() const
 {
     if (is_gun()) {
