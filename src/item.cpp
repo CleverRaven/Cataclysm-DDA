@@ -686,9 +686,9 @@ std::string item::info(bool showtext, std::vector<iteminfo> &dump_ref) const
         int ammo_recoil = 0;
         int ammo_pierce = 0;
         int ammo_dispersion = 0;
-        bool has_ammo = (has_curammo() && charges > 0);
+        bool has_ammo = (mod->has_curammo() && mod->ammo_remaining() > 0);
         if (has_ammo) {
-            const auto curammo = get_curammo()->ammo.get();
+            const auto curammo = mod->get_curammo()->ammo.get();
             ammo_dam = curammo->damage;
             ammo_range = curammo->range;
             ammo_recoil = curammo->recoil;
