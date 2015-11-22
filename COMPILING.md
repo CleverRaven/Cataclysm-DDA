@@ -309,7 +309,7 @@ Build a release SDL version using Clang, link to libraries in the OS X Framework
 
 Build a release curses version with gettext supplied by Macports:
 
-    make NATIVE=osx OSX_MIN=10.7 RELEASE=1 LOCALIZE=1 MACPORTS=1
+    make NATIVE=osx OSX_MIN=10.7 RELEASE=1 LOCALIZE=1 MACPORTS=1 CLANG=1
 
 ### Compiling localization files
 
