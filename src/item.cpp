@@ -4011,163 +4011,114 @@ static void eject_casings( player &p, item *reload_target, itype_id casing_type 
 
 bool item::reload(player &u, int pos)
 {
-    bool single_load = false;
-    // set to true if the target of the reload is the spare magazine
-    bool reloading_spare_mag = false;
-    int max_load = 1;
-    item *reload_target = NULL;
-    item *ammo_to_use = &u.i_at(pos);
-    item *ammo_container = NULL;
+    long qty = 0;
+    item *target = nullptr;
+    item *ammo = &u.i_at(pos);
+    item *container = nullptr;
 
     // Handle ammo in containers, currently only gasoline and quivers
-    if (!ammo_to_use->contents.empty() && (ammo_to_use->is_container() ||
-                                           ammo_to_use->type->can_use("QUIVER"))) {
-        ammo_container = ammo_to_use;
-        ammo_to_use = &ammo_to_use->contents[0];
+    if ( (ammo->is_container() || ammo->type->can_use("QUIVER")) && !ammo->contents.empty() ) {
+        container = ammo;
+        ammo = &ammo->contents[0];
     }
 
-    bool const is_from_quiver = pos < -1 && ammo_container != nullptr && ammo_container->type->can_use( "QUIVER" );
-    if( is_from_quiver ) {
-        // chance to fail pulling an arrow at lower levels
+    if( ammo->is_null() ) {
+        return false;
+    }
+
+    // Chance to fail pulling an arrow at lower levels
+    if( container && container->type->can_use( "QUIVER" ) ) {
         int archery = u.skillLevel( skill_id( "archery" ) );
         if( archery <= 2 && one_in( 10 ) ) {
             u.moves -= 30;
             u.add_msg_if_player( _( "You try to pull a %1$s from your %2$s, but fail!" ),
-                                ammo_to_use->tname().c_str(), ammo_container->type_name().c_str() );
+                                ammo->tname().c_str(), container->type_name().c_str() );
             return false;
         }
         u.add_msg_if_player( _( "You pull a %1$s from your %2$s and nock it." ),
-                             ammo_to_use->tname().c_str(), ammo_container->type_name().c_str() );
+                             ammo->tname().c_str(), container->type_name().c_str() );
     }
 
-    if (is_gun()) {
-        // Reload using a spare magazine
-        int spare_mag = has_gunmod("spare_mag");
-        if (charges <= 0 && spare_mag != -1 &&
-            contents[spare_mag].charges > 0) {
-            charges = contents[spare_mag].charges;
-            set_curammo( contents[spare_mag].get_curammo_id() );
-            contents[spare_mag].charges = 0;
-            contents[spare_mag].unset_curammo();
+    // First determine what we are trying to reload
+    if( is_gun() ) {
+        item *spare_mag = has_gunmod("spare_mag") >= 0 ? &contents[has_gunmod("spare_mag")] : nullptr;
+
+        // @todo deprecate reloading using a spare magazine
+        if( spare_mag && spare_mag->charges > 0 && ammo_remaining() <= 0 ) {
+            charges = spare_mag->charges;
+            set_curammo( spare_mag->get_curammo_id() );
+            spare_mag->charges = 0;
+            spare_mag->unset_curammo();
             return true;
         }
 
-        // Determine what we're reloading, the gun, a spare magazine, or another gunmod.
-        // Prefer the active gunmod if there is one
-        item* gunmod = active_gunmod();
-        if (gunmod && gunmod->ammo_type() == ammo_to_use->ammo_type() &&
-            (gunmod->charges <= 0 || gunmod->get_curammo_id() == ammo_to_use->typeId())) {
-            reload_target = gunmod;
-            // Then prefer the gun itself
-        } else if (charges < clip_size() &&
-                   ammo_type() == ammo_to_use->ammo_type() &&
-                   (charges <= 0 || get_curammo_id() == ammo_to_use->typeId())) {
-            reload_target = this;
-            // Then prefer a spare mag if present
-        } else if (spare_mag != -1 &&
-                   ammo_type() == ammo_to_use->ammo_type() &&
-                   contents[spare_mag].charges != spare_mag_size() &&
-                   (charges <= 0 || get_curammo_id() == ammo_to_use->typeId())) {
-            reload_target = &contents[spare_mag];
-            reloading_spare_mag = true;
-            // Finally consider other gunmods
-        } else {
-            for (size_t i = 0; i < contents.size(); i++) {
-                if (&contents[i] != gunmod && (int)i != spare_mag &&
-                    contents[i].is_auxiliary_gunmod() &&
-                    contents[i].ammo_type() == ammo_to_use->ammo_type() &&
-                    (contents[i].charges <= contents[i].spare_mag_size() ||
-                     (contents[i].charges <= 0 || contents[i].get_curammo_id() == ammo_to_use->typeId()))) {
-                    reload_target = &contents[i];
+        // In order of preference reload active gunmod, gun, spare magazine, any other auxiliary gunmod
+        std::vector<item *> opts = { active_gunmod(), this, spare_mag };
+        std::transform(contents.begin(), contents.end(), std::back_inserter(opts), [](item& mod){
+            return mod.is_auxiliary_gunmod() ? &mod : nullptr;
+        });
+
+        for( auto e : opts ) {
+            if( e != nullptr ) {
+                // @todo deprecate handling of spare magazines as a special case
+                if( e == spare_mag && ammo_type() == ammo->ammo_type() &&
+                    (!e->charges || e->get_curammo_id() == ammo->typeId()) &&
+                    e->charges < ammo_capacity() ) {
+
+                    qty = has_flag("RELOAD_ONE") ? 1 : ammo_capacity() - e->charges;
+                    target = e;
+                    break;
+                } // handle everything else (gun and auxiliary gunmods)
+                if( e->ammo_type() == ammo->ammo_type() &&
+                    (!e->ammo_remaining() || e->get_curammo_id() == ammo->typeId()) &&
+                    e->ammo_remaining() < e->ammo_capacity() ) {
+                    qty = e->ammo_capacity() - e->ammo_remaining();
+
+                    qty = e->has_flag("RELOAD_ONE") ? 1 : e->ammo_capacity() - e->ammo_remaining();
+                    target = e;
                     break;
                 }
             }
         }
-
-        if (reload_target == NULL) {
-            return false;
+    } else if( is_tool() ) {
+        qty = ammo_capacity() - ammo_remaining();
+        if( ammo_type() == ammo->ammo_type() && qty > 0 ) {
+            target = this;
         }
-
-        if (reload_target->is_gun() || reload_target->is_gunmod()) {
-            if (reload_target->is_gunmod() && reload_target->typeId() == "spare_mag") {
-                // Use gun numbers instead of the mod if it's a spare magazine
-                max_load = type->gun->clip;
-                single_load = has_flag("RELOAD_ONE");
-            } else {
-                single_load = reload_target->has_flag("RELOAD_ONE");
-                max_load = reload_target->clip_size();
-            }
-        }
-    } else if (is_tool()) {
-        const auto tool = dynamic_cast<const it_tool*>(type);
-        reload_target = this;
-        single_load = false;
-        max_load = tool->max_charges;
-    } else {
-        return false;
     }
 
-    if (has_flag("DOUBLE_AMMO")) {
-        max_load *= 2;
-    }
-
-    if (has_flag("ATOMIC_AMMO")) {
-        max_load *= 100;
-    }
-
-    if (pos != INT_MIN) {
-        // If the gun is currently loaded with a different type of ammo, reloading fails
-        if ((reload_target->is_gun() || reload_target->is_gunmod()) &&
-            reload_target->charges > 0 && reload_target->get_curammo_id() != ammo_to_use->typeId()) {
-            return false;
-        }
-        if (reload_target->is_gun() || reload_target->is_gunmod()) {
-            if (!ammo_to_use->is_ammo()) {
-                debugmsg("Tried to reload %s with %s!", tname().c_str(),
-                         ammo_to_use->tname().c_str());
-                return false;
-            }
-            reload_target->set_curammo( *ammo_to_use );
-        }
+    // If we found a suitable target, try and reload it
+    if ( target ) {
         if( has_curammo() ) {
-            eject_casings( u, reload_target, get_curammo()->ammo->casing );
+            eject_casings( u, target, get_curammo()->ammo->casing );
         }
-        if (single_load || max_load == 1) { // Only insert one cartridge!
-            reload_target->charges++;
-            ammo_to_use->charges--;
-        } else if( reload_target->ammo_type() == "plutonium" ) {
-            int charges_per_plut = 500;
-            long max_plut = floor( static_cast<float>((max_load - reload_target->charges) /
-                                                      charges_per_plut) );
-            int charges_used = std::min(ammo_to_use->charges, max_plut);
-            reload_target->charges += (charges_used * charges_per_plut);
-            ammo_to_use->charges -= charges_used;
-        } else {
-            // if this is the spare magazine use appropriate size, otherwise max_load
-            max_load = (reloading_spare_mag) ? spare_mag_size() : max_load;
-            reload_target->charges += ammo_to_use->charges;
-            ammo_to_use->charges = 0;
-            if (reload_target->charges > max_load) {
-                // More rounds than the clip holds, put some back
-                ammo_to_use->charges += reload_target->charges - max_load;
-                reload_target->charges = max_load;
-            }
+
+        if( target->is_gun() || target->is_gunmod() ) {
+            target->set_curammo( *ammo );
         }
-        if (ammo_to_use->charges == 0) {
-            if (ammo_container != NULL) {
-                ammo_container->contents.erase(ammo_container->contents.begin());
-                // We just emptied a container, which might be part of stack,
-                // but empty and non-empty containers should not stack, force
-                // a re-stacking.
-                u.inv.restack(&u);
+
+         if( ammo_type() == "plutonium" ) {
+             // always consume at least one plutonium cell
+             auto cells = std::max(std::min(qty / 500, 1L), ammo->charges);
+             ammo->charges -= cells;
+             // any excess is wasted rather than overfilling the target
+             target->charges += std::min(cells * 500, qty);
+         } else {
+             ammo->charges   -= std::min(qty, ammo->charges);
+             target->charges += std::min(qty, ammo->charges);
+         }
+
+         if( ammo->charges == 0 ) {
+            if( container != nullptr ) {
+                container->contents.erase(container->contents.begin());
+                u.inv.restack(&u); // emptied containers do not stack with non-empty ones
             } else {
                 u.i_rem(pos);
             }
         }
         return true;
-    } else {
-        return false;
-    }
+   }
+   return false;
 }
 
 bool item::burn(int amount)
