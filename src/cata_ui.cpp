@@ -36,7 +36,7 @@ ui_window::~ui_window()
     delwin( win );
 }
 
-void ui_window::draw( WINDOW *win )
+void ui_window::draw()
 {
     if( !(parent && parent->win == win) ) { // not really needed...
         return;
@@ -51,14 +51,9 @@ void ui_window::draw_internal()
 {
     for( auto &child : children ) {
         if( child->is_visible() ) {
-            child->draw( win );
+            child->draw();
         }
     }
-}
-
-void ui_window::draw()
-{
-    draw( this->win );
 }
 
 void ui_window::set_parent( const ui_window *parent )
@@ -78,6 +73,11 @@ T *ui_window::add_child( const T &child )
     children.push_back( child_clone );
     child_clone->set_parent(this);
     return (T *) child_clone;
+}
+
+WINDOW *ui_window::get_win() const
+{
+    return win;
 }
 
 ui_element::ui_element(size_t size_x, size_t size_y, unsigned int x, unsigned int y) : rect(ui_rect(size_x, size_y, x, y))
@@ -104,6 +104,14 @@ const ui_rect &ui_element::get_rect() const
     return rect;
 }
 
+WINDOW *ui_element::get_win() const
+{
+    if(parent) {
+        return parent->get_win();
+    }
+    return nullptr;
+}
+
 ui_label::ui_label( std::string text ,unsigned int x, unsigned int y ) : ui_element( utf8_width( text.c_str() ), 1, x, y ), text( text )
 {
 }
@@ -113,8 +121,13 @@ ui_element *ui_label::clone() const
     return new ui_label(*this);
 }
 
-void ui_label::draw( WINDOW *win )
+void ui_label::draw()
 {
+    auto win = get_win();
+    if(!win) {
+        return;
+    }
+
     mvwprintz( win, rect.y, rect.x, text_color, text.c_str() );
 }
 
@@ -156,8 +169,13 @@ ui_element *health_bar::clone() const
     return new health_bar(*this);
 }
 
-void health_bar::draw( WINDOW *win )
+void health_bar::draw()
 {
+    auto win = get_win();
+    if(!win) {
+        return;
+    }
+
     mvwprintz( win, rect.y, rect.x, bar_color, bar_str.c_str() );
 }
 
@@ -218,8 +236,13 @@ ui_element *smiley_indicator::clone() const
     return new smiley_indicator(*this);
 }
 
-void smiley_indicator::draw( WINDOW *win )
+void smiley_indicator::draw()
 {
+    auto win = get_win();
+    if(!win) {
+        return;
+    }
+
     mvwprintz( win, rect.y, rect.x, smiley_color, smiley_str.c_str() );
 }
 
@@ -270,8 +293,13 @@ ui_element *tile_panel::clone() const
     return new tile_panel(*this);
 }
 
-void tile_panel::draw( WINDOW *win )
+void tile_panel::draw()
 {
+    auto win = get_win();
+    if(!win) {
+        return;
+    }
+
     // temporary variables for cleanliness
     unsigned int start_x = center.x - x_radius;
     unsigned int end_x = center.x + x_radius;

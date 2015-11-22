@@ -30,8 +30,9 @@ class ui_element {
         bool show = true;
         ui_rect rect;
 
-        virtual void draw( WINDOW * ) = 0;
+        virtual void draw() = 0;
         virtual ui_element *clone() const = 0;
+        virtual WINDOW *get_win() const;
     public:
         ui_element(size_t size_x, size_t size_y, unsigned int x = 0, unsigned int y = 0);
         virtual ~ui_element() = default;
@@ -44,26 +45,26 @@ class ui_element {
 
 // composite pattern
 class ui_window : public ui_element {
+    friend class ui_element;
     private:
         void set_parent( const ui_window *parent ) override;
-    protected:
+
         int global_x;
         int global_y;
 
+        std::list<ui_element *> children;
+    protected:
         WINDOW *win;
 
-        std::list<ui_element *> children;
-
         virtual ui_element *clone() const override;
-        void draw( WINDOW* );
-
+        virtual WINDOW *get_win() const override;
         virtual void draw_internal();
     public:
         ui_window(size_t size_x, size_t size_y, unsigned int x = 0, unsigned int y = 0);
         ui_window(const ui_window &);
         ~ui_window() override;
 
-        void draw();
+        void draw() override;
 
         template<typename T = ui_element>
         T *add_child( const T &child );
@@ -72,9 +73,9 @@ class ui_window : public ui_element {
 class ui_label : public ui_element {
     private:
         std::string text;
-
+    protected:
         virtual ui_element *clone() const override;
-        virtual void draw( WINDOW * ) override;
+        virtual void draw() override;
     public:
         ui_label( std::string text );
         ui_label( std::string text, unsigned int x, unsigned int y );
@@ -105,9 +106,9 @@ class health_bar : public ui_element {
         static const unsigned int points_per_char = 2;
 
         void refresh_bar( bool overloaded, float percentage );
-
+    protected:
         virtual ui_element *clone() const override;
-        virtual void draw( WINDOW * ) override;
+        virtual void draw() override;
     public:
         health_bar(size_t size_x, unsigned int x = 0, unsigned int y = 0);
 
@@ -128,9 +129,9 @@ class smiley_indicator : public ui_element {
         smiley_state state = neutral;
         nc_color smiley_color = c_white;
         std::string smiley_str = "";
-
+    protected:
         virtual ui_element *clone() const override;
-        virtual void draw( WINDOW * ) override;
+        virtual void draw() override;
     public:
         smiley_indicator(unsigned int x = 0, unsigned int y = 0);
 
@@ -154,9 +155,9 @@ class tile_panel : public ui_element {
 
         unsigned int x_radius;
         unsigned int y_radius;
-
+    protected:
         virtual ui_element *clone() const override;
-        virtual void draw( WINDOW * ) override;
+        virtual void draw() override;
     public:
         tile_panel(tripoint center, std::function<const char_tile(int, int, int)> tile_at,
                    size_t size_x, size_t size_y, unsigned int x = 0, unsigned int y = 0);
@@ -171,7 +172,7 @@ class tabbed_window : public bordered_window {
         unsigned int tab_index;
 
         int draw_tab(const std::string &, bool, int, WINDOW *) const;
-
+    protected:
         virtual ui_element *clone() const override;
         virtual void draw_internal() override;
     public:
