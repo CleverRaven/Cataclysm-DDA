@@ -361,6 +361,8 @@ public:
     void process_mongroups();
     void move_hordes();
 
+    void convert_terrain( std::map<tripoint, std::string> &needs_conversion );
+
     // drawing relevant data, e.g. what to draw
     struct draw_data_t {
         // draw monster groups on the overmap

@@ -281,6 +281,7 @@ void overmap::unserialize_legacy(std::ifstream & fin) {
                             } else if( tmp_ter.compare( 0, 13, "necropolis_a_" ) == 0 &&
                                        otermap.count( tmp_ter + "_north" ) > 0 ) {
                                 tmp_otid = tmp_ter + "_north";
+                            // Add apartments_con json conversion code here?
                             } else {
                                 debugmsg("Loaded bad ter! ter %s", tmp_ter.c_str());
                                 tmp_otid = 0;
