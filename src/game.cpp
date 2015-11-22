@@ -11690,53 +11690,74 @@ void game::unload(item &it)
     }
 }
 
-void game::wield(int pos)
+void game::wield( int pos )
 {
-    if (u.weapon.has_flag("NO_UNWIELD")) {
+    if( u.weapon.has_flag( "NO_UNWIELD" ) ) {
         // Bionics can't be unwielded
-        add_msg(m_info, _("You cannot unwield your %s."), u.weapon.tname().c_str());
+        add_msg( m_info, _( "You cannot unwield your %s." ), u.weapon.tname().c_str() );
         return;
     }
-    if (pos == INT_MIN) {
-        pos = inv(_("Wield item:"));
+    if( pos == INT_MIN ) {
+        pos = inv( _( "Wield item:" ) );
     }
 
-    if (pos == INT_MIN) {
-        add_msg(_("Never mind."));
+    if( pos == INT_MIN ) {
+        add_msg( _( "Never mind." ) );
         return;
     }
 
     // Weapons need invlets to access, give one if not already assigned.
-    item &it = u.i_at(pos);
-    if (!it.is_null() && it.invlet == 0) {
-        u.inv.assign_empty_invlet(it, true);
+    item &it = u.i_at( pos );
+    if( !it.is_null() && it.invlet == 0 ) {
+        u.inv.assign_empty_invlet( it, true );
     }
 
     bool success = false;
-    if (pos == -1) {
-        success = u.wield(NULL);
+    if( pos == -1 ) {
+        success = u.wield( NULL );
     } else {
-        success = u.wield(&(u.i_at(pos)));
+        success = u.wield( &( u.i_at( pos ) ) );
     }
 
-    if (success) {
+    if( success ) {
         u.recoil = MIN_RECOIL;
     }
 }
 
 void game::read()
 {
-    auto filter = []( const item &it ) {
-        return it.is_book();
-    };
-    int pos = inv_for_filter( _("Read:"), filter );
+    // Can read items from inventory or within one tile (including in vehicles)
+    auto loc = inv_map_splice( []( const item &it ) { return it.is_book(); }, _( "Read:" ), 1 );
 
-    if (pos == INT_MIN) {
-        add_msg(_("Never mind."));
+    item *book = loc.get_item();
+    if( !book ) {
+        add_msg( _( "Never mind." ) );
         return;
     }
-    draw();
-    u.read(pos);
+
+    int pos = u.get_item_position( book );
+
+    // Book is already in the inventory so attempt reading.
+    if( pos != INT_MIN ) {
+        u.read( pos );
+        return;
+    }
+
+    if( u.volume_carried() + book->volume() > u.volume_capacity() ) {
+        add_msg( _( "No space in inventory for %s" ), book->tname().c_str() );
+        return;
+    }
+
+    // Add book to inventory and attempt to read it.
+    pos = u.get_item_position( &u.i_add( *book ) );
+    // At this point there is one copy of the book on the ground and one in the inventory.
+    if( u.read( pos ) ) {
+        // We started reading so remove book from map or vehicle tile.
+        loc.remove_item();
+    } else {
+        // We failed so undo adding the book to the inventory.
+        u.i_rem( pos );
+    }
 }
 
 void game::chat()
