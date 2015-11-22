@@ -10418,11 +10418,21 @@ bool player::wield(item* it, bool autodrop)
         inv.unsort();
     }
 
+    // Wielding from inventory is relatively slow and does not improve with increasing weapon skill.
+    // Worn items (including guns with shoulder straps) are faster but still slower
+    // than a skilled player with a holster.
+    // There is an additional penalty when wielding items from the inventory whilst currently grabbed.
+
     if( is_wearing_item( *it ) ) {
         it->on_takeoff( *this );
+        mv += it->volume() * 10;
+    } else {
+        mv += it->volume() * 20;
+        if( has_effect( "grabbed" ) ) {
+            mv *= 2;
+        }
     }
 
-    mv += 30;
     moves -= mv;
 
     weapon = i_rem( it );
