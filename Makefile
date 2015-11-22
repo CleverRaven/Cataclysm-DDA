@@ -272,6 +272,11 @@ ifdef MAPSIZE
     CXXFLAGS += -DMAPSIZE=$(MAPSIZE)
 endif
 
+ifeq ($(shell git rev-parse --is-inside-work-tree),true)
+  # We have a git repository, use git version
+  DEFINES += -DGIT_VERSION
+endif
+
 PKG_CONFIG = $(CROSS)pkg-config
 SDL2_CONFIG = $(CROSS)sdl2-config
 
