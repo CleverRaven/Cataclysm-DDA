@@ -14888,9 +14888,15 @@
         },
         {
           "id": "t_generator_broken",
-          "fg": 1789,
-          "bg": 534,
-          "rotates": false
+          "fg": 3031,
+          "rotates": true,
+          "multitile": true,
+          "additional_tiles": [
+            {
+              "id": "t_connection",
+              "fg": 3032
+            }
+          ]
         },
         {
           "id": "t_wall_r",
