@@ -296,10 +296,9 @@ void game::save_weather(std::ofstream &fout) {
  */
 void overmap::convert_terrain( std::map<tripoint, std::string> &needs_conversion )
 {
-    for( std::map<tripoint, std::string>::const_iterator convert = needs_conversion.begin();
-            convert != needs_conversion.end(); ++convert ) {
-        tripoint pos = convert->first;
-        std::string old = convert->second;
+    for( auto convert = needs_conversion.begin(); convert != needs_conversion.end(); ++convert ) {
+        const tripoint pos = convert->first;
+        const std::string old = convert->second;
         oter_id &new_id = ter( pos.x, pos.y, pos.z );
 
         // Check for neighboring terrain with old ids as well
@@ -396,8 +395,8 @@ void overmap::unserialize( std::ifstream &fin ) {
     while( !jsin.end_object() ) {
         const std::string name = jsin.get_member_name();
         if( name == "layers" ) {
-            jsin.start_array();
             std::map<tripoint, std::string> needs_conversion;
+            jsin.start_array();
             for( int z = 0; z < OVERMAP_LAYERS; ++z ) {
                 jsin.start_array();
                 int count = 0;
@@ -429,8 +428,8 @@ void overmap::unserialize( std::ifstream &fin ) {
                 }
                 jsin.end_array();
             }
-            convert_terrain( needs_conversion );
             jsin.end_array();
+            convert_terrain( needs_conversion );
         } else if( name == "region_id" ) {
             std::string new_region_id;
             jsin.read( new_region_id );
