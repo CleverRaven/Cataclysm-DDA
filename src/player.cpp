@@ -11141,59 +11141,45 @@ void player::use_wielded() {
 
 hint_rating player::rate_action_reload( const item &it ) const
 {
-    if (it.has_flag("NO_RELOAD")) {
+    if( it.ammo_capacity() <= 0 || it.ammo_type() == "NULL" ) {
         return HINT_CANT;
     }
-    if (it.is_gun()) {
-        if (it.has_flag("RELOAD_AND_SHOOT") || it.ammo_type() == "NULL") {
-            return HINT_CANT;
-        }
-        if (it.charges == it.clip_size()) {
-            bool alternate_magazine = false;
-            for (auto &i : it.contents) {
-                if ((i.is_gunmod() && (i.typeId() == "spare_mag" &&
-                      i.charges < it.type->gun->clip)) ||
-                      (i.is_auxiliary_gunmod() && i.charges < i.clip_size())) {
-                    alternate_magazine = true;
-                }
-            }
-            if(alternate_magazine == false) {
-                return HINT_IFFY;
-            }
-        }
-        return HINT_GOOD;
-    } else if (it.is_tool()) {
-        const auto tool = dynamic_cast<const it_tool*>(it.type);
-        if (tool->ammo_id == "NULL") {
-            return HINT_CANT;
-        }
+
+    if( it.has_flag("NO_RELOAD") || it.has_flag("RELOAD_AND_SHOOT") ) {
+        return HINT_CANT;
+    }
+
+    if ( it.ammo_remaining() < it.ammo_capacity() ) {
         return HINT_GOOD;
     }
-    return HINT_CANT;
+
+    if( it.is_gun() ) {
+        for( const auto& mod : it.contents ) {
+            // @todo deprecate spare magazine
+            if( mod.typeId() == "spare_mag" && mod.charges < it.ammo_capacity() ) {
+                return HINT_GOOD;
+            }
+            if (mod.is_auxiliary_gunmod() && mod.ammo_remaining() < mod.ammo_capacity() ) {
+                return HINT_GOOD;
+            }
+        }
+    }
+
+   return HINT_IFFY;
 }
 
 hint_rating player::rate_action_unload( const item &it ) const
 {
     if( ( it.is_container() || it.is_gun() ) && !it.contents.empty() ) {
+        // gunmods can also be unloaded
         return HINT_GOOD;
     }
-    if( !it.is_gun() &&
-        !it.is_auxiliary_gunmod() &&
-        !( it.typeId() == "spare_mag" ) &&
-        ( !it.is_tool() || it.ammo_type() == "NULL" ) ) {
-        return HINT_CANT;
+
+    if( it.ammo_remaining() > 0 && !it.has_flag("NO_UNLOAD") ) {
+        return HINT_GOOD;
     }
-    for( auto &gunmod : it.contents ) {
-        if( gunmod.is_auxiliary_gunmod() && gunmod.charges > 0 ) {
-            return HINT_GOOD;
-        } else if( gunmod.typeId() == "spare_mag" && gunmod.charges > 0 ) {
-            return HINT_GOOD;
-        }
-    }
-    if( it.charges <= 0 ) {
-        return HINT_CANT;
-    }
-    return HINT_GOOD;
+
+    return HINT_CANT;
 }
 
 hint_rating player::rate_action_disassemble( const item &it )
