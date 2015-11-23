@@ -37,16 +37,33 @@ class ui_window;
 /**
 * Most basic ui element.
 *
-* This abstract class is used to implement the ui's composite pattern.
+* This abstract class is used to implement the frameworks's composite pattern.
 */
 class ui_element {
     friend class ui_window; // so we don't have to make draw, clone and set_parent public
     private:
         const ui_window *parent;
         virtual void set_parent(const ui_window *parent);
+
+        enum ui_anchor {
+            top_left,
+            top_center,
+            top_right,
+            center_left,
+            center_center,
+            center_right,
+            bottom_left,
+            bottom_center,
+            bottom_right
+        };
+
+        ui_anchor anchor = top_left;
+        void calc_anchored_values();
     protected:
         bool show = true;
         ui_rect rect;
+
+        unsigned int anchored_x, anchored_y;
 
         virtual void draw() = 0;
         virtual ui_element *clone() const = 0;
@@ -56,6 +73,8 @@ class ui_element {
         virtual ~ui_element() = default;
 
         const ui_rect &get_rect() const;
+
+        void set_anchor(ui_anchor new_anchor);
 
         void set_visible(bool visible);
         bool is_visible() const;

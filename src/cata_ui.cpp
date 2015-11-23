@@ -76,7 +76,7 @@ WINDOW *ui_window::get_win() const
     return win;
 }
 
-ui_element::ui_element(size_t size_x, size_t size_y, unsigned int x, unsigned int y) : rect(ui_rect(size_x, size_y, x, y))
+ui_element::ui_element(size_t size_x, size_t size_y, unsigned int x, unsigned int y) : rect(ui_rect(size_x, size_y, x, y)), anchored_x(x), anchored_y(y)
 {
 }
 
@@ -90,9 +90,61 @@ bool ui_element::is_visible() const
     return show;
 }
 
+void ui_element::set_anchor(ui_anchor new_anchor)
+{
+    anchor = new_anchor;
+    calc_anchored_values();
+}
+
+void ui_element::calc_anchored_values()
+{
+    if(parent) {
+        auto p_rect = parent->get_rect();
+        switch(anchor) {
+            case top_left:
+                break;
+            case top_center:
+                anchored_x = (p_rect.size_x / 2) - (rect.size_x / 2);
+                anchored_y = rect.y;
+                return;
+            case top_right:
+                anchored_x = p_rect.size_x - rect.size_x;
+                anchored_y = rect.y;
+                return;
+            case center_left:
+                anchored_x = rect.x;
+                anchored_y = (p_rect.size_y / 2) - (rect.size_y / 2);
+                return;
+            case center_center:
+                anchored_x = (p_rect.size_x / 2) - (rect.size_x / 2);
+                anchored_y = (p_rect.size_y / 2) - (rect.size_y / 2);
+                return;
+            case center_right:
+                anchored_x = p_rect.size_x - rect.size_x;
+                anchored_y = (p_rect.size_y / 2) - (rect.size_y / 2);
+                return;
+            case bottom_left:
+                anchored_x = rect.x;
+                anchored_y = p_rect.size_y - rect.size_y;
+                return;
+            case bottom_center:
+                anchored_x = (p_rect.size_x / 2) - (rect.size_x / 2);
+                anchored_y = p_rect.size_y - rect.size_y;
+                return;
+            case bottom_right:
+                anchored_x = p_rect.size_x - rect.size_x;
+                anchored_y = p_rect.size_y - rect.size_y;
+                return;
+        }
+    }
+    anchored_x = rect.x;
+    anchored_y = rect.y;
+}
+
 void ui_element::set_parent(const ui_window *parent)
 {
     this->parent = parent;
+    calc_anchored_values();
 }
 
 const ui_rect &ui_element::get_rect() const
@@ -124,7 +176,7 @@ void ui_label::draw()
         return;
     }
 
-    mvwprintz( win, rect.y, rect.x, text_color, text.c_str() );
+    mvwprintz( win, anchored_y, anchored_x, text_color, text.c_str() );
 }
 
 void ui_label::set_text( std::string new_text )
@@ -172,7 +224,7 @@ void health_bar::draw()
         return;
     }
 
-    mvwprintz( win, rect.y, rect.x, bar_color, bar_str.c_str() );
+    mvwprintz( win, anchored_y, anchored_x, bar_color, bar_str.c_str() );
 }
 
 void health_bar::refresh_bar( bool overloaded, float percentage )
@@ -239,7 +291,7 @@ void smiley_indicator::draw()
         return;
     }
 
-    mvwprintz( win, rect.y, rect.x, smiley_color, smiley_str.c_str() );
+    mvwprintz( win, anchored_y, anchored_x, smiley_color, smiley_str.c_str() );
 }
 
 void smiley_indicator::set_state( smiley_state new_state )
@@ -305,7 +357,7 @@ void tile_panel::draw()
 
     for(unsigned int x = start_x; x <= end_x; x++) {
         for(unsigned int y = start_y; y <= end_y; y++) {
-            tile_at(x, y, center.z).draw( win, rect.x + x, rect.y + y );
+            tile_at(x, y, center.z).draw( win, anchored_x + x, anchored_y + y );
         }
     }
 }
@@ -341,8 +393,8 @@ ui_element *tabbed_window::clone() const
 // returns the width of the tab
 int tabbed_window::draw_tab(const std::string &tab, bool selected, int x_offset) const
 {
-    int gy = rect.y;
-    int gx = rect.x + x_offset;
+    int gy = anchored_y;
+    int gx = anchored_x + x_offset;
 
     int width = utf8_width(tab.c_str()) + 2;
     //print top border
@@ -352,7 +404,7 @@ int tabbed_window::draw_tab(const std::string &tab, bool selected, int x_offset)
 
     //print text and 2 borders
     mvwputch(win, gy + 1, gx, border_color, LINE_XOXO);
-    mvwprintz(win, gy + 1, gx + 1, border_color, tab.c_str());
+    mvwprintz(win, gy + 1, gx + 1, (selected ? hilite(border_color) : border_color), tab.c_str());
     mvwputch(win, gy + 1, gx + width, border_color, LINE_XOXO);
 
     if(selected) {
