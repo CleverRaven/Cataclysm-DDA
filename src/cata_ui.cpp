@@ -14,19 +14,6 @@ ui_window::ui_window( size_t size_x, size_t size_y, unsigned int x, unsigned int
 {
 }
 
-ui_window::ui_window(const ui_window &other) : ui_element(other.rect.size_x, other.rect.size_y, other.rect.x, other.rect.y), global_x(other.global_x),
-                                               global_y(other.global_y), win(newwin(rect.size_y, rect.size_x, rect.y, rect.x))
-{
-    for( auto child : other.children ) {
-        add_child(*child);
-    }
-}
-
-ui_element *ui_window::clone() const
-{
-    return new ui_window(*this);
-}
-
 ui_window::~ui_window()
 {
     while( children.size() > 0 ) {
@@ -62,13 +49,12 @@ void ui_window::set_parent( const ui_window *parent )
     win = newwin(rect.size_y, rect.size_x, global_y, global_x);
 }
 
-template<typename T>
-T *ui_window::add_child( const T &child )
+// This method expects a non-null pointer to a heap allocated ui_element.
+// This ui_element will b deleted by the ui_window's deconstructor, so you can add-and-forget.
+void ui_window::add_child( ui_element *child )
 {
-    auto child_clone = child.clone();
-    children.push_back( child_clone );
-    child_clone->set_parent(this);
-    return (T *) child_clone;
+    children.push_back( child );
+    child->set_parent(this);
 }
 
 WINDOW *ui_window::get_win() const
@@ -185,11 +171,6 @@ ui_label::ui_label( std::string text ,unsigned int x, unsigned int y, ui_anchor 
 {
 }
 
-ui_element *ui_label::clone() const
-{
-    return new ui_label(*this);
-}
-
 void ui_label::draw()
 {
     auto win = get_win();
@@ -210,11 +191,6 @@ bordered_window::bordered_window(size_t size_x, size_t size_y, unsigned int x, u
 {
 }
 
-ui_element *bordered_window::clone() const
-{
-    return new bordered_window(*this);
-}
-
 void bordered_window::local_draw()
 {
     wattron(win, border_color);
@@ -231,11 +207,6 @@ health_bar::health_bar(size_t size_x, unsigned int x, unsigned int y, ui_anchor 
     for(unsigned int i = 0; i < rect.size_x; i++) {
         bar_str += "|";
     }
-}
-
-ui_element *health_bar::clone() const
-{
-    return new health_bar(*this);
 }
 
 void health_bar::draw()
@@ -300,11 +271,6 @@ smiley_indicator::smiley_indicator(unsigned int x, unsigned int y, ui_anchor anc
 {
 }
 
-ui_element *smiley_indicator::clone() const
-{
-    return new smiley_indicator(*this);
-}
-
 void smiley_indicator::draw()
 {
     auto win = get_win();
@@ -357,11 +323,6 @@ tile_panel::tile_panel(tripoint center, std::function<const ui_tile(int, int, in
     y_radius = (rect.size_y - 1) / 2;
 }
 
-ui_element *tile_panel::clone() const
-{
-    return new tile_panel(*this);
-}
-
 void tile_panel::draw()
 {
     auto win = get_win();
@@ -404,11 +365,6 @@ ui_tile::ui_tile(long sym, nc_color color) : sym(sym), color(color)
 
 tabbed_window::tabbed_window(size_t size_x, size_t size_y, unsigned int x, unsigned int y, ui_anchor anchor) : bordered_window(size_x, size_y, x, y, anchor)
 {
-}
-
-ui_element *tabbed_window::clone() const
-{
-    return new tabbed_window(*this);
 }
 
 // returns the width of the tab
@@ -467,9 +423,10 @@ void tabbed_window::local_draw()
 
 ui_window *tabbed_window::create_tab(std::string tab)
 {
-    auto ret = ui_window::add_child(ui_window(rect.size_x - 2, rect.size_y - 4, 1, 1, bottom_left));
+    auto ret = new ui_window(rect.size_x - 2, rect.size_y - 4, 1, 1, bottom_left);
     tabs.push_back({tab, ret});
     ret->set_visible(tabs.size() == 1 ? true : false);
+    ui_window::add_child(ret);
 
     return ret;
 }
@@ -511,11 +468,6 @@ auto_bordered_window::auto_bordered_window(size_t size_x, size_t size_y, unsigne
 auto_bordered_window::~auto_bordered_window()
 {
     free(uncovered);
-}
-
-ui_element *auto_bordered_window::clone() const
-{
-    return new auto_bordered_window(*this);
 }
 
 void auto_bordered_window::recalc_uncovered()
