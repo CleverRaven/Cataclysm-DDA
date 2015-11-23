@@ -406,9 +406,29 @@ std::vector<item> player::get_eligible_containers_for_crafting()
             }
         }
     }
-    for( auto &i : g->m.i_at(posx(), posy()) ) {
-        if (is_container_eligible_for_crafting(i)) {
-            conts.push_back(i);
+
+    // get all potential containers within 1 tile including vehicles
+    for( const auto &loc : closest_tripoints_first( 1, pos() ) ) {
+
+        if( g->m.accessible_items( pos(), loc, 1 ) ) {
+            for( item &it : g->m.i_at( loc ) ) {
+                if( is_container_eligible_for_crafting( it ) ) {
+                    conts.emplace_back( it );
+                }
+            }
+        }
+
+        int part = -1;
+        vehicle *veh = g->m.veh_at( loc, part );
+        if( veh && part >= 0 ) {
+            part = veh->part_with_feature( part, "CARGO" );
+            if( part != -1 ) {
+                for( item &it : veh->get_items( part ) ) {
+                    if( is_container_eligible_for_crafting( it ) ) {
+                        conts.emplace_back( it );
+                    }
+                }
+            }
         }
     }
 
@@ -1693,7 +1713,7 @@ void finalize_crafted_item( item &newit, float used_age_tally, int used_age_coun
 void set_item_inventory(item &newit)
 {
     if (newit.made_of(LIQUID)) {
-        while(!g->handle_liquid(newit, false, false)) {
+        while(!g->handle_liquid(newit, false, false, nullptr, nullptr, 1)) {
             ;
         }
     } else {
