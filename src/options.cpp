@@ -761,6 +761,17 @@ void options_manager::init()
                                 "always,ask,never", "ask"
                                 );
 
+    mOptionsSort["general"]++;
+
+    OPTIONS["MUSIC_VOLUME"] = cOpt("general", _("Music Volume"),
+                                   _("Adjust the volume of the music being played in the background."),
+                                   0, 200, 100, COPT_NO_SOUND_HIDE
+                                  );
+    OPTIONS["SOUND_EFFECT_VOLUME"] = cOpt("general", _("Sound Effect Volume"),
+                                   _("Adjust the volume of sound effects being played by the game."),
+                                   0, 200, 100, COPT_NO_SOUND_HIDE
+                                  );
+
     ////////////////////////////INTERFACE////////////////////////
     // TODO: scan for languages like we do for tilesets.
     optionNames[""] = _("System language");
@@ -1007,8 +1018,13 @@ void options_manager::init()
                            ); // populate the options dynamically
 
     OPTIONS["PIXEL_MINIMAP"] = cOpt("graphics", _("Pixel Minimap"),
-                                _("If true, a pixel-detail minimap is drawn in the game."),
+                                _("If true, a pixel-detail minimap is drawn in the game. Requires restart."),
                                 true, COPT_CURSES_HIDE
+                               );
+
+    OPTIONS["PIXEL_MINIMAP_HEIGHT"] = cOpt("graphics", _("Pixel Minimap height"),
+                                _("Height of pixel-detail minimap, measured in terminal rows. Set to 0 for default spacing. Requires restart."),
+                                0, 100, 0, COPT_CURSES_HIDE
                                );
 
     mOptionsSort["graphics"]++;
@@ -1035,17 +1051,6 @@ void options_manager::init()
                                    _("Sets the scaling mode, 'none' (default) displays at the game's native resolution, 'nearest'  uses low-quality but fast scaling, and 'linear' provides high-quality scaling."),
                                    "none,nearest,linear", "none", COPT_CURSES_HIDE
         );
-
-    mOptionsSort["graphics"]++;
-
-    OPTIONS["MUSIC_VOLUME"] = cOpt("graphics", _("Music Volume"),
-                                   _("Adjust the volume of the music being played in the background."),
-                                   0, 200, 100, COPT_NO_SOUND_HIDE
-                                  );
-    OPTIONS["SOUND_EFFECT_VOLUME"] = cOpt("graphics", _("Sound Effect Volume"),
-                                   _("Adjust the volume of sound effects being played by the game."),
-                                   0, 200, 100, COPT_NO_SOUND_HIDE
-                                  );
 
     ////////////////////////////DEBUG////////////////////////////
     OPTIONS["DISTANCE_INITIAL_VISIBILITY"] = cOpt("debug", _("Distance initial visibility"),

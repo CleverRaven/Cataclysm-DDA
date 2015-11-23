@@ -7442,8 +7442,28 @@
         [ ["2x4", 2] ],
         [ ["nail", 5] ]
     ]
-  },
-  {
+},{
+    "type" : "recipe",
+    "result": "bscabbard",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_STORAGE",
+    "skill_used": "tailor",
+    "skills_required": [ "cutting", 2 ],
+    "difficulty": 5,
+    "time": 40000,
+    "reversible": false,
+    "autolearn": true,
+    "qualities":[
+        {"id":"HAMMER","level":1,"amount":1},
+        {"id":"CUT","level":1,"amount":1}
+    ],
+    "components": [
+        [ [ "leather", 15 ], [ "tanned_hide", 3 ] ],
+        [ ["superglue", 1] ],
+        [ ["2x4", 2] ],
+        [ ["nail", 10] ]
+    ]
+},{
     "type" : "recipe",
     "result": "holster",
     "category": "CC_ARMOR",
@@ -7479,7 +7499,7 @@
     "category": "CC_ARMOR",
     "subcategory": "CSC_ARMOR_STORAGE",
     "skill_used": "tailor",
-    "skills_required": [ "pistol", 1 ],
+    "skills_required": [ "pistol", 2 ],
     "difficulty": 3,
     "time": 15000,
     "reversible": false,
