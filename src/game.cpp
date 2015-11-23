@@ -4284,7 +4284,7 @@ void game::debug()
 
     // Damage Self
     case 22: {
-        int dbg_damage = query_int("Damage self for how much? hp: %d", u.hp_cur[hp_torso]);
+        int dbg_damage = query_int( _("Damage self for how much? hp: %d"), u.hp_cur[hp_torso]);
         u.hp_cur[hp_torso] -= dbg_damage;
         u.die(NULL);
         draw_sidebar();
