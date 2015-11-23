@@ -362,13 +362,6 @@ void advanced_inventory::print_items( advanced_inventory_pane &pane, bool active
     }
 }
 
-struct advanced_inv_sort_case_insensitive_less : public std::binary_function< char, char, bool > {
-    bool operator()( char x, char y ) const
-    {
-        return toupper( static_cast< unsigned char >( x ) ) < toupper( static_cast< unsigned char >( y ) );
-    }
-};
-
 struct advanced_inv_sorter {
     advanced_inv_sortby sortby;
     advanced_inv_sorter( advanced_inv_sortby sort )
@@ -432,7 +425,7 @@ struct advanced_inv_sorter {
             n2 = &d2.name_without_prefix;
         }
         return std::lexicographical_compare( n1->begin(), n1->end(),
-                                             n2->begin(), n2->end(), advanced_inv_sort_case_insensitive_less() );
+                                             n2->begin(), n2->end(), sort_case_insensitive_less() );
     }
 };
 
