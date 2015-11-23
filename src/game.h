@@ -416,12 +416,13 @@ class game
         };
         int inventory_item_menu(int pos, int startx = 0, int width = 50, inventory_item_menu_positon position = RIGHT_OF_INFO);
 
-        // Combines filtered player inventory with filtered ground and vehicle items to create a pseudo-inventory.
+        // Combines filtered player inventory with filtered ground and vehicle items within radius to create a pseudo-inventory.
         item_location inv_map_splice( item_filter inv_filter,
                                       item_filter ground_filter,
                                       item_filter vehicle_filter,
-                                      const std::string &title );
-        item_location inv_map_splice( item_filter filter, const std::string &title );
+                                      const std::string &title,
+                                      int radius = 0 );
+        item_location inv_map_splice( item_filter filter, const std::string &title, int radius = 0 );
 
         // Select items to drop.  Returns a list of pairs of position, quantity.
         std::list<std::pair<int, int>> multidrop();
@@ -812,6 +813,9 @@ class game
 
         void move_save_to_graveyard();
         bool save_player_data();
+
+        //pixel minimap management
+        int pixel_minimap_option;
 };
 
 #endif

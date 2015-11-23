@@ -326,6 +326,8 @@ void replace_city_tag(std::string & input, const std::string & name);
 
 void replace_substring(std::string & input, const std::string & substring, const std::string & replacement, bool all);
 
+std::string string_replace(std::string text, const std::string &before, const std::string &after);
+std::string replace_colors(std::string text);
 std::string &capitalize_letter(std::string &pattern, size_t n = 0);
 std::string rm_prefix(std::string str, char c1 = '<', char c2 = '>');
 #define rmp_format(...) rm_prefix(string_format(__VA_ARGS__))

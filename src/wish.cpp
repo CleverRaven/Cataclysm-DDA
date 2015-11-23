@@ -442,7 +442,7 @@ class wish_item_callback: public uimenu_callback
             mvwprintz(menu->window, 1, startx + ( menu->pad_right - 1 - header.size() ) / 2, c_cyan, "%s",
                       header.c_str());
 
-            fold_and_print(menu->window, starty, startx, menu->pad_right - 1, c_white, tmp.info(true));
+            fold_and_print(menu->window, starty, startx, menu->pad_right - 1, c_ltgray, tmp.info(true));
 
             mvwprintz(menu->window, menu->w_height - 3, startx, c_green, "%s", msg.c_str());
             msg.erase();
