@@ -796,7 +796,8 @@
       ["barometer", 3],
       ["denat_alcohol", 10],
       ["popcan_stove", 5],
-      ["pet_carrier",3]
+      ["pet_carrier",3],
+      ["l-stick", 1]
     ]
   },{
     "type" : "item_group",
@@ -1996,7 +1997,8 @@
       ["misc_repairkit", 5],
       ["tool_belt", 5],
       ["bootsheath", 1],
-      ["sheath", 5]
+      ["sheath", 5],
+      ["l-stick", 1]
     ]
   },{
     "type" : "item_group",
@@ -2169,7 +2171,8 @@
       ["radio_car_box", 3],
       ["radiocontrol", 15],
       ["magnifying_glass", 4],
-      ["omnicamera", 2]
+      ["omnicamera", 2],
+      ["l-stick", 1]
     ]
   },{
     "type" : "item_group",
@@ -2401,7 +2404,8 @@
       ["hygrometer", 3],
       ["barometer", 3],
       ["straw_basket", 1],
-      ["straw_hat", 5]
+      ["straw_hat", 5],
+      ["l-stick", 1]
     ]
   },{
     "type" : "item_group",
@@ -3738,7 +3742,8 @@
       ["shavingkit", 30],
       ["elec_hairtrimmer", 15],
       ["razor_blade", 5],
-      ["kilt", 5]
+      ["kilt", 5],
+      ["l-stick", 1]
     ]
   },{
     "type" : "item_group",
@@ -4142,7 +4147,8 @@
       ["fn57", 4],
       ["fn_p90", 3],
       ["l_mp_9mm", 2],
-      ["tazer", 15]
+      ["tazer", 15],
+      ["l-stick", 1]
     ]
   },{
     "type" : "item_group",
@@ -5267,7 +5273,8 @@
       ["money_bundle", 90],
       ["pocketwatch", 5],
       ["sf_watch", 10],
-      ["survnote", 3]
+      ["survnote", 3],
+      ["l-stick", 1]
     ]
   },{
     "type" : "item_group",
@@ -5687,7 +5694,8 @@
       ["cassock", 1],
       ["eboshi", 1],
       ["kariginu", 2],
-      ["kimono", 3]
+      ["kimono", 3],
+      ["l-stick", 1]
     ]
   },{
     "type" : "item_group",
@@ -6325,7 +6333,8 @@
       ["radio_car_box", 3],
       ["radiocontrol", 25],
       ["omnicamera", 7],
-      ["chem_nitric_acid", 1]
+      ["chem_nitric_acid", 1],
+      ["l-stick", 1]
     ]
   },{
     "type" : "item_group",
@@ -7658,7 +7667,8 @@
       ["umbrella", 1],
       ["teleumbrella",1],
       ["pocketwatch", 1],
-      ["survnote", 1]
+      ["survnote", 1],
+      ["l-stick", 1]
     ]
   },{
     "type" : "item_group",
@@ -8339,7 +8349,8 @@
       ["rm11b_sniper_rifle", 1],
       ["shoulder_strap", 16],
       ["bot_manhack", 1],
-      ["bot_grenade_hack", 1]
+      ["bot_grenade_hack", 1],
+      ["l-stick", 1]
     ]
   },{
     "type" : "item_group",
@@ -8519,7 +8530,8 @@
       ["survnote", 1],
       ["rm11b_sniper_rifle", 1],
       ["remotevehcontrol", 8],
-      ["tool_rdx_charge", 1]
+      ["tool_rdx_charge", 1],
+      ["l-stick", 1]
     ]
   },{
     "type" : "item_group",
@@ -9186,7 +9198,8 @@
       ["wearable_light", 5],
       ["toolbox", 1],
       ["smoxygen_tank", 35],
-      ["watercannon", 10]
+      ["watercannon", 10],
+      ["l-stick", 1]
     ]
   },{
     "type" : "item_group",
@@ -9687,7 +9700,8 @@
       ["jedi_cloak", 5],
       ["glowstick", 15],
       ["clown_suit", 5],
-      ["clownshoes", 5]
+      ["clownshoes", 5],
+      ["l-stick", 1]
     ]
   },{
 "type" : "item_group",
