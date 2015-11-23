@@ -137,5 +137,18 @@
         ],
         "pre_flags" : [ "DIGGABLE", "FLAT" ],
         "post_terrain" : "t_raincatcher"
+    },{
+        "type" : "construction",
+        "skill" : "survival",
+        "description" : "Build Straw Bed",
+        "category" : "FURN",
+        "difficulty" : 1,
+        "time" : 30,
+        "components" : [
+            [ [ "2x4", 4 ], [ "stick", 4 ] ],
+            [ [ "pine_bough", 8 ] ]
+        ],
+        "pre_special" : "check_empty",
+        "post_terrain" : "f_straw_bed"
     }
   ]
