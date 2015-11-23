@@ -1397,7 +1397,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
         }
         if( is_armor() && has_flag( "ALLOWS_NATURAL_ATTACKS" ) ) {
             info.push_back( iteminfo( "DESCRIPTION",
-                                      _( "* This piece of clothing won't special attacks that involve <info>mutated anatomy</info>." ) ) );
+                                      _( "* This piece of clothing won't hinder special attacks that involve <info>mutated anatomy</info>." ) ) );
         }
         if( is_armor() && has_flag( "POCKETS" ) ) {
             info.push_back( iteminfo( "DESCRIPTION",
