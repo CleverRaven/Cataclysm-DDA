@@ -72,7 +72,7 @@ class ui_element {
         virtual ui_element *clone() const = 0;
         virtual WINDOW *get_win() const;
     public:
-        ui_element(size_t size_x, size_t size_y, unsigned int x = 0, unsigned int y = 0);
+        ui_element(size_t size_x, size_t size_y, unsigned int x = 0, unsigned int y = 0, ui_anchor anchor = top_left);
         virtual ~ui_element() = default;
 
         const ui_rect &get_rect() const;

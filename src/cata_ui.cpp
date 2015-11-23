@@ -76,7 +76,7 @@ WINDOW *ui_window::get_win() const
     return win;
 }
 
-ui_element::ui_element(size_t size_x, size_t size_y, unsigned int x, unsigned int y) : anchored_x(x), anchored_y(y), rect(ui_rect(size_x, size_y, x, y))
+ui_element::ui_element(size_t size_x, size_t size_y, unsigned int x, unsigned int y, ui_anchor anchor) : anchor(anchor), anchored_x(x), anchored_y(y), rect(ui_rect(size_x, size_y, x, y))
 {
 }
 
