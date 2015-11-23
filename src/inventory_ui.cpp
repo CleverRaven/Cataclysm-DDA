@@ -994,13 +994,13 @@ item_location game::inv_map_splice(
     }
 }
 
-item *game::inv_map_for_liquid(const item &liquid, const std::string &title)
+item *game::inv_map_for_liquid(const item &liquid, const std::string &title, int radius)
 {
     auto filter = [&]( const item &candidate ) {
         return candidate.get_remaining_capacity_for_liquid( liquid ) > 0;
     };
 
-    return inv_map_splice( filter, title ).get_item();
+    return inv_map_splice( filter, title, radius ).get_item();
 }
 
 int game::inv_for_flag(const std::string &flag, const std::string &title, bool const auto_choose_single)
