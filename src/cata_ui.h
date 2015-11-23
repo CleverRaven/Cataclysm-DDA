@@ -41,10 +41,7 @@ class ui_window;
 */
 class ui_element {
     friend class ui_window; // so we don't have to make draw, clone and set_parent public
-    private:
-        const ui_window *parent;
-        virtual void set_parent(const ui_window *parent);
-
+    protected:
         enum ui_anchor {
             top_left,
             top_center,
@@ -56,6 +53,9 @@ class ui_element {
             bottom_center,
             bottom_right
         };
+    private:
+        const ui_window *parent;
+        virtual void set_parent(const ui_window *parent);
 
         ui_anchor anchor = top_left;
         void calc_anchored_values();
@@ -103,8 +103,10 @@ class ui_window : public ui_element {
         virtual ui_element *clone() const override;
         virtual WINDOW *get_win() const override;
         virtual void local_draw();
+        size_t child_count() const;
+        const std::list<ui_element *> &get_children() const;
     public:
-        ui_window(size_t size_x, size_t size_y, unsigned int x = 0, unsigned int y = 0);
+        ui_window(size_t size_x, size_t size_y, unsigned int x = 0, unsigned int y = 0, ui_anchor anchor = top_left);
         ui_window(const ui_window &);
         ~ui_window() override;
 
@@ -124,8 +126,7 @@ class ui_label : public ui_element {
         virtual ui_element *clone() const override;
         virtual void draw() override;
     public:
-        ui_label( std::string text );
-        ui_label( std::string text, unsigned int x, unsigned int y );
+        ui_label( std::string text, unsigned int x = 0, unsigned int y = 0, ui_anchor anchor = top_left );
 
         void set_text( std::string );
 
@@ -140,7 +141,7 @@ class bordered_window : public ui_window {
         virtual ui_element *clone() const override;
         virtual void local_draw() override;
     public:
-        bordered_window(size_t size_x, size_t size_y, unsigned int x = 0, unsigned int y = 0);
+        bordered_window(size_t size_x, size_t size_y, unsigned int x = 0, unsigned int y = 0, ui_anchor anchor = top_left);
 
         nc_color border_color = BORDER_COLOR;
 };
@@ -160,7 +161,7 @@ class health_bar : public ui_element {
         virtual ui_element *clone() const override;
         virtual void draw() override;
     public:
-        health_bar(size_t size_x, unsigned int x = 0, unsigned int y = 0);
+        health_bar(size_t size_x, unsigned int x = 0, unsigned int y = 0, ui_anchor anchor = top_left);
 
         void set_health_percentage( float percentage );
 };
@@ -182,7 +183,7 @@ class smiley_indicator : public ui_element {
         virtual ui_element *clone() const override;
         virtual void draw() override;
     public:
-        smiley_indicator(unsigned int x = 0, unsigned int y = 0);
+        smiley_indicator(unsigned int x = 0, unsigned int y = 0, ui_anchor anchor = top_left);
 
         void set_state( smiley_state new_state );
 };
@@ -224,7 +225,7 @@ class tile_panel : public ui_element {
         virtual void draw() override;
     public:
         tile_panel(tripoint center, std::function<const ui_tile(int, int, int)> tile_at,
-                   size_t size_x, size_t size_y, unsigned int x = 0, unsigned int y = 0);
+                   size_t size_x, size_t size_y, unsigned int x = 0, unsigned int y = 0, ui_anchor anchor = top_left);
 
         void set_center(tripoint new_center);
         const tripoint &get_center() const;
@@ -243,13 +244,35 @@ class tabbed_window : public bordered_window {
         virtual ui_element *clone() const override;
         virtual void local_draw() override;
     public:
-        tabbed_window(size_t size_x, size_t size_y, unsigned int x = 0, unsigned int y = 0);
+        tabbed_window(size_t size_x, size_t size_y, unsigned int x = 0, unsigned int y = 0, ui_anchor anchor = top_left);
 
         void add_tab(std::string tab);
 
         void next_tab();
         void previous_tab();
         const std::string &current_tab() const;
+};
+
+/**
+* A window that fills in blanks with border.
+*
+* The idea is that you nest a bunch of windows in this one, and it automatically draws borders around them.
+*/
+class auto_bordered_window : public ui_window {
+    private:
+        bool *uncovered;
+        void recalc_uncovered();
+        size_t last_child_count;
+        bool is_uncovered(int x, int y);
+        long get_border_char(int x, int y) const;
+    protected:
+        virtual ui_element *clone() const override;
+        virtual void local_draw() override;
+    public:
+        auto_bordered_window(size_t size_x, size_t size_y, unsigned int x = 0, unsigned int y = 0, ui_anchor anchor = top_left);
+        ~auto_bordered_window() override;
+
+        nc_color border_color = BORDER_COLOR;
 };
 
 ///@}

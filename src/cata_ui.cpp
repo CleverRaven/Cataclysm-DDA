@@ -9,7 +9,7 @@ ui_rect::ui_rect( size_t size_x, size_t size_y, unsigned int x, unsigned int y )
 {
 }
 
-ui_window::ui_window( size_t size_x, size_t size_y, unsigned int x, unsigned int y ) : ui_element(size_x, size_y, x, y),
+ui_window::ui_window( size_t size_x, size_t size_y, unsigned int x, unsigned int y, ui_anchor anchor) : ui_element(size_x, size_y, x, y, anchor),
                       global_x(x), global_y(y), win(newwin(size_y, size_x, global_y, global_x))
 {
 }
@@ -76,7 +76,18 @@ WINDOW *ui_window::get_win() const
     return win;
 }
 
-ui_element::ui_element(size_t size_x, size_t size_y, unsigned int x, unsigned int y, ui_anchor anchor) : anchor(anchor), anchored_x(x), anchored_y(y), rect(ui_rect(size_x, size_y, x, y))
+size_t ui_window::child_count() const
+{
+    return children.size();
+}
+
+const std::list<ui_element *> &ui_window::get_children() const
+{
+    return children;
+}
+
+ui_element::ui_element(size_t size_x, size_t size_y, unsigned int x, unsigned int y, ui_anchor anchor) :
+                       anchor(anchor), anchored_x(x), anchored_y(y), rect(ui_rect(size_x, size_y, x, y))
 {
 }
 
@@ -170,7 +181,7 @@ WINDOW *ui_element::get_win() const
     return nullptr;
 }
 
-ui_label::ui_label( std::string text ,unsigned int x, unsigned int y ) : ui_element( utf8_width( text.c_str() ), 1, x, y ), text( text )
+ui_label::ui_label( std::string text ,unsigned int x, unsigned int y, ui_anchor anchor ) : ui_element( utf8_width( text.c_str() ), 1, x, y, anchor ), text( text )
 {
 }
 
@@ -195,7 +206,7 @@ void ui_label::set_text( std::string new_text )
     rect.size_x = new_text.size();
 }
 
-bordered_window::bordered_window(size_t size_x, size_t size_y, unsigned int x, unsigned int y ) : ui_window(size_x, size_y, x, y)
+bordered_window::bordered_window(size_t size_x, size_t size_y, unsigned int x, unsigned int y, ui_anchor anchor ) : ui_window(size_x, size_y, x, y, anchor)
 {
 }
 
@@ -214,7 +225,7 @@ void bordered_window::local_draw()
     ui_window::local_draw();
 }
 
-health_bar::health_bar(size_t size_x, unsigned int x, unsigned int y) : ui_element(size_x, 1, x, y),
+health_bar::health_bar(size_t size_x, unsigned int x, unsigned int y, ui_anchor anchor) : ui_element(size_x, 1, x, y, anchor),
                        max_health(size_x * points_per_char), current_health(max_health)
 {
     for(unsigned int i = 0; i < rect.size_x; i++) {
@@ -285,7 +296,7 @@ void health_bar::set_health_percentage( float percentage )
     refresh_bar( overloaded, percentage );
 }
 
-smiley_indicator::smiley_indicator(unsigned int x, unsigned int y) : ui_element(2, 1, x, y)
+smiley_indicator::smiley_indicator(unsigned int x, unsigned int y, ui_anchor anchor) : ui_element(2, 1, x, y, anchor)
 {
 }
 
@@ -332,8 +343,8 @@ void smiley_indicator::set_state( smiley_state new_state )
 }
 
 tile_panel::tile_panel(tripoint center, std::function<const ui_tile(int, int, int)> tile_at,
-                       size_t size_x, size_t size_y, unsigned int x, unsigned int y)
-                       : ui_element(size_x, size_y, x, y), tile_at(tile_at), center(center)
+                       size_t size_x, size_t size_y, unsigned int x, unsigned int y, ui_anchor anchor)
+                       : ui_element(size_x, size_y, x, y, anchor), tile_at(tile_at), center(center)
 {
     if(size_x % 2 == 0) {
         rect.size_x += 1;
@@ -391,7 +402,7 @@ ui_tile::ui_tile(long sym, nc_color color) : sym(sym), color(color)
 {
 }
 
-tabbed_window::tabbed_window(size_t size_x, size_t size_y, unsigned int x, unsigned int y) : bordered_window(size_x, size_y, x, y)
+tabbed_window::tabbed_window(size_t size_x, size_t size_y, unsigned int x, unsigned int y, ui_anchor anchor) : bordered_window(size_x, size_y, x, y, anchor)
 {
 }
 
@@ -481,4 +492,68 @@ void tabbed_window::previous_tab()
 const std::string &tabbed_window::current_tab() const
 {
     return tabs[tab_index];
+}
+
+auto_bordered_window::auto_bordered_window(size_t size_x, size_t size_y, unsigned int x , unsigned int y, ui_anchor anchor) : ui_window(size_x, size_y, x, y, anchor)
+{
+    uncovered = (bool *) malloc(sizeof(bool) * size_x * size_y);
+    recalc_uncovered();
+}
+
+auto_bordered_window::~auto_bordered_window()
+{
+    free(uncovered);
+}
+
+ui_element *auto_bordered_window::clone() const
+{
+    return new auto_bordered_window(*this);
+}
+
+void auto_bordered_window::recalc_uncovered()
+{
+    for(size_t x = 0; x < rect.size_x; x++) {
+        for(size_t y = 0; y < rect.size_y; y++) {
+                uncovered[y * x + x] = true;
+        }
+    }
+
+    for(auto &child : get_children()) {
+        auto c_rect = child->get_rect();
+        for(size_t x = c_rect.x; x < c_rect.size_x + c_rect.x; x++) {
+            for(size_t y = c_rect.y; y < c_rect.size_y + c_rect.y; y++) {
+                uncovered[y * x + x] = false;
+            }
+        }
+    }
+}
+
+bool auto_bordered_window::is_uncovered(int x, int y) {
+    if(x < 0 || y < 0 || x >= rect.size_x || y >= rect.size_y) {
+        return false;
+    }
+    return uncovered[y * x + x];
+}
+
+long auto_bordered_window::get_border_char(int x, int y) const
+{
+    return LINE_XXXX; //TODO: actual implementation
+}
+
+void auto_bordered_window::local_draw()
+{
+    ui_window::local_draw();
+
+    if(last_child_count != child_count()) {
+        last_child_count = child_count();
+        recalc_uncovered();
+    }
+
+    for(unsigned int x = 0; x < rect.size_x; x++){
+        for(unsigned int y = 0; y < rect.size_y; y++) {
+            if(is_uncovered(x, y)) {
+                mvwputch(win, y, x, border_color, get_border_char(x, y));
+            }
+        }
+    }
 }
