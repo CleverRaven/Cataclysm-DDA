@@ -1352,8 +1352,8 @@ int set_skills(WINDOW *w, player *u, int &points)
 
     input_context ctxt("NEW_CHAR_SKILLS");
     ctxt.register_cardinal();
-    ctxt.register_action("PAGE_DOWN");
-    ctxt.register_action("PAGE_UP");
+    ctxt.register_action("SCROLL_DOWN");
+    ctxt.register_action("SCROLL_UP");
     ctxt.register_action("PREV_TAB");
     ctxt.register_action("NEXT_TAB");
     ctxt.register_action("HELP_KEYBINDINGS");
@@ -1505,9 +1505,9 @@ int set_skills(WINDOW *w, player *u, int &points)
                     level.level(level + 1);
                 }
             }
-        } else if (action == "PAGE_DOWN") {
+        } else if (action == "SCROLL_DOWN") {
             selected++;
-        } else if (action == "PAGE_UP") {
+        } else if (action == "SCROLL_UP") {
             selected--;
         } else if (action == "PREV_TAB") {
             delwin(w_description);
