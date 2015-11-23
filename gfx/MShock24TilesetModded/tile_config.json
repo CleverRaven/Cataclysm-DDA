@@ -23599,6 +23599,26 @@
           "id": "misc_repairkit",
           "fg": 2993,
           "rotates": false
+        },
+        {
+          "id": "atomic_lamp",
+          "fg": 3033,
+          "rotates": false
+        },
+        {
+          "id": "atomic_lamp_off",
+          "fg": 3034,
+          "rotates": false
+        },
+        {
+          "id": "atomic_light_off",
+          "fg": 3035,
+          "rotates": false
+        },
+        {
+          "id": "gown",
+          "fg": 3036,
+          "rotates": false
         }
       ]
     },
