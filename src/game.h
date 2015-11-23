@@ -496,7 +496,7 @@ class game
         void calc_driving_offset(vehicle *veh = NULL);
 
         bool handle_liquid(item &liquid, bool from_ground, bool infinite, item *source = NULL,
-                           item *cont = NULL);
+                           item *cont = NULL, int radius = 0);
 
         //Move_liquid returns the amount of liquid left if we didn't move all the liquid,
         //otherwise returns sentinel -1, signifies transaction fail.

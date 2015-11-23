@@ -10278,7 +10278,7 @@ bool vehicle_near( const itype_id &ft )
 
 // Handle_liquid returns false if we didn't handle all the liquid.
 bool game::handle_liquid(item &liquid, bool from_ground, bool infinite, item *source,
-                         item *cont)
+                         item *cont, int radius)
 {
     if( !liquid.made_of(LIQUID) ) {
         dbg(D_ERROR) << "game:handle_liquid: Tried to handle_liquid a non-liquid!";
@@ -10346,8 +10346,8 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite, item *so
     if (cont == NULL || cont->is_null()) {
         const std::string text = string_format(_("Container for %s"), liquid.tname().c_str());
 
-        // Check for a container on the ground.
-        cont = inv_map_for_liquid(liquid, text);
+        // Check for suitable containers in inventory or within radius including vehicles
+        cont = inv_map_for_liquid(liquid, text, radius);
         if (cont == NULL || cont->is_null()) {
             // No container selected (escaped, ...), ask to pour
             // we asked to pour rotten already
