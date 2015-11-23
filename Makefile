@@ -44,6 +44,8 @@
 #  make USE_HOME_DIR=1
 # Use dynamic linking (requires system libraries).
 #  make DYNAMIC_LINKING=1
+# Use MSYS2 as the build environment on Windows
+#  make MSYS2=1
 
 # comment these to toggle them as one sees fit.
 # DEBUG is best turned on if you plan to debug in gdb -- please do!
@@ -148,6 +150,7 @@ endif
 ifdef CLANG
   ifeq ($(NATIVE), osx)
     OTHERS += -stdlib=libc++
+    LDFLAGS += -stdlib=libc++
   endif
   ifdef CCACHE
     CXX = CCACHE_CPP2=1 ccache $(CROSS)clang++
@@ -201,12 +204,15 @@ ifeq ($(NATIVE), osx)
   OSX_MIN = 10.5
   DEFINES += -DMACOSX
   CXXFLAGS += -mmacosx-version-min=$(OSX_MIN)
+  LDFLAGS += -mmacosx-version-min=$(OSX_MIN)
   WARNINGS = -Werror -Wall -Wextra -Wno-switch -Wno-sign-compare -Wno-missing-braces
   ifeq ($(LOCALIZE), 1)
     LDFLAGS += -lintl
     ifeq ($(MACPORTS), 1)
-      CXXFLAGS += -I$(shell ncursesw5-config --includedir)
-      LDFLAGS += -L$(shell ncursesw5-config --libdir)
+      ifneq ($(TILES), 1)
+        CXXFLAGS += -I$(shell ncursesw6-config --includedir)
+        LDFLAGS += -L$(shell ncursesw6-config --libdir)
+      endif
     endif
   endif
   TARGETSYSTEM=LINUX
@@ -266,6 +272,11 @@ ifdef MAPSIZE
     CXXFLAGS += -DMAPSIZE=$(MAPSIZE)
 endif
 
+ifeq ($(shell git rev-parse --is-inside-work-tree),true)
+  # We have a git repository, use git version
+  DEFINES += -DGIT_VERSION
+endif
+
 PKG_CONFIG = $(CROSS)pkg-config
 SDL2_CONFIG = $(CROSS)sdl2-config
 
@@ -273,10 +284,32 @@ ifdef SOUND
   ifndef TILES
     $(error "SOUND=1 only works with TILES=1")
   endif
-  CXXFLAGS += $(shell $(PKG_CONFIG) --cflags SDL2_mixer)
+  ifeq ($(NATIVE),osx)
+    ifdef FRAMEWORK
+      CXXFLAGS += -I/Library/Frameworks/SDL2_mixer.framework/Headers \
+		-I$(HOME)/Library/Frameworks/SDL2_mixer.framework/Headers
+      LDFLAGS += -F/Library/Frameworks/SDL2_mixer.framework/Frameworks \
+		 -F$(HOME)/Library/Frameworks/SDL2_mixer.framework/Frameworks \
+		 -framework SDL2_mixer -framework Vorbis -framework Ogg
+    else # libsdl build
+      ifeq ($(MACPORTS), 1)
+        LDFLAGS += -lSDL2_mixer -lvorbisfile -lvorbis -logg
+      else # homebrew
+        CXXFLAGS += $(shell $(PKG_CONFIG) --cflags SDL2_mixer)
+        LDFLAGS += $(shell $(PKG_CONFIG) --libs SDL2_mixer)
+        LDFLAGS += -lvorbisfile -lvorbis -logg
+      endif
+    endif
+  else # not osx
+    CXXFLAGS += $(shell $(PKG_CONFIG) --cflags SDL2_mixer)
+    LDFLAGS += $(shell $(PKG_CONFIG) --libs SDL2_mixer)
+  endif
+
+  ifdef MSYS2
+    LDFLAGS += -lmad
+  endif
+
   CXXFLAGS += -DSDL_SOUND
-  LDFLAGS += $(shell $(PKG_CONFIG) --libs SDL2_mixer)
-  LDFLAGS += -lvorbisfile -lvorbis -logg -lpthread
 endif
 
 ifdef LUA
@@ -307,7 +340,6 @@ ifdef TILES
   BINDIST_EXTRAS += gfx
   ifeq ($(NATIVE),osx)
     ifdef FRAMEWORK
-      DEFINES += -DOSX_SDL_FW
       OSX_INC = -F/Library/Frameworks \
 		-F$(HOME)/Library/Frameworks \
 		-I/Library/Frameworks/SDL2.framework/Headers \
@@ -330,6 +362,8 @@ ifdef TILES
     endif
   else # not osx
     CXXFLAGS += $(shell $(SDL2_CONFIG) --cflags)
+    CXXFLAGS += $(shell $(PKG_CONFIG) SDL2_image --cflags)
+    CXXFLAGS += $(shell $(PKG_CONFIG) SDL2_ttf --cflags)
 
     ifdef STATIC
       LDFLAGS += $(shell $(SDL2_CONFIG) --static-libs)
@@ -349,7 +383,17 @@ ifdef TILES
   ifeq ($(TARGETSYSTEM),WINDOWS)
     ifndef DYNAMIC_LINKING
       # These differ depending on what SDL2 is configured to use.
-      LDFLAGS += -lfreetype -lpng -lz -ljpeg -lbz2
+      ifneq (,$(findstring mingw32,$(CROSS)))
+        # We use pkg-config to find out which libs are needed with MXE
+        LDFLAGS += $(shell $(PKG_CONFIG) SDL2_image --libs)
+        LDFLAGS += $(shell $(PKG_CONFIG) SDL2_ttf --libs)
+      else
+        ifdef MSYS2
+          LDFLAGS += -lfreetype -lpng -lz -ltiff -lbz2 -lharfbuzz -lglib-2.0 -llzma -lws2_32 -lintl -liconv -lwebp -ljpeg -luuid
+        else
+          LDFLAGS += -lfreetype -lpng -lz -ljpeg -lbz2
+        endif
+      endif
     else
       # Currently none needed by the game itself (only used by SDL2 layer).
       # Placeholder for future use (savegame compression, etc).
@@ -481,7 +525,9 @@ $(ODIR)/%.o: $(SRC_DIR)/%.cpp
 $(ODIR)/%.o: $(SRC_DIR)/%.rc
 	$(RC) $(RFLAGS) $< -o $@
 
-version.cpp: version
+src/version.h: version
+
+src/version.cpp: src/version.h
 
 $(LUASRC_DIR)/catabindings.cpp: $(LUA_DIR)/class_definitions.lua $(LUASRC_DIR)/generate_bindings.lua
 	cd $(LUASRC_DIR) && $(LUA_BINARY) generate_bindings.lua
@@ -617,24 +663,37 @@ app: appclean version data/osx/AppIcon.icns $(TILESTARGET)
 	cp -R data/motd $(APPDATADIR)
 	cp -R data/credits $(APPDATADIR)
 	cp -R data/title $(APPDATADIR)
+	# bundle libc++ to fix bad buggy version on osx 10.7
+	LIBCPP=$$(otool -L $(TILESTARGET) | grep libc++ | sed -n 's/\(.*\.dylib\).*/\1/p') && cp $$LIBCPP $(APPRESOURCESDIR)/ && cp $$(otool -L $$LIBCPP | grep libc++abi | sed -n 's/\(.*\.dylib\).*/\1/p') $(APPRESOURCESDIR)/
 ifdef SOUND
 	cp -R data/sound $(APPDATADIR)
 endif  # ifdef SOUND
 ifdef LUA
-	mkdir -p $(APPRESOURCESDIR)/lua
-	cp lua/autoexec.lua $(APPRESOURCESDIR)/lua
-	cp lua/class_definitions.lua $(APPRESOURCESDIR)/lua
+	cp -R lua $(APPRESOURCESDIR)/
+	LIBLUA=$$(otool -L $(TILESTARGET) | grep liblua | sed -n 's/\(.*\.dylib\).*/\1/p') && cp $$LIBLUA $(APPRESOURCESDIR)/
 endif # ifdef LUA
 	cp -R gfx $(APPRESOURCESDIR)/
 ifdef FRAMEWORK
 	cp -R /Library/Frameworks/SDL2.framework $(APPRESOURCESDIR)/
 	cp -R /Library/Frameworks/SDL2_image.framework $(APPRESOURCESDIR)/
 	cp -R /Library/Frameworks/SDL2_ttf.framework $(APPRESOURCESDIR)/
+ifdef SOUND
+	cp -R /Library/Frameworks/SDL2_mixer.framework $(APPRESOURCESDIR)/
+	cd $(APPRESOURCESDIR)/ && ln -s SDL2_mixer.framework/Frameworks/Vorbis.framework Vorbis.framework
+	cd $(APPRESOURCESDIR)/ && ln -s SDL2_mixer.framework/Frameworks/Ogg.framework Ogg.framework
+	cd $(APPRESOURCESDIR)/SDL2_mixer.framework/Frameworks && find . -type d -maxdepth 1 -not -name '*Vorbis.framework' -not -name '*Ogg.framework' -not -name '.' | xargs rm -rf
+endif  # ifdef SOUND
 else # libsdl build
 	cp $(SDLLIBSDIR)/libSDL2.dylib $(APPRESOURCESDIR)/
 	cp $(SDLLIBSDIR)/libSDL2_image.dylib $(APPRESOURCESDIR)/
 	cp $(SDLLIBSDIR)/libSDL2_ttf.dylib $(APPRESOURCESDIR)/
 endif  # ifdef FRAMEWORK
+
+dmgdistclean:
+	rm -f Cataclysm.dmg
+
+dmgdist: app dmgdistclean
+	dmgbuild -s data/osx/dmgsettings.py "Cataclysm DDA" Cataclysm.dmg
 
 endif  # ifeq ($(NATIVE), osx)
 endif  # ifdef TILES

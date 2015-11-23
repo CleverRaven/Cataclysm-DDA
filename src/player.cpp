@@ -3318,7 +3318,7 @@ void player::disp_morale()
     // Figure out how wide the name column needs to be.
     int name_column_width = 18;
     for (auto &i : morale) {
-        int length = i.name().length();
+        int length = utf8_width(i.name());
         if ( length > name_column_width) {
             name_column_width = length;
         }
@@ -3344,13 +3344,8 @@ void player::disp_morale()
         std::string name = morale[i].name();
         int bonus = net_morale(morale[i]);
 
-        // Trim the name if need be.
-        if (name.length() > size_t(name_column_width)){
-            name = name.erase(name_column_width-3, std::string::npos) + "...";
-        }
-
         // Print out the name.
-        mvwprintz(w, i + 3,  1, (bonus < 0 ? c_red : c_green), name.c_str());
+        trim_and_print(w, i + 3,  1, name_column_width, (bonus < 0 ? c_red : c_green), name.c_str());
 
         // Print out the number, right-justified.
         mvwprintz(w, i + 3, number_pos, (bonus < 0 ? c_red : c_green),
@@ -4113,7 +4108,7 @@ int player::overmap_sight_range(int light_level) const
         return (sight / (SEEX / 2) );
     }
     if ((has_amount("binoculars", 1) || has_amount("rifle_scope", 1) ||
-        has_amount("survivor_scope", 1) || -1 != weapon.has_gunmod("rifle_scope") ) && 
+        has_amount("survivor_scope", 1) || -1 != weapon.has_gunmod("rifle_scope") ) &&
         !has_trait("EAGLEEYED"))  {
          if (has_trait("BIRD_EYE")) {
              return 25;
@@ -4121,7 +4116,7 @@ int player::overmap_sight_range(int light_level) const
         return 20;
     }
     else if (!(has_amount("binoculars", 1) || has_amount("rifle_scope", 1) ||
-        has_amount("survivor_scope", 1) || -1 != weapon.has_gunmod("rifle_scope") ) && 
+        has_amount("survivor_scope", 1) || -1 != weapon.has_gunmod("rifle_scope") ) &&
         has_trait("EAGLEEYED"))  {
          if (has_trait("BIRD_EYE")) {
              return 25;
@@ -4129,7 +4124,7 @@ int player::overmap_sight_range(int light_level) const
         return 20;
     }
     else if ((has_amount("binoculars", 1) || has_amount("rifle_scope", 1) ||
-        has_amount("survivor_scope", 1) || -1 != weapon.has_gunmod("rifle_scope") ) && 
+        has_amount("survivor_scope", 1) || -1 != weapon.has_gunmod("rifle_scope") ) &&
         has_trait("EAGLEEYED"))  {
          if (has_trait("BIRD_EYE")) {
              return 30;
@@ -5380,26 +5375,59 @@ void player::get_sick()
 {
     // NPCs are too dumb to handle infections now
     if( is_npc() || has_trait("DISIMMUNE") ) {
+        // In a shocking twist, disease immunity prevents diseases.
         return;
     }
 
-    if (!has_effect("flu") && !has_effect("common_cold") &&
-        one_in(900 + get_healthy() + (has_trait("DISRESISTANT") ? 300 : 0))) {
+    if (has_effect("flu") || has_effect("common_cold")) {
+        // While it's certainly possible to get sick when you already are,
+        // it wouldn't be very fun.
+        return;
+    }
+
+    // Normal people get sick about 2-4 times/year.
+    int base_diseases_per_year = 3;
+    if (has_trait("DISRESISTANT")) {
+        // Disease resistant people only get sick once a year.
+        base_diseases_per_year = 1;
+    }
+
+    // This check runs once every 30 minutes, so double to get hours, *24 to get days.
+    const int checks_per_year = 2 * 24 * 365;
+
+    // Health is in the range [-200,200].
+    // A character who takes vitamins every 6 hours will have ~50 health.
+    // Diseases are half as common for every 50 health you gain.
+    float health_factor = std::pow(2.0f, get_healthy() / 50.0f);
+
+    int disease_rarity = (int) (checks_per_year * health_factor / base_diseases_per_year);
+    add_msg( m_debug, "disease_rarity = %d", disease_rarity);
+    if (one_in(disease_rarity)) {
         if (one_in(6)) {
-            add_env_effect("flu", bp_mouth, 3, rng(40000, 80000));
+            // The flu typically lasts 3-10 days.
+            const int short_flu = DAYS(3);
+            const int long_flu = DAYS(10);
+            const int duration = rng(short_flu, long_flu);
+            add_env_effect("flu", bp_mouth, 3, duration);
         } else {
-            add_env_effect("common_cold", bp_mouth, 3, rng(20000, 60000));
+            // A cold typically lasts 1-14 days.
+            int short_cold = DAYS(1);
+            int long_cold = DAYS(14);
+            int duration = rng(short_cold, long_cold);
+            add_env_effect("common_cold", bp_mouth, 3, duration);
         }
     }
 }
 
-void player::update_health(int base_threshold)
+void player::update_health(int external_modifiers)
 {
     if( has_artifact_with( AEP_SICK ) ) {
-        base_threshold += 50;
+        // Carrying a sickness artifact makes your health 50 points worse on
+        // average.  This is the negative equivalent of eating vitamins every
+        // 6 hours.
+        external_modifiers -= 50;
     }
-
-    Character::update_health(base_threshold);
+    Character::update_health( external_modifiers );
 }
 
 void player::check_needs_extremes()
@@ -6159,8 +6187,10 @@ void player::add_eff_effects(effect e, bool reduced)
     }
     // Add health mod
     if (e.get_amount("H_MOD", reduced) > 0) {
-        mod_healthy_mod(bound_mod_to_vals(get_healthy_mod(), e.get_amount("H_MOD", reduced),
-                        e.get_max_val("H_MOD", reduced), e.get_min_val("H_MOD", reduced)));
+        int bounded = bound_mod_to_vals(get_healthy_mod(), e.get_amount("H_MOD", reduced),
+                e.get_max_val("H_MOD", reduced), e.get_min_val("H_MOD", reduced));
+        // This already applies bounds, so we pass them through.
+        mod_healthy_mod(bounded, get_healthy_mod() + bounded);
     }
     // Add health
     if (e.get_amount("HEALTH", reduced) > 0) {
@@ -6263,8 +6293,11 @@ void player::process_effects() {
             if (val != 0) {
                 mod = 1;
                 if(it.activated(calendar::turn, "H_MOD", val, reduced, mod)) {
-                    mod_healthy_mod(bound_mod_to_vals(get_healthy_mod(), val,
-                                it.get_max_val("H_MOD", reduced), it.get_min_val("H_MOD", reduced)));
+                    int bounded = bound_mod_to_vals(
+                            get_healthy_mod(), val, it.get_max_val("H_MOD", reduced),
+                            it.get_min_val("H_MOD", reduced));
+                    // This already applies bounds, so we pass them through.
+                    mod_healthy_mod(bounded, get_healthy_mod() + bounded);
                 }
             }
 
@@ -6310,7 +6343,9 @@ void player::process_effects() {
 
             // Handle fatigue
             val = it.get_mod("FATIGUE", reduced);
-            if (val != 0) {
+            // Prevent ongoing fatigue effects while asleep.
+            // These are meant to change how fast you get tired, not how long you sleep.
+            if (val != 0 && !in_sleep_state()) {
                 mod = 1;
                 if(it.activated(calendar::turn, "FATIGUE", val, reduced, mod)) {
                     fatigue += bound_mod_to_vals(fatigue, val, it.get_max_val("FATIGUE", reduced),
@@ -7271,7 +7306,7 @@ void player::hardcoded_effects(effect &it)
             add_msg_if_player(m_bad, _("Your head aches faintly."));
         }
         if(one_in(1024)) {
-            mod_healthy_mod(-10);
+            mod_healthy_mod(-10, -100);
             apply_damage( nullptr, bp_head, rng( 0, 1 ) );
             if (!has_effect("visuals")) {
                 add_msg_if_player(m_bad, _("Your vision is getting fuzzy."));
@@ -7279,7 +7314,7 @@ void player::hardcoded_effects(effect &it)
             }
         }
         if(one_in(4096)) {
-            mod_healthy_mod(-10);
+            mod_healthy_mod(-10, -100);
             apply_damage( nullptr, bp_head, rng( 1, 2 ) );
             if (!has_effect("blind")) {
                 add_msg_if_player(m_bad, _("Your vision goes black!"));
@@ -7791,7 +7826,7 @@ void player::suffer()
             if (thirst > -20) {
                 thirst -= 2;
             }
-            mod_healthy_mod(10);
+            mod_healthy_mod(10, 50);
             // No losing oneself in the fertile embrace of rich
             // New England loam.  But it can be a near thing.
             if ( (one_in(int_cur)) && (focus_pool >= 25) ) {
@@ -7804,7 +7839,7 @@ void player::suffer()
             if (thirst > -20) {
                 thirst--;
             }
-            mod_healthy_mod(5);
+            mod_healthy_mod(5, 50);
         }
     }
 
@@ -8416,9 +8451,9 @@ void player::suffer()
         add_effect("shakes", 50);
     }
     if (has_bionic("bio_leaky") && one_in(500)) {
-        mod_healthy_mod(-50);
+        mod_healthy_mod(-50, -200);
     }
-    if (has_bionic("bio_sleepy") && one_in(500)) {
+    if (has_bionic("bio_sleepy") && one_in(500) && !in_sleep_state()) {
         fatigue++;
     }
     if (has_bionic("bio_itchy") && one_in(500) && !has_effect("formication")) {
@@ -10175,7 +10210,7 @@ void player::consume_effects(item *eaten, const it_comest *comest, bool rotten)
         hunger_factor *= rng_float(0, 1);
         // and takes a health penalty if they aren't adapted
         if (!has_trait("SAPROVORE") && !has_bionic("bio_digestion")) {
-            mod_healthy_mod(-30);
+            mod_healthy_mod(-30, -200);
         }
     }
 
@@ -10188,8 +10223,9 @@ void player::consume_effects(item *eaten, const it_comest *comest, bool rotten)
     thirst -= comest->quench * factor;
     mod_stomach_food(nutrition_for(comest) * factor * hunger_factor);
     mod_stomach_water(comest->quench * factor);
-    if (unhealthy_allowed || comest->healthy > 0) {
-        mod_healthy_mod(comest->healthy);
+    if( unhealthy_allowed || comest->healthy > 0 ) {
+        // Effectively no upper cap on healthy food, moderate cap on unhealthy food.
+        mod_healthy_mod( comest->healthy, (comest->healthy >= 0) ? 200 : -50 );
     }
 
     if (comest->stim != 0) {
@@ -10222,16 +10258,16 @@ void player::consume_effects(item *eaten, const it_comest *comest, bool rotten)
             add_morale(MORALE_FOOD_GOOD, fun * 3, fun * 6, 60, 30, false, comest);
         }
         if (has_trait("GOURMAND") && !(has_active_mutation("HIBERNATE"))) {
-        if ((nutrition_for(comest) > 0 && get_hunger() < -60) || (comest->quench > 0 && thirst < -60)) {
-            add_msg_if_player(_("You can't finish it all!"));
+            if ((nutrition_for(comest) > 0 && get_hunger() < -60) || (comest->quench > 0 && thirst < -60)) {
+                add_msg_if_player(_("You can't finish it all!"));
+            }
+            if (get_hunger() < -60) {
+                set_hunger(-60);
+            }
+            if (thirst < -60) {
+                thirst = -60;
+            }
         }
-        if (get_hunger() < -60) {
-            set_hunger(-60);
-        }
-        if (thirst < -60) {
-            thirst = -60;
-        }
-    }
     } if (has_active_mutation("HIBERNATE")) {
          if ((nutrition_for(comest) > 0 && get_hunger() < -60) || (comest->quench > 0 && thirst < -60)) { //Tell the player what's going on
             add_msg_if_player(_("You gorge yourself, preparing to hibernate."));
@@ -10306,9 +10342,27 @@ void player::rooted()
             if (thirst > -20) {
                 thirst--;
             }
-            mod_healthy_mod(5);
+            mod_healthy_mod(5, 50);
         }
     }
+}
+
+bool player::can_wield( const item &it, bool interactive ) const
+{
+    if( it.is_two_handed(*this) && !has_two_arms() ) {
+        if( it.has_flag("ALWAYS_TWOHAND") ) {
+            if( interactive ) {
+                add_msg( m_info, _("The %s can't be wielded with only one arm."), it.tname().c_str() );
+            }
+        } else {
+            if( interactive ) {
+                add_msg( m_info, _("You are too weak to wield %s with only one arm."),
+                         it.tname().c_str() );
+            }
+        }
+        return false;
+    }
+    return true;
 }
 
 bool player::wield(item* it, bool autodrop)
@@ -10345,54 +10399,48 @@ bool player::wield(item* it, bool autodrop)
         return false;
     }
 
-    if ( it->is_two_handed(*this) && !has_two_arms() ) {
-        if (it->has_flag("ALWAYS_TWOHAND")) {
-            add_msg(m_info, _("The %s can't be wielded with only one arm."),
-                it->tname().c_str());
-                return false;
+    if( !can_wield( *it ) ) {
+        return false;
+    }
+
+    int mv = 0;
+
+    if( is_armed() ) {
+        if( volume_carried() + weapon.volume() - it->volume() < volume_capacity() ) {
+            inv.add_item_keep_invlet( remove_weapon() );
+            mv += 15;
+        } else if( query_yn(_("No space in inventory for your %s.  Drop it?"),
+                            weapon.tname().c_str() ) ) {
+            g->m.add_item_or_charges( posx(), posy(), remove_weapon() );
         } else {
-        add_msg(m_info, _("You are too weak to wield %s with only one arm."),
-                it->tname().c_str());
-                return false;
+            return false;
+        }
+        inv.unsort();
+    }
+
+    // Wielding from inventory is relatively slow and does not improve with increasing weapon skill.
+    // Worn items (including guns with shoulder straps) are faster but still slower
+    // than a skilled player with a holster.
+    // There is an additional penalty when wielding items from the inventory whilst currently grabbed.
+
+    if( is_wearing_item( *it ) ) {
+        it->on_takeoff( *this );
+        mv += it->volume() * 10;
+    } else {
+        mv += it->volume() * 20;
+        if( has_effect( "grabbed" ) ) {
+            mv *= 2;
         }
     }
 
-    if (!is_armed()) {
-        if (is_wearing_item(*it)) {
-            it->on_takeoff(*this);
-        }
-        weapon = i_rem(it);
-        moves -= 30;
-        weapon.on_wield( *this );
-        last_item = itype_id(weapon.type->id);
-        return true;
-    } else if (volume_carried() + weapon.volume() - it->volume() < volume_capacity()) {
-        item tmpweap = remove_weapon();
-        if (is_wearing_item(*it)) {
-            it->on_takeoff(*this);
-        }
-        weapon = i_rem(it);
-        inv.add_item_keep_invlet(tmpweap);
-        inv.unsort();
-        moves -= 45;
-        weapon.on_wield( *this );
-        last_item = itype_id(weapon.type->id);
-        return true;
-    } else if (query_yn(_("No space in inventory for your %s.  Drop it?"),
-                        weapon.tname().c_str())) {
-        g->m.add_item_or_charges(posx(), posy(), remove_weapon());
-        if (is_wearing_item(*it)) {
-            it->on_takeoff(*this);
-        }
-        weapon = i_rem(it);
-        inv.unsort();
-        moves -= 30;
-        weapon.on_wield( *this );
-        last_item = itype_id(weapon.type->id);
-        return true;
-    }
+    moves -= mv;
 
-    return false;
+    weapon = i_rem( it );
+    last_item = itype_id( weapon.type->id );
+
+    weapon.on_wield( *this, mv );
+
+    return true;
 }
 
 // ids of martial art styles that are available with the bio_cqb bionic.
@@ -11610,20 +11658,20 @@ hint_rating player::rate_action_read( const item &it ) const
     return HINT_GOOD;
 }
 
-void player::read(int inventory_position)
+bool player::read(int inventory_position)
 {
     // Find the object
     item* it = &i_at(inventory_position);
 
     if (it == NULL || it->is_null()) {
         add_msg(m_info, _("You do not have that item."));
-        return;
+        return false;
     }
 
     if (!it->is_book()) {
         add_msg(m_info, _("Your %s is not good reading material."),
         it->tname().c_str());
-        return;
+        return false;
     }
 
     //Check for NPCs to read for you, negates Illiterate and Far Sighted
@@ -11638,14 +11686,14 @@ void player::read(int inventory_position)
     vehicle *veh = g->m.veh_at( pos() );
     if( veh != nullptr && veh->player_in_control(*this) ) {
         add_msg(m_info, _("It's a bad idea to read while driving!"));
-        return;
+        return false;
     }
 
     // Check if reading is okay
     // check for light level
     if (fine_detail_vision_mod() > 4) {
         add_msg(m_info, _("You can't see to read!"));
-        return;
+        return false;
     }
 
     // check for traits
@@ -11655,7 +11703,7 @@ void player::read(int inventory_position)
         if (assistants != 0){
             add_msg(m_info, _("A fellow survivor reads aloud to you..."));
         } else {
-            return;
+            return false;
         }
     }
 
@@ -11669,7 +11717,7 @@ void player::read(int inventory_position)
         if (assistants != 0){
             add_msg(m_info, _("A fellow survivor reads aloud to you..."));
         } else {
-            return;
+            return false;
         }
     }
 
@@ -11690,7 +11738,7 @@ void player::read(int inventory_position)
         // Never trigger studying when skimming the book.
         activity.values.push_back(0);
         moves = 0;
-        return;
+        return true;
     }
 
 
@@ -11701,17 +11749,17 @@ void player::read(int inventory_position)
         if (it->typeId() == "guidebook") {
             add_msg(m_info, get_hint().c_str());
             moves -= 100;
-            return;
+            return false;
         }
         // otherwise do nothing as there's no associated skill
     } else if (morale_level() < MIN_MORALE_READ && tmp->fun <= 0) { // See morale.h
         add_msg(m_info, _("What's the point of studying?  (Your morale is too low!)"));
-        return;
+        return false;
     } else if( skill_level < tmp->req ) {
         add_msg(_("The %s-related jargon flies over your head!"),
                    skill.obj().name().c_str());
         if (tmp->recipes.empty()) {
-            return;
+            return false;
         } else {
             add_msg(m_info, _("But you might be able to learn a recipe or two."));
         }
@@ -11720,7 +11768,7 @@ void player::read(int inventory_position)
                          _("It would be fun, but your %s skill won't be improved.  Read anyway?") :
                          _("Your %s skill won't be improved.  Read anyway?"),
                          skill.obj().name().c_str())) {
-        return;
+        return false;
     } else if( !continuous &&
                  ( ( skill_level.can_train() && skill_level < tmp->level ) ||
                      can_study_recipe(*it->type) ) &&
@@ -11783,6 +11831,8 @@ void player::read(int inventory_position)
     } else {
         add_morale(MORALE_BOOK, 0, tmp->fun * 15, minutes + 30, minutes, false, it->type);
     }
+
+    return true;
 }
 
 void player::do_read( item *book )
@@ -11937,7 +11987,7 @@ void player::do_read( item *book )
                 if (thirst > -20) {
                     thirst -= root_factor * foot_factor;
                 }
-                mod_healthy_mod(root_factor * foot_factor);
+                mod_healthy_mod(root_factor * foot_factor, 50);
             }
             if (activity.type != ACT_NULL) {
                 return;
@@ -11982,7 +12032,7 @@ void player::do_read( item *book )
             if (thirst > -20) {
                 thirst -= root_factor * foot_factor;
             }
-            mod_healthy_mod(root_factor * foot_factor);
+            mod_healthy_mod(root_factor * foot_factor, 50);
         }
         if (activity.type != ACT_NULL) {
             return;
@@ -12260,9 +12310,13 @@ int player::sleep_spot( const tripoint &p ) const
 
 bool player::can_sleep()
 {
+    if( has_effect( "meth" ) ) {
+        // Sleep ain't happening until that meth wears off completely.
+        return false;
+    }
     int sleepy = sleep_spot( pos3() );
-    sleepy += rng(-8, 8);
-    if (sleepy > 0) {
+    sleepy += rng( -8, 8 );
+    if( sleepy > 0 ) {
         return true;
     }
     return false;
@@ -13425,17 +13479,60 @@ std::string player::weapname(bool charges) const
     }
 }
 
-void player::wield_contents(item *container, bool force_invlet,
-                            const skill_id &/*skill_used*/, int /*volume_factor*/)
+bool player::wield_contents(item *container, int pos, int factor)
 {
-    if(!(container->contents.empty())) {
-        item& weap = container->contents[0];
-        inv.assign_empty_invlet(weap, force_invlet);
-        wield(&(i_add(weap)));
-        container->contents.erase(container->contents.begin());
-    } else {
-        debugmsg("Tried to wield contents of empty container (player::wield_contents)");
+    // if index not specified and container has multiple items then ask the player to choose one
+    if( pos < 0 ) {
+        std::vector<std::string> opts;
+        std::transform( container->contents.begin(), container->contents.end(),
+                        std::back_inserter( opts ), []( const item& elem ) {
+                            return elem.display_name();
+                        } );
+        if( opts.size() > 1 ) {
+            pos = ( uimenu( false, _("Wield what?"), opts ) ) - 1;
+        } else {
+            pos = 0;
+        }
     }
+
+    if( pos >= static_cast<int>(container->contents.size() ) ) {
+        debugmsg( "Tried to wield non-existent item from container (player::wield_contents)" );
+        return false;
+    }
+
+    if( !can_wield( container->contents[pos] ) ) {
+        return false;
+    }
+
+    int mv = 0;
+
+    if( is_armed() ) {
+        if( volume_carried() + weapon.volume() - container->contents[pos].volume() <
+            volume_capacity() ) {
+            inv.add_item_keep_invlet( remove_weapon() );
+            mv += 15;
+        } else if( query_yn( _("No space in inventory for your %s.  Drop it?"),
+                             weapon.tname().c_str() ) ) {
+            g->m.add_item_or_charges( posx(), posy(), remove_weapon() );
+        } else {
+            return false;
+        }
+        inv.unsort();
+    }
+
+    weapon = container->contents[pos];
+    inv.assign_empty_invlet( weapon, true );
+    last_item = itype_id( weapon.type->id );
+    container->contents.erase( container->contents.begin() + pos );
+
+    int lvl = get_skill_level( weapon.is_gun() ? weapon.gun_skill() : weapon.weap_skill() );
+
+    mv += (weapon.volume() * factor) / std::max( lvl, 1 );
+    moves -= mv;
+
+    weapon.on_wield( *this, mv );
+
+    return true;
 }
 
 void player::store(item* container, item* put, const skill_id &skill_used, int volume_factor)

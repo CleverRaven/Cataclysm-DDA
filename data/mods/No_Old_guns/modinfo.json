@@ -6,7 +6,7 @@
     "name": "No Antique Firearms",
     "author": "Rivet-the-Zombie",
     "description": "Removes antique firearms and those that are no longer in production.",
-    "category": "exclude",
+    "category": "item_exclude",
     "path": "modinfo.json"
 },{
     "type": "ITEM_BLACKLIST",

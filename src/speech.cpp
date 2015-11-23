@@ -8,11 +8,11 @@ std::map<std::string, std::vector<SpeechBubble> > speech;
 
 SpeechBubble nullSpeech = { "", 0 };
 
-void load_speech(JsonObject &jo)
+void load_speech( JsonObject &jo )
 {
-    std::string label = jo.get_string("speaker").c_str();
-    std::string sound = _(jo.get_string("sound").c_str());
-    int volume = jo.get_int("volume");
+    std::string label = jo.get_string( "speaker" ).c_str();
+    std::string sound = _( jo.get_string( "sound" ).c_str() );
+    int volume = jo.get_int( "volume" );
     std::map<std::string, std::vector<SpeechBubble> >::iterator speech_type = speech.find( label );
 
     // Construct a vector matching the label if needed.
@@ -23,7 +23,7 @@ void load_speech(JsonObject &jo)
 
     SpeechBubble speech = {sound, volume};
 
-    speech_type->second.push_back(speech);
+    speech_type->second.push_back( speech );
 }
 
 void reset_speech()

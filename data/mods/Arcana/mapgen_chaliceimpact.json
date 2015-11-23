@@ -5,8 +5,10 @@
     "items":[
       ["essay_book", 6],
       ["poetry_book", 6],
+      ["plays_book", 3],
       ["philosophy_book", 2],
-      ["book_sacrifice", 4],
+      ["novel_experimental", 1],
+      ["book_sacrifice", 6],
       ["book_summoning", 1],
       ["book_scrollcraft", 1]
     ]
@@ -156,8 +158,8 @@
             ">": "t_stairs_down"
             },
             "set": [
-                { "point": "trap", "id": "tr_glow", "x": [ 2, 10 ], "y": [ 2, 3 ], "repeat": [ 2, 6 ] },
-                { "point": "trap", "id": "tr_hum", "x": [ 13, 21 ], "y": [ 20, 21 ], "repeat": [ 2, 6 ] }
+                { "point": "trap", "id": "tr_glow", "x": [ 4, 10 ], "y": [ 2, 3 ], "repeat": [ 2, 6 ] },
+                { "point": "trap", "id": "tr_hum", "x": [ 13, 19 ], "y": [ 20, 21 ], "repeat": [ 2, 6 ] }
             ],
             "place_monsters": [
                 { "monster": "GROUP_IMPACT_FLYING", "x": [ 0, 23 ], "y": [ 0, 23 ], "density": 0.15 }
@@ -357,12 +359,12 @@
             "  ======  P,,P  ======  ",
             "           ,,           ",
             "##======###++###======##",
-            "/########cc  cc########/",
-            "////////#      #////////",
-            "////////#      #////////",
+            "/########d    d########/",
+            "////////#b cc b#////////",
+            "////////#d cc d#////////",
             "////////#b    b#////////",
-            "////////#b dd b#////////",
-            "////////#b dd b#////////",
+            "////////#d CC d#////////",
+            "////////#b DD b#////////",
             "////////########////////",
             "////////////////////////"
             ],
@@ -378,17 +380,21 @@
             "c": "t_rock_floor",
             "b": "t_rock_floor",
             "d": "t_rock_floor",
+            "C": "t_rock_floor",
+            "D": "t_rock_floor",
             "/": "t_open_air"
             },
             "furniture": {
                 "b": "f_bed",
                 "d": "f_dresser",
                 "c": "f_bookcase",
+                "C": "f_chair",
+                "D": "f_desk",
                 "=": "f_bench"
             },
             "mapping": {
                 "c": {
-                    "items": { "item": "chalice_cult_books", "chance": 90 },
+                    "items": { "item": "chalice_cult_books", "chance": 30 },
                     "furniture": "f_bookcase"
                 },
                 "d": {
@@ -404,7 +410,8 @@
             },
             "place_items": [
                 { "item": "chalice_cult_casualty_special", "chance": 100, "x": 11, "y": 4 },
-                { "item": "chalice_cult_casualties", "chance": 100, "x": [ 1,22 ], "y": [ 9,12 ], "repeat": [ 2,5 ] }
+                { "item": "chalice_cult_casualties", "chance": 100, "x": [ 1,22 ], "y": [ 9,12 ], "repeat": [ 2,5 ] },
+                { "item": "add_apprentice", "chance": 50, "x": [ 11,12 ], "y": [ 21,21 ] }
             ],
             "set": [
                 { "point": "trap", "id": "tr_brazier", "x": 9, "y": 2},

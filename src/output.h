@@ -282,13 +282,13 @@ long popup(const std::string &text, PopupFlags flags);
 void full_screen_popup(const char *mes, ...);
 /*@}*/
 
-int draw_item_info(WINDOW *win, const std::string sItemName,
+int draw_item_info(WINDOW *win, const std::string sItemName, const std::string sTypeName,
                    std::vector<iteminfo> &vItemDisplay, std::vector<iteminfo> &vItemCompare,
                    int &selected, const bool without_getch = false, const bool without_border = false,
                    const bool handle_scrolling = false);
 
 int draw_item_info(const int iLeft, int iWidth, const int iTop, const int iHeight,
-                   const std::string sItemName,
+                   const std::string sItemName, const std::string sTypeName,
                    std::vector<iteminfo> &vItemDisplay, std::vector<iteminfo> &vItemCompare,
                    int &selected, const bool without_getch = false, const bool without_border = false,
                    const bool handle_scrolling = false);
@@ -321,7 +321,13 @@ std::string vstring_format(std::string const &pattern, va_list argptr);
 
 // TODO: move these elsewhere
 // string manipulations.
+void replace_name_tags(std::string & input);
+void replace_city_tag(std::string & input, const std::string & name);
 
+void replace_substring(std::string & input, const std::string & substring, const std::string & replacement, bool all);
+
+std::string string_replace(std::string text, const std::string &before, const std::string &after);
+std::string replace_colors(std::string text);
 std::string &capitalize_letter(std::string &pattern, size_t n = 0);
 std::string rm_prefix(std::string str, char c1 = '<', char c2 = '>');
 #define rmp_format(...) rm_prefix(string_format(__VA_ARGS__))

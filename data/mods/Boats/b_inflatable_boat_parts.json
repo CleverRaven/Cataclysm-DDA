@@ -48,7 +48,7 @@
     "difficulty" : 1,
     "location" : "engine_block",
     "folded_volume": 2,
-    "flags" : ["ENGINE", "FOLDABLE", "MUSCLE_ARMS", "TOOL_NONE"],
+    "flags" : ["ENGINE", "CONTROLS", "FOLDABLE", "MUSCLE_ARMS", "TOOL_NONE"],
     "breaks_into" : [ {"item": "splinter", "count": [2, 4]} ]
   }
 ]

@@ -412,6 +412,7 @@ These branches are also the valid entries for the categories of `dreams` in `dre
 - ```FUEL_TANK``` Storage device for a fuel type.
 - ```FRIDGE``` Can refrigerate items.
 - ```CONTROLS``` Can be used to control the vehicle.
+- ```CTRL_ELECTRONIC``` Controls electrical and electronic systems of the vehicle.
 - ```MUFFLER``` Muffles the noise a vehicle makes while running.
 - ```CURTAIN``` Can be installed over a part flagged with `WINDOW`, and functions the same as blinds found on windows in buildings.
 - ```SOLAR_PANEL``` Recharges vehicle batteries when exposed to sunlight. Has a 1 in 4 chance of being broken on car generation.
@@ -589,7 +590,6 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```ALARMCLOCK``` Has an alarm-clock feature.
 - ```BELTED``` Layer for backpacks and things worn over outerwear.
 - ```BLIND``` - Blinds the wearer while worn, and provides nominal protection v. flashbang flashes.
-- ```BOOTS``` - You can store knives in this gear.
 - ```COLLAR``` - This piece of clothing has a wide collar that can keep your mouth warm.
 - ```DEAF``` Makes the player deaf.
 - ```ELECTRIC_IMMUNE``` - This gear completely protects you from electric discharges.
@@ -600,6 +600,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```HOOD``` Allow this clothing to conditionally cover the head, for additional warmth or water protection., if the player's head isn't encumbered
 - ```kevlar_padded``` - This gear has kevlar inserted into strategic locations to increase protection without increasing encumbrance.
 - ```leather_padded``` - This gear has certain parts padded with leather to increase protection without increasing encumbrance.
+- ```NO_QUICKDRAW``` - Don't offer to draw items from this holster when the fire key is pressed whilst the players hands are empty
 - ```OUTER```  Outer garment layer.
 - ```OVERSIZE``` Can always be worn no matter encumbrance/mutations/bionics/etc., but prevents any other clothing being worn over this.
 - ```POCKETS``` Increases warmth for hands if the player's hands are cold and the player is wielding nothing.

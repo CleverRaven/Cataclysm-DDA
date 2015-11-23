@@ -1,0 +1,251 @@
+[
+    {
+        "type": "profession",
+        "ident": "arcanist_apprentice",
+        "name": "Apprentice",
+        "description": "You were an aspiring student of a well-learned master of the mysterious arts.  Sadly, you had only just begun your apprenticeship when your master was claimed by the end of the world.",
+        "points": 0,
+        "items": {
+            "both": [
+                "robe",
+                "cloak",
+                "socks",
+                "bastsandals",
+                "gloves_leather",
+                "knit_scarf",
+                "makeshift_knife",
+                "book_magicfordummies"
+            ],
+            "male": [
+                "boxer_shorts"
+            ],
+            "female": [
+                "bra",
+                "panties"
+            ]
+        },
+        "flags": ["SCEN_ONLY"]
+    },{
+        "type": "profession",
+        "ident": "arcanist_alchemist",
+        "name": "Alchemist",
+        "description": "You studied under a well-learned scholar, a seeker of the fabled elixer of life.  Despite the tutelage of a master alchemist, you never got any closer to finishing the great work.",
+        "points": 2,
+        "skills": [
+            {
+                "level": 5,
+                "name": "cooking"
+            }
+        ],
+        "items": {
+            "both": [
+                "tank_top",
+                "duster",
+                "pants",
+                "socks",
+                "boots",
+                "gloves_fingerless",
+                "backpack",
+                "pot",
+                "chemistry_set",
+                "chem_ethanol",
+                "book_potioncraft"
+            ],
+            "male": [
+                "briefs"
+            ],
+            "female": [
+                "bra",
+                "panties"
+            ]
+        },
+        "flags": ["SCEN_ONLY"]
+    },{
+        "type": "profession",
+        "ident": "arcanist_scribe",
+        "name": "Scribe",
+        "description": "You were a well-read scholar, learning the basics of giving true power to the written word.  You dreamt of great archives holding forbidden knowledge, but all you have seen lately is a ruined world.",
+        "points": 2,
+        "skills": [
+            {
+                "level": 2,
+                "name": "magic"
+            },
+            {
+                "level": 2,
+                "name": "fabrication"
+            }
+        ],
+        "items": {
+            "both": [
+                "dress_shirt",
+                "blazer",
+                "pants",
+                "socks",
+                "dress_shoes",
+                "mbag",
+                "candle",
+                "scroll_blank",
+                "book_scrollcraft"
+            ],
+            "male": [
+                "briefs"
+            ],
+            "female": [
+                "bra",
+                "panties"
+            ]
+        },
+        "flags": ["SCEN_ONLY"]
+    },{
+        "type": "profession",
+        "ident": "arcanist_bloodmage",
+        "name": "Blood Mage",
+        "description": "You have beheld true power, as a member of the Sanguine Order.  Power from within, as well as power from beyond.  But at what cost?",
+        "points": 4,
+        "skills": [
+            {
+                "level": 3,
+                "name": "magic"
+            },
+            {
+                "level": 1,
+                "name": "firstaid"
+            },
+            {
+                "level": 1,
+                "name": "stabbing"
+            }
+        ],
+        "items": {
+            "both": [
+                "robe",
+                "socks",
+                "boots",
+                "revenant_crown",
+                "backpack",
+                "sheath",
+                "rag",
+                "blood_athame",
+                "bloodscourge",
+                "book_bloodmagic"
+            ],
+            "male": [
+                "boxer_briefs"
+            ],
+            "female": [
+                "bra",
+                "panties"
+            ]
+        },
+        "flags": ["SCEN_ONLY"]
+    },{
+        "type": "profession",
+        "ident": "arcanist_magehunter",
+        "name": "Mage Hunter",
+        "description": "You were a member of The Cleansing Flame, a religious order.  The end of all has come.  The barrier between worlds has been shattered.  The dead hunger for the living.  But you will not give in.",
+        "points": 4,
+        "skills": [
+            {
+                "level": 4,
+                "name": "magic"
+            },
+            {
+                "level": 2,
+                "name": "melee"
+            },
+            {
+                "level": 1,
+                "name": "bashing"
+            }
+        ],
+        "items": {
+            "both": [
+                "dress_shirt",
+                "gilded_aegis",
+                "pants",
+                "socks",
+                "boots_larmor",
+                "gauntlets_larmor",
+                "helmet_barbute",
+                "holy_symbol",
+                "backpack",
+                "hexenhammer",
+                "book_hexenhammer"
+            ],
+            "male": [
+                "boxer_shorts"
+            ],
+            "female": [
+                "sports_bra",
+                "boy_shorts"
+            ]
+        },
+        "flags": ["SCEN_ONLY"]
+    },{
+        "type": "profession",
+        "ident": "arcanist_oathkeeper",
+        "name": "Oath Keeper",
+        "description": "He From Beyond The Veil calls to you, to your brothers and sisters.  And the faithful, those who remain at least, shall bring him into this world.",
+        "points": 6,
+        "skills": [
+            {
+                "level": 5,
+                "name": "magic"
+            }
+        ],
+        "items": {
+            "both": [
+                "loincloth",
+                "robe_shadow",
+                "socks",
+                "bastsandals",
+                "leather_pouch",
+                "offering_chalice",
+                "book_sacrifice"
+            ],
+            "female": [
+                "chestwrap"
+            ]
+        },
+        "flags": ["SCEN_ONLY"]
+    },{
+        "type": "profession",
+        "ident": "arcanist_summoner",
+        "name": "Summoner",
+        "description": "You were a student of a master arcanist.  Not taught to merely take advantage of power from beyond, no.  Taught to draw it forth in living form, bind it to your will.  If only your master hadn't summoned more power than could be controlled.",
+        "points": 6,
+        "skills": [
+            {
+                "level": 6,
+                "name": "magic"
+            },
+            {
+                "level": 5,
+                "name": "fabrication"
+            }
+        ],
+        "items": {
+            "both": [
+                "robe",
+                "cloak",
+                "socks",
+                "boots",
+                "gloves_leather",
+                "knit_scarf",
+                "backpack",
+                "bowl_pewter",
+                "silver_glyph",
+                "book_summoning"
+            ],
+            "male": [
+                "boxer_shorts"
+            ],
+            "female": [
+                "bra",
+                "panties"
+            ]
+        },
+        "flags": ["SCEN_ONLY"]
+    }
+]

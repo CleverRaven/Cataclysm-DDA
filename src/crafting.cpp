@@ -1,31 +1,34 @@
-#include <string>
-#include <iostream>
-#include <fstream>
-#include <sstream>
-#include "json.h"
-#include "game.h"
-#include "map.h"
-#include "debug.h"
-#include "options.h"
-#include "output.h"
 #include "crafting.h"
-#include "recipe_dictionary.h"
+
+#include "catacharset.h"
+#include "craft_command.h"
+#include "debug.h"
+#include "game.h"
+#include "input.h"
 #include "inventory.h"
-#include "messages.h"
 #include "itype.h"
-#include "rng.h"
-#include "translations.h"
+#include "json.h"
+#include "map.h"
+#include "messages.h"
 #include "morale.h"
 #include "npc.h"
-#include "vehicle.h"
+#include "options.h"
+#include "output.h"
+#include "recipe_dictionary.h"
+#include "rng.h"
+#include "translations.h"
 #include "ui.h"
+#include "vehicle.h"
 #include "crafting_gui.h"
 
-#include <queue>
-#include <math.h>    //sqrt
 #include <algorithm> //std::min
+#include <fstream>
+#include <iostream>
+#include <math.h>    //sqrt
+#include <queue>
+#include <string>
+#include <sstream>
 
-recipe_dictionary recipe_dict;
 
 void remove_from_component_lookup(recipe* r);
 
@@ -200,16 +203,12 @@ void finalize_recipes()
 
 bool player::crafting_allowed()
 {
-    if (morale_level() < MIN_MORALE_CRAFT) { // See morale.h
+    if ( has_moral_to_craft() ) { // See morale.h
         add_msg(m_info, _("Your morale is too low to craft..."));
         return false;
     }
-    return true;
-}
 
-bool player::crafting_can_see()
-{
-    if (fine_detail_vision_mod() > 4) {
+    if ( can_see_to_craft() ) {
         add_msg(m_info, _("You can't see to craft!"));
         return false;
     }
@@ -217,16 +216,22 @@ bool player::crafting_can_see()
     return true;
 }
 
+bool player::can_see_to_craft()
+{
+    return fine_detail_vision_mod() > 4;
+}
+
+bool player::has_moral_to_craft()
+{
+    return morale_level() < MIN_MORALE_CRAFT;
+}
+
 void player::craft()
 {
-    if (!crafting_allowed()) {
-        return;
-    }
-
     int batch_size = 0;
     const recipe *rec = select_crafting_recipe( batch_size );
     if (rec) {
-        if(crafting_can_see()) {
+        if ( crafting_allowed() ) {
             make_craft( rec->ident, batch_size );
         }
     }
@@ -243,14 +248,10 @@ void player::recraft()
 
 void player::long_craft()
 {
-    if (!crafting_allowed()) {
-        return;
-    }
-
     int batch_size = 0;
     const recipe *rec = select_crafting_recipe( batch_size );
     if (rec) {
-        if(crafting_can_see()) {
+        if( crafting_allowed() ) {
             make_all_craft( rec->ident, batch_size );
         }
     }
@@ -259,10 +260,6 @@ void player::long_craft()
 bool player::making_would_work(const std::string &id_to_make, int batch_size)
 {
     if (!crafting_allowed()) {
-        return false;
-    }
-
-    if(!crafting_can_see()) {
         return false;
     }
 
@@ -493,219 +490,6 @@ void player::make_craft_with_command( const std::string &id_to_make, int batch_s
 
     last_craft = craft_command( recipe_to_make, batch_size, is_long, this );
     last_craft.execute();
-}
-
-template<typename CompType>
-std::string comp_selection<CompType>::nname() const
-{
-    switch( use_from ) {
-        case use_from_map:
-            return item::nname( comp.type, comp.count ) + _( " (nearby)" );
-        case use_from_both:
-            return item::nname( comp.type, comp.count ) + _( " (person & nearby)" );
-        case use_from_player: // Is the same as the default return;
-        case use_from_none:
-        case cancel:
-            break;
-    }
-
-    return item::nname( comp.type, comp.count );
-}
-
-void craft_command::execute()
-{
-    if( empty() ) {
-        return;
-    }
-
-    bool need_selections = true;
-    inventory map_inv;
-    map_inv.form_from_map( crafter->pos3(), PICKUP_RANGE );
-
-    if( has_cached_selections() ) {
-        std::vector<comp_selection<item_comp>> missing_items = check_item_components_missing( map_inv );
-        std::vector<comp_selection<tool_comp>> missing_tools = check_tool_components_missing( map_inv );
-
-        if( missing_items.empty() && missing_tools.empty() ) {
-            need_selections = false; // all items we used previously are still there, so we don't need to do selection
-        } else if( !query_continue( missing_items, missing_tools ) ) {
-            return; // return if the response was 'No'.
-        }
-    }
-
-    if( need_selections ) {
-        /* make component selections */
-        select_components( map_inv );
-    }
-
-    crafter->assign_activity( is_long ? ACT_LONGCRAFT : ACT_CRAFT, rec->batch_time( batch_size ), rec->id );
-    crafter->activity.values.push_back( batch_size );
-    /* legacy support for lua bindings to last_batch and lastrecipe */
-    crafter->last_batch = batch_size;
-    crafter->lastrecipe = rec->ident;
-}
-
-template<typename T>
-void craft_command::component_list_string( std::stringstream &str, const std::vector<comp_selection<T>> &components ) {
-    for( size_t i = 0; i < components.size(); i++ ) {
-        if( i != 0 ) {
-            str << ", ";
-        }
-        str << components[i].nname();
-    }
-}
-
-void craft_command::select_components( inventory &map_inv )
-{
-    for( const auto &it : rec->requirements.components ) {
-        comp_selection<item_comp> is = crafter->select_item_component( it, batch_size, map_inv, true );
-        if( is.use_from == cancel ) {
-            return;
-        }
-        item_selections.push_back( is );
-    }
-
-    for( const auto &it : rec->requirements.tools ) {
-        comp_selection<tool_comp> ts = crafter->select_tool_component(
-            it, batch_size, map_inv, DEFAULT_HOTKEYS, true );
-        if( ts.use_from == cancel ) {
-            return;
-        }
-        tool_selections.push_back( ts );
-    }
-}
-
-bool craft_command::query_continue( const std::vector<comp_selection<item_comp>> &missing_items,
-                                    const std::vector<comp_selection<tool_comp>> &missing_tools ) {
-    std::stringstream ss;
-    ss << _( "Some components used previously are missing. Continue?" );
-
-    if( !missing_items.empty() ) {
-        ss << std::endl << _( "Item(s): " );
-        component_list_string( ss, missing_items );
-    }
-
-    if( !missing_tools.empty() ) {
-        ss << std::endl << _( "Tool(s): " );
-        component_list_string( ss, missing_tools );
-    }
-
-    std::vector<std::string> options;
-    options.push_back( _( "Yes" ) );
-    options.push_back( _( "No" ) );
-
-    const std::string str = ss.str(); // we NEED a copy
-    int selection = menu_vec( true, str.c_str(), options );
-    return selection == 1;
-}
-
-std::list<item> craft_command::consume_components() {
-    std::list<item> used;
-
-    if( empty() ) {
-        debugmsg( "Warning: attempted to consume items from an empty craft_command" );
-        return used;
-    }
-
-    for( const auto &it : item_selections ) {
-        std::list<item> tmp = crafter->consume_items( it, batch_size ); // we consume the items we selected earlier
-        used.splice( used.end(), tmp );
-    }
-
-    for( const auto &it : tool_selections ) {
-        crafter->consume_tools( it, batch_size );
-    }
-
-    return used;
-}
-
-std::vector<comp_selection<item_comp>>
-craft_command::check_item_components_missing( const inventory &map_inv ) const {
-    std::vector<comp_selection<item_comp>> missing;
-
-    for( const auto &item_sel : item_selections ) {
-        itype_id type = item_sel.comp.type;
-        item_comp component = item_sel.comp;
-        long count = ( component.count > 0 ) ? component.count * batch_size : abs( component.count );
-
-        if ( item::count_by_charges( type ) && count > 0 ) {
-            switch( item_sel.use_from ) {
-                case use_from_player:
-                    if( !crafter->has_charges( type, count ) ) {
-                        missing.push_back( item_sel );
-                    }
-                    break;
-                case use_from_map:
-                    if( !map_inv.has_charges( type, count ) ) {
-                        missing.push_back( item_sel );
-                    }
-                    break;
-                case use_from_both:
-                    if( !( crafter->charges_of( type ) + map_inv.charges_of( type ) >= count ) ) {
-                        missing.push_back( item_sel );
-                    }
-                    break;
-                case use_from_none:
-                case cancel:
-                    break;
-            }
-        } else { // Counting by units, not charges
-            switch( item_sel.use_from ) {
-                case use_from_player:
-                    if( !crafter->has_amount( type, count ) ) {
-                        missing.push_back( item_sel );
-                    }
-                    break;
-                case use_from_map:
-                    if( !map_inv.has_components(type, count) ) {
-                        missing.push_back( item_sel );
-                    }
-                    break;
-                case use_from_both:
-                    if( !( crafter->amount_of( type ) + map_inv.amount_of( type ) >= count ) ) {
-                        missing.push_back( item_sel );
-                    }
-                    break;
-                case use_from_none:
-                case cancel:
-                    break;
-            }
-        }
-    }
-
-    return missing;
-}
-
-std::vector<comp_selection<tool_comp>> craft_command::check_tool_components_missing(
-                                        const inventory &map_inv ) const {
-    std::vector<comp_selection<tool_comp>> missing;
-
-    for( const auto &tool_sel : tool_selections ) {
-        itype_id type = tool_sel.comp.type;
-        if ( tool_sel.comp.count > 0 ) {
-            long count = tool_sel.comp.count * batch_size;
-            switch( tool_sel.use_from ) {
-                case use_from_player:
-                    if( !crafter->has_charges( type, count ) ) {
-                        missing.push_back( tool_sel );
-                    }
-                    break;
-                case use_from_map:
-                    if( !map_inv.has_charges( type, count ) ) {
-                        missing.push_back( tool_sel );
-                    }
-                    break;
-                case use_from_both:
-                case use_from_none:
-                case cancel:
-                    break;
-            }
-        } else if( crafter->has_amount( type, 1 ) || map_inv.has_tools( type, 1 ) ) {
-            missing.push_back( tool_sel );
-        }
-    }
-
-    return missing;
 }
 
 item recipe::create_result() const {

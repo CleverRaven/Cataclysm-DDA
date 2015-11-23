@@ -2,11 +2,12 @@
 #define PLAYER_H
 
 #include "character.h"
+#include "crafting.h"
+#include "craft_command.h"
 #include "item.h"
 #include "player_activity.h"
-#include "weighted_list.h"
 #include "morale.h"
-#include "crafting.h"
+#include "weighted_list.h"
 
 #include <unordered_set>
 #include <bitset>
@@ -632,7 +633,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Handles the chance to be infected by random diseases */
         void get_sick();
         /** Handles health fluctuations over time, redirects into Creature::update_health */
-        void update_health(int base_threshold = 0) override;
+        void update_health(int external_modifiers = 0) override;
         /** Returns list of rc items in player inventory. **/
         std::list<item *> get_radio_items();
 
@@ -677,6 +678,8 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Handles rooting effects */
         void rooted_message() const;
         void rooted();
+        /** Check if player capable of wielding item. If interactive is false dont display messages if item is not wieldable */
+        bool can_wield(const item& it, bool interactive = true) const;
         /** Wields an item, returns false on failed wield */
         virtual bool wield(item *it, bool autodrop = false);
         /** Creates the UI and handles player input for picking martial arts styles */
@@ -692,9 +695,10 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
          *  is given, stores the items in that vector and not in the inventory */
         bool takeoff( item *target, bool autodrop = false, std::vector<item> *items = nullptr );
         bool takeoff( int pos, bool autodrop = false, std::vector<item> *items = nullptr );
-        /** Removes the first item in the container's contents and wields it,
-         * taking moves based on skill and volume of item being wielded. */
-        void wield_contents(item *container, bool force_invlet, const skill_id &skill_used, int volume_factor);
+        /** Try to wield a contained item consuming moves proportional to weapon skill and volume.
+         *  @param pos index of contained item to wield. Set to -1 to show menu if container has more than one item
+         *  @param factor scales moves cost and can be set to zero if item should be wielded without any delay */
+        bool wield_contents(item *container, int pos = 0, int factor = 10);
         /** Stores an item inside another item, taking moves based on skill and volume of item being stored. */
         void store(item *container, item *put, const skill_id &skill_used, int volume_factor);
         /** Draws the UI and handles player input for the armor re-ordering window */
@@ -720,8 +724,8 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         void remove_gunmod(item *weapon, unsigned id);
         /** Attempts to install bionics, returns false if the player cancels prior to installation */
         bool install_bionics(const itype &type, int skill_level = -1);
-        /** Handles reading effects */
-        void read(int pos);
+        /** Handles reading effects and returns true if activity started */
+        bool read(int pos);
         /** Completes book reading action. **/
         void do_read( item *book );
         /** Note that we've read a book at least once. **/
@@ -906,8 +910,9 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         bool studied_all_recipes(const itype &book) const;
 
         // crafting.cpp
-        bool crafting_allowed(); // is morale high enough to craft?
-        bool crafting_can_see(); // can player see well enough to craft?
+        bool crafting_allowed(); // can_see_to_craft() && has_morale_to_craft()
+        bool can_see_to_craft();
+        bool has_moral_to_craft();
         bool can_make(const recipe *r, int batch_size = 1); // have components?
         bool making_would_work(const std::string &id_to_make, int batch_size);
         void craft();
@@ -938,15 +943,15 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         const inventory &crafting_inventory(); // includes nearby items
         void invalidate_crafting_inventory();
         std::vector<item> get_eligible_containers_for_crafting();
-        comp_selection<item_comp> select_item_component( const std::vector<item_comp> &components,
-                                                         int batch, inventory &map_inv,
-                                                         bool can_cancel = false );
+        comp_selection<item_comp>
+            select_item_component( const std::vector<item_comp> &components,
+                                   int batch, inventory &map_inv, bool can_cancel = false );
         std::list<item> consume_items( const comp_selection<item_comp> &cs, int batch );
         std::list<item> consume_items( const std::vector<item_comp> &components, int batch = 1 );
-        comp_selection<tool_comp> select_tool_component( const std::vector<tool_comp> &tools,
-                                                         int batch, inventory &map_inv,
-                                                         const std::string &hotkeys = DEFAULT_HOTKEYS,
-                                                         bool can_cancel = false );
+        comp_selection<tool_comp>
+            select_tool_component( const std::vector<tool_comp> &tools, int batch, inventory &map_inv,
+                                   const std::string &hotkeys = DEFAULT_HOTKEYS,
+                                   bool can_cancel = false );
         void consume_tools( const comp_selection<tool_comp> &tool, int batch );
         void consume_tools( const std::vector<tool_comp> &tools, int batch = 1,
                             const std::string &hotkeys = DEFAULT_HOTKEYS );

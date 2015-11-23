@@ -27,7 +27,8 @@ const std::vector<std::pair<std::string, std::string> > &get_mod_list_categories
         {"vehicles", _("VEHICLE MODS")},
         {"rebalance", _("REBALANCING MODS")},
         {"magical", _("MAGICAL MODS")},
-        {"exclude", _("EXCLUSION MODS")},
+        {"item_exclude", _("ITEM EXCLUSION MODS")},
+        {"monster_exclude", _("MONSTER EXCLUSION MODS")},
         {"", _("NO CATEGORY")}
     };
 
@@ -46,7 +47,8 @@ const std::vector<std::pair<std::string, std::string> > &get_mod_list_tabs() {
 
 const std::map<std::string, std::string> &get_mod_list_cat_tab() {
     static const std::map<std::string, std::string> mod_list_cat_tab = {
-        {"exclude", "tab_blacklist"},
+        {"item_exclude", "tab_blacklist"},
+        {"monster_exclude", "tab_blacklist"},
         {"rebalance", "tab_balance"}
     };
 

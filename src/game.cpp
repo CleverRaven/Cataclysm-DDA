@@ -146,6 +146,7 @@ game::game() :
     w_overmap(NULL),
     w_omlegend(NULL),
     w_minimap(NULL),
+    w_pixel_minimap(NULL),
     w_HP(NULL),
     w_messages(NULL),
     w_location(NULL),
@@ -157,7 +158,8 @@ game::game() :
     mostseen(0),
     gamemode(NULL),
     lookHeight(13),
-    tileset_zoom(16)
+    tileset_zoom(16),
+    pixel_minimap_option(0)
 {
     world_generator = new worldfactory();
     // do nothing, everything that was in here is moved to init_data() which is called immediately after g = new game; in main.cpp
@@ -270,6 +272,9 @@ game::~game()
     delete gamemode;
     delwin(w_terrain);
     delwin(w_minimap);
+    if (pixel_minimap_option){
+        delwin(w_pixel_minimap);
+    }
     delwin(w_HP);
     delwin(w_messages);
     delwin(w_location);
@@ -415,6 +420,16 @@ void game::init_ui()
     int statX, statY, statW, statH;
     int stat2X, stat2Y, stat2W, stat2H;
     int mouseview_y, mouseview_h, mouseview_w;
+    int pixelminimapW, pixelminimapH, pixelminimapX, pixelminimapY;
+
+    //class variable to track the option being active
+    pixel_minimap_option = 0;
+    bool pixel_minimap_custom_height = false;
+
+#ifdef TILES
+    pixel_minimap_option = OPTIONS["PIXEL_MINIMAP"];
+    pixel_minimap_custom_height = OPTIONS["PIXEL_MINIMAP_HEIGHT"] > 0;
+#endif // TILES
 
     if (use_narrow_sidebar()) {
         // First, figure out how large each element will be.
@@ -426,8 +441,17 @@ void game::init_ui()
         locW = sidebarWidth;
         stat2H = 2;
         stat2W = sidebarWidth;
-        messH = TERRAIN_WINDOW_TERM_HEIGHT - (statH + locH + stat2H);
+        pixelminimapW = sidebarWidth * pixel_minimap_option;
+        pixelminimapH = (pixelminimapW / 2) * pixel_minimap_option;
+        if (pixel_minimap_custom_height && pixelminimapH > OPTIONS["PIXEL_MINIMAP_HEIGHT"]){
+            pixelminimapH = OPTIONS["PIXEL_MINIMAP_HEIGHT"];
+        }
+        messH = TERRAIN_WINDOW_TERM_HEIGHT - (statH + locH + stat2H + pixelminimapH);
         messW = sidebarWidth;
+        if (messH < 9) {
+            pixelminimapH -= 9 - messH;
+            messH = 9;
+        }
 
         // Now position the elements relative to each other.
         minimapX = 0;
@@ -442,6 +466,8 @@ void game::init_ui()
         stat2Y = locY + locH;
         messX = 0;
         messY = stat2Y + stat2H;
+        pixelminimapX = 0;
+        pixelminimapY = messY + messH;
 
         mouseview_y = messY + 7;
         mouseview_h = TERRAIN_WINDOW_TERM_HEIGHT - mouseview_y - 5;
@@ -456,15 +482,26 @@ void game::init_ui()
         messX = MINIMAP_WIDTH;
         messY = 0;
         messW = sidebarWidth - messX;
-        messH = TERRAIN_WINDOW_TERM_HEIGHT - (locH + statH);
+        pixelminimapW = messW * pixel_minimap_option;
+        pixelminimapH = (pixelminimapW / 2) * pixel_minimap_option;
+        if (pixel_minimap_custom_height && pixelminimapH > OPTIONS["PIXEL_MINIMAP_HEIGHT"]){
+            pixelminimapH = OPTIONS["PIXEL_MINIMAP_HEIGHT"];
+        }
+        messH = TERRAIN_WINDOW_TERM_HEIGHT - (locH + statH + pixelminimapH); // 1 for w_location + 4 for w_stat, w_messages starts at 0
+        if (messH < 9) {
+            pixelminimapH -= 9 - messH;
+            messH = 9;
+        }
+        pixelminimapX = MINIMAP_WIDTH;
+        pixelminimapY = messH;
         hpX = 0;
         hpY = MINIMAP_HEIGHT;
         // under the minimap, but down to the same line as w_location (which is under w_messages)
         // so it erases the space between w_terrain and (w_messages and w_location)
-        hpH = messH - MINIMAP_HEIGHT + 3;
+        hpH = messH + pixelminimapH - MINIMAP_HEIGHT + 3;
         hpW = 7;
         locX = MINIMAP_WIDTH;
-        locY = messY + messH;
+        locY = messY + messH + pixelminimapH;
         locW = sidebarWidth - locX;
         statY = locY + locH;
         statW = sidebarWidth;
@@ -491,6 +528,11 @@ void game::init_ui()
 
     w_messages = newwin(messH, messW, _y + messY, _x + messX);
     werase(w_messages);
+
+    if (pixel_minimap_option){
+        w_pixel_minimap = newwin(pixelminimapH, pixelminimapW, _y + pixelminimapY, _x + pixelminimapX);
+        werase(w_pixel_minimap);
+    }
 
     w_location = newwin(locH, locW, _y + locY, _x + locX);
     werase(w_location);
@@ -1678,7 +1720,6 @@ int game::inventory_item_menu(int pos, int iStartX, int iWidth, const inventory_
 
         int iScrollPos = 0;
         oThisItem.info(true, vThisItem);
-        const std::string item_name = oThisItem.tname();
 
         // +2+2 for border and adjacent spaces, +2 for '<hotkey><space>'
         int popup_width = max_text_length + 2+2 + 2;
@@ -1710,7 +1751,7 @@ int game::inventory_item_menu(int pos, int iStartX, int iWidth, const inventory_
         action_menu.border_color = BORDER_COLOR;
 
         do {
-            draw_item_info(iStartX, iWidth, VIEW_OFFSET_X, TERMY - VIEW_OFFSET_Y * 2, item_name, vThisItem, vDummy,
+            draw_item_info(iStartX, iWidth, VIEW_OFFSET_X, TERMY - VIEW_OFFSET_Y * 2, oThisItem.tname(), oThisItem.type_name(), vThisItem, vDummy,
                            iScrollPos, true, false, false);
             const int prev_selected = action_menu.selected;
             action_menu.query( false );
@@ -5024,6 +5065,13 @@ void game::draw_sidebar()
     wrefresh(w_messages);
 
     draw_minimap();
+
+    // Force a refresh of the pixel minimap.
+    // only do so if it is in use
+    if(pixel_minimap_option && w_pixel_minimap){
+        werase(w_pixel_minimap);
+        wrefresh(w_pixel_minimap);
+    }
 }
 
 bool game::isBetween(int test, int down, int up)
@@ -7772,9 +7820,11 @@ void game::control_vehicle()
     }
 
     if( veh != nullptr && veh->player_in_control( u ) ) {
-        veh->use_controls();
+        veh->use_controls( u.pos() );
     } else if( veh && veh->part_with_feature( veh_part, "CONTROLS" ) >= 0 && u.in_vehicle ) {
-        if( !veh->interact_vehicle_locked() ) { return; }
+        if( !veh->interact_vehicle_locked() ) {
+            return;
+        }
         if( veh->engine_on ) {
             u.controlling_vehicle = true;
             add_msg( _("You take control of the %s."), veh->name.c_str() );
@@ -7791,12 +7841,8 @@ void game::control_vehicle()
             add_msg(_("No vehicle there."));
             return;
         }
-        if (veh->part_with_feature(veh_part, "CONTROLS") < 0) {
-            add_msg(m_info, _("No controls there."));
-            return;
-        }
         if (veh->interact_vehicle_locked()){
-            veh->use_controls();
+            veh->use_controls( examp );
         }
     }
 }
@@ -9674,7 +9720,7 @@ int game::list_items(const int iLastState)
                 activeItem->example->info(true, vThisItem);
                 int iDummySelect = 0;
                 draw_item_info(0, width - 5, 0, TERMY - VIEW_OFFSET_Y * 2,
-                               activeItem->example->tname(), vThisItem, vDummy, iDummySelect,
+                               activeItem->example->tname(), activeItem->example->type_name(), vThisItem, vDummy, iDummySelect,
                                false, false, true);
                 // wait until the user presses a key to wipe the screen
 
@@ -9936,7 +9982,7 @@ int game::list_items(const int iLastState)
                     std::vector<iteminfo> vThisItem, vDummy;
                     activeItem->example->info(true, vThisItem);
 
-                    draw_item_info(w_item_info, "", vThisItem, vDummy, iScrollPos, true, true);
+                    draw_item_info(w_item_info, "", "", vThisItem, vDummy, iScrollPos, true, true);
 
                     //Only redraw trail/terrain if x/y position changed
                     if( active_pos != iLastActive ) {
@@ -10884,42 +10930,30 @@ void game::plfire( bool burst, const tripoint &default_target )
                 return;
             }
         }
-        // get a list of holsters from worn items
-        std::vector<item *> holsters;
-        for( auto &worn : u.worn ) {
-            if( ((worn.type->can_use("HOLSTER_GUN") && !worn.has_flag("NO_QUICKDRAW")) ||
-                 worn.type->can_use("HOLSTER_ANKLE")) &&
-                (!worn.contents.empty() && worn.contents[0].is_gun()) ) {
-                holsters.push_back(&worn);
+
+        std::vector<std::string> options( 1, _("Cancel") );
+        std::vector<std::function<void()>> actions( 1, []{} );
+
+        for( auto &w : u.worn ) {
+            if( w.type->can_use( "holster" ) && !w.has_flag( "NO_QUICKDRAW" ) &&
+                !w.contents.empty() && w.contents[0].is_gun() ) {
+                // draw (first) gun contained in holster
+                options.push_back( string_format( _("%s from %s (%d)" ),
+                                                  w.contents[0].tname().c_str(),
+                                                  w.type_name().c_str(),
+                                                  w.contents[0].charges ) );
+
+                actions.push_back( [&]{ u.invoke_item( &w, "holster" ); } );
+
+            } else if( w.is_gun() && w.has_gunmod( "shoulder_strap" ) >= 0 ) {
+                // wield item currently worn using shoulder strap
+                options.push_back( w.display_name() );
+                actions.push_back( [&]{ u.wield( &w ); } );
             }
         }
-        // TODO: Turret vs. holster choice
-        if( !holsters.empty() ) {
-            int choice = -1;
-            // only one holster found, choose it
-            if( holsters.size() == 1 ) {
-                choice = 0;
-                // ask player which holster to draw from
-            } else {
-                std::vector<std::string> choices;
-                for( auto i : holsters ) {
-                    choices.push_back(string_format(_("%s from %s (%d)"),
-                                                    i->contents[0].tname().c_str(),
-                                                    i->type_name(1).c_str(),
-                                                    i->contents[0].charges));
-                }
-                choice = (uimenu(false, _("Draw what?"), choices)) - 1;
-            }
 
-            if (choice > -1) {
-                u.wield_contents(holsters[choice], true,  holsters[choice]->skill(), 13);
-                u.add_msg_if_player(_("You pull your %1$s from its %2$s and ready it to fire."),
-                                    u.weapon.tname().c_str(), holsters[choice]->type_name(1).c_str());
-                if (u.weapon.charges <= 0) {
-                    u.add_msg_if_player(_("... but it's empty!"));
-                    return;
-                }
-            }
+        if( options.size() > 1 ) {
+            actions[ ( uimenu( false, _("Draw what?"), options ) ) - 1 ]();
         }
     }
 
@@ -11311,7 +11345,8 @@ void game::eat(int pos)
                 it.type->id != "1st_aid"; // temporary "solution" to #12991
     };
 
-    auto item_loc = inv_map_splice( filter, _("Consume item:") );
+    // Can consume items from inventory or within one tile (including in vehicles)
+    auto item_loc = inv_map_splice( filter, _("Consume item:"), 1);
 
     const int inv_pos = item_loc.get_inventory_position();
     if( inv_pos != INT_MIN ) {
@@ -11655,53 +11690,74 @@ void game::unload(item &it)
     }
 }
 
-void game::wield(int pos)
+void game::wield( int pos )
 {
-    if (u.weapon.has_flag("NO_UNWIELD")) {
+    if( u.weapon.has_flag( "NO_UNWIELD" ) ) {
         // Bionics can't be unwielded
-        add_msg(m_info, _("You cannot unwield your %s."), u.weapon.tname().c_str());
+        add_msg( m_info, _( "You cannot unwield your %s." ), u.weapon.tname().c_str() );
         return;
     }
-    if (pos == INT_MIN) {
-        pos = inv(_("Wield item:"));
+    if( pos == INT_MIN ) {
+        pos = inv( _( "Wield item:" ) );
     }
 
-    if (pos == INT_MIN) {
-        add_msg(_("Never mind."));
+    if( pos == INT_MIN ) {
+        add_msg( _( "Never mind." ) );
         return;
     }
 
     // Weapons need invlets to access, give one if not already assigned.
-    item &it = u.i_at(pos);
-    if (!it.is_null() && it.invlet == 0) {
-        u.inv.assign_empty_invlet(it, true);
+    item &it = u.i_at( pos );
+    if( !it.is_null() && it.invlet == 0 ) {
+        u.inv.assign_empty_invlet( it, true );
     }
 
     bool success = false;
-    if (pos == -1) {
-        success = u.wield(NULL);
+    if( pos == -1 ) {
+        success = u.wield( NULL );
     } else {
-        success = u.wield(&(u.i_at(pos)));
+        success = u.wield( &( u.i_at( pos ) ) );
     }
 
-    if (success) {
+    if( success ) {
         u.recoil = MIN_RECOIL;
     }
 }
 
 void game::read()
 {
-    auto filter = []( const item &it ) {
-        return it.is_book();
-    };
-    int pos = inv_for_filter( _("Read:"), filter );
+    // Can read items from inventory or within one tile (including in vehicles)
+    auto loc = inv_map_splice( []( const item &it ) { return it.is_book(); }, _( "Read:" ), 1 );
 
-    if (pos == INT_MIN) {
-        add_msg(_("Never mind."));
+    item *book = loc.get_item();
+    if( !book ) {
+        add_msg( _( "Never mind." ) );
         return;
     }
-    draw();
-    u.read(pos);
+
+    int pos = u.get_item_position( book );
+
+    // Book is already in the inventory so attempt reading.
+    if( pos != INT_MIN ) {
+        u.read( pos );
+        return;
+    }
+
+    if( u.volume_carried() + book->volume() > u.volume_capacity() ) {
+        add_msg( _( "No space in inventory for %s" ), book->tname().c_str() );
+        return;
+    }
+
+    // Add book to inventory and attempt to read it.
+    pos = u.get_item_position( &u.i_add( *book ) );
+    // At this point there is one copy of the book on the ground and one in the inventory.
+    if( u.read( pos ) ) {
+        // We started reading so remove book from map or vehicle tile.
+        loc.remove_item();
+    } else {
+        // We failed so undo adding the book to the inventory.
+        u.i_rem( pos );
+    }
 }
 
 void game::chat()

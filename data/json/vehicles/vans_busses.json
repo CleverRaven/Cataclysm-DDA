@@ -850,6 +850,7 @@
             {"x": -6, "y": -1, "part": "board_vertical"},
             {"x": -6, "y": 0, "part": "frame_horizontal"},
             {"x": -6, "y": 0, "part": "board_horizontal"},
+            {"x": -6, "y": 0, "part": "controls_electronic"},
             {"x": -6, "y": 1, "part": "frame_vertical_2"},
             {"x": -6, "y": 1, "part": "door_internal"},
             {"x": -6, "y": 2, "part": "frame_horizontal"},

@@ -8,6 +8,7 @@
 #include "enums.h"
 #include "json.h"
 #include "string_id.h"
+#include "monster.h"
 
 // from overmap.h
 class overmap;
@@ -90,6 +91,12 @@ struct mongroup : public JsonSerializer, public JsonDeserializer {
     int interest; //interest to target in percents
     bool dying;
     bool horde;
+    /** This property will be ignored if the vector is empty.
+     *  Otherwise it will keep track of the individual monsters that
+     *  are contained in this horde, and the population property will
+     *  be ignored instead.
+     */
+    std::vector<monster> monsters;
 
     /** There are two types of hordes: "city", who try to stick around cities
      *  and return to them whenever possible.
@@ -117,6 +124,8 @@ struct mongroup : public JsonSerializer, public JsonDeserializer {
       interest(pint), dying(pdie), horde(phorde), diffuse(pdiff) { }
     mongroup() { }
     bool is_safe() const;
+    bool empty() const;
+    void clear();
     void set_target(int x, int y)
     {
         target.x = x;

@@ -1634,7 +1634,7 @@ void advanced_inventory::display()
                 it.info( true, vThisItem );
                 int iDummySelect = 0;
                 ret = draw_item_info( info_startx,
-                                      info_width, 0, 0, it.tname(), vThisItem, vDummy, iDummySelect,
+                                      info_width, 0, 0, it.tname(), it.type_name(), vThisItem, vDummy, iDummySelect,
                                       false, false, true );
             }
             if( ret == KEY_NPAGE || ret == KEY_DOWN ) {

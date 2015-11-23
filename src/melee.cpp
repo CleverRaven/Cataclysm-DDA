@@ -146,7 +146,7 @@ int player::get_hit_weapon( const item &weap ) const
     if( weap.has_flag("SPEAR") || weap.has_flag("STAB") ) {
         best_bonus = std::max( best_bonus, stabbing_skill / 3.0f );
     }
-    
+
     return int(melee_skill / 2.0f + best_bonus);
 }
 
@@ -387,9 +387,6 @@ void player::melee_attack(Creature &t, bool allow_special, const matec_id &force
     const int encumbrance_cost = ( encumb( bp_arm_l ) + encumb( bp_arm_r ) ) / 5;
     const int mod_sta = ( weight_cost + encumbrance_cost - melee + 20 ) * -1;
     mod_stat("stamina", mod_sta);
-    const int sta_percent = (100 * stamina) / get_stamina_max();
-    const int mod_mc = ( (sta_percent < 25) ? ((25 - sta_percent) * 2) : 0 );
-    move_cost += mod_mc;
 
     mod_moves(-move_cost);
 
@@ -2337,11 +2334,16 @@ int player::attack_speed( const item &weap, const bool average ) const
     const int dexbonus = average ? dex_cur / 2 : rng( 0, dex_cur );
     const int encumbrance_penalty = encumb( bp_torso ) +
                                     ( encumb( bp_hand_l ) + encumb( bp_hand_r ) ) / 2;
+    const float stamina_ratio = (float)stamina / (float)get_stamina_max();
+    // Increase cost multiplier linearly from 1.0 to 2.0 as stamina goes from 25% to 0%.
+    const float stamina_penalty = 1.0 + ( (stamina_ratio < 0.25) ?
+                                          ((0.25 - stamina_ratio) * 4.0) : 0.0 );
 
     int move_cost = base_move_cost;
     move_cost += skill_cost;
     move_cost += encumbrance_penalty;
     move_cost -= dexbonus;
+    move_cost *= stamina_penalty;
 
     if( has_trait("HOLLOW_BONES") ) {
         move_cost *= .8;

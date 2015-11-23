@@ -2024,6 +2024,10 @@ tripoint overmap::draw_overmap(const tripoint &orig, const draw_data_t &data)
     delwin(g->w_overmap);
     g->w_overmap = newwin(OVERMAP_WINDOW_HEIGHT, OVERMAP_WINDOW_WIDTH, 0, 0);
 
+    // Clear the sidebar, else the pixel minimap will still appear.
+    werase(g->w_omlegend);
+    wrefresh(g->w_omlegend);
+
     // Draw black padding space to avoid gap between map and legend
     delwin(g->w_blackspace);
     g->w_blackspace = newwin(TERMY, TERMX - 28, 0, 0);
@@ -2361,18 +2365,19 @@ void overmap::move_hordes()
                 mongroup &horde = horde_entry.second;
 
                 // We only absorb zombies into GROUP_ZOMBIE hordes
-                if(horde.horde && horde.type == GROUP_ZOMBIE) {
+                if(horde.horde && !horde.monsters.empty() && horde.type == GROUP_ZOMBIE) {
                     add_to_group = &horde;
                 }
             });
 
             // If there is no horde to add the monster to, create one.
             if(add_to_group == NULL) {
-                mongroup m(GROUP_ZOMBIE, p.x, p.y, p.z, 0, 1);
+                mongroup m(GROUP_ZOMBIE, p.x, p.y, p.z, 0, 0);
                 m.horde = true;
+                m.monsters.push_back(this_monster);
                 add_mon_group( m );
             } else {
-                add_to_group->population += 1;
+                add_to_group->monsters.push_back(this_monster);
             }
 
             // Delete the monster, continue iterating.

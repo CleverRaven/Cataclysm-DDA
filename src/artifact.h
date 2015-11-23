@@ -62,39 +62,37 @@ class it_artifact_tool : public it_tool, public JsonSerializer, public JsonDeser
 {
     public:
         using JsonSerializer::serialize;
-        void serialize(JsonOut &json) const override;
+        void serialize( JsonOut &json ) const override;
         using JsonDeserializer::deserialize;
-        void deserialize(JsonObject &jo);
-        void deserialize(JsonIn &jsin) override
-        {
+        void deserialize( JsonObject &jo );
+        void deserialize( JsonIn &jsin ) override {
             JsonObject jo = jsin.get_object();
-            deserialize(jo);
+            deserialize( jo );
         }
 
         it_artifact_tool();
-        it_artifact_tool(JsonObject &jo);
+        it_artifact_tool( JsonObject &jo );
 
-        void create_name(const std::string &type);
-        void create_name(const std::string &property_name, const std::string &shape_name);
+        void create_name( const std::string &type );
+        void create_name( const std::string &property_name, const std::string &shape_name );
 };
 
 class it_artifact_armor : public itype, public JsonSerializer, public JsonDeserializer
 {
     public:
         using JsonSerializer::serialize;
-        void serialize(JsonOut &json) const override;
+        void serialize( JsonOut &json ) const override;
         using JsonDeserializer::deserialize;
-        void deserialize(JsonObject &jo);
-        void deserialize(JsonIn &jsin) override
-        {
+        void deserialize( JsonObject &jo );
+        void deserialize( JsonIn &jsin ) override {
             JsonObject jo = jsin.get_object();
-            deserialize(jo);
+            deserialize( jo );
         }
 
         it_artifact_armor();
-        it_artifact_armor(JsonObject &jo);
+        it_artifact_armor( JsonObject &jo );
 
-        void create_name(const std::string &type);
+        void create_name( const std::string &type );
 };
 
 
@@ -106,8 +104,8 @@ std::string new_natural_artifact( artifact_natural_property prop );
 std::string architects_cube();
 
 // note: needs to be called by main() before MAPBUFFER.load
-void load_artifacts(const std::string &filename);
-void load_artifacts_from_ifstream(std::ifstream &f);
+void load_artifacts( const std::string &filename );
+void load_artifacts_from_ifstream( std::ifstream &f );
 // save artifact definitions to json, path must be the same as for loading.
 bool save_artifacts( const std::string &path );
 

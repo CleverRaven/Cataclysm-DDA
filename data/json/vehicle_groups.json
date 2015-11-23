@@ -89,7 +89,7 @@
             ["rv", 800],
             ["lux_rv", 100],
             ["meth_lab", 300],
-            ["armored_car", 900],
+            ["armored_car", 300],
             ["superbike", 50],
             ["wienermobile", 5]
         ]

@@ -233,7 +233,7 @@ void monster::hasten_upgrade() {
 // Checking for return value of -1 is necessary.
 int monster::next_upgrade_time() {
     const int scaled_half_life = type->half_life * ACTIVE_WORLD_OPTIONS["MONSTER_UPGRADE_FACTOR"];
-    int day = 0;
+    int day = scaled_half_life;
     for (int i = 0; i < UPGRADE_MAX_ITERS; i++) {
         if (one_in(2)) {
             day += rng(0, scaled_half_life);
@@ -412,6 +412,8 @@ int monster::print_info(WINDOW* w, int vStart, int vLines, int column) const
         wprintz(w, h_white, _("Trapped"));
     } else if (has_effect("tied")) {
         wprintz(w, h_white, _("Tied"));
+    } else if (has_effect("shrieking")) {
+        wprintz(w, h_white, _("Shrieking"));
     }
     std::string damage_info;
     nc_color col;
@@ -1093,7 +1095,7 @@ void monster::deal_projectile_attack( Creature *source, dealt_projectile_attack 
     const auto &proj = attack.proj;
     double &missed_by = attack.missed_by; // We can change this here
     const auto &effects = proj.proj_effects;
-    
+
     // Whip has a chance to scare wildlife even if it misses
     if( effects.count("WHIP") && type->in_category("WILDLIFE") && one_in(3) ) {
         add_effect("run", rng(3, 5));

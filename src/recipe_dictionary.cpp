@@ -5,6 +5,8 @@
 
 using itype_id = std::string; // From itype.h
 
+recipe_dictionary recipe_dict;
+
 void recipe_dictionary::add( recipe *rec )
 {
     recipes.push_back( rec );
@@ -23,6 +25,19 @@ void recipe_dictionary::remove( recipe *rec )
     // Terse name for category vector since it's repeated so many times.
     auto &cat_vec = by_category[rec->cat];
     cat_vec.erase( std::remove( cat_vec.begin(), cat_vec.end(), rec ), cat_vec.end() );
+}
+
+void recipe_dictionary::delete_if( const std::function<bool(recipe &)> &pred )
+{
+    for( auto iter = recipes.begin(); iter != recipes.end(); ) {
+        recipe * const r = *iter;
+        // Already moving to the next, so we can erase the recipe without invalidating `iter`.
+        ++iter;
+        if( pred( *r ) ) {
+            remove( r );
+            delete r;
+        }
+    }
 }
 
 void recipe_dictionary::add_to_component_lookup( recipe *r )

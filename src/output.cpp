@@ -24,6 +24,7 @@
 #include "ui.h"
 #include "item.h"
 #include "line.h"
+#include "name.h"
 
 // Display data
 int TERMX;
@@ -258,13 +259,17 @@ int fold_and_print_from(WINDOW *w, int begin_y, int begin_x, int width, int begi
         // for each section, get the colour, and print it
         std::vector<std::string>::iterator it;
         for( it = color_segments.begin(); it != color_segments.end(); ++it ) {
-            if( !it->empty() && it->at(0) == '<' ) {
+            if( !it->empty() && it->at( 0 ) == '<' ) {
                 color = get_color_from_tag( *it, base_color );
             }
             if( line_num >= begin_line ) {
                 std::string l = rm_prefix( *it );
-                if( l != "--" ) { // -- is a newline!
-                    wprintz(w, color, "%s", rm_prefix(*it).c_str());
+                if( l != "--" ) { // -- is a separation line!
+                    wprintz( w, color, "%s", rm_prefix( *it ).c_str() );
+                } else {
+                    for( int i = 0; i < width; i++ ) {
+                        wputch( w, c_dkgray, LINE_OXOX );
+                    }
                 }
             }
         }
@@ -1100,16 +1105,51 @@ void full_screen_popup(const char *mes, ...)
 // well frack, half the game uses it so: optional (int)selected argument causes entry highlight, and enter to return entry's key. Also it now returns int
 //@param without_getch don't wait getch, return = (int)' ';
 int draw_item_info(const int iLeft, const int iWidth, const int iTop, const int iHeight,
-                   const std::string sItemName,
+                   const std::string sItemName, const std::string sTypeName,
                    std::vector<iteminfo> &vItemDisplay, std::vector<iteminfo> &vItemCompare,
                    int &selected, const bool without_getch, const bool without_border, const bool handle_scrolling)
 {
     WINDOW *win = newwin(iHeight, iWidth, iTop + VIEW_OFFSET_Y, iLeft + VIEW_OFFSET_X);
 
-    const auto result = draw_item_info(win, sItemName, vItemDisplay, vItemCompare,
+    const auto result = draw_item_info(win, sItemName, sTypeName, vItemDisplay, vItemCompare,
                           selected, without_getch, without_border, handle_scrolling);
     delwin( win );
     return result;
+}
+
+std::string string_replace( std::string text, const std::string &before, const std::string &after )
+{
+    while( true ) {
+        size_t pos = text.find( before );
+        if( pos != std::string::npos ) {
+            text.replace( pos, before.length(), after );
+        } else {
+            break;
+        }
+    }
+
+    return text;
+}
+
+std::string replace_colors( std::string text )
+{
+    static const std::vector<std::pair<std::string, std::string>> info_colors = {
+        {"info", get_all_colors().get_name( c_cyan )},
+        {"stat", get_all_colors().get_name( c_blue )},
+        {"header", get_all_colors().get_name( c_magenta )},
+        {"bold", get_all_colors().get_name( c_white )},
+        {"dark", get_all_colors().get_name( c_dkgray )},
+        {"good", get_all_colors().get_name( c_green )},
+        {"bad", get_all_colors().get_name( c_red )},
+        {"neutral", get_all_colors().get_name( c_brown )}
+    };
+
+    for( auto &elem : info_colors ) {
+        text = string_replace( text, "<" + elem.first + ">", "<color_" + elem.second + ">" );
+        text = string_replace( text, "</" + elem.first + ">", "</color>" );
+    }
+
+    return text;
 }
 
 std::string format_item_info( const std::vector<iteminfo> &vItemDisplay,
@@ -1151,13 +1191,13 @@ std::string format_item_info( const std::vector<iteminfo> &vItemDisplay,
             }
 
             if (vItemDisplay[i].sValue != "-999") {
-                nc_color thisColor = c_white;
+                nc_color thisColor = c_brown;
                 for (auto &k : vItemCompare) {
                     if (k.sValue != "-999") {
                         if (vItemDisplay[i].sName == k.sName && vItemDisplay[i].sType == k.sType) {
                             if (vItemDisplay[i].dValue > k.dValue - .1 &&
                                 vItemDisplay[i].dValue < k.dValue + .1) {
-                                thisColor = c_white;
+                                thisColor = c_ltgray;
                             } else if (vItemDisplay[i].dValue > k.dValue) {
                                 if (vItemDisplay[i].bLowerIsBetter) {
                                     thisColor = c_ltred;
@@ -1195,15 +1235,19 @@ std::string format_item_info( const std::vector<iteminfo> &vItemDisplay,
     return buffer.str();
 }
 
-int draw_item_info(WINDOW *win, const std::string sItemName,
+int draw_item_info(WINDOW *win, const std::string sItemName, const std::string sTypeName,
                    std::vector<iteminfo> &vItemDisplay, std::vector<iteminfo> &vItemCompare,
                    int &selected, const bool without_getch, const bool without_border, const bool handle_scrolling)
 {
     std::ostringstream buffer;
     int line_num = 1;
     if (sItemName != "") {
-        buffer << sItemName << "\n \n"; //This space is required, otherwise it won't make an empty line.
+        buffer << sItemName << "\n";
     }
+    if (sItemName != sTypeName && sTypeName != "") {
+        buffer << sTypeName << "\n";
+    }
+    buffer << " \n"; //This space is required, otherwise it won't make an empty line.
 
     int selected_ret = '\n';
     buffer << format_item_info( vItemDisplay, vItemCompare );
@@ -1227,7 +1271,7 @@ int draw_item_info(WINDOW *win, const std::string sItemName,
                 selected = iLines - height;
             }
 
-            fold_and_print_from( win, line_num, b, width, selected, c_white, buffer.str() );
+            fold_and_print_from( win, line_num, b, width, selected, c_ltgray, buffer.str() );
 
             draw_scrollbar( win, selected, height, iLines-height, 1, 0, BORDER_COLOR, true );
         }
@@ -1719,6 +1763,38 @@ std::string string_format(std::string pattern, ...)
     std::string result = vstring_format(pattern.c_str(), ap);
     va_end(ap);
     return result;
+}
+
+void replace_name_tags(std::string & input)
+{
+    // these need to replace each tag with a new randomly generated name
+    while (input.find("<full_name>") != std::string::npos) {
+        replace_substring(input, "<full_name>", NameGenerator::generator().getName(nameIsFullName), false );
+    }
+    while (input.find("<family_name>") != std::string::npos) {
+        replace_substring(input, "<family_name>", NameGenerator::generator().getName(nameIsFamilyName), false );
+    }
+    while (input.find("<given_name>") != std::string::npos) {
+        replace_substring(input, "<given_name>", NameGenerator::generator().getName(nameIsGivenName), false );
+    }
+}
+
+void replace_city_tag(std::string &input, const std::string &name)
+{
+    replace_substring(input, "<city>", name, true);
+}
+
+void replace_substring(std::string &input, const std::string &substring, const std::string &replacement, bool all)
+{
+    if (all) {
+        while (input.find(substring) != std::string::npos) {
+            replace_substring(input, substring, replacement, false);
+        }
+    } else {
+        size_t len = substring.length();
+        size_t offset = input.find(substring);
+        input.replace(offset, len, replacement);
+    }
 }
 
 //wrap if for i18n

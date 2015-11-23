@@ -834,110 +834,127 @@ int game::inv_for_salvage(const std::string &title, const salvage_actor& actor )
     return display_slice(reduced_inv, title);
 }
 
-constexpr char first_invlet = '0';
-constexpr char last_invlet = '9';
-typedef std::vector< std::list<item> > pseudo_inventory;
-
-template<typename Collection, typename Filter>
-void pseudo_inv_to_slice( Collection here, Filter filter,
-                          pseudo_inventory &item_stacks, indexed_invslice &result_slice,
-                          std::vector<item *> &selectables, char &cur_invlet )
+item_location game::inv_map_splice( item_filter filter, const std::string &title, int radius )
 {
-
-    for( auto candidate = here.begin(); candidate != here.end(); ++candidate ) {
-        if( filter( *candidate ) ) {
-            // Check if we can stack the item with an existing one
-            bool stacks = false;
-            for( auto &elem : item_stacks ) {
-                if( candidate->stacks_with( elem.back() ) ) {
-                    stacks = true;
-                    elem.push_back( *candidate );
-                    break;
-                }
-            }
-
-            if( !stacks ) {
-                item_stacks.push_back( std::list<item>( 1, *candidate ) );
-
-                if( cur_invlet <= last_invlet ) {
-                    item_stacks.back().front().invlet = cur_invlet;
-                    cur_invlet++;
-                } else {
-                    item_stacks.back().front().invlet = ' ';
-                }
-
-                selectables.push_back( &*candidate );
-            }
-        }
-    }
-
-    for( size_t a = 0; a < item_stacks.size(); a++ ) {
-        // avoid INT_MIN, as it can be confused with "no item at all"
-        result_slice.push_back( indexed_invslice::value_type( &item_stacks[a], INT_MIN + a + 1 ) );
-    }
-}
-
-item_location game::inv_map_splice( item_filter filter, const std::string &title )
-{
-    return inv_map_splice( filter, filter, filter, title );
+    return inv_map_splice( filter, filter, filter, title, radius );
 }
 
 item_location game::inv_map_splice(
-    item_filter inv_filter, item_filter ground_filter, item_filter vehicle_filter, const std::string &title )
+    item_filter inv_filter, item_filter ground_filter, item_filter vehicle_filter,
+    const std::string &title, int radius )
 {
-    char cur_invlet = '0';
+    inventory_selector inv_s( false, false, title );
 
-    pseudo_inventory ground_items;
-    pseudo_inventory vehicle_items;
+    // first get matching items from the inventory
+    u.inv.restack( &u );
+    u.inv.sort();
+    inv_s.make_item_list( u.inv.slice_filter_by( inv_filter ) );
 
-    std::vector<item *> ground_selectables;
-    std::vector<item *> vehicle_selectables;
+    // items are stacked per tile considering vehicle and map tiles separately
+    static const item_category ground_cat( "GROUND:",  _( "GROUND:" ),  -1000 );
+    static const item_category nearby_cat( "NEARBY:",  _( "NEARBY:" ),  -2000 );
+    static const item_category vehicle_cat( "VEHICLE:", _( "VEHICLE:" ), -3000 );
 
-    indexed_invslice ground_items_slice;
-    indexed_invslice veh_items_slice;
+    // in the below loops identical items on the same tile are grouped into lists
+    // each element of stacks represents one tile and is a vector of such lists
+    std::vector<std::vector<std::list<item>>> stacks;
 
-    if( !m.has_flag( "SEALED", g->u.pos() ) ) {
-        pseudo_inv_to_slice( m.i_at( g->u.pos() ), ground_filter,
-                             ground_items, ground_items_slice,
-                             ground_selectables, cur_invlet );
-    }
+    // an indexed_invslice is created for each map or vehicle tile
+    // each list of items created above for the tile will be added to it
+    std::vector<indexed_invslice> slices;
 
-    int part = -1;
-    vehicle *veh = m.veh_at( g->u.pos(), part );
-    point veh_pt( INT_MIN, INT_MIN );
-    if( veh != nullptr && part >= 0 ) {
-        part = veh->part_with_feature( part, "CARGO" );
-        if( part != -1 ) {
-            veh_pt = veh->parts[part].mount;
-            pseudo_inv_to_slice( veh->get_items( part ), vehicle_filter,
-                                 vehicle_items, veh_items_slice,
-                                 vehicle_selectables, cur_invlet );
+    // inv_s.first_item will later contain the chosen item as a pointer to first item
+    // of one of the above lists so use this as the key when storing the item location
+    std::unordered_map<item *, item_location> opts;
+
+    // the closest 10 items also have their location added to the invlets vector
+    const char min_invlet = '0';
+    const char max_invlet = '9';
+    char cur_invlet = min_invlet;
+    std::vector<item_location> invlets;
+
+    for( const auto &pos : closest_tripoints_first( radius, g->u.pos() ) ) {
+        // second get all matching items on the map within radius
+        if( m.accessible_items( g->u.pos(), pos, radius ) ) {
+            auto items = m.i_at( pos );
+
+            // create a new slice and stack for the current map tile
+            stacks.emplace_back();
+            slices.emplace_back();
+
+            // reserve sufficient capacity to ensure reallocation is not required
+            auto &current_stack = stacks.back();
+            current_stack.reserve( items.size() );
+
+            for( item &it : items ) {
+                if( ground_filter( it ) ) {
+                    auto match = std::find_if( current_stack.begin(),
+                    current_stack.end(), [&]( const std::list<item> &e ) {
+                        return it.stacks_with( e.back() );
+                    } );
+                    if( match != current_stack.end() ) {
+                        match->push_back( it );
+                    } else {
+                        // item doesn't stack with any previous so start new list and append to current indexed_invslice
+                        current_stack.emplace_back( 1, it );
+                        slices.back().emplace_back( &current_stack.back(), INT_MIN );
+                        opts.emplace( &current_stack.back().front(), item_location::on_map( pos, &it ) );
+
+                        if( cur_invlet <= max_invlet ) {
+                            current_stack.back().front().invlet = cur_invlet++;
+                            invlets.emplace_back( item_location::on_map( pos, &it ) );
+                        }
+                    }
+                }
+            }
+            inv_s.make_item_list( slices.back(), pos == g->u.pos() ? &ground_cat : &nearby_cat );
+        }
+
+        // finally get all matching items in vehicle cargo spaces
+        int part = -1;
+        vehicle *veh = m.veh_at( pos, part );
+        if( veh && part >= 0 ) {
+            part = veh->part_with_feature( part, "CARGO" );
+            if( part != -1 ) {
+                auto items = veh->get_items( part );
+
+                // create a new slice and stack for the current vehicle part
+                stacks.emplace_back();
+                slices.emplace_back();
+
+                // reserve sufficient capacity to ensure reallocation is not required
+                auto &current_stack = stacks.back();
+                current_stack.reserve( items.size() );
+
+                for( item &it : items ) {
+                    if( vehicle_filter( it ) ) {
+                        auto match = std::find_if( current_stack.begin(),
+                        current_stack.end(), [&]( const std::list<item> &e ) {
+                            return it.stacks_with( e.back() );
+                        } );
+                        if( match != current_stack.end() ) {
+                            match->push_back( it );
+                        } else {
+                            // item doesn't stack with any previous so start new list and append to current indexed_invslice
+                            current_stack.emplace_back( 1, it );
+                            slices.back().emplace_back( &current_stack.back(), INT_MIN );
+                            opts.emplace( &current_stack.back().front(), item_location::on_vehicle( *veh,
+                                          veh->parts[part].mount, &it ) );
+
+                            if( cur_invlet <= max_invlet ) {
+                                current_stack.back().front().invlet = cur_invlet++;
+                                invlets.emplace_back( item_location::on_vehicle( *veh, veh->parts[part].mount, &it ) );
+                            }
+                        }
+                    }
+                }
+                inv_s.make_item_list( slices.back(), &vehicle_cat );
+            }
         }
     }
 
-    static const item_category category_on_ground(
-        "GROUND:",
-        _("GROUND:"),
-        -1000
-    );
-
-    static const item_category category_on_veh(
-        "VEHICLE:",
-        _("VEHICLE:"),
-        -2000
-    );
-
-    u.inv.restack(&u);
-    u.inv.sort();
-    const indexed_invslice stacks = u.inv.slice_filter_by( inv_filter );
-
-    inventory_selector inv_s(false, false, title);
-    inv_s.make_item_list(stacks);
-    inv_s.make_item_list(ground_items_slice, &category_on_ground);
-    inv_s.make_item_list(veh_items_slice, &category_on_veh);
     inv_s.prepare_paging();
 
-    inventory_selector::drop_map prev_droppings;
     while( true ) {
         inv_s.display();
         const std::string action = inv_s.ctxt.handle_input();
@@ -945,47 +962,34 @@ item_location game::inv_map_splice(
         const int item_pos = g->u.invlet_to_position( ch );
 
         if( item_pos != INT_MIN ) {
-            inv_s.set_to_drop(item_pos, 0);
-            // In the inventory
+            // Indexed item in inventory
+            inv_s.set_to_drop( item_pos, 0 );
             return item_location::on_character( u, inv_s.first_item );
-        } else if( ch >= first_invlet && ch <= last_invlet ) {
-            // Indexed results on the ground or vehicle
-            const size_t index = (size_t)(ch - first_invlet);
-            if( index < ground_items_slice.size() ) {
-                // Ground item
-                return item_location::on_map( u.pos(), ground_selectables[index] );
-            } else if( index < ground_items_slice.size() + veh_items_slice.size() ) {
-                // Vehicle item
-                return item_location::on_vehicle( *veh, veh_pt, vehicle_selectables[index] );
-            }
+
+        } else if( ch >= min_invlet && ch <= max_invlet ) {
+            // Indexed item on ground or in vehicle
+            return std::move( invlets[ch - min_invlet] );
+
         } else if( inv_s.handle_movement( action ) ) {
             // continue with comparison below
+
         } else if( action == "QUIT" ) {
             return item_location::nowhere();
+
         } else if( action == "RIGHT" || action == "CONFIRM" ) {
-            inv_s.set_selected_to_drop(0);
+            inv_s.set_selected_to_drop( 0 );
 
-            for( size_t i = 0; i < ground_items_slice.size(); i++) {
-                if( &ground_items_slice[i].first->front() == inv_s.first_item ) {
-                    // Ground item, may be unindexed
-                    return item_location::on_map( u.pos(), ground_selectables[i] );
-                }
-            }
-
-            for( size_t i = 0; i < veh_items_slice.size(); i++) {
-                if( &veh_items_slice[i].first->front() == inv_s.first_item ) {
-                    // Vehicle item
-                    return item_location::on_vehicle( *veh, veh_pt, vehicle_selectables[i] );
-                }
-            }
-
-            // Inventory item or possibly nothing
-            int inv_pos = inv_s.get_selected_item_position();
-            if( inv_pos == INT_MIN ) {
-                return item_location::nowhere();
-            } else {
+            // Item in inventory
+            if( inv_s.get_selected_item_position() != INT_MIN ) {
                 return item_location::on_character( u, inv_s.first_item );
             }
+            // Item on ground or in vehicle
+            auto it = opts.find( inv_s.first_item );
+            if( it != opts.end() ) {
+                return std::move( it->second );
+            }
+
+            return item_location::nowhere();
         }
     }
 }
@@ -1107,7 +1111,7 @@ void game::compare( const tripoint &offset )
 {
     const tripoint examp = u.pos3() + offset;
 
-    pseudo_inventory grounditems;
+    std::vector<std::list<item>> grounditems;
     indexed_invslice grounditems_slice;
     if( !m.has_flag( "SEALED", g->u.pos() ) ) {
         auto here = m.i_at( examp );
@@ -1166,9 +1170,10 @@ void game::compare( const tripoint &offset )
         }
         if (inv_s.second_item != NULL) {
             std::vector<iteminfo> vItemLastCh, vItemCh;
-            std::string sItemLastCh, sItemCh;
+            std::string sItemLastCh, sItemCh, sItemTn;
             inv_s.first_item->info(true, vItemCh);
             sItemCh = inv_s.first_item->tname();
+            sItemTn = inv_s.first_item->type_name();
             inv_s.second_item->info(true, vItemLastCh);
             sItemLastCh = inv_s.second_item->tname();
 
@@ -1177,9 +1182,9 @@ void game::compare( const tripoint &offset )
             int ch = (int)' ';
             do {
                 draw_item_info(0, (TERMX - VIEW_OFFSET_X * 2) / 2, 0, TERMY - VIEW_OFFSET_Y * 2,
-                               sItemLastCh, vItemLastCh, vItemCh, iScrollPosLast, true); //without getch()
+                               sItemLastCh, sItemTn, vItemLastCh, vItemCh, iScrollPosLast, true); //without getch()
                 ch = draw_item_info((TERMX - VIEW_OFFSET_X * 2) / 2, (TERMX - VIEW_OFFSET_X * 2) / 2,
-                                    0, TERMY - VIEW_OFFSET_Y * 2, sItemCh, vItemCh, vItemLastCh, iScrollPos);
+                                    0, TERMY - VIEW_OFFSET_Y * 2, sItemCh, sItemTn, vItemCh, vItemLastCh, iScrollPos);
 
                 if ( ch == KEY_PPAGE ) {
                     iScrollPos--;

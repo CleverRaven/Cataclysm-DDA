@@ -80,7 +80,7 @@ void overmapbuffer::fix_mongroups(overmap &new_overmap)
         auto &mg = it->second;
         // spawn related code simply sets population to 0 when they have been
         // transformed into spawn points on a submap, the group can then be removed
-        if( mg.population <= 0 ) {
+        if( mg.empty() ) {
             new_overmap.zg.erase( it++ );
             continue;
         }
