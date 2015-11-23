@@ -30,7 +30,8 @@ void lua_console::draw()
     int stack_size = text_stack.size() - scroll;
     for( int i = lines; i > lines - stack_size && i >= 0; i-- ) {
         auto line = text_stack[stack_size - 1 - ( lines - i )];
-        mvwprintz( cWin, i - 1, 0, line.second, line.first.c_str() );
+        nc_color discard = c_white;
+        print_colored_text( cWin, i - 1, 0, discard, c_white, line );
     }
 
     wrefresh( cWin );
@@ -65,13 +66,17 @@ void lua_console::run()
         std::string line;
 
         while( std::getline( lua_output_stream, line ) ) {
-            text_stack.push_back( {line, c_white} );
+            for( auto str : foldstring(line, width) ) {
+                text_stack.push_back( str );
+            }
         }
         lua_output_stream.str( std::string() ); // empty the buffer
         lua_output_stream.clear();
 
         while( std::getline( lua_error_stream, line ) ) {
-            text_stack.push_back( {line, c_red} );
+            for( auto str : foldstring(line, width) ) {
+                text_stack.push_back( "<color_red>" + str + "</color>" );
+            }
         }
         lua_error_stream.str( std::string() ); // empty the buffer
         lua_error_stream.clear();

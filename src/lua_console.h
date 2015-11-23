@@ -22,7 +22,7 @@ class lua_console {
         WINDOW *cWin;
         WINDOW *iWin;
 
-        std::vector<std::pair<std::string, nc_color>> text_stack;
+        std::vector<std::string> text_stack;
         std::string get_input();
         void print( std::string text );
         void draw();
