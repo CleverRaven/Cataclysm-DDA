@@ -1168,8 +1168,8 @@ void inscribe_actor::load( JsonObject &obj )
         material_whitelist.push_back("silver");
     }
 
-    verb = obj.get_string( "verb", _("Carve") );
-    gerund = obj.get_string( "gerund", _("Carved") );
+    verb = _(obj.get_string( "verb", "Carve" ).c_str());
+    gerund = _(obj.get_string( "gerund", "Carved" ).c_str());
 
     if( !on_items && !on_terrain ) {
         obj.throw_error( "Tried to create an useless inscribe_actor, at least on of \"on_items\" or \"on_terrain\" should be true" );
