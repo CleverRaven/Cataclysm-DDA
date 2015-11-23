@@ -627,7 +627,7 @@ public:
  bool is_software() const;
  bool is_var_veh_part() const;
  bool is_artifact() const;
- 
+
         bool is_dangerous() const; // Is it an active grenade or something similar that will hurt us?
 
         /**

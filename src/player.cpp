@@ -11654,20 +11654,20 @@ hint_rating player::rate_action_read( const item &it ) const
     return HINT_GOOD;
 }
 
-void player::read(int inventory_position)
+bool player::read(int inventory_position)
 {
     // Find the object
     item* it = &i_at(inventory_position);
 
     if (it == NULL || it->is_null()) {
         add_msg(m_info, _("You do not have that item."));
-        return;
+        return false;
     }
 
     if (!it->is_book()) {
         add_msg(m_info, _("Your %s is not good reading material."),
         it->tname().c_str());
-        return;
+        return false;
     }
 
     //Check for NPCs to read for you, negates Illiterate and Far Sighted
@@ -11682,14 +11682,14 @@ void player::read(int inventory_position)
     vehicle *veh = g->m.veh_at( pos() );
     if( veh != nullptr && veh->player_in_control(*this) ) {
         add_msg(m_info, _("It's a bad idea to read while driving!"));
-        return;
+        return false;
     }
 
     // Check if reading is okay
     // check for light level
     if (fine_detail_vision_mod() > 4) {
         add_msg(m_info, _("You can't see to read!"));
-        return;
+        return false;
     }
 
     // check for traits
@@ -11699,7 +11699,7 @@ void player::read(int inventory_position)
         if (assistants != 0){
             add_msg(m_info, _("A fellow survivor reads aloud to you..."));
         } else {
-            return;
+            return false;
         }
     }
 
@@ -11713,7 +11713,7 @@ void player::read(int inventory_position)
         if (assistants != 0){
             add_msg(m_info, _("A fellow survivor reads aloud to you..."));
         } else {
-            return;
+            return false;
         }
     }
 
@@ -11734,7 +11734,7 @@ void player::read(int inventory_position)
         // Never trigger studying when skimming the book.
         activity.values.push_back(0);
         moves = 0;
-        return;
+        return true;
     }
 
 
@@ -11745,17 +11745,17 @@ void player::read(int inventory_position)
         if (it->typeId() == "guidebook") {
             add_msg(m_info, get_hint().c_str());
             moves -= 100;
-            return;
+            return false;
         }
         // otherwise do nothing as there's no associated skill
     } else if (morale_level() < MIN_MORALE_READ && tmp->fun <= 0) { // See morale.h
         add_msg(m_info, _("What's the point of studying?  (Your morale is too low!)"));
-        return;
+        return false;
     } else if( skill_level < tmp->req ) {
         add_msg(_("The %s-related jargon flies over your head!"),
                    skill.obj().name().c_str());
         if (tmp->recipes.empty()) {
-            return;
+            return false;
         } else {
             add_msg(m_info, _("But you might be able to learn a recipe or two."));
         }
@@ -11764,7 +11764,7 @@ void player::read(int inventory_position)
                          _("It would be fun, but your %s skill won't be improved.  Read anyway?") :
                          _("Your %s skill won't be improved.  Read anyway?"),
                          skill.obj().name().c_str())) {
-        return;
+        return false;
     } else if( !continuous &&
                  ( ( skill_level.can_train() && skill_level < tmp->level ) ||
                      can_study_recipe(*it->type) ) &&
@@ -11827,6 +11827,8 @@ void player::read(int inventory_position)
     } else {
         add_morale(MORALE_BOOK, 0, tmp->fun * 15, minutes + 30, minutes, false, it->type);
     }
+
+    return true;
 }
 
 void player::do_read( item *book )

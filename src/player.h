@@ -724,8 +724,8 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         void remove_gunmod(item *weapon, unsigned id);
         /** Attempts to install bionics, returns false if the player cancels prior to installation */
         bool install_bionics(const itype &type, int skill_level = -1);
-        /** Handles reading effects */
-        void read(int pos);
+        /** Handles reading effects and returns true if activity started */
+        bool read(int pos);
         /** Completes book reading action. **/
         void do_read( item *book );
         /** Note that we've read a book at least once. **/
