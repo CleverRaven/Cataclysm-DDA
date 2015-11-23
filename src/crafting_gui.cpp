@@ -582,21 +582,21 @@ static void draw_recipe_tabs( WINDOW *w, std::string tab, TAB_MODE mode )
 
     switch (mode) {
     case NORMAL:
-    {
-        int pos_x = 2;//draw the tabs on each other
-        int tab_step = 3;//step between tabs, two for tabs border
-        for( const auto &tt : craft_cat_list ) {
-            draw_tab( w, pos_x, translations[tt], tab == tt );
-            pos_x += utf8_width( translations[tt] ) + tab_step;
+        {
+            int pos_x = 2;//draw the tabs on each other
+            int tab_step = 3;//step between tabs, two for tabs border
+            for( const auto &tt : craft_cat_list ) {
+                draw_tab( w, pos_x, translations[tt], tab == tt );
+                pos_x += utf8_width( translations[tt] ) + tab_step;
+            }
+            break;
         }
-        break;
-    }
-    case FILTERED:
-        draw_tab(w, 2, _("Searched"), true);
-        break;
-    case BATCH:
-        draw_tab(w, 2, _("Batch"), true);
-        break;
+        case FILTERED:
+            draw_tab(w, 2, _("Searched"), true);
+            break;
+        case BATCH:
+            draw_tab(w, 2, _("Batch"), true);
+            break;
     }
 
     wrefresh( w );
@@ -630,6 +630,7 @@ static void draw_recipe_subtabs( WINDOW *w, std::string tab, std::string subtab,
                 draw_subtab( w, pos_x, translations[stt], subtab == stt );
                 pos_x += utf8_width( translations[stt] ) + tab_step;
             }
+            break;
         }
         case FILTERED:
         case BATCH:
