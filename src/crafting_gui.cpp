@@ -583,8 +583,8 @@ static void draw_recipe_tabs( WINDOW *w, std::string tab, TAB_MODE mode )
     // Draw a "can craft" indicator
     draw_can_craft_indicator( w, width, 1, 0 );
 
-    switch (mode) {
-    case NORMAL:
+    switch ( mode ) {
+        case NORMAL:
         {
             int pos_x = 2;//draw the tabs on each other
             int tab_step = 3;//step between tabs, two for tabs border
