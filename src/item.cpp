@@ -4097,18 +4097,18 @@ bool item::reload(player &u, int pos)
             target->set_curammo( *ammo );
         }
 
-         if( ammo_type() == "plutonium" ) {
-             // always consume at least one plutonium cell
-             auto cells = std::max(std::min(qty / 500, 1L), ammo->charges);
-             ammo->charges -= cells;
-             // any excess is wasted rather than overfilling the target
-             target->charges += std::min(cells * 500, qty);
-         } else {
-             ammo->charges   -= std::min(qty, ammo->charges);
-             target->charges += std::min(qty, ammo->charges);
-         }
+        if( ammo_type() == "plutonium" ) {
+            // always consume at least one plutonium cell
+            auto cells = std::max(std::min(qty / 500, 1L), ammo->charges);
+            ammo->charges -= cells;
+            // any excess is wasted rather than overfilling the target
+            target->charges += std::min(cells * 500, qty);
+        } else {
+            ammo->charges   -= std::min(qty, ammo->charges);
+            target->charges += std::min(qty, ammo->charges);
+        }
 
-         if( ammo->charges == 0 ) {
+        if( ammo->charges == 0 ) {
             if( container != nullptr ) {
                 container->contents.erase(container->contents.begin());
                 u.inv.restack(&u); // emptied containers do not stack with non-empty ones
@@ -4117,8 +4117,8 @@ bool item::reload(player &u, int pos)
             }
         }
         return true;
-   }
-   return false;
+    }
+    return false;
 }
 
 bool item::burn(int amount)
