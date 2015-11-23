@@ -21,7 +21,7 @@ enum TAB_MODE {
 
 std::vector<std::string> craft_cat_list;
 std::map<std::string, std::vector<std::string> > craft_subcat_list;
-std::map<std::string, std::string> translations;
+std::map<std::string, std::string> normalized_names;
 
 static void draw_recipe_tabs( WINDOW *w, std::string tab, TAB_MODE mode = NORMAL );
 static void draw_recipe_subtabs( WINDOW *w, std::string tab, std::string subtab,
@@ -34,31 +34,38 @@ static std::string last_craft_subcat( const std::string cat );
 static std::string next_craft_subcat( const std::string cat, const std::string subcat );
 static std::string prev_craft_subcat( const std::string cat, const std::string subcat );
 
+std::string get_cat_name( std::string prefixed_name )
+{
+    return prefixed_name.substr( 3, prefixed_name.size() - 3 );
+}
+
 void load_recipe_category( JsonObject &jsobj )
 {
     JsonArray subcats;
     std::string category = jsobj.get_string( "id" );
+
+    if( prefixed_name.find("CC_") != 0 ) {
+        jsobj.throw_error("Crafting category id has to be prefixed with 'CC_'");
+    }
+
     // Don't store noncraft as a category.
     // We're storing the subcategory so we can look it up in load_recipes
     // for the fallback subcategory.
     if( category != "CC_NONCRAFT" ) {
         craft_cat_list.push_back( category );
     }
+
+    std::string cat_name = get_cat_name( category );
+
     craft_subcat_list[category] = std::vector<std::string>();
     subcats = jsobj.get_array( "recipe_subcategories" );
     while( subcats.has_more() ) {
-        craft_subcat_list[category].push_back( subcats.next_string() );
+        std::string subcat_id = subcats.next_string();
+        if( prefixed_name.find("CSC_" + cat_name + "_") != 0 ) {
+            jsobj.throw_error("Crafting sub-category id has to be prefixed with CSC_<category_name>_");
+        }
+        craft_subcat_list[category].push_back( subcat_id );
     }
-}
-
-std::string get_cat_name( std::string prefixed_name )
-{
-    if( prefixed_name.find("CC_") == 0 ) {
-        return prefixed_name.substr( 3, prefixed_name.size() - 3 );
-    }
-
-    debugmsg( ( "could not get screen name of: " + prefixed_name ).c_str() );
-    return prefixed_name;
 }
 
 std::string get_subcat_name( const std::string &cat, std::string prefixed_name )
@@ -67,20 +74,17 @@ std::string get_subcat_name( const std::string &cat, std::string prefixed_name )
 
     if( prefixed_name.find( prefix ) == 0 ) {
         return prefixed_name.substr( prefix.size(), prefixed_name.size() - prefix.size() );
-    } else if( prefixed_name.find("CSC_ALL") == 0 ) {
-        return "ALL";
     }
 
-    debugmsg( ( "could not get screen name of: " + prefixed_name ).c_str() );
-    return prefixed_name;
+    return _( "ALL" );
 }
 
 void translate_all() {
     for( const auto &cat : craft_cat_list ) {
-        translations[cat] =  _( get_cat_name( cat ).c_str() );
+        normalized_names[cat] = get_cat_name( _( cat.c_str() ) );
 
         for( const auto &subcat : craft_subcat_list[cat] ) {
-            translations[subcat] = _( get_subcat_name( cat, subcat ).c_str() );
+            normalized_names[subcat] =  get_subcat_name( cat, _( subcat.c_str() ) ) ;
         }
     }
 }
@@ -164,7 +168,7 @@ static std::string prev_craft_subcat( const std::string cat, const std::string s
 
 const recipe *select_crafting_recipe( int &batch_size )
 {
-    if( translations.empty() ) {
+    if( normalized_names.empty() ) {
         translate_all();
     }
 
@@ -583,14 +587,14 @@ static void draw_recipe_tabs( WINDOW *w, std::string tab, TAB_MODE mode )
     // Draw a "can craft" indicator
     draw_can_craft_indicator( w, width, 1, 0 );
 
-    switch ( mode ) {
+    switch( mode ) {
         case NORMAL:
         {
             int pos_x = 2;//draw the tabs on each other
             int tab_step = 3;//step between tabs, two for tabs border
             for( const auto &tt : craft_cat_list ) {
-                draw_tab( w, pos_x, translations[tt], tab == tt );
-                pos_x += utf8_width( translations[tt] ) + tab_step;
+                draw_tab( w, pos_x, normalized_names[tt], tab == tt );
+                pos_x += utf8_width( normalized_names[tt] ) + tab_step;
             }
             break;
         }
@@ -630,8 +634,8 @@ static void draw_recipe_subtabs( WINDOW *w, std::string tab, std::string subtab,
             int pos_x = 2;//draw the tabs on each other
             int tab_step = 3;//step between tabs, two for tabs border
             for( const auto stt : craft_subcat_list[tab] ) {
-                draw_subtab( w, pos_x, translations[stt], subtab == stt );
-                pos_x += utf8_width( translations[stt] ) + tab_step;
+                draw_subtab( w, pos_x, normalized_names[stt], subtab == stt );
+                pos_x += utf8_width( normalized_names[stt] ) + tab_step;
             }
             break;
         }
