@@ -514,7 +514,7 @@ void auto_bordered_window::recalc_uncovered()
 {
     for(size_t x = 0; x < rect.size_x; x++) {
         for(size_t y = 0; y < rect.size_y; y++) {
-                uncovered[y * x + x] = true;
+                uncovered[y * rect.size_x + x] = true;
         }
     }
 
@@ -522,7 +522,7 @@ void auto_bordered_window::recalc_uncovered()
         auto c_rect = child->get_rect();
         for(size_t x = c_rect.x; x < c_rect.size_x + c_rect.x; x++) {
             for(size_t y = c_rect.y; y < c_rect.size_y + c_rect.y; y++) {
-                uncovered[y * x + x] = false;
+                uncovered[y * rect.size_x + x] = false;
             }
         }
     }
@@ -532,7 +532,7 @@ bool auto_bordered_window::is_uncovered(int x, int y) {
     if(x < 0 || y < 0 || x >= rect.size_x || y >= rect.size_y) {
         return false;
     }
-    return uncovered[y * x + x];
+    return uncovered[y * rect.size_x + x];
 }
 
 long auto_bordered_window::get_border_char(int x, int y) const
