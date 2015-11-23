@@ -4,6 +4,7 @@
 #include "output.h"
 #include "enums.h"
 
+#include <utility>
 #include <list>
 #include <string>
 
@@ -236,7 +237,7 @@ class tile_panel : public ui_element {
 */
 class tabbed_window : public bordered_window {
     private:
-        std::vector<std::string> tabs;
+        std::vector<std::pair<std::string, ui_window *>> tabs;
         unsigned int tab_index;
 
         int draw_tab(const std::string &, bool, int) const;
@@ -246,11 +247,11 @@ class tabbed_window : public bordered_window {
     public:
         tabbed_window(size_t size_x, size_t size_y, unsigned int x = 0, unsigned int y = 0, ui_anchor anchor = top_left);
 
-        void add_tab(std::string tab);
+        ui_window *create_tab(std::string tab);
 
         void next_tab();
         void previous_tab();
-        const std::string &current_tab() const;
+        const std::pair<std::string, ui_window *> &current_tab() const;
 };
 
 /**

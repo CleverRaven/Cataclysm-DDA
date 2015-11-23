@@ -461,35 +461,43 @@ void tabbed_window::local_draw()
 
     int x_offset = 1; // leave space for selection bracket
     for(unsigned int i = 0; i < tabs.size(); i++) {
-        x_offset += draw_tab(tabs[i], tab_index == i, x_offset) + 1;
+        x_offset += draw_tab(tabs[i].first, tab_index == i, x_offset) + 1;
     }
 }
 
-void tabbed_window::add_tab(std::string tab)
+ui_window *tabbed_window::create_tab(std::string tab)
 {
-    tabs.push_back(tab);
+    auto ret = ui_window::add_child(ui_window(rect.size_x - 2, rect.size_y - 4, 1, 1, bottom_left));
+    tabs.push_back({tab, ret});
+    ret->set_visible(tabs.size() == 1 ? true : false);
+
+    return ret;
 }
 
 void tabbed_window::next_tab()
 {
+    tabs[tab_index].second->set_visible(false);
     if( tab_index == tabs.size() - 1 ){
         tab_index = 0;
     } else {
         tab_index++;
     }
+    tabs[tab_index].second->set_visible(true);
 }
 
 void tabbed_window::previous_tab()
 {
+    tabs[tab_index].second->set_visible(false);
     if( tab_index == 0 ){
         tab_index = tabs.size() - 1;
     } else {
         tab_index--;
     }
+    tabs[tab_index].second->set_visible(true);
 }
 
 
-const std::string &tabbed_window::current_tab() const
+const std::pair<std::string, ui_window *> &tabbed_window::current_tab() const
 {
     return tabs[tab_index];
 }
