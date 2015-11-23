@@ -1352,7 +1352,7 @@
     "size":"TINY",
     "material":"iflesh",
     "diff":1,
-    "aggression":10,
+    "aggression":5,
     "morale":20,
     "speed":150,
     "melee_skill":0,
@@ -1367,8 +1367,8 @@
     "hp":1,
     "death_function":"NORMAL",
     "description":"A slender-bodied flying insect, with a painful sting.  They can be somewhat aggressive if disturbed.",
-    "flags":["SEES", "SMELLS", "FLIES", "VERMIN", "SMALL_BITES", "HUNTS_VERMIN"],
-    "anger_triggers":["HURT", "FRIEND_DIED", "PLAYER_CLOSE", "PLAYER_WEAK"]
+    "flags":["SEES", "SMELLS", "FLIES", "VERMIN", "SMALL_BITES", "HUNTS_VERMIN", "HIT_AND_RUN"],
+    "anger_triggers":["HURT", "FRIEND_DIED", "PLAYER_CLOSE"]
     },{
     "type" : "MONSTER",
     "id" : "mon_wasp",
