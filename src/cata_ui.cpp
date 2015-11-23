@@ -76,7 +76,7 @@ WINDOW *ui_window::get_win() const
     return win;
 }
 
-ui_element::ui_element(size_t size_x, size_t size_y, unsigned int x, unsigned int y) : rect(ui_rect(size_x, size_y, x, y)), anchored_x(x), anchored_y(y)
+ui_element::ui_element(size_t size_x, size_t size_y, unsigned int x, unsigned int y) : anchored_x(x), anchored_y(y), rect(ui_rect(size_x, size_y, x, y))
 {
 }
 
@@ -141,6 +141,16 @@ void ui_element::calc_anchored_values()
     anchored_y = rect.y;
 }
 
+unsigned int ui_element::get_ax() const
+{
+    return anchored_x;
+}
+
+unsigned int ui_element::get_ay() const
+{
+    return anchored_y;
+}
+
 void ui_element::set_parent(const ui_window *parent)
 {
     this->parent = parent;
@@ -176,7 +186,7 @@ void ui_label::draw()
         return;
     }
 
-    mvwprintz( win, anchored_y, anchored_x, text_color, text.c_str() );
+    mvwprintz( win, get_ay(), get_ax(), text_color, text.c_str() );
 }
 
 void ui_label::set_text( std::string new_text )
@@ -224,7 +234,7 @@ void health_bar::draw()
         return;
     }
 
-    mvwprintz( win, anchored_y, anchored_x, bar_color, bar_str.c_str() );
+    mvwprintz( win, get_ay(), get_ax(), bar_color, bar_str.c_str() );
 }
 
 void health_bar::refresh_bar( bool overloaded, float percentage )
@@ -291,7 +301,7 @@ void smiley_indicator::draw()
         return;
     }
 
-    mvwprintz( win, anchored_y, anchored_x, smiley_color, smiley_str.c_str() );
+    mvwprintz( win, get_ay(), get_ax(), smiley_color, smiley_str.c_str() );
 }
 
 void smiley_indicator::set_state( smiley_state new_state )
@@ -357,7 +367,7 @@ void tile_panel::draw()
 
     for(unsigned int x = start_x; x <= end_x; x++) {
         for(unsigned int y = start_y; y <= end_y; y++) {
-            tile_at(x, y, center.z).draw( win, anchored_x + x, anchored_y + y );
+            tile_at(x, y, center.z).draw( win, get_ax() + x, get_ay() + y );
         }
     }
 }
@@ -393,8 +403,8 @@ ui_element *tabbed_window::clone() const
 // returns the width of the tab
 int tabbed_window::draw_tab(const std::string &tab, bool selected, int x_offset) const
 {
-    int gy = anchored_y;
-    int gx = anchored_x + x_offset;
+    int gy = get_ay();
+    int gx = get_ax() + x_offset;
 
     int width = utf8_width(tab.c_str()) + 2;
     //print top border

@@ -59,11 +59,14 @@ class ui_element {
 
         ui_anchor anchor = top_left;
         void calc_anchored_values();
+
+        unsigned int anchored_x, anchored_y;
     protected:
         bool show = true;
         ui_rect rect;
 
-        unsigned int anchored_x, anchored_y;
+        unsigned int get_ax() const;
+        unsigned int get_ay() const;
 
         virtual void draw() = 0;
         virtual ui_element *clone() const = 0;
