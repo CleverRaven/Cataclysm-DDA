@@ -580,6 +580,9 @@ static void draw_recipe_tabs( WINDOW *w, std::string tab, TAB_MODE mode )
     mvwputch( w, 2,  0, BORDER_COLOR, LINE_OXXO ); // |^
     mvwputch( w, 2, width - 1, BORDER_COLOR, LINE_OOXX ); // ^|
 
+    // Draw a "can craft" indicator
+    draw_can_craft_indicator( w, width, 1, 0 );
+
     switch (mode) {
     case NORMAL:
         {
@@ -592,10 +595,10 @@ static void draw_recipe_tabs( WINDOW *w, std::string tab, TAB_MODE mode )
             break;
         }
         case FILTERED:
-            draw_tab(w, 2, _("Searched"), true);
+            draw_tab( w, 2, _( "Searched" ), true );
             break;
         case BATCH:
-            draw_tab(w, 2, _("Batch"), true);
+            draw_tab( w, 2, _( "Batch" ), true );
             break;
     }
 
