@@ -44,7 +44,7 @@ void load_recipe_category( JsonObject &jsobj )
     JsonArray subcats;
     std::string category = jsobj.get_string( "id" );
 
-    if( prefixed_name.find("CC_") != 0 ) {
+    if( category.find("CC_") != 0 ) {
         jsobj.throw_error("Crafting category id has to be prefixed with 'CC_'");
     }
 
@@ -61,7 +61,7 @@ void load_recipe_category( JsonObject &jsobj )
     subcats = jsobj.get_array( "recipe_subcategories" );
     while( subcats.has_more() ) {
         std::string subcat_id = subcats.next_string();
-        if( prefixed_name.find("CSC_" + cat_name + "_") != 0 ) {
+        if( subcat_id.find("CSC_" + cat_name + "_") != 0 ) {
             jsobj.throw_error("Crafting sub-category id has to be prefixed with CSC_<category_name>_");
         }
         craft_subcat_list[category].push_back( subcat_id );
