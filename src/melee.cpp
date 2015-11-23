@@ -1,4 +1,5 @@
-Ôªø#include "bionics.h"
+#include "player.h"
+#include "bionics.h"
 #include "debug.h"
 #include "game.h"
 #include "map.h"
@@ -2262,7 +2263,7 @@ void player_hit_message(player* attacker, std::string message,
                     t.posy(),
                     direction_from(0, 0, t.posx() - attacker->posx(), t.posy() - attacker->posy()),
                     get_hp_bar(t.get_hp(), t.get_hp_max(), true).first, m_good,
-                    //~ ‚Äúhit points‚Äù, used in scrolling combat text
+                    //~ ìhit pointsî, used in scrolling combat text
                     _("hp"), m_neutral,
                     "hp");
         } else {
