@@ -36,14 +36,14 @@ ui_window::~ui_window()
     delwin( win );
 }
 
-void ui_window::render()
+void ui_window::draw()
 {
     werase( win );
-    draw();
+    local_draw();
     wrefresh( win );
 }
 
-void ui_window::draw()
+void ui_window::local_draw()
 {
     for( auto &child : children ) {
         if( child->is_visible() ) {
@@ -142,14 +142,14 @@ ui_element *bordered_window::clone() const
     return new bordered_window(*this);
 }
 
-void bordered_window::draw()
+void bordered_window::local_draw()
 {
     wattron(win, border_color);
     wborder(win, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
             LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
     wattroff(win, border_color);
 
-    ui_window::draw();
+    ui_window::local_draw();
 }
 
 health_bar::health_bar(size_t size_x, unsigned int x, unsigned int y) : ui_element(size_x, 1, x, y),
@@ -338,6 +338,7 @@ ui_element *tabbed_window::clone() const
     return new tabbed_window(*this);
 }
 
+// returns the width of the tab
 int tabbed_window::draw_tab(const std::string &tab, bool selected, int x_offset) const
 {
     int gy = rect.y;
@@ -375,9 +376,16 @@ int tabbed_window::draw_tab(const std::string &tab, bool selected, int x_offset)
     return width;
 }
 
-void tabbed_window::draw()
+void tabbed_window::local_draw()
 {
-    bordered_window::draw();
+    bordered_window::local_draw();
+    //erase the top 3 rows
+    for(int y = 0; y < 3; y++) {
+        for(int x = 0; x < rect.size_x; x++){
+            mvwputch(win, y, x, border_color, ' ');
+        }
+    }
+
     int x_offset = 1; // leave space for selection bracket
     for(unsigned int i = 0; i < tabs.size(); i++) {
         x_offset += draw_tab(tabs[i], tab_index == i, x_offset) + 1;

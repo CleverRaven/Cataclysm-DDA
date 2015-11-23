@@ -80,13 +80,13 @@ class ui_window : public ui_element {
 
         virtual ui_element *clone() const override;
         virtual WINDOW *get_win() const override;
-        virtual void draw() override;
+        virtual void local_draw();
     public:
         ui_window(size_t size_x, size_t size_y, unsigned int x = 0, unsigned int y = 0);
         ui_window(const ui_window &);
         ~ui_window() override;
 
-        void render();
+        void draw() override;
 
         template<typename T = ui_element>
         T *add_child( const T &child );
@@ -116,7 +116,7 @@ class ui_label : public ui_element {
 class bordered_window : public ui_window {
     protected:
         virtual ui_element *clone() const override;
-        virtual void draw() override;
+        virtual void local_draw() override;
     public:
         bordered_window(size_t size_x, size_t size_y, unsigned int x = 0, unsigned int y = 0);
 
@@ -219,7 +219,7 @@ class tabbed_window : public bordered_window {
         int draw_tab(const std::string &, bool, int) const;
     protected:
         virtual ui_element *clone() const override;
-        virtual void draw() override;
+        virtual void local_draw() override;
     public:
         tabbed_window(size_t size_x, size_t size_y, unsigned int x = 0, unsigned int y = 0);
 
