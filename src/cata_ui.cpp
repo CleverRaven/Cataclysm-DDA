@@ -317,11 +317,7 @@ tile_panel<T>::tile_panel(size_t size_x, size_t size_y, int x, int y, ui_anchor 
                        : ui_element(size_x, size_y, x, y, anchor)
 {
     num_tiles = size_x * size_y;
-    tiles = new T[num_tiles]; // Does this initialize already?
-
-    for(unsigned int i = 0; i < num_tiles; i++) {
-        new (tiles[i]) T(); // initialize array with default
-    }
+    tiles = new T[num_tiles];
 }
 
 template<class T>
@@ -354,8 +350,8 @@ void tile_panel<T>::set_tile(const T &tile, unsigned int x, unsigned int y)
 
     int index = y * rect.size_x + x;
 
-    delete tiles[index]; // call delete just in case
-    new (tiles[index]) T(tile); //explicitly call T's constructor. I'm not sure if we pass a T derived type, which constructor it calls when doing tiles[index] = tile.
+    delete tiles[index];
+    tiles[index] = tile;
 }
 
 void ui_tile::draw( WINDOW *win, int x, int y ) const
