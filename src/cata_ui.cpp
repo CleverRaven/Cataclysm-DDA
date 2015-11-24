@@ -12,6 +12,7 @@ ui_rect::ui_rect( size_t size_x, size_t size_y, int x, int y ) : size_x( size_x 
 ui_window::ui_window( size_t size_x, size_t size_y, int x, int y, ui_anchor anchor) : ui_element(size_x, size_y, x, y, anchor),
                       global_x(ui_element::anchored_x), global_y(ui_element::anchored_y), win(newwin(size_y, size_x, global_y, global_x))
 {
+    // adjust_window() // Does ui_element's constructor call our version of calc_anchored_values
 }
 
 ui_window::~ui_window()
@@ -66,7 +67,7 @@ void ui_window::calc_anchored_values()
 }
 
 // This method expects a pointer to a heap allocated ui_element.
-// This ui_element will b deleted by the ui_window's deconstructor, so you can add-and-forget.
+// This ui_element will be deleted by the ui_window's deconstructor, so you can add-and-forget.
 void ui_window::add_child( ui_element *child )
 {
     if(!child) {
@@ -135,7 +136,6 @@ void ui_element::after(const ui_element &other, int x, int y)
 void ui_element::before(const ui_element &other, int x, int y)
 {
     auto o_rect = other.get_rect();
-    ui_rect new_rect(rect);
     rect.x = o_rect.x - o_rect.size_x + x;
     rect.y = o_rect.y + y;
     calc_anchored_values();
@@ -245,6 +245,7 @@ void ui_label::set_text( std::string new_text )
 {
     text = new_text;
     rect.size_x = new_text.size();
+    calc_anchored_values(); // TODO: rect member private, make getters and setters
 }
 
 bordered_window::bordered_window(size_t size_x, size_t size_y, int x, int y, ui_anchor anchor ) : ui_window(size_x, size_y, x, y, anchor)
@@ -407,7 +408,7 @@ void tile_panel<T>::set_tile(const T &tile, unsigned int x, unsigned int y)
     int index = y * rect.size_x + x;
 
     delete tiles[index];
-    tiles[index] = tile; // Does this call T's copy constructor?
+    tiles[index] = tile; // Does this call T's copy constructor? or maybe of a derived type?
 }
 
 void ui_tile::draw( WINDOW *win, int x, int y ) const

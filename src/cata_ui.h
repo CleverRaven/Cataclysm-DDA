@@ -59,12 +59,13 @@ class ui_element {
         virtual void set_parent(const ui_window *parent);
 
         ui_anchor anchor = top_left;
-        virtual void calc_anchored_values();
 
         unsigned int anchored_x, anchored_y;
-    protected:
+
         bool show = true;
+    protected:
         ui_rect rect;
+        virtual void calc_anchored_values();
 
         unsigned int get_ax() const;
         unsigned int get_ay() const;
@@ -105,9 +106,9 @@ class ui_window : public ui_element {
         std::list<ui_element *> children;
 
         void adjust_window();
-        virtual void calc_anchored_values() override;
     protected:
         WINDOW *win;
+        virtual void calc_anchored_values() override;
 
         virtual WINDOW *get_win() const override;
         virtual void local_draw();
