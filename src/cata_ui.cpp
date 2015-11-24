@@ -17,8 +17,8 @@ ui_window::ui_window( size_t size_x, size_t size_y, int x, int y, ui_anchor anch
 
 ui_window::~ui_window()
 {
-    while( children.size() > 0 ) {
-        delete children.back();
+    for( auto child : children ) {
+        delete child;
     }
 
     delwin( win );

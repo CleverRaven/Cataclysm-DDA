@@ -41,7 +41,7 @@ class ui_window;
 * This abstract class is used to implement the frameworks's composite pattern.
 */
 class ui_element {
-    friend class ui_window; // so we don't have to make draw, clone and set_parent public
+    friend class ui_window; // so we don't have to make draw and set_parent public
     protected:
         enum ui_anchor {
             top_left,
@@ -105,9 +105,9 @@ class ui_window : public ui_element {
         std::list<ui_element *> children;
 
         void adjust_window();
+        virtual void calc_anchored_values() override;
     protected:
         WINDOW *win;
-        virtual void calc_anchored_values() override;
 
         virtual WINDOW *get_win() const override;
         virtual void local_draw();
