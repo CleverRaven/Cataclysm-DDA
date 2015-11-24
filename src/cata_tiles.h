@@ -25,9 +25,37 @@ class JsonObject;
 struct visibility_variables;
 
 /** Structures */
+struct sprite_variation {
+    int weight;
+    std::vector<int> sprite_ids;
+
+    sprite_variation()
+    {
+        weight = 1;
+        sprite_ids.clear();
+    }
+
+    sprite_variation(int id)
+    {
+        weight = 1;
+        sprite_ids.clear();
+        sprite_ids.push_back(id);
+    }
+
+    sprite_variation(int w, int id)
+    {
+        weight = w;
+        sprite_ids.clear();
+        sprite_ids.push_back(id);
+    }
+};
+
 struct tile_type
 {
-    std::vector<int> fg, bg;
+    // first entry of each of these vectors is not a real sprite_variation
+    // but a bookkeeping list instead, used for reducing the task of selecting
+    // a random variation from O(N) to O(1)
+    std::vector<sprite_variation> fg, bg;
     bool multitile, rotates;
 
     std::vector<std::string> available_subtiles;
@@ -213,9 +241,9 @@ class cata_tiles
         bool draw_from_id_string(std::string id, TILE_CATEGORY category,
                                  const std::string &subcategory, int x, int y, int subtile, int rota,
                                  lit_level ll, bool apply_night_vision_goggles);
-        bool draw_sprite_at(std::vector<int>& spritelist, int x, int y, int rota, lit_level ll,
-                            bool apply_night_vision_goggles);
-        bool draw_tile_at(tile_type *tile, int x, int y, int rota, lit_level ll, bool apply_night_vision_goggles);
+        bool draw_sprite_at(std::vector<sprite_variation> &svlist, int x, int y, float loc_rand, int rota_fg, int rota, lit_level ll,
+                            bool apply_night_vision_goggles);  
+        bool draw_tile_at(tile_type *tile, int x, int y, float loc_rand, int rota, lit_level ll, bool apply_night_vision_goggles);
 
         /**
          * Redraws all the tiles that have changed since the last frame.
