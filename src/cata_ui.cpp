@@ -244,8 +244,7 @@ void ui_label::draw()
 void ui_label::set_text( std::string new_text )
 {
     text = new_text;
-    auto c_rect = get_rect();
-    set_rect(ui_rect(new_text.size(), c_rect.size_y, c_rect.x, c_rect.y));
+    set_rect(ui_rect(new_text.size(), get_rect().size_y, get_rect().x, get_rect().y));
 }
 
 bordered_window::bordered_window(size_t size_x, size_t size_y, int x, int y, ui_anchor anchor ) : ui_window(size_x, size_y, x, y, anchor)
