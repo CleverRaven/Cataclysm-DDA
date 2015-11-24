@@ -11132,7 +11132,7 @@
     "ammo": "battery",
     "revert_to": "l-stick",
     "use_action": {
-        "type": "auto_transform",
+        "type": "transform",
         "msg": "The l-stick(tm)'s light fades away",
         "target": "l-stick"
     }
