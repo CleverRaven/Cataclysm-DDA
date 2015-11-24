@@ -1135,7 +1135,7 @@ std::string replace_colors( std::string text )
 {
     static const std::vector<std::pair<std::string, std::string>> info_colors = {
         {"info", get_all_colors().get_name( c_cyan )},
-        {"stat", get_all_colors().get_name( c_blue )},
+        {"stat", get_all_colors().get_name( c_ltblue )},
         {"header", get_all_colors().get_name( c_magenta )},
         {"bold", get_all_colors().get_name( c_white )},
         {"dark", get_all_colors().get_name( c_dkgray )},
