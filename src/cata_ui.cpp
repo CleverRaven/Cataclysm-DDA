@@ -5,11 +5,11 @@
 #include <cmath>
 #include <array>
 
-ui_rect::ui_rect( size_t size_x, size_t size_y, unsigned int x, unsigned int y ) : size_x( size_x ), size_y( size_y ), x( x ), y( y )
+ui_rect::ui_rect( size_t size_x, size_t size_y, int x, int y ) : size_x( size_x ), size_y( size_y ), x( x ), y( y )
 {
 }
 
-ui_window::ui_window( size_t size_x, size_t size_y, unsigned int x, unsigned int y, ui_anchor anchor) : ui_element(size_x, size_y, x, y, anchor),
+ui_window::ui_window( size_t size_x, size_t size_y, int x, int y, ui_anchor anchor) : ui_element(size_x, size_y, x, y, anchor),
                       global_x(x), global_y(y), win(newwin(size_y, size_x, global_y, global_x))
 {
 }
@@ -49,10 +49,14 @@ void ui_window::set_parent( const ui_window *parent )
     win = newwin(rect.size_y, rect.size_x, global_y, global_x);
 }
 
-// This method expects a non-null pointer to a heap allocated ui_element.
+// This method expects a pointer to a heap allocated ui_element.
 // This ui_element will b deleted by the ui_window's deconstructor, so you can add-and-forget.
 void ui_window::add_child( ui_element *child )
 {
+    if(!child) {
+        return; // In case we get passed a bad alloc
+    }
+
     children.push_back( child );
     child->set_parent(this);
 }
@@ -72,7 +76,7 @@ const std::list<ui_element *> &ui_window::get_children() const
     return children;
 }
 
-ui_element::ui_element(size_t size_x, size_t size_y, unsigned int x, unsigned int y, ui_anchor anchor) :
+ui_element::ui_element(size_t size_x, size_t size_y, int x, int y, ui_anchor anchor) :
                        anchor(anchor), anchored_x(x), anchored_y(y), rect(ui_rect(size_x, size_y, x, y))
 {
 }
@@ -167,7 +171,7 @@ WINDOW *ui_element::get_win() const
     return nullptr;
 }
 
-ui_label::ui_label( std::string text ,unsigned int x, unsigned int y, ui_anchor anchor ) : ui_element( utf8_width( text.c_str() ), 1, x, y, anchor ), text( text )
+ui_label::ui_label( std::string text ,int x, int y, ui_anchor anchor ) : ui_element( utf8_width( text.c_str() ), 1, x, y, anchor ), text( text )
 {
 }
 
@@ -187,7 +191,7 @@ void ui_label::set_text( std::string new_text )
     rect.size_x = new_text.size();
 }
 
-bordered_window::bordered_window(size_t size_x, size_t size_y, unsigned int x, unsigned int y, ui_anchor anchor ) : ui_window(size_x, size_y, x, y, anchor)
+bordered_window::bordered_window(size_t size_x, size_t size_y, int x, int y, ui_anchor anchor ) : ui_window(size_x, size_y, x, y, anchor)
 {
 }
 
@@ -201,7 +205,7 @@ void bordered_window::local_draw()
     ui_window::local_draw();
 }
 
-health_bar::health_bar(size_t size_x, unsigned int x, unsigned int y, ui_anchor anchor) : ui_element(size_x, 1, x, y, anchor),
+health_bar::health_bar(size_t size_x, int x, int y, ui_anchor anchor) : ui_element(size_x, 1, x, y, anchor),
                        max_health(size_x * points_per_char), current_health(max_health)
 {
     for(unsigned int i = 0; i < rect.size_x; i++) {
@@ -267,7 +271,7 @@ void health_bar::set_health_percentage( float percentage )
     refresh_bar( overloaded, percentage );
 }
 
-smiley_indicator::smiley_indicator(unsigned int x, unsigned int y, ui_anchor anchor) : ui_element(2, 1, x, y, anchor)
+smiley_indicator::smiley_indicator(int x, int y, ui_anchor anchor) : ui_element(2, 1, x, y, anchor)
 {
 }
 
@@ -309,7 +313,7 @@ void smiley_indicator::set_state( smiley_state new_state )
 }
 
 tile_panel::tile_panel(tripoint center, std::function<const ui_tile(int, int, int)> tile_at,
-                       size_t size_x, size_t size_y, unsigned int x, unsigned int y, ui_anchor anchor)
+                       size_t size_x, size_t size_y, int x, int y, ui_anchor anchor)
                        : ui_element(size_x, size_y, x, y, anchor), tile_at(tile_at), center(center)
 {
     if(size_x % 2 == 0) {
@@ -363,7 +367,7 @@ ui_tile::ui_tile(long sym, nc_color color) : sym(sym), color(color)
 {
 }
 
-tabbed_window::tabbed_window(size_t size_x, size_t size_y, unsigned int x, unsigned int y, ui_anchor anchor) : bordered_window(size_x, size_y, x, y, anchor)
+tabbed_window::tabbed_window(size_t size_x, size_t size_y, int x, int y, ui_anchor anchor) : bordered_window(size_x, size_y, x, y, anchor)
 {
 }
 
@@ -459,7 +463,7 @@ const std::pair<std::string, ui_window *> &tabbed_window::current_tab() const
     return tabs[tab_index];
 }
 
-auto_bordered_window::auto_bordered_window(size_t size_x, size_t size_y, unsigned int x , unsigned int y, ui_anchor anchor) : ui_window(size_x, size_y, x, y, anchor)
+auto_bordered_window::auto_bordered_window(size_t size_x, size_t size_y, int x , int y, ui_anchor anchor) : ui_window(size_x, size_y, x, y, anchor)
 {
     uncovered = (bool *) malloc(sizeof(bool) * size_x * size_y);
     recalc_uncovered();

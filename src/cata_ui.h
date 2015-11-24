@@ -27,10 +27,10 @@ typedef int nc_color;
 struct ui_rect {
     // Size of the rect.
     size_t size_x, size_y;
-    //position of the rect. (within the parent)
-    unsigned int x, y;
+    //position of the rect, as offsets to the anchor. (within the parent)
+    int x, y;
 
-    ui_rect( size_t size_x, size_t size_y, unsigned int x, unsigned int y );
+    ui_rect( size_t size_x, size_t size_y, int x, int y );
 };
 
 class ui_window;
@@ -72,7 +72,7 @@ class ui_element {
         virtual void draw() = 0;
         virtual WINDOW *get_win() const;
     public:
-        ui_element(size_t size_x, size_t size_y, unsigned int x = 0, unsigned int y = 0, ui_anchor anchor = top_left);
+        ui_element(size_t size_x, size_t size_y, int x = 0, int y = 0, ui_anchor anchor = top_left);
         virtual ~ui_element() = default;
 
         const ui_rect &get_rect() const;
@@ -105,7 +105,7 @@ class ui_window : public ui_element {
         size_t child_count() const;
         const std::list<ui_element *> &get_children() const;
     public:
-        ui_window(size_t size_x, size_t size_y, unsigned int x = 0, unsigned int y = 0, ui_anchor anchor = top_left);
+        ui_window(size_t size_x, size_t size_y, int x = 0, int y = 0, ui_anchor anchor = top_left);
         ~ui_window() override;
 
         void draw() override;
@@ -122,7 +122,7 @@ class ui_label : public ui_element {
     protected:
         virtual void draw() override;
     public:
-        ui_label( std::string text, unsigned int x = 0, unsigned int y = 0, ui_anchor anchor = top_left );
+        ui_label( std::string text, int x = 0, int y = 0, ui_anchor anchor = top_left );
 
         void set_text( std::string );
 
@@ -136,7 +136,7 @@ class bordered_window : public ui_window {
     protected:
         virtual void local_draw() override;
     public:
-        bordered_window(size_t size_x, size_t size_y, unsigned int x = 0, unsigned int y = 0, ui_anchor anchor = top_left);
+        bordered_window(size_t size_x, size_t size_y, int x = 0, int y = 0, ui_anchor anchor = top_left);
 
         nc_color border_color = BORDER_COLOR;
 };
@@ -155,7 +155,7 @@ class health_bar : public ui_element {
     protected:
         virtual void draw() override;
     public:
-        health_bar(size_t size_x, unsigned int x = 0, unsigned int y = 0, ui_anchor anchor = top_left);
+        health_bar(size_t size_x, int x = 0, int y = 0, ui_anchor anchor = top_left);
 
         void set_health_percentage( float percentage );
 };
@@ -176,7 +176,7 @@ class smiley_indicator : public ui_element {
     protected:
         virtual void draw() override;
     public:
-        smiley_indicator(unsigned int x = 0, unsigned int y = 0, ui_anchor anchor = top_left);
+        smiley_indicator(int x = 0, int y = 0, ui_anchor anchor = top_left);
 
         void set_state( smiley_state new_state );
 };
@@ -217,7 +217,7 @@ class tile_panel : public ui_element {
         virtual void draw() override;
     public:
         tile_panel(tripoint center, std::function<const ui_tile(int, int, int)> tile_at,
-                   size_t size_x, size_t size_y, unsigned int x = 0, unsigned int y = 0, ui_anchor anchor = top_left);
+                   size_t size_x, size_t size_y, int x = 0, int y = 0, ui_anchor anchor = top_left);
 
         void set_center(tripoint new_center);
         const tripoint &get_center() const;
@@ -235,7 +235,7 @@ class tabbed_window : public bordered_window {
     protected:
         virtual void local_draw() override;
     public:
-        tabbed_window(size_t size_x, size_t size_y, unsigned int x = 0, unsigned int y = 0, ui_anchor anchor = top_left);
+        tabbed_window(size_t size_x, size_t size_y, int x = 0, int y = 0, ui_anchor anchor = top_left);
 
         ui_window *create_tab(std::string tab);
 
@@ -259,7 +259,7 @@ class auto_bordered_window : public ui_window {
     protected:
         virtual void local_draw() override;
     public:
-        auto_bordered_window(size_t size_x, size_t size_y, unsigned int x = 0, unsigned int y = 0, ui_anchor anchor = top_left);
+        auto_bordered_window(size_t size_x, size_t size_y, int x = 0, int y = 0, ui_anchor anchor = top_left);
         ~auto_bordered_window() override;
 
         nc_color border_color = BORDER_COLOR;
