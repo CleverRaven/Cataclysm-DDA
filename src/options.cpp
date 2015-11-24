@@ -941,17 +941,23 @@ void options_manager::init()
                                           );
 
     OPTIONS["AUTO_INV_ASSIGN"] = cOpt("interface", _("Auto inventory letters"),
-                                        _("If false, new inventory items will only get letters assigned if they had one before."),
-                                        true
-                                       );
+                                      _("If false, new inventory items will only get letters assigned if they had one before."),
+                                      true
+                                     );
 
     OPTIONS["ITEM_HEALTH_BAR"] = cOpt("interface", _("Show item health bars"),
-                                     _("If true, show item health bars instead of reinforced, scratched etc. text."),
-                                     true
-                                    );
+                                      _("If true, show item health bars instead of reinforced, scratched etc. text."),
+                                      true
+                                     );
+
     OPTIONS["ITEM_SYMBOLS"] = cOpt("interface", _("Show item symbols"),
                                      _("If true, show item symbols in inventory and pick up menu."),
                                      false
+                                    );
+
+    OPTIONS["INFO_HIGHLIGHT"] = cOpt("interface", _("Show item info highlighting"),
+                                     _("If true, show item info highlighting of important stats."),
+                                     true
                                     );
 
     mOptionsSort["interface"]++;

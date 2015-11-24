@@ -1141,11 +1141,12 @@ std::string replace_colors( std::string text )
         {"dark", get_all_colors().get_name( c_dkgray )},
         {"good", get_all_colors().get_name( c_green )},
         {"bad", get_all_colors().get_name( c_red )},
-        {"neutral", get_all_colors().get_name( c_brown )}
+        {"neutral", get_all_colors().get_name( c_yellow )}
     };
 
     for( auto &elem : info_colors ) {
-        text = string_replace( text, "<" + elem.first + ">", "<color_" + elem.second + ">" );
+        text = string_replace( text, "<" + elem.first + ">", "<color_" +
+                               (OPTIONS["INFO_HIGHLIGHT"] ? elem.second : get_all_colors().get_name(c_ltgray)) + ">" );
         text = string_replace( text, "</" + elem.first + ">", "</color>" );
     }
 
@@ -1191,7 +1192,7 @@ std::string format_item_info( const std::vector<iteminfo> &vItemDisplay,
             }
 
             if (vItemDisplay[i].sValue != "-999") {
-                nc_color thisColor = c_brown;
+                nc_color thisColor = OPTIONS["INFO_HIGHLIGHT"] ? c_yellow : c_ltgray;
                 for (auto &k : vItemCompare) {
                     if (k.sValue != "-999") {
                         if (vItemDisplay[i].sName == k.sName && vItemDisplay[i].sType == k.sType) {
