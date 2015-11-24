@@ -140,14 +140,14 @@ const recipe *select_crafting_recipe( int &batch_size )
     const int dataLines = TERMY - ( headHeight + subHeadHeight ) - tailHeight;
     const int dataHalfLines = dataLines / 2;
     const int dataHeight = TERMY - ( headHeight + subHeadHeight );
-    const int infoWidth = width - FULL_SCREEN_WIDTH - 3;
+    const int infoWidth = width - FULL_SCREEN_WIDTH - 1;
 
     int lastid = -1;
 
     WINDOW *w_head = newwin( headHeight, width, 0, wStart );
     WINDOW *w_subhead = newwin( subHeadHeight, width, 3, wStart );
     WINDOW *w_data = newwin( dataHeight, width, headHeight + subHeadHeight, wStart );
-    WINDOW *w_iteminfo = newwin( dataHeight, infoWidth, headHeight + subHeadHeight, wStart + width - infoWidth );
+    WINDOW *w_iteminfo = newwin( dataHeight - 3, infoWidth, headHeight + subHeadHeight, wStart + width - infoWidth );
 
     std::string tab = first_craft_cat();
     std::string subtab = first_craft_subcat( tab );
@@ -176,6 +176,8 @@ const recipe *select_crafting_recipe( int &batch_size )
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "CYCLE_MODE" );
+    ctxt.register_action( "SCROLL_UP" );
+    ctxt.register_action( "SCROLL_DOWN" );
     ctxt.register_action( "PREV_TAB" );
     ctxt.register_action( "NEXT_TAB" );
     ctxt.register_action( "FILTER" );
@@ -402,14 +404,9 @@ const recipe *select_crafting_recipe( int &batch_size )
                     tmp = current[line]->create_result();
                     tmp.info(true, thisItem);
                 }
-                mvwprintz( w_data, 0, FULL_SCREEN_WIDTH + 1, col, "%s",
-                           utf8_truncate( tmp.type_name( 1 ), infoWidth ).c_str() );
-
-                draw_item_info(w_iteminfo, tmp.tname(), tmp.type_name(), thisItem, dummy, scroll_pos, true, true, true);
-
-                //fold_and_print( w_data, 1, FULL_SCREEN_WIDTH + 1, iInfoWidth, col, item_info_text );
+                draw_item_info(w_iteminfo, tmp.tname(), tmp.type_name(), thisItem, dummy,
+                               scroll_pos, true, true, true, false, true);
             }
-
         }
 
         draw_scrollbar( w_data, line, dataLines, recmax, 0 );
@@ -425,9 +422,9 @@ const recipe *select_crafting_recipe( int &batch_size )
         } else if( action == "LEFT" ) {
             subtab = prev_craft_subcat( tab, subtab );
             redraw = true;
-        } else if( action == "PAGE_UP" ) {
+        } else if( action == "SCROLL_UP" ) {
             scroll_pos--;
-        } else if( action == "PAGE_DOWN" ) {
+        } else if( action == "SCROLL_DOWN" ) {
             scroll_pos++;
         } else if( action == "PREV_TAB" ) {
             tab = prev_craft_cat( tab );
