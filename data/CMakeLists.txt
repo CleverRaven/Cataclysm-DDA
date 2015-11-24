@@ -31,7 +31,6 @@ SET(CATACLYSM_DATA_FILES
 	${CMAKE_SOURCE_DIR}/data/changelog.txt
 	${CMAKE_SOURCE_DIR}/data/cataicon.ico
 	${CMAKE_SOURCE_DIR}/data/fontdata.json
-	${CMAKE_SOURCE_DIR}/README.txt
 	${CMAKE_SOURCE_DIR}/LICENSE.txt
 )
 
