@@ -2291,7 +2291,8 @@ tripoint overmap::draw_overmap(const tripoint &orig, const draw_data_t &data)
                 if( terrain && uistate.place_terrain->has_flag( rotates ) ) {
                     uistate.omedit_rotation = 0;
                     for( int i = 0; i < 4; i++ ) {
-                        if( uistate.place_terrain->loadid == uistate.place_terrain->directional_peers[i] ) {
+                        if( uistate.place_terrain->loadid == 
+                                uistate.place_terrain->directional_peers[i] ) {
                             uistate.omedit_rotation = i;
                             break;
                         }
@@ -2329,9 +2330,11 @@ tripoint overmap::draw_overmap(const tripoint &orig, const draw_data_t &data)
                     mvwprintz( w_editor, 9, 1, c_red, _("their contents.") );
                     if( ( terrain && uistate.place_terrain->has_flag( rotates ) ) ||
                         ( !terrain && uistate.place_special->rotatable ) ) {
-                        mvwprintz( w_editor, 11, 1, c_white, _("[%s] Rotate"), ctxt.get_desc( "ROTATE" ).c_str() );
+                        mvwprintz( w_editor, 11, 1, c_white, _("[%s] Rotate"),
+                                   ctxt.get_desc( "ROTATE" ).c_str() );
                     }
-                    mvwprintz( w_editor, 12, 1, c_white, _("[%s] Apply"), ctxt.get_desc( "CONFIRM" ).c_str() );
+                    mvwprintz( w_editor, 12, 1, c_white, _("[%s] Apply"),
+                               ctxt.get_desc( "CONFIRM" ).c_str() );
                     mvwprintz( w_editor, 13, 1, c_white, _("[ESCAPE/Q] Cancel") );
                     wrefresh( w_editor );
 
