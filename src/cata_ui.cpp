@@ -535,7 +535,7 @@ void auto_bordered_window::recalc_uncovered()
 {
     for(size_t x = 0; x < get_rect().size_x; x++) {
         for(size_t y = 0; y < get_rect().size_y; y++) {
-                uncovered[y * get_rect().size_x + x] = true;
+            uncovered[y * get_rect().size_x + x] = true;
         }
     }
 
@@ -543,7 +543,9 @@ void auto_bordered_window::recalc_uncovered()
         auto c_rect = child->get_rect();
         for(size_t x = c_rect.x; x < c_rect.size_x + c_rect.x; x++) {
             for(size_t y = c_rect.y; y < c_rect.size_y + c_rect.y; y++) {
-                uncovered[y * get_rect().size_x + x] = false;
+                if(x < get_rect().size_x && y < get_rect().size_y) {
+                    uncovered[y * get_rect().size_x + x] = false;
+                }
             }
         }
     }
