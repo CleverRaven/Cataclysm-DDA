@@ -581,8 +581,6 @@ bool auto_bordered_window::is_uncovered(int x, int y) const {
 
 long auto_bordered_window::get_border_char(unsigned int x, unsigned int y) const
 {
-    return LINE_XXXX; //TODO: actual implementation
-
     bool left = is_uncovered(x - 1, y);
     bool up = is_uncovered(x, y + 1);
     bool right = is_uncovered(x + 1, y);
@@ -632,7 +630,7 @@ long auto_bordered_window::get_border_char(unsigned int x, unsigned int y) const
         } else {
             if(left) {
                 if(up) {
-                    ret =LINE_XOXX; // '-|'
+                    ret = LINE_XOXX; // '-|'
                 } else {
                     ret = LINE_OOXX; // '^|'
                 }
