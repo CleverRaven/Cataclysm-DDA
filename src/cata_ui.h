@@ -106,10 +106,10 @@ class ui_window : public ui_element {
 
         void adjust_window();
         virtual void calc_anchored_values() override;
-    protected:
-        WINDOW *win;
 
-        virtual WINDOW *get_win() const override;
+        WINDOW *win;
+    protected:
+        WINDOW *get_win() const override;
         virtual void local_draw();
         size_t child_count() const;
         const std::list<ui_element *> &get_children() const;

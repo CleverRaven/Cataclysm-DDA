@@ -253,6 +253,8 @@ bordered_window::bordered_window(size_t size_x, size_t size_y, int x, int y, ui_
 
 void bordered_window::local_draw()
 {
+    auto win = get_win(); // never null
+
     wattron(win, border_color);
     wborder(win, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
             LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
@@ -426,6 +428,7 @@ tabbed_window::tabbed_window(size_t size_x, size_t size_y, int x, int y, ui_anch
 // returns the width of the tab
 int tabbed_window::draw_tab(const std::string &tab, bool selected, int x_offset) const
 {
+    auto win = get_win(); // never null
     int gy = get_ay();
     int gx = get_ax() + x_offset;
 
@@ -464,6 +467,7 @@ int tabbed_window::draw_tab(const std::string &tab, bool selected, int x_offset)
 void tabbed_window::local_draw()
 {
     bordered_window::local_draw();
+    auto win = get_win(); // never null
     //erase the top 3 rows
     for(unsigned int y = 0; y < 3; y++) {
         for(unsigned int x = 0; x < get_rect().size_x; x++){
@@ -566,6 +570,7 @@ void auto_bordered_window::local_draw()
         recalc_uncovered();
     }
 
+    auto win = get_win(); // never null
     for(unsigned int x = 0; x < get_rect().size_x; x++){
         for(unsigned int y = 0; y < get_rect().size_y; y++) {
             if(is_uncovered(x, y)) {
