@@ -106,37 +106,34 @@ bool ui_element::is_visible() const
 void ui_element::above(const ui_element &other, int x, int y)
 {
     auto o_rect = other.get_rect();
-    ui_rect new_rect(rect);
-    new_rect.x = o_rect.x + x;
-    new_rect.x = o_rect.y + o_rect.size_y + y;
-    set_rect(new_rect);
+    rect.x = o_rect.x + x;
+    rect.y = o_rect.y + o_rect.size_y + y;
+    calc_anchored_values();
 }
 
 void ui_element::below(const ui_element &other, int x, int y)
 {
     auto o_rect = other.get_rect();
-    ui_rect new_rect(rect);
-    new_rect.x = o_rect.x + x;
-    new_rect.y = o_rect.y - o_rect.size_y + y;
-    set_rect(new_rect);
+    rect.x = o_rect.x + x;
+    rect.y = o_rect.y - o_rect.size_y + y;
+    calc_anchored_values();
 }
 
 void ui_element::after(const ui_element &other, int x, int y)
 {
     auto o_rect = other.get_rect();
-    ui_rect new_rect(rect);
-    new_rect.x = o_rect.x + o_rect.size_x + x;
-    new_rect.y = o_rect.y + y;
-    set_rect(new_rect);
+    rect.x = o_rect.x + o_rect.size_x + x;
+    rect.y = o_rect.y + y;
+    calc_anchored_values();
 }
 
 void ui_element::before(const ui_element &other, int x, int y)
 {
     auto o_rect = other.get_rect();
     ui_rect new_rect(rect);
-    new_rect.x = o_rect.x - o_rect.size_x + x;
-    new_rect.y = o_rect.y + y;
-    set_rect(new_rect);
+    rect.x = o_rect.x - o_rect.size_x + x;
+    rect.y = o_rect.y + y;
+    calc_anchored_values();
 }
 
 void ui_element::set_rect(const ui_rect &new_rect)

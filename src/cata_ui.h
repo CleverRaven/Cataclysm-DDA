@@ -76,13 +76,12 @@ class ui_element {
         virtual ~ui_element() = default;
 
         const ui_rect &get_rect() const;
+        void set_rect(const ui_rect &new_rect);
 
         void set_anchor(ui_anchor new_anchor);
 
         void set_visible(bool visible);
         bool is_visible() const;
-
-        void set_rect(const ui_rect &new_rect);
 
         void above(const ui_element &other, int x = 0, int y = 0);
         void below(const ui_element &other, int x = 0, int y = 0);
