@@ -76,7 +76,7 @@ std::string get_subcat_name( const std::string &cat, std::string prefixed_name )
         return prefixed_name.substr( prefix.size(), prefixed_name.size() - prefix.size() );
     }
 
-    return _( "ALL" );
+    return (prefixed_name == "CSC_ALL" ? _( "ALL" ) : _( "NONCRAFT" ));
 }
 
 void translate_all() {
