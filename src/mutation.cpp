@@ -7,6 +7,7 @@
 #include "messages.h"
 #include "monster.h"
 #include "overmapbuffer.h"
+#include "map_iterator.h"
 #include "sounds.h"
 #include "options.h"
 #include "mapdata.h"
@@ -410,12 +411,9 @@ void player::activate_mutation( const trait_id &mut )
         return; // handled when the activity finishes
     } else if( mut == trait_SLIMESPAWNER ) {
         std::vector<tripoint> valid;
-        for (int x = posx() - 1; x <= posx() + 1; x++) {
-            for (int y = posy() - 1; y <= posy() + 1; y++) {
-                tripoint dest(x, y, posz());
-                if (g->is_empty(dest)) {
-                    valid.push_back( dest );
-                }
+        for( const tripoint &dest : g->m.points_in_radius( pos(), 1 ) ) {
+            if (g->is_empty(dest)) {
+                valid.push_back( dest );
             }
         }
         // Oops, no room to divide!

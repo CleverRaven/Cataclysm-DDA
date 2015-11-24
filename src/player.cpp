@@ -1028,28 +1028,25 @@ void player::update_bodytemp()
     std::vector<std::pair<int, int>> fires;
     fires.reserve( 13 * 13 );
     int best_fire = 0;
-    for( int j = -6 ; j <= 6 ; j++ ) {
-        for( int k = -6 ; k <= 6 ; k++ ) {
-            tripoint dest( posx() + j, posy() + k, posz() );
-            int heat_intensity = 0;
+    for( const tripoint &dest : g->m.points_in_radius( pos(), 6 ) ) {
+        int heat_intensity = 0;
 
-            int ffire = g->m.get_field_strength( dest, fd_fire );
-            if( ffire > 0 ) {
-                heat_intensity = ffire;
-            } else if( g->m.tr_at( dest ).loadid == tr_lava ) {
-                heat_intensity = 3;
-            }
-            if( heat_intensity == 0 || !g->m.sees( pos(), dest, -1 ) ) {
-                // No heat source here
-                continue;
-            }
-            // Ensure fire_dist >= 1 to avoid divide-by-zero errors.
-            const int fire_dist = std::max( 1, std::max( std::abs( j ), std::abs( k ) ) );
-            fires.emplace_back( std::make_pair( heat_intensity, fire_dist ) );
-            if( fire_dist <= 1 ) {
-                // Extend limbs/lean over a single adjacent fire to warm up
-                best_fire = std::max( best_fire, heat_intensity );
-            }
+        int ffire = g->m.get_field_strength( dest, fd_fire );
+        if( ffire > 0 ) {
+            heat_intensity = ffire;
+        } else if( g->m.tr_at( dest ).loadid == tr_lava ) {
+            heat_intensity = 3;
+        }
+        if( heat_intensity == 0 || !g->m.sees( pos(), dest, -1 ) ) {
+            // No heat source here
+            continue;
+        }
+        // Ensure fire_dist >= 1 to avoid divide-by-zero errors.
+        const int fire_dist = std::max( 1, square_dist( dest, pos() ) );
+        fires.emplace_back( std::make_pair( heat_intensity, fire_dist ) );
+        if( fire_dist <= 1 ) {
+            // Extend limbs/lean over a single adjacent fire to warm up
+            best_fire = std::max( best_fire, heat_intensity );
         }
     }
 
@@ -3027,31 +3024,28 @@ void player::search_surroundings()
     // Search for traps in a larger area than before because this is the only
     // way we can "find" traps that aren't marked as visible.
     // Detection formula takes care of likelihood of seeing within this range.
-    for( int xd = -5; xd <= 5; xd++ ) {
-        for( int yd = -5; yd <= 5; yd++ ) {
-            const tripoint tp = pos() + tripoint( xd, yd, 0 );
-            const trap &tr = g->m.tr_at( tp );
-            if( tr.is_null() || tp == pos() ) {
-                continue;
+    for( const tripoint &tp : g->m.points_in_radius( pos(), 5 ) ) {
+        const trap &tr = g->m.tr_at( tp );
+        if( tr.is_null() || tp == pos() ) {
+            continue;
+        }
+        if( !sees( tp ) ) {
+            continue;
+        }
+        if( tr.name().empty() || tr.can_see( tp, *this ) ) {
+            // Already seen, or has no name -> can never be seen
+            continue;
+        }
+        // Chance to detect traps we haven't yet seen.
+        if (tr.detect_trap( tp, *this )) {
+            if( tr.get_visibility() > 0 ) {
+                // Only bug player about traps that aren't trivial to spot.
+                const std::string direction = direction_name(
+                    direction_from( pos(), tp ) );
+                add_msg_if_player(_("You've spotted a %1$s to the %2$s!"),
+                                  tr.name().c_str(), direction.c_str());
             }
-            if( !sees( tp ) ) {
-                continue;
-            }
-            if( tr.name().empty() || tr.can_see( tp, *this ) ) {
-                // Already seen, or has no name -> can never be seen
-                continue;
-            }
-            // Chance to detect traps we haven't yet seen.
-            if (tr.detect_trap( tp, *this )) {
-                if( tr.get_visibility() > 0 ) {
-                    // Only bug player about traps that aren't trivial to spot.
-                    const std::string direction = direction_name(
-                        direction_from( pos(), tp ) );
-                    add_msg_if_player(_("You've spotted a %1$s to the %2$s!"),
-                                      tr.name().c_str(), direction.c_str());
-                }
-                add_known_trap( tp, tr);
-            }
+            add_known_trap( tp, tr);
         }
     }
 }
@@ -3346,12 +3340,9 @@ dealt_damage_instance player::deal_damage( Creature* source, body_part bp,
     if( has_artifact_with( AEP_SNAKES ) && dam >= 6 ) {
         int snakes = dam / 6;
         std::vector<tripoint> valid;
-        for( int x = posx() - 1; x <= posx() + 1; x++ ) {
-            for( int y = posy() - 1; y <= posy() + 1; y++ ) {
-                tripoint dest( x, y, posz() );
-                if( g->is_empty( dest ) ) {
-                    valid.push_back( dest );
-                }
+        for( const tripoint &dest : g->m.points_in_radius( pos(), 1 ) ) {
+            if( g->is_empty( dest ) ) {
+                valid.push_back( dest );
             }
         }
         if( snakes > int( valid.size() ) ) {
@@ -3373,12 +3364,9 @@ dealt_damage_instance player::deal_damage( Creature* source, body_part bp,
     // And slimespawners too
     if( ( has_trait( trait_SLIMESPAWNER ) ) && ( dam >= 10 ) && one_in( 20 - dam ) ) {
         std::vector<tripoint> valid;
-        for( int x = posx() - 1; x <= posx() + 1; x++ ) {
-            for( int y = posy() - 1; y <= posy() + 1; y++ ) {
-                tripoint dest( x, y, posz() );
-                if( g->is_empty( dest ) ) {
-                    valid.push_back( dest );
-                }
+        for( const tripoint &dest : g->m.points_in_radius( pos(), 1 ) ) {
+            if( g->is_empty( dest ) ) {
+                valid.push_back( dest );
             }
         }
         add_msg( m_warning, _( "Slime is torn from you, and moves on its own!" ) );
@@ -11101,15 +11089,11 @@ void player::spores()
     fungal_effects fe( *g, g->m );
     //~spore-release sound
     sounds::sound( pos(), 10, _("Pouf!"));
-    for (int i = -1; i <= 1; i++) {
-        for (int j = -1; j <= 1; j++) {
-            if (i == 0 && j == 0) {
-                continue;
-            }
-
-            tripoint sporep( posx() + i, posy() + j, posz() );
-            fe.fungalize( sporep, this, 0.25 );
+    for( const tripoint &sporep : g->m.points_in_radius( pos(), 1 ) ) {
+        if (sporep == pos()) {
+            continue;
         }
+        fe.fungalize( sporep, this, 0.25 );
     }
 }
 
@@ -11117,13 +11101,8 @@ void player::blossoms()
 {
     // Player blossoms are shorter-ranged, but you can fire much more frequently if you like.
     sounds::sound( pos(), 10, _("Pouf!"));
-    tripoint tmp = pos();
-    int &i = tmp.x;
-    int &j = tmp.y;
-    for ( i = posx() - 2; i <= posx() + 2; i++) {
-        for ( j = posy() - 2; j <= posy() + 2; j++) {
-            g->m.add_field( tmp, fd_fungal_haze, rng(1, 2), 0 );
-        }
+    for( const tripoint &tmp : g->m.points_in_radius( pos(), 2 ) ) {
+        g->m.add_field( tmp, fd_fungal_haze, rng(1, 2), 0 );
     }
 }
 

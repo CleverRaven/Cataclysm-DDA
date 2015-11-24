@@ -10,6 +10,7 @@
 #include "mutation.h"
 #include "sounds.h"
 #include "translations.h"
+#include "map_iterator.h"
 #include "monster.h"
 #include "npc.h"
 #include "itype.h"
@@ -1034,21 +1035,17 @@ bool player::valid_aoe_technique( Creature &t, const ma_technique &technique,
     }
 
     if( targets.empty() && technique.aoe == "spin" ) {
-        tripoint tmp;
-        tmp.z = posz();
-        for ( tmp.x = posx() - 1; tmp.x <= posx() + 1; tmp.x++) {
-            for ( tmp.y = posy() - 1; tmp.y <= posy() + 1; tmp.y++) {
-                if( tmp == t.pos() ) {
-                    continue;
-                }
-                monster *const mon = g->critter_at<monster>( tmp );
-                if( mon && mon->friendly == 0 ) {
-                    targets.push_back( mon );
-                }
-                npc * const np = g->critter_at<npc>( tmp );
-                if( np && np->is_enemy() ) {
-                    targets.push_back( np );
-                }
+        for( const tripoint &tmp : g->m.points_in_radius( pos(), 1 ) ) {
+            if( tmp == t.pos() ) {
+                continue;
+            }
+            monster *const mon = g->critter_at<monster>( tmp );
+            if( mon && mon->friendly == 0 ) {
+                targets.push_back( mon );
+            }
+            npc * const np = g->critter_at<npc>( tmp );
+            if( np && np->is_enemy() ) {
+                targets.push_back( np );
             }
         }
         //don't trigger circle for fewer than 2 targets

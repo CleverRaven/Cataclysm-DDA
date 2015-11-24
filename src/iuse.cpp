@@ -574,36 +574,28 @@ int iuse::fungicide(player *p, item *it, bool, const tripoint& )
         }
         p->remove_effect( effect_spores);
         int spore_count = rng(1, 6);
-        if (spore_count > 0) {
-            for (int i = p->posx() - 1; i <= p->posx() + 1; i++) {
-                for (int j = p->posy() - 1; j <= p->posy() + 1; j++) {
-                    tripoint dest( i, j, p->posz() );
-                    if (spore_count == 0) {
-                        break;
+        for( const tripoint &dest : g->m.points_in_radius( p->pos(), 1 ) ) {
+            if (spore_count == 0) {
+                break;
+            }
+            if( dest == p->pos()) {
+                continue;
+            }
+            if (g->m.passable( dest ) && x_in_y(spore_count, 8)) {
+                if( monster *const mon_ptr = g->critter_at<monster>( dest ) ) {
+                    monster &critter = *mon_ptr;
+                    if( g->u.sees( dest ) &&
+                        !critter.type->in_species( FUNGUS ) ) {
+                        add_msg(m_warning, _("The %s is covered in tiny spores!"),
+                                critter.name().c_str() );
                     }
-                    if( dest == p->pos()) {
-                        continue;
+                    if( !critter.make_fungus() ) {
+                        critter.die( p ); // counts as kill by player
                     }
-                    if (g->m.passable( dest ) && x_in_y(spore_count, 8)) {
-                        if( monster *const mon_ptr = g->critter_at<monster>( dest ) ) {
-                            monster &critter = *mon_ptr;
-                            if( g->u.sees( dest ) &&
-                                !critter.type->in_species( FUNGUS ) ) {
-                                add_msg(m_warning, _("The %s is covered in tiny spores!"),
-                                        critter.name().c_str() );
-                            }
-                            if( !critter.make_fungus() ) {
-                                critter.die( p ); // counts as kill by player
-                            }
-                        } else {
-                            g->summon_mon(mon_spore, dest);
-                        }
-                        spore_count--;
-                    }
+                } else {
+                    g->summon_mon(mon_spore, dest);
                 }
-                if (spore_count == 0) {
-                    break;
-                }
+                spore_count--;
             }
         }
     }
@@ -1591,10 +1583,8 @@ int iuse::mycus(player *p, item *it, bool t, const tripoint &pos)
         p->add_msg_if_player(m_good, _("Even now, our fruits adapt to better serve local physiology."));
         p->add_msg_if_player(m_good, _("As, in time, shall we adapt to better welcome those who have not received us."));
         fungal_effects fe( *g, g->m );
-        for (int x = p->posx() - 3; x <= p->posx() + 3; x++) {
-            for (int y = p->posy() - 3; y <= p->posy() + 3; y++) {
-                fe.marlossify( tripoint( x, y, p->posz() ) );
-            }
+        for( const tripoint &pos : g->m.points_in_radius( p->pos(), 3 ) ) {
+            fe.marlossify( pos );
         }
         p->rem_addiction(ADD_MARLOSS_R);
         p->rem_addiction(ADD_MARLOSS_B);
@@ -3173,12 +3163,9 @@ int iuse::throwable_extinguisher_act(player *, item *it, bool, const tripoint &p
         // Reduce the strength of fire (if any) in the target tile.
         g->m.adjust_field_strength(pos, fd_fire, 0 - 1);
         // Slightly reduce the strength of fire around and in the target tile.
-        for (int x = -1; x <= 1; x++) {
-            for (int y = -1; y <= 1; y++) {
-                tripoint dest( pos.x + x, pos.y + y, pos.z );
-                if (g->m.passable(dest) && (x == 0 || y == 0)) {
-                    g->m.adjust_field_strength(dest, fd_fire, 0 - rng(0, 1));
-                }
+        for( const tripoint &dest : g->m.points_in_radius( pos, 1 ) ) {
+            if (g->m.passable(dest) && dest != pos ) {
+                g->m.adjust_field_strength(dest, fd_fire, 0 - rng(0, 1));
             }
         }
         return 1;
@@ -3242,13 +3229,10 @@ int iuse::granade_act(player *, item *it, bool t, const tripoint &pos)
             case 1:
                 sounds::sound(pos, 100, _("BUGFIXES!!"));
                 g->draw_explosion( pos, explosion_radius, c_light_cyan );
-                for (int i = -explosion_radius; i <= explosion_radius; i++) {
-                    for (int j = -explosion_radius; j <= explosion_radius; j++) {
-                        tripoint dest( pos.x + i, pos.y + j, pos.z );
-                        monster *const mon = g->critter_at<monster>( dest, true );
-                        if( mon && ( mon->type->in_species( INSECT ) || mon->is_hallucination() ) ) {
-                            mon->die_in_explosion( nullptr );
-                        }
+                for( const tripoint &dest : g->m.points_in_radius( pos, explosion_radius ) ) {
+                    monster *const mon = g->critter_at<monster>( dest, true );
+                    if( mon && ( mon->type->in_species( INSECT ) || mon->is_hallucination() ) ) {
+                        mon->die_in_explosion( nullptr );
                     }
                 }
                 break;
@@ -3256,38 +3240,35 @@ int iuse::granade_act(player *, item *it, bool t, const tripoint &pos)
             case 2:
                 sounds::sound(pos, 100, _("BUFFS!!"));
                 g->draw_explosion( pos, explosion_radius, c_green );
-                for (int i = -explosion_radius; i <= explosion_radius; i++) {
-                    for (int j = -explosion_radius; j <= explosion_radius; j++) {
-                        tripoint dest( pos.x + i, pos.y + j, pos.z );
-                        if( monster *const mon_ptr = g->critter_at<monster>( dest ) ) {
-                            monster &critter = *mon_ptr;
-                            critter.set_speed_base(
-                                critter.get_speed_base() * rng_float(1.1, 2.0) );
-                            critter.set_hp( critter.get_hp() * rng_float( 1.1, 2.0 ) );
-                        } else if( npc * const person = g->critter_at<npc>( dest ) ) {
-                            /** @EFFECT_STR_MAX increases possible granade str buff for NPCs */
-                            buff_stat(person->str_max, rng(0, person->str_max / 2));
-                            /** @EFFECT_DEX_MAX increases possible granade dex buff for NPCs */
-                            buff_stat(person->dex_max, rng(0, person->dex_max / 2));
-                            /** @EFFECT_INT_MAX increases possible granade int buff for NPCs */
-                            buff_stat(person->int_max, rng(0, person->int_max / 2));
-                            /** @EFFECT_PER_MAX increases possible granade per buff for NPCs */
-                            buff_stat(person->per_max, rng(0, person->per_max / 2));
-                        } else if (g->u.posx() == pos.x + i && g->u.posy() == pos.y + j) {
-                            /** @EFFECT_STR_MAX increases possible granade str buff */
-                            buff_stat(g->u.str_max, rng(0, g->u.str_max / 2));
-                            /** @EFFECT_DEX_MAX increases possible granade dex buff */
-                            buff_stat(g->u.dex_max, rng(0, g->u.dex_max / 2));
-                            /** @EFFECT_INT_MAX increases possible granade int buff */
-                            buff_stat(g->u.int_max, rng(0, g->u.int_max / 2));
-                            /** @EFFECT_PER_MAX increases possible granade per buff */
-                            buff_stat(g->u.per_max, rng(0, g->u.per_max / 2));
-                            g->u.recalc_hp();
-                            for (int part = 0; part < num_hp_parts; part++) {
-                                g->u.hp_cur[part] *= 1 + rng(0, 20) * .1;
-                                if (g->u.hp_cur[part] > g->u.hp_max[part]) {
-                                    g->u.hp_cur[part] = g->u.hp_max[part];
-                                }
+                for( const tripoint &dest : g->m.points_in_radius( pos, explosion_radius ) ) {
+                    if( monster *const mon_ptr = g->critter_at<monster>( dest ) ) {
+                        monster &critter = *mon_ptr;
+                        critter.set_speed_base(
+                            critter.get_speed_base() * rng_float(1.1, 2.0) );
+                        critter.set_hp( critter.get_hp() * rng_float( 1.1, 2.0 ) );
+                    } else if( npc * const person = g->critter_at<npc>( dest ) ) {
+                        /** @EFFECT_STR_MAX increases possible granade str buff for NPCs */
+                        buff_stat(person->str_max, rng(0, person->str_max / 2));
+                        /** @EFFECT_DEX_MAX increases possible granade dex buff for NPCs */
+                        buff_stat(person->dex_max, rng(0, person->dex_max / 2));
+                        /** @EFFECT_INT_MAX increases possible granade int buff for NPCs */
+                        buff_stat(person->int_max, rng(0, person->int_max / 2));
+                        /** @EFFECT_PER_MAX increases possible granade per buff for NPCs */
+                        buff_stat(person->per_max, rng(0, person->per_max / 2));
+                    } else if( g->u.pos() == dest ) {
+                        /** @EFFECT_STR_MAX increases possible granade str buff */
+                        buff_stat(g->u.str_max, rng(0, g->u.str_max / 2));
+                        /** @EFFECT_DEX_MAX increases possible granade dex buff */
+                        buff_stat(g->u.dex_max, rng(0, g->u.dex_max / 2));
+                        /** @EFFECT_INT_MAX increases possible granade int buff */
+                        buff_stat(g->u.int_max, rng(0, g->u.int_max / 2));
+                        /** @EFFECT_PER_MAX increases possible granade per buff */
+                        buff_stat(g->u.per_max, rng(0, g->u.per_max / 2));
+                        g->u.recalc_hp();
+                        for (int part = 0; part < num_hp_parts; part++) {
+                            g->u.hp_cur[part] *= 1 + rng(0, 20) * .1;
+                            if (g->u.hp_cur[part] > g->u.hp_max[part]) {
+                                g->u.hp_cur[part] = g->u.hp_max[part];
                             }
                         }
                     }
@@ -3297,37 +3278,34 @@ int iuse::granade_act(player *, item *it, bool t, const tripoint &pos)
             case 3:
                 sounds::sound(pos, 100, _("NERFS!!"));
                 g->draw_explosion( pos, explosion_radius, c_red);
-                for (int i = -explosion_radius; i <= explosion_radius; i++) {
-                    for (int j = -explosion_radius; j <= explosion_radius; j++) {
-                        tripoint dest( pos.x + i, pos.y + j, pos.z );
-                        if( monster *const mon_ptr = g->critter_at<monster>( dest ) ) {
-                            monster &critter = *mon_ptr;
-                            critter.set_speed_base(
-                                rng( 0, critter.get_speed_base() ) );
-                            critter.set_hp( rng( 1, critter.get_hp() ) );
-                        } else if( npc * const person = g->critter_at<npc>( dest ) ) {
-                            /** @EFFECT_STR_MAX increases possible granade str debuff for NPCs (NEGATIVE) */
-                            person->str_max -= rng(0, person->str_max / 2);
-                            /** @EFFECT_DEX_MAX increases possible granade dex debuff for NPCs (NEGATIVE) */
-                            person->dex_max -= rng(0, person->dex_max / 2);
-                            /** @EFFECT_INT_MAX increases possible granade int debuff for NPCs (NEGATIVE) */
-                            person->int_max -= rng(0, person->int_max / 2);
-                            /** @EFFECT_PER_MAX increases possible granade per debuff for NPCs (NEGATIVE) */
-                            person->per_max -= rng(0, person->per_max / 2);
-                        } else if (g->u.posx() == pos.x + i && g->u.posy() == pos.y + j) {
-                            /** @EFFECT_STR_MAX increases possible granade str debuff (NEGATIVE) */
-                            g->u.str_max -= rng(0, g->u.str_max / 2);
-                            /** @EFFECT_DEX_MAX increases possible granade dex debuff (NEGATIVE) */
-                            g->u.dex_max -= rng(0, g->u.dex_max / 2);
-                            /** @EFFECT_INT_MAX increases possible granade int debuff (NEGATIVE) */
-                            g->u.int_max -= rng(0, g->u.int_max / 2);
-                            /** @EFFECT_PER_MAX increases possible granade per debuff (NEGATIVE) */
-                            g->u.per_max -= rng(0, g->u.per_max / 2);
-                            g->u.recalc_hp();
-                            for (int part = 0; part < num_hp_parts; part++) {
-                                if (g->u.hp_cur[part] > 0) {
-                                    g->u.hp_cur[part] = rng(1, g->u.hp_cur[part]);
-                                }
+                for( const tripoint &dest : g->m.points_in_radius( pos, explosion_radius ) ) {
+                    if( monster *const mon_ptr = g->critter_at<monster>( dest ) ) {
+                        monster &critter = *mon_ptr;
+                        critter.set_speed_base(
+                            rng( 0, critter.get_speed_base() ) );
+                        critter.set_hp( rng( 1, critter.get_hp() ) );
+                    } else if( npc * const person = g->critter_at<npc>( dest ) ) {
+                        /** @EFFECT_STR_MAX increases possible granade str debuff for NPCs (NEGATIVE) */
+                        person->str_max -= rng(0, person->str_max / 2);
+                        /** @EFFECT_DEX_MAX increases possible granade dex debuff for NPCs (NEGATIVE) */
+                        person->dex_max -= rng(0, person->dex_max / 2);
+                        /** @EFFECT_INT_MAX increases possible granade int debuff for NPCs (NEGATIVE) */
+                        person->int_max -= rng(0, person->int_max / 2);
+                        /** @EFFECT_PER_MAX increases possible granade per debuff for NPCs (NEGATIVE) */
+                        person->per_max -= rng(0, person->per_max / 2);
+                    } else if (g->u.pos() == dest ) {
+                        /** @EFFECT_STR_MAX increases possible granade str debuff (NEGATIVE) */
+                        g->u.str_max -= rng(0, g->u.str_max / 2);
+                        /** @EFFECT_DEX_MAX increases possible granade dex debuff (NEGATIVE) */
+                        g->u.dex_max -= rng(0, g->u.dex_max / 2);
+                        /** @EFFECT_INT_MAX increases possible granade int debuff (NEGATIVE) */
+                        g->u.int_max -= rng(0, g->u.int_max / 2);
+                        /** @EFFECT_PER_MAX increases possible granade per debuff (NEGATIVE) */
+                        g->u.per_max -= rng(0, g->u.per_max / 2);
+                        g->u.recalc_hp();
+                        for (int part = 0; part < num_hp_parts; part++) {
+                            if (g->u.hp_cur[part] > 0) {
+                                g->u.hp_cur[part] = rng(1, g->u.hp_cur[part]);
                             }
                         }
                     }
@@ -3337,32 +3315,26 @@ int iuse::granade_act(player *, item *it, bool t, const tripoint &pos)
             case 4:
                 sounds::sound(pos, 100, _("REVERTS!!"));
                 g->draw_explosion( pos, explosion_radius, c_pink);
-                for (int i = -explosion_radius; i <= explosion_radius; i++) {
-                    for (int j = -explosion_radius; j <= explosion_radius; j++) {
-                        tripoint dest( pos.x + i, pos.y + j, pos.z );
-                        if( monster *const mon_ptr = g->critter_at<monster>( dest ) ) {
-                            monster &critter = *mon_ptr;
-                            critter.set_speed_base( critter.type->speed );
-                            critter.set_hp( critter.get_hp_max() );
-                            critter.clear_effects();
-                        } else if( npc * const person = g->critter_at<npc>( dest ) ) {
-                            person->environmental_revert_effect();
-                        } else if (g->u.posx() == pos.x + i && g->u.posy() == pos.y + j) {
-                            g->u.environmental_revert_effect();
-                            do_purify( g->u );
-                        }
+                for( const tripoint &dest : g->m.points_in_radius( pos, explosion_radius ) ) {
+                    if( monster *const mon_ptr = g->critter_at<monster>( dest ) ) {
+                        monster &critter = *mon_ptr;
+                        critter.set_speed_base( critter.type->speed );
+                        critter.set_hp( critter.get_hp_max() );
+                        critter.clear_effects();
+                    } else if( npc * const person = g->critter_at<npc>( dest ) ) {
+                        person->environmental_revert_effect();
+                    } else if (g->u.pos() == dest) {
+                        g->u.environmental_revert_effect();
+                        do_purify( g->u );
                     }
                 }
                 break;
             case 5:
                 sounds::sound(pos, 100, _("BEES!!"));
                 g->draw_explosion( pos, explosion_radius, c_yellow);
-                for (int i = -explosion_radius; i <= explosion_radius; i++) {
-                    for (int j = -explosion_radius; j <= explosion_radius; j++) {
-                        tripoint dest( pos.x + i, pos.y + j, pos.z );
-                        if (one_in(5) && !g->critter_at( dest ) ) {
-                            g->m.add_field(dest, fd_bees, rng(1, 3), 0 );
-                        }
+                for( const tripoint &dest : g->m.points_in_radius( pos, explosion_radius ) ) {
+                    if (one_in(5) && !g->critter_at( dest ) ) {
+                        g->m.add_field(dest, fd_bees, rng(1, 3), 0 );
                     }
                 }
                 break;
@@ -3389,19 +3361,10 @@ int iuse::c4( player *p, item *it, bool, const tripoint & )
 int iuse::acidbomb_act(player *p, item *it, bool, const tripoint &pos)
 {
     if( !p->has_item( *it ) ) {
-        tripoint tmp = pos;
-        int &x = tmp.x;
-        int &y = tmp.y;
-        if (tmp.x == -999) {
-            tmp = p->pos();
-        }
         it->charges = -1;
-        for ( x = pos.x - 1; x <= pos.x + 1; x++) {
-            for ( y = pos.y - 1; y <= pos.y + 1; y++) {
-                g->m.add_field( tmp, fd_acid, 3, 0 );
-            }
+        for( const tripoint &tmp : g->m.points_in_radius( pos.x == -999 ? p->pos() : pos, 1 ) ) {
+            g->m.add_field( tmp, fd_acid, 3, 0 );
         }
-
         return 1;
     }
     return 0;
@@ -3428,10 +3391,8 @@ int iuse::grenade_inc_act(player *p, item *it, bool t, const tripoint &pos)
             }
         }
         g->explosion( pos, 8, 0.8, true );
-        for (int i = -2; i <= 2; i++) {
-            for (int j = -2; j <= 2; j++) {
-                g->m.add_field( { pos.x + i, pos.y + j, pos.z }, fd_incendiary, 3, 0 );
-            }
+        for( const tripoint &dest : g->m.points_in_radius( pos, 2 ) ) {
+            g->m.add_field( dest, fd_incendiary, 3, 0 );
         }
 
     }
@@ -3598,18 +3559,15 @@ int iuse::pheromone( player *p, item *it, bool, const tripoint &pos )
     p->moves -= 15;
 
     int converts = 0;
-    for (int x = pos.x - 4; x <= pos.x + 4; x++) {
-        for (int y = pos.y - 4; y <= pos.y + 4; y++) {
-            tripoint dest( x, y, pos.z );
-            monster *const mon_ptr = g->critter_at<monster>( dest, true );
-            if( !mon_ptr ) {
-                continue;
-            }
-            monster &critter = *mon_ptr;
-            if( critter.type->in_species( ZOMBIE ) && critter.friendly == 0 && rng( 0, 500 ) > critter.get_hp() ) {
-                converts++;
-                critter.make_friendly();
-            }
+    for( const tripoint &dest : g->m.points_in_radius( pos, 4 ) ) {
+        monster *const mon_ptr = g->critter_at<monster>( dest, true );
+        if( !mon_ptr ) {
+            continue;
+        }
+        monster &critter = *mon_ptr;
+        if( critter.type->in_species( ZOMBIE ) && critter.friendly == 0 && rng( 0, 500 ) > critter.get_hp() ) {
+            converts++;
+            critter.make_friendly();
         }
     }
 
@@ -4321,36 +4279,27 @@ int iuse::portable_structure(player *p, item *it, bool, const tripoint& )
     // We place the center of the structure (radius + 1)
     // spaces away from the player.
     // First check there's enough room.
-    int posx = radius * (dirx - p->posx()) + dirx;
-        //(radius + 1)*posx + p->posx();
-    int posy = radius * (diry - p->posy()) + diry;
-    for (int i = -radius; i <= radius; i++) {
-        for (int j = -radius; j <= radius; j++) {
-            tripoint dest( posx + i, posy + j, p->posz() );
-            if (!g->m.has_flag("FLAT", dest) ||
-                 g->m.veh_at( dest ) != nullptr ||
-                !g->is_empty( dest ) ||
-                 g->critter_at( dest ) != nullptr ||
-                    g->m.has_furn(dest)) {
-                add_msg(m_info, _("There isn't enough space in that direction."));
-                return 0;
-            }
+    const tripoint center( radius * ( dirx - p->posx() ) + dirx, radius * (diry - p->posy()) + diry, p->posz() );
+    for( const tripoint &dest : g->m.points_in_radius( center, radius ) ) {
+        if (!g->m.has_flag("FLAT", dest) ||
+             g->m.veh_at( dest ) != nullptr ||
+            !g->is_empty( dest ) ||
+             g->critter_at( dest ) != nullptr ||
+                g->m.has_furn(dest)) {
+            add_msg(m_info, _("There isn't enough space in that direction."));
+            return 0;
         }
     }
     // Make a square of floor surrounded by wall.
-    for (int i = -radius; i <= radius; i++) {
-        for (int j = -radius; j <= radius; j++) {
-            g->m.furn_set(posx + i, posy + j, wall);
-        }
+    for( const tripoint &dest : g->m.points_in_radius( center, radius ) ) {
+        g->m.furn_set(dest, wall);
     }
-    for (int i = -(radius - 1); i <= (radius - 1); i++) {
-        for (int j = -(radius - 1); j <= (radius - 1); j++) {
-            g->m.furn_set(posx + i, posy + j, floor);
-        }
+    for( const tripoint &dest : g->m.points_in_radius( center, radius - 1 ) ) {
+        g->m.furn_set( dest, floor);
     }
     // Place the center floor and the door.
-    g->m.furn_set(posx, posy, center_floor);
-    g->m.furn_set(posx - radius*(dirx - p->posx()), posy - radius*(diry - p->posy()), door);
+    g->m.furn_set(center, center_floor);
+    g->m.furn_set(center.x - radius*(dirx - p->posx()), center.y - radius*(diry - p->posy()), door);
     add_msg(m_info, _("You set up the %s on the ground."), it->tname().c_str());
     add_msg(m_info, _("Examine the center square to pack it up again."), it->tname().c_str());
     return 1;
@@ -4597,12 +4546,10 @@ int iuse::artifact(player *p, item *it, bool, const tripoint& )
 
             case AEA_BLOOD: {
                 bool blood = false;
-                for (int x = p->posx() - 4; x <= p->posx() + 4; x++) {
-                    for (int y = p->posy() - 4; y <= p->posy() + 4; y++) {
-                        if (!one_in(4) && g->m.add_field({x, y, p->posz()}, fd_blood, 3, 0 ) &&
-                            (blood || g->u.sees(tripoint(x, y, p->posz())))) {
-                            blood = true;
-                        }
+                for( const tripoint &tmp : g->m.points_in_radius( p->pos(), 4 ) ) {
+                    if (!one_in(4) && g->m.add_field(tmp, fd_blood, 3, 0 ) &&
+                        (blood || g->u.sees(tmp))) {
+                        blood = true;
                     }
                 }
                 if (blood) {
@@ -4621,10 +4568,8 @@ int iuse::artifact(player *p, item *it, bool, const tripoint& )
             case AEA_ACIDBALL: {
                 tripoint acidball = g->look_around();
                 if( acidball != tripoint_min ) {
-                    for (int x = acidball.x - 1; x <= acidball.x + 1; x++) {
-                        for (int y = acidball.y - 1; y <= acidball.y + 1; y++) {
-                            g->m.add_field( tripoint( x, y, acidball.z ), fd_acid, rng(2, 3), 0 );
-                        }
+                    for( const tripoint &tmp : g->m.points_in_radius( acidball, 1 ) ) {
+                        g->m.add_field( tmp, fd_acid, rng(2, 3), 0 );
                     }
                 }
             }
@@ -4632,15 +4577,12 @@ int iuse::artifact(player *p, item *it, bool, const tripoint& )
 
             case AEA_PULSE:
                 sounds::sound(p->pos(), 30, _("The earth shakes!"));
-                for (int x = p->posx() - 2; x <= p->posx() + 2; x++) {
-                    for (int y = p->posy() - 2; y <= p->posy() + 2; y++) {
-                        tripoint pt( x, y, p->posz() );
-                        g->m.bash( pt, 40 );
-                        g->m.bash( pt, 40 );  // Multibash effect, so that doors &c will fall
-                        g->m.bash( pt, 40 );
-                        if (g->m.is_bashable( pt ) && rng(1, 10) >= 3) {
-                            g->m.bash( pt, 999, false, true );
-                        }
+                for( const tripoint &pt : g->m.points_in_radius( p->pos(), 2 ) ) {
+                    g->m.bash( pt, 40 );
+                    g->m.bash( pt, 40 );  // Multibash effect, so that doors &c will fall
+                    g->m.bash( pt, 40 );
+                    if (g->m.is_bashable( pt ) && rng(1, 10) >= 3) {
+                        g->m.bash( pt, 999, false, true );
                     }
                 }
                 break;
@@ -4651,24 +4593,18 @@ int iuse::artifact(player *p, item *it, bool, const tripoint& )
                 break;
 
             case AEA_CONFUSED:
-                for (int x = p->posx() - 8; x <= p->posx() + 8; x++) {
-                    for (int y = p->posy() - 8; y <= p->posy() + 8; y++) {
-                        tripoint dest( x, y, p->posz() );
-                        if( monster *const mon = g->critter_at<monster>( dest, true ) ) {
-                            mon->add_effect( effect_stunned, rng( 5, 15 ) );
-                        }
+                for( const tripoint &dest : g->m.points_in_radius( p->pos(), 8 ) ) {
+                    if( monster *const mon = g->critter_at<monster>( dest, true ) ) {
+                        mon->add_effect( effect_stunned, rng( 5, 15 ) );
                     }
                 }
                 break;
 
             case AEA_ENTRANCE:
-                for (int x = p->posx() - 8; x <= p->posx() + 8; x++) {
-                    for (int y = p->posy() - 8; y <= p->posy() + 8; y++) {
-                        tripoint dest( x, y, p->posz() );
-                        monster *const mon = g->critter_at<monster>( dest, true );
-                        if( mon && mon->friendly == 0 && rng( 0, 600 ) > mon->get_hp() ) {
-                            mon->make_friendly();
-                        }
+                for( const tripoint &dest : g->m.points_in_radius( p->pos(), 8 ) ) {
+                    monster *const mon = g->critter_at<monster>( dest, true );
+                    if( mon && mon->friendly == 0 && rng( 0, 600 ) > mon->get_hp() ) {
+                        mon->make_friendly();
                     }
                 }
                 break;
@@ -4678,12 +4614,9 @@ int iuse::artifact(player *p, item *it, bool, const tripoint& )
                 mtype_id bug = mtype_id::NULL_ID();
                 int num = 0;
                 std::vector<tripoint> empty;
-                for (int x = p->posx() - 1; x <= p->posx() + 1; x++) {
-                    for (int y = p->posy() - 1; y <= p->posy() + 1; y++) {
-                        tripoint dest(x, y, p->posz());
-                        if (g->is_empty(dest)) {
-                            empty.push_back(dest);
-                        }
+                for( const tripoint &dest : g->m.points_in_radius( p->pos(), 1 ) ) {
+                    if (g->is_empty(dest)) {
+                        empty.push_back(dest);
                     }
                 }
                 if (empty.empty() || roll <= 4) {
@@ -4735,10 +4668,8 @@ int iuse::artifact(player *p, item *it, bool, const tripoint& )
 
             case AEA_RADIATION:
                 add_msg(m_warning, _("Horrible gases are emitted!"));
-                for (int x = p->posx() - 1; x <= p->posx() + 1; x++) {
-                    for (int y = p->posy() - 1; y <= p->posy() + 1; y++) {
-                        g->m.add_field({x, y, p->posz()}, fd_nuke_gas, rng(2, 3), 0 );
-                    }
+                for( const tripoint &dest : g->m.points_in_radius( p->pos(), 1 ) ) {
+                    g->m.add_field(dest, fd_nuke_gas, rng(2, 3), 0 );
                 }
                 break;
 
@@ -6899,14 +6830,11 @@ bool multicooker_hallu( player &p )
             return true;
 
         case 6:
-
-            for (int x = p.posx() - 1; x <= p.posx() + 1; x++)
-                for (int y = p.posy() - 1; y <= p.posy() + 1; y++) {
-                    tripoint pt(x, y, p.posz());
-                    if (g->is_empty( pt )) {
-                        points.push_back( pt );
-                    }
+            for( const tripoint &pt : g->m.points_in_radius( p.pos(), 1 ) ) {
+                if (g->is_empty( pt )) {
+                    points.push_back( pt );
                 }
+            }
 
             if (!one_in(5)) {
                 add_msg(m_warning, _("The multi-cooker runs away!"));

@@ -23,6 +23,8 @@
 #include "time.h"
 #include "mapdata.h"
 #include "itype.h"
+#include "map_iterator.h"
+
 #include <chrono>
 #include <algorithm>
 #include <cmath>
@@ -372,14 +374,9 @@ void sounds::process_sound_markers( player *p )
         // Enumerate the valid points the player *cannot* see.
         // Unless the source is on a different z-level, then any point is fine
         std::vector<tripoint> unseen_points;
-        tripoint newp = pos;
-        int &newx = newp.x;
-        int &newy = newp.y;
-        for( newx = pos.x - err_offset; newx <= pos.x + err_offset; newx++ ) {
-            for( newy = pos.y - err_offset; newy <= pos.y + err_offset; newy++ ) {
-                if( diff_z || !p->sees( newp ) ) {
-                    unseen_points.emplace_back( newp );
-                }
+        for( const tripoint &newp : g->m.points_in_radius( pos, err_offset ) ) {
+            if( diff_z || !p->sees( newp ) ) {
+                unseen_points.emplace_back( newp );
             }
         }
 
