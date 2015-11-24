@@ -2319,8 +2319,8 @@ tripoint overmap::draw_overmap(const tripoint &orig, const draw_data_t &data)
                     }
                     std::string rotation[] = { _("Fixed"),
                                                _("North"), _("East"), _("South"), _("West") };
-                    mvwprintz( w_editor, 3, 1, c_white, "                         " );
-                    mvwprintz( w_editor, 3, 1, c_white, _("Rotation: %s"),
+                    mvwprintz( w_editor, 3, 1, c_ltgray, "                         " );
+                    mvwprintz( w_editor, 3, 1, c_ltgray, _("Rotation: %s"),
                                rotation[ uistate.omedit_rotation+1 ].c_str() );
                     mvwprintz( w_editor, 5, 1, c_red, _("Areas highlighted in red") );
                     mvwprintz( w_editor, 6, 1, c_red, _("already have map content") );
