@@ -8,6 +8,7 @@
 #include "game.h"
 #include "translations.h"
 #include "catacharset.h"
+#include "output.h"
 
 #include <algorithm>
 
@@ -139,15 +140,15 @@ const recipe *select_crafting_recipe( int &batch_size )
     const int dataLines = TERMY - ( headHeight + subHeadHeight ) - tailHeight;
     const int dataHalfLines = dataLines / 2;
     const int dataHeight = TERMY - ( headHeight + subHeadHeight );
+    const int infoWidth = width - FULL_SCREEN_WIDTH - 3;
 
     int lastid = -1;
 
     WINDOW *w_head = newwin( headHeight, width, 0, wStart );
     WINDOW *w_subhead = newwin( subHeadHeight, width, 3, wStart );
     WINDOW *w_data = newwin( dataHeight, width, headHeight + subHeadHeight, wStart );
+    WINDOW *w_iteminfo = newwin( dataHeight, infoWidth, headHeight + subHeadHeight, wStart + width - infoWidth );
 
-    const int iInfoWidth = width - FULL_SCREEN_WIDTH - 3;
-    std::string item_info_text;
     std::string tab = first_craft_cat();
     std::string subtab = first_craft_subcat( tab );
     std::vector<const recipe *> current;
@@ -160,7 +161,7 @@ const recipe *select_crafting_recipe( int &batch_size )
     std::string previous_tab = "";
     std::string previous_subtab = "";
     item tmp;
-    int line = 0, ypos;
+    int line = 0, ypos, scroll_pos = 0;
     bool redraw = true;
     bool keepline = false;
     bool done = false;
@@ -168,6 +169,8 @@ const recipe *select_crafting_recipe( int &batch_size )
     int batch_line = 0;
     int display_mode = 0;
     const recipe *chosen = NULL;
+    std::vector<iteminfo> thisItem, dummy;
+
     input_context ctxt( "CRAFTING" );
     ctxt.register_cardinal();
     ctxt.register_action( "QUIT" );
@@ -212,6 +215,7 @@ const recipe *select_crafting_recipe( int &batch_size )
 
         // Clear the screen of recipe data, and draw it anew
         werase( w_data );
+        werase( w_iteminfo );
 
         if( isWide ) {
             mvwprintz( w_data, dataLines + 1, 5, c_white,
@@ -396,18 +400,21 @@ const recipe *select_crafting_recipe( int &batch_size )
                 if( lastid != current[line]->id ) {
                     lastid = current[line]->id;
                     tmp = current[line]->create_result();
-                    item_info_text = tmp.info( true );
+                    tmp.info(true, thisItem);
                 }
                 mvwprintz( w_data, 0, FULL_SCREEN_WIDTH + 1, col, "%s",
-                           utf8_truncate( tmp.type_name( 1 ), iInfoWidth ).c_str() );
+                           utf8_truncate( tmp.type_name( 1 ), infoWidth ).c_str() );
 
-                fold_and_print( w_data, 1, FULL_SCREEN_WIDTH + 1, iInfoWidth, col, item_info_text );
+                draw_item_info(w_iteminfo, tmp.tname(), tmp.type_name(), thisItem, dummy, scroll_pos, true, true, true);
+
+                //fold_and_print( w_data, 1, FULL_SCREEN_WIDTH + 1, iInfoWidth, col, item_info_text );
             }
 
         }
 
         draw_scrollbar( w_data, line, dataLines, recmax, 0 );
         wrefresh( w_data );
+        wrefresh( w_iteminfo );
 
         const std::string action = ctxt.handle_input();
         if( action == "CYCLE_MODE" ) {
@@ -418,6 +425,10 @@ const recipe *select_crafting_recipe( int &batch_size )
         } else if( action == "LEFT" ) {
             subtab = prev_craft_subcat( tab, subtab );
             redraw = true;
+        } else if( action == "PAGE_UP" ) {
+            scroll_pos--;
+        } else if( action == "PAGE_DOWN" ) {
+            scroll_pos++;
         } else if( action == "PREV_TAB" ) {
             tab = prev_craft_cat( tab );
             subtab = first_craft_subcat( tab );//default ALL
