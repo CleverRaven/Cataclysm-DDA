@@ -3117,6 +3117,11 @@ bool item::is_bionic() const
     return type->bionic.get() != nullptr;
 }
 
+bool item::is_magazine() const
+{
+    return type->magazine.get() != nullptr;
+}
+
 bool item::is_ammo() const
 {
     return type->ammo.get() != nullptr;
@@ -3815,6 +3820,8 @@ ammotype item::ammo_type() const
             return "plutonium";
         }
         return tool->ammo_id;
+    } else if (is_magazine()) {
+        return type->magazine->type;
     } else if (is_ammo()) {
         return type->ammo->type;
     } else if (is_gunmod()) {
