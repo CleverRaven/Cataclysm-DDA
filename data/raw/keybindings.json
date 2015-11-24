@@ -1138,6 +1138,19 @@
     },
     {
         "type" : "keybinding",
+        "id": "QUIT",
+        "category": "NEW_CHAR_DESCRIPTION",
+        "name": "Exit new character screen",
+        "comment": "separate entry, because the global entry also has 'q' and 'Q' listed, which conflicts with the character name entry feature of this dialog",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"ESC"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
         "id": "SORT",
         "category": "NEW_CHAR_PROFESSIONS",
         "name": "Toggle sorting order",
