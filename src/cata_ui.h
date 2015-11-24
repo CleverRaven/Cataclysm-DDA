@@ -59,7 +59,7 @@ class ui_element {
         virtual void set_parent(const ui_window *parent);
 
         ui_anchor anchor = top_left;
-        void calc_anchored_values();
+        virtual void calc_anchored_values();
 
         unsigned int anchored_x, anchored_y;
     protected:
@@ -81,6 +81,13 @@ class ui_element {
 
         void set_visible(bool visible);
         bool is_visible() const;
+
+        void set_rect(const ui_rect &new_rect);
+
+        void above(const ui_element &other, int x = 0, int y = 0);
+        void below(const ui_element &other, int x = 0, int y = 0);
+        void after(const ui_element &other, int x = 0, int y = 0);
+        void before(const ui_element &other, int x = 0, int y = 0);
 };
 
 /**
@@ -97,6 +104,9 @@ class ui_window : public ui_element {
         int global_x, global_y;
 
         std::list<ui_element *> children;
+
+        void adjust_window();
+        virtual void calc_anchored_values() override;
     protected:
         WINDOW *win;
 
@@ -235,7 +245,7 @@ class tabbed_window : public bordered_window {
     public:
         tabbed_window(size_t size_x, size_t size_y, int x = 0, int y = 0, ui_anchor anchor = top_left);
 
-        ui_window *create_tab(std::string tab);
+        void add_tab(std::string tab, ui_window *tab_win);
 
         void next_tab();
         void previous_tab();

@@ -10,7 +10,7 @@ ui_rect::ui_rect( size_t size_x, size_t size_y, int x, int y ) : size_x( size_x 
 }
 
 ui_window::ui_window( size_t size_x, size_t size_y, int x, int y, ui_anchor anchor) : ui_element(size_x, size_y, x, y, anchor),
-                      global_x(x), global_y(y), win(newwin(size_y, size_x, global_y, global_x))
+                      global_x(ui_element::anchored_x), global_y(ui_element::anchored_y), win(newwin(size_y, size_x, global_y, global_x))
 {
 }
 
@@ -39,14 +39,25 @@ void ui_window::local_draw()
     }
 }
 
-void ui_window::set_parent( const ui_window *parent )
+void ui_window::adjust_window()
 {
-    ui_element::set_parent( parent );
-    global_x = parent->global_x + rect.x;
-    global_y = parent->global_y + rect.y;
+    global_x = parent->global_x + anchored_x;
+    global_y = parent->global_y + anchored_y;
 
     delwin( win );
     win = newwin(rect.size_y, rect.size_x, global_y, global_x);
+}
+
+void ui_window::set_parent( const ui_window *parent )
+{
+    ui_element::set_parent( parent );
+    adjust_window();
+}
+
+void ui_window::calc_anchored_values()
+{
+    ui_element::calc_anchored_values();
+    adjust_window();
 }
 
 // This method expects a pointer to a heap allocated ui_element.
@@ -79,6 +90,7 @@ const std::list<ui_element *> &ui_window::get_children() const
 ui_element::ui_element(size_t size_x, size_t size_y, int x, int y, ui_anchor anchor) :
                        anchor(anchor), anchored_x(x), anchored_y(y), rect(ui_rect(size_x, size_y, x, y))
 {
+    calc_anchored_values();
 }
 
 void ui_element::set_visible(bool visible)
@@ -89,6 +101,48 @@ void ui_element::set_visible(bool visible)
 bool ui_element::is_visible() const
 {
     return show;
+}
+
+void ui_element::above(const ui_element &other, int x, int y)
+{
+    auto o_rect = other.get_rect();
+    ui_rect new_rect(rect);
+    new_rect.x = o_rect.x + x;
+    new_rect.x = o_rect.y + o_rect.size_y + y;
+    set_rect(new_rect);
+}
+
+void ui_element::below(const ui_element &other, int x, int y)
+{
+    auto o_rect = other.get_rect();
+    ui_rect new_rect(rect);
+    new_rect.x = o_rect.x + x;
+    new_rect.y = o_rect.y - o_rect.size_y + y;
+    set_rect(new_rect);
+}
+
+void ui_element::after(const ui_element &other, int x, int y)
+{
+    auto o_rect = other.get_rect();
+    ui_rect new_rect(rect);
+    new_rect.x = o_rect.x + o_rect.size_x + x;
+    new_rect.y = o_rect.y + y;
+    set_rect(new_rect);
+}
+
+void ui_element::before(const ui_element &other, int x, int y)
+{
+    auto o_rect = other.get_rect();
+    ui_rect new_rect(rect);
+    new_rect.x = o_rect.x - o_rect.size_x + x;
+    new_rect.y = o_rect.y + y;
+    set_rect(new_rect);
+}
+
+void ui_element::set_rect(const ui_rect &new_rect)
+{
+    rect = new_rect;
+    calc_anchored_values();
 }
 
 void ui_element::set_anchor(ui_anchor new_anchor)
@@ -351,7 +405,7 @@ void tile_panel<T>::set_tile(const T &tile, unsigned int x, unsigned int y)
     int index = y * rect.size_x + x;
 
     delete tiles[index];
-    tiles[index] = tile;
+    tiles[index] = tile; // Does this call T's copy constructor?
 }
 
 void ui_tile::draw( WINDOW *win, int x, int y ) const
@@ -421,14 +475,15 @@ void tabbed_window::local_draw()
     }
 }
 
-ui_window *tabbed_window::create_tab(std::string tab)
+void tabbed_window::add_tab(std::string tab, ui_window *tab_win)
 {
-    auto ret = new ui_window(rect.size_x - 2, rect.size_y - 4, 1, 1, bottom_left);
-    tabs.push_back({tab, ret});
-    ret->set_visible(tabs.size() == 1 ? true : false);
-    ui_window::add_child(ret);
+    if(!tab_win) {
+        return; // in case we get passed a bad alloc
+    }
 
-    return ret;
+    tabs.push_back({tab, tab_win});
+    tab_win->set_visible(tabs.size() == 1 ? true : false);
+    ui_window::add_child(tab_win);
 }
 
 void tabbed_window::next_tab()
