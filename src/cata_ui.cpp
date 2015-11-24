@@ -317,10 +317,10 @@ tile_panel<T>::tile_panel(size_t size_x, size_t size_y, int x, int y, ui_anchor 
                        : ui_element(size_x, size_y, x, y, anchor)
 {
     num_tiles = size_x * size_y;
-    tiles = (T *) malloc(num_tiles * sizeof(T));
+    tiles = new T[num_tiles]; // Does this initialize already?
 
     for(unsigned int i = 0; i < num_tiles; i++) {
-        new (tiles[i]) T();
+        new (tiles[i]) T(); // initialize array with default
     }
 }
 
@@ -354,8 +354,8 @@ void tile_panel<T>::set_tile(const T &tile, unsigned int x, unsigned int y)
 
     int index = y * rect.size_x + x;
 
-    delete tiles[index];
-    new (tiles[index]) T(tile);
+    delete tiles[index]; // call delete just in case
+    new (tiles[index]) T(tile); //explicitly call T's constructor. I'm not sure if we pass a T derived type, which constructor it calls when doing tiles[index] = tile.
 }
 
 void ui_tile::draw( WINDOW *win, int x, int y ) const
@@ -465,7 +465,7 @@ const std::pair<std::string, ui_window *> &tabbed_window::current_tab() const
 
 auto_bordered_window::auto_bordered_window(size_t size_x, size_t size_y, int x , int y, ui_anchor anchor) : ui_window(size_x, size_y, x, y, anchor)
 {
-    uncovered = (bool *) calloc(size_x * size_y, sizeof(bool));
+    uncovered = new bool[size_x * size_y];
     recalc_uncovered();
 }
 
@@ -492,8 +492,8 @@ void auto_bordered_window::recalc_uncovered()
     }
 }
 
-bool auto_bordered_window::is_uncovered(unsigned int x, unsigned int y) {
-    if(x >= rect.size_x || y >= rect.size_y) {
+bool auto_bordered_window::is_uncovered(int x, int y) {
+    if(x < 0 || y < 0 || (unsigned int) x >= rect.size_x || (unsigned int) y >= rect.size_y) {
         return false;
     }
     return uncovered[y * rect.size_x + x];

@@ -252,7 +252,7 @@ class auto_bordered_window : public ui_window {
         bool *uncovered;
         void recalc_uncovered();
         size_t last_child_count;
-        bool is_uncovered(unsigned int x, unsigned int y);
+        bool is_uncovered(int x, int y);
         long get_border_char(unsigned int x, unsigned int y) const;
     protected:
         virtual void local_draw() override;
