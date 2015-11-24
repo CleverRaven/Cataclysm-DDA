@@ -3747,6 +3747,7 @@ void game::debug()
                       _("Change time"), // 26
                       _("Set automove route"), // 27
                       _("Show mutation category levels"), // 28
+                      _("Overmap editor"), // 29
                       _("Cancel"),
                       NULL);
     int veh_num;
@@ -4390,6 +4391,11 @@ void game::debug()
         for( const auto &elem : u.mutation_category_level ) {
             add_msg("%s: %d", elem.first.c_str(), elem.second);
         }
+    }
+    break;
+    case 29:
+    {
+        overmap::draw_editor();
     }
     break;
     }
