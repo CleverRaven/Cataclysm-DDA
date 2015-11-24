@@ -106,6 +106,7 @@ class ui_window : public ui_element {
         const std::list<ui_element *> &get_children() const;
     public:
         ui_window(size_t size_x, size_t size_y, int x = 0, int y = 0, ui_anchor anchor = top_left);
+        // TODO : add copy constructor
         ~ui_window() override;
 
         void draw() override;
@@ -208,19 +209,14 @@ class ui_tile {
 */
 class tile_panel : public ui_element {
     private:
-        std::function<const ui_tile(int, int, int)> tile_at;
-        tripoint center;
-
-        unsigned int x_radius;
-        unsigned int y_radius;
+        ui_tile **tiles;
+        size_t num_tiles;
     protected:
         virtual void draw() override;
     public:
-        tile_panel(tripoint center, std::function<const ui_tile(int, int, int)> tile_at,
-                   size_t size_x, size_t size_y, int x = 0, int y = 0, ui_anchor anchor = top_left);
+        tile_panel(size_t size_x, size_t size_y, int x = 0, int y = 0, ui_anchor anchor = top_left);
 
-        void set_center(tripoint new_center);
-        const tripoint &get_center() const;
+        void set_tile( const ui_tile &tile, unsigned int x, unsigned int y );
 };
 
 /**
@@ -254,8 +250,8 @@ class auto_bordered_window : public ui_window {
         bool *uncovered;
         void recalc_uncovered();
         size_t last_child_count;
-        bool is_uncovered(int x, int y);
-        long get_border_char(int x, int y) const;
+        bool is_uncovered(unsigned int x, unsigned int y);
+        long get_border_char(unsigned int x, unsigned int y) const;
     protected:
         virtual void local_draw() override;
     public:

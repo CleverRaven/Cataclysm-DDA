@@ -312,19 +312,11 @@ void smiley_indicator::set_state( smiley_state new_state )
     }
 }
 
-tile_panel::tile_panel(tripoint center, std::function<const ui_tile(int, int, int)> tile_at,
-                       size_t size_x, size_t size_y, int x, int y, ui_anchor anchor)
-                       : ui_element(size_x, size_y, x, y, anchor), tile_at(tile_at), center(center)
+tile_panel::tile_panel(size_t size_x, size_t size_y, int x, int y, ui_anchor anchor)
+                       : ui_element(size_x, size_y, x, y, anchor)
 {
-    if(size_x % 2 == 0) {
-        rect.size_x += 1;
-    }
-    if(size_y % 2 == 0) {
-        rect.size_y += 1;
-    }
-
-    x_radius = (rect.size_x - 1) / 2;
-    y_radius = (rect.size_y - 1) / 2;
+    num_tiles = size_x * size_y;
+    tiles = (ui_tile **) malloc(num_tiles * sizeof(ui_tile *));
 }
 
 void tile_panel::draw()
@@ -334,28 +326,20 @@ void tile_panel::draw()
         return;
     }
 
-    // temporary variables for cleanliness
-    unsigned int start_x = center.x - x_radius;
-    unsigned int end_x = center.x + x_radius;
-
-    unsigned int start_y = center.y - y_radius;
-    unsigned int end_y = center.y + y_radius;
-
-    for(unsigned int x = start_x; x <= end_x; x++) {
-        for(unsigned int y = start_y; y <= end_y; y++) {
-            tile_at(x, y, center.z).draw( win, get_ax() + x, get_ay() + y );
+    for(unsigned int x = 0; x < rect.size_x; x++) {
+        for(unsigned int y = 0; y < rect.size_y; y++) {
+            tiles[y * rect.size_x + x]->draw(win, x, y);
         }
     }
 }
 
-void tile_panel::set_center(tripoint new_center)
+void tile_panel::set_tile(const ui_tile &tile, unsigned int x, unsigned int y)
 {
-    center = new_center;
-}
+    if(x >= rect.size_x || y >= rect.size_y) {
+        return; // TODO: give feedback
+    }
 
-const tripoint &tile_panel::get_center() const
-{
-    return center;
+    tiles[y * rect.size_x + x] = new ui_tile(tile);
 }
 
 void ui_tile::draw( WINDOW *win, int x, int y ) const
@@ -413,8 +397,8 @@ void tabbed_window::local_draw()
 {
     bordered_window::local_draw();
     //erase the top 3 rows
-    for(int y = 0; y < 3; y++) {
-        for(int x = 0; x < rect.size_x; x++){
+    for(unsigned int y = 0; y < 3; y++) {
+        for(unsigned int x = 0; x < rect.size_x; x++){
             mvwputch(win, y, x, border_color, ' ');
         }
     }
@@ -492,14 +476,14 @@ void auto_bordered_window::recalc_uncovered()
     }
 }
 
-bool auto_bordered_window::is_uncovered(int x, int y) {
-    if(x < 0 || y < 0 || x >= rect.size_x || y >= rect.size_y) {
+bool auto_bordered_window::is_uncovered(unsigned int x, unsigned int y) {
+    if(x >= rect.size_x || y >= rect.size_y) {
         return false;
     }
     return uncovered[y * rect.size_x + x];
 }
 
-long auto_bordered_window::get_border_char(int x, int y) const
+long auto_bordered_window::get_border_char(unsigned int x, unsigned int y) const
 {
     return LINE_XXXX; //TODO: actual implementation
 }
