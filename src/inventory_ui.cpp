@@ -968,7 +968,11 @@ item_location game::inv_map_splice(
 
         } else if( ch >= min_invlet && ch <= max_invlet ) {
             // Indexed item on ground or in vehicle
-            return std::move( invlets[ch - min_invlet] );
+            if ( invlets.size() > ch - min_invlet ) {
+                return std::move( invlets[ch - min_invlet] );
+            } else {
+                return item_location::nowhere();
+            }
 
         } else if( inv_s.handle_movement( action ) ) {
             // continue with comparison below
