@@ -4929,6 +4929,7 @@ void game::draw()
         wrefresh(w_terrain);
     }
     draw_sidebar();
+    try_sdl_update();
 }
 
 void game::draw_sidebar()

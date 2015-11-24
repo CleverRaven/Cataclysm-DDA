@@ -704,6 +704,8 @@ const std::string input_context::get_desc(const std::string &action_descriptor)
 
 const std::string &input_context::handle_input()
 {
+    try_sdl_update();
+
     next_action.type = CATA_INPUT_ERROR;
     while(1) {
         next_action = inp_mngr.get_input_event(NULL);
