@@ -4165,8 +4165,9 @@ bool item::reload(player &u, int pos)
             // any excess is wasted rather than overfilling the target
             target->charges += std::min(cells * 500, qty);
         } else {
-            ammo->charges   -= std::min(qty, ammo->charges);
-            target->charges += std::min(qty, ammo->charges);
+            qty = std::min(qty, ammo->charges);
+            ammo->charges   -= qty;
+            target->charges += qty;
         }
 
         if( ammo->charges == 0 ) {
