@@ -60,9 +60,9 @@ void ui_window::set_parent( const ui_window *parent )
     adjust_window();
 }
 
-void ui_window::calc_anchored_values()
+void ui_window::set_rect(const ui_rect &new_rect)
 {
-    ui_element::calc_anchored_values();
+    ui_elemen::set_rect(new_rect);
     adjust_window();
 }
 
@@ -531,6 +531,19 @@ auto_bordered_window::~auto_bordered_window()
     free(uncovered);
 }
 
+void auto_bordered_window::set_rect(const ui_rect &new_rect)
+{
+    ui_window::set_rect(new_rect);
+    uncovered = realloc(uncovered, new_rect.size_x * new_rect.size_y);
+    recalc_uncovered();
+}
+
+void auto_bordered_window::add_child( ui_element *child )
+{
+    ui_window::add_child(child);
+    recalc_uncovered();
+}
+
 void auto_bordered_window::recalc_uncovered()
 {
     for(size_t x = 0; x < get_rect().size_x; x++) {
@@ -561,16 +574,72 @@ bool auto_bordered_window::is_uncovered(int x, int y) {
 long auto_bordered_window::get_border_char(unsigned int x, unsigned int y) const
 {
     return LINE_XXXX; //TODO: actual implementation
+
+    bool left = is_uncovered(x - 1, y);
+    bool up = is_uncovered(x, y + 1);
+    bool right = is_uncovered(x + 1, y);
+    bool down = is_uncovered(x, y - 2);
+
+    long ret = ' ';
+
+    if(left) {
+        ret = LINE_OXOX; // '-'
+    }
+
+    if(up) {
+        if(left) {
+            ret = LINE_XOOX; // '_|'
+        } else {
+            ret = LINE_XOXO; // '|'
+        }
+    }
+
+    if(right) {
+        if(up) {
+            if(left) {
+                ret = LINE_XXOX; // '_|_'
+            } else {
+                ret = LINE_XXOO; // '|_'
+            }
+        } else {
+            ret = LINE_OXOX; // '-'
+        }
+    }
+
+    if(down) {
+        if(right) {
+            if(top) {
+                if(left) {
+                    ret = LINE_XXXX; // '-|-'
+                } else {
+                    ret = LINE_XXXO; // '|-'
+                }
+            } else {
+                if(left) {
+                    ret = LINE_OXXX; // '^|^'
+                } else {
+                    ret = LINE_OXXO; // '|^'
+                }
+            }
+        } else {
+            if(left) {
+                if(top) {
+                    ret =LINE_XOXX; // '-|'
+                } else {
+                    ret = LINE_OOXX; // '^|'
+                }
+            } else {
+                ret = LINE_XOXO; // '|'
+            }
+        }
+    }
+
+    return ret;
 }
 
 void auto_bordered_window::local_draw()
 {
     ui_window::local_draw();
-
-    if(last_child_count != child_count()) {
-        last_child_count = child_count();
-        recalc_uncovered();
-    }
 
     auto win = get_win(); // never null
     for(unsigned int x = 0; x < get_rect().size_x; x++){

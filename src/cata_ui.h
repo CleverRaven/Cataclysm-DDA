@@ -64,7 +64,7 @@ class ui_element {
 
         bool show = true;
         ui_rect rect;
-        virtual void calc_anchored_values();
+        void calc_anchored_values();
     protected:
         unsigned int get_ax() const;
         unsigned int get_ay() const;
@@ -76,7 +76,7 @@ class ui_element {
         virtual ~ui_element() = default;
 
         const ui_rect &get_rect() const;
-        void set_rect(const ui_rect &new_rect);
+        virtual void set_rect(const ui_rect &new_rect);
 
         void set_anchor(ui_anchor new_anchor);
 
@@ -105,8 +105,6 @@ class ui_window : public ui_element {
         std::list<ui_element *> children;
 
         void adjust_window();
-        virtual void calc_anchored_values() override;
-
         WINDOW *win;
     protected:
         WINDOW *get_win() const override;
@@ -120,7 +118,8 @@ class ui_window : public ui_element {
 
         void draw() override;
 
-        void add_child( ui_element *child );
+        virtual void set_rect(const ui_rect &new_rect) override;
+        virtual void add_child( ui_element *child );
 };
 
 /**
@@ -260,7 +259,6 @@ class auto_bordered_window : public ui_window {
     private:
         bool *uncovered;
         void recalc_uncovered();
-        size_t last_child_count;
         bool is_uncovered(int x, int y);
         long get_border_char(unsigned int x, unsigned int y) const;
     protected:
@@ -268,6 +266,9 @@ class auto_bordered_window : public ui_window {
     public:
         auto_bordered_window(size_t size_x, size_t size_y, int x = 0, int y = 0, ui_anchor anchor = top_left);
         ~auto_bordered_window() override;
+
+        virtual void set_rect(const ui_rect &new_rect) override;
+        virtual void add_child( ui_element *child ) override;
 
         nc_color border_color = BORDER_COLOR;
 };
