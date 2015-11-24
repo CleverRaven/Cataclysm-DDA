@@ -1994,6 +1994,12 @@ void overmap::draw(WINDOW *w, WINDOW *wbar, const tripoint &center,
     }
     mvwprintz(wbar, 14, 1, c_magenta, _("Use movement keys to pan."));
     if (inp_ctxt != NULL) {
+        if( data.debug_editor ) {
+            mvwprintz(wbar, 13, 1, c_ltblue, (inp_ctxt->get_desc("PLACE_TERRAIN") +
+                      _(" - Place Overmap Terrain")).c_str());
+            mvwprintz(wbar, 14, 1, c_ltblue, (inp_ctxt->get_desc("PLACE_SPECIAL") +
+                      _(" - Place Overmap Special")).c_str());
+        }
         mvwprintz(wbar, 15, 1, c_magenta, (inp_ctxt->get_desc("CENTER") +
                   _(" - Center map on character")).c_str());
         mvwprintz(wbar, 16, 1, c_magenta, (inp_ctxt->get_desc("SEARCH") +
@@ -2014,12 +2020,6 @@ void overmap::draw(WINDOW *w, WINDOW *wbar, const tripoint &center,
                   _(" - Change keys")).c_str());
         fold_and_print(wbar, 24, 1, 27, c_magenta, ("m, " + inp_ctxt->get_desc("QUIT") +
                        _(" - Return to game")).c_str());
-        if( data.debug_editor ) {
-            mvwprintz(wbar, 27, 1, c_ltblue, (inp_ctxt->get_desc("PLACE_TERRAIN") +
-                      _(" - Place Overmap Terrain")).c_str());
-            mvwprintz(wbar, 28, 1, c_ltblue, (inp_ctxt->get_desc("PLACE_SPECIAL") +
-                      _(" - Place Overmap Special")).c_str());
-        }
     }
     point omt(cursx, cursy);
     const point om = overmapbuffer::omt_to_om_remain(omt);
