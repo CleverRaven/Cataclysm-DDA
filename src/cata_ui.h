@@ -63,10 +63,9 @@ class ui_element {
         unsigned int anchored_x, anchored_y;
 
         bool show = true;
-    protected:
         ui_rect rect;
         virtual void calc_anchored_values();
-
+    protected:
         unsigned int get_ax() const;
         unsigned int get_ay() const;
 

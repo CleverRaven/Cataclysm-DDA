@@ -244,8 +244,8 @@ void ui_label::draw()
 void ui_label::set_text( std::string new_text )
 {
     text = new_text;
-    rect.size_x = new_text.size();
-    calc_anchored_values(); // TODO: rect member private, make getters and setters
+    auto c_rect = get_rect();
+    set_rect(ui_rect(new_text.size(), c_rect.size_y, c_rect.x, c_rect.y));
 }
 
 bordered_window::bordered_window(size_t size_x, size_t size_y, int x, int y, ui_anchor anchor ) : ui_window(size_x, size_y, x, y, anchor)
@@ -265,7 +265,7 @@ void bordered_window::local_draw()
 health_bar::health_bar(size_t size_x, int x, int y, ui_anchor anchor) : ui_element(size_x, 1, x, y, anchor),
                        max_health(size_x * points_per_char), current_health(max_health)
 {
-    for(unsigned int i = 0; i < rect.size_x; i++) {
+    for(unsigned int i = 0; i < get_rect().size_x; i++) {
         bar_str += "|";
     }
 }
@@ -284,11 +284,11 @@ void health_bar::refresh_bar( bool overloaded, float percentage )
 {
     bar_str = "";
     if( overloaded ) {
-        for(unsigned int i = 0; i < rect.size_x; i++) {
+        for(unsigned int i = 0; i < get_rect().size_x; i++) {
             bar_str += "*";
         }
     } else {
-        for(unsigned int i = 0; i < rect.size_x; i++) {
+        for(unsigned int i = 0; i < get_rect().size_x; i++) {
             unsigned int char_health = current_health - (i * points_per_char);
             if(char_health <= 0) {
                 bar_str += ".";
@@ -391,9 +391,9 @@ void tile_panel<T>::draw()
         return;
     }
 
-    for(unsigned int x = 0; x < rect.size_x; x++) {
-        for(unsigned int y = 0; y < rect.size_y; y++) {
-            tiles[y * rect.size_x + x].draw(win, x, y);
+    for(unsigned int x = 0; x < get_rect().size_x; x++) {
+        for(unsigned int y = 0; y < get_rect().size_y; y++) {
+            tiles[y * get_rect().size_x + x].draw(win, x, y);
         }
     }
 }
@@ -401,11 +401,11 @@ void tile_panel<T>::draw()
 template<class T>
 void tile_panel<T>::set_tile(const T &tile, unsigned int x, unsigned int y)
 {
-    if(x >= rect.size_x || y >= rect.size_y) {
+    if(x >= get_rect().size_x || y >= get_rect().size_y) {
         return; // TODO: give feedback
     }
 
-    int index = y * rect.size_x + x;
+    int index = y * get_rect().size_x + x;
 
     delete tiles[index];
     tiles[index] = tile; // Does this call T's copy constructor? or maybe of a derived type?
@@ -467,7 +467,7 @@ void tabbed_window::local_draw()
     bordered_window::local_draw();
     //erase the top 3 rows
     for(unsigned int y = 0; y < 3; y++) {
-        for(unsigned int x = 0; x < rect.size_x; x++){
+        for(unsigned int x = 0; x < get_rect().size_x; x++){
             mvwputch(win, y, x, border_color, ' ');
         }
     }
@@ -530,9 +530,9 @@ auto_bordered_window::~auto_bordered_window()
 
 void auto_bordered_window::recalc_uncovered()
 {
-    for(size_t x = 0; x < rect.size_x; x++) {
-        for(size_t y = 0; y < rect.size_y; y++) {
-                uncovered[y * rect.size_x + x] = true;
+    for(size_t x = 0; x < get_rect().size_x; x++) {
+        for(size_t y = 0; y < get_rect().size_y; y++) {
+                uncovered[y * get_rect().size_x + x] = true;
         }
     }
 
@@ -540,17 +540,17 @@ void auto_bordered_window::recalc_uncovered()
         auto c_rect = child->get_rect();
         for(size_t x = c_rect.x; x < c_rect.size_x + c_rect.x; x++) {
             for(size_t y = c_rect.y; y < c_rect.size_y + c_rect.y; y++) {
-                uncovered[y * rect.size_x + x] = false;
+                uncovered[y * get_rect().size_x + x] = false;
             }
         }
     }
 }
 
 bool auto_bordered_window::is_uncovered(int x, int y) {
-    if(x < 0 || y < 0 || (unsigned int) x >= rect.size_x || (unsigned int) y >= rect.size_y) {
+    if(x < 0 || y < 0 || (unsigned int) x >= get_rect().size_x || (unsigned int) y >= get_rect().size_y) {
         return false;
     }
-    return uncovered[y * rect.size_x + x];
+    return uncovered[y * get_rect().size_x + x];
 }
 
 long auto_bordered_window::get_border_char(unsigned int x, unsigned int y) const
@@ -567,8 +567,8 @@ void auto_bordered_window::local_draw()
         recalc_uncovered();
     }
 
-    for(unsigned int x = 0; x < rect.size_x; x++){
-        for(unsigned int y = 0; y < rect.size_y; y++) {
+    for(unsigned int x = 0; x < get_rect().size_x; x++){
+        for(unsigned int y = 0; y < get_rect().size_y; y++) {
             if(is_uncovered(x, y)) {
                 mvwputch(win, y, x, border_color, get_border_char(x, y));
             }
