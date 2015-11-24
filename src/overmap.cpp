@@ -2249,7 +2249,7 @@ void mongroup::wander(overmap& om)
         // Find a nearby city to return to..
         for(const city& check_city : om.cities) {
             // Check if this is the nearest city so far.
-            int distance = rl_dist(check_city.x, check_city.y, pos.x, pos.y);
+            int distance = rl_dist(check_city.x * 2, check_city.y * 2, pos.x, pos.y);
             if(!target_city || distance < target_distance) {
                 target_distance = distance;
                 target_city = &check_city;
