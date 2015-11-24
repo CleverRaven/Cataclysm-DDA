@@ -41,9 +41,14 @@ void ui_window::local_draw()
 
 void ui_window::adjust_window()
 {
-    global_x = parent->global_x + anchored_x;
-    global_y = parent->global_y + anchored_y;
+    global_x = anchored_x;
+    global_y = anchored_y;
+    if(parent) {
+        global_x += parent->global_x;
+        global_y += parent->global_y;
+    }
 
+    // I don't think we can change a WINDOW's values without creating a new one
     delwin( win );
     win = newwin(rect.size_y, rect.size_x, global_y, global_x);
 }
