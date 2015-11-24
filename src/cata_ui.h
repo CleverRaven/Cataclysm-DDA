@@ -194,7 +194,7 @@ class ui_tile {
         long sym;
         nc_color color;
 
-        ui_tile(long tile_char, nc_color tile_color);
+        ui_tile(long tile_char = ' ', nc_color tile_color = c_black);
 
         virtual void draw( WINDOW *, int, int ) const;
 };
@@ -207,16 +207,18 @@ class ui_tile {
 * Along with that a function to retrieve tiles in specific locations is passed,
 * this is used to fill in the area around the center.
 */
+template<class T = ui_tile>
 class tile_panel : public ui_element {
     private:
-        ui_tile **tiles;
+        T *tiles;
         size_t num_tiles;
     protected:
         virtual void draw() override;
     public:
         tile_panel(size_t size_x, size_t size_y, int x = 0, int y = 0, ui_anchor anchor = top_left);
+        ~tile_panel() override;
 
-        void set_tile( const ui_tile &tile, unsigned int x, unsigned int y );
+        void set_tile( const T &tile, unsigned int x, unsigned int y );
 };
 
 /**

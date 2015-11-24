@@ -312,14 +312,26 @@ void smiley_indicator::set_state( smiley_state new_state )
     }
 }
 
-tile_panel::tile_panel(size_t size_x, size_t size_y, int x, int y, ui_anchor anchor)
+template<class T>
+tile_panel<T>::tile_panel(size_t size_x, size_t size_y, int x, int y, ui_anchor anchor)
                        : ui_element(size_x, size_y, x, y, anchor)
 {
     num_tiles = size_x * size_y;
-    tiles = (ui_tile **) malloc(num_tiles * sizeof(ui_tile *));
+    tiles = (T *) malloc(num_tiles * sizeof(T));
+
+    for(unsigned int i = 0; i < num_tiles; i++) {
+        new (tiles[i]) T();
+    }
 }
 
-void tile_panel::draw()
+template<class T>
+tile_panel<T>::~tile_panel()
+{
+    free(tiles);
+}
+
+template<class T>
+void tile_panel<T>::draw()
 {
     auto win = get_win();
     if(!win) {
@@ -328,18 +340,22 @@ void tile_panel::draw()
 
     for(unsigned int x = 0; x < rect.size_x; x++) {
         for(unsigned int y = 0; y < rect.size_y; y++) {
-            tiles[y * rect.size_x + x]->draw(win, x, y);
+            tiles[y * rect.size_x + x].draw(win, x, y);
         }
     }
 }
 
-void tile_panel::set_tile(const ui_tile &tile, unsigned int x, unsigned int y)
+template<class T>
+void tile_panel<T>::set_tile(const T &tile, unsigned int x, unsigned int y)
 {
     if(x >= rect.size_x || y >= rect.size_y) {
         return; // TODO: give feedback
     }
 
-    tiles[y * rect.size_x + x] = new ui_tile(tile);
+    int index = y * rect.size_x + x;
+
+    delete tiles[index];
+    new (tiles[index]) T(tile);
 }
 
 void ui_tile::draw( WINDOW *win, int x, int y ) const
@@ -449,7 +465,7 @@ const std::pair<std::string, ui_window *> &tabbed_window::current_tab() const
 
 auto_bordered_window::auto_bordered_window(size_t size_x, size_t size_y, int x , int y, ui_anchor anchor) : ui_window(size_x, size_y, x, y, anchor)
 {
-    uncovered = (bool *) malloc(sizeof(bool) * size_x * size_y);
+    uncovered = (bool *) calloc(size_x * size_y, sizeof(bool));
     recalc_uncovered();
 }
 
