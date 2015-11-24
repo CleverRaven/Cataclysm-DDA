@@ -226,6 +226,7 @@ class tile_panel : public ui_element {
         tile_panel(size_t size_x, size_t size_y, int x = 0, int y = 0, ui_anchor anchor = top_left);
         ~tile_panel() override;
 
+        virtual void set_rect(const ui_rect &new_rect) override;
         void set_tile( const T &tile, unsigned int x, unsigned int y );
 };
 
@@ -259,7 +260,7 @@ class auto_bordered_window : public ui_window {
     private:
         bool *uncovered;
         void recalc_uncovered();
-        bool is_uncovered(int x, int y);
+        bool is_uncovered(int x, int y) const;
         long get_border_char(unsigned int x, unsigned int y) const;
     protected:
         virtual void local_draw() override;

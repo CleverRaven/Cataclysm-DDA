@@ -62,7 +62,7 @@ void ui_window::set_parent( const ui_window *parent )
 
 void ui_window::set_rect(const ui_rect &new_rect)
 {
-    ui_elemen::set_rect(new_rect);
+    ui_element::set_rect(new_rect);
     adjust_window();
 }
 
@@ -379,6 +379,14 @@ tile_panel<T>::tile_panel(size_t size_x, size_t size_y, int x, int y, ui_anchor 
 }
 
 template<class T>
+void tile_panel<T>::set_rect(const ui_rect &new_rect)
+{
+    ui_window::set_rect(new_rect);
+    num_tiles = new_rect.size_x * new_rect.size_y;
+    tiles = realloc(tiles, num_tiles);
+}
+
+template<class T>
 tile_panel<T>::~tile_panel()
 {
     free(tiles);
@@ -534,7 +542,7 @@ auto_bordered_window::~auto_bordered_window()
 void auto_bordered_window::set_rect(const ui_rect &new_rect)
 {
     ui_window::set_rect(new_rect);
-    uncovered = realloc(uncovered, new_rect.size_x * new_rect.size_y);
+    uncovered = (bool *) realloc(uncovered, new_rect.size_x * new_rect.size_y);
     recalc_uncovered();
 }
 
@@ -564,7 +572,7 @@ void auto_bordered_window::recalc_uncovered()
     }
 }
 
-bool auto_bordered_window::is_uncovered(int x, int y) {
+bool auto_bordered_window::is_uncovered(int x, int y) const {
     if(x < 0 || y < 0 || (unsigned int) x >= get_rect().size_x || (unsigned int) y >= get_rect().size_y) {
         return false;
     }
@@ -608,7 +616,7 @@ long auto_bordered_window::get_border_char(unsigned int x, unsigned int y) const
 
     if(down) {
         if(right) {
-            if(top) {
+            if(up) {
                 if(left) {
                     ret = LINE_XXXX; // '-|-'
                 } else {
@@ -623,7 +631,7 @@ long auto_bordered_window::get_border_char(unsigned int x, unsigned int y) const
             }
         } else {
             if(left) {
-                if(top) {
+                if(up) {
                     ret =LINE_XOXX; // '-|'
                 } else {
                     ret = LINE_OOXX; // '^|'
