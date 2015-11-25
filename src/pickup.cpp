@@ -475,11 +475,6 @@ void Pickup::pick_up( const tripoint &pos, int min )
         return;
     }
 
-    //min == -1 is Autopickup
-    if (!g->u.can_pickup(min != -1)) { // no message on autopickup (-1)
-        return;
-    }
-
     if( !from_vehicle ) {
         bool isEmpty = (g->m.i_at(pos).empty());
 

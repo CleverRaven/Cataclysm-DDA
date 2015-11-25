@@ -1965,11 +1965,6 @@ bool advanced_inventory::query_charges( aim_location destarea, const advanced_in
     assert( input_amount > 0 ); // there has to be something to begin with
     amount = input_amount;
 
-    // Picking up stuff might not be possible at all
-    if( ( destarea == AIM_INVENTORY || destarea == AIM_WORN ) && !g->u.can_pickup( true ) ) {
-        redraw = true;
-        return false;
-    }
     // Includes moving from/to inventory and around on the map.
     if( it.made_of( LIQUID ) ) {
         popup( _( "You can't pick up a liquid." ) );

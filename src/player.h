@@ -896,10 +896,6 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         bool has_gun_for_ammo( const ammotype &at ) const;
 
         bool has_weapon() const override;
-        // Check if the player can pickup stuff (fails if wielding
-        // certain bionic weapons).
-        // Print a message if print_msg is true and this isn't a NPC
-        bool can_pickup(bool print_msg) const;
 
         // Checks crafting inventory for books providing the requested recipe.
         // Returns -1 to indicate recipe not found, otherwise difficulty to learn.
