@@ -146,6 +146,7 @@ SET(CATACLYSM_DDA_SOURCES
     ${CMAKE_SOURCE_DIR}/src/player.cpp
     ${CMAKE_SOURCE_DIR}/src/iuse.cpp
     ${CMAKE_SOURCE_DIR}/src/crafting.cpp
+	${CMAKE_SOURCE_DIR}/src/cata_ui.cpp
     ${CMAKE_SOURCE_DIR}/src/pathfinding.cpp
     ${CMAKE_SOURCE_DIR}/src/mission_companion.cpp
 )
@@ -282,6 +283,7 @@ SET (CATACLYSM_DDA_HEADERS
     ${CMAKE_SOURCE_DIR}/src/input.h
     ${CMAKE_SOURCE_DIR}/src/item_stack.h
     ${CMAKE_SOURCE_DIR}/src/itype.h
+	${CMAKE_SOURCE_DIR}/src/cata_ui.h
 )
 
 # Get GIT version strings
