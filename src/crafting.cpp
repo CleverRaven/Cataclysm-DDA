@@ -20,6 +20,7 @@
 #include "ui.h"
 #include "vehicle.h"
 #include "crafting_gui.h"
+#include "game_constants.h"
 
 #include <algorithm> //std::min
 #include <fstream>
@@ -364,9 +365,16 @@ std::vector<item> player::get_eligible_containers_for_crafting()
             }
         }
     }
-    for( auto &i : g->m.i_at(posx(), posy()) ) {
-        if (is_container_eligible_for_crafting(i)) {
-            conts.push_back(i);
+    // Check nearby containers
+    for( const auto &pos : closest_tripoints_first( POURING_RANGE, g->u.pos() ) ) {
+        if( g->m.accessible_items( g->u.pos(), pos, POURING_RANGE ) ) {
+            auto items = g->m.i_at( pos );
+
+            for( item &it : items ) {
+                if (is_container_eligible_for_crafting(it)) {
+                    conts.push_back(it);
+                }
+            }
         }
     }
 
