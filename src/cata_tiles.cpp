@@ -632,37 +632,37 @@ void cata_tiles::load_ascii_set(JsonObject &entry, int offset, int size)
         curr_tile.fg.push_back(sprite_variation(index_in_image + offset));
         switch(ascii_char) {
         case LINE_OXOX_C://box bottom/top side (horizontal line)
-            curr_tile.fg[0].sprite_ids[0] = 205 + base_offset;
+            curr_tile.fg[1].sprite_ids[0] = 205 + base_offset;
             break;
         case LINE_XOXO_C://box left/right side (vertical line)
-            curr_tile.fg[0].sprite_ids[0] = 186 + base_offset;
+            curr_tile.fg[1].sprite_ids[0] = 186 + base_offset;
             break;
         case LINE_OXXO_C://box top left
-            curr_tile.fg[0].sprite_ids[0] = 201 + base_offset;
+            curr_tile.fg[1].sprite_ids[0] = 201 + base_offset;
             break;
         case LINE_OOXX_C://box top right
-            curr_tile.fg[0].sprite_ids[0] = 187 + base_offset;
+            curr_tile.fg[1].sprite_ids[0] = 187 + base_offset;
             break;
         case LINE_XOOX_C://box bottom right
-            curr_tile.fg[0].sprite_ids[0] = 188 + base_offset;
+            curr_tile.fg[1].sprite_ids[0] = 188 + base_offset;
             break;
         case LINE_XXOO_C://box bottom left
-            curr_tile.fg[0].sprite_ids[0] = 200 + base_offset;
+            curr_tile.fg[1].sprite_ids[0] = 200 + base_offset;
             break;
         case LINE_XXOX_C://box bottom north T (left, right, up)
-            curr_tile.fg[0].sprite_ids[0] = 202 + base_offset;
+            curr_tile.fg[1].sprite_ids[0] = 202 + base_offset;
             break;
         case LINE_XXXO_C://box bottom east T (up, right, down)
-            curr_tile.fg[0].sprite_ids[0] = 208 + base_offset;
+            curr_tile.fg[1].sprite_ids[0] = 208 + base_offset;
             break;
         case LINE_OXXX_C://box bottom south T (left, right, down)
-            curr_tile.fg[0].sprite_ids[0] = 203 + base_offset;
+            curr_tile.fg[1].sprite_ids[0] = 203 + base_offset;
             break;
         case LINE_XXXX_C://box X (left down up right)
-            curr_tile.fg[0].sprite_ids[0] = 206 + base_offset;
+            curr_tile.fg[1].sprite_ids[0] = 206 + base_offset;
             break;
         case LINE_XOXX_C://box bottom east T (left, down, up)
-            curr_tile.fg[0].sprite_ids[0] = 184 + base_offset;
+            curr_tile.fg[1].sprite_ids[0] = 184 + base_offset;
             break;
         }
         if (ascii_char == LINE_XOXO_C || ascii_char == LINE_OXOX_C) {
