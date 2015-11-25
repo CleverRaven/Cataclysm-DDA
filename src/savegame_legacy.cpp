@@ -269,7 +269,7 @@ void overmap::unserialize_legacy(std::ifstream & fin) {
             oter_id tmp_otid(0);
             if (z >= 0 && z < OVERMAP_LAYERS) {
                 int count = 0;
-                std::map<tripoint, std::string> needs_conversion;
+                std::unordered_map<tripoint, std::string> needs_conversion;
                 for (int j = 0; j < OMAPY; j++) {
                     for (int i = 0; i < OMAPX; i++) {
                         if (count == 0) {
@@ -277,7 +277,7 @@ void overmap::unserialize_legacy(std::ifstream & fin) {
                             if( tmp_ter.compare( 0, 22, "apartments_con_tower_1" ) == 0 ) {
                                 for( int p = i; p < i+count; p++ ) {
                                     needs_conversion.emplace( tripoint( p, j, z-OVERMAP_DEPTH ),
-                                                              tmp_ter.c_str() );
+                                                              tmp_ter );
                                 }
                                 tmp_otid = 0;
                             } else if( otermap.count( tmp_ter ) > 0 ) {

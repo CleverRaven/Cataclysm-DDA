@@ -294,16 +294,16 @@ void game::save_weather(std::ofstream &fout) {
  * Complex conversion of outdated overmap terrain ids.
  * This is used when loading saved games with old oter_ids.
  */
-void overmap::convert_terrain( std::map<tripoint, std::string> &needs_conversion )
+void overmap::convert_terrain( std::unordered_map<tripoint, std::string> &needs_conversion )
 {
-    for( auto convert = needs_conversion.begin(); convert != needs_conversion.end(); ++convert ) {
-        const tripoint pos = convert->first;
-        const std::string old = convert->second;
+    for( const auto convert : needs_conversion ) {
+        const tripoint pos = convert.first;
+        const std::string old = convert.second;
         oter_id &new_id = ter( pos.x, pos.y, pos.z );
 
         // Check for neighboring terrain with old ids as well
         std::string north, east, south, west = "";
-        std::map<tripoint, std::string>::iterator it;
+        std::unordered_map<tripoint, std::string>::iterator it;
         if( ( it = needs_conversion.find( tripoint( pos.x, pos.y-1, pos.z ) ) )
             != needs_conversion.end() ) {
             north = it->second;
@@ -395,7 +395,7 @@ void overmap::unserialize( std::ifstream &fin ) {
     while( !jsin.end_object() ) {
         const std::string name = jsin.get_member_name();
         if( name == "layers" ) {
-            std::map<tripoint, std::string> needs_conversion;
+            std::unordered_map<tripoint, std::string> needs_conversion;
             jsin.start_array();
             for( int z = 0; z < OVERMAP_LAYERS; ++z ) {
                 jsin.start_array();
@@ -412,7 +412,7 @@ void overmap::unserialize( std::ifstream &fin ) {
                             if( tmp_ter.compare( 0, 22, "apartments_con_tower_1" ) == 0 ) {
                                 for( int p = i; p < i+count; p++ ) {
                                     needs_conversion.emplace( tripoint( p, j, z-OVERMAP_DEPTH ),
-                                                              tmp_ter.c_str() );
+                                                              tmp_ter );
                                 }
                                 tmp_otid = 0;
                             } else if( otermap.find( tmp_ter ) != otermap.end() ) {
