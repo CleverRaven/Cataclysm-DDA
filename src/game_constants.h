@@ -48,6 +48,9 @@
 // see inventory::form_from_map
 #define PICKUP_RANGE 6
 
+// Containers on the map with at most this distance to the player are considered available for pouring liquid into
+#define POURING_RANGE 6
+
 /** Number of z-levels below 0 (not including 0). */
 #define OVERMAP_DEPTH 10
 /** Number of z-levels above 0 (not including 0). */

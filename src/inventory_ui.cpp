@@ -12,6 +12,7 @@
 #include "catacharset.h"
 #include "item_location.h"
 #include "vehicle.h"
+#include "game_constants.h"
 #include <string>
 #include <vector>
 #include <map>
@@ -1000,7 +1001,7 @@ item *game::inv_map_for_liquid(const item &liquid, const std::string &title)
         return candidate.get_remaining_capacity_for_liquid( liquid ) > 0;
     };
 
-    return inv_map_splice( filter, title ).get_item();
+    return inv_map_splice( filter, title, POURING_RANGE ).get_item();
 }
 
 int game::inv_for_flag(const std::string &flag, const std::string &title, bool const auto_choose_single)
