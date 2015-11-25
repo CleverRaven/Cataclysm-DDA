@@ -9,31 +9,6 @@
 #include <cmath>
 #include <array>
 
-window_buffer::window_buffer(size_t size_x, size_t size_y, unsigned int x, unsigned int y) : current(newwin(size_y, size_x, y, x)), buffer(newwin(size_y, size_x, y, x))
-{
-}
-
-window_buffer::~window_buffer()
-{
-    delwin(current);
-    delwin(buffer);
-}
-
-WINDOW *window_buffer::get_buffer() const
-{
-    return buffer;
-}
-
-void window_buffer::flush()
-{
-    werase(current);
-    wrefresh(buffer);
-
-    WINDOW *tmp = current;
-    current = buffer;
-    buffer = tmp;
-}
-
 ui_rect::ui_rect( size_t size_x, size_t size_y, int x, int y ) : size_x( size_x ), size_y( size_y ), x( x ), y( y )
 {
 }
@@ -90,7 +65,6 @@ void ui_window::adjust_window()
 
     delwin(win);
     win = newwin(rect.size_y, rect.size_x, global_y, global_x);
-    //win = window_buffer(rect.size_x, rect.size_y, global_x, global_y);
 }
 
 void ui_window::set_parent( const ui_window *parent )
