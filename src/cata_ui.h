@@ -78,8 +78,8 @@ class ui_element {
 
         virtual void set_anchor(ui_anchor new_anchor);
 
-        void set_visible(bool visible);
-        bool is_visible() const;
+        virtual void set_visible(bool visible);
+        virtual bool is_visible() const;
 
         unsigned int get_ax() const;
         unsigned int get_ay() const;
@@ -276,6 +276,32 @@ class auto_bordered_window : public ui_window {
         virtual void add_child( ui_element *child ) override;
 
         nc_color border_color = BORDER_COLOR;
+};
+
+/**
+* Basically, a list of text.
+*
+* One of the lines of text is highlighted, selected.
+* The list also has a scroll bar, if it's big enough.
+*/
+class ui_vertical_list : public ui_element {
+    private:
+        std::vector<std::string> text;
+        unsigned int scroll = 0;
+        unsigned int window_scroll = 0;
+    protected:
+        virtual void draw() override;
+    public:
+        ui_vertical_list(size_t size_x, size_t size_y, int x = 0, int y = 0, ui_anchor anchor = top_left);
+
+        nc_color text_color = c_white;
+        nc_color bar_color = c_ltblue;
+
+        void set_text(std::vector<std::string> text);
+
+        void scroll_up();
+        void scroll_down();
+        const std::string &current() const;
 };
 
 ///@}

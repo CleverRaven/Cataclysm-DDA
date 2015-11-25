@@ -659,6 +659,71 @@ void auto_bordered_window::local_draw()
     }
 }
 
+ui_vertical_list::ui_vertical_list(size_t size_x, size_t size_y, int x, int y, ui_anchor anchor) : ui_element(size_x, size_y, x, y, anchor)
+{
+}
+
+void ui_vertical_list::draw()
+{
+    auto win = get_win();
+    if(!win) {
+        return;
+    }
+
+    unsigned int start_line = window_scroll;
+    unsigned int end_line = start_line + get_rect().size_y;
+
+    unsigned int available_space = get_rect().size_x - 2; // 2 for scroll bar and spacer
+
+    for(unsigned int line = start_line; line < end_line && line < text.size(); line++) {
+        auto txt = text[line];
+        if(txt.size() > available_space) {
+            txt = txt.substr(0, available_space);
+        }
+        if(scroll == line) {
+            mvwprintz(win, get_ay() + line - start_line, get_ax() + 2, hilite(text_color), txt.c_str());
+        } else {
+            mvwprintz(win, get_ay() + line - start_line, get_ax() + 2, text_color, txt.c_str());
+        }
+    }
+
+    draw_scrollbar(win, scroll, get_rect().size_y, text.size(), get_ay(), get_ax(), bar_color, false);
+
+    wrefresh(win);
+}
+
+void ui_vertical_list::set_text(std::vector<std::string> text)
+{
+    this->text = text;
+}
+
+void ui_vertical_list::scroll_up()
+{
+    scroll = (scroll == 0 ? text.size() - 1 : scroll - 1);
+
+    if(scroll == text.size() - 1) {
+        window_scroll = scroll - get_rect().size_y + 1;
+    } else if(scroll < window_scroll) {
+        window_scroll--;
+    }
+}
+
+void ui_vertical_list::scroll_down()
+{
+    scroll = (scroll == text.size() - 1 ? 0 : scroll + 1);
+
+    if(scroll > get_rect().size_y + window_scroll - 1) {
+        window_scroll++;
+    } else if(scroll == 0) {
+        window_scroll = 0;
+    }
+}
+
+const std::string &ui_vertical_list::current() const
+{
+    return text[scroll];
+}
+
 void label_test()
 {
     auto lable1 = new ui_label("some", 0, 0, top_left);
@@ -746,7 +811,73 @@ void auto_border_test()
     win.draw();
 }
 
+void list_test()
+{
+    std::vector<std::string> text {
+        "1",
+        "2",
+        "3",
+        "loooooooooooong",
+        "1",
+        "2",
+        "3",
+        "loooooooooooong",
+        "1",
+        "2",
+        "3",
+        "loooooooooooong",
+        "1",
+        "2",
+        "3",
+        "loooooooooooong",
+        "1",
+        "2",
+        "3",
+        "loooooooooooong",
+        "1",
+        "2",
+        "3",
+        "loooooooooooong",
+        "1",
+        "2",
+        "3",
+        "loooooooooooong",
+        "1",
+        "2",
+        "3",
+        "loooooooooooong"
+    };
+
+    bordered_window win(32, 34, 50, 15);
+
+    auto t_list = new ui_vertical_list(7, 15, 0, 1);
+    t_list->set_text(text);
+
+    win.add_child(t_list);
+
+    win.draw();
+
+    input_context ctxt;
+    ctxt.register_action("QUIT");
+    ctxt.register_action("UP");
+    ctxt.register_action("DOWN");
+
+    while(true) {
+        const std::string action = ctxt.handle_input();
+
+        if(action == "UP") {
+            t_list->scroll_up();
+        } else if(action == "DOWN") {
+            t_list->scroll_down();
+        } else if(action == "QUIT") {
+            break;
+        }
+
+        win.draw();
+    }
+}
+
 void ui_test_func()
 {
-    auto_border_test();
+    list_test();
 }
