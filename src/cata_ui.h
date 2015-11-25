@@ -56,7 +56,7 @@ class ui_element {
     friend class ui_window; // so we don't have to make draw and set_parent public
     private:
         const ui_window *parent = nullptr;
-        virtual void set_parent(const ui_window *parent);
+        virtual void set_parent( const ui_window *parent );
 
         ui_anchor anchor = top_left;
 
@@ -70,25 +70,25 @@ class ui_element {
         virtual WINDOW *get_win() const;
         virtual bool is_window() const { return false; }
     public:
-        ui_element(size_t size_x, size_t size_y, int x = 0, int y = 0, ui_anchor anchor = top_left);
+        ui_element( size_t size_x, size_t size_y, int x = 0, int y = 0, ui_anchor anchor = top_left );
         virtual ~ui_element() = default;
 
         const ui_rect &get_rect() const;
-        virtual void set_rect(const ui_rect &new_rect);
+        virtual void set_rect( const ui_rect &new_rect );
 
         ui_anchor get_anchor() const;
-        virtual void set_anchor(ui_anchor new_anchor);
+        virtual void set_anchor( ui_anchor new_anchor );
 
-        virtual void set_visible(bool visible);
-        virtual bool is_visible() const;
+        bool is_visible() const;
+        virtual void set_visible( bool visible );
 
         unsigned int get_ax() const;
         unsigned int get_ay() const;
 
-        void above(const ui_element &other, int x = 0, int y = 0);
-        void below(const ui_element &other, int x = 0, int y = 0);
-        void after(const ui_element &other, int x = 0, int y = 0);
-        void before(const ui_element &other, int x = 0, int y = 0);
+        void above( const ui_element &other, int x = 0, int y = 0 );
+        void below( const ui_element &other, int x = 0, int y = 0 );
+        void after( const ui_element &other, int x = 0, int y = 0 );
+        void before( const ui_element &other, int x = 0, int y = 0 );
 };
 
 /**
@@ -98,7 +98,7 @@ class ui_element {
 * It is also the only class in the framework with a public 'draw' function (render).
 */
 class ui_window : public ui_element {
-    friend class ui_element;
+    friend class ui_element; // for get_win
     private:
         void set_parent( const ui_window *parent ) override;
 
@@ -117,15 +117,15 @@ class ui_window : public ui_element {
         const std::list<ui_element *> &get_children() const;
         virtual bool is_window() const override { return true; }
     public:
-        ui_window(size_t size_x, size_t size_y, int x = 0, int y = 0, ui_anchor anchor = top_left);
+        ui_window( size_t size_x, size_t size_y, int x = 0, int y = 0, ui_anchor anchor = top_left );
         // TODO : add copy constructor
         ~ui_window() override;
 
         void draw() override;
 
-        virtual void set_anchor(ui_anchor new_anchor) override;
+        virtual void set_anchor( ui_anchor new_anchor ) override;
 
-        virtual void set_rect(const ui_rect &new_rect) override;
+        virtual void set_rect( const ui_rect &new_rect ) override;
         virtual void add_child( ui_element *child );
 };
 
@@ -152,7 +152,7 @@ class bordered_window : public ui_window {
     protected:
         virtual void local_draw() override;
     public:
-        bordered_window(size_t size_x, size_t size_y, int x = 0, int y = 0, ui_anchor anchor = top_left);
+        bordered_window( size_t size_x, size_t size_y, int x = 0, int y = 0, ui_anchor anchor = top_left );
 
         nc_color border_color = BORDER_COLOR;
 };
@@ -171,7 +171,7 @@ class health_bar : public ui_element {
     protected:
         virtual void draw() override;
     public:
-        health_bar(size_t size_x, int x = 0, int y = 0, ui_anchor anchor = top_left);
+        health_bar( size_t size_x, int x = 0, int y = 0, ui_anchor anchor = top_left );
 
         void set_health_percentage( float percentage );
 };
@@ -192,7 +192,7 @@ class smiley_indicator : public ui_element {
     protected:
         virtual void draw() override;
     public:
-        smiley_indicator(int x = 0, int y = 0, ui_anchor anchor = top_left);
+        smiley_indicator( int x = 0, int y = 0, ui_anchor anchor = top_left );
 
         void set_state( smiley_state new_state );
 };
@@ -209,7 +209,7 @@ class ui_tile {
         long sym;
         nc_color color;
 
-        ui_tile(long tile_char = ' ', nc_color tile_color = c_black);
+        ui_tile( long tile_char = ' ', nc_color tile_color = c_black );
         virtual ~ui_tile() = default;
 
         virtual void draw( WINDOW *, int, int ) const;
@@ -231,10 +231,10 @@ class tile_panel : public ui_element {
     protected:
         virtual void draw() override;
     public:
-        tile_panel(size_t size_x, size_t size_y, int x = 0, int y = 0, ui_anchor anchor = top_left);
+        tile_panel( size_t size_x, size_t size_y, int x = 0, int y = 0, ui_anchor anchor = top_left );
         ~tile_panel() override;
 
-        virtual void set_rect(const ui_rect &new_rect) override;
+        virtual void set_rect( const ui_rect &new_rect ) override;
         void set_tile( const T &tile, unsigned int x, unsigned int y );
 };
 
@@ -248,10 +248,10 @@ class tabbed_window : public bordered_window {
     protected:
         virtual void local_draw() override;
     public:
-        tabbed_window(size_t size_x, size_t size_y, int x = 0, int y = 0, ui_anchor anchor = top_left);
+        tabbed_window( size_t size_x, size_t size_y, int x = 0, int y = 0, ui_anchor anchor = top_left );
 
         template<class T = ui_window>
-        T *create_tab(std::string tab);
+        T *create_tab( std::string tab );
 
         void next_tab();
         void previous_tab();
@@ -267,15 +267,15 @@ class auto_bordered_window : public ui_window {
     private:
         bool *uncovered;
         void recalc_uncovered();
-        bool is_uncovered(int x, int y) const;
-        long get_border_char(unsigned int x, unsigned int y) const;
+        bool is_uncovered( int x, int y ) const;
+        long get_border_char( unsigned int x, unsigned int y ) const;
     protected:
         virtual void local_draw() override;
     public:
-        auto_bordered_window(size_t size_x, size_t size_y, int x = 0, int y = 0, ui_anchor anchor = top_left);
+        auto_bordered_window( size_t size_x, size_t size_y, int x = 0, int y = 0, ui_anchor anchor = top_left );
         ~auto_bordered_window() override;
 
-        virtual void set_rect(const ui_rect &new_rect) override;
+        virtual void set_rect( const ui_rect &new_rect ) override;
         virtual void add_child( ui_element *child ) override;
 
         nc_color border_color = BORDER_COLOR;
@@ -295,12 +295,12 @@ class ui_vertical_list : public ui_element {
     protected:
         virtual void draw() override;
     public:
-        ui_vertical_list(size_t size_x, size_t size_y, int x = 0, int y = 0, ui_anchor anchor = top_left);
+        ui_vertical_list( size_t size_x, size_t size_y, int x = 0, int y = 0, ui_anchor anchor = top_left );
 
         nc_color text_color = c_white;
         nc_color bar_color = c_ltblue;
 
-        void set_text(std::vector<std::string> text);
+        void set_text( std::vector<std::string> text );
 
         void scroll_up();
         void scroll_down();
@@ -317,11 +317,11 @@ class ui_horizontal_list : public ui_element {
     protected:
         virtual void draw() override;
     public:
-        ui_horizontal_list(int x = 0, int y = 0, ui_anchor anchor = top_left);
+        ui_horizontal_list( int x = 0, int y = 0, ui_anchor anchor = top_left );
 
         nc_color text_color = c_white;
 
-        void set_text(std::vector<std::string> text);
+        void set_text( std::vector<std::string> text );
 
         void scroll_left();
         void scroll_right();
