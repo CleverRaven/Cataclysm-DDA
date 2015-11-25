@@ -55,7 +55,7 @@ class ui_window;
 class ui_element {
     friend class ui_window; // so we don't have to make draw and set_parent public
     private:
-        const ui_window *parent;
+        const ui_window *parent = nullptr;
         virtual void set_parent(const ui_window *parent);
 
         ui_anchor anchor = top_left;
@@ -107,7 +107,7 @@ class ui_window : public ui_element {
         std::list<ui_element *> children;
 
         void adjust_window();
-        WINDOW *win;
+        WINDOW *win = nullptr;
         void draw_children();
         void draw_window_children();
     protected:

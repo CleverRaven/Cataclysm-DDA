@@ -158,7 +158,7 @@ void ui_element::below(const ui_element &other, int x, int y)
 void ui_element::after(const ui_element &other, int x, int y)
 {
     auto o_rect = other.get_rect();
-    rect.x = o_rect.x + o_rect.size_x + x;
+    rect.x = o_rect.x + o_rect.size_x + x - 1;
     rect.y = o_rect.y + y;
     set_anchor(other.get_anchor());
 }
