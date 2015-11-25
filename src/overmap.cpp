@@ -2291,8 +2291,8 @@ tripoint overmap::draw_overmap(const tripoint &orig, const draw_data_t &data)
                 if( terrain && uistate.place_terrain->has_flag( rotates ) ) {
                     uistate.omedit_rotation = 0;
                     for( int i = 0; i < 4; i++ ) {
-                        if( uistate.place_terrain->loadid == 
-                                uistate.place_terrain->directional_peers[i] ) {
+                        if( uistate.place_terrain->loadid == static_cast<unsigned int>(
+                                uistate.place_terrain->directional_peers[i] ) ) {
                             uistate.omedit_rotation = i;
                             break;
                         }
