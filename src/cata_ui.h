@@ -33,6 +33,18 @@ struct ui_rect {
     ui_rect( size_t size_x, size_t size_y, int x, int y );
 };
 
+class window_buffer {
+    private:
+        WINDOW *current;
+        WINDOW *buffer;
+    public:
+        window_buffer(size_t size_x, size_t size_y, unsigned int x, unsigned int y);
+        ~window_buffer();
+
+        WINDOW *get_buffer() const;
+        void flush();
+};
+
 class ui_window;
 
 enum ui_anchor {
@@ -68,6 +80,7 @@ class ui_element {
     protected:
         virtual void draw() = 0;
         virtual WINDOW *get_win() const;
+        virtual bool is_window() const { return false; }
     public:
         ui_element(size_t size_x, size_t size_y, int x = 0, int y = 0, ui_anchor anchor = top_left);
         ui_element(const ui_rect &o_rect);
@@ -106,13 +119,15 @@ class ui_window : public ui_element {
         std::list<ui_element *> children;
 
         void adjust_window();
-        WINDOW *win;
+        window_buffer win;
         void draw_children();
+        void draw_window_children();
     protected:
         WINDOW *get_win() const override;
         virtual void local_draw() {}
         size_t child_count() const;
         const std::list<ui_element *> &get_children() const;
+        virtual bool is_window() const override { return true; }
     public:
         ui_window(size_t size_x, size_t size_y, int x = 0, int y = 0, ui_anchor anchor = top_left);
         // TODO : add copy constructor

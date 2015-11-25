@@ -9,12 +9,37 @@
 #include <cmath>
 #include <array>
 
+window_buffer::window_buffer(size_t size_x, size_t size_y, unsigned int x, unsigned int y) : current(newwin(size_y, size_x, y, x)), buffer(newwin(size_y, size_x, y, x))
+{
+}
+
+window_buffer::~window_buffer()
+{
+    delwin(current);
+    delwin(buffer);
+}
+
+WINDOW *window_buffer::get_buffer() const
+{
+    return buffer;
+}
+
+void window_buffer::flush()
+{
+    werase(current);
+    wrefresh(buffer);
+
+    WINDOW *tmp = current;
+    current = buffer;
+    buffer = tmp;
+}
+
 ui_rect::ui_rect( size_t size_x, size_t size_y, int x, int y ) : size_x( size_x ), size_y( size_y ), x( x ), y( y )
 {
 }
 
 ui_window::ui_window( size_t size_x, size_t size_y, int x, int y, ui_anchor anchor) : ui_element(size_x, size_y, x, y, anchor),
-                      global_x(ui_element::anchored_x), global_y(ui_element::anchored_y), win(newwin(size_y, size_x, global_y, global_x))
+                      global_x(ui_element::anchored_x), global_y(ui_element::anchored_y), win(window_buffer(size_x, size_y, global_x, global_y))
 {
 }
 
@@ -23,22 +48,29 @@ ui_window::~ui_window()
     for( auto child : children ) {
         delete child;
     }
-
-    delwin( win );
 }
 
 void ui_window::draw()
 {
-    werase( win );
     local_draw();
-    wrefresh( win );
     draw_children();
+    win.flush();
+    draw_window_children();
 }
 
 void ui_window::draw_children()
 {
     for( auto &child : children ) {
-        if( child->is_visible() ) {
+        if( child->is_visible() && !child->is_window() ) {
+            child->draw();
+        }
+    }
+}
+
+void ui_window::draw_window_children()
+{
+    for( auto &child : children ) {
+        if( child->is_visible() && child->is_window() ) {
             child->draw();
         }
     }
@@ -53,9 +85,7 @@ void ui_window::adjust_window()
         global_y += parent->global_y;
     }
 
-    // I don't think we can change a WINDOW's values without creating a new one
-    delwin( win );
-    win = newwin(rect.size_y, rect.size_x, global_y, global_x);
+    win = window_buffer(rect.size_x, rect.size_y, global_x, global_y);
 }
 
 void ui_window::set_parent( const ui_window *parent )
@@ -102,7 +132,7 @@ void ui_window::add_child( ui_element *child )
 
 WINDOW *ui_window::get_win() const
 {
-    return win;
+    return win.get_buffer();
 }
 
 size_t ui_window::child_count() const
@@ -260,8 +290,6 @@ void ui_label::draw()
     }
 
     mvwprintz( win, get_ay(), get_ax(), text_color, text.c_str() );
-
-    wrefresh(win);
 }
 
 void ui_label::set_text( std::string new_text )
@@ -300,7 +328,6 @@ void health_bar::draw()
     }
 
     mvwprintz( win, get_ay(), get_ax(), bar_color, bar_str.c_str() );
-    wrefresh(win);
 }
 
 void health_bar::refresh_bar( bool overloaded, float percentage )
@@ -364,8 +391,6 @@ void smiley_indicator::draw()
     }
 
     mvwprintz( win, get_ay(), get_ax(), smiley_color, smiley_str.c_str() );
-
-    wrefresh(win);
 }
 
 void smiley_indicator::set_state( smiley_state new_state )
@@ -431,8 +456,6 @@ void tile_panel<T>::draw()
             tiles[y * get_rect().size_x + x].draw(win, x + get_ax(), y + get_ay());
         }
     }
-
-    wrefresh(win);
 }
 
 template<class T>
@@ -471,7 +494,7 @@ void tabbed_window::local_draw()
         }
     }
 
-    for (int i = 0; i < get_rect().size_x; i++) {
+    for (unsigned int i = 0; i < get_rect().size_x; i++) {
         mvwputch(win, 2, i, border_color, LINE_OXOX);
     }
 
@@ -688,8 +711,6 @@ void ui_vertical_list::draw()
     }
 
     draw_scrollbar(win, scroll, get_rect().size_y, text.size(), get_ay(), get_ax(), bar_color, false);
-
-    wrefresh(win);
 }
 
 void ui_vertical_list::set_text(std::vector<std::string> text)
