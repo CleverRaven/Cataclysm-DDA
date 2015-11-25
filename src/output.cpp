@@ -1432,20 +1432,22 @@ int draw_tab(WINDOW *w, int iOffsetX, std::string sText, bool bSelected)
     return iOffsetXRight - iOffsetX;
 }
 
-void draw_subtab(WINDOW *w, int iOffsetX, std::string sText, bool bSelected, bool bDecorate)
+int draw_subtab(WINDOW *w, int iOffsetX, int iOffsetY, std::string sText, bool bSelected, bool bDecorate)
 {
     int iOffsetXRight = iOffsetX + utf8_width( sText ) + 1;
 
-    mvwprintz(w, 0, iOffsetX + 1, (bSelected) ? h_ltgray : c_ltgray, "%s", sText.c_str());
+    mvwprintz(w, iOffsetY, iOffsetX + 1, (bSelected) ? h_ltgray : c_ltgray, "%s", sText.c_str());
 
     if (bSelected) {
-        mvwputch(w, 0, iOffsetX - bDecorate,      h_ltgray, '<');
-        mvwputch(w, 0, iOffsetXRight + bDecorate, h_ltgray, '>');
+        mvwputch(w, iOffsetY, iOffsetX - bDecorate,      h_ltgray, '<');
+        mvwputch(w, iOffsetY, iOffsetXRight + bDecorate, h_ltgray, '>');
 
         for (int i = iOffsetX + 1; bDecorate && i < iOffsetXRight; i++) {
-            mvwputch(w, 1, i, c_black, ' ');
+            mvwputch(w, iOffsetY + 1, i, c_black, ' ');
         }
     }
+
+    return iOffsetXRight - iOffsetX;
 }
 
 /**

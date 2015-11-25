@@ -319,6 +319,24 @@ class ui_vertical_list : public ui_element {
         const std::string &current() const;
 };
 
+class ui_horizontal_list : public ui_element {
+    private:
+        std::vector<std::string> text;
+        unsigned int scroll = 0;
+    protected:
+        virtual void draw() override;
+    public:
+        ui_horizontal_list(size_t size_x, int x = 0, int y = 0, ui_anchor anchor = top_left);
+
+        nc_color text_color = c_white;
+
+        void set_text(std::vector<std::string> text);
+
+        void scroll_left();
+        void scroll_right();
+        const std::string &current() const;
+};
+
 ///@}
 
 void ui_test_func();

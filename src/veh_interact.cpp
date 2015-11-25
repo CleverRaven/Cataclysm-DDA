@@ -399,7 +399,7 @@ task_reason veh_interact::cant_do (char mode)
     bool has_skill = true;
     bool pass_checks = false; // Used in refill only
     bool has_str = false;
-    
+
     switch (mode) {
     case 'i': // install mode
         enough_morale = g->u.morale_level() >= MIN_MORALE_CRAFT;
@@ -770,7 +770,7 @@ void veh_interact::do_install()
         for( size_t i=0; i < tab_list.size(); i++ ){
             std::string tab_name = (tab == i) ? tab_list[i] : tab_list_short[i]; // full name for selected tab
             tab_x += (tab == i); // add a space before selected tab
-            draw_subtab(w_list, tab_x, tab_name, tab == i, false);
+            draw_subtab(w_list, tab_x, 0, tab_name, tab == i, false);
             tab_x += ( 1 + utf8_width(tab_name) + (tab == i) ); // one space padding and add a space after selected tab
         }
         wrefresh(w_list);
@@ -1232,7 +1232,7 @@ void veh_interact::do_tirechange()
                        has_wrench ? "ltgreen" : "red",
                        has_jack ? "ltgreen" : "red",
                        has_str ? "ltgreen" : "red",
-                       needed_strength);                       
+                       needed_strength);
         wrefresh (w_msg);
         return;
     case MOVING_VEHICLE:

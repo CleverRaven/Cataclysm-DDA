@@ -745,6 +745,45 @@ const std::string &ui_vertical_list::current() const
     return text[scroll];
 }
 
+ui_horizontal_list::ui_horizontal_list(size_t size_x, int x, int y, ui_anchor anchor) : ui_element(size_x, 1, x, y, anchor)
+{
+}
+
+void ui_horizontal_list::draw()
+{
+    auto win = get_win();
+    if(!win) {
+        return;
+    }
+
+    unsigned int x_offset = 1 + get_ax();
+
+    // TODO: truncate on overflow
+    for(unsigned int i = 0; i < text.size(); i++) {
+        x_offset += draw_subtab(win, get_ax() + x_offset, get_ay(), text[i], i == scroll) + 2;
+    }
+}
+
+void ui_horizontal_list::set_text(std::vector<std::string> text)
+{
+    this->text = text;
+}
+
+void ui_horizontal_list::scroll_left()
+{
+    scroll = (scroll == 0 ? text.size() - 1 : scroll - 1);
+}
+
+void ui_horizontal_list::scroll_right()
+{
+    scroll = (scroll == text.size() - 1 ? 0 : scroll + 1);
+}
+
+const std::string &ui_horizontal_list::current() const
+{
+    return text[scroll];
+}
+
 void label_test()
 {
     auto lable1 = new ui_label("some", 0, 0, top_left);
@@ -898,7 +937,44 @@ void list_test()
     }
 }
 
+void list_test2()
+{
+    std::vector<std::string> text {
+        "1",
+        "2",
+        "3"
+    };
+
+    bordered_window win(51, 34, 50, 15);
+
+    auto t_list = new ui_horizontal_list(30, 1, 1);
+    t_list->set_text(text);
+
+    win.add_child(t_list);
+
+    win.draw();
+
+    input_context ctxt;
+    ctxt.register_action("QUIT");
+    ctxt.register_action("LEFT");
+    ctxt.register_action("RIGHT");
+
+    while(true) {
+        const std::string action = ctxt.handle_input();
+
+        if(action == "LEFT") {
+            t_list->scroll_left();
+        } else if(action == "RIGHT") {
+            t_list->scroll_right();
+        } else if(action == "QUIT") {
+            break;
+        }
+
+        win.draw();
+    }
+}
+
 void ui_test_func()
 {
-    list_test();
+    list_test2();
 }
