@@ -317,7 +317,7 @@ class ui_horizontal_list : public ui_element {
     protected:
         virtual void draw() override;
     public:
-        ui_horizontal_list(size_t size_x, int x = 0, int y = 0, ui_anchor anchor = top_left);
+        ui_horizontal_list(int x = 0, int y = 0, ui_anchor anchor = top_left);
 
         nc_color text_color = c_white;
 

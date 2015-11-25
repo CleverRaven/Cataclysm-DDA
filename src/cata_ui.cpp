@@ -724,7 +724,7 @@ const std::string &ui_vertical_list::current() const
     return text[scroll];
 }
 
-ui_horizontal_list::ui_horizontal_list(size_t size_x, int x, int y, ui_anchor anchor) : ui_element(size_x, 1, x, y, anchor)
+ui_horizontal_list::ui_horizontal_list(int x, int y, ui_anchor anchor) : ui_element(0, 1, x, y, anchor)
 {
 }
 
@@ -737,7 +737,6 @@ void ui_horizontal_list::draw()
 
     unsigned int x_offset = 1 + get_ax();
 
-    // TODO: truncate on overflow
     for(unsigned int i = 0; i < text.size(); i++) {
         x_offset += draw_subtab(win, get_ax() + x_offset, get_ay(), text[i], i == scroll) + 2;
     }
@@ -746,6 +745,13 @@ void ui_horizontal_list::draw()
 void ui_horizontal_list::set_text(std::vector<std::string> text)
 {
     this->text = text;
+    size_t text_length = 1;
+
+    for(const auto &str : text) {
+        text_length = utf8_width(str) + 1;
+    }
+
+    set_rect(ui_rect(text_length, get_rect().size_y, get_rect().x, get_rect().y));
 }
 
 void ui_horizontal_list::scroll_left()
@@ -926,7 +932,7 @@ void list_test2()
 
     bordered_window win(51, 34, 50, 15);
 
-    auto t_list = new ui_horizontal_list(30, 1, 1);
+    auto t_list = new ui_horizontal_list(1, 1);
     t_list->set_text(text);
 
     win.add_child(t_list);
