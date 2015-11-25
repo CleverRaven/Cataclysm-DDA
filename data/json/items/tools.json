@@ -8858,7 +8858,7 @@
     "volume": 3,
     "bashing": 2,
     "cutting": 20,
-    "flags" : ["STAB", "DURABLE_MELEE", "SHEATH_SWORD"],
+    "flags" : ["STAB", "DURABLE_MELEE", "SHEATH_KNIFE"],
     "to_hit": 2,
     "max_charges": 0,
     "initial_charges": 0,
