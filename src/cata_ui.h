@@ -66,9 +66,6 @@ class ui_element {
         ui_rect rect;
         void calc_anchored_values();
     protected:
-        unsigned int get_ax() const;
-        unsigned int get_ay() const;
-
         virtual void draw() = 0;
         virtual WINDOW *get_win() const;
     public:
@@ -83,6 +80,9 @@ class ui_element {
 
         void set_visible(bool visible);
         bool is_visible() const;
+
+        unsigned int get_ax() const;
+        unsigned int get_ay() const;
 
         void above(const ui_element &other, int x = 0, int y = 0);
         void below(const ui_element &other, int x = 0, int y = 0);

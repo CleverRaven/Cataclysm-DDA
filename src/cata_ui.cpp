@@ -556,8 +556,15 @@ void auto_bordered_window::recalc_uncovered()
 
     for(auto &child : get_children()) {
         auto c_rect = child->get_rect();
-        for(size_t x = c_rect.x; x < c_rect.size_x + c_rect.x; x++) {
-            for(size_t y = c_rect.y; y < c_rect.size_y + c_rect.y; y++) {
+
+        unsigned int start_x = child->get_ax();
+        unsigned int start_y = child->get_ay();
+
+        unsigned int end_x = start_x + c_rect.size_x;
+        unsigned int end_y = start_y + c_rect.size_y;
+
+        for(size_t x = start_x; x < end_x; x++) {
+            for(size_t y = start_y; y < end_y; y++) {
                 if(x < get_rect().size_x && y < get_rect().size_y) {
                     uncovered[y * get_rect().size_x + x] = false;
                 }
@@ -577,9 +584,9 @@ bool auto_bordered_window::is_uncovered(int x, int y) const
 long auto_bordered_window::get_border_char(unsigned int x, unsigned int y) const
 {
     bool left = is_uncovered(x - 1, y);
-    bool up = is_uncovered(x, y + 1);
+    bool up = is_uncovered(x, y - 1);
     bool right = is_uncovered(x + 1, y);
-    bool down = is_uncovered(x, y - 2);
+    bool down = is_uncovered(x, y + 1);
 
     long ret = ' ';
 
@@ -729,7 +736,17 @@ void tile_panel_test()
     win.draw();
 }
 
+void auto_border_test()
+{
+    auto_bordered_window win(51, 34, 50, 15);
+
+    win.add_child(new bordered_window(49, 10, 1, 1));
+    win.add_child(new bordered_window(49, 10, -1, -1, bottom_right));
+
+    win.draw();
+}
+
 void ui_test_func()
 {
-    tile_panel_test();
+    auto_border_test();
 }
