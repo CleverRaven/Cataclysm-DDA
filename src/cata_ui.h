@@ -33,6 +33,14 @@ struct ui_rect {
     ui_rect( size_t size_x, size_t size_y, int x, int y );
 };
 
+/**
+* Used to combat screen flickering, when drawing takes a long time. (A common problem in CG)
+*
+* The problem was that, to draw something on a window, you first have to erase it,
+* and then run your drawing algorithms. With this we can first draw onto a buffer window,
+* and after running all our algorithms, erase the current window, and refresh the buffer.
+* That way, there is no split second where the window is empty (and you see a flicker).
+*/
 class window_buffer {
     private:
         WINDOW *current;
@@ -45,8 +53,6 @@ class window_buffer {
         void flush();
 };
 
-class ui_window;
-
 enum ui_anchor {
     top_left,
     top_center,
@@ -58,6 +64,8 @@ enum ui_anchor {
     bottom_center,
     bottom_right
 };
+
+class ui_window;
 
 /**
 * Most basic ui element.
@@ -319,6 +327,9 @@ class ui_vertical_list : public ui_element {
         const std::string &current() const;
 };
 
+/**
+* A horizontal list of text
+*/
 class ui_horizontal_list : public ui_element {
     private:
         std::vector<std::string> text;
