@@ -35,6 +35,18 @@ struct ui_rect {
 
 class ui_window;
 
+enum ui_anchor {
+    top_left,
+    top_center,
+    top_right,
+    center_left,
+    center_center,
+    center_right,
+    bottom_left,
+    bottom_center,
+    bottom_right
+};
+
 /**
 * Most basic ui element.
 *
@@ -42,18 +54,6 @@ class ui_window;
 */
 class ui_element {
     friend class ui_window; // so we don't have to make draw and set_parent public
-    protected:
-        enum ui_anchor {
-            top_left,
-            top_center,
-            top_right,
-            center_left,
-            center_center,
-            center_right,
-            bottom_left,
-            bottom_center,
-            bottom_right
-        };
     private:
         const ui_window *parent;
         virtual void set_parent(const ui_window *parent);
@@ -73,12 +73,13 @@ class ui_element {
         virtual WINDOW *get_win() const;
     public:
         ui_element(size_t size_x, size_t size_y, int x = 0, int y = 0, ui_anchor anchor = top_left);
+        ui_element(const ui_rect &o_rect);
         virtual ~ui_element() = default;
 
         const ui_rect &get_rect() const;
         virtual void set_rect(const ui_rect &new_rect);
 
-        void set_anchor(ui_anchor new_anchor);
+        virtual void set_anchor(ui_anchor new_anchor);
 
         void set_visible(bool visible);
         bool is_visible() const;
@@ -106,9 +107,10 @@ class ui_window : public ui_element {
 
         void adjust_window();
         WINDOW *win;
+        void draw_children();
     protected:
         WINDOW *get_win() const override;
-        virtual void local_draw();
+        virtual void local_draw() {}
         size_t child_count() const;
         const std::list<ui_element *> &get_children() const;
     public:
@@ -117,6 +119,8 @@ class ui_window : public ui_element {
         ~ui_window() override;
 
         void draw() override;
+
+        virtual void set_anchor(ui_anchor new_anchor) override;
 
         virtual void set_rect(const ui_rect &new_rect) override;
         virtual void add_child( ui_element *child );
@@ -244,7 +248,8 @@ class tabbed_window : public bordered_window {
     public:
         tabbed_window(size_t size_x, size_t size_y, int x = 0, int y = 0, ui_anchor anchor = top_left);
 
-        void add_tab(std::string tab, ui_window *tab_win);
+        template<class T = ui_window>
+        T *create_tab(std::string tab);
 
         void next_tab();
         void previous_tab();
@@ -275,5 +280,7 @@ class auto_bordered_window : public ui_window {
 };
 
 ///@}
+
+void ui_test_func();
 
 #endif // CATA_UI_H

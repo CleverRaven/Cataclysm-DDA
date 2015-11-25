@@ -2,6 +2,8 @@
 
 #include "catacharset.h"
 
+#include "debug.h"
+
 #include <cmath>
 #include <array>
 
@@ -29,9 +31,10 @@ void ui_window::draw()
     werase( win );
     local_draw();
     wrefresh( win );
+    draw_children();
 }
 
-void ui_window::local_draw()
+void ui_window::draw_children()
 {
     for( auto &child : children ) {
         if( child->is_visible() ) {
@@ -58,12 +61,30 @@ void ui_window::set_parent( const ui_window *parent )
 {
     ui_element::set_parent( parent );
     adjust_window();
+
+    for(auto child : children) {
+        child->calc_anchored_values();
+    }
 }
 
 void ui_window::set_rect(const ui_rect &new_rect)
 {
     ui_element::set_rect(new_rect);
     adjust_window();
+
+    for(auto child : children) {
+        child->calc_anchored_values();
+    }
+}
+
+void ui_window::set_anchor(ui_anchor new_anchor)
+{
+    ui_element::set_anchor(new_anchor);
+    adjust_window();
+
+    for(auto child : children) {
+        child->calc_anchored_values();
+    }
 }
 
 // This method expects a pointer to a heap allocated ui_element.
@@ -96,7 +117,6 @@ const std::list<ui_element *> &ui_window::get_children() const
 ui_element::ui_element(size_t size_x, size_t size_y, int x, int y, ui_anchor anchor) :
                        anchor(anchor), anchored_x(x), anchored_y(y), rect(ui_rect(size_x, size_y, x, y))
 {
-    calc_anchored_values();
 }
 
 void ui_element::set_visible(bool visible)
@@ -161,36 +181,36 @@ void ui_element::calc_anchored_values()
             case top_left:
                 break;
             case top_center:
-                anchored_x = (p_rect.size_x / 2) - (rect.size_x / 2);
+                anchored_x = (p_rect.size_x / 2) - (rect.size_x / 2) + rect.x;
                 anchored_y = rect.y;
                 return;
             case top_right:
-                anchored_x = p_rect.size_x - rect.size_x;
+                anchored_x = p_rect.size_x - rect.size_x + rect.x;
                 anchored_y = rect.y;
                 return;
             case center_left:
                 anchored_x = rect.x;
-                anchored_y = (p_rect.size_y / 2) - (rect.size_y / 2);
+                anchored_y = (p_rect.size_y / 2) - (rect.size_y / 2) + rect.y;
                 return;
             case center_center:
-                anchored_x = (p_rect.size_x / 2) - (rect.size_x / 2);
-                anchored_y = (p_rect.size_y / 2) - (rect.size_y / 2);
+                anchored_x = (p_rect.size_x / 2) - (rect.size_x / 2) + rect.x;
+                anchored_y = (p_rect.size_y / 2) - (rect.size_y / 2) + rect.y;
                 return;
             case center_right:
-                anchored_x = p_rect.size_x - rect.size_x;
-                anchored_y = (p_rect.size_y / 2) - (rect.size_y / 2);
+                anchored_x = p_rect.size_x - rect.size_x + rect.x;
+                anchored_y = (p_rect.size_y / 2) - (rect.size_y / 2) + rect.y;
                 return;
             case bottom_left:
                 anchored_x = rect.x;
-                anchored_y = p_rect.size_y - rect.size_y;
+                anchored_y = p_rect.size_y - rect.size_y + rect.y;
                 return;
             case bottom_center:
-                anchored_x = (p_rect.size_x / 2) - (rect.size_x / 2);
-                anchored_y = p_rect.size_y - rect.size_y;
+                anchored_x = (p_rect.size_x / 2) - (rect.size_x / 2) + rect.x;
+                anchored_y = p_rect.size_y - rect.size_y + rect.y;
                 return;
             case bottom_right:
-                anchored_x = p_rect.size_x - rect.size_x;
-                anchored_y = p_rect.size_y - rect.size_y;
+                anchored_x = p_rect.size_x - rect.size_x + rect.x;
+                anchored_y = p_rect.size_y - rect.size_y + rect.y;
                 return;
         }
     }
@@ -239,6 +259,8 @@ void ui_label::draw()
     }
 
     mvwprintz( win, get_ay(), get_ax(), text_color, text.c_str() );
+
+    wrefresh(win);
 }
 
 void ui_label::set_text( std::string new_text )
@@ -259,8 +281,6 @@ void bordered_window::local_draw()
     wborder(win, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
             LINE_OXXO, LINE_OOXX, LINE_XXOO, LINE_XOOX );
     wattroff(win, border_color);
-
-    ui_window::local_draw();
 }
 
 health_bar::health_bar(size_t size_x, int x, int y, ui_anchor anchor) : ui_element(size_x, 1, x, y, anchor),
@@ -279,6 +299,7 @@ void health_bar::draw()
     }
 
     mvwprintz( win, get_ay(), get_ax(), bar_color, bar_str.c_str() );
+    wrefresh(win);
 }
 
 void health_bar::refresh_bar( bool overloaded, float percentage )
@@ -341,6 +362,8 @@ void smiley_indicator::draw()
     }
 
     mvwprintz( win, get_ay(), get_ax(), smiley_color, smiley_str.c_str() );
+
+    wrefresh(win);
 }
 
 void smiley_indicator::set_state( smiley_state new_state )
@@ -383,7 +406,7 @@ void tile_panel<T>::set_rect(const ui_rect &new_rect)
 {
     ui_window::set_rect(new_rect);
     num_tiles = new_rect.size_x * new_rect.size_y;
-    tiles = realloc(tiles, num_tiles);
+    tiles = realloc(tiles, num_tiles * sizeof(T));
 }
 
 template<class T>
@@ -405,6 +428,8 @@ void tile_panel<T>::draw()
             tiles[y * get_rect().size_x + x].draw(win, x, y);
         }
     }
+
+    wrefresh(win);
 }
 
 template<class T>
@@ -489,15 +514,14 @@ void tabbed_window::local_draw()
     }
 }
 
-void tabbed_window::add_tab(std::string tab, ui_window *tab_win)
+template<class T>
+T *tabbed_window::create_tab(std::string tab)
 {
-    if(!tab_win) {
-        return; // in case we get passed a bad alloc
-    }
-
+    T *tab_win = new T(get_rect().size_x - 2, get_rect().size_y - 4, 1, -1, bottom_left);
     tabs.push_back({tab, tab_win});
     tab_win->set_visible(tabs.size() == 1 ? true : false);
-    ui_window::add_child(tab_win);
+    add_child(tab_win);
+    return tab_win;
 }
 
 void tabbed_window::next_tab()
@@ -522,7 +546,6 @@ void tabbed_window::previous_tab()
     tabs[tab_index].second->set_visible(true);
 }
 
-
 const std::pair<std::string, ui_window *> &tabbed_window::current_tab() const
 {
     return tabs[tab_index];
@@ -542,7 +565,7 @@ auto_bordered_window::~auto_bordered_window()
 void auto_bordered_window::set_rect(const ui_rect &new_rect)
 {
     ui_window::set_rect(new_rect);
-    uncovered = (bool *) realloc(uncovered, new_rect.size_x * new_rect.size_y);
+    uncovered = (bool *) realloc(uncovered, new_rect.size_x * new_rect.size_y * sizeof(bool));
     recalc_uncovered();
 }
 
@@ -572,7 +595,8 @@ void auto_bordered_window::recalc_uncovered()
     }
 }
 
-bool auto_bordered_window::is_uncovered(int x, int y) const {
+bool auto_bordered_window::is_uncovered(int x, int y) const
+{
     if(x < 0 || y < 0 || (unsigned int) x >= get_rect().size_x || (unsigned int) y >= get_rect().size_y) {
         return false;
     }
@@ -655,4 +679,29 @@ void auto_bordered_window::local_draw()
             }
         }
     }
+}
+
+void label_test()
+{
+    auto lable1 = new ui_label("some", 0, 0, top_left);
+    lable1->text_color = c_red;
+    auto lable2 = new ui_label("anchored", 0, 0, center_center);
+    lable2->text_color = c_ltblue;
+    auto lable3 = new ui_label("labels", 0, 0, bottom_right);
+    lable3->text_color = c_ltgreen;
+
+    bordered_window win(31, 13, 50, 15);
+    win.add_child(lable1);
+    win.add_child(lable2);
+    win.add_child(lable3);
+    win.draw();
+}
+
+void ui_test_func()
+{
+    tabbed_window win(31, 14, 50, 15);
+    auto t_win = win.create_tab<bordered_window>("my tab");
+    auto label = new ui_label("test", 0, 0, center_center);
+    t_win->add_child(label);
+    win.draw();
 }
