@@ -38,8 +38,6 @@
 #   ifndef strcasecmp
 #       define strcasecmp StrCmpI
 #   endif
-#else
-#   include <wordexp.h>
 #endif
 
 #include <SDL.h>
@@ -1291,7 +1289,6 @@ static void save_font_list()
     strcat(buf, "\\fonts");
     font_folder_list(fout, buf);
 #elif (defined _APPLE_ && defined _MACH_)
-
     /*
     // Well I don't know how osx actually works ....
     font_folder_list(fout, "/System/Library/Fonts");
@@ -1301,15 +1298,16 @@ static void save_font_list()
     wordexp("~/Library/Fonts", &exp, 0);
     font_folder_list(fout, exp.we_wordv[0]);
     wordfree(&exp);*/
-#elif (defined linux || defined __linux)
+#else // Other POSIX-ish systems
     font_folder_list(fout, "/usr/share/fonts");
     font_folder_list(fout, "/usr/local/share/fonts");
-    wordexp_t exp;
-    wordexp("~/.fonts", &exp, 0);
-    font_folder_list(fout, exp.we_wordv[0]);
-    wordfree(&exp);
+    char *home;
+    if( ( home = getenv( "HOME" ) ) ) {
+        std::string userfontdir = home;
+        userfontdir += "/.fonts";
+        font_folder_list( fout, userfontdir );
+    }
 #endif
-    //TODO: other systems
 
     bitmap_fonts->clear();
     delete bitmap_fonts;
