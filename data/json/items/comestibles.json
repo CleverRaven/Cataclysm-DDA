@@ -8142,9 +8142,9 @@
     },
     {
         "type" : "COMESTIBLE",
-        "id": "hickory_nut_unshelled",
-        "name": "handful of unshelled hickory nuts",
-        "name_plural": "handfuls of unshelled hickory nuts",
+        "id": "hickory_nut_shelled",
+        "name": "handful of shelled hickory nuts",
+        "name_plural": "handfuls of shelled hickory nuts",
         "weight" : 190,
         "color" : "brown",
         "addiction_type" : "none",
