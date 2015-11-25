@@ -14,7 +14,7 @@ ui_rect::ui_rect( size_t size_x, size_t size_y, int x, int y ) : size_x( size_x 
 }
 
 ui_window::ui_window( size_t size_x, size_t size_y, int x, int y, ui_anchor anchor) : ui_element(size_x, size_y, x, y, anchor),
-                      global_x(ui_element::anchored_x), global_y(ui_element::anchored_y), win(newwin(size_y, size_x, global_y, global_x))
+                      global_x(x), global_y(y), win(newwin(size_y, size_x, global_y, global_x))
 {
 }
 
@@ -58,7 +58,7 @@ void ui_window::adjust_window()
 {
     global_x = anchored_x;
     global_y = anchored_y;
-    if(parent) {
+    if(parent != nullptr) {
         global_x += parent->global_x;
         global_y += parent->global_y;
     }
@@ -101,7 +101,7 @@ void ui_window::set_anchor(ui_anchor new_anchor)
 // This ui_element will be deleted by the ui_window's deconstructor, so you can add-and-forget.
 void ui_window::add_child( ui_element *child )
 {
-    if(!child) {
+    if(child == nullptr) {
         return; // In case we get passed a bad alloc
     }
 
@@ -144,7 +144,7 @@ void ui_element::above(const ui_element &other, int x, int y)
     auto o_rect = other.get_rect();
     rect.x = o_rect.x + x;
     rect.y = o_rect.y + o_rect.size_y + y;
-    calc_anchored_values();
+    set_anchor(other.get_anchor());
 }
 
 void ui_element::below(const ui_element &other, int x, int y)
@@ -152,7 +152,7 @@ void ui_element::below(const ui_element &other, int x, int y)
     auto o_rect = other.get_rect();
     rect.x = o_rect.x + x;
     rect.y = o_rect.y - o_rect.size_y + y;
-    calc_anchored_values();
+    set_anchor(other.get_anchor());
 }
 
 void ui_element::after(const ui_element &other, int x, int y)
@@ -160,7 +160,7 @@ void ui_element::after(const ui_element &other, int x, int y)
     auto o_rect = other.get_rect();
     rect.x = o_rect.x + o_rect.size_x + x;
     rect.y = o_rect.y + y;
-    calc_anchored_values();
+    set_anchor(other.get_anchor());
 }
 
 void ui_element::before(const ui_element &other, int x, int y)
@@ -168,13 +168,18 @@ void ui_element::before(const ui_element &other, int x, int y)
     auto o_rect = other.get_rect();
     rect.x = o_rect.x - o_rect.size_x + x;
     rect.y = o_rect.y + y;
-    calc_anchored_values();
+    set_anchor(other.get_anchor());
 }
 
 void ui_element::set_rect(const ui_rect &new_rect)
 {
     rect = new_rect;
     calc_anchored_values();
+}
+
+ui_anchor ui_element::get_anchor() const
+{
+    return anchor;
 }
 
 void ui_element::set_anchor(ui_anchor new_anchor)
@@ -185,7 +190,7 @@ void ui_element::set_anchor(ui_anchor new_anchor)
 
 void ui_element::calc_anchored_values()
 {
-    if(parent) {
+    if(parent != nullptr) {
         auto p_rect = parent->get_rect();
         switch(anchor) {
             case top_left:
@@ -251,7 +256,7 @@ const ui_rect &ui_element::get_rect() const
 
 WINDOW *ui_element::get_win() const
 {
-    if(parent) {
+    if(parent != nullptr) {
         return parent->get_win();
     }
     return nullptr;
@@ -264,7 +269,7 @@ ui_label::ui_label( std::string text ,int x, int y, ui_anchor anchor ) : ui_elem
 void ui_label::draw()
 {
     auto win = get_win();
-    if(!win) {
+    if(win == nullptr) {
         return;
     }
 
@@ -302,7 +307,7 @@ health_bar::health_bar(size_t size_x, int x, int y, ui_anchor anchor) : ui_eleme
 void health_bar::draw()
 {
     auto win = get_win();
-    if(!win) {
+    if(win == nullptr) {
         return;
     }
 
@@ -365,7 +370,7 @@ smiley_indicator::smiley_indicator(int x, int y, ui_anchor anchor) : ui_element(
 void smiley_indicator::draw()
 {
     auto win = get_win();
-    if(!win) {
+    if(win == nullptr) {
         return;
     }
 
@@ -426,7 +431,7 @@ template<class T>
 void tile_panel<T>::draw()
 {
     auto win = get_win();
-    if(!win) {
+    if(win == nullptr) {
         return;
     }
 
@@ -668,7 +673,7 @@ ui_vertical_list::ui_vertical_list(size_t size_x, size_t size_y, int x, int y, u
 void ui_vertical_list::draw()
 {
     auto win = get_win();
-    if(!win) {
+    if(win == nullptr) {
         return;
     }
 
@@ -731,7 +736,7 @@ ui_horizontal_list::ui_horizontal_list(int x, int y, ui_anchor anchor) : ui_elem
 void ui_horizontal_list::draw()
 {
     auto win = get_win();
-    if(!win) {
+    if(win == nullptr) {
         return;
     }
 
@@ -959,6 +964,31 @@ void list_test2()
     }
 }
 
+void relative_test()
+{
+    bordered_window win(51, 34, 50, 15);
+
+    auto l1 = new ui_label("origin", 0, 0, center_center);
+
+    auto l2 = new ui_label("above");
+    auto l3 = new ui_label("below");
+    auto l4 = new ui_label("after");
+    auto l5 = new ui_label("before");
+
+    l2->above(*l1);
+    l3->below(*l1);
+    l4->after(*l1, 1);
+    l5->before(*l1, -1);
+
+    win.add_child(l1);
+    win.add_child(l2);
+    win.add_child(l3);
+    win.add_child(l4);
+    win.add_child(l5);
+
+    win.draw();
+}
+
 void ui_test_func()
 {
     std::vector<std::string> options {
@@ -968,7 +998,8 @@ void ui_test_func()
         "tile_panel",
         "auto borders",
         "v list",
-        "h list"
+        "h list",
+        "relative"
     };
 
     int selection = menu_vec(false, "Select a sample", options);
@@ -995,8 +1026,10 @@ void ui_test_func()
         case 7:
             list_test2();
             break;
+        case 8:
+            relative_test();
+            break;
         default:
             break;
     }
-    //tab_test();
 }

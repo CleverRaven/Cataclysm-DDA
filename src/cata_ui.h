@@ -71,12 +71,12 @@ class ui_element {
         virtual bool is_window() const { return false; }
     public:
         ui_element(size_t size_x, size_t size_y, int x = 0, int y = 0, ui_anchor anchor = top_left);
-        ui_element(const ui_rect &o_rect);
         virtual ~ui_element() = default;
 
         const ui_rect &get_rect() const;
         virtual void set_rect(const ui_rect &new_rect);
 
+        ui_anchor get_anchor() const;
         virtual void set_anchor(ui_anchor new_anchor);
 
         virtual void set_visible(bool visible);
