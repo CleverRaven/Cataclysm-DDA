@@ -312,7 +312,7 @@ void health_bar::refresh_bar( bool overloaded, float percentage )
         }
     } else {
         for(unsigned int i = 0; i < get_rect().size_x; i++) {
-            unsigned int char_health = current_health - (i * points_per_char);
+            int char_health = current_health - (i * points_per_char);
             if(char_health <= 0) {
                 bar_str += ".";
             } else if(char_health == 1) {
@@ -353,6 +353,7 @@ void health_bar::set_health_percentage( float percentage )
 
 smiley_indicator::smiley_indicator(int x, int y, ui_anchor anchor) : ui_element(2, 1, x, y, anchor)
 {
+    set_state(neutral);
 }
 
 void smiley_indicator::draw()
@@ -699,7 +700,21 @@ void tab_test()
     }
 }
 
+void indicators_test()
+{
+    bordered_window win(31, 31, 50, 15);
+
+    auto hb = new health_bar(5, 0, 0, center_center);
+    win.add_child(hb);
+    hb->set_health_percentage(0.5);
+
+    auto si = new smiley_indicator(0, -1, center_center);
+    win.add_child(si);
+
+    win.draw();
+}
+
 void ui_test_func()
 {
-    tab_test();
+    indicators_test();
 }
