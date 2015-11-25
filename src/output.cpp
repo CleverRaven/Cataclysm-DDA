@@ -259,13 +259,17 @@ int fold_and_print_from(WINDOW *w, int begin_y, int begin_x, int width, int begi
         // for each section, get the colour, and print it
         std::vector<std::string>::iterator it;
         for( it = color_segments.begin(); it != color_segments.end(); ++it ) {
-            if( !it->empty() && it->at(0) == '<' ) {
+            if( !it->empty() && it->at( 0 ) == '<' ) {
                 color = get_color_from_tag( *it, base_color );
             }
             if( line_num >= begin_line ) {
                 std::string l = rm_prefix( *it );
-                if( l != "--" ) { // -- is a newline!
-                    wprintz(w, color, "%s", rm_prefix(*it).c_str());
+                if( l != "--" ) { // -- is a separation line!
+                    wprintz( w, color, "%s", rm_prefix( *it ).c_str() );
+                } else {
+                    for( int i = 0; i < width; i++ ) {
+                        wputch( w, c_dkgray, LINE_OXOX );
+                    }
                 }
             }
         }
@@ -1113,6 +1117,41 @@ int draw_item_info(const int iLeft, const int iWidth, const int iTop, const int 
     return result;
 }
 
+std::string string_replace( std::string text, const std::string &before, const std::string &after )
+{
+    while( true ) {
+        size_t pos = text.find( before );
+        if( pos != std::string::npos ) {
+            text.replace( pos, before.length(), after );
+        } else {
+            break;
+        }
+    }
+
+    return text;
+}
+
+std::string replace_colors( std::string text )
+{
+    static const std::vector<std::pair<std::string, std::string>> info_colors = {
+        {"info", get_all_colors().get_name( c_cyan )},
+        {"stat", get_all_colors().get_name( c_blue )},
+        {"header", get_all_colors().get_name( c_magenta )},
+        {"bold", get_all_colors().get_name( c_white )},
+        {"dark", get_all_colors().get_name( c_dkgray )},
+        {"good", get_all_colors().get_name( c_green )},
+        {"bad", get_all_colors().get_name( c_red )},
+        {"neutral", get_all_colors().get_name( c_brown )}
+    };
+
+    for( auto &elem : info_colors ) {
+        text = string_replace( text, "<" + elem.first + ">", "<color_" + elem.second + ">" );
+        text = string_replace( text, "</" + elem.first + ">", "</color>" );
+    }
+
+    return text;
+}
+
 std::string format_item_info( const std::vector<iteminfo> &vItemDisplay,
                               const std::vector<iteminfo> &vItemCompare )
 {
@@ -1152,13 +1191,13 @@ std::string format_item_info( const std::vector<iteminfo> &vItemDisplay,
             }
 
             if (vItemDisplay[i].sValue != "-999") {
-                nc_color thisColor = c_white;
+                nc_color thisColor = c_brown;
                 for (auto &k : vItemCompare) {
                     if (k.sValue != "-999") {
                         if (vItemDisplay[i].sName == k.sName && vItemDisplay[i].sType == k.sType) {
                             if (vItemDisplay[i].dValue > k.dValue - .1 &&
                                 vItemDisplay[i].dValue < k.dValue + .1) {
-                                thisColor = c_white;
+                                thisColor = c_ltgray;
                             } else if (vItemDisplay[i].dValue > k.dValue) {
                                 if (vItemDisplay[i].bLowerIsBetter) {
                                     thisColor = c_ltred;
@@ -1232,7 +1271,7 @@ int draw_item_info(WINDOW *win, const std::string sItemName, const std::string s
                 selected = iLines - height;
             }
 
-            fold_and_print_from( win, line_num, b, width, selected, c_white, buffer.str() );
+            fold_and_print_from( win, line_num, b, width, selected, c_ltgray, buffer.str() );
 
             draw_scrollbar( win, selected, height, iLines-height, 1, 0, BORDER_COLOR, true );
         }

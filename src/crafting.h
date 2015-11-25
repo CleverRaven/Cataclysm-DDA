@@ -105,8 +105,6 @@ void remove_ammo(item *dis_item, player &p);
 // same as above but for each item in the list
 void remove_ammo(std::list<item> &dis_items, player &p);
 
-void load_recipe_category(JsonObject &jsobj);
-void reset_recipe_categories();
 void load_recipe(JsonObject &jsobj);
 void reset_recipes();
 const recipe *recipe_by_index(int index);

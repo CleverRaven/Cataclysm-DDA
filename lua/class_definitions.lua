@@ -393,7 +393,6 @@ classes = {
             { name = "can_leg_block", rval = "bool", args = { } },
             { name = "can_limb_block", rval = "bool", args = { } },
             { name = "can_melee", rval = "bool", args = { } },
-            { name = "can_pickup", rval = "bool", args = { "bool" } },
             { name = "can_sleep", rval = "bool", args = { } },
             { name = "can_weapon_block", rval = "bool", args = { } },
             { name = "cancel_activity", rval = nil, args = { } },

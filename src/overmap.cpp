@@ -2240,28 +2240,24 @@ void overmap::clear_mon_groups()
     zg.clear();
 }
 
-void mongroup::wander(overmap& om)
+void mongroup::wander( overmap &om )
 {
-    const city* target_city = NULL;
+    const city *target_city = nullptr;
     int target_distance = 0;
 
-    if(horde_behaviour == "city") {
+    if( horde_behaviour == "city" ) {
         // Find a nearby city to return to..
-        for(const city& check_city : om.cities) {
-            // Monsters shouldn't always wander directly to the nearest city, add
-            // a bit of randomness.
-            if(one_in(3)) continue;
-
+        for(const city &check_city : om.cities ) {
             // Check if this is the nearest city so far.
-            int distance = rl_dist(check_city.x, check_city.y, pos.x, pos.y);
-            if(!target_city || distance < target_distance) {
+            int distance = rl_dist( check_city.x * 2, check_city.y * 2, pos.x, pos.y );
+            if( !target_city || distance < target_distance ) {
                 target_distance = distance;
                 target_city = &check_city;
             }
         }
     }
 
-    if(target_city) {
+    if( target_city ) {
         // TODO: somehow use the same algorithm that distributes zombie
         // density at world gen to spread the hordes over the actual
         // city, rather than the center city tile

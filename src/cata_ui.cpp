@@ -436,7 +436,7 @@ void tile_panel<T>::draw()
     }
 
     for( unsigned int x = 0; x < get_rect().size_x; x++ ) {
-        for unsigned int y = 0; y < get_rect().size_y; y++ ) {
+        for( unsigned int y = 0; y < get_rect().size_y; y++ ) {
             tiles[y * get_rect().size_x + x].draw( win, x + get_ax(), y + get_ay() );
         }
     }
