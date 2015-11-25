@@ -104,7 +104,7 @@
                 "T": { }
             },
             "place_monsters": [
-                { "monster": "GROUP_ZOMBIE", "chance": 2, "x": [ 4, 23 ], "y": [ 2, 23 ], "repeat": 2 }
+                { "monster": "GROUP_ZOMBIE", "x": [ 4, 23 ], "y": [ 2, 23 ], "repeat": [1, 3] }
             ]
         }
     },{
