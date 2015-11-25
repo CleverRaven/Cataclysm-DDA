@@ -677,6 +677,19 @@ void cata_tiles::load_tilejson_from_file(JsonObject &config, int offset, int siz
     dbg( D_INFO ) << "Tile Width: " << tile_width << " Tile Height: " << tile_height << " Tile Definitions: " << tile_ids.size();
 }
 
+/**
+ * Load a tile definition and add it to the @ref tile_ids map.
+ * All loaded tiles go into one vector (@ref tile_values), their index in it is their id.
+ * The JSON data (loaded here) contains tile ids relative to the associated image.
+ * They are translated into global ids by adding the @p offset, which is the number of
+ * previously loaded tiles (excluding the tiles from the associated image).
+ * @param id The id of the new tile definition (which is the key in @ref tile_ids). Any existing
+ * definition of the same id is overriden.
+ * @param size The number of tiles loaded from the current tileset file. This defines the
+ * range of valid tile ids that can be loaded. An exception is thrown if any tile id is outside
+ * that range.
+ * @return A reference to the loaded tile inside the @ref tile_ids map.
+ */
 tile_type &cata_tiles::load_tile(JsonObject &entry, const std::string &id, int offset, int size)
 {
     tile_type curr_subtile;
