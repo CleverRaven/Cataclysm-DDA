@@ -1910,12 +1910,12 @@ void overmap::draw(WINDOW *w, WINDOW *wbar, const tripoint &center,
     // Draw text describing the overmap tile at the cursor position.
     if (csee) {
         if(!mgroups.empty()) {
-            int line_number = 1;
+            int line_number = 6;
             for( const auto &mgroup : mgroups ) {
                 mvwprintz(wbar, line_number++, 3,
                           c_blue, "  Species: %s", mgroup->type.c_str());
                 mvwprintz(wbar, line_number++, 3,
-                          c_blue, "# monsters: %d", mgroup->population);
+                          c_blue, "# monsters: %d", mgroup->population + mgroup->monsters.size());
                 if( !mgroup->horde ) {
                     continue;
                 }
@@ -2227,7 +2227,7 @@ void overmap::process_mongroups()
             mg.population = (mg.population * 4) / 5;
             mg.radius = (mg.radius * 9) / 10;
         }
-        if( mg.population <= 0 ) {
+        if( mg.empty() ) {
             zg.erase( it++ );
         } else {
             ++it;
@@ -2290,6 +2290,10 @@ void overmap::move_hordes()
         // Gradually decrease interest.
         mg.dec_interest( 1 );
 
+        if( (mg.pos.x == mg.target.x && mg.pos.y == mg.target.y) || mg.interest <= 15 ) {
+            mg.wander(*this);
+        }
+
         // Decrease movement chance according to the terrain we're currently on.
         const oter_id& walked_into = ter(mg.pos.x, mg.pos.y, mg.pos.z);
         int movement_chance = 1;
@@ -2317,9 +2321,6 @@ void overmap::move_hordes()
                 mg.pos.y++;
             }
 
-            if( (mg.pos.x == mg.target.x && mg.pos.y == mg.target.y) || mg.interest <= 0 ) {
-                mg.wander(*this);
-            }
             // Erase the group at it's old location, add the group with the new location
             tmpzg.insert( std::pair<tripoint, mongroup>( mg.pos, mg ) );
             zg.erase( it++ );
@@ -2340,6 +2341,12 @@ void overmap::move_hordes()
         while(monster_map_it != monster_map.end()) {
             const auto& p = monster_map_it->first;
             auto& this_monster = monster_map_it->second;
+
+            // Only zombies on z-level 0 may join hordes.
+            if(p.z != 0) {
+                monster_map_it++;
+                continue;
+            }
 
             // Check if the monster is a zombie.
             auto& type = *(this_monster.type);
@@ -2368,9 +2375,10 @@ void overmap::move_hordes()
 
             // If there is no horde to add the monster to, create one.
             if(add_to_group == NULL) {
-                mongroup m(GROUP_ZOMBIE, p.x, p.y, p.z, 0, 0);
+                mongroup m(GROUP_ZOMBIE, p.x, p.y, p.z, 1, 0);
                 m.horde = true;
                 m.monsters.push_back(this_monster);
+                m.interest = 0; // Ensures that we will select a new target.
                 add_mon_group( m );
             } else {
                 add_to_group->monsters.push_back(this_monster);
@@ -4315,7 +4323,7 @@ void overmap::add_mon_group(const mongroup &group)
     // diffuse groups use a circular area, non-diffuse groups use a rectangular area
     const int rad = std::max<int>( 0, group.radius );
     const double total_area = group.diffuse ? std::pow( rad + 1, 2 ) : ( rad * rad * M_PI + 1 );
-    const double pop = std::max<int>( 1, group.population );
+    const double pop = std::max<int>( 0, group.population );
     int xpop = 0;
     for( int x = -rad; x <= rad; x++ ) {
         for( int y = -rad; y <= rad; y++ ) {
