@@ -16690,7 +16690,7 @@ msgstr "满满一全家桶的炸鸡。它居然还能食用……奇怪的是全
 msgid "A handful of large, purple plums.  Healthy and good for your digestion."
 msgstr "一把紫色的大李子。它是对你对消化道有好处。"
 
-#. ~ Description for handful of unshelled hickory nuts
+#. ~ Description for handful of shelled hickory nuts
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
 "A handful of raw hard nuts from a hickory tree, their shells have been "
@@ -22266,8 +22266,8 @@ msgid_plural "handfuls of roasted hickory nuts"
 msgstr[0] ""
 
 #: lang/json/COMESTIBLE_from_json.py
-msgid "handful of unshelled hickory nuts"
-msgid_plural "handfuls of unshelled hickory nuts"
+msgid "handful of shelled hickory nuts"
+msgid_plural "handfuls of shelled hickory nuts"
 msgstr[0] ""
 
 #: lang/json/COMESTIBLE_from_json.py

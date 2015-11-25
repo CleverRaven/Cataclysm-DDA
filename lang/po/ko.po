@@ -17476,7 +17476,7 @@ msgstr "닭고기 튀김 한 움큼입니다. 너무 맛있는 것이 단점입�
 msgid "A handful of large, purple plums.  Healthy and good for your digestion."
 msgstr "적당히 큰 보라색 자두입니다. 몸에 좋고, 소화를 돕습니다."
 
-#. ~ Description for handful of unshelled hickory nuts
+#. ~ Description for handful of shelled hickory nuts
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
 "A handful of raw hard nuts from a hickory tree, their shells have been "
@@ -23392,8 +23392,8 @@ msgid_plural "handfuls of roasted hickory nuts"
 msgstr[0] "볶은 히코리 열매"
 
 #: lang/json/COMESTIBLE_from_json.py
-msgid "handful of unshelled hickory nuts"
-msgid_plural "handfuls of unshelled hickory nuts"
+msgid "handful of shelled hickory nuts"
+msgid_plural "handfuls of shelled hickory nuts"
 msgstr[0] "껍질깐 히코리 열매"
 
 #: lang/json/COMESTIBLE_from_json.py
