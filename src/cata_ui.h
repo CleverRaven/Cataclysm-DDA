@@ -127,7 +127,7 @@ class ui_window : public ui_element {
         std::list<ui_element *> children;
 
         void adjust_window();
-        window_buffer win;
+        WINDOW *win;
         void draw_children();
         void draw_window_children();
     protected:

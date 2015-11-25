@@ -76,6 +76,8 @@
 #include "live_view.h"
 #include "recipe_dictionary.h"
 
+#include "cata_ui.h"
+
 #include <map>
 #include <set>
 #include <queue>
@@ -3726,6 +3728,7 @@ void game::debug()
                       _("Change time"), // 26
                       _("Set automove route"), // 27
                       _("Show mutation category levels"), // 28
+                      "ui test", // 29
                       _("Cancel"),
                       NULL);
     int veh_num;
@@ -4371,6 +4374,12 @@ void game::debug()
         }
     }
     break;
+    case 29 :
+        {
+            input_context ctxt = get_default_mode_input_context();
+            ui_test_func();
+            ctxt.handle_input();
+        }
     }
     erase();
     refresh_all();

@@ -39,7 +39,7 @@ ui_rect::ui_rect( size_t size_x, size_t size_y, int x, int y ) : size_x( size_x 
 }
 
 ui_window::ui_window( size_t size_x, size_t size_y, int x, int y, ui_anchor anchor) : ui_element(size_x, size_y, x, y, anchor),
-                      global_x(ui_element::anchored_x), global_y(ui_element::anchored_y), win(window_buffer(size_x, size_y, global_x, global_y))
+                      global_x(ui_element::anchored_x), global_y(ui_element::anchored_y), win(newwin(size_y, size_x, global_y, global_x))
 {
 }
 
@@ -48,13 +48,16 @@ ui_window::~ui_window()
     for( auto child : children ) {
         delete child;
     }
+
+    delwin(win);
 }
 
 void ui_window::draw()
 {
+    werase(win);
     local_draw();
     draw_children();
-    win.flush();
+    wrefresh(win);
     draw_window_children();
 }
 
@@ -85,7 +88,9 @@ void ui_window::adjust_window()
         global_y += parent->global_y;
     }
 
-    win = window_buffer(rect.size_x, rect.size_y, global_x, global_y);
+    delwin(win);
+    win = newwin(rect.size_y, rect.size_x, global_y, global_x);
+    //win = window_buffer(rect.size_x, rect.size_y, global_x, global_y);
 }
 
 void ui_window::set_parent( const ui_window *parent )
@@ -132,7 +137,7 @@ void ui_window::add_child( ui_element *child )
 
 WINDOW *ui_window::get_win() const
 {
-    return win.get_buffer();
+    return win;
 }
 
 size_t ui_window::child_count() const
@@ -863,7 +868,7 @@ void tile_panel_test()
 
 void auto_border_test()
 {
-    auto_bordered_window win(51, 34, 50, 15);
+    auto_bordered_window win(51, 23, 50, 15);
 
     win.add_child(new bordered_window(49, 10, 1, 1));
     win.add_child(new bordered_window(49, 10, -1, -1, bottom_right));
@@ -976,5 +981,42 @@ void list_test2()
 
 void ui_test_func()
 {
-    list_test2();
+    std::vector<std::string> options {
+        "labels and anchors",
+        "tabs",
+        "indicators",
+        "tile_panel",
+        "auto borders",
+        "v list",
+        "h list"
+    };
+
+    int selection = menu_vec(false, "Select a sample", options);
+
+    switch(selection) {
+        case 1:
+            label_test();
+            break;
+        case 2:
+            tab_test();
+            break;
+        case 3:
+            indicators_test();
+            break;
+        case 4:
+            tile_panel_test();
+            break;
+        case 5:
+            auto_border_test();
+            break;
+        case 6:
+            list_test();
+            break;
+        case 7:
+            list_test2();
+            break;
+        default:
+            break;
+    }
+    //tab_test();
 }
