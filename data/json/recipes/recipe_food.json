@@ -4683,7 +4683,7 @@
   ]
 },{
   "type" : "recipe",
-  "result": "hickory_nut_unshelled",
+  "result": "hickory_nut_shelled",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_VEGGI",
   "skill_used": "survival",
@@ -4723,7 +4723,7 @@
   ],
   "components": [
     [
-      ["hickory_nut_unshelled", 1]
+      ["hickory_nut_shelled", 1]
     ]
   ]
 },{
@@ -4751,7 +4751,7 @@
   ],
   "components": [
     [
-        ["hickory_nut_unshelled", 4]
+        ["hickory_nut_shelled", 4]
     ],
     [
       [ "milk", 1 ],
