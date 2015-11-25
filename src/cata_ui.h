@@ -13,8 +13,8 @@ typedef int nc_color;
 /**
  * \defgroup Cata_ui "Cataclysm's ui framework."
  *
- * As you might expect, the ui framework is implemented with the composite pattern.
- * This allows us to nest some ui elements within another. We only need to call 'render'
+ * The ui framework is implemented with the composite pattern.
+ * This allows us to nest ui elements within another. We only need to call 'draw'
  * on the top level object, and the composite pattern takes care of the rest.
  * @{
  */
@@ -95,7 +95,7 @@ class ui_element {
 * The basis for a ui composition.
 *
 * This is the class in the framework that holds nested elements.
-* It is also the only class in the framework with a public 'draw' function (render).
+* It is also the only class in the framework with a public 'draw' function.
 */
 class ui_window : public ui_element {
     friend class ui_element; // for get_win
@@ -157,6 +157,9 @@ class bordered_window : public ui_window {
         nc_color border_color = BORDER_COLOR;
 };
 
+/**
+* Generic form of health bar
+*/
 class health_bar : public ui_element {
     private:
         unsigned int max_health;
@@ -218,10 +221,7 @@ class ui_tile {
 /**
 * A panel that draws tiles.
 *
-* This tile will always have an odd size in both x and y.
-* A 'center' tripoint is passed that represents the focus of this panel.
-* Along with that a function to retrieve tiles in specific locations is passed,
-* this is used to fill in the area around the center.
+* The type argument is the type of tile used. (for memory allocation reasons)
 */
 template<class T = ui_tile>
 class tile_panel : public ui_element {
@@ -250,6 +250,10 @@ class tabbed_window : public bordered_window {
     public:
         tabbed_window( size_t size_x, size_t size_y, int x = 0, int y = 0, ui_anchor anchor = top_left );
 
+        /**
+        * Creates a new tab and a ui_window to go along with it (which it returns).
+        * The type argument is the type of ui_window created.
+        */
         template<class T = ui_window>
         T *create_tab( std::string tab );
 
@@ -284,8 +288,8 @@ class auto_bordered_window : public ui_window {
 /**
 * Basically, a list of text.
 *
-* One of the lines of text is highlighted, selected.
-* The list also has a scroll bar, if it's big enough.
+* One of the lines of text is highlighted (selected).
+* The list also has a scroll bar.
 */
 class ui_vertical_list : public ui_element {
     private:
