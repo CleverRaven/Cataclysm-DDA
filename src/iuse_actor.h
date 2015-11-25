@@ -448,7 +448,7 @@ class inscribe_actor : public iuse_actor
         std::string verb; // "Write", "Carve"
         std::string gerund; // "Written", "Carved"
 
-        bool item_inscription( item *cut, std::string verb, std::string gerund ) const;
+        bool item_inscription( item *cut ) const;
 
         inscribe_actor() : iuse_actor(), on_items( true ), on_terrain( false ), material_restricted( true ) { }
         virtual ~inscribe_actor() { }
