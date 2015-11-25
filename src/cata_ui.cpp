@@ -2,6 +2,7 @@
 
 #include "catacharset.h"
 #include "output.h"
+#include "input.h"
 
 #include "debug.h"
 
@@ -665,12 +666,40 @@ void label_test()
     win.draw();
 }
 
-void ui_test_func()
+void tab_test()
 {
     tabbed_window win(31, 14, 50, 15);
-    auto t_win = win.create_tab<ui_window>("my tab");
-    win.create_tab<ui_window>("other");
-    auto label = new ui_label("test", 0, 0, center_center);
-    t_win->add_child(label);
+    auto t_win1 = win.create_tab<ui_window>("tab 1");
+    auto label1 = new ui_label("window 1", 0, 0, center_center);
+    t_win1->add_child(label1);
+
+    auto t_win2 = win.create_tab<ui_window>("tab 2");
+    auto label2 = new ui_label("window 2", 0, 0, center_center);
+    t_win2->add_child(label2);
+
     win.draw();
+
+    input_context ctxt;
+    ctxt.register_action("QUIT");
+    ctxt.register_action("PREV_TAB");
+    ctxt.register_action("NEXT_TAB");
+
+    while(true) {
+        const std::string action = ctxt.handle_input();
+
+        if(action == "PREV_TAB") {
+            win.previous_tab();
+        } else if(action == "NEXT_TAB") {
+            win.next_tab();
+        } else if(action == "QUIT") {
+            break;
+        }
+
+        win.draw();
+    }
+}
+
+void ui_test_func()
+{
+    tab_test();
 }
