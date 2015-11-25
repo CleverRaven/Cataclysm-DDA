@@ -521,10 +521,11 @@ void cata_tiles::load_tilejson_from_file(const std::string &tileset_dir, std::if
 void cata_tiles::add_ascii_subtile(tile_type &curr_tile, const std::string &t_id, int fg, const std::string &s_id)
 {
     const std::string m_id = t_id + "_" + s_id;
-    tile_type &curr_subtile = tile_ids[m_id];
+    tile_type curr_subtile;
     curr_subtile.fg.push_back(fg);
     curr_subtile.rotates = true;
     curr_tile.available_subtiles.push_back(s_id);
+    tile_ids[m_id] = curr_subtile;
 }
 
 void cata_tiles::load_ascii_tilejson_from_file(JsonObject &config, int offset, int size)
@@ -678,7 +679,7 @@ void cata_tiles::load_tilejson_from_file(JsonObject &config, int offset, int siz
 
 tile_type &cata_tiles::load_tile(JsonObject &entry, const std::string &id, int offset, int size)
 {
-    tile_type &curr_subtile = tile_ids[id];
+    tile_type curr_subtile;
 
     if ( entry.has_array("fg") ) {
         JsonArray fg_array = entry.get_array("fg");
@@ -720,7 +721,9 @@ tile_type &cata_tiles::load_tile(JsonObject &entry, const std::string &id, int o
         }
     }
 
-    return curr_subtile;
+    auto &result = tile_ids[id];
+    result = curr_subtile;
+    return result;
 }
 
 void cata_tiles::draw_single_tile( const tripoint &p, lit_level ll,
