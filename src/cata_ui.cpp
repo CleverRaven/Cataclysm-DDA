@@ -334,7 +334,7 @@ void health_bar::refresh_bar( bool overloaded, float percentage )
         }
     }
 
-    static const std::array<nc_color, 7> colors {
+    static const std::array<nc_color, 7> colors {{
         c_green,
         c_ltgreen,
         c_yellow,
@@ -342,7 +342,7 @@ void health_bar::refresh_bar( bool overloaded, float percentage )
         c_ltred,
         c_red,
         c_ltgray
-    };
+    }};
 
     bar_color = colors[(int) roundf( colors.size() * percentage )];
 }
