@@ -90,6 +90,7 @@
 #include <iterator>
 #include <ctime>
 #include <cstring>
+#include <cmath>
 
 #if !(defined _WIN32 || defined WINDOWS || defined TILES)
 #include <langinfo.h>
@@ -6126,109 +6127,76 @@ struct pair_greater_cmp
     }
 };
 
+void game::explosion( const tripoint &p, float power, float factor,
+                      int shrapnel_count, bool fire )
+{
+    factor = 0.5; //patch for now - TODO: expand deeper before done
+    
+    const int noise = power * (fire ? 2 : 10);
+    if( noise >= 30 ) {
+        sounds::sound( p, noise, _("a huge explosion!") );
+        sfx::play_variant_sound( "explosion", "huge", 100);
+    } else if( noise >= 4 ) {
+        sounds::sound( p, noise, _("an explosion!") );
+        sfx::play_variant_sound( "explosion", "default", 100);
+    } else {
+        sounds::sound( p, 3, _("a loud pop!") );
+        sfx::play_variant_sound( "explosion", "small", 100);
+    }
+
+    if( factor >= 1.0f ) {
+        debugmsg( "called game::explosion with factor >= 1.0 (infinite size)" );
+    } else if( factor > 0.0f ) {
+        do_blast( p, power, factor, fire );
+    }
+
+    if( shrapnel_count > 0 ) {
+        const int radius = int(sqrt(double(power / 10)));
+        shrapnel( p, power, shrapnel_count, radius );
+    }
+}
+
 void game::do_blast( const tripoint &p, const float power,
                      const float distance_factor, const bool fire )
 {
-    const float tile_dist = 1.0f;
-    const float diag_dist = trigdist ? 1.41f * tile_dist : 1.0f * tile_dist;
-    const float zlev_dist = 2.0f; // Penalty for going up/down
-    // 7 3 5
-    // 1 . 2
-    // 6 4 8
-    // 9 and 10 are up and down
-    constexpr std::array<int, 10> x_offset{{ -1,  1,  0,  0,  1, -1, -1, 1, 0,  0 }};
-    constexpr std::array<int, 10> y_offset{{  0,  0, -1,  1, -1,  1, -1, 1, 0,  0 }};
-    constexpr std::array<int, 10> z_offset{{  0,  0,  0,  0,  0,  0,  0, 0, 1, -1 }};
-    const size_t max_index = m.has_zlevels() ? 10 : 8;
-
-    std::priority_queue< std::pair<float, tripoint>, std::vector< std::pair<float, tripoint> >, pair_greater_cmp > open;
-    std::set<tripoint> closed;
-    std::map<tripoint, float> dist_map;
-    open.push( std::make_pair( 0.0f, p ) );
-    dist_map[p] = 0.0f;
-    // Find all points to blast
-    while( !open.empty() ) {
-        // Add some random factor to effective distance to make it look cooler
-        const float distance = open.top().first * rng_float( 1.0f, 1.2f );
-        const tripoint pt = open.top().second;
-        open.pop();
-
-        if( closed.count( pt ) != 0 ) {
-            continue;
-        }
-
-        closed.insert( pt );
-
-        const float force = power * std::pow( distance_factor, distance );
+    if(distance_factor != 0.5) { /* Temporarily need to consume the parameter */ }
+    int max_radius = ceil(sqrt(power / 10));
+    std::map<tripoint, double> cover = find_cover(p, max_radius);
+    std::vector<tripoint> points = closest_tripoints_first(max_radius, p);
+    
+    // Do concussive damage at each explosion point
+    for(tripoint &pt : points) {
+        float force = power;
+        if(p != pt) { force = force / std::pow( trig_dist(p, pt), 2.0 ); }
+        force = force * cover[pt];
+        
         if( force <= 1.0f ) {
+            // Too weak to matter
             continue;
         }
-
-        if( m.move_cost( pt ) == 0 && pt != p ) {
-            // Don't propagate further
-            continue;
-        }
-
-        // Those will be used for making "shaped charges"
-        // Don't check up/down (for now) - this will make 2D/3D balancing easier
-        int empty_neighbors = 0;
-        for( size_t i = 0; i < 8; i++ ) {
-            tripoint dest( pt.x + x_offset[i], pt.y + y_offset[i], pt.z + z_offset[i] );
-            if( closed.count( dest ) == 0 && m.valid_move( pt, dest, false, true ) ) {
-                empty_neighbors++;
-            }
-        }
-
-        empty_neighbors = std::max( 1, empty_neighbors );
-        // Iterate over all neighbors. Bash all of them, propagate to some
-        for( size_t i = 0; i < max_index; i++ ) {
-            tripoint dest( pt.x + x_offset[i], pt.y + y_offset[i], pt.z + z_offset[i] );
-            if( closed.count( dest ) != 0 ) {
-                continue;
-            }
-
-            // Up to 200% bonus for shaped charge
-            // But not if the explosion is fiery, then only half the force and no bonus
-            const float bash_force = !fire ?
-                                        force + ( 2 * force / empty_neighbors ) :
-                                        force / 2;
-            if( z_offset[i] == 0 ) {
-                // Horizontal - no floor bashing
-                m.bash( dest, bash_force, true, false, false );
-            } else if( z_offset[i] > 0 ) {
-                // Should actually bash through the floor first, but that's not really possible yet
-                m.bash( dest, bash_force, true, false, true );
-            } else if( !m.valid_move( pt, dest, false, true ) ) {
-                // Only bash through floor if it doesn't exist
-                // Bash the current tile's floor, not the one's below
-                m.bash( pt, bash_force, true, false, true );
-            }
-
-            float next_dist = distance;
-            next_dist += ( x_offset[i] == 0 || y_offset[i] == 0 ) ? tile_dist : diag_dist;
-            if( z_offset[i] != 0 ) {
-                if( !m.valid_move( pt, dest, false, true ) ) {
-                    continue;
-                }
-
-                next_dist += zlev_dist;
-            }
-
-            if( dist_map.count( dest ) == 0 || dist_map[dest] > next_dist ) {
-                open.push( std::make_pair( next_dist, dest ) );
-                dist_map[dest] = next_dist;
-            }
-        }
+        
+        const float bash_force = fire ? force / 2 : force;
+        //bash this point
+        m.bash( pt, bash_force, true, false, false );
     }
+    
 
     // Draw the explosion
     std::map<tripoint, nc_color> explosion_colors;
-    for( auto &pt : closed ) {
+    for( auto &pt : points ) {
+        //TODO: work out how power translates to force
+        float force = power;
+        if(p != pt) { force = power / std::pow( trig_dist(p, pt), 2.0 ); }
+        force = force * cover[pt];
+        
+        if( force < 1.0f ) {
+            // Too weak to matter
+            continue;
+        }
         if( m.move_cost( pt ) == 0 ) {
             continue;
         }
 
-        const float force = power * std::pow( distance_factor, dist_map.at( pt ) );
         nc_color col = c_red;
         if( force < 10 ) {
             col = c_white;
@@ -6238,11 +6206,14 @@ void game::do_blast( const tripoint &p, const float power,
 
         explosion_colors[pt] = col;
     }
-
     draw_custom_explosion( u.pos(), explosion_colors );
 
-    for( const tripoint &pt : closed ) {
-        const float force = power * std::pow( distance_factor, dist_map.at( pt ) );
+    for( const tripoint &pt : points ) {
+        //TODO: work out how power translates to force
+        float force = power;
+        if(p != pt) { force = power / std::pow( trig_dist(p, pt), 2.0 ); }
+        force = force * cover[pt];
+        
         if( force < 1.0f ) {
             // Too weak to matter
             continue;
@@ -6329,77 +6300,109 @@ void game::do_blast( const tripoint &p, const float power,
     }
 }
 
+std::map<tripoint, double> find_cover(const tripoint &p, const int max_radius)
+{    
+    std::map<tripoint, double> cover;
+    cover[p] = 1.0;
+    if(g->m.has_furn(p)) { cover[p] = 0.75; }
+    
+    std::set<tripoint> last_shell;
+    last_shell.insert(p);
+    
+    //process cover amounts
+    for(int i = 1; i < max_radius; ++i) {
+        std::set<tripoint> shell = get_shell_tripoints(i, p);
+        for(tripoint pt : shell) {
+            double cover_sum = 0;
+            int count = 0;
+            
+            //neighboring cover
+            for(tripoint neighbor : get_neighbor_tripoints(p)) {
+                if(last_shell.count(neighbor) > 0) {
+                    if(g->m.has_furn(neighbor)) { cover_sum += 1.0; }  //actual neighboring cover
+                    else    { cover_sum += cover[neighbor] * 0.50; }   //carry over distant cover, reduced
+                    ++count;
+                }
+            }
+            
+            //weight LoS-blocking adjacent cover significantly higher
+            std::vector<tripoint> line = line_to(pt, p, 0, 0);
+            if(g->m.has_furn(line[0])) { cover_sum = 1.0 * 2; }
+            count += 2;
+            
+            //same-tile furniture likely enough to provide mindless critters a bit of cover, if only by accident
+            if(cover_sum / count > 0.90 && g->m.has_furn(pt)) { cover_sum += 0.90; ++count; }
+            
+            cover[pt] = cover_sum / count;
+        }
+        last_shell = shell;
+    }
+    
+    return cover;
+}
 
-void game::explosion( const tripoint &p, float power, float factor,
-                      int shrapnel_count, bool fire )
+//power of a fragment that makes it to the square
+static float frag_pow(const tripoint &p, const tripoint &pt, int power) { return power * pow(1.0 / trig_dist(p, pt), 2); }
+
+//number of fragments that make it to a tile
+static int frag_count(const tripoint &p, tripoint &pt, int count, const std::vector<tripoint> &los)
 {
-    const int noise = power * (fire ? 2 : 10);
-    if( noise >= 30 ) {
-        sounds::sound( p, noise, _("a huge explosion!") );
-        sfx::play_variant_sound( "explosion", "huge", 100);
-    } else if( noise >= 4 ) {
-        sounds::sound( p, noise, _("an explosion!") );
-        sfx::play_variant_sound( "explosion", "default", 100);
-    } else {
-        sounds::sound( p, 3, _("a loud pop!") );
-        sfx::play_variant_sound( "explosion", "small", 100);
+    //if line of sight isn't clear (this excludes glass, bars, etc.), then let's assume total protection for now
+    if(! g->m.sees(p, pt, trig_dist(p, pt) + 2)) { return 0; }
+    
+    //handle the epicenter
+    if(los.size() == 0) { return ceil(count * (g->m.has_furn(p) ? 0.5 : 1.0) * 0.75); }
+    
+    //just to make sure...
+    if(los[0] != p) { los.insert(los.begin(), p); }
+    if(los[los.size()-1] != pt) { los.push_back(p); }
+    
+    float frag_count = count;
+    //losses from...
+    for(size_type d = 1; d < los.size(); ++d) {
+        //...falloff & dispersion (i.e. distance-based)
+        frag_count = frag_count * 0.9 / (d-1 == 0 ? 8 : (float)d / ((float)d-1.0)); //lose 10% to falloff, and (d-1)/d to dispersion - falloff arbitrary, dispersion not
+        //only account for distance-based on last tile
+        if(los[d] == pt) { continue; }
+        //...furniture
+        if(g->m.has_furn(los[d])) { frag_count = frag_count *  0.80; }              //lose 20% to intervening furniture - arbitrary
+        //...creatures
+        Creature *critter = g->m.critter_at(los[d]);
+        if(critter != nullptr) { frag_count = frag_count * 0.25; }                  //lose 75% to intervening creature - arbitrary
     }
-
-    if( factor >= 1.0f ) {
-        debugmsg( "called game::explosion with factor >= 1.0 (infinite size)" );
-    } else if( factor > 0.0f ) {
-        do_blast( p, power, factor, fire );
-    }
-
-    if( shrapnel_count > 0 ) {
-        const int radius = 2 * int(sqrt(double(power / 4)));
-        shrapnel( p, power * 2, shrapnel_count, radius );
-    }
+    
+    //account for a quarter of fragments not hitting on the way past
+    return ceil(frag_count * 0.75);
 }
 
 void game::shrapnel( const tripoint &p, int power, int count, int radius )
 {
-    if( power <= 0 ) {
-        return;
+    if( power <= 0 || radius < 0 || count < 1) { return; }
+
+    count = 400; // for testing
+    
+    std::map<std::vector<tripoint>, int> frags_plan;
+    std::vector<tripoint> extents = closest_tripoints_first(radius, p);
+    //1st pass, so that we can take into account things that would be destroyed
+    for(size_t i = 0; i < extents.size(); ++i) {
+        const tripoint pt = extents[i];
+        std::vector<tripoint> los = line_to(p, pt);
+        frags_plan[pt] = frag_count(p, pt, count, los);
     }
-
-    if( radius < 0 ) {
-        return;
-    }
-
-    npc fake_npc;
-    fake_npc.name = _("Shrapnel");
-    fake_npc.set_fake(true);
-    fake_npc.setpos( p );
-    projectile proj;
-    proj.speed = 100;
-    proj.proj_effects.insert( "DRAW_AS_LINE" );
-    proj.proj_effects.insert( "NULL_SOURCE" );
-    for( int i = 0; i < count; i++ ) {
-        // TODO: Z-level shrapnel, but not before z-level ranged attacks
-        tripoint sp{ static_cast<int> (rng( p.x - radius, p.x + radius )),
-                     static_cast<int> (rng( p.y - radius, p.y + radius )),
-                     p.z };
-
-        proj.impact = damage_instance::physical( power, power, 0, 0 );
-
-        Creature *critter_in_center = critter_at( p ); // Very unfortunate critter
-        if( critter_in_center != nullptr ) {
-            dealt_projectile_attack dda; // Cool variable name
-            dda.proj = proj;
-            // For first shrapnel piece:
-            // 50% chance for 50%-100% base (power to 2 * power)
-            // 50% chance for 0-25% base
-            // Each one after that gets a progressively lower chance of hitting
-            dda.missed_by = rng_float( 0.4, 1.0 ) + (i * 1.0 / count);
-            critter_in_center->deal_projectile_attack( nullptr, dda );
+    for(tripoint &pt : extents) {
+        int frags = frags_plan[pt];
+        float fpow = frag_pow(p, pt, power);
+        //if there is a creature here, hit it
+        Creature *critter = critter_at(pt);
+        if(critter != nullptr ) {
+            for(int i = 0; i < frags; ++i) {
+                critter->deal_damage(nullptr, critter->select_body_part(critter, 50), damage_instance::physical( frags * fpow, frags * fpow, 0, 0 ));
+            }
         }
-
-        if( sp != p ) {
-            // This needs to be high enough to prevent game from thinking that
-            //  the fake npc is scoring headshots.
-            fake_npc.projectile_attack( proj, sp, 3600 );
-        }
+        
+        //bash the tile
+        const float bash_force = frags * fpow * 0.80; //TODO - refine this conversion if need be (maybe only do fpow?)
+        m.bash( pt, bash_force, true, false, false );
     }
 }
 

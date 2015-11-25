@@ -1379,6 +1379,9 @@ std::vector<point> closest_points_first(int radius, point p);
 std::vector<point> closest_points_first(int radius,int x,int y);
 // Does not build "piles" - does the same as above functions, except in tripoints
 std::vector<tripoint> closest_tripoints_first(int radius, const tripoint &p);
+// more tripoint-type helper functions
+std::set<tripoint> get_shell_tripoints(int radius, const tripoint &center);
+std::set<tripoint> get_neighbor_tripoints(const tripoint &p);
 bool ter_furn_has_flag( const ter_t &ter, const furn_t &furn, const ter_bitflags flag );
 class tinymap : public map
 {

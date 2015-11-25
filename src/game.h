@@ -196,12 +196,14 @@ class game
         void add_event(event_type type, int on_turn, int faction_id, tripoint where);
         bool event_queued(event_type type) const;
         /** Create explosion at p of intensity (power) with (shrapnel) chunks of shrapnel.
-            Explosion intensity formula is roughly power*factor^distance.
+            Explosion intensity formula is roughly power*distance^factor.
             If factor <= 0, no blast is produced */
         void explosion( const tripoint &p, float power, float factor = 0.8f,
                         int shrapnel = 0, bool fire = false );
         /** Helper for explosion, does the actual blast. */
         void do_blast( const tripoint &p, float power, float factor, bool fire );
+        /** Helper - finds the cover relevent to the explosion **/
+        std::map<tripoint, double> find_cover( const tripoint &p, float power);
         /** Shoot shrapnel from point p */
         void shrapnel( const tripoint &p, int power, int count, int radius );
         /** Triggers a flashbang explosion at p. */
