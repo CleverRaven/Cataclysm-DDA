@@ -241,8 +241,6 @@ class tabbed_window : public bordered_window {
     private:
         std::vector<std::pair<std::string, ui_window *>> tabs;
         unsigned int tab_index;
-
-        int draw_tab(const std::string &, bool, int) const;
     protected:
         virtual void local_draw() override;
     public:

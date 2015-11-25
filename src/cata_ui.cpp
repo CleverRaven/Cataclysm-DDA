@@ -1,6 +1,7 @@
 #include "cata_ui.h"
 
 #include "catacharset.h"
+#include "output.h"
 
 #include "debug.h"
 
@@ -14,7 +15,6 @@ ui_rect::ui_rect( size_t size_x, size_t size_y, int x, int y ) : size_x( size_x 
 ui_window::ui_window( size_t size_x, size_t size_y, int x, int y, ui_anchor anchor) : ui_element(size_x, size_y, x, y, anchor),
                       global_x(ui_element::anchored_x), global_y(ui_element::anchored_y), win(newwin(size_y, size_x, global_y, global_x))
 {
-    // adjust_window() // Does ui_element's constructor call our version of calc_anchored_values
 }
 
 ui_window::~ui_window()
@@ -454,47 +454,8 @@ ui_tile::ui_tile(long sym, nc_color color) : sym(sym), color(color)
 {
 }
 
-tabbed_window::tabbed_window(size_t size_x, size_t size_y, int x, int y, ui_anchor anchor) : bordered_window(size_x, size_y, x, y, anchor)
+tabbed_window::tabbed_window(size_t size_x, size_t size_y, int x, int y, ui_anchor anchor) : bordered_window(size_x, size_y, x, y, anchor), tab_index(0)
 {
-}
-
-// returns the width of the tab
-int tabbed_window::draw_tab(const std::string &tab, bool selected, int x_offset) const
-{
-    auto win = get_win(); // never null
-    int gy = get_ay();
-    int gx = get_ax() + x_offset;
-
-    int width = utf8_width(tab.c_str()) + 2;
-    //print top border
-    for(int x = gx; x < gx + width; x++) {
-        mvwputch(win, gy, x, border_color, LINE_OXOX);
-    }
-
-    //print text and 2 borders
-    mvwputch(win, gy + 1, gx, border_color, LINE_XOXO);
-    mvwprintz(win, gy + 1, gx + 1, (selected ? hilite(border_color) : border_color), tab.c_str());
-    mvwputch(win, gy + 1, gx + width, border_color, LINE_XOXO);
-
-    if(selected) {
-        // print selection braces
-        mvwputch(win, gy + 1, gx - 1, border_color, '<');
-        mvwputch(win, gy + 1, gx + width + 1, border_color, '>');
-
-        // print bottom tab corners
-        mvwputch(win, gy + 2, gx, border_color, LINE_XOOX);
-        mvwputch(win, gy + 2, gx + width, border_color, LINE_XXOO);
-    } else {
-        // print T
-        mvwputch(win, gy + 2, gx, border_color, LINE_XXOX);
-        // print bottom border
-        for(int x = gx + 1; x < gx + width - 1; x++) {
-            mvwputch(win, gy + 2, x, border_color, LINE_OXOX);
-        }
-        // print T
-        mvwputch(win, gy + 2, gx + width, border_color, LINE_XXOX);
-    }
-    return width;
 }
 
 void tabbed_window::local_draw()
@@ -508,9 +469,16 @@ void tabbed_window::local_draw()
         }
     }
 
+    for (int i = 0; i < get_rect().size_x; i++) {
+        mvwputch(win, 2, i, border_color, LINE_OXOX);
+    }
+
+    mvwputch(win, 2,  0, border_color, LINE_OXXO); // |^
+    mvwputch(win, 2, get_rect().size_x - 1, border_color, LINE_OOXX); // ^|
+
     int x_offset = 1; // leave space for selection bracket
     for(unsigned int i = 0; i < tabs.size(); i++) {
-        x_offset += draw_tab(tabs[i].first, tab_index == i, x_offset) + 1;
+        x_offset += draw_tab(win, x_offset, tabs[i].first, tab_index == i) + 2;
     }
 }
 
@@ -700,7 +668,8 @@ void label_test()
 void ui_test_func()
 {
     tabbed_window win(31, 14, 50, 15);
-    auto t_win = win.create_tab<bordered_window>("my tab");
+    auto t_win = win.create_tab<ui_window>("my tab");
+    win.create_tab<ui_window>("other");
     auto label = new ui_label("test", 0, 0, center_center);
     t_win->add_child(label);
     win.draw();

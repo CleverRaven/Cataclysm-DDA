@@ -342,7 +342,7 @@ std::pair<std::string, nc_color> const& get_item_hp_bar(int dmg);
 
 std::pair<std::string, nc_color> const& get_light_level(const float light);
 
-void draw_tab(WINDOW *w, int iOffsetX, std::string sText, bool bSelected);
+int draw_tab(WINDOW *w, int iOffsetX, std::string sText, bool bSelected);
 void draw_subtab(WINDOW *w, int iOffsetX, std::string sText, bool bSelected, bool bDecorate = true);
 void draw_scrollbar(WINDOW *window, const int iCurrentLine, const int iContentHeight,
                     const int iNumEntries, const int iOffsetY = 0, const int iOffsetX = 0,

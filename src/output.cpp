@@ -1398,7 +1398,7 @@ std::string word_rewrap (const std::string &in, int width)
     return o.str();
 }
 
-void draw_tab(WINDOW *w, int iOffsetX, std::string sText, bool bSelected)
+int draw_tab(WINDOW *w, int iOffsetX, std::string sText, bool bSelected)
 {
     int iOffsetXRight = iOffsetX + utf8_width( sText ) + 1;
 
@@ -1428,6 +1428,8 @@ void draw_tab(WINDOW *w, int iOffsetX, std::string sText, bool bSelected)
         mvwputch(w, 2, iOffsetX,      c_ltgray, LINE_XXOX); // _|_
         mvwputch(w, 2, iOffsetXRight, c_ltgray, LINE_XXOX); // _|_
     }
+
+    return iOffsetXRight - iOffsetX;
 }
 
 void draw_subtab(WINDOW *w, int iOffsetX, std::string sText, bool bSelected, bool bDecorate)
