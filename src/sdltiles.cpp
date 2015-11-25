@@ -42,13 +42,13 @@
 #   include <wordexp.h>
 #endif
 
-#include "SDL2/SDL.h"
-#include "SDL2/SDL_ttf.h"
-#include "SDL2/SDL_image.h"
+#include <SDL.h>
+#include <SDL_ttf.h>
+#include <SDL_image.h>
 
 #ifdef SDL_SOUND
-#include "SDL2/SDL_mixer.h"
-#include "sounds.h"
+#   include <SDL_mixer.h>
+#   include "sounds.h"
 #endif
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_SDL) << __FILE__ << ":" << __LINE__ << ": "
@@ -766,7 +766,7 @@ void curses_drawwindow(WINDOW *win)
         int wheight = win->height * font->fontheight;
         FillRectDIB(offsetx, offsety, wwidth, wheight, COLOR_BLACK);
         update = true;
-    } else if (g && win == g->w_pixel_minimap && OPTIONS["PIXEL_MINIMAP"]) {\
+    } else if (g && win == g->w_pixel_minimap && OPTIONS["PIXEL_MINIMAP"]) {
         // Make sure the entire minimap window is black before drawing.
         FillRectDIB(win->x * fontwidth, win->y * fontheight,
                     win->width * fontwidth, win->height * fontheight, COLOR_BLACK);
