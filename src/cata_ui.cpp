@@ -408,7 +408,8 @@ void tile_panel<T>::set_rect(const ui_rect &new_rect)
 {
     ui_element::set_rect(new_rect);
     num_tiles = new_rect.size_x * new_rect.size_y;
-    tiles = (T *) realloc(tiles, num_tiles * sizeof(T));
+    delete[] tiles;
+    tiles = new T[num_tiles];
 }
 
 template<class T>
@@ -534,7 +535,8 @@ auto_bordered_window::~auto_bordered_window()
 void auto_bordered_window::set_rect(const ui_rect &new_rect)
 {
     ui_window::set_rect(new_rect);
-    uncovered = (bool *) realloc(uncovered, new_rect.size_x * new_rect.size_y * sizeof(bool));
+    delete[] uncovered;
+    uncovered = new bool[new_rect.size_x * new_rect.size_y];
     recalc_uncovered();
 }
 
