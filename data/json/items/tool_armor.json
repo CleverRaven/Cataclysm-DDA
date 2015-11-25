@@ -1537,7 +1537,7 @@
         },
         "revert_to": "null",
         "covers" : ["MOUTH"],
-        "flags" : ["OUTER", "ALLOWS_NATURAL_ATTACKS"],
+        "flags" : ["OUTER"],
         "warmth" : 20,
         "environmental_protection" : 2,
         "encumbrance" : 0,

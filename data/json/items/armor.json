@@ -10997,7 +10997,7 @@
         "environmental_protection" : 3,
         "encumbrance" : 40,
         "bashing" : 10,
-        "flags" : ["OVERSIZE", "VARSIZE", "WATERPROOF", "STURDY", "OUTER", "ALLOWS_NATURAL_ATTACKS"],
+        "flags" : ["OVERSIZE", "VARSIZE", "WATERPROOF", "STURDY", "OUTER"],
         "coverage" : 100,
         "material_thickness" : 3
     },

@@ -9407,11 +9407,8 @@ int player::butcher_factor() const
         item tmp( "toolset", 0 );
     result = std::max( result, tmp.butcher_factor() );
     }
-    if ((has_trait("CLAWS")) || (has_trait("CLAWS_RAT")) || (has_active_mutation("CLAWS_RETRACT")) || (has_trait("TALONS"))) {
-    result = std::max( result, -50 );
-    }
-    if ((has_bionic("bio_razor")) || (has_trait("CLAWS_ST"))) {
-    result = std::max( result, -25 );
+    if (has_bionic("bio_razor")) {
+    result = std::max( result, 8 );
     }
     result = std::max( result, inv.butcher_factor() );
     result = std::max( result, weapon.butcher_factor() );
