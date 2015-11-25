@@ -535,19 +535,23 @@ Note: or you can `setenv` the above (merging `OTHERS` into `CXXFLAGS`), but you 
 
 And then build with `gmake LOCALIZE=0 RELEASE=1`.
 
-### Building on OpenBSD/amd64 5.7 with GCC 4.9.2 from ports/packages
+### Building on OpenBSD/amd64 5.8 with GCC 4.9.2 from ports/packages
 
-First, install g++ and gmake from packages (g++ 4.8 or 4.9 should work; 4.9 has been tested):
+First, install g++, gmake, and libexecinfo from packages (g++ 4.8 or 4.9 should work; 4.9 has been tested):
 
-`pkg_add g++ gmake`
+`pkg_add g++ gmake libexecinfo`
 
 Then you should  be able to build with something like:
 
 `CXX=eg++ gmake`
 
-Only an ncurses build is possible, as SDL2 is currently broken on OpenBSD.
+Only an ncurses build is possible on 5.8-release, as SDL2 is broken. On recent -current or snapshots, however, you can install the SDL2 packages:
 
-Note that testing effort has been focused on -current, and these instructions applied to it at the time of writing and will probably be maintained for it in the future.
+`pkg_add sdl2 sdl2-image sdl2-mixer sdl2-ttf`
+
+and build with:
+
+`CXX=eg++ gmake TILES=1`
 
 ### Building on NetBSD/amd64 7.0RC1 with the system compiler
 
