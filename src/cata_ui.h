@@ -207,6 +207,7 @@ class ui_tile {
         nc_color color;
 
         ui_tile(long tile_char = ' ', nc_color tile_color = c_black);
+        virtual ~ui_tile() = default;
 
         virtual void draw( WINDOW *, int, int ) const;
 };

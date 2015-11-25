@@ -406,15 +406,15 @@ tile_panel<T>::tile_panel(size_t size_x, size_t size_y, int x, int y, ui_anchor 
 template<class T>
 void tile_panel<T>::set_rect(const ui_rect &new_rect)
 {
-    ui_window::set_rect(new_rect);
+    ui_element::set_rect(new_rect);
     num_tiles = new_rect.size_x * new_rect.size_y;
-    tiles = realloc(tiles, num_tiles * sizeof(T));
+    tiles = (T *) realloc(tiles, num_tiles * sizeof(T));
 }
 
 template<class T>
 tile_panel<T>::~tile_panel()
 {
-    free(tiles);
+    delete[] tiles;
 }
 
 template<class T>
@@ -427,7 +427,7 @@ void tile_panel<T>::draw()
 
     for(unsigned int x = 0; x < get_rect().size_x; x++) {
         for(unsigned int y = 0; y < get_rect().size_y; y++) {
-            tiles[y * get_rect().size_x + x].draw(win, x, y);
+            tiles[y * get_rect().size_x + x].draw(win, x + get_ax(), y + get_ay());
         }
     }
 
@@ -441,9 +441,8 @@ void tile_panel<T>::set_tile(const T &tile, unsigned int x, unsigned int y)
         return; // TODO: give feedback
     }
 
-    int index = y * get_rect().size_x + x;
+    int index = x * get_rect().size_y + y; // TODO: why does this need to be reversed?
 
-    delete tiles[index];
     tiles[index] = tile; // Does this call T's copy constructor? or maybe of a derived type?
 }
 
@@ -529,7 +528,7 @@ auto_bordered_window::auto_bordered_window(size_t size_x, size_t size_y, int x ,
 
 auto_bordered_window::~auto_bordered_window()
 {
-    free(uncovered);
+    delete[] uncovered;
 }
 
 void auto_bordered_window::set_rect(const ui_rect &new_rect)
@@ -714,7 +713,21 @@ void indicators_test()
     win.draw();
 }
 
+void tile_panel_test()
+{
+    bordered_window win(31, 31, 50, 15);
+
+    auto tp = new tile_panel<ui_tile>(29, 29, 1, 1);
+    win.add_child(tp);
+
+    tp->set_tile(ui_tile('X', c_yellow), 5, 5);
+    tp->set_tile(ui_tile('X', c_yellow), 9, 5);
+    tp->set_tile(ui_tile('X', c_yellow), 7, 6);
+
+    win.draw();
+}
+
 void ui_test_func()
 {
-    indicators_test();
+    tile_panel_test();
 }
