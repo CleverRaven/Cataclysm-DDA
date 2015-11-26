@@ -256,7 +256,7 @@ bool game::opening_screen()
     dirent *dp;
     DIR *dir;
 
-    if (!assure_dir_exist(FILENAMES["config_dir"].c_str())) {
+    if (!assure_dir_exist(FILENAMES["config_dir"])) {
         popup(_("Unable to make config directory. Check permissions."));
         return false;
     }
@@ -266,7 +266,7 @@ bool game::opening_screen()
         return false;
     }
 
-    if (!assure_dir_exist(FILENAMES["templatedir"].c_str())) {
+    if (!assure_dir_exist(FILENAMES["templatedir"])) {
         popup(_("Unable to make templates directory. Check permissions."));
         return false;
     }
