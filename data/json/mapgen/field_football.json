@@ -1,0 +1,698 @@
+[
+    {
+    "type":"monstergroup",
+    "name" : "GROUP_FOOTBALL",
+    "default" : "mon_null",
+    "monsters" : [
+        {"monster" : "mon_zombie", "freq" : 600, "cost_multiplier" : 1, "pack_size": [3,5] },
+        {"monster" : "mon_zombie", "freq" : 200, "cost_multiplier" : 1 },
+        { "monster" : "mon_zombie_tough", "freq" : 50, "cost_multiplier" : 3 }
+    ]
+    },{
+        "type": "mapgen",
+        "om_terrain": [
+            "football_field_a1"
+        ],
+        "method": "json",
+        "weight": 10000, "comment": "<--- low weight due to low randomness, remove when house mapgen pool is big",
+        "object": {
+            "fill_ter": "t_grass",
+            "rows": [
+                "                        ",
+                "                        ",
+                "                    HHHH",
+                "                     ,,,",
+                "          pppppppppppppp",
+                "         p..............",
+                "        p.pppppppppppppp",
+                "       p.p..............",
+                "      p.p.pppppppppppppp",
+                "     p.p.p..............",
+                "    p.p.p.pppppppppppppp",
+                "   p.p.p.pp             ",
+                "   p.p.p.p              ",
+                "   p.p.p.p              ",
+                "   p.p.p.p %%%%%%%%%%%%%",
+                "   p.p.p.p %       %   %",
+                "   p.p.p.p %       %   %",
+                "   p.p.p.p %       %   %",
+                "   p.p.p.p %       %   %",
+                "   p.p.p.p %       %   %",
+                "   p.p.p.p %       %   %",
+                "   p.p.p.p %       %   %",
+                "   p.p.p.p %       %   %",
+                "   p.p.p.p %       %   %"
+            ],
+            "terrain": {
+                "%": "t_linoleum_white",
+                ".": "t_pavement_y",
+                "p": "t_pavement",
+                ",": "t_dirt",
+                "H": "t_dirt"
+            },
+            "furniture": {
+                "H": "f_bench"
+            }
+        }
+    },{
+        "type": "mapgen",
+        "om_terrain": [
+            "football_field_a2"
+        ],
+        "method": "json",
+        "weight": 10000, "comment": "<--- low weight due to low randomness, remove when house mapgen pool is big",
+        "object": {
+            "fill_ter": "t_grass",
+            "rows": [
+                "                        ",
+                "                        ",
+                "HHHHHHHHHHHHHHH HHHHHHHH",
+                ",,,,,,,,,,,,,,   ,,,,,,,",
+                "pppppppppppppppppppppppp",
+                "........................",
+                "pppppppppppppppppppppppp",
+                "........................",
+                "pppppppppppppppppppppppp",
+                "........................",
+                "pppppppppppppppppppppppp",
+                "                        ",
+                "                HHHHHHHH",
+                "                        ",
+                "%%%%%%%%%%%%%%%%%%%%%%%%",
+                "   %   %   %   %   %   %",
+                "   %   %   %   %   %   %",
+                "   %   %   %   %   %   %",
+                "   %   %   %   %   %   %",
+                "   %   %   %   %   %   %",
+                "   %   %   %   %   %   %",
+                "   %   %   %   %   %   %",
+                "   %   %   %   %   %   %",
+                "   %   %   %   %   %   %"
+            ],
+            "terrain": {
+                "%": "t_linoleum_white",
+                ".": "t_pavement_y",
+                "p": "t_pavement",
+                ",": "t_dirt",
+                "H": "t_dirt"
+            },
+            "furniture": {
+                "H": "f_bench"
+            }
+        }
+    },{
+        "type": "mapgen",
+        "om_terrain": [
+            "football_field_a3"
+        ],
+        "method": "json",
+        "weight": 10000, "comment": "<--- low weight due to low randomness, remove when house mapgen pool is big",
+        "object": {
+            "fill_ter": "t_grass",
+            "rows": [
+                "                        ",
+                "                        ",
+                "HHHHHHHHHHH HHHHHHHHHHHH",
+                ",,,,,,,,,,   ,,,,,,,,,,,",
+                "pppppppppppppppppppppppp",
+                "........................",
+                "pppppppppppppppppppppppp",
+                "........................",
+                "pppppppppppppppppppppppp",
+                "........................",
+                "pppppppppppppppppppppppp",
+                "                        ",
+                "HHHHHHHHHHH HHHHHHHHHHHH",
+                "                        ",
+                "%%%%%%%%%%%%%%%%%%%%%%%%",
+                "   %   %   %   %   %   %",
+                "   %   %   %   %   %   %",
+                "   %   %   %   %   %   %",
+                "   %   %   %   %   %   %",
+                "   %   %   %   %   %   %",
+                "   %   %   %   %   %   %",
+                "   %   %   %   %   %   %",
+                "   %   %   %   %   %   %",
+                "   %   %   %   %   %   %"
+            ],
+            "terrain": {
+                "%": "t_linoleum_white",
+                ".": "t_pavement_y",
+                "p": "t_pavement",
+                ",": "t_dirt",
+                "H": "t_dirt"
+            },
+            "furniture": {
+                "H": "f_bench"
+            }
+        }
+    },{
+        "type": "mapgen",
+        "om_terrain": [
+            "football_field_a4"
+        ],
+        "method": "json",
+        "weight": 10000, "comment": "<--- low weight due to low randomness, remove when house mapgen pool is big",
+        "object": {
+            "fill_ter": "t_grass",
+            "rows": [
+                "                        ",
+                "                        ",
+                "HHHHHHH HHHHHHHHHHHHHHHH",
+                ",,,,,,   ,,,,,,,,,,,,,,,",
+                "pppppppppppppppppppppppp",
+                "........................",
+                "pppppppppppppppppppppppp",
+                "........................",
+                "pppppppppppppppppppppppp",
+                "........................",
+                "pppppppppppppppppppppppp",
+                "                        ",
+                "HHHHHHH                 ",
+                "                        ",
+                "%%%%%%%%%%%%%%%%%%%%%%%%",
+                "   %   %   %   %   %   %",
+                "   %   %   %   %   %   %",
+                "   %   %   %   %   %   %",
+                "   %   %   %   %   %   %",
+                "   %   %   %   %   %   %",
+                "   %   %   %   %   %   %",
+                "   %   %   %   %   %   %",
+                "   %   %   %   %   %   %",
+                "   %   %   %   %   %   %"
+            ],
+            "terrain": {
+                "%": "t_linoleum_white",
+                ".": "t_pavement_y",
+                "p": "t_pavement",
+                ",": "t_dirt",
+                "H": "t_dirt"
+            },
+            "furniture": {
+                "H": "f_bench"
+            }
+        }
+    },{
+        "type": "mapgen",
+        "om_terrain": [
+            "football_field_a5"
+        ],
+        "method": "json",
+        "weight": 10000, "comment": "<--- low weight due to low randomness, remove when house mapgen pool is big",
+        "object": {
+            "fill_ter": "t_grass",
+            "rows": [
+                "                        ",
+                "                        ",
+                "HH RR                   ",
+                ",,,,,,                  ",
+                "ppppppppppppp           ",
+                ".............p          ",
+                "ppppppppppppp.p         ",
+                ".............p.p        ",
+                "ppppppppppppp.p.p       ",
+                ".............p.p.p      ",
+                "ppppppppppppp.p.p.p     ",
+                "            pp.p.p.p    ",
+                "             p.p.p.p    ",
+                "             p.p.p.p    ",
+                "%%%%%%%%%%%% p.p.p.p    ",
+                "   %       % p.p.p.p    ",
+                "   %       % p.p.p.p    ",
+                "   %       % p.p.p.p    ",
+                "   %       % p.p.p.p    ",
+                "   %       % p.p.p.p    ",
+                "   %       % p.p.p.p    ",
+                "   %       % p.p.p.p    ",
+                "   %       % p.p.p.p    ",
+                "   %       % p.p.p.p    "
+            ],
+            "terrain": {
+                "%": "t_linoleum_white",
+                ".": "t_pavement_y",
+                "p": "t_pavement",
+                ",": "t_dirt",
+                "H": "t_dirt"
+            },
+            "furniture": {
+                "H": "f_bench"
+            }
+        }
+    },{
+        "type": "mapgen",
+        "om_terrain": [
+            "football_field_b1"
+        ],
+        "method": "json",
+        "weight": 10000, "comment": "<--- low weight due to low randomness, remove when house mapgen pool is big",
+        "object": {
+            "fill_ter": "t_grass",
+            "rows": [
+                "   p.p.p.p %       %   %",
+                "   p.p.p.p %       %   %",
+                "   p.p.p.p %       %   %",
+                "   p.p.p.p %       %   %",
+                "   p.p.p.p %       %   %",
+                "   p.p.p.p %       %   %",
+                "   p.p.p.p %       %   %",
+                "   p.p.p.p %       %   %",
+                "   p.p.p.p %       %   %",
+                "   p.p.p.p %       %   %",
+                "   p.p.p.p %       %   %",
+                "   p.p.p.p %     o %   %",
+                "   p.p.p.p %       %   %",
+                "   p.p.p.p %       %   %",
+                "   p.p.p.p %       %   %",
+                "   p.p.p.p %       %   %",
+                "   p.p.p.p %       %   %",
+                "   p.p.p.p %       %   %",
+                "   p.p.p.p %       %   %",
+                "   p.p.p.p %       %   %",
+                "   p.p.p.p %       %   %",
+                "   p.p.p.p %       %   %",
+                "   p.p.p.p %       %   %",
+                "   p.p.p.p %       %   %"
+            ],
+            "terrain": {
+                "%": "t_linoleum_white",
+                ".": "t_pavement_y",
+                "p": "t_pavement",
+                ",": "t_dirt",
+                "H": "t_dirt",
+                "o": "t_column"
+            },
+            "furniture": {
+                "H": "f_bench"
+            }
+        }
+    },{
+        "type": "mapgen",
+        "om_terrain": [
+            "football_field_b2"
+        ],
+        "method": "json",
+        "weight": 10000, "comment": "<--- low weight due to low randomness, remove when house mapgen pool is big",
+        "object": {
+            "fill_ter": "t_grass",
+            "rows": [
+                "   %   %   %   %   %   %",
+                "   %   %   %   %   %   %",
+                "   %   %   %   %   %   %",
+                "   %   %   %   %   %   %",
+                "   %   %   %   %   %   %",
+                "   %   %   %   %   %   %",
+                "   %   %   %   %   %   %",
+                "   %   %   %   %   %   %",
+                "   %   %   %   %   %   %",
+                "   %   %   %   %   %   %",
+                "   %   %   %   %   %   %",
+                "   %   %   %   %   %   %",
+                "   %   %   %   %   %   %",
+                "   %   %   %   %   %   %",
+                "   %   %   %   %   %   %",
+                "   %   %   %   %   %   %",
+                "   %   %   %   %   %   %",
+                "   %   %   %   %   %   %",
+                "   %   %   %   %   %   %",
+                "   %   %   %   %   %   %",
+                "   %   %   %   %   %   %",
+                "   %   %   %   %   %   %",
+                "   %   %   %   %   %   %",
+                "   %   %   %   %   %   %"
+            ],
+            "terrain": {
+                "%": "t_linoleum_white"
+            }
+        }
+    },{
+        "type": "mapgen",
+        "om_terrain": [
+            "football_field_b3"
+        ],
+        "method": "json",
+        "weight": 10000, "comment": "<--- low weight due to low randomness, remove when house mapgen pool is big",
+        "object": {
+            "fill_ter": "t_grass",
+            "rows": [
+                "   %   %   %   %   %   %",
+                "   %   %   %   %   %   %",
+                "   %   %   %   %   %   %",
+                "   %   %   %   %   %   %",
+                "   %   %   %   %   %   %",
+                "   %   %   %   %   %   %",
+                "   %   %   %   %   %   %",
+                "   %   %   %   %   %   %",
+                "   %   %   %   %   %   %",
+                "   %   %   %   %   %   %",
+                "   %   %   %   %   %   %",
+                "   %   %   %   %   %   %",
+                "   %   %   %   %   %   %",
+                "   %   %   %   %   %   %",
+                "   %   %   %   %   %   %",
+                "   %   %   %   %   %   %",
+                "   %   %   %   %   %   %",
+                "   %   %   %   %   %   %",
+                "   %   %   %   %   %   %",
+                "   %   %   %   %   %   %",
+                "   %   %   %   %   %   %",
+                "   %   %   %   %   %   %",
+                "   %   %   %   %   %   %",
+                "   %   %   %   %   %   %"
+            ],
+            "terrain": {
+                "%": "t_linoleum_white"
+            }
+        }
+    },{
+        "type": "mapgen",
+        "om_terrain": [
+            "football_field_b4"
+        ],
+        "method": "json",
+        "weight": 10000, "comment": "<--- low weight due to low randomness, remove when house mapgen pool is big",
+        "object": {
+            "fill_ter": "t_grass",
+            "rows": [
+                "   %   %   %   %   %   %",
+                "   %   %   %   %   %   %",
+                "   %   %   %   %   %   %",
+                "   %   %   %   %   %   %",
+                "   %   %   %   %   %   %",
+                "   %   %   %   %   %   %",
+                "   %   %   %   %   %   %",
+                "   %   %   %   %   %   %",
+                "   %   %   %   %   %   %",
+                "   %   %   %   %   %   %",
+                "   %   %   %   %   %   %",
+                "   %   %   %   %   %   %",
+                "   %   %   %   %   %   %",
+                "   %   %   %   %   %   %",
+                "   %   %   %   %   %   %",
+                "   %   %   %   %   %   %",
+                "   %   %   %   %   %   %",
+                "   %   %   %   %   %   %",
+                "   %   %   %   %   %   %",
+                "   %   %   %   %   %   %",
+                "   %   %   %   %   %   %",
+                "   %   %   %   %   %   %",
+                "   %   %   %   %   %   %",
+                "   %   %   %   %   %   %"
+            ],
+            "terrain": {
+                "%": "t_linoleum_white"
+            }
+        }
+    },{
+        "type": "mapgen",
+        "om_terrain": [
+            "football_field_b5"
+        ],
+        "method": "json",
+        "weight": 10000, "comment": "<--- low weight due to low randomness, remove when house mapgen pool is big",
+        "object": {
+            "fill_ter": "t_grass",
+            "rows": [
+                "   %       % p.p.p.p    ",
+                "   %       % p.p.p.p    ",
+                "   %       % p.p.p.p    ",
+                "   %       % p.p.p.p    ",
+                "   %       % p.p.p.p    ",
+                "   %       % p.p.p.p    ",
+                "   %       % p.p.p.p    ",
+                "   %       % p.p.p.p    ",
+                "   %       % p.p.p.p    ",
+                "   %       % p.p.p.p    ",
+                "   %       % p.p.p.p    ",
+                "   % o     % p.p.p.p    ",
+                "   %       % p.p.p.p    ",
+                "   %       % p.p.p.p    ",
+                "   %       % p.p.p.p    ",
+                "   %       % p.p.p.p    ",
+                "   %       % p.p.p.p    ",
+                "   %       % p.p.p.p    ",
+                "   %       % p.p.p.p    ",
+                "   %       % p.p.p.p    ",
+                "   %       % p.p.p.p    ",
+                "   %       % p.p.p.p    ",
+                "   %       % p.p.p.p    ",
+                "   %       % p.p.p.p    "
+            ],
+            "terrain": {
+                "%": "t_linoleum_white",
+                ".": "t_pavement_y",
+                "p": "t_pavement",
+                ",": "t_dirt",
+                "H": "t_dirt",
+                "o": "t_column"
+            },
+            "furniture": {
+                "H": "f_bench"
+            }
+        }
+    },{
+        "type": "mapgen",
+        "om_terrain": [
+            "football_field_c1"
+        ],
+        "method": "json",
+        "weight": 10000, "comment": "<--- low weight due to low randomness, remove when house mapgen pool is big",
+        "object": {
+            "fill_ter": "t_grass",
+            "rows": [
+                "   p.p.p.p %       %   %",
+                "   p.p.p.p %       %   %",
+                "   p.p.p.p %       %   %",
+                "   p.p.p.p %       %   %",
+                "   p.p.p.p %       %   %",
+                "   p.p.p.p %       %   %",
+                "   p.p.p.p %       %   %",
+                "   p.p.p.p %       %   %",
+                "   p.p.p.p %%%%%%%%%%%%%",
+                "   p.p.p.p              ",
+                "   p.p.p.p      HHHHHHHH",
+                "   p.p.p.pp             ",
+                "    p.p.p.pppppppppppppp",
+                "     p.p.p..............",
+                "      p.p.pppppppppppppp",
+                "       p.p..............",
+                "        p.pppppppppppppp",
+                "         p..............",
+                "          pppppppppppppp",
+                "                      ,,",
+                "                     HHH",
+                "                      ,,",
+                "                     HHH",
+                "                        "
+            ],
+            "terrain": {
+                "%": "t_linoleum_white",
+                ".": "t_pavement_y",
+                "p": "t_pavement",
+                ",": "t_dirt",
+                "H": "t_dirt"
+            },
+            "furniture": {
+                "H": "f_bench"
+            }
+        }
+    },{
+        "type": "mapgen",
+        "om_terrain": [
+            "football_field_c2"
+        ],
+        "method": "json",
+        "weight": 10000, "comment": "<--- low weight due to low randomness, remove when house mapgen pool is big",
+        "object": {
+            "fill_ter": "t_grass",
+            "rows": [
+                "   %   %   %   %   %   %",
+                "   %   %   %   %   %   %",
+                "   %   %   %   %   %   %",
+                "   %   %   %   %   %   %",
+                "   %   %   %   %   %   %",
+                "   %   %   %   %   %   %",
+                "   %   %   %   %   %   %",
+                "   %   %   %   %   %   %",
+                "%%%%%%%%%%%%%%%%%%%%%%%%",
+                "                        ",
+                "                HHHHHHHH",
+                "                        ",
+                "pppppppppppppppppppppppp",
+                "........................",
+                "pppppppppppppppppppppppp",
+                "........................",
+                "pppppppppppppppppppppppp",
+                "........................",
+                "pppppppppppppppppppppppp",
+                ",,,,,,,,,,,,,,,,,,,,,,,,",
+                "HHHHHHHHHHHHHHH,HHHHHHHH",
+                ",,,,,,,,,,,,,,,,,,,,,,,,",
+                "HHHHHHHHHHHHHHH,HHHHHHHH",
+                "               ,        "
+            ],
+            "terrain": {
+                "%": "t_linoleum_white",
+                ".": "t_pavement_y",
+                "p": "t_pavement",
+                ",": "t_dirt",
+                "H": "t_dirt"
+            },
+            "furniture": {
+                "H": "f_bench"
+            }
+        }
+    },{
+        "type": "mapgen",
+        "om_terrain": [
+            "football_field_c3"
+        ],
+        "method": "json",
+        "weight": 10000, "comment": "<--- low weight due to low randomness, remove when house mapgen pool is big",
+        "object": {
+            "fill_ter": "t_grass",
+            "rows": [
+                "   %   %   %   %   %   %",
+                "   %   %   %   %   %   %",
+                "   %   %   %   %   %   %",
+                "   %   %   %   %   %   %",
+                "   %   %   %   %   %   %",
+                "   %   %   %   %   %   %",
+                "   %   %   %   %   %   %",
+                "   %   %   %   %   %   %",
+                "%%%%%%%%%%%%%%%%%%%%%%%%",
+                "                        ",
+                "HHHHHHHHHHH HHHHHHHHHHHH",
+                "                        ",
+                "pppppppppppppppppppppppp",
+                "........................",
+                "pppppppppppppppppppppppp",
+                "........................",
+                "pppppppppppppppppppppppp",
+                "........................",
+                "pppppppppppppppppppppppp",
+                ",,,,,,,,,,,,,,,,,,,,,,,,",
+                "HHHHHHHHHHH,HHHHHHHHHHHH",
+                ",,,,,,,,,,,,,,,,,,,,,,,,",
+                "HHHHHHHHHHH,HHHHHHHHHHHH",
+                "                        "
+            ],
+            "terrain": {
+                "%": "t_linoleum_white",
+                ".": "t_pavement_y",
+                "p": "t_pavement",
+                ",": "t_dirt",
+                "H": "t_dirt"
+            },
+            "furniture": {
+                "H": "f_bench"
+            }
+        }
+    },{
+        "type": "mapgen",
+        "om_terrain": [
+            "football_field_c4"
+        ],
+        "method": "json",
+        "weight": 10000, "comment": "<--- low weight due to low randomness, remove when house mapgen pool is big",
+        "object": {
+            "fill_ter": "t_grass",
+            "rows": [
+                "   %   %   %   %   %   %",
+                "   %   %   %   %   %   %",
+                "   %   %   %   %   %   %",
+                "   %   %   %   %   %   %",
+                "   %   %   %   %   %   %",
+                "   %   %   %   %   %   %",
+                "   %   %   %   %   %   %",
+                "   %   %   %   %   %   %",
+                "%%%%%%%%%%%%%%%%%%%%%%%%",
+                "                        ",
+                "HHHHHHH                 ",
+                "                        ",
+                "pppppppppppppppppppppppp",
+                "........................",
+                "pppppppppppppppppppppppp",
+                "........................",
+                "pppppppppppppppppppppppp",
+                "........................",
+                "pppppppppppppppppppppppp",
+                ",,,,,,,,,,,,,,,,,,,,,,,,",
+                "HHHHHHH,HHHHHHHHHHHHHHHH",
+                ",,,,,,,,,,,,,,,,,,,,,,,,",
+                "HHHHHHH,HHHHHHHHHHHHHHHH",
+                "                        "
+            ],
+            "terrain": {
+                "%": "t_linoleum_white",
+                ".": "t_pavement_y",
+                "p": "t_pavement",
+                ",": "t_dirt",
+                "H": "t_dirt"
+            },
+            "furniture": {
+                "H": "f_bench"
+            }
+        }
+    },{
+        "type": "mapgen",
+        "om_terrain": [
+            "football_field_c5"
+        ],
+        "method": "json",
+        "weight": 10000, "comment": "<--- low weight due to low randomness, remove when house mapgen pool is big",
+        "object": {
+            "fill_ter": "t_grass",
+            "rows": [
+                "   %       % p.p.p.p    ",
+                "   %       % p.p.p.p    ",
+                "   %       % p.p.p.p    ",
+                "   %       % p.p.p.p    ",
+                "   %       % p.p.p.p    ",
+                "   %       % p.p.p.p    ",
+                "   %       % p.p.p.p    ",
+                "   %       % p.p.p.p    ",
+                "%%%%%%%%%%%% p.p.p.p    ",
+                "             p.p.p.p    ",
+                "             p.p.p.p    ",
+                "            pp.p.p.p    ",
+                "ppppppppppppp.p.p.p     ",
+                ".............p.p.p      ",
+                "ppppppppppppp.p.p       ",
+                ".............p.p        ",
+                "ppppppppppppp.p      ,, ",
+                ".............p    , ,RR ",
+                "ppppppppppppp   --+-+-- ",
+                ",,,,            |I!|!I| ",
+                "HHH,            |-!|!-| ",
+                ",,,,,         ,V|;!|!;| ",
+                "HHH           ,V------- ",
+                "                        "
+            ],
+            "terrain": {
+                "%": "t_linoleum_white",
+                ".": "t_pavement_y",
+                "p": "t_pavement",
+                ",": "t_dirt",
+                "H": "t_dirt",
+                "R": "t_dirt",
+                "-": "t_wall",
+                "|": "t_wall",
+                "!": "t_floor",
+                "I": "t_floor",
+                ";": "t_floor",
+                "+": "t_door_c"
+            },
+            "furniture": {
+                "H": "f_bench",
+                "I": "f_sink",
+                "R": "f_trashcan"
+            },
+            "toilets": {
+                ";": { }
+            },
+            "vendingmachines": {
+                "V": { "item_group": "vending_drink" }
+            }
+        }
+    }
+]

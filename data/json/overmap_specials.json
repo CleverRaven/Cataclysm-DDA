@@ -1567,6 +1567,35 @@
         "unique" : true, "//":"only allow one per city",
         "required" : false, "//":"is this special required for valid city sizes",
         "flags" : [ "UNIQUE" ]
+    },{
+        "type" : "overmap_special",
+        "id" : "football_field",
+        "overmaps" :
+        [
+            { "point":[-4,2,0], "overmap": "football_field_c1_north"},
+            { "point":[-3,2,0], "overmap": "football_field_c2_north"},
+            { "point":[-2,2,0], "overmap": "football_field_c3_north"},
+            { "point":[-1,2,0], "overmap": "football_field_c4_north"},
+            { "point":[0,2,0], "overmap": "football_field_c5_north", "connect": "road"},
+            { "point":[-4,1,0], "overmap": "football_field_b1_north"},
+            { "point":[-3,1,0], "overmap": "football_field_b2_north"},
+            { "point":[-2,1,0], "overmap": "football_field_b3_north"},
+            { "point":[-1,1,0], "overmap": "football_field_b4_north"},
+            { "point":[0,1,0], "overmap": "football_field_b5_north"},
+            { "point":[-4,0,0], "overmap": "football_field_a1_north"},
+            { "point":[-3,0,0], "overmap": "football_field_a2_north"},
+            { "point":[-2,0,0], "overmap": "football_field_a3_north"},
+            { "point":[-1,0,0], "overmap": "football_field_a4_north"},
+            { "point":[0,0,0], "overmap": "football_field_a5_north"}
+        ],
+        "locations" : [ "wilderness" ], "//":"what special locations does it spawn",
+        "city_distance" : [-1, 4], "//":"how far from a city it should be",
+        "city_sizes" : [6, 12], "//":"what city sizes should it spawn in",
+        "occurrences" : [0, 5], "//":"how many per overmap",
+        "rotate" : true, "//":"allow rotation",
+        "unique" : false, "//":"only allow one per city",
+        "required" : false, "//":"is this special required for valid city sizes",
+        "flags" : [ "CLASSIC" ]
     }
 ]
 

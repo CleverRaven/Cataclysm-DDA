@@ -6691,6 +6691,156 @@
         "mondensity" : 0,
         "sidewalk" : false,
         "allow_road" : false
+    },{
+        "type" : "overmap_terrain",
+        "id" : "football_field_a1",
+        "name" : "football field",
+        "sym" : 79,
+        "color" : "light_green",
+        "rotate" : true,
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "football_field_a2",
+        "name" : "football field",
+        "sym" : 79,
+        "color" : "light_green",
+        "rotate" : true,
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "football_field_a3",
+        "name" : "football field",
+        "sym" : 79,
+        "color" : "light_green",
+        "rotate" : true,
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "football_field_a4",
+        "name" : "football field",
+        "sym" : 79,
+        "color" : "light_green",
+        "rotate" : true,
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "football_field_a5",
+        "name" : "football field",
+        "sym" : 79,
+        "color" : "light_green",
+        "rotate" : true,
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "football_field_b1",
+        "name" : "football field",
+        "sym" : 79,
+        "color" : "light_green",
+        "rotate" : true,
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "football_field_b2",
+        "name" : "football field",
+        "sym" : 79,
+        "color" : "light_green",
+        "rotate" : true,
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "football_field_b3",
+        "name" : "football field",
+        "sym" : 79,
+        "color" : "light_green",
+        "rotate" : true,
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "football_field_b4",
+        "name" : "football field",
+        "sym" : 79,
+        "color" : "light_green",
+        "rotate" : true,
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "football_field_b5",
+        "name" : "football field",
+        "sym" : 79,
+        "color" : "light_green",
+        "rotate" : true,
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "football_field_c1",
+        "name" : "football field",
+        "sym" : 79,
+        "color" : "light_green",
+        "rotate" : true,
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "football_field_c2",
+        "name" : "football field",
+        "sym" : 79,
+        "color" : "light_green",
+        "rotate" : true,
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "football_field_c3",
+        "name" : "football field",
+        "sym" : 79,
+        "color" : "light_green",
+        "rotate" : true,
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "football_field_c4",
+        "name" : "football field",
+        "sym" : 79,
+        "color" : "light_green",
+        "rotate" : true,
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
+        "id" : "football_field_c5",
+        "name" : "football field",
+        "sym" : 79,
+        "color" : "light_green",
+        "rotate" : true,
+        "see_cost" : 5,
+        "mondensity" : 2,
+        "sidewalk" : true
     }
 ]
 
