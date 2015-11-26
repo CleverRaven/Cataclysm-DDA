@@ -44,7 +44,7 @@
                 "   p.p.p.p %       %   %"
             ],
             "terrain": {
-                "%": "t_linoleum_white",
+                "%": "t_grass_white",
                 ".": "t_pavement_y",
                 "p": "t_pavement",
                 ",": "t_dirt",
@@ -90,7 +90,7 @@
                 "   %   %   %   %   %   %"
             ],
             "terrain": {
-                "%": "t_linoleum_white",
+                "%": "t_grass_white",
                 ".": "t_pavement_y",
                 "p": "t_pavement",
                 ",": "t_dirt",
@@ -136,7 +136,7 @@
                 "   %   %   %   %   %   %"
             ],
             "terrain": {
-                "%": "t_linoleum_white",
+                "%": "t_grass_white",
                 ".": "t_pavement_y",
                 "p": "t_pavement",
                 ",": "t_dirt",
@@ -182,7 +182,7 @@
                 "   %   %   %   %   %   %"
             ],
             "terrain": {
-                "%": "t_linoleum_white",
+                "%": "t_grass_white",
                 ".": "t_pavement_y",
                 "p": "t_pavement",
                 ",": "t_dirt",
@@ -228,7 +228,7 @@
                 "   %       % p.p.p.p    "
             ],
             "terrain": {
-                "%": "t_linoleum_white",
+                "%": "t_grass_white",
                 ".": "t_pavement_y",
                 "p": "t_pavement",
                 ",": "t_dirt",
@@ -274,7 +274,7 @@
                 "   p.p.p.p %       %   %"
             ],
             "terrain": {
-                "%": "t_linoleum_white",
+                "%": "t_grass_white",
                 ".": "t_pavement_y",
                 "p": "t_pavement",
                 ",": "t_dirt",
@@ -321,7 +321,7 @@
                 "   %   %   %   %   %   %"
             ],
             "terrain": {
-                "%": "t_linoleum_white"
+                "%": "t_grass_white"
             }
         }
     },{
@@ -360,7 +360,7 @@
                 "   %   %   %   %   %   %"
             ],
             "terrain": {
-                "%": "t_linoleum_white"
+                "%": "t_grass_white"
             }
         }
     },{
@@ -399,7 +399,7 @@
                 "   %   %   %   %   %   %"
             ],
             "terrain": {
-                "%": "t_linoleum_white"
+                "%": "t_grass_white"
             }
         }
     },{
@@ -438,7 +438,7 @@
                 "   %       % p.p.p.p    "
             ],
             "terrain": {
-                "%": "t_linoleum_white",
+                "%": "t_grass_white",
                 ".": "t_pavement_y",
                 "p": "t_pavement",
                 ",": "t_dirt",
@@ -485,7 +485,7 @@
                 "                        "
             ],
             "terrain": {
-                "%": "t_linoleum_white",
+                "%": "t_grass_white",
                 ".": "t_pavement_y",
                 "p": "t_pavement",
                 ",": "t_dirt",
@@ -531,7 +531,7 @@
                 "               ,        "
             ],
             "terrain": {
-                "%": "t_linoleum_white",
+                "%": "t_grass_white",
                 ".": "t_pavement_y",
                 "p": "t_pavement",
                 ",": "t_dirt",
@@ -577,7 +577,7 @@
                 "                        "
             ],
             "terrain": {
-                "%": "t_linoleum_white",
+                "%": "t_grass_white",
                 ".": "t_pavement_y",
                 "p": "t_pavement",
                 ",": "t_dirt",
@@ -623,7 +623,7 @@
                 "                        "
             ],
             "terrain": {
-                "%": "t_linoleum_white",
+                "%": "t_grass_white",
                 ".": "t_pavement_y",
                 "p": "t_pavement",
                 ",": "t_dirt",
@@ -669,7 +669,7 @@
                 "                        "
             ],
             "terrain": {
-                "%": "t_linoleum_white",
+                "%": "t_grass_white",
                 ".": "t_pavement_y",
                 "p": "t_pavement",
                 ",": "t_dirt",
