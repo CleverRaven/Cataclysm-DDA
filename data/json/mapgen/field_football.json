@@ -279,7 +279,7 @@
                 "p": "t_pavement",
                 ",": "t_dirt",
                 "H": "t_dirt",
-                "o": "t_column"
+                "o": "t_little_column"
             },
             "furniture": {
                 "H": "f_bench"
@@ -443,7 +443,7 @@
                 "p": "t_pavement",
                 ",": "t_dirt",
                 "H": "t_dirt",
-                "o": "t_column"
+                "o": "t_little_column"
             },
             "furniture": {
                 "H": "f_bench"
