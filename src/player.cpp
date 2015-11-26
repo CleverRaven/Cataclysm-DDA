@@ -341,7 +341,7 @@ void player::reset_stats()
         if (!wearing_something_on(bp_torso)) {
             mod_dex_bonus(2);
         }
-        else {
+        else if (!exclusive_flag_coverage( "OVERSIZE" )[bp_torso]) {
             mod_dex_bonus(-2);
             add_miss_reason(_("Your clothing constricts your arachnid limbs."), 2);
         }
