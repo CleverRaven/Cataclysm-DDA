@@ -19508,7 +19508,7 @@ msgstr ""
 "Un puñado de ciruelas grandes y moradas. Saludables y buenas para tu "
 "digestión."
 
-#. ~ Description for handful of shelled hickory nuts
+#. ~ Description for handful of unshelled hickory nuts
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
 "A handful of raw hard nuts from a hickory tree, their shells have been "
@@ -25908,8 +25908,8 @@ msgstr[0] "puñado de nueces tostadas de pacana"
 msgstr[1] "puñados de nueces tostadas de pacana"
 
 #: lang/json/COMESTIBLE_from_json.py
-msgid "handful of shelled hickory nuts"
-msgid_plural "handfuls of shelled hickory nuts"
+msgid "handful of unshelled hickory nuts"
+msgid_plural "handfuls of unshelled hickory nuts"
 msgstr[0] "puñado de nueces de pacana sin cáscara"
 msgstr[1] "puñados de nueces de pacana sin cáscara"
 

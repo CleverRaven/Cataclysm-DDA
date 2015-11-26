@@ -19576,12 +19576,12 @@ msgid "Tasty crunchy nuts from a pinecone."
 msgstr ""
 
 #: lang/json/COMESTIBLE_from_json.py
-msgid "handful of shelled hickory nuts"
-msgid_plural "handfuls of shelled hickory nuts"
+msgid "handful of unshelled hickory nuts"
+msgid_plural "handfuls of unshelled hickory nuts"
 msgstr[0] ""
 msgstr[1] ""
 
-#. ~ Description for handful of shelled hickory nuts
+#. ~ Description for handful of unshelled hickory nuts
 #: lang/json/COMESTIBLE_from_json.py
 msgid ""
 "A handful of raw hard nuts from a hickory tree, their shells have been "
