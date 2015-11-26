@@ -9,6 +9,30 @@
 #include <cmath>
 #include <array>
 
+template<typename T>
+array_2d<T>::array_2d( size_t x, size_t y )
+{
+    size_x = x;
+    size_y = y;
+    _array = std::vector<T>( x * y ); // Make sure capacity is sufficient
+}
+
+template<typename T>
+void array_2d<T>::set_at( size_t x, size_t y, T e )
+{
+    if( x >= size_x || y >= size_y ) {
+        return;
+    }
+
+    _array[y * size_x + x] = e;
+}
+
+template<typename T>
+T array_2d<T>::get_at( size_t x, size_t y) const
+{
+    return _array[y * size_x + x]; // let user deal with array index out of bounds
+}
+
 ui_rect::ui_rect( size_t size_x, size_t size_y, int x, int y ) : size_x( size_x ), size_y( size_y ), x( x ), y( y )
 {
 }
@@ -273,13 +297,13 @@ void ui_label::draw()
         return;
     }
 
-    mvwprintz( win, get_ay(), get_ax(), text_color, text.c_str() );
+    mvwprintz( win, get_ay(), get_ax(), text_color, string_format( "%s", text.c_str() ).c_str() );
 }
 
 void ui_label::set_text( std::string new_text )
 {
     text = new_text;
-    set_rect( ui_rect( new_text.size(), get_rect().size_y, get_rect().x, get_rect().y ) );
+    set_rect( ui_rect( utf8_width( new_text.c_str() ), get_rect().size_y, get_rect().x, get_rect().y ) );
 }
 
 bordered_window::bordered_window( size_t size_x, size_t size_y, int x, int y, ui_anchor anchor ) : ui_window( size_x, size_y, x, y, anchor )
@@ -297,11 +321,8 @@ void bordered_window::local_draw()
 }
 
 health_bar::health_bar( size_t size_x, int x, int y, ui_anchor anchor ) : ui_element( size_x, 1, x, y, anchor ),
-                       max_health( size_x * points_per_char ), current_health( max_health )
+                       max_health( size_x * points_per_char ), current_health( max_health ), bar_str( std::string( '|', size_x ) )
 {
-    for( unsigned int i = 0; i < get_rect().size_x; i++ ) {
-        bar_str += "|";
-    }
 }
 
 void health_bar::draw()
@@ -318,9 +339,7 @@ void health_bar::refresh_bar( bool overloaded, float percentage )
 {
     bar_str = "";
     if( overloaded ) {
-        for( unsigned int i = 0; i < get_rect().size_x; i++ ) {
-            bar_str += "*";
-        }
+        bar_str = std::string( '|', get_rect().size_x );
     } else {
         for( unsigned int i = 0; i < get_rect().size_x; i++ ) {
             int char_health = current_health - ( i * points_per_char );
@@ -351,15 +370,17 @@ void health_bar::set_health_percentage( float percentage )
 {
     bool overloaded = false;
     if( percentage > 1 ) {
+        percentage = 1;
         current_health = max_health;
         overloaded = true;
     } else if( percentage < 0 ) {
         current_health = 0;
+        percentage = 0;
     } else {
         current_health = percentage * max_health;
     }
 
-    refresh_bar( overloaded, percentage );
+    refresh_bar( overloaded, percentage ); // clamping percentage by 0 and 1;
 }
 
 smiley_indicator::smiley_indicator( int x, int y, ui_anchor anchor) : ui_element(2, 1, x, y, anchor )
@@ -406,25 +427,15 @@ void smiley_indicator::set_state( smiley_state new_state )
 
 template<class T>
 tile_panel<T>::tile_panel( size_t size_x, size_t size_y, int x, int y, ui_anchor anchor )
-                       : ui_element( size_x, size_y, x, y, anchor )
+                       : ui_element( size_x, size_y, x, y, anchor ), tiles( array_2d<T>( size_x, size_y ) )
 {
-    num_tiles = size_x * size_y;
-    tiles = new T[num_tiles];
 }
 
 template<class T>
 void tile_panel<T>::set_rect( const ui_rect &new_rect )
 {
     ui_element::set_rect( new_rect );
-    num_tiles = new_rect.size_x * new_rect.size_y;
-    delete[] tiles;
-    tiles = new T[num_tiles];
-}
-
-template<class T>
-tile_panel<T>::~tile_panel()
-{
-    delete[] tiles;
+    tiles = array_2d<T>( new_rect.size_x, new_rect.size_y );
 }
 
 template<class T>
@@ -437,7 +448,7 @@ void tile_panel<T>::draw()
 
     for( unsigned int x = 0; x < get_rect().size_x; x++ ) {
         for( unsigned int y = 0; y < get_rect().size_y; y++ ) {
-            tiles[y * get_rect().size_x + x].draw( win, x + get_ax(), y + get_ay() );
+            tiles.get_at(x, y).draw( win, x + get_ax(), y + get_ay() );
         }
     }
 }
@@ -449,14 +460,12 @@ void tile_panel<T>::set_tile( const T &tile, unsigned int x, unsigned int y )
         return; // TODO: give feedback
     }
 
-    int index = x * get_rect().size_y + y; // TODO: why does this need to be reversed?
-
-    tiles[index] = tile; // Does this call T's copy constructor? or maybe of a derived type?
+    tiles.set_at(x, y, tile); // Does this call T's copy constructor? or maybe of a derived type?
 }
 
 void ui_tile::draw( WINDOW *win, int x, int y ) const
 {
-    mvwputch( win, x, y, color, sym );
+    mvwputch( win, y, x, color, sym );
 }
 
 ui_tile::ui_tile( long sym, nc_color color ) : sym( sym ), color( color )
@@ -496,7 +505,7 @@ T *tabbed_window::create_tab( std::string tab )
 {
     T *tab_win = new T( get_rect().size_x - 2, get_rect().size_y - 4, 1, -1, bottom_left );
     tabs.push_back( {tab, tab_win} );
-    tab_win->set_visible( tabs.size() == 1 ? true : false );
+    tab_win->set_visible( tabs.size() == 1 );
     add_child( tab_win );
     return tab_win;
 }
@@ -528,22 +537,16 @@ const std::pair<std::string, ui_window *> &tabbed_window::current_tab() const
     return tabs[tab_index];
 }
 
-auto_bordered_window::auto_bordered_window( size_t size_x, size_t size_y, int x , int y, ui_anchor anchor ) : ui_window( size_x, size_y, x, y, anchor )
+auto_bordered_window::auto_bordered_window( size_t size_x, size_t size_y, int x , int y, ui_anchor anchor ) : ui_window( size_x, size_y, x, y, anchor ),
+                                            uncovered( array_2d<bool>( size_x, size_y ) )
 {
-    uncovered = new bool[size_x * size_y];
     recalc_uncovered();
-}
-
-auto_bordered_window::~auto_bordered_window()
-{
-    delete[] uncovered;
 }
 
 void auto_bordered_window::set_rect( const ui_rect &new_rect )
 {
     ui_window::set_rect( new_rect );
-    delete[] uncovered;
-    uncovered = new bool[new_rect.size_x * new_rect.size_y];
+    uncovered = array_2d<bool>(new_rect.size_x, new_rect.size_y);
     recalc_uncovered();
 }
 
@@ -557,7 +560,7 @@ void auto_bordered_window::recalc_uncovered()
 {
     for( unsigned int x = 0; x < get_rect().size_x; x++ ) {
         for( unsigned int y = 0; y < get_rect().size_y; y++ ) {
-            uncovered[y * get_rect().size_x + x] = true;
+            uncovered.set_at(x, y, true);
         }
     }
 
@@ -573,7 +576,7 @@ void auto_bordered_window::recalc_uncovered()
         for( unsigned int x = start_x; x < end_x; x++ ) {
             for( unsigned int y = start_y; y < end_y; y++ ) {
                 if( x < get_rect().size_x && y < get_rect().size_y ) {
-                    uncovered[y * get_rect().size_x + x] = false;
+                    uncovered.set_at(x, y, false);
                 }
             }
         }
@@ -585,7 +588,7 @@ bool auto_bordered_window::is_uncovered( int x, int y ) const
     if( x < 0 || y < 0 || (unsigned int) x >= get_rect().size_x || (unsigned int) y >= get_rect().size_y ) {
         return false;
     }
-    return uncovered[y * get_rect().size_x + x];
+    return uncovered.get_at(x, y);
 }
 
 long auto_bordered_window::get_border_char( unsigned int x, unsigned int y ) const
@@ -688,9 +691,9 @@ void ui_vertical_list::draw()
             txt = txt.substr( 0, available_space );
         }
         if( scroll == line ) {
-            mvwprintz( win, get_ay() + line - start_line, get_ax() + 2, hilite(text_color), txt.c_str() );
+            mvwprintz( win, get_ay() + line - start_line, get_ax() + 2, hilite(text_color), string_format( "%s", txt.c_str() ).c_str() );
         } else {
-            mvwprintz( win, get_ay() + line - start_line, get_ax() + 2, text_color, txt.c_str() );
+            mvwprintz( win, get_ay() + line - start_line, get_ax() + 2, text_color, string_format( "%s", txt.c_str() ).c_str() );
         }
     }
 
@@ -753,7 +756,7 @@ void ui_horizontal_list::set_text( std::vector<std::string> text )
     size_t text_length = 1;
 
     for( const auto &str : text ) {
-        text_length = utf8_width( str ) + 1;
+        text_length += utf8_width( str ) + 1;
     }
 
     set_rect( ui_rect( text_length, get_rect().size_y, get_rect().x, get_rect().y ) );

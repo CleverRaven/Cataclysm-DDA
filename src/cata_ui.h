@@ -10,6 +10,18 @@
 
 typedef int nc_color;
 
+template<typename T>
+class array_2d {
+private:
+    size_t size_x, size_y;
+    std::vector<T> _array;
+public:
+    array_2d( size_t x, size_t y );
+
+    void set_at( size_t x, size_t y, T e );
+    T get_at( size_t x, size_t y) const;
+};
+
 /**
  * \defgroup Cata_ui "Cataclysm's ui framework."
  *
@@ -226,13 +238,11 @@ class ui_tile {
 template<class T = ui_tile>
 class tile_panel : public ui_element {
     private:
-        T *tiles;
-        size_t num_tiles;
+        array_2d<T> tiles;
     protected:
         virtual void draw() override;
     public:
         tile_panel( size_t size_x, size_t size_y, int x = 0, int y = 0, ui_anchor anchor = top_left );
-        ~tile_panel() override;
 
         virtual void set_rect( const ui_rect &new_rect ) override;
         void set_tile( const T &tile, unsigned int x, unsigned int y );
@@ -269,7 +279,7 @@ class tabbed_window : public bordered_window {
 */
 class auto_bordered_window : public ui_window {
     private:
-        bool *uncovered;
+        array_2d<bool> uncovered;
         void recalc_uncovered();
         bool is_uncovered( int x, int y ) const;
         long get_border_char( unsigned int x, unsigned int y ) const;
@@ -277,7 +287,6 @@ class auto_bordered_window : public ui_window {
         virtual void local_draw() override;
     public:
         auto_bordered_window( size_t size_x, size_t size_y, int x = 0, int y = 0, ui_anchor anchor = top_left );
-        ~auto_bordered_window() override;
 
         virtual void set_rect( const ui_rect &new_rect ) override;
         virtual void add_child( ui_element *child ) override;
