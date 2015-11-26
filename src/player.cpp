@@ -338,13 +338,12 @@ void player::reset_stats()
     if (has_trait("ARACHNID_ARMS")) {
         add_miss_reason(_("Your arachnid limbs get in the way."), 4);
     }
-    if (has_trait("ARACHNID_ARMS_OK")) {
-        if (!wearing_something_on(bp_torso)) {
-            mod_dex_bonus(2);
-        }
-        else if (!exclusive_flag_coverage( "OVERSIZE" )[bp_torso]) {
-            mod_dex_bonus(-2);
-            add_miss_reason(_("Your clothing constricts your arachnid limbs."), 2);
+    if( has_trait( "ARACHNID_ARMS_OK" ) ) {
+        if( !wearing_something_on( bp_torso ) ) {
+            mod_dex_bonus( 2 );
+        } else if( !exclusive_flag_coverage( "OVERSIZE" )[bp_torso] ) {
+            mod_dex_bonus( -2 );
+            add_miss_reason( _( "Your clothing constricts your arachnid limbs." ), 2 );
         }
     }
 

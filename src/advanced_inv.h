@@ -42,9 +42,9 @@ enum advanced_inv_sortby {
     SORTBY_DAMAGE
 };
 
-struct sort_case_insensitive_less : public std::binary_function< char, char, bool > {
-    bool operator()( char x, char y ) const
-    {
+struct sort_case_insensitive_less : public std::binary_function< char, char, bool >
+{
+    bool operator()( char x, char y ) const {
         return toupper( static_cast< unsigned char >( x ) ) < toupper( static_cast< unsigned char >( y ) );
     }
 };

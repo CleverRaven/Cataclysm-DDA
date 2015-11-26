@@ -1041,7 +1041,7 @@ void advanced_inventory::redraw_pane( side p )
     draw_border( w, ( active == true ) ? BORDER_COLOR : c_dkgray );
     mvwprintw( w, 0, 3, _( "< [s]ort: %s >" ), get_sortname( pane.sortby ).c_str() );
     int max = square.max_size;
-    if (max > 0) {
+    if( max > 0 ) {
         int itemcount = square.get_item_count();
         int fmtw = 7 + ( itemcount > 99 ? 3 : itemcount > 9 ? 2 : 1 ) +
             ( max > 99 ? 3 : max > 9 ? 2 : 1 );
