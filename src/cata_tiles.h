@@ -14,6 +14,7 @@
 #include "weather.h"
 #include "tile_id_data.h"
 #include "enums.h"
+#include "weighted_list.h"
 
 #include <list>
 #include <map>
@@ -25,37 +26,10 @@ class JsonObject;
 struct visibility_variables;
 
 /** Structures */
-struct sprite_variation {
-    int weight;
-    std::vector<int> sprite_ids;
-
-    sprite_variation()
-    {
-        weight = 1;
-        sprite_ids.clear();
-    }
-
-    sprite_variation(int id)
-    {
-        weight = 1;
-        sprite_ids.clear();
-        sprite_ids.push_back(id);
-    }
-
-    sprite_variation(int w, int id)
-    {
-        weight = w;
-        sprite_ids.clear();
-        sprite_ids.push_back(id);
-    }
-};
-
 struct tile_type
 {
-    // first entry of each of these vectors is not a real sprite_variation
-    // but a bookkeeping list instead, used for reducing the task of selecting
-    // a random variation from O(N) to O(1)
-    std::vector<sprite_variation> fg, bg;
+    // fg and bg are both a weighted list of lists of sprite IDs
+    weighted_int_list<std::vector<int>> fg, bg;
     bool multitile = false;
     bool rotates = false;
 
@@ -221,9 +195,11 @@ class cata_tiles
          */
         tile_type &load_tile(JsonObject &entry, const std::string &id, int offset, int size);
 
+        void load_tile_spritelists(JsonObject &entry, weighted_int_list<std::vector<int>> &vs, int offset, int size, const std::string &objname);
         void load_ascii_tilejson_from_file(JsonObject &config, int offset, int size);
         void load_ascii_set(JsonObject &entry, int offset, int size);
         void add_ascii_subtile(tile_type &curr_tile, const std::string &t_id, int fg, const std::string &s_id);
+        void process_variations_after_loading(weighted_int_list<std::vector<int>> &v, int offset);
     public:
         /** Draw to screen */
         void draw( int destx, int desty, const tripoint &center, int width, int height );
@@ -240,9 +216,9 @@ class cata_tiles
         bool draw_from_id_string(std::string id, TILE_CATEGORY category,
                                  const std::string &subcategory, int x, int y, int subtile, int rota,
                                  lit_level ll, bool apply_night_vision_goggles);
-        bool draw_sprite_at(const std::vector<sprite_variation> &svlist, int x, int y, float loc_rand, int rota_fg, int rota, lit_level ll,
+        bool draw_sprite_at(const weighted_int_list<std::vector<int>> &svlist, int x, int y, unsigned int loc_rand, int rota_fg, int rota, lit_level ll,
                             bool apply_night_vision_goggles);  
-        bool draw_tile_at(const tile_type &tile, int x, int y, float loc_rand, int rota, lit_level ll, bool apply_night_vision_goggles);
+        bool draw_tile_at(const tile_type &tile, int x, int y, unsigned int loc_rand, int rota, lit_level ll, bool apply_night_vision_goggles);
 
         /**
          * Redraws all the tiles that have changed since the last frame.

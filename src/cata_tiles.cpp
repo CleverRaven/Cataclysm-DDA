@@ -21,10 +21,11 @@
 #include "mtype.h"
 #include "field.h"
 #include "weather.h"
-#include "simplexnoise.h"
+#include "weighted_list.h"
 
 #include <algorithm>
 #include <fstream>
+#include <stdlib.h>     /* srand, rand */
 
 #include <SDL_image.h>
 
@@ -504,48 +505,13 @@ void cata_tiles::load_tilejson_from_file(const std::string &tileset_dir, std::if
     // eliminate any sprite references that are too high to exist
     // also eliminate negative sprite references
 
-    // loop through all tile ids
+    // loop through all tile ids and eliminate empty/invalid things
     for( auto it = tile_ids.begin(); it != tile_ids.end(); ) {
-        // second is the tile_type describing that id
-        auto &td = it->second;
-        // loop through fg and bg
-        for (auto *g : {&td.fg, &td.bg}) {
-            // loop through all of the variations
-            for( auto vit = g->begin(); vit != g->end(); vit++) {
-                if ( vit->weight == -1 ) {
-                    continue;
-                }
-                // in a given variation, erase any invalid sprite ids
-                vit->sprite_ids.erase(
-                    std::remove_if(
-                        vit->sprite_ids.begin(),
-                        vit->sprite_ids.end(),
-                        [&](int id) { return id >= offset || id < 0; }),
-                    vit->sprite_ids.end()
-                );
-            }
-            // erase any real variations with no valid sprite ids left
-            g->erase(
-                std::remove_if(
-                    g->begin(),
-                    g->end(),
-                    [&](sprite_variation s) { return s.weight!=-1 && s.sprite_ids.empty(); }
-                ),
-                g->end()
-            );
-            // populate the bookkeeping table used for selecting sprite variations
-            for( auto vit = g->begin(); vit != g->end(); vit++) {
-                if ( vit->weight == -1 ) {
-                    continue;
-                }
-                // extend the bookkeeping entry's sprite_ids vector by N entries
-                // N is the weight of the current variation
-                // fill new elements with index of the current variation
-                g->at(0).sprite_ids.resize(g->at(0).sprite_ids.size()+vit->weight, vit - g->begin());
-            }
-        }
+        auto &td = it->second;        // second is the tile_type describing that id
+        process_variations_after_loading(td.fg, offset);
+        process_variations_after_loading(td.bg, offset);
         // All tiles need at least foreground or background data, otherwise they are useless.
-        if( td.bg.size()==1 && td.fg.size()==1 ) {
+        if( td.bg.empty() && td.fg.empty() ) {
             dbg( D_ERROR ) << "tile " << it->first << " has no (valid) foreground nor background";
             tile_ids.erase( it++ );
         } else {
@@ -554,11 +520,36 @@ void cata_tiles::load_tilejson_from_file(const std::string &tileset_dir, std::if
     }
 }
 
+void cata_tiles::process_variations_after_loading(weighted_int_list<std::vector<int>> &vs, int offset) {
+    // loop through all of the variations
+    for( auto &v : vs ) {
+        // in a given variation, erase any invalid sprite ids
+        v.obj.erase(
+            std::remove_if(
+                v.obj.begin(),
+                v.obj.end(),
+                [&](int id) { return id >= offset || id < 0; }),
+            v.obj.end()
+        );
+    }
+    // erase any variations with no valid sprite ids left
+    vs.erase(
+        std::remove_if(
+            vs.begin(),
+            vs.end(),
+            [&](weighted_object<int,std::vector<int>> o) { return o.obj.empty(); }
+        ),
+        vs.end()
+    );
+    // populate the bookkeeping table used for selecting sprite variations
+    vs.precalc();
+}
+
 void cata_tiles::add_ascii_subtile(tile_type &curr_tile, const std::string &t_id, int sprite_id, const std::string &s_id)
 {
     const std::string m_id = t_id + "_" + s_id;
     tile_type &curr_subtile = tile_ids[m_id];
-    curr_subtile.fg.push_back(sprite_variation(sprite_id));
+    curr_subtile.fg.add(std::vector<int>({sprite_id}),1);
     curr_subtile.rotates = true;
     curr_tile.available_subtiles.push_back(s_id);
 }
@@ -629,40 +620,40 @@ void cata_tiles::load_ascii_set(JsonObject &entry, int offset, int size)
         id[7] = static_cast<char>(FG);
         id[8] = static_cast<char>(-1);
         tile_type &curr_tile = tile_ids[id];
-        curr_tile.fg.push_back(sprite_variation(index_in_image + offset));
+        std::vector<int> *sprites = curr_tile.fg.add(std::vector<int>({index_in_image + offset}),1);
         switch(ascii_char) {
         case LINE_OXOX_C://box bottom/top side (horizontal line)
-            curr_tile.fg[1].sprite_ids[0] = 205 + base_offset;
+            sprites->at(0) = 205 + base_offset;
             break;
         case LINE_XOXO_C://box left/right side (vertical line)
-            curr_tile.fg[1].sprite_ids[0] = 186 + base_offset;
+            sprites->at(0) = 186 + base_offset;
             break;
         case LINE_OXXO_C://box top left
-            curr_tile.fg[1].sprite_ids[0] = 201 + base_offset;
+            sprites->at(0) = 201 + base_offset;
             break;
         case LINE_OOXX_C://box top right
-            curr_tile.fg[1].sprite_ids[0] = 187 + base_offset;
+            sprites->at(0) = 187 + base_offset;
             break;
         case LINE_XOOX_C://box bottom right
-            curr_tile.fg[1].sprite_ids[0] = 188 + base_offset;
+            sprites->at(0) = 188 + base_offset;
             break;
         case LINE_XXOO_C://box bottom left
-            curr_tile.fg[1].sprite_ids[0] = 200 + base_offset;
+            sprites->at(0) = 200 + base_offset;
             break;
         case LINE_XXOX_C://box bottom north T (left, right, up)
-            curr_tile.fg[1].sprite_ids[0] = 202 + base_offset;
+            sprites->at(0) = 202 + base_offset;
             break;
         case LINE_XXXO_C://box bottom east T (up, right, down)
-            curr_tile.fg[1].sprite_ids[0] = 208 + base_offset;
+            sprites->at(0) = 208 + base_offset;
             break;
         case LINE_OXXX_C://box bottom south T (left, right, down)
-            curr_tile.fg[1].sprite_ids[0] = 203 + base_offset;
+            sprites->at(0) = 203 + base_offset;
             break;
         case LINE_XXXX_C://box X (left down up right)
-            curr_tile.fg[1].sprite_ids[0] = 206 + base_offset;
+            sprites->at(0) = 206 + base_offset;
             break;
         case LINE_XOXX_C://box bottom east T (left, down, up)
-            curr_tile.fg[1].sprite_ids[0] = 184 + base_offset;
+            sprites->at(0) = 184 + base_offset;
             break;
         }
         if (ascii_char == LINE_XOXO_C || ascii_char == LINE_OXOX_C) {
@@ -716,76 +707,75 @@ tile_type &cata_tiles::load_tile(JsonObject &entry, const std::string &id, int o
 {
     tile_type &curr_subtile = tile_ids[id];
 
-    // loop through fg and bg
-    for (auto g : {std::make_pair("fg",&curr_subtile.fg), std::make_pair("bg",&curr_subtile.bg)}) {
-        // one sprite_variation for bookkeeping purposes
-        g.second->push_back(sprite_variation());
-        g.second->at(0).weight = -1;
-        // json array indicates rotations or variations
-        if ( entry.has_array(g.first) ) {
-            JsonArray g_array = entry.get_array(g.first);
-            // int elements of array indicates rotations
-            // create one variation, populate sprite_ids with list of ints
-            if ( g_array.test_int() ) {
-                g.second->push_back(sprite_variation());
-                while (g_array.has_more()) {
-                    const int s = g_array.next_int();
-                    if ( s >= 0 ) {
-                        g.second->at(0).sprite_ids.push_back(s);
-                    }
-                }
-            }
-            // object elements of array indicates variations
-            // create one variation per object
-            else if ( g_array.test_object() ) {
-                while (g_array.has_more()) {
-                    sprite_variation v = sprite_variation();
-                    JsonObject vo = g_array.next_object();
-                    v.weight = vo.get_int("weight");
-                    // negative weight is invalid
-                    if ( v.weight < 0 ) {
-                        vo.throw_error("Invalid weight for sprite variation (<0)", g.first);
-                        continue;
-                    }
-                    // int sprite means one sprite
-                    if ( vo.has_int("sprite") ) {
-                        const int s = vo.get_int("sprite");
-                        if ( s >= 0 ) {
-                            v.sprite_ids.push_back(s);
-                        }
-                    }
-                    // array sprite means rotations
-                    else if ( vo.has_array("sprite") ) {
-                        JsonArray sprites = vo.get_array("sprite");
-                        while (sprites.has_more()) {
-                            const int s = sprites.next_int();
-                            if ( s >= 0 && s < size )
-                            {
-                                v.sprite_ids.push_back(s);
-                            }
-                            else
-                            {
-                                vo.throw_error("Invalid value for sprite id (out of range)", g.first);
-                                v.sprite_ids.push_back(s+offset);
-                            }
-                        }
-                    }
-                    if ( v.sprite_ids.size() != 1 &&
-                         v.sprite_ids.size() != 2 &&
-                         v.sprite_ids.size() != 4 ) {
-                        vo.throw_error("Invalid number of sprites (not 1, 2, or 4)", g.first);
-                    }
-                    g.second->push_back(v);
-                }
-            }
-        }
-        // json int indicates a single sprite id
-        else if (entry.has_int(g.first) && entry.get_int(g.first) >= 0) {
-            g.second->push_back(sprite_variation(entry.get_int(g.first)));
-        }
-    }
+    load_tile_spritelists (entry, curr_subtile.fg, offset, size, "fg");
+    load_tile_spritelists (entry, curr_subtile.bg, offset, size, "bg");
 
     return curr_subtile;
+}
+
+void cata_tiles::load_tile_spritelists(JsonObject &entry, weighted_int_list<std::vector<int>> &vs, int offset, int size, const std::string &objname) {
+    // json array indicates rotations or variations
+    if ( entry.has_array(objname) ) {
+        JsonArray g_array = entry.get_array(objname);
+        // int elements of array indicates rotations
+        // create one variation, populate sprite_ids with list of ints
+        if ( g_array.test_int() ) {
+            std::vector<int> v;
+            while (g_array.has_more()) {
+                const int sprite_id = g_array.next_int();
+                if ( sprite_id >= 0 ) {
+                    v.push_back(sprite_id);
+                }
+            }
+            vs.add(v,1);
+        }
+        // object elements of array indicates variations
+        // create one variation per object
+        else if ( g_array.test_object() ) {
+            while ( g_array.has_more() ) {
+                std::vector<int> v;
+                JsonObject vo = g_array.next_object();
+                int weight = vo.get_int("weight");
+                // negative weight is invalid
+                if ( weight < 0 ) {
+                    vo.throw_error("Invalid weight for sprite variation (<0)", objname);
+                }
+                // int sprite means one sprite
+                if ( vo.has_int("sprite") ) {
+                    const int sprite_id = vo.get_int("sprite");
+                    if ( sprite_id >= 0 ) {
+                        v.push_back(sprite_id);
+                    }
+                }
+                // array sprite means rotations
+                else if ( vo.has_array("sprite") ) {
+                    JsonArray sprites = vo.get_array("sprite");
+                    while (sprites.has_more()) {
+                        const int sprite_id = sprites.next_int();
+                        if ( sprite_id >= 0 && sprite_id < size )
+                        {
+                            v.push_back(sprite_id);
+                        }
+                        else
+                        {
+                            // vo.throw_error("Invalid value for sprite id (out of range)", objname);
+                            v.push_back(sprite_id+offset);
+                        }
+                    }
+                }
+                if ( v.size() != 1 &&
+                     v.size() != 2 &&
+                     v.size() != 4 ) {
+                    vo.throw_error("Invalid number of sprites (not 1, 2, or 4)", objname);
+                }
+                vs.add(v,weight);
+            }
+        }
+    }
+    // json int indicates a single sprite id
+    else if (entry.has_int(objname) && entry.get_int(objname) >= 0) {
+        vs.add(std::vector<int>({entry.get_int(objname)}),1);
+    }
 }
 
 void cata_tiles::draw_single_tile( const tripoint &p, lit_level ll,
@@ -1078,6 +1068,7 @@ bool cata_tiles::draw_from_id_string(std::string id, int x, int y, int subtile, 
                                            apply_night_vision_goggles);
 }
 
+__attribute__((optimize("unroll-loops")))
 bool cata_tiles::draw_from_id_string(std::string id, TILE_CATEGORY category,
                                      const std::string &subcategory, int x, int y,
                                      int subtile, int rota, lit_level ll,
@@ -1262,15 +1253,17 @@ bool cata_tiles::draw_from_id_string(std::string id, TILE_CATEGORY category,
         screen_y = (y - o_y) * tile_height + op_y;
     }
 
+    // seed the PRNG with the x,y coordinate to get a reproducible random int
+    // TODO faster solution here
+    srand (g->m.getabs(x,y).x+g->m.getabs(x,y).y*65536);
+    unsigned int loc_rand = rand();
     //draw it!
-    float loc_rand = ( raw_noise_2d( x, y )+ 1.0f) / 2.0f;
-
     draw_tile_at(display_tile, screen_x, screen_y, loc_rand, rota, ll, apply_night_vision_goggles);
 
     return true;
 }
 
-bool cata_tiles::draw_sprite_at(const std::vector<sprite_variation> &svlist, int x, int y, float loc_rand, int rota_fg, int rota, lit_level ll,
+bool cata_tiles::draw_sprite_at(const weighted_int_list<std::vector<int>> &svlist, int x, int y, unsigned int loc_rand, int rota_fg, int rota, lit_level ll,
                                 bool apply_night_vision_goggles)
 {
     SDL_Rect destination;
@@ -1279,34 +1272,25 @@ bool cata_tiles::draw_sprite_at(const std::vector<sprite_variation> &svlist, int
     destination.w = tile_width;
     destination.h = tile_height;
 
-    if ( svlist.size()==1 ) {
+    if ( svlist.empty() ) {
         // render nothing
         return true;
     }
 
-    int variation = 1;
-
-    if ( svlist.size() > 2 ) {
-        int lottery = loc_rand * (svlist[0].sprite_ids.size());
-        variation = svlist[0].sprite_ids[lottery];
-        // printf("Choosing among %d variations, with loc_rand %f lottery %d, chose %d\n",svlist.size()-1,loc_rand,lottery,variation);
-    }
-
-    // get sprite list from chosen variation
-    std::vector<int> spritelist = svlist[variation].sprite_ids;
+    const std::vector<int> *spritelist = svlist.pick(loc_rand);
 
     int ret = 0;
     // blit foreground based on rotation
     int rotate_sprite, sprite_num;
-    if ( spritelist.empty() ) {
+    if ( spritelist->empty() ) {
         // render nothing
     } else {
-        if ( ( ! rota_fg ) && spritelist.size() < 2 ) {
+        if ( ( ! rota_fg ) && spritelist->size() == 1 ) {
             // don't rotate, a background tile without manual rotations
             rotate_sprite = false;
             sprite_num = 0;
         }
-        else if ( spritelist.size() == 1 ) {
+        else if ( spritelist->size() == 1 ) {
             // just one tile, apply SDL sprite rotation if not in isometric mode
             rotate_sprite = !tile_iso;
             sprite_num = 0;
@@ -1316,22 +1300,22 @@ bool cata_tiles::draw_sprite_at(const std::vector<sprite_variation> &svlist, int
             // two tiles, tile 0 is N/S, tile 1 is E/W
             // four tiles, 0=N, 1=E, 2=S, 3=W
             // extending this to more than 4 rotated tiles will require changing rota to degrees
-            sprite_num = rota % spritelist.size();
+            sprite_num = rota % spritelist->size();
         }
 
-        SDL_Texture *sprite_tex = tile_values[spritelist[sprite_num]].get();
+        SDL_Texture *sprite_tex = tile_values[spritelist->at(sprite_num)].get();
         //use night vision colors when in use
         //then use low light tile if available
-        if(apply_night_vision_goggles && spritelist[sprite_num] < static_cast<int>(night_tile_values.size())){
+        if(apply_night_vision_goggles && spritelist->at(sprite_num) < static_cast<int>(night_tile_values.size())){
             if(ll != LL_LOW){
                 //overexposed tile count should be the same size as night_tile_values.size
-                sprite_tex = overexposed_tile_values[spritelist[sprite_num]].get();
+                sprite_tex = overexposed_tile_values[spritelist->at(sprite_num)].get();
             } else {
-                sprite_tex = night_tile_values[spritelist[sprite_num]].get();
+                sprite_tex = night_tile_values[spritelist->at(sprite_num)].get();
             }
         }
-        else if(ll == LL_LOW && spritelist[sprite_num] < static_cast<int>(shadow_tile_values.size())) {
-            sprite_tex = shadow_tile_values[spritelist[sprite_num]].get();
+        else if(ll == LL_LOW && spritelist->at(sprite_num) < static_cast<int>(shadow_tile_values.size())) {
+            sprite_tex = shadow_tile_values[spritelist->at(sprite_num)].get();
         }
         if ( rotate_sprite ) {
             switch ( rota ) {
@@ -1371,7 +1355,7 @@ bool cata_tiles::draw_sprite_at(const std::vector<sprite_variation> &svlist, int
     return true;
 }
 
-bool cata_tiles::draw_tile_at(const tile_type &tile, int x, int y, float loc_rand, int rota, lit_level ll,
+bool cata_tiles::draw_tile_at(const tile_type &tile, int x, int y, unsigned int loc_rand, int rota, lit_level ll,
                               bool apply_night_vision_goggles)
 {
     draw_sprite_at(tile.bg, x, y, loc_rand, 0, rota, ll, apply_night_vision_goggles);
@@ -1723,7 +1707,7 @@ void cata_tiles::create_default_item_highlight()
 
     if( texture ) {
         tile_values.push_back( std::move( texture ) );
-        tile_ids[key].fg.push_back( sprite_variation(index) );
+        tile_ids[key].fg.add(std::vector<int>({index}),1);
     }
 }
 
