@@ -82,13 +82,16 @@ template <typename W, typename T> struct weighted_list {
      * and biased by weight. If the weighted list is empty or all items in it
      * have a weight of zero, it will return a NULL pointer.
      */
-    const T* pick(long long rand_ll = -1) const {
+    const T* pick(unsigned int randi) const {
         if(total_weight > 0) {
-            return &(objects[pick_ent(rand_ll)].obj);
+            return &(objects[pick_ent(randi)].obj);
         }
         else {
             return NULL;
         }
+    }
+    const T* pick() const {
+        return pick(rand());
     }
 
     /**
@@ -97,13 +100,16 @@ template <typename W, typename T> struct weighted_list {
      * have a weight of zero, it will return a NULL pointer. This is the
      * non-const version so that the returned result may be modified.
      */
-    T* pick(long long rand_ll = -1) {
+    T* pick(unsigned int randi) {
         if(total_weight > 0) {
-            return &(objects[pick_ent(rand_ll)].obj);
+            return &(objects[pick_ent(randi)].obj);
         }
         else {
             return NULL;
         }
+    }
+    T* pick() {
+        return pick(rand());
     }
 
     /**
@@ -175,11 +181,7 @@ protected:
     size_t pick_ent(long long rand_ll) const override {
         size_t i;
         int picked;
-        if( rand_ll == -1 ) {
-            picked = rng(1, this->total_weight);
-        } else {
-            picked = (rand_ll%(this->total_weight))+1;
-        }
+        picked = (rand_ll%(this->total_weight))+1;
         if( precalc_array.size() ) {
             // if the precalc_array is populated, use it for O(1) lookup
             i = precalc_array[picked-1];

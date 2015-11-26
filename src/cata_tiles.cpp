@@ -1068,7 +1068,6 @@ bool cata_tiles::draw_from_id_string(std::string id, int x, int y, int subtile, 
                                            apply_night_vision_goggles);
 }
 
-__attribute__((optimize("unroll-loops")))
 bool cata_tiles::draw_from_id_string(std::string id, TILE_CATEGORY category,
                                      const std::string &subcategory, int x, int y,
                                      int subtile, int rota, lit_level ll,
