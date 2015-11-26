@@ -75,6 +75,7 @@
 #include "faction.h"
 #include "live_view.h"
 #include "recipe_dictionary.h"
+#include "cata_utility.h"
 
 #include <map>
 #include <set>
@@ -5074,11 +5075,6 @@ void game::draw_sidebar()
     }
 }
 
-bool game::isBetween(int test, int down, int up)
-{
-    return test > down && test < up;
-}
-
 void game::draw_critter( const Creature &critter, const tripoint &center )
 {
     const int my = POSY + ( critter.posy() - center.y );
@@ -6117,14 +6113,6 @@ void game::monmove()
     }
     cleanup_dead();
 }
-
-struct pair_greater_cmp
-{
-    bool operator()( const std::pair<int, tripoint> &a, const std::pair<int, tripoint> &b)
-    {
-        return a.first > b.first;
-    }
-};
 
 void game::do_blast( const tripoint &p, const float power,
                      const float distance_factor, const bool fire )
@@ -9153,62 +9141,6 @@ tripoint game::look_around( WINDOW *w_info, const tripoint &start_point,
     return tripoint( INT_MIN, INT_MIN, INT_MIN );
 }
 
-bool lcmatch(const std::string &str, const std::string &findstr); // ui.cpp
-bool game::list_items_match(const item *item, std::string sPattern)
-
-{
-    size_t iPos;
-    bool hasExclude = false;
-
-    if (sPattern.find("-") != std::string::npos) {
-        hasExclude = true;
-    }
-
-    do {
-        iPos = sPattern.find(",");
-        std::string pat = (iPos == std::string::npos) ? sPattern : sPattern.substr(0, iPos);
-        bool exclude = false;
-        if (pat.substr(0, 1) == "-") {
-            exclude = true;
-            pat = pat.substr(1, pat.size() - 1);
-        } else if (hasExclude) {
-            hasExclude = false; //If there are non exclusive items to filter, we flip this back to false.
-        }
-
-        std::string namepat = pat;
-        std::transform( namepat.begin(), namepat.end(), namepat.begin(), tolower );
-        if( lcmatch( item->tname(), namepat ) ) {
-            return !exclude;
-        }
-
-        if (pat.find("{", 0) != std::string::npos) {
-            std::string adv_pat_type = pat.substr(1, pat.find(":") - 1);
-            std::string adv_pat_search = pat.substr(pat.find(":") + 1, (pat.find("}") - pat.find(":")) - 1);
-            std::transform(adv_pat_search.begin(), adv_pat_search.end(), adv_pat_search.begin(), tolower);
-            if (adv_pat_type == "c" && lcmatch(item->get_category().name, adv_pat_search)) {
-                return !exclude;
-            } else if (adv_pat_type == "m") {
-                for (auto material : item->made_of_types()) {
-                    if (lcmatch(material->name(), adv_pat_search)) {
-                        return !exclude;
-                    }
-                }
-            } else if (adv_pat_type == "dgt" && item->damage > atoi(adv_pat_search.c_str())) {
-                return !exclude;
-            } else if (adv_pat_type == "dlt" && item->damage < atoi(adv_pat_search.c_str())) {
-                return !exclude;
-            }
-        }
-
-        if (iPos != std::string::npos) {
-            sPattern = sPattern.substr(iPos + 1, sPattern.size());
-        }
-
-    } while (iPos != std::string::npos);
-
-    return hasExclude;
-}
-
 std::vector<map_item_stack> game::find_nearby_items(int iRadius)
 {
     std::map<std::string, map_item_stack> temp_items;
@@ -9253,21 +9185,6 @@ std::vector<map_item_stack> game::find_nearby_items(int iRadius)
         ret.push_back( temp_items[elem] );
     }
 
-    return ret;
-}
-
-std::vector<map_item_stack> game::filter_item_stacks(std::vector<map_item_stack> stack,
-        std::string filter)
-{
-    std::vector<map_item_stack> ret;
-
-    std::string sFilterTemp = filter;
-
-    for( auto &elem : stack ) {
-        if( sFilterTemp == "" || list_items_match( elem.example, sFilterTemp ) ) {
-            ret.push_back( elem );
-        }
-    }
     return ret;
 }
 
@@ -9430,48 +9347,6 @@ void game::reset_item_list_state(WINDOW *window, int height, bool bRadiusSort)
     }
 
     refresh_all();
-}
-
-//returns the first non priority items.
-int game::list_filter_high_priority(std::vector<map_item_stack> &stack, std::string priorities)
-{
-    //TODO:optimize if necessary
-    std::vector<map_item_stack> tempstack; // temp
-    for(auto it = stack.begin(); it != stack.end();) {
-        if (priorities == "" || !list_items_match(it->example, priorities)) {
-            tempstack.push_back(*it);
-            it = stack.erase(it);
-        } else {
-            it++;
-        }
-    }
-
-    int id = stack.size();
-    for( auto &elem : tempstack ) {
-        stack.push_back( elem );
-    }
-    return id;
-}
-
-int game::list_filter_low_priority(std::vector<map_item_stack> &stack, int start,
-                                   std::string priorities)
-{
-    //TODO:optimize if necessary
-    std::vector<map_item_stack> tempstack; // temp
-    for (auto it = stack.begin() + start; it != stack.end();) {
-        if(priorities != "" && list_items_match(it->example, priorities)) {
-            tempstack.push_back(*it);
-            it = stack.erase(it);
-        } else {
-            it++;
-        }
-    }
-
-    int id = stack.size();
-    for( auto &elem : tempstack ) {
-        stack.push_back( elem );
-    }
-    return id;
 }
 
 void centerlistview( const tripoint &active_item_position )
@@ -10587,37 +10462,6 @@ void game::drop_in_direction()
     make_drop_activity( ACT_DROP, dirp );
 }
 
-bool compare_items_by_lesser_volume(const item &a, const item &b)
-{
-    return a.volume() < b.volume();
-}
-
-// calculate the time (in player::moves) it takes to drop the
-// items in dropped and dropped_worn.
-// Items in dropped come from the main inventory (or the wielded weapon)
-// Items in dropped_worn are cloth that had been worn.
-// All items in dropped that fit into the removed storage space
-// (freed_volume_capacity) do not take time to drop.
-// Example: dropping five 2x4 (volume 5*6) and a worn backpack
-// (storage 40) will take only the time for dropping the backpack
-// dropping two more 2x4 takes the time for dropping the backpack and
-// dropping the remaining 2x4 that does not fit into the backpack.
-int game::calculate_drop_cost(std::vector<item> &dropped, const std::vector<item> &dropped_worn,
-                              int freed_volume_capacity) const
-{
-    // Prefer to put small items into the backpack
-    std::sort(dropped.begin(), dropped.end(), compare_items_by_lesser_volume);
-    int drop_item_cnt = dropped_worn.size();
-    int total_volume_dropped = 0;
-    for( auto &elem : dropped ) {
-        total_volume_dropped += elem.volume();
-        if(freed_volume_capacity == 0 || total_volume_dropped > freed_volume_capacity) {
-            drop_item_cnt++;
-        }
-    }
-    return drop_item_cnt * 100;
-}
-
 void game::drop(std::vector<item> &dropped, std::vector<item> &dropped_worn,
                 int freed_volume_capacity, int dirx, int diry, bool to_vehicle)
 {
@@ -10825,25 +10669,6 @@ void game::plthrow(int pos)
 
     u.throw_item( targ, thrown );
     reenter_fullscreen();
-}
-
-// TODO: Put this into a header (which one?) and maybe move the implementation somewhere else.
-/** Comparator object to sort creatures according to their attitude from "u",
- * and (on same attitude) according to their distance to "u".
- */
-struct compare_by_dist_attitude {
-    const Creature &u;
-    bool operator()(Creature *a, Creature *b) const;
-};
-
-bool compare_by_dist_attitude::operator()(Creature *a, Creature *b) const
-{
-    const auto aa = u.attitude_to( *a );
-    const auto ab = u.attitude_to( *b );
-    if( aa != ab ) {
-        return aa < ab;
-    }
-    return rl_dist( a->pos(), u.pos() ) < rl_dist( b->pos(), u.pos() );
 }
 
 std::vector<tripoint> game::pl_target_ui( tripoint &p, int range, item *relevant, target_mode mode,
