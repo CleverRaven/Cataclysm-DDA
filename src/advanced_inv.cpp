@@ -1047,13 +1047,14 @@ void advanced_inventory::redraw_pane( side p )
     // draw a darker border around the inactive pane
     draw_border( w, ( active == true ) ? BORDER_COLOR : c_dkgray );
     mvwprintw( w, 0, 3, _( "< [s]ort: %s >" ), get_sortname( pane.sortby ).c_str() );
-    int max = MAX_ITEM_IN_SQUARE; //TODO: use the square, luke
-    if( pane.get_area() == AIM_ALL ) {
-        max *= 9;
+    int max = square.max_size;
+    if (max > 0) {
+        int itemcount = square.get_item_count();
+        int fmtw = 7 + ( itemcount > 99 ? 3 : itemcount > 9 ? 2 : 1 ) +
+            ( max > 99 ? 3 : max > 9 ? 2 : 1 );
+        mvwprintw( w, 0 , ( w_width / 2 ) - fmtw, "< %d/%d >", itemcount, max );
     }
-    int fmtw = 7 + ( pane.items.size() > 99 ? 3 : pane.items.size() > 9 ? 2 : 1 ) +
-               ( max > 99 ? 3 : max > 9 ? 2 : 1 );
-    mvwprintw( w, 0 , ( w_width / 2 ) - fmtw, "< %d/%d >", pane.items.size(), max );
+
     const char *fprefix = _( "[F]ilter" );
     const char *fsuffix = _( "[R]eset" );
     if( ! filter_edit ) {

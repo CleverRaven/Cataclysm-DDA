@@ -2688,7 +2688,8 @@ int item::get_encumber() const
 {
     const auto t = find_armor_data();
     if( t == nullptr ) {
-        return 0;
+        // handle wearable guns (eg. shoulder strap) as special case
+        return is_gun() ? volume() / 3 : 0;
     }
     // it_armor::encumber is signed char
     int encumber = static_cast<int>( t->encumber );
