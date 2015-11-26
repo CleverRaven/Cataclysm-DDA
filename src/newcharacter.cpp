@@ -1392,8 +1392,8 @@ int set_skills(WINDOW *w, player *u, int &points)
 
         std::string rec_disp = "";
 
-        for( auto iter = recipes.begin(); iter != recipes.end(); ++iter ) {
-            std::sort( iter->second.begin(), iter->second.end(),
+        for( auto &elem : recipes ) {
+            std::sort( elem.second.begin(), elem.second.end(),
                        []( const std::pair<std::string, int>& lhs,
                            const std::pair<std::string, int>& rhs ) {
                            return lhs.second < rhs.second ||
@@ -1401,17 +1401,17 @@ int set_skills(WINDOW *w, player *u, int &points)
                        } );
 
             std::string rec_temp = "";
-            for( auto rec = iter->second.begin(); rec != iter->second.end(); ++rec ) {
+            for( auto rec = elem.second.begin(); rec != elem.second.end(); ++rec ) {
                 if( !rec_temp.empty() ) {
                     rec_temp += ", ";
                 }
                 rec_temp += rec->first + " (" + to_string(rec->second) + ")";
             }
 
-            if( iter->first == currentSkill->name() ) {
+            if( elem.first == currentSkill->name() ) {
                 rec_disp = "\n \n<color_c_brown>" + rec_temp + "</color>" + rec_disp;
             } else {
-                rec_disp += "\n \n<color_c_ltgray>[" + iter->first + "]\n" + rec_temp + "</color>";
+                rec_disp += "\n \n<color_c_ltgray>[" + elem.first + "]\n" + rec_temp + "</color>";
             }
         }
 
