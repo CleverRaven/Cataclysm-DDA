@@ -17,7 +17,7 @@
     "mission" : 7,
     "chat" : "TALK_OLD_GUARD_REP",
     "faction" : "old_guard",
-    "mission_offered" : 30,
+    "mission_offered" : 31,
     "comment" : "Mission_offered is based on the enum mission_id in mission.h.  0=MISSION_NULL"
   },{
     "type" : "npc",
@@ -39,7 +39,7 @@
     "mission" : 7,
     "chat" : "TALK_OLD_GUARD_NEC_CPT",
     "faction" : "old_guard",
-    "mission_offered" : 34
+    "mission_offered" : 35
   },{
       "type" : "npc",
     "id" : "old_guard_necropolis_commo",
@@ -50,7 +50,7 @@
     "mission" : 7,
     "chat" : "TALK_OLD_GUARD_NEC_COMMO",
     "faction" : "old_guard",
-    "mission_offered" : 36
+    "mission_offered" : 37
   },{
     "type" : "npc",
     "id" : "evac_merchant",
@@ -122,6 +122,171 @@
     "mission" : 7,
     "chat" : "TALK_DONE",
     "faction" : "free_merchants"
+  },{
+    "type" : "npc",
+    "id" : "ranch_foreman",
+    "comment" : "Appears at the ranch after you progress in the refugee center quests.  Faction critical.",
+    "name+" : ", Foreman",
+    "class" : 9,
+    "attitude" : 0,
+    "mission" : 7,
+    "chat" : "TALK_RANCH_FOREMAN",
+    "mission_offered" : 40,
+    "faction" : "tacoma_commune"
+  },{
+    "type" : "npc",
+    "id" : "ranch_construction_1",
+    "comment" : "Flavor",
+    "name+" : ", Carpenter",
+    "class" : 13,
+    "attitude" : 0,
+    "mission" : 7,
+    "chat" : "TALK_RANCH_CONSTRUCTION_1",
+    "faction" : "tacoma_commune"
+  },{
+    "type" : "npc",
+    "id" : "ranch_construction_2",
+    "comment" : "Construction skill trainer",
+    "name+" : ", Carpenter",
+    "class" : 10,
+    "attitude" : 0,
+    "mission" : 7,
+    "chat" : "TALK_RANCH_CONSTRUCTION_2",
+    "faction" : "tacoma_commune"
+  },{
+    "type" : "npc",
+    "id" : "ranch_woodcutter_1",
+    "comment" : "Can purchase wood",
+    "name+" : ", Lumberjack",
+    "class" : 7,
+    "attitude" : 0,
+    "mission" : 7,
+    "chat" : "TALK_RANCH_WOODCUTTER",
+    "faction" : "tacoma_commune"
+  },{
+    "type" : "npc",
+    "id" : "ranch__woodcutter_2",
+    "comment" : "Flavor",
+    "name+" : ", Woodworker",
+    "class" : 7,
+    "attitude" : 0,
+    "mission" : 7,
+    "chat" : "TALK_RANCH_WOODCUTTER_2",
+    "faction" : "tacoma_commune"
+  },{
+    "type" : "npc",
+    "id" : "ranch_crop_overseer",
+    "comment" : "Flavor",
+    "name+" : ", Crop Overseer",
+    "class" : 9,
+    "attitude" : 0,
+    "mission" : 7,
+    "chat" : "TALK_RANCH_CROP_OVERSEER",
+    "faction" : "tacoma_commune"
+  },{
+    "type" : "npc",
+    "id" : "ranch_farmer_1",
+    "comment" : "Flavor",
+    "name+" : ", Farmer",
+    "class" : 10,
+    "attitude" : 0,
+    "mission" : 7,
+    "chat" : "TALK_RANCH_FARMER_1",
+    "faction" : "tacoma_commune"
+  },{
+    "type" : "npc",
+    "id" : "ranch_farmer_2",
+    "comment" : "Flavor",
+    "name+" : ", Farmer",
+    "class" : 13,
+    "attitude" : 0,
+    "mission" : 7,
+    "chat" : "TALK_RANCH_FARMER_2",
+    "faction" : "tacoma_commune"
+  },{
+    "type" : "npc",
+    "id" : "ranch_ill_1",
+    "comment" : "Flavor",
+    "name+" : ", Laborer",
+    "class" : 13,
+    "attitude" : 0,
+    "mission" : 7,
+    "chat" : "TALK_RANCH_ILL_1",
+    "faction" : "tacoma_commune"
+  },{
+    "type" : "npc",
+    "id" : "ranch_nurse_1",
+    "comment" : "Mission source for clinic.  Provides medical attention.",
+    "name+" : ", Nurse",
+    "gender" : "female",
+    "class" : 13,
+    "attitude" : 0,
+    "mission" : 7,
+    "chat" : "TALK_RANCH_NURSE",
+    "mission_offered" : 57,
+    "faction" : "tacoma_commune"
+  },{
+    "type" : "npc",
+    "id" : "ranch_doctor",
+    "comment" : "Provides advanced medical attention.",
+    "name+" : ", Doctor",
+    "class" : 4,
+    "attitude" : 0,
+    "mission" : 7,
+    "chat" : "TALK_RANCH_DOCTOR",
+    "faction" : "tacoma_commune"
+  },{
+    "type" : "npc",
+    "id" : "ranch_scrapper_1",
+    "comment" : "Flavor",
+    "name+" : ", Scrapper",
+    "class" : 13,
+    "attitude" : 0,
+    "mission" : 7,
+    "chat" : "TALK_RANCH_SCRAPPER",
+    "faction" : "tacoma_commune"
+  },{
+    "type" : "npc",
+    "id" : "ranch_scavenger_1",
+    "comment" : "Mission source, shopkeep",
+    "name+" : ", Scavenger Boss",
+    "class" : 16,
+    "attitude" : 0,
+    "mission" : 3,
+    "chat" : "TALK_RANCH_SCAVENGER_1",
+    "mission_offered" : 68,
+    "faction" : "tacoma_commune"
+  },{
+    "type" : "npc",
+    "id" : "ranch_bartender",
+    "comment" : "Mission source, shopkeep",
+    "name+" : ", Bartender",
+    "class" : 15,
+    "attitude" : 0,
+    "mission" : 3,
+    "chat" : "TALK_RANCH_BARKEEP",
+    "mission_offered" : 72,
+    "faction" : "tacoma_commune"
+  },{
+    "type" : "npc",
+    "id" : "ranch_barber",
+    "comment" : "Provides hair cuts",
+    "name+" : ", Barber",
+    "class" : 13,
+    "attitude" : 0,
+    "mission" : 7,
+    "chat" : "TALK_RANCH_BARBER",
+    "faction" : "tacoma_commune"
+  },{
+    "type" : "npc",
+    "id" : "commune_guard",
+    "comment" : "A generic guard for the Tacoma Commune faction.",
+    "name+" : ", Guard",
+    "class" : 9,
+    "attitude" : 0,
+    "mission" : 7,
+    "chat" : "TALK_GUARD",
+    "faction" : "tacoma_commune"
   },{
     "type" : "npc",
     "id" : "scavenger_hunter",

@@ -6,8 +6,8 @@
  * Body temperature.
  * Bodytemp is measured on a scale of 0u to 10000u, where 10u = 0.02C and 5000u is 37C
  * Outdoor temperature uses similar numbers, but on a different scale: 2200u = 22C, where 10u = 0.1C.
- * Most values can be changed with no impact on calculations. Because of calculations done in disease.cpp,
- * maximum heat cannot pass 15000u, otherwise the player will vomit to death.
+ * Most values can be changed with no impact on calculations.
+ * Maximum heat cannot pass 15000u, otherwise the player will vomit to death.
  */
 ///@{
 #define BODYTEMP_FREEZING 500   //!< More aggressive cold effects.
@@ -102,24 +102,21 @@ void snow       (); //!< Currently snow has no additional effects.
 void snowstorm  (); //!< Currently snowstorms have no additional effects.
 } //namespace weather_effect
 
-// All the weather conditions at some time
-struct weather_segment {
-    signed char temperature;
-    weather_type weather;
-    calendar deadline;
-};
-
 struct weather_datum {
     std::string name;       //!< UI name of weather type.
     nc_color color;         //!< UI color of weather type.
-    int avg_temperature[4]; //!< Spring, Summer, Winter, Fall.
     int ranged_penalty;     //!< Penalty to ranged attacks.
-    int sight_penalty;      //!< Penalty to max sight range.
+    float sight_penalty;    //!< Penalty to per-square visibility, applied in transparency map.
     int light_modifier;     //!< Modification to ambient light.
-    int mintime;            //!< min/max time it lasts, in minutes.
-    int maxtime;            //!  Note that this is a *recalculation* deadline.
+    int sound_attn;         //!< Sound attenuation of a given weather type.
     bool dangerous;         //!< If true, our activity gets interrupted.
     void (*effect)();       //!< Function pointer for weather effects.
+};
+
+struct weather_sum {
+    int rain_amount = 0;
+    int acid_amount = 0;
+    float sunlight = 0.0f;
 };
 
 std::string const& season_name(int season);
@@ -144,6 +141,10 @@ int get_local_humidity(double humidity, weather_type weather, bool sheltered = f
 int get_local_windpower(double windpower, std::string const &omtername = "no name",
                         bool sheltered = false);
 
+weather_sum sum_conditions( const calendar &startturn,
+                            const calendar &endturn,
+                            const tripoint &location );
+
 /**
  * @param it The container item which is to be filled.
  * @param pos The absolute position of the funnel (in the map square system, the one used
@@ -151,6 +152,8 @@ int get_local_windpower(double windpower, std::string const &omtername = "no nam
  * @param tr The funnel (trap which acts as a funnel).
  */
 void retroactively_fill_from_funnel( item &it, const trap &tr, const calendar &endturn, const tripoint &pos);
+
+double funnel_charges_per_turn( double surface_area_mm2, double rain_depth_mm_per_hour );
 
 /**
  * Get the amount of rotting that an item would accumulate between start and end turn at the given

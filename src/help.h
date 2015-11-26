@@ -6,11 +6,11 @@
 #include <string>
 #include <vector>
 
-void help_draw_dir (WINDOW *win, int line_y = 0);
-void help_main     (WINDOW *win);
-void help_movement (WINDOW *win);
-void help_driving  (WINDOW *win);
-void help_map      (WINDOW *win);
+void help_draw_dir( WINDOW *win, int line_y = 0 );
+void help_main( WINDOW *win );
+void help_movement( WINDOW *win );
+void help_driving( WINDOW *win );
+void help_map( WINDOW *win );
 
 std::vector<std::string> text_introduction();
 std::vector<std::string> text_viewing();
@@ -32,7 +32,7 @@ std::vector<std::string> text_faq();
 
 void display_help();
 
-void load_hint(JsonObject &jsobj);
+void load_hint( JsonObject &jsobj );
 void clear_hints();
 std::string get_hint(); // return a random hint about the game
 

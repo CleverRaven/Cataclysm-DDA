@@ -6,11 +6,11 @@
         "id": "default_zombie_clothes",
         "entries":
         [
-            { "group": "pants", "damage-min": 1, "damage-max": 4 },
-            { "group": "shirts", "damage-min": 1, "damage-max": 4 },
-            { "group": "shoes", "damage-min": 1, "damage-max": 4 },
-            { "group": "jackets", "damage-min": 1, "damage-max": 4, "prob": 20 },
-            { "group": "bags", "damage-min": 1, "damage-max": 4, "prob": 6 }
+            { "group": "pants", "damage": [1, 4] },
+            { "group": "shirts", "damage": [1, 4] },
+            { "group": "shoes", "damage": [1, 4] },
+            { "group": "jackets", "damage": [1, 4], "prob": 20 },
+            { "group": "bags", "damage": [1, 4], "prob": 6 }
         ]
     },
     {
@@ -52,10 +52,10 @@
         "id": "mon_zombie_cop_death_drops",
         "entries":
         [
-            { "group": "cop_shoes", "damage-min": 1, "damage-max": 4 },
-            { "group": "cop_torso", "damage-min": 1, "damage-max": 4 },
-            { "group": "cop_pants", "damage-min": 1, "damage-max": 4 },
-            { "group": "underwear", "damage-min": 1, "damage-max": 4 },
+            { "group": "cop_shoes", "damage": [1, 4] },
+            { "group": "cop_torso", "damage": [1, 4] },
+            { "group": "cop_pants", "damage": [1, 4] },
+            { "group": "underwear", "damage": [1, 4] },
             { "group": "cop_weapons", "prob": 20 },
             { "group": "cop_gear", "prob": 40 },
             { "item": "cash_card" }
@@ -68,12 +68,12 @@
         "entries":
         [
             { "distribution": [
-                { "group": "swimmer_wetsuit", "damage-min": 1, "damage-max": 4, "prob": 10 },
+                { "group": "swimmer_wetsuit", "damage": [1, 4], "prob": 10 },
                 { "collection": [
-                    { "group": "swimmer_head", "damage-min": 1, "damage-max": 4, "prob": 75 },
-                    { "group": "swimmer_torso", "damage-min": 1, "damage-max": 4, "prob": 33 },
-                    { "group": "swimmer_pants", "damage-min": 1, "damage-max": 4 },
-                    { "group": "swimmer_shoes", "damage-min": 1, "damage-max": 4, "prob": 25 }
+                    { "group": "swimmer_head", "damage": [1, 4], "prob": 75 },
+                    { "group": "swimmer_torso", "damage": [1, 4], "prob": 33 },
+                    { "group": "swimmer_pants", "damage": [1, 4] },
+                    { "group": "swimmer_shoes", "damage": [1, 4], "prob": 25 }
                 ], "prob": 90 }
             ] },
             { "item": "cash_card" }
@@ -85,10 +85,10 @@
         "id": "mon_zombie_scientist_death_drops",
         "entries":
         [
-            { "group": "lab_shoes", "damage-min": 1, "damage-max": 4 },
-            { "group": "lab_torso", "damage-min": 1, "damage-max": 4 },
-            { "group": "lab_pants", "damage-min": 1, "damage-max": 4 },
-            { "group": "underwear", "damage-min": 1, "damage-max": 4 },
+            { "group": "lab_shoes", "damage": [1, 4] },
+            { "group": "lab_torso", "damage": [1, 4] },
+            { "group": "lab_pants", "damage": [1, 4] },
+            { "group": "underwear", "damage": [1, 4] },
             { "distribution": [
                 { "group": "harddrugs", "prob": 6 },
                 { "group": "chem_lab", "prob": 10 },
@@ -110,11 +110,11 @@
         "id": "mon_zombie_soldier_death_drops",
         "entries":
         [
-            { "group": "cop_shoes", "damage-min": 1, "damage-max": 4 },
-            { "group": "mil_armor_torso", "damage-min": 1, "damage-max": 4 },
-            { "group": "mil_armor_pants", "damage-min": 1, "damage-max": 4 },
-            { "group": "mil_armor_helmet", "damage-min": 1, "damage-max": 4, "prob": 33 },
-            { "group": "underwear", "damage-min": 1, "damage-max": 4 },
+            { "group": "cop_shoes", "damage": [1, 4] },
+            { "group": "mil_armor_torso", "damage": [1, 4] },
+            { "group": "mil_armor_pants", "damage": [1, 4] },
+            { "group": "mil_armor_helmet", "damage": [1, 4], "prob": 33 },
+            { "group": "underwear", "damage": [1, 4] },
             { "distribution": [
                 { "group": "ammo", "prob": 10 },
                 { "group": "pistols", "prob": 5 },
@@ -134,11 +134,55 @@
     {
         "type" : "item_group",
         "subtype": "collection",
+        "id": "mon_zombie_grenadier",
+        "entries":
+        [
+            { "item": "chestrig", "damage": [1, 4] },
+            { "item": "bot_grenade_hack", "count": [0, 3] },
+            { "item": "bot_flashbang_hack", "prob": 50},
+            { "item": "bot_gasbomb_hack", "prob": 50}
+        ]
+    },
+    {
+        "type" : "item_group",
+        "subtype": "collection",
+        "id": "mon_zombie_grenadier_elite",
+        "entries":
+        [
+            { "item": "chestrig", "damage": [1, 4] },
+            { "item": "molle_pack", "damage": [1, 4] },
+            { "item": "bot_grenade_hack", "count": [0, 4] },
+            { "item": "bot_flashbang_hack", "count": [1, 2], "prob": 50},
+            { "item": "bot_gasbomb_hack", "count": [1, 2], "prob": 50},
+            { "item": "bot_c4_hack", "count": [1, 2], "prob": 20},
+            { "item": "bot_mininuke_hack", "prob": 1}
+        ]
+    },
+    {
+        "type" : "item_group",
+        "subtype": "collection",
+        "id": "mon_zombie_armored_death_drops",
+        "entries":
+        [
+            { "item": "power_supply", "count": [0, 7], "prob": 25},
+            { "item": "element", "count": [0, 3], "prob": 40},
+            { "item": "cable", "charges": [0, 12], "prob": 60},
+            { "item": "transponder", "count": [0, 1], "prob": 25},
+            { "item": "circuit", "count": [0, 8], "prob": 40},
+            { "item": "small_lcd_screen", "count": [0, 2], "prob": 25},
+            { "item": "RAM", "count": [0, 1], "prob": 25},
+            { "item": "depowered_helmet", "count": [0, 1], "prob": 20},
+            { "item": "depowered_armor", "count": [0, 1], "prob": 20}
+        ]
+    },
+    {
+        "type" : "item_group",
+        "subtype": "collection",
         "id": "mon_zombie_hulk_death_drops",
         "entries":
         [
-            { "item": "rag", "damage-min": 1, "damage-max": 4, "count-min": 1, "count-max": 4 },
-            { "group": "pants", "damage-min": 1, "damage-max": 4 },
+            { "item": "rag", "damage": [1, 4], "count": [1, 4] },
+            { "group": "pants", "damage": [1, 4] },
             { "group": "default_zombie_items" },
             { "item": "cash_card" }
         ]
@@ -150,16 +194,16 @@
         "entries":
         [
             { "distribution": [
-                { "group": "hazmat_full", "damage-min": 1, "damage-max": 4, "prob": 20 },
+                { "group": "hazmat_full", "damage": [1, 4], "prob": 20 },
                 { "collection": [
-                    { "group": "hazmat_torso", "damage-min": 1, "damage-max": 4 },
-                    { "group": "hazmat_gloves", "damage-min": 1, "damage-max": 4 },
-                    { "group": "hazmat_boots", "damage-min": 1, "damage-max": 4 },
-                    { "group": "hazmat_mask", "damage-min": 1, "damage-max": 4 },
-                    { "group": "hazmat_eyes", "damage-min": 1, "damage-max": 4, "prob": 33 }
+                    { "group": "hazmat_torso", "damage": [1, 4] },
+                    { "group": "hazmat_gloves", "damage": [1, 4] },
+                    { "group": "hazmat_boots", "damage": [1, 4] },
+                    { "group": "hazmat_mask", "damage": [1, 4] },
+                    { "group": "hazmat_eyes", "damage": [1, 4], "prob": 33 }
                 ], "prob": 80 }
             ] },
-            { "group": "underwear", "damage-min": 1, "damage-max": 4 },
+            { "group": "underwear", "damage": [1, 4] },
             { "distribution": [
                 { "group": "rad_gear", "prob": 1 }
             ] },
@@ -172,14 +216,14 @@
         "id": "mon_zombie_bio_op_death_drops",
         "entries":
         [
-            { "group": "bio_op_boots", "damage-min": 1, "damage-max": 4 },
-            { "group": "mil_armor_torso", "damage-min": 1, "damage-max": 4 },
-            { "group": "mil_armor_pants", "damage-min": 1, "damage-max": 4 },
-            { "group": "mil_armor_helmet", "damage-min": 1, "damage-max": 4, "prob": 50 },
-            { "group": "bio_op_face", "damage-min": 1, "damage-max": 4, "prob": 50 },
-            { "group": "bio_op_torso", "damage-min": 1, "damage-max": 4, "prob": 50 },
-            { "group": "bio_op_gloves", "damage-min": 1, "damage-max": 4, "prob": 50 },
-            { "group": "underwear", "damage-min": 1, "damage-max": 4 },
+            { "group": "bio_op_boots", "damage": [1, 4] },
+            { "group": "mil_armor_torso", "damage": [1, 4] },
+            { "group": "mil_armor_pants", "damage": [1, 4] },
+            { "group": "mil_armor_helmet", "damage": [1, 4], "prob": 50 },
+            { "group": "bio_op_face", "damage": [1, 4], "prob": 50 },
+            { "group": "bio_op_torso", "damage": [1, 4], "prob": 50 },
+            { "group": "bio_op_gloves", "damage": [1, 4], "prob": 50 },
+            { "group": "underwear", "damage": [1, 4] },
             { "distribution": [
                 { "group": "ammo", "prob": 15 },
                 { "group": "pistols", "prob": 5 },
@@ -201,13 +245,13 @@
         "id": "mon_zombie_fireman_death_drops",
         "entries":
         [
-            { "group": "fireman_torso", "damage-min": 1, "damage-max": 4 },
-            { "group": "fireman_pants", "damage-min": 1, "damage-max": 4 },
-            { "group": "fireman_gloves", "damage-min": 1, "damage-max": 4 },
-            { "group": "fireman_boots", "damage-min": 1, "damage-max": 4 },
-            { "group": "fireman_mask", "damage-min": 1, "damage-max": 4 },
-            { "group": "fireman_head", "damage-min": 1, "damage-max": 4 },
-            { "group": "hazmat_eyes", "damage-min": 1, "damage-max": 4, "prob": 33 },
+            { "group": "fireman_torso", "damage": [1, 4] },
+            { "group": "fireman_pants", "damage": [1, 4] },
+            { "group": "fireman_gloves", "damage": [1, 4] },
+            { "group": "fireman_boots", "damage": [1, 4] },
+            { "group": "fireman_mask", "damage": [1, 4] },
+            { "group": "fireman_head", "damage": [1, 4] },
+            { "group": "hazmat_eyes", "damage": [1, 4], "prob": 33 },
             { "distribution": [
                 { "group": "fireman_gear", "prob": 1 }
             ] },
@@ -220,10 +264,10 @@
         "id": "mon_zombie_survivor_death_drops",
         "entries":
         [
-            { "group": "survivorzed_gloves", "damage-min": 1, "damage-max": 4 },
-            { "group": "survivorzed_boots", "damage-min": 1, "damage-max": 4 },
-            { "group": "survivorzed_head", "damage-min": 1, "damage-max": 4 },
-            { "group": "survivorzed_extra", "damage-min": 1, "damage-max": 4 },
+            { "group": "survivorzed_gloves", "damage": [1, 4] },
+            { "group": "survivorzed_boots", "damage": [1, 4] },
+            { "group": "survivorzed_head", "damage": [1, 4] },
+            { "group": "survivorzed_extra", "damage": [1, 4] },
             {
                 "distribution": [
                     {
@@ -237,7 +281,7 @@
                         ],
                         "prob": 75
                     }
-                ], "damage-min": 1, "damage-max": 4
+                ], "damage": [1, 4]
             },
             {
                 "comment": "1/3 chance of underware, 2/3 chance of loincloth",
@@ -246,7 +290,7 @@
                     { "group": "loincloth" },
                     { "group": "loincloth" }
                 ],
-                "damage-min": 1, "damage-max": 4
+                "damage": [1, 4]
             },
             { "distribution": [
                 { "group": "allguns", "prob": 24 },
@@ -286,13 +330,13 @@
         "id": "mon_zombie_technician_death_drops",
         "entries":
         [
-            { "group": "technician_shirts", "damage-min": 1, "damage-max": 4 },
-            { "group": "technician_pants", "damage-min": 1, "damage-max": 4 },
+            { "group": "technician_shirts", "damage": [1, 4] },
+            { "group": "technician_pants", "damage": [1, 4] },
             {
                 "distribution": [
                     { "group": "underwear" }
                 ],
-                "damage-min": 1, "damage-max": 4
+                "damage": [1, 4]
             },
             { "item": "hat_hard" },
             { "item": "boots" }
@@ -304,9 +348,8 @@
         "id": "marloss_yellow_drops",
         "entries":
         [
-            {"item": "marloss_gel", "prob": 50},
-            {"item": "veggy_tainted", "prob": 75},
-            {"item": "fungal_seeds", "prob": 75}
+            {"item": "marloss_gel"},
+            {"item": "fungal_seeds"}
         ]
     }
 ]

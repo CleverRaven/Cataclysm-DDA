@@ -174,7 +174,7 @@
         "type": "profession",
         "ident": "chef",
         "name": "Chef",
-        "description": "Bork bork! Years in the kitchen have left you carrying a prodigious bulk, but you managed to escape the carnage with a butchers knife and only a small collection of stains on your uniform.",
+        "description": "Bork bork!  Years in the kitchen have left you carrying a prodigious bulk, but you managed to escape the carnage with a butchers knife and only a small collection of stains on your uniform.",
         "points": 1,
         "skills": [
             {
@@ -200,6 +200,48 @@
                 "panties"
             ]
         }
+    },
+    {
+        "type": "profession",
+        "ident": "churl",
+        "name": "Churl",
+        "description": "What the deuyl?  Ye ne wist noo thing of this straunge plaas nor what wycked enchauntment brought ye hidder.  Wyth this accoustrement ye must needs underfongen to find newe lyflode in the most hidous cataclysm man hath witnessed sithen that deluge Noe rood out in his greet schippe.",
+        "points": 1,
+        "items": {
+            "both": [
+                "footrags",
+                "loincloth",
+                "cloak_wool",
+                "ragpouch",
+                "small_relic",
+                "gloves_wraps",
+                "tunic_rag",
+                "makeshift_knife",
+                "sheath"
+            ],
+            "female": [
+                "chestwrap"
+            ]
+        },
+        "skills": [
+            {
+                "level": 1,
+                "name": "melee"
+            },
+            {
+                "level": 1,
+                "name": "throw"
+            },
+            {
+                "level": 2,
+                "name": "archery"
+            },
+            {
+                "level": 2,
+                "name": "survival"
+            }
+        ],
+        "traits": [ "PROF_CHURL" ]
     },
     {
         "type": "profession",
@@ -320,7 +362,7 @@
                 "picklocks"
             ],
             "male": [
-                "briefs"
+                "boxer_briefs"
             ],
             "female": [
                 "boxer_shorts"
@@ -359,7 +401,7 @@
 
             ],
             "male": [
-                "briefs"
+                "boxer_briefs"
             ],
             "female": [
                 "bra",
@@ -575,18 +617,18 @@
                 "knife_butter"
             ],
             "male": [
-                "tux",
-                "dress_shoes",
                 "briefs",
-                "socks"
+                "socks",
+                "dress_shoes",
+                "tux"
             ],
             "female": [
-                "maid_hat",
-                "maid_dress",
-                "boots",
-                "bra",
                 "panties",
-                "stockings"
+                "bra",
+                "stockings",
+                "boots",
+                "maid_dress",
+                "maid_hat"
             ]
         }
     },
@@ -759,8 +801,9 @@
                 "knife_rambo",
                 "lighter",
                 "rope_30",
+                "whistle",
                 "canteen",
-                "sheath"
+                "scabbard"
             ],
             "male": [
                 "boxer_shorts"
@@ -894,7 +937,7 @@
     {
         "type": "profession",
         "ident": "cop",
-        "name": "Cop",
+        "name": "Police Officer",
         "description": "Just a small-town deputy when you got the call, you were still ready to come to the rescue.  Except that soon it was you who needed rescuing - you were lucky to escape with your life.  Who's going to respect your authority when the government this badge represents might not even exist anymore?",
         "points": 2,
         "skills": [
@@ -919,7 +962,8 @@
                 "boots",
                 "holster",
                 "usp_45",
-                "45_acp"
+                "45_acp",
+                "whistle"
             ],
             "male": [
                 "boxer_shorts"
@@ -1029,6 +1073,167 @@
             ],
             "female": [
                 "sports_bra",
+                "boy_shorts"
+            ]
+        }
+    },
+    {
+        "type": "profession",
+        "ident": "swat_heavy",
+        "name": "SWAT CQC Specialist",
+        "description": "A member of the police force's most elite division, your close quarters combat training has kept you alive thus far.  Unfortunately, the breakdown of society has brought you to your current state of affairs; you now fight to simply stay alive.",
+        "points": 5,
+        "skills": [
+            {
+                "level": 3,
+                "name": "gun"
+            },
+            {
+                "level": 3,
+                "name": "shotgun"
+            },
+            {
+                "level": 1,
+                "name": "pistol"
+            },
+            {
+                "level": 1,
+                "name": "melee"
+            },
+            {
+                "level": 1,
+                "name": "bashing"
+            }
+        ],
+        "traits": [
+            "PROF_SWAT"
+        ],
+        "items": {
+            "both": [
+                "socks",
+                "swat_armor",
+                "sholster",
+                "tac_fullhelmet",
+                "boots_combat",
+                "gloves_tactical",
+                "badge_swat",
+                "usp_9mm",
+                "ksg",
+                "shoulder_strap",
+                "shot_00",
+                "shot_beanbag",
+                "9mmfmj",
+                "baton"
+            ],
+            "male": [
+                "boxer_shorts"
+            ],
+            "female": [
+                "sports_bra",
+                "boy_shorts"
+            ]
+        }
+    },
+    {
+        "type": "profession",
+        "ident": "sniper_police",
+        "name": "Police Sniper",
+        "description": "Your skill as a sharpshooter served you well in the line of duty, protecting the innocent with a single, well placed bullet.  Now survival itself is on the line, and you can't afford to miss if you don't want to end up as something's dinner.",
+        "points": 5,
+        "skills": [
+            {
+                "level": 5,
+                "name": "gun"
+            },
+            {
+                "level": 4,
+                "name": "rifle"
+            }
+        ],
+        "traits": [
+            "PROF_POLICE"
+        ],
+        "items": {
+            "both": [
+                "socks",
+                "pants_army",
+                "hoodie",
+                "sneakers",
+                "gloves_tactical",
+                "glasses_bal",
+                "hat_boonie",
+                "badge_deputy",
+                "holster",
+                "wristwatch",
+                "usp_45",
+                "45_acp",
+                "remington_700",
+                "3006",
+                "3006",
+                "rifle_scope"
+            ],
+            "male": [
+                "boxer_shorts"
+            ],
+            "female": [
+                "bra",
+                "boy_shorts"
+            ]
+        }
+    },
+    {
+        "type": "profession",
+        "ident": "riot_police",
+        "name": "Riot Control Officer",
+        "description": "The riots were brutal, and that's before the dead rose and started to devour the living.  Soon it became apparent that the line you were holding was about to break - it was only through a bit of luck and a lot of head-bashing that you got away in one piece, and the worst is yet to come.",
+        "points": 5,
+        "skills": [
+            {
+                "level": 3,
+                "name": "melee"
+            },
+            {
+                "level": 3,
+                "name": "bashing"
+            },
+            {
+                "level": 1,
+                "name": "gun"
+            },
+            {
+                "level": 1,
+                "name": "throw"
+            }
+        ],
+        "traits": [
+            "PROF_POLICE"
+        ],
+        "items": {
+            "both": [
+                "socks",
+                "pants_cargo",
+                "longshirt",
+                "boots_combat",
+                "gloves_tactical",
+                "modularvestkevlar",
+                "mask_gas",
+                "tac_helmet",
+                "armguard_hard",
+                "knee_pads",
+                "badge_deputy",
+                "holster",
+                "usp_45",
+                "45_acp",
+                "tonfa",
+                "tazer",
+                "battery",
+                "gasbomb"
+            ],
+            "male": [
+                "boxer_shorts"
+            ],
+            "female": [
+                "bra",
                 "boy_shorts"
             ]
         }
@@ -1228,7 +1433,7 @@
                 "flashlight"
             ],
             "male": [
-                "briefs"
+                "boxer_briefs"
             ],
             "female": [
                 "bra",
@@ -1256,7 +1461,8 @@
                 "sneakers",
                 "portable_game",
                 "mbag",
-                "laptop"
+                "laptop",
+                "caffeine"
             ],
             "male": [
                 "briefs"
@@ -1298,7 +1504,7 @@
         "type": "profession",
         "ident": "svictim",
         "name": "Shower Victim",
-        "description": "You were in the middle of a nice, hot shower when the cataclysm struck! You barely managed to escape with some soap and the most massively useful thing ever...  a towel.",
+        "description": "You were in the middle of a nice, hot shower when the cataclysm struck!  You barely managed to escape with some soap and the most massively useful thing ever...  a towel.",
         "points": -1,
         "items": {
             "both": [
@@ -1515,6 +1721,55 @@
             ]
         },
         "flags": ["SCEN_ONLY"]
+    },
+    {
+        "type": "profession",
+        "ident": "broken_cyborg",
+        "name": "Broken Cyborg",
+        "description": "You were normal once.  Before the tests, before the procedures, before they stripped away every outward sign of your humanity.  You're more machine than man now, but that might prove an advantage against the horrors that await.",
+        "points": -2,
+        "CBMs":[
+            "bio_dis_shock",
+            "bio_dis_acid",
+            "bio_drain",
+            "bio_noise",
+            "bio_power_weakness",
+            "bio_itchy",
+            "bio_nostril",
+            "bio_thumbs",
+            "bio_spasm",
+            "bio_shakes",
+            "bio_leaky",
+            "bio_sleepy",
+            "bio_deformity",
+            "bio_voice",
+            "bio_pokedeye",
+            "bio_ankles",
+            "bio_trip",
+            "bio_stiff",
+            "bio_armor_head",
+            "bio_armor_torso",
+            "bio_armor_arms",
+            "bio_armor_legs",
+            "bio_armor_eyes",
+            "bio_razors",
+            "bio_power_storage",
+            "bio_torsionratchet"
+        ],
+        "items":{
+            "both": [
+                "subsuit_xl",
+                "footrags",
+                "hat_noise_cancelling"
+            ],
+            "male": [
+                "briefs"
+            ],
+            "female": [
+                "bra",
+                "panties"
+            ]
+        }
     },
     {
         "type" : "profession",
@@ -2006,6 +2261,7 @@
         "items" : {
             "both": [
                 "house_coat",
+                "slippers",
                 "towel",
                 "guidebook"
             ],
@@ -2127,7 +2383,7 @@
         "type": "profession",
         "ident": "senior",
         "name": "Senior Citizen",
-        "description": "You haven't seen this much blood since the war.  The whole world's gone crazy! They ate your grandkids! But dagnabbit, you'll make them all pay for what they've done.",
+        "description": "You haven't seen this much blood since the war.  The whole world's gone crazy!  They ate your grandkids!  But dagnabbit, you'll make them all pay for what they've done.",
         "points": 0,
         "items": {
             "both": [
@@ -2496,6 +2752,7 @@
             "bio_sunglasses",
             "bio_dex_enhancer",
             "bio_ears",
+            "bio_earplugs",
             "bio_carbon"
         ],
         "skills": [
@@ -2671,7 +2928,7 @@
         "type": "profession",
         "ident": "priest",
         "name": "Priest",
-        "description": "When the apocalypse struck, you did everything you could to protect your parish faithful, but it appears that prayers were not enough. Now that they are all dead, you should probably find something more tangible to protect you.",
+        "description": "When the apocalypse struck, you did everything you could to protect your parish faithful, but it appears that prayers were not enough.  Now that they are all dead, you should probably find something more tangible to protect you.",
         "points": 0,
         "skills": [
             {
@@ -2701,7 +2958,7 @@
         "type": "profession",
         "ident": "shinto_priest",
         "name": "Kannushi",
-        "description": "You were one of the maintainers of a Shinto shrine, performing rituals and sacred tasks. You preferred it when only the spirits of the dead inhabited your shrine, and not their rotting corpses.",
+        "description": "You were one of the maintainers of a Shinto shrine, performing rituals and sacred tasks.  You preferred it when only the spirits of the dead inhabited your shrine, and not their rotting corpses.",
         "points": 0,
         "skills": [
             {
@@ -2739,7 +2996,7 @@
             "male": "Imam",
             "female": "Mourchida"
         },
-        "description": "You spent much of your time prior to the apocalypse at the local mosque, studying the words of the Prophet and the Quran, and guiding your community in prayer. Back then they came from far and wide to listen to you, now they come to eat your brains.",
+        "description": "You spent much of your time prior to the apocalypse at the local mosque, studying the words of the Prophet and the Quran, and guiding your community in prayer.  Back then they came from far and wide to listen to you, now they come to eat your brains.",
         "points": 0,
         "//" : "No knife, fire, or decent storage/armor.  Skill points are countered.",
         "skills": [
@@ -2775,7 +3032,7 @@
         "type": "profession",
         "ident": "rabbi",
         "name": "Rabbi",
-        "description": "You were celebrating with your flock in the temple when the cataclysm struck. You sure could use a messiah right now!",
+        "description": "You were celebrating with your flock in the temple when the cataclysm struck.  You sure could use a messiah right now!",
         "points": 0,
         "skills": [
             {
@@ -2813,7 +3070,7 @@
         "type": "profession",
         "ident": "guru",
         "name": "Guru",
-        "description": "You spent many years traveling through the world, becoming wise and learned. Normally, you can answer any question, but even you are not quite sure what to do about the ravenous undead.",
+        "description": "You spent many years traveling through the world, becoming wise and learned.  Normally, you can answer any question, but even you are not quite sure what to do about the ravenous undead.",
         "points": 2,
         "//" : "1.5 pts skills, cutting implement, and plenty of storage, so lack of fire only goes so far.",
         "skills": [
@@ -2851,7 +3108,7 @@
         "type": "profession",
         "ident": "preacher",
         "name": "Preacher",
-        "description": "You devoted your life to spreading the good word, always on the road, traveling from town to town. Now, everything has gone to hell, you can't host your daily podcast and the undead listening to your sermons don't seem particularly moved.",
+        "description": "You devoted your life to spreading the good word, always on the road, traveling from town to town.  Now, everything has gone to hell, you can't host your daily podcast and the undead listening to your sermons don't seem particularly moved.",
         "points": 2,
         "//" : "Storage + 2 points in skills, - no knife or fire.",
         "skills": [
@@ -2919,7 +3176,7 @@
         "type": "profession",
         "ident": "blackbelt_intermediate",
         "name": "Martial Artist",
-        "description": "'Drop the martial arts!', they said.  'Learn a skill for the REAL world!', they said.  Well, you're about to show them! SHOW THEM ALL!",
+        "description": "'Drop the martial arts!', they said.  'Learn a skill for the REAL world!', they said.  Well, you're about to show them!  SHOW THEM ALL!",
         "points": 3,
         "traits": [
             "PROF_MA_ORANGE"
@@ -3352,6 +3609,68 @@
             ]
         },
         "flags" : ["SCEN_ONLY"]
+    },
+    {
+        "type": "profession",
+        "ident": "winter_army",
+        "name" : "Military Holdout",
+        "description" : "You must have paid attention to your survival training in boot camp, otherwise you would never have lived long enough to outlast the chain of command and find yourself in this predicament.  The only mission left now is to survive.",
+        "points" : 6,
+        "skills": [
+            {
+                "level": 4,
+                "name": "survival"
+            },
+            {
+                "level": 4,
+                "name": "gun"
+            },
+            {
+                "level": 3,
+                "name": "rifle"
+            },
+            {
+                "level" : 3,
+                "name" : "melee"
+            },
+            {
+                "level": 1,
+                "name": "firstaid"
+            }
+        ],
+
+        "items": {
+            "both": [
+                "socks",
+                "pants_army",
+                "jacket_army",
+                "balclava",
+                "boots_combat",
+                "gloves_tactical",
+                "chestrig",
+                "tac_helmet",
+                "sheath",
+                "canteen",
+                "shoulder_strap",
+                "m4a1",
+                "556",
+                "556",
+                "556",
+                "bayonet",
+                "spare_mag",
+                "mil_mess_kit",
+                "knife_combat",
+                "quikclot"
+            ],
+            "male": [
+                "boxer_shorts"
+            ],
+            "female": [
+                "sports_bra",
+                "panties"
+            ]
+        },
+        "flags" : ["SCEN_ONLY"]
     },{
         "type": "profession",
         "ident": "mall_cop",
@@ -3616,7 +3935,7 @@
         "type": "profession",
         "ident": "drone_op",
         "name": "Drone Operator",
-        "description": "You had a job programming machines like automatic street cleaners, newsbots and pizza delivery drones. Now the all the drones carry guns instead of pizza.",
+        "description": "You had a job programming machines like automatic street cleaners, newsbots and pizza delivery drones.  Now the all the drones carry guns instead of pizza.",
         "points": 1,
         "CBMs":[
             "bio_batteries",
@@ -3649,13 +3968,13 @@
             "type": "profession",
             "ident": "elementary_student",
             "name": "Elementary Student",
-            "description": "You're just a kid, and now the world has turned into something out of one of your bad dreams. The grown-ups you relied on are all dead--or undead--now. What are you going to do?",
+            "description": "You're just a kid, and now the world has turned into something out of one of your bad dreams.  The grown-ups you relied on are all dead--or undead--now.  What are you going to do?",
             "points": 0,
             "items": {
-                "both": [                    
+                "both": [
                     "tshirt",
                     "socks",
-                    "backpack",
+                    "slingpack",
                     "sneakers",
                     "jeans",
                     "jacket_light",
@@ -3679,7 +3998,7 @@
             "male": "Skater Boy",
             "female": "Skater Girl"
         },
-        "description": "You love to skate! At least now the grown-ups aren't telling you where you can't roll.",
+        "description": "You love to skate!  At least now the grown-ups aren't telling you where you can't roll.",
         "points": 1,
                 "skills": [
             {
@@ -3715,7 +4034,7 @@
         "type": "profession",
         "ident": "jdelinquent",
         "name": "Juvenile Delinquent",
-        "description": "You never cared for grown-ups telling you what to do, and that's how you ended up spending most of your days in the principal's office. Now, not needing grown-ups to tell you what to do is the only reason you're alive. Man, you really should've played hooky today.",
+        "description": "You never cared for grown-ups telling you what to do, and that's how you ended up spending most of your days in the principal's office.  Now, not needing grown-ups to tell you what to do is the only reason you're alive.  Man, you really should've played hooky today.",
         "points": 1,
         "skills": [
             {
@@ -3759,7 +4078,7 @@
         "type": "profession",
         "ident": "prep_student",
         "name": "Preppy Student",
-        "description": "Your parents were busy, important people, who wanted you to have every advantage and pushed you to be \"successful,\" whatever that meant. If only they'd ever let you experience childhood, or ever shown you their love. You're certainly not getting either one now.",
+        "description": "Your parents were busy, important people, who wanted you to have every advantage and pushed you to be \"successful,\" whatever that meant.  If only they'd ever let you experience childhood, or ever shown you their love.  You're certainly not getting either one now.",
         "points": 1,
         "skills": [
             {
@@ -3785,7 +4104,7 @@
                 "cell_phone",
                 "money_bundle",
                 "adderall",
-                "manual_business"               
+                "manual_business"
             ],
             "male": [
                 "briefs"
@@ -3799,7 +4118,7 @@
         "type": "profession",
         "ident": "jr_survivalist",
         "name": "Survivalist Jr.",
-        "description": "Your parents were crazy preppers who thought some \"cataclysm\" was coming, and insisted on preparing you for it. Turns out they were right. You didn't get a chance to thank them. The only thing you can do for them now is what they always hoped you would do in the dark days ahead: survive.",
+        "description": "Your parents were crazy preppers who thought some \"cataclysm\" was coming, and insisted on preparing you for it.  Turns out they were right.  You didn't get a chance to thank them.  The only thing you can do for them now is what they always hoped you would do in the dark days ahead: survive.",
         "points": 3,
         "skills": [
             {
@@ -3829,7 +4148,8 @@
                 "scissors",
                 "magnifying_glass",
                 "flashlight",
-                "1st_aid"
+                "1st_aid",
+                "whistle"
             ],
             "male": [
                 "briefs"
@@ -3844,7 +4164,7 @@
             "type": "profession",
             "ident": "bionic_student",
             "name": "Bionic Student",
-            "description": "Your parents were so obsessed with making sure you aced every test that they had you outfitted with bionics to make you smarter and never forget anything. And now, you are facing the most dire test yet, and once again you had better succeed, or else.",
+            "description": "Your parents were so obsessed with making sure you aced every test that they had you outfitted with bionics to make you smarter and never forget anything.  And now, you are facing the most dire test yet, and once again you had better succeed, or else.",
             "points": 3,
             "CBMs":[
                 "bio_batteries",
@@ -3882,7 +4202,7 @@
         "type": "profession",
         "ident": "dodgeball_player",
         "name": "Dodgeball Player",
-        "description": "You liked to play dodgeball, where failing to dodge the ball meant you were out. Now failing to dodge threatens your life. Don't slip up.",
+        "description": "You liked to play dodgeball, where failing to dodge the ball meant you were out.  Now failing to dodge threatens your life.  Don't slip up.",
         "points": 1,
         "skills": [
             {
@@ -3916,7 +4236,7 @@
         "type": "profession",
         "ident": "science_club_mem",
         "name": "Science Club Member",
-        "description": "You were a member of the school science club, and right now you're as upset as you've ever been that the school wouldn't let you play with the really fun chemicals that make things go boom. At least now no one's around to tell you that you can't.",
+        "description": "You were a member of the school science club, and right now you're as upset as you've ever been that the school wouldn't let you play with the really fun chemicals that make things go boom.  At least now no one's around to tell you that you can't.",
         "points": 1,
         "skills": [
             {
@@ -3951,7 +4271,7 @@
         "type": "profession",
         "ident": "av_club_mem",
         "name": "A/V Club Member",
-        "description": "You were a member of the school A/V club. You're sure there's some way you can use your technical skills to help stay alive. You just haven't figured out how to make an awesome death ray yet.",
+        "description": "You were a member of the school A/V club.  You're sure there's some way you can use your technical skills to help stay alive.  You just haven't figured out how to make an awesome death ray yet.",
         "points": 1,
         "skills": [
             {
@@ -3986,7 +4306,7 @@
         "type": "profession",
         "ident": "janitor",
         "name": "Janitor",
-        "description": "You earned a living from sweeping up chocolate wrappers and picking chewing gum from under tables. Now the only thing you'll be sweeping are the brains of the dead.",
+        "description": "You earned a living from sweeping up chocolate wrappers and picking chewing gum from under tables.  Now the only thing you'll be sweeping are the brains of the dead.",
         "points": -1,
         "items": {
             "both": [
@@ -4008,7 +4328,7 @@
         "type": "profession",
         "ident": "teacher",
         "name": "Teacher",
-        "description": "You've been teaching kids for the whole of your life, and they've mostly listened to your teachings. However, the dead won't write out lines for eating you alive.",
+        "description": "You've been teaching kids for the whole of your life, and they've mostly listened to your teachings.  However, the dead won't write out lines for eating you alive.",
         "points": 0,
         "skills": [
             {
@@ -4057,6 +4377,7 @@
             "both": [
                 "baseball",
                 "bat",
+                "whistle",
                 "tank_top",
                 "shorts",
                 "socks",
@@ -4076,10 +4397,10 @@
             "type": "profession",
             "ident": "poor_student",
             "name": "Poor Student",
-            "description": "You come from a low-income family, and got mocked for your old hand-me-down clothes and for getting free school lunches in the cafeteria. Even worse, your ratty old backpack finally fell apart at the worst time. At least no one's mocking you now.",
+            "description": "You come from a low-income family, and got mocked for your old hand-me-down clothes and for getting free school lunches in the cafeteria.  Even worse, your ratty old backpack finally fell apart at the worst time.  At least no one's mocking you now.",
             "points": -1,
             "items": {
-                "both": [                    
+                "both": [
                     "tshirt",
                     "socks",
                     "lowtops",
@@ -4092,5 +4413,37 @@
                     "panties"
                 ]
             }
+    },
+    {
+            "type": "profession",
+            "ident": "miner",
+            "name": "Miner",
+            "description": "You're a miner, not a minor!  Your canteen is dry, your jackhammer is out of gas, and you're on your last pair of batteries for your mining helmet...",
+            "points": 0,
+            "items": {
+                "both": [
+                    "socks",
+                    "boots_steel",
+                    "gloves_work",
+                    "knee_pads",
+                    "miner_hat",
+                    "jumpsuit",
+                    "mask_gas",
+                    "jackhammer",
+                    "canteen",
+                    "e_tool",
+                    "tool_belt",
+                    "mbag",
+                    "matches"
+                ],
+                "male": [
+                    "boxer_shorts"
+                ],
+                "female": [
+                    "boy_shorts",
+                    "sports_bra"
+                ]
+            },
+        "flags" : ["SCEN_ONLY"]
     }
 ]

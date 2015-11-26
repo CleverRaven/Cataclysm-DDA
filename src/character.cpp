@@ -1,15 +1,45 @@
 #include "character.h"
 #include "game.h"
+#include "map.h"
+#include "debug.h"
 #include "mission.h"
+#include "translations.h"
+#include "options.h"
+#include "map_iterator.h"
+#include "field.h"
+#include "messages.h"
+#include "input.h"
 
 Character::Character()
 {
+    str_max = 0;
+    dex_max = 0;
+    per_max = 0;
+    int_max = 0;
+    str_cur = 0;
+    dex_cur = 0;
+    per_cur = 0;
+    int_cur = 0;
+    healthy = 0;
+    healthy_mod = 0;
+    hunger = 0;
+    stomach_food = 0;
+    stomach_water = 0;
+
     name = "";
     Creature::set_speed_base(100);
 }
 
 field_id Character::bloodType() const
 {
+    if (has_trait("ACIDBLOOD"))
+        return fd_acid;
+    if (has_trait("THRESH_PLANT"))
+        return fd_blood_veggy;
+    if (has_trait("THRESH_INSECT") || has_trait("THRESH_SPIDER"))
+        return fd_blood_insect;
+    if (has_trait("THRESH_CEPHALOPOD"))
+        return fd_blood_invertebrate;
     return fd_blood;
 }
 field_id Character::gibType() const
@@ -28,12 +58,47 @@ const std::string &Character::symbol() const
     return character_symbol;
 }
 
-bool Character::move_effects()
+void Character::mod_stat( const std::string &stat, int modifier )
+{
+    if( stat == "str" ) {
+        mod_str_bonus( modifier );
+    } else if( stat == "dex" ) {
+        mod_dex_bonus( modifier );
+    } else if( stat == "per" ) {
+        mod_per_bonus( modifier );
+    } else if( stat == "int" ) {
+        mod_int_bonus( modifier );
+    } else if( stat == "healthy" ) {
+        mod_healthy( modifier );
+    } else if( stat == "hunger" ) {
+        mod_hunger( modifier );
+    } else if( stat == "speed" ) {
+        mod_speed_bonus( modifier );
+    } else if( stat == "dodge" ) {
+        mod_dodge_bonus( modifier );
+    } else if( stat == "block" ) {
+        mod_block_bonus( modifier );
+    } else if( stat == "hit" ) {
+        mod_hit_bonus( modifier );
+    } else if( stat == "bash" ) {
+        mod_bash_bonus( modifier );
+    } else if( stat == "cut" ) {
+        mod_cut_bonus( modifier );
+    } else if( stat == "pain" ) {
+        mod_pain( modifier );
+    } else if( stat == "moves" ) {
+        mod_moves( modifier );
+    } else {
+        Creature::mod_stat( stat, modifier );
+    }
+}
+
+bool Character::move_effects(bool attacking)
 {
     if (has_effect("downed")) {
         ///\xrefitem Stat_Effects_Dexterity "" "" Dexterity increases chance to stand up when knocked down
         ///\xrefitem Stat_Effects_Strength "" "" Strength increases chance to stand up when knocked down
-        if (rng(0, 40) > get_dex() + int(get_str() / 2)) {
+        if (rng(0, 40) > get_dex() + get_str() / 2) {
             add_msg_if_player(_("You struggle to stand."));
         } else {
             add_msg_player_or_npc(m_good, _("You stand up."),
@@ -112,33 +177,12 @@ bool Character::move_effects()
         }
         return false;
     }
-    if (has_effect("amigara")) {
-        int curdist = 999, newdist = 999;
-        for (int cx = 0; cx < SEEX * MAPSIZE; cx++) {
-            for (int cy = 0; cy < SEEY * MAPSIZE; cy++) {
-                if (g->m.ter(cx, cy) == t_fault) {
-                    int dist = rl_dist(cx, cy, posx(), posy());
-                    if (dist < curdist) {
-                        curdist = dist;
-                    }
-                    dist = rl_dist(cx, cy, posx(), posy());
-                    if (dist < newdist) {
-                        newdist = dist;
-                    }
-                }
-            }
-        }
-        if (newdist > curdist) {
-            add_msg_if_player(m_info, _("You cannot pull yourself away from the faultline..."));
-            return false;
-        }
-    }
     // Below this point are things that allow for movement if they succeed
 
     // Currently we only have one thing that forces movement if you succeed, should we get more
     // than this will need to be reworked to only have success effects if /all/ checks succeed
     if (has_effect("in_pit")) {
-        if (rng(0, 40) > get_str() + int(get_dex() / 2)) {
+        if (rng(0, 40) > get_str() + get_dex() / 2) {
             add_msg_if_player(m_bad, _("You try to escape the pit, but slip back in."));
             return false;
         } else {
@@ -147,11 +191,38 @@ bool Character::move_effects()
             remove_effect("in_pit");
         }
     }
-    return Creature::move_effects();
+    if (has_effect("grabbed")){
+        int zed_number = 0;
+        for( auto &&dest : g->m.points_in_radius( pos(), 1, 0 ) ){
+            if (g->mon_at(dest) != -1){
+                zed_number ++;
+            }
+        }
+        if (attacking || zed_number == 0){
+            return true;
+        }
+        if (get_dex() > get_str() ? rng(0, get_dex()) : rng( 0, get_str()) < rng( get_effect_int("grabbed") , 8) ){
+            add_msg_player_or_npc(m_bad, _("You try break out of the grab, but fail!"),
+                                            _("<npcname> tries to break out of the grab, but fails!"));
+            return false;
+        } else {
+            add_msg_player_or_npc(m_good, _("You break out of the grab!"),
+                                            _("<npcname> breaks out of the grab!"));
+            remove_effect("grabbed");
+        }
+    }
+    return Creature::move_effects(attacking);
 }
-void Character::add_effect(efftype_id eff_id, int dur, body_part bp, bool permanent, int intensity)
+void Character::add_effect( efftype_id eff_id, int dur, body_part bp,
+                            bool permanent, int intensity, bool force )
 {
-    Creature::add_effect(eff_id, dur, bp, permanent, intensity);
+    Creature::add_effect( eff_id, dur, bp, permanent, intensity, force );
+}
+
+void Character::process_turn()
+{
+    Creature::process_turn();
+    drop_inventory_overflow();
 }
 
 void Character::recalc_hp()
@@ -221,14 +292,15 @@ void Character::recalc_hp()
 void Character::recalc_sight_limits()
 {
     sight_max = 9999;
-    sight_boost = 0;
-    sight_boost_cap = 0;
+    vision_mode_cache.reset();
 
     // Set sight_max.
     if (has_effect("blind") || worn_with_flag("BLIND")) {
         sight_max = 0;
+    } else if( has_effect("boomered") && (!(has_trait("PER_SLIME_OK"))) ) {
+        sight_max = 1;
+        vision_mode_cache.set( BOOMERED );
     } else if (has_effect("in_pit") ||
-            (has_effect("boomered") && (!(has_trait("PER_SLIME_OK")))) ||
             (underwater && !has_bionic("bio_membrane") &&
                 !has_trait("MEMBRANE") && !worn_with_flag("SWIM_GOGGLES") &&
                 !has_trait("CEPH_EYES") && !has_trait("PER_SLIME_OK") ) ) {
@@ -242,39 +314,101 @@ void Character::recalc_sight_limits()
         sight_max = 4;
     } else if (has_trait("PER_SLIME")) {
         sight_max = 6;
+    } else if( has_effect( "darkness" ) ) {
+        vision_mode_cache.set( DARKNESS );
+        sight_max = 10;
     }
 
-    // Set sight_boost and sight_boost_cap, based on night vision.
-    // (A player will never have more than one night vision trait.)
-    sight_boost_cap = 12;
     // Debug-only NV, by vache's request
-    if (has_trait("DEBUG_NIGHTVISION")) {
-        sight_boost = 59;
-        sight_boost_cap = 59;
-    } else if (has_nv() || is_wearing("rm13_armor_on") || has_active_mutation("NIGHTVISION3") ||
-        has_active_mutation("ELFA_FNV") || (has_active_mutation("CEPH_VISION")) ) {
-        // Yes, I'm breaking the cap. I doubt the reality bubble shrinks at night.
-        // BIRD_EYE represents excellent fine-detail vision so I think it works.
-        if (has_trait("BIRD_EYE")) {
-            sight_boost_cap = 13;
+    if( has_trait("DEBUG_NIGHTVISION") ) {
+        vision_mode_cache.set( DEBUG_NIGHTVISION );
+    }
+    if( has_nv() || is_wearing("rm13_armor_on") ) {
+        vision_mode_cache.set( NV_GOGGLES );
+    }
+    if( has_active_mutation("NIGHTVISION3") ) {
+        vision_mode_cache.set( NIGHTVISION_3 );
+    }
+    if( has_active_mutation("ELFA_FNV") ) {
+        vision_mode_cache.set( FULL_ELFA_VISION );
+    }
+    if( has_active_mutation("CEPH_VISION") ) {
+        vision_mode_cache.set( CEPH_VISION );
+    }
+    if (has_active_mutation("ELFA_NV")) {
+        vision_mode_cache.set( ELFA_VISION );
+    }
+    if( has_active_mutation("NIGHTVISION2") ) {
+        vision_mode_cache.set( NIGHTVISION_2 );
+    }
+    if( has_active_mutation("FEL_NV") ) {
+        vision_mode_cache.set( FELINE_VISION );
+    }
+    if( has_active_mutation("URSINE_EYE") ) {
+        vision_mode_cache.set( URSINE_VISION );
+    }
+    if (has_active_mutation("NIGHTVISION")) {
+        vision_mode_cache.set(NIGHTVISION_1);
+    }
+    if( has_trait("BIRD_EYE") ) {
+        vision_mode_cache.set( BIRD_EYE);
+    }
+}
+
+float Character::get_vision_threshold(int light_level) const {
+    // Bail out in extremely common case where character hs no special vision mode or
+    // it's too bright for nightvision to work.
+    if( vision_mode_cache.none() || light_level > LIGHT_AMBIENT_LIT ) {
+        return LIGHT_AMBIENT_LOW;
+    }
+    // As light_level goes from LIGHT_AMBIENT_MINIMAL to LIGHT_AMBIENT_LIT,
+    // dimming goes from 1.0 to 2.0.
+    const float dimming_from_light = 1.0 + (((float)light_level - LIGHT_AMBIENT_MINIMAL) /
+                                            (LIGHT_AMBIENT_LIT - LIGHT_AMBIENT_MINIMAL));
+    float threshold = LIGHT_AMBIENT_LOW;
+
+    /**
+     * Consider vision modes in order of descending goodness until we get a hit.
+     * The values are based on expected sight distance in "total darkness", which is set to 3.7.
+     * The range is given by the formula distance = -log(threshold / light_level) / attenuation
+     * This is an upper limit, any smoke or similar should shorten the effective distance.
+     * The numbers here are hand-tuned to provide the desired ranges,
+     * would be nice to derive them with a constexpr function or similar instead.
+     */
+    if( vision_mode_cache[DEBUG_NIGHTVISION] ) {
+        // Debug vision always works with absurdly little light.
+        threshold = 0.01;
+    } else if( vision_mode_cache[NV_GOGGLES] || vision_mode_cache[NIGHTVISION_3] ||
+               vision_mode_cache[FULL_ELFA_VISION] || vision_mode_cache[CEPH_VISION] ) {
+        if( vision_mode_cache[BIRD_EYE] ) {
+            // Bird eye adds one, so 13.
+            threshold = 1.9;
+        } else {
+            // Highest normal night vision is expected to provide sight out to 12 squares.
+            threshold = 1.99;
         }
-        sight_boost = sight_boost_cap;
-    } else if (has_active_mutation("ELFA_NV")) {
-        sight_boost = 6; // Elf-a and Bird eyes shouldn't coexist
-    } else if (has_active_mutation("NIGHTVISION2") || has_active_mutation("FEL_NV") ||
-        has_active_mutation("URSINE_EYE")) {
-        if (has_trait("BIRD_EYE")) {
-            sight_boost = 5;
+    } else if( vision_mode_cache[ELFA_VISION] ) {
+        // Range 7.
+        threshold = 2.65;
+    } else if( vision_mode_cache[NIGHTVISION_2] || vision_mode_cache[FELINE_VISION] ||
+               vision_mode_cache[URSINE_VISION] ) {
+        if( vision_mode_cache[BIRD_EYE] ) {
+            // Range 5.
+            threshold = 2.78;
         } else {
-            sight_boost = 4;
-         }
-    } else if (has_active_mutation("NIGHTVISION")) {
-        if (has_trait("BIRD_EYE")) {
-            sight_boost = 2;
+            // Range 4.
+            threshold = 2.9;
+        }
+    } else if( vision_mode_cache[NIGHTVISION_1] ) {
+        if( vision_mode_cache[BIRD_EYE] ) {
+            // Range 3.
+            threshold = 3.2;
         } else {
-            sight_boost = 1;
+            // Range 2.
+            threshold = 3.35;
         }
     }
+    return std::min( (float)LIGHT_AMBIENT_LOW, threshold * dimming_from_light );
 }
 
 bool Character::has_bionic(const std::string & b) const
@@ -323,6 +457,60 @@ item& Character::i_add(item it)
     return item_in_inv;
 }
 
+std::list<item> Character::remove_worn_items_with( std::function<bool(item &)> filter )
+{
+    std::list<item> result;
+    for( auto iter = worn.begin(); iter != worn.end(); ) {
+        if( filter( *iter ) ) {
+            result.splice( result.begin(), worn, iter++ );
+        } else {
+            ++iter;
+        }
+    }
+    return result;
+}
+
+// Negative positions indicate weapon/clothing, 0 & positive indicate inventory
+const item& Character::i_at(int position) const
+{
+    if( position == -1 ) {
+        return weapon;
+    }
+    if( position < -1 ) {
+        int worn_index = worn_position_to_index(position);
+        if (size_t(worn_index) < worn.size()) {
+            auto iter = worn.begin();
+            std::advance( iter, worn_index );
+            return *iter;
+        }
+    }
+
+    return inv.find_item(position);
+}
+
+item& Character::i_at(int position)
+{
+    return const_cast<item&>( const_cast<const Character*>(this)->i_at( position ) );
+}
+
+int Character::get_item_position( const item *it ) const
+{
+    const auto filter = [it]( const item & i ) {
+        return &i == it;
+    };
+    if( inventory::has_item_with_recursive( weapon, filter ) ) {
+        return -1;
+    }
+    int i = 0;
+    for( auto &iter : worn ) {
+        if( inventory::has_item_with_recursive( iter, filter ) ) {
+            return worn_position_to_index( i );
+        }
+        i++;
+    }
+    return inv.position_by_item( it );
+}
+
 item Character::i_rem(int pos)
 {
  item tmp;
@@ -331,8 +519,10 @@ item Character::i_rem(int pos)
      weapon = ret_null;
      return tmp;
  } else if (pos < -1 && pos > worn_position_to_index(worn.size())) {
-     tmp = worn[worn_position_to_index(pos)];
-     worn.erase(worn.begin() + worn_position_to_index(pos));
+     auto iter = worn.begin();
+     std::advance( iter, worn_position_to_index( pos ) );
+     tmp = *iter;
+     worn.erase( iter );
      return tmp;
  }
  return inv.remove_item(pos);
@@ -364,9 +554,9 @@ bool Character::i_add_or_drop(item& it, int qty) {
                       || !can_pickVolume(it.volume()))) {
             drop = true;
         }
-        if (drop) {
-            retval &= g->m.add_item_or_charges(posx(), posy(), it);
-        } else {
+        if( drop ) {
+            retval &= !g->m.add_item_or_charges( pos(), it ).is_null();
+        } else if ( !( it.has_flag("IRREMOVEABLE") && !it.is_gun() ) ){
             i_add(it);
         }
     }
@@ -413,6 +603,21 @@ void Character::remove_mission_items( int mission_id )
     remove_items_with( has_mission_item_filter { mission_id } );
 }
 
+std::vector<const item *> Character::get_ammo( const ammotype &at ) const
+{
+    return items_with( [at]( const item & it ) {
+        return it.is_ammo() && it.ammo_type() == at;
+    } );
+}
+
+bool Character::can_reload()
+{
+    if (!weapon.is_gun()) {
+        return false;
+    }
+    return (weapon.charges < weapon.type->gun->clip && get_ammo(weapon.ammo_type()).size() > 0);
+}
+
 int Character::weight_carried() const
 {
     int ret = 0;
@@ -434,6 +639,7 @@ int Character::weight_capacity() const
     // Get base capacity from creature,
     // then apply player-only mutation and trait effects.
     int ret = Creature::weight_capacity();
+    ret += get_str() * 4000;
     if (has_trait("BADBACK")) {
         ret = int(ret * .65);
     }
@@ -457,7 +663,7 @@ int Character::weight_capacity() const
 
 int Character::volume_capacity() const
 {
-    int ret = 2; // A small bonus (the overflow)
+    int ret = 0;
     for (auto &i : worn) {
         ret += i.get_storage();
     }
@@ -476,20 +682,15 @@ int Character::volume_capacity() const
     if (has_trait("DISORGANIZED")) {
         ret = int(ret * 0.6);
     }
-    if (ret < 2) {
-        ret = 2;
-    }
+    ret = std::max(ret, 0);
     return ret;
 }
 
-bool Character::can_pickVolume( int volume, bool safe ) const
+bool Character::can_pickVolume( int volume, bool ) const
 {
-    if( !safe ) {
-        return volume_carried() + volume <= volume_capacity();
-    } else {
-        return volume_carried() + volume <= volume_capacity() - 2;
-    }
+   return volume_carried() + volume <= volume_capacity();
 }
+
 bool Character::can_pickWeight( int weight, bool safe ) const
 {
     if (!safe)
@@ -500,6 +701,16 @@ bool Character::can_pickWeight( int weight, bool safe ) const
     else
     {
         return (weight_carried() + weight <= weight_capacity());
+    }
+}
+
+void Character::drop_inventory_overflow() {
+    if( volume_carried() > volume_capacity() ) {
+        for( auto &item_to_drop :
+               inv.remove_randomly_by_volume( volume_carried() - volume_capacity() ) ) {
+            g->m.add_item_or_charges( pos(), item_to_drop );
+        }
+        add_msg_if_player( m_bad, _("Some items tumble to the ground.") );
     }
 }
 
@@ -548,9 +759,14 @@ bool Character::worn_with_flag( std::string flag ) const
     return false;
 }
 
-SkillLevel& Character::skillLevel(std::string ident)
+SkillLevel& Character::skillLevel(const skill_id &ident)
 {
-    return _skills[Skill::skill(ident)];
+    if( !ident ) {
+        static SkillLevel none;
+        none.level( 0 );
+        return none;
+    }
+    return skillLevel( &ident.obj() );
 }
 
 SkillLevel& Character::skillLevel(const Skill* _skill)
@@ -565,10 +781,9 @@ SkillLevel& Character::skillLevel(Skill const &_skill)
 
 SkillLevel const& Character::get_skill_level(const Skill* _skill) const
 {
-    for( const auto &elem : _skills ) {
-        if( elem.first == _skill ) {
-            return elem.second;
-        }
+    const auto iter = _skills.find( _skill );
+    if( iter != _skills.end() ) {
+        return iter->second;
     }
 
     static SkillLevel const dummy_result;
@@ -580,10 +795,13 @@ SkillLevel const& Character::get_skill_level(const Skill &_skill) const
     return get_skill_level(&_skill);
 }
 
-SkillLevel const& Character::get_skill_level(const std::string &ident) const
+SkillLevel const& Character::get_skill_level(const skill_id &ident) const
 {
-    const Skill* sk = Skill::skill(ident);
-    return get_skill_level(sk);
+    if( !ident ) {
+        static const SkillLevel none{};
+        return none;
+    }
+    return get_skill_level( &ident.obj() );
 }
 
 void Character::normalize()
@@ -617,8 +835,6 @@ void Character::die(Creature* nkiller)
 
 void Character::reset_stats()
 {
-    Creature::reset_stats();
-    
     // Bionic buffs
     if (has_active_bionic("bio_hydraulics"))
         mod_str_bonus(20);
@@ -687,6 +903,39 @@ void Character::reset_stats()
     else if (str_max <= 5) {mod_dodge_bonus(1);} // Bonus if we're small
 
     nv_cached = false;
+
+    // Reset our stats to normal levels
+    // Any persistent buffs/debuffs will take place in effects,
+    // player::suffer(), etc.
+
+    // repopulate the stat fields
+    str_cur = str_max + get_str_bonus();
+    dex_cur = dex_max + get_dex_bonus();
+    per_cur = per_max + get_per_bonus();
+    int_cur = int_max + get_int_bonus();
+
+    // Floor for our stats.  No stat changes should occur after this!
+    if( dex_cur < 0 ) {
+        dex_cur = 0;
+    }
+    if( str_cur < 0 ) {
+        str_cur = 0;
+    }
+    if( per_cur < 0 ) {
+        per_cur = 0;
+    }
+    if( int_cur < 0 ) {
+        int_cur = 0;
+    }
+
+    // Does nothing! TODO: Remove
+    Creature::reset_stats();
+}
+
+void Character::reset()
+{
+    // TODO: Move reset_stats here, remove it from Creature
+    Creature::reset();
 }
 
 bool Character::has_nv()
@@ -700,4 +949,413 @@ bool Character::has_nv()
     }
 
     return nv;
+}
+
+/*
+ * Innate stats getters
+ */
+
+// get_stat() always gets total (current) value, NEVER just the base
+// get_stat_bonus() is always just the bonus amount
+int Character::get_str() const
+{
+    return std::max(0, str_max + str_bonus);
+}
+int Character::get_dex() const
+{
+    return std::max(0, dex_max + dex_bonus);
+}
+int Character::get_per() const
+{
+    return std::max(0, per_max + per_bonus);
+}
+int Character::get_int() const
+{
+    return std::max(0, int_max + int_bonus);
+}
+
+int Character::get_str_base() const
+{
+    return str_max;
+}
+int Character::get_dex_base() const
+{
+    return dex_max;
+}
+int Character::get_per_base() const
+{
+    return per_max;
+}
+int Character::get_int_base() const
+{
+    return int_max;
+}
+
+
+
+int Character::get_str_bonus() const
+{
+    return str_bonus;
+}
+int Character::get_dex_bonus() const
+{
+    return dex_bonus;
+}
+int Character::get_per_bonus() const
+{
+    return per_bonus;
+}
+int Character::get_int_bonus() const
+{
+    return int_bonus;
+}
+
+int Character::get_healthy() const
+{
+    return healthy;
+}
+int Character::get_healthy_mod() const
+{
+    return healthy_mod;
+}
+
+/*
+ * Innate stats setters
+ */
+
+void Character::set_str_bonus(int nstr)
+{
+    str_bonus = nstr;
+}
+void Character::set_dex_bonus(int ndex)
+{
+    dex_bonus = ndex;
+}
+void Character::set_per_bonus(int nper)
+{
+    per_bonus = nper;
+}
+void Character::set_int_bonus(int nint)
+{
+    int_bonus = nint;
+}
+void Character::mod_str_bonus(int nstr)
+{
+    str_bonus += nstr;
+}
+void Character::mod_dex_bonus(int ndex)
+{
+    dex_bonus += ndex;
+}
+void Character::mod_per_bonus(int nper)
+{
+    per_bonus += nper;
+}
+void Character::mod_int_bonus(int nint)
+{
+    int_bonus += nint;
+}
+
+void Character::set_healthy(int nhealthy)
+{
+    healthy = nhealthy;
+}
+void Character::mod_healthy(int nhealthy)
+{
+    healthy += nhealthy;
+}
+void Character::set_healthy_mod(int nhealthy_mod)
+{
+    healthy_mod = nhealthy_mod;
+}
+void Character::mod_healthy_mod(int nhealthy_mod, int cap)
+{
+    // TODO: This really should be a full morale-like system, with per-effect caps
+    //       and durations.  This version prevents any single effect from exceeding its
+    //       intended ceiling, but multiple effects will overlap instead of adding.
+
+    // Cap indicates how far the mod is allowed to shift in this direction.
+    // It can have a different sign to the mod, e.g. for items that treat
+    // extremely low health, but can't make you healthy.
+    int low_cap;
+    int high_cap;
+    if( nhealthy_mod < 0 ) {
+        low_cap = cap;
+        high_cap = 200;
+    } else {
+        low_cap = -200;
+        high_cap = cap;
+    }
+
+    // If we're already out-of-bounds, we don't need to do anything.
+    if( (healthy_mod <= low_cap && nhealthy_mod < 0) ||
+        (healthy_mod >= high_cap && nhealthy_mod > 0) ) {
+        return;
+    }
+
+    healthy_mod += nhealthy_mod;
+
+    // Since we already bailed out if we were out-of-bounds, we can
+    // just clamp to the boundaries here.
+    healthy_mod = std::min( healthy_mod, high_cap );
+    healthy_mod = std::max( healthy_mod, low_cap );
+}
+
+int Character::get_hunger() const
+{
+    return hunger;
+}
+void Character::mod_hunger(int nhunger)
+{
+    hunger += nhunger;
+}
+void Character::set_hunger(int nhunger)
+{
+    hunger = nhunger;
+}
+
+int Character::get_stomach_food() const
+{
+    return stomach_food;
+}
+void Character::mod_stomach_food(int n_stomach_food)
+{
+    stomach_food = std::max(0, stomach_food + n_stomach_food);
+}
+void Character::set_stomach_food(int n_stomach_food)
+{
+    stomach_food = std::max(0, n_stomach_food);
+}
+int Character::get_stomach_water() const
+{
+    return stomach_water;
+}
+void Character::mod_stomach_water(int n_stomach_water)
+{
+    stomach_water = std::max(0, stomach_water + n_stomach_water);
+}
+void Character::set_stomach_water(int n_stomach_water)
+{
+    stomach_water = std::max(0, n_stomach_water);
+}
+
+void Character::reset_bonuses()
+{
+    // Reset all bonuses to 0 and mults to 1.0
+    str_bonus = 0;
+    dex_bonus = 0;
+    per_bonus = 0;
+    int_bonus = 0;
+
+    Creature::reset_bonuses();
+}
+
+void Character::update_health(int external_modifiers)
+{
+    // Limit healthy_mod to [-200, 200].
+    // This also sets approximate bounds for the character's health.
+    if( get_healthy_mod() > 200 ) {
+        set_healthy_mod( 200 );
+    } else if( get_healthy_mod() < -200 ) {
+        set_healthy_mod( -200 );
+    }
+
+    // Over the long run, health tends toward healthy_mod.
+    int break_even = get_healthy() - get_healthy_mod() + external_modifiers;
+
+    // But we allow some random variation.
+    const long roll = rng( -100, 100 );
+    if( roll > break_even ) {
+        mod_healthy( 1 );
+    } else if( roll < break_even ) {
+        mod_healthy( -1 );
+    }
+
+    // And healthy_mod decays over time.
+    set_healthy_mod( get_healthy_mod() * 3 / 4 );
+
+    add_msg( m_debug, "Health: %d, Health mod: %d", get_healthy(), get_healthy_mod() );
+}
+
+int Character::get_dodge_base() const
+{
+    return Creature::get_dodge_base() + (get_dex() / 2);
+}
+int Character::get_hit_base() const
+{
+    return Creature::get_hit_base() + (get_dex() / 4) + 3;
+}
+
+hp_part Character::body_window( bool precise ) const
+{
+    return body_window( disp_name(), true, precise, 0, 0, 0, 0, 0, 0 );
+}
+
+hp_part Character::body_window( const std::string &menu_header,
+                                bool show_all, bool precise,
+                                int normal_bonus, int head_bonus, int torso_bonus,
+                                int bleed, int bite, int infect ) const
+{
+    WINDOW *hp_window = newwin(10, 31, (TERMY - 10) / 2, (TERMX - 31) / 2);
+    draw_border(hp_window);
+
+    trim_and_print( hp_window, 1, 1, getmaxx(hp_window) - 2, c_ltred, menu_header.c_str() );
+    const int y_off = 2; // 1 for border, 1 for header
+
+    /* This struct estabiles some kind of connection between the hp_part (which can be healed and
+     * have HP) and the body_part. Note that there are more body_parts than hp_parts. For example:
+     * Damage to bp_head, bp_eyes and bp_mouth is all applied on the HP of hp_head. */
+    struct healable_bp {
+        mutable bool allowed;
+        body_part bp;
+        hp_part hp;
+        std::string name; // Translated name as it appears in the menu.
+        int bonus;
+    };
+    /* The array of the menu entries show to the player. The entries are displayed in this order,
+     * it may be changed here. */
+    std::array<healable_bp, num_hp_parts> parts = { {
+        { false, bp_head, hp_head, _("Head"), head_bonus },
+        { false, bp_torso, hp_torso, _("Torso"), torso_bonus },
+        { false, bp_arm_l, hp_arm_l, _("Left Arm"), normal_bonus },
+        { false, bp_arm_r, hp_arm_r, _("Right Arm"), normal_bonus },
+        { false, bp_leg_l, hp_leg_l, _("Left Leg"), normal_bonus },
+        { false, bp_leg_r, hp_leg_r, _("Right Leg"), normal_bonus },
+    } };
+
+    for( size_t i = 0; i < parts.size(); i++ ) {
+        const auto &e = parts[i];
+        const body_part bp = e.bp;
+        const hp_part hp = e.hp;
+        const int maximal_hp = hp_max[hp];
+        const int current_hp = hp_cur[hp];
+        const int bonus = e.bonus;
+        // This will c_ltgray if the part does not have any effects cured by the item
+        // (e.g. it cures only bites, but the part does not have a bite effect)
+        const nc_color state_col = limb_color( bp, bleed, bite, infect );
+        const bool has_curable_effect = state_col != c_ltgray;
+        // The same as in the main UI sidebar. Independent of the capability of the healing item!
+        const nc_color all_state_col = limb_color( bp, true, true, true );
+        const bool has_any_effect = all_state_col != c_ltgray;
+        // Broken means no HP can be restored, it requires surgical attention.
+        const bool limb_is_broken = current_hp == 0;
+        // This considers only the effects that can *not* be removed.
+        const nc_color new_state_col = limb_color( bp, !bleed, !bite, !infect );
+
+        if( show_all ) {
+            e.allowed = true;
+        } else if( has_curable_effect ) {
+            e.allowed = true;
+        } else if( limb_is_broken ) {
+            continue;
+        } else if( current_hp < maximal_hp && e.bonus != 0 ) {
+            e.allowed = true;
+        } else {
+            continue;
+        }
+
+        const int line = i + y_off;
+
+        const nc_color color = show_all ? c_green : state_col;
+        mvwprintz( hp_window, line, 1, color, "%d: %s", i + 1, e.name.c_str() );
+
+        const auto print_hp = [&]( const int x, const nc_color col, const int hp ) {
+            const auto bar = get_hp_bar( hp, maximal_hp, false );
+            if( hp == 0 ) {
+                mvwprintz( hp_window, line, x, col, "-----" );
+            } else if( precise ) {
+                mvwprintz( hp_window, line, x, col, "%5d", hp );
+            } else {
+                mvwprintz( hp_window, line, x, col, bar.first.c_str() );
+            }
+        };
+
+        if( !limb_is_broken ) {
+            // Drop the bar color, use the state color instead
+            const nc_color color = has_any_effect ? all_state_col : c_green;
+            print_hp( 15, color, current_hp );
+        } else {
+            // But still could be infected or bleeding
+            const nc_color color = has_any_effect ? all_state_col : c_dkgray;
+            print_hp( 15, color, 0 );
+        }
+
+        if( !limb_is_broken ) {
+            const int new_hp = std::max( 0, std::min( maximal_hp, current_hp + bonus ) );
+
+            if( new_hp == current_hp && !has_curable_effect ) {
+                // Nothing would change
+                continue;
+            }
+
+            mvwprintz( hp_window, line, 20, c_dkgray, " -> " );
+
+            const nc_color color = has_any_effect ? new_state_col : c_green;
+            print_hp( 24, color, new_hp );
+        } else {
+            const nc_color color = has_any_effect ? new_state_col : c_dkgray;
+            mvwprintz( hp_window, line, 20, c_dkgray, " -> " );
+            print_hp( 24, color, 0 );
+        }
+    }
+    mvwprintz( hp_window, parts.size() + y_off, 1, c_ltgray, _("%d: Exit"), parts.size() + 1 );
+
+    wrefresh(hp_window);
+    char ch;
+    hp_part healed_part = num_hp_parts;
+    do {
+        ch = getch();
+        const size_t index = ch - '1';
+        if( index < parts.size() && parts[index].allowed ) {
+            healed_part = parts[index].hp;
+            break;
+        } else if( index == parts.size() || ch == KEY_ESCAPE) {
+            healed_part = num_hp_parts;
+            break;
+        }
+    } while (ch < '1' || ch > '7');
+    werase(hp_window);
+    wrefresh(hp_window);
+    delwin(hp_window);
+    refresh();
+
+    return healed_part;
+}
+
+nc_color Character::limb_color( body_part bp, bool bleed, bool bite, bool infect ) const
+{
+    if( bp == num_bp ) {
+        return c_ltgray;
+    }
+
+    int color_bit = 0;
+    nc_color i_color = c_ltgray;
+    if( bleed && has_effect( "bleed", bp ) ) {
+        color_bit += 1;
+    }
+    if( bite && has_effect( "bite", bp ) ) {
+        color_bit += 10;
+    }
+    if( infect && has_effect( "infected", bp ) ) {
+        color_bit += 100;
+    }
+    switch( color_bit ) {
+    case 1:
+        i_color = c_red;
+        break;
+    case 10:
+        i_color = c_blue;
+        break;
+    case 100:
+        i_color = c_green;
+        break;
+    case 11:
+        i_color = c_magenta;
+        break;
+    case 101:
+        i_color = c_yellow;
+        break;
+    }
+
+    return i_color;
 }

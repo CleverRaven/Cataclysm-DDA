@@ -40,6 +40,7 @@ enum computer_action {
     COMPACT_DISCONNECT,
     COMPACT_STEMCELL_TREATMENT,
     COMPACT_EMERG_MESS,
+    COMPACT_EMERG_REF_CENTER,   //Points to the refugee center
     COMPACT_TOWER_UNRESPONSIVE,
     COMPACT_SR1_MESS,           //Security Reminders for Hazardous Waste Sarcophagus (SRCF)
     COMPACT_SR2_MESS,
@@ -74,26 +75,25 @@ struct computer_option {
     computer_action action;
     int security;
 
-    computer_option()
-    {
+    computer_option() {
         name = "Unknown", action = COMPACT_NULL, security = 0;
     };
-    computer_option(std::string N, computer_action A, int S) :
-        name (N), action (A), security (S) {};
+    computer_option( std::string N, computer_action A, int S ) :
+        name( N ), action( A ), security( S ) {};
 };
 
 class computer
 {
     public:
         computer();
-        computer(std::string Name, int Security);
+        computer( std::string Name, int Security );
         ~computer();
 
-        computer &operator=(const computer &rhs);
+        computer &operator=( const computer &rhs );
         // Initialization
-        void set_security(int Security);
-        void add_option(std::string opt_name, computer_action action, int Security);
-        void add_failure(computer_failure failure);
+        void set_security( int Security );
+        void add_option( std::string opt_name, computer_action action, int Security );
+        void add_failure( computer_failure failure );
         // Basic usage
         /** Shutdown (free w_terminal, etc.) */
         void shutdown_terminal();
@@ -101,20 +101,22 @@ class computer
         void use();
         /** Returns true if the player successfully hacks the computer. Security = -1 defaults to
          *  the main system security. */
-        bool hack_attempt(player *p, int Security = -1);
+        bool hack_attempt( player *p, int Security = -1 );
         // Save/load
         std::string save_data();
-        void load_data(std::string data);
+        void load_data( std::string data );
 
         std::string name; // "Jon's Computer", "Lab 6E77-B Terminal Omega"
         int mission_id; // Linked to a mission?
 
-        static void load_lab_note(JsonObject &jsobj);
+        static void load_lab_note( JsonObject &jsobj );
         static void clear_lab_notes();
 
     private:
         // Difficulty of simply logging in
         int security;
+        // Date of next attempt
+        int next_attempt = 0;
         // Things we can do
         std::vector<computer_option> options;
         // Things that happen if we fail a hack
@@ -127,30 +129,32 @@ class computer
         static std::vector<std::string> lab_notes;
 
         // Called by use()
-        void activate_function      (computer_action action, char ch);
+        void activate_function( computer_action action, char ch );
         // Generally called when we fail a hack attempt
         void activate_random_failure();
         // ...but we can also choose a specific failure.
-        void activate_failure       (computer_failure fail);
+        void activate_failure( computer_failure fail );
+
+        void remove_option( computer_action action );
 
         // OUTPUT/INPUT:
 
         // Reset to a blank terminal (e.g. at start of usage loop)
         void reset_terminal();
         // Prints a line to the terminal (with printf flags)
-        void print_line(const char *text, ...);
+        void print_line( const char *text, ... );
         // For now, the same as print_line but in red (TODO: change this?)
-        void print_error(const char *text, ...);
+        void print_error( const char *text, ... );
         // Wraps and prints a block of text with a 1-space indent
-        void print_text(const char *text, ...);
+        void print_text( const char *text, ... );
         // Prints code-looking gibberish
         void print_gibberish_line();
         // Prints a line and waits for Y/N/Q
-        char query_ynq(const char *text, ...);
+        char query_ynq( const char *text, ... );
         // Same as query_ynq, but returns true for y or Y
-        bool query_bool(const char *text, ...);
+        bool query_bool( const char *text, ... );
         // Simply wait for any key, returns True
-        bool query_any(const char *text, ...);
+        bool query_any( const char *text, ... );
         // Move the cursor to the beginning of the next line
         void print_newline();
 };

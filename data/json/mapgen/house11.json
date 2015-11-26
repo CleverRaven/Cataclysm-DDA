@@ -96,7 +96,7 @@
             ],
             "comment": "randomly picked from a group ---v",
             "place_vehicles": [
-                { "vehicle": "electric_car", "x": 17, "y": 10, "rotation": 270, "chance": 15 }
+                { "vehicle": "suburban_home", "x": 17, "y": 10, "rotation": 270, "chance": 15 }
             ],
             "place_items": [
                 { "item": "homebooks", "chance": 70, "x": [ 13,13], "y": [ 11,12 ] },

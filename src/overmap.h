@@ -1,92 +1,35 @@
 #ifndef OVERMAP_H
 #define OVERMAP_H
 
-#include "enums.h"
-#include "string.h"
 #include "omdata.h"
 #include "mapdata.h"
-#include "mongroup.h"
-#include "output.h"
-#include "debug.h"
-#include "cursesdef.h"
-#include "name.h"
-#include "input.h"
-#include "json.h"
+#include "weighted_list.h"
+#include "game_constants.h"
+#include "monster.h"
 #include <vector>
 #include <iosfwd>
 #include <string>
-#include <stdlib.h>
 #include <array>
+#include <map>
+#include <unordered_map>
 
 class overmapbuffer;
 class npc;
-
-#define OVERMAP_DEPTH 10
-#define OVERMAP_HEIGHT 10
-#define OVERMAP_LAYERS (1 + OVERMAP_DEPTH + OVERMAP_HEIGHT)
+struct mongroup;
+class JsonObject;
+class input_context;
 
 // base oters: exactly what's defined in json before things are split up into blah_east or roadtype_ns, etc
 extern std::unordered_map<std::string, oter_t> obasetermap;
 
-// Likelihood to pick a specific overmap terrain.
 struct oter_weight {
+    inline bool operator ==(const oter_weight &other) const {
+        return ot_sid == other.ot_sid;
+    }
+
     std::string ot_sid;
     int ot_iid;
-    int weight;
 };
-
-// Local class for picking overmap terrain from a weighted list.
-struct oter_weight_list {
-    oter_weight_list() : total_weight(0) { };
-
-    void add_item(std::string id, int weight) {
-        oter_weight new_weight = { id, -1, weight };
-        items.push_back(new_weight);
-        total_weight += weight;
-    }
-
-    void setup() { // populate iid's for faster generation and sanity check.
-        for(std::vector<oter_weight>::iterator item_it = items.begin();
-            item_it != items.end(); ++item_it ) {
-            if ( item_it->ot_iid == -1 ) {
-                std::unordered_map<std::string, oter_t>::const_iterator it = obasetermap.find(item_it->ot_sid);
-                if ( it == obasetermap.end() ) {
-                    debugmsg("Bad oter_weight_list entry in region settings: overmap_terrain '%s' not found.", item_it->ot_sid.c_str() );
-                    item_it->ot_iid = 0;
-                } else {
-                    item_it->ot_iid = it->second.loadid;
-                }
-            }
-        }
-    }
-
-    size_t pick_ent() {
-        int picked = rng(0, total_weight);
-        int accumulated_weight = 0;
-        size_t i;
-        for(i=0; i<items.size(); i++) {
-            accumulated_weight += items[i].weight;
-            if(accumulated_weight >= picked) {
-                break;
-            }
-        }
-        return i;
-    }
-
-    std::string pickstr() {
-        return items[ pick_ent() ].ot_sid;
-    }
-
-    int pick() {
-        return items[ pick_ent() ].ot_iid;
-    }
-
-private:
-    int total_weight;
-    std::vector<oter_weight> items;
-};
-
-
 
 enum city_gen_type {
    CITY_GEN_RADIAL, // default/small/oldschol; shops constitute core, then parks, then residential
@@ -97,8 +40,8 @@ struct city_settings {
    city_gen_type zoning_type;
    int shop_radius; // this is not a cut and dry % but rather an inverse voodoo number; rng(0,99) > VOODOO * distance / citysize;
    int park_radius; // in theory, adjusting these can make a town with a few shops and alot of parks + houses......by increasing shop_radius
-   oter_weight_list shops;
-   oter_weight_list parks;
+   weighted_int_list<oter_weight> shops;
+   weighted_int_list<oter_weight> parks;
    city_settings() : zoning_type(CITY_GEN_RADIAL), shop_radius(80), park_radius(130) { }
 };
 /*
@@ -144,7 +87,7 @@ struct groundcover_extra {
     std::map<std::string, double> boosted_percent_str;
     std::map<int, ter_furn_id>    weightlist;
     std::map<int, ter_furn_id>    boosted_weightlist;
-    int default_ter               = 0;
+    ter_id default_ter               = t_null;
     int mpercent_coverage         = 0; // % coverage where this is applied (*10000)
     int boost_chance              = 0;
     int boosted_mpercent_coverage = 0;
@@ -155,6 +98,7 @@ struct groundcover_extra {
     groundcover_extra() = default;
 };
 
+struct sid_or_sid;
 /*
  * Spationally relevent overmap and mapgen variables grouped into a set of suggested defaults;
  * eventually region mapping will modify as required and allow for transitions of biomes / demographics in a smoooth fashion
@@ -163,9 +107,9 @@ struct regional_settings {
     std::string id;           //
     std::string default_oter; // 'field'
 
-    id_or_id    default_groundcover; // ie, 'grass_or_dirt'
+    id_or_id<ter_t> default_groundcover; // ie, 'grass_or_dirt'
     sid_or_sid *default_groundcover_str = nullptr;
-   
+
     int num_forests           = 250;  // amount of forest groupings per overmap
     int forest_size_min       = 15;   // size range of a forest group
     int forest_size_max       = 40;   // size range of a forest group
@@ -173,13 +117,16 @@ struct regional_settings {
     int swamp_maxsize         = 4;    // SWAMPINESS: Affects the size of a swamp
     int swamp_river_influence = 5;    // voodoo number limiting spread of river through swamp
     int swamp_spread_chance   = 8500; // SWAMPCHANCE: (one in, every forest*forest size) chance of swamp extending past forest
-   
+
     city_settings     city_spec;      // put what where in a city of what kind
     groundcover_extra field_coverage;
     groundcover_extra forest_coverage;
-   
-    regional_settings() : id("null"), default_oter("field"), default_groundcover(0, 0, 0) { }
+
+    std::unordered_map<std::string, map_extras> region_extras;
+
+    regional_settings() : id("null"), default_oter("field"), default_groundcover(t_null, 0, t_null) { }
     void setup();
+    static void setup_oter(oter_weight &oter);
 };
 
 
@@ -189,10 +136,7 @@ struct city {
  int y;
  int s;
  std::string name;
- city(int X = -1, int Y = -1, int S = -1) : x (X), y (Y), s (S)
- {
-     name = Name::get(nameIsTownName);
- }
+ city(int X = -1, int Y = -1, int S = -1);
 };
 
 struct om_note {
@@ -211,6 +155,8 @@ enum radio_type {
     MESSAGE_BROADCAST,
     WEATHER_RADIO
 };
+
+extern std::map<enum radio_type, std::string> radio_type_names;
 
 #define RADIO_MIN_STRENGTH 80
 #define RADIO_MAX_STRENGTH 200
@@ -252,6 +198,8 @@ class overmap
     overmap(const overmap&) = default;
     overmap(overmap &&) = default;
     overmap(int x, int y);
+    // Argument-less constructor bypasses trying to load matching file, only used for unit testing.
+    overmap();
     ~overmap();
 
     overmap& operator=(overmap const&) = default;
@@ -354,11 +302,16 @@ class overmap
 
      return settings;
   }
-    void clear_mon_groups() { zg.clear(); }
+    void clear_mon_groups();
 private:
     std::multimap<tripoint, mongroup> zg;
 public:
-  // TODO: make private
+    /** Unit test enablers to check if a given mongroup is present. */
+    bool mongroup_check(const mongroup &candidate) const;
+    int num_mongroups() const;
+    bool monster_check(const std::pair<tripoint, monster> &candidate) const;
+    int num_monsters() const;
+    // TODO: make private
   std::vector<radio_tower> radios;
   std::vector<npc *> npcs;
   std::map<int, om_vehicle> vehicles;
@@ -387,16 +340,24 @@ public:
   void init_layers();
   // open existing overmap, or generate a new one
   void open();
+ public:
   // parse data in an opened overmap file
-  void unserialize(std::ifstream & fin, std::string const & plrfilename, std::string const & terfilename);
+  void unserialize(std::ifstream &fin);
+  // Parse per-player overmap view data.
+  void unserialize_view(std::ifstream &fin);
+  // Save data in an opened overmap file
+  void serialize(std::ofstream &fin) const;
+  // Save per-player overmap view data.
+  void serialize_view(std::ofstream &fin) const;
   // parse data in an old overmap file
-  bool unserialize_legacy(std::ifstream & fin, std::string const & plrfilename, std::string const & terfilename);
-
+  void unserialize_legacy(std::ifstream &fin);
+  void unserialize_view_legacy(std::ifstream &fin);
+ private:
   void generate(const overmap* north, const overmap* east, const overmap* south, const overmap* west);
   bool generate_sub(int const z);
 
-    int dist_from_city(point p);
-    void signal_hordes( int x, int y, int sig_power );
+    int dist_from_city( const tripoint &p );
+    void signal_hordes( const tripoint &p, int sig_power );
     void process_mongroups();
     void move_hordes();
 
@@ -448,21 +409,21 @@ public:
   bool check_ot_type_road(const std::string &otype, int x, int y, int z);
   bool is_road(int x, int y, int z);
   void polish(const int z, const std::string &terrain_type="all");
+  void chip_rock(int x, int y, int z);
   void good_road(const std::string &base, int x, int y, int z);
   void good_river(int x, int y, int z);
   oter_id rotate(const oter_id &oter, int dir);
-  bool allowed_terrain(tripoint p, int width, int height, std::list<std::string> allowed);
-  bool allowed_terrain(tripoint p, std::list<tripoint>, std::list<std::string> allowed, std::list<std::string> disallowed);
-  bool allow_special(tripoint p, overmap_special special, int &rotate);
+  bool allowed_terrain( const tripoint& p, int width, int height, const std::list<std::string>& allowed );
+  bool allowed_terrain( const tripoint& p, const std::list<tripoint>& rotated_points,
+                        const std::list<std::string>& allowed, const std::list<std::string>& disallowed );
+  bool allow_special(const overmap_special& special, const tripoint& p, int &rotate);
   // Monsters, radios, etc.
   void place_specials();
-  void place_special(overmap_special special, tripoint p, int rotation);
+  void place_special(const overmap_special& special, const tripoint& p, int rotation);
   void place_mongroups();
   void place_radios();
 
     void add_mon_group(const mongroup &group);
-    // not available because *every* overmap needs location, so use the other constructor.
-    overmap() = delete;
 };
 
 // TODO: readd the stream operators
@@ -473,17 +434,20 @@ public:
 extern std::unordered_map<std::string,oter_t> otermap;
 extern std::vector<oter_t> oterlist;
 //extern const regional_settings default_region_settings;
-extern std::unordered_map<std::string, regional_settings> region_settings_map;
+typedef std::unordered_map<std::string, regional_settings> t_regional_settings_map;
+typedef t_regional_settings_map::const_iterator t_regional_settings_map_citr;
+extern t_regional_settings_map region_settings_map;
 
 void load_overmap_terrain(JsonObject &jo);
 void reset_overmap_terrain();
 void load_region_settings(JsonObject &jo);
 void reset_region_settings();
+void load_region_overlay(JsonObject &jo);
+void apply_region_overlay(JsonObject &jo, regional_settings &region);
 
 void finalize_overmap_terrain();
 
 bool is_river(const oter_id &ter);
 bool is_ot_type(const std::string &otype, const oter_id &oter);
-map_extras& get_extras(const std::string &name);
 
 #endif

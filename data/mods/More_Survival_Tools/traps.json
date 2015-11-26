@@ -1,0 +1,18 @@
+[
+    {
+        "type" : "trap",
+        "id": "tr_raincatcher",
+        "identstring" : "FUNNEL",
+        "legacy_id": 4,
+        "name" : "raincatcher",
+        "color" : "blue",
+        "symbol" : "V",
+        "visibility" : -1,
+        "avoidance" : 0,
+        "difficulty" : 99,
+        "action" : "none",
+        "drops" : ["tarp"],
+        "benign" : true,
+        "funnel_radius": 342
+    }
+]

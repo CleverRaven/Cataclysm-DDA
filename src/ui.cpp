@@ -11,6 +11,7 @@
 #include "uistate.h"
 #include "options.h"
 #include "game.h"
+#include "player.h"
 
 #ifdef debuguimenu
 #define dprint(a,...)      mvprintw(a,0,__VA_ARGS__)
@@ -25,7 +26,7 @@ int getfoldedwidth (std::vector<std::string> foldedstring)
 {
     int ret = 0;
     for (auto &i : foldedstring) {
-        int width = utf8_width(i.c_str());
+        int width = utf8_width(i);
         if ( width > ret ) {
             ret = width;
         }
@@ -313,6 +314,8 @@ void uimenu::setup()
     bool w_auto = (w_width == -1 || w_width == -2 );
     bool w_autofold = ( w_width == -2);
 
+    // Space for a line between text and entries. Only needed if there is actually text.
+    const int text_separator_line = text.empty() ? 0 : 1;
     if ( w_auto ) {
         w_width = 4;
         if ( !title.empty() ) {
@@ -336,7 +339,7 @@ void uimenu::setup()
     int pad = pad_left + pad_right + 2;
     int descwidth_final = 0; // for description width guard
     for ( size_t i = 0; i < entries.size(); i++ ) {
-        int txtwidth = utf8_width(remove_color_tags( entries[ i ].txt ).c_str());
+        int txtwidth = utf8_width( remove_color_tags(entries[i].txt) );
         if ( txtwidth > max_entry_len ) {
             max_entry_len = txtwidth;
         }
@@ -359,7 +362,7 @@ void uimenu::setup()
         }
         if ( desc_enabled ) {
             // subtract one from desc_lines for the reminder of the text
-            int descwidth = utf8_width(entries[i].desc.c_str()) / (desc_lines - 1);
+            int descwidth = utf8_width(entries[i].desc) / (desc_lines - 1);
             descwidth += 4; // 2x border + 2x ' ' pad
             if ( descwidth_final < descwidth ) {
                 descwidth_final = descwidth;
@@ -398,7 +401,7 @@ void uimenu::setup()
     }
 
     if(!text.empty() ) {
-        int twidth = utf8_width(remove_color_tags( text ).c_str());
+        int twidth = utf8_width( remove_color_tags(text) );
         bool formattxt = true;
         int realtextwidth = 0;
         if ( textwidth == -1 ) {
@@ -414,8 +417,9 @@ void uimenu::setup()
                     formattxt = false;
                     realtextwidth = 10;
                     for (auto &l : textformatted) {
-                        if ( utf8_width(l.c_str()) > realtextwidth ) {
-                            realtextwidth = utf8_width(l.c_str());
+                        const int w = utf8_width( remove_color_tags( l ) );
+                        if ( w > realtextwidth ) {
+                            realtextwidth = w;
                         }
                     }
                     if ( realtextwidth + 4 > w_width ) {
@@ -432,7 +436,7 @@ void uimenu::setup()
     }
 
     if (h_auto) {
-        w_height = 3 + textformatted.size() + entries.size();
+        w_height = 2 + text_separator_line + textformatted.size() + entries.size();
         if (desc_enabled) {
             int w_height_final = w_height + desc_lines + 1; // add one for border
             if (w_height_final > TERMY) {
@@ -450,8 +454,8 @@ void uimenu::setup()
     }
 
     vmax = entries.size();
-    if ( vmax + 3 + (int)textformatted.size() > w_height ) {
-        vmax = w_height - 3 - textformatted.size();
+    if ( vmax + 2 + text_separator_line + (int)textformatted.size() > w_height ) {
+        vmax = w_height - (2 + text_separator_line) - textformatted.size();
         if ( vmax < 1 ) {
             if (textformatted.empty()) {
                 popup("Can't display menu options, 0 %d available screen rows are occupied\nThis is probably a bug.\n",
@@ -567,17 +571,20 @@ void uimenu::show()
     }
     std::string padspaces = std::string(w_width - 2 - pad_left - pad_right, ' ');
     const int text_lines = textformatted.size();
-    for ( int i = 0; i < text_lines; i++ ) {
-        trim_and_print(window, 1 + i, 2, getmaxx(window) - 4, text_color, "%s", textformatted[i].c_str());
+    int estart = 1;
+    if( !textformatted.empty() ) {
+        for ( int i = 0; i < text_lines; i++ ) {
+            trim_and_print(window, 1 + i, 2, getmaxx(window) - 4, text_color, "%s", textformatted[i].c_str());
+        }
+
+        mvwputch(window, text_lines + 1, 0, border_color, LINE_XXXO);
+        for ( int i = 1; i < w_width - 1; ++i) {
+            mvwputch(window, text_lines + 1, i, border_color, LINE_OXOX);
+        }
+        mvwputch(window, text_lines + 1, w_width - 1, border_color, LINE_XOXX);
+        estart += text_lines + 1; // +1 for the horizontal line.
     }
 
-    mvwputch(window, text_lines + 1, 0, border_color, LINE_XXXO);
-    for ( int i = 1; i < w_width - 1; ++i) {
-        mvwputch(window, text_lines + 1, i, border_color, LINE_OXOX);
-    }
-    mvwputch(window, text_lines + 1, w_width - 1, border_color, LINE_XOXX);
-
-    int estart = text_lines + 2;
 
     calcStartPos( vshift, fselected, vmax, fentries.size() );
 
@@ -637,8 +644,10 @@ void uimenu::show()
             }
         }
 
-        // draw description
-        fold_and_print(window, w_height - desc_lines - 1, 2, w_width - 4, text_color, entries[selected].desc.c_str());
+        if( static_cast<size_t>( selected ) < entries.size() ){
+            fold_and_print( window, w_height - desc_lines - 1, 2, w_width - 4, text_color,
+                            entries[selected].desc );
+        }
     }
 
     if ( !filter.empty() ) {
@@ -872,16 +881,14 @@ void uimenu::settext(const char *format, ...)
     va_end(ap);
 }
 
-pointmenu_cb::pointmenu_cb( std::vector< point > &pts ) : points( pts )
+pointmenu_cb::pointmenu_cb( const std::vector< tripoint > &pts ) : points( pts )
 {
     last = INT_MIN;
-    view_x = g->u.view_offset_x;
-    view_y = g->u.view_offset_y;
+    last_view = g->u.view_offset;
 }
 
 void pointmenu_cb::select( int /*num*/, uimenu * /*menu*/ ) {
-    g->u.view_offset_x = view_x;
-    g->u.view_offset_y = view_y;
+    g->u.view_offset = last_view;
 }
 
 void pointmenu_cb::refresh( uimenu *menu ) {
@@ -890,8 +897,7 @@ void pointmenu_cb::refresh( uimenu *menu ) {
     }
     if( menu->selected < 0 || menu->selected >= (int)points.size() ) {
         last = menu->selected;
-        g->u.view_offset_x = 0;
-        g->u.view_offset_y = 0;
+        g->u.view_offset = {0, 0, 0};
         g->draw_ter();
         menu->redraw( false ); // show() won't redraw borders
         menu->show();
@@ -899,10 +905,10 @@ void pointmenu_cb::refresh( uimenu *menu ) {
     }
 
     last = menu->selected;
-    const point &center = points[menu->selected];
-    g->u.view_offset_x = center.x - g->u.posx();
-    g->u.view_offset_y = center.y - g->u.posy();
-    g->draw_trail_to_square( g->u.view_offset_x, g->u.view_offset_y, true);
+    const tripoint &center = points[menu->selected];
+    g->u.view_offset = center - g->u.pos();
+    g->u.view_offset.z = 0; // TODO: Remove this line when it's safe
+    g->draw_trail_to_square( g->u.view_offset, true);
     menu->redraw( false );
     menu->show();
 }

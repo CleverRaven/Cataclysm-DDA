@@ -5,5 +5,6 @@
     "name": "No Survivor Armor",
     "author": "tungtn",
     "description": "Removes survivor armor.",
+    "category": "item_exclude",
     "path": ""
 }

@@ -19,6 +19,7 @@ void longsalvage_finish( player_activity *act, player *p );
 void make_zlave_finish( player_activity *act, player *p );
 void pickaxe_do_turn( player_activity *act, player *p );
 void pickaxe_finish( player_activity *act, player *p );
+void pickup_finish( player_activity *act, player *p );
 void pulp_do_turn( player_activity *act, player *p );
 void refill_vehicle_do_turn( player_activity *act, player *p );
 void reload_finish( player_activity *act, player *p );
@@ -30,6 +31,8 @@ void vibe_do_turn( player_activity *act, player *p );
 void start_engines_finish( player_activity *act, player *p );
 void oxytorch_do_turn( player_activity *act, player *p );
 void oxytorch_finish( player_activity *act, player *p );
+void cracking_finish( player_activity *act, player *p );
+void open_gate_finish( player_activity *act, player *p );
 }
 
 #endif

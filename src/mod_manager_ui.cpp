@@ -2,6 +2,7 @@
 #include "input.h"
 #include "output.h"
 #include "debug.h"
+#include "translations.h"
 #include <algorithm>
 
 // Note: Functions for drawing of UI are moved to the file worldfactory.cpp.
@@ -24,9 +25,9 @@ mod_ui::~mod_ui()
     mm_tree = NULL;
 }
 
-bool compare_mod_by_name(const MOD_INFORMATION *a, const MOD_INFORMATION *b)
+bool compare_mod_by_name_and_category(const MOD_INFORMATION *a, const MOD_INFORMATION *b)
 {
-    return a->name < b->name;
+    return ((a->category < b->category) || ((a->category == b->category) && (a->name < b->name)));
 }
 
 void mod_ui::set_usable_mods()
@@ -40,7 +41,7 @@ void mod_ui::set_usable_mods()
             mods.push_back(modinfo_pair.second);
         }
     }
-    std::sort(mods.begin(), mods.end(), &compare_mod_by_name);
+    std::sort(mods.begin(), mods.end(), &compare_mod_by_name_and_category);
 
     for( auto modinfo : mods ) {
         switch(modinfo->_type) {
@@ -129,6 +130,15 @@ std::string mod_ui::get_information(MOD_INFORMATION *mod)
         info << note;
     }
 
+#ifndef LUA
+    if ( mod->need_lua ) {
+        std::string lua_msg = "";
+        lua_msg += "<color_red>";
+        lua_msg += _("This mod requires Lua but your CDDA build not support it!");
+        lua_msg += "</color>";
+        info << lua_msg;
+    }
+#endif
     return info.str();
 }
 
@@ -137,6 +147,10 @@ void mod_ui::try_add(const std::string &mod_to_add,
 {
     if (std::find(active_list.begin(), active_list.end(), mod_to_add) != active_list.end()) {
         // The same mod can not be added twice. That makes no sense.
+        return;
+    }
+    if( active_manager->mod_map.count(mod_to_add) == 0 ) {
+        debugmsg("Unable to load mod \"%s\".", mod_to_add.c_str());
         return;
     }
     MOD_INFORMATION &mod = *active_manager->mod_map[mod_to_add];

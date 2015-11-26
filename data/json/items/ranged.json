@@ -18,6 +18,7 @@
     "cutting": 0,
     "to_hit": 0,
     "ranged_damage": 10,
+    "pierce": 15,
     "range": 30,
     "dispersion": 10,
     "sight_dispersion": 150,
@@ -38,7 +39,7 @@
     "material": ["steel", "plastic"],
     "skill": "rifle",
     "flags": ["NO_AMMO", "BIO_WEAPON", "NEVER_JAMS"],
-    "ammo_effects": ["PLASMA","INCENDIARY"],
+    "ammo_effects": ["PLASMA", "EXPLOSIVE", "FLAME"],
     "ammo": "generic_no_ammo",
     "weight": 0,
     "volume": 12,
@@ -46,6 +47,7 @@
     "cutting": 0,
     "to_hit": 0,
     "ranged_damage": 22,
+    "pierce": 15,
     "range": 30,
     "dispersion": 30,
     "sight_dispersion": 150,
@@ -107,7 +109,8 @@
     "durability": 8,
     "burst": 1,
     "clip_size": 100,
-    "reload": 450
+    "reload": 450,
+    "loudness" : 5
   },
   {
     "id": "nailrifle",
@@ -136,6 +139,7 @@
     "burst": 5,
     "clip_size": 100,
     "reload": 350,
+    "loudness" : 5,
     "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "grip", 1 ],[ "sights", 1 ],[ "stock", 1 ]]
   },
   {
@@ -162,6 +166,7 @@
     "durability": 7,
     "clip_size": 20,
     "reload": 500,
+    "loudness" : 5,
     "valid_mod_locations": [[ "accessories", 4 ],[ "sights", 1 ],[ "stock", 1 ]]
   },
   {
@@ -173,7 +178,7 @@
     "description": "A leather sling, easy to use and accurate.  It uses pebbles as ammunition.",
     "price": 150, "//": "It's little more than a piece of slightly shaped leather",
     "material": "leather",
-    "flags": ["RELOAD_AND_SHOOT", "NEVER_JAMS"],
+    "flags": ["RELOAD_AND_SHOOT", "NEVER_JAMS", "PRIMITIVE_RANGED_WEAPON"],
     "skill": "throw",
     "ammo": "pebble",
     "weight": 96,
@@ -181,8 +186,9 @@
     "bashing": 0,
     "cutting": 0,
     "to_hit": -2,
-    "ranged_damage": 2,
-    "dispersion": 105,
+    "ranged_damage": 6,
+    "range": 8,
+    "dispersion": 150,
     "sight_dispersion": 150,
     "aim_speed" : 0,
     "recoil": 0,
@@ -199,7 +205,7 @@
     "description": "A wooden slingshot, easy to use and accurate.  It uses pebbles as ammunition.",
     "price": 500,
     "material": "wood",
-    "flags": ["RELOAD_AND_SHOOT", "NEVER_JAMS"],
+    "flags": ["RELOAD_AND_SHOOT", "NEVER_JAMS", "PRIMITIVE_RANGED_WEAPON"],
     "skill": "archery",
     "ammo": "pebble",
     "weight": 254,
@@ -226,7 +232,7 @@
     "description": "A modern slingshot with a wrist brace, it is easy to use, accurate, and quite powerful.",
     "price": 3000,
     "material": ["steel", "plastic"],
-    "flags": ["RELOAD_AND_SHOOT", "NEVER_JAMS"],
+    "flags": ["RELOAD_AND_SHOOT", "NEVER_JAMS", "PRIMITIVE_RANGED_WEAPON"],
     "skill": "archery",
     "ammo": "pebble",
     "weight": 322,
@@ -253,7 +259,7 @@
       "description" : "A modified version of the classic crossbow which utilizes stones as projectiles instead of the traditional quarrel.  Primarily intended for hunting small game, stronger people can reload it much faster.",
       "price" : 20000,
       "material" : ["wood", "iron"],
-      "flags" : "STR_RELOAD",
+      "flags" : ["STR_RELOAD", "PRIMITIVE_RANGED_WEAPON"],
       "skill" : "archery",
       "ammo" : "pebble",
       "weight" : 1906,
@@ -270,6 +276,7 @@
       "durability" : 6,
       "clip_size" : 1,
       "reload" : 400,
+      "loudness" : 3,
       "valid_mod_locations": [[ "accessories", 4 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
    },
   {
@@ -281,7 +288,7 @@
     "description": "A wooden blowgun, easy to use and very accurate.  It uses darts as ammunition.",
     "price": 3000,
     "material": "wood",
-    "flags": ["RELOAD_AND_SHOOT", "NEVER_JAMS"],
+    "flags": ["RELOAD_AND_SHOOT", "NEVER_JAMS", "PRIMITIVE_RANGED_WEAPON"],
     "skill": "archery",
     "ammo": "dart",
     "weight": 440,
@@ -323,6 +330,7 @@
     "durability": 6,
     "clip_size": 1,
     "reload": 250,
+    "loudness" : 150,
     "valid_mod_locations": [[ "muzzle", 1 ],[ "stock", 1 ]]
   },
   {
@@ -351,6 +359,7 @@
     "durability": 6,
     "clip_size": 1,
     "reload": 250,
+    "loudness" : 150,
     "valid_mod_locations": [[ "muzzle", 1 ],[ "stock", 1 ]]
   },
   {
@@ -358,7 +367,7 @@
     "type": "GUN",
     "symbol": "[",
     "color": "dark_gray",
-    "name": "briefcase smg",
+    "name": "briefcase SMG",
     "description": "A custom built 9mm submachine gun camouflaged to look as the average businessman suitcase, panes of cutting edge materials and its clever internal construction allowed it to bypass even the most scrupulous of security checkpoints.  Due to the fact that the average security guard is now only concerned in eating you, this million dollar baby has been reduced to little more than a novelty item.",
     "price": 400000,
     "material": ["steel", "leather"],
@@ -370,6 +379,13 @@
     "bashing": 15,
     "cutting": 0,
     "to_hit": 0,
+    "armor_data" : {
+        "covers" : ["ARMS", "HANDS"],
+        "coverage" : 10,
+        "material_thickness" : 1,
+        "encumbrance" : 15,
+        "warmth" : 0
+    },
     "ranged_damage": 1,
     "dispersion": 255,
     "sight_dispersion": 75,
@@ -378,7 +394,66 @@
     "durability": 8,
     "burst": 3,
     "clip_size": 30,
-    "reload": 800
+    "reload": 800,
+    "loudness" : 175
+  },
+  {
+    "id": "ruger_lcr_38",
+    "type": "GUN",
+    "symbol": "(",
+    "color": "dark_gray",
+    "name": "Ruger LCR .38",
+    "name_plural": "Ruger LCR .38",
+    "description": "A compact, double-action-only revolver designed for easy concealment, with a stainless steel cylinder and aluminum frame.  This is the basic model, chambered in .38 Special.",
+    "price": 54500,
+    "material": ["steel", "aluminum", "plastic"],
+    "flags": ["RELOAD_ONE", "NEVER_JAMS", "RELOAD_EJECT"],
+    "skill": "pistol",
+    "ammo": "38",
+    "weight": 382,
+    "volume": 1,
+    "bashing": 8,
+    "cutting": 0,
+    "to_hit": -2,
+    "ranged_damage": 1,
+    "dispersion": 225,
+    "sight_dispersion": 90,
+    "aim_speed" : 4,
+    "recoil": 90,
+    "durability": 8,
+    "clip_size": 5,
+    "reload": 80,
+    "loudness" : 160,
+    "valid_mod_locations": [[ "accessories", 2 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
+  },
+  {
+    "id": "ruger_lcr_22",
+    "type": "GUN",
+    "symbol": "(",
+    "color": "dark_gray",
+    "name": "Ruger LCR .22",
+    "name_plural": "Ruger LCR .22",
+    "description": "A compact, double-action-only revolver designed for easy concealment, with a stainless steel cylinder and aluminum frame.  This version is chambered in .22 Long Rifle.",
+    "price": 54500,
+    "material": ["steel", "aluminum", "plastic"],
+    "flags": ["RELOAD_ONE", "NEVER_JAMS", "RELOAD_EJECT"],
+    "skill": "pistol",
+    "ammo": "22",
+    "weight": 422,
+    "volume": 1,
+    "bashing": 8,
+    "cutting": 0,
+    "to_hit": -2,
+    "ranged_damage": 1,
+    "dispersion": 225,
+    "sight_dispersion": 90,
+    "aim_speed" : 4,
+    "recoil": 90,
+    "durability": 8,
+    "clip_size": 8,
+    "reload": 80,
+    "loudness" : 160,
+    "valid_mod_locations": [[ "accessories", 2 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
     "id": "sig_mosquito",
@@ -405,6 +480,7 @@
     "durability": 8,
     "clip_size": 10,
     "reload": 350,
+    "loudness" : 150,
     "valid_mod_locations": [[ "accessories", 2 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
@@ -432,6 +508,7 @@
     "durability": 7,
     "clip_size": 10,
     "reload": 300,
+    "loudness" : 150,
     "valid_mod_locations": [[ "accessories", 2 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
@@ -458,6 +535,7 @@
     "durability": 6,
     "clip_size": 15,
     "reload": 300,
+    "loudness" : 150,
     "valid_mod_locations": [[ "accessories", 2 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
@@ -485,6 +563,7 @@
     "durability": 9,
     "clip_size": 15,
     "reload": 350,
+    "loudness" : 150,
     "valid_mod_locations": [[ "accessories", 2 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
@@ -514,6 +593,7 @@
     "durability": 9,
     "clip_size": 20,
     "reload": 400,
+    "loudness" : 125,
     "valid_mod_locations": [[ "accessories", 2 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
@@ -545,6 +625,7 @@
     "burst": 3,
     "clip_size": 21,
     "reload": 425,
+    "loudness" : 125,
     "valid_mod_locations": [[ "accessories", 2 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
@@ -573,6 +654,7 @@
     "durability": 9,
     "clip_size": 7,
     "reload": 75,
+    "loudness" : 125,
     "valid_mod_locations": [[ "accessories", 2 ],[ "barrel", 1 ],[ "bore", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
@@ -601,6 +683,7 @@
     "durability": 8,
     "clip_size": 7,
     "reload": 75,
+    "loudness" : 150,
     "valid_mod_locations": [[ "accessories", 2 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
@@ -628,6 +711,7 @@
     "durability": 7,
     "clip_size": 10,
     "reload": 350,
+    "loudness" : 150,
     "valid_mod_locations": [[ "accessories", 2 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
@@ -655,6 +739,33 @@
     "durability": 7,
     "clip_size": 12,
     "reload": 350,
+    "loudness" : 150,
+    "valid_mod_locations": [[ "accessories", 2 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
+  },
+  {
+    "id": "glock_22",
+    "type": "GUN",
+    "symbol": "(",
+    "color": "dark_gray",
+    "name": "Glock 22",
+    "name_plural": "Glock 22",
+    "description": "A .40sw variant of the popular glock 17 pistol.  The standard-issue firearm of the FBI and of countless other law enforcement agencies worldwide.",
+    "price": 69000,
+    "material": ["plastic", "steel"],
+    "skill": "pistol",
+    "ammo": "40",
+    "weight": 650,
+    "volume": 2,
+    "bashing": 8,
+    "cutting": 0,
+    "to_hit": -2,
+    "dispersion": 240,
+    "sight_dispersion": 90,
+    "aim_speed" : 4,
+    "recoil": 90,
+    "durability": 6,
+    "clip_size": 15,
+    "reload": 300,
     "valid_mod_locations": [[ "accessories", 2 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
@@ -683,6 +794,7 @@
     "durability": 8,
     "clip_size": 6,
     "reload": 60,
+    "loudness" : 160,
     "valid_mod_locations": [[ "accessories", 2 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
@@ -692,7 +804,7 @@
     "color": "dark_gray",
     "name": "survivor's six shooter",
     "name_plural": "survivor's six shooters",
-    "description": "A homemade 6 shot revolver. While it's not as good as the pre-Cataclysm manufactured weapons, it's a decent piece of work all things considered.",
+    "description": "A homemade 6 shot revolver.  While it's not as good as the pre-Cataclysm manufactured weapons, it's a decent piece of work all things considered.",
     "price": 15000,
     "material": ["steel"],
     "flags": ["RELOAD_ONE", "NEVER_JAMS", "RELOAD_EJECT"],
@@ -710,6 +822,7 @@
     "durability": 6,
     "clip_size": 6,
     "reload": 60,
+    "loudness" : 160,
     "valid_mod_locations": [[ "accessories", 2 ],[ "barrel", 1 ],[ "bore", 1 ],[ "grip", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
@@ -738,6 +851,7 @@
     "durability": 8,
     "clip_size": 5,
     "reload": 80,
+    "loudness" : 160,
     "valid_mod_locations": [[ "accessories", 2 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
@@ -766,6 +880,7 @@
     "durability": 8,
     "clip_size": 5,
     "reload": 80,
+    "loudness" : 160,
     "valid_mod_locations": [[ "accessories", 2 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
@@ -794,6 +909,7 @@
     "durability": 8,
     "clip_size": 6,
     "reload": 80,
+    "loudness" : 160,
     "valid_mod_locations": [[ "accessories", 2 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
@@ -822,6 +938,7 @@
     "durability": 8,
     "clip_size": 6,
     "reload": 75,
+    "loudness" : 160,
     "valid_mod_locations": [[ "accessories", 2 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
@@ -849,7 +966,37 @@
     "durability": 7,
     "clip_size": 8,
     "reload": 400,
+    "loudness" : 160,
     "valid_mod_locations": [[ "accessories", 2 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
+  },
+  {
+      "id": "lemat_revolver",
+    "type": "GUN",
+    "symbol": "(",
+    "color": "brown",
+    "name": "LeMat revolver",
+    "description": "A modernized version of the original LeMat revolver, a rare and expensive firearm produced during the civil war.  With  a capacity of 9 modern .44 cartridges and a single 12 gauge shell, it makes a great companion for those who wander the \"Earth-that-was\".",
+    "price": 86100,
+    "material": ["steel", "wood"],
+    "flags": ["RELOAD_ONE", "NEVER_JAMS", "RELOAD_EJECT"],
+    "skill": "pistol",
+    "ammo": "44",
+    "weight": 1295,
+    "volume": 3,
+    "bashing": 4,
+    "cutting": 0,
+    "to_hit": 0,
+    "ranged_damage": 4,
+    "dispersion": 180,
+    "sight_dispersion": 90,
+    "aim_speed" : 4,
+    "recoil": 100,
+    "durability": 8,
+    "clip_size": 9,
+    "reload": 75,
+    "loudness" : 160,
+    "built_in_mods" : ["lemat_revolver_shotgun"],
+    "valid_mod_locations": [[ "accessories", 2 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
     "id": "usp_45",
@@ -876,6 +1023,7 @@
     "durability": 9,
     "clip_size": 12,
     "reload": 350,
+    "loudness" : 150,
     "valid_mod_locations": [[ "accessories", 2 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
@@ -885,7 +1033,7 @@
     "color": "dark_gray",
     "name": "homemade hand cannon",
     "name_plural": "homemade hand cannons",
-    "description": "A large and heavy pistol evidently welded from scrap. It's not pretty, but the .45 it's chambered with packs a serious punch. Just watch out for the kick.",
+    "description": "A large and heavy pistol evidently welded from scrap.  It's not pretty, but the .45 it's chambered with packs a serious punch.  Just watch out for the kick.",
     "price": 60000,
     "material": ["steel"],
     "flags": ["RELOAD_ONE"],
@@ -904,6 +1052,7 @@
     "durability": 7,
     "clip_size": 5, "//": "Homemade tube magazine system, part of the reason for the size/weight",
     "reload": 110,
+    "loudness" : 160,
     "valid_mod_locations": [[ "accessories", 2 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
@@ -931,6 +1080,7 @@
     "durability": 7,
     "clip_size": 7,
     "reload": 300,
+    "loudness" : 150,
     "valid_mod_locations": [[ "accessories", 2 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
@@ -960,6 +1110,7 @@
     "durability": 9,
     "clip_size": 12,
     "reload": 500,
+    "loudness" : 150,
     "valid_mod_locations": [[ "accessories", 2 ],[ "barrel", 1 ],[ "bore", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
@@ -990,6 +1141,7 @@
     "burst": 3,
     "clip_size": 12,
     "reload": 500,
+    "loudness" : 150,
     "valid_mod_locations": [[ "accessories", 2 ],[ "barrel", 1 ],[ "bore", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
@@ -1018,6 +1170,7 @@
     "durability": 8,
     "clip_size": 6,
     "reload": 75,
+    "loudness" : 150,
     "valid_mod_locations": [[ "accessories", 2 ],[ "barrel", 1 ],[ "bore", 1 ],[ "grip", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
@@ -1027,7 +1180,7 @@
     "color": "light_gray",
     "name": "L2037 Backup",
     "name_plural": "L2037 Backups",
-    "description": "Developed by Leadworks as a companion sidearm to the L523 modular system, this massive autorevolver fires the powerful .223 round, but suffers high recoil as a result. It has a weighted barrel to make recoil more manageable and a 5-chamber cylinder.",
+    "description": "Developed by Leadworks as a companion sidearm to the L523 modular system, this massive autorevolver fires the powerful .223 round, but suffers high recoil as a result.  It has a weighted barrel to make recoil more manageable and a 5-chamber cylinder.",
     "price": 267000, "//" : "Current milspec, so Expensive.",
     "material": ["steel", "aluminum"],
     "flags": ["RELOAD_ONE", "NEVER_JAMS", "RELOAD_EJECT"],
@@ -1047,6 +1200,7 @@
     "durability": 8,
     "clip_size": 5,
     "reload": 75,
+    "loudness" : 150,
     "valid_mod_locations": [[ "accessories", 2 ],[ "barrel", 1 ],[ "bore", 1 ],[ "grip", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
@@ -1074,6 +1228,7 @@
     "durability": 8,
     "clip_size": 20,
     "reload": 300,
+    "loudness" : 150,
     "valid_mod_locations": [[ "accessories", 2 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
@@ -1101,6 +1256,7 @@
     "durability": 8,
     "clip_size": 20,
     "reload": 300,
+    "loudness" : 150,
     "valid_mod_locations": [[ "accessories", 2 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
@@ -1128,6 +1284,7 @@
     "durability": 4,
     "clip_size": 2,
     "reload": 100,
+    "loudness" : 200,
     "valid_mod_locations": [[ "accessories", 4 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ]]
   },
   {
@@ -1136,7 +1293,7 @@
     "symbol": "(",
     "color": "dark_gray",
     "name": "sawn-off Saiga 12",
-    "name_plural": "sawn-off Saiga 12's",
+    "name_plural": "sawn-off Saiga 12s",
     "description": "The Saiga-12 is a semi-automatic shotgun designed on the same Kalashnikov pattern as the AK47 rifle.  It reloads with a magazine, rather than one shell at a time like most shotguns.  This one has had the barrel cut short, vastly reducing accuracy but making it more portable",
     "price": 90000,
     "material": ["steel", "plastic"],
@@ -1157,6 +1314,7 @@
     "burst": 2,
     "clip_size": 10,
     "reload": 100,
+    "loudness" : 200,
     "valid_mod_locations": [[ "accessories", 4 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ]]
   },
   {
@@ -1183,6 +1341,7 @@
     "durability": 6,
     "clip_size": 1,
     "reload": 100,
+    "loudness" : 175,
     "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
@@ -1210,6 +1369,7 @@
     "burst": 2,
     "clip_size": 2,
     "reload": 100,
+    "loudness" : 175,
     "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
@@ -1238,6 +1398,7 @@
     "durability": 8,
     "clip_size": 6,
     "reload": 100,
+    "loudness" : 175,
     "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
@@ -1265,6 +1426,37 @@
     "durability": 9,
     "clip_size": 8,
     "reload": 80,
+    "loudness" : 175,
+    "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
+  },
+  {
+    "id": "ksg",
+    "type": "GUN",
+    "symbol": "(",
+    "color": "dark_gray",
+    "name": "Kel-Tec KSG",
+    "name_plural": "Kel-Tec KSG",
+    "description": "A bullpup pump-action shotgun, the Kel-Tec KSG uses a pair of magazine tubes to increase its capacity.  Each tube has to be loaded separately, but this offers the option of loading different ammunition for different situations.",
+    "price": 99000,
+    "material": ["steel", "plastic"],
+    "flags": "RELOAD_ONE",
+    "skill": "shotgun",
+    "ammo": "shot",
+    "weight": 3100,
+    "volume": 7,
+    "bashing": 9,
+    "cutting": 0,
+    "to_hit": -1,
+    "ranged_damage": 3,
+    "dispersion": 45,
+    "sight_dispersion": 105,
+    "aim_speed" : 3,
+    "recoil": 15,
+    "durability": 7,
+    "clip_size": 7,
+    "reload": 120,
+    "loudness" : 200,
+    "built_in_mods" : ["ksg_aux_shotgun"],
     "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
@@ -1274,7 +1466,7 @@
     "color": "light_gray",
     "name": "M1014 shotgun",
     "name_plural": "M1014 shotguns",
-    "description": "Its relative simplicity and reliability made the Benelli M4 the most successful semi-automatic shotgun ever created. Unlike pump action shotguns, it can be fired in short bursts.",
+    "description": "Its relative simplicity and reliability made the Benelli M4 the most successful semi-automatic shotgun ever created.  Unlike pump action shotguns, it can be fired in short bursts.",
     "price": 169900,
     "material": ["steel", "plastic"],
     "flags": ["RELOAD_ONE", "MODE_BURST"],
@@ -1294,6 +1486,7 @@
     "burst": 2,
     "clip_size": 8,
     "reload": 80,
+    "loudness" : 175,
     "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ]]
   },
   {
@@ -1302,7 +1495,7 @@
     "symbol": "(",
     "color": "dark_gray",
     "name": "Saiga-12",
-    "name_plural": "Saiga-12",
+    "name_plural": "Saiga-12s",
     "description": "The Saiga-12 is a semi-automatic shotgun designed on the same Kalashnikov pattern as the AK47 rifle.  It reloads with a magazine, rather than one shell at a time like most shotguns.",
     "price": 189000,
     "material": ["steel", "plastic"],
@@ -1322,6 +1515,7 @@
     "burst": 2,
     "clip_size": 10,
     "reload": 500,
+    "loudness" : 175,
     "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
@@ -1351,6 +1545,7 @@
     "durability": 8,
     "clip_size": 8,
     "reload": 80,
+    "loudness" : 175,
     "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
@@ -1380,6 +1575,7 @@
     "burst": 30,
     "clip_size": 165,
     "reload": 500,
+    "loudness" : 150,
     "valid_mod_locations": [[ "accessories", 3 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
@@ -1408,6 +1604,7 @@
     "burst": 12,
     "clip_size": 32,
     "reload": 450,
+    "loudness" : 150,
     "valid_mod_locations": [[ "accessories", 3 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
@@ -1437,6 +1634,7 @@
     "burst": 8,
     "clip_size": 32,
     "reload": 400,
+    "loudness" : 150,
     "valid_mod_locations": [[ "accessories", 3 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
@@ -1466,6 +1664,7 @@
     "burst": 20,
     "clip_size": 50,
     "reload": 500,
+    "loudness" : 150,
     "valid_mod_locations": [[ "accessories", 3 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
@@ -1495,6 +1694,7 @@
     "burst": 8,
     "clip_size": 30,
     "reload": 400,
+    "loudness" : 150,
     "valid_mod_locations": [[ "accessories", 3 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
@@ -1524,6 +1724,7 @@
     "burst": 30,
     "clip_size": 30,
     "reload": 450,
+    "loudness" : 150,
     "valid_mod_locations": [[ "accessories", 3 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
@@ -1552,6 +1753,7 @@
     "burst": 4,
     "clip_size": 25,
     "reload": 450,
+    "loudness" : 150,
     "valid_mod_locations": [[ "accessories", 3 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
@@ -1581,6 +1783,7 @@
     "burst": 8,
     "clip_size": 30,
     "reload": 450,
+    "loudness" : 150,
     "valid_mod_locations": [[ "accessories", 3 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
@@ -1609,6 +1812,7 @@
     "burst": 20,
     "clip_size": 50,
     "reload": 500,
+    "loudness" : 150,
     "valid_mod_locations": [[ "accessories", 3 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
@@ -1637,6 +1841,7 @@
     "burst": 20,
     "clip_size": 20,
     "reload": 450,
+    "loudness" : 150,
     "valid_mod_locations": [[ "accessories", 3 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
@@ -1665,6 +1870,7 @@
     "durability": 8,
     "clip_size": 19,
     "reload": 90,
+    "loudness" : 150,
     "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
@@ -1691,6 +1897,7 @@
     "durability": 8,
     "clip_size": 10,
     "reload": 500,
+    "loudness" : 150,
     "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
@@ -1718,6 +1925,7 @@
     "durability": 10,
     "clip_size": 15,
     "reload": 300,
+    "loudness" : 150,
     "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
@@ -1727,10 +1935,9 @@
     "color": "brown",
     "name": "Browning BLR",
     "name_plural": "Browning BLR",
-    "description": "A highly accurate lever-action hunting rifle chambered for the powerful .30-06 round.",
+    "description": "A highly accurate lever-action hunting rifle chambered for the powerful .30-06 round.  Notable for using a detachable magazine instead of a traditional tube, allowing the use of cartridges with spitzer-type bullets.",
     "price": 85000,
     "material": ["steel", "plastic"],
-    "flags": "RELOAD_ONE",
     "skill": "rifle",
     "ammo": "3006",
     "weight": 3175,
@@ -1746,6 +1953,7 @@
     "aim_speed" : 6,
     "clip_size": 4,
     "reload": 100,
+    "loudness" : 150,
     "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
@@ -1775,6 +1983,7 @@
     "durability": 9,
     "clip_size": 7,
     "reload": 100,
+    "loudness" : 150,
     "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
@@ -1803,6 +2012,7 @@
     "durability": 8,
     "clip_size": 4,
     "reload": 75,
+    "loudness" : 150,
     "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
@@ -1831,9 +2041,9 @@
     "durability": 2,
     "clip_size": 1,
     "reload": 75,
+    "loudness" : 160,
     "valid_mod_locations": [[ "accessories", 4 ],[ "bore", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "sights", 1 ]]
   },
-
   {
     "id": "m14a",
     "type": "GUN",
@@ -1858,7 +2068,37 @@
     "durability": 8,
     "clip_size": 20,
     "reload": 500,
+    "loudness" : 150,
     "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "sights", 1 ]]
+  },
+  {
+    "id": "m1918",
+    "type": "GUN",
+    "symbol": "(",
+    "color": "dark_gray",
+    "name": "Browning Automatic Rifle",
+    "description": "Designed near the end of World War I, the BAR provided fire support for the US Army from World War II all the way to the Vietnam War.  Too much firepower to serve as a battle rifle, but not enough to be an ideal light machine gun, it still found a niche on the battlefield.",
+    "price": 350000,
+    "material": ["steel", "wood"],
+    "flags": "MODE_BURST",
+    "skill": "rifle",
+    "ammo": "3006",
+    "weight": 7250,
+    "volume": 12,
+    "bashing": 12,
+    "cutting": 0,
+    "to_hit": -1,
+    "ranged_damage": 7,
+    "dispersion": 75,
+    "sight_dispersion": 60,
+    "aim_speed" : 6,
+    "recoil": 30,
+    "durability": 8,
+    "burst": 5,
+    "clip_size": 20,
+    "reload": 550,
+    "loudness" : 150,
+    "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
     "id": "ruger_mini",
@@ -1885,6 +2125,7 @@
     "durability": 8,
     "clip_size": 10,
     "reload": 500,
+    "loudness" : 150,
     "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "sights", 1 ]]
   },{
     "id": "rifle_308",
@@ -1893,10 +2134,10 @@
     "color": "brown",
     "name": "pipe rifle: .308",
     "name_plural": "pipe rifles: .308",
-    "description": "A homemade rifle. While still a primitive pipe and 2x4 design, some minor improvements have been made, such as a tube feeding system for rounds, and chambering the more powerful .308 rounds.",
+    "description": "A homemade lever-action rifle.  While still a primitive pipe and 2x4 design, some minor improvements have been made, such as an integral magazine for rounds, and chambering the more powerful .308 rounds.",
     "price": 10000,
     "material": ["steel", "wood"],
-    "flags": ["RELOAD_ONE", "RELOAD_EJECT"],
+    "flags": "RELOAD_ONE",
     "skill": "rifle",
     "ammo": "308",
     "weight": 2311,
@@ -1910,8 +2151,9 @@
     "aim_speed" : 6,
     "recoil": 30,
     "durability": 6,
-    "clip_size": 6, "//": "Homemade tube magazine.",
+    "clip_size": 6,
     "reload": 100,
+    "loudness" : 150,
     "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "muzzle", 1 ],[ "stock", 1 ],[ "mechanism", 4 ],[ "sights", 1 ]]
   },
   {
@@ -1921,10 +2163,10 @@
     "color": "brown",
     "name": "survivor's .223 carbine",
     "name_plural": "survivor's .223 carbines",
-    "description": "A well designed homemade carbine. With a 10 round magazine and shortened barrel, this is one of the better homemade weapons.",
+    "description": "A well designed homemade lever-action carbine.  With a 10 round magazine and shortened barrel, this is one of the better homemade weapons.",
     "price": 10000,
     "material": ["steel", "wood"],
-    "flags": ["RELOAD_ONE", "RELOAD_EJECT"],
+    "flags": "RELOAD_ONE",
     "skill": "rifle",
     "ammo": "223",
     "weight": 2011,
@@ -1938,8 +2180,9 @@
     "aim_speed" : 4,
     "recoil": 30,
     "durability": 6,
-    "clip_size": 10, "//": "Homemade tube magazine, based roughly off of early Winchester repeating rifles and 223 round size",
+    "clip_size": 10,
     "reload": 100,
+    "loudness" : 160,
     "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
@@ -1968,6 +2211,7 @@
     "durability": 9,
     "clip_size": 3,
     "reload": 100,
+    "loudness" : 150,
     "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
@@ -1997,6 +2241,7 @@
     "burst": 10,
     "clip_size": 20,
     "reload": 550,
+    "loudness" : 150,
     "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
@@ -2026,6 +2271,7 @@
     "burst": 15,
     "clip_size": 30,
     "reload": 500,
+    "loudness" : 150,
     "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
@@ -2033,9 +2279,9 @@
     "type": "GUN",
     "symbol": "(",
     "color": "brown",
-    "name": "AK-47",
-    "name_plural": "AK-47",
-    "description": "One of the most recognizable assault rifles ever made, the AK-47 is renowned for its durability even under the worst conditions.",
+    "name": "AKM",
+    "name_plural": "AKM",
+    "description": "One of the most recognizable assault rifles ever made, the AKM is renowned for its durability even under the worst conditions.",
     "price": 290000, "//" : "AKs likewise aren't commercially traded in the US.",
     "material": ["steel", "wood"],
     "flags": ["MODE_BURST", "NEVER_JAMS"],
@@ -2054,6 +2300,65 @@
     "burst": 8,
     "clip_size": 30,
     "reload": 475,
+    "loudness": 150,
+    "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
+  },
+  {
+    "id": "ak74",
+    "type": "GUN",
+    "symbol": "(",
+    "color": "brown",
+    "name": "AK-74M",
+    "name_plural": "AK-74M",
+    "description": "The successor to the well-known AK-47 rifle, chambered in 5.45x39mm.",
+    "price": 390000, "//" : "AKs likewise aren't commercially traded in the US, plus this is newer.",
+    "material": ["steel", "wood"],
+    "flags": ["MODE_BURST", "NEVER_JAMS"],
+    "skill": "rifle",
+    "ammo": "545x39",
+    "weight": 3300,
+    "volume": 9,
+    "bashing": 11,
+    "cutting": 0,
+    "to_hit": -1,
+    "dispersion": 45,
+    "sight_dispersion": 60,
+    "aim_speed" : 6,
+    "recoil": 0,
+    "durability": 8,
+    "burst": 8,
+    "clip_size": 30,
+    "reload": 475,
+    "loudness": 140,
+    "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
+  },
+  {
+    "id": "an94",
+    "type": "GUN",
+    "symbol": "(",
+    "color": "brown",
+    "name": "AN-94",
+    "name_plural": "AN-94",
+    "description": "Intended to replace the AK-74, this rifle uses a sophisticated mechanism to delay felt recoil, along with a very fast two-round burst mode.  While its increased complexity prevented it from being adopted by the Russian military, it has seen service among their special forces.",
+    "price": 420000,
+    "material": ["steel", "plastic"],
+    "flags": ["MODE_BURST"],
+    "skill": "rifle",
+    "ammo": "545x39",
+    "weight": 3850,
+    "volume": 9,
+    "bashing": 11,
+    "cutting": 0,
+    "to_hit": -1,
+    "dispersion": 35,
+    "sight_dispersion": 50,
+    "aim_speed" : 4,
+    "recoil": -10,
+    "durability": 7,
+    "burst": 2,
+    "clip_size": 30,
+    "reload": 475,
+    "loudness": 140,
     "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
@@ -2081,6 +2386,7 @@
     "durability": 8,
     "clip_size": 10,
     "reload": 450,
+    "loudness" : 150,
     "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
@@ -2110,6 +2416,7 @@
     "burst": 10,
     "clip_size": 20,
     "reload": 550,
+    "loudness" : 150,
     "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
@@ -2140,6 +2447,7 @@
     "burst": 3,
     "clip_size": 30,
     "reload": 500,
+    "loudness" : 150,
     "valid_mod_locations": [[ "accessories", 4 ]]
   },
   {
@@ -2170,6 +2478,7 @@
     "burst": 5,
     "clip_size": 30,
     "reload": 500,
+    "loudness" : 150,
     "valid_mod_locations": [[ "accessories", 2 ], [ "magazine", 2 ]]
   },
   {
@@ -2199,6 +2508,7 @@
     "burst": 3,
     "clip_size": 30,
     "reload": 475,
+    "loudness" : 150,
     "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
@@ -2208,7 +2518,7 @@
     "color": "dark_gray",
     "name": "AR-15",
     "name_plural": "AR-15",
-    "description": "A widely used rifle and the father of popular rifles such as the M16.  It is light and accurate, but not very durable.",
+    "description": "This ubiquitous rifle is the forefather of M16 rifle series.  It is lightweight and accurate, but will malfunction if not properly maintained. This one is a semi automatic civilian version.",
     "price": 125000,
     "material": ["steel", "plastic"],
     "skill": "rifle",
@@ -2225,6 +2535,7 @@
     "durability": 7,
     "clip_size": 30,
     "reload": 500,
+    "loudness" : 150,
     "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
@@ -2234,7 +2545,7 @@
     "color": "dark_gray",
     "name": "M4A1",
     "name_plural": "M4A1",
-    "description": "A popular carbine, long used by the US military.  Though accurate, small, and lightweight, it is infamous for its fragility, particularly in less-than- ideal terrain.",
+    "description": "A popular carbine, long used by the US military.  Though accurate, small, and lightweight, it is infamous for its unreliability when not properly maintained.",
     "price": 240000,
     "material": ["steel", "plastic"],
     "flags": "MODE_BURST",
@@ -2254,6 +2565,7 @@
     "burst": 10,
     "clip_size": 30,
     "reload": 475,
+    "loudness" : 150,
     "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
@@ -2282,6 +2594,7 @@
     "burst": 3,
     "clip_size": 30,
     "reload": 500,
+    "loudness" : 150,
     "valid_mod_locations": [[ "accessories", 2 ] , [ "magazine", 2 ]]
   },
   {
@@ -2311,6 +2624,7 @@
     "burst": 10,
     "clip_size": 30,
     "reload": 500,
+    "loudness" : 150,
     "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
@@ -2340,6 +2654,7 @@
     "burst": 8,
     "clip_size": 20,
     "reload": 550,
+    "loudness" : 150,
     "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
@@ -2368,6 +2683,7 @@
     "durability": 8,
     "clip_size": 5,
     "reload": 480,
+    "loudness" : 150,
     "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
@@ -2395,6 +2711,7 @@
     "durability": 8,
     "clip_size": 20,
     "reload": 550,
+    "loudness" : 150,
     "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
@@ -2424,6 +2741,7 @@
     "burst": 6,
     "clip_size": 30,
     "reload": 600,
+    "loudness" : 150,
     "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
@@ -2452,6 +2770,7 @@
     "durability": 7,
     "clip_size": 30,
     "reload": 500,
+    "loudness" : 150,
     "valid_mod_locations": [[ "accessories", 2 ], [ "magazine", 2 ]]
   },
   {
@@ -2482,6 +2801,7 @@
     "burst": 15,
     "clip_size": 45,
     "reload": 600,
+    "loudness" : 150,
     "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
@@ -2512,6 +2832,7 @@
     "burst": 20,
     "clip_size": 100,
     "reload": 2000,
+    "loudness" : 150,
     "valid_mod_locations": [[ "accessories", 2 ]]
   },
   {
@@ -2540,6 +2861,7 @@
     "durability": 6,
     "clip_size": 15,
     "reload": 350,
+    "loudness" : 150,
     "valid_mod_locations": [[ "accessories", 2 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
@@ -2569,6 +2891,7 @@
     "burst": 6,
     "clip_size": 30,
     "reload": 550,
+    "loudness" : 150,
     "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
@@ -2598,6 +2921,67 @@
     "burst": 30,
     "clip_size": 200,
     "reload": 750,
+    "loudness" : 160,
+    "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ]]
+  },
+  {
+    "id": "m240",
+    "type": "GUN",
+    "symbol": "(",
+    "color": "dark_gray",
+    "name": "M240",
+    "name_plural": "M240",
+    "description": "The M240 is a medium machine gun used by the US military, replacing the older M60.  Quite inaccurate and difficult to control, the M240 is designed to fire many rounds very quickly.",
+    "price": 1000000,
+    "material": ["steel", "plastic"],
+    "flags": "MODE_BURST",
+    "skill": "rifle",
+    "ammo": "308",
+    "weight": 12500,
+    "volume": 16,
+    "bashing": 13,
+    "cutting": 0,
+    "to_hit": -1,
+    "ranged_damage": -2,
+    "dispersion": 170,
+    "sight_dispersion": 75,
+    "aim_speed" : 5,
+    "recoil": 120,
+    "durability": 7,
+    "burst": 25,
+    "clip_size": 200,
+    "reload": 750,
+    "loudness" : 160,
+    "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ]]
+  },
+  {
+    "id": "m60",
+    "type": "GUN",
+    "symbol": "(",
+    "color": "dark_gray",
+    "name": "M60",
+    "name_plural": "M60",
+    "description": "The M60 is a general-purpose machine gun developed to replace the .30-caliber M1918 and M1919.  Heavy and difficult to handle fired from the shoulder, as most people aren't action-movie heroes.",
+    "price": 1000000,
+    "material": ["steel", "plastic"],
+    "flags": "MODE_BURST",
+    "skill": "rifle",
+    "ammo": "308",
+    "weight": 10500,
+    "volume": 16,
+    "bashing": 15,
+    "cutting": 0,
+    "to_hit": -1,
+    "ranged_damage": 0,
+    "dispersion": 180,
+    "sight_dispersion": 75,
+    "aim_speed" : 5,
+    "recoil": 140,
+    "durability": 7,
+    "burst": 20,
+    "clip_size": 200,
+    "reload": 750,
+    "loudness" : 160,
     "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ]]
   },
   {
@@ -2668,7 +3052,7 @@
     "description": "A very powerful fusion rifle developed shortly before the influx of monsters.  It can only hold two rounds at a time, but a special superheating unit causes its bolts to be extremely deadly.",
     "price": 980000,
     "material": ["steel", "plastic"],
-    "ammo_effects": ["PLASMA", "EXPLOSIVE", "FLAME", "NEVER_JAMS"],
+    "ammo_effects": ["PLASMA", "EXPLOSIVE", "FLAME"],
     "flags": ["NEVER_JAMS"],
     "ups_charges": 5,
     "skill": "rifle",
@@ -2793,6 +3177,7 @@
     "durability": 6,
     "clip_size": 1,
     "reload": 350,
+    "loudness" : 175,
     "valid_mod_locations": [[ "stock", 1 ]]
   },
   {
@@ -2820,6 +3205,7 @@
     "durability": 8,
     "clip_size": 1,
     "reload": 250,
+    "loudness" : 160,
     "valid_mod_locations": [[ "accessories", 4 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ]]
   },
   {
@@ -2846,6 +3232,7 @@
     "durability": 9,
     "clip_size": 1,
     "reload": 150,
+    "loudness" : 160,
     "valid_mod_locations": [[ "accessories", 4 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
@@ -2874,6 +3261,7 @@
     "burst": 2,
     "clip_size": 6,
     "reload": 300,
+    "loudness" : 160,
     "valid_mod_locations": [[ "accessories", 4 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
@@ -2900,6 +3288,7 @@
     "durability": 9,
     "clip_size": 4,
     "reload": 100,
+    "loudness" : 160,
     "valid_mod_locations": [[ "accessories", 4 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
@@ -2911,7 +3300,8 @@
     "description": "A military-grade combat flamethrower designed by Rivtech, the RM451 flamethrower incorporates a cycling pressure rapid-feed fuel system with a high-speed piezoelectric igniter.  Solidly built with durability in mind, it serves as an incredibly destructive weapon in the right hands.",
     "price": 970000,
     "material": ["superalloy", "ceramic"],
-    "flags": ["NO_BOOM", "FLARE", "FIRE_20", "NEVER_JAMS", "MODE_BURST"],
+    "flags": ["FIRE_20", "WATERPROOF_GUN", "NEVER_JAMS", "MODE_BURST"],
+    "ammo_effects": ["NO_BOOM", "FLARE"],
     "skill": "launcher",
     "ammo": "gasoline",
     "weight": 1320,
@@ -2929,7 +3319,7 @@
     "burst": 5,
     "clip_size": 2000,
     "reload": 650,
-    "valid_mod_locations": [[ "rail", 1 ], [ "grip", 1 ], [ "stock", 1 ]]
+    "valid_mod_locations": [[ "accessories", 4 ], [ "rail", 1 ], [ "grip", 1 ], [ "stock", 1 ], [ "underbarrel", 1 ]]
   },
   {
     "id": "rm360_carbine",
@@ -2941,7 +3331,7 @@
     "description": "This unusual Rivtech carbine features five rotating barrels and a large capacity helical magazine.  Durable and easy to handle, it was designed to overcome the deficiencies of its low power .22LR cartridge by rapidly delivering a large number of projectiles.",
     "price": 180000,
     "material": ["superalloy", "ceramic"],
-    "flags": "MODE_BURST",
+    "flags": ["MODE_BURST", "WATERPROOF_GUN", "NEVER_JAMS"],
     "skill": "smg",
     "ammo": "22",
     "weight": 1900,
@@ -2958,6 +3348,7 @@
     "burst": 20,
     "clip_size": 200,
     "reload": 500,
+    "loudness" : 150,
     "valid_mod_locations": [[ "accessories", 3 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
@@ -2968,12 +3359,12 @@
     "name": "M72 LAW",
     "name_plural": "M72 LAW",
     "description": "A disposable light anti-tank rocket launcher.  Once fired, it cannot be reloaded and must be disposed of.",
-    "price": 200000, "//": "A tube with a lever. Unsurprisingly, dirt cheap (at least for a rocket launcher).",
+    "price": 200000, "//": "A tube with a lever.  Unsurprisingly, dirt cheap (at least for a rocket launcher).",
     "material": "steel",
     "flags": ["NO_UNLOAD", "BACKBLAST", "NEVER_JAMS"],
     "skill": "launcher",
     "ammo": "66mm",
-    "weight": 2500,
+    "weight": 700,
     "volume": 10,
     "bashing": 6,
     "cutting": 0,
@@ -2984,7 +3375,8 @@
     "recoil": 75,
     "durability": 9,
     "clip_size": 1,
-    "reload": 150
+    "reload": 150,
+    "loudness" : 200
   },
   {
     "id": "TANK",
@@ -3009,7 +3401,8 @@
     "recoil": 10,
     "durability": 9,
     "clip_size": 1,
-    "reload": 100
+    "reload": 100,
+    "loudness" : 300
   },
   {
     "id": "coilgun",
@@ -3120,6 +3513,7 @@
     "durability": 6,
     "clip_size": 6,
     "reload": 100,
+    "loudness" : 160,
     "valid_mod_locations": [[ "accessories", 3 ],[ "barrel", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ]]
   },
   {
@@ -3147,6 +3541,7 @@
     "durability": 6,
     "clip_size": 1,
     "reload": 100,
+    "loudness" : 175,
     "valid_mod_locations": [[ "stock", 1 ]]
   },{
     "id": "blunderbuss",
@@ -3155,7 +3550,7 @@
     "color": "brown",
     "name": "blunderbuss",
     "name_plural": "blunderbusses",
-    "description": "A homemade version of a crude precursor to the shotgun. Able to fire just about anything you put down the barrel, but it will degrade pretty quick.",
+    "description": "A homemade version of a crude precursor to the shotgun.  Able to fire just about anything you put down the barrel, but it will degrade pretty quick.",
     "price": 15000,
     "material": ["steel", "wood"],
     "flags": ["RELOAD_ONE"],
@@ -3173,6 +3568,7 @@
     "durability": 3,
     "clip_size": 1,
     "reload": 150,
+    "loudness" : 200,
     "valid_mod_locations": [[ "stock", 1 ]]
   },
   {
@@ -3201,7 +3597,37 @@
     "burst": 2,
     "clip_size": 2,
     "reload": 100,
+    "loudness" : 175,
     "valid_mod_locations": [[ "stock", 1 ]]
+  },
+  {
+    "id": "pipe_combination_gun",
+    "type": "GUN",
+    "symbol": "(",
+    "color": "brown",
+    "name": "pipe combination gun",
+    "description": "A home-made double-barreled firearm, one barrel chambered in .30-06 and another for shotgun shells.  It is simply two pipes attached to a stock, with a pair of hammers to strike the two rounds it holds.",
+    "price": 40000, "//": "Part of price shifted to integral mod.",
+    "material": ["steel", "wood"],
+    "flags": ["RELOAD_ONE", "NEVER_JAMS", "RELOAD_EJECT"],
+    "skill": "shotgun",
+    "ammo": "3006",
+    "weight": 2267, "//": "Attached mod will now have weight.",
+    "volume": 8,
+    "bashing": 12,
+    "cutting": 0,
+    "to_hit": -1,
+    "ranged_damage": 0,
+    "dispersion": 150,
+    "sight_dispersion": 60,
+    "aim_speed" : 6,
+    "recoil": 30,
+    "durability": 6,
+    "clip_size": 1,
+    "reload": 100,
+    "loudness" : 150,
+    "built_in_mods" : ["combination_gun_shotgun_pipe"],
+    "valid_mod_locations": [[ "muzzle", 1 ],[ "stock", 1 ]]
   },
   {
     "id": "pipe_shotgunsawn",
@@ -3228,6 +3654,7 @@
     "durability": 6,
     "clip_size": 1,
     "reload": 100,
+    "loudness" : 200,
     "valid_mod_locations": [[ "stock", 1 ]]
   },
   {
@@ -3287,7 +3714,8 @@
     "burst": 5,
     "clip_size": 50,
     "reload": 500,
-    "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
+    "loudness" : 150,
+    "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
     "id": "rm88_battle_rifle",
@@ -3315,7 +3743,8 @@
     "burst": 5,
     "clip_size": 25,
     "reload": 600,
-    "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
+    "loudness" : 150,
+    "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
     "id": "rm614_lmg",
@@ -3343,7 +3772,8 @@
     "burst": 10,
     "clip_size": 200,
     "reload": 750,
-    "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
+    "loudness" : 150,
+    "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
     "id": "rm2000_smg",
@@ -3370,7 +3800,8 @@
     "burst": 5,
     "clip_size": 25,
     "reload": 450,
-    "valid_mod_locations": [[ "accessories", 3 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
+    "loudness" : 150,
+    "valid_mod_locations": [[ "accessories", 3 ],[ "barrel", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
     "id": "rm99_pistol",
@@ -3397,7 +3828,8 @@
     "durability": 9,
     "clip_size": 5,
     "reload": 90,
-    "valid_mod_locations": [[ "accessories", 2 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
+    "loudness" : 150,
+    "valid_mod_locations": [[ "accessories", 2 ],[ "barrel", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
     "id": "rm103a_pistol",
@@ -3424,7 +3856,8 @@
     "durability": 9,
     "clip_size": 10,
     "reload": 400,
-    "valid_mod_locations": [[ "accessories", 2 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
+    "loudness" : 160,
+    "valid_mod_locations": [[ "accessories", 2 ],[ "barrel", 1 ],[ "bore", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
     "id": "rm11b_sniper_rifle",
@@ -3453,7 +3886,8 @@
     "burst": 2,
     "clip_size": 10,
     "reload": 600,
-    "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
+    "loudness" : 150,
+    "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
     "id": "tihar",
@@ -3482,6 +3916,7 @@
     "burst": 5,
     "clip_size": 15,
     "reload": 500,
+    "loudness" : 5,
     "valid_mod_locations": [[ "accessories", 4 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "sights", 1 ],[ "stock", 1 ]]
   },
   {
@@ -3510,6 +3945,7 @@
     "durability": 7,
     "clip_size": 8,
     "reload": 500,
+    "loudness" : 5,
     "valid_mod_locations": [[ "accessories", 4 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "sights", 1 ],[ "stock", 1 ]]
   },
   {
@@ -3537,6 +3973,7 @@
     "burst": 6,
     "clip_size": 6,
     "reload": 110,
+    "loudness" : 175,
     "valid_mod_locations": [[ "accessories", 4 ],[ "grip", 1 ],[ "sights", 1 ],[ "stock", 1 ]]
   },
   {
@@ -3563,6 +4000,7 @@
     "recoil": 300,
     "durability": 7,
     "clip_size": 1,
+    "loudness" : 5,
     "reload": 800
   },
   {
@@ -3590,6 +4028,7 @@
     "durability": 6,
     "clip_size": 1,
     "reload": 80,
+    "loudness" : 200,
     "valid_mod_locations": [[ "accessories", 1 ],[ "grip", 1 ],[ "stock", 1 ],[ "mechanism", 4 ],[ "sights", 1 ]]
   },
   {
@@ -3616,6 +4055,7 @@
     "durability": 7,
     "clip_size": 1,
     "reload": 80,
+    "loudness" : 50,
     "valid_mod_locations": [[ "accessories", 4],[ "grip", 1 ],[ "stock", 1 ]]
   },
   {
@@ -3703,6 +4143,7 @@
     "durability": 8,
     "clip_size": 1,
     "reload": 300,
+    "loudness" : 200,
     "valid_mod_locations": [[ "accessories", 4 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "sights", 1 ]]
   },
   {
@@ -3731,6 +4172,7 @@
     "burst": 4,
     "clip_size": 4,
     "reload": 600,
+    "loudness" : 200,
     "valid_mod_locations": [[ "accessories", 4 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "sights", 1 ]]
   },
   {
@@ -3741,7 +4183,7 @@
     "name": "RPG-7",
     "name_plural": "RPG-7",
     "description": "The emblematic RPG-7 launcher.  Its simple, inexpensive, and reliable design made it a popular choice among armies and insurgent groups worldwide.",
-    "price": 150000, "//": "Like the LAW, this thing is basically a tube with a lever. It's even cheaper in terms of construction, but there's a premium due to being imported. Also not disposable.",
+    "price": 150000, "//": "Like the LAW, this thing is basically a tube with a lever.  It's even cheaper in terms of construction, but there's a premium due to being imported.  Also not disposable.",
     "material": "wood",
     "flags": ["BACKBLAST", "RELOAD_ONE", "NEVER_JAMS"],
     "skill": "launcher",
@@ -3758,6 +4200,7 @@
     "durability": 10,
     "clip_size": 1,
     "reload": 150,
+    "loudness" : 200,
     "valid_mod_locations": [[ "accessories", 4 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "sights", 1 ]]
   },
   {
@@ -3786,7 +4229,8 @@
     "burst": 5,
     "clip_size": 100,
     "reload": 600,
-    "valid_mod_locations": [[ "accessories", 3 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
+    "loudness" : 150,
+    "valid_mod_locations": [[ "accessories", 3 ],[ "barrel", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
     "id": "needlepistol",
@@ -3814,7 +4258,8 @@
     "burst": 5,
     "clip_size": 25,
     "reload": 400,
-    "valid_mod_locations": [[ "accessories", 3 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
+    "loudness" : 150,
+    "valid_mod_locations": [[ "accessories", 3 ],[ "barrel", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
     "id": "unbio_blaster_gun",
@@ -3881,7 +4326,7 @@
     "color": "dark_gray",
     "name": "heavy rail rifle",
     "name_plural": "heavy rail rifles",
-    "description": "This overpowered and overengineered variant of the ferromagnetic rail rifle was designed to deliver electromagnetically-driven obliteration right through whatever obstacles that lies in front of it, be it buildings, vehicles or hordes of walking dead. However, the hefty bulk and weight of this weapon compared to most contemporary rifles makes it somewhat cumbersome to wield; not to mention that it consumes UPS charges at a tremendous rate, making it impractical for use in prolonged engagements.",
+    "description": "This overpowered and overengineered variant of the ferromagnetic rail rifle was designed to deliver electromagnetically-driven obliteration right through whatever obstacles that lies in front of it, be it buildings, vehicles or hordes of walking dead.  However, the hefty bulk and weight of this weapon compared to most contemporary rifles makes it somewhat cumbersome to wield; not to mention that it consumes UPS charges at a tremendous rate, making it impractical for use in prolonged engagements.",
     "price": 900000,
     "material": ["steel", "plastic"],
     "ammo_effects": ["INCENDIARY", "TRAIL"],
@@ -3930,7 +4375,8 @@
     "burst": 4,
     "clip_size": 20,
     "reload": 550,
-    "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
+    "loudness" : 175,
+    "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
     "id": "rm120c",
@@ -3958,7 +4404,8 @@
     "durability": 9,
     "clip_size": 5,
     "reload": 80,
-    "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
+    "loudness" : 175,
+    "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
     "id": "rm228",
@@ -3985,7 +4432,8 @@
     "burst": 2,
     "clip_size": 2,
     "reload": 70,
-    "valid_mod_locations": [[ "accessories", 3 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ]]
+    "loudness" : 175,
+    "valid_mod_locations": [[ "accessories", 3 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ]]
   },
   {
     "id": "m107a1",
@@ -4014,7 +4462,8 @@
     "durability": 8,
     "clip_size": 10,
     "reload": 340,
-    "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
+    "loudness" : 175,
+    "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
  },
  {
     "id": "m2browning",
@@ -4044,15 +4493,45 @@
     "burst": 25,
     "clip_size": 200,
     "reload": 800,
-    "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "sights", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "sights", 1 ]]
+    "loudness" : 175,
+    "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "sights", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ]]
  },{
+    "id": "m134",
+    "type": "GUN",
+    "symbol": "(",
+    "color": "dark_gray",
+    "name": "M134D-H Minigun",
+    "description": "The M134 Minigun is a 7.62x51 mm NATO, six-barreled machine gun.  It features Gatling-style rotating barrels with an electric motor.  Its' recoil is too powerful for firing unmounted, but if you could attach it to a vehicle and find enough ammo for it, it would become a devastating weapon.",
+    "price": 5500000,
+    "material": "hardsteel",
+    "flags": ["MODE_BURST", "BURST_ONLY", "NEVER_JAMS", "MOUNTED_GUN"],
+    "skill": "rifle",
+    "ups_charges": 1,
+    "ammo": "308",
+    "weight": 27051,
+    "volume": 32,
+    "bashing": 18,
+    "cutting": 0,
+    "to_hit": -4,
+    "ranged_damage": 0,
+    "dispersion": 120,
+    "sight_dispersion": 200,
+    "aim_speed" : 0,
+    "recoil": 55,
+    "durability": 9,
+    "burst": 100,
+    "clip_size": 500,
+    "reload": 10000,
+    "loudness" : 150
+ },
+ {
     "id": "m2browning_sawn",
     "type": "GUN",
     "symbol": "(",
     "color": "dark_gray",
     "name": ".50 caliber rifle",
     "name_plural": ".50 caliber rifles",
-    "description": "Modified from the massive M2 Browning, this pared down rifle has been altered to be fired unmounted. The burst fire has been disabled, and its belt fed mechanism has been modified into a much smaller single round chamber.",
+    "description": "Modified from the massive M2 Browning, this pared down rifle has been altered to be fired unmounted.  The burst fire has been disabled, and its belt fed mechanism has been modified into a much smaller single round chamber.",
     "price": 590000,
     "material": ["hardsteel", "wood"],
     "skill": "rifle",
@@ -4072,7 +4551,8 @@
     "burst": 1,
     "clip_size": 1,
     "reload": 100,
-    "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "sights", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "sights", 1 ]]
+    "loudness" : 200,
+    "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "sights", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "stock", 1 ],[ "grip", 1 ]]
  },
  {
     "id": "mark19",
@@ -4101,6 +4581,7 @@
     "burst": 10,
     "clip_size": 80,
     "reload": 800,
+    "loudness" : 175,
     "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "sights", 1 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "sights", 1 ]]
  },
  {
@@ -4129,6 +4610,7 @@
     "durability": 6,
     "clip_size": 4,
     "reload": 100,
+    "loudness" : 150,
     "valid_mod_locations": [[ "accessories", 2 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
@@ -4158,6 +4640,7 @@
     "durability": 6,
     "clip_size": 4,
     "reload": 100,
+    "loudness" : 160,
     "valid_mod_locations": [[ "accessories", 2 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },{
     "id": "2_shot_special",
@@ -4166,7 +4649,7 @@
     "color": "brown",
     "name": "2 Shot Special",
     "name_plural": "2 Shot Specials",
-    "description": "A crudely made double barrel pistol firing 38 special ammo. Unfortunately, the name is less about the double barrels and more about the number of shots you'll get before it breaks down on you.",
+    "description": "A crudely made double barrel pistol firing 38 special ammo.  Unfortunately, the name is less about the double barrels and more about the number of shots you'll get before it breaks down on you.",
     "price": 2000,
     "material": ["steel"],
     "flags": ["RELOAD_ONE", "RELOAD_EJECT"],
@@ -4185,6 +4668,7 @@
     "durability": 3,
     "clip_size": 2,
     "reload": 100,
+    "loudness" : 160,
     "valid_mod_locations": [[ "accessories", 4 ],[ "grip", 1 ],[ "sights", 1 ],[ "underbarrel", 1 ]]
   },
   {
@@ -4214,6 +4698,7 @@
     "burst": 3,
     "clip_size": 30,
     "reload": 400,
+    "loudness" : 150,
     "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
@@ -4242,6 +4727,7 @@
     "durability": 8,
     "clip_size": 1,
     "reload": 700,
+    "loudness" : 5,
     "valid_mod_locations": [[ "accessories", 4 ],[ "grip", 1 ],[ "sights", 1 ],[ "stock", 1 ]]
   },
   {
@@ -4268,6 +4754,7 @@
     "durability": 8,
     "clip_size": 1,
     "reload": 600,
+    "loudness" : 5,
     "valid_mod_locations": [[ "accessories", 2 ],[ "grip", 1 ],[ "sights", 1 ],[ "stock", 1 ]]
   },
   {
@@ -4296,6 +4783,7 @@
     "durability": 7,
     "clip_size": 2,
     "reload": 700,
+    "loudness" : 5,
     "valid_mod_locations": [[ "accessories", 4 ],[ "grip", 1 ],[ "sights", 1 ],[ "stock", 1 ]]
   },
   {
@@ -4324,6 +4812,7 @@
     "durability": 8,
     "clip_size": 4,
     "reload": 800,
+    "loudness" : 5,
     "valid_mod_locations": [[ "accessories", 4 ],[ "grip", 1 ],[ "sights", 1 ],[ "stock", 1 ]]
   },
  {
@@ -4335,7 +4824,7 @@
     "description": "A long strip of braided leather with a handle on one end.  Originally developed to settle disagreements with cattle, it's better used now for flaying the rotten flesh off of walking corpses.  Great for when a problem comes along.",
     "price": 3500,
     "material": ["leather", "null"],
-    "flags": ["NO_AMMO", "WATERPROOF_GUN", "NEVER_JAMS"],
+    "flags": ["NO_AMMO", "WATERPROOF_GUN", "NEVER_JAMS", "PRIMITIVE_RANGED_WEAPON"],
     "ammo_effects": ["WHIP"],
     "skill": "melee",
     "ammo": "generic_no_ammo",
@@ -4378,7 +4867,95 @@
     "durability": 6,
     "clip_size": 8,
     "reload": 300,
+    "loudness" : 150,
     "valid_mod_locations": [[ "accessories", 2 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
+  },
+  {
+    "id": "makarov",
+    "type": "GUN",
+    "symbol": "(",
+    "color": "dark_gray",
+    "name": "Makarov PM",
+    "name_plural": "Makarov PM",
+    "description": "The Pistolet Makarova was developed by the Soviet Union to replace the WWII-era TT-33 pistol.  Uses the 9x18mm cartridge, which remains in use among various former Soviet countries.",
+    "price": 25000,
+    "material": ["steel", "plastic"],
+    "skill": "pistol",
+    "ammo": "9x18",
+    "weight": 730,
+    "volume": 2,
+    "bashing": 9,
+    "cutting": 0,
+    "to_hit": -2,
+    "dispersion": 225,
+    "sight_dispersion": 90,
+    "aim_speed" : 4,
+    "recoil": 60,
+    "durability": 6,
+    "clip_size": 8,
+    "reload": 300,
+    "loudness" : 150,
+    "valid_mod_locations": [[ "accessories", 2 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
+  },
+  {
+    "id": "skorpion_61",
+    "type": "GUN",
+    "symbol": "(",
+    "color": "dark_gray",
+    "name": "Skorpion Vz. 61",
+    "name_plural": "Skorpion Vz. 61",
+    "description": "The Skorpion Vz. 61 is a Czechosloavak submachine gun from the 1950s, chambered in .32 ACP.",
+    "price": 150000,
+    "material": "steel",
+    "flags": "MODE_BURST",
+    "skill": "smg",
+    "ammo": "32",
+    "weight": 1300,
+    "volume": 3,
+    "bashing": 9,
+    "cutting": 0,
+    "to_hit": -2,
+    "ranged_damage": 3,
+    "dispersion": 240,
+    "sight_dispersion": 105,
+    "aim_speed" : 3,
+    "recoil": -10,
+    "durability": 6,
+    "burst": 8,
+    "clip_size": 20,
+    "reload": 400,
+    "loudness" : 150,
+    "valid_mod_locations": [[ "accessories", 3 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
+  },
+  {
+    "id": "skorpion_82",
+    "type": "GUN",
+    "symbol": "(",
+    "color": "dark_gray",
+    "name": "Skorpion Vz. 82",
+    "name_plural": "Skorpion Vz. 82",
+    "description": "A version of the Skorpion submachine gun chambered in 9x18mm Makarov, with a slightly longer barrel than the origional design.",
+    "price": 165000,
+    "material": "steel",
+    "flags": "MODE_BURST",
+    "skill": "smg",
+    "ammo": "9x18",
+    "weight": 1440,
+    "volume": 3,
+    "bashing": 9,
+    "cutting": 0,
+    "to_hit": -2,
+    "ranged_damage": 3,
+    "dispersion": 240,
+    "sight_dispersion": 100,
+    "aim_speed" : 4,
+    "recoil": -15,
+    "durability": 6,
+    "burst": 8,
+    "clip_size": 20,
+    "reload": 400,
+    "loudness" : 150,
+    "valid_mod_locations": [[ "accessories", 3 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
     "id": "ppsh",
@@ -4407,7 +4984,66 @@
     "burst": 8,
     "clip_size": 35,
     "reload": 400,
+    "loudness" : 150,
     "valid_mod_locations": [[ "accessories", 3 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
+  },
+  {
+    "id": "tommygun",
+    "type": "GUN",
+    "symbol": "(",
+    "color": "brown",
+    "name": "Thompson submachine gun",
+    "description": "An American-made submachine gun developed during the very end of World War I, too late to see action.  Infamous during the 1920s for its use by gangsters, and was used during World War II before being mostly replaced with less-espensive alternatives.",
+    "price": 450000,
+    "material": ["steel", "wood"],
+    "flags": "MODE_BURST",
+    "skill": "smg",
+    "ammo": "45",
+    "weight": 4800,
+    "volume": 10,
+    "bashing": 10,
+    "cutting": 0,
+    "to_hit": -2,
+    "ranged_damage": 1,
+    "dispersion": 120,
+    "sight_dispersion": 90,
+    "aim_speed" : 4,
+    "recoil": -15,
+    "durability": 7,
+    "burst": 6,
+    "clip_size": 20,
+    "reload": 400,
+    "loudness" : 150,
+    "valid_mod_locations": [[ "accessories", 3 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
+  },
+  {
+    "id": "sten",
+    "type": "GUN",
+    "symbol": "[",
+    "color": "dark_gray",
+    "name": "STEN",
+    "description": "A British submachine gun developed during World War II, to make up for shortages of supplies.  Designed to be made using unskilled labor and not known for reliablity, its main advantages were low cost and being able to use German 9mm ammunition.",
+    "price": 40000,
+    "material": "steel",
+    "flags": "MODE_BURST",
+    "skill": "smg",
+    "ammo": "9mm",
+    "weight": 3200,
+    "volume": 7,
+    "bashing": 10,
+    "cutting": 0,
+    "to_hit": 0,
+    "ranged_damage": 1,
+    "dispersion": 150,
+    "sight_dispersion": 90,
+    "aim_speed" : 4,
+    "recoil": 0,
+    "durability": 5,
+    "burst": 3,
+    "clip_size": 32,
+    "reload": 800,
+    "loudness" : 150,
+    "valid_mod_locations": [[ "muzzle", 1 ],[ "stock", 1 ]]
   },
   {
     "id": "walther_ppk",
@@ -4433,6 +5069,7 @@
     "durability": 8,
     "clip_size": 8,
     "reload": 300,
+    "loudness" : 150,
     "valid_mod_locations": [[ "accessories", 2 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
@@ -4459,6 +5096,7 @@
     "durability": 8,
     "clip_size": 8,
     "reload": 300,
+    "loudness" : 150,
     "valid_mod_locations": [[ "accessories", 2 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
@@ -4487,6 +5125,7 @@
     "durability": 8,
     "clip_size": 3,
     "reload": 100,
+    "loudness" : 150,
     "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
@@ -4514,6 +5153,7 @@
     "durability": 8,
     "clip_size": 3,
     "reload": 100,
+    "loudness" : 150,
     "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
@@ -4541,6 +5181,7 @@
     "durability": 7,
     "clip_size": 6,
     "reload" : 130,
+    "loudness" : 160,
     "valid_mod_locations": [[ "accessories", 2 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
@@ -4568,6 +5209,7 @@
     "durability": 7,
     "clip_size": 5,
     "reload" : 150,
+    "loudness" : 160,
     "valid_mod_locations": [[ "accessories", 2 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
@@ -4579,7 +5221,7 @@
     "description": "For once, something *good* came back from the dead.  This ancient design lacks the fire-rate of modern weapons, but packs as much punch as the best of 'em and rewards the skilled shooter with easily-crafted ammunition.",
     "price": 41000,
     "material": ["iron", "wood"],
-    "flags": "NEVER_JAMS",
+    "flags": ["NEVER_JAMS", "RELOAD_ONE"],
     "skill": "rifle",
     "ammo": "ammo_flintlock",
     "weight": 1753,
@@ -4596,6 +5238,7 @@
     "durability": 6,
     "clip_size": 1,
     "reload": 1300,
+    "loudness" : 150,
     "valid_mod_locations": [[ "accessories", 4 ],[ "grip", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
@@ -4607,7 +5250,7 @@
     "description": "This short rifle design once dominated the battlefields of ancient Europe, and may yet re-earn its feared status due to its ease of handling and ability to use easily-crafted ammunition.",
     "price": 40000,
     "material": ["iron", "wood"],
-    "flags": "NEVER_JAMS",
+    "flags": ["NEVER_JAMS", "RELOAD_ONE"],
     "skill": "rifle",
     "ammo": "ammo_flintlock",
     "weight": 1253,
@@ -4624,6 +5267,7 @@
     "durability": 6,
     "clip_size": 1,
     "reload": 1150,
+    "loudness" : 150,
     "valid_mod_locations": [[ "accessories", 4 ],[ "grip", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
@@ -4635,7 +5279,7 @@
     "description": "A beautifully decorated flintlock pistol.  If using this doesn't makes you feel a pirate, nothing will.",
     "price": 35000,
     "material": ["iron", "wood"],
-    "flags": "NEVER_JAMS",
+    "flags": ["NEVER_JAMS", "RELOAD_ONE"],
     "skill": "pistol",
     "ammo": "ammo_flintlock",
     "weight": 753,
@@ -4650,6 +5294,7 @@
     "durability": 6,
     "clip_size": 1,
     "reload": 1000,
+    "loudness" : 150,
     "valid_mod_locations": [[ "accessories", 2 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
@@ -4679,6 +5324,7 @@
     "durability": 7,
     "clip_size": 5,
     "reload": 100,
+    "loudness" : 150,
     "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "sights", 1 ]]
   },
   {
@@ -4706,6 +5352,7 @@
     "durability": 8,
     "clip_size": 5,
     "reload": 100,
+    "loudness" : 150,
     "//" : "Apparently these come with a folding bayonet hard-mounted, so we might look into modeling that.",
     "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "sights", 1 ]]
   },
@@ -4736,6 +5383,7 @@
     "durability": 7,
     "clip_size": 5,
     "reload": 100,
+    "loudness" : 150,
     "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
@@ -4763,6 +5411,61 @@
     "durability": 8,
     "clip_size": 5,
     "reload": 100,
+    "loudness" : 150,
+    "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
+  },
+  {
+    "id": "m1903",
+    "type": "GUN",
+    "symbol": "(",
+    "color": "brown",
+    "name": "M1903 Rifle",
+    "description": "A powerful military rifle chambered in .30-06, developed to replace the US Army's older Krag rifle.  Served as the main American rifle in World War I, was used alongside the M1 Garand in World War II, and was used as a sniper rifle as late as the Vietnam War.",
+    "price": 80000,
+    "material": ["steel", "wood"],
+    "flags": "RELOAD_ONE",
+    "skill": "rifle",
+    "ammo": "3006",
+    "weight": 4080,
+    "volume": 12,
+    "bashing": 12,
+    "cutting": 0,
+    "to_hit": -1,
+    "ranged_damage": 7,
+    "dispersion": 5,
+    "sight_dispersion": 60,
+    "aim_speed" : 6,
+    "recoil": 75,
+    "durability": 8,
+    "clip_size": 5,
+    "reload": 75,
+    "loudness" : 150,
+    "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "sights", 1 ]]
+  },
+  {
+    "id": "garand",
+    "type": "GUN",
+    "symbol": "(",
+    "color": "brown",
+    "name": "M1 Garand Rifle",
+    "description": "A semi-automatic .30-06 battle rifle, developed to replace the M1903 Springfield.  It didn't completely supplant the older bolt-action until after World War II.",
+    "price": 90000,
+    "material": ["steel", "wood"],
+    "skill": "rifle",
+    "ammo": "3006",
+    "weight": 4310,
+    "volume": 10,
+    "bashing": 12,
+    "cutting": 0,
+    "to_hit": -1,
+    "dispersion": 2,
+    "sight_dispersion": 60,
+    "aim_speed" : 6,
+    "recoil": -15,
+    "durability": 8,
+    "clip_size": 8,
+    "reload": 400,
+    "loudness" : 150,
     "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
@@ -4790,7 +5493,35 @@
     "durability": 8,
     "clip_size": 1,
     "reload": 1000,
+    "loudness" : 175,
     "valid_mod_locations": [[ "accessories", 4 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
+  },{
+    "id": "combination_gun",
+    "type": "GUN",
+    "symbol": "(",
+    "color": "brown",
+    "name": "combination gun",
+    "description": "A break action firearm comprised of a .30-06 barrel over a 12 gauge smooth bore.  Historically used by egomaniac hunters in Africa, now used by their egomaniac descendants in New England.",
+    "price": 259500, 
+    "material": ["steel", "wood"],
+    "flags": ["RELOAD_ONE", "NEVER_JAMS", "RELOAD_EJECT"],
+    "skill": "rifle",
+    "ammo": "3006",
+    "weight": 4200,
+    "volume": 12,
+    "bashing": 12,
+    "cutting": 0,
+    "to_hit": -1,
+    "dispersion": 0,
+    "sight_dispersion": 60,
+    "aim_speed" : 6,
+    "recoil": -60,
+    "durability": 8,
+    "clip_size": 1,
+    "reload": 100,
+    "loudness" : 150,
+    "built_in_mods" : ["combination_gun_shotgun"],
+    "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "mechanism", 4 ],[ "sights", 1 ],[ "stock", 1 ], [ "underbarrel", 1 ]]
   },{
     "id": "rm298",
     "type": "GUN",
@@ -4798,7 +5529,7 @@
     "color": "dark_gray",
     "name": "RM298 HMG",
     "name_plural": "RM298 HMG",
-    "description": "Utilizing a powerful and unusual caliber, the Rivtech RM298 heavy machine gun was designed for durability and extreme volume of sustained fire under the worst possible circumstances. Needs to be mounted because of extreme recoil.",
+    "description": "Utilizing a powerful and unusual caliber, the Rivtech RM298 heavy machine gun was designed for durability and extreme volume of sustained fire under the worst possible circumstances.  Needs to be mounted because of extreme recoil.",
     "price": 7500000,
     "material": ["superalloy", "ceramic"],
     "flags": ["MODE_BURST", "WATERPROOF_GUN", "NEVER_JAMS", "MOUNTED_GUN"],
@@ -4819,7 +5550,8 @@
     "burst": 30,
     "clip_size": 600,
     "reload": 2250,
-    "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "bore", 1 ],[ "conversion", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
+    "loudness" : 150,
+    "valid_mod_locations": [[ "accessories", 4 ],[ "barrel", 1 ],[ "grip", 1 ],[ "magazine", 2 ],[ "mechanism", 4 ],[ "muzzle", 1 ],[ "rail", 1 ],[ "sights", 1 ],[ "stock", 1 ],[ "underbarrel", 1 ]]
   },
   {
     "id": "laser_cannon",
@@ -4858,7 +5590,7 @@
     "color": "light_gray",
     "name": "survivor's rocket launcher",
     "name_plural": "survivor's rocket launchers",
-    "description": "An improvised, direct ignition launcher for home-made rockets. Essentially, a thick-walled steel pipe, equipped with a pilot light, several batteries and a simple circuit board. Effective only at medium range, barely.",
+    "description": "An improvised, direct ignition launcher for home-made rockets.  Essentially, a thick-walled steel pipe, equipped with a pilot light, several batteries and a simple circuit board.  Effective only at medium range, barely.",
     "price": 5000,
     "material": "steel",
     "flags": ["MODE_BURST"],
@@ -4879,7 +5611,8 @@
     "durability": 5,
     "burst": 1,
     "clip_size": 1,
-    "reload": 800
+    "reload": 800,
+    "loudness" : 200
   },
   {
     "id": "watercannon",
@@ -4887,7 +5620,7 @@
     "symbol": "&",
     "color": "dark_gray",
     "name": "water cannon",
-    "description": "A water cannon from a fire truck. Mounted on a vehicle, it could be used to stop fires or \"protesters\".",
+    "description": "A water cannon from a fire truck.  Mounted on a vehicle, it could be used to stop fires or \"protesters\".",
     "price": 50000,
     "material": "steel",
     "flags": ["MODE_BURST", "NEVER_JAMS", "MOUNTED_GUN"],
@@ -4937,5 +5670,90 @@
     "burst": 0,
     "clip_size": 0,
     "reload": 0
+  },
+  {
+  "id": "abzats",
+  "type": "GUN",
+  "symbol": "(",
+  "color": "dark_gray",
+  "name": "heavy automatic shotgun",
+  "description": "Modified from the massive M2 Browning, this heavy machine gun has been re-chambered and re-bored for shotgun shells, and completely redesigned to be wielded unmounted by one user.",
+  "price": 750000,
+  "material": ["hardsteel", "wood"],
+  "flags": ["MODE_BURST", "RELOAD_EJECT"], 
+  "skill": "shotgun",
+  "ammo": "shot",
+  "weight": 22000,
+  "volume": 18,
+  "bashing": 12,
+  "cutting": 0,
+  "to_hit": -3,
+  "dispersion": 150,
+  "sight_dispersion": 75,
+  "aim_speed": 5,
+  "recoil": 180,
+  "durability": 6,
+  "burst": 5,
+  "clip_size": 20,
+  "reload": 800,
+  "loudness": 200,
+  "valid_mod_locations": [["accessories", 4], ["magazine", 2 ], ["mechanism", 4], ["rail", 1], ["sights", 1]]
+},
+{
+    "id": "testgun",
+    "type": "GUN",
+    "symbol": "#",
+    "color": "red",
+    "name": "testgun",
+    "name_plural": "testguns",
+    "description": "A test gun for trying out built-in and default mods, This should NEVER spawn.  If you see this spawn, report it as a bug",
+    "price": 666,
+    "material": ["plastic"],
+    "skill": "pistol",
+    "ammo": "45",
+    "weight": 666,
+    "volume": 1,
+    "bashing": 1,
+    "cutting": 0,
+    "to_hit": 0,
+    "ranged_damage": 0,
+    "dispersion": 255,
+    "sight_dispersion": 90,
+    "aim_speed" : 4,
+    "recoil": 130,
+    "durability": 1,
+    "clip_size": 25,
+    "reload": 300,
+    "loudness" : 150,    
+    "built_in_mods": ["m203", "rifle_scope", "muzzle_brake"],
+    "default_mods": ["pistol_grip", "rail_laser_sight"],
+    "valid_mod_locations": [[ "accessories", 10 ],[ "barrel", 10 ],[ "bore", 10 ],[ "conversion", 10 ],[ "grip", 10 ],[ "magazine", 10 ],[ "mechanism", 10 ],[ "muzzle", 10 ],[ "rail", 10 ],[ "sights", 10 ],[ "stock", 10 ],[ "underbarrel", 10 ]]
+  },
+  {
+    "id": "chemical_thrower",
+    "type": "GUN",
+    "symbol": "(",
+    "color": "dark_gray",
+    "name": "chemical thrower",
+    "name_plural": "chemical throwers",
+    "description": "A bulky, self-made chemical sprayer with an internal conversion mechanism that allows all sorts of chemicals to be dispersed to your surroundings.",
+    "price": 15000,
+    "material": ["steel", "plastic"],
+    "flags": ["FIRE_50", "NEVER_JAMS"],
+    "skill": "launcher",
+    "ammo": "chemical_spray",
+    "weight": 1150,
+    "volume": 25,
+    "bashing": 9,
+    "cutting": 0,
+    "to_hit": -1,
+    "ranged_damage": -5,
+    "dispersion": 300,
+    "sight_dispersion": 150,
+    "aim_speed" : 0,
+    "recoil": 0,
+    "durability": 6,
+    "clip_size": 1000,
+    "reload": 900
   }
 ]

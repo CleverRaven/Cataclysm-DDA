@@ -1,0 +1,459 @@
+[
+    {
+        "type": "vehicle_group",
+        "id": "park_playground_vehicles",
+        "vehicles": [
+            [ "ice_cream_cart", 100 ],
+            [ "food_cart", 200 ]
+        ]
+    },{
+        "type": "monstergroup",
+        "name": "GROUP_PARK_PLAYGROUND",
+        "default": "mon_null",
+        "monsters": [
+            { "monster": "mon_zombie_child", "freq": 600, "cost_multiplier": 1, "pack_size": [5,12] }
+        ]
+    },{
+        "type": "monstergroup",
+        "name": "GROUP_PARK_SCENIC",
+        "default": "mon_null",
+        "monsters": [
+            { "monster": "mon_zombie", "freq": 100, "cost_multiplier": 1, "pack_size": [2,3] },
+            { "monster": "mon_zombie_child", "freq": 100, "cost_multiplier": 1, "pack_size": [2,3] },
+            { "monster": "mon_zombie_swimmer", "freq": 100, "cost_multiplier": 1, "pack_size": [2,3] },
+            { "monster": "mon_zombie_rot", "freq": 100, "cost_multiplier":1, "pack_size": [2,3] }
+        ]
+    },{
+        "type": "monstergroup",
+        "name": "GROUP_PARK_DOG",
+        "default": "mon_null",
+        "monsters": [
+            { "monster": "mon_zombie", "freq": 100, "cost_multiplier": 1, "pack_size": [2,3] },
+            { "monster": "mon_zombie_dog", "freq": 100, "cost_multiplier": 1, "pack_size": [2,3]  },
+            { "monster": "mon_dog_skeleton", "freq": 100, "cost_multiplier": 1, "pack_size": [2,3]  },
+            { "monster": "mon_dog_zombie_cop", "freq": 100, "cost_multiplier": 1, "pack_size": [2,3]  },
+            { "monster": "mon_dog_zombie_rot", "freq": 100, "cost_multiplier": 1, "pack_size": [2,3]  }
+        ]
+    },{
+        "type": "mapgen",
+        "om_terrain": [
+            "park"
+        ],
+        "weight": 500,
+        "method": "json",
+        "object": {
+            "rows": [
+                "                        ",
+                "                        ",
+                "                        ",
+                "                        ",
+                "             t          ",
+                "      t         ##      ",
+                "                ##      ",
+                "                        ",
+                "    mmm                 ",
+                "    mmm    s        t   ",
+                "   tmmm    s            ",
+                "           s            ",
+                "           s            ",
+                "                        ",
+                "                        ",
+                "      -            t    ",
+                "     t-                 ",
+                "               t        ",
+                "         t              ",
+                "                        ",
+                "                        ",
+                "                        ",
+                "                        ",
+                "                        "
+            ],
+            "terrain": {
+                " ": [ "t_grass", "t_grass", "t_grass", "t_grass", "t_grass", "t_dirt" ],
+                "#": "t_sandbox",
+                "m": "t_monkey_bars",
+                "s": "t_slide",
+                "t": "t_tree",
+                "-": "t_dirt"
+            },
+            "furniture": {
+                "-": "f_bench"
+            },
+            "place_vehicles": [
+                { "x": [0,23], "y": [0,23], "vehicle": "park_playground_vehicles" }
+            ],
+            "place_monsters": [
+                { "x": [0,23], "y": [0,23], "monster": "GROUP_PARK_PLAYGROUND", "chance": 1, "repeat": [1,3] }
+            ],
+            "rotation": [ 0, 3 ]
+        }
+    },{
+        "type": "mapgen",
+        "om_terrain": [
+            "park"
+        ],
+        "weight": 1000,
+        "method": "json",
+        "object": {
+            "fill_ter": "t_pavement",
+            "rows": [
+                "                        ",
+                " ---------------------- ",
+                " +  . .   . 7 .   . . + ",
+                " |V . .   .   .   . . | ",
+                " |  . .   .....   . . | ",
+                " |  .  .  .   .  .  . | ",
+                " |H .   .  ...  .   .H| ",
+                " |H .    .......    .H| ",
+                " |H .               .H| ",
+                " |H .      ...      .H| ",
+                " |H .     .   .     .H| ",
+                " |  ................. | ",
+                " |H .     .   .     .H| ",
+                " |H .      ...      .H| ",
+                " |H .               .H| ",
+                " |H .    .......    .H| ",
+                " |H .   .  ...  .   .H| ",
+                " |  .  .  .   .  .  . | ",
+                " |  . .   .....   . . | ",
+                " |R . .   .   .   . . | ",
+                " +  . .   . 7 .   . . + ",
+                " ---------------------- ",
+                "                        ",
+                "                        "
+            ],
+            "terrain": {
+                ".": "t_pavement_y",
+                "7": "t_backboard",
+                "|": "t_chainfence_v",
+                "-": "t_chainfence_h",
+                "+": "t_chaingate_c",
+                "H": "t_pavement",
+                "R": "t_pavement"
+            },
+            "furniture": {
+                "H": "f_bench",
+                "R": "f_trashcan"
+            },
+            "vendingmachines": {
+                "V": { "item_group": "vending_drink" }
+            },
+            "place_items": [
+                { "item": "trash", "chance": 50, "x": 2, "y": 19 }
+            ],
+            "place_monsters": [
+                { "x": [0,23], "y": [0,23], "monster": "GROUP_PARK_PLAYGROUND", "chance": 1, "repeat": [1,3] }
+            ],
+            "rotation": [ 0, 3 ]
+        }
+    },{
+        "type": "mapgen",
+        "om_terrain": [
+            "park"
+        ],
+        "weight": 500,
+        "method": "json",
+        "object": {
+            "fill_ter": "t_pavement",
+            "rows": [
+                "                        ",
+                " ---------------------  ",
+                " + ........[........ +  ",
+                " | ........[........ |V ",
+                " | .   .   [   .   . |H ",
+                " | .   .   [   .   . |H ",
+                " | .   ....[....   . |  ",
+                " | .   .   [   .   . |  ",
+                " | .   .   [   .   . |  ",
+                " | ........[........ |  ",
+                " | ........[........ |  ",
+                " |                   |  ",
+                " |                   |  ",
+                " | ........[........ |  ",
+                " | ........[........ |  ",
+                " | .   .   [   .   . |  ",
+                " | .   .   [   .   . |  ",
+                " | .   ....[....   . |  ",
+                " | .   .   [   .   . |H ",
+                " | .   .   [   .   . |H ",
+                " | ........[........ |R ",
+                " + ........[........ +  ",
+                " ---------------------  ",
+                "                        " 
+            ],
+            "terrain": {
+                ".": "t_pavement_y",
+                "[": "t_fence_rope",
+                "|": "t_chainfence_v",
+                "-": "t_chainfence_h",
+                "+": "t_chaingate_c",
+                "H": "t_pavement",
+                "R": "t_pavement"
+            },
+            "furniture": {
+                "H": "f_bench",
+                "R": "f_trashcan"
+            },
+            "vendingmachines": {
+                "V": { "item_group": "vending_drink" }
+            },
+            "place_items": [
+                { "item": "trash", "chance": 50, "x": 22, "y": 20 }
+            ],
+            "place_monsters": [
+                { "x": [0,23], "y": [0,23], "monster": "GROUP_PARK_SCENIC", "chance": 1, "repeat": [1,3] }
+            ],
+            "rotation": [ 0, 3 ]
+        }
+    },{
+        "type": "mapgen",
+        "om_terrain": [
+            "park"
+        ],
+        "weight": 200,
+        "method": "json",
+        "object": {
+            "fill_ter": "t_grass",
+            "rows": [
+                "RHHH                    ",
+                "   ,,,,,,,,,[,,,,,,,,,  ",
+                "  ,$$$$$$$$$[$$$$$$$$$, ",
+                "  ,$$$$$$$$$[$$$$$$$$$, ",
+                "  ,$$$$$$$$$[$$$$$$$$$, ",
+                "  ,$$$$$$$$$[$$$$$$$$$, ",
+                "  ,$$$$$$$$$[$$$$$$$$$, ",
+                "  ,$$$$$$$$$[$$$$$$$$$, ",
+                "  ,$$$$$$$$$[$$$$$$$$$, ",
+                "  ,$$$$$$$$$[$$$$$$$$$, ",
+                "   ,,,,,,,,,[,,,,,,,,,  ",
+                "                        ",
+                "                        ",
+                "   ,,,,,,,,,[,,,,,,,,,  ",
+                "  ,$$$$$$$$$[$$$$$$$$$, ",
+                "  ,$$$$$$$$$[$$$$$$$$$, ",
+                "  ,$$$$$$$$$[$$$$$$$$$, ",
+                "  ,$$$$$$$$$[$$$$$$$$$, ",
+                "  ,$$$$$$$$$[$$$$$$$$$, ",
+                "  ,$$$$$$$$$[$$$$$$$$$, ",
+                "  ,$$$$$$$$$[$$$$$$$$$, ",
+                "  ,$$$$$$$$$[$$$$$$$$$, ",
+                "   ,,,,,,,,,[,,,,,,,,,  ",
+                "                     HHH" 
+            ],
+            "terrain": {
+                ".": "t_pavement_y",
+                "[": "t_fence_rope",
+                ",": "t_dirt",
+                "$": "t_sand",
+                "H": "t_dirt"
+            },
+            "furniture": {
+                "H": "f_bench",
+                "R": "f_trashcan"
+            },
+            "place_items": [
+                { "item": "trash", "chance": 50, "x": 0, "y": 0 },
+                { "item": "shoes", "chance": 25, "x": [1,3], "y": 1, "repeat": [2,5] }
+            ],
+            "place_monsters": [
+                { "x": [0,23], "y": [0,23], "monster": "GROUP_PARK_SCENIC", "chance": 1, "repeat": [2,4] }
+            ],
+            "rotation": [ 0, 3 ]
+        }
+    },{
+        "type": "mapgen",
+        "om_terrain": [
+            "park"
+        ],
+        "weight": 500,
+        "method": "json",
+        "object": {
+            "fill_ter": "t_grass",
+            "rows": [
+                "         ......         ",
+                "  zzzzzzzz....zzzzzzzz  ",
+                " z         ..         z ",
+                " z    ,HTH,.. t  *`*  z ",
+                " z  t ,HTH,..   *```* z ",
+                " z  R ..........````` z ",
+                " z ,,..,,  ..   *```* z ",
+                " z HH.,,,  ..    *`*  z ",
+                " z TT.,,, ....    .   z ",
+                ".z HH.   .ssss.   . t z.",
+                ".. ,,.  .ss~~ss.  .   ..",
+                ".........s~~~~s.........",
+                ".........s~~~~s.........",
+                "..   .  .ss~~ss.  .   ..",
+                ".z   .   .ssss.   .   z.",
+                " z   .    ....    . # z ",
+                " z t . t   ..     . H z ",
+                " z   ..    ..    .. H z ",
+                " z fss............  # z ",
+                " z sAs  t  ..         z ",
+                " z fsf     ..  #HH# t z ",
+                " z         ..         z ",
+                "  zzzzzzzz....zzzzzzzz  ",
+                "         ......         " 
+            ],
+            "terrain": {
+                ".": "t_pavement",
+                "`": "t_floor",
+                "s": "t_sidewalk",
+                "z": "t_shrub",
+                "t": "t_tree",
+                "*": "t_wall_wood",
+                "#": "t_rock",
+                "~": "t_water_sh",
+                ",": "t_dirt",
+                "f": "t_dirt",
+                "A": "t_sidewalk",
+                "H": "t_dirt",
+                "T": "t_dirt",
+                "R": "t_dirt"
+                
+            },
+            "furniture": {
+                "A": "f_statue",
+                "H": "f_bench",
+                "R": "f_trashcan",
+                "T": "f_table",
+                "f": "f_dahlia"
+            },
+            "add": [
+                { "item": "char_smoker", "x": 7, "y": 7 }
+            ],
+            "place_items": [
+                { "item": "trash", "chance": 50, "x": 4, "y": 5 }
+            ],
+            "place_monsters": [
+                { "x": [0,23], "y": [0,23], "monster": "GROUP_PARK_SCENIC", "chance": 1, "repeat": [2,4] }
+            ],
+            "rotation": [ 0, 3 ]
+        }
+    },{
+        "type": "mapgen",
+        "om_terrain": [
+            "park"
+        ],
+        "weight": 500,
+        "method": "json",
+        "object": {
+            "fill_ter": "t_grass",
+            "rows": [
+                "   ,   z ...... z     , ",
+                ",    zzz .o..o. zzz,    ",
+                " , zzz  z......z  zzz   ",
+                "  zz    H......H    zz, ",
+                "  z    tH......Ht    z  ",
+                " zz  t  H......H  t  zz ",
+                " z      z......z      z ",
+                "zz  t   ........   t  zz",
+                "  zHHHz..........zHHHz  ",
+                "..........ssss..........",
+                ".o.......ssffss.......o.",
+                ".........sfzzfs.........",
+                ".........sfzzfs.........",
+                ".o.......ssffss.......o.",
+                "..........ssss..........",
+                "  zHHHz..........zHHHz  ",
+                "zz  t   ........   t  zz",
+                " z      z......z      z ",
+                " zz  t  H......H  t  zz ",
+                "  z    tH......Ht    z  ",
+                "  zz    H......H    zz ,",
+                ",  zzz  z......z  zzz   ",
+                "     zzz .o..o. zzz ,   ",
+                " , ,   z ...... z       " 
+            ],
+            "terrain": {
+                ".": "t_pavement",
+                "s": "t_sidewalk",
+                "z": "t_shrub",
+                "t": "t_tree",
+                ",": "t_dirt",
+                "f": "t_dirt",
+                "H": "t_dirt",
+                "o": "t_column"
+                
+            },
+            "furniture": {
+                "H": "f_bench",
+                "f": "f_dahlia"
+            },
+            "place_monsters": [
+                { "x": [0,23], "y": [0,23], "monster": "GROUP_PARK_SCENIC", "chance": 1, "repeat": [2,4] }
+            ],
+            "rotation": [ 0, 3 ]
+        }
+    },{
+        "type": "mapgen",
+        "om_terrain": [
+            "park"
+        ],
+        "weight": 500,
+        "method": "json",
+        "object": {
+            "fill_ter": "t_grass",
+            "rows": [
+                " ,       ......  ,     ,",
+                "  zzzzzzzz....Pzzzzzzz  ",
+                " z---------++---------z ",
+                " z|#~~s              |z ",
+                " z|~~~s              |z ",
+                " z|~~ss         t    |z ",
+                " z|sss              ,|z,",
+                " z|                ,H|z ",
+                " z|                ,H|z ",
+                ".P|                ,H|z.",
+                "..|              t  ,|..",
+                "..+        P         +..",
+                "..+        R         +..",
+                "..|,                 |..",
+                ".z|H,                |P.",
+                " z|H,t               |z ",
+                " z|H,          t     |z ",
+                ",z|,                 |z ",
+                " z|     t            |z ",
+                " z|           ,,,    |z,",
+                " z|          ,HHH,   |z ",
+                " z---------++---------z ",
+                "  zzzzzzzP....zzzzzzzz  ",
+                "     ,   ......         " 
+            ],
+            "terrain": {
+                ".": "t_pavement",
+                "~": "t_water_sh",
+                "s": "t_sidewalk",
+                "z": "t_shrub",
+                "t": "t_tree",
+                ",": "t_dirt",
+                "R": "t_dirt",
+                "H": "t_dirt",
+                "|": "t_chainfence_v",
+                "-": "t_chainfence_h",
+                "+": "t_chaingate_c"
+            },
+            "furniture": {
+                "H": "f_bench",
+                "R": "f_trashcan"
+            },
+            "place_signs": [
+                { "x": 11, "y": 11, "signage": "Scoop the Poop!" },
+                { "x": 1, "y": 9, "signage": "DANGER! Doggy Minefield!" },
+                { "x": 9, "y": 22, "signage": "Dog Park: Off Leash Area" },
+                { "x": 14, "y": 1, "signage": "Watch your step!" },
+                { "x": 22, "y": 14, "signage": "Use park at your own risk." }
+            ],
+            "add": [
+                { "item": "bag_plastic", "x": 10, "y": 11, "repeat": [5,10]}
+            ],
+            "place_items": [
+                            { "item": "trash", "chance": 50, "x": 11, "y": 12 }
+            ],
+            "place_monsters": [
+                { "x": [0,23], "y": [0,23], "monster": "GROUP_PARK_DOG", "chance": 1, "repeat": [2,4] }
+            ],
+            "rotation": [ 0, 3 ]
+        }
+    }
+]

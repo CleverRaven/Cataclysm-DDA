@@ -3,7 +3,6 @@
 
 #include "pldata.h"
 #include "json.h"
-#include "messages.h"
 #include "enums.h"
 #include <unordered_map>
 #include <tuple>
@@ -11,6 +10,7 @@
 class effect_type;
 class Creature;
 class player;
+enum game_message_type : int;
 
 extern std::map<std::string, effect_type> effect_types;
 
@@ -36,7 +36,7 @@ class effect_type
 
         /** Returns if an effect is good or bad for message display. */
         effect_rating get_rating() const;
-        
+
         /** Returns true if there is a listed name in the JSON entry for each intensity from
          *  1 to max_intensity. */
         bool use_name_ints() const;
@@ -71,26 +71,27 @@ class effect_type
     protected:
         int max_intensity;
         int max_duration;
-        
+
         int dur_add_perc;
         int int_add_val;
-        
+
         int int_decay_step;
         int int_decay_tick;
         int int_dur_factor;
-        
+
         bool main_parts_only;
-        
-        std::string resist_trait;
-        std::string resist_effect;
+
+        std::vector<std::string> resist_traits;
+        std::vector<std::string> resist_effects;
         std::vector<std::string> removes_effects;
-        
+        std::vector<std::string> blocks_effects;
+
         std::vector<std::pair<std::string, int>> miss_msgs;
-        
+
         bool pain_sizing;
         bool hurt_sizing;
         bool harmful_cough;
-        // TODO: Once addictions are JSON-ized it should be trivial to convert this to a 
+        // TODO: Once addictions are JSON-ized it should be trivial to convert this to a
         // "generic" addiction reduces value
         bool pkill_addict_reduces;
 
@@ -99,7 +100,7 @@ class effect_type
         std::vector<std::string> desc;
         std::vector<std::string> reduced_desc;
         bool part_descs;
-        
+
         std::vector<std::pair<std::string, game_message_type>> decay_msgs;
 
         effect_rating rating;
@@ -108,7 +109,7 @@ class effect_type
         std::string apply_memorial_log;
         std::string remove_message;
         std::string remove_memorial_log;
-        
+
         /** Key tuple order is:("base_mods"/"scaling_mods", reduced: bool, type of mod: "STR", desired argument: "tick") */
         std::unordered_map<std::tuple<std::string, bool, std::string, std::string>, double> mod_data;
 };
@@ -121,17 +122,25 @@ class effect : public JsonSerializer, public JsonDeserializer
             duration(0),
             bp(num_bp),
             permanent(false),
-            intensity(1)
+            intensity(1),
+            start_turn(0)
         { }
-        effect(effect_type *peff_type, int dur, body_part part, bool perm, int nintensity) :
+        effect(effect_type *peff_type, int dur, body_part part, bool perm, int nintensity, int nstart_turn) :
             eff_type(peff_type),
             duration(dur),
             bp(part),
             permanent(perm),
-            intensity(nintensity)
+            intensity(nintensity),
+            start_turn(nstart_turn)
         { }
         effect(const effect &) = default;
         effect &operator=(const effect &) = default;
+
+        /** Dummy effect effect returned when getting an effect that doesn't exist. */
+        static effect null_effect;
+
+        /** Compares pointers of this effect with the dummy above. */
+        bool is_null() const;
 
         /** Returns the name displayed in the player status window. */
         std::string disp_name() const;
@@ -142,7 +151,7 @@ class effect : public JsonSerializer, public JsonDeserializer
 
         /** Returns the effect's matching effect_type. */
         effect_type *get_effect_type() const;
-        
+
         /** Decays effect durations, pushing their id and bp's back to rem_ids and rem_bps for removal later
          *  if their duration is <= 0. This is called in the middle of a loop through all effects, which is
          *  why we aren't allowed to remove the effects here. */
@@ -158,7 +167,10 @@ class effect : public JsonSerializer, public JsonDeserializer
         void mod_duration(int dur);
         /** Multiplies the duration, capping at max_duration if it exists. */
         void mult_duration(double dur);
-        
+
+        /** Returns the turn the effect was applied. */
+        int get_start_turn() const;
+
         /** Returns the targeted body_part of the effect. This is num_bp for untargeted effects. */
         body_part get_bp() const;
         /** Sets the targeted body_part of an effect. */
@@ -179,14 +191,16 @@ class effect : public JsonSerializer, public JsonDeserializer
         void set_intensity(int nintensity);
         /** Mods an effect's intensity, capping at max_intensity. */
         void mod_intensity(int nintensity);
-        
+
         /** Returns the string id of the resist trait to be used in has_trait("id"). */
-        std::string get_resist_trait() const;
+        const std::vector<std::string> &get_resist_traits() const;
         /** Returns the string id of the resist effect to be used in has_effect("id"). */
-        std::string get_resist_effect() const;
+        const std::vector<std::string> &get_resist_effects() const;
         /** Returns the string ids of the effects removed by this effect to be used in remove_effect("id"). */
         const std::vector<std::string> &get_removes_effects() const;
-        
+        /** Returns the string ids of the effects blocked by this effect to be used in add_effect("id"). */
+        const std::vector<std::string> get_blocks_effects() const;
+
         /** Returns the matching modifier type from an effect, used for getting actual effect effects. */
         int get_mod(std::string arg, bool reduced = false) const;
         /** Returns the average return of get_mod for a modifier type. Used in effect description displays. */
@@ -204,7 +218,7 @@ class effect : public JsonSerializer, public JsonDeserializer
         /** Checks to see if a given modifier type can activate, and performs any rolls required to do so. mod is a direct
          *  multiplier on the overall chance of a modifier type activating. */
         bool activated(unsigned int turn, std::string arg, int val, bool reduced = false, double mod = 1) const;
-        
+
         /** Returns the modifier caused by addictions. Currently only handles painkiller addictions. */
         double get_addict_mod(std::string arg, int addict_level) const;
         /** Returns true if the coughs caused by an effect can harm the player directly. */
@@ -213,10 +227,10 @@ class effect : public JsonSerializer, public JsonDeserializer
         int get_dur_add_perc() const;
         /** Returns the amount an already existing effect intensity is modified by further applications of the same effect. */
         int get_int_add_val() const;
-        
+
         /** Returns a vector of the miss message messages and chances for use in add_miss_reason() while the effect is in effect. */
         std::vector<std::pair<std::string, int>> get_miss_msgs() const;
-        
+
         /** Returns the value used for display on the speed modifier window in the player status menu. */
         std::string get_speed_name() const;
 
@@ -237,6 +251,7 @@ class effect : public JsonSerializer, public JsonDeserializer
         body_part bp;
         bool permanent;
         int intensity;
+        int start_turn;
 
 };
 

@@ -1,0 +1,148 @@
+[
+  {
+    "type" : "item_group",
+    "id" : "medieval",
+    "items":[
+      ["arming_sword", 25],
+      ["longsword", 25],
+      ["estoc", 15],
+      ["halberd", 20],
+      ["glaive", 10],
+      ["scimitar", 20],
+      ["helmet_nasal", 1],
+      ["helmet_galea", 1],
+      ["helmet_conical", 1],
+      ["gambeson", 3],
+      ["armor_lamellar", 2],
+      ["tunic", 1],
+      ["textbook_armschina", 5]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "pawn",
+    "items":[
+      ["arming_sword", 25],
+      ["longsword", 25],
+      ["estoc", 15],
+      ["halberd", 20],
+      ["glaive", 10],
+      ["scimitar", 20],
+      ["armor_lamellar", 2],
+      ["helmet_conical", 1]
+    ]
+  },{
+    "type"  : "item_group",
+    "id"    : "antique_rare",
+    "items" : [
+      ["arming_sword", 4],
+      ["arming_sword_fake", 8],
+      ["longsword", 4],
+      ["longsword_fake", 8],
+      ["estoc", 3],
+      ["estoc_fake", 6],
+      ["halberd", 3],
+      ["halberd_fake", 7],
+      ["glaive", 2],
+      ["qiang", 3],
+      ["ji", 1],
+      ["jian", 2],
+      ["jian_fake", 4],
+      ["dao", 3],
+      ["scimitar", 4],
+      ["scimitar_fake", 8],
+      ["sword_xiphos", 4],
+      ["khopesh", 4],
+      ["spear_dory", 3],
+      ["naginata", 3],
+      ["fire_lance", 2],
+      ["lance_charge", 1],
+      ["lance_charge_shot", 1]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "museum_melee",
+    "items" : [
+      ["arming_sword", 5],
+      ["arming_sword_fake", 7],
+      ["longsword", 5],
+      ["longsword_fake", 7],
+      ["estoc", 3],
+      ["estoc_fake", 5],
+      ["halberd", 4],
+      ["halberd_fake", 6],
+      ["glaive", 3],
+      ["qiang", 3],
+      ["ji", 2],
+      ["jian", 2],
+      ["jian_fake", 4],
+      ["dao", 3],
+      ["scimitar", 5],
+      ["scimitar_fake", 7],
+      ["sword_xiphos", 4],
+      ["khopesh", 4],
+      ["spear_dory", 3],
+      ["naginata", 4]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "museum_guns",
+    "items":[
+      ["fire_lance", 20],
+      ["lance_charge", 10],
+      ["lance_charge_shot", 5]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "textbooks",
+    "items":[
+      ["textbook_armschina", 3]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "mansion_guns",
+    "items":[
+      ["fire_lance", 2],
+      ["lance_charge", 1],
+      ["lance_charge_shot", 1]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "mansion_books",
+    "items":[
+      ["manual_swordsmanship", 3],
+      ["textbook_armschina", 5]
+    ]
+  },{
+      "type" : "item_group",
+    "id" : "mil_books",
+    "items":[
+      ["manual_pankration", 1]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "npc_hacker",
+    "items":[
+      ["textbook_armschina", 2]
+    ]
+  },{
+"type" : "item_group",
+"id" : "museum_armor",
+"items" : [
+      ["helmet_nasal", 50],
+      ["helmet_corinthian", 45],
+      ["helmet_galea", 40],
+      ["helmet_conical", 30],
+      ["gambeson", 50],
+      ["armor_lamellar", 20],
+      ["armor_cuirass", 25],
+      ["armor_lorica", 25],
+      ["legguard_bronze", 20]
+    ]
+    },{
+        "type"  : "item_group",
+        "id"    : "dojo_manuals",
+        "items" : [
+            ["manual_pankration", 5]
+        ]
+  }
+]

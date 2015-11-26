@@ -7,7 +7,7 @@
   ],
   "tiles-new": [
     {
-      "file": "gfx/MShock32Tileset/tiles.png",
+      "file": "tiles.png",
       "tiles": [
         {
           "id": "10mm",
@@ -3146,16 +3146,6 @@
         {
           "id": "scarf_fur",
           "fg": 2300,
-          "bg": 505,
-          "rotates": false
-        },
-        {
-          "id": "legrig",
-          "bg": 505,
-          "rotates": false
-        },
-        {
-          "id": "lsurvivor_suit",
           "bg": 505,
           "rotates": false
         },
@@ -18879,7 +18869,7 @@
       ]
     },
     {
-      "file": "gfx/MShock32Tileset/fallback.png",
+      "file": "fallback.png",
       "tiles": [],
       "ascii": [
         {

@@ -8,35 +8,32 @@
 #define HOURS(x)   ((x) * 600)
 #define DAYS(x)    ((x) * 14400)
 
-// Times for sunrise, sunset at equinoxes
-#define SUNRISE_WINTER   7
-#define SUNRISE_SOLSTICE 6
-#define SUNRISE_SUMMER   5
+// How much light the moon provides per quater
+#define MOONLIGHT_PER_QUATER 2.25
 
-#define SUNSET_WINTER   17
-#define SUNSET_SOLSTICE 19
-#define SUNSET_SUMMER   21
-
-// How long, in minutes, does sunrise/sunset last?
-#define TWILIGHT_MINUTES 60
-
-// How much light moon provides--double for full moon
-#define MOONLIGHT_LEVEL 4
 // How much light is provided in full daylight
-#define DAYLIGHT_LEVEL 60
+#define DAYLIGHT_LEVEL 100
+
+// How long real-life seasons last, in days, for reference
+#define REAL_WORLD_SEASON_LENGTH 91
 
 enum season_type {
     SPRING = 0,
     SUMMER = 1,
     AUTUMN = 2,
     WINTER = 3
-#define FALL AUTUMN
 };
 
 enum moon_phase {
     MOON_NEW = 0,
-    MOON_HALF,
-    MOON_FULL
+    MOON_WAXING_CRESCENT,
+    MOON_HALF_MOON_WAXING,
+    MOON_WAXING_GIBBOUS,
+    MOON_FULL,
+    MOON_WANING_GIBBOUS,
+    MOON_HALF_MOON_WANING,
+    MOON_WANING_CRESCENT,
+    MOON_PHASE_MAX
 };
 
 class calendar
@@ -81,18 +78,20 @@ class calendar
         void increment();
 
         // Sunlight and day/night calculations
-        /** Returns the number of minutes past midnight. Used for sunrise/set calculations. */
+        /** Returns the number of minutes past midnight. Used for weather calculations. */
         int minutes_past_midnight() const;
-        /** Returns the current phase of the moon. */
+        /** Returns the number of seconds past midnight. Used for sunrise/set calculations. */
+        int seconds_past_midnight() const;
+        /** Returns the current light level of the moon. */
         moon_phase moon() const;
         /** Returns the current sunrise time based on the time of year. */
         calendar sunrise() const;
         /** Returns the current sunset time based on the time of year. */
         calendar sunset() const;
-        /** Returns true if it's currently after sunset + TWILIGHT_MINUTES or before sunrise. */
+        /** Returns true if it's currently after sunset + TWILIGHT_SECONDS or before sunrise. */
         bool is_night() const;
         /** Returns the current sunlight or moonlight level through the preceding functions. */
-        int sunlight() const;
+        float sunlight() const;
 
         /** Basic accessors */
         int seconds() const
@@ -120,8 +119,18 @@ class calendar
             return year;
         }
 
+        /**
+         * Predicate to handle rate-limiting, returns true once every @event_frequency turns.
+         */
+        static bool once_every(int event_frequency);
 
         // Season and year length stuff
+    private:
+        // cached value from world options
+        static int cached_season_length;
+    public:
+        // to be called from option handling when the options of the active world change.
+        static void set_season_length( int new_length );
         static int year_turns()
         {
             return DAYS(year_length());
@@ -131,6 +140,11 @@ class calendar
             return season_length() * 4;
         }
         static int season_length(); // In days
+
+        static float season_ratio() //returns relative length of game season to irl season
+        {
+            return static_cast<float>(season_length()) / REAL_WORLD_SEASON_LENGTH;
+        }
 
         int turn_of_year() const
         {
@@ -150,5 +164,7 @@ class calendar
 
         static   calendar start;
         static   calendar turn;
+        static season_type initial_season;
+        static bool eternal_season;
 };
 #endif

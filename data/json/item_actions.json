@@ -54,7 +54,7 @@
     },{
         "type" : "item_action",
         "id" : "MISC_REPAIR",
-        "name" : "Repair wood/bone/chitin"
+        "name" : "Repair wood/paper/bone/chitin"
     },{
         "type" : "item_action",
         "id" : "GUN_REPAIR",
@@ -81,6 +81,18 @@
         "name" : "Take anticonvulsant"
     },{
         "type" : "item_action",
+        "id" : "SHEATH_KNIFE",
+        "name" : "Sheathe/draw a knife"
+    },{
+        "type" : "item_action",
+        "id" : "LUMBER",
+        "name" : "Cut a log into planks"
+    },{
+        "type" : "item_action",
+        "id" : "REMOVE_ALL_MODS",
+        "name" : "Remove tool mods"
+    },{
+        "type" : "item_action",
         "id" : "salvage",
         "name" : "Cut up an item"
     },{
@@ -103,6 +115,18 @@
         "type" : "item_action",
         "id" : "fireweapon_on",
         "name" : "Turn off"
+    },    {
+        "type" : "item_action",
+        "id" : "CARVER_ON",
+        "name" : "Turn off"
+    },    {
+        "type" : "item_action",
+        "id" : "TRIMMER_ON",
+        "name" : "Turn off"
+    },{
+        "type" : "item_action",
+        "id" : "CIRCSAW_ON",
+        "name" : "Turn off"
     },{
         "type" : "item_action",
         "id" : "transform",
@@ -111,6 +135,10 @@
         "type" : "item_action",
         "id" : "auto_transform",
         "name" : "Turn off"
+    },{
+        "type" : "item_action",
+        "id" : "holster",
+        "name" : "Use holster"
     }
 
 ]

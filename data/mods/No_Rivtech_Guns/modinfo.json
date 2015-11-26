@@ -3,9 +3,10 @@
     "type": "MOD_INFO",
     "mod-type": "SUPPLEMENTAL",
     "ident": "no_rivtech_guns",
-    "name": "No Rivtech Guns",
-    "author": "tungtn",
-    "description": "Removes Rivtech firearms and ammunition.",
+    "name": "No Fictional Guns",
+    "author": "tungtn/community",
+    "description": "Removes fictional conventional firearms and ammunition.",
+    "category": "item_exclude",
     "path": "modinfo.json"
 },{
     "type": "ITEM_BLACKLIST",
@@ -45,7 +46,20 @@
         "rm228",
         "8mm_civilian",
         "rm298",
-        "rm360_carbine"
+        "rm360_carbine",
+        "l_sp_9mm",
+        "l_mp_9mm",
+        "l_lookout_9mm",
+        "l_sp_45",
+        "l_mp_45",
+        "l_enforcer_45",
+        "l_bak_223",
+        "l_def_12",
+        "l_base_223",
+        "l_car_223",
+        "l_mbr_223",
+        "l_dsr_223",
+        "l_lmg_223"
     ]
 }
 ]

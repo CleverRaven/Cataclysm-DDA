@@ -1,7 +1,10 @@
 #include "effect.h"
+#include "debug.h"
 #include "rng.h"
 #include "output.h"
 #include "player.h"
+#include "translations.h"
+#include "messages.h"
 #include <map>
 #include <sstream>
 
@@ -18,12 +21,12 @@ void weed_msg(player *p) {
             return;
         case 1: // Simpsons
             p->add_msg_if_player(_("Could Jesus microwave a burrito so hot, that he himself couldn't eat it?"));
-            p->hunger += 2;
+            p->mod_hunger(2);
             return;
         case 2:
             if(smarts > 8) { // Timothy Leary
                 p->add_msg_if_player(_("Science is all metaphor."));
-            } else if(smarts < 3){ // It's Always Sunny in Phildelphia
+            } else if(smarts < 3){ // It's Always Sunny in Philadelphia
                 p->add_msg_if_player(_("Science is a liar sometimes."));
             } else { // Durr
                 p->add_msg_if_player(_("Science is... wait, what was I talking about again?"));
@@ -106,7 +109,7 @@ void weed_msg(player *p) {
             return;
         case 1: // Real Life
             p->add_msg_if_player(_("Man, a cheeseburger sounds SO awesome right now."));
-            p->hunger += 4;
+            p->mod_hunger(4);
             if(p->has_trait("VEGETARIAN")) {
                 p->add_msg_if_player(_("Eh... maybe not."));
             } else if(p->has_trait("LACTOSE")) {
@@ -148,7 +151,7 @@ static void extract_effect( JsonObject &j, std::unordered_map<std::tuple<std::st
         data[std::make_tuple(data_key, false, type_key, arg_key)] = val;
     }
     if (reduced_val != 0) {
-        data[std::make_tuple(data_key, true, type_key, arg_key)] = val;
+        data[std::make_tuple(data_key, true, type_key, arg_key)] = reduced_val;
     }
 }
 
@@ -266,6 +269,15 @@ bool effect_type::load_mod_data(JsonObject &jsobj, std::string member) {
         extract_effect(j, mod_data, "fatigue_chance",    member, "FATIGUE",  "chance_top");
         extract_effect(j, mod_data, "fatigue_chance_bot",member, "FATIGUE",  "chance_bot");
         extract_effect(j, mod_data, "fatigue_tick",      member, "FATIGUE",  "tick");
+
+        // Then stamina
+        extract_effect(j, mod_data, "stamina_amount",    member, "STAMINA",  "amount");
+        extract_effect(j, mod_data, "stamina_min",       member, "STAMINA",  "min");
+        extract_effect(j, mod_data, "stamina_max",       member, "STAMINA",  "max");
+        extract_effect(j, mod_data, "stamina_max_val",   member, "STAMINA",  "max_val");
+        extract_effect(j, mod_data, "stamina_chance",    member, "STAMINA",  "chance_top");
+        extract_effect(j, mod_data, "stamina_chance_bot",member, "STAMINA",  "chance_bot");
+        extract_effect(j, mod_data, "stamina_tick",      member, "STAMINA",  "tick");
 
         // Then coughing
         extract_effect(j, mod_data, "cough_chance",     member, "COUGH",    "chance_top");
@@ -394,8 +406,20 @@ bool effect_type::load_decay_msgs(JsonObject &jo, std::string member)
     return false;
 }
 
+effect effect::null_effect;
+
+bool effect::is_null() const
+{
+    return this == &null_effect;
+}
+
 std::string effect::disp_name() const
 {
+    if (eff_type->name.empty()) {
+        debugmsg("No names for effect type, ID: %s", eff_type->id.c_str());
+        return "";
+    }
+
     // End result should look like "name (l. arm)" or "name [intensity] (l. arm)"
     std::stringstream ret;
     if (eff_type->use_name_ints()) {
@@ -480,12 +504,14 @@ std::string effect::disp_desc(bool reduced) const
     values.push_back(desc_freq(get_percentage("PAIN", val, reduced), val, _("pain"), _("pain")));
     val = get_avg_mod("HURT", reduced);
     values.push_back(desc_freq(get_percentage("HURT", val, reduced), val, _("damage"), _("damage")));
+    val = get_avg_mod("STAMINA", reduced);
+    values.push_back(desc_freq(get_percentage("STAMINA", val, reduced), val, _("stamina recovery"), _("fatigue")));
     val = get_avg_mod("THIRST", reduced);
     values.push_back(desc_freq(get_percentage("THIRST", val, reduced), val, _("thirst"), _("quench")));
     val = get_avg_mod("HUNGER", reduced);
     values.push_back(desc_freq(get_percentage("HUNGER", val, reduced), val, _("hunger"), _("sate")));
     val = get_avg_mod("FATIGUE", reduced);
-    values.push_back(desc_freq(get_percentage("FATIGUE", val, reduced), val, _("fatigue"), _("rest")));
+    values.push_back(desc_freq(get_percentage("FATIGUE", val, reduced), val, _("sleepiness"), _("rest")));
     val = get_avg_mod("COUGH", reduced);
     values.push_back(desc_freq(get_percentage("COUGH", val, reduced), val, _("coughing"), _("coughing")));
     val = get_avg_mod("VOMIT", reduced);
@@ -596,7 +622,9 @@ std::string effect::disp_desc(bool reduced) const
     if( use_part_descs() ) {
         ret << string_format(_(tmp_str.c_str()), body_part_name(bp).c_str());
     } else {
-        ret << _(tmp_str.c_str());
+        if (!tmp_str.empty()) {
+            ret << _(tmp_str.c_str());
+        }
     }
 
     return ret.str();
@@ -631,6 +659,9 @@ void effect::decay(std::vector<std::string> &rem_ids, std::vector<body_part> &re
     // Bound intensity to [1, max_intensity]
     if (intensity > eff_type->max_intensity) {
         intensity = eff_type->max_intensity;
+    }
+    if (intensity < 1) {
+        intensity = 1;
     }
     // Display decay message if available
     if (player && tmp_int > intensity && (intensity - 1) < int(eff_type->decay_msgs.size())) {
@@ -684,6 +715,11 @@ void effect::mult_duration(double dur)
     }
 }
 
+int effect::get_start_turn() const
+{
+    return start_turn;
+}
+
 body_part effect::get_bp() const
 {
     return bp;
@@ -735,17 +771,23 @@ void effect::mod_intensity(int nintensity)
     }
 }
 
-std::string effect::get_resist_trait() const
+const std::vector<std::string> &effect::get_resist_traits() const
 {
-    return eff_type->resist_trait;
+    return eff_type->resist_traits;
 }
-std::string effect::get_resist_effect() const
+const std::vector<std::string> &effect::get_resist_effects() const
 {
-    return eff_type->resist_effect;
+    return eff_type->resist_effects;
 }
 const std::vector<std::string> &effect::get_removes_effects() const
 {
     return eff_type->removes_effects;
+}
+const std::vector<std::string> effect::get_blocks_effects() const
+{
+    std::vector<std::string> ret = eff_type->removes_effects;
+    ret.insert(ret.end(), eff_type->blocks_effects.begin(), eff_type->blocks_effects.end());
+    return ret;
 }
 
 int effect::get_mod(std::string arg, bool reduced) const
@@ -1048,10 +1090,15 @@ std::vector<std::pair<std::string, int>> effect::get_miss_msgs() const
 std::string effect::get_speed_name() const
 {
     // USes the speed_mod_name if one exists, else defaults to the first entry in "name".
-    if (eff_type->speed_mod_name == "") {
+    // But make sure the name for this intensity actually exists!
+    if( eff_type->speed_mod_name != "" ) {
+        return eff_type->speed_mod_name;
+    } else if( eff_type->use_name_ints() ) {
+        return eff_type->name[intensity-1];
+    } else if( !eff_type->name.empty() ) {
         return eff_type->name[0];
     } else {
-        return eff_type->speed_mod_name;
+        return "";
     }
 }
 
@@ -1119,9 +1166,10 @@ void load_effect_type(JsonObject &jo)
     new_etype.apply_memorial_log = jo.get_string("apply_memorial_log", "");
     new_etype.remove_memorial_log = jo.get_string("remove_memorial_log", "");
 
-    new_etype.resist_trait = jo.get_string("resist_trait", "");
-    new_etype.resist_effect = jo.get_string("resist_effect", "");
+    new_etype.resist_traits = jo.get_string_array("resist_traits");
+    new_etype.resist_effects = jo.get_string_array("resist_effects");
     new_etype.removes_effects = jo.get_string_array("removes_effects");
+    new_etype.blocks_effects = jo.get_string_array("blocks_effects");
 
     new_etype.max_intensity = jo.get_int("max_intensity", 1);
     new_etype.max_duration = jo.get_int("max_duration", 0);
@@ -1160,6 +1208,7 @@ void effect::serialize(JsonOut &json) const
     json.member("bp", (int)bp);
     json.member("permanent", permanent);
     json.member("intensity", intensity);
+    json.member("start_turn", start_turn);
     json.end_object();
 }
 void effect::deserialize(JsonIn &jsin)
@@ -1170,4 +1219,5 @@ void effect::deserialize(JsonIn &jsin)
     bp = (body_part)jo.get_int("bp");
     permanent = jo.get_bool("permanent");
     intensity = jo.get_int("intensity");
+    start_turn = jo.get_int("start_turn", 0);
 }

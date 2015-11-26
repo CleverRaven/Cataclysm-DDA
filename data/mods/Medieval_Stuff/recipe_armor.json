@@ -1,0 +1,367 @@
+[
+{
+  "type" : "recipe",
+  "result": "helmet_nasal",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_HEAD",
+  "skill_used": "fabrication",
+  "difficulty": 5,
+  "time": 520000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "textbook_armwest", 4 ]],
+  "qualities": [
+    {"id":"HAMMER","level":3,"amount":1}
+  ],
+  "tools": [
+    [ [ "tongs", -1 ] ],
+    [ [ "chisel", -1 ] ],
+    [ [ "anvil", -1 ] ],
+    [ [ "crucible", -1 ] ],
+    [
+      [ "forge", 300 ],
+      [ "char_forge", 60 ],
+      [ "oxy_torch", 60 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "steel_lump", 8 ],
+      [ "steel_chunk", 32 ]
+    ],
+    [
+      [ "fur", 3 ],
+      [ "leather", 3 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "gambeson",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_SUIT",
+  "skill_used": "tailor",
+  "difficulty": 4,
+  "time": 60000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "textbook_armwest", 3 ]],
+  "tools": [
+    [
+      [ "needle_bone", 30 ],
+      [ "needle_wood", 30 ],
+      [ "tailors_kit", 30 ],
+      [ "sewing_kit", 30 ]
+    ]
+  ],
+  "components": [
+    [ [ "rag", 20 ] ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "helmet_corinthian",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_HEAD",
+  "skill_used": "fabrication",
+  "difficulty": 6,
+  "time": 540000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "textbook_armwest", 5 ]],
+  "qualities": [
+    {"id":"HAMMER","level":3,"amount":1}
+  ],
+  "tools": [
+    [ [ "tongs", -1 ] ],
+    [ [ "crucible", -1 ] ],
+    [
+      [ "forge", 350 ],
+      [ "char_forge", 70 ],
+      [ "oxy_torch", 70 ]
+    ]
+  ],
+  "components": [
+    [ [ "scrap_bronze", 7 ] ],
+    [
+      [ "fur", 4 ],
+      [ "leather", 4 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "helmet_galea",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_HEAD",
+  "skill_used": "fabrication",
+  "difficulty": 7,
+  "time": 540000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "textbook_armwest", 5 ]],
+  "qualities": [
+    {"id":"HAMMER","level":3,"amount":1}
+  ],
+  "tools": [
+    [ [ "tongs", -1 ] ],
+    [ [ "chisel", -1 ] ],
+    [ [ "anvil", -1 ] ],
+    [ [ "crucible", -1 ] ],
+    [
+      [ "forge", 300 ],
+      [ "char_forge", 60 ],
+      [ "oxy_torch", 60 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "steel_lump", 10 ],
+      [ "steel_chunk", 40 ]
+    ],
+    [
+      [ "fur", 4 ],
+      [ "leather", 4 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "chainmail_hauberk",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_SUIT",
+  "skill_used": "tailor",
+  "difficulty": 2,
+  "time": 18000,
+  "reversible": true,
+  "autolearn": true,
+  "components": [
+    [ [ "chainmail_vest", 1 ] ],
+    [ [ "chainmail_arms", 1 ] ],
+    [ [ "chainmail_legs", 1 ] ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "chainmail_suit",
+  "id_suffix": "hauberk",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_SUIT",
+  "skill_used": "tailor",
+  "difficulty": 3,
+  "time": 2000,
+  "reversible": true,
+  "autolearn": true,
+  "components": [
+    [ [ "chainmail_hood", 1 ] ],
+    [ [ "chainmail_hauberk", 1 ] ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "armor_cuirass",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_TORSO",
+  "skill_used": "fabrication",
+  "difficulty": 5,
+  "time": 500000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "textbook_armwest", 8 ]],
+  "qualities": [
+    {"id":"HAMMER","level":3,"amount":1}
+  ],
+  "tools": [
+    [ [ "tongs", -1 ] ],
+    [ [ "crucible", -1 ] ],
+    [
+      [ "forge", 500 ],
+      [ "char_forge", 100 ],
+      [ "oxy_torch", 100 ]
+    ]
+  ],
+  "components": [ [ [ "scrap_bronze", 28 ] ] ]
+},{
+  "type" : "recipe",
+  "result": "armor_lorica",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_TORSO",
+  "skill_used": "fabrication",
+  "difficulty": 7,
+  "time": 550000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "textbook_armwest", 8 ]],
+  "qualities": [
+    {"id":"HAMMER","level":3,"amount":1}
+  ],
+  "tools": [
+    [ [ "tongs", -1 ] ],
+    [ [ "chisel", -1 ] ],
+    [ [ "anvil", -1 ] ],
+    [ [ "swage", -1 ] ],
+    [
+      ["forge", 450],
+      ["char_forge", 90],
+      ["oxy_torch", 90]
+    ]
+  ],
+  "components": [
+    [ [ "steel_lump", 15 ] ],
+    [
+      [ "fur", 12 ],
+      [ "tanned_pelt", 2 ],
+      [ "leather", 12 ],
+      [ "tanned_hide", 2 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "legguard_bronze",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_LEGS",
+  "skill_used": "fabrication",
+  "difficulty": 5,
+  "time": 45000,
+  "reversible": false,
+  "autolearn": true,
+  "book_learn": [["textbook_armwest", 4], ["recipe_melee", 4]],
+  "qualities":[
+    {"id":"CUT","level":1,"amount":1},
+    {"id":"HAMMER","level":2,"amount":1}
+  ],
+  "components": [
+    [
+      [ "fur", 6 ],
+      [ "tanned_pelt", 1 ],
+      [ "leather", 6 ],
+      [ "tanned_hide", 1 ]
+    ],
+    [ [ "scrap_bronze", 12 ] ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "tunic",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_TORSO",
+  "skill_used": "tailor",
+  "difficulty": 3,
+  "time": 45000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "needle_bone", 10 ],
+      [ "needle_wood", 10 ],
+      [ "sewing_kit", 10 ]
+    ]
+  ],
+  "components": [ [ [ "rag", 10 ] ] ]
+},{
+  "type" : "recipe",
+  "result": "sleeveless_tunic",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_TORSO",
+  "skill_used": "tailor",
+  "difficulty": 3,
+  "time": 40000,
+  "reversible": false,
+  "autolearn": true,
+  "tools": [
+    [
+      [ "needle_bone", 8 ],
+      [ "needle_wood", 8 ],
+      [ "sewing_kit", 8 ]
+    ]
+  ],
+  "components": [ [ [ "rag", 8 ] ] ]
+},{
+  "type" : "recipe",
+  "result": "sleeveless_tunic",
+  "id_suffix": "cutting",
+  "byproducts": { "id" : "rag", "amount" : 2 },
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_TORSO",
+  "skill_used": "tailor",
+  "difficulty": 2,
+  "time": 21000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "components": [ [ [ "tunic", 1 ] ] ]
+},{
+  "type" : "recipe",
+  "result": "armor_lamellar",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_SUIT",
+  "skill_used": "fabrication",
+  "difficulty": 4,
+  "skills_required": [ "tailor", 3 ],
+  "time": 28000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "textbook_tailor", 5 ], [ "tailor_portfolio", 5 ], ["textbook_armschina", 4]],
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "tools": [
+    [
+      [ "needle_bone", 68 ],
+      [ "needle_wood", 68 ],
+      [ "tailors_kit", 68 ],
+      [ "sewing_kit", 68 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "string_36", 4 ],
+      [ "string_6", 16 ]
+    ],
+    [ [ "rag", 4 ] ],
+    [
+      [ "leather", 42 ],
+      [ "tanned_hide", 7 ],
+      [ "fur", 42 ],
+      [ "tanned_pelt", 7 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "helmet_conical",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_HEAD",
+  "skill_used": "fabrication",
+  "difficulty": 6,
+  "time": 540000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "textbook_armschina", 5 ]],
+  "qualities": [
+    {"id":"CUT","level":1,"amount":1},
+    {"id":"HAMMER","level":3,"amount":1}
+  ],
+  "tools": [
+    [ [ "tongs", -1 ] ],
+    [ [ "chisel", -1 ] ],
+    [ [ "anvil", -1 ] ],
+    [ [ "crucible", -1 ] ],
+    [
+      [ "forge", 300 ],
+      [ "char_forge", 60 ],
+      [ "oxy_torch", 60 ]
+    ],
+    [
+      [ "needle_bone", 18 ],
+      [ "needle_wood", 18 ],
+      [ "tailors_kit", 18 ],
+      [ "sewing_kit", 18 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "steel_chunk", 5 ],
+      [ "scrap", 15 ]
+    ],
+    [
+      [ "fur", 6 ],
+      [ "tanned_pelt", 1 ]
+    ]
+  ]
+}
+]

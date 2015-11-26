@@ -1,0 +1,111 @@
+[
+    {
+      "type" : "item_group",
+      "id" : "jewelry_furshop",
+      "items":[
+        ["gold_watch", 50],
+        ["sf_watch", 50],
+        ["brooch", 80],
+        ["pearl_collar", 50],
+        ["silver_bracelet", 30],
+        ["gold_bracelet", 20]
+      ]
+    },{
+        "type": "mapgen",
+        "om_terrain": [
+            "s_clothes"
+        ],
+        "method": "json",
+        "weight": 100,
+        "object": {
+            "rows": [
+                    "~~~~~~~~~~~~~~~~~~~~~~~~",
+                    "~~~~~~~~~~~~~~~~~~~~~~~~",
+                    "~~~~~~~~~~~~~~~~~~~~~~~~",
+                    "**q~~|--|===++===|******",
+                    "**q~~|}}|@......@|******",
+                    "**q~~|..|........|******",
+                    "**q~~|+-|U..yA..f|******",
+                    "**q~~|.%#.......h|******",
+                    "**q~~|..#.......h|******",
+                    "**q~~|..#..###..h|******",
+                    "**q~~|..#.......U|******",
+                    "**q~~|..#........|******",
+                    "**q~~|+-|-i|#####|******",
+                    "**q~~|.....|....%|******",
+                    "**q~~|.hh..|.....|******",
+                    "**q~~;.[[..|+|---|******",
+                    "*****0.......+...|******",
+                    "****z|-+|-i--|ust|******",
+                    "****z|d.|....|---|******",
+                    "****z|dh|}}}}|zzzz******",
+                    "****z|-0|----|z*********",
+                    "************************",
+                    "************************",
+                    "************************"
+            ],
+            "terrain": {
+                ".": "t_floor",
+                "*": "t_grass",
+                "~": "t_sidewalk",
+                "-": "t_wall",
+                "|": "t_wall",
+                "+": "t_door_c",
+                ";": "t_door_locked",
+                "i": "t_door_locked_interior",
+                "0": "t_window_alarm",
+                "=": "t_wall_glass",
+                "z": "t_shrub",
+                "#": "t_floor",
+                "h": "t_floor",
+                "[": "t_floor",
+                "@": "t_floor",
+                "y": "t_floor",
+                "f": "t_floor",
+                "q": "t_grass",
+                "}": "t_floor",
+                "A": "t_floor",
+                "$": "t_floor",
+                "d": "t_floor",
+                "s": "t_floor",
+                "t": "t_floor",
+                "u": "t_floor",
+                "U": "t_floor",
+                "%": "t_console_broken"
+            },
+            "furniture": {
+                "#": "f_displaycase",
+                "h": "f_chair",
+                "[": "f_table",
+                "@": "f_mannequin",
+                "y": "f_indoor_plant_y",
+                "f": "f_indoor_plant",
+                "q": "f_bluebell",
+                "}": "f_locker",
+                "A": "f_statue",
+                "$": "f_safe_l",
+                "d": "f_desk",
+                "s": "f_sink",
+                "u": "f_trashcan",
+                "U": "f_bigmirror"
+            },
+            "toilets": {
+                "t": { }
+            },
+            "place_items": [
+                { "item": "fancyfurs", "chance": 60, "x": 9,   "y": 4 },
+                { "item": "fancyfurs", "chance": 60, "x": 16,   "y": 4 },
+                { "item": "fancyfurs", "chance": 80, "x": [11,13],   "y": 9, "repeat": [1,2] },
+                { "item": "fancyfurs", "chance": 70, "x": [12,16],   "y": 12, "repeat": [1,3] },
+                { "item": "fancyfurs", "chance": 50, "x": [9,12],   "y": 19, "repeat": [1,3] },
+                { "item": "jewelry_furshop", "chance": 30, "x": [6,7],   "y": 4, "repeat": [1,2] },
+                { "item": "office", "chance": 60, "x": 6,   "y": [18,19], "repeat": [1,2] },
+                { "item": "jewelry_furshop", "chance": 50, "x": 8,   "y": [7,11], "repeat": [1,4] },
+                { "item": "trash", "chance": 75, "x": 14,   "y": 17 }
+            ],
+            "comment": "end of mapgen json definition ---v"
+        },
+        "comment": "end of mapgen entry ---v"
+    }
+]
+

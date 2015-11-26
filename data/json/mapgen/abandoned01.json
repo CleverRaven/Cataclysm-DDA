@@ -166,7 +166,7 @@
                 { "point": "terrain", "id": "t_grass", "x": [ 0, 14 ], "y": [ 0,3 ], "repeat": [ 10, 30 ] }
                     ],
             "place_items": [
-                { "item": "forest", "chance": 80, "x": [ 2, 21], "y": [ 5, 19] }
+                { "item": "forest", "repeat": [ 0, 5 ], "chance": 100, "x": [ 2, 21], "y": [ 5, 19] }
             ]
         }
     },
@@ -224,7 +224,7 @@
                 { "point": "terrain", "id": "t_tree_young", "x": [ 0, 23 ], "y": [ 0,23 ], "repeat": [ 10, 30 ] }
                     ],
             "place_items": [
-                { "item": "forest", "chance": 80, "x": [ 2, 21], "y": [ 5, 19] }
+                { "item": "forest", "repeat": [ 0, 5 ],  "chance": 100, "x": [ 2, 21], "y": [ 5, 19] }
             ]
         }
     },
@@ -279,7 +279,7 @@
                 { "point": "terrain", "id": "t_tree", "x": [ 0, 23 ], "y": [ 0,23 ], "repeat": [ 20, 30 ] }
                     ],
             "place_items": [
-                { "item": "forest", "chance": 40, "x": [ 2, 21], "y": [ 5, 19] }
+                { "item": "forest", "repeat": [ 0, 5 ], "chance": 100, "x": [ 2, 21], "y": [ 5, 19] }
             ]
         }
     },
@@ -393,7 +393,7 @@
                 { "point": "terrain", "id": "t_dirt", "x": [ 0, 14 ], "y": [ 0,3 ], "repeat": [ 8, 10 ] }
                     ],
             "place_items": [
-                { "item": "trash_forest", "chance": 60, "x": [ 2, 21], "y": [ 5, 19] }
+                { "item": "trash_forest", "repeat": [ 0, 20 ], "chance": 100, "x": [ 2, 21], "y": [ 5, 19] }
             ]
         }
     },
@@ -504,7 +504,7 @@
                 { "vehicle": "car", "x": 5, "y": 7, "rotation": 0, "fuel": 0, "status": 1, "chance": 100  }
             ],
             "place_items": [
-                { "item": "trash_forest", "chance": 60, "x": [ 2, 21], "y": [ 5, 19] }
+                { "item": "trash_forest", "repeat": [ 0, 2 ], "chance": 100, "x": [ 2, 21], "y": [ 5, 19] }
             ]
         }
     },
@@ -565,7 +565,7 @@
                 { "point": "terrain", "id": "t_tree_young", "x": [ 0, 23 ], "y": [ 0,23 ], "repeat": [ 10, 30 ] }
                     ],
             "place_items": [
-                { "item": "forest", "chance": 80, "x": [ 2, 21], "y": [ 5, 19] }
+                { "item": "forest", "repeat": [ 0, 20 ], "chance": 100, "x": [ 2, 21], "y": [ 5, 19] }
             ]
         }
     },

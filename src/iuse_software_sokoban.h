@@ -1,6 +1,8 @@
 #ifndef SOFTWARE_SOKOBAN_H
 #define SOFTWARE_SOKOBAN_H
 
+#include "cursesdef.h"
+
 #include <string>
 #include <vector>
 #include <map>
@@ -15,16 +17,14 @@ class sokoban_game
                 int iOldX;
                 std::string sTileOld;
 
-                cUndo()
-                {
+                cUndo() {
                     iOldY = 0;
                     iOldX = 0;
 
                     sTileOld = " ";
                 }
 
-                cUndo(const int arg_y, const int arg_x, const std::string arg_tile)
-                {
+                cUndo( const int arg_y, const int arg_x, const std::string arg_tile ) {
                     iOldY = arg_y;
                     iOldX = arg_x;
                     sTileOld = arg_tile;
@@ -43,10 +43,10 @@ class sokoban_game
 
         bool parse_level();
         bool check_win();
-        int get_wall_connection(const int iY, const int iX);
-        void draw_level(WINDOW *w_sokoban);
-        void clear_level(WINDOW *w_sokoban);
-        void print_score(WINDOW *w_sokoban, int iScore, int iMoves);
+        int get_wall_connection( const int iY, const int iX );
+        void draw_level( WINDOW *w_sokoban );
+        void clear_level( WINDOW *w_sokoban );
+        void print_score( WINDOW *w_sokoban, int iScore, int iMoves );
     public:
         int start_game();
         sokoban_game();

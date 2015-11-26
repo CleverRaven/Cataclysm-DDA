@@ -1,52 +1,43 @@
 [
 {
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "flint_steel",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_TOOLS",
   "skill_used": "survival",
+  "skills_required": ["fabrication", 3],
   "difficulty": 4,
-  "time": 1000,
+  "time": 10000,
   "reversible": false,
   "autolearn": true,
   "book_learn": [["textbook_survival", 2], ["mag_survival", 3]],
-  "qualities" : [
-    {"id":"HAMMER","level":1,"amount":1}
-  ],
+  "qualities" : [{"id":"HAMMER","level":1,"amount":1}],
   "components": [
-    [
-      [ "rock", 1 ]
-    ],
-    [
-      [ "scrap", 1 ]
-    ]
+    [[ "sharp_rock", 1 ]],
+    [[ "steel_chunk", 1 ]]
   ]
 },
 {
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "tinderbox",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_TOOLS",
   "skill_used": "survival",
-  "skills_required": ["fabrication", 1],
-  "difficulty": 4,
+  "skills_required": ["fabrication", 2],
+  "difficulty": 2,
   "time": 5000,
   "reversible": false,
   "autolearn": true,
-  "book_learn": [["mag_survival", 3] , ["textbook_survival", 3]],
-  "qualities" : [
-    {"id":"CUT","level":1,"amount":1}
-  ],
-  "components": [
-    [
-      [ "can_drink", 1 ],
-      [ "can_food", 1 ],
-      [ "scrap", 2 ]
-    ]
-  ]
+  "book_learn": [["mag_survival", 1] , ["textbook_survival", 1]],
+  "qualities" : [{"id":"CUT","level":1,"amount":1}],
+  "components": [[
+    [ "can_drink", 1 ],
+    [ "can_food", 1 ],
+    [ "scrap", 2 ]
+  ]]
 },
 {
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "hobo_stove",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_TOOLS",
@@ -57,50 +48,61 @@
   "reversible": false,
   "autolearn": true,
   "book_learn": [["mag_survival", 2] , ["textbook_survival", 1] , ["cookbook", 2]],
-  "qualities" : [
-    {"id":"CUT","level":1,"amount":1}
-  ],
-  "components": [
-    [
-      [ "can_drink", 2 ],
-      [ "can_food", 2 ],
-      [ "scrap", 4 ]
-    ]
-  ]
+  "qualities" : [{"id":"CUT","level":1,"amount":1}],
+  "components": [[
+    [ "can_drink", 2 ],
+    [ "can_food", 2 ],
+    [ "scrap", 4 ]
+  ]]
 },
 {
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "tinder",
   "category": "CC_OTHER",
-  "subcategory": "CSC_OTHER_TOOLS",
-  "difficulty": 0,
+  "subcategory": "CSC_OTHER_MATERIALS",
+  "skill_used": "survival",
+  "difficulty": 1,
   "time": 1000,
   "reversible": false,
   "autolearn": true,
-  "qualities" : [
-    {"id":"CUT","level":1,"amount":1}
-  ],
-  "components": [
-    [
-      [ "stick", 1 ],
-      [ "2x4", 1 ],
-      [ "skewer", 2 ],
-      [ "splinter", 2 ],
-      [ "paper", 5 ],
-      [ "withered", 1 ]
-    ]
-  ]
+  "qualities" : [{"id":"CUT","level":1,"amount":1}],
+  "components": [[
+    [ "stick", 1 ],
+    [ "2x4", 1 ],
+    [ "skewer", 4 ],
+    [ "splinter", 2 ],
+    [ "pine_bough", 1 ],
+    [ "rag", 1 ],
+    [ "paper", 5 ],
+    [ "rolling_paper", 30 ],
+    [ "wrapper", 5 ],
+    [ "withered", 2 ],
+    [ "cattail_stalk", 1 ],
+    [ "birchbark", 1 ],
+    [ "willowbark", 1 ]
+  ]]
 },
 {
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "torch",
   "id_suffix": "pine",
   "category": "CC_WEAPON",
   "subcategory": "CSC_WEAPON_BASHING",
   "difficulty": 0,
-  "time": 2000,
+  "time": 3000,
   "reversible": false,
   "autolearn": true,
+  "batch_time_factors":[50, 5],
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1},
+    {"id":"COOK","level":2,"amount":1}
+  ],
+  "tools": [[
+    [ "hotplate", 7 ],
+    [ "char_smoker", 1 ],
+    [ "toolset", 7 ],
+    [ "fire", -1 ]
+  ]],
   "components": [
     [
       [ "stick", 1 ],
@@ -109,13 +111,11 @@
       [ "pool_cue", 1 ],
       [ "torch_done", 1 ]
     ],
-    [
-      [ "pine_bough", 2 ]
-    ]
+    [ [ "pine_bough", 2 ] ]
   ]
 },
 {
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "bottle_metal",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_TOOLS",
@@ -124,25 +124,21 @@
   "time": 90000,
   "reversible": false,
   "autolearn": true,
-  "qualities":[
-    {"id":"HAMMER","level":3,"amount":1}
-  ], "tools": [
-      [ ["tongs", -1] ],
-      [ ["chisel", -1]],
-      [ ["anvil", -1] ],
-      [ ["forge", 100], ["char_forge", 20], [ "oxy_torch", 20] ]
-      ],
-  "components":
-    [
-     [
-     [ "steel_lump", 1 ],
-     [ "steel_chunk", 2 ],
-     [ "scrap", 6 ]
-     ]
-    ]
+  "qualities":[{"id":"HAMMER","level":3,"amount":1}],
+  "tools": [
+    [ ["tongs", -1] ],
+    [ ["chisel", -1] ],
+    [ ["anvil", -1] ],
+    [ ["forge", 100], ["char_forge", 20], [ "oxy_torch", 20] ]
+  ],
+  "components": [[
+   [ "steel_lump", 1 ],
+   [ "steel_chunk", 2 ],
+   [ "scrap", 6 ]
+ ]]
 },
-  {
-        "type" : "recipe",
+{
+  "type" : "recipe",
   "result": "cured_hide",
   "id_suffix": "drying",
   "category": "CC_OTHER",
@@ -153,25 +149,18 @@
   "time": 56000,
   "reversible": false,
   "autolearn": true,
-  "qualities" : [
-    {"id":"CUT","level":1,"amount":1}
-  ],
-  "tools": [
-    [
-      [ "hotplate", 10 ],
-      [ "char_smoker", 1 ],
-      [ "toolset", 10 ],
-      [ "fire", -1 ]
-    ]
-  ],
-  "components": [
-    [
-      [ "raw_leather", 1 ]
-    ]
-  ]
+  "batch_time_factors":[83, 5],
+  "qualities" : [{"id":"CUT","level":1,"amount":1}],
+  "tools": [[
+    [ "hotplate", 10 ],
+    [ "char_smoker", 1 ],
+    [ "toolset", 10 ],
+    [ "fire", -1 ]
+  ]],
+  "components": [[[ "raw_leather", 1 ]]]
 },
 {
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "cured_pelt",
   "id_suffix": "drying",
   "category": "CC_OTHER",
@@ -182,24 +171,17 @@
   "time": 56000,
   "reversible": false,
   "autolearn": true,
-  "qualities" : [
-    {"id":"CUT","level":1,"amount":1}
-  ],
-  "tools": [
-    [
-      [ "hotplate", 10 ],
-      [ "char_smoker", 1 ],
-      [ "toolset", 10 ],
-      [ "fire", -1 ]
-    ]
-  ],
-  "components": [
-    [
-      [ "raw_fur", 1 ]
-    ]
-  ]
+  "batch_time_factors":[83, 5],
+  "qualities" : [{"id":"CUT","level":1,"amount":1}],
+  "tools": [[
+    [ "hotplate", 10 ],
+    [ "char_smoker", 1 ],
+    [ "toolset", 10 ],
+    [ "fire", -1 ]
+  ]],
+  "components": [[[ "raw_fur", 1 ]]]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "resin_cord",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_MATERIALS",
@@ -209,18 +191,18 @@
   "time": 24000,
   "reversible": false,
   "autolearn": true,
+  "batch_time_factors":[50, 5],
   "book_learn": [["mag_survival", 2] , ["textbook_survival", 1]],
   "qualities" : [
     {"id":"CUT","level":1,"amount":1},
     {"id":"COOK","level":2,"amount":1}
-  ], "tools": [
-    [
-      [ "hotplate", 5 ],
-      [ "char_smoker", 1 ],
-      [ "toolset", 5 ],
-      [ "fire", -1 ]
-    ]
   ],
+  "tools": [[
+    [ "hotplate", 5 ],
+    [ "char_smoker", 1 ],
+    [ "toolset", 5 ],
+    [ "fire", -1 ]
+  ]],
   "components": [
     [
       [ "bone", 10 ],
@@ -251,20 +233,16 @@
   "time": 1000,
   "reversible": false,
   "autolearn": true,
-  "qualities":[
-    {"id":"CUT","level":1,"amount":1}
-  ],
-  "components": [
-    [
-      [ "stick", 1 ],
-      [ "broom", 1 ],
-      [ "mop", 1 ],
-      [ "2x4", 1 ],
-      [ "pool_cue", 1 ]
-    ]
-  ]
+  "qualities":[{"id":"CUT","level":1,"amount":1}],
+  "components": [[
+    [ "stick", 1 ],
+    [ "broom", 1 ],
+    [ "mop", 1 ],
+    [ "2x4", 1 ],
+    [ "pool_cue", 1 ]
+  ]]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "hand_axe",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_TOOLS",
@@ -274,14 +252,12 @@
   "time": 54000,
   "reversible": false,
   "autolearn": true,
-  "qualities":[
-    {"id":"HAMMER","level":1,"amount":1}
-  ], "components": [
-    [
-      [ "rock", 1 ],
-      [ "ceramic_shard", 1 ]
-    ]
-  ]
+  "qualities":[{"id":"HAMMER","level":1,"amount":1}],
+  "components": [[
+    [ "rock", 1 ],
+    [ "ceramic_shard", 1 ],
+    [ "sharp_rock", 1 ]
+  ]]
 },{
   "type" : "recipe",
   "result": "atlatl",
@@ -293,20 +269,16 @@
   "time": 1000,
   "reversible": false,
   "autolearn": true,
-  "qualities":[
-    {"id":"CUT","level":1,"amount":1}
-  ],
-  "components": [
-    [
-      [ "stick", 1 ],
-      [ "broom", 1 ],
-      [ "mop", 1 ],
-      [ "2x4", 1 ],
-      [ "pool_cue", 1 ]
-    ]
-  ]
+  "qualities":[{"id":"CUT","level":1,"amount":1}],
+  "components": [[
+    [ "stick", 1 ],
+    [ "broom", 1 ],
+    [ "mop", 1 ],
+    [ "2x4", 1 ],
+    [ "pool_cue", 1 ]
+  ]]
 },{
-        "type" : "recipe",
+  "type" : "recipe",
   "result": "spear_stone",
   "category": "CC_WEAPON",
   "subcategory": "CSC_WEAPON_PIERCING",
@@ -346,19 +318,99 @@
     ],
     [
       [ "rock", 1 ],
-      [ "ceramic_shard", 1 ]
+      [ "ceramic_shard", 1 ],
+      [ "sharp_rock", 1 ]
     ]
   ]
 },{
-        "type" : "recipe",
-  "result": "spear_copper",
+  "type" : "recipe",
+  "result": "javelin_stone",
   "category": "CC_WEAPON",
   "subcategory": "CSC_WEAPON_PIERCING",
   "skill_used": "fabrication",
-  "skills_required": [ "survival", 2 ],
+  "skills_required": [[ "survival", 1 ], [ "throw", 2 ]],
+  "difficulty": 2,
+  "time": 10000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities":[
+    {"id":"HAMMER","level":1,"amount":1}
+  ],
+  "components":
+  [
+    [
+      [ "spear_wood", 1 ],
+      [ "pointy_stick", 1 ]
+    ],
+    [
+      [ "rag", 1 ],
+      [ "leather", 1 ],
+      [ "fur", 1 ]
+    ],
+    [
+      [ "plant_fibre", 20 ],
+      [ "sinew", 20 ],
+      [ "thread", 20 ],
+      [ "duct_tape", 20 ]
+    ],
+    [
+      [ "rock", 1 ],
+      [ "ceramic_shard", 1 ],
+      [ "sharp_rock", 1 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "copper_ax",
+  "override": true,
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_TOOLS",
+  "skill_used": "fabrication",
+  "skills_required": [ "carpentry", 1 ],
+  "difficulty": 4,
+  "time": 60000,
+  "reversible": true,
+  "autolearn": true,
+  "book_learn": [["mag_survival", 1] , ["atomic_survival", 1] , ["textbook_carpentry", 2]],
+  "qualities":[
+    {"id":"HAMMER","level":1,"amount":1}
+  ],
+  "tools": [
+    [
+      [ "toolset", 10 ],
+      [ "fire", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "stick", 1 ],
+      [ "2x4", 1 ]
+    ],
+    [
+      [ "scrap_copper", 10 ],
+      [ "copper", 1000 ]
+    ],
+    [
+      [ "string_6", 2 ],
+      [ "resin_cord", 2 ],
+      [ "duct_tape", 40 ],
+      [ "sinew", 40 ],
+      [ "thread", 40 ],
+      [ "yarn", 40 ],
+      [ "plant_fibre", 40 ],
+      [ "withered", 2 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "spear_copper",
+  "override": true,
+  "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_PIERCING",
+  "skill_used": "fabrication",
   "difficulty": 3,
   "time": 2400,
-  "reversible": false,
+  "reversible": true,
   "autolearn": true,
   "qualities":[
     {"id":"CUT","level":1,"amount":1},
@@ -395,32 +447,10 @@
       [ "withered", 1 ]
     ],
     [
-      [ "copper", 200 ]
+      [ "scrap_copper", 3 ],
+      [ "copper", 300 ]
     ]
   ]
-},{
-  "type" : "recipe",
-  "result": "javelin_stone",
-  "category": "CC_WEAPON",
-  "subcategory": "CSC_WEAPON_PIERCING",
-  "skill_used": "fabrication",
-  "skills_required": [[ "survival", 1 ], [ "throw", 2 ]],
-  "difficulty": 2,
-  "time": 10000,
-  "reversible": false,
-  "autolearn": true,
-  "qualities":[
-    {"id":"HAMMER","level":1,"amount":1}
-  ],
-  "components":
-    [
-     [
-     [ "javelin", 4 ]
-     ],
-     [
-     [ "rock", 2 ]
-     ]
-    ]
 },{
   "type" : "recipe",
   "result": "javelin_copper",
@@ -430,72 +460,7 @@
   "skills_required": [ "throw", 2 ],
   "difficulty": 2,
   "time": 50000,
-  "reversible": false,
-  "autolearn": true,
-  "qualities":[
-    {"id":"HAMMER","level":1,"amount":1}
-  ],
-  "tools": [
-    [
-      [ "toolset", 10 ],
-      [ "fire", -1 ]
-    ]
-  ],
-  "components":
-    [
-     [
-     [ "javelin", 4 ]
-     ],
-     [
-     [ "copper", 200 ]
-     ]
-    ]
-},{
-  "type" : "recipe",
-  "result": "javelin_iron",
-  "override": true,
-  "category": "CC_WEAPON",
-  "subcategory": "CSC_WEAPON_PIERCING",
-  "skill_used": "fabrication",
-  "skills_required": [ "throw", 2 ],
-  "difficulty": 2,
-  "time": 60000,
-  "reversible": false,
-  "autolearn": true,
-  "qualities":[
-    {"id":"HAMMER","level":3,"amount":1}
-  ], "tools": [
-      [
-      ["tongs", -1]
-      ],
-      [
-      ["chisel", -1]
-      ],
-      [
-      ["anvil", -1]
-      ],
-      [
-      ["forge", 50], ["char_forge", 10], ["oxy_torch", 10]
-      ]
-      ],
-  "components":
-    [
-     [
-     [ "javelin", 4 ]
-     ],
-     [
-     [ "scrap", 2 ]
-     ]
-    ]
-},{
-  "type" : "recipe",
-  "result": "copper_knife",
-  "category": "CC_WEAPON",
-  "subcategory": "CSC_WEAPON_PIERCING",
-  "skill_used": "fabrication",
-  "difficulty": 1,
-  "time": 5000,
-  "reversible": false,
+  "reversible": true,
   "autolearn": true,
   "qualities":[
     {"id":"HAMMER","level":1,"amount":1}
@@ -508,89 +473,27 @@
   ],
   "components": [
     [
-      [ "rag", 1 ],
-      [ "felt_patch", 1 ],
-      [ "duct_tape", 50 ],
-      [ "string_6", 2 ],
-      [ "sinew", 50 ],
-      [ "thread", 50 ],
-      [ "yarn", 50 ],
-      [ "plant_fibre", 50 ],
-      [ "withered", 1 ]
+      [ "spear_wood", 1 ],
+      [ "pointy_stick", 1 ]
     ],
     [
+      [ "rag", 1 ],
+      [ "leather", 1 ],
+      [ "fur", 1 ]
+    ],
+    [
+      [ "plant_fibre", 20 ],
+      [ "sinew", 20 ],
+      [ "thread", 20 ],
+      [ "duct_tape", 20 ]
+    ],
+    [
+      [ "scrap_copper", 1 ],
       [ "copper", 100 ]
     ]
   ]
-},
-{
-        "type" : "recipe",
-  "result": "copper_ax",
-  "category": "CC_OTHER",
-  "subcategory": "CSC_OTHER_TOOLS",
-  "skill_used": "survival",
-  "skills_required": [ "carpentry", 1 ],
-  "difficulty": 3,
-  "time": 60000,
-  "reversible": false,
-  "autolearn": true,
-  "book_learn": [["mag_survival", 1] , ["atomic_survival", 1] , ["textbook_carpentry", 2]],
-  "qualities":[
-    {"id":"HAMMER","level":1,"amount":1}
-  ],
-  "tools": [
-    [
-      [ "toolset", 10 ],
-      [ "fire", -1 ]
-    ]
-  ],
-  "components": [
-    [
-      [ "stick", 1 ],
-      [ "2x4", 1 ]
-    ],
-    [
-      [ "copper", 150 ]
-    ],
-    [
-      [ "string_6", 2 ],
-      [ "resin_cord", 2 ],
-      [ "duct_tape", 40 ],
-      [ "sinew", 40 ],
-      [ "thread", 40 ],
-      [ "yarn", 40 ],
-      [ "plant_fibre", 40 ],
-      [ "withered", 2 ]
-    ]
-  ]
-},
-{
-        "type" : "recipe",
-  "result": "boxer_briefs",
-  "category": "CC_ARMOR",
-  "subcategory": "CSC_ARMOR_LEGS",
-  "skill_used": "tailor",
-  "difficulty": 2,
-  "time": 30000,
-  "reversible": false,
-  "autolearn": true,
-  "book_learn": [[ "mag_tailor", 1 ] , ["manual_tailor", 1]],
-  "tools": [
-    [
-      [ "needle_bone", 15 ],
-      [ "needle_wood", 15 ],
-      [ "sewing_kit", 15 ],
-      [ "tailors_kit", 15 ]
-    ]
-  ],
-  "components": [
-    [
-      [ "rag", 3 ]
-    ]
-  ]
-},
-{
-        "type" : "recipe",
+},{
+  "type" : "recipe",
   "result": "hat_hooded",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_HEAD",
@@ -612,7 +515,8 @@
       [ "rag", 1 ],
       [ "felt_patch", 1 ],
       [ "leather", 1 ],
-      [ "fur", 1 ]
+      [ "fur", 1 ],
+      [ "bandana", 1 ]
      ],
      [
       [ "hat_boonie", 1 ],
@@ -622,95 +526,7 @@
       [ "straw_fedora", 1 ]
      ]
   ]
-},
-{
-        "type" : "recipe",
-  "result": "gloves_work",
-  "category": "CC_ARMOR",
-  "subcategory": "CSC_ARMOR_HANDS",
-  "skill_used": "tailor",
-  "difficulty": 3,
-  "time": 20000,
-  "reversible": false,
-  "autolearn": true,
-  "book_learn": [[ "manual_tailor", 1 ] , [ "mag_tailor", 1 ] , ["textbook_survival", 1]],
-  "qualities": [
-       {"id":"CUT","level":1,"amount":1} ],
-  "tools": [
-    [
-      [ "needle_bone", 6 ],
-      [ "needle_wood", 6 ],
-      [ "sewing_kit", 6 ],
-      [ "tailors_kit", 6 ]
-    ]
-  ],
-  "components": [
-    [
-      [ "leather", 2 ],
-      [ "gloves_leather", 1 ]
-    ],
-    [
-      [ "rag", 2 ],
-      [ "gloves_light", 1 ]
-    ]
-  ]
 },{
-  "type" : "recipe",
-  "result": "copper_bracelet",
-  "id_suffix": "uncraft",
-  "override": true,
-  "category": "CC_NONCRAFT",
-  "subcategory": "CSC_NONCRAFT",
-  "difficulty": 0,
-  "time": 600,
-  "reversible": true,
-  "autolearn": false,
-  "qualities":[
-    {"id":"HAMMER","level":1,"amount":1}
-  ],
-  "components": [
-    [
-      [ "copper", 21 ]
-    ]
-  ]
-},
-{
-  "type" : "recipe",
-  "result": "copper_ear",
-  "id_suffix": "uncraft",
-  "override": true,
-  "category": "CC_NONCRAFT",
-  "subcategory": "CSC_NONCRAFT",
-  "difficulty": 0,
-  "time": 500,
-  "reversible": true,
-  "autolearn": false,
-  "qualities":[
-    {"id":"HAMMER","level":1,"amount":1}
-  ], "components": [
-    [
-      [ "copper", 16 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "cu_pipe",
-  "id_suffix": "uncraft",
-  "category": "CC_NONCRAFT",
-  "subcategory": "CSC_NONCRAFT",
-  "difficulty": 0,
-  "time": 600,
-  "reversible": true,
-  "autolearn": false,
-  "qualities":[
-    {"id":"HAMMER","level":1,"amount":1}
-  ], "components": [
-    [
-      [ "copper", 86 ]
-    ]
-  ]
-},
-{
         "type" : "recipe",
   "result": "bandages",
   "id_suffix": "improvised",
@@ -745,59 +561,164 @@
     ],
     [
       [ "garlic", 3 ],
+      [ "thyme_oil", 1 ],
       [ "wild_herbs", 100 ],
       [ "honey_glassed", 3 ],
       [ "honey_bottled", 6 ]
     ]
   ]
 },{
-        "type" : "recipe",
-  "result": "seasoning_italian",
-  "category": "CC_FOOD",
-  "subcategory": "CSC_FOOD_OTHER",
-  "skill_used": "cooking",
-  "difficulty": 4,
-  "time": 8000,
+  "type" : "recipe",
+  "result": "leg_warmers_f",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_LEGS",
+  "skill_used": "tailor",
+  "difficulty": 2,
+  "time": 5000,
   "reversible": false,
   "autolearn": true,
-  "book_learn": [["cookbook_italian", 2]],
-  "qualities":[
-    {"id":"COOK","level":2,"amount":1}
-  ], "tools": [
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "tools": [
     [
-      [ "hotplate", 2 ],
+      [ "needle_bone", 10 ],
+      [ "needle_wood", 10 ],
+      [ "tailors_kit", 10 ],
+      [ "sewing_kit", 10 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "fur", 4 ],
+      [ "tanned_pelt", 1 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "sharp_rock",
+  "override": true,
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_TOOLS",
+  "skill_used": "fabrication",
+  "skills_required": [ "survival", 1 ],
+  "difficulty": 0,
+  "time": 1000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities":[
+    {"id":"HAMMER","level":1,"amount":1}
+  ], "components": [
+    [
+      [ "rock", 1 ]
+    ]
+  ]
+},{
+    "type" : "recipe",
+    "result": "fishing_hook_bone",
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "fabrication",
+    "skills_required": [ "survival", 1 ],
+    "difficulty": 1,
+    "time": 2000,
+    "reversible": false,
+    "autolearn": true,
+    "qualities":[
+    {"id":"CUT","level":1,"amount":1}
+  ], "components": [
+      [
+      [ "bone", 1 ], ["bone_human", 1]
+      ]
+    ]
+},{
+  "type" : "recipe",
+  "result": "tarp",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_MATERIALS",
+  "skill_used": "fabrication",
+  "skills_required": [ "survival", 1 ],
+  "difficulty": 1,
+  "time": 10000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "components": [
+    [
+      [ "folding_poncho", 1 ],
+      [ "folding_poncho_on", 1 ],
+      [ "emer_blanket", 1 ],
+      [ "emer_blanket_on", 1 ]
+    ],
+    [
+      [ "duct_tape", 20 ]
+    ]
+  ]
+},
+  {
+    "type" : "recipe",
+    "result": "fishing_rod_basic",
+    "override": true,
+    "category": "CC_OTHER",
+    "subcategory": "CSC_OTHER_TOOLS",
+    "skill_used": "survival",
+    "difficulty": 0,
+    "time": 1000,
+    "reversible": true,
+    "autolearn": true,
+    "tools": [ ],
+    "components": [
+      [
+        [ "stick", 1 ]
+      ],
+      [
+        [ "string_36", 6 ]
+      ],
+      [
+        [ "fishing_hook_basic", 1 ],
+        [ "fishing_hook_bone", 1 ]
+      ]
+    ]
+},{
+  "type" : "recipe",
+   "result": "hotdogs_campfire",
+   "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_MEAT",
+   "skill_used": "cooking",
+   "difficulty": 0,
+   "time": 1000,
+   "reversible": false,
+   "autolearn": true,
+   "batch_time_factors":[67, 5],
+   "qualities" : [
+     {"id":"COOK","level":1,"amount":1}
+  ], "tools": [
+   [
+      [ "hotplate", 10 ],
       [ "char_smoker", 1 ],
-      [ "toolset", 2 ],
+      [ "toolset", 10 ],
       [ "fire", -1 ]
     ]
   ],
   "components": [
     [
-      [ "salt", 1 ]
-    ],
-    [
-      [ "garlic", 3 ]
-    ],
-    [
-      [ "wild_herbs", 100 ]
+      [ "hotdogs_frozen", 1 ]
     ]
   ]
 },{
   "type" : "recipe",
+  "override": true,
   "result": "plant_fibre",
-  "id_suffix": "spun",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_MATERIALS",
   "skill_used": "survival",
-  "difficulty": 2,
-  "skills_required": [ "fabrication", 1 ],
-  "result_mult": 3,
-  "time": 9000,
+  "difficulty": 1,
+  "result_mult": 2,
+  "time": 6000,
   "reversible": false,
   "autolearn": true,
-  "qualities":[
-    {"id":"HAMMER","level":1,"amount":1}
-  ],
   "tools": [
     [
       [ "distaff_spindle", -1 ]
@@ -805,105 +726,253 @@
   ],
   "components": [
     [
-      [ "withered", 2 ]
+      [ "dogbane", 1 ],
+      [ "cattail_stalk", 1 ],
+      [ "weed", 1 ]
     ]
   ]
 },{
   "type" : "recipe",
-  "result": "milk_curdling",
-  "category": "CC_FOOD",
-  "subcategory": "CSC_FOOD_OTHER",
-  "skill_used": "cooking",
-  "difficulty": 5,
-  "skills_required": [ "survival", 4 ],
-  "time": 20000,
+  "result": "pebble_clay",
+  "category": "CC_AMMO",
+  "subcategory": "CSC_AMMO_OTHER",
+  "skill_used": "fabrication",
+  "difficulty": 1,
+  "time": 45000,
   "reversible": false,
   "autolearn": true,
-  "book_learn": [["survival_book", 3] , ["textbook_survival", 3] ,
-  ["manual_survival", 3]],
-  "components": [
-    [
-      [ "waterskin", 1 ]
-    ],
-    [
-      [ "milk", 5 ]
-    ],
-    [
-      [ "vinegar", 1 ]
-    ],
-    [
-      [ "wild_herbs", 40 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "cheese_hard",
-  "category": "CC_FOOD",
-  "subcategory": "CSC_FOOD_SNACK",
-  "skill_used": "cooking",
-  "difficulty": 5,
-  "skills_required": [ "survival", 4 ],
-  "time": 60000,
-  "reversible": false,
-  "autolearn": true,
-  "book_learn": [["survival_book", 3] , ["textbook_survival", 3] ,
-  ["manual_survival", 3]],
-  "qualities":[
-    {"id":"CUT","level":1,"amount":1},
-    {"id":"COOK","level":3,"amount":1},
-    {"id":"BOIL","level":2,"amount":1},
-    {"id":"CONTAIN","level":1,"amount":1}
-  ],
   "tools": [
-    [ [ "hotplate", 4 ], [ "char_smoker", 1 ], [ "toolset", 8 ], [ "fire", -1 ] ]
-    ],
+  [
+    [ "brick_kiln", 10 ],
+    [ "toolset", 10 ],
+    [ "fire", -1 ]
+  ]
+  ],
   "components": [
     [
-      [ "milk_curdled", 6 ]
+      [ "water", 1 ],
+      [ "water_clean", 1 ]
     ],
     [
-      [ "salt_water", 1 ],
-      [ "saline", 5 ],
-      [ "salt", 1 ],
-      [ "seasoning_salt", 5 ]
+      [ "clay_lump", 1 ]
+    ]
+  ]
+},
+  {
+    "type" : "recipe",
+    "override": true,
+    "result": "bearing",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_OTHER",
+    "skill_used": "fabrication",
+    "skills_required": [ "gun", 2 ],
+    "difficulty": 2,
+    "time": 45000,
+    "reversible": false,
+    "autolearn": true,
+    "book_learn": [[ "textbook_fabrication", 1 ]],
+    "tools": [
+    [
+      [ "press", -1 ]
+    ],
+    [
+      ["crucible", -1],
+      ["crucible_clay", -1]
+    ],
+    [
+      ["forge", 100], ["char_forge", 20], [ "oxy_torch", 20]
+    ]
+    ],
+    "components": [
+      [
+      [ "copper", 50 ],
+      [ "tin", 50 ],
+      [ "bismuth", 50 ],
+      [ "solder_wire", 50 ],
+      [ "silver_small", 50 ],
+      [ "scrap", 1 ]
+      ]
+    ]
+  },{
+    "type" : "recipe",
+    "result": "bearing_lead",
+    "category": "CC_AMMO",
+    "subcategory": "CSC_AMMO_OTHER",
+    "skill_used": "fabrication",
+    "skills_required": [ "gun", 2 ],
+    "difficulty": 2,
+    "time": 45000,
+    "reversible": false,
+    "autolearn": true,
+    "book_learn": [[ "textbook_fabrication", 1 ]],
+    "tools": [
+    [
+      [ "press", -1 ],
+      [ "material_sand", -1 ],
+      [ "clay_lump", -1 ]
+    ],
+    [
+      [ "toolset", 10 ],
+      [ "fire", -1 ]
+    ]
+    ],
+    "components": [
+      [
+      [ "lead", 60 ],
+      [ "gold_small", 60 ]
+      ]
+    ]
+},{
+  "type" : "recipe",
+  "result": "mess_tin",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_TOOLS",
+  "skill_used": "fabrication",
+  "difficulty": 2,
+  "time": 80000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities":[
+    {"id":"HAMMER","level":3,"amount":1}
+  ], "tools": [
+      [ ["tongs", -1] ],
+      [ ["chisel", -1]],
+      [ ["anvil", -1] ],
+      [ ["forge", 100], ["char_forge", 20], [ "oxy_torch", 20] ]
+      ],
+  "components":
+    [
+     [
+     [ "steel_lump", 1 ],
+     [ "steel_chunk", 4 ],
+     [ "scrap", 12 ]
+     ]
+    ]
+},{
+  "type" : "recipe",
+  "result": "iggaak",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_HEAD",
+  "skill_used": "tailor",
+  "skills_required": [ "survival", 1 ],
+  "difficulty": 2,
+  "time": 8000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "components": [
+    [
+      [ "string_6", 2 ],
+      [ "thread", 100 ],
+      [ "sinew", 100 ],
+      [ "plant_fibre", 100 ],
+      [ "yarn", 50 ]
+    ],
+    [
+      [ "2x4", 1 ],
+      [ "stick", 1 ],
+      [ "bone", 1 ],
+      [ "bone_human", 1 ]
     ]
   ]
 },{
   "type" : "recipe",
-  "result": "primitive_hammer",
-  "override": true,
+  "result": "pot_makeshift",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_TOOLS",
   "skill_used": "survival",
-  "difficulty": 0,
-  "time": 5000,
+  "skills_required": [ "cooking", 1 ],
+  "difficulty": 1,
+  "time": 20000,
   "reversible": false,
   "autolearn": true,
   "qualities":[
     {"id":"HAMMER","level":1,"amount":1}
-  ], "components": [
+  ],
+  "components":
     [
-      [ "stick", 1 ],
-      [ "2x4", 1 ]
+     [
+     [ "sheet_metal", 1 ]
+     ]
+    ]
+},{
+  "type" : "recipe",
+  "result": "pot_makeshift_copper",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_TOOLS",
+  "skill_used": "survival",
+  "skills_required": [ "cooking", 1 ],
+  "difficulty": 1,
+  "time": 20000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities":[
+    {"id":"HAMMER","level":1,"amount":1}
+  ],
+  "tools": [
+      [
+        [ "toolset", 10 ],
+        [ "fire", -1 ]
+      ]
+      ],
+  "components":
+    [
+     [
+     [ "scrap_copper", 4 ],
+     [ "copper", 400 ]
+     ]
+    ]
+},{
+  "type" : "recipe",
+  "result": "canteen_wood",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_CONTAINERS",
+  "skill_used": "fabrication",
+  "difficulty": 3,
+  "time": 30000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities":[
+    {"id":"CUT","level":1,"amount":1},
+    {"id":"SAW_W","level":2,"amount":1}
+  ],
+  "tools": [
+      [
+        [ "toolset", 10 ],
+        [ "fire", -1 ]
+      ]
+      ],
+  "components": [
+    [
+      [ "stick", 2 ],
+      [ "2x4", 2 ]
     ],
     [
-      [ "rock", 1 ]
+      [ "superglue", 1 ],
+      [ "bone_glue", 1 ],
+      [ "duct_tape", 20 ]
     ],
     [
-      [ "string_6", 2 ],
-      [ "resin_cord", 2 ],
-      [ "duct_tape", 40 ],
-      [ "sinew", 40 ],
-      [ "thread", 40 ],
-      [ "yarn", 40 ],
-      [ "plant_fibre", 40 ],
-      [ "withered", 2 ]
+      [ "wire", 1 ],
+      [ "scrap", 2 ],
+      [ "copper", 20 ]
+    ],
+    [
+      [ "wax", 1 ],
+      [ "pine_bough", 2 ]
+    ],
+    [
+      [ "rag", 2 ],
+      [ "felt_patch", 2 ],
+      [ "leather", 2 ],
+      [ "fur", 2 ]
     ]
   ]
 },{
   "type" : "recipe",
-  "result": "primitive_shovel",
-  "override": true,
+  "result": "makeshift_shovel",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_TOOLS",
   "skill_used": "survival",
@@ -920,24 +989,19 @@
       [ "2x4", 1 ]
     ],
     [
-      [ "rock", 1 ],
-      [ "ceramic_shard", 1 ]
+      [ "sheet_metal", 1 ]
     ],
     [
       [ "string_6", 2 ],
-      [ "resin_cord", 2 ],
-      [ "duct_tape", 40 ],
       [ "sinew", 40 ],
       [ "thread", 40 ],
-      [ "yarn", 40 ],
       [ "plant_fibre", 40 ],
       [ "withered", 2 ]
     ]
   ]
 },{
   "type" : "recipe",
-  "result": "primitive_axe",
-  "override": true,
+  "result": "makeshift_axe",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_TOOLS",
   "skill_used": "survival",
@@ -955,94 +1019,402 @@
       [ "2x4", 1 ]
     ],
     [
-      [ "rock", 1 ],
-      [ "ceramic_shard", 1 ]
+      [ "steel_chunk", 1 ],
+      [ "steel_lump", 1 ]
     ],
     [
       [ "string_6", 2 ],
-      [ "resin_cord", 2 ],
-      [ "duct_tape", 40 ],
       [ "sinew", 40 ],
       [ "thread", 40 ],
-      [ "yarn", 40 ],
       [ "plant_fibre", 40 ],
-      [ "withered", 2 ]
+      [ "withered", 1 ]
     ]
   ]
 },{
   "type" : "recipe",
-  "override": true,
-  "result": "javelin",
-  "category": "CC_WEAPON",
-  "subcategory": "CSC_WEAPON_PIERCING",
-  "skill_used": "fabrication",
-  "skills_required": [[ "survival", 1 ], [ "throw", 2 ]],
-  "difficulty": 3,
-  "time": 5000,
+  "result": "skewer_bone",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_TOOLS",
+  "difficulty": 0,
+  "time": 1000,
   "reversible": false,
   "autolearn": true,
-  "qualities":[
-    {"id":"CUT","level":1,"amount":1}
-  ],
-  "tools": [
-    [
-      [ "fire", -1 ]
-    ]
-  ],
+  "qualities" : [{"id":"CUT","level":1,"amount":1}],
   "components": [
     [
-      [ "spear_wood", 2 ],
-      [ "pointy_stick", 2 ]
+      [ "bone", 1 ],
+      [ "bone_human", 1 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "carding_paddles",
+  "override": true,
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_TOOLS",
+  "skill_used": "fabrication",
+  "difficulty": 3,
+  "time": 9000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities":[{"id":"CUT","level":1,"amount":1}],
+  "components": [
+    [
+      [ "stick", 2 ],
+      [ "2x4", 1 ]
     ],
     [
-      [ "rag", 1 ],
+      [ "skewer", 20 ],
+      [ "skewer_bone", 20 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "knitting_needles",
+  "override": true,
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_TOOLS",
+  "skill_used": "fabrication",
+  "difficulty": 1,
+  "time": 3000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities":[{"id":"CUT","level":1,"amount":1}],
+  "components": [
+    [
+      [ "skewer", 2 ],
+      [ "skewer_bone", 2 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "needle_bone",
+  "override": true,
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_TOOLS",
+  "skill_used": "survival",
+  "difficulty": 1,
+  "time": 20000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [{"id":"CUT","level":1,"amount":1}],
+  "components": [
+    [
+      [ "bone", 1 ],
+      [ "bone_human", 1],
+      [ "skewer_bone", 1 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "survivor_shavingkit",
+  "override": true,
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_TOOLS",
+  "skill_used": "fabrication",
+  "difficulty": 1,
+  "time": 1000,
+  "reversible": true,
+  "autolearn": true,
+  "components": [
+    [
       [ "leather", 1 ],
       [ "fur", 1 ]
     ],
+    [ [ "rag", 1 ] ],
     [
-      [ "plant_fibre", 20 ],
-      [ "sinew", 20 ],
-      [ "thread", 20 ],
-      [ "duct_tape", 20 ]
+      [ "razor_blade", 1 ],
+      [ "sharp_rock", 1 ]
+    ],
+    [ [ "mirror", 1 ] ],
+    [ [ "string_6", 2 ] ],
+    [
+      [ "plastic_chunk", 1 ],
+      [ "skewer", 4 ],
+      [ "skewer_bone", 4 ]
     ]
   ]
 },{
   "type" : "recipe",
-  "result": "glass_macuahuitl",
+  "result": "meat_smoked",
   "override": true,
-  "category": "CC_WEAPON",
-  "subcategory": "CSC_WEAPON_CUTTING",
-  "skill_used": "fabrication",
-  "skills_required": [],
-  "difficulty": 1,
-  "time": 8000,
-  "reversible": true,
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_MEAT",
+  "skill_used": "cooking",
+  "difficulty": 3,
+  "time": 60000,
+  "reversible": false,
   "autolearn": true,
-  "tools": [],
+  "batch_time_factors":[83, 3],
+  "qualities" : [
+     {"id":"COOK","level":1,"amount":1} ],
+  "tools": [
+    [
+      [ "char_smoker", 2 ]
+    ]
+  ],
   "components": [
-    [ [ "glass_shard", 5 ] ],
-    [ [ "stick", 1 ], [ "2x4", 1 ] ],
-    [ [ "superglue", 3 ], [ "bone_glue", 4 ] ]
+    [
+      [ "meat", 3 ]
+    ],
+    [
+      [ "skewer", 3 ],
+      [ "skewer_bone", 3 ]
+    ]
   ]
 },{
   "type" : "recipe",
-  "result": "stone_macuahuitl",
-  "category": "CC_WEAPON",
-  "subcategory": "CSC_WEAPON_CUTTING",
-  "skill_used": "fabrication",
-  "skills_required": [],
+  "result": "fish_smoked",
+  "override": true,
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_MEAT",
+  "skill_used": "cooking",
   "difficulty": 3,
-  "time": 8500,
-  "reversible": true,
+  "time": 60000,
+  "reversible": false,
   "autolearn": true,
-  "tools": [],
-  "qualities": [
-    {"id":"HAMMER","level":1,"amount":1}
+  "batch_time_factors":[83, 3],
+  "qualities" : [
+     {"id":"COOK","level":1,"amount":1} ],
+  "tools": [
+    [
+      [ "char_smoker", 2 ]
+    ]
   ],
   "components": [
-    [ [ "rock", 5 ] ],
-    [ [ "stick", 1 ], [ "2x4", 1 ] ],
-    [ [ "superglue", 3 ], [ "bone_glue", 4 ] ]
+    [
+      [ "fish", 6 ]
+    ],
+    [
+      [ "skewer", 3 ],
+      [ "skewer_bone", 3 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "human_smoked",
+  "override": true,
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_MEAT",
+  "skill_used": "cooking",
+  "difficulty": 3,
+  "time": 60000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "cookbook_human", 4 ]],
+  "batch_time_factors":[83, 3],
+  "qualities" : [
+     {"id":"COOK","level":1,"amount":1} ],
+  "tools": [
+    [
+      [ "char_smoker", 2 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "human_flesh", 3 ]
+    ],
+    [
+      [ "skewer", 3 ],
+      [ "skewer_bone", 3 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "mortar_pestle",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_TOOLS",
+  "skill_used": "fabrication",
+  "skills_required": [ ["survival", 1], ["cooking", 2] ],
+  "difficulty": 1,
+  "time": 6000,
+  "reversible": false,
+  "autolearn": true,
+  "book_learn": [["atomic_survival", 0] , ["textbook_survival", 0]],
+  "qualities":[{"id":"HAMMER","level":2,"amount":1}],
+  "components": [
+    [
+      [ "rock", 3 ],
+      [ "ceramic_shard", 3 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "oatmeal",
+  "id_suffix": "mortar",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_OTHER",
+  "skill_used": "cooking",
+  "skills_required": [ ["survival", 1] ],
+  "difficulty": 2,
+  "time": 67500,
+  "reversible": false,
+  "autolearn": true,
+  "batch_time_factors": [83, 3],
+  "tools": [
+    [
+      [ "hotplate", 5 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 5 ],
+      [ "fire", -1 ]
+    ],
+    [ [ "mortar_pestle", -1 ] ]
+  ],
+  "components": [ [ ["oats", 2] ] ]
+},{
+  "type" : "recipe",
+  "result": "flour",
+  "id_suffix": "mortar",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_OTHER",
+  "skill_used": "cooking",
+  "skills_required": [ ["survival", 1] ],
+  "difficulty": 2,
+  "time": 67500,
+  "reversible": false,
+  "autolearn": true,
+  "batch_time_factors": [83, 3],
+  "tools": [ [ ["mortar_pestle", -1] ] ],
+  "components": [
+    [
+      ["wheat", 2],
+      ["buckwheat", 2],
+      ["barley", 2],
+      ["acorns_cooked", 2],
+      ["oats", 2],
+      ["starch", 2],
+      ["dry_rice", 6]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "cornmeal",
+  "id_suffix": "mortar",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_OTHER",
+  "skill_used": "cooking",
+  "skills_required": [ ["survival", 1] ],
+  "difficulty": 2,
+  "time": 67500,
+  "reversible": false,
+  "autolearn": true,
+  "batch_time_factors":[83, 3],
+  "tools": [
+    [
+      [ "hotplate", 5 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 5 ],
+      [ "fire", -1 ]
+    ],
+    [ [ "mortar_pestle", -1 ] ]
+  ],
+  "components": [
+    [
+      ["corn", 2],
+      ["irradiated_corn", 2]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "meal_bone",
+  "id_suffix": "mortar",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_OTHER",
+  "skill_used": "cooking",
+  "skills_required": [ ["survival", 1] ],
+  "difficulty": 2,
+  "time": 90000,
+  "reversible": false,
+  "autolearn": true,
+  "batch_time_factors":[83, 3],
+  "tools": [ [ ["mortar_pestle", -1] ] ],
+  "components": [ [ ["bone", 1], ["bone_human", 1] ] ]
+},{
+  "type" : "recipe",
+  "result": "meal_bone_tainted",
+  "id_suffix": "mortar",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_OTHER",
+  "skill_used": "cooking",
+  "skills_required": [ ["survival", 1] ],
+  "difficulty": 2,
+  "time": 90000,
+  "reversible": false,
+  "autolearn": true,
+  "batch_time_factors":[83, 3],
+  "tools": [ [ [ "mortar_pestle", -1 ] ] ],
+  "components": [ [ [ "bone_tainted", 1 ] ] ]
+},{
+  "type" : "recipe",
+  "result": "meal_chitin_piece",
+  "id_suffix": "mortar",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_MATERIALS",
+  "skill_used": "cooking",
+  "skills_required": [ ["survival", 1] ],
+  "difficulty": 2,
+  "time": 90000,
+  "reversible": false,
+  "autolearn": true,
+  "batch_time_factors":[83, 3],
+  "tools": [ [ [ "mortar_pestle", -1 ] ] ],
+  "components": [ [ ["chitin_piece", 1] ] ]
+},{
+  "type" : "recipe",
+  "result": "tanned_hide",
+  "id_suffix": "scraped",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_MATERIALS",
+  "skill_used": "survival",
+  "difficulty": 1,
+  "time": 30000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [ {"id":"CUT","level":1,"amount":1} ],
+  "components": [ [ [ "tanned_pelt", 1 ] ] ]
+},{
+  "type" : "recipe",
+  "result": "leather",
+  "id_suffix": "scraped",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_MATERIALS",
+  "skill_used": "survival",
+  "difficulty": 1,
+  "time": 6000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [ {"id":"CUT","level":1,"amount":1} ],
+  "components": [ [ [ "fur", 1 ] ] ]
+},{
+  "type" : "recipe",
+  "result": "bolt_bone",
+  "category": "CC_AMMO",
+  "subcategory": "CSC_AMMO_ARROWS",
+  "skill_used": "fabrication",
+  "skills_required": [ "archery", 1 ],
+  "difficulty": 2,
+  "time": 7500,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "components": [
+    [
+      [ "superglue", 10 ],
+      [ "bone_glue", 10 ],
+      [ "thread", 20, "NO_RECOVER" ],
+      [ "sinew", 20, "NO_RECOVER" ],
+      [ "plant_fibre", 20, "NO_RECOVER" ]
+    ],
+    [
+      [ "bone", 5 ],
+      [ "bone_human", 5 ],
+      [ "bone_tainted", 10 ]
+    ],
+    [
+      [ "fletching", 10 ]
+    ]
   ]
 }
 ]

@@ -3,14 +3,18 @@
 
 #include "json.h"
 #include "bodypart.h"
+#include "string_id.h"
 #include <map>
 #include <string>
 
-typedef std::string matype_id;
+class martialart;
+using matype_id = string_id<martialart>;
 
-typedef std::string mabuff_id;
+class ma_buff;
+using mabuff_id = string_id<ma_buff>;
 
-typedef std::string matec_id;
+class ma_technique;
+using matec_id = string_id<ma_technique>;
 
 typedef std::string efftype_id;
 
@@ -43,102 +47,6 @@ enum hp_part : int {
 };
 
 void realDebugmsg(const char *name, const char *line, const char *mes, ...);
-
-class disease : public JsonSerializer, public JsonDeserializer
-{
-public:
-    std::string type;
-    std::string buff_id;
-    int         intensity = 0;
-    int         duration  = 0;
-    int         decay     = 0;
-    body_part   bp        = num_bp;
-    bool        permanent = false;
-
-    // extra stuff for martial arts, kind of a hack for now
-    disease(std::string new_buff_id)
-        : type ("ma_buff"), buff_id (std::move(new_buff_id)), intensity (1)
-    {
-    }
-
-    bool is_mabuff() const
-    {
-        return !buff_id.empty() && type == "ma_buff";
-    }
-
-    disease() : type("null") { }
-
-    disease(std::string t, int const d, int const i, body_part const part, bool const perm, int const dec)
-        : type (std::move(t)), intensity (i), duration (d), decay (dec), bp (part), permanent (perm)
-    {
-    }
-
-    using JsonSerializer::serialize;
-    void serialize(JsonOut &json) const override
-    {
-        json.start_object();
-        json.member("type", type);
-        json.member("intensity", intensity);
-        json.member("duration", duration);
-        json.member("bp", (int)bp);
-        json.member("permanent", permanent);
-        json.member("decay", decay);
-        json.member("ma_buff_id", buff_id);
-        json.end_object();
-    }
-    using JsonDeserializer::deserialize;
-    void deserialize(JsonIn &jsin) override
-    {
-        JsonObject jo = jsin.get_object();
-        type = jo.get_string("type");
-        intensity = jo.get_int("intensity");
-        duration = jo.get_int("duration");
-
-        int tmp_bp = jo.get_int("bp");
-        if (jo.has_member("side")) {
-            int side = jo.get_int("side");
-            if (side == 0) {
-                switch (tmp_bp) {
-                case 4:
-                    break; //Already 4
-                case 5:
-                    tmp_bp = 6;
-                    break;
-                case 6:
-                    tmp_bp = 8;
-                    break;
-                case 7:
-                    tmp_bp = 10;
-                    break;
-                default:
-                    break;
-                }
-            } else if (side == 1) {
-                switch (tmp_bp) {
-                case 4:
-                    tmp_bp = 5;
-                    break;
-                case 5:
-                    tmp_bp = 7;
-                    break;
-                case 6:
-                    tmp_bp = 9;
-                    break;
-                case 7:
-                    tmp_bp = 11;
-                    break;
-                default:
-                    break;
-                }
-            }
-        }
-        bp = (body_part)tmp_bp;
-
-        permanent = jo.get_bool("permanent");
-        decay = jo.get_int("decay");
-        buff_id = jo.get_string("ma_buff_id");
-    }
-};
 
 class addiction : public JsonSerializer, public JsonDeserializer
 {

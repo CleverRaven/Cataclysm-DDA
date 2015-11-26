@@ -1,0 +1,10 @@
+{
+    "type": "MOD_INFO",
+    "mod-type": "SUPPLEMENTAL",
+    "ident": "craftgp",
+    "name": "Craftable Gun Pack",
+    "author": "Zaweri",
+    "description": "Adds more craftable firearms, and gunpowder.  WARNING: Breaks intended balance.",
+    "category": "items",
+    "path": ""
+}

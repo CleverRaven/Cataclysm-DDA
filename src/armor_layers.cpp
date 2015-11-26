@@ -67,9 +67,8 @@ std::vector<std::string> clothing_properties(item const &worn_item, int const wi
     props.push_back(string_format("[%s]", _("Properties")));
     props.push_back(name_and_value(space + _("Coverage:"),
                                    string_format("%3d", worn_item.get_coverage()), width));
-    props.push_back(name_and_value(space + _("Encumbrance:"), string_format("%3d",
-                                   (worn_item.has_flag("FIT")) ? std::max(0, (worn_item.get_encumber() - 10)) :
-                                   worn_item.get_encumber()), width));
+    props.push_back(name_and_value(space + _("Encumbrance:"),
+                                   string_format("%3d", worn_item.get_encumber()), width));
     props.push_back(name_and_value(space + _("Warmth:"),
                                    string_format("%3d", worn_item.get_warmth()), width));
     props.push_back(name_and_value(space + _("Storage:"),
@@ -113,7 +112,7 @@ std::vector<std::string> clothing_flags_description(item const &worn_item)
     if (worn_item.has_flag("SUPER_FANCY")) {
         description_stack.push_back(_("It looks really fancy."));
     }
-    if (worn_item.has_flag("FLOATATION")) {
+    if (worn_item.has_flag("FLOTATION")) {
         description_stack.push_back(_("You will not drown today."));
     }
     if (worn_item.has_flag("OVERSIZE")) {
@@ -217,6 +216,7 @@ void player::sort_armor()
     ctxt.register_action("PREV_TAB");
     ctxt.register_action("NEXT_TAB");
     ctxt.register_action("MOVE_ARMOR");
+    ctxt.register_action("CHANGE_SIDE");
     ctxt.register_action("ASSIGN_INVLETS");
     ctxt.register_action("EQUIP_ARMOR");
     ctxt.register_action("REMOVE_ARMOR");
@@ -225,11 +225,25 @@ void player::sort_armor()
 
     bool exit = false;
     while( !exit ) {
-        // totally hoisted this from advanced_inv
-        if( g->u.moves < 0 ) {
-            g->u.assign_activity( ACT_ARMOR_LAYERS, 0 );
-            g->u.activity.auto_resume = true;
-            return;
+        if( is_player() ) {
+            // Totally hoisted this from advanced_inv
+            if( g->u.moves < 0 ) {
+                g->u.assign_activity( ACT_ARMOR_LAYERS, 0 );
+                g->u.activity.auto_resume = true;
+                return;
+            }
+        } else {
+            // Player is sorting NPC's armor here
+            // TODO: Add all sorts of checks here, to prevent player from wasting NPC moves
+            if( rl_dist( g->u.pos(), pos() ) > 1 ) {
+                return;
+            }
+            if( attitude_to( g->u ) != Creature::A_FRIENDLY ) {
+                return;
+            }
+            if( moves < -200 ) {
+                return;
+            }
         }
         werase(w_sort_cat);
         werase(w_sort_left);
@@ -240,7 +254,7 @@ void player::sort_armor()
         wprintz(w_sort_cat, c_white, _("Sort Armor"));
         wprintz(w_sort_cat, c_yellow, "  << %s >>", armor_cat[tabindex].c_str());
         tmp_str = string_format(_("Press %s for help."), ctxt.get_desc("HELP").c_str());
-        mvwprintz(w_sort_cat, 0, win_w - utf8_width(tmp_str.c_str()) - 4,
+        mvwprintz(w_sort_cat, 0, win_w - utf8_width(tmp_str) - 4,
                   c_white, tmp_str.c_str());
 
         // Create ptr list of items to display
@@ -309,14 +323,13 @@ void player::sort_armor()
                 mvwprintz(w_sort_middle, cont_h - 12 + i, 2, c_ltgray, "%s:", armor_cat[i].c_str());
             }
             true_enc = enc - armorenc;
-            char my_spaces[]    = "   ";    // lol
-            char *spaces        = (char*)&my_spaces;
-            if(true_enc > 9)    ++spaces;
-            if(armorenc > 9)    ++spaces;
-            mvwprintz(w_sort_middle, cont_h - 12 + i, middle_w - 16, c_ltgray, "%d+%d%s= ", armorenc, true_enc, spaces);
-            wprintz(w_sort_middle, encumb_color(enc), "%d" , enc);
+            // well, now I can't use my "Tom is my only friend" joke anymore
+            std::string enc_string = string_format("%3d+%-3d = ", armorenc, true_enc);
+            // TODO: perhaps make (middle_w - 20) something a bit more dynamic? (p.s. originally 'middle_w - 16')
+            mvwprintz(w_sort_middle, cont_h - 12 + i, (middle_w - 20), c_ltgray, enc_string.c_str());
+            wprintz(w_sort_middle, encumb_color(enc), "%-3d" , enc);
             int bodyTempInt = (temp_conv[i] / 100.0) * 2 - 100; // Scale of -100 to +100
-            mvwprintz(w_sort_middle, cont_h - 12 + i, middle_w - 6, bodytemp_color(i), "(%3d)", bodyTempInt);
+            mvwprintz(w_sort_middle, cont_h - 12 + i, middle_w - 6, bodytemp_color(i), "(% 3d)", bodyTempInt);
         }
 
         // Right header
@@ -341,9 +354,7 @@ void player::sort_armor()
                         mvwprintz( w_sort_right, pos, 2, dam_color[int( elem.damage + 1 )],
                                    elem.type_name( 1 ).c_str() );
                         mvwprintz( w_sort_right, pos, right_w - 2, c_ltgray, "%d",
-                                   ( elem.has_flag( "FIT" ) ) ?
-                                       std::max( 0, (elem.get_encumber() - 10) ) :
-                                       elem.get_encumber() );
+                                   elem.get_encumber() );
                         pos++;
                     }
                     rightListSize++;
@@ -362,7 +373,17 @@ void player::sort_armor()
         wrefresh(w_sort_middle);
         wrefresh(w_sort_right);
 
+        // A set of actions that we can only execute if is_player() is true
+        static const std::set<std::string> not_allowed_npc = {{
+            "EQUIP_ARMOR", "REMOVE_ARMOR", "ASSIGN_INVLETS"
+        }};
+
         const std::string action = ctxt.handle_input();
+        if( !is_player() && not_allowed_npc.count( action ) > 0 ) {
+            popup( _("Can't use that action on an NPC") );
+            continue;
+        }
+
         if (action == "UP" && leftListSize > 0) {
             leftListIndex--;
             if (leftListIndex < 0) {
@@ -381,9 +402,8 @@ void player::sort_armor()
                 if( leftListIndex < selected ) {
                     std::swap( *tmp_worn[leftListIndex], *tmp_worn[selected] );
                 } else {
-                    const auto tmp_item = *tmp_worn[selected];
-                    const auto it_selected = worn.begin() + ( tmp_worn[selected] - &worn.front() );
-                    worn.erase( it_selected );
+                    const item tmp_item = *tmp_worn[selected];
+                    i_rem( tmp_worn[selected] );
                     worn.insert( worn.end(), tmp_item );
                 }
 
@@ -403,9 +423,8 @@ void player::sort_armor()
                 if( leftListIndex > selected ) {
                     std::swap( *tmp_worn[leftListIndex], *tmp_worn[selected] );
                 } else {
-                    const auto tmp_item = *tmp_worn[selected];
-                    const auto it_selected = worn.begin() + ( tmp_worn[selected] - &worn.front() );
-                    worn.erase( it_selected );
+                    const item tmp_item = *tmp_worn[selected];
+                    i_rem( tmp_worn[selected] );
                     worn.insert( worn.begin(), tmp_item );
                 }
 
@@ -438,6 +457,13 @@ void player::sort_armor()
             } else {
                 selected = leftListIndex;
             }
+        } else if (action == "CHANGE_SIDE") {
+             if (leftListIndex < (int) tmp_worn.size() && tmp_worn[leftListIndex]->is_sided()) {
+                 if (query_yn(_("Swap side for %s?"), tmp_worn[leftListIndex]->tname().c_str())) {
+                     change_side(tmp_worn[leftListIndex]);
+                     wrefresh(w_sort_armor);
+                }
+            }
         } else if (action == "EQUIP_ARMOR") {
             // filter inventory for all items that are armor/clothing
             int pos = g->inv_for_unequipped(_("Put on:"), [](const item &it) {
@@ -464,27 +490,30 @@ void player::sort_armor()
             wrefresh(w_sort_armor);
         } else if (action == "REMOVE_ARMOR") {
             // query (for now)
-            if(query_yn(_("Remove selected armor?"))) {
-                // remove the item, asking to drop it if necessary
-                takeoff(tmp_worn[leftListIndex]);
+            if (leftListIndex < (int) tmp_worn.size()) {
+                if (query_yn(_("Remove selected armor?"))) {
+                    // remove the item, asking to drop it if necessary
+                    takeoff(tmp_worn[leftListIndex]);
+                    wrefresh(w_sort_armor);
+                }
             }
         } else if (action == "ASSIGN_INVLETS") {
             // prompt first before doing this (yes yes, more popups...)
             if(query_yn(_("Reassign invlets for armor?"))) {
                 // Start with last armor (the most unimportant one?)
-                int worn_index = worn.size() - 1;
-                int invlet_index = inv_chars.size() - 1;
-                while (invlet_index >= 0 && worn_index >= 0) {
-                    const char invlet = inv_chars[invlet_index];
-                    item &w = worn[worn_index];
+                auto iiter = inv_chars.rbegin();
+                auto witer = worn.rbegin();
+                while( witer != worn.rend() && iiter != inv_chars.rend() ) {
+                    const char invlet = *iiter;
+                    item &w = *witer;
                     if (invlet == w.invlet) {
-                        worn_index--;
+                        ++witer;
                     } else if (invlet_to_position(invlet) != INT_MIN) {
-                        invlet_index--;
+                        ++iiter;
                     } else {
                         w.invlet = invlet;
-                        worn_index--;
-                        invlet_index--;
+                        ++witer;
+                        ++iiter;
                     }
                 }
             }
@@ -494,6 +523,7 @@ Use the arrow- or keypad keys to navigate the left list.\n\
 Press [%s] to select highlighted armor for reordering.\n\
 Use   [%s] / [%s] to scroll the right list.\n\
 Press [%s] to assign special inventory letters to clothing.\n\
+Press [%s] to change the side on which item is worn.\n\
 Use   [%s] to equip an armor item from the inventory.\n\
 Press [%s] to remove selected armor from oneself.\n\
  \n\
@@ -505,6 +535,7 @@ The sum of these values is the effective encumbrance value your character has fo
                          ctxt.get_desc("PREV_TAB").c_str(),
                          ctxt.get_desc("NEXT_TAB").c_str(),
                          ctxt.get_desc("ASSIGN_INVLETS").c_str(),
+                         ctxt.get_desc("CHANGE_SIDE").c_str(),
                          ctxt.get_desc("EQUIP_ARMOR").c_str(),
                          ctxt.get_desc("REMOVE_ARMOR").c_str()
                         );

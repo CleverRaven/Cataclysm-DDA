@@ -1,0 +1,1340 @@
+[
+{
+    "id": "shooter",
+    "type": "GUN",
+    "symbol": "&",
+    "color": "dark_gray",
+    "name": "blob shooter",
+    "description": "This weapon is an... odd combination of blob and human ingenuity.  A constructed skeleton made of shaped bones, held together by a living blob.  It is capable of digesting fed materials; the resulting waste is then launched towards any nearby hostiles.  Once empty, the creature goes dormant until fed.  While the projectile itself is small, it travels quickly, and there's no shortage of... well, whatever it is, it isn't edible.",
+    "price": 0,
+    "material": ["flesh", "bone"],
+    "flags": ["NEVER_JAMS", "MOUNTED_GUN", "NO_BOOM"],
+    "skill": "pistol",
+    "ammo": "components",
+    "weight": 12142,
+    "volume": 12,
+    "bashing": 10,
+    "cutting": 0,
+    "to_hit": -5,
+    "ranged_damage": 5,
+    "range": 10,
+    "dispersion": 0,
+    "sight_dispersion": 150,
+    "aim_speed" : 0,
+    "recoil": 0,
+    "durability": 10,
+    "burst": 1,
+    "clip_size": 0,
+    "reload": 0
+  },
+  {
+    "id": "darter",
+    "type": "GUN",
+    "symbol": "&",
+    "color": "dark_gray",
+    "name": "blob darter",
+    "description": "This weapon is an... odd combination of blob and human ingenuity.  A constructed skeleton made of shaped bones, held together by a living blob.  The structure's blob secretes a venomous substance.  Which, when fed darts; is then coated onto darts.  The blob then ejects the darts at nearby hostiles as a self-defense mechanism.  The venom itself recedes quickly, but is capable of temporarily disorienting what it strikes; including other blob-based organisms.",
+    "price": 0,
+    "material": ["flesh", "bone"],
+    "flags": ["NEVER_JAMS", "MOUNTED_GUN", "NO_BOOM"],
+    "ammo_effects": "BEANBAG",
+    "skill": "pistol",
+    "ammo": "dart",
+    "weight": 15103,
+    "volume": 12,
+    "bashing": 10,
+    "cutting": 0,
+    "to_hit": -5,
+    "ranged_damage": 1,
+    "range": 18,
+    "dispersion": 0,
+    "sight_dispersion": 150,
+    "aim_speed" : 0,
+    "recoil": 0,
+    "durability": 10,
+    "burst": 1,
+    "clip_size": 0,
+    "reload": 0
+  },
+  {
+    "id": "spitter",
+    "type": "GUN",
+    "symbol": "&",
+    "color": "dark_gray",
+    "name": "blob spitter",
+    "description": "This weapon is an... odd combination of blob and human ingenuity.  A constructed skeleton made of shaped bones, held together by a living blob.  When fed, it produces an extremely corrosive liquid.  The blob then spits out this \"acid\" at nearby enemies.  The liquid's effectiveness against hostiles is only matched by its horrible smell.",
+    "price": 0,
+    "material": ["flesh", "bone"],
+    "flags": ["NEVER_JAMS", "MOUNTED_GUN", "NO_BOOM"],
+    "ammo_effects": ["ACIDBOMB", "JET"],
+    "skill": "launcher",
+    "ammo": "bfeed",
+    "weight": 16501,
+    "volume": 15,
+    "bashing": 10,
+    "cutting": 0,
+    "to_hit": -5,
+    "ranged_damage": 1,
+    "range": 15,
+    "dispersion": 3000,
+    "sight_dispersion": 150,
+    "aim_speed" : 0,
+    "recoil": 0,
+    "durability": 10,
+    "burst": 1,
+    "clip_size": 0,
+    "reload": 0
+  },
+  {
+    "id": "slinger",
+    "type": "GUN",
+    "symbol": "&",
+    "color": "dark_gray",
+    "name": "blob slinger",
+    "description": "This weapon is an... odd combination of blob and human ingenuity.  A constructed skeleton made of shaped bones, held together by a living blob.  The size of this creature is significant, and such it is capable of hurling its projectile with significant strength.",
+    "price": 0,
+    "material": ["flesh", "bone"],
+    "flags": ["NEVER_JAMS", "MOUNTED_GUN"],
+    "skill": "launcher",
+    "ammo": "h_projectile",
+    "weight": 24142,
+    "volume": 22,
+    "bashing": 10,
+    "cutting": 0,
+    "to_hit": -5,
+    "ranged_damage": 25,
+    "range": 20,
+    "dispersion": 0,
+    "sight_dispersion": 150,
+    "aim_speed" : 0,
+    "recoil": 0,
+    "durability": 10,
+    "burst": 1,
+    "clip_size": 0,
+    "reload": 0
+  },
+  {
+    "id": "lancer",
+    "type": "GUN",
+    "symbol": "&",
+    "color": "dark_gray",
+    "name": "blob lancer",
+    "description": "This weapon is an... odd combination of blob and human ingenuity.  A constructed skeleton made of shaped bones, held together by a living blob.  Within the blob you see a maelstrom of what appear to be threads.  When a hostile creature gets too near, the blob gathers these threads towards a single point and then thrusts it towards the hostile creature while simultaneously hardening the tip of this \"spear\".  It retracts it quickly after firing.",
+    "price": 0,
+    "material": ["flesh", "bone"],
+    "flags": ["NEVER_JAMS", "MOUNTED_GUN", "NO_BOOM", "WHIP"],
+    "ammo_effects": ["WHIP"],
+    "skill": "rifle",
+    "ammo": "bfeed",
+    "weight": 22121,
+    "volume": 18,
+    "bashing": 10,
+    "cutting": 0,
+    "to_hit": -5,
+    "ranged_damage": 30,
+    "pierce": 30,
+    "range": 6,
+    "dispersion": 0,
+    "sight_dispersion": 150,
+    "aim_speed" : 0,
+    "recoil": 0,
+    "durability": 10,
+    "burst": 1,
+    "clip_size": 0,
+    "reload": 0
+  },
+  {
+        "type" : "vehicle_part",
+        "id" : "shooter",
+        "name" : "blob shooter",
+        "symbol" : "t",
+        "color" : "dark_gray",
+        "broken_symbol" : "#",
+        "broken_color" : "dark_gray",
+        "damage_modifier" : 80,
+        "durability" : 100,
+        "range" : 10,
+        "folded_volume": 10,
+        "item" : "shooter",
+        "size" : 10,
+        "difficulty" : 1,
+        "location" : "on_roof",
+        "flags" : ["TURRET", "CARGO", "TOOL_NONE"],
+        "breaks_into" : [
+            {"item": "blobshootergrow"}
+        ]
+    },
+    {
+        "type" : "vehicle_part",
+        "id" : "darter",
+        "name" : "blob darter",
+        "symbol" : "t",
+        "color" : "dark_gray",
+        "broken_symbol" : "#",
+        "broken_color" : "dark_gray",
+        "damage_modifier" : 80,
+        "durability" : 100,
+        "range" : 10,
+        "folded_volume": 10,
+        "item" : "darter",
+        "size" : 10,
+        "difficulty" : 1,
+        "location" : "on_roof",
+        "flags" : ["TURRET", "CARGO", "TOOL_NONE"],
+        "breaks_into" : [
+            {"item": "blobdartergrow"}
+        ]
+    },
+    {
+        "type" : "vehicle_part",
+        "id" : "spitter",
+        "name" : "blob spitter",
+        "symbol" : "t",
+        "color" : "green",
+        "broken_symbol" : "#",
+        "broken_color" : "green",
+        "damage_modifier" : 80,
+        "durability" : 100,
+        "range" : 12,
+        "folded_volume": 12,
+        "item" : "spitter",
+        "difficulty" : 1,
+        "location" : "on_roof",
+        "flags" : ["TURRET", "TOOL_NONE"],
+        "breaks_into" : [
+            {"item": "blobspittergrow"}
+        ]
+    },
+    {
+        "type" : "vehicle_part",
+        "id" : "slinger",
+        "name" : "blob slinger",
+        "symbol" : "t",
+        "color" : "dark_gray",
+        "broken_symbol" : "#",
+        "broken_color" : "dark_gray",
+        "damage_modifier" : 80,
+        "durability" : 200,
+        "range" : 10,
+        "folded_volume": 12,
+        "item" : "slinger",
+        "size" : 50,
+        "difficulty" : 1,
+        "location" : "on_roof",
+        "flags" : ["TURRET", "CARGO", "TOOL_NONE"],
+        "breaks_into" : [
+            {"item": "blobslingergrow"}
+        ]
+    },
+    {
+        "type" : "vehicle_part",
+        "id" : "lancer",
+        "name" : "blob lancer",
+        "symbol" : "t",
+        "color" : "dark_gray",
+        "broken_symbol" : "#",
+        "broken_color" : "dark_gray",
+        "damage_modifier" : 80,
+        "durability" : 200,
+        "folded_volume": 12,
+        "range": 8,
+        "item" : "lancer",
+        "difficulty" : 1,
+        "location" : "on_roof",
+        "flags" : ["TURRET", "TOOL_NONE"],
+        "breaks_into" : [
+            {"item": "bloblancergrow"}
+        ]
+    },
+    {
+        "type" : "vehicle_part",
+        "id" : "blob_tank",
+        "name" : "blob core",
+        "symbol" : "O",
+        "color" : "green",
+        "broken_symbol" : "#",
+        "broken_color" : "green",
+        "damage_modifier" : 80,
+        "durability" : 100,
+        "size" : 10000,
+        "fuel_type" : "bfeed",
+        "item" : "blob_tank",
+        "difficulty" : 1,
+        "location" : "fuel_source",
+        "flags" : ["FUEL_TANK", "TOOL_NONE"],
+        "breaks_into" : [
+            {"item": "slime_scrap", "count": [6, 12]},
+            {"item": "scrap", "count": [5, 8]}
+        ]
+    },
+    {
+        "type" : "vehicle_part",
+        "id" : "bplate",
+        "name" : "blob plating",
+        "symbol" : "X",
+        "color" : "light_gray",
+        "broken_symbol" : "*",
+        "broken_color" : "ltgray",
+        "damage_modifier" : 10,
+        "durability" : 500,
+        "item" : "bplate",
+        "difficulty" : 1,
+        "location" : "armor",
+        "flags" : ["ARMOR", "TOOL_NONE"],
+        "breaks_into" : [
+            {"item": "bplategrow"}
+        ]
+    },
+    {
+        "type" : "vehicle_part",
+        "id" : "bseat",
+        "name" : "blob seat",
+        "symbol" : "#",
+        "color" : "green",
+        "broken_symbol" : "*",
+        "broken_color" : "green",
+        "damage_modifier" : 10,
+        "durability" : 250,
+        "item" : "bseat",
+        "bonus" : 100,
+        "difficulty" : 1,
+        "location" : "center",
+        "flags" : ["SEAT", "BED", "BOARDABLE", "TOOL_NONE", "BELTABLE"],
+        "breaks_into" : [
+            {"item": "bseatgrow"}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "bharness",
+        "name" : "blob harness",
+        "symbol" : ",",
+        "color" : "light_gray",
+        "broken_symbol" : ",",
+        "broken_color" : "red",
+        "damage_modifier" : 10,
+        "durability" : 250,
+        "folded_volume": 2,
+        "bonus" : 100,
+        "item" : "bharness",
+        "difficulty" : 1,
+        "location" : "on_seat",
+        "flags" : ["SEATBELT", "TOOL_NONE"],
+        "breaks_into" : [
+            {"item": "bharnessgrow"}
+        ]
+    },
+    {
+        "type" : "vehicle_part",
+        "id" : "bframe",
+        "name" : "blob frame",
+        "symbol" : "-",
+        "color" : "light_gray",
+        "broken_symbol" : "#",
+        "broken_color" : "light_gray",
+        "damage_modifier" : 10,
+        "durability" : 250,
+        "difficulty" : 1,
+        "folded_volume": 22,
+        "item" : "bframe",
+        "location" : "structure",
+        "flags" : ["MOUNTABLE", "TOOL_NONE"],
+        "breaks_into" : [
+            {"item": "bframegrow"}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "bwheel",
+        "name" : "blob wheel",
+        "symbol" : "|",
+        "color" : "dark_gray",
+        "broken_symbol" : "x",
+        "broken_color" : "light_gray",
+        "damage_modifier" : 80,
+        "durability" : 750,
+        "wheel_width" : 20,
+        "item" : "bwheel",
+        "difficulty" : 1,
+        "location" : "under",
+        "flags" : ["WHEEL", "TOOL_NONE"],
+        "breaks_into" : [
+            {"item": "bwheelgrow"}
+        ]
+    },
+    {
+        "type" : "vehicle_part",
+        "id" : "bengineout",
+        "name" : "blob grinder",
+        "symbol" : "O",
+        "color" : "white",
+        "broken_symbol" : "#",
+        "broken_color" : "white",
+        "damage_modifier" : 250,
+        "power" : 150,
+        "durability" : 2500,
+        "wheel_width" : 40,
+        "fuel_type" : "bfeed",
+        "item" : "bengine",
+        "difficulty" : 4,
+        "location" : "structure",
+        "flags" : ["ENGINE", "WHEEL", "TOOL_NONE", "PROTRUSION", "STABLE"],
+        "breaks_into" : [
+            {"item": "benginegrow"}
+        ]
+    },
+    {
+        "type" : "vehicle_part",
+        "id" : "benginein",
+        "name" : "blob roller",
+        "symbol" : "O",
+        "color" : "white",
+        "broken_symbol" : "#",
+        "broken_color" : "white",
+        "damage_modifier" : 250,
+        "power" : 150,
+        "durability" : 2500,
+        "wheel_width" : 40,
+        "fuel_type" : "bfeed",
+        "item" : "bengine",
+        "difficulty" : 4,
+        "location" : "engine_block",
+        "flags" : ["ENGINE", "WHEEL", "TOOL_NONE"],
+        "breaks_into" : [
+            {"item": "benginegrow"}
+        ]
+    },
+{
+        "type" : "recipe",
+  "result": "bfeedpot",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_MATERIALS",
+  "skill_used": "cooking",
+  "difficulty": 1,
+  "time": 1000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1},
+    {"id":"HAMMER","level":1,"amount":1}
+  ],
+  "components": [
+    [
+      [ "metal_tank_small", 1],
+      [ "clay_hydria", 1],
+      [ "blob_tank", 1]
+    ],
+    [
+      [ "meat", 10 ],
+      [ "meat_tainted", 10 ],
+      [ "human_flesh", 10 ]
+    ],
+    [
+      [ "water", 30 ],
+      [ "sewage", 30 ],
+      [ "salt_water", 30 ]
+    ],
+    [
+      [ "bone", 10 ],
+      [ "bone_tainted", 10 ],
+      [ "bone_human", 10 ]
+    ],
+    [
+      [ "slime_scrap", 1 ],
+      [ "blob_tank", 1]
+  ]]
+},
+{
+        "type" : "recipe",
+  "result": "blobshootergrow",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_PARTS",
+  "skill_used": "fabrication",
+  "skills_required": [ "cooking", 4 ],
+  "difficulty": 2,
+  "time": 15000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities":[
+    {"id":"CUT","level":1,"amount":1},
+    {"id":"HAMMER","level":1,"amount":1}
+  ],
+  "components": [
+    [
+      [ "bone", 30 ],
+      [ "bone_tainted", 30 ],
+      [ "bone_human", 30 ]
+    ],
+    [
+      [ "waterskin3", 1 ],
+      [ "waterskin2", 2 ],
+      [ "waterskin", 3 ]
+    ],
+    [
+     [ "slime_scrap", 20 ]
+    ],
+    [
+     [ "string_6", 24 ],
+     [ "string_36", 4 ],
+     [ "duct_tape", 100 ],
+     [ "superglue", 4 ],
+     [ "bone_glue", 4 ]
+    ],
+    [
+     [ "bfeed", 200 ]
+    ],
+    [
+     [ "mutagen", 1 ]
+    ]
+  ]
+},
+{
+        "type" : "recipe",
+  "result": "blobdartergrow",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_PARTS",
+  "skill_used": "fabrication",
+  "skills_required": [ "cooking", 5 ],
+  "difficulty": 3,
+  "time": 10000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities":[
+    {"id":"CUT","level":1,"amount":1},
+    {"id":"HAMMER","level":1,"amount":1}
+  ],
+  "components": [
+    [
+      ["shooter", 1]
+    ],
+    [
+     [ "bfeed", 200 ]
+    ],
+    [
+      [ "bone", 8 ],
+      [ "bone_tainted", 8 ],
+      [ "bone_human", 8 ]
+    ],
+    [
+      [ "waterskin3", 1 ],
+      [ "waterskin2", 2 ],
+      [ "waterskin", 3 ]
+    ],
+    [
+     [ "string_6", 12 ],
+     [ "string_36", 2 ],
+     [ "duct_tape", 50 ],
+     [ "superglue", 2 ],
+     [ "bone_glue", 2 ]
+    ],
+    [
+     [ "mutagen", 1 ]
+    ]
+            ]
+},
+{
+        "type" : "recipe",
+  "result": "blobspittergrow",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_PARTS",
+  "skill_used": "fabrication",
+  "skills_required": [ "cooking", 5 ],
+  "difficulty": 3,
+  "time": 10000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities":[
+    {"id":"CUT","level":1,"amount":1},
+    {"id":"HAMMER","level":1,"amount":1}
+  ],
+  "components": [
+    [
+      ["shooter", 1]
+    ],
+    [
+     [ "bfeed", 400 ]
+    ],
+    [
+      [ "bone", 10 ],
+      [ "bone_tainted", 10 ],
+      [ "bone_human", 10 ]
+    ],
+    [
+      [ "waterskin3", 1 ],
+      [ "waterskin2", 2 ],
+      [ "waterskin", 3 ]
+    ],
+    [
+     [ "string_6", 12 ],
+     [ "string_36", 2 ],
+     [ "duct_tape", 50 ],
+     [ "superglue", 2 ],
+     [ "bone_glue", 2 ]
+    ],
+    [
+     [ "mutagen", 1 ]
+    ]
+        ]
+},
+{
+        "type" : "recipe",
+  "result": "blobslingergrow",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_PARTS",
+  "skill_used": "fabrication",
+  "skills_required": [ "cooking", 5 ],
+  "difficulty": 3,
+  "time": 20000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities":[
+    {"id":"CUT","level":1,"amount":1},
+    {"id":"HAMMER","level":1,"amount":1}
+  ],
+  "components": [
+    [
+      ["shooter", 1]
+    ],
+    [
+     [ "bfeed", 1000 ]
+    ],
+    [
+      [ "bone", 20 ],
+      [ "bone_tainted", 20 ],
+      [ "bone_human", 20 ]
+    ],
+    [
+      [ "waterskin3", 1 ],
+      [ "waterskin2", 2 ],
+      [ "waterskin", 3 ]
+    ],
+    [
+     [ "string_6", 20 ],
+     [ "string_36", 4 ],
+     [ "duct_tape", 100 ],
+     [ "superglue", 4 ],
+     [ "bone_glue", 4 ]
+    ],
+    [
+     [ "mutagen", 3 ],
+     [ "iv_mutagen", 1 ]
+    ]
+        ]
+},
+{
+        "type" : "recipe",
+  "result": "bloblancergrow",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_PARTS",
+  "skill_used": "fabrication",
+  "skills_required": [ "cooking", 5 ],
+  "difficulty": 3,
+  "time": 20000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities":[
+    {"id":"CUT","level":1,"amount":1},
+    {"id":"HAMMER","level":1,"amount":1}
+  ],
+  "components": [
+    [
+      ["shooter", 1]
+    ],
+    [
+     [ "bfeed", 1000 ]
+    ],
+    [
+      [ "bone", 10 ],
+      [ "bone_tainted", 10 ],
+      [ "bone_human", 10 ]
+    ],
+    [
+      [ "waterskin3", 1 ],
+      [ "waterskin2", 2 ],
+      [ "waterskin", 3 ]
+    ],
+    [
+     [ "string_6", 12 ],
+     [ "string_36", 2 ],
+     [ "superglue", 2 ],
+     [ "bone_glue", 2 ],
+     [ "duct_tape", 50 ]
+    ],
+    [
+     [ "mutagen", 3 ],
+     [ "iv_mutagen", 1 ]
+    ]
+        ]
+},
+  {
+    "id": "bfeedpot",
+    "type": "TOOL",
+    "symbol": ";",
+    "color": "brown",
+    "name": "blob feed fermenter",
+    "description": "A container filled with... something.  It definitely isn't anything like mom used to make.",
+    "price": 100,
+    "material": ["steel", "clay"],
+    "weight": 17100,
+    "volume": 50,
+    "bashing": 0,
+    "cutting": 0,
+    "to_hit": -2,
+    "max_charges": 0,
+    "initial_charges": 0,
+    "charges_per_use": 0,
+    "turns_per_charge": 0,
+    "ammo": "NULL",
+    "revert_to": "null",
+    "category" : "tools",
+    "use_action": {
+        "type": "delayed_transform",
+        "transform_age": 7200,
+        "not_ready_msg": "While it definitely smells ripe, it isn't done.",
+        "msg": "You hold your breath and open up the container.",
+        "moves": 50,
+        "container": "blob_tank",
+        "target": "bfeed",
+        "target_charges": 5000
+    }
+  },
+  {
+    "id": "blob_tank",
+    "type": "CONTAINER",
+    "symbol": ")",
+    "color": "brown",
+    "name": "blob core",
+    "description": "A large container previously filled with some horrendously smelling liquid and now infested with an equally horrendously smelling unknown substance that seems to have permeated into the it.  Occasionally the container gives a shake, as if alive.",
+    "price": 100,
+    "material": ["flesh", "clay"],
+    "weight": 24100,
+    "volume": 50,
+    "bashing": 0,
+    "cutting": 0,
+    "to_hit": -2,
+    "contains": 10,
+    "ammo": "bfeed",
+    "rigid": true,
+    "watertight": true,
+    "seals": true
+    },
+  {
+    "id": "blobshootergrow",
+    "type": "TOOL",
+    "symbol": ";",
+    "color": "brown",
+    "name": "growing blob shooter",
+    "description": "This appears to be some form of structure constructed from bone, held together by some unknown slimy substance.  A jury-rigged slow-drip dispenser trickles some fluid you'd prefer not to think too hard about throughout the structure.",
+    "price": 100,
+    "material": ["bone", "flesh"],
+    "weight": 13115,
+    "volume": 14,
+    "bashing": 0,
+    "cutting": 0,
+    "to_hit": -2,
+    "max_charges": 0,
+    "initial_charges": 0,
+    "charges_per_use": 0,
+    "turns_per_charge": 0,
+    "ammo": "NULL",
+    "revert_to": "null",
+    "category" : "tools",
+    "use_action": {
+        "type": "delayed_transform",
+        "transform_age": 2400,
+        "not_ready_msg": "The blob is still growing; at a phenomenal rate you might add.",
+        "msg": "The blob emits an odd gurgle; it sounds disturbingly like \"Mama!\".",
+        "moves": 0,
+        "target": "shooter"
+    }
+    },
+  {
+    "id": "blobdartergrow",
+    "type": "TOOL",
+    "symbol": ";",
+    "color": "brown",
+    "name": "growing blob darter",
+    "description": "This appears to be some form of structure constructed from bone, held together by some unknown slimy substance.  A jury-rigged slow-drip dispenser trickles some fluid you'd prefer not to think too hard about throughout the structure.",
+    "price": 100,
+    "material": ["bone", "flesh"],
+    "weight": 14613,
+    "volume": 16,
+    "bashing": 0,
+    "cutting": 0,
+    "to_hit": -2,
+    "max_charges": 0,
+    "initial_charges": 0,
+    "charges_per_use": 0,
+    "turns_per_charge": 0,
+    "ammo": "NULL",
+    "revert_to": "null",
+    "category" : "tools",
+    "use_action": {
+        "type": "delayed_transform",
+        "transform_age": 1200,
+        "not_ready_msg": "The blob is still growing; at a phenomenal rate you might add.",
+        "msg": "The blob emits an odd gurgle; it sounds disturbingly like \"Mama!\".",
+        "moves": 0,
+        "target": "darter"
+    }
+    },
+  {
+    "id": "blobspittergrow",
+    "type": "TOOL",
+    "symbol": ";",
+    "color": "brown",
+    "name": "growing blob spitter",
+    "description": "This appears to be some form of structure constructed from bone, held together by some unknown slimy substance.  A jury-rigged slow-drip dispenser trickles some fluid you'd prefer not to think too hard about throughout the structure.",
+    "price": 100,
+    "material": ["bone", "flesh"],
+    "weight": 15662,
+    "volume": 20,
+    "bashing": 0,
+    "cutting": 0,
+    "to_hit": -2,
+    "max_charges": 0,
+    "initial_charges": 0,
+    "charges_per_use": 0,
+    "turns_per_charge": 0,
+    "ammo": "NULL",
+    "revert_to": "null",
+    "category" : "tools",
+    "use_action": {
+        "type": "delayed_transform",
+        "transform_age": 2400,
+        "not_ready_msg": "The blob is still growing; at a phenomenal rate you might add.",
+        "msg": "The blob emits an odd gurgle; it sounds disturbingly like \"Mama!\".",
+        "moves": 0,
+        "target": "spitter"
+    }
+  },
+  {
+    "id": "blobslingergrow",
+    "type": "TOOL",
+    "symbol": ";",
+    "color": "brown",
+    "name": "growing blob slinger",
+    "description": "This appears to be some form of structure constructed from bone, held together by some unknown slimy substance.  A jury-rigged slow-drip dispenser trickles some fluid you'd prefer not to think too hard about throughout the structure.",
+    "price": 100,
+    "material": ["bone", "flesh"],
+    "weight": 20662,
+    "volume": 28,
+    "bashing": 0,
+    "cutting": 0,
+    "to_hit": -2,
+    "max_charges": 0,
+    "initial_charges": 0,
+    "charges_per_use": 0,
+    "turns_per_charge": 0,
+    "ammo": "NULL",
+    "revert_to": "null",
+    "category" : "tools",
+    "use_action": {
+        "type": "delayed_transform",
+        "transform_age": 7200,
+        "not_ready_msg": "The blob is still growing; at a phenomenal rate you might add.",
+        "msg": "The blob emits an odd gurgle; it sounds disturbingly like \"Mama!\".",
+        "moves": 0,
+        "target": "slinger"
+    }
+    },
+  {
+    "id": "bloblancergrow",
+    "type": "TOOL",
+    "symbol": ";",
+    "color": "brown",
+    "name": "growing blob lancer",
+    "description": "This appears to be some form of structure constructed from bone, held together by some unknown slimy substance.  A jury-rigged slow-drip dispenser trickles some fluid you'd prefer not to think too hard about throughout the structure.",
+    "price": 100,
+    "material": ["bone", "flesh"],
+    "weight": 8662,
+    "volume": 24,
+    "bashing": 0,
+    "cutting": 0,
+    "to_hit": -2,
+    "max_charges": 0,
+    "initial_charges": 0,
+    "charges_per_use": 0,
+    "turns_per_charge": 0,
+    "ammo": "NULL",
+    "revert_to": "null",
+    "category" : "tools",
+    "use_action": {
+        "type": "delayed_transform",
+        "transform_age": 2400,
+        "not_ready_msg": "The blob is still growing; at a phenomenal rate you might add.",
+        "msg": "The blob emits an odd gurgle; it sounds disturbingly like \"Mama!\".",
+        "moves": 0,
+        "target": "lancer"
+    }
+  },
+  {
+    "id": "bframegrow",
+    "type": "TOOL",
+    "symbol": ";",
+    "color": "brown",
+    "name": "growing blob frame",
+    "description": "A vehicle frame made of bone.  It's coated in a thick layer of ooze, though there's greater amounts on the bindings.",
+    "price": 100,
+    "material": ["bone", "flesh"],
+    "weight": 6662,
+    "volume": 40,
+    "bashing": 0,
+    "cutting": 0,
+    "to_hit": -2,
+    "max_charges": 0,
+    "initial_charges": 0,
+    "charges_per_use": 0,
+    "turns_per_charge": 0,
+    "ammo": "NULL",
+    "revert_to": "null",
+    "category" : "tools",
+    "use_action": {
+        "type": "delayed_transform",
+        "transform_age": 2400,
+        "not_ready_msg": "You test the frame; it gives easily, it's still not sturdy enough",
+        "msg": "You test the frame; it gives into pressure, but quickly springs back into place.  It's ready.",
+        "moves": 0,
+        "target": "bframe"
+    }
+  },
+  {
+        "type":"GENERIC",
+        "id" : "bframe",
+        "name" : "blob frame",
+        "description" : "A vehicle frame made of bone.  It's coated in a thick layer of ooze, particularly at the bindings that hold it together.  Allowing a significant amount of flexibility; yet retaining strength.  It seems to stick to anything it touches if left for enough but loosens at your touch.",
+        "weight" : 6662,
+        "to_hit" : -3,
+        "color" : "light_gray",
+        "symbol" : "]",
+        "material" : ["bone", "flesh"],
+        "volume" : 40,
+        "bashing" : 9,
+        "cutting" : 0,
+        "category" : "veh_parts",
+        "price" : 500
+    },
+  {
+    "id": "bplategrow",
+    "type": "TOOL",
+    "symbol": ";",
+    "color": "brown",
+    "name": "growing blob plate",
+    "description": "A \"blanket\" made of layers of padding and blob supported by a loose framework of bone.  Made to absorb impacts rather than withstand them.",
+    "price": 100,
+    "material": [ "cotton", "bone" ],
+    "weight": 9162,
+    "volume": 10,
+    "bashing": 0,
+    "cutting": 0,
+    "to_hit": -2,
+    "max_charges": 0,
+    "initial_charges": 0,
+    "charges_per_use": 0,
+    "turns_per_charge": 0,
+    "ammo": "NULL",
+    "revert_to": "null",
+    "category" : "tools",
+    "use_action": {
+        "type": "delayed_transform",
+        "transform_age": 2400,
+        "not_ready_msg": "You test the structure; it gives easily, it's still not sturdy enough",
+        "msg": "You test the structure; it gives into pressure, but quickly springs back into place.  It's ready.",
+        "moves": 0,
+        "target": "bplate"
+    }
+  },
+  {
+        "type":"GENERIC",
+        "id" : "bplate",
+        "name" : "blob plating",
+        "description" : "A \"blanket\" made of layers of padding and blob supported by a loose framework of bone.  Made to absorb impacts rather than withstand them.  It appears to cling to the spot if left in place for too long, but loosens at your touch.",
+        "weight" : 9162,
+        "to_hit" : -3,
+        "color" : "light_gray",
+        "symbol" : "]",
+        "material" : ["bone", "cotton"],
+        "volume" : 40,
+        "bashing" : 9,
+        "cutting" : 0,
+        "category" : "veh_parts",
+        "price" : 500
+    },
+  {
+    "id": "bseatgrow",
+    "type": "TOOL",
+    "symbol": ";",
+    "color": "green",
+    "name": "growing blob seat",
+    "description": "A... seat made of goo with a framework of bone.  Sitting in it makes the goo engulf parts of your body.",
+    "price": 100,
+    "material": [ "cotton", "bone" ],
+    "weight": 5162,
+    "volume": 20,
+    "bashing": 0,
+    "cutting": 0,
+    "to_hit": -2,
+    "max_charges": 0,
+    "initial_charges": 0,
+    "charges_per_use": 0,
+    "turns_per_charge": 0,
+    "ammo": "NULL",
+    "revert_to": "null",
+    "category" : "tools",
+    "use_action": {
+        "type": "delayed_transform",
+        "transform_age": 4800,
+        "not_ready_msg": "You test the structure; it gives easily, it's still not sturdy enough",
+        "msg": "You test the structure; it gives into pressure, but quickly springs back into place.  It's ready.",
+        "moves": 0,
+        "target": "bseat"
+    }
+  },
+  {
+        "type":"GENERIC",
+        "id" : "bseat",
+        "name" : "blob seat",
+        "description": "A... seat made of goo with a framework of bone.  Sitting in it makes the goo engulf parts of your body.  It feels a bit like a waterbed.  Or a giant stomach.",
+        "weight" : 5162,
+        "to_hit" : -3,
+        "color" : "green",
+        "symbol" : "]",
+        "material" : ["bone", "cotton"],
+        "volume" : 30,
+        "bashing" : 9,
+        "cutting" : 0,
+        "category" : "veh_parts",
+        "price" : 500
+    },
+  {
+    "id": "bharnessgrow",
+    "type": "TOOL",
+    "symbol": ";",
+    "color": "green",
+    "name": "growing blob harness",
+    "description": "What appears to be some form of harness made of goo with a loose framework of bone.  It's quite sticky, but you can pull yourself away with some effort.",
+    "price": 100,
+    "material": [ "cotton", "bone" ],
+    "weight": 1762,
+    "volume": 10,
+    "bashing": 0,
+    "cutting": 0,
+    "to_hit": -2,
+    "max_charges": 0,
+    "initial_charges": 0,
+    "charges_per_use": 0,
+    "turns_per_charge": 0,
+    "ammo": "NULL",
+    "revert_to": "null",
+    "category" : "tools",
+    "use_action": {
+        "type": "delayed_transform",
+        "transform_age": 4800,
+        "not_ready_msg": "You test the structure; it gives easily, it's still not sturdy enough",
+        "msg": "You test the structure; it gives into pressure, but quickly springs back into place.  It's ready.",
+        "moves": 0,
+        "target": "bseat"
+    }
+  },
+  {
+        "type":"GENERIC",
+        "id" : "bharness",
+        "name" : "blob harness",
+        "description": "What appears to be some form of harness made of goo with a loose framework of bone.  It's quite sticky, but you can pull yourself away with some effort.  In theory, it should keep you in place even in the hardest of impacts.  The tradeoff being the feeling of being in a giant stomach.",
+        "weight" : 2162,
+        "to_hit" : -3,
+        "color" : "green",
+        "symbol" : "]",
+        "material" : ["bone", "cotton"],
+        "volume" : 40,
+        "bashing" : 9,
+        "cutting" : 0,
+        "category" : "veh_parts",
+        "price" : 500
+    },
+  {
+    "id": "benginegrow",
+    "type": "TOOL",
+    "symbol": ";",
+    "color": "white",
+    "name": "growing blob grinder",
+    "description": "A spherical blob the size of a truck tire.  The outer layer is studded with stone.  A crude harness hangs loosely over it.  It lumber around on its own, the things it rolls over sticking to it.",
+    "price": 100,
+    "material": [ "stone", "flesh" ],
+    "weight": 63900,
+    "volume": 100,
+    "bashing": 0,
+    "cutting": 0,
+    "to_hit": -2,
+    "max_charges": 0,
+    "initial_charges": 0,
+    "charges_per_use": 0,
+    "turns_per_charge": 0,
+    "ammo": "NULL",
+    "revert_to": "null",
+    "category" : "tools",
+    "use_action": {
+        "type": "delayed_transform",
+        "transform_age": 7200,
+        "not_ready_msg": "You ive the blob a hard whack, the outer layer gives in, but springs back into place soon after.  Not just yet.",
+        "msg": "You give the blob a hard whack and end up with a bruise, you figure it's done.",
+        "moves": 0,
+        "target": "bengine"
+    }
+  },
+  {
+        "type":"GENERIC",
+        "id" : "bengine",
+        "name" : "blob grinder",
+        "description": "A spherical blob the size of a large truck tire.  The outer layer has compacted itself into a solid shell; offering great resilience.  It rolls around in its harness, crushing anything unfortunate enough to be nearby.  It seems you can lead its movements by baiting it with a trickle of food.",
+        "weight" : 344540,
+        "to_hit" : -3,
+        "color" : "white",
+        "symbol" : "]",
+        "material" : ["stone", "flesh"],
+        "volume" : 100,
+        "bashing" : 9,
+        "cutting" : 0,
+        "price" : 500,
+        "min-bigness": 300,
+        "max-bigness": 500,
+        "category": "veh_parts",
+        "bigness-aspect": "ENGINE_DISPLACEMENT"
+    },
+  {
+    "id": "bwheelgrow",
+    "type": "TOOL",
+    "symbol": ";",
+    "color": "white",
+    "name": "growing blob wheel",
+    "description": "A piece of the blob grinder that seems to have split off from the main body.  The outer layer is studded with stone.  It rolls around on its own, the things it rolls over sticking to it.",
+    "price": 100,
+    "material": [ "stone", "flesh" ],
+    "weight": 16410,
+    "volume": 20,
+    "bashing": 0,
+    "cutting": 0,
+    "to_hit": -2,
+    "max_charges": 0,
+    "initial_charges": 0,
+    "charges_per_use": 0,
+    "turns_per_charge": 0,
+    "ammo": "NULL",
+    "revert_to": "null",
+    "category" : "tools",
+    "use_action": {
+        "type": "delayed_transform",
+        "transform_age": 7200,
+        "not_ready_msg": "You ive the blob a hard whack, the outer layer gives in, but springs back into place soon after.  Not just yet.",
+        "msg": "You give the blob a hard whack and end up with a bruise, you figure it's done.",
+        "moves": 0,
+        "target": "bwheel"
+    }
+  },
+  {
+        "type":"VAR_VEH_PART",
+        "id" : "bwheel",
+        "name" : "blob wheel",
+        "description": "A piece of the blob grinder that seems to have split off from the main body.  A bit larger than a bicycle wheel and covered in a hard stone shell.  It sits dormant.",
+        "weight" : 21540,
+        "to_hit" : -3,
+        "color" : "white",
+        "symbol" : "]",
+        "material" : ["bone", "cotton"],
+        "volume" : 20,
+        "bashing" : 9,
+        "cutting" : 0,
+        "price" : 500,
+        "min-bigness": 25,
+        "max-bigness": 25,
+        "category": "veh_parts",
+        "bigness-aspect": "WHEEL_DIAMETER"
+    },
+{
+        "type" : "recipe",
+  "result": "bframegrow",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_MATERIALS",
+  "skill_used": "fabrication",
+  "difficulty": 2,
+  "skills_required": [ "cooking", 2 ],
+  "time": 8000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1},
+    {"id":"HAMMER","level":1,"amount":1}
+  ],
+  "components": [
+    [
+      [ "bone", 20 ],
+      [ "bone_tainted", 20 ],
+      [ "bone_human", 20 ]
+    ],
+    [
+      [ "slime_scrap", 5 ]
+    ],
+    [
+      [ "bfeed", 100 ]
+    ],
+    [
+     [ "string_6", 12 ],
+     [ "string_36", 3 ],
+     [ "superglue", 3 ],
+     [ "bone_glue", 3 ],
+     [ "duct_tape", 75 ]
+    ],
+    [
+     [ "rag", 6 ]
+    ]
+  ]
+},
+{
+        "type" : "recipe",
+  "result": "bplategrow",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_MATERIALS",
+  "skill_used": "fabrication",
+  "difficulty": 2,
+  "skills_required": [ "cooking", 2 ],
+  "time": 8000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1},
+    {"id":"HAMMER","level":1,"amount":1}
+  ],
+  "components": [
+    [
+      [ "bone", 15 ],
+      [ "bone_tainted", 15 ],
+      [ "bone_human", 15 ]
+    ],
+    [
+      [ "slime_scrap", 20 ]
+    ],
+    [
+      [ "bfeed", 200 ]
+    ],
+    [
+     [ "string_6", 12 ],
+     [ "string_36", 3 ],
+     [ "superglue", 3 ],
+     [ "bone_glue", 3 ],
+     [ "duct_tape", 75 ]
+    ],
+    [
+     [ "rag", 20 ],
+     [ "fur", 10 ]
+    ]
+  ]
+},
+{
+        "type" : "recipe",
+  "result": "bseatgrow",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_MATERIALS",
+  "byproducts": { "id" : "bharnessgrow", "amount" : 1 },
+  "skill_used": "fabrication",
+  "difficulty": 2,
+  "skills_required": [ "cooking", 4 ],
+  "time": 8000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1},
+    {"id":"HAMMER","level":1,"amount":1}
+  ],
+  "components": [
+    [
+      [ "bone", 12 ],
+      [ "bone_tainted", 12 ],
+      [ "bone_human", 12 ]
+    ],
+    [
+      [ "slime_scrap", 10 ]
+    ],
+    [
+      [ "bfeed", 100 ]
+    ],
+    [
+     [ "string_6", 12 ],
+     [ "string_36", 3 ],
+     [ "superglue", 3 ],
+     [ "bone_glue", 3 ],
+     [ "duct_tape", 75 ]
+    ],
+    [
+     [ "rag", 20 ]
+    ]
+  ]
+},
+{
+        "type" : "recipe",
+  "result": "benginegrow",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_MATERIALS",
+  "skill_used": "fabrication",
+  "byproducts": { "id" : "bwheelgrow", "amount" : 4 },
+  "difficulty": 3,
+  "skills_required": [ "cooking", 5 ],
+  "time": 8000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1},
+    {"id":"HAMMER","level":1,"amount":1}
+  ],
+  "components": [
+    [
+      [ "pebble", 1000 ]
+    ],
+    [
+      [ "slime_scrap", 50 ]
+    ],
+    [
+      [ "bfeed", 2000 ]
+    ],
+    [
+     [ "superglue", 10 ],
+     [ "bone_glue", 10 ]
+    ],
+    [
+     [ "rope_30", 4 ],
+     [ "chain", 4]
+    ],
+    [
+     [ "2x4", 8 ]
+    ],
+    [
+     [ "mutagen", 6 ],
+     [ "iv_mutagen", 2 ]
+    ]
+  ]
+},{
+        "type" : "AMMO",
+        "id": "bfeed",
+        "symbol": "*",
+        "color": "red",
+        "name": "blob feed",
+        "description": "This thick syrupy mixture of... let's not look too close, contains everything the blob needs to be healthy.  You think...",
+        "price": 0,
+        "material": "flesh",
+        "weight": 1,
+        "volume": 1,
+        "bashing": 8,
+        "cutting": 0,
+        "to_hit": -3,
+        "phase" : "liquid",
+        "ammo_type" : "bfeed",
+        "damage" : 0,
+        "range" : 0,
+        "dispersion" : 0,
+        "recoil" : 0,
+        "count" : 100
+    },
+    {
+        "type" : "ammunition_type",
+        "id" : "bfeed",
+        "name" : "blob feed",
+        "default" : "bfeed"
+    }
+]

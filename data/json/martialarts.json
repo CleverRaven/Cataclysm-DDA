@@ -23,7 +23,7 @@
         "type" : "martial_art",
         "id" : "style_karate",
         "name" : "Karate",
-        "description" : "Karate is a popular martial art, originating from Japan. It focuses on rapid, precise attacks, blocks, and fluid movement. A successful hit allows you an extra dodge and two extra blocks on the following round.",
+        "description" : "Karate is a popular martial art, originating from Japan.  It focuses on rapid, precise attacks, blocks, and fluid movement.  A successful hit allows you an extra dodge and two extra blocks on the following round.",
         "arm_block" : 2,
         "leg_block" : 99,
         "onhit_buffs" : [
@@ -43,7 +43,7 @@
         "type" : "martial_art",
         "id" : "style_aikido",
         "name" : "Aikido",
-        "description" : "Aikido is a Japanese martial art focused on self-defense, while minimizing injury to the attacker. It uses defensive throws and disarms. Damage done while using this technique is halved, but pain inflicted is doubled.",
+        "description" : "Aikido is a Japanese martial art focused on self-defense, while minimizing injury to the attacker.  It uses defensive throws and disarms.  Damage done while using this technique is halved, but pain inflicted is doubled.",
         "arm_block" : 99,
         "leg_block" : 99,
         "static_buffs" : [
@@ -117,7 +117,7 @@
         "type" : "martial_art",
         "id" : "style_judo",
         "name" : "Judo",
-        "description" : "Judo is a martial art that focuses on grabs and throws, both defensive and offensive. It also focuses on recovering from throws; while using judo, you will not lose any turns to being thrown or knocked down.",
+        "description" : "Judo is a martial art that focuses on grabs and throws, both defensive and offensive.  It also focuses on recovering from throws; while using judo, you will not lose any turns to being thrown or knocked down.",
         "arm_block" : 99,
         "leg_block" : 99,
         "static_buffs" : [
@@ -136,7 +136,7 @@
         "type" : "martial_art",
         "id" : "style_tai_chi",
         "name" : "Tai Chi",
-        "description" : "Though tai chi is often seen as a form of mental and physical exercise, it is a legitimate martial art, focused on self-defense. Its ability to absorb the force of an attack makes your Perception decrease damage further on a block.",
+        "description" : "Though tai chi is often seen as a form of mental and physical exercise, it is a legitimate martial art, focused on self-defense.  Its ability to absorb the force of an attack makes your Perception decrease damage further on a block.",
         "arm_block" : 1,
         "leg_block" : 99,
         "static_buffs" : [
@@ -155,7 +155,7 @@
         "type" : "martial_art",
         "id" : "style_capoeira",
         "name" : "Capoeira",
-        "description" : "A dance-like style with its roots in Brazilian slavery, Capoeira is focused on fluid movement and sweeping kicks. Moving a tile will boost attack and damage and attacking boosts dodge. These bonuses stack up to three times each.",
+        "description" : "A dance-like style with its roots in Brazilian slavery, Capoeira is focused on fluid movement and sweeping kicks.  Moving a tile will boost attack and damage and attacking boosts dodge.  These bonuses stack up to three times each.",
         "arm_block" : 99,
         "leg_block" : 99,
         "onhit_buffs" : [
@@ -189,7 +189,7 @@
         "type" : "martial_art",
         "id" : "style_krav_maga",
         "name" : "Krav Maga",
-        "description" : "Originating in Israel, Krav Maga is based on taking down an enemy quickly and effectively. It focuses on applicable attacks rather than showy or complex moves. Popular among police and armed forces everywhere.",
+        "description" : "Originating in Israel, Krav Maga is based on taking down an enemy quickly and effectively.  It focuses on applicable attacks rather than showy or complex moves.  Popular among police and armed forces everywhere.",
         "arm_block" : 2,
         "leg_block" : 4,
         "static_buffs" : [
@@ -220,7 +220,7 @@
         "type" : "martial_art",
         "id" : "style_muay_thai",
         "name" : "Muay Thai",
-        "description" : "Also referred to as the \"Art of 8 Limbs,\" Muay Thai is a popular fighting technique from Thailand that uses powerful strikes. Your strikes are more powerful with high strength and weaker with low strength, and can momentarily disorient enemies.",
+        "description" : "Also referred to as the \"Art of 8 Limbs,\" Muay Thai is a popular fighting technique from Thailand that uses powerful strikes.  Your strikes are more powerful with high strength and weaker with low strength, and can momentarily disorient enemies.",
         "arm_block" : 3,
         "leg_block" : 4,
         "static_buffs" : [
@@ -242,7 +242,7 @@
         "type" : "martial_art",
         "id" : "style_ninjutsu",
         "name" : "Ninjutsu",
-        "description" : "Ninjutsu is a martial art and set of tactics used by ninja in feudal Japan. It focuses on rapid, precise, silent strikes. Ninjutsu is almost entirely silent. It also provides small combat bonuses every time you move.",
+        "description" : "Ninjutsu is a martial art and set of tactics used by ninja in feudal Japan.  It focuses on rapid, precise, silent strikes.  Ninjutsu is almost entirely silent.  It also provides small combat bonuses every time you move.",
         "arm_block" : 3,
         "leg_block" : 99,
         "static_buffs" : [
@@ -273,7 +273,7 @@
         "type" : "martial_art",
         "id" : "style_taekwondo",
         "name" : "Taekwondo",
-        "description" : "Taekwondo is the national sport of Korea, and was used by the South Korean army in the 20th century. Focused on kicks and punches, it also includes strength training; your blocks absorb extra damage the stronger you are.",
+        "description" : "Taekwondo is the national sport of Korea, and was used by the South Korean army in the 20th century.  Focused on kicks and punches, it also includes strength training; your blocks absorb extra damage the stronger you are.",
         "arm_block" : 2,
         "leg_block" : 3,
         "static_buffs" : [
@@ -294,7 +294,7 @@
         "type" : "martial_art",
         "id" : "style_biojutsu",
         "name" : "Bionic Combatives",
-        "description": "A modern combat style for the post-modern human. Bionic Combatives combines integrated weaponry, armor and augments into an consolidated fighting discipline.",
+        "description": "A modern combat style for the post-modern human.  Bionic Combatives combines integrated weaponry, armor and augments into an consolidated fighting discipline.",
         "arm_block" : 99,
         "leg_block" : 99,
         "arm_block_with_bio_armor_arms" : true,
@@ -367,7 +367,7 @@
         "type" : "martial_art",
         "id" : "style_silat",
         "name" : "Silat",
-        "description": "Pentjak Silat, of Indonesian origin, is a fighting style that covers the use of short blades and bludgeons. Fighters stay low and mobile to avoid attacks, then unleash deadly critical hits.", 
+        "description": "Pentjak Silat, of Indonesian origin, is a fighting style that covers the use of short blades and bludgeons.  Fighters stay low and mobile to avoid attacks, then unleash deadly critical hits.", 
         "arm_block" : 99,
         "leg_block" : 99,
         "static_buffs" : [
@@ -454,7 +454,7 @@
         "type" : "martial_art",
         "id" : "style_fencing",
         "name" : "Fencing",
-        "description": "The noble art of fencing is taught with flexible competition blades, but the techniques are derived from (and applicable to) more functional examples. Skilled fencers can take advantage of advances and retreats to deliver accurate strikes.", 
+        "description": "The noble art of fencing is taught with flexible competition blades, but the techniques are derived from (and applicable to) more functional examples.  Skilled fencers can take advantage of advances and retreats to deliver accurate strikes.", 
         "arm_block" : 99,
         "leg_block" : 99,
         "onmove_buffs" : [
@@ -562,14 +562,16 @@
             "wakizashi",
             "diamond_wakizashi",
             "q_staff",
-            "cudgel"
+            "cudgel",
+            "nodachi",
+            "diamond_nodachi"
         ]
       
     },{
         "type" : "martial_art",
         "id" : "style_eskrima",
         "name" : "Eskrima",
-        "description": "Eskrima, also known as Kali, is a Filipino martial art. It emphasises rapid strikes with knife and baton weapons, along with a variety of improvised substitutes.",
+        "description": "Eskrima, also known as Kali, is a Filipino martial art.  It emphasises rapid strikes with knife and baton weapons, along with a variety of improvised substitutes.",
         "arm_block" : 99,
         "leg_block" : 99,
         "static_buffs" : [
@@ -684,7 +686,7 @@
         "type" : "martial_art",
         "id" : "style_dragon",
         "name" : "Dragon Kung Fu",
-        "description": "One of the five Shaolin animal styles.  The Dragon uses fluid movements and hard strikes. Intelligence improves your accuracy and damage dealt, as does moving.",
+        "description": "One of the five Shaolin animal styles.  The Dragon uses fluid movements and hard strikes.  Intelligence improves your accuracy and damage dealt, as does moving.",
         "arm_block" : 2,
         "leg_block" : 99,
         "static_buffs" : [
@@ -782,7 +784,7 @@
         "type" : "martial_art",
         "id" : "style_snake",
         "name" : "Snake Kung Fu",
-        "description": "One of the five Shaolin animal styles.  The Snake focuses on sinuous movement and precision strikes. Your Perception improves your accuracy and your damage.",
+        "description": "One of the five Shaolin animal styles.  The Snake focuses on sinuous movement and precision strikes.  Your Perception improves your accuracy and your damage.",
         "arm_block" : 99,
         "leg_block" : 99,
         "static_buffs" : [
@@ -880,7 +882,7 @@
         "type" : "martial_art",
         "id" : "style_lizard",
         "name" : "Lizard Kung Fu",
-        "description": "One of the Five Deadly Venoms, and likely to be refactored to a mutation at the next save-compatibility breaker. Lizard Style focuses on using walls to your advantage.",
+        "description": "One of the Five Deadly Venoms, and likely to be refactored to a mutation at the next save-compatibility breaker.  Lizard Style focuses on using walls to your advantage.",
         "arm_block" : 2,
         "leg_block" : 99,
         "techniques" : [

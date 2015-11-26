@@ -1,24 +1,28 @@
 #ifndef VEH_TYPE_H
 #define VEH_TYPE_H
 
-#include "color.h"
-#include "itype.h"
+#include "string_id.h"
+#include "int_id.h"
+#include "enums.h"
 
-/**
- * Represents an entry in the breaks_into list.
- */
-struct break_entry {
-    std::string item_id;
-    int min;
-    int max;
-};
+#include <vector>
+#include <bitset>
+#include <string>
+#include <memory>
 
-#ifndef mfb
-#define mfb(n) static_cast <unsigned long> (1 << (n))
-#endif
+struct vpart_info;
+using vpart_str_id = string_id<vpart_info>;
+using vpart_id = int_id<vpart_info>;
+struct vehicle_prototype;
+using vproto_id = string_id<vehicle_prototype>;
+class vehicle;
+class JsonObject;
+struct vehicle_item_spawn;
+typedef int nc_color;
+
 // bitmask backing store of -certian- vpart_info.flags, ones that
 // won't be going away, are involved in core functionality, and are checked frequently
-enum vpart_bitflags {
+enum vpart_bitflags : int {
     VPFLAG_ARMOR,
     VPFLAG_EVENTURN,
     VPFLAG_ODDTURN,
@@ -62,8 +66,9 @@ enum vpart_bitflags {
  * MOUNTABLE - Usable as a point to fire a mountable weapon from.
  * Other flags are self-explanatory in their names. */
 struct vpart_info {
-    std::string id;         // unique identifier for this part
-    int loadid;             // # of loaded order, non-saved runtime optimization
+    using itype_id = std::string;
+    vpart_str_id id;         // unique identifier for this part
+    vpart_id loadid;             // # of loaded order, non-saved runtime optimization
     std::string name;       // part name, user-visible
     long sym;               // symbol of part as if it's looking north
     nc_color color;         // color
@@ -81,11 +86,11 @@ struct vpart_info {
         int wheel_width;// wheel width in inches. car could be 9, bicycle could be 2.
         int bonus;      // seatbelt (str), muffler (%), horn (vol)
     };
-    std::string fuel_type;  // engine, fuel tank
+    itype_id fuel_type;  // engine, fuel tank
     itype_id item;      // corresponding item
     int difficulty;     // installation difficulty (mechanics requirement)
     std::string location;   //Where in the vehicle this part goes
-    std::vector<break_entry> breaks_into;
+    std::string breaks_into_group;
 private:
     std::set<std::string> flags;    // flags
     std::bitset<NUM_VPFLAGS> bitflags; // flags checked so often that things slow down due to string cmp
@@ -103,10 +108,41 @@ public:
         return bitflags.test( flag );
     }
     void set_flag( const std::string &flag );
+
+    static void load( JsonObject &jo );
+    static void check();
+    static void reset();
+
+    static const std::vector<const vpart_info*> &get_all();
 };
 
-extern std::map<std::string, vpart_info> vehicle_part_types;
-extern const std::string legacy_vpart_id[74];
-extern std::vector<vpart_info> vehicle_part_int_types;
+struct vehicle_item_spawn
+{
+    point pos;
+    int chance;
+    std::vector<std::string> item_ids;
+    std::vector<std::string> item_groups;
+};
+
+/**
+ * Prototype of a vehicle. The blueprint member is filled in during the finalizing, before that it
+ * is a nullptr. Creating a new vehicle copies the blueprint vehicle.
+ */
+struct vehicle_prototype
+{
+    std::string name;
+    std::vector<std::pair<point, vpart_str_id> > parts;
+    std::vector<vehicle_item_spawn> item_spawns;
+
+    std::unique_ptr<vehicle> blueprint;
+
+    static void load( JsonObject &jo );
+    static void reset();
+    static void finalize();
+
+    static std::vector<vproto_id> get_all();
+};
+
+extern const vpart_str_id legacy_vpart_id[74];
 
 #endif

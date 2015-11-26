@@ -1,0 +1,302 @@
+[
+  {
+        "type" : "vehicle_part",
+        "id" : "vgen",
+        "name" : "vortex generator",
+        "symbol" : "8",
+        "color" : "magenta",
+        "broken_symbol" : "x",
+        "broken_color" : "magenta",
+        "damage_modifier" : 10,
+        "durability" : 400,
+        "epower" : 100,
+		"power" : 1,
+        "fuel_type" : "vpower",
+        "item" : "vgen2",
+        "difficulty" : 1,
+		"size": 1,
+        "location" : "engine_block",
+        "flags" : ["ENGINE", "TOOL_NONE", "FUEL_TANK"],
+        "breaks_into" : [
+			{"item": "foot_crank", "count": [0, 2]},
+			{"item": "chain", "count": [0, 4]},
+			{"item": "hose", "count": [0, 4]},
+			{"item": "scrap", "count": [4, 12]},
+            {"item": "steel_chunk", "count": [2, 5]},
+			{"item": "plastic_chunk", "count": [2, 8]}
+						]
+    }, 	
+  {
+        "type" : "vehicle_part",
+        "id" : "vgen2",
+        "name" : "vortex engine",
+        "symbol" : "8",
+        "color" : "magenta",
+        "broken_symbol" : "x",
+        "broken_color" : "magenta",
+        "damage_modifier" : 10,
+        "durability" : 400,
+		"epower" : 1,
+        "fuel_type" : "vpower",
+		"power" : 200,
+        "item" : "vgen",
+        "location" : "engine_block",
+        "difficulty" : 1,
+		"size": 1,
+        "flags" : ["ENGINE", "TOOL_NONE", "FUEL_TANK"],
+        "breaks_into" : [
+            {"item": "spiral_stone"},
+			{"item": "foot_crank", "count": [0, 2]},
+			{"item": "chain", "count": [0, 2]},
+			{"item": "hose", "count": [0, 4]},
+			{"item": "scrap", "count": [4, 12]},
+			{"item": "plastic_chunk", "count": [2, 8]}
+						]
+    },{
+        "type" : "vehicle_part",
+		"note" : "Keep away from Svarog detectors!",
+        "id" : "space_anomaly",
+        "name" : "cargo dimension",
+        "symbol" : "O",
+        "color" : "magenta",
+        "broken_symbol" : "O",
+        "broken_color" : "magenta",
+        "durability" : 200,
+        "size" : 1000000,
+        "item" : "space_anomaly",
+        "difficulty" : 1,
+        "location" : "center",
+        "flags" : ["CARGO", "COVERED", "UNMOUNT_ON_DAMAGE"],
+        "breaks_into" : []
+    },
+	{
+        "type" : "recipe",
+		"result": "vgen",
+		"category": "CC_OTHER",
+		"subcategory": "CSC_OTHER_MATERIALS",
+		"skill_used": "fabrication",
+		"byproducts": { "id" : "vpower", "amount" : 1 },
+		"skills_required": [ ["mechanics", 4], ["electronics", 4] ],
+		"difficulty": 5,
+		"time": 108000,
+		"reversible": false,
+		"autolearn": true,
+		"qualities":[
+			{"id":"HAMMER","level":2,"amount":1},
+			{"id":"SAW_M","level":1,"amount":1}
+		],
+		"tools": [
+			[
+			[ "goggles_welding", -1 ]
+			],
+			[
+			[ "welder", 60 ],
+			[ "welder_crude", 75 ],
+			[ "toolset", 75 ],
+			[ "oxy_torch", 6]
+			]
+		],
+		"components": [
+			[
+			[ "vortex_stone", 1 ],
+			[ "spiral_stone", 10]
+			],
+			[
+			[ "chain", 3 ]
+			],
+			[
+			[ "scrap", 5 ]
+			],
+			[
+			["foot_crank", 3]
+			],
+			[
+			[ "metal_tank", 1]
+			],
+			[
+			[ "plastic_chunk", 10]
+			]
+		]
+},{
+        "type" : "recipe",
+  "result": "vgen2",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_MATERIALS",
+  "skill_used": "fabrication",
+  "byproducts": { "id" : "vpower", "amount" : 1 },
+  "skills_required": [ ["mechanics", 5], ["electronics", 5] ],
+  "difficulty": 5,
+  "time": 108000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities":[
+    {"id":"HAMMER","level":2,"amount":1},
+    {"id":"SAW_M","level":1,"amount":1}
+  ],
+  "tools": [
+    [
+      [ "goggles_welding", -1 ]
+    ],
+    [
+      [ "welder", 60 ],
+      [ "welder_crude", 75 ],
+      [ "toolset", 75 ],
+	  [ "oxy_torch", 6 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "vortex_stone", 1 ],
+	  [ "spiral_stone", 10]
+    ],
+	[
+	  [ "chain", 3 ]
+    ],
+	[
+	  [ "scrap", 8 ]
+    ],
+	[
+      ["foot_crank", 3]
+    ],
+	[
+	  [ "metal_tank", 1]
+	],
+	[
+	  [ "plastic_chunk", 12]
+	],
+	[
+	  [ "alternator_truck", 3],
+	  [ "alternator_car", 3],
+	  [ "alternator_motorbike", 3]
+	  
+	]
+  ]
+},{
+        "type" : "recipe",
+  "result": "space_anomaly",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_MATERIALS",
+  "skill_used": "electronics",
+  "skills_required": [ ["mechanics", 3], ["electronics", 3] ],
+  "difficulty": 8,
+  "time": 144000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities":[
+    {"id":"HAMMER","level":2,"amount":1},
+    {"id":"SAW_M","level":1,"amount":1}
+  ],
+  "tools": [
+    [
+      [ "goggles_welding", -1 ]
+    ],
+    [
+      [ "welder", 60 ],
+      [ "welder_crude", 75 ],
+      [ "toolset", 75 ],
+	  [ "oxy_torch", 6 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "cargo_rack", 1 ]
+    ],
+	[
+	  [ "teleporter", 1 ]
+    ],
+	[
+      [ "portal", 1]
+    ],
+	[
+	  [ "plut_cell", 5]
+	]
+  ]
+},
+    {
+        "type":"GENERIC",
+        "id" : "space_anomaly",
+        "name" : "stabilized portal",
+        "description" : "As you gaze into the seemingly infinite depths of this portable hole in reality, a phrase from a time forever gone echoes in your mind. \"There are two things that are infinite: the universe and human kleptomania.\"",
+        "weight" : 28813,
+        "to_hit" : -4,
+        "color" : "cyan",
+        "symbol" : "]",
+        "material" : ["steel", "plastic"],
+        "volume" : 200,
+        "bashing" : 2,
+        "cutting" : 0,
+        "category" : "veh_parts",
+        "price" : 1500000
+    },
+    {
+        "type":"CONTAINER",
+        "id" : "vgen",
+        "name" : "vortex engine",
+        "description" : "A tornado in a box, so to speak. Inside this innocuous tank contains either the culmination of human innovation in clean energy, or a weapon of mass destruction capable of wiping civilization - or what's left of it - off the map. An external mechanism allows it to be attached to a vehicle to render it mobile. To activate, install it on a vehicle, insert the vortex core, and activate. The core must be removed from the machinery before installation, due to its sensitivity.",
+        "weight" : 31071,
+        "to_hit" : 0,
+        "color" : "magenta",
+        "symbol" : ",",
+        "material" : ["steel", "null"],
+        "volume" : 225,
+        "bashing" : 4,
+        "cutting" : 0,
+        "category" : "veh_parts",
+        "price" : 1500000,
+		"rigid": true,
+		"watertight": true,
+		"seals": true,
+		"contains": 0
+    },
+    {
+        "type":"CONTAINER",
+        "id" : "vgen2",
+        "name" : "vortex generator",
+        "description" : "A tornado in a box, so to speak. Inside this innocuous tank contains either the culmination of human innovation in clean energy, or a weapon of mass destruction capable of wiping civilization - or what's left of it - off the map. An external mechanism allow it to be hooked up to a battery to store the power generated. To activate, install it on a vehicle, insert the vortex core, and activate. The core must be removed from the machinery before installation, due to its sensitivity.",
+        "weight" : 24066,
+        "to_hit" : 0,
+        "color" : "magenta",
+        "symbol" : ",",
+        "material" : ["steel", "null"],
+        "volume" : 200,
+        "bashing" : 4,
+        "cutting" : 0,
+        "category" : "veh_parts",
+        "price" : 1500000,
+		"rigid": true,
+		"watertight": true,
+		"seals": true,
+		"contains": 0
+    },
+    {
+        "type" : "ammunition_type",
+        "id" : "vpower",
+        "name" : "vortex energy",
+        "default" : "vpower"
+    },{
+        "type" : "AMMO",
+        "id" : "vpower",
+        "category" : "chems",
+        "price" : 0,
+        "name" : "vortex core",
+        "name_plural" : "vortex cores",
+        "symbol" : "=",
+        "color" : "magenta",
+        "description" : "An unknown, but powerful force contained within spiral and vortex stones. Can be harnessed by those with the knowledge to do so.",
+        "material" : "null",
+        "volume" : 0,
+        "weight" : 0,
+        "phase" : "solid",
+        "bashing" : 1,
+        "cutting" : 0,
+        "to_hit" : 0,
+        "ammo_type" : "vpower",
+        "damage" : 0,
+        "range" : 0,
+        "dispersion" : 0,
+        "recoil" : 0,
+        "count" : 1
+    }
+]
+
+

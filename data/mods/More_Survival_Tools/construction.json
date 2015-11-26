@@ -2,18 +2,140 @@
     {
         "type" : "construction",
         "skill" : "survival",
-        "description" : "Build Lean-To",
+        "description" : "Build Pine Lean-To",
         "category" : "CONSTRUCT",
         "difficulty" : 2,
         "time" : 90,
-        "qualities": [ [
+        "qualities": [
             { "id": "CUT", "level": 1 },
             { "id": "HAMMER", "level": 1 }
-        ] ],
+        ],
         "components" : [
             [ [ "stick", 6 ], [ "2x4", 3 ] ]
         ],
         "pre_terrain" : "t_tree_pine",
         "post_terrain" : "t_leanto"
+    },
+    {
+        "type" : "construction",
+        "skill" : "survival",
+        "description" : "Build Tarp Lean-To",
+        "category" : "CONSTRUCT",
+        "difficulty" : 1,
+        "time" : 50,
+        "qualities": [
+            { "id": "HAMMER", "level": 1 }
+        ],
+        "components" : [
+            [ [ "pointy_stick", 4 ] ],
+            [ [ "string_36", 1 ], [ "string_6", 4 ] ],
+            [ [ "tarp", 1 ] ]
+        ],
+        "pre_flags" : [ "DIGGABLE", "FLAT" ],
+        "post_terrain" : "t_tarptent"
+    },{
+        "type" : "construction",
+        "skill" : "survival",
+        "description" : "Build Wattle-and-Daub Wall", "//": "Step 1: half of a wall in an empty space",
+        "category" : "CONSTRUCT",
+        "difficulty" : 2,
+        "time" : 50,
+        "qualities": [
+            { "id": "CUT", "level": 1 },
+            { "id": "HAMMER", "level": 1 }
+        ],
+        "components" : [
+            [ [ "2x4", 5 ], [ "stick", 10 ]  ],
+            [ [ "material_quicklime", 5 ], [ "material_limestone", 5 ], [ "clay_lump", 5 ] ],
+            [ [ "pebble", 10 ], [ "material_sand", 10 ] ],
+            [ [ "straw_pile", 5 ], [ "cattail_stalk", 5 ], [ "dogbane", 5 ], [ "pine_bough", 5 ] ],
+            [ [ "water", 5 ], [ "water_clean", 5 ] ]
+        ],
+        "pre_special" : "check_empty",
+        "post_terrain" : "t_wall_wattle_half"
+    },{
+        "type" : "construction",
+        "skill" : "survival",
+        "description" : "Build Wattle-and-Daub Wall", "//": "Step 2: complete the half made wall",
+        "category" : "CONSTRUCT",
+        "difficulty" : 2,
+        "time" : 50,
+        "qualities": [
+            { "id": "CUT", "level": 1 },
+            { "id": "HAMMER", "level": 1 }
+        ],
+        "components" : [
+            [ [ "2x4", 5 ], [ "stick", 10 ]  ],
+            [ [ "material_quicklime", 5 ], [ "material_limestone", 5 ], [ "clay_lump", 5 ] ],
+            [ [ "pebble", 10 ], [ "material_sand", 10 ] ],
+            [ [ "straw_pile", 5 ], [ "cattail_stalk", 5 ], [ "dogbane", 5 ], [ "pine_bough", 5 ] ],
+            [ [ "water", 5 ], [ "water_clean", 5 ] ]
+        ],
+        "pre_terrain" : "t_wall_wattle_half",
+        "post_terrain" : "t_wall_wattle"
+    },{
+        "type" : "construction",
+        "skill" : "survival",
+        "description" : "Build Thatched Roof",
+        "category" : "CONSTRUCT",
+        "difficulty" : 3,
+        "time" : 120,
+        "qualities": [
+            { "id": "CUT", "level": 1 }
+        ],
+        "components" : [
+            [ [ "2x4", 5 ], [ "stick", 10 ] ],
+            [ [ "straw_pile", 15 ], [ "pine_bough", 15 ], [ "birchbark", 15 ] ]
+        ],
+        "pre_special" : "check_support",
+        "post_terrain" : "t_dirtfloor"
+    },{
+        "type" : "construction",
+        "description" : "Repair Wattle-and-Daub Wall",
+        "category" : "REPAIR",
+        "difficulty" : 1,
+        "time" : 30,
+        "qualities": [
+            { "id": "CUT", "level": 1 },
+            { "id": "HAMMER", "level": 1 }
+        ],
+        "components" : [
+            [ [ "2x4", 2 ], [ "stick", 4 ]  ],
+            [ [ "material_quicklime", 2 ], [ "material_limestone", 2 ], [ "clay_lump", 2 ] ],
+            [ [ "pebble", 4 ], [ "material_sand", 4 ] ],
+            [ [ "straw_pile", 2 ], [ "cattail_stalk", 2 ], [ "dogbane", 2 ], [ "pine_bough", 2 ] ],
+            [ [ "water", 2 ], [ "water_clean", 2 ] ]
+        ],
+        "pre_terrain" : "t_wall_wattle_broken",
+        "post_terrain" : "t_wall_wattle"
+    },{
+        "type" : "construction",
+        "skill" : "survival",
+        "description" : "Build Fire Ring",
+        "category" : "FURN",
+        "difficulty" : 1,
+        "time" : 15,
+        "components" : [
+            [ [ "rock", 20 ] ]
+        ],
+        "pre_terrain" : "t_pit_shallow",
+        "post_terrain" : "f_firering"
+    },{
+        "type" : "construction",
+        "skill" : "survival",
+        "description" : "Build Tarp Rain-Catcher",
+        "category" : "CONSTRUCT",
+        "difficulty" : 2,
+        "time" : 45,
+        "qualities": [
+            { "id": "HAMMER", "level": 1 }
+        ],
+        "components" : [
+            [ [ "pointy_stick", 3 ] ],
+            [ [ "string_36", 1 ], [ "string_6", 3 ] ],
+            [ [ "tarp", 1 ] ]
+        ],
+        "pre_flags" : [ "DIGGABLE", "FLAT" ],
+        "post_terrain" : "t_raincatcher"
     }
   ]

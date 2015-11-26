@@ -1,9 +1,10 @@
-    {
-        "type": "MOD_INFO",
-        "mod-type": "SUPPLEMENTAL",
-        "ident": "More_Survival_Tools",
-        "name": "More Survival Tools",
-        "author": "Chaosvolt",
-        "description": "For those who prefer being innawoods. Adds several tools, plus two new classes. Both classes are also usuable in the Wilderness challenge.",
-        "path": ""
-    }
+{
+    "type": "MOD_INFO",
+    "mod-type": "SUPPLEMENTAL",
+    "ident": "More_Survival_Tools",
+    "name": "More Survival Tools",
+    "author": "Chaosvolt",
+    "description": "For those who prefer being innawoods. Adds several tools, various recipes additions/tweaks, plus two new classes.",
+    "category": "items",
+    "path": ""
+}

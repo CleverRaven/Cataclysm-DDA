@@ -42,7 +42,7 @@ enum mission_type_id {
     MISSION_JOIN_TRACKER,                  //demon slayer 4b
     MISSION_FREE_MERCHANTS_EVAC_1,         //Clear Back Bay
     MISSION_FREE_MERCHANTS_EVAC_2,         //Kill Raiders
-    MISSION_FREE_MERCHANTS_EVAC_3,         //Acquire Plutonium Cells
+    MISSION_FREE_MERCHANTS_EVAC_4,         //Acquire Plutonium Cells
     MISSION_OLD_GUARD_REP_1,               //Bandit Pair
     MISSION_OLD_GUARD_REP_2,               //Raider Informant
     MISSION_OLD_GUARD_REP_3,               //Missing without a trace
@@ -53,6 +53,44 @@ enum mission_type_id {
     MISSION_OLD_GUARD_NEC_COMMO_2,         //Disable external power connection
     MISSION_OLD_GUARD_NEC_COMMO_3,         //Install repeater mod in local radio station
     MISSION_OLD_GUARD_NEC_COMMO_4,         //Cyclical mission to install repeater mods
+    MISSION_RANCH_FOREMAN_1,               //Rebuild civilization one 2x4 at a time
+    MISSION_RANCH_FOREMAN_2,               //Beds need blankets to make
+    MISSION_RANCH_FOREMAN_3,               //You can never have enough nails!
+    MISSION_RANCH_FOREMAN_4,               //Need salt to trade for seed
+    MISSION_RANCH_FOREMAN_5,               //Need liquid fertilizer
+    MISSION_RANCH_FOREMAN_6,               //Need stone for well and fireplaces
+    MISSION_RANCH_FOREMAN_7,               //Need pipes to finish well and parts for lumberyard
+    MISSION_RANCH_FOREMAN_8,               //Need motors to finish sawmill
+    MISSION_RANCH_FOREMAN_9,               //Need bleach to sterilize for clinic
+    MISSION_RANCH_FOREMAN_10,              //Need first aid kits for clinic
+    MISSION_RANCH_FOREMAN_11,              //Need welders for chop-shop
+    MISSION_RANCH_FOREMAN_12,              //Need car batteries to power equipment
+    MISSION_RANCH_FOREMAN_13,              //Need pair of two-way radios for scavengers
+    MISSION_RANCH_FOREMAN_14,              //Need 5 backpacks for scavengers
+    MISSION_RANCH_FOREMAN_15,              //Need Homebrewer's Bible for Bar
+    MISSION_RANCH_FOREMAN_16,              //Need Sugar for Bar
+    MISSION_RANCH_FOREMAN_17,              //Need glass sheets for 1st green house
+    MISSION_RANCH_NURSE_1,                 //Need asprin
+    MISSION_RANCH_NURSE_2,                 //Need hotplates
+    MISSION_RANCH_NURSE_3,                 //Need vitamins
+    MISSION_RANCH_NURSE_4,                 //Need charcoal water filters
+    MISSION_RANCH_NURSE_5,                 //Need chemistry set
+    MISSION_RANCH_NURSE_6,                 //Need filter masks
+    MISSION_RANCH_NURSE_7,                 //Need rubber gloves
+    MISSION_RANCH_NURSE_8,                 //Need X-acto
+    MISSION_RANCH_NURSE_9,                 //Need Guide to Advanced Emergency Care
+    MISSION_RANCH_NURSE_10,                //Need flu shot
+    MISSION_RANCH_NURSE_11,                //Need empty syringes
+    MISSION_RANCH_SCAVENGER_1,             //Need knife spears
+    MISSION_RANCH_SCAVENGER_2,             //Need wearable flashlights
+    MISSION_RANCH_SCAVENGER_3,             //Need leather body armor
+    MISSION_RANCH_SCAVENGER_4,             //Need Molotov cocktails
+    MISSION_RANCH_BARTENDER_1,             //Need Stills
+    MISSION_RANCH_BARTENDER_2,             //Need Yeast
+    MISSION_RANCH_BARTENDER_3,             //Need Sugar Beet Seeds
+    MISSION_RANCH_BARTENDER_4,             //Need Metal Tanks
+    MISSION_RANCH_BARTENDER_5,             //Need 55-Gallon Drums
+    MISSION_FREE_MERCHANTS_EVAC_3,         //Info from Commune
     NUM_MISSION_IDS
 };
 
@@ -86,15 +124,15 @@ enum mission_goal {
 
 struct mission_place {
     // Return true if the place (global overmap terrain coordinate) is valid for starting a mission
-    bool never( tripoint )
+    bool never( const tripoint& )
     {
         return false;
     }
-    bool always( tripoint )
+    bool always( const tripoint& )
     {
         return true;
     }
-    bool near_town( tripoint );
+    bool near_town( const tripoint& );
 };
 
 /* mission_start functions are first run when a mission is accepted; this
@@ -130,6 +168,39 @@ struct mission_start {
     void point_cabin_strange ( mission *); // Point to strange cabin location
     void recruit_tracker    ( mission *); // Recruit a tracker to help you
     void radio_repeater     ( mission *); // Gives you the plans for the radio repeater mod
+    void start_commune      ( mission *); // Focus on starting the ranch commune
+    void ranch_construct_1  ( mission *); // Encloses barn
+    void ranch_construct_2  ( mission *); // Adds makeshift beds to the barn, 1 NPC
+    void ranch_construct_3  ( mission *); // Adds a couple of NPCs and fields
+    void ranch_construct_4  ( mission *); // Begins work on wood yard, crop overseer added
+    void ranch_construct_5  ( mission *); // Continues work on wood yard, crops, well (pit)
+    void ranch_construct_6  ( mission *); // Continues work on wood yard, well (covered), fireplaces
+    void ranch_construct_7  ( mission *); // Continues work on wood yard, well (finished), continues walling
+    void ranch_construct_8  ( mission *); // Finishes wood yard, starts outhouse, starts toolshed
+    void ranch_construct_9  ( mission *); // Finishes outhouse, finishes toolshed, starts clinic
+    void ranch_construct_10 ( mission *); // Continues clinic, starts chop-shop
+    void ranch_construct_11 ( mission *); // Continues clinic, continues chop-shop
+    void ranch_construct_12 ( mission *); // Finish chop-shop, starts junk shop
+    void ranch_construct_13 ( mission *); // Continues junk shop
+    void ranch_construct_14 ( mission *); // Finish junk shop, starts bar
+    void ranch_construct_15 ( mission *); // Continues bar
+    void ranch_construct_16 ( mission *); // Finish bar, start green shouse
+    void ranch_nurse_1      ( mission *); // Need asprin
+    void ranch_nurse_2      ( mission *); // Need hotplates
+    void ranch_nurse_3      ( mission *); // Need vitamins
+    void ranch_nurse_4      ( mission *); // Need charcoal water filters
+    void ranch_nurse_5      ( mission *); // Need chemistry set
+    void ranch_nurse_6      ( mission *); // Need filter masks
+    void ranch_nurse_7      ( mission *); // Need rubber gloves
+    void ranch_nurse_8      ( mission *); // Need X-acto
+    void ranch_nurse_9      ( mission *); // Need Guide to Advanced Emergency Care
+    void ranch_scavenger_1  ( mission *); // Expand Junk Shop
+    void ranch_scavenger_2  ( mission *); // Expand Junk Shop
+    void ranch_scavenger_3  ( mission *); // Expand Junk Shop
+    void ranch_bartender_1  ( mission *); // Expand Bar
+    void ranch_bartender_2  ( mission *); // Expand Bar
+    void ranch_bartender_3  ( mission *); // Expand Bar
+    void ranch_bartender_4  ( mission *); // Expand Bar
     void place_book         ( mission *); // Place a book to retrieve
 };
 
@@ -166,14 +237,14 @@ struct mission_type {
     oter_id target_id;
     mission_type_id follow_up;
 
-    bool (mission_place::*place)(tripoint);
+    bool (mission_place::*place)( const tripoint& );
     void (mission_start::*start)(mission *);
     void (mission_end  ::*end  )(mission *);
     void (mission_fail ::*fail )(mission *);
 
     mission_type(mission_type_id ID, std::string NAME, mission_goal GOAL, int DIF, int VAL,
                  bool URGENT,
-                 bool (mission_place::*PLACE)(tripoint),
+                 bool (mission_place::*PLACE)( const tripoint& ),
                  void (mission_start::*START)(mission *),
                  void (mission_end  ::*END  )(mission *),
                  void (mission_fail ::*FAIL )(mission *)) :
@@ -203,7 +274,7 @@ struct mission_type {
      * around tripoint p, see @ref mission_start.
      * Returns @ref MISSION_NULL if no suitable type could be found.
      */
-    static mission_type_id get_random_id( mission_origin origin, tripoint p );
+    static mission_type_id get_random_id( mission_origin origin, const tripoint &p );
     /**
      * Get all mission types at once.
      */
@@ -235,7 +306,7 @@ private:
         int uid;                // Unique ID number, used for referencing elsewhere
         // Marked on the player's map. (INT_MIN, INT_MIN) for none,
         // global overmap terrain coordinates.
-        point target;
+        tripoint target;
         itype_id item_id;       // Item that needs to be found (or whatever)
         int item_count;         // The number of above items needed
         oter_id target_id;      // Destination type to be reached
@@ -265,7 +336,7 @@ public:
             failed = false;
             value = 0;
             uid = -1;
-            target = point(INT_MIN, INT_MIN);
+            target = tripoint(INT_MIN, INT_MIN, INT_MIN);
             item_id = "null";
             item_count = 1;
             target_id = 0;
@@ -282,13 +353,13 @@ public:
             was_started = false;
         }
 
-    /** Getters, they mostly return the member directly, mostly. */ 
+    /** Getters, they mostly return the member directly, mostly. */
     /*@{*/
     bool has_deadline() const;
     calendar get_deadline() const;
     std::string get_description() const;
     bool has_target() const;
-    point get_target() const;
+    const tripoint &get_target() const;
     const mission_type &get_type() const;
     bool has_follow_up() const;
     mission_type_id get_follow_up() const;
@@ -311,7 +382,7 @@ public:
     /**
      * Simple setters, no checking if the values is performed. */
     /*@{*/
-    void set_target( point target );
+    void set_target( const tripoint &target );
     /*@}*/
 
 
@@ -334,7 +405,7 @@ public:
      * Returns the new mission.
      */
     static mission* reserve_new( mission_type_id type, int npc_id );
-    static mission* reserve_random( mission_origin origin, tripoint p, int npc_id );
+    static mission* reserve_random( mission_origin origin, const tripoint &p, int npc_id );
     /**
      * Returns the mission with the matching id (@ref uid). Returns NULL if no mission with that
      * id exists.

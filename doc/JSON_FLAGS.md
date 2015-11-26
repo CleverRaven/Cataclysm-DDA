@@ -30,7 +30,7 @@ List of known flags, used in both terrain.json and furniture.json
 
 ### Flags
 
-- ```TRANSPARENT``` Players and monsters can see thorugh/past it. Also sets ter_t.transparent.
+- ```TRANSPARENT``` Players and monsters can see through/past it. Also sets ter_t.transparent.
 - ```FLAT``` Player can build and move furniture on.
 - ```BASHABLE``` Players + Monsters can bash this.
 - ```CONTAINER``` Items on this square are hidden until looted by the player.
@@ -53,6 +53,7 @@ List of known flags, used in both terrain.json and furniture.json
 - ```CONSOLE``` Used as a computer.
 - ```ALARMED``` Sets off an alarm if smashed.
 - ```SUPPORTS_ROOF``` Used as a boundary for roof construction.
+- ```MINEABLE``` Can be mined with a pickaxe/jackhammer
 - ```INDOORS``` Has a roof over it; blocks rain, sunlight, etc.
 - ```THIN_OBSTACLE``` Passable by players and monsters; vehicles destroy it.
 - ```COLLAPSES``` Has a roof that can collapse.
@@ -72,8 +73,10 @@ List of known flags, used in both terrain.json and furniture.json
 - ```MOUNTABLE``` Suitable for guns with the "MOUNTED_GUN" flag.
 - ```UNSTABLE``` Walking here cause the bouldering effect on the character.
 - ```HARVESTED``` Marks the harvested version of a terrain type (e.g. harvesting an apple tree turns it into a harvested tree, which later becomes an apple tree again).
+- ```ROAD``` Flat and hard enough to drive or skate (with rollerblades) on.
 - ```AUTO_WALL_SYMBOL``` (only for terrain) The symbol of this terrain will be one of the line drawings (corner, T-intersection, straight line etc.) depending on the adjacent terrains.
-- ```CONNECT_TO_WALL``` (only for terrain) Adjacent terrain that has the `AUTO_WALL_SYMBOL` flag will be shown as a line connecting to this terrain. This applies for example to doors or windows (which are technically embedded in walls). This flag is implied by the `WALL` and the `AUTO_WALL_SYMBOL` flag.
+- ```ALLOW_FIELD_EFFECT``` Apply field effects to items inside ```SEALED``` terrain/furniture
+- ```CHIP``` Used in construction menu to determine if wall can have paint chipped off
 
 Example: `-` and `|` is terrain with the `CONNECT_TO_WALL` flag, `O` does not have it, `X` and `Y` have the `AUTO_WALL_SYMBOL` flag, `X` terrain will be drawn as a T-intersection (connected to west, south and east), `Y` will be drawn as horizontal line (going from west to east, no connection to south).
 ```
@@ -224,7 +227,7 @@ Flags used to describe monsters and define their properties and abilities.
 - ```BONES``` May produce bones and sinews when butchered.
 - ```IMMOBILE``` Doesn't move (e.g. turrets)
 - ```FRIENDLY_SPECIAL``` Use our special attack, even if friendly.
-- ```HIT_AND_RUN``` Flee for several turns after a melee atack.
+- ```HIT_AND_RUN``` Flee for several turns after a melee attack.
 - ```GUILT``` You feel guilty for killing it.
 - ```HUMAN``` It's a live human, as long as it's alive.
 - ```NO_BREATHE``` Creature can't drown and is unharmed by gas, smoke or poison.
@@ -247,6 +250,7 @@ Flags used to describe monsters and define their properties and abilities.
 - ```CBM_SCI``` May produce a cbm or two from bionics_sci when butchered.
 - ```CBM_OP``` May produce a cbm or two from bionics_op when butchered.
 - ```FISHABLE``` It is fishable.
+- ```INTERIOR_AMMO``` Monster contains ammo inside itself, no need to load on launch. Prevents ammo from being dropped on disable.
 
 ### Special attacks
 Some special attacks are also valid use actions for tools and weapons.
@@ -403,11 +407,12 @@ These branches are also the valid entries for the categories of `dreams` in `dre
 - ```STABLE``` Similar to `WHEEL`, but if the vehicle is only a 1x1 section, this single wheel counts as enough wheels.
 - ```ENGINE``` Is an engine and contributes towards vehicle mechanical power.
 - ```ALTERNATOR``` Recharges batteries installed on the vehicle.
-- ```PEDALS``` Similar to 'ENGINE', but requires the player to manually power it with their feet.
-- ```HAND_RIMS``` Similar to 'ENGINE', but requires the player to manually power it with their hands.
+- ```MUSCLE_LEGS``` Power of the engine with such flag depends on player's strength.
+- ```MUSCLE_ARMS``` Power of the engine with such flag depends on player's strength (it's less effective than 'MUSCLE_LEGS').
 - ```FUEL_TANK``` Storage device for a fuel type.
 - ```FRIDGE``` Can refrigerate items.
 - ```CONTROLS``` Can be used to control the vehicle.
+- ```CTRL_ELECTRONIC``` Controls electrical and electronic systems of the vehicle.
 - ```MUFFLER``` Muffles the noise a vehicle makes while running.
 - ```CURTAIN``` Can be installed over a part flagged with `WINDOW`, and functions the same as blinds found on windows in buildings.
 - ```SOLAR_PANEL``` Recharges vehicle batteries when exposed to sunlight. Has a 1 in 4 chance of being broken on car generation.
@@ -427,6 +432,15 @@ These branches are also the valid entries for the categories of `dreams` in `dre
 - ```RECHARGE``` Recharge items with the same flag. ( Currently only the rechargeable battery mod. )
 - ```UNMOUNT_ON_MOVE``` Dismount this part when the vehicle moves. Doesn't drop the part, unless you give it special handling.
 - ```POWER_TRANSFER``` Transmits power to and from an attached thingy (probably a vehicle)
+- ```INITIAL_PART``` When starting a new vehicle via the construction menu, this vehicle part will be the initial part of the vehicle (if the used item matches the item required for this part).
+- ```SCOOP``` Pulls items from underneath the vehicle to the cargo space of the part. Also mops up liquids. 
+  - Uses the ```bonus``` tag to determine the maximum size of the item picked up
+- ```PLANTER``` Plants seeds into tilled dirt, spilling them when the terrain underneath is unsuitable. It is damaged by running it over non-```DIGGABLE``` surfaces.
+  - ```ADVANCED_PLANTER``` This planter doesn't spill seeds and avoids damaging itself on non-diggable surfaces.
+- ```REAPER``` Cuts down mature crops, depositing them on the square
+  - The ```bonus``` tag defines how productive the harvest can be.
+- ```PLOW``` Tills the soil underneath the part while active. Takes damage from unsuitable terrain at a level proportional to the speed of the vehicle.
+- ```EXTRA_DRAG``` tells the vehicle that the part exerts engine power reduction.
 
 ## Ammo
 
@@ -508,7 +522,7 @@ listings, as ids are constant throughout DDA's code.  Happy chambering!  :-)
 
 - ```COOKOFF``` Explodes when lit on fire.
 - ```SHOT``` Multiple smaller pellets instead of one singular bullet; less effective against armor but increases chance to hit.
-- ```BOUNCE``` Inflicts target with `ME_BOUNCED` effect.
+- ```BOUNCE``` Inflicts target with `bounced` effect and rebounds to a nearby target without this effect.
 - ```EXPLOSIVE``` Explodes without any shrapnel.
 - ```EXPLOSIVE_BIG``` Large explosion without any shrapnel.
 - ```EXPLOSIVE_HUGE``` Huge explosion without any shrapnel.
@@ -535,6 +549,13 @@ listings, as ids are constant throughout DDA's code.  Happy chambering!  :-)
 - ```RECYCLED``` (For handmade ammo) causes the gun to misfire sometimes, this independent of the weapon flags.
 - ```WHIP``` Special sounds for whips and has a chance of disarming the opponent.
 - ```NOGIB``` Prevents overkill damage on the target (target won't explode into gibs, see also the monster flag NO_GIBS).
+- ```WIDE``` Prevents `HARDTOSHOOT` monster flag from having any effect. Implied by ```SHOT``` or liquid ammo.
+- ```BLINDS_EYES``` Blinds the target if it hits the head (ranged projectiles can't actually hit the eyes at the moment).
+- ```ACID_DROP``` Creates a tiny field of weak acid.
+- ```RECOVER_[X]``` where X is any of 3, 5, 10, 15, 25 - Has a (X-1/X) chance to create a single charge of the used ammo at the point of impact.
+- ```NO_EMBED``` When an item would be spawned from the projectile, it will always be spawned on the ground rather than in monster's inventory. Implied for active thrown items. Doesn't do anything on projectiles that do not drop items.
+- ```NO_ITEM_DAMAGE``` Will not damage items on the map even when it otherwise would try to.
+- ```DRAW_AS_LINE``` Doesn't go through regular bullet animation, instead draws a line and the bullet on its end for one frame.
 
 ## Techniques
 Techniques may be used by tools, armors, weapons and anything else that can be wielded.
@@ -569,19 +590,19 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```ALARMCLOCK``` Has an alarm-clock feature.
 - ```BELTED``` Layer for backpacks and things worn over outerwear.
 - ```BLIND``` - Blinds the wearer while worn, and provides nominal protection v. flashbang flashes.
-- ```BOOTS``` - You can store knives in this gear.
 - ```COLLAR``` - This piece of clothing has a wide collar that can keep your mouth warm.
 - ```DEAF``` Makes the player deaf.
 - ```ELECTRIC_IMMUNE``` - This gear completely protects you from electric discharges.
 - ```FANCY``` Wearing this clothing gives a morale bonus if the player has the `Stylish` trait.
-- ```FLOATATION``` Prevents the player from drowning in deep water. Also prevents diving underwater.
+- ```FRAGILE``` This gear is less resistant to damage than normal.
+- ```FLOTATION``` Prevents the player from drowning in deep water. Also prevents diving underwater.
 - ```furred``` - This piece of clothing has a fur lining sewn into it to increase its overall warmth.
 - ```HOOD``` Allow this clothing to conditionally cover the head, for additional warmth or water protection., if the player's head isn't encumbered
 - ```kevlar_padded``` - This gear has kevlar inserted into strategic locations to increase protection without increasing encumbrance.
 - ```leather_padded``` - This gear has certain parts padded with leather to increase protection without increasing encumbrance.
+- ```NO_QUICKDRAW``` - Don't offer to draw items from this holster when the fire key is pressed whilst the players hands are empty
 - ```OUTER```  Outer garment layer.
 - ```OVERSIZE``` Can always be worn no matter encumbrance/mutations/bionics/etc., but prevents any other clothing being worn over this.
-- ```PAIRED``` - Item usually comes in two, one for the left side and one for the right side.
 - ```POCKETS``` Increases warmth for hands if the player's hands are cold and the player is wielding nothing.
 - ```RAD_PROOF``` - This piece of clothing completely protects you from radiation.
 - ```RAD_RESIST``` - This piece of clothing partially protects you from radiation.
@@ -595,9 +616,9 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```VARSIZE``` Can be made to fit via tailoring.
 - ```WAIST``` Layer for belts other things worn on the waist.
 - ```WATCH``` Acts as a watch and allows the player to see actual time.
-- ```WATER_FRIENDLY``` Prevents the covered body part(s) from getting drenched with water.
+- ```WATER_FRIENDLY``` Prevents the item from making the body part count as unfriendly to water and thus causing negative morale from being wet.
 - ```WATERPROOF``` Prevents the covered body-part(s) from getting wet in any circumstance.
-- ```wooled``` - This piece of clothing has a wool lining sewn into it to increase its overall warmth.
+- ```wooled```, ```furred```, ```kevlar_padded```, ```leather_padded``` - This piece of clothing has a sewn into it to increase some properties (warmth/encumbrance/...).
 
 ## Comestibles
 
@@ -664,6 +685,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 ### Flags
 
 - ```EATEN_HOT``` Morale bonus for eating hot.
+- ```EATEN_COLD``` Morale bonus for eating cold.
 - ```USE_EAT_VERB``` "You drink your %s." or "You eat your %s."
 - ```FERTILIZER``` Works as fertilizer for farming.
 - ```LENS``` Lens items can make fires via focusing light rays.
@@ -694,6 +716,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```BREW``` ... Can be put into fermenting vat.
 - ```HIDDEN_POISON``` ... Food is poisonous, visible only with a certain survival skill level.
 - ```HIDDEN_HALLU``` ... Food causes hallucinations, visible only with a certain survival skill level.
+- ```USE_ON_NPC``` Can be used on NPCs (not necessarily by them).
 
 ## Melee
 
@@ -707,15 +730,18 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```NON_STUCK``` Resistant to getting stuck in a monster; not as large of an effect as `MESSY`.
 - ```UNARMED_WEAPON``` Wielding this item still counts as unarmed combat.
 - ```NO_UNWIELD``` Cannot unwield this item.
+- ```NO_RELOAD``` Item can never be reloaded (even if has a valid ammo type).
 - ```SHEATH_SWORD``` Item can be sheathed in a sword scabbard
 - ```IAIJUTSU``` Sword can slash at an enemy as it's drawn if cutting skill is above 7 and a roll is passed
-- ```SHEATH_KNIFE``` Item can be sheathed in a knife sheath
+- ```SHEATH_KNIFE``` Item can be sheathed in a knife sheath, it applicable to small/medium knives (with volume not bigger than 2)
 - ```QUIVER_n``` Item can hold n arrows (will parse number as integer)
 - ```ALWAYS_TWOHAND``` Item is always wielded with two hands. Without this, the items volume and weight are used to calculate this.
+- ```BAYONET``` If the item is attached to a gun (as gunmod), the gun will use the cutting damage from the mod instead of its own.
 
 ## Guns
 
 - ```MODE_BURST``` Has a burst-fire mode.
+- ```BURST_ONLY``` No single-fire mode. Note that this is an additional flag to the above "MODE_BURST" flag.
 - ```RELOAD_AND_SHOOT``` Firing automatically reloads and then shoots.
 - ```RELOAD_ONE``` Only reloads one round at a time.
 - ```NO_AMMO``` Does not directly have a loaded ammo type.
@@ -735,6 +761,8 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```WATERPROOF_GUN``` Gun does not rust and can be used underwater.
 - ```UNDERWATER_GUN``` Gun is optimized for usage underwater, does perform badly outside of water.
 - ```NEVER_JAMS``` Never malfunctions.
+- ```COLLAPSIBLE_STOCK``` Reduces weapon volume proportional to the base size of the gun excluding any mods (see also SLOW_WIELD)
+- ```IRREMOVABLE``` Makes so that the gunmod cannot be removed.
 
 ## Tools
 
@@ -751,6 +779,7 @@ Melee flags are fully compatible with tool flags, and vice versa.
 - ```RADIOCARITEM``` Item can be put into a remote controlled car.
 - ```RADIOSIGNAL_1``` Activated per radios signal 1.
 - ```RADIOSIGNAL_2``` Activated per radios signal 2.
+- ```RADIOSIGNAL_3``` Activated per radios signal 3.
 - ```BOMB``` It's a radio controlled bomb.
 - ```RADIO_CONTAINER``` It's a container of something that is radio controlled.
 - ```RADIO_ACTIVATION``` It is activated by a remote control (also requires RADIOSIGNAL_*).
@@ -760,6 +789,11 @@ Melee flags are fully compatible with tool flags, and vice versa.
 - ```NO_DROP``` An item with this flag should never actually be dropped. Used internally to signal that an item was created, but that it is unwanted. Needless to say, don't use this in an item definition.
 - ```WET``` Item is wet and will slowly dry off (e.g. towel).
 - ```MC_MOBILE```, ```MC_RANDOM_STUFF```, ```MC_SCIENCE_STUFF```, ```MC_USED```, ```MC_HAS_DATA``` Memory card related flags, see `iuse.cpp`
+- ```HAS_RECIPE``` Used by the E-Ink tablet to indicates it's currently showing a recipe.
+- ```RADIO_MODABLE``` Indicates the item can be made into a radio-activated item.
+- ```RADIO_MOD``` The item has been made into a radio-activated item.
+- ```ACT_ON_RANGED_HIT```  The item should activate when thrown or fired, then immediately get processed if it spawns on the ground.
+- ```BELT_CLIP``` The item can be clipped or hooked on to a belt loop of the appropriate size (belt loops are limited by their max_volume and max_weight properties)
 
 ### Flags that apply to items, not to item types.
 Those flags are added by the game code to specific items (that specific welder, not *all* welders).
@@ -768,6 +802,8 @@ Those flags are added by the game code to specific items (that specific welder, 
 - ```USE_UPS``` The tool has the UPS mod and is charged from an UPS.
 - ```ATOMIC_AMMO``` The tool has the atomic mod and runs on plutonium instead of normal batteries.
 - ```FIT``` Reduces encumbrance by one.
+- ```COLD``` Item is cold (see EATEN_COLD).
+- ```HOT``` Item is hot (see EATEN_HOT).
 - ```LITCIG``` Marks a lit smoking item (cigarette, joint etc.).
 - ```WET``` Item is wet and will slowly dry off (e.g. towel).
 - ```REVIVE_SPECIAL``` ... Corpses revives when the player is nearby.
@@ -844,7 +880,7 @@ Those flags are added by the game code to specific items (that specific welder, 
 - ```SMOKEBOMB``` Pull the pin on a smoke bomb.
 - ```SMOKEBOMB_ACT``` This may be a good way to hide as a smoker.
 - ```ARROW_FLAMABLE``` Light your arrow and let fly.
-- ```MOLOTOV``` Light the molotov cocktail.
+- ```MOLOTOV``` Light the Molotov cocktail.
 - ```MOLOTOV_LIT``` Throw it, but don't drop it.
 - ```ACIDBOMB``` Pull the pin on an acid bomb.
 - ```ACIDBOMB_ACT``` Get rid of it or you'll end up like that guy in Robocop.
@@ -909,7 +945,7 @@ Those flags are added by the game code to specific items (that specific welder, 
 - ```LAW``` Unpack the LAW for firing.
 - ```DEJAR```
 - ```DOLLCHAT``` That creepy doll just keeps on talking.
-- ```ABSORBENT```
+- ```TOWEL``` Dry your character using the item as towel.
 - ```UNFOLD_BICYCLE``` Unfold the folding bicycle.
 - ```MATCHBOMB``` Light the matchbomb.
 - ```MATCHBOMB_ACT``` This thing is so hokey that you might actually be safe just holding onto it.
@@ -923,8 +959,8 @@ Those flags are added by the game code to specific items (that specific welder, 
 - ```FISHING_BASIC``` Use a fishing rod
 - ```JET_INJECTOR``` Inject some jet drugs right into your veins.
 - ```CABLE_ATTACH``` This item is a cable spool. Use it to try to attach to a vehicle.
-
-
+- ```CAPTURE_MONSTER_ACT``` Capture and encapsulate a monster. The associated action is also used for releasing it.
+  -```PLACE_RANDOMLY``` This is very much like the flag in the manhack iuse, it prevents the item from querying the player as to where they want the monster unloaded to, and instead choses randomly.
 
 ## Generic
 
@@ -940,6 +976,10 @@ Those flags are added by the game code to specific items (that specific welder, 
 - ```DURABLE_MELEE``` ... Item is made to hit stuff and it does it well, so it's considered to be a lot tougher than other weapons made of the same materials.
 - ```RAIN_PROTECT``` ... Protects from sunlight and from rain, when wielded.
 - ```NO_PICKUP``` ... Character can not pickup anything while wielding this item (e.g. bionic claws).
+- ```SLOW_WIELD``` ... Has an additional time penalty upon wielding. For melee weapons and guns this is offset by the relevant skill.
+- ```REDUCED_WEIGHT``` ... Gunmod flag; reduces the item's base weight by 25%.
+- ```REDUCED_BASHING``` ... Gunmod flag; reduces the item's bashing damage by 50%.
+- ```PSEUDO``` ... Used internally to mark items that are referred to in the crafting inventory but are not actually items. They can be used as tools, but not as components.
 
 ## Skills
 
@@ -961,3 +1001,20 @@ Those flags are added by the game code to specific items (that specific welder, 
 
 - Descriptions for `Special attacks` under `Monsters` could stand to be more descriptive of exactly what the attack does.
 - `Ammo effects` under `Ammo` need more descriptive details, and some need to be double-checked for accuracy.
+
+## MAP SPECIALS
+
+- ```mx_null``` ... No special at all.
+- ```mx_helicopter``` ... Metal wreckage and some items.
+- ```mx_military``` ... Corpses and some military items.
+- ```mx_science``` ... Corpses and some scientist items.
+- ```mx_collegekids``` ... Corpses and items.
+- ```mx_roadblock``` ... Roadblock furniture with turrets and some cars.
+- ```mx_drugdeal``` ... Corpses and some drugs.
+- ```mx_supplydrop``` ... Crates with some military items in it.
+- ```mx_portal``` ... Portal to neither space.
+- ```mx_minefield``` ... Landmines, a field of them.
+- ```mx_crater``` ... Crater with rubble (and radioactivity).
+- ```mx_fumarole``` ... A lava rift.
+- ```mx_portal_in``` ... Another portal to neither space.
+- ```mx_anomaly``` ...  Natural anomaly (crater + artifact).

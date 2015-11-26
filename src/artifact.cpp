@@ -6,10 +6,16 @@
 #include "json.h"
 #include "mapsharing.h"
 #include "rng.h"
+#include "translations.h"
 
 #include <sstream>
 #include <fstream>
 #include <bitset>
+
+// mfb(t_flag) converts a flag to a bit for insertion into a bitfield
+#ifndef mfb
+#define mfb(n) static_cast <unsigned long> (1 << (n))
+#endif
 
 std::vector<art_effect_passive> fill_good_passive();
 std::vector<art_effect_passive> fill_bad_passive();
@@ -238,12 +244,13 @@ std::string artifact_name(std::string type);
 // Constructrs for artifact itypes.
 it_artifact_tool::it_artifact_tool() : it_tool()
 {
+    artifact.reset( new islot_artifact() );
     id = item_controller->create_artifact_id();
     ammo_id = "NULL";
     price = 0;
     def_charges = 0;
     charges_per_use = 1;
-    charge_type = ARTC_NULL;
+    artifact->charge_type = ARTC_NULL;
     turns_per_charge = 0;
     revert_to = "null";
     use_methods.push_back( &iuse::artifact );
@@ -251,6 +258,7 @@ it_artifact_tool::it_artifact_tool() : it_tool()
 
 it_artifact_tool::it_artifact_tool( JsonObject &jo ) : it_tool()
 {
+    artifact.reset( new islot_artifact() );
     use_methods.push_back( &iuse::artifact );
     deserialize( jo );
 }
@@ -258,6 +266,7 @@ it_artifact_tool::it_artifact_tool( JsonObject &jo ) : it_tool()
 it_artifact_armor::it_artifact_armor() : itype()
 {
     armor.reset( new islot_armor() );
+    artifact.reset( new islot_artifact() );
     id = item_controller->create_artifact_id();
     price = 0;
 }
@@ -265,6 +274,7 @@ it_artifact_armor::it_artifact_armor() : itype()
 it_artifact_armor::it_artifact_armor( JsonObject &jo ) : itype()
 {
     armor.reset( new islot_armor() );
+    artifact.reset( new islot_artifact() );
     deserialize( jo );
 }
 
@@ -705,18 +715,14 @@ std::string new_artifact()
                (num_good < 1 || num_bad < 1 || one_in(num_good + 1) ||
                 one_in(num_bad + 1) || value > 1)) {
             if (value < 1 && one_in(2)) { // Good
-                int index = rng(0, good_effects.size() - 1);
-                passive_tmp = good_effects[index];
-                good_effects.erase(good_effects.begin() + index);
+                passive_tmp = random_entry_removed( good_effects );
                 num_good++;
             } else if (!bad_effects.empty()) { // Bad effect
-                int index = rng(0, bad_effects.size() - 1);
-                passive_tmp = bad_effects[index];
-                bad_effects.erase(bad_effects.begin() + index);
+                passive_tmp = random_entry_removed( bad_effects );
                 num_bad++;
             }
             value += passive_effect_cost[passive_tmp];
-            art->effects_wielded.push_back(passive_tmp);
+            art->artifact->effects_wielded.push_back(passive_tmp);
         }
         // Next, carried effects; more likely to be just bad
         num_good = 0;
@@ -729,18 +735,14 @@ std::string new_artifact()
                ((num_good > 2 && one_in(num_good + 1)) || num_bad < 1 ||
                 one_in(num_bad + 1) || value > 1)) {
             if (value < 1 && one_in(3)) { // Good
-                int index = rng(0, good_effects.size() - 1);
-                passive_tmp = good_effects[index];
-                good_effects.erase(good_effects.begin() + index);
+                passive_tmp = random_entry_removed( good_effects );
                 num_good++;
             } else { // Bad effect
-                int index = rng(0, bad_effects.size() - 1);
-                passive_tmp = bad_effects[index];
-                bad_effects.erase(bad_effects.begin() + index);
+                passive_tmp = random_entry_removed( bad_effects );
                 num_bad++;
             }
             value += passive_effect_cost[passive_tmp];
-            art->effects_carried.push_back(passive_tmp);
+            art->artifact->effects_carried.push_back(passive_tmp);
         }
         // Finally, activated effects; not necessarily good or bad
         num_good = 0;
@@ -755,28 +757,24 @@ std::string new_artifact()
                (value > 3 || (num_bad > 0 && num_good == 0) ||
                 !one_in(3 - num_good) || !one_in(3 - num_bad))) {
             if (!one_in(3) && value <= 1) { // Good effect
-                int index = rng(0, good_a_effects.size() - 1);
-                active_tmp = good_a_effects[index];
-                good_a_effects.erase(good_a_effects.begin() + index);
+                active_tmp = random_entry_removed( good_a_effects );
                 num_good++;
                 value += active_effect_cost[active_tmp];
             } else { // Bad effect
-                int index = rng(0, bad_a_effects.size() - 1);
-                active_tmp = bad_a_effects[index];
-                bad_a_effects.erase(bad_a_effects.begin() + index);
+                active_tmp = random_entry_removed( bad_a_effects );
                 num_bad++;
                 value += active_effect_cost[active_tmp];
             }
-            art->effects_activated.push_back(active_tmp);
+            art->artifact->effects_activated.push_back(active_tmp);
             art->max_charges += rng(1, 3);
         }
         art->def_charges = art->max_charges;
         // If we have charges, pick a recharge mechanism
         if (art->max_charges > 0) {
-            art->charge_type = art_charge( rng(ARTC_NULL + 1, NUM_ARTCS - 1) );
+            art->artifact->charge_type = art_charge( rng(ARTC_NULL + 1, NUM_ARTCS - 1) );
         }
         if (one_in(8) && num_bad + num_good >= 4) {
-            art->charge_type = ARTC_NULL;    // 1 in 8 chance that it can't recharge!
+            art->artifact->charge_type = ARTC_NULL;    // 1 in 8 chance that it can't recharge!
         }
         item_controller->add_item_type( art );
         return art->id;
@@ -873,18 +871,14 @@ std::string new_artifact()
                (num_good < 1 || one_in(num_good * 2) || value > 1 ||
                 (num_bad < 3 && !one_in(3 - num_bad)))) {
             if (value < 1 && one_in(2)) { // Good effect
-                int index = rng(0, good_effects.size() - 1);
-                passive_tmp = good_effects[index];
-                good_effects.erase(good_effects.begin() + index);
+                passive_tmp = random_entry_removed( good_effects );
                 num_good++;
             } else { // Bad effect
-                int index = rng(0, bad_effects.size() - 1);
-                passive_tmp = bad_effects[index];
-                bad_effects.erase(bad_effects.begin() + index);
+                passive_tmp = random_entry_removed( bad_effects );
                 num_bad++;
             }
             value += passive_effect_cost[passive_tmp];
-            art->effects_worn.push_back(passive_tmp);
+            art->artifact->effects_worn.push_back(passive_tmp);
         }
         item_controller->add_item_type( art );
         return art->id;
@@ -974,24 +968,24 @@ std::string new_natural_artifact(artifact_natural_property prop)
     } while (value > value_to_reach);
 
     if (aep_good != AEP_NULL) {
-        art->effects_carried.push_back(aep_good);
+        art->artifact->effects_carried.push_back(aep_good);
     }
     if (aep_bad != AEP_NULL) {
-        art->effects_carried.push_back(aep_bad);
+        art->artifact->effects_carried.push_back(aep_bad);
     }
     if (aea_good != AEA_NULL) {
-        art->effects_activated.push_back(aea_good);
+        art->artifact->effects_activated.push_back(aea_good);
     }
     if (aea_bad != AEA_NULL) {
-        art->effects_activated.push_back(aea_bad);
+        art->artifact->effects_activated.push_back(aea_bad);
     }
 
     // Natural artifacts ALWAYS can recharge
     // (When "implanting" them in a mundane item, this ability may be lost
-    if (!art->effects_activated.empty()) {
+    if (!art->artifact->effects_activated.empty()) {
         art->max_charges = rng(1, 4);
         art->def_charges = art->max_charges;
-        art->charge_type = art_charge( rng(ARTC_NULL + 1, NUM_ARTCS - 1) );
+        art->artifact->charge_type = art_charge( rng(ARTC_NULL + 1, NUM_ARTCS - 1) );
     }
     item_controller->add_item_type( art );
     return art->id;
@@ -1020,7 +1014,7 @@ std::string architects_cube()
     }
     // Add an extra weapon perhaps?
     art->description = _("The architect's cube.");
-    art->effects_carried.push_back(AEP_SUPER_CLAIRVOYANCE);
+    art->artifact->effects_carried.push_back(AEP_SUPER_CLAIRVOYANCE);
     item_controller->add_item_type( art );
     return art->id;
 }
@@ -1086,7 +1080,7 @@ void load_artifacts(const std::string &artfilename)
 
     try {
         load_artifacts_from_ifstream(file_test);
-    } catch (std::string e) {
+    } catch( const JsonError &e ) {
         debugmsg("%s: %s", artfilename.c_str(), e.c_str());
     }
 
@@ -1101,7 +1095,6 @@ void load_artifacts_from_ifstream(std::ifstream &f)
     while (!artifact_json.end_array()) {
         JsonObject jo = artifact_json.get_object();
         std::string type = jo.get_string("type");
-        std::string id = jo.get_string("id");
         if (type == "artifact_tool") {
             it_artifact_tool *art = new it_artifact_tool(jo);
             item_controller->add_item_type( art );
@@ -1109,7 +1102,7 @@ void load_artifacts_from_ifstream(std::ifstream &f)
             it_artifact_armor *art = new it_artifact_armor(jo);
             item_controller->add_item_type( art );
         } else {
-            throw jo.line_number() + ": unrecognized artifact type.";
+            jo.throw_error( "unrecognized artifact type.", "type" );
         }
     }
 }
@@ -1156,21 +1149,21 @@ void it_artifact_tool::deserialize(JsonObject &jo)
     ammo_id = jo.get_string("ammo");
     revert_to = jo.get_string("revert_to");
 
-    charge_type = (art_charge)jo.get_int("charge_type");
+    artifact->charge_type = (art_charge)jo.get_int("charge_type");
 
     JsonArray ja = jo.get_array("effects_wielded");
     while (ja.has_more()) {
-        effects_wielded.push_back((art_effect_passive)ja.next_int());
+        artifact->effects_wielded.push_back((art_effect_passive)ja.next_int());
     }
 
     ja = jo.get_array("effects_activated");
     while (ja.has_more()) {
-        effects_activated.push_back((art_effect_active)ja.next_int());
+        artifact->effects_activated.push_back((art_effect_active)ja.next_int());
     }
 
     ja = jo.get_array("effects_carried");
     while (ja.has_more()) {
-        effects_carried.push_back((art_effect_passive)ja.next_int());
+        artifact->effects_carried.push_back((art_effect_passive)ja.next_int());
     }
 
     if( item_tags.count( "CHOP" ) > 0 ) {
@@ -1230,7 +1223,7 @@ void it_artifact_armor::deserialize(JsonObject &jo)
 
     JsonArray ja = jo.get_array("effects_worn");
     while (ja.has_more()) {
-        effects_worn.push_back((art_effect_passive)ja.next_int());
+        artifact->effects_worn.push_back((art_effect_passive)ja.next_int());
     }
 }
 
@@ -1267,6 +1260,17 @@ bool save_artifacts( const std::string &path )
         popup( _( "Failed to save artifacts to %s" ), path.c_str() );
         return false;
     }
+}
+
+template<typename E>
+void serialize_enum_vector_as_int( JsonOut &json, const std::string &member, const std::vector<E> &vec )
+{
+    json.member( member );
+    json.start_array();
+    for( auto & e : vec ) {
+        json.write( static_cast<int>( e ) );
+    }
+    json.end_array();
 }
 
 void it_artifact_tool::serialize(JsonOut &json) const
@@ -1306,10 +1310,10 @@ void it_artifact_tool::serialize(JsonOut &json) const
     json.member("revert_to", revert_to);
 
     // artifact data
-    json.member("charge_type", charge_type);
-    json.member("effects_wielded", effects_wielded);
-    json.member("effects_activated", effects_activated);
-    json.member("effects_carried", effects_carried);
+    json.member("charge_type", artifact->charge_type);
+    serialize_enum_vector_as_int( json, "effects_wielded", artifact->effects_wielded );
+    serialize_enum_vector_as_int( json, "effects_activated", artifact->effects_activated );
+    serialize_enum_vector_as_int( json, "effects_carried", artifact->effects_carried );
 
     json.end_object();
 }
@@ -1354,8 +1358,110 @@ void it_artifact_armor::serialize(JsonOut &json) const
     json.member("power_armor", armor->power_armor);
 
     // artifact data
-    json.member("effects_worn", effects_worn);
+    serialize_enum_vector_as_int( json, "effects_worn", artifact->effects_worn );
 
     json.end_object();
 }
 
+namespace io {
+#define PAIR(x) { #x, x }
+static const std::unordered_map<std::string, art_effect_passive> art_effect_passive_values = { {
+    //PAIR( AEP_NULL ), // not really used
+    PAIR( AEP_STR_UP ),
+    PAIR( AEP_DEX_UP ),
+    PAIR( AEP_PER_UP ),
+    PAIR( AEP_INT_UP ),
+    PAIR( AEP_ALL_UP ),
+    PAIR( AEP_SPEED_UP ),
+    PAIR( AEP_IODINE ),
+    PAIR( AEP_SNAKES ),
+    PAIR( AEP_INVISIBLE ),
+    PAIR( AEP_CLAIRVOYANCE ),
+    PAIR( AEP_SUPER_CLAIRVOYANCE ),
+    PAIR( AEP_STEALTH ),
+    PAIR( AEP_EXTINGUISH ),
+    PAIR( AEP_GLOW ),
+    PAIR( AEP_PSYSHIELD ),
+    PAIR( AEP_RESIST_ELECTRICITY ),
+    PAIR( AEP_CARRY_MORE ),
+    PAIR( AEP_SAP_LIFE ),
+    //PAIR( AEP_SPLIT, // not really used
+    PAIR( AEP_HUNGER ),
+    PAIR( AEP_THIRST ),
+    PAIR( AEP_SMOKE ),
+    PAIR( AEP_EVIL ),
+    PAIR( AEP_SCHIZO ),
+    PAIR( AEP_RADIOACTIVE ),
+    PAIR( AEP_MUTAGENIC ),
+    PAIR( AEP_ATTENTION ),
+    PAIR( AEP_STR_DOWN ),
+    PAIR( AEP_DEX_DOWN ),
+    PAIR( AEP_PER_DOWN ),
+    PAIR( AEP_INT_DOWN ),
+    PAIR( AEP_ALL_DOWN ),
+    PAIR( AEP_SPEED_DOWN ),
+    PAIR( AEP_FORCE_TELEPORT ),
+    PAIR( AEP_MOVEMENT_NOISE ),
+    PAIR( AEP_BAD_WEATHER ),
+    PAIR( AEP_SICK ),
+} };
+static const std::unordered_map<std::string, art_effect_active> art_effect_active_values = { {
+    //PAIR( AEA_NULL ), // not really used
+    PAIR( AEA_STORM ),
+    PAIR( AEA_FIREBALL ),
+    PAIR( AEA_ADRENALINE ),
+    PAIR( AEA_MAP ),
+    PAIR( AEA_BLOOD ),
+    PAIR( AEA_FATIGUE ),
+    PAIR( AEA_ACIDBALL ),
+    PAIR( AEA_PULSE ),
+    PAIR( AEA_HEAL ),
+    PAIR( AEA_CONFUSED ),
+    PAIR( AEA_ENTRANCE ),
+    PAIR( AEA_BUGS ),
+    PAIR( AEA_TELEPORT ),
+    PAIR( AEA_LIGHT ),
+    PAIR( AEA_GROWTH ),
+    PAIR( AEA_HURTALL ),
+    //PAIR( AEA_SPLIT ), // not really used
+    PAIR( AEA_RADIATION ),
+    PAIR( AEA_PAIN ),
+    PAIR( AEA_MUTATE ),
+    PAIR( AEA_PARALYZE ),
+    PAIR( AEA_FIRESTORM ),
+    PAIR( AEA_ATTENTION ),
+    PAIR( AEA_TELEGLOW ),
+    PAIR( AEA_NOISE ),
+    PAIR( AEA_SCREAM ),
+    PAIR( AEA_DIM ),
+    PAIR( AEA_FLASH ),
+    PAIR( AEA_VOMIT ),
+    PAIR( AEA_SHADOWS ),
+} };
+static const std::unordered_map<std::string, art_charge> art_charge_values = { {
+    PAIR( ARTC_NULL ),
+    PAIR( ARTC_TIME ),
+    PAIR( ARTC_SOLAR ),
+    PAIR( ARTC_PAIN ),
+    PAIR( ARTC_HP ),
+} };
+#undef PAIR
+
+template<>
+art_effect_passive string_to_enum<art_effect_passive>( const std::string &data )
+{
+    return string_to_enum_look_up( art_effect_passive_values, data );
+}
+
+template<>
+art_effect_active string_to_enum<art_effect_active>( const std::string &data )
+{
+    return string_to_enum_look_up( art_effect_active_values, data );
+}
+
+template<>
+art_charge string_to_enum<art_charge>( const std::string &data )
+{
+    return string_to_enum_look_up( art_charge_values, data );
+}
+} // namespace io

@@ -85,6 +85,12 @@
     },
     {
         "type" : "ammunition_type",
+        "id" : "9x18",
+        "name" : "9x18mm",
+        "default" : "9x18mm"
+    },
+    {
+        "type" : "ammunition_type",
         "id" : "38",
         "name" : ".38",
         "default" : "38_special"
@@ -136,6 +142,12 @@
         "id" : "762",
         "name" : "7.62x39mm",
         "default" : "762_m43"
+    },
+    {
+        "type" : "ammunition_type",
+        "id" : "545x39",
+        "name" : "5.45x39mm",
+        "default" : "545"
     },
     {
         "type" : "ammunition_type",
@@ -211,6 +223,12 @@
     },
     {
         "type" : "ammunition_type",
+        "id" : "soap",
+        "name" : "soap",
+        "default" : "soap"
+    },
+    {
+        "type" : "ammunition_type",
         "id" : "tape",
         "name" : "duct tape",
         "default" : "duct_tape"
@@ -247,12 +265,6 @@
     },
     {
         "type" : "ammunition_type",
-        "id" : "muscle",
-        "name" : "muscle",
-        "default" : ""
-    },
-    {
-        "type" : "ammunition_type",
         "id" : "fusion",
         "name" : "fusion cell",
         "default" : "laser_pack"
@@ -272,8 +284,14 @@
     {
         "type" : "ammunition_type",
         "id" : "water",
-        "name" : "clean water",
-        "default" : "water_clean"
+        "name" : "water",
+        "default" : "water"
+    },
+    {
+        "type" : "ammunition_type",
+        "id" : "conc_alcohol",
+        "name" : "concentrated alcohol",
+        "default" : "denat_alcohol"
     },
     {
         "type" : "ammunition_type",
@@ -313,6 +331,12 @@
     },
     {
         "type" : "ammunition_type",
+        "id" : "small_charcoal",
+        "name" : "charcoal pieces",
+        "default" : "small_charcoal"
+    },
+    {
+        "type" : "ammunition_type",
         "id" : "metal_rail",
         "name" : "ferrous rail projectile",
         "default" : "rebar_rail"
@@ -334,6 +358,12 @@
         "id" : "ampoule",
         "name" : "chemical ampoule",
         "default" : "ampoule"
+    },
+    {
+        "type" : "ammunition_type",
+        "id" : "stimpack_ammo",
+        "name" : "stimulant module",
+        "default" : "stimpack_ammo"
     },
     {
         "type" : "ammunition_type",
@@ -424,6 +454,11 @@
         "id" : "unfinished_char",
         "name" : "semi-charred fuel",
         "default" : "unfinished_charcoal"
+    },
+    {
+        "type" : "ammunition_type",
+        "id" : "chemical_spray",
+        "name" : "sprayable chemical",
+        "default" : "gas_fungicidal"
     }
-
 ]

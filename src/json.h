@@ -9,6 +9,7 @@
 #include <array>
 #include <map>
 #include <set>
+#include <stdexcept>
 
 /* Cataclysm-DDA homegrown JSON tools
  * copyright CC-BY-SA-3.0 2013 CleverRaven
@@ -30,6 +31,52 @@ class JsonArray;
 class JsonSerializer;
 class JsonDeserializer;
 
+class JsonError : public std::runtime_error {
+public:
+    JsonError( const std::string &msg );
+    const char *c_str() const noexcept { return what(); }
+};
+
+namespace io {
+/**
+ * @name Enumeration (de)serialization to/from string.
+ *
+ * @ref enum_to_string converts an enumeration value to a string (which can be written to JSON).
+ * The result must be an non-empty string.
+ *
+ * @ref string_to_enum converts the string value back into an enumeration value. The input
+ * is expected to be one of the outputs of @ref enum_to_string. If the given string does
+ * not match an enumeration, an @ref InvalidEnumString is to be thrown.
+ *
+ * @code string_to_enum<E>(enum_to_string<E>(X)) == X @endcode must yield true for all values
+ * of the enumeration E.
+ *
+ * The functions need to be implemented somewhere for each enumeration type they are used on.
+ */
+/*@{*/
+class InvalidEnumString : public std::runtime_error {
+public:
+    InvalidEnumString() : std::runtime_error( "invalid enum string" ) { }
+    InvalidEnumString( const std::string &msg ) : std::runtime_error( msg ) { }
+};
+template<typename E>
+E string_to_enum( const std::string &data );
+template<typename E>
+const std::string enum_to_string( E data );
+
+// Helper function to do the lookup in a container (map or unordered_map)
+template<typename C, typename E = typename C::mapped_type>
+inline E string_to_enum_look_up( const C &container, const std::string &data )
+{
+    const auto iter = container.find( data );
+    if( iter == container.end() ) {
+        throw InvalidEnumString{};
+    }
+    return iter->second;
+}
+/*@}*/
+}
+
 /* JsonIn
  * ======
  *
@@ -44,7 +91,7 @@ class JsonDeserializer;
  *
  *     JsonIn jsin(myistream);
  *     // expecting an array of objects
- *     jsin.start_array(); // throws std::string if array not found
+ *     jsin.start_array(); // throws JsonError if array not found
  *     while (!jsin.end_array()) { // end_array returns false if not the end
  *         JsonObject jo = jsin.get_object();
  *         ... // load object using JsonObject methods
@@ -164,6 +211,19 @@ class JsonIn
         JsonObject get_object();
         JsonArray get_array();
 
+        template<typename E, typename = typename std::enable_if<std::is_enum<E>::value>::type>
+        E get_enum_value()
+        {
+            const auto old_offset = tell();
+            try {
+                return io::string_to_enum<E>( get_string() );
+            } catch( const io::InvalidEnumString & ) {
+                seek( old_offset ); // so the error message points to the correct place.
+                error( "invalid enumeration value" );
+                throw; // ^^ error already throws, but the compiler doesn't know that )-:
+            }
+        }
+
         // container control and iteration
         void start_array(); // verify array start
         bool end_array(); // returns false if it's not the end
@@ -191,6 +251,9 @@ class JsonIn
         // returns true if the data was read successfully, false otherwise
         bool read(bool &b);
         bool read(char &c);
+        bool read(signed char &c);
+        bool read(short unsigned int &s);
+        bool read(short int &s);
         bool read(int &i);
         bool read(unsigned int &u);
         bool read(long &l);
@@ -201,6 +264,17 @@ class JsonIn
         template<size_t N>
         bool read(std::bitset<N> &b);
         bool read(JsonDeserializer &j);
+        // This is for the string_id type
+        template <typename T>
+        auto read(T &thing) -> decltype(thing.str(), true)
+        {
+            std::string tmp;
+            if( !read( tmp ) ) {
+                return false;
+            }
+            thing = T( tmp );
+            return true;
+        }
 
         // array ~> vector, deque, list
         template <typename T, typename std::enable_if<
@@ -221,7 +295,7 @@ class JsonIn
                         skip_value();
                     }
                 }
-            } catch (std::string const&) {
+            } catch( const JsonError & ) {
                 return false;
             }
 
@@ -245,7 +319,7 @@ class JsonIn
                     }
                 }
                 return end_array(); // false if json array is too big
-            } catch (std::string const&) {
+            } catch( const JsonError & ) {
                 return false;
             }
         }
@@ -270,7 +344,7 @@ class JsonIn
                         skip_value();
                     }
                 }
-            } catch (std::string const&) {
+            } catch( const JsonError & ) {
                 return false;
             }
 
@@ -299,7 +373,7 @@ class JsonIn
                         skip_value();
                     }
                 }
-            } catch (std::string const&) {
+            } catch( const JsonError & ) {
                 return false;
             }
 
@@ -387,11 +461,24 @@ class JsonOut
             write(std::string(cstr));
         }
         void write(const JsonSerializer &thing);
+        // This is for the string_id type
+        template <typename T>
+        auto write(const T &thing) -> decltype(thing.str(), (void)0)
+        {
+            write( thing.str() );
+        }
 
         // enum ~> underlying type
         template <typename T, typename std::enable_if<std::is_enum<T>::value>::type* = nullptr>
         void write(T const &value) {
             write(static_cast<typename std::underlying_type<T>::type>(value));
+        }
+
+        // enum ~> string
+        template <typename E, typename std::enable_if<std::is_enum<E>::value>::type* = nullptr>
+        void write_as_string(const E value)
+        {
+            write( io::enum_to_string<E>( value ) );
         }
 
         template <typename T>
@@ -473,7 +560,7 @@ class JsonOut
  *     my_object_type myobject(id, name, description, points, tags);
  *
  * Here the "id", "name" and "description" members are required.
- * JsonObject will throw a std::string if they are not found,
+ * JsonObject will throw a JsonError if they are not found,
  * identifying the problem and the current position in the input stream.
  *
  * Note that "name" and "description" are passed to gettext for translating.
@@ -553,6 +640,22 @@ class JsonObject
         double get_float(const std::string &name, const double fallback);
         std::string get_string(const std::string &name);
         std::string get_string(const std::string &name, const std::string &fallback);
+
+        template<typename E, typename = typename std::enable_if<std::is_enum<E>::value>::type>
+        E get_enum_value( const std::string &name, const E fallback )
+        {
+            if( !has_member( name ) ) {
+                return fallback;
+            }
+            jsin->seek( verify_position( name ) );
+            return jsin->get_enum_value<E>();
+        }
+        template<typename E, typename = typename std::enable_if<std::is_enum<E>::value>::type>
+        E get_enum_value( const std::string &name )
+        {
+            jsin->seek( verify_position( name ) );
+            return jsin->get_enum_value<E>();
+        }
 
         // containers by name
         // get_array returns empty array if the member is not found
@@ -634,7 +737,7 @@ class JsonObject
  * has_more() will return false and the loop will terminate.
  *
  * If the next element is not an integer,
- * JsonArray will throw a std::string indicating the problem,
+ * JsonArray will throw a JsonError indicating the problem,
  * and the position in the input stream.
  *
  * To handle arrays with elements of indeterminate type,
@@ -844,5 +947,7 @@ class JsonDeserializer
         JsonDeserializer &operator=(JsonDeserializer &&) = default;
         JsonDeserializer &operator=(const JsonDeserializer &) = default;
 };
+
+std::ostream &operator<<( std::ostream &stream, const JsonError &err );
 
 #endif

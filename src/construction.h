@@ -4,6 +4,7 @@
 #include "requirements.h"
 #include "cursesdef.h" // WINDOW
 #include "enums.h" // point
+#include "string_id.h"
 
 #include <string>
 #include <set>
@@ -11,12 +12,14 @@
 
 class JsonObject;
 typedef int nc_color;
+class Skill;
+using skill_id = string_id<Skill>;
 
 struct construction
 {
     std::string category; //Construction type category
     std::string description; // how the action is displayed to the player
-    std::string skill;
+    skill_id skill;
     std::string pre_terrain; // beginning terrain for construction
     std::string post_terrain;// final terrain after construction
 
@@ -37,6 +40,7 @@ struct construction
     int adjusted_time() const; // NPC assistance adjusted
     int print_time(WINDOW *w, int ypos, int xpos, int width, nc_color col) const;
     std::vector<std::string> get_folded_time_string(int width) const;
+    float time_scale() const; //result of construction scaling option
     private:
     std::string get_time_string() const;
 };

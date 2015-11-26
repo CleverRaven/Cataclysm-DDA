@@ -13,6 +13,7 @@
 #include "debug.h"
 #include "iuse_software_sokoban.h"
 #include "path_info.h"
+#include "translations.h"
 
 sokoban_game::sokoban_game()
 {
@@ -276,7 +277,7 @@ int sokoban_game::start_game()
 
     int indent = 10;
     for( auto &shortcut : shortcuts ) {
-        indent = std::max( indent, utf8_width( shortcut.c_str() ) + 1 );
+        indent = std::max( indent, utf8_width(shortcut) + 1 );
     }
     indent = std::min(indent, 30);
 

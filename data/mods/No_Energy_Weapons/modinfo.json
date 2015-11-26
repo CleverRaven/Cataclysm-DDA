@@ -6,6 +6,7 @@
     "name": "No Energy Weapons",
     "author": "Rivet-the-Zombie",
     "description": "Removes energy weapons, coilguns, and specific ammunition.",
+    "category": "item_exclude",
     "path": "modinfo.json"
 },{
     "type": "ITEM_BLACKLIST",

@@ -8,7 +8,7 @@
 #include <string>
 #include <vector>
 
-enum art_effect_active {
+enum art_effect_active : int {
     AEA_NULL = 0,
 
     AEA_STORM, // Emits shock fields
@@ -47,7 +47,7 @@ enum art_effect_active {
     NUM_AEAS
 };
 
-enum art_charge {
+enum art_charge : int {
     ARTC_NULL,  // Never recharges!
     ARTC_TIME,  // Very slowly recharges with time
     ARTC_SOLAR, // Recharges in sunlight
@@ -61,57 +61,38 @@ enum art_charge {
 class it_artifact_tool : public it_tool, public JsonSerializer, public JsonDeserializer
 {
     public:
-        art_charge charge_type;
-        std::vector<art_effect_passive> effects_wielded;
-        std::vector<art_effect_active>  effects_activated;
-        std::vector<art_effect_passive> effects_carried;
-
-        bool is_artifact() const override
-        {
-            return true;
-        }
-
         using JsonSerializer::serialize;
-        void serialize(JsonOut &json) const override;
+        void serialize( JsonOut &json ) const override;
         using JsonDeserializer::deserialize;
-        void deserialize(JsonObject &jo);
-        void deserialize(JsonIn &jsin) override
-        {
+        void deserialize( JsonObject &jo );
+        void deserialize( JsonIn &jsin ) override {
             JsonObject jo = jsin.get_object();
-            deserialize(jo);
+            deserialize( jo );
         }
 
         it_artifact_tool();
-        it_artifact_tool(JsonObject &jo);
+        it_artifact_tool( JsonObject &jo );
 
-        void create_name(const std::string &type);
-        void create_name(const std::string &property_name, const std::string &shape_name);
+        void create_name( const std::string &type );
+        void create_name( const std::string &property_name, const std::string &shape_name );
 };
 
 class it_artifact_armor : public itype, public JsonSerializer, public JsonDeserializer
 {
     public:
-        std::vector<art_effect_passive> effects_worn;
-
-        bool is_artifact() const override
-        {
-            return true;
-        }
-
         using JsonSerializer::serialize;
-        void serialize(JsonOut &json) const override;
+        void serialize( JsonOut &json ) const override;
         using JsonDeserializer::deserialize;
-        void deserialize(JsonObject &jo);
-        void deserialize(JsonIn &jsin) override
-        {
+        void deserialize( JsonObject &jo );
+        void deserialize( JsonIn &jsin ) override {
             JsonObject jo = jsin.get_object();
-            deserialize(jo);
+            deserialize( jo );
         }
 
         it_artifact_armor();
-        it_artifact_armor(JsonObject &jo);
+        it_artifact_armor( JsonObject &jo );
 
-        void create_name(const std::string &type);
+        void create_name( const std::string &type );
 };
 
 
@@ -123,8 +104,8 @@ std::string new_natural_artifact( artifact_natural_property prop );
 std::string architects_cube();
 
 // note: needs to be called by main() before MAPBUFFER.load
-void load_artifacts(const std::string &filename);
-void load_artifacts_from_ifstream(std::ifstream &f);
+void load_artifacts( const std::string &filename );
+void load_artifacts_from_ifstream( std::ifstream &f );
 // save artifact definitions to json, path must be the same as for loading.
 bool save_artifacts( const std::string &path );
 

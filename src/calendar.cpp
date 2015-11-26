@@ -4,9 +4,28 @@
 #include "options.h"
 #include "translations.h"
 #include "game.h"
+#include "debug.h"
+
+int calendar::cached_season_length = 14;
 
 calendar calendar::start;
 calendar calendar::turn;
+season_type calendar::initial_season;
+bool calendar::eternal_season = false;
+
+// Internal constants, not part of the calendar interface.
+// Times for sunrise, sunset at equinoxes
+#define SUNRISE_WINTER   7
+#define SUNRISE_SOLSTICE 6
+#define SUNRISE_SUMMER   5
+
+#define SUNSET_WINTER   17
+#define SUNSET_SOLSTICE 19
+#define SUNSET_SUMMER   21
+
+// How long, in seconds, does sunrise/sunset last?
+#define TWILIGHT_SECONDS (60 * 60)
+
 
 calendar::calendar()
 {
@@ -126,15 +145,21 @@ int calendar::minutes_past_midnight() const
     return ret;
 }
 
+int calendar::seconds_past_midnight() const
+{
+    return second + (minute * 60) + (hour * 60 * 60);
+}
+
 moon_phase calendar::moon() const
 {
-    int phase = int(day / (season_length() / 4));
-    //phase %= 4;   Redundant?
-    if (phase == 3) {
-        return MOON_HALF;
-    } else {
-        return moon_phase(phase);
-    }
+    //One full phase every 2 rl months = 2/3 season length
+    static float phase_change_per_day = 1.0 / ((float(season_length()) * 2.0 / 3.0) / float(MOON_PHASE_MAX));
+
+    //Switch moon phase at noon so it stays the same all night
+    const int current_day = round( (calendar::turn.get_turn() + DAYS(1) / 2) / DAYS(1) );
+    const int current_phase = int(round(float(current_day) * phase_change_per_day)) % int(MOON_PHASE_MAX);
+
+    return moon_phase(current_phase);
 }
 
 calendar calendar::sunrise() const
@@ -201,42 +226,34 @@ calendar calendar::sunset() const
 
 bool calendar::is_night() const
 {
-    int mins         = minutes_past_midnight(),
-        sunrise_mins = sunrise().minutes_past_midnight(),
-        sunset_mins  = sunset().minutes_past_midnight();
+    int seconds         = seconds_past_midnight();
+    int sunrise_seconds = sunrise().seconds_past_midnight();
+    int sunset_seconds  = sunset().seconds_past_midnight();
 
-    return (mins > sunset_mins + TWILIGHT_MINUTES || mins < sunrise_mins);
+    return (seconds > sunset_seconds + TWILIGHT_SECONDS || seconds < sunrise_seconds);
 }
 
-int calendar::sunlight() const
+float calendar::sunlight() const
 {
-    //Recent lightning strike has lit the area
-    if( g->lightning_active ) {
-        return DAYLIGHT_LEVEL;
+    int seconds = seconds_past_midnight();
+    int sunrise_seconds = sunrise().seconds_past_midnight();
+    int sunset_seconds = sunset().seconds_past_midnight();
+
+    int current_phase = int(moon());
+    if ( current_phase > int(MOON_PHASE_MAX)/2 ) {
+        current_phase = int(MOON_PHASE_MAX) - current_phase;
     }
 
-    int mins = minutes_past_midnight(),
-        sunrise_mins = sunrise().minutes_past_midnight(),
-        sunset_mins = sunset().minutes_past_midnight();
+    int moonlight = 1 + int(current_phase * MOONLIGHT_PER_QUATER);
 
-    int moonlight = 1 + int(moon()) * MOONLIGHT_LEVEL;
-
-    if (mins > sunset_mins + TWILIGHT_MINUTES || mins < sunrise_mins) { // Night
+    if( seconds > sunset_seconds + TWILIGHT_SECONDS || seconds < sunrise_seconds ) { // Night
         return moonlight;
-    }
-
-    else if (mins >= sunrise_mins && mins <= sunrise_mins + TWILIGHT_MINUTES) {
-
-        double percent = double(mins - sunrise_mins) / TWILIGHT_MINUTES;
-        return int( double(moonlight)      * (1. - percent) +
-                    double(DAYLIGHT_LEVEL) * percent         );
-
-    } else if (mins >= sunset_mins && mins <= sunset_mins + TWILIGHT_MINUTES) {
-
-        double percent = double(mins - sunset_mins) / TWILIGHT_MINUTES;
-        return int( double(DAYLIGHT_LEVEL) * (1. - percent) +
-                    double(moonlight)      * percent         );
-
+    } else if( seconds >= sunrise_seconds && seconds <= sunrise_seconds + TWILIGHT_SECONDS ) {
+        double percent = double(seconds - sunrise_seconds) / TWILIGHT_SECONDS;
+        return double(moonlight) * (1. - percent) + double(DAYLIGHT_LEVEL) * percent;
+    } else if( seconds >= sunset_seconds && seconds <= sunset_seconds + TWILIGHT_SECONDS ) {
+        double percent = double(seconds - sunset_seconds) / TWILIGHT_SECONDS;
+        return double(DAYLIGHT_LEVEL) * (1. - percent) + double(moonlight) * percent;
     } else {
         return DAYLIGHT_LEVEL;
     }
@@ -377,19 +394,33 @@ std::string calendar::day_of_week() const
 
 int calendar::season_length()
 {
-    if( ACTIVE_WORLD_OPTIONS.empty() || int(ACTIVE_WORLD_OPTIONS["SEASON_LENGTH"]) == 0 ) {
-        return 14; // default
-    }
-    return int(ACTIVE_WORLD_OPTIONS["SEASON_LENGTH"]);
+    return cached_season_length;
 }
 
 void calendar::sync()
 {
     const int sl = season_length();
     year = turn_number / DAYS(sl * 4);
-    season = season_type(turn_number / DAYS(sl) % 4);
+
+    if( eternal_season ) {
+        season = initial_season;
+    } else {
+        season = season_type(turn_number / DAYS(sl) % 4);
+    }
+
     day = turn_number / DAYS(1) % sl;
     hour = turn_number / HOURS(1) % 24;
     minute = turn_number / MINUTES(1) % 60;
     second = (turn_number * 6) % 60;
+}
+
+bool calendar::once_every(int event_frequency) {
+    return (calendar::turn % event_frequency) == 0;
+}
+
+void calendar::set_season_length( const int length )
+{
+    // 14 is the default and it's used whenever the input is invalid so
+    // everyone using the cached value can rely on it being larger than 0.
+    cached_season_length = length <= 0 ? 14 : length;
 }

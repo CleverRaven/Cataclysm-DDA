@@ -20,7 +20,6 @@ not_json = {
     "main.lua",
     "preload.lua",
     "LOADING_ORDER.md"
-
 }
 
 # don't parse this files. Full related path.
@@ -31,21 +30,25 @@ ignore_files = {
 
 # these objects have no translatable strings
 ignorable = {
-    "colordef",
+    "BULLET_PULLING",
     "ITEM_BLACKLIST",
-    "item_group",
-    "monstergroup",
     "MONSTER_BLACKLIST",
     "MONSTER_FACTION",
     "MONSTER_WHITELIST",
+    "SPECIES",
+    "colordef",
+    "epilogue", # FIXME right now this object can't be translated correctly
+    "item_group",
     "monitems",
-    "npc", # FIXME right now this object is unextractable
+    "monstergroup",
+    "npc",      # FIXME right now this object is unextractable
     "overmap_special",
     "recipe_category",
     "recipe_subcategory",
+    "region_overlay",
     "region_settings",
-    "BULLET_PULLING",
-    "SPECIES"
+    "vehicle_group",
+    "vehicle_placement"
 }
 
 # these objects can have their strings automatically extracted.
@@ -138,31 +141,90 @@ def extract_material(item):
 def extract_martial_art(item):
     outfile = get_outfile("martial_art")
     writestr(outfile, item["name"])
-    writestr(outfile, item["description"])
+    writestr(outfile, item["description"],
+             comment="Description for martial art '%s'" % item["name"])
     onhit_buffs = item.get("onhit_buffs", list())
     static_buffs = item.get("static_buffs", list())
     buffs = onhit_buffs + static_buffs
     for buff in buffs:
         writestr(outfile, buff["name"])
-        writestr(outfile, buff["description"])
+        if buff["name"] == item["name"]:
+            c="Description of buff for martial art '%s'" % item["name"]
+        else:
+            c="Description of buff '%s' for martial art '%s'" % (buff["name"], item["name"])
+        writestr(outfile, buff["description"], comment=c)
 
 def extract_effect_type(item):
-    outfile = get_outfile("effects")
     # writestr will not write string if it is None.
-    for f in ["name", "desc", "reduced_desc"]:
-        for i in item.get(f, ()):
-            writestr(outfile, i)
-    for f in ["apply_message", "remove_message"]:
-        found = item.get(f, ())
-        writestr(outfile, found)
-    for f in ["miss_messages", "decay_messages"]:
-        for i in item.get(f, ()):
-            writestr(outfile, i[0])
-    for m in [ "remove_memorial_log", "apply_memorial_log"]:
-        found = item.get(m, ())
-        writestr(outfile, found, context="memorial_male")
-        writestr(outfile, found, context="memorial_female")
+    outfile = get_outfile("effects")
+    name = item.get("name", ())
 
+    if name:
+        if len(name) == len(item.get("desc", ())):
+            for nm_desc in zip(name, item.get("desc", ())):
+                writestr(outfile, nm_desc[0])
+                writestr(outfile, nm_desc[1], format_strings=True,
+                         comment="Description of effect '{}'.".format(nm_desc[0]))
+        else:
+            for i in item.get("name", ()):
+                writestr(outfile, i)
+            for f in ["desc", "reduced_desc"]:
+                for i in item.get(f, ()):
+                    writestr(outfile, i, format_strings=True)
+
+    # apply_message
+    msg = item.get("apply_message")
+    if not name:
+        writestr(outfile, msg, format_strings=True)
+    else:
+        writestr(outfile, msg, format_strings=True,
+          comment="Apply message for effect(s) '{}'.".format(', '.join(name)))
+
+    # remove_message
+    msg = item.get("remove_message")
+    if not name:
+        writestr(outfile, msg, format_strings=True)
+    else:
+        writestr(outfile, msg, format_strings=True,
+          comment="Remove message for effect(s) '{}'.".format(', '.join(name)))
+
+    # miss messages
+    msg = item.get("miss_messages", ())
+    if not name:
+        for m in msg:
+            writestr(outfile, m[0])
+    else:
+        for m in msg:
+            writestr(outfile, m[0],
+              comment="Miss message for effect(s) '{}'.".format(', '.join(name)))
+    msg = item.get("decay_messages", ())
+    if not name:
+        for m in msg:
+            writestr(outfile, m[0])
+    else:
+        for m in msg:
+            writestr(outfile, m[0],
+              comment="Decay message for effect(s) '{}'.".format(', '.join(name)))
+
+    # aplly and remove memorial messages.
+    msg = item.get("apply_memorial_log")
+    if not name:
+        writestr(outfile, msg, context="memorial_male")
+        writestr(outfile, msg, context="memorial_female")
+    else:
+        writestr(outfile, msg, context="memorial_male",
+          comment="Male memorial apply log for effect(s) '{}'.".format(', '.join(name)))
+        writestr(outfile, msg, context="memorial_female",
+          comment="Female memorial apply log for effect(s) '{}'.".format(', '.join(name)))
+    msg = item.get("remove_memorial_log")
+    if not name:
+        writestr(outfile, msg, context="memorial_male")
+        writestr(outfile, msg, context="memorial_female")
+    else:
+        writestr(outfile, msg, context="memorial_male",
+          comment="Male memorial remove log for effect(s) '{}'.".format(', '.join(name)))
+        writestr(outfile, msg, context="memorial_female",
+          comment="Female memorial remove log for effect(s) '{}'.".format(', '.join(name)))
 
 def extract_professions(item):
     outfile = get_outfile("professions")
@@ -187,9 +249,19 @@ def extract_professions(item):
 def extract_scenarios(item):
     outfile = get_outfile("scenario")
     # writestr will not write string if it is None.
-    for f in [ "name", "description", "start_name"]:
-        found = item.get(f, None)
-        writestr(outfile, found)
+    name = item.get("name")
+    writestr(outfile, name)
+    if name:
+        msg = item.get("description")
+        if msg:
+            writestr(outfile, msg, comment="Description for scenario '{}'.".format(name))
+        msg = item.get("start_name")
+        if msg:
+            writestr(outfile, msg, comment="Starting location for scenario '{}'.".format(name))
+    else:
+        for f in ["description", "start_name"]:
+            found = item.get(f, None)
+            writestr(outfile, found)
 
 def extract_mapgen(item):
     outfile = get_outfile("mapgen")
@@ -270,6 +342,16 @@ def extract_mutation(item):
              comment="Mutation class: {0} Female memorial messsage".format(item_name))
 
 
+def extract_vehspawn(item):
+    outfile = get_outfile("vehicle_spawn")
+
+    found = item.get("spawn_types")
+    if not found:
+        return
+
+    for st in found:
+        writestr(outfile, st.get("description"), comment="Vehicle Spawn Description")
+
 # these objects need to have their strings specially extracted
 extract_specials = {
     "effect_type": extract_effect_type,
@@ -280,7 +362,8 @@ extract_specials = {
     "scenario": extract_scenarios,
     "mapgen": extract_mapgen,
     "talk_topic": extract_talk_topic,
-    "mutation_category":extract_mutation
+    "mutation_category": extract_mutation,
+    "vehicle_spawn": extract_vehspawn
 }
 
 ##
@@ -349,7 +432,7 @@ def tlcomment(fs, string):
     "Write the string to the file as a comment for translators."
     if len(string) > 0:
         fs.write("#~ ")
-        fs.write(string)
+        fs.write(string.encode('utf-8'))
         fs.write("\n")
 
 def get_outfile(json_object_type):
@@ -360,20 +443,39 @@ use_action_msgs = {
     "deactive_msg",
     "out_of_power_msg",
     "msg",
+    "message",
     "friendly_msg",
     "hostile_msg",
     "need_fire_msg",
     "need_charges_msg",
     "non_interactive_msg",
     "unfold_msg",
-    "activation_message"
+    "sound_msg",
+    "no_deactivate_msg",
+    "not_ready_msg",
+    "success_message",
+    "lacks_fuel_message",
+    "failure_message",
+    "descriptions",
+    "noise_message",
+    "voluntary_extinguish_message",
+    "charges_extinguish_message",
+    "water_extinguish_message",
+    "auto_extinguish_message",
+    "activation_message",
+    "holster_msg",
+    "holster_prompt",
+    "verb",
+    "gerund"
 }
 
-def extract_use_action_msgs(outfile, use_action, kwargs):
+def extract_use_action_msgs(outfile, use_action, it_name, kwargs):
     """Extract messages for iuse_actor objects. """
     for f in use_action_msgs:
         if f in use_action:
-            writestr(outfile, use_action[f], **kwargs)
+            if it_name:
+                writestr(outfile, use_action[f],
+                  comment="Use action {} for {}.".format(f, it_name), **kwargs)
 
 # extract commonly translatable data from json to fake-python
 def extract(item, infilename):
@@ -392,21 +494,32 @@ def extract(item, infilename):
     elif object_type not in automatically_convertible:
         raise WrongJSONItem("ERROR: Unrecognized object type '{0}'!".format(object_type), item)
     wrote = False
-    if "name" in item:
+    name = item.get("name") # Used in gettext comments below.
+    # Don't extract any record with name = "none".
+    if name and name == "none":
+        return
+    if name:
         if "name_plural" in item:
-            writestr(outfile, item["name"], item["name_plural"], **kwargs)
+            if item["name_plural"] != "none":
+                writestr(outfile, name, item["name_plural"], **kwargs)
+            else:
+                writestr(outfile, name, **kwargs)
         else:
             if object_type in needs_plural:
                 # no name_plural entry in json, use default constructed (name+"s"), as in item_factory.cpp
-                writestr(outfile, item["name"], "%ss" % item["name"], **kwargs)
+                writestr(outfile, name, "%ss" % name, **kwargs)
             else:
-                writestr(outfile, item["name"], **kwargs)
+                writestr(outfile, name, **kwargs)
         wrote = True
     if "use_action" in item:
-        extract_use_action_msgs(outfile, item["use_action"], kwargs)
+        extract_use_action_msgs(outfile, item["use_action"], item.get("name"), kwargs)
         wrote = True
     if "description" in item:
-        writestr(outfile, item["description"], **kwargs)
+        if name:
+            c = "Description for %s" % name
+        else:
+            c = None
+        writestr(outfile, item["description"], comment=c, **kwargs)
         wrote = True
     if "sound" in item:
         writestr(outfile, item["sound"], **kwargs)
@@ -493,16 +606,6 @@ def add_fake_types():
     outfile = os.path.join(to_dir, "faketypes.py")
 
     # fake item types
-    writestr(outfile, "corpse", "corpses")
-    writestr(outfile, "nearby fire")
-    writestr(outfile, "cvd machine")
-    writestr(outfile, "integrated toolset")
-    writestr(outfile, "a smoking device and a source of flame")
-    writestr(outfile, "note", "notes")
-    writestr(outfile, "misc software")
-    writestr(outfile, "MediSoft")
-    writestr(outfile, "infection data")
-    writestr(outfile, "hackPRO")
 
     # fake monster types
     writestr(outfile, "human", "humans")

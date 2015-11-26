@@ -10,6 +10,10 @@
 #include "item_factory.h"
 #include "item_action.h"
 #include "iuse_actor.h"
+#include "translations.h"
+#include "input.h"
+#include "itype.h"
+#include "ui.h"
 #include <istream>
 #include <sstream>
 #include <fstream>
@@ -82,13 +86,20 @@ bool item_has_uses_recursive( const item &it )
 
 item_action_map item_action_generator::map_actions_to_items( player &p ) const
 {
+    return map_actions_to_items( p, std::vector<item*>() );
+}
+
+item_action_map item_action_generator::map_actions_to_items( player &p, const std::vector<item*> &pseudos ) const
+{
     std::set< item_action_id > unmapped_actions;
-    for( auto &p : item_actions ) { // Get ids of wanted actions
-        unmapped_actions.insert( p.first );
+    for( auto &ia_ptr : item_actions ) { // Get ids of wanted actions
+        unmapped_actions.insert( ia_ptr.first );
     }
 
     item_action_map candidates;
     std::vector< item* > items = p.inv_dump();
+    items.reserve( items.size() + pseudos.size() );
+    items.insert( items.end(), pseudos.begin(), pseudos.end() );
 
     std::unordered_set< item_action_id > to_remove;
     for( item *i : items ) {
@@ -104,12 +115,12 @@ item_action_map item_action_generator::map_actions_to_items( player &p ) const
                 continue;
             }
 
-            it_tool *tool = dynamic_cast<it_tool*>( actual_item->type );
+            const auto tool = dynamic_cast<const it_tool*>( actual_item->type );
             const use_function *ufunc = actual_item->get_use( use );
             // Can't just test for charges_per_use > charges, because charges can be -1
             if( ufunc == nullptr ||
                 ( ufunc->get_actor_ptr() != nullptr && 
-                    !ufunc->get_actor_ptr()->can_use( &p, actual_item, false, p.pos() ) ) ||
+                    !ufunc->get_actor_ptr()->can_use( &p, actual_item, false, p.pos3() ) ) ||
                 ( tool != nullptr && tool->charges_per_use > 0 && 
                     tool->charges_per_use > actual_item->charges ) ) {
                 continue;
@@ -122,7 +133,7 @@ item_action_map item_action_generator::map_actions_to_items( player &p ) const
             if( found == candidates.end() ) {
                 better = true;
             } else {
-                it_tool *other = dynamic_cast<it_tool*>(found->second->type);
+                const auto other = dynamic_cast<const it_tool*>(found->second->type);
                 if( other == nullptr || would_use_charges > other->charges_per_use ) {
                     continue; // Other item consumes less charges
                 }
@@ -204,19 +215,28 @@ void game::item_action_menu()
 {
     const auto &gen = item_action_generator::generator();
     const action_map &item_actions = gen.get_item_action_map();
-    item_action_map iactions = gen.map_actions_to_items( u );
+
+    // A bit of a hack for now. If more pseudos get implemented, this should be un-hacked
+    std::vector<item*> pseudos;
+    item toolset( "toolset", calendar::turn );
+    if( u.has_active_bionic( "bio_tools" ) ) {
+        pseudos.push_back( &toolset );
+    }
+
+    item_action_map iactions = gen.map_actions_to_items( u, pseudos );
     if( iactions.empty() ) {
         popup( _("You don't have any items with registered uses") );
     }
 
     uimenu kmenu;
     kmenu.text = _( "Execute which action?" );
+    kmenu.return_invalid = true;
     input_context ctxt("ITEM_ACTIONS");
     actmenu_cb callback( item_actions );
     kmenu.callback = &callback;
     int num = 0;
     for( auto &p : iactions ) {
-        it_tool *tool = dynamic_cast<it_tool*>( p.second->type );
+        const auto tool = dynamic_cast<const it_tool*>( p.second->type );
         int would_use_charges = tool == nullptr ? 0 : tool->charges_per_use;
         
         std::stringstream ss;
@@ -231,7 +251,6 @@ void game::item_action_menu()
         num++;
     }
 
-    std::set< item_action_id > itemless;
     for( auto &p : item_actions ) {
         if( iactions.find( p.first ) == iactions.end() ) {
             char bind = key_bound_to( ctxt, p.first );
@@ -246,14 +265,19 @@ void game::item_action_menu()
     if( kmenu.ret < 0 || kmenu.ret >= (int)iactions.size() ) {
         return;
     }
-    
-    auto iter = iactions.begin();
-    for( int i = 0; i < kmenu.ret; i++) {
-        iter++;
-    }
 
     draw_ter();
-    u.invoke_item( iter->second, iter->first );
+    
+    auto iter = iactions.begin();
+    std::advance( iter, kmenu.ret );
+
+    if( u.invoke_item( iter->second, iter->first ) ) {
+        // Need to remove item
+        u.i_rem( iter->second );
+    }
+
+    u.inv.restack( &u );
+    u.inv.unsort();
 }
 
 std::string use_function::get_type_name() const

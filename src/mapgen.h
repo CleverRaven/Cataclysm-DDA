@@ -5,7 +5,11 @@
 #include <string>
 #include <memory>
 #include "mapgenformat.h"
-#include "mapgen_functions.h"
+#include "mapdata.h"
+
+struct oter_id;
+struct mapgendata;
+typedef void (*building_gen_pointer)(map *,oter_id,mapgendata,int,float);
 
 //////////////////////////////////////////////////////////////////////////
 ///// function pointer class; provides absract referencing of
@@ -30,9 +34,7 @@ class mapgen_function_builtin : public virtual mapgen_function {
     building_gen_pointer fptr;
     mapgen_function_builtin(building_gen_pointer ptr, int w = 1000) : mapgen_function( w ), fptr(ptr) {
     };
-    virtual void generate(map*m, oter_id o, mapgendata mgd, int i, float d) override {
-        (*fptr)(m, o, mgd, i, d);
-    }
+    virtual void generate(map*m, oter_id o, mapgendata mgd, int i, float d) override;
 };
 
 /////////////////////////////////////////////////////////////////////////////////
@@ -56,9 +58,7 @@ struct jmapgen_int {
      */
     jmapgen_int( JsonObject &jso, const std::string &key, short def_val, short def_valmax );
 
-  int get() const {
-      return ( val == valmax ? val : rng(val, valmax) );
-  }
+    int get() const;
 };
 
 enum jmapgen_setmap_op {
@@ -131,7 +131,7 @@ protected:
     jmapgen_piece() { }
 public:
     /** Place something on the map m at (x,y). mon_density */
-    virtual void apply( map &m, size_t x, size_t y, float mon_density ) const = 0;
+    virtual void apply( map &m, const jmapgen_int &x, const jmapgen_int &y, float mon_density ) const = 0;
     virtual ~jmapgen_piece() { }
 };
 
@@ -148,6 +148,35 @@ public:
     jmapgen_int repeat;
 };
 
+struct jmapgen_objects {
+
+    void add(const jmapgen_place &place, std::shared_ptr<jmapgen_piece> &piece);
+
+    /**
+     * PieceType must be inheriting from jmapgen_piece. It must have constructor that accepts a
+     * JsonObject as parameter. The function loads all objects from the json array and stores
+     * them in @ref objects.
+     */
+    template<typename PieceType>
+    void load_objects(JsonArray parray);
+
+    /**
+     * Loads the mapgen objects from the array inside of jsi. If jsi has no member of that name,
+     * nothing is loaded and the function just returns.
+     */
+    template<typename PieceType>
+    void load_objects(JsonObject &jsi, const std::string &member_name);
+
+    void apply(map* m, float density) const;
+
+private:
+    /**
+     * Combination of where to place something and what to place.
+     */
+    using jmapgen_obj = std::pair<jmapgen_place, std::shared_ptr<jmapgen_piece> >;
+    std::vector<jmapgen_obj> objects;
+};
+
 class mapgen_function_json : public virtual mapgen_function {
     public:
     bool check_inbounds( const jmapgen_int & var ) const;
@@ -155,13 +184,7 @@ class mapgen_function_json : public virtual mapgen_function {
     virtual bool setup() override;
     virtual void generate(map*, oter_id, mapgendata, int, float) override;
 
-    mapgen_function_json(std::string s, int w = 1000) : mapgen_function( w ) {
-        jdata = s;
-        mapgensize = 24;
-        fill_ter = -1;
-        is_ready = false;
-        do_format = false;
-    }
+    mapgen_function_json( std::string s, int w = 1000 );
     ~mapgen_function_json() {
     }
 
@@ -169,27 +192,10 @@ class mapgen_function_json : public virtual mapgen_function {
 
     std::string jdata;
     size_t mapgensize;
-    int fill_ter;
+    ter_id fill_ter;
     std::unique_ptr<ter_furn_id[]> format;
     std::vector<jmapgen_setmap> setmap_points;
-    /**
-     * Combination of where to place something and what to place.
-     */
-    using jmapgen_obj = std::pair<jmapgen_place, std::shared_ptr<jmapgen_piece> >;
-    std::vector<jmapgen_obj> objects;
-    /**
-     * PieceType must be inheriting from jmapgen_piece. It must have constructor that accepts a
-     * JsonObject as parameter. The function loads all objects from the json array and stores
-     * them in @ref objects.
-     */
-    template<typename PieceType>
-    void load_objects( JsonArray parray );
-    /**
-     * Loads the mapgen objects from the array inside of jsi. If jsi has no member of that name,
-     * nothing is loaded and the function just returns.
-     */
-    template<typename PieceType>
-    void load_objects( JsonObject &jsi, const std::string &member_name );
+
     /**
      * The mapping from character code (key) to a list of things that should be placed. This is
      * similar to @ref objects, but it uses key to get the actual position where to place things
@@ -206,6 +212,10 @@ class mapgen_function_json : public virtual mapgen_function {
 
     bool do_format;
     bool is_ready;
+
+private:
+    jmapgen_objects objects;
+    jmapgen_int rotation;
 };
 
 /////////////////////////////////////////////////////////////////////////////////
@@ -216,10 +226,7 @@ class mapgen_function_lua : public virtual mapgen_function {
     mapgen_function_lua(std::string s, int w = 1000) : mapgen_function( w ), scr(s) {
         // scr = s; // todo; if ( luaL_loadstring(L, scr.c_str() ) ) { error }
     }
-#if defined(LUA)
-    // Prevents instantiating this class in non-lua builds
     virtual void generate(map*, oter_id, mapgendata, int, float) override;
-#endif
 };
 /////////////////////////////////////////////////////////
 ///// global per-terrain mapgen function lists
@@ -303,5 +310,11 @@ void square_furn(map *m, furn_id type, int x1, int y1, int x2, int y2);
 void rough_circle(map *m, ter_id type, int x, int y, int rad);
 void rough_circle_furn(map *m, furn_id type, int x, int y, int rad);
 void add_corpse(map *m, int x, int y);
+
+typedef void (*map_special_pointer)(map &m, const tripoint &abs_sub);
+
+namespace MapExtras {
+    map_special_pointer get_function(const std::string &name);
+};
 
 #endif

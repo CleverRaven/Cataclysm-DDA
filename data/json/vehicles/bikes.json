@@ -1,0 +1,235 @@
+[
+    {
+        "type" : "vehicle",
+        "id" : "unicycle",
+        "name" : "Unicycle",
+        "blueprint" : "#",
+        "parts" : [
+            {"x": 0, "y": 0, "part": "frame_handle"},
+            {"x": 0, "y": 0, "part": "saddle"},
+            {"x": 0, "y": 0, "part": "foot_pedals"},
+            {"x": 0, "y": 0, "part": "wheel_unicycle"}
+        ]
+    },{
+        "type" : "vehicle",
+        "id" : "bicycle",
+        "name" : "Bicycle",
+        "blueprint" : "o#o",
+        "parts" : [
+            {"x": 0, "y": 0, "part": "xlframe_vertical_2"},
+            {"x": 0, "y": 0, "part": "saddle"},
+            {"x": 0, "y": 0, "part": "horn_bicycle"},
+            {"x": 0, "y": 0, "part": "foot_pedals"},
+            {"x": 1, "y": 0, "part": "xlframe_vertical"},
+            {"x": 1, "y": 0, "part": "wheel_bicycle"},
+            {"x": -1, "y": 0, "part": "xlframe_vertical"},
+            {"x": -1, "y": 0, "part": "wheel_bicycle"},
+            {"x": -1, "y": 0, "part": "basketsm"}
+        ]
+    },{
+        "type" : "vehicle",
+        "id" : "bicycle_electric",
+        "name" : "Electric Bicycle",
+        "blueprint" : "o#o",
+        "parts" : [
+            {"x": 0, "y": 0, "part": "xlframe_vertical_2"},
+            {"x": 0, "y": 0, "part": "saddle"},
+            {"x": 0, "y": 0, "part": "controls"},
+            {"x": 0, "y": 0, "part": "horn_bicycle"},
+            {"x": 0, "y": 0, "part": "foot_pedals"},
+            {"x": 0, "y": 0, "part": "alternator_motorbike"},
+            {"x": 1, "y": 0, "part": "xlframe_vertical"},
+            {"x": 1, "y": 0, "part": "wheel_bicycle"},
+            {"x": -1, "y": 0, "part": "xlframe_vertical"},
+            {"x": -1, "y": 0, "part": "wheel_bicycle"},
+            {"x": -1, "y": 0, "part": "basketsm"},
+            {"x": -1, "y": 0, "part": "medium_storage_battery"},
+            {"x": -1, "y": 0, "part": "engine_electric_small"}
+        ]
+    },{
+        "type" : "vehicle",
+        "id" : "motorcycle_chassis",
+        "name" : "Motorcycle Chassis",
+        "blueprint" : "o#>",
+        "parts" : [
+            {"x": 0, "y": 0, "part": "frame_vertical_2"},
+            {"x": 0, "y": 0, "part": "saddle"},
+            {"x": 1, "y": 0, "part": "frame_handle"},
+            {"x": 1, "y": 0, "part": "gas_tank_small"},
+            {"x": -1, "y": 0, "part": "frame_vertical"},
+            {"x": -1, "y": 0, "part": "wheel_motorbike"}
+        ]
+    },{
+        "type" : "vehicle",
+        "id" : "motorcycle",
+        "name" : "Motorcycle",
+        "blueprint" : "o#>o",
+        "parts" : [
+            {"x": 0, "y": 0, "part": "frame_vertical_2"},
+            {"x": 0, "y": 0, "part": "saddle"},
+            {"x": 0, "y": 0, "part": "controls"},
+            {"x": 0, "y": 0, "part": "vehicle_alarm"},
+            {"x": 0, "y": 0, "part": "horn_car"},
+            {"x": 0, "y": 0, "part": "engine_vtwin"},
+            {"x": 0, "y": 0, "part": "alternator_motorbike"},
+            {"x": 1, "y": 0, "part": "frame_handle"},
+            {"x": 1, "y": 0, "part": "headlight"},
+            {"x": 1, "y": 0, "part": "gas_tank_small"},
+            {"x": 1, "y": 0, "part": "battery_motorbike"},
+            {"x": 2, "y": 0, "part": "frame_vertical"},
+            {"x": 2, "y": 0, "part": "wheel_motorbike"},
+            {"x": -1, "y": 0, "part": "frame_vertical"},
+            {"x": -1, "y": 0, "part": "wheel_motorbike"},
+            {"x": -1, "y": 0, "part": "box"}
+        ]
+    },{
+        "type" : "vehicle",
+        "id" : "superbike",
+        "name" : "superbike",
+        "blueprint" : "o#>o",
+        "parts" : [
+            {"x": 0, "y": 0, "part": "frame_vertical_2"},
+            {"x": 0, "y": 0, "part": "saddle"},
+            {"x": 0, "y": 0, "part": "controls"},
+            {"x": 0, "y": 0, "part": "vehicle_alarm"},
+            {"x": 0, "y": 0, "part": "engine_inline4"},
+            {"x": 0, "y": 0, "part": "alternator_motorbike"},
+            {"x": 1, "y": 0, "part": "frame_handle"},
+            {"x": 1, "y": 0, "part": "headlight"},
+            {"x": 1, "y": 0, "part": "gas_tank_small"},
+            {"x": 1, "y": 0, "part": "battery_motorbike"},
+            {"x": 2, "y": 0, "part": "frame_vertical"},
+            {"x": 2, "y": 0, "part": "wheel_motorbike"},
+            {"x": -1, "y": 0, "part": "frame_vertical"},
+            {"x": -1, "y": 0, "part": "wheel_motorbike"}
+        ]
+    },{
+        "type" : "vehicle",
+        "id" : "motorcycle_sidecart",
+        "name" : "Motorcycle",
+        "blueprint" : [
+            ["o#>o"],
+            [" #> "]
+        ],
+        "parts" : [
+            {"x": 0, "y": 0, "part": "frame_cross"},
+            {"x": 0, "y": 0, "part": "saddle"},
+            {"x": 0, "y": 0, "part": "controls"},
+            {"x": 0, "y": 0, "part": "vehicle_alarm"},
+            {"x": 0, "y": 0, "part": "horn_car"},
+            {"x": 0, "y": 0, "part": "engine_vtwin"},
+            {"x": 0, "y": 0, "part": "alternator_motorbike"},
+            {"x": 0, "y": 0, "part": "battery_motorbike"},
+            {"x": 1, "y": 0, "part": "frame_handle"},
+            {"x": 1, "y": 0, "part": "headlight"},
+            {"x": 1, "y": 0, "part": "gas_tank_small"},
+            {"x": 2, "y": 0, "part": "frame_vertical"},
+            {"x": 2, "y": 0, "part": "wheel_motorbike"},
+            {"x": -1, "y": 0, "part": "frame_vertical"},
+            {"x": -1, "y": 0, "part": "wheel_motorbike"},
+            {"x": -1, "y": 0, "part": "box"},
+            {"x": 0, "y": 1, "part": "frame_cross"},
+            {"x": 0, "y": 1, "part": "wheel_motorbike"},
+            {"x": 0, "y": 1, "part": "seat"},
+            {"x": 1, "y": 1, "part": "frame_handle"},
+            {"x": 1, "y": 1, "part": "box"}
+        ],
+        "items" : [
+            {"x": 0, "y": 1, "chance": 33, "items": "helmet_motor"}
+        ]
+    },{
+        "type" : "vehicle",
+        "id" : "quad_bike",
+        "name" : "Quad Bike",
+        "blueprint" : [
+            ["O O"],
+            ["=#>"],
+            ["O O"]
+        ],
+        "parts" : [
+            {"x": 0, "y": 0, "part": "frame_vertical_2"},
+            {"x": 0, "y": 0, "part": "saddle"},
+            {"x": 0, "y": 0, "part": "controls"},
+            {"x": 0, "y": 0, "part": "horn_car"},
+            {"x": 1, "y": 0, "part": "frame_cover"},
+            {"x": 1, "y": 0, "part": "engine_vtwin"},
+            {"x": 1, "y": 0, "part": "alternator_motorbike"},
+            {"x": 1, "y": 0, "part": "battery_motorbike"},
+            {"x": 1, "y": 0, "part": "headlight"},
+            {"x": 1, "y": 0, "part": "gas_tank_small"},
+            {"x": 1, "y": 0, "part": "plating_steel"},
+            {"x": -1, "y": 0, "part": "frame_horizontal"},
+            {"x": -1, "y": 0, "part": "trunk"},
+            {"x": 1, "y": -1, "part": "frame_horizontal"},
+            {"x": 1, "y": -1, "part": "wheel_motorbike"},
+            {"x": 1, "y": 1, "part": "frame_horizontal"},
+            {"x": 1, "y": 1, "part": "wheel_motorbike"},
+            {"x": -1, "y": -1, "part": "frame_horizontal"},
+            {"x": -1, "y": -1, "part": "wheel_motorbike"},
+            {"x": -1, "y": 1, "part": "frame_horizontal"},
+            {"x": -1, "y": 1, "part": "wheel_motorbike"}
+        ],
+        "items" : [
+            {"x": -1, "y": 0, "chance": 10, "items": "helmet_motor"}
+        ]
+    },{
+        "type" : "vehicle",
+        "id" : "quad_bike_chassis",
+        "name" : "Quad Bike Chassis",
+        "blueprint" : [
+                ["O O"],
+                ["|#>"],
+                ["O  "]
+        ],
+        "parts" : [
+            {"x": 0, "y": 0, "part": "frame_vertical_2"},
+            {"x": 0, "y": 0, "part": "saddle"},
+            {"x": 1, "y": 0, "part": "frame_cover"},
+            {"x": -1, "y": 0, "part": "frame_horizontal"},
+            {"x": 1, "y": -1, "part": "frame_horizontal"},
+            {"x": 1, "y": -1, "part": "wheel_motorbike"},
+            {"x": -1, "y": -1, "part": "frame_horizontal"},
+            {"x": -1, "y": -1, "part": "wheel_motorbike"},
+            {"x": -1, "y": 1, "part": "frame_horizontal"},
+            {"x": -1, "y": 1, "part": "wheel_motorbike"}
+        ]
+    },{
+        "type" : "vehicle",
+        "id" : "scooter",
+        "name" : "Scooter",
+        "blueprint" : "o>o",
+        "parts" : [
+            {"x": 0, "y": 0, "part": "frame_handle"},
+            {"x": 0, "y": 0, "part": "headlight"},
+            {"x": 0, "y": 0, "part": "saddle"},
+            {"x": 0, "y": 0, "part": "engine_1cyl"},
+            {"x": 0, "y": 0, "part": "alternator_motorbike"},
+            {"x": 0, "y": 0, "part": "battery_motorbike"},
+            {"x": 0, "y": 0, "part": "gas_tank_small"},
+            {"x": 0, "y": 0, "part": "controls"},
+            {"x": 0, "y": 0, "part": "horn_car"},
+            {"x": 1, "y": 0, "part": "xlframe_vertical"},
+            {"x": 1, "y": 0, "part": "wheel_small"},
+            {"x": -1, "y": 0, "part": "xlframe_vertical"},
+            {"x": -1, "y": 0, "part": "wheel_small"}
+        ]
+    },{
+        "type" : "vehicle",
+        "id" : "scooter_electric",
+        "name" : "Electric Scooter",
+        "blueprint" : "o>o",
+        "parts" : [
+            {"x": 0, "y": 0, "part": "frame_handle"},
+            {"x": 0, "y": 0, "part": "headlight"},
+            {"x": 0, "y": 0, "part": "saddle"},
+            {"x": 0, "y": 0, "part": "engine_electric"},
+            {"x": 0, "y": 0, "part": "battery_motorbike"},
+            {"x": 0, "y": 0, "part": "controls"},
+            {"x": 0, "y": 0, "part": "horn_car"},
+            {"x": 1, "y": 0, "part": "xlframe_vertical"},
+            {"x": 1, "y": 0, "part": "wheel_small"},
+            {"x": -1, "y": 0, "part": "xlframe_vertical"},
+            {"x": -1, "y": 0, "part": "wheel_small"}
+        ]
+    }
+]

@@ -3,11 +3,14 @@
 
 #include "dependency_tree.h"
 #include "json.h"
+#include "translations.h"
 
 #include "cursesdef.h"
 #include <string>
 #include <vector>
 #include <map>
+
+const std::vector<std::pair<std::string, std::string> > &get_mod_list_categories();
 
 struct WORLD;
 typedef WORLD *WORLDPTR;
@@ -15,6 +18,10 @@ typedef WORLD *WORLDPTR;
 class mod_ui;
 class game;
 class worldfactory;
+
+const std::vector<std::pair<std::string, std::string> > &get_mod_list_categories();
+const std::vector<std::pair<std::string, std::string> > &get_mod_list_tabs();
+const std::map<std::string, std::string> &get_mod_list_cat_tab();
 
 enum mod_type {
     MT_CORE,
@@ -29,10 +36,12 @@ struct MOD_INFORMATION {
     mod_type _type;
     std::vector<std::string> dependencies;
     bool obsolete;
+    /** Mod require Lua support **/
+    bool need_lua;
 
-    MOD_INFORMATION() : _type(MT_SUPPLEMENTAL), obsolete(false)
-    {
-    }
+    std::pair<int, std::string> category;
+
+    MOD_INFORMATION() : _type(MT_SUPPLEMENTAL), obsolete(false), category({-1, ""}) {};
 
     std::string type()
     {
@@ -44,7 +53,7 @@ struct MOD_INFORMATION {
             return "SUPPLEMENTAL";
             break;
         }
-    }
+    };
 };
 
 class mod_manager
@@ -130,6 +139,7 @@ class mod_manager
 
         bool set_default_mods(const std::string &ident);
         void remove_mod(const std::string &ident);
+        void remove_invalid_mods( std::vector<std::string> &mods ) const;
 
         dependency_tree tree;
 

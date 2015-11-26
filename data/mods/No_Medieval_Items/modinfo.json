@@ -6,6 +6,7 @@
     "name": "No Medieval Items",
     "author": "Rivet-the-Zombie",
     "description": "Removes medieval weapons, armors, and specific books.",
+    "category": "item_exclude",
     "path": "modinfo.json"
 },{
     "type": "ITEM_BLACKLIST",

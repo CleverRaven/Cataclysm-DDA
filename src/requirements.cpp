@@ -2,6 +2,9 @@
 #include "json.h"
 #include "translations.h"
 #include "game.h"
+#include "player.h"
+#include "map.h"
+#include "debug.h"
 #include "inventory.h"
 #include "output.h"
 #include "itype.h"
@@ -74,6 +77,10 @@ void quality_requirement::load( JsonArray &jsarr )
     type = quality_data.get_string( "id" );
     level = quality_data.get_int( "level", 1 );
     count = quality_data.get_int( "amount", 1 );
+    if( count <= 0 ) {
+        quality_data.throw_error( "quality amount must be a positive number", "amount" );
+    }
+    // Note: level is not checked, negative values and 0 are allow, see butchering quality.
 }
 
 void tool_comp::load( JsonArray &ja )
@@ -87,6 +94,10 @@ void tool_comp::load( JsonArray &ja )
         type = comp.get_string( 0 );
         count = comp.get_int( 1 );
     }
+    if( count == 0 ) {
+        ja.throw_error( "tool count must not be 0" );
+    }
+    // Note: negative count means charges (of the tool) should be consumed
 }
 
 void item_comp::load( JsonArray &ja )
@@ -97,6 +108,9 @@ void item_comp::load( JsonArray &ja )
     // Recoverable is true by default.
     if(comp.size() > 2) {
         recoverable = comp.get_string(2) == "NO_RECOVER" ? false : true;
+    }
+    if( count <= 0 ) {
+        ja.throw_error( "item count must be a positive number" );
     }
 }
 
@@ -419,7 +433,7 @@ bool item_comp::has( const inventory &crafting_inv, int batch ) const
     if( type == "rope_30" || type == "rope_6" ) {
         // NPC don't craft?
         // TODO: what about the amount of ropes vs the hunger?
-        if( g->u.has_trait( "WEB_ROPE" ) && g->u.hunger <= 300 ) {
+        if( g->u.has_trait( "WEB_ROPE" ) && g->u.get_hunger() <= 300 ) {
             return true;
         }
     }
@@ -434,7 +448,7 @@ bool item_comp::has( const inventory &crafting_inv, int batch ) const
 std::string item_comp::get_color( bool has_one, const inventory &crafting_inv, int batch ) const
 {
     if( type == "rope_30" || type == "rope_6" ) {
-        if( g->u.has_trait( "WEB_ROPE" ) && g->u.hunger <= 300 ) {
+        if( g->u.has_trait( "WEB_ROPE" ) && g->u.get_hunger() <= 300 ) {
             return "ltgreen"; // Show that WEB_ROPE is on the job!
         }
     }

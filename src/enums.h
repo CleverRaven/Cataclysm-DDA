@@ -1,15 +1,18 @@
 #ifndef ENUMS_H
 #define ENUMS_H
 
+#include <climits>
+#include <cassert>
+
 #include "json.h" // (de)serialization for points
 
 #ifndef sgn
-#define sgn(x) (((x) < 0) ? -1 : 1)
+#define sgn(x) (((x) < 0) ? -1 : (((x)>0) ? 1 : 0))
 #endif
 
 // By default unordered_map doesn't have a hash for tuple or pairs, so we need to include some.
 // This is taken almost directly from the boost library code.
-// Function has to live in the std namespace 
+// Function has to live in the std namespace
 // so that it is picked up by argument-dependent name lookup (ADL).
 namespace std{
     namespace
@@ -49,15 +52,15 @@ namespace std{
     }
 
     template <typename ... TT>
-    struct hash<std::tuple<TT...>> 
+    struct hash<std::tuple<TT...>>
     {
         size_t
         operator()(std::tuple<TT...> const& tt) const
-        {                                              
-            size_t seed = 0;                             
-            HashValueImpl<std::tuple<TT...> >::apply(seed, tt);    
-            return seed;                                 
-        }                                              
+        {
+            size_t seed = 0;
+            HashValueImpl<std::tuple<TT...> >::apply(seed, tt);
+            return seed;
+        }
 
     };
 
@@ -80,7 +83,7 @@ enum special_game_id {
     NUM_SPECIAL_GAMES
 };
 
-enum art_effect_passive {
+enum art_effect_passive : int {
     AEP_NULL = 0,
     // Good
     AEP_STR_UP, // Strength + 4
@@ -148,18 +151,6 @@ enum artifact_natural_property {
     ARTPROP_MAX
 };
 
-// for use in category specific inventory lists
-enum item_cat {
-    IC_NULL = 0,
-    IC_COMESTIBLE,
-    IC_AMMO,
-    IC_ARMOR,
-    IC_GUN,
-    IC_BOOK,
-    IC_TOOL,
-    IC_CONTAINER
-};
-
 enum phase_id {
     PNULL, SOLID, LIQUID, GAS, PLASMA
 };
@@ -185,7 +176,8 @@ enum object_type {
 struct point : public JsonSerializer, public JsonDeserializer {
     int x;
     int y;
-    point(int X = 0, int Y = 0) : x (X), y (Y) {}
+    point() : x(0), y(0) {}
+    point(int X, int Y) : x (X), y (Y) {}
     point(point &&) = default;
     point(const point &) = default;
     point &operator=(point &&) = default;
@@ -257,12 +249,13 @@ struct tripoint : public JsonSerializer, public JsonDeserializer {
     int x;
     int y;
     int z;
-    tripoint(int X = 0, int Y = 0, int Z = 0) : x (X), y (Y), z (Z) {}
+    tripoint() : x(0), y(0), z(0) {}
+    tripoint(int X, int Y, int Z) : x (X), y (Y), z (Z) {}
     tripoint(tripoint &&) = default;
     tripoint(const tripoint &) = default;
     tripoint &operator=(tripoint &&) = default;
     tripoint &operator=(const tripoint &) = default;
-    explicit tripoint(const point &p, int Z = 0) : x (p.x), y (p.y), z (Z) {}
+    explicit tripoint(const point &p, int Z) : x (p.x), y (p.y), z (Z) {}
     ~tripoint() {}
     using JsonSerializer::serialize;
     void serialize(JsonOut &jsout) const override
@@ -285,11 +278,40 @@ struct tripoint : public JsonSerializer, public JsonDeserializer {
     {
         return tripoint( x + rhs.x, y + rhs.y, z + rhs.z );
     }
+    tripoint operator-(const tripoint &rhs) const
+    {
+        return tripoint( x - rhs.x, y - rhs.y, z - rhs.z );
+    }
     tripoint &operator+=(const tripoint &rhs)
     {
         x += rhs.x;
         y += rhs.y;
         z += rhs.z;
+        return *this;
+    }
+    tripoint operator-() const
+    {
+        return tripoint( -x, -y, -z );
+    }
+    /*** some point operators and functions ***/
+    tripoint operator+(const point &rhs) const
+    {
+        return tripoint(x + rhs.x, y + rhs.y, z);
+    }
+    tripoint operator-(const point &rhs) const
+    {
+        return tripoint(x - rhs.x, y - rhs.y, z);
+    }
+    tripoint &operator+=(const point &rhs)
+    {
+        x += rhs.x;
+        y += rhs.y;
+        return *this;
+    }
+    tripoint &operator-=(const point &rhs)
+    {
+        x -= rhs.x;
+        y -= rhs.y;
         return *this;
     }
 };
@@ -329,5 +351,8 @@ inline bool operator<(const tripoint &a, const tripoint &b)
     }
     return false;
 }
+
+static const tripoint tripoint_min { INT_MIN, INT_MIN, INT_MIN };
+static const tripoint tripoint_zero { 0, 0, 0 };
 
 #endif

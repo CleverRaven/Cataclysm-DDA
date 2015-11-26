@@ -1,21 +1,9 @@
 [
   {
     "type" : "item_group",
-    "id" : "kitchen",
+    "id" : "mischw",
     "items":[
-      ["cheese_hard", 5]
-    ]
-  },{
-    "type" : "item_group",
-    "id" : "fridge",
-    "items":[
-      ["cheese_hard", 5]
-    ]
-  },{
-    "type" : "item_group",
-    "id" : "cannedfood",
-    "items":[
-      ["cheese_hard", 5]
+      ["tarp", 15]
     ]
   },{
     "type" : "item_group",
@@ -23,7 +11,7 @@
     "items":[
       ["tinderbox", 4],
       ["flint_steel", 7],
-      ["cheese_hard", 3]
+      ["canteen_wood", 5]
     ]
   },{
     "type" : "item_group",
@@ -31,14 +19,30 @@
     "items":[
       ["flint_steel", 10],
       ["tinderbox", 5],
-      ["bottle_metal", 5]
+      ["bottle_metal", 5],
+      ["tarp", 10],
+      ["cloak_wool", 5],
+      ["chem_hexamine", 5],
+      ["esbit_stove", 10],
+      ["bottle_folding", 10],
+      ["mess_tin", 10],
+      ["canteen_wood", 5],
+      ["whistle_multitool", 5]
     ]
   },{
     "type" : "item_group",
     "id" : "allsporting",
     "items":[
       ["flint_steel", 10],
-      ["tinderbox", 5]
+      ["tinderbox", 5],
+      ["bottle_metal", 5],
+      ["tarp", 10],
+      ["chem_hexamine", 5],
+      ["esbit_stove", 10],
+      ["bottle_folding", 5],
+      ["mess_tin", 10],
+      ["canteen_wood", 5],
+      ["whistle_multitool", 5]
     ]
   },{
     "type" : "item_group",
@@ -54,8 +58,7 @@
       ["hobo_stove", 1],
       ["tinder", 1],
       ["tinderbox", 1],
-      ["bottle_metal", 1],
-      ["boxer_briefs", 20]
+      ["bottle_metal", 1]
     ]
   },{
     "type" : "item_group",
@@ -66,7 +69,11 @@
       ["tinder", 3],
       ["tinderbox", 2],
       ["bottle_metal", 2],
-      ["cheese_hard", 5]
+      ["tarp", 15],
+      ["chem_hexamine", 4],
+      ["esbit_stove", 8],
+      ["bottle_folding", 6],
+      ["mess_tin", 8]
     ]
   },{
     "type" : "item_group",
@@ -76,7 +83,12 @@
       ["hobo_stove", 3],
       ["tinder", 3],
       ["tinderbox", 2],
-      ["bottle_metal", 2]
+      ["bottle_metal", 2],
+      ["chem_hexamine", 3],
+      ["esbit_stove", 6],
+      ["mess_tin", 8],
+      ["canteen_wood", 2],
+      ["whistle_multitool", 1]
     ]
   },{
     "type" : "item_group",
@@ -99,43 +111,7 @@
       ["atlatl", 50],
       ["javelin", 30],
       ["hand_axe", 50],
-      ["throwing_stick", 50],
-      ["copper_knife", 10],
-      ["copper_ax", 10]
-    ]
-  },
-  {
-    "type" : "item_group",
-    "id" : "livingroom",
-    "items":[
-      ["gloves_work", 2]
-    ]
-  },
-  {
-    "type" : "item_group",
-    "id" : "home_hw",
-    "items":[
-      ["gloves_work", 45]
-    ]
-  },
-  {
-    "type" : "item_group",
-    "id" : "dresser",
-    "items":[
-      ["boxer_briefs", 45]
-    ]
-  },{
-    "type" : "item_group",
-    "id" : "male_underwear_bottom",
-    "items":[
-      ["boxer_briefs", 50]
-    ]
-  },{
-    "type" : "item_group",
-    "id" : "allclothes",
-    "items":[
-      ["boxer_briefs", 20],
-      ["gloves_work", 5]
+      ["throwing_stick", 50]
     ]
   },{
     "type" : "item_group",
@@ -145,82 +121,27 @@
     ]
   },{
     "type" : "item_group",
-    "id" : "survivorzed_gloves",
+    "id" : "mil_surplus",
     "items":[
-      ["gloves_work", 24]
-    ]
-  },
-  {
-    "type" : "item_group",
-    "id" : "construction_worker",
-    "items":[
-      ["gloves_work", 45]
+      ["chem_hexamine", 5],
+      ["esbit_stove", 10],
+      ["mess_tin", 10]
     ]
   },{
     "type" : "item_group",
-    "id" : "produce",
+    "id" : "mil_accessories",
     "items":[
-      ["garlic", 5]
+      ["chem_hexamine", 3],
+      ["esbit_stove", 6],
+      ["mess_tin", 4]
     ]
   },{
     "type" : "item_group",
-    "id" : "hydro",
+    "id" : "military",
     "items":[
-      ["garlic", 3]
-    ]
-  },{
-    "type" : "item_group",
-    "id" : "stash_food",
-    "items":[
-      ["cheese_hard", 15]
-    ]
-  },{
-"type" : "item_group",
-"id" : "forage_spring",
-"subtype": "distribution",
-"entries" : [
-      { "item": "egg_bird", "prob": 15, "count-min": 2, "count-max": 5 },
-      { "item": "egg_reptile", "prob": 5, "count-min": 2, "count-max": 5 },
-      { "item": "rhubarb", "prob": 5, "count-min": 2, "count-max": 5 },
-      { "item": "wild_herbs", "prob": 10 },
-      { "item": "garlic", "prob": 5, "count-min": 1, "count-max": 6 },
-      { "item": "buckwheat", "prob": 5, "count-min": 1, "count-max": 2 },
-      { "item": "withered", "prob": 5 }
-    ]
-  },{
-"type" : "item_group",
-"id" : "forage_summer",
-"subtype": "distribution",
-"entries" : [
-      { "item": "veggy_wild", "prob": 100, "count-min": 1, "count-max": 2 },
-      { "group": "forage_mushroom", "prob": 50 },
-      { "item": "egg_bird", "prob": 15, "count-min": 2, "count-max": 5 },
-      { "item": "egg_reptile", "prob": 5, "count-min": 2, "count-max": 5 },
-      { "item": "wild_herbs", "prob": 10 },
-      { "item": "garlic", "prob": 10, "count-min": 1, "count-max": 6 },
-      { "item": "buckwheat", "prob": 10, "count-min": 1, "count-max": 4 },
-      { "item": "withered", "prob": 10 }
-    ]
-  },{
-"type" : "item_group",
-"id" : "forage_autumn",
-"subtype": "distribution",
-"entries" : [
-      { "item": "veggy_wild", "prob": 100, "count-min": 1, "count-max": 2 },
-      { "group": "forage_mushroom", "prob": 50 },
-      { "item": "egg_bird", "prob": 15, "count-min": 2, "count-max": 5 },
-      { "item": "egg_reptile", "prob": 5, "count-min": 2, "count-max": 5 },
-      { "item": "wild_herbs", "prob": 10 },
-      { "item": "garlic", "prob": 15, "count-min": 1, "count-max": 6 },
-      { "item": "buckwheat", "prob": 15, "count-min": 2, "count-max": 4 },
-      { "item": "withered", "prob": 5 }
-    ]
-  },{
-"type" : "item_group",
-"id" : "forage_winter",
-"subtype": "distribution",
-"entries" : [
-      { "item": "withered", "prob": 5 }
+      ["chem_hexamine", 5],
+      ["esbit_stove", 8],
+      ["mess_tin", 4]
     ]
   }
 ]

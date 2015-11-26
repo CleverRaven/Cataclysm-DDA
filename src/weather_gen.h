@@ -18,7 +18,6 @@ class weather_generator
 {
 public:
     weather_generator();
-    weather_generator(unsigned seed);
 
     /**
      * Input should be an absolute position in the map square system (the one used
@@ -31,6 +30,21 @@ public:
     weather_type get_weather_conditions(const w_point &) const;
     int get_water_temperature() const;
     void test_weather() const;
+    
+    void set_seed( unsigned seed )
+    {
+        SEED = seed;
+    }
+
+    unsigned get_seed() const
+    {
+        return SEED;
+    }
+
+    /**
+     * If set to anything but WEATHER_NULL, overrides all weather generation.
+     */
+    weather_type debug_weather;
 private:
     unsigned SEED;
 };

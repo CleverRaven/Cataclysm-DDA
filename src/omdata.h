@@ -4,20 +4,21 @@
 #include "color.h"
 #include "json.h"
 #include "enums.h"
+#include "string_id.h"
 #include <string>
 #include <vector>
 #include <list>
 #include <set>
 
-#define OMAPX 180
-#define OMAPY 180
+struct MonsterGroup;
+using mongroup_id = string_id<MonsterGroup>;
 
 class overmap;
 
 struct overmap_spawns {
-    overmap_spawns(): group("GROUP_NULL"), min_population(0), max_population(0),
+    overmap_spawns(): group( NULL_ID ), min_population(0), max_population(0),
         chance(0) {};
-    std::string group;
+    mongroup_id group;
     int min_population;
     int max_population;
     int chance;
@@ -137,9 +138,9 @@ typedef oter_id oter_iid;
 #define OMSPEC_FREQ 15
 
 struct overmap_special_spawns {
-    overmap_special_spawns(): group("GROUP_NULL"), min_population(0), max_population(0),
+    overmap_special_spawns(): group( NULL_ID ), min_population(0), max_population(0),
         min_radius(0), max_radius(0) {};
-    std::string group;
+    mongroup_id group;
     int min_population;
     int max_population;
     int min_radius;
@@ -147,6 +148,7 @@ struct overmap_special_spawns {
 };
 
 struct overmap_special_terrain {
+    overmap_special_terrain() : p( 0, 0, 0 ) { };
     tripoint p;
     std::string connect;
     std::string terrain;
@@ -173,8 +175,6 @@ class overmap_special
         std::list<std::string> locations;
         std::set<std::string> flags;
 };
-
-extern std::vector<overmap_special> overmap_specials;
 
 void load_overmap_specials(JsonObject &jo);
 

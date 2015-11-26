@@ -2,14 +2,14 @@
 #define OUTPUT_H
 
 #include "color.h"
-#include "line.h"
+#include "cursesdef.h"
 #include <cstdarg>
 #include <string>
 #include <vector>
 #include <memory>
 
-#include "item.h"
-#include "ui.h"
+struct iteminfo;
+enum direction : unsigned;
 
 //      LINE_NESW  - X for on, O for off
 #define LINE_XOXO 4194424 // '|'   Vertical line. ncurses: ACS_VLINE; Unicode: U+2502
@@ -119,14 +119,51 @@ void print_colored_text( WINDOW *w, int x, int y, nc_color &cur_color, nc_color 
 int print_scrollable( WINDOW *w, int begin_line, const std::string &text, nc_color base_color, const std::string &scroll_msg );
 
 std::vector<std::string> foldstring (std::string str, int width);
+/**
+ * Format, fold and print text in the given window. The function handles color tags and
+ * uses them while printing. It expects a printf-like format string and matching
+ * arguments to that format (see @ref string_format).
+ * @param begin_x The row index on which to print the first line.
+ * @param begin_y The column index on which to start each line.
+ * @param width The width used to fold the text (see @ref foldstring). `width + begin_y` should be
+ * less than the window width, otherwise the lines will be wrapped by the curses system, which
+ * defeats the purpose of using `foldstring`.
+ * @param color The initially used color. This can be overridden using color tags.
+ * @return The number of lines of the formatted text (after folding). This may be larger than
+ * the height of the window.
+ */
 int fold_and_print(WINDOW *w, int begin_y, int begin_x, int width, nc_color color, const char *mes,
                    ...);
+/**
+ * Same as other @ref fold_and_print, but does not do any string formatting, the string is uses as is.
+ */
 int fold_and_print(WINDOW *w, int begin_y, int begin_x, int width, nc_color color,
                    const std::string &text);
+/**
+ * Like @ref fold_and_print, but starts the output with the N-th line of the folded string.
+ * This can be used for scrolling large texts. Parameters have the same meaning as for
+ * @ref fold_and_print, the function therefor handles color tags correctly.
+ * @param begin_line The index of the first line (of the folded string) that is to be printed.
+ * The function basically removes all lines before this one and prints the remaining lines
+ * with `fold_and_print`.
+ * @return Same as `fold_and_print`: the number of lines of the text (after folding). This is
+ * always the same value, regardless of `begin_line`, it can be used to determine the maximal
+ * value for `begin_line`.
+ */
 int fold_and_print_from(WINDOW *w, int begin_y, int begin_x, int width, int begin_line,
                         nc_color color, const char *mes, ...);
+/**
+ * Same as other @ref fold_and_print_from, but does not do any string formatting, the string is uses as is.
+ */
 int fold_and_print_from(WINDOW *w, int begin_y, int begin_x, int width, int begin_line,
                         nc_color color, const std::string &text);
+/**
+ * Prints a single line of formatted text. The text is automatically trimmed to fit into the given
+ * width. The function handles color tags correctly.
+ * @param begin_x,begin_y The row and column index on which to start the line.
+ * @param width Maximal width of the printed line, if the text is longer, it is cut off.
+ * @param base_color The initially used color. This can be overridden using color tags.
+ */
 void trim_and_print(WINDOW *w, int begin_y, int begin_x, int width, nc_color base_color,
                     const char *mes, ...);
 void center_print(WINDOW *w, int y, nc_color FG, const char *mes, ...);
@@ -154,6 +191,8 @@ void mvwprintz(WINDOW *w, int y, int x, nc_color FG, const char *mes, ...);
 void printz(nc_color FG, const char *mes, ...);
 void wprintz(WINDOW *w, nc_color FG, const char *mes, ...);
 
+void draw_custom_border(WINDOW *w, chtype ls = 1, chtype rs = 1, chtype ts = 1, chtype bs = 1, chtype tl = 1, chtype tr = 1,
+                        chtype bl = 1, chtype br = 1, nc_color FG = BORDER_COLOR, int posy = 0, int height = 0, int posx = 0, int width = 0);
 void draw_border(WINDOW *w, nc_color FG = BORDER_COLOR);
 void draw_tabs(WINDOW *w, int active_tab, ...);
 
@@ -165,6 +204,26 @@ std::string remove_color_tags(const std::string &s);
 bool query_yn(const char *mes, ...);
 int  query_int(const char *mes, ...);
 
+/**
+ * Shows a window querying the user for input.
+ *
+ * Returns the input that was entered. If the user cancels the input (e.g. by pressing escape),
+ * an empty string is returned. An empty string may also be returned when the user does not enter
+ * any text and confirms the input (by pressing ENTER). It's currently not possible these two
+ * situations.
+ *
+ * @param title The displayed title, describing what to enter. Color tags can be used.
+ * @param width Width of the input area where the user input appears.
+ * @param input The initially display input. The user can change this.
+ * @param desc An optional text (e.h. help or formatting information) which is displayed
+ * above the input. Color tags can be used.
+ * @param identifier If not empty, this is used to store and retrieve previously entered
+ * text. All calls with the same `identifier` share this history, the history is also stored
+ * when saving the game (see @ref uistate).
+ * @param max_length The maximal length of the text the user can input. More input is simply
+ * ignored and the returned string is never longer than this.
+ * @param only_digits Whether to only allow digits in the string.
+ */
 std::string string_input_popup(std::string title, int width = 0, std::string input = "",
                                std::string desc = "", std::string identifier = "",
                                int max_length = -1, bool only_digits = false);
@@ -174,44 +233,101 @@ std::string string_input_win (WINDOW *w, std::string input, int max_length, int 
                               std::string identifier = "", int w_x = -1, int w_y = -1,
                               bool dorefresh = true, bool only_digits = false);
 
-long popup_getkey(const char *mes, ...);
 // for the next two functions, if cancelable is true, esc returns the last option
 int  menu_vec(bool cancelable, const char *mes, const std::vector<std::string> options);
 int  menu_vec(bool cancelable, const char *mes, const std::vector<std::string> &options, const std::string &hotkeys_override);
 int  menu(bool cancelable, const char *mes, ...);
-void popup_top(const char *mes, ...); // Displayed at the top of the screen
-void popup(const char *mes, ...);
+
+/**
+ * @name Popup windows
+ *
+ * Each function displays a popup (above all other windows) with the given (formatted)
+ * text. The popup function with the flags parameters does all the work, the other functions
+ * call it with specific flags. The function can be called with a bitwise combination of flags.
+ *
+ * The functions return the key (taken from @ref getch) that was entered by the user.
+ *
+ * The message is a printf-like string. It may contain color tags, which are used while printing.
+ *
+ * - PF_GET_KEY (ignored when combined with PF_NO_WAIT) cancels the popup on *any* user input.
+ *   Without the flag the popup is only canceled when the user enters new-line, space and escape.
+ *   This flag is passed by @ref popup_getkey.
+ * - PF_NO_WAIT displays the popup, but does not wait for the user input. The popup window is
+ *   immediately destroyed (but will be visible until another window is redrawn over it).
+ *   The function always returns 0 upon this flag, no call to `getch` is done at all.
+ *   This flag is passed by @ref popup_nowait.
+ * - PF_ON_TOP makes the window appear on the top of the screen (at the upper most row). Without
+ *   this flag, the popup is centered on the screen.
+ *   The flag is passed by @ref popup_top.
+ * - PF_FULLSCREEN makes the popup window as big as the whole screen.
+ *   This flag is passed by @ref full_screen_popup.
+ * - PF_NONE is a placeholder for none of the above flags.
+ *
+ */
+/*@{*/
 typedef enum {
     PF_NONE        = 0,
-    PF_GET_KEY     = 1 <<  0,
-    PF_NO_WAIT     = 1 <<  1,
-    PF_ON_TOP      = 1 <<  2,
-    PF_FULLSCREEN  = 1 <<  3,
+    PF_GET_KEY     = 1 << 0,
+    PF_NO_WAIT     = 1 << 1,
+    PF_ON_TOP      = 1 << 2,
+    PF_FULLSCREEN  = 1 << 3,
+    PF_NO_WAIT_ON_TOP = PF_NO_WAIT | PF_ON_TOP,
 } PopupFlags;
-long popup(const std::string &text, PopupFlags flags);
-void popup_nowait(const char *mes, ...); // Doesn't wait for spacebar
-void full_screen_popup(const char *mes, ...);
 
-int draw_item_info(WINDOW *win, const std::string sItemName,
+long popup_getkey(const char *mes, ...);
+void popup_top(const char *mes, ...);
+void popup_nowait(const char *mes, ...);
+void popup(const char *mes, ...);
+long popup(const std::string &text, PopupFlags flags);
+void full_screen_popup(const char *mes, ...);
+/*@}*/
+
+int draw_item_info(WINDOW *win, const std::string sItemName, const std::string sTypeName,
                    std::vector<iteminfo> &vItemDisplay, std::vector<iteminfo> &vItemCompare,
-                   const int selected = -1, const bool without_getch = false, const bool without_border = false);
+                   int &selected, const bool without_getch = false, const bool without_border = false,
+                   const bool handle_scrolling = false);
 
 int draw_item_info(const int iLeft, int iWidth, const int iTop, const int iHeight,
-                   const std::string sItemName,
+                   const std::string sItemName, const std::string sTypeName,
                    std::vector<iteminfo> &vItemDisplay, std::vector<iteminfo> &vItemCompare,
-                   const int selected = -1, const bool without_getch = false, const bool without_border = false);
+                   int &selected, const bool without_getch = false, const bool without_border = false,
+                   const bool handle_scrolling = false);
 
 char rand_char();
 long special_symbol (long sym);
 
+/**
+ * @name printf-like string formatting.
+ *
+ * These functions perform string formatting, according to the rules of the `printf` function,
+ * see `man 3 printf` or any other documentation.
+ *
+ * In short: the pattern parameter is a string with optional placeholders, which will be
+ * replaced with formatted data from the further arguments. The further arguments must have
+ * a type that matches the type expected by the placeholder.
+ * The placeholders look like this:
+ * - `%s` expects an argument of type `const char*`, which is inserted as is.
+ * - `%d` expects an argument of type `int`, which is formatted as decimal number.
+ * - `%f` expects an argument of type `float` or `double`, which is formatted as decimal number.
+ *
+ * There are more placeholders and options to them (see documentation of `printf`).
+ */
+/*@{*/
 std::string string_format(const char *pattern, ...);
 std::string vstring_format(const char *pattern, va_list argptr);
 std::string string_format(std::string pattern, ...);
 std::string vstring_format(std::string const &pattern, va_list argptr);
+/*@}*/
 
 // TODO: move these elsewhere
 // string manipulations.
+void replace_name_tags(std::string & input);
+void replace_city_tag(std::string & input, const std::string & name);
 
+void replace_substring(std::string & input, const std::string & substring, const std::string & replacement, bool all);
+
+std::string string_replace(std::string text, const std::string &before, const std::string &after);
+std::string replace_colors(std::string text);
 std::string &capitalize_letter(std::string &pattern, size_t n = 0);
 std::string rm_prefix(std::string str, char c1 = '<', char c2 = '>');
 #define rmp_format(...) rm_prefix(string_format(__VA_ARGS__))
@@ -226,11 +342,13 @@ void hit_animation(int iX, int iY, nc_color cColor, const std::string &cTile);
 std::pair<std::string, nc_color> const& get_hp_bar(int cur_hp, int max_hp, bool is_mon = false);
 std::pair<std::string, nc_color> const& get_item_hp_bar(int dmg);
 
+std::pair<std::string, nc_color> const& get_light_level(const float light);
+
 void draw_tab(WINDOW *w, int iOffsetX, std::string sText, bool bSelected);
 void draw_subtab(WINDOW *w, int iOffsetX, std::string sText, bool bSelected, bool bDecorate = true);
 void draw_scrollbar(WINDOW *window, const int iCurrentLine, const int iContentHeight,
                     const int iNumEntries, const int iOffsetY = 0, const int iOffsetX = 0,
-                    nc_color bar_color = c_white);
+                    nc_color bar_color = c_white, const bool bTextScroll = false);
 void calcStartPos(int &iStartPos, const int iCurrentLine,
                   const int iContentHeight, const int iNumEntries);
 void clear_window(WINDOW *w);
@@ -340,6 +458,5 @@ int get_terminal_height();
 bool is_draw_tiles_mode();
 
 void play_music(std::string playlist);
-void play_sound(std::string identifier);
 
 #endif

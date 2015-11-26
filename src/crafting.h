@@ -3,28 +3,26 @@
 
 #include "item.h"         // item
 #include "requirements.h" // requirement_data
-#include "bodypart.h"     // handedness::NONE
 #include "cursesdef.h"    // WINDOW
+#include "string_id.h"
 
 #include <string>
 #include <vector>
 #include <map>
 #include <list>
 
+class recipe_dictionary;
 class JsonObject;
 class Skill;
+using skill_id = string_id<Skill>;
 class inventory;
 class player;
+struct recipe;
 
 enum body_part : int; // From bodypart.h
 typedef int nc_color; // From color.h
 
 using itype_id     = std::string; // From itype.h
-
-// Global list of valid recipes
-extern std::map<std::string, std::vector<recipe *>> recipes;
-// Global reverse lookup
-extern std::map<itype_id, std::vector<recipe *>> recipes_by_component;
 
 struct byproduct {
     itype_id result;
@@ -50,8 +48,8 @@ struct recipe {
     std::string cat;
     bool contained; // Does the item spawn contained?
     std::string subcat;
-    const Skill* skill_used;
-    std::map<const Skill*, int> required_skills;
+    skill_id skill_used;
+    std::map<skill_id, int> required_skills;
     bool reversible; // can the item be disassembled?
     bool autolearn; // do we learn it just by leveling skills?
     int learn_by_disassembly; // what level (if any) do we learn it by disassembly?
@@ -61,7 +59,6 @@ struct recipe {
     double batch_rscale;
     int batch_rsize; // minimum batch size to needed to reach batch_rscale
     int result_mult; // used by certain batch recipes that create more than one stack of the result
-    bool paired;
 
     // only used during loading json data: book_id is the id of an book item, other stuff is copied
     // into @ref islot_book::recipes.
@@ -77,20 +74,12 @@ struct recipe {
     // Format: skill_name(amount), skill_name(amount)
     std::string required_skills_string() const;
 
-    ~recipe();
     recipe();
-    recipe(std::string pident, int pid, itype_id pres, std::string pcat,
-           bool pcontained,std::string psubcat, std::string &to_use,
-           std::map<std::string, int> &to_require,
-           bool preversible, bool pautolearn, int plearn_dis,
-           int pmult, bool ppaired, std::vector<byproduct> &bps,
-           int time, int difficulty, double batch_rscale,
-           int batch_rsize);
 
     // Create an item instance as if the recipe was just finished,
     // Contain charges multiplier
-    item create_result(handedness handed = NONE) const;
-    std::vector<item> create_results(int batch = 1, handedness handed = NONE) const;
+    item create_result() const;
+    std::vector<item> create_results(int batch = 1) const;
 
     // Create byproduct instances as if the recipe was just finished
     std::vector<item> create_byproducts(int batch = 1) const;
@@ -116,8 +105,6 @@ void remove_ammo(item *dis_item, player &p);
 // same as above but for each item in the list
 void remove_ammo(std::list<item> &dis_items, player &p);
 
-void load_recipe_category(JsonObject &jsobj);
-void reset_recipe_categories();
 void load_recipe(JsonObject &jsobj);
 void reset_recipes();
 const recipe *recipe_by_index(int index);
@@ -136,7 +123,6 @@ void batch_recipes(const inventory &crafting_inv,
                    std::vector<const recipe *> &current,
                    std::vector<bool> &available, const recipe* r);
 
-const recipe *find_recipe( std::string id );
 void check_recipe_definitions();
 
 void set_item_spoilage(item &newit, float used_age_tally, int used_age_count);

@@ -13,8 +13,11 @@
 #define mfb(n) static_cast <unsigned long> (1 << (n))
 #endif
 
-std::string fac_ranking_text(int val);
-std::string fac_respect_text(int val);
+std::string fac_ranking_text( int val );
+std::string fac_respect_text( int val );
+std::string fac_wealth_text( int val, int size );
+std::string fac_food_supply_text( int val, int size );
+std::string fac_combat_ability_text( int val );
 
 class game;
 
@@ -101,27 +104,27 @@ class faction : public JsonSerializer, public JsonDeserializer
         static faction_value_datum facval_data[NUM_FACVALS];
 
         faction();
-        faction(std::string uid);
+        faction( std::string uid );
 
-        static void load_faction(JsonObject &jsobj);
-        faction *find_faction(std::string ident);
-        void load_faction_template(std::string ident);
+        static void load_faction( JsonObject &jsobj );
+        faction *find_faction( std::string ident );
+        void load_faction_template( std::string ident );
         std::vector<std::string> all_json_factions();
 
         ~faction();
-        void load_info(std::string data);
+        void load_info( std::string data );
         using JsonDeserializer::deserialize;
-        void deserialize(JsonIn &jsin) override;
+        void deserialize( JsonIn &jsin ) override;
         using JsonSerializer::serialize;
-        void serialize(JsonOut &jsout) const override;
+        void serialize( JsonOut &jsout ) const override;
 
         static faction_map _all_faction;
 
         void randomize();
         void make_army();
-        bool has_job(faction_job j);
-        bool has_value(faction_value v);
-        bool matches_us(faction_value v);
+        bool has_job( faction_job j );
+        bool has_value( faction_value v );
+        bool matches_us( faction_value v );
         std::string describe();
 
         int response_time(); // Time it takes for them to get to u
@@ -142,6 +145,9 @@ class faction : public JsonSerializer, public JsonDeserializer
         int mapx, mapy;
         int size; // How big is our sphere of influence?
         int power; // General measure of our power
+        int combat_ability;  //Combat multiplier for abstracted combat
+        int food_supply;  //Total nutritional value held
+        int wealth;  //Total trade currency
 };
 
 #endif

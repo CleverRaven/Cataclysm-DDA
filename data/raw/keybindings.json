@@ -366,6 +366,22 @@
             {
                 "input_method":"keyboard",
                 "key":"s"
+            },
+            {
+                "input_method":"keyboard",
+                "key":"RETURN"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "CHANGE_SIDE",
+        "category": "SORT_ARMOR",
+        "name": "Change side armor is worn on",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"c"
             }
         ]
     },
@@ -563,6 +579,30 @@
         ]
     },
     {
+        "type": "keybinding",
+        "id": "NEW",
+        "category": "MINESWEEPER",
+        "name": "Create New level",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"n"
+            }
+        ]
+    },
+    {
+        "type": "keybinding",
+        "id": "FLAG",
+        "category": "MINESWEEPER",
+        "name": "Toggle Flag",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"f"
+            }
+        ]
+    },
+    {
         "type" : "keybinding",
         "id":"CONFIRM",
         "name":"Confirm Choice",
@@ -606,6 +646,30 @@
             {
                 "input_method":"keyboard",
                 "key":"-"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "NEXT_CATEGORY_TAB",
+        "category": "MODMANAGER_DIALOG",
+        "name": "Move to next category tab",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"TAB"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "PREV_CATEGORY_TAB",
+        "category": "MODMANAGER_DIALOG",
+        "name": "Move to previous category tab",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"BACKTAB"
             }
         ]
     },
@@ -933,6 +997,17 @@
     },
     {
         "type" : "keybinding",
+        "id":"TRAVEL_TO",
+        "name":"Travel to destination",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"t"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
         "id":"TOGGLE_SNAP_TO_TARGET",
         "name":"Toggle Snap to Target",
         "bindings":[
@@ -986,6 +1061,18 @@
             {
                 "input_method":"keyboard",
                 "key":"S"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "DELETE_TEMPLATE",
+        "category": "MAIN_MENU",
+        "name": "Delete template",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"d"
             }
         ]
     },
@@ -1051,6 +1138,30 @@
     },
     {
         "type" : "keybinding",
+        "id": "SORT",
+        "category": "NEW_CHAR_PROFESSIONS",
+        "name": "Toggle sorting order",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"s"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "SORT",
+        "category": "NEW_CHAR_SCENARIOS",
+        "name": "Toggle sorting order",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"s"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
         "id": "INSTALL",
         "category": "VEH_INTERACT",
         "name": "Install part",
@@ -1110,15 +1221,6 @@
         "name": "Change tire",
         "bindings":[
             { "input_method":"keyboard", "key":"c" }
-        ]
-    },
-    {
-        "type" : "keybinding",
-        "id": "DRAIN",
-        "category": "VEH_INTERACT",
-        "name": "Drain from tank",
-        "bindings":[
-            { "input_method":"keyboard", "key":"d" }
         ]
     },
     {
@@ -1308,18 +1410,6 @@
             {
                 "input_method":"keyboard",
                 "key":"!"
-            }
-        ]
-    },
-    {
-        "type" : "keybinding",
-        "id":"SWAP_BIONIC_TABS",
-        "category":"BIONICS",
-        "name":"Swap current bionic tab view",
-        "bindings":[
-            {
-                "input_method":"keyboard",
-                "key":"TAB"
             }
         ]
     },
@@ -1889,6 +1979,22 @@
     },
     {
         "type" : "keybinding",
+        "id": "TOGGLE_VEH",
+        "category": "ADVANCED_INVENTORY",
+        "name": "Toggle vehicle",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"v"
+            },
+            {
+                "input_method":"keyboard",
+                "key":"V"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
         "id": "TOGGLE_AUTO_PICKUP",
         "category": "ADVANCED_INVENTORY",
         "name": "Toggle auto-pickup for item",
@@ -1935,7 +2041,19 @@
         "type" : "keybinding",
         "id": "MOVE_SINGLE_ITEM",
         "category": "ADVANCED_INVENTORY",
-        "name": "Move item",
+        "name": "Move a single item",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"RETURN"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "MOVE_VARIABLE_ITEM",
+        "category": "ADVANCED_INVENTORY",
+        "name": "Move an amount of item",
         "bindings":[
             {
                 "input_method":"keyboard",
@@ -1952,10 +2070,6 @@
             {
                 "input_method":"keyboard",
                 "key":"M"
-            },
-            {
-                "input_method":"keyboard",
-                "key":"RETURN"
             }
         ]
     },
@@ -2156,6 +2270,22 @@
             {
                 "input_method":"keyboard",
                 "key":"C"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "ITEMS_WORN",
+        "category": "ADVANCED_INVENTORY",
+        "name": "Select items currently worn",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"w"
+            },
+            {
+                "input_method":"keyboard",
+                "key":"W"
             }
         ]
     },

@@ -1,9 +1,6 @@
 #ifndef START_LOCATION_H
 #define START_LOCATION_H
 
-#include "enums.h"
-#include "json.h"
-
 #include <string>
 #include <map>
 #include <set>
@@ -11,6 +8,7 @@
 class overmap;
 class tinymap;
 class player;
+class JsonObject;
 struct tripoint;
 
 typedef std::map<std::string, class start_location> location_map;
@@ -49,14 +47,19 @@ class start_location
          */
         void burn( const tripoint &omtstart,
                    const size_t count, const int rad ) const;
+        /**
+         * Adds a map special, see mapgen.h and mapgen.cpp. Look at the namespace MapExtras.
+         */
+        void add_map_special( const tripoint &omtstart, const std::string &map_special ) const;
 
+        void handle_heli_crash( player &u ) const;
     private:
         std::string _ident;
         std::string _name;
         std::string _target;
         std::set<std::string> _flags;
 
-        void prepare_map(tinymap &m) const;
+        void prepare_map( tinymap &m ) const;
 };
 
 #endif

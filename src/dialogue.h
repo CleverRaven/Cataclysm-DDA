@@ -3,8 +3,6 @@
 
 #include "player.h"
 #include "output.h"
-#include "npc.h"
-#include "mission.h"
 #include "color.h"
 #include <vector>
 #include <string>
@@ -12,6 +10,8 @@
 
 class martialart;
 class JsonObject;
+class mission;
+class npc;
 
 struct talk_response;
 struct dialogue {
@@ -108,6 +108,22 @@ namespace talk_function {
     void mission_reward_cash  (npc *);
     void mission_favor        (npc *);
     void give_equipment       (npc *);
+    void give_aid             (npc *);
+    void give_all_aid         (npc *);
+
+    void bionic_install       (npc *);
+    void bionic_remove        (npc *);
+
+    void construction_tips    (npc *);
+    void buy_beer             (npc *);
+    void buy_brandy           (npc *);
+    void buy_rum              (npc *);
+    void buy_whiskey          (npc *);
+    void buy_haircut          (npc *);
+    void buy_shave            (npc *);
+    void buy_10_logs          (npc *);
+    void buy_100_logs         (npc *);
+    void give_equipment       (npc *);
     void start_trade          (npc *);
     std::string bulk_trade_inquire   (npc *, itype_id);
     void bulk_trade_accept    (npc *, itype_id);
@@ -125,7 +141,7 @@ namespace talk_function {
     void deny_personal_info   (npc *); // p gets "asked_personal_info"
     void hostile              (npc *); // p turns hostile to u
     void flee                 (npc *);
-    void leave                (npc *); // p becomes indifferant
+    void leave                (npc *); // p becomes indifferent
     void stranger_neutral     (npc *); // p is now neutral towards you
 
     void start_mugging        (npc *);
@@ -146,6 +162,52 @@ namespace talk_function {
     void set_engagement_weak  (npc *);
     void set_engagement_hit   (npc *);
     void set_engagement_all   (npc *);
+
+    void wake_up              (npc *);
+
+    void toggle_pickup        (npc *);
+    void toggle_bashing       (npc *);
+    void toggle_allow_sleep   (npc *);
+
+/*mission_companion.cpp proves a set of functions that compress all the typical mission operations into a set of hard-coded
+ *unique missions that don't fit well into the framework of the existing system.  These missions typically focus on
+ *sending companions out on simulated adventures or tasks.  This is not meant to be a replacement for the existing system.
+ */
+    //Identifies which mission set the NPC draws from
+    void companion_mission          (npc *);
+    //Primary Loop
+    bool outpost_missions           (npc *p, std::string id, std::string title);
+    //Send a companion on an individual mission or attaches them to a group to depart later
+    void individual_mission         (npc *p, std::string desc, std::string id, bool group = false);
+
+    void caravan_return             (npc *p, std::string dest, std::string id);
+    void caravan_depart             (npc *p, std::string dest, std::string id);
+    int caravan_dist                (std::string dest);
+    void field_build_1              (npc *p);
+    void field_build_2              (npc *p);
+    void field_plant                (npc *p, std::string place);
+    void field_harvest              (npc *p, std::string place);
+    bool scavenging_patrol_return   (npc *p);
+    bool scavenging_raid_return     (npc *p);
+    bool labor_return               (npc *p);
+    bool carpenter_return           (npc *p);
+    bool forage_return              (npc *p);
+
+    //Combat functions
+    void force_on_force(std::vector<npc *> defender, std::string def_desc,
+        std::vector<npc *> attacker, std::string att_desc, int advantage);
+    int combat_score    (std::vector<npc *> group);//Used to determine retreat
+    void attack_random  (std::vector<npc *> attacker, std::vector<npc *> defender);
+    npc *temp_npc       (std::string type);
+
+    //Utility functions
+    std::vector<npc *> companion_list   (std::string id);//List of NPCs found in game->mission_npc
+    npc *companion_choose               ();
+    npc *companion_choose_return        (std::string id, int deadline);
+    void companion_leave                (npc *comp);//Pulls the NPC from
+    void companion_return               (npc *comp);//Return NPC to your party
+    void companion_lost                 (npc *comp);//Kills the NPC off-screen
+    std::vector<item*> loot_building    (const tripoint site);//Smash stuff, steal valuables, and change map maker
 };
 
 enum talk_trial_type {

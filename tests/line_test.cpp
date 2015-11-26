@@ -1,39 +1,10 @@
-#include <tap++/tap++.h>
-using namespace TAP;
+#include "catch/catch.hpp"
 
-#include "rng.h"
 #include "line.h"
+#include "rng.h"
 
 #include "stdio.h"
-
-// Extracted from http://www.gnu.org/software/libc/manual/html_node/Elapsed-Time.html
-// And lightly updated for use with timespec instead of timeval.
-/* Subtract the `struct timespec' values X and Y,
-   storing the result in RESULT.
-   Return 1 if the difference is negative, otherwise 0. */
-int
-timespec_subtract( struct timespec *result, struct timespec *x, struct timespec *y)
-{
-    /* Perform the carry for the later subtraction by updating y. */
-    if (x->tv_nsec < y->tv_nsec) {
-        int nsec = (y->tv_nsec - x->tv_nsec) / 1000000000 + 1;
-        y->tv_nsec -= 1000000000 * nsec;
-        y->tv_sec += nsec;
-    }
-    if (x->tv_nsec - y->tv_nsec > 1000000000) {
-        int nsec = (x->tv_nsec - y->tv_nsec) / 1000000000;
-        y->tv_nsec += 1000000000 * nsec;
-        y->tv_sec -= nsec;
-    }
-
-    /* Compute the time remaining to wait.
-       tv_nsec is certainly positive. */
-    result->tv_sec = x->tv_sec - y->tv_sec;
-    result->tv_nsec = x->tv_nsec - y->tv_nsec;
-
-    /* Return 1 if result is negative. */
-    return x->tv_sec < y->tv_sec;
-}
+#include <chrono>
 
 #define SGN(a) (((a)<0) ? -1 : 1)
 // Compare all future line_to implementations to the canonical one.
@@ -99,71 +70,296 @@ std::vector <point> canonical_line_to(const int x1, const int y1, const int x2, 
     return ret;
 }
 
+TEST_CASE("test_normalized_angle") {
+    CHECK( get_normalized_angle( {0, 0}, {10, 0} ) == Approx(0.0) );
+    CHECK( get_normalized_angle( {0, 0}, {0, 10} ) == Approx(0.0) );
+    CHECK( get_normalized_angle( {0, 0}, {-10, 0} ) == Approx(0.0) );
+    CHECK( get_normalized_angle( {0, 0}, {0, -10} ) == Approx(0.0) );
+    CHECK( get_normalized_angle( {0, 0}, {10, 10} ) == Approx(1.0) );
+    CHECK( get_normalized_angle( {0, 0}, {-10, 10} ) == Approx(1.0) );
+    CHECK( get_normalized_angle( {0, 0}, {10, -10} ) == Approx(1.0) );
+    CHECK( get_normalized_angle( {0, 0}, {-10, -10} ) == Approx(1.0) );
+}
+
+TEST_CASE("Test bounds for mapping x/y/z/ offsets to direction enum") {
+
+  // Test the unit cube, which are the only values this function is valid for.
+  REQUIRE( make_xyz_unit(-1, -1, -1) == ABOVENORTHWEST );
+  REQUIRE( make_xyz_unit(-1, -1, 0) == NORTHWEST );
+  REQUIRE( make_xyz_unit(-1, -1, 1) == BELOWNORTHWEST );
+  REQUIRE( make_xyz_unit(0, -1, -1) == ABOVENORTH );
+  REQUIRE( make_xyz_unit(0, -1, 0) == NORTH );
+  REQUIRE( make_xyz_unit(0, -1, 2) == BELOWNORTH );
+  REQUIRE( make_xyz_unit(1, -1, -1) == ABOVENORTHEAST );
+  REQUIRE( make_xyz_unit(1, -1, 0) == NORTHEAST );
+  REQUIRE( make_xyz_unit(1, -1, 1) == BELOWNORTHEAST );
+  REQUIRE( make_xyz_unit(-1, 0, -1) == ABOVEWEST );
+  REQUIRE( make_xyz_unit(-1, 0, 0) == WEST );
+  REQUIRE( make_xyz_unit(-1, 0, 1) == BELOWWEST );
+  REQUIRE( make_xyz_unit(0, 0, -1) == ABOVECENTER );
+  REQUIRE( make_xyz_unit(0, 0, 0) == CENTER );
+  REQUIRE( make_xyz_unit(0, 0, 1) == BELOWCENTER );
+  REQUIRE( make_xyz_unit(1, 0, -1) == ABOVEEAST );
+  REQUIRE( make_xyz_unit(1, 0, 0) == EAST );
+  REQUIRE( make_xyz_unit(1, 0, 1) == BELOWEAST );
+  REQUIRE( make_xyz_unit(-1, 1, -1) == ABOVESOUTHWEST );
+  REQUIRE( make_xyz_unit(-1, 1, 0) == SOUTHWEST );
+  REQUIRE( make_xyz_unit(-1, 1, 1) == BELOWSOUTHWEST );
+  REQUIRE( make_xyz_unit(0, 1, -1) == ABOVESOUTH );
+  REQUIRE( make_xyz_unit(0, 1, 0) == SOUTH );
+  REQUIRE( make_xyz_unit(0, 1, 1) == BELOWSOUTH );
+  REQUIRE( make_xyz_unit(1, 1, -1) == ABOVESOUTHEAST );
+  REQUIRE( make_xyz_unit(1, 1, 0) == SOUTHEAST );
+  REQUIRE( make_xyz_unit(1, 1, 1) == BELOWSOUTHEAST );
+  
+  // Test the unit square values at distance 1 and 2.
+  // Test the multiples of 30deg at 60 squares.
+  // Test 22 deg to either side of the cardinal directions.
+  REQUIRE( make_xyz(-1, -1, -1) == ABOVENORTHWEST );
+  REQUIRE( make_xyz(-2, -2, -2) == ABOVENORTHWEST );
+  REQUIRE( make_xyz(-30, -60, -1) == ABOVENORTHWEST );
+  REQUIRE( make_xyz(-60, -60, -1) == ABOVENORTHWEST );
+  REQUIRE( make_xyz(-60, -30, -1) == ABOVENORTHWEST );
+  REQUIRE( make_xyz(-1, -1, 0) == NORTHWEST );
+  REQUIRE( make_xyz(-2, -2, 0) == NORTHWEST );
+  REQUIRE( make_xyz(-60, -60, 0) == NORTHWEST );
+  REQUIRE( make_xyz(-1, -1, 1) == BELOWNORTHWEST );
+  REQUIRE( make_xyz(-2, -2, 2) == BELOWNORTHWEST );
+  REQUIRE( make_xyz(-30, -60, 1) == BELOWNORTHWEST );
+  REQUIRE( make_xyz(-60, -60, 1) == BELOWNORTHWEST );
+  REQUIRE( make_xyz(-60, -30, 1) == BELOWNORTHWEST );
+  REQUIRE( make_xyz(0, -1, -1) == ABOVENORTH );
+  REQUIRE( make_xyz(0, -2, -2) == ABOVENORTH );
+  REQUIRE( make_xyz(-22, -60, -1) == ABOVENORTH );
+  REQUIRE( make_xyz(0, -60, -1) == ABOVENORTH );
+  REQUIRE( make_xyz(22, -60, -1) == ABOVENORTH );
+  REQUIRE( make_xyz(0, -1, 0) == NORTH );
+  REQUIRE( make_xyz(0, -2, 0) == NORTH );
+  REQUIRE( make_xyz(-22, -60, 0) == NORTH );
+  REQUIRE( make_xyz(0, -60, 0) == NORTH );
+  REQUIRE( make_xyz(22, -60, 0) == NORTH );
+  REQUIRE( make_xyz(0, -1, 1) == BELOWNORTH );
+  REQUIRE( make_xyz(0, -2, 2) == BELOWNORTH );
+  REQUIRE( make_xyz(-22, -60, 1) == BELOWNORTH );
+  REQUIRE( make_xyz(0, -60, 1) == BELOWNORTH );
+  REQUIRE( make_xyz(22, -60, 1) == BELOWNORTH );
+  REQUIRE( make_xyz(1, -1, -1) == ABOVENORTHEAST );
+  REQUIRE( make_xyz(2, -2, -2) == ABOVENORTHEAST );
+  REQUIRE( make_xyz(30, -60, -1) == ABOVENORTHEAST );
+  REQUIRE( make_xyz(60, -60, -1) == ABOVENORTHEAST );
+  REQUIRE( make_xyz(60, -30, -1) == ABOVENORTHEAST );
+  REQUIRE( make_xyz(1, -1, 0) == NORTHEAST );
+  REQUIRE( make_xyz(2, -2, 0) == NORTHEAST );
+  REQUIRE( make_xyz(30, -60, 0) == NORTHEAST );
+  REQUIRE( make_xyz(60, -60, 0) == NORTHEAST );
+  REQUIRE( make_xyz(60, -30, 0) == NORTHEAST );
+  REQUIRE( make_xyz(1, -1, 1) == BELOWNORTHEAST );
+  REQUIRE( make_xyz(2, -2, 2) == BELOWNORTHEAST );
+  REQUIRE( make_xyz(30, -60, 1) == BELOWNORTHEAST );
+  REQUIRE( make_xyz(60, -60, 1) == BELOWNORTHEAST );
+  REQUIRE( make_xyz(60, -30, 1) == BELOWNORTHEAST );
+
+  REQUIRE( make_xyz(-1, 0, -1) == ABOVEWEST );
+  REQUIRE( make_xyz(-2, 0, -2) == ABOVEWEST );
+  REQUIRE( make_xyz(-60, -22, -1) == ABOVEWEST );
+  REQUIRE( make_xyz(-60, 0, -1) == ABOVEWEST );
+  REQUIRE( make_xyz(-60, 22, -1) == ABOVEWEST );
+  REQUIRE( make_xyz(-1, 0, 0) == WEST );
+  REQUIRE( make_xyz(-2, 0, 0) == WEST );
+  REQUIRE( make_xyz(-60, -22, 0) == WEST );
+  REQUIRE( make_xyz(-60, 0, 0) == WEST );
+  REQUIRE( make_xyz(-60, 22, 0) == WEST );
+  REQUIRE( make_xyz(-1, 0, 1) == BELOWWEST );
+  REQUIRE( make_xyz(-2, 0, 2) == BELOWWEST );
+  REQUIRE( make_xyz(-60, -22, 1) == BELOWWEST );
+  REQUIRE( make_xyz(-60, 0, 1) == BELOWWEST );
+  REQUIRE( make_xyz(-60, 22, 1) == BELOWWEST );
+  REQUIRE( make_xyz(0, 0, -1) == ABOVECENTER );
+  REQUIRE( make_xyz(0, 0, -2) == ABOVECENTER );
+  REQUIRE( make_xyz(0, 0, 0) == CENTER );
+  REQUIRE( make_xyz(0, 0, 1) == BELOWCENTER );
+  REQUIRE( make_xyz(0, 0, 2) == BELOWCENTER );
+  REQUIRE( make_xyz(1, 0, -1) == ABOVEEAST );
+  REQUIRE( make_xyz(2, 0, -2) == ABOVEEAST );
+  REQUIRE( make_xyz(60, -22, -1) == ABOVEEAST );
+  REQUIRE( make_xyz(60, 0, -1) == ABOVEEAST );
+  REQUIRE( make_xyz(60, 22, -1) == ABOVEEAST );
+  REQUIRE( make_xyz(1, 0, 0) == EAST );
+  REQUIRE( make_xyz(2, 0, 0) == EAST );
+  REQUIRE( make_xyz(60, -22, 0) == EAST );
+  REQUIRE( make_xyz(60, 0, 0) == EAST );
+  REQUIRE( make_xyz(60, 22, 0) == EAST );
+  REQUIRE( make_xyz(1, 0, 1) == BELOWEAST );
+  REQUIRE( make_xyz(2, 0, 2) == BELOWEAST );
+  REQUIRE( make_xyz(60, -22, 1) == BELOWEAST );
+  REQUIRE( make_xyz(60, 0, 1) == BELOWEAST );
+  REQUIRE( make_xyz(60, 22, 1) == BELOWEAST );
+
+  REQUIRE( make_xyz(-1, 1, -1) == ABOVESOUTHWEST );
+  REQUIRE( make_xyz(-2, 2, -2) == ABOVESOUTHWEST );
+  REQUIRE( make_xyz(-30, 60, -1) == ABOVESOUTHWEST );
+  REQUIRE( make_xyz(-60, 60, -1) == ABOVESOUTHWEST );
+  REQUIRE( make_xyz(-60, 30, -1) == ABOVESOUTHWEST );
+  REQUIRE( make_xyz(-1, 1, 0) == SOUTHWEST );
+  REQUIRE( make_xyz(-2, 2, 0) == SOUTHWEST );
+  REQUIRE( make_xyz(-30, 60, 0) == SOUTHWEST );
+  REQUIRE( make_xyz(-60, 60, 0) == SOUTHWEST );
+  REQUIRE( make_xyz(-60, 30, 0) == SOUTHWEST );
+  REQUIRE( make_xyz(-1, 1, 1) == BELOWSOUTHWEST );
+  REQUIRE( make_xyz(-2, 2, 2) == BELOWSOUTHWEST );
+  REQUIRE( make_xyz(-30, 60, 1) == BELOWSOUTHWEST );
+  REQUIRE( make_xyz(-60, 60, 1) == BELOWSOUTHWEST );
+  REQUIRE( make_xyz(-60, 30, 1) == BELOWSOUTHWEST );
+  REQUIRE( make_xyz(0, 1, -1) == ABOVESOUTH );
+  REQUIRE( make_xyz(0, 2, -2) == ABOVESOUTH );
+  REQUIRE( make_xyz(0, 60, -1) == ABOVESOUTH );
+  REQUIRE( make_xyz(0, 1, 0) == SOUTH );
+  REQUIRE( make_xyz(-22, 60, 0) == SOUTH );
+  REQUIRE( make_xyz(0, 60, 0) == SOUTH );
+  REQUIRE( make_xyz(22, 60, 0) == SOUTH );
+  REQUIRE( make_xyz(0, 1, 1) == BELOWSOUTH );
+  REQUIRE( make_xyz(0, 2, 2) == BELOWSOUTH );
+  REQUIRE( make_xyz(-22, 60, 1) == BELOWSOUTH );
+  REQUIRE( make_xyz(0, 60, 1) == BELOWSOUTH );
+  REQUIRE( make_xyz(22, 60, 1) == BELOWSOUTH );
+  REQUIRE( make_xyz(1, 1, -1) == ABOVESOUTHEAST );
+  REQUIRE( make_xyz(2, 2, -2) == ABOVESOUTHEAST );
+  REQUIRE( make_xyz(30, 60, -1) == ABOVESOUTHEAST );
+  REQUIRE( make_xyz(60, 60, -1) == ABOVESOUTHEAST );
+  REQUIRE( make_xyz(60, 30, -1) == ABOVESOUTHEAST );
+  REQUIRE( make_xyz(1, 1, 0) == SOUTHEAST );
+  REQUIRE( make_xyz(2, 2, 0) == SOUTHEAST );
+  REQUIRE( make_xyz(30, 60, 0) == SOUTHEAST );
+  REQUIRE( make_xyz(60, 60, 0) == SOUTHEAST );
+  REQUIRE( make_xyz(60, 30, 0) == SOUTHEAST );
+  REQUIRE( make_xyz(1, 1, 1) == BELOWSOUTHEAST );
+  REQUIRE( make_xyz(2, 2, 2) == BELOWSOUTHEAST );
+  REQUIRE( make_xyz(30, 60, 1) == BELOWSOUTHEAST );
+  REQUIRE( make_xyz(60, 60, 1) == BELOWSOUTHEAST );
+  REQUIRE( make_xyz(60, 30, 1) == BELOWSOUTHEAST );
+}
+
+TEST_CASE("squares_closer_to_test") {
+    // TODO: make this ordering agnostic.
+    auto actual = squares_closer_to( {0, 0, 0}, {10, 0, 0} );
+    std::vector<tripoint> expected = {tripoint(1, 0, 0),tripoint(1, 1, 0),tripoint(1, -1, 0)};
+    CHECK( actual == expected );
+
+    actual = squares_closer_to( {0, 0, 0}, {-10, -10, 0} );
+    expected = {tripoint(-1, -1, 0),tripoint(-1, 0, 0),tripoint(0, -1, 0)};
+    CHECK( actual == expected );
+
+    actual = squares_closer_to( {0, 0, 0}, {10, 10, 0} );
+    expected = {tripoint(1, 1, 0),tripoint(1, 0, 0),tripoint(0, 1, 0)};
+    CHECK( actual == expected );
+
+    actual = squares_closer_to( {0, 0, 0}, {10, 9, 0} );
+    expected = {tripoint(1, 0, 0),tripoint(1, 1, 0),tripoint(1, -1, 0),tripoint(0, 1, 0)};
+    CHECK( actual == expected );
+
+    actual = squares_closer_to( {0, 0, 0}, {10, 1, 0} );
+    expected = {tripoint(1, 0, 0),tripoint(1, 1, 0),tripoint(1, -1, 0),tripoint(0, 1, 0)};
+    CHECK( actual == expected );
+
+    actual = squares_closer_to( {10, 9, 0}, {0, 0, 0} );
+    expected = {tripoint(9, 9, 0),tripoint(9, 10, 0),tripoint(9, 8, 0),tripoint(10,8,0)};
+    CHECK( actual == expected );
+
+    actual = squares_closer_to( {0, 0, 0}, {-10, -9, 0} );
+    expected = {tripoint(-1, 0, 0),tripoint(-1, 1, 0),tripoint(-1, -1, 0),tripoint(0,-1,0)};
+    CHECK( actual == expected );
+
+    actual = squares_closer_to( {10, -10, 0}, {10, 10, 0} );
+    expected = {tripoint(10, -9, 0),tripoint(11, -9, 0),tripoint(9, -9, 0)};
+    CHECK( actual == expected );
+
+    actual = squares_closer_to( {10, -10, 0}, {-10, -5, 0} );
+    expected = {tripoint(9, -10, 0),tripoint(9, -9, 0),tripoint(9, -11, 0),tripoint(10,-9,0)};
+    CHECK( actual == expected );
+}
+
 #define RANDOM_TEST_NUM 1000
 #define COORDINATE_RANGE 99
 
-int main(int argc, char *argv[])
-{
- plan( 2 + RANDOM_TEST_NUM );
+void line_to_comparison( const int iterations ) {
+    REQUIRE( trig_dist(0, 0, 0, 0) == 0 );
+    REQUIRE( trig_dist(0, 0, 1, 0) == 1 );
 
- ok( trig_dist(0, 0, 0, 0) == 0 );
- ok( trig_dist(0, 0, 1, 0) == 1 );
+    const int seed = time( NULL );
+    std::srand( seed );
 
- const int seed = time( NULL );
- srandom( seed );
- char test_message[100];
+    for( int i = 0; i < RANDOM_TEST_NUM; ++i ) {
+        const int x1 = rng( -COORDINATE_RANGE, COORDINATE_RANGE );
+        const int y1 = rng( -COORDINATE_RANGE, COORDINATE_RANGE );
+        const int x2 = rng( -COORDINATE_RANGE, COORDINATE_RANGE );
+        const int y2 = rng( -COORDINATE_RANGE, COORDINATE_RANGE );
+        int t1 = 0;
+        int t2 = 0;
+        REQUIRE( line_to( x1, y1, x2, y2, t1 ) == canonical_line_to( x1, y1, x2, y2, t2 ) );
+    }
 
- for( int i = 0; i < RANDOM_TEST_NUM; ++i ) {
-     const int x1 = rng( -COORDINATE_RANGE, COORDINATE_RANGE );
-     const int y1 = rng( -COORDINATE_RANGE, COORDINATE_RANGE );
-     const int x2 = rng( -COORDINATE_RANGE, COORDINATE_RANGE );
-     const int y2 = rng( -COORDINATE_RANGE, COORDINATE_RANGE );
-     int t1 = 0;
-     int t2 = 0;
-     snprintf( test_message, sizeof(test_message), "Line from %d, %d to %d, %d.",
-               x1, y1, x2, y2 );
-     ok( line_to( x1, y1, x2, y2, t1 ) == canonical_line_to( x1, y1, x2, y2, t2 ),
-         test_message );
- }
+    {
+        const int x1 = rng( -COORDINATE_RANGE, COORDINATE_RANGE );
+        const int y1 = rng( -COORDINATE_RANGE, COORDINATE_RANGE );
+        const int x2 = rng( -COORDINATE_RANGE, COORDINATE_RANGE );
+        const int y2 = rng( -COORDINATE_RANGE, COORDINATE_RANGE );
+        int t1 = 0;
+        int t2 = 0;
+        long count1 = 0;
+        auto start1 = std::chrono::high_resolution_clock::now();
+        while( count1 < iterations ) {
+            line_to( x1, y1, x2, y2, t1 );
+            count1++;
+        }
+        auto end1 = std::chrono::high_resolution_clock::now();
+        long count2 = 0;
+        auto start2 = std::chrono::high_resolution_clock::now();
+        while( count2 < iterations ) {
+            canonical_line_to( x1, y1, x2, y2, t2 );
+            count2++;
+        }
+        auto end2 = std::chrono::high_resolution_clock::now();
 
- {
-     const int x1 = rng( -COORDINATE_RANGE, COORDINATE_RANGE );
-     const int y1 = rng( -COORDINATE_RANGE, COORDINATE_RANGE );
-     const int x2 = rng( -COORDINATE_RANGE, COORDINATE_RANGE );
-     const int y2 = rng( -COORDINATE_RANGE, COORDINATE_RANGE );
-     int t1 = 0;
-     int t2 = 0;
-     long count1 = 0;
-     struct timespec start1;
-     struct timespec end1;
-     clock_gettime( CLOCK_REALTIME, &start1 );
-     #define PERFORMANCE_TEST_ITERATIONS 1000000
-     while( count1 < PERFORMANCE_TEST_ITERATIONS ) {
-         line_to( x1, y1, x2, y2, t1 );
-         count1++;
-     }
-     clock_gettime( CLOCK_REALTIME, &end1 );
-     long count2 = 0;
-     struct timespec start2;
-     struct timespec end2;
-     clock_gettime( CLOCK_REALTIME, &start2 );
-     while( count2 < PERFORMANCE_TEST_ITERATIONS ) {
-         line_to( x1, y1, x2, y2, t2 );
-         count2++;
-     }
-     clock_gettime( CLOCK_REALTIME, &end2 );
-     struct timespec diff1;
-     struct timespec diff2;
-     timespec_subtract( &diff1, &end1, &start1 );
-     timespec_subtract( &diff2, &end2, &start2 );
+        if( iterations > 1 ) {
+            long diff1 = std::chrono::duration_cast<std::chrono::microseconds>(end1 - start1).count();
+            long diff2 = std::chrono::duration_cast<std::chrono::microseconds>(end2 - start2).count();
 
-     // TODO: display this better, I doubt sec.nsec is an accurate rendering,
-     // or at least reliably so.
-     printf( "line_to() executed %d times in %ld.%ld seconds.\n",
-             PERFORMANCE_TEST_ITERATIONS, diff1.tv_sec, diff1.tv_nsec );
-     printf( "canonical_line_to() executed %d times in %ld.%ld seconds.\n",
-             PERFORMANCE_TEST_ITERATIONS, diff2.tv_sec, diff2.tv_nsec );
- }
+            printf( "line_to() executed %d times in %ld microseconds.\n",
+                    iterations, diff1 );
+            printf( "canonical_line_to() executed %d times in %ld microseconds.\n",
+                    iterations, diff2 );
+        }
+    }
+}
 
- return exit_status();
+// Check the boundaries of inputs we can give line_to without breaking it.
+TEST_CASE("line_to_boundaries") {
+    for( int i = -60; i < 60; ++i ) {
+        for( int j = -60; j < 60; ++j ) {
+            const int ax = abs(i) * 2;
+            const int ay = abs(j) * 2;
+            const int dominant = std::max(ax, ay);
+            const int minor = std::min(ax, ay);
+            const int ideal_start_offset = minor - (dominant / 2);
+            // get the sign of the start offset.
+            const int st( (ideal_start_offset > 0) - (ideal_start_offset < 0) );
+            const int max_start_offset = std::abs(ideal_start_offset) * 2 + 1;
+            for( int k = -1; k <= max_start_offset; ++k ) {
+                auto line = line_to( 0, 0, i, j, k * st );
+                if( line.back() != point(i, j) ) {
+                    WARN( "Expected (" << i << "," << j << ") but got (" <<
+                          line.back().x << "," << line.back().y << ") with t == " << k );
+                }
+                CHECK( line.back() == point(i, j) );
+            }
+        }
+    }
+}
+
+TEST_CASE("line_to_regression") {
+    line_to_comparison(1);
+}
+
+TEST_CASE("line_to_performance", "[.]") {
+    line_to_comparison(10000);
 }

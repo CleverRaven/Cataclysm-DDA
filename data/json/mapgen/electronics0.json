@@ -1,0 +1,64 @@
+[
+    {
+        "type": "mapgen",
+        "om_terrain": [
+            "s_electronics"
+        ],
+        "method": "json",
+        "weight": 1000,
+        "object": {
+            "rows": [
+                "                        ",
+                "                        ",
+                "                        ",
+                "   -------::-+--:::---  ",
+                "   |{{{{{........#...|  ",
+                "   |{............#...|  ",
+                "   |{............#...|  ",
+                "   |{............###.|  ",
+                "   |{................|  ",
+                "   |{................:  ",
+                "   |{................:  ",
+                "   |{................:  ",
+                "   |{................|  ",
+                "   |{................|  ",
+                "   |{................:  ",
+                "   |#....{.....{....#:  ",
+                "   |#....{.....{....#:  ",
+                "   |#....{.....{....#|  ",
+                "   |#....{.....{....#|  ",
+                "   |#....{.....{....#|  ",
+                "   |#################|  ",
+                "   -------------------  ",
+                "                        ",
+                "                        "
+            ],
+            "terrain": {
+                ":": "t_window",
+                "|": "t_wall",
+                "-": "t_wall",
+                "+": "t_door_c",
+                "#": "t_floor",
+                "{": "t_floor",
+                ".": "t_floor",
+                " ": [ "t_grass", "t_grass", "t_grass", "t_dirt" ]
+            },
+            "furniture": {
+                "#": "f_counter",
+                "{": "f_rack"
+            },
+            "place_items": [
+                { "item": "consumer_electronics", "chance": 85, "x": [4,20], "y": 20, "repeat": [1,5] },
+                { "item": "consumer_electronics", "chance": 85, "x": 4, "y": [15,19], "repeat": [1,5] },
+                { "item": "consumer_electronics", "chance": 85, "x": 20, "y": [15,19], "repeat": [1,5] },
+                { "item": "consumer_electronics", "chance": 85, "x": 9, "y": [15,19], "repeat": [1,5] },
+                { "item": "consumer_electronics", "chance": 85, "x": 15, "y": [15,19], "repeat": [1,5] },
+                { "item": "consumer_electronics", "chance": 85, "x": 4, "y": [4,14], "repeat": [1,5] },
+                { "item": "consumer_electronics", "chance": 85, "x": [5,8], "y": 4, "repeat": [1,5] }
+            ],
+            "place_monsters": [
+                { "monster": "GROUP_ELECTRO", "chance": 2, "x": [0,0], "y": [23,23], "repeat": [2,3] }
+            ]
+        }
+    }
+]

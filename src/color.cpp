@@ -9,86 +9,169 @@
 #include "path_info.h"
 #include "mapsharing.h"
 #include "filesystem.h"
+#include "ui.h"
+#include "translations.h"
 #include <iostream>
 #include <fstream>
 
-#define HILIGHT COLOR_BLUE
-
-clColors &get_all_colors()
+color_manager &get_all_colors()
 {
-    static clColors single_instance;
+    static color_manager single_instance;
     return single_instance;
 }
 
-std::unordered_map<std::string, note_color> color_shortcuts;
+std::unordered_map<std::string, note_color> color_by_string_map;
 
-nc_color clColors::get(const std::string &sName)
+void color_manager::finalize()
 {
-    auto const iter = mapColors.find( sName );
+    static const std::array<std::string, NUM_HL> hilights = {{
+        "",
+        "red",
+        "white",
+        "green",
+        "yellow",
+        "magenta",
+        "cyan"
+    }};
 
-    if( iter == mapColors.end() ) {
-        return 0;
+    for( size_t i = 0; i < color_array.size(); i++ ) {
+        color_struct &entry = color_array[i];
+
+        entry.invert = get( entry.invert_id );
+
+        if( !entry.name_custom.empty() ) {
+            // Not using name_to_color because we want default color of this name
+            auto const id = name_to_id( entry.name_custom );
+            auto &other = color_array[id];
+            entry.custom = other.color;
+        }
+
+        if( !entry.name_invert_custom.empty() ) {
+            auto const id = name_to_id( entry.name_invert_custom );
+            auto &other = color_array[id];
+            entry.custom = other.color;
+        }
+
+        inverted_map[entry.color] = entry.col_id;
+        inverted_map[entry.invert] = entry.invert_id;
     }
 
-    auto &entry = iter->second;
-
-    return ( !entry.sCustom.empty() ) ? mapColors[entry.sCustom].color : entry.color;
+    // Highlights in a next run, to make sure custom colors are set
+    for( size_t i = 0; i < color_array.size(); i++ ) {
+        color_struct &entry = color_array[i];
+        const std::string my_name = get_name( entry.color );
+        for( size_t j = 0; j < NUM_HL; j++ ) {
+            entry.highlight[j] = highlight_from_names( my_name, hilights[j] );
+        }
+    }
 }
 
-std::string clColors::get(const nc_color color)
+nc_color color_manager::name_to_color( const std::string &name ) const
 {
-    for ( const auto& iter : mapColors ) {
-        if ( iter.second.color == color ) {
-            return iter.first;
-            break;
+    auto const id = name_to_id( name );
+    auto &entry = color_array[id];
+
+    return entry.custom > 0 ? entry.custom : entry.color;
+}
+
+color_id color_manager::name_to_id( const std::string &name ) const
+{
+    auto iter = name_map.find( name );
+    if( iter == name_map.end() ) {
+        return def_c_unset;
+    }
+
+    return iter->second;
+}
+
+std::string color_manager::id_to_name( const color_id id ) const
+{
+    for( const auto &pr : name_map ) {
+        if( pr.second == id ) {
+            return pr.first;
         }
     }
 
     return "c_unset";
 }
 
-nc_color clColors::get_invert(const nc_color color)
+color_id color_manager::color_to_id( const nc_color color ) const
 {
-    const std::string sName = all_colors.get(color);
+    auto iter = inverted_map.find( color );
+    if( iter != inverted_map.end() ) {
+        return iter->second;
+    }
 
-    auto const iter = mapColors.find( sName );
-    if( iter == mapColors.end() ) {
+    // Optimally this shouldn't happen, but allow for now
+    for( size_t i = 0; i < color_array.size(); i++ ) {
+        if( color_array[i].color == color ) {
+debugmsg( "Couldn't find color %d, but got id: %s", color, get_name( color ).c_str() );
+            return color_array[i].col_id;
+        }
+    }
+
+    debugmsg( "Couldn't find color %d", color );
+    return def_c_unset;
+}
+
+nc_color color_manager::get( const color_id col ) const
+{
+    if( col >= num_colors ) {
+        debugmsg( "Invalid color index: %d. Color array size: %d", col, color_array.size() );
         return 0;
     }
 
-    auto &entry = iter->second;
+    auto &entry = color_array[col];
 
-    if ( !entry.sInvertCustom.empty() ) {
-        return get(entry.sInvertCustom);
+    return entry.custom > 0 ? entry.custom : entry.color;
+}
+
+std::string color_manager::get_name(const nc_color color) const
+{
+    color_id id = color_to_id( color );
+    for ( const auto& iter : name_map ) {
+        if ( iter.second == id ) {
+            return iter.first;
+        }
     }
 
-    return get(entry.sInvert);
+    return "c_unset";
 }
 
-nc_color clColors::get_default(const std::string &sName)
+nc_color color_manager::get_invert( const nc_color col ) const
 {
-    auto const iter = mapColors.find( sName );
-    if( iter == mapColors.end() ) {
-        return 0;
-    }
+    const color_id id = color_to_id( col );
+    auto &entry = color_array[id];
 
-    return iter->second.color;
+    return entry.invert_custom > 0 ? entry.invert_custom : entry.invert;
 }
 
-nc_color clColors::get_random()
+nc_color color_manager::get_random() const
 {
-    auto item = mapColors.begin();
-    std::advance( item, rand() % mapColors.size() );
+    auto item = color_array.begin();
+    std::advance( item, rand() % num_colors );
 
-    return item->second.color;
+    return item->color;
 }
 
-void clColors::add_color(const std::string &sName, const nc_color color, const std::string &sInvert)
+void color_manager::add_color( const color_id col, const std::string &name,
+                               const nc_color color_pair, const color_id inv_id )
 {
-    mapColors[sName] = {color, "", sInvert, ""};
+    color_struct st = {color_pair, 0, 0, 0, {{0,0,0,0,0,0,0}}, col, inv_id, "", "" };
+    color_array[col] = st;
+    inverted_map[color_pair] = col;
+    name_map[name] = col;
 }
 
-nc_color clColors::get_highlight(const nc_color color, const std::string &bgColor)
+nc_color color_manager::get_highlight( const nc_color color, const hl_enum bg ) const
+{
+    const color_id id = color_to_id( color );
+    const color_struct &st = color_array[id];
+    const auto &hl = st.highlight;
+    return hl[bg];
+}
+
+nc_color color_manager::highlight_from_names( const std::string &name, const std::string &bg_name ) const
 {
     /*
     //             Base Name      Highlight      Red BG              White BG            Green BG            Yellow BG
@@ -97,186 +180,174 @@ nc_color clColors::get_highlight(const nc_color color, const std::string &bgColo
     etc.
     */
 
-    std::string sName = "";
+    std::string hi_name;
 
-    for ( const auto& iter : mapColors ) {
-        if ( iter.second.color == color ) { //c_black -> c_black_<bgColor>
-            sName = iter.first + (( !bgColor.empty() ) ? "_" + bgColor : (std::string)"");
-            break;
-        }
+    if( bg_name.empty() ) {  //c_black -> h_black
+        hi_name = "h_" + name.substr(2, name.length() - 2);
+    } else {
+        hi_name = name + "_" + bg_name;
     }
 
-    if ( sName.empty() ) {
-        return 0;
-    }
-
-    if ( bgColor.empty() ) {  //c_black -> h_black
-        sName = "h_" + sName.substr(2, sName.length() - 2);
-    }
-
-    if ( mapColors[sName].color == 0 ) {
-        return 0;
-    }
-
-    return get(sName);
+    color_id id = name_to_id( hi_name );
+    return color_array[id].color;
 }
 
-void clColors::load_default()
+void color_manager::load_default()
 {
-    //        Color Name             Color Pair                  Invert Name
-    add_color("c_black",             COLOR_PAIR(30),             "i_black");
-    add_color("c_white",             COLOR_PAIR(1) | A_BOLD,     "i_white");
-    add_color("c_ltgray",            COLOR_PAIR(1),              "i_ltgray");
-    add_color("c_dkgray",            COLOR_PAIR(30) | A_BOLD,    "i_dkgray");
-    add_color("c_red",               COLOR_PAIR(2),              "i_red");
-    add_color("c_green",             COLOR_PAIR(3),              "i_green");
-    add_color("c_blue",              COLOR_PAIR(4),              "i_blue");
-    add_color("c_cyan",              COLOR_PAIR(5),              "i_cyan");
-    add_color("c_magenta",           COLOR_PAIR(6),              "i_magenta");
-    add_color("c_brown",             COLOR_PAIR(7),              "i_brown");
-    add_color("c_ltred",             COLOR_PAIR(2) | A_BOLD,     "i_ltred");
-    add_color("c_ltgreen",           COLOR_PAIR(3) | A_BOLD,     "i_ltgreen");
-    add_color("c_ltblue",            COLOR_PAIR(4) | A_BOLD,     "i_ltblue");
-    add_color("c_ltcyan",            COLOR_PAIR(5) | A_BOLD,     "i_ltcyan");
-    add_color("c_pink",              COLOR_PAIR(6) | A_BOLD,     "i_pink");
-    add_color("c_yellow",            COLOR_PAIR(7) | A_BOLD,     "i_yellow");
+    //        Color         Name      Color Pair      Invert
+    add_color(def_c_black, "c_black", COLOR_PAIR(30), def_i_black );
+    add_color(def_c_white, "c_white", COLOR_PAIR(1) | A_BOLD, def_i_white );
+    add_color(def_c_ltgray, "c_ltgray", COLOR_PAIR(1), def_i_ltgray );
+    add_color(def_c_dkgray, "c_dkgray", COLOR_PAIR(30) | A_BOLD, def_i_dkgray );
+    add_color(def_c_red, "c_red", COLOR_PAIR(2), def_i_red );
+    add_color(def_c_green, "c_green", COLOR_PAIR(3), def_i_green );
+    add_color(def_c_blue, "c_blue", COLOR_PAIR(4), def_i_blue );
+    add_color(def_c_cyan, "c_cyan", COLOR_PAIR(5), def_i_cyan );
+    add_color(def_c_magenta, "c_magenta", COLOR_PAIR(6), def_i_magenta );
+    add_color(def_c_brown, "c_brown", COLOR_PAIR(7), def_i_brown );
+    add_color(def_c_ltred, "c_ltred", COLOR_PAIR(2) | A_BOLD, def_i_ltred );
+    add_color(def_c_ltgreen, "c_ltgreen", COLOR_PAIR(3) | A_BOLD, def_i_ltgreen );
+    add_color(def_c_ltblue, "c_ltblue", COLOR_PAIR(4) | A_BOLD, def_i_ltblue );
+    add_color(def_c_ltcyan, "c_ltcyan", COLOR_PAIR(5) | A_BOLD, def_i_ltcyan );
+    add_color(def_c_pink, "c_pink", COLOR_PAIR(6) | A_BOLD, def_i_pink );
+    add_color(def_c_yellow, "c_yellow", COLOR_PAIR(7) | A_BOLD, def_i_yellow );
 
-    add_color("h_black",             COLOR_PAIR(20),             "c_blue");
-    add_color("h_white",             COLOR_PAIR(15) | A_BOLD,    "c_ltblue_white");
-    add_color("h_ltgray",            COLOR_PAIR(15),             "c_blue_white");
-    add_color("h_dkgray",            COLOR_PAIR(20) | A_BOLD,    "c_ltblue");
-    add_color("h_red",               COLOR_PAIR(16),             "c_blue_red");
-    add_color("h_green",             COLOR_PAIR(17),             "c_blue_green");
-    add_color("h_blue",              COLOR_PAIR(20),             "h_blue");
-    add_color("h_cyan",              COLOR_PAIR(19),             "c_blue_cyan");
-    add_color("h_magenta",           COLOR_PAIR(21),             "c_blue_magenta");
-    add_color("h_brown",             COLOR_PAIR(22),             "c_blue_yellow");
-    add_color("h_ltred",             COLOR_PAIR(16) | A_BOLD,    "c_ltblue_red");
-    add_color("h_ltgreen",           COLOR_PAIR(17) | A_BOLD,    "c_ltblue_green");
-    add_color("h_ltblue",            COLOR_PAIR(18) | A_BOLD,    "h_ltblue");
-    add_color("h_ltcyan",            COLOR_PAIR(19) | A_BOLD,    "c_ltblue_cyan");
-    add_color("h_pink",              COLOR_PAIR(21) | A_BOLD,    "c_ltblue_magenta");
-    add_color("h_yellow",            COLOR_PAIR(22) | A_BOLD,    "c_ltblue_yellow");
+    add_color(def_h_black, "h_black", COLOR_PAIR(20), def_c_blue );
+    add_color(def_h_white, "h_white", COLOR_PAIR(15) | A_BOLD, def_c_ltblue_white );
+    add_color(def_h_ltgray, "h_ltgray", COLOR_PAIR(15), def_c_blue_white );
+    add_color(def_h_dkgray, "h_dkgray", COLOR_PAIR(20) | A_BOLD, def_c_ltblue );
+    add_color(def_h_red, "h_red", COLOR_PAIR(16), def_c_blue_red );
+    add_color(def_h_green, "h_green", COLOR_PAIR(17), def_c_blue_green );
+    add_color(def_h_blue, "h_blue", COLOR_PAIR(20), def_h_blue );
+    add_color(def_h_cyan, "h_cyan", COLOR_PAIR(19), def_c_blue_cyan );
+    add_color(def_h_magenta, "h_magenta", COLOR_PAIR(21), def_c_blue_magenta );
+    add_color(def_h_brown, "h_brown", COLOR_PAIR(22), def_c_blue_yellow );
+    add_color(def_h_ltred, "h_ltred", COLOR_PAIR(16) | A_BOLD, def_c_ltblue_red );
+    add_color(def_h_ltgreen, "h_ltgreen", COLOR_PAIR(17) | A_BOLD, def_c_ltblue_green );
+    add_color(def_h_ltblue, "h_ltblue", COLOR_PAIR(18) | A_BOLD, def_h_ltblue );
+    add_color(def_h_ltcyan, "h_ltcyan", COLOR_PAIR(19) | A_BOLD, def_c_ltblue_cyan );
+    add_color(def_h_pink, "h_pink", COLOR_PAIR(21) | A_BOLD, def_c_ltblue_magenta );
+    add_color(def_h_yellow, "h_yellow", COLOR_PAIR(22) | A_BOLD, def_c_ltblue_yellow );
 
-    add_color("i_black",             COLOR_PAIR(32),             "c_black");
-    add_color("i_white",             COLOR_PAIR(8) | A_BLINK,    "c_white");
-    add_color("i_ltgray",            COLOR_PAIR(8),              "c_ltgray");
-    add_color("i_dkgray",            COLOR_PAIR(32) | A_BLINK,   "c_dkgray");
-    add_color("i_red",               COLOR_PAIR(9),              "c_red");
-    add_color("i_green",             COLOR_PAIR(10),             "c_green");
-    add_color("i_blue",              COLOR_PAIR(11),             "c_blue");
-    add_color("i_cyan",              COLOR_PAIR(12),             "c_cyan");
-    add_color("i_magenta",           COLOR_PAIR(13),             "c_magenta");
-    add_color("i_brown",             COLOR_PAIR(14),             "c_brown");
-    add_color("i_ltred",             COLOR_PAIR(9) | A_BLINK,    "c_ltred");
-    add_color("i_ltgreen",           COLOR_PAIR(10) | A_BLINK,   "c_ltgreen");
-    add_color("i_ltblue",            COLOR_PAIR(11) | A_BLINK,   "c_ltblue");
-    add_color("i_ltcyan",            COLOR_PAIR(12) | A_BLINK,   "c_ltcyan");
-    add_color("i_pink",              COLOR_PAIR(13) | A_BLINK,   "c_pink");
-    add_color("i_yellow",            COLOR_PAIR(14) | A_BLINK,   "c_yellow");
+    add_color(def_i_black, "i_black", COLOR_PAIR(32), def_c_black );
+    add_color(def_i_white, "i_white", COLOR_PAIR(8) | A_BLINK, def_c_white );
+    add_color(def_i_ltgray, "i_ltgray", COLOR_PAIR(8), def_c_ltgray );
+    add_color(def_i_dkgray, "i_dkgray", COLOR_PAIR(32) | A_BLINK, def_c_dkgray );
+    add_color(def_i_red, "i_red", COLOR_PAIR(9), def_c_red );
+    add_color(def_i_green, "i_green", COLOR_PAIR(10), def_c_green );
+    add_color(def_i_blue, "i_blue", COLOR_PAIR(11), def_c_blue );
+    add_color(def_i_cyan, "i_cyan", COLOR_PAIR(12), def_c_cyan );
+    add_color(def_i_magenta, "i_magenta", COLOR_PAIR(13), def_c_magenta );
+    add_color(def_i_brown, "i_brown", COLOR_PAIR(14), def_c_brown );
+    add_color(def_i_ltred, "i_ltred", COLOR_PAIR(9) | A_BLINK, def_c_ltred );
+    add_color(def_i_ltgreen, "i_ltgreen", COLOR_PAIR(10) | A_BLINK, def_c_ltgreen );
+    add_color(def_i_ltblue, "i_ltblue", COLOR_PAIR(11) | A_BLINK, def_c_ltblue );
+    add_color(def_i_ltcyan, "i_ltcyan", COLOR_PAIR(12) | A_BLINK, def_c_ltcyan );
+    add_color(def_i_pink, "i_pink", COLOR_PAIR(13) | A_BLINK, def_c_pink );
+    add_color(def_i_yellow, "i_yellow", COLOR_PAIR(14) | A_BLINK, def_c_yellow );
 
-    add_color("c_white_red",         COLOR_PAIR(23) | A_BOLD,    "c_red_white");
-    add_color("c_ltgray_red",        COLOR_PAIR(23),             "c_ltred_white");
-    add_color("c_dkgray_red",        COLOR_PAIR(9),              "c_dkgray_red");
-    add_color("c_red_red",           COLOR_PAIR(9),              "c_red_red");
-    add_color("c_green_red",         COLOR_PAIR(25),             "c_red_green");
-    add_color("c_blue_red",          COLOR_PAIR(26),             "h_red");
-    add_color("c_cyan_red",          COLOR_PAIR(27),             "c_red_cyan");
-    add_color("c_magenta_red",       COLOR_PAIR(28),             "c_red_magenta");
-    add_color("c_brown_red",         COLOR_PAIR(29),             "c_red_yellow");
-    add_color("c_ltred_red",         COLOR_PAIR(24) | A_BOLD,    "c_red_red");
-    add_color("c_ltgreen_red",       COLOR_PAIR(25) | A_BOLD,    "c_ltred_green");
-    add_color("c_ltblue_red",        COLOR_PAIR(26) | A_BOLD,    "h_ltred");
-    add_color("c_ltcyan_red",        COLOR_PAIR(27) | A_BOLD,    "c_ltred_cyan");
-    add_color("c_pink_red",          COLOR_PAIR(28) | A_BOLD,    "c_ltred_magenta");
-    add_color("c_yellow_red",        COLOR_PAIR(29) | A_BOLD,    "c_red_yellow");
+    add_color(def_c_white_red, "c_white_red", COLOR_PAIR(23) | A_BOLD, def_c_red_white );
+    add_color(def_c_ltgray_red, "c_ltgray_red", COLOR_PAIR(23), def_c_ltred_white );
+    add_color(def_c_dkgray_red, "c_dkgray_red", COLOR_PAIR(9), def_c_dkgray_red );
+    add_color(def_c_red_red, "c_red_red", COLOR_PAIR(9), def_c_red_red );
+    add_color(def_c_green_red, "c_green_red", COLOR_PAIR(25), def_c_red_green );
+    add_color(def_c_blue_red, "c_blue_red", COLOR_PAIR(26), def_h_red );
+    add_color(def_c_cyan_red, "c_cyan_red", COLOR_PAIR(27), def_c_red_cyan );
+    add_color(def_c_magenta_red, "c_magenta_red", COLOR_PAIR(28), def_c_red_magenta );
+    add_color(def_c_brown_red, "c_brown_red", COLOR_PAIR(29), def_c_red_yellow );
+    add_color(def_c_ltred_red, "c_ltred_red", COLOR_PAIR(24) | A_BOLD, def_c_red_red );
+    add_color(def_c_ltgreen_red, "c_ltgreen_red", COLOR_PAIR(25) | A_BOLD, def_c_ltred_green );
+    add_color(def_c_ltblue_red, "c_ltblue_red", COLOR_PAIR(26) | A_BOLD, def_h_ltred );
+    add_color(def_c_ltcyan_red, "c_ltcyan_red", COLOR_PAIR(27) | A_BOLD, def_c_ltred_cyan );
+    add_color(def_c_pink_red, "c_pink_red", COLOR_PAIR(28) | A_BOLD, def_c_ltred_magenta );
+    add_color(def_c_yellow_red, "c_yellow_red", COLOR_PAIR(29) | A_BOLD, def_c_red_yellow );
 
-    add_color("c_unset",             COLOR_PAIR(31),             "c_unset");
+    add_color(def_c_unset, "c_unset", COLOR_PAIR(31), def_c_unset );
 
-    add_color("c_black_white",       COLOR_PAIR(32),             "c_ltgray");
-    add_color("c_dkgray_white",      COLOR_PAIR(32) | A_BOLD,    "c_white");
-    add_color("c_ltgray_white",      COLOR_PAIR(33),             "c_ltgray_white");
-    add_color("c_white_white",       COLOR_PAIR(33) | A_BOLD,    "c_white_white");
-    add_color("c_red_white",         COLOR_PAIR(34),             "c_white_red");
-    add_color("c_ltred_white",       COLOR_PAIR(34) | A_BOLD,    "c_ltgray_red");
-    add_color("c_green_white",       COLOR_PAIR(35),             "c_ltgray_green");
-    add_color("c_ltgreen_white",     COLOR_PAIR(35) | A_BOLD,    "c_white_green");
-    add_color("c_brown_white",       COLOR_PAIR(36),             "c_ltgray_yellow");
-    add_color("c_yellow_white",      COLOR_PAIR(36) | A_BOLD,    "c_white_yellow");
-    add_color("c_blue_white",        COLOR_PAIR(37),             "h_ltgray");
-    add_color("c_ltblue_white",      COLOR_PAIR(37) | A_BOLD,    "h_white");
-    add_color("c_magenta_white",     COLOR_PAIR(38),             "c_ltgray_magenta");
-    add_color("c_pink_white",        COLOR_PAIR(38) | A_BOLD,    "c_white_magenta");
-    add_color("c_cyan_white",        COLOR_PAIR(39),             "c_ltgray_cyan");
-    add_color("c_ltcyan_white",      COLOR_PAIR(39) | A_BOLD,    "c_white_cyan");
+    add_color(def_c_black_white, "c_black_white", COLOR_PAIR(32), def_c_ltgray );
+    add_color(def_c_dkgray_white, "c_dkgray_white", COLOR_PAIR(32) | A_BOLD, def_c_white );
+    add_color(def_c_ltgray_white, "c_ltgray_white", COLOR_PAIR(33), def_c_ltgray_white );
+    add_color(def_c_white_white, "c_white_white", COLOR_PAIR(33) | A_BOLD, def_c_white_white );
+    add_color(def_c_red_white, "c_red_white", COLOR_PAIR(34), def_c_white_red );
+    add_color(def_c_ltred_white, "c_ltred_white", COLOR_PAIR(34) | A_BOLD, def_c_ltgray_red );
+    add_color(def_c_green_white, "c_green_white", COLOR_PAIR(35), def_c_ltgray_green );
+    add_color(def_c_ltgreen_white, "c_ltgreen_white", COLOR_PAIR(35) | A_BOLD, def_c_white_green );
+    add_color(def_c_brown_white, "c_brown_white", COLOR_PAIR(36), def_c_ltgray_yellow );
+    add_color(def_c_yellow_white, "c_yellow_white", COLOR_PAIR(36) | A_BOLD, def_c_white_yellow );
+    add_color(def_c_blue_white, "c_blue_white", COLOR_PAIR(37), def_h_ltgray );
+    add_color(def_c_ltblue_white, "c_ltblue_white", COLOR_PAIR(37) | A_BOLD, def_h_white );
+    add_color(def_c_magenta_white, "c_magenta_white", COLOR_PAIR(38), def_c_ltgray_magenta );
+    add_color(def_c_pink_white, "c_pink_white", COLOR_PAIR(38) | A_BOLD, def_c_white_magenta );
+    add_color(def_c_cyan_white, "c_cyan_white", COLOR_PAIR(39), def_c_ltgray_cyan );
+    add_color(def_c_ltcyan_white, "c_ltcyan_white", COLOR_PAIR(39) | A_BOLD, def_c_white_cyan );
 
-    add_color("c_black_green",       COLOR_PAIR(40),             "c_green");
-    add_color("c_dkgray_green",      COLOR_PAIR(40) | A_BOLD,    "c_ltgreen");
-    add_color("c_ltgray_green",      COLOR_PAIR(41),             "c_green_white");
-    add_color("c_white_green",       COLOR_PAIR(41) | A_BOLD,    "c_ltgreen_white");
-    add_color("c_red_green",         COLOR_PAIR(42),             "c_green_red");
-    add_color("c_ltred_green",       COLOR_PAIR(42) | A_BOLD,    "c_ltgreen_red");
-    add_color("c_green_green",       COLOR_PAIR(43),             "c_green_green");
-    add_color("c_ltgreen_green",     COLOR_PAIR(43) | A_BOLD,    "c_ltgreen_green");
-    add_color("c_brown_green",       COLOR_PAIR(44),             "c_green_yellow");
-    add_color("c_yellow_green",      COLOR_PAIR(44) | A_BOLD,    "c_ltgreen_yellow");
-    add_color("c_blue_green",        COLOR_PAIR(45),             "h_green");
-    add_color("c_ltblue_green",      COLOR_PAIR(45) | A_BOLD,    "h_ltgreen");
-    add_color("c_magenta_green",     COLOR_PAIR(46),             "c_green_magenta");
-    add_color("c_pink_green",        COLOR_PAIR(46) | A_BOLD,    "c_ltgreen_magenta");
-    add_color("c_cyan_green",        COLOR_PAIR(47),             "c_green_cyan");
-    add_color("c_ltcyan_green",      COLOR_PAIR(47) | A_BOLD,    "c_ltgreen_cyan");
+    add_color(def_c_black_green, "c_black_green", COLOR_PAIR(40), def_c_green );
+    add_color(def_c_dkgray_green, "c_dkgray_green", COLOR_PAIR(40) | A_BOLD, def_c_ltgreen );
+    add_color(def_c_ltgray_green, "c_ltgray_green", COLOR_PAIR(41), def_c_green_white );
+    add_color(def_c_white_green, "c_white_green", COLOR_PAIR(41) | A_BOLD, def_c_ltgreen_white );
+    add_color(def_c_red_green, "c_red_green", COLOR_PAIR(42), def_c_green_red );
+    add_color(def_c_ltred_green, "c_ltred_green", COLOR_PAIR(42) | A_BOLD, def_c_ltgreen_red );
+    add_color(def_c_green_green, "c_green_green", COLOR_PAIR(43), def_c_green_green );
+    add_color(def_c_ltgreen_green, "c_ltgreen_green", COLOR_PAIR(43) | A_BOLD, def_c_ltgreen_green );
+    add_color(def_c_brown_green, "c_brown_green", COLOR_PAIR(44), def_c_green_yellow );
+    add_color(def_c_yellow_green, "c_yellow_green", COLOR_PAIR(44) | A_BOLD, def_c_ltgreen_yellow );
+    add_color(def_c_blue_green, "c_blue_green", COLOR_PAIR(45), def_h_green );
+    add_color(def_c_ltblue_green, "c_ltblue_green", COLOR_PAIR(45) | A_BOLD, def_h_ltgreen );
+    add_color(def_c_magenta_green, "c_magenta_green", COLOR_PAIR(46), def_c_green_magenta );
+    add_color(def_c_pink_green, "c_pink_green", COLOR_PAIR(46) | A_BOLD, def_c_ltgreen_magenta );
+    add_color(def_c_cyan_green, "c_cyan_green", COLOR_PAIR(47), def_c_green_cyan );
+    add_color(def_c_ltcyan_green, "c_ltcyan_green", COLOR_PAIR(47) | A_BOLD, def_c_ltgreen_cyan );
 
-    add_color("c_black_yellow",      COLOR_PAIR(48),             "c_brown");
-    add_color("c_dkgray_yellow",     COLOR_PAIR(48) | A_BOLD,    "c_yellow");
-    add_color("c_ltgray_yellow",     COLOR_PAIR(49),             "c_brown_white");
-    add_color("c_white_yellow",      COLOR_PAIR(49) | A_BOLD,    "c_yellow_white");
-    add_color("c_red_yellow",        COLOR_PAIR(50),             "c_yellow_red");
-    add_color("c_ltred_yellow",      COLOR_PAIR(50) | A_BOLD,    "c_yellow_red");
-    add_color("c_green_yellow",      COLOR_PAIR(51),             "c_brown_green");
-    add_color("c_ltgreen_yellow",    COLOR_PAIR(51) | A_BOLD,    "c_yellow_green");
-    add_color("c_brown_yellow",      COLOR_PAIR(52),             "c_brown_yellow");
-    add_color("c_yellow_yellow",     COLOR_PAIR(52) | A_BOLD,    "c_yellow_yellow");
-    add_color("c_blue_yellow",       COLOR_PAIR(53),             "h_brown");
-    add_color("c_ltblue_yellow",     COLOR_PAIR(53) | A_BOLD,    "h_yellow");
-    add_color("c_magenta_yellow",    COLOR_PAIR(54),             "c_brown_magenta");
-    add_color("c_pink_yellow",       COLOR_PAIR(54) | A_BOLD,    "c_yellow_magenta");
-    add_color("c_cyan_yellow",       COLOR_PAIR(55),             "c_brown_cyan");
-    add_color("c_ltcyan_yellow",     COLOR_PAIR(55) | A_BOLD,    "c_yellow_cyan");
+    add_color(def_c_black_yellow, "c_black_yellow", COLOR_PAIR(48), def_c_brown );
+    add_color(def_c_dkgray_yellow, "c_dkgray_yellow", COLOR_PAIR(48) | A_BOLD, def_c_yellow );
+    add_color(def_c_ltgray_yellow, "c_ltgray_yellow", COLOR_PAIR(49), def_c_brown_white );
+    add_color(def_c_white_yellow, "c_white_yellow", COLOR_PAIR(49) | A_BOLD, def_c_yellow_white );
+    add_color(def_c_red_yellow, "c_red_yellow", COLOR_PAIR(50), def_c_yellow_red );
+    add_color(def_c_ltred_yellow, "c_ltred_yellow", COLOR_PAIR(50) | A_BOLD, def_c_yellow_red );
+    add_color(def_c_green_yellow, "c_green_yellow", COLOR_PAIR(51), def_c_brown_green );
+    add_color(def_c_ltgreen_yellow, "c_ltgreen_yellow", COLOR_PAIR(51) | A_BOLD, def_c_yellow_green );
+    add_color(def_c_brown_yellow, "c_brown_yellow", COLOR_PAIR(52), def_c_brown_yellow );
+    add_color(def_c_yellow_yellow, "c_yellow_yellow", COLOR_PAIR(52) | A_BOLD, def_c_yellow_yellow );
+    add_color(def_c_blue_yellow, "c_blue_yellow", COLOR_PAIR(53), def_h_brown );
+    add_color(def_c_ltblue_yellow, "c_ltblue_yellow", COLOR_PAIR(53) | A_BOLD, def_h_yellow );
+    add_color(def_c_magenta_yellow, "c_magenta_yellow", COLOR_PAIR(54), def_c_brown_magenta );
+    add_color(def_c_pink_yellow, "c_pink_yellow", COLOR_PAIR(54) | A_BOLD, def_c_yellow_magenta );
+    add_color(def_c_cyan_yellow, "c_cyan_yellow", COLOR_PAIR(55), def_c_brown_cyan );
+    add_color(def_c_ltcyan_yellow, "c_ltcyan_yellow", COLOR_PAIR(55) | A_BOLD, def_c_yellow_cyan );
 
-    add_color("c_black_magenta",     COLOR_PAIR(56),             "c_magenta");
-    add_color("c_dkgray_magenta",    COLOR_PAIR(56) | A_BOLD,    "c_pink");
-    add_color("c_ltgray_magenta",    COLOR_PAIR(57),             "c_magenta_white");
-    add_color("c_white_magenta",     COLOR_PAIR(57) | A_BOLD,    "c_pink_white");
-    add_color("c_red_magenta",       COLOR_PAIR(58),             "c_magenta_red");
-    add_color("c_ltred_magenta",     COLOR_PAIR(58) | A_BOLD,    "c_pink_red");
-    add_color("c_green_magenta",     COLOR_PAIR(59),             "c_magenta_green");
-    add_color("c_ltgreen_magenta",   COLOR_PAIR(59) | A_BOLD,    "c_pink_green");
-    add_color("c_brown_magenta",     COLOR_PAIR(60),             "c_magenta_yellow");
-    add_color("c_yellow_magenta",    COLOR_PAIR(60) | A_BOLD,    "c_pink_yellow");
-    add_color("c_blue_magenta",      COLOR_PAIR(61),             "h_magenta");
-    add_color("c_ltblue_magenta",    COLOR_PAIR(61) | A_BOLD,    "h_pink");
-    add_color("c_magenta_magenta",   COLOR_PAIR(62),             "c_magenta_magenta");
-    add_color("c_pink_magenta",      COLOR_PAIR(62) | A_BOLD,    "c_pink_magenta");
-    add_color("c_cyan_magenta",      COLOR_PAIR(63),             "c_magenta_cyan");
-    add_color("c_ltcyan_magenta",    COLOR_PAIR(63) | A_BOLD,    "c_pink_cyan");
+    add_color(def_c_black_magenta, "c_black_magenta", COLOR_PAIR(56), def_c_magenta );
+    add_color(def_c_dkgray_magenta, "c_dkgray_magenta", COLOR_PAIR(56) | A_BOLD, def_c_pink );
+    add_color(def_c_ltgray_magenta, "c_ltgray_magenta", COLOR_PAIR(57), def_c_magenta_white );
+    add_color(def_c_white_magenta, "c_white_magenta", COLOR_PAIR(57) | A_BOLD, def_c_pink_white );
+    add_color(def_c_red_magenta, "c_red_magenta", COLOR_PAIR(58), def_c_magenta_red );
+    add_color(def_c_ltred_magenta, "c_ltred_magenta", COLOR_PAIR(58) | A_BOLD, def_c_pink_red );
+    add_color(def_c_green_magenta, "c_green_magenta", COLOR_PAIR(59), def_c_magenta_green );
+    add_color(def_c_ltgreen_magenta, "c_ltgreen_magenta", COLOR_PAIR(59) | A_BOLD, def_c_pink_green );
+    add_color(def_c_brown_magenta, "c_brown_magenta", COLOR_PAIR(60), def_c_magenta_yellow );
+    add_color(def_c_yellow_magenta, "c_yellow_magenta", COLOR_PAIR(60) | A_BOLD, def_c_pink_yellow );
+    add_color(def_c_blue_magenta, "c_blue_magenta", COLOR_PAIR(61), def_h_magenta );
+    add_color(def_c_ltblue_magenta, "c_ltblue_magenta", COLOR_PAIR(61) | A_BOLD, def_h_pink );
+    add_color(def_c_magenta_magenta, "c_magenta_magenta", COLOR_PAIR(62), def_c_magenta_magenta );
+    add_color(def_c_pink_magenta, "c_pink_magenta", COLOR_PAIR(62) | A_BOLD, def_c_pink_magenta );
+    add_color(def_c_cyan_magenta, "c_cyan_magenta", COLOR_PAIR(63), def_c_magenta_cyan );
+    add_color(def_c_ltcyan_magenta, "c_ltcyan_magenta", COLOR_PAIR(63) | A_BOLD, def_c_pink_cyan );
 
-    add_color("c_black_cyan",        COLOR_PAIR(64),             "c_cyan");
-    add_color("c_dkgray_cyan",       COLOR_PAIR(64) | A_BOLD,    "c_ltcyan");
-    add_color("c_ltgray_cyan",       COLOR_PAIR(65),             "c_cyan_white");
-    add_color("c_white_cyan",        COLOR_PAIR(65) | A_BOLD,    "c_ltcyan_white");
-    add_color("c_red_cyan",          COLOR_PAIR(66),             "c_cyan_red");
-    add_color("c_ltred_cyan",        COLOR_PAIR(66) | A_BOLD,    "c_ltcyan_red");
-    add_color("c_green_cyan",        COLOR_PAIR(67),             "c_cyan_green");
-    add_color("c_ltgreen_cyan",      COLOR_PAIR(67) | A_BOLD,    "c_ltcyan_green");
-    add_color("c_brown_cyan",        COLOR_PAIR(68),             "c_cyan_yellow");
-    add_color("c_yellow_cyan",       COLOR_PAIR(68) | A_BOLD,    "c_ltcyan_yellow");
-    add_color("c_blue_cyan",         COLOR_PAIR(69),             "h_cyan");
-    add_color("c_ltblue_cyan",       COLOR_PAIR(69) | A_BOLD,    "h_ltcyan");
-    add_color("c_magenta_cyan",      COLOR_PAIR(70),             "c_cyan_magenta");
-    add_color("c_pink_cyan",         COLOR_PAIR(70) | A_BOLD,    "c_ltcyan_magenta");
-    add_color("c_cyan_cyan",         COLOR_PAIR(71),             "c_cyan_cyan");
-    add_color("c_ltcyan_cyan",       COLOR_PAIR(71) | A_BOLD,    "c_ltcyan_cyan");
+    add_color(def_c_black_cyan, "c_black_cyan", COLOR_PAIR(64), def_c_cyan );
+    add_color(def_c_dkgray_cyan, "c_dkgray_cyan", COLOR_PAIR(64) | A_BOLD, def_c_ltcyan );
+    add_color(def_c_ltgray_cyan, "c_ltgray_cyan", COLOR_PAIR(65), def_c_cyan_white );
+    add_color(def_c_white_cyan, "c_white_cyan", COLOR_PAIR(65) | A_BOLD, def_c_ltcyan_white );
+    add_color(def_c_red_cyan, "c_red_cyan", COLOR_PAIR(66), def_c_cyan_red );
+    add_color(def_c_ltred_cyan, "c_ltred_cyan", COLOR_PAIR(66) | A_BOLD, def_c_ltcyan_red );
+    add_color(def_c_green_cyan, "c_green_cyan", COLOR_PAIR(67), def_c_cyan_green );
+    add_color(def_c_ltgreen_cyan, "c_ltgreen_cyan", COLOR_PAIR(67) | A_BOLD, def_c_ltcyan_green );
+    add_color(def_c_brown_cyan, "c_brown_cyan", COLOR_PAIR(68), def_c_cyan_yellow );
+    add_color(def_c_yellow_cyan, "c_yellow_cyan", COLOR_PAIR(68) | A_BOLD, def_c_ltcyan_yellow );
+    add_color(def_c_blue_cyan, "c_blue_cyan", COLOR_PAIR(69), def_h_cyan );
+    add_color(def_c_ltblue_cyan, "c_ltblue_cyan", COLOR_PAIR(69) | A_BOLD, def_h_ltcyan );
+    add_color(def_c_magenta_cyan, "c_magenta_cyan", COLOR_PAIR(70), def_c_cyan_magenta );
+    add_color(def_c_pink_cyan, "c_pink_cyan", COLOR_PAIR(70) | A_BOLD, def_c_ltcyan_magenta );
+    add_color(def_c_cyan_cyan, "c_cyan_cyan", COLOR_PAIR(71), def_c_cyan_cyan );
+    add_color(def_c_ltcyan_cyan, "c_ltcyan_cyan", COLOR_PAIR(71) | A_BOLD, def_c_ltcyan_cyan );
 }
 
 void init_colors()
@@ -301,14 +372,14 @@ void init_colors()
     init_pair(14, COLOR_BLACK,      COLOR_YELLOW );
 
     // Highlighted - blue background
-    init_pair(15, COLOR_WHITE,      HILIGHT);
-    init_pair(16, COLOR_RED,        HILIGHT);
-    init_pair(17, COLOR_GREEN,      HILIGHT);
-    init_pair(18, COLOR_BLUE,       HILIGHT);
-    init_pair(19, COLOR_CYAN,       HILIGHT);
-    init_pair(20, COLOR_BLACK,      HILIGHT);
-    init_pair(21, COLOR_MAGENTA,    HILIGHT);
-    init_pair(22, COLOR_YELLOW,     HILIGHT);
+    init_pair(15, COLOR_WHITE,      COLOR_BLUE);
+    init_pair(16, COLOR_RED,        COLOR_BLUE);
+    init_pair(17, COLOR_GREEN,      COLOR_BLUE);
+    init_pair(18, COLOR_BLUE,       COLOR_BLUE);
+    init_pair(19, COLOR_CYAN,       COLOR_BLUE);
+    init_pair(20, COLOR_BLACK,      COLOR_BLUE);
+    init_pair(21, COLOR_MAGENTA,    COLOR_BLUE);
+    init_pair(22, COLOR_YELLOW,     COLOR_BLUE);
 
     // Red background - for monsters on fire
     init_pair(23, COLOR_WHITE,      COLOR_RED);
@@ -371,7 +442,7 @@ void init_colors()
     all_colors.load_custom();
 
     // The color codes are intentionally untranslatable.
-    color_shortcuts = {
+    color_by_string_map = {
         {"br", {c_brown, _("brown")}}, {"lg", {c_ltgray, _("lt gray")}},
         {"dg", {c_dkgray, _("dk gray")}}, {"r", {c_ltred, _("lt red")}},
         {"R", {c_red, _("red")}}, {"g", {c_ltgreen, _("lt green")}},
@@ -382,51 +453,51 @@ void init_colors()
     };
 }
 
-nc_color hilite(nc_color c)
-{
-    const nc_color color = all_colors.get_highlight(c);
-    return ((int)color > 0) ? color : h_white;
-}
-
 nc_color invert_color(nc_color c)
 {
-    const nc_color color = all_colors.get_invert(c);
+    const nc_color color = all_colors.get_invert( c );
     return ((int)color > 0) ? color : c_pink;
+}
+
+nc_color hilite(nc_color c)
+{
+    const nc_color color = all_colors.get_highlight(c, HL_BLUE);
+    return ((int)color > 0) ? color : h_white;
 }
 
 nc_color red_background(nc_color c)
 {
-    const nc_color color = all_colors.get_highlight(c, "red");
+    const nc_color color = all_colors.get_highlight(c, HL_RED);
     return ((int)color > 0) ? color : c_white_red;
 }
 
 nc_color white_background(nc_color c)
 {
-    const nc_color color = all_colors.get_highlight(c, "white");
+    const nc_color color = all_colors.get_highlight(c, HL_WHITE);
     return ((int)color > 0) ? color : c_black_white;
 }
 
 nc_color green_background(nc_color c)
 {
-    const nc_color color = all_colors.get_highlight(c, "green");
+    const nc_color color = all_colors.get_highlight(c, HL_GREEN);
     return ((int)color > 0) ? color : c_black_green;
 }
 
 nc_color yellow_background(nc_color c)
 {
-    const nc_color color = all_colors.get_highlight(c, "yellow");
+    const nc_color color = all_colors.get_highlight(c, HL_YELLOW);
     return ((int)color > 0) ? color : c_black_yellow;
 }
 
 nc_color magenta_background(nc_color c)
 {
-    const nc_color color = all_colors.get_highlight(c, "magenta");
+    const nc_color color = all_colors.get_highlight(c, HL_MAGENTA);
     return ((int)color > 0) ? color : c_black_magenta;
 }
 
 nc_color cyan_background(nc_color c)
 {
-    const nc_color color = all_colors.get_highlight(c, "cyan");
+    const nc_color color = all_colors.get_highlight(c, HL_CYAN);
     return ((int)color > 0) ? color : c_black_cyan;
 }
 
@@ -457,7 +528,7 @@ nc_color color_from_string(const std::string &color)
         }
     }
 
-    const nc_color col = all_colors.get(new_color);
+    const nc_color col = all_colors.name_to_color(new_color);
     if ( col > 0 ) {
         return col;
     }
@@ -471,7 +542,7 @@ nc_color color_from_string(const std::string &color)
  */
 std::string string_from_color(const nc_color color)
 {
-    std::string sColor = all_colors.get(color);
+    std::string sColor = all_colors.get_name(color);
     sColor = sColor.substr(2, sColor.length()-2);
 
     if ( sColor != "unset" ) {
@@ -501,7 +572,7 @@ nc_color bgcolor_from_string(std::string color)
         }
     }
 
-    const nc_color col = all_colors.get(color);
+    const nc_color col = all_colors.name_to_color(color);
     if ( col > 0 ) {
         return col;
     }
@@ -527,8 +598,8 @@ nc_color get_color_from_tag(const std::string &s, const nc_color base_color)
 
 nc_color get_note_color(std::string const &note_id)
 {
-    auto const candidate_color = color_shortcuts.find( note_id );
-    if( candidate_color != std::end( color_shortcuts ) ) {
+    auto const candidate_color = color_by_string_map.find( note_id );
+    if( candidate_color != std::end( color_by_string_map ) ) {
         return candidate_color->second.color;
     }
     // The default note color.
@@ -538,14 +609,24 @@ nc_color get_note_color(std::string const &note_id)
 std::list<std::pair<std::string, std::string>> get_note_color_names()
 {
     std::list<std::pair<std::string, std::string>> color_list;
-    for( auto const &color_pair : color_shortcuts ) {
+    for( auto const &color_pair : color_by_string_map ) {
         color_list.emplace_back( color_pair.first, color_pair.second.name );
     }
     return color_list;
 }
 
 
-void clColors::show_gui()
+void color_manager::clear()
+{
+    name_map.clear();
+    inverted_map.clear();
+    for( auto &entry : color_array ) {
+        entry.name_custom = "";
+        entry.name_invert_custom = "";
+    }
+}
+
+void color_manager::show_gui()
 {
     const int iHeaderHeight = 4;
     const int iContentHeight = FULL_SCREEN_HEIGHT - 2 - iHeaderHeight;
@@ -608,7 +689,7 @@ void clColors::show_gui()
     int iCurrentLine = 0;
     int iCurrentCol = 1;
     int iStartPos = 0;
-    const int iMaxColors = mapColors.size();
+    const int iMaxColors = color_array.size();
     bool bStuffChanged = false;
     input_context ctxt("COLORS");
     ctxt.register_cardinal();
@@ -618,7 +699,11 @@ void clColors::show_gui()
     ctxt.register_action("LOAD_TEMPLATE");
     ctxt.register_action("HELP_KEYBINDINGS");
 
-    std::map<std::string, stColors> mapColorsOrdered(mapColors.begin(), mapColors.end());
+    std::map<std::string, color_struct> name_color_map;
+
+    for( const auto &pr : name_map ) {
+        name_color_map[pr.first] = color_array[pr.second];
+    }
 
     while(true) {
         // Clear all lines
@@ -636,16 +721,16 @@ void clColors::show_gui()
 
         calcStartPos(iStartPos, iCurrentLine, iContentHeight, iMaxColors);
 
-        //Draw Scrollbar
         draw_scrollbar(w_colors_border, iCurrentLine, iContentHeight, iMaxColors, 5);
+        wrefresh(w_colors_border);
 
-        auto iter = mapColorsOrdered.begin();
+        auto iter = name_color_map.begin();
         std::advance( iter, iStartPos );
 
         std::string sActive = "";
 
         // display colormanager
-        for (int i=iStartPos; iter != mapColorsOrdered.end(); ++iter, ++i) {
+        for (int i=iStartPos; iter != name_color_map.end(); ++iter, ++i) {
             if (i >= iStartPos && i < iStartPos + ((iContentHeight > iMaxColors) ? iMaxColors : iContentHeight)) {
                 auto &entry = iter->second;
 
@@ -657,14 +742,14 @@ void clColors::show_gui()
                 mvwprintz(w_colors, i - iStartPos, 3, c_white, iter->first.c_str()); //colorname
                 mvwprintz(w_colors, i - iStartPos, 21, entry.color, _("default")); //default color
 
-                if ( !entry.sCustom.empty() ) {
-                    mvwprintz(w_colors, i - iStartPos, 30, mapColorsOrdered[entry.sCustom].color, entry.sCustom.c_str()); //custom color
+                if ( !entry.name_custom.empty() ) {
+                    mvwprintz(w_colors, i - iStartPos, 30, name_color_map[entry.name_custom].color, entry.name_custom.c_str()); //custom color
                 }
 
-                mvwprintz(w_colors, i - iStartPos, 52, mapColorsOrdered[entry.sInvert].color, _("default")); //invert default color
+                mvwprintz(w_colors, i - iStartPos, 52, entry.invert, _("default")); //invert default color
 
-                if ( !entry.sInvertCustom.empty() ) {
-                    mvwprintz(w_colors, i - iStartPos, 61, mapColorsOrdered[entry.sInvertCustom].color, entry.sInvertCustom.c_str()); //invert custom color
+                if ( !entry.name_invert_custom.empty() ) {
+                    mvwprintz(w_colors, i - iStartPos, 61, name_color_map[entry.name_invert_custom].color, entry.name_invert_custom.c_str()); //invert custom color
                 }
             }
         }
@@ -696,17 +781,19 @@ void clColors::show_gui()
                 iCurrentCol = 1;
             }
         } else if (action == "REMOVE_CUSTOM") {
-            auto &entry = mapColorsOrdered[sActive];
+            auto &entry = name_color_map[sActive];
 
-            if ( iCurrentCol == 1 && !entry.sCustom.empty() ) {
+            if ( iCurrentCol == 1 && !entry.name_custom.empty() ) {
                 bStuffChanged = true;
-                entry.sCustom = "";
+                entry.name_custom = "";
 
-            } else if ( iCurrentCol == 2 && !entry.sInvertCustom.empty() ) {
+            } else if ( iCurrentCol == 2 && !entry.name_invert_custom.empty() ) {
                 bStuffChanged = true;
-                entry.sInvertCustom = "";
+                entry.name_invert_custom = "";
 
             }
+
+            finalize(); // Need to recalculate caches
 
         } else if (action == "LOAD_TEMPLATE") {
             auto vFiles = get_files_from_path(".json", FILENAMES["color_templates"], false, true);
@@ -729,19 +816,19 @@ void clColors::show_gui()
                 if ( (size_t)ui_templates.ret < vFiles.size() ) {
                     bStuffChanged = true;
 
-                    auto mapColorsTemp = mapColors;
+                    clear();
 
-                    mapColors.clear();
                     load_default();
-
                     load_custom(vFiles[ui_templates.ret]);
 
-                    mapColorsOrdered.clear();
-                    std::map<std::string, stColors> mapColorsOrderedTemp(mapColors.begin(), mapColors.end());
-
-                    mapColorsOrdered = mapColorsOrderedTemp;
+                    name_color_map.clear();
+                    for( const auto &pr : name_map ) {
+                        name_color_map[pr.first] = color_array[pr.second];
+                    }
                 }
             }
+
+            finalize(); // Need to recalculate caches
 
         } else if (action == "CONFIRM") {
             uimenu ui_colors;
@@ -750,32 +837,32 @@ void clColors::show_gui()
             ui_colors.return_invalid = true;
 
             std::string sColorType = _("Normal");
-            std::string sSelected = mapColorsOrdered[sActive].sCustom;
+            std::string sSelected = name_color_map[sActive].name_custom;
 
             if ( iCurrentCol == 2 ) {
                 sColorType = _("Invert");
-                sSelected = mapColorsOrdered[sActive].sInvertCustom;
+                sSelected = name_color_map[sActive].name_invert_custom;
 
             }
 
             ui_colors.text = string_format( _("Custom %s color:"), sColorType.c_str() );
 
             int i = 0;
-            for ( auto &iter : mapColorsOrdered ) {
+            for ( auto &iter : name_color_map ) {
                 std::string sColor = iter.first;
                 std::string sType = _("default");
 
-                std::string sCustom = "";
+                std::string name_custom = "";
 
                 if ( sSelected == sColor ) {
                     ui_colors.selected = i;
                 }
 
-                if ( !iter.second.sCustom.empty() ) {
-                    sCustom = " <color_" + iter.second.sCustom + ">" + iter.second.sCustom + "</color>";
+                if ( !iter.second.name_custom.empty() ) {
+                    name_custom = " <color_" + iter.second.name_custom + ">" + iter.second.name_custom + "</color>";
                 }
 
-                ui_colors.addentry(string_format( "%-17s <color_%s>%s</color>%s", iter.first.c_str(), sColor.c_str(), sType.c_str(), sCustom.c_str() ) );
+                ui_colors.addentry(string_format( "%-17s <color_%s>%s</color>%s", iter.first.c_str(), sColor.c_str(), sType.c_str(), name_custom.c_str() ) );
 
                 i++;
             }
@@ -783,37 +870,44 @@ void clColors::show_gui()
             ui_colors.addentry(std::string(_("Cancel")));
             ui_colors.query();
 
-            if ( (size_t)ui_colors.ret < mapColorsOrdered.size() ) {
+            if ( (size_t)ui_colors.ret < name_color_map.size() ) {
                 bStuffChanged = true;
 
-                iter = mapColorsOrdered.begin();
+                iter = name_color_map.begin();
                 std::advance( iter, ui_colors.ret );
 
-                auto &entry = mapColorsOrdered[sActive];
+                auto &entry = name_color_map[sActive];
 
                 if ( iCurrentCol == 1 ) {
-                    entry.sCustom = iter->first;
+                    entry.name_custom = iter->first;
 
                 } else if ( iCurrentCol == 2 ) {
-                    entry.sInvertCustom = iter->first;
+                    entry.name_invert_custom = iter->first;
 
                 }
             }
+
+            finalize(); // Need to recalculate caches
         }
     }
 
-    if (bStuffChanged) {
-        if(query_yn(_("Save changes?"))) {
-            std::unordered_map<std::string, stColors> mapColorsUnordered(mapColorsOrdered.begin(), mapColorsOrdered.end());
-            mapColors.clear();
-            mapColors = mapColorsUnordered;
-
-            save_custom();
+    if( bStuffChanged && query_yn(_("Save changes?") ) ) {
+        for( const auto &pr : name_color_map ) {
+            color_id id = name_to_id( pr.first );
+            color_array[id].name_custom = pr.second.name_custom;
+            color_array[id].name_invert_custom = pr.second.name_invert_custom;
         }
+
+        finalize();
+        save_custom();
+
+        clear();
+        load_default();
+        load_custom();
     }
 }
 
-bool clColors::save_custom()
+bool color_manager::save_custom()
 {
     const auto savefile = FILENAMES["custom_colors"];
 
@@ -838,39 +932,39 @@ bool clColors::save_custom()
     return false;
 }
 
-void clColors::load_custom(const std::string &sPath)
+void color_manager::load_custom(const std::string &sPath)
 {
     const auto file = ( sPath.empty() ) ? FILENAMES["custom_colors"] : sPath;
 
     std::ifstream fin;
     fin.open(file.c_str(), std::ifstream::in | std::ifstream::binary);
-    if(!fin.good()) {
+    if( !fin.good() ) {
         fin.close();
+        finalize(); // Need to finalize regardless of success
         return;
     }
 
     try {
         JsonIn jsin(fin);
         deserialize(jsin);
-    } catch (std::string e) {
+    } catch( const JsonError &e ) {
         DebugLog(D_ERROR, DC_ALL) << "load_custom: " << e;
     }
 
     fin.close();
+    finalize();
 }
 
-void clColors::serialize(JsonOut &json) const
+void color_manager::serialize(JsonOut &json) const
 {
     json.start_array();
-    for( auto &iter : mapColors ) {
-        auto &entry = iter.second;
-
-        if ( !entry.sCustom.empty() || !entry.sInvertCustom.empty()) {
+    for( auto &entry : color_array ) {
+        if ( !entry.name_custom.empty() || !entry.name_invert_custom.empty()) {
             json.start_object();
 
-            json.member( "name", iter.first );
-            json.member( "custom", entry.sCustom );
-            json.member( "invertcustom", entry.sInvertCustom );
+            json.member( "name", id_to_name( entry.col_id ) );
+            json.member( "custom", entry.name_custom );
+            json.member( "invertcustom", entry.name_invert_custom );
 
             json.end_object();
         }
@@ -879,30 +973,25 @@ void clColors::serialize(JsonOut &json) const
     json.end_array();
 }
 
-void clColors::deserialize(JsonIn &jsin)
+void color_manager::deserialize(JsonIn &jsin)
 {
     jsin.start_array();
     while (!jsin.end_array()) {
         JsonObject joColors = jsin.get_object();
 
-        const std::string sName = joColors.get_string("name");
-        const std::string sCustom = joColors.get_string("custom");
-        const std::string sInvertCustom = joColors.get_string("invertcustom");
+        const std::string name = joColors.get_string("name");
+        const std::string name_custom = joColors.get_string("custom");
+        const std::string name_invert_custom = joColors.get_string("invertcustom");
 
-        auto iter = mapColors.find( sName );
+        color_id id = name_to_id( name );
+        auto &entry = color_array[id];
 
-        if( iter == mapColors.end() ) {
-            continue;
+        if ( !name_custom.empty() ) {
+            entry.name_custom = name_custom;
         }
 
-        auto &entry = iter->second;
-
-        if ( !sCustom.empty() ) {
-            entry.sCustom = sCustom;
-        }
-
-        if ( !sInvertCustom.empty() ) {
-            entry.sInvertCustom = sInvertCustom;
+        if ( !name_invert_custom.empty() ) {
+            entry.name_invert_custom = name_invert_custom;
         }
     }
 }

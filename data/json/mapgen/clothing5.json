@@ -1,0 +1,132 @@
+[
+    {
+       "type" : "item_group",
+       "id" : "wedding_dresses",
+       "items":[
+         ["dress", 50],
+         ["veil_wedding", 150],
+         ["dress_wedding", 150]
+       ]
+    },{
+       "type" : "item_group",
+       "id" : "wedding_suits",
+       "items":[
+         ["tux", 100],
+         ["suit", 80],
+         ["waistcoat", 50],
+         ["dress_shirt", 100],
+         ["undershirt", 50]
+       ]
+    },{
+        "type": "mapgen",
+        "om_terrain": [
+            "s_clothes"
+        ],
+        "method": "json",
+        "weight": 100,
+        "object": {
+            "rows": [
+                    "~~~~~~~~~~~~~~~~~~~~~~~~",
+                    "~~~~~~~~~~~~~~~~~~~~~~~~",
+                    "*****rzr**~~~**rzr******",
+                    "*****rzr**~~~**rzr******",
+                    "*~~~~~~~~~~~~~~~~~~~~~~*",
+                    "*|---===--:::--===|---|*",
+                    "*|[..f@.........@y|ddd|*",
+                    "*|[..........@....|h.h|*",
+                    "*|[...............+...|*",
+                    "*|--+|-+|..@...@..|d..O*",
+                    "*|h..|u.|.........|dh.|*",
+                    "*|...|s.|..@...@..|]..|*",
+                    "*|U..|t.|........y|]..|*",
+                    "*|-O-|--|::-|.----|--.|*",
+                    "*zrzrzrzr~~r|.[[[[[[[.|*",
+                    "*********~~z|.........|*",
+                    "*********~~r|.........|*",
+                    "**~HH~***~~z|-+--|--+-|*",
+                    "**~TT~~~~~~r|....|...h|*",
+                    "**~TT~~~~~~z|h..U|U...|*",
+                    "**~HH~*****r|-O--|--O-|*",
+                    "************************",
+                    "*******^****************",
+                    "************************"
+            ],
+            "place_monsters": [
+                { "monster": "GROUP_MAYBE_ZOMBIE", "x": [13, 16], "y": [18, 19], "density": 1 },
+                { "monster": "GROUP_MAYBE_ZOMBIE", "x": [18, 21], "y": [18, 19], "density": 1 }
+            ],
+            "terrain": {
+                ".": "t_floor",
+                "*": "t_grass",
+                "~": "t_sidewalk",
+                "T": "t_sidewalk",
+                "H": "t_sidewalk",
+                "-": "t_wall",
+                "|": "t_wall",
+                "+": "t_door_c",
+                ";": "t_door_locked",
+                ":": "t_door_glass_c",
+                "O": "t_window",
+                "0": "t_window_alarm",
+                "=": "t_wall_glass",
+                "z": "t_shrub",
+                "^": "t_tree",
+                "#": "t_floor",
+                "h": "t_floor",
+                "f": "t_floor",
+                "y": "t_floor",
+                "s": "t_floor",
+                "t": "t_floor",
+                "u": "t_floor",
+                "d": "t_floor",
+                "[": "t_floor",
+                "]": "t_floor",
+                "@": "t_floor",
+                "U": "t_floor",
+                "r": "t_grass",
+                "%": "t_console_broken"
+            },
+            "furniture": {
+                "T": "f_table",
+                "H": "f_chair",
+                "#": "f_counter",
+                "h": "f_chair",
+                "f": "f_indoor_plant",
+                "y": "f_indoor_plant_y",
+                "s": "f_sink",
+                "u": "f_trashcan",
+                "d": "f_desk",
+                "[": "f_rack",
+                "]": "f_bookcase",
+                "@": "f_mannequin",
+                "U": "f_bigmirror",
+                "r": "f_dahlia"
+            },
+            "toilets": {
+                "t": { }
+            },
+            "place_items": [
+                { "item": "wedding_suits", "chance": 50, "x": 2,   "y": [6,8], "repeat": [2,3] },
+                { "item": "wedding_suits", "chance": 60, "x": 6,   "y": 6 },
+                { "item": "wedding_dresses", "chance": 40, "x": 16,   "y": 6 },
+                { "item": "wedding_dresses", "chance": 40, "x": 13,   "y": 7},
+                { "item": "wedding_dresses", "chance": 40, "x": 11,   "y": 9 },
+                { "item": "wedding_dresses", "chance": 40, "x": 15,   "y": 9 },
+                { "item": "wedding_dresses", "chance": 40, "x": 11,   "y": 11 },
+                { "item": "wedding_dresses", "chance": 40, "x": 15,   "y": 11 },
+                { "item": "wedding_dresses", "chance": 40, "x": [14,20],   "y": 14, "repeat": [2,5] },
+                { "item": "dress_shoes", "chance": 50, "x": [14,20],   "y": 14, "repeat": [2,5] },
+                { "item": "wedding_suits", "chance": 35, "x": [19,21],   "y": 6 },
+                { "item": "wedding_dresses", "chance": 35, "x": [19,21],   "y": 6 },
+                { "item": "tailor", "chance": 80, "x": [19,21],   "y": 6 },
+                { "item": "wedding_suits", "chance": 25, "x": 19,   "y": [9,10] },
+                { "item": "wedding_dresses", "chance": 25, "x": 19,   "y": [9,10] },
+                { "item": "tailor", "chance": 80, "x": 19,   "y": [9,10] },
+                { "item": "tailorbooks", "chance": 30, "x": 19,   "y": [11,12], "repeat": [2,3] }
+            ],
+            "comment": "end of mapgen json definition ---v"
+        },
+        "comment": "end of mapgen entry ---v"
+    }
+]
+
