@@ -142,13 +142,14 @@ void ui_window::set_anchor( ui_anchor new_anchor )
 template<class T>
 T *ui_window::create_child( const T &from )
 {
-    auto child = from.clone();
+    auto child = new T( from );
     add_child( child );
-    return (T *) child;
+    return child;
 }
 
 void ui_window::add_child( ui_element *child )
 {
+
     children.push_back( child );
     child->set_parent( this );
     on_add_child();

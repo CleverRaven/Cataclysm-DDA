@@ -83,7 +83,7 @@ class ui_element {
         virtual bool is_window() const { return false; }
     public:
         ui_element( size_t size_x, size_t size_y, int x = 0, int y = 0, ui_anchor anchor = top_left );
-        virtual ui_element *clone() const = 0;
+        virtual ui_element *clone() const = 0;  // Currently only needed to copy a ui_window
         virtual ~ui_element() = default;
 
         const ui_rect &get_rect() const;
