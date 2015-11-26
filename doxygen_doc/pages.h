@@ -23,3 +23,20 @@
  * \section related_classes Related Classes
  * \ref mapbuffer \ref map \ref submap
  */
+
+/*! @page Stat_Effects_Strength 
+ *  @brief Cross referenced effects of the Strength stat.
+ *  @par
+ */
+/*! @page Stat_Effects_Dexterity 
+ *  @brief Cross referenced effects of the Dexterity stat.
+ *  @par
+ */
+/*! @page Stat_Effects_Intelligence 
+ *  @brief Cross referenced effects of the Intelligence stat.
+ *  @par
+ */
+/*! @page Skill_Effects_Survival
+ *  @brief Cross referenced effects of the Survival skill
+ *  @par
+ */
