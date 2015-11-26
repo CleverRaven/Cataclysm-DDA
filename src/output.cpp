@@ -1070,6 +1070,7 @@ long popup(const std::string &text, PopupFlags flags)
     wrefresh(w);
     delwin(w);
     refresh();
+    try_sdl_update();
     return ch;
 }
 
