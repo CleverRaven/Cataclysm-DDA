@@ -1,4 +1,6 @@
 #include "item.h"
+
+#include "advanced_inv.h"
 #include "player.h"
 #include "output.h"
 #include "skill.h"
@@ -3391,13 +3393,13 @@ bool item::operator<(const item& other) const
         const item *me = is_container() && !contents.empty() ? &contents[0] : this;
         const item *rhs = other.is_container() && !other.contents.empty() ? &other.contents[0] : &other;
 
-        if (me->type->id == rhs->type->id)
-        {
+        if (me->type->id == rhs->type->id) {
             return me->charges < rhs->charges;
-        }
-        else
-        {
-            return me->type->id < rhs->type->id;
+        } else {
+            std::string n1 = me->type->nname(1);
+            std::string n2 = rhs->type->nname(1);
+            return std::lexicographical_compare( n1.begin(), n1.end(),
+                                                 n2.begin(), n2.end(), sort_case_insensitive_less() );
         }
     }
 }
