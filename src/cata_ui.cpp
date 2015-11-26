@@ -37,6 +37,10 @@ ui_rect::ui_rect( size_t size_x, size_t size_y, int x, int y ) : size_x( size_x 
 {
 }
 
+ui_window::ui_window( const ui_rect &rect, ui_anchor anchor ) : ui_window( rect.size_x, rect.size_y, rect.x, rect.y, anchor )
+{
+}
+
 ui_window::ui_window( size_t size_x, size_t size_y, int x, int y, ui_anchor anchor ) : ui_element( size_x, size_y, x, y, anchor ),
                       global_x( x ), global_y( y ), win( newwin( size_y, size_x, global_y, global_x ) )
 {
@@ -49,6 +53,18 @@ ui_window::~ui_window()
     }
 
     delwin( win );
+}
+
+ui_window::ui_window( const ui_window &other ) : ui_window( other.get_rect(), other.get_anchor() )
+{
+    for( auto child : other.children ) {
+        children.push_back( child->clone() );
+    }
+}
+
+ui_element *ui_window::clone() const
+{
+    return new ui_window( *this );
 }
 
 void ui_window::draw()
@@ -123,14 +139,19 @@ void ui_window::set_anchor( ui_anchor new_anchor )
 
 // This method expects a pointer to a heap allocated ui_element.
 // This ui_element will be deleted by the ui_window's deconstructor, so you can add-and-forget.
+template<class T>
+T *ui_window::create_child( const T &from )
+{
+    auto child = from.clone();
+    add_child( child );
+    return (T *) child;
+}
+
 void ui_window::add_child( ui_element *child )
 {
-    if( child == nullptr ) {
-        return; // In case we get passed a bad alloc
-    }
-
     children.push_back( child );
     child->set_parent( this );
+    on_add_child();
 }
 
 WINDOW *ui_window::get_win() const
@@ -290,6 +311,11 @@ ui_label::ui_label( std::string text ,int x, int y, ui_anchor anchor ) : ui_elem
 {
 }
 
+ui_element *ui_label::clone() const
+{
+    return new ui_label( *this );
+}
+
 void ui_label::draw()
 {
     auto win = get_win();
@@ -310,6 +336,12 @@ bordered_window::bordered_window( size_t size_x, size_t size_y, int x, int y, ui
 {
 }
 
+ui_element *bordered_window::clone() const
+{
+    return new bordered_window( *this );
+}
+
+
 void bordered_window::local_draw()
 {
     auto win = get_win(); // never null
@@ -323,6 +355,11 @@ void bordered_window::local_draw()
 health_bar::health_bar( size_t size_x, int x, int y, ui_anchor anchor ) : ui_element( size_x, 1, x, y, anchor ),
                        max_health( size_x * points_per_char ), current_health( max_health ), bar_str( std::string( '|', size_x ) )
 {
+}
+
+ui_element *health_bar::clone() const
+{
+    return new health_bar( *this );
 }
 
 void health_bar::draw()
@@ -388,6 +425,11 @@ smiley_indicator::smiley_indicator( int x, int y, ui_anchor anchor) : ui_element
     set_state( neutral );
 }
 
+ui_element *smiley_indicator::clone() const
+{
+    return new smiley_indicator( *this );
+}
+
 void smiley_indicator::draw()
 {
     auto win = get_win();
@@ -429,6 +471,12 @@ template<class T>
 tile_panel<T>::tile_panel( size_t size_x, size_t size_y, int x, int y, ui_anchor anchor )
                        : ui_element( size_x, size_y, x, y, anchor ), tiles( array_2d<T>( size_x, size_y ) )
 {
+}
+
+template<class T>
+ui_element *tile_panel<T>::clone() const
+{
+    return new tile_panel( *this );
 }
 
 template<class T>
@@ -476,6 +524,11 @@ tabbed_window::tabbed_window(size_t size_x, size_t size_y, int x, int y, ui_anch
 {
 }
 
+ui_element *tabbed_window::clone() const
+{
+    return new tabbed_window( *this );
+}
+
 void tabbed_window::local_draw()
 {
     bordered_window::local_draw();
@@ -503,10 +556,9 @@ void tabbed_window::local_draw()
 template<class T>
 T *tabbed_window::create_tab( std::string tab )
 {
-    T *tab_win = new T( get_rect().size_x - 2, get_rect().size_y - 4, 1, -1, bottom_left );
+    auto tab_win = create_child( T( get_rect().size_x - 2, get_rect().size_y - 4, 1, -1, bottom_left ) );
     tabs.push_back( {tab, tab_win} );
     tab_win->set_visible( tabs.size() == 1 );
-    add_child( tab_win );
     return tab_win;
 }
 
@@ -541,6 +593,11 @@ auto_bordered_window::auto_bordered_window( size_t size_x, size_t size_y, int x 
                                             uncovered( array_2d<bool>( size_x, size_y ) )
 {
     recalc_uncovered();
+}
+
+ui_element *auto_bordered_window::clone() const
+{
+    return new auto_bordered_window( *this );
 }
 
 void auto_bordered_window::set_rect( const ui_rect &new_rect )
@@ -672,6 +729,11 @@ ui_vertical_list::ui_vertical_list( size_t size_x, size_t size_y, int x, int y, 
 {
 }
 
+ui_element *ui_vertical_list::clone() const
+{
+    return new ui_vertical_list( *this );
+}
+
 void ui_vertical_list::draw()
 {
     auto win = get_win();
@@ -736,6 +798,11 @@ ui_horizontal_list::ui_horizontal_list( int x, int y, ui_anchor anchor ) : ui_el
 {
 }
 
+ui_element *ui_horizontal_list::clone() const
+{
+    return new ui_horizontal_list( *this );
+}
+
 void ui_horizontal_list::draw()
 {
     auto win = get_win();
@@ -782,17 +849,17 @@ const std::string &ui_horizontal_list::current() const
 /////////////////////////////////////////////////////
 void label_test()
 {
-    auto lable1 = new ui_label("some", 0, 0, top_left);
-    lable1->text_color = c_red;
-    auto lable2 = new ui_label("anchored", 0, 0, center_center);
-    lable2->text_color = c_ltblue;
-    auto lable3 = new ui_label("labels", 0, 0, bottom_right);
-    lable3->text_color = c_ltgreen;
+    ui_label lable1("some", 0, 0, top_left);
+    lable1.text_color = c_red;
+    ui_label lable2("anchored", 0, 0, center_center);
+    lable2.text_color = c_ltblue;
+    ui_label lable3("labels", 0, 0, bottom_right);
+    lable3.text_color = c_ltgreen;
 
     bordered_window win(31, 13, 50, 15);
-    win.add_child(lable1);
-    win.add_child(lable2);
-    win.add_child(lable3);
+    win.create_child(lable1);
+    win.create_child(lable2);
+    win.create_child(lable3);
     win.draw();
 }
 
@@ -800,12 +867,12 @@ void tab_test()
 {
     tabbed_window win(31, 14, 50, 15);
     auto t_win1 = win.create_tab<ui_window>("tab 1");
-    auto label1 = new ui_label("window 1", 0, 0, center_center);
-    t_win1->add_child(label1);
+    ui_label label1("window 1", 0, 0, center_center);
+    t_win1->create_child(label1);
 
     auto t_win2 = win.create_tab<ui_window>("tab 2");
-    auto label2 = new ui_label("window 2", 0, 0, center_center);
-    t_win2->add_child(label2);
+    ui_label label2("window 2", 0, 0, center_center);
+    t_win2->create_child(label2);
 
     win.draw();
 
@@ -833,12 +900,12 @@ void indicators_test()
 {
     bordered_window win(31, 31, 50, 15);
 
-    auto hb = new health_bar(5, 0, 0, center_center);
-    win.add_child(hb);
-    hb->set_health_percentage(0.5);
+    health_bar hb(5, 0, 0, center_center);
+    auto hbp = win.create_child(hb);
+    hbp->set_health_percentage(0.5);
 
-    auto si = new smiley_indicator(0, -1, center_center);
-    win.add_child(si);
+    smiley_indicator si(0, -1, center_center);
+    win.create_child(si);
 
     win.draw();
 }
@@ -847,12 +914,12 @@ void tile_panel_test()
 {
     bordered_window win(31, 31, 50, 15);
 
-    auto tp = new tile_panel<ui_tile>(29, 29, 1, 1);
-    win.add_child(tp);
+    tile_panel<ui_tile> tp(29, 29, 1, 1);
+    auto tpp = win.create_child(tp);
 
-    tp->set_tile(ui_tile('X', c_yellow), 5, 5);
-    tp->set_tile(ui_tile('X', c_yellow), 9, 5);
-    tp->set_tile(ui_tile('X', c_yellow), 7, 6);
+    tpp->set_tile(ui_tile('X', c_yellow), 5, 5);
+    tpp->set_tile(ui_tile('X', c_yellow), 9, 5);
+    tpp->set_tile(ui_tile('X', c_yellow), 7, 6);
 
     win.draw();
 }
@@ -861,8 +928,8 @@ void auto_border_test()
 {
     auto_bordered_window win(51, 23, 50, 15);
 
-    win.add_child(new bordered_window(49, 10, 1, 1));
-    win.add_child(new bordered_window(49, 10, -1, -1, bottom_right));
+    win.create_child(bordered_window(49, 10, 1, 1));
+    win.create_child(bordered_window(49, 10, -1, -1, bottom_right));
 
     win.draw();
 }
@@ -906,10 +973,10 @@ void list_test()
 
     bordered_window win(32, 34, 50, 15);
 
-    auto t_list = new ui_vertical_list(7, 15, 0, 1);
-    t_list->set_text(text);
+    ui_vertical_list t_list(7, 15, 0, 1);
+    t_list.set_text(text);
 
-    win.add_child(t_list);
+    auto t_listp = win.create_child(t_list);
 
     win.draw();
 
@@ -922,9 +989,9 @@ void list_test()
         const std::string action = ctxt.handle_input();
 
         if(action == "UP") {
-            t_list->scroll_up();
+            t_listp->scroll_up();
         } else if(action == "DOWN") {
-            t_list->scroll_down();
+            t_listp->scroll_down();
         } else if(action == "QUIT") {
             break;
         }
@@ -943,10 +1010,10 @@ void list_test2()
 
     bordered_window win(51, 34, 50, 15);
 
-    auto t_list = new ui_horizontal_list(1, 1);
-    t_list->set_text(text);
+    ui_horizontal_list t_list(1, 1);
+    t_list.set_text(text);
 
-    win.add_child(t_list);
+    auto t_listp = win.create_child(t_list);
 
     win.draw();
 
@@ -959,9 +1026,9 @@ void list_test2()
         const std::string action = ctxt.handle_input();
 
         if(action == "LEFT") {
-            t_list->scroll_left();
+            t_listp->scroll_left();
         } else if(action == "RIGHT") {
-            t_list->scroll_right();
+            t_listp->scroll_right();
         } else if(action == "QUIT") {
             break;
         }
@@ -974,23 +1041,23 @@ void relative_test()
 {
     bordered_window win(51, 34, 50, 15);
 
-    auto l1 = new ui_label("origin", 0, 0, center_center);
+    ui_label l1("origin", 0, 0, center_center);
 
-    auto l2 = new ui_label("above");
-    auto l3 = new ui_label("below");
-    auto l4 = new ui_label("after");
-    auto l5 = new ui_label("before");
+    ui_label l2("above");
+    ui_label l3("below");
+    ui_label l4("after");
+    ui_label l5("before");
 
-    l2->above(*l1);
-    l3->below(*l1);
-    l4->after(*l1, 1);
-    l5->before(*l1, -1);
+    l2.above(l1);
+    l3.below(l1);
+    l4.after(l1, 1);
+    l5.before(l1, -1);
 
-    win.add_child(l1);
-    win.add_child(l2);
-    win.add_child(l3);
-    win.add_child(l4);
-    win.add_child(l5);
+    win.create_child(l1);
+    win.create_child(l2);
+    win.create_child(l3);
+    win.create_child(l4);
+    win.create_child(l5);
 
     win.draw();
 }

@@ -83,6 +83,7 @@ class ui_element {
         virtual bool is_window() const { return false; }
     public:
         ui_element( size_t size_x, size_t size_y, int x = 0, int y = 0, ui_anchor anchor = top_left );
+        virtual ui_element *clone() const = 0;
         virtual ~ui_element() = default;
 
         const ui_rect &get_rect() const;
@@ -116,30 +117,34 @@ class ui_window : public ui_element {
 
         int global_x, global_y;
 
-        std::list<ui_element *> children;
-
         void adjust_window();
         WINDOW *win = nullptr;
         void draw_children();
         void draw_window_children();
+        void add_child( ui_element *child );
     protected:
+        std::list<ui_element *> children;
         WINDOW *get_win() const override;
         virtual void local_draw() {}
         size_t child_count() const;
         const std::list<ui_element *> &get_children() const;
-        virtual bool is_window() const override { return true; }
+        bool is_window() const override { return true; }
         virtual void on_add_child() {}
     public:
+        ui_window( const ui_rect &rect, ui_anchor anchor = top_left );
         ui_window( size_t size_x, size_t size_y, int x = 0, int y = 0, ui_anchor anchor = top_left );
-        // TODO : add copy constructor
+        ui_window( const ui_window &other );
+        ui_element *clone() const override;
         ~ui_window() override;
 
         void draw() override;
 
-        virtual void set_anchor( ui_anchor new_anchor ) override;
+        void set_anchor( ui_anchor new_anchor ) override;
 
-        virtual void set_rect( const ui_rect &new_rect ) override;
-        virtual void add_child( ui_element *child );
+        void set_rect( const ui_rect &new_rect ) override;
+
+        template<class T = ui_element>
+        T *create_child( const T &child );
 };
 
 /**
@@ -152,6 +157,7 @@ class ui_label : public ui_element {
         virtual void draw() override;
     public:
         ui_label( std::string text, int x = 0, int y = 0, ui_anchor anchor = top_left );
+        ui_element *clone() const override;
 
         void set_text( std::string );
 
@@ -163,9 +169,10 @@ class ui_label : public ui_element {
 */
 class bordered_window : public ui_window {
     protected:
-        virtual void local_draw() override;
+        void local_draw() override;
     public:
         bordered_window( size_t size_x, size_t size_y, int x = 0, int y = 0, ui_anchor anchor = top_left );
+        ui_element *clone() const override;
 
         nc_color border_color = BORDER_COLOR;
 };
@@ -185,9 +192,10 @@ class health_bar : public ui_element {
 
         void refresh_bar( bool overloaded, float percentage );
     protected:
-        virtual void draw() override;
+        void draw() override;
     public:
         health_bar( size_t size_x, int x = 0, int y = 0, ui_anchor anchor = top_left );
+        ui_element *clone() const override;
 
         void set_health_percentage( float percentage );
 };
@@ -206,9 +214,10 @@ class smiley_indicator : public ui_element {
         nc_color smiley_color = c_white;
         std::string smiley_str = "";
     protected:
-        virtual void draw() override;
+        void draw() override;
     public:
         smiley_indicator( int x = 0, int y = 0, ui_anchor anchor = top_left );
+        ui_element *clone() const override;
 
         void set_state( smiley_state new_state );
 };
@@ -241,11 +250,12 @@ class tile_panel : public ui_element {
     private:
         array_2d<T> tiles;
     protected:
-        virtual void draw() override;
+        void draw() override;
     public:
         tile_panel( size_t size_x, size_t size_y, int x = 0, int y = 0, ui_anchor anchor = top_left );
+        ui_element *clone() const override;
 
-        virtual void set_rect( const ui_rect &new_rect ) override;
+        void set_rect( const ui_rect &new_rect ) override;
         void set_tile( const T &tile, unsigned int x, unsigned int y );
 };
 
@@ -257,9 +267,10 @@ class tabbed_window : public bordered_window {
         std::vector<std::pair<std::string, ui_window *>> tabs;
         unsigned int tab_index;
     protected:
-        virtual void local_draw() override;
+        void local_draw() override;
     public:
         tabbed_window( size_t size_x, size_t size_y, int x = 0, int y = 0, ui_anchor anchor = top_left );
+        ui_element *clone() const override;
 
         /**
         * Creates a new tab and a ui_window to go along with it (which it returns).
@@ -285,10 +296,11 @@ class auto_bordered_window : public ui_window {
         bool is_uncovered( int x, int y ) const;
         long get_border_char( unsigned int x, unsigned int y ) const;
     protected:
-        virtual void local_draw() override;
-        virtual on_add_child() override;
+        void local_draw() override;
+        virtual void on_add_child() override;
     public:
         auto_bordered_window( size_t size_x, size_t size_y, int x = 0, int y = 0, ui_anchor anchor = top_left );
+        ui_element *clone() const override;
 
         virtual void set_rect( const ui_rect &new_rect ) override;
 
@@ -307,9 +319,10 @@ class ui_vertical_list : public ui_element {
         unsigned int scroll = 0;
         unsigned int window_scroll = 0;
     protected:
-        virtual void draw() override;
+        void draw() override;
     public:
         ui_vertical_list( size_t size_x, size_t size_y, int x = 0, int y = 0, ui_anchor anchor = top_left );
+        ui_element *clone() const override;
 
         nc_color text_color = c_white;
         nc_color bar_color = c_ltblue;
@@ -329,9 +342,10 @@ class ui_horizontal_list : public ui_element {
         std::vector<std::string> text;
         unsigned int scroll = 0;
     protected:
-        virtual void draw() override;
+        void draw() override;
     public:
         ui_horizontal_list( int x = 0, int y = 0, ui_anchor anchor = top_left );
+        ui_element *clone() const override;
 
         nc_color text_color = c_white;
 
