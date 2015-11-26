@@ -44,8 +44,8 @@ void load_recipe_category( JsonObject &jsobj )
     JsonArray subcats;
     std::string category = jsobj.get_string( "id" );
 
-    if( category.find("CC_") != 0 ) {
-        jsobj.throw_error("Crafting category id has to be prefixed with 'CC_'");
+    if( category.find( "CC_" ) != 0 ) {
+        jsobj.throw_error( "Crafting category id has to be prefixed with 'CC_'" );
     }
 
     // Don't store noncraft as a category.
@@ -61,8 +61,9 @@ void load_recipe_category( JsonObject &jsobj )
     subcats = jsobj.get_array( "recipe_subcategories" );
     while( subcats.has_more() ) {
         std::string subcat_id = subcats.next_string();
-        if( subcat_id.find("CSC_" + cat_name + "_") != 0 && subcat_id != "CSC_ALL" && subcat_id != "CSC_NONCRAFT" ) {
-            jsobj.throw_error("Crafting sub-category id has to be prefixed with CSC_<category_name>_");
+        if( subcat_id.find( "CSC_" + cat_name + "_" ) != 0 && subcat_id != "CSC_ALL" &&
+            subcat_id != "CSC_NONCRAFT" ) {
+            jsobj.throw_error( "Crafting sub-category id has to be prefixed with CSC_<category_name>_" );
         }
         craft_subcat_list[category].push_back( subcat_id );
     }
@@ -76,10 +77,11 @@ std::string get_subcat_name( const std::string &cat, std::string prefixed_name )
         return prefixed_name.substr( prefix.size(), prefixed_name.size() - prefix.size() );
     }
 
-    return (prefixed_name == "CSC_ALL" ? _( "ALL" ) : _( "NONCRAFT" ));
+    return ( prefixed_name == "CSC_ALL" ? _( "ALL" ) : _( "NONCRAFT" ) );
 }
 
-void translate_all() {
+void translate_all()
+{
     for( const auto &cat : craft_cat_list ) {
         normalized_names[cat] = get_cat_name( _( cat.c_str() ) );
 
@@ -588,8 +590,7 @@ static void draw_recipe_tabs( WINDOW *w, std::string tab, TAB_MODE mode )
     draw_can_craft_indicator( w, width, 1, 0 );
 
     switch( mode ) {
-        case NORMAL:
-        {
+        case NORMAL: {
             int pos_x = 2;//draw the tabs on each other
             int tab_step = 3;//step between tabs, two for tabs border
             for( const auto &tt : craft_cat_list ) {
@@ -628,9 +629,8 @@ static void draw_recipe_subtabs( WINDOW *w, std::string tab, std::string subtab,
         mvwputch( w, i, width - 1, BORDER_COLOR,  LINE_XOXO ); // ^|
     }
 
-    switch (mode) {
-        case NORMAL:
-        {
+    switch( mode ) {
+        case NORMAL: {
             int pos_x = 2;//draw the tabs on each other
             int tab_step = 3;//step between tabs, two for tabs border
             for( const auto stt : craft_subcat_list[tab] ) {
