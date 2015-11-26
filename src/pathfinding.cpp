@@ -10,6 +10,7 @@
 #include "veh_type.h"
 #include "submap.h"
 #include "mapdata.h"
+#include "cata_utility.h"
 
 #include <algorithm>
 #include <queue>
@@ -26,12 +27,6 @@ enum astar_state {
 constexpr int flat_index( const int x, const int y )
 {
     return ( x * MAPSIZE * SEEY ) + y;
-};
-
-struct pair_greater_cmp {
-    bool operator()( const std::pair<int, tripoint> &a, const std::pair<int, tripoint> &b ) {
-        return a.first > b.first;
-    }
 };
 
 // Flattened 2D array representing a single z-level worth of pathfinding data

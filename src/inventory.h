@@ -144,7 +144,7 @@ class inventory
         int  amount_of (itype_id it, bool used_as_tool) const;
         long charges_of(itype_id it) const;
 
-        std::list<item> use_amount (itype_id it, int quantity, bool use_container = false);
+        std::list<item> use_amount (itype_id it, int quantity);
         std::list<item> use_charges(itype_id it, long quantity);
 
         bool has_amount (itype_id it, int quantity) const;

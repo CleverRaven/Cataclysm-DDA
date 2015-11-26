@@ -811,7 +811,6 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         bool has_activity(const activity_type type) const;
         void cancel_activity();
 
-        double convert_weight(int weight) const;
         int net_morale(morale_point effect) const;
         int morale_level() const; // Modified by traits, &c
         void add_morale(morale_type type, int bonus, int max_bonus = 0,
@@ -864,7 +863,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
 
         // has_amount works ONLY for quantity.
         // has_charges works ONLY for charges.
-        std::list<item> use_amount(itype_id it, int quantity, bool use_container = false);
+        std::list<item> use_amount(itype_id it, int quantity);
         bool use_charges_if_avail(itype_id it, long quantity);// Uses up charges
         std::list<item> use_charges(itype_id it, long quantity);// Uses up charges
         bool has_amount(const itype_id &it, int quantity) const;
@@ -959,10 +958,6 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         std::vector<tripoint> &get_auto_move_route();
         action_id get_next_auto_move_direction();
         void shift_destination(int shiftx, int shifty);
-
-        // Library functions
-        double logistic(double t) const;
-        double logistic_range(int min, int max, int pos) const;
 
         /**
          * Global position, expressed in map square coordinate system

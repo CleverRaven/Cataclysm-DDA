@@ -17,6 +17,8 @@
 #include "veh_type.h"
 #include "ui.h"
 #include "itype.h"
+#include "cata_utility.h"
+
 #include <cmath>
 #include <list>
 #include <functional>
@@ -1836,7 +1838,7 @@ void veh_interact::display_details( const vpart_info *part )
     fold_and_print(w_details, line+2, col_1, column_width, c_white,
                    "%s: <color_ltgray>%.1f%s</color>",
                    small_mode ? _("Wgt") : _("Weight"),
-                   g->u.convert_weight(item::find_type( part->item )->weight),
+                   convert_weight(item::find_type( part->item )->weight),
                    OPTIONS["USE_METRIC_WEIGHTS"].getValue() == "lbs" ? "lb" : "kg");
     if ( part->folded_volume != 0 ) {
         fold_and_print(w_details, line+2, col_2, column_width, c_white,

@@ -42,6 +42,13 @@ enum advanced_inv_sortby {
     SORTBY_DAMAGE
 };
 
+struct sort_case_insensitive_less : public std::binary_function< char, char, bool >
+{
+    bool operator()( char x, char y ) const {
+        return toupper( static_cast< unsigned char >( x ) ) < toupper( static_cast< unsigned char >( y ) );
+    }
+};
+
 struct advanced_inv_listitem;
 
 /**
@@ -367,7 +374,7 @@ class advanced_inventory
         void load_settings();
         // used to return back to AIM when other activities queued are finished
         void do_return_entry();
-        // returns true if currently processing a routine 
+        // returns true if currently processing a routine
         // (such as `MOVE_ALL_ITEMS' with `AIM_ALL' source)
         bool is_processing() const;
 
@@ -434,7 +441,7 @@ class advanced_inventory
          *      should be moved. A return value of true indicates that amount now contains
          *      a valid item count to be moved.
          */
-        bool query_charges(aim_location destarea, const advanced_inv_listitem &sitem, 
+        bool query_charges(aim_location destarea, const advanced_inv_listitem &sitem,
                 const std::string &action, long &amount);
 
         void menu_square(uimenu *menu);
