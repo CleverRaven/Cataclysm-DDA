@@ -11818,7 +11818,9 @@ vehicle *map::add_vehicle(const vproto_id &type, const tripoint &p, const int di
     veh->place_spawn_items();
     veh->face.init( dir );
     veh->turn_dir = dir;
-    veh->precalc_mounts( 0, dir, veh->pivot_point() );
+    // for backwards compatibility, we always spawn with a pivot point of (0,0) so
+    // that the mount at (0,0) is located at the spawn position.
+    veh->precalc_mounts( 0, dir, point() );
 //debugmsg("adding veh: %d, sm: %d,%d,%d, pos: %d, %d", veh, veh->smx, veh->smy, veh->smz, veh->posx, veh->posy);
     vehicle *placed_vehicle = add_vehicle_to_map(veh, merge_wrecks);
 
