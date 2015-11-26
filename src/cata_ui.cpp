@@ -680,7 +680,8 @@ void ui_vertical_list::draw()
         return;
     }
 
-    unsigned int start_line = window_scroll;
+    int start_line = 0;
+    calcStartPos( start_line, scroll, get_rect().size_y, text.size() );
     unsigned int end_line = start_line + get_rect().size_y;
 
     unsigned int available_space = get_rect().size_x - 2; // 2 for scroll bar and spacer
