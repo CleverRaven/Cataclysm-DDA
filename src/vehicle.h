@@ -430,6 +430,7 @@ public:
 
     // returns index of part, inner to given, with certain flag, or -1
     int part_with_feature (int p, const std::string &f, bool unbroken = true) const;
+    int part_with_feature_at_relative (const point &pt, const std::string &f, bool unbroken = true) const;
     int part_with_feature (int p, vpart_bitflags f, bool unbroken = true) const;
 
     /**

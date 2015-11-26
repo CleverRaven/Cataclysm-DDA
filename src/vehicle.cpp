@@ -2305,7 +2305,12 @@ int vehicle::part_with_feature (int part, vpart_bitflags const flag, bool unbrok
 
 int vehicle::part_with_feature (int part, const std::string &flag, bool unbroken) const
 {
-    std::vector<int> parts_here = parts_at_relative(parts[part].mount.x, parts[part].mount.y);
+    return part_with_feature_at_relative(parts[part].mount, flag, unbroken);
+}
+
+int vehicle::part_with_feature_at_relative (const point &pt, const std::string &flag, bool unbroken) const
+{
+    std::vector<int> parts_here = parts_at_relative(pt.x, pt.y, false);
     for( auto &elem : parts_here ) {
         if( part_flag( elem, flag ) && ( !unbroken || parts[elem].hp > 0 ) ) {
             return elem;
@@ -4961,8 +4966,7 @@ void vehicle::place_spawn_items()
         const vehicle_item_spawn *next_spawn = &spawn;
         if(rng(1, 100) <= next_spawn->chance) {
             //Find the cargo part in that square
-            int part = part_at(next_spawn->pos.x, next_spawn->pos.y);
-            part = part_with_feature(part, "CARGO", false);
+            int part = part_with_feature_at_relative(next_spawn->pos, "CARGO", false);
             if(part < 0) {
                 debugmsg("No CARGO parts at (%d, %d) of %s!",
                         next_spawn->pos.x, next_spawn->pos.y, name.c_str());
