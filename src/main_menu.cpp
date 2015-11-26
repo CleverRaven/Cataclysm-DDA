@@ -256,6 +256,11 @@ bool game::opening_screen()
     dirent *dp;
     DIR *dir;
 
+    if (!assure_dir_exist(FILENAMES["config_dir"].c_str())) {
+        popup(_("Unable to make config directory. Check permissions."));
+        return false;
+    }
+    
     if (!assure_dir_exist(FILENAMES["savedir"])) {
         popup(_("Unable to make save directory. Check permissions."));
         return false;
