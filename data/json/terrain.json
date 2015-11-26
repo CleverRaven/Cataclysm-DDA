@@ -468,6 +468,22 @@
         }
     },{
         "type" : "terrain",
+        "id" : "t_grass_white",
+        "name": "white grass",
+        "symbol": ".",
+        "color": "white",
+        "move_cost": 2,
+        "flags": ["TRANSPARENT", "DIGGABLE", "FLAT"],
+        "bash": {
+                "sound": "thump",
+                "ter_set": "t_null",
+                "str_min": 40,
+                "str_max": 100,
+                "str_min_supported": 100,
+                "bash_below": true
+        }
+    },{
+        "type" : "terrain",
         "id" : "t_metal_floor",
         "name": "metal floor",
         "symbol": ".",
