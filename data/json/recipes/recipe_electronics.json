@@ -2063,7 +2063,7 @@
   "book_learn": [[ "recipe_lab_elec", 7 ] , [ "textbook_robots", 7 ]],
   "qualities" : [ {"id":"SCREW","level":1,"amount":1} ],
   "tools": [
-    [ [ "software_hacking", 1 ] ],
+    [ [ "software_hacking", -1 ] ],
     [
       [ "soldering_iron", 14 ],
       [ "toolset", 14 ]

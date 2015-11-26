@@ -4901,12 +4901,11 @@ bool map::has_items( const tripoint &p ) const
 }
 
 template <typename Stack>
-std::list<item> use_amount_stack( Stack stack, const itype_id type, long &quantity,
-                                const bool use_container )
+std::list<item> use_amount_stack( Stack stack, const itype_id type, long &quantity )
 {
     std::list<item> ret;
     for( auto a = stack.begin(); a != stack.end() && quantity > 0; ) {
-        if( a->use_amount(type, quantity, use_container, ret) ) {
+        if( a->use_amount(type, quantity, ret) ) {
             a = stack.erase( a );
         } else {
             ++a;
@@ -4916,7 +4915,7 @@ std::list<item> use_amount_stack( Stack stack, const itype_id type, long &quanti
 }
 
 std::list<item> map::use_amount_square( const tripoint &p, const itype_id type,
-                                        long &quantity, const bool use_container )
+                                        long &quantity )
 {
     std::list<item> ret;
     int vpart = -1;
@@ -4926,17 +4925,17 @@ std::list<item> map::use_amount_square( const tripoint &p, const itype_id type,
         const int cargo = veh->part_with_feature(vpart, "CARGO");
         if( cargo >= 0 ) {
             std::list<item> tmp = use_amount_stack( veh->get_items(cargo), type,
-                                                    quantity, use_container );
+                                                    quantity );
             ret.splice( ret.end(), tmp );
         }
     }
-    std::list<item> tmp = use_amount_stack( i_at( p ), type, quantity, use_container );
+    std::list<item> tmp = use_amount_stack( i_at( p ), type, quantity );
     ret.splice( ret.end(), tmp );
     return ret;
 }
 
 std::list<item> map::use_amount( const tripoint &origin, const int range, const itype_id type,
-                                 long &quantity, const bool use_container )
+                                 long &quantity )
 {
     std::list<item> ret;
     for( int radius = 0; radius <= range && quantity > 0; radius++ ) {
@@ -4946,7 +4945,7 @@ std::list<item> map::use_amount( const tripoint &origin, const int range, const 
         for( x = origin.x - radius; x <= origin.x + radius; x++ ) {
             for( y = origin.y - radius; y <= origin.y + radius; y++ ) {
                 if( rl_dist( origin, p ) >= radius ) {
-                    std::list<item> tmp = use_amount_square( p , type, quantity, use_container );
+                    std::list<item> tmp = use_amount_square( p , type, quantity );
                     ret.splice( ret.end(), tmp );
                 }
             }

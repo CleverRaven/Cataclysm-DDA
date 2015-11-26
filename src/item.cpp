@@ -29,6 +29,7 @@
 #include "weather.h"
 #include "morale.h"
 #include "catacharset.h"
+#include "cata_utility.h"
 
 #include <cmath> // floor
 #include <sstream>
@@ -577,7 +578,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
                                   string_format( "<num> %s",
                                           OPTIONS["USE_METRIC_WEIGHTS"].getValue() == "lbs" ?
                                           _( "lbs" ) : _( "kg" ) ),
-                                  g->u.convert_weight( weight() ), false, "", true, true ) );
+                                  convert_weight( weight() ), false, "", true, true ) );
 
         if( damage_bash() > 0 || damage_cut() > 0 ) {
             info.push_back( iteminfo( "BASE", _( "Bash: " ), "", damage_bash(), true, "", false ) );
@@ -4405,22 +4406,18 @@ int item::amount_of(const itype_id &it, bool used_as_tool) const
     return count;
 }
 
-bool item::use_amount(const itype_id &it, long &quantity, bool use_container, std::list<item> &used)
+bool item::use_amount(const itype_id &it, long &quantity, std::list<item> &used)
 {
     // First, check contents
-    bool used_item_contents = false;
     for( auto a = contents.begin(); a != contents.end() && quantity > 0; ) {
-        if (a->use_amount(it, quantity, use_container, used)) {
+        if (a->use_amount(it, quantity, used)) {
             a = contents.erase(a);
-            used_item_contents = true;
         } else {
             ++a;
         }
     }
     // Now check the item itself
-    if (use_container && used_item_contents) {
-        return true;
-    } else if (type->id == it && quantity > 0 && contents.empty()) {
+    if (type->id == it && quantity > 0 && contents.empty()) {
         used.push_back(*this);
         quantity--;
         return true;

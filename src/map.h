@@ -824,9 +824,9 @@ void add_corpse( const tripoint &p );
      */
     /*@{*/
     std::list<item> use_amount_square( const tripoint &p, const itype_id type,
-                                       long &quantity, const bool use_container );
+                                       long &quantity );
     std::list<item> use_amount( const tripoint &origin, const int range, const itype_id type,
-                                long &amount, const bool use_container = false );
+                                long &amount );
     std::list<item> use_charges( const tripoint &origin, const int range, const itype_id type,
                                  long &amount );
     /*@}*/
