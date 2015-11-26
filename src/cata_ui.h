@@ -128,6 +128,7 @@ class ui_window : public ui_element {
         size_t child_count() const;
         const std::list<ui_element *> &get_children() const;
         virtual bool is_window() const override { return true; }
+        virtual void on_add_child() {}
     public:
         ui_window( size_t size_x, size_t size_y, int x = 0, int y = 0, ui_anchor anchor = top_left );
         // TODO : add copy constructor
@@ -285,11 +286,11 @@ class auto_bordered_window : public ui_window {
         long get_border_char( unsigned int x, unsigned int y ) const;
     protected:
         virtual void local_draw() override;
+        virtual on_add_child() override;
     public:
         auto_bordered_window( size_t size_x, size_t size_y, int x = 0, int y = 0, ui_anchor anchor = top_left );
 
         virtual void set_rect( const ui_rect &new_rect ) override;
-        virtual void add_child( ui_element *child ) override;
 
         nc_color border_color = BORDER_COLOR;
 };

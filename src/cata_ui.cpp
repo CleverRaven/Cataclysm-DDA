@@ -550,9 +550,8 @@ void auto_bordered_window::set_rect( const ui_rect &new_rect )
     recalc_uncovered();
 }
 
-void auto_bordered_window::add_child( ui_element *child )
+void auto_bordered_window::on_add_child()
 {
-    ui_window::add_child( child );
     recalc_uncovered();
 }
 
