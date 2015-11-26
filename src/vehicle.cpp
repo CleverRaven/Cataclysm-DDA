@@ -235,7 +235,7 @@ vehicle::vehicle(const vproto_id &type_id, int init_veh_fuel, int init_veh_statu
         *this = *proto.blueprint;
         init_state(init_veh_fuel, init_veh_status);
     }
-    precalc_mounts(0, face.dir());
+    precalc_mounts(0, pivot_rotation[0], pivot_anchor[0]);
     refresh();
 }
 
@@ -2857,7 +2857,7 @@ void vehicle::coord_translate (int dir, int reldx, int reldy, int &dx, int &dy) 
     dy = tdir.dy() + tdir.ortho_dy(reldy);
 }
 
-void vehicle::precalc_mounts (int idir, int dir)
+void vehicle::precalc_mounts (int idir, int dir, point pivot)
 {
     if (idir < 0 || idir > 1)
         idir = 0;
@@ -2867,10 +2867,12 @@ void vehicle::precalc_mounts (int idir, int dir)
             continue;
         }
         int dx, dy;
-        coord_translate (dir, p.mount.x, p.mount.y, dx, dy);
+        coord_translate (dir, p.mount.x - pivot.x, p.mount.y - pivot.y, dx, dy);
         p.precalc[idir].x = dx;
         p.precalc[idir].y = dy;
     }
+    pivot_anchor[idir] = pivot;
+    pivot_rotation[idir] = dir;
 }
 
 std::vector<int> vehicle::boarded_parts() const
@@ -2974,7 +2976,7 @@ int vehicle::total_folded_volume() const
     return m;
 }
 
-void vehicle::center_of_mass(int &x, int &y) const
+void vehicle::center_of_mass(int &x, int &y, bool use_precalc) const
 {
     float xf = 0, yf = 0;
     int m_total = total_mass();
@@ -2991,13 +2993,44 @@ void vehicle::center_of_mass(int &x, int &y) const
         if (part_flag(i,VPFLAG_BOARDABLE) && parts[i].has_flag(vehicle_part::passenger_flag)) {
             m_part += 81500; // TODO: get real weight
         }
-        xf += parts[i].precalc[0].x * m_part / 1000;
-        yf += parts[i].precalc[0].y * m_part / 1000;
+        if (use_precalc) {
+            xf += parts[i].precalc[0].x * m_part / 1000;
+            yf += parts[i].precalc[0].y * m_part / 1000;
+        } else {
+            xf += parts[i].mount.x * m_part / 1000;
+            yf += parts[i].mount.y * m_part / 1000;
+        }
     }
     xf /= m_total;
     yf /= m_total;
     x = round(xf);
     y = round(yf);
+}
+
+point vehicle::pivot_point() const
+{
+    // TODO: a part type that let you override this
+    point p;
+    center_of_mass(p.x, p.y, false);
+    return p;
+}
+
+point vehicle::pivot_displacement() const
+{
+    // precalc_mounts always produces a result that puts the pivot point at (0,0).
+    // If the pivot point changes, this artificially moves the vehicle, as the position
+    // of the old pivot point will appear to move from (posx+0, posy+0) to some other point
+    // (posx+dx,posy+dy) even if there is no change in vehicle position or rotation.
+    // This method finds that movement so it can be cancelled out when actually moving
+    // the vehicle.
+
+    // rotate the old pivot point around the new pivot point with the old rotation angle
+    point dp;
+    coord_translate(pivot_rotation[0],
+                    pivot_anchor[0].x - pivot_anchor[1].x,
+                    pivot_anchor[0].y - pivot_anchor[1].y,
+                    dp.x, dp.y);
+    return dp;
 }
 
 int vehicle::fuel_left (const itype_id & ftype, bool recurse) const
@@ -5183,7 +5216,8 @@ void vehicle::refresh()
         relative_parts[pt].insert( vii, p );
     }
 
-    precalc_mounts( 0, face.dir() );
+    // NB: using the _old_ pivot point, don't recalc here, we only do that when moving!
+    precalc_mounts( 0, pivot_rotation[0], pivot_anchor[0] );
     check_environmental_effects = true;
     insides_dirty = true;
 }
@@ -6473,8 +6507,8 @@ bool vehicle::restore(const std::string &data)
     face.init(0);
     turn_dir = 0;
     turn(0);
-    precalc_mounts(0, 0);
-    precalc_mounts(1, 0);
+    precalc_mounts(0, pivot_rotation[0], pivot_anchor[0]);
+    precalc_mounts(1, pivot_rotation[1], pivot_anchor[1]);
     return true;
 }
 
