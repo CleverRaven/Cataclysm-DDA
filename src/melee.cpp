@@ -767,8 +767,8 @@ void player::roll_cut_damage( bool crit, damage_instance &di, bool average, cons
 
     if( weap.has_flag("UNARMED_WEAPON") ) {
         // TODO: 1-handed weapons that aren't unarmed attacks
-        const bool left_empty = !wearing_something_on(bp_hand_l);
-        const bool right_empty = !wearing_something_on(bp_hand_r) && !weap.has_flag("UNARMED_WEAPON");
+        const bool left_empty = !natural_attack_restricted_on(bp_hand_l);
+        const bool right_empty = !natural_attack_restricted_on(bp_hand_r) && !weap.has_flag("UNARMED_WEAPON");
         if( left_empty || right_empty ) {
             float per_hand = 0.0f;
             if (has_trait("CLAWS") || (has_active_mutation("CLAWS_RETRACT")) ) {
@@ -833,8 +833,8 @@ void player::roll_stab_damage( bool crit, damage_instance &di, bool average, con
     }
 
     if( weap.has_flag("UNARMED_WEAPON") ) {
-        const bool left_empty = !wearing_something_on(bp_hand_l);
-        const bool right_empty = !wearing_something_on(bp_hand_r) && !weap.has_flag("UNARMED_WEAPON");
+        const bool left_empty = !natural_attack_restricted_on(bp_hand_l);
+        const bool right_empty = !natural_attack_restricted_on(bp_hand_r) && !weap.has_flag("UNARMED_WEAPON");
         if( left_empty || right_empty ) {
             float per_hand = 0.0f;
             if( has_trait("CLAWS") || has_active_mutation("CLAWS_RETRACT") ) {
@@ -1713,7 +1713,7 @@ std::vector<special_attack> player::mutation_attacks(Creature &t) const
 
     std::string target = t.disp_name();
 
-    if ( (has_trait("SABER_TEETH")) && !wearing_something_on(bp_mouth) &&
+    if ( (has_trait("SABER_TEETH")) && !natural_attack_restricted_on(bp_mouth) &&
          one_in(20 - dex_cur - get_skill_level( skill_unarmed )) ) {
         special_attack tmp;
         tmp.stab = (25 + str_cur);
@@ -1732,7 +1732,7 @@ std::vector<special_attack> player::mutation_attacks(Creature &t) const
 
     // Having lupine or croc jaws makes it much easier to sink your fangs into people;
     // Ursine/Feline, not so much.  Rat is marginally better.
-    if (has_trait("FANGS") && (!wearing_something_on(bp_mouth)) &&
+    if (has_trait("FANGS") && (!natural_attack_restricted_on(bp_mouth)) &&
         ((!has_trait("MUZZLE") && !has_trait("MUZZLE_LONG") && !has_trait("MUZZLE_RAT") &&
           one_in(20 - dex_cur - get_skill_level( skill_unarmed ))) ||
          (has_trait("MUZZLE_RAT") && one_in(19 - dex_cur - get_skill_level( skill_unarmed ))) ||
@@ -1754,7 +1754,7 @@ std::vector<special_attack> player::mutation_attacks(Creature &t) const
     }
 
     if (has_trait("INCISORS") && one_in(18 - dex_cur - get_skill_level( skill_unarmed )) &&
-        (!wearing_something_on(bp_mouth))) {
+        (!natural_attack_restricted_on(bp_mouth))) {
         special_attack tmp;
         tmp.cut = 3;
         tmp.bash = 3;
@@ -1773,7 +1773,7 @@ std::vector<special_attack> player::mutation_attacks(Creature &t) const
 
     if (!has_trait("FANGS") && has_trait("MUZZLE") &&
         one_in(18 - dex_cur - get_skill_level( skill_unarmed )) &&
-        (!wearing_something_on(bp_mouth))) {
+        (!natural_attack_restricted_on(bp_mouth))) {
         special_attack tmp;
         tmp.cut = 4;
         if (is_player()) {
@@ -1791,7 +1791,7 @@ std::vector<special_attack> player::mutation_attacks(Creature &t) const
 
     if (!has_trait("FANGS") && has_trait("MUZZLE_BEAR") &&
         one_in(20 - dex_cur - get_skill_level( skill_unarmed )) &&
-        (!wearing_something_on(bp_mouth))) {
+        (!natural_attack_restricted_on(bp_mouth))) {
         special_attack tmp;
         tmp.cut = 5;
         if (is_player()) {
@@ -1809,7 +1809,7 @@ std::vector<special_attack> player::mutation_attacks(Creature &t) const
 
     if (!has_trait("FANGS") && has_trait("MUZZLE_LONG") &&
         one_in(18 - dex_cur - get_skill_level( skill_unarmed )) &&
-        (!wearing_something_on(bp_mouth))) {
+        (!natural_attack_restricted_on(bp_mouth))) {
         special_attack tmp;
         tmp.stab = 18;
         if (is_player()) {
@@ -1826,7 +1826,7 @@ std::vector<special_attack> player::mutation_attacks(Creature &t) const
     }
 
     if ((has_trait("MANDIBLES") || (has_trait("FANGS_SPIDER") && !has_active_mutation("FANGS_SPIDER"))) &&
-        one_in(22 - dex_cur - get_skill_level( skill_unarmed )) && (!wearing_something_on(bp_mouth))) {
+        one_in(22 - dex_cur - get_skill_level( skill_unarmed )) && (!natural_attack_restricted_on(bp_mouth))) {
         special_attack tmp;
         tmp.cut = 12;
         if (is_player()) {
@@ -1842,7 +1842,7 @@ std::vector<special_attack> player::mutation_attacks(Creature &t) const
         ret.push_back(tmp);
     }
     if (has_active_mutation("FANGS_SPIDER") && one_in(24 - dex_cur - get_skill_level( skill_unarmed )) &&
-        (!wearing_something_on(bp_mouth)) ) {
+        (!natural_attack_restricted_on(bp_mouth)) ) {
         special_attack tmp;
         tmp.stab = 15;
         if (is_player()) {
@@ -1859,7 +1859,7 @@ std::vector<special_attack> player::mutation_attacks(Creature &t) const
     }
 
     if (has_trait("BEAK") && one_in(15 - dex_cur - get_skill_level( skill_unarmed )) &&
-        (!wearing_something_on(bp_mouth))) {
+        (!natural_attack_restricted_on(bp_mouth))) {
         special_attack tmp;
         tmp.stab = 15;
         if (is_player()) {
@@ -1873,7 +1873,7 @@ std::vector<special_attack> player::mutation_attacks(Creature &t) const
     }
 
     if (has_trait("BEAK_PECK") && one_in(15 - dex_cur - get_skill_level( skill_unarmed )) &&
-        (!wearing_something_on(bp_mouth))) {
+        (!natural_attack_restricted_on(bp_mouth))) {
         // method open to improvement, please feel free to suggest
         // a better way to simulate target's anti-peck efforts
         int num_hits = (dex_cur + get_skill_level( skill_unarmed ) - rng(4, 10));
@@ -2264,7 +2264,7 @@ void player_hit_message(player* attacker, std::string message,
                     t.posy(),
                     direction_from(0, 0, t.posx() - attacker->posx(), t.posy() - attacker->posy()),
                     get_hp_bar(t.get_hp(), t.get_hp_max(), true).first, m_good,
-                    //~ ‚Äúhit points‚Äù, used in scrolling combat text
+                    //~ ìhit pointsî, used in scrolling combat text
                     _("hp"), m_neutral,
                     "hp");
         } else {

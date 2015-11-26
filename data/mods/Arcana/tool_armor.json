@@ -176,7 +176,7 @@
         },
         "revert_to": "null",
         "covers" : ["HEAD"],
-        "flags" : ["VARSIZE"],
+        "flags" : ["VARSIZE", "ALLOWS_NATURAL_ATTACKS"],
         "storage" : 0,
         "warmth" : 0,
         "environmental_protection" : 0,

@@ -9380,9 +9380,12 @@ std::list<item> player::use_charges(itype_id it, long quantity)
 int player::butcher_factor() const
 {
     int result = INT_MIN;
-    if (has_bionic("bio_tools")) {
+    if( has_bionic( "bio_tools" ) ) {
         item tmp( "toolset", 0 );
-        result = tmp.butcher_factor();
+        result = std::max( result, tmp.butcher_factor() );
+    }
+    if( has_bionic( "bio_razor" ) ) {
+        result = std::max( result, 8 );
     }
     result = std::max( result, inv.butcher_factor() );
     result = std::max( result, weapon.butcher_factor() );
@@ -13086,6 +13089,17 @@ bool player::wearing_something_on(body_part bp) const
     for (auto &i : worn) {
         if (i.covers(bp))
             return true;
+    }
+    return false;
+}
+
+
+bool player::natural_attack_restricted_on( body_part bp ) const
+{
+    for( auto &i : worn ) {
+        if( i.covers( bp ) && !i.has_flag( "ALLOWS_NATURAL_ATTACKS" ) ) {
+            return true;
+        }
     }
     return false;
 }

@@ -787,6 +787,8 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         int get_env_resist(body_part bp) const override;
         /** Returns true if the player is wearing something on the entered body_part */
         bool wearing_something_on(body_part bp) const;
+        /** Returns true if the player is wearing something on the entered body_part, ignoring items with the ALLOWS_NATURAL_ATTACKS flag */
+        bool natural_attack_restricted_on(body_part bp) const;
         /** Returns true if the player is wearing the given item */
         bool is_wearing_item (const item& it) const;
         /** Returns true if the player is wearing something on their feet that is not SKINTIGHT */
