@@ -5646,7 +5646,7 @@
             "sound_fail": "splosh!",
             "ter_set": "t_water_dp",
             "items": [
-                { "item": "clay_lump", "count": [5, 10] }
+                { "item": "clay_lump", "count": [6, 12] }
             ]
         }
     },{
@@ -5663,7 +5663,7 @@
             "sound_fail": "splosh!",
             "ter_set": "t_water_dp",
             "items": [
-                { "item": "material_sand", "charges": [250, 500] }
+                { "item": "material_sand", "charges": [300, 600] }
             ]
         }
     },{
