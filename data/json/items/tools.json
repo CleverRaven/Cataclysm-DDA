@@ -740,7 +740,7 @@
     "ammo": "battery",
     "revert_to": "electric_lantern",
     "use_action": {
-        "type": "auto_transform",
+        "type": "transform",
         "target": "electric_lantern",
         "msg": "The lantern is extinguished."
     }
@@ -800,7 +800,7 @@
     "ammo": "battery",
     "revert_to": "flashlight",
     "use_action": {
-        "type": "auto_transform",
+        "type": "transform",
         "msg": "You turn the flashlight off.",
         "target": "flashlight"
     }
@@ -860,7 +860,7 @@
     "ammo": "battery",
     "revert_to": "heavy_flashlight",
     "use_action": {
-        "type": "auto_transform",
+        "type": "transform",
         "msg": "You turn the heavy duty flashlight off.",
         "target": "heavy_flashlight"
     }
@@ -6383,7 +6383,13 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
-    "use_action": "SPRAY_CAN"
+    "use_action": {
+        "type": "inscribe",
+        "verb": "Write",
+        "gerund": "Written",
+        "on_terrain": true,
+        "material_restricted": false
+    }
   },
 
   {
@@ -6406,7 +6412,13 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
-    "use_action": "SPRAY_CAN"
+    "use_action": {
+        "type": "inscribe",
+        "verb": "Write",
+        "gerund": "Written",
+        "on_terrain": true,
+        "material_restricted": false
+    }
   },
 
   {
@@ -6536,7 +6548,7 @@
     "ammo": "battery",
     "revert_to": "pda",
     "use_action": {
-        "type": "auto_transform",
+        "type": "transform",
         "msg": "The PDA screen goes blank.",
         "target": "pda"
     }
@@ -8858,7 +8870,7 @@
     "volume": 3,
     "bashing": 2,
     "cutting": 20,
-    "flags" : ["STAB", "DURABLE_MELEE", "SHEATH_SWORD"],
+    "flags" : ["STAB", "DURABLE_MELEE", "SHEATH_KNIFE"],
     "to_hit": 2,
     "max_charges": 0,
     "initial_charges": 0,

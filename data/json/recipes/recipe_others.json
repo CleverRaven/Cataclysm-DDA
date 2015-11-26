@@ -2150,8 +2150,8 @@
   ],
   "components": [
     [
-      [ "can_food", -1 ],
-      [ "canister_empty", -1 ]
+      [ "can_food", 1 ],
+      [ "canister_empty", 1 ]
     ],
     [
       [ "wax", 2 ],

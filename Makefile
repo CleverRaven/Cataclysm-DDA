@@ -590,7 +590,7 @@ ifdef LUA
 	install --mode=644 lua/class_definitions.lua $(DATA_PREFIX)/lua
 endif
 	install --mode=644 data/changelog.txt data/cataicon.ico data/fontdata.json \
-                   README.txt LICENSE.txt -t $(DATA_PREFIX)
+                   LICENSE.txt -t $(DATA_PREFIX)
 	mkdir -p $(LOCALE_DIR)
 	LOCALE_DIR=$(LOCALE_DIR) lang/compile_mo.sh
 endif
@@ -624,7 +624,7 @@ ifdef LUA
 	install --mode=644 lua/class_definitions.lua $(DATA_PREFIX)/lua
 endif
 	install --mode=644 data/changelog.txt data/cataicon.ico data/fontdata.json \
-                   README.txt LICENSE.txt -t $(DATA_PREFIX)
+                   LICENSE.txt -t $(DATA_PREFIX)
 	mkdir -p $(LOCALE_DIR)
 	LOCALE_DIR=$(LOCALE_DIR) lang/compile_mo.sh
 endif

@@ -66,7 +66,7 @@
         "ammo": "battery",
         "revert_to": "miner_hat",
         "use_action": {
-            "type": "auto_transform",
+            "type": "transform",
             "msg": "The %s flicks off.",
             "target": "miner_hat"
         },
@@ -204,7 +204,7 @@
         "ammo": "battery",
         "revert_to": "thermal_socks",
         "use_action": {
-            "type": "auto_transform",
+            "type": "transform",
             "msg": "Your %s deactivates.",
             "target": "thermal_socks"
         },
@@ -274,7 +274,7 @@
         "ammo": "battery",
         "revert_to": "thermal_suit",
         "use_action": {
-            "type": "auto_transform",
+            "type": "transform",
             "msg": "Your %s deactivates.",
             "target": "thermal_suit"
         },
@@ -345,7 +345,7 @@
         "ammo": "battery",
         "revert_to": "thermal_gloves",
         "use_action": {
-            "type": "auto_transform",
+            "type": "transform",
             "msg": "Your %s deactivates.",
             "target": "thermal_gloves"
         },
@@ -415,7 +415,7 @@
         "ammo": "battery",
         "revert_to": "thermal_mask",
         "use_action": {
-            "type": "auto_transform",
+            "type": "transform",
             "msg": "Your %s deactivates.",
             "target": "thermal_mask"
         },
@@ -485,7 +485,7 @@
         "ammo": "battery",
         "revert_to": "wearable_light",
         "use_action": {
-            "type": "auto_transform",
+            "type": "transform",
             "msg": "The %s flicks off.",
             "target": "wearable_light"
         },
@@ -555,7 +555,7 @@
         "ammo": "battery",
         "revert_to": "survivor_light",
         "use_action": {
-            "type": "auto_transform",
+            "type": "transform",
             "msg": "The %s flicks off.",
             "target": "survivor_light"
         },
@@ -626,7 +626,7 @@
         "ammo": "battery",
         "revert_to": "mask_bunker",
         "use_action": {
-            "type": "auto_transform",
+            "type": "transform",
             "msg": "Your %s deactivates.",
             "target": "mask_bunker"
         },
@@ -761,7 +761,7 @@
         "ammo": "rebreather_filter",
         "revert_to": "rebreather",
         "use_action": {
-            "type": "auto_transform",
+            "type": "transform",
             "msg": "Your %s deactivates.",
             "target": "rebreather"
         },
@@ -833,7 +833,7 @@
         "ammo": "rebreather_filter",
         "revert_to": "rebreather_xl",
         "use_action": {
-            "type": "auto_transform",
+            "type": "transform",
             "msg": "Your %s deactivates.",
             "target": "rebreather_xl"
         },
@@ -906,7 +906,7 @@
         "ammo": "battery",
         "revert_to": "goggles_nv",
         "use_action": {
-            "type": "auto_transform",
+            "type": "transform",
             "msg": "Your %s deactivates.",
             "target": "goggles_nv"
         },
@@ -979,7 +979,7 @@
         "ammo": "battery",
         "revert_to": "goggles_ir",
         "use_action": {
-            "type": "auto_transform",
+            "type": "transform",
             "msg": "Your %s deactivates.",
             "target": "goggles_ir"
         },
@@ -1108,7 +1108,7 @@
         "ammo": "rebreather_filter",
         "revert_to": "mask_h20survivor",
         "use_action": {
-            "type": "auto_transform",
+            "type": "transform",
             "msg": "Your %s deactivates.",
             "target": "mask_h20survivor"
         },
@@ -1180,7 +1180,7 @@
         "ammo": "rebreather_filter",
         "revert_to": "mask_h20survivorxl",
         "use_action": {
-            "type": "auto_transform",
+            "type": "transform",
             "msg": "Your %s deactivates.",
             "target": "mask_h20survivorxl"
         },
@@ -1531,7 +1531,7 @@
         "turns_per_charge": 0,
         "ammo": "NULL",
         "use_action": {
-            "type": "auto_transform",
+            "type": "transform",
             "msg": "You loosen your %s.",
             "target": "patchwork_scarf_loose"
         },
@@ -1567,7 +1567,7 @@
         "ammo": "NULL",
         "revert_to": "patchwork_scarf",
         "use_action": {
-            "type": "auto_transform",
+            "type": "transform",
             "msg": "You wrap your scarf tighter.",
             "target": "patchwork_scarf"
         },
@@ -1601,7 +1601,7 @@
         "turns_per_charge": 0,
         "ammo": "NULL",
         "use_action": {
-            "type": "auto_transform",
+            "type": "transform",
             "msg": "You loosen your %s.",
             "target": "long_patchwork_scarf_loose"
         },
@@ -1636,7 +1636,7 @@
         "turns_per_charge": 0,
         "ammo": "NULL",
         "use_action": {
-            "type": "auto_transform",
+            "type": "transform",
             "msg": "You wrap your scarf tighter.",
             "target": "long_patchwork_scarf"
         },
@@ -1671,7 +1671,7 @@
         "turns_per_charge": 0,
         "ammo": "NULL",
         "use_action": {
-            "type": "auto_transform",
+            "type": "transform",
             "msg": "You loosen your %s.",
             "target": "knit_scarf_loose"
         },
@@ -1707,7 +1707,7 @@
         "ammo": "NULL",
         "revert_to": "knit_scarf",
         "use_action": {
-            "type": "auto_transform",
+            "type": "transform",
             "msg": "You wrap your scarf tighter.",
             "target": "knit_scarf"
         },
@@ -1741,7 +1741,7 @@
         "turns_per_charge": 0,
         "ammo": "NULL",
         "use_action": {
-            "type": "auto_transform",
+            "type": "transform",
             "msg": "You loosen your %s.",
             "target": "long_knit_scarf_loose"
         },
@@ -1776,7 +1776,7 @@
         "turns_per_charge": 0,
         "ammo": "NULL",
         "use_action": {
-            "type": "auto_transform",
+            "type": "transform",
             "msg": "You wrap your scarf tighter.",
             "target": "long_knit_scarf"
         },
@@ -1811,7 +1811,7 @@
         "turns_per_charge": 0,
         "ammo": "NULL",
         "use_action": {
-            "type": "auto_transform",
+            "type": "transform",
             "msg": "You loosen your %s.",
             "target": "scarf_loose"
         },
@@ -1847,7 +1847,7 @@
         "ammo": "NULL",
         "revert_to": "scarf",
         "use_action": {
-            "type": "auto_transform",
+            "type": "transform",
             "msg": "You wrap your scarf a bit tighter.",
             "target": "scarf"
         },
@@ -1881,7 +1881,7 @@
         "turns_per_charge": 0,
         "ammo": "NULL",
         "use_action": {
-            "type": "auto_transform",
+            "type": "transform",
             "msg": "You loosen your %s.",
             "target": "scarf_long_loose"
         },
@@ -1916,7 +1916,7 @@
         "turns_per_charge": 0,
         "ammo": "NULL",
         "use_action": {
-            "type": "auto_transform",
+            "type": "transform",
             "msg": "You wrap your scarf tighter.",
             "target": "scarf_long"
         },
@@ -1951,7 +1951,7 @@
         "turns_per_charge": 0,
         "ammo": "NULL",
         "use_action": {
-            "type": "auto_transform",
+            "type": "transform",
             "msg": "You loosen your %s.",
             "target": "scarf_fur_loose"
         },
@@ -1987,7 +1987,7 @@
         "ammo": "NULL",
         "revert_to": "scarf_fur",
         "use_action": {
-            "type": "auto_transform",
+            "type": "transform",
             "msg": "You wrap your scarf a bit tighter.",
             "target": "scarf_fur"
         },
@@ -2021,7 +2021,7 @@
         "turns_per_charge": 0,
         "ammo": "NULL",
         "use_action": {
-            "type": "auto_transform",
+            "type": "transform",
             "msg": "You loosen your %s.",
             "target": "scarf_fur_long_loose"
         },
@@ -2056,7 +2056,7 @@
         "turns_per_charge": 0,
         "ammo": "NULL",
         "use_action": {
-            "type": "auto_transform",
+            "type": "transform",
             "msg": "You wrap your scarf tighter.",
             "target": "scarf_fur_long"
         },
@@ -2130,7 +2130,7 @@
         "ammo": "battery",
         "revert_to": "thermal_outfit",
         "use_action": {
-            "type": "auto_transform",
+            "type": "transform",
             "msg": "Your %s deactivates.",
             "target": "thermal_outfit"
         },
@@ -2155,7 +2155,7 @@
         "turns_per_charge": 0,
         "ammo": "NULL",
         "use_action": {
-            "type": "auto_transform",
+            "type": "transform",
             "msg": "You adjust your ski mask for less warmth.",
             "target": "mask_ski_loose"
         },
@@ -2190,7 +2190,7 @@
         "turns_per_charge": 0,
         "ammo": "NULL",
         "use_action": {
-            "type": "auto_transform",
+            "type": "transform",
             "msg": "You adjust your ski mask for more warmth.",
             "target": "mask_ski"
         },
