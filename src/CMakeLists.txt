@@ -149,6 +149,7 @@ SET(CATACLYSM_DDA_SOURCES
     ${CMAKE_SOURCE_DIR}/src/crafting.cpp
     ${CMAKE_SOURCE_DIR}/src/pathfinding.cpp
     ${CMAKE_SOURCE_DIR}/src/mission_companion.cpp
+    ${CMAKE_SOURCE_DIR}/src/recipe_dictionary.cpp
 )
 
 SET (CATACLYSM_DDA_HEADERS
@@ -284,6 +285,7 @@ SET (CATACLYSM_DDA_HEADERS
     ${CMAKE_SOURCE_DIR}/src/input.h
     ${CMAKE_SOURCE_DIR}/src/item_stack.h
     ${CMAKE_SOURCE_DIR}/src/itype.h
+    ${CMAKE_SOURCE_DIR}/src/recipe_dictionary.h
 )
 
 # Get GIT version strings
