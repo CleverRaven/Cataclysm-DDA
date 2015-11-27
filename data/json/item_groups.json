@@ -5957,6 +5957,7 @@
       ["alternator_motorbike", 6],
       ["alternator_car", 6],
       ["alternator_truck", 6],
+      ["generator_7500w", 3],
       ["storage_battery", 6],
       ["solar_panel", 3],
       ["recharge_station", 2],
