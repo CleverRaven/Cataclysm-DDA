@@ -84,11 +84,11 @@ class ui_element {
     friend class ui_window; // so we don't have to make draw and set_parent public
     private:
         const ui_window *parent = nullptr; /**< The parent is where ```get_win()```gets it's window from */
-        virtual void set_parent( const ui_window *parent ); /**< Virtual setter, so derived classes can do extra calculations */
+        virtual void set_parent( const ui_window *parent ); /**< Virtual setter for ```parent```, so derived classes can do extra calculations */
 
         ui_anchor anchor = top_left; /**< This elements current anchoring inside the parent */
 
-        unsigned int anchored_x, anchored_y; /**< Internal kept value to store anchor adjusted position */
+        unsigned int anchored_x, anchored_y; /**< Internal kept values to store anchor adjusted position */
 
         bool show = true; /**< Indicates to ui_window if this element should be drawn */
         ui_rect rect; /**< Holds the elements size and position */
@@ -111,8 +111,8 @@ class ui_element {
         bool is_visible() const;
         virtual void set_visible( bool visible ); /**< Virtual setter for ```show```, so derived classes can do extra calculations */
 
-        unsigned int get_ax() const; /**< Getter for calculated anchor adjusted x position */
-        unsigned int get_ay() const; /**< Getter for calculated anchor adjusted y position */
+        unsigned int get_ax() const; /**< Getter for anchor adjusted x position */
+        unsigned int get_ay() const; /**< Getter for anchor adjusted y position */
 
         const ui_window *get_parent() const;
 

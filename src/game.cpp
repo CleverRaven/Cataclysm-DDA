@@ -3750,7 +3750,7 @@ void game::debug()
                       _("Change time"), // 26
                       _("Set automove route"), // 27
                       _("Show mutation category levels"), // 28
-                      "ui test", // 29
+                      _("ui samples"), // 29
                       _("Cancel"),
                       NULL);
     int veh_num;

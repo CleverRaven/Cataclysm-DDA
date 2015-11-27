@@ -824,46 +824,46 @@ const std::string &ui_horizontal_list::current() const
 /////////////////////////////////////////////////////
 void label_test()
 {
-    ui_label lable1("some", 0, 0, top_left);
+    ui_label lable1( "some", 0, 0, top_left );
     lable1.text_color = c_red;
-    ui_label lable2("anchored", 0, 0, center_center);
+    ui_label lable2( "anchored", 0, 0, center_center );
     lable2.text_color = c_ltblue;
-    ui_label lable3("labels", 0, 0, bottom_right);
+    ui_label lable3( "labels", 0, 0, bottom_right );
     lable3.text_color = c_ltgreen;
 
-    bordered_window win(31, 13, 50, 15);
-    win.create_child(lable1);
-    win.create_child(lable2);
-    win.create_child(lable3);
+    bordered_window win( 31, 13, 50, 15 );
+    win.create_child( lable1 );
+    win.create_child( lable2 );
+    win.create_child( lable3 );
     win.draw();
 }
 
 void tab_test()
 {
-    tabbed_window win(31, 14, 50, 15);
-    auto t_win1 = win.create_tab<ui_window>("tab 1");
-    ui_label label1("window 1", 0, 0, center_center);
-    t_win1->create_child(label1);
+    tabbed_window win( 31, 14, 50, 15 );
+    auto t_win1 = win.create_tab<ui_window>( "tab 1" );
+    ui_label label1( "window 1", 0, 0, center_center );
+    t_win1->create_child( label1 );
 
-    auto t_win2 = win.create_tab<ui_window>("tab 2");
-    ui_label label2("window 2", 0, 0, center_center);
-    t_win2->create_child(label2);
+    auto t_win2 = win.create_tab<ui_window>( "tab 2" );
+    ui_label label2( "window 2", 0, 0, center_center );
+    t_win2->create_child( label2 );
 
     win.draw();
 
     input_context ctxt;
-    ctxt.register_action("QUIT");
-    ctxt.register_action("PREV_TAB");
-    ctxt.register_action("NEXT_TAB");
+    ctxt.register_action( "QUIT" );
+    ctxt.register_action( "PREV_TAB" );
+    ctxt.register_action( "NEXT_TAB" );
 
-    while(true) {
+    while( true ) {
         const std::string action = ctxt.handle_input();
 
-        if(action == "PREV_TAB") {
+        if( action == "PREV_TAB" ) {
             win.previous_tab();
-        } else if(action == "NEXT_TAB") {
+        } else if( action == "NEXT_TAB" ) {
             win.next_tab();
-        } else if(action == "QUIT") {
+        } else if( action == "QUIT" ) {
             break;
         }
 
@@ -873,27 +873,27 @@ void tab_test()
 
 void indicators_test()
 {
-    bordered_window win(31, 31, 50, 15);
+    bordered_window win( 31, 31, 50, 15 );
 
-    health_bar hb(5, 0, 0, center_center);
-    hb.set_health_percentage(0.5);
-    win.create_child(hb);
+    health_bar hb( 5, 0, 0, center_center );
+    hb.set_health_percentage( 0.5 );
+    win.create_child( hb );
 
-    smiley_indicator si(0, -1, center_center);
-    win.create_child(si);
+    smiley_indicator si( 0, -1, center_center );
+    win.create_child( si );
 
     win.draw();
 }
 
 void tile_panel_test()
 {
-    bordered_window win(31, 31, 50, 15);
+    bordered_window win( 31, 31, 50, 15 );
 
-    ui_tile_panel<ui_tile> tp(29, 29, 1, 1);
+    ui_tile_panel<ui_tile> tp( 29, 29, 1, 1 );
 
-    tp.set_tile(ui_tile('X', c_yellow), 5, 5);
-    tp.set_tile(ui_tile('X', c_yellow), 9, 5);
-    tp.set_tile(ui_tile('X', c_yellow), 7, 6);
+    tp.set_tile( ui_tile( 'X', c_yellow ), 5, 5 );
+    tp.set_tile( ui_tile( 'X', c_yellow ), 9, 5 );
+    tp.set_tile( ui_tile( 'X', c_yellow ), 7, 6 );
 
     win.create_child(tp);
 
@@ -902,9 +902,9 @@ void tile_panel_test()
 
 void auto_border_test()
 {
-    auto_bordered_window win(51, 23, 50, 15);
-    win.create_child(bordered_window(49, 10, 1, 1));
-    win.create_child(bordered_window(49, 10, -1, -1, bottom_right));
+    auto_bordered_window win( 51, 23, 50, 15 );
+    win.create_child( bordered_window( 49, 10, 1, 1 ) );
+    win.create_child( bordered_window( 49, 10, -1, -1, bottom_right ) );
 
     win.draw();
 }
@@ -946,28 +946,28 @@ void list_test()
         "loooooooooooong"
     };
 
-    bordered_window win(32, 34, 50, 15);
+    bordered_window win( 32, 34, 50, 15 );
 
-    ui_vertical_list t_list(7, 15, 0, 1);
-    t_list.set_text(text);
+    ui_vertical_list t_list( 7, 15, 0, 1 );
+    t_list.set_text( text );
 
-    auto t_listp = win.create_child(t_list);
+    auto t_listp = win.create_child( t_list );
 
     win.draw();
 
     input_context ctxt;
-    ctxt.register_action("QUIT");
-    ctxt.register_action("UP");
-    ctxt.register_action("DOWN");
+    ctxt.register_action( "QUIT" );
+    ctxt.register_action( "UP" );
+    ctxt.register_action( "DOWN" );
 
-    while(true) {
+    while( true ) {
         const std::string action = ctxt.handle_input();
 
-        if(action == "UP") {
+        if( action == "UP" ) {
             t_listp->scroll_up();
-        } else if(action == "DOWN") {
+        } else if( action == "DOWN" ) {
             t_listp->scroll_down();
-        } else if(action == "QUIT") {
+        } else if( action == "QUIT" ) {
             break;
         }
 
@@ -983,28 +983,28 @@ void list_test2()
         "3"
     };
 
-    bordered_window win(51, 34, 50, 15);
+    bordered_window win( 51, 34, 50, 15 );
 
-    ui_horizontal_list t_list(1, 1);
-    t_list.set_text(text);
+    ui_horizontal_list t_list( 1, 1 );
+    t_list.set_text( text );
 
-    auto t_listp = win.create_child(t_list);
+    auto t_listp = win.create_child( t_list );
 
     win.draw();
 
     input_context ctxt;
-    ctxt.register_action("QUIT");
-    ctxt.register_action("LEFT");
-    ctxt.register_action("RIGHT");
+    ctxt.register_action( "QUIT" );
+    ctxt.register_action( "LEFT" );
+    ctxt.register_action( "RIGHT" );
 
-    while(true) {
+    while( true ) {
         const std::string action = ctxt.handle_input();
 
-        if(action == "LEFT") {
+        if( action == "LEFT" ) {
             t_listp->scroll_left();
-        } else if(action == "RIGHT") {
+        } else if( action == "RIGHT" ) {
             t_listp->scroll_right();
-        } else if(action == "QUIT") {
+        } else if( action == "QUIT" ) {
             break;
         }
 
@@ -1014,25 +1014,25 @@ void list_test2()
 
 void relative_test()
 {
-    bordered_window win(51, 34, 50, 15);
+    bordered_window win( 51, 34, 50, 15 );
 
-    ui_label l1("origin", 0, 0, center_center);
+    ui_label l1( "origin", 0, 0, center_center );
 
-    ui_label l2("above");
-    ui_label l3("below");
-    ui_label l4("after");
-    ui_label l5("before");
+    ui_label l2( "above" );
+    ui_label l3( "below" );
+    ui_label l4( "after" );
+    ui_label l5( "before" );
 
-    l2.above(l1);
-    l3.below(l1);
-    l4.after(l1, 1);
-    l5.before(l1, -1);
+    l2.above( l1 );
+    l3.below( l1 );
+    l4.after( l1, 1 );
+    l5.before( l1, -1 );
 
-    win.create_child(l1);
-    win.create_child(l2);
-    win.create_child(l3);
-    win.create_child(l4);
-    win.create_child(l5);
+    win.create_child( l1 );
+    win.create_child( l2 );
+    win.create_child( l3 );
+    win.create_child( l4 );
+    win.create_child( l5 );
 
     win.draw();
 }
@@ -1050,9 +1050,9 @@ void ui_test_func()
         "relative"
     };
 
-    int selection = menu_vec(false, "Select a sample", options);
+    int selection = menu_vec( false, "Select a sample", options );
 
-    switch(selection) {
+    switch( selection ) {
         case 1:
             label_test();
             break;
