@@ -876,8 +876,8 @@ void indicators_test()
     bordered_window win(31, 31, 50, 15);
 
     health_bar hb(5, 0, 0, center_center);
-    auto hbp = win.create_child(hb);
-    hbp->set_health_percentage(0.5);
+    hb.set_health_percentage(0.5);
+    win.create_child(hb);
 
     smiley_indicator si(0, -1, center_center);
     win.create_child(si);
@@ -890,11 +890,12 @@ void tile_panel_test()
     bordered_window win(31, 31, 50, 15);
 
     ui_tile_panel<ui_tile> tp(29, 29, 1, 1);
-    auto tpp = win.create_child(tp);
 
-    tpp->set_tile(ui_tile('X', c_yellow), 5, 5);
-    tpp->set_tile(ui_tile('X', c_yellow), 9, 5);
-    tpp->set_tile(ui_tile('X', c_yellow), 7, 6);
+    tp.set_tile(ui_tile('X', c_yellow), 5, 5);
+    tp.set_tile(ui_tile('X', c_yellow), 9, 5);
+    tp.set_tile(ui_tile('X', c_yellow), 7, 6);
+
+    win.create_child(tp);
 
     win.draw();
 }
