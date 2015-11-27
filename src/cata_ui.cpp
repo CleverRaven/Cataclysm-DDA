@@ -467,26 +467,26 @@ void smiley_indicator::set_state( smiley_state new_state )
 }
 
 template<class T>
-tile_panel<T>::tile_panel( size_t size_x, size_t size_y, int x, int y, ui_anchor anchor )
+ui_tile_panel<T>::ui_tile_panel( size_t size_x, size_t size_y, int x, int y, ui_anchor anchor )
                        : ui_element( size_x, size_y, x, y, anchor ), tiles( array_2d<T>( size_x, size_y ) )
 {
 }
 
 template<class T>
-ui_element *tile_panel<T>::clone() const
+ui_element *ui_tile_panel<T>::clone() const
 {
-    return new tile_panel( *this );
+    return new ui_tile_panel( *this );
 }
 
 template<class T>
-void tile_panel<T>::set_rect( const ui_rect &new_rect )
+void ui_tile_panel<T>::set_rect( const ui_rect &new_rect )
 {
     ui_element::set_rect( new_rect );
     tiles = array_2d<T>( new_rect.size_x, new_rect.size_y );
 }
 
 template<class T>
-void tile_panel<T>::draw()
+void ui_tile_panel<T>::draw()
 {
     auto win = get_win();
     if( win == nullptr ) {
@@ -501,7 +501,7 @@ void tile_panel<T>::draw()
 }
 
 template<class T>
-void tile_panel<T>::set_tile( const T &tile, unsigned int x, unsigned int y )
+void ui_tile_panel<T>::set_tile( const T &tile, unsigned int x, unsigned int y )
 {
     if( x >= get_rect().size_x || y >= get_rect().size_y ) {
         return; // TODO: give feedback
@@ -913,7 +913,7 @@ void tile_panel_test()
 {
     bordered_window win(31, 31, 50, 15);
 
-    tile_panel<ui_tile> tp(29, 29, 1, 1);
+    ui_tile_panel<ui_tile> tp(29, 29, 1, 1);
     auto tpp = win.create_child(tp);
 
     tpp->set_tile(ui_tile('X', c_yellow), 5, 5);
