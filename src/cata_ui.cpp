@@ -126,17 +126,11 @@ void ui_window::add_child( ui_element *child )
 {
     children.push_back( child );
     child->set_parent( this );
-    on_add_child();
 }
 
 WINDOW *ui_window::get_win() const
 {
     return win;
-}
-
-size_t ui_window::child_count() const
-{
-    return children.size();
 }
 
 const std::list<ui_element *> &ui_window::get_children() const
@@ -582,8 +576,9 @@ void auto_bordered_window::set_rect( const ui_rect &new_rect )
     recalc_uncovered();
 }
 
-void auto_bordered_window::on_add_child()
+void auto_bordered_window::add_child( ui_element *child )
 {
+    ui_window::add_child( child );
     recalc_uncovered();
 }
 

@@ -144,15 +144,12 @@ class ui_window : public ui_element {
         WINDOW *win = nullptr;
         void draw_children();
         void draw_window_children();
-        void add_child( ui_element *child );
-    protected:
         std::list<ui_element *> children;
+    protected:
         WINDOW *get_win() const override;
-        virtual void local_draw() {}
-        size_t child_count() const;
-        const std::list<ui_element *> &get_children() const;
+        virtual void local_draw() {} /**< Method to draw things that are features of this window (or a derived type) */
         bool is_window() const override { return true; }
-        virtual void on_add_child() {}
+        virtual void add_child( ui_element *child );
     public:
         ui_window( const ui_rect &rect, ui_anchor anchor = top_left );
         ui_window( size_t size_x, size_t size_y, int x = 0, int y = 0, ui_anchor anchor = top_left );
@@ -164,6 +161,8 @@ class ui_window : public ui_element {
 
         void set_anchor( ui_anchor new_anchor ) override;
         void set_rect( const ui_rect &new_rect ) override;
+
+        const std::list<ui_element *> &get_children() const;
 
         /**
         * @brief Creates a copy of the passed ```ui_element```and stores it in it's list of children.
@@ -342,7 +341,7 @@ class auto_bordered_window : public ui_window {
         long get_border_char( unsigned int x, unsigned int y ) const;
     protected:
         void local_draw() override;
-        virtual void on_add_child() override;
+        void add_child( ui_element *child ) override;
     public:
         auto_bordered_window( size_t size_x, size_t size_y, int x = 0, int y = 0, ui_anchor anchor = top_left );
         ui_element *clone() const override;
