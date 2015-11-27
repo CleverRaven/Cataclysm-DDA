@@ -326,8 +326,8 @@ void bordered_window::local_draw()
     wattroff( win, border_color );
 }
 
-health_bar::health_bar( size_t size_x, int x, int y, ui_anchor anchor ) : ui_element( size_x, 1, x, y, anchor ),
-                       max_health( size_x * points_per_char ), current_health( max_health ), bar_str( std::string( '|', size_x ) )
+health_bar::health_bar( size_t size_x, int x, int y, ui_anchor anchor ) : ui_element( size_x , 1, x, y, anchor ),
+                       max_health( size_x * points_per_char ), current_health( max_health ), bar_str( std::string( size_x, '|' ) )
 {
 }
 
@@ -350,7 +350,7 @@ void health_bar::refresh_bar( bool overloaded, float percentage )
 {
     bar_str = "";
     if( overloaded ) {
-        bar_str = std::string( '|', get_rect().size_x );
+        bar_str = std::string( get_rect().size_x, '*' );
     } else {
         for( unsigned int i = 0; i < get_rect().size_x; i++ ) {
             int char_health = current_health - ( i * points_per_char );
@@ -365,16 +365,16 @@ void health_bar::refresh_bar( bool overloaded, float percentage )
     }
 
     static const std::array<nc_color, 7> colors {{
-        c_green,
-        c_ltgreen,
-        c_yellow,
-        c_magenta,
-        c_ltred,
+        c_ltgray,
         c_red,
-        c_ltgray
+        c_ltred,
+        c_magenta,
+        c_yellow,
+        c_ltgreen,
+        c_green
     }};
 
-    bar_color = colors[(int) roundf( colors.size() * percentage )];
+    bar_color = colors[(int) roundf( (colors.size() - 1) * percentage )];
 }
 
 void health_bar::set_health_percentage( float percentage )
@@ -875,9 +875,24 @@ void indicators_test()
 {
     bordered_window win( 31, 31, 50, 15 );
 
-    health_bar hb( 5, 0, 0, center_center );
-    hb.set_health_percentage( 0.5 );
-    win.create_child( hb );
+    health_bar hb1( 5, 0, 0, center_center );
+    hb1.set_health_percentage( 0.5 );
+    win.create_child( hb1 );
+
+    health_bar hb2( 5 );
+    hb2.set_health_percentage( 0 );
+    hb2.below( hb1 );
+    win.create_child( hb2 );
+
+    health_bar hb3( 5 );
+    hb3.set_health_percentage( 1.0 );
+    hb3.below( hb2 );
+    win.create_child( hb3 );
+
+    health_bar hb4( 5 );
+    hb4.set_health_percentage( 1.1 );
+    hb4.below( hb3 );
+    win.create_child( hb4 );
 
     smiley_indicator si( 0, -1, center_center );
     win.create_child( si );
