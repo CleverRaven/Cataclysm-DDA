@@ -895,7 +895,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
 
         if( mod->newtype != "NULL" ) {
             info.push_back( iteminfo( "GUNMOD",
-                                      string_format( _( "Ammo: <stat>%s</stat>" ) + ammo_name( mod->newtype ) ) ) );
+                                      string_format( _( "Ammo: <stat>%s</stat>" ), ammo_name( mod->newtype ).c_str() ) ) );
         }
 
         temp1.str( "" );
