@@ -36,7 +36,8 @@ typedef int nc_color;
  * you probably want a window to draw on, you can use ```get_win()``` for that, just be sure to check if it's not null,
  * which it technically can be if the parent is not set. It's also important (at least, if you want to use anchors) that
  * you use ```get_ax()``` and ```get_ay()``` to retrieve anchor adjusted x and y positions (respectively)
- * rather than using ```get_rect().x``` and ```get_rect().y```.
+ * rather than using ```get_rect().x``` and ```get_rect().y```. You don't need to manually call the draw method, that's done
+ * by the window you add it to. On that note, you should probably keep it 'protected' to avoid doing that accidentally.
  *
  * @{
  */
@@ -94,7 +95,7 @@ class ui_element {
         void calc_anchored_values();
     protected:
         virtual void draw() = 0;
-        virtual WINDOW *get_win() const;
+        virtual WINDOW *get_win() const; /**< Getter for a window to draw with */
         virtual bool is_window() const { return false; }
     public:
         ui_element( size_t size_x, size_t size_y, int x = 0, int y = 0, ui_anchor anchor = top_left );
@@ -112,6 +113,8 @@ class ui_element {
 
         unsigned int get_ax() const; /**< Getter for calculated anchor adjusted x position */
         unsigned int get_ay() const; /**< Getter for calculated anchor adjusted y position */
+
+        const ui_window *get_parent() const;
 
         /**
         * @name Relatives
@@ -147,7 +150,7 @@ class ui_window : public ui_element {
         std::list<ui_element *> children;
     protected:
         WINDOW *get_win() const override;
-        virtual void local_draw() {} /**< Method to draw things that are features of this window (or a derived type) */
+        virtual void local_draw() {} /**< Method to draw things that are features of this window (or a derived type) e.g. a border */
         bool is_window() const override { return true; }
         virtual void add_child( ui_element *child );
     public:
@@ -298,7 +301,7 @@ class ui_tile_panel : public ui_element {
 * Sometimes when you create a tab you want to also hook up some controls. But (if done naively)
 * you would have to keep a pointer to every element you want to control, in a list and keep track
 * of the current tab you're on to know which element to control. But there is a better way! ```create_tab```
-* takes a type argument with the ```ui_window``` constraint. So what you could do,* if you don't
+* takes a type argument with the ```ui_window``` constraint. So what you could do, if you don't
 * want to keep track of things, is to extend a ```ui_window``` class and within that, do tab specific setup,
 * and have tab specific fields (e.g. if you have a list you want to control in the tab, you would have a list field).
 * and pass that class's type as a type argument. You can then request the current tab (with ```current_tab```)

@@ -257,6 +257,11 @@ unsigned int ui_element::get_ay() const
     return anchored_y;
 }
 
+const ui_window *ui_element::get_parent() const
+{
+    return parent;
+}
+
 void ui_element::set_parent( const ui_window *parent )
 {
     this->parent = parent;
