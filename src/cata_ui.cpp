@@ -819,6 +819,38 @@ const std::string &ui_horizontal_list::current() const
     return text[scroll];
 }
 
+color_mapped_label::color_mapped_label( std::string text, int x, int y, ui_anchor anchor ) : ui_label( text, x, y, anchor )
+{
+}
+
+ui_element *color_mapped_label::clone() const
+{
+    return new color_mapped_label( *this );
+}
+
+void color_mapped_label::draw()
+{
+    auto win = get_win();
+    if( win == nullptr ) {
+        return;
+    }
+
+    mvwprintz( win, get_ay(), get_ax(), text_color, string_format( "%s", text.c_str() ).c_str() );
+
+    for( auto kvp : color_map ) {
+        for( unsigned int x = 0; x < text.size() && x < kvp.second.size(); x++ ) {
+            if( kvp.second[x] != '_' ) {
+                mvwputch( win, get_ay(), get_ax() + x, kvp.first, text[x] );
+            }
+        }
+    }
+}
+
+std::string &color_mapped_label::operator[]( nc_color color )
+{
+    return color_map[color];
+}
+
 /////////////////////////////////////////////////////
 //THE FOLLOWING WILL SERVE AS EXAMPLES///////////////
 /////////////////////////////////////////////////////
@@ -1052,6 +1084,23 @@ void relative_test()
     win.draw();
 }
 
+void test_col_label()
+{
+    bordered_window win( 51, 34, 50, 15 );
+
+    // Note: anything that is NOT an underscore gets the color. I just used letters for ease of use.
+    color_mapped_label l1( "Color Mapped Label", 0, 0, center_center );
+    l1[c_green] =          "C_____M______L____";
+    l1[c_ltblue] =         "_o_____a______a___";
+    l1[c_yellow] =         "__l_____p______b__";
+    l1[c_ltgreen] =        "___o_____p______e_";
+    l1[c_red] =            "____r_____e______l";
+
+    win.create_child( l1 );
+
+    win.draw();
+}
+
 void ui_test_func()
 {
     std::vector<std::string> options {
@@ -1062,7 +1111,8 @@ void ui_test_func()
         "auto borders",
         "v list",
         "h list",
-        "relative"
+        "relative",
+        "col label"
     };
 
     int selection = menu_vec( false, "Select a sample", options );
@@ -1091,6 +1141,9 @@ void ui_test_func()
             break;
         case 8:
             relative_test();
+            break;
+        case 9:
+            test_col_label();
             break;
         default:
             break;

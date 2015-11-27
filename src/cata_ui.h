@@ -8,6 +8,7 @@
 #include <utility>
 #include <list>
 #include <string>
+#include <map>
 
 typedef int nc_color;
 
@@ -26,7 +27,7 @@ typedef int nc_color;
  ```
  ui_element *my_element::clone() const
  {
-    return new my_element( *this )
+    return new my_element( *this );
  }
  ```
  * and that will be sufficient. Override the class's copy constructor
@@ -183,9 +184,9 @@ class ui_window : public ui_element {
 * @brief A simple text label
 */
 class ui_label : public ui_element {
-    private:
-        std::string text;
     protected:
+        std::string text;
+
         virtual void draw() override;
     public:
         ui_label( std::string text, int x = 0, int y = 0, ui_anchor anchor = top_left );
@@ -270,7 +271,7 @@ class ui_tile {
         virtual void draw( WINDOW *, int, int ) const = 0;
 };
 
-class char_tile :ui_tile {
+class char_tile : public ui_tile {
         long sym;
         nc_color color;
     public:
@@ -404,6 +405,26 @@ class ui_horizontal_list : public ui_element {
         void scroll_left();
         void scroll_right();
         const std::string &current() const;
+};
+
+/**
+* @brief A label where letters can have individual colors.
+*
+* To map letters to a color you can use something like ```my_label[c_green] = "XXX___XXX";```
+* This means that the first 3 letters will be green, the next 3 will have the default color
+* (at least, if they're not mapped to another color) and the last 3 letters will be green again.
+* Note that you don't have to use X's, anything that is NOT an underscore will get the color.
+*/
+class color_mapped_label : public ui_label {
+    private:
+        std::map<nc_color, std::string> color_map;
+    public:
+        color_mapped_label( std::string text, int x = 0, int y = 0, ui_anchor anchor = top_left );
+        ui_element *clone() const override;
+
+        void draw() override;
+
+        std::string &operator[]( nc_color color );
 };
 
 ///@}
