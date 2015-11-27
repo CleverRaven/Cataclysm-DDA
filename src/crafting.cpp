@@ -901,7 +901,7 @@ comp_selection<item_comp> player::select_item_component(const std::vector<item_c
 
         // Get the selection via a menu popup
         int selection = menu_vec(can_cancel, _("Use which component?"), options) - 1;
-        if(selection == UIMENU_INVALID) {
+        if( selection < 0 ) {
             selected.use_from = cancel;
             return selected;
         }
@@ -1037,7 +1037,7 @@ player::select_tool_component( const std::vector<tool_comp> &tools, int batch, i
 
         // Get selection via a popup menu
         int selection = menu_vec(can_cancel, _("Use which tool?"), options, hotkeys) - 1;
-        if(selection == UIMENU_INVALID) {
+        if( selection < 0 ) {
             selected.use_from = cancel;
             return selected;
         }
