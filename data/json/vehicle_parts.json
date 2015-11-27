@@ -94,9 +94,7 @@
         "item" : "seat",
         "difficulty" : 1,
         "location" : "center",
-        "flags" : [
-            "SEAT", "BOARDABLE", "CARGO", "BELTABLE"
-        ],
+        "flags" : ["SEAT", "BOARDABLE", "CARGO", "BELTABLE"],
         "breaks_into": "ig_vp_seat"
     },{
         "type" : "vehicle_part",
@@ -112,9 +110,7 @@
         "difficulty" : 2,
         "size" : 25,
         "location" : "center",
-        "flags" : [
-            "BED", "SEAT", "BOARDABLE", "BELTABLE", "CARGO"
-        ],
+        "flags" : ["BED", "SEAT", "BOARDABLE", "BELTABLE", "CARGO"],
         "breaks_into": "ig_vp_seat"
     },{
         "type" : "vehicle_part",
@@ -129,9 +125,7 @@
         "item" : "seat",
         "difficulty" : 1,
         "location" : "center",
-        "flags" : [
-            "SEAT", "BOARDABLE", "BELTABLE"
-        ],
+        "flags" : ["SEAT", "BOARDABLE", "BELTABLE"],
         "breaks_into": "ig_vp_seat"
     },{
         "type" : "vehicle_part",
@@ -147,9 +141,7 @@
         "difficulty": 2,
         "epower": -63,
         "folded_volume": 2,
-        "flags": [
-          "TRACK", "UNMOUNT_ON_DAMAGE", "FOLDABLE"
-        ],
+        "flags": ["TRACK", "UNMOUNT_ON_DAMAGE", "FOLDABLE"],
         "breaks_into": [
             {"item": "scrap", "count": [0, 2]}
         ]
@@ -167,9 +159,7 @@
         "item" : "saddle",
         "difficulty" : 1,
         "location" : "center",
-        "flags" : [
-            "SEAT", "BOARDABLE", "FOLDABLE"
-        ],
+        "flags" : ["SEAT", "BOARDABLE", "FOLDABLE"],
         "breaks_into" : [
             {"item": "leather", "prob": 50},
             {"item": "scrap", "count": [1, 2]}
@@ -188,9 +178,7 @@
         "folded_volume": 10,
         "difficulty" : 2,
         "location" : "anywhere",
-        "flags" : [
-            "SEAT", "BOARDABLE", "FOLDABLE"
-        ],
+        "flags" : ["SEAT", "BOARDABLE", "FOLDABLE"],
         "breaks_into" : [
             {"item": "rag", "count": [1, 6]}
         ]
@@ -208,9 +196,7 @@
         "item" : "seat",
         "difficulty" : 1,
         "location" : "center",
-        "flags" : [
-            "BED", "BOARDABLE", "CARGO", "MOUNTABLE"
-        ],
+        "flags" : ["BED", "BOARDABLE", "CARGO", "MOUNTABLE"],
         "breaks_into": "ig_vp_seat"
     },{
         "type" : "vehicle_part",
@@ -4950,7 +4936,7 @@
         "item" : "camera_control",
         "epower": -100,
         "difficulty" : 3,
-        "flags" : [ "VISION", "CAMERA", "CAMERA_CONTROL" ],
+        "flags" : ["VISION", "CAMERA", "CAMERA_CONTROL"],
         "breaks_into" : [
             {"item": "e_scrap", "count": [4, 10]},
             {"item": "plastic_chunk", "count": [2, 8]}
@@ -4972,7 +4958,7 @@
         "epower": -75,
         "difficulty" : 4,
         "location" : "on_roof",
-        "flags" : [ "VISION", "CAMERA" ],
+        "flags" : ["VISION", "CAMERA"],
         "breaks_into" : [
             {"item": "e_scrap", "count": [4, 16]},
             {"item": "plastic_chunk", "count": [2, 8]}
