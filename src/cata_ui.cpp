@@ -479,10 +479,10 @@ template<class T>
 void ui_tile_panel<T>::set_tile( const T &tile, unsigned int x, unsigned int y )
 {
     if( x >= get_rect().size_x || y >= get_rect().size_y ) {
-        return; // TODO: give feedback
+        return;
     }
 
-    tiles.set_at(x, y, tile); // Does this call T's copy constructor? or maybe of a derived type?
+    tiles.set_at( x, y, tile );
 }
 
 void ui_tile::draw( WINDOW *win, int x, int y ) const
@@ -494,7 +494,7 @@ ui_tile::ui_tile( long sym, nc_color color ) : sym( sym ), color( color )
 {
 }
 
-tabbed_window::tabbed_window(size_t size_x, size_t size_y, int x, int y, ui_anchor anchor) : bordered_window(size_x, size_y, x, y, anchor), tab_index(0)
+tabbed_window::tabbed_window( size_t size_x, size_t size_y, int x, int y, ui_anchor anchor ) : bordered_window( size_x, size_y, x, y, anchor )
 {
 }
 
