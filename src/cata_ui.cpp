@@ -137,8 +137,7 @@ void ui_window::set_anchor( ui_anchor new_anchor )
     }
 }
 
-// This method expects a pointer to a heap allocated ui_element.
-// This ui_element will be deleted by the ui_window's deconstructor, so you can add-and-forget.
+// This returned ui_element will be deleted by ui_window's deconstructor, so you don't have to.
 template<class T>
 T *ui_window::create_child( const T &from )
 {
@@ -149,7 +148,6 @@ T *ui_window::create_child( const T &from )
 
 void ui_window::add_child( ui_element *child )
 {
-
     children.push_back( child );
     child->set_parent( this );
     on_add_child();
