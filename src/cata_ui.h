@@ -3,24 +3,13 @@
 
 #include "output.h"
 #include "enums.h"
+#include "cata_utility.h"
 
 #include <utility>
 #include <list>
 #include <string>
 
 typedef int nc_color;
-
-template<typename T>
-class array_2d {
-private:
-    size_t size_x, size_y;
-    std::vector<T> _array;
-public:
-    array_2d( size_t x, size_t y );
-
-    void set_at( size_t x, size_t y, T e );
-    T get_at( size_t x, size_t y) const;
-};
 
 /**
  * @defgroup Cata_ui Cataclysm's ui framework.
@@ -307,15 +296,16 @@ class ui_tile_panel : public ui_element {
 * @brief A window with tabs at the top.
 *
 ### Creating tabs
-* Sometimes when you create a tab you want to also hook up some controls. But (if done naively) you would have to keep a pointer
-* to every element you want to control, in a list and keep track of the current tab you're on to know which element to control.
-* But there is a better way! ```create_tab``` takes a type argument with the ```ui_window``` constraint. So what you could do,
-* if you don't want to keep track of things, is to extend a ```ui_window``` class and within that, do tab specific setup,
-* and have tab specific fields (e.g. if you have a list you want to control in the tab, you would have a list field). and pass
-* that class's type as a type argument. You can then request the current tab (with ```current_tab```) cast the pointer
-* to the type of your subclass (it doesn't get sliced) and access your list field to send controls to. Then, you would only
-* have to keep track of the types mapped to the different tabs (through the tab's name), which is only needed if you have
-* different kind of tabs.
+* Sometimes when you create a tab you want to also hook up some controls. But (if done naively)
+* you would have to keep a pointer to every element you want to control, in a list and keep track
+* of the current tab you're on to know which element to control. But there is a better way! ```create_tab```
+* takes a type argument with the ```ui_window``` constraint. So what you could do,* if you don't
+* want to keep track of things, is to extend a ```ui_window``` class and within that, do tab specific setup,
+* and have tab specific fields (e.g. if you have a list you want to control in the tab, you would have a list field).
+* and pass that class's type as a type argument. You can then request the current tab (with ```current_tab```)
+* cast the pointer to the type of your subclass (it doesn't get sliced) and access your list field
+* to send controls to. Then, you would only have to keep track of the types mapped to the different
+* tabs (through the tab's name), which is only needed if you have different kind of tabs.
 */
 class tabbed_window : public bordered_window {
     private:

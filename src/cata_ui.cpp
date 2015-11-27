@@ -9,30 +9,6 @@
 #include <cmath>
 #include <array>
 
-template<typename T>
-array_2d<T>::array_2d( size_t x, size_t y )
-{
-    size_x = x;
-    size_y = y;
-    _array = std::vector<T>( x * y ); // Make sure capacity is sufficient
-}
-
-template<typename T>
-void array_2d<T>::set_at( size_t x, size_t y, T e )
-{
-    if( x >= size_x || y >= size_y ) {
-        return;
-    }
-
-    _array[y * size_x + x] = e;
-}
-
-template<typename T>
-T array_2d<T>::get_at( size_t x, size_t y) const
-{
-    return _array[y * size_x + x]; // let user deal with array index out of bounds
-}
-
 ui_rect::ui_rect( size_t size_x, size_t size_y, int x, int y ) : size_x( size_x ), size_y( size_y ), x( x ), y( y )
 {
 }
@@ -926,7 +902,6 @@ void tile_panel_test()
 void auto_border_test()
 {
     auto_bordered_window win(51, 23, 50, 15);
-
     win.create_child(bordered_window(49, 10, 1, 1));
     win.create_child(bordered_window(49, 10, -1, -1, bottom_right));
 

@@ -10,6 +10,36 @@ class Creature;
 class map_item_stack;
 struct tripoint;
 
+// note that template implementation has to be in the header, or we get undefined references
+// (http://stackoverflow.com/questions/8752837/undefined-reference-to-template-class-constructor)
+/**
+* A class template that mimics a 2 dimensional array.
+*/
+template<typename T>
+class array_2d {
+private:
+    size_t size_x, size_y;
+    std::vector<T> _array;
+public:
+    array_2d( size_t x, size_t y ) : size_x( x ), size_y( y ), _array( std::vector<T>( x * y ) ) // Make sure capacity is sufficient
+    {
+    }
+
+    void set_at( size_t x, size_t y, T e )
+    {
+        if( x >= size_x || y >= size_y ) {
+            return;
+        }
+
+        _array[y * size_x + x] = e;
+    }
+
+    T get_at( size_t x, size_t y) const
+    {
+        return _array[y * size_x + x];
+    }
+};
+
 struct pair_greater_cmp {
     bool operator()( const std::pair<int, tripoint> &a, const std::pair<int, tripoint> &b );
 };
