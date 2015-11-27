@@ -9,6 +9,8 @@
 #include "field.h"
 #include "messages.h"
 #include "input.h"
+#include "monster.h"
+#include "mtype.h"
 
 Character::Character()
 {
@@ -191,17 +193,19 @@ bool Character::move_effects(bool attacking)
             remove_effect("in_pit");
         }
     }
-    if (has_effect("grabbed")){
+    if (has_effect("grabbed") && !attacking){
         int zed_number = 0;
         for( auto &&dest : g->m.points_in_radius( pos(), 1, 0 ) ){
-            if (g->mon_at(dest) != -1){
+            if (g->mon_at(dest) != -1 && g->zombie(g->mon_at(dest)).has_flag(MF_GRABS)) {
                 zed_number ++;
             }
         }
-        if (attacking || zed_number == 0){
-            return true;
+        if ( zed_number == 0 ) {
+            add_msg_player_or_npc(m_good, _("You find yourself no longer grabbed."),
+                                            _("<npcname> finds themselves no longer grabbed."));
+            remove_effect("grabbed");
         }
-        if (get_dex() > get_str() ? rng(0, get_dex()) : rng( 0, get_str()) < rng( get_effect_int("grabbed") , 8) ){
+        else if (get_dex() > get_str() ? rng(0, get_dex()) : rng( 0, get_str()) < rng( get_effect_int("grabbed") , 8) ){
             add_msg_player_or_npc(m_bad, _("You try break out of the grab, but fail!"),
                                             _("<npcname> tries to break out of the grab, but fails!"));
             return false;
