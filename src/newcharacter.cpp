@@ -1,5 +1,7 @@
+#include "cata_utility.h"
 #include "player.h"
 #include "profession.h"
+#include "recipe_dictionary.h"
 #include "scenario.h"
 #include "start_location.h"
 #include "input.h"
@@ -18,7 +20,7 @@
 #include "addiction.h"
 #include "ui.h"
 #include "mutation.h"
-#include "cata_utility.h"
+
 
 #ifndef _MSC_VER
 #include <unistd.h>
@@ -382,6 +384,15 @@ int player::create(character_type type, std::string tempname)
     ret_null = item("null", 0);
     weapon = ret_null;
 
+    //Learn recipes
+    for( auto &cur_recipe : recipe_dict ) {
+        if( !cur_recipe->autolearn && has_recipe_requirements( cur_recipe ) &&
+            cur_recipe->ident.find( "uncraft" ) == std::string::npos &&
+            !( learned_recipes.find( cur_recipe->ident ) != learned_recipes.end() ) ) {
+
+            learn_recipe( (recipe *)cur_recipe );
+        }
+    }
 
     item tmp; //gets used several times
     item tmp2;
@@ -1340,9 +1351,12 @@ int set_skills(WINDOW *w, player *u, int &points)
     const int num_skills = Skill::skills.size();
     int cur_pos = 0;
     const Skill* currentSkill = sorted_skills[cur_pos];
+    int selected = 0;
 
     input_context ctxt("NEW_CHAR_SKILLS");
     ctxt.register_cardinal();
+    ctxt.register_action("SCROLL_DOWN");
+    ctxt.register_action("SCROLL_UP");
     ctxt.register_action("PREV_TAB");
     ctxt.register_action("NEXT_TAB");
     ctxt.register_action("HELP_KEYBINDINGS");
@@ -1356,8 +1370,69 @@ int set_skills(WINDOW *w, player *u, int &points)
         mvwprintz(w, 3, 31, points >= cost ? COL_SKILL_USED : c_ltred,
                   ngettext("Upgrading %s costs %d point", "Upgrading %s costs %d points", cost),
                   currentSkill->name().c_str(), cost);
-        fold_and_print(w_description, 0, 0, getmaxx(w_description), COL_SKILL_USED,
-                       currentSkill->description());
+
+        std::map<std::string, std::vector<std::pair<std::string, int> > > recipes;
+        for( auto cur_recipe : recipe_dict ) {
+            //Find out if the current skill and its level is in the requirement list
+            auto req_skill = cur_recipe->required_skills.find( currentSkill->ident() );
+            int skill = (req_skill != cur_recipe->required_skills.end()) ? req_skill->second : 0;
+
+            // Filter out autolearend recipes, recipes that don't use the current skill,
+            // recipes we're missing prerequisites for, and uncraft recipes.
+            if( !cur_recipe->autolearn &&
+                ( cur_recipe->skill_used == currentSkill->ident() || skill > 0 ) &&
+                u->has_recipe_requirements( cur_recipe ) &&
+                cur_recipe->ident.find("uncraft") == std::string::npos )  {
+
+                recipes[cur_recipe->skill_used.obj().name()].push_back(
+                    make_pair( item::nname( cur_recipe->result ),
+                               (skill > 0) ? skill : cur_recipe->difficulty ) );
+            }
+        }
+
+        std::string rec_disp = "";
+
+        for( auto iter = recipes.begin(); iter != recipes.end(); ++iter ) {
+            std::sort( iter->second.begin(), iter->second.end(),
+                       []( const std::pair<std::string, int>& lhs,
+                           const std::pair<std::string, int>& rhs ) {
+                           return lhs.second < rhs.second ||
+                                               ( lhs.second == rhs.second && lhs.first < rhs.first );
+                       } );
+
+            std::string rec_temp = "";
+            for( auto rec = iter->second.begin(); rec != iter->second.end(); ++rec ) {
+                if( !rec_temp.empty() ) {
+                    rec_temp += ", ";
+                }
+                rec_temp += rec->first + " (" + to_string(rec->second) + ")";
+            }
+
+            if( iter->first == currentSkill->name() ) {
+                rec_disp = "\n \n<color_c_brown>" + rec_temp + "</color>" + rec_disp;
+            } else {
+                rec_disp += "\n \n<color_c_ltgray>[" + iter->first + "]\n" + rec_temp + "</color>";
+            }
+        }
+
+        rec_disp = currentSkill->description() + rec_disp;
+
+        const auto vFolded = foldstring( rec_disp, getmaxx( w_description ) );
+        int iLines = vFolded.size();
+
+        if( selected < 0 ) {
+            selected = 0;
+        } else if( iLines < iContentHeight ) {
+            selected = 0;
+        } else if( selected >= iLines - iContentHeight ) {
+            selected = iLines - iContentHeight;
+        }
+
+        fold_and_print_from( w_description, 0, 0, getmaxx( w_description ),
+                             selected, COL_SKILL_USED, rec_disp );
+
+        draw_scrollbar( w, selected, iContentHeight, iLines - iContentHeight,
+                        5, getmaxx(w) - 1, BORDER_COLOR, true );
 
         int first_i, end_i, base_y;
         if (cur_pos < iHalf) {
@@ -1435,6 +1510,10 @@ int set_skills(WINDOW *w, player *u, int &points)
                     level.level(level + 1);
                 }
             }
+        } else if (action == "SCROLL_DOWN") {
+            selected++;
+        } else if (action == "SCROLL_UP") {
+            selected--;
         } else if (action == "PREV_TAB") {
             delwin(w_description);
             return -1;

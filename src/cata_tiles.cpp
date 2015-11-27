@@ -521,10 +521,11 @@ void cata_tiles::load_tilejson_from_file(const std::string &tileset_dir, std::if
 void cata_tiles::add_ascii_subtile(tile_type &curr_tile, const std::string &t_id, int fg, const std::string &s_id)
 {
     const std::string m_id = t_id + "_" + s_id;
-    tile_type &curr_subtile = tile_ids[m_id];
+    tile_type curr_subtile;
     curr_subtile.fg.push_back(fg);
     curr_subtile.rotates = true;
     curr_tile.available_subtiles.push_back(s_id);
+    tile_ids[m_id] = curr_subtile;
 }
 
 void cata_tiles::load_ascii_tilejson_from_file(JsonObject &config, int offset, int size)
@@ -676,9 +677,22 @@ void cata_tiles::load_tilejson_from_file(JsonObject &config, int offset, int siz
     dbg( D_INFO ) << "Tile Width: " << tile_width << " Tile Height: " << tile_height << " Tile Definitions: " << tile_ids.size();
 }
 
+/**
+ * Load a tile definition and add it to the @ref tile_ids map.
+ * All loaded tiles go into one vector (@ref tile_values), their index in it is their id.
+ * The JSON data (loaded here) contains tile ids relative to the associated image.
+ * They are translated into global ids by adding the @p offset, which is the number of
+ * previously loaded tiles (excluding the tiles from the associated image).
+ * @param id The id of the new tile definition (which is the key in @ref tile_ids). Any existing
+ * definition of the same id is overriden.
+ * @param size The number of tiles loaded from the current tileset file. This defines the
+ * range of valid tile ids that can be loaded. An exception is thrown if any tile id is outside
+ * that range.
+ * @return A reference to the loaded tile inside the @ref tile_ids map.
+ */
 tile_type &cata_tiles::load_tile(JsonObject &entry, const std::string &id, int offset, int size)
 {
-    tile_type &curr_subtile = tile_ids[id];
+    tile_type curr_subtile;
 
     if ( entry.has_array("fg") ) {
         JsonArray fg_array = entry.get_array("fg");
@@ -720,7 +734,9 @@ tile_type &cata_tiles::load_tile(JsonObject &entry, const std::string &id, int o
         }
     }
 
-    return curr_subtile;
+    auto &result = tile_ids[id];
+    result = curr_subtile;
+    return result;
 }
 
 void cata_tiles::draw_single_tile( const tripoint &p, lit_level ll,

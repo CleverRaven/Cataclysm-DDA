@@ -1162,6 +1162,30 @@
     },
     {
         "type" : "keybinding",
+        "id": "SCROLL_UP",
+        "category": "NEW_CHAR_SKILLS",
+        "name": "Scroll description up",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"PPAGE"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "SCROLL_DOWN",
+        "category": "NEW_CHAR_SKILLS",
+        "name": "Scroll description down",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"NPAGE"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
         "id": "INSTALL",
         "category": "VEH_INTERACT",
         "name": "Install part",
