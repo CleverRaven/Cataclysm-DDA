@@ -1844,7 +1844,7 @@
     "death_function":["NORMAL"],
     "special_attacks":[["SHRIEK_ALERT", 20], ["SHRIEK_STUN", 1]],
     "description":"A thin corpse, its chest is swollen in what appears to be preparation.  A thick black ooze drips from its open mouth.",
-    "flags":["SEES", "DEAF", "KEENNOSE", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "REVIVES", "BONES", "PARROTS"]
+    "flags":["SEES", "DEAF", "KEENNOSE", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "NO_BREATHE", "REVIVES", "BONES", "PARROT"]
     },{
     "type" : "MONSTER",
     "id" : "mon_zombie_acidic",

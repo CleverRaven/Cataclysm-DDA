@@ -53,7 +53,11 @@ List of known flags, used in both terrain.json and furniture.json
 - ```CONSOLE``` Used as a computer.
 - ```ALARMED``` Sets off an alarm if smashed.
 - ```SUPPORTS_ROOF``` Used as a boundary for roof construction.
-- ```MINEABLE``` Can be mined with a pickaxe/jackhammer
+- ```CONNECT_TO_WALL```
+- ```NO_FLOOR```
+- ```RAMP```
+- ```RAMP_END```
+- ```MINEABLE``` Can be mined with a pickaxe/jackhammer.
 - ```INDOORS``` Has a roof over it; blocks rain, sunlight, etc.
 - ```THIN_OBSTACLE``` Passable by players and monsters; vehicles destroy it.
 - ```COLLAPSES``` Has a roof that can collapse.
@@ -66,7 +70,12 @@ List of known flags, used in both terrain.json and furniture.json
 - ```OPENCLOSE_INSIDE``` If it's a door (with an 'open' or 'close' field), it can only be opened or closed if you're inside.
 - ```BARRICADABLE_WINDOW``` Window that can be barricaded.
 - ```BARRICADABLE_DOOR``` Door that can be barricaded.
-- ```SHORT``` Feature too short to collide with vehicle protrusions. (mirrors, blades)
+- ```BARRICADABLE_DOOR_DAMAGED```
+- ```BARRICADABLE_DOOR_REINFORCED```
+- ```BARRICADABLE_DOOR_REINFORCED_DAMAGED```
+- ```BARRICADABLE_WINDOW_CURTAINS```
+- ```RUG```
+- ```SHORT``` Feature too short to collide with vehicle protrusions. (mirrors, blades).
 - ```TINY``` Feature too short to collide with vehicle undercarriage. Vehicles drive over them with no damage, unless a wheel hits them.
 - ```NOCOLLIDE``` Feature that simply doesn't collide with vehicles at all.
 - ```PERMEABLE``` Permeable for gases.
@@ -74,9 +83,10 @@ List of known flags, used in both terrain.json and furniture.json
 - ```UNSTABLE``` Walking here cause the bouldering effect on the character.
 - ```HARVESTED``` Marks the harvested version of a terrain type (e.g. harvesting an apple tree turns it into a harvested tree, which later becomes an apple tree again).
 - ```ROAD``` Flat and hard enough to drive or skate (with rollerblades) on.
+- ```DEEP_WATER```
 - ```AUTO_WALL_SYMBOL``` (only for terrain) The symbol of this terrain will be one of the line drawings (corner, T-intersection, straight line etc.) depending on the adjacent terrains.
-- ```ALLOW_FIELD_EFFECT``` Apply field effects to items inside ```SEALED``` terrain/furniture
-- ```CHIP``` Used in construction menu to determine if wall can have paint chipped off
+- ```ALLOW_FIELD_EFFECT``` Apply field effects to items inside ```SEALED``` terrain/furniture.
+- ```CHIP``` Used in construction menu to determine if wall can have paint chipped off.
 
 Example: `-` and `|` is terrain with the `CONNECT_TO_WALL` flag, `O` does not have it, `X` and `Y` have the `AUTO_WALL_SYMBOL` flag, `X` terrain will be drawn as a T-intersection (connected to west, south and east), `Y` will be drawn as horizontal line (going from west to east, no connection to south).
 ```
@@ -194,6 +204,7 @@ Flags used to describe monsters and define their properties and abilities.
 - ```GRABS``` Its attacks may grab you!
 - ```BASHES``` Bashes down doors.
 - ```GROUP_BASH``` Gets help from monsters around it when bashing.
+- ```PUSH_MON```
 - ```DESTROYS``` Bashes down walls and more. (2.5x bash multiplier, where base is the critter's max melee bashing)
 - ```BORES``` Tunnels through just about anything (15x bash multiplier: dark wyrms' bash skill 12->180)
 - ```POISON``` Poisonous to eat.
@@ -395,11 +406,13 @@ These branches are also the valid entries for the categories of `dreams` in `dre
 - ```UNMOUNT_ON_DAMAGE``` Part breaks off the vehicle when destroyed by damage.
 - ```BED``` A bed where the player can sleep.
 - ```OPAQUE``` Cannot be seen through.
-- ```OBSTACLE``` Cannot walk through part, unless the part is also 'OPENABLE'.
+- ```VISION```
+- ```OBSTACLE``` Cannot walk through part, unless the part is also ```OPENABLE```.
 - ```AISLE``` Player can move over this part with less speed penalty than normal.
 - ```ROOF``` Covers a section of the vehicle. Areas of the vehicle that have a roof and roofs on surrounding sections, are considered inside. Otherwise they're outside.
 - ```OPENABLE``` Can be opened or closed.
 - ```OPENCLOSE_INSIDE```  Can be opened or closed, but only from inside the vehicle.
+- ```DOOR_MOTOR```
 - ```WINDOW``` Can see through this part and can install curtains over it.
 - ```SHARP``` Striking a monster with this part does cutting damage instead of bashing damage, and prevents stunning the monster.
 - ```PROTRUSION``` Part sticks out so no other parts can be installed over it.
@@ -407,37 +420,59 @@ These branches are also the valid entries for the categories of `dreams` in `dre
 - ```STABLE``` Similar to `WHEEL`, but if the vehicle is only a 1x1 section, this single wheel counts as enough wheels.
 - ```ENGINE``` Is an engine and contributes towards vehicle mechanical power.
 - ```ALTERNATOR``` Recharges batteries installed on the vehicle.
+- ```REACTOR```
+- ```BATTERY_MOUNT```
+- ```NEEDS_BATTERY_MOUNT```
 - ```MUSCLE_LEGS``` Power of the engine with such flag depends on player's strength.
-- ```MUSCLE_ARMS``` Power of the engine with such flag depends on player's strength (it's less effective than 'MUSCLE_LEGS').
+- ```MUSCLE_ARMS``` Power of the engine with such flag depends on player's strength (it's less effective than ```MUSCLE_LEGS```).
 - ```FUEL_TANK``` Storage device for a fuel type.
 - ```FRIDGE``` Can refrigerate items.
+- ```CAMERA```
+- ```CAMERA_CONTROL```
 - ```CONTROLS``` Can be used to control the vehicle.
+- ```REMOTE_CONTROLS```
 - ```CTRL_ELECTRONIC``` Controls electrical and electronic systems of the vehicle.
+- ```ON_CONTROLS```
 - ```MUFFLER``` Muffles the noise a vehicle makes while running.
-- ```CURTAIN``` Can be installed over a part flagged with `WINDOW`, and functions the same as blinds found on windows in buildings.
+- ```CURTAIN``` Can be installed over a part flagged with ```WINDOW```, and functions the same as blinds found on windows in buildings.
 - ```SOLAR_PANEL``` Recharges vehicle batteries when exposed to sunlight. Has a 1 in 4 chance of being broken on car generation.
+- ```FUNNEL```
+- ```FAUCET```
 - ```KITCHEN``` Acts as a kitchen unit and heat source for crafting.
 - ```WELDRIG``` Acts as a welder for crafting.
 - ```CRAFTRIG``` Acts as a dehydrator, vacuum sealer and reloading press for crafting purposes. Potentially to include additional tools in the future.
 - ```CHEMLAB``` Acts as a chemistry set for crafting.
 - ```FORGE``` Acts as a forge for crafting.
 - ```TURRET``` Is a weapon turret.
+- ```SECURITY```
 - ```ARMOR``` Protects the other vehicle parts it's installed over during collisions.
+- ```AISLE_LIGHT```
+- ```ATOMIC_LIGHT```
 - ```CONE_LIGHT``` Projects a cone of light when turned on.
+- ```DOME_LIGHT```
 - ```HORN``` Generates noise when used.
+- ```BEEPER``` Generates noise when the vehicle moves backward.
+- ```CHIMES```
+- ```STEREO```
 - ```MULTISQUARE``` Causes this part and any adjacent parts with the same ID to act as a singular part.
 - ```CIRCLE_LIGHT``` Projects a circular radius of light when turned on.
 - ```ODDTURN``` Only on during odd turns.
 - ```EVENTURN``` Only on during even turns.
 - ```RECHARGE``` Recharge items with the same flag. ( Currently only the rechargeable battery mod. )
 - ```UNMOUNT_ON_MOVE``` Dismount this part when the vehicle moves. Doesn't drop the part, unless you give it special handling.
-- ```POWER_TRANSFER``` Transmits power to and from an attached thingy (probably a vehicle)
+- ```POWER_TRANSFER``` Transmits power to and from an attached thingy (probably a vehicle).
 - ```INITIAL_PART``` When starting a new vehicle via the construction menu, this vehicle part will be the initial part of the vehicle (if the used item matches the item required for this part).
+- ```NO_JACK```
+- ```TOOL_NONE```
+- ```TOOL_WRENCH```
+- ```DIFFICULTY_REMOVE```
+- ```NAILABLE```
+- ```FOLDABLE```
 - ```SCOOP``` Pulls items from underneath the vehicle to the cargo space of the part. Also mops up liquids. 
-  - Uses the ```bonus``` tag to determine the maximum size of the item picked up
+  - Uses the ```bonus``` tag to determine the maximum size of the item picked up.
 - ```PLANTER``` Plants seeds into tilled dirt, spilling them when the terrain underneath is unsuitable. It is damaged by running it over non-```DIGGABLE``` surfaces.
   - ```ADVANCED_PLANTER``` This planter doesn't spill seeds and avoids damaging itself on non-diggable surfaces.
-- ```REAPER``` Cuts down mature crops, depositing them on the square
+- ```REAPER``` Cuts down mature crops, depositing them on the square.
   - The ```bonus``` tag defines how productive the harvest can be.
 - ```PLOW``` Tills the soil underneath the part while active. Takes damage from unsuitable terrain at a level proportional to the speed of the vehicle.
 - ```EXTRA_DRAG``` tells the vehicle that the part exerts engine power reduction.
@@ -589,37 +624,37 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 
 - ```ALARMCLOCK``` Has an alarm-clock feature.
 - ```BELTED``` Layer for backpacks and things worn over outerwear.
-- ```BLIND``` - Blinds the wearer while worn, and provides nominal protection v. flashbang flashes.
-- ```COLLAR``` - This piece of clothing has a wide collar that can keep your mouth warm.
+- ```BLIND``` Blinds the wearer while worn, and provides nominal protection v. flashbang flashes.
+- ```COLLAR``` This piece of clothing has a wide collar that can keep your mouth warm.
 - ```DEAF``` Makes the player deaf.
-- ```ELECTRIC_IMMUNE``` - This gear completely protects you from electric discharges.
+- ```ELECTRIC_IMMUNE``` This gear completely protects you from electric discharges.
 - ```FANCY``` Wearing this clothing gives a morale bonus if the player has the `Stylish` trait.
 - ```FRAGILE``` This gear is less resistant to damage than normal.
 - ```FLOTATION``` Prevents the player from drowning in deep water. Also prevents diving underwater.
-- ```furred``` - This piece of clothing has a fur lining sewn into it to increase its overall warmth.
+- ```furred``` This piece of clothing has a fur lining sewn into it to increase its overall warmth.
 - ```HOOD``` Allow this clothing to conditionally cover the head, for additional warmth or water protection., if the player's head isn't encumbered
-- ```kevlar_padded``` - This gear has kevlar inserted into strategic locations to increase protection without increasing encumbrance.
-- ```leather_padded``` - This gear has certain parts padded with leather to increase protection without increasing encumbrance.
-- ```NO_QUICKDRAW``` - Don't offer to draw items from this holster when the fire key is pressed whilst the players hands are empty
+- ```kevlar_padded``` This gear has kevlar inserted into strategic locations to increase protection without increasing encumbrance.
+- ```leather_padded``` This gear has certain parts padded with leather to increase protection without increasing encumbrance.
+- ```NO_QUICKDRAW``` Don't offer to draw items from this holster when the fire key is pressed whilst the players hands are empty
 - ```OUTER```  Outer garment layer.
 - ```OVERSIZE``` Can always be worn no matter encumbrance/mutations/bionics/etc., but prevents any other clothing being worn over this.
 - ```ALLOWS_NATURAL_ATTACKS``` Doesn't prevent any natural attacks or similar benefits from mutations, fingertip razors, etc., like most items covering the relevent body part would.
 - ```POCKETS``` Increases warmth for hands if the player's hands are cold and the player is wielding nothing.
-- ```RAD_PROOF``` - This piece of clothing completely protects you from radiation.
-- ```RAD_RESIST``` - This piece of clothing partially protects you from radiation.
+- ```RAD_PROOF``` This piece of clothing completely protects you from radiation.
+- ```RAD_RESIST``` This piece of clothing partially protects you from radiation.
 - ```RAINPROOF``` Prevents the covered body-part(s) from getting wet in the rain.
 - ```SKINTIGHT``` Undergarment layer.
 - ```STURDY``` This clothing is a lot more resistant to damage than normal.
-- ```SUN_GLASSES``` - Prevents glaring when in sunlight.
+- ```SUN_GLASSES``` Prevents glaring when in sunlight.
 - ```SUPER_FANCY``` Gives an additional moral bonus over `FANCY` if the player has the `Stylish` trait.
-- ```SWIM_GOGGLES``` - Allows you to see much further under water.
-- ```THERMOMETER``` - This gear is equipped with an accurate thermometer.
+- ```SWIM_GOGGLES``` Allows you to see much further under water.
+- ```THERMOMETER``` This gear is equipped with an accurate thermometer.
 - ```VARSIZE``` Can be made to fit via tailoring.
 - ```WAIST``` Layer for belts other things worn on the waist.
 - ```WATCH``` Acts as a watch and allows the player to see actual time.
 - ```WATER_FRIENDLY``` Prevents the item from making the body part count as unfriendly to water and thus causing negative morale from being wet.
 - ```WATERPROOF``` Prevents the covered body-part(s) from getting wet in any circumstance.
-- ```wooled```, ```furred```, ```kevlar_padded```, ```leather_padded``` - This piece of clothing has a sewn into it to increase some properties (warmth/encumbrance/...).
+- ```wooled```, ```furred```, ```kevlar_padded```, ```leather_padded``` This piece of clothing has a sewn into it to increase some properties (warmth/encumbrance/...).
 
 ## Comestibles
 
@@ -762,7 +797,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```WATERPROOF_GUN``` Gun does not rust and can be used underwater.
 - ```UNDERWATER_GUN``` Gun is optimized for usage underwater, does perform badly outside of water.
 - ```NEVER_JAMS``` Never malfunctions.
-- ```COLLAPSIBLE_STOCK``` Reduces weapon volume proportional to the base size of the gun excluding any mods (see also SLOW_WIELD)
+- ```COLLAPSIBLE_STOCK``` Reduces weapon volume proportional to the base size of the gun excluding any mods (see also SLOW_WIELD).
 - ```IRREMOVABLE``` Makes so that the gunmod cannot be removed.
 
 ## Tools
@@ -961,7 +996,7 @@ Those flags are added by the game code to specific items (that specific welder, 
 - ```JET_INJECTOR``` Inject some jet drugs right into your veins.
 - ```CABLE_ATTACH``` This item is a cable spool. Use it to try to attach to a vehicle.
 - ```CAPTURE_MONSTER_ACT``` Capture and encapsulate a monster. The associated action is also used for releasing it.
-  -```PLACE_RANDOMLY``` This is very much like the flag in the manhack iuse, it prevents the item from querying the player as to where they want the monster unloaded to, and instead choses randomly.
+-```PLACE_RANDOMLY``` This is very much like the flag in the manhack iuse, it prevents the item from querying the player as to where they want the monster unloaded to, and instead choses randomly.
 
 ## Generic
 
