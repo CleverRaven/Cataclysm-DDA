@@ -2857,7 +2857,7 @@ void vehicle::coord_translate (int dir, int reldx, int reldy, int &dx, int &dy) 
     dy = tdir.dy() + tdir.ortho_dy(reldy);
 }
 
-void vehicle::precalc_mounts (int idir, int dir, point pivot)
+void vehicle::precalc_mounts (int idir, int dir, const point &pivot)
 {
     if (idir < 0 || idir > 1)
         idir = 0;

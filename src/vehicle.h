@@ -507,7 +507,7 @@ public:
                                bool verbose = false, bool desc = false, bool isHorizontal = false) const;
 
     // Precalculate mount points for (idir=0) - current direction or (idir=1) - next turn direction
-    void precalc_mounts (int idir, int dir, point pivot);
+    void precalc_mounts (int idir, int dir, const point &pivot);
 
     // get a list of part indeces where is a passenger inside
     std::vector<int> boarded_parts() const;
