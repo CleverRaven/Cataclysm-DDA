@@ -907,12 +907,12 @@ comp_selection<item_comp> player::select_item_component(const std::vector<item_c
         cmenu.title = _("Use which component?");
         cmenu.query();
 
-        if( cmenu.ret == map_has.size() + player_has.size() + mixed.size() ) {
+        if( cmenu.ret == static_cast<int>( map_has.size() + player_has.size() + mixed.size() ) ) {
             selected.use_from = cancel;
             return selected;
         }
 
-        size_t uselection = (size_t) cmenu.ret;
+        size_t uselection = static_cast<size_t>( cmenu.ret );
         if (uselection < map_has.size()) {
             selected.use_from = usage::use_from_map;
             selected.comp = map_has[uselection];
@@ -1049,12 +1049,12 @@ player::select_tool_component( const std::vector<tool_comp> &tools, int batch, i
         tmenu.title = _("Use which tool?");
         tmenu.query();
 
-        if( tmenu.ret == map_has.size() + player_has.size() ) {
+        if( tmenu.ret == static_cast<int>( map_has.size() + player_has.size() ) ) {
             selected.use_from = cancel;
             return selected;
         }
 
-        size_t uselection = (size_t) tmenu.ret;
+        size_t uselection = static_cast<size_t>( tmenu.ret );
         if (uselection < map_has.size()) {
             selected.use_from = use_from_map;
             selected.comp = map_has[uselection];
