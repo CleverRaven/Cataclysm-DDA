@@ -266,13 +266,16 @@ class smiley_indicator : public ui_element {
 */
 class ui_tile {
     public:
+        virtual ~ui_tile() = default;
+        virtual void draw( WINDOW *, int, int ) const = 0;
+};
+
+class char_tile :ui_tile {
         long sym;
         nc_color color;
-
-        ui_tile( long tile_char = ' ', nc_color tile_color = c_black );
-        virtual ~ui_tile() = default;
-
-        virtual void draw( WINDOW *, int, int ) const;
+    public:
+        char_tile( long tile_char = ' ', nc_color tile_color = c_black );
+        void draw( WINDOW *, int, int ) const override;
 };
 
 /**

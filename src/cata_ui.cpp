@@ -485,12 +485,12 @@ void ui_tile_panel<T>::set_tile( const T &tile, unsigned int x, unsigned int y )
     tiles.set_at( x, y, tile );
 }
 
-void ui_tile::draw( WINDOW *win, int x, int y ) const
+void char_tile::draw( WINDOW *win, int x, int y ) const
 {
     mvwputch( win, y, x, color, sym );
 }
 
-ui_tile::ui_tile( long sym, nc_color color ) : sym( sym ), color( color )
+char_tile::char_tile( long sym, nc_color color ) : sym( sym ), color( color )
 {
 }
 
@@ -904,11 +904,11 @@ void tile_panel_test()
 {
     bordered_window win( 31, 31, 50, 15 );
 
-    ui_tile_panel<ui_tile> tp( 29, 29, 1, 1 );
+    ui_tile_panel<char_tile> tp( 29, 29, 1, 1 );
 
-    tp.set_tile( ui_tile( 'X', c_yellow ), 5, 5 );
-    tp.set_tile( ui_tile( 'X', c_yellow ), 9, 5 );
-    tp.set_tile( ui_tile( 'X', c_yellow ), 7, 6 );
+    tp.set_tile( char_tile( 'X', c_yellow ), 5, 5 );
+    tp.set_tile( char_tile( 'X', c_yellow ), 9, 5 );
+    tp.set_tile( char_tile( 'X', c_yellow ), 7, 6 );
 
     win.create_child(tp);
 
