@@ -1760,6 +1760,17 @@ void holster_actor::load( JsonObject &obj )
     flags = obj.get_string_array( "flags" );
 }
 
+bool holster_actor::can_holster( const item& obj ) const {
+    if( obj.volume() > max_volume || obj.volume() < min_volume ) {
+        return false;
+    }
+    if( max_weight > 0 && obj.weight() > max_weight ) {
+        return false;
+    }
+    return std::any_of( flags.begin(), flags.end(), [&](const std::string& f) { return obj.has_flag(f); } ) ||
+           std::find( skills.begin(), skills.end(), obj.gun_skill() ) != skills.end();
+}
+
 long holster_actor::use( player *p, item *it, bool, const tripoint & ) const
 {
     std::string prompt = holster_prompt.empty() ? _( "Holster item" ) : _( holster_prompt.c_str() );
@@ -1789,20 +1800,7 @@ long holster_actor::use( player *p, item *it, bool, const tripoint & ) const
     if( pos >= 0 ) {
         p->wield_contents( it, pos, draw_speed );
     } else {
-        item &obj = p->i_at( g->inv_for_filter( prompt, [&]( const item & e ) {
-            if( e.volume() > max_volume || e.volume() < min_volume ) {
-                return false;
-            }
-
-            if( max_weight > 0 && e.weight() > max_weight ) {
-                return false;
-            }
-
-            return std::any_of( flags.begin(), flags.end(), [&]( const std::string & f ) {
-                return e.has_flag( f );
-            } ) ||
-            std::find( skills.begin(), skills.end(), e.gun_skill() ) != skills.end();
-        } ) );
+        item &obj = p->i_at( g->inv_for_filter( prompt, [&](const item& e) { return can_holster(e); } ) );
 
         if( obj.is_null() ) {
             p->add_msg_if_player( _( "Never mind." ) );
