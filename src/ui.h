@@ -173,7 +173,7 @@ class uimenu: public ui_container
 
         uimenu_callback *callback;
 
-        uimenu(); // bare init
+        uimenu( const std::string &hotkeys = "" ); // bare init
 
         uimenu(bool cancancel, const char *message, ...);  // legacy menu()
         uimenu(bool cancelable, const char *mes, const std::vector<std::string> options); // legacy menu_vec

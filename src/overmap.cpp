@@ -2024,13 +2024,10 @@ tripoint overmap::draw_overmap(const tripoint &orig, const draw_data_t &data)
     delwin(g->w_overmap);
     g->w_overmap = newwin(OVERMAP_WINDOW_HEIGHT, OVERMAP_WINDOW_WIDTH, 0, 0);
 
-    // Clear the sidebar, else the pixel minimap will still appear.
-    werase(g->w_omlegend);
-    wrefresh(g->w_omlegend);
-
     // Draw black padding space to avoid gap between map and legend
+    // also clears the pixel minimap in TILES
     delwin(g->w_blackspace);
-    g->w_blackspace = newwin(TERMY, TERMX - 28, 0, 0);
+    g->w_blackspace = newwin(TERMY, TERMX, 0, 0);
     mvwputch(g->w_blackspace, 0, 0, c_black, ' ');
     wrefresh(g->w_blackspace);
 
