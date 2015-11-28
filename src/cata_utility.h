@@ -55,8 +55,7 @@ class list_circularizer {
         unsigned int index = 0;
         std::vector<T> *_list;
     public:
-        list_circularizer( std::vector<T> &_list ) : _list( &_list )
-        {
+        list_circularizer ( std::vector<T> &_list ) : _list ( &_list ) {
         }
 
         void next()
@@ -66,7 +65,7 @@ class list_circularizer {
 
         void prev()
         {
-            index = ( index == 0 ? _list->size() - 1 : index - 1);
+            index = ( index == 0 ? _list->size() - 1 : index - 1 );
         }
 
         T &cur() const
@@ -79,7 +78,7 @@ class list_circularizer {
             return cur();
         }
 
-        void operator()( std::vector<T> &_list )
+        void operator() ( std::vector<T> &_list )
         {
             this->_list = &_list;
             index = 0;
