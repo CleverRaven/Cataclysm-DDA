@@ -43,7 +43,7 @@ int bound_mod_to_vals( int val, int mod, int max, int min );
 double convert_weight( int weight );
 
 /**
-* @brief Class used to iterate over a list in a circular way.
+* @brief Class used to access a list as if it were circular.
 *
 * Some times you just want to have a list loop around on itself.
 * This wrapper class allows you to do that. It requires the list to exist
