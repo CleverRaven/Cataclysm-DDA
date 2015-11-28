@@ -4731,6 +4731,24 @@ void item::mark_as_used_by_player(const player &p)
     used_by_ids += string_format( "%d;", p.getID() );
 }
 
+bool item::can_holster ( const item& obj ) const {
+    if( !type->can_use("holster") ) {
+        return false; // item is not a holster
+    }
+
+    auto ptr = dynamic_cast<const holster_actor *>(type->get_use("holster")->get_actor_ptr());
+    if( !ptr->can_holster(obj) ) {
+        return false; // item is not a suitable holster for obj
+    }
+
+    if( (int) contents.size() >= ptr->multi ) {
+        return false; // item is already full
+    }
+
+    return true;
+}
+
+
 const itype *item::get_curammo() const
 {
     return curammo;
