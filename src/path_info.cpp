@@ -79,6 +79,7 @@ void PATH_INFO::update_datadir()
     update_pathname("titledir", FILENAMES["datadir"] + "title/");
     update_pathname("motddir", FILENAMES["datadir"] + "motd/");
     update_pathname("creditsdir", FILENAMES["datadir"] + "credits/");
+    update_pathname("sounddir", FILENAMES["datadir"] + "sound/");
 
     // Shared files
     update_pathname("title", FILENAMES["titledir"] + "en.title");
@@ -139,6 +140,7 @@ void PATH_INFO::set_standard_filenames(void)
     update_pathname("motddir", FILENAMES["datadir"] + "motd/");
     update_pathname("creditsdir", FILENAMES["datadir"] + "credits/");
     update_pathname("color_templates", FILENAMES["rawdir"] + "color_templates/");
+    update_pathname("sounddir", FILENAMES["datadir"] + "sound/");
 
     // Shared files
     update_pathname("title", FILENAMES["titledir"] + "en.title");
@@ -193,6 +195,10 @@ void PATH_INFO::set_standard_filenames(void)
 #ifdef TILES
     // Default tileset config file.
     update_pathname("tileset-conf", "tileset.txt");
+#endif
+#ifdef SDL_SOUND
+    // Default soundpack config file.
+    update_pathname("soundpack-conf", "soundpack.txt");
 #endif
 }
 

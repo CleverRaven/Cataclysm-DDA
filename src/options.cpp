@@ -31,6 +31,7 @@ extern cata_tiles *tilecontext;
 #endif // TILES
 
 std::map<std::string, std::string> TILESETS; // All found tilesets: <name, tileset_dir>
+std::map<std::string, std::string> SOUNDPACKS; // All found soundpacks: <name, soundpack_dir>
 std::unordered_map<std::string, options_manager::cOpt> OPTIONS;
 std::unordered_map<std::string, options_manager::cOpt> ACTIVE_WORLD_OPTIONS;
 options_data optionsdata; // store extraneous options data that doesn't need to be in OPTIONS,
@@ -628,6 +629,75 @@ std::string options_manager::build_tilesets_list()
     return tileset_names;
 }
 
+/** Fill SOUNDPACKS mapping with values.
+ * Scans all directores in FILENAMES["sounddir"] directory for file named FILENAMES["soundpack-conf"].
+ * All founded values added in mapping SOUNDPACKS as name, soundpack_dir.
+ * Furthermore, it builds possible values list for cOpt class.
+ * @return One string containing all found soundpacks in form "soundpack1,soundpack2,soundpack3,..."
+ */
+std::string options_manager::build_soundpacks_list()
+{
+    const std::string defaultSoundpacks = "basic";
+    std::string soundpack_names;
+
+    SOUNDPACKS.clear();
+
+    auto const soundpacks_dirs = get_directories_with(FILENAMES["soundpack-conf"], FILENAMES["sounddir"], true);
+
+    for( auto &sp_dir : soundpacks_dirs ) {
+        std::ifstream fin;
+        std::string file = sp_dir + "/" + FILENAMES["soundpack-conf"];
+
+        fin.open( file.c_str() );
+        if(!fin.is_open()) {
+            DebugLog( D_ERROR, DC_ALL ) << "Can't read soundpack config from " << file;
+        }
+
+        std::string soundpack_name;
+        // should only have 2 values inside it, otherwise is going to only load the last 2 values
+        while(!fin.eof()) {
+            std::string sOption;
+            fin >> sOption;
+
+            if(sOption == "") {
+                getline(fin, sOption);    // Empty line, chomp it
+            } else if(sOption[0] == '#') { // # indicates a comment
+                getline(fin, sOption);
+            } else {
+                if (sOption.find("NAME") != std::string::npos) {
+                    soundpack_name = "";
+                    fin >> soundpack_name;
+                    if(soundpack_names.empty()) {
+                        soundpack_names += soundpack_name;
+                    } else {
+                        soundpack_names += std::string(",");
+                        soundpack_names += soundpack_name;
+                    }
+                } else if (sOption.find("VIEW") != std::string::npos) {
+                    std::string viewName = "";
+                    fin >> viewName;
+                    optionNames[soundpack_name] = viewName;
+                    break;
+                }
+            }
+        }
+        fin.close();
+        if (SOUNDPACKS.count(soundpack_name) != 0) {
+            DebugLog( D_ERROR, DC_ALL ) << "Found soundpack duplicate with name " << soundpack_name;
+        } else {
+            SOUNDPACKS.insert(std::pair<std::string,std::string>(soundpack_name, sp_dir));
+        }
+    }
+
+    if(soundpack_names == "") {
+        optionNames["basic"] = _("Basic");
+        return defaultSoundpacks;
+
+    }
+
+    return soundpack_names;
+}
+
 void options_manager::init()
 {
     OPTIONS.clear();
@@ -652,6 +722,9 @@ void options_manager::init()
 
     std::string tileset_names;
     tileset_names = build_tilesets_list(); //get the tileset names and set the optionNames
+
+    std::string soundpack_names;
+    soundpack_names = build_soundpacks_list(); //get the soundpack names and set the optionNames
 
     ////////////////////////////GENERAL//////////////////////////
     OPTIONS["DEF_CHAR_NAME"] = cOpt("general", _("Default character name"),
@@ -763,6 +836,10 @@ void options_manager::init()
 
     mOptionsSort["general"]++;
 
+    OPTIONS["SOUNDPACKS"] = cOpt("general", _("Choose soundpack"),
+                            _("Choose the soundpack you want to use."),
+                            soundpack_names, "Basic", COPT_NO_SOUND_HIDE
+                           ); // populate the options dynamically
     OPTIONS["MUSIC_VOLUME"] = cOpt("general", _("Music Volume"),
                                    _("Adjust the volume of the music being played in the background."),
                                    0, 200, 100, COPT_NO_SOUND_HIDE
