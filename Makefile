@@ -207,7 +207,16 @@ ifeq ($(NATIVE), osx)
   LDFLAGS += -mmacosx-version-min=$(OSX_MIN)
   WARNINGS = -Werror -Wall -Wextra -Wno-switch -Wno-sign-compare -Wno-missing-braces
   ifdef FRAMEWORK
-    FRAMEWORKSDIR = /Library/Frameworks
+    FRAMEWORKSDIR := $(strip $(if $(shell [ -d $(HOME)/Library/Frameworks ] && echo 1), \
+                             $(if $(shell find $(HOME)/Library/Frameworks -name 'SDL2.*'), \
+                               $(HOME)/Library/Frameworks,),))
+    ifeq ($(FRAMEWORKSDIR),)
+      FRAMEWORKSDIR := $(strip $(if $(shell find /Library/Frameworks -name 'SDL2.*'), \
+                                 /Library/Frameworks,))
+    endif
+    ifeq ($(FRAMEWORKSDIR),)
+      $(error "SDL2 framework not found")
+    endif
   endif
   ifeq ($(LOCALIZE), 1)
     LDFLAGS += -lintl
