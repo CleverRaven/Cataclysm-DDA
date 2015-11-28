@@ -12223,7 +12223,7 @@ void game::place_player( const tripoint &dest_loc )
             u.deal_damage( nullptr, bp_foot_l, damage_instance( DT_CUT, 1 ) );
         }
     }
-    if( m.has_flag("SHARP", dest_loc) && !one_in(3) && !x_in_y(1+dex_cur/2, 40) &&
+    if( m.has_flag("SHARP", dest_loc) && !one_in(3) && !x_in_y(1+u.dex_cur/2, 40) &&
         (!u.in_vehicle) && (!u.has_trait("PARKOUR") || one_in(4)) ) {
         body_part bp = random_body_part();
         if(u.deal_damage( nullptr, bp, damage_instance( DT_CUT, rng( 1, 10 ) ) ).total_damage() > 0) {
