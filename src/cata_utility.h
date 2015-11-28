@@ -42,4 +42,48 @@ double logarithmic_range( int min, int max, int pos );
 int bound_mod_to_vals( int val, int mod, int max, int min );
 double convert_weight( int weight );
 
+/**
+* @brief Class used to iterate over a list in a circular way.
+*
+* Some times you just want to have a list loop around on itself.
+* This wrapper class allows you to do that. It requires the list to exist
+* separately, but that also means any changes to the list get propagated (both ways).
+*/
+template<typename T>
+class list_circularizer {
+    private:
+        unsigned int index = 0;
+        std::vector<T> *_list;
+    public:
+        list_circularizer( std::vector<T> &_list ) : _list( &_list )
+        {
+        }
+
+        void next()
+        {
+            index = ( index == _list->size() - 1 ? 0 : index + 1 );
+        }
+
+        void prev()
+        {
+            index = ( index == 0 ? _list->size() - 1 : index - 1);
+        }
+
+        T &cur() const
+        {
+            return (*_list)[index]; // list could be null, but it would be a design time mistake and really, the callers fault.
+        }
+
+        operator T &() const
+        {
+            return cur();
+        }
+
+        void operator()( std::vector<T> &_list )
+        {
+            this->_list = &_list;
+            index = 0;
+        }
+};
+
 #endif // CAT_UTILITY_H
