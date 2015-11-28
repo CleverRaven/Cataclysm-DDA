@@ -4955,3 +4955,123 @@ bool mattack::dodge_check(monster *z, Creature *target){
     }
     return false;
 }
+
+void mattack::ink_jet( monster *z, int index ) {
+
+    if (!z->can_act()) {
+        return;
+    }
+
+    int jet_range =  4;
+
+    // TODO: make the creature utilise this ability then escaping the threat
+    Creature *target = z->attack_target();
+
+    if (target == nullptr || rl_dist(z->pos(), target->pos()) > jet_range || !z->sees(*target)) {
+        return;
+    }
+
+    std::vector<tripoint> line = g->m.find_clear_path( z->pos(), target->pos() );
+
+    z->reset_special( index );
+
+    z->moves -= 50;
+
+    const game_message_type msg_type = target->attitude_to( g->u ) == Creature::A_FRIENDLY ? m_bad : m_warning;
+
+    target->add_msg_player_or_npc( msg_type, 
+        _("The %s squirts a jet of black ink at you"),
+        _("The %s squirts a jet of black ink at <npcname>!"),
+        z->name().c_str() );
+
+    // Shoot the jet of ink
+
+    for (auto &i : line) {
+        g->m.add_field(i, fd_ink, 1, 0);
+        if (g->m.move_cost(i) == 0) {
+            g->m.add_field(i, fd_ink, 3, 0);
+            if (g->u.sees(i)) {
+                add_msg( _("The ink splatters on the %s!"),
+                         g->m.tername(i).c_str() );
+                return;        
+            }
+        }
+    }
+
+    // Handle the effects of creature, potentially, getting hit by the ink
+    // TODO: make it do something then affecting non player/npc target
+    // TODO: if you can't see, you can't dodge this effect
+    if (!target->uncanny_dodge()) {
+        if (rng(0, 10) > target->get_dodge() || one_in( target->get_dodge() )) {
+            target->on_dodge(z, 10);
+            target->add_env_effect( "ooze_in_eyes", bp_eyes, 5, 30 );
+        } else {
+            target->add_msg_player_or_npc( m_good,
+                _("You dodge the jet of black ink!"),
+                _("<npcname> dodges the jet of black ink!") );
+        }
+    }
+}
+
+void mattack::tentacle_lash(monster *z, int index) {
+    
+    int num_tent = 0;
+
+    if (z->has_flag(MF_TENTACLES2)) {
+        num_tent = 2;
+    } else if (z->has_flag(MF_TENTACLES4)) {
+        num_tent = 4;
+    } else if (z->has_flag(MF_TENTACLES8)) {
+        num_tent = 8;
+    }
+
+    if (num_tent == 0) {
+        return;
+    }
+
+    Creature *target = z->attack_target();
+    if ( !z->can_act() ||
+        target == nullptr ||
+        !z->sees(*target) ||
+        rl_dist( z->pos(), target->pos() ) > 2 ) {
+            return;
+    }
+
+    int attacks = rng(1, num_tent);
+    int att_made = 0;
+    int att_hit = 0;
+
+    for (int i = 0; i < attacks; i++) {
+
+        att_made++;
+
+        if (target->uncanny_dodge()) {
+            break;
+        }
+        if (dodge_check( z, target) ) {
+            target->on_dodge( z, z->type->melee_skill * 2 );
+            continue;
+        }
+        body_part hit = random_body_part();
+        int dam = rng( 1, 10 );
+        dam = target->deal_damage( z, hit, damage_instance(DT_BASH, dam) ).total_damage();
+        target->on_hit(z, hit, z->type->melee_skill);
+        if (dam > 0) {
+            att_hit++; }
+    }
+
+    //All attacks have been made
+    z->moves -= 75 + ((att_made - 1) * 50);
+    game_message_type msg_type = target->attitude_to(g->u) == Creature::A_FRIENDLY ? m_bad : m_warning;
+    auto tent_desc = ngettext( "tentacle", "tentacles", attacks );
+    std::string tent_eff = att_hit == 0 ? _(" ineffectively") : ("");
+    target->add_msg_player_or_npc( msg_type,
+        _("The %1$s%2$s lashes it's %3$s at you!"),
+        _("The %1$s%2$s lashes it's %3$s at <npcname>!"),
+        z->name().c_str(),
+        tent_eff.c_str(),
+        tent_desc );
+
+    // Reset timer
+    z->reset_special(index);
+}

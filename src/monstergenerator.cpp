@@ -273,6 +273,8 @@ void MonsterGenerator::init_attack()
     attack_map["RANGED_PULL"] = &mattack::ranged_pull;
     attack_map["GRAB"] = &mattack::grab;
     attack_map["GRAB_DRAG"] = &mattack::grab_drag;
+    attack_map["INK_JET"] = &mattack::ink_jet;
+    attack_map["TENTACLE_LASH"] = &mattack::tentacle_lash;
 }
 
 void MonsterGenerator::init_defense()
@@ -381,6 +383,12 @@ void MonsterGenerator::init_flags()
     flag_map["GROUP_MORALE"] = MF_GROUP_MORALE;
     flag_map["INTERIOR_AMMO"] = MF_INTERIOR_AMMO;
     flag_map["PUSH_MON"] = MF_PUSH_MON;
+    flag_map["INK_SAC"] = MF_INK_SAC;
+    flag_map["MUT_ABLE"] = MF_MUT_ABLE;
+    flag_map["MUTANT"] = MF_MUTANT;
+    flag_map["TENTACLES2"] = MF_TENTACLES2;
+    flag_map["TENTACLES4"] = MF_TENTACLES4;
+    flag_map["TENTACLES8"] = MF_TENTACLES8;
 }
 
 void MonsterGenerator::set_species_ids( mtype &mon )

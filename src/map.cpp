@@ -2829,12 +2829,12 @@ bool map::moppable_items_at( const tripoint &p )
         }
     }
     const field &fld = field_at(p);
-    if(fld.findField(fd_blood) != 0 || fld.findField(fd_blood_veggy) != 0 ||
+    if (fld.findField(fd_blood) != 0 || fld.findField(fd_blood_veggy) != 0 ||
           fld.findField(fd_blood_insect) != 0 || fld.findField(fd_blood_invertebrate) != 0
           || fld.findField(fd_gibs_flesh) != 0 || fld.findField(fd_gibs_veggy) != 0 ||
           fld.findField(fd_gibs_insect) != 0 || fld.findField(fd_gibs_invertebrate) != 0
           || fld.findField(fd_bile) != 0 || fld.findField(fd_slime) != 0 ||
-          fld.findField(fd_sludge) != 0) {
+          fld.findField(fd_sludge) != 0 || fld.findField(fd_ink) != 0) {
         return true;
     }
     int vpart;
@@ -2911,6 +2911,7 @@ void map::decay_fields_and_scent( const int amount )
                                 break;
                             case fd_blood:
                             case fd_bile:
+                            case fd_ink:
                             case fd_gibs_flesh:
                             case fd_gibs_veggy:
                             case fd_slime:
@@ -3022,6 +3023,7 @@ void map::mop_spills( const tripoint &p ) {
     remove_field( p, fd_bile );
     remove_field( p, fd_slime );
     remove_field( p, fd_sludge );
+    remove_field( p, fd_ink);
     int vpart;
     vehicle *veh = veh_at(p, vpart);
     if(veh != 0) {

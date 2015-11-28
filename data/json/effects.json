@@ -115,6 +115,11 @@
         "id": "pet",
         "name": ["Pet"],
         "desc": ["AI tag used for pet critters.  This is a bug if you have it."]
+    },{
+        "type": "effect_type",
+        "id": "wary",
+        "name": ["Wary"],
+        "desc": ["AI tag used for pet to stop the player from accessing the pet menu.  This is a bug if you have it."]
     },
     {
         "type": "effect_type",
@@ -385,6 +390,23 @@
     },
     {
         "type": "effect_type",
+        "id": "numbpoison",
+        "name": ["Numbness"],
+        "desc": ["You feel sluggishness and numbness spreading around your body!"],
+        "miss_messages": [["You feel numb.", 1]],
+        "rating": "mixed",
+        "resist_traits": ["POISRESIST"],
+        "main_parts_only": true,
+        "base_mods": {
+            "dex_mod": [-3, -1],
+            "speed_mod": [-20, -10],
+            "pkill_tick": [5],
+            "pkill_max_val": [10],
+            "pkill_min": [1, 0]
+        }
+    },
+    {
+        "type": "effect_type",
         "id": "lightsnare",
         "name": ["Stuck in a light snare"],
         "desc": ["You can't move until you get free!"],
@@ -479,6 +501,34 @@
         "rating": "bad",
         "base_mods": {
             "vomit_chance": [500]
+        }
+    },
+    {
+        "type": "effect_type",
+         "id": "ooze_in_eyes",
+        "name": ["Gunk in eyes"],
+        "desc": ["There is some sort of substance in your eyes. You can barely see anything now!"],
+        "apply_message": "Your eyes sting and you can keep them barely open!",
+        "rating": "bad",
+        "base_mods": {
+            "per_mod": [-3]
+        }
+    },
+    {
+        "type": "effect_type",
+        "id": "inked",
+        "name": ["Soaked in ink"],
+        "desc": ["You are covered in black ink!"],
+        "apply_message": "You're covered in black ink!",
+        "rating": "good",
+        "max_intensity": 10,
+        "int_dur_factor": 300,
+        "base_mods": {
+            "scent_mod": [-50],
+            "scent_min_val": [50]
+        },
+        "scaling_mods": {
+            "scent_mod": [-50]
         }
     },
     {

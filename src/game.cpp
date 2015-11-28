@@ -7846,43 +7846,59 @@ bool pet_menu(monster *z)
         drop_all,
         give_items,
         pheromone,
-        rope
+        rope,
+        inject
     };
 
     uimenu amenu;
 
-    std::string pet_name = _("dog");
-    if( z->type->in_species( ZOMBIE ) ) {
-        pet_name = _("zombie slave");
-    }
+    std::string pet_name = z->name();
+
+    bool wary = z->has_effect("wary");
 
     amenu.selected = 0;
-    amenu.text = string_format(_("What to do with your %s?"), pet_name.c_str());
+    if (wary) {
+        amenu.text = string_format(_("The %s seems to be wary around you."), pet_name.c_str());
+    } else { 
+        amenu.text = string_format(_("What to do with your %s?"), pet_name.c_str()); 
+    }
     amenu.addentry(cancel, true, 'q', _("Cancel"));
 
     amenu.addentry(swap_pos, true, 's', _("Swap positions"));
     amenu.addentry(push_zlave, true, 'p', _("Push %s"), pet_name.c_str());
     amenu.addentry( rename, true, 'e', _("Rename") );
 
-    if (z->has_effect("has_bag")) {
-        amenu.addentry(give_items, true, 'g', _("Place items into bag"));
-        amenu.addentry(drop_all, true, 'd', _("Drop all items"));
-    } else {
-        amenu.addentry(attach_bag, true, 'b', _("Attach bag"));
-    }
-
-    if (z->has_effect("tied")) {
-        amenu.addentry(rope, true, 'r', _("Untie"));
-    } else {
-        if (g->u.has_amount("rope_6", 1)) {
-            amenu.addentry(rope, true, 'r', _("Tie"));
+    if (!wary) {
+        if (z->has_effect("has_bag")) {
+            amenu.addentry( give_items, true, 'g', _("Place items into bag") );
+            amenu.addentry( drop_all, true, 'd', _("Drop all items") );
         } else {
-            amenu.addentry(rope, false, 'r', _("You need a short rope"));
+            amenu.addentry( attach_bag, true, 'b', _("Attach bag") );
+        }
+    }
+    if (!wary) {
+        if (z->has_effect("tied")) {
+            amenu.addentry( rope, true, 'r', _("Untie") );
+        } else {
+            if (g->u.has_amount("rope_6", 1)) {
+                amenu.addentry( rope, true, 'r', _("Tie") );
+            } else {
+                amenu.addentry( rope, false, 'r', _("You need a short rope") );
+            }
         }
     }
 
     if( z->type->in_species( ZOMBIE ) ) {
         amenu.addentry(pheromone, true, 't', _("Tear out pheromone ball"));
+    }
+
+    if (!wary && z->has_flag(MF_MUT_ABLE))
+    {
+        if ( g->u.has_amount( "syringe", 1 ) ) {
+            amenu.addentry( inject, true, 'i', _("Inject mutagen") );
+        } else {
+        amenu.addentry( inject, false, 'i', _("You need a syringe to inject mutagen") );
+        }
     }
 
     amenu.query();
@@ -8069,10 +8085,100 @@ bool pet_menu(monster *z)
 
         return true;
     }
+    if ( inject == choice ) {
 
+        auto &u = g->u;
+        const auto items = u.items_with( []( const item &it ) {
+            return it.has_flag( "MUTAGEN_CEPHALOPOD" ) ||
+                   it.has_flag( "PURIFIER" );
+        } );
+
+        if ( items.empty() ) {
+            add_msg( _( "You have nothing to inject the %s with." ), pet_name.c_str() );
+            return true;
+        }
+
+        std::vector<itype_id> types;
+        std::vector<std::string> names;
+        for ( auto &itm : items ) {
+            if ( std::find( types.begin(), types.end(), itm->typeId() ) == types.end() ) {
+                types.push_back( itm->typeId() );
+                names.push_back( itm->type_name() );
+            }
+        }
+        names.push_back(_("Cancel"));
+
+        const size_t mutagen_index = menu_vec( false, "Inject which substance?", names ) - 1;
+        if ( mutagen_index >= names.size() ) {
+            return true;
+        }
+
+        const itype_id type = types[mutagen_index];
+
+        item dummy( type, 0 );
+
+        if ( !z->has_flag( MF_MUTANT ) && dummy.has_flag( "PURIFIER" ) ) {
+            add_msg( _( "Injecting purifier into %s, would have no effect. Better save it for later use." ), pet_name.c_str() );
+            return true;
+        }
+
+        int mut_str = 0;
+        if ( !dummy.has_flag( "SERUM" ) ) {
+            mut_str = 1;
+        } else {
+            mut_str = rng( 1, 3 );
+        }
+        if ( dummy.has_flag( "PURIFIER" ) ) {
+            mut_str *= -1;
+        }
+        
+        std::vector<mtype_id> dog_ceph_mut;
+        dog_ceph_mut.push_back( mtype_id( "mon_dog" ) );
+        dog_ceph_mut.push_back( mtype_id( "mon_beakhound" ) );
+        dog_ceph_mut.push_back( mtype_id( "mon_beakhound2" ) );
+        dog_ceph_mut.push_back( mtype_id( "mon_beakhound3" ) );
+        dog_ceph_mut.push_back( mtype_id( "mon_beakhound4" ) );
+        dog_ceph_mut.push_back( mtype_id( "mon_beakhound5" ) );
+
+        int max_mut_lev = dog_ceph_mut.size() - 1;
+
+        for ( size_t i = 0; i < dog_ceph_mut.size(); i++ ) {
+
+            if ( dog_ceph_mut[i] == z->type->id ) {
+
+                int mut_lev = i + mut_str;
+                mut_lev = std::min(max_mut_lev, mut_lev);
+                mut_lev = std::max(0, mut_lev);
+
+                add_msg( _( "You inject the %1$s into the %2$s." ),
+                    dummy.type->nname( 1 ).c_str(), pet_name.c_str() );
+                if ( dummy.has_flag( "SERUM" ) ) {
+                    add_msg( _( "The %s releases a painful howl!" ), pet_name.c_str() );
+                    sounds::sound( z->pos(), 30, "" );
+                    z->add_effect( "wary", 1800 );
+                }
+
+                if ( z->type->id != dog_ceph_mut[mut_lev] && (dummy.has_flag( "SERUM" ) || one_in( 3 )) ) {
+                    z->poly( dog_ceph_mut[mut_lev] );
+                    add_msg( _( "The %s's form shifts right before your eyes!" ),
+                        pet_name.c_str() );
+                } else {
+                    add_msg( _( "Nothing seems to happen." ) );
+                }
+
+                u.use_charges( dummy.typeId(), 1 );
+
+                z->moves -= 200;
+                g->u.moves -= 200;
+
+                return true;
+
+            }
+        }
+    }
     return true;
-}
-
+} 
+      
 // Returns true if the menu handled stuff and player shouldn't do anything else
 bool npc_menu( npc &who )
 {
@@ -12824,6 +12930,10 @@ void game::plswim( const tripoint &p )
     if (u.has_effect("glowing")) {
         add_msg(_("The water washes off the glowing goo!"));
         u.remove_effect("glowing");
+    }
+    if (u.has_effect("inked")) {
+        add_msg(_("The ink washes off."));
+        u.remove_effect("inked");
     }
     int movecost = u.swim_speed();
     u.practice( skill_id( "swimming" ), u.is_underwater() ? 2 : 1);

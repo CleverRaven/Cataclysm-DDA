@@ -89,6 +89,8 @@ void stretch_bite       (monster *z, int index);
 void kamikaze           (monster *z, int index);
 void grenadier          (monster *z, int index);
 void grenadier_elite    (monster *z, int index);
+void ink_jet            (monster *z, int index);
+void tentacle_lash      (monster *z, int index);
 
 void taze               (monster *z, Creature *target);
 void rifle              (monster *z, Creature *target); // Automated M4

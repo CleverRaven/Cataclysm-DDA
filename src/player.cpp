@@ -445,10 +445,40 @@ void player::reset_stats()
             mod_dex_bonus( it.get_mod( "DEX", reduced ) );
             mod_per_bonus( it.get_mod( "PER", reduced ) );
             mod_int_bonus( it.get_mod( "INT", reduced ) );
+
         }
     }
 
     Character::reset_stats();
+}
+
+void player::reset_scent()
+{
+    // Set our scent towards the norm
+    scent_norm = 500;
+
+    if (has_trait("WEAKSCENT")) {
+        scent_norm = 300;
+    }
+    if (has_trait("SMELLY")) {
+        scent_norm = 800;
+    }
+    if (has_trait("SMELLY2")) {
+        scent_norm = 1200;
+    }
+    // Not so much that you don't have a scent
+    // but that you smell like a plant, rather than
+    // a human. When was the last time you saw a critter
+    // attack a bluebell or an apple tree?
+    if ((has_trait("FLOWERS")) && (!(has_trait("CHLOROMORPH")))) {
+        scent_norm -= 200;
+    }
+
+    // You *are* a plant.  Unless someone hunts triffids by scent,
+    // you don't smell like prey.
+    if (has_trait("CHLOROMORPH")) {
+        scent_norm = 0;
+    }
 }
 
 void player::process_turn()
@@ -470,40 +500,25 @@ void player::process_turn()
 
     suffer();
 
-    // Set our scent towards the norm
-    int norm_scent = 500;
-    if (has_trait("WEAKSCENT")) {
-        norm_scent = 300;
-    }
-    if (has_trait("SMELLY")) {
-        norm_scent = 800;
-    }
-    if (has_trait("SMELLY2")) {
-        norm_scent = 1200;
-    }
-    // Not so much that you don't have a scent
-    // but that you smell like a plant, rather than
-    // a human. When was the last time you saw a critter
-    // attack a bluebell or an apple tree?
-    if ( (has_trait("FLOWERS")) && (!(has_trait("CHLOROMORPH"))) ) {
-        norm_scent -= 200;
-    }
-    // You *are* a plant.  Unless someone hunts triffids by scent,
-    // you don't smell like prey.
-    if( has_trait("CHLOROMORPH") ) {
-        norm_scent = 0;
+    reset_scent();
+
+    int scent_goal = scent_norm;
+    scent_goal += scent_mod;
+    if ( scent_goal < 0 ) {
+        scent_goal = 0;
     }
 
     // Scent increases fast at first, and slows down as it approaches normal levels.
     // Estimate it will take about norm_scent * 2 turns to go from 0 - norm_scent / 2
     // Without smelly trait this is about 1.5 hrs. Slows down significantly after that.
-    if (scent < rng(0, norm_scent))
+
+    if ( scent < rng( 0, scent_goal) ) {
         scent++;
-
+    }
     // Unusually high scent decreases steadily until it reaches normal levels.
-    if (scent > norm_scent)
-        scent--;
-
+    if ( scent > scent_goal ) {
+       scent--;
+    }
     // We can dodge again! Assuming we can actually move...
     if (moves > 0) {
         blocks_left = get_num_blocks();
@@ -4151,7 +4166,7 @@ int player::clairvoyance() const
 
 bool player::sight_impaired() const
 {
- return ((( has_effect("boomered") || has_effect("darkness") ) &&
+ return ((( has_effect("boomered") || has_effect("darkness") || has_effect("ooze_in_eyes") ) &&
           (!(has_trait("PER_SLIME_OK")))) ||
   (underwater && !has_bionic("bio_membrane") && !has_trait("MEMBRANE") &&
               !worn_with_flag("SWIM_GOGGLES") && !has_trait("PER_SLIME_OK") &&
@@ -6215,6 +6230,7 @@ void player::add_eff_effects(effect e, bool reduced)
             add_pain_msg(e.get_amount("PAIN", reduced), bp);
         }
     }
+
     Creature::add_eff_effects(e, reduced);
 }
 
@@ -6257,6 +6273,8 @@ void player::process_effects() {
         remove_effect("alarm_clock");
     }
 
+    // Reset scent_mod
+    scent_mod = 0;
     //Human only effects
     for( auto &elem : effects ) {
         for( auto &_effect_it : elem.second ) {
@@ -6463,6 +6481,13 @@ void player::process_effects() {
                 }
             }
 
+            val = it.get_mod( "SCENT", reduced );
+            if (val != 0) {
+                scent_mod += bound_mod_to_vals( scent_norm, val,
+                        it.get_max_val( "SCENT", reduced ),
+                        it.get_min_val( "SCENT", reduced ) );
+                
+            }
             // Speed and stats are handled in recalc_speed_bonus and reset_stats respectively
         }
     }
@@ -12377,7 +12402,8 @@ float player::fine_detail_vision_mod()
     // that you can generaly see.  There'll still be the haze, but
     // it's annoying rather than limiting.
     if( has_effect("blind") || worn_with_flag("BLIND") ||
-        (( has_effect("boomered") || has_effect("darkness") ) && !has_trait("PER_SLIME_OK")) ) {
+      (( has_effect("boomered") || has_effect("darkness") || has_effect("ooze_in_eyes")) && !has_trait("PER_SLIME_OK")) 
+      ) {
         return 5.0;
     }
     // Scale linearly as light level approaches LIGHT_AMBIENT_LIT.

@@ -332,8 +332,14 @@ void game::init_fields()
             {_("hazy cloud"),_("fungicidal gas"),_("thick fungicidal gas")}, '8', 8,
             {c_white, c_ltgray, c_dkgray}, {true, true, false}, {false, true, true}, MINUTES(90),
             {0,0,0}
-        }
+        },
 
+        {
+            "fd_ink",
+            { _("ink splatter"), _("ink stain"), _("puddle of ink") }, '%', 0,
+            { c_ltgray, c_ltgray, c_dkgray }, { true, true, true }, { false, false, false }, HOURS(24),
+            { 0,0,0 }
+        }
     };
     for(int i = 0; i < num_fields; i++) {
         fieldlist[i] = tmp_fields[i];

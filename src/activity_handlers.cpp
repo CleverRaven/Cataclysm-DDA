@@ -139,6 +139,8 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
     int fats = 0;
     int sinews = 0;
     int feathers = 0;
+    int sacs = 0;
+    int tentacles = 0;
     bool stomach = false;
 
     switch (corpse->size) {
@@ -149,6 +151,7 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
         fats = 1;
         sinews = 1;
         feathers = 2;
+        sacs = 1;
         break;
     case MS_SMALL:
         pieces = 2;
@@ -157,6 +160,7 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
         fats = 2;
         sinews = 4;
         feathers = 6;
+        sacs = 1;
         break;
     case MS_MEDIUM:
         pieces = 4;
@@ -165,6 +169,7 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
         fats = 4;
         sinews = 9;
         feathers = 11;
+        sacs = 2;
         break;
     case MS_LARGE:
         pieces = 8;
@@ -173,6 +178,7 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
         fats = 8;
         sinews = 14;
         feathers = 17;
+        sacs = 4;
         break;
     case MS_HUGE:
         pieces = 16;
@@ -181,7 +187,18 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
         fats = 16;
         sinews = 21;
         feathers = 24;
+        sacs = 8;
         break;
+    }
+
+    if (corpse->has_flag(MF_TENTACLES2)) {
+        tentacles = 2;
+    }
+    else if (corpse->has_flag(MF_TENTACLES4)) {
+        tentacles = 4;
+    }
+    else if (corpse->has_flag(MF_TENTACLES8)) {
+        tentacles = 8;
     }
 
     const int skill_level = p->skillLevel( skill_survival );
@@ -215,6 +232,7 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
     fats +=     std::min( 0, roll_butchery() - 4 );
     sinews +=   std::min( 0, roll_butchery() - 8 );
     feathers += std::min( 0, roll_butchery() - 1 );
+    sacs +=     std::min( 0, roll_butchery() - 3 );
     stomach = roll_butchery() >= 0;
 
     if( bones > 0 ) {
@@ -307,6 +325,19 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
             g->m.spawn_item(p->pos(), "fat", fats, 0, age);
             add_msg(m_good, _("You harvest some fat!"));
         }
+    }
+
+    if (sacs > 0) {
+        if (corpse->has_flag(MF_INK_SAC)) {
+            g->m.spawn_item(p->pos(), "ink_sac", sacs, 0, age);
+            add_msg(m_good, _("You harvest some sacs full of liquid!"));
+        }
+    }
+
+    if (tentacles > 0) {
+        g->m.spawn_item(p->pos(), "tentacle", tentacles, 0, age);
+        add_msg(m_good, _("You cut off and harvest some tentacles"));
+
     }
 
     //Add a chance of CBM recovery. For shocker and cyborg corpses.

@@ -262,6 +262,12 @@ Flags used to describe monsters and define their properties and abilities.
 - ```CBM_OP``` May produce a cbm or two from bionics_op when butchered.
 - ```FISHABLE``` It is fishable.
 - ```INTERIOR_AMMO``` Monster contains ammo inside itself, no need to load on launch. Prevents ammo from being dropped on disable.
+- ```INK_SAC``` When butchered, monster drops a number of ink sacs.
+- ```MUT_ABLE``` Allows for you pet monster to be injected with mutagen.
+- ```MUTANT``` Tells the game that the monster may be injected with purifier.
+- ```TENTACLES2``` When butchered, monster drops 2 tentacles. Also, controls how many attacks the TENTACLE_LASH does.
+- ```TENTACLES4``` When butchered, monster drops 4 tentacles. Also, controls how many attacks the TENTACLE_LASH does.
+- ```TENTACLES8``` When butchered, monster drops 8 tentacles. Also, controls how many attacks the TENTACLE_LASH does.
 
 ### Special attacks
 Some special attacks are also valid use actions for tools and weapons.
@@ -276,6 +282,7 @@ Some special attacks are also valid use actions for tools and weapons.
 - ```PULL_METAL_WEAPON``` Pull weapon that's made of iron or steel from the player's hand.
 - ```SMOKECLOUD``` Produces a cloud of smoke.
 - ```BOOMER``` Spit bile.
+- ```INK_JET``` Spit ink. If hits may blind the target.
 - ```RESURRECT``` Revives the dead--again.
 - ```SCIENCE``` Various science/technology related attacks (e.g. manhacks, radioactive beams, etc.)
 - ```GROWPLANTS``` Spawns underbrush, or promotes it to `> young tree > tree`.
@@ -294,6 +301,7 @@ Some special attacks are also valid use actions for tools and weapons.
 - ```FORMBLOB``` Spawns blobs?
 - ```DOGTHING``` The dog _thing_ spawns into a tentacle dog.
 - ```TENTACLE``` Lashes a tentacle at the player.
+- ```TENTACLE_LASH``` Lashes 1 to n tentacles at attack target, n is number of tentacles given by TENTACLES2, TENTACLES4, or TENTACLES8 flag.
 - ```VORTEX``` Forms a vortex/tornado that causes damage and throws creatures around.
 - ```GENE_STING``` Shoot a dart at the player that causes a mutation if it connects.
 - ```PARA_STING``` Shoot a paralyzing dart at the player.
@@ -744,6 +752,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```MUTAGEN_ALPHA``` Causes mutation in the alpha branch.
 - ```MUTAGEN_ELFA``` Causes mutation in the elfa branch.
 - ```MUTAGEN_RAPTOR``` Causes mutation in the raptor branch.
+- ```SERUM``` This mutagen is more powerful than its lesser versions. Used to determine your pet's mutation strength.
 - ```PKILL_1``` Minor painkiller.
 - ```PKILL_2``` Moderate painkiller.
 - ```PKILL_3``` Heavy painkiller.
