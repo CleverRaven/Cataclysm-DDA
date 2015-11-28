@@ -1836,7 +1836,7 @@ long holster_actor::use( player *p, item *it, bool, const tripoint & ) const
         }
 
         p->add_msg_if_player( holster_msg.empty() ? _( "You holster your %s" ) : _( holster_msg.c_str() ),
-                              obj.tname().c_str() );
+                              obj.tname().c_str(), it->tname().c_str() );
         p->store( it, &obj, obj.is_gun() ? obj.gun_skill() : obj.weap_skill(), 10 );
     }
 
