@@ -232,6 +232,7 @@ Flags used to describe monsters and define their properties and abilities.
 - ```ELECTRONIC``` e.g. A Robot; affected by emp blasts and other stuff.
 - ```FUR``` May produce fur when butchered.
 - ```LEATHER``` May produce leather when butchered.
+- ```WOOL``` May produce wool when butchered.
 - ```FEATHER``` May produce feathers when butchered.
 - ```FAT``` May produce fat when butchered.
 - ```CBM_CIV``` May produce a common cbm or two when butchered.
