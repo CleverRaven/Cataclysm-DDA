@@ -4930,6 +4930,9 @@ void game::draw()
         wrefresh(w_terrain);
     }
     draw_sidebar();
+#ifdef TILES
+    try_sdl_update();
+#endif // TILES
 }
 
 void game::draw_sidebar()
