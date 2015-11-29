@@ -5005,10 +5005,18 @@
         "phase" : "solid",
         "encumbrance" : 5,
         "bashing" : 5,
-        "flags" : ["WAIST", "VARSIZE"],
-        "use_action": ["BELT_LOOP"],
+        "flags" : ["WAIST", "VARSIZE", "NO_QUICKDRAW"],
         "coverage" : 20,
-        "material_thickness" : 2
+        "material_thickness" : 2,
+        "use_action" : {
+            "type": "holster",
+             "holster_prompt": "Attach what to belt loop?",
+             "holster_msg": "You clip your %s to your %s",
+             "max_volume": 2,
+             "max_weight": 600,
+             "draw_speed": 50,
+             "flags": ["BELT_CLIP"]
+        }
     },
     {
         "type" : "ARMOR",
@@ -6498,12 +6506,19 @@
         "coverage" : 0,
         "symbol" : "[",
         "bashing" : 5,
-        "flags" : ["FANCY", "WAIST"],
-        "use_action": ["BELT_LOOP"],
-        "properties" : [["max_volume", "5"], ["max_weight", "3600"]],
+        "flags" : ["FANCY", "WAIST", "NO_QUICKDRAW"],
         "cutting" : 0,
         "warmth" : 0,
-        "phase" : "solid"
+        "phase" : "solid",
+        "use_action" : {
+            "type": "holster",
+             "holster_prompt": "Attach what to belt loop?",
+             "holster_msg": "You clip your %s to your %s",
+             "max_volume": 5,
+             "max_weight": 3600,
+             "draw_speed": 50,
+             "flags": ["BELT_CLIP"]
+        }
     },
     {
         "type" : "ARMOR",
