@@ -4101,7 +4101,8 @@
         "bashing": 1,
         "cutting": 2,
         "to_hit": 2,
-        "flags": ["STAB", "SHEATH_SWORD", "PRECISE", "RAPID" ]
+        "techniques" : ["PRECISE", "RAPID"],
+        "flags": ["STAB", "SHEATH_SWORD"]
     },
     {
         "id": "fencing_epee",
@@ -4117,7 +4118,8 @@
         "bashing": 3,
         "cutting": 7,
         "to_hit": 2,
-        "flags": ["STAB", "SHEATH_SWORD", "PRECISE", "RAPID" ]
+        "techniques" : ["PRECISE", "RAPID"],
+        "flags": ["STAB", "SHEATH_SWORD"]
     },
     {
         "id": "fencing_sabre",
@@ -4133,7 +4135,8 @@
         "bashing": 1,
         "cutting": 6,
         "to_hit": 2,
-        "flags": ["STAB", "SHEATH_SWORD", "PRECISE", "RAPID" ]
+        "techniques" : ["PRECISE", "RAPID"],
+        "flags": ["STAB", "SHEATH_SWORD"]
     },
     {
         "id": "cutlass_fake",
