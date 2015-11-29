@@ -18,7 +18,7 @@ template <typename W, typename T> struct weighted_list {
 
     /**
      * This will add a new object to the weighted list. Returns a pointer to
-       the added or updated object, or NULL if weight was zero.
+       the added object, or NULL if weight was zero.
      * @param obj The object that will be added to the list.
      * @param weight The weight of the object.
      */
@@ -27,8 +27,9 @@ template <typename W, typename T> struct weighted_list {
             objects.emplace_back(obj, weight);
             total_weight += weight;
             invalidate_precalc();
+            return &(objects[objects.size()-1].obj);
         }
-        return &(objects[objects.size()-1].obj);
+        return NULL;
     }
 
     /**
