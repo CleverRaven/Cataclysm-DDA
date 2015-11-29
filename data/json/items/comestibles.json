@@ -5449,7 +5449,7 @@
     {
         "type" : "COMESTIBLE",
         "id" : "stomach_boiled",
-        "name" : "boiled stomach",
+        "name" : "large boiled stomach",
         "weight" : 145 ,
         "color" : "red",
         "addiction_type" : "none",
@@ -5507,7 +5507,7 @@
     {
         "type" : "COMESTIBLE",
         "id" : "small_stomach_boiled",
-        "name" : "small boiled stomach",
+        "name" : "boiled stomach",
         "weight" : 72,
         "color" : "red",
         "addiction_type" : "none",
