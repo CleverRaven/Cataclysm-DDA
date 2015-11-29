@@ -5,6 +5,7 @@
 #include "translations.h"
 #include "item_group.h"
 #include "crafting.h"
+#include "recipe_dictionary.h"
 #include "iuse_actor.h"
 #include "item.h"
 #include "mapdata.h"
@@ -73,17 +74,9 @@ void Item_factory::finialize_item_blacklist()
         for( auto &elem : m_template_groups ) {
             elem.second->remove_item( itm );
         }
-        for( auto &recipes_b : recipes ) {
-            for( size_t c = 0; c < recipes_b.second.size(); c++ ) {
-                recipe *r = recipes_b.second[c];
-                if( r->result == itm || r->requirements.remove_item(itm) ) {
-                    delete r;
-                    recipes_b.second.erase( recipes_b.second.begin() + c );
-                    c--;
-                    continue;
-                }
-            }
-        }
+        recipe_dict.delete_if( [&]( recipe &r ) {
+            return r.result == itm || r.requirements.remove_item( itm );
+        } );
 
         remove_construction_if([&](construction &c) {
             return c.requirements.remove_item(itm);
@@ -271,12 +264,8 @@ void Item_factory::init()
     iuse_function_list["RAG"] = &iuse::rag;
     iuse_function_list["LAW"] = &iuse::LAW;
     iuse_function_list["HEATPACK"] = &iuse::heatpack;
-    iuse_function_list["BOOTS"] = &iuse::boots;
     iuse_function_list["QUIVER"] = &iuse::quiver;
-    iuse_function_list["SHEATH_SWORD"] = &iuse::sheath_sword;
-    iuse_function_list["SHEATH_KNIFE"] = &iuse::sheath_knife;
-    iuse_function_list["HOLSTER_GUN"] = &iuse::holster_gun;
-    iuse_function_list["HOLSTER_ANKLE"] = &iuse::holster_ankle;
+    iuse_function_list["BELT_LOOP"] = &iuse::belt_loop;
     iuse_function_list["TOWEL"] = &iuse::towel;
     iuse_function_list["UNFOLD_GENERIC"] = &iuse::unfold_generic;
     iuse_function_list["ADRENALINE_INJECTOR"] = &iuse::adrenaline_injector;
@@ -747,7 +736,14 @@ void Item_factory::load( islot_armor &slot, JsonObject &jo )
     slot.storage = jo.get_int( "storage", 0 );
     slot.power_armor = jo.get_bool( "power_armor", false );
     slot.covers = jo.has_member( "covers" ) ? flags_from_json( jo, "covers", "bodyparts" ) : 0;
-    slot.sided = jo.has_member( "covers" ) ? flags_from_json( jo, "covers", "sided" ) : 0;
+
+    auto ja = jo.get_array("covers");
+    while (ja.has_more()) {
+        if (ja.next_string().find("_EITHER") != std::string::npos) {
+            slot.sided = true;
+            break;
+        }
+    }
 }
 
 void Item_factory::load_tool(JsonObject &jo)
@@ -820,15 +816,7 @@ void Item_factory::load_comestible(JsonObject &jo)
         comest_template->stack_size = comest_template->def_charges;
     }
     comest_template->stim = jo.get_int("stim", 0);
-    // TODO: sometimes in the future: remove this if clause and accept
-    // only "healthy" and not "heal".
-    if (jo.has_member("heal")) {
-        debugmsg("the item property \"heal\" has been renamed to \"healthy\"\n"
-                 "please change the json data for item %d", comest_template->id.c_str());
-        comest_template->healthy = jo.get_int("heal");
-    } else {
-        comest_template->healthy = jo.get_int("healthy", 0);
-    }
+    comest_template->healthy = jo.get_int("healthy", 0);
     comest_template->fun = jo.get_int("fun", 0);
 
     comest_template->add = addiction_type(jo.get_string("addiction_type"));
@@ -1485,6 +1473,8 @@ void Item_factory::set_uses_from_object(JsonObject obj, std::vector<use_function
         newfun = load_actor<manualnoise_actor>( obj );
     } else if( type == "musical_instrument" ) {
         newfun = load_actor<musical_instrument_actor>( obj );
+    } else if( type == "holster" ) {
+        newfun = load_actor<holster_actor>( obj );
     } else if( type == "knife" ) {
         use_methods.push_back( load_actor<salvage_actor>( obj, "salvage" ) );
         use_methods.push_back( load_actor<inscribe_actor>( obj, "inscribe" ) );
@@ -1517,40 +1507,22 @@ void Item_factory::set_flag_by_string(std::bitset<num_bp> &cur_flags, const std:
 {
     if (flag_type == "bodyparts") {
         // global defined in bodypart.h
-        if (new_flag == "ARM" || new_flag == "HAND" || new_flag == "LEG" || new_flag == "FOOT") {
-            return;
-        } else if( new_flag == "ARMS" ) {
+        if (new_flag == "ARMS" || new_flag == "ARM_EITHER") {
             cur_flags.set( bp_arm_l );
             cur_flags.set( bp_arm_r );
-        } else if( new_flag == "HANDS" ) {
+        } else if (new_flag == "HANDS" || new_flag == "HAND_EITHER") {
             cur_flags.set( bp_hand_l );
             cur_flags.set( bp_hand_r );
-        } else if( new_flag == "LEGS" ) {
+        } else if (new_flag == "LEGS" || new_flag == "LEG_EITHER") {
             cur_flags.set( bp_leg_l );
             cur_flags.set( bp_leg_r );
-        } else if( new_flag == "FEET" ) {
+        } else if (new_flag == "FEET" || new_flag == "FOOT_EITHER") {
             cur_flags.set( bp_foot_l );
             cur_flags.set( bp_foot_r );
         } else {
             cur_flags.set( get_body_part_token( new_flag ) );
         }
-    } else if (flag_type == "sided") {
-        // global defined in bodypart.h
-        if( new_flag == "ARM" ) {
-            cur_flags.set( bp_arm_l );
-            cur_flags.set( bp_arm_r );
-        } else if( new_flag == "HAND" ) {
-            cur_flags.set( bp_hand_l );
-            cur_flags.set( bp_hand_r );
-        } else if( new_flag == "LEG" ) {
-            cur_flags.set( bp_leg_l );
-            cur_flags.set( bp_leg_r );
-        } else if( new_flag == "FOOT" ) {
-            cur_flags.set( bp_foot_l );
-            cur_flags.set( bp_foot_r );
-        }
     }
-
 }
 
 namespace io {

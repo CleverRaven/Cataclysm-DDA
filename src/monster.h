@@ -167,11 +167,11 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
          * @param force If this is set to true, the movement will happen even if
          *              there's currently something blocking the destination.
          *
-         * @param slope adjusts move cost in some circumstances.
+         * @param stagger_adjustment is a multiplier for move cost to compensate for staggering.
          *
          * @return true if movement successful, false otherwise
          */
-        bool move_to( const tripoint &p, bool force = false, float slope = 0.0 );
+        bool move_to( const tripoint &p, bool force = false, float stagger_adjustment = 1.0 );
 
         /**
          * Attack any enemies at the given location.
@@ -242,9 +242,10 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         // Let the monster die and let its body explode into gibs
         void die_in_explosion( Creature *source );
         /**
-         * Flat addition to the monsters @ref hp. This is not capped at the maximal hp!
+         * Flat addition to the monsters @ref hp. If `overheal` is true, this is not capped by max hp.
+         * Returns actually healed hp.
          */
-        void heal( int hp_delta );
+        int heal( int hp_delta, bool overheal = false );
         /**
          * Directly set the current @ref hp of the monster (not capped at the maximal hp).
          * You might want to use @ref heal / @ref apply_damage or @ref deal_damage instead.
@@ -381,6 +382,16 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
          * and to reviving monsters that spawn from a corpse.
          */
         void init_from_item( const item &itm );
+
+        int last_updated;
+        /**
+         * Do some cleanup and caching as monster is being unloaded from map.
+         */
+        void on_unload();
+        /**
+         * Retroactively update monster.
+         */
+        void on_load();
 
     private:
         int hp;

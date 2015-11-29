@@ -7,6 +7,7 @@
 #include "mtype.h"
 #include "overmapbuffer.h"
 #include "crafting.h"
+#include "recipe_dictionary.h"
 #include "monstergenerator.h"
 #include "construction.h"
 #include "messages.h"
@@ -204,10 +205,8 @@ void defense_game::init_constructions()
 
 void defense_game::init_recipes()
 {
-    for( auto &recipe : recipes ) {
-        for( auto &elem : recipe.second ) {
-            ( elem )->time /= 10; // Things take turns, not minutes
-        }
+    for( auto &elem : recipe_dict ) {
+        ( elem )->time /= 10; // Things take turns, not minutes
     }
 }
 

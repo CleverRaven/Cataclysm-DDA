@@ -151,7 +151,7 @@ class Creature
          */
         void melee_attack(Creature &t, bool allow_special);
 
-        /** 
+        /**
          *  Fires a projectile at the target point from the source point with total_dispersion
          *  dispersion.
          *  Returns the rolled dispersion of the shot and the actually hit point.
@@ -294,7 +294,8 @@ class Creature
          *  of the matching type, targeted or untargeted. */
         bool has_effect(efftype_id eff_id, body_part bp = num_bp) const;
         /** Return the effect that matches the given arguments exactly. */
-        effect get_effect(efftype_id eff_id, body_part bp = num_bp) const;
+        const effect &get_effect(efftype_id eff_id, body_part bp = num_bp) const;
+        effect &get_effect(efftype_id eff_id, body_part bp = num_bp);
         /** Returns the duration of the matching effect. Returns 0 if effect doesn't exist. */
         int get_effect_dur(efftype_id eff_id, body_part bp = num_bp) const;
         /** Returns the intensity of the matching effect. Returns 0 if effect doesn't exist. */
@@ -508,16 +509,10 @@ class Creature
          * Its purpose is to avoid repeated code and improve source readability / maintainability.
          *
          */
-        inline std::string replace_with_npc_name(std::string str, std::string name) const
+        inline std::string replace_with_npc_name(std::string input, std::string name) const
         {
-            size_t offset = str.find("<npcname>");
-            if (offset != std::string::npos) {
-                str.replace(offset, 9, name);
-                if (offset == 0 && !str.empty()) {
-                    capitalize_letter(str, 0);
-                }
-            }
-            return str;
+            replace_substring(input, "<npcname>", name, true);
+            return input;
         }
 
         /**

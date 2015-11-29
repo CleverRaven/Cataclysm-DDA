@@ -156,23 +156,23 @@ void talk_function::bionic_remove(npc *p)
 void talk_function::companion_mission(npc *p)
 {
  std::string id = "NONE";
- std::string title = "Outpost Missions";
+ std::string title = _("Outpost Missions");
  unsigned int a = -1;
  if (p->name.find("Scavenger Boss") != a){
     id = "SCAVENGER";
-    title = "Junkshop Missions";
+    title = _("Junkshop Missions");
  }
  if (p->name.find("Crop Overseer") != a){
     id = "COMMUNE CROPS";
-    title = "Agricultural Missions";
+    title = _("Agricultural Missions");
  }
  if (p->name.find("Foreman") != a){
     id = "FOREMAN";
-    title = "Construction Missions";
+    title = _("Construction Missions");
  }
  if (p->name.find(", Merchant") != a){
     id = "REFUGEE MERCHANT";
-    title = "Free Merchant Missions";
+    title = _("Free Merchant Missions");
  }
  talk_function::outpost_missions(p, id, title);
 }
@@ -185,168 +185,168 @@ bool talk_function::outpost_missions(npc *p, std::string id, std::string title)
     std::string entry, entry_aux;
 
     if (id == "SCAVENGER"){
-        col_missions["Assign Scavenging Patrol"] = "Profit: $25-$500\nDanger: Low\nTime: 10 hour missions\n \n"
+        col_missions["Assign Scavenging Patrol"] = _("Profit: $25-$500\nDanger: Low\nTime: 10 hour missions\n \n"
             "Assigning one of your allies to patrol the surrounding wilderness and isolated buildings presents "
             "the opportunity to build survival skills while engaging in relatively safe combat against isolated "
-            "creatures.";
+            "creatures.");
         keys.push_back("Assign Scavenging Patrol");
         npc_list = companion_list(p->name+"_scavenging_patrol");
         if (npc_list.size()>0){
-            entry = "Profit: $25-$500\nDanger: Low\nTime: 10 hour missions\n \nPatrol Roster:\n";
+            entry = _("Profit: $25-$500\nDanger: Low\nTime: 10 hour missions\n \nPatrol Roster:\n");
             for( auto &elem : npc_list ) {
                 entry = entry + "  " + elem->name + " ["+ to_string((calendar::turn.get_turn()-elem->companion_mission_time)/600) +" hours] \n";
             }
-            entry = entry + "\n \nDo you wish to bring your allies back into your party?";
+            entry = entry + _("\n \nDo you wish to bring your allies back into your party?");
             col_missions["Retrieve Scavenging Patrol"] = entry;
             keys.push_back("Retrieve Scavenging Patrol");
         }
     }
 
     if (id == "SCAVENGER" && p->has_trait("NPC_MISSION_LEV_1")){
-        col_missions["Assign Scavenging Raid"] = "Profit: $200-$1000\nDanger: Medium\nTime: 10 hour missions\n \n"
+        col_missions["Assign Scavenging Raid"] = _("Profit: $200-$1000\nDanger: Medium\nTime: 10 hour missions\n \n"
             "Scavenging raids target formerly populated areas to loot as many valuable items as possible before "
             "being surrounded by the undead.  Combat is to be expected and assistance from the rest of the party "
-            "can't be guaranteed.  The rewards are greater and there is a chance of the companion bringing back items.";
+            "can't be guaranteed.  The rewards are greater and there is a chance of the companion bringing back items.");
         keys.push_back("Assign Scavenging Raid");
         npc_list = companion_list(p->name+"_scavenging_raid");
         if (npc_list.size()>0){
-            entry = "Profit: $200-$1000\nDanger: Medium\nTime: 10 hour missions\n \nRaid Roster:\n";
+            entry = _("Profit: $200-$1000\nDanger: Medium\nTime: 10 hour missions\n \nRaid Roster:\n");
             for( auto &elem : npc_list ) {
                 entry = entry + "  " + elem->name + " ["+ to_string((calendar::turn.get_turn()-elem->companion_mission_time)/600) +" hours] \n";
             }
-            entry = entry + "\n \nDo you wish to bring your allies back into your party?";
+            entry = entry + _("\n \nDo you wish to bring your allies back into your party?");
             col_missions["Retrieve Scavenging Raid"] = entry;
             keys.push_back("Retrieve Scavenging Raid");
         }
     }
 
     if (id == "FOREMAN"){
-        col_missions["Assign Ally to Menial Labor"] = "Profit: $8/hour\nDanger: Minimal\nTime: 1 hour minimum\n \n"
+        col_missions["Assign Ally to Menial Labor"] = _("Profit: $8/hour\nDanger: Minimal\nTime: 1 hour minimum\n \n"
             "Assigning one of your allies to menial labor is a safe way to teach them basic skills and build "
-            "reputation with the outpost.  Don't expect much of a reward though.";
+            "reputation with the outpost.  Don't expect much of a reward though.");
         keys.push_back("Assign Ally to Menial Labor");
         npc_list = companion_list(p->name+"_labor");
         if (npc_list.size()>0){
-            entry = "Profit: $8/hour\nDanger: Minimal\nTime: 1 hour minimum\n \nLabor Roster:\n";
+            entry = _("Profit: $8/hour\nDanger: Minimal\nTime: 1 hour minimum\n \nLabor Roster:\n");
             for( auto &elem : npc_list ) {
                 entry = entry + "  " + elem->name + " ["+ to_string((calendar::turn.get_turn()-elem->companion_mission_time)/600) +" hours] \n";
             }
-            entry = entry + "\n \nDo you wish to bring your allies back into your party?";
+            entry = entry + _("\n \nDo you wish to bring your allies back into your party?");
             col_missions["Recover Ally from Menial Labor"] = entry;
             keys.push_back("Recover Ally from Menial Labor");
         }
     }
 
     if (id == "FOREMAN" && p->has_trait("NPC_MISSION_LEV_1")){
-        col_missions["Assign Ally to Carpentry Work"] = "Profit: $12/hour\nDanger: Minimal\nTime: 1 hour minimum\n \n"
+        col_missions["Assign Ally to Carpentry Work"] = _("Profit: $12/hour\nDanger: Minimal\nTime: 1 hour minimum\n \n"
             "Carpentry work requires more skill than menial labor while offering modestly improved pay.  It is "
-            "unlikely that your companions will face combat but there are hazards working on makeshift buildings.";
+            "unlikely that your companions will face combat but there are hazards working on makeshift buildings.");
         keys.push_back("Assign Ally to Carpentry Work");
         npc_list = companion_list(p->name+"_carpenter");
         if (npc_list.size()>0){
-            entry = "Profit: $12/hour\nDanger: Minimal\nTime: 1 hour minimum\n \nLabor Roster:\n";
+            entry = _("Profit: $12/hour\nDanger: Minimal\nTime: 1 hour minimum\n \nLabor Roster:\n");
             for( auto &elem : npc_list ) {
                 entry = entry + "  " + elem->name + " ["+ to_string((calendar::turn.get_turn()-elem->companion_mission_time)/600) +" hours] \n";
             }
-            entry = entry + "\n \nDo you wish to bring your allies back into your party?";
+            entry = entry + _("\n \nDo you wish to bring your allies back into your party?");
             col_missions["Recover Ally from Carpentry Work"] = entry;
             keys.push_back("Recover Ally from Carpentry Work");
         }
     }
 
     if (id == "COMMUNE CROPS" && !p->has_trait("NPC_CONSTRUCTION_LEV_1")){
-        col_missions["Purchase East Field"] = "Cost: $1000\n \n"
+        col_missions["Purchase East Field"] = _("Cost: $1000\n \n"
             "\n              .........\n              .........\n              .........\n              "
             ".........\n              .........\n              .........\n              ..#....**\n     "
             "         ..#Ov..**\n              ...O|....\n \n"
             "We're willing to let you purchase a field at a substantial discount to use for your own agricultural "
             "enterprises.  We'll plow it for you so you know exactly what is yours... after you have a field "
             "you can hire workers to plant or harvest crops for you.  If the crop is something we have a "
-            "demand for, we'll be willing to liquidate it.";
+            "demand for, we'll be willing to liquidate it.");
         keys.push_back("Purchase East Field");
     }
 
     if (id == "COMMUNE CROPS" && p->has_trait("NPC_CONSTRUCTION_LEV_1") && !p->has_trait("NPC_CONSTRUCTION_LEV_2")){
-        col_missions["Upgrade East Field I"] = "Cost: $5500\n \n"
+        col_missions["Upgrade East Field I"] = _("Cost: $5500\n \n"
             "\n              .........\n              .........\n              .........\n              "
             ".........\n              .........\n              .........\n              ..#....**\n     "
             "         ..#Ov..**\n              ...O|....\n \n"
             "Protecting your field with a sturdy picket fence will keep most wildlife from nibbling your crops "
-            "apart.  You can expect yields to increase.";
+            "apart.  You can expect yields to increase.");
         keys.push_back("Upgrade East Field I");
     }
 
     if (id == "COMMUNE CROPS" && p->has_trait("NPC_CONSTRUCTION_LEV_1")){
-        col_missions["Plant East Field"] = "Cost: $3.00/plot\n \n"
+        col_missions["Plant East Field"] = _("Cost: $3.00/plot\n \n"
         "\n              .........\n              .........\n              .........\n              .........\n"
         "              .........\n              .........\n              ..#....**\n              ..#Ov..**\n  "
         "            ...O|....\n \n"
         "We'll plant the field with your choice of crop if you are willing to finance it.  When the crop is ready "
-        "to harvest you can have us liquidate it or harvest it for you.";
+        "to harvest you can have us liquidate it or harvest it for you.");
         keys.push_back("Plant East Field");
-        col_missions["Harvest East Field"] = "Cost: $2.00/plot\n \n"
+        col_missions["Harvest East Field"] = _("Cost: $2.00/plot\n \n"
         "\n              .........\n              .........\n              .........\n              .........\n"
         "              .........\n              .........\n              ..#....**\n              ..#Ov..**\n  "
         "            ...O|....\n \n"
-        "You can either have us liquidate the crop and give you the cash or pay us to harvest it for you.";
+        "You can either have us liquidate the crop and give you the cash or pay us to harvest it for you.");
         keys.push_back("Harvest East Field");
     }
 
     if (id == "COMMUNE CROPS"){
-        col_missions["Assign Ally to Forage for Food"] = "Profit: $10/hour\nDanger: Low\nTime: 4 hour minimum\n \n"
+        col_missions["Assign Ally to Forage for Food"] = _("Profit: $10/hour\nDanger: Low\nTime: 4 hour minimum\n \n"
             "Foraging for food involves dispatching a companion to search the surrounding wilderness for wild "
             "edibles.  Combat will be avoided but encounters with wild animals are to be expected.  The low pay is "
-            "supplemented with the odd item as a reward for particularly large hauls.";
+            "supplemented with the odd item as a reward for particularly large hauls.");
         keys.push_back("Assign Ally to Forage for Food");
         npc_list = companion_list(p->name+"_forage");
         if (npc_list.size()>0){
-            entry = "Profit: $10/hour\nDanger: Low\nTime: 4 hour minimum\n \nLabor Roster:\n";
+            entry = _("Profit: $10/hour\nDanger: Low\nTime: 4 hour minimum\n \nLabor Roster:\n");
             for( auto &elem : npc_list ) {
                 entry = entry + "  " + elem->name + " ["+ to_string((calendar::turn.get_turn()-elem->companion_mission_time)/600) +" hours] \n";
             }
-            entry = entry + "\n \nDo you wish to bring your allies back into your party?";
+            entry = entry + _("\n \nDo you wish to bring your allies back into your party?");
             col_missions["Recover Ally from Foraging"] = entry;
             keys.push_back("Recover Ally from Foraging");
         }
     }
 
     if (id == "COMMUNE CROPS" || id == "REFUGEE MERCHANT"){
-        col_missions["Caravan Commune-Refugee Center"] = "Profit: $18/hour\nDanger: High\nTime: UNKNOWN\n \n"
+        col_missions["Caravan Commune-Refugee Center"] = _("Profit: $18/hour\nDanger: High\nTime: UNKNOWN\n \n"
             "Adding companions to the caravan team increases the likelihood of success.  By nature, caravans are "
             "extremely tempting targets for raiders or hostile groups so only a strong party is recommended.  The "
             "rewards are significant for those participating but are even more important for the factions that profit.\n \n"
             "The commune is sending food to the Free Merchants in the Refugee Center as part of a tax and in exchange "
-            "for skilled labor.";
+            "for skilled labor.");
         keys.push_back("Caravan Commune-Refugee Center");
         npc_list = companion_list(p->name+"_commune_refugee_caravan");
         std::vector<npc *> npc_list_aux;
         if (npc_list.size()>0){
-            entry = "Profit: $18/hour\nDanger: High\nTime: UNKNOWN\n \n"
-            " \nRoster:\n";
+            entry = _("Profit: $18/hour\nDanger: High\nTime: UNKNOWN\n \n"
+            " \nRoster:\n");
             for( auto &elem : npc_list ) {
                 if (elem->companion_mission_time == -1){
-                    entry = entry + "  " + elem->name + " [READY] \n";
+                    entry = entry + "  " + elem->name + _(" [READY] \n");
                     npc_list_aux.push_back(elem);
                 } else if (calendar::turn.get_turn() >= elem->companion_mission_time) {
-                    entry = entry + "  " + elem->name + " [COMPLETE] \n";
+                    entry = entry + "  " + elem->name + _(" [COMPLETE] \n");
                 } else {
                     entry = entry + "  " + elem->name + " ["+ to_string(abs(calendar::turn.get_turn()-elem->companion_mission_time)/600) +" Hours] \n";
                 }
             }
             if (npc_list_aux.size()>0){
-                entry_aux = "Profit: $18/hour\nDanger: High\nTime: UNKNOWN\n \n"
-                " \nRoster:\n";
+                entry_aux = _("Profit: $18/hour\nDanger: High\nTime: UNKNOWN\n \n"
+                " \nRoster:\n");
                 for( auto &elem : npc_list_aux ) {
                     if (elem->companion_mission_time == -1){
                         entry_aux = entry_aux + "  " + elem->name + " [READY] \n";
                     }
                 }
-                entry_aux = entry_aux + "\n \n"
-                    "The caravan will contain two or three additional members from the commune, are you ready to depart?";
+                entry_aux = entry_aux + _("\n \n"
+                    "The caravan will contain two or three additional members from the commune, are you ready to depart?");
                 col_missions["Begin Commune-Refugee Center Run"] = entry_aux;
                 keys.push_back("Begin Commune-Refugee Center Run");
             }
-            entry = entry + "\n \nDo you wish to bring your allies back into your party?";
+            entry = entry + _("\n \nDo you wish to bring your allies back into your party?");
             col_missions["Recover Commune-Refugee Center"] = entry;
             keys.push_back("Recover Commune-Refugee Center");
         }
@@ -423,7 +423,7 @@ bool talk_function::outpost_missions(npc *p, std::string id, std::string title)
     g->refresh_all();
 
     if (cur_key == "Caravan Commune-Refugee Center"){
-        individual_mission(p, "joins the caravan team...", "_commune_refugee_caravan", true);
+        individual_mission(p, _("joins the caravan team..."), "_commune_refugee_caravan", true);
     }
     if (cur_key == "Begin Commune-Refugee Center Run"){
         caravan_depart(p, "evac_center_18", "_commune_refugee_caravan");
@@ -445,31 +445,31 @@ bool talk_function::outpost_missions(npc *p, std::string id, std::string title)
         field_harvest(p, "ranch_camp_63");
     }
     if (cur_key == "Assign Scavenging Patrol"){
-        individual_mission(p, "departs on the scavenging patrol...", "_scavenging_patrol");
+        individual_mission(p, _("departs on the scavenging patrol..."), "_scavenging_patrol");
     }
     if (cur_key == "Retrieve Scavenging Patrol"){
         scavenging_patrol_return(p);
     }
     if (cur_key == "Assign Scavenging Raid"){
-        individual_mission(p, "departs on the scavenging raid...", "_scavenging_raid");
+        individual_mission(p, _("departs on the scavenging raid..."), "_scavenging_raid");
     }
     if (cur_key == "Retrieve Scavenging Raid"){
         scavenging_raid_return(p);
     }
     if (cur_key == "Assign Ally to Menial Labor"){
-        individual_mission(p, "departs to work as a laborer...", "_labor");
+        individual_mission(p, _("departs to work as a laborer..."), "_labor");
     }
     if (cur_key == "Recover Ally from Menial Labor"){
         labor_return(p);
     }
     if (cur_key == "Assign Ally to Carpentry Work"){
-        individual_mission(p, "departs to work as a carpenter...", "_carpenter");
+        individual_mission(p, _("departs to work as a carpenter..."), "_carpenter");
     }
     if (cur_key == "Recover Ally from Carpentry Work"){
         carpenter_return(p);
     }
     if (cur_key == "Assign Ally to Forage for Food"){
-        individual_mission(p, "departs to forage for food...", "_forage");
+        individual_mission(p, _("departs to forage for food..."), "_forage");
     }
     if (cur_key == "Recover Ally from Foraging"){
         forage_return(p);
@@ -1349,7 +1349,7 @@ void talk_function::force_on_force(std::vector<npc *> defender, std::string def_
 void talk_function::companion_leave(npc *comp){
     g->mission_npc.push_back(comp);
     overmap_buffer.hide_npc( comp->getID() );
-    g->active_npc.clear();
+    g->unload_npcs();
     g->load_npcs();
 }
 
@@ -1364,7 +1364,7 @@ void talk_function::companion_lost(npc *comp){
         }
     }
     g->mission_npc = new_mission_npc;
-    g->active_npc.clear();
+    g->unload_npcs();
     g->load_npcs();
 }
 
@@ -1388,7 +1388,7 @@ void talk_function::companion_return(npc *comp){
         }
     }
     g->mission_npc = new_mission_npc;
-    g->active_npc.clear();
+    g->unload_npcs();
     g->load_npcs();
 }
 
@@ -1495,7 +1495,8 @@ std::vector<item*> talk_function::loot_building(const tripoint site)
                     bay.get_ter(x,y) == "t_window_domestic" || bay.get_ter(x,y) == "t_window_domestic_taped" ||
                     bay.get_ter(x,y) == "t_window_boarded_noglass" || bay.get_ter(x,y) == "t_window_domestic_taped" ||
                     bay.get_ter(x,y) == "t_window_alarm_taped" || bay.get_ter(x,y) == "t_window_boarded" ||
-                    bay.get_ter(x,y) == "t_curtains" || bay.get_ter(x,y) == "t_window_alarm")
+                    bay.get_ter(x,y) == "t_curtains" || bay.get_ter(x,y) == "t_window_alarm" ||
+                    bay.get_ter(x,y) == "t_window_no_curtains" || bay.get_ter(x,y) == "t_window_no_curtains_taped" )
                     && one_in(4) ){
                 const map_bash_info &bash = bay.ter_at(x,y).bash;
                 bay.ter_set( x, y, bash.ter_set);

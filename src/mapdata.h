@@ -95,6 +95,7 @@ struct map_deconstruct_info {
  * CONSOLE - Used as a computer
  * ALARMED - Sets off an alarm if smashed
  * SUPPORTS_ROOF - Used as a boundary for roof construction
+ * MINEABLE - Able to broken with the jackhammer/pickaxe, but does not necessarily support a roof
  * INDOORS - Has roof over it; blocks rain, sunlight, etc.
  * COLLAPSES - Has a roof that can collapse
  * FLAMMABLE_ASH - Burns to ash rather than rubble.
@@ -137,6 +138,7 @@ enum ter_bitflags : int {
     TFLAG_REDUCE_SCENT,
     TFLAG_SWIMMABLE,
     TFLAG_SUPPORTS_ROOF,
+    TFLAG_MINEABLE,
     TFLAG_NOITEM,
     TFLAG_SEALED,
     TFLAG_ALLOW_FIELD_EFFECT,
@@ -348,6 +350,7 @@ extern ter_id t_null,
     t_recycler, t_window, t_window_taped, t_window_domestic, t_window_domestic_taped, t_window_open, t_curtains,
     t_window_alarm, t_window_alarm_taped, t_window_empty, t_window_frame, t_window_boarded, t_window_boarded_noglass, t_window_bars_alarm,
     t_window_stained_green, t_window_stained_red, t_window_stained_blue,
+    t_window_no_curtains, t_window_no_curtains_open, t_window_no_curtains_taped,
     t_rock, t_fault,
     t_paper,
     t_rock_wall, t_rock_wall_half,

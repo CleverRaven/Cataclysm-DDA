@@ -70,8 +70,6 @@ void Character::mod_stat( const std::string &stat, int modifier )
         mod_int_bonus( modifier );
     } else if( stat == "healthy" ) {
         mod_healthy( modifier );
-    } else if( stat == "healthy_mod" ) {
-        mod_healthy_mod( modifier );
     } else if( stat == "hunger" ) {
         mod_hunger( modifier );
     } else if( stat == "speed" ) {
@@ -98,6 +96,8 @@ void Character::mod_stat( const std::string &stat, int modifier )
 bool Character::move_effects(bool attacking)
 {
     if (has_effect("downed")) {
+        ///\xrefitem Stat_Effects_Dexterity "" "" Dexterity increases chance to stand up when knocked down
+        ///\xrefitem Stat_Effects_Strength "" "" Strength increases chance to stand up when knocked down
         if (rng(0, 40) > get_dex() + get_str() / 2) {
             add_msg_if_player(_("You struggle to stand."));
         } else {
@@ -108,6 +108,7 @@ bool Character::move_effects(bool attacking)
         return false;
     }
     if (has_effect("webbed")) {
+        ///\xrefitem Stat_Effects_Strength "" "" Strength increases chance to escape webs
         if (x_in_y(get_str(), 6 * get_effect_int("webbed"))) {
             add_msg_player_or_npc(m_good, _("You free yourself from the webs!"),
                                     _("<npcname> frees themselves from the webs!"));
@@ -118,6 +119,7 @@ bool Character::move_effects(bool attacking)
         return false;
     }
     if (has_effect("lightsnare")) {
+        ///\xrefitem Stat_Effects_Strength "" "" Strength increases chance to escape light snare
         if(x_in_y(get_str(), 12) || x_in_y(get_dex(), 8)) {
             remove_effect("lightsnare");
             add_msg_player_or_npc(m_good, _("You free yourself from the light snare!"),
@@ -132,6 +134,8 @@ bool Character::move_effects(bool attacking)
         return false;
     }
     if (has_effect("heavysnare")) {
+        ///\xrefitem Stat_Effects_Strength "" "" Strength increases chance to escape heavy snare
+        ///\xrefitem Stat_Effects_Dexterity "" "" Dexterity increases chance to escape heavy snare
         if(x_in_y(get_str(), 32) || x_in_y(get_dex(), 16)) {
             remove_effect("heavysnare");
             add_msg_player_or_npc(m_good, _("You free yourself from the heavy snare!"),
@@ -225,6 +229,7 @@ void Character::recalc_hp()
 {
     int new_max_hp[num_hp_parts];
     for( auto &elem : new_max_hp ) {
+        ///\xrefitem Stat_Effects_Strength "" "" Max Strength increases base hp
         elem = 60 + str_max * 3;
         if (has_trait("HUGE")) {
             // Bad-Huge doesn't quite have the cardio/skeletal/etc to support the mass,
@@ -892,7 +897,9 @@ void Character::reset_stats()
         mod_dodge_bonus(-4);
     }
 
+    ///\xrefitem Stat_Effects_Strength "" "" Max Strength above 15 decreases Dodge bonus (NEGATIVE)
     if (str_max >= 16) {mod_dodge_bonus(-1);} // Penalty if we're huge
+    ///\xrefitem Stat_Effects_Strength "" "" Max Strength below 6 increases Dodge bonus
     else if (str_max <= 5) {mod_dodge_bonus(1);} // Bonus if we're small
 
     nv_cached = false;
@@ -1061,9 +1068,37 @@ void Character::set_healthy_mod(int nhealthy_mod)
 {
     healthy_mod = nhealthy_mod;
 }
-void Character::mod_healthy_mod(int nhealthy_mod)
+void Character::mod_healthy_mod(int nhealthy_mod, int cap)
 {
+    // TODO: This really should be a full morale-like system, with per-effect caps
+    //       and durations.  This version prevents any single effect from exceeding its
+    //       intended ceiling, but multiple effects will overlap instead of adding.
+
+    // Cap indicates how far the mod is allowed to shift in this direction.
+    // It can have a different sign to the mod, e.g. for items that treat
+    // extremely low health, but can't make you healthy.
+    int low_cap;
+    int high_cap;
+    if( nhealthy_mod < 0 ) {
+        low_cap = cap;
+        high_cap = 200;
+    } else {
+        low_cap = -200;
+        high_cap = cap;
+    }
+
+    // If we're already out-of-bounds, we don't need to do anything.
+    if( (healthy_mod <= low_cap && nhealthy_mod < 0) ||
+        (healthy_mod >= high_cap && nhealthy_mod > 0) ) {
+        return;
+    }
+
     healthy_mod += nhealthy_mod;
+
+    // Since we already bailed out if we were out-of-bounds, we can
+    // just clamp to the boundaries here.
+    healthy_mod = std::min( healthy_mod, high_cap );
+    healthy_mod = std::max( healthy_mod, low_cap );
 }
 
 int Character::get_hunger() const
@@ -1115,20 +1150,28 @@ void Character::reset_bonuses()
     Creature::reset_bonuses();
 }
 
-void Character::update_health(int base_threshold)
+void Character::update_health(int external_modifiers)
 {
+    // Limit healthy_mod to [-200, 200].
+    // This also sets approximate bounds for the character's health.
     if( get_healthy_mod() > 200 ) {
         set_healthy_mod( 200 );
     } else if( get_healthy_mod() < -200 ) {
         set_healthy_mod( -200 );
     }
+
+    // Over the long run, health tends toward healthy_mod.
+    int break_even = get_healthy() - get_healthy_mod() + external_modifiers;
+
+    // But we allow some random variation.
     const long roll = rng( -100, 100 );
-    base_threshold += get_healthy() - get_healthy_mod();
-    if( roll > base_threshold ) {
+    if( roll > break_even ) {
         mod_healthy( 1 );
-    } else if( roll < base_threshold ) {
+    } else if( roll < break_even ) {
         mod_healthy( -1 );
     }
+
+    // And healthy_mod decays over time.
     set_healthy_mod( get_healthy_mod() * 3 / 4 );
 
     add_msg( m_debug, "Health: %d, Health mod: %d", get_healthy(), get_healthy_mod() );

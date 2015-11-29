@@ -78,8 +78,7 @@ void *tracePtrs[TRACE_SIZE];
 
 struct NullBuf : public std::streambuf {
     NullBuf() {}
-    int overflow( int c ) override
-    {
+    int overflow( int c ) override {
         return c;
     }
 };
@@ -142,7 +141,7 @@ void DebugFile::init( std::string filename )
     currentTime() << " : Starting log.";
     if( rename_failed ) {
         DebugLog( D_ERROR, DC_ALL ) << "Moving the previous log file to " << oldfile << " failed.\n" <<
-                                       "Check the file permissions. This program will continue to use the previous log file.";
+                                    "Check the file permissions. This program will continue to use the previous log file.";
     }
 }
 
@@ -254,11 +253,11 @@ struct time_info {
     int mseconds;
 
     template <typename Stream>
-    friend Stream& operator<<(Stream& out, time_info const& t) {
+    friend Stream &operator<<( Stream &out, time_info const &t ) {
         using char_t = typename Stream::char_type;
         using base   = std::basic_ostream<char_t>;
 
-        static_assert(std::is_base_of<base, Stream>::value, "");
+        static_assert( std::is_base_of<base, Stream>::value, "" );
 
         out << t.hours << ':' << t.minutes << ':' << t.seconds << '.' << t.mseconds;
 
@@ -267,16 +266,18 @@ struct time_info {
 };
 
 #ifdef _MSC_VER
-time_info get_time() noexcept {
+time_info get_time() noexcept
+{
     SYSTEMTIME time {};
 
-    GetLocalTime(&time);
+    GetLocalTime( &time );
 
-    return time_info { static_cast<int>(time.wHour), static_cast<int>(time.wMinute),
-            static_cast<int>(time.wSecond), static_cast<int>(time.wMilliseconds) };
+    return time_info { static_cast<int>( time.wHour ), static_cast<int>( time.wMinute ),
+                       static_cast<int>( time.wSecond ), static_cast<int>( time.wMilliseconds ) };
 }
 #else
-time_info get_time() noexcept {
+time_info get_time() noexcept
+{
     timeval tv;
     gettimeofday( &tv, nullptr );
 
@@ -284,13 +285,13 @@ time_info get_time() noexcept {
     auto const current = localtime( &tt );
 
     return time_info { current->tm_hour, current->tm_min, current->tm_sec,
-            static_cast<int>(tv.tv_usec / 1000.0 + 0.5) };
+                       static_cast<int>( tv.tv_usec / 1000.0 + 0.5 ) };
 }
 #endif
 
 std::ofstream &DebugFile::currentTime()
 {
-    return (file << get_time());
+    return ( file << get_time() );
 }
 
 std::ostream &DebugLog( DebugLevel lev, DebugClass cl )

@@ -538,7 +538,7 @@ bool map::vehproceed()
         mdir = veh.move;
     } else if( veh.turn_dir != veh.face.dir() ) {
         // Driver turned vehicle, get turn_dir
-        mdir.init( veh.turn_dir ); 
+        mdir.init( veh.turn_dir );
     } else {
         // Not turning, keep face.dir
         mdir = veh.face;
@@ -607,7 +607,7 @@ float map::vehicle_traction( vehicle &veh ) const
     const auto &wheel_indices = veh.wheelcache;
     int num_wheels = wheel_indices.size();
     if( num_wheels == 0 ) {
-        // TODO: Assume it is digging in dirt 
+        // TODO: Assume it is digging in dirt
         // TODO: Return something that could be reused for dragging
         return 1.0f;
     }
@@ -994,7 +994,7 @@ float map::vehicle_vehicle_collision( vehicle &veh, vehicle &veh2,
 
         veh.move.init( final1.x, final1.y );
         veh.velocity = final1.norm();
-        
+
         veh2.move.init( final2.x, final2.y );
         veh2.velocity = final2.norm();
         //give veh2 the initiative to proceed next before veh1
@@ -3789,10 +3789,13 @@ void map::shoot( const tripoint &p, projectile &proj, const bool hit_items )
     } else if( terrain == t_window_taped ||
                terrain == t_window_alarm_taped ||
                terrain == t_window ||
+               terrain == t_window_no_curtains ||
+               terrain == t_window_no_curtains_taped ||
                terrain == t_window_alarm ) {
         if (ammo_effects.count("LASER")) {
             if ( terrain == t_window_taped ||
-                 terrain == t_window_alarm_taped ){
+                 terrain == t_window_alarm_taped ||
+                 terrain == t_window_no_curtains_taped ){
                     dam -= rng(1, 5);
                 }
             dam -= rng(0, 5);
@@ -3855,7 +3858,10 @@ void map::shoot( const tripoint &p, projectile &proj, const bool hit_items )
                 } else {
                     for( const tripoint &pt : points_in_radius( p, 2 ) ) {
                         if( one_in( 3 ) && move_cost( pt ) > 0 ) {
-                            spawn_item( pt, "gasoline" );
+                            int gas_amount = rng(10, 100);
+                            item gas_spill("gasoline", calendar::turn);
+                            gas_spill.charges = gas_amount;
+                            add_item_or_charges( pt, gas_spill );
                         }
                     }
 
@@ -3963,7 +3969,7 @@ bool map::hit_with_acid( const tripoint &p )
         } else {
             return false;
         }
-    } else if( t == t_window || t == t_window_alarm ) {
+    } else if( t == t_window || t == t_window_alarm || t == t_window_no_curtains ) {
         ter_set( p, t_window_empty );
     } else if( t == t_wax ) {
         ter_set( p, t_floor_wax );
@@ -4438,15 +4444,6 @@ std::vector<item*> map::spawn_items(const tripoint &p, const std::vector<item> &
         if (new_item.made_of(LIQUID) && swimmable) {
             continue;
         }
-        if (new_item.is_armor() && new_item.has_flag("PAIRED") && x_in_y(4, 5)) {
-            item new_item2 = new_item;
-            new_item.make_handed( LEFT );
-            new_item2.make_handed( RIGHT );
-            item &it2 = add_item_or_charges(p, new_item2);
-            if( !it2.is_null() ) {
-                ret.push_back( &it2 );
-            }
-        }
         item &it = add_item_or_charges(p, new_item);
         if( !it.is_null() ) {
             ret.push_back( &it );
@@ -4560,7 +4557,8 @@ item &map::add_item_or_charges(const tripoint &p, item new_item, int overflow_ra
         return nulitem;
     }
     if( (new_item.made_of(LIQUID) && has_flag("SWIMMABLE", p)) ||
-            has_flag("DESTROY_ITEM", p) || new_item.has_flag("NO_DROP") ) {
+        has_flag("DESTROY_ITEM", p) || new_item.has_flag("NO_DROP") ||
+        (new_item.is_gunmod() && new_item.has_flag("IRREMOVABLE") ) ) {
         // Silently fail on mundane things that prevent item spawn.
         return nulitem;
     }
@@ -4583,11 +4581,8 @@ item &map::add_item_or_charges(const tripoint &p, item new_item, int overflow_ra
         }
 
         if( i_at( p_it ).size() < MAX_ITEM_IN_SQUARE ) {
-            if( !new_item.is_gunmod() ||  !new_item.has_flag("IRREMOVABLE") ) {
-                support_dirty( p_it );
-                return add_item( p_it, new_item );
-            }
-            return nulitem;
+            support_dirty( p_it );
+            return add_item( p_it, new_item );
         }
     }
 
@@ -4906,12 +4901,11 @@ bool map::has_items( const tripoint &p ) const
 }
 
 template <typename Stack>
-std::list<item> use_amount_stack( Stack stack, const itype_id type, long &quantity,
-                                const bool use_container )
+std::list<item> use_amount_stack( Stack stack, const itype_id type, long &quantity )
 {
     std::list<item> ret;
     for( auto a = stack.begin(); a != stack.end() && quantity > 0; ) {
-        if( a->use_amount(type, quantity, use_container, ret) ) {
+        if( a->use_amount(type, quantity, ret) ) {
             a = stack.erase( a );
         } else {
             ++a;
@@ -4921,7 +4915,7 @@ std::list<item> use_amount_stack( Stack stack, const itype_id type, long &quanti
 }
 
 std::list<item> map::use_amount_square( const tripoint &p, const itype_id type,
-                                        long &quantity, const bool use_container )
+                                        long &quantity )
 {
     std::list<item> ret;
     int vpart = -1;
@@ -4931,17 +4925,17 @@ std::list<item> map::use_amount_square( const tripoint &p, const itype_id type,
         const int cargo = veh->part_with_feature(vpart, "CARGO");
         if( cargo >= 0 ) {
             std::list<item> tmp = use_amount_stack( veh->get_items(cargo), type,
-                                                    quantity, use_container );
+                                                    quantity );
             ret.splice( ret.end(), tmp );
         }
     }
-    std::list<item> tmp = use_amount_stack( i_at( p ), type, quantity, use_container );
+    std::list<item> tmp = use_amount_stack( i_at( p ), type, quantity );
     ret.splice( ret.end(), tmp );
     return ret;
 }
 
 std::list<item> map::use_amount( const tripoint &origin, const int range, const itype_id type,
-                                 long &quantity, const bool use_container )
+                                 long &quantity )
 {
     std::list<item> ret;
     for( int radius = 0; radius <= range && quantity > 0; radius++ ) {
@@ -4951,7 +4945,7 @@ std::list<item> map::use_amount( const tripoint &origin, const int range, const 
         for( x = origin.x - radius; x <= origin.x + radius; x++ ) {
             for( y = origin.y - radius; y <= origin.y + radius; y++ ) {
                 if( rl_dist( origin, p ) >= radius ) {
-                    std::list<item> tmp = use_amount_square( p , type, quantity, use_container );
+                    std::list<item> tmp = use_amount_square( p , type, quantity );
                     ret.splice( ret.end(), tmp );
                 }
             }
@@ -5760,7 +5754,12 @@ void map::draw( WINDOW* w, const tripoint &center )
     int &x = p.x;
     int &y = p.y;
     for( y = center.y - getmaxy(w) / 2; y <= center.y + getmaxy(w) / 2; y++ ) {
+        if( y - center.y + getmaxy(w) / 2 >= getmaxy(w) ){
+            continue;
+        }
+
         wmove( w, y - center.y + getmaxy(w) / 2, 0 );
+
         if( y < 0 || y >= MAPSIZE * SEEY ) {
             for( int x = 0; x < getmaxx(w); x++ ) {
                 wputch( w, c_black, ' ' );
@@ -5776,7 +5775,8 @@ void map::draw( WINDOW* w, const tripoint &center )
 
         int lx;
         int ly;
-        const int maxx = std::min( MAPSIZE * SEEX, center.x + getmaxx(w) / 2 + 1 );
+        const int maxxrender = center.x - getmaxx(w) / 2 + getmaxx(w);
+        const int maxx = std::min( MAPSIZE * SEEX, maxxrender );
         while( x < maxx ) {
             submap *cur_submap = get_submap_at( p, lx, ly );
             submap *sm_below = p.z > -OVERMAP_DEPTH ?
@@ -5803,7 +5803,7 @@ void map::draw( WINDOW* w, const tripoint &center )
             }
         }
 
-        while( x <= center.x + getmaxx(w) / 2 ) {
+        while( x < maxxrender ) {
             wputch( w, c_black, ' ' );
             x++;
         }
@@ -6856,33 +6856,39 @@ void map::spawn_monsters_submap_group( const tripoint &gp, mongroup &group, bool
         // Just kill the group. It's not like we're removing existing monsters
         // Unless it's a horde - then don't kill it and let it spawn behind a tree or smoke cloud
         if( !group.horde ) {
-            group.population = 0;
+            group.clear();
         }
 
         return;
     }
 
-    for( int m = 0; m < pop; m++ ) {
-        MonsterGroupResult spawn_details = MonsterGroupManager::GetResultFromGroup( group.type, &pop );
-        if( !spawn_details.name ) {
-            continue;
-        }
-
-        monster tmp( spawn_details.name );
-        for( int i = 0; i < spawn_details.pack_size; i++) {
-            for( int tries = 0; tries < 10 && !locations.empty(); tries++ ) {
-                const tripoint p = random_entry_removed( locations );
-                if( !tmp.can_move_to( p ) ) {
-                    continue; // target can not contain the monster
-                }
-                tmp.spawn( p );
-                g->add_zombie( tmp );
-                break;
+    if( pop ) {
+        // Populate the group from its population variable.
+        for( int m = 0; m < pop; m++ ) {
+            MonsterGroupResult spawn_details = MonsterGroupManager::GetResultFromGroup( group.type, &pop );
+            if( !spawn_details.name ) {
+                continue;
+            }
+            monster tmp( spawn_details.name );
+            for( int i = 0; i < spawn_details.pack_size; i++) {
+                group.monsters.push_back( tmp );
             }
         }
     }
+
+    for( auto &tmp : group.monsters ) {
+        for( int tries = 0; tries < 10 && !locations.empty(); tries++ ) {
+            const tripoint p = random_entry_removed( locations );
+            if( !tmp.can_move_to( p ) ) {
+                continue; // target can not contain the monster
+            }
+            tmp.spawn( p );
+            g->add_zombie( tmp );
+            break;
+        }
+    }
     // indicates the group is empty, and can be removed later
-    group.population = 0;
+    group.clear();
 }
 
 void map::spawn_monsters_submap( const tripoint &gp, bool ignore_sight )

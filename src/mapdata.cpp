@@ -62,6 +62,7 @@ static const std::unordered_map<std::string, ter_bitflags> ter_bitflags_map = { 
     { "INDOORS",                  TFLAG_INDOORS },        // vehicle gain_moves, weather
     { "SHARP",                    TFLAG_SHARP },          // monmove
     { "SUPPORTS_ROOF",            TFLAG_SUPPORTS_ROOF },  // and by building "remodeling" I mean hulkSMASH
+    { "MINEABLE",                 TFLAG_MINEABLE },       // allows mining
     { "SWIMMABLE",                TFLAG_SWIMMABLE },      // monmove, many fields
     { "TRANSPARENT",              TFLAG_TRANSPARENT },    // map::trans / lightmap
     { "NOITEM",                   TFLAG_NOITEM },         // add/spawn_item*()
@@ -85,7 +86,7 @@ void load_map_bash_tent_centers( JsonArray ja, std::vector<std::string> &centers
     while ( ja.has_more() ) {
         centers.push_back( ja.next_string() );
     }
-} 
+}
 
 bool map_bash_info::load(JsonObject &jsobj, std::string member, bool isfurniture) {
     if( !jsobj.has_object(member) ) {
@@ -493,6 +494,7 @@ ter_id t_null,
     t_window_alarm, t_window_alarm_taped, t_window_empty, t_window_frame, t_window_boarded,
     t_window_boarded_noglass, t_window_reinforced, t_window_reinforced_noglass, t_window_enhanced, t_window_enhanced_noglass, t_window_bars_alarm,
     t_window_stained_green, t_window_stained_red, t_window_stained_blue,
+    t_window_no_curtains, t_window_no_curtains_open, t_window_no_curtains_taped,
     t_rock, t_fault,
     t_paper,
     t_rock_wall, t_rock_wall_half,
@@ -656,6 +658,9 @@ void set_ter_ids() {
     t_window_stained_green=terfind("t_window_stained_green");
     t_window_stained_red=terfind("t_window_stained_red");
     t_window_stained_blue=terfind("t_window_stained_blue");
+    t_window_no_curtains=terfind("t_window_no_curtains");
+    t_window_no_curtains_open=terfind("t_window_no_curtains_open");
+    t_window_no_curtains_taped=terfind("t_window_no_curtains_taped");
     t_rock=terfind("t_rock");
     t_fault=terfind("t_fault");
     t_paper=terfind("t_paper");

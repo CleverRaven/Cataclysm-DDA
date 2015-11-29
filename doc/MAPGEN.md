@@ -62,7 +62,8 @@
                 * 2.7.12 "terrain"
                 * 2.7.13 "monster"
                 * 2.7.14 "rubble"
-        * 2.6 "rotation":
+                * 2.7.15 "place_liquid"
+        * 2.8 "rotation":
 
 * 3 Method: lua
 	* 3.0 Tested functions
@@ -546,8 +547,9 @@ Places a new NPC. Values:
 - "class": (required, string) the npc class id, see data/json/npcs/npc.json or define your own npc class.
 
 ### 2.7.2 "signs"
-Places a sign (furniture f_sign) with a message written on it. Values:
-- "signage": (required, string) the message that should appear on the sign.
+Places a sign (furniture f_sign) with a message written on it. Either "signage" or "snippet" must be defined.  The message may include tags like \<full_name\>, \<given_name\>, and \<family_name\> that will insert a randomly generated name, or \<city\> that will insert the nearest city name.  Values:
+- "signage": (optional, string) the message that should appear on the sign.
+- "snippet": (optional, string) a category of snippets that can appear on the sign.
 
 ### 2.7.3 "vendingmachines"
 Places a vending machine (furniture) and fills it with items. The machine can sometimes spawn as broken one. Values:
@@ -628,6 +630,20 @@ To use this type with explicit coordinates use the name "place_rubble" (no plura
 "place_rubble": [
     { "x": 10, "y": 1 }
 ]
+```
+
+### 2.7.15 "place_liquids"
+Creates a liquid item at the specified location. Liquids can't currently be picked up (except for gasoline in tanks or pumps), but can be used to add flavor to mapgen.
+Values:
+- "liquid": (required, item id) the item (a liquid)
+- "amount": (optional, integer/min-max array) amount of liquid to place (a value of 0 defaults to the item's default charges)
+- "chance": (optional, integer/min-max array) one-in-X chance of spawning a liquid, default value is 1 (100%)
+
+Example for dropping a default amount of gasoline (200 units) on the ground:
+```JSON
+"place_liquid": [
+    { "liquid": "gasoline", "x": 3, "y": 5 }
+],
 ```
 
 # 2.8 "rotation"

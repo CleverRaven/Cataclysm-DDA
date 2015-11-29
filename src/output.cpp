@@ -24,6 +24,7 @@
 #include "ui.h"
 #include "item.h"
 #include "line.h"
+#include "name.h"
 
 // Display data
 int TERMX;
@@ -258,13 +259,17 @@ int fold_and_print_from(WINDOW *w, int begin_y, int begin_x, int width, int begi
         // for each section, get the colour, and print it
         std::vector<std::string>::iterator it;
         for( it = color_segments.begin(); it != color_segments.end(); ++it ) {
-            if( !it->empty() && it->at(0) == '<' ) {
+            if( !it->empty() && it->at( 0 ) == '<' ) {
                 color = get_color_from_tag( *it, base_color );
             }
             if( line_num >= begin_line ) {
                 std::string l = rm_prefix( *it );
-                if( l != "--" ) { // -- is a newline!
-                    wprintz(w, color, "%s", rm_prefix(*it).c_str());
+                if( l != "--" ) { // -- is a separation line!
+                    wprintz( w, color, "%s", rm_prefix( *it ).c_str() );
+                } else {
+                    for( int i = 0; i < width; i++ ) {
+                        wputch( w, c_dkgray, LINE_OXOX );
+                    }
                 }
             }
         }
@@ -468,47 +473,48 @@ void wprintz(WINDOW *w, nc_color FG, const char *mes, ...)
     wattroff(w, FG);
 }
 
-void draw_custom_border(WINDOW *w, chtype ls, chtype rs, chtype ts, chtype bs, chtype tl, chtype tr, chtype bl, chtype br, nc_color FG)
+void draw_custom_border(WINDOW *w, chtype ls, chtype rs, chtype ts, chtype bs, chtype tl, chtype tr,
+                        chtype bl, chtype br, nc_color FG, int posy, int height, int posx, int width)
 {
     wattron(w, FG);
 
-    const int height = getmaxy(w);
-    const int width = getmaxx(w);
+    height = (height == 0) ? getmaxy(w) - posy : height;
+    width = (width == 0) ? getmaxx(w) - posx : width;
 
-    for (int j = 0; j < height - 1; j++) {
+    for (int j = posy; j < height + posy - 1; j++) {
         if (ls > 0) {
-            mvwputch(w, j, 0, c_ltgray, (ls > 1) ? ls : LINE_XOXO); // |
+            mvwputch(w, j, posx, c_ltgray, (ls > 1) ? ls : LINE_XOXO); // |
         }
 
         if (rs > 0) {
-            mvwputch(w, j, width - 1, c_ltgray, (rs > 1) ? rs : LINE_XOXO); // |
+            mvwputch(w, j, posx + width - 1, c_ltgray, (rs > 1) ? rs : LINE_XOXO); // |
         }
     }
 
-    for (int j = 0; j < width - 1; j++) {
+    for (int j = posx; j < width + posx - 1; j++) {
         if (ts > 0) {
-            mvwputch(w, 0, j, c_ltgray, (ts > 1) ? ts : LINE_OXOX); // --
+            mvwputch(w, posy, j, c_ltgray, (ts > 1) ? ts : LINE_OXOX); // --
         }
 
         if (bs > 0) {
-            mvwputch(w, height - 1, j, c_ltgray, (bs > 1) ? bs : LINE_OXOX); // --
+            mvwputch(w, posy + height - 1, j, c_ltgray, (bs > 1) ? bs : LINE_OXOX); // --
         }
     }
 
     if (tl > 0) {
-        mvwputch(w, 0, 0, c_ltgray, (tl > 1) ? tl : LINE_OXXO); // |^
+        mvwputch(w, posy, posx, c_ltgray, (tl > 1) ? tl : LINE_OXXO); // |^
     }
 
     if (tr > 0) {
-        mvwputch(w, 0, width - 1, c_ltgray, (tr > 1) ? tr : LINE_OOXX); // ^|
+        mvwputch(w, posy, posx + width - 1, c_ltgray, (tr > 1) ? tr : LINE_OOXX); // ^|
     }
 
     if (bl > 0) {
-        mvwputch(w, height - 1, 0, c_ltgray, (bl > 1) ? bl : LINE_XXOO); // |_
+        mvwputch(w, posy + height - 1, posx + 0, c_ltgray, (bl > 1) ? bl : LINE_XXOO); // |_
     }
 
     if (br > 0) {
-        mvwputch(w, height - 1, width - 1, c_ltgray, (br > 1) ? br : LINE_XOOX); // _|
+        mvwputch(w, posy + height - 1, posx + width - 1, c_ltgray, (br > 1) ? br : LINE_XOOX); // _|
     }
 
     wattroff(w, FG);
@@ -1094,69 +1100,66 @@ void full_screen_popup(const char *mes, ...)
     popup(text, PF_FULLSCREEN);
 }
 
-//note that passing in iteminfo instances with sType == "MENU" or "DESCRIPTION" does special things
-//if sType == "MENU", sFmt == "iOffsetY" or "iOffsetX" also do special things
-//otherwise if sType == "MENU", dValue can be used to control color
+//note that passing in iteminfo instances with sType == "DESCRIPTION" does special things
 //all this should probably be cleaned up at some point, rather than using a function for things it wasn't meant for
 // well frack, half the game uses it so: optional (int)selected argument causes entry highlight, and enter to return entry's key. Also it now returns int
 //@param without_getch don't wait getch, return = (int)' ';
 int draw_item_info(const int iLeft, const int iWidth, const int iTop, const int iHeight,
-                   const std::string sItemName,
+                   const std::string sItemName, const std::string sTypeName,
                    std::vector<iteminfo> &vItemDisplay, std::vector<iteminfo> &vItemCompare,
                    int &selected, const bool without_getch, const bool without_border, const bool handle_scrolling)
 {
     WINDOW *win = newwin(iHeight, iWidth, iTop + VIEW_OFFSET_Y, iLeft + VIEW_OFFSET_X);
 
-    const auto result = draw_item_info(win, sItemName, vItemDisplay, vItemCompare,
+    const auto result = draw_item_info(win, sItemName, sTypeName, vItemDisplay, vItemCompare,
                           selected, without_getch, without_border, handle_scrolling);
     delwin( win );
     return result;
 }
 
-int draw_item_info(WINDOW *win, const std::string sItemName,
-                   std::vector<iteminfo> &vItemDisplay, std::vector<iteminfo> &vItemCompare,
-                   int &selected, const bool without_getch, const bool without_border, const bool handle_scrolling)
+std::string string_replace( std::string text, const std::string &before, const std::string &after )
 {
-    std::ostringstream buffer;
-    int line_num = 1;
-    if (sItemName != "") {
-        buffer << sItemName << "\n \n"; //This space is required, otherwise it won't make an empty line.
+    while( true ) {
+        size_t pos = text.find( before );
+        if( pos != std::string::npos ) {
+            text.replace( pos, before.length(), after );
+        } else {
+            break;
+        }
     }
 
-    int iStartX = 0;
+    return text;
+}
+
+std::string replace_colors( std::string text )
+{
+    static const std::vector<std::pair<std::string, std::string>> info_colors = {
+        {"info", get_all_colors().get_name( c_cyan )},
+        {"stat", get_all_colors().get_name( c_blue )},
+        {"header", get_all_colors().get_name( c_magenta )},
+        {"bold", get_all_colors().get_name( c_white )},
+        {"dark", get_all_colors().get_name( c_dkgray )},
+        {"good", get_all_colors().get_name( c_green )},
+        {"bad", get_all_colors().get_name( c_red )},
+        {"neutral", get_all_colors().get_name( c_brown )}
+    };
+
+    for( auto &elem : info_colors ) {
+        text = string_replace( text, "<" + elem.first + ">", "<color_" + elem.second + ">" );
+        text = string_replace( text, "</" + elem.first + ">", "</color>" );
+    }
+
+    return text;
+}
+
+std::string format_item_info( const std::vector<iteminfo> &vItemDisplay,
+                              const std::vector<iteminfo> &vItemCompare )
+{
+    std::ostringstream buffer;
     bool bStartNewLine = true;
-    int selected_ret = '\n';
-    std::string spaces(getmaxx(win), ' ');
-    // Buffering the whole item info text so we can apply proper word wrapping on it.
-    // Note that the "MENU" items are *not* included in this buffer, they are only used from
-    // game::inventory_item_menu and require specific placing, according to iOffsetX / iOffsetY.
 
     for (size_t i = 0; i < vItemDisplay.size(); i++) {
-        if (vItemDisplay[i].sType == "MENU") {
-            if (vItemDisplay[i].sFmt == "iOffsetY") {
-                line_num += int(vItemDisplay[i].dValue);
-            } else if (vItemDisplay[i].sFmt == "iOffsetX") {
-                iStartX = int(vItemDisplay[i].dValue);
-            } else {
-                nc_color nameColor = c_ltgreen; //pre-existing behavior, so make it the default
-                //patched to allow variable "name" coloring, e.g. for item examining
-                nc_color bgColor = c_white;     //yes the name makes no sense
-                if (vItemDisplay[i].dValue >= 0) {
-                    if (vItemDisplay[i].dValue < .1 && vItemDisplay[i].dValue > -.1) {
-                        nameColor = c_ltgray;
-                    } else {
-                        nameColor = c_ltred;
-                    }
-                }
-                if ( (int)i == selected && vItemDisplay[i].sName != "" ) {
-                    bgColor = h_white;
-                    selected_ret = (int)vItemDisplay[i].sName.c_str()[0]; // fixme: sanity check(?)
-                }
-                mvwprintz(win, line_num, 0, bgColor, "%s", spaces.c_str() );
-                shortcut_print(win, line_num, iStartX, bgColor, nameColor, vItemDisplay[i].sFmt);
-                line_num++;
-            }
-        } else if (vItemDisplay[i].sType == "DESCRIPTION") {
+        if (vItemDisplay[i].sType == "DESCRIPTION") {
             buffer << "\n";
             if (vItemDisplay[i].bDrawName) {
                 buffer << vItemDisplay[i].sName;
@@ -1188,13 +1191,13 @@ int draw_item_info(WINDOW *win, const std::string sItemName,
             }
 
             if (vItemDisplay[i].sValue != "-999") {
-                nc_color thisColor = c_white;
+                nc_color thisColor = c_brown;
                 for (auto &k : vItemCompare) {
                     if (k.sValue != "-999") {
                         if (vItemDisplay[i].sName == k.sName && vItemDisplay[i].sType == k.sType) {
                             if (vItemDisplay[i].dValue > k.dValue - .1 &&
                                 vItemDisplay[i].dValue < k.dValue + .1) {
-                                thisColor = c_white;
+                                thisColor = c_ltgray;
                             } else if (vItemDisplay[i].dValue > k.dValue) {
                                 if (vItemDisplay[i].bLowerIsBetter) {
                                     thisColor = c_ltred;
@@ -1229,6 +1232,26 @@ int draw_item_info(WINDOW *win, const std::string sItemName,
         }
     }
 
+    return buffer.str();
+}
+
+int draw_item_info(WINDOW *win, const std::string sItemName, const std::string sTypeName,
+                   std::vector<iteminfo> &vItemDisplay, std::vector<iteminfo> &vItemCompare,
+                   int &selected, const bool without_getch, const bool without_border, const bool handle_scrolling)
+{
+    std::ostringstream buffer;
+    int line_num = 1;
+    if (sItemName != "") {
+        buffer << sItemName << "\n";
+    }
+    if (sItemName != sTypeName && sTypeName != "") {
+        buffer << sTypeName << "\n";
+    }
+    buffer << " \n"; //This space is required, otherwise it won't make an empty line.
+
+    int selected_ret = '\n';
+    buffer << format_item_info( vItemDisplay, vItemCompare );
+
     int ch = (int)' ';
     while( true ) {
         int iLines = 0;
@@ -1248,9 +1271,9 @@ int draw_item_info(WINDOW *win, const std::string sItemName,
                 selected = iLines - height;
             }
 
-            fold_and_print_from( win, line_num, b, width, selected, c_white, buffer.str() );
+            fold_and_print_from( win, line_num, b, width, selected, c_ltgray, buffer.str() );
 
-            draw_scrollbar( win, selected, height, iLines-height, 1, 0, BORDER_COLOR, false, true );
+            draw_scrollbar( win, selected, height, iLines-height, 1, 0, BORDER_COLOR, true );
         }
 
         if( !without_border ) {
@@ -1471,13 +1494,12 @@ void draw_subtab(WINDOW *w, int iOffsetX, std::string sText, bool bSelected, boo
  * @param iOffsetY Y drawing offset
  * @param iOffsetX X drawing offset
  * @param bar_color Default line color
- * @param bRefresh If true, refresh window after drawing the scrollbar
  * @param bTextScroll If true, will draw the scrollbar even if iContentHeight >= iNumEntries.
  * Used for scrolling multiline wrapped text. If false, used for scrolling one line selections.
  **/
 void draw_scrollbar(WINDOW *window, const int iCurrentLine, const int iContentHeight,
                     const int iNumEntries, const int iOffsetY, const int iOffsetX,
-                    nc_color bar_color, const bool bRefresh, const bool bTextScroll)
+                    nc_color bar_color, const bool bTextScroll)
 {
     if (!bTextScroll && iContentHeight >= iNumEntries) {
         //scrollbar is not required
@@ -1490,9 +1512,6 @@ void draw_scrollbar(WINDOW *window, const int iCurrentLine, const int iContentHe
     }
 
     if (!bTextScroll && iContentHeight >= iNumEntries) {
-        if (bRefresh) {
-            wrefresh(window);
-        }
         return;
     }
 
@@ -1522,10 +1541,6 @@ void draw_scrollbar(WINDOW *window, const int iCurrentLine, const int iContentHe
         for (int i = 0; i < iSBHeight; i++) {
             mvwputch(window, i + iOffsetY + 2 + iStartY, iOffsetX, c_cyan_cyan, LINE_XOXO);
         }
-    }
-
-    if (bRefresh) {
-        wrefresh(window);
     }
 }
 
@@ -1748,6 +1763,38 @@ std::string string_format(std::string pattern, ...)
     std::string result = vstring_format(pattern.c_str(), ap);
     va_end(ap);
     return result;
+}
+
+void replace_name_tags(std::string & input)
+{
+    // these need to replace each tag with a new randomly generated name
+    while (input.find("<full_name>") != std::string::npos) {
+        replace_substring(input, "<full_name>", NameGenerator::generator().getName(nameIsFullName), false );
+    }
+    while (input.find("<family_name>") != std::string::npos) {
+        replace_substring(input, "<family_name>", NameGenerator::generator().getName(nameIsFamilyName), false );
+    }
+    while (input.find("<given_name>") != std::string::npos) {
+        replace_substring(input, "<given_name>", NameGenerator::generator().getName(nameIsGivenName), false );
+    }
+}
+
+void replace_city_tag(std::string &input, const std::string &name)
+{
+    replace_substring(input, "<city>", name, true);
+}
+
+void replace_substring(std::string &input, const std::string &substring, const std::string &replacement, bool all)
+{
+    if (all) {
+        while (input.find(substring) != std::string::npos) {
+            replace_substring(input, substring, replacement, false);
+        }
+    } else {
+        size_t len = substring.length();
+        size_t offset = input.find(substring);
+        input.replace(offset, len, replacement);
+    }
 }
 
 //wrap if for i18n

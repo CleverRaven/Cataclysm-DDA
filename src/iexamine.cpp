@@ -25,6 +25,7 @@
 #include "mtype.h"
 #include "weather.h"
 #include "sounds.h"
+#include "cata_utility.h"
 
 #include <sstream>
 #include <algorithm>
@@ -480,7 +481,6 @@ void iexamine::vending(player * const p, map * const m, const tripoint &examp)
             trim_and_print(w, first_item_offset + line, 1, w_items_w-3, color, "%c %s", c, elem->first.c_str());
         }
 
-        //Draw Scrollbar
         draw_scrollbar(w, cur_pos, list_lines, num_items, first_item_offset);
         wrefresh(w);
 
@@ -856,7 +856,7 @@ void iexamine::pit(player *p, map *m, const tripoint &examp)
         if (player_has && map_has) {
             if (query_yn(_("Use the plank at your feet?"))) {
                 long quantity = 1;
-                m->use_amount( p->pos3(), 1, "2x4", quantity, false);
+                m->use_amount( p->pos3(), 1, "2x4", quantity);
             } else {
                 p->use_amount("2x4", 1);
             }
@@ -864,7 +864,7 @@ void iexamine::pit(player *p, map *m, const tripoint &examp)
             p->use_amount("2x4", 1);
         } else if (!player_has && map_has) { // only map has plank
             long quantity = 1;
-            m->use_amount( p->pos3(), 1, "2x4", quantity, false);
+            m->use_amount( p->pos3(), 1, "2x4", quantity);
         }
 
         if( m->ter(examp) == t_pit ) {
@@ -1732,8 +1732,8 @@ void iexamine::aggie_plant(player *p, map *m, const tripoint &examp)
             // 20% of a seasons length. (default 2.8 days).
             WORLDPTR world = world_generator->active_world;
             int fertilizerEpoch = 14400 * 2; //default if options is empty for some reason.
-            if (!world->world_options.empty()) {
-                fertilizerEpoch = 14400 * (world->world_options["SEASON_LENGTH"] * 0.2) ;
+            if (!world->WORLD_OPTIONS.empty()) {
+                fertilizerEpoch = 14400 * (world->WORLD_OPTIONS["SEASON_LENGTH"] * 0.2) ;
             }
 
             item &seed = m->i_at( examp ).front();
@@ -2404,7 +2404,7 @@ void iexamine::recycler(player *p, map *m, const tripoint &examp)
     // Get format for printing weights, convert weight to that format,
     const std::string format = OPTIONS["USE_METRIC_WEIGHTS"].getValue() == "lbs" ? _("%.3f lbs") :
                                _("%.3f kg");
-    const std::string weight_str = string_format(format, p->convert_weight(steel_weight));
+    const std::string weight_str = string_format(format, convert_weight(steel_weight));
     as_m.text = string_format(_("Recycle %s metal into:"), weight_str.c_str());
     add_recyle_menu_entry(as_m, norm_recover_weight, 'l', "steel_lump");
     add_recyle_menu_entry(as_m, norm_recover_weight, 'S', "sheet_metal");
@@ -2671,7 +2671,7 @@ void iexamine::curtains(player *p, map *m, const tripoint &examp)
         p->add_msg_if_player( _("You carefully peek through the curtains.") );
     } else if( choice == 2 ) {
         // Mr. Gorbachev, tear down those curtains!
-        m->ter_set( examp, "t_window" );
+        m->ter_set( examp, "t_window_no_curtains" );
         m->spawn_item( p->pos(), "nail", 1, 4 );
         m->spawn_item( p->pos(), "sheet", 2 );
         m->spawn_item( p->pos(), "stick" );

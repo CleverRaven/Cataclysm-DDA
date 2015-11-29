@@ -30,7 +30,7 @@ namespace iexamine
     * Also spawns eggs.
     * @param montype The monster type of the created spiders.
     */
-void egg_sack_generic( player *p, map *m, const tripoint &examp, const mtype_id& montype );
+void egg_sack_generic( player *p, map *m, const tripoint &examp, const mtype_id &montype );
 
 void none( player *p, map *m, const tripoint &examp );
 

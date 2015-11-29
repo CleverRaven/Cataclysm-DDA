@@ -100,7 +100,7 @@ class item : public JsonSerializer, public JsonDeserializer
 {
 public:
  item();
- item(const std::string new_type, int turn, bool rand = true, handedness handed = NONE);
+ item(const std::string new_type, int turn, bool rand = true);
 
         /**
          * Make this a corpse of the given monster type.
@@ -331,11 +331,9 @@ public:
   * @see item::use_charges - this is similar for items, not charges.
   * @param it Type of consumable item.
   * @param quantity How much to consumed.
-  * @param use_container If the contents of an item are used, also use the
-  * container it was in.
   * @param used On success all consumed items will be stored here.
   */
- bool use_amount(const itype_id &it, long &quantity, bool use_container, std::list<item> &used);
+ bool use_amount(const itype_id &it, long &quantity, std::list<item> &used);
 
     /**
      * @name Containers
@@ -628,6 +626,8 @@ public:
  bool is_var_veh_part() const;
  bool is_artifact() const;
 
+        bool is_dangerous() const; // Is it an active grenade or something similar that will hurt us?
+
         /**
          * Does the item provide the artifact effect when it is wielded?
          */
@@ -695,10 +695,16 @@ public:
          */
         void on_wear( player &p );
         /**
+         * Callback when a player takes off an item. The item is still in the worn items
+         * vector but will be removed immediately after the function returns
+         */
+        void on_takeoff (player &p);
+        /**
          * Callback when a player starts wielding the item. The item is already in the weapon
          * slot and is called from there.
+         * @param mv number of moves *already* spent wielding the weapon
          */
-        void on_wield( player &p );
+        void on_wield( player &p, int mv = 0 );
         /**
          * Callback when a player starts carrying the item. The item is already in the inventory
          * and is called from there. This is not called when the item is added to the inventory
@@ -790,6 +796,24 @@ public:
         /*@}*/
 
         /**
+         * @name Item properties
+         *
+         * Properties are specific to an item type so unlike flags the meaning of a property
+         * may not be the same for two different item types. Each item type can have mutliple
+         * properties however duplicate property names are not permitted.
+         *
+         */
+        /*@{*/
+        bool has_property (const std::string& prop) const;
+        /**
+          * Get typed property for item.
+          * Return same type as the passed default value, or string where no default provided
+          */
+        std::string get_property_string( const std::string &prop, const std::string& def = "" ) const;
+        long get_property_long( const std::string& prop, long def = 0 ) const;
+        /*@}*/
+
+        /**
          * @name Light emitting items
          *
          * Items can emit light either through the definition of their type
@@ -842,15 +866,6 @@ public:
          */
         /*@{*/
         /**
-         * Make this item into a handed item.
-         * All previous handed info is erased and reset.
-         * Does nothing if the item is no armor at all. If the item type is not handed, it is only
-         * reset to be non-handed regardless of the requested handedness.
-         * @param handed The new handedness. If NONE, the item is made non-handed - all handed
-         * information is erased and only the default coverage (@ref islot_armor::covers) is applied.
-         */
-        void make_handed( handedness handed );
-        /**
          * Whether this item (when worn) covers the given body part.
          */
         bool covers( body_part bp ) const;
@@ -861,7 +876,19 @@ public:
          * For testing only a single body part, use @ref covers instead. This function allows you
          * to get the whole covering data in one call.
          */
-        const std::bitset<num_bp> &get_covered_body_parts() const;
+        std::bitset<num_bp> get_covered_body_parts() const;
+        /**
+          * Returns true if item is armor and can be worn on different sides of the body
+          */
+        bool is_sided() const;
+        /**
+         *  Returns side item currently worn on. Returns BOTH if item is not sided or no side currently set
+         */
+        int get_side() const;
+        /**
+          * Change the side on which the item is worn. Returns false if the item is not sided
+          */
+        bool set_side (side s);
         /**
          * Returns the warmth value that this item has when worn. See player class for temperature
          * related code, or @ref player::warmth. Returned values should be positive. A value
@@ -1190,6 +1217,14 @@ public:
          */
         static bool type_is_defined( const itype_id &id );
 
+        /**
+        * Returns true if item has "item_label" itemvar
+        */
+        bool has_label() const;
+        /**
+        * Returns label from "item_label" itemvar and quantity
+        */
+        std::string label( unsigned int quantity = 0 ) const;
     private:
         /** Reset all members to default, making this a null item. */
         void init();
@@ -1197,7 +1232,6 @@ public:
         enum LIQUID_FILL_ERROR : int;
         LIQUID_FILL_ERROR has_valid_capacity_for_liquid(const item &liquid) const;
         std::string name;
-        std::bitset<num_bp> covered_bodyparts;
         const itype* curammo;
         std::map<std::string, std::string> item_vars;
         const mtype* corpse;

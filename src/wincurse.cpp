@@ -191,6 +191,12 @@ LRESULT CALLBACK ProcessMessages(HWND__ *hWnd,unsigned int Msg,
             case VK_PRIOR:
                 lastchar = KEY_PPAGE;
                 break;
+            case VK_HOME:
+                lastchar = KEY_HOME;
+                break;
+            case VK_END:
+                lastchar = KEY_END;
+                break;
             case VK_F1:
                 lastchar = KEY_F(1);
                 break;

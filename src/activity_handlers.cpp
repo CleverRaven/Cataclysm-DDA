@@ -188,8 +188,11 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
 
     auto roll_butchery = [&] () {
         double skill_shift = 0.0;
+        ///\xrefitem Skill_Effects_Survival "" "" Survival above 3 randomly increases Butcher rolls, below 3 decreases
         skill_shift += rng_float( 0, skill_level - 3 );
+        ///\xrefitem Stat_Effects_Dexterity "" "" Dexterity above 8 randomly increases Butcher rolls, slightly, below 8 decreases
         skill_shift += rng_float( 0, p->dex_cur - 8 ) / 4.0;
+        ///\xrefitem Stat_Effects_Strength "" "" Strength below 4 randomly decreases Butcher rolls, slightly
         if( p->str_cur < 4 ) {
             skill_shift -= rng_float( 0, 5 * ( 4 - p->str_cur ) ) / 4.0;
         }
@@ -510,6 +513,7 @@ void activity_handlers::forage_finish( player_activity *act, player *p )
         add_msg(_("You didn't find anything."));
     }
 
+    ///\xrefitem Stat_Effects_Intelligence "" "" Intelligence caps survival skill gains from foraging
     // Intelligence limits the forage exp gain
     const int max_forage_skill = p->int_cur / 3 + 1;
     const int max_exp = 2 * ( max_forage_skill - p->skillLevel( skill_survival ) );
@@ -748,8 +752,10 @@ void activity_handlers::pulp_do_turn( player_activity *act, player *p )
     if( p->weapon.has_flag("STAB") || p->weapon.has_flag("SPEAR") ) {
         cut_power /= 2;
     }
+    ///\xrefitem Stat_Effects_Strength "" "" Strength increases pulping power, with diminishing returns
     double pulp_power = sqrt((double)(p->str_cur + p->weapon.type->melee_dam)) *
         std::min(1.0, sqrt((double)(cut_power + 1)));
+    ///\xrefitem Stat_Effects_Strength "" "" Strength caps pulping power
     pulp_power = std::min(pulp_power, (double)p->str_cur);
     pulp_power *= 20; // constant multiplier to get the chance right
     int moves = 0;
@@ -797,6 +803,10 @@ void activity_handlers::pulp_do_turn( player_activity *act, player *p )
     }
     // If we reach this, all corpses have been pulped, finish the activity
     act->moves_left = 0;
+    if( num_corpses == 0 ) {
+        add_msg(m_bad, _("The corpse moved before you could finish smashing it!"));
+        return;
+    }
     // TODO: Factor in how long it took to do the smashing.
     add_msg(ngettext("The corpse is thoroughly pulped.",
                      "The corpses are thoroughly pulped.", num_corpses));

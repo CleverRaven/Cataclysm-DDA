@@ -366,6 +366,22 @@
             {
                 "input_method":"keyboard",
                 "key":"s"
+            },
+            {
+                "input_method":"keyboard",
+                "key":"RETURN"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "CHANGE_SIDE",
+        "category": "SORT_ARMOR",
+        "name": "Change side armor is worn on",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"c"
             }
         ]
     },
@@ -559,6 +575,30 @@
             {
                 "input_method":"keyboard",
                 "key":"u"
+            }
+        ]
+    },
+    {
+        "type": "keybinding",
+        "id": "NEW",
+        "category": "MINESWEEPER",
+        "name": "Create New level",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"n"
+            }
+        ]
+    },
+    {
+        "type": "keybinding",
+        "id": "FLAG",
+        "category": "MINESWEEPER",
+        "name": "Toggle Flag",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"f"
             }
         ]
     },
@@ -957,6 +997,17 @@
     },
     {
         "type" : "keybinding",
+        "id":"TRAVEL_TO",
+        "name":"Travel to destination",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"t"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
         "id":"TOGGLE_SNAP_TO_TARGET",
         "name":"Toggle Snap to Target",
         "bindings":[
@@ -1087,6 +1138,19 @@
     },
     {
         "type" : "keybinding",
+        "id": "QUIT",
+        "category": "NEW_CHAR_DESCRIPTION",
+        "name": "Exit new character screen",
+        "comment": "separate entry, because the global entry also has 'q' and 'Q' listed, which conflicts with the character name entry feature of this dialog",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"ESC"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
         "id": "SORT",
         "category": "NEW_CHAR_PROFESSIONS",
         "name": "Toggle sorting order",
@@ -1106,6 +1170,30 @@
             {
                 "input_method":"keyboard",
                 "key":"s"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "SCROLL_UP",
+        "category": "NEW_CHAR_SKILLS",
+        "name": "Scroll description up",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"PPAGE"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "SCROLL_DOWN",
+        "category": "NEW_CHAR_SKILLS",
+        "name": "Scroll description down",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"NPAGE"
             }
         ]
     },

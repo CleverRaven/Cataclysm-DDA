@@ -2628,24 +2628,6 @@
     "components": [ [ [ "tin", 100 ] ] ]
 },{
     "type" : "recipe",
-    "result": "toolbox",
-    "id_suffix": "uncraft",
-    "category": "CC_NONCRAFT",
-    "subcategory": "CSC_NONCRAFT",
-    "difficulty": 0,
-    "time": 500,
-    "reversible": true,
-    "autolearn": false,
-    "components": [
-      [ [ "hammer", 1 ] ],
-      [ [ "wrench", 1 ] ],
-      [ [ "screwdriver", 1 ] ],
-      [ [ "hacksaw", 1 ] ],
-      [ [ "saw", 1 ] ],
-      [ [ "pockknife", 1 ] ]
-    ]
-},{
-    "type" : "recipe",
     "result": "robot_controls",
     "category": "CC_NONCRAFT",
     "subcategory": "CSC_NONCRAFT",

@@ -65,7 +65,7 @@
         "encumbrance" : 30,
         "bashing" : -5,
         "coverage" : 90,
-        "flags" : ["OVERSIZE", "OUTER", "WATERPROOF", "RAINPROOF"],
+        "flags" : ["OVERSIZE", "OUTER", "WATERPROOF", "RAINPROOF", "ALLOWS_NATURAL_ATTACKS"],
         "material_thickness" : 1
     },
     {

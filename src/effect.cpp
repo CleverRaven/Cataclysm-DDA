@@ -406,6 +406,13 @@ bool effect_type::load_decay_msgs(JsonObject &jo, std::string member)
     return false;
 }
 
+effect effect::null_effect;
+
+bool effect::is_null() const
+{
+    return this == &null_effect;
+}
+
 std::string effect::disp_name() const
 {
     if (eff_type->name.empty()) {

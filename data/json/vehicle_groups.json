@@ -16,6 +16,7 @@
             ["bicycle", 400],
             ["bicycle_electric", 100],
             ["motorcycle", 200],
+            ["superbike", 50],
             ["motorcycle_sidecart", 100],
             ["scooter", 200],
             ["scooter_electric", 300],
@@ -88,7 +89,8 @@
             ["rv", 800],
             ["lux_rv", 100],
             ["meth_lab", 300],
-            ["armored_car", 900],
+            ["armored_car", 300],
+            ["superbike", 50],
             ["wienermobile", 5]
         ]
     },{
@@ -101,6 +103,7 @@
             ["beetle", 300],
             ["car_sports", 100],
             ["car_sports_electric", 50],
+            ["superbike", 50],
             ["motorcycle", 200],
             ["motorcycle_sidecart", 100],
             ["scooter", 100],
@@ -150,6 +153,7 @@
             ["unicycle", 100],
             ["bicycle_electric", 200],
             ["motorcycle", 500],
+            ["superbike", 50],
             ["motorcycle_sidecart", 300],
             ["shopping_cart", 1000],
             ["icecream_truck", 50],
@@ -162,6 +166,7 @@
             ["car", 200],
             ["quad_bike", 120],
             ["motorcycle", 120],
+            ["superbike", 50],
             ["welding_cart", 120],
             ["car_chassis", 200],
             ["quad_bike_chassis", 120],

@@ -1652,11 +1652,17 @@ std::string dialogue::dynamic_line( const std::string &topic ) const
 
         return status.str();
 
-    } else if( topic == "TALK_GIVE_ITEM" ) {
+    } else if( topic == "TALK_USE_ITEM" || topic == "TALK_GIVE_ITEM" ) {
+        // TODO: Clean it up and break it apart, it is huge now
         const int inv_pos = g->inv( _("Offer what?") );
         item &given = g->u.i_at( inv_pos );
         if( given.is_null() ) {
             return _("Changed your mind?");
+        }
+
+        const bool allow_carry = topic == "TALK_GIVE_ITEM";
+        if( given.is_dangerous() ) {
+            return _("Are you <swear> insane!?");
         }
 
         long our_ammo = 0;
@@ -1672,10 +1678,11 @@ std::string dialogue::dynamic_line( const std::string &topic ) const
         add_msg( m_debug, "NPC evaluates own %s (%d ammo): %0.1f",
                  p->weapon.tname().c_str(), our_ammo, cur_weapon_value );
         bool taken = false;
-        const double new_melee = p->melee_value( given );
+        const double new_melee_value = p->melee_value( given );
+        double new_weapon_value = new_melee_value;
         add_msg( m_debug, "NPC evaluates your %s as melee weapon: %0.1f",
-                 given.tname().c_str(), new_melee );
-        if( new_melee > cur_weapon_value ) {
+                 given.tname().c_str(), new_melee_value );
+        if( new_melee_value > cur_weapon_value ) {
             p->wield( &given );
             taken = true;
         }
@@ -1688,18 +1695,26 @@ std::string dialogue::dynamic_line( const std::string &topic ) const
                 ammo_count += amm->charges;
             }
             // TODO: Flamethrowers (why would player give a NPC one anyway?) and other multi-charge guns
-            double new_any = p->weapon_value( given, ammo_count );
+            new_weapon_value = p->weapon_value( given, ammo_count );
 
             add_msg( m_debug, "NPC evaluates your %s (%d ammo): %0.1f",
-                     given.tname().c_str(), ammo_count, new_any );
-            if( new_any > cur_weapon_value ) {
+                     given.tname().c_str(), ammo_count, new_weapon_value );
+            if( new_weapon_value > cur_weapon_value ) {
                 p->wield( &given );
                 taken = true;
             }
         }
 
-        if( !taken && p->wear_if_wanted( given ) ) {
+        // is_gun here is a hack to prevent NPCs wearing guns if they don't want to use them
+        if( !taken && !given.is_gun() && p->wear_if_wanted( given ) ) {
             taken = true;
+        }
+
+        if( !taken && allow_carry &&
+            p->can_pickVolume( given.volume() ) &&
+            p->can_pickWeight( given.weight() ) ) {
+            taken = true;
+            p->i_add( given );
         }
 
         // TODO: Allow NPCs accepting meds, food, ammo etc.
@@ -1708,7 +1723,37 @@ std::string dialogue::dynamic_line( const std::string &topic ) const
             g->u.moves -= 100;
             return _("Thanks!");
         } else {
-            return _("Nope...");
+            std::stringstream reason;
+            reason << _("Nope.");
+            reason << std::endl;
+            reason << _("My current weapon is better than this.");
+            reason << std::endl;
+            reason << string_format( _("(new weapon value: %.1f vs %.1f)."),
+                new_weapon_value, cur_weapon_value );
+            if( !given.is_gun() && given.is_armor() ) {
+                reason << std::endl;
+                reason << string_format( _("It's too encumbering to wear.") );
+            }
+            if( allow_carry ) {
+                if( !p->can_pickVolume( given.volume() ) ) {
+                    const int free_space = p->volume_capacity() - p->volume_carried();
+                    reason << std::endl;
+                    reason << string_format( _("I have no space to store it.") );
+                    reason << std::endl;
+                    if( free_space > 0 ) {
+                        reason << string_format( _("I can only store %.2f liters more."),
+                            free_space / 4.0f );
+                    } else {
+                        reason << string_format( _("...or to store anything else for that matter.") );
+                    }
+                }
+                if( !p->can_pickWeight( given.weight() ) ) {
+                    reason << std::endl;
+                    reason << string_format( _("It is too heavy for me to carry.") );
+                }
+            }
+
+            return reason.str();
         }
     } else if( topic == "TALK_MIND_CONTROL" ) {
         p->attitude = NPCATT_FOLLOW;
@@ -2730,9 +2775,11 @@ void dialogue::gen_responses( const std::string &topic )
                 }
             }
             if( p->is_following() ) {
-                add_response( _("I want you to use this item"), "TALK_GIVE_ITEM" );
+                add_response( _("I want you to use this item"), "TALK_USE_ITEM" );
+                add_response( _("Hold on to this item"), "TALK_GIVE_ITEM" );
+                add_response( _("Miscellaneous rules..."), "TALK_MISC_RULES" );
             }
-            add_response( _("Miscellaneous rules..."), "TALK_MISC_RULES" );
+
             add_response( _("I'm going to go my own way for a while."), "TALK_LEAVE" );
             add_response_done( _("Let's go.") );
 
@@ -4063,13 +4110,18 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
     std::vector<item_pricing> yours = p->init_buying( g->u.inv );
 
     // Adjust the prices based on your barter skill.
-    const auto their_adjust = (price_adjustment(p->skillLevel( skill_barter ) - g->u.skillLevel( skill_barter )) +
+    // cap adjustment so nothing is ever sold below value
+    double their_adjust = (price_adjustment(p->skillLevel( skill_barter ) - g->u.skillLevel( skill_barter )) +
                               (p->int_cur - g->u.int_cur) / 20.0);
+    if (their_adjust < 1)
+        their_adjust = 1;
     for( item_pricing &p : theirs ) {
         p.price *= their_adjust;
     }
-    const auto your_adjust = (price_adjustment(g->u.skillLevel( skill_barter ) - p->skillLevel( skill_barter )) +
+    double your_adjust = (price_adjustment(g->u.skillLevel( skill_barter ) - p->skillLevel( skill_barter )) +
                              (g->u.int_cur - p->int_cur) / 20.0);
+    if (your_adjust < 1)
+        your_adjust = 1;
     for( item_pricing &p : yours ) {
         p.price *= your_adjust;
     }
@@ -4490,6 +4542,18 @@ dynamic_line_t::dynamic_line_t( JsonObject jo )
         function = [item_id, yes, no]( const dialogue &d ) {
             const bool wearing = d.alpha->is_wearing( item_id );
             return ( wearing ? yes : no )( d );
+        };
+    } else if( jo.has_member( "u_has_any_trait" ) ) {
+        const std::vector<std::string> traits_to_check = jo.get_string_array( "u_has_any_trait" );
+        const dynamic_line_t yes = from_member( jo, "yes" );
+        const dynamic_line_t no = from_member( jo, "no" );
+        function = [traits_to_check, yes, no]( const dialogue &d ) {
+            for( const auto &trait : traits_to_check ) {
+                if( d.alpha->has_trait( trait ) ) {
+                    return yes( d );
+                }
+            }
+            return no ( d );
         };
     } else {
         jo.throw_error( "no supported" );

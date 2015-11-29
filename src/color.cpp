@@ -721,8 +721,8 @@ void color_manager::show_gui()
 
         calcStartPos(iStartPos, iCurrentLine, iContentHeight, iMaxColors);
 
-        //Draw Scrollbar
         draw_scrollbar(w_colors_border, iCurrentLine, iContentHeight, iMaxColors, 5);
+        wrefresh(w_colors_border);
 
         auto iter = name_color_map.begin();
         std::advance( iter, iStartPos );

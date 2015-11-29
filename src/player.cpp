@@ -40,6 +40,7 @@
 #include "submap.h"
 #include "mtype.h"
 #include "weather_gen.h"
+#include "cata_utility.h"
 
 #include <map>
 
@@ -337,13 +338,12 @@ void player::reset_stats()
     if (has_trait("ARACHNID_ARMS")) {
         add_miss_reason(_("Your arachnid limbs get in the way."), 4);
     }
-    if (has_trait("ARACHNID_ARMS_OK")) {
-        if (!wearing_something_on(bp_torso)) {
-            mod_dex_bonus(2);
-        }
-        else {
-            mod_dex_bonus(-2);
-            add_miss_reason(_("Your clothing constricts your arachnid limbs."), 2);
+    if( has_trait( "ARACHNID_ARMS_OK" ) ) {
+        if( !wearing_something_on( bp_torso ) ) {
+            mod_dex_bonus( 2 );
+        } else if( !exclusive_flag_coverage( "OVERSIZE" )[bp_torso] ) {
+            mod_dex_bonus( -2 );
+            add_miss_reason( _( "Your clothing constricts your arachnid limbs." ), 2 );
         }
     }
 
@@ -569,7 +569,9 @@ void player::apply_persistent_morale()
         } else if (has_effect("took_prozac")) {
             pen = int(pen / 2);
         }
-        add_morale(MORALE_PERM_HOARDER, -pen, -pen, 5, 5, true);
+        if (pen > 0) {
+            add_morale(MORALE_PERM_HOARDER, -pen, -pen, 5, 5, true);
+        }
     }
 
     // The stylish get a morale bonus for each body part covered in an item
@@ -930,7 +932,7 @@ void player::update_bodytemp()
         }
         // Represents the fact that the body generates heat when it is cold.
         // TODO : should this increase hunger?
-        double scaled_temperature = logistic_range( BODYTEMP_VERY_COLD, BODYTEMP_VERY_HOT,
+        double scaled_temperature = logarithmic_range( BODYTEMP_VERY_COLD, BODYTEMP_VERY_HOT,
                                                     temp_cur[i] );
         // Produces a smooth curve between 30.0 and 60.0.
         float homeostasis_adjustement = 30.0 * (1.0 + scaled_temperature);
@@ -2819,7 +2821,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
 
     for( auto &speed_effect : speed_effects ) {
         nc_color col = ( speed_effect.second > 0 ? c_green : c_red );
-        mvwprintz( w_speed, line, 1, col, "%s", speed_effect.first.c_str() );
+        mvwprintz( w_speed, line, 1, col, "%s", _(speed_effect.first.c_str()) );
         mvwprintz( w_speed, line, 21, col, ( speed_effect.second > 0 ? "+" : "-" ) );
         mvwprintz( w_speed, line, ( abs( speed_effect.second ) >= 10 ? 22 : 23 ), col, "%d%%",
                    abs( speed_effect.second ) );
@@ -2981,8 +2983,8 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
             }
 
             print_encumbrance(w_encumb, min, max, line);
-            wrefresh(w_encumb);
             draw_scrollbar(w_encumb, line, encumb_win_size_y, 12, 1);
+            wrefresh(w_encumb);
 
             werase(w_info);
             std::string s;
@@ -3221,15 +3223,14 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
                 mvwprintz(w_skills, 1 + i - min,19, status, "%-2d(%2d%%)", (int)level, (exercise <  0 ? 0 : exercise));
             }
 
-            //Draw Scrollbar
             draw_scrollbar(w_skills, line, skill_win_size_y, skillslist.size(), 1);
+            wrefresh(w_skills);
 
             werase(w_info);
 
             if (line < skillslist.size()) {
                 fold_and_print(w_info, 0, 1, FULL_SCREEN_WIDTH-2, c_magenta, selectedSkill->description());
             }
-            wrefresh(w_skills);
             wrefresh(w_info);
 
             action = ctxt.handle_input();
@@ -3317,7 +3318,7 @@ void player::disp_morale()
     // Figure out how wide the name column needs to be.
     int name_column_width = 18;
     for (auto &i : morale) {
-        int length = i.name().length();
+        int length = utf8_width(i.name());
         if ( length > name_column_width) {
             name_column_width = length;
         }
@@ -3343,13 +3344,8 @@ void player::disp_morale()
         std::string name = morale[i].name();
         int bonus = net_morale(morale[i]);
 
-        // Trim the name if need be.
-        if (name.length() > size_t(name_column_width)){
-            name = name.erase(name_column_width-3, std::string::npos) + "...";
-        }
-
         // Print out the name.
-        mvwprintz(w, i + 3,  1, (bonus < 0 ? c_red : c_green), name.c_str());
+        trim_and_print(w, i + 3,  1, name_column_width, (bonus < 0 ? c_red : c_green), name.c_str());
 
         // Print out the number, right-justified.
         mvwprintz(w, i + 3, number_pos, (bonus < 0 ? c_red : c_green),
@@ -4112,24 +4108,27 @@ int player::overmap_sight_range(int light_level) const
         return (sight / (SEEX / 2) );
     }
     if ((has_amount("binoculars", 1) || has_amount("rifle_scope", 1) ||
-        -1 != weapon.has_gunmod("rifle_scope") ) && !has_trait("EAGLEEYED"))  {
-        if (has_trait("BIRD_EYE")) {
-            return 25;
-        }
+        has_amount("survivor_scope", 1) || -1 != weapon.has_gunmod("rifle_scope") ) &&
+        !has_trait("EAGLEEYED"))  {
+         if (has_trait("BIRD_EYE")) {
+             return 25;
+         }
         return 20;
     }
     else if (!(has_amount("binoculars", 1) || has_amount("rifle_scope", 1) ||
-        -1 != weapon.has_gunmod("rifle_scope") ) && has_trait("EAGLEEYED"))  {
-        if (has_trait("BIRD_EYE")) {
-            return 25;
-        }
+        has_amount("survivor_scope", 1) || -1 != weapon.has_gunmod("rifle_scope") ) &&
+        has_trait("EAGLEEYED"))  {
+         if (has_trait("BIRD_EYE")) {
+             return 25;
+         }
         return 20;
     }
     else if ((has_amount("binoculars", 1) || has_amount("rifle_scope", 1) ||
-        -1 != weapon.has_gunmod("rifle_scope") ) && has_trait("EAGLEEYED"))  {
-        if (has_trait("BIRD_EYE")) {
-            return 30;
-        }
+        has_amount("survivor_scope", 1) || -1 != weapon.has_gunmod("rifle_scope") ) &&
+        has_trait("EAGLEEYED"))  {
+         if (has_trait("BIRD_EYE")) {
+             return 30;
+         }
         return 25;
     }
     else if (has_trait("BIRD_EYE")) {
@@ -5335,31 +5334,103 @@ int player::hp_percentage() const
     return (100 * total_cur) / total_max;
 }
 
+// Returns the number of multiples of tick_length we would "pass" on our way `from` to `to`
+// For example, if `tick_length` is 1 hour, then going from 0:59 to 1:01 should return 1
+inline int ticks_between( int from, int to, int tick_length )
+{
+    return (to / tick_length) - (from / tick_length);
+}
+
+void player::update_body()
+{
+    const int now = calendar::turn;
+    update_body( now - 1, now );
+}
+
+void player::update_body( int from, int to )
+{
+    update_stamina( to - from );
+    const int five_mins = ticks_between( from, to, MINUTES(5) );
+    if( five_mins > 0 ) {
+        check_needs_extremes();
+        update_needs( five_mins );
+        if( has_effect( "sleep" ) ) {
+            sleep_hp_regen( five_mins );
+        }
+    }
+
+    const int thirty_mins = ticks_between( from, to, MINUTES(30) );
+    if( thirty_mins > 0 ) {
+        regen( thirty_mins );
+        get_sick();
+        mend( thirty_mins );
+    }
+
+    if( ticks_between( from, to, HOURS(6) ) ) {
+        update_health();
+    }
+}
+
 void player::get_sick()
 {
-    if (has_trait("DISIMMUNE")) {
+    // NPCs are too dumb to handle infections now
+    if( is_npc() || has_trait("DISIMMUNE") ) {
+        // In a shocking twist, disease immunity prevents diseases.
         return;
     }
 
-    if (!has_effect("flu") && !has_effect("common_cold") &&
-        one_in(900 + get_healthy() + (has_trait("DISRESISTANT") ? 300 : 0))) {
+    if (has_effect("flu") || has_effect("common_cold")) {
+        // While it's certainly possible to get sick when you already are,
+        // it wouldn't be very fun.
+        return;
+    }
+
+    // Normal people get sick about 2-4 times/year.
+    int base_diseases_per_year = 3;
+    if (has_trait("DISRESISTANT")) {
+        // Disease resistant people only get sick once a year.
+        base_diseases_per_year = 1;
+    }
+
+    // This check runs once every 30 minutes, so double to get hours, *24 to get days.
+    const int checks_per_year = 2 * 24 * 365;
+
+    // Health is in the range [-200,200].
+    // A character who takes vitamins every 6 hours will have ~50 health.
+    // Diseases are half as common for every 50 health you gain.
+    float health_factor = std::pow(2.0f, get_healthy() / 50.0f);
+
+    int disease_rarity = (int) (checks_per_year * health_factor / base_diseases_per_year);
+    add_msg( m_debug, "disease_rarity = %d", disease_rarity);
+    if (one_in(disease_rarity)) {
         if (one_in(6)) {
-            add_env_effect("flu", bp_mouth, 3, rng(40000, 80000));
+            // The flu typically lasts 3-10 days.
+            const int short_flu = DAYS(3);
+            const int long_flu = DAYS(10);
+            const int duration = rng(short_flu, long_flu);
+            add_env_effect("flu", bp_mouth, 3, duration);
         } else {
-            add_env_effect("common_cold", bp_mouth, 3, rng(20000, 60000));
+            // A cold typically lasts 1-14 days.
+            int short_cold = DAYS(1);
+            int long_cold = DAYS(14);
+            int duration = rng(short_cold, long_cold);
+            add_env_effect("common_cold", bp_mouth, 3, duration);
         }
     }
 }
 
-void player::update_health(int base_threshold)
+void player::update_health(int external_modifiers)
 {
-    if (has_artifact_with(AEP_SICK)) {
-        base_threshold += 50;
+    if( has_artifact_with( AEP_SICK ) ) {
+        // Carrying a sickness artifact makes your health 50 points worse on
+        // average.  This is the negative equivalent of eating vitamins every
+        // 6 hours.
+        external_modifiers -= 50;
     }
-    Character::update_health(base_threshold);
+    Character::update_health( external_modifiers );
 }
 
-void player::update_needs()
+void player::check_needs_extremes()
 {
     // Check if we've overdosed... in any deadly way.
     if (stim > 250) {
@@ -5394,7 +5465,7 @@ void player::update_needs()
         hp_cur[hp_torso] = 0;
     }
     // Check if we're starving or have starved
-    if (get_hunger() >= 3000) {
+    if( is_player() && get_hunger() >= 3000 ) {
         if (get_hunger() >= 6000) {
             add_msg_if_player(m_bad, _("You have starved to death."));
             add_memorial_log(pgettext("memorial_male", "Died of starvation."),
@@ -5410,7 +5481,7 @@ void player::update_needs()
     }
 
     // Check if we're dying of thirst
-    if( thirst >= 600 ) {
+    if( is_player() && thirst >= 600 ) {
         if( thirst >= 1200 ) {
             add_msg_if_player(m_bad, _("You have died of dehydration."));
             add_memorial_log(pgettext("memorial_male", "Died of thirst."),
@@ -5465,169 +5536,244 @@ void player::update_needs()
             add_effect("lack_sleep", 50);
         }
     }
+}
 
-    if( calendar::once_every(MINUTES(5)) ) { // Hunger, thirst, & fatigue up every 5 minutes
-        if( (!has_trait("LIGHTEATER") || !one_in(3)) &&
-            (!has_bionic("bio_recycler") || calendar::once_every(MINUTES(30)) ) &&
-            !(has_trait("DEBUG_LS") )) {
-            mod_hunger(1);
-            if (has_trait("HUNGER")) {
-                if (one_in(2)) {
-                    mod_hunger(1);
-                }
-            }
-            if (has_trait("MET_RAT")) {
-                if (!one_in(3)) {
-                    mod_hunger(1);
-                }
-            }
-            if (has_trait("HUNGER2")) {
-                mod_hunger(1);
-            }
-            if (has_trait("HUNGER3")) {
-                mod_hunger(2);
-            }
-        }
-        if( (!has_bionic("bio_recycler") || calendar::once_every(MINUTES(10)) ) &&
-            (!has_trait("PLANTSKIN") || !one_in(5)) &&
-            (!has_trait("DEBUG_LS")) ) {
-            thirst++;
-            if (has_trait("THIRST")) {
-                if (one_in(2)) {
-                    thirst++;
-                }
-            }
-            if (has_trait("THIRST2")) {
-                thirst++;
-            }
-            if (has_trait("THIRST3")) {
-                thirst += 2;
-            }
-        }
-        // Sanity check for negative fatigue value.
-        if (fatigue < -1000) {
-            fatigue = -1000;
-        }
+void player::update_needs( int rate_multiplier )
+{
+    // Hunger, thirst, & fatigue up every 5 minutes
+    const bool debug_ls = has_trait("DEBUG_LS");
+    const bool has_recycler = has_bionic("bio_recycler");
+    const bool asleep = in_sleep_state();
+    const bool hibernating = asleep && is_hibernating();
+    float hunger_rate = 1.0f;
+    if( has_trait("LIGHTEATER") ) {
+        hunger_rate -= (1.0f / 3.0f);
+    }
 
-        const bool wasnt_fatigued = fatigue <= DEAD_TIRED;
-        // Don't increase fatigue if sleeping or trying to sleep or if we're at the cap.
-        if (fatigue < 1050 && !in_sleep_state() && !has_trait("DEBUG_LS") ) {
-            fatigue++;
-            // Wakeful folks don't always gain fatigue!
-            if (has_trait("WAKEFUL")) {
-                if (one_in(6)) {
-                    fatigue--;
-                }
-            }
-            if (has_trait("WAKEFUL2")) {
-                if (one_in(4)) {
-                    fatigue--;
-                }
-            }
+    if( has_trait( "HUNGER" ) ) {
+        hunger_rate += 0.5f;
+    } else if( has_trait( "HUNGER2" ) ) {
+        hunger_rate += 1.0f;
+    } else if( has_trait( "HUNGER3" ) ) {
+        hunger_rate += 2.0f;
+    }
+
+    if( has_trait( "MET_RAT" ) ) {
+        hunger_rate += (1.0f / 3.0f);
+    }
+
+    float thirst_rate = 1.0f;
+    if( has_trait("PLANTSKIN") ) {
+        thirst_rate -= 0.2f;
+    }
+
+    if( has_trait("THIRST") ) {
+        thirst_rate += 0.5f;
+    } else if( has_trait("THIRST2") ) {
+        thirst_rate += 1.0f;
+    } else if( has_trait("THIRST3") ) {
+        thirst_rate += 2.0f;
+    }
+
+    if( has_recycler ) {
+        // A LOT! Also works on mutant hunger
+        // Should it be so good?
+        hunger_rate /= 6.0f;
+        thirst_rate /= 2.0f;
+    }
+
+    if( asleep && !has_recycler && !hibernating ) {
+        // Hunger and thirst advance more slowly while we sleep. This is the standard rate.
+        hunger_rate *= 0.5f;
+        thirst_rate *= 0.5f;
+    } else if( asleep && !has_recycler && hibernating) {
+        // Hunger and thirst advance *much* more slowly whilst we hibernate.
+        // (int (calendar::turn) % 50 would be zero burn.)
+        // Very Thirsty catch deliberately NOT applied here, to fend off Dehydration debuffs
+        // until the char wakes.  This was time-trial'd quite thoroughly,so kindly don't "rebalance"
+        // without a good explanation and taking a night to make sure it works
+        // with the extended sleep duration, OK?
+        hunger_rate *= (2.0f / 7.0f);
+        thirst_rate *= (2.0f / 7.0f);
+    }
+
+    if( !debug_ls && hunger_rate > 0.0f ) {
+        const int rolled_hunger = divide_roll_remainder( hunger_rate * rate_multiplier, 1.0 );
+        mod_hunger( rolled_hunger );
+    }
+
+    if( !debug_ls && thirst_rate > 0.0f ) {
+        thirst += divide_roll_remainder( thirst_rate * rate_multiplier, 1.0 );
+    }
+
+    // Sanity check for negative fatigue value.
+    if( fatigue < -1000 ) {
+        fatigue = -1000;
+    }
+
+    const bool wasnt_fatigued = fatigue <= DEAD_TIRED;
+    // Don't increase fatigue if sleeping or trying to sleep or if we're at the cap.
+    if( fatigue < 1050 && !asleep && !debug_ls ) {
+        float fatigue_rate = 1.0f;
+        // Wakeful folks don't always gain fatigue!
+        if (has_trait("WAKEFUL")) {
+            fatigue_rate -= (1.0f / 6.0f);
+        } else if (has_trait("WAKEFUL2")) {
+            fatigue_rate -= 0.25f;
+        } else if (has_trait("WAKEFUL3")) {
             // You're looking at over 24 hours to hit Tired here
-            if (has_trait("WAKEFUL3")) {
-                if (one_in(2)) {
-                    fatigue--;
-                }
-            }
-            // Sleepy folks gain fatigue faster; Very Sleepy is twice as fast as typical
-            if (has_trait("SLEEPY")) {
-                if (one_in(3)) {
-                    fatigue++;
-                }
-            }
-            if (has_trait("MET_RAT")) {
-                if (one_in(2)) {
-                    fatigue++;
-                }
-            }
-            if (has_trait("SLEEPY2")) {
-                fatigue++;
-            }
+            fatigue_rate -= 0.5f;
         }
-        if( is_player() && wasnt_fatigued && fatigue > DEAD_TIRED && !in_sleep_state() ) {
-            if (activity.type == ACT_NULL) {
-                add_msg_if_player(m_warning, _("You're feeling tired.  %s to lie down for sleep."),
-                        press_x(ACTION_SLEEP).c_str());
-            } else {
-                g->cancel_activity_query(_("You're feeling tired."));
-            }
-        }
-        if (stim < 0) {
-            stim++;
-        }
-        if (stim > 0) {
-            stim--;
-        }
-        if (pkill > 0) {
-            pkill--;
-        }
-        if (pkill < 0) {
-            pkill++;
-        }
-        if( has_bionic("bio_solar") && g->is_in_sunlight( pos3() ) ) {
-            charge_power(25);
-        }
-        // Huge folks take penalties for cramming themselves in vehicles
-        if ((has_trait("HUGE") || has_trait("HUGE_OK")) && in_vehicle) {
-            add_msg_if_player(m_bad, _("You're cramping up from stuffing yourself in this vehicle."));
-            pain += 2 * rng(2, 3);
-            focus_pool -= 1;
+        // Sleepy folks gain fatigue faster; Very Sleepy is twice as fast as typical
+        if (has_trait("SLEEPY")) {
+            fatigue_rate += (1.0f / 3.0f);
+        } else if (has_trait("SLEEPY2")) {
+            fatigue_rate += 1.0f;
         }
 
-        int dec_stom_food = get_stomach_food() * 0.2;
-        int dec_stom_water = get_stomach_water() * 0.2;
-        dec_stom_food = dec_stom_food < 10 ? 10 : dec_stom_food;
-        dec_stom_water = dec_stom_water < 10 ? 10 : dec_stom_water;
-        mod_stomach_food(-dec_stom_food);
-        mod_stomach_water(-dec_stom_water);
-    }
-}
-
-void player::regen()
-{
-    if( calendar::once_every(MINUTES(30)) ) { // Pain up/down every 30 minutes
-        if (pain > 0) {
-            pain -= 1 + int(pain / 10);
-        } else if (pain < 0) {
-            pain = 0;
-        }
-        // Mutation healing effects
-        if (has_trait("FASTHEALER2") && one_in(5)) {
-            healall(1);
-        }
-        if (has_trait("REGEN") && one_in(2)) {
-            healall(1);
-        }
-        if (has_trait("ROT2") && one_in(5)) {
-            hurtall(1, nullptr, false);
-        }
-        if (has_trait("ROT3") && one_in(2)) {
-            hurtall(1, nullptr, false);
+        if( has_trait("MET_RAT") ) {
+            fatigue_rate += 0.5f;
         }
 
-        if (radiation > 0 && one_in(3)) {
-            radiation--;
-        }
-        get_sick();
         // Freakishly Huge folks tire quicker
-        if( is_player() && has_trait("HUGE") && !in_sleep_state() ) {
-            add_msg_if_player(m_info, _("<whew> You catch your breath."));
-            fatigue++;
+        if( has_trait("HUGE") ) {
+            fatigue_rate += (1.0f / 6.0f);
+        }
+
+        if( !debug_ls && fatigue_rate > 0.0f ) {
+            fatigue += divide_roll_remainder( fatigue_rate * rate_multiplier, 1.0 );
+        }
+    } else if( has_effect( "sleep" ) ) {
+        effect &sleep = get_effect( "sleep" );
+        const int intense = sleep.is_null() ? 0 : sleep.get_intensity();
+        // Accelerated recovery capped to 2x over 2 hours
+        // After 16 hours of activity, equal to 7.25 hours of rest
+        const int accelerated_recovery_chance = 24 - intense + 1;
+        const float accelerated_recovery_rate = 1.0f / accelerated_recovery_chance;
+        float recovery_rate = 1.0f + accelerated_recovery_rate;
+
+        // You fatigue & recover faster with Sleepy
+        // Very Sleepy, you just fatigue faster
+        if( !hibernating && ( has_trait("SLEEPY") || has_trait("MET_RAT") ) ) {
+            recovery_rate += (1.0f + accelerated_recovery_rate) / 2.0f;
+        }
+
+        // Tireless folks recover fatigue really fast
+        // as well as gaining it really slowly
+        // (Doesn't speed healing any, though...)
+        if( !hibernating && has_trait("WAKEFUL3") ) {
+            recovery_rate += (1.0f + accelerated_recovery_rate) / 2.0f;
+        }
+
+        // Untreated pain causes a flat penalty to fatigue reduction
+        recovery_rate -= float(pain - pkill) / 60;
+
+        if( recovery_rate > 0.0f ) {
+            int recovered = divide_roll_remainder( recovery_rate * rate_multiplier, 1.0 );
+            if( fatigue - recovered < -20 ) {
+                // Should be wake up, but that could prevent some retroactive regeneration
+                sleep.set_duration( 1 );
+                fatigue = -25;
+            } else {
+                fatigue -= recovered;
+            }
+        }
+    }
+    if( is_player() && wasnt_fatigued && fatigue > DEAD_TIRED && !in_sleep_state() ) {
+        if (activity.type == ACT_NULL) {
+            add_msg_if_player(m_warning, _("You're feeling tired.  %s to lie down for sleep."),
+                press_x(ACTION_SLEEP).c_str());
+        } else {
+            g->cancel_activity_query(_("You're feeling tired."));
         }
     }
 
-    if( calendar::once_every(HOURS(6)) ) {
-        update_health();
+    if( stim < 0 ) {
+        stim = std::min( stim + rate_multiplier, 0 );
+    } else if( stim > 0 ) {
+        stim = std::max( stim - rate_multiplier, 0 );
+    }
+
+    if( pkill < 0 ) {
+        pkill = std::min( pkill + rate_multiplier, 0 );
+    } else if( pkill > 0 ) {
+        pkill = std::max( pkill - rate_multiplier, 0 );
+    }
+
+    if( has_bionic("bio_solar") && g->is_in_sunlight( pos() ) ) {
+        charge_power( rate_multiplier * 25 );
+    }
+
+    if( is_npc() ) {
+        // TODO: Remove this `if` once NPCs start eating and getting huge
+        return;
+    }
+    // Huge folks take penalties for cramming themselves in vehicles
+    if( (has_trait("HUGE") || has_trait("HUGE_OK")) && in_vehicle ) {
+        add_msg_if_player(m_bad, _("You're cramping up from stuffing yourself in this vehicle."));
+        pain += 2 * rng(2, 3);
+        focus_pool -= 1;
+    }
+
+    int dec_stom_food = get_stomach_food() * 0.2;
+    int dec_stom_water = get_stomach_water() * 0.2;
+    dec_stom_food = dec_stom_food < 10 ? 10 : dec_stom_food;
+    dec_stom_water = dec_stom_water < 10 ? 10 : dec_stom_water;
+    mod_stomach_food(-dec_stom_food);
+    mod_stomach_water(-dec_stom_water);
+}
+
+void player::regen( int rate_multiplier )
+{
+    int pain_ticks = rate_multiplier;
+    while( pain > 0 && pain_ticks-- > 0 ) {
+        pain -= 1 + int( pain / 10 );
+    }
+
+    if( pain < 0 ) {
+        pain = 0;
+    }
+
+    float heal_rate = 0.0f;
+    // Mutation healing effects
+    if( has_trait("FASTHEALER2") ) {
+        heal_rate += 0.2f;
+    } else if( has_trait("REGEN") ) {
+        heal_rate += 0.5f;
+    }
+
+    if( heal_rate > 0.0f ) {
+        int hp_rate = divide_roll_remainder( rate_multiplier * heal_rate, 1.0f );
+        healall( hp_rate );
+    }
+
+    float hurt_rate = 0.0f;
+    if( has_trait("ROT2") ) {
+        hurt_rate += 0.2f;
+    } else if( has_trait("ROT3") ) {
+        hurt_rate += 0.5f;
+    }
+
+    if( hurt_rate > 0.0f ) {
+        int rot_rate = divide_roll_remainder( rate_multiplier * hurt_rate, 1.0f );
+        // Has to be in loop because some effects depend on rounding
+        while( rot_rate-- > 0 ) {
+            hurtall( 1, nullptr, false );
+        }
+    }
+
+    if( radiation > 0 ) {
+        radiation = std::min( 0, radiation - divide_roll_remainder( rate_multiplier * radiation / 3.0, 1.0f ) );
     }
 }
 
-void player::update_stamina()
+void player::update_stamina( int turns )
 {
+    int stamina_recovery = 0;
     // Recover some stamina every turn.
     if( !has_effect("winded") ) {
         // But mouth encumberance interferes.
-        stamina += std::max( 1, 10 - (encumb(bp_mouth) / 10) );
+        stamina_recovery += std::max( 1, 10 - (encumb(bp_mouth) / 10) );
         // TODO: recovering stamina causes hunger/thirst/fatigue.
         // TODO: Tiredness slowing recovery
     }
@@ -5635,18 +5781,63 @@ void player::update_stamina()
     // stim recovers stamina (or impairs recovery)
     if( stim > 0 ) {
         // TODO: Make stamina recovery with stims cost health
-        stamina += std::min( 5, stim / 20 );
+        stamina_recovery += std::min( 5, stim / 20 );
     } else if( stim < 0 ) {
         // Affect it less near 0 and more near full
         // Stamina maxes out around 1000, stims kill at -200
         // At -100 stim fully counters regular regeneration at 500 stamina,
         // halves at 250 stamina, cuts by 25% at 125 stamina
         // At -50 stim fully counters at 1000, halves at 500
-        stamina += stim * stamina / 1000 / 5 ;
+        stamina_recovery += stim * stamina / 1000 / 5 ;
     }
 
     // Cap at max
-    stamina = std::min( stamina,  get_stamina_max() );
+    stamina = std::min( stamina + stamina_recovery * turns, get_stamina_max() );
+    stamina = std::max( stamina, 0 );
+}
+
+bool player::is_hibernating() const
+{
+    // Hibernating only kicks in whilst Engorged; separate tracking for hunger/thirst here
+    // as a safety catch.  One test subject managed to get two Colds during hibernation;
+    // since those add fatigue and dry out the character, the subject went for the full 10 days plus
+    // a little, and came out of it well into Parched.  Hibernating shouldn't endanger your
+    // life like that--but since there's much less fluid reserve than food reserve,
+    // simply using the same numbers won't work.
+    return has_effect("sleep") && get_hunger() <= -60 && thirst <= 80 && has_active_mutation("HIBERNATE");
+}
+
+void player::sleep_hp_regen( int rate_multiplier )
+{
+    float heal_chance = get_healthy() / 400.0f;
+    if( has_trait("FASTHEALER") || has_trait("MET_RAT") ) {
+        heal_chance += 1.0f;
+    } else if (has_trait("FASTHEALER2")) {
+        heal_chance += 1.5f;
+    } else if (has_trait("REGEN")) {
+        heal_chance += 2.0f;
+    } else if (has_trait("SLOWHEALER")) {
+        heal_chance += 0.13f;
+    } else {
+        heal_chance += 0.25f;
+    }
+
+    if( is_hibernating() ) {
+        heal_chance /= 7.0f;
+    }
+
+    if( has_trait("FLIMSY") ) {
+        heal_chance /= (4.0f / 3.0f);
+    } else if( has_trait("FLIMSY2") ) {
+        heal_chance /= 2.0f;
+    } else if( has_trait("FLIMSY3") ) {
+        heal_chance /= 4.0f;
+    }
+
+    const int heal_roll = divide_roll_remainder( rate_multiplier * heal_chance, 1.0f );
+    if( heal_roll > 0 ) {
+        healall( heal_roll );
+    }
 }
 
 void player::add_addiction(add_type type, int strength)
@@ -5823,17 +6014,6 @@ void player::add_pain_msg(int val, body_part bp) const
     }
 }
 
-static int bound_mod_to_vals(int val, int mod, int max, int min)
-{
-    if (val + mod > max && max != 0) {
-        mod = std::max(max - val, 0);
-    }
-    if (val + mod < min && min != 0) {
-        mod = std::min(min - val, 0);
-    }
-    return mod;
-}
-
 void player::print_health() const
 {
     if( !is_player() ) {
@@ -5996,8 +6176,10 @@ void player::add_eff_effects(effect e, bool reduced)
     }
     // Add health mod
     if (e.get_amount("H_MOD", reduced) > 0) {
-        mod_healthy_mod(bound_mod_to_vals(get_healthy_mod(), e.get_amount("H_MOD", reduced),
-                        e.get_max_val("H_MOD", reduced), e.get_min_val("H_MOD", reduced)));
+        int bounded = bound_mod_to_vals(get_healthy_mod(), e.get_amount("H_MOD", reduced),
+                e.get_max_val("H_MOD", reduced), e.get_min_val("H_MOD", reduced));
+        // This already applies bounds, so we pass them through.
+        mod_healthy_mod(bounded, get_healthy_mod() + bounded);
     }
     // Add health
     if (e.get_amount("HEALTH", reduced) > 0) {
@@ -6100,8 +6282,11 @@ void player::process_effects() {
             if (val != 0) {
                 mod = 1;
                 if(it.activated(calendar::turn, "H_MOD", val, reduced, mod)) {
-                    mod_healthy_mod(bound_mod_to_vals(get_healthy_mod(), val,
-                                it.get_max_val("H_MOD", reduced), it.get_min_val("H_MOD", reduced)));
+                    int bounded = bound_mod_to_vals(
+                            get_healthy_mod(), val, it.get_max_val("H_MOD", reduced),
+                            it.get_min_val("H_MOD", reduced));
+                    // This already applies bounds, so we pass them through.
+                    mod_healthy_mod(bounded, get_healthy_mod() + bounded);
                 }
             }
 
@@ -6147,7 +6332,9 @@ void player::process_effects() {
 
             // Handle fatigue
             val = it.get_mod("FATIGUE", reduced);
-            if (val != 0) {
+            // Prevent ongoing fatigue effects while asleep.
+            // These are meant to change how fast you get tired, not how long you sleep.
+            if (val != 0 && !in_sleep_state()) {
                 mod = 1;
                 if(it.activated(calendar::turn, "FATIGUE", val, reduced, mod)) {
                     fatigue += bound_mod_to_vals(fatigue, val, it.get_max_val("FATIGUE", reduced),
@@ -7108,7 +7295,7 @@ void player::hardcoded_effects(effect &it)
             add_msg_if_player(m_bad, _("Your head aches faintly."));
         }
         if(one_in(1024)) {
-            mod_healthy_mod(-10);
+            mod_healthy_mod(-10, -100);
             apply_damage( nullptr, bp_head, rng( 0, 1 ) );
             if (!has_effect("visuals")) {
                 add_msg_if_player(m_bad, _("Your vision is getting fuzzy."));
@@ -7116,7 +7303,7 @@ void player::hardcoded_effects(effect &it)
             }
         }
         if(one_in(4096)) {
-            mod_healthy_mod(-10);
+            mod_healthy_mod(-10, -100);
             apply_damage( nullptr, bp_head, rng( 1, 2 ) );
             if (!has_effect("blind")) {
                 add_msg_if_player(m_bad, _("Your vision goes black!"));
@@ -7353,106 +7540,30 @@ void player::hardcoded_effects(effect &it)
     } else if (id == "sleep") {
         set_moves(0);
         #ifdef TILES
-        if( calendar::once_every(MINUTES(10)) ) {
+        if( is_player() && calendar::once_every(MINUTES(10)) ) {
             SDL_PumpEvents();
         }
         #endif // TILES
-        // Hibernating only kicks in whilst Engorged; separate tracking for hunger/thirst here
-        // as a safety catch.  One test subject managed to get two Colds during hibernation;
-        // since those add fatigue and dry out the character, the subject went for the full 10 days plus
-        // a little, and came out of it well into Parched.  Hibernating shouldn't endanger your
-        // life like that--but since there's much less fluid reserve than food reserve,
-        // simply using the same numbers won't work.
-        const bool hibernating = get_hunger() <= -60 && thirst <= 80 && has_active_mutation("HIBERNATE");
-        // If you hit Very Thirsty, you kick up into regular Sleep as a safety precaution.
-        // See above.  No log note for you. :-/
-        if( ( !hibernating && calendar::once_every(MINUTES(5)) ) ||
-            calendar::once_every(MINUTES(35)) ) {
-            // Accelerated recovery capped to 2x over 2 hours
-            // After 16 hours of activity, equal to 7.25 hours of rest
-            if (intense < 24) {
-                it.mod_intensity(1);
-            } else if (intense < 1) {
-                it.set_intensity(1);
-            }
 
-            const int recovery_chance = 24 - intense + 1;
-
-            if (fatigue > 0) {
-                auto delta = 1.0 + (one_in(recovery_chance) ? 1.0 : 0.0);
-
-                // You fatigue & recover faster with Sleepy
-                // Very Sleepy, you just fatigue faster
-                if( !hibernating && ( has_trait("SLEEPY") || has_trait("MET_RAT") ) ) {
-                    const int roll = (one_in(recovery_chance) ? 1.0 : 0.0);
-                    delta += (1.0 + roll) / 2.0;
-                }
-
-                // Tireless folks recover fatigue really fast
-                // as well as gaining it really slowly
-                // (Doesn't speed healing any, though...)
-                if( !hibernating && has_trait("WAKEFUL3") ) {
-                    const int roll = (one_in(recovery_chance) ? 1.0 : 0.0);
-                    delta += (2.0 + roll) / 2.0;
-                }
-
-                // Untreated pain causes a flat penalty to fatigue reduction
-                delta -= float(pain - pkill) / 60;
-                if (delta < 0) {
-                    delta = 0;
-                }
-
-                fatigue -= static_cast<int>(round(delta));
-            }
-
-            int heal_chance = get_healthy() / 4;
-            if ((has_trait("FLIMSY") && x_in_y(3, 4)) || (has_trait("FLIMSY2") && one_in(2)) ||
-                  (has_trait("FLIMSY3") && one_in(4)) ||
-                  (!has_trait("FLIMSY") && !has_trait("FLIMSY2") && !has_trait("FLIMSY3"))) {
-                if (has_trait("FASTHEALER") || has_trait("MET_RAT")) {
-                    heal_chance += 100;
-                } else if (has_trait("FASTHEALER2")) {
-                    heal_chance += 150;
-                } else if (has_trait("REGEN")) {
-                    heal_chance += 200;
-                } else if (has_trait("SLOWHEALER")) {
-                    heal_chance += 13;
-                } else {
-                    heal_chance += 25;
-                }
-                healall(heal_chance / 100);
-                heal_chance %= 100;
-                if (x_in_y(heal_chance, 100)) {
-                    healall(1);
-                }
-            }
-
-            if (fatigue <= 0 && fatigue > -20) {
-                fatigue = -25;
-                add_msg_if_player(m_good, _("You feel well rested."));
-                it.set_duration(dice(3, 100));
-            }
+        if( intense < 24 ) {
+            it.mod_intensity(1);
+        } else if( intense < 1 ) {
+            it.set_intensity(1);
         }
 
-        if (calendar::once_every(MINUTES(10)) && !has_bionic("bio_recycler") && !(get_hunger() < -60)) {
-            // Hunger and thirst advance more slowly while we sleep. This is the standard rate.
-            mod_hunger(-1);
-            thirst--;
+        if( fatigue < -25 && it.get_duration() > 30 ) {
+            it.set_duration(dice(3, 10));
         }
 
-        // Hunger and thirst advance *much* more slowly whilst we hibernate.
-        // (int (calendar::turn) % 50 would be zero burn.)
-        // Very Thirsty catch deliberately NOT applied here, to fend off Dehydration debuffs
-        // until the char wakes.  This was time-trial'd quite thoroughly,so kindly don't "rebalance"
-        // without a good explanation and taking a night to make sure it works
-        // with the extended sleep duration, OK?
-        if (calendar::once_every(MINUTES(7)) && !has_bionic("bio_recycler") && (get_hunger() < -60)) {
-            mod_hunger(-1);
-            thirst--;
+        if( fatigue <= 0 && fatigue > -20 ) {
+            fatigue = -25;
+            add_msg_if_player(m_good, _("You feel well rested."));
+            it.set_duration(dice(3, 100));
         }
 
-        if (calendar::once_every(MINUTES(10)) && has_trait("CHLOROMORPH") &&
-        g->is_in_sunlight(pos()) ) {
+        // TODO: Move this to update_needs when NPCs can mutate
+        if( calendar::once_every(MINUTES(10)) && has_trait("CHLOROMORPH") &&
+            g->is_in_sunlight(pos()) ) {
             // Hunger and thirst fall before your Chloromorphic physiology!
             if (get_hunger() >= -30) {
                 mod_hunger(-5);
@@ -7704,7 +7815,7 @@ void player::suffer()
             if (thirst > -20) {
                 thirst -= 2;
             }
-            mod_healthy_mod(10);
+            mod_healthy_mod(10, 50);
             // No losing oneself in the fertile embrace of rich
             // New England loam.  But it can be a near thing.
             if ( (one_in(int_cur)) && (focus_pool >= 25) ) {
@@ -7717,7 +7828,7 @@ void player::suffer()
             if (thirst > -20) {
                 thirst--;
             }
-            mod_healthy_mod(5);
+            mod_healthy_mod(5, 50);
         }
     }
 
@@ -8055,8 +8166,7 @@ void player::suffer()
     if (has_trait("VISCOUS") && !in_vehicle) {
         if (one_in(3)){
             g->m.add_field( pos(), fd_slime, 1, 0 );
-        }
-        else {
+        } else {
             g->m.add_field( pos(), fd_slime, 2, 0 );
         }
     }
@@ -8330,9 +8440,9 @@ void player::suffer()
         add_effect("shakes", 50);
     }
     if (has_bionic("bio_leaky") && one_in(500)) {
-        mod_healthy_mod(-50);
+        mod_healthy_mod(-50, -200);
     }
-    if (has_bionic("bio_sleepy") && one_in(500)) {
+    if (has_bionic("bio_sleepy") && one_in(500) && !in_sleep_state()) {
         fatigue++;
     }
     if (has_bionic("bio_itchy") && one_in(500) && !has_effect("formication")) {
@@ -8345,66 +8455,79 @@ void player::suffer()
     if (has_artifact_with(AEP_ATTENTION)) {
         add_effect("attention", 3);
     }
-
-    // check for limb mending every 1000 turns (~1.6 hours)
-    if(calendar::turn.get_turn() % 1000 == 0) {
-        mend();
-    }
 }
 
-void player::mend()
+void player::mend( int rate_multiplier )
 {
     // Wearing splints can slowly mend a broken limb back to 1 hp.
-    // 2 weeks is faster than a fracture would heal IRL,
-    // but 3 weeks average (a generous estimate) was tedious and no fun.
-    for(int i = 0; i < num_hp_parts; i++) {
-        int broken = (hp_cur[i] <= 0);
-        if(broken) {
-            double mending_odds = 200.0; // 2 weeks, on average. (~20160 minutes / 100 minutes)
-            double healing_factor = 1.0;
-            if (has_trait("REGEN_LIZ")) {
-                healing_factor = 20.0;
-            }
-            // Studies have shown that alcohol and tobacco use delay fracture healing time
-            if(has_effect("cig") || addiction_level(ADD_CIG)) {
-                healing_factor *= 0.5;
-            }
-            if(has_effect("drunk") || addiction_level(ADD_ALCOHOL)) {
-                healing_factor *= 0.5;
+    bool any_broken = false;
+    for( int i = 0; i < num_hp_parts; i++ ) {
+        if( hp_cur[i] <= 0 ) {
+            any_broken = true;
+            break;
+        }
+    }
+
+    if( !any_broken ) {
+        return;
+    }
+
+    const double mending_odds = 500.0; // ~50% to mend in a week
+    double healing_factor = 1.0;
+    // Studies have shown that alcohol and tobacco use delay fracture healing time
+    if( has_effect("cig") || addiction_level(ADD_CIG) > 0 ) {
+        healing_factor *= 0.5;
+    }
+    if( has_effect("drunk") || addiction_level(ADD_ALCOHOL) > 0 ) {
+        healing_factor *= 0.5;
+    }
+
+    // Bed rest speeds up mending
+    if( has_effect("sleep") ) {
+        healing_factor *= 4.0;
+    } else if( fatigue > DEAD_TIRED ) {
+        // but being dead tired does not...
+        healing_factor *= 0.75;
+    }
+
+    // Being healthy helps.
+    if( get_healthy() > 0 ) {
+        healing_factor *= 2.0;
+    }
+
+    // And being well fed...
+    if( get_hunger() < 0 ) {
+        healing_factor *= 2.0;
+    }
+
+    if(thirst < 0) {
+        healing_factor *= 2.0;
+    }
+
+    // Mutagenic healing factor!
+    if( has_trait("REGEN") ) {
+        healing_factor *= 16.0;
+    } else if( has_trait("FASTHEALER2") ) {
+        healing_factor *= 4.0;
+    } else if( has_trait("FASTHEALER") ) {
+        healing_factor *= 2.0;
+    } else if( has_trait("SLOWHEALER") ) {
+        healing_factor *= 0.5;
+    }
+
+    if( has_trait("REGEN_LIZ") ) {
+        healing_factor = 20.0;
+    }
+
+    for( int iter = 0; iter < rate_multiplier; iter++ ) {
+        bool any_broken = false;
+        for( int i = 0; i < num_hp_parts; i++ ) {
+            const bool broken = (hp_cur[i] <= 0);
+            if( !broken ) {
+                continue;
             }
 
-            // Bed rest speeds up mending
-            if(has_effect("sleep")) {
-                healing_factor *= 4.0;
-            } else if(fatigue > DEAD_TIRED) {
-            // but being dead tired does not...
-                healing_factor *= 0.75;
-            }
-
-            // Being healthy helps.
-            if(get_healthy() > 0) {
-                healing_factor *= 2.0;
-            }
-
-            // And being well fed...
-            if(get_hunger() < 0) {
-                healing_factor *= 2.0;
-            }
-
-            if(thirst < 0) {
-                healing_factor *= 2.0;
-            }
-
-            // Mutagenic healing factor!
-            if(has_trait("REGEN")) {
-                healing_factor *= 16.0;
-            } else if (has_trait("FASTHEALER2")) {
-                healing_factor *= 4.0;
-            } else if (has_trait("FASTHEALER")) {
-                healing_factor *= 2.0;
-            } else if (has_trait("SLOWHEALER")) {
-                healing_factor *= 0.5;
-            }
+            any_broken = true;
 
             bool mended = false;
             body_part part;
@@ -8412,49 +8535,41 @@ void player::mend()
                 case hp_arm_r:
                     part = bp_arm_r;
                     mended = is_wearing_on_bp("arm_splint", bp_arm_r) && x_in_y(healing_factor, mending_odds);
-                    if (mended == false && has_trait("REGEN_LIZ")) {
-                        healing_factor *= 0.2; // Splints aren't *strictly* necessary for your anatomy
-                        mended = x_in_y(healing_factor, mending_odds);
-                    }
                     break;
                 case hp_arm_l:
                     part = bp_arm_l;
                     mended = is_wearing_on_bp("arm_splint", bp_arm_l) && x_in_y(healing_factor, mending_odds);
-                    if (mended == false && has_trait("REGEN_LIZ")) {
-                        healing_factor *= 0.2; // But without them, you're looking at a much longer recovery.
-                        mended = x_in_y(healing_factor, mending_odds);
-                    }
                     break;
                 case hp_leg_r:
                     part = bp_leg_r;
                     mended = is_wearing_on_bp("leg_splint", bp_leg_r) && x_in_y(healing_factor, mending_odds);
-                    if (mended == false && has_trait("REGEN_LIZ")) {
-                        healing_factor *= 0.2;
-                        mended = x_in_y(healing_factor, mending_odds);
-                    }
                     break;
                 case hp_leg_l:
                     part = bp_leg_l;
                     mended = is_wearing_on_bp("leg_splint", bp_leg_l) && x_in_y(healing_factor, mending_odds);
-                    if (mended == false && has_trait("REGEN_LIZ")) {
-                        healing_factor *= 0.2;
-                        mended = x_in_y(healing_factor, mending_odds);
-                    }
                     break;
                 default:
                     // No mending for you!
-                    break;
+                    continue;
             }
-            if(mended) {
+            if( mended == false && has_trait("REGEN_LIZ") ) {
+                // Splints aren't *strictly* necessary for your anatomy
+                mended = x_in_y(healing_factor * 0.2, mending_odds);
+            }
+            if( mended ) {
                 hp_cur[i] = 1;
                 //~ %s is bodypart
-                add_memorial_log(pgettext("memorial_male", "Broken %s began to mend."),
+                add_memorial_log( pgettext("memorial_male", "Broken %s began to mend."),
                                   pgettext("memorial_female", "Broken %s began to mend."),
-                                  body_part_name(part).c_str());
+                                  body_part_name(part).c_str() );
                 //~ %s is bodypart
-                add_msg(m_good, _("Your %s has started to mend!"),
-                body_part_name(part).c_str());
+                add_msg_if_player( m_good, _("Your %s has started to mend!"),
+                    body_part_name(part).c_str());
             }
+        }
+
+        if( !any_broken ) {
+            return;
         }
     }
 }
@@ -8701,18 +8816,6 @@ void player::update_body_wetness( const w_point &weather )
     // TODO: Make clothing slow down drying
 }
 
-double player::convert_weight(int weight) const
-{
-    double ret;
-    ret = double(weight);
-    if (OPTIONS["USE_METRIC_WEIGHTS"] == "kg") {
-        ret /= 1000;
-    } else {
-        ret /= 453.6;
-    }
-    return ret;
-}
-
 int player::net_morale(morale_point effect) const
 {
     double bonus = effect.bonus;
@@ -8721,7 +8824,7 @@ int player::net_morale(morale_point effect) const
     // reduce it appropriately.
     if (effect.age > effect.decay_start)
     {
-        bonus *= logistic_range(effect.decay_start,
+        bonus *= logarithmic_range(effect.decay_start,
                                 effect.duration, effect.age);
     }
 
@@ -8785,7 +8888,7 @@ void player::add_morale(morale_type type, int bonus, int max_bonus,
 
             // Scale the morale bonus to its current level.
             if (i.age > i.decay_start) {
-                i.bonus *= logistic_range(i.decay_start, i.duration, i.age);
+                i.bonus *= logarithmic_range(i.decay_start, i.duration, i.age);
             }
 
             // If we're capping the existing effect, we can use the new duration
@@ -9038,15 +9141,15 @@ std::vector<item *> player::inv_dump()
     return ret;
 }
 
-std::list<item> player::use_amount(itype_id it, int _quantity, bool use_container)
+std::list<item> player::use_amount(itype_id it, int _quantity)
 {
     std::list<item> ret;
     long quantity = _quantity; // Don't wanny change the function signature right now
-    if (weapon.use_amount(it, quantity, use_container, ret)) {
+    if (weapon.use_amount(it, quantity, ret)) {
         remove_weapon();
     }
     for( auto a = worn.begin(); a != worn.end() && quantity > 0; ) {
-        if( a->use_amount( it, quantity, use_container, ret ) ) {
+        if( a->use_amount( it, quantity, ret ) ) {
             a = worn.erase( a );
         } else {
             ++a;
@@ -9055,7 +9158,7 @@ std::list<item> player::use_amount(itype_id it, int _quantity, bool use_containe
     if (quantity <= 0) {
         return ret;
     }
-    std::list<item> tmp = inv.use_amount(it, quantity, use_container);
+    std::list<item> tmp = inv.use_amount(it, quantity);
     ret.splice(ret.end(), tmp);
     return ret;
 }
@@ -9277,9 +9380,12 @@ std::list<item> player::use_charges(itype_id it, long quantity)
 int player::butcher_factor() const
 {
     int result = INT_MIN;
-    if (has_bionic("bio_tools")) {
+    if( has_bionic( "bio_tools" ) ) {
         item tmp( "toolset", 0 );
-        result = tmp.butcher_factor();
+        result = std::max( result, tmp.butcher_factor() );
+    }
+    if( has_bionic( "bio_razor" ) ) {
+        result = std::max( result, 8 );
     }
     result = std::max( result, inv.butcher_factor() );
     result = std::max( result, weapon.butcher_factor() );
@@ -10084,7 +10190,7 @@ void player::consume_effects(item *eaten, const it_comest *comest, bool rotten)
         hunger_factor *= rng_float(0, 1);
         // and takes a health penalty if they aren't adapted
         if (!has_trait("SAPROVORE") && !has_bionic("bio_digestion")) {
-            mod_healthy_mod(-30);
+            mod_healthy_mod(-30, -200);
         }
     }
 
@@ -10097,8 +10203,9 @@ void player::consume_effects(item *eaten, const it_comest *comest, bool rotten)
     thirst -= comest->quench * factor;
     mod_stomach_food(nutrition_for(comest) * factor * hunger_factor);
     mod_stomach_water(comest->quench * factor);
-    if (unhealthy_allowed || comest->healthy > 0) {
-        mod_healthy_mod(comest->healthy);
+    if( unhealthy_allowed || comest->healthy > 0 ) {
+        // Effectively no upper cap on healthy food, moderate cap on unhealthy food.
+        mod_healthy_mod( comest->healthy, (comest->healthy >= 0) ? 200 : -50 );
     }
 
     if (comest->stim != 0) {
@@ -10131,16 +10238,16 @@ void player::consume_effects(item *eaten, const it_comest *comest, bool rotten)
             add_morale(MORALE_FOOD_GOOD, fun * 3, fun * 6, 60, 30, false, comest);
         }
         if (has_trait("GOURMAND") && !(has_active_mutation("HIBERNATE"))) {
-        if ((nutrition_for(comest) > 0 && get_hunger() < -60) || (comest->quench > 0 && thirst < -60)) {
-            add_msg_if_player(_("You can't finish it all!"));
+            if ((nutrition_for(comest) > 0 && get_hunger() < -60) || (comest->quench > 0 && thirst < -60)) {
+                add_msg_if_player(_("You can't finish it all!"));
+            }
+            if (get_hunger() < -60) {
+                set_hunger(-60);
+            }
+            if (thirst < -60) {
+                thirst = -60;
+            }
         }
-        if (get_hunger() < -60) {
-            set_hunger(-60);
-        }
-        if (thirst < -60) {
-            thirst = -60;
-        }
-    }
     } if (has_active_mutation("HIBERNATE")) {
          if ((nutrition_for(comest) > 0 && get_hunger() < -60) || (comest->quench > 0 && thirst < -60)) { //Tell the player what's going on
             add_msg_if_player(_("You gorge yourself, preparing to hibernate."));
@@ -10215,9 +10322,27 @@ void player::rooted()
             if (thirst > -20) {
                 thirst--;
             }
-            mod_healthy_mod(5);
+            mod_healthy_mod(5, 50);
         }
     }
+}
+
+bool player::can_wield( const item &it, bool interactive ) const
+{
+    if( it.is_two_handed(*this) && !has_two_arms() ) {
+        if( it.has_flag("ALWAYS_TWOHAND") ) {
+            if( interactive ) {
+                add_msg( m_info, _("The %s can't be wielded with only one arm."), it.tname().c_str() );
+            }
+        } else {
+            if( interactive ) {
+                add_msg( m_info, _("You are too weak to wield %s with only one arm."),
+                         it.tname().c_str() );
+            }
+        }
+        return false;
+    }
+    return true;
 }
 
 bool player::wield(item* it, bool autodrop)
@@ -10254,45 +10379,48 @@ bool player::wield(item* it, bool autodrop)
         return false;
     }
 
-    if ( it->is_two_handed(*this) && !has_two_arms() ) {
-        if (it->has_flag("ALWAYS_TWOHAND")) {
-            add_msg(m_info, _("The %s can't be wielded with only one arm."),
-                it->tname().c_str());
-                return false;
-        } else {
-        add_msg(m_info, _("You are too weak to wield %s with only one arm."),
-                it->tname().c_str()); 
-                return false;
-        }
-    }
-    
-    if (!is_armed()) {
-        weapon = i_rem(it);
-        moves -= 30;
-        weapon.on_wield( *this );
-        last_item = itype_id(weapon.type->id);
-        return true;
-    } else if (volume_carried() + weapon.volume() - it->volume() < volume_capacity()) {
-        item tmpweap = remove_weapon();
-        weapon = i_rem(it);
-        inv.add_item_keep_invlet(tmpweap);
-        inv.unsort();
-        moves -= 45;
-        weapon.on_wield( *this );
-        last_item = itype_id(weapon.type->id);
-        return true;
-    } else if (query_yn(_("No space in inventory for your %s.  Drop it?"),
-                        weapon.tname().c_str())) {
-        g->m.add_item_or_charges(posx(), posy(), remove_weapon());
-        weapon = i_rem(it);
-        inv.unsort();
-        moves -= 30;
-        weapon.on_wield( *this );
-        last_item = itype_id(weapon.type->id);
-        return true;
+    if( !can_wield( *it ) ) {
+        return false;
     }
 
-    return false;
+    int mv = 0;
+
+    if( is_armed() ) {
+        if( volume_carried() + weapon.volume() - it->volume() < volume_capacity() ) {
+            inv.add_item_keep_invlet( remove_weapon() );
+            mv += 15;
+        } else if( query_yn(_("No space in inventory for your %s.  Drop it?"),
+                            weapon.tname().c_str() ) ) {
+            g->m.add_item_or_charges( posx(), posy(), remove_weapon() );
+        } else {
+            return false;
+        }
+        inv.unsort();
+    }
+
+    // Wielding from inventory is relatively slow and does not improve with increasing weapon skill.
+    // Worn items (including guns with shoulder straps) are faster but still slower
+    // than a skilled player with a holster.
+    // There is an additional penalty when wielding items from the inventory whilst currently grabbed.
+
+    if( is_wearing_item( *it ) ) {
+        it->on_takeoff( *this );
+        mv += it->volume() * 10;
+    } else {
+        mv += it->volume() * 20;
+        if( has_effect( "grabbed" ) ) {
+            mv *= 2;
+        }
+    }
+
+    moves -= mv;
+
+    weapon = i_rem( it );
+    last_item = itype_id( weapon.type->id );
+
+    weapon.on_wield( *this, mv );
+
+    return true;
 }
 
 // ids of martial art styles that are available with the bio_cqb bionic.
@@ -10512,6 +10640,20 @@ hint_rating player::rate_action_wear( const item &it ) const
 
     return HINT_GOOD;
 }
+
+
+hint_rating player::rate_action_change_side( const item &it ) const {
+   if (!is_wearing_item(it)) {
+      return HINT_IFFY;
+   }
+
+    if (!it.is_sided()) {
+        return HINT_CANT;
+    }
+
+    return HINT_GOOD;
+}
+
 
 bool player::wear(int inventory_position, bool interactive)
 {
@@ -10856,16 +10998,48 @@ bool player::wear_item( const item &to_wear, bool interactive )
     return true;
 }
 
+bool player::change_side (item *target, bool interactive)
+{
+    return change_side(get_item_position(target), interactive);
+}
+
+bool player::change_side (int pos, bool interactive) {
+    int idx = worn_position_to_index(pos);
+    if (static_cast<size_t>(idx) >= worn.size()) {
+        if (interactive) {
+            add_msg_if_player(m_info, _("You are not wearing that item."));
+        }
+        return false;
+    }
+
+    auto it = worn.begin();
+    std::advance(it, idx);
+
+    if (!it->is_sided()) {
+        if (interactive) {
+            add_msg_if_player(m_info, _("You cannot swap the side on which your %s is worn."), it->tname().c_str());
+        }
+        return false;
+    }
+
+    it->set_side(it->get_side() == LEFT ? RIGHT : LEFT);
+
+    if (interactive) {
+        add_msg_if_player(m_info, _("You swap the side on which your %s is worn."), it->tname().c_str());
+        moves -= 250;
+    }
+
+    return true;
+}
+
 hint_rating player::rate_action_takeoff( const item &it ) const
 {
     if (!it.is_armor()) {
         return HINT_CANT;
     }
 
-    for (auto &i : worn) {
-        if (i.invlet == it.invlet) { //surely there must be an easier way to do this?
-            return HINT_GOOD;
-        }
+    if (is_wearing_item(it)) {
+      return HINT_GOOD;
     }
 
     return HINT_IFFY;
@@ -10908,6 +11082,8 @@ bool player::takeoff(int inventory_position, bool autodrop, std::vector<item> *i
                 return false;
             }
 
+            other_armor.on_takeoff(*this);
+
             if( items != nullptr ) {
                 items->push_back( other_armor );
             } else {
@@ -10922,13 +11098,15 @@ bool player::takeoff(int inventory_position, bool autodrop, std::vector<item> *i
     }
 
     if( items != nullptr ) {
+        w.on_takeoff(*this);
         items->push_back( w );
         taken_off = true;
     } else if (autodrop || volume_capacity() - w.get_storage() >= volume_carried() + w.volume()) {
+        w.on_takeoff(*this);
         inv.add_item_keep_invlet(w);
         taken_off = true;
-    } else if (query_yn(_("No room in inventory for your %s.  Drop it?"),
-            w.tname().c_str())) {
+    } else if (query_yn(_("No room in inventory for your %s.  Drop it?"), w.tname().c_str())) {
+        w.on_takeoff(*this);
         g->m.add_item_or_charges( pos(), w );
         taken_off = true;
     } else {
@@ -11083,21 +11261,22 @@ bool player::has_enough_charges( const item &it, bool show_msg ) const
 
 bool player::consume_charges(item *used, long charges_used)
 {
+    // Non-tools can use charges too - when they're comestibles
     const auto tool = dynamic_cast<const it_tool*>(used->type);
-    if( tool == nullptr || charges_used <= 0 ) {
-        // Non-tools don't use charges
-        // Canceled or not used up or whatever
+    const auto comest = dynamic_cast<const it_comest*>(used->type);
+    if( charges_used <= 0 || (tool == nullptr && comest == nullptr) ) {
         return false;
     }
 
-    if( tool->charges_per_use <= 0 ) {
+    if( tool != nullptr && tool->charges_per_use <= 0 ) {
         // An item that doesn't normally expend charges is destroyed instead.
         /* We can't be certain the item is still in the same position,
          * as other items may have been consumed as well, so remove
          * the item directly instead of by its position. */
-        i_rem(used);
+        i_rem( used );
         return true;
     }
+
     if( used->has_flag( "USE_UPS" ) ) {
         use_charges( "UPS", charges_used );
         //Replace 1 with charges it needs to use.
@@ -11107,6 +11286,12 @@ bool player::consume_charges(item *used, long charges_used)
     } else {
         used->charges -= std::min( used->charges, charges_used );
     }
+
+    if( comest != nullptr && used->charges <= 0 ) {
+        i_rem( used );
+        return true;
+    }
+
     // We may have fiddled with the state of the item in the iuse method,
     // so restack to sort things out.
     inv.restack();
@@ -11316,12 +11501,17 @@ activate your weapon."), gun->tname().c_str(), _(mod->location.c_str()));
 
 bool player::invoke_item( item* used )
 {
+    return invoke_item( used, pos() );
+}
+
+bool player::invoke_item( item* used, const tripoint &pt )
+{
     if( !has_enough_charges( *used, true ) ) {
         return false;
     }
 
     if( used->type->use_methods.size() < 2 ) {
-        const long charges_used = used->type->invoke( this, used, pos3() );
+        const long charges_used = used->type->invoke( this, used, pt );
         return consume_charges( used, charges_used );
     }
 
@@ -11334,7 +11524,7 @@ bool player::invoke_item( item* used )
     umenu.text = string_format( _("What to do with your %s?"), used->tname().c_str() );
     int num_total = 0;
     for( const auto &um : used->type->use_methods ) {
-        bool usable = um.can_call( this, used, false, pos3() );
+        bool usable = um.can_call( this, used, false, pt );
         const std::string &aname = um.get_name();
         umenu.addentry( num_total, usable, MENU_AUTOASSIGN, aname );
         num_total++;
@@ -11348,11 +11538,16 @@ bool player::invoke_item( item* used )
     }
 
     const std::string &method = used->type->use_methods[choice].get_type_name();
-    long charges_used = used->type->invoke( this, used, pos3(), method );
+    long charges_used = used->type->invoke( this, used, pt, method );
     return consume_charges( used, charges_used );
 }
 
 bool player::invoke_item( item* used, const std::string &method )
+{
+    return invoke_item( used, method, pos() );
+}
+
+bool player::invoke_item( item* used, const std::string &method, const tripoint &pt )
 {
     if( !has_enough_charges( *used, true ) ) {
         return false;
@@ -11369,7 +11564,7 @@ bool player::invoke_item( item* used, const std::string &method )
         return consume_item( *used );
     }
 
-    long charges_used = actually_used->type->invoke( this, actually_used, pos3(), method );
+    long charges_used = actually_used->type->invoke( this, actually_used, pt, method );
     return consume_charges( actually_used, charges_used );
 }
 
@@ -11443,20 +11638,20 @@ hint_rating player::rate_action_read( const item &it ) const
     return HINT_GOOD;
 }
 
-void player::read(int inventory_position)
+bool player::read(int inventory_position)
 {
     // Find the object
     item* it = &i_at(inventory_position);
 
     if (it == NULL || it->is_null()) {
         add_msg(m_info, _("You do not have that item."));
-        return;
+        return false;
     }
 
     if (!it->is_book()) {
         add_msg(m_info, _("Your %s is not good reading material."),
         it->tname().c_str());
-        return;
+        return false;
     }
 
     //Check for NPCs to read for you, negates Illiterate and Far Sighted
@@ -11471,14 +11666,14 @@ void player::read(int inventory_position)
     vehicle *veh = g->m.veh_at( pos() );
     if( veh != nullptr && veh->player_in_control(*this) ) {
         add_msg(m_info, _("It's a bad idea to read while driving!"));
-        return;
+        return false;
     }
 
     // Check if reading is okay
     // check for light level
     if (fine_detail_vision_mod() > 4) {
         add_msg(m_info, _("You can't see to read!"));
-        return;
+        return false;
     }
 
     // check for traits
@@ -11488,7 +11683,7 @@ void player::read(int inventory_position)
         if (assistants != 0){
             add_msg(m_info, _("A fellow survivor reads aloud to you..."));
         } else {
-            return;
+            return false;
         }
     }
 
@@ -11502,7 +11697,7 @@ void player::read(int inventory_position)
         if (assistants != 0){
             add_msg(m_info, _("A fellow survivor reads aloud to you..."));
         } else {
-            return;
+            return false;
         }
     }
 
@@ -11523,7 +11718,7 @@ void player::read(int inventory_position)
         // Never trigger studying when skimming the book.
         activity.values.push_back(0);
         moves = 0;
-        return;
+        return true;
     }
 
 
@@ -11534,17 +11729,17 @@ void player::read(int inventory_position)
         if (it->typeId() == "guidebook") {
             add_msg(m_info, get_hint().c_str());
             moves -= 100;
-            return;
+            return false;
         }
         // otherwise do nothing as there's no associated skill
     } else if (morale_level() < MIN_MORALE_READ && tmp->fun <= 0) { // See morale.h
         add_msg(m_info, _("What's the point of studying?  (Your morale is too low!)"));
-        return;
+        return false;
     } else if( skill_level < tmp->req ) {
         add_msg(_("The %s-related jargon flies over your head!"),
                    skill.obj().name().c_str());
         if (tmp->recipes.empty()) {
-            return;
+            return false;
         } else {
             add_msg(m_info, _("But you might be able to learn a recipe or two."));
         }
@@ -11553,7 +11748,7 @@ void player::read(int inventory_position)
                          _("It would be fun, but your %s skill won't be improved.  Read anyway?") :
                          _("Your %s skill won't be improved.  Read anyway?"),
                          skill.obj().name().c_str())) {
-        return;
+        return false;
     } else if( !continuous &&
                  ( ( skill_level.can_train() && skill_level < tmp->level ) ||
                      can_study_recipe(*it->type) ) &&
@@ -11616,6 +11811,8 @@ void player::read(int inventory_position)
     } else {
         add_morale(MORALE_BOOK, 0, tmp->fun * 15, minutes + 30, minutes, false, it->type);
     }
+
+    return true;
 }
 
 void player::do_read( item *book )
@@ -11770,7 +11967,7 @@ void player::do_read( item *book )
                 if (thirst > -20) {
                     thirst -= root_factor * foot_factor;
                 }
-                mod_healthy_mod(root_factor * foot_factor);
+                mod_healthy_mod(root_factor * foot_factor, 50);
             }
             if (activity.type != ACT_NULL) {
                 return;
@@ -11815,7 +12012,7 @@ void player::do_read( item *book )
             if (thirst > -20) {
                 thirst -= root_factor * foot_factor;
             }
-            mod_healthy_mod(root_factor * foot_factor);
+            mod_healthy_mod(root_factor * foot_factor, 50);
         }
         if (activity.type != ACT_NULL) {
             return;
@@ -12093,9 +12290,13 @@ int player::sleep_spot( const tripoint &p ) const
 
 bool player::can_sleep()
 {
+    if( has_effect( "meth" ) ) {
+        // Sleep ain't happening until that meth wears off completely.
+        return false;
+    }
     int sleepy = sleep_spot( pos3() );
-    sleepy += rng(-8, 8);
-    if (sleepy > 0) {
+    sleepy += rng( -8, 8 );
+    if( sleepy > 0 ) {
         return true;
     }
     return false;
@@ -12354,6 +12555,12 @@ int player::encumb( body_part bp ) const
     return encumb( bp, iLayers, iArmorEnc, ret_null );
 }
 
+int player::encumb( body_part bp, const item &new_item ) const {
+    int iArmorEnc = 0;
+    double iLayers = 0;
+    return encumb( bp, iLayers, iArmorEnc, new_item );
+}
+
 int player::encumb( body_part bp, double &layers, int &armorenc ) const
 {
     return encumb( bp, layers, armorenc, ret_null );
@@ -12575,6 +12782,13 @@ bool player::armor_absorb(damage_unit& du, item& armor) {
     // Amount of damage mitigated
     const float mitigation = std::min(effective_resist, du.amount);
     du.amount -= mitigation; // mitigate the damage first
+
+    if( mitigation <= 0 ) {
+        // If it doesn't protect from it at all, it's some weird type,
+        // like electricity (which should not damage clothing)
+        // or fire (for which resistance isn't implemented yet so it would slice power armor)
+        return false;
+    }
 
     // Scale chance of article taking damage based on the number of parts it covers.
     // This represents large articles being able to take more punishment
@@ -12879,6 +13093,21 @@ bool player::wearing_something_on(body_part bp) const
     return false;
 }
 
+
+bool player::natural_attack_restricted_on( body_part bp ) const
+{
+    for( auto &i : worn ) {
+        if( i.covers( bp ) && !i.has_flag( "ALLOWS_NATURAL_ATTACKS" ) ) {
+            return true;
+        }
+    }
+    return false;
+}
+
+bool player::is_wearing_item (const item& it) const {
+   return std::any_of(worn.begin(), worn.end(), [&](const item& elem) { return &elem == &it; });
+}
+
 bool player::is_wearing_shoes(std::string side) const
 {
     bool left = true;
@@ -13083,27 +13312,30 @@ void player::practice( const skill_id &s, int amount, int cap )
     practice( &s.obj(), amount, cap );
 }
 
-bool player::knows_recipe(const recipe *rec) const
+bool player::has_recipe_requirements( const recipe *rec ) const
 {
-    // do we know the recipe by virtue of it being autolearned?
-    if( rec->autolearn ) {
-        // Can the skill being trained can handle the difficulty of the task
-        bool meets_requirements = false;
-        if( !rec->skill_used || get_skill_level(rec->skill_used) >= rec->difficulty){
-            meets_requirements = true;
-            //If there are required skills, insure their requirements are met, or we can't craft
-            if(!rec->required_skills.empty()){
-                for( auto iter = rec->required_skills.cbegin();
-                     iter != rec->required_skills.cend(); ++iter ){
-                    if( get_skill_level(iter->first) < iter->second ){
-                        meets_requirements = false;
-                    }
+    bool meets_requirements = false;
+    if( !rec->skill_used || get_skill_level( rec->skill_used) >= rec->difficulty ) {
+        meets_requirements = true;
+        // If there are required skills, insure their requirements are met, or we can't craft.
+        if( !rec->required_skills.empty() ) {
+            for( auto iter = rec->required_skills.cbegin();
+                 iter != rec->required_skills.cend(); ++iter ) {
+                if( get_skill_level(iter->first) < iter->second ) {
+                    meets_requirements = false;
                 }
             }
         }
-        if(meets_requirements){
-            return true;
-        }
+    }
+
+    return meets_requirements;
+}
+
+bool player::knows_recipe(const recipe *rec) const
+{
+    // do we know the recipe by virtue of it being autolearned?
+    if( rec->autolearn && has_recipe_requirements( rec ) ) {
+        return true;
     }
 
     if( learned_recipes.find( rec->ident ) != learned_recipes.end() ) {
@@ -13241,17 +13473,60 @@ std::string player::weapname(bool charges) const
     }
 }
 
-void player::wield_contents(item *container, bool force_invlet,
-                            const skill_id &/*skill_used*/, int /*volume_factor*/)
+bool player::wield_contents(item *container, int pos, int factor)
 {
-    if(!(container->contents.empty())) {
-        item& weap = container->contents[0];
-        inv.assign_empty_invlet(weap, force_invlet);
-        wield(&(i_add(weap)));
-        container->contents.erase(container->contents.begin());
-    } else {
-        debugmsg("Tried to wield contents of empty container (player::wield_contents)");
+    // if index not specified and container has multiple items then ask the player to choose one
+    if( pos < 0 ) {
+        std::vector<std::string> opts;
+        std::transform( container->contents.begin(), container->contents.end(),
+                        std::back_inserter( opts ), []( const item& elem ) {
+                            return elem.display_name();
+                        } );
+        if( opts.size() > 1 ) {
+            pos = ( uimenu( false, _("Wield what?"), opts ) ) - 1;
+        } else {
+            pos = 0;
+        }
     }
+
+    if( pos >= static_cast<int>(container->contents.size() ) ) {
+        debugmsg( "Tried to wield non-existent item from container (player::wield_contents)" );
+        return false;
+    }
+
+    if( !can_wield( container->contents[pos] ) ) {
+        return false;
+    }
+
+    int mv = 0;
+
+    if( is_armed() ) {
+        if( volume_carried() + weapon.volume() - container->contents[pos].volume() <
+            volume_capacity() ) {
+            inv.add_item_keep_invlet( remove_weapon() );
+            mv += 15;
+        } else if( query_yn( _("No space in inventory for your %s.  Drop it?"),
+                             weapon.tname().c_str() ) ) {
+            g->m.add_item_or_charges( posx(), posy(), remove_weapon() );
+        } else {
+            return false;
+        }
+        inv.unsort();
+    }
+
+    weapon = container->contents[pos];
+    inv.assign_empty_invlet( weapon, true );
+    last_item = itype_id( weapon.type->id );
+    container->contents.erase( container->contents.begin() + pos );
+
+    int lvl = get_skill_level( weapon.is_gun() ? weapon.gun_skill() : weapon.weap_skill() );
+
+    mv += (weapon.volume() * factor) / std::max( lvl, 1 );
+    moves -= mv;
+
+    weapon.on_wield( *this, mv );
+
+    return true;
 }
 
 void player::store(item* container, item* put, const skill_id &skill_used, int volume_factor)
@@ -13392,48 +13667,6 @@ int player::climbing_cost( const tripoint &from, const tripoint &to ) const
 
     return 50 + diff * 100;
     // TODO: All sorts of mutations, equipment weight etc.
-}
-
-// --- Library functions ---
-// This stuff could be moved elsewhere, but there
-// doesn't seem to be a good place to put it right now.
-
-// Basic logistic function.
-double player::logistic(double t) const
-{
-    return 1 / (1 + exp(-t));
-}
-
-// Logistic curve [-6,6], flipped and scaled to
-// range from 1 to 0 as pos goes from min to max.
-double player::logistic_range(int min, int max, int pos) const
-{
-    const double LOGI_CUTOFF = 4;
-    const double LOGI_MIN = logistic(-LOGI_CUTOFF);
-    const double LOGI_MAX = logistic(+LOGI_CUTOFF);
-    const double LOGI_RANGE = LOGI_MAX - LOGI_MIN;
-    // Anything beyond [min,max] gets clamped.
-    if (pos < min)
-    {
-        return 1.0;
-    }
-    else if (pos > max)
-    {
-        return 0.0;
-    }
-
-    // Normalize the pos to [0,1]
-    double range = max - min;
-    double unit_pos = (pos - min) / range;
-
-    // Scale and flip it to [+LOGI_CUTOFF,-LOGI_CUTOFF]
-    double scaled_pos = LOGI_CUTOFF - 2 * LOGI_CUTOFF * unit_pos;
-
-    // Get the raw logistic value.
-    double raw_logistic = logistic(scaled_pos);
-
-    // Scale the output to [0,1]
-    return (raw_logistic - LOGI_MIN) / LOGI_RANGE;
 }
 
 void player::environmental_revert_effect()
@@ -13688,32 +13921,21 @@ bool player::sees( const Creature &critter ) const
     return Creature::sees( critter );
 }
 
-bool player::can_pickup(bool print_msg) const
+bool player::has_container_for( const item &newit ) const
 {
-    if (weapon.has_flag("NO_PICKUP")) {
-        if( print_msg && is_player() ) {
-            add_msg(m_info, _("You cannot pick up items with your %s!"), weapon.tname().c_str());
-        }
-        return false;
-    }
-    return true;
-}
-
-bool player::has_container_for(const item &newit) const
-{
-    if (!newit.made_of(LIQUID)) {
+    if( !newit.made_of( LIQUID ) ) {
         // Currently only liquids need a container
         return true;
     }
     unsigned charges = newit.charges;
-    charges -= weapon.get_remaining_capacity_for_liquid(newit);
+    charges -= weapon.get_remaining_capacity_for_liquid( newit );
     for( auto& w : worn ) {
-        charges -= w.get_remaining_capacity_for_liquid(newit);
+        charges -= w.get_remaining_capacity_for_liquid( newit );
     }
-    for (size_t i = 0; i < inv.size() && charges > 0; i++) {
-        const std::list<item>&items = inv.const_stack(i);
+    for( size_t i = 0; i < inv.size() && charges > 0; i++ ) {
+        const std::list<item>&items = inv.const_stack( i );
         // Assume that each item in the stack has the same remaining capacity
-        charges -= items.front().get_remaining_capacity_for_liquid(newit) * items.size();
+        charges -= items.front().get_remaining_capacity_for_liquid( newit ) * items.size();
     }
     return charges <= 0;
 }
@@ -14175,3 +14397,4 @@ void player::print_encumbrance(WINDOW *win, int min, int max, int line) const
         mvwprintz(win, i + 1 - min, getmaxx(win) - 6, bodytemp_color(i), out.c_str());
     }
 }
+

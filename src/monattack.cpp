@@ -26,6 +26,8 @@
 #include "mapdata.h"
 #include "mtype.h"
 #include "field.h"
+#include "map_iterator.h"
+#include <map>
 
 #include <algorithm>
 
@@ -219,6 +221,70 @@ void mattack::shriek(monster *z, int index)
     z->moves -= 240;   // It takes a while
     z->reset_special(index); // Reset timer
     sounds::sound(z->pos(), 50, _("a terrible shriek!"));
+}
+
+void mattack::shriek_alert(monster *z, int index)
+{
+    if( !z->can_act() || z->has_effect("shrieking")) {
+        return;
+    }
+
+    Creature *target = z->attack_target();
+
+
+
+    int dist;
+    if( target == nullptr || (dist = rl_dist( z->pos(), target->pos() )) > 15 ||
+        !z->sees( *target ) ) {
+        return;
+    }
+
+    if(g->u.sees( *z )){
+    add_msg( _("The %s begins shrieking!"), z->name().c_str());
+    }
+
+    z->moves -= 150;
+    z->reset_special(index); // Reset timer
+    sounds::sound(z->pos(), 120, _("a piercing wail!"));
+    z->add_effect("shrieking", 10);
+
+}
+
+void mattack::shriek_stun(monster *z, int index)
+{
+    if( !z->can_act() || !z->has_effect("shrieking")) {
+        return;
+    }
+
+    Creature *target = z->attack_target();
+    int dist;
+    if( target == nullptr || (dist = rl_dist( z->pos(), target->pos() )) > 7 ||
+        !z->sees( *target ) ) {
+        return;
+    }
+
+    z->reset_special(index); // Reset timer
+
+    int target_angle = g->m.coord_to_angle(z->posx(), z->posy(), target->posx(), target->posy());
+    int cone_angle = 20;
+    for( const tripoint &cone : g->m.points_in_radius( z->pos(), 4) ) {
+        int tile_angle = g->m.coord_to_angle(z->posx(), z->posy(), cone.x, cone.y);
+        int diff = abs( target_angle - tile_angle );
+        if( diff + cone_angle > 360 || diff > cone_angle || cone == z->pos()) {
+        continue; // skip the target, because it's outside cone or it's the source
+        }
+        // affect the target
+        g->m.bash( cone, 4, true ); //Small bash to every square, silent to not flood message box
+
+        Creature *target = g->critter_at( cone ); //If a monster is there, chance for stun
+        if ( target == nullptr ){
+            continue;
+        }
+        if ( one_in(dist/2) && !(target->is_immune_effect("deaf")) ){
+            target->add_effect("dazed", rng( 10 , 20 ), num_bp, false, rng( 1, ( 15 - dist ) / 3 ) );
+        }
+
+    }
 }
 
 void mattack::howl(monster *z, int index)
@@ -606,22 +672,45 @@ void mattack::resurrect(monster *z, int index)
         z->set_speed_base(std::min(z->type->speed, int(z->get_speed_base() + .1 * z->type->speed)));
     }
 
+    int raising_level = 0;
+    if( z->has_effect("raising") ) {
+        raising_level = z->get_effect_int("raising") * 40;
+    }
+
+    bool sees_necromancer = g->u.sees(*z);
     std::vector<std::pair<tripoint, item*>> corpses;
     // Find all corpses that we can see within 10 tiles.
     int range = 10;
     tripoint tmp = z->pos3();
     int x = tmp.x;
     int y = tmp.y;
+    bool found_eligible_corpse = false;
+    int lowest_raise_score = INT_MAX;
     for (int i = x - range; i < x + range; i++) {
         for (int j = y - range; j < y + range; j++) {
             tmp.x = i;
             tmp.y = j;
             if (g->is_empty(tmp) && g->m.sees(z->pos3(), tmp, -1)) {
                 for( auto &i : g->m.i_at( tmp ) ) {
-                    if( i.is_corpse() && i.get_mtype()->has_flag(MF_REVIVES) &&
-                          i.get_mtype()->in_species( ZOMBIE ) ) {
-                        corpses.push_back( std::make_pair(tmp, &i) );
-                        break;
+                    if( i.is_corpse() && i.active && i.get_mtype()->has_flag(MF_REVIVES) &&
+                        i.get_mtype()->in_species( ZOMBIE ) ) {
+                        found_eligible_corpse = true;
+                        if( raising_level == 0 ) {
+                            // Since we have a target, start charging to raise it.
+                            if( sees_necromancer ) {
+                                add_msg(m_info, _("The %s throws its arms wide."), z->name().c_str());
+                            }
+                            while( z->moves >= 0 ) {
+                                z->add_effect( "raising", 10 );
+                                z->moves -= 100;
+                            }
+                            return;
+                        }
+                        int raise_score = (i.damage + 1) * i.get_mtype()->hp;
+                        lowest_raise_score = std::min(lowest_raise_score, raise_score);
+                        if( raise_score <= raising_level ) {
+                            corpses.push_back( std::make_pair(tmp, &i) );
+                        }
                     }
                 }
             }
@@ -629,6 +718,19 @@ void mattack::resurrect(monster *z, int index)
     }
 
     if( corpses.empty() ) { // No nearby corpses
+        if( found_eligible_corpse ) {
+            // There was a corpse, but we haven't charged enough.
+            if( sees_necromancer && one_in(sqrt(lowest_raise_score / 30))) {
+                add_msg(m_info, _("The %s gesticulates wildly."), z->name().c_str());
+            }
+            while( z->moves >= 0 ) {
+                z->add_effect( "raising", 10 );
+                z->moves -= 100;
+                return;
+            }
+        } else if( raising_level != 0 ) {
+            z->remove_effect( "raising" );
+        }
         // Check to see if there are any nearby living zombies to see if we should get angry
         bool allies = false;
         for (size_t i = 0; i < g->num_zombies(); i++) {
@@ -661,17 +763,19 @@ void mattack::resurrect(monster *z, int index)
     }
 
     std::pair<tripoint, item*> raised = random_entry( corpses );
+    float corpse_damage = raised.second->damage;
     // Did we successfully raise something?
     if (g->revive_corpse(raised.first, *raised.second)) {
         g->m.i_rem( raised.first, raised.second );
-        bool sees_necromancer = g->u.sees(*z);
         if( sees_necromancer ) {
-            add_msg(m_info, _("The %s throws its arms wide."), z->name().c_str());
+            add_msg(m_info, _("The %s gestures at a nearby corpse."), z->name().c_str());
         }
+        z->remove_effect("raising");
         z->reset_special(index); // Reset timer
         z->moves -= z->type->speed; // Takes one turn
-        // Lose 20% of our maximum speed
-        z->set_speed_base(z->get_speed_base() - .2 * z->type->speed);
+        // Penalize speed by between 10% and 50% based on how damaged the corpse is.
+        float speed_penalty = 0.1 + (corpse_damage * 0.1);
+        z->set_speed_base(z->get_speed_base() - speed_penalty * z->type->speed);
         const int mondex = g->mon_at(raised.first);
         if( mondex == -1 ) {
             debugmsg( "Misplaced or failed to revive a zombie corpse" );
@@ -2003,7 +2107,7 @@ void mattack::formblob(monster *z, int index)
                         // But only if they are hurt badly.
                         if( othermon.get_hp() < othermon.get_hp_max() / 2 ) {
                             didit = true;
-                            othermon.heal( z->get_speed_base() );
+                            othermon.heal( z->get_speed_base(), true );
                             z->set_hp( 0 );
                             return;
                         }
@@ -2645,38 +2749,24 @@ void mattack::tazer( monster *z, int index )
 void mattack::taze( monster *z, Creature *target )
 {
     z->moves -= 200;   // It takes a while
-    player *foe = dynamic_cast< player* >( target );
     if( target == nullptr || target->uncanny_dodge() ) {
         return;
     }
 
-    if( target->is_elec_immune() ) {
+    int dam = target->deal_damage( z, bp_torso, damage_instance( DT_ELECTRIC, rng( 1, 5 ) ) ).total_damage();
+    if( dam == 0 ) {
         target->add_msg_player_or_npc( _("The %s unsuccessfully attempts to shock you."),
                                        _("The %s unsuccessfully attempts to shock <npcname>."),
                                        z->name().c_str() );
         return;
     }
 
-    if( foe != nullptr ) {
-        int shock = rng(1, 5);
-        foe->apply_damage( z, bp_torso, shock * rng( 1, 3 ) );
-        foe->moves -= shock * 20;
-        auto m_type = foe == &g->u ? m_bad : m_neutral;
-        target->add_msg_player_or_npc( m_type, _("The %s shocks you!"),
-                                            _("The %s shocks <npcname>!"),
-                                            z->name().c_str() );
-        foe->check_dead_state();
-    } else if( target->is_monster() ) {
-        // From iuse::tazer, but simplified
-        monster *mon = dynamic_cast< monster* >( target );
-        int shock = rng(5, 25);
-        mon->moves -= shock * 100;
-        mon->apply_damage( z, bp_torso, shock );
-        if( g->u.sees( *z ) && g->u.sees( *mon ) ) {
-            add_msg( _("The %1$s shocks the %2$s!"), z->name().c_str(), mon->name().c_str() );
-        }
-        mon->check_dead_state();
-    }
+    auto m_type = target->attitude_to( g->u ) == Creature::A_FRIENDLY ? m_bad : m_neutral;
+    target->add_msg_player_or_npc( m_type,
+                                   _("The %s shocks you!"),
+                                   _("The %s shocks <npcname>!"),
+                                   z->name().c_str() );
+    target->check_dead_state();
 }
 
 void mattack::smg(monster *z, int index)
@@ -4042,7 +4132,12 @@ void mattack::longswipe(monster *z, int index)
 
 void mattack::parrot(monster *z, int index)
 {
-    if (one_in(20)) {
+    if ( z->has_effect( "shrieking" ) )
+    {
+        sounds::sound(z->pos(), 120, _("a piercing wail!"), true);
+        z->moves -= 40;
+    }
+    else if (one_in(20)) {
         z->moves -= 100;  // It takes a while
         z->reset_special(index); // Reset timer
         const SpeechBubble speech = get_speech( z->type->id.str() );

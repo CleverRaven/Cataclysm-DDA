@@ -61,7 +61,7 @@ void load_technique(JsonObject &jo)
     tec.grab_break = jo.get_bool("grab_break", false);
     tec.flaming = jo.get_bool("flaming", false);
 
-    tec.hit = jo.get_int("pain", 0);
+    tec.hit = jo.get_int("hit", 0);
     tec.bash = jo.get_int("bash", 0);
     tec.cut = jo.get_int("cut", 0);
     tec.pain = jo.get_int("pain", 0);

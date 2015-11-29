@@ -7,7 +7,6 @@
         "parts" : [
             {"x": 0, "y": 0, "part": "frame_handle"},
             {"x": 0, "y": 0, "part": "saddle"},
-            {"x": 0, "y": 0, "part": "controls"},
             {"x": 0, "y": 0, "part": "foot_pedals"},
             {"x": 0, "y": 0, "part": "wheel_unicycle"}
         ]
@@ -19,7 +18,6 @@
         "parts" : [
             {"x": 0, "y": 0, "part": "xlframe_vertical_2"},
             {"x": 0, "y": 0, "part": "saddle"},
-            {"x": 0, "y": 0, "part": "controls"},
             {"x": 0, "y": 0, "part": "horn_bicycle"},
             {"x": 0, "y": 0, "part": "foot_pedals"},
             {"x": 1, "y": 0, "part": "xlframe_vertical"},
@@ -83,6 +81,27 @@
             {"x": -1, "y": 0, "part": "frame_vertical"},
             {"x": -1, "y": 0, "part": "wheel_motorbike"},
             {"x": -1, "y": 0, "part": "box"}
+        ]
+    },{
+        "type" : "vehicle",
+        "id" : "superbike",
+        "name" : "superbike",
+        "blueprint" : "o#>o",
+        "parts" : [
+            {"x": 0, "y": 0, "part": "frame_vertical_2"},
+            {"x": 0, "y": 0, "part": "saddle"},
+            {"x": 0, "y": 0, "part": "controls"},
+            {"x": 0, "y": 0, "part": "vehicle_alarm"},
+            {"x": 0, "y": 0, "part": "engine_inline4"},
+            {"x": 0, "y": 0, "part": "alternator_motorbike"},
+            {"x": 1, "y": 0, "part": "frame_handle"},
+            {"x": 1, "y": 0, "part": "headlight"},
+            {"x": 1, "y": 0, "part": "gas_tank_small"},
+            {"x": 1, "y": 0, "part": "battery_motorbike"},
+            {"x": 2, "y": 0, "part": "frame_vertical"},
+            {"x": 2, "y": 0, "part": "wheel_motorbike"},
+            {"x": -1, "y": 0, "part": "frame_vertical"},
+            {"x": -1, "y": 0, "part": "wheel_motorbike"}
         ]
     },{
         "type" : "vehicle",

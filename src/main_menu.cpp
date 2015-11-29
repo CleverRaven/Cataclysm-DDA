@@ -256,23 +256,28 @@ bool game::opening_screen()
     dirent *dp;
     DIR *dir;
 
-    if (!assure_dir_exist(FILENAMES["savedir"])) {
-        popup(_("Unable to make save directory. Check permissions."));
+    if( !assure_dir_exist( FILENAMES["config_dir"] ) ) {
+        popup( _( "Unable to make config directory. Check permissions." ) );
+        return false;
+    }
+    
+    if( !assure_dir_exist( FILENAMES["savedir"] ) ) {
+        popup( _( "Unable to make save directory. Check permissions." ) );
         return false;
     }
 
-    if (!assure_dir_exist(FILENAMES["templatedir"].c_str())) {
-        popup(_("Unable to make templates directory. Check permissions."));
+    if( !assure_dir_exist( FILENAMES["templatedir"] ) ) {
+        popup( _( "Unable to make templates directory. Check permissions." ) );
         return false;
     }
-    dir = opendir(FILENAMES["templatedir"].c_str());
-    while ((dp = readdir(dir))) {
+    dir = opendir( FILENAMES["templatedir"].c_str() );
+    while( ( dp = readdir( dir ) ) ) {
         std::string tmp = dp->d_name;
-        if (tmp.find(".template") != std::string::npos) {
-            templates.push_back(tmp.substr(0, tmp.find(".template")));
+        if( tmp.find(".template") != std::string::npos ) {
+            templates.push_back( tmp.substr( 0, tmp.find( ".template" ) ) );
         }
     }
-    closedir(dir);
+    closedir( dir );
 
     int sel1 = 1, sel2 = 1, sel3 = 1, layer = 1;
     input_context ctxt("MAIN_MENU");
@@ -347,7 +352,7 @@ bool game::opening_screen()
             }
             if ((action == "UP" || action == "CONFIRM") && sel1 > 0 && sel1 != 7) {
                 if (sel1 == 5) {
-                    show_options();
+                    get_options().show();
                 } else if (sel1 == 6) {
                     display_help();
                 } else if (sel1 == 8) {

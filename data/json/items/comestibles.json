@@ -4403,12 +4403,12 @@
         "quench" : 0,
         "healthy" : 1,
         "addiction_potential" : 0,
-        "nutrition" : 22,
+        "nutrition" : 24,
         "description" : "Tasty fish that has been heavily smoked for long term preservation.",
         "price" : 1000,
         "material" : "flesh",
         "tool" : "null",
-        "volume" : 1,
+        "volume" : 2,
         "cutting" : 0,
         "phase" : "solid",
         "charges" : 6, "//" : "Condenses 6 fillets.",
@@ -5382,7 +5382,7 @@
         "price" : 3000,
         "material" : "flesh",
         "tool" : "null",
-        "volume" : 1,
+        "volume" : 3,
         "cutting" : 0,
         "phase" : "solid",
         "charges" : 3, "//" : "3 chunks of meat.",
@@ -8143,8 +8143,8 @@
     {
         "type" : "COMESTIBLE",
         "id": "hickory_nut_unshelled",
-        "name": "handful of unshelled hickory nuts",
-        "name_plural": "handfuls of unshelled hickory nuts",
+        "name": "handful of shelled hickory nuts",
+        "name_plural": "handfuls of shelled hickory nuts",
         "weight" : 190,
         "color" : "brown",
         "addiction_type" : "none",
@@ -8651,6 +8651,7 @@
         "phase" : "solid",
         "charges" : 2,
         "bashing" : 0,
+        "flags" : ["USE_ON_NPC"],
         "fun" : 0
     },
     {
@@ -13294,6 +13295,7 @@
         "charges" : 3,
         "stack_size": 9,
         "bashing" : 0,
+        "flags" : ["USE_ON_NPC"],
         "fun" : 0
     },
     {
@@ -13324,6 +13326,7 @@
         "charges" : 2,
         "stack_size" : 6,
         "bashing" : 0,
+        "flags" : ["USE_ON_NPC"],
         "fun" : 0
     },
     {
@@ -14704,6 +14707,7 @@
         "phase" : "liquid",
         "charges" : 2,
         "bashing" : 0,
+        "flags" : ["USE_ON_NPC"],
         "fun" : 0
     },
     {
@@ -16091,6 +16095,7 @@
         "charges" : 6,
         "stack_size" : 60,
         "bashing" : 0,
+        "flags" : ["USE_ON_NPC"],
         "fun" : 0
     },
     {
@@ -16122,6 +16127,7 @@
         "charges" : 4,
         "stack_size" : 40,
         "bashing" : 0,
+        "flags" : ["USE_ON_NPC"],
         "fun" : 0
     },
     {   "type" : "AMMO",

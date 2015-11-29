@@ -2773,7 +2773,7 @@
         "visibility" : 1,
         "ugliness" : 1,
         "mixed_effect" : true,
-        "description" : "You have grown noticeably taller and broader.  Much of it is useful muscle mass (Strength +2), but you find it throws off your balance and you get in your own way (+1 Torso and Arm Encumbrance).",
+        "description" : "You have grown noticeably taller and broader.  Much of it is useful muscle mass (Strength +2), but you find it throws off your balance and you get in your own way (+10 torso and arm encumbrance).",
         "prereqs" : ["STR_UP", "STR_UP_2", "STR_UP_3", "STR_UP_4"],
         "changes_to": ["LARGE_OK", "HUGE"],
         "category" : ["MUTCAT_URSINE", "MUTCAT_CATTLE", "MUTCAT_LIZARD"],
@@ -3144,7 +3144,7 @@
         "points" : -2,
         "visibility" : 7,
         "ugliness" : 4,
-        "description" : "You have a flattened nose and thin slits for nostrils, giving you a lizard-like appearance.  This makes breathing slightly difficult and increases mouth encumbrance by 1.",
+        "description" : "You have a flattened nose and thin slits for nostrils, giving you a lizard-like appearance.  This makes breathing slightly difficult and increases mouth encumbrance by 10.",
         "category" : ["MUTCAT_LIZARD", "MUTCAT_TROGLOBITE", "MUTCAT_CEPHALOPOD", "MUTCAT_RAPTOR"]
     },{
         "type" : "mutation",
@@ -3602,7 +3602,7 @@
         "visibility" : 3,
         "ugliness" : 2,
         "mixed_effect" : true,
-        "description" : "Your hands have fused into quasi-paws.  Fine manipulation is a challenge: permanent hand encumbrance of 1, difficulty with delicate craftwork, and your gloves don't fit.  But they handle water better.",
+        "description" : "Your hands have fused into quasi-paws.  Fine manipulation is a challenge: permanent hand encumbrance of 10, difficulty with delicate craftwork, and your gloves don't fit.  But they handle water better.",
         "prereqs" : ["CLAWS", "CLAWS_RETRACT", "CLAWS_RAT"],
         "cancels" : ["TALONS", "ARM_TENTACLES", "ARM_TENTACLES_4", "ARM_TENTACLES_8"],
         "changes_to" : ["PAWS_LARGE"],
@@ -3615,7 +3615,7 @@
         "visibility" : 4,
         "ugliness" : 3,
         "mixed_effect" : true,
-        "description" : "Your paws are much larger now.  Manual dexterity is is difficult: permanent hand encumbrance of 2, serious problems crafting, and no gloves.  But you can swim more effectively.",
+        "description" : "Your paws are much larger now.  Manual dexterity is is difficult: permanent hand encumbrance of 20, serious problems crafting, and no gloves.  But you can swim more effectively.",
         "prereqs" : ["PAWS"],
         "cancels" : ["TALONS", "ARM_TENTACLES", "ARM_TENTACLES_4", "ARM_TENTACLES_8"],
         "category" : ["MUTCAT_BEAST", "MUTCAT_URSINE"]
@@ -4130,7 +4130,7 @@
         "visibility" : 7,
         "ugliness" : 4,
         "mixed_effect" : true,
-        "description" : "Your arms have transformed into tentacles, resulting in a bonus of 1 to dexterity, permanent hand encumbrance of 3, and inability to wear gloves.  Somewhat decreases wet penalties.",
+        "description" : "Your arms have transformed into tentacles, resulting in a bonus of 1 to dexterity, permanent hand encumbrance of 30, and inability to wear gloves.  Somewhat decreases wet penalties.",
         "leads_to" : ["CLAWS_TENTACLE"],
         "changes_to" : ["ARM_TENTACLES_4"],
         "cancels" : ["PAWS", "PAWS_LARGE"],
@@ -4147,7 +4147,7 @@
         "points" : -3,
         "visibility" : 8,
         "ugliness" : 5,
-        "description" : "Your arms have transformed into four tentacles, resulting in a bonus of 1 to dexterity, permanent hand encumbrance of 3, and inability to wear gloves.  You can make up to 3 extra attacks with them.  Somewhat decreases wet penalties.",
+        "description" : "Your arms have transformed into four tentacles, resulting in a bonus of 1 to dexterity, permanent hand encumbrance of 30, and inability to wear gloves.  You can make up to 3 extra attacks with them.  Somewhat decreases wet penalties.",
         "prereqs" : ["ARM_TENTACLES"],
         "leads_to" : ["CLAWS_TENTACLE"],
         "changes_to" : ["ARM_TENTACLES_8"],
@@ -4165,7 +4165,7 @@
         "points" : -2,
         "visibility" : 9,
         "ugliness" : 6,
-        "description" : "Your arms have transformed into eight tentacles, resulting in a bonus of 1 to dexterity, permanent hand encumbrance of 3, and inability to wear gloves.  You can make up to 7 extra attacks with them.  Somewhat decreases wet penalties.",
+        "description" : "Your arms have transformed into eight tentacles, resulting in a bonus of 1 to dexterity, permanent hand encumbrance of 30, and inability to wear gloves.  You can make up to 7 extra attacks with them.  Somewhat decreases wet penalties.",
         "prereqs" : ["ARM_TENTACLES_4"],
         "cancels" : ["PAWS", "PAWS_LARGE"],
         "leads_to" : ["CLAWS_TENTACLE"],
@@ -4445,7 +4445,8 @@
         "visibility" : 0,
         "ugliness" : 0,
         "description" : "Your mutated flesh is immune to the damaging effects of acid.",
-        "threshreq" : ["THRESH_INSECT", "THRESH_CHIMERA", "THRESH_MEDICAL", "THRESH_SLIME"]
+        "threshreq" : ["THRESH_INSECT", "THRESH_CHIMERA", "THRESH_MEDICAL", "THRESH_SLIME"],
+        "category" : ["MUTCAT_INSECT", "MUTCAT_CHIMERA", "MUTCAT_MEDICAL", "MUTCAT_SLIME"]
     },{
         "type" : "mutation",
         "id" : "ACIDBLOOD",
@@ -4455,7 +4456,8 @@
         "ugliness" : 0,
         "description" : "Your body has developed a wonderful defense mechanism.  Instead of normal blood, you bleed a strong molecular acid which will damage any creature foolish enough to harm you.",
         "prereqs" : ["ACIDPROOF"],
-        "threshreq" : ["THRESH_INSECT", "THRESH_CHIMERA", "THRESH_MEDICAL", "THRESH_SLIME"]
+        "threshreq" : ["THRESH_INSECT", "THRESH_CHIMERA", "THRESH_MEDICAL", "THRESH_SLIME"],
+        "category" : ["MUTCAT_INSECT", "MUTCAT_CHIMERA", "MUTCAT_MEDICAL", "MUTCAT_SLIME"]
     },{
         "type" : "mutation",
         "id" : "PROF_POLICE",

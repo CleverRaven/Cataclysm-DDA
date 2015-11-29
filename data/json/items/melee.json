@@ -910,7 +910,7 @@
         "volume": 2,
         "bashing": 12,
         "cutting": 6,
-        "flags" : ["DURABLE_MELEE","CHOP"],
+        "flags" : ["DURABLE_MELEE","CHOP","BELT_CLIP"],
         "to_hit": 1,
         "category" : "weapons",
         "use_action": { "type": "knife" },
@@ -2743,7 +2743,7 @@
         "symbol" : "/",
         "material" : ["aluminum", "null"],
         "techniques" : ["WBLOCK_1"],
-        "flags" : ["DURABLE_MELEE"],
+        "flags" : ["DURABLE_MELEE","BELT_CLIP"],
             "use_action": {
             "type": "transform",
             "target": "baton-extended",
@@ -2766,7 +2766,7 @@
         "symbol" : "/",
         "material" : ["aluminum", "null"],
         "techniques" : ["WBLOCK_1"],
-        "flags" : ["DURABLE_MELEE"],
+        "flags" : ["DURABLE_MELEE","BELT_CLIP"],
         "use_action": {
             "type": "transform",
             "target": "baton",
@@ -3053,7 +3053,7 @@
         "volume" : 2,
         "bashing" : 8,
         "cutting" : 16,
-        "flags" : ["STAB", "UNARMED_WEAPON", "NO_UNWIELD", "NO_PICKUP", "UNBREAKABLE_MELEE"],
+        "flags" : ["STAB", "UNARMED_WEAPON", "NO_UNWIELD", "UNBREAKABLE_MELEE"],
         "price" : 0,
         "qualities": [["BUTCHER", 12]]
     },
@@ -3071,7 +3071,7 @@
         "volume" : 3,
         "bashing" : 0,
         "cutting" : 36,
-        "flags" : ["NON_STUCK", "STAB", "UNARMED_WEAPON", "NO_UNWIELD", "NO_PICKUP", "UNBREAKABLE_MELEE"],
+        "flags" : ["NON_STUCK", "STAB", "UNARMED_WEAPON", "NO_UNWIELD", "UNBREAKABLE_MELEE"],
         "price" : 0,
         "qualities": [["CUT", 1], ["BUTCHER", 22]],
         "use_action": { "type": "knife" }
@@ -3459,7 +3459,7 @@
         "to_hit": -2,
         "revert_to": "null",
         "use_action": {
-            "type": "auto_transform",
+            "type": "transform",
             "target": "atomic_light_off",
             "msg": "You close the nightlight's cover."
         }
@@ -3482,7 +3482,7 @@
         "to_hit": -2,
         "revert_to": "null",
         "use_action": {
-            "type": "auto_transform",
+            "type": "transform",
             "target": "atomic_light",
             "msg": "You open the nightlight's cover."
         }
@@ -3505,7 +3505,7 @@
         "to_hit": -2,
         "revert_to": "null",
         "use_action": {
-            "type": "auto_transform",
+            "type": "transform",
             "target": "atomic_lamp_off",
             "msg": "You close the lamp's cover."
         }
@@ -3528,7 +3528,7 @@
         "to_hit": -2,
         "revert_to": "null",
         "use_action": {
-            "type": "auto_transform",
+            "type": "transform",
             "target": "atomic_lamp",
             "msg": "You open the lamp's cover."
         }

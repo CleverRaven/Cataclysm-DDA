@@ -462,7 +462,11 @@ use_action_msgs = {
     "charges_extinguish_message",
     "water_extinguish_message",
     "auto_extinguish_message",
-    "activation_message"
+    "activation_message",
+    "holster_msg",
+    "holster_prompt",
+    "verb",
+    "gerund"
 }
 
 def extract_use_action_msgs(outfile, use_action, it_name, kwargs):

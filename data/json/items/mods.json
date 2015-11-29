@@ -190,8 +190,7 @@
         "id" : "clip",
         "name" : "extended magazine",
         "clip_size_modifier" : 50,
-        "dispersion_modifier" : 15,
-        "description" : "Increases the ammunition capacity of your firearm by 50%, but the added bulk reduces accuracy slightly.",
+        "description" : "Increases the ammunition capacity of your firearm by 50%.",
         "location": "magazine",
         "weight" : 495,
         "to_hit" : -1,
@@ -209,8 +208,7 @@
         "id" : "clip2",
         "name" : "double magazine",
         "clip_size_modifier" : 100,
-        "dispersion_modifier" : 30,
-        "description" : "Completely doubles the ammunition capacity of your firearm, but the added bulk reduces accuracy and increases recoil.",
+        "description" : "Completely doubles the ammunition capacity of your firearm.",
         "location": "magazine",
         "weight" : 660,
         "to_hit" : 0,
@@ -221,7 +219,6 @@
         "volume" : 2,
         "bashing" : 0,
         "cutting" : 0,
-        "recoil_modifier" : 30,
         "price" : 7200
     },
     {
@@ -707,7 +704,7 @@
         "cutting" : 0,
         "mod_targets" : ["pistol"],
         "bashing" : 0,
-        "flags" : ["RELOAD_ONE"],
+        "flags" : ["RELOAD_ONE", "IRREMOVABLE"],
         "gun_data" : {
             "skill": "shotgun",
             "ammo" : "shot",
@@ -836,7 +833,7 @@
         "cutting" : 0,
         "mod_targets" : ["rifle"],
         "bashing" : 0,
-        "flags" : ["RELOAD_ONE"],
+        "flags" : ["RELOAD_ONE", "IRREMOVABLE"],
         "gun_data" : {
             "skill": "shotgun",
             "ammo" : "shot",
@@ -902,7 +899,7 @@
         "cutting" : 0,
         "mod_targets" : ["shotgun"],
         "bashing" : 0,
-        "flags" : ["RELOAD_ONE"],
+        "flags" : ["RELOAD_ONE", "IRREMOVABLE"],
         "gun_data" : {
             "skill": "shotgun", "//" : "Stats should mirror the main weapon.",
             "ammo" : "shot",

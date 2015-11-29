@@ -6,11 +6,11 @@
   "subcategory": "CSC_ARMOR_SUIT",
   "skill_used": "magic",
   "skills_required": [ "tailor", 3 ],
-  "difficulty": 6,
+  "difficulty": 5,
   "time": 30000,
   "reversible": false,
   "autolearn": false,
-  "book_learn": [[ "book_hexenhammer", 6 ]],
+  "book_learn": [[ "book_hexenhammer", 5 ]],
   "qualities":[{"id":"HAMMER","level":2,"amount":1}],
   "tools": [
     [ ["book_hexenhammer", -1] ],
@@ -34,11 +34,11 @@
   "subcategory": "CSC_ARMOR_HEAD",
   "skill_used": "magic",
   "skills_required": [ "tailor", 3 ],
-  "difficulty": 7,
+  "difficulty": 6,
   "time": 25000,
   "reversible": false,
   "autolearn": false,
-  "book_learn": [[ "book_hexenhammer", 7 ]],
+  "book_learn": [[ "book_hexenhammer", 6 ]],
   "qualities":[
     {"id":"HAMMER","level":2,"amount":1},
     {"id":"CUT","level":1,"amount":1}
@@ -57,6 +57,38 @@
     [ [ "scrap", 2 ] ],
     [ [ "copper", 30 ] ],
     [ [ "essence_dull", 15 ] ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "armor_wyrm",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_SUIT",
+  "skill_used": "magic",
+  "skills_required": [ "tailor", 3 ],
+  "difficulty": 4,
+  "time": 25000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "book_bloodmagic", 4 ]],
+  "tools": [
+    [ ["book_bloodmagic", -1] ],
+    [ ["blood_athame", -1] ],
+    [
+      [ "needle_bone", 18 ],
+      [ "needle_wood", 18 ],
+      [ "tailors_kit", 18 ],
+      [ "sewing_kit", 18 ]
+    ]
+  ],
+  "components": [
+    [ [ "armor_larmor", 1 ] ],
+    [ [ "brooch", 1 ] ],
+    [
+      [ "acid", 1 ],
+      [ "water_acid", 2 ],
+      [ "water_acid_weak", 4 ]
+    ],
+    [ [ "essence_blood", 4 ] ]
   ]
 },{
   "type" : "recipe",
@@ -119,6 +151,43 @@
     [
       [ "essence", 4 ],
       [ "essence_blood", 12 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "robe_shadow",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_SUIT",
+  "skill_used": "magic",
+  "skills_required": [ "tailor", 5 ],
+  "difficulty": 7,
+  "time": 80000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "book_sacrifice", 7 ]],
+  "qualities":[{"id":"CUT","level":1,"amount":1}],
+  "tools": [
+    [ [ "book_sacrifice", -1 ] ],
+    [
+      [ "needle_bone", 24 ],
+      [ "needle_wood", 24 ],
+      [ "tailors_kit", 24 ],
+      [ "sewing_kit", 24 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "robe", 1 ],
+      [ "cassock", 1 ],
+      [ "kittel", 1 ],
+      [ "thawb", 1 ],
+      [ "kariginu", 1 ]
+    ],
+    [ [ "fur", 4 ] ],
+    [ [ "charcoal", 6 ] ],
+    [
+      [ "essence", 7 ],
+      [ "essence_blood", 21 ]
     ]
   ]
 }

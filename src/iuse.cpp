@@ -18,6 +18,7 @@
 #include "json.h"
 #include "messages.h"
 #include "crafting.h"
+#include "recipe_dictionary.h"
 #include "sounds.h"
 #include "monattack.h"
 #include "trap.h"
@@ -310,30 +311,33 @@ int iuse::royal_jelly(player *p, item *it, bool, const tripoint& )
     return it->type->charges_to_use();
 }
 
-static hp_part pick_part_to_heal( player *p, const std::string &menu_header,
+static hp_part pick_part_to_heal( const player &healer, const player &patient,
+                                  const std::string &menu_header,
                                   int normal_bonus, int head_bonus, int torso_bonus,
                                   int bleed, int bite, int infect, bool force )
 {
-    const bool precise = p->has_trait( "SELFAWARE" );
+    const bool precise = &healer == &patient ?
+        patient.has_trait( "SELFAWARE" ) :
+        (healer.get_skill_level( skill_firstaid ) * 4 + healer.per_cur >= 20);
     while( true ) {
-        hp_part healed_part = p->body_window( menu_header, force, precise,
-                                              normal_bonus, head_bonus, torso_bonus,
-                                              bleed, bite, infect );
+        hp_part healed_part = patient.body_window( menu_header, force, precise,
+                                                   normal_bonus, head_bonus, torso_bonus,
+                                                   bleed, bite, infect );
         if( healed_part == num_hp_parts ) {
             return num_hp_parts;
         }
 
         body_part bp = player::hp_to_bp( healed_part );
-        if( ( infect > 0 && p->has_effect( "infected", bp ) ) ||
-            ( bite > 0 && p->has_effect( "bite", bp ) ) ||
-            ( bleed > 0 && p->has_effect( "bleed", bp ) ) ) {
+        if( ( infect > 0 && patient.has_effect( "infected", bp ) ) ||
+            ( bite > 0 && patient.has_effect( "bite", bp ) ) ||
+            ( bleed > 0 && patient.has_effect( "bleed", bp ) ) ) {
             return healed_part;
         }
 
-        if( p->hp_cur[healed_part] == 0 ) {
-            if( healed_part == hp_arm_l || healed_part == hp_arm_r ) { 
+        if( patient.hp_cur[healed_part] == 0 ) {
+            if( healed_part == hp_arm_l || healed_part == hp_arm_r ) {
                 add_msg( m_info, _("That arm is broken.  It needs surgical attention or a splint.") );
-            } else if( healed_part == hp_leg_l || healed_part == hp_leg_r ) { 
+            } else if( healed_part == hp_leg_l || healed_part == hp_leg_r ) {
                 add_msg( m_info, _("That leg is broken.  It needs surgical attention or a splint.") );
             } else {
                 add_msg( m_info, "That body part is bugged.  It needs developer's attention." );
@@ -342,7 +346,7 @@ static hp_part pick_part_to_heal( player *p, const std::string &menu_header,
             continue;
         }
 
-        if( force || p->hp_cur[healed_part] < p->hp_max[healed_part] ) {
+        if( force || patient.hp_cur[healed_part] < patient.hp_max[healed_part] ) {
             return healed_part;
         }
     }
@@ -351,13 +355,33 @@ static hp_part pick_part_to_heal( player *p, const std::string &menu_header,
     return num_hp_parts;
 }
 
-// returns true if we want to use the special action
-hp_part use_healing_item(player *p, item *it, int normal_power, int head_power,
-                         int torso_power, int bleed,
-                         int bite, int infect, bool force)
+player &get_patient( player &healer, const tripoint &pos )
+{
+    if( healer.pos() == pos ) {
+        return healer;
+    }
+
+    if( g->u.pos() == pos ) {
+        return g->u;
+    }
+
+    const int npc_index = g->npc_at( pos );
+    if( npc_index == -1 ) {
+        // Default to heal self on failure not to break old functionality
+        add_msg( m_debug, "No heal target at position %d,%d,%d", pos.x, pos.y, pos.z );
+        return healer;
+    }
+
+    return *g->active_npc[npc_index];
+}
+
+hp_part use_healing_item( player &healer, player &patient, item *it,
+                          int normal_power, int head_power,
+                          int torso_power, int bleed,
+                          int bite, int infect, bool force )
 {
     hp_part healed = num_hp_parts;
-    int bonus = p->skillLevel( skill_firstaid );
+    int bonus = healer.get_skill_level( skill_firstaid );
     int head_bonus = 0;
     int normal_bonus = 0;
     int torso_bonus = 0;
@@ -377,25 +401,33 @@ hp_part use_healing_item(player *p, item *it, int normal_power, int head_power,
         torso_bonus = torso_power;
     }
 
-    if (p->is_npc()) { // NPCs heal whichever has sustained the most damage
+    if( healer.is_npc() ) {
+        // NPCs heal whichever has sustained the most damage
         int highest_damage = 0;
         for (int i = 0; i < num_hp_parts; i++) {
-            int damage = p->hp_max[i] - p->hp_cur[i];
+            int damage = patient.hp_max[i] - patient.hp_cur[i];
             if (i == hp_head) {
                 damage *= 1.5;
             }
             if (i == hp_torso) {
                 damage *= 1.2;
             }
+            // Consider states too
+            // Weights are arbitrary, may need balancing
+            const body_part i_bp = player::hp_to_bp( hp_part( i ) );
+            damage += bleed * patient.get_effect_dur( "bleed", i_bp ) / 100 / 50;
+            damage += bite * patient.get_effect_dur( "bite", i_bp ) / 100 / 100;
+            damage += infect * patient.get_effect_dur( "infected", i_bp ) / 100 / 100;
             if (damage > highest_damage) {
                 highest_damage = damage;
                 healed = hp_part(i);
             }
         }
-    } else { // Player--present a menu
-        if (p->activity.type != ACT_FIRSTAID) {
+    } else if( patient.is_player() ) {
+        // Player healing self - let player select
+        if( healer.activity.type != ACT_FIRSTAID ) {
             const std::string menu_header = it->tname();
-            healed = pick_part_to_heal( p, menu_header,
+            healed = pick_part_to_heal( healer, patient, menu_header,
                                         normal_bonus, head_bonus, torso_bonus,
                                         bleed, bite, infect, force );
             if( healed == num_hp_parts ) {
@@ -404,15 +436,26 @@ hp_part use_healing_item(player *p, item *it, int normal_power, int head_power,
         }
         // Brick healing if using a first aid kit for the first time.
         // TODO: Base check on something other than the name.
-        if (it->type->id == "1st_aid" && p->activity.type != ACT_FIRSTAID) {
+        if( it->type->id == "1st_aid" && healer.activity.type != ACT_FIRSTAID ) {
             // Cancel and wait for activity completion.
             return healed;
-        } else if (p->activity.type == ACT_FIRSTAID) {
+        } else if( healer.activity.type == ACT_FIRSTAID ) {
             // Completed activity, extract body part from it.
-            healed = (hp_part)p->activity.values[0];
+            healed = (hp_part)healer.activity.values[0];
+        }
+    } else {
+        // Player healing NPC
+        // TODO: Remove this hack, allow using activities on NPCs
+        const std::string menu_header = it->tname();
+        healed = pick_part_to_heal( healer, patient, menu_header,
+                                    normal_bonus, head_bonus, torso_bonus,
+                                    bleed, bite, infect, force );
+        if( healed == num_hp_parts ) {
+            return num_hp_parts; // canceled
         }
     }
-    p->practice( skill_firstaid, 8);
+
+    healer.practice( skill_firstaid, 8 );
     int dam = 0;
     if (healed == hp_head) {
         dam = head_bonus;
@@ -421,51 +464,81 @@ hp_part use_healing_item(player *p, item *it, int normal_power, int head_power,
     } else {
         dam = normal_bonus;
     }
-    if ((p->hp_cur[healed] >= 1) && (dam > 0)) { // Prevent first-aid from mending limbs
-        p->heal(healed, dam);
-    } else if ((p->hp_cur[healed] >= 1) && (dam < 0)) {
+    if( (patient.hp_cur[healed] >= 1) && (dam > 0)) { // Prevent first-aid from mending limbs
+        patient.heal(healed, dam);
+    } else if ((patient.hp_cur[healed] >= 1) && (dam < 0)) {
         const body_part bp = player::hp_to_bp( healed );
-        p->apply_damage( nullptr, bp, -dam ); //hurt takes + damage
+        patient.apply_damage( nullptr, bp, -dam ); //hurt takes + damage
     }
 
     const body_part bp_healed = player::hp_to_bp( healed );
 
-    if (p->has_effect("bleed", bp_healed)) {
+    const bool u_see = healer.is_player() || patient.is_player() ||
+        g->u.sees( healer ) || g->u.sees( patient );
+    const bool player_healing_player = healer.is_player() && patient.is_player();
+    // Need a helper here - messages are from healer's point of view
+    // but it would be cool if NPCs could use this function too
+    const auto heal_msg = [&]( game_message_type msg_type,
+        const char *player_player_msg, const char *other_msg ) {
+        if( !u_see ) {
+            return;
+        }
+
+        if( player_healing_player ) {
+            add_msg( msg_type, player_player_msg );
+        } else {
+            add_msg( msg_type, other_msg );
+        }
+    };
+
+    if (patient.has_effect("bleed", bp_healed)) {
         if (x_in_y(bleed, 100)) {
-            p->remove_effect("bleed", bp_healed);
-            p->add_msg_if_player(m_good, _("You stop the bleeding."));
+            patient.remove_effect("bleed", bp_healed);
+            heal_msg( m_good, _("You stop the bleeding."), _("The bleeding is stopped.") );
         } else {
-            p->add_msg_if_player(_("You fail to stop the bleeding."));
+            heal_msg( m_warning, _("You fail to stop the bleeding."), _("The wound still bleeds.") );
         }
     }
-    if (p->has_effect("bite", bp_healed)) {
+    if (patient.has_effect("bite", bp_healed)) {
         if (x_in_y(bite, 100)) {
-            p->remove_effect("bite", bp_healed);
-            p->add_msg_if_player(m_good, _("You clean the wound."));
+            patient.remove_effect("bite", bp_healed);
+            heal_msg( m_good, _("You clean the wound."), _("The wound is cleaned.") );
         } else {
-            p->add_msg_if_player(m_warning, _("Your wound still aches."));
+            heal_msg( m_warning, _("Your wound still aches."), _("The wound still looks bad.") );
         }
     }
-    if (p->has_effect("infected", bp_healed)) {
+    if (patient.has_effect("infected", bp_healed)) {
         if (x_in_y(infect, 100)) {
-            int infected_dur = p->get_effect_dur("infected", bp_healed);
-            p->remove_effect("infected", bp_healed);
-            p->add_effect("recover", infected_dur);
-            p->add_msg_if_player(m_good, _("You disinfect the wound."));
+            int infected_dur = patient.get_effect_dur("infected", bp_healed);
+            patient.remove_effect("infected", bp_healed);
+            patient.add_effect("recover", infected_dur);
+            heal_msg( m_good, _("You disinfect the wound."), _("The wound is disinfected.") );
         } else {
-            p->add_msg_if_player(m_warning, _("Your wound still hurts."));
+            heal_msg( m_warning, _("Your wound still hurts."), _("The wound still looks nasty.") );
         }
     }
+
     return healed;
 }
 
-int iuse::bandage(player *p, item *it, bool, const tripoint& )
+hp_part use_healing_item( player *healer, item *it,
+                          int normal_power, int head_power,
+                          int torso_power, int bleed,
+                          int bite, int infect, bool force )
+{
+    return use_healing_item( *healer, *healer, it,
+                             normal_power, head_power, torso_power,
+                             bleed, bite, infect, force );
+}
+
+int iuse::bandage(player *p, item *it, bool, const tripoint &pos )
 {
     if (p->is_underwater()) {
         p->add_msg_if_player(m_info, _("You can't do that while underwater."));
         return false;
     }
-    if (num_hp_parts != use_healing_item(p, it, 3, 1, 4, 90, 0, 0, false)) {
+    player &patient = get_patient( *p, pos );
+    if (num_hp_parts != use_healing_item( *p, patient, it, 3, 1, 4, 90, 0, 0, false)) {
         if (it->type->id != "quikclot" || it->type->id != "bfipowder") {
             // Make bandages and rags take arbitrarily longer than hemostatic/antiseptic powders.
             p->moves -= 100;
@@ -476,21 +549,28 @@ int iuse::bandage(player *p, item *it, bool, const tripoint& )
     return 0;
 }
 
-int iuse::firstaid(player *p, item *it, bool, const tripoint& )
+int iuse::firstaid(player *p, item *it, bool, const tripoint &pos )
 {
     if (p->is_underwater()) {
         p->add_msg_if_player(m_info, _("You can't do that while underwater."));
         return false;
     }
-    // Assign first aid long action.
-    int healed = use_healing_item(p, it, 14, 10, 18, 95, 99, 95, false);
-    if (healed != num_hp_parts) {
-        p->assign_activity(ACT_FIRSTAID, 6000 / (p->skillLevel( skill_firstaid ) + 1), 0,
-                           p->get_item_position(it), it->tname());
-        p->activity.values.push_back(healed);
-        p->moves = 0;
+
+    player &patient = get_patient( *p, pos );
+    hp_part healed = use_healing_item( *p, patient, it, 14, 10, 18, 95, 99, 95, false);
+    if( healed == num_hp_parts ) {
+        return 0;
     }
 
+    if( &patient != p ) {
+        return 1;
+    }
+
+    // Assign first aid long action.
+    p->assign_activity(ACT_FIRSTAID, 6000 / (p->skillLevel( skill_firstaid ) + 1), 0,
+                       p->get_item_position(it), it->tname());
+    p->activity.values.push_back(healed);
+    p->moves = 0;
     return 0;
 }
 
@@ -504,13 +584,14 @@ int iuse::completefirstaid(player *p, item *it, bool, const tripoint& )
     return 0;
 }
 
-int iuse::disinfectant(player *p, item *it, bool, const tripoint& )
+int iuse::disinfectant(player *p, item *it, bool, const tripoint &pos )
 {
     if (p->is_underwater()) {
         p->add_msg_if_player(m_info, _("You can't do that while underwater."));
         return false;
     }
-    if (num_hp_parts != use_healing_item(p, it, 6, 5, 9, 0, 95, 0, false)) {
+    player &patient = get_patient( *p, pos );
+    if (num_hp_parts != use_healing_item( *p, patient, it, 6, 5, 9, 0, 95, 0, false)) {
         return it->type->charges_to_use();
     }
     return 0;
@@ -1041,7 +1122,7 @@ int iuse::meth(player *p, item *it, bool, const tripoint& )
 int iuse::vitamins(player *p, item *it, bool, const tripoint& )
 {
     p->add_msg_if_player(_("You take some vitamins."));
-    p->mod_healthy_mod(50);
+    p->mod_healthy_mod(50, 50);
     return it->type->charges_to_use();
 }
 
@@ -1049,7 +1130,7 @@ int iuse::vaccine(player *p, item *it, bool, const tripoint& )
 {
     p->add_msg_if_player(_("You inject the vaccine."));
     p->add_msg_if_player(m_good, _("You feel tough."));
-    p->mod_healthy_mod(200);
+    p->mod_healthy_mod(200, 200);
     p->mod_pain(3);
     item syringe( "syringe", it->bday );
     p->i_add( syringe );
@@ -1248,7 +1329,7 @@ int iuse::plantblech(player *p, item *it, bool, const tripoint &pos)
         //reverses the harmful values of drinking fertilizer
         p->mod_hunger(p->nutrition_for(food) * multiplier);
         p->thirst -= food->quench * multiplier;
-        p->mod_healthy_mod(food->healthy * multiplier);
+        p->mod_healthy_mod(food->healthy * multiplier, food->healthy * multiplier);
         p->add_morale(MORALE_FOOD_GOOD, -10 * multiplier, 60, 60, 30, false, food);
         return it->type->charges_to_use();
     } else {
@@ -2170,7 +2251,7 @@ int iuse::mycus(player *p, item *it, bool t, const tripoint &pos)
         p->fatigue += 5;
         p->thirst += 10;
         p->vomit(); // no hunger/quench benefit for you
-        p->mod_healthy_mod(-8);
+        p->mod_healthy_mod(-8, -50);
     }
     return it->type->charges_to_use();
 }
@@ -2390,7 +2471,7 @@ int iuse::sew(player *p, item *it, bool, const tripoint& )
 }
 
 static bool is_firearm(const item &it)
-{ 
+{
     return it.is_gun() && !it.has_flag("PRIMITIVE_RANGED_WEAPON");
 }
 
@@ -3823,10 +3904,10 @@ int iuse::crowbar(player *p, item *it, bool, const tripoint &pos)
         fail_action = _("You pry, but cannot pop open the crate.");
         noisy = true;
         difficulty = 6;
-    } else if (type == t_window_domestic || type == t_curtains) {
+    } else if (type == t_window_domestic || type == t_curtains || type == t_window_no_curtains) {
         succ_action = _("You pry open the window.");
         fail_action = _("You pry, but cannot pry open the window.");
-        new_type = t_window_open;
+        new_type = (type == t_window_no_curtains) ? t_window_no_curtains_open : t_window_open;
         noisy = true;
         difficulty = 6;
     } else if (pry_nails(p, type, dirx, diry)) {
@@ -4124,7 +4205,7 @@ int iuse::jackhammer(player *p, item *it, bool, const tripoint &pos )
     }
 
     if (
-           (g->m.is_bashable(dirx, diry) && g->m.has_flag("SUPPORTS_ROOF", dirx, diry) &&
+           (g->m.is_bashable(dirx, diry) && (g->m.has_flag("SUPPORTS_ROOF", dirx, diry) || g->m.has_flag("MINEABLE", dirx, diry))&&
                 g->m.ter(dirx, diry) != t_tree) ||
            (g->m.move_cost(dirx, diry) == 2 && g->get_levz() != -1 &&
                 g->m.ter(dirx, diry) != t_dirt && g->m.ter(dirx, diry) != t_grass)) {
@@ -4163,7 +4244,7 @@ int iuse::pickaxe(player *p, item *it, bool, const tripoint& )
         return 0;
     }
     int turns;
-    if (g->m.is_bashable(dirx, diry) && g->m.has_flag("SUPPORTS_ROOF", dirx, diry) &&
+    if (g->m.is_bashable(dirx, diry) && (g->m.has_flag("SUPPORTS_ROOF", dirx, diry) || g->m.has_flag("MINEABLE", dirx, diry)) &&
         g->m.ter(dirx, diry) != t_tree) {
         // Takes about 100 minutes (not quite two hours) base time.  Construction skill can speed this: 3 min off per level.
         turns = (100000 - 3000 * p->skillLevel( skill_carpentry ));
@@ -4950,6 +5031,9 @@ int iuse::firecracker_pack_act(player *, item *it, bool, const tripoint &pos)
         }
         it->charges -= ex;
     }
+    if (it->charges == 0) {
+        it->charges = -1;
+    }
     return 0;
 }
 
@@ -5062,13 +5146,14 @@ int iuse::portal(player *p, item *it, bool, const tripoint& )
     return it->type->charges_to_use();
 }
 
-int iuse::tazer(player *p, item *it, bool, const tripoint& )
+int iuse::tazer(player *p, item *it, bool, const tripoint &pos )
 {
-    if (it->charges < it->type->charges_to_use()) {
+    if( it->charges < it->type->charges_to_use() ) {
         return 0;
     }
-    tripoint dirp;
-    if (!choose_adjacent(_("Shock where?"), dirp)) {
+
+    tripoint dirp = pos;
+    if( p->pos() == pos && !choose_adjacent( _("Shock where?"), dirp ) ) {
         return 0;
     }
 
@@ -5076,160 +5161,64 @@ int iuse::tazer(player *p, item *it, bool, const tripoint& )
         p->add_msg_if_player(m_info, _("Umm.  No."));
         return 0;
     }
-    int mondex = g->mon_at( dirp, true );
-    int npcdex = g->npc_at(dirp);
-    if (mondex == -1 && npcdex == -1) {
-        p->add_msg_if_player(_("Electricity crackles in the air."));
-        return it->type->charges_to_use();
+
+    Creature *target = g->critter_at( dirp, true );
+    if( target == nullptr ) {
+        p->add_msg_if_player(_("There's nothing to zap there!"));
+        return 0;
+    }
+
+    // Hacky, there should be a method doing all that when the player willingly hurts someone
+    npc *foe = dynamic_cast<npc *>( target );
+    if( foe != nullptr && foe->attitude != NPCATT_KILL && foe->attitude != NPCATT_FLEE ) {
+        if( !query_yn( _("Really shock %s"), target->disp_name().c_str() ) ) {
+            return 0;
+        }
+
+        foe->attitude = NPCATT_KILL;
+        foe->hit_by_player = true;
     }
 
     int numdice = 3 + (p->dex_cur / 2.5) + p->skillLevel( skill_melee ) * 2;
     p->moves -= 100;
 
-    if (mondex != -1) {
-        monster *z = &(g->zombie(mondex));
-        switch (z->type->size) {
-            case MS_TINY:
-                numdice -= 2;
-                break;
-            case MS_SMALL:
-                numdice -= 1;
-                break;
-            case MS_MEDIUM:
-                break;
-            case MS_LARGE:
-                numdice += 2;
-                break;
-            case MS_HUGE:
-                numdice += 4;
-                break;
-        }
-        int mondice = z->get_dodge();
-        if (dice(numdice, 10) < dice(mondice, 10)) { // A miss!
-            p->add_msg_if_player(_("You attempt to shock the %s, but miss."), z->name().c_str());
-            return it->type->charges_to_use();
-        }
-        p->add_msg_if_player(m_good, _("You shock the %s!"), z->name().c_str());
-        int shock = rng(5, 25);
-        z->moves -= shock * 100;
-        z->apply_damage( p, bp_torso, shock );
+    int target_dice = target->get_dodge();
+    if( dice( numdice, 10 ) < dice( target_dice, 10 ) ) {
+        // A miss!
+        p->add_msg_player_or_npc( _("You attempt to shock %s, but miss."),
+                                  _("<npcname> attempts to shock %s, but misses."),
+                                  target->disp_name().c_str() );
         return it->type->charges_to_use();
     }
 
-    if (npcdex != -1) {
-        npc *foe = g->active_npc[npcdex];
-        if (foe->attitude != NPCATT_FLEE) {
-            foe->attitude = NPCATT_KILL;
-        }
-        if (foe->str_max >= 17) {
-            numdice++;    // Minor bonus against huge people
-        } else if (foe->str_max <= 5) {
-            numdice--;    // Minor penalty against tiny people
-        }
-        if (dice(numdice, 10) <= dice(foe->get_dodge(), 6)) {
-            p->add_msg_if_player(_("You attempt to shock %s, but miss."), foe->name.c_str());
-            return it->type->charges_to_use();
-        }
-        p->add_msg_if_player(m_good, _("You shock %s!"), foe->name.c_str());
-        int shock = rng(5, 20);
-        foe->moves -= shock * 100;
-        foe->hurtall( shock, p );
-        foe->check_dead_state();
+    // Maybe-TODO: Execute an attack and maybe zap something other than torso
+    // Maybe, because it's torso (heart) that fails when zapped with electricity
+    int dam = target->deal_damage( p, bp_torso, damage_instance( DT_ELECTRIC, rng( 5, 25 ) ) ).total_damage();
+    if( dam > 0 ) {
+        p->add_msg_player_or_npc( m_good,
+                                  _("You shock %s!"),
+                                  _("<npcname> shocks %s!"),
+                                  target->disp_name().c_str() );
+    } else {
+        p->add_msg_player_or_npc( m_warning,
+                                  _("You unsuccessfully attempt to shock %s!"),
+                                  _("<npcname> unsuccessfully attempts to shock %s!"),
+                                  target->disp_name().c_str() );
     }
+
     return it->type->charges_to_use();
 }
 
-int iuse::tazer2(player *p, item *it, bool, const tripoint& )
+int iuse::tazer2(player *p, item *it, bool b, const tripoint &pos )
 {
-    if (it->charges >= 100) {
-        tripoint dirp;
-        if (!choose_adjacent(_("Shock where?"), dirp)) {
-            return 0;
-        }
-
-        if( dirp == p->pos() ) {
-            p->add_msg_if_player(m_info, _("Umm.  No."));
-            return 0;
-        }
-        int mondex = g->mon_at( dirp, true );
-        int npcdex = g->npc_at(dirp);
-
-        if (mondex == -1 && npcdex == -1) {
-            p->add_msg_if_player(_("Electricity crackles in the air."));
-            return 100;
-        }
-
-        int numdice = 3 + (p->dex_cur / 2.5) + p->skillLevel( skill_melee ) * 2;
-        p->moves -= 100;
-
-        if (mondex != -1) {
-            monster *z = &(g->zombie(mondex));
-
-            switch (z->type->size) {
-                case MS_TINY:
-                    numdice -= 2;
-                    break;
-
-                case MS_SMALL:
-                    numdice -= 1;
-                    break;
-
-                case MS_MEDIUM:
-                    break;
-
-                case MS_LARGE:
-                    numdice += 2;
-                    break;
-
-                case MS_HUGE:
-                    numdice += 4;
-                    break;
-            }
-
-            int mondice = z->get_dodge();
-
-            if (dice(numdice, 10) < dice(mondice, 10)) { // A miss!
-                p->add_msg_if_player(_("You attempt to shock the %s, but miss."),
-                                     z->name().c_str());
-                return 100;
-            }
-
-            p->add_msg_if_player(m_good, _("You shock the %s!"), z->name().c_str());
-            int shock = rng(5, 25);
-            z->moves -= shock * 100;
-            z->apply_damage( p, bp_torso, shock );
-
-            return 100;
-        }
-
-        if (npcdex != -1) {
-            npc *foe = g->active_npc[npcdex];
-
-            if (foe->attitude != NPCATT_FLEE) {
-                foe->attitude = NPCATT_KILL;
-            }
-
-            if (foe->str_max >= 17) {
-                numdice++;    // Minor bonus against huge people
-            } else if (foe->str_max <= 5) {
-                numdice--;    // Minor penalty against tiny people
-            }
-
-            if (dice(numdice, 10) <= dice(foe->get_dodge(), 6)) {
-                p->add_msg_if_player(_("You attempt to shock %s, but miss."), foe->name.c_str());
-                return it->charges -= 100;
-            }
-
-            p->add_msg_if_player(m_good, _("You shock %s!"), foe->name.c_str());
-            int shock = rng(5, 20);
-            foe->moves -= shock * 100;
-            foe->hurtall( shock, p );
-            foe->check_dead_state();
-        }
-
-        return 100;
+    if( it->charges >= 100 ) {
+        // Instead of having a ctrl+c+v of the function above, spawn a fake tazer and use it
+        // Ugly, but less so than copied blocks
+        item fake( "tazer", 0 );
+        fake.charges = 100;
+        return tazer( p, &fake, b, pos );
     } else {
-        p->add_msg_if_player(m_info, _("Insufficient power"));
+        p->add_msg_if_player( m_info, _("Insufficient power") );
     }
 
     return 0;
@@ -5419,7 +5408,8 @@ int iuse::portable_game(player *p, item *it, bool, const tripoint& )
         as_m.entries.push_back(uimenu_entry(1, true, '1', _("Robot finds Kitten")));
         as_m.entries.push_back(uimenu_entry(2, true, '2', _("S N A K E")));
         as_m.entries.push_back(uimenu_entry(3, true, '3', _("Sokoban")));
-        as_m.entries.push_back(uimenu_entry(4, true, '4', _("Cancel")));
+        as_m.entries.push_back(uimenu_entry(4, true, '4', _("Minesweeper")));
+        as_m.entries.push_back(uimenu_entry(5, true, '5', _("Cancel")));
         as_m.query();
 
         switch (as_m.ret) {
@@ -5435,7 +5425,11 @@ int iuse::portable_game(player *p, item *it, bool, const tripoint& )
                 loaded_software = "sokoban_game";
                 p->rooted_message();
                 break;
-            case 4: //Cancel
+            case 4:
+                loaded_software = "minesweeper_game";
+                p->rooted_message();
+                break;
+            case 5: //Cancel
                 return 0;
         }
 
@@ -6611,372 +6605,62 @@ int iuse::quiver(player *p, item *it, bool, const tripoint& )
     return it->type->charges_to_use();
 }
 
-int iuse::holster_gun(player *p, item *it, bool, const tripoint& )
+int iuse::belt_loop (player *p, item *it, bool, const tripoint&)
 {
-    // if holster is empty, pull up menu asking what to holster
+    // if belt loop empty offer to attach an item otherwise detach the current one
     if (it->contents.empty()) {
-        int maxvol = 0;
-        // TODO: extract into an item function
-        const auto iter = it->type->properties.find( "holster_size" );
-        if( iter != it->type->properties.end() && iter->second != "0" ) {
-            maxvol = std::atoi( iter->second.c_str() );
-        }
-        int minvol = maxvol / 3;
-
-        auto filter = [maxvol, minvol]( const item &it ) {
-            return it.is_gun() && it.volume() <= maxvol && it.volume() >= minvol && (it.skill() != skill_archery);
-        };
-        int const inventory_index = g->inv_for_filter( _("Holster what?"), filter );
-        item &put = p->i_at( inventory_index );
-        if( put.is_null() ) {
+        // display menu showing only show BELT_CLIP items
+        item& put = p->i_at(g->inv_for_flag("BELT_CLIP", _("Attach what to belt loop?"), false));
+        if (put.is_null()) {
             p->add_msg_if_player(_("Never mind."));
             return 0;
         }
 
-        // make sure we're holstering a pistol
-        if (!put.is_gun()) {
-            p->add_msg_if_player(m_info, _("That isn't a gun!"), put.tname().c_str());
+        // check the player selected an appropriate item
+        if (! put.has_flag("BELT_CLIP")) {
+            p->add_msg_if_player(m_info, _("You can't attach your %s to your %s!"),
+                                           put.tname().c_str(), it->tname().c_str());
             return 0;
         }
 
-        // make sure we're not holstering bows / crossbows
-        if (put.skill() == skill_archery ) {
-            p->add_msg_if_player(m_info, _("You can't holster your %s!"), put.tname().c_str());
+        // only allow items smaller than a certain size
+        if( put.volume() > it->get_property_long( "max_volume", 2 ) ) {
+            p->add_msg_if_player(m_info, _("Your %s is too large to fit in your %s!"),
+                                           put.tname().c_str(), it->tname().c_str());
             return 0;
         }
 
-        // only allow guns smaller than a certain size
-        if (put.volume() > maxvol) {
-            p->add_msg_if_player(m_info, _("That holster is too small to hold your %s!"),
-                                 put.tname().c_str());
+        // only allow items less than a certain weight
+        if( put.weight() > it->get_property_long( "max_weight", 600 ) ) {
+            p->add_msg_if_player(m_info, _("Your %s is too heavy to attach to your %s!"),
+                                           put.tname().c_str(), it->tname().c_str());
             return 0;
-        } else if (put.volume() < minvol) {
-          p->add_msg_if_player(m_info, _("That holster is too big to hold your %s!"),
-                              put.tname().c_str());
-          return 0;
         }
 
-        const skill_id gun_skill = put.gun_skill();
-        int const lvl = p->skillLevel( gun_skill );
-        std::string message;
-        if (lvl < 2) {
-            message = _("You clumsily holster your %s.");
-        } else if (lvl >= 7) {
-            message = _("You deftly holster your %s.");
-        } else  {
-            message = _("You holster your %s.");
-        }
+        p->add_msg_if_player(m_info, _("You attach your %s to your %s!"),
+                             put.tname().c_str(), it->tname().c_str());
 
-        p->add_msg_if_player(message.c_str(), put.tname().c_str());
-        p->store(it, &put, gun_skill, 14);
+        p->moves -= put.volume() * 10;
+        it->put_in(p->i_rem(&put));
 
-    } else if( &p->weapon == it ) {
+    } else if (&p->weapon == it) {
         p->add_msg_if_player( _( "You need to unwield the %s before using it." ), it->tname().c_str() );
         return 0;
-        // else draw the holstered gun and have the player wield it
+
     } else {
-        if (!p->is_armed() || p->wield(NULL)) {
-            item &gun = it->contents[0];
-            auto t_gun = gun.type->gun.get();
-            int lvl = p->skillLevel(t_gun->skill_used);
-            std::string message;
-            if (lvl < 2) {
-                message = _("You clumsily draw your %1$s from the %2$s.");
-            } else if (lvl >= 7) {
-                message = _("You quickly draw your %1$s from the %2$s.");
-            } else {
-                message = _("You draw your %1$s from the %2$s.");
-            }
+        if (! p->is_armed() || p->wield(NULL)) {
+            item& get = it->contents[0];
+            p->inv.assign_empty_invlet(get, true);
 
-            p->add_msg_if_player(message.c_str(), gun.tname().c_str(), it->tname().c_str());
-            p->wield_contents(it, true, t_gun->skill_used, 13);
+            p->add_msg_if_player(m_info, _("You unclip your %s from your %s!"),
+                                 get.tname().c_str(), it->tname().c_str());
+
+            p->moves -= get.volume() * 10;
+            p->wield(&(p->i_add(get)));
+            it->contents.erase(it->contents.begin());
         }
     }
-    return it->type->charges_to_use();
-}
 
-int iuse::sheath_knife(player *p, item *it, bool, const tripoint& )
-{
-    // if sheath is empty, pull up menu asking what to sheathe
-    if (it->contents.empty()) {
-        // only show SHEATH_KNIFE items
-        int inventory_index = g->inv_for_flag("SHEATH_KNIFE", _("Sheathe what?"), false);
-        item *put = &(p->i_at(inventory_index));
-        if (put == NULL || put->is_null()) {
-            p->add_msg_if_player(_("Never mind."));
-            return 0;
-        }
-
-        if (!put->has_flag("SHEATH_KNIFE")) {
-            if (put->has_flag("SHEATH_SWORD")) {
-                p->add_msg_if_player(m_info, _("You need a scabbard to sheathe a sword!"),
-                                     put->tname().c_str());
-            } else {
-                p->add_msg_if_player(m_info, _("You can't sheathe your %s!"), put->tname().c_str());
-            }
-            return 0;
-        }
-
-        int maxvol = 5;
-        if (it->type->id == "bootstrap") { // bootstrap can't hold as much as sheath
-            maxvol = 3;
-        }
-
-        // only allow knives smaller than a certain size
-        if (put->volume() > maxvol) {
-            p->add_msg_if_player(m_info, _("That sheath is too small to hold your %s!"), put->tname().c_str());
-            return 0;
-        }
-
-        int lvl = p->skillLevel( skill_cutting );
-        std::string message;
-        if (lvl < 2) {
-            message = _("You clumsily shove your %1$s into the %2$s.");
-        } else if (lvl >= 5) {
-            message = _("You deftly insert your %1$s into the %2$s.");
-        } else {
-            message = _("You put your %1$s into the %2$s.");
-        }
-
-        p->add_msg_if_player(message.c_str(), put->tname().c_str(), it->tname().c_str());
-        p->store(it, put, skill_cutting, 14);
-
-    } else if( &p->weapon == it ) {
-        p->add_msg_if_player( _( "You need to unwield the %s before using it." ), it->tname().c_str() );
-        return 0;
-        // else unsheathe a sheathed weapon and have the player wield it
-    } else {
-        if (!p->is_armed() || p->wield(NULL)) {
-            p->wield_contents(it, true, skill_cutting, 13);
-
-            int lvl = p->skillLevel( skill_cutting );
-            std::string message;
-            if (lvl < 2) {
-                message = _("You clumsily draw your %1$s from the %2$s.");
-            } else if (lvl >= 5) {
-                message = _("You deftly draw your %1$s from the %2$s.");
-            } else {
-                message = _("You draw your %1$s from the %2$s.");
-            }
-
-            p->add_msg_if_player(message.c_str(), p->weapon.tname().c_str(), it->tname().c_str());
-
-            // diamond knives glimmer in the sunlight
-            if (g->is_in_sunlight(p->pos()) && (p->weapon.made_of("diamond") ||
-                    p->weapon.type->id == "foon" || p->weapon.type->id == "spork")) {
-                p->add_msg_if_player(_("The %s glimmers magnificently in the sunlight."),
-                                     p->weapon.tname().c_str());
-            }
-        }
-    }
-    return it->type->charges_to_use();
-}
-
-int iuse::sheath_sword(player *p, item *it, bool, const tripoint& )
-{
-    // if sheath is empty, pull up menu asking what to sheathe
-    if (it->contents.empty()) {
-        // only show SHEATH_SWORD items
-        int inventory_index = g->inv_for_flag("SHEATH_SWORD", _("Sheathe what?"), false);
-        item *put = &(p->i_at(inventory_index));
-        if (put == NULL || put->is_null()) {
-            p->add_msg_if_player(_("Never mind."));
-            return 0;
-        }
-
-        if (!put->has_flag("SHEATH_SWORD")) {
-            if (put->has_flag("SHEATH_KNIFE")) {
-                p->add_msg_if_player(m_info, _("You need a knife sheath for that!"), put->tname().c_str());
-            } else {
-                p->add_msg_if_player(m_info, _("You can't sheathe your %s!"), put->tname().c_str());
-            }
-            return 0;
-        }
-
-        int lvl = p->skillLevel( skill_cutting );
-        std::string message;
-        if (lvl < 2) {
-            message = _("You clumsily sheathe your %s.");
-        } else if (lvl >= 7) {
-            message = _("You deftly sheathe your %s.");
-        } else {
-            message = _("You sheathe your %s.");
-        }
-
-        p->add_msg_if_player(message.c_str(), put->tname().c_str());
-        p->store(it, put, skill_cutting, 14);
-
-    } else if( &p->weapon == it ) {
-        p->add_msg_if_player( _( "You need to stop wielding the %s before using it." ), it->tname().c_str() );
-        return 0;
-        // else unsheathe a sheathed weapon and have the player wield it
-    } else {
-        if (!p->is_armed() || p->wield(NULL)) {
-            int lvl = p->skillLevel( skill_cutting );
-            p->wield_contents(it, true, skill_cutting, 13);
-
-            // in order to perform iaijutsu, have to pass a roll based on level
-            bool iaijutsu =
-                lvl >= 7 &&
-                p->weapon.has_flag("IAIJUTSU") &&
-                one_in(12 - lvl);
-
-            // iaijutsu! slash an enemy as you draw your sword
-            if (iaijutsu) {
-                // check for adjacent enemies before asking to slash
-                int mon_num = -1;
-                for (int i = -1; i <= 1; i++) {
-                    for (int j = -1; j <= 1; j++) {
-                        tripoint dest( p->posx() + i, p->posy() + j, p->posz() );
-                        mon_num = g->mon_at( dest, true );
-                        if (mon_num != -1) {
-                            break; // break at first found enemy
-                        }
-                    }
-                    if (mon_num != -1) {
-                        break;
-                    }
-                }
-
-                // if there's an adjacent enemy, ask which one to slash
-                // if a spot without an enemy is chosen, defaults to the first enemy found above
-                if (mon_num != -1) {
-                    tripoint slashp;
-                    if (choose_adjacent(_("Slash where?"), slashp)) {
-                        const int mon_hit = g->mon_at( slashp, true );
-                        if (mon_hit != -1) {
-                            mon_num = mon_hit;
-                        }
-                    }
-                    monster &zed = g->zombie(mon_num);
-                    p->add_msg_if_player(m_good, _("You slash at the %1$s as you draw your %2$s."),
-                                         zed.name().c_str(), p->weapon.tname().c_str());
-                    p->melee_attack(zed, true);
-                } else {
-                    // no adjacent monsters, draw sword normally
-                    iaijutsu = false;
-                }
-            }
-
-            // draw sword normally
-            if (!iaijutsu) {
-                std::string message;
-                if (lvl < 2) {
-                    message = _("You clumsily draw your %s.");
-                } else if (lvl >= 7) {
-                    message = _("You masterfully draw your %s.");
-                } else {
-                    message = _("You draw your %s.");
-                }
-
-                p->add_msg_if_player(message.c_str(), p->weapon.tname().c_str());
-            }
-
-            // Glow/Glimmer
-            if (p->weapon.has_flag("VORPAL") &&p->weapon.has_technique( matec_id( "VORPAL" ) ) &&
-                  !x_in_y(g->natural_light_level( p->posz() ), 40)) {
-                std::string part = "";
-                int roll = rng(1,3);
-                switch (roll) {
-                case 1:
-                    part = _("snatching claws");
-                    break;
-                case 2:
-                    part = _("snapping teeth");
-                    break;
-                case 3:
-                    part = _("eyes of flame");
-                    break;
-                }
-
-                //~ $1s is a body part, %2$s is the weapon name.
-                p->add_msg_if_player(_("You catch a glimpse of %1$s in the blade of the %2$s."),
-                                      part.c_str(), p->weapon.tname().c_str());
-
-            // diamond swords glimmer in the sunlight
-            } else if (g->is_in_sunlight(p->pos()) && p->weapon.made_of("diamond")) {
-                p->add_msg_if_player(_("The %s glimmers magnificently in the sunlight."),
-                                     p->weapon.tname().c_str());
-            }
-        }
-    }
-    return it->type->charges_to_use();
-}
-
-int iuse::holster_ankle(player *p, item *it, bool b, const tripoint &pos)
-{
-    int choice = -1;
-    // ask whether to store a knife or a pistol
-    if (it->contents.empty()) {
-        choice = menu(true, _("Using ankle holster:"), _("Holster a pistol"),
-                      _("Sheathe a knife"), _("Cancel"), NULL);
-        if (choice == 1) {
-            holster_gun(p, it, b, pos);
-        } else if (choice == 2) {
-            sheath_knife(p, it, b, pos);
-        }
-    } else if( &p->weapon == it ) {
-        p->add_msg_if_player( _( "You need to stop wielding the %s before using it." ), it->tname().c_str() );
-        return 0;
-        // unsheathe knife or draw pistol
-    } else {
-        if (!p->is_armed() || p->wield(NULL)) {
-            item &stored = it->contents[0];
-            if (stored.has_flag("SHEATH_KNIFE")) {
-                sheath_knife(p, it, b, pos);
-            } else {
-                holster_gun(p, it, b, pos);
-            }
-        }
-    }
-    return it->type->charges_to_use();
-}
-
-int iuse::boots(player *p, item *it, bool, const tripoint& )
-{
-    int choice = -1;
-    if (it->contents.empty()) {
-        choice = menu(true, _("Using boots:"), _("Put a knife in the boot"), _("Cancel"), NULL);
-    } else if( &p->weapon == it ) {
-        p->add_msg_if_player( _( "You need to stop wielding the %s before using it." ), it->tname().c_str() );
-        return 0;
-    } else if (it->contents.size() == 1) {
-        choice = menu(true, _("Take what:"), it->contents[0].tname().c_str(), _("Put a knife in the boot"),
-                      _("Cancel"), NULL);
-    } else {
-        choice = menu(true, _("Take what:"), it->contents[0].tname().c_str(),
-                      it->contents[1].tname().c_str(), _("Cancel"), NULL);
-    }
-
-    if ((it->contents.size() > 0 && choice == 1) || // Pull 1st
-        (it->contents.size() > 1 && choice == 2)) {  // Pull 2nd
-        p->moves -= 15;
-        item &knife = it->contents[choice - 1];
-        if (!p->is_armed() || p->wield(NULL)) {
-            p->inv.assign_empty_invlet(knife, true);  // force getting an invlet.
-            p->wield(&(p->i_add(knife)));
-            it->contents.erase(it->contents.begin() + choice - 1);
-        }
-    } else if ((it->contents.empty() && choice == 1) || // Put 1st
-               (it->contents.size() == 1 && choice == 2)) { // Put 2st
-        int inventory_index = g->inv_for_flag("SHEATH_KNIFE", _("Put what?"), false);
-        item *put = &(p->i_at(inventory_index));
-        if (put == NULL || put->is_null()) {
-            p->add_msg_if_player(m_info, _("You do not have that item!"));
-            return 0;
-        }
-        if (!put->has_flag("SHEATH_KNIFE")) {
-            p->add_msg_if_player(m_info, _("That isn't a knife!"));
-            return 0;
-        }
-        if (put->volume() > 5) {
-            p->add_msg_if_player(m_info, _("That item does not fit in your boot!"));
-            return 0;
-        }
-        p->moves -= 30;
-        p->add_msg_if_player(_("You put the %s in your boot."), put->tname().c_str());
-        it->put_in(p->i_rem(inventory_index));
-    }
     return it->type->charges_to_use();
 }
 
@@ -7603,28 +7287,26 @@ bool einkpc_download_memory_card(player *p, item *eink, item *mc)
 
         std::vector<const recipe *> candidates;
 
-        for( auto &recipe : recipes ) {
-            for( auto &elem : recipe.second ) {
+        for( auto &elem : recipe_dict ) {
 
-                const int dif = ( elem )->difficulty;
+            const int dif = ( elem )->difficulty;
 
-                if (science) {
-                    if( ( elem )->cat != "CC_NONCRAFT" ) {
-                        if (dif >= 3 && one_in(dif + 1)) {
-                            candidates.push_back( elem );
-                        }
+            if (science) {
+                if( ( elem )->cat != "CC_NONCRAFT" ) {
+                    if (dif >= 3 && one_in(dif + 1)) {
+                        candidates.push_back( elem );
                     }
-                } else {
-                    if( ( elem )->cat == "CC_FOOD" ) {
-                        if (dif <= 3 && one_in(dif)) {
-                            candidates.push_back( elem );
-                        }
+                }
+            } else {
+                if( ( elem )->cat == "CC_FOOD" ) {
+                    if (dif <= 3 && one_in(dif)) {
+                        candidates.push_back( elem );
                     }
-
                 }
 
-
             }
+
+
         }
 
         if (candidates.size() > 0) {
@@ -7903,7 +7585,7 @@ int iuse::einktabletpc(player *p, item *it, bool t, const tripoint &pos)
 
                 candidate_recipes.push_back(s);
 
-                auto recipe = find_recipe( s );
+                auto recipe = recipe_by_name( s );
                 if( recipe ) {
                     rmenu.addentry( k++, true, -1, item::nname( recipe->result ) );
                 }
@@ -7919,7 +7601,7 @@ int iuse::einktabletpc(player *p, item *it, bool t, const tripoint &pos)
                 const auto rec_id = candidate_recipes[rchoice - 1];
                 it->set_var( "RECIPE", rec_id );
 
-                auto recipe = find_recipe( rec_id );
+                auto recipe = recipe_by_name( rec_id );
                 if( recipe ) {
                     p->add_msg_if_player(m_info,
                         _("You change the e-ink screen to show a recipe for %s."),
@@ -8800,7 +8482,7 @@ int iuse::remoteveh(player *p, item *it, bool t, const tripoint &pos)
             veh->start_engines();
         }
     } else if( choice == 3 ) {
-        veh->use_controls();
+        veh->use_controls( pos );
     } else {
         return 0;
     }
@@ -9032,19 +8714,17 @@ int iuse::multicooker(player *p, item *it, bool t, const tripoint &pos)
 
             int counter = 1;
 
-            for( auto &recipe : recipes ) {
-                for( auto &elem : recipe.second ) {
-                    if( ( elem )->cat == "CC_FOOD" && ( ( elem )->subcat == "CSC_FOOD_MEAT" ||
-                                                        ( elem )->subcat == "CSC_FOOD_VEGGI" ||
-                                                        ( elem )->subcat == "CSC_FOOD_PASTA" ) ) {
+            for( auto &elem : recipe_dict ) {
+                if( ( elem )->cat == "CC_FOOD" && ( ( elem )->subcat == "CSC_FOOD_MEAT" ||
+                                                    ( elem )->subcat == "CSC_FOOD_VEGGI" ||
+                                                    ( elem )->subcat == "CSC_FOOD_PASTA" ) ) {
 
-                        if( p->knows_recipe( ( elem ) ) ) {
-                            dishes.push_back( elem );
-                            const bool can_make = ( elem )->can_make_with_inventory( crafting_inv );
-                            item dummy( ( elem )->result, 0 );
+                    if( p->knows_recipe( ( elem ) ) ) {
+                        dishes.push_back( elem );
+                        const bool can_make = ( elem )->can_make_with_inventory( crafting_inv );
+                        item dummy( ( elem )->result, 0 );
 
-                            dmenu.addentry(counter++, can_make, -1, dummy.display_name());
-                        }
+                        dmenu.addentry(counter++, can_make, -1, dummy.display_name());
                     }
                 }
             }
@@ -9390,12 +9070,18 @@ int iuse::capture_monster_act( player *p, item *it, bool, const tripoint &pos )
         int mon_dex = g->mon_at( target );
         if( mon_dex != -1 ) {
             monster f = g->zombie( mon_dex );
-            const auto iter = it->type->properties.find( "monster_size_capacity" );
-            if( iter == it->type->properties.end() ) {
-                debugmsg( _("%s has no monster_size_capacity."), it->tname().c_str() );
-            }
 
-            if( f.get_size() > Creature::size_map.at(iter->second) ) {
+            if( !it->has_property("monster_size_capacity") ) {
+                debugmsg( "%s has no monster_size_capacity.", it->tname().c_str() );
+                return 0;
+            }
+            const std::string capacity = it->get_property_string( "monster_size_capacity" );
+            if( Creature::size_map.count( capacity ) == 0 ) {
+                debugmsg( "%s has invalid monster_size_capacity %s.",
+                          it->tname().c_str(), capacity.c_str() );
+                return 0;
+            }
+            if( f.get_size() > Creature::size_map.find( capacity )->second ) {
                 p->add_msg_if_player( m_info, _("The %1$s is too big to put in your %2$s."),
                                       f.type->nname().c_str(), it->tname().c_str() );
                 return 0;

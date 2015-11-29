@@ -448,7 +448,7 @@ class inscribe_actor : public iuse_actor
         std::string verb; // "Write", "Carve"
         std::string gerund; // "Written", "Carved"
 
-        bool item_inscription( item *cut, std::string verb, std::string gerund ) const;
+        bool item_inscription( item *cut ) const;
 
         inscribe_actor() : iuse_actor(), on_items( true ), on_terrain( false ), material_restricted( true ) { }
         virtual ~inscribe_actor() { }
@@ -591,6 +591,38 @@ class musical_instrument_actor : public iuse_actor
         virtual void load( JsonObject &jo );
         virtual long use( player*, item*, bool, const tripoint& ) const override;
         virtual bool can_use( const player*, const item*, bool, const tripoint& ) const override;
+        virtual iuse_actor *clone() const override;
+};
+
+/**
+ * Holster a weapon
+ */
+class holster_actor : public iuse_actor
+{
+    public:
+        /** Prompt to use when selecting an item */
+        std::string holster_prompt;
+        /** Message to show when holstering an item */
+        std::string holster_msg;
+        /** Maximum volume of each item that can be holstered */
+        int max_volume;
+        /** Minimum volume of each item that can be holstered or 1/3 max_volume if unspecified */
+        int min_volume;
+        /** Maximum weight of each item. If unspecified no weight limit is imposed */
+        int max_weight;
+        /** Total number of items that holster can contain **/
+        int multi;
+        /** Base move cost per unit volume when wielding the contained item */
+        int draw_speed;
+        /** Guns using any of these skills can be holstered */
+        std::vector<skill_id> skills;
+        /** Items with any of these flags set can be holstered */
+        std::vector<std::string> flags;
+
+        holster_actor() : iuse_actor(), max_weight( -1 ), multi( 1 ), draw_speed( 10 ) { }
+        virtual ~holster_actor() { }
+        virtual void load( JsonObject &jo );
+        virtual long use( player *, item *, bool, const tripoint & ) const override;
         virtual iuse_actor *clone() const override;
 };
 

@@ -43,11 +43,11 @@
   "subcategory": "CSC_WEAPON_PIERCING",
   "skill_used": "magic",
   "skills_required": [ "fabrication", 5 ],
-  "difficulty": 4,
+  "difficulty": 3,
   "time": 180000,
   "reversible": false,
   "autolearn": false,
-  "book_learn": [[ "book_bloodmagic", 1 ]],
+  "book_learn": [[ "book_bloodmagic", 3 ]],
   "qualities":[{"id":"HAMMER","level":3,"amount":1}],
   "tools": [
     [ [ "book_bloodmagic", -1 ] ],
@@ -87,11 +87,11 @@
   "subcategory": "CSC_WEAPON_CUTTING",
   "skill_used": "magic",
   "skills_required": [ "fabrication", 4 ],
-  "difficulty": 8,
+  "difficulty": 6,
   "time": 100000,
   "reversible": false,
   "autolearn": false,
-  "book_learn": [[ "book_hexenhammer", 7 ]],
+  "book_learn": [[ "book_hexenhammer", 6 ]],
   "tools": [
     [ ["book_hexenhammer", -1] ],
     [ ["hexenhammer", -1] ],
@@ -162,7 +162,7 @@
   "time": 100000,
   "reversible": false,
   "autolearn": false,
-  "book_learn": [[ "book_sacrifice", 6 ]],
+  "book_learn": [[ "book_bloodmagic", 6 ]],
   "qualities":[{"id":"HAMMER","level":3,"amount":1}],
   "tools": [
     [ [ "book_bloodmagic", -1 ] ],
@@ -212,11 +212,11 @@
   "subcategory": "CSC_WEAPON_RANGED",
   "skill_used": "magic",
   "skills_required": [ "fabrication", 1 ],
-  "difficulty": 6,
+  "difficulty": 7,
   "time": 200000,
   "reversible": false,
   "autolearn": false,
-  "book_learn": [[ "book_hexenhammer", 6 ]],
+  "book_learn": [[ "book_hexenhammer", 7 ]],
   "qualities":[{"id":"HAMMER","level":3,"amount":1}],
   "tools": [
     [ [ "book_hexenhammer", -1 ] ],
@@ -235,6 +235,33 @@
     [ [ "holy_symbol", 1 ] ],
     [ [ "gold_small", 45 ] ],
     [ [ "essence_dull", 20 ] ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "spear_pestilence",
+  "category": "CC_WEAPON",
+  "subcategory": "CSC_WEAPON_PIERCING",
+  "skill_used": "magic",
+  "skills_required": [ "fabrication", 5 ],
+  "difficulty": 7,
+  "time": 180000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "book_sacrifice", 7 ]],
+  "qualities":[{"id":"CUT","level":1,"amount":1}],
+  "tools": [ [ [ "book_sacrifice", -1 ] ] ],
+  "//": "fungal fighters are plants, so not an option",
+  "components": [
+    [ [ "spear_steel", 1 ] ],
+    [
+      [ "bee_sting", 1 ],
+      [ "wasp_sting", 1 ]
+    ],
+    [ [ "chitin_piece", 2 ] ],
+    [
+      [ "essence", 4 ],
+      [ "essence_blood", 12 ]
+    ]
   ]
 }
 ]

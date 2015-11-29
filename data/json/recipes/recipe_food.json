@@ -874,6 +874,7 @@
   "time": 12000,
   "reversible": false,
   "autolearn": true,
+  "batch_time_factors":[83, 3],
   "qualities":[
     {"id":"CHEM","level":2,"amount":1}
   ], "tools": [
@@ -994,6 +995,7 @@
   "time": 18000,
   "reversible": false,
   "autolearn": true,
+  "batch_time_factors":[67, 5],
   "qualities" : [
     {"id":"CUT","level":1,"amount":1}
   ],
@@ -1036,6 +1038,7 @@
   "time": 18000,
   "reversible": false,
   "autolearn": true,
+  "batch_time_factors":[67, 5],
   "qualities" : [
     {"id":"CUT","level":1,"amount":1}
   ],
@@ -2329,6 +2332,7 @@
   "time": 30000,
   "reversible": false,
   "autolearn": true,
+  "batch_time_factors":[80, 4],
   "qualities":[
     {"id":"COOK","level":3,"amount":1}
   ], "tools": [
@@ -3241,6 +3245,7 @@
   "time": 30000,
   "reversible": false,
   "autolearn": true,
+  "batch_time_factors":[83, 5],
   "qualities":[
     {"id":"COOK","level":3,"amount":1}
   ], "tools": [
@@ -6775,6 +6780,7 @@
   "time": 30000,
   "reversible": false,
   "autolearn": true,
+  "batch_time_factors":[83, 5],
   "qualities" : [
     {"id":"CUT","level":1,"amount":1},
     {"id":"COOK","level":3,"amount":1}
@@ -6808,6 +6814,7 @@
   "time": 30000,
   "reversible": false,
   "autolearn": true,
+  "batch_time_factors":[83, 5],
   "qualities" : [
     {"id":"CUT","level":1,"amount":1},
     {"id":"COOK","level":3,"amount":1}
@@ -6842,6 +6849,7 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [[ "cookbook_human", 4 ]],
+  "batch_time_factors":[83, 5],
   "qualities" : [
     {"id":"CUT","level":1,"amount":1},
     {"id":"COOK","level":3,"amount":1}
@@ -6875,6 +6883,7 @@
   "time": 30000,
   "reversible": false,
   "autolearn": true,
+  "batch_time_factors":[83, 5],
   "qualities" : [
     {"id":"CUT","level":1,"amount":1},
     {"id":"COOK","level":3,"amount":1}
@@ -6909,6 +6918,7 @@
   "time": 30000,
   "reversible": false,
   "autolearn": true,
+  "batch_time_factors":[83, 5],
   "qualities" : [
     {"id":"CUT","level":1,"amount":1},
     {"id":"COOK","level":3,"amount":1}
@@ -6988,6 +6998,7 @@
   "time": 30000,
   "reversible": false,
   "autolearn": true,
+  "batch_time_factors":[80, 4],
   "qualities":[
     {"id":"COOK","level":3,"amount":1}
   ], "tools": [
@@ -7036,7 +7047,9 @@
       [ "veggy", 1 ],
       [ "rehydrated_veggy", 1 ],
       [ "dry_veggy", 1 ],
+      [ "dry_beans", 1 ],
       [ "can_beans", 1 ],
+      [ "raw_beans", 1 ],
       [ "beans_cooked", 1 ],
       [ "dandelion_cooked", 1 ],
       [ "dry_mushroom", 1 ],
@@ -7054,6 +7067,7 @@
   "time": 30000,
   "reversible": false,
   "autolearn": true,
+  "batch_time_factors":[80, 4],
   "qualities":[
     {"id":"COOK","level":3,"amount":1}
   ], "tools": [
@@ -7114,6 +7128,7 @@
   "time": 30000,
   "reversible": false,
   "autolearn": true,
+  "batch_time_factors":[80, 4],
   "qualities":[
     {"id":"COOK","level":3,"amount":1}
   ], "tools": [
@@ -7186,6 +7201,7 @@
   "time": 30000,
   "reversible": false,
   "autolearn": true,
+  "batch_time_factors":[80, 4],
   "qualities":[
     {"id":"COOK","level":3,"amount":1}
   ], "tools": [
@@ -7272,6 +7288,7 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [[ "cookbook_human", 4 ]],
+  "batch_time_factors":[80, 4],
   "qualities":[
     {"id":"COOK","level":3,"amount":1}
   ], "tools": [
@@ -7330,6 +7347,7 @@
   "time": 30000,
   "reversible": false,
   "autolearn": true,
+  "batch_time_factors":[80, 4],
   "qualities":[
     {"id":"COOK","level":3,"amount":1}
   ], "tools": [
@@ -7392,6 +7410,7 @@
   "time": 60000,
   "reversible": false,
   "autolearn": true,
+  "batch_time_factors":[80, 4],
   "qualities":[
     {"id":"COOK","level":3,"amount":1}
   ], "tools": [
@@ -7430,6 +7449,7 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [[ "cookbook_human", 4 ]],
+  "batch_time_factors":[80, 4],
   "qualities":[
     {"id":"COOK","level":3,"amount":1}
   ], "tools": [
@@ -7692,6 +7712,7 @@
   "time": 30100,
   "reversible": false,
   "autolearn": true,
+  "batch_time_factors":[80, 4],
   "qualities":[
     {"id":"COOK","level":3,"amount":1}
   ], "tools": [
@@ -9235,6 +9256,7 @@
   "time": 30000,
   "reversible": false,
   "autolearn": true,
+  "batch_time_factors":[83, 5],
   "qualities" : [
     {"id":"CUT","level":1,"amount":1},
     {"id":"COOK","level":3,"amount":1}
@@ -9364,6 +9386,7 @@
   "time": 30000,
   "reversible": false,
   "autolearn": true,
+  "batch_time_factors":[83, 5],
   "qualities" : [
     {"id":"CUT","level":1,"amount":1},
     {"id":"COOK","level":3,"amount":1}
@@ -9402,6 +9425,7 @@
   "time": 30000,
   "reversible": false,
   "autolearn": true,
+  "batch_time_factors":[83, 5],
   "qualities" : [
     {"id":"CUT","level":1,"amount":1},
     {"id":"COOK","level":3,"amount":1}
@@ -9441,6 +9465,7 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [[ "cookbook_human", 6 ]],
+  "batch_time_factors":[83, 5],
   "qualities" : [
     {"id":"CUT","level":1,"amount":1},
     {"id":"COOK","level":3,"amount":1}
@@ -9550,6 +9575,7 @@
   "time": 30000,
   "reversible": false,
   "autolearn": true,
+  "batch_time_factors":[80, 4],
   "qualities":[
     {"id":"COOK","level":2,"amount":1}
   ], "tools": [
@@ -9960,6 +9986,7 @@
   "time": 18000,
   "reversible": false,
   "autolearn": true,
+  "batch_time_factors":[67, 5],
   "qualities":[
   {"id":"CUT","level":1,"amount":1}],
   "tools": [
@@ -9983,6 +10010,7 @@
   "time": 18000,
   "reversible": false,
   "autolearn": true,
+  "batch_time_factors":[67, 5],
   "qualities":[
   {"id":"CUT","level":1,"amount":1}],
   "tools": [
@@ -10006,6 +10034,7 @@
   "time": 30000,
   "reversible": false,
   "autolearn": true,
+  "batch_time_factors":[83, 5],
   "qualities" : [
     {"id":"CUT","level":1,"amount":1},
     {"id":"COOK","level":3,"amount":1}
