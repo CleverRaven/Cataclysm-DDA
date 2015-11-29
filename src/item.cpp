@@ -562,6 +562,8 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
     const bool debug = g != nullptr && ( debug_mode ||
                                          g->u.has_artifact_with( AEP_SUPER_CLAIRVOYANCE ) );
 
+    info.clear();
+
     auto insert_separation_line = [&]() {
         if( info.back().sName != "--" ) {
             info.push_back( iteminfo( "DESCRIPTION", "--" ) );

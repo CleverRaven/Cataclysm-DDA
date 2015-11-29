@@ -510,6 +510,30 @@
     },
     {
         "type" : "keybinding",
+        "id": "SCROLL_UP",
+        "category": "CRAFTING",
+        "name": "Scroll item info up",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"PPAGE"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "SCROLL_DOWN",
+        "category": "CRAFTING",
+        "name": "Scroll item info down",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"NPAGE"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
         "id":"CENTER",
         "category":"OVERMAP",
         "name":"Center On Character",

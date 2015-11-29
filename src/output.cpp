@@ -1107,12 +1107,13 @@ void full_screen_popup(const char *mes, ...)
 int draw_item_info(const int iLeft, const int iWidth, const int iTop, const int iHeight,
                    const std::string sItemName, const std::string sTypeName,
                    std::vector<iteminfo> &vItemDisplay, std::vector<iteminfo> &vItemCompare,
-                   int &selected, const bool without_getch, const bool without_border, const bool handle_scrolling)
+                   int &selected, const bool without_getch, const bool without_border,
+                   const bool handle_scrolling, const bool scrollbar_left, const bool use_full_win)
 {
     WINDOW *win = newwin(iHeight, iWidth, iTop + VIEW_OFFSET_Y, iLeft + VIEW_OFFSET_X);
 
     const auto result = draw_item_info(win, sItemName, sTypeName, vItemDisplay, vItemCompare,
-                          selected, without_getch, without_border, handle_scrolling);
+                          selected, without_getch, without_border, handle_scrolling, scrollbar_left, use_full_win);
     delwin( win );
     return result;
 }
@@ -1237,10 +1238,11 @@ std::string format_item_info( const std::vector<iteminfo> &vItemDisplay,
 
 int draw_item_info(WINDOW *win, const std::string sItemName, const std::string sTypeName,
                    std::vector<iteminfo> &vItemDisplay, std::vector<iteminfo> &vItemCompare,
-                   int &selected, const bool without_getch, const bool without_border, const bool handle_scrolling)
+                   int &selected, const bool without_getch, const bool without_border,
+                   const bool handle_scrolling, const bool scrollbar_left, const bool use_full_win )
 {
     std::ostringstream buffer;
-    int line_num = 1;
+    int line_num = use_full_win || without_border ? 0 : 1;
     if (sItemName != "") {
         buffer << sItemName << "\n";
     }
@@ -1252,14 +1254,14 @@ int draw_item_info(WINDOW *win, const std::string sItemName, const std::string s
     int selected_ret = '\n';
     buffer << format_item_info( vItemDisplay, vItemCompare );
 
+    const auto b = use_full_win ? 0 : (without_border ? 1 : 2);
+    const auto width = getmaxx( win ) - (use_full_win ? 1 : b * 2);
+    const auto height = getmaxy( win ) - (use_full_win ? 0 : 2);
+
     int ch = (int)' ';
     while( true ) {
         int iLines = 0;
         if( !buffer.str().empty() ) {
-            const auto b = without_border ? 1 : 2;
-            const auto width = getmaxx( win ) - b * 2;
-            const auto height = getmaxy( win ) - 2;
-
             const auto vFolded = foldstring(buffer.str(), width);
             iLines = vFolded.size();
 
@@ -1271,9 +1273,10 @@ int draw_item_info(WINDOW *win, const std::string sItemName, const std::string s
                 selected = iLines - height;
             }
 
-            fold_and_print_from( win, line_num, b, width, selected, c_ltgray, buffer.str() );
+            fold_and_print_from( win, line_num, b, width - 1, selected, c_ltgray, buffer.str() );
 
-            draw_scrollbar( win, selected, height, iLines-height, 1, 0, BORDER_COLOR, true );
+            draw_scrollbar( win, selected, height, iLines-height, (without_border && use_full_win ? 0 : 1),
+                            scrollbar_left ? 0 : getmaxx( win ) - 1, BORDER_COLOR, true );
         }
 
         if( !without_border ) {
