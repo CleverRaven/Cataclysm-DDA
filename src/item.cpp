@@ -4083,6 +4083,16 @@ bool item::reload(player &u, int pos)
         ammo = &ammo->contents[0];
     }
 
+     // @todo deprecate reloading using a spare magazine
+     item *spare_mag = has_gunmod("spare_mag") >= 0 ? &contents[has_gunmod("spare_mag")] : nullptr;
+     if( spare_mag && spare_mag->charges > 0 && ammo_remaining() <= 0 ) {
+         charges = spare_mag->charges;
+         set_curammo( spare_mag->get_curammo_id() );
+         spare_mag->charges = 0;
+         spare_mag->unset_curammo();
+         return true;
+     }
+
     if( ammo->is_null() ) {
         return false;
     }
@@ -4102,17 +4112,6 @@ bool item::reload(player &u, int pos)
 
     // First determine what we are trying to reload
     if( is_gun() ) {
-        item *spare_mag = has_gunmod("spare_mag") >= 0 ? &contents[has_gunmod("spare_mag")] : nullptr;
-
-        // @todo deprecate reloading using a spare magazine
-        if( spare_mag && spare_mag->charges > 0 && ammo_remaining() <= 0 ) {
-            charges = spare_mag->charges;
-            set_curammo( spare_mag->get_curammo_id() );
-            spare_mag->charges = 0;
-            spare_mag->unset_curammo();
-            return true;
-        }
-
         // In order of preference reload active gunmod, gun, spare magazine, any other auxiliary gunmod
         std::vector<item *> opts = { active_gunmod(), this, spare_mag };
         std::transform(contents.begin(), contents.end(), std::back_inserter(opts), [](item& mod){
