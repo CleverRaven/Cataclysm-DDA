@@ -648,7 +648,9 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```SUN_GLASSES``` Prevents glaring when in sunlight.
 - ```SUPER_FANCY``` Gives an additional moral bonus over `FANCY` if the player has the `Stylish` trait.
 - ```SWIM_GOGGLES``` Allows you to see much further under water.
-- ```THERMOMETER``` This gear is equipped with an accurate thermometer.
+- ```BAROMETER``` This gear is equipped with an accurate barometer (which is used to measure atmospheric pressure).
+- ```HYGROMETER``` This gear is equipped with an accurate hygrometer (which is used to measure humidity).
+- ```THERMOMETER``` This gear is equipped with an accurate thermometer (which is used to measure temperature).
 - ```VARSIZE``` Can be made to fit via tailoring.
 - ```WAIST``` Layer for belts other things worn on the waist.
 - ```WATCH``` Acts as a watch and allows the player to see actual time.
@@ -727,6 +729,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```LENS``` Lens items can make fires via focusing light rays.
 - ```FIRE_DRILL``` Item will start fires in the primitive way.
 - ```MUTAGEN_STRONG``` Chance of mutating several times.
+- ```MUTAGEN_WEAK``` Causes generic mutation (with less chance to mutate than `MUTAGEN_STRONG`).
 - ```MUTAGEN_PLANT``` Causes mutation in the plant branch.
 - ```MUTAGEN_INSECT``` Causes mutation in the insect branch.
 - ```MUTAGEN_SPIDER``` Causes mutation in the spider branch.
@@ -734,6 +737,9 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```MUTAGEN_FISH``` Causes mutation in the fish branch.
 - ```MUTAGEN_RAT``` Causes mutation in the rat branch.
 - ```MUTAGEN_BEAST``` Causes mutation in the beast branch.
+- ```MUTAGEN_FELINE``` Causes mutation in the feline (cat) branch.
+- ```MUTAGEN_LUPINE``` Causes mutation in the lupine (wolf) branch.
+- ```MUTAGEN_URSINE``` Causes mutation in the ursine (bear) branch.
 - ```MUTAGEN_CATTLE``` Causes mutation in the cattle branch.
 - ```MUTAGEN_CEPHALOPOD``` Causes mutation in the cephalopod branch.
 - ```MUTAGEN_BIRD``` Causes mutation in the bird branch.
@@ -948,16 +954,6 @@ Those flags are added by the game code to specific items (that specific welder, 
 - ```DOG_WHISTLE``` Dogs hate this thing; your dog seems pretty cool with it though.
 - ```VACUTAINER``` Sucks the blood out of things like a robotic vampire.
 - ```KNIFE``` Cut things up.
-- ```FIREMACHETE_OFF``` Turn the fire-machete on.
-- ```FIREMACHETE_ON``` Turn the fire-machete off.
-- ```FIREKATANA_OFF``` Turn the fire-katana on.
-- ```FIREKATANA_ON``` Turn the fire-katana off.
-- ```ZWEIFIRE_OFF``` Turn the zwei-fire on.
-- ```ZWEIFRE_ON``` Turn the zwei-fire off.
-- ```BROADFIRE_OFF``` Turn the broad-fire on.
-- ```BROADFIRE_ON``` Turn the broad-fire off.
-- ```SHISHKEBAB_OFF``` Turn the shishkebab on.
-- ```SHISHKEBAB_ON``` Turn the shshkebab off.
 - ```LUMBER``` Cut logs into planks.
 - ```HACKSAW``` Cut metal into chunks.
 - ```TENT``` Pitch a tent.
@@ -996,7 +992,7 @@ Those flags are added by the game code to specific items (that specific welder, 
 - ```JET_INJECTOR``` Inject some jet drugs right into your veins.
 - ```CABLE_ATTACH``` This item is a cable spool. Use it to try to attach to a vehicle.
 - ```CAPTURE_MONSTER_ACT``` Capture and encapsulate a monster. The associated action is also used for releasing it.
--```PLACE_RANDOMLY``` This is very much like the flag in the manhack iuse, it prevents the item from querying the player as to where they want the monster unloaded to, and instead choses randomly.
+- ```PLACE_RANDOMLY``` This is very much like the flag in the manhack iuse, it prevents the item from querying the player as to where they want the monster unloaded to, and instead choses randomly.
 
 ## Generic
 

@@ -4366,8 +4366,7 @@
       "volume":0,
       "bashing":-2,
       "cutting":0,
-      "to_hit":-2,
-      "flags":["CD"]
+      "to_hit":-2
   },{
     "id": "l_HFPack",
     "type": "GENERIC",
