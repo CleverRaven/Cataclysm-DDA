@@ -14408,14 +14408,9 @@ void intro()
     erase();
 }
 
-bool is_worn(const player &p, const item *it)
-{
-    return !p.worn.empty() && &p.worn.front() <= it && it <= &p.worn.back();
-}
-
 void game::process_artifact(item *it, player *p)
 {
-    const bool worn = is_worn( *p, it );
+    const bool worn = p->is_worn( *it );
     const bool wielded = ( it == &p->weapon );
     std::vector<art_effect_passive> effects;
     effects = it->type->artifact->effects_carried;
