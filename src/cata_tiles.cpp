@@ -1268,9 +1268,49 @@ bool cata_tiles::draw_from_id_string(std::string id, TILE_CATEGORY category,
         screen_y = (y - o_y) * tile_height + op_y;
     }
 
-    // seed the PRNG with the x,y coordinate to get a reproducible random int
+
+    // seed the PRNG to get a reproducible random int
     // TODO faster solution here
-    srand (g->m.getabs(x,y).x+g->m.getabs(x,y).y*65536);
+    unsigned int seed = 0;
+    // FIXME determine correct Z value
+    int z_coord = 0;
+    switch (category) {
+        case C_TERRAIN:
+        case C_FIELD:
+        case C_LIGHTING:
+            // stationary map tiles, seed based on map coordinates
+            seed = g->m.getabs(x,y).x+g->m.getabs(x,y).y*65536;
+            break;
+        case C_VEHICLE_PART:
+            // vehicle parts, seed based on coordinates within the vehicle
+            // TODO also use some vehicle id, for less predictability
+            { // new scope for variable declarations
+                int partid;
+                vehicle *veh = g->m.veh_at(tripoint(x,y,z_coord), partid);
+                vehicle_part &part = veh->parts[partid];
+                seed = part.mount.x + part.mount.y*65536;
+            }
+            break;
+        case C_ITEM:
+        case C_FURNITURE:
+        case C_TRAP:
+        case C_NONE:
+        case C_BULLET:
+        case C_HIT_ENTITY:
+        case C_WEATHER:
+            // TODO come up with ways to make random sprites consistent for these types
+            break;
+        case C_MONSTER:
+            // monsters (and player?), seed with index into monster list
+            // TODO detect player character, seed on name?
+            // FIXME add persistent id to Creature ttripoint(x,y,z_coord)ype, instead of using monster list index
+            seed = g->mon_at(tripoint(x,y,z_coord));
+            break;
+        default:
+            // TODO determine ways other than category to differentiate more types of sprites
+            break;
+    }
+    srand(seed);
     unsigned int loc_rand = rand();
     //draw it!
     draw_tile_at(display_tile, screen_x, screen_y, loc_rand, rota, ll, apply_night_vision_goggles);

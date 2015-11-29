@@ -7961,28 +7961,40 @@
         },
         {
             "id":"vp_windshield",
-            "fg":328,
+            "fg": [
+                {"weight":2, "sprite":328},
+                {"weight":1, "sprite":336}
+                ],
             "rotates":true,
             "multitile":true,
             "additional_tiles":
             [
                 {
                     "id":"broken",
-                    "fg":334,
+                    "fg": [
+                        {"weight":1, "sprite":334},
+                        {"weight":1, "sprite":342}
+                        ],
                     "bg": -1
                 }
             ]
         },
         {
             "id":"vp_reinforced_windshield",
-            "fg":335,
+            "fg": [
+                {"weight":2, "sprite":335},
+                {"weight":1, "sprite":337}
+                ],
             "rotates":true,
             "multitile":true,
             "additional_tiles":
             [
                 {
                     "id":"broken",
-                    "fg":334,
+                    "fg": [
+                        {"weight":1, "sprite":334},
+                        {"weight":1, "sprite":342}
+                        ],
                     "bg": -1
                 }
             ]
