@@ -83,6 +83,8 @@ const species_id FUNGUS( "FUNGUS" );
 const species_id INSECT( "INSECT" );
 const species_id MAMMAL( "MAMMAL" );
 
+const monster_group_stimulus null_monster_stimulus = { stimulus_none, { 0, 0, 0 }, 0, 0 };
+
 monster::monster()
 {
     position.x = 20;
@@ -96,7 +98,9 @@ monster::monster()
     friendly = 0;
     anger = 0;
     morale = 2;
+    next_overmap_move_turn = 0;
     faction = mfaction_id( 0 );
+    recent_stimulus = null_monster_stimulus;
     mission_id = -1;
     no_extra_death_drops = false;
     dead = false;
@@ -127,7 +131,9 @@ monster::monster( const mtype_id& id )
     friendly = 0;
     anger = type->agro;
     morale = type->morale;
+    next_overmap_move_turn = 0;
     faction = type->default_faction;
+    recent_stimulus = null_monster_stimulus;
     mission_id = -1;
     no_extra_death_drops = false;
     dead = false;
@@ -157,7 +163,9 @@ monster::monster( const mtype_id& id, const tripoint &p )
     friendly = 0;
     anger = type->agro;
     morale = type->morale;
+    next_overmap_move_turn = 0;
     faction = type->default_faction;
+    recent_stimulus = null_monster_stimulus;
     mission_id = -1;
     no_extra_death_drops = false;
     dead = false;
