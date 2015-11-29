@@ -161,13 +161,13 @@ protected:
     weighted_object_list objects;
 
     virtual size_t pick_ent(long long) const =0;
-    void invalidate_precalc() {}
+    virtual void invalidate_precalc() {}
 };
 
 template <typename T> struct weighted_int_list : public weighted_list<int, T> {
 
     // populate the precalc_array for O(1) lookups
-    void precalc(){
+    void precalc() {
         precalc_array.clear();
         precalc_array.reserve(this->total_weight); // to avoid additional reallocations
         size_t i;
@@ -180,9 +180,11 @@ template <typename T> struct weighted_int_list : public weighted_list<int, T> {
 protected:
 
     size_t pick_ent(long long rand_ll) const override {
+        if( this->objects.size() == 1 ) {
+            return 0;
+        }
         size_t i;
-        int picked;
-        picked = (rand_ll%(this->total_weight))+1;
+        int picked = (rand_ll%(this->total_weight))+1;
         if( precalc_array.size() ) {
             // if the precalc_array is populated, use it for O(1) lookup
             i = precalc_array[picked-1];
@@ -199,7 +201,7 @@ protected:
         return i;
     }
 
-    void invalidate_precalc() {
+    void invalidate_precalc() override{
         precalc_array.clear();
     }
 

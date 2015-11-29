@@ -621,40 +621,40 @@ void cata_tiles::load_ascii_set(JsonObject &entry, int offset, int size)
         id[7] = static_cast<char>(FG);
         id[8] = static_cast<char>(-1);
         tile_type &curr_tile = tile_ids[id];
-        std::vector<int> *sprites = curr_tile.fg.add(std::vector<int>({index_in_image + offset}),1);
+        auto &sprites = *(curr_tile.fg.add(std::vector<int>({index_in_image + offset}),1));
         switch(ascii_char) {
         case LINE_OXOX_C://box bottom/top side (horizontal line)
-            sprites->at(0) = 205 + base_offset;
+            sprites[0] = 205 + base_offset;
             break;
         case LINE_XOXO_C://box left/right side (vertical line)
-            sprites->at(0) = 186 + base_offset;
+            sprites[0] = 186 + base_offset;
             break;
         case LINE_OXXO_C://box top left
-            sprites->at(0) = 201 + base_offset;
+            sprites[0] = 201 + base_offset;
             break;
         case LINE_OOXX_C://box top right
-            sprites->at(0) = 187 + base_offset;
+            sprites[0] = 187 + base_offset;
             break;
         case LINE_XOOX_C://box bottom right
-            sprites->at(0) = 188 + base_offset;
+            sprites[0] = 188 + base_offset;
             break;
         case LINE_XXOO_C://box bottom left
-            sprites->at(0) = 200 + base_offset;
+            sprites[0] = 200 + base_offset;
             break;
         case LINE_XXOX_C://box bottom north T (left, right, up)
-            sprites->at(0) = 202 + base_offset;
+            sprites[0] = 202 + base_offset;
             break;
         case LINE_XXXO_C://box bottom east T (up, right, down)
-            sprites->at(0) = 208 + base_offset;
+            sprites[0] = 208 + base_offset;
             break;
         case LINE_OXXX_C://box bottom south T (left, right, down)
-            sprites->at(0) = 203 + base_offset;
+            sprites[0] = 203 + base_offset;
             break;
         case LINE_XXXX_C://box X (left down up right)
-            sprites->at(0) = 206 + base_offset;
+            sprites[0] = 206 + base_offset;
             break;
         case LINE_XOXX_C://box bottom east T (left, down, up)
-            sprites->at(0) = 184 + base_offset;
+            sprites[0] = 184 + base_offset;
             break;
         }
         if (ascii_char == LINE_XOXO_C || ascii_char == LINE_OXOX_C) {
@@ -1274,6 +1274,7 @@ bool cata_tiles::draw_from_id_string(std::string id, TILE_CATEGORY category,
     unsigned int seed = 0;
     // FIXME determine correct Z value
     int z_coord = 0;
+    // TODO determine ways other than category to differentiate more types of sprites
     switch (category) {
         case C_TERRAIN:
         case C_FIELD:
@@ -1306,9 +1307,6 @@ bool cata_tiles::draw_from_id_string(std::string id, TILE_CATEGORY category,
             // FIXME add persistent id to Creature ttripoint(x,y,z_coord)ype, instead of using monster list index
             seed = g->mon_at(tripoint(x,y,z_coord));
             break;
-        default:
-            // TODO determine ways other than category to differentiate more types of sprites
-            break;
     }
     srand(seed);
     unsigned int loc_rand = rand();
@@ -1332,20 +1330,24 @@ bool cata_tiles::draw_sprite_at(const weighted_int_list<std::vector<int>> &svlis
         return true;
     }
 
-    const std::vector<int> *spritelist = svlist.pick(loc_rand);
+    auto picked = svlist.pick(loc_rand);
+    if(!picked) {
+        return false;
+    }
+    auto &spritelist = *picked;
 
     int ret = 0;
     // blit foreground based on rotation
     int rotate_sprite, sprite_num;
-    if ( spritelist->empty() ) {
+    if ( spritelist.empty() ) {
         // render nothing
     } else {
-        if ( ( ! rota_fg ) && spritelist->size() == 1 ) {
+        if ( ( ! rota_fg ) && spritelist.size() == 1 ) {
             // don't rotate, a background tile without manual rotations
             rotate_sprite = false;
             sprite_num = 0;
         }
-        else if ( spritelist->size() == 1 ) {
+        else if ( spritelist.size() == 1 ) {
             // just one tile, apply SDL sprite rotation if not in isometric mode
             rotate_sprite = !tile_iso;
             sprite_num = 0;
@@ -1355,22 +1357,22 @@ bool cata_tiles::draw_sprite_at(const weighted_int_list<std::vector<int>> &svlis
             // two tiles, tile 0 is N/S, tile 1 is E/W
             // four tiles, 0=N, 1=E, 2=S, 3=W
             // extending this to more than 4 rotated tiles will require changing rota to degrees
-            sprite_num = rota % spritelist->size();
+            sprite_num = rota % spritelist.size();
         }
 
-        SDL_Texture *sprite_tex = tile_values[spritelist->at(sprite_num)].get();
+        SDL_Texture *sprite_tex = tile_values[spritelist[sprite_num]].get();
         //use night vision colors when in use
         //then use low light tile if available
-        if(apply_night_vision_goggles && spritelist->at(sprite_num) < static_cast<int>(night_tile_values.size())){
+        if(apply_night_vision_goggles && spritelist[sprite_num] < static_cast<int>(night_tile_values.size())){
             if(ll != LL_LOW){
                 //overexposed tile count should be the same size as night_tile_values.size
-                sprite_tex = overexposed_tile_values[spritelist->at(sprite_num)].get();
+                sprite_tex = overexposed_tile_values[spritelist[sprite_num]].get();
             } else {
-                sprite_tex = night_tile_values[spritelist->at(sprite_num)].get();
+                sprite_tex = night_tile_values[spritelist[sprite_num]].get();
             }
         }
-        else if(ll == LL_LOW && spritelist->at(sprite_num) < static_cast<int>(shadow_tile_values.size())) {
-            sprite_tex = shadow_tile_values[spritelist->at(sprite_num)].get();
+        else if(ll == LL_LOW && spritelist[sprite_num] < static_cast<int>(shadow_tile_values.size())) {
+            sprite_tex = shadow_tile_values[spritelist[sprite_num]].get();
         }
         if ( rotate_sprite ) {
             switch ( rota ) {
