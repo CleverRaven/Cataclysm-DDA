@@ -1130,7 +1130,8 @@
       
     ],
     [
-      [ "stomach", 1]
+      [ "stomach", 1],
+      [ "hstomach", 1]
     ],
     [
       [ "sinew", 50 ],
@@ -1173,7 +1174,8 @@
       
     ],
     [
-      [ "stomach_large", 1]
+      [ "stomach_large", 1],
+      [ "hstomach_large", 1]
     ],
     [
       [ "sinew", 150 ],
@@ -6912,7 +6914,8 @@
       [ "salt", 1 ]
     ],
     [
-      [ "raw_leather", 1 ]
+      [ "raw_leather", 1 ],
+      [ "raw_hleather", 1 ]
     ]
   ]
 },{

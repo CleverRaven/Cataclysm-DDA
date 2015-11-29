@@ -981,7 +981,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
         } else if( covers( bp_arm_l ) ) {
             temp1 << _( "The <info>left arm</info>. " );
         } else if( covers( bp_arm_r ) ) {
-            temp1 << _( "The r<info>ight arm</info>. " );
+            temp1 << _( "The <info>right arm</info>. " );
         }
 
         if( is_sided() && ( covers( bp_hand_l ) || covers( bp_hand_r ) ) ) {

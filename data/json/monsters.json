@@ -3734,7 +3734,7 @@
     "hp":60,
     "death_function":"NORMAL",
     "description":"The C.H.U.D.  or Cannibalistic Humanoid Underground Dweller.  A human being turned pale and mad from years of underground isolation.",
-    "flags":["SEES", "HEARS", "WARM", "BASHES", "GROUP_BASH", "HUMAN", "BONES"]
+    "flags":["SEES", "HEARS", "WARM", "BASHES", "GROUP_BASH", "HUMAN", "LEATHER", "BONES"]
     },{
     "type" : "MONSTER",
     "id" : "mon_one_eye",
@@ -3770,7 +3770,7 @@
     "hp":80,
     "death_function":"NORMAL",
     "description":"A relatively humanoid mutant with purple hair and a grapefruit-sized bloodshot eye.",
-    "flags":["SEES", "HEARS", "WARM", "BASHES", "GROUP_BASH", "HUMAN", "BONES"]
+    "flags":["SEES", "HEARS", "WARM", "BASHES", "GROUP_BASH", "HUMAN", "LEATHER", "BONES"]
     },{
     "type" : "MONSTER",
     "id" : "mon_crawler",
@@ -3796,7 +3796,7 @@
     "hp":180,
     "death_function":"NORMAL",
     "description":"A conglomeration of human parts fused together in a horrible mishmash of function, slowly dragging its eldritch body across the ground.",
-    "flags":["SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "POISON", "HUMAN", "BONES"],
+    "flags":["SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "POISON", "HUMAN", "LEATHER", "BONES"],
     "fear_triggers":["HURT", "FIRE"]
     },{
     "type" : "MONSTER",
@@ -4677,7 +4677,7 @@
     "hp":70,
     "death_function":"NORMAL",
     "description":"A human body, but with its limbs, neck, and hair impossibly twisted.  It clambers around swiftly, making awful screeching sounds.",
-    "flags":["SEES", "HEARS", "GOODHEARING", "POISON", "HUMAN", "CLIMBS"]
+    "flags":["SEES", "HEARS", "GOODHEARING", "POISON", "HUMAN", "LEATHER", "CLIMBS"]
     },{
     "type" : "MONSTER",
     "id" : "mon_vortex",
@@ -5185,7 +5185,7 @@
     "hp":80,
     "death_function":["NORMAL"],
     "description":"A crazed individual, the bloody scars on the side of its shaved head suggest some sort of partial lobotomy",
-    "flags":["SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "BLEED", "HUMAN", "POISON", "REVIVES", "BONES"]
+    "flags":["SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "BLEED", "HUMAN", "POISON", "REVIVES", "LEATHER", "BONES"]
     },{
     "type" : "MONSTER",
     "id" : "mon_homunculus",
@@ -5211,7 +5211,7 @@
     "hp":120,
     "death_function":["NORMAL"],
     "description":"A pale hairless man with an impressive athletic physique.  Its lidless eyes are totally black, and seeping with blood.",
-    "flags":["SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "BLEED", "HUMAN", "REVIVES", "CLIMBS"]
+    "flags":["SEES", "HEARS", "SMELLS", "WARM", "BASHES", "GROUP_BASH", "BLEED", "HUMAN", "REVIVES", "CLIMBS", "LEATHER", "BONES"]
     },{
     "type" : "MONSTER",
     "id" : "mon_blood_sacrifice",

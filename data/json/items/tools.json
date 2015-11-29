@@ -11085,5 +11085,68 @@
     "revert_to": "null",
     "use_action": "CROWBAR",
     "qualities": [["HAMMER", 2], ["HAMMER_FINE", 1]]
+  },  {
+    "id": "l-stick",
+    "type": "TOOL",
+    "symbol": "/",
+    "color": "light_gray",
+    "name": "L-stick (off)",
+    "name_plural": "l-sticks (off)",
+    "description": "Produced by the Light corporation, this stylish staff not only functions as a light source, but doubles as a light-weight weapon, due to the superalloy materials it is made of.  Due to proprietary efficiency improvements over standard light sources, the l-stick or light stick as it is commonly called, batteries last longer than other light sources.", 
+    "price": 5000,
+    "material": ["superalloy", "steel"],
+    "techniques" : ["WBLOCK_1", "RAPID"],
+    "flags": ["DURABLE_MELEE"],	
+    "weight": 1000,
+    "volume": 12,
+    "bashing": 18,
+    "cutting": 0,
+    "to_hit": 3,
+    "category" : "weapons",
+    "max_charges": 1000,
+    "initial_charges": 0,
+    "charges_per_use": 1,
+    "turns_per_charge": 0,
+    "ammo": "battery",
+    "revert_to": "null",
+    "use_action": {
+        "type": "transform",
+        "msg": "The L-stick(tm) lights up.",
+        "target": "l-stick_on",
+        "active": true,
+        "need_charges": 1,
+        "need_charges_msg": "The L-stick(tm)'s batteries are empty."
+    }
+  },
+
+  {
+    "id": "l-stick_on",
+    "type": "TOOL",
+    "symbol": ";",
+    "color": "blue",
+    "name": "L-stick (on)",
+    "name_plural": "L-sticks (on)",
+    "description": "Produced by the Light corporation, this stylish staff not only functions as a light source, but doubles as a light-weight weapon, due to the superalloy materials it is made of.  Due to proprietary efficiency improvements over standard light sources, the l-stick or light stick as it is commonly called, batteries last longer than other light sources.  The staff is glowing brightly, which is slowly draining the batteries",
+    "price": 8000,
+    "material": ["superalloy", "steel"],
+	"techniques" : ["WBLOCK_1", "RAPID"],
+    "flags": [ "LIGHT_300", "DURABLE_MELEE"],
+    "weight": 1000,
+    "volume": 12,
+    "bashing": 18,
+    "cutting": 0,
+    "to_hit": 3,
+    "category" : "weapons",
+    "max_charges": 1000,
+    "initial_charges": 0,
+    "charges_per_use": 0,
+    "turns_per_charge": 40,
+    "ammo": "battery",
+    "revert_to": "l-stick",
+    "use_action": {
+        "type": "transform",
+        "msg": "The l-stick(tm)'s light fades away",
+        "target": "l-stick"
+    }
   }
 ]
