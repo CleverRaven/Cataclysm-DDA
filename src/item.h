@@ -658,6 +658,8 @@ public:
  const itype* type;
  std::vector<item> contents;
 
+        /** Checks if item is a holster and currently capable of storing obj */
+        bool can_holster ( const item& obj ) const;
         /**
          * Returns @ref curammo, the ammo that is currently load in this item.
          * May return a null pointer.

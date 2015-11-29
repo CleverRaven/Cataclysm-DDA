@@ -964,7 +964,7 @@ void player::update_bodytemp()
             add_msg(m_bad, _("Your clothing is not providing enough protection from the wind for your %s!"), body_part_name(body_part(i)).c_str());
         }
 
-        // Convergeant temperature is affected by ambient temperature,
+        // Convergent temperature is affected by ambient temperature,
         // clothing warmth, and body wetness.
         temp_conv[i] = BODYTEMP_NORM + adjusted_temp + windchill * 100 + clothing_warmth_adjustement;
         // HUNGER
@@ -1087,24 +1087,6 @@ void player::update_bodytemp()
             temp_conv[i] -= 750;
         }
         // BIONICS
-        // Bionic "Internal Climate Control" says it eases the effects of high and low ambient temps
-        const int variation = BODYTEMP_NORM * 0.5;
-        if( in_climate_control() && temp_conv[i] < BODYTEMP_SCORCHING + variation &&
-            temp_conv[i] > BODYTEMP_FREEZING - variation ) {
-            if( temp_conv[i] > BODYTEMP_SCORCHING ) {
-                temp_conv[i] = BODYTEMP_VERY_HOT;
-            } else if( temp_conv[i] > BODYTEMP_VERY_HOT ) {
-                temp_conv[i] = BODYTEMP_HOT;
-            } else if( temp_conv[i] > BODYTEMP_HOT ) {
-                temp_conv[i] = BODYTEMP_NORM;
-            } else if( temp_conv[i] < BODYTEMP_FREEZING ) {
-                temp_conv[i] = BODYTEMP_VERY_COLD;
-            } else if( temp_conv[i] < BODYTEMP_VERY_COLD) {
-                temp_conv[i] = BODYTEMP_COLD;
-            } else if( temp_conv[i] < BODYTEMP_COLD ) {
-                temp_conv[i] = BODYTEMP_NORM;
-            }
-        }
         // Bionic "Thermal Dissipation" says it prevents fire damage up to 2000F.
         // 500 is picked at random...
         if( has_bionic("bio_heatsink") || is_wearing("rm13_armor_on")) {
@@ -1114,20 +1096,9 @@ void player::update_bodytemp()
         if( blister_count - 10 * get_env_resist(body_part(i)) > 20 ) {
             add_effect("blisters", 1, (body_part)i);
         }
-        // BLOOD LOSS : Loss of blood results in loss of body heat
-        int blood_loss = 0;
-        if( i == bp_leg_l || i == bp_leg_r ) {
-            blood_loss = (100 - 100 * (hp_cur[hp_leg_l] + hp_cur[hp_leg_r]) /
-                          (hp_max[hp_leg_l] + hp_max[hp_leg_r]));
-        } else if( i == bp_arm_l || i == bp_arm_r ) {
-            blood_loss = (100 - 100 * (hp_cur[hp_arm_l] + hp_cur[hp_arm_r]) /
-                          (hp_max[hp_arm_l] + hp_max[hp_arm_r]));
-        } else if( i == bp_torso ) {
-            blood_loss = (100 - 100 * hp_cur[hp_torso] / hp_max[hp_torso]);
-        } else if( i == bp_head ) {
-            blood_loss = (100 - 100 * hp_cur[hp_head] / hp_max[hp_head]);
-        }
-        temp_conv[i] -= blood_loss * temp_conv[i] / 200; // 1% bodyheat lost per 2% hp lost
+        // Loss of blood results in loss of body heat, 1% bodyheat lost per 2% hp lost
+        temp_conv[i] -= blood_loss(body_part(i)) * temp_conv[i] / 200;
+
         // EQUALIZATION
         switch (i) {
         case bp_torso:
@@ -1227,6 +1198,10 @@ void player::update_bodytemp()
         }
         // Chemical Imbalance
         // Added line in player::suffer()
+
+        // Climate Control eases the effects of high and low ambient temps
+        temp_conv[i] = temp_corrected_by_climate_control(temp_conv[i]);
+
         // FINAL CALCULATION : Increments current body temperature towards convergent.
         int bonus_warmth = 0;
         if ( in_sleep_state() ) {
@@ -1399,7 +1374,7 @@ void player::update_bodytemp()
             // Need temps in F, windPower already in mph
             int wetness_percentage = 100 * body_wetness[i] / drench_capacity[i]; // 0 - 100
             // Warmth gives a slight buff to temperature resistance
-            // Wetness gives a heavy nerf to tempearture resistance
+            // Wetness gives a heavy nerf to temperature resistance
             int Ftemperature = g->get_temperature() +
                                warmth((body_part)i) * 0.2 - 20 * wetness_percentage / 100;
             // Windchill reduced by your armor
@@ -1505,6 +1480,45 @@ void player::update_bodytemp()
     if( morale_pen > 0 && calendar::once_every(MINUTES(1)) ) {
         add_morale(MORALE_HOT,  -2, -abs(morale_pen), 10, 5, true);
     }
+}
+
+int player::temp_corrected_by_climate_control(int temperature)
+{
+    const int variation = BODYTEMP_NORM * 0.5;
+    if( in_climate_control() && temperature < BODYTEMP_SCORCHING + variation &&
+        temperature > BODYTEMP_FREEZING - variation ) {
+        if( temperature > BODYTEMP_SCORCHING ) {
+            temperature = BODYTEMP_VERY_HOT;
+        } else if( temperature > BODYTEMP_VERY_HOT ) {
+            temperature = BODYTEMP_HOT;
+        } else if( temperature > BODYTEMP_HOT ) {
+            temperature = BODYTEMP_NORM;
+        } else if( temperature < BODYTEMP_FREEZING ) {
+            temperature = BODYTEMP_VERY_COLD;
+        } else if( temperature < BODYTEMP_VERY_COLD) {
+            temperature = BODYTEMP_COLD;
+        } else if( temperature < BODYTEMP_COLD ) {
+            temperature = BODYTEMP_NORM;
+        }
+    }
+    return temperature;
+}
+
+int player::blood_loss(body_part bp)
+{
+    int blood_loss = 0;
+    if( bp == bp_leg_l || bp == bp_leg_r ) {
+        blood_loss = (100 - 100 * (hp_cur[hp_leg_l] + hp_cur[hp_leg_r]) /
+                      (hp_max[hp_leg_l] + hp_max[hp_leg_r]));
+    } else if( bp == bp_arm_l || bp == bp_arm_r ) {
+        blood_loss = (100 - 100 * (hp_cur[hp_arm_l] + hp_cur[hp_arm_r]) /
+                      (hp_max[hp_arm_l] + hp_max[hp_arm_r]));
+    } else if( bp == bp_torso ) {
+        blood_loss = (100 - 100 * hp_cur[hp_torso] / hp_max[hp_torso]);
+    } else if( bp == bp_head ) {
+        blood_loss = (100 - 100 * hp_cur[hp_head] / hp_max[hp_head]);
+    }
+    return blood_loss;
 }
 
 void player::temp_equalizer(body_part bp1, body_part bp2)
@@ -10403,7 +10417,7 @@ bool player::wield(item* it, bool autodrop)
     // than a skilled player with a holster.
     // There is an additional penalty when wielding items from the inventory whilst currently grabbed.
 
-    if( is_wearing_item( *it ) ) {
+    if( is_worn( *it ) ) {
         it->on_takeoff( *this );
         mv += it->volume() * 10;
     } else {
@@ -10643,7 +10657,7 @@ hint_rating player::rate_action_wear( const item &it ) const
 
 
 hint_rating player::rate_action_change_side( const item &it ) const {
-   if (!is_wearing_item(it)) {
+   if (!is_worn(it)) {
       return HINT_IFFY;
    }
 
@@ -11038,7 +11052,7 @@ hint_rating player::rate_action_takeoff( const item &it ) const
         return HINT_CANT;
     }
 
-    if (is_wearing_item(it)) {
+    if (is_worn(it)) {
       return HINT_GOOD;
     }
 
@@ -13088,10 +13102,6 @@ bool player::natural_attack_restricted_on( body_part bp ) const
         }
     }
     return false;
-}
-
-bool player::is_wearing_item (const item& it) const {
-   return std::any_of(worn.begin(), worn.end(), [&](const item& elem) { return &elem == &it; });
 }
 
 bool player::is_wearing_shoes(std::string side) const
