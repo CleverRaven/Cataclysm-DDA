@@ -793,7 +793,7 @@
         "weight" : 254,
         "color" : "yellow",
         "addiction_type" : "none",
-        "spoils_in" : 0,
+        "spoils_in" : 160,
         "stim" : 0,
         "container" : "can_food",
         "to_hit" : 0,
