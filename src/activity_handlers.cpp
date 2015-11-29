@@ -254,6 +254,15 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
                 add_msg(m_good, _("You harvest the stomach!"));
             }
         }
+        else if( meat == "human_flesh" ) {
+        if( corpse->size == MS_SMALL || corpse->size == MS_MEDIUM ) {
+                g->m.spawn_item(p->pos(), "hstomach", 1, 0, age);
+                add_msg(m_good, _("You harvest the stomach!"));
+            } else if( corpse->size == MS_LARGE || corpse->size == MS_HUGE ) {
+                g->m.spawn_item(p->pos(), "hstomach_large", 1, 0, age);
+                add_msg(m_good, _("You harvest the stomach!"));
+            }
+        }
     }
 
     if( (corpse->has_flag(MF_FUR) || corpse->has_flag(MF_LEATHER) ||
@@ -261,6 +270,7 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
         add_msg(m_good, _("You manage to skin the %s!"), corpse->nname().c_str());
         int fur = 0;
         int leather = 0;
+        int human_leather = 0;
         int chitin = 0;
 
         while (skins > 0 ) {
@@ -275,8 +285,13 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
                 skins = std::max(skins, 0);
             }
             if( corpse->has_flag(MF_LEATHER) ) {
-                leather = rng(0, skins);
-                skins -= leather;
+                if( corpse->has_flag(MF_HUMAN) ) {
+                    human_leather = rng(0, skins);
+                    skins -= human_leather;
+                } else {
+                    leather = rng(0, skins);
+                    skins -= leather;
+                }
                 skins = std::max(skins, 0);
             }
         }
@@ -289,6 +304,9 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
         }
         if( leather ) {
             g->m.spawn_item(p->pos(), "raw_leather", leather, 0, age);
+        }
+        if( human_leather ) {
+            g->m.spawn_item(p->pos(), "raw_hleather", leather, 0, age);
         }
     }
 

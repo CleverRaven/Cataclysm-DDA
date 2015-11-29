@@ -148,6 +148,36 @@
   ]
 },{
   "type" : "recipe",
+  "result": "hstomach_boiled",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_MEAT",
+  "skill_used": "cooking",
+  "difficulty": 0,
+  "time": 15000,
+  "reversible": false,
+  "autolearn": true,
+  "batch_time_factors":[67, 5],
+  "qualities":[
+    {"id":"BOIL","level":1,"amount":1}
+  ], "tools": [
+    [
+      [ "hotplate", 7 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 7 ],
+      [ "fire", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "hstomach_large", 1 ]
+    ],
+    [
+      [ "water", 1 ],
+      [ "water_clean", 1 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
   "result": "small_stomach_boiled",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_MEAT",
@@ -170,6 +200,36 @@
   "components": [
     [
       [ "stomach", 1 ]
+    ],
+    [
+      [ "water", 1 ],
+      [ "water_clean", 1 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "small_hstomach_boiled",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_MEAT",
+  "skill_used": "cooking",
+  "difficulty": 0,
+  "time": 10000,
+  "reversible": false,
+  "autolearn": true,
+  "batch_time_factors":[67, 5],
+  "qualities":[
+    {"id":"BOIL","level":1,"amount":1}
+  ], "tools": [
+    [
+      [ "hotplate", 5 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 5 ],
+      [ "fire", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "hstomach", 1 ]
     ],
     [
       [ "water", 1 ],
@@ -3302,7 +3362,9 @@
     [
       [ "wild_herbs", 120 ],
       [ "stomach_large", 3 ],
-      [ "stomach", 6 ]
+      [ "hstomach_large", 3 ],
+      [ "stomach", 6 ],
+      [ "hstomach", 6 ]
     ]
   ]
 },{
@@ -10655,6 +10717,64 @@
       [ "jerky", 1 ],
       [ "meat_vac", 1 ],
       [ "meat_smoked", 1 ]
+    ],
+    [
+      [ "fat", 1 ],
+      [ "tallow", 1 ],
+      [ "lard", 1 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "human_haggis",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_MEAT",
+  "skill_used": "cooking",
+  "difficulty": 3,
+  "skills_required": [ "tailor", 1 ],
+  "time": 30000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "cookbook_human", 3 ]],
+  "batch_time_factors":[50, 4],
+  "qualities":[
+    {"id":"BOIL","level":1,"amount":1},
+    {"id":"COOK","level":3,"amount":1},
+    {"id":"CUT","level":1,"amount":1}
+  ], "tools": [
+    [
+      [ "hotplate", 5 ],
+      [ "toolset", 5 ],
+      [ "char_smoker", 1 ],
+      [ "fire", -1 ]
+    ],
+    [
+      [ "needle_bone", 2 ],
+      [ "needle_wood", 2 ],
+      [ "tailors_kit", 2 ],
+      [ "sewing_kit", 2 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "water", 1 ],
+      [ "water_clean", 1 ]
+    ],
+    [
+      [ "hstomach", 1 ]
+    ],
+    [
+      [ "oatmeal", 1 ],
+      [ "buckwheat", 1 ]
+    ],
+    [
+      [ "human_flesh", 1 ],
+      [ "rehydrated_hflesh", 1 ],
+      [ "dry_hflesh", 1 ],
+      [ "human_canned", 1 ],
+      [ "jerky_human", 1 ],
+      [ "hflesh_vac", 1 ],
+      [ "human_smoked", 1 ]
     ],
     [
       [ "fat", 1 ],

@@ -157,7 +157,7 @@
     [ "toolset", 10 ],
     [ "fire", -1 ]
   ]],
-  "components": [[[ "raw_leather", 1 ]]]
+  "components": [[[ "raw_leather", 1 ], [ "raw_hleather", 1 ]]]
 },
 {
   "type" : "recipe",
