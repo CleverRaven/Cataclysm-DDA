@@ -1361,6 +1361,18 @@
     ]
   },{
     "type" : "item_group",
+    "id" : "snacks_fancy",
+    "items":[
+      ["water_mineral", 30],
+      ["juice", 20],
+      ["granola", 15],
+      ["mintpatties", 8],
+      ["choco_coffee_beans", 8],
+      ["fruit_leather", 15],
+      ["pine_nuts", 4]
+    ]
+  },{
+    "type" : "item_group",
     "id" : "fridgesnacks",
     "items":[
       ["water_clean", 90],
@@ -2716,6 +2728,19 @@
       ["striped_pants", 1],
       ["razor_blade", 10],
       ["survnote", 5]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "trash_cart",
+    "items":[
+      ["bottle_plastic", 5],
+      ["bottle_plastic_small", 15],
+      ["bottle_glass", 2],
+      ["can_drink", 5],
+      ["plastic_shopping_bag", 13],
+      ["bag_plastic", 15],
+      ["wrapper", 30],
+      ["flyer", 15]
     ]
   },{
     "type" : "item_group",
