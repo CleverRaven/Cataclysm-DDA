@@ -55,7 +55,22 @@ void craft_command::execute()
     }
 
     if( need_selections ) {
-        select_components( map_inv );
+        for( const auto &it : rec->requirements.components ) {
+            comp_selection<item_comp> is = crafter->select_item_component( it, batch_size, map_inv, true );
+            if( is.use_from == cancel ) {
+                return;
+            }
+            item_selections.push_back( is );
+        }
+
+        for( const auto &it : rec->requirements.tools ) {
+            comp_selection<tool_comp> ts = crafter->select_tool_component(
+                                               it, batch_size, map_inv, DEFAULT_HOTKEYS, true );
+            if( ts.use_from == cancel ) {
+                return;
+            }
+            tool_selections.push_back( ts );
+        }
     }
 
     crafter->assign_activity( is_long ? ACT_LONGCRAFT : ACT_CRAFT, rec->batch_time( batch_size ),
@@ -76,26 +91,6 @@ static void component_list_string( std::stringstream &str,
             str << ", ";
         }
         str << components[i].nname();
-    }
-}
-
-void craft_command::select_components( inventory &map_inv )
-{
-    for( const auto &it : rec->requirements.components ) {
-        comp_selection<item_comp> is = crafter->select_item_component( it, batch_size, map_inv, true );
-        if( is.use_from == cancel ) {
-            return;
-        }
-        item_selections.push_back( is );
-    }
-
-    for( const auto &it : rec->requirements.tools ) {
-        comp_selection<tool_comp> ts = crafter->select_tool_component(
-                                           it, batch_size, map_inv, DEFAULT_HOTKEYS, true );
-        if( ts.use_from == cancel ) {
-            return;
-        }
-        tool_selections.push_back( ts );
     }
 }
 
