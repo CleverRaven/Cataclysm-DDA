@@ -796,6 +796,42 @@
     },
     {
         "type" : "keybinding",
+        "id": "PLACE_TERRAIN",
+        "category": "OVERMAP",
+        "name": "Place Overmap Terrain",
+        "bindings": [
+            {
+                "input_method": "keyboard",
+                "key": "t"
+            }
+        ]
+    },
+    {
+        "type": "keybinding",
+        "id": "PLACE_SPECIAL",
+        "category": "OVERMAP",
+        "name": "Place Overmap Special",
+        "bindings": [
+            {
+                "input_method": "keyboard",
+                "key": "s"
+            }
+        ]
+    },
+    {
+        "type": "keybinding",
+        "id": "ROTATE",
+        "category": "OVERMAP_EDITOR",
+        "name": "Rotate",
+        "bindings": [
+            {
+                "input_method": "keyboard",
+                "key": "r"
+            }
+        ]        
+    },
+    {
+        "type" : "keybinding",
         "id":"SEARCH",
         "name":"Search",
         "bindings":[
