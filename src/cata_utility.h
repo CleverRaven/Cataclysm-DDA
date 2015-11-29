@@ -52,7 +52,7 @@ double convert_weight( int weight );
 template<typename T>
 class list_circularizer {
     private:
-        unsigned int index = 0;
+        unsigned int _index = 0;
         std::vector<T> *_list;
     public:
         list_circularizer ( std::vector<T> &_list ) : _list ( &_list ) {
@@ -60,17 +60,17 @@ class list_circularizer {
 
         void next()
         {
-            index = ( index == _list->size() - 1 ? 0 : index + 1 );
+            _index = ( _index == _list->size() - 1 ? 0 : _index + 1 );
         }
 
         void prev()
         {
-            index = ( index == 0 ? _list->size() - 1 : index - 1 );
+            _index = ( _index == 0 ? _list->size() - 1 : _index - 1 );
         }
 
         T &cur() const
         {
-            return (*_list)[index]; // list could be null, but it would be a design time mistake and really, the callers fault.
+            return (*_list)[_index]; // list could be null, but it would be a design time mistake and really, the callers fault.
         }
 
         operator T &() const
@@ -81,7 +81,7 @@ class list_circularizer {
         void operator() ( std::vector<T> &_list )
         {
             this->_list = &_list;
-            index = 0;
+            _index = 0;
         }
 };
 
