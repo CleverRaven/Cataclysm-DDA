@@ -1367,7 +1367,7 @@
     "hp":1,
     "death_function":"NORMAL",
     "description":"A slender-bodied flying insect, with a painful sting.  They can be somewhat aggressive if disturbed.",
-    "flags":["SEES", "SMELLS", "FLIES", "VERMIN", "SMALL_BITES", "HUNTS_VERMIN", "HIT_AND_RUN"],
+    "flags":["SEES", "SMELLS", "FLIES", "VERMIN", "SMALL_BITER", "HUNTS_VERMIN", "HIT_AND_RUN"],
     "anger_triggers":["HURT", "FRIEND_DIED", "PLAYER_CLOSE"]
     },{
     "type" : "MONSTER",
@@ -3901,7 +3901,7 @@
     "hp":1,
     "death_function":"NORMAL",
     "description":"A blood-sucking fly with a needle-like proboscis.  Its bite leaves behind itchy welts and can easily spread disease.",
-    "flags":["SMELLS", "HEARS", "STUMBLES", "VERMIN", "SMALL_BITES", "FLIES"]
+    "flags":["SMELLS", "HEARS", "STUMBLES", "VERMIN", "SMALL_BITER", "FLIES"]
     },{
     "type" : "MONSTER",
     "id" : "mon_mosquito_giant",
@@ -4011,7 +4011,7 @@
     "hp":1,
     "death_function":"NORMAL",
     "description":"A predatory segmented arthropod with dozens of legs and a venomous bite.",
-    "flags":["SMELLS", "HEARS", "VERMIN", "SMALL_BITES"]
+    "flags":["SMELLS", "HEARS", "VERMIN", "SMALL_BITER"]
     },{
     "type" : "MONSTER",
     "id" : "mon_centipede_giant",
@@ -4225,7 +4225,7 @@
     "hp":1,
     "death_function":"NORMAL",
     "description":"A fairly large spider which tracks and catches prey through agility and stealth.  Its bite can be irritating even to large animals.",
-    "flags":["SMELLS", "HEARS", "VERMIN", "SMALL_BITES", "HUNTS_VERMIN", "CHITIN", "CLIMBS"]
+    "flags":["SMELLS", "HEARS", "VERMIN", "SMALL_BITER", "HUNTS_VERMIN", "CHITIN", "CLIMBS"]
     },{
     "type" : "MONSTER",
     "id" : "mon_spider_wolf_giant",
@@ -4438,7 +4438,7 @@
     "hp":1,
     "death_function":"NORMAL",
     "description":"An infamous spider with a characteristic red hourglass marking on its black carapace, known for its highly toxic bite.",
-    "flags":["SMELLS", "HEARS", "VERMIN", "HUNTS_VERMIN", "SMALL_BITES", "BADVENOM", "CLIMBS"]
+    "flags":["SMELLS", "HEARS", "VERMIN", "HUNTS_VERMIN", "SMALL_BITER", "BADVENOM", "CLIMBS"]
     },{
     "type" : "MONSTER",
     "id" : "mon_spider_widow_giant",
