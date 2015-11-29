@@ -473,11 +473,11 @@ public:
     // Broken parts are also never obstacles
     int obstacle_at_part( int p ) const;
 
-    // Translate seat-relative mount coords into tile coords
-    void coord_translate (int reldx, int reldy, int &dx, int &dy) const;
+    // Translate mount coords "p" into tile coords "q" using current pivot direction and anchor
+    void coord_translate (const point &p, point &q) const;
 
-    // Translate seat-relative mount coords into tile coords using given face direction
-    void coord_translate (int dir, int reldx, int reldy, int &dx, int &dy) const;
+    // Translate mount coords "p" into tile coords "q" using given pivot direction and anchor
+    void coord_translate (int dir, const point &pivot, const point &p, point &q) const;
 
     // Seek a vehicle part which obstructs tile with given coords relative to vehicle position
     int part_at( int dx, int dy ) const;

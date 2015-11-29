@@ -2841,20 +2841,17 @@ void vehicle::print_fuel_indicator (void *w, int y, int x, itype_id fuel_type, b
     }
 }
 
-void vehicle::coord_translate (int reldx, int reldy, int &dx, int &dy) const
+void vehicle::coord_translate (const point &p, point &q) const
 {
-    tileray tdir (face.dir());
-    tdir.advance (reldx);
-    dx = tdir.dx() + tdir.ortho_dx(reldy);
-    dy = tdir.dy() + tdir.ortho_dy(reldy);
+    coord_translate(pivot_rotation[0], pivot_anchor[0], p, q);
 }
 
-void vehicle::coord_translate (int dir, int reldx, int reldy, int &dx, int &dy) const
+void vehicle::coord_translate (int dir, const point &pivot, const point &p, point &q) const
 {
     tileray tdir (dir);
-    tdir.advance (reldx);
-    dx = tdir.dx() + tdir.ortho_dx(reldy);
-    dy = tdir.dy() + tdir.ortho_dy(reldy);
+    tdir.advance (p.x - pivot.x);
+    q.x = tdir.dx() + tdir.ortho_dx(p.y - pivot.y);
+    q.y = tdir.dy() + tdir.ortho_dy(p.y - pivot.y);
 }
 
 void vehicle::precalc_mounts (int idir, int dir, const point &pivot)
@@ -2866,10 +2863,7 @@ void vehicle::precalc_mounts (int idir, int dir, const point &pivot)
         if (p.removed) {
             continue;
         }
-        int dx, dy;
-        coord_translate (dir, p.mount.x - pivot.x, p.mount.y - pivot.y, dx, dy);
-        p.precalc[idir].x = dx;
-        p.precalc[idir].y = dy;
+        coord_translate (dir, pivot, p.mount, p.precalc[idir]);
     }
     pivot_anchor[idir] = pivot;
     pivot_rotation[idir] = dir;
@@ -3026,10 +3020,7 @@ point vehicle::pivot_displacement() const
 
     // rotate the old pivot point around the new pivot point with the old rotation angle
     point dp;
-    coord_translate(pivot_rotation[0],
-                    pivot_anchor[0].x - pivot_anchor[1].x,
-                    pivot_anchor[0].y - pivot_anchor[1].y,
-                    dp.x, dp.y);
+    coord_translate(pivot_rotation[0], pivot_anchor[1], pivot_anchor[0], dp);
     return dp;
 }
 
@@ -3287,9 +3278,9 @@ void vehicle::spew_smoke( double joules, int part )
     while( relative_parts.find(p) != relative_parts.end() ) {
         p.x += ( velocity < 0 ? 1 : -1 );
     }
-    int rdx, rdy;
-    coord_translate( p.x, p.y, rdx, rdy );
-    tripoint dest( global_x() + rdx, global_y() + rdy, smz );
+    point q;
+    coord_translate( p, q );
+    tripoint dest( global_x() + q.x, global_y() + q.y, smz );
     g->m.add_field( dest, fd_smoke, smoke, 0 );
 }
 
@@ -4090,18 +4081,18 @@ void vehicle::slow_leak()
         float damage_ratio = ( float )part.hp / ( float )pinfo.durability;
         if( part.amount > 0 && damage_ratio < 0.5f ) {
             int leak_amount = ( 0.5 - damage_ratio ) * ( 0.5 - damage_ratio ) * part.amount / 10;
-            int gx, gy;
+            point q;
             if( leak_amount < 1 ) {
                 leak_amount = 1;
             }
             // Don't leak batteries from a damaged battery
             if( pinfo.fuel_type != fuel_type_battery ) {
-                coord_translate( part.mount.x, part.mount.y, gx, gy );
+                coord_translate( part.mount, q );
                 // m.spawn_item() will spawn water in bottles, so instead we create
                 //   the leak manually and directly call m.add_item_or_charges().
                 item leak( pinfo.fuel_type, calendar::turn );
                 leak.charges = leak_amount;
-                tripoint dest( global_x() + gx, global_y() + gy, smz );
+                tripoint dest( global_x() + q.x, global_y() + q.y, smz );
                 g->m.add_item_or_charges( dest, leak );
             }
             part.amount -= leak_amount;
