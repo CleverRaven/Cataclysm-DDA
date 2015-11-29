@@ -235,7 +235,7 @@ vehicle::vehicle(const vproto_id &type_id, int init_veh_fuel, int init_veh_statu
         *this = *proto.blueprint;
         init_state(init_veh_fuel, init_veh_status);
     }
-    precalc_mounts(0, face.dir());
+    precalc_mounts(0, pivot_rotation[0], pivot_anchor[0]);
     refresh();
 }
 
@@ -2305,7 +2305,12 @@ int vehicle::part_with_feature (int part, vpart_bitflags const flag, bool unbrok
 
 int vehicle::part_with_feature (int part, const std::string &flag, bool unbroken) const
 {
-    std::vector<int> parts_here = parts_at_relative(parts[part].mount.x, parts[part].mount.y);
+    return part_with_feature_at_relative(parts[part].mount, flag, unbroken);
+}
+
+int vehicle::part_with_feature_at_relative (const point &pt, const std::string &flag, bool unbroken) const
+{
+    std::vector<int> parts_here = parts_at_relative(pt.x, pt.y, false);
     for( auto &elem : parts_here ) {
         if( part_flag( elem, flag ) && ( !unbroken || parts[elem].hp > 0 ) ) {
             return elem;
@@ -2836,23 +2841,20 @@ void vehicle::print_fuel_indicator (void *w, int y, int x, itype_id fuel_type, b
     }
 }
 
-void vehicle::coord_translate (int reldx, int reldy, int &dx, int &dy) const
+void vehicle::coord_translate (const point &p, point &q) const
 {
-    tileray tdir (face.dir());
-    tdir.advance (reldx);
-    dx = tdir.dx() + tdir.ortho_dx(reldy);
-    dy = tdir.dy() + tdir.ortho_dy(reldy);
+    coord_translate(pivot_rotation[0], pivot_anchor[0], p, q);
 }
 
-void vehicle::coord_translate (int dir, int reldx, int reldy, int &dx, int &dy) const
+void vehicle::coord_translate (int dir, const point &pivot, const point &p, point &q) const
 {
     tileray tdir (dir);
-    tdir.advance (reldx);
-    dx = tdir.dx() + tdir.ortho_dx(reldy);
-    dy = tdir.dy() + tdir.ortho_dy(reldy);
+    tdir.advance (p.x - pivot.x);
+    q.x = tdir.dx() + tdir.ortho_dx(p.y - pivot.y);
+    q.y = tdir.dy() + tdir.ortho_dy(p.y - pivot.y);
 }
 
-void vehicle::precalc_mounts (int idir, int dir)
+void vehicle::precalc_mounts (int idir, int dir, const point &pivot)
 {
     if (idir < 0 || idir > 1)
         idir = 0;
@@ -2861,11 +2863,10 @@ void vehicle::precalc_mounts (int idir, int dir)
         if (p.removed) {
             continue;
         }
-        int dx, dy;
-        coord_translate (dir, p.mount.x, p.mount.y, dx, dy);
-        p.precalc[idir].x = dx;
-        p.precalc[idir].y = dy;
+        coord_translate (dir, pivot, p.mount, p.precalc[idir]);
     }
+    pivot_anchor[idir] = pivot;
+    pivot_rotation[idir] = dir;
 }
 
 std::vector<int> vehicle::boarded_parts() const
@@ -2969,7 +2970,7 @@ int vehicle::total_folded_volume() const
     return m;
 }
 
-void vehicle::center_of_mass(int &x, int &y) const
+void vehicle::center_of_mass(int &x, int &y, bool use_precalc) const
 {
     float xf = 0, yf = 0;
     int m_total = total_mass();
@@ -2986,13 +2987,41 @@ void vehicle::center_of_mass(int &x, int &y) const
         if (part_flag(i,VPFLAG_BOARDABLE) && parts[i].has_flag(vehicle_part::passenger_flag)) {
             m_part += 81500; // TODO: get real weight
         }
-        xf += parts[i].precalc[0].x * m_part / 1000;
-        yf += parts[i].precalc[0].y * m_part / 1000;
+        if (use_precalc) {
+            xf += parts[i].precalc[0].x * m_part / 1000;
+            yf += parts[i].precalc[0].y * m_part / 1000;
+        } else {
+            xf += parts[i].mount.x * m_part / 1000;
+            yf += parts[i].mount.y * m_part / 1000;
+        }
     }
     xf /= m_total;
     yf /= m_total;
     x = round(xf);
     y = round(yf);
+}
+
+point vehicle::pivot_point() const
+{
+    // TODO: a part type that let you override this
+    point p;
+    center_of_mass(p.x, p.y, false);
+    return p;
+}
+
+point vehicle::pivot_displacement() const
+{
+    // precalc_mounts always produces a result that puts the pivot point at (0,0).
+    // If the pivot point changes, this artificially moves the vehicle, as the position
+    // of the old pivot point will appear to move from (posx+0, posy+0) to some other point
+    // (posx+dx,posy+dy) even if there is no change in vehicle position or rotation.
+    // This method finds that movement so it can be cancelled out when actually moving
+    // the vehicle.
+
+    // rotate the old pivot point around the new pivot point with the old rotation angle
+    point dp;
+    coord_translate(pivot_rotation[0], pivot_anchor[1], pivot_anchor[0], dp);
+    return dp;
 }
 
 int vehicle::fuel_left (const itype_id & ftype, bool recurse) const
@@ -3249,9 +3278,9 @@ void vehicle::spew_smoke( double joules, int part )
     while( relative_parts.find(p) != relative_parts.end() ) {
         p.x += ( velocity < 0 ? 1 : -1 );
     }
-    int rdx, rdy;
-    coord_translate( p.x, p.y, rdx, rdy );
-    tripoint dest( global_x() + rdx, global_y() + rdy, smz );
+    point q;
+    coord_translate( p, q );
+    tripoint dest( global_x() + q.x, global_y() + q.y, smz );
     g->m.add_field( dest, fd_smoke, smoke, 0 );
 }
 
@@ -4052,18 +4081,18 @@ void vehicle::slow_leak()
         float damage_ratio = ( float )part.hp / ( float )pinfo.durability;
         if( part.amount > 0 && damage_ratio < 0.5f ) {
             int leak_amount = ( 0.5 - damage_ratio ) * ( 0.5 - damage_ratio ) * part.amount / 10;
-            int gx, gy;
+            point q;
             if( leak_amount < 1 ) {
                 leak_amount = 1;
             }
             // Don't leak batteries from a damaged battery
             if( pinfo.fuel_type != fuel_type_battery ) {
-                coord_translate( part.mount.x, part.mount.y, gx, gy );
+                coord_translate( part.mount, q );
                 // m.spawn_item() will spawn water in bottles, so instead we create
                 //   the leak manually and directly call m.add_item_or_charges().
                 item leak( pinfo.fuel_type, calendar::turn );
                 leak.charges = leak_amount;
-                tripoint dest( global_x() + gx, global_y() + gy, smz );
+                tripoint dest( global_x() + q.x, global_y() + q.y, smz );
                 g->m.add_item_or_charges( dest, leak );
             }
             part.amount -= leak_amount;
@@ -4961,8 +4990,7 @@ void vehicle::place_spawn_items()
         const vehicle_item_spawn *next_spawn = &spawn;
         if(rng(1, 100) <= next_spawn->chance) {
             //Find the cargo part in that square
-            int part = part_at(next_spawn->pos.x, next_spawn->pos.y);
-            part = part_with_feature(part, "CARGO", false);
+            int part = part_with_feature_at_relative(next_spawn->pos, "CARGO", false);
             if(part < 0) {
                 debugmsg("No CARGO parts at (%d, %d) of %s!",
                         next_spawn->pos.x, next_spawn->pos.y, name.c_str());
@@ -5179,7 +5207,8 @@ void vehicle::refresh()
         relative_parts[pt].insert( vii, p );
     }
 
-    precalc_mounts( 0, face.dir() );
+    // NB: using the _old_ pivot point, don't recalc here, we only do that when moving!
+    precalc_mounts( 0, pivot_rotation[0], pivot_anchor[0] );
     check_environmental_effects = true;
     insides_dirty = true;
 }
@@ -6469,8 +6498,8 @@ bool vehicle::restore(const std::string &data)
     face.init(0);
     turn_dir = 0;
     turn(0);
-    precalc_mounts(0, 0);
-    precalc_mounts(1, 0);
+    precalc_mounts(0, pivot_rotation[0], pivot_anchor[0]);
+    precalc_mounts(1, pivot_rotation[1], pivot_anchor[1]);
     return true;
 }
 

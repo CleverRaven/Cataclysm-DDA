@@ -4936,6 +4936,9 @@ void game::draw()
         wrefresh(w_terrain);
     }
     draw_sidebar();
+#ifdef TILES
+    try_sdl_update();
+#endif // TILES
 }
 
 void game::draw_sidebar()
@@ -12590,7 +12593,11 @@ bool game::grabbed_veh_move( const tripoint &dp )
         mdir.init(dp_veh.x, dp_veh.y);
         grabbed_vehicle->turn(mdir.dir() - grabbed_vehicle->face.dir());
         grabbed_vehicle->face = grabbed_vehicle->turn_dir;
-        grabbed_vehicle->precalc_mounts(1, mdir.dir());
+        grabbed_vehicle->precalc_mounts(1, mdir.dir(), grabbed_vehicle->pivot_point());
+
+        // cancel out any movement of the vehicle due only to a change in pivot
+        dp_veh -= grabbed_vehicle->pivot_displacement();
+
         std::vector<veh_collision> colls;
         // Set player location to illegal value so it can't collide with vehicle.
         const tripoint player_prev = u.pos();

@@ -11818,7 +11818,9 @@ vehicle *map::add_vehicle(const vproto_id &type, const tripoint &p, const int di
     veh->place_spawn_items();
     veh->face.init( dir );
     veh->turn_dir = dir;
-    veh->precalc_mounts( 0, dir );
+    // for backwards compatibility, we always spawn with a pivot point of (0,0) so
+    // that the mount at (0,0) is located at the spawn position.
+    veh->precalc_mounts( 0, dir, point() );
 //debugmsg("adding veh: %d, sm: %d,%d,%d, pos: %d, %d", veh, veh->smx, veh->smy, veh->smz, veh->posx, veh->posy);
     vehicle *placed_vehicle = add_vehicle_to_map(veh, merge_wrecks);
 
@@ -12123,7 +12125,7 @@ void map::rotate(int turns)
                 veh->turn(turns * 90);
                 // The the facing direction and recalculate the positions of the parts
                 veh->face = veh->turn_dir;
-                veh->precalc_mounts(0, veh->turn_dir);
+                veh->precalc_mounts(0, veh->turn_dir, veh->pivot_anchor[0]);
                 // Update coordinates on a submap
                 int new_x = veh->posx;
                 int new_y = veh->posy;

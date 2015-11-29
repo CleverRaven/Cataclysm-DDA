@@ -1447,6 +1447,15 @@ void vehicle::deserialize(JsonIn &jsin)
 
     data.read("parts", parts);
 
+    // we persist the pivot anchor so that if the rules for finding
+    // the pivot change, existing vehicles do not shift around.
+    // Loading vehicles that predate the pivot logic is a special
+    // case of this, they will load with an anchor of (0,0) which
+    // is what they're expecting.
+    data.read("pivot", pivot_anchor[0]);
+    pivot_anchor[1] = pivot_anchor[0];
+    pivot_rotation[1] = pivot_rotation[0] = fdir;
+
     // Need to manually backfill the active item cache since the part loader can't call its vehicle.
     for( auto cargo_index : all_parts_with_feature(VPFLAG_CARGO, true) ) {
         auto it = parts[cargo_index].items.begin();
@@ -1524,6 +1533,7 @@ void vehicle::serialize(JsonOut &json) const
     json.member("plow_on",plow_on);
     json.member("reaper_on",reaper_on);
     json.member("planter_on",planter_on);
+    json.member("pivot",pivot_anchor[0]);
     json.end_object();
 }
 

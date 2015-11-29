@@ -1070,6 +1070,9 @@ long popup(const std::string &text, PopupFlags flags)
     wrefresh(w);
     delwin(w);
     refresh();
+#ifdef TILES
+    try_sdl_update();
+#endif // TILES
     return ch;
 }
 

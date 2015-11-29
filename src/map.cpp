@@ -698,7 +698,10 @@ void map::move_vehicle( vehicle &veh, const tripoint &dp, const tileray &facing 
     }
 
     tripoint pt = veh.global_pos3();
-    veh.precalc_mounts( 1, veh.skidding ? veh.turn_dir : facing.dir() );
+    veh.precalc_mounts( 1, veh.skidding ? veh.turn_dir : facing.dir(), veh.pivot_point() );
+
+    // cancel out any movement of the vehicle due only to a change in pivot
+    tripoint dp1 = dp - veh.pivot_displacement();
 
     int impulse = 0;
 
@@ -721,7 +724,7 @@ void map::move_vehicle( vehicle &veh, const tripoint &dp, const tileray &facing 
     do
     {
         collisions.clear();
-        veh.collision( collisions, dp, false );
+        veh.collision( collisions, dp1, false );
 
         // Vehicle collisions
         std::map<vehicle*, std::vector<veh_collision> > veh_collisions;
@@ -833,7 +836,7 @@ void map::move_vehicle( vehicle &veh, const tripoint &dp, const tileray &facing 
         }
         veh.on_move();
         // Actually change position
-        displace_vehicle( pt, dp );
+        displace_vehicle( pt, dp1 );
     } else if( !vertical ) {
         veh.stop();
     }
@@ -1369,6 +1372,8 @@ void map::displace_vehicle( tripoint &p, const tripoint &dp )
     for( auto &prt : veh->parts ) {
         prt.precalc[0] = prt.precalc[1];
     }
+    veh->pivot_anchor[0] = veh->pivot_anchor[1];
+    veh->pivot_rotation[0] = veh->pivot_rotation[1];
 
     veh->posx = dst_offset_x;
     veh->posy = dst_offset_y;

@@ -39,6 +39,10 @@ enum direction : unsigned;
 // a consistent border colour
 #define BORDER_COLOR c_ltgray
 
+#ifdef TILES
+extern void try_sdl_update();
+#endif // TILES
+
 // Display data
 extern int TERMX; // width available for display
 extern int TERMY; // height available for display
