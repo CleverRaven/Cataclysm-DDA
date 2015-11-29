@@ -192,6 +192,10 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         int calc_focus_equilibrium() const;
         /** Maintains body temperature */
         void update_bodytemp();
+        /** Value of the body temperature corrected by climate control **/
+        int temp_corrected_by_climate_control(int temperature);
+        /** Define blood loss (in percents) */
+        int blood_loss(body_part bp);
         /** Define color for displaying the body temperature */
         nc_color bodytemp_color(int bp) const;
         /** Returns the player's modified base movement cost */
