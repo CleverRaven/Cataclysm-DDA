@@ -17936,7 +17936,7 @@
         "healthy" : 1,
         "addiction_potential" : 0,
         "nutrition" : 48,
-        "description" : "This traditional Scottish savory pudding is made of human meat and offal mixed with oatmeal, which is sewn into an human's stomach and boiled.  Surprisingly tasty if you enjoy that kind of thing and quite filling, it is best served with boiled root vegetables and strong whisky.",
+        "description" : "This traditional Scottish savory pudding is made of human meat and offal mixed with oatmeal, which is sewn into a human's stomach and boiled.  Surprisingly tasty if you enjoy that kind of thing and quite filling, it is best served with boiled root vegetables and strong whisky.",
         "price" : 750,
         "material" : ["veggy", "hflesh"],
         "tool" : "null",
