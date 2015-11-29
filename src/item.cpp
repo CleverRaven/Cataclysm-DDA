@@ -3261,6 +3261,11 @@ bool item::is_watertight_container() const
     return type->container && type->container->watertight && type->container->seals;
 }
 
+bool item::is_sealable_container() const
+{
+    return type->container && type->container->seals;
+}
+
 bool item::is_container_empty() const
 {
     return contents.empty();
