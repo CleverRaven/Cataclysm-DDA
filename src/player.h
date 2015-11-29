@@ -789,8 +789,6 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         bool wearing_something_on(body_part bp) const;
         /** Returns true if the player is wearing something on the entered body_part, ignoring items with the ALLOWS_NATURAL_ATTACKS flag */
         bool natural_attack_restricted_on(body_part bp) const;
-        /** Returns true if the player is wearing the given item */
-        bool is_wearing_item (const item& it) const;
         /** Returns true if the player is wearing something on their feet that is not SKINTIGHT */
         bool is_wearing_shoes(std::string side = "both") const;
         /** Returns 1 if the player is wearing something on both feet, .5 if on one, and 0 if on neither */

@@ -10655,7 +10655,7 @@ void game::plthrow(int pos)
         return;
     }
 
-    if (u.is_wearing_item(u.i_at(pos))) {
+    if (u.is_worn(u.i_at(pos))) {
         thrown.on_takeoff(u);
     }
 
@@ -11232,7 +11232,7 @@ void game::change_side(int pos)
 {
     if (pos == INT_MIN) {
         pos = inv_for_filter(_("Change side for item:"),
-                             [&](const item &it) { return u.is_wearing_item(it) && it.is_sided(); });
+                             [&](const item &it) { return u.is_worn(it) && it.is_sided(); });
     }
 
     if (pos == INT_MIN) {

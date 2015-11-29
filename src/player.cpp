@@ -10403,7 +10403,7 @@ bool player::wield(item* it, bool autodrop)
     // than a skilled player with a holster.
     // There is an additional penalty when wielding items from the inventory whilst currently grabbed.
 
-    if( is_wearing_item( *it ) ) {
+    if( is_worn( *it ) ) {
         it->on_takeoff( *this );
         mv += it->volume() * 10;
     } else {
@@ -10643,7 +10643,7 @@ hint_rating player::rate_action_wear( const item &it ) const
 
 
 hint_rating player::rate_action_change_side( const item &it ) const {
-   if (!is_wearing_item(it)) {
+   if (!is_worn(it)) {
       return HINT_IFFY;
    }
 
@@ -11038,7 +11038,7 @@ hint_rating player::rate_action_takeoff( const item &it ) const
         return HINT_CANT;
     }
 
-    if (is_wearing_item(it)) {
+    if (is_worn(it)) {
       return HINT_GOOD;
     }
 
@@ -13102,10 +13102,6 @@ bool player::natural_attack_restricted_on( body_part bp ) const
         }
     }
     return false;
-}
-
-bool player::is_wearing_item (const item& it) const {
-   return std::any_of(worn.begin(), worn.end(), [&](const item& elem) { return &elem == &it; });
 }
 
 bool player::is_wearing_shoes(std::string side) const
