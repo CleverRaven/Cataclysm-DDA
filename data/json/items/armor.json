@@ -11196,7 +11196,7 @@
         "phase" : "solid",
         "encumbrance" : 0,
         "bashing" : -5,
-        "flags" : ["RIGHT", "WATER_FRIENDLY", "FANCY"],
+        "flags" : ["WATER_FRIENDLY", "FANCY"],
         "coverage" : 95,
         "material_thickness" : 2
     },
