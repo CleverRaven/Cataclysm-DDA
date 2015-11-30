@@ -297,7 +297,7 @@ void ui_label::draw()
         return;
     }
 
-    mvwprintz( win, get_ay(), get_ax(), text_color, string_format( "%s", text.c_str() ).c_str() );
+    mvwprintz( win, get_ay(), get_ax(), text_color, "%s", text.c_str() );
 }
 
 void ui_label::set_text( std::string new_text )
@@ -728,9 +728,9 @@ void ui_vertical_list::draw()
             txt = txt.substr( 0, available_space );
         }
         if( scroll == line ) {
-            mvwprintz( win, get_ay() + line - start_line, get_ax() + 2, hilite(text_color), string_format( "%s", txt.c_str() ).c_str() );
+            mvwprintz( win, get_ay() + line - start_line, get_ax() + 2, hilite(text_color), "%s", txt.c_str() );
         } else {
-            mvwprintz( win, get_ay() + line - start_line, get_ax() + 2, text_color, string_format( "%s", txt.c_str() ).c_str() );
+            mvwprintz( win, get_ay() + line - start_line, get_ax() + 2, text_color, "%s", txt.c_str() );
         }
     }
 
@@ -835,7 +835,7 @@ void color_mapped_label::draw()
         return;
     }
 
-    mvwprintz( win, get_ay(), get_ax(), text_color, string_format( "%s", text.c_str() ).c_str() );
+    mvwprintz( win, get_ay(), get_ax(), text_color, "%s", text.c_str() );
 
     for( auto kvp : color_map ) {
         for( unsigned int x = 0; x < text.size() && x < kvp.second.size(); x++ ) {
