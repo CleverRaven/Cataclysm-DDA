@@ -158,11 +158,8 @@ struct mon_effect_data
 };
 
 struct mtype_special_attack {
-    mon_action_attack attack; // function pointer to the attack function
-    int cooldown; // turns between uses of this attack
-
-    // FIXME optional parameters are stand-in for better syntax in monstergenerator.cpp for creating new entries
-    mtype_special_attack(mon_action_attack a = nullptr, int c = 0) : attack(a), cooldown(c) {};
+    mon_action_attack attack = nullptr; // function pointer to the attack function
+    int cooldown = 0; // turns between uses of this attack
 };
 
 struct mtype {

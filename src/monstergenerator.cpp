@@ -618,26 +618,17 @@ void MonsterGenerator::load_special_attacks(mtype *m, JsonObject &jo, std::strin
         JsonArray outer = jo.get_array(member);
         while (outer.has_more()) {
             JsonArray inner = outer.next_array();
-            if ( attack_map.find(inner.get_string(0)) != attack_map.end() ) {
-                m->special_attacks[inner.get_string(0)] = 
-                    mtype_special_attack(
-                        attack_map[inner.get_string(0)],
-                        inner.get_int(1)
-                    );
-                m->special_attacks_names.push_back(inner.get_string(0));
+            const auto &aname = inner.get_string(0);
+            if ( attack_map.find(aname) != attack_map.end() ) {
+                auto &entry = m->special_attacks[aname];
+                entry.attack = attack_map[aname];
+                entry.cooldown = inner.get_int(1);
+
+                m->special_attacks_names.push_back(aname);
             } else {
                 inner.throw_error("Invalid special_attacks");
             }
         }
-    }
-
-    if (m->special_attacks.empty()) {
-        m->special_attacks["NONE"] = 
-            mtype_special_attack(
-                attack_map["NONE"],
-                0
-            );
-        m->special_attacks_names.push_back("NONE");
     }
 }
 

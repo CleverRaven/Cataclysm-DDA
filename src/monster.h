@@ -21,15 +21,12 @@ typedef std::map< mfaction_id, std::set< int > > mfactions;
 
 class mon_special_attack : public JsonSerializer {
 public:
-    int cooldown;
-    bool enabled;
-
-    // FIXME optional parameters are stand-in for better syntax in savegame_json.cpp for creating new entries
-    mon_special_attack(int c = 0, bool e = true) : cooldown(c), enabled(e) {};
+    int cooldown = 0;
+    bool enabled = true;
 
     using JsonSerializer::serialize;
     virtual void serialize(JsonOut &jsout) const override;
-
+    // deserialize inline in monster::load due to backwards/forwards compatibility concerns
 };
 
 enum monster_attitude {
@@ -302,13 +299,13 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         body_part get_random_body_part( bool main ) const override;
 
         /** Resets a given special to its monster type cooldown value */
-        void reset_special(std::string special_name);
+        void reset_special(const std::string &special_name);
         /** Resets a given special to a value between 0 and its monster type cooldown value. */
-        void reset_special_rng(std::string special_name);
+        void reset_special_rng(const std::string &special_name);
         /** Sets a given special to the given value */
-        void set_special(std::string special_name, int time);
+        void set_special(const std::string &special_name, int time);
         /** Sets the enabled flag for the given special to false */
-        void disable_special(std::string special_name);
+        void disable_special(const std::string &special_name);
 
         void die(Creature *killer) override; //this is the die from Creature, it calls kill_mon
         void drop_items_on_death();

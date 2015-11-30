@@ -1124,11 +1124,13 @@ void monster::load(JsonObject &data)
             while ( parray.has_more() && index < (int)(type->special_attacks_names.size()) ) {
                 if ( parray.read_next(ptimeout) ) {
                     // assume timeouts saved in same order as current monsters.json listing
-                    std::string aname = type->special_attacks_names[index++];
+                    const std::string &aname = type->special_attacks_names[index++];
+                    auto &entry = special_attacks[aname];
                     if ( ptimeout >= 0 ) {
-                        special_attacks[aname] = mon_special_attack(ptimeout);
+                        entry.cooldown = ptimeout;
                     } else { // -1 means disabled, unclear what <-1 values mean in old saves
-                        special_attacks[aname] = mon_special_attack(type->special_attacks.at(aname).cooldown, false);
+                        entry.cooldown = type->special_attacks.at(aname).cooldown;
+                        entry.enabled = false;
                     }
                 }
             }
@@ -1138,21 +1140,20 @@ void monster::load(JsonObject &data)
     // special_attacks indicates a save after the special_attacks refactor
     if (data.has_object("special_attacks")) {
         JsonObject pobject = data.get_object("special_attacks");
-        for( std::string aname : pobject.get_member_names()) {
+        for( const std::string &aname : pobject.get_member_names()) {
             JsonObject saobject = pobject.get_object(aname);
-            special_attacks[aname] = mon_special_attack(
-                saobject.get_int("cooldown"),
-                saobject.get_bool("enabled")
-            );
+            auto &entry = special_attacks[aname];
+            entry.cooldown = saobject.get_int("cooldown");
+            entry.enabled = saobject.get_bool("enabled");
         }
     }
 
     // make sure the loaded monster has every special attack its type says it should have
     for ( auto &sa : type->special_attacks ) {
-        std::string name = sa.first;
-        if (special_attacks.find(name) == special_attacks.end()) {
-            // missing special attack, create with random cooldown
-            special_attacks[name] = mon_special_attack(rng(0, sa.second.cooldown));
+        const std::string &aname = sa.first;
+        if (special_attacks.find(aname) == special_attacks.end()) {
+            auto &entry = special_attacks[aname];
+            entry.cooldown = rng(0, sa.second.cooldown);
         }
     }
 
