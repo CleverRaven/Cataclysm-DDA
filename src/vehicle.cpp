@@ -5224,7 +5224,89 @@ const point &vehicle::pivot_point() const {
 void vehicle::refresh_pivot() const {
     // Const method, but messes with mutable fields
     pivot_dirty = false;
-    center_of_mass(pivot_cache.x, pivot_cache.y, false);
+
+    if (wheelcache.empty() || !valid_wheel_config()) {
+        // No usable wheels, use CoM (dragging)
+        center_of_mass(pivot_cache.x, pivot_cache.y, false);
+        return;
+    }
+
+    // center of steering must be within the convex hull of the wheels
+    // find a simple bounding box and don't bother scanning outside there
+    point lo = parts[wheelcache[0]].mount;
+    point hi = parts[wheelcache[0]].mount;
+    for (int p : wheelcache) {
+        const auto &wheel = parts[p];
+        lo.x = std::min(lo.x, wheel.mount.x);
+        lo.y = std::min(lo.y, wheel.mount.y);
+        hi.x = std::max(hi.x, wheel.mount.x);
+        hi.y = std::max(hi.y, wheel.mount.y);
+    }
+
+    // try every point, find the one with the least rotational resistance.
+    // this will be pretty expensive on big vehicles!
+
+    // NB: With the current model, this can actually simplify a lot
+    // (to a simple weighted average of the wheel positions, which is way
+    // cheaper) but for now I have the full thing here.
+
+    float best_drag = HUGE_VALF;
+    int npoints = 0;
+    for (int x = lo.x; x <= hi.x; ++x) {
+        for (int y = lo.y; y <= hi.y; ++y) {
+            float total_drag = 0;
+
+            for (int p : wheelcache) {
+                const auto &wheel = parts[p];
+
+                float contact_area = wheel.info().wheel_width * wheel.bigness;        // todo: load on tyre?
+                if (wheel.hp <= 0) {
+                    contact_area *= 5;
+                }
+
+                // The model here is:
+                //
+                //  We are trying to rotate around (x,y)
+                //  This produces a friction force from each wheel resisting the rotation
+                //  We decompose the force into two components:
+                //   X axis: rolling friction, low (we assume wheels are aligned with the X axis)
+                //   Y axis: trying to move the wheel sideways, high friction
+                //  Then we find the moment that these two forces would apply at (x,y)
+
+                float center_dist = trig_dist(x, y, wheel.mount.x, wheel.mount.y);    // distance from new center
+                float centerline_angle = atan2(wheel.mount.y - y, wheel.mount.x - x); // angle between X axis and a line thru center & wheel
+                float y_force = contact_area * center_dist * cos(centerline_angle);        // resistance along Y axis (high - trying to skid)
+                float x_force = contact_area * center_dist * sin(centerline_angle) * 0.01; // resistance along X axis (low - rolling)
+                float drag = center_dist * (cos(centerline_angle) * y_force + sin(centerline_angle) * x_force); // resisting moment around center
+
+                // TODO: handle steerable wheels differently.
+
+                total_drag += drag;
+                if (total_drag + 0.1 >= best_drag) {
+                    // this cannot be better, bail early
+                    break;
+                }
+            }
+
+            if ((total_drag - 0.1) < best_drag) {
+                if (npoints > 0 && fabs(best_drag - total_drag) < 0.1) {
+                    // close match, average it in
+                    pivot_cache.x += x;
+                    pivot_cache.y += y;
+                    ++npoints;
+                } else {
+                    // reset sum
+                    pivot_cache.x = x;
+                    pivot_cache.y = y;
+                    npoints = 1;
+                }
+                best_drag = std::min(best_drag, total_drag);
+            }
+        }
+    }
+
+    pivot_cache.x /= npoints;
+    pivot_cache.y /= npoints;
 }
 
 void vehicle::remove_remote_part(int part_num) {
