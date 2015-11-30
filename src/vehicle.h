@@ -237,6 +237,8 @@ struct label : public JsonSerializer, public JsonDeserializer {
  *   assigns `precalc[1]` to `precalc[0]`. At any time (except
  *   `map::vehmove()` innermost cycle) you can get actual part coords
  *   relative to vehicle's position by reading `precalc[0]`.
+ *   Vehicles rotate around a (possibly changing) pivot point, and
+ *   the precalc coordinates always put the pivot point at (0,0).
  * - Vehicle keeps track of 3 directions:
  *     Direction | Meaning
  *     --------- | -------
@@ -430,6 +432,7 @@ public:
 
     // returns index of part, inner to given, with certain flag, or -1
     int part_with_feature (int p, const std::string &f, bool unbroken = true) const;
+    int part_with_feature_at_relative (const point &pt, const std::string &f, bool unbroken = true) const;
     int part_with_feature (int p, vpart_bitflags f, bool unbroken = true) const;
 
     /**
@@ -470,11 +473,11 @@ public:
     // Broken parts are also never obstacles
     int obstacle_at_part( int p ) const;
 
-    // Translate seat-relative mount coords into tile coords
-    void coord_translate (int reldx, int reldy, int &dx, int &dy) const;
+    // Translate mount coords "p" into tile coords "q" using current pivot direction and anchor
+    void coord_translate (const point &p, point &q) const;
 
-    // Translate seat-relative mount coords into tile coords using given face direction
-    void coord_translate (int dir, int reldx, int reldy, int &dx, int &dy) const;
+    // Translate mount coords "p" into tile coords "q" using given pivot direction and anchor
+    void coord_translate (int dir, const point &pivot, const point &p, point &q) const;
 
     // Seek a vehicle part which obstructs tile with given coords relative to vehicle position
     int part_at( int dx, int dy ) const;
@@ -504,7 +507,7 @@ public:
                                bool verbose = false, bool desc = false, bool isHorizontal = false) const;
 
     // Precalculate mount points for (idir=0) - current direction or (idir=1) - next turn direction
-    void precalc_mounts (int idir, int dir);
+    void precalc_mounts (int idir, int dir, const point &pivot);
 
     // get a list of part indeces where is a passenger inside
     std::vector<int> boarded_parts() const;
@@ -570,8 +573,17 @@ public:
     // get the total mass of vehicle, including cargo and passengers
     int total_mass () const;
 
-    // get center of mass of vehicle; coordinates are precalc[0]
-    void center_of_mass(int &x, int &y) const;
+    // get center of mass of vehicle; coordinates are precalc[0] if use_precalc is set,
+    // unrotated part coordinates otherwise
+    void center_of_mass(int &x, int &y, bool use_precalc = true) const;
+
+    // Get the pivot point of vehicle; coordinates are unrotated mount coordinates.
+    point pivot_point() const;
+
+    // Get the (artificial) displacement of the vehicle due to the pivot point changing
+    // between precalc[0] and precalc[1]. This needs to be subtracted from any actual
+    // vehicle motion after precalc[1] is prepared.
+    point pivot_displacement() const;
 
     // Get combined power of all engines. If fueled == true, then only engines which
     // vehicle have fuel for are accounted
@@ -891,6 +903,9 @@ public:
     std::string music_id;    // what music storage device is in the stereo
     int om_id;          // id of the om_vehicle struct corresponding to this vehicle
     int turn_dir;       // direction, to which vehicle is turning (player control). will rotate frame on next move
+
+    std::array<point, 2> pivot_anchor; // points used for rotation of mount precalc values
+    std::array<int, 2> pivot_rotation; // rotation used for mount precalc values
 
     int last_turn = 0;      // amount of last turning (for calculate skidding due to handbrake)
     float of_turn;      // goes from ~1 to ~0 while proceeding every turn

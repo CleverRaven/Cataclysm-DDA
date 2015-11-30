@@ -9523,7 +9523,34 @@
       [ "felt_patch", 8 ]
     ]
   ]
- },
+ },{
+  "type" : "recipe",
+  "result": "makeshift_knapsack",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_STORAGE",
+  "skill_used": "survival",
+  "difficulty": 0,
+  "time": 800,
+  "reversible": true,
+  "autolearn": true,
+  "components": [
+   [
+      [ "pants", 1 ],
+      [ "pants_cargo", 1 ],
+      [ "pants_army", 1 ],
+      [ "pants_checkered", 1 ],
+      [ "striped_pants", 1 ],
+      [ "technician_pants_blue", 1 ],
+      [ "technician_pants_ltblue", 1 ],
+      [ "technician_pants_gray", 1 ],
+      [ "jeans", 1 ]
+    ],
+    [
+      [ "string_36", 1 ],
+      [ "string_6", 4 ]
+    ] 
+  ]
+},
   {
     "type" : "recipe",
     "result" : "jerrypack",

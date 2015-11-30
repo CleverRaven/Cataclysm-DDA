@@ -146,6 +146,28 @@
   ]
 },{
   "type" : "recipe",
+  "result": "felt_patch",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_OTHER",
+  "skill_used": "fabrication",
+  "skills_required" : [ "tailor", 1 ],
+  "difficulty": 1,
+  "time": 15000,
+  "reversible": false,
+  "autolearn": true,
+  "components": [
+    [
+      [ "soap", 5 ]
+    ],
+    [
+      [ "water_clean", 3 ]
+    ],
+    [
+      [ "wool_staple", 1 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
   "result": "caltrops",
   "id_suffix": "from wire",
   "category": "CC_OTHER",
@@ -1130,7 +1152,8 @@
       
     ],
     [
-      [ "stomach", 1]
+      [ "stomach", 1],
+      [ "hstomach", 1]
     ],
     [
       [ "sinew", 50 ],
@@ -1173,7 +1196,8 @@
       
     ],
     [
-      [ "stomach_large", 1]
+      [ "stomach_large", 1],
+      [ "hstomach_large", 1]
     ],
     [
       [ "sinew", 150 ],
@@ -6912,7 +6936,8 @@
       [ "salt", 1 ]
     ],
     [
-      [ "raw_leather", 1 ]
+      [ "raw_leather", 1 ],
+      [ "raw_hleather", 1 ]
     ]
   ]
 },{

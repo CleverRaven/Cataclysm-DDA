@@ -44,6 +44,7 @@ mtype::mtype ()
     luminance = 0;
     flags.insert(MF_HUMAN);
     flags.insert(MF_BONES);
+    flags.insert(MF_LEATHER);
 }
 
 std::string mtype::nname(unsigned int quantity) const

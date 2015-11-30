@@ -4389,6 +4389,26 @@
         ]
     },{
         "type" : "vehicle_part",
+        "id" : "generator_7500w",
+        "name" : "7.5kW generator",
+        "symbol" : "*",
+        "color" : "yellow",
+        "broken_symbol" : "#",
+        "broken_color" : "red",
+        "damage_modifier" : 80,
+        "durability" : 400,
+        "power" : -32,
+        "epower" : 7500,
+        "item" : "generator_7500w",
+        "difficulty" : 3,
+        "flags" : ["ALTERNATOR"],
+        "breaks_into" : [
+            {"item": "steel_lump", "count": [10, 18]},
+            {"item": "steel_chunk", "count": [10, 18]},
+            {"item": "scrap", "count": [10, 18]}
+        ]
+    },{
+        "type" : "vehicle_part",
         "id" : "door_trunk",
         "name" : "trunk door",
         "symbol" : "+",
