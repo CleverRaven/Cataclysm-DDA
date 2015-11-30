@@ -1027,6 +1027,7 @@ player::select_tool_component( const std::vector<tool_comp> &tools, int batch, i
                 map_has.push_back(*it);
             }
         } else if (has_amount(type, 1) || map_inv.has_tools(type, 1)) {
+            selected.comp = *it;
             found_nocharge = true;
         }
     }
