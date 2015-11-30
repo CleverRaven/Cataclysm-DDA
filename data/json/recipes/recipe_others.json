@@ -6937,6 +6937,7 @@
     ],
     [
       [ "raw_leather", 1 ],
+      [ "raw_tainted_leather", 1 ],
       [ "raw_hleather", 1 ]
     ]
   ]
@@ -7031,7 +7032,8 @@
       [ "salt", 1 ]
     ],
     [
-      [ "raw_fur", 1 ]
+      [ "raw_fur", 1 ],
+      [ "tainted_raw_fur", 1 ]
     ]
   ]
 },{

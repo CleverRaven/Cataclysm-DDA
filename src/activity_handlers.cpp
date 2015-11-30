@@ -275,7 +275,9 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
          corpse->has_flag(MF_CHITIN)) && skins > 0 ) {
         add_msg(m_good, _("You manage to skin the %s!"), corpse->nname().c_str());
         int fur = 0;
+        int tainted_fur = 0;
         int leather = 0;
+        int tainted_leather = 0;
         int human_leather = 0;
         int chitin = 0;
 
@@ -286,12 +288,20 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
                 skins = std::max(skins, 0);
             }
             if( corpse->has_flag(MF_FUR) ) {
-                fur = rng(0, skins);
-                skins -= fur;
+                if( corpse->has_flag(MF_POISON) ) {
+                    tainted_fur = rng(0, skins);
+                    skins -= tainted_fur;
+                } else {
+                    fur = rng(0, skins);
+                    skins -= fur;
+                }
                 skins = std::max(skins, 0);
             }
             if( corpse->has_flag(MF_LEATHER) ) {
-                if( corpse->has_flag(MF_HUMAN) ) {
+                if( corpse->has_flag(MF_POISON) ) {
+                    tainted_leather = rng(0, skins);
+                    skins -= tainted_leather;
+                } else if( corpse->has_flag(MF_HUMAN) ) {
                     human_leather = rng(0, skins);
                     skins -= human_leather;
                 } else {
@@ -308,11 +318,17 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
         if( fur > 0 ) {
             g->m.spawn_item(p->pos(), "raw_fur", fur, 0, age);
         }
+        if( tainted_fur > 0 ) {
+            g->m.spawn_item(p->pos(), "raw_tainted_fur", fur, 0, age);
+        }
         if( leather > 0 ) {
             g->m.spawn_item(p->pos(), "raw_leather", leather, 0, age);
         }
-        if( human_leather ) {
+        if( human_leather > 0 ) {
             g->m.spawn_item(p->pos(), "raw_hleather", leather, 0, age);
+        }
+        if( tainted_leather > 0 ) {
+            g->m.spawn_item(p->pos(), "raw_tainted_leather", leather, 0, age);
         }
     }
 
