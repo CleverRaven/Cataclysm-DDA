@@ -1754,7 +1754,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
         }
     }
 
-    if( info.back().sName == "--" ) {
+    if( !info.empty() && info.back().sName == "--" ) {
         info.pop_back();
     }
 
