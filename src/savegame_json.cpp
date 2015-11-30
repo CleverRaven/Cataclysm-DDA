@@ -1115,19 +1115,45 @@ void monster::load(JsonObject &data)
 
     data.read("hp", hp);
 
+    // sp_timeout indicates an old save, prior to the special_attacks refactor
     if (data.has_array("sp_timeout")) {
         JsonArray parray = data.get_array("sp_timeout");
         if ( !parray.empty() ) {
+            int index = 0;
             int ptimeout = 0;
-            while ( parray.has_more() ) {
+            while ( parray.has_more() && index < type->special_attacks_names.size() ) {
                 if ( parray.read_next(ptimeout) ) {
-                    sp_timeout.push_back(ptimeout);
+                    // assume timeouts saved in same order as current monsters.json listing
+                    std::string aname = type->special_attacks_names[index++];
+                    if ( ptimeout >= 0 ) {
+                        special_attacks[aname] = mon_special_attack(ptimeout);
+                    } else { // -1 means disabled, unclear what <-1 values mean in old saves
+                        special_attacks[aname] = mon_special_attack(type->special_attacks.at(aname).cooldown, false);
+                    }
                 }
             }
         }
     }
-    for (size_t i = sp_timeout.size(); i < type->sp_freq.size(); ++i) {
-        sp_timeout.push_back(rng(0, type->sp_freq[i]));
+
+    // special_attacks indicates a save after the special_attacks refactor
+    if (data.has_object("special_attacks")) {
+        JsonObject pobject = data.get_object("special_attacks");
+        for( std::string aname : pobject.get_member_names()) {
+            JsonObject saobject = pobject.get_object(aname);
+            special_attacks[aname] = mon_special_attack(
+                saobject.get_int("cooldown"),
+                saobject.get_bool("enabled")
+            );
+        }
+    }
+
+    // make sure the loaded monster has every special attack its type says it should have
+    for ( auto &sa : type->special_attacks ) {
+        std::string name = sa.first;
+        if (special_attacks.find(name) == special_attacks.end()) {
+            // missing special attack, create with random cooldown
+            special_attacks[name] = mon_special_attack(rng(0, sa.second.cooldown));
+        }
     }
 
     data.read("friendly", friendly);
@@ -1191,7 +1217,7 @@ void monster::store(JsonOut &json) const
     json.member("wandz", wander_pos.z);
     json.member("wandf", wandf);
     json.member("hp", hp);
-    json.member("sp_timeout", sp_timeout);
+    json.member("special_attacks", special_attacks);
     json.member("friendly", friendly);
     json.member("faction", faction.id().str());
     json.member("mission_id", mission_id);
@@ -1210,6 +1236,14 @@ void monster::store(JsonOut &json) const
     json.member("last_updated", last_updated);
 
     json.member( "inv", inv );
+}
+
+void mon_special_attack::serialize(JsonOut &json) const
+{
+    json.start_object();
+    json.member("cooldown",cooldown);
+    json.member("enabled",enabled);
+    json.end_object();
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////

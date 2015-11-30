@@ -18,7 +18,7 @@ class Creature;
 struct projectile;
 struct dealt_projectile_attack;
 using mon_action_death  = void (*)(monster*);
-using mon_action_attack = void (*)(monster*, int);
+using mon_action_attack = bool (*)(monster*);
 using mon_action_defend = void (*)(monster&, Creature*, dealt_projectile_attack const*);
 using mtype_id = string_id<mtype>;
 struct species_type;

@@ -484,13 +484,19 @@ void monster::move()
     const bool pacified = has_effect( pacified_string );
 
     // First, use the special attack, if we can!
-    for( size_t i = 0; i < sp_timeout.size(); ++i ) {
-        if( sp_timeout[i] > 0 ) {
-            sp_timeout[i]--;
-        }
+    for( auto &special: special_attacks ) {
+        const std::string &special_name = special.first;
+        mon_special_attack &special_attack = special.second;
+        if( special_attack.enabled ) {
+            if( special_attack.cooldown > 0 ) {
+                special_attack.cooldown--;
+            }
 
-        if( sp_timeout[i] == 0 && !pacified && !is_hallucination() ) {
-            type->sp_attack[i]( this, i );
+            if( special_attack.cooldown == 0 && !pacified && !is_hallucination() ) {
+                if (type->special_attacks.at(special_name).attack( this )) {
+                    reset_special(special_name);
+                }
+            }
         }
     }
 

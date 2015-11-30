@@ -19,6 +19,19 @@ using mtype_id = string_id<mtype>;
 
 typedef std::map< mfaction_id, std::set< int > > mfactions;
 
+class mon_special_attack : public JsonSerializer {
+public:
+    int cooldown;
+    bool enabled;
+
+    // FIXME optional parameters are stand-in for better syntax in savegame_json.cpp for creating new entries
+    mon_special_attack(int c = 0, bool e = true) : cooldown(c), enabled(e) {};
+
+    using JsonSerializer::serialize;
+    virtual void serialize(JsonOut &jsout) const override;
+
+};
+
 enum monster_attitude {
     MATT_NULL = 0,
     MATT_FRIEND,
@@ -288,13 +301,14 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         // Get torso - monsters don't have body parts (yet?)
         body_part get_random_body_part( bool main ) const override;
 
-        /** Resets a given special to its monster type cooldown value, an index of -1 does nothing. */
-        void reset_special(int index);
-        /** Resets a given special to a value between 0 and its monster type cooldown value.
-          * An index of -1 does nothing. */
-        void reset_special_rng(int index);
-        /** Sets a given special to the given value, an index of -1 does nothing. */
-        void set_special(int index, int time);
+        /** Resets a given special to its monster type cooldown value */
+        void reset_special(std::string special_name);
+        /** Resets a given special to a value between 0 and its monster type cooldown value. */
+        void reset_special_rng(std::string special_name);
+        /** Sets a given special to the given value */
+        void set_special(std::string special_name, int time);
+        /** Sets the enabled flag for the given special to false */
+        void disable_special(std::string special_name);
 
         void die(Creature *killer) override; //this is the die from Creature, it calls kill_mon
         void drop_items_on_death();
@@ -395,7 +409,7 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
 
     private:
         int hp;
-        std::vector<int> sp_timeout;
+        std::unordered_map<std::string, mon_special_attack> special_attacks;
         tripoint goal;
         tripoint position;
         bool dead;

@@ -25,7 +25,7 @@ enum body_part : int;
 enum m_size : int;
 
 using mon_action_death  = void (*)(monster*);
-using mon_action_attack = void (*)(monster*, int);
+using mon_action_attack = bool (*)(monster*);
 using mon_action_defend = void (*)(monster&, Creature*, dealt_projectile_attack const*);
 struct MonsterGroup;
 using mongroup_id = string_id<MonsterGroup>;
@@ -157,6 +157,14 @@ struct mon_effect_data
                     id(nid), duration(dur), bp(nbp), permanent(perm), chance(nchance) {};
 };
 
+struct mtype_special_attack {
+    mon_action_attack attack; // function pointer to the attack function
+    int cooldown; // turns between uses of this attack
+
+    // FIXME optional parameters are stand-in for better syntax in monstergenerator.cpp for creating new entries
+    mtype_special_attack(mon_action_attack a = nullptr, int c = 0) : attack(a), cooldown(c) {};
+};
+
 struct mtype {
     private:
         friend class MonsterGenerator;
@@ -208,12 +216,13 @@ struct mtype {
         std::string death_drops;
         float luminance;           // 0 is default, >0 gives luminance to lightmap
         int hp;
-        std::vector<unsigned int> sp_freq;     // How long sp_attack takes to charge
+        // special attack frequencies and function pointers
+        std::unordered_map<std::string, mtype_special_attack> special_attacks;
+        std::vector<std::string> special_attacks_names; // names of attacks, in json load order
 
         unsigned int def_chance; // How likely a special "defensive" move is to trigger (0-100%, default 0)
 
         std::vector<mon_action_death>  dies;       // What happens when this monster dies
-        std::vector<mon_action_attack> sp_attack;  // This monster's special attack
 
         // This monster's special "defensive" move that may trigger when the monster is attacked.
         // Note that this can be anything, and is not necessarily beneficial to the monster

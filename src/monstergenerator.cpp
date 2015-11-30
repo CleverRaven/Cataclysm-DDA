@@ -612,25 +612,32 @@ std::vector<mon_action_death> MonsterGenerator::get_death_functions(JsonObject &
 }
 
 void MonsterGenerator::load_special_attacks(mtype *m, JsonObject &jo, std::string member) {
-    m->sp_attack.clear(); // make sure we're running with
-    m->sp_freq.clear();   // everything cleared
+    m->special_attacks.clear(); // make sure we're running with everything cleared
 
     if (jo.has_array(member)) {
         JsonArray outer = jo.get_array(member);
         while (outer.has_more()) {
             JsonArray inner = outer.next_array();
             if ( attack_map.find(inner.get_string(0)) != attack_map.end() ) {
-                m->sp_attack.push_back(attack_map[inner.get_string(0)]);
-                m->sp_freq.push_back(inner.get_int(1));
+                m->special_attacks[inner.get_string(0)] = 
+                    mtype_special_attack(
+                        attack_map[inner.get_string(0)],
+                        inner.get_int(1)
+                    );
+                m->special_attacks_names.push_back(inner.get_string(0));
             } else {
                 inner.throw_error("Invalid special_attacks");
             }
         }
     }
 
-    if (m->sp_attack.empty()) {
-        m->sp_attack.push_back(attack_map["NONE"]);
-        m->sp_freq.push_back(0);
+    if (m->special_attacks.empty()) {
+        m->special_attacks["NONE"] = 
+            mtype_special_attack(
+                attack_map["NONE"],
+                0
+            );
+        m->special_attacks_names.push_back("NONE");
     }
 }
 
