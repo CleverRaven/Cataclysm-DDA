@@ -55,6 +55,7 @@ void craft_command::execute()
     }
 
     if( need_selections ) {
+        item_selections.clear();
         for( const auto &it : rec->requirements.components ) {
             comp_selection<item_comp> is = crafter->select_item_component( it, batch_size, map_inv, true );
             if( is.use_from == cancel ) {
@@ -63,6 +64,7 @@ void craft_command::execute()
             item_selections.push_back( is );
         }
 
+        tool_selections.clear();
         for( const auto &it : rec->requirements.tools ) {
             comp_selection<tool_comp> ts = crafter->select_tool_component(
                                                it, batch_size, map_inv, DEFAULT_HOTKEYS, true );
