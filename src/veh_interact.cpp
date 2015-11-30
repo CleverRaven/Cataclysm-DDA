@@ -1478,6 +1478,51 @@ void veh_interact::display_veh ()
     werase(w_disp);
     const int hw = getmaxx(w_disp) / 2;
     const int hh = getmaxy(w_disp) / 2;
+
+    if (debug_mode) {
+        // show CoM, pivot in debug mode
+
+        const point &pivot = veh->pivot_point();
+        int com_x, com_y;
+        veh->center_of_mass(com_x, com_y, false);
+
+        mvwprintz(w_disp, 0, 0, c_green, "CoM   %d,%d", com_x, com_y);
+        mvwprintz(w_disp, 1, 0, c_red,   "Pivot %d,%d", pivot.x, pivot.y);
+
+        int com_sx, com_sy, pivot_sx, pivot_sy;
+        if (vertical_menu) {
+            com_sx = com_y + ddy + hw;
+            com_sy = -(com_x - ddx) + hh;
+            pivot_sx = pivot.y + ddy + hw;
+            pivot_sy = -(pivot.x - ddx) + hh;
+        } else {
+            com_sx = com_x + ddx + hw;
+            com_sy = com_y + ddy + hh;
+            pivot_sx = pivot.x + ddx + hw;
+            pivot_sy = pivot.y + ddy + hh;
+        }
+
+        for (int x = 0; x < getmaxx(w_disp); ++x) {
+            if (x <= com_sx) {
+                mvwputch (w_disp, com_sy, x, c_green, LINE_OXOX);
+            }
+
+            if (x >= pivot_sx) {
+                mvwputch (w_disp, pivot_sy, x, c_red, LINE_OXOX);
+            }
+        }
+
+        for (int y = 0; y < getmaxy(w_disp); ++y) {
+            if (y <= com_sy) {
+                mvwputch (w_disp, y, com_sx, c_green, LINE_XOXO);
+            }
+
+            if (y >= pivot_sy) {
+                mvwputch (w_disp, y, pivot_sx, c_red, LINE_XOXO);
+            }
+        }
+    }
+
     //Iterate over structural parts so we only hit each square once
     std::vector<int> structural_parts = veh->all_parts_at_location("structure");
     int x, y;
