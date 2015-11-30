@@ -2187,7 +2187,7 @@ std::string item::display_name(unsigned int quantity) const
     } else if( ammo_capacity() > 0 ) {
         // anything that can be reloaded including tools, guns and auxiliary gunmods
         qty = string_format(" (%i)", ammo_remaining());
-    } else if( is_ammo() || is_food() ) {
+    } else if( count_by_charges() ) {
         qty = string_format(" (%i)", charges);
     }
 
