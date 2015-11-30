@@ -318,7 +318,7 @@ void overmap::convert_terrain( std::unordered_map<tripoint, std::string> &needs_
             std::string new_id;
         };
 
-        std::vector<const convert_nearby> near;
+        std::vector<convert_nearby> near;
 
         if( old == "apartments_con_tower_1_entrance" ) {
             const std::string other = "apartments_con_tower_1";
