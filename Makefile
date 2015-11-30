@@ -206,6 +206,18 @@ ifeq ($(NATIVE), osx)
   CXXFLAGS += -mmacosx-version-min=$(OSX_MIN)
   LDFLAGS += -mmacosx-version-min=$(OSX_MIN)
   WARNINGS = -Werror -Wall -Wextra -Wno-switch -Wno-sign-compare -Wno-missing-braces
+  ifdef FRAMEWORK
+    FRAMEWORKSDIR := $(strip $(if $(shell [ -d $(HOME)/Library/Frameworks ] && echo 1), \
+                             $(if $(shell find $(HOME)/Library/Frameworks -name 'SDL2.*'), \
+                               $(HOME)/Library/Frameworks,),))
+    ifeq ($(FRAMEWORKSDIR),)
+      FRAMEWORKSDIR := $(strip $(if $(shell find /Library/Frameworks -name 'SDL2.*'), \
+                                 /Library/Frameworks,))
+    endif
+    ifeq ($(FRAMEWORKSDIR),)
+      $(error "SDL2 framework not found")
+    endif
+  endif
   ifeq ($(LOCALIZE), 1)
     LDFLAGS += -lintl
     ifeq ($(MACPORTS), 1)
@@ -286,10 +298,8 @@ ifdef SOUND
   endif
   ifeq ($(NATIVE),osx)
     ifdef FRAMEWORK
-      CXXFLAGS += -I/Library/Frameworks/SDL2_mixer.framework/Headers \
-		-I$(HOME)/Library/Frameworks/SDL2_mixer.framework/Headers
-      LDFLAGS += -F/Library/Frameworks/SDL2_mixer.framework/Frameworks \
-		 -F$(HOME)/Library/Frameworks/SDL2_mixer.framework/Frameworks \
+      CXXFLAGS += -I$(FRAMEWORKSDIR)/SDL2_mixer.framework/Headers
+      LDFLAGS += -F$(FRAMEWORKSDIR)/SDL2_mixer.framework/Frameworks \
 		 -framework SDL2_mixer -framework Vorbis -framework Ogg
     else # libsdl build
       ifeq ($(MACPORTS), 1)
@@ -341,16 +351,11 @@ ifdef TILES
   BINDIST_EXTRAS += gfx
   ifeq ($(NATIVE),osx)
     ifdef FRAMEWORK
-      OSX_INC = -F/Library/Frameworks \
-		-F$(HOME)/Library/Frameworks \
-		-I/Library/Frameworks/SDL2.framework/Headers \
-		-I$(HOME)/Library/Frameworks/SDL2.framework/Headers \
-		-I/Library/Frameworks/SDL2_image.framework/Headers \
-		-I$(HOME)/Library/Frameworks/SDL2_image.framework/Headers \
-		-I/Library/Frameworks/SDL2_ttf.framework/Headers \
-		-I$(HOME)/Library/Frameworks/SDL2_ttf.framework/Headers
-      LDFLAGS += -F/Library/Frameworks \
-		 -F$(HOME)/Library/Frameworks \
+      OSX_INC = -F$(FRAMEWORKSDIR) \
+		-I$(FRAMEWORKSDIR)/SDL2.framework/Headers \
+		-I$(FRAMEWORKSDIR)/SDL2_image.framework/Headers \
+		-I$(FRAMEWORKSDIR)/SDL2_ttf.framework/Headers
+      LDFLAGS += -F$(FRAMEWORKSDIR) \
 		 -framework SDL2 -framework SDL2_image -framework SDL2_ttf -framework Cocoa
       CXXFLAGS += $(OSX_INC)
     else # libsdl build
@@ -675,11 +680,11 @@ ifdef LUA
 endif # ifdef LUA
 	cp -R gfx $(APPRESOURCESDIR)/
 ifdef FRAMEWORK
-	cp -R /Library/Frameworks/SDL2.framework $(APPRESOURCESDIR)/
-	cp -R /Library/Frameworks/SDL2_image.framework $(APPRESOURCESDIR)/
-	cp -R /Library/Frameworks/SDL2_ttf.framework $(APPRESOURCESDIR)/
+	cp -R $(FRAMEWORKSDIR)/SDL2.framework $(APPRESOURCESDIR)/
+	cp -R $(FRAMEWORKSDIR)/SDL2_image.framework $(APPRESOURCESDIR)/
+	cp -R $(FRAMEWORKSDIR)/SDL2_ttf.framework $(APPRESOURCESDIR)/
 ifdef SOUND
-	cp -R /Library/Frameworks/SDL2_mixer.framework $(APPRESOURCESDIR)/
+	cp -R $(FRAMEWORKSDIR)/SDL2_mixer.framework $(APPRESOURCESDIR)/
 	cd $(APPRESOURCESDIR)/ && ln -s SDL2_mixer.framework/Frameworks/Vorbis.framework Vorbis.framework
 	cd $(APPRESOURCESDIR)/ && ln -s SDL2_mixer.framework/Frameworks/Ogg.framework Ogg.framework
 	cd $(APPRESOURCESDIR)/SDL2_mixer.framework/Frameworks && find . -type d -maxdepth 1 -not -name '*Vorbis.framework' -not -name '*Ogg.framework' -not -name '.' | xargs rm -rf

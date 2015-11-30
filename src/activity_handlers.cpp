@@ -139,6 +139,7 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
     int fats = 0;
     int sinews = 0;
     int feathers = 0;
+    int wool = 0;
     bool stomach = false;
 
     switch (corpse->size) {
@@ -149,6 +150,7 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
         fats = 1;
         sinews = 1;
         feathers = 2;
+        wool = 1;
         break;
     case MS_SMALL:
         pieces = 2;
@@ -157,6 +159,7 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
         fats = 2;
         sinews = 4;
         feathers = 6;
+        wool = 2;
         break;
     case MS_MEDIUM:
         pieces = 4;
@@ -165,6 +168,7 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
         fats = 4;
         sinews = 9;
         feathers = 11;
+        wool = 4;
         break;
     case MS_LARGE:
         pieces = 8;
@@ -173,6 +177,7 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
         fats = 8;
         sinews = 14;
         feathers = 17;
+        wool = 8;
         break;
     case MS_HUGE:
         pieces = 16;
@@ -181,6 +186,7 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
         fats = 16;
         sinews = 21;
         feathers = 24;
+        wool = 16;
         break;
     }
 
@@ -215,6 +221,7 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
     fats +=     std::min( 0, roll_butchery() - 4 );
     sinews +=   std::min( 0, roll_butchery() - 8 );
     feathers += std::min( 0, roll_butchery() - 1 );
+    wool +=     std::min( 0, roll_butchery() );
     stomach = roll_butchery() >= 0;
 
     if( bones > 0 ) {
@@ -253,6 +260,14 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
                 g->m.spawn_item(p->pos(), "stomach_large", 1, 0, age);
                 add_msg(m_good, _("You harvest the stomach!"));
             }
+        } else if( meat == "human_flesh" ) {
+            if( corpse->size == MS_SMALL || corpse->size == MS_MEDIUM ) {
+                g->m.spawn_item(p->pos(), "hstomach", 1, 0, age);
+                add_msg(m_good, _("You harvest the stomach!"));
+            } else if( corpse->size == MS_LARGE || corpse->size == MS_HUGE ) {
+                g->m.spawn_item(p->pos(), "hstomach_large", 1, 0, age);
+                add_msg(m_good, _("You harvest the stomach!"));
+            }
         }
     }
 
@@ -261,6 +276,7 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
         add_msg(m_good, _("You manage to skin the %s!"), corpse->nname().c_str());
         int fur = 0;
         int leather = 0;
+        int human_leather = 0;
         int chitin = 0;
 
         while (skins > 0 ) {
@@ -275,20 +291,28 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
                 skins = std::max(skins, 0);
             }
             if( corpse->has_flag(MF_LEATHER) ) {
-                leather = rng(0, skins);
-                skins -= leather;
+                if( corpse->has_flag(MF_HUMAN) ) {
+                    human_leather = rng(0, skins);
+                    skins -= human_leather;
+                } else {
+                    leather = rng(0, skins);
+                    skins -= leather;
+                }
                 skins = std::max(skins, 0);
             }
         }
 
-        if( chitin ) {
+        if( chitin > 0 ) {
             g->m.spawn_item(p->pos(), "chitin_piece", chitin, 0, age);
         }
-        if( fur ) {
+        if( fur > 0 ) {
             g->m.spawn_item(p->pos(), "raw_fur", fur, 0, age);
         }
-        if( leather ) {
+        if( leather > 0 ) {
             g->m.spawn_item(p->pos(), "raw_leather", leather, 0, age);
+        }
+        if( human_leather ) {
+            g->m.spawn_item(p->pos(), "raw_hleather", leather, 0, age);
         }
     }
 
@@ -296,6 +320,13 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
         if( corpse->has_flag(MF_FEATHER) ) {
             g->m.spawn_item(p->pos(), "feather", feathers, 0, age);
             add_msg(m_good, _("You harvest some feathers!"));
+        }
+    }
+
+    if( wool > 0 ) {
+        if( corpse->has_flag(MF_WOOL) ) {
+            g->m.spawn_item(p->pos(), "wool_staple", wool, 0, age);
+            add_msg(m_good, _("You harvest some wool staples!"));
         }
     }
 
@@ -1201,7 +1232,7 @@ void activity_handlers::open_gate_finish( player_activity *act, player *p )
     } else {
         return;
     }
-    
+
     bool open = false;
     bool close = false;
 

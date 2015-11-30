@@ -11196,7 +11196,7 @@
         "phase" : "solid",
         "encumbrance" : 0,
         "bashing" : -5,
-        "flags" : ["RIGHT", "WATER_FRIENDLY", "FANCY"],
+        "flags" : ["WATER_FRIENDLY", "FANCY"],
         "coverage" : 95,
         "material_thickness" : 2
     },
@@ -12914,6 +12914,29 @@
         "flags" : ["VARSIZE", "OVERSIZE", "STURDY"],
         "coverage" : 75,
         "material_thickness" : 3
+    },
+    {
+        "type" : "ARMOR",
+        "id" : "makeshift_knapsack",
+        "name" : "makeshift knapsack",
+        "weight" : 560,
+        "color" : "light_gray",
+        "covers" : ["TORSO"],
+        "to_hit" : 0,
+        "storage" : 20,
+        "symbol" : "[",
+        "description" : "A pair of pants with bottom ends tied with the string, and then it passed through the belt loops so the knapsack can be carried on the back.",
+        "flags" : ["BELTED"],
+        "price" : 1000,
+        "material" : ["cotton", "null"],
+        "volume" : 8,
+        "cutting" : 0,
+        "warmth" : 5,
+        "phase" : "solid",
+        "encumbrance" : 10,
+        "bashing" : -4,
+        "coverage" : 30,
+        "material_thickness" : 1
     },
     {
         "type" : "ARMOR",

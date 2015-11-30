@@ -347,6 +347,7 @@ void MonsterGenerator::init_flags()
     flag_map["ELECTRONIC"] = MF_ELECTRONIC;
     flag_map["FUR"] = MF_FUR;
     flag_map["LEATHER"] = MF_LEATHER;
+    flag_map["WOOL"] = MF_WOOL;
     flag_map["FEATHER"] = MF_FEATHER;
     flag_map["CBM_CIV"] = MF_CBM_CIV;
     flag_map["BONES"] = MF_BONES;

@@ -1905,8 +1905,8 @@ int advanced_inventory::add_item( aim_location destarea, item &new_item, int cou
 
 bool advanced_inventory::move_content( item &src_container, item &dest_container )
 {
-    if( !src_container.is_watertight_container() ) {
-        popup( _( "Source must be watertight container." ) );
+    if( !src_container.is_container() ) {
+        popup( _( "Source must be container." ) );
         return false;
     }
     if( src_container.is_container_empty() ) {
@@ -1919,6 +1919,14 @@ bool advanced_inventory::move_content( item &src_container, item &dest_container
     if( !src.made_of( LIQUID ) ) {
         popup( _( "You can unload only liquids into target container." ) );
         return false;
+    }
+
+    if ( !src_container.is_sealable_container() ) {
+        long max_charges = dest_container.get_remaining_capacity_for_liquid( src );
+        if ( src.charges > max_charges ) {
+            popup( _( "You can't partially unload liquids from unsealable container." ) );
+            return false;
+        }
     }
 
     std::string err;
