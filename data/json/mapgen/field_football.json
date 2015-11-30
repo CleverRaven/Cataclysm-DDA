@@ -1,13 +1,37 @@
 [
     {
-    "type":"monstergroup",
-    "name" : "GROUP_FOOTBALL",
-    "default" : "mon_null",
-    "monsters" : [
-        {"monster" : "mon_zombie", "freq" : 600, "cost_multiplier" : 1, "pack_size": [3,5] },
-        {"monster" : "mon_zombie", "freq" : 200, "cost_multiplier" : 1 },
-        { "monster" : "mon_zombie_tough", "freq" : 50, "cost_multiplier" : 3 }
+    "type" : "item_group",
+    "id" : "football_items",
+    "items":[
+        [ "whistle", 10 ],
+        [ "sports_drink", 80 ],
+        [ "bottle_plastic", 80 ],
+        [ "towel", 80 ],
+        [ "towel_soiled", 20 ],
+        [ "heatpack", 80 ],
+        [ "heatpack_used", 80 ],
+        [ "bandages", 40 ],
+        [ "mouthpiece", 40 ],
+        [ "football", 60 ],
+        [ "football_armor", 60 ],
+        [ "helmet_football", 60 ]
     ]
+    },{
+    "type": "vehicle_group",
+    "id": "football_vehicles",
+    "vehicles": [
+        [ "water_cart", 100 ]
+    ]
+    },{
+        "type": "monstergroup",
+        "name": "GROUP_FOOTBALL",
+        "default": "mon_null",
+        "monsters": [
+            { "monster": "mon_zombie_brute", "freq": 100, "cost_multiplier": 1, "pack_size": [ 1, 4 ] },
+            { "monster": "mon_zombie_runner", "freq": 100, "cost_multiplier": 1, "pack_size": [ 1, 2 ] },
+            { "monster": "mon_zombie_master", "freq": 100, "cost_multiplier": 2, "pack_size": [ 1, 2 ] },
+            { "monster": "mon_zombie_fat", "freq": 100, "cost_multiplier": 1, "pack_size": [ 4, 4 ] }
+        ]
     },{
         "type": "mapgen",
         "om_terrain": [
@@ -113,6 +137,9 @@
             },
             "set": [
                 { "point": "terrain", "id": "t_dirt", "x": [ 0, 23 ], "y": [ 0, 1 ], "repeat": [ 12, 16 ] }
+            ],
+            "place_items": [
+                { "item": "football_items", "chance": 100, "x": [ 14, 23 ], "y": [ 12, 14 ] }
             ]
         }
     },{
@@ -162,6 +189,15 @@
             },
             "set": [
                 { "point": "terrain", "id": "t_dirt", "x": [ 0, 23 ], "y": [ 0, 1 ], "repeat": [ 12, 16 ] }
+            ],
+            "place_vehicles": [
+                { "x": 11, "y": 13, "vehicle": "football_vehicles" }
+            ],
+            "place_monsters": [
+                { "x": [ 0, 23 ], "y": [ 12, 14 ], "monster": "GROUP_FOOTBALL", "chance": 1, "repeat": [ 1, 3 ] }
+            ],
+            "place_items": [
+                { "item": "football_items", "chance": 50, "x": [ 0, 23 ], "y": [ 12, 14 ] }
             ]
         }
     },{
@@ -211,6 +247,9 @@
             },
             "set": [
                 { "point": "terrain", "id": "t_dirt", "x": [ 0, 23 ], "y": [ 0, 1 ], "repeat": [ 12, 16 ] }
+            ],
+            "place_items": [
+                { "item": "football_items", "chance": 50, "x": [ 0, 8 ], "y": [ 12, 14 ] }
             ]
         }
     },{
@@ -381,7 +420,7 @@
                 "   %   %   %   %   %   %",
                 "   %   %   %   %   %   %",
                 "   %   %   %   %   %   %",
-                "   %   %   %   %   %   %",
+                "   %   %  %%%  %   %   %",
                 "   %   %   %   %   %   %",
                 "   %   %   %   %   %   %",
                 "   %   %   %   %   %   %",
@@ -397,7 +436,13 @@
             ],
             "terrain": {
                 "%": "t_grass_white"
-            }
+            },
+            "add": [
+                { "item": "football", "x": 11, "y": 11, "repeat": 1}
+            ],
+            "place_monsters": [
+                { "x": [ 7, 15 ], "y": [ 3, 19 ], "monster": "GROUP_FOOTBALL", "chance": 1, "repeat": [ 3, 5 ] }
+            ]
         }
     },{
         "type": "mapgen",
@@ -643,6 +688,12 @@
             },
             "set": [
                 { "point": "terrain", "id": "t_dirt", "x": [ 0, 23 ], "y": 23, "repeat": [ 6, 8 ] }
+            ],
+            "place_vehicles": [
+                { "x": 11, "y": 10, "vehicle": "football_vehicles" }
+            ],
+            "place_monsters": [
+                { "x": [ 0, 23 ], "y": [ 9, 11 ], "monster": "GROUP_FOOTBALL", "chance": 1, "repeat": [ 1, 3 ] }
             ]
         }
     },{
