@@ -105,6 +105,7 @@ enum m_flag : int {
     MF_ELECTRONIC,          // e.g. a robot; affected by emp blasts, and other stuff
     MF_FUR,                 // May produce fur when butchered
     MF_LEATHER,             // May produce leather when butchered
+    MF_WOOL,                // May produce wool when butchered
     MF_FEATHER,             // May produce feather when butchered
     MF_CBM_CIV,             // May produce a common cbm or two when butchered
     MF_BONES,               // May produce bones and sinews when butchered; if combined with POISON flag, tainted bones, if combined with HUMAN, human bones

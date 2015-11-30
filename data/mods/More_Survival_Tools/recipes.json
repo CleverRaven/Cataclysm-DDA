@@ -157,7 +157,7 @@
     [ "toolset", 10 ],
     [ "fire", -1 ]
   ]],
-  "components": [[[ "raw_leather", 1 ]]]
+  "components": [[[ "raw_leather", 1 ], [ "raw_hleather", 1 ]]]
 },
 {
   "type" : "recipe",
@@ -1415,6 +1415,57 @@
     [
       [ "fletching", 10 ]
     ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "snare_trigger",
+  "override": true,
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_TRAPS",
+  "skill_used": "traps",
+  "skills_required": [ "survival", 1 ],
+  "difficulty": 0,
+  "time": 2000,
+  "reversible": false,
+  "autolearn": false,
+  "qualities" : [ {"id":"CUT","level":1,"amount":1} ],
+  "components": [
+    [
+      [ "stick", 1 ],
+      [ "2x4", 1 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "light_snare_kit",
+  "override": true,
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_TRAPS",
+  "skill_used": "traps",
+  "skills_required": [ "survival", 1 ],
+  "difficulty": 1,
+  "time": 5000,
+  "reversible": true,
+  "autolearn": false,
+  "components": [
+    [ [ "snare_trigger", 1 ] ],
+    [ [ "string_36", 1 ] ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "heavy_snare_kit",
+  "override": true,
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_TRAPS",
+  "skill_used": "traps",
+  "skills_required": [ "survival", 1 ],
+  "difficulty": 3,
+  "time": 8000,
+  "reversible": true,
+  "autolearn": false,
+  "components": [
+    [ [ "snare_trigger", 1 ] ],
+    [ [ "rope_6", 1 ] ]
   ]
 }
 ]

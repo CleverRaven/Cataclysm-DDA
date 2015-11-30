@@ -110,7 +110,8 @@
             ["scooter_electric", 100],
             ["suv", 500],
             ["suv_electric", 200],
-            ["pickup", 300]
+            ["pickup", 300],
+            ["portable_generator", 50]
         ]
     },{
         "type" : "vehicle_group",
@@ -157,7 +158,8 @@
             ["motorcycle_sidecart", 300],
             ["shopping_cart", 1000],
             ["icecream_truck", 50],
-            ["wienermobile", 5]
+            ["wienermobile", 5],
+            ["portable_generator", 50]
         ]
     },{
         "type" : "vehicle_group",
@@ -170,7 +172,8 @@
             ["welding_cart", 120],
             ["car_chassis", 200],
             ["quad_bike_chassis", 120],
-            ["motorcycle_chassis", 120]
+            ["motorcycle_chassis", 120],
+            ["portable_generator", 50]
         ]
     },{
         "type" : "vehicle_group",

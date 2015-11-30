@@ -148,7 +148,7 @@
         "symbol": "[",
         "color": "yellow",
         "name": "revenant crown",
-        "description": "A wicked-looking crown made of silver, decorated with scenes of skeletons in a \"danse macabre\" motif.  A single diamond adorns it, in the center of the scene depicted.  Using it shall yield immunity to food poisoning and parasites, in exchange for inreased hunger.  It will not cure existing ailments, only prevent them.",
+        "description": "A wicked-looking crown made of silver, decorated with scenes of skeletons in a \"danse macabre\" motif.  A single diamond adorns it, in the center of the scene depicted.  Using it shall yield immunity to food poisoning and parasites, in exchange for increased hunger.  It will not cure existing ailments, only prevent them.",
         "price": 1052500,
         "material": ["silver", "diamond"],
         "weight": 650,
@@ -163,7 +163,7 @@
         "ammo": "essence_blood_type",
         "use_action" : {
             "type" : "consume_drug",
-            "activation_message" : "The diamond shimmers with strange red light as you feel a strange hunger, a craving for rotting meat and stagnant water...",
+            "activation_message" : "The diamond shimmers with malevolent red light as you feel a strange hunger, a craving for rotting meat and stagnant water...",
             "effects" : [
                 {
                    "id": "revenant_hunger",
@@ -176,12 +176,12 @@
         },
         "revert_to": "null",
         "covers" : ["HEAD"],
-        "flags" : ["VARSIZE"],
+        "flags" : ["VARSIZE", "ALLOWS_NATURAL_ATTACKS"],
         "storage" : 0,
         "warmth" : 0,
         "environmental_protection" : 0,
         "encumbrance" : 0,
-        "coverage" : 40,
+        "coverage" : 20,
         "material_thickness" : 1
     },{
         "id": "robe_shadow",

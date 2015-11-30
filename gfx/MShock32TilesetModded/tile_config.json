@@ -11518,6 +11518,11 @@
           "bg": 510
         },
         {
+          "id": "manual_niten",
+          "fg": 595,
+          "bg": 510
+        },
+        {
           "id": "modern_tanner",
           "fg": 562,
           "bg": 510
@@ -12400,25 +12405,133 @@
           "id": "t_wall_log",
           "fg": 1984,
           "bg": 513,
-          "rotates": false
+          "rotates": false,
+          "multitile": true,
+          "additional_tiles": [
+            {
+              "id": "center",
+              "fg": 1984
+            },
+            {
+              "id": "corner",
+              "fg": 2995
+            },
+            {
+              "id": "edge",
+              "fg": 2996
+            },
+            {
+              "id": "end_piece",
+              "fg": 2997
+            },
+            {
+              "id": "t_connection",
+              "fg": 2998
+            },
+            {
+              "id": "unconnected",
+              "fg": 2994
+            }
+          ]
         },
         {
           "id": "t_wall_log_broken",
           "fg": 1985,
           "bg": 513,
-          "rotates": false
+          "rotates": false,
+          "multitile": true,
+          "additional_tiles": [
+            {
+              "id": "center",
+              "fg": 1985
+            },
+            {
+              "id": "corner",
+              "fg": 3000
+            },
+            {
+              "id": "edge",
+              "fg": 3001
+            },
+            {
+              "id": "end_piece",
+              "fg": 3002
+            },
+            {
+              "id": "t_connection",
+              "fg": 3003
+            },
+            {
+              "id": "unconnected",
+              "fg": 2999
+            }
+          ]
         },
         {
           "id": "t_wall_log_chipped",
           "fg": 1986,
           "bg": 513,
-          "rotates": false
+          "rotates": false,
+          "multitile": true,
+          "additional_tiles": [
+            {
+              "id": "center",
+              "fg": 1986
+            },
+            {
+              "id": "corner",
+              "fg": 3005
+            },
+            {
+              "id": "edge",
+              "fg": 3006
+            },
+            {
+              "id": "end_piece",
+              "fg": 3007
+            },
+            {
+              "id": "t_connection",
+              "fg": 3008
+            },
+            {
+              "id": "unconnected",
+              "fg": 3004
+            }
+          ]
         },
         {
           "id": "t_wall_log_half",
           "fg": 1987,
           "bg": 513,
-          "rotates": false
+          "rotates": false,
+          "multitile": true,
+          "additional_tiles": [
+            {
+              "id": "center",
+              "fg": 1987
+            },
+            {
+              "id": "corner",
+              "fg": 3010
+            },
+            {
+              "id": "edge",
+              "fg": 3011
+            },
+            {
+              "id": "end_piece",
+              "fg": 3012
+            },
+            {
+              "id": "t_connection",
+              "fg": 3013
+            },
+            {
+              "id": "unconnected",
+              "fg": 3009
+            }
+          ]
         },
         {
           "id": "t_wall_wood",
@@ -13869,7 +13982,7 @@
         },
         {
           "id": "t_fault",
-          "fg": 516,
+          "fg": 3014,
           "bg": 516,
           "rotates": false
         },
@@ -14754,9 +14867,15 @@
         },
         {
           "id": "t_generator_broken",
-          "fg": 1789,
-          "bg": 534,
-          "rotates": false
+          "fg": 3031,
+          "rotates": true,
+          "multitile": true,
+          "additional_tiles": [
+            {
+              "id": "t_connection",
+              "fg": 3032
+            }
+          ]
         },
         {
           "id": "t_wall_r",
@@ -14956,7 +15075,13 @@
         {
           "id": "t_improvised_shelter",
           "fg": 1805,
-          "bg": 534,
+          "bg": 513,
+          "rotates": false
+        },
+        {
+          "id": "t_improvised_shelter_season_winter",
+          "fg": 1805,
+          "bg": 543,
           "rotates": false
         },
         {
@@ -18808,62 +18933,146 @@
         {
           "id": "vp_board_horizontal",
           "fg": 2358,
-          "rotates": true
+          "rotates": true,
+          "multitile": true,
+          "additional_tiles": [
+            {
+              "id": "broken",
+              "fg": 3022
+            }
+          ]
         },
         {
           "id": "vp_hdboard_horizontal",
           "fg": 2358,
-          "rotates": true
+          "rotates": true,
+          "multitile": true,
+          "additional_tiles": [
+            {
+              "id": "broken",
+              "fg": 3022
+            }
+          ]
         },
         {
           "id": "vp_board_ne",
           "fg": 2359,
-          "rotates": true
+          "rotates": true,
+          "multitile": true,
+          "additional_tiles": [
+            {
+              "id": "broken",
+              "fg": 3029
+            }
+          ]
         },
         {
           "id": "vp_hdboard_ne",
           "fg": 2359,
-          "rotates": true
+          "rotates": true,
+          "multitile": true,
+          "additional_tiles": [
+            {
+              "id": "broken",
+              "fg": 3029
+            }
+          ]
         },
         {
           "id": "vp_board_nw",
           "fg": 2360,
-          "rotates": true
+          "rotates": true,
+          "multitile": true,
+          "additional_tiles": [
+            {
+              "id": "broken",
+              "fg": 3030
+            }
+          ]
         },
         {
           "id": "vp_hdboard_nw",
           "fg": 2360,
-          "rotates": true
+          "rotates": true,
+          "multitile": true,
+          "additional_tiles": [
+            {
+              "id": "broken",
+              "fg": 3030
+            }
+          ]
         },
         {
           "id": "vp_board_se",
           "fg": 2361,
-          "rotates": true
+          "rotates": true,
+          "multitile": true,
+          "additional_tiles": [
+            {
+              "id": "broken",
+              "fg": 3025
+            }
+          ]
         },
         {
           "id": "vp_hdboard_se",
           "fg": 2361,
-          "rotates": true
+          "rotates": true,
+          "multitile": true,
+          "additional_tiles": [
+            {
+              "id": "broken",
+              "fg": 3025
+            }
+          ]
         },
         {
           "id": "vp_board_sw",
           "fg": 2362,
-          "rotates": true
+          "rotates": true,
+          "multitile": true,
+          "additional_tiles": [
+            {
+              "id": "broken",
+              "fg": 3026
+            }
+          ]
         },
         {
           "id": "vp_hdboard_sw",
           "fg": 2362,
-          "rotates": true
+          "rotates": true,
+          "multitile": true,
+          "additional_tiles": [
+            {
+              "id": "broken",
+              "fg": 3026
+            }
+          ]
         },
         {
           "id": "vp_board_vertical",
           "fg": 2363,
-          "rotates": true
+          "rotates": true,
+          "multitile": true,
+          "additional_tiles": [
+            {
+              "id": "broken",
+              "fg": 3027
+            }
+          ]
         },
         {
           "id": "vp_hdboard_vertical",
           "fg": 2363,
-          "rotates": true
+          "rotates": true,
+          "multitile": true,
+          "additional_tiles": [
+            {
+              "id": "broken",
+              "fg": 3027
+            }
+          ]
         },
         {
           "id": "vp_controls",
@@ -19161,92 +19370,218 @@
         {
           "id": "vp_halfboard_cover",
           "fg": 2409,
-          "rotates": true
+          "rotates": true,
+          "multitile": true,
+          "additional_tiles": [
+            {
+              "id": "broken",
+              "fg": 3021
+            }
+          ]
         },
         {
           "id": "vp_halfboard_horizontal",
           "fg": 2410,
-          "rotates": true
+          "rotates": true,
+          "multitile": true,
+          "additional_tiles": [
+            {
+              "id": "broken",
+              "fg": 3022
+            }
+          ]
         },
         {
           "id": "vp_halfboard_horizontal_2",
           "fg": 2411,
-          "rotates": true
+          "rotates": true,
+          "multitile": true,
+          "additional_tiles": [
+            {
+              "id": "broken",
+              "fg": 3022
+            }
+          ]
         },
         {
           "id": "vp_halfboard_ne",
           "fg": 2412,
-          "rotates": true
+          "rotates": true,
+          "multitile": true,
+          "additional_tiles": [
+            {
+              "id": "broken",
+              "fg": 3023
+            }
+          ]
         },
         {
           "id": "vp_halfboard_nw",
           "fg": 2413,
-          "rotates": true
+          "rotates": true,
+          "multitile": true,
+          "additional_tiles": [
+            {
+              "id": "broken",
+              "fg": 3024
+            }
+          ]
         },
         {
           "id": "vp_halfboard_se",
           "fg": 2414,
-          "rotates": true
+          "rotates": true,
+          "multitile": true,
+          "additional_tiles": [
+            {
+              "id": "broken",
+              "fg": 3025
+            }
+          ]
         },
         {
           "id": "vp_halfboard_sw",
           "fg": 2415,
-          "rotates": true
+          "rotates": true,
+          "multitile": true,
+          "additional_tiles": [
+            {
+              "id": "broken",
+              "fg": 3026
+            }
+          ]
         },
         {
           "id": "vp_halfboard_vertical",
           "fg": 2416,
-          "rotates": true
+          "rotates": true,
+          "multitile": true,
+          "additional_tiles": [
+            {
+              "id": "broken",
+              "fg": 3027
+            }
+          ]
         },
         {
           "id": "vp_halfboard_vertical_2",
           "fg": 2417,
-          "rotates": true
+          "rotates": true,
+          "multitile": true,
+          "additional_tiles": [
+            {
+              "id": "broken",
+              "fg": 3028
+            }
+          ]
         },
         {
           "id": "vp_hdhalfboard_cover",
           "fg": 2409,
-          "rotates": true
+          "rotates": true,
+          "multitile": true,
+          "additional_tiles": [
+            {
+              "id": "broken",
+              "fg": 3021
+            }
+          ]
         },
         {
           "id": "vp_hdhalfboard_horizontal",
           "fg": 2410,
-          "rotates": true
+          "rotates": true,
+          "multitile": true,
+          "additional_tiles": [
+            {
+              "id": "broken",
+              "fg": 3022
+            }
+          ]
         },
         {
           "id": "vp_hdhalfboard_horizontal_2",
           "fg": 2411,
-          "rotates": true
+          "rotates": true,
+          "multitile": true,
+          "additional_tiles": [
+            {
+              "id": "broken",
+              "fg": 3022
+            }
+          ]
         },
         {
           "id": "vp_hdhalfboard_ne",
           "fg": 2412,
-          "rotates": true
+          "rotates": true,
+          "multitile": true,
+          "additional_tiles": [
+            {
+              "id": "broken",
+              "fg": 3023
+            }
+          ]
         },
         {
           "id": "vp_hdhalfboard_nw",
           "fg": 2413,
-          "rotates": true
+          "rotates": true,
+          "multitile": true,
+          "additional_tiles": [
+            {
+              "id": "broken",
+              "fg": 3024
+            }
+          ]
         },
         {
           "id": "vp_hdhalfboard_se",
           "fg": 2414,
-          "rotates": true
+          "rotates": true,
+          "multitile": true,
+          "additional_tiles": [
+            {
+              "id": "broken",
+              "fg": 3025
+            }
+          ]
         },
         {
           "id": "vp_hdhalfboard_sw",
           "fg": 2415,
-          "rotates": true
+          "rotates": true,
+          "multitile": true,
+          "additional_tiles": [
+            {
+              "id": "broken",
+              "fg": 3026
+            }
+          ]
         },
         {
           "id": "vp_hdhalfboard_vertical",
           "fg": 2416,
-          "rotates": true
+          "rotates": true,
+          "multitile": true,
+          "additional_tiles": [
+            {
+              "id": "broken",
+              "fg": 3027
+            }
+          ]
         },
         {
           "id": "vp_hdhalfboard_vertical_2",
           "fg": 2417,
-          "rotates": true
+          "rotates": true,
+          "multitile": true,
+          "additional_tiles": [
+            {
+              "id": "broken",
+              "fg": 3028
+            }
+          ]
         },
         {
           "id": "vp_hdframe_horizontal",
@@ -19426,17 +19761,38 @@
         {
           "id": "vp_reinforced_solar_panel",
           "fg": 2439,
-          "rotates": true
+          "rotates": true,
+          "multitile": true,
+          "additional_tiles": [
+            {
+              "id": "broken",
+              "fg": 3018
+            }
+          ]
         },
         {
           "id": "vp_reinforced_solar_panel_v2",
           "fg": 2440,
-          "rotates": true
+          "rotates": true,
+          "multitile": true,
+          "additional_tiles": [
+            {
+              "id": "broken",
+              "fg": 3019
+            }
+          ]
         },
         {
           "id": "vp_reinforced_windshield",
           "fg": 2441,
-          "rotates": true
+          "rotates": true,
+          "multitile": true,
+          "additional_tiles": [
+            {
+              "id": "broken",
+              "fg": 3020
+            }
+          ]
         },
         {
           "id": "vp_roof_wood",
@@ -19459,9 +19815,33 @@
           "rotates": true
         },
         {
+          "id": "vp_solar_panel",
+          "fg": 2445,
+          "rotates": true,
+          "multitile": true,
+          "additional_tiles": [
+            {
+              "id": "broken",
+              "fg": 3015
+            }
+          ]
+        },
+        {
           "id": "vp_solar_panel_v2",
           "fg": 2446,
           "rotates": true
+        },
+        {
+          "id": "vp_solar_panel_v2",
+          "fg": 2446,
+          "rotates": true,
+          "multitile": true,
+          "additional_tiles": [
+            {
+              "id": "broken",
+              "fg": 3016
+            }
+          ]
         },
         {
           "id": "vp_spike",
@@ -22298,7 +22678,7 @@
         },
         {
           "id": "book_magicfordummies",
-          "fg": 590,
+          "fg": 557,
           "bg": 511,
           "rotates": false
         },
@@ -22654,7 +23034,14 @@
         {
           "id": "vp_solar_panel_v3",
           "fg": 2898,
-          "rotates": true
+          "rotates": true,
+          "multitile": true,
+          "additional_tiles": [
+            {
+              "id": "broken",
+              "fg": 3017
+            }
+          ]
         },
         {
           "id": "game_watch",
@@ -23170,6 +23557,47 @@
         {
           "id": "mon_zombie_screecher",
           "fg": 2990,
+          "bg": 515,
+          "rotates": false
+        },
+        {
+          "id": "hat_newsboy",
+          "fg": 2991,
+          "rotates": false
+        },
+        {
+          "id": "radiocontrol",
+          "fg": 2992,
+          "rotates": false
+        },
+        {
+          "id": "remotevehcontrol",
+          "fg": 2992,
+          "rotates": false
+        },
+        {
+          "id": "misc_repairkit",
+          "fg": 2993,
+          "rotates": false
+        },
+        {
+          "id": "atomic_lamp",
+          "fg": 3033,
+          "rotates": false
+        },
+        {
+          "id": "atomic_lamp_off",
+          "fg": 3034,
+          "rotates": false
+        },
+        {
+          "id": "atomic_light_off",
+          "fg": 3035,
+          "rotates": false
+        },
+        {
+          "id": "gown",
+          "fg": 3036,
           "rotates": false
         }
       ]

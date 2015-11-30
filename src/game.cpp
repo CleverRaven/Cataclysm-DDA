@@ -3750,7 +3750,8 @@ void game::debug()
                       _("Change time"), // 26
                       _("Set automove route"), // 27
                       _("Show mutation category levels"), // 28
-                      _("ui samples"), // 29
+                      _("Overmap editor"), // 29
+                      _("ui samples"), // 30
                       _("Cancel"),
                       NULL);
     int veh_num;
@@ -4396,12 +4397,18 @@ void game::debug()
         }
     }
     break;
-    case 29 :
-        {
-            input_context ctxt = get_default_mode_input_context();
-            ui_test_func();
-            ctxt.handle_input();
-        }
+    case 29:
+    {
+        overmap::draw_editor();
+	}
+	break;
+    case 30 :
+    {
+        input_context ctxt = get_default_mode_input_context();
+        ui_test_func();
+        ctxt.handle_input();
+    }
+    break;
     }
     erase();
     refresh_all();
@@ -4939,6 +4946,9 @@ void game::draw()
         wrefresh(w_terrain);
     }
     draw_sidebar();
+#ifdef TILES
+    try_sdl_update();
+#endif // TILES
 }
 
 void game::draw_sidebar()
@@ -10186,7 +10196,7 @@ bool vehicle_near( const itype_id &ft )
 
 // Handle_liquid returns false if we didn't handle all the liquid.
 bool game::handle_liquid(item &liquid, bool from_ground, bool infinite, item *source,
-                         item *cont)
+                         item *cont, int radius)
 {
     if( !liquid.made_of(LIQUID) ) {
         dbg(D_ERROR) << "game:handle_liquid: Tried to handle_liquid a non-liquid!";
@@ -10254,8 +10264,8 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite, item *so
     if (cont == NULL || cont->is_null()) {
         const std::string text = string_format(_("Container for %s"), liquid.tname().c_str());
 
-        // Check for a container on the ground.
-        cont = inv_map_for_liquid(liquid, text);
+        // Check for suitable containers in inventory or within radius including vehicles
+        cont = inv_map_for_liquid(liquid, text, radius);
         if (cont == NULL || cont->is_null()) {
             // No container selected (escaped, ...), ask to pour
             // we asked to pour rotten already
@@ -10664,7 +10674,7 @@ void game::plthrow(int pos)
         return;
     }
 
-    if (u.is_wearing_item(u.i_at(pos))) {
+    if (u.is_worn(u.i_at(pos))) {
         thrown.on_takeoff(u);
     }
 
@@ -11241,7 +11251,7 @@ void game::change_side(int pos)
 {
     if (pos == INT_MIN) {
         pos = inv_for_filter(_("Change side for item:"),
-                             [&](const item &it) { return u.is_wearing_item(it) && it.is_sided(); });
+                             [&](const item &it) { return u.is_worn(it) && it.is_sided(); });
     }
 
     if (pos == INT_MIN) {
@@ -12232,7 +12242,7 @@ void game::place_player( const tripoint &dest_loc )
             u.deal_damage( nullptr, bp_foot_l, damage_instance( DT_CUT, 1 ) );
         }
     }
-    if( m.has_flag("SHARP", dest_loc) && !one_in(3) && !one_in(40 - int(u.dex_cur / 2)) &&
+    if( m.has_flag("SHARP", dest_loc) && !one_in(3) && !x_in_y(1+u.dex_cur/2, 40) &&
         (!u.in_vehicle) && (!u.has_trait("PARKOUR") || one_in(4)) ) {
         body_part bp = random_body_part();
         if(u.deal_damage( nullptr, bp, damage_instance( DT_CUT, rng( 1, 10 ) ) ).total_damage() > 0) {
@@ -12593,7 +12603,11 @@ bool game::grabbed_veh_move( const tripoint &dp )
         mdir.init(dp_veh.x, dp_veh.y);
         grabbed_vehicle->turn(mdir.dir() - grabbed_vehicle->face.dir());
         grabbed_vehicle->face = grabbed_vehicle->turn_dir;
-        grabbed_vehicle->precalc_mounts(1, mdir.dir());
+        grabbed_vehicle->precalc_mounts(1, mdir.dir(), grabbed_vehicle->pivot_point());
+
+        // cancel out any movement of the vehicle due only to a change in pivot
+        dp_veh -= grabbed_vehicle->pivot_displacement();
+
         std::vector<veh_collision> colls;
         // Set player location to illegal value so it can't collide with vehicle.
         const tripoint player_prev = u.pos();
@@ -14417,14 +14431,9 @@ void intro()
     erase();
 }
 
-bool is_worn(const player &p, const item *it)
-{
-    return !p.worn.empty() && &p.worn.front() <= it && it <= &p.worn.back();
-}
-
 void game::process_artifact(item *it, player *p)
 {
-    const bool worn = is_worn( *p, it );
+    const bool worn = p->is_worn( *it );
     const bool wielded = ( it == &p->weapon );
     std::vector<art_effect_passive> effects;
     effects = it->type->artifact->effects_carried;

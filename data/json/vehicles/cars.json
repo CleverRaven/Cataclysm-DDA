@@ -165,6 +165,10 @@
             {"x": -2, "y": 2, "part": "frame_horizontal"},
             {"x": -2, "y": 2, "part": "halfboard_se"},
             {"x": -2, "y": 2, "part": "wheel"}
+        ],
+        "items" : [
+            {"x": 0, "y": 0, "chance": 10, "item_groups": ["snacks_fancy"]},
+            {"x": 0, "y": 1, "chance": 10, "item_groups": ["snacks_fancy"]}
         ]
     },{
         "type" : "vehicle",
@@ -253,6 +257,8 @@
         ],
         "items" : [
             {"x": 0, "y": 0, "chance": 16, "items": ["coke"]},
+            {"x": 0, "y": 0, "chance": 8, "item_groups": ["snacks_fancy"]},
+            {"x": 0, "y": 1, "chance": 10, "item_groups": ["snacks_fancy"]},
             {"x": 0, "y": 1, "chance": 5, "item_groups": ["female_underwear"]}
         ]
     },{
