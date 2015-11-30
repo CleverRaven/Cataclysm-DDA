@@ -227,7 +227,7 @@ std::vector<comp_selection<tool_comp>> craft_command::check_tool_components_miss
                 case cancel:
                     break;
             }
-        } else if( crafter->has_amount( type, 1 ) || map_inv.has_tools( type, 1 ) ) {
+        } else if( !crafter->has_amount( type, 1 ) && !map_inv.has_tools( type, 1 ) ) {
             missing.push_back( tool_sel );
         }
     }
