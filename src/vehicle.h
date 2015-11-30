@@ -578,7 +578,8 @@ public:
     void center_of_mass(int &x, int &y, bool use_precalc = true) const;
 
     // Get the pivot point of vehicle; coordinates are unrotated mount coordinates.
-    point pivot_point() const;
+    // This may result in refreshing the pivot point if it is currently stale.
+    const point &pivot_point() const;
 
     // Get the (artificial) displacement of the vehicle due to the pivot point changing
     // between precalc[0] and precalc[1]. This needs to be subtracted from any actual
@@ -949,6 +950,12 @@ public:
     bool planter_on                 = false; // Is the vehicle sprawing seeds everywhere?
     bool scoop_on                   = false; //Does the vehicle have a scoop? Which picks up items.
     bool reaper_on                  = false; //Is the reaper active?
+
+private:
+    void refresh_pivot() const;                // refresh pivot_cache, clear pivot_dirty
+
+    mutable bool pivot_dirty;                  // if true, pivot_cache needs to be recalculated
+    mutable point pivot_cache;                 // cached pivot point
 };
 
 #endif

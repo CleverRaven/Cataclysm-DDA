@@ -3001,14 +3001,6 @@ void vehicle::center_of_mass(int &x, int &y, bool use_precalc) const
     y = round(yf);
 }
 
-point vehicle::pivot_point() const
-{
-    // TODO: a part type that let you override this
-    point p;
-    center_of_mass(p.x, p.y, false);
-    return p;
-}
-
 point vehicle::pivot_displacement() const
 {
     // precalc_mounts always produces a result that puts the pivot point at (0,0).
@@ -4911,6 +4903,8 @@ bool vehicle::add_item (int part, item itm)
     for (auto &i : parts[part].items) {
         cur_volume += i.volume();
         if( tryaddcharges && i.merge_charges( itm ) ) {
+            // CoM might have changed
+            pivot_dirty = true;
             return true;
         }
     }
@@ -4928,6 +4922,8 @@ bool vehicle::add_item_at(int part, std::list<item>::iterator index, item itm)
         active_items.add( new_pos, parts[part].mount );
     }
 
+    // CoM might have changed
+    pivot_dirty = true;
     return true;
 }
 
@@ -4964,6 +4960,9 @@ std::list<item>::iterator vehicle::remove_item( int part, std::list<item>::itera
     if( active_items.has( it, parts[part].mount ) ) {
         active_items.remove( it, parts[part].mount );
     }
+
+    // CoM might have changed
+    pivot_dirty = true;
 
     return veh_items.erase(it);
 }
@@ -5211,6 +5210,21 @@ void vehicle::refresh()
     precalc_mounts( 0, pivot_rotation[0], pivot_anchor[0] );
     check_environmental_effects = true;
     insides_dirty = true;
+    pivot_dirty = true;
+}
+
+const point &vehicle::pivot_point() const {
+    if (pivot_dirty) {
+        refresh_pivot();
+    }
+
+    return pivot_cache;
+}
+
+void vehicle::refresh_pivot() const {
+    // Const method, but messes with mutable fields
+    pivot_dirty = false;
+    center_of_mass(pivot_cache.x, pivot_cache.y, false);
 }
 
 void vehicle::remove_remote_part(int part_num) {
@@ -5531,6 +5545,7 @@ int vehicle::damage_direct( int p, int dmg, damage_type type )
 
         if( parts[p].hp == 0 && last_hp > 0) {
             insides_dirty = true;
+            pivot_dirty = true;
         }
 
         if( part_flag( p, "FUEL_TANK" ) ) {
