@@ -361,6 +361,7 @@ public:
     void process_mongroups();
     void move_hordes();
 
+    static bool obsolete_terrain( const std::string &ter );
     void convert_terrain( std::unordered_map<tripoint, std::string> &needs_conversion );
 
     // drawing relevant data, e.g. what to draw

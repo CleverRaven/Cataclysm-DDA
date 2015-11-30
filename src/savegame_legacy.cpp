@@ -274,7 +274,7 @@ void overmap::unserialize_legacy(std::ifstream & fin) {
                     for (int i = 0; i < OMAPX; i++) {
                         if (count == 0) {
                             fin >> tmp_ter >> count;
-                            if( tmp_ter.compare( 0, 22, "apartments_con_tower_1" ) == 0 ) {
+                            if( obsolete_terrain( tmp_ter ) ) {
                                 for( int p = i; p < i+count; p++ ) {
                                     needs_conversion.emplace( tripoint( p, j, z-OVERMAP_DEPTH ),
                                                               tmp_ter );

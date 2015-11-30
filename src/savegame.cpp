@@ -290,6 +290,15 @@ void game::save_weather(std::ofstream &fout) {
     fout << "seed: " << weather_gen->get_seed();
 }
 
+bool overmap::obsolete_terrain( const std::string &ter ) {
+    const std::unordered_set<std::string> obsolete = {
+        "apartments_con_tower_1",
+        "apartments_con_tower_1_entrance"
+    };
+
+    return obsolete.find( ter ) != obsolete.end();
+}
+
 /*
  * Complex conversion of outdated overmap terrain ids.
  * This is used when loading saved games with old oter_ids.
@@ -301,72 +310,47 @@ void overmap::convert_terrain( std::unordered_map<tripoint, std::string> &needs_
         const std::string old = convert.second;
         oter_id &new_id = ter( pos.x, pos.y, pos.z );
 
-        // Check for neighboring terrain with old ids as well
-        std::string north, east, south, west = "";
-        std::unordered_map<tripoint, std::string>::iterator it;
-        if( ( it = needs_conversion.find( tripoint( pos.x, pos.y-1, pos.z ) ) )
-            != needs_conversion.end() ) {
-            north = it->second;
-        }
-        if( ( it = needs_conversion.find( tripoint( pos.x+1, pos.y, pos.z ) ) )
-            != needs_conversion.end() ) {
-            east = it->second;
-        }
-        if( ( it = needs_conversion.find( tripoint( pos.x, pos.y+1, pos.z ) ) )
-            != needs_conversion.end() ) {
-            south = it->second;
-        }
-        if( ( it = needs_conversion.find( tripoint( pos.x-1, pos.y, pos.z ) ) )
-            != needs_conversion.end() ) {
-            west = it->second;
-        }
+        struct convert_nearby {
+            int xoffset;
+            std::string x_id;
+            int yoffset;
+            std::string y_id;
+            std::string new_id;
+        };
 
-        // The original mapgen for apartments_con_tower used the same id for 3
-        // of its 4 tiles. This translation is for its conversion to distinct
-        // JSON compatible oter_ids, also accounting for rotation.
-        if( old.compare( 0, 22, "apartments_con_tower_1" ) == 0 ) {
-            const std::string entrance = "apartments_con_tower_1_entrance";
+        std::vector<const convert_nearby> near;
+
+        if( old == "apartments_con_tower_1_entrance" ) {
             const std::string other = "apartments_con_tower_1";
+            near.push_back( { 1, other, -1, other, "apartments_con_tower_SW_north" } );
+            near.push_back( { -1, other, 1, other, "apartments_con_tower_SW_south" } );
+            near.push_back( { 1, other, 1, other, "apartments_con_tower_SW_east" } );
+            near.push_back( { -1, other, -1, other , "apartments_con_tower_SW_west" } );
 
-            // NW quad
-            if( old == other && south == entrance && east == other ) {
-                new_id = "apartments_con_tower_NW_north";
-            } else if( old == other && north == entrance && west == other ) {
-                new_id = "apartments_con_tower_NW_south";
-            } else if( old == other && south == other && west == entrance ) {
-                new_id = "apartments_con_tower_NW_east";
-            } else if( old == other && north == other && east == entrance ) {
-                new_id = "apartments_con_tower_NW_west";
+        } else if( old == "apartments_con_tower_1" ) {
+            const std::string entr = "apartments_con_tower_1_entrance";
+            const std::string other = "apartments_con_tower_1";
+            near.push_back( { 1, other, 1, entr, "apartments_con_tower_NW_north" } );
+            near.push_back( { -1, other, -1, entr, "apartments_con_tower_NW_south" } );
+            near.push_back( { -1, entr, 1, other, "apartments_con_tower_NW_east" } );
+            near.push_back( { 1, entr, -1, other, "apartments_con_tower_NW_west" } );
+            near.push_back( { -1, other, 1, other, "apartments_con_tower_NE_north" } );
+            near.push_back( { 1, other, -1, other, "apartments_con_tower_NE_south" } );
+            near.push_back( { -1, other, -1, other, "apartments_con_tower_NE_east" } );
+            near.push_back( { 1, other, 1, other, "apartments_con_tower_NE_west" } );
+            near.push_back( { -1, entr, -1, other, "apartments_con_tower_SE_north" } );
+            near.push_back( { 1, entr, 1, other, "apartments_con_tower_SE_south" } );
+            near.push_back( { 1, other, -1, entr, "apartments_con_tower_SE_east" } );
+            near.push_back( { -1, other, 1, entr, "apartments_con_tower_SE_west" } );
+        }
 
-            // NE quad
-            } else if( old == other && south == other && west == other ) {
-                new_id = "apartments_con_tower_NE_north";
-            } else if( old == other && north == other && east == other ) {
-                new_id = "apartments_con_tower_NE_south";
-            } else if( old == other && north == other && west == other ) {
-                new_id = "apartments_con_tower_NE_east";
-            } else if( old == other && south == other && east == other ) {
-                new_id = "apartments_con_tower_NE_west";
-
-            // SW quad
-            } else if( old == entrance && north == other && east == other ) {
-                new_id = "apartments_con_tower_SW_north";
-            } else if( old == entrance && south == other && west == other ) {
-                new_id = "apartments_con_tower_SW_south";
-            } else if( old == entrance && south == other && east == other ) {
-                new_id = "apartments_con_tower_SW_east";
-            } else if( old == entrance && north == other && west == other ) {
-                new_id = "apartments_con_tower_SW_west";
-
-            // SE quad
-            } else if( old == other && north == other && west == entrance ) {
-                new_id = "apartments_con_tower_SE_north";
-            } else if( old == other && south == other && east == entrance ) {
-                new_id = "apartments_con_tower_SE_south";
-            } else if( old == other && north == entrance && east == other ) {
-                new_id = "apartments_con_tower_SE_east";
-            } else if( old == other && south == entrance && west == other ) {
-                new_id = "apartments_con_tower_SE_west";
+        for( const auto conv : near ) {
+            const auto x_it = needs_conversion.find( tripoint( pos.x + conv.xoffset, pos.y, pos.z ) );
+            const auto y_it = needs_conversion.find( tripoint( pos.x, pos.y + conv.yoffset, pos.z ) );
+            if( x_it != needs_conversion.end() && x_it->second == conv.x_id && 
+                y_it != needs_conversion.end() && y_it->second == conv.y_id ) {
+                new_id = conv.new_id;
+                break;
             }
         }
     }
@@ -409,7 +393,7 @@ void overmap::unserialize( std::ifstream &fin ) {
                             jsin.read( tmp_ter );
                             jsin.read( count );
                             jsin.end_array();
-                            if( tmp_ter.compare( 0, 22, "apartments_con_tower_1" ) == 0 ) {
+                            if( obsolete_terrain( tmp_ter ) ) {
                                 for( int p = i; p < i+count; p++ ) {
                                     needs_conversion.emplace( tripoint( p, j, z-OVERMAP_DEPTH ),
                                                               tmp_ter );
