@@ -82,10 +82,10 @@ class ui_window;
 * This abstract class is used to implement the frameworks's composite pattern.
 */
 class ui_element {
-    friend class ui_window; // so we don't have to make draw and set_parent public
+    friend class ui_window; // only ui_window can call draw
     private:
         const ui_window *parent = nullptr; /**< The parent is where ```get_win()```gets it's window from */
-        virtual void set_parent( const ui_window *parent ); /**< Virtual setter for ```parent```, so derived classes can do extra calculations */
+        void set_parent( const ui_window *parent ); /**< Virtual setter for ```parent```, so derived classes can do extra calculations */
 
         ui_anchor anchor = top_left; /**< This elements current anchoring inside the parent */
 
@@ -97,7 +97,6 @@ class ui_element {
     protected:
         virtual void draw() = 0;
         virtual WINDOW *get_win() const; /**< Getter for a window to draw with */
-        virtual bool is_window() const { return false; }
     public:
         ui_element( size_t size_x, size_t size_y, int x = 0, int y = 0, ui_anchor anchor = top_left );
         virtual ui_element *clone() const = 0;  // Currently only needed to copy a ui_window
@@ -114,8 +113,6 @@ class ui_element {
 
         unsigned int get_ax() const; /**< Getter for anchor adjusted x position */
         unsigned int get_ay() const; /**< Getter for anchor adjusted y position */
-
-        const ui_window *get_parent() const;
 
         /**
         * @name Relatives
@@ -137,34 +134,27 @@ class ui_element {
 * This is the class in the framework that holds nested elements.
 * It is also the only class in the framework with a public 'draw' function.
 */
-class ui_window : public ui_element {
-    friend class ui_element; // for get_win
+class ui_window {
     private:
-        void set_parent( const ui_window *parent ) override;
-
-        int global_x, global_y;
-
-        void adjust_window();
+        ui_rect rect; /**< Holds the elements size and position */
         WINDOW *win = nullptr;
         void draw_children();
-        void draw_window_children();
         std::list<ui_element *> children;
     protected:
-        WINDOW *get_win() const override;
         virtual void local_draw() {} /**< Method to draw things that are features of this window (or a derived type) e.g. a border */
-        bool is_window() const override { return true; }
-        virtual void add_child( ui_element *child );
+        void add_child( ui_element *child );
     public:
-        ui_window( const ui_rect &rect, ui_anchor anchor = top_left );
-        ui_window( size_t size_x, size_t size_y, int x = 0, int y = 0, ui_anchor anchor = top_left );
+        ui_window( const ui_rect &rect );
+        ui_window( size_t size_x, size_t size_y, int x = 0, int y = 0 );
         ui_window( const ui_window &other ); /**< Override of the standard copy constructor. We have to clone all nested elements too (not just the pointers) */
-        ui_element *clone() const override;
-        ~ui_window() override;
+        ~ui_window();
 
-        void draw() override;
+        void draw();
 
-        void set_anchor( ui_anchor new_anchor ) override;
-        void set_rect( const ui_rect &new_rect ) override;
+        WINDOW *get_win() const;
+
+        const ui_rect &get_rect() const;
+        void set_rect( const ui_rect &new_rect );
 
         const std::list<ui_element *> &get_children() const;
 
@@ -204,8 +194,7 @@ class bordered_window : public ui_window {
     protected:
         void local_draw() override;
     public:
-        bordered_window( size_t size_x, size_t size_y, int x = 0, int y = 0, ui_anchor anchor = top_left );
-        ui_element *clone() const override;
+        bordered_window( size_t size_x, size_t size_y, int x = 0, int y = 0 );
 
         nc_color border_color = BORDER_COLOR;
 };
@@ -315,47 +304,19 @@ class ui_tile_panel : public ui_element {
 */
 class tabbed_window : public bordered_window {
     private:
-        std::vector<std::pair<std::string, ui_window *>> tabs;
-        unsigned int tab_index;
+        std::vector<std::string> tabs;
+        unsigned int tab_index = 0;
     protected:
         void local_draw() override;
     public:
-        tabbed_window( size_t size_x, size_t size_y, int x = 0, int y = 0, ui_anchor anchor = top_left );
-        ui_element *clone() const override;
+        tabbed_window( size_t size_x, size_t size_y, int x = 0, int y = 0 );
+        static constexpr int header_size = 3;
 
-        /**
-        * Creates a new tab and a ui_window to go along with it (which it returns a pointer to).
-        * The type argument is the type of ui_window created.
-        */
-        template<class T = ui_window>
-        T *create_tab( std::string tab );
+        void add_tab( const std::string &tab );
 
         void next_tab();
         void previous_tab();
-        const std::pair<std::string, ui_window *> &current_tab() const;
-};
-
-/**
-* @brief A window that fills in blanks with border.
-*
-* The idea is that you nest a bunch of windows in this one, and it automatically draws borders around them.
-*/
-class auto_bordered_window : public ui_window {
-    private:
-        array_2d<bool> uncovered;
-        void recalc_uncovered();
-        bool is_uncovered( int x, int y ) const;
-        long get_border_char( unsigned int x, unsigned int y ) const;
-    protected:
-        void local_draw() override;
-        void add_child( ui_element *child ) override;
-    public:
-        auto_bordered_window( size_t size_x, size_t size_y, int x = 0, int y = 0, ui_anchor anchor = top_left );
-        ui_element *clone() const override;
-
-        virtual void set_rect( const ui_rect &new_rect ) override;
-
-        nc_color border_color = BORDER_COLOR;
+        std::string current_tab() const;
 };
 
 /**

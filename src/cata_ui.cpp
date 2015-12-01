@@ -13,12 +13,11 @@ ui_rect::ui_rect( size_t size_x, size_t size_y, int x, int y ) : size_x( size_x 
 {
 }
 
-ui_window::ui_window( const ui_rect &rect, ui_anchor anchor ) : ui_window( rect.size_x, rect.size_y, rect.x, rect.y, anchor )
+ui_window::ui_window( const ui_rect &rect ) : rect( rect ), win( newwin( rect.size_y, rect.size_x, rect.y, rect.x ) )
 {
 }
 
-ui_window::ui_window( size_t size_x, size_t size_y, int x, int y, ui_anchor anchor ) : ui_element( size_x, size_y, x, y, anchor ),
-                      global_x( x ), global_y( y ), win( newwin( size_y, size_x, global_y, global_x ) )
+ui_window::ui_window( size_t size_x, size_t size_y, int x, int y ) : ui_window( ui_rect( size_x, size_y, x, y ) )
 {
 }
 
@@ -31,16 +30,13 @@ ui_window::~ui_window()
     delwin( win );
 }
 
-ui_window::ui_window( const ui_window &other ) : ui_window( other.get_rect(), other.get_anchor() )
+ui_window::ui_window( const ui_window &other ) : ui_window( other.rect )
 {
     for( auto child : other.children ) {
-        children.push_back( child->clone() );
+        add_child( child->clone() );
     }
-}
 
-ui_element *ui_window::clone() const
-{
-    return new ui_window( *this );
+    win = newwin(rect.size_y, rect.size_y, rect.y, rect.x);
 }
 
 void ui_window::draw()
@@ -49,68 +45,32 @@ void ui_window::draw()
     local_draw();
     draw_children();
     wrefresh( win );
-    draw_window_children();
 }
 
 void ui_window::draw_children()
 {
     for( auto &child : children ) {
-        if( child->is_visible() && !child->is_window() ) {
+        if( child->is_visible() ) {
             child->draw();
         }
     }
 }
 
-void ui_window::draw_window_children()
+const ui_rect &ui_window::get_rect() const
 {
-    for( auto &child : children ) {
-        if( child->is_visible() && child->is_window() ) {
-            child->draw();
-        }
-    }
-}
-
-void ui_window::adjust_window()
-{
-    global_x = anchored_x;
-    global_y = anchored_y;
-    if( parent != nullptr ) {
-        global_x += parent->global_x;
-        global_y += parent->global_y;
-    }
-
-    delwin( win );
-    win = newwin( rect.size_y, rect.size_x, global_y, global_x );
-}
-
-void ui_window::set_parent( const ui_window *parent )
-{
-    ui_element::set_parent( parent );
-    adjust_window();
-
-    for( auto child : children ) {
-        child->calc_anchored_values();
-    }
+    return rect;
 }
 
 void ui_window::set_rect(const ui_rect &new_rect)
 {
-    ui_element::set_rect( new_rect );
-    adjust_window();
+    rect = new_rect;
 
     for( auto child : children ) {
         child->calc_anchored_values();
     }
-}
 
-void ui_window::set_anchor( ui_anchor new_anchor )
-{
-    ui_element::set_anchor( new_anchor );
-    adjust_window();
-
-    for( auto child : children ) {
-        child->calc_anchored_values();
-    }
+    delwin( win );
+    win = newwin( rect.size_y, rect.size_x, rect.y, rect.x );
 }
 
 // This returned ui_element will be deleted by ui_window's deconstructor, so you don't have to.
@@ -172,7 +132,7 @@ void ui_element::below( const ui_element &other, int x, int y )
 void ui_element::after( const ui_element &other, int x, int y )
 {
     auto o_rect = other.get_rect();
-    rect.x = o_rect.x + o_rect.size_x + x - 1;
+    rect.x = o_rect.x + o_rect.size_x + x;
     rect.y = o_rect.y + y;
     set_anchor( other.get_anchor() );
 }
@@ -257,11 +217,6 @@ unsigned int ui_element::get_ay() const
     return anchored_y;
 }
 
-const ui_window *ui_element::get_parent() const
-{
-    return parent;
-}
-
 void ui_element::set_parent( const ui_window *parent )
 {
     this->parent = parent;
@@ -306,15 +261,9 @@ void ui_label::set_text( std::string new_text )
     set_rect( ui_rect( utf8_width( new_text.c_str() ), get_rect().size_y, get_rect().x, get_rect().y ) );
 }
 
-bordered_window::bordered_window( size_t size_x, size_t size_y, int x, int y, ui_anchor anchor ) : ui_window( size_x, size_y, x, y, anchor )
+bordered_window::bordered_window( size_t size_x, size_t size_y, int x, int y ) : ui_window( size_x, size_y, x, y )
 {
 }
-
-ui_element *bordered_window::clone() const
-{
-    return new bordered_window( *this );
-}
-
 
 void bordered_window::local_draw()
 {
@@ -494,13 +443,8 @@ char_tile::char_tile( long sym, nc_color color ) : sym( sym ), color( color )
 {
 }
 
-tabbed_window::tabbed_window( size_t size_x, size_t size_y, int x, int y, ui_anchor anchor ) : bordered_window( size_x, size_y, x, y, anchor )
+tabbed_window::tabbed_window( size_t size_x, size_t size_y, int x, int y ) : bordered_window( size_x, size_y, x, y )
 {
-}
-
-ui_element *tabbed_window::clone() const
-{
-    return new tabbed_window( *this );
 }
 
 void tabbed_window::local_draw()
@@ -523,57 +467,46 @@ void tabbed_window::local_draw()
 
     int x_offset = 1; // leave space for selection bracket
     for( unsigned int i = 0; i < tabs.size(); i++ ) {
-        x_offset += draw_tab( win, x_offset, tabs[i].first, tab_index == i ) + 2;
+        x_offset += draw_tab( win, x_offset, tabs[i], tab_index == i ) + 2;
     }
 }
 
-template<class T>
-T *tabbed_window::create_tab( std::string tab )
+void tabbed_window::add_tab( const std::string &tab )
 {
-    auto tab_win = create_child( T( get_rect().size_x - 2, get_rect().size_y - 4, 1, -1, bottom_left ) );
-    tabs.push_back( {tab, tab_win} );
-    tab_win->set_visible( tabs.size() == 1 );
-    return tab_win;
+    tabs.push_back( tab );
 }
 
 void tabbed_window::next_tab()
 {
-    tabs[tab_index].second->set_visible( false );
-    if( tab_index == tabs.size() - 1 ){
-        tab_index = 0;
-    } else {
-        tab_index++;
+    if( tabs.size() > 0 ) {
+        if( tab_index == tabs.size() - 1 ){
+            tab_index = 0;
+        } else {
+            tab_index++;
+        }
     }
-    tabs[tab_index].second->set_visible( true );
 }
 
 void tabbed_window::previous_tab()
 {
-    tabs[tab_index].second->set_visible( false );
-    if( tab_index == 0 ){
-        tab_index = tabs.size() - 1;
-    } else {
-        tab_index--;
+    if( tabs.size() > 0 ) {
+        if( tab_index == 0 ){
+            tab_index = tabs.size() - 1;
+        } else {
+            tab_index--;
+        }
     }
-    tabs[tab_index].second->set_visible( true );
 }
 
-const std::pair<std::string, ui_window *> &tabbed_window::current_tab() const
+std::string tabbed_window::current_tab() const
 {
+    if( tabs.empty() ) {
+        return "";
+    }
     return tabs[tab_index];
 }
 
-auto_bordered_window::auto_bordered_window( size_t size_x, size_t size_y, int x , int y, ui_anchor anchor ) : ui_window( size_x, size_y, x, y, anchor ),
-                                            uncovered( array_2d<bool>( size_x, size_y ) )
-{
-    recalc_uncovered();
-}
-
-ui_element *auto_bordered_window::clone() const
-{
-    return new auto_bordered_window( *this );
-}
-
+/*
 void auto_bordered_window::set_rect( const ui_rect &new_rect )
 {
     ui_window::set_rect( new_rect );
@@ -699,6 +632,7 @@ void auto_bordered_window::local_draw()
         }
     }
 }
+*/
 
 ui_vertical_list::ui_vertical_list( size_t size_x, size_t size_y, int x, int y, ui_anchor anchor ) : ui_element( size_x, size_y, x, y, anchor )
 {
@@ -873,13 +807,10 @@ void label_test()
 void tab_test()
 {
     tabbed_window win( 31, 14, 50, 15 );
-    auto t_win1 = win.create_tab<ui_window>( "tab 1" );
-    ui_label label1( "window 1", 0, 0, center_center );
-    t_win1->create_child( label1 );
+    win.add_tab("Tab 1");
+    win.add_tab("Tab 2");
 
-    auto t_win2 = win.create_tab<ui_window>( "tab 2" );
-    ui_label label2( "window 2", 0, 0, center_center );
-    t_win2->create_child( label2 );
+    //win.create_child( ui_label ( "window 1", 0, 0, center_center ) );
 
     win.draw();
 
@@ -943,15 +874,6 @@ void tile_panel_test()
     tp.set_tile( char_tile( 'X', c_yellow ), 7, 6 );
 
     win.create_child(tp);
-
-    win.draw();
-}
-
-void auto_border_test()
-{
-    auto_bordered_window win( 51, 23, 50, 15 );
-    win.create_child( bordered_window( 49, 10, 1, 1 ) );
-    win.create_child( bordered_window( 49, 10, -1, -1, bottom_right ) );
 
     win.draw();
 }
@@ -1108,7 +1030,6 @@ void ui_test_func()
         "tabs",
         "indicators",
         "tile_panel",
-        "auto borders",
         "v list",
         "h list",
         "relative",
@@ -1131,18 +1052,15 @@ void ui_test_func()
             tile_panel_test();
             break;
         case 5:
-            auto_border_test();
-            break;
-        case 6:
             list_test();
             break;
-        case 7:
+        case 6:
             list_test2();
             break;
-        case 8:
+        case 7:
             relative_test();
             break;
-        case 9:
+        case 8:
             test_col_label();
             break;
         default:
