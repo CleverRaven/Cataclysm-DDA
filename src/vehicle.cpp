@@ -5262,6 +5262,9 @@ void vehicle::refresh_pivot() const {
                 float contact_area = wheel.info().wheel_width * wheel.bigness;        // todo: load on tyre?
                 if (wheel.hp <= 0) {
                     contact_area *= 5;
+                } else if (wheel.info().has_flag("STEERABLE")) {
+                    // Unbroken steerable wheels turn easily
+                    contact_area *= 0.1;
                 }
 
                 // The model here is:
@@ -5278,8 +5281,6 @@ void vehicle::refresh_pivot() const {
                 float y_force = contact_area * center_dist * cos(centerline_angle);        // resistance along Y axis (high - trying to skid)
                 float x_force = contact_area * center_dist * sin(centerline_angle) * 0.01; // resistance along X axis (low - rolling)
                 float drag = center_dist * (cos(centerline_angle) * y_force + sin(centerline_angle) * x_force); // resisting moment around center
-
-                // TODO: handle steerable wheels differently.
 
                 total_drag += drag;
                 if (total_drag + 0.1 >= best_drag) {
