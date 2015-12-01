@@ -1641,6 +1641,9 @@ void veh_interact::display_stats()
         } else if (steer < 0) {
             fold_and_print(w_stats, y[5], x[5], w[5], c_ltgray,
                            _("Wheels: <color_ltred>no steering</color>"));
+        } else if (steer < 0.033) {
+            fold_and_print(w_stats, y[5], x[5], w[5], c_ltgray,
+                           _("Wheels: <color_ltred>broken steering</color>"));
         } else if (steer < 0.5) {
             fold_and_print(w_stats, y[5], x[5], w[5], c_ltgray,
                            _("Wheels: <color_ltred>poor steering</color>"));
