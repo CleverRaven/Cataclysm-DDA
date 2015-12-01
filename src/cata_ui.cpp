@@ -548,8 +548,11 @@ void ui_vertical_list::scroll_down()
     }
 }
 
-const std::string &ui_vertical_list::current() const
+std::string ui_vertical_list::current() const
 {
+    if( text.empty() ) {
+        return "";
+    }
     return text[scroll];
 }
 

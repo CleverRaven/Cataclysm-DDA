@@ -375,7 +375,38 @@ class ui_vertical_list : public ui_element {
 
         void scroll_up();
         void scroll_down();
-        const std::string &current() const;
+        std::string current() const;
+
+        bool empty() const
+        {
+            return text.empty();
+        }
+};
+
+template<typename D>
+class ui_record_list : public ui_vertical_list {
+        std::map<std::string, D *> data_map;
+    public:
+        ui_record_list( size_t size_x, size_t size_y, int x = 0, int y = 0, ui_anchor anchor = top_left ) : ui_vertical_list(size_x, size_y, x, y, anchor) {
+        }
+
+        void make_records( const std::vector<D *> &data, std::function<std::string(D *)> get_text)
+        {
+            std::vector<std::string> text;
+
+            for( auto e : data ) {
+                std::string e_text = get_text( e );
+                text.push_back( e_text );
+                data_map[e_text] = e;
+            }
+
+            set_text( text );
+        }
+
+        D *get_cur_data()
+        {
+            return data_map[current()];
+        }
 };
 
 /**
@@ -388,7 +419,6 @@ class ui_horizontal_list : public ui_element {
     protected:
         void draw() override;
     public:
-        ui_horizontal_list( int x = 0, int y = 0, ui_anchor anchor = top_left );
         ui_horizontal_list( int x = 0, int y = 0, ui_anchor anchor = top_left );
 
         nc_color text_color = c_white;
