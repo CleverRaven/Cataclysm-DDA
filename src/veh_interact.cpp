@@ -532,6 +532,20 @@ bool veh_interact::can_install_part(int msg_width){
     }
     bool is_wheel = sel_vpart_info->has_flag("WHEEL");
 
+    int dif_steering = 0;
+    if (sel_vpart_info->has_flag("STEERABLE")) {
+        std::set<int> axles;
+        for (auto &p : veh->steering) {
+            axles.insert(veh->parts[p].mount.x);
+        }
+
+        if (axles.size() > 0 && axles.count(-ddx) == 0) {
+            // Installing more than one steerable axle is hard
+            // (but adding a wheel to an existing axle isn't)
+            dif_steering = axles.size() + 5;
+        }
+    }
+
     itype_id itm = sel_vpart_info->item;
     bool drive_conflict = is_drive_conflict(msg_width);
 
@@ -539,12 +553,14 @@ bool veh_interact::can_install_part(int msg_width){
     bool has_skill = g->u.skillLevel( skill_mechanics ) >= sel_vpart_info->difficulty;
     bool has_tools = ((has_welder && has_goggles) || has_duct_tape) && has_wrench;
     bool has_skill2 = !is_engine || (g->u.skillLevel( skill_mechanics ) >= dif_eng);
+    bool has_skill3 = g->u.skillLevel(skill_mechanics) >= dif_steering;
     bool is_wrenchable = sel_vpart_info->has_flag("TOOL_WRENCH");
     bool is_wood = sel_vpart_info->has_flag("NAILABLE");
     bool is_hand_remove = sel_vpart_info->has_flag("TOOL_NONE");
     const int needed_strength = veh->total_mass() / TIRE_CHANGE_STR_MOD;
     const bool has_str = g->u.get_str() >= needed_strength;
     std::string engine_string = "";
+    std::string steering_string = "";
     std::string tire_string = "";
 
     if (drive_conflict) {
@@ -558,6 +574,13 @@ bool veh_interact::can_install_part(int msg_width){
                             dif_eng);
     }
 
+    if (dif_steering > 0) {
+        engine_string = string_format(
+                            _("  You also need level <color_%1$s>%2$d</color> skill in mechanics to install additional steering axles."),
+                            has_skill3 ? "ltgreen" : "red",
+                            dif_steering);
+    }
+
     if (is_wheel) {
         tire_string = string_format(
                             _("  You also need either a <color_%1$s>jack</color> or <color_%2$s>%3$d</color> strength to install tire."),
@@ -569,30 +592,32 @@ bool veh_interact::can_install_part(int msg_width){
     if (is_hand_remove) {
         werase (w_msg);
         fold_and_print(w_msg, 0, 1, msg_width - 2, c_ltgray,
-                        _("Needs <color_%1$s>%2$s</color>, and level <color_%3$s>%4$d</color> skill in mechanics.%5$s%6$s"),
+                        _("Needs <color_%1$s>%2$s</color>, and level <color_%3$s>%4$d</color> skill in mechanics.%5$s%6$s%7$s"),
                         has_comps ? "ltgreen" : "red",
                         item::nname( itm ).c_str(),
                         has_skill ? "ltgreen" : "red",
                         sel_vpart_info->difficulty,
                         engine_string.c_str(),
+                        steering_string.c_str(),
                         tire_string.c_str());
         wrefresh (w_msg);
     } else if (is_wrenchable){
         werase (w_msg);
         fold_and_print(w_msg, 0, 1, msg_width - 2, c_ltgray,
-                        _("Needs <color_%1$s>%2$s</color>, a <color_%3$s>wrench</color> and level <color_%4$s>%5$d</color> skill in mechanics.%6$s%7$s"),
+                        _("Needs <color_%1$s>%2$s</color>, a <color_%3$s>wrench</color> and level <color_%4$s>%5$d</color> skill in mechanics.%6$s%7$s%8$s"),
                         has_comps ? "ltgreen" : "red",
                         item::nname( itm ).c_str(),
                         has_wrench ? "ltgreen" : "red",
                         has_skill ? "ltgreen" : "red",
                         sel_vpart_info->difficulty,
                         engine_string.c_str(),
+                        steering_string.c_str(),
                         tire_string.c_str());
         wrefresh (w_msg);
     } else if (is_wood) {
         werase (w_msg);
         fold_and_print(w_msg, 0, 1, msg_width - 2, c_ltgray,
-                        _("Needs <color_%1$s>%2$s</color>, either <color_%3$s>nails</color> and <color_%4$s>something to drive them</color> or <color_%5$s>duct tape</color>, and level <color_%6$s>%7$d</color> skill in mechanics.%8$s%9$s"),
+                        _("Needs <color_%1$s>%2$s</color>, either <color_%3$s>nails</color> and <color_%4$s>something to drive them</color> or <color_%5$s>duct tape</color>, and level <color_%6$s>%7$d</color> skill in mechanics.%8$s%9$s%10$s"),
                         has_comps ? "ltgreen" : "red",
                         item::nname( itm ).c_str(),
                         has_nails ? "ltgreen" : "red",
@@ -601,12 +626,13 @@ bool veh_interact::can_install_part(int msg_width){
                         has_skill ? "ltgreen" : "red",
                         sel_vpart_info->difficulty,
                         engine_string.c_str(),
+                        steering_string.c_str(),
                         tire_string.c_str());
         wrefresh (w_msg);
     } else {
         werase (w_msg);
         fold_and_print(w_msg, 0, 1, msg_width - 2, c_ltgray,
-                        _("Needs <color_%1$s>%2$s</color>, a <color_%3$s>wrench</color>, either a <color_%4$s>powered welder</color> (and <color_%5$s>welding goggles</color>) or <color_%6$s>duct tape</color>, and level <color_%7$s>%8$d</color> skill in mechanics.%9$s%10$s"),
+                        _("Needs <color_%1$s>%2$s</color>, a <color_%3$s>wrench</color>, either a <color_%4$s>powered welder</color> (and <color_%5$s>welding goggles</color>) or <color_%6$s>duct tape</color>, and level <color_%7$s>%8$d</color> skill in mechanics.%9$s%10$s%11$s"),
                         has_comps ? "ltgreen" : "red",
                         item::nname( itm ).c_str(),
                         has_wrench ? "ltgreen" : "red",
@@ -616,11 +642,12 @@ bool veh_interact::can_install_part(int msg_width){
                         has_skill ? "ltgreen" : "red",
                         sel_vpart_info->difficulty,
                         engine_string.c_str(),
+                        steering_string.c_str(),
                         tire_string.c_str());
         wrefresh (w_msg);
     }
 
-    if(!has_comps || !has_skill || !has_skill2) {
+    if(!has_comps || !has_skill || !has_skill2 || !has_skill3) {
         return false; //Bail early on easy conditions
     } else if (is_wheel && (!(has_jack || has_str))) {
         return false;
