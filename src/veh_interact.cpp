@@ -1492,9 +1492,9 @@ void veh_interact::display_veh ()
         int com_sx, com_sy, pivot_sx, pivot_sy;
         if (vertical_menu) {
             com_sx = com_y + ddy + hw;
-            com_sy = -(com_x - ddx) + hh;
+            com_sy = -(com_x + ddx) + hh;
             pivot_sx = pivot.y + ddy + hw;
-            pivot_sy = -(pivot.x - ddx) + hh;
+            pivot_sy = -(pivot.x + ddx) + hh;
         } else {
             com_sx = com_x + ddx + hw;
             com_sy = com_y + ddy + hh;
