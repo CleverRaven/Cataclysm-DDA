@@ -1627,8 +1627,10 @@ void veh_interact::display_stats()
 
     bool isBoat = !veh->all_parts_with_feature(VPFLAG_FLOATS).empty();
     bool suf, bal;
+    float steer;
     suf = veh->sufficient_wheel_config();
     bal = veh->balanced_wheel_config();
+    steer = veh->steering_effectiveness();
     if( !isBoat ) {
         if( !suf ) {
             fold_and_print(w_stats, y[5], x[5], w[5], c_ltgray,
@@ -1636,6 +1638,12 @@ void veh_interact::display_stats()
         } else if (!bal) {
             fold_and_print(w_stats, y[5], x[5], w[5], c_ltgray,
                            _("Wheels: <color_ltred>unbalanced</color>"));
+        } else if (steer < 0) {
+            fold_and_print(w_stats, y[5], x[5], w[5], c_ltgray,
+                           _("Wheels: <color_ltred>no steering</color>"));
+        } else if (steer < 0.5) {
+            fold_and_print(w_stats, y[5], x[5], w[5], c_ltgray,
+                           _("Wheels: <color_ltred>poor steering</color>"));
         } else {
             fold_and_print(w_stats, y[5], x[5], w[5], c_ltgray,
                            _("Wheels: <color_ltgreen>enough</color>"));
