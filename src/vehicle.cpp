@@ -336,6 +336,50 @@ void vehicle::add_missing_frames()
     }
 }
 
+// Called when loading a vehicle that predates steerable wheels.
+// Tries to convert some wheels to steerable versions on the front axle.
+void vehicle::add_steerable_wheels()
+{
+    int axle = INT_MIN;
+    std::vector< std::pair<int, vpart_str_id> > wheels;
+
+    // Find wheels that have steerable versions.
+    // Convert the wheel(s) with the largest x value.
+    for (size_t p = 0; p < parts.size(); ++p) {
+        if (part_flag(p, "STEERABLE")) {
+            // Has a wheel that is inherently steerable
+            // (e.g. unicycle, casters), this vehicle doesn't
+            // need conversion.
+            return;
+        }
+
+        if (parts[p].mount.x < axle) {
+            // there is another axle in front of this
+            continue;
+        }
+
+        if (part_flag(p, VPFLAG_WHEEL)) {
+            vpart_str_id steerable_id(part_info(p).id.str() + "_steerable");
+            if (steerable_id.is_valid()) {
+                // We can convert this.
+                if (parts[p].mount.x != axle) {
+                    // Found a new axle further forward than the
+                    // existing one.
+                    wheels.clear();
+                    axle = parts[p].mount.x;
+                }
+
+                wheels.push_back(std::make_pair(p, steerable_id));
+            }
+        }
+    }
+
+    // Now convert the wheels to their new types.
+    for (auto &wheel : wheels) {
+        parts[wheel.first].set_id(wheel.second);
+    }
+}
+
 void vehicle::save (std::ofstream &stout)
 {
     serialize(stout);

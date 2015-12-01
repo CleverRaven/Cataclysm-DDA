@@ -285,6 +285,7 @@ private:
     void open_or_close(int part_index, bool opening);
     bool is_connected(vehicle_part const &to, vehicle_part const &from, vehicle_part const &excluded) const;
     void add_missing_frames();
+    void add_steerable_wheels();
 
     // direct damage to part (armor protection and internals are not counted)
     // returns damage bypassed
