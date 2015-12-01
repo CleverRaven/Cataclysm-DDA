@@ -447,6 +447,13 @@ tabbed_window::tabbed_window( size_t size_x, size_t size_y, int x, int y ) : bor
 {
 }
 
+tabbed_window::~tabbed_window()
+{
+    for( auto t : tabs ) {
+        delete t.second;
+    }
+}
+
 void tabbed_window::local_draw()
 {
     bordered_window::local_draw();
@@ -467,34 +474,40 @@ void tabbed_window::local_draw()
 
     int x_offset = 1; // leave space for selection bracket
     for( unsigned int i = 0; i < tabs.size(); i++ ) {
-        x_offset += draw_tab( win, x_offset, tabs[i], tab_index == i ) + 2;
+        x_offset += draw_tab( win, x_offset, tabs[i].first, tab_index == i ) + 2;
     }
 }
 
-void tabbed_window::add_tab( const std::string &tab )
+ui_group *tabbed_window::add_tab( const std::string &tab )
 {
-    tabs.push_back( tab );
+    auto group = new ui_group();
+    tabs.push_back({tab, group});
+    return group;
 }
 
 void tabbed_window::next_tab()
 {
     if( tabs.size() > 0 ) {
+        tabs[tab_index].second->for_each([](ui_element *e){ e->set_visible( false ); });
         if( tab_index == tabs.size() - 1 ){
             tab_index = 0;
         } else {
             tab_index++;
         }
+        tabs[tab_index].second->for_each([](ui_element *e){ e->set_visible( true ); });
     }
 }
 
 void tabbed_window::previous_tab()
 {
     if( tabs.size() > 0 ) {
+        tabs[tab_index].second->for_each([](ui_element *e){ e->set_visible( false ); });
         if( tab_index == 0 ){
             tab_index = tabs.size() - 1;
         } else {
             tab_index--;
         }
+        tabs[tab_index].second->for_each([](ui_element *e){ e->set_visible( true ); });
     }
 }
 
@@ -503,7 +516,7 @@ std::string tabbed_window::current_tab() const
     if( tabs.empty() ) {
         return "";
     }
-    return tabs[tab_index];
+    return tabs[tab_index].first;
 }
 
 /*
@@ -807,10 +820,17 @@ void label_test()
 void tab_test()
 {
     tabbed_window win( 31, 14, 50, 15 );
-    win.add_tab("Tab 1");
-    win.add_tab("Tab 2");
+    auto t_group1 = win.add_tab("Tab 1");
+    auto t_group2 = win.add_tab("Tab 2");
 
-    //win.create_child( ui_label ( "window 1", 0, 0, center_center ) );
+    auto l1 = win.create_child( ui_label ( "window 1", 0, 0, center_center ) );
+    auto l2 = win.create_child( ui_label ( "window 2", 0, 0, center_center ) );
+    l2->set_visible( false );
+    auto l3 = win.create_child( ui_label ( "window all", 0, 0, center_center ) );
+    l3->above( *l1 );
+
+    t_group1->add_element( l1 );
+    t_group2->add_element( l2 );
 
     win.draw();
 

@@ -62,6 +62,22 @@ struct ui_rect {
     ui_rect( size_t size_x, size_t size_y, int x, int y );
 };
 
+class ui_action {
+    std::vector<std::function<void()>> listeners;
+public:
+    void subscribe( std::function<void()> listener )
+    {
+        listeners.push_back( listener );
+    }
+
+    void operator()()
+    {
+        for( auto listener : listeners ) {
+            listener();
+        }
+    }
+};
+
 enum ui_anchor {
     top_left,
     top_center,
@@ -100,7 +116,7 @@ class ui_element {
     public:
         ui_element( size_t size_x, size_t size_y, int x = 0, int y = 0, ui_anchor anchor = top_left );
         virtual ui_element *clone() const = 0;  // Currently only needed to copy a ui_window
-        virtual ~ui_element() = default;
+        virtual ~ui_element() { on_delete(); };
 
         const ui_rect &get_rect() const;
         virtual void set_rect( const ui_rect &new_rect ); /**< Virtual setter for ```rect```, so derived classes can do extra calculations */
@@ -114,6 +130,8 @@ class ui_element {
         unsigned int get_ax() const; /**< Getter for anchor adjusted x position */
         unsigned int get_ay() const; /**< Getter for anchor adjusted y position */
 
+        ui_action on_delete;
+
         /**
         * @name Relatives
         *
@@ -126,6 +144,23 @@ class ui_element {
         void after( const ui_element &other, int x = 0, int y = 0 );
         void before( const ui_element &other, int x = 0, int y = 0 );
         //@}
+};
+
+class ui_group {
+    std::list<ui_element *> elements;
+public:
+    void add_element( ui_element *element )
+    {
+        elements.push_back( element );
+        element->on_delete.subscribe([element, this](){ this->elements.remove( element ); });
+    }
+
+    void for_each( std::function<void(ui_element *)> func )
+    {
+        for( auto e : elements ) {
+            func( e );
+        }
+    }
 };
 
 /**
@@ -304,15 +339,17 @@ class ui_tile_panel : public ui_element {
 */
 class tabbed_window : public bordered_window {
     private:
-        std::vector<std::string> tabs;
+        std::vector<std::pair<std::string, ui_group *>> tabs;
         unsigned int tab_index = 0;
     protected:
         void local_draw() override;
     public:
         tabbed_window( size_t size_x, size_t size_y, int x = 0, int y = 0 );
+        ~tabbed_window();
+
         static constexpr int header_size = 3;
 
-        void add_tab( const std::string &tab );
+        ui_group *add_tab( const std::string &tab );
 
         void next_tab();
         void previous_tab();
