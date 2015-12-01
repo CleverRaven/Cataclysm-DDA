@@ -173,7 +173,7 @@
     "items":[
       ["uzi", 50],
       ["tec9", 50],
-      ["sten", 10],
+      ["sten", 10]
     ]
   },{
     "type" : "item_group",
