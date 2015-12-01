@@ -30,15 +30,6 @@ ui_window::~ui_window()
     delwin( win );
 }
 
-ui_window::ui_window( const ui_window &other ) : ui_window( other.rect )
-{
-    for( auto child : other.children ) {
-        add_child( child->clone() );
-    }
-
-    win = newwin(rect.size_y, rect.size_y, rect.y, rect.x);
-}
-
 void ui_window::draw()
 {
     werase( win );
@@ -240,11 +231,6 @@ ui_label::ui_label( std::string text ,int x, int y, ui_anchor anchor ) : ui_elem
 {
 }
 
-ui_element *ui_label::clone() const
-{
-    return new ui_label( *this );
-}
-
 void ui_label::draw()
 {
     auto win = get_win();
@@ -278,11 +264,6 @@ void bordered_window::local_draw()
 health_bar::health_bar( size_t size_x, int x, int y, ui_anchor anchor ) : ui_element( size_x , 1, x, y, anchor ),
                        max_health( size_x * points_per_char ), current_health( max_health ), bar_str( std::string( size_x, '|' ) )
 {
-}
-
-ui_element *health_bar::clone() const
-{
-    return new health_bar( *this );
 }
 
 void health_bar::draw()
@@ -348,11 +329,6 @@ smiley_indicator::smiley_indicator( int x, int y, ui_anchor anchor) : ui_element
     set_state( neutral );
 }
 
-ui_element *smiley_indicator::clone() const
-{
-    return new smiley_indicator( *this );
-}
-
 void smiley_indicator::draw()
 {
     auto win = get_win();
@@ -394,12 +370,6 @@ template<class T>
 ui_tile_panel<T>::ui_tile_panel( size_t size_x, size_t size_y, int x, int y, ui_anchor anchor )
                        : ui_element( size_x, size_y, x, y, anchor ), tiles( array_2d<T>( size_x, size_y ) )
 {
-}
-
-template<class T>
-ui_element *ui_tile_panel<T>::clone() const
-{
-    return new ui_tile_panel( *this );
 }
 
 template<class T>
@@ -523,11 +493,6 @@ ui_vertical_list::ui_vertical_list( size_t size_x, size_t size_y, int x, int y, 
 {
 }
 
-ui_element *ui_vertical_list::clone() const
-{
-    return new ui_vertical_list( *this );
-}
-
 void ui_vertical_list::draw()
 {
     auto win = get_win();
@@ -591,12 +556,6 @@ const std::string &ui_vertical_list::current() const
 ui_horizontal_list::ui_horizontal_list( int x, int y, ui_anchor anchor ) : ui_element( 0, 1, x, y, anchor )
 {
 }
-
-ui_element *ui_horizontal_list::clone() const
-{
-    return new ui_horizontal_list( *this );
-}
-
 void ui_horizontal_list::draw()
 {
     auto win = get_win();
@@ -642,11 +601,6 @@ color_mapped_label::color_mapped_label( std::string text, int x, int y, ui_ancho
 {
 }
 
-ui_element *color_mapped_label::clone() const
-{
-    return new color_mapped_label( *this );
-}
-
 void color_mapped_label::draw()
 {
     auto win = get_win();
@@ -673,11 +627,6 @@ std::string &color_mapped_label::operator[]( nc_color color )
 ui_border::ui_border( size_t size_x, size_t size_y, int x, int y, ui_anchor anchor ) : ui_element( size_x, size_y, x, y, anchor ), borders( array_2d<long>( size_x, size_y ) )
 {
     calc_borders();
-}
-
-ui_element *ui_border::clone() const
-{
-    return new ui_border( *this );
 }
 
 void ui_border::set_rect( const ui_rect &rect )

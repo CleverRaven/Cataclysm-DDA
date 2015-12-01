@@ -115,7 +115,6 @@ class ui_element {
         virtual WINDOW *get_win() const; /**< Getter for a window to draw with */
     public:
         ui_element( size_t size_x, size_t size_y, int x = 0, int y = 0, ui_anchor anchor = top_left );
-        virtual ui_element *clone() const = 0;  // Currently only needed to copy a ui_window
         virtual ~ui_element() { on_delete(); };
 
         const ui_rect &get_rect() const;
@@ -181,7 +180,8 @@ class ui_window {
     public:
         ui_window( const ui_rect &rect );
         ui_window( size_t size_x, size_t size_y, int x = 0, int y = 0 );
-        ui_window( const ui_window &other ); /**< Override of the standard copy constructor. We have to clone all nested elements too (not just the pointers) */
+        ui_window( const ui_window &other ) = delete;
+        operator=( ui_window other ) = delete;
         ~ui_window();
 
         void draw();
@@ -215,7 +215,6 @@ class ui_label : public ui_element {
         virtual void draw() override;
     public:
         ui_label( std::string text, int x = 0, int y = 0, ui_anchor anchor = top_left );
-        ui_element *clone() const override;
 
         void set_text( std::string );
 
@@ -252,7 +251,6 @@ class health_bar : public ui_element {
         void draw() override;
     public:
         health_bar( size_t size_x, int x = 0, int y = 0, ui_anchor anchor = top_left );
-        ui_element *clone() const override;
 
         void set_health_percentage( float percentage );
 };
@@ -277,7 +275,6 @@ class smiley_indicator : public ui_element {
         void draw() override;
     public:
         smiley_indicator( int x = 0, int y = 0, ui_anchor anchor = top_left );
-        ui_element *clone() const override;
 
         void set_state( smiley_state new_state );
 };
@@ -316,7 +313,6 @@ class ui_tile_panel : public ui_element {
         void draw() override;
     public:
         ui_tile_panel( size_t size_x, size_t size_y, int x = 0, int y = 0, ui_anchor anchor = top_left );
-        ui_element *clone() const override;
 
         void set_rect( const ui_rect &new_rect ) override;
         void set_tile( const T &tile, unsigned int x, unsigned int y );
@@ -371,7 +367,6 @@ class ui_vertical_list : public ui_element {
         void draw() override;
     public:
         ui_vertical_list( size_t size_x, size_t size_y, int x = 0, int y = 0, ui_anchor anchor = top_left );
-        ui_element *clone() const override;
 
         nc_color text_color = c_white;
         nc_color bar_color = c_ltblue;
@@ -394,7 +389,7 @@ class ui_horizontal_list : public ui_element {
         void draw() override;
     public:
         ui_horizontal_list( int x = 0, int y = 0, ui_anchor anchor = top_left );
-        ui_element *clone() const override;
+        ui_horizontal_list( int x = 0, int y = 0, ui_anchor anchor = top_left );
 
         nc_color text_color = c_white;
 
@@ -418,7 +413,6 @@ class color_mapped_label : public ui_label {
         std::map<nc_color, std::string> color_map;
     public:
         color_mapped_label( std::string text, int x = 0, int y = 0, ui_anchor anchor = top_left );
-        ui_element *clone() const override;
 
         void draw() override;
 
@@ -431,9 +425,8 @@ class ui_border : public ui_element {
         void calc_borders();
     public:
         ui_border( size_t size_x, size_t size_y, int x = 0, int y = 0, ui_anchor anchor = top_left );
-        ui_element *clone() const override;
 
-        void draw()override;
+        void draw() override;
 
         void set_rect( const ui_rect &rect ) override;
 
