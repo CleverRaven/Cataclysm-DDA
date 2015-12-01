@@ -634,6 +634,10 @@ public:
     bool balanced_wheel_config() const;
     bool valid_wheel_config() const;
 
+    // return the relative effectiveness of the steering (1.0 is normal)
+    // <0 means there is no steering installed at all.
+    float steering_effectiveness() const;
+
     // idle fuel consumption
     void idle(bool on_map = true);
     // continuous processing for running vehicle alarms
@@ -854,6 +858,7 @@ public:
     std::vector<int> funnels;          // List of funnel indices
     std::vector<int> loose_parts;      // List of UNMOUNT_ON_MOVE parts
     std::vector<int> wheelcache;       // List of wheels
+    std::vector<int> steering;         // List of STEERABLE parts
     std::vector<int> speciality;       // List of parts that will not be on a vehicle very often, or which only one will be present
     std::vector<int> floating;         // List of parts that provide buoyancy to boats
     std::set<std::string> tags;        // Properties of the vehicle

@@ -3511,6 +3511,26 @@ bool vehicle::valid_wheel_config () const
     return sufficient_wheel_config() && balanced_wheel_config();
 }
 
+float vehicle::steering_effectiveness() const
+{
+    if (steering.empty()) {
+        return -1.0; // No steering installed
+    }
+
+    // For now, you just need one wheel working for 100% effective steering.
+    // TODO: return something less than 1.0 if the steering isn't so good
+    // (unbalanced, long wheelbase, back-heavy vehicle with front wheel steering,
+    // etc)
+    for (int p : steering) {
+        if (parts[p].hp > 0) {
+            return 1.0;
+        }
+    }
+
+    // We have steering, but it's all broken.
+    return 0.0;
+}
+
 /**
  * Power for batteries are in W, but usage for rest is in 0.5*HP, so coeff is 373
  * This does not seem to match up for consumption, as old coeff is 100
@@ -5099,6 +5119,7 @@ void vehicle::refresh()
     relative_parts.clear();
     loose_parts.clear();
     wheelcache.clear();
+    steering.clear();
     speciality.clear();
     floating.clear();
     lights_epower = 0;
@@ -5177,6 +5198,9 @@ void vehicle::refresh()
         }
         if( vpi.has_flag( VPFLAG_WHEEL ) ) {
             wheelcache.push_back( p );
+        }
+        if (vpi.has_flag("STEERABLE")) {
+            steering.push_back(p);
         }
         if (vpi.has_flag("SECURITY")){
             speciality.push_back(p);

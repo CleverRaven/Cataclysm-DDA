@@ -11659,13 +11659,29 @@ void game::pldrive(int x, int y)
         }
     }
 
+    int turn_delta = 15 * x;
+    if (turn_delta != 0) {
+        float eff = veh->steering_effectiveness();
+        if (eff < 0) {
+            add_msg(m_info, _("This vehicle has no steering system installed, you can't turn it."));
+            return;
+        }
+
+        turn_delta = round(turn_delta * eff);
+        if (turn_delta == 0) {
+            add_msg(m_bad, _("The steering is completely broken!"));
+            // Maybe not return here and let them find out the hard way?
+            return;
+        }
+    }
+
     int thr_amount = 10 * 100;
     if (veh->cruise_on) {
         veh->cruise_thrust(-y * thr_amount);
     } else {
         veh->thrust(-y);
     }
-    veh->turn(15 * x);
+    veh->turn(turn_delta);
     if (veh->skidding && veh->valid_wheel_config()) {
         if (rng(0, veh->velocity) < u.dex_cur + u.skillLevel( skill_driving ) * 2) {
             add_msg(_("You regain control of the %s."), veh->name.c_str());
