@@ -519,134 +519,6 @@ std::string tabbed_window::current_tab() const
     return tabs[tab_index].first;
 }
 
-/*
-void auto_bordered_window::set_rect( const ui_rect &new_rect )
-{
-    ui_window::set_rect( new_rect );
-    uncovered = array_2d<bool>(new_rect.size_x, new_rect.size_y);
-    recalc_uncovered();
-}
-
-void auto_bordered_window::add_child( ui_element *child )
-{
-    ui_window::add_child( child );
-    recalc_uncovered();
-}
-
-void auto_bordered_window::recalc_uncovered()
-{
-    for( unsigned int x = 0; x < get_rect().size_x; x++ ) {
-        for( unsigned int y = 0; y < get_rect().size_y; y++ ) {
-            uncovered.set_at(x, y, true);
-        }
-    }
-
-    for( auto &child : get_children() ) {
-        auto c_rect = child->get_rect();
-
-        unsigned int start_x = child->get_ax();
-        unsigned int start_y = child->get_ay();
-
-        unsigned int end_x = start_x + c_rect.size_x;
-        unsigned int end_y = start_y + c_rect.size_y;
-
-        for( unsigned int x = start_x; x < end_x; x++ ) {
-            for( unsigned int y = start_y; y < end_y; y++ ) {
-                if( x < get_rect().size_x && y < get_rect().size_y ) {
-                    uncovered.set_at(x, y, false);
-                }
-            }
-        }
-    }
-}
-
-bool auto_bordered_window::is_uncovered( int x, int y ) const
-{
-    if( x < 0 || y < 0 || (unsigned int) x >= get_rect().size_x || (unsigned int) y >= get_rect().size_y ) {
-        return false;
-    }
-    return uncovered.get_at(x, y);
-}
-
-long auto_bordered_window::get_border_char( unsigned int x, unsigned int y ) const
-{
-    bool left = is_uncovered( x - 1, y );
-    bool up = is_uncovered( x, y - 1 );
-    bool right = is_uncovered( x + 1, y );
-    bool down = is_uncovered( x, y + 1 );
-
-    long ret = ' ';
-
-    if( left ) {
-        ret = LINE_OXOX; // '-'
-    }
-
-    if( up ) {
-        if( left ) {
-            ret = LINE_XOOX; // '_|'
-        } else {
-            ret = LINE_XOXO; // '|'
-        }
-    }
-
-    if( right ) {
-        if( up ) {
-            if( left ) {
-                ret = LINE_XXOX; // '_|_'
-            } else {
-                ret = LINE_XXOO; // '|_'
-            }
-        } else {
-            ret = LINE_OXOX; // '-'
-        }
-    }
-
-    if( down ) {
-        if( right ) {
-            if( up ) {
-                if( left ) {
-                    ret = LINE_XXXX; // '-|-'
-                } else {
-                    ret = LINE_XXXO; // '|-'
-                }
-            } else {
-                if( left ) {
-                    ret = LINE_OXXX; // '^|^'
-                } else {
-                    ret = LINE_OXXO; // '|^'
-                }
-            }
-        } else {
-            if( left ) {
-                if( up ) {
-                    ret = LINE_XOXX; // '-|'
-                } else {
-                    ret = LINE_OOXX; // '^|'
-                }
-            } else {
-                ret = LINE_XOXO; // '|'
-            }
-        }
-    }
-
-    return ret;
-}
-
-void auto_bordered_window::local_draw()
-{
-    ui_window::local_draw();
-
-    auto win = get_win(); // never null
-    for( unsigned int x = 0; x < get_rect().size_x; x++ ){
-        for( unsigned int y = 0; y < get_rect().size_y; y++ ) {
-            if( is_uncovered( x, y ) ) {
-                mvwputch( win, y, x, border_color, get_border_char( x, y ) );
-            }
-        }
-    }
-}
-*/
-
 ui_vertical_list::ui_vertical_list( size_t size_x, size_t size_y, int x, int y, ui_anchor anchor ) : ui_element( size_x, size_y, x, y, anchor )
 {
 }
@@ -796,6 +668,109 @@ void color_mapped_label::draw()
 std::string &color_mapped_label::operator[]( nc_color color )
 {
     return color_map[color];
+}
+
+ui_border::ui_border( size_t size_x, size_t size_y, int x, int y, ui_anchor anchor ) : ui_element( size_x, size_y, x, y, anchor ), borders( array_2d<long>( size_x, size_y ) )
+{
+    calc_borders();
+}
+
+ui_element *ui_border::clone() const
+{
+    return new ui_border( *this );
+}
+
+void ui_border::set_rect( const ui_rect &rect )
+{
+    ui_element::set_rect( rect );
+    borders = array_2d<long>(rect.size_x, rect.size_y);
+    calc_borders();
+}
+
+long get_border_char( bool up, bool down, bool left, bool right )
+{
+    long ret = ' ';
+
+    if( left ) {
+        ret = LINE_OXOX; // '-'
+    }
+
+    if( up ) {
+        if( left ) {
+            ret = LINE_XOOX; // '_|'
+        } else {
+            ret = LINE_XOXO; // '|'
+        }
+    }
+
+    if( right ) {
+        if( up ) {
+            if( left ) {
+                ret = LINE_XXOX; // '_|_'
+            } else {
+                ret = LINE_XXOO; // '|_'
+            }
+        } else {
+            ret = LINE_OXOX; // '-'
+        }
+    }
+
+    if( down ) {
+        if( right ) {
+            if( up ) {
+                if( left ) {
+                    ret = LINE_XXXX; // '-|-'
+                } else {
+                    ret = LINE_XXXO; // '|-'
+                }
+            } else {
+                if( left ) {
+                    ret = LINE_OXXX; // '^|^'
+                } else {
+                    ret = LINE_OXXO; // '|^'
+                }
+            }
+        } else {
+            if( left ) {
+                if( up ) {
+                    ret = LINE_XOXX; // '-|'
+                } else {
+                    ret = LINE_OOXX; // '^|'
+                }
+            } else {
+                ret = LINE_XOXO; // '|'
+            }
+        }
+    }
+
+    return ret;
+}
+
+void ui_border::calc_borders()
+{
+    for( unsigned int x = 0; x < get_rect().size_x; x++ ){
+        for( unsigned int y = 0; y < get_rect().size_y; y++ ) {
+            long border = get_border_char(y != 0, y != get_rect().size_y - 1, x != 0, x != get_rect().size_x - 1);
+            borders.set_at(x, y, border);
+        }
+    }
+}
+
+void ui_border::draw()
+{
+    auto win = get_win();
+    if( win == nullptr ) {
+        return;
+    }
+
+    const size_t size_x = get_rect().size_x;
+    const size_t size_y = get_rect().size_y;
+
+    for( unsigned int x = 0; x < size_x; x++ ){
+        for( unsigned int y = 0; y < size_y; y++ ) {
+            mvwputch( win, get_ay() + y, get_ax() + x, border_color, borders.get_at(x, y) );
+        }
+    }
 }
 
 /////////////////////////////////////////////////////
@@ -1043,6 +1018,14 @@ void test_col_label()
     win.draw();
 }
 
+void borders_test()
+{
+    bordered_window win(51, 34, 50, 15);
+    win.create_child( ui_border(1, 32, 0, -1, bottom_center) );
+
+    win.draw();
+}
+
 void ui_test_func()
 {
     std::vector<std::string> options {
@@ -1053,7 +1036,8 @@ void ui_test_func()
         "v list",
         "h list",
         "relative",
-        "col label"
+        "col label",
+        "border"
     };
 
     int selection = menu_vec( false, "Select a sample", options );
@@ -1082,6 +1066,9 @@ void ui_test_func()
             break;
         case 8:
             test_col_label();
+            break;
+        case 9:
+            borders_test();
             break;
         default:
             break;

@@ -425,6 +425,21 @@ class color_mapped_label : public ui_label {
         std::string &operator[]( nc_color color );
 };
 
+class ui_border : public ui_element {
+    private:
+        array_2d<long> borders;
+        void calc_borders();
+    public:
+        ui_border( size_t size_x, size_t size_y, int x = 0, int y = 0, ui_anchor anchor = top_left );
+        ui_element *clone() const override;
+
+        void draw()override;
+
+        void set_rect( const ui_rect &rect ) override;
+
+        nc_color border_color = BORDER_COLOR;
+};
+
 ///@}
 
 void ui_test_func();
