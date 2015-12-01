@@ -5412,12 +5412,7 @@ void vehicle::shift_parts( const point delta )
     }
     labels = new_labels;
 
-    //Don't use the cache as it hasn't been updated yet
-    std::vector<int> origin_parts = parts_at_relative(0, 0, false);
-
-    posx += parts[origin_parts[0]].precalc[0].x;
-    posy += parts[origin_parts[0]].precalc[0].y;
-
+    pivot_anchor[0] -= delta;
     refresh();
 
     //Need to also update the map after this
