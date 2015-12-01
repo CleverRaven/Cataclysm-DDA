@@ -21,7 +21,7 @@
             {"x": 0, "y": 0, "part": "horn_bicycle"},
             {"x": 0, "y": 0, "part": "foot_pedals"},
             {"x": 1, "y": 0, "part": "xlframe_vertical"},
-            {"x": 1, "y": 0, "part": "wheel_bicycle"},
+            {"x": 1, "y": 0, "part": "wheel_bicycle_steerable"},
             {"x": -1, "y": 0, "part": "xlframe_vertical"},
             {"x": -1, "y": 0, "part": "wheel_bicycle"},
             {"x": -1, "y": 0, "part": "basketsm"}
@@ -39,7 +39,7 @@
             {"x": 0, "y": 0, "part": "foot_pedals"},
             {"x": 0, "y": 0, "part": "alternator_motorbike"},
             {"x": 1, "y": 0, "part": "xlframe_vertical"},
-            {"x": 1, "y": 0, "part": "wheel_bicycle"},
+            {"x": 1, "y": 0, "part": "wheel_bicycle_steerable"},
             {"x": -1, "y": 0, "part": "xlframe_vertical"},
             {"x": -1, "y": 0, "part": "wheel_bicycle"},
             {"x": -1, "y": 0, "part": "basketsm"},
@@ -77,7 +77,7 @@
             {"x": 1, "y": 0, "part": "gas_tank_small"},
             {"x": 1, "y": 0, "part": "battery_motorbike"},
             {"x": 2, "y": 0, "part": "frame_vertical"},
-            {"x": 2, "y": 0, "part": "wheel_motorbike"},
+            {"x": 2, "y": 0, "part": "wheel_motorbike_steerable"},
             {"x": -1, "y": 0, "part": "frame_vertical"},
             {"x": -1, "y": 0, "part": "wheel_motorbike"},
             {"x": -1, "y": 0, "part": "box"}
@@ -99,7 +99,7 @@
             {"x": 1, "y": 0, "part": "gas_tank_small"},
             {"x": 1, "y": 0, "part": "battery_motorbike"},
             {"x": 2, "y": 0, "part": "frame_vertical"},
-            {"x": 2, "y": 0, "part": "wheel_motorbike"},
+            {"x": 2, "y": 0, "part": "wheel_motorbike_steerable"},
             {"x": -1, "y": 0, "part": "frame_vertical"},
             {"x": -1, "y": 0, "part": "wheel_motorbike"}
         ]
@@ -124,7 +124,7 @@
             {"x": 1, "y": 0, "part": "headlight"},
             {"x": 1, "y": 0, "part": "gas_tank_small"},
             {"x": 2, "y": 0, "part": "frame_vertical"},
-            {"x": 2, "y": 0, "part": "wheel_motorbike"},
+            {"x": 2, "y": 0, "part": "wheel_motorbike_steerable"},
             {"x": -1, "y": 0, "part": "frame_vertical"},
             {"x": -1, "y": 0, "part": "wheel_motorbike"},
             {"x": -1, "y": 0, "part": "box"},
@@ -163,9 +163,9 @@
             {"x": -1, "y": 0, "part": "frame_horizontal"},
             {"x": -1, "y": 0, "part": "trunk"},
             {"x": 1, "y": -1, "part": "frame_horizontal"},
-            {"x": 1, "y": -1, "part": "wheel_motorbike"},
+            {"x": 1, "y": -1, "part": "wheel_motorbike_steerable"},
             {"x": 1, "y": 1, "part": "frame_horizontal"},
-            {"x": 1, "y": 1, "part": "wheel_motorbike"},
+            {"x": 1, "y": 1, "part": "wheel_motorbike_steerable"},
             {"x": -1, "y": -1, "part": "frame_horizontal"},
             {"x": -1, "y": -1, "part": "wheel_motorbike"},
             {"x": -1, "y": 1, "part": "frame_horizontal"},
@@ -189,7 +189,7 @@
             {"x": 1, "y": 0, "part": "frame_cover"},
             {"x": -1, "y": 0, "part": "frame_horizontal"},
             {"x": 1, "y": -1, "part": "frame_horizontal"},
-            {"x": 1, "y": -1, "part": "wheel_motorbike"},
+            {"x": 1, "y": -1, "part": "wheel_motorbike_steerable"},
             {"x": -1, "y": -1, "part": "frame_horizontal"},
             {"x": -1, "y": -1, "part": "wheel_motorbike"},
             {"x": -1, "y": 1, "part": "frame_horizontal"},
@@ -211,7 +211,7 @@
             {"x": 0, "y": 0, "part": "controls"},
             {"x": 0, "y": 0, "part": "horn_car"},
             {"x": 1, "y": 0, "part": "xlframe_vertical"},
-            {"x": 1, "y": 0, "part": "wheel_small"},
+            {"x": 1, "y": 0, "part": "wheel_small_steerable"},
             {"x": -1, "y": 0, "part": "xlframe_vertical"},
             {"x": -1, "y": 0, "part": "wheel_small"}
         ]
@@ -229,7 +229,7 @@
             {"x": 0, "y": 0, "part": "controls"},
             {"x": 0, "y": 0, "part": "horn_car"},
             {"x": 1, "y": 0, "part": "xlframe_vertical"},
-            {"x": 1, "y": 0, "part": "wheel_small"},
+            {"x": 1, "y": 0, "part": "wheel_small_steerable"},
             {"x": -1, "y": 0, "part": "xlframe_vertical"},
             {"x": -1, "y": 0, "part": "wheel_small"}
         ]
