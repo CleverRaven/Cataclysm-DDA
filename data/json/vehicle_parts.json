@@ -2329,6 +2329,26 @@
         ]
     },{
         "type" : "vehicle_part",
+        "id" : "wheel_small_steerable",
+        "name" : "small wheel (steerable)",
+        "symbol" : "o",
+        "color" : "dark_gray",
+        "broken_symbol" : "x",
+        "broken_color" : "light_gray",
+        "damage_modifier" : 50,
+        "durability" : 70,
+        "wheel_width" : 3,
+        "item" : "wheel_small",
+        "difficulty" : 2,
+        "location" : "under",
+        "flags" : ["WHEEL", "VARIABLE_SIZE", "NO_JACK", "STEERABLE"],
+        "breaks_into" : [
+            {"item": "steel_lump"},
+            {"item": "steel_chunk", "count": [1, 3]},
+            {"item": "scrap", "count": [1, 3]}
+        ]
+    },{
+        "type" : "vehicle_part",
         "id" : "wheel_barrow",
         "name" : "wheelbarrow wheel",
         "symbol" : "o",
