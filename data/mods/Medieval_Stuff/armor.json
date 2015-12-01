@@ -267,5 +267,35 @@
         "flags" : ["VARSIZE", "STURDY"],
         "coverage" : 80,
         "material_thickness" : 6
+    },
+    {
+        "type" : "ARMOR",
+        "id" : "baldric",
+        "name" : "baldric",
+        "weight" : 1625,
+        "color" : "brown",
+        "covers" : ["TORSO"],
+        "to_hit" : 0,
+        "symbol" : "[",
+        "description" : "A leather scabbard, big enough for anything up to a longsword, or even a bit larger than that.  Designed to be worn at the waist, secured by a shoulder belt.  Activate to sheath/draw a sword.",
+        "price" : 7500,
+        "material" : ["leather", "wood"],
+        "volume" : 8,
+        "cutting" : -4,
+        "bashing" : 4,
+        "warmth" : 0,
+        "phase" : "solid",
+        "encumbrance" : 7,
+        "coverage" : 10,
+        "material_thickness" : 1,
+        "flags" : ["VARSIZE", "WAIST", "OVERSIZE"],
+        "use_action" : {
+            "type": "holster",
+            "holster_prompt": "Sheath sword",
+            "holster_msg": "You sheath your %s",
+            "max_volume": 12,
+            "draw_speed": 10,
+            "flags": ["SHEATH_SWORD"]
+        }
     }
 ]
