@@ -7588,8 +7588,12 @@ void game::exam_vehicle(vehicle &veh, const tripoint &p, int cx, int cy)
             break;
         }
         u.assign_activity( ACT_VEHICLE, time, (int)vehint.sel_cmd );
-        u.activity.values.push_back(veh.global_x());    // values[0]
-        u.activity.values.push_back(veh.global_y());    // values[1]
+
+        // if we're working on an existing part, use that part as the reference point
+        // otherwise (e.g. installing a new frame), just use part 0
+        point q = veh.coord_translate(vehint.sel_vehicle_part ? vehint.sel_vehicle_part->mount : veh.parts[0].mount);
+        u.activity.values.push_back(veh.global_x() + q.x);    // values[0]
+        u.activity.values.push_back(veh.global_y() + q.y);    // values[1]
         u.activity.values.push_back(vehint.ddx);   // values[2]
         u.activity.values.push_back(vehint.ddy);   // values[3]
         u.activity.values.push_back(-vehint.ddx);   // values[4]

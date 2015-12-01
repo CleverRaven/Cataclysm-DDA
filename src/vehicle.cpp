@@ -794,8 +794,10 @@ bool vehicle::interact_vehicle_locked()
                 int hotwire_time = 6000 / ((mechanics_skill > 0)? mechanics_skill : 1);
                 //assign long activity
                 g->u.assign_activity(ACT_HOTWIRE_CAR, hotwire_time, -1, INT_MIN, _("Hotwire"));
-                g->u.activity.values.push_back(global_x());//[0]
-                g->u.activity.values.push_back(global_y());//[1]
+                // use part 0 as the reference point
+                point q = coord_translate(parts[0].mount);
+                g->u.activity.values.push_back(global_x() + q.x);//[0]
+                g->u.activity.values.push_back(global_y() + q.y);//[1]
                 g->u.activity.values.push_back(g->u.skillLevel( skill_mechanics ));//[2]
             } else {
                 if( has_security_working() && query_yn(_("Trigger the %s's Alarm?"), name.c_str()) ) {
