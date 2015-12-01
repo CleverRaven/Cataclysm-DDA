@@ -15,6 +15,7 @@
       ["gambeson", 3],
       ["armor_lamellar", 2],
       ["tunic", 1],
+      ["baldric", 4],
       ["textbook_armschina", 5]
     ]
   },{
@@ -28,7 +29,8 @@
       ["glaive", 10],
       ["scimitar", 20],
       ["armor_lamellar", 2],
-      ["helmet_conical", 1]
+      ["helmet_conical", 1],
+      ["baldric", 4]
     ]
   },{
     "type"  : "item_group",
