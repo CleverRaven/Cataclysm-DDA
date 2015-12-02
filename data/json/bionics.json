@@ -316,7 +316,7 @@
     },{
         "type": "bionic",
         "id": "bio_cloak",
-        "name": "Cloaking System",
+        "name": "Active Camouflage",
         "toggled": true,
         "act_cost": 50,
         "react_cost": 50,
