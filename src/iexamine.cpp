@@ -2354,7 +2354,7 @@ void iexamine::shrub_wildveggies( player *p, map *m, const tripoint &examp )
 
     add_msg( _("You forage through the %s."), m->tername( examp ).c_str() );
     int move_cost = 100000 / ( 2 * p->skillLevel( skill_survival ) + 5 );
-    ///EFFECT_PER randomly speeds up foraging
+    ///\EFFECT_PER randomly speeds up foraging
     move_cost /= rng( std::max( 4, p->per_cur ), 4 + p->per_cur * 2 );
     p->assign_activity( ACT_FORAGE, move_cost, 0 );
     p->activity.placement = examp;

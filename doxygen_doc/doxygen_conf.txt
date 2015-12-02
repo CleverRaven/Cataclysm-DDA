@@ -209,6 +209,11 @@ ALIASES += "EFFECT_DEX_MAX=\xrefitem Effects_Stat_Dexterity \"\" \"\" Maximum De
 ALIASES += "EFFECT_INT_MAX=\xrefitem Effects_Stat_Intelligence \"\" \"\" Maximum Intelligence" 
 ALIASES += "EFFECT_PER_MAX=\xrefitem Effects_Stat_Perception \"\" \"\" Maximum Perception"
 
+ALIASES += "EFFECT_STR_NPC=\xrefitem Effects_Stat_Strength \"\" \"\" NPC Strength" 
+ALIASES += "EFFECT_DEX_NPC=\xrefitem Effects_Stat_Dexterity \"\" \"\" NPC Dexterity" 
+ALIASES += "EFFECT_INT_NPC=\xrefitem Effects_Stat_Intelligence \"\" \"\" NPC Intelligence" 
+ALIASES += "EFFECT_PER_NPC=\xrefitem Effects_Stat_Perception \"\" \"\" NPC Perception"
+
 Aliases += "EFFECT_BARTER=\xrefitem Effects_Skill_Barter \"\" \"\" Barter"
 Aliases += "EFFECT_COMPUTER=\xrefitem Effects_Skill_Computer \"\" \"\" Computer"
 Aliases += "EFFECT_CARPENTRY=\xrefitem Effects_Skill_Carpentry \"\" \"\" Carpentry"

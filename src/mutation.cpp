@@ -178,6 +178,7 @@ void Character::mutation_effect(std::string mut)
         bps.push_back(bp_foot_r);
 
     } else if (mut == "STR_ALPHA") {
+        ///\EFFECT_STR_MAX determines bonus from STR mutation
         if (str_max <= 6) {
             str_max = 8;
         } else if (str_max <= 7) {
@@ -189,6 +190,7 @@ void Character::mutation_effect(std::string mut)
         }
         recalc_hp();
     } else if (mut == "DEX_ALPHA") {
+        ///\EFFECT_DEX_MAX determines bonus from DEX mutation
         if (dex_max <= 6) {
             dex_max = 8;
         } else if (dex_max <= 7) {
@@ -199,6 +201,7 @@ void Character::mutation_effect(std::string mut)
             dex_max = 18;
         }
     } else if (mut == "INT_ALPHA") {
+        ///\EFFECT_INT_MAX determines bonus from INT mutation
         if (int_max <= 6) {
             int_max = 8;
         } else if (int_max <= 7) {
@@ -212,6 +215,7 @@ void Character::mutation_effect(std::string mut)
         int_max *= 2; // Now, can you keep it? :-)
 
     } else if (mut == "PER_ALPHA") {
+        ///\EFFECT_PER_MAX determines bonus from PER mutation
         if (per_max <= 6) {
             per_max = 8;
         } else if (per_max <= 7) {
@@ -263,6 +267,7 @@ void Character::mutation_loss_effect(std::string mut)
         recalc_hp();
 
     } else if (mut == "STR_ALPHA") {
+        ///\EFFECT_STR_MAX determines penalty from STR mutation loss
         if (str_max == 18) {
             str_max = 15;
         } else if (str_max == 15) {
@@ -274,6 +279,7 @@ void Character::mutation_loss_effect(std::string mut)
         }
         recalc_hp();
     } else if (mut == "DEX_ALPHA") {
+        ///\EFFECT_DEX_MAX determines penalty from DEX mutation loss
         if (dex_max == 18) {
             dex_max = 15;
         } else if (dex_max == 15) {
@@ -284,6 +290,7 @@ void Character::mutation_loss_effect(std::string mut)
             dex_max = 4;
         }
     } else if (mut == "INT_ALPHA") {
+        ///\EFFECT_INT_MAX determines penalty from INT mutation loss
         if (int_max == 18) {
             int_max = 15;
         } else if (int_max == 15) {
@@ -297,6 +304,7 @@ void Character::mutation_loss_effect(std::string mut)
         int_max /= 2; // In case you have a freak accident with the debug menu ;-)
 
     } else if (mut == "PER_ALPHA") {
+        ///\EFFECT_PER_MAX determines penalty from PER mutation loss
         if (per_max == 18) {
             per_max = 15;
         } else if (per_max == 15) {

@@ -450,6 +450,7 @@ void player::fire_gun( const tripoint &targ_arg, bool burst )
     const int player_dispersion = skill_dispersion( used_weapon, false ) +
         ranged_skill_offset( used_weapon->gun_skill() );
     // High perception allows you to pick out details better, low perception interferes.
+    ///\EFFECT_PER allows you to learn more often while using less accurate ranged weapons
     const bool train_skill = weapon_dispersion < player_dispersion + 15 * rng(0, get_per());
     if( train_skill ) {
         practice( skill_used, 8 + 2 * num_shots );
@@ -656,6 +657,7 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
     // and our skill.
     int move_cost = thrown.attack_time() / 2;
     int skill_cost = (int)(move_cost / (std::pow(skillLevel( skill_throw ), 3.0f) / 400.0 + 1.0));
+    ///\EFFECT_DEX speeds up throwing items
     const int dexbonus = (int)(std::pow(std::max(dex_cur - 8, 0), 0.8) * 3.0);
 
     move_cost += skill_cost;
@@ -697,8 +699,10 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
 
     deviation += throw_dex_mod();
 
+    ///\EFFECT_PER <6 randomly increases throwing deviation
     if (per_cur < 6) {
         deviation += rng(0, 8 - per_cur);
+    ///\EFFECT_PER >8 decreases throwing deviation
     } else if (per_cur > 8) {
         deviation -= per_cur - 8;
     }
@@ -711,6 +715,7 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
         deviation += rng(0, 3);
     }
 
+    ///\EFFECT_STR randomly decreases throwing deviation
     deviation += rng(0, std::max( 0, thrown.weight() / 113 - str_cur ) );
     deviation = std::max( 0, deviation );
 
@@ -730,6 +735,7 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
                       thrown.made_of_any( ferric );
 
     // The damage dealt due to item's weight and player's strength
+    ///\EFFECT_STR increases throwing damage
     int real_dam = ( (thrown.weight() / 452)
                      + (thrown.type->melee_dam / 2)
                      + (str_cur / 2) )
@@ -759,6 +765,7 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
     }
 
     // Item will shatter upon landing, destroying the item, dealing damage, and making noise
+    ///\EFFECT_STR increases chance of shattering thrown glass items (NEGATIVE)
     const bool shatter = !thrown.active && thrown.made_of("glass") &&
                          rng(0, thrown.volume() + 8) - rng(0, str_cur) < thrown.volume();
 
@@ -1463,6 +1470,7 @@ double player::get_weapon_dispersion(item *weapon, bool random) const
 int recoil_add(player &p, const item &gun)
 {
     int ret = gun.gun_recoil();
+    ///\EFFECT_STR reduces recoil when firing a ranged weapon
     ret -= rng(p.str_cur * 7, p.str_cur * 15);
     ret -= rng(0, p.get_skill_level(gun.gun_skill()) * 7);
     if (ret > 0) {

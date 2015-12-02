@@ -1626,6 +1626,7 @@ int vehicle::part_power(int const index, bool const at_full_hp) const
     if (part_info(index).fuel_type == fuel_type_muscle) {
         int pwr_factor = (part_flag(index, "MUSCLE_LEGS") ? 5 : 0) +
                          (part_flag(index, "MUSCLE_ARMS") ? 2 : 0);
+        ///\EFFECT_STR increases power produced for MUSCLE_* vehicles
         pwr += int(((g->u).str_cur - 8) * pwr_factor);
     }
 
@@ -3179,6 +3180,7 @@ int vehicle::acceleration(bool const fueled) const
     } else if ((has_engine_type(fuel_type_muscle, true))){
         //limit vehicle weight for muscle engines
         int mass = total_mass();
+        ///\EFFECT_STR caps vehicle weight for muscle engines
         int move_mass = std::max((g->u).str_cur * 25, 150);
         if (mass <= move_mass) {
             return (int) (safe_velocity (fueled) * k_mass() / (1 + strain ()) / 10);
@@ -5800,6 +5802,7 @@ bool vehicle::aim_turrets()
     }
 
     // Take at least a single whole turn to aim
+    ///\EFFECT_INT speeds up aiming of vehicle turrets
     g->u.moves = std::min( 0, g->u.moves - 100 + (5 * g->u.int_cur) );
     g->draw_ter();
     return true;

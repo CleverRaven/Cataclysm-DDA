@@ -130,6 +130,7 @@ bool trap::detect_trap( const tripoint &pos, const player &p ) const
     // * ...and an average character should at least have a minor chance of
     //   noticing a buried landmine if standing right next to it.
     // Effective Perception...
+    ///\EFFECT_PER increases chance of detecting a trap
     return (p.per_cur - (p.encumb(bp_eyes) / 10)) +
            // ...small bonus from stimulants...
            (p.stim > 10 ? rng(1, 2) : 0) +

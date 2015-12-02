@@ -1773,18 +1773,23 @@ int player::run_cost(int base_cost, bool diag) const
 int player::swim_speed() const
 {
     int ret = 440 + weight_carried() / 60 - 50 * get_skill_level( skill_swimming );
+    ///\EFFECT_STR increases swim speed bonus from PAWS
     if (has_trait("PAWS")) {
         ret -= 20 + str_cur * 3;
     }
+    ///\EFFECT_STR increases swim speed bonus from PAWS_LARGE
     if (has_trait("PAWS_LARGE")) {
         ret -= 20 + str_cur * 4;
     }
+    ///\EFFECT_STR increases swim speed bonus from swim_fins
     if (is_wearing("swim_fins")) {
         ret -= (15 * str_cur) / (3 - shoe_type_count("swim_fins"));
     }
+    ///\EFFECT_STR increases swim speed bonus from WEBBED
     if (has_trait("WEBBED")) {
         ret -= 60 + str_cur * 5;
     }
+    ///\EFFECT_STR increases swim speed bonus from TAIL_FIN
     if (has_trait("TAIL_FIN")) {
         ret -= 100 + str_cur * 10;
     }
@@ -1804,6 +1809,9 @@ int player::swim_speed() const
             ret += (i.volume() * (10 - get_skill_level( skill_swimming ))) / 2;
         }
     }
+    ///\EFFECT_STR increases swim speed
+
+    ///\EFFECT_DEX increases swim speed
     ret -= str_cur * 6 + dex_cur * 4;
     if( worn_with_flag("FLOTATION") ) {
         ret = std::min(ret, 400);
@@ -1851,6 +1859,11 @@ bool player::is_immune_effect( const efftype_id &effect ) const
 
 int player::stability_roll() const
 {
+    ///\EFFECT_STR improves player stability roll
+
+    ///\EFFECT_PER slightly improves player stability roll
+
+    ///\EFFECT_DEX slightly improves player stability roll
     int stability = (get_melee()) + get_str() + (get_per() / 3) + (get_dex() / 4);
         return stability;
 }
@@ -4190,6 +4203,7 @@ bool player::has_two_arms() const
 
 bool player::avoid_trap( const tripoint &pos, const trap &tr ) const
 {
+    ///\EFFECT_DEX increases chance to avoid traps
     int myroll = dice( 3, int(dex_cur + get_skill_level( skill_dodge ) * 1.5) );
     int traproll;
     if( tr.can_see( pos, *this ) ) {
@@ -4252,6 +4266,7 @@ bool player::has_watch() const
 void player::pause()
 {
     moves = 0;
+    ///\EFFECT_STR increases recoil recovery speed
     recoil -= str_cur + 2 * get_skill_level( skill_gun );
     recoil = std::max(MIN_RECOIL * 2, recoil);
     recoil = int(recoil / 2);
@@ -4325,6 +4340,7 @@ void player::shout( std::string msg )
     // Masks and such dampen the sound
     // Balanced around  whisper for wearing bondage mask
     // and noise ~= 10(door smashing) for wearing dust mask for character with strength = 8
+    ///\EFFECT_STR increases shouting volume
     int noise = base + str_cur * shout_multiplier - encumb( bp_mouth ) * 3 / 2;
 
     // Minimum noise volume possible after all reductions.
@@ -4419,10 +4435,12 @@ int player::throw_range(int pos) const
         tmp.charges = 1;
     }
 
+    ///\EFFECT_STR determines maximum weight that can be thrown
     if( (tmp.weight() / 113) > int(str_cur * 15) ) {
         return 0;
     }
     // Increases as weight decreases until 150 g, then decreases again
+    ///\EFFECT_STR increases throwing range, vs item weight (high or low)
     int ret = (str_cur * 8) / (tmp.weight() >= 150 ? tmp.weight() / 113 : 10 - int(tmp.weight() / 15));
     ret -= int(tmp.volume() / 4);
     if( has_active_bionic("bio_railgun") && (tmp.made_of("iron") || tmp.made_of("steel"))) {
@@ -4432,6 +4450,7 @@ int player::throw_range(int pos) const
         return 1;
     }
     // Cap at double our strength + skill
+    ///\EFFECT_STR caps throwing range
     if( ret > str_cur * 1.5 + get_skill_level( skill_throw ) ) {
         return str_cur * 1.5 + get_skill_level( skill_throw );
     }
@@ -4443,6 +4462,7 @@ int player::ranged_dex_mod() const
 {
     const int dex = get_dex();
 
+    ///\EFFECT_DEX <12 increases ranged penalty
     if (dex >= 12) { return 0; }
     return (12 - dex) * 15;
 }
@@ -4451,6 +4471,7 @@ int player::ranged_per_mod() const
 {
     const int per = get_per();
 
+    ///\EFFECT_PER <12 increases ranged penalty
     if (per >= 12) { return 0; }
     return (12 - per) * 15;
 }
@@ -4461,6 +4482,7 @@ int player::throw_dex_mod(bool return_stat_effect) const
  int dex = get_dex();
  if (dex == 8 || dex == 9)
   return 0;
+ ///\EFFECT_DEX increases throwing bonus
  if (dex >= 10)
   return (return_stat_effect ? 0 - rng(0, dex - 9) : 9 - dex);
 
@@ -4504,6 +4526,7 @@ int player::read_speed(bool return_stat_effect) const
 {
     // Stat window shows stat effects on based on current stat
     const int intel = get_int();
+    ///\EFFECT_INT increases reading speed
     int ret = 1000 - 50 * (intel - 8);
     if( has_trait("FASTREADER") ) {
         ret *= .8;
@@ -4528,6 +4551,7 @@ int player::rust_rate(bool return_stat_effect) const
 
     // Stat window shows stat effects on based on current stat
     int intel = (return_stat_effect ? get_int() : get_int());
+    ///\EFFECT_INT reduces skill rust
     int ret = ((OPTIONS["SKILL_RUST"] == "vanilla" || OPTIONS["SKILL_RUST"] == "capped") ? 500 : 500 - 35 * (intel - 8));
 
     if (has_trait("FORGETFUL")) {
@@ -4548,6 +4572,9 @@ int player::rust_rate(bool return_stat_effect) const
 
 int player::talk_skill() const
 {
+    ///\EFFECT_INT slightly increases talking skill
+
+    ///\EFFECT_PER slightly increases talking skill
     int ret = get_int() + get_per() + get_skill_level( skill_id( "speech" ) ) * 3;
     if (has_trait("SAPIOVORE")) {
         ret -= 20; // Friendly convo with your prey? unlikely
@@ -4573,6 +4600,7 @@ int player::talk_skill() const
 
 int player::intimidation() const
 {
+    ///\EFFECT_STR increases intimidation factor
     int ret = get_str() * 2;
     if (weapon.is_gun()) {
         ret += 10;
@@ -4896,6 +4924,9 @@ dealt_damage_instance player::deal_damage(Creature* source, body_part bp, const 
         }
 
         if ( source->has_flag(MF_GRABS) && !source->is_hallucination() ) {
+            ///\EFFECT_DEX increases chance to avoid being grabbed, if DEX>STR
+
+            ///\EFFECT_STR increases chance to avoid being grabbed, if STR>DEX
             if (has_grab_break_tec() && get_grab_resist() > 0 && get_dex() > get_str() ?
                 rng(0, get_dex()) : rng( 0, get_str()) > rng( 0 , 10)) {
                 if (has_effect("grabbed")){
@@ -5089,6 +5120,7 @@ float player::fall_damage_mod() const
     float ret = 1.0f;
 
     // Ability to land properly is 2x as important as dexterity itself
+    ///\EFFECT_DEX decreases damage from falling
     float dex_dodge = dex_cur / 2 + get_skill_level( skill_dodge );
     // Penalize for wearing heavy stuff
     dex_dodge -= ( ( ( encumb(bp_leg_l) + encumb(bp_leg_r) ) / 2 ) + ( encumb(bp_torso) / 1 ) ) / 10;
@@ -5243,6 +5275,7 @@ void player::knock_back_from( const tripoint &p )
         monster *critter = &(g->zombie(mondex));
         deal_damage( critter, bp_torso, damage_instance( DT_BASH, critter->type->size ) );
         add_effect("stunned", 1);
+        ///\EFFECT_STR_MAX allows knocked back player to knock back, damage, stun some monsters
         if ((str_max - 6) / 4 > critter->type->size) {
             critter->knock_back_from(pos3()); // Chain reaction!
             critter->apply_damage( this, bp_torso, (str_max - 6) / 4);
@@ -5533,6 +5566,7 @@ void player::check_needs_extremes()
                 add_msg_if_player(m_warning, _("You're too tired to stop yawning."));
                 add_effect("lack_sleep", 50);
             }
+            ///\EFFECT_INT slightly decreases occurrence of short naps when dead tired
             if( one_in(50 + int_cur) ) {
                 // Rivet's idea: look out for microsleeps!
                 fall_asleep(5);
@@ -5542,6 +5576,7 @@ void player::check_needs_extremes()
                 add_msg_if_player(m_warning, _("How much longer until bedtime?"));
                 add_effect("lack_sleep", 50);
             }
+            ///\EFFECT_INT slightly decreases occurrence of short naps when exhausted
             if (one_in(100 + int_cur)) {
                 fall_asleep(5);
             }
@@ -6549,6 +6584,7 @@ void player::hardcoded_effects(effect &it)
                 moves = -200;
                 mod_hunger(awfulness);
                 thirst += awfulness;
+                ///\EFFECT_STR decreases damage taken by fungus effect
                 apply_damage( nullptr, bp_torso, awfulness / std::max( str_cur, 1 ) ); // can't be healthy
             }
             it.mod_duration(1);
@@ -6673,6 +6709,9 @@ void player::hardcoded_effects(effect &it)
                         break;
 
                 }
+                ///\EFFECT_STR_NPC increases volume of hallucination sounds (NEGATIVE)
+
+                ///\EFFECT_INT_NPC decreases volume of hallucination sounds
                 int loudness = 20 + str_cur - int_cur;
                 loudness = (loudness > 5 ? loudness : 5);
                 loudness = (loudness < 30 ? loudness : 30);
@@ -7038,6 +7077,7 @@ void player::hardcoded_effects(effect &it)
         if (dur > 14400) {
             // Spawn some larvae!
             // Choose how many insects; more for large characters
+            ///\EFFECT_STR_MAX increases number of insects hatched from dermatik infection
             int num_insects = rng(1, std::min(3, str_max / 3));
             apply_damage( nullptr, bp, rng( 2, 4 ) * num_insects );
             // Figure out where they may be placed
@@ -7079,6 +7119,7 @@ void player::hardcoded_effects(effect &it)
             it.mod_duration(1);
         }
     } else if (id == "formication") {
+        ///\EFFECT_INT decreases occurence of itching from formication effect
         if (x_in_y(intense, 100 + 50 * get_int())) {
             if (!is_npc()) {
                 //~ %s is bodypart in accusative.
@@ -7832,6 +7873,7 @@ void player::suffer()
             mod_healthy_mod(10, 50);
             // No losing oneself in the fertile embrace of rich
             // New England loam.  But it can be a near thing.
+            ///\EFFECT_INT decreases chance of losing focus points while eating soil with ROOTS3
             if ( (one_in(int_cur)) && (focus_pool >= 25) ) {
                 focus_pool--;
             }
@@ -11618,6 +11660,7 @@ hint_rating player::rate_action_read( const item &it ) const
     int assistants = 0;
     for( auto &elem : g->active_npc ) {
         if (rl_dist( elem->pos(), g->u.pos() ) < PICKUP_RANGE && elem->is_friend()) {
+            ///\EFFECT_INT_NPC allows NPCs to read harder books for you
             if ((elem->int_cur+1) >= it.type->book->intel) {
                 assistants++;
             }
@@ -11658,6 +11701,7 @@ bool player::read(int inventory_position)
     int assistants = 0;
     for( auto &elem : g->active_npc ) {
         if (rl_dist( elem->pos(), g->u.pos() ) < PICKUP_RANGE && elem->is_friend()){
+            ///\EFFECT_INT_NPC allows NPCs to read harder books for you
             if ((elem->int_cur+1) >= it->type->book->intel)
                 assistants++;
         }
@@ -11709,6 +11753,7 @@ bool player::read(int inventory_position)
         time = tmp->time * read_speed() * (fine_detail_vision_mod());
         if (tmp->intel > int_cur) {
             // Lower int characters can read, at a speed penalty
+            ///\EFFECT_INT increases reading speed of difficult books
             time += (tmp->time * (tmp->intel - int_cur) * 100);
         }
         // We're just skimming, so it's 10x faster.
@@ -11790,6 +11835,7 @@ bool player::read(int inventory_position)
     if (tmp->intel > get_int() && !continuous) {
         add_msg(m_warning, _("This book is too complex for you to easily understand. It will take longer to read."));
         // Lower int characters can read, at a speed penalty
+        ///\EFFECT_INT increases reading speed of difficult books
         time += (tmp->time * (tmp->intel - get_int()) * 100);
     }
 
@@ -11928,6 +11974,7 @@ void player::do_read( item *book )
         get_skill_level( skill ).can_train() ) {
         auto &skill_level = skillLevel( skill );
         int originalSkillLevel = skill_level;
+        ///\EFFECT_INT increases reading speed
         int min_ex = reading->time / 10 + int_cur / 4;
         int max_ex = reading->time /  5 + int_cur / 2 - originalSkillLevel;
         if (min_ex < 1) {

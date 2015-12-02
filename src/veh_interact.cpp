@@ -458,6 +458,7 @@ task_reason veh_interact::cant_do (char mode)
         break;
     case 'c': // change tire
         valid_target = wheel != NULL;
+        ///\EFFECT_STR allows changing tires on heavier vehicles without a jack
         has_str = g->u.get_str() >= int(veh->total_mass() / TIRE_CHANGE_STR_MOD);
         has_tools = has_wrench && (has_jack || has_str) && has_wheel;
         break;
@@ -543,6 +544,7 @@ bool veh_interact::can_install_part(int msg_width){
     bool is_wood = sel_vpart_info->has_flag("NAILABLE");
     bool is_hand_remove = sel_vpart_info->has_flag("TOOL_NONE");
     const int needed_strength = veh->total_mass() / TIRE_CHANGE_STR_MOD;
+    ///\EFFECT_STR allows installing tires on heavier vehicles without a jack
     const bool has_str = g->u.get_str() >= needed_strength;
     std::string engine_string = "";
     std::string tire_string = "";
@@ -1034,6 +1036,7 @@ bool veh_interact::can_remove_part(int veh_part_index, int mech_skill, int msg_w
                                 (is_wheel && veh->part_flag(veh_part_index, "NO_JACK"));
         bool is_hand_remove = veh->part_flag(veh_part_index, "TOOL_NONE");
         const int needed_strength = veh->total_mass() / TIRE_CHANGE_STR_MOD;
+        ///\EFFECT_STR allows removing tires on heavier vehicles without a jack
         const bool has_str = g->u.get_str() >= needed_strength;
 
         int skill_req;
@@ -1222,6 +1225,7 @@ void veh_interact::do_tirechange()
     werase( w_msg );
     int msg_width = getmaxx(w_msg);
     const int needed_strength = veh->total_mass() / TIRE_CHANGE_STR_MOD;
+    ///\EFFECT_STR allows changing tires on heavier vehicles without a jack
     const bool has_str = g->u.get_str() >= needed_strength;
     switch( reason ) {
     case INVALID_TARGET:

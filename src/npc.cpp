@@ -550,6 +550,7 @@ void npc::randomize(npc_class type)
  boost_skill_level( skill_barter, rng(2, 4));
 
  for (int i = 0; i < num_hp_parts; i++) {
+  ///\EFFECT_HP_MAX increases max hp for NPCs
   hp_max[i] = 60 + str_max * 3;
   hp_cur[i] = hp_max[i];
  }
@@ -1246,6 +1247,7 @@ void npc::form_opinion(player *u)
         op_of_u.fear -= 3;
     }
 
+    ///\EFFECT_STR increases NPC fear of the player
     if( u->str_max >= 16 ) {
         op_of_u.fear += 2;
     } else if( u->str_max >= 12 ) {
@@ -1756,6 +1758,7 @@ int npc::value(const item &it)
 
     if( it.is_book() ) {
         auto &book = *it.type->book;
+        ///\EFFECT_INT_NPC allows valuing books based on their morale boost
         if( book.intel <= int_cur ) {
             ret += book.fun;
             if( book.skill && skillLevel( book.skill ) < book.level &&
@@ -1867,6 +1870,7 @@ Creature::Attitude npc::attitude_to( const Creature &other ) const
 int npc::smash_ability() const
 {
     if( !is_following() || rules.allow_bash ) {
+        ///\EFFECT_STR_NPC increases smash ability
         return str_cur + weapon.type->melee_dam;
     }
 
@@ -2012,6 +2016,7 @@ int npc::speed_estimate( const Creature &what ) const
     // TODO: Modify based on abilities
     // Players run, zombies stumble and leap
     const auto speed = what.get_speed();
+    ///\EFFECT_PER_NPC determines accuracy of estimating others' speed
     if( per_cur == 0 ) {
         return rng(0, speed * 2);
     }

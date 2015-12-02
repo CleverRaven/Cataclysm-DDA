@@ -194,6 +194,7 @@ void trapfunc::tripwire( Creature *c, const tripoint &p )
                 n->setpos( random_entry( valid ) );
             }
             n->moves -= 150;
+            ///\EFFECT_DEX decreases chance of taking damage from a tripwire trap
             if( rng( 5, 20 ) > n->dex_cur ) {
                 n->hurtall( rng( 1, 4 ), nullptr );
             }
@@ -307,6 +308,7 @@ void trapfunc::shotgun( Creature *c, const tripoint &p )
         monster *z = dynamic_cast<monster *>( c );
         player *n = dynamic_cast<player *>( c );
         if( n != nullptr ) {
+            ///\EFFECT_STR_MAX increases chance of two shots from shotgun trap
             shots = ( one_in( 8 ) || one_in( 20 - n->str_max ) ? 2 : 1 );
             if( g->m.tr_at( p ).loadid == tr_shotgun_1 ) {
                 shots = 1;
@@ -877,6 +879,9 @@ void trapfunc::sinkhole( Creature *c, const tripoint &p )
 
     const auto safety_roll = [&]( const std::string &itemname,
                                   const int diff ) {
+        ///\EFFECT_STR increases chance to attach grapnel, bullwhip, or rope when falling into a sinkhole
+
+        ///\EFFECT_DEX increases chance to attach grapnel, bullwhip, or rope when falling into a sinkhole
         const int roll = rng( pl->skillLevel( skill_throw ),
                               pl->skillLevel( skill_throw ) + pl->str_cur + pl->dex_cur );
         if( roll < diff ) {

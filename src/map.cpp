@@ -1620,7 +1620,7 @@ bool map::can_move_furniture( const tripoint &pos, player *p ) {
         return false;
     }
 
-    ///EFFECT_STR determines what furniture the player can move
+    ///\EFFECT_STR determines what furniture the player can move
     if( p != nullptr && p->str_cur < required_str ) {
         return false;
     }

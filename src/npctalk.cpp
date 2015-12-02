@@ -1554,6 +1554,9 @@ std::string dialogue::dynamic_line( const std::string &topic ) const
         }
 
     } else if( topic == "TALK_SIZE_UP" ) {
+        ///\EFFECT_PER affects whether player can size up NPCs
+
+        ///\EFFECT_INT slightly affects whether player can size up NPCs
         int ability = g->u.per_cur * 3 + g->u.int_cur;
         if (ability <= 10) {
             return "&You can't make anything out.";
@@ -2003,6 +2006,7 @@ void dialogue::gen_responses( const std::string &topic )
     } else if( topic == "TALK_EVAC_MERCHANT_PLANS" ) {
         add_response( _("It's just as bad out here, if not worse."), "TALK_EVAC_MERCHANT_PLANS2" );
     } else if( topic == "TALK_EVAC_MERCHANT_PLANS2" ) {
+        ///\EFFECT_INT >11 adds useful dialog option in TALK_EVAC_MERCHANT
         if (g->u.int_cur >= 12){
             add_response( _("[INT 12] Wait, six buses and refugees... how many people do you still have crammed in here?"),
                               "TALK_EVAC_MERCHANT_PLANS3" );
@@ -2020,10 +2024,14 @@ void dialogue::gen_responses( const std::string &topic )
         add_response( _("Fine... *coughupyourscough*"), "TALK_EVAC_MERCHANT" );
 
     } else if( topic == "TALK_EVAC_MERCHANT_ASK_JOIN" ) {
+            ///\EFFECT_INT >10 adds bad dialog option in TALK_EVAC_MERCHANT (NEGATIVE)
             if (g->u.int_cur > 10){
                 add_response( _("[INT 11] I'm sure I can organize salvage operations to increase the bounty scavengers bring in!"),
                                   "TALK_EVAC_MERCHANT_NO" );
             }
+            ///\EFFECT_INT <7 allows bad dialog option in TALK_EVAC_MERCHANT
+
+            ///\EFFECT_STR >10 allows bad dialog option in TALK_EVAC_MERCHANT
             if (g->u.int_cur <= 6 && g->u.str_cur > 10){
                 add_response( _("[STR 11] I punch things in face real good!"), "TALK_EVAC_MERCHANT_NO" );
             }
@@ -4111,6 +4119,7 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
 
     // Adjust the prices based on your barter skill.
     // cap adjustment so nothing is ever sold below value
+    ///\EFFECT_INT slightly increases bartering ability, relative to NPC INT
     double their_adjust = (price_adjustment(p->skillLevel( skill_barter ) - g->u.skillLevel( skill_barter )) +
                               (p->int_cur - g->u.int_cur) / 20.0);
     if (their_adjust < 1)
@@ -4118,6 +4127,7 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
     for( item_pricing &p : theirs ) {
         p.price *= their_adjust;
     }
+    ///\EFFECT_INT slightly increases bartering ability, relative to NPC INT
     double your_adjust = (price_adjustment(g->u.skillLevel( skill_barter ) - p->skillLevel( skill_barter )) +
                              (g->u.int_cur - p->int_cur) / 20.0);
     if (your_adjust < 1)
