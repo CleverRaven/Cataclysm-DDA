@@ -199,6 +199,45 @@ TAB_SIZE               = 4
 
 ALIASES                =
 
+ALIASES += "EFFECT_STR=\xrefitem Effects_Stat_Strength \"\" \"\" Strength" 
+ALIASES += "EFFECT_DEX=\xrefitem Effects_Stat_Dexterity \"\" \"\" Dexterity" 
+ALIASES += "EFFECT_INT=\xrefitem Effects_Stat_Intelligence \"\" \"\" Intelligence" 
+ALIASES += "EFFECT_PER=\xrefitem Effects_Stat_Perception \"\" \"\" Perception"
+
+ALIASES += "EFFECT_STR_MAX=\xrefitem Effects_Stat_Strength \"\" \"\" Maximum Strength" 
+ALIASES += "EFFECT_DEX_MAX=\xrefitem Effects_Stat_Dexterity \"\" \"\" Maximum Dexterity" 
+ALIASES += "EFFECT_INT_MAX=\xrefitem Effects_Stat_Intelligence \"\" \"\" Maximum Intelligence" 
+ALIASES += "EFFECT_PER_MAX=\xrefitem Effects_Stat_Perception \"\" \"\" Maximum Perception"
+
+Aliases += "EFFECT_BARTER=\xrefitem Effects_Skill_Barter \"\" \"\" Barter"
+Aliases += "EFFECT_COMPUTER=\xrefitem Effects_Skill_Computer \"\" \"\" Computer"
+Aliases += "EFFECT_CARPENTRY=\xrefitem Effects_Skill_Carpentry \"\" \"\" Carpentry"
+Aliases += "EFFECT_COOKING=\xrefitem Effects_Skill_Cooking \"\" \"\" Cooking"
+Aliases += "EFFECT_DRIVING=\xrefitem Effects_Skill_Driving \"\" \"\" Driving"
+Aliases += "EFFECT_ELECTRONICS=\xrefitem Effects_Skill_Electronics \"\" \"\" Electronics"
+Aliases += "EFFECT_FABRICATION=\xrefitem Effects_Skill_Fabrication \"\" \"\" Fabrication"
+Aliases += "EFFECT_FIRSTAID=\xrefitem Effects_Skill_Firstaid \"\" \"\" Firstaid"
+Aliases += "EFFECT_MECHANICS=\xrefitem Effects_Skill_Mechanics \"\" \"\" Mechanics"
+Aliases += "EFFECT_SPEECH=\xrefitem Effects_Skill_Speech \"\" \"\" Speech"
+Aliases += "EFFECT_SURVIVAL=\xrefitem Effects_Skill_Survival \"\" \"\" Survival"
+Aliases += "EFFECT_SWIMMING=\xrefitem Effects_Skill_Swimming \"\" \"\" Swimming"
+Aliases += "EFFECT_TAILOR=\xrefitem Effects_Skill_Tailor \"\" \"\" Tailor"
+Aliases += "EFFECT_TRAPS=\xrefitem Effects_Skill_Traps \"\" \"\" Traps"
+Aliases += "EFFECT_ARCHERY=\xrefitem Effects_Skill_Archery \"\" \"\" Archery"
+Aliases += "EFFECT_BASHING=\xrefitem Effects_Skill_Bashing \"\" \"\" Bashing"
+Aliases += "EFFECT_CUTTING=\xrefitem Effects_Skill_Cutting \"\" \"\" Cutting"
+Aliases += "EFFECT_DODGE=\xrefitem Effects_Skill_Dodge \"\" \"\" Dodge"
+Aliases += "EFFECT_GUN=\xrefitem Effects_Skill_Gun \"\" \"\" Gun"
+Aliases += "EFFECT_LAUNCHER=\xrefitem Effects_Skill_Launcher \"\" \"\" Launcher"
+Aliases += "EFFECT_MELEE=\xrefitem Effects_Skill_Melee \"\" \"\" Melee"
+Aliases += "EFFECT_STABBING=\xrefitem Effects_Skill_Stabbing \"\" \"\" Stabbing"
+Aliases += "EFFECT_THROW=\xrefitem Effects_Skill_Throw \"\" \"\" Throw"
+Aliases += "EFFECT_UNARMED=\xrefitem Effects_Skill_Unarmed \"\" \"\" Unarmed"
+Aliases += "EFFECT_PISTOL=\xrefitem Effects_Skill_Pistol \"\" \"\" Pistol"
+Aliases += "EFFECT_RIFLE=\xrefitem Effects_Skill_Rifle \"\" \"\" Rifle"
+Aliases += "EFFECT_SHOTGUN=\xrefitem Effects_Skill_Shotgun \"\" \"\" Shotgun"
+Aliases += "EFFECT_SMG=\xrefitem Effects_Skill_Smg \"\" \"\" Smg"
+
 # This tag can be used to specify a number of word-keyword mappings (TCL only).
 # A mapping has the form "name=value". For example adding
 # "class=itcl::class" will allow you to use the command class in the
