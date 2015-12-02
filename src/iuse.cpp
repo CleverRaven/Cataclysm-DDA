@@ -318,7 +318,9 @@ static hp_part pick_part_to_heal( const player &healer, const player &patient,
 {
     const bool precise = &healer == &patient ?
         patient.has_trait( "SELFAWARE" ) :
-        ///\EFFECT_PER increases precision when using first aid on someone else
+        ///\EFFECT_PER slightly increases precision when using first aid on someone else
+
+        ///\EFFECT_FIRSTAID increases precision when using first aid on someone else
         (healer.get_skill_level( skill_firstaid ) * 4 + healer.per_cur >= 20);
     while( true ) {
         hp_part healed_part = patient.body_window( menu_header, force, precise,
@@ -382,6 +384,7 @@ hp_part use_healing_item( player &healer, player &patient, item *it,
                           int bite, int infect, bool force )
 {
     hp_part healed = num_hp_parts;
+    ///\EFFECT_FIRSTAID increases healing item effects
     int bonus = healer.get_skill_level( skill_firstaid );
     int head_bonus = 0;
     int normal_bonus = 0;
@@ -568,6 +571,7 @@ int iuse::firstaid(player *p, item *it, bool, const tripoint &pos )
     }
 
     // Assign first aid long action.
+    ///\EFFECT_FIRSTAID speeds up firstaid activity
     p->assign_activity(ACT_FIRSTAID, 6000 / (p->skillLevel( skill_firstaid ) + 1), 0,
                        p->get_item_position(it), it->tname());
     p->activity.values.push_back(healed);
@@ -2381,6 +2385,7 @@ static int repair_clothing(player *p, item *it, item *fix, int pos) {
     if (fix->damage > 0) {
         p->moves -= 500 * p->fine_detail_vision_mod();
         p->practice( skill_tailor, 8);
+        ///\EFFECT_TAILOR randomly improves clothing repair efforts
         int rn = dice(4, 2 + p->skillLevel( skill_tailor ));
         rn -= rng(fix->damage, fix->damage * 2);
         ///\EFFECT_DEX randomly improves clothing repair efforts
@@ -2431,6 +2436,7 @@ static int repair_clothing(player *p, item *it, item *fix, int pos) {
     } else if (fix->damage == 0 || (fix->has_flag("VARSIZE") && !fix->has_flag("FIT"))) {
         p->moves -= 500 * p->fine_detail_vision_mod();
         p->practice( skill_tailor, 10);
+        ///\EFFECT_TAILOR randomly improves clothing fit efforts
         int rn = dice(4, 2 + p->skillLevel( skill_tailor ));
         ///\EFFECT_DEX randomly improves clothing fit efforts
         if (p->dex_cur < 8 && one_in(p->dex_cur)) {
@@ -2685,6 +2691,7 @@ int iuse::sew_advanced(player *p, item *it, bool, const tripoint& )
     comps.push_back( item_comp( repair_item, items_needed ) );
     p->moves -= 500 * p->fine_detail_vision_mod();
     p->practice( skill_tailor, items_needed * 3 + 3 );
+    ///\EFFECT_TAILOR randomly improves clothing modifiation efforts
     int rn = dice( 3, 2 + p->skillLevel( skill_tailor ) ); // Skill
     ///\EFFECT_DEX randomly improves clothing modification efforts
     rn += rng( 0, p->dex_cur / 2 );                    // Dexterity
@@ -3096,6 +3103,7 @@ int iuse::fish_trap(player *p, item *it, bool t, const tripoint &pos)
             const int surv = p->skillLevel( skill_survival );
             const int attempts = rng(it->charges, it->charges * it->charges);
             for (int i = 0; i < attempts; i++) {
+                ///\EFFECT_SURVIVAL randomly increases number of fish caught in fishing trap
                 success += rng(surv, surv * surv);
             }
 
@@ -3437,6 +3445,7 @@ int iuse::solder_weld( player *p, item *it, bool, const tripoint& )
     if( fix.damage > 0 ) {
         p->moves -= 500 * p->fine_detail_vision_mod();
         p->practice( skill_mechanics, 8);
+        ///\EFFECT_MECHANICS randomly improves metal repair efforts
         int rn = dice(4, 2 + p->skillLevel( skill_mechanics ));
         rn -= rng(fix.damage, fix.damage * 2);
         ///\EFFECT_DEX randomly improves metal repair efforts
@@ -3488,6 +3497,7 @@ int iuse::solder_weld( player *p, item *it, bool, const tripoint& )
     } else if (fix.damage == 0 || (fix.has_flag("VARSIZE") && !fix.has_flag("FIT"))) {
         p->moves -= 500 * p->fine_detail_vision_mod();
         p->practice( skill_mechanics, 10);
+        ///\EFFECT_MECHANICS randomly improves metal improvement efforts
         int rn = dice(4, 2 + p->skillLevel( skill_mechanics ));
         ///\EFFECT_DEX randomly improves metal improvement efforts
         if (p->dex_cur < 8 && one_in(p->dex_cur)) {
@@ -3945,7 +3955,12 @@ int iuse::crowbar(player *p, item *it, bool, const tripoint &pos)
 
     p->practice( skill_mechanics, 1);
     ///\EFFECT_STR speeds up crowbar prying attempts
+
+    ///\EFFECT_MECHANICS speeds up crowbar prying attempts
     p->moves -= std::max( 25, ( difficulty * 25 ) - ( ( p->str_cur + p->skillLevel( skill_mechanics ) ) * 5 ) );
+    ///\EFFECT_STR increases chance of crowbar prying success
+
+    ///\EFFECT_MECHANICS increases chance of crowbar prying success
     if (dice(4, difficulty) < dice(2, p->skillLevel( skill_mechanics )) + dice(2, p->str_cur)) {
         p->practice( skill_mechanics, 1);
         p->add_msg_if_player(m_good, succ_action);
@@ -3972,6 +3987,8 @@ int iuse::crowbar(player *p, item *it, bool, const tripoint &pos)
         if (type == t_window_domestic || type == t_curtains) {
             //chance of breaking the glass if pry attempt fails
             ///\EFFECT_STR reduces chance of breaking window with crowbar
+
+            ///\EFFECT_MECHANICS reduces chance of breaking window with crowbar
             if (dice(4, difficulty) > dice(2, p->skillLevel( skill_mechanics )) + dice(2, p->str_cur)) {
                 p->add_msg_if_player(m_mixed, _("You break the glass."));
                 sounds::sound(dirp, 24, _("glass breaking!"));
@@ -4275,6 +4292,7 @@ int iuse::pickaxe(player *p, item *it, bool, const tripoint& )
     if (g->m.is_bashable(dirx, diry) && (g->m.has_flag("SUPPORTS_ROOF", dirx, diry) || g->m.has_flag("MINEABLE", dirx, diry)) &&
         g->m.ter(dirx, diry) != t_tree) {
         // Takes about 100 minutes (not quite two hours) base time.  Construction skill can speed this: 3 min off per level.
+        ///\EFFECT_CARPENTRY speeds up mining with a pickaxe
         turns = (100000 - 3000 * p->skillLevel( skill_carpentry ));
     } else if (g->m.move_cost(dirx, diry) == 2 && g->get_levz() == 0 &&
                g->m.ter(dirx, diry) != t_dirt && g->m.ter(dirx, diry) != t_grass) {
@@ -5223,7 +5241,9 @@ int iuse::tazer(player *p, item *it, bool, const tripoint &pos )
         foe->hit_by_player = true;
     }
 
-    ///\EFFECT_DEX increases chance of successfully using tazer
+    ///\EFFECT_DEX slightly increases chance of successfully using tazer
+
+    ///\EFFECT_MELEE increases chance of successfully using a tazer
     int numdice = 3 + (p->dex_cur / 2.5) + p->skillLevel( skill_melee ) * 2;
     p->moves -= 100;
 
@@ -5642,6 +5662,7 @@ void iuse::cut_log_into_planks(player *p)
     add_msg(_("You cut the log into planks."));
     item plank("2x4", int(calendar::turn));
     item scrap("splinter", int(calendar::turn));
+    ///\EFFECT_CARPENTRY increases number of planks cut from a log
     int planks = (rng(1, 3) + (p->skillLevel( skill_carpentry ) * 2));
     int scraps = 12 - planks;
     if (planks >= 12) {
@@ -6894,6 +6915,7 @@ int iuse::gun_repair(player *p, item *it, bool, const tripoint& )
         p->add_msg_if_player(m_info, _("You can't do that while underwater."));
         return 0;
     }
+    ///\EFFECT_MECHANICS >1 allows gun repair
     if (p->skillLevel( skill_mechanics ) < 2) {
         p->add_msg_if_player(m_info, _("You need a mechanics skill of 2 to use this repair kit."));
         return 0;
@@ -6918,6 +6940,7 @@ int iuse::gun_repair(player *p, item *it, bool, const tripoint& )
         p->add_msg_if_player(m_info, _("With a higher mechanics skill, you might be able to improve it."));
         return 0;
     }
+    ///\EFFECT_MECHANICS >7 allows accurizing ranged weapons
     if ((fix->damage == 0) && p->skillLevel( skill_mechanics ) >= 8) {
         p->add_msg_if_player(m_good, _("You accurize your %s."), fix->tname().c_str());
         sounds::sound(p->pos(), 6, "");
@@ -6954,6 +6977,7 @@ int iuse::misc_repair(player *p, item *it, bool, const tripoint& )
         add_msg(m_info, _("You can't see to repair!"));
         return 0;
     }
+    ///\EFFECT_FABRICATION >0 allows use of repair kit
     if (p->skillLevel( skill_fabrication ) < 1) {
         p->add_msg_if_player(m_info, _("You need a fabrication skill of 1 to use this repair kit."));
         return 0;
@@ -7088,7 +7112,13 @@ int iuse::robotcontrol(player *p, item *it, bool, const tripoint& )
             }
             monster *z = mons[mondex];
             p->add_msg_if_player(_("You start reprogramming the %s into an ally."), z->name().c_str());
+            ///\EFFECT_INT speeds up robot reprogramming
+
+            ///\EFFECT_COMPUTER speeds up robot reprogramming
             p->moves -= 1000 - p->int_cur * 10 - p->skillLevel( skill_computer ) * 10;
+            ///\EFFECT_INT increases chance of successful robot reprogramming, vs difficulty
+
+            ///\EFFECT_COMPUTER increases chance of successful robot reprogramming, vs difficulty
             float success = p->skillLevel( skill_computer ) - 1.5 * (z->type->difficulty) /
                             ((rng(2, p->int_cur) / 2) + (p->skillLevel( skill_computer ) / 2));
             if (success >= 0) {
@@ -7467,6 +7497,7 @@ int iuse::einktabletpc(player *p, item *it, bool t, const tripoint &pos)
 
         amenu.addentry(ei_download, true, 'w', _("Download data from memory card"));
 
+        ///\EFFECT_COMPUTER >2 allows decrypting memory cards more easily
         if (p->skillLevel( skill_computer ) > 2) {
             amenu.addentry(ei_decrypt, true, 'd', _("Decrypt memory card"));
         } else {
@@ -7697,7 +7728,9 @@ int iuse::einktabletpc(player *p, item *it, bool t, const tripoint &pos)
 
             p->practice( skill_computer, rng(2, 5));
 
-            ///\EFFECT_INT increases chance of decrypting memory card
+            ///\EFFECT_INT increases chance of safely decrypting memory card
+
+            ///\EFFECT_COMPUTER increases chance of safely decrypting memory card
             const int success = p->skillLevel( skill_computer ) * rng(1, p->skillLevel( skill_computer )) *
                 rng(1, p->int_cur) - rng(30, 80);
             if (success > 0) {
@@ -8328,6 +8361,8 @@ static bool hackveh(player *p, item *it, vehicle *veh)
     }
 
     ///\EFFECT_INT increases chance of bypassing vehicle security system
+
+    ///\EFFECT_COMPUTER increases chance of bypassing vehicle security system
     int roll = dice( p->skillLevel( skill_computer ) + 2, p->int_cur ) - ( advanced ? 50 : 25 );
     int effort = 0;
     bool success = false;
@@ -8560,6 +8595,8 @@ int iuse::multicooker(player *p, item *it, bool t, const tripoint &pos)
         if (cooktime >= 300 && cooktime < 400) {
             //Smart or good cook or careful
             ///\EFFECT_INT increases chance of checking multi-cooker on time
+
+            ///\EFFECT_SURVIVAL increases chance of checking multi-cooker on time
             if (p->int_cur + p->skillLevel( skill_cooking ) + p->skillLevel( skill_survival ) > 16) {
                 add_msg(m_info, _("The multi-cooker should be finishing shortly..."));
             }
@@ -8632,6 +8669,9 @@ int iuse::multicooker(player *p, item *it, bool t, const tripoint &pos)
                 }
                 menu.addentry(mc_start, true, 's', _("Start cooking"));
 
+                ///\EFFECT_ELECTRONICS >3 allows multicooker upgrade
+
+                ///\EFFECT_FABRICATION >3 allows multicooker upgrade
                 if (p->skillLevel( skill_electronics ) > 3 && p->skillLevel( skill_fabrication ) > 3) {
                     const auto upgr = it->get_var( "MULTI_COOK_UPGRADE" );
                     if (upgr == "" ) {
@@ -8796,6 +8836,10 @@ int iuse::multicooker(player *p, item *it, bool t, const tripoint &pos)
             p->moves -= 700;
 
             ///\EFFECT_INT increases chance to successfully upgrade multi-cooker
+
+            ///\EFFECT_ELECTRONICS increases chance to successfully upgrade multi-cooker
+
+            ///\EFFECT_FABRICATION increases chance to successfully upgrade multi-cooker
             if (p->skillLevel( skill_electronics ) + p->skillLevel( skill_fabrication ) + p->int_cur > rng(20, 35)) {
 
                 p->practice( skill_electronics, rng(5, 20));

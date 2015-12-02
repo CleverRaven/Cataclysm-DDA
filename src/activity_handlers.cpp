@@ -194,10 +194,11 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
 
     auto roll_butchery = [&] () {
         double skill_shift = 0.0;
+        ///\EFFECT_SURVIVAL randomly increases butcher rolls, slightly
         skill_shift += rng_float( 0, skill_level - 3 );
-        ///\EFFECT_DEX >8 randomly increases Butcher rolls, slightly, <8 decreases
+        ///\EFFECT_DEX >8 randomly increases butcher rolls, slightly, <8 decreases
         skill_shift += rng_float( 0, p->dex_cur - 8 ) / 4.0;
-        ///\EFFECT_STR >4 randomly increases Butcher rolls, <4 decreases
+        ///\EFFECT_STR >4 randomly increases butcher rolls, <4 decreases
         if( p->str_cur < 4 ) {
             skill_shift -= rng_float( 0, 5 * ( 4 - p->str_cur ) ) / 4.0;
         }
@@ -452,7 +453,7 @@ void activity_handlers::firstaid_finish( player_activity *act, player *p )
 // fish-with-rod fish catching function.
 static void rod_fish( player *p, int sSkillLevel, int fishChance )
 {
-    if( sSkillLevel > fishChance ) {
+   if( sSkillLevel > fishChance ) {
         std::vector<monster *> fishables = g->get_fishable(60); //get the nearby fish list.
         //if the vector is empty (no fish around) the player is still given a small chance to get a (let us say it was hidden) fish
         if( fishables.size() < 1 ) {
@@ -488,6 +489,7 @@ void activity_handlers::fish_finish( player_activity *act, player *p )
         sSkillLevel = p->skillLevel( skill_survival ) * 1.5 + dice(1, 6) + 3;
         fishChance = dice(1, 20);
     }
+    ///\EFFECT_SURVIVAL increases chance of fishing success
     rod_fish( p, sSkillLevel, fishChance );
     p->practice( skill_survival, rng(5, 15) );
     act->type = ACT_NULL;
@@ -523,7 +525,9 @@ void activity_handlers::forage_finish( player_activity *act, player *p )
 
     // Survival gives a bigger boost, and Peception is leveled a bit.
     // Both survival and perception affect time to forage
-    ///\EFFECT_PER increases forage success chance
+    ///\EFFECT_SURVIVAL increases forage success chance
+
+    ///\EFFECT_PER slightly increases forage success chance
     if( veggy_chance < p->skillLevel( skill_survival ) * 3 + p->per_cur - 2 ) {
         const auto dropped = g->m.put_items_from_loc( loc, p->pos(), calendar::turn );
         for( const auto &it : dropped ) {
@@ -546,6 +550,7 @@ void activity_handlers::forage_finish( player_activity *act, player *p )
 
     ///\EFFECT_INT Intelligence caps survival skill gains from foraging
     const int max_forage_skill = p->int_cur / 3 + 1;
+    ///\EFFECT_SURVIVAL decreases survival skill gain from foraging (NEGATIVE)
     const int max_exp = 2 * ( max_forage_skill - p->skillLevel( skill_survival ) );
     // Award experience for foraging attempt regardless of success
     p->practice( skill_survival, rng(1, max_exp), max_forage_skill );

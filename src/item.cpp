@@ -1571,11 +1571,13 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
                                       _( "* This object is <neutral>surrounded</neutral> by a <info>sickly green glow</info>." ) ) );
         }
 
+        ///\EFFECT_SURVIVAL >=3 allows detection of poisonous food
         if( is_food() && has_flag( "HIDDEN_POISON" ) && g->u.skillLevel( skill_survival ).level() >= 3 ) {
             info.push_back( iteminfo( "DESCRIPTION",
                                       _( "* On closer inspection, this appears to be <bad>poisonous</bad>." ) ) );
         }
 
+        ///\EFFECT_SURVIVAL >=5 allows detection of hallucinogenic food
         if( is_food() && has_flag( "HIDDEN_HALLU" ) && g->u.skillLevel( skill_survival ).level() >= 5 ) {
             info.push_back( iteminfo( "DESCRIPTION",
                                       _( "* On closer inspection, this appears to be <neutral>hallucinogenic</neutral>." ) ) );
@@ -1604,6 +1606,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
             }
         }
 
+        ///\EFFECT_MELEE >2 allows seeing melee damage stats on weapons
         if( debug_mode || ( g->u.get_skill_level( skill_melee ) > 2 && ( damage_bash() > 0 ||
                             damage_cut() > 0 ) ) ) {
             damage_instance non_crit;

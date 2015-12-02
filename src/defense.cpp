@@ -1311,6 +1311,7 @@ void draw_caravan_items(WINDOW *w, std::vector<itype_id> *items,
 
 int caravan_price(player &u, int price)
 {
+    ///\EFFECT_BARTER reduces caravan prices, 5% per point, up to 50%
     if (u.skillLevel( skill_barter ) > 10) {
         return int( double(price) * .5);
     }

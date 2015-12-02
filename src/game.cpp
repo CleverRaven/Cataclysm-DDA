@@ -8139,7 +8139,9 @@ bool npc_menu( npc &who )
             add_msg( m_warning, _("%s has nowhere to go!"), who.name.c_str());
         }
     } else if( choice == examine_wounds ) {
-        ///\EFFECT_PER increases precision when examining NPCs' wounds
+        ///\EFFECT_PER slightly increases precision when examining NPCs' wounds
+
+        ///\EFFECT_FIRSTAID increases precision when examining NPCs' wounds
         const bool precise = g->u.get_skill_level( skill_firstaid ) * 4 + g->u.per_cur >= 20;
         who.body_window( precise );
     } else if( choice == use_item ) {
@@ -11678,6 +11680,8 @@ void game::pldrive(int x, int y)
     veh->turn(15 * x);
     if (veh->skidding && veh->valid_wheel_config()) {
         ///\EFFECT_DEX increases chance of regaining control of a vehicle
+
+        ///\EFFECT_DRIVING increases chance of regaining control of a vehicle
         if (rng(0, veh->velocity) < u.dex_cur + u.skillLevel( skill_driving ) * 2) {
             add_msg(_("You regain control of the %s."), veh->name.c_str());
             u.practice( skill_driving, veh->velocity / 5 );
@@ -13080,8 +13084,12 @@ void game::vertical_move(int movez, bool force)
                 coming_to_stairs[0].name().c_str());
         // Roll.
         ///\EFFECT_DEX increases chance of moving past monsters on stairs
+
+        ///\EFFECT_DODGE increases chance of moving past monsters on stairs
         int dexroll = dice(6, u.dex_cur + u.skillLevel( skill_dodge ) * 2);
         ///\EFFECT_STR increases chance of moving past monsters on stairs
+
+        ///\EFFECT_MELEE increases chance of moving past monsters on stairs
         int strroll = dice(3, u.str_cur + u.skillLevel( skill_melee ) * 1.5);
         if (coming_to_stairs.size() > 4) {
             add_msg(_("The are a lot of them on the %s!"), m.tername(u.pos()).c_str());
