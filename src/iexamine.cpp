@@ -622,55 +622,33 @@ void iexamine::cardreader(player *p, map *m, const tripoint &examp)
         add_msg(m_good, _("The nearby doors slide into the floor."));
         p->use_amount(card_type, 1);
     } else {
-        bool using_electrohack = (p->has_amount("electrohack", 1) &&
-                                  query_yn(_("Use electrohack on the reader?")));
-        bool using_fingerhack = (!using_electrohack && p->has_bionic("bio_fingerhack") &&
-                                 p->power_level > 0 &&
-                                 query_yn(_("Use fingerhack on the reader?")));
-        if (using_electrohack || using_fingerhack) {
-            p->moves -= 500;
-            p->practice( skill_computer, 20 );
-            int success = rng(p->skillLevel( skill_computer ) / 4 - 2, p->skillLevel( skill_computer ) * 2);
-            success += rng(-3, 3);
-            if (using_fingerhack) {
-                success++;
-            }
-            if (p->int_cur < 8) {
-                success -= rng(0, int((8 - p->int_cur) / 2));
-            } else if (p->int_cur > 8) {
-                success += rng(0, int((p->int_cur - 8) / 2));
-            }
-            if (success < 0) {
-                add_msg(_("You cause a short circuit!"));
-                if (success <= -5) {
-                    if (using_electrohack) {
-                        add_msg(m_bad, _("Your electrohack is ruined!"));
-                        p->use_amount("electrohack", 1);
-                    } else {
-                        add_msg(m_bad, _("Your power is drained!"));
-                        p->charge_power(-rng(0, p->power_level));
-                    }
-                }
+        switch (hack_attempt(p)) {
+            case HACK_FAIL:
                 m->ter_set(examp, t_card_reader_broken);
-            } else if (success < 6) {
+                break;
+            case HACK_NOTHING:
                 add_msg(_("Nothing happens."));
-            } else {
-                add_msg(_("You activate the panel!"));
-                add_msg(m_good, _("The nearby doors slide into the floor."));
-                m->ter_set(examp, t_card_reader_broken);
-                tripoint tmp = examp;
-                int &i = tmp.x;
-                int &j = tmp.y;
-                for (i = examp.x - 3; i <= examp.x + 3; i++) {
-                    for (j = examp.y - 3; j <= examp.y + 3; j++) {
-                        if (m->ter(tmp) == t_door_metal_locked) {
-                            m->ter_set(tmp, t_floor);
+                break;
+            case HACK_SUCCESS:
+                {
+                    add_msg(_("You activate the panel!"));
+                    add_msg(m_good, _("The nearby doors slide into the floor."));
+                    m->ter_set(examp, t_card_reader_broken);
+                    tripoint tmp = examp;
+                    int &i = tmp.x;
+                    int &j = tmp.y;
+                    for (i = examp.x - 3; i <= examp.x + 3; i++) {
+                        for (j = examp.y - 3; j <= examp.y + 3; j++) {
+                            if (m->ter(tmp) == t_door_metal_locked) {
+                                m->ter_set(tmp, t_floor);
+                            }
                         }
                     }
                 }
-            }
-        } else {
-            add_msg(m_info, _("Looks like you need a %s."), item::nname( card_type ).c_str());
+                break;
+            case HACK_UNABLE:
+                add_msg(m_info, _("Looks like you need a %s."), item::nname( card_type ).c_str());
+                break;
         }
     }
 }
@@ -1077,54 +1055,25 @@ void iexamine::gunsafe_ml(player *p, map *m, const tripoint &examp)
 void iexamine::gunsafe_el(player *p, map *m, const tripoint &examp)
 {
     std::string furn_name = m->tername(examp).c_str();
-    bool can_hack = ( !p->has_trait("ILLITERATE") &&
-                      ( (p->has_amount("electrohack", 1)) ||
-                        (p->has_bionic("bio_fingerhack") && p->power_level > 0) ) );
-    if (!can_hack) {
-        add_msg(_("You can't hack this gun safe without an electrohack."));
-        return;
-    }
-
-    bool using_electrohack = (p->has_amount("electrohack", 1) &&
-                              query_yn(_("Use electrohack on the gun safe?")));
-    bool using_fingerhack = (!using_electrohack && p->has_bionic("bio_fingerhack") &&
-                             p->power_level > 0 && query_yn(_("Use fingerhack on the gun safe?")));
-    if (using_electrohack || using_fingerhack) {
-        p->moves -= 500;
-        p->practice( skill_computer, 20);
-        int success = rng(p->skillLevel( skill_computer ) / 4 - 2, p->skillLevel( skill_computer ) * 2);
-        success += rng(-3, 3);
-        if (using_fingerhack) {
-            success++;
-        }
-        if (p->int_cur < 8) {
-            success -= rng(0, int((8 - p->int_cur) / 2));
-        } else if (p->int_cur > 8) {
-            success += rng(0, int((p->int_cur - 8) / 2));
-        }
-        if (success < 0) {
-            add_msg(_("You cause a short circuit!"));
-            if (success <= -5) {
-                if (using_electrohack) {
-                    add_msg(m_bad, _("Your electrohack is ruined!"));
-                    p->use_amount("electrohack", 1);
-                } else {
-                    add_msg(m_bad, _("Your power is drained!"));
-                    p->charge_power(-rng(0, p->power_level));
-                }
-            }
+    switch (hack_attempt(p)) {
+        case HACK_FAIL:
             p->add_memorial_log(pgettext("memorial_male", "Set off an alarm."),
                                 pgettext("memorial_female", "Set off an alarm."));
             sounds::sound(p->pos(), 60, _("An alarm sounds!"));
             if (examp.z > 0 && !g->event_queued(EVENT_WANTED)) {
                 g->add_event(EVENT_WANTED, int(calendar::turn) + 300, 0, p->global_sm_location());
             }
-        } else if (success < 6) {
+            break;
+        case HACK_NOTHING:
             add_msg(_("Nothing happens."));
-        } else {
+            break;
+        case HACK_SUCCESS:
             add_msg(_("You successfully hack the gun safe."));
             g->m.furn_set(examp, "f_safe_o");
-        }
+            break;
+        case HACK_UNABLE:
+            add_msg(_("You can't hack this gun safe without an electrohack."));
+            break;
     }
 }
 
@@ -3121,44 +3070,19 @@ void iexamine::pay_gas(player *p, map *m, const tripoint &examp)
     }
 
     if (hack == choice) {
-        bool using_electrohack = (p->has_amount("electrohack", 1) &&
-                                  query_yn(_("Use electrohack on the reader?")));
-        bool using_fingerhack = (!using_electrohack && p->has_bionic("bio_fingerhack") &&
-                                 p->power_level > 0 &&
-                                 query_yn(_("Use fingerhack on the reader?")));
-        if (using_electrohack || using_fingerhack) {
-            p->moves -= 500;
-            p->practice( skill_computer, 20);
-            int success = rng(p->skillLevel( skill_computer ) / 4 - 2, p->skillLevel( skill_computer ) * 2);
-            success += rng(-3, 3);
-            if (using_fingerhack) {
-                success++;
-            }
-            if (p->int_cur < 8) {
-                success -= rng(0, int((8 - p->int_cur) / 2));
-            } else if (p->int_cur > 8) {
-                success += rng(0, int((p->int_cur - 8) / 2));
-            }
-            if (success < 0) {
-                add_msg(_("You cause a short circuit!"));
-                if (success <= -5) {
-                    if (using_electrohack) {
-                        add_msg(m_bad, _("Your electrohack is ruined!"));
-                        p->use_amount("electrohack", 1);
-                    } else {
-                        add_msg(m_bad, _("Your power is drained!"));
-                        p->charge_power(-rng(0, p->power_level));
-                    }
-                }
+        switch (hack_attempt(p)) {
+            case HACK_FAIL:
                 p->add_memorial_log(pgettext("memorial_male", "Set off an alarm."),
-                                      pgettext("memorial_female", "Set off an alarm."));
+                                    pgettext("memorial_female", "Set off an alarm."));
                 sounds::sound(p->pos(), 60, _("An alarm sounds!"));
                 if (examp.z > 0 && !g->event_queued(EVENT_WANTED)) {
                     g->add_event(EVENT_WANTED, int(calendar::turn) + 300, 0, p->global_sm_location());
                 }
-            } else if (success < 6) {
+                break;
+            case HACK_NOTHING:
                 add_msg(_("Nothing happens."));
-            } else {
+                break;
+            case HACK_SUCCESS:
                 tripoint pGasPump = getGasPumpByNumber(m, examp, uistate.ags_pay_gas_selected_pump);
                 if (toPumpFuel(m, pTank, pGasPump, tankGasUnits)) {
                     add_msg(_("You hack the terminal and route all available fuel to your pump!"));
@@ -3166,9 +3090,7 @@ void iexamine::pay_gas(player *p, map *m, const tripoint &examp)
                 } else {
                     add_msg(_("Nothing happens."));
                 }
-            }
-        } else {
-            return;
+                break;
         }
     }
 
@@ -3464,4 +3386,45 @@ iexamine_function iexamine_function_from_string(std::string const &function_name
     //No match found
     debugmsg("Could not find an iexamine function matching '%s'!", function_name.c_str());
     return &iexamine::none;
+}
+
+hack_result iexamine::hack_attempt(player *p) {
+    bool using_electrohack = (p->has_amount("electrohack", 1) &&
+                              query_yn(_("Use electrohack?")));
+    bool using_fingerhack = (!using_electrohack && p->has_bionic("bio_fingerhack") &&
+                             p->power_level > 0 &&
+                             query_yn(_("Use fingerhack?")));
+
+    if ( !p->has_trait("ILLITERATE") && ( using_electrohack || using_fingerhack ) ) {
+        p->moves -= 500;
+        p->practice( skill_computer, 20);
+        int success = rng(p->skillLevel( skill_computer ) / 4 - 2, p->skillLevel( skill_computer ) * 2);
+        success += rng(-3, 3);
+        if (using_fingerhack) {
+            success++;
+        }
+        if (p->int_cur < 8) {
+            success -= rng(0, int((8 - p->int_cur) / 2));
+        } else if (p->int_cur > 8) {
+            success += rng(0, int((p->int_cur - 8) / 2));
+        }
+        if (success < 0) {
+            add_msg(_("You cause a short circuit!"));
+            if (success <= -5) {
+                if (using_electrohack) {
+                    add_msg(m_bad, _("Your electrohack is ruined!"));
+                    p->use_amount("electrohack", 1);
+                } else {
+                    add_msg(m_bad, _("Your power is drained!"));
+                    p->charge_power(-rng(0, p->power_level));
+                }
+            }
+            return HACK_FAIL;
+        } else if (success < 6) {
+            return HACK_NOTHING;
+        } else {
+            return HACK_SUCCESS;
+        }
+    }
+    return HACK_UNABLE;    
 }
