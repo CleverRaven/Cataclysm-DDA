@@ -3389,13 +3389,16 @@ iexamine_function iexamine_function_from_string(std::string const &function_name
 }
 
 hack_result iexamine::hack_attempt(player *p) {
+    if (p->has_trait("ILLITERATE")) {
+        return HACK_UNABLE;
+    }
     bool using_electrohack = (p->has_amount("electrohack", 1) &&
                               query_yn(_("Use electrohack?")));
     bool using_fingerhack = (!using_electrohack && p->has_bionic("bio_fingerhack") &&
                              p->power_level > 0 &&
                              query_yn(_("Use fingerhack?")));
 
-    if ( !p->has_trait("ILLITERATE") && ( using_electrohack || using_fingerhack ) ) {
+    if ( using_electrohack || using_fingerhack ) {
         p->moves -= 500;
         p->practice( skill_computer, 20);
         int success = rng(p->skillLevel( skill_computer ) / 4 - 2, p->skillLevel( skill_computer ) * 2);
