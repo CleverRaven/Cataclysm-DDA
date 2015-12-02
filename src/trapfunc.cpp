@@ -217,6 +217,7 @@ void trapfunc::crossbow( Creature *c, const tripoint &p )
         monster *z = dynamic_cast<monster *>( c );
         player *n = dynamic_cast<player *>( c );
         if( n != nullptr ) {
+            ///\EFFECT_DODGE reducts chance of being hit by crossbow trap
             if( !one_in( 4 ) && rng( 8, 20 ) > n->get_dodge() ) {
                 body_part hit = num_bp;
                 switch( rng( 1, 10 ) ) {
@@ -313,6 +314,7 @@ void trapfunc::shotgun( Creature *c, const tripoint &p )
             if( g->m.tr_at( p ).loadid == tr_shotgun_1 ) {
                 shots = 1;
             }
+            ///\EFFECT_DODGE reduces chance of being hit by shotgun trap
             if( rng( 5, 50 ) > n->get_dodge() ) {
                 body_part hit = num_bp;
                 switch( rng( 1, 10 ) ) {
@@ -646,6 +648,7 @@ void trapfunc::pit( Creature *c, const tripoint &p )
                 n->add_msg_if_player( _( "You flap your wings and flutter down gracefully." ) );
             } else {
                 int dodge = n->get_dodge();
+                ///\EFFECT_DODGE reduces damage taken falling into a pit
                 int damage = eff * rng( 10, 20 ) - rng( dodge, dodge * 5 );
                 if( damage > 0 ) {
                     n->add_msg_if_player( m_bad, _( "You hurt yourself!" ) );
@@ -683,6 +686,7 @@ void trapfunc::pit_spikes( Creature *c, const tripoint &p )
             if( ( n->has_trait( "WINGS_BIRD" ) ) || ( ( one_in( 2 ) ) &&
                     ( n->has_trait( "WINGS_BUTTERFLY" ) ) ) ) {
                 n->add_msg_if_player( _( "You flap your wings and flutter down gracefully." ) );
+            ///\EFFECT_DODGE reduces chance of landing on spikes in spiked pit
             } else if( 0 == damage || rng( 5, 30 ) < dodge ) {
                 n->add_msg_if_player( _( "You avoid the spikes within." ) );
             } else {
@@ -756,6 +760,7 @@ void trapfunc::pit_glass( Creature *c, const tripoint &p )
             if( ( n->has_trait( "WINGS_BIRD" ) ) || ( ( one_in( 2 ) ) &&
                     ( n->has_trait( "WINGS_BUTTERFLY" ) ) ) ) {
                 n->add_msg_if_player( _( "You flap your wings and flutter down gracefully." ) );
+            ///\EFFECT_DODGE reduces chance of landing on glass in glass pit
             } else if( 0 == damage || rng( 5, 30 ) < dodge ) {
                 n->add_msg_if_player( _( "You avoid the glass shards within." ) );
             } else {
@@ -882,6 +887,8 @@ void trapfunc::sinkhole( Creature *c, const tripoint &p )
         ///\EFFECT_STR increases chance to attach grapnel, bullwhip, or rope when falling into a sinkhole
 
         ///\EFFECT_DEX increases chance to attach grapnel, bullwhip, or rope when falling into a sinkhole
+
+        ///\EFFECT_THROW increases chance to attach grapnel, bullwhip, or rope when falling into a sinkhole
         const int roll = rng( pl->skillLevel( skill_throw ),
                               pl->skillLevel( skill_throw ) + pl->str_cur + pl->dex_cur );
         if( roll < diff ) {

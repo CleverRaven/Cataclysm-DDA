@@ -388,6 +388,7 @@ void player::activate_mutation( const std::string &mut )
             g->m.ter(dirx, diry) != t_tree) {
             // Takes about 100 minutes (not quite two hours) base time.
             // Being better-adapted to the task means that skillful Survivors can do it almost twice as fast.
+            ///\EFFECT_CARPENTRY speeds up burrowing
             turns = (100000 - 5000 * g->u.skillLevel( skill_id( "carpentry" ) ));
         } else if (g->m.move_cost(dirx, diry) == 2 && g->get_levz() == 0 &&
                    g->m.ter(dirx, diry) != t_dirt && g->m.ter(dirx, diry) != t_grass) {

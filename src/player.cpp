@@ -513,6 +513,7 @@ void player::process_turn()
     // auto-learning. This is here because skill-increases happens all over the place:
     // SkillLevel::readBook (has no connection to the skill or the player),
     // player::read, player::practice, ...
+    ///\EFFECT_UNARMED >1 allows spontaneous discovery of brawling martial art style
     if( get_skill_level( skill_unarmed ) >= 2 ) {
         const matype_id brawling( "style_brawling" );
         if( !has_martialart( brawling ) ) {
@@ -1802,6 +1803,7 @@ int player::swim_speed() const
     if (has_trait("FAT")) {
         ret -= 30;
     }
+    ///\EFFECT_SWIMMING increases swim speed
     ret += (50 - get_skill_level( skill_swimming ) * 2) * ((encumb(bp_leg_l) + encumb(bp_leg_r)) / 10);
     ret += (80 - get_skill_level( skill_swimming ) * 3) * (encumb(bp_torso) / 10);
     if (get_skill_level( skill_swimming ) < 10) {
@@ -1864,6 +1866,8 @@ int player::stability_roll() const
     ///\EFFECT_PER slightly improves player stability roll
 
     ///\EFFECT_DEX slightly improves player stability roll
+
+    ///\EFFECT_MELEE improves player stability roll
     int stability = (get_melee()) + get_str() + (get_per() / 3) + (get_dex() / 4);
         return stability;
 }
@@ -4204,6 +4208,8 @@ bool player::has_two_arms() const
 bool player::avoid_trap( const tripoint &pos, const trap &tr ) const
 {
     ///\EFFECT_DEX increases chance to avoid traps
+
+    ///\EFFECT_DODGE increases chance to avoid traps
     int myroll = dice( 3, int(dex_cur + get_skill_level( skill_dodge ) * 1.5) );
     int traproll;
     if( tr.can_see( pos, *this ) ) {
@@ -4267,6 +4273,8 @@ void player::pause()
 {
     moves = 0;
     ///\EFFECT_STR increases recoil recovery speed
+
+    ///\EFFECT_GUN increases recoil recovery speed
     recoil -= str_cur + 2 * get_skill_level( skill_gun );
     recoil = std::max(MIN_RECOIL * 2, recoil);
     recoil = int(recoil / 2);
@@ -4451,6 +4459,8 @@ int player::throw_range(int pos) const
     }
     // Cap at double our strength + skill
     ///\EFFECT_STR caps throwing range
+
+    ///\EFFECT_THROW caps throwing range
     if( ret > str_cur * 1.5 + get_skill_level( skill_throw ) ) {
         return str_cur * 1.5 + get_skill_level( skill_throw );
     }
@@ -4575,6 +4585,8 @@ int player::talk_skill() const
     ///\EFFECT_INT slightly increases talking skill
 
     ///\EFFECT_PER slightly increases talking skill
+
+    ///\EFFECT_SPEECH increases talking skill
     int ret = get_int() + get_per() + get_skill_level( skill_id( "speech" ) ) * 3;
     if (has_trait("SAPIOVORE")) {
         ret -= 20; // Friendly convo with your prey? unlikely
@@ -5121,6 +5133,8 @@ float player::fall_damage_mod() const
 
     // Ability to land properly is 2x as important as dexterity itself
     ///\EFFECT_DEX decreases damage from falling
+
+    ///\EFFECT_DODGE decreases damage from falling
     float dex_dodge = dex_cur / 2 + get_skill_level( skill_dodge );
     // Penalize for wearing heavy stuff
     dex_dodge -= ( ( ( encumb(bp_leg_l) + encumb(bp_leg_r) ) / 2 ) + ( encumb(bp_torso) / 1 ) ) / 10;
@@ -11247,6 +11261,7 @@ hint_rating player::rate_action_use( const item &it ) const
             return HINT_GOOD;
         }
     } else if (it.is_gunmod()) {
+        ///\EFFECT_GUN >0 allows rating estimates for gun modifications
         if (get_skill_level( skill_gun ) == 0) {
             return HINT_IFFY;
         } else {
@@ -11361,6 +11376,7 @@ void player::use(int inventory_position)
         invoke_item( used );
     } else if (used->is_gunmod()) {
         const auto mod = used->type->gunmod.get();
+        ///\EFFECT_GUN allows installation of more difficult gun mods
         if (!(get_skill_level( skill_gun ) >= mod->req_skill)) {
             add_msg(m_info, _("You need to be at least level %d in the marksmanship skill before you \
 can install this mod."), mod->req_skill);
@@ -13558,6 +13574,8 @@ bool player::wield_contents(item *container, int pos, int factor)
     last_item = itype_id( weapon.type->id );
     container->contents.erase( container->contents.begin() + pos );
 
+    // TODO Doxygen comment covering all possible gun and weapon skills
+    // documenting decrease in time spent wielding from a container
     int lvl = get_skill_level( weapon.is_gun() ? weapon.gun_skill() : weapon.weap_skill() );
 
     mv += (weapon.volume() * factor) / std::max( lvl, 1 );

@@ -459,6 +459,7 @@ void player::fire_gun( const tripoint &targ_arg, bool burst )
     }
 
     // chance to disarm an NPC with a whip if skill is high enough
+    ///\EFFECT_MELEE >5 allows disarming with a whip
     if(proj.proj_effects.count("WHIP") && (this->skillLevel( skill_melee ) > 5) && one_in(3)) {
         int npcdex = g->npc_at(targ_arg);
         if(npcdex != -1) {
@@ -480,6 +481,7 @@ void player::fire_gun( const tripoint &targ_arg, bool burst )
         // Burst-fire weapons allow us to pick a new target after killing the first
         const auto critter = g->critter_at( targ, true );
         if ( curshot > 0 && ( critter == nullptr || critter->is_dead_state() ) ) {
+            ///\EFFECT_GUN increases range for automatic retargeting during burst fire mode
             const int near_range = std::min( 2 + skillLevel( skill_gun ), weaponrange );
             auto new_targets = get_targetable_creatures( weaponrange );
             for( auto it = new_targets.begin(); it != new_targets.end(); ) {
@@ -506,6 +508,7 @@ void player::fire_gun( const tripoint &targ_arg, bool burst )
             if ( new_targets.empty() == false ) {    /* new victim! or last victim moved */
                 /* 1 victim list unless wildly spraying */
                 targ = random_entry( new_targets )->pos();
+            ///\EFFECT_GUN increases chance of firing multiple times in a burst
             } else if( ( !trigger_happy || one_in(3) ) &&
                        ( skillLevel( skill_gun ) >= 7 || one_in(7 - skillLevel( skill_gun )) ) ) {
                 // Triggerhappy has a higher chance of firing repeatedly.
@@ -656,6 +659,7 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
     // Base move cost on moves per turn of the weapon
     // and our skill.
     int move_cost = thrown.attack_time() / 2;
+    ///\EFFECT_THROW speeds up throwing items
     int skill_cost = (int)(move_cost / (std::pow(skillLevel( skill_throw ), 3.0f) / 400.0 + 1.0));
     ///\EFFECT_DEX speeds up throwing items
     const int dexbonus = (int)(std::pow(std::max(dex_cur - 8, 0), 0.8) * 3.0);
@@ -687,12 +691,14 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
     // Throwing attempts below "Basic Competency" level are extra-bad
     int skill_level = skillLevel( skill_throw );
 
+    ///\EFFECT_THROW <8 randomly increases throwing deviation
     if( skill_level < 3 ) {
         deviation += rng(0, 8 - skill_level);
     }
 
     if( skill_level < 8 ) {
         deviation += rng(0, 8 - skill_level);
+    ///\EFFECT_THROW >7 decreases throwing deviation
     } else {
         deviation -= skill_level - 6;
     }
@@ -1417,6 +1423,7 @@ int player::skill_dispersion( item *weapon, bool random ) const
         dispersion += rand_or_max( random, 45 * (10 - weapon_skill_level) );
     }
     // Up to 0.25 deg per each skill point < 10.
+    ///\EFFECT_GUN <10 randomly increased dispesion of gunfire
     if( get_skill_level( skill_gun ) < 10) {
         dispersion += rand_or_max( random, 15 * (10 - get_skill_level( skill_gun )) );
     }
@@ -1472,6 +1479,15 @@ int recoil_add(player &p, const item &gun)
     int ret = gun.gun_recoil();
     ///\EFFECT_STR reduces recoil when firing a ranged weapon
     ret -= rng(p.str_cur * 7, p.str_cur * 15);
+    ///\EFFECT_GUN randomly decreases recoil with appropriate guns
+
+    ///\EFFECT_PISTOL randomly decreases recoil with appropriate guns
+
+    ///\EFFECT_RIFLE randomly decreases recoil with appropriate guns
+
+    ///\EFFECT_SHOTGUN randomly decreases recoil with appropriate guns
+
+    ///\EFFECT_SMG randomly decreases recoil with appropriate guns
     ret -= rng(0, p.get_skill_level(gun.gun_skill()) * 7);
     if (ret > 0) {
         return ret;
