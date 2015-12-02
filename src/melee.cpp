@@ -812,7 +812,6 @@ void player::roll_cut_damage( bool crit, damage_instance &di, bool average, cons
 
     if( has_active_bionic("bio_cqb") ) {
         cutting_skill = 5;
-        unarmed_skill = 5;
     }
 
     if( weap.has_flag("UNARMED_WEAPON") ) {
@@ -884,7 +883,6 @@ void player::roll_stab_damage( bool crit, damage_instance &di, bool average, con
 
     if( has_active_bionic( "bio_cqb" ) ) {
         stabbing_skill = 5;
-        unarmed_skill = 5;
     }
 
     if( weap.has_flag("UNARMED_WEAPON") ) {
