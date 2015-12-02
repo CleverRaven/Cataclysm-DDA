@@ -4119,9 +4119,9 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
 
     // Adjust the prices based on your barter skill.
     // cap adjustment so nothing is ever sold below value
-    ///\EFFECT_INT_NPC slightly increases bartering ability, relative to your INT
+    ///\EFFECT_INT_NPC slightly increases bartering price changes, relative to your INT
 
-    ///\EFFECT_BARTER_NPC increases bartering ability, relative to your BARTER
+    ///\EFFECT_BARTER_NPC increases bartering price changes, relative to your BARTER
     double their_adjust = (price_adjustment(p->skillLevel( skill_barter ) - g->u.skillLevel( skill_barter )) +
                               (p->int_cur - g->u.int_cur) / 20.0);
     if (their_adjust < 1)
@@ -4129,9 +4129,9 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
     for( item_pricing &p : theirs ) {
         p.price *= their_adjust;
     }
-    ///\EFFECT_INT slightly increases bartering ability, relative to NPC INT
+    ///\EFFECT_INT slightly increases bartering price changes, relative to NPC INT
 
-    ///\EFFECT_BARTER increases bartering ability, relative to NPC BARTER
+    ///\EFFECT_BARTER increases bartering price changes, relative to NPC BARTER
     double your_adjust = (price_adjustment(g->u.skillLevel( skill_barter ) - p->skillLevel( skill_barter )) +
                              (g->u.int_cur - p->int_cur) / 20.0);
     if (your_adjust < 1)
