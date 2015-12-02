@@ -833,93 +833,7 @@ void player::update_bodytemp()
     int ambient_norm = (has_effect("sleep") ? 3100 : 1900);
     // This gets incremented in the for loop and used in the morale calculation
     int morale_pen = 0;
-    const trap &trap_at_pos = g->m.tr_at(pos());
-    const ter_id ter_at_pos = g->m.ter(pos());
-    const furn_id furn_at_pos = g->m.furn(pos());
-    // When the player is sleeping, he will use floor items for warmth
-    int floor_item_warmth = 0;
-    // When the player is sleeping, he will use floor bedding for warmth
-    int floor_bedding_warmth = 0;
-    // If the PC has fur, etc, that'll apply too
-    int floor_mut_warmth = 0;
-    if( in_sleep_state() ) {
-        // Search the floor for items
-        auto floor_item = g->m.i_at(pos());
 
-        for( auto &elem : floor_item ) {
-            if( !elem.is_armor() ) {
-                continue;
-            }
-            // Items that are big enough and covers the torso are used to keep warm.
-            // Smaller items don't do as good a job
-            if( elem.volume() > 1 &&
-                ( elem.covers( bp_torso ) || elem.covers( bp_leg_l ) ||
-                  elem.covers( bp_leg_r ) ) ) {
-                floor_item_warmth += 60 * elem.get_warmth() * elem.volume() / 10;
-            }
-        }
-
-        // Search the floor for bedding
-        if( furn_at_pos == f_bed ) {
-            floor_bedding_warmth += 1000;
-        } else if( furn_at_pos == f_makeshift_bed || furn_at_pos == f_armchair ||
-                   furn_at_pos == f_sofa ) {
-            floor_bedding_warmth += 500;
-        } else if( veh && veh->part_with_feature (vpart, "BED") >= 0 &&
-            veh->part_with_feature (vpart, "SEAT") >= 0) {
-            floor_bedding_warmth += 250; // BED+SEAT is intentionally worse than just BED
-        } else if( veh && veh->part_with_feature (vpart, "BED") >= 0 ) {
-            floor_bedding_warmth += 300;
-        } else if( veh && veh->part_with_feature (vpart, "SEAT") >= 0 ) {
-            floor_bedding_warmth += 200;
-        } else if( furn_at_pos == f_straw_bed ) {
-            floor_bedding_warmth += 200;
-        } else if( trap_at_pos.loadid == tr_fur_rollmat || furn_at_pos == f_hay ) {
-            floor_bedding_warmth += 0;
-        } else if( trap_at_pos.loadid == tr_cot || ter_at_pos == t_improvised_shelter ||
-                   furn_at_pos == f_tatami ) {
-            floor_bedding_warmth -= 500;
-        } else if( trap_at_pos.loadid == tr_rollmat ) {
-            floor_bedding_warmth -= 1000;
-        } else {
-            floor_bedding_warmth -= 2000;
-        }
-        // Fur, etc effects for sleeping here.
-        // Full-power fur is about as effective as a makeshift bed
-        if (has_trait("FUR") || has_trait("LUPINE_FUR") || has_trait("URSINE_FUR")) {
-            floor_mut_warmth += 500;
-        }
-        // Feline fur, not quite as warm.  Cats do better in warmer spots.
-        if (has_trait("FELINE_FUR")) {
-            floor_mut_warmth += 300;
-        }
-        // Light fur's better than nothing!
-        if (has_trait("LIGHTFUR")) {
-            floor_mut_warmth += 100;
-        }
-        // Spider hair really isn't meant for this sort of thing
-        if (has_trait("CHITIN_FUR")) {
-            floor_mut_warmth += 50;
-        }
-        if (has_trait("CHITIN_FUR2") || has_trait("CHITIN_FUR3")) {
-            floor_mut_warmth += 75;
-        }
-        // Down helps too
-        if (has_trait("DOWN")) {
-            floor_mut_warmth += 250;
-        }
-        // Curl up in your shell to conserve heat & stay warm
-        if (has_active_mutation("SHELL2")) {
-            floor_mut_warmth += 200;
-        }
-        // DOWN doesn't provide floor insulation, though.
-        // Better-than-light fur or being in one's shell does.
-        if ( (!(has_trait("DOWN"))) && (floor_mut_warmth >= 200)) {
-            if (floor_bedding_warmth < 0) {
-                floor_bedding_warmth = 0;
-            }
-        }
-    }
     // Current temperature and converging temperature calculations
     for( int i = 0 ; i < num_bp; i++ ) {
         // This adjusts the temperature scale to match the bodytemp scale,
@@ -947,6 +861,7 @@ void player::update_bodytemp()
                                                      sheltered),
                                              bp_windpower );
         // If you're standing in water, air temperature is replaced by water temperature. No wind.
+        const ter_id ter_at_pos = g->m.ter(pos());
         // Convert to C.
         int water_temperature = 100 * (g->weather_gen->get_water_temperature() - 32) * 5 / 9;
         if ( (ter_at_pos == t_water_dp || ter_at_pos == t_water_pool || ter_at_pos == t_swater_dp) ||
@@ -1005,11 +920,13 @@ void player::update_bodytemp()
             }
         }
         // TILES
+        const trap &trap_at_pos = g->m.tr_at(pos());
         int tile_strength = 0;
         // Being on fire increases very intensely the convergent temperature.
         if (has_effect("onfire")) {
             temp_conv[i] += 15000;
         }
+
         // Same with standing on fire.
         tile_strength = g->m.get_field_strength( pos(), fd_fire);
         if (tile_strength > 2 || trap_at_pos.loadid == tr_lava) {
@@ -1144,68 +1061,18 @@ void player::update_bodytemp()
             temp_equalizer(bp_foot_r, bp_leg_r);
             break;
         }
-        // MUTATIONS and TRAITS
-        // Lightly furred
-        if( has_trait("LIGHTFUR") ) {
-            temp_conv[i] += (temp_cur[i] > BODYTEMP_NORM ? 250 : 500);
-        }
-        // Furry or Lupine/Ursine Fur
-        if( has_trait("FUR") || has_trait("LUPINE_FUR") || has_trait("URSINE_FUR") ) {
-            temp_conv[i] += (temp_cur[i] > BODYTEMP_NORM ? 750 : 1500);
-        }
-        // Feline fur
-        if( has_trait("FELINE_FUR") ) {
-            temp_conv[i] += (temp_cur[i] > BODYTEMP_NORM ? 500 : 1000);
-        }
-        // Feathers: minor means minor.
-        if( has_trait("FEATHERS") ) {
-            temp_conv[i] += (temp_cur[i] > BODYTEMP_NORM ? 50 : 100);
-        }
-        if( has_trait("CHITIN_FUR") ) {
-            temp_conv[i] += (temp_cur[i] > BODYTEMP_NORM ? 100 : 150);
-        }
-        if( has_trait("CHITIN_FUR2") || has_trait ("CHITIN_FUR3") ) {
-            temp_conv[i] += (temp_cur[i] > BODYTEMP_NORM ? 150 : 250);
-        }
-        // Down; lets heat out more easily if needed but not as Warm
-        // as full-blown fur.  So less miserable in Summer.
-        if( has_trait("DOWN") ) {
-            temp_conv[i] += (temp_cur[i] > BODYTEMP_NORM ? 300 : 800);
-        }
-        // Fat deposits don't hold in much heat, but don't shift for temp
-        if( has_trait("FAT") ) {
-            temp_conv[i] += (temp_cur[i] > BODYTEMP_NORM ? 200 : 200);
-        }
-        // Being in the shell holds in heat, but lets out less in summer :-/
-        if( has_active_mutation("SHELL2") ) {
-            temp_conv[i] += (temp_cur[i] > BODYTEMP_NORM ? 500 : 750);
-        }
-        // Disintegration
-        if (has_trait("ROT1")) {
-            temp_conv[i] -= 250;
-        } else if (has_trait("ROT2")) {
-            temp_conv[i] -= 750;
-        } else if (has_trait("ROT3")) {
-            temp_conv[i] -= 1500;
-        }
-        // Radioactive
-        if (has_trait("RADIOACTIVE1")) {
-            temp_conv[i] += 250;
-        } else if (has_trait("RADIOACTIVE2")) {
-            temp_conv[i] += 750;
-        } else if (has_trait("RADIOACTIVE3")) {
-            temp_conv[i] += 1500;
-        }
-        // Chemical Imbalance
-        // Added line in player::suffer()
+
+        // Correction of body temperature due to traits and mutations
+        temp_conv[i] += traits_bodytemp_modifier(temp_cur[i] > BODYTEMP_NORM);
 
         // Climate Control eases the effects of high and low ambient temps
         temp_conv[i] = temp_corrected_by_climate_control(temp_conv[i]);
 
         // FINAL CALCULATION : Increments current body temperature towards convergent.
         int bonus_warmth = 0;
+        const furn_id furn_at_pos = g->m.furn(pos());
         if ( in_sleep_state() ) {
-            bonus_warmth = floor_bedding_warmth + floor_item_warmth + floor_mut_warmth;
+            bonus_warmth = warmth_in_sleep();
         } else if ( best_fire > 0 ) {
             // Warming up over a fire
             // Extremities are easier to extend over a fire
@@ -1480,6 +1347,158 @@ void player::update_bodytemp()
     if( morale_pen > 0 && calendar::once_every(MINUTES(1)) ) {
         add_morale(MORALE_HOT,  -2, -abs(morale_pen), 10, 5, true);
     }
+}
+
+int player::warmth_in_sleep()
+{
+    const trap &trap_at_pos = g->m.tr_at(pos());
+    const ter_id ter_at_pos = g->m.ter(pos());
+    const furn_id furn_at_pos = g->m.furn(pos());
+    // When the player is sleeping, he will use floor items for warmth
+    int floor_item_warmth = 0;
+    // When the player is sleeping, he will use floor bedding for warmth
+    int floor_bedding_warmth = 0;
+    // If the PC has fur, etc, that'll apply too
+    int floor_mut_warmth = 0;
+
+    // Search the floor for items
+    auto floor_item = g->m.i_at(pos());
+
+    for( auto &elem : floor_item ) {
+        if( !elem.is_armor() ) {
+            continue;
+        }
+        // Items that are big enough and covers the torso are used to keep warm.
+        // Smaller items don't do as good a job
+        if( elem.volume() > 1 &&
+            ( elem.covers( bp_torso ) || elem.covers( bp_leg_l ) ||
+              elem.covers( bp_leg_r ) ) ) {
+            floor_item_warmth += 60 * elem.get_warmth() * elem.volume() / 10;
+        }
+    }
+
+    int vpart = -1;
+    vehicle *veh = g->m.veh_at( pos(), vpart );
+    bool veh_bed = ( veh && veh->part_with_feature (vpart, "BED") >= 0 );
+    bool veh_seat = ( veh && veh->part_with_feature (vpart, "SEAT") >= 0 );
+
+    // Search the floor for bedding
+    if( furn_at_pos == f_bed ) {
+        floor_bedding_warmth += 1000;
+    } else if( furn_at_pos == f_makeshift_bed || furn_at_pos == f_armchair ||
+               furn_at_pos == f_sofa ) {
+        floor_bedding_warmth += 500;
+    } else if( veh_bed && veh_seat ) {
+        // BED+SEAT is intentionally worse than just BED
+        floor_bedding_warmth += 250;
+    } else if( veh_bed ) {
+        floor_bedding_warmth += 300;
+    } else if( veh_seat ) {
+        floor_bedding_warmth += 200;
+    } else if( furn_at_pos == f_straw_bed ) {
+        floor_bedding_warmth += 200;
+    } else if( trap_at_pos.loadid == tr_fur_rollmat || furn_at_pos == f_hay ) {
+        floor_bedding_warmth += 0;
+    } else if( trap_at_pos.loadid == tr_cot || ter_at_pos == t_improvised_shelter ||
+               furn_at_pos == f_tatami ) {
+        floor_bedding_warmth -= 500;
+    } else if( trap_at_pos.loadid == tr_rollmat ) {
+        floor_bedding_warmth -= 1000;
+    } else {
+        floor_bedding_warmth -= 2000;
+    }
+    // Fur, etc effects for sleeping  here.
+    // Full-power fur is about as effective as a makeshift bed
+    if (has_trait("FUR") || has_trait("LUPINE_FUR") || has_trait("URSINE_FUR")) {
+        floor_mut_warmth += 500;
+    }
+    // Feline fur, not quite as warm.  Cats do better in warmer spots.
+    if (has_trait("FELINE_FUR")) {
+        floor_mut_warmth += 300;
+    }
+    // Light fur's better than nothing!
+    if (has_trait("LIGHTFUR")) {
+        floor_mut_warmth += 100;
+    }
+    // Spider hair really isn't meant for this sort of thing
+    if (has_trait("CHITIN_FUR")) {
+        floor_mut_warmth += 50;
+    }
+    if (has_trait("CHITIN_FUR2") || has_trait("CHITIN_FUR3")) {
+        floor_mut_warmth += 75;
+    }
+    // Down helps too
+    if (has_trait("DOWN")) {
+        floor_mut_warmth += 250;
+    }
+    // Curl up in your shell to conserve heat & stay warm
+    if (has_active_mutation("SHELL2")) {
+        floor_mut_warmth += 200;
+    }
+    // DOWN doesn't provide floor insulation, though.
+    // Better-than-light fur or being in one's shell does.
+    if ( (!(has_trait("DOWN"))) && (floor_mut_warmth >= 200)) {
+        floor_bedding_warmth = std::max(0, floor_bedding_warmth);
+    }
+    return (floor_item_warmth + floor_bedding_warmth + floor_mut_warmth);
+}
+
+int player::traits_bodytemp_modifier(bool overheated)
+{
+    int mod = 0;
+
+    // Lightly furred
+    if( has_trait("LIGHTFUR") ) {
+        mod += (overheated ? 250 : 500);
+    }
+    // Furry or Lupine/Ursine Fur
+    if( has_trait("FUR") || has_trait("LUPINE_FUR") || has_trait("URSINE_FUR") ) {
+        mod += (overheated ? 750 : 1500);
+    }
+    // Feline fur
+    if( has_trait("FELINE_FUR") ) {
+        mod += (overheated ? 500 : 1000);
+    }
+    // Feathers: minor means minor.
+    if( has_trait("FEATHERS") ) {
+        mod += (overheated ? 50 : 100);
+    }
+    if( has_trait("CHITIN_FUR") ) {
+        mod += (overheated ? 100 : 150);
+    }
+    if( has_trait("CHITIN_FUR2") || has_trait ("CHITIN_FUR3") ) {
+        mod += (overheated ? 150 : 250);
+    }
+    // Down; lets heat out more easily if needed but not as Warm
+    // as full-blown fur.  So less miserable in Summer.
+    if( has_trait("DOWN") ) {
+        mod += (overheated ? 300 : 800);
+    }
+    // Fat deposits don't hold in much heat, but don't shift for temp
+    if( has_trait("FAT") ) {
+        mod += 200;
+    }
+    // Being in the shell holds in heat, but lets out less in summer :-/
+    if( has_active_mutation("SHELL2") ) {
+        mod += (overheated ? 500 : 750);
+    }
+    // Disintegration
+    if (has_trait("ROT1")) {
+        mod -= 250;
+    } else if (has_trait("ROT2")) {
+        mod -= 750;
+    } else if (has_trait("ROT3")) {
+        mod -= 1500;
+    }
+    // Radioactive
+    if (has_trait("RADIOACTIVE1")) {
+        mod += 250;
+    } else if (has_trait("RADIOACTIVE2")) {
+        mod += 750;
+    } else if (has_trait("RADIOACTIVE3")) {
+        mod += 1500;
+    }
+    return mod;
 }
 
 int player::temp_corrected_by_climate_control(int temperature)
