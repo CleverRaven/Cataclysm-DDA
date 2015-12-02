@@ -685,8 +685,12 @@ long pick_lock_actor::use( player *p, item *it, bool, const tripoint& ) const
 
     p->practice( skill_mechanics, 1 );
     ///\EFFECT_DEX speeds up door lock picking
+
+    ///\EFFECT_MECHANICS speeds up door lock picking
     p->moves -= std::max(0, ( 1000 - ( pick_quality * 100 ) ) - ( p->dex_cur + p->skillLevel( skill_mechanics ) ) * 5);
     ///\EFFECT_DEX improves chances of successfully picking door lock, reduces chances of bad outcomes
+
+    ///\EFFECT_MECHANICS improves chances of successfully picking door lock, reduces chances of bad outcomes
     int pick_roll = ( dice( 2, p->skillLevel( skill_mechanics ) ) + dice( 2, p->dex_cur ) - it->damage / 2 ) * pick_quality;
     int door_roll = dice( 4, 30 );
     if( pick_roll >= door_roll ) {
@@ -868,6 +872,7 @@ int extended_firestarter_actor::calculate_time_for_lens_fire( const player *p, f
     float moves_base = std::pow( 80 / light_level, 8 ) * 1000 ;
     // survival 0 takes 3 * moves_base, survival 1 takes 1,5 * moves_base,
     // max moves capped at moves_base
+    ///\EFFECT_SURVIVAL speeds up fire starting with lens
     float moves_modifier = 1 / ( p->get_skill_level( skill_survival ) * 0.33 + 0.33 );
     if( moves_modifier < 1 ) {
         moves_modifier = 1;
@@ -910,6 +915,7 @@ long extended_firestarter_actor::use( player *p, item *it, bool, const tripoint 
                 skillLevel = 0.536;
             }
             // At survival=5 modifier=1, at survival=1 modifier=~6.
+            ///\EFFECT_SURVIVAL speeds up fire starting
             float moves_modifier = std::pow( 5 / skillLevel, 1.113 );
             if (moves_modifier < 1) {
                 moves_modifier = 1; // activity time improvement is capped at skillevel 5
@@ -1063,6 +1069,7 @@ int salvage_actor::cut_up(player *p, item *it, item *cut) const
     // This can go awry if there is a volume / recipe mismatch.
     int count = cut->volume();
     // Chance of us losing a material component to entropy.
+    ///\EFFECT_FABRICATION reduces chance of losing components when cutting items up
     int entropy_threshold = std::max(5, 10 - p->skillLevel( skill_fabrication ) );
     // What material components can we get back?
     std::vector<std::string> cut_material_components = cut->made_of();
@@ -1427,6 +1434,7 @@ long enzlave_actor::use( player *p, item *it, bool t, const tripoint& ) const
 
     // Survival skill increases your willingness to get things done,
     // but it doesn't make you feel any less bad about it.
+    ///\EFFECT_SURVIVAL increases tolerance for enzlavement
     if( p->morale_level() <= (15 * (tolerance_level - p->skillLevel( skill_survival ) )) - 150 ) {
         add_msg(m_neutral, _("The prospect of cutting up the copse and letting it rise again as a slave is too much for you to deal with right now."));
         return 0;
@@ -1455,6 +1463,7 @@ long enzlave_actor::use( player *p, item *it, bool t, const tripoint& ) const
     } else {
         add_msg(m_bad, _("You feel horrible for mutilating and enslaving someone's corpse."));
 
+        ///\EFFECT_SURVIVAL decreases moral penalty and duration for enzlavement
         int moraleMalus = -50 * (5.0 / (float) p->skillLevel( skill_survival ));
         int maxMalus = -250 * (5.0 / (float)p->skillLevel( skill_survival ));
         int duration = 300 * (5.0 / (float)p->skillLevel( skill_survival ));
@@ -1484,11 +1493,16 @@ long enzlave_actor::use( player *p, item *it, bool t, const tripoint& ) const
     int difficulty = (body->damage * 5) + (mt->hp / 10) + (mt->speed / 5);
     // 0 - 30
     ///\EFFECT_DEX increases chance of success for enzlavement
+
+    ///\EFFECT_SURVIVAL increases chance of success for enzlavement
+
+    ///\EFFECT_FIRSTAID increases chance of success for enzlavement
     int skills = p->skillLevel( skill_survival ) + p->skillLevel( skill_firstaid ) + (p->dex_cur / 2);
     skills *= 2;
 
     int success = rng(0, skills) - rng(0, difficulty);
 
+    ///\EFFECT_FIRSTAID speeds up enzlavement
     const int moves = difficulty * 1200 / p->skillLevel( skill_firstaid );
 
     p->assign_activity(ACT_MAKE_ZLAVE, moves);
@@ -1499,6 +1513,9 @@ long enzlave_actor::use( player *p, item *it, bool t, const tripoint& ) const
 
 bool enzlave_actor::can_use( const player *p, const item*, bool, const tripoint& ) const
 {
+    ///\EFFECT_SURVIVAL >1 allows enzlavement
+
+    ///\EFFECT_FIRSTAID >1 allows enzlavement
     return p->get_skill_level( skill_survival ) > 1 && p->get_skill_level( skill_firstaid ) > 1;
 }
 

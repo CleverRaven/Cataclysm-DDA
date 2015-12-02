@@ -5247,6 +5247,7 @@ int iuse::tazer(player *p, item *it, bool, const tripoint &pos )
     int numdice = 3 + (p->dex_cur / 2.5) + p->skillLevel( skill_melee ) * 2;
     p->moves -= 100;
 
+    ///\EFFECT_DODGE increases chance of dodging a tazer attack
     int target_dice = target->get_dodge();
     if( dice( numdice, 10 ) < dice( target_dice, 10 ) ) {
         // A miss!

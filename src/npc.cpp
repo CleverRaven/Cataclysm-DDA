@@ -1559,6 +1559,7 @@ void npc::decide_needs()
     if (weapon.is_gun()) {
         needrank[need_ammo] = 5 * get_ammo(weapon.type->gun->ammo).size();
     }
+    ///\EFFECT_UNARMED_NPC <4 drives need for a weapon
     if (weapon.type->id == "null" && skillLevel( skill_unarmed ) < 4) {
         needrank[need_weapon] = 1;
     } else {
@@ -1566,6 +1567,15 @@ void npc::decide_needs()
                                 weapon.type->m_to_hit;
     }
     if (!weapon.is_gun()) {
+        ///\EFFECT_UNARMED_NPC lowers need for a gun
+
+        ///\EFFECT_MELEE_NPC lowers need for a gun
+
+        ///\EFFECT_BASHING_NPC lowers need for a gun
+
+        ///\EFFECT_CUTTING_NPC lowers need for a gun
+
+        ///\EFFECT_GUN_NPC increases need for a gun
         needrank[need_gun] = skillLevel( skill_unarmed ) + skillLevel( skill_melee ) +
                             skillLevel( skill_bashing ) + skillLevel( skill_cutting ) -
                             skillLevel( skill_gun ) * 2 + 5;

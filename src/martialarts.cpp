@@ -411,10 +411,15 @@ bool ma_requirements::is_valid_player( const player &u ) const
                   (u.has_weapon() && martialarts[u.style_selected].has_weapon(u.weapon.type->id) &&
                    is_valid_weapon(u.weapon))) &&
                    // TODO: same list as in player.cpp
+                   ///\EFFECT_MELEE determines which melee martial arts are available
                  ((u.get_skill_level(skill_id("melee")) >= min_melee &&
+                   ///\EFFECT_UNARMED determines which unarmed martial arts are available
                    u.get_skill_level(skill_id("unarmed")) >= min_unarmed &&
+                   ///\EFFECT_BASHING determines which bashing martial arts are available
                    u.get_skill_level(skill_id("bashing")) >= min_bashing &&
+                   ///\EFFECT_CUTTING determines which cutting martial arts are available
                    u.get_skill_level(skill_id("cutting")) >= min_cutting &&
+                   ///\EFFECT_STABBING determines which stabbing martial arts are available
                    u.get_skill_level(skill_id("stabbing")) >= min_stabbing) || cqb);
 
     return valid;
@@ -754,6 +759,7 @@ bool player::has_grab_break_tec() const
 bool player::can_leg_block() const
 {
     const martialart &ma = style_selected.obj();
+    ///\EFFECT_UNARMED increases ability to perform leg block
     int unarmed_skill = has_active_bionic("bio_cqb") ? 5 : (int)get_skill_level(skill_id("unarmed"));
 
     // Success conditions.
@@ -771,6 +777,7 @@ bool player::can_leg_block() const
 bool player::can_arm_block() const
 {
     const martialart &ma = style_selected.obj();
+    ///\EFFECT_UNARMED increases ability to perform arm block
     int unarmed_skill = has_active_bionic("bio_cqb") ? 5 : (int)get_skill_level(skill_id("unarmed"));
 
     // Success conditions.

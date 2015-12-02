@@ -1010,6 +1010,7 @@ int npc::confident_range(int position)
         item *thrown = &i_at(position);
         max = throw_range(position); // The max distance we can throw
         deviation = 0;
+        ///\EFFECT_THROW_NPC increases throwing confidence
         if (skillLevel( skill_throw ) < 8) {
             deviation += 8 - skillLevel( skill_throw );
         } else {
@@ -1220,6 +1221,8 @@ void npc::move_to( const tripoint &pt, bool no_bashing )
 
     if (recoil > 0) { // Start by dropping recoil a little
         ///\EFFECT_STR_NPC increases recoil recovery speed
+
+        ///\EFFECT_GUN_NPC increases recoil recovery speed
         if (int(str_cur / 2) + skillLevel( skill_gun ) >= (int)recoil) {
             recoil = MIN_RECOIL;
         } else {
@@ -2068,6 +2071,7 @@ void npc::heal_player(player &patient)
         }
 
         int amount_healed = 0;
+        ///\EFFECT_FIRSTAID_NPC increases healing effects of first aid kit or bandages for player
         if (has_amount("1st_aid", 1)) {
             switch (worst) {
             case hp_head:
@@ -2129,6 +2133,7 @@ void npc::heal_self()
         }
     }
 
+    ///\EFFECT_FIRSTAID_NPC increases healing effects of first aid kit or bandages for self
     int amount_healed = 0;
     if (has_amount("1st_aid", 1)) {
         switch (worst) {

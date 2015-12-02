@@ -13764,6 +13764,7 @@ void game::update_stair_monsters()
                         return;
                     }
                     std::string msg = "";
+                    ///\EFFECT_DODGE reduces chance of being downed when pushed off the stairs
                     if (!(resiststhrow) && (u.get_dodge() + rng(0, 3) < 12)) {
                         // dodge 12 - never get downed
                         // 11.. avoid 75%; 10.. avoid 50%; 9.. avoid 25%
