@@ -318,33 +318,33 @@ void overmap::convert_terrain( std::unordered_map<tripoint, std::string> &needs_
             std::string new_id;
         };
 
-        std::vector<convert_nearby> near;
+        std::vector<convert_nearby> nearby;
 
         if( old == "apartments_con_tower_1_entrance" ) {
             const std::string other = "apartments_con_tower_1";
-            near.push_back( { 1, other, -1, other, "apartments_con_tower_SW_north" } );
-            near.push_back( { -1, other, 1, other, "apartments_con_tower_SW_south" } );
-            near.push_back( { 1, other, 1, other, "apartments_con_tower_SW_east" } );
-            near.push_back( { -1, other, -1, other , "apartments_con_tower_SW_west" } );
+            nearby.push_back( { 1, other, -1, other, "apartments_con_tower_SW_north" } );
+            nearby.push_back( { -1, other, 1, other, "apartments_con_tower_SW_south" } );
+            nearby.push_back( { 1, other, 1, other, "apartments_con_tower_SW_east" } );
+            nearby.push_back( { -1, other, -1, other , "apartments_con_tower_SW_west" } );
 
         } else if( old == "apartments_con_tower_1" ) {
             const std::string entr = "apartments_con_tower_1_entrance";
             const std::string other = "apartments_con_tower_1";
-            near.push_back( { 1, other, 1, entr, "apartments_con_tower_NW_north" } );
-            near.push_back( { -1, other, -1, entr, "apartments_con_tower_NW_south" } );
-            near.push_back( { -1, entr, 1, other, "apartments_con_tower_NW_east" } );
-            near.push_back( { 1, entr, -1, other, "apartments_con_tower_NW_west" } );
-            near.push_back( { -1, other, 1, other, "apartments_con_tower_NE_north" } );
-            near.push_back( { 1, other, -1, other, "apartments_con_tower_NE_south" } );
-            near.push_back( { -1, other, -1, other, "apartments_con_tower_NE_east" } );
-            near.push_back( { 1, other, 1, other, "apartments_con_tower_NE_west" } );
-            near.push_back( { -1, entr, -1, other, "apartments_con_tower_SE_north" } );
-            near.push_back( { 1, entr, 1, other, "apartments_con_tower_SE_south" } );
-            near.push_back( { 1, other, -1, entr, "apartments_con_tower_SE_east" } );
-            near.push_back( { -1, other, 1, entr, "apartments_con_tower_SE_west" } );
+            nearby.push_back( { 1, other, 1, entr, "apartments_con_tower_NW_north" } );
+            nearby.push_back( { -1, other, -1, entr, "apartments_con_tower_NW_south" } );
+            nearby.push_back( { -1, entr, 1, other, "apartments_con_tower_NW_east" } );
+            nearby.push_back( { 1, entr, -1, other, "apartments_con_tower_NW_west" } );
+            nearby.push_back( { -1, other, 1, other, "apartments_con_tower_NE_north" } );
+            nearby.push_back( { 1, other, -1, other, "apartments_con_tower_NE_south" } );
+            nearby.push_back( { -1, other, -1, other, "apartments_con_tower_NE_east" } );
+            nearby.push_back( { 1, other, 1, other, "apartments_con_tower_NE_west" } );
+            nearby.push_back( { -1, entr, -1, other, "apartments_con_tower_SE_north" } );
+            nearby.push_back( { 1, entr, 1, other, "apartments_con_tower_SE_south" } );
+            nearby.push_back( { 1, other, -1, entr, "apartments_con_tower_SE_east" } );
+            nearby.push_back( { -1, other, 1, entr, "apartments_con_tower_SE_west" } );
         }
 
-        for( const auto conv : near ) {
+        for( const auto conv : nearby ) {
             const auto x_it = needs_conversion.find( tripoint( pos.x + conv.xoffset, pos.y, pos.z ) );
             const auto y_it = needs_conversion.find( tripoint( pos.x, pos.y + conv.yoffset, pos.z ) );
             if( x_it != needs_conversion.end() && x_it->second == conv.x_id && 
