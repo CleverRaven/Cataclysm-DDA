@@ -2023,7 +2023,7 @@ void iexamine::fvat_full(player *p, map *m, const tripoint &examp)
                 m->furn(examp) == f_fvat_full && query_yn(_("Finish brewing?")) ) {
                 //declare fermenting result as the brew's ID minus "brew_"
                 itype_id alcoholType = m->i_at(examp)[0].typeId().substr(5);
-                ///\EFFECT_COOKING >4 [revents hb_beer from turning into just beer
+                ///\EFFECT_COOKING >4 prevents hb_beer from turning into just beer
                 SkillLevel &cooking = p->skillLevel( skill_cooking );
                 if (alcoholType == "hb_beer" && cooking < 5) {
                     alcoholType = alcoholType.substr(3);    //hb_beer -> beer
