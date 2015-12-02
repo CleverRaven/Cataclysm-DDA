@@ -2383,6 +2383,7 @@ static int repair_clothing(player *p, item *it, item *fix, int pos) {
         p->practice( skill_tailor, 8);
         int rn = dice(4, 2 + p->skillLevel( skill_tailor ));
         rn -= rng(fix->damage, fix->damage * 2);
+        ///\EFFECT_DEX randomly improves clothing repair efforts
         if (p->dex_cur < 8 && one_in(p->dex_cur)) {
             rn -= rng(2, 6);
         }
@@ -2431,6 +2432,7 @@ static int repair_clothing(player *p, item *it, item *fix, int pos) {
         p->moves -= 500 * p->fine_detail_vision_mod();
         p->practice( skill_tailor, 10);
         int rn = dice(4, 2 + p->skillLevel( skill_tailor ));
+        ///\EFFECT_DEX randomly improves clothing fit efforts
         if (p->dex_cur < 8 && one_in(p->dex_cur)) {
             rn -= rng(2, 6);
         }
@@ -2684,7 +2686,9 @@ int iuse::sew_advanced(player *p, item *it, bool, const tripoint& )
     p->moves -= 500 * p->fine_detail_vision_mod();
     p->practice( skill_tailor, items_needed * 3 + 3 );
     int rn = dice( 3, 2 + p->skillLevel( skill_tailor ) ); // Skill
+    ///\EFFECT_DEX randomly improves clothing modification efforts
     rn += rng( 0, p->dex_cur / 2 );                    // Dexterity
+    ///\EFFECT_PER randomly improves clothing modification efforts
     rn += rng( 0, p->per_cur / 2 );                    // Perception
     rn -= mod_count * 10;                              // Other mods
 
@@ -3435,6 +3439,7 @@ int iuse::solder_weld( player *p, item *it, bool, const tripoint& )
         p->practice( skill_mechanics, 8);
         int rn = dice(4, 2 + p->skillLevel( skill_mechanics ));
         rn -= rng(fix.damage, fix.damage * 2);
+        ///\EFFECT_DEX randomly improves metal repair efforts
         if (p->dex_cur < 8 && one_in(p->dex_cur)) {
             rn -= rng(2, 6);
         }
@@ -3484,6 +3489,7 @@ int iuse::solder_weld( player *p, item *it, bool, const tripoint& )
         p->moves -= 500 * p->fine_detail_vision_mod();
         p->practice( skill_mechanics, 10);
         int rn = dice(4, 2 + p->skillLevel( skill_mechanics ));
+        ///\EFFECT_DEX randomly improves metal improvement efforts
         if (p->dex_cur < 8 && one_in(p->dex_cur)) {
             rn -= rng(2, 6);
         }
@@ -3938,6 +3944,7 @@ int iuse::crowbar(player *p, item *it, bool, const tripoint &pos)
     }
 
     p->practice( skill_mechanics, 1);
+    ///\EFFECT_STR speeds up crowbar prying attempts
     p->moves -= std::max( 25, ( difficulty * 25 ) - ( ( p->str_cur + p->skillLevel( skill_mechanics ) ) * 5 ) );
     if (dice(4, difficulty) < dice(2, p->skillLevel( skill_mechanics )) + dice(2, p->str_cur)) {
         p->practice( skill_mechanics, 1);
@@ -3964,6 +3971,7 @@ int iuse::crowbar(player *p, item *it, bool, const tripoint &pos)
     } else {
         if (type == t_window_domestic || type == t_curtains) {
             //chance of breaking the glass if pry attempt fails
+            ///\EFFECT_STR reduces chance of breaking window with crowbar
             if (dice(4, difficulty) > dice(2, p->skillLevel( skill_mechanics )) + dice(2, p->str_cur)) {
                 p->add_msg_if_player(m_mixed, _("You break the glass."));
                 sounds::sound(dirp, 24, _("glass breaking!"));
@@ -4729,14 +4737,22 @@ int iuse::granade_act(player *, item *it, bool t, const tripoint &pos)
                             critter.set_hp( critter.get_hp() * rng_float( 1.1, 2.0 ) );
                         } else if (g->npc_at(dest) != -1) {
                             int npc_hit = g->npc_at(dest);
+                            ///\EFFECT_STR_MAX increases possible granade str buff for NPCs
                             buff_stat(g->active_npc[npc_hit]->str_max, rng(0, g->active_npc[npc_hit]->str_max / 2));
+                            ///\EFFECT_DEX_MAX increases possible granade dex buff for NPCs
                             buff_stat(g->active_npc[npc_hit]->dex_max, rng(0, g->active_npc[npc_hit]->dex_max / 2));
+                            ///\EFFECT_INT_MAX increases possible granade int buff for NPCs
                             buff_stat(g->active_npc[npc_hit]->int_max, rng(0, g->active_npc[npc_hit]->int_max / 2));
+                            ///\EFFECT_PER_MAX increases possible granade per buff for NPCs
                             buff_stat(g->active_npc[npc_hit]->per_max, rng(0, g->active_npc[npc_hit]->per_max / 2));
                         } else if (g->u.posx() == pos.x + i && g->u.posy() == pos.y + j) {
+                            ///\EFFECT_STR_MAX increases possible granade str buff
                             buff_stat(g->u.str_max, rng(0, g->u.str_max / 2));
+                            ///\EFFECT_DEX_MAX increases possible granade dex buff
                             buff_stat(g->u.dex_max, rng(0, g->u.dex_max / 2));
+                            ///\EFFECT_INT_MAX increases possible granade int buff
                             buff_stat(g->u.int_max, rng(0, g->u.int_max / 2));
+                            ///\EFFECT_PER_MAX increases possible granade per buff
                             buff_stat(g->u.per_max, rng(0, g->u.per_max / 2));
                             g->u.recalc_hp();
                             for (int part = 0; part < num_hp_parts; part++) {
@@ -4764,14 +4780,22 @@ int iuse::granade_act(player *, item *it, bool t, const tripoint &pos)
                             critter.set_hp( rng( 1, critter.get_hp() ) );
                         } else if (g->npc_at(dest) != -1) {
                             int npc_hit = g->npc_at(dest);
+                            ///\EFFECT_STR_MAX increases possible granade str debuff for NPCs (NEGATIVE)
                             g->active_npc[npc_hit]->str_max -= rng(0, g->active_npc[npc_hit]->str_max / 2);
+                            ///\EFFECT_DEX_MAX increases possible granade dex debuff for NPCs (NEGATIVE)
                             g->active_npc[npc_hit]->dex_max -= rng(0, g->active_npc[npc_hit]->dex_max / 2);
+                            ///\EFFECT_INT_MAX increases possible granade int debuff for NPCs (NEGATIVE)
                             g->active_npc[npc_hit]->int_max -= rng(0, g->active_npc[npc_hit]->int_max / 2);
+                            ///\EFFECT_PER_MAX increases possible granade per debuff for NPCs (NEGATIVE)
                             g->active_npc[npc_hit]->per_max -= rng(0, g->active_npc[npc_hit]->per_max / 2);
                         } else if (g->u.posx() == pos.x + i && g->u.posy() == pos.y + j) {
+                            ///\EFFECT_STR_MAX increases possible granade str debuff (NEGATIVE)
                             g->u.str_max -= rng(0, g->u.str_max / 2);
+                            ///\EFFECT_DEX_MAX increases possible granade dex debuff (NEGATIVE)
                             g->u.dex_max -= rng(0, g->u.dex_max / 2);
+                            ///\EFFECT_INT_MAX increases possible granade int debuff (NEGATIVE)
                             g->u.int_max -= rng(0, g->u.int_max / 2);
+                            ///\EFFECT_PER_MAX increases possible granade per debuff (NEGATIVE)
                             g->u.per_max -= rng(0, g->u.per_max / 2);
                             g->u.recalc_hp();
                             for (int part = 0; part < num_hp_parts; part++) {
@@ -5199,6 +5223,7 @@ int iuse::tazer(player *p, item *it, bool, const tripoint &pos )
         foe->hit_by_player = true;
     }
 
+    ///\EFFECT_DEX increases chance of successfully using tazer
     int numdice = 3 + (p->dex_cur / 2.5) + p->skillLevel( skill_melee ) * 2;
     p->moves -= 100;
 
@@ -5340,6 +5365,7 @@ music_description get_music_description( const player & p )
             break;
         case 5:
             result.sound = _("dramatic classical music.");
+            ///\EFFECT_INT increases possible morale benefit from listening to music
             if( p.int_cur >= 10 ) {
                 result.morale_bonus = p.int_cur * 2;
             }
@@ -7671,6 +7697,7 @@ int iuse::einktabletpc(player *p, item *it, bool t, const tripoint &pos)
 
             p->practice( skill_computer, rng(2, 5));
 
+            ///\EFFECT_INT increases chance of decrypting memory card
             const int success = p->skillLevel( skill_computer ) * rng(1, p->skillLevel( skill_computer )) *
                 rng(1, p->int_cur) - rng(30, 80);
             if (success > 0) {
@@ -8300,6 +8327,7 @@ static bool hackveh(player *p, item *it, vehicle *veh)
         return false;
     }
 
+    ///\EFFECT_INT increases chance of bypassing vehicle security system
     int roll = dice( p->skillLevel( skill_computer ) + 2, p->int_cur ) - ( advanced ? 50 : 25 );
     int effort = 0;
     bool success = false;
@@ -8531,6 +8559,7 @@ int iuse::multicooker(player *p, item *it, bool t, const tripoint &pos)
 
         if (cooktime >= 300 && cooktime < 400) {
             //Smart or good cook or careful
+            ///\EFFECT_INT increases chance of checking multi-cooker on time
             if (p->int_cur + p->skillLevel( skill_cooking ) + p->skillLevel( skill_survival ) > 16) {
                 add_msg(m_info, _("The multi-cooker should be finishing shortly..."));
             }
@@ -8766,6 +8795,7 @@ int iuse::multicooker(player *p, item *it, bool t, const tripoint &pos)
 
             p->moves -= 700;
 
+            ///\EFFECT_INT increases chance to successfully upgrade multi-cooker
             if (p->skillLevel( skill_electronics ) + p->skillLevel( skill_fabrication ) + p->int_cur > rng(20, 35)) {
 
                 p->practice( skill_electronics, rng(5, 20));
