@@ -919,76 +919,17 @@ void player::update_bodytemp()
                 }
             }
         }
-        // TILES
-        const trap &trap_at_pos = g->m.tr_at(pos());
-        int tile_strength = 0;
-        // Being on fire increases very intensely the convergent temperature.
-        if (has_effect("onfire")) {
-            temp_conv[i] += 15000;
+        // Bionic "Thermal Dissipation" says it prevents fire damage up to 2000F.
+        // 500 is picked at random...
+        if( has_bionic("bio_heatsink") || is_wearing("rm13_armor_on")) {
+            blister_count -= 500;
+        }
+        // BLISTERS : Skin gets blisters from intense heat exposure.
+        if( blister_count - 10 * get_env_resist(body_part(i)) > 20 ) {
+            add_effect("blisters", 1, (body_part)i);
         }
 
-        // Same with standing on fire.
-        tile_strength = g->m.get_field_strength( pos(), fd_fire);
-        if (tile_strength > 2 || trap_at_pos.loadid == tr_lava) {
-            temp_conv[i] += 15000;
-        }
-        // Standing in the hot air of a fire is nice.
-        tile_strength = g->m.get_field_strength( pos(), fd_hot_air1);
-        switch (tile_strength) {
-        case 3:
-            temp_conv[i] +=  500;
-            break;
-        case 2:
-            temp_conv[i] +=  300;
-            break;
-        case 1:
-            temp_conv[i] +=  100;
-            break;
-        default:
-            break;
-        }
-        tile_strength = g->m.get_field_strength( pos(), fd_hot_air2 );
-        switch (tile_strength) {
-        case 3:
-            temp_conv[i] += 1000;
-            break;
-        case 2:
-            temp_conv[i] +=  800;
-            break;
-        case 1:
-            temp_conv[i] +=  300;
-            break;
-        default:
-            break;
-        }
-        tile_strength = g->m.get_field_strength( pos(), fd_hot_air3 );
-        switch (tile_strength) {
-        case 3:
-            temp_conv[i] += 3500;
-            break;
-        case 2:
-            temp_conv[i] += 2000;
-            break;
-        case 1:
-            temp_conv[i] +=  800;
-            break;
-        default:
-            break;
-        }
-        tile_strength = g->m.get_field_strength( pos(), fd_hot_air4 );
-        switch (tile_strength) {
-        case 3:
-            temp_conv[i] += 8000;
-            break;
-        case 2:
-            temp_conv[i] += 5000;
-            break;
-        case 1:
-            temp_conv[i] += 3500;
-            break;
-        default:
-            break;
-        }
+        temp_conv[i] = bodytemp_modifier_fire();
         // WEATHER
         if( g->weather == WEATHER_SUNNY && g->is_in_sunlight(pos()) ) {
             temp_conv[i] += 1000;
@@ -1002,16 +943,6 @@ void player::update_bodytemp()
         }
         if( has_effect("common_cold") ) {
             temp_conv[i] -= 750;
-        }
-        // BIONICS
-        // Bionic "Thermal Dissipation" says it prevents fire damage up to 2000F.
-        // 500 is picked at random...
-        if( has_bionic("bio_heatsink") || is_wearing("rm13_armor_on")) {
-            blister_count -= 500;
-        }
-        // BLISTERS : Skin gets blisters from intense heat exposure.
-        if( blister_count - 10 * get_env_resist(body_part(i)) > 20 ) {
-            add_effect("blisters", 1, (body_part)i);
         }
         // Loss of blood results in loss of body heat, 1% bodyheat lost per 2% hp lost
         temp_conv[i] -= blood_loss(body_part(i)) * temp_conv[i] / 200;
@@ -1063,7 +994,7 @@ void player::update_bodytemp()
         }
 
         // Correction of body temperature due to traits and mutations
-        temp_conv[i] += traits_bodytemp_modifier(temp_cur[i] > BODYTEMP_NORM);
+        temp_conv[i] += bodytemp_modifier_traits(temp_cur[i] > BODYTEMP_NORM);
 
         // Climate Control eases the effects of high and low ambient temps
         temp_conv[i] = temp_corrected_by_climate_control(temp_conv[i]);
@@ -1130,7 +1061,7 @@ void player::update_bodytemp()
                 get_effect_int( "cold", (body_part)num_bp ) == 0 &&
                 get_effect_int( "hot", (body_part)num_bp ) == 0 &&
                 temp_cur[i] > BODYTEMP_COLD && temp_cur[i] <= BODYTEMP_NORM ) {
-                add_morale( MORALE_COMFY, 1, 5, 20, 10, true );
+                    add_morale( MORALE_COMFY, 1, 5, 20, 10, true );
             }
         }
 
@@ -1358,12 +1289,9 @@ int player::warmth_in_sleep()
     int floor_item_warmth = 0;
     // When the player is sleeping, he will use floor bedding for warmth
     int floor_bedding_warmth = 0;
-    // If the PC has fur, etc, that'll apply too
-    int floor_mut_warmth = 0;
 
     // Search the floor for items
     auto floor_item = g->m.i_at(pos());
-
     for( auto &elem : floor_item ) {
         if( !elem.is_armor() ) {
             continue;
@@ -1407,34 +1335,9 @@ int player::warmth_in_sleep()
     } else {
         floor_bedding_warmth -= 2000;
     }
-    // Fur, etc effects for sleeping  here.
-    // Full-power fur is about as effective as a makeshift bed
-    if (has_trait("FUR") || has_trait("LUPINE_FUR") || has_trait("URSINE_FUR")) {
-        floor_mut_warmth += 500;
-    }
-    // Feline fur, not quite as warm.  Cats do better in warmer spots.
-    if (has_trait("FELINE_FUR")) {
-        floor_mut_warmth += 300;
-    }
-    // Light fur's better than nothing!
-    if (has_trait("LIGHTFUR")) {
-        floor_mut_warmth += 100;
-    }
-    // Spider hair really isn't meant for this sort of thing
-    if (has_trait("CHITIN_FUR")) {
-        floor_mut_warmth += 50;
-    }
-    if (has_trait("CHITIN_FUR2") || has_trait("CHITIN_FUR3")) {
-        floor_mut_warmth += 75;
-    }
-    // Down helps too
-    if (has_trait("DOWN")) {
-        floor_mut_warmth += 250;
-    }
-    // Curl up in your shell to conserve heat & stay warm
-    if (has_active_mutation("SHELL2")) {
-        floor_mut_warmth += 200;
-    }
+
+    // If the PC has fur, etc, that'll apply too
+    int floor_mut_warmth = bodytemp_modifier_traits_sleep();
     // DOWN doesn't provide floor insulation, though.
     // Better-than-light fur or being in one's shell does.
     if ( (!(has_trait("DOWN"))) && (floor_mut_warmth >= 200)) {
@@ -1443,7 +1346,81 @@ int player::warmth_in_sleep()
     return (floor_item_warmth + floor_bedding_warmth + floor_mut_warmth);
 }
 
-int player::traits_bodytemp_modifier(bool overheated)
+int player::bodytemp_modifier_fire()
+{
+    int temp_conv = 0;
+    // Being on fire increases very intensely the convergent temperature.
+    if (has_effect("onfire")) {
+        temp_conv += 15000;
+    }
+
+    const trap &trap_at_pos = g->m.tr_at(pos());
+    // Same with standing on fire.
+    int tile_strength = g->m.get_field_strength( pos(), fd_fire);
+    if (tile_strength > 2 || trap_at_pos.loadid == tr_lava) {
+        temp_conv += 15000;
+    }
+    // Standing in the hot air of a fire is nice.
+    tile_strength = g->m.get_field_strength( pos(), fd_hot_air1);
+    switch (tile_strength) {
+    case 3:
+        temp_conv += 500;
+        break;
+    case 2:
+        temp_conv += 300;
+        break;
+    case 1:
+        temp_conv += 100;
+        break;
+    default:
+        break;
+    }
+    tile_strength = g->m.get_field_strength( pos(), fd_hot_air2 );
+    switch (tile_strength) {
+    case 3:
+        temp_conv += 1000;
+        break;
+    case 2:
+        temp_conv += 800;
+        break;
+    case 1:
+        temp_conv += 300;
+        break;
+    default:
+        break;
+    }
+    tile_strength = g->m.get_field_strength( pos(), fd_hot_air3 );
+    switch (tile_strength) {
+    case 3:
+        temp_conv += 3500;
+        break;
+    case 2:
+        temp_conv += 2000;
+        break;
+    case 1:
+        temp_conv += 800;
+        break;
+    default:
+        break;
+    }
+    tile_strength = g->m.get_field_strength( pos(), fd_hot_air4 );
+    switch (tile_strength) {
+    case 3:
+        temp_conv += 8000;
+        break;
+    case 2:
+        temp_conv += 5000;
+        break;
+    case 1:
+        temp_conv += 3500;
+        break;
+    default:
+        break;
+    }
+    return temp_conv;
+}
+
+int player::bodytemp_modifier_traits(bool overheated)
 {
     int mod = 0;
 
@@ -1499,6 +1476,40 @@ int player::traits_bodytemp_modifier(bool overheated)
         mod += 1500;
     }
     return mod;
+}
+
+int player::bodytemp_modifier_traits_sleep()
+{
+    int floor_mut_warmth = 0;
+    // Fur, etc effects for sleeping  here.
+    // Full-power fur is about as effective as a makeshift bed
+    if (has_trait("FUR") || has_trait("LUPINE_FUR") || has_trait("URSINE_FUR")) {
+        floor_mut_warmth += 500;
+    }
+    // Feline fur, not quite as warm.  Cats do better in warmer spots.
+    if (has_trait("FELINE_FUR")) {
+        floor_mut_warmth += 300;
+    }
+    // Light fur's better than nothing!
+    if (has_trait("LIGHTFUR")) {
+        floor_mut_warmth += 100;
+    }
+    // Spider hair really isn't meant for this sort of thing
+    if (has_trait("CHITIN_FUR")) {
+        floor_mut_warmth += 50;
+    }
+    if (has_trait("CHITIN_FUR2") || has_trait("CHITIN_FUR3")) {
+        floor_mut_warmth += 75;
+    }
+    // Down helps too
+    if (has_trait("DOWN")) {
+        floor_mut_warmth += 250;
+    }
+    // Curl up in your shell to conserve heat & stay warm
+    if (has_active_mutation("SHELL2")) {
+        floor_mut_warmth += 200;
+    }
+    return floor_mut_warmth;
 }
 
 int player::temp_corrected_by_climate_control(int temperature)

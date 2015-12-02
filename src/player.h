@@ -1200,8 +1200,12 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
 
         /** Calculate bonus warmth from furniture, items, and mutations for sleeping player **/
         int warmth_in_sleep();
+        /** Correction factor of the body temperature due to fire **/
+        int bodytemp_modifier_fire();
         /** Correction factor of the body temperature due to traits and mutations **/
-        int traits_bodytemp_modifier(bool overheated);
+        int bodytemp_modifier_traits(bool overheated);
+        /** Correction factor of the body temperature due to traits and mutations for sleeping player **/
+        int bodytemp_modifier_traits_sleep();
         /** Value of the body temperature corrected by climate control **/
         int temp_corrected_by_climate_control(int temperature);
         /** Define blood loss (in percents) */
