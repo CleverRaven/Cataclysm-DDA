@@ -3071,6 +3071,8 @@ void iexamine::pay_gas(player *p, map *m, const tripoint &examp)
 
     if (hack == choice) {
         switch (hack_attempt(p)) {
+            case HACK_UNABLE:
+                break;
             case HACK_FAIL:
                 p->add_memorial_log(pgettext("memorial_male", "Set off an alarm."),
                                     pgettext("memorial_female", "Set off an alarm."));
