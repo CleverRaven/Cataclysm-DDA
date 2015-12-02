@@ -318,6 +318,7 @@ static hp_part pick_part_to_heal( const player &healer, const player &patient,
 {
     const bool precise = &healer == &patient ?
         patient.has_trait( "SELFAWARE" ) :
+        ///\EFFECT_PER increases precision when using first aid on someone else
         (healer.get_skill_level( skill_firstaid ) * 4 + healer.per_cur >= 20);
     while( true ) {
         hp_part healed_part = patient.body_window( menu_header, force, precise,
@@ -701,6 +702,7 @@ int iuse::raw_wildveg(player *p, item *it, bool, const tripoint& )
 int alcohol(player *p, item *it, int strength)
 {
     // Weaker characters are cheap drunks
+    ///\EFFECT_STR_MAX reduces drunkenness duration
     int duration = STR(340, 680, 900) - (STR(6, 10, 12) * p->str_max);
     const auto food = dynamic_cast<const it_comest *> (it->type);
     if (p->has_trait("ALCMET")) {
@@ -1011,6 +1013,7 @@ int iuse::antiparasitic(player *p, item *it, bool, const tripoint& )
 int iuse::anticonvulsant(player *p, item *it, bool, const tripoint& )
 {
     p->add_msg_if_player(_("You take some anticonvulsant medication."));
+    ///\EFFECT_STR reduces duration of anticonvulsant medication
     int duration = 4800 - p->str_cur * rng(0, 100);
     if (p->has_trait("TOLERANCE")) {
         duration -= 600;
@@ -1054,6 +1057,7 @@ int iuse::weed_brownie(player *p, item *it, bool, const tripoint& )
 int iuse::coke(player *p, item *it, bool, const tripoint& )
 {
     p->add_msg_if_player(_("You snort a bump of coke."));
+    ///\EFFECT_STR reduces duration of coke
     int duration = 21 - p->str_cur + rng(0, 10);
     if (p->has_trait("TOLERANCE")) {
         duration -= 10; // Symmetry would cause problems :-/
@@ -1087,6 +1091,7 @@ int iuse::grack(player *p, item *it, bool, const tripoint& )
 
 int iuse::meth(player *p, item *it, bool, const tripoint& )
 {
+    ///\EFFECT_STR reduces duration of meth
     int duration = 10 * (60 - p->str_cur);
     if (p->has_amount("apparatus", 1) && p->use_charges_if_avail("fire", 1)) {
         p->add_msg_if_player(m_neutral, _("You smoke your meth."));
@@ -1110,6 +1115,7 @@ int iuse::meth(player *p, item *it, bool, const tripoint& )
     }
     if (duration > 0) {
         // meth actually inhibits hunger, weaker characters benefit more
+        ///\EFFECT_STR_MAX >4 experiences less hunger benefit from meth
         int hungerpen = (p->str_max < 5 ? 35 : 40 - ( 2 * p->str_max ));
         if (hungerpen>0) {
             p->mod_hunger(-hungerpen);
@@ -1152,6 +1158,7 @@ int iuse::poison(player *p, item *it, bool, const tripoint& )
 {
     if ((p->has_trait("EATDEAD"))) {
         return it->type->charges_to_use();
+    ///\EFFECT_STR increases EATPOISON trait effectiveness (50-90%)
     } else if ((p->has_trait("EATPOISON")) && (!(one_in(p->str_cur / 2)))) {
         return it->type->charges_to_use();
     }
@@ -1398,6 +1405,7 @@ static int marloss_reject_mut_iv( player *p, item *it )
         // Lose a significant amount of HP, probably about 25-33%
         p->hurtall(rng(30, 45), nullptr);
          // Hope you were eating someplace safe.  Mycus v. Goo in your guts is no joke.
+        ///\EFFECT_INT slightly reduces sleep duration when eating mycus+goo
         p->fall_asleep((4000 - p->int_cur * 10));
         // Injection does the trick.  Burn the fungus out.
         p->unset_mutation("THRESH_MARLOSS");
@@ -1482,6 +1490,7 @@ int iuse::mutagen(player *p, item *it, bool, const tripoint& )
             p->thirst += 10;
             p->add_msg_if_player(m_bad, _("Oops.  You must've blacked out for a minute there."));
             //Should be about 3 min, less 6 sec/IN point.
+            ///\EFFECT_INT reduces sleep duration when using mutagen
             p->fall_asleep((30 - p->int_cur));
         }
     }
@@ -1620,11 +1629,13 @@ int iuse::mut_iv(player *p, item *it, bool, const tripoint& )
         mutation_category = "";
         if (p->has_trait("MUT_JUNKIE")) {
             p->add_msg_if_player(m_good, _("Oh, yeah! That's the stuff!"));
+            ///\EFFECT_STR increases volume of shouting with strong mutagen
             sounds::sound(p->pos(), 15 + 3 * p->str_cur, _("YES!  YES!  YESSS!!!"));
         } else if (p->has_trait("NOPAIN")) {
             p->add_msg_if_player(_("You inject yourself."));
         } else {
             p->add_msg_if_player(m_bad, _("You inject yoursel-arRGH!"));
+            ///\EFFECT_STR increases volume of painful shouting with strong mutagen
             sounds::sound(p->pos(), 15 + 3 * p->str_cur, _("You scream in agony!!"));
         }
         p->mutate();
@@ -1666,6 +1677,7 @@ int iuse::mut_iv(player *p, item *it, bool, const tripoint& )
             p->thirst += 10;
             p->add_msg_if_player(m_bad, _("It all goes dark..."));
             //Should be about 40 min, less 30 sec/IN point.
+            ///\EFFECT_INT decreases sleep duration with IV mutagen
             p->fall_asleep((400 - p->int_cur * 5));
         }
     } else {
@@ -1688,6 +1700,7 @@ int iuse::mut_iv(player *p, item *it, bool, const tripoint& )
                 }
                 if (!(p->has_trait("NOPAIN")) && m_category.iv_sound) {
                     p->mod_pain(m_category.iv_pain);
+                    ///\EFFECT_STR increases volume of painful shouting when using IV mutagen
                     sounds::sound(p->pos(), m_category.iv_noise + p->str_cur, m_category.iv_sound_message);
                 }
                 for (int i=0; i < m_category.iv_min_mutations; i++){
@@ -1716,6 +1729,7 @@ int iuse::mut_iv(player *p, item *it, bool, const tripoint& )
 
                 if (m_category.iv_sleep && !one_in(3)){
                     p->add_msg_if_player(m_bad, m_category.iv_sleep_message.c_str());
+                    ///\EFFECT_INT reduces sleep duration when using IV mutagen
                     p->fall_asleep(m_category.iv_sleep_dur - p->int_cur * 5);
                 }
                 // try crossing again after getting new in-category mutations.
@@ -1915,6 +1929,7 @@ int iuse::marloss(player *p, item *it, bool t, const tripoint &pos)
         p->vomit(); // Yes, make sure you're empty.
         p->mod_pain(90);
         p->hurtall(rng(40, 65), nullptr);// No good way to say "lose half your current HP"
+        ///\EFFECT_INT slightly reduces sleep duration when eating mycus+goo
         p->fall_asleep((6000 - p->int_cur * 10)); // Hope you were eating someplace safe.  Mycus v. Goo in your guts is no joke.
         p->unset_mutation("MARLOSS_BLUE");
         p->unset_mutation("MARLOSS");
@@ -2041,6 +2056,7 @@ int iuse::marloss_seed(player *p, item *it, bool t, const tripoint &pos)
         p->vomit(); // Yes, make sure you're empty.
         p->mod_pain(90);
         p->hurtall(rng(40, 65), nullptr);// No good way to say "lose half your current HP"
+        ///\EFFECT_INT slightly reduces sleep duration when eating mycus+goo
         p->fall_asleep((6000 - p->int_cur * 10)); // Hope you were eating someplace safe.  Mycus v. Goo in your guts is no joke.
         p->unset_mutation("MARLOSS_BLUE");
         p->unset_mutation("MARLOSS");
@@ -2050,6 +2066,7 @@ int iuse::marloss_seed(player *p, item *it, bool t, const tripoint &pos)
         p->rem_addiction(ADD_MARLOSS_Y);
     } else if ( (p->has_trait("MARLOSS") && p->has_trait("MARLOSS_YELLOW")) && (!p->has_trait("MARLOSS_BLUE")) ) {
         p->add_msg_if_player(m_bad, _("You feel a familiar warmth, but suddenly it surges into painful burning as you convulse and collapse to the ground..."));
+        ///\EFFECT_INT reduces sleep duration when eating wrong color marloss
         p->fall_asleep((400 - p->int_cur * 5));
         p->unset_mutation("MARLOSS");
         p->unset_mutation("MARLOSS_YELLOW");
@@ -2163,6 +2180,7 @@ int iuse::marloss_gel(player *p, item *it, bool t, const tripoint &pos)
         p->vomit(); // Yes, make sure you're empty.
         p->mod_pain(90);
         p->hurtall(rng(40, 65), nullptr);// No good way to say "lose half your current HP"
+        ///\EFFECT_INT slightly reduces sleep duration when eating mycus+goo
         p->fall_asleep((6000 - p->int_cur * 10)); // Hope you were eating someplace safe.  Mycus v. Goo in your guts is no joke.
         p->unset_mutation("MARLOSS_BLUE");
         p->unset_mutation("MARLOSS");
@@ -2172,6 +2190,7 @@ int iuse::marloss_gel(player *p, item *it, bool t, const tripoint &pos)
         p->rem_addiction(ADD_MARLOSS_Y);
     } else if ( (p->has_trait("MARLOSS_BLUE") && p->has_trait("MARLOSS")) && (!p->has_trait("MARLOSS_YELLOW")) ) {
         p->add_msg_if_player(m_bad, _("You feel a familiar warmth, but suddenly it surges into painful burning as you convulse and collapse to the ground..."));
+        ///\EFFECT_INT slightly reduces sleep duration when eating wrong color marloss
         p->fall_asleep((400 - p->int_cur * 5));
         p->unset_mutation("MARLOSS_BLUE");
         p->unset_mutation("MARLOSS");
@@ -2211,6 +2230,7 @@ int iuse::mycus(player *p, item *it, bool t, const tripoint &pos)
         p->add_msg_if_player(m_good, _("As the apple settles in, you feel ecstasy radiating through every part of your body..."));
         p->add_morale(MORALE_MARLOSS, 1000, 1000); // Last time you'll ever have it this good.  So enjoy.
         p->add_msg_if_player(m_good, _("Your eyes roll back in your head.  Everything dissolves into a blissful haze..."));
+        ///\EFFECT_INT slightly reduces sleep duration when eating mycus
         p->fall_asleep((3000 - p->int_cur * 10));
         p->unset_mutation("THRESH_MARLOSS");
         p->set_mutation("THRESH_MYCUS");
