@@ -32,6 +32,8 @@
 # Compile localization files for specified languages
 #  make LANGUAGES="<lang_id_1>[ lang_id_2][ ...]"
 #  (for example: make LANGUAGES="zh_CN zh_TW" for Chinese)
+#  make LANGUAGES=all
+#  (for every .po file in lang/po)
 # Change mapsize (reality bubble size)
 #  make MAPSIZE=<size>
 # Install to system directories.
