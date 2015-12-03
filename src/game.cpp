@@ -8156,13 +8156,15 @@ bool npc_menu( npc &who )
         who.sort_armor();
         g->u.mod_moves( -100 );
     } else if( choice == attack ) {
-        //The NPC knows we started the fight, used for morale penalty.
-        if( !who.is_enemy() ) {
-            who.hit_by_player = true;
-        }
+        if(query_yn(_("You may be attacked! Proceed?"))) {
+            //The NPC knows we started the fight, used for morale penalty.
+            if( !who.is_enemy() ) {
+                who.hit_by_player = true;
+            }
 
-        g->u.melee_attack( who, true );
-        who.make_angry();
+            g->u.melee_attack( who, true );
+            who.make_angry();
+        }
     }
 
     return true;
