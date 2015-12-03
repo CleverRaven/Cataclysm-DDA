@@ -364,6 +364,8 @@ class tabbed_window : public bordered_window {
 
         ui_group *create_tab( const std::string &tab );
 
+        ui_event<> on_scroll;
+
         void next_tab();
         void previous_tab();
         std::string current_tab() const;
@@ -399,6 +401,9 @@ class ui_vertical_list : public ui_element {
         void scroll_up();
         void scroll_down();
         std::string current() const;
+
+        ui_event<> on_select;
+        ui_event<> on_scroll;
 
         void send_action( const std::string &action ) override;
 
@@ -442,24 +447,6 @@ class ui_record_list : public ui_vertical_list {
         {
             return data_map[current()];
         }
-
-        ui_event<D *> on_select;
-        ui_event<D *> on_change;
-
-        void send_action( const std::string &action ) override
-        {
-            ui_vertical_list::send_action( action );
-
-            if( action == "UP" || action == "DOWN" ) {
-                if( data_map.size() > 1 ) {
-                    on_change( get_cur_data() );
-                }
-            } else if( action == "CONFIRM" ) {
-                if( !data_map.empty() ) {
-                    on_select( get_cur_data() );
-                }
-            }
-        }
 };
 
 /**
@@ -482,7 +469,10 @@ class ui_horizontal_list : public ui_element {
         void scroll_right();
         const std::string &current() const;
 
-        void send_action( const std::string &action );
+        ui_event<> on_select;
+        ui_event<> on_scroll;
+
+        void send_action( const std::string &action ) override;
 };
 
 /**

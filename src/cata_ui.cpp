@@ -477,6 +477,8 @@ void tabbed_window::next_tab()
             tab_index++;
         }
         tabs[tab_index].second->set_visible( true );
+
+        on_scroll();
     }
 }
 
@@ -490,6 +492,8 @@ void tabbed_window::previous_tab()
             tab_index--;
         }
         tabs[tab_index].second->set_visible( true );
+
+        on_scroll();
     }
 }
 
@@ -571,6 +575,7 @@ void ui_vertical_list::scroll_up()
         } else if( scroll < window_scroll ) {
             window_scroll--;
         }
+        on_scroll();
     }
 }
 
@@ -584,6 +589,7 @@ void ui_vertical_list::scroll_down()
         } else if( scroll == 0 ) {
             window_scroll = 0;
         }
+        on_scroll();
     }
 }
 
@@ -601,6 +607,10 @@ void ui_vertical_list::send_action( const std::string &action )
         scroll_up();
     } else if( action == "DOWN" ) {
         scroll_down();
+    } else if( action == "CONFIRM" ) {
+        if( !text.empty() ) {
+            on_select();
+        }
     }
 }
 
@@ -638,6 +648,7 @@ void ui_horizontal_list::scroll_left()
 {
     if( text.size() > 1) {
         scroll = ( scroll == 0 ? text.size() - 1 : scroll - 1 );
+        on_scroll();
     }
 }
 
@@ -645,6 +656,7 @@ void ui_horizontal_list::scroll_right()
 {
     if( text.size() > 1 ) {
         scroll = ( scroll == text.size() - 1 ? 0 : scroll + 1 );
+        on_scroll();
     }
 }
 

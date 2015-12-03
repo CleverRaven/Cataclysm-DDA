@@ -4809,7 +4809,8 @@ void init_missions_tab( tabbed_window &win, size_t win_height, std::string &&tab
     tab->add( _list, _border, _desc, _target, _deadline ); // Add elements to tab's ui_group so tabbed_window can control their visibility
 
     // Hook some actions to our list's events
-    _list->on_change += [_desc, _target, _deadline]( mission *miss ) {
+    _list->on_scroll += [_list, _desc, _target, _deadline]() {
+        auto miss = _list->get_cur_data();
         _desc->set_text( miss->get_description() );
         if( miss->has_deadline() ) {
             // TODO: proper formatting of turns, see calendar class, it has some nice functions
@@ -4826,7 +4827,8 @@ void init_missions_tab( tabbed_window &win, size_t win_height, std::string &&tab
 
     // Used for the active missions tab, where we can also select a mission
     if( can_confirm ) {
-        _list->on_select += [_list]( mission *miss ) {
+        _list->on_select += [_list]() {
+            auto miss = _list->get_cur_data();
             g->u.set_active_mission( *miss );
 
             _list->clear_highlights();
