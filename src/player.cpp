@@ -12369,8 +12369,12 @@ std::string player::is_snuggling() const
     return "nothing";
 }
 
-// Returned values range from 1.0 (unimpeded vision) to 5.0 (totally blind).
-// LIGHT_AMBIENT DIM is enough light for detail work, but held items get a boost.
+// Returned values range from 1.0 (unimpeded vision) to 11.0 (totally blind).
+//  1.0 is LIGHT_AMBIENT_LIT or brighter
+//  4.0 is a dark clear night, barely bright enough for reading and crafting
+//  6.0 is LIGHT_AMBIENT_DIM
+//  7.3 is LIGHT_AMBIENT_MINIMAL, a dark cloudy night, unlit indoors
+// 11.0 is zero light or blindness
 float player::fine_detail_vision_mod()
 {
     // PER_SLIME_OK implies you can get enough eyes around the bile
@@ -12378,7 +12382,7 @@ float player::fine_detail_vision_mod()
     // it's annoying rather than limiting.
     if( has_effect("blind") || worn_with_flag("BLIND") ||
         (( has_effect("boomered") || has_effect("darkness") ) && !has_trait("PER_SLIME_OK")) ) {
-        return 5.0;
+        return 11.0;
     }
     // Scale linearly as light level approaches LIGHT_AMBIENT_LIT.
     // If we're actually a source of light, assume we can direct it where we need it.
