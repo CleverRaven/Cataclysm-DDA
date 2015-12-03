@@ -1114,9 +1114,9 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
                     // In case the recipe is known, but has a different name in the book, use the
                     // real name to avoid confusing the player.
                     const std::string name = item::nname( elem.recipe->result );
-                    recipe_list.push_back( string_format( "<color_ltgray>%s</color>", name.c_str() ) );
+                    recipe_list.push_back( "<bold>" + name + "</bold>" );
                 } else {
-                    recipe_list.push_back( elem.name );
+                    recipe_list.push_back( "<dark>" + elem.name + "</dark>" );
                 }
             }
             if( !recipe_list.empty() ) {
@@ -1135,6 +1135,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
                                               ngettext( "This book contains %1$d crafting recipe: %2$s",
                                                         "This book contains %1$d crafting recipes: %2$s", recipe_list.size() ),
                                               recipe_list.size(), recipes.c_str() );
+
                 insert_separation_line();
                 info.push_back( iteminfo( "DESCRIPTION", recipe_line ) );
             }
