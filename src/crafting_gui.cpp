@@ -194,7 +194,20 @@ const recipe *select_crafting_recipe( int &batch_size )
     WINDOW *w_head = newwin( headHeight, width, 0, wStart );
     WINDOW *w_subhead = newwin( subHeadHeight, width, 3, wStart );
     WINDOW *w_data = newwin( dataHeight, width, headHeight + subHeadHeight, wStart );
-    WINDOW *w_iteminfo = newwin( dataHeight - 3, infoWidth, headHeight + subHeadHeight, wStart + width - infoWidth );
+
+    int item_info_x = infoWidth;
+    int item_info_y = dataHeight - 3;
+    int item_info_width = wStart + width - infoWidth;
+    int item_info_height = headHeight + subHeadHeight;
+
+    if ( !isWide ) {
+        item_info_x = 1;
+        item_info_y = 1;
+        item_info_width = 1;
+        item_info_height = 1;
+    }
+
+    WINDOW *w_iteminfo = newwin( item_info_y, item_info_x, item_info_height, item_info_width );
 
     std::string tab = first_craft_cat();
     std::string subtab = first_craft_subcat( tab );
@@ -264,7 +277,10 @@ const recipe *select_crafting_recipe( int &batch_size )
 
         // Clear the screen of recipe data, and draw it anew
         werase( w_data );
-        werase( w_iteminfo );
+
+        if ( isWide ) {
+            werase( w_iteminfo );
+        }
 
         if( isWide ) {
             mvwprintz( w_data, dataLines + 1, 5, c_white,
@@ -458,7 +474,10 @@ const recipe *select_crafting_recipe( int &batch_size )
 
         draw_scrollbar( w_data, line, dataLines, recmax, 0 );
         wrefresh( w_data );
-        wrefresh( w_iteminfo );
+
+        if ( isWide ) {
+            wrefresh( w_iteminfo );
+        }
 
         const std::string action = ctxt.handle_input();
         if( action == "CYCLE_MODE" ) {
