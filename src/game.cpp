@@ -4787,8 +4787,8 @@ void init_missions_tab( tabbed_window &win, size_t win_height, std::string &&tab
 {
     constexpr size_t list_width = 30;
     const size_t list_height = win_height - tabbed_window::header_size - 1;
-    constexpr auto name_lambda = [](mission *miss){ return miss->name(); };
-    constexpr auto active_lambda = [](mission *miss){ return g->u.get_active_mission() == miss; };
+    constexpr auto name_lambda = [](mission *miss){ return miss->name(); }; // for mapping data to text in make_records
+    constexpr auto active_lambda = [](mission *miss){ return g->u.get_active_mission() == miss; }; // for highlighting the active mission
 
     auto tab = win.create_tab( tab_name );
     auto _list = win.create_child<ui_record_list<mission>>( list_width, list_height , 0, tabbed_window::header_size );
@@ -4797,8 +4797,8 @@ void init_missions_tab( tabbed_window &win, size_t win_height, std::string &&tab
     auto _border = win.create_child<ui_border>( 1, list_height );
     _border->after( *_list );
 
-    auto _desc = win.create_child<ui_label>( _list->empty() ? if_empty : "" );
-    _desc->text_color = _list->empty() ? c_ltred : _desc->text_color;
+    auto _desc = win.create_child<ui_label>( _list->empty() ? if_empty : "" ); // If our list is empty our description will be like "you don't have any missions"
+    _desc->text_color = _list->empty() ? c_ltred : _desc->text_color; // Also, the color will be red
     _desc->after( *_border );
 
     auto _target = win.create_child<ui_label>( "" );
@@ -4806,8 +4806,9 @@ void init_missions_tab( tabbed_window &win, size_t win_height, std::string &&tab
     auto _deadline = win.create_child<ui_label>( "" );
     _deadline->below( *_target );
 
-    tab->add( _list, _border, _desc, _target, _deadline );
+    tab->add( _list, _border, _desc, _target, _deadline ); // Add elements to tab's ui_group so tabbed_window can control their visibility
 
+    // Hook some actions to our list's events
     _list->on_change += [_desc, _target, _deadline]( mission *miss ) {
         _desc->set_text( miss->get_description() );
         if( miss->has_deadline() ) {
@@ -4823,6 +4824,7 @@ void init_missions_tab( tabbed_window &win, size_t win_height, std::string &&tab
         }
     };
 
+    // Used for the active missions tab, where we can also select a mission
     if( can_confirm ) {
         _list->on_select += [_list]( mission *miss ) {
             g->u.set_active_mission( *miss );
