@@ -168,37 +168,37 @@ void ui_element::calc_anchored_values()
     if( parent != nullptr ) {
         auto p_rect = parent->get_rect();
         switch( anchor ) {
-            case top_left:
+            case ui_anchor::top_left:
                 break;
-            case top_center:
+            case ui_anchor::top_center:
                 anchored_x = ( p_rect.size_x / 2 ) - ( rect.size_x / 2 ) + rect.x;
                 anchored_y = rect.y;
                 return;
-            case top_right:
+            case ui_anchor::top_right:
                 anchored_x = p_rect.size_x - rect.size_x + rect.x;
                 anchored_y = rect.y;
                 return;
-            case center_left:
+            case ui_anchor::center_left:
                 anchored_x = rect.x;
                 anchored_y = ( p_rect.size_y / 2 ) - ( rect.size_y / 2 ) + rect.y;
                 return;
-            case center_center:
+            case ui_anchor::center_center:
                 anchored_x = ( p_rect.size_x / 2 ) - ( rect.size_x / 2 ) + rect.x;
                 anchored_y = ( p_rect.size_y / 2 ) - ( rect.size_y / 2 ) + rect.y;
                 return;
-            case center_right:
+            case ui_anchor::center_right:
                 anchored_x = p_rect.size_x - rect.size_x + rect.x;
                 anchored_y = ( p_rect.size_y / 2 ) - ( rect.size_y / 2 ) + rect.y;
                 return;
-            case bottom_left:
+            case ui_anchor::bottom_left:
                 anchored_x = rect.x;
                 anchored_y = p_rect.size_y - rect.size_y + rect.y;
                 return;
-            case bottom_center:
+            case ui_anchor::bottom_center:
                 anchored_x = ( p_rect.size_x / 2 ) - ( rect.size_x / 2 ) + rect.x;
                 anchored_y = p_rect.size_y - rect.size_y + rect.y;
                 return;
-            case bottom_right:
+            case ui_anchor::bottom_right:
                 anchored_x = p_rect.size_x - rect.size_x + rect.x;
                 anchored_y = p_rect.size_y - rect.size_y + rect.y;
                 return;
