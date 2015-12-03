@@ -4806,11 +4806,7 @@ void init_missions_tab( tabbed_window &win, size_t win_height, std::string &&tab
     auto _deadline = win.create_child<ui_label>( "" );
     _deadline->below( *_target );
 
-    tab->add( _list );
-    tab->add( _border );
-    tab->add( _desc );
-    tab->add( _target );
-    tab->add( _deadline );
+    tab->add( _list, _border, _desc, _target, _deadline );
 
     _list->on_change += [_desc, _target, _deadline]( mission *miss ) {
         _desc->set_text( miss->get_description() );

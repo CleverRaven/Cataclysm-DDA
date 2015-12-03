@@ -147,10 +147,14 @@ class ui_group {
 
     bool show = true;
 public:
-    void add( ui_element * element )
+    void add() {}
+
+    template<typename Head = ui_element *, typename... Tail>
+    void add( Head head, const Tail&... tail )
     {
-        element->set_visible( show );
-        elements.push_back( element );
+        head->set_visible( show );
+        elements.push_back( head );
+        add( tail... );
     }
 
     void for_each( std::function<void(ui_element *)> &&func )
