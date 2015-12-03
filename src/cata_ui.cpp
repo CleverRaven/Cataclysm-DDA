@@ -459,7 +459,7 @@ void tabbed_window::local_draw()
     }
 }
 
-ui_group *tabbed_window::add_tab( const std::string &tab )
+ui_group *tabbed_window::create_tab( const std::string &tab )
 {
     auto group = new ui_group();
     tabs.push_back({tab, group});

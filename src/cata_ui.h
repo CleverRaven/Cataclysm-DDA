@@ -147,7 +147,7 @@ class ui_group {
 
     bool show = true;
 public:
-    void add_element( ui_element * element )
+    void add( ui_element * element )
     {
         element->set_visible( show );
         elements.push_back( element );
@@ -343,7 +343,7 @@ class ui_tile_panel : public ui_element {
 * @brief A window with tabs at the top.
 *
 ### Creating tabs
-* Create a tab with the ```add_tab``` method. It returns a ```ui_group```. Use this group to let tabbed_window control
+* Create a tab with the ```create_tab``` method. It returns a ```ui_group```. Use this group to let tabbed_window control
 * visibility of elements you add to the window.
 */
 class tabbed_window : public bordered_window {
@@ -358,7 +358,7 @@ class tabbed_window : public bordered_window {
 
         static constexpr int header_size = 3;
 
-        ui_group *add_tab( const std::string &tab );
+        ui_group *create_tab( const std::string &tab );
 
         void next_tab();
         void previous_tab();

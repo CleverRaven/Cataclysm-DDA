@@ -4790,7 +4790,7 @@ void init_missions_tab( tabbed_window &win, size_t win_height, std::string &&tab
     constexpr auto name_lambda = [](mission *miss){ return miss->name(); };
     constexpr auto active_lambda = [](mission *miss){ return g->u.get_active_mission() == miss; };
 
-    auto tab = win.add_tab( tab_name );
+    auto tab = win.create_tab( tab_name );
     auto _list = win.create_child<ui_record_list<mission>>( list_width, list_height , 0, tabbed_window::header_size );
     _list->make_records( data, name_lambda, active_lambda );
 
@@ -4806,11 +4806,11 @@ void init_missions_tab( tabbed_window &win, size_t win_height, std::string &&tab
     auto _deadline = win.create_child<ui_label>( "" );
     _deadline->below( *_target );
 
-    tab->add_element( _list );
-    tab->add_element( _border );
-    tab->add_element( _desc );
-    tab->add_element( _target );
-    tab->add_element( _deadline );
+    tab->add( _list );
+    tab->add( _border );
+    tab->add( _desc );
+    tab->add( _target );
+    tab->add( _deadline );
 
     _list->on_change += [_desc, _target, _deadline]( mission *miss ) {
         _desc->set_text( miss->get_description() );
