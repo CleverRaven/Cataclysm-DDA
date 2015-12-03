@@ -220,9 +220,18 @@ bool player::crafting_allowed()
     return true;
 }
 
-bool player::can_see_to_craft()
+// returns 1.00 if there's enough light for normal crafting
+// returns 0.33 for pitch black
+float player::lighting_craft_speed_multiplier() {
+    if (fine_detail_vision_mod() <= 4.0) {
+        return 1.0f;
+    }
+    return 1.0f - ( (fine_detail_vision_mod() - 4.0f) / 10.5f )
+}
+
+float player::craft_speed(recipe &rec)
 {
-    return fine_detail_vision_mod() > 4;
+    
 }
 
 bool player::has_moral_to_craft()
@@ -235,7 +244,7 @@ void player::craft()
     int batch_size = 0;
     const recipe *rec = select_crafting_recipe( batch_size );
     if (rec) {
-        if ( crafting_allowed() ) {
+        if ( crafting_allowed(rec) ) {
             make_craft( rec->ident, batch_size );
         }
     }
