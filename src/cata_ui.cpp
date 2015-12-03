@@ -636,12 +636,16 @@ void ui_horizontal_list::set_text( std::vector<std::string> text )
 
 void ui_horizontal_list::scroll_left()
 {
-    scroll = ( scroll == 0 ? text.size() - 1 : scroll - 1 );
+    if( text.size() > 1) {
+        scroll = ( scroll == 0 ? text.size() - 1 : scroll - 1 );
+    }
 }
 
 void ui_horizontal_list::scroll_right()
 {
-    scroll = ( scroll == text.size() - 1 ? 0 : scroll + 1 );
+    if( text.size() > 1 ) {
+        scroll = ( scroll == text.size() - 1 ? 0 : scroll + 1 );
+    }
 }
 
 const std::string &ui_horizontal_list::current() const
