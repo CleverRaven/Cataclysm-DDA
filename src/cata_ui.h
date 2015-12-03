@@ -4,11 +4,13 @@
 #include "output.h"
 #include "enums.h"
 #include "cata_utility.h"
+#include "input.h"
 
 #include <utility>
 #include <list>
 #include <string>
 #include <map>
+#include <algorithm>
 
 typedef int nc_color;
 
@@ -62,19 +64,25 @@ struct ui_rect {
     ui_rect( size_t size_x, size_t size_y, int x, int y );
 };
 
-class ui_action {
-    std::vector<std::function<void()>> listeners;
+template<typename... Ts>
+class ui_event {
+    std::vector<std::function<void(Ts&&...)>> listeners;
 public:
-    void subscribe( std::function<void()> listener )
+    void subscribe( std::function<void(Ts&&...)> listener )
     {
         listeners.push_back( listener );
     }
 
-    void operator()()
+    void operator()(Ts&&... args)
     {
         for( auto listener : listeners ) {
-            listener();
+            listener( std::forward<Ts>(args)... );
         }
+    }
+
+    void operator+=( std::function<void(Ts&&...)> listener )
+    {
+        listeners.push_back( listener );
     }
 };
 
@@ -113,9 +121,10 @@ class ui_element {
     protected:
         virtual void draw() = 0;
         virtual WINDOW *get_win() const; /**< Getter for a window to draw with */
+        virtual void send_action( const std::string &action ) {}
     public:
         ui_element( size_t size_x, size_t size_y, int x = 0, int y = 0, ui_anchor anchor = top_left );
-        virtual ~ui_element() { on_delete(); };
+        virtual ~ui_element() = default;
 
         const ui_rect &get_rect() const;
         virtual void set_rect( const ui_rect &new_rect ); /**< Virtual setter for ```rect```, so derived classes can do extra calculations */
@@ -128,8 +137,6 @@ class ui_element {
 
         unsigned int get_ax() const; /**< Getter for anchor adjusted x position */
         unsigned int get_ay() const; /**< Getter for anchor adjusted y position */
-
-        ui_action on_delete;
 
         /**
         * @name Relatives
@@ -147,17 +154,28 @@ class ui_element {
 
 class ui_group {
     std::list<ui_element *> elements;
+
+    bool show = true;
 public:
-    void add_element( ui_element *element )
+    void add_element( ui_element * element )
     {
+        element->set_visible( show );
         elements.push_back( element );
-        element->on_delete.subscribe([element, this](){ this->elements.remove( element ); });
     }
 
-    void for_each( std::function<void(ui_element *)> func )
+    void for_each( std::function<void(ui_element *)> &&func )
     {
         for( auto e : elements ) {
             func( e );
+        }
+    }
+
+    void set_visible( bool visible )
+    {
+        show = visible;
+
+        for( auto e : elements ) {
+            e->set_visible( visible );
         }
     }
 };
@@ -173,16 +191,21 @@ class ui_window {
         ui_rect rect; /**< Holds the elements size and position */
         WINDOW *win = nullptr;
         void draw_children();
-        std::list<ui_element *> children;
+        std::vector<ui_element *> children;
+
+        input_context ctxt;
     protected:
-        virtual void local_draw() {} /**< Method to draw things that are features of this window (or a derived type) e.g. a border */
+        virtual void local_draw() { on_local_draw(); } /**< Method to draw things that are features of this window (or a derived type) e.g. a border */
         void add_child( ui_element *child );
     public:
         ui_window( const ui_rect &rect );
         ui_window( size_t size_x, size_t size_y, int x = 0, int y = 0 );
-        ui_window( const ui_window &other ) = delete;
-        operator=( ui_window other ) = delete;
         ~ui_window();
+
+        ui_window( const ui_window & ) = delete;
+        ui_window &operator=( const ui_window & ) = delete;
+        ui_window( ui_window && ) = delete;
+        ui_window &operator=( ui_window && ) = delete;
 
         void draw();
 
@@ -191,7 +214,11 @@ class ui_window {
         const ui_rect &get_rect() const;
         void set_rect( const ui_rect &new_rect );
 
-        const std::list<ui_element *> &get_children() const;
+        const std::vector<ui_element *> &get_children() const;
+
+        virtual std::string handle_input();
+
+        ui_event<> on_local_draw;
 
         /**
         * @brief Creates a copy of the passed ```ui_element```and stores it in it's list of children.
@@ -201,8 +228,13 @@ class ui_window {
         * @param child The ```ui_element``` to copy from.
         * @return Returns a pointer to the copy it made (so you can control it later)
         */
-        template<class T = ui_element>
-        T *create_child( const T &child );
+        template<typename T, typename... Args>
+        T *create_child( Args&&... args )
+        {
+            auto child = new T( std::forward<Args>(args)... );
+            add_child( child );
+            return child;
+        }
 };
 
 /**
@@ -244,7 +276,7 @@ class health_bar : public ui_element {
         std::string bar_str = "";
         nc_color bar_color = c_green;
 
-        static const unsigned int points_per_char = 2;
+        static constexpr unsigned int points_per_char = 2;
 
         void refresh_bar( bool overloaded, float percentage );
     protected:
@@ -350,6 +382,8 @@ class tabbed_window : public bordered_window {
         void next_tab();
         void previous_tab();
         std::string current_tab() const;
+
+        std::string handle_input() override;
 };
 
 /**
@@ -361,6 +395,7 @@ class tabbed_window : public bordered_window {
 class ui_vertical_list : public ui_element {
     private:
         std::vector<std::string> text;
+        std::vector<unsigned int> to_highlight;
         unsigned int scroll = 0;
         unsigned int window_scroll = 0;
     protected:
@@ -370,12 +405,19 @@ class ui_vertical_list : public ui_element {
 
         nc_color text_color = c_white;
         nc_color bar_color = c_ltblue;
+        nc_color highlight_color = c_ltgreen;
 
         void set_text( std::vector<std::string> text );
+        void add_highlight( unsigned int i );
+        void add_highlight( const std::string &line );
 
         void scroll_up();
         void scroll_down();
         std::string current() const;
+
+        void send_action( const std::string &action ) override;
+
+        void clear_highlights() { to_highlight.clear(); }
 
         bool empty() const
         {
@@ -390,22 +432,45 @@ class ui_record_list : public ui_vertical_list {
         ui_record_list( size_t size_x, size_t size_y, int x = 0, int y = 0, ui_anchor anchor = top_left ) : ui_vertical_list(size_x, size_y, x, y, anchor) {
         }
 
-        void make_records( const std::vector<D *> &data, std::function<std::string(D *)> get_text)
+        void make_records( const std::vector<D *> &data, std::function<std::string(D *)> get_text, std::function<bool(D *)> to_highlight = [](D *){} )
         {
             std::vector<std::string> text;
 
-            for( auto e : data ) {
-                std::string e_text = get_text( e );
+            for( unsigned int i = 0; i < data.size(); i++ ) {
+                std::string e_text = get_text( data[i] );
                 text.push_back( e_text );
-                data_map[e_text] = e;
+                data_map[e_text] = data[i];
+
+                if( to_highlight( data[i] ) ) {
+                    ui_vertical_list::add_highlight( i );
+                }
             }
 
             set_text( text );
+
         }
 
         D *get_cur_data()
         {
             return data_map[current()];
+        }
+
+        ui_event<D *> on_select;
+        ui_event<D *> on_change;
+
+        void send_action( const std::string &action ) override
+        {
+            ui_vertical_list::send_action( action );
+
+            if( action == "UP" || action == "DOWN" ) {
+                if( data_map.size() > 1 ) {
+                    on_change( get_cur_data() );
+                }
+            } else if( action == "CONFIRM" ) {
+                if( !data_map.empty() ) {
+                    on_select( get_cur_data() );
+                }
+            }
         }
 };
 
@@ -428,6 +493,8 @@ class ui_horizontal_list : public ui_element {
         void scroll_left();
         void scroll_right();
         const std::string &current() const;
+
+        void send_action( const std::string &action );
 };
 
 /**

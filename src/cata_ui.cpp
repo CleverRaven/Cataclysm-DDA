@@ -15,6 +15,12 @@ ui_rect::ui_rect( size_t size_x, size_t size_y, int x, int y ) : size_x( size_x 
 
 ui_window::ui_window( const ui_rect &rect ) : rect( rect ), win( newwin( rect.size_y, rect.size_x, rect.y, rect.x ) )
 {
+    ctxt.register_directions();
+    ctxt.register_action("PREV_TAB");
+    ctxt.register_action("NEXT_TAB");
+
+    ctxt.register_action("QUIT");
+    ctxt.register_action("CONFIRM");
 }
 
 ui_window::ui_window( size_t size_x, size_t size_y, int x, int y ) : ui_window( ui_rect( size_x, size_y, x, y ) )
@@ -23,8 +29,8 @@ ui_window::ui_window( size_t size_x, size_t size_y, int x, int y ) : ui_window( 
 
 ui_window::~ui_window()
 {
-    for( auto child : children ) {
-        delete child;
+    for( auto c : children ){
+        delete c;
     }
 
     delwin( win );
@@ -47,6 +53,19 @@ void ui_window::draw_children()
     }
 }
 
+std::string ui_window::handle_input()
+{
+    std::string action = ctxt.handle_input();
+
+    for( auto child : children ) {
+        if( child->is_visible() ) {
+            child->send_action( action );
+        }
+    }
+
+    return action;
+}
+
 const ui_rect &ui_window::get_rect() const
 {
     return rect;
@@ -64,15 +83,6 @@ void ui_window::set_rect(const ui_rect &new_rect)
     win = newwin( rect.size_y, rect.size_x, rect.y, rect.x );
 }
 
-// This returned ui_element will be deleted by ui_window's deconstructor, so you don't have to.
-template<class T>
-T *ui_window::create_child( const T &from )
-{
-    auto child = new T( from );
-    add_child( child );
-    return child;
-}
-
 void ui_window::add_child( ui_element *child )
 {
     children.push_back( child );
@@ -84,7 +94,7 @@ WINDOW *ui_window::get_win() const
     return win;
 }
 
-const std::list<ui_element *> &ui_window::get_children() const
+const std::vector<ui_element *> &ui_window::get_children() const
 {
     return children;
 }
@@ -253,6 +263,7 @@ bordered_window::bordered_window( size_t size_x, size_t size_y, int x, int y ) :
 
 void bordered_window::local_draw()
 {
+    ui_window::local_draw();
     auto win = get_win(); // never null
 
     wattron( win, border_color );
@@ -452,32 +463,33 @@ ui_group *tabbed_window::add_tab( const std::string &tab )
 {
     auto group = new ui_group();
     tabs.push_back({tab, group});
+    group->set_visible( tabs.size() == 1 );
     return group;
 }
 
 void tabbed_window::next_tab()
 {
-    if( tabs.size() > 0 ) {
-        tabs[tab_index].second->for_each([](ui_element *e){ e->set_visible( false ); });
+    if( tabs.size() > 1 ) {
+        tabs[tab_index].second->set_visible( false );
         if( tab_index == tabs.size() - 1 ){
             tab_index = 0;
         } else {
             tab_index++;
         }
-        tabs[tab_index].second->for_each([](ui_element *e){ e->set_visible( true ); });
+        tabs[tab_index].second->set_visible( true );
     }
 }
 
 void tabbed_window::previous_tab()
 {
-    if( tabs.size() > 0 ) {
-        tabs[tab_index].second->for_each([](ui_element *e){ e->set_visible( false ); });
+    if( tabs.size() > 1 ) {
+        tabs[tab_index].second->set_visible( false );
         if( tab_index == 0 ){
             tab_index = tabs.size() - 1;
         } else {
             tab_index--;
         }
-        tabs[tab_index].second->for_each([](ui_element *e){ e->set_visible( true ); });
+        tabs[tab_index].second->set_visible( true );
     }
 }
 
@@ -487,6 +499,19 @@ std::string tabbed_window::current_tab() const
         return "";
     }
     return tabs[tab_index].first;
+}
+
+std::string tabbed_window::handle_input()
+{
+    std::string action = ui_window::handle_input();
+
+    if( action == "PREV_TAB" ) {
+        previous_tab();
+    } else if( action == "NEXT_TAB" ) {
+        next_tab();
+    }
+
+    return action;
 }
 
 ui_vertical_list::ui_vertical_list( size_t size_x, size_t size_y, int x, int y, ui_anchor anchor ) : ui_element( size_x, size_y, x, y, anchor )
@@ -511,11 +536,11 @@ void ui_vertical_list::draw()
         if( txt.size() > available_space ) {
             txt = txt.substr( 0, available_space );
         }
-        if( scroll == line ) {
-            mvwprintz( win, get_ay() + line - start_line, get_ax() + 2, hilite(text_color), "%s", txt.c_str() );
-        } else {
-            mvwprintz( win, get_ay() + line - start_line, get_ax() + 2, text_color, "%s", txt.c_str() );
-        }
+        nc_color col = text_color;
+        col = std::find(to_highlight.begin(), to_highlight.end(), line) != to_highlight.end() ? highlight_color : col;
+        col = scroll == line ? hilite(col) : col;
+
+        mvwprintz( win, get_ay() + line - start_line, get_ax() + 2, col, "%s", txt.c_str() );
     }
 
     draw_scrollbar( win, scroll, get_rect().size_y, text.size(), get_ay(), get_ax(), bar_color, false );
@@ -526,25 +551,39 @@ void ui_vertical_list::set_text( std::vector<std::string> text )
     this->text = text;
 }
 
+void ui_vertical_list::add_highlight( unsigned int i )
+{
+    to_highlight.push_back( i );
+}
+
+void ui_vertical_list::add_highlight( const std::string &line )
+{
+    add_highlight( std::distance( text.begin(), std::find( text.begin(), text.end(), line ) ) );
+}
+
 void ui_vertical_list::scroll_up()
 {
-    scroll = ( scroll == 0 ? text.size() - 1 : scroll - 1 );
+    if( text.size() > 1 ) {
+        scroll = ( scroll == 0 ? text.size() - 1 : scroll - 1 );
 
-    if( scroll == text.size() - 1 ) {
-        window_scroll = scroll - get_rect().size_y + 1;
-    } else if( scroll < window_scroll ) {
-        window_scroll--;
+        if( scroll == text.size() - 1 ) {
+            window_scroll = scroll - get_rect().size_y + 1;
+        } else if( scroll < window_scroll ) {
+            window_scroll--;
+        }
     }
 }
 
 void ui_vertical_list::scroll_down()
 {
-    scroll = ( scroll == text.size() - 1 ? 0 : scroll + 1 );
+    if( text.size() > 1 ) {
+        scroll = ( scroll == text.size() - 1 ? 0 : scroll + 1 );
 
-    if( scroll > get_rect().size_y + window_scroll - 1 ) {
-        window_scroll++;
-    } else if( scroll == 0 ) {
-        window_scroll = 0;
+        if( scroll > get_rect().size_y + window_scroll - 1 ) {
+            window_scroll++;
+        } else if( scroll == 0 ) {
+            window_scroll = 0;
+        }
     }
 }
 
@@ -556,9 +595,19 @@ std::string ui_vertical_list::current() const
     return text[scroll];
 }
 
+void ui_vertical_list::send_action( const std::string &action )
+{
+    if( action == "UP" ) {
+        scroll_up();
+    } else if( action == "DOWN" ) {
+        scroll_down();
+    }
+}
+
 ui_horizontal_list::ui_horizontal_list( int x, int y, ui_anchor anchor ) : ui_element( 0, 1, x, y, anchor )
 {
 }
+
 void ui_horizontal_list::draw()
 {
     auto win = get_win();
@@ -598,6 +647,15 @@ void ui_horizontal_list::scroll_right()
 const std::string &ui_horizontal_list::current() const
 {
     return text[scroll];
+}
+
+void ui_horizontal_list::send_action( const std::string &action )
+{
+    if( action == "LEFT" ) {
+        scroll_left();
+    } else if( action == "RIGHT" ) {
+        scroll_right();
+    }
 }
 
 color_mapped_label::color_mapped_label( std::string text, int x, int y, ui_anchor anchor ) : ui_label( text, x, y, anchor )
@@ -730,17 +788,15 @@ void ui_border::draw()
 /////////////////////////////////////////////////////
 void label_test()
 {
-    ui_label lable1( "some", 0, 0, top_left );
-    lable1.text_color = c_red;
-    ui_label lable2( "anchored", 0, 0, center_center );
-    lable2.text_color = c_ltblue;
-    ui_label lable3( "labels", 0, 0, bottom_right );
-    lable3.text_color = c_ltgreen;
-
     bordered_window win( 31, 13, 50, 15 );
-    win.create_child( lable1 );
-    win.create_child( lable2 );
-    win.create_child( lable3 );
+
+    auto label1 = win.create_child<ui_label>( "some", 0, 0, top_left );
+    label1->text_color = c_red;
+    auto label2 = win.create_child<ui_label>( "anchored", 0, 0, center_center );
+    label2->text_color = c_ltblue;
+    auto label3 = win.create_child<ui_label>( "labels", 0, 0, bottom_right );
+    label3->text_color = c_ltgreen;
+
     win.draw();
 }
 
@@ -750,10 +806,10 @@ void tab_test()
     auto t_group1 = win.add_tab("Tab 1");
     auto t_group2 = win.add_tab("Tab 2");
 
-    auto l1 = win.create_child( ui_label ( "window 1", 0, 0, center_center ) );
-    auto l2 = win.create_child( ui_label ( "window 2", 0, 0, center_center ) );
+    auto l1 = win.create_child<ui_label>( "window 1", 0, 0, center_center );
+    auto l2 = win.create_child<ui_label>( "window 2", 0, 0, center_center );
     l2->set_visible( false );
-    auto l3 = win.create_child( ui_label ( "window all", 0, 0, center_center ) );
+    auto l3 = win.create_child<ui_label>( "window all", 0, 0, center_center );
     l3->above( *l1 );
 
     t_group1->add_element( l1 );
@@ -761,19 +817,10 @@ void tab_test()
 
     win.draw();
 
-    input_context ctxt;
-    ctxt.register_action( "QUIT" );
-    ctxt.register_action( "PREV_TAB" );
-    ctxt.register_action( "NEXT_TAB" );
-
     while( true ) {
-        const std::string action = ctxt.handle_input();
+        const std::string action = win.handle_input();
 
-        if( action == "PREV_TAB" ) {
-            win.previous_tab();
-        } else if( action == "NEXT_TAB" ) {
-            win.next_tab();
-        } else if( action == "QUIT" ) {
+        if( action == "QUIT" ) {
             break;
         }
 
@@ -785,27 +832,22 @@ void indicators_test()
 {
     bordered_window win( 31, 31, 50, 15 );
 
-    health_bar hb1( 5, 0, 0, center_center );
-    hb1.set_health_percentage( 0.5 );
-    win.create_child( hb1 );
+    auto hb1 = win.create_child<health_bar>( 5, 0, 0, center_center );
+    hb1->set_health_percentage( 0.5 );
 
-    health_bar hb2( 5 );
-    hb2.set_health_percentage( 0 );
-    hb2.below( hb1 );
-    win.create_child( hb2 );
+    auto hb2 = win.create_child<health_bar>( 5 );
+    hb2->set_health_percentage( 0 );
+    hb2->below( *hb1 );
 
-    health_bar hb3( 5 );
-    hb3.set_health_percentage( 1.0 );
-    hb3.below( hb2 );
-    win.create_child( hb3 );
+    auto hb3 = win.create_child<health_bar>( 5 );
+    hb3->set_health_percentage( 1.0 );
+    hb3->below( *hb2 );
 
-    health_bar hb4( 5 );
-    hb4.set_health_percentage( 1.1 );
-    hb4.below( hb3 );
-    win.create_child( hb4 );
+    auto hb4 = win.create_child<health_bar>( 5 );
+    hb4->set_health_percentage( 1.1 );
+    hb4->below( *hb3 );
 
-    smiley_indicator si( 0, -1, center_center );
-    win.create_child( si );
+    win.create_child<smiley_indicator>( 0, -1, center_center );
 
     win.draw();
 }
@@ -814,13 +856,10 @@ void tile_panel_test()
 {
     bordered_window win( 31, 31, 50, 15 );
 
-    ui_tile_panel<char_tile> tp( 29, 29, 1, 1 );
-
-    tp.set_tile( char_tile( 'X', c_yellow ), 5, 5 );
-    tp.set_tile( char_tile( 'X', c_yellow ), 9, 5 );
-    tp.set_tile( char_tile( 'X', c_yellow ), 7, 6 );
-
-    win.create_child(tp);
+    auto tp = win.create_child<ui_tile_panel<char_tile>>( 29, 29, 1, 1 );
+    tp->set_tile( char_tile( 'X', c_yellow ), 5, 5 );
+    tp->set_tile( char_tile( 'X', c_yellow ), 9, 5 );
+    tp->set_tile( char_tile( 'X', c_yellow ), 7, 6 );
 
     win.draw();
 }
@@ -864,26 +903,15 @@ void list_test()
 
     bordered_window win( 32, 34, 50, 15 );
 
-    ui_vertical_list t_list( 7, 15, 0, 1 );
-    t_list.set_text( text );
-
-    auto t_listp = win.create_child( t_list );
+    auto t_list = win.create_child<ui_vertical_list>( 7, 15, 0, 1 );
+    t_list->set_text( text );
 
     win.draw();
 
-    input_context ctxt;
-    ctxt.register_action( "QUIT" );
-    ctxt.register_action( "UP" );
-    ctxt.register_action( "DOWN" );
-
     while( true ) {
-        const std::string action = ctxt.handle_input();
+        const std::string action = win.handle_input();
 
-        if( action == "UP" ) {
-            t_listp->scroll_up();
-        } else if( action == "DOWN" ) {
-            t_listp->scroll_down();
-        } else if( action == "QUIT" ) {
+        if( action == "QUIT" ) {
             break;
         }
 
@@ -901,26 +929,15 @@ void list_test2()
 
     bordered_window win( 51, 34, 50, 15 );
 
-    ui_horizontal_list t_list( 1, 1 );
-    t_list.set_text( text );
-
-    auto t_listp = win.create_child( t_list );
+    auto t_list = win.create_child<ui_horizontal_list>( 1, 1 );
+    t_list->set_text( text );
 
     win.draw();
 
-    input_context ctxt;
-    ctxt.register_action( "QUIT" );
-    ctxt.register_action( "LEFT" );
-    ctxt.register_action( "RIGHT" );
-
     while( true ) {
-        const std::string action = ctxt.handle_input();
+        const std::string action = win.handle_input();
 
-        if( action == "LEFT" ) {
-            t_listp->scroll_left();
-        } else if( action == "RIGHT" ) {
-            t_listp->scroll_right();
-        } else if( action == "QUIT" ) {
+        if( action == "QUIT" ) {
             break;
         }
 
@@ -932,23 +949,19 @@ void relative_test()
 {
     bordered_window win( 51, 34, 50, 15 );
 
-    ui_label l1( "origin", 0, 0, center_center );
+    auto l1 = win.create_child<ui_label>( "origin", 0, 0, center_center );
 
-    ui_label l2( "above" );
-    ui_label l3( "below" );
-    ui_label l4( "after" );
-    ui_label l5( "before" );
+    auto l2 = win.create_child<ui_label>( "above" );
+    l2->above( *l1 );
 
-    l2.above( l1 );
-    l3.below( l1 );
-    l4.after( l1, 1 );
-    l5.before( l1, -1 );
+    auto l3 = win.create_child<ui_label>( "below" );
+    l3->below( *l1 );
 
-    win.create_child( l1 );
-    win.create_child( l2 );
-    win.create_child( l3 );
-    win.create_child( l4 );
-    win.create_child( l5 );
+    auto l4 = win.create_child<ui_label>( "after" );
+    l4->after( *l1, 1 );
+
+    auto l5 = win.create_child<ui_label>( "before" );
+    l5->before( *l1, -1 );
 
     win.draw();
 }
@@ -958,14 +971,12 @@ void test_col_label()
     bordered_window win( 51, 34, 50, 15 );
 
     // Note: anything that is NOT an underscore gets the color. I just used letters for ease of use.
-    color_mapped_label l1( "Color Mapped Label", 0, 0, center_center );
-    l1[c_green] =          "C_____M______L____";
-    l1[c_ltblue] =         "_o_____a______a___";
-    l1[c_yellow] =         "__l_____p______b__";
-    l1[c_ltgreen] =        "___o_____p______e_";
-    l1[c_red] =            "____r_____e______l";
-
-    win.create_child( l1 );
+    auto l1 = win.create_child<color_mapped_label>( "Color Mapped Label", 0, 0, center_center );
+    (*l1)[c_green] =          "C_____M______L____";
+    (*l1)[c_ltblue] =         "_o_____a______a___";
+    (*l1)[c_yellow] =         "__l_____p______b__";
+    (*l1)[c_ltgreen] =        "___o_____p______e_";
+    (*l1)[c_red] =            "____r_____e______l";
 
     win.draw();
 }
@@ -973,7 +984,7 @@ void test_col_label()
 void borders_test()
 {
     bordered_window win(51, 34, 50, 15);
-    win.create_child( ui_border(1, 32, 0, -1, bottom_center) );
+    win.create_child<ui_border>( 1, 32, 0, -1, bottom_center );
 
     win.draw();
 }
