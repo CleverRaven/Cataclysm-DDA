@@ -1,6 +1,6 @@
 # Soundpacks
 
-A soundpack can be installed in the `data/sound` directory. It has to be a subdirectory that contains at least a file named `soundpack.txt`. It can include any number of json files which add any number of sound_effects or playlist.
+A soundpack can be installed in the `data/sound` directory. It has to be a subdirectory that contains at least a file named `soundpack.txt`. It can include any number of json files which add any number of sound_effect or playlist.
 
 ## soundpack.txt format
 
@@ -27,11 +27,20 @@ Sound effects can be included with a format like this:
         "files" : [
             "nenadsimic_menu_selection_click.wav"
         ]
+    },
+    {
+        "type": "sound_effect",
+        "id" : "fire_gun",
+        "volume" : 90,
+        "variant" : "bio_laser_gun",
+        "files" : [
+            "guns/energy_generic/weapon_fire_laser.ogg"
+        ]
     }
 ]
 ```
 
-A playlist and be included with a format like this:
+A playlist can be included with a format like this:
 
 ```javascript
 [
@@ -64,7 +73,7 @@ A full list of sound effect id's and variants is given in the following. Each li
 
 id variant1|variant2
 
-Where id describes the id of the sound effect, and a list of variants separated by | follows. When the variants are omitted, the variant "default" is assumed. Where the variants do not represent literal strings, but variables, they will be enclosed in < >. For instance, <furniture> is a placeholder for any valid furniture ID (as in the furniture definition JSON).
+Where id describes the id of the sound effect, and a list of variants separated by | follows. When the variants are omitted, the variant "default" is assumed. Where the variants do not represent literal strings, but variables, they will be enclosed in `<` `>`. For instance, `<furniture>` is a placeholder for any valid furniture ID (as in the furniture definition JSON).
 
 * `footstep default|light|clumsy|bionic`
 * `explosion default|small|huge`
