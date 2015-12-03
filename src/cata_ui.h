@@ -532,6 +532,4 @@ class ui_border : public ui_element {
 
 ///@}
 
-void ui_test_func();
-
 #endif // CATA_UI_H

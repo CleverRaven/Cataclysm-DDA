@@ -3751,7 +3751,6 @@ void game::debug()
                       _("Set automove route"), // 27
                       _("Show mutation category levels"), // 28
                       _("Overmap editor"), // 29
-                      _("ui samples"), // 30
                       _("Cancel"),
                       NULL);
     int veh_num;
@@ -4402,13 +4401,6 @@ void game::debug()
         overmap::draw_editor();
 	}
 	break;
-    case 30 :
-    {
-        input_context ctxt = get_default_mode_input_context();
-        ui_test_func();
-        ctxt.handle_input();
-    }
-    break;
     }
     erase();
     refresh_all();
