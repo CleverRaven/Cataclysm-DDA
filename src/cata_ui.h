@@ -21,27 +21,6 @@ typedef int nc_color;
  * This allows us to nest ui elements within another. We only need to call 'draw'
  * on the top level object, and the composite pattern takes care of the rest.
  *
- *
- ### Implementing your own ui_element.
- * To implement an effective ui_element sub-class you must implement a 'clone' method.
- * This method is used by ui_window's copy constructor to clone it's children (without knowing the internal type at runtime).
- * The implementation can just be
- ```
- ui_element *my_element::clone() const
- {
-    return new my_element( *this );
- }
- ```
- * and that will be sufficient. Override the class's copy constructor
- * if you want to clone internal items too (like in ui_window).
- *
- * Next you have to implement a draw method. To do that
- * you probably want a window to draw on, you can use ```get_win()``` for that, just be sure to check if it's not null,
- * which it technically can be if the parent is not set. It's also important (at least, if you want to use anchors) that
- * you use ```get_ax()``` and ```get_ay()``` to retrieve anchor adjusted x and y positions (respectively)
- * rather than using ```get_rect().x``` and ```get_rect().y```. You don't need to manually call the draw method, that's done
- * by the window you add it to. On that note, you should probably keep it 'protected' to avoid doing that accidentally.
- *
  * @{
  */
 
@@ -64,6 +43,9 @@ struct ui_rect {
     ui_rect( size_t size_x, size_t size_y, int x, int y );
 };
 
+/**
+* @brief Tries to mimic C#'s event system.
+*/
 template<typename... Ts>
 class ui_event {
     std::vector<std::function<void(Ts&&...)>> listeners;
@@ -86,6 +68,9 @@ public:
     }
 };
 
+/**
+* A scoped enum used by ui elements to anchor themselves inside a window.
+*/
 enum class ui_anchor {
     top_left,
     top_center,
@@ -109,13 +94,13 @@ class ui_element {
     friend class ui_window; // only ui_window can call draw
     private:
         const ui_window *parent = nullptr; /**< The parent is where ```get_win()```gets it's window from */
-        void set_parent( const ui_window *parent ); /**< Virtual setter for ```parent```, so derived classes can do extra calculations */
+        void set_parent( const ui_window *parent );
 
         ui_anchor anchor = ui_anchor::top_left; /**< This elements current anchoring inside the parent */
 
         unsigned int anchored_x, anchored_y; /**< Internal kept values to store anchor adjusted position */
 
-        bool show = true; /**< Indicates to ui_window if this element should be drawn */
+        bool show = true; /**< Indicates to ui_window if this element should be drawn, and whether it should receive input */
         ui_rect rect; /**< Holds the elements size and position */
         void calc_anchored_values();
     protected:
@@ -152,6 +137,11 @@ class ui_element {
         //@}
 };
 
+/**
+* @brief A container for ui elements to execute tasks on several elements at once.
+*
+* Specifically used by tabbed_window to hide/show certain elements that belong to a tab.
+*/
 class ui_group {
     std::list<ui_element *> elements;
 
@@ -266,7 +256,7 @@ class bordered_window : public ui_window {
 };
 
 /**
-* \brief Generic form of health bar
+* @brief Generic form of health bar
 */
 class health_bar : public ui_element {
     private:
@@ -314,8 +304,7 @@ class smiley_indicator : public ui_element {
 /**
 * @brief Class that represents a basic cataclysm tile.
 *
-* This basic class has just a color and symbol, and a virtual
-* draw function. To draw other kinds off tiles (like ones using a tile set),
+* To draw different kinds off tiles (like ones using a tile set),
 * extend from this class and override it's draw method.
 */
 class ui_tile {
@@ -354,16 +343,8 @@ class ui_tile_panel : public ui_element {
 * @brief A window with tabs at the top.
 *
 ### Creating tabs
-* Sometimes when you create a tab you want to also hook up some controls. But (if done naively)
-* you would have to keep a pointer to every element you want to control, in a list and keep track
-* of the current tab you're on to know which element to control. But there is a better way! ```create_tab```
-* takes a type argument with the ```ui_window``` constraint. So what you could do, if you don't
-* want to keep track of things, is to extend a ```ui_window``` class and within that, do tab specific setup,
-* and have tab specific fields (e.g. if you have a list you want to control in the tab, you would have a list field).
-* and pass that class's type as a type argument. You can then request the current tab (with ```current_tab```)
-* cast the pointer to the type of your subclass (it doesn't get sliced) and access your list field
-* to send controls to. Then, you would only have to keep track of the types mapped to the different
-* tabs (through the tab's name), which is only needed if you have different kind of tabs.
+* Create a tab with the ```add_tab``` method. It returns a ```ui_group```. Use this group to let tabbed_window control
+* visibility of elements you add to the window.
 */
 class tabbed_window : public bordered_window {
     private:
@@ -425,6 +406,9 @@ class ui_vertical_list : public ui_element {
         }
 };
 
+/**
+* @brief A special version of ui_vertiacl_list that binds list items to data.
+*/
 template<typename D>
 class ui_record_list : public ui_vertical_list {
         std::map<std::string, D *> data_map;
@@ -516,6 +500,9 @@ class color_mapped_label : public ui_label {
         std::string &operator[]( nc_color color );
 };
 
+/**
+* @brief A simple border. Draws border characters in it's rectangle.
+*/
 class ui_border : public ui_element {
     private:
         array_2d<long> borders;
