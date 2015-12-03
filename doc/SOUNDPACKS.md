@@ -71,7 +71,7 @@ Each sound effect is identified by an id and a variant. If a sound effect is pla
 
 A full list of sound effect id's and variants is given in the following. Each line in the list has the following format:
 
-id variant1|variant2
+`id variant1|variant2`
 
 Where id describes the id of the sound effect, and a list of variants separated by | follows. When the variants are omitted, the variant "default" is assumed. Where the variants do not represent literal strings, but variables, they will be enclosed in `<` `>`. For instance, `<furniture>` is a placeholder for any valid furniture ID (as in the furniture definition JSON).
 
