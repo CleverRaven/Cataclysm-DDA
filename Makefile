@@ -669,6 +669,12 @@ app: appclean version data/osx/AppIcon.icns $(TILESTARGET)
 	cp -R data/title $(APPDATADIR)
 	# bundle libc++ to fix bad buggy version on osx 10.7
 	LIBCPP=$$(otool -L $(TILESTARGET) | grep libc++ | sed -n 's/\(.*\.dylib\).*/\1/p') && cp $$LIBCPP $(APPRESOURCESDIR)/ && cp $$(otool -L $$LIBCPP | grep libc++abi | sed -n 's/\(.*\.dylib\).*/\1/p') $(APPRESOURCESDIR)/
+ifdef LANGUAGES
+	ditto lang/mo $(APPRESOURCESDIR)/lang/mo
+endif
+ifeq ($(LOCALIZE), 1)
+	LIBINTL=$$(otool -L $(TILESTARGET) | grep libintl | sed -n 's/\(.*\.dylib\).*/\1/p') && cp $$LIBINTL $(APPRESOURCESDIR)/
+endif
 ifdef SOUND
 	cp -R data/sound $(APPDATADIR)
 endif  # ifdef SOUND
