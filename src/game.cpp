@@ -4399,8 +4399,8 @@ void game::debug()
     case 29:
     {
         overmap::draw_editor();
-	}
-	break;
+    }
+    break;
     }
     erase();
     refresh_all();
