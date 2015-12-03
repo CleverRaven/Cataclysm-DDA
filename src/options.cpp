@@ -838,7 +838,7 @@ void options_manager::init()
 
     OPTIONS["SOUNDPACKS"] = cOpt("general", _("Choose soundpack"),
                             _("Choose the soundpack you want to use."),
-                            soundpack_names, "Basic", COPT_NO_SOUND_HIDE
+                            soundpack_names, "basic", COPT_NO_SOUND_HIDE
                            ); // populate the options dynamically
     OPTIONS["MUSIC_VOLUME"] = cOpt("general", _("Music Volume"),
                                    _("Adjust the volume of the music being played in the background."),
