@@ -1807,15 +1807,14 @@ long holster_actor::use( player *p, item *it, bool, const tripoint & ) const
 
             for( const auto &pos : closest_tripoints_first( 1, p->pos() ) ) {
                 if( g->mon_at( pos, true ) != -1 ) {
-                    // at least one adjacent monster so choose direction defaulting to first monster
-                    monster *mon = g->monster_at( pos, true );
+                    // at least one adjacent monster
                     tripoint sel;
                     if (choose_adjacent( _( "Slash where?" ), sel ) && g->mon_at( sel, true ) != -1 ) {
-                        mon = g->monster_at( sel, true );
+                        monster *mon = g->monster_at( sel, true );
+                        p->melee_attack( *mon, true );
+                        p->add_msg_if_player( m_good, _( "You slash at the %1$s as you draw your %2$s." ),
+                                              mon->name().c_str(), p->weapon.tname().c_str() );
                     }
-                    p->melee_attack( *mon, true );
-                    p->add_msg_if_player( m_good, _( "You slash at the %1$s as you draw your %2$s." ),
-                                          mon->name().c_str(), p->weapon.tname().c_str() );
                     break;
                 }
             }
