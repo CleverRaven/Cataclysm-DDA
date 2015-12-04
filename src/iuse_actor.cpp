@@ -1800,7 +1800,7 @@ long holster_actor::use( player *p, item *it, bool, const tripoint & ) const
     if( pos >= 0 ) {
         p->wield_contents( it, pos, draw_speed );
 
-        // hanlde iaijutsu attacks when drawing swords and other such blades
+        // handle iaijutsu attacks when drawing swords and other such blades
         if( p->weapon.has_flag( "IAIJUTSU" ) &&
             p->skillLevel( skill_id("cutting") ) >= 7 &&
             one_in(12 - p->skillLevel( skill_id("cutting") ) ) ) {
