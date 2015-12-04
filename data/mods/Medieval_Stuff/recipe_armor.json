@@ -363,5 +363,27 @@
       [ "tanned_pelt", 1 ]
     ]
   ]
+},{
+    "type" : "recipe",
+    "result": "baldric",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_STORAGE",
+    "skill_used": "tailor",
+    "skills_required": [ "cutting", 1 ],
+    "difficulty": 5,
+    "time": 40000,
+    "reversible": false,
+    "autolearn": true,
+    "qualities":[
+        {"id":"HAMMER","level":1,"amount":1},
+        {"id":"CUT","level":1,"amount":1}
+    ],
+    "components": [
+        [ [ "leather", 3 ] ],
+        [ [ "leather", 10 ], [ "tanned_hide", 2 ] ],
+        [ ["superglue", 1] ],
+        [ ["2x4", 2] ],
+        [ ["nail", 8] ]
+    ]
 }
 ]

@@ -13313,13 +13313,9 @@ bool player::has_recipe_requirements( const recipe *rec ) const
     bool meets_requirements = false;
     if( !rec->skill_used || get_skill_level( rec->skill_used) >= rec->difficulty ) {
         meets_requirements = true;
-        // If there are required skills, insure their requirements are met, or we can't craft.
-        if( !rec->required_skills.empty() ) {
-            for( auto iter = rec->required_skills.cbegin();
-                 iter != rec->required_skills.cend(); ++iter ) {
-                if( get_skill_level(iter->first) < iter->second ) {
-                    meets_requirements = false;
-                }
+        for( const auto &required_skill : rec->required_skills ) {
+            if( get_skill_level( required_skill.first ) < required_skill.second ) {
+                meets_requirements = false;
             }
         }
     }

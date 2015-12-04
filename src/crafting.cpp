@@ -902,7 +902,7 @@ comp_selection<item_comp> player::select_item_component(const std::vector<item_c
             cmenu.addentry( tmpStr );
         }
         for( auto &player_ha : player_has ) {
-            cmenu.addentry( player_ha.type );
+            cmenu.addentry( item::nname( player_ha.type ) );
         }
         for( auto &elem : mixed ) {
             std::string tmpStr = item::nname( elem.type ) + _( " (on person & nearby)" );
