@@ -2142,7 +2142,7 @@ item *advanced_inv_area::get_container( bool in_vehicle )
                     }
                 }
             }
-        } else {
+        } else if (veh) { // veh gets lost when we walk away
             map &m = g->m;
             bool is_in_vehicle = uistate.adv_inv_container_in_vehicle ||
                 (can_store_in_vehicle() && in_vehicle);
