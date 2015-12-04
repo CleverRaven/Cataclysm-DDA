@@ -44,28 +44,30 @@ struct ui_rect {
 };
 
 /**
-* @brief Tries to mimic C#'s event system.
+* @brief Observer pattern event system.
+*
+* Subscribe listeners to an event, fire it with ```()```
 */
 template<typename... Ts>
 class ui_event {
-    std::vector<std::function<void(Ts&&...)>> listeners;
-public:
-    void subscribe( std::function<void(Ts&&...)> listener )
-    {
-        listeners.push_back( listener );
-    }
-
-    void operator()(Ts&&... args)
-    {
-        for( auto listener : listeners ) {
-            listener( std::forward<Ts>(args)... );
+        std::vector<std::function<void(Ts&&...)>> listeners;
+    public:
+        void subscribe( std::function<void(Ts&&...)> listener )
+        {
+            listeners.push_back( listener );
         }
-    }
 
-    void operator+=( std::function<void(Ts&&...)> listener )
-    {
-        listeners.push_back( listener );
-    }
+        void operator()(Ts&&... args)
+        {
+            for( auto listener : listeners ) {
+                listener( std::forward<Ts>(args)... );
+            }
+        }
+
+        void operator+=( std::function<void(Ts&&...)> listener )
+        {
+            listeners.push_back( listener );
+        }
 };
 
 /**
