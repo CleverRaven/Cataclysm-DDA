@@ -161,6 +161,14 @@ ifdef CLANG
   endif
 endif
 
+ifndef RELEASE
+  ifeq ($(shell $(CXX) -E -Og - < /dev/null > /dev/null 2>&1 && echo fog),fog)
+    CXXFLAGS += -Og
+  else
+    CXXFLAGS += -O0
+  endif
+endif
+
 OTHERS += --std=c++11
 
 CXXFLAGS += $(WARNINGS) $(DEBUG) $(PROFILE) $(OTHERS) -MMD
