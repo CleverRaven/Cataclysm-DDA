@@ -95,7 +95,6 @@
 },{
   "type" : "recipe",
   "result": "water_acid",
-  "id_suffix": "from electrolysis",
   "category": "CC_CHEM",
   "subcategory": "CSC_CHEM_CHEMICALS",
   "skill_used": "cooking",
@@ -2310,10 +2309,7 @@
       [ "fire", -1 ]
     ],
     [
-      [ "needle_bone", 1 ],
-      [ "needle_wood", 1 ],
-      [ "sewing_kit", 1 ],
-      [ "tailors_kit", 1 ]
+      [ "sewing_kit", 1 ]
     ]
   ],
   "components": [
