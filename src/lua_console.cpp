@@ -7,7 +7,7 @@ lua_console::lua_console() : cWin( newwin( lines, width, 0, 0 ) ), iWin( newwin(
 {
 }
 
-void lua_console::dispose()
+lua_console::~lua_console()
 {
     werase( cWin );
     werase( iWin );
@@ -30,7 +30,7 @@ void lua_console::draw()
     int stack_size = text_stack.size() - scroll;
     for( int i = lines; i > lines - stack_size && i >= 0; i-- ) {
         auto line = text_stack[stack_size - 1 - ( lines - i )];
-        mvwprintz( cWin, i - 1, 0, line.second, line.first.c_str() );
+        mvwprintz( cWin, i - 1, 0, line.second, "%s", line.first.c_str() );
     }
 
     wrefresh( cWin );
@@ -53,6 +53,18 @@ void lua_console::scroll_up()
     draw();
 }
 
+void lua_console::read_stream( std::stringstream &stream, nc_color text_color )
+{
+    std::string line;
+    while( std::getline( stream, line ) ) {
+        for( auto str : foldstring(line, width) ) {
+            text_stack.push_back({str, text_color});
+        }
+    }
+    stream.str( std::string() ); // empty the buffer
+    stream.clear();
+}
+
 void lua_console::run()
 {
     while( !done ) {
@@ -62,23 +74,9 @@ void lua_console::run()
 
 #ifdef LUA
         call_lua( input );
-        std::string line;
 
-        while( std::getline( lua_output_stream, line ) ) {
-            for( auto str : foldstring(line, width) ) {
-                text_stack.push_back({str, c_white});
-            }
-        }
-        lua_output_stream.str( std::string() ); // empty the buffer
-        lua_output_stream.clear();
-
-        while( std::getline( lua_error_stream, line ) ) {
-            for( auto str : foldstring(line, width) ) {
-                text_stack.push_back({str, c_red});
-            }
-        }
-        lua_error_stream.str( std::string() ); // empty the buffer
-        lua_error_stream.clear();
+        read_stream( lua_output_stream, c_white );
+        read_stream( lua_error_stream, c_red );
 #else
         text_stack.push_back( {"This build does not support lua.", c_red} );
 #endif // LUA

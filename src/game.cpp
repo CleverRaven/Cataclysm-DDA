@@ -4274,7 +4274,6 @@ void game::debug()
     case 24: {
         lua_console console;
         console.run();
-        console.dispose();
     }
     break;
     case 25:

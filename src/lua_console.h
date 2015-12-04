@@ -13,7 +13,7 @@
 class lua_console {
     public:
         lua_console();
-        void dispose();
+        ~lua_console();
         void run();
     private:
         const int width = TERMX;
@@ -30,6 +30,8 @@ class lua_console {
         bool done = false;
 
         int scroll = 0;
+
+        void read_stream( std::stringstream &stream, nc_color text_color );
 
         void quit();
         void scroll_up();
