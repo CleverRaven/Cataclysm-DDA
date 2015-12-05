@@ -263,6 +263,7 @@ Flags used to describe monsters and define their properties and abilities.
 - ```CBM_OP``` May produce a cbm or two from bionics_op when butchered.
 - ```FISHABLE``` It is fishable.
 - ```INTERIOR_AMMO``` Monster contains ammo inside itself, no need to load on launch. Prevents ammo from being dropped on disable.
+- ```NIGHT_INVISIBILITY``` Monster becomes invisible if it's more than one tile away and the lighting on its tile is LL_LOW or less. Visibility is not affected by night vision.
 
 ### Special attacks
 Some special attacks are also valid use actions for tools and weapons.
