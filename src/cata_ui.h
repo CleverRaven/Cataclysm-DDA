@@ -343,7 +343,7 @@ class ui_record_list : public ui_vertical_list {
         ui_record_list( size_t size_x, size_t size_y, int x = 0, int y = 0, ui_anchor anchor = ui_anchor::top_left ) : ui_vertical_list(size_x, size_y, x, y, anchor) {
         }
 
-        void make_records( const std::vector<D *> &data, std::function<std::string(D *)> get_text, std::function<bool(D *)> to_highlight = [](D *){} )
+        void make_records( const std::vector<D *> &data, std::function<std::string(D *)> get_text, std::function<bool(D *)> to_highlight = [](D *){ return false; } )
         {
             std::vector<std::string> text;
 
