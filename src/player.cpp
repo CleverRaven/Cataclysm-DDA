@@ -11,6 +11,7 @@
 #include "options.h"
 #include "weather.h"
 #include "item.h"
+#include "item_factory.h"
 #include "material.h"
 #include "translations.h"
 #include "name.h"
@@ -9566,6 +9567,27 @@ bool player::has_item( const item *it ) const
     return has_item_with( [&it]( const item & i ) {
         return &i == it;
     } );
+}
+
+int player::get_remaining_chapters( itype_id book ) const {
+    int remain = 0;
+    if( item_controller->has_template( book )) {
+        const islot_book *obj = item_controller->find_template(book)->book.get();
+        if( obj != nullptr ) {
+            remain += obj->chapters;
+        }
+        const auto iter = chapters_read.find( book );
+        if( iter != chapters_read.end() ) {
+            remain -= iter->second;
+        }
+    }
+    return remain;
+}
+
+void player::mark_chapter_as_read( itype_id book ) {
+    if( get_remaining_chapters( book ) > 0 ) {
+        chapters_read[book]++;
+    }
 }
 
 bool player::has_mission_item(int mission_id) const
