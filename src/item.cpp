@@ -3361,19 +3361,6 @@ int item::get_chapters() const
     return type->book->chapters;
 }
 
-int item::get_remaining_chapters( const player &u ) const
-{
-    const auto var = string_format( "remaining-chapters-%d", u.getID() );
-    return get_var( var, get_chapters() );
-}
-
-void item::mark_chapter_as_read( const player &u )
-{
-    const int remain = std::max( 0, get_remaining_chapters( u ) - 1 );
-    const auto var = string_format( "remaining-chapters-%d", u.getID() );
-    set_var( var, remain );
-}
-
 const material_type &item::get_random_material() const
 {
     if( type->materials.empty() ) {
