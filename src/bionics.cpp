@@ -1019,7 +1019,7 @@ bool player::activate_bionic(int b, bool eff_only)
             // TODO: damage the player / their bionics
         }
     } else if(bio.id == "bio_flashbang") {
-        g->flashbang( pos3(), false);
+        g->flashbang( pos3(), true);
     } else if(bio.id == "bio_shockwave") {
         g->shockwave( pos3(), 3, 4, 2, 8, true );
         add_msg_if_player(m_neutral, _("You unleash a powerful shockwave!"));
@@ -1318,11 +1318,6 @@ bool player::uninstall_bionic(std::string const &b_id, int skill_level)
         popup(_("You must remove your reactor to remove the Plutonium Purger."));
     }
 
-    if ( b_id == "bio_earplugs") {
-        popup(_("You must remove the Enhanced Hearing bionic to remove the Sound Dampeners."));
-        return false;
-    }
-
     // removal of bionics adds +2 difficulty over installation
     int chance_of_success;
     if (skill_level != -1){
@@ -1470,9 +1465,7 @@ bool player::install_bionics(const itype &type, int skill_level)
         add_msg(m_good, _("Successfully installed %s."), bionics[bioid].name.c_str());
         add_bionic(bioid);
 
-        if (bioid == "bio_ears") {
-            add_bionic("bio_earplugs"); // automatically add the earplugs, they're part of the same bionic
-        } else if (bioid == "bio_reactor_upgrade") {
+        if (bioid == "bio_reactor_upgrade") {
             remove_bionic("bio_reactor");
             remove_bionic("bio_reactor_upgrade");
             add_bionic("bio_advreactor");
@@ -1649,13 +1642,6 @@ void player::remove_bionic(std::string const &b) {
     std::vector<bionic> new_my_bionics;
     for(auto &i : my_bionics) {
         if (b == i.id) {
-            continue;
-        }
-
-        // Ears and earplugs go together like peanut butter and jelly.
-        // Therefore, removing one, should remove the other.
-        if ((b == "bio_ears" && i.id == "bio_earplugs") ||
-            (b == "bio_earplugs" && i.id == "bio_ears")) {
             continue;
         }
 
