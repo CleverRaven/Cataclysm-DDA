@@ -102,7 +102,7 @@
         "id": "bio_earplugs",
         "name": "Sound Dampeners",
         "toggled": true,
-        "description": "When this bionic is active, you can block hearing completely (with Enhanced Hearing deactivated) or dampen sound slightly (with Enhanced Hearing activated)."
+        "description": "When this bionic is active, you can block hearing completely."
     },{
         "type": "bionic",
         "id": "bio_eye_enhancer",
