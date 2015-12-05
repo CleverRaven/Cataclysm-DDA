@@ -10371,9 +10371,9 @@ bool player::wield(item* it, bool autodrop)
             return false;
         }
         if (autodrop || volume_carried() + weapon.volume() <= volume_capacity()) {
+            moves -= weapon.volume() * VOLUME_MOVE_COST;
             inv.add_item_keep_invlet(remove_weapon());
             inv.unsort();
-            moves -= 20;
             recoil = MIN_RECOIL;
             return true;
         } else if (query_yn(_("No space in inventory for your %s.  Drop it?"),
@@ -10401,8 +10401,8 @@ bool player::wield(item* it, bool autodrop)
 
     if( is_armed() ) {
         if( volume_carried() + weapon.volume() - it->volume() < volume_capacity() ) {
+            mv += weapon.volume() * VOLUME_MOVE_COST;
             inv.add_item_keep_invlet( remove_weapon() );
-            mv += 15;
         } else if( query_yn(_("No space in inventory for your %s.  Drop it?"),
                             weapon.tname().c_str() ) ) {
             g->m.add_item_or_charges( posx(), posy(), remove_weapon() );
@@ -13493,8 +13493,8 @@ bool player::wield_contents(item *container, int pos, int factor)
     if( is_armed() ) {
         if( volume_carried() + weapon.volume() - container->contents[pos].volume() <
             volume_capacity() ) {
+            mv += weapon.volume() * VOLUME_MOVE_COST;
             inv.add_item_keep_invlet( remove_weapon() );
-            mv += 15;
         } else if( query_yn( _("No space in inventory for your %s.  Drop it?"),
                              weapon.tname().c_str() ) ) {
             g->m.add_item_or_charges( posx(), posy(), remove_weapon() );
