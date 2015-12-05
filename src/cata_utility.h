@@ -10,8 +10,6 @@ class Creature;
 class map_item_stack;
 struct tripoint;
 
-// note that template implementation has to be in the header, or we get undefined references
-// (http://stackoverflow.com/questions/8752837/undefined-reference-to-template-class-constructor)
 /**
 * A class template that mimics a 2 dimensional array.
 */
