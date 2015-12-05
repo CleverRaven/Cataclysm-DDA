@@ -57,10 +57,10 @@ class ui_event {
             listeners.push_back( listener );
         }
 
-        void operator()(Ts&&... args)
+        void operator()(const Ts&&... args)
         {
             for( auto listener : listeners ) {
-                listener( std::forward<Ts>(args)... );
+                listener( args... );
             }
         }
 
