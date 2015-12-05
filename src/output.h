@@ -36,6 +36,8 @@ enum direction : unsigned;
 #define LINE_OXXX_C 0xa9
 #define LINE_XXXX_C 0xaa
 
+long get_border_char( bool up, bool down, bool left, bool right );
+
 // a consistent border colour
 #define BORDER_COLOR c_ltgray
 

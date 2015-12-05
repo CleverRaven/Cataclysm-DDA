@@ -520,33 +520,6 @@ void ui_horizontal_list::send_action( const std::string &action )
     }
 }
 
-color_mapped_label::color_mapped_label( std::string text, int x, int y, ui_anchor anchor ) : ui_label( text, x, y, anchor )
-{
-}
-
-void color_mapped_label::draw()
-{
-    auto win = get_win();
-    if( win == nullptr ) {
-        return;
-    }
-
-    mvwprintz( win, get_ay(), get_ax(), text_color, "%s", text.c_str() );
-
-    for( auto kvp : color_map ) {
-        for( unsigned int x = 0; x < text.size() && x < kvp.second.size(); x++ ) {
-            if( kvp.second[x] != '_' ) {
-                mvwputch( win, get_ay(), get_ax() + x, kvp.first, text[x] );
-            }
-        }
-    }
-}
-
-std::string &color_mapped_label::operator[]( nc_color color )
-{
-    return color_map[color];
-}
-
 ui_border::ui_border( size_t size_x, size_t size_y, int x, int y, ui_anchor anchor ) : ui_element( size_x, size_y, x, y, anchor ), borders( array_2d<long>( size_x, size_y ) )
 {
     calc_borders();
@@ -557,65 +530,6 @@ void ui_border::set_rect( const ui_rect &rect )
     ui_element::set_rect( rect );
     borders = array_2d<long>(rect.size_x, rect.size_y);
     calc_borders();
-}
-
-long get_border_char( bool up, bool down, bool left, bool right )
-{
-    long ret = ' ';
-
-    if( left ) {
-        ret = LINE_OXOX; // '-'
-    }
-
-    if( up ) {
-        if( left ) {
-            ret = LINE_XOOX; // '_|'
-        } else {
-            ret = LINE_XOXO; // '|'
-        }
-    }
-
-    if( right ) {
-        if( up ) {
-            if( left ) {
-                ret = LINE_XXOX; // '_|_'
-            } else {
-                ret = LINE_XXOO; // '|_'
-            }
-        } else {
-            ret = LINE_OXOX; // '-'
-        }
-    }
-
-    if( down ) {
-        if( right ) {
-            if( up ) {
-                if( left ) {
-                    ret = LINE_XXXX; // '-|-'
-                } else {
-                    ret = LINE_XXXO; // '|-'
-                }
-            } else {
-                if( left ) {
-                    ret = LINE_OXXX; // '^|^'
-                } else {
-                    ret = LINE_OXXO; // '|^'
-                }
-            }
-        } else {
-            if( left ) {
-                if( up ) {
-                    ret = LINE_XOXX; // '-|'
-                } else {
-                    ret = LINE_OOXX; // '^|'
-                }
-            } else {
-                ret = LINE_XOXO; // '|'
-            }
-        }
-    }
-
-    return ret;
 }
 
 void ui_border::calc_borders()

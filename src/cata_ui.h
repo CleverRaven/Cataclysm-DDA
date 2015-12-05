@@ -394,25 +394,6 @@ class ui_horizontal_list : public ui_element {
 };
 
 /**
-* @brief A label where letters can have individual colors.
-*
-* To map letters to a color you can use something like ```my_label[c_green] = "XXX___XXX";```
-* This means that the first 3 letters will be green, the next 3 will have the default color
-* (at least, if they're not mapped to another color) and the last 3 letters will be green again.
-* Note that you don't have to use X's, anything that is NOT an underscore will get the color.
-*/
-class color_mapped_label : public ui_label {
-    private:
-        std::map<nc_color, std::string> color_map;
-    public:
-        color_mapped_label( std::string text, int x = 0, int y = 0, ui_anchor anchor = ui_anchor::top_left );
-
-        void draw() override;
-
-        std::string &operator[]( nc_color color );
-};
-
-/**
 * @brief A simple border. Draws border characters in it's rectangle.
 */
 class ui_border : public ui_element {

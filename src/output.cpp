@@ -2223,6 +2223,65 @@ int msgtype_to_tilecolor(const game_message_type type, const bool bOldMsg)
     return -1;
 }
 
+long get_border_char( bool up, bool down, bool left, bool right )
+{
+    long ret = ' ';
+
+    if( left ) {
+        ret = LINE_OXOX; // '-'
+    }
+
+    if( up ) {
+        if( left ) {
+            ret = LINE_XOOX; // '_|'
+        } else {
+            ret = LINE_XOXO; // '|'
+        }
+    }
+
+    if( right ) {
+        if( up ) {
+            if( left ) {
+                ret = LINE_XXOX; // '_|_'
+            } else {
+                ret = LINE_XXOO; // '|_'
+            }
+        } else {
+            ret = LINE_OXOX; // '-'
+        }
+    }
+
+    if( down ) {
+        if( right ) {
+            if( up ) {
+                if( left ) {
+                    ret = LINE_XXXX; // '-|-'
+                } else {
+                    ret = LINE_XXXO; // '|-'
+                }
+            } else {
+                if( left ) {
+                    ret = LINE_OXXX; // '^|^'
+                } else {
+                    ret = LINE_OXXO; // '|^'
+                }
+            }
+        } else {
+            if( left ) {
+                if( up ) {
+                    ret = LINE_XOXX; // '-|'
+                } else {
+                    ret = LINE_OOXX; // '^|'
+                }
+            } else {
+                ret = LINE_XOXO; // '|'
+            }
+        }
+    }
+
+    return ret;
+}
+
 // In non-SDL mode, width/height is just what's specified in the menu
 #if !defined(TILES)
 int get_terminal_width()
