@@ -2028,7 +2028,7 @@
     "hp":80,
     "death_function":"NORMAL",
     "special_attacks":[["BITE", 5], ["GRAB", 7]],
-    "description":"An uncanny shadow envelops this creature, as if light itself were too repulsed to touch it. All you can make out is its shambling, human shaped outline.",
+    "description":"An uncanny shadow envelops this creature, as if light itself were too repulsed to touch it.  All you can make out is its shambling, human shaped outline.",
     "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "GROUP_BASH", "POISON", "BLEED", "NO_BREATHE", "REVIVES", "BONES", "PUSH_MON", "NIGHT_INVISIBILITY"],
     "categories":["CLASSIC"]
     },{
