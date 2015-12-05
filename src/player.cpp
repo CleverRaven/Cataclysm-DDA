@@ -10417,14 +10417,12 @@ bool player::wield(item* it, bool autodrop)
     // than a skilled player with a holster.
     // There is an additional penalty when wielding items from the inventory whilst currently grabbed.
 
+    mv += it->volume() * VOLUME_MOVE_COST;
+
     if( is_worn( *it ) ) {
         it->on_takeoff( *this );
-        mv += it->volume() * 10;
     } else {
-        mv += it->volume() * 20;
-        if( has_effect( "grabbed" ) ) {
-            mv *= 2;
-        }
+        mv *= has_effect( "grabbed" ) ? 2 : 4;
     }
 
     moves -= mv;

@@ -2,6 +2,7 @@
 #define IUSE_ACTOR_H
 
 #include "iuse.h"
+#include "game_constants.h"
 #include "color.h"
 #include "bodypart.h"
 #include "string_id.h"
@@ -622,7 +623,7 @@ class holster_actor : public iuse_actor
         /** Check if obj could be stored in the holster */
         bool can_holster( const item& obj ) const;
 
-        holster_actor() : iuse_actor(), max_weight( -1 ), multi( 1 ), draw_speed( 10 ) { }
+        holster_actor() : iuse_actor(), max_weight( -1 ), multi( 1 ), draw_speed( VOLUME_MOVE_COST ) { }
         virtual ~holster_actor() { }
         virtual void load( JsonObject &jo );
         virtual long use( player *, item *, bool, const tripoint & ) const override;

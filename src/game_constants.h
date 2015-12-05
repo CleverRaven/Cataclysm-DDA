@@ -55,4 +55,7 @@
 /** Total number of z-levels */
 #define OVERMAP_LAYERS (1 + OVERMAP_DEPTH + OVERMAP_HEIGHT)
 
+/** Base move cost (before modifiers) per unit volume when handling items */
+#define VOLUME_MOVE_COST 10
+
 #endif
