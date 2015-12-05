@@ -1019,7 +1019,7 @@ bool player::activate_bionic(int b, bool eff_only)
             // TODO: damage the player / their bionics
         }
     } else if(bio.id == "bio_flashbang") {
-        g->flashbang( pos3(), true);
+        g->flashbang( pos3(), false);
     } else if(bio.id == "bio_shockwave") {
         g->shockwave( pos3(), 3, 4, 2, 8, true );
         add_msg_if_player(m_neutral, _("You unleash a powerful shockwave!"));

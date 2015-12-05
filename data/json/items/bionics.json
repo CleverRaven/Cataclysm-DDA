@@ -311,7 +311,7 @@
         "id": "bio_cloak",
         "symbol": ":",
         "color": "yellow",
-        "name": "Cloaking System CBM",
+        "name": "Active Camouflage CBM",
         "description": "This high-power system uses a set of cameras and LEDs to make you blend into your background, rendering you fully invisible to normal vision.  However, you may be detected by infrared, sonar, etc.",
         "price": 850000,
         "material": ["steel", "plastic"],
