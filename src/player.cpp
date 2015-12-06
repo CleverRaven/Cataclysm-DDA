@@ -10666,6 +10666,15 @@ hint_rating player::rate_action_change_side( const item &it ) const {
     return HINT_GOOD;
 }
 
+int player::item_handling_cost( const item& it, bool effects, int factor ) const {
+    int mv = it.volume() * factor;
+    if( effects ) {
+        if( has_effect( "grabbed" ) ) {
+            mv *= 2;
+        }
+    }
+    return std::min(mv, MAX_HANDLING_COST);
+}
 
 bool player::wear(int inventory_position, bool interactive)
 {

@@ -57,5 +57,7 @@
 
 /** Base move cost (before modifiers) per unit volume when handling items */
 #define VOLUME_MOVE_COST 10
+/** Maximum move cost when handling an item */
+#define MAX_HANDLING_COST 800
 
 #endif

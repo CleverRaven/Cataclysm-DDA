@@ -8,6 +8,7 @@
 #include "player_activity.h"
 #include "morale.h"
 #include "weighted_list.h"
+#include "game_constants.h"
 
 #include <unordered_set>
 #include <bitset>
@@ -688,6 +689,13 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         virtual bool wield(item *it, bool autodrop = false);
         /** Creates the UI and handles player input for picking martial arts styles */
         bool pick_style();
+        /**
+         * Calculate (but do not deduct) the number of moves required when handling (eg. storing, drawing etc.) an item
+         * @param effects whether temporary player effects should be considered (eg. GRABBED, DOWNED)
+         * @param factor base move cost per unit volume before considering any other modifiers
+         * @return cost in moves ranging from 0 to MAX_HANDLING_COST
+         */
+        int item_handling_cost( const item& it, bool effects = true, int factor = VOLUME_MOVE_COST) const;
         /** Wear item; returns false on fail. If interactive is false, don't alert the player or drain moves on completion. */
         bool wear(int pos, bool interactive = true);
         /** Wear item; returns false on fail. If interactive is false, don't alert the player or drain moves on completion. */
