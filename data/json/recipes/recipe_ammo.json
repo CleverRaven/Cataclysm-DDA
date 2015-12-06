@@ -703,6 +703,7 @@
   "time" : 7000,
   "reversible" : false,
   "autolearn" : true,
+  "book_learn" : [[ "recipe_arrows", 2 ] , [ "pocket_survival", 2]],
   "qualities":[
     {"id":"CUT","level":1,"amount":1},
     {"id":"HAMMER","level":1,"amount":1}
