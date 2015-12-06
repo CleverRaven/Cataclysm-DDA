@@ -10422,7 +10422,7 @@ bool player::wield(item* it, bool autodrop)
     if( is_worn( *it ) ) {
         it->on_takeoff( *this );
     } else {
-        mv *= has_effect( "grabbed" ) ? 2 : 4;
+        mv *= has_effect( "grabbed" ) ? 4 : 2;
     }
 
     moves -= mv;
