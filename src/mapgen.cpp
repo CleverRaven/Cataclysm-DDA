@@ -11201,11 +11201,11 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
     // finally, any terrain with SIDEWALKS should contribute sidewalks to neighboring diagonal roads
     if (otermap[terrain_type].has_flag(has_sidewalk)) {
         for(int dir=4;dir<8;dir++) { // NE SE SW NW
-            printf("mapgen sidewalk fix %d\n",dir);
+            // printf("mapgen sidewalk fix %d\n",dir);
             bool n_roads_nesw[4] = {};
             int n_num_dirs = terrain_type_with_suffix_to_nesw_array(oter_id(t_nesw[dir]), n_roads_nesw);
             // only handle diagonal neighbors
-printf("%d roads_nesw %d %d %d %d\n",n_num_dirs,n_roads_nesw[0],n_roads_nesw[1],n_roads_nesw[2],n_roads_nesw[3]);
+            // printf("%d roads_nesw %d %d %d %d\n",n_num_dirs,n_roads_nesw[0],n_roads_nesw[1],n_roads_nesw[2],n_roads_nesw[3]);
             if( n_num_dirs==2 &&
                 n_roads_nesw[((dir-4)+3)%4] &&
                 n_roads_nesw[((dir-4)+2)%4]) {
@@ -11221,7 +11221,7 @@ printf("%d roads_nesw %d %d %d %d\n",n_num_dirs,n_roads_nesw[0],n_roads_nesw[1],
                                 ter(x,y) == t_dirt ||
                                 ter(x,y) == t_shrub )
                             {
-                                printf("%d,%d\n",x,y);
+                                // printf("%d,%d\n",x,y);
                                 ter_set(x, y, t_sidewalk);
                             }
                         }

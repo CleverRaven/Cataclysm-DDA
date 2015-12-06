@@ -1037,7 +1037,7 @@ void coord_rotate_cw(int &x, int &y, int rot) {
 // mapgen_road replaces previous mapgen_road_straight _end _curved _tee _four_way
 void mapgen_road(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
 {
-    printf("mapgen_road %s\n",std::string(terrain_type).c_str());
+    // printf("mapgen_road %s\n",std::string(terrain_type).c_str());
     (void)turn;
     (void)density;
 
@@ -1051,7 +1051,7 @@ void mapgen_road(map *m, oter_id terrain_type, mapgendata dat, int turn, float d
         }
     }
 
-    printf("sidewalks_neswx %d %d %d %d %d %d %d %d\n",
+    // printf("sidewalks_neswx %d %d %d %d %d %d %d %d\n",
         sidewalks_neswx[0],
         sidewalks_neswx[1],
         sidewalks_neswx[2],
@@ -1065,7 +1065,7 @@ void mapgen_road(map *m, oter_id terrain_type, mapgendata dat, int turn, float d
     // which of the cardinal directions get roads?
     bool roads_nesw[4] = {};
     int num_dirs = terrain_type_with_suffix_to_nesw_array(terrain_type, roads_nesw);
-    printf("%d roads_nesw %d %d %d %d\n",num_dirs,roads_nesw[0],roads_nesw[1],roads_nesw[2],roads_nesw[3]);
+    // printf("%d roads_nesw %d %d %d %d\n",num_dirs,roads_nesw[0],roads_nesw[1],roads_nesw[2],roads_nesw[3]);
 
     // which way should our roads curve, based on neighbor roads?
     int curvedir_nesw[4] = {};
@@ -1092,7 +1092,7 @@ void mapgen_road(map *m, oter_id terrain_type, mapgendata dat, int turn, float d
         }
     }
 
-    printf("curvedir_nesw %d %d %d %d\n",curvedir_nesw[0],curvedir_nesw[1],curvedir_nesw[2],curvedir_nesw[3]);
+    // printf("curvedir_nesw %d %d %d %d\n",curvedir_nesw[0],curvedir_nesw[1],curvedir_nesw[2],curvedir_nesw[3]);
 
     // to simplify the drawing logic, everything will be rotated here
     // the rotation will be reversed afterwards
@@ -1122,14 +1122,14 @@ void mapgen_road(map *m, oter_id terrain_type, mapgendata dat, int turn, float d
             break;                               // N, don't rotate
     }
 
-    printf("rot %d\n",rot);
+    // printf("rot %d\n",rot);
 
     // rotate the arrays left by rot steps
     nesw_array_rotate<bool>(sidewalks_neswx,8, rot*2);
     nesw_array_rotate<bool>(roads_nesw,     4, rot);
     nesw_array_rotate<int> (curvedir_nesw,  4, rot);
 
-    printf("sidewalks_neswx %d %d %d %d %d %d %d %d\n",
+    // printf("sidewalks_neswx %d %d %d %d %d %d %d %d\n",
         sidewalks_neswx[0],
         sidewalks_neswx[1],
         sidewalks_neswx[2],
@@ -1139,8 +1139,8 @@ void mapgen_road(map *m, oter_id terrain_type, mapgendata dat, int turn, float d
         sidewalks_neswx[6],
         sidewalks_neswx[7]
         );
-    printf("%d roads_nesw %d %d %d %d\n",num_dirs,roads_nesw[0],roads_nesw[1],roads_nesw[2],roads_nesw[3]);
-    printf("curvedir_nesw %d %d %d %d\n",curvedir_nesw[0],curvedir_nesw[1],curvedir_nesw[2],curvedir_nesw[3]);
+    // printf("%d roads_nesw %d %d %d %d\n",num_dirs,roads_nesw[0],roads_nesw[1],roads_nesw[2],roads_nesw[3]);
+    // printf("curvedir_nesw %d %d %d %d\n",curvedir_nesw[0],curvedir_nesw[1],curvedir_nesw[2],curvedir_nesw[3]);
 
     // now we have only these shapes: '   |   '-   -'-   -|-
 
