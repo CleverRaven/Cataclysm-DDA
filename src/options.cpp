@@ -559,142 +559,91 @@ bool options_manager::cOpt::operator!=(const std::string sCompare) const
     return !(*this == sCompare);
 }
 
-/** Fill TILESETS mapping with values.
- * Scans all directores in FILENAMES["gfx"] directory for file named FILENAMES["tileset.txt"].
- * All founded values added in mapping TILESETS as name, tileset_dir.
+/** Fill a mapping with values.
+ * Scans all directores in FILENAMES[dirname_label] directory for
+ * a file named FILENAMES[filename_label].
+ * All found values added to resource_option as name, resource_dir.
  * Furthermore, it builds possible values list for cOpt class.
- * @return One string containing all found tilesets in form "tileset1,tileset2,tileset3,..."
+ * @return string containing all found resources in form "resource1,resource2,resource3,..."
  */
-std::string options_manager::build_tilesets_list()
-{
-    const std::string defaultTilesets = "hoder,deon";
-    std::string tileset_names;
+static std::string build_resource_list(
+    std::map<std::string, std::string> &resource_option, std::string operation_name,
+    std::string dirname_label, std::string filename_label ) {
+    std::string resource_names;
 
-    TILESETS.clear();
+    resource_option.clear();
+    auto const resource_dirs = get_directories_with( FILENAMES[filename_label],
+                                                     FILENAMES[dirname_label], true );
 
-    auto const tilesets_dirs = get_directories_with(FILENAMES["tileset-conf"], FILENAMES["gfxdir"], true);
-
-    for( auto &ts_dir : tilesets_dirs ) {
+    for( auto &resource_dir : resource_dirs ) {
         std::ifstream fin;
-        std::string file = ts_dir + "/" + FILENAMES["tileset-conf"];
+        std::string file = resource_dir + "/" + FILENAMES[filename_label];
 
         fin.open( file.c_str() );
-        if(!fin.is_open()) {
-            DebugLog( D_ERROR, DC_ALL ) << "Can't read tileset config from " << file;
+        if( !fin.is_open() ) {
+            DebugLog( D_ERROR, DC_ALL ) << "Can't read " << operation_name << " config from " << file;
         }
 
-        std::string tileset_name;
+        std::string resource_name;
         // should only have 2 values inside it, otherwise is going to only load the last 2 values
-        while(!fin.eof()) {
+        while( !fin.eof() ) {
             std::string sOption;
             fin >> sOption;
 
-            if(sOption == "") {
-                getline(fin, sOption);    // Empty line, chomp it
-            } else if(sOption[0] == '#') { // # indicates a comment
-                getline(fin, sOption);
+            if( sOption.empty() ) {
+                getline( fin, sOption );    // Empty line, chomp it
+            } else if( sOption[0] == '#' ) { // # indicates a comment
+                getline( fin, sOption );
             } else {
-                if (sOption.find("NAME") != std::string::npos) {
-                    tileset_name = "";
-                    fin >> tileset_name;
-                    if(tileset_names.empty()) {
-                        tileset_names += tileset_name;
+                if( sOption.find( "NAME" ) != std::string::npos ) {
+                    resource_name = "";
+                    fin >> resource_name;
+                    if( resource_names.empty() ) {
+                        resource_names += resource_name;
                     } else {
-                        tileset_names += std::string(",");
-                        tileset_names += tileset_name;
+                        resource_names += std::string( "," );
+                        resource_names += resource_name;
                     }
-                } else if (sOption.find("VIEW") != std::string::npos) {
+                } else if( sOption.find( "VIEW" ) != std::string::npos ) {
                     std::string viewName = "";
                     fin >> viewName;
-                    optionNames[tileset_name] = viewName;
+                    optionNames[resource_name] = viewName;
                     break;
                 }
             }
         }
         fin.close();
-        if (TILESETS.count(tileset_name) != 0) {
-            DebugLog( D_ERROR, DC_ALL ) << "Found tileset dublicate with name " << tileset_name;
+        if( resource_option.count( resource_name ) != 0 ) {
+            DebugLog( D_ERROR, DC_ALL ) << "Found " << operation_name << " duplicate with name " << resource_name;
         } else {
-            TILESETS.insert(std::pair<std::string,std::string>(tileset_name, ts_dir));
+            resource_option.insert( std::pair<std::string,std::string>( resource_name, resource_dir ) );
         }
     }
 
-    if(tileset_names == "") {
-        optionNames["deon"] = _("Deon's");          // more standards
+    return resource_names;
+}
+
+std::string options_manager::build_tilesets_list()
+{
+    std::string tileset_names = build_resource_list( TILESETS, "tileset",
+                                                     "gfxdir", "tileset-conf");
+
+    if( tileset_names.empty() ) {
+        optionNames["deon"] = _("Deon's");
         optionNames["hoder"] = _("Hoder's");
-        return defaultTilesets;
-
+        return "hoder,deon";
     }
-
     return tileset_names;
 }
 
-/** Fill SOUNDPACKS mapping with values.
- * Scans all directores in FILENAMES["sounddir"] directory for file named FILENAMES["soundpack-conf"].
- * All founded values added in mapping SOUNDPACKS as name, soundpack_dir.
- * Furthermore, it builds possible values list for cOpt class.
- * @return One string containing all found soundpacks in form "soundpack1,soundpack2,soundpack3,..."
- */
 std::string options_manager::build_soundpacks_list()
 {
-    const std::string defaultSoundpacks = "basic";
-    std::string soundpack_names;
-
-    SOUNDPACKS.clear();
-
-    auto const soundpacks_dirs = get_directories_with(FILENAMES["soundpack-conf"], FILENAMES["sounddir"], true);
-
-    for( auto &sp_dir : soundpacks_dirs ) {
-        std::ifstream fin;
-        std::string file = sp_dir + "/" + FILENAMES["soundpack-conf"];
-
-        fin.open( file.c_str() );
-        if(!fin.is_open()) {
-            DebugLog( D_ERROR, DC_ALL ) << "Can't read soundpack config from " << file;
-        }
-
-        std::string soundpack_name;
-        // should only have 2 values inside it, otherwise is going to only load the last 2 values
-        while(!fin.eof()) {
-            std::string sOption;
-            fin >> sOption;
-
-            if(sOption == "") {
-                getline(fin, sOption);    // Empty line, chomp it
-            } else if(sOption[0] == '#') { // # indicates a comment
-                getline(fin, sOption);
-            } else {
-                if (sOption.find("NAME") != std::string::npos) {
-                    soundpack_name = "";
-                    fin >> soundpack_name;
-                    if(soundpack_names.empty()) {
-                        soundpack_names += soundpack_name;
-                    } else {
-                        soundpack_names += std::string(",");
-                        soundpack_names += soundpack_name;
-                    }
-                } else if (sOption.find("VIEW") != std::string::npos) {
-                    std::string viewName = "";
-                    fin >> viewName;
-                    optionNames[soundpack_name] = viewName;
-                    break;
-                }
-            }
-        }
-        fin.close();
-        if (SOUNDPACKS.count(soundpack_name) != 0) {
-            DebugLog( D_ERROR, DC_ALL ) << "Found soundpack duplicate with name " << soundpack_name;
-        } else {
-            SOUNDPACKS.insert(std::pair<std::string,std::string>(soundpack_name, sp_dir));
-        }
-    }
-
-    if(soundpack_names == "") {
+    const std::string soundpack_names = build_resource_list( SOUNDPACKS, "soundpack",
+                                                             "sounddir", "soundpack-conf");
+    if( soundpack_names.empty() ) {
         optionNames["basic"] = _("Basic");
-        return defaultSoundpacks;
-
+        return "basic";
     }
-
     return soundpack_names;
 }
 
