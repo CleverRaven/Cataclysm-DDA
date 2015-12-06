@@ -169,7 +169,7 @@
     "autolearn": false,
     "book_learn": [[ "abdul_necro", 4 ]],
     "tools":[
-      [ [ "needle_bone", 30 ], [ "needle_wood", 30], [ "sewing_kit", 30], [ "tailors_kit", 30 ] ],
+      [ [ "sewing_kit", 30] ],
       [ ["UPS_off", 1], ["adv_UPS_off", 1] ]
     ],
     "components": [
@@ -211,7 +211,7 @@
     "autolearn": false,
     "book_learn": [["abdul_necro", 6]],
     "tools": [
-      [ ["needle_bone", 30], ["needle_wood", 30], ["sewing_kit", 30], ["tailors_kit", 30] ],
+      [ ["sewing_kit", 30] ],
       [ ["syringe", -1] ],
       [ ["vacutainer", -1] ]
     ],
