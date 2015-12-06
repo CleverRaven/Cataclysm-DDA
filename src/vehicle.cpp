@@ -3557,6 +3557,11 @@ bool vehicle::valid_wheel_config () const
 
 float vehicle::steering_effectiveness() const
 {
+    if (!floating.empty()) {
+        // I'M ON A BOAT
+        return 1.0;
+    }
+
     if (steering.empty()) {
         return -1.0; // No steering installed
     }
