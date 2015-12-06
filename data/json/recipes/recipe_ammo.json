@@ -439,157 +439,40 @@
     ]
 },{
   "type" : "recipe",
-  "result" : "arrow_fire_hardened",
-  "category" : "CC_AMMO",
-  "subcategory": "CSC_AMMO_ARROWS",
-  "skill_used" : "fabrication",
-  "skills_required": [ "survival", 1 ],
-  "difficulty" : 0,
-  "time" : 5000,
-  "reversible" : false,
-  "autolearn" : true,
-  "qualities":[
-    {"id":"CUT","level":1,"amount":1}
-  ],
-  "tools" : [
-    [
-      [ "fire", -1 ]
-    ]
-  ],
-  "components" : [
-    [
-      [ "shaft_wood", 10 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result" : "arrow_field_point",
-  "category" : "CC_AMMO",
-  "subcategory": "CSC_AMMO_ARROWS",
-  "skill_used" : "fabrication",
-  "skills_required": [ "archery", 1 ],
-  "difficulty" : 1,
-  "time" : 2000,
-  "reversible" : false,
-  "autolearn" : true,
-  "qualities":[
-    {"id":"CUT","level":1,"amount":1},
-    {"id":"HAMMER","level":1,"amount":1}
-  ],
-  "components" : [
-    [
-      [ "superglue", 5 ],
-      [ "bone_glue", 5 ],
-      [ "thread", 10, "NO_RECOVER" ],
-      [ "sinew", 10, "NO_RECOVER" ],
-      [ "plant_fibre", 10, "NO_RECOVER" ]
-    ],
-    [
-      [ "shaft_wood", 10 ]
-    ],
-    [
-      [ "bone", 5 ],
-      [ "bone_human", 5 ],
-      [ "bone_tainted", 10 ],
-      [ "rock", 1 ],
-      [ "ceramic_shard", 1 ],
-      [ "scrap", 2 ],
-      [ "nail", 10 ],
-      [ "sharp_rock", 1 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result" : "arrow_small_game",
-  "category" : "CC_AMMO",
-  "subcategory": "CSC_AMMO_ARROWS",
-  "skill_used" : "fabrication",
-  "skills_required": [ "survival", 1 ],
-  "difficulty" : 1,
-  "time" : 2000,
-  "reversible" : false,
-  "autolearn" : true,
-  "book_learn" : [[ "recipe_arrows", 1 ] , [ "pocket_survival", 1]],
-  "qualities":[
-    {"id":"CUT","level":1,"amount":1}
-  ],
-  "components" : [
-    [
-      [ "superglue", 5 ],
-      [ "bone_glue", 5 ],
-      [ "thread", 10, "NO_RECOVER" ],
-      [ "sinew", 10, "NO_RECOVER" ],
-      [ "plant_fibre", 10, "NO_RECOVER" ]
-    ],
-    [
-      [ "shaft_wood", 10 ]
-    ],
-    [
-      [ "bone", 5 ],
-      [ "bone_human", 5 ],
-      [ "bone_tainted", 10 ],
-      [ "rock", 1 ],
-      [ "ceramic_shard", 1 ],
-      [ "scrap", 2 ],
-      [ "nail", 10 ],
-      [ "sharp_rock", 1 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result" : "arrow_fire_hardened_fletched",
-  "category" : "CC_AMMO",
-  "subcategory": "CSC_AMMO_ARROWS",
-  "skill_used" : "fabrication",
-  "skills_required": [ "survival", 2 ],
-  "difficulty" : 1,
-  "time" : 3000,
-  "reversible" : true,
-  "autolearn" : true,
-  "book_learn" : [[ "recipe_arrows", 2 ] , [ "book_archery", 2]],
-  "qualities":[
-    {"id":"CUT","level":1,"amount":1}
-  ],
-  "components" : [
-    [
-      [ "superglue", 5 ],
-      [ "bone_glue", 5 ],
-      [ "thread", 10, "NO_RECOVER" ],
-      [ "sinew", 10, "NO_RECOVER" ],
-      [ "plant_fibre", 10, "NO_RECOVER" ]
-    ],
-    [
-      [ "arrow_fire_hardened", 10 ]
-    ],
-    [
-      [ "fletching", 10 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
   "result" : "arrow_field_point_fletched",
   "category" : "CC_AMMO",
   "subcategory": "CSC_AMMO_ARROWS",
   "skill_used" : "fabrication",
   "skills_required": [ "archery", 2 ],
   "difficulty" : 3,
-  "time" : 3000,
-  "reversible" : true,
+  "time" : 5000,
+  "reversible" : false,
   "autolearn" : true,
   "book_learn" : [[ "recipe_arrows", 1 ] , [ "book_archery", 3]],
   "qualities":[
-    {"id":"CUT","level":1,"amount":1}
+    {"id":"CUT","level":1,"amount":1},
+    {"id":"HAMMER","level":1,"amount":1}
   ],
   "components" : [
     [
-      [ "superglue", 5 ],
-      [ "bone_glue", 5 ],
-      [ "thread", 10, "NO_RECOVER" ],
-      [ "sinew", 10, "NO_RECOVER" ],
-      [ "plant_fibre", 10, "NO_RECOVER" ]
+      [ "superglue", 2 ],
+      [ "bone_glue", 2 ],
+      [ "thread", 20 ],
+      [ "sinew", 20 ],
+      [ "plant_fibre", 20 ]
     ],
     [
-      [ "arrow_field_point", 10 ]
+      [ "shaft_wood", 10 ]
+    ],
+    [
+      [ "bone", 5 ],
+      [ "bone_human", 5 ],
+      [ "bone_tainted", 10 ],
+      [ "rock", 1 ],
+      [ "ceramic_shard", 1 ],
+      [ "scrap", 2 ],
+      [ "nail", 10 ],
+      [ "sharp_rock", 1 ]
     ],
     [
       [ "fletching", 10 ]
@@ -601,10 +484,10 @@
   "category" : "CC_AMMO",
   "subcategory": "CSC_AMMO_ARROWS",
   "skill_used" : "fabrication",
-  "skills_required": [ "survival", 2 ],
-  "difficulty" : 2,
-  "time" : 3000,
-  "reversible" : true,
+  "skills_required": [ "survival", 1 ],
+  "difficulty" : 1,
+  "time" : 5000,
+  "reversible" : false,
   "autolearn" : true,
   "book_learn" : [[ "recipe_arrows", 1 ] , [ "pocket_survival", 1], [ "book_archery", 2]],
   "qualities":[
@@ -612,14 +495,59 @@
   ],
   "components" : [
     [
-      [ "superglue", 5 ],
-      [ "bone_glue", 5 ],
-      [ "thread", 10, "NO_RECOVER" ],
-      [ "sinew", 10, "NO_RECOVER" ],
-      [ "plant_fibre", 10, "NO_RECOVER" ]
+      [ "superglue", 2 ],
+      [ "bone_glue", 2 ],
+      [ "thread", 20 ],
+      [ "sinew", 20 ],
+      [ "plant_fibre", 20 ]
     ],
     [
-      [ "arrow_small_game", 10 ]
+      [ "shaft_wood", 10 ]
+    ],
+    [
+      [ "bone", 5 ],
+      [ "bone_human", 5 ],
+      [ "bone_tainted", 10 ],
+      [ "rock", 1 ],
+      [ "ceramic_shard", 1 ],
+      [ "scrap", 2 ],
+      [ "nail", 10 ],
+      [ "sharp_rock", 1 ]
+    ],
+    [
+      [ "fletching", 10 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result" : "arrow_fire_hardened_fletched",
+  "category" : "CC_AMMO",
+  "subcategory": "CSC_AMMO_ARROWS",
+  "skill_used" : "fabrication",
+  "skills_required": [ "survival", 2 ],
+  "difficulty" : 1,
+  "time" : 8000,
+  "reversible" : false,
+  "autolearn" : true,
+  "book_learn" : [[ "recipe_arrows", 2 ] , [ "book_archery", 2]],
+  "qualities":[
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "tools" : [
+    [
+      [ "fire", -1 ]
+    ]
+  ],
+  "components" : [
+    [
+      [ "superglue", 1 ],
+      [ "bone_glue", 1 ],
+      [ "thread", 10 ],
+      [ "sinew", 10 ],
+      [ "plant_fibre", 10 ]
+    ],
+    [
+      [ "shaft_wood", 10 ]
     ],
     [
       [ "fletching", 10 ]
@@ -686,8 +614,8 @@
   ],
   "components" : [
     [
-      [ "superglue", 10 ],
-      [ "bone_glue", 10 ],
+      [ "superglue", 2 ],
+      [ "bone_glue", 2 ],
       [ "thread", 20, "NO_RECOVER" ],
       [ "sinew", 20, "NO_RECOVER" ],
       [ "plant_fibre", 20, "NO_RECOVER" ]
@@ -704,33 +632,13 @@
   ]
 },{
   "type" : "recipe",
-  "result" : "arrow_metal_sharpened",
-  "category" : "CC_AMMO",
-  "subcategory": "CSC_AMMO_ARROWS",
-  "skill_used" : "fabrication",
-  "skills_required": [ "archery", 3 ],
-  "difficulty" : 4,
-  "time" : 5000,
-  "reversible" : false,
-  "autolearn" : true,
-  "book_learn" : [[ "recipe_arrows", 3 ]],
-  "qualities":[
-    {"id":"HAMMER","level":1,"amount":1},
-    {"id":"SAW_M","level":1,"amount":1}
-  ], "components" : [
-    [
-      [ "shaft_metal", 10 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
   "result" : "arrow_metal_sharpened_fletched",
   "category" : "CC_AMMO",
   "subcategory": "CSC_AMMO_ARROWS",
   "skill_used" : "fabrication",
   "skills_required": [ "archery", 3 ],
   "difficulty" : 4,
-  "time" : 5000,
+  "time" : 10000,
   "reversible" : false,
   "autolearn" : true,
   "book_learn" : [[ "recipe_arrows", 3 ]],
@@ -739,39 +647,17 @@
     {"id":"SAW_M","level":1,"amount":1}
   ], "components" : [
     [
-      [ "superglue", 5 ],
-      [ "bone_glue", 5 ],
-      [ "thread", 10, "NO_RECOVER" ],
-      [ "sinew", 10, "NO_RECOVER" ],
-      [ "plant_fibre", 10, "NO_RECOVER" ]
+      [ "superglue", 1 ],
+      [ "bone_glue", 1 ],
+      [ "thread", 10 ],
+      [ "sinew", 10 ],
+      [ "plant_fibre", 10 ]
     ],
     [
-      [ "arrow_metal_sharpened", 10 ]
+      [ "shaft_metal", 10 ]
     ],
     [
       [ "fletching", 10 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result" : "arrow_heavy_fire_hardened",
-  "category" : "CC_AMMO",
-  "subcategory": "CSC_AMMO_ARROWS",
-  "skill_used" : "fabrication",
-  "skills_required": [ "survival", 3 ],
-  "difficulty" : 4,
-  "time" : 5000,
-  "reversible" : false,
-  "autolearn" : true,
-  "qualities":[
-    {"id":"CUT","level":1,"amount":1}
-  ], "tools" : [
-    [
-      [ "fire", -1 ]
-    ]
-  ], "components" : [
-    [
-      [ "shaft_wood_heavy", 10 ]
     ]
   ]
 },{
@@ -782,21 +668,25 @@
   "skill_used" : "fabrication",
   "skills_required": [ "survival", 3 ],
   "difficulty" : 4,
-  "time" : 5000,
-  "reversible" : true,
+  "time" : 10000,
+  "reversible" : false,
   "autolearn" : true,
   "qualities":[
     {"id":"CUT","level":1,"amount":1}
+  ], "tools" : [
+    [
+      [ "fire", -1 ]
+    ]
   ], "components" : [
     [
-      [ "superglue", 5 ],
-      [ "bone_glue", 5 ],
-      [ "thread", 10, "NO_RECOVER" ],
-      [ "sinew", 10, "NO_RECOVER" ],
-      [ "plant_fibre", 10, "NO_RECOVER" ]
+      [ "superglue", 1 ],
+      [ "bone_glue", 1 ],
+      [ "thread", 10 ],
+      [ "sinew", 10 ],
+      [ "plant_fibre", 10 ]
     ],
     [
-      [ "arrow_heavy_fire_hardened", 10 ]
+      [ "shaft_wood_heavy", 10 ]
     ],
     [
       [ "fletching", 10 ]
@@ -804,13 +694,13 @@
   ]
 },{
   "type" : "recipe",
-  "result" : "arrow_heavy_field_point",
+  "result" : "arrow_heavy_field_point_fletched",
   "category" : "CC_AMMO",
   "subcategory": "CSC_AMMO_ARROWS",
   "skill_used" : "fabrication",
   "skills_required": [ "archery", 3 ],
   "difficulty" : 4,
-  "time" : 5000,
+  "time" : 7000,
   "reversible" : false,
   "autolearn" : true,
   "qualities":[
@@ -819,11 +709,11 @@
   ],
   "components" : [
     [
-      [ "superglue", 5 ],
-      [ "bone_glue", 5 ],
-      [ "thread", 10, "NO_RECOVER" ],
-      [ "sinew", 10, "NO_RECOVER" ],
-      [ "plant_fibre", 10, "NO_RECOVER" ]
+      [ "superglue", 2 ],
+      [ "bone_glue", 2 ],
+      [ "thread", 20 ],
+      [ "sinew", 20 ],
+      [ "plant_fibre", 20 ]
     ],
     [
       [ "shaft_wood_heavy", 10 ]
@@ -837,33 +727,6 @@
       [ "scrap", 2 ],
       [ "nail", 10 ],
       [ "sharp_rock", 1 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result" : "arrow_heavy_field_point_fletched",
-  "category" : "CC_AMMO",
-  "subcategory": "CSC_AMMO_ARROWS",
-  "skill_used" : "fabrication",
-  "skills_required": [ "archery", 3 ],
-  "difficulty" : 4,
-  "time" : 2000,
-  "reversible" : true,
-  "autolearn" : true,
-  "book_learn" : [[ "recipe_arrows", 2 ] , [ "pocket_survival", 2]],
-  "qualities" : [
-    {"id":"CUT","level":1,"amount":1}
-  ],
-  "components" : [
-    [
-      [ "superglue", 5 ],
-      [ "bone_glue", 5 ],
-      [ "thread", 10, "NO_RECOVER" ],
-      [ "sinew", 10, "NO_RECOVER" ],
-      [ "plant_fibre", 10, "NO_RECOVER" ]
-    ],
-    [
-      [ "arrow_heavy_field_point", 10 ]
     ],
     [
       [ "fletching", 10 ]
@@ -886,8 +749,8 @@
   ],
   "components" : [
     [
-      [ "superglue", 10 ],
-      [ "bone_glue", 10 ],
+      [ "superglue", 2 ],
+      [ "bone_glue", 2 ],
       [ "thread", 20, "NO_RECOVER" ],
       [ "sinew", 20, "NO_RECOVER" ],
       [ "plant_fibre", 20, "NO_RECOVER" ]
@@ -921,8 +784,8 @@
     {"id":"SAW_M","level":1,"amount":1}
   ], "components" : [
     [
-      [ "superglue", 10 ],
-      [ "bone_glue", 10 ],
+      [ "superglue", 2 ],
+      [ "bone_glue", 2 ],
       [ "thread", 20, "NO_RECOVER" ],
       [ "sinew", 20, "NO_RECOVER" ],
       [ "plant_fibre", 20, "NO_RECOVER" ]
@@ -3542,67 +3405,24 @@
   ]
 },{
   "type" : "recipe",
-  "result" : "shaft_plastic",
-  "category" : "CC_AMMO",
-  "subcategory": "CSC_AMMO_COMPONENTS",
-  "skill_used" : "fabrication",
-  "skills_required" : ["archery", 1],
-  "difficulty" : 2,
-  "time" : 1000,
-  "reversible" : false,
-  "autolearn" : true,
-  "tools" : [ [ ["mold_plastic", -1] ],
-    [
-      ["hotplate", 5],
-      ["toolset", 5],
-      ["fire", -1]
-    ]
-  ],
-  "components" : [
-    [
-      [ "plastic_chunk", 2 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result" : "arrowhead_plastic",
-  "category" : "CC_AMMO",
-  "subcategory": "CSC_AMMO_COMPONENTS",
-  "skill_used" : "fabrication",
-  "skills_required" : ["archery", 3],
-  "difficulty" : 4,
-  "time" : 20000,
-  "reversible" : false,
-  "autolearn" : true,
-  "tools" : [ [ ["mold_plastic", -1] ],
-    [
-      ["hotplate", 5],
-      ["toolset", 5],
-      ["fire", -1]
-    ]
-  ],
-  "components" : [ [ ["plastic_chunk", 1] ] ]
-},{
-  "type" : "recipe",
   "result" : "arrow_plastic",
   "category": "CC_AMMO",
   "subcategory": "CSC_AMMO_ARROWS",
   "skill_used" : "fabrication",
   "skills_required" : ["archery", 3],
   "difficulty" : 5,
-  "time" : 30000,
+  "time" : 51000,
   "reversible" : false,
   "autolearn" : true,
   "tools" : [ [ ["mold_plastic", -1] ],
     [
-      ["hotplate", 5],
-      ["toolset", 5],
+      ["hotplate", 15],
+      ["toolset", 15],
       ["fire", -1]
     ]
   ],
   "components" : [
-    [ ["arrowhead_plastic", 10] ],
-    [ ["shaft_plastic", 10] ],
+    [ ["plastic_chunk", 3] ],
     [ ["fletching", 10] ]
   ]
 },{
