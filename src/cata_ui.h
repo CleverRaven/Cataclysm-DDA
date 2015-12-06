@@ -291,79 +291,120 @@ class tabbed_window : public bordered_window {
         std::string handle_input() override;
 };
 
+struct default_draw_func {
+    void operator()( WINDOW *win, int x, int y, nc_color color, std::string &txt, size_t available_space, bool selected )
+    {
+        if( txt.size() > available_space ) {
+            txt = txt.substr( 0, available_space );
+        }
+
+        mvwprintz( win, y, x, selected ? hilite(color) : color, "%s", txt.c_str() );
+    }
+};
+
 /**
 * @brief Basically, a list of text.
 *
 * One of the lines of text is highlighted (selected).
 * The list also has a scroll bar.
 */
+template<typename D = std::string, typename Draw_Func = default_draw_func, D default_current = "">
 class ui_vertical_list : public ui_element {
     private:
-        std::vector<std::string> text;
-        std::vector<unsigned int> to_highlight;
+        std::vector<D> items;
         unsigned int scroll = 0;
         unsigned int window_scroll = 0;
+
+        Draw_Func draw_item;
     protected:
-        void draw() override;
+        void draw() override
+        {
+            auto win = get_win();
+            if( win == nullptr ) {
+                return;
+            }
+
+            int start_line = 0;
+            calcStartPos( start_line, scroll, get_rect().size_y, items.size() );
+            unsigned int end_line = start_line + get_rect().size_y;
+
+            size_t available_space = get_rect().size_x - 2; // 2 for scroll bar and spacer
+
+            for( unsigned int line = start_line; line < end_line && line < items.size(); line++ ) {
+                draw_item( win, get_ay() + line - start_line, get_ax() + 2, text_color, items[line], available_space, scroll == line );
+            }
+
+            draw_scrollbar( win, scroll, get_rect().size_y, items.size(), get_ay(), get_ax(), bar_color, false );
+        }
     public:
-        ui_vertical_list( size_t size_x, size_t size_y, int x = 0, int y = 0, ui_anchor anchor = ui_anchor::top_left );
+        ui_vertical_list( size_t size_x, size_t size_y, int x = 0, int y = 0, ui_anchor anchor = ui_anchor::top_left, Draw_Func d = Draw_Func() ) :
+                          ui_element( size_x, size_y, x, y, anchor ), draw_item( d )
+        {
+        }
 
         nc_color text_color = c_white;
         nc_color bar_color = c_ltblue;
-        nc_color highlight_color = c_ltgreen;
 
-        void set_text( std::vector<std::string> text );
-        void add_highlight( unsigned int i );
-        void add_highlight( const std::string &line );
+        void set_items( std::vector<D> items )
+        {
+            this->items = items;
+        }
 
-        void scroll_up();
-        void scroll_down();
-        std::string current() const;
+        void scroll_up()
+        {
+            if( items.size() > 1 ) {
+                scroll = ( scroll == 0 ? items.size() - 1 : scroll - 1 );
+
+                if( scroll == items.size() - 1 ) {
+                    window_scroll = scroll - get_rect().size_y + 1;
+                } else if( scroll < window_scroll ) {
+                    window_scroll--;
+                }
+                on_scroll();
+            }
+        }
+
+        void scroll_down()
+        {
+            if( items.size() > 1 ) {
+                scroll = ( scroll == items.size() - 1 ? 0 : scroll + 1 );
+
+                if( scroll > get_rect().size_y + window_scroll - 1 ) {
+                    window_scroll++;
+                } else if( scroll == 0 ) {
+                    window_scroll = 0;
+                }
+                on_scroll();
+            }
+        }
+
+        D current() const
+        {
+            if( items.empty() ) {
+                return default_current;
+            }
+            return items[scroll];
+        }
 
         ui_event<> on_select;
         ui_event<> on_scroll;
 
-        void send_action( const std::string &action ) override;
-
-        void clear_highlights() { to_highlight.clear(); }
+        void send_action( const std::string &action ) override
+        {
+            if( action == "UP" ) {
+                scroll_up();
+            } else if( action == "DOWN" ) {
+                scroll_down();
+            } else if( action == "CONFIRM" ) {
+                if( !items.empty() ) {
+                    on_select();
+                }
+            }
+        }
 
         bool empty() const
         {
-            return text.empty();
-        }
-};
-
-/**
-* @brief A special version of ui_vertiacl_list that binds list items to data.
-*/
-template<typename D>
-class ui_record_list : public ui_vertical_list {
-        std::map<std::string, D *> data_map;
-    public:
-        ui_record_list( size_t size_x, size_t size_y, int x = 0, int y = 0, ui_anchor anchor = ui_anchor::top_left ) : ui_vertical_list(size_x, size_y, x, y, anchor) {
-        }
-
-        void make_records( const std::vector<D *> &data, std::function<std::string(D *)> get_text, std::function<bool(D *)> to_highlight = [](D *){ return false; } )
-        {
-            std::vector<std::string> text;
-
-            for( unsigned int i = 0; i < data.size(); i++ ) {
-                std::string e_text = get_text( data[i] );
-                text.push_back( e_text );
-                data_map[e_text] = data[i];
-
-                if( to_highlight( data[i] ) ) {
-                    ui_vertical_list::add_highlight( i );
-                }
-            }
-
-            set_text( text );
-
-        }
-
-        D *get_cur_data()
-        {
-            return data_map[current()];
+            return items.empty();
         }
 };
 

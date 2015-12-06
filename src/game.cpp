@@ -4787,12 +4787,23 @@ void init_missions_tab( tabbed_window &win, size_t win_height, std::string &&tab
 {
     constexpr size_t list_width = 30;
     const size_t list_height = win_height - tabbed_window::header_size - 1;
-    constexpr auto name_lambda = [](mission *miss){ return miss->name(); }; // for mapping data to text in make_records
-    constexpr auto active_lambda = [](mission *miss){ return g->u.get_active_mission() == miss; }; // for highlighting the active mission
+    constexpr auto draw_lambda = []( WINDOW *win, int x, int y, nc_color color, mission *miss, size_t available_space, bool selected )
+        {
+            auto name = miss->name();
+            if( name.size() > available_space ) {
+                name = name.substr( 0, available_space );
+            }
+
+            nc_color col = color;
+            if( g->u.get_active_mission() == miss ) {
+                col = c_ltgreen;
+            }
+
+            mvwprintz( win, y, x, selected ? hilite(col) : col, "%s", name.c_str() );
+        }; // custom draw function for highlighting the active mission
 
     auto tab = win.create_tab( tab_name );
-    auto _list = win.create_child<ui_record_list<mission>>( list_width, list_height , 0, tabbed_window::header_size );
-    _list->make_records( data, name_lambda, active_lambda );
+    auto _list = win.create_child<ui_vertical_list<mission *, decltype(draw_lambda), nullptr>>( list_width, list_height , 0, tabbed_window::header_size, ui_anchor::top_left, draw_lambda );
 
     auto _border = win.create_child<ui_border>( 1, list_height );
     _border->after( *_list );
@@ -4810,7 +4821,7 @@ void init_missions_tab( tabbed_window &win, size_t win_height, std::string &&tab
 
     // Hook some actions to our list's events
     _list->on_scroll += [_list, _desc, _target, _deadline]() {
-        auto miss = _list->get_cur_data();
+        auto miss = _list->current();
         _desc->set_text( miss->get_description() );
         if( miss->has_deadline() ) {
             // TODO: proper formatting of turns, see calendar class, it has some nice functions
@@ -4828,11 +4839,8 @@ void init_missions_tab( tabbed_window &win, size_t win_height, std::string &&tab
     // Used for the active missions tab, where we can also select a mission
     if( can_confirm ) {
         _list->on_select += [_list]() {
-            auto miss = _list->get_cur_data();
+            auto miss = _list->current();
             g->u.set_active_mission( *miss );
-
-            _list->clear_highlights();
-            _list->add_highlight( miss->name() );
         };
     }
 }
