@@ -5307,83 +5307,90 @@ void vehicle::refresh_pivot() const {
         return;
     }
 
-    // center of steering must be within the convex hull of the wheels
-    // find a simple bounding box and don't bother scanning outside there
-    point lo = parts[wheelcache[0]].mount;
-    point hi = parts[wheelcache[0]].mount;
+    // The model here is:
+    //
+    //  We are trying to rotate around some point (xc,yc)
+    //  This produces a friction force / moment from each wheel resisting the
+    //  rotation. We want to find the point that minimizes that resistance.
+    //
+    //  For a given wheel w at (xw,yw), find:
+    //   weight(w): a scaling factor for the friction force based on wheel
+    //              size, brokenness, steerability/orientation
+    //   center_dist: the distance from (xw,yw) to (xc,yc)
+    //   centerline_angle: the angle between the X axis and a line through
+    //                     (xw,yw) and (xc,yc)
+    //
+    //  Decompose the force into two components, assuming that the wheel is
+    //  aligned along the X axis and we want to apply diffferent weightings to
+    //  the in-line vs perpendicular parts of the force:
+    //
+    //   Resistance force in line with the wheel (X axis)
+    //    Fi = weightI(w) * center_dist * sin(centerline_angle)
+    //   Resistance force perpendicular to the wheel (Y axis):
+    //    Fp = weightP(w) * center_dist * cos(centerline_angle);
+    //
+    //  Then find the moment that these two forces would apply around (xc,yc)
+    //    moment(w) = center_dist * cos(centerline_angle) * Fi +
+    //                center_dist * sin(centerline_angle) * Fp
+    //
+    //  Note that:
+    //    cos(centerline_angle) = (xw-xc) / center_dist
+    //    sin(centerline_angle) = (yw-yc) / center_dist
+    // -> moment(w) = weightP(w)*(xw-xc)^2 + weightI(w)*(yw-yc)^2
+    //              = weightP(w)*xc^2 - 2*weightP(w)*xc*xw + weightP(w)*xw^2 +
+    //                weightI(w)*yc^2 - 2*weightI(w)*yc*yw + weightI(w)*yw^2
+    //
+    //  which happily means that the X and Y axes can be handled independently.
+    //  We want to minimize sum(moment(w)) due to wheels w=0,1,..., which
+    //  occurs when:
+    //
+    //    sum( 2*xc*weightP(w) - 2*weightP(w)*xw ) = 0
+    //     -> xc = (weightP(0)*x0 + weightP(1)*x1 + ...) /
+    //             (weightP(0) + weightP(1) + ...)
+    //    sum( 2*yc*weightI(w) - 2*weightI(w)*yw ) = 0
+    //     -> yc = (weightI(0)*y0 + weightI(1)*y1 + ...) /
+    //             (weightI(0) + weightI(1) + ...)
+    //
+    // so it turns into a fairly simple weighted average of the wheel positions.
+
+    float xc_numerator = 0, xc_denominator = 0;
+    float yc_numerator = 0, yc_denominator = 0;
+
     for (int p : wheelcache) {
         const auto &wheel = parts[p];
-        lo.x = std::min(lo.x, wheel.mount.x);
-        lo.y = std::min(lo.y, wheel.mount.y);
-        hi.x = std::max(hi.x, wheel.mount.x);
-        hi.y = std::max(hi.y, wheel.mount.y);
-    }
 
-    // try every point, find the one with the least rotational resistance.
-    // this will be pretty expensive on big vehicles!
-
-    // NB: With the current model, this can actually simplify a lot
-    // (to a simple weighted average of the wheel positions, which is way
-    // cheaper) but for now I have the full thing here.
-
-    float best_drag = HUGE_VALF;
-    int npoints = 0;
-    for (int x = lo.x; x <= hi.x; ++x) {
-        for (int y = lo.y; y <= hi.y; ++y) {
-            float total_drag = 0;
-
-            for (int p : wheelcache) {
-                const auto &wheel = parts[p];
-
-                float contact_area = wheel.info().wheel_width * wheel.bigness;        // todo: load on tyre?
-                if (wheel.hp <= 0) {
-                    contact_area *= 5;
-                } else if (wheel.info().has_flag("STEERABLE")) {
-                    // Unbroken steerable wheels turn easily
-                    contact_area *= 0.1;
-                }
-
-                // The model here is:
-                //
-                //  We are trying to rotate around (x,y)
-                //  This produces a friction force from each wheel resisting the rotation
-                //  We decompose the force into two components:
-                //   X axis: rolling friction, low (we assume wheels are aligned with the X axis)
-                //   Y axis: trying to move the wheel sideways, high friction
-                //  Then we find the moment that these two forces would apply at (x,y)
-
-                float center_dist = trig_dist(x, y, wheel.mount.x, wheel.mount.y);    // distance from new center
-                float centerline_angle = atan2(wheel.mount.y - y, wheel.mount.x - x); // angle between X axis and a line thru center & wheel
-                float y_force = contact_area * center_dist * cos(centerline_angle);        // resistance along Y axis (high - trying to skid)
-                float x_force = contact_area * center_dist * sin(centerline_angle) * 0.01; // resistance along X axis (low - rolling)
-                float drag = center_dist * (cos(centerline_angle) * y_force + sin(centerline_angle) * x_force); // resisting moment around center
-
-                total_drag += drag;
-                if (total_drag + 0.1 >= best_drag) {
-                    // this cannot be better, bail early
-                    break;
-                }
-            }
-
-            if ((total_drag - 0.1) < best_drag) {
-                if (npoints > 0 && fabs(best_drag - total_drag) < 0.1) {
-                    // close match, average it in
-                    pivot_cache.x += x;
-                    pivot_cache.y += y;
-                    ++npoints;
-                } else {
-                    // reset sum
-                    pivot_cache.x = x;
-                    pivot_cache.y = y;
-                    npoints = 1;
-                }
-                best_drag = std::min(best_drag, total_drag);
-            }
+        float contact_area = wheel.info().wheel_width * wheel.bigness;        // todo: load on tyre?
+        float weight_i;  // weighting for the in-line part
+        float weight_p;  // weighting for the perpendicular part
+        if (wheel.hp <= 0) {
+            // broken wheels don't roll on either axis
+            weight_i = contact_area * 2;
+            weight_p = contact_area * 2;
+        } else if (wheel.info().has_flag("STEERABLE")) {
+            // Unbroken steerable wheels can handle motion on both axes
+            // (but roll a little more easily inline)
+            weight_i = contact_area * 0.1;
+            weight_p = contact_area * 0.2;
+        } else {
+            // Regular wheels resist perpendicular motion
+            weight_i = contact_area * 0.1;
+            weight_p = contact_area;
         }
+
+        xc_numerator += weight_p * wheel.mount.x;
+        yc_numerator += weight_i * wheel.mount.y;
+        xc_denominator += weight_p;
+        yc_denominator += weight_i;
     }
 
-    pivot_cache.x /= npoints;
-    pivot_cache.y /= npoints;
+    if (xc_denominator < 0.1 || yc_denominator < 0.1) {
+        debugmsg("vehicle::refresh_pivot had a bad weight: xc=%.3f/%.3f yc=%.3f/%.3f",
+                 xc_numerator, xc_denominator, yc_numerator, yc_denominator);
+        center_of_mass(pivot_cache.x, pivot_cache.y, false);
+    } else {
+        pivot_cache.x = round(xc_numerator / xc_denominator);
+        pivot_cache.y = round(yc_numerator / yc_denominator);
+    }
 }
 
 void vehicle::remove_remote_part(int part_num) {
