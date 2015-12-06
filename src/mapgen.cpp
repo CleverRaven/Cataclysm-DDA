@@ -1654,11 +1654,11 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
     // To distinguish between types of labs
     bool ice_lab = true;
 
-    oter_id t_nesw[] = {t_north, t_east, t_south, t_west, t_neast, t_seast, t_nwest, t_swest};
+    oter_id t_nesw[] = {t_north, t_east, t_south, t_west, t_neast, t_seast, t_swest, t_nwest};
     int nesw_fac[] = {0, 0, 0, 0, 0, 0, 0, 0};
     int &n_fac = nesw_fac[0], &e_fac = nesw_fac[1], &s_fac = nesw_fac[2], &w_fac = nesw_fac[3];
 
-    mapgendata dat(t_north, t_east, t_south, t_west, t_neast, t_seast, t_nwest, t_swest, t_above, zlevel, rsettings, this);
+    mapgendata dat(t_north, t_east, t_south, t_west, t_neast, t_seast, t_swest, t_nwest, t_above, zlevel, rsettings, this);
 
     computer *tmpcomp = NULL;
     bool terrain_type_found = true;

@@ -34,8 +34,9 @@ const mtype_id mon_spider_widow_giant( "mon_spider_widow_giant" );
 const mtype_id mon_wasp( "mon_wasp" );
 const mtype_id mon_zombie_jackson( "mon_zombie_jackson" );
 
-mapgendata::mapgendata(oter_id north, oter_id east, oter_id south, oter_id west, oter_id northeast,
-                       oter_id northwest, oter_id southeast, oter_id southwest, oter_id up, int z, const regional_settings * rsettings, map * mp) :
+mapgendata::mapgendata(oter_id north, oter_id east, oter_id south, oter_id west,
+                       oter_id northeast, oter_id southeast, oter_id southwest, oter_id northwest,
+                       oter_id up, int z, const regional_settings * rsettings, map * mp) :
     default_groundcover(t_null,1,t_null)
 {
     t_nesw[0] = north;
@@ -54,8 +55,8 @@ mapgendata::mapgendata(oter_id north, oter_id east, oter_id south, oter_id west,
     w_fac = 0;
     ne_fac = 0;
     se_fac = 0;
-    nw_fac = 0;
     sw_fac = 0;
+    nw_fac = 0;
     region = rsettings;
     m = mp;
     // making a copy so we can fudge values if desired
@@ -278,10 +279,10 @@ void mapgendata::set_dir(int dir_in, int val)
         se_fac = val;
         break;
     case 6:
-        nw_fac = val;
+        sw_fac = val;
         break;
     case 7:
-        sw_fac = val;
+        nw_fac = val;
         break;
     default:
         debugmsg("Invalid direction for mapgendata::set_dir. dir_in = %d", dir_in);
@@ -296,9 +297,9 @@ void mapgendata::fill(int val)
     s_fac = val;
     w_fac = val;
     ne_fac = val;
-    nw_fac = val;
     se_fac = val;
     sw_fac = val;
+    nw_fac = val;
 }
 
 int& mapgendata::dir(int dir_in)
@@ -323,10 +324,10 @@ int& mapgendata::dir(int dir_in)
         return se_fac;
         break;
     case 6:
-        return nw_fac;
+        return sw_fac;
         break;
     case 7:
-        return sw_fac;
+        return nw_fac;
         break;
     default:
         debugmsg("Invalid direction for mapgendata::set_dir. dir_in = %d", dir_in);
