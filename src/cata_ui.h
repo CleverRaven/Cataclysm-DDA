@@ -291,13 +291,10 @@ class tabbed_window : public bordered_window {
         std::string handle_input() override;
 };
 
-struct default_draw_func {
-    void operator()( WINDOW *win, int x, int y, nc_color color, std::string txt, size_t available_space, bool selected )
+constexpr auto default_draw_func = []( nc_color color, std::string txt )
     {
-        string_truncate( txt, available_space );
-        mvwprintz( win, y, x, selected ? hilite(color) : color, "%s", txt.c_str() );
-    }
-};
+        return std::pair<std::string, nc_color>{txt, color}; // perform no transformation
+    };
 
 /**
 * @brief Basically, a list of text.
@@ -305,14 +302,14 @@ struct default_draw_func {
 * One of the lines of text is highlighted (selected).
 * The list also has a scroll bar.
 */
-template<typename D = std::string, typename Draw_Func = default_draw_func, D default_current = "">
+template<typename D = std::string, typename Draw_Func = decltype(default_draw_func), D default_current = "">
 class ui_vertical_list : public ui_element {
     private:
         std::vector<D> items;
         unsigned int scroll = 0;
         unsigned int window_scroll = 0;
 
-        Draw_Func draw_item;
+        Draw_Func get_text_and_color;
     protected:
         void draw() override
         {
@@ -328,14 +325,18 @@ class ui_vertical_list : public ui_element {
             size_t available_space = get_rect().size_x - 2; // 2 for scroll bar and spacer
 
             for( unsigned int line = start_line; line < end_line && line < items.size(); line++ ) {
-                draw_item( win, get_ay() + line - start_line, get_ax() + 2, text_color, items[line], available_space, scroll == line );
+                auto t_c = get_text_and_color( text_color, items[line] );
+                std::string txt = t_c.first;
+                string_truncate( txt, available_space );
+
+                mvwprintz( win, get_ay() + line - start_line, get_ax() + 2, (scroll == line ? hilite(t_c.second) : t_c.second), "%s", txt.c_str() );
             }
 
             draw_scrollbar( win, scroll, get_rect().size_y, items.size(), get_ay(), get_ax(), bar_color, false );
         }
     public:
-        ui_vertical_list( size_t size_x, size_t size_y, int x = 0, int y = 0, ui_anchor anchor = ui_anchor::top_left, Draw_Func d = Draw_Func() ) :
-                          ui_element( size_x, size_y, x, y, anchor ), draw_item( d )
+        ui_vertical_list( size_t size_x, size_t size_y, int x = 0, int y = 0, ui_anchor anchor = ui_anchor::top_left, Draw_Func d = default_draw_func ) :
+                          ui_element( size_x, size_y, x, y, anchor ), get_text_and_color( d )
         {
         }
 

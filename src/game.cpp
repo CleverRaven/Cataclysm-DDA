@@ -4787,18 +4787,17 @@ void init_missions_tab( tabbed_window &win, size_t win_height, std::string &&tab
 {
     constexpr size_t list_width = 30;
     const size_t list_height = win_height - tabbed_window::header_size - 1;
-    constexpr auto draw_lambda = []( WINDOW *win, int x, int y, nc_color color, mission *miss, size_t available_space, bool selected )
+    constexpr auto draw_lambda = []( nc_color color, mission *miss )
         {
             auto name = miss->name();
-            string_truncate( name, available_space );
 
             nc_color col = color;
             if( g->u.get_active_mission() == miss ) {
                 col = c_ltgreen;
             }
 
-            mvwprintz( win, y, x, selected ? hilite(col) : col, "%s", name.c_str() );
-        }; // custom draw function for highlighting the active mission
+            return std::pair<std::string, nc_color>{name, col};
+        }; // get name from mission, highlight active mission.
 
     auto tab = win.create_tab( tab_name );
     auto _list = win.create_child<ui_vertical_list<mission *, decltype(draw_lambda), nullptr>>( list_width, list_height , 0, tabbed_window::header_size, ui_anchor::top_left, draw_lambda );
