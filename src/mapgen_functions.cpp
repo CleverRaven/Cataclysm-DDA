@@ -1177,6 +1177,25 @@ void mapgen_road(map *m, oter_id terrain_type, mapgendata dat, int turn, float d
             }
         }
     } else {
+        // 1/3 of dead ends in a sidewalk zone are cul de sacs
+        bool cul_de_sac = false;
+        if( num_dirs==1 &&
+            one_in(3) &&
+            (
+                sidewalks_neswx[0] ||
+                sidewalks_neswx[1] ||
+                sidewalks_neswx[2] ||
+                sidewalks_neswx[3] ||
+                sidewalks_neswx[4] ||
+                sidewalks_neswx[5] ||
+                sidewalks_neswx[6] ||
+                sidewalks_neswx[7]
+            )
+        ) {
+            cul_de_sac = true;
+            square(m, t_sidewalk, 0, 0, SEEX*2-1, SEEY*2-1);
+        }
+
         // draw sidewalks first
         for (int dir=0; dir<4; dir++) {
             if (roads_nesw[dir]) {
@@ -1234,12 +1253,6 @@ void mapgen_road(map *m, oter_id terrain_type, mapgendata dat, int turn, float d
             }
         }
 
-        // draw a slightly squared circle of pavement in the middle
-        circle(m, t_pavement, SEEX-1, SEEY-1, 7);
-        circle(m, t_pavement, SEEX, SEEY, 7);
-        circle(m, t_pavement, SEEX, SEEY-1, 7);
-        circle(m, t_pavement, SEEX-1, SEEY, 7);
-
         // draw yellow dots on the pavement
         for (int dir=0; dir<4; dir++) {
             if (roads_nesw[dir]) {
@@ -1254,6 +1267,24 @@ void mapgen_road(map *m, oter_id terrain_type, mapgendata dat, int turn, float d
                 }
             }
         }
+
+        // draw round pavement for cul de sac late, to overdraw the yellow dots
+        if (cul_de_sac) {
+            int dir=0;
+            if(roads_nesw[0]) dir=0;
+            if(roads_nesw[1]) dir=1;
+            if(roads_nesw[2]) dir=2;
+            if(roads_nesw[3]) dir=3;
+            for(int x=0;x<2;x++) {
+                for(int y=0;y<2;y++) {
+                    int tx=SEEX-1+x, ty=SEEY-1+y;
+                    coord_rotate_cw(tx,ty,dir);
+                    circle(m, t_pavement, tx, ty, 10);
+                }
+            }
+        }
+
+
     }
 
     // finally, un-rotate the map
