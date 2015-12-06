@@ -59,6 +59,7 @@ void mapgen_fungal_bloom(map *m, oter_id terrain_type, mapgendata dat, int turn,
 void mapgen_fungal_tower(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 void mapgen_fungal_flowers(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 void mapgen_river_center(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
+void mapgen_road(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 void mapgen_road_straight(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 void mapgen_road_end(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
 void mapgen_road_curved(map *m, oter_id terrain_type, mapgendata dat, int turn, float density);
