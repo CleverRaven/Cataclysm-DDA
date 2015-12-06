@@ -10371,7 +10371,7 @@ bool player::wield(item* it, bool autodrop)
             return false;
         }
         if (autodrop || volume_carried() + weapon.volume() <= volume_capacity()) {
-            moves -= weapon.volume() * VOLUME_MOVE_COST;
+            moves -= item_handling_cost(weapon);
             inv.add_item_keep_invlet(remove_weapon());
             inv.unsort();
             recoil = MIN_RECOIL;
@@ -10401,7 +10401,7 @@ bool player::wield(item* it, bool autodrop)
 
     if( is_armed() ) {
         if( volume_carried() + weapon.volume() - it->volume() < volume_capacity() ) {
-            mv += weapon.volume() * VOLUME_MOVE_COST;
+            mv += item_handling_cost(weapon);
             inv.add_item_keep_invlet( remove_weapon() );
         } else if( query_yn(_("No space in inventory for your %s.  Drop it?"),
                             weapon.tname().c_str() ) ) {
@@ -10417,12 +10417,12 @@ bool player::wield(item* it, bool autodrop)
     // than a skilled player with a holster.
     // There is an additional penalty when wielding items from the inventory whilst currently grabbed.
 
-    mv += it->volume() * VOLUME_MOVE_COST;
+    mv += item_handling_cost(*it);
 
     if( is_worn( *it ) ) {
         it->on_takeoff( *this );
     } else {
-        mv *= has_effect( "grabbed" ) ? 4 : 2;
+        mv *= 2;
     }
 
     moves -= mv;
@@ -13502,7 +13502,7 @@ bool player::wield_contents(item *container, int pos, int factor)
     if( is_armed() ) {
         if( volume_carried() + weapon.volume() - container->contents[pos].volume() <
             volume_capacity() ) {
-            mv += weapon.volume() * VOLUME_MOVE_COST;
+            mv += item_handling_cost(weapon);
             inv.add_item_keep_invlet( remove_weapon() );
         } else if( query_yn( _("No space in inventory for your %s.  Drop it?"),
                              weapon.tname().c_str() ) ) {
