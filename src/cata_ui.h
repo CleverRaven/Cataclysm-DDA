@@ -292,12 +292,9 @@ class tabbed_window : public bordered_window {
 };
 
 struct default_draw_func {
-    void operator()( WINDOW *win, int x, int y, nc_color color, std::string &txt, size_t available_space, bool selected )
+    void operator()( WINDOW *win, int x, int y, nc_color color, std::string txt, size_t available_space, bool selected )
     {
-        if( txt.size() > available_space ) {
-            txt = txt.substr( 0, available_space );
-        }
-
+        string_truncate( txt, available_space );
         mvwprintz( win, y, x, selected ? hilite(color) : color, "%s", txt.c_str() );
     }
 };

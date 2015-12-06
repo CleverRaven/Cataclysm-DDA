@@ -4790,9 +4790,7 @@ void init_missions_tab( tabbed_window &win, size_t win_height, std::string &&tab
     constexpr auto draw_lambda = []( WINDOW *win, int x, int y, nc_color color, mission *miss, size_t available_space, bool selected )
         {
             auto name = miss->name();
-            if( name.size() > available_space ) {
-                name = name.substr( 0, available_space );
-            }
+            string_truncate( name, available_space );
 
             nc_color col = color;
             if( g->u.get_active_mission() == miss ) {
