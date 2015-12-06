@@ -346,7 +346,7 @@ void vehicle::add_steerable_wheels()
     // Find wheels that have steerable versions.
     // Convert the wheel(s) with the largest x value.
     for (size_t p = 0; p < parts.size(); ++p) {
-        if (part_flag(p, "STEERABLE")) {
+        if (part_flag(p, "STEERABLE") || part_flag(p, "TRACKED")) {
             // Has a wheel that is inherently steerable
             // (e.g. unicycle, casters), this vehicle doesn't
             // need conversion.
@@ -5243,7 +5243,10 @@ void vehicle::refresh()
         if( vpi.has_flag( VPFLAG_WHEEL ) ) {
             wheelcache.push_back( p );
         }
-        if (vpi.has_flag("STEERABLE")) {
+        if (vpi.has_flag("STEERABLE") || vpi.has_flag("TRACKED")) {
+            // TRACKED contributes to steering effectiveness but
+            //  (a) doesn't count as a steering axle for install difficulty
+            //  (b) still contributes to drag for the center of steering calc
             steering.push_back(p);
         }
         if (vpi.has_flag("SECURITY")){

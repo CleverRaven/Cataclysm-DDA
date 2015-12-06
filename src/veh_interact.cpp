@@ -536,7 +536,10 @@ bool veh_interact::can_install_part(int msg_width){
     if (sel_vpart_info->has_flag("STEERABLE")) {
         std::set<int> axles;
         for (auto &p : veh->steering) {
-            axles.insert(veh->parts[p].mount.x);
+            if (!veh->part_flag(p, "TRACKED")) {
+                // tracked parts don't contribute to axle complexity
+                axles.insert(veh->parts[p].mount.x);
+            }
         }
 
         if (axles.size() > 0 && axles.count(-ddx) == 0) {
