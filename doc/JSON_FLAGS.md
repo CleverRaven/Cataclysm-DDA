@@ -251,7 +251,6 @@ Flags used to describe monsters and define their properties and abilities.
 - ```VERMIN``` Creature is too small for normal combat, butchering etc.
 - ```NOGIB``` Does not leave gibs / meat chunks when killed with huge damage.
 - ```HUNTS_VERMIN``` Creature uses vermin as a food source. Not implemented.
-- ```SMALL_BITER``` Creature can cause a painful, non-damaging bite. Not implemented.
 - ```ABSORBS``` Consumes objects it moves over.
 - ```LARVA``` Creature is a larva. Currently used for gib and blood handling.
 - ```ARTHROPOD_BLOOD``` Forces monster to bleed hemolymph.
