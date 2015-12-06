@@ -55,6 +55,7 @@ void craft_command::execute()
     }
 
     if( need_selections ) {
+        item_selections.clear();
         for( const auto &it : rec->requirements.components ) {
             comp_selection<item_comp> is = crafter->select_item_component( it, batch_size, map_inv, true );
             if( is.use_from == cancel ) {
@@ -63,6 +64,7 @@ void craft_command::execute()
             item_selections.push_back( is );
         }
 
+        tool_selections.clear();
         for( const auto &it : rec->requirements.tools ) {
             comp_selection<tool_comp> ts = crafter->select_tool_component(
                                                it, batch_size, map_inv, DEFAULT_HOTKEYS, true );
@@ -225,7 +227,7 @@ std::vector<comp_selection<tool_comp>> craft_command::check_tool_components_miss
                 case cancel:
                     break;
             }
-        } else if( crafter->has_amount( type, 1 ) || map_inv.has_tools( type, 1 ) ) {
+        } else if( !crafter->has_amount( type, 1 ) && !map_inv.has_tools( type, 1 ) ) {
             missing.push_back( tool_sel );
         }
     }
