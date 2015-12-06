@@ -272,122 +272,7 @@
     ]
   },{
   "type" : "recipe",
-  "result" : "shaft_wood",
-  "category" : "CC_AMMO",
-  "subcategory": "CSC_AMMO_COMPONENTS",
-  "skill_used" : "fabrication",
-  "difficulty" : 0,
-  "time" : 1000,
-  "reversible" : false,
-  "autolearn" : true,
-  "qualities":[
-    {"id":"CUT","level":1,"amount":1}
-  ],
-  "components" : [
-    [
-      [ "stick", 1 ],
-      [ "broom", 1 ],
-      [ "mop", 1 ],
-      [ "2x4", 1 ],
-      [ "bee_sting", 1 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result" : "shaft_wood_heavy",
-  "category" : "CC_AMMO",
-  "subcategory": "CSC_AMMO_COMPONENTS",
-  "skill_used" : "fabrication",
-  "skills_required": [ "archery", 1 ],
-  "difficulty" : 3,
-  "time" : 5000,
-  "reversible" : false,
-  "autolearn" : true,
-  "book_learn" : [[ "recipe_arrows", 2 ] , [ "pocket_survival", 2] , [ "manual_archery", 1]],
-  "qualities":[
-    {"id":"CUT","level":1,"amount":1}
-  ],
-  "components" : [
-    [
-      [ "stick", 2 ],
-      [ "broom", 2 ],
-      [ "mop", 2 ],
-      [ "2x4", 1 ],
-      [ "bee_sting", 2 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result" : "shaft_metal",
-  "category" : "CC_AMMO",
-  "subcategory": "CSC_AMMO_COMPONENTS",
-  "skill_used" : "fabrication",
-  "skills_required": [ "archery", 1 ],
-  "difficulty" : 3,
-  "time" : 5000,
-  "reversible" : false,
-  "autolearn" : true,
-  "book_learn" : [[ "recipe_arrows", 1 ]],
-  "qualities":[
-    {"id":"HAMMER","level":1,"amount":1},
-    {"id":"SAW_M","level":1,"amount":1}
-  ], "components" : [
-    [
-      [ "scrap", 6 ],
-      [ "steel_chunk", 2 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result" : "arrowhead",
-  "category" : "CC_AMMO",
-  "subcategory": "CSC_AMMO_COMPONENTS",
-  "skill_used" : "fabrication",
-  "skills_required": [ "archery", 1 ],
-  "difficulty" : 3,
-  "time" : 5000,
-  "reversible" : false,
-  "autolearn" : true,
-  "book_learn" : [[ "recipe_arrows", 1 ] , [ "manual_archery", 2] , [ "book_archery", 2]],
-  "qualities":[
-    {"id":"HAMMER","level":1,"amount":1}
-  ], "components" : [
-    [
-      [ "steel_chunk", 1 ],
-      [ "scrap", 3 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
   "result" : "fletching",
-  "category" : "CC_AMMO",
-  "subcategory": "CSC_AMMO_COMPONENTS",
-  "skill_used" : "fabrication",
-  "skills_required": [ "survival", 1 ],
-  "difficulty" : 1,
-  "time" : 5000,
-  "reversible" : false,
-  "autolearn" : true,
-  "book_learn" : [[ "recipe_arrows", 1 ] , [ "manual_archery", 2 ] , [ "book_archery", 2]],
-  "qualities":[
-    {"id":"CUT","level":1,"amount":1}
-  ],
-  "components" : [
-    [
-      [ "feather", 10 ],
-      [ "duct_tape", 40 ],
-      [ "bag_plastic", 1 ],
-      [ "bottle_plastic", 1 ],
-      [ "bottle_plastic_small", 1 ],
-      [ "box_small", 1 ],
-      [ "plastic_chunk", 1 ],
-      [ "aluminum_foil", 1 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result" : "fletching",
-  "id_suffix": "makeshift",
   "category" : "CC_AMMO",
   "subcategory": "CSC_AMMO_COMPONENTS",
   "skill_used" : "fabrication",
@@ -401,7 +286,7 @@
     {"id":"CUT","level":1,"amount":1}
   ],
   "components" : [
-    [ [ "bone_glue", 5 ] ],
+    [ [ "bone_glue", 1 ] ],
     [
       [ "rag", 2 ],
       [ "leather", 2 ]
@@ -443,9 +328,9 @@
   "category" : "CC_AMMO",
   "subcategory": "CSC_AMMO_ARROWS",
   "skill_used" : "fabrication",
-  "skills_required": [ "archery", 2 ],
+  "skills_required": [[ "archery", 2 ], [ "survival", 1 ]],
   "difficulty" : 3,
-  "time" : 5000,
+  "time" : 11000,
   "reversible" : false,
   "autolearn" : true,
   "book_learn" : [[ "recipe_arrows", 1 ] , [ "book_archery", 3]],
@@ -462,7 +347,11 @@
       [ "plant_fibre", 20 ]
     ],
     [
-      [ "shaft_wood", 10 ]
+      [ "stick", 1 ],
+      [ "broom", 1 ],
+      [ "mop", 1 ],
+      [ "2x4", 1 ],
+      [ "bee_sting", 1 ]
     ],
     [
       [ "bone", 5 ],
@@ -475,6 +364,14 @@
       [ "sharp_rock", 1 ]
     ],
     [
+      [ "feather", 10 ],
+      [ "duct_tape", 40 ],
+      [ "bag_plastic", 1 ],
+      [ "bottle_plastic", 1 ],
+      [ "bottle_plastic_small", 1 ],
+      [ "box_small", 1 ],
+      [ "plastic_chunk", 1 ],
+      [ "aluminum_foil", 1 ],
       [ "fletching", 10 ]
     ]
   ]
@@ -486,7 +383,7 @@
   "skill_used" : "fabrication",
   "skills_required": [ "survival", 1 ],
   "difficulty" : 1,
-  "time" : 5000,
+  "time" : 11000,
   "reversible" : false,
   "autolearn" : true,
   "book_learn" : [[ "recipe_arrows", 1 ] , [ "pocket_survival", 1], [ "book_archery", 2]],
@@ -502,7 +399,11 @@
       [ "plant_fibre", 20 ]
     ],
     [
-      [ "shaft_wood", 10 ]
+      [ "stick", 1 ],
+      [ "broom", 1 ],
+      [ "mop", 1 ],
+      [ "2x4", 1 ],
+      [ "bee_sting", 1 ]
     ],
     [
       [ "bone", 5 ],
@@ -515,6 +416,14 @@
       [ "sharp_rock", 1 ]
     ],
     [
+      [ "feather", 10 ],
+      [ "duct_tape", 40 ],
+      [ "bag_plastic", 1 ],
+      [ "bottle_plastic", 1 ],
+      [ "bottle_plastic_small", 1 ],
+      [ "box_small", 1 ],
+      [ "plastic_chunk", 1 ],
+      [ "aluminum_foil", 1 ],
       [ "fletching", 10 ]
     ]
   ]
@@ -526,7 +435,7 @@
   "skill_used" : "fabrication",
   "skills_required": [ "survival", 2 ],
   "difficulty" : 1,
-  "time" : 8000,
+  "time" : 14000,
   "reversible" : false,
   "autolearn" : true,
   "book_learn" : [[ "recipe_arrows", 2 ] , [ "book_archery", 2]],
@@ -547,9 +456,21 @@
       [ "plant_fibre", 10 ]
     ],
     [
-      [ "shaft_wood", 10 ]
+      [ "stick", 1 ],
+      [ "broom", 1 ],
+      [ "mop", 1 ],
+      [ "2x4", 1 ],
+      [ "bee_sting", 1 ]
     ],
     [
+      [ "feather", 10 ],
+      [ "duct_tape", 40 ],
+      [ "bag_plastic", 1 ],
+      [ "bottle_plastic", 1 ],
+      [ "bottle_plastic_small", 1 ],
+      [ "box_small", 1 ],
+      [ "plastic_chunk", 1 ],
+      [ "aluminum_foil", 1 ],
       [ "fletching", 10 ]
     ]
   ]
@@ -603,30 +524,44 @@
   "category" : "CC_AMMO",
   "subcategory": "CSC_AMMO_ARROWS",
   "skill_used" : "fabrication",
-  "skills_required": [ "archery", 2 ],
+  "skills_required": [[ "archery", 2 ], [ "survival", 1 ]],
   "difficulty" : 3,
-  "time" : 3000,
-  "reversible" : true,
+  "time" : 14000,
+  "reversible" : false,
   "autolearn" : true,
   "book_learn" : [[ "recipe_arrows", 3 ]],
   "qualities":[
+    {"id":"HAMMER","level":1,"amount":1},
     {"id":"CUT","level":1,"amount":1}
   ],
   "components" : [
     [
       [ "superglue", 1 ],
       [ "bone_glue", 1 ],
-      [ "thread", 20, "NO_RECOVER" ],
-      [ "sinew", 20, "NO_RECOVER" ],
-      [ "plant_fibre", 20, "NO_RECOVER" ]
+      [ "thread", 20 ],
+      [ "sinew", 20 ],
+      [ "plant_fibre", 20 ]
     ],
     [
-      [ "arrowhead", 10 ]
+      [ "steel_chunk", 1 ],
+      [ "scrap", 3 ]
     ],
     [
-      [ "shaft_wood", 10 ]
+      [ "stick", 1 ],
+      [ "broom", 1 ],
+      [ "mop", 1 ],
+      [ "2x4", 1 ],
+      [ "bee_sting", 1 ]
     ],
     [
+      [ "feather", 10 ],
+      [ "duct_tape", 40 ],
+      [ "bag_plastic", 1 ],
+      [ "bottle_plastic", 1 ],
+      [ "bottle_plastic_small", 1 ],
+      [ "box_small", 1 ],
+      [ "plastic_chunk", 1 ],
+      [ "aluminum_foil", 1 ],
       [ "fletching", 10 ]
     ]
   ]
@@ -636,14 +571,15 @@
   "category" : "CC_AMMO",
   "subcategory": "CSC_AMMO_ARROWS",
   "skill_used" : "fabrication",
-  "skills_required": [ "archery", 3 ],
+  "skills_required": [[ "archery", 3 ], [ "survival", 1 ]],
   "difficulty" : 4,
-  "time" : 10000,
+  "time" : 20000,
   "reversible" : false,
   "autolearn" : true,
   "book_learn" : [[ "recipe_arrows", 3 ]],
   "qualities":[
     {"id":"HAMMER","level":1,"amount":1},
+    {"id":"CUT","level":1,"amount":1},
     {"id":"SAW_M","level":1,"amount":1}
   ], "components" : [
     [
@@ -654,9 +590,18 @@
       [ "plant_fibre", 10 ]
     ],
     [
-      [ "shaft_metal", 10 ]
+      [ "scrap", 6 ],
+      [ "steel_chunk", 2 ]
     ],
     [
+      [ "feather", 10 ],
+      [ "duct_tape", 40 ],
+      [ "bag_plastic", 1 ],
+      [ "bottle_plastic", 1 ],
+      [ "bottle_plastic_small", 1 ],
+      [ "box_small", 1 ],
+      [ "plastic_chunk", 1 ],
+      [ "aluminum_foil", 1 ],
       [ "fletching", 10 ]
     ]
   ]
@@ -666,9 +611,9 @@
   "category" : "CC_AMMO",
   "subcategory": "CSC_AMMO_ARROWS",
   "skill_used" : "fabrication",
-  "skills_required": [ "survival", 3 ],
+  "skills_required": [[ "survival", 3 ], [ "archery", 1 ]],
   "difficulty" : 4,
-  "time" : 10000,
+  "time" : 20000,
   "reversible" : false,
   "autolearn" : true,
   "qualities":[
@@ -686,9 +631,21 @@
       [ "plant_fibre", 10 ]
     ],
     [
-      [ "shaft_wood_heavy", 10 ]
+      [ "stick", 2 ],
+      [ "broom", 2 ],
+      [ "mop", 2 ],
+      [ "2x4", 1 ],
+      [ "bee_sting", 2 ]
     ],
     [
+      [ "feather", 10 ],
+      [ "duct_tape", 40 ],
+      [ "bag_plastic", 1 ],
+      [ "bottle_plastic", 1 ],
+      [ "bottle_plastic_small", 1 ],
+      [ "box_small", 1 ],
+      [ "plastic_chunk", 1 ],
+      [ "aluminum_foil", 1 ],
       [ "fletching", 10 ]
     ]
   ]
@@ -698,9 +655,9 @@
   "category" : "CC_AMMO",
   "subcategory": "CSC_AMMO_ARROWS",
   "skill_used" : "fabrication",
-  "skills_required": [ "archery", 3 ],
+  "skills_required": [[ "archery", 3 ], [ "survival", 1]],
   "difficulty" : 4,
-  "time" : 7000,
+  "time" : 17000,
   "reversible" : false,
   "autolearn" : true,
   "book_learn" : [[ "recipe_arrows", 2 ] , [ "pocket_survival", 2]],
@@ -717,7 +674,11 @@
       [ "plant_fibre", 20 ]
     ],
     [
-      [ "shaft_wood_heavy", 10 ]
+      [ "stick", 2 ],
+      [ "broom", 2 ],
+      [ "mop", 2 ],
+      [ "2x4", 1 ],
+      [ "bee_sting", 2 ]
     ],
     [
       [ "bone", 5 ],
@@ -730,6 +691,14 @@
       [ "sharp_rock", 1 ]
     ],
     [
+      [ "feather", 10 ],
+      [ "duct_tape", 40 ],
+      [ "bag_plastic", 1 ],
+      [ "bottle_plastic", 1 ],
+      [ "bottle_plastic_small", 1 ],
+      [ "box_small", 1 ],
+      [ "plastic_chunk", 1 ],
+      [ "aluminum_foil", 1 ],
       [ "fletching", 10 ]
     ]
   ]
@@ -739,30 +708,44 @@
   "category" : "CC_AMMO",
   "subcategory": "CSC_AMMO_ARROWS",
   "skill_used" : "fabrication",
-  "skills_required": [ "archery", 5 ],
+  "skills_required": [[ "archery", 5 ], [ "survival", 1]],
   "difficulty" : 5,
-  "time" : 3000,
-  "reversible" : true,
+  "time" : 18000,
+  "reversible" : false,
   "autolearn" : true,
   "book_learn" : [[ "recipe_arrows", 3 ]],
   "qualities" : [
+    {"id":"HAMMER","level":1,"amount":1},
     {"id":"CUT","level":1,"amount":1}
   ],
   "components" : [
     [
       [ "superglue", 1 ],
       [ "bone_glue", 1 ],
-      [ "thread", 20, "NO_RECOVER" ],
-      [ "sinew", 20, "NO_RECOVER" ],
-      [ "plant_fibre", 20, "NO_RECOVER" ]
+      [ "thread", 20 ],
+      [ "sinew", 20 ],
+      [ "plant_fibre", 20 ]
     ],
     [
-      [ "arrowhead", 10 ]
+      [ "steel_chunk", 1 ],
+      [ "scrap", 3 ]
     ],
     [
-      [ "shaft_wood_heavy", 10 ]
+      [ "stick", 2 ],
+      [ "broom", 2 ],
+      [ "mop", 2 ],
+      [ "2x4", 1 ],
+      [ "bee_sting", 2 ]
     ],
     [
+      [ "feather", 10 ],
+      [ "duct_tape", 40 ],
+      [ "bag_plastic", 1 ],
+      [ "bottle_plastic", 1 ],
+      [ "bottle_plastic_small", 1 ],
+      [ "box_small", 1 ],
+      [ "plastic_chunk", 1 ],
+      [ "aluminum_foil", 1 ],
       [ "fletching", 10 ]
     ]
   ]
@@ -772,11 +755,10 @@
   "category" : "CC_AMMO",
   "subcategory": "CSC_AMMO_ARROWS",
   "skill_used" : "fabrication",
-  "skills_required": [ "archery", 5 ],
+  "skills_required": [[ "archery", 5 ], [ "survival", 1 ]],
   "difficulty" : 5,
-  "time" : 5000,
-  "reversible" : true,
-  "decomp_learn": 4,
+  "time" : 20000,
+  "reversible" : false,
   "autolearn" : true,
   "book_learn" : [[ "recipe_arrows", 4 ]],
   "qualities" : [
@@ -787,17 +769,23 @@
     [
       [ "superglue", 1 ],
       [ "bone_glue", 1 ],
-      [ "thread", 20, "NO_RECOVER" ],
-      [ "sinew", 20, "NO_RECOVER" ],
-      [ "plant_fibre", 20, "NO_RECOVER" ]
+      [ "thread", 20 ],
+      [ "sinew", 20 ],
+      [ "plant_fibre", 20 ]
     ],
     [
-      [ "shaft_metal", 10 ]
+      [ "scrap", 9 ],
+      [ "steel_chunk", 3 ]
     ],
     [
-      [ "arrowhead", 10, "NO_RECOVER" ]
-    ],
-    [
+      [ "feather", 10 ],
+      [ "duct_tape", 40 ],
+      [ "bag_plastic", 1 ],
+      [ "bottle_plastic", 1 ],
+      [ "bottle_plastic_small", 1 ],
+      [ "box_small", 1 ],
+      [ "plastic_chunk", 1 ],
+      [ "aluminum_foil", 1 ],
       [ "fletching", 10 ]
     ]
   ]
@@ -3410,11 +3398,14 @@
   "category": "CC_AMMO",
   "subcategory": "CSC_AMMO_ARROWS",
   "skill_used" : "fabrication",
-  "skills_required" : ["archery", 3],
+  "skills_required" : [["archery", 3], [ "survival", 1 ]],
   "difficulty" : 5,
-  "time" : 51000,
+  "time" : 56000,
   "reversible" : false,
   "autolearn" : true,
+  "qualities":[
+    {"id":"CUT","level":1,"amount":1}
+  ],
   "tools" : [ [ ["mold_plastic", -1] ],
     [
       ["hotplate", 15],
@@ -3423,8 +3414,20 @@
     ]
   ],
   "components" : [
-    [ ["plastic_chunk", 3] ],
-    [ ["fletching", 10] ]
+    [
+      ["plastic_chunk", 3]
+    ],
+    [ 
+      [ "feather", 10 ],
+      [ "duct_tape", 40 ],
+      [ "bag_plastic", 1 ],
+      [ "bottle_plastic", 1 ],
+      [ "bottle_plastic_small", 1 ],
+      [ "box_small", 1 ],
+      [ "plastic_chunk", 1 ],
+      [ "aluminum_foil", 1 ],
+      [ "fletching", 10 ]
+    ]
   ]
 },{
   "type" : "recipe",
