@@ -11210,7 +11210,7 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
                 n_roads_nesw[((dir-4)+3)%4] &&
                 n_roads_nesw[((dir-4)+2)%4]) {
                 // make drawing simpler by rotating the map back and forth
-                rotate(4-dir-4);
+                rotate(4-(dir-4));
                 // draw a small triangle of sidewalk in the northeast corner
                 for (int y=0; y<4; y++) {
                     for (int x=SEEX*2-4; x<SEEX*2; x++) {

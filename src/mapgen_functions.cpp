@@ -1052,15 +1052,15 @@ void mapgen_road(map *m, oter_id terrain_type, mapgendata dat, int turn, float d
     }
 
     // printf("sidewalks_neswx %d %d %d %d %d %d %d %d\n",
-        sidewalks_neswx[0],
-        sidewalks_neswx[1],
-        sidewalks_neswx[2],
-        sidewalks_neswx[3],
-        sidewalks_neswx[4],
-        sidewalks_neswx[5],
-        sidewalks_neswx[6],
-        sidewalks_neswx[7]
-        );
+        // sidewalks_neswx[0],
+        // sidewalks_neswx[1],
+        // sidewalks_neswx[2],
+        // sidewalks_neswx[3],
+        // sidewalks_neswx[4],
+        // sidewalks_neswx[5],
+        // sidewalks_neswx[6],
+        // sidewalks_neswx[7]
+        // );
 
     // which of the cardinal directions get roads?
     bool roads_nesw[4] = {};
