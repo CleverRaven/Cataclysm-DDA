@@ -13865,6 +13865,12 @@ void rough_circle(map *m, ter_id type, int x, int y, int rad) {
 void rough_circle_furn(map *m, furn_id type, int x, int y, int rad) {
     m->draw_rough_circle_furn(type, x, y, rad);
 }
+void circle(map *m, ter_id type, int x, int y, int rad) {
+    m->draw_circle(type, x, y, rad);
+}
+void circle_furn(map *m, furn_id type, int x, int y, int rad) {
+    m->draw_circle_furn(type, x, y, rad);
+}
 void add_corpse(map *m, int x, int y) {
     m->add_corpse( tripoint( x, y, m->get_abs_sub().z ) );
 }
