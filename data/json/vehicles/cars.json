@@ -157,14 +157,14 @@
             {"x": -1, "y": 2, "part": "halfboard_vertical"},
             {"x": -2, "y": -1, "part": "frame_horizontal"},
             {"x": -2, "y": -1, "part": "halfboard_sw"},
-            {"x": -2, "y": -1, "part": "wheel"},
+            {"x": -2, "y": -1, "part": "wheel_steerable"},
             {"x": -2, "y": 0, "part": "frame_horizontal"},
             {"x": -2, "y": 0, "part": "door_trunk"},
             {"x": -2, "y": 1, "part": "frame_horizontal"},
             {"x": -2, "y": 1, "part": "door_trunk"},
             {"x": -2, "y": 2, "part": "frame_horizontal"},
             {"x": -2, "y": 2, "part": "halfboard_se"},
-            {"x": -2, "y": 2, "part": "wheel"}
+            {"x": -2, "y": 2, "part": "wheel_steerable"}
         ],
         "items" : [
             {"x": 0, "y": 0, "chance": 10, "item_groups": ["snacks_fancy"]},
@@ -242,7 +242,7 @@
             {"x": -2, "y": 2, "part": "halfboard_vertical"},
             {"x": -3, "y": -1, "part": "frame_horizontal"},
             {"x": -3, "y": -1, "part": "halfboard_sw"},
-            {"x": -3, "y": -1, "part": "wheel"},
+            {"x": -3, "y": -1, "part": "wheel_steerable"},
             {"x": -3, "y": 0, "part": "hdframe_horizontal"},
             {"x": -3, "y": 0, "part": "halfboard_vertical_2"},
             {"x": -3, "y": 0, "part": "engine_electric_enhanced"},
@@ -253,7 +253,7 @@
             {"x": -3, "y": 1, "part": "plating_steel"},
             {"x": -3, "y": 2, "part": "frame_horizontal"},
             {"x": -3, "y": 2, "part": "halfboard_se"},
-            {"x": -3, "y": 2, "part": "wheel"}
+            {"x": -3, "y": 2, "part": "wheel_steerable"}
         ],
         "items" : [
             {"x": 0, "y": 0, "chance": 16, "items": ["coke"]},
@@ -375,14 +375,14 @@
             {"x": -1, "y": 2, "part": "xlhalfboard_vertical"},
             {"x": -2, "y": -1, "part": "xlframe_horizontal"},
             {"x": -2, "y": -1, "part": "xlhalfboard_sw"},
-            {"x": -2, "y": -1, "part": "wheel"},
+            {"x": -2, "y": -1, "part": "wheel_steerable"},
             {"x": -2, "y": 0, "part": "xlframe_horizontal"},
             {"x": -2, "y": 0, "part": "door_trunk"},
             {"x": -2, "y": 1, "part": "xlframe_horizontal"},
             {"x": -2, "y": 1, "part": "door_trunk"},
             {"x": -2, "y": 2, "part": "xlframe_horizontal"},
             {"x": -2, "y": 2, "part": "xlhalfboard_se"},
-            {"x": -2, "y": 2, "part": "wheel"}
+            {"x": -2, "y": 2, "part": "wheel_steerable"}
         ],
         "items" : [
             {"x": -1, "y": 0, "chance": 8, "items": ["sm_extinguisher"]}
@@ -1043,7 +1043,7 @@
             {"x": -4, "y": -1, "part": "solar_panel_v2"},
             {"x": -5, "y": 0, "part": "xlframe_horizontal"},
             {"x": -5, "y": 0, "part": "solar_panel_v2"},
-            {"x": -5, "y": 0, "part": "wheel"},
+            {"x": -5, "y": 0, "part": "wheel_steerable"},
             {"x": -5, "y": 1, "part": "xlframe_se"},
             {"x": -5, "y": 1, "part": "solar_panel_v2"},
             {"x": -5, "y": -1, "part": "xlframe_sw"},
