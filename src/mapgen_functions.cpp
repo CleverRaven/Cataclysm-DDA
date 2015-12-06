@@ -1130,15 +1130,15 @@ void mapgen_road(map *m, oter_id terrain_type, mapgendata dat, int turn, float d
     nesw_array_rotate<int> (curvedir_nesw,  4, rot);
 
     // printf("sidewalks_neswx %d %d %d %d %d %d %d %d\n",
-        sidewalks_neswx[0],
-        sidewalks_neswx[1],
-        sidewalks_neswx[2],
-        sidewalks_neswx[3],
-        sidewalks_neswx[4],
-        sidewalks_neswx[5],
-        sidewalks_neswx[6],
-        sidewalks_neswx[7]
-        );
+        // sidewalks_neswx[0],
+        // sidewalks_neswx[1],
+        // sidewalks_neswx[2],
+        // sidewalks_neswx[3],
+        // sidewalks_neswx[4],
+        // sidewalks_neswx[5],
+        // sidewalks_neswx[6],
+        // sidewalks_neswx[7]
+        // );
     // printf("%d roads_nesw %d %d %d %d\n",num_dirs,roads_nesw[0],roads_nesw[1],roads_nesw[2],roads_nesw[3]);
     // printf("curvedir_nesw %d %d %d %d\n",curvedir_nesw[0],curvedir_nesw[1],curvedir_nesw[2],curvedir_nesw[3]);
 
