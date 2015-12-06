@@ -47,9 +47,6 @@
   "book_learn": [[ "textbook_armwest", 3 ]],
   "tools": [
     [
-      [ "needle_bone", 30 ],
-      [ "needle_wood", 30 ],
-      [ "tailors_kit", 30 ],
       [ "sewing_kit", 30 ]
     ]
   ],
@@ -245,8 +242,6 @@
   "autolearn": true,
   "tools": [
     [
-      [ "needle_bone", 10 ],
-      [ "needle_wood", 10 ],
       [ "sewing_kit", 10 ]
     ]
   ],
@@ -263,8 +258,6 @@
   "autolearn": true,
   "tools": [
     [
-      [ "needle_bone", 8 ],
-      [ "needle_wood", 8 ],
       [ "sewing_kit", 8 ]
     ]
   ],
@@ -302,9 +295,6 @@
   ],
   "tools": [
     [
-      [ "needle_bone", 68 ],
-      [ "needle_wood", 68 ],
-      [ "tailors_kit", 68 ],
       [ "sewing_kit", 68 ]
     ]
   ],
@@ -347,9 +337,6 @@
       [ "oxy_torch", 60 ]
     ],
     [
-      [ "needle_bone", 18 ],
-      [ "needle_wood", 18 ],
-      [ "tailors_kit", 18 ],
       [ "sewing_kit", 18 ]
     ]
   ],

@@ -104,10 +104,7 @@
   "autolearn": true,
   "tools": [
     [
-      [ "needle_bone", 12 ],
-      [ "needle_wood", 12 ],
-      [ "sewing_kit", 12 ],
-      [ "tailors_kit", 12 ]
+      [ "sewing_kit", 12 ]
     ]
   ],
   "components": [
@@ -130,10 +127,7 @@
   "autolearn": true,
   "tools": [
     [
-      [ "needle_bone", 12 ],
-      [ "needle_wood", 12 ],
-      [ "sewing_kit", 12 ],
-      [ "tailors_kit", 12 ]
+      [ "sewing_kit", 12 ]
     ]
   ],
   "components": [
@@ -427,9 +421,6 @@
   ],
   "tools": [
     [
-      [ "needle_bone", 15 ],
-      [ "needle_wood", 15 ],
-      [ "tailors_kit", 15 ],
       [ "sewing_kit", 15 ]
     ],
     [
@@ -1223,10 +1214,7 @@
   "autolearn": true,
   "tools": [
     [
-      [ "needle_bone", 60 ],
-      [ "needle_wood", 60 ],
-      [ "sewing_kit", 60 ],
-      [ "tailors_kit", 60 ]
+      [ "sewing_kit", 60 ]
     ]
   ],
   "components": [
@@ -1256,10 +1244,7 @@
   "autolearn": true,
   "tools": [
     [
-      [ "needle_bone", 90 ],
-      [ "needle_wood", 90 ],
-      [ "sewing_kit", 90 ],
-      [ "tailors_kit", 90 ]
+      [ "sewing_kit", 90 ]
     ]
   ],
   "components": [
@@ -1289,10 +1274,7 @@
   "autolearn": true,
   "tools": [
     [
-      [ "needle_bone", 120 ],
-      [ "needle_wood", 120 ],
-      [ "sewing_kit", 120 ],
-      [ "tailors_kit", 120 ]
+      [ "sewing_kit", 120 ]
     ]
   ],
   "components": [
@@ -1343,10 +1325,7 @@
   "autolearn": true,
   "tools": [
     [
-      [ "needle_bone", 200 ],
-      [ "needle_wood", 200 ],
-      [ "sewing_kit", 200 ],
-      [ "tailors_kit", 200 ]
+      [ "sewing_kit", 200 ]
     ]
   ],
   "components": [
@@ -1379,10 +1358,7 @@
   "autolearn": true,
   "tools": [
     [
-      [ "needle_bone", 50 ],
-      [ "needle_wood", 50 ],
-      [ "sewing_kit", 50 ],
-      [ "tailors_kit", 50 ]
+      [ "sewing_kit", 50 ]
     ]
   ],
   "components": [
@@ -1621,10 +1597,7 @@
   ],  
   "tools": [
     [
-      [ "needle_bone", 15 ],
-      [ "needle_wood", 15 ],
-      [ "sewing_kit", 15 ],
-      [ "tailors_kit", 15 ]
+      [ "sewing_kit", 15 ]
     ]
   ],
   "components": [
@@ -1739,10 +1712,7 @@
       [ "toolset", 75 ]
     ],
     [
-      [ "needle_bone", 50 ],
-      [ "needle_wood", 50 ],
-      [ "sewing_kit", 50 ],
-      [ "tailors_kit", 50 ]
+      [ "sewing_kit", 50 ]
     ]
   ],
   "components": [
@@ -1897,10 +1867,7 @@
   "autolearn": true,
   "tools": [
     [
-      [ "needle_bone", 50 ],
-      [ "needle_wood", 50 ],
-      [ "sewing_kit", 50 ],
-      [ "tailors_kit", 50 ]
+      [ "sewing_kit", 50 ]
     ]
   ],
   "components": [
@@ -2964,7 +2931,6 @@
 },{
   "type" : "recipe",
   "result": "boobytrap",
-  "id_suffix" : "open_cans_such_as_food",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_TRAPS",
   "skill_used": "traps",
@@ -6355,10 +6321,7 @@
   ],
   "tools": [
     [
-      [ "needle_bone", 20 ],
-      [ "needle_wood", 20 ],
-      [ "sewing_kit", 20 ],
-      [ "tailors_kit", 20 ]
+      [ "sewing_kit", 20 ]
     ]
   ],
   "components": [
@@ -6385,10 +6348,7 @@
   ],
   "tools": [
     [
-      [ "needle_bone", 80 ],
-      [ "needle_wood", 80 ],
-      [ "sewing_kit", 80 ],
-      [ "tailors_kit", 80 ]
+      [ "sewing_kit", 80 ]
     ]
   ],
   "components": [
@@ -6567,7 +6527,6 @@
 },{
   "type" : "recipe",
   "result": "plastic_chunk",
-  "id_suffix": "from_milk",
   "byproducts": { "id" : "plastic_chunk", "amount" : 14 },
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_MATERIALS",
@@ -6856,10 +6815,7 @@
   "autolearn": true,
   "tools": [
     [
-      [ "needle_bone", 60 ],
-      [ "needle_wood", 60 ],
-      [ "sewing_kit", 60 ],
-      [ "tailors_kit", 60 ]
+      [ "sewing_kit", 60 ]
     ]
   ],
   "components": [
@@ -7694,10 +7650,7 @@
       ["fire", -1]
     ],
     [
-      ["sewing_kit", 4],
-      ["needle_bone", 4],
-      ["needle_wood", 4],
-      ["tailors_kit", 4]
+      ["sewing_kit", 4]
     ]
   ],
   "components": [
@@ -7730,10 +7683,7 @@
       ["fire", -1]
     ],
     [
-      ["sewing_kit", 4],
-      ["needle_bone", 4],
-      ["needle_wood", 4],
-      ["tailors_kit", 4]
+      ["sewing_kit", 4]
     ]
   ],
   "components": [
@@ -7763,9 +7713,6 @@
   ],
   "tools": [
     [
-      [ "needle_bone", 20 ],
-      [ "needle_wood", 20 ],
-      [ "tailors_kit", 20 ],
       [ "sewing_kit", 20 ]
     ]
   ],

@@ -504,10 +504,7 @@
   "autolearn": true,
   "tools": [
     [
-      [ "needle_bone", 40 ],
-      [ "needle_wood", 40 ],
-      [ "sewing_kit", 40 ],
-      [ "tailors_kit", 40 ]
+      [ "sewing_kit", 40 ]
     ]
   ],
   "components": [
@@ -582,9 +579,6 @@
   ],
   "tools": [
     [
-      [ "needle_bone", 10 ],
-      [ "needle_wood", 10 ],
-      [ "tailors_kit", 10 ],
       [ "sewing_kit", 10 ]
     ]
   ],
