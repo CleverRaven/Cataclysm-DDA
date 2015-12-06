@@ -133,7 +133,7 @@ const recipe *select_crafting_recipe( int &batch_size )
     WINDOW *w_iteminfo = newwin( item_info_y, item_info_x, item_info_height, item_info_width );
 
     list_circularizer<std::string> tab( craft_cat_list );
-    list_circularizer<std::string> subtab( craft_subcat_list[tab] );
+    list_circularizer<std::string> subtab( craft_subcat_list[tab.cur()] );
     std::vector<const recipe *> current;
     std::vector<bool> available;
     std::vector<std::string> component_print_buffer;
@@ -186,15 +186,15 @@ const recipe *select_crafting_recipe( int &batch_size )
             }
 
             TAB_MODE m = ( batch ) ? BATCH : ( filterstring == "" ) ? NORMAL : FILTERED;
-            draw_recipe_tabs( w_head, tab, m );
-            draw_recipe_subtabs( w_subhead, tab, subtab, m );
+            draw_recipe_tabs( w_head, tab.cur(), m );
+            draw_recipe_subtabs( w_subhead, tab.cur(), subtab.cur(), m );
             current.clear();
             available.clear();
             if( batch ) {
                 batch_recipes( crafting_inv, current, available, chosen );
             } else {
                 // Set current to all recipes in the current tab; available are possible to make
-                pick_recipes( crafting_inv, current, available, tab, subtab, filterstring );
+                pick_recipes( crafting_inv, current, available, tab.cur(), subtab.cur(), filterstring );
             }
         }
 
@@ -331,8 +331,8 @@ const recipe *select_crafting_recipe( int &batch_size )
 
             //only used to preserve mode position on components when
             //moving to another item and the view is already scrolled
-            previous_tab = tab;
-            previous_subtab = subtab;
+            previous_tab = tab.cur();
+            previous_subtab = subtab.cur();
             previous_item_line = line;
 
             if( display_mode == 0 ) {
@@ -417,14 +417,14 @@ const recipe *select_crafting_recipe( int &batch_size )
             scroll_pos++;
         } else if( action == "PREV_TAB" ) {
             tab.prev();
-            subtab( craft_subcat_list[tab] );//default ALL
+            subtab = list_circularizer<std::string>( craft_subcat_list[tab.cur()] );//default ALL
             redraw = true;
         } else if( action == "RIGHT" ) {
             subtab.next();
             redraw = true;
         } else if( action == "NEXT_TAB" ) {
             tab.next();
-            subtab( craft_subcat_list[tab] );//default ALL
+            subtab = list_circularizer<std::string>( craft_subcat_list[tab.cur()] );//default ALL
             redraw = true;
         } else if( action == "DOWN" ) {
             line++;

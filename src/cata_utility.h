@@ -50,38 +50,25 @@ double convert_weight( int weight );
 * separately, but that also means any changes to the list get propagated (both ways).
 */
 template<typename T>
-class list_circularizer {
+class list_circularizer
+{
     private:
         unsigned int _index = 0;
         std::vector<T> *_list;
     public:
-        list_circularizer ( std::vector<T> &_list ) : _list ( &_list ) {
+        list_circularizer( std::vector<T> &_list ) : _list( &_list ) {
         }
 
-        void next()
-        {
+        void next() {
             _index = ( _index == _list->size() - 1 ? 0 : _index + 1 );
         }
 
-        void prev()
-        {
+        void prev() {
             _index = ( _index == 0 ? _list->size() - 1 : _index - 1 );
         }
 
-        T &cur() const
-        {
-            return (*_list)[_index]; // list could be null, but it would be a design time mistake and really, the callers fault.
-        }
-
-        operator T &() const
-        {
-            return cur();
-        }
-
-        void operator() ( std::vector<T> &_list )
-        {
-            this->_list = &_list;
-            _index = 0;
+        T &cur() const {
+            return ( *_list )[_index]; // list could be null, but it would be a design time mistake and really, the callers fault.
         }
 };
 
