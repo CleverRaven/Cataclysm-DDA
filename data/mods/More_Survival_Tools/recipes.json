@@ -1395,11 +1395,11 @@
   ],
   "components": [
     [
-      [ "superglue", 10 ],
-      [ "bone_glue", 10 ],
-      [ "thread", 20, "NO_RECOVER" ],
-      [ "sinew", 20, "NO_RECOVER" ],
-      [ "plant_fibre", 20, "NO_RECOVER" ]
+      [ "superglue", 1 ],
+      [ "bone_glue", 1 ],
+      [ "thread", 20 ],
+      [ "sinew", 20 ],
+      [ "plant_fibre", 20 ]
     ],
     [
       [ "bone", 5 ],
