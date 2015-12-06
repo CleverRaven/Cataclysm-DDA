@@ -455,8 +455,8 @@
   ],
   "components" : [
     [
-      [ "superglue", 2 ],
-      [ "bone_glue", 2 ],
+      [ "superglue", 1 ],
+      [ "bone_glue", 1 ],
       [ "thread", 20 ],
       [ "sinew", 20 ],
       [ "plant_fibre", 20 ]
@@ -495,8 +495,8 @@
   ],
   "components" : [
     [
-      [ "superglue", 2 ],
-      [ "bone_glue", 2 ],
+      [ "superglue", 1 ],
+      [ "bone_glue", 1 ],
       [ "thread", 20 ],
       [ "sinew", 20 ],
       [ "plant_fibre", 20 ]
@@ -614,8 +614,8 @@
   ],
   "components" : [
     [
-      [ "superglue", 2 ],
-      [ "bone_glue", 2 ],
+      [ "superglue", 1 ],
+      [ "bone_glue", 1 ],
       [ "thread", 20, "NO_RECOVER" ],
       [ "sinew", 20, "NO_RECOVER" ],
       [ "plant_fibre", 20, "NO_RECOVER" ]
@@ -710,8 +710,8 @@
   ],
   "components" : [
     [
-      [ "superglue", 2 ],
-      [ "bone_glue", 2 ],
+      [ "superglue", 1 ],
+      [ "bone_glue", 1 ],
       [ "thread", 20 ],
       [ "sinew", 20 ],
       [ "plant_fibre", 20 ]
@@ -750,8 +750,8 @@
   ],
   "components" : [
     [
-      [ "superglue", 2 ],
-      [ "bone_glue", 2 ],
+      [ "superglue", 1 ],
+      [ "bone_glue", 1 ],
       [ "thread", 20, "NO_RECOVER" ],
       [ "sinew", 20, "NO_RECOVER" ],
       [ "plant_fibre", 20, "NO_RECOVER" ]
@@ -785,8 +785,8 @@
     {"id":"SAW_M","level":1,"amount":1}
   ], "components" : [
     [
-      [ "superglue", 2 ],
-      [ "bone_glue", 2 ],
+      [ "superglue", 1 ],
+      [ "bone_glue", 1 ],
       [ "thread", 20, "NO_RECOVER" ],
       [ "sinew", 20, "NO_RECOVER" ],
       [ "plant_fibre", 20, "NO_RECOVER" ]
