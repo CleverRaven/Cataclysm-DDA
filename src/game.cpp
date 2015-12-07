@@ -4783,10 +4783,12 @@ faction *game::list_factions(std::string title)
     return cur_frac;
 }
 
-void init_missions_tab( tabbed_window &win, size_t win_height, std::string &&tab_name, std::vector<mission *> &&data, std::string &&if_empty, bool can_confirm )
+void init_missions_tab( tabbed_window &win, std::string &&tab_name, std::vector<mission *> &&data, std::string &&if_empty, bool can_confirm )
 {
+    auto tab = win.create_tab<ui_window>( tab_name );
+
     constexpr size_t list_width = 30;
-    const size_t list_height = win_height - tabbed_window::header_size - 1;
+    const size_t list_height = tab->get_rect().size_y;
     constexpr auto draw_lambda = []( nc_color color, mission *miss )
         {
             auto name = miss->name();
@@ -4799,7 +4801,6 @@ void init_missions_tab( tabbed_window &win, size_t win_height, std::string &&tab
             return std::pair<std::string, nc_color>{name, col};
         }; // get name from mission, highlight active mission.
 
-    auto tab = win.create_tab<ui_window>( tab_name );
     auto _list = tab->create_child<ui_vertical_list<mission *, decltype(draw_lambda), nullptr>>( list_width, list_height, 0, 0, ui_anchor::top_left, draw_lambda );
 
     auto _border = tab->create_child<ui_border>( 1, list_height );
@@ -4849,9 +4850,9 @@ void game::list_missions()
 
     tabbed_window win( win_width, win_height, start_x, start_y );
 
-    init_missions_tab( win, win_height, _("ACTIVE MISSIONS"), u.get_active_missions(), _("You have no active missions!"), true );
-    init_missions_tab( win, win_height, _("COMPLETED MISSIONS"), u.get_completed_missions(), _("You haven't completed any missions!"), false );
-    init_missions_tab( win, win_height, _("FAILED MISSIONS"), u.get_failed_missions(), _("You haven't failed any missions!"), false );
+    init_missions_tab( win, _("ACTIVE MISSIONS"), u.get_active_missions(), _("You have no active missions!"), true );
+    init_missions_tab( win, _("COMPLETED MISSIONS"), u.get_completed_missions(), _("You haven't completed any missions!"), false );
+    init_missions_tab( win, _("FAILED MISSIONS"), u.get_failed_missions(), _("You haven't failed any missions!"), false );
 
     while( true ) {
         win.draw();
