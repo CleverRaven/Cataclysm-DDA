@@ -1471,6 +1471,12 @@ void vehicle::deserialize(JsonIn &jsin)
     if ( savegame_loading_version < 11 ) {
         add_missing_frames();
     }
+
+    // Handle steering changes
+    if (savegame_loading_version < 25) {
+        add_steerable_wheels();
+    }
+
     refresh();
 
     data.read("tags", tags);
