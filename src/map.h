@@ -686,6 +686,7 @@ void draw_rough_circle(ter_id type, int x, int y, int rad);
 void draw_rough_circle(std::string type, int x, int y, int rad);
 void draw_rough_circle_furn(furn_id type, int x, int y, int rad);
 void draw_rough_circle_furn(std::string type, int x, int y, int rad);
+void draw_circle(ter_id type, double x, double y, double rad);
 void draw_circle(ter_id type, int x, int y, int rad);
 void draw_circle(std::string type, int x, int y, int rad);
 void draw_circle_furn(furn_id type, int x, int y, int rad);

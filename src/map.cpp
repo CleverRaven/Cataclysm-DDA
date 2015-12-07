@@ -7525,6 +7525,16 @@ void map::draw_rough_circle_furn(std::string type, int x, int y, int rad) {
     draw_rough_circle_furn(find_furn_id(type), x, y, rad);
 }
 
+void map::draw_circle(ter_id type, double x, double y, double rad) {
+    for (int i = x - rad - 1; i <= x + rad + 1; i++) {
+        for (int j = y - rad - 1; j <= y + rad + 1; j++) {
+            if ( (x-i)*(x-i)+(y-j)*(y-j) <= rad*rad ) {
+                ter_set(i, j, type);
+            }
+        }
+    }
+}
+
 void map::draw_circle(ter_id type, int x, int y, int rad) {
     for (int i = x - rad; i <= x + rad; i++) {
         for (int j = y - rad; j <= y + rad; j++) {

@@ -13903,6 +13903,9 @@ void rough_circle(map *m, ter_id type, int x, int y, int rad) {
 void rough_circle_furn(map *m, furn_id type, int x, int y, int rad) {
     m->draw_rough_circle_furn(type, x, y, rad);
 }
+void circle(map *m, ter_id type, double x, double y, double rad) {
+    m->draw_circle(type, x, y, rad);
+}
 void circle(map *m, ter_id type, int x, int y, int rad) {
     m->draw_circle(type, x, y, rad);
 }

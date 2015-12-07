@@ -1039,17 +1039,18 @@ void mapgen_road(map *m, oter_id terrain_type, mapgendata dat, int turn, float d
 {
     // printf("mapgen_road %s\n",std::string(terrain_type).c_str());
     (void)turn;
-    (void)density;
 
+    // start by filling the whole map with grass/dirt/etc
     dat.fill_groundcover();
 
-    // which of the cardinal directions should get sidewalks?
+    // which and how many neighbors have sidewalks?
     bool sidewalks_neswx[8] = {};
+    int neighbor_sidewalks = 0;
     for (int dir = 0; dir < 8; dir++) { // N E S W NE SE SW NW
-        if (otermap[dat.t_nesw[dir]].has_flag(has_sidewalk)) {
-            sidewalks_neswx[dir] = true;
-        }
+        sidewalks_neswx[dir] = otermap[dat.t_nesw[dir]].has_flag(has_sidewalk);
+        neighbor_sidewalks += sidewalks_neswx[dir];
     }
+
 
     // printf("sidewalks_neswx %d %d %d %d %d %d %d %d\n",
         // sidewalks_neswx[0],
@@ -1065,38 +1066,31 @@ void mapgen_road(map *m, oter_id terrain_type, mapgendata dat, int turn, float d
     // which of the cardinal directions get roads?
     bool roads_nesw[4] = {};
     int num_dirs = terrain_type_with_suffix_to_nesw_array(terrain_type, roads_nesw);
+    int dead_end_extension = ( num_dirs==1 ? 8 : 0 ); // dead ends extend past the middle of the tile
+
     // printf("%d roads_nesw %d %d %d %d\n",num_dirs,roads_nesw[0],roads_nesw[1],roads_nesw[2],roads_nesw[3]);
 
     // which way should our roads curve, based on neighbor roads?
     int curvedir_nesw[4] = {};
     for (int dir = 0; dir < 4; dir++) { // N E S W
-        if ( roads_nesw[dir] == false ) {
-            continue; // nonexistent roads don't curve
-        }
-        if (otermap[dat.t_nesw[dir]].id_base != "road") {
-            continue; // roads pointed at non-roads don't curve
-        }
+        if (roads_nesw[dir] == false) continue;
+        if (otermap[dat.t_nesw[dir]].id_base != "road") continue;
+
         // n_* contain details about the neighbor being considered
         bool n_roads_nesw[4] = {};
         //TODO figure out how to call this function without creating a new oter_id object
         int n_num_dirs = terrain_type_with_suffix_to_nesw_array(oter_id(otermap[dat.t_nesw[dir]].id), n_roads_nesw);
         // if 2-way neighbor has a road facing us
         if (n_num_dirs==2 && n_roads_nesw[(dir+2)%4]) {
-            // these two cancel out if the neighbor is a tee or 4way
-            if (n_roads_nesw[(dir-1+4)%4]) {
-                curvedir_nesw[dir]--; // our road curves counterclockwise;
-            }
-            if (n_roads_nesw[(dir+1)%4]) {
-                curvedir_nesw[dir]++; // our road curves clockwise;
-            }
+            // curve towards the direction the neighbor turns
+            if (n_roads_nesw[(dir-1+4)%4]) curvedir_nesw[dir]--; // our road curves counterclockwise
+            if (n_roads_nesw[(dir+1  )%4]) curvedir_nesw[dir]++; // our road curves clockwise
         }
     }
 
     // printf("curvedir_nesw %d %d %d %d\n",curvedir_nesw[0],curvedir_nesw[1],curvedir_nesw[2],curvedir_nesw[3]);
 
-    // to simplify the drawing logic, everything will be rotated here
-    // the rotation will be reversed afterwards
-
+    // temporarily rotate the map so we are always drawing in the same orientation
     int rot = 0;
     bool diag = false;
     //TODO find a straightforward arithmetic way to do this with a lot less logic
@@ -1109,12 +1103,12 @@ void mapgen_road(map *m, oter_id terrain_type, mapgendata dat, int turn, float d
             if (!roads_nesw[3]) { rot = 1; break; } // N/E/S, rotate  90 degrees
             break;                                  // N/E/W, don't rotate
         case 2: // straight or turn or diagonal
-            if (roads_nesw[1] && roads_nesw[3]) { rot = 1; break; }               // E/W, rotate  90 degrees
+            if (roads_nesw[1] && roads_nesw[3]) { rot = 1; break; }              // E/W, rotate  90 degrees
             if (roads_nesw[1] && roads_nesw[2]) { rot = 1; diag = true; break; } // E/S, rotate  90 degrees
             if (roads_nesw[2] && roads_nesw[3]) { rot = 2; diag = true; break; } // S/W, rotate 180 degrees
             if (roads_nesw[3] && roads_nesw[0]) { rot = 3; diag = true; break; } // W/N, rotate 270 degrees
             if (roads_nesw[0] && roads_nesw[1]) {          diag = true; break; } // N/E, don't rotate
-            break;                                                                // N/S, don't rotate
+            break;                                                               // N/S, don't rotate
         case 1: // dead end
             if (roads_nesw[1]) { rot=1; break; } // E, rotate  90 degrees
             if (roads_nesw[2]) { rot=2; break; } // S, rotate 180 degrees
@@ -1144,19 +1138,16 @@ void mapgen_road(map *m, oter_id terrain_type, mapgendata dat, int turn, float d
 
     // now we have only these shapes: '   |   '-   -'-   -|-
 
-    // diagonal roads get drawn differently from all other types
     if (diag) {
-        // draw sidewalks first
-        if ( sidewalks_neswx[4] || sidewalks_neswx[5] || sidewalks_neswx[6] ) { // south or west building gets southwest sidewalk
-            for (int y=0; y<SEEY*2; y++) {
-                for (int x=0; x<SEEX*2; x++) {
-                    if ( x>y-4 && (x<4 || y>SEEY*2-5 || y>=x) ) {
+        // diagonal roads get drawn differently from all other types
+        // draw sidewalks if a S/SW/W neighbor has_sidewalk
+        if ( sidewalks_neswx[4] || sidewalks_neswx[5] || sidewalks_neswx[6] ) {
+            for (int y=0; y<SEEY*2; y++)
+                for (int x=0; x<SEEX*2; x++)
+                    if ( x>y-4 && (x<4 || y>SEEY*2-5 || y>=x) )
                         m->ter_set(x, y, t_sidewalk);
-                    }
-                }
-            }
         }
-        // now draw diagonal road
+        // draw diagonal road
         for (int y=0; y<SEEY*2; y++) {
             for (int x=0; x<SEEX*2; x++) {
                 if ( x > y && // definitely only draw in the upper right half of the map
@@ -1177,42 +1168,35 @@ void mapgen_road(map *m, oter_id terrain_type, mapgendata dat, int turn, float d
             }
         }
     } else {
-        // 1/3 of dead ends in a sidewalk zone are cul de sacs
+        // non diagonal road drawing
         bool cul_de_sac = false;
-        if( num_dirs==1 &&
-            one_in(3) &&
-            (
-                sidewalks_neswx[0] ||
-                sidewalks_neswx[1] ||
-                sidewalks_neswx[2] ||
-                sidewalks_neswx[3] ||
-                sidewalks_neswx[4] ||
-                sidewalks_neswx[5] ||
-                sidewalks_neswx[6] ||
-                sidewalks_neswx[7]
-            )
+        if( num_dirs==1 &&     // dead ends become cul de sacs
+            one_in(3) &&       // 1/3 of the time
+            neighbor_sidewalks // if a neighbor has_sidewalk
         ) {
             cul_de_sac = true;
-            square(m, t_sidewalk, 0, 0, SEEX*2-1, SEEY*2-1);
+            fill_background(m, t_sidewalk);
         }
 
-        // draw sidewalks first
+        // draw normal sidewalks
         for (int dir=0; dir<4; dir++) {
             if (roads_nesw[dir]) {
-                // sidewalk west of north road
-                if (sidewalks_neswx[(dir+3)%4]   || // sidewalk west?
-                    sidewalks_neswx[(dir+3)%4+4] || // sidewalk northwest?
-                    sidewalks_neswx[dir]) {         // sidewalk north?
-                    int x1=0, y1=0, x2=3, y2=SEEY-1;
+                // sidewalk west of north road, etc
+                if (sidewalks_neswx[(dir-1+4)%4]   || // has_sidewalk west?
+                    sidewalks_neswx[(dir-1+4)%4+4] || // has_sidewalk northwest?
+                    sidewalks_neswx[dir])             // has_sidewalk north?
+                {
+                    int x1=0, y1=0, x2=3, y2=SEEY-1+dead_end_extension;
                     coord_rotate_cw(x1,y1,dir);
                     coord_rotate_cw(x2,y2,dir);
                     square(m, t_sidewalk, x1, y1, x2, y2);
                 }
-                // sidewalk east of north road
-                if (sidewalks_neswx[(dir+1)%4]   || // sidewalk east?
-                    sidewalks_neswx[(dir+1)%4+4] || // sidewalk northeast?
-                    sidewalks_neswx[dir]) {         // sidewalk north?
-                    int x1=SEEX*2-5, y1=0, x2=SEEX*2-1, y2=SEEY-1;
+                // sidewalk east of north road, etc
+                if (sidewalks_neswx[(dir+1)%4]   || // has_sidewalk east?
+                    sidewalks_neswx[(dir+1)%4+4] || // has_sidewalk northeast?
+                    sidewalks_neswx[dir])           // has_sidewalk north?
+                {
+                    int x1=SEEX*2-5, y1=0, x2=SEEX*2-1, y2=SEEY-1+dead_end_extension;
                     coord_rotate_cw(x1,y1,dir);
                     coord_rotate_cw(x2,y2,dir);
                     square(m, t_sidewalk, x1, y1, x2, y2);
@@ -1224,7 +1208,7 @@ void mapgen_road(map *m, oter_id terrain_type, mapgendata dat, int turn, float d
         // also corner pieces for upcoming diagonal road
         for (int dir=0; dir<4; dir++) {
             if (roads_nesw[dir]) {
-                int x1=4, y1=0, x2=SEEX*2-1-4, y2=SEEY-1;
+                int x1=4, y1=0, x2=SEEX*2-1-4, y2=SEEY-1+dead_end_extension;
                 coord_rotate_cw(x1,y1,dir);
                 coord_rotate_cw(x2,y2,dir);
                 square(m, t_pavement, x1, y1, x2, y2);
@@ -1269,22 +1253,36 @@ void mapgen_road(map *m, oter_id terrain_type, mapgendata dat, int turn, float d
         }
 
         // draw round pavement for cul de sac late, to overdraw the yellow dots
-        if (cul_de_sac) {
-            int dir=0;
-            if(roads_nesw[0]) dir=0;
-            if(roads_nesw[1]) dir=1;
-            if(roads_nesw[2]) dir=2;
-            if(roads_nesw[3]) dir=3;
-            for(int x=0;x<2;x++) {
-                for(int y=0;y<2;y++) {
-                    int tx=SEEX-1+x, ty=SEEY-1+y;
-                    coord_rotate_cw(tx,ty,dir);
-                    circle(m, t_pavement, tx, ty, 10);
-                }
-            }
+        if (cul_de_sac)
+            circle(m, t_pavement, double(SEEX)-0.5, double(SEEY)-0.5, 11.0);
+
+    }
+
+    // spawn some vehicles
+    vspawn_id(neighbor_sidewalks ? "default_city" : "default_country").obj().apply(
+        *m,
+        num_dirs == 4 ? "road_four_way" :
+        num_dirs == 3 ? "road_tee"      :
+        num_dirs == 1 ? "road_end"      :
+        diag          ? "road_curved"   :
+                        "road_straight"
+    );
+
+    // spawn some monsters
+    if(neighbor_sidewalks) {
+        m->place_spawns( mongroup_id( "GROUP_ZOMBIE" ), 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, density);
+        // 1 per 10 overmaps
+        if (one_in(10000)) {
+            m->add_spawn(mon_zombie_jackson, 1, SEEX, SEEY);
         }
+    }    
 
+    // add some items
+    m->place_items("road", 5, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, false, turn);
 
+    // add a manhole if appropriate
+    if (terrain_type == "road_nesw_manhole") {
+        m->ter_set(rng(6, SEEX * 2 - 6), rng(6, SEEX * 2 - 6), t_manhole_cover);
     }
 
     // finally, un-rotate the map
