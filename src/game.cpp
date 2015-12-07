@@ -11265,110 +11265,65 @@ void game::change_side(int pos)
     }
 }
 
-void game::reload(int pos)
+void game::reload( int pos )
 {
-    item *it = &u.i_at(pos);
+    item *it = &u.i_at( pos );
+
+    // Make sure the item is actually reloadable
+    if( it->ammo_type() == "NULL" || it->ammo_capacity() <= 0 || it->has_flag( "NO_RELOAD" ) ) {
+        add_msg( m_info, _( "You can't reload a %s!." ), it->tname().c_str() );
+        return;
+    }
 
     // Gun reloading is more complex.
-    if (it->is_gun()) {
+    if( it->is_gun() ) {
 
         // bows etc do not need to reload.
-        if (it->has_flag("RELOAD_AND_SHOOT")) {
-            add_msg(m_info, _("Your %s does not need to be reloaded, it reloads and fires "
-                              "a single motion."), it->tname().c_str());
+        if( it->has_flag( "RELOAD_AND_SHOOT" ) ) {
+            add_msg( m_info, _( "Your %s does not need to be reloaded, it reloads and fires "
+                              "a single motion." ), it->tname().c_str() );
             return;
         }
 
-        // Make sure the item is actually reloadable
-        if (it->ammo_type() == "NULL") {
-            add_msg(m_info, _("Your %s does not reload normally."), it->tname().c_str());
-            return;
-        }
-
-        // See if the gun is fully loaded.
-        if (it->charges == it->clip_size()) {
-            // Also see if the spare magazine is loaded
-            bool magazine_isfull = true;
-
-            for(auto &con : it->contents) {
-                if((con.is_gunmod() &&
-                        (con.typeId() == "spare_mag" &&
-                         con.charges < it->spare_mag_size())) ||
-                    (con.is_auxiliary_gunmod() &&
-                        (con.charges < con.clip_size()))) {
-                    magazine_isfull = false;
-                    break;
-                }
-            }
-
-            if (magazine_isfull) {
+        // See if the gun is fully loaded
+        if( it->ammo_remaining() >= it->ammo_capacity() ) {
+            if( std::none_of( it->contents.begin(), it->contents.end(),
+                              [&it]( const item& mod ) {
+                                  // @todo deprecate handling of spare magazine as separate case
+                                  if( mod.typeId() == "spare_mag" && mod.charges < it->ammo_capacity() ) {
+                                      return true;
+                                  }
+                                  return mod.is_auxiliary_gunmod() &&
+                                      mod.ammo_remaining() < mod.ammo_capacity();
+                              } ) ) {
                 add_msg(m_info, _("Your %s is fully loaded!"), it->tname().c_str());
                 return;
             }
         }
+    }
 
-        // pick ammo
-        int am_pos = it->pick_reload_ammo(u, true);
-        if (am_pos == INT_MIN) {
-            add_msg(m_info, _("Out of ammo!"));
-            refresh_all();
-            return;
-        }else if (am_pos == INT_MIN + 2) {
-            add_msg(m_info, _("Never mind."));
-            refresh_all();
-            return;
-        }
-
-        // and finally reload.
-        std::stringstream ss;
-        ss << pos;
-        u.assign_activity(ACT_RELOAD, it->reload_time(u), -1, am_pos, ss.str());
-
-    } else if (it->is_tool()) { // tools are simpler
-        const ammotype ammo = it->ammo_type();
-
-        // see if its actually reloadable.
-        if (ammo == "NULL") {
-            add_msg(m_info, _("You can't reload a %s!"), it->tname().c_str());
-            return;
-        } else if (it->has_flag("NO_RELOAD")) {
-            add_msg(m_info, _("You can't reload a %s!"), it->tname().c_str());
-            return;
-        }
-
-        // pick ammo
-        int am_pos = it->pick_reload_ammo(u, true);
-
-        if (am_pos == INT_MIN) {
-            // no ammo, fail reload
-            add_msg(m_info, _("Out of %s!"), ammo_name(ammo).c_str());
-            return;
-        }else if (am_pos == INT_MIN + 2) {
-            //cancelled or invalid selection
-            add_msg(m_info, _("Never mind."));
-            refresh_all();
-            return;
-        }
-
+    // pick ammo
+    int am_pos = it->pick_reload_ammo( u, true );
+    if( am_pos == INT_MIN ) {
+        add_msg( m_info, _( "Out of %s!" ), it->is_gun() ? _("ammo") : ammo_name( it->ammo_type() ).c_str() );
+    } else if( am_pos == INT_MIN + 2 ) {
+        add_msg( m_info, _( "Never mind." ) );
+    } else {
         // do the actual reloading
         std::stringstream ss;
         ss << pos;
-        u.assign_activity(ACT_RELOAD, it->reload_time(u), -1, am_pos, ss.str());
-
-    } else { // what else is there?
-        add_msg(m_info, _("You can't reload a %s!"), it->tname().c_str());
+        u.assign_activity( ACT_RELOAD, it->reload_time( u ), -1, am_pos, ss.str() );
     }
 
-    // all done.
     refresh_all();
 }
 
 void game::reload()
 {
-    if (!u.is_armed()) {
-        add_msg(m_info, _("You're not wielding anything."));
+    if( !u.is_armed() ) {
+        add_msg(m_info, _( "You're not wielding anything." ) );
     } else {
-        reload(-1);
+        reload( -1 );
     }
 }
 
