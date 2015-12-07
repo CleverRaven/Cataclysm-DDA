@@ -986,7 +986,7 @@ int terrain_type_with_suffix_to_nesw_array(oter_id terrain_type, bool array[4]) 
     // non-"_end" end tiles have _north _east _south _west, all of which contain "t"
     if (suffix.find("t") != std::string::npos) {
         suffix = suffix.substr(0,1);
-        if      (suffix=="n") suffix = "s";
+        if      (suffix=="n") suffix = "s"; // and they are all backwards :(
         else if (suffix=="e") suffix = "w";
         else if (suffix=="s") suffix = "n";
         else if (suffix=="w") suffix = "e";
@@ -1006,11 +1006,11 @@ int terrain_type_with_suffix_to_nesw_array(oter_id terrain_type, bool array[4]) 
 template<typename T> void nesw_array_rotate(T *array, size_t len, size_t dist) {
     if( len == 4 ) {
         for (;dist--;) {
-            for (size_t i=0; i<len-1; i++) {
-                T temp = array[i];
-                array[i] = array[i+1];
-                array[i+1] = temp;
-            }
+            T temp = array[0];
+            array[0] = array[1];
+            array[1] = array[2];
+            array[2] = array[3];
+            array[3] = temp;
         }
     } else {
         for (;dist--;) {
@@ -1028,6 +1028,7 @@ template<typename T> void nesw_array_rotate(T *array, size_t len, size_t dist) {
     }
 }
 
+// take x/y coords in a map and rotate them counterclockwise around the center
 void coord_rotate_cw(int &x, int &y, int rot) {
     for(;rot--;) {
         int temp = y;
@@ -1039,8 +1040,6 @@ void coord_rotate_cw(int &x, int &y, int rot) {
 // mapgen_road replaces previous mapgen_road_straight _end _curved _tee _four_way
 void mapgen_road(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
 {
-    // printf("mapgen_road %s\n",std::string(terrain_type).c_str());
-
     // start by filling the whole map with grass/dirt/etc
     dat.fill_groundcover();
 
@@ -1052,24 +1051,11 @@ void mapgen_road(map *m, oter_id terrain_type, mapgendata dat, int turn, float d
         neighbor_sidewalks += sidewalks_neswx[dir];
     }
 
-
-    // printf("sidewalks_neswx %d %d %d %d %d %d %d %d\n",
-        // sidewalks_neswx[0],
-        // sidewalks_neswx[1],
-        // sidewalks_neswx[2],
-        // sidewalks_neswx[3],
-        // sidewalks_neswx[4],
-        // sidewalks_neswx[5],
-        // sidewalks_neswx[6],
-        // sidewalks_neswx[7]
-        // );
-
     // which of the cardinal directions get roads?
     bool roads_nesw[4] = {};
     int num_dirs = terrain_type_with_suffix_to_nesw_array(terrain_type, roads_nesw);
-    int dead_end_extension = ( num_dirs==1 ? 8 : 0 ); // dead ends extend past the middle of the tile
-
-    // printf("%d roads_nesw %d %d %d %d\n",num_dirs,roads_nesw[0],roads_nesw[1],roads_nesw[2],roads_nesw[3]);
+    // if this is a dead end, extend past the middle of the tile
+    int dead_end_extension = ( num_dirs==1 ? 8 : 0 );
 
     // which way should our roads curve, based on neighbor roads?
     int curvedir_nesw[4] = {};
@@ -1088,8 +1074,6 @@ void mapgen_road(map *m, oter_id terrain_type, mapgendata dat, int turn, float d
             if (n_roads_nesw[(dir+1  )%4]) curvedir_nesw[dir]++; // our road curves clockwise
         }
     }
-
-    // printf("curvedir_nesw %d %d %d %d\n",curvedir_nesw[0],curvedir_nesw[1],curvedir_nesw[2],curvedir_nesw[3]);
 
     // calculate how far to rotate the map so we can work with just one orientation
     // also keep track of diagonal roads and plazas
@@ -1124,11 +1108,6 @@ void mapgen_road(map *m, oter_id terrain_type, mapgendata dat, int turn, float d
             else if (std::equal(std::begin(fourways_neswx), std::end(fourways_neswx), std::begin({0,1,1,1,0,1,1,0})))
                 plaza_dir = 0; // north side of rotary/plaza
             if (plaza_dir > -1) rot = plaza_dir % 4;
-            // printf("plaza_dir %d rot %d fways",plaza_dir,rot);
-            // for(int dir=0; dir<8; dir++) {
-            //     printf(" %d",fourways_neswx[dir]);
-            // }
-            // printf("\n");
          case 3: // tee
             if (!roads_nesw[0]) { rot = 2; break; } // E/S/W, rotate 180 degrees
             if (!roads_nesw[1]) { rot = 3; break; } // N/S/W, rotate 270 degrees
@@ -1148,25 +1127,10 @@ void mapgen_road(map *m, oter_id terrain_type, mapgendata dat, int turn, float d
             break;                               // N, don't rotate
     }
 
-    // printf("rot %d\n",rot);
-
     // rotate the arrays left by rot steps
     nesw_array_rotate<bool>(sidewalks_neswx,8, rot*2);
     nesw_array_rotate<bool>(roads_nesw,     4, rot);
     nesw_array_rotate<int> (curvedir_nesw,  4, rot);
-
-    // printf("sidewalks_neswx %d %d %d %d %d %d %d %d\n",
-        // sidewalks_neswx[0],
-        // sidewalks_neswx[1],
-        // sidewalks_neswx[2],
-        // sidewalks_neswx[3],
-        // sidewalks_neswx[4],
-        // sidewalks_neswx[5],
-        // sidewalks_neswx[6],
-        // sidewalks_neswx[7]
-        // );
-    // printf("%d roads_nesw %d %d %d %d\n",num_dirs,roads_nesw[0],roads_nesw[1],roads_nesw[2],roads_nesw[3]);
-    // printf("curvedir_nesw %d %d %d %d\n",curvedir_nesw[0],curvedir_nesw[1],curvedir_nesw[2],curvedir_nesw[3]);
 
     // now we have only these shapes: '   |   '-   -'-   -|-
 
@@ -1212,9 +1176,9 @@ void mapgen_road(map *m, oter_id terrain_type, mapgendata dat, int turn, float d
         for (int dir=0; dir<4; dir++) {
             if (roads_nesw[dir]) {
                 // sidewalk west of north road, etc
-                if (sidewalks_neswx[(dir-1+4)%4]   || // has_sidewalk west?
+                if (sidewalks_neswx[(dir-1+4)%4  ] || // has_sidewalk west?
                     sidewalks_neswx[(dir-1+4)%4+4] || // has_sidewalk northwest?
-                    sidewalks_neswx[dir])             // has_sidewalk north?
+                    sidewalks_neswx[ dir         ])   // has_sidewalk north?
                 {
                     int x1=0, y1=0, x2=3, y2=SEEY-1+dead_end_extension;
                     coord_rotate_cw(x1,y1,dir);
@@ -1222,9 +1186,9 @@ void mapgen_road(map *m, oter_id terrain_type, mapgendata dat, int turn, float d
                     square(m, t_sidewalk, x1, y1, x2, y2);
                 }
                 // sidewalk east of north road, etc
-                if (sidewalks_neswx[(dir+1)%4]   || // has_sidewalk east?
+                if (sidewalks_neswx[(dir+1)%4  ] || // has_sidewalk east?
                     sidewalks_neswx[(dir+1)%4+4] || // has_sidewalk northeast?
-                    sidewalks_neswx[dir])           // has_sidewalk north?
+                    sidewalks_neswx[ dir       ])   // has_sidewalk north?
                 {
                     int x1=SEEX*2-5, y1=0, x2=SEEX*2-1, y2=SEEY-1+dead_end_extension;
                     coord_rotate_cw(x1,y1,dir);
@@ -1239,52 +1203,33 @@ void mapgen_road(map *m, oter_id terrain_type, mapgendata dat, int turn, float d
             square(m, t_sidewalk, 0, SEEY+dead_end_extension, SEEX*2-1, SEEY+dead_end_extension+4);
 
         // draw 16-wide pavement from the middle to the edge in each road direction
-        // also corner pieces for upcoming diagonal road
+        // also corner pieces to curve towards diagonal neighbors
         for (int dir=0; dir<4; dir++) {
             if (roads_nesw[dir]) {
                 int x1=4, y1=0, x2=SEEX*2-1-4, y2=SEEY-1+dead_end_extension;
                 coord_rotate_cw(x1,y1,dir);
                 coord_rotate_cw(x2,y2,dir);
                 square(m, t_pavement, x1, y1, x2, y2);
-                if(curvedir_nesw[dir]==-1) {
-                    for(int x=0; x<4; x++) {
-                        for(int y=0; y<4; y++) {
-                            if (x>y) {
-                                int tx=x, ty=y;
-                                coord_rotate_cw(tx,ty,dir);
-                                m->ter_set(tx,ty,t_pavement);
-                            }
+                if(curvedir_nesw[dir] != 0)
+                    for(int x=1; x<4; x++)
+                        for(int y=0; y<x; y++) {
+                            int ty = y, tx = (curvedir_nesw[dir]==-1 ? x : SEEX*2-x);
+                            coord_rotate_cw(tx,ty,dir);
+                            m->ter_set(tx,ty,t_pavement);
                         }
-                    }
-                }
-                if(curvedir_nesw[dir]==1) {
-                    for(int x=SEEX*2-4; x<SEEX*2; x++) {
-                        for(int y=0; y<4; y++) {
-                            if (x<(SEEX*2-y-1)) {
-                                int tx=x, ty=y;
-                                coord_rotate_cw(tx,ty,dir);
-                                m->ter_set(tx,ty,t_pavement);
-                            }
-                        }
-                    }
-                }
             }
         }
 
         // draw yellow dots on the pavement
-        for (int dir=0; dir<4; dir++) {
-            if (roads_nesw[dir]) {
-                for(int x=SEEX-1; x<=SEEX; x++) {
-                    for(int y=0; y<SEEY; y++) {
+        for (int dir=0; dir<4; dir++)
+            if (roads_nesw[dir])
+                for(int x=SEEX-1; x<=SEEX; x++)
+                    for(int y=0; y<SEEY; y++)
                         if ((y+((dir+rot)/2))%4) {
                             int xn=x, yn=y;
                             coord_rotate_cw(xn,yn,dir);
                             m->ter_set(xn, yn, t_pavement_y);
                         }
-                    }
-                }
-            }
-        }
 
         // draw round pavement for cul de sac late, to overdraw the yellow dots
         if (cul_de_sac)
@@ -1332,9 +1277,7 @@ void mapgen_road(map *m, oter_id terrain_type, mapgendata dat, int turn, float d
     if (neighbor_sidewalks) {
         m->place_spawns( mongroup_id( "GROUP_ZOMBIE" ), 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, density);
         // 1 per 10 overmaps
-        if (one_in(10000)) {
-            m->add_spawn(mon_zombie_jackson, 1, SEEX, SEEY);
-        }
+        if (one_in(10000)) m->add_spawn(mon_zombie_jackson, 1, SEEX, SEEY);
     }    
 
     // add some items
@@ -1344,99 +1287,12 @@ void mapgen_road(map *m, oter_id terrain_type, mapgendata dat, int turn, float d
         m->place_items("road", 5, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, false, turn);
 
     // add a manhole if appropriate
-    if (terrain_type == "road_nesw_manhole") {
+    if (terrain_type == "road_nesw_manhole")
         m->ter_set(rng(6, SEEX * 2 - 6), rng(6, SEEX * 2 - 6), t_manhole_cover);
-    }
 
     // finally, un-rotate the map
     m->rotate(rot);
 
-}
-
-
-//TODO remove old mapgen_road_* once all functionality exists in mapgen_road()
-void mapgen_road_four_way(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
-{
-    bool plaza = false;
-    for (int i = 0; i < 4; i++) {
-        if (dat.t_nesw[i] == "road_nesw" || dat.t_nesw[i] == "road_nesw_manhole") {
-            plaza = true;
-        }
-    }
-    bool sidewalks = false;
-    for (int i = 0; i < 8; i++) {
-        if (otermap[dat.t_nesw[i]].has_flag(has_sidewalk)) {
-            sidewalks = true;
-        }
-    }
-
-    // spawn city car wrecks
-    if (sidewalks) {
-        vspawn_id("default_city").obj().apply(*m, "road_four_way");
-    }
-
-    for (int i = 0; i < SEEX * 2; i++) {
-        for (int j = 0; j < SEEY * 2; j++) {
-            if (plaza) {
-                m->ter_set(i, j, t_sidewalk);
-            } else if ((i < 4 || i >= SEEX * 2 - 4) && (j < 4 || j >= SEEY * 2 - 4)) {
-                if (sidewalks) {
-                    m->ter_set(i, j, t_sidewalk);
-                } else {
-                    m->ter_set(i, j, dat.groundcover());
-                }
-            } else {
-                if (((i == SEEX - 1 || i == SEEX) && j % 4 != 0) ||
-                      ((j == SEEY - 1 || j == SEEY) && i % 4 != 0)) {
-                    m->ter_set(i, j, t_pavement_y);
-                } else {
-                    m->ter_set(i, j, t_pavement);
-                }
-            }
-        }
-    }
-    if (plaza) { // Special embellishments for a plaza
-        if (one_in(10)) { // Fountain
-            for (int i = SEEX - 2; i <= SEEX + 2; i++) {
-                m->ter_set(i, i, t_water_sh);
-                m->ter_set(i, SEEX * 2 - i, t_water_sh);
-            }
-        }
-        if (one_in(10)) { // Small trees in center
-            mapf::formatted_set_simple(m, SEEX-2, SEEY-2,
-"\
- t t\n\
-t   t\n\
-\n\
-t   t\n\
- t t\n\
-",
-            mapf::basic_bind("t", t_tree_young), mapf::basic_bind(""));
-        }
-        if (one_in(14)) { // Rows of small trees
-            int gap = rng(2, 4);
-            int start = rng(0, 4);
-            for (int i = 2; i < SEEX * 2 - start; i += gap) {
-                m->ter_set(i, start, t_tree_young);
-                m->ter_set(SEEX * 2 - 1 - i, start, t_tree_young);
-                m->ter_set(start, i, t_tree_young);
-                m->ter_set(start, SEEY * 2 - 1 - i, t_tree_young);
-            }
-        }
-        m->place_items("trash", 5, 0, 0, SEEX * 2 -1, SEEX * 2 - 1, true, 0);
-    } else {
-        m->place_items("road",  5, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, false, turn);
-    }
-    if(sidewalks) {
-        m->place_spawns( mongroup_id( "GROUP_ZOMBIE" ), 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, density);
-        // 1 per 10 overmaps
-        if (one_in(10000)) {
-            m->add_spawn(mon_zombie_jackson, 1, SEEX, SEEY);
-        }
-    }
-    if (terrain_type == "road_nesw_manhole") {
-        m->ter_set(rng(6, SEEX * 2 - 6), rng(6, SEEX * 2 - 6), t_manhole_cover);
-    }
 }
 ///////////////////
 
