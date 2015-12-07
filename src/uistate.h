@@ -6,6 +6,7 @@
 
 #include "json.h"
 #include "enums.h"
+#include "omdata.h"
 
 #include <map>
 #include <vector>
@@ -66,6 +67,11 @@ class uistatedata : public JsonSerializer, public JsonDeserializer
         bool list_item_downvote_active = false;
         bool list_item_priority_active = false;
         bool list_item_init = false;
+
+        // overmap editor selections
+        const oter_t *place_terrain = nullptr;
+        const overmap_special *place_special = nullptr;
+        int omedit_rotation = 0;
 
         /* to save input history and make accessible via 'up', you don't need to edit this file, just run:
            output = string_input_popup(str, int, str, str, std::string("set_a_unique_identifier_here") );

@@ -24,6 +24,7 @@
     "items":[
       ["null", 20],
       ["gloves_leather", 60],
+      ["gloves_work", 20],
       ["gloves_fingerless", 20],
       ["fire_gauntlets", 20]
     ]

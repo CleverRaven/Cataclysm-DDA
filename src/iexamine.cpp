@@ -1608,7 +1608,7 @@ std::list<item> iexamine::get_harvest_items( const itype &type, const int plant_
     const auto add = [&]( const itype_id &id, const int count ) {
         item new_item( id, calendar::turn );
         if( new_item.count_by_charges() && count > 0 ) {
-            new_item.charges = count;
+            new_item.charges *= count;
             result.push_back( new_item );
         } else if( count > 0 ) {
             result.insert( result.begin(), count, new_item );
@@ -2529,25 +2529,10 @@ void iexamine::trap(player *p, map *m, const tripoint &examp)
 void iexamine::water_source(player *p, map *m, const tripoint &examp)
 {
     item water = m->water_from( examp );
-    const std::string text = string_format(_("Container for %s"), water.tname().c_str());
-    item *cont = g->inv_map_for_liquid(water, text);
-    if (cont == NULL || cont->is_null()) {
-        // No container selected, try drinking from out hands
-        p->drink_from_hands(water);
-    } else {
-        // Turns needed is the number of liquid units / 10 * 100 (because 100 moves in a turn).
-        int turns = cont->get_remaining_capacity_for_liquid( water ) * 10;
-        if (turns > 0) {
-            if( turns/1000 > 1 ) {
-                // If it takes less than a minute, no need to inform the player about time.
-                p->add_msg_if_player(m_info, _("It will take around %d minutes to fill that container."), turns / 1000);
-            }
-            p->assign_activity(ACT_FILL_LIQUID, turns, -1, p->get_item_position(cont), cont->tname());
-            p->activity.str_values.push_back(water.typeId());
-            p->activity.values.push_back(water.poison);
-            p->activity.values.push_back(water.bday);
-        }
-    }
+    p->assign_activity(ACT_FILL_LIQUID, -1, -1);
+    p->activity.str_values.push_back(water.typeId());
+    p->activity.values.push_back(water.poison);
+    p->activity.values.push_back(water.bday);
 }
 void iexamine::swater_source(player *p, map *m, const tripoint &examp)
 {

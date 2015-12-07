@@ -37,7 +37,9 @@
     "items":[
       ["null", 20],
       ["gloves_leather", 60],
-      ["gloves_fingerless", 10]
+      ["gloves_work", 10],
+      ["gloves_fingerless", 10],
+      ["gloves_fingerless_mod", 10]
     ]
   },{
     "type" : "item_group",
@@ -45,6 +47,7 @@
     "items":[
       ["null", 20],
       ["jacket_leather", 30],
+      ["jacket_leather_mod", 30],
       ["jacket_jean", 30],
       ["football_armor", 40],
       ["kevlar", 5]
@@ -67,7 +70,8 @@
       ["crowbar", 20],
       ["q_staff",20],
       ["bwirebat",20],
-      ["bat_metal",20]
+      ["bat_metal",20],
+      ["homewrecker",5]
     ]
   }
 ]

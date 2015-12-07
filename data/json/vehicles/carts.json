@@ -56,6 +56,9 @@
             {"x": 0, "y": 0, "part": "xlframe_vertical_2"},
             {"x": 0, "y": 0, "part": "wheel_caster"},
             {"x": 0, "y": 0, "part": "basketlg"}
+        ],
+        "items" : [
+            {"x": 0, "y": 0, "chance": 35, "item_groups": ["trash_cart"]}
         ]
     },{
         "type" : "vehicle",
