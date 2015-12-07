@@ -16,6 +16,8 @@
 #include "computer.h"
 #include "mapdata.h"
 #include "field.h"
+#include <algorithm>
+#include <iterator>
 
 const mtype_id mon_ant_larva( "mon_ant_larva" );
 const mtype_id mon_ant_queen( "mon_ant_queen" );
@@ -1089,19 +1091,50 @@ void mapgen_road(map *m, oter_id terrain_type, mapgendata dat, int turn, float d
 
     // printf("curvedir_nesw %d %d %d %d\n",curvedir_nesw[0],curvedir_nesw[1],curvedir_nesw[2],curvedir_nesw[3]);
 
-    // temporarily rotate the map so we are always drawing in the same orientation
+    // calculate how far to rotate the map so we can work with just one orientation
+    // also keep track of diagonal roads and plazas
     int rot = 0;
     bool diag = false;
-    //TODO find a straightforward arithmetic way to do this with a lot less logic
+    int plaza_dir = -1;
+    bool fourways_neswx[8] = {};
+    //TODO reduce amount of logical/conditional constructs here
     switch (num_dirs) {
         case 4: // 4-way intersection
-            break; // don't rotate
-        case 3: // tee
+            for (int dir = 0; dir < 8; dir++) {
+                fourways_neswx[dir] =
+                    ( otermap[dat.t_nesw[dir]].id == "road_nesw" ||
+                      otermap[dat.t_nesw[dir]].id == "road_nesw_manhole" );
+            }
+            if      (std::equal(std::begin(fourways_neswx), std::end(fourways_neswx), std::begin({1,1,1,1,1,1,1,1})))
+                plaza_dir = 8; // surrounded by 4ways
+            else if (std::equal(std::begin(fourways_neswx), std::end(fourways_neswx), std::begin({0,1,1,0,0,1,0,0})))
+                plaza_dir = 7; // northwest corner of rotary/plaza
+            else if (std::equal(std::begin(fourways_neswx), std::end(fourways_neswx), std::begin({1,1,0,0,1,0,0,0})))
+                plaza_dir = 6;
+            else if (std::equal(std::begin(fourways_neswx), std::end(fourways_neswx), std::begin({1,0,0,1,0,0,0,1})))
+                plaza_dir = 5;
+            else if (std::equal(std::begin(fourways_neswx), std::end(fourways_neswx), std::begin({0,0,1,1,0,0,1,0})))
+                plaza_dir = 4;
+            else if (std::equal(std::begin(fourways_neswx), std::end(fourways_neswx), std::begin({1,1,1,0,1,1,0,0})))
+                plaza_dir = 3;
+            else if (std::equal(std::begin(fourways_neswx), std::end(fourways_neswx), std::begin({1,1,0,1,1,0,0,1})))
+                plaza_dir = 2;
+            else if (std::equal(std::begin(fourways_neswx), std::end(fourways_neswx), std::begin({1,0,1,1,0,0,1,1})))
+                plaza_dir = 1;
+            else if (std::equal(std::begin(fourways_neswx), std::end(fourways_neswx), std::begin({0,1,1,1,0,1,1,0})))
+                plaza_dir = 0; // north side of rotary/plaza
+            if (plaza_dir > -1) rot = plaza_dir % 4;
+            // printf("plaza_dir %d rot %d fways",plaza_dir,rot);
+            // for(int dir=0; dir<8; dir++) {
+            //     printf(" %d",fourways_neswx[dir]);
+            // }
+            // printf("\n");
+         case 3: // tee
             if (!roads_nesw[0]) { rot = 2; break; } // E/S/W, rotate 180 degrees
             if (!roads_nesw[1]) { rot = 3; break; } // N/S/W, rotate 270 degrees
             if (!roads_nesw[3]) { rot = 1; break; } // N/E/S, rotate  90 degrees
             break;                                  // N/E/W, don't rotate
-        case 2: // straight or turn or diagonal
+        case 2: // straight or diagonal
             if (roads_nesw[1] && roads_nesw[3]) { rot = 1; break; }              // E/W, rotate  90 degrees
             if (roads_nesw[1] && roads_nesw[2]) { rot = 1; diag = true; break; } // E/S, rotate  90 degrees
             if (roads_nesw[2] && roads_nesw[3]) { rot = 2; diag = true; break; } // S/W, rotate 180 degrees
@@ -1137,8 +1170,7 @@ void mapgen_road(map *m, oter_id terrain_type, mapgendata dat, int turn, float d
 
     // now we have only these shapes: '   |   '-   -'-   -|-
 
-    if (diag) {
-        // diagonal roads get drawn differently from all other types
+    if (diag) { // diagonal roads get drawn differently from all other types
         // draw sidewalks if a S/SW/W neighbor has_sidewalk
         if ( sidewalks_neswx[4] || sidewalks_neswx[5] || sidewalks_neswx[6] ) {
             for (int y=0; y<SEEY*2; y++)
@@ -1166,8 +1198,7 @@ void mapgen_road(map *m, oter_id terrain_type, mapgendata dat, int turn, float d
                 }
             }
         }
-    } else {
-        // non diagonal road drawing
+    } else { // normal road drawing
         bool cul_de_sac = false;
         if( num_dirs==1 &&     // dead ends become cul de sacs
             one_in(3) &&       // 1/3 of the time
@@ -1259,17 +1290,31 @@ void mapgen_road(map *m, oter_id terrain_type, mapgendata dat, int turn, float d
         if (cul_de_sac)
             circle(m, t_pavement, double(SEEX)-0.5, double(SEEY)-0.5, 11.0);
 
+        // overwrite part of intersection with rotary/plaza
+        if( plaza_dir > -1 ) {
+            if (plaza_dir == 8) {       // plaza center
+                fill_background(m, t_sidewalk);
+            } else if (plaza_dir < 4) { // plaza side
+                square(m, t_pavement, 0, SEEY-8, SEEX*2-1, SEEY-1);
+                square(m, t_sidewalk, 0, SEEY  , SEEX*2-1, SEEY*2-1);
+            } else {                    // plaza corner
+                circle(m, t_pavement, 0, SEEY*2-1, 21);
+                circle(m, t_sidewalk, 0, SEEY*2-1, 13);
+            }
+        }
     }
 
     // spawn some vehicles
-    vspawn_id(neighbor_sidewalks ? "default_city" : "default_country").obj().apply(
-        *m,
-        num_dirs == 4 ? "road_four_way" :
-        num_dirs == 3 ? "road_tee"      :
-        num_dirs == 1 ? "road_end"      :
-        diag          ? "road_curved"   :
-                        "road_straight"
-    );
+    if (plaza_dir != 8) {
+        vspawn_id(neighbor_sidewalks ? "default_city" : "default_country").obj().apply(
+            *m,
+            num_dirs == 4 ? "road_four_way" :
+            num_dirs == 3 ? "road_tee"      :
+            num_dirs == 1 ? "road_end"      :
+            diag          ? "road_curved"   :
+                            "road_straight"
+        );
+    }
 
     // spawn some monsters
     if(neighbor_sidewalks) {
