@@ -45,8 +45,8 @@ mapgendata::mapgendata(oter_id north, oter_id east, oter_id south, oter_id west,
     t_nesw[3] = west;
     t_nesw[4] = northeast;
     t_nesw[5] = southeast;
-    t_nesw[6] = northwest;
-    t_nesw[7] = southwest;
+    t_nesw[6] = southwest;
+    t_nesw[7] = northwest;
     t_above = up;
     zlevel = z;
     n_fac = 0;

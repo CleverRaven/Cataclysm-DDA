@@ -134,16 +134,16 @@ void map::generate(const int x, const int y, const int z, const int turn)
     int overy = y;
     overmapbuffer::sm_to_omt(overx, overy);
     const regional_settings *rsettings = &overmap_buffer.get_settings(overx, overy, z);
-    oter_id t_above = overmap_buffer.ter(overx, overy, z + 1);
     oter_id terrain_type = overmap_buffer.ter(overx, overy, z);
-    oter_id t_north = overmap_buffer.ter(overx, overy - 1, z);
+    oter_id t_above = overmap_buffer.ter(overx    , overy    , z + 1);
+    oter_id t_north = overmap_buffer.ter(overx    , overy - 1, z);
     oter_id t_neast = overmap_buffer.ter(overx + 1, overy - 1, z);
-    oter_id t_east = overmap_buffer.ter(overx + 1, overy, z);
+    oter_id t_east  = overmap_buffer.ter(overx + 1, overy    , z);
     oter_id t_seast = overmap_buffer.ter(overx + 1, overy + 1, z);
-    oter_id t_south = overmap_buffer.ter(overx, overy + 1, z);
-    oter_id t_nwest = overmap_buffer.ter(overx - 1, overy - 1, z);
-    oter_id t_west = overmap_buffer.ter(overx - 1, overy, z);
+    oter_id t_south = overmap_buffer.ter(overx    , overy + 1, z);
     oter_id t_swest = overmap_buffer.ter(overx - 1, overy + 1, z);
+    oter_id t_west  = overmap_buffer.ter(overx - 1, overy    , z);
+    oter_id t_nwest = overmap_buffer.ter(overx - 1, overy - 1, z);
 
     // This attempts to scale density of zombies inversely with distance from the nearest city.
     // In other words, make city centers dense and perimiters sparse.
@@ -155,7 +155,7 @@ void map::generate(const int x, const int y, const int z, const int turn)
     }
     density = density / 100;
 
-    draw_map(terrain_type, t_north, t_east, t_south, t_west, t_neast, t_seast, t_nwest, t_swest,
+    draw_map(terrain_type, t_north, t_east, t_south, t_west, t_neast, t_seast, t_swest, t_nwest,
              t_above, turn, density, z, rsettings);
 
     // At some point, we should add region information so we can grab the appropriate extras
@@ -1617,7 +1617,7 @@ void mapgen_function_lua::generate( map *m, oter_id terrain_type, mapgendata dat
 
 void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter_id t_east,
                    const oter_id t_south, const oter_id t_west, const oter_id t_neast,
-                   const oter_id t_seast, const oter_id t_nwest, const oter_id t_swest,
+                   const oter_id t_seast, const oter_id t_swest, const oter_id t_nwest,
                    const oter_id t_above, const int turn, const float density,
                    const int zlevel, const regional_settings * rsettings)
 {

@@ -1178,7 +1178,7 @@ protected:
         void copy_grid( const tripoint &to, const tripoint &from );
  void draw_map(const oter_id terrain_type, const oter_id t_north, const oter_id t_east,
                 const oter_id t_south, const oter_id t_west, const oter_id t_neast,
-                const oter_id t_seast, const oter_id t_nwest, const oter_id t_swest,
+                const oter_id t_seast, const oter_id t_swest, const oter_id t_nwest,
                 const oter_id t_above, const int turn, const float density,
                 const int zlevel, const regional_settings * rsettings);
 
