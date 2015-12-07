@@ -20,6 +20,8 @@
 #include <string>
 #include <locale>
 #include <sstream>
+#include <algorithm>
+#include <cctype>
 
 bool trigdist;
 bool use_tiles;
@@ -597,7 +599,9 @@ static std::string build_resource_list(
             } else {
                 if( sOption.find( "NAME" ) != std::string::npos ) {
                     resource_name = "";
-                    fin >> resource_name;
+                    getline( fin, resource_name );
+                    resource_name.erase( std::remove( resource_name.begin(), resource_name.end(), ',' ), resource_name.end() );
+                    resource_name = trim( resource_name );
                     if( resource_names.empty() ) {
                         resource_names += resource_name;
                     } else {
@@ -606,7 +610,8 @@ static std::string build_resource_list(
                     }
                 } else if( sOption.find( "VIEW" ) != std::string::npos ) {
                     std::string viewName = "";
-                    fin >> viewName;
+                    getline( fin, viewName );
+                    viewName = trim( viewName );
                     optionNames[resource_name] = viewName;
                     break;
                 }
@@ -1767,4 +1772,10 @@ bool options_manager::load_legacy()
 bool use_narrow_sidebar()
 {
     return TERMY < 25 || g->narrow_sidebar;
+}
+
+inline std::string trim(const std::string &s)
+{
+   auto wsfront = std::find_if_not( s.begin(), s.end(), []( int c ) { return std::isspace( c ); });
+   return std::string( wsfront, std::find_if_not( s.rbegin(), std::string::const_reverse_iterator( wsfront ), []( int c ){ return std::isspace( c ); }).base());
 }
