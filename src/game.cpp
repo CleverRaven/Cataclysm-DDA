@@ -4785,7 +4785,7 @@ faction *game::list_factions(std::string title)
 
 void init_missions_tab( tabbed_window &win, std::string &&tab_name, std::vector<mission *> &&data, std::string &&if_empty, bool can_confirm )
 {
-    auto tab = win.create_tab<ui_window>( tab_name );
+    auto tab = win.create_tab( tab_name );
 
     constexpr size_t list_width = 30;
     const size_t list_height = tab->get_rect().size_y;

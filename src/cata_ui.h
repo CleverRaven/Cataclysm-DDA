@@ -250,7 +250,7 @@ class tabbed_window : public bordered_window {
 
         static constexpr int header_size = 3;
 
-        template<typename T, typename... Ts>
+        template<typename T = ui_window, typename... Ts>
         T *create_tab( const std::string &tab, Ts&&... args )
         {
             auto tab_win = create_child<T>( get_rect().size_x - 2, get_rect().size_y - header_size - 1, 1, -1,
