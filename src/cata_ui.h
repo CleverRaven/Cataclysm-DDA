@@ -50,21 +50,21 @@ struct ui_rect {
 */
 template<typename... Ts>
 class ui_event {
-        std::vector<std::function<void(Ts&&...)>> listeners;
+        std::vector<std::function<void(Ts...)>> listeners;
     public:
-        void subscribe( std::function<void(Ts&&...)> listener )
+        void subscribe( std::function<void(Ts...)> listener )
         {
             listeners.push_back( listener );
         }
 
-        void operator()(const Ts&&... args)
+        void operator()(Ts... args)
         {
             for( auto listener : listeners ) {
                 listener( args... );
             }
         }
 
-        void operator+=( std::function<void(Ts&&...)> listener )
+        void operator+=( std::function<void(Ts...)> listener )
         {
             listeners.push_back( listener );
         }
@@ -104,12 +104,14 @@ class ui_element {
 
         bool show = true; /**< Indicates to ui_window if this element should be drawn, and whether it should receive input */
         ui_rect rect; /**< Holds the elements size and position */
-        void calc_anchored_values();
+        virtual void calc_anchored_values();
     protected:
-        virtual void draw() = 0;
+        virtual void draw( std::vector<WINDOW *> &render_batch );
+        virtual void draw( WINDOW *win ) = 0;
         virtual WINDOW *get_win() const; /**< Getter for a window to draw with */
         virtual void send_action( const std::string &action ) {}
     public:
+        ui_element( const ui_rect &rect, ui_anchor anchor = ui_anchor::top_left );
         ui_element( size_t size_x, size_t size_y, int x = 0, int y = 0, ui_anchor anchor = ui_anchor::top_left );
         virtual ~ui_element() = default;
 
@@ -140,62 +142,29 @@ class ui_element {
 };
 
 /**
-* @brief A container for ui elements to execute tasks on several elements at once.
-*
-* Specifically used by tabbed_window to hide/show certain elements that belong to a tab.
-*/
-class ui_group {
-    std::list<ui_element *> elements;
-
-    bool show = true;
-public:
-    void add() {}
-
-    template<typename Head = ui_element *, typename... Tail>
-    void add( Head head, const Tail&... tail )
-    {
-        head->set_visible( show );
-        elements.push_back( head );
-        add( tail... );
-    }
-
-    void for_each( std::function<void(ui_element *)> &&func )
-    {
-        for( auto e : elements ) {
-            func( e );
-        }
-    }
-
-    void set_visible( bool visible )
-    {
-        show = visible;
-
-        for( auto e : elements ) {
-            e->set_visible( visible );
-        }
-    }
-};
-
-/**
 * @brief The basis for a ui composition.
 *
 * This is the class in the framework that holds nested elements.
 * It is also the only class in the framework with a public 'draw' function.
 */
-class ui_window {
+class ui_window : public ui_element {
     private:
-        ui_rect rect; /**< Holds the elements size and position */
+        unsigned int global_x, global_y;
+
         WINDOW *win = nullptr;
-        void draw_children();
+        void draw_children( std::vector<WINDOW *> &render_batch );
         std::vector<ui_element *> children;
+
+        void calc_anchored_values() override;
 
         input_context ctxt;
     protected:
-        virtual void local_draw() { on_local_draw(); } /**< Method to draw things that are features of this window (or a derived type) e.g. a border */
+        void draw( std::vector<WINDOW *> &render_batch ) override;
+        void draw( WINDOW *win ) override { on_local_draw( win ); }
         void add_child( ui_element *child );
     public:
-        ui_window( const ui_rect &rect );
-        ui_window( size_t size_x, size_t size_y, int x = 0, int y = 0 );
+        ui_window( const ui_rect &rect, ui_anchor anchor = ui_anchor::top_left );
+        ui_window( size_t size_x, size_t size_y, int x = 0, int y = 0, ui_anchor anchor = ui_anchor::top_left );
         ~ui_window();
 
         ui_window( const ui_window & ) = delete;
@@ -205,16 +174,13 @@ class ui_window {
 
         void draw();
 
-        WINDOW *get_win() const;
-
-        const ui_rect &get_rect() const;
-        void set_rect( const ui_rect &new_rect );
+        WINDOW *get_win() const override;
 
         const std::vector<ui_element *> &get_children() const;
 
         virtual std::string handle_input();
 
-        ui_event<> on_local_draw;
+        ui_event<WINDOW *> on_local_draw;
 
         /**
         * @brief Creates a copy of the passed ```ui_element```and stores it in it's list of children.
@@ -240,7 +206,7 @@ class ui_label : public ui_element {
     protected:
         std::string text;
 
-        virtual void draw() override;
+        virtual void draw( WINDOW *win ) override;
     public:
         ui_label( std::string text, int x = 0, int y = 0, ui_anchor anchor = ui_anchor::top_left );
 
@@ -254,9 +220,11 @@ class ui_label : public ui_element {
 */
 class bordered_window : public ui_window {
     protected:
-        void local_draw() override;
+        void draw( WINDOW *win ) override;
     public:
         bordered_window( size_t size_x, size_t size_y, int x = 0, int y = 0 );
+
+        using ui_window::draw;
 
         nc_color border_color = BORDER_COLOR;
 };
@@ -270,17 +238,27 @@ class bordered_window : public ui_window {
 */
 class tabbed_window : public bordered_window {
     private:
-        std::vector<std::pair<std::string, ui_group *>> tabs;
+        std::vector<std::pair<std::string, ui_element *>> tabs;
         unsigned int tab_index = 0;
     protected:
-        void local_draw() override;
+        void draw( WINDOW *win ) override;
     public:
         tabbed_window( size_t size_x, size_t size_y, int x = 0, int y = 0 );
         ~tabbed_window();
 
+        using ui_window::draw;
+
         static constexpr int header_size = 3;
 
-        ui_group *create_tab( const std::string &tab );
+        template<typename T, typename... Ts>
+        T *create_tab( const std::string &tab, Ts&&... args )
+        {
+            auto tab_win = create_child<T>( get_rect().size_x - 2, get_rect().size_y - header_size - 1, 1, -1,
+                                            ui_anchor::bottom_left, std::forward<Ts>(args)... );
+            tabs.push_back({tab, tab_win});
+            tab_win->set_visible( tabs.size() == 1 );
+            return tab_win;
+        }
 
         ui_event<> on_scroll;
 
@@ -311,13 +289,8 @@ class ui_vertical_list : public ui_element {
 
         Draw_Func get_text_and_color;
     protected:
-        void draw() override
+        void draw( WINDOW *win ) override
         {
-            auto win = get_win();
-            if( win == nullptr ) {
-                return;
-            }
-
             int start_line = 0;
             calcStartPos( start_line, scroll, get_rect().size_y, items.size() );
             unsigned int end_line = start_line + get_rect().size_y;
@@ -414,7 +387,7 @@ class ui_horizontal_list : public ui_element {
         std::vector<std::string> text;
         unsigned int scroll = 0;
     protected:
-        void draw() override;
+        void draw( WINDOW *win ) override;
     public:
         ui_horizontal_list( int x = 0, int y = 0, ui_anchor anchor = ui_anchor::top_left );
 
@@ -439,10 +412,10 @@ class ui_border : public ui_element {
     private:
         array_2d<long> borders;
         void calc_borders();
+    protected:
+        void draw( WINDOW *win ) override;
     public:
         ui_border( size_t size_x, size_t size_y, int x = 0, int y = 0, ui_anchor anchor = ui_anchor::top_left );
-
-        void draw() override;
 
         void set_rect( const ui_rect &rect ) override;
 

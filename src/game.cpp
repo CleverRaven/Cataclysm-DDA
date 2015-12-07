@@ -4799,22 +4799,20 @@ void init_missions_tab( tabbed_window &win, size_t win_height, std::string &&tab
             return std::pair<std::string, nc_color>{name, col};
         }; // get name from mission, highlight active mission.
 
-    auto tab = win.create_tab( tab_name );
-    auto _list = win.create_child<ui_vertical_list<mission *, decltype(draw_lambda), nullptr>>( list_width, list_height , 0, tabbed_window::header_size, ui_anchor::top_left, draw_lambda );
+    auto tab = win.create_tab<ui_window>( tab_name );
+    auto _list = tab->create_child<ui_vertical_list<mission *, decltype(draw_lambda), nullptr>>( list_width, list_height, 0, 0, ui_anchor::top_left, draw_lambda );
 
-    auto _border = win.create_child<ui_border>( 1, list_height );
+    auto _border = tab->create_child<ui_border>( 1, list_height );
     _border->after( *_list );
 
-    auto _desc = win.create_child<ui_label>( _list->empty() ? if_empty : "" ); // If our list is empty our description will be like "you don't have any missions"
+    auto _desc = tab->create_child<ui_label>( _list->empty() ? if_empty : "" ); // If our list is empty our description will be like "you don't have any missions"
     _desc->text_color = _list->empty() ? c_ltred : _desc->text_color; // Also, the color will be red
     _desc->after( *_border );
 
-    auto _target = win.create_child<ui_label>( "" );
+    auto _target = tab->create_child<ui_label>( "" );
     _target->below( *_desc );
-    auto _deadline = win.create_child<ui_label>( "" );
+    auto _deadline = tab->create_child<ui_label>( "" );
     _deadline->below( *_target );
-
-    tab->add( _list, _border, _desc, _target, _deadline ); // Add elements to tab's ui_group so tabbed_window can control their visibility
 
     // Hook some actions to our list's events
     _list->on_scroll += [_list, _desc, _target, _deadline]() {

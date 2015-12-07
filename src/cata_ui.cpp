@@ -6,12 +6,14 @@
 
 #include <cmath>
 #include <array>
+#include <unordered_set>
 
 ui_rect::ui_rect( size_t size_x, size_t size_y, int x, int y ) : size_x( size_x ), size_y( size_y ), x( x ), y( y )
 {
 }
 
-ui_window::ui_window( const ui_rect &rect ) : rect( rect ), win( newwin( rect.size_y, rect.size_x, rect.y, rect.x ) )
+ui_window::ui_window( const ui_rect &rect, ui_anchor anchor ) : ui_element( rect, anchor ),
+                    global_x( get_ax() ), global_y( get_ay() ), win( newwin( rect.size_y, rect.size_x, global_y, global_x ) )
 {
     ctxt.register_directions();
     ctxt.register_action("PREV_TAB");
@@ -21,7 +23,7 @@ ui_window::ui_window( const ui_rect &rect ) : rect( rect ), win( newwin( rect.si
     ctxt.register_action("CONFIRM");
 }
 
-ui_window::ui_window( size_t size_x, size_t size_y, int x, int y ) : ui_window( ui_rect( size_x, size_y, x, y ) )
+ui_window::ui_window( size_t size_x, size_t size_y, int x, int y, ui_anchor anchor ) : ui_window( ui_rect( size_x, size_y, x, y ), anchor )
 {
 }
 
@@ -34,19 +36,33 @@ ui_window::~ui_window()
     delwin( win );
 }
 
-void ui_window::draw()
+void ui_window::draw( std::vector<WINDOW *> &render_batch )
 {
     werase( win );
-    local_draw();
-    draw_children();
-    wrefresh( win );
+    draw( win );
+    render_batch.push_back( win );
+    draw_children( render_batch );
 }
 
-void ui_window::draw_children()
+void ui_window::draw()
+{
+    std::vector<WINDOW *> batch;
+    draw( batch );
+
+    std::unordered_set<WINDOW *> had;
+    for( auto win : batch ) {
+        if( had.count( win ) == 0 ) { // O(1) average case for hash-set lookups
+            wrefresh( win );
+            had.insert( win );
+        }
+    }
+}
+
+void ui_window::draw_children( std::vector<WINDOW *> &render_batch )
 {
     for( auto &child : children ) {
         if( child->is_visible() ) {
-            child->draw();
+            child->draw( render_batch );
         }
     }
 }
@@ -64,21 +80,23 @@ std::string ui_window::handle_input()
     return action;
 }
 
-const ui_rect &ui_window::get_rect() const
-{
-    return rect;
-}
+void ui_window::calc_anchored_values() {
+    ui_element::calc_anchored_values();
 
-void ui_window::set_rect(const ui_rect &new_rect)
-{
-    rect = new_rect;
+    global_x = get_ax();
+    global_y = get_ay();
+
+    if( parent != nullptr ) {
+        global_x += parent->global_x;
+        global_y += parent->global_y;
+    }
+
+    delwin( win );
+    win = newwin( get_rect().size_y, get_rect().size_x, global_y, global_x );
 
     for( auto child : children ) {
         child->calc_anchored_values();
     }
-
-    delwin( win );
-    win = newwin( rect.size_y, rect.size_x, rect.y, rect.x );
 }
 
 void ui_window::add_child( ui_element *child )
@@ -97,9 +115,23 @@ const std::vector<ui_element *> &ui_window::get_children() const
     return children;
 }
 
-ui_element::ui_element( size_t size_x, size_t size_y, int x, int y, ui_anchor anchor ) :
-                       anchor( anchor ), anchored_x( x ), anchored_y( y ), rect( ui_rect( size_x, size_y, x, y ) )
+ui_element::ui_element( const ui_rect &rect, ui_anchor anchor ) : anchor( anchor ), anchored_x( rect.x ), anchored_y( rect.y ), rect( rect )
 {
+}
+
+ui_element::ui_element( size_t size_x, size_t size_y, int x, int y, ui_anchor anchor ) : ui_element( ui_rect( size_x, size_y, x, y ), anchor )
+{
+}
+
+void ui_element::draw( std::vector<WINDOW *> &render_batch )
+{
+    auto win = get_win();
+    if( win == nullptr ) {
+        return;
+    }
+
+    draw( win );
+    render_batch.push_back( win );
 }
 
 void ui_element::set_visible( bool visible )
@@ -239,13 +271,8 @@ ui_label::ui_label( std::string text ,int x, int y, ui_anchor anchor ) : ui_elem
 {
 }
 
-void ui_label::draw()
+void ui_label::draw( WINDOW *win )
 {
-    auto win = get_win();
-    if( win == nullptr ) {
-        return;
-    }
-
     mvwprintz( win, get_ay(), get_ax(), text_color, "%s", text.c_str() );
 }
 
@@ -259,10 +286,9 @@ bordered_window::bordered_window( size_t size_x, size_t size_y, int x, int y ) :
 {
 }
 
-void bordered_window::local_draw()
+void bordered_window::draw( WINDOW *win )
 {
-    ui_window::local_draw();
-    auto win = get_win(); // never null
+    ui_window::draw( win );
 
     wattron( win, border_color );
     wborder( win, LINE_XOXO, LINE_XOXO, LINE_OXOX, LINE_OXOX,
@@ -281,10 +307,10 @@ tabbed_window::~tabbed_window()
     }
 }
 
-void tabbed_window::local_draw()
+void tabbed_window::draw( WINDOW *win )
 {
-    bordered_window::local_draw();
-    auto win = get_win(); // never null
+    bordered_window::draw( win );
+
     //erase the top 3 rows
     for( unsigned int y = 0; y < 3; y++ ) {
         for( unsigned int x = 0; x < get_rect().size_x; x++ ){
@@ -303,14 +329,6 @@ void tabbed_window::local_draw()
     for( unsigned int i = 0; i < tabs.size(); i++ ) {
         x_offset += draw_tab( win, x_offset, tabs[i].first, tab_index == i ) + 2;
     }
-}
-
-ui_group *tabbed_window::create_tab( const std::string &tab )
-{
-    auto group = new ui_group();
-    tabs.push_back({tab, group});
-    group->set_visible( tabs.size() == 1 );
-    return group;
 }
 
 void tabbed_window::next_tab()
@@ -368,13 +386,8 @@ ui_horizontal_list::ui_horizontal_list( int x, int y, ui_anchor anchor ) : ui_el
 {
 }
 
-void ui_horizontal_list::draw()
+void ui_horizontal_list::draw( WINDOW *win )
 {
-    auto win = get_win();
-    if( win == nullptr ) {
-        return;
-    }
-
     unsigned int x_offset = 1 + get_ax();
 
     for( unsigned int i = 0; i < text.size(); i++ ) {
@@ -446,13 +459,8 @@ void ui_border::calc_borders()
     }
 }
 
-void ui_border::draw()
+void ui_border::draw( WINDOW *win )
 {
-    auto win = get_win();
-    if( win == nullptr ) {
-        return;
-    }
-
     const size_t size_x = get_rect().size_x;
     const size_t size_y = get_rect().size_y;
 
