@@ -1038,7 +1038,6 @@ void coord_rotate_cw(int &x, int &y, int rot) {
 void mapgen_road(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
 {
     // printf("mapgen_road %s\n",std::string(terrain_type).c_str());
-    (void)turn;
 
     // start by filling the whole map with grass/dirt/etc
     dat.fill_groundcover();
