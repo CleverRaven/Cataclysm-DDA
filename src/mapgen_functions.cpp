@@ -1294,12 +1294,24 @@ void mapgen_road(map *m, oter_id terrain_type, mapgendata dat, int turn, float d
         if( plaza_dir > -1 ) {
             if (plaza_dir == 8) {       // plaza center
                 fill_background(m, t_sidewalk);
+                //TODO something interesting here
             } else if (plaza_dir < 4) { // plaza side
-                square(m, t_pavement, 0, SEEY-8, SEEX*2-1, SEEY-1);
-                square(m, t_sidewalk, 0, SEEY  , SEEX*2-1, SEEY*2-1);
+                square(m, t_pavement, 0, SEEY-10, SEEX*2-1, SEEY-1);
+                square(m, t_sidewalk, 0, SEEY-2 , SEEX*2-1, SEEY*2-1);
+                if (one_in(3)) line(m, t_tree_young, 1, SEEY, SEEX*2-2, SEEY);
+                if (one_in(3)) {
+                    line_furn(m, f_bench, 2, SEEY+2, 5, SEEY+2);
+                    line_furn(m, f_bench, 10, SEEY+2, 13, SEEY+2);
+                    line_furn(m, f_bench, 18, SEEY+2, 21, SEEY+2);
+                }
             } else {                    // plaza corner
                 circle(m, t_pavement, 0, SEEY*2-1, 21);
                 circle(m, t_sidewalk, 0, SEEY*2-1, 13);
+                if (one_in(3)) {
+                    circle(m, t_tree_young, 0, SEEY*2-1, 11);
+                    circle(m, t_sidewalk,   0, SEEY*2-1, 10);
+                }
+                if (one_in(3)) circle(m, t_water_sh, 4, SEEY*2-5, 3);
             }
         }
     }
@@ -1317,7 +1329,7 @@ void mapgen_road(map *m, oter_id terrain_type, mapgendata dat, int turn, float d
     }
 
     // spawn some monsters
-    if(neighbor_sidewalks) {
+    if (neighbor_sidewalks) {
         m->place_spawns( mongroup_id( "GROUP_ZOMBIE" ), 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, density);
         // 1 per 10 overmaps
         if (one_in(10000)) {
@@ -1326,7 +1338,10 @@ void mapgen_road(map *m, oter_id terrain_type, mapgendata dat, int turn, float d
     }    
 
     // add some items
-    m->place_items("road", 5, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, false, turn);
+    if (plaza_dir>-1)
+        m->place_items("trash", 5, 0, 0, SEEX * 2 -1, SEEX * 2 - 1, true, 0);
+    else
+        m->place_items("road", 5, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, false, turn);
 
     // add a manhole if appropriate
     if (terrain_type == "road_nesw_manhole") {
