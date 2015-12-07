@@ -160,7 +160,7 @@ class ui_window : public ui_element {
         input_context ctxt;
     protected:
         void draw( std::vector<WINDOW *> &render_batch ) override;
-        void draw( WINDOW *win ) override { on_local_draw( win ); }
+        void draw( WINDOW *win ) override { on_draw( win ); }
         void add_child( ui_element *child );
     public:
         ui_window( const ui_rect &rect, ui_anchor anchor = ui_anchor::top_left );
@@ -180,7 +180,7 @@ class ui_window : public ui_element {
 
         virtual std::string handle_input();
 
-        ui_event<WINDOW *> on_local_draw;
+        ui_event<WINDOW *> on_draw;
 
         /**
         * @brief Creates a copy of the passed ```ui_element```and stores it in it's list of children.
@@ -233,8 +233,9 @@ class bordered_window : public ui_window {
 * @brief A window with tabs at the top.
 *
 ### Creating tabs
-* Create a tab with the ```create_tab``` method. It returns a ```ui_group```. Use this group to let tabbed_window control
-* visibility of elements you add to the window.
+* Create a tab with the ```create_tab``` method.
+* It returns a ```ui_window *``` (Or something else if you pass it a template argument).
+* Use this window to let tabbed_window control visibility of elements you add to the window.
 */
 class tabbed_window : public bordered_window {
     private:
