@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: cataclysm-dda 0.C\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-11-30 20:06+0300\n"
+"POT-Creation-Date: 2015-12-07 21:44+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -5675,6 +5675,7 @@ msgstr ""
 #. ~ Use action holster_msg for pair of heavy survivor boots.
 #. ~ Use action holster_msg for pair of XL survivor boots.
 #. ~ Use action holster_msg for survivor belt.
+#. ~ Use action holster_msg for baldric.
 #: lang/json/ARMOR_from_json.py
 #, no-python-format
 msgid "You sheath your %s"
@@ -9496,6 +9497,7 @@ msgstr[1] ""
 
 #. ~ Use action holster_prompt for scabbard.
 #. ~ Use action holster_prompt for back scabbard.
+#. ~ Use action holster_prompt for baldric.
 #: lang/json/ARMOR_from_json.py
 msgid "Sheath sword"
 msgstr ""
@@ -12451,6 +12453,20 @@ msgstr[1] ""
 msgid ""
 "A suit of armor made of multiple pieces of tough leather, laced together for "
 "durable yet flexible protection."
+msgstr ""
+
+#: lang/json/ARMOR_from_json.py
+msgid "baldric"
+msgid_plural "baldrics"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for baldric
+#: lang/json/ARMOR_from_json.py
+msgid ""
+"A leather scabbard, big enough for anything up to a longsword, or even a bit "
+"larger than that.  Designed to be worn at the waist, secured by a shoulder "
+"belt.  Activate to sheath/draw a sword."
 msgstr ""
 
 #: lang/json/ARMOR_from_json.py
@@ -26832,6 +26848,19 @@ msgid "A thin wooden skewer.  Squirrel on a stick, anyone?"
 msgstr ""
 
 #: lang/json/GENERIC_from_json.py
+msgid "bone skewer"
+msgid_plural "bone skewers"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for bone skewer
+#: lang/json/GENERIC_from_json.py
+msgid ""
+"A thin skewer carved from bone.  Sadly, it won't make squirrel on a stick "
+"taste better."
+msgstr ""
+
+#: lang/json/GENERIC_from_json.py
 msgid "burnt out torch"
 msgid_plural "burnt out torches"
 msgstr[0] ""
@@ -29928,6 +29957,17 @@ msgid "A simple fishing hook."
 msgstr ""
 
 #: lang/json/GENERIC_from_json.py
+msgid "improvised fishing hook"
+msgid_plural "improvised fishing hooks"
+msgstr[0] ""
+msgstr[1] ""
+
+#. ~ Description for improvised fishing hook
+#: lang/json/GENERIC_from_json.py
+msgid "An improvised fishing hook carved from wood or bone."
+msgstr ""
+
+#: lang/json/GENERIC_from_json.py
 msgid "Radio car box"
 msgid_plural "Radio car boxes"
 msgstr[0] ""
@@ -31275,7 +31315,9 @@ msgstr[1] ""
 
 #. ~ Description for longsword
 #: lang/json/GENERIC_from_json.py
-msgid "This is a dull, chealy-made replica of the classic medieval longsword."
+msgid ""
+"This is a dull, chealy-made replica of the classic medieval longsword.  It "
+"requires a larger baldric or scabbard, compared to smaller swords."
 msgstr ""
 
 #: lang/json/GENERIC_from_json.py
@@ -31288,13 +31330,16 @@ msgstr[1] ""
 #: lang/json/GENERIC_from_json.py
 msgid ""
 "This is a thin sword resembling a longsword, a sort of predecessor to the "
-"rapier."
+"rapier.  It requires a larger baldric or scabbard, compared to smaller "
+"swords."
 msgstr ""
 
 #. ~ Description for estoc
 #: lang/json/GENERIC_from_json.py
 msgid ""
-"This is a dull, cheaply-made replica of a thin sword resembling a longsword."
+"This is a dull, cheaply-made replica of a thin sword resembling a "
+"longsword.  It requires a larger baldric or scabbard, compared to smaller "
+"swords."
 msgstr ""
 
 #: lang/json/GENERIC_from_json.py lang/json/TOOL_from_json.py
@@ -31412,17 +31457,6 @@ msgid "A stout wooden pole with a sharp stone spearhead."
 msgstr ""
 
 #: lang/json/GENERIC_from_json.py
-msgid "bone fishing hook"
-msgid_plural "bone fishing hooks"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for bone fishing hook
-#: lang/json/GENERIC_from_json.py
-msgid "An improvised fishing hook carved from bone."
-msgstr ""
-
-#: lang/json/GENERIC_from_json.py
 msgid "mess tin"
 msgid_plural "mess tins"
 msgstr[0] ""
@@ -31460,19 +31494,6 @@ msgstr[1] ""
 msgid ""
 "A cooking pot crudely hammered out of copper.  Good enough to cook food and "
 "boil water, but not as useful as proper cookware."
-msgstr ""
-
-#: lang/json/GENERIC_from_json.py
-msgid "bone skewer"
-msgid_plural "bone skewers"
-msgstr[0] ""
-msgstr[1] ""
-
-#. ~ Description for bone skewer
-#: lang/json/GENERIC_from_json.py
-msgid ""
-"A thin skewer carved from bone.  Sadly, it won't make squirrel on a stick "
-"taste better."
 msgstr ""
 
 #. ~ Description for Mjölnir
@@ -49341,7 +49362,8 @@ msgstr ""
 #: lang/json/TOOL_from_json.py
 msgid ""
 "This is a classic medieval sword, in between the lighter arming sword and "
-"later two-handed swords in size."
+"later two-handed swords in size.  It requires a larger baldric or scabbard, "
+"compared to smaller swords."
 msgstr ""
 
 #: lang/json/TOOL_from_json.py
@@ -84212,6 +84234,10 @@ msgstr ""
 msgid "Never mind"
 msgstr ""
 
+#: src/game.cpp src/npctalk.cpp
+msgid "You may be attacked! Proceed?"
+msgstr ""
+
 #: src/game.cpp
 msgid "Examine where?"
 msgstr ""
@@ -84559,10 +84585,6 @@ msgid "The %s is already full."
 msgstr ""
 
 #: src/game.cpp
-msgid "Pump until full?"
-msgstr ""
-
-#: src/game.cpp
 #, c-format
 msgid "You refill the %1$s with %2$s."
 msgstr ""
@@ -84582,7 +84604,6 @@ msgid "You can't pour there!"
 msgstr ""
 
 #: src/game.cpp src/iexamine.cpp
-#: src/iexamine.cpp
 #, c-format
 msgid "Container for %s"
 msgstr ""
@@ -89054,7 +89075,7 @@ msgstr ""
 #: src/item.cpp
 msgid ""
 "* This piece of clothing has a wool lining sewn into it to <good>increase</"
-"good> its overall <info>warmth<info>."
+"good> its overall <info>warmth</info>."
 msgstr ""
 
 #: src/item.cpp
@@ -89072,7 +89093,7 @@ msgstr ""
 #: src/item.cpp
 msgid ""
 "* This gear has Kevlar inserted into strategic locations to <good>increase "
-"protection</good> with some <bad>increase to encumbrance<bad>."
+"protection</good> with some <bad>increase to encumbrance</bad>."
 msgstr ""
 
 #: src/item.cpp
@@ -89154,7 +89175,8 @@ msgstr ""
 #: src/item.cpp
 msgid ""
 "* This tool has been modified to use a <info>rechargeable power cell</info> "
-"and is <neutral>not compatible</neutral> with <info>standard batteries<info>."
+"and is <neutral>not compatible</neutral> with <info>standard batteries</"
+"info>."
 msgstr ""
 
 #: src/item.cpp
@@ -106608,10 +106630,6 @@ msgid "<npc says something>%s: %s"
 msgstr ""
 
 #: src/npctalk.cpp
-msgid "You may be attacked! Proceed?"
-msgstr ""
-
-#: src/npctalk.cpp
 msgid "You'll be helpless! Proceed?"
 msgstr ""
 
@@ -106707,6 +106725,10 @@ msgstr ""
 
 #: src/options.cpp
 msgid "Hoder's"
+msgstr ""
+
+#: src/options.cpp
+msgid "Basic"
 msgstr ""
 
 #: src/options.cpp
@@ -106919,6 +106941,14 @@ msgstr ""
 msgid ""
 "Always: Always start deathcam. Ask: Query upon death. Never: Never show "
 "deathcam."
+msgstr ""
+
+#: src/options.cpp
+msgid "Choose soundpack"
+msgstr ""
+
+#: src/options.cpp
+msgid "Choose the soundpack you want to use."
 msgstr ""
 
 #: src/options.cpp
