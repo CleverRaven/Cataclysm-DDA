@@ -149,7 +149,7 @@
         "name": "Optical Dampers",
         "toggled": true,
         "description": "The lenses installed over your eyes can be tinted to block out incoming light."
-	},{
+    },{
         "type": "bionic",
         "id": "bio_targeting",
         "name": "Targeting System",
