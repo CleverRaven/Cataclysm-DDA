@@ -1203,6 +1203,10 @@ void mapgen_road(map *m, oter_id terrain_type, mapgendata dat, int turn, float d
             }
         }
 
+        //draw dead end sidewalk
+        if(dead_end_extension && neighbor_sidewalks)
+            square(m, t_sidewalk, 0, SEEY+dead_end_extension, SEEX*2-1, SEEY+dead_end_extension+4);
+
         // draw 16-wide pavement from the middle to the edge in each road direction
         // also corner pieces for upcoming diagonal road
         for (int dir=0; dir<4; dir++) {
