@@ -145,6 +145,12 @@
         "description": "Your eyes have quick-reacting transition lenses installed over them.  They negate glare penalties, partially protect you from bright flashes, and protect your eyes when welding."
     },{
         "type": "bionic",
+        "id": "bio_blindfold",
+        "name": "Optical Dampers",
+		"toggled": true,
+        "description": "The lenses installed over your eyes can be tinted to block out incoming light."
+	},{
+        "type": "bionic",
         "id": "bio_targeting",
         "name": "Targeting System",
         "description": "Your eyes are equipped with range finders, and their movement is synced with that of your arms, to a degree.  Shots you fire will be much more accurate, particularly at long range."

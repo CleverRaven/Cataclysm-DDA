@@ -9158,7 +9158,7 @@ std::vector<map_item_stack> game::find_nearby_items(int iRadius)
     std::vector<map_item_stack> ret;
     std::vector<std::string> item_order;
 
-    if (u.has_effect("blind") || u.worn_with_flag("BLIND")) {
+    if (u.has_effect("blind") || u.worn_with_flag("BLIND") || u.has_active_bionic("bio_blindfold")) {
         return ret;
     }
 
@@ -11989,7 +11989,7 @@ bool game::plmove(int dx, int dy, int dz)
     }
 
     // Invalid move
-    const bool waste_moves = u.has_effect("blind") || u.worn_with_flag("BLIND") || u.has_effect("stunned");
+    const bool waste_moves = u.has_effect("blind") || u.worn_with_flag("BLIND") || u.has_active_bionic("bio_blindfold") || u.has_effect("stunned");
     if( waste_moves || dest_loc.z != u.posz() ) {
         // Only lose movement if we're blind
         add_msg(_("You bump into a %s!"), m.name(dest_loc).c_str());
@@ -12153,7 +12153,7 @@ bool game::walk_move( const tripoint &dest_loc )
             }
         }
 
-        if (!(u.has_effect("blind") || u.worn_with_flag("BLIND"))) {
+        if (!(u.has_effect("blind") || u.worn_with_flag("BLIND") || u.has_active_bionic("bio_blindfold"))) {
             const trap &tr = m.tr_at(dest_loc);
             // Hack for now, later ledge should stop being a trap
             if( tr.can_see(dest_loc, u) && !tr.is_benign() &&
@@ -12345,7 +12345,7 @@ void game::place_player( const tripoint &dest_loc )
 
     // List items here
     if( !m.has_flag( "SEALED", u.pos() ) ) {
-        if ((u.has_effect("blind") || u.worn_with_flag("BLIND")) && !m.i_at(u.pos()).empty()) {
+        if ((u.has_effect("blind") || u.worn_with_flag("BLIND") || u.has_active_bionic("bio_blindfold")) && !m.i_at(u.pos()).empty()) {
             add_msg(_("There's something here, but you can't see what it is."));
         } else if( m.has_items(u.pos()) ) {
             std::vector<std::string> names;
