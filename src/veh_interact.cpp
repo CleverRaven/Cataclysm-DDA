@@ -1556,9 +1556,9 @@ void veh_interact::display_stats()
     if (speed_units == "km/h") {
         speed_factor *= 1.61f;
     }
-    std::string weight_units = OPTIONS["USE_METRIC_WEIGHTS"].getValue();
+    std::string weight_un = OPTIONS["USE_METRIC_WEIGHTS"].getValue();
     float weight_factor = 1.0f;
-    if (weight_units == "lbs") {
+    if (weight_un == "lbs") {
         weight_factor *= 2.2f;
     }
     fold_and_print(w_stats, y[0], x[0], w[0], c_ltgray,
@@ -1570,7 +1570,7 @@ void veh_interact::display_stats()
                    int(veh->acceleration(false) * speed_factor), speed_units.c_str());
     fold_and_print(w_stats, y[2], x[2], w[2], c_ltgray,
                    _("Mass: <color_ltblue>%5d</color> %s"),
-                   int(veh->total_mass() * weight_factor), weight_units.c_str());
+                   int(veh->total_mass() * weight_factor), weight_units().c_str());
     fold_and_print(w_stats, y[3], x[3], w[3], c_ltgray,
                    _("Cargo Volume: <color_ltgray>%d/%d</color>"),
                    total_cargo - free_cargo, total_cargo);
@@ -1838,7 +1838,7 @@ void veh_interact::display_details( const vpart_info *part )
                    "%s: <color_ltgray>%.1f%s</color>",
                    small_mode ? _("Wgt") : _("Weight"),
                    convert_weight(item::find_type( part->item )->weight),
-                   OPTIONS["USE_METRIC_WEIGHTS"].getValue() == "lbs" ? "lb" : "kg");
+                   weight_units().c_str());
     if ( part->folded_volume != 0 ) {
         fold_and_print(w_details, line+2, col_2, column_width, c_white,
                        "%s: <color_ltgray>%d</color>",

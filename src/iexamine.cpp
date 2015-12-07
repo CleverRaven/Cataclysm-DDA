@@ -2401,10 +2401,8 @@ void iexamine::recycler(player *p, map *m, const tripoint &examp)
     static const double norm_recover_factor = 8.0 / 10.0;
     const int norm_recover_weight = steel_weight * norm_recover_factor;
     uimenu as_m;
-    // Get format for printing weights, convert weight to that format,
-    const std::string format = OPTIONS["USE_METRIC_WEIGHTS"].getValue() == "lbs" ? _("%.3f lbs") :
-                               _("%.3f kg");
-    const std::string weight_str = string_format(format, convert_weight(steel_weight));
+    const std::string weight_str = string_format("%.3f %s", convert_weight(steel_weight),
+                                                            weight_units().c_str());
     as_m.text = string_format(_("Recycle %s metal into:"), weight_str.c_str());
     add_recyle_menu_entry(as_m, norm_recover_weight, 'l', "steel_lump");
     add_recyle_menu_entry(as_m, norm_recover_weight, 'S', "sheet_metal");
