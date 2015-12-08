@@ -161,7 +161,6 @@ class ui_window : public ui_element {
     protected:
         void draw( std::vector<WINDOW *> &render_batch ) override;
         void draw( WINDOW *win ) override { on_draw( win ); }
-        void add_child( ui_element *child );
     public:
         ui_window( const ui_rect &rect, ui_anchor anchor = ui_anchor::top_left );
         ui_window( size_t size_x, size_t size_y, int x = 0, int y = 0, ui_anchor anchor = ui_anchor::top_left );
@@ -175,8 +174,6 @@ class ui_window : public ui_element {
         void draw();
 
         WINDOW *get_win() const override;
-
-        const std::vector<ui_element *> &get_children() const;
 
         input_context &get_input_context();
         virtual std::string handle_input();
@@ -198,7 +195,8 @@ class ui_window : public ui_element {
         T *create_child( Args&&... args )
         {
             auto child = new T( std::forward<Args>(args)... );
-            add_child( child );
+            children.push_back( child );
+            child->set_parent( this );
             return child;
         }
 };

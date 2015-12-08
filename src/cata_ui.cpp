@@ -60,7 +60,7 @@ void ui_window::draw()
 
 void ui_window::draw_children( std::vector<WINDOW *> &render_batch )
 {
-    for( auto &child : children ) {
+    for( auto child : children ) {
         if( child->is_visible() ) {
             child->draw( render_batch );
         }
@@ -104,20 +104,9 @@ void ui_window::calc_anchored_values() {
     }
 }
 
-void ui_window::add_child( ui_element *child )
-{
-    children.push_back( child );
-    child->set_parent( this );
-}
-
 WINDOW *ui_window::get_win() const
 {
     return win;
-}
-
-const std::vector<ui_element *> &ui_window::get_children() const
-{
-    return children;
 }
 
 ui_element::ui_element( const ui_rect &rect, ui_anchor anchor ) : anchor( anchor ), anchored_x( rect.x ), anchored_y( rect.y ), rect( rect )
