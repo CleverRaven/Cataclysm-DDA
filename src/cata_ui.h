@@ -180,6 +180,9 @@ class ui_window : public ui_element {
 
         virtual std::string handle_input();
 
+        /**
+        * Event meant to let a client do low-level drawing on the window, without the use of ui_elements.
+        */
         ui_event<WINDOW *> on_draw;
 
         /**
