@@ -154,8 +154,6 @@ void init_mapgen_builtin_functions() {
     mapgen_cfunction_map["ants_larvae"] = &mapgen_ants_larvae;
     mapgen_cfunction_map["ants_queen"] = &mapgen_ants_queen;
 /* todo
-    mapgen_cfunction_map["apartments_con_tower_1_entrance"] = &mapgen_apartments_con_tower_1_entrance;
-    mapgen_cfunction_map["apartments_con_tower_1"] = &mapgen_apartments_con_tower_1;
     mapgen_cfunction_map["apartments_mod_tower_1_entrance"] = &mapgen_apartments_mod_tower_1_entrance;
     mapgen_cfunction_map["apartments_mod_tower_1"] = &mapgen_apartments_mod_tower_1;
     mapgen_cfunction_map["office_tower_1_entrance"] = &mapgen_office_tower_1_entrance;
@@ -3571,24 +3569,6 @@ void mapgen_office_doctor(map *m, oter_id terrain_type, mapgendata dat, int, flo
 
         autorotate(true);
 
-}
-
-
-void mapgen_apartments_con_tower_1_entrance(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
-{
-    (void)m; (void)terrain_type; (void)dat; (void)turn; (void)density; // STUB
-/*
-
-*/
-}
-
-
-void mapgen_apartments_con_tower_1(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
-{
-    (void)m; (void)terrain_type; (void)dat; (void)turn; (void)density; // STUB
-/*
-
-*/
 }
 
 

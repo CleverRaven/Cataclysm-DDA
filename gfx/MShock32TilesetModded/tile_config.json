@@ -2389,6 +2389,12 @@
           "rotates": false
         },
         {
+          "id": "sholster",
+          "fg": 380,
+          "bg": 505,
+          "rotates": false
+        },
+        {
           "id": "hoodie",
           "fg": 381,
           "bg": 505,
@@ -3409,6 +3415,12 @@
         },
         {
           "id": "alternator_truck",
+          "fg": 1015,
+          "bg": 505,
+          "rotates": false
+        },
+        {
+          "id": "generator_7500w",
           "fg": 1015,
           "bg": 505,
           "rotates": false
@@ -8770,6 +8782,12 @@
         },
         {
           "id": "tallow",
+          "fg": 841,
+          "bg": 505,
+          "rotates": false
+        },
+        {
+          "id": "lard",
           "fg": 841,
           "bg": 505,
           "rotates": false
@@ -20154,7 +20172,17 @@
           "rotates": false
         },
         {
+          "id": "hstomach",
+          "fg": 2499,
+          "rotates": false
+        },
+        {
           "id": "stomach_large",
+          "fg": 2500,
+          "rotates": false
+        },
+        {
+          "id": "hstomach_large",
           "fg": 2500,
           "rotates": false
         },
@@ -20179,8 +20207,23 @@
           "rotates": false
         },
         {
-          "id": "stomach_boiled",
+          "id": "small_stomach_boiled",
           "fg": 2499,
+          "rotates": false
+        },
+        {
+          "id": "small_hstomach_boiled",
+          "fg": 2499,
+          "rotates": false
+        },
+        {
+          "id": "stomach_boiled",
+          "fg": 2500,
+          "rotates": false
+        },
+        {
+          "id": "hstomach_boiled",
+          "fg": 2500,
           "rotates": false
         },
         {
@@ -20781,6 +20824,11 @@
           "rotates": false
         },
         {
+          "id": "wool_staple",
+          "fg": 2569,
+          "rotates": false
+        },
+        {
           "id": "nomex",
           "fg": 2570,
           "rotates": false
@@ -20792,6 +20840,11 @@
         },
         {
           "id": "raw_leather",
+          "fg": 2572,
+          "rotates": false
+        },
+        {
+          "id": "raw_hleather",
           "fg": 2572,
           "rotates": false
         },
@@ -21975,6 +22028,16 @@
         },
         {
           "id": "scabbard",
+          "fg": 2733,
+          "rotates": false
+        },
+        {
+          "id": "baldric",
+          "fg": 2733,
+          "rotates": false
+        },
+        {
+          "id": "bscabbard",
           "fg": 2733,
           "rotates": false
         },
@@ -23598,6 +23661,36 @@
         {
           "id": "gown",
           "fg": 3036,
+          "rotates": false
+        },
+        {
+          "id": "haggis",
+          "fg": 3037,
+          "rotates": false
+        },
+        {
+          "id": "human_haggis",
+          "fg": 3037,
+          "rotates": false
+        },
+        {
+          "id": "makeshift_knapsack",
+          "fg": 3038,
+          "rotates": false
+        },
+        {
+          "id": "survivor_vest",
+          "fg": 3039,
+          "rotates": false
+        },
+        {
+          "id": "l-stick",
+          "fg": 3040,
+          "rotates": false
+        },
+        {
+          "id": "l-stick_on",
+          "fg": 3041,
           "rotates": false
         }
       ]

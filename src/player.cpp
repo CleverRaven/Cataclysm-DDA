@@ -11179,8 +11179,16 @@ hint_rating player::rate_action_unload( const item &it ) const
         return HINT_GOOD;
     }
 
-    if( it.ammo_remaining() > 0 && !it.has_flag("NO_UNLOAD") ) {
+    if( it.ammo_type() == "NULL" || it.has_flag("NO_UNLOAD") ) {
+        return HINT_CANT;
+    }
+
+    if( it.ammo_remaining() > 0 ) {
         return HINT_GOOD;
+    }
+
+    if ( it.ammo_capacity() > 0 ) {
+        return HINT_IFFY;
     }
 
     return HINT_CANT;
@@ -13313,13 +13321,9 @@ bool player::has_recipe_requirements( const recipe *rec ) const
     bool meets_requirements = false;
     if( !rec->skill_used || get_skill_level( rec->skill_used) >= rec->difficulty ) {
         meets_requirements = true;
-        // If there are required skills, insure their requirements are met, or we can't craft.
-        if( !rec->required_skills.empty() ) {
-            for( auto iter = rec->required_skills.cbegin();
-                 iter != rec->required_skills.cend(); ++iter ) {
-                if( get_skill_level(iter->first) < iter->second ) {
-                    meets_requirements = false;
-                }
+        for( const auto &required_skill : rec->required_skills ) {
+            if( get_skill_level( required_skill.first ) < required_skill.second ) {
+                meets_requirements = false;
             }
         }
     }

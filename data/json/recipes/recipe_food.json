@@ -511,6 +511,7 @@
       [ "meat", 3 ]
     ],
     [
+      [ "skewer_bone", 3 ],
       [ "skewer", 3 ]
     ]
   ]
@@ -537,6 +538,7 @@
       [ "fish", 6 ]
     ],
     [
+      [ "skewer_bone", 3 ],
       [ "skewer", 3 ]
     ]
   ]
@@ -1311,6 +1313,7 @@
       [ "human_flesh", 3 ]
     ],
     [
+      [ "skewer_bone", 3 ],
       [ "skewer", 3 ]
     ]
   ]
@@ -2566,7 +2569,6 @@
 },{
   "type" : "recipe",
   "result": "milk",
-  "id_suffix": "from powder",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_DRINKS",
   "skill_used": "cooking",
@@ -6185,7 +6187,7 @@
   "autolearn": true,
   "tools": [
     [ [ "hotplate", 8], [ "char_smoker", 1], [ "toolset", 8], [ "fire", -1] ],
-    [ [ "spear_wood", -1 ], [ "spear_steel", -1 ], [ "pointy_stick", -1 ], [ "skewer", -1 ],
+    [ [ "spear_wood", -1 ], [ "spear_steel", -1 ], [ "pointy_stick", -1 ], [ "skewer", -1 ], [ "skewer_bone", -1 ],
       [ "javelin", -1 ], [ "javelin_iron", -1 ], [ "spear_knife", -1 ], [ "tongs", -1 ] ]
    ],
   "components": [
@@ -9967,7 +9969,6 @@
 },{
   "type" : "recipe",
   "result": "sugar",
-  "id_suffix": "from_sweet_water",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_OTHER",
   "skill_used": "cooking",
@@ -10601,7 +10602,6 @@
 {
   "type" : "recipe",
   "result": "honey_bottled",
-  "id_suffix": "from_honeycomb",
   "byproducts": { "id" : "wax", "amount" : 4 },
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_OTHER",
@@ -10690,9 +10690,6 @@
       [ "fire", -1 ]
     ],
     [
-      [ "needle_bone", 2 ],
-      [ "needle_wood", 2 ],
-      [ "tailors_kit", 2 ],
       [ "sewing_kit", 2 ]
     ]
   ],
@@ -10749,9 +10746,6 @@
       [ "fire", -1 ]
     ],
     [
-      [ "needle_bone", 2 ],
-      [ "needle_wood", 2 ],
-      [ "tailors_kit", 2 ],
       [ "sewing_kit", 2 ]
     ]
   ],

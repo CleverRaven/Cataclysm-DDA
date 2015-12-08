@@ -794,8 +794,10 @@ bool vehicle::interact_vehicle_locked()
                 int hotwire_time = 6000 / ((mechanics_skill > 0)? mechanics_skill : 1);
                 //assign long activity
                 g->u.assign_activity(ACT_HOTWIRE_CAR, hotwire_time, -1, INT_MIN, _("Hotwire"));
-                g->u.activity.values.push_back(global_x());//[0]
-                g->u.activity.values.push_back(global_y());//[1]
+                // use part 0 as the reference point
+                point q = coord_translate(parts[0].mount);
+                g->u.activity.values.push_back(global_x() + q.x);//[0]
+                g->u.activity.values.push_back(global_y() + q.y);//[1]
                 g->u.activity.values.push_back(g->u.skillLevel( skill_mechanics ));//[2]
             } else {
                 if( has_security_working() && query_yn(_("Trigger the %s's Alarm?"), name.c_str()) ) {
@@ -2841,9 +2843,11 @@ void vehicle::print_fuel_indicator (void *w, int y, int x, itype_id fuel_type, b
     }
 }
 
-void vehicle::coord_translate (const point &p, point &q) const
+point vehicle::coord_translate (const point &p) const
 {
+    point q;
     coord_translate(pivot_rotation[0], pivot_anchor[0], p, q);
+    return q;
 }
 
 void vehicle::coord_translate (int dir, const point &pivot, const point &p, point &q) const
@@ -3278,8 +3282,7 @@ void vehicle::spew_smoke( double joules, int part )
     while( relative_parts.find(p) != relative_parts.end() ) {
         p.x += ( velocity < 0 ? 1 : -1 );
     }
-    point q;
-    coord_translate( p, q );
+    point q = coord_translate(p);
     tripoint dest( global_x() + q.x, global_y() + q.y, smz );
     g->m.add_field( dest, fd_smoke, smoke, 0 );
 }
@@ -4081,13 +4084,12 @@ void vehicle::slow_leak()
         float damage_ratio = ( float )part.hp / ( float )pinfo.durability;
         if( part.amount > 0 && damage_ratio < 0.5f ) {
             int leak_amount = ( 0.5 - damage_ratio ) * ( 0.5 - damage_ratio ) * part.amount / 10;
-            point q;
             if( leak_amount < 1 ) {
                 leak_amount = 1;
             }
             // Don't leak batteries from a damaged battery
             if( pinfo.fuel_type != fuel_type_battery ) {
-                coord_translate( part.mount, q );
+                point q = coord_translate( part.mount );
                 // m.spawn_item() will spawn water in bottles, so instead we create
                 //   the leak manually and directly call m.add_item_or_charges().
                 item leak( pinfo.fuel_type, calendar::turn );
@@ -5412,12 +5414,7 @@ void vehicle::shift_parts( const point delta )
     }
     labels = new_labels;
 
-    //Don't use the cache as it hasn't been updated yet
-    std::vector<int> origin_parts = parts_at_relative(0, 0, false);
-
-    posx += parts[origin_parts[0]].precalc[0].x;
-    posy += parts[origin_parts[0]].precalc[0].y;
-
+    pivot_anchor[0] -= delta;
     refresh();
 
     //Need to also update the map after this

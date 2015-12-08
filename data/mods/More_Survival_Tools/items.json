@@ -501,20 +501,6 @@
     "material": "aluminum",
     "qualities": [["COOK", 1]]
   },{
-    "type" : "GENERIC",
-    "id" : "fishing_hook_bone",
-    "symbol" : ",",
-    "color" : "white",
-    "name" : "bone fishing hook",
-    "description" : "An improvised fishing hook carved from bone.",
-    "price" : 25,
-    "material" : "bone",
-    "weight" : 1,
-    "volume" : 0,
-    "bashing" : -3,
-    "cutting" : 3,
-    "to_hit" : 0
-  },{
     "type" : "COMESTIBLE",
     "id" : "hotdogs_campfire",
     "name" : "campfire hot dogs",
@@ -703,23 +689,6 @@
     "revert_to": "null",
     "qualities": [["DIG", 2]],
     "use_action": "DIG"
-  },{
-    "type":"GENERIC",
-    "id": "skewer_bone",
-    "sub": "skewer", "//": "Don't know if skewers are ever used as tools, but just in case.",
-    "symbol": ",",
-    "color": "white",
-    "name": "bone skewer",
-    "description": "A thin skewer carved from bone.  Sadly, it won't make squirrel on a stick taste better.",
-    "price": 0,
-    "material": "bone",
-    "flags": ["NO_SALVAGE"],
-    "weight": 10,
-    "volume": 0,
-    "bashing": 0,
-    "cutting": 0,
-    "to_hit": -5,
-    "qualities": [["COOK", 1]]
   },{
     "id": "whistle_multitool",
     "type": "TOOL",

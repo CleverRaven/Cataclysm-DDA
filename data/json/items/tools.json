@@ -323,6 +323,7 @@
 
   {
     "id": "tailors_kit",
+    "sub": "sewing_kit",
     "type": "TOOL",
     "symbol": ";",
     "color": "red",
@@ -6630,6 +6631,7 @@
 
    {
     "id": "needle_bone",
+    "sub": "sewing_kit",
     "type": "TOOL",
     "symbol": ";",
     "color": "white",
@@ -6654,6 +6656,7 @@
 
    {
     "id": "needle_wood",
+    "sub": "sewing_kit",
     "type": "TOOL",
     "symbol": ";",
     "color": "brown",
@@ -9486,6 +9489,20 @@
     "description" : "A simple fishing hook.",
     "price" : 25,
     "material" : "steel",
+    "weight" : 1,
+    "volume" : 0,
+    "bashing" : -3,
+    "cutting" : 3,
+    "to_hit" : 0
+  },{
+    "type" : "GENERIC",
+    "id" : "fishing_hook_bone",
+    "symbol" : ",",
+    "color" : "white",
+    "name" : "improvised fishing hook",
+    "description" : "An improvised fishing hook carved from wood or bone.",
+    "price" : 25,
+    "material" : "bone",
     "weight" : 1,
     "volume" : 0,
     "bashing" : -3,

@@ -23,6 +23,7 @@
     "id" : "NC_COWBOY_shoes",
     "items":[
       ["sneakers", 20],
+      ["boots_western", 10],
       ["boots", 60]
     ]
   },{
@@ -49,6 +50,7 @@
     "items":[
       ["null", 20],
       ["gloves_leather", 60],
+      ["gloves_work", 20],
       ["gloves_fingerless", 20],
       ["fire_gauntlets", 20]
     ]
@@ -59,6 +61,7 @@
       ["null", 20],
       ["hoodie", 20],
       ["jacket_light", 20],
+      ["jacket_windbreaker", 10],
       ["jacket_leather", 20],
       ["trenchcoat", 20],
       ["jacket_jean", 60],
@@ -78,12 +81,14 @@
     "id" : "NC_COWBOY_hat",
     "items":[
       ["cowboy_hat", 60],
+      ["10gal_hat", 10],
       ["hat_ball", 10],
       ["hat_hard", 10],
       ["helmet_bike", 10],
       ["null", 10],
       ["helmet_motor", 10],
-      ["hat_hunting", 10]
+      ["hat_hunting", 10],
+      ["hat_sombrero", 5]
     ]
   }
 ]

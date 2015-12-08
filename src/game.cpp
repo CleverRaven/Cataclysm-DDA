@@ -7537,8 +7537,12 @@ void game::exam_vehicle(vehicle &veh, const tripoint &p, int cx, int cy)
             break;
         }
         u.assign_activity( ACT_VEHICLE, time, (int)vehint.sel_cmd );
-        u.activity.values.push_back(veh.global_x());    // values[0]
-        u.activity.values.push_back(veh.global_y());    // values[1]
+
+        // if we're working on an existing part, use that part as the reference point
+        // otherwise (e.g. installing a new frame), just use part 0
+        point q = veh.coord_translate(vehint.sel_vehicle_part ? vehint.sel_vehicle_part->mount : veh.parts[0].mount);
+        u.activity.values.push_back(veh.global_x() + q.x);    // values[0]
+        u.activity.values.push_back(veh.global_y() + q.y);    // values[1]
         u.activity.values.push_back(vehint.ddx);   // values[2]
         u.activity.values.push_back(vehint.ddy);   // values[3]
         u.activity.values.push_back(-vehint.ddx);   // values[4]
@@ -8105,13 +8109,15 @@ bool npc_menu( npc &who )
         who.sort_armor();
         g->u.mod_moves( -100 );
     } else if( choice == attack ) {
-        //The NPC knows we started the fight, used for morale penalty.
-        if( !who.is_enemy() ) {
-            who.hit_by_player = true;
-        }
+        if(query_yn(_("You may be attacked! Proceed?"))) {
+            //The NPC knows we started the fight, used for morale penalty.
+            if( !who.is_enemy() ) {
+                who.hit_by_player = true;
+            }
 
-        g->u.melee_attack( who, true );
-        who.make_angry();
+            g->u.melee_attack( who, true );
+            who.make_angry();
+        }
     }
 
     return true;
@@ -10166,10 +10172,6 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite, item *so
             add_msg(m_info, _("The %s is already full."),
                     veh->name.c_str());
             return false;
-        } else if (from_ground && query_yn(_("Pump until full?"))) {
-            u.assign_activity(ACT_REFILL_VEHICLE, 2 * (fuel_cap - fuel_amnt));
-            u.activity.placement = vp;
-            return false; // Liquid is not handled by this function, but by the activity!
         }
         const int amt = infinite ? INT_MAX : liquid.charges;
         u.moves -= 100;
@@ -10206,6 +10208,14 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite, item *so
         // Check for suitable containers in inventory or within radius including vehicles
         cont = inv_map_for_liquid(liquid, text, radius);
         if (cont == NULL || cont->is_null()) {
+            // Ask the player whether they want to drink from it.
+            if (liquid.is_food(&u)) {
+                int charges_consumed = u.drink_from_hands(liquid);
+                if (!infinite) {
+                    liquid.charges -= charges_consumed;
+                }
+            }
+
             // No container selected (escaped, ...), ask to pour
             // we asked to pour rotten already
             if (!from_ground && !liquid.rotten() &&
@@ -10291,6 +10301,7 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite, item *so
         }
         return infinite || liquid.charges <= 0;
     }
+
     return false;
 }
 
