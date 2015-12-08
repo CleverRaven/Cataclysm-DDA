@@ -986,26 +986,27 @@ int terrain_type_with_suffix_to_nesw_array(oter_id terrain_type, bool array[4]) 
     // non-"_end" end tiles have _north _east _south _west, all of which contain "t"
     if (suffix.find("t") != std::string::npos) {
         suffix = suffix.substr(0,1);
-        if      (suffix=="n") suffix = "s"; // and they are all backwards :(
-        else if (suffix=="e") suffix = "w";
-        else if (suffix=="s") suffix = "n";
-        else if (suffix=="w") suffix = "e";
+        suffix = 
+            (suffix=="n") ? "s" : // and they are all backwards :(
+            (suffix=="e") ? "w" :
+            (suffix=="s") ? "n" :
+            (suffix=="w") ? "e" : "" ;
     }
     // manhole exception
     if (suffix=="manhole") suffix="nesw";
     // count and mark which directions the road goes
     int num_dirs = 0;
-    if (suffix.find("n") != std::string::npos) { array[0] = true; num_dirs++; } else { array[0] = false; }
-    if (suffix.find("e") != std::string::npos) { array[1] = true; num_dirs++; } else { array[1] = false; }
-    if (suffix.find("s") != std::string::npos) { array[2] = true; num_dirs++; } else { array[2] = false; }
-    if (suffix.find("w") != std::string::npos) { array[3] = true; num_dirs++; } else { array[3] = false; }
+    num_dirs += ( array[0] = (suffix.find("n") != std::string::npos) );
+    num_dirs += ( array[1] = (suffix.find("e") != std::string::npos) );
+    num_dirs += ( array[2] = (suffix.find("s") != std::string::npos) );
+    num_dirs += ( array[3] = (suffix.find("w") != std::string::npos) );
     return num_dirs;
 }
 
 // perform dist counterclockwise rotations on a nesw or neswx array
 template<typename T> void nesw_array_rotate(T *array, size_t len, size_t dist) {
     if( len == 4 ) {
-        for (;dist--;) {
+        while(dist--) {
             T temp = array[0];
             array[0] = array[1];
             array[1] = array[2];
@@ -1013,7 +1014,7 @@ template<typename T> void nesw_array_rotate(T *array, size_t len, size_t dist) {
             array[3] = temp;
         }
     } else {
-        for (;dist--;) {
+        while(dist--) {
             // N E S W NE SE SW NW
             T temp = array[0];
             array[0] = array[4];
@@ -1035,6 +1036,14 @@ void coord_rotate_cw(int &x, int &y, int rot) {
         y = x;
         x = (SEEY*2-1)-temp;
     }
+}
+
+bool compare_neswx(bool *a1, std::initializer_list<int> a2) {
+    return std::equal(
+        std::begin(a2),
+        std::end(a2),
+        a1
+    );
 }
 
 // mapgen_road replaces previous mapgen_road_straight _end _curved _tee _four_way
@@ -1082,6 +1091,7 @@ void mapgen_road(map *m, oter_id terrain_type, mapgendata dat, int turn, float d
     int plaza_dir = -1;
     bool fourways_neswx[8] = {};
     //TODO reduce amount of logical/conditional constructs here
+    //TODO make plazas include adjacent tees
     switch (num_dirs) {
         case 4: // 4-way intersection
             for (int dir = 0; dir < 8; dir++) {
@@ -1089,24 +1099,17 @@ void mapgen_road(map *m, oter_id terrain_type, mapgendata dat, int turn, float d
                     ( otermap[dat.t_nesw[dir]].id == "road_nesw" ||
                       otermap[dat.t_nesw[dir]].id == "road_nesw_manhole" );
             }
-            if      (std::equal(std::begin(fourways_neswx), std::end(fourways_neswx), std::begin({1,1,1,1,1,1,1,1})))
-                plaza_dir = 8; // surrounded by 4ways
-            else if (std::equal(std::begin(fourways_neswx), std::end(fourways_neswx), std::begin({0,1,1,0,0,1,0,0})))
-                plaza_dir = 7; // northwest corner of rotary/plaza
-            else if (std::equal(std::begin(fourways_neswx), std::end(fourways_neswx), std::begin({1,1,0,0,1,0,0,0})))
-                plaza_dir = 6;
-            else if (std::equal(std::begin(fourways_neswx), std::end(fourways_neswx), std::begin({1,0,0,1,0,0,0,1})))
-                plaza_dir = 5;
-            else if (std::equal(std::begin(fourways_neswx), std::end(fourways_neswx), std::begin({0,0,1,1,0,0,1,0})))
-                plaza_dir = 4;
-            else if (std::equal(std::begin(fourways_neswx), std::end(fourways_neswx), std::begin({1,1,1,0,1,1,0,0})))
-                plaza_dir = 3;
-            else if (std::equal(std::begin(fourways_neswx), std::end(fourways_neswx), std::begin({1,1,0,1,1,0,0,1})))
-                plaza_dir = 2;
-            else if (std::equal(std::begin(fourways_neswx), std::end(fourways_neswx), std::begin({1,0,1,1,0,0,1,1})))
-                plaza_dir = 1;
-            else if (std::equal(std::begin(fourways_neswx), std::end(fourways_neswx), std::begin({0,1,1,1,0,1,1,0})))
-                plaza_dir = 0; // north side of rotary/plaza
+            // is this the middle, or which side or corner, of a plaza?
+            plaza_dir = compare_neswx(fourways_neswx, {1,1,1,1,1,1,1,1}) ? 8 :
+                        compare_neswx(fourways_neswx, {0,1,1,0,0,1,0,0}) ? 7 :
+                        compare_neswx(fourways_neswx, {1,1,0,0,1,0,0,0}) ? 6 :
+                        compare_neswx(fourways_neswx, {1,0,0,1,0,0,0,1}) ? 5 :
+                        compare_neswx(fourways_neswx, {0,0,1,1,0,0,1,0}) ? 4 :
+                        compare_neswx(fourways_neswx, {1,1,1,0,1,1,0,0}) ? 3 :
+                        compare_neswx(fourways_neswx, {1,1,0,1,1,0,0,1}) ? 2 :
+                        compare_neswx(fourways_neswx, {1,0,1,1,0,0,1,1}) ? 1 :
+                        compare_neswx(fourways_neswx, {0,1,1,1,0,1,1,0}) ? 0 :
+                        -1;
             if (plaza_dir > -1) rot = plaza_dir % 4;
          case 3: // tee
             if (!roads_nesw[0]) { rot = 2; break; } // E/S/W, rotate 180 degrees
@@ -1199,8 +1202,9 @@ void mapgen_road(map *m, oter_id terrain_type, mapgendata dat, int turn, float d
         }
 
         //draw dead end sidewalk
-        if(dead_end_extension && neighbor_sidewalks)
+        if((dead_end_extension>0) && (neighbor_sidewalks>0)) {
             square(m, t_sidewalk, 0, SEEY+dead_end_extension, SEEX*2-1, SEEY+dead_end_extension+4);
+        }
 
         // draw 16-wide pavement from the middle to the edge in each road direction
         // also corner pieces to curve towards diagonal neighbors
@@ -1210,30 +1214,36 @@ void mapgen_road(map *m, oter_id terrain_type, mapgendata dat, int turn, float d
                 coord_rotate_cw(x1,y1,dir);
                 coord_rotate_cw(x2,y2,dir);
                 square(m, t_pavement, x1, y1, x2, y2);
-                if(curvedir_nesw[dir] != 0)
-                    for(int x=1; x<4; x++)
+                if(curvedir_nesw[dir] != 0) {
+                    for(int x=1; x<4; x++) {
                         for(int y=0; y<x; y++) {
                             int ty = y, tx = (curvedir_nesw[dir]==-1 ? x : SEEX*2-1-x);
                             coord_rotate_cw(tx,ty,dir);
                             m->ter_set(tx,ty,t_pavement);
                         }
+                    }
+                }
             }
         }
 
         // draw yellow dots on the pavement
         for (int dir=0; dir<4; dir++)
-            if (roads_nesw[dir])
-                for(int x=SEEX-1; x<=SEEX; x++)
-                    for(int y=0; y<SEEY; y++)
+            if (roads_nesw[dir]) {
+                for(int x=SEEX-1; x<=SEEX; x++) {
+                    for(int y=0; y<SEEY; y++) {
                         if ((y+((dir+rot)/2))%4) {
                             int xn=x, yn=y;
                             coord_rotate_cw(xn,yn,dir);
                             m->ter_set(xn, yn, t_pavement_y);
                         }
+                    }
+                }
+            }
 
         // draw round pavement for cul de sac late, to overdraw the yellow dots
-        if (cul_de_sac)
+        if (cul_de_sac) {
             circle(m, t_pavement, double(SEEX)-0.5, double(SEEY)-0.5, 11.0);
+        }
 
         // overwrite part of intersection with rotary/plaza
         if( plaza_dir > -1 ) {
@@ -1281,14 +1291,13 @@ void mapgen_road(map *m, oter_id terrain_type, mapgendata dat, int turn, float d
     }    
 
     // add some items
-    if (plaza_dir>-1)
-        m->place_items("trash", 5, 0, 0, SEEX * 2 -1, SEEX * 2 - 1, true, 0);
-    else
-        m->place_items("road", 5, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, false, turn);
+    bool plaza = (plaza_dir>-1);
+    m->place_items(plaza?"trash":"road", 5, 0, 0, SEEX * 2 -1, SEEX * 2 - 1, plaza, plaza?0:turn);
 
     // add a manhole if appropriate
-    if (terrain_type == "road_nesw_manhole")
+    if (terrain_type == "road_nesw_manhole") {
         m->ter_set(rng(6, SEEX * 2 - 6), rng(6, SEEX * 2 - 6), t_manhole_cover);
+    }
 
     // finally, un-rotate the map
     m->rotate(rot);
