@@ -294,13 +294,6 @@ tabbed_window::tabbed_window( size_t size_x, size_t size_y, int x, int y ) : bor
 {
 }
 
-tabbed_window::~tabbed_window()
-{
-    for( auto t : tabs ) {
-        delete t.second;
-    }
-}
-
 void tabbed_window::draw( WINDOW *win )
 {
     bordered_window::draw( win );

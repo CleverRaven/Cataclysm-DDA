@@ -164,7 +164,7 @@ class ui_window : public ui_element {
     public:
         ui_window( const ui_rect &rect, ui_anchor anchor = ui_anchor::top_left );
         ui_window( size_t size_x, size_t size_y, int x = 0, int y = 0, ui_anchor anchor = ui_anchor::top_left );
-        ~ui_window();
+        ~ui_window() override;
 
         ui_window( const ui_window & ) = delete;
         ui_window &operator=( const ui_window & ) = delete;
@@ -247,7 +247,6 @@ class tabbed_window : public bordered_window {
         void draw( WINDOW *win ) override;
     public:
         tabbed_window( size_t size_x, size_t size_y, int x = 0, int y = 0 );
-        ~tabbed_window();
 
         using ui_window::draw;
 
