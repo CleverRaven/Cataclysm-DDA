@@ -230,7 +230,7 @@
                 "B": { "item": "bed", "chance": 50 }
             },
             "item": {
-                "d": { "item": "holybook_bible1", "chance": 2 }
+                "d": { "item": "holybook_bible3", "chance": 2 }
             },
             "vehicles": {
                 "V": { "vehicle": "suburban_home", "chance": 60, "rotation": 270 },
@@ -307,7 +307,7 @@
                 "B": { "item": "bed", "chance": 50 }
             },
             "item": {
-                "d": { "item": "holybook_bible1", "chance": 2 }
+                "d": { "item": "holybook_bible3", "chance": 2 }
             },
             "place_vehicles": [
                 { "vehicle": "luggage_cart", "x": [10, 15], "y": [11, 19],
@@ -385,7 +385,7 @@
                 "B": { "item": "bed", "chance": 50 }
             },
             "item": {
-                "d": { "item": "holybook_bible1", "chance": 2 }
+                "d": { "item": "holybook_bible3", "chance": 2 }
             },
             "place_vehicles": [
                 { "vehicle": "luggage_cart", "x": [3, 21], "y": [11, 17],
@@ -463,7 +463,7 @@
                 "B": { "item": "bed", "chance": 50 }
             },
             "item": {
-                "d": { "item": "holybook_bible1", "chance": 2 }
+                "d": { "item": "holybook_bible3", "chance": 2 }
             },
             "vehicles": {
                 "Y": { "vehicle": "luggage_cart", "chance": 85 }
@@ -531,7 +531,7 @@
                 "B": { "item": "bed", "chance": 50 }
             },
             "item": {
-                "d": { "item": "holybook_bible1", "chance": 2 }
+                "d": { "item": "holybook_bible3", "chance": 2 }
             },
             "vehicles": {
                 "v": { "vehicle": "suburban_home", "chance": 60, "rotation": 90 }
@@ -607,7 +607,7 @@
                 "B": { "item": "bed", "chance": 50 }
             },
             "item": {
-                "d": { "item": "holybook_bible1", "chance": 2 },
+                "d": { "item": "holybook_bible3", "chance": 2 },
                 "S": { "item": "towel", "chance": 3, "amount": [1, 2] }
             },
             "place_monsters": [
@@ -680,7 +680,7 @@
                 "B": { "item": "bed", "chance": 50 }
             },
             "item": {
-                "d": { "item": "holybook_bible1", "chance": 2 },
+                "d": { "item": "holybook_bible3", "chance": 2 },
                 "S": { "item": "towel", "chance": 3, "amount": [1, 2] }
             },
             "place_monsters": [
@@ -755,7 +755,7 @@
                 "B": { "item": "bed", "chance": 50 }
             },
             "item": {
-                "d": { "item": "holybook_bible1", "chance": 2 },
+                "d": { "item": "holybook_bible3", "chance": 2 },
                 "S": { "item": "towel", "chance": 3, "amount": [1, 2] }
             },
             "place_monsters": [
