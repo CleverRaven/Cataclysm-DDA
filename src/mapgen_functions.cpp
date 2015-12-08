@@ -1213,7 +1213,7 @@ void mapgen_road(map *m, oter_id terrain_type, mapgendata dat, int turn, float d
                 if(curvedir_nesw[dir] != 0)
                     for(int x=1; x<4; x++)
                         for(int y=0; y<x; y++) {
-                            int ty = y, tx = (curvedir_nesw[dir]==-1 ? x : SEEX*2-x);
+                            int ty = y, tx = (curvedir_nesw[dir]==-1 ? x : SEEX*2-1-x);
                             coord_rotate_cw(tx,ty,dir);
                             m->ter_set(tx,ty,t_pavement);
                         }
