@@ -107,7 +107,6 @@ enum m_flag : int {
     MF_LEATHER,             // May produce leather when butchered
     MF_WOOL,                // May produce wool when butchered
     MF_FEATHER,             // May produce feather when butchered
-    MF_CBM_CIV,             // May produce a common cbm or two when butchered
     MF_BONES,               // May produce bones and sinews when butchered; if combined with POISON flag, tainted bones, if combined with HUMAN, human bones
     MF_FAT,                 // May produce fat when butchered; if combined with POISON flag, tainted fat
     MF_IMMOBILE,            // Doesn't move (e.g. turrets)
@@ -123,19 +122,19 @@ enum m_flag : int {
     MF_VERMIN,              // Creature is too small for normal combat, butchering, etc.
     MF_NOGIB,               // Creature won't leave gibs / meat chunks when killed with huge damage.
     MF_HUNTS_VERMIN,        // Creature uses vermin as a food source
-    MF_SMALL_BITER,         // Creature can cause a painful, non-damaging bite
     MF_LARVA,               // Creature is a larva. Currently used for gib and blood handling.
     MF_ARTHROPOD_BLOOD,     // Forces monster to bleed hemolymph.
     MF_ACID_BLOOD,          // Makes monster bleed acid. Fun stuff! Does not automatically dissolve in a pool of acid on death.
     MF_BILE_BLOOD,          // Makes monster bleed bile.
     MF_ABSORBS,             // Consumes objects it moves over.
     MF_REGENMORALE,         // Will stop fleeing if at max hp, and regen anger and morale to positive values.
+    MF_CBM_CIV,             // May produce a common CBM a power CBM when butchered.
     MF_CBM_POWER,           // May produce a power CBM when butchered, independent of MF_CBM_wev.
     MF_CBM_SCI,             // May produce a bionic from bionics_sci when butchered.
     MF_CBM_OP,              // May produce a bionic from bionics_op when butchered, and the power storage is mk 2.
     MF_CBM_TECH,            // May produce a bionic from bionics_tech when butchered.
     MF_CBM_SUBS,            // May produce a bionic from bionics_subs when butchered.
-    MF_FISHABLE,            // Its fishable.
+    MF_FISHABLE,            // It is fishable.
     MF_GROUP_BASH,          // Monsters that can pile up against obstacles and add their strength together to break them.
     MF_SWARMS,              // Monsters that like to group together and form loose packs
     MF_GROUP_MORALE,        // Monsters that are more courageous when near friends
