@@ -578,7 +578,7 @@ bool veh_interact::can_install_part(int msg_width){
     }
 
     if (dif_steering > 0) {
-        engine_string = string_format(
+        steering_string = string_format(
                             _("  You also need level <color_%1$s>%2$d</color> skill in mechanics to install additional steering axles."),
                             has_skill3 ? "ltgreen" : "red",
                             dif_steering);
