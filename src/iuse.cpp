@@ -6279,7 +6279,7 @@ int iuse::artifact(player *p, item *it, bool, const tripoint& )
 
             case AEA_GROWTH: {
                 monster tmptriffid( NULL_ID, p->pos3() );
-                mattack::growplants(&tmptriffid, -1);
+                mattack::growplants(&tmptriffid);
             }
             break;
 
@@ -6384,7 +6384,7 @@ int iuse::artifact(player *p, item *it, bool, const tripoint& )
                         if (g->summon_mon(mon_shadow, monp)) {
                             num_spawned++;
                             monster *spawned = g->monster_at(monp);
-                            spawned->reset_special_rng(0);
+                            spawned->reset_special_rng("DISAPPEAR");
                         }
                     }
                 }

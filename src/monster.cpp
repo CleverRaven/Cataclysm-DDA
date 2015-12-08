@@ -109,66 +109,28 @@ monster::monster()
     last_updated = 0;
 }
 
-monster::monster( const mtype_id& id )
+monster::monster( const mtype_id& id ) : monster()
 {
-    position.x = 20;
-    position.y = 10;
-    position.z = -500; // Some arbitrary number that will cause debugmsgs
-    unset_dest();
-    wandf = 0;
     type = &id.obj();
     moves = type->speed;
     Creature::set_speed_base(type->speed);
     hp = type->hp;
-    for( auto &elem : type->sp_freq ) {
-        sp_timeout.push_back( rng( 0, elem ) );
+    for( auto &sa : type->special_attacks ) {
+        auto &entry = special_attacks[sa.first];
+        entry.cooldown = rng(0,sa.second.cooldown);
     }
     def_chance = type->def_chance;
-    friendly = 0;
     anger = type->agro;
     morale = type->morale;
     faction = type->default_faction;
-    mission_id = -1;
-    no_extra_death_drops = false;
-    dead = false;
-    made_footstep = false;
-    unique_name = "";
-    hallucination = false;
-    ignoring = 0;
     ammo = type->starting_ammo;
     upgrades = type->upgrades;
-    upgrade_time = -1;
-    last_updated = 0;
 }
 
-monster::monster( const mtype_id& id, const tripoint &p )
+monster::monster( const mtype_id& id, const tripoint &p ) : monster(id)
 {
     position = p;
     unset_dest();
-    wandf = 0;
-    type = &id.obj();
-    moves = type->speed;
-    Creature::set_speed_base(type->speed);
-    hp = type->hp;
-    for( auto &elem : type->sp_freq ) {
-        sp_timeout.push_back( elem );
-    }
-    def_chance = type->def_chance;
-    friendly = 0;
-    anger = type->agro;
-    morale = type->morale;
-    faction = type->default_faction;
-    mission_id = -1;
-    no_extra_death_drops = false;
-    dead = false;
-    made_footstep = false;
-    unique_name = "";
-    hallucination = false;
-    ignoring = 0;
-    ammo = type->starting_ammo;
-    upgrades = type->upgrades;
-    upgrade_time = -1;
-    last_updated = 0;
 }
 
 monster::~monster()
@@ -203,9 +165,10 @@ void monster::poly( const mtype_id& id )
     anger = type->agro;
     morale = type->morale;
     hp = int(hp_percentage * type->hp);
-    sp_timeout.clear();
-    for( auto &elem : type->sp_freq ) {
-        sp_timeout.push_back( elem );
+    special_attacks.clear();
+    for( auto &sa : type->special_attacks ) {
+        auto &entry = special_attacks[sa.first];
+        entry.cooldown = sa.second.cooldown;
     }
     def_chance = type->def_chance;
     faction = type->default_faction;
@@ -1476,35 +1439,24 @@ int monster::impact( const int force, const tripoint &p )
     return total_dealt;
 }
 
-void monster::reset_special(int index)
+void monster::reset_special(const std::string &special_name)
 {
-    if (index < 0) {
-        return;
-    }
-
-    sp_timeout[index] = type->sp_freq[index];
+    special_attacks[special_name].cooldown = type->special_attacks.at(special_name).cooldown;;
 }
 
-void monster::reset_special_rng(int index)
+void monster::reset_special_rng(const std::string &special_name)
 {
-    if (index < 0) {
-        return;
-    }
-
-    sp_timeout[index] = rng(0, type->sp_freq[index]);
+    special_attacks[special_name].cooldown = rng(0,type->special_attacks.at(special_name).cooldown);
 }
 
-void monster::set_special(int index, int time)
+void monster::set_special(const std::string &special_name, int time)
 {
-    if (index < 0) {
-        return;
-    }
+    special_attacks[special_name].cooldown = time;
+}
 
-    // -1 is used for disabling specials
-    if (time < -1) {
-        time = 0;
-    }
-    sp_timeout[index] = time;
+void monster::disable_special(const std::string &special_name)
+{
+    special_attacks[special_name].enabled = false;
 }
 
 void monster::normalize_ammo( const int old_ammo )
