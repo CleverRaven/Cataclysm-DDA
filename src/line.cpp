@@ -475,6 +475,9 @@ std::string const& direction_name_short(direction const dir)
 std::vector<tripoint> squares_closer_to( const tripoint &from, const tripoint &to )
 {
     std::vector<tripoint> adjacent_closer_squares;
+    if( from == to ) {
+        return adjacent_closer_squares;
+    }
     const int dx = to.x - from.x;
     const int dy = to.y - from.y;
     const int dz = to.z - from.z;

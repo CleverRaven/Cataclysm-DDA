@@ -11,6 +11,7 @@ class map;
 class game;
 class item;
 class monfaction;
+class senses;
 struct mtype;
 enum monster_trigger : int;
 
@@ -30,6 +31,23 @@ enum monster_attitude {
     MATT_ZLAVE,
     NUM_MONSTER_ATTITUDES
 };
+
+enum stimulus_type {
+    stimulus_none,
+    stimulus_sound,
+    stimulus_vision
+};
+
+// Maybe just generalize this to monster stimulus?
+struct monster_group_stimulus {
+    enum stimulus_type type;
+    tripoint source;
+    int strength;
+    // The turn on which the event happened.
+    int occurence;
+};
+
+extern const monster_group_stimulus null_monster_stimulus;
 
 class monster : public Creature, public JsonSerializer, public JsonDeserializer
 {
@@ -210,6 +228,15 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
 
         void stumble();
         void knock_back_from( const tripoint &p ) override;
+
+        // Overmap scale navigation methods, defined in monster_overmap_move.cpp
+        /**
+         * Notify the monster of an event it might want to react to.
+         **/
+        void apply_stimulus( const tripoint &location, const monster_group_stimulus &stimulus );
+        int next_overmap_move() const;
+        // Decide on and advance time to next overmap move.
+        tripoint overmap_move( const tripoint &location, const senses &sensor );
 
         // Combat
         bool is_fleeing(player &u) const; // True if we're fleeing
@@ -398,6 +425,8 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         std::vector<int> sp_timeout;
         tripoint goal;
         tripoint position;
+        // Last time the monster moved on the overmap.
+        int next_overmap_move_turn;
         bool dead;
         /** Attack another monster */
         void hit_monster(monster &other);
@@ -407,6 +436,12 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         int next_upgrade_time();
         bool upgrades;
         int upgrade_time;
+        /**
+         * The strongest stimulus in recent history, and the reason
+         * for whatever the monster is doing right now.
+         * Reset when it expires, or the monster latches onto a new stimulus.
+         **/
+        monster_group_stimulus recent_stimulus;
 
     protected:
         void store(JsonOut &jsout) const;
