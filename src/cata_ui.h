@@ -178,6 +178,7 @@ class ui_window : public ui_element {
 
         const std::vector<ui_element *> &get_children() const;
 
+        input_context &get_input_context();
         virtual std::string handle_input();
 
         /**

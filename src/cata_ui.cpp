@@ -67,6 +67,11 @@ void ui_window::draw_children( std::vector<WINDOW *> &render_batch )
     }
 }
 
+input_context &ui_window::get_input_context()
+{
+    return ctxt;
+}
+
 std::string ui_window::handle_input()
 {
     std::string action = ctxt.handle_input();

@@ -4802,6 +4802,7 @@ void init_missions_tab( tabbed_window &win, std::string &&tab_name, std::vector<
         }; // get name from mission, highlight active mission.
 
     auto _list = tab->create_child<ui_vertical_list<mission *, decltype(draw_lambda), nullptr>>( list_width, list_height, 0, 0, ui_anchor::top_left, draw_lambda );
+    _list->set_items( data );
 
     auto _border = tab->create_child<ui_border>( 1, list_height );
     _border->after( *_list );
