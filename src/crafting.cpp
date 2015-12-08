@@ -1200,7 +1200,7 @@ bool player::can_disassemble( const item &dis_item, const recipe *cur_recipe,
                               const inventory &crafting_inv, bool print_msg ) const
 {
     const std::string dis_name = dis_item.tname().c_str();
-    if (dis_item.count_by_charges()) {
+    if (dis_item.count_by_charges() && !cur_recipe->uncraft_single_charge ) {
         // Create a new item to get the default charges
         const item tmp = cur_recipe->create_result();
         if (dis_item.charges < tmp.charges) {
@@ -1447,6 +1447,11 @@ void player::complete_disassemble()
         // TODO: Move this check to requirement_data::disassembly_requirements()
         if( !comp.recoverable || newit.has_flag( "UNRECOVERABLE" ) ) {
             continue;
+        }
+        // Counted-by-charge items that can be disassembled individually
+        // have their component count multiplied by the number of charges.
+        if (dis_item.count_by_charges() && dis->uncraft_single_charge) {
+            compcount *= std::min(dis_item.charges, dis->create_result().charges);
         }
         // Compress liquids and counted-by-charges items into one item,
         // they are added together on the map anyway and handle_liquid

@@ -155,7 +155,6 @@ public:
     int shelter             ( player*, item*, bool, const tripoint& );
     int torch_lit           ( player*, item*, bool, const tripoint& );
     int battletorch_lit     ( player*, item*, bool, const tripoint& );
-    int bullet_puller       ( player*, item*, bool, const tripoint& );
     int boltcutters         ( player*, item*, bool, const tripoint& );
     int mop                 ( player*, item*, bool, const tripoint& );
     int spray_can           ( player*, item*, bool, const tripoint& );
@@ -219,13 +218,9 @@ public:
     // Helper for handling pesky wannabe-artists
     static int handle_ground_graffiti( player *p, item *it, const std::string prefix );
 
-    static void reset_bullet_pulling();
-    static void load_bullet_pulling(JsonObject &jo);
 protected:
     typedef std::pair<std::string, int> result_t;
     typedef std::vector<result_t> result_list_t;
-    typedef std::map<std::string, result_list_t> bullet_pulling_t;
-    static bullet_pulling_t bullet_pulling_recipes;
 };
 
 

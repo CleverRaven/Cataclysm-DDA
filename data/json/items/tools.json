@@ -6340,8 +6340,7 @@
     "charges_per_use": 0,
     "turns_per_charge": 0,
     "ammo": "NULL",
-    "revert_to": "null",
-    "use_action": "BULLET_PULLER"
+    "revert_to": "null"
   },
 
   {
