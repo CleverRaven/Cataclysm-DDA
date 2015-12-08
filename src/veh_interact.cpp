@@ -1556,11 +1556,6 @@ void veh_interact::display_stats()
     if (speed_units == "km/h") {
         speed_factor *= 1.61f;
     }
-    std::string weight_un = OPTIONS["USE_METRIC_WEIGHTS"].getValue();
-    float weight_factor = 1.0f;
-    if (weight_un == "lbs") {
-        weight_factor *= 2.2f;
-    }
     fold_and_print(w_stats, y[0], x[0], w[0], c_ltgray,
                    _("Safe/Top Speed: <color_ltgreen>%3d</color>/<color_ltred>%3d</color> %s"),
                    int(veh->safe_velocity(false) * speed_factor),
@@ -1569,8 +1564,8 @@ void veh_interact::display_stats()
                    _("Acceleration: <color_ltblue>%3d</color> %s/t"),
                    int(veh->acceleration(false) * speed_factor), speed_units.c_str());
     fold_and_print(w_stats, y[2], x[2], w[2], c_ltgray,
-                   _("Mass: <color_ltblue>%5d</color> %s"),
-                   int(veh->total_mass() * weight_factor), weight_units().c_str());
+                   _("Mass: <color_ltblue>%5.0f</color> %s"),
+                   convert_weight(veh->total_mass() * 1000.0f), weight_units().c_str());
     fold_and_print(w_stats, y[3], x[3], w[3], c_ltgray,
                    _("Cargo Volume: <color_ltgray>%d/%d</color>"),
                    total_cargo - free_cargo, total_cargo);
