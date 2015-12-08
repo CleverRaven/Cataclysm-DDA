@@ -218,9 +218,6 @@ public:
     // Helper for handling pesky wannabe-artists
     static int handle_ground_graffiti( player *p, item *it, const std::string prefix );
 
-protected:
-    typedef std::pair<std::string, int> result_t;
-    typedef std::vector<result_t> result_list_t;
 };
 
 
