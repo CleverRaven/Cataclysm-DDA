@@ -1346,6 +1346,22 @@
         "qualities": [["COOK", 1]]
     },
     {
+    "type":"GENERIC",
+    "id": "skewer_bone",
+    "symbol": ",",
+    "color": "white",
+    "name": "bone skewer",
+    "description": "A thin skewer carved from bone.  Sadly, it won't make squirrel on a stick taste better.",
+    "price": 0,
+    "material": "bone",
+    "weight": 10,
+    "volume": 0,
+    "bashing": 0,
+    "cutting": 0,
+    "to_hit": -5,
+    "qualities": [["COOK", 1]]
+  },
+    {
         "type":"GENERIC",
         "id": "torch_done",
         "symbol": "/",

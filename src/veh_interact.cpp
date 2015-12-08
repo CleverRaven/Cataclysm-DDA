@@ -1366,8 +1366,7 @@ void veh_interact::move_cursor (int dx, int dy)
     cpart = part_at (0, 0);
     int vdx = -ddx;
     int vdy = -ddy;
-    point q;
-    veh->coord_translate (point(vdx, vdy), q);
+    point q = veh->coord_translate (point(vdx, vdy));
     tripoint vehp = veh->global_pos3() + q;
     bool obstruct = g->m.move_cost_ter_furn( vehp ) == 0;
     vehicle *oveh = g->m.veh_at( vehp );
@@ -2263,9 +2262,9 @@ void complete_vehicle ()
 
         if ( vpinfo.has_flag("CONE_LIGHT") ) {
             // Need map-relative coordinates to compare to output of look_around.
-            point q;
             // Need to call coord_translate() directly since it's a new part.
-            veh->coord_translate(point(dx, dy), q);
+            point q = veh->coord_translate(point(dx, dy));
+
             // Stash offset and set it to the location of the part so look_around will start there.
             int px = g->u.view_offset.x;
             int py = g->u.view_offset.y;

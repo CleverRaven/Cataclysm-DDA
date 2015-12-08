@@ -473,8 +473,8 @@ public:
     // Broken parts are also never obstacles
     int obstacle_at_part( int p ) const;
 
-    // Translate mount coords "p" into tile coords "q" using current pivot direction and anchor
-    void coord_translate (const point &p, point &q) const;
+    // Translate mount coords "p" using current pivot direction and anchor and return tile coords
+    point coord_translate (const point &p) const;
 
     // Translate mount coords "p" into tile coords "q" using given pivot direction and anchor
     void coord_translate (int dir, const point &pivot, const point &p, point &q) const;
