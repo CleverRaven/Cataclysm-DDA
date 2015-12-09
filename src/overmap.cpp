@@ -2641,19 +2641,19 @@ void overmap::place_forest()
             fory = rng(0, OMAPY - 1);
             // fors determinds its basic size
             fors = rng(settings.forest_size_min, settings.forest_size_max);
-            auto j = cities.begin();
-            for (; j != cities.end(); j++) {
-                if (
-                    trig_dist(forx, fory, j->x, j->y) - fors / 2 < j->s &&
-                    // occasionally accept near a city if we've been failing
-                    tries > rng(-1000/(i-forests_placed+1),2)
-                ) {
-                    // too close to the city, try again
-                    break;
+            const auto iter = std::find_if(
+                cities.begin(),
+                cities.end(),
+                [&](const city &c) {
+                    return 
+                        // is this city too close?
+                        trig_dist(forx, fory, c.x, c.y) - fors / 2 < c.s &&
+                        // occasionally accept near a city if we've been failing
+                        tries > rng(-1000/(i-forests_placed+1),2);
                 }
-            }
-            if (j == cities.end()) {
-                break;
+            );
+            if(iter == cities.end()) { // every city was too close
+                break; 
             }
         } while( tries-- );
 
@@ -2820,23 +2820,16 @@ void overmap::place_cities()
     //     7   |     0    |  15 |   3 |   0 |   0 |   0
     //     8   |     0    |   7 |   1 |   0 |   0 |   0
 
-    double NUM_CITIES_d =
-        (double(OMAPX*OMAPX)) // OMTs per overmap
-        /
-        (std::pow(2.0, op_city_spacing)) // cities cover 1/(2**n)th of the map
-        /
-        ((op_city_size*2+1) * (op_city_size*2+1) * 3 / 4); // OMTs per city
+    const double omts_per_overmap = OMAPX * OMAPY;
+    const double city_map_coverage_ratio = 1.0/std::pow(2.0, op_city_spacing);
+    const double omts_per_city = (op_city_size*2+1) * (op_city_size*2+1) * 3 / 4;
 
-    int NUM_CITIES = NUM_CITIES_d;
-
-    // chance of one extra city, or the only city for low densities
-    double EXTRA_CHANCE = NUM_CITIES_d - NUM_CITIES;
+    // how many cities on this overmap?
+    const int NUM_CITIES = 
+        roll_remainder(omts_per_overmap * city_map_coverage_ratio / omts_per_city);
 
     // place a seed for NUM_CITIES cities, and maybe one more
-    while (
-        cities.size() < size_t(NUM_CITIES) ||
-        ( cities.size() == size_t(NUM_CITIES) && x_in_y(EXTRA_CHANCE,1.0) )
-    ) {
+    while ( cities.size() < size_t(NUM_CITIES) ) {
         // randomly make some cities smaller or larger
         int size = rng(op_city_size-1, op_city_size+1);
         if(one_in(3)) {          // 33% tiny
