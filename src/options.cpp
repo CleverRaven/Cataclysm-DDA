@@ -1144,9 +1144,9 @@ void options_manager::init()
                                 0, 16, 4
                                );
 
-    OPTIONS["CITY_SPACING"] = cOpt("world_default", _("City density"),
+    OPTIONS["CITY_SPACING"] = cOpt("world_default", _("City spacing"),
                                 _("A number determining how far apart cities are."),
-                                0, 16, 4
+                                0, 8, 4
                                );
 
     OPTIONS["SPAWN_DENSITY"] = cOpt("world_default", _("Spawn rate scaling factor"),

@@ -2807,7 +2807,7 @@ void overmap::place_cities()
     // spacing dictates how much of the map is covered in cities
     //   city  |  cities  |   size N cities per overmap
     // spacing | % of map |  2  |  4  |  8  |  12 |  16
-    //     0   |   ~95    |2025 | 506 | 126 |  56 |  31
+    //     0   |   ~99    |2025 | 506 | 126 |  56 |  31
     //     1   |    50    |1012 | 253 |  63 |  28 |  15
     //     2   |    25    | 506 | 126 |  31 |  14 |   7
     //     3   |    12    | 253 |  63 |  15 |   7 |   3
@@ -2826,29 +2826,33 @@ void overmap::place_cities()
 
     int NUM_CITIES = NUM_CITIES_d;
 
-    // chance of one extra city, or only city for low densities
+    // chance of one extra city, or the only city for low densities
     double EXTRA_CHANCE = NUM_CITIES_d - NUM_CITIES;
 
-    // Generate a list of random cities in accordance with village/town/city rules.
-    int village_size = std::max(op_city_size - 2, 1);
-    int town_min = std::max(op_city_size - 1, 1);
-    int town_max = op_city_size + 2;
-    int city_size = op_city_size + 4;
-
+    // place a seed for NUM_CITIES cities, and maybe one more
     while (
         cities.size() < size_t(NUM_CITIES) ||
         ( cities.size() == size_t(NUM_CITIES) && x_in_y(EXTRA_CHANCE,1.0) )
     ) {
-        int cx = rng(12, OMAPX - 12);
-        int cy = rng(12, OMAPY - 12);
-        int size = rng(town_min, town_max);
-        if (one_in(6)) {        //  17% of cities are large
-            size = city_size;
-        } else if (one_in(3)) { //  28% of cities are small
-            size = village_size;
-        }                       //  56% of cities are normal size
+        // randomly make some cities smaller or larger
+        int size = rng(op_city_size-1, op_city_size+1);
+        if(one_in(3)) {          // 33% tiny
+            size = 1;
+        } else if (one_in(2)) {  // 33% small
+            size = size * 2 / 3;
+        } else if (one_in(2)) {  // 17% large
+            size = size * 3 / 2;
+        } else {                 // 17% huge
+            size = size * 2;
+        }
+        size = std::max(size,1);
+
+        // TODO put cities closer to the edge when they can span overmaps
+        // don't draw cities across the edge of the map, they will get clipped
+        int cx = rng(size - 1, OMAPX - size);
+        int cy = rng(size - 1, OMAPY - size);
         if (ter(cx, cy, 0) == settings.default_oter ) {
-            ter(cx, cy, 0) = "road_nesw";
+            ter(cx, cy, 0) = "road_nesw"; // every city starts with an intersection
             city tmp;
             tmp.x = cx;
             tmp.y = cy;
