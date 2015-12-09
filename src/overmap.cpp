@@ -2798,6 +2798,7 @@ spawns happen at... <cue Clue music>
 20:56 <kevingranade>: game:pawn_mon() in game.cpp:7380*/
 void overmap::place_cities()
 {
+    // default city count is 4d4 (4-16, avg 10)
     int NUM_CITIES = dice(4, 4);
     int start_dir;
     int op_city_size = int(ACTIVE_WORLD_OPTIONS["CITY_SIZE"]);
@@ -2805,7 +2806,12 @@ void overmap::place_cities()
         return;
     }
     // Limit number of cities based on average size.
-    NUM_CITIES = std::min(NUM_CITIES, int(256 / op_city_size * op_city_size));
+    // size 4, no change
+    // size 6, 7 city cap
+    // size 8, 4 city cap
+    // size 11, 2 city cap
+    // size 12+, 1 city only
+    NUM_CITIES = std::min(NUM_CITIES, int(256 / (op_city_size * op_city_size)));
 
     // Generate a list of random cities in accordance with village/town/city rules.
     int village_size = std::max(op_city_size - 2, 1);
@@ -2816,7 +2822,7 @@ void overmap::place_cities()
     while (cities.size() < size_t(NUM_CITIES)) {
         int cx = rng(12, OMAPX - 12);
         int cy = rng(12, OMAPY - 12);
-        int size = dice(town_min, town_max);
+        int size = rng(town_min, town_max);
         if (one_in(6)) {
             size = city_size;
         } else if (one_in(3)) {
