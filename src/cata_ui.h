@@ -145,7 +145,7 @@ class ui_element {
 * @brief The basis for a ui composition.
 *
 * This is the class in the framework that holds nested elements.
-* It is also the only class in the framework with a public 'draw' function.
+* It is also the only class in the framework with a public ```draw``` function.
 */
 class ui_window : public ui_element {
     private:
@@ -184,12 +184,10 @@ class ui_window : public ui_element {
         ui_event<WINDOW *> on_draw;
 
         /**
-        * @brief Creates a copy of the passed ```ui_element```and stores it in it's list of children.
+        * @brief Creates a ```ui_element``` of the passed type and stores it in it's list of children.
         *
-        * The copying is a safety precaution, so you can add the same element to multiple windows
-        * without the same pointer becoming managed by multiple windows.
-        * @param child The ```ui_element``` to copy from.
-        * @return Returns a pointer to the copy it made (so you can control it later)
+        * @param args The ```ui_element```'s constructor arguments
+        * @return Returns a pointer to the element that was made (so it can be controlled later)
         */
         template<typename T, typename... Args>
         T *create_child( Args&&... args )
@@ -271,7 +269,7 @@ class tabbed_window : public bordered_window {
         std::string handle_input() override;
 };
 
-constexpr auto default_draw_func = []( nc_color color, std::string txt )
+auto default_draw_func = []( nc_color color, std::string txt )
     {
         return std::pair<std::string, nc_color>{txt, color}; // perform no transformation
     };
