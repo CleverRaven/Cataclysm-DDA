@@ -257,7 +257,7 @@ bool mattack::shriek_stun(monster *z)
     }
 
     Creature *target = z->attack_target();
-    int dist;
+    int dist = 0;
     if( target == nullptr || (dist = rl_dist( z->pos(), target->pos() )) > 7 ||
         !z->sees( *target ) ) {
         return false;
