@@ -196,7 +196,12 @@ bool Character::move_effects(bool attacking)
     if (has_effect("grabbed") && !attacking){
         int zed_number = 0;
         for( auto &&dest : g->m.points_in_radius( pos(), 1, 0 ) ){
-            if (g->mon_at(dest) != -1 && g->zombie(g->mon_at(dest)).has_flag(MF_GRABS)) {
+            if (g->mon_at(dest) != -1 && 
+                (
+                    g->zombie(g->mon_at(dest)).has_flag(MF_GRABS) ||
+                    g->zombie(g->mon_at(dest)).type->has_special_attack("GRAB")
+                )
+            ) {
                 zed_number ++;
             }
         }

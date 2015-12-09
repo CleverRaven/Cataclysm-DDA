@@ -247,6 +247,7 @@ struct mtype {
 
         // Used to fetch the properly pluralized monster type name
         std::string nname(unsigned int quantity = 1) const;
+        bool has_special_attack(std::string attack_name) const;
         bool has_flag(m_flag flag) const;
         bool has_flag(std::string flag) const;
         bool has_material( const std::string &material ) const;
