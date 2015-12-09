@@ -53,7 +53,7 @@ std::string mtype::nname(unsigned int quantity) const
 
 bool mtype::has_special_attack( const std::string &attack_name ) const
 {
-    return special_attacks.find(attack_name) != special_attacks.end();
+    return special_attacks.find( attack_name ) != special_attacks.end();
 }
 
 bool mtype::has_flag(m_flag flag) const
