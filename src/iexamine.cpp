@@ -601,14 +601,9 @@ void iexamine::cardreader(player *p, map *m, const tripoint &examp)
                           "id_military");
     if (p->has_amount(card_type, 1) && query_yn(_("Swipe your ID card?"))) {
         p->moves -= 100;
-        tripoint tmp = examp;
-        int &i = tmp.x;
-        int &j = tmp.y;
-        for (i = examp.x - 3; i <= examp.x + 3; i++) {
-            for (j = examp.y - 3; j <= examp.y + 3; j++) {
-                if (m->ter(tmp) == t_door_metal_locked) {
-                    m->ter_set(tmp, t_floor);
-                }
+        for(const tripoint &tmp : m->points_in_radius( examp, 3 ) ) {
+            if (m->ter(tmp) == t_door_metal_locked) {
+                m->ter_set(tmp, t_floor);
             }
         }
         for (int i = 0; i < (int)g->num_zombies(); i++) {
@@ -634,14 +629,9 @@ void iexamine::cardreader(player *p, map *m, const tripoint &examp)
                     add_msg(_("You activate the panel!"));
                     add_msg(m_good, _("The nearby doors slide into the floor."));
                     m->ter_set(examp, t_card_reader_broken);
-                    tripoint tmp = examp;
-                    int &i = tmp.x;
-                    int &j = tmp.y;
-                    for (i = examp.x - 3; i <= examp.x + 3; i++) {
-                        for (j = examp.y - 3; j <= examp.y + 3; j++) {
-                            if (m->ter(tmp) == t_door_metal_locked) {
-                                m->ter_set(tmp, t_floor);
-                            }
+                    for(const tripoint &tmp : m->points_in_radius( examp, 3 ) ) {
+                        if (m->ter(tmp) == t_door_metal_locked) {
+                            m->ter_set(tmp, t_floor);
                         }
                     }
                 }
