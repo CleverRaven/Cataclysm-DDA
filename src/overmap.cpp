@@ -2798,36 +2798,55 @@ spawns happen at... <cue Clue music>
 20:56 <kevingranade>: game:pawn_mon() in game.cpp:7380*/
 void overmap::place_cities()
 {
-    // default city count is 4d4 (4-16, avg 10)
-    int NUM_CITIES = dice(4, 4);
-    int start_dir;
     int op_city_size = int(ACTIVE_WORLD_OPTIONS["CITY_SIZE"]);
     if( op_city_size <= 0 ) {
         return;
     }
-    // Limit number of cities based on average size.
-    // size 4, no change
-    // size 6, 7 city cap
-    // size 8, 4 city cap
-    // size 11, 2 city cap
-    // size 12+, 1 city only
-    NUM_CITIES = std::min(NUM_CITIES, int(256 / (op_city_size * op_city_size)));
+    int op_city_spacing = int(ACTIVE_WORLD_OPTIONS["CITY_SPACING"]);
+
+    // spacing dictates how much of the map is covered in cities
+    //   city  |  cities  |   size N cities per overmap
+    // spacing | % of map |  2  |  4  |  8  |  12 |  16
+    //     0   |   ~95    |2025 | 506 | 126 |  56 |  31
+    //     1   |    50    |1012 | 253 |  63 |  28 |  15
+    //     2   |    25    | 506 | 126 |  31 |  14 |   7
+    //     3   |    12    | 253 |  63 |  15 |   7 |   3
+    //     4   |     6    | 126 |  31 |   7 |   3 |   1
+    //     5   |     3    |  63 |  15 |   3 |   1 |   0
+    //     6   |     1    |  31 |   7 |   1 |   0 |   0
+    //     7   |     0    |  15 |   3 |   0 |   0 |   0
+    //     8   |     0    |   7 |   1 |   0 |   0 |   0
+
+    double NUM_CITIES_d =
+        (double(OMAPX*OMAPX)) // OMTs per overmap
+        /
+        (std::pow(2.0, op_city_spacing)) // cities cover 1/(2**n)th of the map
+        /
+        (op_city_size * op_city_size * 4.0); // OMTs per city
+
+    int NUM_CITIES = NUM_CITIES_d;
+
+    // chance of one extra city, or only city for low densities
+    double EXTRA_CHANCE = NUM_CITIES_d - NUM_CITIES;
 
     // Generate a list of random cities in accordance with village/town/city rules.
     int village_size = std::max(op_city_size - 2, 1);
     int town_min = std::max(op_city_size - 1, 1);
-    int town_max = op_city_size + 1;
-    int city_size = op_city_size + 3;
+    int town_max = op_city_size + 2;
+    int city_size = op_city_size + 4;
 
-    while (cities.size() < size_t(NUM_CITIES)) {
+    while (
+        cities.size() < size_t(NUM_CITIES) ||
+        ( cities.size() == size_t(NUM_CITIES) && x_in_y(EXTRA_CHANCE,1.0) )
+    ) {
         int cx = rng(12, OMAPX - 12);
         int cy = rng(12, OMAPY - 12);
         int size = rng(town_min, town_max);
-        if (one_in(6)) {
+        if (one_in(6)) {        //  17% of cities are large
             size = city_size;
-        } else if (one_in(3)) {
+        } else if (one_in(3)) { //  28% of cities are small
             size = village_size;
-        }
+        }                       //  56% of cities are normal size
         if (ter(cx, cy, 0) == settings.default_oter ) {
             ter(cx, cy, 0) = "road_nesw";
             city tmp;
@@ -2835,7 +2854,7 @@ void overmap::place_cities()
             tmp.y = cy;
             tmp.s = size;
             cities.push_back(tmp);
-            start_dir = rng(0, 3);
+            int start_dir = rng(0, 3);
             for (int j = 0; j < 4; j++) {
                 make_road(cx, cy, size, (start_dir + j) % 4, tmp);
             }

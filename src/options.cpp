@@ -1144,6 +1144,11 @@ void options_manager::init()
                                 0, 16, 4
                                );
 
+    OPTIONS["CITY_SPACING"] = cOpt("world_default", _("City density"),
+                                _("A number determining how far apart cities are."),
+                                0, 16, 4
+                               );
+
     OPTIONS["SPAWN_DENSITY"] = cOpt("world_default", _("Spawn rate scaling factor"),
                                     _("A scaling factor that determines density of monster spawns."),
                                     0.0, 50.0, 1.0, 0.1
