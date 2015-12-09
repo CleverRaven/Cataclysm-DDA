@@ -2142,10 +2142,11 @@ item *advanced_inv_area::get_container( bool in_vehicle )
                     }
                 }
             }
-        } else if (veh) { // veh gets lost when we walk away
+        } else {
             map &m = g->m;
-            bool is_in_vehicle = uistate.adv_inv_container_in_vehicle ||
-                (can_store_in_vehicle() && in_vehicle);
+            bool is_in_vehicle = veh &&
+                ( uistate.adv_inv_container_in_vehicle ||
+                  (can_store_in_vehicle() && in_vehicle) );
 
             const itemstack &stacks = (is_in_vehicle) ?
                 i_stacked( veh->get_items( vstor ) ) :
