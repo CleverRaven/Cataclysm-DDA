@@ -2630,36 +2630,39 @@ void grow_forest_oter_id(oter_id &oid, bool swampy)
 
 void overmap::place_forest()
 {
-
+    int forests_placed = 0;
     for (int i = 0; i < settings.num_forests; i++) {
-        // forx and fory determine the epicenter of the forest
-        int forx = rng(0, OMAPX - 1);
-        int fory = rng(0, OMAPY - 1);
-        // fors determinds its basic size
-        int fors = rng(settings.forest_size_min, settings.forest_size_max);
-        int outer_tries = 1000;
-        int inner_tries = 1000;
-        for (auto j = cities.begin(); j != cities.end(); j++) {
-            inner_tries = 1000;
-            while (trig_dist(forx, fory, j->x, j->y) - fors / 2 < j->s ) {
-                // Set forx and fory far enough from cities
-                forx = rng(0, OMAPX - 1);
-                fory = rng(0, OMAPY - 1);
-                // Set fors to determine the size of the forest; usually won't overlap w/ cities
-                fors = rng(settings.forest_size_min, settings.forest_size_max);
-                j = cities.begin();
-                if( 0 == --inner_tries ) {
+        int forx, fory, fors;
+        // try to place this forest
+        int tries = 100;
+        do {
+            // forx and fory determine the epicenter of the forest
+            forx = rng(0, OMAPX - 1);
+            fory = rng(0, OMAPY - 1);
+            // fors determinds its basic size
+            fors = rng(settings.forest_size_min, settings.forest_size_max);
+            auto j = cities.begin();
+            for (; j != cities.end(); j++) {
+                if (
+                    trig_dist(forx, fory, j->x, j->y) - fors / 2 < j->s &&
+                    // occasionally accept near a city if we've been failing
+                    tries > rng(-1000/(i-forests_placed+1),2)
+                ) {
+                    // too close to the city, try again
                     break;
                 }
             }
-            if( 0 == --outer_tries || 0 == inner_tries ) {
+            if (j == cities.end()) {
                 break;
             }
-        }
+        } while( tries-- );
 
-        if( 0 == outer_tries || 0 == inner_tries ) {
+        // if we gave up, don't bother trying to place another forest
+        if (tries == 0) {
             break;
         }
+
+        forests_placed++;
 
         int swamps = settings.swamp_maxsize; // How big the swamp may be...
         int x = forx;
