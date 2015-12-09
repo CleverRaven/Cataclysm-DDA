@@ -2742,7 +2742,7 @@
         "ident": "burglar",
         "name": "Burglar",
         "description": "You thought this would your lucky break.  Does it count as breaking and entering if everyone in town is undead?",
-        "points": 2,
+        "points": 3,
         "//" : "A ski mask would fit the stereotype better, but wool allergy breaks this.",
         "items": {
             "both": [
