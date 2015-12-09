@@ -1096,7 +1096,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
                                                 book->time ),
                                       book->time, true, "", true, true ) );
             if( book->chapters > 0 ) {
-                const int unread = get_remaining_chapters( g->u );
+                const int unread = g->u.get_remaining_chapters( typeId() );
                 info.push_back( iteminfo( "BOOK", "", ngettext( "This book has <num> <info>unread chapter</info>.",
                                           "This book has <num> <info>unread chapters</info>.",
                                           unread ),
@@ -2184,7 +2184,7 @@ std::string item::display_name(unsigned int quantity) const
         qty = string_format(" (%i)", contents[0].charges);
     } else if( is_book() && get_chapters() > 0 ) {
         // a book which has remaining unread chapters
-        qty = string_format(" (%i)", get_remaining_chapters(g->u));
+        qty = string_format(" (%i)", g->u.get_remaining_chapters( typeId() ));
     } else if( ammo_capacity() > 0 ) {
         // anything that can be reloaded including tools, guns and auxiliary gunmods
         qty = string_format(" (%i)", ammo_remaining());
@@ -3360,19 +3360,6 @@ int item::get_chapters() const
         return 0;
     }
     return type->book->chapters;
-}
-
-int item::get_remaining_chapters( const player &u ) const
-{
-    const auto var = string_format( "remaining-chapters-%d", u.getID() );
-    return get_var( var, get_chapters() );
-}
-
-void item::mark_chapter_as_read( const player &u )
-{
-    const int remain = std::max( 0, get_remaining_chapters( u ) - 1 );
-    const auto var = string_format( "remaining-chapters-%d", u.getID() );
-    set_var( var, remain );
 }
 
 const material_type &item::get_random_material() const

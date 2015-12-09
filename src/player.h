@@ -900,6 +900,11 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
 
         bool has_weapon() const override;
 
+        /** Get number of chapters remaining unread by player for copies of book */
+        int get_remaining_chapters( itype_id book ) const;
+        /** Mark one book chapter as read. Does nothing if not a book or no unread chapters remain */
+        void mark_chapter_as_read( itype_id book );
+
         // Checks crafting inventory for books providing the requested recipe.
         // Returns -1 to indicate recipe not found, otherwise difficulty to learn.
         int has_recipe( const recipe *r, const inventory &crafting_inv ) const;
@@ -1191,6 +1196,8 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
     private:
         // Items the player has identified.
         std::unordered_set<std::string> items_identified;
+        // Number of chapters read (if any) of each book
+        std::map<itype_id, int> chapters_read;
         /** Check if an area-of-effect technique has valid targets */
         bool valid_aoe_technique( Creature &t, const ma_technique &technique );
         bool valid_aoe_technique( Creature &t, const ma_technique &technique,

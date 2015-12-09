@@ -11,6 +11,7 @@
 #include "options.h"
 #include "weather.h"
 #include "item.h"
+#include "item_factory.h"
 #include "material.h"
 #include "translations.h"
 #include "name.h"
@@ -9568,6 +9569,27 @@ bool player::has_item( const item *it ) const
     } );
 }
 
+int player::get_remaining_chapters( itype_id book ) const {
+    int remain = 0;
+    if( item_controller->has_template( book )) {
+        const islot_book *obj = item_controller->find_template(book)->book.get();
+        if( obj != nullptr ) {
+            remain += obj->chapters;
+        }
+        const auto iter = chapters_read.find( book );
+        if( iter != chapters_read.end() ) {
+            remain -= iter->second;
+        }
+    }
+    return remain;
+}
+
+void player::mark_chapter_as_read( itype_id book ) {
+    if( get_remaining_chapters( book ) > 0 ) {
+        chapters_read[book]++;
+    }
+}
+
 bool player::has_mission_item(int mission_id) const
 {
     return mission_id != -1 && has_item_with( has_mission_item_filter{ mission_id } );
@@ -11886,7 +11908,7 @@ void player::do_read( item *book )
     if( reading->fun != 0 ) {
         int fun_bonus = 0;
         const int chapters = book->get_chapters();
-        const int remain = book->get_remaining_chapters( *this );
+        const int remain = get_remaining_chapters( book->typeId() );
         if( chapters > 0 && remain == 0 ) {
             //Book is out of chapters -> re-reading old book, less fun
             add_msg(_("The %s isn't as much fun now that you've finished it."), book->tname().c_str());
@@ -11911,7 +11933,7 @@ void player::do_read( item *book )
         }
     }
 
-    book->mark_chapter_as_read( *this );
+    mark_chapter_as_read( book->typeId() );
 
     bool no_recipes = true;
     if( !reading->recipes.empty() ) {
