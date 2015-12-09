@@ -3392,46 +3392,47 @@ iexamine_function iexamine_function_from_string(std::string const &function_name
     return &iexamine::none;
 }
 
-hack_result iexamine::hack_attempt(player *p) {
-    if (p->has_trait("ILLITERATE")) {
+hack_result iexamine::hack_attempt(player &p) {
+    if (p.has_trait("ILLITERATE")) {
         return HACK_UNABLE;
     }
-    bool using_electrohack = (p->has_amount("electrohack", 1) &&
+    bool using_electrohack = (p.has_amount("electrohack", 1) &&
                               query_yn(_("Use electrohack?")));
-    bool using_fingerhack = (!using_electrohack && p->has_bionic("bio_fingerhack") &&
-                             p->power_level > 0 &&
+    bool using_fingerhack = (!using_electrohack && p.has_bionic("bio_fingerhack") &&
+                             p.power_level > 0 &&
                              query_yn(_("Use fingerhack?")));
 
-    if ( using_electrohack || using_fingerhack ) {
-        p->moves -= 500;
-        p->practice( skill_computer, 20);
-        int success = rng(p->skillLevel( skill_computer ) / 4 - 2, p->skillLevel( skill_computer ) * 2);
-        success += rng(-3, 3);
-        if (using_fingerhack) {
-            success++;
-        }
-        if (p->int_cur < 8) {
-            success -= rng(0, int((8 - p->int_cur) / 2));
-        } else if (p->int_cur > 8) {
-            success += rng(0, int((p->int_cur - 8) / 2));
-        }
-        if (success < 0) {
-            add_msg(_("You cause a short circuit!"));
-            if (success <= -5) {
-                if (using_electrohack) {
-                    add_msg(m_bad, _("Your electrohack is ruined!"));
-                    p->use_amount("electrohack", 1);
-                } else {
-                    add_msg(m_bad, _("Your power is drained!"));
-                    p->charge_power(-rng(0, p->power_level));
-                }
-            }
-            return HACK_FAIL;
-        } else if (success < 6) {
-            return HACK_NOTHING;
-        } else {
-            return HACK_SUCCESS;
-        }
+    if ( ! (using_electrohack || using_fingerhack) ) {
+        return HACK_UNABLE;
     }
-    return HACK_UNABLE;    
+
+    p.moves -= 500;
+    p.practice( skill_computer, 20);
+    int success = rng(p.skillLevel( skill_computer ) / 4 - 2, p.skillLevel( skill_computer ) * 2);
+    success += rng(-3, 3);
+    if (using_fingerhack) {
+        success++;
+    }
+
+    // odds go up with int>8, down with int<8
+    // 4 int stat is worth 1 computer skill here
+    success += rng(0, int((p.int_cur - 8) / 2));
+
+    if (success < 0) {
+        add_msg(_("You cause a short circuit!"));
+        if (success <= -5) {
+            if (using_electrohack) {
+                add_msg(m_bad, _("Your electrohack is ruined!"));
+                p.use_amount("electrohack", 1);
+            } else {
+                add_msg(m_bad, _("Your power is drained!"));
+                p.charge_power(-rng(0, p.power_level));
+            }
+        }
+        return HACK_FAIL;
+    } else if (success < 6) {
+        return HACK_NOTHING;
+    } else {
+        return HACK_SUCCESS;
+    }
 }
