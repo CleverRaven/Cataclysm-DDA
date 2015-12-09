@@ -210,7 +210,8 @@ bool Character::move_effects(bool attacking)
                                             _("<npcname> finds themselves no longer grabbed."));
             remove_effect("grabbed");
         }
-        else if (get_dex() > get_str() ? rng(0, get_dex()) : rng( 0, get_str()) < rng( get_effect_int("grabbed") , 8) ){
+        // randomly compare higher of dex or str to grab intensity
+        else if( rng(0, std::max(get_dex(), get_str())) < rng(get_effect_int("grabbed"), 8) ){
             add_msg_player_or_npc(m_bad, _("You try break out of the grab, but fail!"),
                                             _("<npcname> tries to break out of the grab, but fails!"));
             return false;
