@@ -64,7 +64,7 @@
     "clip_size": 15,
     "reload": 400,
     "loudness" : 100,
-    "ammo_effects": ["FLAME", "STREAM", "INCENDIARY", "FLARE", "SHOT"]
+    "ammo_effects": ["FLAME", "STREAM", "INCENDIARY", "FLARE"]
 },{
       "id" : "ethereal_crossbow", "//" : "Unlike the Heretic version, this one is more effective against ghostly monsters.",
       "type" : "GUN",
@@ -82,7 +82,7 @@
       "bashing" : 11,
       "cutting" : 0,
       "to_hit" : 1,
-      "ranged_damage" : 30,
+      "ranged_damage" : 25,
       "pierce" : 50,
       "range" : 15,
       "dispersion" : 200,
@@ -99,17 +99,17 @@
     "symbol": "/",
     "color": "yellow",
     "name": "demon claw",
-    "description": "An ornate weapon resembling tiger claws, with blades perpetually glowing red-hot.  Despite this the weapon seems safe to wield.  Firing it will smite your enemies with wicked fire, to sate the god of blood.",
+    "description": "An ornate weapon resembling a clawed gauntlet, blades perpetually glowing red-hot.  Despite this, the weapon seems safe to wield.  Firing it will smite your enemies with wicked fire, to sate the god of blood.",
     "price": 200000,
     "material": ["steel", "essencemat"],
     "skill": "magic",
-    "ammo": "essence_type",
-    "techniques" : ["WBLOCK_1", "RAPID"],
+    "ammo": "essence_blood_type",
+    "techniques" : ["WBLOCK_1"],
     "flags" : ["UNARMED_WEAPON", "NEVER_JAMS", "UNBREAKABLE_MELEE", "FIRE", "SLICE", "LIGHT_240", "FLAMING", "PRIMITIVE_RANGED_WEAPON"],
     "weight": 92,
     "volume": 0,
-    "bashing": 1,
-    "cutting": 6,
+    "bashing": 8,
+    "cutting": 16,
     "to_hit": 3,
     "ranged_damage": 10,
     "pierce": 0,
@@ -122,8 +122,8 @@
     "clip_size": 1,
     "reload": 400,
     "loudness" : 500,
-    "ammo_effects": ["EXPLOSIVE_BIG", "NAPALM_BIG", "TRAIL"],
-    "qualities": [["BUTCHER", 14]],
+    "ammo_effects": ["EXPLOSIVE", "NAPALM_BIG", "TRAIL"],
+    "qualities": [["BUTCHER", 12]],
     "artifact_data" : {
       "effects_wielded": ["AEP_SAP_LIFE", "AEP_EVIL"]
     }

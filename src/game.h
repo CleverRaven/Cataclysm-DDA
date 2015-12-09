@@ -21,6 +21,10 @@ extern int save_loading_version;
 class game;
 extern game *g;
 
+#ifdef TILES
+extern void try_sdl_update();
+#endif // TILES
+
 extern bool trigdist;
 extern bool use_tiles;
 extern bool fov_3d;

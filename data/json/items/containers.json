@@ -76,6 +76,25 @@
         "seals": true
     },
     {
+        "id": "test_bottle_glass",
+        "type": "CONTAINER",
+        "symbol": ")",
+        "color": "cyan",
+        "name": "test glass bottle",
+        "category": "other",
+        "description": "An UNSEALABLE glass bottle, holds 750 ml of liquid.",
+        "price": 0,
+        "weight": 200,
+        "volume": 3,
+        "bashing": 2,
+        "cutting": 0,
+        "to_hit": 1,
+        "material": "glass",
+        "contains": 3,
+        "rigid": true,
+        "watertight": true
+    },
+    {
         "id": "can_drink",
         "type": "CONTAINER",
         "symbol": ")",

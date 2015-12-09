@@ -25,6 +25,7 @@
 #include "monster.h"
 #include "overmap.h"
 #include "field.h"
+#include "ui.h"
 
 #include <fstream>
 #include <sstream>

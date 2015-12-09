@@ -532,6 +532,23 @@ bool veh_interact::can_install_part(int msg_width){
     }
     bool is_wheel = sel_vpart_info->has_flag("WHEEL");
 
+    int dif_steering = 0;
+    if (sel_vpart_info->has_flag("STEERABLE")) {
+        std::set<int> axles;
+        for (auto &p : veh->steering) {
+            if (!veh->part_flag(p, "TRACKED")) {
+                // tracked parts don't contribute to axle complexity
+                axles.insert(veh->parts[p].mount.x);
+            }
+        }
+
+        if (axles.size() > 0 && axles.count(-ddx) == 0) {
+            // Installing more than one steerable axle is hard
+            // (but adding a wheel to an existing axle isn't)
+            dif_steering = axles.size() + 5;
+        }
+    }
+
     itype_id itm = sel_vpart_info->item;
     bool drive_conflict = is_drive_conflict(msg_width);
 
@@ -539,12 +556,14 @@ bool veh_interact::can_install_part(int msg_width){
     bool has_skill = g->u.skillLevel( skill_mechanics ) >= sel_vpart_info->difficulty;
     bool has_tools = ((has_welder && has_goggles) || has_duct_tape) && has_wrench;
     bool has_skill2 = !is_engine || (g->u.skillLevel( skill_mechanics ) >= dif_eng);
+    bool has_skill3 = g->u.skillLevel(skill_mechanics) >= dif_steering;
     bool is_wrenchable = sel_vpart_info->has_flag("TOOL_WRENCH");
     bool is_wood = sel_vpart_info->has_flag("NAILABLE");
     bool is_hand_remove = sel_vpart_info->has_flag("TOOL_NONE");
     const int needed_strength = veh->total_mass() / TIRE_CHANGE_STR_MOD;
     const bool has_str = g->u.get_str() >= needed_strength;
     std::string engine_string = "";
+    std::string steering_string = "";
     std::string tire_string = "";
 
     if (drive_conflict) {
@@ -558,6 +577,13 @@ bool veh_interact::can_install_part(int msg_width){
                             dif_eng);
     }
 
+    if (dif_steering > 0) {
+        engine_string = string_format(
+                            _("  You also need level <color_%1$s>%2$d</color> skill in mechanics to install additional steering axles."),
+                            has_skill3 ? "ltgreen" : "red",
+                            dif_steering);
+    }
+
     if (is_wheel) {
         tire_string = string_format(
                             _("  You also need either a <color_%1$s>jack</color> or <color_%2$s>%3$d</color> strength to install tire."),
@@ -569,30 +595,32 @@ bool veh_interact::can_install_part(int msg_width){
     if (is_hand_remove) {
         werase (w_msg);
         fold_and_print(w_msg, 0, 1, msg_width - 2, c_ltgray,
-                        _("Needs <color_%1$s>%2$s</color>, and level <color_%3$s>%4$d</color> skill in mechanics.%5$s%6$s"),
+                        _("Needs <color_%1$s>%2$s</color>, and level <color_%3$s>%4$d</color> skill in mechanics.%5$s%6$s%7$s"),
                         has_comps ? "ltgreen" : "red",
                         item::nname( itm ).c_str(),
                         has_skill ? "ltgreen" : "red",
                         sel_vpart_info->difficulty,
                         engine_string.c_str(),
+                        steering_string.c_str(),
                         tire_string.c_str());
         wrefresh (w_msg);
     } else if (is_wrenchable){
         werase (w_msg);
         fold_and_print(w_msg, 0, 1, msg_width - 2, c_ltgray,
-                        _("Needs <color_%1$s>%2$s</color>, a <color_%3$s>wrench</color> and level <color_%4$s>%5$d</color> skill in mechanics.%6$s%7$s"),
+                        _("Needs <color_%1$s>%2$s</color>, a <color_%3$s>wrench</color> and level <color_%4$s>%5$d</color> skill in mechanics.%6$s%7$s%8$s"),
                         has_comps ? "ltgreen" : "red",
                         item::nname( itm ).c_str(),
                         has_wrench ? "ltgreen" : "red",
                         has_skill ? "ltgreen" : "red",
                         sel_vpart_info->difficulty,
                         engine_string.c_str(),
+                        steering_string.c_str(),
                         tire_string.c_str());
         wrefresh (w_msg);
     } else if (is_wood) {
         werase (w_msg);
         fold_and_print(w_msg, 0, 1, msg_width - 2, c_ltgray,
-                        _("Needs <color_%1$s>%2$s</color>, either <color_%3$s>nails</color> and <color_%4$s>something to drive them</color> or <color_%5$s>duct tape</color>, and level <color_%6$s>%7$d</color> skill in mechanics.%8$s%9$s"),
+                        _("Needs <color_%1$s>%2$s</color>, either <color_%3$s>nails</color> and <color_%4$s>something to drive them</color> or <color_%5$s>duct tape</color>, and level <color_%6$s>%7$d</color> skill in mechanics.%8$s%9$s%10$s"),
                         has_comps ? "ltgreen" : "red",
                         item::nname( itm ).c_str(),
                         has_nails ? "ltgreen" : "red",
@@ -601,12 +629,13 @@ bool veh_interact::can_install_part(int msg_width){
                         has_skill ? "ltgreen" : "red",
                         sel_vpart_info->difficulty,
                         engine_string.c_str(),
+                        steering_string.c_str(),
                         tire_string.c_str());
         wrefresh (w_msg);
     } else {
         werase (w_msg);
         fold_and_print(w_msg, 0, 1, msg_width - 2, c_ltgray,
-                        _("Needs <color_%1$s>%2$s</color>, a <color_%3$s>wrench</color>, either a <color_%4$s>powered welder</color> (and <color_%5$s>welding goggles</color>) or <color_%6$s>duct tape</color>, and level <color_%7$s>%8$d</color> skill in mechanics.%9$s%10$s"),
+                        _("Needs <color_%1$s>%2$s</color>, a <color_%3$s>wrench</color>, either a <color_%4$s>powered welder</color> (and <color_%5$s>welding goggles</color>) or <color_%6$s>duct tape</color>, and level <color_%7$s>%8$d</color> skill in mechanics.%9$s%10$s%11$s"),
                         has_comps ? "ltgreen" : "red",
                         item::nname( itm ).c_str(),
                         has_wrench ? "ltgreen" : "red",
@@ -616,11 +645,12 @@ bool veh_interact::can_install_part(int msg_width){
                         has_skill ? "ltgreen" : "red",
                         sel_vpart_info->difficulty,
                         engine_string.c_str(),
+                        steering_string.c_str(),
                         tire_string.c_str());
         wrefresh (w_msg);
     }
 
-    if(!has_comps || !has_skill || !has_skill2) {
+    if(!has_comps || !has_skill || !has_skill2 || !has_skill3) {
         return false; //Bail early on easy conditions
     } else if (is_wheel && (!(has_jack || has_str))) {
         return false;
@@ -1366,9 +1396,8 @@ void veh_interact::move_cursor (int dx, int dy)
     cpart = part_at (0, 0);
     int vdx = -ddx;
     int vdy = -ddy;
-    int vx, vy;
-    veh->coord_translate (vdx, vdy, vx, vy);
-    tripoint vehp = veh->global_pos3() + point( vx, vy );
+    point q = veh->coord_translate (point(vdx, vdy));
+    tripoint vehp = veh->global_pos3() + q;
     bool obstruct = g->m.move_cost_ter_furn( vehp ) == 0;
     vehicle *oveh = g->m.veh_at( vehp );
     if( oveh != nullptr && oveh != veh ) {
@@ -1478,6 +1507,51 @@ void veh_interact::display_veh ()
     werase(w_disp);
     const int hw = getmaxx(w_disp) / 2;
     const int hh = getmaxy(w_disp) / 2;
+
+    if (debug_mode) {
+        // show CoM, pivot in debug mode
+
+        const point &pivot = veh->pivot_point();
+        int com_x, com_y;
+        veh->center_of_mass(com_x, com_y, false);
+
+        mvwprintz(w_disp, 0, 0, c_green, "CoM   %d,%d", com_x, com_y);
+        mvwprintz(w_disp, 1, 0, c_red,   "Pivot %d,%d", pivot.x, pivot.y);
+
+        int com_sx, com_sy, pivot_sx, pivot_sy;
+        if (vertical_menu) {
+            com_sx = com_y + ddy + hw;
+            com_sy = -(com_x + ddx) + hh;
+            pivot_sx = pivot.y + ddy + hw;
+            pivot_sy = -(pivot.x + ddx) + hh;
+        } else {
+            com_sx = com_x + ddx + hw;
+            com_sy = com_y + ddy + hh;
+            pivot_sx = pivot.x + ddx + hw;
+            pivot_sy = pivot.y + ddy + hh;
+        }
+
+        for (int x = 0; x < getmaxx(w_disp); ++x) {
+            if (x <= com_sx) {
+                mvwputch (w_disp, com_sy, x, c_green, LINE_OXOX);
+            }
+
+            if (x >= pivot_sx) {
+                mvwputch (w_disp, pivot_sy, x, c_red, LINE_OXOX);
+            }
+        }
+
+        for (int y = 0; y < getmaxy(w_disp); ++y) {
+            if (y <= com_sy) {
+                mvwputch (w_disp, y, com_sx, c_green, LINE_XOXO);
+            }
+
+            if (y >= pivot_sy) {
+                mvwputch (w_disp, y, pivot_sx, c_red, LINE_XOXO);
+            }
+        }
+    }
+
     //Iterate over structural parts so we only hit each square once
     std::vector<int> structural_parts = veh->all_parts_at_location("structure");
     int x, y;
@@ -1582,8 +1656,10 @@ void veh_interact::display_stats()
 
     bool isBoat = !veh->all_parts_with_feature(VPFLAG_FLOATS).empty();
     bool suf, bal;
+    float steer;
     suf = veh->sufficient_wheel_config();
     bal = veh->balanced_wheel_config();
+    steer = veh->steering_effectiveness();
     if( !isBoat ) {
         if( !suf ) {
             fold_and_print(w_stats, y[5], x[5], w[5], c_ltgray,
@@ -1591,6 +1667,15 @@ void veh_interact::display_stats()
         } else if (!bal) {
             fold_and_print(w_stats, y[5], x[5], w[5], c_ltgray,
                            _("Wheels: <color_ltred>unbalanced</color>"));
+        } else if (steer < 0) {
+            fold_and_print(w_stats, y[5], x[5], w[5], c_ltgray,
+                           _("Wheels: <color_ltred>no steering</color>"));
+        } else if (steer < 0.033) {
+            fold_and_print(w_stats, y[5], x[5], w[5], c_ltgray,
+                           _("Wheels: <color_ltred>broken steering</color>"));
+        } else if (steer < 0.5) {
+            fold_and_print(w_stats, y[5], x[5], w[5], c_ltgray,
+                           _("Wheels: <color_ltred>poor steering</color>"));
         } else {
             fold_and_print(w_stats, y[5], x[5], w[5], c_ltgray,
                            _("Wheels: <color_ltgreen>enough</color>"));
@@ -2263,22 +2348,22 @@ void complete_vehicle ()
 
         if ( vpinfo.has_flag("CONE_LIGHT") ) {
             // Need map-relative coordinates to compare to output of look_around.
-            int gx, gy;
             // Need to call coord_translate() directly since it's a new part.
-            veh->coord_translate(dx, dy, gx, gy);
+            point q = veh->coord_translate(point(dx, dy));
+
             // Stash offset and set it to the location of the part so look_around will start there.
             int px = g->u.view_offset.x;
             int py = g->u.view_offset.y;
-            g->u.view_offset.x = veh->global_x() + gx - g->u.posx();
-            g->u.view_offset.y = veh->global_y() + gy - g->u.posy();
+            g->u.view_offset.x = veh->global_x() + q.x - g->u.posx();
+            g->u.view_offset.y = veh->global_y() + q.y - g->u.posy();
             popup(_("Choose a facing direction for the new headlight."));
             tripoint headlight_target = g->look_around(); // Note: no way to cancel
             // Restore previous view offsets.
             g->u.view_offset.x = px;
             g->u.view_offset.y = py;
 
-            int delta_x = headlight_target.x - (veh->global_x() + gx);
-            int delta_y = headlight_target.y - (veh->global_y() + gy);
+            int delta_x = headlight_target.x - (veh->global_x() + q.x);
+            int delta_y = headlight_target.y - (veh->global_y() + q.x);
 
             const double PI = 3.14159265358979f;
             int dir = int(atan2(static_cast<float>(delta_y), static_cast<float>(delta_x)) * 180.0 / PI);

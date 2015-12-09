@@ -348,6 +348,8 @@ public:
     bool is_container() const;
     /** Whether this is a container which can be used to store liquids. */
     bool is_watertight_container() const;
+    /** Whether this is sealable container which can be resealed after removing part of it's content */
+    bool is_sealable_container() const;
     /** Whether this item has no contents at all. */
     bool is_container_empty() const;
     /** Whether this item has no more free capacity for its current content. */
@@ -656,6 +658,8 @@ public:
  const itype* type;
  std::vector<item> contents;
 
+        /** Checks if item is a holster and currently capable of storing obj */
+        bool can_holster ( const item& obj ) const;
         /**
          * Returns @ref curammo, the ammo that is currently load in this item.
          * May return a null pointer.
@@ -1036,6 +1040,10 @@ public:
          * This also applies to tools.
          */
         int reload_time( const player &u ) const;
+        /** Quantity of ammunition currently loaded in tool, gun or axuiliary gunmod */
+        long ammo_remaining() const;
+        /** Maximum quantity of ammunition loadable for tool, gun or axuiliary gunmod */
+        long ammo_capacity() const;
         /**
          * The id of the ammo type (@ref ammunition_type) that can be used by this item.
          * Will return "NULL" if the item does not use a specific ammo type. Items without

@@ -55,7 +55,24 @@ void craft_command::execute()
     }
 
     if( need_selections ) {
-        select_components( map_inv );
+        item_selections.clear();
+        for( const auto &it : rec->requirements.components ) {
+            comp_selection<item_comp> is = crafter->select_item_component( it, batch_size, map_inv, true );
+            if( is.use_from == cancel ) {
+                return;
+            }
+            item_selections.push_back( is );
+        }
+
+        tool_selections.clear();
+        for( const auto &it : rec->requirements.tools ) {
+            comp_selection<tool_comp> ts = crafter->select_tool_component(
+                                               it, batch_size, map_inv, DEFAULT_HOTKEYS, true );
+            if( ts.use_from == cancel ) {
+                return;
+            }
+            tool_selections.push_back( ts );
+        }
     }
 
     crafter->assign_activity( is_long ? ACT_LONGCRAFT : ACT_CRAFT, rec->batch_time( batch_size ),
@@ -76,26 +93,6 @@ static void component_list_string( std::stringstream &str,
             str << ", ";
         }
         str << components[i].nname();
-    }
-}
-
-void craft_command::select_components( inventory &map_inv )
-{
-    for( const auto &it : rec->requirements.components ) {
-        comp_selection<item_comp> is = crafter->select_item_component( it, batch_size, map_inv, true );
-        if( is.use_from == cancel ) {
-            return;
-        }
-        item_selections.push_back( is );
-    }
-
-    for( const auto &it : rec->requirements.tools ) {
-        comp_selection<tool_comp> ts = crafter->select_tool_component(
-                                           it, batch_size, map_inv, DEFAULT_HOTKEYS, true );
-        if( ts.use_from == cancel ) {
-            return;
-        }
-        tool_selections.push_back( ts );
     }
 }
 
@@ -230,7 +227,7 @@ std::vector<comp_selection<tool_comp>> craft_command::check_tool_components_miss
                 case cancel:
                     break;
             }
-        } else if( crafter->has_amount( type, 1 ) || map_inv.has_tools( type, 1 ) ) {
+        } else if( !crafter->has_amount( type, 1 ) && !map_inv.has_tools( type, 1 ) ) {
             missing.push_back( tool_sel );
         }
     }

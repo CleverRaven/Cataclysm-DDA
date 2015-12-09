@@ -2264,7 +2264,7 @@ void player_hit_message(player* attacker, std::string message,
                     t.posy(),
                     direction_from(0, 0, t.posx() - attacker->posx(), t.posy() - attacker->posy()),
                     get_hp_bar(t.get_hp(), t.get_hp_max(), true).first, m_good,
-                    //~ “hit points”, used in scrolling combat text
+                    //~ "hit points", used in scrolling combat text
                     _("hp"), m_neutral,
                     "hp");
         } else {

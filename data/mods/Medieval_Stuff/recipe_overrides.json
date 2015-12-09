@@ -78,9 +78,6 @@
   "book_learn": [[ "textbook_tailor", 5 ], [ "tailor_portfolio", 5 ], ["textbook_armwest", 4], ["textbook_armschina", 4]],
   "tools": [
     [
-      [ "needle_bone", 22 ],
-      [ "needle_wood", 22 ],
-      [ "tailors_kit", 22 ],
       [ "sewing_kit", 22 ]
     ]
   ],
@@ -108,9 +105,6 @@
   ],
   "tools": [
     [
-      [ "needle_bone", 24 ],
-      [ "needle_wood", 24 ],
-      [ "tailors_kit", 24 ],
       [ "sewing_kit", 24 ]
     ]
   ],

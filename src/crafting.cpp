@@ -365,9 +365,9 @@ std::vector<item> player::get_eligible_containers_for_crafting()
         }
     }
 
-    // get all potential containers within 1 tile including vehicles
-    for( const auto &loc : closest_tripoints_first( 1, pos() ) ) {
-        if( g->m.accessible_items( pos(), loc, 1 ) ) {
+    // get all potential containers within PICKUP_RANGE tiles including vehicles
+    for( const auto &loc : closest_tripoints_first( PICKUP_RANGE, pos() ) ) {
+        if( g->m.accessible_items( pos(), loc, PICKUP_RANGE ) ) {
             for( item &it : g->m.i_at( loc ) ) {
                 if( is_container_eligible_for_crafting( it ) ) {
                     conts.emplace_back( it );
@@ -895,22 +895,22 @@ comp_selection<item_comp> player::select_item_component(const std::vector<item_c
             selected.comp = mixed[0];
         }
     } else { // Let the player pick which component they want to use
-        std::vector<std::string> options; // List for the menu_vec below
+        uimenu cmenu;
         // Populate options with the names of the items
         for( auto &map_ha : map_has ) {
             std::string tmpStr = item::nname( map_ha.type ) + _( " (nearby)" );
-            options.push_back(tmpStr);
+            cmenu.addentry( tmpStr );
         }
         for( auto &player_ha : player_has ) {
-            options.push_back( item::nname( player_ha.type ) );
+            cmenu.addentry( item::nname( player_ha.type ) );
         }
         for( auto &elem : mixed ) {
             std::string tmpStr = item::nname( elem.type ) + _( " (on person & nearby)" );
-            options.push_back(tmpStr);
+            cmenu.addentry( tmpStr );
         }
 
         // unlike with tools, it's a bad thing if there aren't any components available
-        if (options.empty()) {
+        if ( cmenu.entries.empty() ) {
             if (!(has_trait("WEB_ROPE"))) {
                 debugmsg("Attempted a recipe with no available components!");
             }
@@ -918,14 +918,20 @@ comp_selection<item_comp> player::select_item_component(const std::vector<item_c
             return selected;
         }
 
+        if( can_cancel ) {
+            cmenu.addentry( -1, true, 'q', _("Cancel") );
+        }
+
         // Get the selection via a menu popup
-        int selection = menu_vec(can_cancel, _("Use which component?"), options) - 1;
-        if(selection == UIMENU_INVALID) {
+        cmenu.title = _("Use which component?");
+        cmenu.query();
+
+        if( cmenu.ret == static_cast<int>( map_has.size() + player_has.size() + mixed.size() ) ) {
             selected.use_from = cancel;
             return selected;
         }
 
-        size_t uselection = (size_t) selection;
+        size_t uselection = static_cast<size_t>( cmenu.ret );
         if (uselection < map_has.size()) {
             selected.use_from = usage::use_from_map;
             selected.comp = map_has[uselection];
@@ -1021,6 +1027,7 @@ player::select_tool_component( const std::vector<tool_comp> &tools, int batch, i
                 map_has.push_back(*it);
             }
         } else if (has_amount(type, 1) || map_inv.has_tools(type, 1)) {
+            selected.comp = *it;
             found_nocharge = true;
         }
     }
@@ -1039,28 +1046,34 @@ player::select_tool_component( const std::vector<tool_comp> &tools, int batch, i
         }
     } else { // Variety of options, list them and pick one
         // Populate the list
-        std::vector<std::string> options;
+        uimenu tmenu( hotkeys );
         for( auto &map_ha : map_has ) {
             std::string tmpStr = item::nname( map_ha.type ) + _( " (nearby)" );
-            options.push_back(tmpStr);
+            tmenu.addentry( tmpStr );
         }
         for( auto &player_ha : player_has ) {
-            options.push_back( item::nname( player_ha.type ) );
+            tmenu.addentry( item::nname( player_ha.type ) );
         }
 
-        if (options.empty()) { // This SHOULD only happen if cooking with a fire,
+        if ( tmenu.entries.empty() ) { // This SHOULD only happen if cooking with a fire,
             selected.use_from = use_from_none;
             return selected;    // and the fire goes out.
         }
 
+        if( can_cancel ) {
+            tmenu.addentry( -1, true, 'q', _("Cancel") );
+        }
+
         // Get selection via a popup menu
-        int selection = menu_vec(can_cancel, _("Use which tool?"), options, hotkeys) - 1;
-        if(selection == UIMENU_INVALID) {
+        tmenu.title = _("Use which tool?");
+        tmenu.query();
+
+        if( tmenu.ret == static_cast<int>( map_has.size() + player_has.size() ) ) {
             selected.use_from = cancel;
             return selected;
         }
 
-        size_t uselection = (size_t) selection;
+        size_t uselection = static_cast<size_t>( tmenu.ret );
         if (uselection < map_has.size()) {
             selected.use_from = use_from_map;
             selected.comp = map_has[uselection];
