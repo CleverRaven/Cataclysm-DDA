@@ -10475,7 +10475,7 @@
         "description" : "A large canvas sack, re-purposed for makeshift storage.  Goes well with a striped shirt and a domino mask.",
         "price" : 0,
         "material" : "cotton",
-        "volume" : 1,
+        "volume" : 4,
         "cutting" : 0,
         "warmth" : 0,
         "phase" : "solid",
