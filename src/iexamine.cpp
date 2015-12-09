@@ -638,7 +638,13 @@ void iexamine::cardreader(player *p, map *m, const tripoint &examp)
                 }
                 break;
             case HACK_UNABLE:
-                add_msg(m_info, _("Looks like you need a %s."), item::nname( card_type ).c_str());
+                add_msg(
+                    m_info,
+                    p->skillLevel( skill_computer ) > 0 ?
+                        _("Looks like you need a %s, or a tool to hack it with.") :
+                        _("Looks like you need a %s."),
+                    item::nname( card_type ).c_str()
+                );
                 break;
         }
     }
@@ -1063,7 +1069,12 @@ void iexamine::gunsafe_el(player *p, map *m, const tripoint &examp)
             g->m.furn_set(examp, "f_safe_o");
             break;
         case HACK_UNABLE:
-            add_msg(_("You can't hack this gun safe without an electrohack."));
+            add_msg(
+                m_info,
+                p->skillLevel( skill_computer ) > 0 ?
+                    _("You can't hack this gun safe without a hacking tool.") :
+                    _("This electronic safe looks too complicated to open.")
+            );
             break;
     }
 }
