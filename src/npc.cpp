@@ -793,7 +793,11 @@ void npc::randomize_from_faction(faction *fac)
 void npc::set_fac(std::string fac_name)
 {
     my_fac = g->faction_by_ident(fac_name);
-    fac_id = my_fac->id;
+    if ( my_fac == nullptr ) {
+        debugmsg("The game could not find the %s faction", fac_name.c_str());
+    } else {
+        fac_id = my_fac->id;
+    }
 }
 
 // item id from group "<class-name>_<what>" or from fallback group

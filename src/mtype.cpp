@@ -39,7 +39,6 @@ mtype::mtype ()
     upgrade_into = NULL_ID;
     upgrade_group = NULL_ID;
     dies.push_back(&mdeath::normal);
-    sp_attack.push_back(nullptr);
     sp_defense = nullptr;
     luminance = 0;
     flags.insert(MF_HUMAN);
@@ -190,4 +189,3 @@ itype_id mtype::get_meat_itype() const
     }
     return "null";
 }
-

@@ -40,7 +40,7 @@
  * Changes that break backwards compatibility should bump this number, so the game can
  * load a legacy format loader.
  */
-const int savegame_version = 24;
+const int savegame_version = 25;
 
 /*
  * This is a global set by detected version header in .sav, maps.txt, or overmap.
@@ -290,6 +290,72 @@ void game::save_weather(std::ofstream &fout) {
     fout << "seed: " << weather_gen->get_seed();
 }
 
+bool overmap::obsolete_terrain( const std::string &ter ) {
+    const std::unordered_set<std::string> obsolete = {
+        "apartments_con_tower_1",
+        "apartments_con_tower_1_entrance"
+    };
+
+    return obsolete.find( ter ) != obsolete.end();
+}
+
+/*
+ * Complex conversion of outdated overmap terrain ids.
+ * This is used when loading saved games with old oter_ids.
+ */
+void overmap::convert_terrain( std::unordered_map<tripoint, std::string> &needs_conversion )
+{
+    for( const auto convert : needs_conversion ) {
+        const tripoint pos = convert.first;
+        const std::string old = convert.second;
+        oter_id &new_id = ter( pos.x, pos.y, pos.z );
+
+        struct convert_nearby {
+            int xoffset;
+            std::string x_id;
+            int yoffset;
+            std::string y_id;
+            std::string new_id;
+        };
+
+        std::vector<convert_nearby> nearby;
+
+        if( old == "apartments_con_tower_1_entrance" ) {
+            const std::string other = "apartments_con_tower_1";
+            nearby.push_back( { 1, other, -1, other, "apartments_con_tower_SW_north" } );
+            nearby.push_back( { -1, other, 1, other, "apartments_con_tower_SW_south" } );
+            nearby.push_back( { 1, other, 1, other, "apartments_con_tower_SW_east" } );
+            nearby.push_back( { -1, other, -1, other , "apartments_con_tower_SW_west" } );
+
+        } else if( old == "apartments_con_tower_1" ) {
+            const std::string entr = "apartments_con_tower_1_entrance";
+            const std::string other = "apartments_con_tower_1";
+            nearby.push_back( { 1, other, 1, entr, "apartments_con_tower_NW_north" } );
+            nearby.push_back( { -1, other, -1, entr, "apartments_con_tower_NW_south" } );
+            nearby.push_back( { -1, entr, 1, other, "apartments_con_tower_NW_east" } );
+            nearby.push_back( { 1, entr, -1, other, "apartments_con_tower_NW_west" } );
+            nearby.push_back( { -1, other, 1, other, "apartments_con_tower_NE_north" } );
+            nearby.push_back( { 1, other, -1, other, "apartments_con_tower_NE_south" } );
+            nearby.push_back( { -1, other, -1, other, "apartments_con_tower_NE_east" } );
+            nearby.push_back( { 1, other, 1, other, "apartments_con_tower_NE_west" } );
+            nearby.push_back( { -1, entr, -1, other, "apartments_con_tower_SE_north" } );
+            nearby.push_back( { 1, entr, 1, other, "apartments_con_tower_SE_south" } );
+            nearby.push_back( { 1, other, -1, entr, "apartments_con_tower_SE_east" } );
+            nearby.push_back( { -1, other, 1, entr, "apartments_con_tower_SE_west" } );
+        }
+
+        for( const auto conv : nearby ) {
+            const auto x_it = needs_conversion.find( tripoint( pos.x + conv.xoffset, pos.y, pos.z ) );
+            const auto y_it = needs_conversion.find( tripoint( pos.x, pos.y + conv.yoffset, pos.z ) );
+            if( x_it != needs_conversion.end() && x_it->second == conv.x_id && 
+                y_it != needs_conversion.end() && y_it->second == conv.y_id ) {
+                new_id = conv.new_id;
+                break;
+            }
+        }
+    }
+}
+
 // throws std::exception
 void overmap::unserialize( std::ifstream &fin ) {
 
@@ -313,6 +379,7 @@ void overmap::unserialize( std::ifstream &fin ) {
     while( !jsin.end_object() ) {
         const std::string name = jsin.get_member_name();
         if( name == "layers" ) {
+            std::unordered_map<tripoint, std::string> needs_conversion;
             jsin.start_array();
             for( int z = 0; z < OVERMAP_LAYERS; ++z ) {
                 jsin.start_array();
@@ -326,7 +393,13 @@ void overmap::unserialize( std::ifstream &fin ) {
                             jsin.read( tmp_ter );
                             jsin.read( count );
                             jsin.end_array();
-                            if( otermap.find( tmp_ter ) != otermap.end() ) {
+                            if( obsolete_terrain( tmp_ter ) ) {
+                                for( int p = i; p < i+count; p++ ) {
+                                    needs_conversion.emplace( tripoint( p, j, z-OVERMAP_DEPTH ),
+                                                              tmp_ter );
+                                }
+                                tmp_otid = 0;
+                            } else if( otermap.find( tmp_ter ) != otermap.end() ) {
                                 tmp_otid = tmp_ter;
                             } else {
                                 debugmsg("Loaded bad ter! ter %s", tmp_ter.c_str());
@@ -340,6 +413,7 @@ void overmap::unserialize( std::ifstream &fin ) {
                 jsin.end_array();
             }
             jsin.end_array();
+            convert_terrain( needs_conversion );
         } else if( name == "region_id" ) {
             std::string new_region_id;
             jsin.read( new_region_id );

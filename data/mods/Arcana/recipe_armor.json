@@ -15,9 +15,6 @@
   "tools": [
     [ ["book_hexenhammer", -1] ],
     [
-      [ "needle_bone", 18 ],
-      [ "needle_wood", 18 ],
-      [ "tailors_kit", 18 ],
       [ "sewing_kit", 18 ]
     ]
   ],
@@ -46,9 +43,6 @@
   "tools": [
     [ ["book_hexenhammer", -1] ],
     [
-      [ "needle_bone", 9 ],
-      [ "needle_wood", 9 ],
-      [ "tailors_kit", 9 ],
       [ "sewing_kit", 9 ]
     ]
   ],
@@ -74,9 +68,6 @@
     [ ["book_bloodmagic", -1] ],
     [ ["blood_athame", -1] ],
     [
-      [ "needle_bone", 18 ],
-      [ "needle_wood", 18 ],
-      [ "tailors_kit", 18 ],
       [ "sewing_kit", 18 ]
     ]
   ],
@@ -169,9 +160,6 @@
   "tools": [
     [ [ "book_sacrifice", -1 ] ],
     [
-      [ "needle_bone", 24 ],
-      [ "needle_wood", 24 ],
-      [ "tailors_kit", 24 ],
       [ "sewing_kit", 24 ]
     ]
   ],

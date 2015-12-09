@@ -323,6 +323,7 @@
 
   {
     "id": "tailors_kit",
+    "sub": "sewing_kit",
     "type": "TOOL",
     "symbol": ";",
     "color": "red",
@@ -6630,6 +6631,7 @@
 
    {
     "id": "needle_bone",
+    "sub": "sewing_kit",
     "type": "TOOL",
     "symbol": ";",
     "color": "white",
@@ -6654,6 +6656,7 @@
 
    {
     "id": "needle_wood",
+    "sub": "sewing_kit",
     "type": "TOOL",
     "symbol": ";",
     "color": "brown",
@@ -8192,7 +8195,7 @@
     "flags": ["SLICE", "DURABLE_MELEE", "SHEATH_SWORD"],
     "techniques": ["RAPID", "WIDE", "BRUTAL"],
     "weight": 2822,
-    "volume": 17,
+    "volume": 13,
     "bashing": 5,
     "cutting": 50,
     "to_hit": 1,
@@ -9492,6 +9495,20 @@
     "cutting" : 3,
     "to_hit" : 0
   },{
+    "type" : "GENERIC",
+    "id" : "fishing_hook_bone",
+    "symbol" : ",",
+    "color" : "white",
+    "name" : "improvised fishing hook",
+    "description" : "An improvised fishing hook carved from wood or bone.",
+    "price" : 25,
+    "material" : "bone",
+    "weight" : 1,
+    "volume" : 0,
+    "bashing" : -3,
+    "cutting" : 3,
+    "to_hit" : 0
+  },{
     "id": "toolset",
     "type": "TOOL",
     "symbol": ";",
@@ -10378,7 +10395,7 @@
     "flags": ["SLICE", "DURABLE_MELEE", "SHEATH_SWORD", "VORPAL"],
     "techniques": ["RAPID", "WIDE", "BRUTAL"],
     "weight": 2740,
-    "volume": 17,
+    "volume": 13,
     "bashing": 5,
     "cutting": 56,
     "to_hit": 1,

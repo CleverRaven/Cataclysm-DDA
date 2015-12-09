@@ -25,6 +25,7 @@ extern options_data optionsdata;
 class options_manager : public JsonSerializer, public JsonDeserializer {
     private:
         static std::string build_tilesets_list();
+        static std::string build_soundpacks_list();
         bool bIngame;
 
         enum copt_hide_t {
@@ -167,6 +168,11 @@ bool use_narrow_sidebar(); // short-circuits to on if terminal is too small
  * Second string is directory that contain tileset.
  */
 extern std::map<std::string, std::string> TILESETS;
+/** A mapping(string:string) that stores all soundpack values.
+ * Firsts string is soundpack NAME from config.
+ * Second string is directory that contains soundpack.
+ */
+extern std::map<std::string, std::string> SOUNDPACKS;
 extern std::unordered_map<std::string, options_manager::cOpt> OPTIONS;
 extern std::unordered_map<std::string, options_manager::cOpt> ACTIVE_WORLD_OPTIONS;
 extern std::map<int, std::vector<std::string> > mPageItems;

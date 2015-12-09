@@ -1115,19 +1115,46 @@ void monster::load(JsonObject &data)
 
     data.read("hp", hp);
 
+    // sp_timeout indicates an old save, prior to the special_attacks refactor
     if (data.has_array("sp_timeout")) {
         JsonArray parray = data.get_array("sp_timeout");
         if ( !parray.empty() ) {
+            int index = 0;
             int ptimeout = 0;
-            while ( parray.has_more() ) {
+            while ( parray.has_more() && index < (int)(type->special_attacks_names.size()) ) {
                 if ( parray.read_next(ptimeout) ) {
-                    sp_timeout.push_back(ptimeout);
+                    // assume timeouts saved in same order as current monsters.json listing
+                    const std::string &aname = type->special_attacks_names[index++];
+                    auto &entry = special_attacks[aname];
+                    if ( ptimeout >= 0 ) {
+                        entry.cooldown = ptimeout;
+                    } else { // -1 means disabled, unclear what <-1 values mean in old saves
+                        entry.cooldown = type->special_attacks.at(aname).cooldown;
+                        entry.enabled = false;
+                    }
                 }
             }
         }
     }
-    for (size_t i = sp_timeout.size(); i < type->sp_freq.size(); ++i) {
-        sp_timeout.push_back(rng(0, type->sp_freq[i]));
+
+    // special_attacks indicates a save after the special_attacks refactor
+    if (data.has_object("special_attacks")) {
+        JsonObject pobject = data.get_object("special_attacks");
+        for( const std::string &aname : pobject.get_member_names()) {
+            JsonObject saobject = pobject.get_object(aname);
+            auto &entry = special_attacks[aname];
+            entry.cooldown = saobject.get_int("cooldown");
+            entry.enabled = saobject.get_bool("enabled");
+        }
+    }
+
+    // make sure the loaded monster has every special attack its type says it should have
+    for ( auto &sa : type->special_attacks ) {
+        const std::string &aname = sa.first;
+        if (special_attacks.find(aname) == special_attacks.end()) {
+            auto &entry = special_attacks[aname];
+            entry.cooldown = rng(0, sa.second.cooldown);
+        }
     }
 
     data.read("friendly", friendly);
@@ -1191,7 +1218,7 @@ void monster::store(JsonOut &json) const
     json.member("wandz", wander_pos.z);
     json.member("wandf", wandf);
     json.member("hp", hp);
-    json.member("sp_timeout", sp_timeout);
+    json.member("special_attacks", special_attacks);
     json.member("friendly", friendly);
     json.member("faction", faction.id().str());
     json.member("mission_id", mission_id);
@@ -1210,6 +1237,14 @@ void monster::store(JsonOut &json) const
     json.member("last_updated", last_updated);
 
     json.member( "inv", inv );
+}
+
+void mon_special_attack::serialize(JsonOut &json) const
+{
+    json.start_object();
+    json.member("cooldown",cooldown);
+    json.member("enabled",enabled);
+    json.end_object();
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1471,6 +1506,12 @@ void vehicle::deserialize(JsonIn &jsin)
     if ( savegame_loading_version < 11 ) {
         add_missing_frames();
     }
+
+    // Handle steering changes
+    if (savegame_loading_version < 25) {
+        add_steerable_wheels();
+    }
+
     refresh();
 
     data.read("tags", tags);

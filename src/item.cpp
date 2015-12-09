@@ -1114,9 +1114,9 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
                     // In case the recipe is known, but has a different name in the book, use the
                     // real name to avoid confusing the player.
                     const std::string name = item::nname( elem.recipe->result );
-                    recipe_list.push_back( string_format( "<color_ltgray>%s</color>", name.c_str() ) );
+                    recipe_list.push_back( "<bold>" + name + "</bold>" );
                 } else {
-                    recipe_list.push_back( elem.name );
+                    recipe_list.push_back( "<dark>" + elem.name + "</dark>" );
                 }
             }
             if( !recipe_list.empty() ) {
@@ -1135,6 +1135,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
                                               ngettext( "This book contains %1$d crafting recipe: %2$s",
                                                         "This book contains %1$d crafting recipes: %2$s", recipe_list.size() ),
                                               recipe_list.size(), recipes.c_str() );
+
                 insert_separation_line();
                 info.push_back( iteminfo( "DESCRIPTION", recipe_line ) );
             }
@@ -1448,7 +1449,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
         }
         if( is_armor() && item_tags.count( "wooled" ) ) {
             info.push_back( iteminfo( "DESCRIPTION",
-                                      _( "* This piece of clothing has a wool lining sewn into it to <good>increase</good> its overall <info>warmth<info>." ) ) );
+                                      _( "* This piece of clothing has a wool lining sewn into it to <good>increase</good> its overall <info>warmth</info>." ) ) );
         }
         if( is_armor() && item_tags.count( "furred" ) ) {
             info.push_back( iteminfo( "DESCRIPTION",
@@ -1460,7 +1461,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
         }
         if( is_armor() && item_tags.count( "kevlar_padded" ) ) {
             info.push_back( iteminfo( "DESCRIPTION",
-                                      _( "* This gear has Kevlar inserted into strategic locations to <good>increase protection</good> with some <bad>increase to encumbrance<bad>." ) ) );
+                                      _( "* This gear has Kevlar inserted into strategic locations to <good>increase protection</good> with some <bad>increase to encumbrance</bad>." ) ) );
         }
         if( is_armor() && has_flag( "FLOTATION" ) ) {
             info.push_back( iteminfo( "DESCRIPTION",
@@ -1521,7 +1522,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
         }
         if( is_tool() && has_flag( "RECHARGE" ) ) {
             info.push_back( iteminfo( "DESCRIPTION",
-                                      _( "* This tool has been modified to use a <info>rechargeable power cell</info> and is <neutral>not compatible</neutral> with <info>standard batteries<info>." ) ) );
+                                      _( "* This tool has been modified to use a <info>rechargeable power cell</info> and is <neutral>not compatible</neutral> with <info>standard batteries</info>." ) ) );
         }
         if( is_tool() && has_flag( "USE_UPS" ) ) {
             info.push_back( iteminfo( "DESCRIPTION",
@@ -1757,7 +1758,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
         }
     }
 
-    if( info.back().sName == "--" ) {
+    if( !info.empty() && info.back().sName == "--" ) {
         info.pop_back();
     }
 
@@ -2190,7 +2191,7 @@ std::string item::display_name(unsigned int quantity) const
     } else if( ammo_capacity() > 0 ) {
         // anything that can be reloaded including tools, guns and auxiliary gunmods
         qty = string_format(" (%i)", ammo_remaining());
-    } else if( is_ammo() || is_food() ) {
+    } else if( count_by_charges() ) {
         qty = string_format(" (%i)", charges);
     }
 

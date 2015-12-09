@@ -904,7 +904,7 @@ comp_selection<item_comp> player::select_item_component(const std::vector<item_c
             cmenu.addentry( tmpStr );
         }
         for( auto &player_ha : player_has ) {
-            cmenu.addentry( player_ha.type );
+            cmenu.addentry( item::nname( player_ha.type ) );
         }
         for( auto &elem : mixed ) {
             std::string tmpStr = item::nname( elem.type ) + _( " (on person & nearby)" );
@@ -1029,6 +1029,7 @@ player::select_tool_component( const std::vector<tool_comp> &tools, int batch, i
                 map_has.push_back(*it);
             }
         } else if (has_amount(type, 1) || map_inv.has_tools(type, 1)) {
+            selected.comp = *it;
             found_nocharge = true;
         }
     }

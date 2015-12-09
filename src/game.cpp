@@ -7591,8 +7591,12 @@ void game::exam_vehicle(vehicle &veh, const tripoint &p, int cx, int cy)
             break;
         }
         u.assign_activity( ACT_VEHICLE, time, (int)vehint.sel_cmd );
-        u.activity.values.push_back(veh.global_x());    // values[0]
-        u.activity.values.push_back(veh.global_y());    // values[1]
+
+        // if we're working on an existing part, use that part as the reference point
+        // otherwise (e.g. installing a new frame), just use part 0
+        point q = veh.coord_translate(vehint.sel_vehicle_part ? vehint.sel_vehicle_part->mount : veh.parts[0].mount);
+        u.activity.values.push_back(veh.global_x() + q.x);    // values[0]
+        u.activity.values.push_back(veh.global_y() + q.y);    // values[1]
         u.activity.values.push_back(vehint.ddx);   // values[2]
         u.activity.values.push_back(vehint.ddy);   // values[3]
         u.activity.values.push_back(-vehint.ddx);   // values[4]
@@ -8166,13 +8170,15 @@ bool npc_menu( npc &who )
         who.sort_armor();
         g->u.mod_moves( -100 );
     } else if( choice == attack ) {
-        //The NPC knows we started the fight, used for morale penalty.
-        if( !who.is_enemy() ) {
-            who.hit_by_player = true;
-        }
+        if(query_yn(_("You may be attacked! Proceed?"))) {
+            //The NPC knows we started the fight, used for morale penalty.
+            if( !who.is_enemy() ) {
+                who.hit_by_player = true;
+            }
 
-        g->u.melee_attack( who, true );
-        who.make_angry();
+            g->u.melee_attack( who, true );
+            who.make_angry();
+        }
     }
 
     return true;
@@ -10228,10 +10234,6 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite, item *so
             add_msg(m_info, _("The %s is already full."),
                     veh->name.c_str());
             return false;
-        } else if (from_ground && query_yn(_("Pump until full?"))) {
-            u.assign_activity(ACT_REFILL_VEHICLE, 2 * (fuel_cap - fuel_amnt));
-            u.activity.placement = vp;
-            return false; // Liquid is not handled by this function, but by the activity!
         }
         const int amt = infinite ? INT_MAX : liquid.charges;
         u.moves -= 100;
@@ -10268,6 +10270,14 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite, item *so
         // Check for suitable containers in inventory or within radius including vehicles
         cont = inv_map_for_liquid(liquid, text, radius);
         if (cont == NULL || cont->is_null()) {
+            // Ask the player whether they want to drink from it.
+            if (liquid.is_food(&u)) {
+                int charges_consumed = u.drink_from_hands(liquid);
+                if (!infinite) {
+                    liquid.charges -= charges_consumed;
+                }
+            }
+
             // No container selected (escaped, ...), ask to pour
             // we asked to pour rotten already
             if (!from_ground && !liquid.rotten() &&
@@ -10353,6 +10363,7 @@ bool game::handle_liquid(item &liquid, bool from_ground, bool infinite, item *so
         }
         return infinite || liquid.charges <= 0;
     }
+
     return false;
 }
 
@@ -11267,110 +11278,65 @@ void game::change_side(int pos)
     }
 }
 
-void game::reload(int pos)
+void game::reload( int pos )
 {
-    item *it = &u.i_at(pos);
+    item *it = &u.i_at( pos );
+
+    // Make sure the item is actually reloadable
+    if( it->ammo_type() == "NULL" || it->ammo_capacity() <= 0 || it->has_flag( "NO_RELOAD" ) ) {
+        add_msg( m_info, _( "You can't reload a %s!." ), it->tname().c_str() );
+        return;
+    }
 
     // Gun reloading is more complex.
-    if (it->is_gun()) {
+    if( it->is_gun() ) {
 
         // bows etc do not need to reload.
-        if (it->has_flag("RELOAD_AND_SHOOT")) {
-            add_msg(m_info, _("Your %s does not need to be reloaded, it reloads and fires "
-                              "a single motion."), it->tname().c_str());
+        if( it->has_flag( "RELOAD_AND_SHOOT" ) ) {
+            add_msg( m_info, _( "Your %s does not need to be reloaded, it reloads and fires "
+                              "a single motion." ), it->tname().c_str() );
             return;
         }
 
-        // Make sure the item is actually reloadable
-        if (it->ammo_type() == "NULL") {
-            add_msg(m_info, _("Your %s does not reload normally."), it->tname().c_str());
-            return;
-        }
-
-        // See if the gun is fully loaded.
-        if (it->charges == it->clip_size()) {
-            // Also see if the spare magazine is loaded
-            bool magazine_isfull = true;
-
-            for(auto &con : it->contents) {
-                if((con.is_gunmod() &&
-                        (con.typeId() == "spare_mag" &&
-                         con.charges < it->spare_mag_size())) ||
-                    (con.is_auxiliary_gunmod() &&
-                        (con.charges < con.clip_size()))) {
-                    magazine_isfull = false;
-                    break;
-                }
-            }
-
-            if (magazine_isfull) {
+        // See if the gun is fully loaded
+        if( it->ammo_remaining() >= it->ammo_capacity() ) {
+            if( std::none_of( it->contents.begin(), it->contents.end(),
+                              [&it]( const item& mod ) {
+                                  // @todo deprecate handling of spare magazine as separate case
+                                  if( mod.typeId() == "spare_mag" && mod.charges < it->ammo_capacity() ) {
+                                      return true;
+                                  }
+                                  return mod.is_auxiliary_gunmod() &&
+                                      mod.ammo_remaining() < mod.ammo_capacity();
+                              } ) ) {
                 add_msg(m_info, _("Your %s is fully loaded!"), it->tname().c_str());
                 return;
             }
         }
+    }
 
-        // pick ammo
-        int am_pos = it->pick_reload_ammo(u, true);
-        if (am_pos == INT_MIN) {
-            add_msg(m_info, _("Out of ammo!"));
-            refresh_all();
-            return;
-        }else if (am_pos == INT_MIN + 2) {
-            add_msg(m_info, _("Never mind."));
-            refresh_all();
-            return;
-        }
-
-        // and finally reload.
-        std::stringstream ss;
-        ss << pos;
-        u.assign_activity(ACT_RELOAD, it->reload_time(u), -1, am_pos, ss.str());
-
-    } else if (it->is_tool()) { // tools are simpler
-        const ammotype ammo = it->ammo_type();
-
-        // see if its actually reloadable.
-        if (ammo == "NULL") {
-            add_msg(m_info, _("You can't reload a %s!"), it->tname().c_str());
-            return;
-        } else if (it->has_flag("NO_RELOAD")) {
-            add_msg(m_info, _("You can't reload a %s!"), it->tname().c_str());
-            return;
-        }
-
-        // pick ammo
-        int am_pos = it->pick_reload_ammo(u, true);
-
-        if (am_pos == INT_MIN) {
-            // no ammo, fail reload
-            add_msg(m_info, _("Out of %s!"), ammo_name(ammo).c_str());
-            return;
-        }else if (am_pos == INT_MIN + 2) {
-            //cancelled or invalid selection
-            add_msg(m_info, _("Never mind."));
-            refresh_all();
-            return;
-        }
-
+    // pick ammo
+    int am_pos = it->pick_reload_ammo( u, true );
+    if( am_pos == INT_MIN ) {
+        add_msg( m_info, _( "Out of %s!" ), it->is_gun() ? _("ammo") : ammo_name( it->ammo_type() ).c_str() );
+    } else if( am_pos == INT_MIN + 2 ) {
+        add_msg( m_info, _( "Never mind." ) );
+    } else {
         // do the actual reloading
         std::stringstream ss;
         ss << pos;
-        u.assign_activity(ACT_RELOAD, it->reload_time(u), -1, am_pos, ss.str());
-
-    } else { // what else is there?
-        add_msg(m_info, _("You can't reload a %s!"), it->tname().c_str());
+        u.assign_activity( ACT_RELOAD, it->reload_time( u ), -1, am_pos, ss.str() );
     }
 
-    // all done.
     refresh_all();
 }
 
 void game::reload()
 {
-    if (!u.is_armed()) {
-        add_msg(m_info, _("You're not wielding anything."));
+    if( !u.is_armed() ) {
+        add_msg(m_info, _( "You're not wielding anything." ) );
     } else {
-        reload(-1);
+        reload( -1 );
     }
 }
 
@@ -11672,13 +11638,29 @@ void game::pldrive(int x, int y)
         }
     }
 
+    int turn_delta = 15 * x;
+    if (turn_delta != 0) {
+        float eff = veh->steering_effectiveness();
+        if (eff < 0) {
+            add_msg(m_info, _("This vehicle has no steering system installed, you can't turn it."));
+            return;
+        }
+
+        turn_delta = round(turn_delta * eff);
+        if (turn_delta == 0) {
+            add_msg(m_bad, _("The steering is completely broken!"));
+            // Maybe not return here and let them find out the hard way?
+            return;
+        }
+    }
+
     int thr_amount = 10 * 100;
     if (veh->cruise_on) {
         veh->cruise_thrust(-y * thr_amount);
     } else {
         veh->thrust(-y);
     }
-    veh->turn(15 * x);
+    veh->turn(turn_delta);
     if (veh->skidding && veh->valid_wheel_config()) {
         ///\EFFECT_DEX increases chance of regaining control of a vehicle
 
@@ -13763,7 +13745,7 @@ void game::update_stair_monsters()
                     u.moves -= 50;
                     if (resiststhrow && (u.is_throw_immune())) {
                         //we have a judoka who isn't getting pushed but counterattacking now.
-                        mattack::thrown_by_judo(&critter, -1);
+                        mattack::thrown_by_judo(&critter);
                         return;
                     }
                     std::string msg = "";
