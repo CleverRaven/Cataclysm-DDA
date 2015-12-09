@@ -51,7 +51,7 @@ std::string mtype::nname(unsigned int quantity) const
     return ngettext(name.c_str(), name_plural.c_str(), quantity);
 }
 
-bool mtype::has_special_attack(std::string attack_name) const
+bool mtype::has_special_attack( const std::string &attack_name ) const
 {
     return special_attacks.find(attack_name) != special_attacks.end();
 }
