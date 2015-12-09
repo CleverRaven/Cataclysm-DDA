@@ -2822,7 +2822,7 @@ void overmap::place_cities()
         /
         (std::pow(2.0, op_city_spacing)) // cities cover 1/(2**n)th of the map
         /
-        ((op_city_size*2+1) * (op_city_size*2+1)); // OMTs per city
+        ((op_city_size*2+1) * (op_city_size*2+1) * 3 / 4); // OMTs per city
 
     int NUM_CITIES = NUM_CITIES_d;
 
