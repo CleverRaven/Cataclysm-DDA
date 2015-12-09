@@ -622,7 +622,7 @@ void iexamine::cardreader(player *p, map *m, const tripoint &examp)
         add_msg(m_good, _("The nearby doors slide into the floor."));
         p->use_amount(card_type, 1);
     } else {
-        switch (hack_attempt(p)) {
+        switch (hack_attempt(*p)) {
             case HACK_FAIL:
                 m->ter_set(examp, t_card_reader_broken);
                 break;
@@ -1055,7 +1055,7 @@ void iexamine::gunsafe_ml(player *p, map *m, const tripoint &examp)
 void iexamine::gunsafe_el(player *p, map *m, const tripoint &examp)
 {
     std::string furn_name = m->tername(examp).c_str();
-    switch (hack_attempt(p)) {
+    switch (hack_attempt(*p)) {
         case HACK_FAIL:
             p->add_memorial_log(pgettext("memorial_male", "Set off an alarm."),
                                 pgettext("memorial_female", "Set off an alarm."));
@@ -3070,7 +3070,7 @@ void iexamine::pay_gas(player *p, map *m, const tripoint &examp)
     }
 
     if (hack == choice) {
-        switch (hack_attempt(p)) {
+        switch (hack_attempt(*p)) {
             case HACK_UNABLE:
                 break;
             case HACK_FAIL:

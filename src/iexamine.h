@@ -102,7 +102,7 @@ void curtains( player *p, map *m, const tripoint &examp );
 void sign( player *p, map *m, const tripoint &examp );
 void pay_gas( player *p, map *m, const tripoint &examp );
 void climb_down( player *p, map *m, const tripoint &examp );
-hack_result hack_attempt(player *p);
+hack_result hack_attempt(player &p);
 
 /**
  * Items that appear when a generic plant is harvested. Seed @ref islot_seed.
