@@ -127,8 +127,8 @@ public:
     void delete_note(const tripoint& p) { delete_note(p.x, p.y, p.z); }
     bool is_explored(int x, int y, int z);
     void toggle_explored(int x, int y, int z);
-    bool seen(int x, int y, int z);
-    void set_seen(int x, int y, int z, bool seen = true);
+    omt_knowledge_level seen(int x, int y, int z);
+    void set_seen(int x, int y, int z, omt_knowledge_level okl = OKL_SEEN);
     bool has_npc(int x, int y, int z);
     bool has_vehicle(int x, int y, int z, bool require_pda = true);
     bool has_horde(int x, int y, int z);

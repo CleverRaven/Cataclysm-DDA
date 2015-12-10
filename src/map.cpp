@@ -5627,7 +5627,7 @@ void map::update_visibility_cache( visibility_variables &cache, const int zlev )
                 const tripoint sm( gridx, gridy, 0 );
                 const auto abs_sm = map::abs_sub + sm;
                 const auto abs_omt = overmapbuffer::sm_to_omt_copy( abs_sm );
-                overmap_buffer.set_seen( abs_omt.x, abs_omt.y, abs_omt.z, true);
+                overmap_buffer.set_seen( abs_omt.x, abs_omt.y, abs_omt.z, OKL_UPCLOSE);
             }
         }
     }

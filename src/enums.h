@@ -83,6 +83,15 @@ enum special_game_id {
     NUM_SPECIAL_GAMES
 };
 
+// how much info does the player have about a particular OMT?
+enum omt_knowledge_level {
+    OKL_UNKNOWN = 0, // no knowledge
+    OKL_SEEN,        // seen on the overmap, revealed on the map
+    OKL_UPCLOSE,     // seen directly, detailed name available
+
+    NUM_OKLS
+};
+
 enum art_effect_passive : int {
     AEP_NULL = 0,
     // Good

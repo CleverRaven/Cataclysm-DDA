@@ -412,16 +412,19 @@ void overmapbuffer::add_vehicle( vehicle *veh )
     veh->om_id = id;
 }
 
-bool overmapbuffer::seen(int x, int y, int z)
+omt_knowledge_level overmapbuffer::seen(int x, int y, int z)
 {
     const overmap *om = get_existing_om_global(x, y);
-    return (om != NULL) && const_cast<overmap*>(om)->seen(x, y, z);
+    if (om==NULL) {
+        return OKL_UNKNOWN;
+    }
+    return const_cast<overmap*>(om)->seen(x, y, z);
 }
 
-void overmapbuffer::set_seen(int x, int y, int z, bool seen)
+void overmapbuffer::set_seen(int x, int y, int z, omt_knowledge_level okl)
 {
     overmap &om = get_om_global(x, y);
-    om.seen(x, y, z) = seen;
+    om.seen(x, y, z) = okl;
 }
 
 overmap &overmapbuffer::get_om_global(const point& p)
@@ -445,9 +448,9 @@ bool overmapbuffer::reveal( const tripoint &center, int radius )
     bool result = false;
     for (int i = -radius; i <= radius; i++) {
         for (int j = -radius; j <= radius; j++) {
-            if(!seen(center.x + i, center.y + j, center.z)) {
+            if(seen(center.x + i, center.y + j, center.z) == OKL_UNKNOWN) {
                 result = true;
-                set_seen(center.x + i, center.y + j, center.z, true);
+                set_seen(center.x + i, center.y + j, center.z, OKL_SEEN);
             }
         }
     }
@@ -473,7 +476,7 @@ tripoint overmapbuffer::find_closest(const tripoint& origin, const std::string& 
             int x = origin.x - dist + i;
             int y = origin.y - dist;
             if (check_ot_type(type, x, y, z)) {
-                if (!must_be_seen || seen(x, y, z)) {
+                if (!must_be_seen || (seen(x, y, z)!=OKL_UNKNOWN)) {
                     return tripoint( x, y, z );
                 }
             }
@@ -482,7 +485,7 @@ tripoint overmapbuffer::find_closest(const tripoint& origin, const std::string& 
             x = origin.x + dist - i;
             y = origin.y + dist;
             if (check_ot_type(type, x, y, z)) {
-                if (!must_be_seen || seen(x, y, z)) {
+                if (!must_be_seen || (seen(x, y, z)!=OKL_UNKNOWN)) {
                     return tripoint( x, y, z );
                 }
             }
@@ -491,7 +494,7 @@ tripoint overmapbuffer::find_closest(const tripoint& origin, const std::string& 
             x = origin.x - dist;
             y = origin.y + dist - i;
             if (check_ot_type(type, x, y, z)) {
-                if (!must_be_seen || seen(x, y, z)) {
+                if (!must_be_seen || (seen(x, y, z)!=OKL_UNKNOWN)) {
                     return tripoint( x, y, z );
                 }
             }
@@ -500,7 +503,7 @@ tripoint overmapbuffer::find_closest(const tripoint& origin, const std::string& 
             x = origin.x + dist;
             y = origin.y - dist + i;
             if (check_ot_type(type, x, y, z)) {
-                if (!must_be_seen || seen(x, y, z)) {
+                if (!must_be_seen || (seen(x, y, z)!=OKL_UNKNOWN)) {
                     return tripoint( x, y, z );
                 }
             }
@@ -517,7 +520,7 @@ std::vector<tripoint> overmapbuffer::find_all( const tripoint& origin, const std
     dist = dist ? dist : OMAPX;
     for (int x = origin.x - dist; x <= origin.x + dist; x++) {
         for (int y = origin.y - dist; y <= origin.y + dist; y++) {
-            if (must_be_seen && !seen(x, y, origin.z)) {
+            if (must_be_seen && seen(x, y, origin.z)==OKL_UNKNOWN) {
                 continue;
             }
             if (check_ot_type(type, x, y, origin.z)) {

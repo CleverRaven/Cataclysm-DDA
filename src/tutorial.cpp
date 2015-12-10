@@ -48,7 +48,7 @@ bool tutorial_game::init()
         for (int j = 0; j < OMAPY; j++) {
             starting_om.ter( i, j, -1 ) = "rock";
             // Start with the overmap revealed
-            starting_om.seen( i, j, 0 ) = true;
+            starting_om.seen( i, j, 0 ) = OKL_UPCLOSE;
         }
     }
     starting_om.ter(lx, ly, 0) = "tutorial";

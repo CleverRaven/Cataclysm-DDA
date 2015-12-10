@@ -176,7 +176,7 @@ radio_tower(int X = -1, int Y = -1, int S = -1, std::string M = "",
 
 struct map_layer {
     oter_id terrain[OMAPX][OMAPY];
-    bool visible[OMAPX][OMAPY];
+    omt_knowledge_level visible[OMAPX][OMAPY];
     bool explored[OMAPX][OMAPY];
     std::vector<om_note> notes;
 };
@@ -224,7 +224,7 @@ class overmap
 
     oter_id& ter(const int x, const int y, const int z);
     const oter_id get_ter(const int x, const int y, const int z) const;
-    bool&   seen(int x, int y, int z);
+    omt_knowledge_level& seen(int x, int y, int z);
     bool&   explored(int x, int y, int z);
     bool is_road_or_highway(int x, int y, int z);
     bool is_explored(int const x, int const y, int const z) const;
@@ -330,6 +330,7 @@ public:
 
   oter_id nullret;
   bool nullbool;
+  omt_knowledge_level nullokl;
 
     /**
      * When monsters despawn during map-shifting they will be added here.
