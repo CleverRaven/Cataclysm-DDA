@@ -4454,7 +4454,7 @@
             "female": "Traceuse"
         },
         "description": "You've practiced parkour for many years, and made the world your playground.  It wouldn't be a lie to say that running is your life.  Which is good, because now that the end has come, you're running for your life.",
-        "points": 2,
+        "points": 3,
         "traits": [
             "PARKOUR"
         ],	
