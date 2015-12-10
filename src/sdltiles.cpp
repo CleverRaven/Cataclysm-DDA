@@ -2041,7 +2041,18 @@ void musicFinished() {
     }
 
     // Load the next file to play.
-    current_playlist_at++;
+    if( list.shuffle ) {
+        size_t next_playlist_at = current_playlist_at;
+        // We'll retry until we get a random number that isn't our current one.
+        while( next_playlist_at == current_playlist_at ) {
+            next_playlist_at = rng( 0, list.entries.size() - 1 );
+        }
+
+        current_playlist_at = next_playlist_at;
+    }
+    else {
+        current_playlist_at++;
+    }
 
     // Wrap around if we reached the end of the playlist.
     if( current_playlist_at >= list.entries.size() ) {
@@ -2070,9 +2081,14 @@ void play_music(std::string playlist) {
     }
 
     current_playlist = playlist;
-    current_playlist_at = 0;
+    if( list.shuffle ) {
+        current_playlist_at = rng( 0, list.entries.size() - 1 );
+    }
+    else {
+        current_playlist_at = 0;
+    }
 
-    const auto &next = list.entries[0];
+    const auto &next = list.entries[current_playlist_at];
     play_music_file( next.file, next.volume );
 #else
     (void)playlist;
