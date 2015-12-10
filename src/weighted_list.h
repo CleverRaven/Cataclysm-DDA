@@ -140,16 +140,15 @@ template <typename W, typename T> struct weighted_list {
             return total_weight;
         }
 
-        typedef std::vector<weighted_object<W, T> > weighted_object_list;
-        typedef typename weighted_object_list::iterator iterator;
-        typedef typename weighted_object_list::const_iterator const_iterator;
-        iterator begin() {
+        typename std::vector<weighted_object<W, T> >::iterator begin() {
             return objects.begin();
         }
-        iterator end() {
+        typename std::vector<weighted_object<W, T> >::iterator end() {
             return objects.end();
         }
-        iterator erase( const_iterator first, const_iterator last ) {
+        typename std::vector<weighted_object<W, T> >::iterator erase(
+            typename std::vector<weighted_object<W, T> >::iterator first,
+            typename std::vector<weighted_object<W, T> >::iterator last ) {
             invalidate_precalc();
             return objects.erase( first, last );
         };
@@ -164,7 +163,7 @@ template <typename W, typename T> struct weighted_list {
 
     protected:
         W total_weight;
-        weighted_object_list objects;
+        std::vector<weighted_object<W, T> > objects;
 
         virtual size_t pick_ent( long long ) const = 0;
         virtual void invalidate_precalc() {}
