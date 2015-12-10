@@ -9,6 +9,8 @@
 #include "field.h"
 #include "messages.h"
 #include "input.h"
+#include "monster.h"
+#include "mtype.h"
 
 Character::Character()
 {
@@ -191,28 +193,33 @@ bool Character::move_effects(bool attacking)
             remove_effect("in_pit");
         }
     }
-    if (has_effect("grabbed")){
+    if( has_effect( "grabbed" ) && !attacking ) {
         int zed_number = 0;
         for( auto &&dest : g->m.points_in_radius( pos(), 1, 0 ) ){
-            if (g->mon_at(dest) != -1){
+            if( g->mon_at( dest ) != -1 &&
+                ( g->zombie( g->mon_at( dest ) ).has_flag( MF_GRABS ) ||
+                  g->zombie( g->mon_at( dest ) ).type->has_special_attack( "GRAB" ) ) ) {
                 zed_number ++;
             }
         }
-        if (attacking || zed_number == 0){
-            return true;
-        }
-        if (get_dex() > get_str() ? rng(0, get_dex()) : rng( 0, get_str()) < rng( get_effect_int("grabbed") , 8) ){
-            add_msg_player_or_npc(m_bad, _("You try break out of the grab, but fail!"),
-                                            _("<npcname> tries to break out of the grab, but fails!"));
+        if( zed_number == 0 ) {
+            add_msg_player_or_npc( m_good, _( "You find yourself no longer grabbed." ),
+                                   _( "<npcname> finds themselves no longer grabbed." ) );
+            remove_effect( "grabbed" );
+        } else if( rng( 0, std::max( get_dex(), get_str() ) ) < rng( get_effect_int( "grabbed" ), 8 ) ) {
+            // Randomly compare higher of dex or str to grab intensity.
+            add_msg_player_or_npc( m_bad, _( "You try break out of the grab, but fail!" ),
+                                   _( "<npcname> tries to break out of the grab, but fails!" ) );
             return false;
         } else {
-            add_msg_player_or_npc(m_good, _("You break out of the grab!"),
-                                            _("<npcname> breaks out of the grab!"));
-            remove_effect("grabbed");
+            add_msg_player_or_npc( m_good, _( "You break out of the grab!" ),
+                                   _( "<npcname> breaks out of the grab!" ) );
+            remove_effect( "grabbed" );
         }
     }
-    return Creature::move_effects(attacking);
+    return Creature::move_effects( attacking );
 }
+
 void Character::add_effect( efftype_id eff_id, int dur, body_part bp,
                             bool permanent, int intensity, bool force )
 {
@@ -267,13 +274,11 @@ void Character::recalc_hp()
             elem *= 1.4;
         }
     }
-    if (has_trait("GLASSJAW"))
-    {
+    if( has_trait( "GLASSJAW" ) ) {
         new_max_hp[hp_head] *= 0.8;
     }
-    for (int i = 0; i < num_hp_parts; i++)
-    {
-        hp_cur[i] *= (float)new_max_hp[i]/(float)hp_max[i];
+    for( int i = 0; i < num_hp_parts; i++ ) {
+        hp_cur[i] *= (float)new_max_hp[i] / (float)hp_max[i];
         hp_max[i] = new_max_hp[i];
     }
 }

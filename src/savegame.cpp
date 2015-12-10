@@ -40,7 +40,7 @@
  * Changes that break backwards compatibility should bump this number, so the game can
  * load a legacy format loader.
  */
-const int savegame_version = 24;
+const int savegame_version = 25;
 
 /*
  * This is a global set by detected version header in .sav, maps.txt, or overmap.

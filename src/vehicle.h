@@ -285,6 +285,7 @@ private:
     void open_or_close(int part_index, bool opening);
     bool is_connected(vehicle_part const &to, vehicle_part const &from, vehicle_part const &excluded) const;
     void add_missing_frames();
+    void add_steerable_wheels();
 
     // direct damage to part (armor protection and internals are not counted)
     // returns damage bypassed
@@ -578,7 +579,8 @@ public:
     void center_of_mass(int &x, int &y, bool use_precalc = true) const;
 
     // Get the pivot point of vehicle; coordinates are unrotated mount coordinates.
-    point pivot_point() const;
+    // This may result in refreshing the pivot point if it is currently stale.
+    const point &pivot_point() const;
 
     // Get the (artificial) displacement of the vehicle due to the pivot point changing
     // between precalc[0] and precalc[1]. This needs to be subtracted from any actual
@@ -632,6 +634,10 @@ public:
     bool sufficient_wheel_config() const;
     bool balanced_wheel_config() const;
     bool valid_wheel_config() const;
+
+    // return the relative effectiveness of the steering (1.0 is normal)
+    // <0 means there is no steering installed at all.
+    float steering_effectiveness() const;
 
     // idle fuel consumption
     void idle(bool on_map = true);
@@ -853,6 +859,7 @@ public:
     std::vector<int> funnels;          // List of funnel indices
     std::vector<int> loose_parts;      // List of UNMOUNT_ON_MOVE parts
     std::vector<int> wheelcache;       // List of wheels
+    std::vector<int> steering;         // List of STEERABLE parts
     std::vector<int> speciality;       // List of parts that will not be on a vehicle very often, or which only one will be present
     std::vector<int> floating;         // List of parts that provide buoyancy to boats
     std::set<std::string> tags;        // Properties of the vehicle
@@ -949,6 +956,12 @@ public:
     bool planter_on                 = false; // Is the vehicle sprawing seeds everywhere?
     bool scoop_on                   = false; //Does the vehicle have a scoop? Which picks up items.
     bool reaper_on                  = false; //Is the reaper active?
+
+private:
+    void refresh_pivot() const;                // refresh pivot_cache, clear pivot_dirty
+
+    mutable bool pivot_dirty;                  // if true, pivot_cache needs to be recalculated
+    mutable point pivot_cache;                 // cached pivot point
 };
 
 #endif

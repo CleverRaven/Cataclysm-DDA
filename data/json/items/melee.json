@@ -4327,7 +4327,7 @@
     "flags": ["BASH", "SHEATH_SWORD"],
     "techniques": ["RAPID", "WIDE"],
     "weight": 1882,
-    "volume": 17,
+    "volume": 13,
     "bashing": 8,
     "cutting": 2,
     "to_hit": 1,
