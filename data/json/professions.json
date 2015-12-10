@@ -4446,7 +4446,7 @@
             },
         "flags" : ["SCEN_ONLY"]
     },
-	{
+    {
         "type": "profession",
         "ident": "parkour_practitioner",
         "name": {
@@ -4455,9 +4455,9 @@
         },
         "description": "You've practiced parkour for many years, and made the world your playground.  It wouldn't be a lie to say that running is your life.  Which is good, because now that the end has come, you're running for your life.",
         "points": 2,
-		"traits": [
+        "traits": [
             "PARKOUR"
-		],	
+        ],	
         "skills": [
             {
                 "level": 4,
@@ -4466,12 +4466,12 @@
         ],
         "items": {
             "both" : [
-				"tshirt",
-				"hoodie",
-				"pants_cargo",
-				"socks",
-				"sneakers",
-				"runner_bag"
+                "tshirt",
+                "hoodie",
+                "pants_cargo",
+                "socks",
+                "sneakers",
+                "runner_bag"
             ],
             "male": [
                 "briefs"
