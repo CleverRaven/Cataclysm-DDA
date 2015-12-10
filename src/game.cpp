@@ -14803,6 +14803,8 @@ int game::get_levz() const
 
 overmap &game::get_cur_om() const
 {
-    const tripoint pos_om = overmapbuffer::sm_to_om_copy( m.get_abs_sub() );
+    // the player is located in the middle submap of the map
+    const tripoint sm = m.get_abs_sub() + tripoint(MAPSIZE/2,MAPSIZE/2,0);
+    const tripoint pos_om = overmapbuffer::sm_to_om_copy( sm );
     return overmap_buffer.get( pos_om.x, pos_om.y );
 }
