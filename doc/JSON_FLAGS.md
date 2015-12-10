@@ -204,7 +204,9 @@ Flags used to describe monsters and define their properties and abilities.
 - ```GRABS``` Its attacks may grab you!
 - ```BASHES``` Bashes down doors.
 - ```GROUP_BASH``` Gets help from monsters around it when bashing.
-- ```PUSH_MON```
+- ```GROUP_MORALE``` More courageous when near friends.
+- ```SWARMS``` Groups together and form loose packs.
+- ```PUSH_MON``` Can push creatures out of its way.
 - ```DESTROYS``` Bashes down walls and more. (2.5x bash multiplier, where base is the critter's max melee bashing)
 - ```BORES``` Tunnels through just about anything (15x bash multiplier: dark wyrms' bash skill 12->180)
 - ```POISON``` Poisonous to eat.
@@ -227,6 +229,7 @@ Flags used to describe monsters and define their properties and abilities.
 - ```ACIDTRAIL``` Leaves a trail of acid.
 - ```SLUDGEPROOF``` Ignores the effect of sludge trails.
 - ```SLUDGETRAIL``` Causes the monster to leave a sludge trap trail when moving.
+- ```FIREPROOF``` Immune to fire.
 - ```FIREY``` Burns stuff and is immune to fire.
 - ```QUEEN``` When it dies, local populations start to die off too.
 - ```ELECTRONIC``` e.g. A Robot; affected by emp blasts and other stuff.
@@ -257,9 +260,12 @@ Flags used to describe monsters and define their properties and abilities.
 - ```ACID_BLOOD``` Makes monster bleed acid. Fun stuff! Does not automatically dissolve in a pool of acid on death.
 - ```BILE_BLOOD``` Makes monster bleed bile.
 - ```REGEN_MORALE``` Will stop fleeing if at max hp, and regen anger and morale.
+- ```CBM_CIV``` May produce a common CBM a power CBM when butchered.
 - ```CBM_POWER``` May produce a power CBM when butchered, independent of CBM.
-- ```CBM_SCI``` May produce a cbm or two from bionics_sci when butchered.
-- ```CBM_OP``` May produce a cbm or two from bionics_op when butchered.
+- ```CBM_SUBS``` May produce a CBM or two from bionics_subs and a power CBM when butchered.
+- ```CBM_SCI``` May produce a CBM from 'bionics_sci' item group when butchered.
+- ```CBM_OP``` May produce a CBM or two from 'bionics_op' item group when butchered.
+- ```CBM_TECH``` May produce a CBM or two from 'bionics_tech' item group and a power CBM when butchered.
 - ```FISHABLE``` It is fishable.
 - ```INTERIOR_AMMO``` Monster contains ammo inside itself, no need to load on launch. Prevents ammo from being dropped on disable.
 
@@ -1028,6 +1034,7 @@ Those flags are added by the game code to specific items (that specific welder, 
 - ```AUT_START``` ... start in autumn.
 - ```WIN_START``` ... start in winter.
 - ```SUR_START``` ... surrounded start, zombies outside the starting shelter.
+- ```SCEN_ONLY``` Profession can be chosen only as part of the appropriate scenario.
 
 ## TODO
 

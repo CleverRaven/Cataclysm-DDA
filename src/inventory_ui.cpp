@@ -253,8 +253,7 @@ void inventory_selector::print_inv_weight_vol(int weight_carried, int vol_carrie
         int vol_capacity) const
 {
     // Print weight
-    mvwprintw(w_inv, 0, 32, _("Weight (%s): "),
-              OPTIONS["USE_METRIC_WEIGHTS"].getValue() == "lbs" ? _("lbs") : _("kg"));
+    mvwprintw(w_inv, 0, 32, _("Weight (%s): "), weight_units().c_str());
     nc_color weight_color;
     if (weight_carried > g->u.weight_capacity()) {
         weight_color = c_red;

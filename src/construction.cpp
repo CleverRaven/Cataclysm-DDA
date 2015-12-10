@@ -49,6 +49,7 @@ namespace construct {
     void done_trunk_plank(point);
     void done_vehicle(point);
     void done_deconstruct(point);
+    void done_digormine_stair(point, bool);
     void done_dig_stair(point);
     void done_mine_downstair(point);
     void done_mine_upstair(point);
@@ -937,422 +938,252 @@ void unroll_digging( int const numer_of_2x4s )
     g->m.spawn_item( g->u.posx(), g->u.posy(), "2x4", numer_of_2x4s );
 }
 
-void construct::done_dig_stair(point p)
+void construct::done_digormine_stair( point p, bool dig )
 {
     tripoint const abs_pos = g->m.getabs( tripoint( p.x, p.y, g->get_levz() ) );
     tripoint const pos_sm = overmapbuffer::ms_to_sm_copy( abs_pos );
     tinymap tmpmap;
     tmpmap.load( pos_sm.x, pos_sm.y, pos_sm.z - 1, false );
     tripoint const local_tmp = tmpmap.getlocal( abs_pos );
- bool danger_lava = false;
- bool danger_open = false;
- const int omtilesz=SEEX * 2;  // KA101's 1337 copy & paste skillz
+    bool danger_lava = false;
+    bool danger_open = false;
+    const int omtilesz = SEEX * 2; // KA101's 1337 copy & paste skillz
     int const prox = digging_perception( 10 );
-    for (int i = 0; i < omtilesz; i++) {
-        for (int j = 0; j < omtilesz; j++) {
-          if (rl_dist(local_tmp.x, local_tmp.y, i, j) <= prox && (tmpmap.ter(i, j) == t_lava)) {
-              danger_lava = true;
-          }
-          // This ought to catch anything that's open-space
-          if (rl_dist(local_tmp.x, local_tmp.y, i, j) <= prox && (tmpmap.move_cost(i, j) >= 2 )) {
-              danger_open = true; // You might not know what's down there!
-          }
-      }
-  }
-  if (danger_lava || danger_open) { // Bad Stuff detected.  Are you sure?
-      g->m.ter_set(p.x, p.y, t_pit); // You dug down a bit before detecting the problem
-      if (danger_lava) {
-          if (!(query_yn(_("The rock feels much warmer than normal. Proceed?"))) ) {
-              unroll_digging( 8 );
-              return;
-          }
-      }
-      if (danger_open) {
-          if (!(query_yn(_("As you dig, the rock starts sounding hollow. Proceed?"))) ) {
-              unroll_digging( 8 );
-              return;
-          }
-      }
-  }
-  if (tmpmap.move_cost( local_tmp.x, local_tmp.y ) == 0) { // Solid rock or a wall.  Safe enough.
-      if (g->u.has_trait("PAINRESIST_TROGLO") || g->u.has_trait("STOCKY_TROGLO")) {
-          add_msg(_("You strike deeply into the earth."));
-          g->u.mod_hunger(15);
-          g->u.fatigue += 20;
-          g->u.thirst += 15;
-          g->u.mod_pain(8);
-      }
-      else {
-          add_msg(_("You dig a stairway, adding sturdy timbers and a rope for safety."));
-          g->u.mod_hunger(25);
-          g->u.fatigue += 30;
-          g->u.thirst += 25;
-          if (!(g->u.has_trait("NOPAIN"))) {
-              add_msg(m_bad, _("You're quite sore from all that work, though."));
-              g->u.mod_pain(8); // Backbreaking work, mining!
-          }
-      }
-      g->m.ter_set(p.x, p.y, t_stairs_down); // There's the top half
-      // We need to write to submap-local coordinates.
-      tmpmap.ter_set(local_tmp.x, local_tmp.y, t_stairs_up); // and there's the bottom half.
-      tmpmap.save();
-   }
-   else if (tmpmap.ter(local_tmp.x, local_tmp.y) == t_lava) { // Oooooops
-      if (g->u.has_trait("PAINRESIST_TROGLO") || g->u.has_trait("STOCKY_TROGLO")) {
-          add_msg(m_warning, _("You strike deeply--above a magma flow!"));
-          g->u.mod_hunger(15);
-          g->u.fatigue += 20;
-          g->u.thirst += 15;
-          g->u.mod_pain(4);
-      }
-      else {
-          add_msg(m_warning, _("You just tunneled into lava!"));
-          g->u.mod_hunger(25);
-          g->u.fatigue += 30;
-          g->u.thirst += 25;
-          if (!(g->u.has_trait("NOPAIN"))) {
-              g->u.mod_pain(4); // Backbreaking work, mining!
-          }
-      }
-      g->u.add_memorial_log(pgettext("memorial_male", "Dug a shaft into lava."),
-                       pgettext("memorial_female", "Dug a shaft into lava."));
-      // Now to see if you go swimming.  Same idea as the sinkhole.
-      if ( ((g->u.skillLevel( skill_carpentry )) + (g->u.per_cur)) > ((g->u.str_cur) +
-          (rng(5,10))) ) {
-              add_msg(_("You avoid collapsing the rock underneath you."));
-              add_msg(_("Lashing your lumber together, you make a stable platform."));
-              g->m.ter_set(p.x, p.y, t_pit);
-          }
-      else {
-          g->m.ter_set(p.x, p.y, t_hole); // Collapse handled here.
-          add_msg(_("The rock gives way beneath you!"));
-          add_msg(_("Your timbers plummet into the lava!"));
-          if (g->u.has_amount("grapnel", 1)) {
-              add_msg(_("You desperately throw your grappling hook!"));
-              int throwroll = rng(g->u.skillLevel( skill_throw ),
-                      g->u.skillLevel( skill_throw ) + g->u.str_cur + g->u.dex_cur);
-              if (throwroll >= 9) { // Little tougher here than in a sinkhole
-              add_msg(_("The grappling hook catches something!"));
-              if (rng(g->u.skillLevel( skill_unarmed ),
-                      g->u.skillLevel( skill_unarmed ) + g->u.str_cur) > 7) {
-                  if( !catch_with_rope( p ) ) {
-                      g->u.use_amount("grapnel", 1);
-                      g->m.spawn_item(g->u.posx() + rng(-1, 1), g->u.posy() + rng(-1, 1), "grapnel");
-                      g->vertical_move(-1, true);
-                  }
-              } else {
-                    add_msg(m_bad, _("You're not strong enough to pull yourself out..."));
-                    g->u.moves -= 100;
-                    g->u.use_amount("grapnel", 1);
-                    g->m.spawn_item(g->u.posx() + rng(-1, 1), g->u.posy() + rng(-1, 1), "grapnel");
-                    g->vertical_move(-1, true);
-                }
-              } else {
-                  add_msg(m_bad, _("Your throw misses completely, and you fall into the lava!"));
-                  if (one_in((g->u.str_cur + g->u.dex_cur) / 3)) {
-                      g->u.use_amount("grapnel", 1);
-                      g->m.spawn_item(g->u.posx() + rng(-1, 1), g->u.posy() + rng(-1, 1), "grapnel");
-                  }
-                g->vertical_move(-1, true);
-              }
-          } else if (g->u.has_trait("WEB_ROPE")) {
-              // There are downsides to using one's own product...
-              int webroll = rng(g->u.skillLevel( skill_carpentry ),
-                      g->u.skillLevel( skill_carpentry ) + g->u.per_cur + g->u.int_cur);
-              if (webroll >= 11) {
-                  add_msg(_("Luckily, you'd attached a web..."));
-                  // Bigger you are, the larger the strain
-                  int stickroll = rng(g->u.skillLevel( skill_carpentry ),
-                      g->u.skillLevel( skill_carpentry ) + g->u.dex_cur - g->u.str_cur);
-                  if (stickroll >= 8) {
-                      add_msg(_("Your web holds firm!"));
-                      if (rng(g->u.skillLevel( skill_unarmed ),
-                          g->u.skillLevel( skill_unarmed ) + g->u.str_cur) > 7) {
-                          if( !catch_with_rope( p ) ) {
-                              g->vertical_move(-1, true);
-                          }
-                      } else {
-                            add_msg(m_bad, _("You're not strong enough to pull yourself out..."));
-                            g->u.moves -= 100;
-                            g->vertical_move(-1, true);
+    for( int i = 0; i < omtilesz; i++ ) {
+        for( int j = 0; j < omtilesz; j++ ) {
+            if( rl_dist( local_tmp.x, local_tmp.y, i, j ) <= prox && ( tmpmap.ter( i, j ) == t_lava ) ) {
+                danger_lava = true;
+            }
+            // This ought to catch anything that's open-space
+            if( rl_dist( local_tmp.x, local_tmp.y, i, j ) <= prox && ( tmpmap.move_cost( i, j ) >= 2 ) ) {
+                danger_open = true; // You might not know what's down there!
+            }
+        }
+    }
+    if( danger_lava || danger_open ) { // Bad Stuff detected.  Are you sure?
+        g->m.ter_set( p.x, p.y, t_pit ); // You dug down a bit before detecting the problem
+        if( danger_lava ) {
+            if( !( query_yn( _( "The rock feels much warmer than normal. Proceed?" ) ) ) ) {
+                unroll_digging( dig ? 8 : 12 );
+                return;
+            }
+        }
+        if( danger_open ) {
+            if( !( query_yn( _( "As you dig, the rock starts sounding hollow. Proceed?" ) ) ) ) {
+                unroll_digging( dig ? 8 : 12 );
+                return;
+            }
+        }
+    }
+    if( tmpmap.move_cost( local_tmp.x, local_tmp.y ) == 0 ) { // Solid rock or a wall.  Safe enough.
+        if( g->u.has_trait( "PAINRESIST_TROGLO" ) || g->u.has_trait( "STOCKY_TROGLO" ) ) {
+            if( dig ) {
+                add_msg( _( "You strike deeply into the earth." ) );
+            } else {
+                add_msg( _( "You delve ever deeper into the earth." ) );
+            }
+            g->u.mod_hunger( dig ? 15 : 25 );
+            g->u.fatigue += dig ? 20 : 30;
+            g->u.thirst += dig ? 15 : 25;
+            g->u.mod_pain( dig ? 8 : 10 );
+        } else {
+            if( dig ) {
+                add_msg( _( "You dig a stairway, adding sturdy timbers and a rope for safety." ) );
+            } else {
+                add_msg( _( "You drill out a passage, heading deeper underground." ) );
+            }
+            g->u.mod_hunger( dig ? 25 : 35 );
+            g->u.fatigue += dig ? 30 : 40;
+            g->u.thirst += dig ? 25 : 35;
+            if( !( g->u.has_trait( "NOPAIN" ) ) ) {
+                add_msg( m_bad, _( "You're quite sore from all that work, though." ) );
+                g->u.mod_pain( dig ? 8 : 10 ); // Backbreaking work, mining!
+            }
+        }
+        g->m.ter_set( p.x, p.y, t_stairs_down ); // There's the top half
+        // We need to write to submap-local coordinates.
+        tmpmap.ter_set( local_tmp.x, local_tmp.y, t_stairs_up ); // and there's the bottom half.
+        tmpmap.save();
+    } else if( tmpmap.ter( local_tmp.x, local_tmp.y ) == t_lava ) { // Oooooops
+        if( g->u.has_trait( "PAINRESIST_TROGLO" ) || g->u.has_trait( "STOCKY_TROGLO" ) ) {
+            if( dig ) {
+                add_msg( m_warning, _( "You strike deeply--above a magma flow!" ) );
+            } else {
+                add_msg( m_warning, _( "You delve down directly above a magma flow!" ) );
+            }
+            g->u.mod_hunger( dig ? 15 : 25 );
+            g->u.fatigue += dig ? 20 : 30;
+            g->u.thirst += dig ? 15 : 25;
+            g->u.mod_pain( 4 );
+        } else {
+            if( dig ) {
+                add_msg( m_warning, _( "You just tunneled into lava!" ) );
+            } else {
+                add_msg( m_warning, _( "You just mined into lava!" ) );
+            }
+            g->u.mod_hunger( dig ? 25 : 35 );
+            g->u.fatigue += dig ? 30 : 40;
+            g->u.thirst += dig ? 25 : 35;
+            if( !( g->u.has_trait( "NOPAIN" ) ) ) {
+                g->u.mod_pain( 4 ); // Backbreaking work, mining!
+            }
+        }
+        if( dig )
+            g->u.add_memorial_log( pgettext( "memorial_male", "Dug a shaft into lava." ),
+                                   pgettext( "memorial_female", "Dug a shaft into lava." ) );
+        else
+            g->u.add_memorial_log( pgettext( "memorial_male", "Mined into lava." ),
+                                   pgettext( "memorial_female", "Mined into lava." ) );
+
+        // Now to see if you go swimming.  Same idea as the sinkhole.
+        if( ( ( g->u.skillLevel( skill_carpentry ) ) + ( g->u.per_cur ) ) > ( ( g->u.str_cur ) + ( rng( 5,
+                10 ) ) ) ) {
+            add_msg( _( "You avoid collapsing the rock underneath you." ) );
+            add_msg( _( "Lashing your lumber together, you make a stable platform." ) );
+            g->m.ter_set( p.x, p.y, t_pit );
+        } else {
+            g->m.ter_set( p.x, p.y, t_hole ); // Collapse handled here.
+            add_msg( _( "The rock gives way beneath you!" ) );
+            add_msg( _( "Your timbers plummet into the lava!" ) );
+            if( g->u.has_amount( "grapnel", 1 ) ) {
+                add_msg( _( "You desperately throw your grappling hook!" ) );
+                int throwroll = rng( g->u.skillLevel( skill_throw ),
+                                     g->u.skillLevel( skill_throw ) + g->u.str_cur + g->u.dex_cur );
+                if( throwroll >= 9 ) { // Little tougher here than in a sinkhole
+                    add_msg( _( "The grappling hook catches something!" ) );
+                    if( rng( g->u.skillLevel( skill_unarmed ),
+                             g->u.skillLevel( skill_unarmed ) + g->u.str_cur ) > 7 ) {
+                        if( !catch_with_rope( p ) ) {
+                            g->u.use_amount( "grapnel", 1 );
+                            g->m.spawn_item( g->u.posx() + rng( -1, 1 ), g->u.posy() + rng( -1, 1 ), "grapnel" );
+                            g->vertical_move( -1, true );
                         }
-                      } else {
-                          add_msg(m_bad, _("The sudden strain pulls your web free, and you fall into the lava!"));
-                          g->vertical_move(-1, true);
-                      }
-                  }
-          } else {
-          // You have a rope because you needed one to construct
-          // (You aren't charged it here because you lose it at end/construction)
-          add_msg(_("You desperately throw your rope!"));
-              int throwroll = rng(g->u.skillLevel( skill_throw ),
-                      g->u.skillLevel( skill_throw ) + g->u.str_cur + g->u.dex_cur);
-              if (throwroll >= 11) { // No hook, so good luck with that
-              add_msg(_("The rope snags and holds!"));
-              if (rng(g->u.skillLevel( skill_unarmed ),
-                      g->u.skillLevel( skill_unarmed ) + g->u.str_cur) > 7) {
-                  if( !catch_with_rope( p ) ) {
-                      g->m.spawn_item(g->u.posx() + rng(-1, 1), g->u.posy() + rng(-1, 1), "rope_30");
-                      g->vertical_move(-1, true);
-                  } else {
-                      add_msg(_("The rope gives way and plummets, just as you escape."));
-                  }
-              } else {
-                    add_msg(m_bad, _("You're not strong enough to pull yourself out..."));
-                    g->u.moves -= 100;
-                    g->m.spawn_item(g->u.posx() + rng(-1, 1), g->u.posy() + rng(-1, 1), "rope_30");
-                    g->vertical_move(-1, true);
+                    } else {
+                        add_msg( m_bad, _( "You're not strong enough to pull yourself out..." ) );
+                        g->u.moves -= 100;
+                        g->u.use_amount( "grapnel", 1 );
+                        g->m.spawn_item( g->u.posx() + rng( -1, 1 ), g->u.posy() + rng( -1, 1 ), "grapnel" );
+                        g->vertical_move( -1, true );
+                    }
+                } else {
+                    add_msg( m_bad, _( "Your throw misses completely, and you fall into the lava!" ) );
+                    if( one_in( ( g->u.str_cur + g->u.dex_cur ) / 3 ) ) {
+                        g->u.use_amount( "grapnel", 1 );
+                        g->m.spawn_item( g->u.posx() + rng( -1, 1 ), g->u.posy() + rng( -1, 1 ), "grapnel" );
+                    }
+                    g->vertical_move( -1, true );
                 }
-              } else {
-                  add_msg(m_bad, _("Your throw misses completely, and you fall into the lava!"));
-                  if (one_in((g->u.str_cur + g->u.dex_cur) / 3)) {
-                      g->m.spawn_item(g->u.posx() + rng(-1, 1), g->u.posy() + rng(-1, 1), "rope_30");
-                  }
-                g->vertical_move(-1, true);
-              }
-          }
-      }
-   }
-   else if (tmpmap.move_cost(local_tmp.x, local_tmp.y) >= 2) { // Empty non-lava terrain.
-      if (g->u.has_trait("PAINRESIST_TROGLO") || g->u.has_trait("STOCKY_TROGLO")) {
-          add_msg(_("You strike deeply into the earth, and break into open space."));
-          g->u.mod_hunger(10); // Less heavy work, but making the ladder's still fatiguing
-          g->u.fatigue += 20;
-          g->u.thirst += 10;
-          g->u.mod_pain(4);
-      }
-      else {
-          add_msg(_("You dig into a preexisting space, and improvise a ladder."));
-          g->u.mod_hunger(20);
-          g->u.fatigue += 30;
-          g->u.thirst += 20;
-          if (!(g->u.has_trait("NOPAIN"))) {
-              add_msg(m_bad, _("You're quite sore from all that work, though."));
-              g->u.mod_pain(4); // Backbreaking work, mining!
-          }
-      }
-      g->m.ter_set(p.x, p.y, t_stairs_down); // There's the top half
-      // Again, need to use submap-local coordinates.
-      tmpmap.ter_set(local_tmp.x, local_tmp.y, t_ladder_up); // and there's the bottom half.
-      // And save to the center coordinate of the current active map.
-      tmpmap.save();
-   }
+            } else if( g->u.has_trait( "WEB_ROPE" ) ) {
+                // There are downsides to using one's own product...
+                int webroll = rng( g->u.skillLevel( skill_carpentry ),
+                                   g->u.skillLevel( skill_carpentry ) + g->u.per_cur + g->u.int_cur );
+                if( webroll >= 11 ) {
+                    add_msg( _( "Luckily, you'd attached a web..." ) );
+                    // Bigger you are, the larger the strain
+                    int stickroll = rng( g->u.skillLevel( skill_carpentry ),
+                                         g->u.skillLevel( skill_carpentry ) + g->u.dex_cur - g->u.str_cur );
+                    if( stickroll >= 8 ) {
+                        add_msg( _( "Your web holds firm!" ) );
+                        if( rng( g->u.skillLevel( skill_unarmed ),
+                                 g->u.skillLevel( skill_unarmed ) + g->u.str_cur ) > 7 ) {
+                            if( !catch_with_rope( p ) ) {
+                                g->vertical_move( -1, true );
+                            }
+                        } else {
+                            add_msg( m_bad, _( "You're not strong enough to pull yourself out..." ) );
+                            g->u.moves -= 100;
+                            g->vertical_move( -1, true );
+                        }
+                    } else {
+                        add_msg( m_bad, _( "The sudden strain pulls your web free, and you fall into the lava!" ) );
+                        g->vertical_move( -1, true );
+                    }
+                }
+            } else {
+                // You have a rope because you needed one to construct
+                // (You aren't charged it here because you lose it at end/construction)
+                add_msg( _( "You desperately throw your rope!" ) );
+                int throwroll = rng( g->u.skillLevel( skill_throw ),
+                                     g->u.skillLevel( skill_throw ) + g->u.str_cur + g->u.dex_cur );
+                if( throwroll >= 11 ) { // No hook, so good luck with that
+                    add_msg( _( "The rope snags and holds!" ) );
+                    if( rng( g->u.skillLevel( skill_unarmed ),
+                             g->u.skillLevel( skill_unarmed ) + g->u.str_cur ) > 7 ) {
+                        if( !catch_with_rope( p ) ) {
+                            g->m.spawn_item( g->u.posx() + rng( -1, 1 ), g->u.posy() + rng( -1, 1 ), "rope_30" );
+                            g->vertical_move( -1, true );
+                        } else {
+                            add_msg( _( "The rope gives way and plummets, just as you escape." ) );
+                        }
+                    } else {
+                        add_msg( m_bad, _( "You're not strong enough to pull yourself out..." ) );
+                        g->u.moves -= 100;
+                        g->m.spawn_item( g->u.posx() + rng( -1, 1 ), g->u.posy() + rng( -1, 1 ), "rope_30" );
+                        g->vertical_move( -1, true );
+                    }
+                } else {
+                    add_msg( m_bad, _( "Your throw misses completely, and you fall into the lava!" ) );
+                    if( one_in( ( g->u.str_cur + g->u.dex_cur ) / 3 ) ) {
+                        g->m.spawn_item( g->u.posx() + rng( -1, 1 ), g->u.posy() + rng( -1, 1 ), "rope_30" );
+                    }
+                    g->vertical_move( -1, true );
+                }
+            }
+        }
+    } else if( tmpmap.move_cost( local_tmp.x, local_tmp.y ) >= 2 ) { // Empty non-lava terrain.
+        if( g->u.has_trait( "PAINRESIST_TROGLO" ) || g->u.has_trait( "STOCKY_TROGLO" ) ) {
+            if( dig ) {
+                add_msg( _( "You strike deeply into the earth, and break into open space." ) );
+            } else {
+                add_msg( _( "You delve ever deeper into the earth, and break into open space." ) );
+            }
+            g->u.mod_hunger( dig ? 10 : 20 ); // Less heavy work, but making the ladder's still fatiguing
+            g->u.fatigue += dig ? 20 : 30;
+            g->u.thirst += dig ? 10 : 20;
+            g->u.mod_pain( 4 );
+        } else {
+            if( dig ) {
+                add_msg( _( "You dig into a preexisting space, and improvise a ladder." ) );
+            } else {
+                add_msg( _( "You mine into a preexisting space, and improvise a ladder." ) );
+            }
+            g->u.mod_hunger( dig ? 20 : 30 );
+            g->u.fatigue += dig ? 30 : 40;
+            g->u.thirst += dig ? 20 : 30;
+            if( !( g->u.has_trait( "NOPAIN" ) ) ) {
+                add_msg( m_bad, _( "You're quite sore from all that work, though." ) );
+                g->u.mod_pain( 4 ); // Backbreaking work, mining!
+            }
+        }
+        g->m.ter_set( p.x, p.y, t_stairs_down ); // There's the top half
+        // Again, need to use submap-local coordinates.
+        tmpmap.ter_set( local_tmp.x, local_tmp.y, t_ladder_up ); // and there's the bottom half.
+        // And save to the center coordinate of the current active map.
+        tmpmap.save();
+    }
 }
 
-void construct::done_mine_downstair(point p)
+void construct::done_dig_stair( point p )
 {
-    tripoint const abs_pos = g->m.getabs( tripoint( p.x, p.y, g->get_levz() ) );
-    tripoint const pos_sm = overmapbuffer::ms_to_sm_copy( abs_pos );
-    tinymap tmpmap;
-    tmpmap.load( pos_sm.x, pos_sm.y, pos_sm.z - 1, false );
-    tripoint const local_tmp = tmpmap.getlocal( abs_pos );
- bool danger_lava = false;
- bool danger_open = false;
- const int omtilesz=SEEX * 2;  // KA101's 1337 copy & paste skillz
-    // Tougher with the noisy J-Hammer though
-    int const prox = digging_perception( 10 );
-    for (int i = 0; i < omtilesz; i++) {
-        for (int j = 0; j < omtilesz; j++) {
-          if (rl_dist(local_tmp.x, local_tmp.y % SEEY, i, j) <= prox && (tmpmap.ter(i, j) == t_lava)) {
-              danger_lava = true;
-          }
-          // This ought to catch anything that's open-space
-          if (rl_dist(local_tmp.x, local_tmp.y, i, j) <= prox && (tmpmap.move_cost(i, j) >= 2 )) {
-              danger_open = true; // You might not know what's down there!
-          }
-      }
-  }
-  if (danger_lava || danger_open) { // Bad Stuff detected.  Are you sure?
-      g->m.ter_set(p.x, p.y, t_pit); // You dug down a bit before detecting the problem
-      if (danger_lava) {
-          if (!(query_yn(_("The rock feels much warmer than normal. Proceed?"))) ) {
-              unroll_digging( 12 );
-              return;
-          }
-      }
-      if (danger_open) {
-          if (!(query_yn(_("As you dig, the rock starts sounding hollow. Proceed?"))) ) {
-              unroll_digging( 12 );
-              return;
-          }
-      }
-  }
-  if (tmpmap.move_cost(local_tmp.x, local_tmp.y) == 0) { // Solid rock or a wall.  Safe enough.
-      if (g->u.has_trait("PAINRESIST_TROGLO") || g->u.has_trait("STOCKY_TROGLO")) {
-          add_msg(_("You delve ever deeper into the earth."));
-          g->u.mod_hunger(25);
-          g->u.fatigue += 30;
-          g->u.thirst += 25;
-          g->u.mod_pain(10); // NOPAIN is a Prototype trait so shouldn't be present here
-      }
-      else {
-          add_msg(_("You drill out a passage, heading deeper underground."));
-          g->u.mod_hunger(35);
-          g->u.fatigue += 40;
-          g->u.thirst += 35;
-          if (!(g->u.has_trait("NOPAIN"))) {
-              add_msg(m_bad, _("You're quite sore from all that work."));
-              g->u.mod_pain(10); // Backbreaking work, mining!
-          }
-      }
-      g->m.ter_set(p.x, p.y, t_stairs_down); // There's the top half
-      // We need to write to submap-local coordinates.
-      tmpmap.ter_set(local_tmp.x, local_tmp.y, t_stairs_up); // and there's the bottom half.
-      tmpmap.save();
-   }
-   else if (tmpmap.ter(local_tmp.x, local_tmp.y) == t_lava) { // Oooooops
-      if (g->u.has_trait("PAINRESIST_TROGLO") || g->u.has_trait("STOCKY_TROGLO")) {
-          add_msg(m_warning, _("You delve down directly above a magma flow!"));
-          g->u.mod_hunger(25);
-          g->u.fatigue += 30;
-          g->u.thirst += 25;
-          g->u.mod_pain(4);
-      }
-      else {
-          add_msg(m_warning, _("You just mined into lava!"));
-          g->u.mod_hunger(35);
-          g->u.fatigue += 40;
-          g->u.thirst += 35;
-          if (!(g->u.has_trait("NOPAIN"))) {
-              g->u.mod_pain(4);
-          }
-      }
-      g->u.add_memorial_log(pgettext("memorial_male", "Mined into lava."),
-                       pgettext("memorial_female", "Mined into lava."));
-      // Now to see if you go swimming.  Same idea as the sinkhole.
-      if ( ((g->u.skillLevel( skill_carpentry )) + (g->u.per_cur)) > ((g->u.str_cur) +
-          (rng(5,10))) ) {
-              add_msg(_("You avoid collapsing the rock underneath you."));
-              add_msg(_("Lashing your lumber together, you make a stable platform."));
-              g->m.ter_set(p.x, p.y, t_pit);
-          }
-      else {
-          g->m.ter_set(p.x, p.y, t_hole); // Collapse handled here.
-          add_msg(_("The rock gives way beneath you!"));
-          add_msg(_("Your timbers plummet into the lava!"));
-          if (g->u.has_amount("grapnel", 1)) {
-              add_msg(_("You desperately throw your grappling hook!"));
-              int throwroll = rng(g->u.skillLevel( skill_throw ),
-                      g->u.skillLevel( skill_throw ) + g->u.str_cur + g->u.dex_cur);
-              if (throwroll >= 9) { // Little tougher here than in a sinkhole
-              add_msg(_("The grappling hook catches something!"));
-              if (rng(g->u.skillLevel( skill_unarmed ),
-                      g->u.skillLevel( skill_unarmed ) + g->u.str_cur) > 7) {
-                  if( !catch_with_rope( p ) ) {
-                      g->u.use_amount("grapnel", 1);
-                      g->m.spawn_item(g->u.posx() + rng(-1, 1), g->u.posy() + rng(-1, 1), "grapnel");
-                      g->vertical_move(-1, true);
-                  }
-              } else {
-                    add_msg(m_bad, _("You're not strong enough to pull yourself out..."));
-                    g->u.moves -= 100;
-                    g->u.use_amount("grapnel", 1);
-                    g->m.spawn_item(g->u.posx() + rng(-1, 1), g->u.posy() + rng(-1, 1), "grapnel");
-                    g->vertical_move(-1, true);
-                }
-              } else {
-                  add_msg(m_bad, _("Your throw misses completely, and you fall into the lava!"));
-                  if (one_in((g->u.str_cur + g->u.dex_cur) / 3)) {
-                      g->u.use_amount("grapnel", 1);
-                      g->m.spawn_item(g->u.posx() + rng(-1, 1), g->u.posy() + rng(-1, 1), "grapnel");
-                  }
-                g->vertical_move(-1, true);
-              }
-          } else if (g->u.has_trait("WEB_ROPE")) {
-              // There are downsides to using one's own product...
-              int webroll = rng(g->u.skillLevel( skill_carpentry ),
-                      g->u.skillLevel( skill_carpentry ) + g->u.per_cur + g->u.int_cur);
-              if (webroll >= 11) {
-                  add_msg(_("Luckily, you'd attached a web..."));
-                  // Bigger you are, the larger the strain
-                  int stickroll = rng(g->u.skillLevel( skill_carpentry ),
-                      g->u.skillLevel( skill_carpentry ) + g->u.dex_cur - g->u.str_cur);
-                  if (stickroll >= 8) {
-                      add_msg(_("Your web holds firm!"));
-                      if (rng(g->u.skillLevel( skill_unarmed ),
-                          g->u.skillLevel( skill_unarmed ) + g->u.str_cur) > 7) {
-                          if( !catch_with_rope( p ) ) {
-                              g->vertical_move(-1, true);
-                          }
-                      } else {
-                            add_msg(m_bad, _("You're not strong enough to pull yourself out..."));
-                            g->u.moves -= 100;
-                            g->vertical_move(-1, true);
-                        }
-                      } else {
-                          add_msg(m_bad, _("The sudden strain pulls your web free, and you fall into the lava!"));
-                          g->vertical_move(-1, true);
-                      }
-                  }
-          } else {
-          // You have a rope because you needed one to construct
-          // (You aren't charged it here because you lose it at end/construction)
-          add_msg(_("You desperately throw your rope!"));
-              int throwroll = rng(g->u.skillLevel( skill_throw ),
-                      g->u.skillLevel( skill_throw ) + g->u.str_cur + g->u.dex_cur);
-              if (throwroll >= 11) { // No hook, so good luck with that
-              add_msg(_("The rope snags and holds!"));
-              if (rng(g->u.skillLevel( skill_unarmed ),
-                      g->u.skillLevel( skill_unarmed ) + g->u.str_cur) > 7) {
-                  if( !catch_with_rope( p ) ) {
-                      g->m.spawn_item(g->u.posx() + rng(-1, 1), g->u.posy() + rng(-1, 1), "rope_30");
-                      g->vertical_move(-1, true);
-                  } else {
-                      add_msg(_("The rope gives way and plummets, just as you escape."));
-                  }
-              } else {
-                    add_msg(m_bad, _("You're not strong enough to pull yourself out..."));
-                    g->u.moves -= 100;
-                    g->m.spawn_item(g->u.posx() + rng(-1, 1), g->u.posy() + rng(-1, 1), "rope_30");
-                    g->vertical_move(-1, true);
-                }
-              } else {
-                  add_msg(m_bad, _("Your throw misses completely, and you fall into the lava!"));
-                  if (one_in((g->u.str_cur + g->u.dex_cur) / 3)) {
-                      g->m.spawn_item(g->u.posx() + rng(-1, 1), g->u.posy() + rng(-1, 1), "rope_30");
-                  }
-                g->vertical_move(-1, true);
-              }
-          }
-      }
-   }
-   else if (tmpmap.move_cost(local_tmp.x, local_tmp.y) >= 2) { // Empty non-lava terrain.
-      if (g->u.has_trait("PAINRESIST_TROGLO") || g->u.has_trait("STOCKY_TROGLO")) {
-          add_msg(_("You delve ever deeper into the earth, and break into open space."));
-          g->u.mod_hunger(20); // Less heavy work, but making the ladder's still fatiguing
-          g->u.fatigue += 30;
-          g->u.thirst += 20;
-          g->u.mod_pain(4);
-      }
-      else {
-          add_msg(_("You mine into a preexisting space, and improvise a ladder."));
-          g->u.mod_hunger(30);
-          g->u.fatigue += 40;
-          g->u.thirst += 30;
-          if (!(g->u.has_trait("NOPAIN"))) {
-              add_msg(m_bad, _("You're quite sore from all that work."));
-              g->u.mod_pain(4);
-          }
-      }
-      g->m.ter_set(p.x, p.y, t_stairs_down); // There's the top half
-      // Again, need to use submap-local coordinates.
-      tmpmap.ter_set(local_tmp.x, local_tmp.y, t_ladder_up); // and there's the bottom half.
-      // And save to the center coordinate of the current active map.
-      tmpmap.save();
-   }
+    done_digormine_stair( p, true );
 }
 
-void construct::done_mine_upstair(point p)
+void construct::done_mine_downstair( point p )
+{
+    done_digormine_stair( p, false );
+}
+
+void construct::done_mine_upstair( point p )
 {
     tripoint const abs_pos = g->m.getabs( tripoint( p.x, p.y, g->get_levz() ) );
     tripoint const pos_sm = overmapbuffer::ms_to_sm_copy( abs_pos );
     tinymap tmpmap;
     tmpmap.load( pos_sm.x, pos_sm.y, pos_sm.z + 1, false );
     tripoint const local_tmp = tmpmap.getlocal( abs_pos );
- bool danger_lava = false;
- bool danger_open = false;
- bool danger_liquid = false;
- const int omtilesz=SEEX * 2;  // KA101's 1337 copy & paste skillz
+    bool danger_lava = false;
+    bool danger_open = false;
+    bool danger_liquid = false;
+    const int omtilesz = SEEX * 2; // KA101's 1337 copy & paste skillz
     // Tougher with the noisy J-Hammer though
     int const prox = digging_perception( 10 );
     for (int i = 0; i < omtilesz; i++) {

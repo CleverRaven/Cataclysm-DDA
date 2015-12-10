@@ -20002,7 +20002,12 @@
         },
         {
           "id": "t_dirt",
-          "fg": 640,
+          "fg": [
+            { "weight":50, "sprite":640},
+            { "weight":1, "sprite":3620},
+            { "weight":1, "sprite":3621},
+            { "weight":1, "sprite":3622}
+        ],
           "rotates": false
         },
         {
@@ -20094,7 +20099,12 @@
           "additional_tiles": [
             {
               "id": "center",
-              "fg": 2038
+              "fg": [
+            { "weight":50, "sprite":2038},
+            { "weight":1, "sprite":3620},
+            { "weight":1, "sprite":3621},
+            { "weight":1, "sprite":3622}
+        ]
             },
             {
               "id": "corner",
@@ -20279,7 +20289,10 @@
         },
         {
           "id": "t_tree",
-          "fg": 2175,
+          "fg": [
+            { "weight":9, "sprite":2175},
+            { "weight":1, "sprite":3595}
+        ],
           "bg": 640,
           "rotates": false
         },
@@ -20380,7 +20393,10 @@
         },
         {
           "id": "t_tree_young",
-          "fg": 2193,
+          "fg": [
+            { "weight":9, "sprite":2193},
+            { "weight":1, "sprite":3594}
+        ],
           "bg": 640,
           "rotates": false
         },
@@ -22207,10 +22223,16 @@
           "fg": 1951,
           "bg": 642,
           "rotates": false
-        },
+        }, 
         {
           "id": "npc_male",
-          "fg": 1706,
+          "fg": [
+            { "weight":1, "sprite":3600},
+            { "weight":2, "sprite":3599},
+            { "weight":2, "sprite":3598},
+            { "weight":2, "sprite":3597 },
+            { "weight":3, "sprite":1706 }
+        ],
           "bg": 642,
           "rotates": false
         },
@@ -22222,10 +22244,17 @@
         },
         {
           "id": "player_male",
-          "fg": 1706,
+          "fg": [
+            { "weight":2, "sprite":3600},
+            { "weight":2, "sprite":3599},
+            { "weight":2, "sprite":3598},
+            { "weight":2, "sprite":3597},
+            { "weight":2, "sprite":1706}
+        ],
           "bg": 642,
           "rotates": false
         },
+
         {
           "id": "mon_zombie_pig",
           "fg": 1801,
