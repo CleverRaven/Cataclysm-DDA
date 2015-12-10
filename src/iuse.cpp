@@ -6279,7 +6279,7 @@ int iuse::artifact(player *p, item *it, bool, const tripoint& )
 
             case AEA_GROWTH: {
                 monster tmptriffid( NULL_ID, p->pos3() );
-                mattack::growplants(&tmptriffid, -1);
+                mattack::growplants(&tmptriffid);
             }
             break;
 
@@ -6384,7 +6384,7 @@ int iuse::artifact(player *p, item *it, bool, const tripoint& )
                         if (g->summon_mon(mon_shadow, monp)) {
                             num_spawned++;
                             monster *spawned = g->monster_at(monp);
-                            spawned->reset_special_rng(0);
+                            spawned->reset_special_rng("DISAPPEAR");
                         }
                     }
                 }
@@ -6602,65 +6602,6 @@ int iuse::quiver(player *p, item *it, bool, const tripoint& )
         p->add_msg_if_player(_("Never mind."));
         return 0;
     }
-    return it->type->charges_to_use();
-}
-
-int iuse::belt_loop (player *p, item *it, bool, const tripoint&)
-{
-    // if belt loop empty offer to attach an item otherwise detach the current one
-    if (it->contents.empty()) {
-        // display menu showing only show BELT_CLIP items
-        item& put = p->i_at(g->inv_for_flag("BELT_CLIP", _("Attach what to belt loop?"), false));
-        if (put.is_null()) {
-            p->add_msg_if_player(_("Never mind."));
-            return 0;
-        }
-
-        // check the player selected an appropriate item
-        if (! put.has_flag("BELT_CLIP")) {
-            p->add_msg_if_player(m_info, _("You can't attach your %s to your %s!"),
-                                           put.tname().c_str(), it->tname().c_str());
-            return 0;
-        }
-
-        // only allow items smaller than a certain size
-        if( put.volume() > it->get_property_long( "max_volume", 2 ) ) {
-            p->add_msg_if_player(m_info, _("Your %s is too large to fit in your %s!"),
-                                           put.tname().c_str(), it->tname().c_str());
-            return 0;
-        }
-
-        // only allow items less than a certain weight
-        if( put.weight() > it->get_property_long( "max_weight", 600 ) ) {
-            p->add_msg_if_player(m_info, _("Your %s is too heavy to attach to your %s!"),
-                                           put.tname().c_str(), it->tname().c_str());
-            return 0;
-        }
-
-        p->add_msg_if_player(m_info, _("You attach your %s to your %s!"),
-                             put.tname().c_str(), it->tname().c_str());
-
-        p->moves -= put.volume() * 10;
-        it->put_in(p->i_rem(&put));
-
-    } else if (&p->weapon == it) {
-        p->add_msg_if_player( _( "You need to unwield the %s before using it." ), it->tname().c_str() );
-        return 0;
-
-    } else {
-        if (! p->is_armed() || p->wield(NULL)) {
-            item& get = it->contents[0];
-            p->inv.assign_empty_invlet(get, true);
-
-            p->add_msg_if_player(m_info, _("You unclip your %s from your %s!"),
-                                 get.tname().c_str(), it->tname().c_str());
-
-            p->moves -= get.volume() * 10;
-            p->wield(&(p->i_add(get)));
-            it->contents.erase(it->contents.begin());
-        }
-    }
-
     return it->type->charges_to_use();
 }
 

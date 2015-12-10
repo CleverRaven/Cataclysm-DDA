@@ -99,7 +99,8 @@ void climb_down( player *p, map *m, const tripoint &examp );
 /**
  * Items that appear when a generic plant is harvested. Seed @ref islot_seed.
  * @param type The seed type, must have a @ref itype::seed slot.
- * @param plant_count Number of fruits to generate.
+ * @param plant_count Number of fruits to generate. For charge-based items, this
+ *     specifies multiples of the default charge.
  * @param seed_count Number of seeds to generate.
  * @param byproducts If true, byproducts (like straw, withered plants, see
  * @ref islot_seed::byproducts) are included.

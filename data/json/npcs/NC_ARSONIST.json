@@ -6,7 +6,8 @@
       ["jeans", 20],
       ["pants", 20],
       ["pants_leather", 20],
-      ["pants_cargo", 20]
+      ["pants_cargo", 20],
+      ["bunker_pants", 10]
     ]
   },{
     "type" : "item_group",
@@ -16,7 +17,8 @@
       ["pants", 20],
       ["pants_leather", 20],
       ["pants_cargo", 20],
-      ["skirt", 20]
+      ["skirt", 20],
+      ["bunker_pants", 10]
     ]
   },{
     "type" : "item_group",
@@ -55,6 +57,8 @@
       ["jacket_leather", 20],
       ["trenchcoat", 20],
       ["jacket_jean", 20],
+      ["bunker_coat", 10],
+      ["jacket_windbreaker", 10],
       ["kevlar", 5]
     ]
   },{
@@ -62,7 +66,8 @@
     "id" : "NC_ARSONIST_shoes",
     "items":[
       ["sneakers", 20],
-      ["boots", 20]
+      ["boots", 20],
+      ["boots_bunker", 10]
     ]
   },{
     "type" : "item_group",
@@ -111,6 +116,7 @@
       ["hammer_sledge", 20],
       ["pipe", 20],
       ["bat", 20],
+      ["bat_metal", 20],
       ["crowbar", 20]
     ]
   },{
@@ -128,7 +134,10 @@
     "type" : "item_group",
     "id" : "NC_ARSONIST_stabbing",
     "items":[
-      ["spear_knife", 50]
+      ["spear_knife", 50],
+      ["spear_steel", 10],
+      ["spear_forked", 10],
+      ["spear_rebar", 5]
     ]
   },{
     "type" : "item_group",
@@ -155,14 +164,16 @@
     "id" : "NC_ARSONIST_shotgun",
     "items":[
       ["shotgun_sawn", 50],
-      ["mossberg_500", 50]
+      ["mossberg_500", 25],
+      ["remington_870", 25]
     ]
   },{
     "type" : "item_group",
     "id" : "NC_ARSONIST_smg",
     "items":[
       ["uzi", 50],
-      ["tec9", 50]
+      ["tec9", 50],
+      ["sten", 10]
     ]
   },{
     "type" : "item_group",
@@ -176,7 +187,8 @@
     "type" : "item_group",
     "id" : "NC_ARSONIST_launcher",
     "items":[
-      ["flamethrower",50]
+      ["flamethrower", 50],
+      ["flamethrower_simple", 25]
     ]
   },{
     "type" : "item_group",

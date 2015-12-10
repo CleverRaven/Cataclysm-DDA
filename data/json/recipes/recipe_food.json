@@ -148,6 +148,36 @@
   ]
 },{
   "type" : "recipe",
+  "result": "hstomach_boiled",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_MEAT",
+  "skill_used": "cooking",
+  "difficulty": 0,
+  "time": 15000,
+  "reversible": false,
+  "autolearn": true,
+  "batch_time_factors":[67, 5],
+  "qualities":[
+    {"id":"BOIL","level":1,"amount":1}
+  ], "tools": [
+    [
+      [ "hotplate", 7 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 7 ],
+      [ "fire", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "hstomach_large", 1 ]
+    ],
+    [
+      [ "water", 1 ],
+      [ "water_clean", 1 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
   "result": "small_stomach_boiled",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_MEAT",
@@ -170,6 +200,36 @@
   "components": [
     [
       [ "stomach", 1 ]
+    ],
+    [
+      [ "water", 1 ],
+      [ "water_clean", 1 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "small_hstomach_boiled",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_MEAT",
+  "skill_used": "cooking",
+  "difficulty": 0,
+  "time": 10000,
+  "reversible": false,
+  "autolearn": true,
+  "batch_time_factors":[67, 5],
+  "qualities":[
+    {"id":"BOIL","level":1,"amount":1}
+  ], "tools": [
+    [
+      [ "hotplate", 5 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 5 ],
+      [ "fire", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "hstomach", 1 ]
     ],
     [
       [ "water", 1 ],
@@ -451,6 +511,7 @@
       [ "meat", 3 ]
     ],
     [
+      [ "skewer_bone", 3 ],
       [ "skewer", 3 ]
     ]
   ]
@@ -477,6 +538,7 @@
       [ "fish", 6 ]
     ],
     [
+      [ "skewer_bone", 3 ],
       [ "skewer", 3 ]
     ]
   ]
@@ -874,6 +936,7 @@
   "time": 12000,
   "reversible": false,
   "autolearn": true,
+  "batch_time_factors":[83, 3],
   "qualities":[
     {"id":"CHEM","level":2,"amount":1}
   ], "tools": [
@@ -994,6 +1057,7 @@
   "time": 18000,
   "reversible": false,
   "autolearn": true,
+  "batch_time_factors":[67, 5],
   "qualities" : [
     {"id":"CUT","level":1,"amount":1}
   ],
@@ -1036,6 +1100,7 @@
   "time": 18000,
   "reversible": false,
   "autolearn": true,
+  "batch_time_factors":[67, 5],
   "qualities" : [
     {"id":"CUT","level":1,"amount":1}
   ],
@@ -1248,6 +1313,7 @@
       [ "human_flesh", 3 ]
     ],
     [
+      [ "skewer_bone", 3 ],
       [ "skewer", 3 ]
     ]
   ]
@@ -2329,6 +2395,7 @@
   "time": 30000,
   "reversible": false,
   "autolearn": true,
+  "batch_time_factors":[80, 4],
   "qualities":[
     {"id":"COOK","level":3,"amount":1}
   ], "tools": [
@@ -2502,7 +2569,6 @@
 },{
   "type" : "recipe",
   "result": "milk",
-  "id_suffix": "from powder",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_DRINKS",
   "skill_used": "cooking",
@@ -3241,6 +3307,7 @@
   "time": 30000,
   "reversible": false,
   "autolearn": true,
+  "batch_time_factors":[83, 5],
   "qualities":[
     {"id":"COOK","level":3,"amount":1}
   ], "tools": [
@@ -3297,7 +3364,9 @@
     [
       [ "wild_herbs", 120 ],
       [ "stomach_large", 3 ],
-      [ "stomach", 6 ]
+      [ "hstomach_large", 3 ],
+      [ "stomach", 6 ],
+      [ "hstomach", 6 ]
     ]
   ]
 },{
@@ -6118,7 +6187,7 @@
   "autolearn": true,
   "tools": [
     [ [ "hotplate", 8], [ "char_smoker", 1], [ "toolset", 8], [ "fire", -1] ],
-    [ [ "spear_wood", -1 ], [ "spear_steel", -1 ], [ "pointy_stick", -1 ], [ "skewer", -1 ],
+    [ [ "spear_wood", -1 ], [ "spear_steel", -1 ], [ "pointy_stick", -1 ], [ "skewer", -1 ], [ "skewer_bone", -1 ],
       [ "javelin", -1 ], [ "javelin_iron", -1 ], [ "spear_knife", -1 ], [ "tongs", -1 ] ]
    ],
   "components": [
@@ -6775,6 +6844,7 @@
   "time": 30000,
   "reversible": false,
   "autolearn": true,
+  "batch_time_factors":[83, 5],
   "qualities" : [
     {"id":"CUT","level":1,"amount":1},
     {"id":"COOK","level":3,"amount":1}
@@ -6808,6 +6878,7 @@
   "time": 30000,
   "reversible": false,
   "autolearn": true,
+  "batch_time_factors":[83, 5],
   "qualities" : [
     {"id":"CUT","level":1,"amount":1},
     {"id":"COOK","level":3,"amount":1}
@@ -6842,6 +6913,7 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [[ "cookbook_human", 4 ]],
+  "batch_time_factors":[83, 5],
   "qualities" : [
     {"id":"CUT","level":1,"amount":1},
     {"id":"COOK","level":3,"amount":1}
@@ -6875,6 +6947,7 @@
   "time": 30000,
   "reversible": false,
   "autolearn": true,
+  "batch_time_factors":[83, 5],
   "qualities" : [
     {"id":"CUT","level":1,"amount":1},
     {"id":"COOK","level":3,"amount":1}
@@ -6909,6 +6982,7 @@
   "time": 30000,
   "reversible": false,
   "autolearn": true,
+  "batch_time_factors":[83, 5],
   "qualities" : [
     {"id":"CUT","level":1,"amount":1},
     {"id":"COOK","level":3,"amount":1}
@@ -6988,6 +7062,7 @@
   "time": 30000,
   "reversible": false,
   "autolearn": true,
+  "batch_time_factors":[80, 4],
   "qualities":[
     {"id":"COOK","level":3,"amount":1}
   ], "tools": [
@@ -7056,6 +7131,7 @@
   "time": 30000,
   "reversible": false,
   "autolearn": true,
+  "batch_time_factors":[80, 4],
   "qualities":[
     {"id":"COOK","level":3,"amount":1}
   ], "tools": [
@@ -7116,6 +7192,7 @@
   "time": 30000,
   "reversible": false,
   "autolearn": true,
+  "batch_time_factors":[80, 4],
   "qualities":[
     {"id":"COOK","level":3,"amount":1}
   ], "tools": [
@@ -7188,6 +7265,7 @@
   "time": 30000,
   "reversible": false,
   "autolearn": true,
+  "batch_time_factors":[80, 4],
   "qualities":[
     {"id":"COOK","level":3,"amount":1}
   ], "tools": [
@@ -7274,6 +7352,7 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [[ "cookbook_human", 4 ]],
+  "batch_time_factors":[80, 4],
   "qualities":[
     {"id":"COOK","level":3,"amount":1}
   ], "tools": [
@@ -7332,6 +7411,7 @@
   "time": 30000,
   "reversible": false,
   "autolearn": true,
+  "batch_time_factors":[80, 4],
   "qualities":[
     {"id":"COOK","level":3,"amount":1}
   ], "tools": [
@@ -7394,6 +7474,7 @@
   "time": 60000,
   "reversible": false,
   "autolearn": true,
+  "batch_time_factors":[80, 4],
   "qualities":[
     {"id":"COOK","level":3,"amount":1}
   ], "tools": [
@@ -7432,6 +7513,7 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [[ "cookbook_human", 4 ]],
+  "batch_time_factors":[80, 4],
   "qualities":[
     {"id":"COOK","level":3,"amount":1}
   ], "tools": [
@@ -7694,6 +7776,7 @@
   "time": 30100,
   "reversible": false,
   "autolearn": true,
+  "batch_time_factors":[80, 4],
   "qualities":[
     {"id":"COOK","level":3,"amount":1}
   ], "tools": [
@@ -9237,6 +9320,7 @@
   "time": 30000,
   "reversible": false,
   "autolearn": true,
+  "batch_time_factors":[83, 5],
   "qualities" : [
     {"id":"CUT","level":1,"amount":1},
     {"id":"COOK","level":3,"amount":1}
@@ -9366,6 +9450,7 @@
   "time": 30000,
   "reversible": false,
   "autolearn": true,
+  "batch_time_factors":[83, 5],
   "qualities" : [
     {"id":"CUT","level":1,"amount":1},
     {"id":"COOK","level":3,"amount":1}
@@ -9404,6 +9489,7 @@
   "time": 30000,
   "reversible": false,
   "autolearn": true,
+  "batch_time_factors":[83, 5],
   "qualities" : [
     {"id":"CUT","level":1,"amount":1},
     {"id":"COOK","level":3,"amount":1}
@@ -9443,6 +9529,7 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [[ "cookbook_human", 6 ]],
+  "batch_time_factors":[83, 5],
   "qualities" : [
     {"id":"CUT","level":1,"amount":1},
     {"id":"COOK","level":3,"amount":1}
@@ -9552,6 +9639,7 @@
   "time": 30000,
   "reversible": false,
   "autolearn": true,
+  "batch_time_factors":[80, 4],
   "qualities":[
     {"id":"COOK","level":2,"amount":1}
   ], "tools": [
@@ -9881,7 +9969,6 @@
 },{
   "type" : "recipe",
   "result": "sugar",
-  "id_suffix": "from_sweet_water",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_OTHER",
   "skill_used": "cooking",
@@ -9962,6 +10049,7 @@
   "time": 18000,
   "reversible": false,
   "autolearn": true,
+  "batch_time_factors":[67, 5],
   "qualities":[
   {"id":"CUT","level":1,"amount":1}],
   "tools": [
@@ -9985,6 +10073,7 @@
   "time": 18000,
   "reversible": false,
   "autolearn": true,
+  "batch_time_factors":[67, 5],
   "qualities":[
   {"id":"CUT","level":1,"amount":1}],
   "tools": [
@@ -10008,6 +10097,7 @@
   "time": 30000,
   "reversible": false,
   "autolearn": true,
+  "batch_time_factors":[83, 5],
   "qualities" : [
     {"id":"CUT","level":1,"amount":1},
     {"id":"COOK","level":3,"amount":1}
@@ -10512,7 +10602,6 @@
 {
   "type" : "recipe",
   "result": "honey_bottled",
-  "id_suffix": "from_honeycomb",
   "byproducts": { "id" : "wax", "amount" : 4 },
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_OTHER",
@@ -10601,9 +10690,6 @@
       [ "fire", -1 ]
     ],
     [
-      [ "needle_bone", 2 ],
-      [ "needle_wood", 2 ],
-      [ "tailors_kit", 2 ],
       [ "sewing_kit", 2 ]
     ]
   ],
@@ -10628,6 +10714,61 @@
       [ "jerky", 1 ],
       [ "meat_vac", 1 ],
       [ "meat_smoked", 1 ]
+    ],
+    [
+      [ "fat", 1 ],
+      [ "tallow", 1 ],
+      [ "lard", 1 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "human_haggis",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_MEAT",
+  "skill_used": "cooking",
+  "difficulty": 3,
+  "skills_required": [ "tailor", 1 ],
+  "time": 30000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "cookbook_human", 3 ]],
+  "batch_time_factors":[50, 4],
+  "qualities":[
+    {"id":"BOIL","level":1,"amount":1},
+    {"id":"COOK","level":3,"amount":1},
+    {"id":"CUT","level":1,"amount":1}
+  ], "tools": [
+    [
+      [ "hotplate", 5 ],
+      [ "toolset", 5 ],
+      [ "char_smoker", 1 ],
+      [ "fire", -1 ]
+    ],
+    [
+      [ "sewing_kit", 2 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "water", 1 ],
+      [ "water_clean", 1 ]
+    ],
+    [
+      [ "hstomach", 1 ]
+    ],
+    [
+      [ "oatmeal", 1 ],
+      [ "buckwheat", 1 ]
+    ],
+    [
+      [ "human_flesh", 1 ],
+      [ "rehydrated_hflesh", 1 ],
+      [ "dry_hflesh", 1 ],
+      [ "human_canned", 1 ],
+      [ "jerky_human", 1 ],
+      [ "hflesh_vac", 1 ],
+      [ "human_smoked", 1 ]
     ],
     [
       [ "fat", 1 ],

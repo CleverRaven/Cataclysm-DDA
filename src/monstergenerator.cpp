@@ -347,6 +347,7 @@ void MonsterGenerator::init_flags()
     flag_map["ELECTRONIC"] = MF_ELECTRONIC;
     flag_map["FUR"] = MF_FUR;
     flag_map["LEATHER"] = MF_LEATHER;
+    flag_map["WOOL"] = MF_WOOL;
     flag_map["FEATHER"] = MF_FEATHER;
     flag_map["CBM_CIV"] = MF_CBM_CIV;
     flag_map["BONES"] = MF_BONES;
@@ -612,25 +613,23 @@ std::vector<mon_action_death> MonsterGenerator::get_death_functions(JsonObject &
 }
 
 void MonsterGenerator::load_special_attacks(mtype *m, JsonObject &jo, std::string member) {
-    m->sp_attack.clear(); // make sure we're running with
-    m->sp_freq.clear();   // everything cleared
+    m->special_attacks.clear(); // make sure we're running with everything cleared
 
     if (jo.has_array(member)) {
         JsonArray outer = jo.get_array(member);
         while (outer.has_more()) {
             JsonArray inner = outer.next_array();
-            if ( attack_map.find(inner.get_string(0)) != attack_map.end() ) {
-                m->sp_attack.push_back(attack_map[inner.get_string(0)]);
-                m->sp_freq.push_back(inner.get_int(1));
+            const auto &aname = inner.get_string(0);
+            if ( attack_map.find(aname) != attack_map.end() ) {
+                auto &entry = m->special_attacks[aname];
+                entry.attack = attack_map[aname];
+                entry.cooldown = inner.get_int(1);
+
+                m->special_attacks_names.push_back(aname);
             } else {
                 inner.throw_error("Invalid special_attacks");
             }
         }
-    }
-
-    if (m->sp_attack.empty()) {
-        m->sp_attack.push_back(attack_map["NONE"]);
-        m->sp_freq.push_back(0);
     }
 }
 

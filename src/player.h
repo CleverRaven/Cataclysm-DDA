@@ -192,6 +192,10 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         int calc_focus_equilibrium() const;
         /** Maintains body temperature */
         void update_bodytemp();
+        /** Value of the body temperature corrected by climate control **/
+        int temp_corrected_by_climate_control(int temperature);
+        /** Define blood loss (in percents) */
+        int blood_loss(body_part bp);
         /** Define color for displaying the body temperature */
         nc_color bodytemp_color(int bp) const;
         /** Returns the player's modified base movement cost */
@@ -787,8 +791,8 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         int get_env_resist(body_part bp) const override;
         /** Returns true if the player is wearing something on the entered body_part */
         bool wearing_something_on(body_part bp) const;
-        /** Returns true if the player is wearing the given item */
-        bool is_wearing_item (const item& it) const;
+        /** Returns true if the player is wearing something on the entered body_part, ignoring items with the ALLOWS_NATURAL_ATTACKS flag */
+        bool natural_attack_restricted_on(body_part bp) const;
         /** Returns true if the player is wearing something on their feet that is not SKINTIGHT */
         bool is_wearing_shoes(std::string side = "both") const;
         /** Returns 1 if the player is wearing something on both feet, .5 if on one, and 0 if on neither */
@@ -901,6 +905,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         int has_recipe( const recipe *r, const inventory &crafting_inv ) const;
         bool knows_recipe( const recipe *rec ) const;
         void learn_recipe( const recipe *rec );
+        bool has_recipe_requirements(const recipe *rec) const;
 
         bool studied_all_recipes(const itype &book) const;
 

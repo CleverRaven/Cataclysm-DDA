@@ -280,7 +280,7 @@
         "item" : "tread1",
         "difficulty" : 6,
         "location" : "under",
-        "flags" : ["WHEEL", "VARIABLE_SIZE", "MULTISQUARE"],
+        "flags" : ["WHEEL", "VARIABLE_SIZE", "MULTISQUARE", "TRACKED"],
         "breaks_into" : [
             {"item": "steel_lump", "count": [3, 6]},
             {"item": "steel_chunk", "count": [8, 15]},
@@ -302,7 +302,7 @@
         "item" : "tread2",
         "difficulty" : 7,
         "location" : "under",
-        "flags" : ["WHEEL", "VARIABLE_SIZE", "MULTISQUARE"],
+        "flags" : ["WHEEL", "VARIABLE_SIZE", "MULTISQUARE", "TRACKED"],
         "breaks_into" : [
             {"item": "steel_lump", "count": [12, 20]},
             {"item": "steel_chunk", "count": [25, 60]},
@@ -323,7 +323,7 @@
         "item" : "tread3",
         "difficulty" : 7,
         "location" : "under",
-        "flags" : ["WHEEL", "VARIABLE_SIZE", "MULTISQUARE"],
+        "flags" : ["WHEEL", "VARIABLE_SIZE", "MULTISQUARE", "TRACKED"],
         "breaks_into" : [
             {"item": "steel_lump", "count": [16, 40]},
             {"item": "steel_chunk", "count": [35, 80]},

@@ -96,6 +96,8 @@ void Character::mod_stat( const std::string &stat, int modifier )
 bool Character::move_effects(bool attacking)
 {
     if (has_effect("downed")) {
+        ///\xrefitem Stat_Effects_Dexterity "" "" Dexterity increases chance to stand up when knocked down
+        ///\xrefitem Stat_Effects_Strength "" "" Strength increases chance to stand up when knocked down
         if (rng(0, 40) > get_dex() + get_str() / 2) {
             add_msg_if_player(_("You struggle to stand."));
         } else {
@@ -106,6 +108,7 @@ bool Character::move_effects(bool attacking)
         return false;
     }
     if (has_effect("webbed")) {
+        ///\xrefitem Stat_Effects_Strength "" "" Strength increases chance to escape webs
         if (x_in_y(get_str(), 6 * get_effect_int("webbed"))) {
             add_msg_player_or_npc(m_good, _("You free yourself from the webs!"),
                                     _("<npcname> frees themselves from the webs!"));
@@ -116,6 +119,7 @@ bool Character::move_effects(bool attacking)
         return false;
     }
     if (has_effect("lightsnare")) {
+        ///\xrefitem Stat_Effects_Strength "" "" Strength increases chance to escape light snare
         if(x_in_y(get_str(), 12) || x_in_y(get_dex(), 8)) {
             remove_effect("lightsnare");
             add_msg_player_or_npc(m_good, _("You free yourself from the light snare!"),
@@ -130,6 +134,8 @@ bool Character::move_effects(bool attacking)
         return false;
     }
     if (has_effect("heavysnare")) {
+        ///\xrefitem Stat_Effects_Strength "" "" Strength increases chance to escape heavy snare
+        ///\xrefitem Stat_Effects_Dexterity "" "" Dexterity increases chance to escape heavy snare
         if(x_in_y(get_str(), 32) || x_in_y(get_dex(), 16)) {
             remove_effect("heavysnare");
             add_msg_player_or_npc(m_good, _("You free yourself from the heavy snare!"),
@@ -223,6 +229,7 @@ void Character::recalc_hp()
 {
     int new_max_hp[num_hp_parts];
     for( auto &elem : new_max_hp ) {
+        ///\xrefitem Stat_Effects_Strength "" "" Max Strength increases base hp
         elem = 60 + str_max * 3;
         if (has_trait("HUGE")) {
             // Bad-Huge doesn't quite have the cardio/skeletal/etc to support the mass,
@@ -890,7 +897,9 @@ void Character::reset_stats()
         mod_dodge_bonus(-4);
     }
 
+    ///\xrefitem Stat_Effects_Strength "" "" Max Strength above 15 decreases Dodge bonus (NEGATIVE)
     if (str_max >= 16) {mod_dodge_bonus(-1);} // Penalty if we're huge
+    ///\xrefitem Stat_Effects_Strength "" "" Max Strength below 6 increases Dodge bonus
     else if (str_max <= 5) {mod_dodge_bonus(1);} // Bonus if we're small
 
     nv_cached = false;

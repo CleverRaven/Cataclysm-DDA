@@ -21,7 +21,7 @@ then
 fi
 
 # compile .mo file for each specified language
-if [ $# -gt 0 ]
+if [ $# -gt 0 ] && [ $1 != "all" ]
 then
     for n in $@
     do

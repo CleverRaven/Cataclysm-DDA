@@ -1971,8 +1971,8 @@
     "melee_dice_sides":8,
     "melee_cut":1,
     "dodge":3,
-    "armor_bash":12,
-    "armor_cut":8,
+    "armor_bash":0,
+    "armor_cut":6,
     "vision_day":50,
     "luminance":200,
     "death_drops": {

@@ -21,6 +21,10 @@ extern int save_loading_version;
 class game;
 extern game *g;
 
+#ifdef TILES
+extern void try_sdl_update();
+#endif // TILES
+
 extern bool trigdist;
 extern bool use_tiles;
 extern bool fov_3d;
@@ -396,7 +400,7 @@ class game
         int inv_activatable(std::string const &title);
         int inv_for_liquid(const item &liquid, const std::string &title, bool auto_choose_single);
         int inv_for_salvage(const std::string &title, const salvage_actor &actor );
-        item *inv_map_for_liquid(const item &liquid, const std::string &title);
+        item *inv_map_for_liquid(const item &liquid, const std::string &title, int radius = 0);
         int inv_for_flag(const std::string &flag, const std::string &title, bool auto_choose_single);
         int inv_for_filter(const std::string &title, item_filter filter);
         int inv_for_unequipped(std::string const &title, item_filter filter);
@@ -489,7 +493,7 @@ class game
         void calc_driving_offset(vehicle *veh = NULL);
 
         bool handle_liquid(item &liquid, bool from_ground, bool infinite, item *source = NULL,
-                           item *cont = NULL);
+                           item *cont = NULL, int radius = 0);
 
         //Move_liquid returns the amount of liquid left if we didn't move all the liquid,
         //otherwise returns sentinel -1, signifies transaction fail.

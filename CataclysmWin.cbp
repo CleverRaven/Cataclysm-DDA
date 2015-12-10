@@ -307,7 +307,6 @@
 			<Add option="-Wextra" />
 			<Add option="-Wall" />
 			<Add option="-std=c++11" />
-			<Add option="-Wno-switch -Wno-sign-compare -Wno-missing-braces -Wno-unused-parameter" />
 			<Add option="-DCB_BUILD" />
 			<Add option="-D_WINDOWS -D_MINGW -D_WIN32 -DWIN32 -D__MINGW__" />
 		</Compiler>
