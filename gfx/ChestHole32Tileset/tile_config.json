@@ -20006,7 +20006,7 @@
             { "weight":7, "sprite":640},
             { "weight":1, "sprite":3620},
             { "weight":1, "sprite":3621},
-            { "weight":1, "sprite":3622},
+            { "weight":1, "sprite":3622}
         ],
           "rotates": false
         },
@@ -20103,8 +20103,8 @@
             { "weight":7, "sprite":2038},
             { "weight":1, "sprite":3620},
             { "weight":1, "sprite":3621},
-            { "weight":1, "sprite":3622},
-        ],
+            { "weight":1, "sprite":3622}
+        ]
             },
             {
               "id": "corner",
@@ -20291,7 +20291,7 @@
           "id": "t_tree",
           "fg": [
             { "weight":9, "sprite":2175},
-            { "weight":1, "sprite":3595},
+            { "weight":1, "sprite":3595}
         ],
           "bg": 640,
           "rotates": false
@@ -20395,7 +20395,7 @@
           "id": "t_tree_young",
           "fg": [
             { "weight":9, "sprite":2193},
-            { "weight":1, "sprite":3594},
+            { "weight":1, "sprite":3594}
         ],
           "bg": 640,
           "rotates": false
