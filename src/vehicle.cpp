@@ -1351,7 +1351,7 @@ void vehicle::use_controls(const tripoint &pos)
         plow_on = !plow_on;
         break;
     case toggle_planter:
-        if ( (!planter_on) && g->get_temperature() < 50) { // copied from iexamine::dirtmound
+        if ( (!planter_on) && (!warm_enough_to_plant())) {
             add_msg(m_info, _("It is too cold to plant anything now."));
             break;
         }
@@ -3959,8 +3959,10 @@ void vehicle::idle(bool on_map) {
         engine_on = false;
     }
 
-    if ( planter_on && g->get_temperature() < 50) { // copied from iexamine::dirtmound
-        add_msg(m_info, _("Planter system stopped due to cold"));
+    if ( planter_on && !warm_enough_to_plant()) {
+        if( g->u.sees( global_pos3() ) ) {
+            add_msg(_("The %s's planter turns off due to low temperature."), name.c_str());
+        }
         planter_on = false;
     }
 

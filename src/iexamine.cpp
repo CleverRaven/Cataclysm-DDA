@@ -1528,7 +1528,7 @@ void iexamine::fungus(player *p, map *m, const tripoint &examp)
 void iexamine::dirtmound(player *p, map *m, const tripoint &examp)
 {
 
-    if (g->get_temperature() < 50) { // semi-appropriate temperature for most plants
+    if (!warm_enough_to_plant()) {
         add_msg(m_info, _("It is too cold to plant anything now."));
         return;
     }
