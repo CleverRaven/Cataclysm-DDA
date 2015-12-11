@@ -263,7 +263,11 @@ class JsonIn
         {
             int temp;
             if (!read(temp)) {
-                return false;
+                bool temp2; // backwards compatibility, some now-ints used to be bools
+                if (!read(temp2)) {
+                    return false;
+                }
+                temp = temp2;
             }
             u = static_cast<T>(temp);
             return true;
