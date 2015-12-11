@@ -36,12 +36,6 @@ class lua_console {
         void quit();
         void scroll_up();
         void scroll_down();
-
-        std::map<long, std::function<void()>> callbacks {
-            {KEY_ESCAPE, [this](){ this->quit(); }},
-            {KEY_NPAGE, [this](){ this->scroll_up(); }},
-            {KEY_PPAGE, [this](){ this->scroll_down(); }}
-        };
 };
 
 #endif // LUA_CONSOLE_H

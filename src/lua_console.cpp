@@ -19,7 +19,12 @@ std::string lua_console::get_input()
 {
     long key = 0;
     int pos = -1;
-    return string_input_win( iWin, "", width, 0, 0, width, true, key, pos, "LUA", 0, lines, true, false, callbacks );
+    std::map<long, std::function<void()>> callbacks {
+        { KEY_ESCAPE, [this]() { this->quit(); } },
+        { KEY_NPAGE, [this]() { this->scroll_up(); } },
+        { KEY_PPAGE, [this]() { this->scroll_down(); } } };
+    return string_input_win( iWin, "", width, 0, 0, width, true, key, pos,
+                             "LUA", 0, lines, true, false, callbacks );
 }
 
 void lua_console::draw()
