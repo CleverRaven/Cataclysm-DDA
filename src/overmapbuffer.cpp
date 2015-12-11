@@ -415,7 +415,7 @@ void overmapbuffer::add_vehicle( vehicle *veh )
 omt_knowledge_level overmapbuffer::seen(int x, int y, int z)
 {
     const overmap *om = get_existing_om_global(x, y);
-    if (om==NULL) {
+    if (om==nullptr) {
         return OKL_UNKNOWN;
     }
     return const_cast<overmap*>(om)->seen(x, y, z);
@@ -430,7 +430,7 @@ void overmapbuffer::set_seen(int x, int y, int z, omt_knowledge_level okl)
 const std::string& overmapbuffer::closeup_name(int x, int y, int z)
 {
     const overmap *om = get_existing_om_global(x, y);
-    if (om==NULL) {
+    if (om==nullptr) {
         return nullstring;
     }
     return const_cast<overmap*>(om)->terrain_closeup_name(x, y, z);

@@ -179,7 +179,7 @@ struct map_layer {
     omt_knowledge_level visible[OMAPX][OMAPY];
     bool explored[OMAPX][OMAPY];
     std::vector<om_note> notes;
-    std::unordered_map<std::pair<int,int>, std::string> terrain_closeup_name;
+    std::unordered_map<point, std::string> terrain_closeup_name;
 };
 
 struct node

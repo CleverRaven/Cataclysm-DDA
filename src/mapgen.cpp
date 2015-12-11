@@ -162,7 +162,7 @@ void map::generate(const int x, const int y, const int z, const int turn)
                  t_neast, t_seast, t_nwest, t_swest,
                  t_above, turn, density, z, rsettings);
 
-    if (tname.length()>0) {
+    if (!tname.empty()) {
         overmap_buffer.set_closeup_name(omtx, omty, z, tname);
     }
 
