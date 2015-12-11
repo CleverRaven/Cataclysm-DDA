@@ -65,6 +65,8 @@ static bool needupdate = false;
 Mix_Music *current_music = NULL;
 std::string current_playlist = "";
 size_t current_playlist_at = 0;
+size_t absolute_playlist_at = 0;
+std::vector<std::size_t> playlist_indexes;
 
 struct sound_effect {
     int volume;
@@ -2041,16 +2043,11 @@ void musicFinished() {
     }
 
     // Load the next file to play.
-    if( list.shuffle ) {
-        current_playlist_at = rng( 0, list.entries.size() - 1 );
-    }
-    else {
-        current_playlist_at++;
-    }
+    current_playlist_at = playlist_indexes.at( absolute_playlist_at++ );
 
     // Wrap around if we reached the end of the playlist.
-    if( current_playlist_at >= list.entries.size() ) {
-        current_playlist_at = 0;
+    if( absolute_playlist_at >= list.entries.size() ) {
+        absolute_playlist_at = 0;
     }
 
     const auto &next = list.entries[current_playlist_at];
@@ -2074,13 +2071,15 @@ void play_music(std::string playlist) {
         return;
     }
 
-    current_playlist = playlist;
+    for( size_t i = 0; i < list.entries.size(); i++ ) {
+        playlist_indexes.push_back( i );
+    }
     if( list.shuffle ) {
-        current_playlist_at = rng( 0, list.entries.size() - 1 );
+        std::random_shuffle( playlist_indexes.begin(), playlist_indexes.end() );
     }
-    else {
-        current_playlist_at = 0;
-    }
+
+    current_playlist = playlist;
+    current_playlist_at = playlist_indexes.at( absolute_playlist_at );
 
     const auto &next = list.entries[current_playlist_at];
     play_music_file( next.file, next.volume );
