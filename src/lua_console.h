@@ -2,15 +2,16 @@
 #define LUA_CONSOLE_H
 
 #include "output.h"
-#include "input.h"
 #include "cursesdef.h"
 
-#include <map>
 #include <string>
 #include <vector>
 #include <utility>
 
-class lua_console {
+typedef int nc_color;
+
+class lua_console
+{
     public:
         lua_console();
         ~lua_console();
