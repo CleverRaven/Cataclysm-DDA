@@ -20496,7 +20496,7 @@
         "bashing" : 0,
         "flags" : ["EATEN_COLD", "EATEN_HOT"],
         "fun" : 5,
-    {
+    },{
         "type" : "COMESTIBLE",
         "id" : "eggnog_spiked",
         "name" : "spiked eggnog",
