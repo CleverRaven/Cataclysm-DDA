@@ -2042,13 +2042,7 @@ void musicFinished() {
 
     // Load the next file to play.
     if( list.shuffle ) {
-        size_t next_playlist_at = current_playlist_at;
-        // We'll retry until we get a random number that isn't our current one.
-        while( next_playlist_at == current_playlist_at ) {
-            next_playlist_at = rng( 0, list.entries.size() - 1 );
-        }
-
-        current_playlist_at = next_playlist_at;
+        current_playlist_at = rng( 0, list.entries.size() - 1 );
     }
     else {
         current_playlist_at++;
