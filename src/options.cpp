@@ -987,11 +987,6 @@ void options_manager::init()
                                      false
                                     );
 
-    OPTIONS["INFO_HIGHLIGHT"] = cOpt("interface", _("Show item info highlighting"),
-                                     _("If true, show item info highlighting of important stats."),
-                                     true
-                                    );
-
     mOptionsSort["interface"]++;
 
     OPTIONS["ENABLE_JOYSTICK"] = cOpt("interface", _("Enable Joystick"),

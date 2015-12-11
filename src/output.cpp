@@ -1149,8 +1149,8 @@ std::string replace_colors( std::string text )
     };
 
     for( auto &elem : info_colors ) {
-        text = string_replace( text, "<" + elem.first + ">", OPTIONS["INFO_HIGHLIGHT"] ? "<color_" + elem.second + ">" : "" );
-        text = string_replace( text, "</" + elem.first + ">", OPTIONS["INFO_HIGHLIGHT"] ? "</color>" : "" );
+        text = string_replace( text, "<" + elem.first + ">", "<color_" + elem.second + ">" );
+        text = string_replace( text, "</" + elem.first + ">", "</color>" );
     }
 
     return text;
