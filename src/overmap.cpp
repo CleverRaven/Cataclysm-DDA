@@ -926,9 +926,8 @@ omt_knowledge_level &overmap::seen(int x, int y, int z)
 
 std::string &overmap::terrain_closeup_name(int x, int y, int z)
 {
-    debugmsg("[om::terrain_closeup_name %d %d %d %s]",x,y,z,layer[z + OVERMAP_DEPTH].terrain_closeup_name[point(x,y)].c_str());
-    if (x < 0 || x >= OMAPX || y < 0 || y >= OMAPY || z < -OVERMAP_DEPTH || z > OVERMAP_HEIGHT ||
-        !layer[z + OVERMAP_DEPTH].terrain_closeup_name.count(point(x,y))) {
+    //debugmsg("[om::terrain_closeup_name %d %d %d %s]",x,y,z,layer[z + OVERMAP_DEPTH].terrain_closeup_name[point(x,y)].c_str());
+    if (x < 0 || x >= OMAPX || y < 0 || y >= OMAPY || z < -OVERMAP_DEPTH || z > OVERMAP_HEIGHT) {
         nullstring = "";
         return nullstring;
     }
