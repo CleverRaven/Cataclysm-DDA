@@ -784,9 +784,9 @@ void options_manager::init()
     optionNames["always"]   = _("Always");
     optionNames["never"]    = _("Never");
     OPTIONS["DEATHCAM"]     = cOpt("general", _("DeathCam"),
-                                _("Always: Always start deathcam. Ask: Query upon death. Never: Never show deathcam."),
-                                "always,ask,never", "ask"
-                                );
+                                   _("Always: Always start deathcam. Ask: Query upon death. Never: Never show deathcam."),
+                                   "always,ask,never", "ask"
+                                  );
 
     mOptionsSort["general"]++;
 
@@ -798,6 +798,7 @@ void options_manager::init()
                                    _("Adjust the volume of the music being played in the background."),
                                    0, 200, 100, COPT_NO_SOUND_HIDE
                                   );
+
     OPTIONS["SOUND_EFFECT_VOLUME"] = cOpt("general", _("Sound Effect Volume"),
                                    _("Adjust the volume of sound effects being played by the game."),
                                    0, 200, 100, COPT_NO_SOUND_HIDE
@@ -972,17 +973,23 @@ void options_manager::init()
                                           );
 
     OPTIONS["AUTO_INV_ASSIGN"] = cOpt("interface", _("Auto inventory letters"),
-                                        _("If false, new inventory items will only get letters assigned if they had one before."),
-                                        true
-                                       );
+                                      _("If false, new inventory items will only get letters assigned if they had one before."),
+                                      true
+                                     );
 
     OPTIONS["ITEM_HEALTH_BAR"] = cOpt("interface", _("Show item health bars"),
-                                     _("If true, show item health bars instead of reinforced, scratched etc. text."),
-                                     true
-                                    );
+                                      _("If true, show item health bars instead of reinforced, scratched etc. text."),
+                                      true
+                                     );
+
     OPTIONS["ITEM_SYMBOLS"] = cOpt("interface", _("Show item symbols"),
                                      _("If true, show item symbols in inventory and pick up menu."),
                                      false
+                                    );
+
+    OPTIONS["INFO_HIGHLIGHT"] = cOpt("interface", _("Show item info highlighting"),
+                                     _("If true, show item info highlighting of important stats."),
+                                     true
                                     );
 
     mOptionsSort["interface"]++;
@@ -1081,12 +1088,12 @@ void options_manager::init()
     OPTIONS["SCALING_MODE"] = cOpt("graphics", _("Scaling mode"),
                                    _("Sets the scaling mode, 'none' (default) displays at the game's native resolution, 'nearest'  uses low-quality but fast scaling, and 'linear' provides high-quality scaling."),
                                    "none,nearest,linear", "none", COPT_CURSES_HIDE
-        );
+                                  );
 
     ////////////////////////////DEBUG////////////////////////////
     OPTIONS["DISTANCE_INITIAL_VISIBILITY"] = cOpt("debug", _("Distance initial visibility"),
-            _("Determines the scope, which is known in the beginning of the game."),
-            3, 20, 15
+                                                  _("Determines the scope, which is known in the beginning of the game."),
+                                                  3, 20, 15
                                                  );
 
     mOptionsSort["debug"]++;
@@ -1104,9 +1111,9 @@ void options_manager::init()
     mOptionsSort["debug"]++;
 
     OPTIONS["SKILL_TRAINING_SPEED"] = cOpt("debug", _("Skill training speed"),
-                                 _("Scales experience gained from practicing skills and reading books. 0.5 is half as fast as default, 2.0 is twice as fast, 0.0 disables skill training except for NPC training."),
-                                 0.0, 100.0, 1.0, 0.1
-                                );
+                                           _("Scales experience gained from practicing skills and reading books. 0.5 is half as fast as default, 2.0 is twice as fast, 0.0 disables skill training except for NPC training."),
+                                           0.0, 100.0, 1.0, 0.1
+                                          );
 
     mOptionsSort["debug"]++;
 
@@ -1160,13 +1167,13 @@ void options_manager::init()
                                     );
 
     OPTIONS["NPC_DENSITY"] = cOpt("world_default", _("NPC spawn rate scaling factor"),
-                                    _("A scaling factor that determines density of dynamic NPC spawns."),
-                                    0.0, 100.0, 1.0, 0.01
-                                   );
+                                  _("A scaling factor that determines density of dynamic NPC spawns."),
+                                  0.0, 100.0, 1.0, 0.01
+                                 );
     OPTIONS["MONSTER_UPGRADE_FACTOR"] = cOpt("world_default", _("Monster evolution scaling factor"),
-                                    _("A scaling factor that determines the time between monster upgrades. A higher number means slower evolution. Set to 0.00 to turn off monster upgrades."),
-                                    0.0, 100, 4.0, 0.01
-                                   );
+                                             _("A scaling factor that determines the time between monster upgrades. A higher number means slower evolution. Set to 0.00 to turn off monster upgrades."),
+                                             0.0, 100, 4.0, 0.01
+                                            );
 
     mOptionsSort["world_default"]++;
 
@@ -1190,7 +1197,8 @@ void options_manager::init()
     optionNames["winter"] = _("Winter");
     OPTIONS["INITIAL_SEASON"] = cOpt("world_default", _("Initial season"),
                                      _("Season the player starts in. Options other than the default delay spawn of the character, so food decay and monster spawns will have advanced."),
-                                     "spring,summer,autumn,winter", "spring");
+                                     "spring,summer,autumn,winter", "spring"
+                                    );
 
     OPTIONS["SEASON_LENGTH"] = cOpt("world_default", _("Season length"),
                                     _("Season length, in days."),
@@ -1200,12 +1208,12 @@ void options_manager::init()
     OPTIONS["CONSTRUCTION_SCALING"] = cOpt("world_default", _("Construction scaling"),
                                            _("Multiplies the speed of construction by the given percentage. '0' automatically scales construction to match the world's season length."),
                                            0, 1000, 100
-                                           );
+                                          );
 
     OPTIONS["ETERNAL_SEASON"] = cOpt("world_default", _("Eternal season"),
-                                    _("Keep the initial season for ever."),
-                                    false
-                                   );
+                                     _("Keep the initial season for ever."),
+                                     false
+                                    );
 
     mOptionsSort["world_default"]++;
 
@@ -1250,9 +1258,10 @@ void options_manager::init()
 
     mOptionsSort["world_default"]++;
 
-    OPTIONS["ZLEVELS"] = cOpt( "world_default", _("Experimental z-levels"),
-                               _("If true, experimental z-level maps will be enabled. This feature is not finished yet and turning it on will only slow the game down."),
-                               false );
+    OPTIONS["ZLEVELS"] = cOpt("world_default", _("Experimental z-levels"),
+                              _("If true, experimental z-level maps will be enabled. This feature is not finished yet and turning it on will only slow the game down."),
+                              false
+                             );
 
     for (unsigned i = 0; i < vPages.size(); ++i) {
         mPageItems[i].resize(mOptionsSort[vPages[i].first]);
