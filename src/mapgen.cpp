@@ -93,7 +93,7 @@ const mtype_id mon_zombie_spitter( "mon_zombie_spitter" );
 const mtype_id mon_zombie_tough( "mon_zombie_tough" );
 
 bool connects_to(oter_id there, int dir_from_here);
-void science_room(map *m, int x1, int y1, int x2, int y2, int z, int rotate);
+std::string science_room(map *m, int x1, int y1, int x2, int y2, int z, int rotate);
 void set_science_room(map *m, int x1, int y1, bool faces_right, int turn);
 void silo_rooms(map *m);
 void build_mine_room(map *m, room_type type, int x1, int y1, int x2, int y2, mapgendata & dat);
@@ -221,9 +221,9 @@ void map::generate(const int x, const int y, const int z, const int turn)
     }
 }
 
-void mapgen_function_builtin::generate( map *m, oter_id o, mapgendata mgd, int i, float d )
+std::string mapgen_function_builtin::generate( map *m, oter_id o, mapgendata mgd, int i, float d )
 {
-    (*fptr)( m, o, mgd, i, d );
+    return (*fptr)( m, o, mgd, i, d );
 }
 
 /////////////////////////////////////////////////////////////////////////////////
@@ -1293,6 +1293,11 @@ bool mapgen_function_json::setup() {
             tmpval = "";
         }
 
+        if ( jo.read("upclose_name", tmpval) ) {
+            upclose_name = tmpval;
+            tmpval = "";
+        }
+
         format.reset(new ter_furn_id[ mapgensize * mapgensize ]);
         // just like mapf::basic_bind("stuff",blargle("foo", etc) ), only json input and faster when applying
         if ( jo.has_array("rows") ) {
@@ -1550,7 +1555,7 @@ bool jmapgen_setmap::apply( map *m ) {
 /*
  * Apply mapgen as per a derived-from-json recipe; in theory fast, but not very versatile
  */
-void mapgen_function_json::generate( map *m, oter_id terrain_type, mapgendata md, int t, float d ) {
+std::string mapgen_function_json::generate( map *m, oter_id terrain_type, mapgendata md, int t, float d ) {
     if ( fill_ter != t_null ) {
         m->draw_fill_background( fill_ter );
     }
@@ -1561,7 +1566,7 @@ void mapgen_function_json::generate( map *m, oter_id terrain_type, mapgendata md
         elem.apply( m );
     }
     if ( ! luascript.empty() ) {
-        lua_mapgen( m, std::string( terrain_type ), md, t, d, luascript );
+        lua_mapgen( m, std::string( terrain_type ), md, t, d, luascript, upclose_name );
     }
 
     objects.apply(m, d);
@@ -1571,6 +1576,8 @@ void mapgen_function_json::generate( map *m, oter_id terrain_type, mapgendata md
     if( terrain_type.t().has_flag(rotates) ) {
         mapgen_rotate(m, terrain_type, false );
     }
+
+    return upclose_name;
 }
 
 /*
@@ -1592,8 +1599,9 @@ void jmapgen_objects::apply(map *m, float density) const {
 // wip: need moar bindings. Basic stuff works
 
 #ifndef LUA
-int lua_mapgen( map *m, std::string id, mapgendata md, int t, float d, const std::string & )
+int lua_mapgen( map *m, std::string id, mapgendata md, int t, float d, const std::string &, std::string &upclose_name )
 {
+    upclose_name = "NO LUA";
     mapgen_crater(m,id,md,t,d);
     mapf::formatted_set_simple(m, 0, 6,
 "\
@@ -1613,8 +1621,10 @@ int lua_mapgen( map *m, std::string id, mapgendata md, int t, float d, const std
 }
 #endif
 
-void mapgen_function_lua::generate( map *m, oter_id terrain_type, mapgendata dat, int t, float d ) {
-    lua_mapgen( m, std::string( terrain_type ), dat, t, d, scr );
+std::string mapgen_function_lua::generate( map *m, oter_id terrain_type, mapgendata dat, int t, float d ) {
+    std::string upclose_name = "";
+    lua_mapgen( m, std::string( terrain_type ), dat, t, d, scr, upclose_name );
+    return upclose_name;
 }
 
 /////////////
@@ -1674,6 +1684,8 @@ map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter_id t
     bool terrain_type_found = true;
     const std::string function_key = terrain_type.t().id_mapgen;
 
+    std::string upclose_name = "";
+
 
     std::map<std::string, std::vector<mapgen_function*> >::const_iterator fmapit = oter_mapgen.find( function_key );
     if ( fmapit != oter_mapgen.end() && !fmapit->second.empty() ) {
@@ -1684,7 +1696,7 @@ map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter_id t
         const int fidx = weightit->second.lower_bound( roll )->second;
         //add_msg("draw_map: %s (%s): %d/%d roll %d/%d den %.4f", terrain_type.c_str(), function_key.c_str(), fidx+1, fmapit->second.size(), roll, rlast, density );
 
-        fmapit->second[fidx]->generate(this, terrain_type, dat, turn, density);
+        upclose_name = fmapit->second[fidx]->generate(this, terrain_type, dat, turn, density);
     // todo; make these mappable functions
     } else if (terrain_type == "apartments_mod_tower_1_entrance") {
 
@@ -3362,11 +3374,13 @@ C..C..C...|hhh|#########\n\
             // Set up the boudaries of walls (connect to adjacent lab squares)
             // Are we in an ice lab?
             if ( ice_lab ) {
+                upclose_name = "Ice Lab";
                 tw = is_ot_type("ice_lab", t_north) ? 0 : 2;
                 rw = is_ot_type("ice_lab", t_east) ? 1 : 2;
                 bw = is_ot_type("ice_lab", t_south) ? 1 : 2;
                 lw = is_ot_type("ice_lab", t_west) ? 0 : 2;
             } else {
+                upclose_name = "Lab";
                 tw = is_ot_type("lab", t_north) ? 0 : 2;
                 rw = is_ot_type("lab", t_east) ? 1 : 2;
                 bw = is_ot_type("lab", t_south) ? 1 : 2;
@@ -3389,6 +3403,7 @@ C..C..C...|hhh|#########\n\
             if (boarders == 1) {
                 fill_background(this, t_rock_floor);
                 if (one_in(2)) { //armory and military barracks
+                    upclose_name += " Armory";
                     mapf::formatted_set_simple(this, 0, 0,
                                                "\
 |----------------------|\n\
@@ -3461,6 +3476,7 @@ C..C..C...|hhh|#########\n\
                         add_spawn(mon_zombie_grenadier, rng(1, 2), 12, 12);
                     }
                 } else { //human containment
+                    upclose_name += " Containment";
                     mapf::formatted_set_simple(this, 0, 0,
                                                "\
 |----|-|----|----|-|---|\n\
@@ -3737,7 +3753,7 @@ C..C..C...|hhh|#########\n\
                             }
                         }
                     }
-                    science_room(this, lw, tw, SEEX * 2 - 1 - rw, SEEY * 2 - 1 - bw,
+                    upclose_name += science_room(this, lw, tw, SEEX * 2 - 1 - rw, SEEY * 2 - 1 - bw,
                                  zlevel, rng(0, 3));
                     if (t_above == "lab_stairs" || t_above == "ice_lab_stairs") {
                         int sx, sy;
@@ -3768,6 +3784,7 @@ C..C..C...|hhh|#########\n\
                 case 4: // alien containment
                     fill_background(this, t_rock_floor);
                     if (one_in(4)) {
+                        upclose_name += "Containment";
                         mapf::formatted_set_simple(this, 0, 0,
                                                    "\
 .....|..|.....|........|\n\
@@ -3845,6 +3862,7 @@ C..C..C...|hhh|#########\n\
                         tmpcomp->add_failure(COMPFAIL_SHUTDOWN);
                         lw = lw > 0 ? 1 : 0; // only a single row (not two) of walls on the left
                     } else if (one_in(3)) { //operations or utility
+                        upclose_name += "Operations";
                         mapf::formatted_set_simple(this, 0, 0,
                                                    "\
 .....|...........f.....|\n\
@@ -3910,6 +3928,7 @@ A......D.........|dh...|\n\
                         }
                         lw = 0; // no wall on the left
                     } else if (one_in(2)) { //tribute
+                        upclose_name += "Tribute";
                         mapf::formatted_set_simple(this, 0, 0,
                                                    "\
 %%%%%%%%%|....|%%%%%%%%|\n\
@@ -3968,6 +3987,7 @@ ff.......|....|WWWWWWWW|\n\
                         lw = 0; // no wall on the left
                     }
                     else { //analyzer
+                        upclose_name += "Analyzer";
                         mapf::formatted_set_simple(this, 0, 0,
                                                    "\
 .......................|\n\
@@ -4113,8 +4133,10 @@ ff.......|....|WWWWWWWW|\n\
                terrain_type == "ice_lab_finale") {
 
         if (is_ot_type("ice_lab", terrain_type)) {
+            upclose_name = "Ice Lab";
             ice_lab = true;
         } else {
+            upclose_name = "Lab";
             ice_lab = false;
         }
 
@@ -4157,6 +4179,7 @@ ff.......|....|WWWWWWWW|\n\
         switch (rng(1, 7)) {
         case 1:
         case 2: // Weapons testing
+            upclose_name += "Weapons";
             add_spawn(mon_secubot, 1,            6,            6);
             add_spawn(mon_secubot, 1, SEEX * 2 - 7,            6);
             add_spawn(mon_secubot, 1,            6, SEEY * 2 - 7);
@@ -4202,6 +4225,7 @@ ff.......|....|WWWWWWWW|\n\
             break;
         case 3:
         case 4: { // Netherworld access
+            upclose_name += "Netherworld";
             bool monsters_end = false;
             if (!one_in(4)) { // Trapped netherworld monsters
                 monsters_end = true;
@@ -4249,6 +4273,7 @@ ff.......|....|WWWWWWWW|\n\
         break;
         case 5:
         case 6: { // Bionics
+            upclose_name += "Bionics";
             add_spawn(mon_secubot, 1,            6,            6);
             add_spawn(mon_secubot, 1, SEEX * 2 - 7,            6);
             add_spawn(mon_secubot, 1,            6, SEEY * 2 - 7);
@@ -4276,6 +4301,7 @@ ff.......|....|WWWWWWWW|\n\
         break;
 
         case 7: // CVD Forge
+            upclose_name += "CVD";
             add_spawn(mon_secubot, 1,            6,            6);
             add_spawn(mon_secubot, 1, SEEX * 2 - 7,            6);
             add_spawn(mon_secubot, 1,            6, SEEY * 2 - 7);
@@ -4499,6 +4525,7 @@ ff.......|....|WWWWWWWW|\n\
                 line(this, t_concrete_wall, bx2, by1, bx2, by2);
                 switch (rng(1, 3)) {  // What type of building?
                 case 1: // Barracks
+                    upclose_name = "Barracks";
                     for (int i = by1 + 1; i <= by2 - 1; i += 2) {
                         line_furn(this, f_bed, bx1 + 1, i, bx1 + 2, i);
                         line_furn(this, f_bed, bx2 - 2, i, bx2 - 1, i);
@@ -4509,6 +4536,7 @@ ff.......|....|WWWWWWWW|\n\
                     place_items("mil_books", 45, bx1 + 1, by1 + 1, bx2 - 1, by2 - 1, false, 0);
                     break;
                 case 2: // Armory
+                    upclose_name = "Armory";
                     line_furn(this, f_counter, bx1 + 1, by1 + 1, bx2 - 1, by1 + 1);
                     line_furn(this, f_counter, bx1 + 1, by2 - 1, bx2 - 1, by2 - 1);
                     line_furn(this, f_counter, bx1 + 1, by1 + 2, bx1 + 1, by2 - 2);
@@ -4519,6 +4547,7 @@ ff.......|....|WWWWWWWW|\n\
                     place_items("mil_armor",  40, bx2 - 1, by1 + 2, bx2 - 1, by2 - 2, false, 0);
                     break;
                 case 3: // Supplies
+                    upclose_name = "Supply Outpost";
                     for (int i = by1 + 1; i <= by2 - 1; i += 3) {
                         line_furn(this, f_rack, bx1 + 2, i, bx2 - 2, i);
                         place_items("mil_food", 78, bx1 + 2, i, bx2 - 2, i, false, 0);
@@ -4756,6 +4785,7 @@ ff.......|....|WWWWWWWW|\n\
             square(this, t_grate, SEEX - 1, SEEY - 1, SEEX, SEEX);
             ter_set(SEEX + 1, SEEY + 1, t_pedestal_temple);
         } else { // Underground!  Shit's about to get interesting!
+            upclose_name = "Temple";
             // Start with all rock floor
             square(this, t_rock_floor, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1);
             // We always start at the south and go north.
@@ -4763,6 +4793,7 @@ ff.......|....|WWWWWWWW|\n\
             switch (1 + abs(abs_sub.y / 2 + zlevel + 4) % 4) {// TODO: More varieties!
 
             case 1: // Flame bursts
+                upclose_name += "Flame";
                 square(this, t_rock, 0, 0, SEEX - 1, SEEY * 2 - 1);
                 square(this, t_rock, SEEX + 2, 0, SEEX * 2 - 1, SEEY * 2 - 1);
                 for (int i = 2; i < SEEY * 2 - 4; i++) {
@@ -4772,6 +4803,7 @@ ff.......|....|WWWWWWWW|\n\
                 break;
 
             case 2: // Spreading water
+                upclose_name += "Water";
                 square(this, t_water_dp, 4, 4, 5, 5);
                 add_spawn(mon_sewer_snake, 1, 4, 4);
 
@@ -4798,6 +4830,7 @@ ff.......|....|WWWWWWWW|\n\
                 break;
 
             case 3: { // Flipping walls puzzle
+                upclose_name += "Puzzle";
                 line(this, t_rock, 0, 0, SEEX - 1, 0);
                 line(this, t_rock, SEEX + 2, 0, SEEX * 2 - 1, 0);
                 line(this, t_rock, SEEX - 1, 1, SEEX - 1, 6);
@@ -4884,6 +4917,7 @@ ff.......|....|WWWWWWWW|\n\
             break;
 
             case 4: { // Toggling walls maze
+                upclose_name += "Maze";
                 square(this, t_rock,        0,            0, SEEX     - 1,            1);
                 square(this, t_rock,        0, SEEY * 2 - 2, SEEX     - 1, SEEY * 2 - 1);
                 square(this, t_rock,        0,            2, SEEX     - 4, SEEY * 2 - 3);
@@ -9435,6 +9469,7 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
                 place_spawns( GROUP_DOMESTIC, 2, 10, 15, 12, 17, 1);
             }
         } else {
+            upclose_name = "Fancy Farm";
             dat.fill_groundcover();
             mapf::formatted_set_simple(this, 0, 0,
                                        "\
@@ -9514,6 +9549,7 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
 
         //build barn
         if (t_east == "farm") {
+            upclose_name = "Barn";
             dat.fill_groundcover();
             square(this, t_wall_wood, 3, 3, 20, 20);
             square(this, t_dirtfloor, 4, 4, 19, 19);
@@ -9720,6 +9756,7 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
         // Randomly pick contents
         switch (rng(1, 5)) {
         case 1: { // Groceries
+            upclose_name = "Groceries";
             bool fridge = false;
             for (int x = rng(2, 3); x < SEEX * 2 - 1; x += 3) {
                 for (int y = 2; y <= SEEY; y += SEEY - 2) {
@@ -9750,6 +9787,7 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
         }
         break;
         case 2: // Hardware
+            upclose_name = "Hardware";
             for (int x = 2; x <= 22; x += 4) {
                 line_furn(this, f_rack, x, 4, x, SEEY * 2 - 5);
                 if (one_in(3)) {
@@ -9764,6 +9802,7 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
             }
             break;
         case 3: // Clothing
+            upclose_name = "Clothing";
             for (int x = 2; x < SEEX * 2; x += 6) {
                 for (int y = 3; y <= 9; y += 6) {
                     square_furn(this, f_rack, x, y, x + 1, y + 1);
@@ -9792,6 +9831,7 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
             }
             break;
         case 4: // Cleaning and soft drugs and novels and junk
+            upclose_name = "Misc";
             for (int x = rng(2, 3); x < SEEX * 2 - 1; x += 3) {
                 for (int y = 2; y <= SEEY; y += SEEY - 2) {
                     line_furn(this, f_rack, x, y, x, y + SEEY - 4);
@@ -9806,6 +9846,7 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
             }
             break;
         case 5: // Sporting goods
+            upclose_name = "Sports";
             for (int x = rng(2, 3); x < SEEX * 2 - 1; x += 3) {
                 for (int y = 2; y <= SEEY; y += SEEY - 2) {
                     line_furn(this, f_rack, x, y, x, y + SEEY - 4);
@@ -9997,6 +10038,7 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
             (t_west  == "hospital_entrance" || t_west  == "hospital")   ) {
             // We're in the center; center is always blood lab
             // Large lab
+            upclose_name = "Blood Lab";
             line(this, t_wall,  1,  2, 21,  2);
             line(this, t_wall,  1, 10, 21, 10);
             line(this, t_wall, 21,  3, 21,  9);
@@ -10060,6 +10102,7 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
 
             switch (rng(1, 4)) { // What type?
             case 1: // Dorms
+                upclose_name = "Dorms";
                 // Upper left rooms
                 line(this, t_wall, 1, 5, 9, 5);
                 for (int i = 1; i <= 7; i += 3) {
@@ -10161,6 +10204,7 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
                 break;
 
             case 2: // Offices and cafeteria
+                upclose_name = "Offices";
                 // Offices to north
                 line(this, t_wall, 10, 0, 10, 8);
                 line(this, t_wall, 13, 0, 13, 8);
@@ -10200,6 +10244,7 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
                 break;
 
             case 3: // Operating rooms
+                upclose_name = "Operating Rooms";
                 // First, walls and doors; divide it into four big operating rooms
                 line(this, t_wall, 10,  0, 10,  9);
                 line(this, t_door_c, 10,  4, 10,  5);
@@ -10252,6 +10297,7 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
                 break;
 
             case 4: // Storage
+                upclose_name = "Storage";
                 // Soft drug storage
                 line(this, t_wall, 3,  2, 12,  2);
                 line(this, t_wall, 3, 10, 12, 10);
@@ -10410,6 +10456,7 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
         switch (rng(1, 10)) {
 
         case 1: // Just one. big. room.
+            upclose_name = "Grand Room";
             mansion_room(this, 1, tw, rw, SEEY * 2 - 2, dat);
             if (t_west == "mansion_entrance" || t_west == "mansion") {
                 line(this, t_door_c, 0, SEEY - 1, 0, SEEY);
@@ -10663,6 +10710,7 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
             line(this, t_chainfence_v, 23, 0, 23, 23);
         }
         if(t_west == "fema" && t_east == "fema" && t_south != "fema") {
+            upclose_name = "Lab";
             //lab bottom side
             square(this, t_dirt, 1, 1, 22, 22);
             square(this, t_floor, 4, 4, 19, 19);
@@ -10699,6 +10747,7 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
                 add_spawn(mon_zombie_brute, 1, 16, 17);
             }
         } else if (t_west == "fema_entrance") {
+            upclose_name = "Supply Tent";
             square(this, t_dirt, 1, 1, 22, 22); //Supply tent
             line_furn(this, f_canvas_wall, 4, 4, 19, 4);
             line_furn(this, f_canvas_wall, 4, 4, 4, 19);
@@ -10743,6 +10792,7 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
             case 1:
             case 2:
             case 3:
+                upclose_name = "Bunks";
                 square(this, t_dirt, 1, 1, 22, 22);
                 square_furn(this, f_canvas_wall, 4, 4, 19, 19); //Lodging
                 square_furn(this, f_fema_groundsheet, 5, 5, 18, 18);
@@ -10771,6 +10821,7 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
                 add_spawn(mon_zombie, rng(1, 5), 11, 12);
                 break;
             case 4:
+                upclose_name = "Mess Tent";
                 square(this, t_dirt, 1, 1, 22, 22);
                 square_furn(this, f_canvas_wall, 4, 4, 19, 19); //Mess hall/tent
                 square_furn(this, f_fema_groundsheet, 5, 5, 18, 18);
@@ -10811,6 +10862,7 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
                 add_spawn(mon_zombie, rng(1, 5), 11, 12);
                 break;
             case 5:
+                upclose_name = "Corpse Pit";
                 square(this, t_dirt, 1, 1, 22, 22);
                 square(this, t_fence_barbed, 4, 4, 19, 19);
                 square(this, t_dirt, 5, 5, 18, 18);
@@ -11205,7 +11257,7 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
         }
     }
 
-    return std::string("test");
+    return upclose_name;
 }
 
 void map::post_process(unsigned zones)
@@ -11927,7 +11979,7 @@ bool connects_to(oter_id there, int dir)
     }
 }
 
-void science_room(map *m, int x1, int y1, int x2, int y2, int z, int rotate)
+std::string science_room(map *m, int x1, int y1, int x2, int y2, int z, int rotate)
 {
     int height = y2 - y1;
     int width  = x2 - x1;
@@ -11978,11 +12030,15 @@ void science_room(map *m, int x1, int y1, int x2, int y2, int z, int rotate)
 
     int trapx = rng(x1 + 1, x2 - 1);
     int trapy = rng(y1 + 1, y2 - 1);
+
+    std::string room_name = "";
     switch( random_entry( valid_rooms ) ) {
     case room_closet:
+        room_name = "Closet";
         m->place_items("cleaning", 80, x1, y1, x2, y2, false, 0);
         break;
     case room_lobby:
+        room_name = "Lobby";
         if (rotate % 2 == 0) { // Vertical
             int desk = y1 + rng(int(height / 2) - int(height / 4), int(height / 2) + 1);
             for (int x = x1 + int(width / 4); x < x2 - int(width / 4); x++) {
@@ -12019,9 +12075,11 @@ void science_room(map *m, int x1, int y1, int x2, int y2, int z, int rotate)
                         m->furn_set(x, y, f_counter);
                     }
                     if (one_in(3)) {
+                        room_name = "Mutant";
                         m->place_items("mut_lab", 35, x, y1 + 1, x, y2 - 1, false, 0);
                     }
                     else {
+                        room_name = "Chemistry";
                         m->place_items("chem_lab", 70, x, y1 + 1, x, y2 - 1, false, 0);
                     }
                 }
@@ -12033,9 +12091,11 @@ void science_room(map *m, int x1, int y1, int x2, int y2, int z, int rotate)
                         m->furn_set(x, y, f_counter);
                     }
                     if (one_in(3)) {
+                        room_name = "Mutant";
                         m->place_items("mut_lab", 35, x1 + 1, y, x2 - 1, y, false, 0);
                     }
                     else {
+                        room_name = "Chemistry";
                         m->place_items("chem_lab", 70, x1 + 1, y, x2 - 1, y, false, 0);
                     }
                 }
@@ -12053,6 +12113,7 @@ void science_room(map *m, int x1, int y1, int x2, int y2, int z, int rotate)
                        int((y1 + y2) / 2) + 1, false, 0);
         break;
     case room_goo:
+        room_name = "Fridge";
         do {
             madd_trap( m, trapx, trapy, tr_goo);
             trapx = rng(x1 + 1, x2 - 1);
@@ -12077,6 +12138,7 @@ void science_room(map *m, int x1, int y1, int x2, int y2, int z, int rotate)
         }
         break;
     case room_cloning:
+        room_name = "Cloning";
         for (int x = x1 + 1; x <= x2 - 1; x++) {
             for (int y = y1 + 1; y <= y2 - 1; y++) {
                 if (x % 3 == 0 && y % 3 == 0) {
@@ -12087,6 +12149,7 @@ void science_room(map *m, int x1, int y1, int x2, int y2, int z, int rotate)
         }
         break;
     case room_vivisect:
+        room_name = "Dissection";
         if        (rotate == 0) {
             for (int x = x1; x <= x2; x++) {
                 m->furn_set(x, y2 - 1, f_counter);
@@ -12115,6 +12178,7 @@ void science_room(map *m, int x1, int y1, int x2, int y2, int z, int rotate)
         break;
 
     case room_bionics:
+        room_name = "Bionics";
         if (rotate % 2 == 0) {
             int biox = x1 + 2, bioy = int((y1 + y2) / 2);
             mapf::formatted_set_simple(m, biox - 1, bioy - 1,
@@ -12186,6 +12250,7 @@ void science_room(map *m, int x1, int y1, int x2, int y2, int z, int rotate)
         }
         break;
     case room_dorm:
+        room_name = "Dorm";
         if (rotate % 2 == 0) {
             for (int y = y1 + 1; y <= y2 - 1; y += 3) {
                 m->furn_set(x1    , y, f_bed);
@@ -12245,6 +12310,7 @@ void science_room(map *m, int x1, int y1, int x2, int y2, int z, int rotate)
     default:
         break;
     }
+    return room_name;
 }
 
 void set_science_room(map *m, int x1, int y1, bool faces_right, int turn)

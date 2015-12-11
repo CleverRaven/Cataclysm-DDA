@@ -611,8 +611,24 @@ void overmap::unserialize_view(std::ifstream &fin)
                 }
             }
             jsin.end_array();
-        }
-    }
+        } else if( name == "terrain_closeup_name") {
+            jsin.start_array();
+            for( int z = 0; z < OVERMAP_LAYERS; ++z ) {
+                jsin.start_array();
+                while( !jsin.end_array() ) {
+                    int x, y;
+                    std::string name;
+                    jsin.start_array();
+                    jsin.read(x);
+                    jsin.read(y);
+                    jsin.read(name);
+                    jsin.end_array();
+
+                    layer[z].terrain_closeup_name[point(x,y)]=name;
+                }
+            }
+            jsin.end_array();
+        }    }
 }
 
 template<typename T>
@@ -677,6 +693,22 @@ void overmap::serialize_view( std::ofstream &fout ) const
             json.write(i.x);
             json.write(i.y);
             json.write(i.text);
+            json.end_array();
+            fout << std::endl;
+        }
+        json.end_array();
+    }
+    json.end_array();
+
+    json.member("terrain_closeup_name");
+    json.start_array();
+    for (int z = 0; z < OVERMAP_LAYERS; ++z) {
+        json.start_array();
+        for (auto &i : layer[z].terrain_closeup_name) {
+            json.start_array();
+            json.write(i.first.x);
+            json.write(i.first.y);
+            json.write(i.second);
             json.end_array();
             fout << std::endl;
         }

@@ -1993,8 +1993,9 @@ void overmap::draw(WINDOW *w, WINDOW *wbar, const tripoint &center,
             // OMT terrain name
             int y = fold_and_print(wbar, 1, 3, 25, color, otermap[ccur_ter].name);
             // OMT terrain closeup name
-            // TODO: make this conditional on exploration level
-            fold_and_print(wbar, y + 1, 1, 25, color, overmap_buffer.closeup_name(cursx,cursy,z));
+            if (csee == OKL_UPCLOSE) {
+                fold_and_print(wbar, y + 1, 1, 25, color, overmap_buffer.closeup_name(cursx,cursy,z));
+            }
         }
     } else {
         mvwprintz(wbar, 1, 1, c_dkgray, _("# Unexplored"));

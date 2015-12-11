@@ -385,7 +385,7 @@ void mapgen_rotate( map * m, oter_id terrain_type, bool north_is_down ) {
 ///// builtin terrain-specific mapgen functions. big multi-overmap-tile terrains are located in
 ///// mapgen_functions_big.cpp
 
-void mapgen_null(map *m, oter_id, mapgendata, int, float)
+std::string mapgen_null(map *m, oter_id, mapgendata, int, float)
 {
     debugmsg("Generating null terrain, please report this as a bug");
     for (int i = 0; i < SEEX * 2; i++) {
@@ -394,9 +394,10 @@ void mapgen_null(map *m, oter_id, mapgendata, int, float)
             m->set_radiation(i, j, 0);
         }
     }
+    return "";
 }
 
-void mapgen_crater(map *m, oter_id, mapgendata dat, int, float)
+std::string mapgen_crater(map *m, oter_id, mapgendata dat, int, float)
 {
     for(int i = 0; i < 4; i++) {
         if(dat.t_nesw[i] != "crater") {
@@ -418,7 +419,9 @@ void mapgen_crater(map *m, oter_id, mapgendata dat, int, float)
         }
     }
     m->place_items("wreckage", 83, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, true, 0);
+    return "";
 }
+
 
 // todo: make void map::ter_or_furn_set(const int x, const int y, const ter_furn_id & tfid);
 void ter_or_furn_set( map * m, const int x, const int y, const ter_furn_id & tfid ) {
@@ -433,7 +436,7 @@ void ter_or_furn_set( map * m, const int x, const int y, const ter_furn_id & tfi
  * Default above ground non forested 'blank' area; typically a grassy field with a scattering of shrubs,
  *  but changes according to dat->region
  */
-void mapgen_field(map *m, oter_id, mapgendata dat, int turn, float)
+std::string mapgen_field(map *m, oter_id, mapgendata dat, int turn, float)
 {
     // random area of increased vegetation. Or lava / toxic sludge / etc
     const bool boosted_vegetation = ( dat.region->field_coverage.boost_chance > rng( 0, 1000000 ) );
@@ -460,9 +463,10 @@ void mapgen_field(map *m, oter_id, mapgendata dat, int turn, float)
     }
 
     m->place_items("field", 60, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, true, turn); // fixme: take 'rock' out and add as regional biome setting
+    return "";
 }
 
-void mapgen_dirtlot(map *m, oter_id, mapgendata, int, float)
+std::string mapgen_dirtlot(map *m, oter_id, mapgendata, int, float)
 {
     for (int i = 0; i < SEEX * 2; i++) {
         for (int j = 0; j < SEEY * 2; j++) {
@@ -482,9 +486,10 @@ void mapgen_dirtlot(map *m, oter_id, mapgendata, int, float)
             m->add_vehicle( vgroup_id("dirtlot"), vp, theta, -1, -1 );
         }
     }
+    return "";
 }
 // todo: more region_settings for forest biome
-void mapgen_forest_general(map *m, oter_id terrain_type, mapgendata dat, int turn, float)
+std::string mapgen_forest_general(map *m, oter_id terrain_type, mapgendata dat, int turn, float)
 {
     if (terrain_type == "forest_thick") {
         dat.fill(8);
@@ -700,10 +705,12 @@ void mapgen_forest_general(map *m, oter_id terrain_type, mapgendata dat, int tur
         m->furn_set(12, 12, f_egg_sackws);
         m->remove_field({12, 12, m->get_abs_sub().z}, fd_web);
         m->add_spawn(mon_spider_web, rng(1, 2), SEEX, SEEY);
+        return "Spider Web";
     }
+    return "";
 }
 
-void mapgen_hive(map *m, oter_id, mapgendata dat, int turn, float)
+std::string mapgen_hive(map *m, oter_id, mapgendata dat, int turn, float)
 {
     // Start with a basic forest pattern
     for (int i = 0; i < SEEX * 2; i++) {
@@ -831,9 +838,10 @@ void mapgen_hive(map *m, oter_id, mapgendata dat, int turn, float)
             }
         }
     }
+    return "";
 }
 
-void mapgen_spider_pit(map *m, oter_id, mapgendata dat, int turn, float)
+std::string mapgen_spider_pit(map *m, oter_id, mapgendata dat, int turn, float)
 {
     // First generate a forest
     dat.fill(4);
@@ -896,9 +904,10 @@ void mapgen_spider_pit(map *m, oter_id, mapgendata dat, int turn, float)
             }
         }
     }
+    return "";
 }
 
-void mapgen_fungal_bloom(map *m, oter_id, mapgendata dat, int, float)
+std::string mapgen_fungal_bloom(map *m, oter_id, mapgendata dat, int, float)
 {
     (void)dat;
     for (int i = 0; i < SEEX * 2; i++) {
@@ -923,9 +932,10 @@ void mapgen_fungal_bloom(map *m, oter_id, mapgendata dat, int, float)
     }
     square(m, t_fungus, SEEX - 2, SEEY - 2, SEEX + 2, SEEY + 2);
     m->add_spawn(mon_fungaloid_queen, 1, 12, 12);
+    return "";
 }
 
-void mapgen_fungal_tower(map *m, oter_id, mapgendata dat, int, float)
+std::string mapgen_fungal_tower(map *m, oter_id, mapgendata dat, int, float)
 {
     (void)dat;
     for (int i = 0; i < SEEX * 2; i++) {
@@ -946,9 +956,10 @@ void mapgen_fungal_tower(map *m, oter_id, mapgendata dat, int, float)
     }
     square(m, t_fungus, SEEX - 2, SEEY - 2, SEEX + 2, SEEY + 2);
     m->add_spawn(mon_fungaloid_tower, 1, 12, 12);
+    return "";
 }
 
-void mapgen_fungal_flowers(map *m, oter_id, mapgendata dat, int, float)
+std::string mapgen_fungal_flowers(map *m, oter_id, mapgendata dat, int, float)
 {
     (void)dat;
     for (int i = 0; i < SEEX * 2; i++) {
@@ -975,9 +986,10 @@ void mapgen_fungal_flowers(map *m, oter_id, mapgendata dat, int, float)
     }
     square(m, t_fungus, SEEX - 2, SEEY - 2, SEEX + 2, SEEY + 2);
     m->add_spawn(mon_fungaloid_seeder, 1, 12, 12);
+    return "";
 }
 
-void mapgen_road_straight(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
+std::string mapgen_road_straight(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
 {
     bool sidewalks = false;
     for (int i = 0; i < 8; i++) {
@@ -1016,9 +1028,10 @@ void mapgen_road_straight(map *m, oter_id terrain_type, mapgendata dat, int turn
         }
     }
     m->place_items("road", 5, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, false, turn);
+    return "";
 }
 
-void mapgen_road_end(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
+std::string mapgen_road_end(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
 {
     bool sidewalks = false;
     for (int i = 0; i < 8; i++) {
@@ -1116,9 +1129,10 @@ ssss.......yy.......ssss\n",
         }
     }
     m->place_items("road", 5, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, false, turn);
+    return "";
 }
 
-void mapgen_road_curved(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
+std::string mapgen_road_curved(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
 {
     bool sidewalks = false;
     for (int i = 0; i < 8; i++) {
@@ -1221,9 +1235,10 @@ ssss....................\n\
         }
     }
     m->place_items("road", 5, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, false, turn);
+    return "";
 }
 
-void mapgen_road_tee(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
+std::string mapgen_road_tee(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
 {
     bool sidewalks = false;
     for (int i = 0; i < 8; i++) {
@@ -1269,9 +1284,10 @@ void mapgen_road_tee(map *m, oter_id terrain_type, mapgendata dat, int turn, flo
         }
     }
     m->place_items("road", 5, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, false, turn);
+    return "";
 }
 
-void mapgen_road_four_way(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
+std::string mapgen_road_four_way(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
 {
     bool plaza = false;
     for (int i = 0; i < 4; i++) {
@@ -1353,11 +1369,12 @@ t   t\n\
     if (terrain_type == "road_nesw_manhole") {
         m->ter_set(rng(6, SEEX * 2 - 6), rng(6, SEEX * 2 - 6), t_manhole_cover);
     }
+    return plaza?"Plaza":"";
 }
 ///////////////////
 
 //    } else if (terrain_type == "subway_station") {
-void mapgen_subway_station(map *m, oter_id, mapgendata dat, int, float)
+std::string mapgen_subway_station(map *m, oter_id, mapgendata dat, int, float)
 {
         if (is_ot_type("subway", dat.north()) && connects_to(dat.north(), 2)) {
             dat.set_dir(0, 1); //n_fac = 1;
@@ -1403,9 +1420,10 @@ void mapgen_subway_station(map *m, oter_id, mapgendata dat, int, float)
         if (m->ter(SEEX, SEEY * 2 - 3) == t_floor) {
             m->ter_set(SEEX, SEEY * 2 - 3, t_stairs_up);
         }
+    return "";
 }
 
-void mapgen_subway_straight(map *m, oter_id terrain_type, mapgendata dat, int, float)
+std::string mapgen_subway_straight(map *m, oter_id terrain_type, mapgendata dat, int, float)
 {
         if (terrain_type == "subway_ns") {
             dat.w_fac = (dat.west()  == "cavern" ? 0 : 4);
@@ -1433,9 +1451,10 @@ void mapgen_subway_straight(map *m, oter_id terrain_type, mapgendata dat, int, f
         if (terrain_type == "subway_ew") {
             m->rotate(1);
         }
+    return "";
 }
 
-void mapgen_subway_curved(map *m, oter_id terrain_type, mapgendata dat, int, float)
+std::string mapgen_subway_curved(map *m, oter_id terrain_type, mapgendata dat, int, float)
 {
         for (int i = 0; i < SEEX * 2; i++) {
             for (int j = 0; j < SEEY * 2; j++) {
@@ -1462,9 +1481,10 @@ void mapgen_subway_curved(map *m, oter_id terrain_type, mapgendata dat, int, flo
         if (terrain_type == "subway_wn") {
             m->rotate(3);
         }
+    return "";
 }
 
-void mapgen_subway_tee(map *m, oter_id terrain_type, mapgendata dat, int, float)
+std::string mapgen_subway_tee(map *m, oter_id terrain_type, mapgendata dat, int, float)
 {
         for (int i = 0; i < SEEX * 2; i++) {
             for (int j = 0; j < SEEY * 2; j++) {
@@ -1491,9 +1511,10 @@ void mapgen_subway_tee(map *m, oter_id terrain_type, mapgendata dat, int, float)
         if (terrain_type == "subway_new") {
             m->rotate(3);
         }
+    return "";
 }
 
-void mapgen_subway_four_way(map *m, oter_id, mapgendata dat, int, float)
+std::string mapgen_subway_four_way(map *m, oter_id, mapgendata dat, int, float)
 {
 
         for (int i = 0; i < SEEX * 2; i++) {
@@ -1514,9 +1535,10 @@ void mapgen_subway_four_way(map *m, oter_id, mapgendata dat, int, float)
             m->ter_set(4 + rng(0, 1) * (SEEX * 2 - 9), 4 + rng(0, 1) * (SEEY * 2 - 9), t_stairs_up);
         }
         m->place_items("subway", 40, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, true, 0);
+    return "";
 }
 
-void mapgen_sewer_straight(map *m, oter_id terrain_type, mapgendata dat, int, float)
+std::string mapgen_sewer_straight(map *m, oter_id terrain_type, mapgendata dat, int, float)
 {
     (void)dat;
         for (int i = 0; i < SEEX * 2; i++) {
@@ -1532,9 +1554,10 @@ void mapgen_sewer_straight(map *m, oter_id terrain_type, mapgendata dat, int, fl
         if (terrain_type == "sewer_ew") {
             m->rotate(1);
         }
+    return "";
 }
 
-void mapgen_sewer_curved(map *m, oter_id terrain_type, mapgendata dat, int, float)
+std::string mapgen_sewer_curved(map *m, oter_id terrain_type, mapgendata dat, int, float)
 {
     (void)dat;
         for (int i = 0; i < SEEX * 2; i++) {
@@ -1556,9 +1579,10 @@ void mapgen_sewer_curved(map *m, oter_id terrain_type, mapgendata dat, int, floa
         if (terrain_type == "sewer_wn") {
             m->rotate(3);
         }
+    return "";
 }
 
-void mapgen_sewer_tee(map *m, oter_id terrain_type, mapgendata dat, int, float)
+std::string mapgen_sewer_tee(map *m, oter_id terrain_type, mapgendata dat, int, float)
 {
     (void)dat;
         for (int i = 0; i < SEEX * 2; i++) {
@@ -1580,9 +1604,10 @@ void mapgen_sewer_tee(map *m, oter_id terrain_type, mapgendata dat, int, float)
         if (terrain_type == "sewer_new") {
             m->rotate(3);
         }
+    return "";
 }
 
-void mapgen_sewer_four_way(map *m, oter_id, mapgendata dat, int, float)
+std::string mapgen_sewer_four_way(map *m, oter_id, mapgendata dat, int, float)
 {
     (void)dat;
         int rn = rng(0, 3);
@@ -1605,10 +1630,11 @@ void mapgen_sewer_four_way(map *m, oter_id, mapgendata dat, int, float)
             }
         }
         m->place_items("sewer", 28, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, true, 0);
+    return "";
 }
 
 ///////////////////
-void mapgen_bridge(map *m, oter_id terrain_type, mapgendata dat, int turn, float)
+std::string mapgen_bridge(map *m, oter_id terrain_type, mapgendata dat, int turn, float)
 {
     (void)dat;
     for (int i = 0; i < SEEX * 2; i++) {
@@ -1636,9 +1662,10 @@ void mapgen_bridge(map *m, oter_id terrain_type, mapgendata dat, int turn, float
         m->rotate(1);
     }
     m->place_items("road", 5, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, false, turn);
+    return "";
 }
 
-void mapgen_highway(map *m, oter_id terrain_type, mapgendata dat, int turn, float)
+std::string mapgen_highway(map *m, oter_id terrain_type, mapgendata dat, int turn, float)
 {
     for (int i = 0; i < SEEX * 2; i++) {
         for (int j = 0; j < SEEY * 2; j++) {
@@ -1663,15 +1690,17 @@ void mapgen_highway(map *m, oter_id terrain_type, mapgendata dat, int turn, floa
         m->rotate(1);
     }
     m->place_items("road", 8, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, false, turn);
+    return "";
 }
 
-void mapgen_river_center(map *m, oter_id, mapgendata dat, int, float)
+std::string mapgen_river_center(map *m, oter_id, mapgendata dat, int, float)
 {
     (void)dat;
     fill_background(m, t_water_dp);
+    return "";
 }
 
-void mapgen_river_curved_not(map *m, oter_id terrain_type, mapgendata dat, int, float)
+std::string mapgen_river_curved_not(map *m, oter_id terrain_type, mapgendata dat, int, float)
 {
     (void)dat;
     fill_background(m, t_water_dp);
@@ -1701,9 +1730,10 @@ void mapgen_river_curved_not(map *m, oter_id terrain_type, mapgendata dat, int, 
     if (terrain_type == "river_c_not_nw") {
         m->rotate(3);
     }
+    return "";
 }
 
-void mapgen_river_straight(map *m, oter_id terrain_type, mapgendata dat, int, float)
+std::string mapgen_river_straight(map *m, oter_id terrain_type, mapgendata dat, int, float)
 {
     (void)dat;
     fill_background(m, t_water_dp);
@@ -1724,9 +1754,10 @@ void mapgen_river_straight(map *m, oter_id terrain_type, mapgendata dat, int, fl
     if (terrain_type == "river_west") {
         m->rotate(3);
     }
+    return "";
 }
 
-void mapgen_river_curved(map *m, oter_id terrain_type, mapgendata dat, int, float)
+std::string mapgen_river_curved(map *m, oter_id terrain_type, mapgendata dat, int, float)
 {
     (void)dat;
     fill_background(m, t_water_dp);
@@ -1753,9 +1784,10 @@ void mapgen_river_curved(map *m, oter_id terrain_type, mapgendata dat, int, floa
     if (terrain_type == "river_nw") {
         m->rotate(3);
     }
+    return "";
 }
 
-void mapgen_parking_lot(map *m, oter_id, mapgendata dat, int turn, float)
+std::string mapgen_parking_lot(map *m, oter_id, mapgendata dat, int turn, float)
 {
     for (int i = 0; i < SEEX * 2; i++) {
         for (int j = 0; j < SEEY * 2; j++) {
@@ -1778,9 +1810,10 @@ void mapgen_parking_lot(map *m, oter_id, mapgendata dat, int turn, float)
             m->rotate(i);
         }
     }
+    return "";
 }
 
-void mapgen_gas_station(map *m, oter_id terrain_type, mapgendata dat, int, float density)
+std::string mapgen_gas_station(map *m, oter_id terrain_type, mapgendata dat, int, float density)
 {
     int top_w = rng(5, 14);
     int bottom_w = SEEY * 2 - rng(1, 2);
@@ -1892,6 +1925,7 @@ void mapgen_gas_station(map *m, oter_id terrain_type, mapgendata dat, int, float
         m->rotate(3);
     }
     m->place_spawns( mongroup_id( "GROUP_ZOMBIE" ), 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, density);
+    return "";
 }
 ////////////////////
 
@@ -2221,19 +2255,22 @@ void house_room(map *m, room_type type, int x1, int y1, int x2, int y2, mapgenda
 }
 
 
-void mapgen_generic_house_boxy(map *m, oter_id terrain_type, mapgendata dat, int turn, float density) {
+std::string mapgen_generic_house_boxy(map *m, oter_id terrain_type, mapgendata dat, int turn, float density) {
     mapgen_generic_house(m, terrain_type, dat, turn, density, 1);
+    return "";
 }
 
-void mapgen_generic_house_big_livingroom(map *m, oter_id terrain_type, mapgendata dat, int turn, float density) {
+std::string mapgen_generic_house_big_livingroom(map *m, oter_id terrain_type, mapgendata dat, int turn, float density) {
     mapgen_generic_house(m, terrain_type, dat, turn, density, 2);
+    return "";
 }
 
-void mapgen_generic_house_center_hallway(map *m, oter_id terrain_type, mapgendata dat, int turn, float density) {
+std::string mapgen_generic_house_center_hallway(map *m, oter_id terrain_type, mapgendata dat, int turn, float density) {
     mapgen_generic_house(m, terrain_type, dat, turn, density, 3);
+    return "";
 }
 
-void mapgen_generic_house(map *m, oter_id terrain_type, mapgendata dat, int turn, float density, int variant)
+std::string mapgen_generic_house(map *m, oter_id terrain_type, mapgendata dat, int turn, float density, int variant)
 {
     int rn = 0;
     int lw = 0;
@@ -2678,10 +2715,11 @@ void mapgen_generic_house(map *m, oter_id terrain_type, mapgendata dat, int turn
     if ( iid_diff > 0 ) {
         m->rotate(iid_diff);
     }
+    return "";
 }
 
 /////////////////////////////
-void mapgen_church_new_england(map *m, oter_id terrain_type, mapgendata dat, int, float) {
+std::string mapgen_church_new_england(map *m, oter_id terrain_type, mapgendata dat, int, float) {
     computer *tmpcomp = NULL;
     dat.fill_groundcover();
     //New England or Country style, single centered steeple low clear windows
@@ -2729,9 +2767,10 @@ void mapgen_church_new_england(map *m, oter_id terrain_type, mapgendata dat, int
     tmpcomp->add_option(_("Wedding Toll"), COMPACT_TOLL, 0);
     tmpcomp->add_option(_("Funeral Toll"), COMPACT_TOLL, 0);
     autorotate(true);
+    return "";
 }
 
-void mapgen_church_gothic(map *m, oter_id terrain_type, mapgendata dat, int, float) {
+std::string mapgen_church_gothic(map *m, oter_id terrain_type, mapgendata dat, int, float) {
     computer *tmpcomp = NULL;
     dat.fill_groundcover();
     //Gothic Style, unreachable high stained glass windows, stone construction
@@ -2781,12 +2820,13 @@ ssssssssssssssssssssssss\n",
     tmpcomp->add_option(_("Wedding Toll"), COMPACT_TOLL, 0);
     tmpcomp->add_option(_("Funeral Toll"), COMPACT_TOLL, 0);
     autorotate(true);
+    return "";
 }
 
 
 
 //////////////////////////////
-void mapgen_pharm(map *m, oter_id terrain_type, mapgendata dat, int, float density) {
+std::string mapgen_pharm(map *m, oter_id terrain_type, mapgendata dat, int, float density) {
 
     int lw = 0;
     int rw = 0;
@@ -2872,9 +2912,10 @@ void mapgen_pharm(map *m, oter_id terrain_type, mapgendata dat, int, float densi
         autorotate(false);
         m->place_spawns( mongroup_id( "GROUP_PHARM" ), 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, density);
 
+    return "";
 }
 
-void mapgen_s_hardware(map *m, oter_id terrain_type, mapgendata dat, int, float density) {
+std::string mapgen_s_hardware(map *m, oter_id terrain_type, mapgendata dat, int, float density) {
   int rn = 0;
 
 
@@ -3016,9 +3057,10 @@ void mapgen_s_hardware(map *m, oter_id terrain_type, mapgendata dat, int, float 
         }
         autorotate(false);
         m->place_spawns( mongroup_id( "GROUP_ZOMBIE" ), 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, density);
+    return "";
 }
 
-void mapgen_s_sports(map *m, oter_id terrain_type, mapgendata dat, int, float density) {
+std::string mapgen_s_sports(map *m, oter_id terrain_type, mapgendata dat, int, float density) {
 //    } else if (is_ot_type("s_sports", terrain_type)) {
   int rn = 0;
     int lw = 0;
@@ -3092,11 +3134,12 @@ void mapgen_s_sports(map *m, oter_id terrain_type, mapgendata dat, int, float de
         }
         autorotate(false);
         m->place_spawns( mongroup_id( "GROUP_ZOMBIE" ), 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, density);
+    return "";
 }
 
 ////////////////////
 //    } else if (terrain_type == "shelter") {
-void mapgen_shelter(map *m, oter_id, mapgendata dat, int, float) {
+std::string mapgen_shelter(map *m, oter_id, mapgendata dat, int, float) {
     static const mongroup_id GROUP_ZOMBIE( "GROUP_ZOMBIE" );
 
         // Init to grass & dirt;
@@ -3148,10 +3191,11 @@ void mapgen_shelter(map *m, oter_id, mapgendata dat, int, float) {
             m->place_spawns( GROUP_ZOMBIE, ACTIVE_WORLD_OPTIONS["SPAWN_DENSITY"], 0, SEEX * 2 - 3,
                          SEEX * 2 - 1, SEEX * 2 - 1, 0.4f);
         }
+    return "";
 }
 
 
-void mapgen_shelter_under(map *m, oter_id, mapgendata dat, int, float) {
+std::string mapgen_shelter_under(map *m, oter_id, mapgendata dat, int, float) {
 //    } else if (terrain_type == "shelter_under") {
 
 (void)dat;
@@ -3175,10 +3219,11 @@ void mapgen_shelter_under(map *m, oter_id, mapgendata dat, int, float) {
             // Scatter around some items.
             m->place_items("shelter", 80, 6, 6, SEEX * 2 - 8, SEEY * 2 - 8, false, 0);
         }
+    return "";
 }
 
 
-void mapgen_lmoe(map *m, oter_id, mapgendata dat, int, float) {
+std::string mapgen_lmoe(map *m, oter_id, mapgendata dat, int, float) {
 //    } else if (terrain_type == "lmoe") {
 
         // Init to grass & dirt;
@@ -3208,12 +3253,13 @@ void mapgen_lmoe(map *m, oter_id, mapgendata dat, int, float) {
         line(m, t_tree_young, 14, 13, 15, 13);
         m->ter_set(10, 14, t_tree_young);
         m->ter_set(13, 14, t_tree_young);
+    return "";
 }
 
 
 
 ///////////////////////////////////////////////////////////
-void mapgen_basement_generic_layout(map *m, oter_id, mapgendata dat, int, float)
+std::string mapgen_basement_generic_layout(map *m, oter_id, mapgendata dat, int, float)
 {
     // boxy
 (void)dat;
@@ -3231,9 +3277,10 @@ void mapgen_basement_generic_layout(map *m, oter_id, mapgendata dat, int, float)
     line(m, t_rock, SEEX - 2, SEEY * 2 - 4, SEEX - 2, SEEY * 2 - 2);
     line(m, t_rock, SEEX + 1, SEEY * 2 - 4, SEEX + 1, SEEY * 2 - 2);
     line(m, t_door_locked, SEEX - 1, SEEY * 2 - 4, SEEX, SEEY * 2 - 4);
+    return "";
 }
 
-void mapgen_basement_junk(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
+std::string mapgen_basement_junk(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
 {
     // Junk!
     mapgen_basement_generic_layout(m, terrain_type, dat, turn, density);
@@ -3306,9 +3353,10 @@ void mapgen_basement_junk(map *m, oter_id terrain_type, mapgendata dat, int turn
     m->place_items("homeguns", 10, 1, 1, SEEX * 2 - 2, SEEY * 2 - 2, false, 0);
     // Chance of zombies in the basement, only appear north of the anteroom the stairs are in.
     m->place_spawns( mongroup_id( "GROUP_ZOMBIE" ), 2, 1, 1, SEEX * 2 - 1, SEEX * 2 - 5, density);
+    return "";
 }
 
-void mapgen_basement_guns(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
+std::string mapgen_basement_guns(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
 {
     // Weapons cache
     mapgen_basement_generic_layout(m, terrain_type, dat, turn, density);
@@ -3323,9 +3371,10 @@ void mapgen_basement_guns(map *m, oter_id terrain_type, mapgendata dat, int turn
     m->place_items("weapons", 88, SEEX * 2 - 6, 9, SEEX * 2 - 3, 9, false, 0);
     // Chance of zombies in the basement, only appear north of the anteroom the stairs are in.
     m->place_spawns( mongroup_id( "GROUP_PREPPER_HOUSE" ), 2, 1, 1, SEEX * 2 - 1, SEEX * 2 - 5, 0.2f);
+    return "";
 }
 
-void mapgen_basement_survivalist(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
+std::string mapgen_basement_survivalist(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
 {
     // Survival Bunker
     mapgen_basement_generic_layout(m, terrain_type, dat, turn, density);
@@ -3347,9 +3396,10 @@ void mapgen_basement_survivalist(map *m, oter_id terrain_type, mapgendata dat, i
     m->place_items("bed",  60, SEEX * 2 - 2, 1, SEEX * 2 - 2, 2, false, 0);
     // Chance of zombies in the basement, only appear north of the anteroom the stairs are in.
     m->place_spawns( mongroup_id( "GROUP_PREPPER_HOUSE" ), 2, 1, 1, SEEX * 2 - 1, SEEX * 2 - 5, 0.2f);
+    return "";
 }
 
-void mapgen_basement_chemlab(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
+std::string mapgen_basement_chemlab(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
 {
     // Chem lab
     mapgen_basement_generic_layout(m, terrain_type, dat, turn, density);
@@ -3365,9 +3415,10 @@ void mapgen_basement_chemlab(map *m, oter_id terrain_type, mapgendata dat, int t
     }
     // Chance of zombies in the basement, only appear north of the anteroom the stairs are in.
     m->place_spawns( mongroup_id( "GROUP_ZOMBIE" ), 2, 1, 1, SEEX * 2 - 1, SEEX * 2 - 5, density);
+    return "";
 }
 
-void mapgen_basement_weed(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
+std::string mapgen_basement_weed(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
 {
     // Weed grow
     mapgen_basement_generic_layout(m, terrain_type, dat, turn, density);
@@ -3409,9 +3460,10 @@ void mapgen_basement_weed(map *m, oter_id terrain_type, mapgendata dat, int turn
     }
     // Chance of zombies in the basement, only appear north of the anteroom the stairs are in.
     m->place_spawns( mongroup_id( "GROUP_ZOMBIE" ), 2, 1, 1, SEEX * 2 - 1, SEEX * 2 - 5, density);
+    return "";
 }
 
-void mapgen_basement_game(map *m, oter_id /*terrain_type*/, mapgendata dat,
+std::string mapgen_basement_game(map *m, oter_id /*terrain_type*/, mapgendata dat,
                           int /*turn*/, float density)
 {
 
@@ -3479,9 +3531,10 @@ void mapgen_basement_game(map *m, oter_id /*terrain_type*/, mapgendata dat,
         m->place_items("pool_table", 90,  17, 14, 18, 16, false, 0);
         m->place_items("livingroom", 60, 9, 1, 23, 19, false, 0);
         m->place_spawns( mongroup_id( "GROUP_ZOMBIE" ), 2, 9, 1, SEEX * 2 - 1, SEEX * 2 - 5, density);
+    return "";
 }
 
-void mapgen_basement_spiders(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
+std::string mapgen_basement_spiders(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
 {
     // Oh no! A spider nest!
     mapgen_basement_junk(m, terrain_type, dat, turn, density);
@@ -3498,10 +3551,11 @@ void mapgen_basement_spiders(map *m, oter_id terrain_type, mapgendata dat, int t
             }
         }
         m->place_items("rare", 70, 1, 1, SEEX * 2 - 1, SEEY * 2 - 1, false, turn);
+    return "";
 }
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////
-void mapgen_office_doctor(map *m, oter_id terrain_type, mapgendata dat, int, float)
+std::string mapgen_office_doctor(map *m, oter_id terrain_type, mapgendata dat, int, float)
 {
 
 //    } else if (is_ot_type("office_doctor", terrain_type)) {
@@ -3569,100 +3623,111 @@ void mapgen_office_doctor(map *m, oter_id terrain_type, mapgendata dat, int, flo
 
         autorotate(true);
 
+    return "";
 }
 
 
-void mapgen_apartments_mod_tower_1_entrance(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
+std::string mapgen_apartments_mod_tower_1_entrance(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
 {
     (void)m; (void)terrain_type; (void)dat; (void)turn; (void)density; // STUB
 /*
 
 */
+    return "";
 }
 
 
-void mapgen_apartments_mod_tower_1(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
+std::string mapgen_apartments_mod_tower_1(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
 {
     (void)m; (void)terrain_type; (void)dat; (void)turn; (void)density; // STUB
 /*
 
 */
+    return "";
 }
 
 
-void mapgen_office_tower_1_entrance(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
+std::string mapgen_office_tower_1_entrance(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
 {
     (void)m; (void)terrain_type; (void)dat; (void)turn; (void)density; // STUB
 /*
 
 */
+    return "";
 }
 
 
-void mapgen_office_tower_1(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
+std::string mapgen_office_tower_1(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
 {
     (void)m; (void)terrain_type; (void)dat; (void)turn; (void)density; // STUB
 /*
 
 */
+    return "";
 }
 
 
-void mapgen_office_tower_b_entrance(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
+std::string mapgen_office_tower_b_entrance(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
 {
     (void)m; (void)terrain_type; (void)dat; (void)turn; (void)density; // STUB
 /*
 
 */
+    return "";
 }
 
 
-void mapgen_office_tower_b(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
+std::string mapgen_office_tower_b(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
 {
     (void)m; (void)terrain_type; (void)dat; (void)turn; (void)density; // STUB
 /*
 
 */
+    return "";
 }
 
 
-void mapgen_cathedral_1_entrance(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
+std::string mapgen_cathedral_1_entrance(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
 {
     (void)m; (void)terrain_type; (void)dat; (void)turn; (void)density; // STUB
 /*
 
 */
+    return "";
 }
 
 
-void mapgen_cathedral_1(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
+std::string mapgen_cathedral_1(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
 {
     (void)m; (void)terrain_type; (void)dat; (void)turn; (void)density; // STUB
 /*
 
 */
+    return "";
 }
 
 
-void mapgen_cathedral_b_entrance(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
+std::string mapgen_cathedral_b_entrance(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
 {
     (void)m; (void)terrain_type; (void)dat; (void)turn; (void)density; // STUB
 /*
 
 */
+    return "";
 }
 
 
-void mapgen_cathedral_b(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
+std::string mapgen_cathedral_b(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
 {
     (void)m; (void)terrain_type; (void)dat; (void)turn; (void)density; // STUB
 /*
 
 */
+    return "";
 }
 
 
-void mapgen_sub_station(map *m, oter_id terrain_type, mapgendata dat, int, float)
+std::string mapgen_sub_station(map *m, oter_id terrain_type, mapgendata dat, int, float)
 {
     (void)dat;
         for (int i = 0; i < SEEX * 2; i++) {
@@ -3705,10 +3770,11 @@ void mapgen_sub_station(map *m, oter_id terrain_type, mapgendata dat, int, float
         m->ter_set(16, 10, t_stairs_down);
         autorotate(false);
 
+    return "";
 }
 
 
-void mapgen_s_garage(map *m, oter_id terrain_type, mapgendata dat, int, float)
+std::string mapgen_s_garage(map *m, oter_id terrain_type, mapgendata dat, int, float)
 {
 
         dat.fill_groundcover();
@@ -3779,27 +3845,30 @@ void mapgen_s_garage(map *m, oter_id terrain_type, mapgendata dat, int, float)
                 m->add_vehicle(vgroup_id("garage"), {vx + v * tdx, vy + v * tdy}, theta + one_in(3)*rng(-1,1)*30, -1, -1);
             }
         }
+    return "";
 }
 
-void mapgen_farm(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
+std::string mapgen_farm(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
 {
     (void)m; (void)terrain_type; (void)dat; (void)turn; (void)density; // STUB
 /*
 
 */
+    return "";
 }
 
 
-void mapgen_farm_field(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
+std::string mapgen_farm_field(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
 {
     (void)m; (void)terrain_type; (void)dat; (void)turn; (void)density; // STUB
 /*
 
 */
+    return "";
 }
 
 
-void mapgen_police(map *m, oter_id terrain_type, mapgendata dat, int, float density)
+std::string mapgen_police(map *m, oter_id terrain_type, mapgendata dat, int, float density)
 {
 
 (void)dat;
@@ -3913,10 +3982,11 @@ void mapgen_police(map *m, oter_id terrain_type, mapgendata dat, int, float dens
         m->place_spawns( mongroup_id( "GROUP_POLICE" ), 2, 0, 0, SEEX * 2 - 1, SEEX * 2 - 1, density);
 
 
+    return "";
 }
 
 
-void mapgen_bank(map *m, oter_id terrain_type, mapgendata dat, int, float)
+std::string mapgen_bank(map *m, oter_id terrain_type, mapgendata dat, int, float)
 {
     dat.fill_groundcover();
     // Basic floorplan
@@ -4090,9 +4160,10 @@ void mapgen_bank(map *m, oter_id terrain_type, mapgendata dat, int, float)
     m->place_items("vault",     90,  3, 16,  5, 16, false, 0);
 
     autorotate(false);
+    return "";
 }
 
-void mapgen_pawn(map *m, oter_id terrain_type, mapgendata dat, int, float)
+std::string mapgen_pawn(map *m, oter_id terrain_type, mapgendata dat, int, float)
 {
 
 //    } else if (is_ot_type("pawn", terrain_type)) {
@@ -4193,10 +4264,11 @@ void mapgen_pawn(map *m, oter_id terrain_type, mapgendata dat, int, float)
         }
         autorotate(false);
 
+    return "";
 }
 
 
-void mapgen_mil_surplus(map *m, oter_id terrain_type, mapgendata dat, int, float)
+std::string mapgen_mil_surplus(map *m, oter_id terrain_type, mapgendata dat, int, float)
 {
 
 //    } else if (is_ot_type("mil_surplus", terrain_type)) {
@@ -4246,703 +4318,781 @@ void mapgen_mil_surplus(map *m, oter_id terrain_type, mapgendata dat, int, float
             m->place_items(loc, 70, i, tw + 5, i, bw - 2, false, 0);
         }
         autorotate(false);
+    return "";
 }
 
 
-void mapgen_megastore_entrance(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
+std::string mapgen_megastore_entrance(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
 {
     (void)m; (void)terrain_type; (void)dat; (void)turn; (void)density; // STUB
 /*
 
 */
+    return "";
 }
 
 
-void mapgen_megastore(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
+std::string mapgen_megastore(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
 {
     (void)m; (void)terrain_type; (void)dat; (void)turn; (void)density; // STUB
 /*
 
 */
+    return "";
 }
 
 
-void mapgen_hospital_entrance(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
+std::string mapgen_hospital_entrance(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
 {
     (void)m; (void)terrain_type; (void)dat; (void)turn; (void)density; // STUB
 /*
 
 */
+    return "";
 }
 
 
-void mapgen_hospital(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
+std::string mapgen_hospital(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
 {
     (void)m; (void)terrain_type; (void)dat; (void)turn; (void)density; // STUB
 /*
 
 */
+    return "";
 }
 
 
-void mapgen_public_works_entrance(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
+std::string mapgen_public_works_entrance(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
 {
     (void)m; (void)terrain_type; (void)dat; (void)turn; (void)density; // STUB
 /*
 
 */
+    return "";
 }
 
 
-void mapgen_public_works(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
+std::string mapgen_public_works(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
 {
     (void)m; (void)terrain_type; (void)dat; (void)turn; (void)density; // STUB
 /*
 
 */
+    return "";
 }
 
 
-void mapgen_school_1(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
+std::string mapgen_school_1(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
 {
     (void)m; (void)terrain_type; (void)dat; (void)turn; (void)density; // STUB
 /*
 
 */
+    return "";
 }
 
 
-void mapgen_school_2(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
+std::string mapgen_school_2(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
 {
     (void)m; (void)terrain_type; (void)dat; (void)turn; (void)density; // STUB
 /*
 
 */
+    return "";
 }
 
 
-void mapgen_school_3(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
+std::string mapgen_school_3(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
 {
     (void)m; (void)terrain_type; (void)dat; (void)turn; (void)density; // STUB
 /*
 
 */
+    return "";
 }
 
 
-void mapgen_school_4(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
+std::string mapgen_school_4(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
 {
     (void)m; (void)terrain_type; (void)dat; (void)turn; (void)density; // STUB
 /*
 
 */
+    return "";
 }
 
 
-void mapgen_school_5(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
+std::string mapgen_school_5(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
 {
     (void)m; (void)terrain_type; (void)dat; (void)turn; (void)density; // STUB
 /*
 
 */
+    return "";
 }
 
 
-void mapgen_school_6(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
+std::string mapgen_school_6(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
 {
     (void)m; (void)terrain_type; (void)dat; (void)turn; (void)density; // STUB
 /*
 
 */
+    return "";
 }
 
 
-void mapgen_school_7(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
+std::string mapgen_school_7(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
 {
     (void)m; (void)terrain_type; (void)dat; (void)turn; (void)density; // STUB
 /*
 
 */
+    return "";
 }
 
 
-void mapgen_school_8(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
+std::string mapgen_school_8(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
 {
     (void)m; (void)terrain_type; (void)dat; (void)turn; (void)density; // STUB
 /*
 
 */
+    return "";
 }
 
 
-void mapgen_school_9(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
+std::string mapgen_school_9(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
 {
     (void)m; (void)terrain_type; (void)dat; (void)turn; (void)density; // STUB
 /*
 
 */
+    return "";
 }
 
 
-void mapgen_prison_1(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
+std::string mapgen_prison_1(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
 {
     (void)m; (void)terrain_type; (void)dat; (void)turn; (void)density; // STUB
 /*
 
 */
+    return "";
 }
 
 
-void mapgen_prison_2(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
+std::string mapgen_prison_2(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
 {
     (void)m; (void)terrain_type; (void)dat; (void)turn; (void)density; // STUB
 /*
 
 */
+    return "";
 }
 
 
-void mapgen_prison_3(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
+std::string mapgen_prison_3(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
 {
     (void)m; (void)terrain_type; (void)dat; (void)turn; (void)density; // STUB
 /*
 
 */
+    return "";
 }
 
 
-void mapgen_prison_4(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
+std::string mapgen_prison_4(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
 {
     (void)m; (void)terrain_type; (void)dat; (void)turn; (void)density; // STUB
 /*
 
 */
+    return "";
 }
 
 
-void mapgen_prison_5(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
+std::string mapgen_prison_5(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
 {
     (void)m; (void)terrain_type; (void)dat; (void)turn; (void)density; // STUB
 /*
 
 */
+    return "";
 }
 
 
-void mapgen_prison_6(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
+std::string mapgen_prison_6(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
 {
     (void)m; (void)terrain_type; (void)dat; (void)turn; (void)density; // STUB
 /*
 
 */
+    return "";
 }
 
 
-void mapgen_prison_7(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
+std::string mapgen_prison_7(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
 {
     (void)m; (void)terrain_type; (void)dat; (void)turn; (void)density; // STUB
 /*
 
 */
+    return "";
 }
 
 
-void mapgen_prison_8(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
+std::string mapgen_prison_8(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
 {
     (void)m; (void)terrain_type; (void)dat; (void)turn; (void)density; // STUB
 /*
 
 */
+    return "";
 }
 
 
-void mapgen_prison_9(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
+std::string mapgen_prison_9(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
 {
     (void)m; (void)terrain_type; (void)dat; (void)turn; (void)density; // STUB
 /*
 
 */
+    return "";
 }
 
 
-void mapgen_prison_b(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
+std::string mapgen_prison_b(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
 {
     (void)m; (void)terrain_type; (void)dat; (void)turn; (void)density; // STUB
 /*
 
 */
+    return "";
 }
 
 
-void mapgen_prison_b_entrance(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
+std::string mapgen_prison_b_entrance(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
 {
     (void)m; (void)terrain_type; (void)dat; (void)turn; (void)density; // STUB
 /*
 
 */
+    return "";
 }
 
 
-void mapgen_hotel_tower_1_1(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
+std::string mapgen_hotel_tower_1_1(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
 {
     (void)m; (void)terrain_type; (void)dat; (void)turn; (void)density; // STUB
 /*
 
 */
+    return "";
 }
 
 
-void mapgen_hotel_tower_1_2(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
+std::string mapgen_hotel_tower_1_2(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
 {
     (void)m; (void)terrain_type; (void)dat; (void)turn; (void)density; // STUB
 /*
 
 */
+    return "";
 }
 
 
-void mapgen_hotel_tower_1_3(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
+std::string mapgen_hotel_tower_1_3(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
 {
     (void)m; (void)terrain_type; (void)dat; (void)turn; (void)density; // STUB
 /*
 
 */
+    return "";
 }
 
 
-void mapgen_hotel_tower_1_4(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
+std::string mapgen_hotel_tower_1_4(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
 {
     (void)m; (void)terrain_type; (void)dat; (void)turn; (void)density; // STUB
 /*
 
 */
+    return "";
 }
 
 
-void mapgen_hotel_tower_1_5(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
+std::string mapgen_hotel_tower_1_5(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
 {
     (void)m; (void)terrain_type; (void)dat; (void)turn; (void)density; // STUB
 /*
 
 */
+    return "";
 }
 
 
-void mapgen_hotel_tower_1_6(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
+std::string mapgen_hotel_tower_1_6(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
 {
     (void)m; (void)terrain_type; (void)dat; (void)turn; (void)density; // STUB
 /*
 
 */
+    return "";
 }
 
 
-void mapgen_hotel_tower_1_7(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
+std::string mapgen_hotel_tower_1_7(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
 {
     (void)m; (void)terrain_type; (void)dat; (void)turn; (void)density; // STUB
 /*
 
 */
+    return "";
 }
 
 
-void mapgen_hotel_tower_1_8(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
+std::string mapgen_hotel_tower_1_8(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
 {
     (void)m; (void)terrain_type; (void)dat; (void)turn; (void)density; // STUB
 /*
 
 */
+    return "";
 }
 
 
-void mapgen_hotel_tower_1_9(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
+std::string mapgen_hotel_tower_1_9(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
 {
     (void)m; (void)terrain_type; (void)dat; (void)turn; (void)density; // STUB
 /*
 
 */
+    return "";
 }
 
 
-void mapgen_hotel_tower_b_1(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
+std::string mapgen_hotel_tower_b_1(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
 {
     (void)m; (void)terrain_type; (void)dat; (void)turn; (void)density; // STUB
 /*
 
 */
+    return "";
 }
 
 
-void mapgen_hotel_tower_b_2(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
+std::string mapgen_hotel_tower_b_2(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
 {
     (void)m; (void)terrain_type; (void)dat; (void)turn; (void)density; // STUB
 /*
 
 */
+    return "";
 }
 
 
-void mapgen_hotel_tower_b_3(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
+std::string mapgen_hotel_tower_b_3(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
 {
     (void)m; (void)terrain_type; (void)dat; (void)turn; (void)density; // STUB
 /*
 
 */
+    return "";
 }
 
 
-void mapgen_mansion_entrance(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
+std::string mapgen_mansion_entrance(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
 {
     (void)m; (void)terrain_type; (void)dat; (void)turn; (void)density; // STUB
 /*
 
 */
+    return "";
 }
 
 
-void mapgen_mansion(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
+std::string mapgen_mansion(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
 {
     (void)m; (void)terrain_type; (void)dat; (void)turn; (void)density; // STUB
 /*
 
 */
+    return "";
 }
 
 
-void mapgen_fema_entrance(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
+std::string mapgen_fema_entrance(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
 {
     (void)m; (void)terrain_type; (void)dat; (void)turn; (void)density; // STUB
 /*
 
 */
+    return "";
 }
 
 
-void mapgen_fema(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
+std::string mapgen_fema(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
 {
     (void)m; (void)terrain_type; (void)dat; (void)turn; (void)density; // STUB
 /*
 
 */
+    return "";
 }
 
 
-void mapgen_station_radio(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
+std::string mapgen_station_radio(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
 {
     (void)m; (void)terrain_type; (void)dat; (void)turn; (void)density; // STUB
 /*
 
 */
+    return "";
 }
 
 
-void mapgen_lab(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
+std::string mapgen_lab(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
 {
     (void)m; (void)terrain_type; (void)dat; (void)turn; (void)density; // STUB
 /*
 
 */
+    return "";
 }
 
 
-void mapgen_lab_stairs(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
+std::string mapgen_lab_stairs(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
 {
     (void)m; (void)terrain_type; (void)dat; (void)turn; (void)density; // STUB
 /*
 
 */
+    return "";
 }
 
 
-void mapgen_lab_core(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
+std::string mapgen_lab_core(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
 {
     (void)m; (void)terrain_type; (void)dat; (void)turn; (void)density; // STUB
 /*
 
 */
+    return "";
 }
 
 
-void mapgen_lab_finale(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
+std::string mapgen_lab_finale(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
 {
     (void)m; (void)terrain_type; (void)dat; (void)turn; (void)density; // STUB
 /*
 
 */
+    return "";
 }
 
 
-void mapgen_ice_lab(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
+std::string mapgen_ice_lab(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
 {
     (void)m; (void)terrain_type; (void)dat; (void)turn; (void)density; // STUB
 /*
 
 */
+    return "";
 }
 
 
-void mapgen_ice_lab_stairs(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
+std::string mapgen_ice_lab_stairs(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
 {
     (void)m; (void)terrain_type; (void)dat; (void)turn; (void)density; // STUB
 /*
 
 */
+    return "";
 }
 
 
-void mapgen_ice_lab_core(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
+std::string mapgen_ice_lab_core(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
 {
     (void)m; (void)terrain_type; (void)dat; (void)turn; (void)density; // STUB
 /*
 
 */
+    return "";
 }
 
 
-void mapgen_ice_lab_finale(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
+std::string mapgen_ice_lab_finale(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
 {
     (void)m; (void)terrain_type; (void)dat; (void)turn; (void)density; // STUB
 /*
 
 */
+    return "";
 }
 
 
-void mapgen_nuke_plant_entrance(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
+std::string mapgen_nuke_plant_entrance(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
 {
     (void)m; (void)terrain_type; (void)dat; (void)turn; (void)density; // STUB
 /*
 
 */
+    return "";
 }
 
 
-void mapgen_nuke_plant(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
+std::string mapgen_nuke_plant(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
 {
     (void)m; (void)terrain_type; (void)dat; (void)turn; (void)density; // STUB
 /*
 
 */
+    return "";
 }
 
 
-void mapgen_bunker(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
+std::string mapgen_bunker(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
 {
     (void)m; (void)terrain_type; (void)dat; (void)turn; (void)density; // STUB
 /*
 
 */
+    return "";
 }
 
 
-void mapgen_outpost(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
+std::string mapgen_outpost(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
 {
     (void)m; (void)terrain_type; (void)dat; (void)turn; (void)density; // STUB
 /*
 
 */
+    return "";
 }
 
 
-void mapgen_silo(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
+std::string mapgen_silo(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
 {
     (void)m; (void)terrain_type; (void)dat; (void)turn; (void)density; // STUB
 /*
 
 */
+    return "";
 }
 
 
-void mapgen_silo_finale(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
+std::string mapgen_silo_finale(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
 {
     (void)m; (void)terrain_type; (void)dat; (void)turn; (void)density; // STUB
 /*
 
 */
+    return "";
 }
 
 
-void mapgen_temple(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
+std::string mapgen_temple(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
 {
     (void)m; (void)terrain_type; (void)dat; (void)turn; (void)density; // STUB
 /*
 
 */
+    return "";
 }
 
 
-void mapgen_temple_stairs(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
+std::string mapgen_temple_stairs(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
 {
     (void)m; (void)terrain_type; (void)dat; (void)turn; (void)density; // STUB
 /*
 
 */
+    return "";
 }
 
 
-void mapgen_temple_core(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
+std::string mapgen_temple_core(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
 {
     (void)m; (void)terrain_type; (void)dat; (void)turn; (void)density; // STUB
 /*
 
 */
+    return "";
 }
 
 
-void mapgen_temple_finale(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
+std::string mapgen_temple_finale(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
 {
     (void)m; (void)terrain_type; (void)dat; (void)turn; (void)density; // STUB
 /*
 
 */
+    return "";
 }
 
 
-void mapgen_sewage_treatment(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
+std::string mapgen_sewage_treatment(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
 {
     (void)m; (void)terrain_type; (void)dat; (void)turn; (void)density; // STUB
 /*
 
 */
+    return "";
 }
 
 
-void mapgen_sewage_treatment_hub(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
+std::string mapgen_sewage_treatment_hub(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
 {
     (void)m; (void)terrain_type; (void)dat; (void)turn; (void)density; // STUB
 /*
 
 */
+    return "";
 }
 
 
-void mapgen_sewage_treatment_under(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
+std::string mapgen_sewage_treatment_under(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
 {
     (void)m; (void)terrain_type; (void)dat; (void)turn; (void)density; // STUB
 /*
 
 */
+    return "";
 }
 
 
-void mapgen_mine_entrance(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
+std::string mapgen_mine_entrance(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
 {
     (void)m; (void)terrain_type; (void)dat; (void)turn; (void)density; // STUB
 /*
 
 */
+    return "";
 }
 
 
-void mapgen_mine_shaft(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
+std::string mapgen_mine_shaft(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
 {
     (void)m; (void)terrain_type; (void)dat; (void)turn; (void)density; // STUB
 /*
 
 */
+    return "";
 }
 
 
-void mapgen_mine(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
+std::string mapgen_mine(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
 {
     (void)m; (void)terrain_type; (void)dat; (void)turn; (void)density; // STUB
 /*
 
 */
+    return "";
 }
 
 
-void mapgen_mine_down(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
+std::string mapgen_mine_down(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
 {
     (void)m; (void)terrain_type; (void)dat; (void)turn; (void)density; // STUB
 /*
 
 */
+    return "";
 }
 
 
-void mapgen_mine_finale(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
+std::string mapgen_mine_finale(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
 {
     (void)m; (void)terrain_type; (void)dat; (void)turn; (void)density; // STUB
 /*
 
 */
+    return "";
 }
 
 
-void mapgen_spiral_hub(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
+std::string mapgen_spiral_hub(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
 {
     (void)m; (void)terrain_type; (void)dat; (void)turn; (void)density; // STUB
 /*
 
 */
+    return "";
 }
 
 
-void mapgen_spiral(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
+std::string mapgen_spiral(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
 {
     (void)m; (void)terrain_type; (void)dat; (void)turn; (void)density; // STUB
 /*
 
 */
+    return "";
 }
 
 
-void mapgen_radio_tower(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
+std::string mapgen_radio_tower(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
 {
     (void)m; (void)terrain_type; (void)dat; (void)turn; (void)density; // STUB
 /*
 
 */
+    return "";
 }
 
 
-void mapgen_toxic_dump(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
+std::string mapgen_toxic_dump(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
 {
     (void)m; (void)terrain_type; (void)dat; (void)turn; (void)density; // STUB
 /*
 
 */
+    return "";
 }
 
 
-void mapgen_haz_sar_entrance(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
+std::string mapgen_haz_sar_entrance(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
 {
     (void)m; (void)terrain_type; (void)dat; (void)turn; (void)density; // STUB
 /*
 
 */
+    return "";
 }
 
 
-void mapgen_haz_sar(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
+std::string mapgen_haz_sar(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
 {
     (void)m; (void)terrain_type; (void)dat; (void)turn; (void)density; // STUB
 /*
 
 */
+    return "";
 }
 
 
-void mapgen_haz_sar_entrance_b1(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
+std::string mapgen_haz_sar_entrance_b1(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
 {
     (void)m; (void)terrain_type; (void)dat; (void)turn; (void)density; // STUB
 /*
 
 */
+    return "";
 }
 
 
-void mapgen_haz_sar_b1(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
+std::string mapgen_haz_sar_b1(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
 {
     (void)m; (void)terrain_type; (void)dat; (void)turn; (void)density; // STUB
 /*
 
 */
+    return "";
 }
 
 
-void mapgen_cave(map *m, oter_id, mapgendata dat, int turn, float density)
+std::string mapgen_cave(map *m, oter_id, mapgendata dat, int turn, float density)
 {
         if (dat.above() == "cave") {
             // We're underground! // FIXME; y u no use zlevel
@@ -5037,10 +5187,11 @@ void mapgen_cave(map *m, oter_id, mapgendata dat, int turn, float density)
 
 
 
+    return "";
 }
 
 
-void mapgen_cave_rat(map *m, oter_id, mapgendata dat, int, float)
+std::string mapgen_cave_rat(map *m, oter_id, mapgendata dat, int, float)
 {
 
         fill_background(m, t_rock);
@@ -5107,73 +5258,81 @@ void mapgen_cave_rat(map *m, oter_id, mapgendata dat, int, float)
             m->ter_set(SEEX    , SEEX * 2 - 2, t_slope_up);
             m->ter_set(stairsx, stairsy, t_slope_down);
         }
+    return "";
 }
 
 
-void mapgen_spider_pit_under(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
+std::string mapgen_spider_pit_under(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
 {
     (void)m; (void)terrain_type; (void)dat; (void)turn; (void)density; // STUB
 /*
 
 */
+    return "";
 }
 
 
-void mapgen_anthill(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
+std::string mapgen_anthill(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
 {
     (void)m; (void)terrain_type; (void)dat; (void)turn; (void)density; // STUB
 /*
 
 */
+    return "";
 }
 
 
-void mapgen_slimepit(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
+std::string mapgen_slimepit(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
 {
     (void)m; (void)terrain_type; (void)dat; (void)turn; (void)density; // STUB
 /*
 
 */
+    return "";
 }
 
 
-void mapgen_slimepit_down(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
+std::string mapgen_slimepit_down(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
 {
     (void)m; (void)terrain_type; (void)dat; (void)turn; (void)density; // STUB
 /*
 
 */
+    return "";
 }
 
 
-void mapgen_triffid_grove(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
+std::string mapgen_triffid_grove(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
 {
     (void)m; (void)terrain_type; (void)dat; (void)turn; (void)density; // STUB
 /*
 
 */
+    return "";
 }
 
 
-void mapgen_triffid_roots(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
+std::string mapgen_triffid_roots(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
 {
     (void)m; (void)terrain_type; (void)dat; (void)turn; (void)density; // STUB
 /*
 
 */
+    return "";
 }
 
 
-void mapgen_triffid_finale(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
+std::string mapgen_triffid_finale(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
 {
     (void)m; (void)terrain_type; (void)dat; (void)turn; (void)density; // STUB
 /*
 
 */
+    return "";
 }
 
 
-void mapgen_cavern(map *m, oter_id, mapgendata dat, int, float)
+std::string mapgen_cavern(map *m, oter_id, mapgendata dat, int, float)
 {
 
     for (int i = 0; i < 4; i++) { // don't look at me like that, this was messed up before I touched it :P - AD ( FIXME )
@@ -5260,9 +5419,10 @@ void mapgen_cavern(map *m, oter_id, mapgendata dat, int, float)
 
 
 
+    return "";
 }
 
-void mapgen_rock_partial(map *m, oter_id, mapgendata dat, int, float)
+std::string mapgen_rock_partial(map *m, oter_id, mapgendata dat, int, float)
 {
     fill_background( m, t_rock );
     for( int i = 0; i < 4; i++ ) {
@@ -5282,20 +5442,23 @@ void mapgen_rock_partial(map *m, oter_id, mapgendata dat, int, float)
             }
         }
     }
+    return "";
 }
 
-void mapgen_rock(map *m, oter_id, mapgendata, int, float)
+std::string mapgen_rock(map *m, oter_id, mapgendata, int, float)
 {
     fill_background( m, t_rock );
+    return "";
 }
 
 
-void mapgen_open_air(map *m, oter_id, mapgendata, int, float){
+std::string mapgen_open_air(map *m, oter_id, mapgendata, int, float){
     fill_background( m, t_open_air );
+    return "";
 }
 
 
-void mapgen_rift(map *m, oter_id, mapgendata dat, int, float)
+std::string mapgen_rift(map *m, oter_id, mapgendata dat, int, float)
 {
 
     if (dat.north() != "rift" && dat.north() != "hellmouth") {
@@ -5345,10 +5508,11 @@ void mapgen_rift(map *m, oter_id, mapgendata dat, int, float)
 
 
 
+    return "";
 }
 
 
-void mapgen_hellmouth(map *m, oter_id, mapgendata dat, int, float)
+std::string mapgen_hellmouth(map *m, oter_id, mapgendata dat, int, float)
 {
     // what is this, doom?
     // .. seriously, though...
@@ -5452,10 +5616,11 @@ void mapgen_hellmouth(map *m, oter_id, mapgendata dat, int, float)
     }
 
 
+    return "";
 }
 
 
-void mapgen_ants_curved(map *m, oter_id terrain_type, mapgendata dat, int, float)
+std::string mapgen_ants_curved(map *m, oter_id terrain_type, mapgendata dat, int, float)
 {
     (void)dat;
     int x = SEEX;
@@ -5513,9 +5678,10 @@ void mapgen_ants_curved(map *m, oter_id terrain_type, mapgendata dat, int, float
     }
 
 
+    return "";
 }
 
-void mapgen_ants_four_way(map *m, oter_id, mapgendata dat, int, float)
+std::string mapgen_ants_four_way(map *m, oter_id, mapgendata dat, int, float)
 {
     (void)dat;
     fill_background(m, t_rock);
@@ -5555,9 +5721,10 @@ void mapgen_ants_four_way(map *m, oter_id, mapgendata dat, int, float)
         }
     }
 
+    return "";
 }
 
-void mapgen_ants_straight(map *m, oter_id terrain_type, mapgendata dat, int, float)
+std::string mapgen_ants_straight(map *m, oter_id terrain_type, mapgendata dat, int, float)
 {
     (void)dat;
     int x = SEEX;
@@ -5582,9 +5749,10 @@ void mapgen_ants_straight(map *m, oter_id terrain_type, mapgendata dat, int, flo
         m->rotate(1);
     }
 
+    return "";
 }
 
-void mapgen_ants_tee(map *m, oter_id terrain_type, mapgendata dat, int, float)
+std::string mapgen_ants_tee(map *m, oter_id terrain_type, mapgendata dat, int, float)
 {
     (void)dat;
     fill_background(m, t_rock);
@@ -5632,10 +5800,11 @@ void mapgen_ants_tee(map *m, oter_id terrain_type, mapgendata dat, int, float)
         m->rotate(1);
     }
 
+    return "";
 }
 
 
-void mapgen_ants_generic(map *m, oter_id terrain_type, mapgendata dat, int, float)
+std::string mapgen_ants_generic(map *m, oter_id terrain_type, mapgendata dat, int, float)
 {
 
     for (int i = 0; i < SEEX * 2; i++) {
@@ -5704,34 +5873,37 @@ void mapgen_ants_generic(map *m, oter_id terrain_type, mapgendata dat, int, floa
     }
 
 
+    return "";
 }
 
 
-void mapgen_ants_food(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
+std::string mapgen_ants_food(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
 {
     mapgen_ants_generic(m, terrain_type, dat, turn, density);
     m->place_items("ant_food", 92, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, true, 0);
+    return "";
 }
 
 
-void mapgen_ants_larvae(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
+std::string mapgen_ants_larvae(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
 {
     mapgen_ants_generic(m, terrain_type, dat, turn, density);
     m->place_items("ant_egg",  98, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, true, 0);
     m->add_spawn(mon_ant_larva, 10, SEEX, SEEY);
+    return "";
 }
 
 
-void mapgen_ants_queen(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
+std::string mapgen_ants_queen(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
 {
     mapgen_ants_generic(m, terrain_type, dat, turn, density);
     m->place_items("ant_egg",  98, 0, 0, SEEX * 2 - 1, SEEY * 2 - 1, true, 0);
     m->add_spawn(mon_ant_queen, 1, SEEX, SEEY);
-
+    return "";
 }
 
 
-void mapgen_tutorial(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
+std::string mapgen_tutorial(map *m, oter_id terrain_type, mapgendata dat, int turn, float density)
 {
     (void) density; // Not used, no normally generated zombies here
     (void) terrain_type; // Not used, should always be "tutorial"
@@ -5779,6 +5951,7 @@ void mapgen_tutorial(map *m, oter_id terrain_type, mapgendata dat, int turn, flo
         m->spawn_item(SEEX * 2 - 3, SEEY + 7, "water");
         m->ter_set(SEEX - 2, SEEY + 2, t_stairs_down);
     }
+    return "";
 }
 
 void madd_trap( map *m, int x, int y, trap_id t )

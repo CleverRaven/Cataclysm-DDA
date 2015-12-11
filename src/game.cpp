@@ -5014,6 +5014,15 @@ void game::draw_sidebar()
 
     std::string tername = otermap[cur_ter].name;
     werase(w_location);
+
+    const tripoint omt = u.global_omt_location();
+    const omt_knowledge_level seen = overmap_buffer.seen(omt.x, omt.y, get_levz());
+    if (seen==OKL_UPCLOSE) {
+        const std::string &closeup_name = overmap_buffer.closeup_name(omt.x,omt.y,get_levz());
+        if (!closeup_name.empty()) {
+            tername = closeup_name;
+        }
+    }
     mvwprintz(w_location, 0, 0, otermap[cur_ter].color, "%s", utf8_truncate(tername, 14).c_str());
 
     if (get_levz() < 0) {

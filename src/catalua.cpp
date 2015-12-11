@@ -730,7 +730,7 @@ void lua_callback(const char *callback_name)
 }
 
 //
-int lua_mapgen(map *m, std::string terrain_type, mapgendata, int t, float, const std::string &scr)
+int lua_mapgen(map *m, std::string terrain_type, mapgendata, int t, float, const std::string &scr, std::string &upclose_name)
 {
     if( lua_state == nullptr ) {
         return 0;
@@ -754,6 +754,8 @@ int lua_mapgen(map *m, std::string terrain_type, mapgendata, int t, float, const
     err = lua_pcall(L, 0 , LUA_MULTRET, 0);
     lua_report_error( L, err, scr.c_str() );
 
+    lua_getglobal(L, "upclose_name");
+    upclose_name = lua_tostring(L, -1);
     //    luah_remove_from_registry(L, function_index); // todo: make use of this
 
     return err;
