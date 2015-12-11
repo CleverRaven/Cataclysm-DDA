@@ -63,10 +63,12 @@ void iexamine::gaspump(player *p, map *m, const tripoint &examp)
     auto items = m->i_at( examp );
     for( auto item_it = items.begin(); item_it != items.end(); ++item_it ) {
         if( item_it->made_of(LIQUID) ) {
+            ///\EFFECT_DEX decreases chance of spilling gas from a pump
             if( one_in(10 + p->dex_cur) ) {
                 add_msg(m_bad, _("You accidentally spill the %s."), item_it->type_name(1).c_str());
                 item spill( item_it->type->id, calendar::turn );
                 const auto min = item_it->liquid_charges( 1 );
+                ///\EFFECT_DEX decreases amount of gas spilled from a pump
                 const auto max = item_it->liquid_charges( 1 ) * 8.0 / p->dex_cur;
                 spill.charges = rng( min, max );
                 m->add_item_or_charges( p->pos(), spill, 1 );
@@ -630,11 +632,13 @@ void iexamine::cardreader(player *p, map *m, const tripoint &examp)
         if (using_electrohack || using_fingerhack) {
             p->moves -= 500;
             p->practice( skill_computer, 20 );
+            ///\EFFECT_COMPUTER increases success chance of hacking card readers
             int success = rng(p->skillLevel( skill_computer ) / 4 - 2, p->skillLevel( skill_computer ) * 2);
             success += rng(-3, 3);
             if (using_fingerhack) {
                 success++;
             }
+            ///\EFFECT_INT increases success chance of hacking card readers
             if (p->int_cur < 8) {
                 success -= rng(0, int((8 - p->int_cur) / 2));
             } else if (p->int_cur > 8) {
@@ -753,6 +757,7 @@ void iexamine::chainfence( player *p, map *m, const tripoint &examp )
         p->moves -= 100;
     } else {
         p->moves -= 400;
+        ///\EFFECT_DEX decreases chances of slipping while climbing
         int climb = p->dex_cur;
         if (p->has_trait( "BADKNEES" )) {
             climb = climb / 2;
@@ -1032,6 +1037,9 @@ void iexamine::safe(player *p, map *m, const tripoint &examp)
         }
          // 150 minutes +/- 20 minutes per mechanics point away from 3 +/- 10 minutes per
         // perception point away from 8; capped at 30 minutes minimum. *100 to convert to moves
+        ///\EFFECT_PER speeds up safe cracking
+
+        ///\EFFECT_MECHANICS speeds up safe cracking
         int moves = std::max(MINUTES(150) + (p->skillLevel( skill_mechanics ) - 3) * MINUTES(-20) +
                              (p->get_per() - 8) * MINUTES(-10), MINUTES(30)) * 100;
 
@@ -1059,7 +1067,13 @@ void iexamine::gunsafe_ml(player *p, map *m, const tripoint &examp)
     }
 
     p->practice( skill_mechanics, 1);
+    ///\EFFECT_DEX speeds up lock picking gun safe
+
+    ///\EFFECT_MECHANICS speeds up lock picking gun safe
     p->moves -= (1000 - (pick_quality * 100)) - (p->dex_cur + p->skillLevel( skill_mechanics )) * 5;
+    ///\EFFECT_DEX increases chance of lock picking gun safe
+
+    ///\EFFECT_MECHANICS increases chance of lock picking gun safe
     int pick_roll = (dice(2, p->skillLevel( skill_mechanics )) + dice(2, p->dex_cur)) * pick_quality;
     int door_roll = dice(4, 30);
     if (pick_roll >= door_roll) {
@@ -1092,11 +1106,13 @@ void iexamine::gunsafe_el(player *p, map *m, const tripoint &examp)
     if (using_electrohack || using_fingerhack) {
         p->moves -= 500;
         p->practice( skill_computer, 20);
+        ///\EFFECT_COMPUTER increases success chance of hacking electronic gun safe
         int success = rng(p->skillLevel( skill_computer ) / 4 - 2, p->skillLevel( skill_computer ) * 2);
         success += rng(-3, 3);
         if (using_fingerhack) {
             success++;
         }
+        ///\EFFECT_INT increases success chance of hacking gun safes
         if (p->int_cur < 8) {
             success -= rng(0, int((8 - p->int_cur) / 2));
         } else if (p->int_cur > 8) {
@@ -1675,6 +1691,7 @@ void iexamine::aggie_plant(player *p, map *m, const tripoint &examp)
             m->furn_set(examp, f_null);
 
             int skillLevel = p->skillLevel( skill_survival );
+            ///\EFFECT_SURVIVAL increases number of plants harvested from a seed
             int plantCount = rng(skillLevel / 2, skillLevel);
             if (plantCount >= 12) {
                 plantCount = 12;
@@ -1789,6 +1806,7 @@ void iexamine::kiln_empty(player *p, map *m, const tripoint &examp)
         return;
     }
 
+    ///\EFFECT_CARPENTRY decreases loss when firing a kiln
     SkillLevel &skill = p->skillLevel( skill_carpentry );
     int loss = 90 - 2 * skill; // We can afford to be inefficient - logs and skeletons are cheap, charcoal isn't
 
@@ -2005,6 +2023,7 @@ void iexamine::fvat_full(player *p, map *m, const tripoint &examp)
                 m->furn(examp) == f_fvat_full && query_yn(_("Finish brewing?")) ) {
                 //declare fermenting result as the brew's ID minus "brew_"
                 itype_id alcoholType = m->i_at(examp)[0].typeId().substr(5);
+                ///\EFFECT_COOKING >4 prevents hb_beer from turning into just beer
                 SkillLevel &cooking = p->skillLevel( skill_cooking );
                 if (alcoholType == "hb_beer" && cooking < 5) {
                     alcoholType = alcoholType.substr(3);    //hb_beer -> beer
@@ -2216,6 +2235,7 @@ void pick_plant(player *p, map *m, const tripoint &examp,
     }
 
     int plantBase = rng(2, 5);
+    ///\EFFECT_SURVIVAL increases number of plants harvested
     int plantCount = rng(plantBase, plantBase + survival / 2);
     if (plantCount > 12) {
         plantCount = 12;
@@ -2274,6 +2294,7 @@ void iexamine::tree_pine(player *p, map *m, const tripoint &examp)
 void iexamine::tree_hickory(player *p, map *m, const tripoint &examp)
 {
     harvest_tree_shrub(p,m,examp);
+    ///\EFFECT_SURVIVAL >0 allows digging up hickory root
     if( !( p->skillLevel( skill_survival ) > 0 ) ) {
         return;
     }
@@ -2286,6 +2307,7 @@ void iexamine::tree_hickory(player *p, map *m, const tripoint &examp)
     }
     m->spawn_item(p->pos(), "hickory_root", rng(1,4) );
     m->ter_set(examp, t_tree_hickory_dead);
+    ///\EFFECT_SURVIVAL speeds up hickory root digging
     p->moves -= 2000 / ( p->skillLevel( skill_survival ) + 1 ) + 100;
     return;
     none(p, m, examp);
@@ -2346,7 +2368,9 @@ void iexamine::shrub_wildveggies( player *p, map *m, const tripoint &examp )
     }
 
     add_msg( _("You forage through the %s."), m->tername( examp ).c_str() );
+    ///\EFFECT_SURVIVAL speeds up foraging
     int move_cost = 100000 / ( 2 * p->skillLevel( skill_survival ) + 5 );
+    ///\EFFECT_PER randomly speeds up foraging
     move_cost /= rng( std::max( 4, p->per_cur ), 4 + p->per_cur * 2 );
     p->assign_activity( ACT_FORAGE, move_cost, 0 );
     p->activity.placement = examp;
@@ -3112,11 +3136,13 @@ void iexamine::pay_gas(player *p, map *m, const tripoint &examp)
         if (using_electrohack || using_fingerhack) {
             p->moves -= 500;
             p->practice( skill_computer, 20);
+            ///\EFFECT_COMPUTER increases success chance of hacking gas pumps
             int success = rng(p->skillLevel( skill_computer ) / 4 - 2, p->skillLevel( skill_computer ) * 2);
             success += rng(-3, 3);
             if (using_fingerhack) {
                 success++;
             }
+            ///\EFFECT_INT increases success chance of hacking gas pumps
             if (p->int_cur < 8) {
                 success -= rng(0, int((8 - p->int_cur) / 2));
             } else if (p->int_cur > 8) {

@@ -458,6 +458,7 @@ task_reason veh_interact::cant_do (char mode)
         break;
     case 'c': // change tire
         valid_target = wheel != NULL;
+        ///\EFFECT_STR allows changing tires on heavier vehicles without a jack
         has_str = g->u.get_str() >= int(veh->total_mass() / TIRE_CHANGE_STR_MOD);
         has_tools = has_wrench && (has_jack || has_str) && has_wheel;
         break;
@@ -553,6 +554,7 @@ bool veh_interact::can_install_part(int msg_width){
     bool drive_conflict = is_drive_conflict(msg_width);
 
     bool has_comps = crafting_inv.has_components(itm, 1);
+    ///\EFFECT_MECHANICS determines which vehicle parts can be installed
     bool has_skill = g->u.skillLevel( skill_mechanics ) >= sel_vpart_info->difficulty;
     bool has_tools = ((has_welder && has_goggles) || has_duct_tape) && has_wrench;
     bool has_skill2 = !is_engine || (g->u.skillLevel( skill_mechanics ) >= dif_eng);
@@ -561,6 +563,7 @@ bool veh_interact::can_install_part(int msg_width){
     bool is_wood = sel_vpart_info->has_flag("NAILABLE");
     bool is_hand_remove = sel_vpart_info->has_flag("TOOL_NONE");
     const int needed_strength = veh->total_mass() / TIRE_CHANGE_STR_MOD;
+    ///\EFFECT_STR allows installing tires on heavier vehicles without a jack
     const bool has_str = g->u.get_str() >= needed_strength;
     std::string engine_string = "";
     std::string steering_string = "";
@@ -958,6 +961,7 @@ void veh_interact::do_repair()
         werase (w_msg);
         bool has_comps = true;
         int dif = sel_vpart_info->difficulty + ((sel_vehicle_part->hp <= 0) ? 0 : 2);
+        ///\EFFECT_MECHANICS determines which vehicle parts can be replaced
         bool has_skill = g->u.skillLevel( skill_mechanics ) >= dif;
         fold_and_print(w_msg, 0, 1, msg_width - 2, c_ltgray,
                        _("You need level <color_%1$s>%2$d</color> skill in mechanics."),
@@ -1064,6 +1068,7 @@ bool veh_interact::can_remove_part(int veh_part_index, int mech_skill, int msg_w
                                 (is_wheel && veh->part_flag(veh_part_index, "NO_JACK"));
         bool is_hand_remove = veh->part_flag(veh_part_index, "TOOL_NONE");
         const int needed_strength = veh->total_mass() / TIRE_CHANGE_STR_MOD;
+        ///\EFFECT_STR allows removing tires on heavier vehicles without a jack
         const bool has_str = g->u.get_str() >= needed_strength;
 
         int skill_req;
@@ -1173,6 +1178,7 @@ void veh_interact::do_remove()
     mvwprintz(w_mode, 0, 1, c_ltgray, _("Choose a part here to remove:"));
     wrefresh (w_mode);
 
+    ///\EFFECT_MECHANICS determines which vehicle parts can be removed
     const int skilllevel = g->u.skillLevel( skill_mechanics );
     int pos = 0;
     for( size_t i = 0; i < parts_here.size(); i++ ) {
@@ -1252,6 +1258,7 @@ void veh_interact::do_tirechange()
     werase( w_msg );
     int msg_width = getmaxx(w_msg);
     const int needed_strength = veh->total_mass() / TIRE_CHANGE_STR_MOD;
+    ///\EFFECT_STR allows changing tires on heavier vehicles without a jack
     const bool has_str = g->u.get_str() >= needed_strength;
     switch( reason ) {
     case INVALID_TARGET:
@@ -1369,6 +1376,7 @@ bool veh_interact::can_currently_install(const vpart_info &vpart)
         return true;
     }
     bool has_comps = crafting_inv.has_components(vpart.item, 1);
+    ///\EFFECT_MECHANICS determines which vehicle parts can be installed
     bool has_skill = g->u.skillLevel( skill_mechanics ) >= vpart.difficulty;
     bool is_wheel = vpart.has_flag("WHEEL");
     return (has_comps && (has_skill || is_wheel));

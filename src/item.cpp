@@ -1570,11 +1570,13 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
                                       _( "* This object is <neutral>surrounded</neutral> by a <info>sickly green glow</info>." ) ) );
         }
 
+        ///\EFFECT_SURVIVAL >=3 allows detection of poisonous food
         if( is_food() && has_flag( "HIDDEN_POISON" ) && g->u.skillLevel( skill_survival ).level() >= 3 ) {
             info.push_back( iteminfo( "DESCRIPTION",
                                       _( "* On closer inspection, this appears to be <bad>poisonous</bad>." ) ) );
         }
 
+        ///\EFFECT_SURVIVAL >=5 allows detection of hallucinogenic food
         if( is_food() && has_flag( "HIDDEN_HALLU" ) && g->u.skillLevel( skill_survival ).level() >= 5 ) {
             info.push_back( iteminfo( "DESCRIPTION",
                                       _( "* On closer inspection, this appears to be <neutral>hallucinogenic</neutral>." ) ) );
@@ -1603,6 +1605,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
             }
         }
 
+        ///\EFFECT_MELEE >2 allows seeing melee damage stats on weapons
         if( debug_mode || ( g->u.get_skill_level( skill_melee ) > 2 && ( damage_bash() > 0 ||
                             damage_cut() > 0 ) ) ) {
             damage_instance non_crit;
@@ -3001,6 +3004,7 @@ bool item::is_two_handed( const player &u ) const
     if( has_flag("ALWAYS_TWOHAND") ) {
         return true;
     }
+    ///\EFFECT_STR determines which weapons can be wielded with one hand
     return ((weight() / 113) > u.str_cur * 4);
 }
 
@@ -3433,6 +3437,7 @@ int item::reload_time( const player &u ) const
     }
 
     if (has_flag("STR_RELOAD")) {
+        ///\EFFECT_STR reduces reload time of some weapons
         ret -= u.str_cur * 20;
     }
     if (ret < 25) {
@@ -3782,6 +3787,7 @@ int item::gun_range( const player *p ) const
     if( p == nullptr ) {
         return ret;
     }
+    ///\EFFECT_STR allows use and increases range of some bows
     if( has_flag( "STR8_DRAW" ) ) {
         if( p->str_cur < 4 ) {
             return 0;
@@ -4114,6 +4120,7 @@ bool item::reload(player &u, int pos)
     // Chance to fail pulling an arrow at lower levels
     if( container && container->type->can_use( "QUIVER" ) ) {
         int archery = u.skillLevel( skill_id( "archery" ) );
+        ///\EFFECT_ARCHERY increases reliability of pulling arrows from a quiver
         if( archery <= 2 && one_in( 10 ) ) {
             u.moves -= 30;
             u.add_msg_if_player( _( "You try to pull a %1$s from your %2$s, but fail!" ),
