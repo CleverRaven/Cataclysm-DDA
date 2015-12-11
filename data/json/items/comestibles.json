@@ -20516,7 +20516,7 @@
         "nutrition" : 8,
         "description" : "Smooth and rich, this spoon-coating mixture of milk, cream, eggs, and booze is a popular traditional holiday drink.  Having been fortified with alcohol, it will keep for a long time.",
         "price" : 45, "//" : "A 12-charge gallon currently goes for around US$4, and eggnog is a bit more expensive than that.",
-        "material" : "milk","alcohol"
+        "material" : ["milk", "alcohol"],
         "tool" : "null",
         "volume" : 1,
         "cutting" : 0,
