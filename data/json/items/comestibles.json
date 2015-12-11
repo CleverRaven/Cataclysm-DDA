@@ -20494,7 +20494,7 @@
         "phase" : "liquid",
         "charges" : 1,
         "bashing" : 0,
-        "flags" : ["EATEN_COLD", "EATEN_HOT"],
+        "flags" : ["EATEN_COLD"],
         "fun" : 5
     },{
         "type" : "COMESTIBLE",
@@ -20523,7 +20523,7 @@
         "phase" : "liquid",
         "charges" : 1,
         "bashing" : 0,
-        "flags" : ["EATEN_COLD","EATEN_HOT"],
+        "flags" : ["EATEN_COLD"],
         "fun" : 15
     }
 ]
