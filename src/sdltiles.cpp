@@ -2043,7 +2043,8 @@ void musicFinished() {
     }
 
     // Load the next file to play.
-    current_playlist_at = playlist_indexes.at( absolute_playlist_at++ );
+    absolute_playlist_at++;
+    current_playlist_at = playlist_indexes.at( absolute_playlist_at );
 
     // Wrap around if we reached the end of the playlist.
     if( absolute_playlist_at >= list.entries.size() ) {
