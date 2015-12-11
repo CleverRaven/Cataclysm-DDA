@@ -179,6 +179,7 @@ struct map_layer {
     omt_knowledge_level visible[OMAPX][OMAPY];
     bool explored[OMAPX][OMAPY];
     std::vector<om_note> notes;
+    std::unordered_map<std::pair<int,int>, std::string> terrain_closeup_name;
 };
 
 struct node
@@ -225,6 +226,7 @@ class overmap
     oter_id& ter(const int x, const int y, const int z);
     const oter_id get_ter(const int x, const int y, const int z) const;
     omt_knowledge_level& seen(int x, int y, int z);
+    std::string& terrain_closeup_name(int x, int y, int z);
     bool&   explored(int x, int y, int z);
     bool is_road_or_highway(int x, int y, int z);
     bool is_explored(int const x, int const y, int const z) const;
@@ -331,6 +333,7 @@ public:
   oter_id nullret;
   bool nullbool;
   omt_knowledge_level nullokl;
+  std::string nullstring;
 
     /**
      * When monsters despawn during map-shifting they will be added here.

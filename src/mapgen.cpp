@@ -129,34 +129,42 @@ void map::generate(const int x, const int y, const int z, const int turn)
     }
 
     unsigned zones = 0;
+
     // x, and y are submap coordinates, convert to overmap terrain coordinates
-    int overx = x;
-    int overy = y;
-    overmapbuffer::sm_to_omt(overx, overy);
-    const regional_settings *rsettings = &overmap_buffer.get_settings(overx, overy, z);
-    oter_id t_above = overmap_buffer.ter(overx, overy, z + 1);
-    oter_id terrain_type = overmap_buffer.ter(overx, overy, z);
-    oter_id t_north = overmap_buffer.ter(overx, overy - 1, z);
-    oter_id t_neast = overmap_buffer.ter(overx + 1, overy - 1, z);
-    oter_id t_east = overmap_buffer.ter(overx + 1, overy, z);
-    oter_id t_seast = overmap_buffer.ter(overx + 1, overy + 1, z);
-    oter_id t_south = overmap_buffer.ter(overx, overy + 1, z);
-    oter_id t_nwest = overmap_buffer.ter(overx - 1, overy - 1, z);
-    oter_id t_west = overmap_buffer.ter(overx - 1, overy, z);
-    oter_id t_swest = overmap_buffer.ter(overx - 1, overy + 1, z);
+    int omtx = x;
+    int omty = y;
+    overmapbuffer::sm_to_omt(omtx, omty);
+    const regional_settings *rsettings = &overmap_buffer.get_settings(omtx, omty, z);
+
+    oter_id t_above = overmap_buffer.ter(omtx, omty, z + 1);
+    oter_id terrain_type = overmap_buffer.ter(omtx, omty, z);
+    oter_id t_north = overmap_buffer.ter(omtx, omty - 1, z);
+    oter_id t_neast = overmap_buffer.ter(omtx + 1, omty - 1, z);
+    oter_id t_east = overmap_buffer.ter(omtx + 1, omty, z);
+    oter_id t_seast = overmap_buffer.ter(omtx + 1, omty + 1, z);
+    oter_id t_south = overmap_buffer.ter(omtx, omty + 1, z);
+    oter_id t_nwest = overmap_buffer.ter(omtx - 1, omty - 1, z);
+    oter_id t_west = overmap_buffer.ter(omtx - 1, omty, z);
+    oter_id t_swest = overmap_buffer.ter(omtx - 1, omty + 1, z);
 
     // This attempts to scale density of zombies inversely with distance from the nearest city.
     // In other words, make city centers dense and perimiters sparse.
     float density = 0.0;
-    for (int i = overx - MON_RADIUS; i <= overx + MON_RADIUS; i++) {
-        for (int j = overy - MON_RADIUS; j <= overy + MON_RADIUS; j++) {
+    for (int i = omtx - MON_RADIUS; i <= omtx + MON_RADIUS; i++) {
+        for (int j = omty - MON_RADIUS; j <= omty + MON_RADIUS; j++) {
             density += otermap[overmap_buffer.ter(i, j, z)].mondensity;
         }
     }
     density = density / 100;
 
-    draw_map(terrain_type, t_north, t_east, t_south, t_west, t_neast, t_seast, t_nwest, t_swest,
-             t_above, turn, density, z, rsettings);
+    const std::string &tname =
+        draw_map(terrain_type, t_north, t_east, t_south, t_west,
+                 t_neast, t_seast, t_nwest, t_swest,
+                 t_above, turn, density, z, rsettings);
+
+    if (tname.length()>0) {
+        overmap_buffer.set_closeup_name(omtx, omty, z, tname);
+    }
 
     // At some point, we should add region information so we can grab the appropriate extras
     map_extras ex = region_settings_map["default"].region_extras[otermap[terrain_type].extras];
@@ -1615,12 +1623,14 @@ void mapgen_function_lua::generate( map *m, oter_id terrain_type, mapgendata dat
 // track down what is and isn't supposed to be carried around between bits of code.
 // I suggest that we break the function down into smaller parts
 
-void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter_id t_east,
-                   const oter_id t_south, const oter_id t_west, const oter_id t_neast,
-                   const oter_id t_seast, const oter_id t_nwest, const oter_id t_swest,
-                   const oter_id t_above, const int turn, const float density,
-                   const int zlevel, const regional_settings * rsettings)
+const std::string
+map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter_id t_east,
+              const oter_id t_south, const oter_id t_west, const oter_id t_neast,
+              const oter_id t_seast, const oter_id t_nwest, const oter_id t_swest,
+              const oter_id t_above, const int turn, const float density,
+              const int zlevel, const regional_settings * rsettings)
 {
+    // debugmsg("[m::draw_map]");
     static const mongroup_id GROUP_ZOMBIE( "GROUP_ZOMBIE" );
     static const mongroup_id GROUP_PUBLICWORKERS( "GROUP_PUBLICWORKERS" );
     static const mongroup_id GROUP_DOMESTIC( "GROUP_DOMESTIC" );
@@ -4961,7 +4971,6 @@ ff.......|....|WWWWWWWW|\n\
         line(this, t_stairs_up, SEEX, SEEY * 2 - 1, SEEX + 1, SEEY * 2 - 1);
         spawn_artifact( tripoint( rng(SEEX, SEEX + 1), rng(2, 3), abs_sub.z ) );
         spawn_artifact( tripoint( rng(SEEX, SEEX + 1), rng(2, 3), abs_sub.z ) );
-        return;
 
     } else if (terrain_type == "sewage_treatment") {
 
@@ -11196,6 +11205,7 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
         }
     }
 
+    return std::string("test");
 }
 
 void map::post_process(unsigned zones)

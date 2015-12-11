@@ -427,6 +427,23 @@ void overmapbuffer::set_seen(int x, int y, int z, omt_knowledge_level okl)
     om.seen(x, y, z) = okl;
 }
 
+const std::string& overmapbuffer::closeup_name(int x, int y, int z)
+{
+    const overmap *om = get_existing_om_global(x, y);
+    if (om==NULL) {
+        return nullstring;
+    }
+    return const_cast<overmap*>(om)->terrain_closeup_name(x, y, z);
+}
+
+void overmapbuffer::set_closeup_name(int x, int y, int z, const std::string &tname)
+{
+    // debugmsg("[omb::set_closeup_name %d %d %d %s]",x,y,z,tname.c_str());
+    overmap &om = get_om_global(x, y);
+    om.terrain_closeup_name(x, y, z) = tname;
+    // debugmsg("[omb::set_closeup_name tcn %s]",om.terrain_closeup_name(x, y, z).c_str());
+}
+
 overmap &overmapbuffer::get_om_global(const point& p)
 {
     const point om_pos = omt_to_om_copy(p);

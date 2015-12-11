@@ -924,6 +924,17 @@ omt_knowledge_level &overmap::seen(int x, int y, int z)
     return layer[z + OVERMAP_DEPTH].visible[x][y];
 }
 
+std::string& overmap::terrain_closeup_name(int x, int y, int z)
+{
+    // debugmsg("[om::terrain_closeup_name %d %d %d %s]",x,y,z,layer[z + OVERMAP_DEPTH].terrain_closeup_name[std::pair<int,int>(x,y)].c_str());
+    if (x < 0 || x >= OMAPX || y < 0 || y >= OMAPY || z < -OVERMAP_DEPTH || z > OVERMAP_HEIGHT ||
+        !layer[z + OVERMAP_DEPTH].terrain_closeup_name.count(std::pair<int,int>(x,y))) {
+        nullstring = "";
+        return nullstring;
+    }
+    return layer[z + OVERMAP_DEPTH].terrain_closeup_name[std::pair<int,int>(x,y)];
+}
+
 bool &overmap::explored(int x, int y, int z)
 {
     if (x < 0 || x >= OMAPX || y < 0 || y >= OMAPY || z < -OVERMAP_DEPTH || z > OVERMAP_HEIGHT) {
@@ -1979,8 +1990,14 @@ void overmap::draw(WINDOW *w, WINDOW *wbar, const tripoint &center,
         } else {
             mvwputch(wbar, 1, 1, otermap[ccur_ter].color, otermap[ccur_ter].sym);
             std::vector<std::string> name = foldstring(otermap[ccur_ter].name, 25);
-            for (size_t i = 0; i < name.size(); i++) {
+            size_t i;
+            for (i = 0; i < name.size(); i++) {
                 mvwprintz(wbar, i + 1, 3, otermap[ccur_ter].color, "%s", name[i].c_str());
+            }
+
+            std::vector<std::string> closeup_name = foldstring(overmap_buffer.closeup_name(cursx,cursy,z), 25);
+            for (size_t j = 0; j < closeup_name.size(); j++) {
+                mvwprintz(wbar, j + i + 1, 1, otermap[ccur_ter].color, "- %s", closeup_name[i].c_str());
             }
         }
     } else {
