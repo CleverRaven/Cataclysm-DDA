@@ -115,8 +115,11 @@ const recipe *select_crafting_recipe( int &batch_size )
     int lastid = -1;
 
     WINDOW *w_head = newwin( headHeight, width, 0, wStart );
+    WINDOW_PTR w_head_ptr( w_head );
     WINDOW *w_subhead = newwin( subHeadHeight, width, 3, wStart );
+    WINDOW_PTR w_subhead_ptr( w_subhead );
     WINDOW *w_data = newwin( dataHeight, width, headHeight + subHeadHeight, wStart );
+    WINDOW_PTR w_data_ptr( w_data );
 
     int item_info_x = infoWidth;
     int item_info_y = dataHeight - 3;
@@ -131,6 +134,7 @@ const recipe *select_crafting_recipe( int &batch_size )
     }
 
     WINDOW *w_iteminfo = newwin( item_info_y, item_info_x, item_info_height, item_info_width );
+    WINDOW_PTR w_iteminfo_ptr( w_iteminfo );
 
     list_circularizer<std::string> tab( craft_cat_list );
     list_circularizer<std::string> subtab( craft_subcat_list[tab.cur()] );
@@ -497,14 +501,6 @@ const recipe *select_crafting_recipe( int &batch_size )
             line = 0;
         }
     } while( !done );
-
-    werase( w_head );
-    werase( w_subhead );
-    werase( w_data );
-    delwin( w_head );
-    delwin( w_subhead );
-    delwin( w_data );
-    g->refresh_all();
 
     return chosen;
 }
