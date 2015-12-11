@@ -1317,8 +1317,13 @@ bool cata_tiles::draw_from_id_string(std::string id, TILE_CATEGORY category,
             seed = g->mon_at( tripoint( x, y, z_coord ) );
             break;
     }
+    // this should preserve the deterministic nature of the game based on original seed
+    // even when a tileset changes
+    auto temp = rand();
     srand( seed );
     unsigned int loc_rand = rand();
+    srand( temp );
+
     //draw it!
     draw_tile_at( display_tile, screen_x, screen_y, loc_rand, rota, ll, apply_night_vision_goggles );
 
