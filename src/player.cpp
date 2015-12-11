@@ -10371,9 +10371,9 @@ bool player::wield(item* it, bool autodrop)
             return false;
         }
         if (autodrop || volume_carried() + weapon.volume() <= volume_capacity()) {
+            moves -= item_handling_cost(weapon);
             inv.add_item_keep_invlet(remove_weapon());
             inv.unsort();
-            moves -= 20;
             recoil = MIN_RECOIL;
             return true;
         } else if (query_yn(_("No space in inventory for your %s.  Drop it?"),
@@ -10401,8 +10401,8 @@ bool player::wield(item* it, bool autodrop)
 
     if( is_armed() ) {
         if( volume_carried() + weapon.volume() - it->volume() < volume_capacity() ) {
+            mv += item_handling_cost(weapon);
             inv.add_item_keep_invlet( remove_weapon() );
-            mv += 15;
         } else if( query_yn(_("No space in inventory for your %s.  Drop it?"),
                             weapon.tname().c_str() ) ) {
             g->m.add_item_or_charges( posx(), posy(), remove_weapon() );
@@ -10417,14 +10417,12 @@ bool player::wield(item* it, bool autodrop)
     // than a skilled player with a holster.
     // There is an additional penalty when wielding items from the inventory whilst currently grabbed.
 
+    mv += item_handling_cost(*it);
+
     if( is_worn( *it ) ) {
         it->on_takeoff( *this );
-        mv += it->volume() * 10;
     } else {
-        mv += it->volume() * 20;
-        if( has_effect( "grabbed" ) ) {
-            mv *= 2;
-        }
+        mv *= 2;
     }
 
     moves -= mv;
@@ -10668,6 +10666,13 @@ hint_rating player::rate_action_change_side( const item &it ) const {
     return HINT_GOOD;
 }
 
+int player::item_handling_cost( const item& it, bool effects, int factor ) const {
+    int mv = std::max( 1, it.volume() * factor );
+    if( effects && has_effect( "grabbed" ) ) {
+        mv *= 2;
+    }
+    return std::min(mv, MAX_HANDLING_COST);
+}
 
 bool player::wear(int inventory_position, bool interactive)
 {
@@ -13503,8 +13508,8 @@ bool player::wield_contents(item *container, int pos, int factor)
     if( is_armed() ) {
         if( volume_carried() + weapon.volume() - container->contents[pos].volume() <
             volume_capacity() ) {
+            mv += item_handling_cost(weapon);
             inv.add_item_keep_invlet( remove_weapon() );
-            mv += 15;
         } else if( query_yn( _("No space in inventory for your %s.  Drop it?"),
                              weapon.tname().c_str() ) ) {
             g->m.add_item_or_charges( posx(), posy(), remove_weapon() );

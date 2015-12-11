@@ -703,4 +703,8 @@ int get_local_windpower(double windpower, std::string const &omtername, bool she
     return tmpwind;
 }
 
+bool warm_enough_to_plant() {
+    return g->get_temperature() >= 50; // semi-appropriate temperature for most plants
+}
+
 ///@}

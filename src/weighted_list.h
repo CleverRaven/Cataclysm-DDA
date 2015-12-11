@@ -4,6 +4,7 @@
 #include "rng.h"
 #include <vector>
 #include <functional>
+#include <cstdlib>
 #include <cmath>
 
 template <typename W, typename T> struct weighted_object {

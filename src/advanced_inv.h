@@ -232,6 +232,10 @@ class advanced_inventory_pane
         {
             return viewing_cargo;
         }
+        bool on_ground() const
+        {
+            return area > AIM_INVENTORY && area < AIM_DRAGGED;
+        }
         /**
          * Index of the selected item (index of @ref items),
          */

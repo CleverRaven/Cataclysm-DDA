@@ -164,4 +164,9 @@ double funnel_charges_per_turn( double surface_area_mm2, double rain_depth_mm_pe
  */
 int get_rot_since( int startturn, int endturn, const tripoint &pos );
 
+/**
+ * Is it warm enough to plant seeds?
+ */
+bool warm_enough_to_plant();
+
 #endif

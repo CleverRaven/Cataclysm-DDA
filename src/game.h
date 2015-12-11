@@ -456,7 +456,7 @@ class game
          */
         void load_map( tripoint pos_sm );
         /**
-         * The overmap which is at the top left corner of the reality bubble.
+         * The overmap which contains the center submap of the reality bubble.
          */
         overmap &get_cur_om() const;
         scenario *scen;
