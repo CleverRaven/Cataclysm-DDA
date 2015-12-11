@@ -20495,7 +20495,7 @@
         "charges" : 1,
         "bashing" : 0,
         "flags" : ["EATEN_COLD", "EATEN_HOT"],
-        "fun" : 5
+        "fun" : 5,
     {
         "type" : "COMESTIBLE",
         "id" : "eggnog_spiked",
@@ -20524,6 +20524,6 @@
         "charges" : 1,
         "bashing" : 0,
         "flags" : ["EATEN_COLD","EATEN_HOT"],
-        "fun" : 15
+        "fun" : 15,
     },
 ]
