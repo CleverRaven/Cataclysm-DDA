@@ -11356,11 +11356,6 @@ void game::unload(int pos)
         };
 
         auto item_loc = inv_map_splice( filter, _("Unload item:") );
-        const int inv_pos = item_loc.get_inventory_position();
-        if( inv_pos != INT_MIN ) {
-            unload( inv_pos );
-            return;
-        }
 
         item *it = item_loc.get_item();
         if( it == nullptr ) {
