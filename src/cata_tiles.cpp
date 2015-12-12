@@ -35,6 +35,7 @@
 
 extern int WindowHeight, WindowWidth;
 extern int fontwidth, fontheight;
+extern bool tile_iso;
 
 SDL_Color cursesColorToSDL(int color);
 

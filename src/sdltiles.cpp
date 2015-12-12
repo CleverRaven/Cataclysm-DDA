@@ -59,6 +59,7 @@ cata_tiles *tilecontext;
 static unsigned long lastupdate = 0;
 static unsigned long interval = 25;
 static bool needupdate = false;
+extern bool tile_iso;
 
 #ifdef SDL_SOUND
 /** The music we're currently playing. */
@@ -1759,7 +1760,7 @@ bool input_context::get_coordinates(WINDOW* capture_win, int& x, int& y) {
         return false;
     }
 
-    if (tilecontext->tile_iso) {
+    if (tile_iso) {
         const int selected_column = (coordinate_x - win_left)/fw - (coordinate_y - win_top - fh - (capture_win->height * fh)/2)/(fw/2);
         const int selected_row = (coordinate_x - win_left)/fw + (coordinate_y - win_top - fh - (capture_win->height * fh)/2)/(fw/2);
         // add_msg( m_info, "c %d r %d", selected_column, selected_row );

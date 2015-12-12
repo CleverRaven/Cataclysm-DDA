@@ -27,6 +27,7 @@ bool trigdist;
 bool use_tiles;
 bool log_from_top;
 bool fov_3d;
+bool tile_iso;
 
 #ifdef TILES
 extern cata_tiles *tilecontext;
