@@ -11354,7 +11354,7 @@ void game::unload(int pos)
 
         auto item_loc = inv_map_splice( [&]( const item &it ) {
             return u.rate_action_unload( it ) == HINT_GOOD;
-        }, _( "Unload item:" ) );
+        }, _( "Unload item:" ), 1 );
 
         item *it = item_loc.get_item();
         if( it == nullptr ) {
