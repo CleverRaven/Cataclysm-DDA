@@ -1881,6 +1881,7 @@ input_context get_default_mode_input_context()
 {
     input_context ctxt("DEFAULTMODE");
     // Because those keys move the character, they don't pan, as their original name says
+    ctxt.set_iso(true);
     ctxt.register_action("UP", _("Move North"));
     ctxt.register_action("RIGHTUP", _("Move Northeast"));
     ctxt.register_action("RIGHT", _("Move East"));
@@ -8908,6 +8909,7 @@ tripoint game::look_around( WINDOW *w_info, const tripoint &start_point,
 
     std::string action;
     input_context ctxt("LOOK");
+    ctxt.set_iso(true);
     ctxt.register_directions();
     ctxt.register_action("COORDINATE");
     ctxt.register_action("SELECT");
