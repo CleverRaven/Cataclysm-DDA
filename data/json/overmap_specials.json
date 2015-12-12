@@ -494,10 +494,10 @@
         "id" : "Apartments_Con",
         "overmaps" :
         [
-            { "point":[0,0,0], "overmap": "apartments_con_tower_1"},
-            { "point":[1,0,0], "overmap": "apartments_con_tower_1_entrance", "connect": "road"},
-            { "point":[0,1,0], "overmap": "apartments_con_tower_1"},
-            { "point":[1,1,0], "overmap": "apartments_con_tower_1"}
+            { "point":[0,0,0], "overmap": "apartments_con_tower_NW_north"},
+            { "point":[1,0,0], "overmap": "apartments_con_tower_NE_north"},
+            { "point":[0,1,0], "overmap": "apartments_con_tower_SW_north", "connect": "road"},
+            { "point":[1,1,0], "overmap": "apartments_con_tower_SE_north"}
         ],
         "locations" : [ "wilderness" ], "//":"what special locations does it spawn",
         "city_distance" : [-1, 2], "//":"how far from a city it should be",

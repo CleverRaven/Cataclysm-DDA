@@ -567,26 +567,26 @@ Places a gas pump with gasoline (or sometimes diesel) in it. Values:
 ### 2.7.6 "items"
 Places items from an item group. Values:
 - "item": (required, string) the item group to use.
-- "chance": (optional, integer or min/max array) the chance to spawn multiple items (see `map::place_items`).
+- "chance": (optional, integer or min/max array) x in 100 chance that a loop will continue to spawn items from the group (which itself may spawn multiple items or not depending on its type, see `ITEM_SPAWN.md`), unless the chance is 100, in which case it will trigger the item group spawn exactly 1 time (see `map::place_items`).
 
 ### 2.7.7 "monsters"
 Places a monster spawn point, the actual monsters are spawned when the map is loaded. Values:
 - "monster": (required, string) a monster group id, when the map is loaded, a random monsters from that group are spawned.
 - "density": (optional, float) if defined, it overrides the default monster density at the location (monster density is bigger towards the city centers) (see `map::place_spawns`).
-- "chance": (optional, integer or min/max array) chance of monster (see `map::place_spawns`).
+- "chance": (optional, integer or min/max array) one in x chance of spawn point being created (see `map::place_spawns`).
 
 ### 2.7.8 "vehicles"
 Places a vehicle. Values:
 - "vehicle": (required, string) type of the vehicle or id of a vehicle group.
-- "chance": (optional, integer or min/max array) chance of the vehicle spawning at all (in percent, 100 = always). The default is 1 (which means 1% probability that the vehicle spawns, you probably want something larger).
+- "chance": (optional, integer or min/max array) x in 100 chance of the vehicle spawning at all. The default is 1 (which means 1% probability that the vehicle spawns, you probably want something larger).
 - "rotation": (optional, integer) the direction the vehicle faces.
 - "fuel": (optional, integer) the fuel status. Default is -1 which makes the tanks 1-7% full. Positive values are interpreted as percentage of the vehicles tanks to fill (e.g. 100 means completely full). 
-    - "status": (optional, integer) default is -1 (no damage at all), a value of 1 means some damage.
+- "status": (optional, integer) default is -1 (light damage), a value of 0 means perfect condition, 1 means heavily damaged.
 
 ### 2.7.9 "item"
 Places a specific item. Values:
 - "item": (required, string) the item type id of the new item.
-- "chance": (optional, integer or min/max array) the chance to spawn multiple items (see `map::place_items`). This is a one_in(chance) check, 1 (the default) means it will always spawn.
+- "chance": (optional, integer or min/max array) one in x chance that the item will spawn. Default is 1, meaning it will always spawn.
 - "amount": (optional, integer or min/max array) the number of items to spawn, default is 1.
 
 To use this type with explicit coordinates use the name "add" (this if for backwards compatibility) like this:
@@ -637,7 +637,7 @@ Creates a liquid item at the specified location. Liquids can't currently be pick
 Values:
 - "liquid": (required, item id) the item (a liquid)
 - "amount": (optional, integer/min-max array) amount of liquid to place (a value of 0 defaults to the item's default charges)
-- "chance": (optional, integer/min-max array) one-in-X chance of spawning a liquid, default value is 1 (100%)
+- "chance": (optional, integer/min-max array) one in x chance of spawning a liquid, default value is 1 (100%)
 
 Example for dropping a default amount of gasoline (200 units) on the ground:
 ```JSON

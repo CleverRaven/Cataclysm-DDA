@@ -2401,10 +2401,8 @@ void iexamine::recycler(player *p, map *m, const tripoint &examp)
     static const double norm_recover_factor = 8.0 / 10.0;
     const int norm_recover_weight = steel_weight * norm_recover_factor;
     uimenu as_m;
-    // Get format for printing weights, convert weight to that format,
-    const std::string format = OPTIONS["USE_METRIC_WEIGHTS"].getValue() == "lbs" ? _("%.3f lbs") :
-                               _("%.3f kg");
-    const std::string weight_str = string_format(format, convert_weight(steel_weight));
+    const std::string weight_str = string_format("%.3f %s", convert_weight(steel_weight),
+                                                            weight_units().c_str());
     as_m.text = string_format(_("Recycle %s metal into:"), weight_str.c_str());
     add_recyle_menu_entry(as_m, norm_recover_weight, 'l', "steel_lump");
     add_recyle_menu_entry(as_m, norm_recover_weight, 'S', "sheet_metal");
@@ -2529,25 +2527,10 @@ void iexamine::trap(player *p, map *m, const tripoint &examp)
 void iexamine::water_source(player *p, map *m, const tripoint &examp)
 {
     item water = m->water_from( examp );
-    const std::string text = string_format(_("Container for %s"), water.tname().c_str());
-    item *cont = g->inv_map_for_liquid(water, text);
-    if (cont == NULL || cont->is_null()) {
-        // No container selected, try drinking from out hands
-        p->drink_from_hands(water);
-    } else {
-        // Turns needed is the number of liquid units / 10 * 100 (because 100 moves in a turn).
-        int turns = cont->get_remaining_capacity_for_liquid( water ) * 10;
-        if (turns > 0) {
-            if( turns/1000 > 1 ) {
-                // If it takes less than a minute, no need to inform the player about time.
-                p->add_msg_if_player(m_info, _("It will take around %d minutes to fill that container."), turns / 1000);
-            }
-            p->assign_activity(ACT_FILL_LIQUID, turns, -1, p->get_item_position(cont), cont->tname());
-            p->activity.str_values.push_back(water.typeId());
-            p->activity.values.push_back(water.poison);
-            p->activity.values.push_back(water.bday);
-        }
-    }
+    p->assign_activity(ACT_FILL_LIQUID, -1, -1);
+    p->activity.str_values.push_back(water.typeId());
+    p->activity.values.push_back(water.poison);
+    p->activity.values.push_back(water.bday);
 }
 void iexamine::swater_source(player *p, map *m, const tripoint &examp)
 {

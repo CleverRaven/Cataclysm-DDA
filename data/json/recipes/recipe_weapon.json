@@ -2348,10 +2348,7 @@
   "autolearn": true,
   "tools": [
     [
-      [ "needle_bone", 4 ],
-      [ "needle_wood", 4 ],
-      [ "sewing_kit", 4 ],
-      [ "tailors_kit", 4 ]
+      [ "sewing_kit", 4 ]
     ]
   ],
   "components": [

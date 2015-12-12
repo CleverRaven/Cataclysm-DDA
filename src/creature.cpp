@@ -628,7 +628,7 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
                     SCT.add(posx(), posy(),
                             direction_from(0, 0, posx() - source->posx(), posy() - source->posy()),
                             get_hp_bar(get_hp(), get_hp_max(), true).first, m_good,
-                            //~ “hit points”, used in scrolling combat text
+                            //~ "hit points", used in scrolling combat text
                             _("hp"), m_neutral, "hp");
                 } else {
                     SCT.removeCreatureHP();

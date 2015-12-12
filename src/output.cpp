@@ -1139,13 +1139,13 @@ std::string replace_colors( std::string text )
 {
     static const std::vector<std::pair<std::string, std::string>> info_colors = {
         {"info", get_all_colors().get_name( c_cyan )},
-        {"stat", get_all_colors().get_name( c_blue )},
+        {"stat", get_all_colors().get_name( c_ltblue )},
         {"header", get_all_colors().get_name( c_magenta )},
         {"bold", get_all_colors().get_name( c_white )},
         {"dark", get_all_colors().get_name( c_dkgray )},
         {"good", get_all_colors().get_name( c_green )},
         {"bad", get_all_colors().get_name( c_red )},
-        {"neutral", get_all_colors().get_name( c_brown )}
+        {"neutral", get_all_colors().get_name( c_yellow )}
     };
 
     for( auto &elem : info_colors ) {
@@ -1195,7 +1195,7 @@ std::string format_item_info( const std::vector<iteminfo> &vItemDisplay,
             }
 
             if (vItemDisplay[i].sValue != "-999") {
-                nc_color thisColor = c_brown;
+                nc_color thisColor = OPTIONS["INFO_HIGHLIGHT"] ? c_yellow : c_ltgray;
                 for (auto &k : vItemCompare) {
                     if (k.sValue != "-999") {
                         if (vItemDisplay[i].sName == k.sName && vItemDisplay[i].sType == k.sType) {
