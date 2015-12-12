@@ -741,6 +741,17 @@
         "sidewalk" : true
     },{
         "type" : "overmap_terrain",
+        "id" : "s_teashop",
+        "name" : "teashop shop",
+        "rotate" : true,
+        "sym" : [94, 62, 118, 60],
+        "color" : "white_magenta",
+        "see_cost" : 5,
+        "extras" : "build",
+        "mondensity" : 2,
+        "sidewalk" : true
+    },{
+        "type" : "overmap_terrain",
         "id" : "bar",
         "name" : "bar",
         "rotate" : true,

@@ -1839,6 +1839,20 @@
         }
     },{
         "type" : "furniture",
+        "id" : "f_chamomile",
+        "name": "chamomile",
+        "symbol": "f",
+        "color": "white",
+        "move_cost_mod": 0,
+        "required_str": -1,
+        "flags": ["TRANSPARENT", "TINY", "FLAMMABLE_ASH"],
+        "bash": {
+            "str_min": 2, "str_max": 6,
+            "sound": "crunch.",
+            "sound_fail": "whish."
+        }
+    },{
+        "type" : "furniture",
         "id" : "f_cattails",
         "name": "cattails",
         "symbol": "i",
