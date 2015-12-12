@@ -3861,6 +3861,30 @@ long item::ammo_capacity() const
     return res;
 }
 
+long item::ammo_required() const {
+    long res = 0;
+
+    if( is_tool() ) {
+        type->charges_to_use();
+    }
+
+    if( is_gun() ) {
+        if( has_flag( "NO_AMMO" ) ) {
+            res = 0;
+        } else if( has_flag( "FIRE_100" ) ) {
+            res = 100;
+        } else if( has_flag( "FIRE_50" ) ) {
+            res = 50;
+        } else if( has_flag( "FIRE_20" ) ) {
+            res = 20;
+        } else {
+            res = 1;
+        }
+    }
+
+    return res;
+}
+
 ammotype item::ammo_type() const
 {
     if (is_gun()) {
