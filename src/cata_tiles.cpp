@@ -290,7 +290,7 @@ static void apply_color_filter(SDL_Surface_Ptr &surf, void (&pixel_converter)(pi
     }
 }
 
-int cata_tiles::load_tileset(std::string img_path, int R, int G, int B)
+int cata_tiles::load_tileset(std::string img_path, int R, int G, int B, int sprite_width, int sprite_height)
 {
     /** reinit tile_atlas */
     SDL_Surface_Ptr tile_atlas( IMG_Load( img_path.c_str() ) );
@@ -328,24 +328,24 @@ int cata_tiles::load_tileset(std::string img_path, int R, int G, int B)
     int w = tile_atlas->w;
     int h = tile_atlas->h;
     /** sx and sy will take care of any extraneous pixels that do not add up to a full tile */
-    int sx = w / tile_width;
-    int sy = h / tile_height;
+    int sx = w / sprite_width;
+    int sy = h / sprite_height;
 
-    sx *= tile_width;
-    sy *= tile_height;
+    sx *= sprite_width;
+    sy *= sprite_height;
 
     /** Set up initial source and destination information. Destination is going to be unchanging */
-    SDL_Rect source_rect = {0, 0, tile_width, tile_height};
-    SDL_Rect dest_rect = {0, 0, tile_width, tile_height};
+    SDL_Rect source_rect = {0, 0, sprite_width, sprite_height};
+    SDL_Rect dest_rect = {0, 0, sprite_width, sprite_height};
 
     /** split the atlas into tiles using SDL_Rect structs instead of slicing the atlas into individual surfaces */
     int tilecount = 0;
-    for (int y = 0; y < sy; y += tile_height) {
-        for (int x = 0; x < sx; x += tile_width) {
+    for (int y = 0; y < sy; y += sprite_height) {
+        for (int x = 0; x < sx; x += sprite_width) {
             source_rect.x = x;
             source_rect.y = y;
 
-            SDL_Surface_Ptr tile_surf = create_tile_surface();
+            SDL_Surface_Ptr tile_surf = create_tile_surface(sprite_width, sprite_height);
             if( !tile_surf ) {
                 continue;
             }
@@ -482,13 +482,17 @@ void cata_tiles::load_tilejson_from_file(const std::string &tileset_dir, std::if
                 G = tra.get_int("G");
                 B = tra.get_int("B");
             }
+            int sprite_width = tile_part_def.get_int("sprite_width",tile_width);
+            int sprite_height = tile_part_def.get_int("sprite_height",tile_height);
             // First load the tileset image to get the number of available tiles.
             dbg( D_INFO ) << "Attempting to Load Tileset file " << tileset_image_path;
-            const int newsize = load_tileset(tileset_image_path, R, G, B);
+            const int newsize = load_tileset(tileset_image_path, R, G, B, sprite_width, sprite_height);
             // Now load the tile definitions for the loaded tileset image.
-            load_tilejson_from_file(tile_part_def, offset, newsize);
+            int sprite_offset_x = tile_part_def.get_int("sprite_offset_x",0);
+            int sprite_offset_y = tile_part_def.get_int("sprite_offset_y",0);
+            load_tilejson_from_file(tile_part_def, offset, newsize, sprite_offset_x, sprite_offset_y);
             if (tile_part_def.has_member("ascii")) {
-                load_ascii_tilejson_from_file(tile_part_def, offset, newsize);
+                load_ascii_tilejson_from_file(tile_part_def, offset, newsize, sprite_offset_x, sprite_offset_y);
             }
             // Make sure the tile definitions of the next tileset image don't
             // override the current ones.
@@ -497,7 +501,7 @@ void cata_tiles::load_tilejson_from_file(const std::string &tileset_dir, std::if
     } else {
         // old system, no tile file path entry, only one array of tiles
         dbg( D_INFO ) << "Attempting to Load Tileset file " << image_path;
-        const int newsize = load_tileset(image_path, -1, -1, -1);
+        const int newsize = load_tileset(image_path, -1, -1, -1, tile_width, tile_height);
         load_tilejson_from_file(config, 0, newsize);
         offset = newsize;
     }
@@ -562,7 +566,7 @@ void cata_tiles::add_ascii_subtile( tile_type &curr_tile, const std::string &t_i
     tile_ids[m_id] = curr_subtile;
 }
 
-void cata_tiles::load_ascii_tilejson_from_file( JsonObject &config, int offset, int size )
+void cata_tiles::load_ascii_tilejson_from_file( JsonObject &config, int offset, int size, int sprite_offset_x, int sprite_offset_y )
 {
     if( !config.has_member( "ascii" ) ) {
         config.throw_error( "\"ascii\" section missing" );
@@ -570,11 +574,11 @@ void cata_tiles::load_ascii_tilejson_from_file( JsonObject &config, int offset, 
     JsonArray ascii = config.get_array( "ascii" );
     while( ascii.has_more() ) {
         JsonObject entry = ascii.next_object();
-        load_ascii_set( entry, offset, size );
+        load_ascii_set( entry, offset, size, sprite_offset_x, sprite_offset_y );
     }
 }
 
-void cata_tiles::load_ascii_set( JsonObject &entry, int offset, int size )
+void cata_tiles::load_ascii_set( JsonObject &entry, int offset, int size, int sprite_offset_x, int sprite_offset_y )
 {
     // tile for ASCII char 0 is at `in_image_offset`,
     // the other ASCII chars follow from there.
@@ -628,6 +632,8 @@ void cata_tiles::load_ascii_set( JsonObject &entry, int offset, int size )
         id[7] = static_cast<char>( FG );
         id[8] = static_cast<char>( -1 );
         tile_type &curr_tile = tile_ids[id];
+        curr_tile.offset.x = sprite_offset_x;
+        curr_tile.offset.y = sprite_offset_y;
         auto &sprites = *( curr_tile.fg.add( std::vector<int>( {index_in_image + offset} ), 1 ) );
         switch( ascii_char ) {
             case LINE_OXOX_C://box bottom/top side (horizontal line)
@@ -677,7 +683,7 @@ void cata_tiles::load_ascii_set( JsonObject &entry, int offset, int size )
     }
 }
 
-void cata_tiles::load_tilejson_from_file( JsonObject &config, int offset, int size )
+void cata_tiles::load_tilejson_from_file( JsonObject &config, int offset, int size, int sprite_offset_x, int sprite_offset_y )
 {
     if( !config.has_member( "tiles" ) ) {
         config.throw_error( "\"tiles\" section missing" );
@@ -689,6 +695,8 @@ void cata_tiles::load_tilejson_from_file( JsonObject &config, int offset, int si
 
         std::string t_id = entry.get_string( "id" );
         tile_type &curr_tile = load_tile( entry, t_id, offset, size );
+        curr_tile.offset.x = sprite_offset_x;
+        curr_tile.offset.y = sprite_offset_y;
         bool t_multi = entry.get_bool( "multitile", false );
         bool t_rota = entry.get_bool( "rotates", t_multi );
         if( t_multi ) {
@@ -699,6 +707,8 @@ void cata_tiles::load_tilejson_from_file( JsonObject &config, int offset, int si
                 const std::string s_id = subentry.get_string( "id" );
                 const std::string m_id = t_id + "_" + s_id;
                 tile_type &curr_subtile = load_tile( subentry, m_id, offset, size );
+                curr_subtile.offset.x = sprite_offset_x;
+                curr_subtile.offset.y = sprite_offset_y;
                 curr_subtile.rotates = true;
                 curr_tile.available_subtiles.push_back( s_id );
             }
@@ -801,32 +811,6 @@ void cata_tiles::load_tile_spritelists( JsonObject &entry, weighted_int_list<std
     }
 }
 
-void cata_tiles::draw_single_tile( const tripoint &p, lit_level ll,
-                                   const visibility_variables &cache )
-{
-    if( apply_vision_effects( p.x, p.y, g->m.get_visibility( ll, cache ) ) ) {
-        const auto critter = g->critter_at( p, true );
-        if( critter != nullptr && g->u.sees_with_infrared( *critter ) ) {
-            draw_from_id_string( "infrared_creature", C_NONE, empty_string, p.x, p.y, 0, 0, LL_LIT, false );
-        }
-        return;
-    }
-
-    // light level is now used for choosing between grayscale filter and normal lit tiles.
-    // Draw Terrain if possible. If not possible then we need to continue on to the next part of loop
-    if( !draw_terrain( p, ll ) ) {
-        return;
-    }
-    draw_furniture( p, ll );
-    draw_trap( p, ll );
-    draw_field_or_item( p, ll );
-    draw_vpart( p, ll );
-    const auto critter = g->critter_at( p, true );
-    if( critter != nullptr ) {
-        draw_entity( *critter, p, ll );
-    }
-}
-
 void cata_tiles::draw( int destx, int desty, const tripoint &center, int width, int height )
 {
     if (!g) {
@@ -889,16 +873,35 @@ void cata_tiles::draw( int destx, int desty, const tripoint &center, int width, 
     auto vision_cache = g->u.get_vision_modes();
     nv_goggles_activated = vision_cache[NV_GOGGLES];
 
+    std::vector<tripoint> draw_points;
     for( y = min_y; y * dy < max_y * dy; y += dy) {
         for( x = min_x; x * dx < max_x * dx; x += dx) {
-            //if the render area is outside the visibility cache, default to the darkened tile
             if(!tile_iso && ((y < min_visible_y || y > max_visible_y) || (x < min_visible_x ||
                              x > max_visible_x))) {
                 apply_vision_effects(x, y, offscreen_type);
-            } else {
-                draw_single_tile( temp, ch.visibility_cache[x][y], cache );
+                continue;
             }
+
+            if( apply_vision_effects( x, y, g->m.get_visibility( ch.visibility_cache[x][y], cache ) ) ) {
+                const auto critter = g->critter_at( tripoint(x,y,center.z), true );
+                if( critter != nullptr && g->u.sees_with_infrared( *critter ) ) {
+                    draw_from_id_string( "infrared_creature", C_NONE, empty_string, x, y, 0, 0, LL_LIT, false );
+                }
+                continue;
+            }
+
+            // light level is now used for choosing between grayscale filter and normal lit tiles.
+            // Draw Terrain if possible. If not possible then we need to continue on to the next part of loop
+            if( !draw_terrain( tripoint(x,y,center.z), ch.visibility_cache[x][y] ) ) {
+                continue;
+            }
+
+            draw_points.push_back(tripoint(x,y,center.z));
         }
+    }
+
+    for(auto f: {&cata_tiles::draw_furniture,&cata_tiles::draw_trap,&cata_tiles::draw_field_or_item,&cata_tiles::draw_vpart,&cata_tiles::draw_critter_at}) {
+        for(auto &p: draw_points) {(this->*f)( p, ch.visibility_cache[p.x][p.y] ); }
     }
 
     in_animation = do_draw_explosion || do_draw_custom_explosion ||
@@ -1330,16 +1333,10 @@ bool cata_tiles::draw_from_id_string(std::string id, TILE_CATEGORY category,
     return true;
 }
 
-bool cata_tiles::draw_sprite_at( const weighted_int_list<std::vector<int>> &svlist, int x, int y,
-                                 unsigned int loc_rand, int rota_fg, int rota, lit_level ll,
+bool cata_tiles::draw_sprite_at( const tile_type &tile, const weighted_int_list<std::vector<int>> &svlist,
+                                 int x, int y, unsigned int loc_rand, int rota_fg, int rota, lit_level ll,
                                  bool apply_night_vision_goggles )
 {
-    SDL_Rect destination;
-    destination.x = x;
-    destination.y = y;
-    destination.w = tile_width;
-    destination.h = tile_height;
-
     if( svlist.empty() ) {
         // render nothing
         return true;
@@ -1375,6 +1372,7 @@ bool cata_tiles::draw_sprite_at( const weighted_int_list<std::vector<int>> &svli
         }
 
         SDL_Texture *sprite_tex = tile_values[spritelist[sprite_num]].get();
+
         //use night vision colors when in use
         //then use low light tile if available
         if(apply_night_vision_goggles && spritelist[sprite_num] < static_cast<int>(night_tile_values.size())){
@@ -1388,6 +1386,17 @@ bool cata_tiles::draw_sprite_at( const weighted_int_list<std::vector<int>> &svli
         else if(ll == LL_LOW && spritelist[sprite_num] < static_cast<int>(shadow_tile_values.size())) {
             sprite_tex = shadow_tile_values[spritelist[sprite_num]].get();
         }
+
+        Uint32 format;
+        int access, width, height;
+        SDL_QueryTexture(sprite_tex, &format, &access, &width, &height);
+
+        SDL_Rect destination;
+        destination.x = x + tile.offset.x * tile_width / default_tile_width;
+        destination.y = y + tile.offset.y * tile_width / default_tile_width;
+        destination.w = width * tile_width / default_tile_width;
+        destination.h = height * tile_height / default_tile_height;
+
         if ( rotate_sprite ) {
             switch ( rota ) {
                 default:
@@ -1430,8 +1439,8 @@ bool cata_tiles::draw_tile_at( const tile_type &tile, int x, int y, unsigned int
                                lit_level ll,
                                bool apply_night_vision_goggles )
 {
-    draw_sprite_at( tile.bg, x, y, loc_rand, 0, rota, ll, apply_night_vision_goggles );
-    draw_sprite_at( tile.fg, x, y, loc_rand, 1, rota, ll, apply_night_vision_goggles );
+    draw_sprite_at( tile, tile.bg, x, y, loc_rand, 0, rota, ll, apply_night_vision_goggles );
+    draw_sprite_at( tile, tile.fg, x, y, loc_rand, 1, rota, ll, apply_night_vision_goggles );
     return true;
 }
 
@@ -1667,6 +1676,15 @@ bool cata_tiles::draw_vpart( const tripoint &p, lit_level ll )
         draw_item_highlight( p.x, p.y );
     }
     return ret;
+}
+
+bool cata_tiles::draw_critter_at( const tripoint &p, lit_level ll )
+{
+    const auto critter = g->critter_at( p, true );
+    if( critter != nullptr ) {
+        return draw_entity( *critter, p, ll );
+    }
+    return false;
 }
 
 bool cata_tiles::draw_entity( const Creature &critter, const tripoint &p, lit_level ll )

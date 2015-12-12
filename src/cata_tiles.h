@@ -27,6 +27,7 @@ struct tile_type
     weighted_int_list<std::vector<int>> fg, bg;
     bool multitile = false;
     bool rotates = false;
+    point offset = {0,0};
 
     std::vector<std::string> available_subtiles;
 };
@@ -144,7 +145,7 @@ class cata_tiles
          * Returns the number of tiles that have been loaded from this tileset image
          * @throw std::exception If the image can not be loaded.
          */
-        int load_tileset(std::string path, int R, int G, int B);
+        int load_tileset(std::string path, int R, int G, int B, int sprite_width, int sprite_height);
 
         /**
          * Load tileset config file (json format).
@@ -177,9 +178,10 @@ class cata_tiles
          * image, only tile inidizes (tile_type::fg tile_type::bg) in the interval
          * [0,size].
          * The <B>offset</B> is automatically added to the tile index.
+         * sprite offset dictates where each sprite should render in its tile
          * @throw std::exception On any error.
          */
-        void load_tilejson_from_file(JsonObject &config, int offset, int size);
+        void load_tilejson_from_file(JsonObject &config, int offset, int size, int sprite_offset_x = 0, int sprite_offset_y = 0);
 
         /**
          * Create a new tile_type, add it to tile_ids (using <B>id</B>).
@@ -191,8 +193,8 @@ class cata_tiles
         tile_type &load_tile(JsonObject &entry, const std::string &id, int offset, int size);
 
         void load_tile_spritelists(JsonObject &entry, weighted_int_list<std::vector<int>> &vs, int offset, int size, const std::string &objname);
-        void load_ascii_tilejson_from_file(JsonObject &config, int offset, int size);
-        void load_ascii_set(JsonObject &entry, int offset, int size);
+        void load_ascii_tilejson_from_file(JsonObject &config, int offset, int size, int sprite_offset_x = 0, int sprite_offset_y = 0);
+        void load_ascii_set(JsonObject &entry, int offset, int size, int sprite_offset_x = 0, int sprite_offset_y = 0);
         void add_ascii_subtile(tile_type &curr_tile, const std::string &t_id, int fg, const std::string &s_id);
         void process_variations_after_loading(weighted_int_list<std::vector<int>> &v, int offset);
     public:
@@ -211,7 +213,7 @@ class cata_tiles
         bool draw_from_id_string(std::string id, TILE_CATEGORY category,
                                  const std::string &subcategory, int x, int y, int subtile, int rota,
                                  lit_level ll, bool apply_night_vision_goggles);
-        bool draw_sprite_at(const weighted_int_list<std::vector<int>> &svlist, int x, int y, unsigned int loc_rand, int rota_fg, int rota, lit_level ll,
+        bool draw_sprite_at(const tile_type &tile, const weighted_int_list<std::vector<int>> &svlist, int x, int y, unsigned int loc_rand, int rota_fg, int rota, lit_level ll,
                             bool apply_night_vision_goggles);  
         bool draw_tile_at(const tile_type &tile, int x, int y, unsigned int loc_rand, int rota, lit_level ll, bool apply_night_vision_goggles);
 
@@ -238,6 +240,7 @@ class cata_tiles
         bool draw_trap( const tripoint &p, lit_level ll );
         bool draw_field_or_item( const tripoint &p, lit_level ll );
         bool draw_vpart( const tripoint &p, lit_level ll );
+        bool draw_critter_at( const tripoint &p, lit_level ll );
         bool draw_entity( const Creature &critter, const tripoint &p, lit_level ll );
         void draw_entity_with_overlays( const player &pl, const tripoint &p, lit_level ll );
 
@@ -330,7 +333,7 @@ class cata_tiles
         std::vector<SDL_Texture_Ptr> tile_values;
         std::unordered_map<std::string, tile_type> tile_ids;
 
-        int tile_height, tile_width, default_tile_width, default_tile_height;
+        int tile_height = 0, tile_width = 0, default_tile_width, default_tile_height;
         // The width and height of the area we can draw in,
         // measured in map coordinates, *not* in pixels.
         int screentile_width, screentile_height;
