@@ -2166,6 +2166,10 @@ void game::rcdrive(int dx, int dy)
     }
     item *rc_car = rc_pair->second;
 
+    if(tile_iso && OPTIONS["ISO_MOVE_ROTATE"]) {
+        rotate_direction_cw(dx,dy);
+    }
+
     tripoint src( cx, cy, cz );
     tripoint dest( cx + dx, cy + dy, cz );
     if( m.move_cost(dest) == 0 || !m.can_put_items(dest) ||
@@ -11778,6 +11782,9 @@ bool game::plmove(int dx, int dy, int dz)
         dest_loc.y = rng(u.posy() - 1, u.posy() + 1);
         dest_loc.z = u.posz();
     } else {
+        if(tile_iso && OPTIONS["ISO_MOVE_ROTATE"]) {
+            rotate_direction_cw(dx,dy);
+        }
         dest_loc.x = u.posx() + dx;
         dest_loc.y = u.posy() + dy;
         dest_loc.z = u.posz() + dz;

@@ -22,6 +22,7 @@
 #include <iterator>
 
 extern input_context get_default_mode_input_context();
+extern bool tile_iso;
 
 void parse_keymap( std::istream &keymap_txt, std::map<char, action_id> &kmap,
                    std::set<action_id> &unbound_keymap );
@@ -326,6 +327,23 @@ action_id look_up_action( std::string ident )
     return ACTION_NULL;
 }
 
+// dx and dy are -1, 0, or +1. Rotate the indicated direction 1/8 turn clockwise.
+void rotate_direction_cw(int &dx, int &dy) {
+    // convert to
+    // 0 1 2
+    // 3 4 5
+    // 6 7 8
+    int dir_num = (dy+1)*3+dx+1;
+    // rotate to
+    // 1 2 5
+    // 0 4 8
+    // 3 6 7
+    dir_num = (int[]){1,2,5,0,4,8,3,6,7}[dir_num];
+    // convert back to -1,0,+1
+    dx = (dir_num%3)-1;
+    dy = (dir_num/3)-1;
+}
+
 void get_direction( int &x, int &y, char ch )
 {
     x = 0;
@@ -369,6 +387,10 @@ void get_direction( int &x, int &y, char ch )
         default:
             x = -2;
             y = -2;
+            return;
+    }
+    if(tile_iso && OPTIONS["ISO_MOVE_ROTATE"]) {
+        rotate_direction_cw(x,y);
     }
 }
 

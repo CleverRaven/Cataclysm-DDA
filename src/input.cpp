@@ -15,6 +15,8 @@
 #include <stdexcept>
 #include <errno.h>
 
+extern bool tile_iso;
+
 static const std::string default_context_id("default");
 
 template <class T1, class T2>
@@ -803,6 +805,9 @@ bool input_context::get_direction(int &dx, int &dy, const std::string &action)
         dx = -2;
         dy = -2;
         return false;
+    }
+    if(tile_iso && OPTIONS["ISO_MOVE_ROTATE"]) {
+        rotate_direction_cw(dx,dy);
     }
     return true;
 }

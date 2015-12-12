@@ -119,6 +119,8 @@ action_id look_up_action( std::string ident );
 std::string action_ident( action_id );
 // Lookup key in keymap, return the mapped action or ACTION_NULL
 action_id action_from_key( char ch );
+// roate a delta direction clockwise
+void rotate_direction_cw(int &dx, int &dy);
 // Use the keymap to figure out direction properly
 void get_direction( int &x, int &y, char ch );
 // Get input from the player to choose an adjacent tile (for examine() etc)
