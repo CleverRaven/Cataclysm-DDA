@@ -11351,11 +11351,10 @@ void game::unload(int pos)
     } else if( pos == -1 || pos == INT_MIN ) {
         // Empty hands and unloading the weapon
         // or explicitly requested unload item menu
-        auto filter = [&]( const item &it ) {
-            return u.rate_action_unload( it ) == HINT_GOOD;
-        };
 
-        auto item_loc = inv_map_splice( filter, _("Unload item:") );
+        auto item_loc = inv_map_splice( [&]( const item &it ) {
+            return u.rate_action_unload( it ) == HINT_GOOD;
+        }, _( "Unload item:" ) );
 
         item *it = item_loc.get_item();
         if( it == nullptr ) {
