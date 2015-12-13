@@ -205,7 +205,7 @@ void finalize_recipes()
     }
 }
 
-bool player::crafting_allowed(const std::string rec_name) {
+bool player::crafting_allowed(const std::string &rec_name) {
     return crafting_allowed(*recipe_dict[rec_name]);
 }
 
