@@ -456,7 +456,6 @@
   "qualities" : [
     {"id":"CUT","level":1,"amount":1}
   ], "components": [
-    [
       [ "binoculars", 1 ]
     ]
   },{
