@@ -2457,7 +2457,7 @@
         "coverage" : 20,
         "material_thickness" : 4    
     },
-	{
+    {
         "id": "binoculars_with_strap",
         "type": "TOOL_ARMOR",
         "category" : "clothing",
