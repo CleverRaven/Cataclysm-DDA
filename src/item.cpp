@@ -1913,12 +1913,15 @@ void item::on_wield( player &p, int mv )
         g->add_artifact_messages( type->artifact->effects_wielded );
     }
 
-    if (has_flag("SLOW_WIELD") && (! is_gunmod())) {
-        int d = 32; // arbitrary linear scaling factor
-        if      (is_gun())  d /= std::max((int) p.skillLevel(gun_skill()),  1);
-        else if (is_weap()) d /= std::max((int) p.skillLevel(weap_skill()), 1);
+    if( has_flag("SLOW_WIELD") && !is_gunmod() ) {
+        float d = 32.0; // arbitrary linear scaling factor
+        if( is_gun() ) {
+            d /= std::max( (float)p.skillLevel( gun_skill() ),  1.0f );
+        } else if( is_weap() ) {
+            d /= std::max( (float)p.skillLevel( weap_skill() ), 1.0f );
+        }
 
-        int penalty = get_var("volume", (int) type->volume) * d;
+        int penalty = get_var( "volume", type->volume ) * d;
         p.moves -= penalty;
         mv += penalty;
     }
