@@ -632,6 +632,18 @@ std::string options_manager::build_tilesets_list()
 {
     std::string tileset_names = build_resource_list( TILESETS, "tileset",
                                                      "gfxdir", "tileset-conf");
+    if ( FILENAMES["altgfxdir"] != std::string("./") + FILENAMES["gfxdir"] ) {
+        std::string alt_tileset_names = build_resource_list( TILESETS, "tileset",
+                                                             "altgfxdir", "tileset-conf");
+
+        if ( !alt_tileset_names.empty() ) {
+            if ( tileset_names.empty() ) {
+                tileset_names = alt_tileset_names;
+            } else {
+                tileset_names = tileset_names + "," + alt_tileset_names;
+            }
+        }
+    }
 
     if( tileset_names.empty() ) {
         optionNames["deon"] = _("Deon's");
@@ -643,8 +655,21 @@ std::string options_manager::build_tilesets_list()
 
 std::string options_manager::build_soundpacks_list()
 {
-    const std::string soundpack_names = build_resource_list( SOUNDPACKS, "soundpack",
-                                                             "sounddir", "soundpack-conf");
+    std::string soundpack_names = build_resource_list( SOUNDPACKS, "soundpack",
+                                                       "sounddir", "soundpack-conf");
+    if ( FILENAMES["altsounddir"] != std::string("./") + FILENAMES["sounddir"] ) {
+        std::string alt_soundpack_names = build_resource_list( SOUNDPACKS, "soundpack",
+                                                               "altsounddir", "soundpack-conf");
+
+        if ( !alt_soundpack_names.empty() ) {
+            if ( soundpack_names.empty() ) {
+                soundpack_names = alt_soundpack_names;
+            } else {
+                soundpack_names = soundpack_names + "," + alt_soundpack_names;
+            }
+        }
+    }
+
     if( soundpack_names.empty() ) {
         optionNames["basic"] = _("Basic");
         return "basic";
