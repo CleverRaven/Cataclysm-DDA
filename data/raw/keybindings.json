@@ -1017,10 +1017,6 @@
             },
             {
                 "input_method":"keyboard",
-                "key":"NPAGE"
-            },
-            {
-                "input_method":"keyboard",
                 "key":">"
             }
         ]
@@ -1033,10 +1029,6 @@
             {
                 "input_method":"keyboard",
                 "key":"BACKTAB"
-            },
-            {
-                "input_method":"keyboard",
-                "key":"PPAGE"
             },
             {
                 "input_method":"keyboard",

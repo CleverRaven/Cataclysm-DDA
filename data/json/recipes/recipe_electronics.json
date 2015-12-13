@@ -588,7 +588,6 @@
 },{
   "type" : "recipe",
   "result": "noise_emitter",
-  "id_suffix": "from-scratch",
   "category": "CC_ELECTRONIC",
   "subcategory": "CSC_ELECTRONIC_TOOLS",
   "skill_used": "electronics",
@@ -2403,7 +2402,6 @@
 },{
   "type" : "recipe",
   "result": "omnicamera",
-  "id_suffix": "from-scratch",
   "category": "CC_ELECTRONIC",
   "subcategory": "CSC_ELECTRONIC_PARTS",
   "skill_used": "electronics",

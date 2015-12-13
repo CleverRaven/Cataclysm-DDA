@@ -20,6 +20,8 @@
 #include <string>
 #include <locale>
 #include <sstream>
+#include <algorithm>
+#include <cctype>
 
 bool trigdist;
 bool use_tiles;
@@ -31,6 +33,7 @@ extern cata_tiles *tilecontext;
 #endif // TILES
 
 std::map<std::string, std::string> TILESETS; // All found tilesets: <name, tileset_dir>
+std::map<std::string, std::string> SOUNDPACKS; // All found soundpacks: <name, soundpack_dir>
 std::unordered_map<std::string, options_manager::cOpt> OPTIONS;
 std::unordered_map<std::string, options_manager::cOpt> ACTIVE_WORLD_OPTIONS;
 options_data optionsdata; // store extraneous options data that doesn't need to be in OPTIONS,
@@ -558,74 +561,95 @@ bool options_manager::cOpt::operator!=(const std::string sCompare) const
     return !(*this == sCompare);
 }
 
-/** Fill TILESETS mapping with values.
- * Scans all directores in FILENAMES["gfx"] directory for file named FILENAMES["tileset.txt"].
- * All founded values added in mapping TILESETS as name, tileset_dir.
+/** Fill a mapping with values.
+ * Scans all directores in FILENAMES[dirname_label] directory for
+ * a file named FILENAMES[filename_label].
+ * All found values added to resource_option as name, resource_dir.
  * Furthermore, it builds possible values list for cOpt class.
- * @return One string containing all found tilesets in form "tileset1,tileset2,tileset3,..."
+ * @return string containing all found resources in form "resource1,resource2,resource3,..."
  */
-std::string options_manager::build_tilesets_list()
-{
-    const std::string defaultTilesets = "hoder,deon";
-    std::string tileset_names;
+static std::string build_resource_list(
+    std::map<std::string, std::string> &resource_option, std::string operation_name,
+    std::string dirname_label, std::string filename_label ) {
+    std::string resource_names;
 
-    TILESETS.clear();
+    resource_option.clear();
+    auto const resource_dirs = get_directories_with( FILENAMES[filename_label],
+                                                     FILENAMES[dirname_label], true );
 
-    auto const tilesets_dirs = get_directories_with(FILENAMES["tileset-conf"], FILENAMES["gfxdir"], true);
-
-    for( auto &ts_dir : tilesets_dirs ) {
+    for( auto &resource_dir : resource_dirs ) {
         std::ifstream fin;
-        std::string file = ts_dir + "/" + FILENAMES["tileset-conf"];
+        std::string file = resource_dir + "/" + FILENAMES[filename_label];
 
         fin.open( file.c_str() );
-        if(!fin.is_open()) {
-            DebugLog( D_ERROR, DC_ALL ) << "Can't read tileset config from " << file;
+        if( !fin.is_open() ) {
+            DebugLog( D_ERROR, DC_ALL ) << "Can't read " << operation_name << " config from " << file;
         }
 
-        std::string tileset_name;
+        std::string resource_name;
         // should only have 2 values inside it, otherwise is going to only load the last 2 values
-        while(!fin.eof()) {
+        while( !fin.eof() ) {
             std::string sOption;
             fin >> sOption;
 
-            if(sOption == "") {
-                getline(fin, sOption);    // Empty line, chomp it
-            } else if(sOption[0] == '#') { // # indicates a comment
-                getline(fin, sOption);
+            if( sOption.empty() ) {
+                getline( fin, sOption );    // Empty line, chomp it
+            } else if( sOption[0] == '#' ) { // # indicates a comment
+                getline( fin, sOption );
             } else {
-                if (sOption.find("NAME") != std::string::npos) {
-                    tileset_name = "";
-                    fin >> tileset_name;
-                    if(tileset_names.empty()) {
-                        tileset_names += tileset_name;
+                if( sOption.find( "NAME" ) != std::string::npos ) {
+                    resource_name = "";
+                    getline( fin, resource_name );
+                    resource_name.erase( std::remove( resource_name.begin(), resource_name.end(), ',' ), resource_name.end() );
+                    resource_name = trim( resource_name );
+                    if( resource_names.empty() ) {
+                        resource_names += resource_name;
                     } else {
-                        tileset_names += std::string(",");
-                        tileset_names += tileset_name;
+                        resource_names += std::string( "," );
+                        resource_names += resource_name;
                     }
-                } else if (sOption.find("VIEW") != std::string::npos) {
+                } else if( sOption.find( "VIEW" ) != std::string::npos ) {
                     std::string viewName = "";
-                    fin >> viewName;
-                    optionNames[tileset_name] = viewName;
+                    getline( fin, viewName );
+                    viewName = trim( viewName );
+                    optionNames[resource_name] = viewName;
                     break;
                 }
             }
         }
         fin.close();
-        if (TILESETS.count(tileset_name) != 0) {
-            DebugLog( D_ERROR, DC_ALL ) << "Found tileset dublicate with name " << tileset_name;
+        if( resource_option.count( resource_name ) != 0 ) {
+            DebugLog( D_ERROR, DC_ALL ) << "Found " << operation_name << " duplicate with name " << resource_name;
         } else {
-            TILESETS.insert(std::pair<std::string,std::string>(tileset_name, ts_dir));
+            resource_option.insert( std::pair<std::string,std::string>( resource_name, resource_dir ) );
         }
     }
 
-    if(tileset_names == "") {
-        optionNames["deon"] = _("Deon's");          // more standards
+    return resource_names;
+}
+
+std::string options_manager::build_tilesets_list()
+{
+    std::string tileset_names = build_resource_list( TILESETS, "tileset",
+                                                     "gfxdir", "tileset-conf");
+
+    if( tileset_names.empty() ) {
+        optionNames["deon"] = _("Deon's");
         optionNames["hoder"] = _("Hoder's");
-        return defaultTilesets;
-
+        return "hoder,deon";
     }
-
     return tileset_names;
+}
+
+std::string options_manager::build_soundpacks_list()
+{
+    const std::string soundpack_names = build_resource_list( SOUNDPACKS, "soundpack",
+                                                             "sounddir", "soundpack-conf");
+    if( soundpack_names.empty() ) {
+        optionNames["basic"] = _("Basic");
+        return "basic";
+    }
+    return soundpack_names;
 }
 
 void options_manager::init()
@@ -652,6 +676,9 @@ void options_manager::init()
 
     std::string tileset_names;
     tileset_names = build_tilesets_list(); //get the tileset names and set the optionNames
+
+    std::string soundpack_names;
+    soundpack_names = build_soundpacks_list(); //get the soundpack names and set the optionNames
 
     ////////////////////////////GENERAL//////////////////////////
     OPTIONS["DEF_CHAR_NAME"] = cOpt("general", _("Default character name"),
@@ -757,16 +784,21 @@ void options_manager::init()
     optionNames["always"]   = _("Always");
     optionNames["never"]    = _("Never");
     OPTIONS["DEATHCAM"]     = cOpt("general", _("DeathCam"),
-                                _("Always: Always start deathcam. Ask: Query upon death. Never: Never show deathcam."),
-                                "always,ask,never", "ask"
-                                );
+                                   _("Always: Always start deathcam. Ask: Query upon death. Never: Never show deathcam."),
+                                   "always,ask,never", "ask"
+                                  );
 
     mOptionsSort["general"]++;
 
+    OPTIONS["SOUNDPACKS"] = cOpt("general", _("Choose soundpack"),
+                            _("Choose the soundpack you want to use."),
+                            soundpack_names, "basic", COPT_NO_SOUND_HIDE
+                           ); // populate the options dynamically
     OPTIONS["MUSIC_VOLUME"] = cOpt("general", _("Music Volume"),
                                    _("Adjust the volume of the music being played in the background."),
                                    0, 200, 100, COPT_NO_SOUND_HIDE
                                   );
+
     OPTIONS["SOUND_EFFECT_VOLUME"] = cOpt("general", _("Sound Effect Volume"),
                                    _("Adjust the volume of sound effects being played by the game."),
                                    0, 200, 100, COPT_NO_SOUND_HIDE
@@ -941,14 +973,15 @@ void options_manager::init()
                                           );
 
     OPTIONS["AUTO_INV_ASSIGN"] = cOpt("interface", _("Auto inventory letters"),
-                                        _("If false, new inventory items will only get letters assigned if they had one before."),
-                                        true
-                                       );
+                                      _("If false, new inventory items will only get letters assigned if they had one before."),
+                                      true
+                                     );
 
     OPTIONS["ITEM_HEALTH_BAR"] = cOpt("interface", _("Show item health bars"),
-                                     _("If true, show item health bars instead of reinforced, scratched etc. text."),
-                                     true
-                                    );
+                                      _("If true, show item health bars instead of reinforced, scratched etc. text."),
+                                      true
+                                     );
+
     OPTIONS["ITEM_SYMBOLS"] = cOpt("interface", _("Show item symbols"),
                                      _("If true, show item symbols in inventory and pick up menu."),
                                      false
@@ -1050,12 +1083,12 @@ void options_manager::init()
     OPTIONS["SCALING_MODE"] = cOpt("graphics", _("Scaling mode"),
                                    _("Sets the scaling mode, 'none' (default) displays at the game's native resolution, 'nearest'  uses low-quality but fast scaling, and 'linear' provides high-quality scaling."),
                                    "none,nearest,linear", "none", COPT_CURSES_HIDE
-        );
+                                  );
 
     ////////////////////////////DEBUG////////////////////////////
     OPTIONS["DISTANCE_INITIAL_VISIBILITY"] = cOpt("debug", _("Distance initial visibility"),
-            _("Determines the scope, which is known in the beginning of the game."),
-            3, 20, 15
+                                                  _("Determines the scope, which is known in the beginning of the game."),
+                                                  3, 20, 15
                                                  );
 
     mOptionsSort["debug"]++;
@@ -1073,9 +1106,9 @@ void options_manager::init()
     mOptionsSort["debug"]++;
 
     OPTIONS["SKILL_TRAINING_SPEED"] = cOpt("debug", _("Skill training speed"),
-                                 _("Scales experience gained from practicing skills and reading books. 0.5 is half as fast as default, 2.0 is twice as fast, 0.0 disables skill training except for NPC training."),
-                                 0.0, 100.0, 1.0, 0.1
-                                );
+                                           _("Scales experience gained from practicing skills and reading books. 0.5 is half as fast as default, 2.0 is twice as fast, 0.0 disables skill training except for NPC training."),
+                                           0.0, 100.0, 1.0, 0.1
+                                          );
 
     mOptionsSort["debug"]++;
 
@@ -1129,13 +1162,13 @@ void options_manager::init()
                                     );
 
     OPTIONS["NPC_DENSITY"] = cOpt("world_default", _("NPC spawn rate scaling factor"),
-                                    _("A scaling factor that determines density of dynamic NPC spawns."),
-                                    0.0, 100.0, 1.0, 0.01
-                                   );
+                                  _("A scaling factor that determines density of dynamic NPC spawns."),
+                                  0.0, 100.0, 1.0, 0.01
+                                 );
     OPTIONS["MONSTER_UPGRADE_FACTOR"] = cOpt("world_default", _("Monster evolution scaling factor"),
-                                    _("A scaling factor that determines the time between monster upgrades. A higher number means slower evolution. Set to 0.00 to turn off monster upgrades."),
-                                    0.0, 100, 4.0, 0.01
-                                   );
+                                             _("A scaling factor that determines the time between monster upgrades. A higher number means slower evolution. Set to 0.00 to turn off monster upgrades."),
+                                             0.0, 100, 4.0, 0.01
+                                            );
 
     mOptionsSort["world_default"]++;
 
@@ -1159,7 +1192,8 @@ void options_manager::init()
     optionNames["winter"] = _("Winter");
     OPTIONS["INITIAL_SEASON"] = cOpt("world_default", _("Initial season"),
                                      _("Season the player starts in. Options other than the default delay spawn of the character, so food decay and monster spawns will have advanced."),
-                                     "spring,summer,autumn,winter", "spring");
+                                     "spring,summer,autumn,winter", "spring"
+                                    );
 
     OPTIONS["SEASON_LENGTH"] = cOpt("world_default", _("Season length"),
                                     _("Season length, in days."),
@@ -1169,12 +1203,12 @@ void options_manager::init()
     OPTIONS["CONSTRUCTION_SCALING"] = cOpt("world_default", _("Construction scaling"),
                                            _("Multiplies the speed of construction by the given percentage. '0' automatically scales construction to match the world's season length."),
                                            0, 1000, 100
-                                           );
+                                          );
 
     OPTIONS["ETERNAL_SEASON"] = cOpt("world_default", _("Eternal season"),
-                                    _("Keep the initial season for ever."),
-                                    false
-                                   );
+                                     _("Keep the initial season for ever."),
+                                     false
+                                    );
 
     mOptionsSort["world_default"]++;
 
@@ -1219,9 +1253,10 @@ void options_manager::init()
 
     mOptionsSort["world_default"]++;
 
-    OPTIONS["ZLEVELS"] = cOpt( "world_default", _("Experimental z-levels"),
-                               _("If true, experimental z-level maps will be enabled. This feature is not finished yet and turning it on will only slow the game down."),
-                               false );
+    OPTIONS["ZLEVELS"] = cOpt("world_default", _("Experimental z-levels"),
+                              _("If true, experimental z-level maps will be enabled. This feature is not finished yet and turning it on will only slow the game down."),
+                              false
+                             );
 
     for (unsigned i = 0; i < vPages.size(); ++i) {
         mPageItems[i].resize(mOptionsSort[vPages[i].first]);
@@ -1741,4 +1776,10 @@ bool options_manager::load_legacy()
 bool use_narrow_sidebar()
 {
     return TERMY < 25 || g->narrow_sidebar;
+}
+
+inline std::string trim(const std::string &s)
+{
+   auto wsfront = std::find_if_not( s.begin(), s.end(), []( int c ) { return std::isspace( c ); });
+   return std::string( wsfront, std::find_if_not( s.rbegin(), std::string::const_reverse_iterator( wsfront ), []( int c ){ return std::isspace( c ); }).base());
 }

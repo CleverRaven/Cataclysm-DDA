@@ -412,13 +412,12 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act, player *p )
     //Filling a container takes time, not speed
     act->moves_left -= 100;
 
-    item *container = &p->i_at(act->position);
     item water = item(act->str_values[0], act->values[1]);
     water.poison = act->values[0];
     // Fill up 10 charges per time
     water.charges = 10;
 
-    if( g->handle_liquid(water, true, true, NULL, container) == false ) {
+    if( g->handle_liquid(water, true, true, NULL, NULL) == false ) {
         act->moves_left = 0;
     }
 

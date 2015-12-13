@@ -48,7 +48,9 @@
       ["null", 60],
       ["gloves_leather", 20],
       ["gloves_fingerless", 20],
-      ["fire_gauntlets", 20]
+      ["fire_gauntlets", 20],
+      ["gloves_work", 10],
+      ["gloves_fingerless_mod", 5]
     ]
   },{
     "type" : "item_group",
@@ -60,7 +62,9 @@
       ["jacket_leather", 20],
       ["trenchcoat", 20],
       ["jacket_jean", 20],
+      ["jacket_windbreaker", 10],
       ["poncho", 10],
+      ["jacket_leather_mod", 5],
       ["kevlar", 5]
     ]
   },{
@@ -98,7 +102,8 @@
       ["helmet_riot", 10],
       ["helmet_motor", 10],
       ["cowboy_hat", 10],
-      ["hat_hunting", 10]
+      ["hat_hunting", 10],
+      ["hat_hard_hooded", 5]
     ]
   },{
     "type" : "item_group",
@@ -122,7 +127,8 @@
       ["spear_rebar",20],
       ["q_staff",20],
       ["hatchet", 20],
-      ["bat_metal",20]
+      ["bat_metal",20],
+      ["homewrecker",5]
     ]
   },{
     "type" : "item_group",
@@ -139,7 +145,10 @@
     "type" : "item_group",
     "id" : "npc_stabbing",
     "items":[
-      ["spear_knife", 50]
+      ["spear_knife", 50],
+      ["spear_steel", 10],
+      ["spear_forked", 10],
+      ["spear_rebar", 5]
     ]
   },{
     "type" : "item_group",
@@ -171,6 +180,7 @@
       ["makeshift_crowbar", 15],
       ["crowbar", 7],
       ["machete", 7],
+      ["makeshift_machete", 10],
       ["ax", 5],
       ["halligan", 3],
       ["fire_ax", 5],
@@ -180,17 +190,22 @@
       ["rifle_22", 20],
       ["uzi", 10],
       ["mac_10", 10],
+      ["sten", 4],
       ["crossbow", 5],
       ["sig_mosquito", 5],
       ["sw_22", 5],
+      ["ruger_lcr_38", 5],
       ["glock_19", 7],
       ["usp_9mm", 10],
+      ["m9", 5],
       ["cx4", 1],
       ["usp_45", 10],
       ["m1911", 5],
+      ["makarov", 2],
       ["ar15", 1],
       ["savage_111f", 2],
       ["remington_700", 2],
+      ["m1903", 1],
       ["ruger_1022", 10],
       ["marlin_9a", 10],
       ["remington_870", 8],
@@ -667,6 +682,7 @@
       ["matches", 10],
       ["mayonnaise", 2],
       ["mbag", 5],
+      ["slingpack", 5],
       ["meat", 10],
       ["meat_smoked", 2],
       ["medical_gauze", 3],
