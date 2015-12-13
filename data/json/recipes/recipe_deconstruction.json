@@ -722,6 +722,7 @@
   "time": 2000,
   "reversible": true,
   "autolearn": false,
+  "flags": ["BLIND_EASY"],
   "components": [
     [
       [ "spike", 1 ]
@@ -800,6 +801,7 @@
   "time": 500,
   "reversible": true,
   "autolearn": false,
+  "flags": ["BLIND_HARD"],
   "components": [
     [
       [ "rag", 5 ]
@@ -816,6 +818,7 @@
   "time": 500,
   "reversible": true,
   "autolearn": false,
+  "flags": ["BLIND_HARD"],
   "components": [
     [
       [ "rag", 4 ]
@@ -1044,6 +1047,7 @@
   "time": 100,
   "reversible": true,
   "autolearn": false,
+  "flags": ["BLIND_HARD"],
   "components": [
     [
       [ "rag", 4 ]
@@ -1062,6 +1066,7 @@
   "time": 100,
   "reversible": true,
   "autolearn": false,
+  "flags": ["BLIND_HARD"],
   "components": [
     [
       [ "sheet", 1 ]
@@ -1122,6 +1127,7 @@
   "time": 100,
   "reversible": true,
   "autolearn": false,
+  "flags": ["BLIND_EASY"],
   "components": [ [ [ "paper", 3 ] ] ]
 },{
   "type" : "recipe",
@@ -1132,6 +1138,7 @@
   "time": 100,
   "reversible": true,
   "autolearn": false,
+  "flags": ["BLIND_EASY"],
   "components": [ [ [ "paper", 1 ] ] ]
 },{
   "type" : "recipe",
@@ -1142,6 +1149,7 @@
   "time": 100,
   "reversible": true,
   "autolearn": false,
+  "flags": ["BLIND_EASY"],
   "components": [ [ [ "paper", 1 ] ] ]
 },{
   "type" : "recipe",
@@ -1734,6 +1742,7 @@
   "time": 500,
   "reversible": true,
   "autolearn": false,
+  "flags": ["BLIND_HARD"],
   "components": [
     [
       [ "mre_beef", 4 ]
@@ -1800,6 +1809,7 @@
   "time": 500,
   "reversible": true,
   "autolearn": false,
+  "flags": ["BLIND_HARD"],
   "components": [
     [
       [ "mre_veggy", 4 ]
@@ -1866,6 +1876,7 @@
   "time": 500,
   "reversible": true,
   "autolearn": false,
+  "flags": ["BLIND_HARD"],
   "components": [
     [
       [ "mre_chicken", 4 ]
@@ -1932,6 +1943,7 @@
   "time": 500,
   "reversible": true,
   "autolearn": false,
+  "flags": ["BLIND_HARD"],
   "components": [
     [
       [ "mre_hotdogs", 4 ]
@@ -1998,6 +2010,7 @@
   "time": 500,
   "reversible": true,
   "autolearn": false,
+  "flags": ["BLIND_HARD"],
   "components": [
     [
       [ "mre_ravioli", 4 ]
@@ -2275,6 +2288,7 @@
     "time": 500,
     "reversible": true,
     "autolearn": false,
+    "flags": ["BLIND_EASY"],
     "components": [ [ [ "paper", 10 ] ]    ]
 },{
     "type" : "recipe",
@@ -2286,6 +2300,7 @@
     "time": 500,
     "reversible": true,
     "autolearn": false,
+    "flags": ["BLIND_EASY"],
     "components": [ [ [ "paper", 10 ] ] ]
 },{
     "type" : "recipe",
@@ -2297,6 +2312,7 @@
     "time": 500,
     "reversible": true,
     "autolearn": false,
+    "flags": ["BLIND_EASY"],
     "components": [ [ [ "paper", 10 ] ] ]
 },{
     "type" : "recipe",
@@ -2308,6 +2324,7 @@
     "time": 500,
     "reversible": true,
     "autolearn": false,
+    "flags": ["BLIND_EASY"],
     "components": [ [ [ "paper", 10 ] ]    ]
 },{
     "type" : "recipe",
@@ -2319,6 +2336,7 @@
     "time": 500,
     "reversible": true,
     "autolearn": false,
+    "flags": ["BLIND_EASY"],
     "components": [ [ [ "paper", 10 ] ]    ]
 },{
     "type" : "recipe",
@@ -2330,6 +2348,7 @@
     "time": 500,
     "reversible": true,
     "autolearn": false,
+    "flags": ["BLIND_EASY"],
     "components": [ [ [ "paper", 2 ] ] ]
 },{
     "type" : "recipe",
@@ -2341,6 +2360,7 @@
     "time": 500,
     "reversible": true,
     "autolearn": false,
+    "flags": ["BLIND_EASY"],
     "components": [ [ [ "paper", 2 ] ] ]
 },{
     "type" : "recipe",
@@ -2352,6 +2372,7 @@
     "time": 500,
     "reversible": true,
     "autolearn": false,
+    "flags": ["BLIND_EASY"],
     "components": [ [ [ "paper", 2 ] ] ]
 },{
     "type" : "recipe",
@@ -2363,6 +2384,7 @@
     "time": 500,
     "reversible": true,
     "autolearn": false,
+    "flags": ["BLIND_EASY"],
     "components": [ [ [ "paper", 2 ] ] ]
 },{
     "type" : "recipe",
@@ -2374,6 +2396,7 @@
     "time": 500,
     "reversible": true,
     "autolearn": false,
+    "flags": ["BLIND_EASY"],
     "components": [ [ [ "paper", 2 ] ] ]
 },{
     "type" : "recipe",
@@ -2385,6 +2408,7 @@
     "time": 500,
     "reversible": true,
     "autolearn": false,
+    "flags": ["BLIND_EASY"],
     "components": [ [ [ "paper", 2 ] ] ]
 },{
     "type" : "recipe",
@@ -2396,6 +2420,7 @@
     "time": 500,
     "reversible": true,
     "autolearn": false,
+    "flags": ["BLIND_EASY"],
     "components": [ [ [ "paper", 2 ] ] ]
 },{
     "type" : "recipe",
@@ -2407,6 +2432,7 @@
     "time": 500,
     "reversible": true,
     "autolearn": false,
+    "flags": ["BLIND_EASY"],
     "components": [ [ [ "paper", 2 ] ] ]
 },{
     "type" : "recipe",
@@ -2418,6 +2444,7 @@
     "time": 2000,
     "reversible": true,
     "autolearn": false,
+    "flags": ["BLIND_HARD"],
     "components": [ [ [ "straw_pile", 4 ] ] ]
 },{
     "type" : "recipe",
@@ -2429,6 +2456,7 @@
     "time": 1000,
     "reversible": true,
     "autolearn": false,
+    "flags": ["BLIND_HARD"],
     "components": [ [ [ "straw_pile", 1 ] ] ]
 },{
     "type" : "recipe",
@@ -2440,6 +2468,7 @@
     "time": 2000,
     "reversible": true,
     "autolearn": false,
+    "flags": ["BLIND_HARD"],
     "components": [ [ [ "straw_pile", 2 ] ] ]
 },{
     "type" : "recipe",
@@ -2451,6 +2480,7 @@
     "time": 1500,
     "reversible": true,
     "autolearn": false,
+    "flags": ["BLIND_HARD"],
     "components": [ [ [ "straw_pile", 2 ] ] ]
 },{
     "type" : "recipe",

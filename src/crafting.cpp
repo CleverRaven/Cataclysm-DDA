@@ -205,6 +205,10 @@ void finalize_recipes()
     }
 }
 
+bool player::crafting_allowed(const std::string rec_name) {
+    return crafting_allowed(*recipe_dict[rec_name]);
+}
+
 bool player::crafting_allowed(const recipe &rec)
 {
     if ( has_moral_to_craft() ) { // See morale.h
@@ -224,15 +228,15 @@ float player::lighting_craft_speed_multiplier(const recipe &rec) {
     if (fine_detail_vision_mod() <= 4.0) {
         return 1.0f; // it's bright, go for it
     }
-    bool rec_blind = rec.flags.count("BLIND_HARD") || rec.flags.count("BLIND_EASY");
-    if (fine_detail_vision_mod() > 4.0 && ~rec_blind) {
+    bool rec_blind = rec.has_flag("BLIND_HARD") || rec.has_flag("BLIND_EASY");
+    if (fine_detail_vision_mod() > 4.0 && !rec_blind) {
         return 0.0f; // it's dark and this recipe can't be crafted in the dark
     }
     if (g->u.has_recipe_requirements(&rec,2)) { // this is easy for you
-        if ( rec.flags.count("BLIND_EASY") ) {
+        if ( rec.has_flag("BLIND_EASY") ) {
             return 1.0f; // it's dark but you can do this with your eyes closed
         }
-        if ( rec.flags.count("BLIND_HARD") ) {
+        if ( rec.has_flag("BLIND_HARD") ) {
             // 1.0f drops to 0.33f as light drops from good to pitch black
             return 1.0f - ( (fine_detail_vision_mod() - 4.0f) / 10.5f );
         }
@@ -475,8 +479,17 @@ void batch_recipes(const inventory &crafting_inv,
 
 int recipe::batch_time(int batch) const
 {
+    // 1.0f is full speed
+    // 0.33f is 1/3 speed
+    float lighting_speed = g->u.lighting_craft_speed_multiplier(*this);
+    if(lighting_speed == 0.0f) {
+        return time * batch; // how did we even get here?
+    }
+
+    float local_time = float(time) / lighting_speed;
+
     if (batch_rscale == 0.0) {
-        return time * batch;
+        return local_time * batch;
     }
 
     // NPCs around you should assist in batch production if they have the skills
@@ -493,7 +506,7 @@ int recipe::batch_time(int batch) const
     for (int x = 0; x < batch; x++) {
         // scaled logistic function output
         double logf = (2.0/(1.0+exp(-((double)x/scale)))) - 1.0;
-        total_time += (double)time * (1.0 - (batch_rscale * logf));
+        total_time += (double)local_time * (1.0 - (batch_rscale * logf));
     }
 
     //Assistants can decrease the time for production but never less than that of one unit
@@ -502,10 +515,15 @@ int recipe::batch_time(int batch) const
     } else if (assistants >= 2) {
         total_time = total_time * .60;
     }
-    if (total_time < time)
-        total_time = time;
+    if (total_time < local_time)
+        total_time = local_time;
 
     return (int)total_time;
+}
+
+bool recipe::has_flag(const std::string &flag_name) const
+{
+    return flags.count(flag_name);
 }
 
 void player::make_craft(const std::string &id_to_make, int batch_size)
@@ -1263,7 +1281,7 @@ void player::disassemble(item &dis_item, int dis_pos, bool ground)
     const recipe *cur_recipe = get_disassemble_recipe( dis_item.type->id );
 
     //no disassembly without proper light
-    if (fine_detail_vision_mod() > 4) {
+    if ( lighting_craft_speed_multiplier(*cur_recipe) == 0.0f ) {
         add_msg(m_info, _("You can't see to craft!"));
         return;
     }
@@ -1285,7 +1303,11 @@ void player::disassemble(item &dis_item, int dis_pos, bool ground)
             if( !query_dissamble( dis_item ) ) {
                 return;
             }
-            assign_activity(ACT_DISASSEMBLE, cur_recipe->time, cur_recipe->id);
+            assign_activity(
+                ACT_DISASSEMBLE,
+                (float(cur_recipe->time)/lighting_craft_speed_multiplier(*cur_recipe)),
+                cur_recipe->id
+            );
             activity.values.push_back(dis_pos);
             if( ground ) {
                 activity.values.push_back(1);

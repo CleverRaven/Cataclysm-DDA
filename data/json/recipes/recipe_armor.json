@@ -50,6 +50,7 @@
   "reversible": true,
   "autolearn": true,
   "decomp_learn": 0,
+  "flags": ["BLIND_EASY"],
   "components": [
     [
       [ "modularvest", 1 ]
@@ -70,6 +71,7 @@
   "reversible": true,
   "autolearn": true,
   "decomp_learn": 0,
+  "flags": ["BLIND_EASY"],
   "components": [
     [
       [ "modularvest", 1 ]
@@ -89,6 +91,7 @@
   "reversible": true,
   "autolearn": true,
   "decomp_learn": 0,
+  "flags": ["BLIND_EASY"],
   "components": [
     [
       [ "modularvest", 1 ]
@@ -108,6 +111,7 @@
   "reversible": true,
   "autolearn": true,
   "decomp_learn": 0,
+  "flags": ["BLIND_EASY"],
   "components": [
     [
       [ "modularvest", 1 ]
@@ -127,6 +131,7 @@
   "reversible": true,
   "autolearn": true,
   "decomp_learn": 0,
+  "flags": ["BLIND_EASY"],
   "components": [
     [
       [ "modularvest", 1 ]
@@ -2231,6 +2236,7 @@
   "time": 3000,
   "reversible": true,
   "autolearn": true,
+  "flags": ["BLIND_EASY"],
   "components": [
     [
       [ "bandana", 1 ]
@@ -4063,6 +4069,7 @@
   "time": 800,
   "reversible": false,
   "autolearn": true,
+  "flags": ["BLIND_HARD"],
   "components": [
     [
       [ "rag", 6 ],
@@ -4088,6 +4095,7 @@
   "time": 800,
   "reversible": false,
   "autolearn": true,
+  "flags": ["BLIND_HARD"],
   "components": [
     [
       [ "sheet", 1 ]
@@ -4180,6 +4188,7 @@
   "time": 1000,
   "reversible": true,
   "autolearn": true,
+  "flags": ["BLIND_HARD"],
   "components": [
     [
       [ "rag", 4 ]
@@ -4195,6 +4204,7 @@
   "time": 1000,
   "reversible": true,
   "autolearn": true,
+  "flags": ["BLIND_HARD"],
   "components": [
     [
       [ "felt_patch", 4 ]
@@ -6555,6 +6565,7 @@
   "time": 2000,
   "reversible": true,
   "autolearn": true,
+  "flags": ["BLIND_HARD"],
   "components": [
     [
       [ "rag", 4 ]
@@ -6633,6 +6644,7 @@
   "time": 1000,
   "reversible": true,
   "autolearn": true,
+  "flags": ["BLIND_HARD"],
   "components": [
     [
       [ "rag", 9 ]
@@ -6648,6 +6660,7 @@
   "time": 1000,
   "reversible": true,
   "autolearn": true,
+  "flags": ["BLIND_HARD"],
   "components": [
     [
       [ "felt_patch", 9 ]
@@ -6663,6 +6676,7 @@
   "time": 1500,
   "reversible": true,
   "autolearn": true,
+  "flags": ["BLIND_HARD"],
   "components": [
     [
       [ "leather", 12 ]
@@ -6678,6 +6692,7 @@
   "time": 1500,
   "reversible": true,
   "autolearn": true,
+  "flags": ["BLIND_HARD"],
   "components": [
     [
       [ "fur", 12 ]
@@ -6693,6 +6708,7 @@
   "time": 1000,
   "reversible": true,
   "autolearn": true,
+  "flags": ["BLIND_HARD"],
   "components": [
     [
       [ "rag", 6 ]
@@ -6708,6 +6724,7 @@
   "time": 1000,
   "reversible": true,
   "autolearn": true,
+  "flags": ["BLIND_HARD"],
   "components": [
     [
       [ "felt_patch", 6 ]
@@ -8283,6 +8300,7 @@
   "time": 1500,
   "reversible": true,
   "autolearn": true,
+  "flags": ["BLIND_HARD"],
   "components": [
     [
       [ "leather", 6 ]
@@ -8298,6 +8316,7 @@
   "time": 1500,
   "reversible": true,
   "autolearn": true,
+  "flags": ["BLIND_HARD"],
   "components": [
     [
       [ "fur", 6 ]
@@ -8313,6 +8332,7 @@
   "time": 1500,
   "reversible": true,
   "autolearn": true,
+  "flags": ["BLIND_HARD"],
   "components": [
     [
       [ "leather", 9 ]
@@ -8328,6 +8348,7 @@
   "time": 1500,
   "reversible": true,
   "autolearn": true,
+  "flags": ["BLIND_HARD"],
   "components": [
     [
       [ "fur", 9 ]
@@ -8421,6 +8442,7 @@
   "time": 5000,
   "reversible": false,
   "autolearn": true,
+  "flags": ["BLIND_HARD"],
   "components": [
     [
       [ "paper", 60 ]
@@ -8440,6 +8462,7 @@
   "time": 5000,
   "reversible": false,
   "autolearn": true,
+  "flags": ["BLIND_HARD"],
   "components": [
     [
       [ "paper", 60 ]
@@ -8459,6 +8482,7 @@
   "time": 1000,
   "reversible": false,
   "autolearn": true,
+  "flags": ["BLIND_HARD"],
   "components": [
     [
       [ "plastic_shopping_bag", 2 ]
@@ -8475,6 +8499,7 @@
   "time": 1000,
   "reversible": false,
   "autolearn": true,
+  "flags": ["BLIND_HARD"],
   "components": [
     [
       [ "plastic_shopping_bag", 2 ]
@@ -8491,6 +8516,7 @@
   "time": 1000,
   "reversible": true,
   "autolearn": true,
+  "flags": ["BLIND_HARD"],
   "components": [
     [
       [ "rag", 8 ]
@@ -8526,6 +8552,7 @@
   "time": 1500,
   "reversible": true,
   "autolearn": true,
+  "flags" : ["BLIND_HARD"],
   "components": [
     [
       [ "tshirt", 1 ],
@@ -8839,6 +8866,7 @@
   "time": 1000,
   "reversible": false,
   "autolearn": true,
+  "flags": ["BLIND_EASY"],
   "components": [
     [
       [ "socks", 1 ]
@@ -8874,6 +8902,7 @@
   "time": 800,
   "reversible": true,
   "autolearn": true,
+  "flags": ["BLIND_HARD"],
   "components": [
    [
       [ "pants", 1 ],

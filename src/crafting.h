@@ -99,6 +99,8 @@ struct recipe {
 
     int batch_time(int batch = 1) const;
 
+    bool has_flag(const std::string &flag_name) const;
+
 };
 
 // removes any (removable) ammo from the item and stores it in the

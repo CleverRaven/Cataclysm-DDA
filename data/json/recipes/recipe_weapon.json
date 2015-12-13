@@ -4775,6 +4775,7 @@
   "time": 1000,
   "reversible": true,
   "autolearn": true,
+  "flags": ["BLIND_HARD"],
   "components": [
     [
       [ "rock", 1 ]
