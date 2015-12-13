@@ -20485,7 +20485,7 @@
         "healthy": 1,
         "addiction_potential" : 0,
         "nutrition" : 10,
-        "description" : "Smooth and rich, this spoon-coating mix of milk, cream, and eggs is a popular traditional holiday drink. While often spiked, it is still delicious on its own.  Meant to be stored cold, it will spoil rapidly.",
+        "description" : "Smooth and rich, this spoon-coating mix of milk, cream, and eggs is a popular traditional holiday drink.  While often spiked, it is still delicious on its own.  Meant to be stored cold, it will spoil rapidly.",
         "price" : 40,
         "material" : ["milk", "egg"],
         "tool" : "null",
