@@ -1051,11 +1051,6 @@ void options_manager::init()
                             tileset_names, "ChestHole", COPT_CURSES_HIDE
                            ); // populate the options dynamically
 
-    OPTIONS["ISO_MOVE_ROTATE"] = cOpt("graphics", _("Rotate Isometric Movement"),
-                                _("If true, movement keys will be rotated 45 degrees when using an isometric tileset."),
-                                true, COPT_CURSES_HIDE
-                               );
-
     OPTIONS["PIXEL_MINIMAP"] = cOpt("graphics", _("Pixel Minimap"),
                                 _("If true, a pixel-detail minimap is drawn in the game. Requires restart."),
                                 true, COPT_CURSES_HIDE

@@ -2167,7 +2167,7 @@ void game::rcdrive(int dx, int dy)
     }
     item *rc_car = rc_pair->second;
 
-    if(tile_iso && OPTIONS["ISO_MOVE_ROTATE"]) {
+    if(tile_iso) {
         rotate_direction_cw(dx,dy);
     }
 
@@ -11784,7 +11784,7 @@ bool game::plmove(int dx, int dy, int dz)
         dest_loc.y = rng(u.posy() - 1, u.posy() + 1);
         dest_loc.z = u.posz();
     } else {
-        if(tile_iso && OPTIONS["ISO_MOVE_ROTATE"]) {
+        if(tile_iso) {
             rotate_direction_cw(dx,dy);
         }
         dest_loc.x = u.posx() + dx;
