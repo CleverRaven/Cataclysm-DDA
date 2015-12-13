@@ -205,14 +205,14 @@ void finalize_recipes()
     }
 }
 
-bool player::crafting_allowed()
+bool player::crafting_allowed(const recipe &rec)
 {
     if ( has_moral_to_craft() ) { // See morale.h
         add_msg(m_info, _("Your morale is too low to craft..."));
         return false;
     }
 
-    if ( can_see_to_craft() ) {
+    if ( lighting_craft_speed_multiplier(rec) == 0.0f ) {
         add_msg(m_info, _("You can't see to craft!"));
         return false;
     }
@@ -220,19 +220,24 @@ bool player::crafting_allowed()
     return true;
 }
 
-float player::lighting_craft_speed_multiplier(recipe &rec) {
-    if (fine_detail_vision_mod() > 4.0 && rec.flags.count("BLIND_HARD")+rec.flags.count("BLIND_EASY")==0) {
+float player::lighting_craft_speed_multiplier(const recipe &rec) {
+    if (fine_detail_vision_mod() <= 4.0) {
+        return 1.0f; // it's bright, go for it
+    }
+    bool rec_blind = rec.flags.count("BLIND_HARD") || rec.flags.count("BLIND_EASY");
+    if (fine_detail_vision_mod() > 4.0 && ~rec_blind) {
         return 0.0f; // it's dark and this recipe can't be crafted in the dark
     }
-    if (fine_detail_vision_mod() <= 4.0) {
-        return 1.0f;
+    if (g->u.has_recipe_requirements(&rec,2)) { // this is easy for you
+        if ( rec.flags.count("BLIND_EASY") ) {
+            return 1.0f; // it's dark but you can do this with your eyes closed
+        }
+        if ( rec.flags.count("BLIND_HARD") ) {
+            // 1.0f drops to 0.33f as light drops from good to pitch black
+            return 1.0f - ( (fine_detail_vision_mod() - 4.0f) / 10.5f );
+        }
     }
-    return 1.0f - ( (fine_detail_vision_mod() - 4.0f) / 10.5f );
-}
-
-bool player::can_see_to_craft()
-{
-    return fine_detail_vision_mod() > 4;
+    return 0.0f; // it's dark and you could craft this if you had more skill
 }
 
 bool player::has_moral_to_craft()
@@ -245,7 +250,7 @@ void player::craft()
     int batch_size = 0;
     const recipe *rec = select_crafting_recipe( batch_size );
     if (rec) {
-        if ( crafting_allowed() ) {
+        if ( crafting_allowed(*rec) ) {
             make_craft( rec->ident, batch_size );
         }
     }
@@ -265,7 +270,7 @@ void player::long_craft()
     int batch_size = 0;
     const recipe *rec = select_crafting_recipe( batch_size );
     if (rec) {
-        if( crafting_allowed() ) {
+        if( crafting_allowed(*rec) ) {
             make_all_craft( rec->ident, batch_size );
         }
     }
@@ -273,12 +278,12 @@ void player::long_craft()
 
 bool player::making_would_work(const std::string &id_to_make, int batch_size)
 {
-    if (!crafting_allowed()) {
+    const recipe *making = recipe_by_name( id_to_make );
+    if( making == nullptr ) {
         return false;
     }
 
-    const recipe *making = recipe_by_name( id_to_make );
-    if( making == nullptr ) {
+    if (!crafting_allowed(*making)) {
         return false;
     }
 

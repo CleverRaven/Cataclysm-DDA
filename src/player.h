@@ -910,9 +910,8 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         bool studied_all_recipes(const itype &book) const;
 
         // crafting.cpp
-        bool crafting_allowed(); // can_see_to_craft() && has_morale_to_craft()
-        float lighting_craft_speed_multiplier(recipe& rec);
-        bool can_see_to_craft();
+        bool crafting_allowed(const recipe &rec); // can_see_to_craft() && has_morale_to_craft()
+        float lighting_craft_speed_multiplier(const recipe& rec);
         bool has_moral_to_craft();
         bool can_make(const recipe *r, int batch_size = 1); // have components?
         bool making_would_work(const std::string &id_to_make, int batch_size);

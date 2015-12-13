@@ -511,12 +511,12 @@ static void draw_can_craft_indicator( WINDOW *w, int window_width, int margin_x,
     int x_align = window_width - margin_x;
     // Draw text
     mvwprintz( w, margin_y, x_align - utf8_width( _( "can craft:" ) ), c_ltgray, _( "can craft:" ) );
-    if( g->u.lighting_craft_speed_multiplier(rec)==0.0f ) {
+    if( g->u.lighting_craft_speed_multiplier(rec) == 0.0f ) {
         mvwprintz( w, margin_y + 1, x_align - 1 - utf8_width( _( "too dark" ) ),  i_red  ,
                    _( "too dark" ) );
     } else if( g->u.has_moral_to_craft() ) {
         mvwprintz( w, margin_y + 1, x_align - 1 - utf8_width( _( "too sad" ) ),  i_red  , _( "too sad" ) );
-    } else if( g->u.lighting_craft_speed_multiplier(rec)<1.0f ) {
+    } else if( g->u.lighting_craft_speed_multiplier(rec) < 1.0f ) {
         mvwprintz( w, margin_y + 1, x_align - 1 - utf8_width( _( "slow" ) ),  i_red  , _( "slow" ) );
     } else {
         mvwprintz( w, margin_y + 1, x_align - 1 - utf8_width( _( "yes" ) ),  i_green  , _( "yes" ) );
