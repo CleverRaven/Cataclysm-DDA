@@ -427,7 +427,6 @@ void item::put_in(item payload)
 {
     contents.push_back(payload);
 }
-const char ivaresc=001;
 
 void item::set_var( const std::string &name, const int value )
 {
@@ -437,30 +436,12 @@ void item::set_var( const std::string &name, const int value )
     item_vars[name] = tmpstream.str();
 }
 
-int item::get_var( const std::string &name, const int default_value ) const
-{
-    const auto it = item_vars.find( name );
-    if( it == item_vars.end() ) {
-        return default_value;
-    }
-    return atoi( it->second.c_str() );
-}
-
 void item::set_var( const std::string &name, const long value )
 {
     std::ostringstream tmpstream;
     tmpstream.imbue( std::locale::classic() );
     tmpstream << value;
     item_vars[name] = tmpstream.str();
-}
-
-long item::get_var( const std::string &name, const long default_value ) const
-{
-    const auto it = item_vars.find( name );
-    if( it == item_vars.end() ) {
-        return default_value;
-    }
-    return atol( it->second.c_str() );
 }
 
 void item::set_var( const std::string &name, const double value )
@@ -510,6 +491,8 @@ void item::clear_vars()
 {
     item_vars.clear();
 }
+
+const char ivaresc = 001;
 
 bool itag2ivar( std::string &item_tag, std::map<std::string, std::string> &item_vars )
 {
