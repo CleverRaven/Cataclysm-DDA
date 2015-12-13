@@ -511,6 +511,7 @@
       [ "meat", 3 ]
     ],
     [
+      [ "skewer_bone", 3 ],
       [ "skewer", 3 ]
     ]
   ]
@@ -537,6 +538,7 @@
       [ "fish", 6 ]
     ],
     [
+      [ "skewer_bone", 3 ],
       [ "skewer", 3 ]
     ]
   ]
@@ -1311,6 +1313,7 @@
       [ "human_flesh", 3 ]
     ],
     [
+      [ "skewer_bone", 3 ],
       [ "skewer", 3 ]
     ]
   ]
@@ -6184,7 +6187,7 @@
   "autolearn": true,
   "tools": [
     [ [ "hotplate", 8], [ "char_smoker", 1], [ "toolset", 8], [ "fire", -1] ],
-    [ [ "spear_wood", -1 ], [ "spear_steel", -1 ], [ "pointy_stick", -1 ], [ "skewer", -1 ],
+    [ [ "spear_wood", -1 ], [ "spear_steel", -1 ], [ "pointy_stick", -1 ], [ "skewer", -1 ], [ "skewer_bone", -1 ],
       [ "javelin", -1 ], [ "javelin_iron", -1 ], [ "spear_knife", -1 ], [ "tongs", -1 ] ]
    ],
   "components": [

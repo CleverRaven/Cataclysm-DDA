@@ -417,19 +417,20 @@ void mdeath::melt(monster *z)
 
 void mdeath::amigara(monster *z)
 {
-    if (!g->u.has_effect("amigara")) {
-        return;
-    }
     for (size_t i = 0; i < g->num_zombies(); i++) {
         const monster &critter = g->zombie( i );
         if( critter.type == z->type && !critter.is_dead() ) {
             return;
         }
     }
+
     // We were the last!
+    if (g->u.has_effect("amigara")) {
         g->u.remove_effect("amigara");
         add_msg(_("Your obsession with the fault fades away..."));
-        g->m.spawn_artifact( z->pos3() );
+    }
+
+    g->m.spawn_artifact( z->pos3() );
 }
 
 void mdeath::thing(monster *z)

@@ -68,7 +68,7 @@ void set_language(bool reload_options)
 
     // Step 2. Bind to gettext domain.
     const char *locale_dir;
-#ifdef __linux__
+#if (defined __linux__ || (defined MACOSX && !defined TILES))
     if (!FILENAMES["base_path"].empty()) {
         locale_dir = std::string(FILENAMES["base_path"] + "share/locale").c_str();
     } else {

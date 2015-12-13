@@ -1332,7 +1332,7 @@ bool player::uninstall_bionic(std::string const &b_id, int skill_level)
                                 skill_level,
                                 difficulty + 2);
     } else {
-        ///\xrefitem Stat_Effects_Intelligence "" "" Intelligence increases chance of success removing bionics with unspecified skill level
+        ///\EFFECT_INT increases chance of success removing bionics with unspecified skil level
         chance_of_success = bionic_manip_cos(int_cur,
                                 skillLevel( skilll_electronics ),
                                 skillLevel( skilll_firstaid ),
@@ -1444,7 +1444,7 @@ bool player::install_bionics(const itype &type, int skill_level)
                                 skill_level,
                                 difficult);
     } else {
-        ///\xrefitem Stat_Effects_Intelligence "" "" Intelligence increases chance of success installing bionics with unspecified skill level
+        ///\EFFECT_INT increases chance of success installing bionics with unspecified skill level
         chance_of_success = bionic_manip_cos(int_cur,
                                 skillLevel( skilll_electronics ),
                                 skillLevel( skilll_firstaid ),
@@ -1497,7 +1497,7 @@ void bionics_install_failure(player *u, int difficulty, int success)
 
     // it would be better for code reuse just to pass in skill as an argument from install_bionic
     // pl_skill should be calculated the same as in install_bionics
-    ///\xrefitem Stat_Effects_Intelligence "" "" Intelligence randomly decreases severity of bionics installation failure
+    ///\EFFECT_INT randomly decreases severity of bionics installation failure
     int pl_skill = u->int_cur * 4 +
                    u->skillLevel( skilll_electronics ) * 4 +
                    u->skillLevel( skilll_firstaid )    * 3 +

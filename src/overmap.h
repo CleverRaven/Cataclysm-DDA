@@ -366,7 +366,7 @@ public:
     void move_hordes();
 
     static bool obsolete_terrain( const std::string &ter );
-    void convert_terrain( std::unordered_map<tripoint, std::string> &needs_conversion );
+    void convert_terrain( const std::unordered_map<tripoint, std::string> &needs_conversion );
 
     // drawing relevant data, e.g. what to draw
     struct draw_data_t {
