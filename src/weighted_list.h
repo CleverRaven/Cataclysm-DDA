@@ -221,7 +221,7 @@ template <typename T> struct weighted_float_list : public weighted_list<double, 
     protected:
 
         size_t pick_ent( unsigned int randi ) const override {
-            double picked = ( double )randi / ( double )RAND_MAX * ( this->total_weight );
+            double picked = ( double )( randi % RAND_MAX ) / ( double )RAND_MAX * ( this->total_weight );
             double accumulated_weight = 0;
             size_t i;
             for( i = 0; i < this->objects.size(); i++ ) {
