@@ -459,7 +459,7 @@
     [
       [ "binoculars", 1 ]
     ]
-},{
+  },{
   "type" : "recipe",
   "result": "wristwatch",
   "id_suffix": "uncraft",
