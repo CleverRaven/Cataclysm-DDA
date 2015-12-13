@@ -1883,6 +1883,7 @@ input_context get_default_mode_input_context()
 {
     input_context ctxt("DEFAULTMODE");
     // Because those keys move the character, they don't pan, as their original name says
+    ctxt.set_iso(true);
     ctxt.register_action("UP", _("Move North"));
     ctxt.register_action("RIGHTUP", _("Move Northeast"));
     ctxt.register_action("RIGHT", _("Move East"));
@@ -2167,6 +2168,10 @@ void game::rcdrive(int dx, int dy)
         return;
     }
     item *rc_car = rc_pair->second;
+
+    if(tile_iso) {
+        rotate_direction_cw(dx,dy);
+    }
 
     tripoint src( cx, cy, cz );
     tripoint dest( cx + dx, cy + dy, cz );
@@ -8915,6 +8920,7 @@ tripoint game::look_around( WINDOW *w_info, const tripoint &start_point,
 
     std::string action;
     input_context ctxt("LOOK");
+    ctxt.set_iso(true);
     ctxt.register_directions();
     ctxt.register_action("COORDINATE");
     ctxt.register_action("SELECT");
@@ -11795,6 +11801,9 @@ bool game::plmove(int dx, int dy, int dz)
         dest_loc.y = rng(u.posy() - 1, u.posy() + 1);
         dest_loc.z = u.posz();
     } else {
+        if(tile_iso) {
+            rotate_direction_cw(dx,dy);
+        }
         dest_loc.x = u.posx() + dx;
         dest_loc.y = u.posy() + dy;
         dest_loc.z = u.posz() + dz;
