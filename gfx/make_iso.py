@@ -23,7 +23,7 @@ parser.add_argument('tileset', help='name of the tileset directory to convert')
 
 parser.add_argument('-f', dest='floodfill', action='store_true', help='floodfill tile edges with transparent pixels')
 
-parser.add_argument('-d', dest='dryrun', action='store_true', help='perform a dry run')
+parser.add_argument('-d', dest='dryrun', action='count', help='perform a dry run (more ds, more dry)')
 
 parser.add_argument('-w', dest='wallheight', metavar="W", help='wall height, default 0', type=int, default=0)
 
@@ -88,6 +88,110 @@ def iso_ize(tile_num, new_tile_num=None, initial_rotation=0, override=False, hei
         return True # success
     return False # didn't try
 
+def offset(n):
+    # if we aren't going to iso-ize the tile, move it upwards and enlarge its canvas
+    # don't offset a tile that we've previously converted
+    if (n, 0) not in converted_tile_ids:
+        print"  offsetting " + str(n)
+        converted_tile_ids[(n, 0)] = True
+        offset_command = (
+            # ImageMagic convert utility
+            'convert ' +
+            # start with everything transparent
+            '-background transparent ' + 
+            # load the square sprite
+            new_tileset_name + '/tiles/tile-' + "{:0>6d}".format(n) + '.png' +
+            # optionally fill in the "background" of the image with transparent pixels
+            (' -fill transparent -draw "color 0,0 floodfill"' if args.floodfill else '') +
+            # set the image extents to the target pixel size and position of the [] shape in the canvas
+            ' -extent ' + str(nwidth) + 'x' + str(nheight) +
+            '-' + str(int((nwidth-owidth)/2)) + '-' + str(int((nheight-oheight)-flat_sprite_offset)) + ' ' +
+            '+repage ' +
+            # path and filename for the output offset sprite
+            new_tileset_name + '/tiles/to_merge/tile-' + '{:0>6d}'.format(n) + '.png')
+        print offset_command
+        if (not args.dryrun) and os.system(offset_command):
+            raise # failure
+
+
+def thing_convert(thing, g, ntile, thing_id, rotates, height):
+    # a thing can be:
+    #   one int, a single sprite
+    #   an array of ints, manual rotations of the same sprite
+    #   an array of objects with members weight and sprite, each sprite can be
+    #     one int, a single sprite
+    #     an array of ints, manual rotations of the same sprite
+
+    if type(thing) == int: # just one sprite id
+        # sprite id -1 means this is not a valid tile
+        if thing == -1:
+            return
+        # this way one int and a one-int array can be handled the same
+        thing = list([thing])
+
+    if len(thing) == 0:
+        # no sprites, invalid tile
+        return
+
+    if type(thing[0]) == int: # list of sprite id[s]
+        if len(thing) == 1:
+            # one sprite, iso-ize or offset, possibly with new rotations
+            # which tiles should be iso-ized?
+            if (
+                    # terrain and lighting background, foreground if there's no background
+                    (
+                        (ntile['id'][0:2] == 't_' or ntile['id'][0:9] == 'lighting_') and
+                        (g == 'bg' or 'bg' not in ntile)
+                    ) or
+                    # furniture background only if there's a foreground
+                    (ntile['id'][0:2] == 'f_' and g == 'bg' and 'fg' in ntile) or
+                    # vehicle parts and fields
+                    ntile['id'][0:3] == 'vp_' or ntile['id'][0:3] == 'fd_' or # vehicle parts and fields
+                    # additional_tiles
+                    thing_id == 'broken' or
+                    thing_id == 'open' or
+                    thing_id == 'unconnected' or
+                    thing_id == 'center' or
+                    thing_id == 'corner' or
+                    thing_id == 'edge' or
+                    thing_id == 'end_piece' or
+                    thing_id == 't_connection' or
+                    # any tile that is flagged to be rotated normally
+                    rotates or
+                    # every tile called recursively
+                    thing_id != ntile['id']
+               ):
+                # iso-ize this tile
+                iso_ize(thing[0], override=True, height=height)
+                if (
+                        rotates or
+                        thing_id == 'broken' or
+                        thing_id == 'open' or
+                        thing_id == 'unconnected' or
+                        thing_id == 'center' or
+                        thing_id == 'corner' or
+                        thing_id == 'edge' or
+                        thing_id == 'end_piece' or
+                        thing_id == 't_connection'
+                    ):
+                    print "  and rotating " + str(thing[0])
+                    # create 3 new rotated iso-ized tiles, as well
+                    for rot in (270, 180, 90):
+                        if iso_ize(thing[0], ntile['ntn'], rot, height=height):
+                            # append new tile number to sprite list for this tile's fg or bg
+                            thing.append(ntile['ntn'])
+                            ntile['ntn'] += 1
+                            print "next tile number now " + str(ntile['ntn'])
+            else:
+                offset(thing[0])
+        else:
+            # multiple sprites, iso-ize each existing rotation of this tile
+            for tile_num in thing:
+                iso_ize(tile_num, height=height)
+    elif type(thing[0]) == dict: # weighted sprite[ set][s]
+        for subthing in thing:
+            thing_convert(subthing['sprite'], g, ntile, thing_id, rotates, height)
+
 
 def tile_convert(otile, main_id, new_tile_number):
     """Convert one square tile definition to one isometric tile definition
@@ -97,6 +201,7 @@ def tile_convert(otile, main_id, new_tile_number):
     new_tile_number is an integer specifying where to start numbering the isometric tile(s)
     """
     print 'tile_convert ' + main_id + ' ' + str(new_tile_number)
+    print otile
 
     # start creating an object to represent the new tile definition
     ntile = dict()
@@ -116,11 +221,6 @@ def tile_convert(otile, main_id, new_tile_number):
     for g in ('fg', 'bg'):
         if g not in otile:
             continue
-        if type(otile[g]) == int:
-            # sprite id -1 means this is not a valid tile
-            if otile[g] == -1:
-                continue
-            otile[g] = list([otile[g]])
 
         # tile ids to iso-ify:
         # vp_*.bg and .fg
@@ -135,87 +235,15 @@ def tile_convert(otile, main_id, new_tile_number):
         ):
             height = args.wallheight
 
-        if len(otile[g]) == 0:
-            # no sprites, invalid tile
-            continue
-        elif len(otile[g]) == 1:
-            # one sprite, iso-ize or offset, possibly with new rotations
-            ntile[g] = otile[g]
-            # which tiles should be iso-ized?
-            if (
-                    # terrain and lighting background, foreground if there's no background
-                    (
-                        (main_id[0:2] == 't_' or main_id[0:9] == 'lighting_') and
-                        (g == 'bg' or 'bg' not in otile)
-                    ) or
-                    # furniture background only if there's a foreground
-                    (main_id[0:2] == 'f_' and g == 'bg' and 'fg' in otile) or
-                    # vehicle parts and fields
-                    main_id[0:3] == 'vp_' or main_id[0:3] == 'fd_' or # vehicle parts and fields
-                    # additional_tiles
-                    otile['id'] == 'broken' or
-                    otile['id'] == 'open' or
-                    otile['id'] == 'unconnected' or
-                    otile['id'] == 'center' or
-                    otile['id'] == 'corner' or
-                    otile['id'] == 'edge' or
-                    otile['id'] == 'end_piece' or
-                    otile['id'] == 't_connection' or
-                    # any tile that is flagged to be rotated normally
-                    ('rotates' in otile and otile['rotates'] == True) or
-                    # every tile called recursively
-                    otile['id'] != main_id
-               ):
-                # iso-ize this tile
-                iso_ize(otile[g][0], override=True, height=height)
-                if (
-                        'rotates' in otile or
-                        otile['id'] == 'broken' or
-                        otile['id'] == 'open' or
-                        otile['id'] == 'unconnected' or
-                        otile['id'] == 'center' or
-                        otile['id'] == 'corner' or
-                        otile['id'] == 'edge' or
-                        otile['id'] == 'end_piece' or
-                        otile['id'] == 't_connection'
-                    ):
-                    print "  and rotating " + str(otile[g][0])
-                    # create 3 new rotated iso-ized tiles, as well
-                    for rot in (270, 180, 90):
-                        if iso_ize(otile[g][0], ntile['ntn'], rot, height=height):
-                            # append new tile number to sprite list for this tile's fg or bg
-                            ntile[g].append(ntile['ntn'])
-                            ntile['ntn'] += 1
-                            print "next tile number now " + str(ntile['ntn'])
-            else:
-                # if we aren't going to iso-ize the tile, move it upwards and enlarge its canvas
-                # don't offset a tile that we've previously converted
-                if (ntile[g][0], 0) not in converted_tile_ids:
-                    print"  offsetting " + str(ntile[g][0])
-                    converted_tile_ids[(ntile[g][0], 0)] = True
-                    offset_command = (
-                        # ImageMagic convert utility
-                        'convert ' +
-                        # start with everything transparent
-                        '-background transparent ' + 
-                        # load the square sprite
-                        new_tileset_name + '/tiles/tile-' + "{:0>6d}".format(otile[g][0]) + '.png' +
-                        # optionally fill in the "background" of the image with transparent pixels
-                        (' -fill transparent -draw "color 0,0 floodfill"' if args.floodfill else '') +
-                        # set the image extents to the target pixel size and position of the [] shape in the canvas
-                        ' -extent ' + str(nwidth) + 'x' + str(nheight) +
-                        '-' + str(int((nwidth-owidth)/2)) + '-' + str(int((nheight-oheight)-flat_sprite_offset)) + ' ' +
-                        '+repage ' +
-                        # path and filename for the output offset sprite
-                        new_tileset_name + '/tiles/to_merge/tile-' + '{:0>6d}'.format(otile[g][0]) + '.png')
-                    print offset_command
-                    if (not args.dryrun) and os.system(offset_command):
-                        raise # failure
-        else:
-            # multiple sprites, iso-ize each existing rotation of this tile
-            ntile[g] = otile[g]
-            for tile_num in ntile[g]:
-                iso_ize(tile_num, height=height)
+        ntile[g] = otile[g]
+        thing_convert(
+            ntile[g],
+            g, 
+            ntile,
+            ntile['id'],
+            ('rotates' in otile and otile['rotates'] == True),
+            height,
+        )
 
     if 'additional_tiles' in otile:
         nta = ntile['additional_tiles'] = list()
@@ -282,6 +310,7 @@ if __name__ == "__main__":
     ntc['tiles-new'] = list()
     tile_count = 0
     new_tiles = list()
+    file_count = 0
 
     print 'processing tiles-new'
     for otn in otc['tiles-new']:
@@ -304,6 +333,9 @@ if __name__ == "__main__":
             raise
         (not args.dryrun) and os.system('cp '+new_tileset_name+'/tiles/tile-*.png '+new_tileset_name+'/tiles/to_merge')
 
+        path, dirs, files = os.walk(new_tileset_name+'/tiles').next()
+        file_count = len(files)
+
         # path joining version for other paths
         TILEDIR = new_tileset_name+'/tiles'
         tile_count = len([name for name in os.listdir(TILEDIR) if os.path.isfile(os.path.join(TILEDIR, name))])
@@ -316,6 +348,11 @@ if __name__ == "__main__":
             del tile['ntn']
             ntn['tiles'].append(tile)
 
+        # offset unused tiles
+        for n in range(file_count):
+            if (n, 0) not in converted_tile_ids:
+                offset(n)
+
         print 'Merging tiles to single image'
         montage_command = ('montage -background transparent "' + new_tileset_name + '/tiles/to_merge/tile-*.png" -tile 16x -geometry +0+0 ' +
                        new_tileset_name + '/' + os.path.basename(otn['file']))
@@ -323,7 +360,7 @@ if __name__ == "__main__":
         if (not args.dryrun) and os.system(montage_command):
             raise
 
-    if args.dryrun:
+    if args.dryrun>1:
         print ntc
     else:
         with open(new_tileset_name + '/tile_config.json', 'w') as new_tile_config_json_file:
@@ -342,7 +379,7 @@ if __name__ == "__main__":
         'TILESET: ' + os.path.basename(otn['file']) + '\n'
     )
 
-    if args.dryrun:
+    if args.dryrun>1:
         print tileset_txt
     else:
         with open(new_tileset_name + '/tileset.txt', 'w') as new_tileset_txt_file:
