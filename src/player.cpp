@@ -13320,13 +13320,13 @@ void player::practice( const skill_id &s, int amount, int cap )
     practice( &s.obj(), amount, cap );
 }
 
-bool player::has_recipe_requirements( const recipe *rec ) const
+bool player::has_recipe_requirements( const recipe *rec, const int extra_difficulty ) const
 {
     bool meets_requirements = false;
-    if( !rec->skill_used || get_skill_level( rec->skill_used) >= rec->difficulty ) {
+    if( !rec->skill_used || get_skill_level( rec->skill_used) >= rec->difficulty + extra_difficulty ) {
         meets_requirements = true;
         for( const auto &required_skill : rec->required_skills ) {
-            if( get_skill_level( required_skill.first ) < required_skill.second ) {
+            if( get_skill_level( required_skill.first ) < required_skill.second + extra_difficulty ) {
                 meets_requirements = false;
             }
         }
