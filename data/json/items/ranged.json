@@ -3470,7 +3470,7 @@
     "material": "steel",
     "flags": ["MODE_BURST", "NEVER_JAMS"],
     "ups_charges": 5,
-    "ammo_effects": ["PLASMA", "EXPLOSIVE", "FLAME"],
+    "ammo_effects": ["PLASMA", "EXPLOSIVE_SMALL", "FLAME"],
     "skill": "rifle",
     "ammo": "plasma",
     "weight": 4535,

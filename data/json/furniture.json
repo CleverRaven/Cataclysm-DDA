@@ -694,7 +694,7 @@
         "examine_action": "sign",
         "move_cost_mod": 1,
         "required_str": 8,
-        "flags": ["TRANSPARENT", "FLAMMABLE", "ASH", "ORGANIC", "MOUNTABLE"],
+        "flags": ["TRANSPARENT", "FLAMMABLE_ASH", "ORGANIC", "MOUNTABLE"],
         "deconstruct": {
             "items": [
                 { "item": "2x4", "count": 3 },
@@ -1839,6 +1839,20 @@
         }
     },{
         "type" : "furniture",
+        "id" : "f_chamomile",
+        "name": "chamomile",
+        "symbol": "f",
+        "color": "white",
+        "move_cost_mod": 0,
+        "required_str": -1,
+        "flags": ["TRANSPARENT", "TINY", "FLAMMABLE_ASH"],
+        "bash": {
+            "str_min": 2, "str_max": 6,
+            "sound": "crunch.",
+            "sound_fail": "whish."
+        }
+    },{
+        "type" : "furniture",
         "id" : "f_cattails",
         "name": "cattails",
         "symbol": "i",
@@ -2244,7 +2258,7 @@
         "examine_action": "kiln_empty",
         "max_volume": 500,
         "crafting_pseudo_item": "char_kiln",
-        "flags": ["CONTAINER", "FIRE_CONTAINER", "PLACE_ITEM", "KILN"],
+        "flags": ["CONTAINER", "FIRE_CONTAINER", "PLACE_ITEM"],
         "deconstruct": {
             "items": [
                 { "item": "rock", "count": [30, 30] }

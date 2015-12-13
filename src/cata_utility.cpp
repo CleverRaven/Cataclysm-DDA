@@ -5,6 +5,7 @@
 #include "enums.h"
 #include "item.h"
 #include "creature.h"
+#include "translations.h"
 
 #include <algorithm>
 
@@ -222,6 +223,11 @@ int bound_mod_to_vals( int val, int mod, int max, int min )
         mod = std::min( min - val, 0 );
     }
     return mod;
+}
+
+std::string weight_units()
+{
+    return OPTIONS["USE_METRIC_WEIGHTS"].getValue() == "lbs" ? _("lbs") : _("kg");
 }
 
 double convert_weight( int weight )

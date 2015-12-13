@@ -2739,6 +2739,38 @@
     },
     {
         "type": "profession",
+        "ident": "burglar",
+        "name": "Burglar",
+        "description": "You thought this would your lucky break.  Does it count as breaking and entering if everyone in town is undead?",
+        "points": 3,
+        "//" : "A ski mask would fit the stereotype better, but wool allergy breaks this.",
+        "items": {
+            "both": [
+                "socks",
+                "sneakers",
+                "pants",
+                "striped_shirt",
+                "hoodie",
+                "gloves_light",
+                "balclava",
+                "swag_bag",
+                "crowbar",
+                "hacksaw",
+                "boltcutters",
+                "stethoscope",
+                "picklocks"
+            ],
+            "male": [
+                "briefs"
+            ],
+            "female": [
+                "bra",
+                "panties"
+            ]
+        }
+    },
+    {
+        "type": "profession",
         "ident": "razorgirl",
         "name": {
             "male": "Razor Boy",
@@ -4445,5 +4477,42 @@
                 ]
             },
         "flags" : ["SCEN_ONLY"]
+    },
+    {
+        "type": "profession",
+        "ident": "parkour_practitioner",
+        "name": {
+            "male": "Traceur",
+            "female": "Traceuse"
+        },
+        "description": "You've practiced parkour for many years, and made the world your playground.  It wouldn't be a lie to say that running is your life.  Which is good, because now that the end has come, you're running for your life.",
+        "points": 3,
+        "traits": [
+            "PARKOUR"
+        ],	
+        "skills": [
+            {
+                "level": 4,
+                "name": "dodge"
+            }
+        ],
+        "items": {
+            "both" : [
+                "tshirt",
+                "hoodie",
+                "pants_cargo",
+                "socks",
+                "sneakers",
+                "runner_bag"
+            ],
+            "male": [
+                "briefs"
+            ],
+            "female": [
+                "sports_bra",
+                "boy_shorts"
+
+            ]
+        }
     }
 ]

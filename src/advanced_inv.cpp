@@ -1177,7 +1177,10 @@ bool advanced_inventory::move_all_items(bool nested_call)
 
     // Make sure source and destination are different, otherwise items will disappear
     // Need to check actual position to account for dragged vehicles
-    if(sarea.pos == darea.pos && spane.in_vehicle() == dpane.in_vehicle()){
+    if( sarea.pos == darea.pos &&
+        spane.in_vehicle() == dpane.in_vehicle() &&
+        spane.on_ground() == dpane.on_ground() &&
+        ( spane.in_vehicle() || spane.on_ground() || spane.get_area() == dpane.get_area() ) ) {
         return false;
     }
 
@@ -2142,10 +2145,11 @@ item *advanced_inv_area::get_container( bool in_vehicle )
                     }
                 }
             }
-        } else if (veh) { // veh gets lost when we walk away
+        } else {
             map &m = g->m;
-            bool is_in_vehicle = uistate.adv_inv_container_in_vehicle ||
-                (can_store_in_vehicle() && in_vehicle);
+            bool is_in_vehicle = veh &&
+                ( uistate.adv_inv_container_in_vehicle ||
+                  (can_store_in_vehicle() && in_vehicle) );
 
             const itemstack &stacks = (is_in_vehicle) ?
                 i_stacked( veh->get_items( vstor ) ) :
