@@ -911,6 +911,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
 
         // crafting.cpp
         bool crafting_allowed(); // can_see_to_craft() && has_morale_to_craft()
+        float lighting_craft_speed_multiplier(recipe& rec);
         bool can_see_to_craft();
         bool has_moral_to_craft();
         bool can_make(const recipe *r, int batch_size = 1); // have components?
