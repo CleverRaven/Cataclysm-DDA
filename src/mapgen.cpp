@@ -473,7 +473,6 @@ int jmapgen_int::get() const
  */
 void mapgen_function_json::setup_setmap( JsonArray &parray ) {
     std::string tmpval="";
-    std::string err = "";
     std::map<std::string, jmapgen_setmap_op> setmap_opmap;
     setmap_opmap[ "terrain" ] = JMAPGEN_SETMAP_TER;
     setmap_opmap[ "furniture" ] = JMAPGEN_SETMAP_FURN;
@@ -495,12 +494,12 @@ void mapgen_function_json::setup_setmap( JsonArray &parray ) {
         } else if ( pjo.read("square",tmpval ) ) {
             setmap_optype = JMAPGEN_SETMAP_OPTYPE_SQUARE;
         } else {
-            err = string_format("No idea what to do with:\n %s \n",pjo.str().c_str() ); throw err;
+            pjo.throw_error( "invalid data: must contain \"point\", \"set\", \"line\" or \"square\" member" );
         }
 
         sm_it = setmap_opmap.find( tmpval );
         if ( sm_it == setmap_opmap.end() ) {
-            err = string_format("set: invalid subfunction '%s'",tmpval.c_str() ); throw err;
+            pjo.throw_error( string_format( "invalid subfunction %s", tmpval.c_str() ) );
         }
 
         tmpop = sm_it->second;
@@ -527,27 +526,24 @@ void mapgen_function_json::setup_setmap( JsonArray &parray ) {
         } else if (tmpop == JMAPGEN_SETMAP_BASH){
             //suppress warning
         } else {
-            if ( ! pjo.has_string("id") ) {
-                err = string_format("set %s: bad/missing value for 'id'",tmpval.c_str() ); throw err;
-            }
             std::string tmpid = pjo.get_string("id");
             switch( tmpop ) {
                 case JMAPGEN_SETMAP_TER: {
                     if ( termap.find( tmpid ) == termap.end() ) {
-                        err = string_format("set %s: no such terrain '%s'",tmpval.c_str(), tmpid.c_str() ); throw err;
+                        pjo.throw_error( "no such terrain", "id" );
                     }
                     tmp_i.val = termap[ tmpid ].loadid;
                 } break;
                 case JMAPGEN_SETMAP_FURN: {
                     if ( furnmap.find( tmpid ) == furnmap.end() ) {
-                        err = string_format("set %s: no such furniture '%s'",tmpval.c_str(), tmpid.c_str() ); throw err;
+                        pjo.throw_error( "no such furniture", "id" );
                     }
                     tmp_i.val = furnmap[ tmpid ].loadid;
                 } break;
                 case JMAPGEN_SETMAP_TRAP: {
                     const trap_str_id sid( tmpid );
                     if( !sid.is_valid() ) {
-                        err = string_format("set %s: no such trap '%s'",tmpval.c_str(), tmpid.c_str() ); throw err;
+                        pjo.throw_error( "no such trap", "id" );
                     }
                     tmp_i.val = sid.id().to_i();
                 } break;
