@@ -529,7 +529,8 @@ static void draw_can_craft_indicator( WINDOW *w, int window_width, int margin_x,
     } else if( g->u.has_moral_to_craft() ) {
         mvwprintz( w, margin_y + 1, x_align - 1 - utf8_width( _( "too sad" ) ),  i_red  , _( "too sad" ) );
     } else if( g->u.lighting_craft_speed_multiplier(rec) < 1.0f ) {
-        mvwprintz( w, margin_y + 1, x_align - 1 - utf8_width( _( "slow" ) ),  i_yellow  , _( "slow" ) );
+        mvwprintz( w, margin_y + 1, x_align - 5 - utf8_width( _( "slow" ) ),  i_yellow  , _( "slow" ) );
+        mvwprintz( w, margin_y + 1, x_align - 5 ,  i_yellow  , "%3d%%", int(g->u.lighting_craft_speed_multiplier(rec)*100) );
     } else {
         mvwprintz( w, margin_y + 1, x_align - 1 - utf8_width( _( "yes" ) ),  i_green  , _( "yes" ) );
     }

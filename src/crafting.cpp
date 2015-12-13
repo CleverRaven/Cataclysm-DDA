@@ -225,21 +225,26 @@ bool player::crafting_allowed(const recipe &rec)
 }
 
 float player::lighting_craft_speed_multiplier(const recipe &rec) {
-    if (fine_detail_vision_mod() <= 4.0) {
+    // negative is bright, 0 is just bright enough, positive is dark, +7.0f is pitch black
+    float darkness = fine_detail_vision_mod()-4.0f;
+    if (darkness<=0.0f) {
         return 1.0f; // it's bright, go for it
     }
     bool rec_blind = rec.has_flag("BLIND_HARD") || rec.has_flag("BLIND_EASY");
-    if (fine_detail_vision_mod() > 4.0 && !rec_blind) {
+    if (darkness > 0 && !rec_blind) {
         return 0.0f; // it's dark and this recipe can't be crafted in the dark
     }
-    if (g->u.has_recipe_requirements(&rec,2)) { // this is easy for you
-        if ( rec.has_flag("BLIND_EASY") ) {
-            return 1.0f; // it's dark but you can do this with your eyes closed
-        }
-        if ( rec.has_flag("BLIND_HARD") ) {
-            // 1.0f drops to 0.33f as light drops from good to pitch black
-            return 1.0f - ( (fine_detail_vision_mod() - 4.0f) / 10.5f );
-        }
+    if ( rec.has_flag("BLIND_EASY") ) {
+        // 100% speed in well lit area at skill+0
+        // 25% speed in pitch black at skill+0
+        // skill+2 removes speed penalty
+        return 1.0f - (darkness / (7.0f/0.75f)) * std::max(0, 2 - exceeds_recipe_requirements(rec)) / 2.0f;
+    }
+    if ( rec.has_flag("BLIND_HARD") && exceeds_recipe_requirements(rec) >= 2) {
+        // 100% speed in well lit area at skill+2
+        // 25% speed in pitch black at skill+2
+        // skill+8 removes speed penalty
+        return 1.0f - (darkness / (7.0f/0.75f)) * std::max(0, 8 - exceeds_recipe_requirements(rec)) / 6.0f;
     }
     return 0.0f; // it's dark and you could craft this if you had more skill
 }
