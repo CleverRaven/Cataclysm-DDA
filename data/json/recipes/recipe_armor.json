@@ -4080,6 +4080,20 @@
   ]
 },{
   "type" : "recipe",
+  "result": "swag_bag",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_STORAGE",
+  "difficulty": 0,
+  "time": 600,
+  "reversible": true,
+  "autolearn": true,
+  "components": [
+    [
+      [ "bag_canvas", 1 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
   "result": "makeshift_sling",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_STORAGE",
