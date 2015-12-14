@@ -186,9 +186,9 @@
                 { "x": 4, "y": 4, "signage": "The Red Dragon Tea Shop" }
             ],
             "set": [
-                { "point": "terrain", "id": "f_mutpoppy", "x": [ 0 , 23 ], "y": [ 19, 23 ], "repeat": [ 4, 9 ] },
+                { "point": "furniture", "id": "f_mutpoppy", "x": [ 0 , 23 ], "y": [ 19, 23 ], "repeat": [ 4, 9 ] },
                 { "point": "terrain", "id": "t_shrub", "x": [ 0 , 23 ], "y": [ 19, 23 ], "repeat": [ 4, 9 ] },
-                { "point": "terrain", "id": "f_chamomile", "x": [ 0 , 23 ], "y": [ 19, 23 ], "repeat": [ 4, 9 ] }
+                { "point": "furniture", "id": "f_chamomile", "x": [ 0 , 23 ], "y": [ 19, 23 ], "repeat": [ 4, 9 ] }
                 
             ],
             "place_items": [

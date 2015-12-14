@@ -1004,6 +1004,7 @@ std::vector<tripoint> game::target( tripoint &p, const tripoint &low, const trip
     }
 
     input_context ctxt("TARGET");
+    ctxt.set_iso(true);
     // "ANY_INPUT" should be added before any real help strings
     // Or strings will be written on window border.
     ctxt.register_action("ANY_INPUT");
