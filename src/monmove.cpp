@@ -484,19 +484,33 @@ void monster::move()
     const bool pacified = has_effect( pacified_string );
 
     // First, use the special attack, if we can!
-    for( auto &special: special_attacks ) {
-        const std::string &special_name = special.first;
-        mon_special_attack &special_attack = special.second;
-        if( special_attack.enabled ) {
-            if( special_attack.cooldown > 0 ) {
-                special_attack.cooldown--;
+    // The attack may change `monster::special_attacks` (e.g. by transforming
+    // this into another monster type). Therefor we can not iterate over it
+    // directly and instead iterate over the map from the monster type
+    // (properties of monster types should never change).
+    for( auto &sp_type : type->special_attacks ) {
+        const std::string &special_name = sp_type.first;
+        const auto local_iter = special_attacks.find( special_name );
+        if( local_iter == special_attacks.end() ) {
+            continue;
+        }
+        mon_special_attack &local_attack_data = local_iter->second;
+        if( !local_attack_data.enabled ) {
+            continue;
+        }
+        if( local_attack_data.cooldown > 0 ) {
+            local_attack_data.cooldown--;
+        }
+        if( local_attack_data.cooldown == 0 && !pacified && !is_hallucination() ) {
+            if( !sp_type.second.attack( this ) ) {
+                continue;
             }
-
-            if( special_attack.cooldown == 0 && !pacified && !is_hallucination() ) {
-                if (type->special_attacks.at(special_name).attack( this )) {
-                    reset_special(special_name);
-                }
+            // `special_attacks` might have changed at this point. Sadly `reset_special`
+            // doesn't check the attack name, so we need to do it here.
+            if( special_attacks.count( special_name ) == 0 ) {
+                continue;
             }
+            reset_special( special_name );
         }
     }
 
@@ -1344,7 +1358,7 @@ bool monster::push_to( const tripoint &p, const int boost, const size_t depth )
     } else {
         critter->moves -= movecost_from;
     }
-    
+
     return true;
 }
 
