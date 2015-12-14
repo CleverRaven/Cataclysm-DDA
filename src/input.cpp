@@ -15,6 +15,8 @@
 #include <stdexcept>
 #include <errno.h>
 
+extern bool tile_iso;
+
 static const std::string default_context_id("default");
 
 template <class T1, class T2>
@@ -773,6 +775,23 @@ void input_context::register_cardinal()
     register_leftright();
 }
 
+// dx and dy are -1, 0, or +1. Rotate the indicated direction 1/8 turn clockwise.
+void rotate_direction_cw(int &dx, int &dy) {
+    // convert to
+    // 0 1 2
+    // 3 4 5
+    // 6 7 8
+    int dir_num = (dy+1)*3+dx+1;
+    // rotate to
+    // 1 2 5
+    // 0 4 8
+    // 3 6 7
+    dir_num = (int[]){1,2,5,0,4,8,3,6,7}[dir_num];
+    // convert back to -1,0,+1
+    dx = (dir_num%3)-1;
+    dy = (dir_num/3)-1;
+}
+
 bool input_context::get_direction(int &dx, int &dy, const std::string &action)
 {
     if(action == "UP") {
@@ -803,6 +822,9 @@ bool input_context::get_direction(int &dx, int &dy, const std::string &action)
         dx = -2;
         dy = -2;
         return false;
+    }
+    if(iso_mode && tile_iso) {
+        rotate_direction_cw(dx,dy);
     }
     return true;
 }
@@ -1257,4 +1279,8 @@ std::string input_context::press_x(const std::string &action_id, const std::stri
     }
     keyed << key_bound_suf;
     return keyed.str();
+}
+
+void input_context::set_iso(bool mode) {
+    iso_mode = mode;
 }

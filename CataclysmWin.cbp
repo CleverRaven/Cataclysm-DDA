@@ -456,6 +456,8 @@
 		<Unit filename="src/line.h" />
 		<Unit filename="src/live_view.cpp" />
 		<Unit filename="src/live_view.h" />
+		<Unit filename="src/lua_console.cpp" />
+		<Unit filename="src/lua_console.h" />
 		<Unit filename="src/main.cpp" />
 		<Unit filename="src/main_menu.cpp" />
 		<Unit filename="src/map.cpp" />
