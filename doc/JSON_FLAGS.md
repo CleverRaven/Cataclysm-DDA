@@ -25,6 +25,11 @@
 - ```CC_ARMOR```
 - ```CC_MISC```
 
+### Flags
+
+- ```BLIND_EASY``` Easy to craft with little to no light
+- ```BLIND_HARD``` Possible to craft with little to no light, but difficult
+
 ## Furniture & Terrain
 List of known flags, used in both terrain.json and furniture.json
 
