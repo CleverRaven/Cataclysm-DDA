@@ -23692,6 +23692,56 @@
           "id": "l-stick_on",
           "fg": 3041,
           "rotates": false
+        },
+        {
+          "id": "plastic_shopping_bag",
+          "fg": 3042,
+          "rotates": false
+        },
+        {
+          "id": "sushi_fishroll",
+          "fg": 3043,
+          "rotates": false
+        },
+        {
+          "id": "sushi_meatroll",
+          "fg": 3043,
+          "rotates": false
+        },
+        {
+          "id": "sushi_veggyroll",
+          "fg": 3043,
+          "rotates": false
+        },
+        {
+          "id": "fish",
+          "fg": 3044,
+          "rotates": false
+        },
+        {
+          "id": "fish_smoked",
+          "fg": 3045,
+          "rotates": false
+        },
+        {
+          "id": "fish_fried",
+          "fg": 3046,
+          "rotates": false
+        },
+        {
+          "id": "jihelucake",
+          "fg": 3047,
+          "rotates": false
+        },
+        {
+          "id": "cake3",
+          "fg": 3047,
+          "rotates": false
+        },
+        {
+          "id": "cake2",
+          "fg": 3048,
+          "rotates": false
         }
       ]
     },
