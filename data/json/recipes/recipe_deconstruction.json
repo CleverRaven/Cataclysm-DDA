@@ -753,6 +753,9 @@
       [ "1cyl_combustion", 1 ]
     ],
     [
+      [ "metal_tank_little", 1 ]
+    ],
+    [
       [ "pipe", 3 ]
     ]
   ]
@@ -2265,6 +2268,30 @@
   "qualities" : [ {"id":"SAW_M","level":1,"amount":1} ],
   "tools": [ [ [ "welder", 500 ], [ "toolset", 750 ] ] ],
   "components": [ [ [ "steel_plate", 10 ] ], [ [ "steel_lump", 70 ] ] ]
+},{
+  "type" : "recipe",
+  "result": "oxygen_tank",
+  "category": "CC_NONCRAFT",
+  "subcategory": "CSC_NONCRAFT",
+  "skill_used": "fabrication",
+  "difficulty": 1,
+  "time": 500,
+  "reversible": true,
+  "autolearn": false,
+  "qualities" : [ {"id":"WRENCH","level":1,"amount":1} ], 
+  "components": [ [ [ "metal_tank_little", 1 ] ] ]
+},{
+  "type" : "recipe",
+  "result": "extinguisher",
+  "category": "CC_NONCRAFT",
+  "subcategory": "CSC_NONCRAFT",
+  "skill_used": "fabrication",
+  "difficulty": 1,
+  "time": 500,
+  "reversible": true,
+  "autolearn": false,
+  "qualities" : [ {"id":"WRENCH","level":1,"amount":1} ], 
+  "components": [ [ [ "metal_tank_little", 1 ] ] ]
 },{
     "type" : "recipe",
     "result": "roadmap",
