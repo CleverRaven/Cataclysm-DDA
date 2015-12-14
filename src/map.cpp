@@ -2937,6 +2937,7 @@ void map::decay_fields_and_scent( const int amount )
                                 cur.setFieldAge( cur.getFieldAge() + amount_liquid );
                                 break;
                             case fd_smoke:
+                            case fd_fog:
                             case fd_toxic_gas:
                             case fd_fungicidal_gas:
                             case fd_tear_gas:

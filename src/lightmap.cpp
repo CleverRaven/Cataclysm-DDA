@@ -97,6 +97,7 @@ void map::build_transparency_cache( const int zlev )
                             value *= 5;
                             break;
                         case fd_smoke:
+                        case fd_fog:
                         case fd_incendiary:
                         case fd_toxic_gas:
                         case fd_tear_gas:

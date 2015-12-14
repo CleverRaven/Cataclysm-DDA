@@ -3176,6 +3176,11 @@ int iuse::extinguisher(player *p, item *it, bool, const tripoint& )
     // Reduce the strength of fire (if any) in the target tile.
     g->m.adjust_field_strength(dest, fd_fire, 0 - rng(2, 3));
 
+    // make some fog
+    for (int i = 0; i < 8; i++) {
+        g->m.add_field({dest.x + int(rng(-1, 1)), dest.y + int(rng(-1, 1)), dest.z}, fd_fog, 3, 0);
+    }
+
     // Also spray monsters in that tile.
     int mondex = g->mon_at( dest, true );
     if (mondex != -1) {

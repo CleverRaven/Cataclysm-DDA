@@ -109,6 +109,13 @@ void game::init_fields()
        },
 
         {
+            "fd_fog", /* created for fire extinguisher effect - may want to separate though if we want spooky fog weather later too */
+            {_("thin fog"), _("fog"), _("thick fog")}, '8', 8,
+            {c_white, c_ltgray, c_dkgray}, {false, false, false},{false, false, false}, MINUTES(20),
+            {0,0,0}
+        },
+
+        {
             "fd_smoke",
             {_("thin smoke"), _("smoke"), _("thick smoke")}, '8', 8,
             {c_white, c_ltgray, c_dkgray}, {true, false, false},{false, true, true}, MINUTES(3),
@@ -1230,6 +1237,11 @@ bool map::process_fields_in_submap( submap *const current_submap,
                     case fd_smoke:
                         dirty_transparency_cache = true;
                         spread_gas( cur, p, curtype, 80, 50 );
+                        break;
+
+                    case fd_fog:
+                        dirty_transparency_cache = true;
+                        spread_gas( cur, p, curtype, 80, 25 );
                         break;
 
                     case fd_tear_gas:
