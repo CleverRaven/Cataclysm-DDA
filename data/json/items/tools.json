@@ -275,7 +275,7 @@
     "max_charges": 0,
     "initial_charges": 0,
     "charges_per_use": 0,
-    "turns_per_charge": 0
+    "turns_per_charge": 0,
     "use_action": {
             "type": "extended_firestarter",
             "need_sunlight": true
