@@ -261,7 +261,7 @@
     "color": "dark_green",
     "name": "survivor telescope",
     "name_plural": "survivor telescopes",
-    "description": "A homemade collapsible telescope. Too large and inaccurate to use as a weapon scope, but carrying this item in your inventory will double the distance that is mapped around you during your travels.",
+    "description": "A homemade collapsible telescope.  Too large and inaccurate to use as a weapon scope, but carrying this item in your inventory will double the distance that is mapped around you during your travels.",
     "price": 600,
     "material": ["glass", "plastic"],
     "flags": [ "LENS", "ZOOM" ],
