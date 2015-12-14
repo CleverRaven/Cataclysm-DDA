@@ -4419,19 +4419,32 @@ void game::disp_kills()
     std::vector<std::string> data;
     int totalkills = 0;
     const int colum_width = (getmaxx(w) - 2) / 3; // minus border
+
+    std::unordered_map<std::tuple<std::string,std::string,std::string,std::string>,int> kill_counts;
+
+    // map <sym, name, plural name, color> to kill count
     for( auto &elem : kills ) {
         const mtype &m = elem.first.obj();
+        kill_counts[std::tuple<std::string,std::string,std::string,std::string>(
+            m.sym,
+            m.nname(),
+            m.nname( elem.second ),
+            string_from_color(m.color)
+        )] += elem.second;
+        totalkills += elem.second;
+    }
+
+    for (const auto entry : kill_counts) {
         std::ostringstream buffer;
-        buffer << "<color_" << string_from_color(m.color) << ">";
-        buffer << m.sym << " " << m.nname();
+        buffer << "<color_" << std::get<3>(entry.first) << ">";
+        buffer << std::get<0>(entry.first) << " " << std::get<2>(entry.first);
         buffer << "</color>";
-        const int w = colum_width - utf8_width(m.nname());
+        const int w = colum_width - utf8_width(std::get<2>(entry.first));
         buffer.width(w - 3); // gap between cols, monster sym, space
         buffer.fill(' ');
-        buffer << elem.second;
+        buffer << entry.second;
         buffer.width(0);
         data.push_back(buffer.str());
-        totalkills += elem.second;
     }
     std::ostringstream buffer;
     if (data.empty()) {
