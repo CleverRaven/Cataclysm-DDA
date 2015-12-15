@@ -6,6 +6,7 @@
 #include "weighted_list.h"
 #include "game_constants.h"
 #include "monster.h"
+#include "rng.h"
 #include <vector>
 #include <iosfwd>
 #include <string>
@@ -171,7 +172,7 @@ struct radio_tower {
  int frequency;
 radio_tower(int X = -1, int Y = -1, int S = -1, std::string M = "",
             radio_type T = MESSAGE_BROADCAST) :
-    x (X), y (Y), strength (S), type (T), message (M) {frequency = rand();}
+    x (X), y (Y), strength (S), type (T), message (M) {frequency = rng_unsigned();}
 };
 
 struct map_layer {

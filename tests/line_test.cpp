@@ -286,7 +286,7 @@ void line_to_comparison( const int iterations ) {
     REQUIRE( trig_dist(0, 0, 1, 0) == 1 );
 
     const int seed = time( NULL );
-    std::srand( seed );
+    seed_rng( seed );
 
     for( int i = 0; i < RANDOM_TEST_NUM; ++i ) {
         const int x1 = rng( -COORDINATE_RANGE, COORDINATE_RANGE );

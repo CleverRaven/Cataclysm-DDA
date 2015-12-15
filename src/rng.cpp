@@ -1,19 +1,43 @@
 #include "output.h"
 #include "rng.h"
-#include <stdlib.h>
+#include "random_well512a.h"
+#include <ctime>
+#include <random>
+
+well512a_engine *prng_engine;
+
+void init_rng() {
+    if( prng_engine == nullptr ) {
+        seed_rng( time( nullptr ) );
+    }
+}
+
+void seed_rng( int seed )
+{
+    if( prng_engine == nullptr ) {
+        prng_engine = new well512a_engine( seed );
+    } else {
+        delete prng_engine;
+        prng_engine = new well512a_engine( seed );
+    }
+}
 
 long rng(long val1, long val2)
 {
-    long minVal = (val1 < val2) ? val1 : val2;
-    long maxVal = (val1 < val2) ? val2 : val1;
-    return minVal + long((maxVal - minVal + 1) * double(rand() / double(RAND_MAX + 1.0)));
+    init_rng();
+    return std::uniform_int_distribution<long>{val1, val2}( *prng_engine );
 }
 
 double rng_float(double val1, double val2)
 {
-    double minVal = (val1 < val2) ? val1 : val2;
-    double maxVal = (val1 < val2) ? val2 : val1;
-    return minVal + (maxVal - minVal) * double(rand()) / double(RAND_MAX + 1.0);
+    init_rng();
+    return std::uniform_real_distribution<double>{val1, val2}( *prng_engine );
+}
+
+unsigned rng_unsigned()
+{
+    init_rng();
+    return ( *prng_engine )();
 }
 
 bool one_in(int chance)
@@ -29,7 +53,7 @@ bool one_in_improved(double chance)
 
 bool x_in_y(double x, double y)
 {
-    return ((double)rand() / RAND_MAX) <= ((double)x / y);
+    return ( y <= x || rng_float( 0, y ) <= x );
 }
 
 int dice(int number, int sides)

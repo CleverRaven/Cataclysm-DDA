@@ -25,7 +25,6 @@
 
 #include <algorithm>
 #include <fstream>
-#include <stdlib.h>     /* srand, rand */
 
 #include <SDL_image.h>
 
