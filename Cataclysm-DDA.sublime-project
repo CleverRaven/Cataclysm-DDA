@@ -1,0 +1,95 @@
+{
+	"build_systems":
+	[
+		{
+			"cmd":
+			[
+				"make",
+				"USE_HOME_DIR=1",
+				"CLANG=1",
+				"CCACHE=1",
+				"RELEASE=1",
+				"LUA=1"
+			],
+			"file_regex": "^(..[^:]*):([0-9]+):?([0-9]+)?:? (.*)$",
+			"name": "make RELEASE LUA",
+			"working_dir": "${folder:${project_path:${file_path}}}"
+		},
+		{
+			"cmd":
+			[
+				"make",
+				"USE_HOME_DIR=1",
+				"CLANG=1",
+				"CCACHE=1",
+				"LUA=1"
+			],
+			"file_regex": "^(..[^:]*):([0-9]+):?([0-9]+)?:? (.*)$",
+			"name": "make LUA",
+			"working_dir": "${folder:${project_path:${file_path}}}"
+		},
+		{
+			"cmd":
+			[
+				"make",
+				"USE_HOME_DIR=1",
+				"CLANG=1",
+				"CCACHE=1",
+				"LUA=1",
+				"TILES=1"
+			],
+			"file_regex": "^(..[^:]*):([0-9]+):?([0-9]+)?:? (.*)$",
+			"name": "make TILES LUA",
+			"working_dir": "${folder:${project_path:${file_path}}}"
+		},
+		{
+			"cmd":
+			[
+				"make",
+				"USE_HOME_DIR=1",
+				"CLANG=1",
+				"CCACHE=1",
+				"LUA=1",
+				"TILES=1",
+				"RELEASE=1"
+			],
+			"file_regex": "^(..[^:]*):([0-9]+):?([0-9]+)?:? (.*)$",
+			"name": "make RELEASE TILES LUA",
+			"working_dir": "${folder:${project_path:${file_path}}}"
+		}
+	],
+	"folders":
+	[
+		{
+			"path": "."
+		},
+		{
+			"path": "/home/sparr/.cataclysm-dda"
+		}
+	],
+	"settings":
+	{
+		"AStyleFormatter":
+		{
+			"options_c++":
+			{
+				"additional_options":
+				[
+					"--style=1tbs",
+					"--indent=spaces=4",
+					"--align-pointer=name",
+					"--max-code-length=100",
+					"--break-after-logical",
+					"--indent-classes",
+					"--indent-switches",
+					"--indent-preprocessor",
+					"--indent-col1-comments",
+					"--min-conditional-indent=0",
+					"--pad-oper",
+					"--add-brackets",
+					"--convert-tabs"
+				]
+			}
+		}
+	}
+}
