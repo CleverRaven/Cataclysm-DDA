@@ -14,24 +14,26 @@ void init_rng() {
 
 void seed_rng( int seed )
 {
-    if( prng_engine == nullptr ) {
-        prng_engine = new well512a_engine( seed );
-    } else {
+    if( prng_engine != nullptr ) {
         delete prng_engine;
-        prng_engine = new well512a_engine( seed );
     }
+    prng_engine = new well512a_engine( seed );
 }
 
 long rng(long val1, long val2)
 {
+    long minVal = (val1 < val2) ? val1 : val2;
+    long maxVal = (val1 < val2) ? val2 : val1;
     init_rng();
-    return std::uniform_int_distribution<long>{val1, val2}( *prng_engine );
+    return std::uniform_int_distribution<long>{minVal, maxVal}( *prng_engine );
 }
 
 double rng_float(double val1, double val2)
 {
+    double minVal = (val1 < val2) ? val1 : val2;
+    double maxVal = (val1 < val2) ? val2 : val1;
     init_rng();
-    return std::uniform_real_distribution<double>{val1, val2}( *prng_engine );
+    return std::uniform_real_distribution<double>{minVal, maxVal}( *prng_engine );
 }
 
 unsigned rng_unsigned()
