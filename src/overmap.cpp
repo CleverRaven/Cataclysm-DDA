@@ -1,4 +1,3 @@
-#include <stdlib.h>
 #include <time.h>
 #include <math.h>
 #include <fstream>
@@ -3938,7 +3937,7 @@ void overmap::place_specials()
             num_placed.emplace( &special, 0 );
         } else {
             // occurrence is actually a % chance, so less than 1
-            if( rand() % 100 <= special.min_occurrences ) {
+            if( rng( 0, 99 ) <= special.min_occurrences ) {
                 // Priority add one in this map
                 num_placed.emplace( &special, -1 );
             } else {

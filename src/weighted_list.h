@@ -4,8 +4,8 @@
 #include "rng.h"
 #include <vector>
 #include <functional>
-#include <cstdlib>
 #include <cmath>
+#include <limits>
 
 template <typename W, typename T> struct weighted_object {
     weighted_object( const T &obj, const W &weight ) : obj( obj ), weight( weight ) {}
@@ -92,7 +92,7 @@ template <typename W, typename T> struct weighted_list {
             }
         }
         const T *pick() const {
-            return pick( rand() );
+            return pick( rng_unsigned() );
         }
 
         /**
@@ -109,7 +109,7 @@ template <typename W, typename T> struct weighted_list {
             }
         }
         T *pick() {
-            return pick( rand() );
+            return pick( rng_unsigned() );
         }
 
         /**
@@ -221,7 +221,8 @@ template <typename T> struct weighted_float_list : public weighted_list<double, 
     protected:
 
         size_t pick_ent( unsigned int randi ) const override {
-            double picked = ( double )( randi % RAND_MAX ) / ( double )RAND_MAX * ( this->total_weight );
+            static const unsigned randi_max = std::numeric_limits<unsigned int>::max();
+            double picked = ( double )( randi ) / ( double )randi_max * ( this->total_weight );
             double accumulated_weight = 0;
             size_t i;
             for( i = 0; i < this->objects.size(); i++ ) {
