@@ -327,13 +327,6 @@ std::string string_format(std::string pattern, ...);
 std::string vstring_format(std::string const &pattern, va_list argptr);
 /*@}*/
 
-inline void string_truncate( std::string &str, size_t available_space )
-{
-    if( str.size() > available_space ) {
-        str = str.substr( 0, available_space );
-    }
-}
-
 // TODO: move these elsewhere
 // string manipulations.
 void replace_name_tags(std::string & input);

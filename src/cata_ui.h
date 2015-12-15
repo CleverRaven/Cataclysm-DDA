@@ -2,6 +2,7 @@
 #define CATA_UI_H
 
 #include "output.h"
+#include "catacharset.h"
 #include "enums.h"
 #include "cata_utility.h"
 #include "input.h"
@@ -295,14 +296,15 @@ class ui_vertical_list : public ui_element {
             calcStartPos( start_line, scroll, get_rect().size_y, items.size() );
             unsigned int end_line = start_line + get_rect().size_y;
 
-            size_t available_space = get_rect().size_x - 2; // 2 for scroll bar and spacer
+            size_t text_start_x = 2;  // 2 for scroll bar and spacer
+            size_t available_space = get_rect().size_x - text_start_x;
 
             for( unsigned int line = start_line; line < end_line && line < items.size(); line++ ) {
                 auto t_c = get_text_and_color( text_color, items[line] );
                 std::string txt = t_c.first;
-                string_truncate( txt, available_space );
+                utf8_truncate( txt, available_space );
 
-                mvwprintz( win, get_ay() + line - start_line, get_ax() + 2, (scroll == line ? hilite(t_c.second) : t_c.second), "%s", txt.c_str() );
+                mvwprintz( win, get_ay() + line - start_line, get_ax() + text_start_x, (scroll == line ? hilite(t_c.second) : t_c.second), "%s", txt.c_str() );
             }
 
             draw_scrollbar( win, scroll, get_rect().size_y, items.size(), get_ay(), get_ax(), bar_color, false );
