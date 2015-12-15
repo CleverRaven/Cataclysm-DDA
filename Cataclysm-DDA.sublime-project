@@ -73,6 +73,7 @@
 		{
 			"options_c++":
 			{
+				"comment" : "These options are mirrored in .astylerc, Cataclysm-DDA.sublime-project, CONTRIBUTING.md, doc/CODE_STYLE.txt",
 				"additional_options":
 				[
 					"--style=1tbs",
@@ -87,7 +88,9 @@
 					"--min-conditional-indent=0",
 					"--pad-oper",
 					"--add-brackets",
-					"--convert-tabs"
+					"--convert-tabs",
+					"--unpad-paren",
+					"--pad-paren-in"
 				]
 			}
 		}
