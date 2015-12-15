@@ -2715,7 +2715,7 @@ bool game::handle_action()
             break;
 
         case ACTION_UNLOAD:
-            unload( -1 );
+            unload();
             break;
 
         case ACTION_THROW:
@@ -11343,31 +11343,26 @@ void game::reload()
 // If it's a gun, some gunmods can also be loaded
 void game::unload(int pos)
 {
-    item &itm = u.i_at( pos );
-    if( !itm.is_null() ) {
-        unload( itm );
-    } else if( pos == -1 || pos == INT_MIN ) {
-        // Empty hands and unloading the weapon
-        // or explicitly requested unload item menu
-        auto filter = [&]( const item &it ) {
+    item *it = nullptr;
+
+    if( pos == INT_MIN ) {
+        it = inv_map_splice( [&]( const item &it ) {
             return u.rate_action_unload( it ) == HINT_GOOD;
-        };
+        }, _( "Unload item:" ), 1 ).get_item();
 
-        auto item_loc = inv_map_splice( filter, _("Unload item:") );
-        const int inv_pos = item_loc.get_inventory_position();
-        if( inv_pos != INT_MIN ) {
-            unload( inv_pos );
-            return;
-        }
-
-        item *it = item_loc.get_item();
         if( it == nullptr ) {
-            add_msg(_("Never mind."));
+            add_msg( _("Never mind.") );
             return;
         }
-
-        unload( *it );
+    } else {
+        it = &u.i_at( pos );
+        if( it->is_null() ) {
+            debugmsg( "Tried to unload non-existent item" );
+            return;
+        }
     }
+
+    unload( *it );
 }
 
 bool add_or_drop_with_msg( player &u, item &it )
