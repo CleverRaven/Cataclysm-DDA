@@ -1290,10 +1290,9 @@ void activity_handlers::open_gate_finish( player_activity *act, player *p )
 
 void activity_handlers::repair_item_finish( player_activity *act, player *p )
 {
-    const static std::string iuse_name_string = "repair_item";
-
     const int index = act->index;
     const int pos = act->position;
+    const std::string iuse_name_string = act->get_str_value( 0, "repair_item" );
     // Allow the items to be "weird" (for example, null) for now
     item &main_tool = p->i_at( index );
     item &fix = p->i_at( pos );

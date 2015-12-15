@@ -1873,8 +1873,16 @@ void repair_item_actor::load( JsonObject &obj )
     }
 
     // TODO: Make skill non-mandatory while still erroring on invalid skill
-    used_skill = skill_id( obj.get_string( "skill" ) );
+    const std::string skill_string = obj.get_string( "skill" );
+    used_skill = skill_id( skill_string );
+    if( !used_skill.is_valid() ) {
+        throw JsonError( std::string( "Invalid skill for repair_item_actor: " ) + skill_string );
+    }
+
     cost_scaling = obj.get_float( "cost_scaling" );
+
+    // Kinda hacky: get subtype of the actor for item action menu
+    type = obj.get_string( "item_action_type" );
 
     // Optional
     obj.read( "practice_msg", practice_msg );
@@ -1915,19 +1923,19 @@ const std::string &plural_material_name( const std::string &material_id )
 {
     static const std::map< std::string, std::string > material_name_map {
         // Metals (welded)
-        { "kevlar", _("Kevlar plates") },
-        { "plastic", _("plastic chunks") },
-        { "iron", _("scrap metal") },
-        { "steel", _("scrap metal") },
-        { "hardsteel", _("scrap metal") },
-        { "aluminum", _("aluminum ingots") },
-        { "copper", _("scrap copper") },
+        { "kevlar", rm_prefix(_("<plural>Kevlar plates")) },
+        { "plastic", rm_prefix(_("<plural>plastic chunks")) },
+        { "iron", rm_prefix(_("<plural>scrap metal")) },
+        { "steel", rm_prefix(_("<plural>scrap metal")) },
+        { "hardsteel", rm_prefix(_("<plural>scrap metal")) },
+        { "aluminum", rm_prefix(_("<plural>aluminum ingots")) },
+        { "copper", rm_prefix(_("<plural>scrap copper")) },
         // Fabrics (sewn)
-        { "cotton", _("<plural>rags") },
-        { "leather", _("<plural>leather") },
-        { "fur", _("<plural>fur") },
-        { "nomex", _("<plural>Nomex") },
-        { "wool", _("<plural>wool") },
+        { "cotton", rm_prefix(_("<plural>rags")) },
+        { "leather", rm_prefix(_("<plural>leather")) },
+        { "fur", rm_prefix(_("<plural>fur")) },
+        { "nomex", rm_prefix(_("<plural>Nomex")) },
+        { "wool", rm_prefix(_("<plural>wool")) },
     };
 
     static const itype_id null_material = "";
@@ -1975,6 +1983,8 @@ long repair_item_actor::use( player *p, item *it, bool, const tripoint & ) const
     }
 
     p->assign_activity( ACT_REPAIR_ITEM, 0, p->get_item_position( it ), pos );
+    // We also need to store the repair actor subtype in the activity
+    p->activity.str_values.push_back( type );
     // All repairs are done in the activity, including charge cost
     return 0;
 }

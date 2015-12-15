@@ -21,8 +21,12 @@
         "name" : "Repair metal/plastic/kevlar"
     },{
         "type" : "item_action",
-        "id" : "repair_item",
-        "name" : "Repair item"
+        "id" : "repair_metal",
+        "name" : "Repair metal/plastic/kevlar"
+    },{
+        "type" : "item_action",
+        "id" : "repair_fabric",
+        "name" : "Repair cotton/leather/wool/Nomex/fur"
     },{
         "type" : "item_action",
         "id" : "picklock",
