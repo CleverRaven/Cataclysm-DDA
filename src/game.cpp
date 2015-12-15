@@ -10900,23 +10900,15 @@ void game::plfire( bool burst, const tripoint &default_target )
             refresh_all();
         }
 
-        if( u.weapon.num_charges() == 0 && !u.weapon.has_flag("RELOAD_AND_SHOOT") &&
-            !u.weapon.has_flag("NO_AMMO") ) {
-            add_msg(m_info, _("You need to reload!"));
+        if( u.weapon.num_charges() < u.weapon.ammo_required() && !u.weapon.has_flag("RELOAD_AND_SHOOT") ) {
+            if( u.weapon.num_charges() == 0 ) {
+                add_msg(m_info, _("You need to reload!"));
+            } else {
+                add_msg(m_info, _("Your %s needs %i charges to fire!"), u.weapon.tname().c_str(), u.weapon.ammo_required() );
+            }
             return;
         }
-        if (u.weapon.has_flag("FIRE_100") && u.weapon.num_charges() < 100) {
-            add_msg(m_info, _("Your %s needs 100 charges to fire!"), u.weapon.tname().c_str());
-            return;
-        }
-        if (u.weapon.has_flag("FIRE_50") && u.weapon.num_charges() < 50) {
-            add_msg(m_info, _("Your %s needs 50 charges to fire!"), u.weapon.tname().c_str());
-            return;
-        }
-        if (u.weapon.has_flag("FIRE_20") && u.weapon.num_charges() < 20) {
-            add_msg(m_info, _("Your %s needs 20 charges to fire!"), u.weapon.tname().c_str());
-            return;
-        }
+
         const auto gun = u.weapon.type->gun.get();
 
         if( gun != nullptr && ( u.weapon.get_gun_ups_drain() > 0 ) ) {
