@@ -1389,9 +1389,10 @@
             "materials": [
                 "kevlar", "plastic", "iron", "steel", "hardsteel", "aluminum", "copper"
             ],
+            "skill": "mechanics",
             "cost_scaling": 0.25,
-            "practice_msg": "You practice your soldering"
-        }
+            "practice_msg": "You practice your soldering."
+        },
         {
             "type": "cauterize",
             "flame": false

@@ -284,6 +284,21 @@ void player_activity::do_turn( player *p )
                 moves_left = 0;
             }
             p->practice( skill_id( "mechanics" ), 1 );
+            break;
+        case ACT_REPAIR_ITEM:
+        {
+            // Based on speed * detail vision
+            const int effective_moves = p->moves / p->fine_detail_vision_mod();
+            if( effective_moves <= moves_left ) {
+                moves_left -= effective_moves;
+                p->moves = 0;
+            } else {
+                p->moves -= moves_left * p->fine_detail_vision_mod();
+                moves_left = 0;
+            }
+        }
+
+            break;
         default:
             // Based on speed, not time
             if( p->moves <= moves_left ) {

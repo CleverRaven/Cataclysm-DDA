@@ -1300,7 +1300,7 @@ void activity_handlers::repair_item_finish( player_activity *act, player *p )
 
     item *used_tool = main_tool.get_usable_item( iuse_name_string );
     if( used_tool == nullptr ) {
-        debugmsg( "Lost tool used for long salvage" );
+        debugmsg( "Lost tool used for long repair" );
         act->type = ACT_NULL;
         return;
     }
@@ -1314,13 +1314,30 @@ void activity_handlers::repair_item_finish( player_activity *act, player *p )
         return;
     }
 
-    const auto attempt = actor->repair( *p, *used_tool, fix );
-    if( attempt != repair_item_actor::AS_RETRY &&
-        attempt != repair_item_actor::AS_SUCCESS ) {
+    // TODO: Allow setting this in the actor
+    // TODO: Don't use charges_to_use: welder has 50 charges per use, soldering iron has 1
+    const int charges_to_use = used_tool->type->charges_to_use();
+    if( used_tool->charges < charges_to_use ) {
+        p->add_msg_if_player( _("Your %s ran out of charges"), used_tool->tname().c_str() );
         act->type = ACT_NULL;
-        // Otherwise we want to keep trying
+        return;
     }
-    // Maybe-TODO: Break out of the activity on level gain?
+
+    const auto attempt = actor->repair( *p, *used_tool, fix );
+    if( attempt != repair_item_actor::AS_CANT ) {
+        p->consume_charges( used_tool, charges_to_use );
+    }
+
+    if( attempt == repair_item_actor::AS_CANT ||
+        attempt == repair_item_actor::AS_FAILURE ) {
+        // Maybe-TODO: Break out of the activity on level gain?
+        act->type = ACT_NULL;
+        return;
+    }
+
+    // Otherwise keep retrying
+    // TODO: Don't retry if the next try would be redundant (for example, after full repair)
+    act->moves_left = 500; // TODO: Move it out as parameter to the actor
 }
 
 

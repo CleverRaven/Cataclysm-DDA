@@ -3099,7 +3099,7 @@ bool item::is_gun() const
 
 bool item::is_firearm() const
 {
-    static const primitive_flag( "PRIMITIVE_RANGED_WEAPON" );
+    static const std::string primitive_flag( "PRIMITIVE_RANGED_WEAPON" );
     return is_gun() && !has_flag( primitive_flag );
 }
 

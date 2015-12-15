@@ -21,6 +21,10 @@
         "name" : "Repair metal/plastic/kevlar"
     },{
         "type" : "item_action",
+        "id" : "repair_item",
+        "name" : "Repair item"
+    },{
+        "type" : "item_action",
         "id" : "picklock",
         "name" : "Pick a lock"
     },{

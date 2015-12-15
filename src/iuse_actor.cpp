@@ -1872,7 +1872,8 @@ void repair_item_actor::load( JsonObject &obj )
         materials.push_back( jarr.next_string() );
     }
 
-    used_skill = skill_id( obj.get_string( "skill", used_skill.str() ) );
+    // TODO: Make skill non-mandatory while still erroring on invalid skill
+    used_skill = skill_id( obj.get_string( "skill" ) );
     cost_scaling = obj.get_float( "cost_scaling" );
 
     // Optional
@@ -1949,8 +1950,8 @@ bool could_repair( const player &p, const item &it )
         return false;
     }
     int charges_used = dynamic_cast<const it_tool*>( it.type )->charges_to_use();
-    if( it.charges <= charges_used ) {
-        p.add_msg_if_player(m_info, _("Your tool does not have enough charges to do that."));
+    if( it.charges < charges_used ) {
+        p.add_msg_if_player( m_info, _("Your tool does not have enough charges to do that.") );
         return false;
     }
 
@@ -1983,7 +1984,7 @@ iuse_actor *repair_item_actor::clone() const
     return new repair_item_actor( *this );
 }
 
-repair_item_actor::attempt_hint repair_item_actor::repair( player &pl, item &tool, item &fix )
+repair_item_actor::attempt_hint repair_item_actor::repair( player &pl, item &tool, item &fix ) const
 {
     if( !could_repair( pl, tool ) ) {
         return AS_CANT;
@@ -2057,8 +2058,7 @@ repair_item_actor::attempt_hint repair_item_actor::repair( player &pl, item &too
             return AS_CANT;
         }
     }
-    
-    pl.moves -= 500 * pl.fine_detail_vision_mod();
+
     pl.practice( used_skill, 8 );
     ///\EFFECT_TAILOR randomly improves clothing repair efforts
     ///\EFFECT_MECHANICS randomly improves metal repair efforts
@@ -2094,7 +2094,7 @@ repair_item_actor::attempt_hint repair_item_actor::repair( player &pl, item &too
             return AS_FAILURE;
         }
 
-        if( rn <= 16 ) {
+        if( rn >= 10 ) {
             pl.add_msg_if_player(m_good, _("You repair your %s!"), fix.tname().c_str());
             if( consume_items ) {
                 pl.consume_items(comps);
@@ -2107,7 +2107,7 @@ repair_item_actor::attempt_hint repair_item_actor::repair( player &pl, item &too
         return AS_RETRY;
     }
 
-    if (fix.damage == 0 && fix.has_flag("PRIMITIVE_RANGED_WEAPON")) {
+    if( fix.damage == 0 && fix.has_flag("PRIMITIVE_RANGED_WEAPON") ) {
         pl.add_msg_if_player(m_info, _("You cannot improve your %s any more this way."), fix.tname().c_str());
         return AS_CANT;
     }
