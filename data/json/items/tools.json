@@ -11125,7 +11125,8 @@
     "revert_to": "null",
     "use_action": "CROWBAR",
     "qualities": [["HAMMER", 2], ["HAMMER_FINE", 1]]
-  },  {
+  },
+  {
     "id": "l-stick",
     "type": "TOOL",
     "symbol": "/",
@@ -11136,7 +11137,7 @@
     "price": 5000,
     "material": ["superalloy", "steel"],
     "techniques" : ["WBLOCK_1", "RAPID"],
-    "flags": ["DURABLE_MELEE"],	
+    "flags": ["DURABLE_MELEE"],
     "weight": 1000,
     "volume": 12,
     "bashing": 18,
@@ -11158,7 +11159,6 @@
         "need_charges_msg": "The L-stick(tm)'s batteries are empty."
     }
   },
-
   {
     "id": "l-stick_on",
     "type": "TOOL",
@@ -11169,7 +11169,7 @@
     "description": "Produced by the Light corporation, this stylish staff not only functions as a light source, but doubles as a light-weight weapon, due to the superalloy materials it is made of.  Due to proprietary efficiency improvements over standard light sources, the l-stick or light stick as it is commonly called, batteries last longer than other light sources.  The staff is glowing brightly, which is slowly draining the batteries",
     "price": 8000,
     "material": ["superalloy", "steel"],
-	"techniques" : ["WBLOCK_1", "RAPID"],
+    "techniques" : ["WBLOCK_1", "RAPID"],
     "flags": [ "LIGHT_300", "DURABLE_MELEE"],
     "weight": 1000,
     "volume": 12,

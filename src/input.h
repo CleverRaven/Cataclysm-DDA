@@ -384,7 +384,7 @@ class input_context
          * @param dx Output parameter for x delta.
          * @param dy Output parameter for y delta.
          */
-        static bool get_direction(int &dx, int &dy, const std::string &action);
+        bool get_direction(int &dx, int &dy, const std::string &action);
 
         /**
          * Get the coordinates associated with the last mouse click.
@@ -438,6 +438,8 @@ class input_context
          * trigger the given action.
          */
         std::vector<char> keys_bound_to(const std::string &action_id) const;
+
+        void set_iso(bool mode = true);
     private:
 
         std::vector<std::string> registered_actions;
@@ -450,6 +452,7 @@ class input_context
         bool coordinate_input_received;
         bool handling_coordinate_input;
         input_event next_action;
+        bool iso_mode = false; // should this context follow the game's isometric settings?
 
         /**
          * When registering for actions within an input_context, callers can
@@ -483,5 +486,8 @@ class input_context
  * Always false in non-SDL versions.
  */
 bool gamepad_available();
+
+// rotate a delta direction clockwise
+void rotate_direction_cw(int &dx, int &dy);
 
 #endif

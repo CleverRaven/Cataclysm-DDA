@@ -1883,6 +1883,7 @@ input_context get_default_mode_input_context()
 {
     input_context ctxt("DEFAULTMODE");
     // Because those keys move the character, they don't pan, as their original name says
+    ctxt.set_iso(true);
     ctxt.register_action("UP", _("Move North"));
     ctxt.register_action("RIGHTUP", _("Move Northeast"));
     ctxt.register_action("RIGHT", _("Move East"));
@@ -2167,6 +2168,10 @@ void game::rcdrive(int dx, int dy)
         return;
     }
     item *rc_car = rc_pair->second;
+
+    if(tile_iso) {
+        rotate_direction_cw(dx,dy);
+    }
 
     tripoint src( cx, cy, cz );
     tripoint dest( cx + dx, cy + dy, cz );
@@ -5039,7 +5044,7 @@ void game::draw_sidebar()
         sPhase.insert(5 - ((iPhase < 4) ? iPhase+1 : 5), "<color_" + string_from_color(i_black) + ">");
     }
 
-    trim_and_print( w_location, 1, 0, 10, c_white, "Moon %s", sPhase.c_str() );
+    trim_and_print( w_location, 1, 0, 10, c_white, _("Moon %s"), sPhase.c_str() );
 
     const auto ll = get_light_level(g->u.fine_detail_vision_mod());
     mvwprintz(w_location, 1, 15, c_ltgray, "%s ", _("Lighting:"));
@@ -5172,7 +5177,7 @@ void game::draw_ter( const tripoint &center, const bool looking, const bool draw
         draw_veh_dir_indicator();
     }
     if(uquit == QUIT_WATCH) {
-        // This should remove the flickering the bar recieves
+        // This should remove the flickering the bar receives
         input_context ctxt("DEFAULTMODE");
         std::string message = string_format( _("Press %s to accept your fate..."),
                 ctxt.get_desc("QUIT").c_str() );
@@ -8915,6 +8920,7 @@ tripoint game::look_around( WINDOW *w_info, const tripoint &start_point,
 
     std::string action;
     input_context ctxt("LOOK");
+    ctxt.set_iso(true);
     ctxt.register_directions();
     ctxt.register_action("COORDINATE");
     ctxt.register_action("SELECT");
@@ -11795,6 +11801,9 @@ bool game::plmove(int dx, int dy, int dz)
         dest_loc.y = rng(u.posy() - 1, u.posy() + 1);
         dest_loc.z = u.posz();
     } else {
+        if(tile_iso) {
+            rotate_direction_cw(dx,dy);
+        }
         dest_loc.x = u.posx() + dx;
         dest_loc.y = u.posy() + dy;
         dest_loc.z = u.posz() + dz;

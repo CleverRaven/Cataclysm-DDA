@@ -1633,6 +1633,7 @@ std::string vstring_format(char const *const format, va_list args)
 //
 std::string rewrite_vsnprintf(const char* msg)
 {
+    bool contains_positional = false;
     const char* orig_msg = msg;
     const char* formats = "diouxXeEfFgGaAcsCSpnm";
 
@@ -1674,6 +1675,11 @@ std::string rewrite_vsnprintf(const char* msg)
             ptr++;
         }
 
+        // If '$' ever follows a numeral, the string has a positional arg
+        if (*ptr == '$') {
+            contains_positional = true;
+        }
+
         // Check if it's expected argument
         if (*ptr == '$' && positional_arg == next_positional_arg) {
             next_positional_arg++;
@@ -1703,6 +1709,10 @@ std::string rewrite_vsnprintf(const char* msg)
         }
 
         msg = end + 1;
+    }
+
+    if (!contains_positional) {
+        return orig_msg;
     }
 
     if (next_positional_arg > 0){

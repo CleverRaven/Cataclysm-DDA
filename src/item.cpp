@@ -427,7 +427,6 @@ void item::put_in(item payload)
 {
     contents.push_back(payload);
 }
-const char ivaresc=001;
 
 void item::set_var( const std::string &name, const int value )
 {
@@ -437,30 +436,12 @@ void item::set_var( const std::string &name, const int value )
     item_vars[name] = tmpstream.str();
 }
 
-int item::get_var( const std::string &name, const int default_value ) const
-{
-    const auto it = item_vars.find( name );
-    if( it == item_vars.end() ) {
-        return default_value;
-    }
-    return atoi( it->second.c_str() );
-}
-
 void item::set_var( const std::string &name, const long value )
 {
     std::ostringstream tmpstream;
     tmpstream.imbue( std::locale::classic() );
     tmpstream << value;
     item_vars[name] = tmpstream.str();
-}
-
-long item::get_var( const std::string &name, const long default_value ) const
-{
-    const auto it = item_vars.find( name );
-    if( it == item_vars.end() ) {
-        return default_value;
-    }
-    return atol( it->second.c_str() );
 }
 
 void item::set_var( const std::string &name, const double value )
@@ -510,6 +491,8 @@ void item::clear_vars()
 {
     item_vars.clear();
 }
+
+const char ivaresc = 001;
 
 bool itag2ivar( std::string &item_tag, std::map<std::string, std::string> &item_vars )
 {
@@ -1930,29 +1913,32 @@ void item::on_wield( player &p, int mv )
         g->add_artifact_messages( type->artifact->effects_wielded );
     }
 
-    if (has_flag("SLOW_WIELD") && (! is_gunmod())) {
-        int d = 32; // arbitrary linear scaling factor
-        if      (is_gun())  d /= std::max((int) p.skillLevel(gun_skill()),  1);
-        else if (is_weap()) d /= std::max((int) p.skillLevel(weap_skill()), 1);
+    if( has_flag("SLOW_WIELD") && !is_gunmod() ) {
+        float d = 32.0; // arbitrary linear scaling factor
+        if( is_gun() ) {
+            d /= std::max( (float)p.skillLevel( gun_skill() ),  1.0f );
+        } else if( is_weap() ) {
+            d /= std::max( (float)p.skillLevel( weap_skill() ), 1.0f );
+        }
 
-        int penalty = get_var("volume", (int) type->volume) * d;
+        int penalty = get_var( "volume", type->volume ) * d;
         p.moves -= penalty;
         mv += penalty;
     }
 
     std::string msg;
 
-    if (mv > 250) {
-        msg = _("It takes you much longer than usual to wield your %s.");
-    } else if (mv > 100) {
-        msg = _("It takes you longer than usual to wield your %s.");
-    } else if (mv > 50) {
-        msg = _("It takes you slightly longer than usual to wield your %s.");
+    if( mv > 250 ) {
+        msg = _( "It takes you a very long time to wield your %s." );
+    } else if( mv > 100 ) {
+        msg = _( "It takes you a long time to wield your %s." );
+    } else if( mv > 50 ) {
+        msg = _( "It takes you several seconds to wield your %s." );
     } else {
-        msg = _("You wield your %s.");
+        msg = _( "You wield your %s." );
     }
 
-    p.add_msg_if_player(msg.c_str(), tname().c_str());
+    p.add_msg_if_player( msg.c_str(), tname().c_str() );
 }
 
 void item::on_pickup( Character &p  )
