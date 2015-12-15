@@ -4427,43 +4427,42 @@ void game::disp_kills()
     int totalkills = 0;
     const int colum_width = (getmaxx(w) - 2) / 3; // minus border
 
-    std::unordered_map<std::tuple<std::string,std::string,std::string,std::string>,int> kill_counts;
+    std::map<std::tuple<std::string,std::string,std::string>,int> kill_counts;
 
-    // map <sym, name, plural name, color> to kill count
+    // map <name, sym, color> to kill count
     for( auto &elem : kills ) {
         const mtype &m = elem.first.obj();
-        kill_counts[std::tuple<std::string,std::string,std::string,std::string>(
-            m.sym,
+        kill_counts[std::tuple<std::string,std::string,std::string>(
             m.nname(),
-            m.nname( elem.second ),
-            string_from_color(m.color)
+            m.sym,
+            string_from_color( m.color )
         )] += elem.second;
         totalkills += elem.second;
     }
 
-    for (const auto entry : kill_counts) {
+    for( const auto &entry : kill_counts ) {
         std::ostringstream buffer;
-        buffer << "<color_" << std::get<3>(entry.first) << ">";
-        buffer << std::get<0>(entry.first) << " " << std::get<2>(entry.first);
+        buffer << "<color_" << std::get<2>( entry.first ) << ">";
+        buffer << std::get<1>( entry.first ) << " " << std::get<0>( entry.first );
         buffer << "</color>";
-        const int w = colum_width - utf8_width(std::get<2>(entry.first));
-        buffer.width(w - 3); // gap between cols, monster sym, space
+        const int w = colum_width - utf8_width( std::get<0>( entry.first ) );
+        buffer.width( w - 3 ); // gap between cols, monster sym, space
         buffer.fill(' ');
         buffer << entry.second;
-        buffer.width(0);
-        data.push_back(buffer.str());
+        buffer.width( 0 );
+        data.push_back( buffer.str() );
     }
     std::ostringstream buffer;
-    if (data.empty()) {
-        buffer << _("You haven't killed any monsters yet!");
+    if( data.empty() ) {
+        buffer << _( "You haven't killed any monsters yet!" );
     } else {
-        buffer << string_format(_("KILL COUNT: %d"), totalkills);
+        buffer << string_format( _( "KILL COUNT: %d" ), totalkills );
     }
-    display_table(w, buffer.str(), 3, data);
+    display_table( w, buffer.str(), 3, data );
 
-    werase(w);
-    wrefresh(w);
-    delwin(w);
+    werase( w );
+    wrefresh( w );
+    delwin( w );
     refresh_all();
 }
 
