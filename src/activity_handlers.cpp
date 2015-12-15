@@ -1328,7 +1328,8 @@ void activity_handlers::repair_item_finish( player_activity *act, player *p )
     }
 
     if( attempt == repair_item_actor::AS_CANT ||
-        attempt == repair_item_actor::AS_FAILURE ) {
+        attempt == repair_item_actor::AS_FAILURE ||
+        attempt == repair_item_actor::AS_SUCCESS ) {
         // Maybe-TODO: Break out of the activity on level gain?
         act->type = ACT_NULL;
         return;
