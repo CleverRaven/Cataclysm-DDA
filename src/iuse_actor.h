@@ -658,7 +658,7 @@ class repair_item_actor : public iuse_actor
         };
 
         /** Attempts to repair target item with selected tool */
-        attempt_hint repair( player &pl, item &tool, item &target );
+        attempt_hint repair( player &pl, item &tool, item &target ) const;
 
         repair_item_actor() : iuse_actor() { }
         virtual ~repair_item_actor() { }

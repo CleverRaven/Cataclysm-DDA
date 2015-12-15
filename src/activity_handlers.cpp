@@ -1288,9 +1288,39 @@ void activity_handlers::open_gate_finish( player_activity *act, player *p )
     }
 }
 
-void repair_item_finish( player_act *act, player *p )
+void activity_handlers::repair_item_finish( player_activity *act, player *p )
 {
-    
+    const static std::string iuse_name_string = "repair_item";
+
+    const int index = act->index;
+    const int pos = act->position;
+    // Allow the items to be "weird" (for example, null) for now
+    item &main_tool = p->i_at( index );
+    item &fix = p->i_at( pos );
+
+    item *used_tool = main_tool.get_usable_item( iuse_name_string );
+    if( used_tool == nullptr ) {
+        debugmsg( "Lost tool used for long salvage" );
+        act->type = ACT_NULL;
+        return;
+    }
+
+    const auto use_fun = used_tool->get_use( iuse_name_string );
+    // TODO: De-uglify this block. Something like get_use<iuse_actor_type>() maybe?
+    const auto *actor = dynamic_cast<const repair_item_actor *>( use_fun->get_actor_ptr() );
+    if( actor == nullptr ) {
+        debugmsg( "iuse_actor type descriptor and actual type mismatch" );
+        act->type = ACT_NULL;
+        return;
+    }
+
+    const auto attempt = actor->repair( *p, *used_tool, fix );
+    if( attempt != repair_item_actor::AS_RETRY &&
+        attempt != repair_item_actor::AS_SUCCESS ) {
+        act->type = ACT_NULL;
+        // Otherwise we want to keep trying
+    }
+    // Maybe-TODO: Break out of the activity on level gain?
 }
 
 
