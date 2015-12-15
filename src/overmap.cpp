@@ -3234,6 +3234,21 @@ void overmap::place_rifts(int const z)
     }
 }
 
+struct node
+{
+    int x;
+    int y;
+    int d;
+    int p;
+
+    node( int xp, int yp, int dir, int pri ) {
+        x = xp; y = yp; d = dir; p = pri;
+    }
+    bool operator< ( const node &n ) const {
+        return this->p > n.p;
+    }
+};
+
 void overmap::make_hiway(int x1, int y1, int x2, int y2, int z, const std::string &base)
 {
     if (x1 == x2 && y1 == y2) {
