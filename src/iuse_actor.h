@@ -630,4 +630,41 @@ class holster_actor : public iuse_actor
         virtual iuse_actor *clone() const override;
 };
 
+/**
+ * Repair an item
+ */
+class repair_item_actor : public iuse_actor
+{
+    public:
+        /** Materials we are allowed to repair */
+        std::vector<std::string> materials;
+        /** Skill used */
+        skill_id used_skill;
+        /**
+          * Volume of materials required (and used up) as percentage of repaired item's volume.
+          * Set to 0 to always use just 1 component.
+          */
+        float cost_scaling;
+        /** Message on attempt that doesn't succeed, but doesn't fail hard enough to damage the item */
+        std::string practice_msg;
+        /** Extra value added to skill roll */
+        int tool_quality;
+
+        enum attempt_hint : int {
+            AS_SUCCESS = 0,     // Success, but can retry
+            AS_RETRY,           // Failed, but can retry
+            AS_FAILURE,         // Failed hard, don't retry
+            AS_CANT             // Couldn't attempt
+        };
+
+        /** Attempts to repair target item with selected tool */
+        attempt_hint repair( player &pl, item &tool, item &target );
+
+        repair_item_actor() : iuse_actor() { }
+        virtual ~repair_item_actor() { }
+        virtual void load( JsonObject &jo );
+        virtual long use( player *, item *, bool, const tripoint & ) const override;
+        virtual iuse_actor *clone() const override;
+};
+
 #endif

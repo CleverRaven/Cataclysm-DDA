@@ -12447,7 +12447,7 @@ std::string player::is_snuggling() const
 
 // Returned values range from 1.0 (unimpeded vision) to 5.0 (totally blind).
 // LIGHT_AMBIENT DIM is enough light for detail work, but held items get a boost.
-float player::fine_detail_vision_mod()
+float player::fine_detail_vision_mod() const
 {
     // PER_SLIME_OK implies you can get enough eyes around the bile
     // that you can generaly see.  There'll still be the haze, but

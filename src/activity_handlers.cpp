@@ -1288,4 +1288,9 @@ void activity_handlers::open_gate_finish( player_activity *act, player *p )
     }
 }
 
+void repair_item_finish( player_act *act, player *p )
+{
+    
+}
+
 

@@ -1384,7 +1384,14 @@
     "ammo": "battery",
     "revert_to": "null",
     "use_action": [
-        "SOLDER_WELD",
+        {
+            "type": "repair_item",
+            "materials": [
+                "kevlar", "plastic", "iron", "steel", "hardsteel", "aluminum", "copper"
+            ],
+            "cost_scaling": 0.25,
+            "practice_msg": "You practice your soldering"
+        }
         {
             "type": "cauterize",
             "flame": false
