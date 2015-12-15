@@ -5044,7 +5044,7 @@ void game::draw_sidebar()
         sPhase.insert(5 - ((iPhase < 4) ? iPhase+1 : 5), "<color_" + string_from_color(i_black) + ">");
     }
 
-    trim_and_print( w_location, 1, 0, 10, c_white, "Moon %s", sPhase.c_str() );
+    trim_and_print( w_location, 1, 0, 10, c_white, _("Moon %s"), sPhase.c_str() );
 
     const auto ll = get_light_level(g->u.fine_detail_vision_mod());
     mvwprintz(w_location, 1, 15, c_ltgray, "%s ", _("Lighting:"));
@@ -5177,7 +5177,7 @@ void game::draw_ter( const tripoint &center, const bool looking, const bool draw
         draw_veh_dir_indicator();
     }
     if(uquit == QUIT_WATCH) {
-        // This should remove the flickering the bar recieves
+        // This should remove the flickering the bar receives
         input_context ctxt("DEFAULTMODE");
         std::string message = string_format( _("Press %s to accept your fate..."),
                 ctxt.get_desc("QUIT").c_str() );
