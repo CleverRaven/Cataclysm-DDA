@@ -2674,7 +2674,7 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
     // Next, draw encumberment.
     const char *title_ENCUMB = _("ENCUMBRANCE AND WARMTH");
     mvwprintz(w_encumb, 0, 13 - utf8_width(title_ENCUMB) / 2, c_ltgray, title_ENCUMB);
-    print_encumbrance(w_encumb, 0, 8);
+    print_encumbrance(w_encumb);
     wrefresh(w_encumb);
 
     // Next, draw traits.
@@ -2898,10 +2898,10 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
     refresh();
 
     int curtab = 1;
-    unsigned min, max;
+    size_t min, max;
     line = 0;
     bool done = false;
-    unsigned half_y = 0;
+    size_t half_y = 0;
 
     // Initial printing is DONE.  Now we give the player a chance to scroll around
     // and "hover" over different items for more info.
@@ -3009,23 +3009,8 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
         case 2: // Encumberment tab
         {
             werase(w_encumb);
-            mvwprintz(w_encumb, 0, 0, h_ltgray, header_spaces.c_str());
             mvwprintz(w_encumb, 0, 13 - utf8_width(title_ENCUMB)/2, h_ltgray, title_ENCUMB);
-            int encumb_win_size_y = 8;
-            half_y = encumb_win_size_y / 2;
-            if (line <= half_y) {
-                min = 0;
-                max = encumb_win_size_y;
-            } else if (line >= 12 - half_y) {
-                min = (12 - encumb_win_size_y);
-                max = 12;
-            } else {
-                min = line - half_y;
-                max = line - half_y + encumb_win_size_y;
-            }
-
-            print_encumbrance(w_encumb, min, max, line);
-            draw_scrollbar(w_encumb, line, encumb_win_size_y, 12, 1);
+            print_encumbrance(w_encumb, line);
             wrefresh(w_encumb);
 
             werase(w_info);
@@ -3073,15 +3058,32 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
             fold_and_print( w_info, 0, 1, FULL_SCREEN_WIDTH - 2, c_magenta, s );
             wrefresh(w_info);
 
+            // which of the four paired body parts should get combined?
+            // TODO deduplicate this with print_encumbrance()
+            bool combined_limbs[4] = {}; // all false
+            for (size_t i = 0+4; i<12-1; i+=2) {
+                if (get_encumbrance(i) == get_encumbrance(i+1)) {
+                    combined_limbs[i/2-2] = true;
+                }
+            }
 
             action = ctxt.handle_input();
             if (action == "DOWN") {
                 if (line < 11) {
                     line++;
+                    if(line>4 && combined_limbs[line/2-2]) {
+                        line++;
+                        if(line==12) {
+                            line=10;
+                        }
+                    }
                 }
             } else if (action == "UP") {
                 if (line > 0) {
                     line--;
+                    if(line>4 && combined_limbs[line/2-2]) {
+                        line--;
+                    }
                 }
             } else if (action == "NEXT_TAB") {
                 mvwprintz(w_encumb, 0, 0, c_ltgray, header_spaces.c_str());
@@ -14442,40 +14444,77 @@ std::vector<mission*> player::get_failed_missions() const
     return failed_missions;
 }
 
-void player::print_encumbrance(WINDOW *win, int min, int max, int line) const
+encumbrance_data player::get_encumbrance(size_t i) const
 {
+    encumbrance_data e;
+    e.iBodyTempInt = (temp_conv[i] / 100.0) * 2 - 100; // Scale of -100 to +100
+    e.iEnc = encumb(bp_aBodyPart[i], e.iLayers, e.iArmorEnc);
+    return e;
+}
+
+void player::print_encumbrance(WINDOW *win, int line) const
+{
+    // which of the four paired body parts should get combined?
+    bool combined_limbs[4] = {}; // all false
+    for (size_t i = 0+4; i<12-1; i+=2) {
+        if (get_encumbrance(i) == get_encumbrance(i+1)) {
+            combined_limbs[i/2-2] = true;
+        }
+    }
+
+    // calculate the top and bottom body parts that fit in the window
+    int min, max;
+    int encumb_win_size_y = 8;
+    int half_y = encumb_win_size_y / 2;    
+    if (line <= half_y) {
+        min = 0;
+    } else if (line >= 12 - half_y) {
+        min = (12 - encumb_win_size_y);
+    } else {
+        min = line - half_y;
+    }
+    max = min + encumb_win_size_y;
+    for(int i=0; i<4; i++) {
+        if (max >= i*2+6 && combined_limbs[i]) {
+            max = max + (min==0);
+            min-=min>0;
+        }
+    }
+
+    draw_scrollbar(win, (line>=0)?line:0, encumb_win_size_y, 12-combined_limbs[3], 1);
+
     // initialize these once, and only once
-    static std::string asText[] = {_("Torso"), _("Head"), _("Eyes"), _("Mouth"), _("L. Arm"), _("R. Arm"),
-                             _("L. Hand"), _("R. Hand"), _("L. Leg"), _("R. Leg"), _("L. Foot"),
-                             _("R. Foot")};
-    static body_part aBodyPart[] = {bp_torso, bp_head, bp_eyes, bp_mouth, bp_arm_l, bp_arm_r, bp_hand_l,
-                             bp_hand_r, bp_leg_l, bp_leg_r, bp_foot_l, bp_foot_r};
-    int iEnc, iArmorEnc, iBodyTempInt;
-    double iLayers;
     std::string out;
     /*** I chose to instead only display X+Y instead of X+Y=Z. More room was needed ***
      *** for displaying triple digit encumbrance, due to new encumbrance system.    ***
      *** If the player wants to see the total without having to do them maths, the  ***
      *** armor layers ui shows everything they want :-) -Davek                      ***/
-    for (int i = min; i < max; ++i) {
+    int bp, row;
+    max = max>12?12:max;
+    for (bp = row = min; bp < max; ++bp, ++row) {
+        encumbrance_data e = get_encumbrance(bp);
+        bool combine = false;
+        if(combined_limbs[bp/2-2]) {
+            combine = true;
+        }
         out.clear();
-        iLayers = iArmorEnc = 0;
-        iBodyTempInt = (temp_conv[i] / 100.0) * 2 - 100; // Scale of -100 to +100
-        iEnc = encumb(aBodyPart[i], iLayers, iArmorEnc);
         // limb, and possible color highlighting
-        out = string_format("%-7s", asText[i].c_str());
-        mvwprintz(win, i + 1 - min, 1, (line == i) ? h_ltgray : c_ltgray, out.c_str());
+        out = string_format("%-7s", (combine?bpc_asText[bp/2-2]:bp_asText[bp]).c_str());
+        mvwprintz(win, row + 1 - min, 1, (line == bp) ? h_ltgray : c_ltgray, out.c_str());
         // take into account the new encumbrance system for layers
-        out = string_format("(%1d) ", static_cast<int>(iLayers / 10.0));
+        out = string_format("(%1d) ", static_cast<int>(e.iLayers / 10.0));
         wprintz(win, c_ltgray, out.c_str());
         // accumulated encumbrance from clothing, plus extra encumbrance from layering
-        wprintz(win, encumb_color(iEnc), string_format("%3d", iArmorEnc).c_str());
+        wprintz(win, encumb_color(e.iEnc), string_format("%3d", e.iArmorEnc).c_str());
         // seperator in low toned color
         wprintz(win, c_ltgray, "+");
-        wprintz(win, encumb_color(iEnc), string_format("%-3d", iEnc - iArmorEnc).c_str());
+        wprintz(win, encumb_color(e.iEnc), string_format("%-3d", e.iEnc - e.iArmorEnc).c_str());
         // print warmth, tethered to right hand side of the window
-        out = string_format("(% 3d)", iBodyTempInt);
-        mvwprintz(win, i + 1 - min, getmaxx(win) - 6, bodytemp_color(i), out.c_str());
+        out = string_format("(% 3d)", e.iBodyTempInt);
+        mvwprintz(win, row + 1 - min, getmaxx(win) - 6, bodytemp_color(bp), out.c_str());
+        if(combine) {
+            bp++; // skip next body part
+        }
     }
 }
 
