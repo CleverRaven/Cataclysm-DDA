@@ -24,13 +24,32 @@ const mtype_id string_id<mtype>::NULL_ID( "mon_null" );
 template<>
 const mtype& string_id<mtype>::obj() const
 {
-    return MonsterGenerator::generator().get_mtype( *this );
+    auto &mon_templates = MonsterGenerator::generator().mon_templates;
+
+    // first do the look-up as it is most likely to succeed
+    const auto iter = mon_templates.find( *this );
+    if( iter != mon_templates.end() ) {
+        return *iter->second;
+    }
+
+    // second most likely are outdated ids from old saves, this compares against strings, not
+    // mtype_ids because the old ids are not valid ids at all.
+    if( str() == "mon_zombie_fast" ) {
+        return mon_zombie_dog.obj();
+    }
+    if( str() == "mon_fungaloid_dormant" ) {
+        return mon_fungaloid.obj();
+    }
+
+    // this is most unlikely and therefor checked last.
+    debugmsg( "Could not find monster with type %s", c_str() );
+    return *mon_templates[mtype_id::NULL_ID];
 }
 
 template<>
 bool string_id<mtype>::is_valid() const
 {
-    return MonsterGenerator::generator().has_mtype( *this );
+    return MonsterGenerator::generator().mon_templates.count( *this ) > 0;
 }
 
 template<>
@@ -39,13 +58,21 @@ const species_id string_id<species_type>::NULL_ID( "spec_null" );
 template<>
 const species_type& string_id<species_type>::obj() const
 {
-    return MonsterGenerator::generator().get_species( *this );
+    auto &mon_species = MonsterGenerator::generator().mon_species;
+
+    const auto iter = mon_species.find( *this );
+    if( iter != mon_species.end() ) {
+        return *iter->second;
+    }
+
+    debugmsg( "Could not find species %s", c_str() );
+    return *mon_species[species_id::NULL_ID];
 }
 
 template<>
 bool string_id<species_type>::is_valid() const
 {
-    return MonsterGenerator::generator().has_species( *this );
+    return MonsterGenerator::generator().mon_species.count( *this ) > 0;
 }
 
 MonsterGenerator::MonsterGenerator()
@@ -527,48 +554,6 @@ void MonsterGenerator::load_species(JsonObject &jo)
     mon_species[sid] = new_species;
 }
 
-species_type &MonsterGenerator::get_species( const species_id &id )
-{
-    const auto iter = mon_species.find( id );
-    if( iter != mon_species.end() ) {
-        return *iter->second;
-    }
-    debugmsg( "Could not find species %s", id.c_str() );
-    return *mon_species[species_id::NULL_ID];
-}
-
-mtype &MonsterGenerator::get_mtype( const mtype_id& id )
-{
-    // first do the look-up as it is most likely to succeed
-    const auto iter = mon_templates.find( id );
-    if( iter != mon_templates.end() ) {
-        return *iter->second;
-    }
-
-    // second most likely are outdated ids from old saves, this compares against strings, not
-    // mtype_ids because the old ids are not valid ids at all.
-    if( id.str() == "mon_zombie_fast" ) {
-        return get_mtype( mon_zombie_dog );
-    }
-    if( id.str() == "mon_fungaloid_dormant" ) {
-        return get_mtype( mon_fungaloid );
-    }
-
-    // this is most unlikely and therefor checked last.
-    debugmsg( "Could not find monster with type %s", id.c_str() );
-    return *mon_templates[mtype_id::NULL_ID];
-}
-
-bool MonsterGenerator::has_mtype( const mtype_id& mon ) const
-{
-    return mon_templates.count(mon) > 0;
-}
-
-bool MonsterGenerator::has_species( const species_id &species ) const
-{
-    return mon_species.count(species) > 0;
-}
-
 std::vector<const mtype *> MonsterGenerator::get_all_mtypes() const
 {
     std::vector<const mtype *> result;
@@ -717,7 +702,7 @@ void MonsterGenerator::check_monster_definitions() const
             if( mon->upgrade_into && mon->upgrade_group ) {
                 debugmsg( "both into and into_group defined for monster %s", mon->id.c_str() );
             }
-            if( !has_mtype( mon->upgrade_into ) ) {
+            if( !mon->upgrade_into.is_valid() ) {
                 debugmsg( "upgrade_into %s of monster %s is not a valid monster id",
                            mon->upgrade_into.c_str(), mon->id.c_str() );
             }

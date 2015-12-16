@@ -67,14 +67,10 @@ class MonsterGenerator
 
         // combines mtype and species information, sets bitflags
         void finalize_mtypes();
-        
+
 
         void check_monster_definitions() const;
 
-        mtype &get_mtype( const mtype_id& id );
-        species_type &get_species( const species_id& id );
-        bool has_mtype( const mtype_id &id ) const;
-        bool has_species( const species_id &species ) const;
         std::vector<const mtype *> get_all_mtypes() const;
         mtype_id get_valid_hallucination() const;
         friend struct mtype;
@@ -109,6 +105,9 @@ class MonsterGenerator
         void set_species_ids( mtype &mon );
 
         template <typename T> void apply_set_to_set(std::set<T> from, std::set<T> &to);
+
+        friend class string_id<mtype>;
+        friend class string_id<species_type>;
 
         std::map<mtype_id, mtype *> mon_templates;
         std::map<species_id, species_type *> mon_species;
