@@ -64,7 +64,7 @@
 			"path": "."
 		},
 		{
-			"path": "/home/sparr/.cataclysm-dda"
+			"path": "~/.cataclysm-dda"
 		}
 	],
 	"settings":
