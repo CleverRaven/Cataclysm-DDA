@@ -41,17 +41,23 @@ int dice(int number, int sides)
     return ret;
 }
 
-int divide_roll_remainder( double dividend, double divisor )
+// probabilistically round a double to an int
+// 1.3 has a 70% chance of rounding to 1, 30% chance to 2.
+int roll_remainder( double value )
 {
-    const double div = dividend / divisor;
-    const int trunc = int(div);
-    if( div > trunc && x_in_y( div - trunc, 1.0 ) ) {
+    const int trunc = int(value);
+    if( value > trunc && x_in_y( value - trunc, 1.0 ) ) {
         return trunc + 1;
     }
 
     return trunc;
 }
 
+int divide_roll_remainder( double dividend, double divisor )
+{
+    const double div = dividend / divisor;
+    return roll_remainder(div);
+}
 
 // http://www.cse.yorku.ca/~oz/hash.html
 // for world seeding.
