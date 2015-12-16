@@ -1876,7 +1876,7 @@ void repair_item_actor::load( JsonObject &obj )
     const std::string skill_string = obj.get_string( "skill" );
     used_skill = skill_id( skill_string );
     if( !used_skill.is_valid() ) {
-        throw JsonError( std::string( "Invalid skill for repair_item_actor: " ) + skill_string );
+        obj.throw_error( "Invalid skill", "skill" );
     }
 
     cost_scaling = obj.get_float( "cost_scaling" );
@@ -1913,35 +1913,6 @@ const itype_id &material_component( const std::string &material_id )
     static const itype_id null_material = "";
     const auto iter = material_id_map.find( material_id );
     if( iter != material_id_map.end() ) {
-        return iter->second;
-    }
-
-    return null_material;
-}
-
-// TODO: Get from item type somehow?
-const std::string &plural_material_name( const std::string &material_id )
-{
-    static const std::map< std::string, std::string > material_name_map {
-        // Metals (welded)
-        { "kevlar", rm_prefix(_("<plural>Kevlar plates")) },
-        { "plastic", rm_prefix(_("<plural>plastic chunks")) },
-        { "iron", rm_prefix(_("<plural>scrap metal")) },
-        { "steel", rm_prefix(_("<plural>scrap metal")) },
-        { "hardsteel", rm_prefix(_("<plural>scrap metal")) },
-        { "aluminum", rm_prefix(_("<plural>aluminum ingots")) },
-        { "copper", rm_prefix(_("<plural>scrap copper")) },
-        // Fabrics (sewn)
-        { "cotton", rm_prefix(_("<plural>rags")) },
-        { "leather", rm_prefix(_("<plural>leather")) },
-        { "fur", rm_prefix(_("<plural>fur")) },
-        { "nomex", rm_prefix(_("<plural>Nomex")) },
-        { "wool", rm_prefix(_("<plural>wool")) },
-    };
-
-    static const itype_id null_material = "";
-    const auto iter = material_name_map.find( material_id );
-    if( iter != material_name_map.end() ) {
         return iter->second;
     }
 
@@ -2019,9 +1990,9 @@ bool repair_item_actor::handle_components( player &pl, const item &fix,
                                   fix.tname().c_str());
             for( const auto &mat_name : materials ) {
                 const auto mat = material_type::find_material( mat_name );
-                const auto mat_item = plural_material_name( mat_name );
+                const auto mat_comp = material_component( mat_name );
                 pl.add_msg_if_player( m_info, _("%s (repaired using %s)"),
-                                      mat->name().c_str(), mat_item.c_str() );
+                                      mat->name().c_str(), item::nname( mat_comp, 2 ).c_str() );
             }
         }
 
@@ -2053,10 +2024,11 @@ bool repair_item_actor::handle_components( player &pl, const item &fix,
     if( comps.empty() ) {
         if( print_msg ) {
             for( const auto &entry : valid_entries ) {
+                const auto &mat_comp = material_component( entry );
                 pl.add_msg_if_player( m_info,
                     _("You don't have enough %s to do that. Have: %d, need: %d"),
-                    plural_material_name( entry ).c_str(),
-                    crafting_inv.amount_of( material_component( entry ), false ), items_needed );
+                    item::nname( mat_comp, 2 ).c_str(),
+                    crafting_inv.amount_of( mat_comp, false ), items_needed );
             }
         }
 
