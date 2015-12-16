@@ -1152,17 +1152,14 @@ bool advanced_inventory::move_all_items(bool nested_call)
     if( spane.items.empty() ) {
         return false;
     }
-
+    bool restore_area = false;
     if( dpane.get_area() == AIM_ALL ) {
         auto loc = dpane.get_area();
         // ask where we want to store the item via the menu
         if(!query_destination(loc)) {
             return false;
         }
-        // set the pane to the destination square, so items dumped there are
-        // viewed afterwards, then continue on with moving items. this also
-        // sets it to look into vehicle cargo if there exists one (for convenience)
-        dpane.set_area(squares[loc], squares[loc].can_store_in_vehicle());
+        restore_area = true;
     }
     if( spane.get_area() == AIM_INVENTORY &&
         !query_yn( _( "Really move everything from your inventory?" ) ) ) {
@@ -1262,6 +1259,10 @@ bool advanced_inventory::move_all_items(bool nested_call)
             g->u.activity.values.push_back(index);
             g->u.activity.values.push_back(amount);
         }
+    }
+    // if dest was AIM_ALL then we used query_destination and should undo that
+    if (restore_area) {
+        dpane.restore_area();
     }
     return true;
 }
@@ -1437,6 +1438,7 @@ void advanced_inventory::display()
             }
             aim_location destarea = dpane.get_area();
             aim_location srcarea = sitem->area;
+            bool restore_area = (destarea == AIM_ALL);
             if( !query_destination( destarea ) ) {
                 continue;
             }
@@ -1550,6 +1552,10 @@ void advanced_inventory::display()
             // Just in case the items have moved from/to the inventory
             g->u.inv.sort();
             g->u.inv.restack( &g->u );
+            // if dest was AIM_ALL then we used query_destination and should undo that
+            if (restore_area) {
+                dpane.restore_area();
+            }
         } else if( action == "MOVE_ALL_ITEMS" ) {
             exit = move_all_items();
             recalc = true;
@@ -1813,6 +1819,8 @@ bool advanced_inventory::query_destination( aim_location &def )
     if( menu.ret >= AIM_SOUTHWEST && menu.ret <= AIM_NORTHEAST ) {
         assert( squares[menu.ret].canputitems() );
         def = static_cast<aim_location>( menu.ret );
+        // we have to set the destination pane so that move actions will target it
+        // we can use restore_area later to undo this
         panes[dest].set_area(squares[def], true);
         uistate.adv_inv_last_popup_dest = menu.ret;
         return true;
