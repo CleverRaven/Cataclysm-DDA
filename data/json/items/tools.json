@@ -326,7 +326,6 @@
         ],
         "skill": "tailor",
         "cost_scaling": 0,
-        "practice_msg": "You practice your sewing.",
         "tool_quality": 0,
         "move_cost": 1000
     }
@@ -362,7 +361,6 @@
             ],
             "skill": "tailor",
             "cost_scaling": 0,
-            "practice_msg": "You practice your sewing.",
             "tool_quality": 1,
             "move_cost": 800
         },
@@ -1416,7 +1414,6 @@
             ],
             "skill": "mechanics",
             "cost_scaling": 0.25,
-            "practice_msg": "You practice your soldering.",
             "move_cost": 1500
         },
         {
@@ -4552,7 +4549,6 @@
             ],
             "skill": "mechanics",
             "cost_scaling": 0.25,
-            "practice_msg": "You practice your welding.",
             "move_cost": 500,
             "tool_quality": 3
         },
@@ -6704,7 +6700,6 @@
         ],
         "skill": "tailor",
         "cost_scaling": 0,
-        "practice_msg": "You practice your sewing.",
         "tool_quality": -1,
         "move_cost": 1300
     }
@@ -6740,7 +6735,6 @@
         ],
         "skill": "tailor",
         "cost_scaling": 0,
-        "practice_msg": "You practice your sewing.",
         "tool_quality": -1,
         "move_cost": 1500
     }
@@ -7931,7 +7925,6 @@
             ],
             "skill": "mechanics",
             "cost_scaling": 0.25,
-            "practice_msg": "You practice your welding.",
             "move_cost": 1000,
             "tool_quality": 3
         },

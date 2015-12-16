@@ -1885,7 +1885,6 @@ void repair_item_actor::load( JsonObject &obj )
     type = obj.get_string( "item_action_type" );
 
     // Optional
-    practice_msg = obj.get_string( "practice_msg", "" );
     tool_quality = obj.get_int( "tool_quality", 0 );
     move_cost    = obj.get_int( "move_cost", 500 );
 }
@@ -2162,7 +2161,6 @@ repair_item_actor::attempt_hint repair_item_actor::repair( player &pl, item &too
             return AS_SUCCESS;
         }
 
-        pl.add_msg_if_player( m_neutral, _( practice_msg.c_str() ) );
         return AS_RETRY;
     }
 
@@ -2193,7 +2191,6 @@ repair_item_actor::attempt_hint repair_item_actor::repair( player &pl, item &too
             return AS_SUCCESS;
         }
 
-        pl.add_msg_if_player( m_neutral, _( practice_msg.c_str() ) );
         return AS_RETRY;
     }
 

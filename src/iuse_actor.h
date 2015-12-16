@@ -645,8 +645,6 @@ class repair_item_actor : public iuse_actor
           * Set to 0 to always use just 1 component.
           */
         float cost_scaling;
-        /** Message on attempt that doesn't succeed, but doesn't fail hard enough to damage the item */
-        std::string practice_msg;
         /** Extra value added to skill roll */
         int tool_quality;
         /** Move cost for every attempt */

@@ -1358,9 +1358,12 @@ void activity_handlers::repair_item_finish( player_activity *act, player *p )
         p->consume_charges( used_tool, charges_to_use );
     }
 
+    // Print message explaining why we stopped
+    // But only if we didn't destroy the item (because then it's obvious)
+    const bool destroyed = attempt == repair_item_actor::AS_DESTROYED;
     if( attempt == repair_item_actor::AS_CANT ||
-        attempt == repair_item_actor::AS_DESTROYED ||
-        !actor->can_repair( *p, *used_tool, fix, false ) ) {
+        destroyed ||
+        !actor->can_repair( *p, *used_tool, fix, !destroyed ) ) {
         // Can't repeat any more
         act->type = ACT_NULL;
         return;
