@@ -127,6 +127,28 @@ std::vector<std::string> clothing_flags_description(item const &worn_item)
 
 } //namespace
 
+struct layering_item_info {
+    int damage, encumber;
+    std::string name;
+    bool operator ==(const layering_item_info &o) const
+    {
+        return this->damage == o.damage &&
+            this->encumber == o.encumber &&
+            this->name == o.name;
+    }
+};
+
+std::vector<layering_item_info> items_cover_bp(int bp) {
+    std::vector<layering_item_info> s;
+    for( auto &elem : g->u.worn ) {
+        if( elem.covers( static_cast<body_part>( bp ) ) ) {
+            layering_item_info t = {elem.damage, elem.get_encumber(), elem.type_name(1)};
+            s.push_back(t);
+        }
+    }
+    return s;
+}
+
 void player::sort_armor()
 {
     /* Define required height of the right pane:
@@ -311,6 +333,7 @@ void player::sort_armor()
         }
 
         // Player encumbrance - altered copy of '@' screen
+        // TODO deduplicate code here and @ screen
         mvwprintz(w_sort_middle, cont_h - 13, 1, c_white, _("Encumbrance and Warmth"));
         for (int i = 0; i < num_bp; ++i) {
             int enc, armorenc, true_enc;
@@ -339,26 +362,34 @@ void player::sort_armor()
         // Right list
         rightListSize = 0;
         for (int cover = 0, pos = 1; cover < num_bp; cover++) {
+            bool combined = false;
+            if(cover>3 && cover%2==0 && items_cover_bp(cover) == items_cover_bp(cover+1)) {
+                combined = true;
+            }
             if (rightListSize >= rightListOffset && pos <= cont_h - 2) {
-                if (cover == tabindex) {
-                    mvwprintz(w_sort_right, pos, 1, c_yellow, "%s:", armor_cat[cover].c_str());
-                } else {
-                    mvwprintz(w_sort_right, pos, 1, c_white, "%s:", armor_cat[cover].c_str());
-                }
+                mvwprintz(
+                    w_sort_right,
+                    pos,
+                    1,
+                    (cover == tabindex ? c_yellow : c_white),
+                    "%s:",
+                    (combined ? bpc_asText[cover/2-2] : bp_asText[cover]).c_str()
+                );
                 pos++;
             }
             rightListSize++;
-            for( auto &elem : worn ) {
-                if( elem.covers( static_cast<body_part>( cover ) ) ) {
-                    if (rightListSize >= rightListOffset && pos <= cont_h - 2) {
-                        mvwprintz( w_sort_right, pos, 2, dam_color[int( elem.damage + 1 )],
-                                   elem.type_name( 1 ).c_str() );
-                        mvwprintz( w_sort_right, pos, right_w - 2, c_ltgray, "%d",
-                                   elem.get_encumber() );
-                        pos++;
-                    }
-                    rightListSize++;
+            for( auto &elem : items_cover_bp(cover)) {
+                if (rightListSize >= rightListOffset && pos <= cont_h - 2) {
+                    mvwprintz( w_sort_right, pos, 2, dam_color[elem.damage + 1],
+                               elem.name.c_str() );
+                    mvwprintz( w_sort_right, pos, right_w - 2, c_ltgray, "%d",
+                               elem.encumber );
+                    pos++;
                 }
+                rightListSize++;
+            }
+            if(combined) {
+                cover++;
             }
         }
 
