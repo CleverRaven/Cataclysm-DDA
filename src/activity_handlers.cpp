@@ -1292,6 +1292,7 @@ void activity_handlers::open_gate_finish( player_activity *act, player *p )
 enum repeat_type : int {
     REPEAT_ONCE = 0,    // Repeat just once
     REPEAT_FOREVER,     // Repeat for as long as possible
+    REPEAT_FULL,        // Repeat until damage==0
     REPEAT_EVENT,       // Repeat until something interesting happens
     REPEAT_CANCEL       // Stop repeating
 };
@@ -1302,7 +1303,8 @@ repeat_type repeat_menu( repeat_type last_selection )
     rmenu.text = _("Repeat repairing?");
     rmenu.addentry( REPEAT_ONCE, true, '1', _("Repeat once") );
     rmenu.addentry( REPEAT_FOREVER, true, '2', _("Repeat as long as you can") );
-    rmenu.addentry( REPEAT_EVENT, true, '3', _("Repeat until success/failure/level up") );
+    rmenu.addentry( REPEAT_FULL, true, '3', _("Repeat until fully repaired, but don't reinforce") );
+    rmenu.addentry( REPEAT_EVENT, true, '4', _("Repeat until success/failure/level up") );
     rmenu.addentry( REPEAT_CANCEL, true, 'q', _("Cancel") );
     rmenu.selected = last_selection;
 
@@ -1370,7 +1372,8 @@ void activity_handlers::repair_item_finish( player_activity *act, player *p )
         old_level != p->get_skill_level( actor->used_skill );
     const bool need_input =
         repeat == REPEAT_ONCE ||
-        (repeat == REPEAT_EVENT && event_happened);
+        (repeat == REPEAT_EVENT && event_happened) ||
+        (repeat == REPEAT_FULL && fix.damage <= 0);
 
     if( need_input ) {
         g->draw();
