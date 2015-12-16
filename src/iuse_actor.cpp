@@ -2172,7 +2172,7 @@ repair_item_actor::attempt_hint repair_item_actor::repair( player &pl, item &too
             return AS_FAILURE;
         }
 
-        if( rn >= 12 && fix.has_flag("VARSIZE") && !fix.has_flag("FIT") ) {
+        if( rn >= 20 && fix.has_flag("VARSIZE") && !fix.has_flag("FIT") ) {
             pl.add_msg_if_player(m_good, _("You take your %s in, improving the fit."),
                                  fix.tname().c_str());
             fix.item_tags.insert("FIT");
@@ -2180,7 +2180,7 @@ repair_item_actor::attempt_hint repair_item_actor::repair( player &pl, item &too
             return AS_SUCCESS;
         }
 
-        if( rn >= 12 && (fix.has_flag("FIT") || !fix.has_flag("VARSIZE")) ) {
+        if( rn >= 20 && (fix.has_flag("FIT") || !fix.has_flag("VARSIZE")) ) {
             pl.add_msg_if_player(m_good, _("You make your %s extra sturdy."), fix.tname().c_str());
             fix.damage--;
             handle_components( pl, fix, false, false );
