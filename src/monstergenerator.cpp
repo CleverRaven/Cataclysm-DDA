@@ -14,6 +14,10 @@
 #include "monfaction.h"
 #include "mtype.h"
 
+const mtype_id mon_generator( "mon_generator" );
+const mtype_id mon_zombie_dog( "mon_zombie_dog" );
+const mtype_id mon_fungaloid( "mon_fungaloid" );
+
 template<>
 const mtype_id string_id<mtype>::NULL_ID( "mon_null" );
 
@@ -43,10 +47,6 @@ bool string_id<species_type>::is_valid() const
 {
     return MonsterGenerator::generator().has_species( *this );
 }
-
-const mtype_id mon_generator( "mon_generator" );
-const mtype_id mon_zombie_dog( "mon_zombie_dog" );
-const mtype_id mon_fungaloid( "mon_fungaloid" );
 
 MonsterGenerator::MonsterGenerator()
 {
