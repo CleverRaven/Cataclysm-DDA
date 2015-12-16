@@ -2569,6 +2569,7 @@
 },{
   "type" : "recipe",
   "result": "milk",
+  "id_suffix": "from_powder",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_DRINKS",
   "skill_used": "cooking",
@@ -2581,6 +2582,28 @@
   ], "components": [
     [
       [ "milk_powder", 1 ]
+    ],
+    [
+      [ "water_clean", 1 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "milk",
+  "id_suffix": "from_condensed",
+  "result_mult": 2,
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_DRINKS",
+  "skill_used": "cooking",
+  "difficulty": 0,
+  "time": 1000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities":[
+    {"id":"CONTAIN","level":1,"amount":1}
+  ], "components": [
+    [
+      [ "con_milk", 1 ]
     ],
     [
       [ "water_clean", 1 ]
