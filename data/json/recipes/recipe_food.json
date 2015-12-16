@@ -2566,6 +2566,7 @@
 },{
   "type" : "recipe",
   "result": "milk",
+  "id_suffix": "from_powder",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_DRINKS",
   "skill_used": "cooking",
@@ -2586,6 +2587,7 @@
 },{
   "type" : "recipe",
   "result": "milk",
+  "id_suffix": "from_condensed",
   "result_mult": 2,
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_DRINKS",
