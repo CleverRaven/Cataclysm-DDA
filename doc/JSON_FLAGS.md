@@ -83,6 +83,7 @@ List of known flags, used in both terrain.json and furniture.json
 - ```UNSTABLE``` Walking here cause the bouldering effect on the character.
 - ```HARVESTED``` Marks the harvested version of a terrain type (e.g. harvesting an apple tree turns it into a harvested tree, which later becomes an apple tree again).
 - ```ROAD``` Flat and hard enough to drive or skate (with rollerblades) on.
+- ```SALT_WATER``` Source of salt water (works for terrains with examine action "water_source").
 - ```DEEP_WATER```
 - ```AUTO_WALL_SYMBOL``` (only for terrain) The symbol of this terrain will be one of the line drawings (corner, T-intersection, straight line etc.) depending on the adjacent terrains.
 - ```ALLOW_FIELD_EFFECT``` Apply field effects to items inside ```SEALED``` terrain/furniture.
