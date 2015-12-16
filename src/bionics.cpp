@@ -1324,7 +1324,7 @@ bool player::uninstall_bionic(std::string const &b_id, int skill_level)
     }
 	
     if ( b_id == "bio_eye_optic") {
-        popup(_("The Telescopic Lenses are part of your eye now.  Removing them would leave you blind."));
+        popup(_("The Telescopic Lenses are part of your eyes now.  Removing them would leave you blind."));
         return false;
     }
 
