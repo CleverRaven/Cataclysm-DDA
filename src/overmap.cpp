@@ -2157,7 +2157,11 @@ tripoint overmap::draw_overmap(const tripoint &orig, const draw_data_t &data)
             const std::string new_note = string_input_popup(
                 _("Note (X:TEXT for custom symbol, G; for color):"),
                 45, old_note, color_notes); // 45 char max
-            if(old_note != new_note) {
+            if(new_note == "") {
+                if (query_yn(_("Really delete note?"))) {
+                    overmap_buffer.delete_note(curs);
+                }
+            } else if(old_note != new_note) {
                 overmap_buffer.add_note(curs, new_note);
             }
         } else if(action == "DELETE_NOTE") {
