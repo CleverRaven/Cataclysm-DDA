@@ -2114,23 +2114,29 @@ repair_item_actor::attempt_hint repair_item_actor::repair( player &pl, item &too
     pl.practice( used_skill, 8 );
     ///\EFFECT_TAILOR randomly improves clothing repair efforts
     ///\EFFECT_MECHANICS randomly improves metal repair efforts
-    int rn = dice( 4, 2 + pl.skillLevel( used_skill ) );
-    rn -= rng( fix.damage, fix.damage * 2 );
-    ///\EFFECT_DEX randomly improves repair efforts
-    if( pl.dex_cur < 8 && one_in( pl.dex_cur ) ) {
-        rn -= rng(2, 6);
-    }
-    if( pl.dex_cur >= 8 && (pl.dex_cur >= 16 || one_in(16 - pl.dex_cur)) ) {
-        rn += rng(2, 6);
-    }
-    if( pl.dex_cur > 16 ) {
-        rn += rng(0, pl.dex_cur - 16);
-    }
+    // Let's make refitting/reinforcing as hard as recovering an almost-wrecked item
+    // TODO: Make difficulty depend on the item type (for example, on recipe's difficulty)
+    const int difficulty = fix.damage == 0 ? 4 : fix.damage;
+    float repair_chance = (5 + pl.get_skill_level( used_skill ) - difficulty) / 100.0f;
+    ///\EFFECT_DEX randomly reduces the chances of damaging an item when repairing
+    float damage_chance = (5 - (pl.dex_cur - tool_quality) / 5.0f) / 100.0f;
+    float roll_value = rng_float( 0.0, 1.0 );
+    enum roll_result {
+        SUCCESS,
+        FAILURE,
+        NEUTRAL
+    } roll;
 
-    rn += tool_quality;
+    if( roll_value > 1.0f - damage_chance ) {
+        roll = FAILURE;
+    } else if( roll_value < repair_chance ) {
+        roll = SUCCESS;
+    } else {
+        roll = NEUTRAL;
+    }
 
     if( fix.damage > 0 ) {
-        if( rn <= 4 ) {
+        if( roll == FAILURE ) {
             pl.add_msg_if_player(m_bad, _("You damage your %s further!"), fix.tname().c_str());
             fix.damage++;
             if( fix.damage >= 5 ) {
@@ -2140,7 +2146,7 @@ repair_item_actor::attempt_hint repair_item_actor::repair( player &pl, item &too
                     pl.i_rem_keep_contents( pos );
                 } else {
                     // NOTE: Repairing items outside inventory is NOT yet supported!
-                    debugmsg( "Tried to remove item that doesn't exist" );
+                    debugmsg( "Tried to remove an item that doesn't exist" );
                 }
 
                 return AS_DESTROYED;
@@ -2149,7 +2155,7 @@ repair_item_actor::attempt_hint repair_item_actor::repair( player &pl, item &too
             return AS_FAILURE;
         }
 
-        if( rn >= 10 ) {
+        if( roll == SUCCESS ) {
             pl.add_msg_if_player(m_good, _("You repair your %s!"), fix.tname().c_str());
             handle_components( pl, fix, false, false );
             fix.damage--;
@@ -2166,13 +2172,13 @@ repair_item_actor::attempt_hint repair_item_actor::repair( player &pl, item &too
     }
 
     if( fix.damage == 0 || (fix.has_flag("VARSIZE") && !fix.has_flag("FIT")) ) {
-        if( rn <= 4 ) {
+        if( roll == FAILURE ) {
             pl.add_msg_if_player(m_bad, _("You damage your %s!"), fix.tname().c_str());
             fix.damage++;
             return AS_FAILURE;
         }
 
-        if( rn >= 20 && fix.has_flag("VARSIZE") && !fix.has_flag("FIT") ) {
+        if( roll == SUCCESS && fix.has_flag("VARSIZE") && !fix.has_flag("FIT") ) {
             pl.add_msg_if_player(m_good, _("You take your %s in, improving the fit."),
                                  fix.tname().c_str());
             fix.item_tags.insert("FIT");
@@ -2180,7 +2186,7 @@ repair_item_actor::attempt_hint repair_item_actor::repair( player &pl, item &too
             return AS_SUCCESS;
         }
 
-        if( rn >= 20 && (fix.has_flag("FIT") || !fix.has_flag("VARSIZE")) ) {
+        if( roll == SUCCESS && (fix.has_flag("FIT") || !fix.has_flag("VARSIZE")) ) {
             pl.add_msg_if_player(m_good, _("You make your %s extra sturdy."), fix.tname().c_str());
             fix.damage--;
             handle_components( pl, fix, false, false );
