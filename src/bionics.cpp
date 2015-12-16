@@ -1322,6 +1322,11 @@ bool player::uninstall_bionic(std::string const &b_id, int skill_level)
         popup(_("You must remove the Enhanced Hearing bionic to remove the Sound Dampeners."));
         return false;
     }
+	
+    if ( b_id == "bio_eye_optic") {
+        popup(_("The Telescopic Lenses are part of your eye now.  Removing them would leave you blind."));
+        return false;
+    }
 
     // removal of bionics adds +2 difficulty over installation
     int chance_of_success;
@@ -1472,6 +1477,10 @@ bool player::install_bionics(const itype &type, int skill_level)
 
         if (bioid == "bio_ears") {
             add_bionic("bio_earplugs"); // automatically add the earplugs, they're part of the same bionic
+        } else if (bioid == "bio_eye_optic" && g->u.has_trait("HYPEROPIC")) {
+            g->u.remove_mutation("HYPEROPIC");
+        } else if (bioid == "bio_eye_optic" && g->u.has_trait("MYOPIC")) {
+            g->u.remove_mutation("MYOPIC");
         } else if (bioid == "bio_reactor_upgrade") {
             remove_bionic("bio_reactor");
             remove_bionic("bio_reactor_upgrade");

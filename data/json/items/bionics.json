@@ -1346,6 +1346,23 @@
     {
         "type": "BIONIC_ITEM",
         "category": "bionics",
+        "id": "bio_eye_optic",
+        "symbol": ":",
+        "color": "yellow",
+        "name": "Telescopic Lenses CBM",
+        "description": "???.",
+        "price": 500000,
+        "material": ["steel", "plastic"],
+        "weight": 2041,
+        "volume": 10,
+        "bashing": 8,
+        "cutting": 0,
+        "to_hit": 0,
+        "difficulty": 4
+    },
+    {
+        "type": "BIONIC_ITEM",
+        "category": "bionics",
         "id": "bio_targeting",
         "symbol": ":",
         "color": "yellow",
