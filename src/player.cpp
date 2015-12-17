@@ -2672,10 +2672,10 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
     wrefresh(w_stats);
 
     // Next, draw encumberment.
-    const char *title_ENCUMB = _("ENCUMBRANCE AND WARMTH");
-    mvwprintz(w_encumb, 0, 13 - utf8_width(title_ENCUMB) / 2, c_ltgray, title_ENCUMB);
-    print_encumbrance(w_encumb);
-    wrefresh(w_encumb);
+    const char *title_ENCUMB = _( "ENCUMBRANCE AND WARMTH" );
+    mvwprintz( w_encumb, 0, 13 - utf8_width( title_ENCUMB ) / 2, c_ltgray, title_ENCUMB );
+    print_encumbrance( w_encumb );
+    wrefresh( w_encumb );
 
     // Next, draw traits.
     const char *title_TRAITS = _("TRAITS");
@@ -3008,10 +3008,10 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
             break;
         case 2: // Encumberment tab
         {
-            werase(w_encumb);
-            mvwprintz(w_encumb, 0, 13 - utf8_width(title_ENCUMB)/2, h_ltgray, title_ENCUMB);
-            print_encumbrance(w_encumb, line);
-            wrefresh(w_encumb);
+            werase( w_encumb );
+            mvwprintz( w_encumb, 0, 13 - utf8_width( title_ENCUMB ) / 2, h_ltgray, title_ENCUMB );
+            print_encumbrance( w_encumb, line );
+            wrefresh( w_encumb );
 
             werase(w_info);
             std::string s;
@@ -3059,24 +3059,26 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
             wrefresh(w_info);
 
             action = ctxt.handle_input();
-            if (action == "DOWN") {
-                if (line < num_bp-1) {
+            if ( action == "DOWN" )
+            {
+                if ( line < num_bp - 1 ) {
                     if (
-                        bp_aiOther[line] == line+1 && // first of a pair
-                        get_encumbrance(line) == get_encumbrance(bp_aiOther[line])
+                        bp_aiOther[line] == line + 1 && // first of a pair
+                        get_encumbrance( line ) == get_encumbrance( bp_aiOther[line] )
                     ) {
-                        line += (line < num_bp - 2) ? 2 : 0; // skip a line if we aren't at the last pair
+                        line += ( line < num_bp - 2 ) ? 2 : 0; // skip a line if we aren't at the last pair
                     } else {
                         line++; // unpaired or unequal
                     }
                 }
-            } else if (action == "UP") {
-                if (line > 0) {
+            } else if ( action == "UP" )
+            {
+                if ( line > 0 ) {
                     if (
-                        bp_aiOther[line] == line-1 && // second of a pair
-                        get_encumbrance(line) == get_encumbrance(bp_aiOther[line])
+                        bp_aiOther[line] == line - 1 && // second of a pair
+                        get_encumbrance( line ) == get_encumbrance( bp_aiOther[line] )
                     ) {
-                        line -= (line < num_bp - 2) ? 2 : 0; // skip a line if we aren't at the first pair
+                        line -= ( line < num_bp - 2 ) ? 2 : 0; // skip a line if we aren't at the first pair
                     } else {
                         line--; // unpaired or unequal
                     }
@@ -14440,60 +14442,41 @@ std::vector<mission*> player::get_failed_missions() const
     return failed_missions;
 }
 
-encumbrance_data player::get_encumbrance(size_t i) const
+encumbrance_data player::get_encumbrance( size_t i ) const
 {
     encumbrance_data e;
-    e.iBodyTempInt = (temp_conv[i] / 100.0) * 2 - 100; // Scale of -100 to +100
-    e.iEnc = encumb(bp_aBodyPart[i], e.iLayers, e.iArmorEnc);
+    e.iBodyTempInt = ( temp_conv[i] / 100.0 ) * 2 - 100; // Scale of -100 to +100
+    e.iEnc = encumb( bp_aBodyPart[i], e.iLayers, e.iArmorEnc );
     return e;
 }
 
-// std::array<bool,num_bp> player::which_bodyparts_combine() const
-// {
-//     // which of the paired body parts should get combined?
-//     std::array<bool,num_bp> combined_limbs = {}; // all false
-//     for (size_t i = 0; i<num_bp; i++) {
-//         if (i != bp_aiOther[i] && // this body part is part of a pair
-//             get_encumbrance(i) == get_encumbrance(bp_aiOther[i])
-//         ) {
-//             combined_limbs[i] = true;
-//             combined_limbs[bp_aiOther[i]] = true;
-//             if(bp_aiOther[i] == i+1) {
-//                 i++; // no need to check both if they are adjacent
-//             }
-//         }
-//     }
-//     return combined_limbs;
-// }
-
-void player::print_encumbrance(WINDOW *win, int line) const
+void player::print_encumbrance( WINDOW *win, int line ) const
 {
     int height, width;
-    getmaxyx(win, height, width);
+    getmaxyx( win, height, width );
 
     // fill a set with the indices of the body parts to display
-    int l = std::max(0,line);
+    int l = std::max( 0, line );
     std::set<int> parts;
     // check and optionally enqueue l+0, l-1, l+1, l-2, l+2, ...
     int o = 0; // offset from l
     int skip[2] = {}; // how far to skip on next neg/pos jump
-    do
-    {
-        if (!skip[o>0] && l+o >=0 && l+o < num_bp) { // l+o is in bounds
-            parts.insert(l+o);
-            if (l+o != (int)bp_aiOther[l+o] &&
-                get_encumbrance(l+o)==get_encumbrance(bp_aiOther[l+o])) { // part of a pair
-                skip[ (int)bp_aiOther[l+o] > l+o ] = 1; // skip the next candidate in this direction
+    do {
+        if ( !skip[o > 0] && l + o >= 0 && l + o < num_bp ) { // l+o is in bounds
+            parts.insert( l + o );
+            if ( l + o != ( int )bp_aiOther[l + o] &&
+                 get_encumbrance( l + o ) == get_encumbrance( bp_aiOther[l + o] ) ) { // part of a pair
+                skip[( int )bp_aiOther[l + o] > l + o ] = 1; // skip the next candidate in this direction
             }
         } else {
-            skip[o>0] = 0;
+            skip[o > 0] = 0;
         }
-        if(o<0) {
+        if ( o < 0 ) {
             o = -o;
         } else {
             o = -o - 1;
         }
-    } while ( o > -num_bp && (int)parts.size() < height-1 );
+    } while ( o > -num_bp && ( int )parts.size() < height - 1 );
 
     std::string out;
     /*** I chose to instead only display X+Y instead of X+Y=Z. More room was needed ***
@@ -14501,33 +14484,33 @@ void player::print_encumbrance(WINDOW *win, int line) const
      *** If the player wants to see the total without having to do them maths, the  ***
      *** armor layers ui shows everything they want :-) -Davek                      ***/
     int row = 1;
-    for (auto bp : parts) {
-        encumbrance_data e = get_encumbrance(bp);
+    for ( auto bp : parts ) {
+        encumbrance_data e = get_encumbrance( bp );
         bool combine = false;
-        if(e == get_encumbrance(bp_aiOther[bp])) {
+        if ( e == get_encumbrance( bp_aiOther[bp] ) ) {
             combine = true;
         }
         out.clear();
         // limb, and possible color highlighting
-        out = string_format("%-7s", (combine?bpp_asText[bp]:bp_asText[bp]).c_str());
-        mvwprintz(win, row, 1, (line == bp) ? h_ltgray : c_ltgray, out.c_str());
+        out = string_format( "%-7s", ( combine ? bpp_asText[bp] : bp_asText[bp] ).c_str() );
+        mvwprintz( win, row, 1, ( line == bp ) ? h_ltgray : c_ltgray, out.c_str() );
         // take into account the new encumbrance system for layers
-        out = string_format("(%1d) ", static_cast<int>(e.iLayers / 10.0));
-        wprintz(win, c_ltgray, out.c_str());
+        out = string_format( "(%1d) ", static_cast<int>( e.iLayers / 10.0 ) );
+        wprintz( win, c_ltgray, out.c_str() );
         // accumulated encumbrance from clothing, plus extra encumbrance from layering
-        wprintz(win, encumb_color(e.iEnc), string_format("%3d", e.iArmorEnc).c_str());
+        wprintz( win, encumb_color( e.iEnc ), string_format( "%3d", e.iArmorEnc ).c_str() );
         // seperator in low toned color
-        wprintz(win, c_ltgray, "+");
-        wprintz(win, encumb_color(e.iEnc), string_format("%-3d", e.iEnc - e.iArmorEnc).c_str());
+        wprintz( win, c_ltgray, "+" );
+        wprintz( win, encumb_color( e.iEnc ), string_format( "%-3d", e.iEnc - e.iArmorEnc ).c_str() );
         // print warmth, tethered to right hand side of the window
-        out = string_format("(% 3d)", e.iBodyTempInt);
-        mvwprintz(win, row, getmaxx(win) - 6, bodytemp_color(bp), out.c_str());
+        out = string_format( "(% 3d)", e.iBodyTempInt );
+        mvwprintz( win, row, getmaxx( win ) - 6, bodytemp_color( bp ), out.c_str() );
         row++;
     }
 
-    if (o > -num_bp) { // not every body part fit in the window
+    if ( o > -num_bp ) { // not every body part fit in the window
         //TODO: account for skipped paired body parts in scrollbar math
-        draw_scrollbar(win, (line>=0)?line:0, height-1, num_bp, 1);
+        draw_scrollbar( win, ( line >= 0 ) ? line : 0, height - 1, num_bp, 1 );
     }
 
 }

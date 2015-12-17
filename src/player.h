@@ -99,7 +99,8 @@ struct stats : public JsonSerializer, public JsonDeserializer {
 struct encumbrance_data {
     int iEnc = 0, iArmorEnc = 0 , iBodyTempInt = 0;
     double iLayers = 0.0;
-    bool operator == (const encumbrance_data &RHS) {
+    bool operator == ( const encumbrance_data &RHS )
+    {
         return
             this->iEnc == RHS.iEnc &&
             this->iArmorEnc == RHS.iArmorEnc &&

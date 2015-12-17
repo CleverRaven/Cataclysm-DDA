@@ -130,20 +130,20 @@ std::vector<std::string> clothing_flags_description(item const &worn_item)
 struct layering_item_info {
     int damage, encumber;
     std::string name;
-    bool operator ==(const layering_item_info &o) const
+    bool operator ==( const layering_item_info &o ) const
     {
         return this->damage == o.damage &&
-            this->encumber == o.encumber &&
-            this->name == o.name;
+               this->encumber == o.encumber &&
+               this->name == o.name;
     }
 };
 
-std::vector<layering_item_info> items_cover_bp(int bp) {
+std::vector<layering_item_info> items_cover_bp( int bp ){
     std::vector<layering_item_info> s;
-    for( auto &elem : g->u.worn ) {
-        if( elem.covers( static_cast<body_part>( bp ) ) ) {
-            layering_item_info t = {elem.damage, elem.get_encumber(), elem.type_name(1)};
-            s.push_back(t);
+    for ( auto &elem : g->u.worn ) {
+        if ( elem.covers( static_cast<body_part>( bp ) ) ) {
+            layering_item_info t = {elem.damage, elem.get_encumber(), elem.type_name( 1 )};
+            s.push_back( t );
         }
     }
     return s;
@@ -225,11 +225,11 @@ void player::sort_armor()
     wrefresh(w_sort_armor);
 
     // Subwindows (between lines)
-    WINDOW *w_sort_cat    = newwin(1, win_w - 4, win_y + 1, win_x + 2);
-    WINDOW *w_sort_left   = newwin(cont_h, left_w,   win_y + 3, win_x + 1);
-    WINDOW *w_sort_middle = newwin(cont_h-num_bp-1, middle_w, win_y + 3, win_x + left_w + 2);
-    WINDOW *w_sort_right  = newwin(cont_h, right_w,  win_y + 3, win_x + left_w + middle_w + 3);
-    WINDOW *w_encumb      = newwin(num_bp+1, middle_w, win_y+3+cont_h-num_bp-1, win_x+left_w+2);
+    WINDOW *w_sort_cat    = newwin( 1, win_w - 4, win_y + 1, win_x + 2 );
+    WINDOW *w_sort_left   = newwin( cont_h, left_w,   win_y + 3, win_x + 1 );
+    WINDOW *w_sort_middle = newwin( cont_h - num_bp - 1, middle_w, win_y + 3, win_x + left_w + 2 );
+    WINDOW *w_sort_right  = newwin( cont_h, right_w,  win_y + 3, win_x + left_w + middle_w + 3 );
+    WINDOW *w_encumb      = newwin( num_bp + 1, middle_w, win_y + 3 + cont_h - num_bp - 1, win_x + left_w + 2 );
 
     nc_color dam_color[] = {c_green, c_ltgreen, c_yellow, c_magenta, c_ltred, c_red};
 
@@ -334,8 +334,8 @@ void player::sort_armor()
             mvwprintz(w_sort_middle, 0, 1, c_white, _("Nothing to see here!"));
         }
 
-        mvwprintz(w_encumb, 0, 1, c_white, _("Encumbrance and Warmth"));
-        print_encumbrance(w_encumb);
+        mvwprintz( w_encumb, 0, 1, c_white, _( "Encumbrance and Warmth" ) );
+        print_encumbrance( w_encumb );
 
         // Right header
         mvwprintz(w_sort_right, 0, 0, c_ltgray, _("(Innermost)"));
@@ -343,25 +343,26 @@ void player::sort_armor()
 
         // Right list
         rightListSize = 0;
-        for (int cover = 0, pos = 1; cover < num_bp; cover++) {
+        for ( int cover = 0, pos = 1; cover < num_bp; cover++ )
+        {
             bool combined = false;
-            if(cover>3 && cover%2==0 && items_cover_bp(cover) == items_cover_bp(cover+1)) {
+            if ( cover > 3 && cover % 2 == 0 && items_cover_bp( cover ) == items_cover_bp( cover + 1 ) ) {
                 combined = true;
             }
-            if (rightListSize >= rightListOffset && pos <= cont_h - 2) {
+            if ( rightListSize >= rightListOffset && pos <= cont_h - 2 ) {
                 mvwprintz(
                     w_sort_right,
                     pos,
                     1,
-                    (cover == tabindex ? c_yellow : c_white),
+                    ( cover == tabindex ? c_yellow : c_white ),
                     "%s:",
-                    (combined ? bpp_asText[cover] : bp_asText[cover]).c_str()
+                    ( combined ? bpp_asText[cover] : bp_asText[cover] ).c_str()
                 );
                 pos++;
             }
             rightListSize++;
-            for( auto &elem : items_cover_bp(cover)) {
-                if (rightListSize >= rightListOffset && pos <= cont_h - 2) {
+            for ( auto &elem : items_cover_bp( cover ) ) {
+                if ( rightListSize >= rightListOffset && pos <= cont_h - 2 ) {
                     mvwprintz( w_sort_right, pos, 2, dam_color[elem.damage + 1],
                                elem.name.c_str() );
                     mvwprintz( w_sort_right, pos, right_w - 2, c_ltgray, "%d",
@@ -370,7 +371,7 @@ void player::sort_armor()
                 }
                 rightListSize++;
             }
-            if(combined) {
+            if ( combined ) {
                 cover++;
             }
         }
