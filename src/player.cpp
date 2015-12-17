@@ -862,7 +862,7 @@ void player::update_bodytemp()
                                                      sheltered),
                                              bp_windpower );
         // If you're standing in water, air temperature is replaced by water temperature. No wind.
-        const ter_id ter_at_pos = g->m.ter(pos());
+        const ter_id ter_at_pos = g->m.ter( pos() );
         // Convert to C.
         int water_temperature = 100 * (g->weather_gen->get_water_temperature() - 32) * 5 / 9;
         if ( (ter_at_pos == t_water_dp || ter_at_pos == t_water_pool || ter_at_pos == t_swater_dp) ||
@@ -922,12 +922,12 @@ void player::update_bodytemp()
         }
         // Bionic "Thermal Dissipation" says it prevents fire damage up to 2000F.
         // 500 is picked at random...
-        if( has_bionic("bio_heatsink") || is_wearing("rm13_armor_on")) {
+        if( has_bionic( "bio_heatsink" ) || is_wearing( "rm13_armor_on" ) ) {
             blister_count -= 500;
         }
         // BLISTERS : Skin gets blisters from intense heat exposure.
-        if( blister_count - 10 * get_env_resist(body_part(i)) > 20 ) {
-            add_effect("blisters", 1, (body_part)i);
+        if( blister_count - 10 * get_env_resist( body_part( i ) ) > 20 ) {
+            add_effect( "blisters", 1, ( body_part )i );
         }
 
         temp_conv[i] = bodytemp_modifier_fire();
@@ -995,17 +995,17 @@ void player::update_bodytemp()
         }
 
         // Correction of body temperature due to traits and mutations
-        temp_conv[i] += bodytemp_modifier_traits(temp_cur[i] > BODYTEMP_NORM);
+        temp_conv[i] += bodytemp_modifier_traits( temp_cur[i] > BODYTEMP_NORM );
 
         // Climate Control eases the effects of high and low ambient temps
-        temp_conv[i] = temp_corrected_by_climate_control(temp_conv[i]);
+        temp_conv[i] = temp_corrected_by_climate_control( temp_conv[i] );
 
         // FINAL CALCULATION : Increments current body temperature towards convergent.
         int bonus_warmth = 0;
-        const furn_id furn_at_pos = g->m.furn(pos());
-        if ( in_sleep_state() ) {
+        const furn_id furn_at_pos = g->m.furn( pos() );
+        if( in_sleep_state() ) {
             bonus_warmth = warmth_in_sleep();
-        } else if ( best_fire > 0 ) {
+        } else if( best_fire > 0 ) {
             // Warming up over a fire
             // Extremities are easier to extend over a fire
             switch (i) {
@@ -1059,10 +1059,10 @@ void player::update_bodytemp()
             // Spread the morale bonus in time.
             int mytime = MINUTES( i ) / MINUTES( num_bp );
             if( calendar::turn % MINUTES( 1 ) == mytime &&
-                get_effect_int( "cold", (body_part)num_bp ) == 0 &&
-                get_effect_int( "hot", (body_part)num_bp ) == 0 &&
+                get_effect_int( "cold", ( body_part )num_bp ) == 0 &&
+                get_effect_int( "hot", ( body_part )num_bp ) == 0 &&
                 temp_cur[i] > BODYTEMP_COLD && temp_cur[i] <= BODYTEMP_NORM ) {
-                    add_morale( MORALE_COMFY, 1, 5, 20, 10, true );
+                add_morale( MORALE_COMFY, 1, 5, 20, 10, true );
             }
         }
 
@@ -1283,16 +1283,16 @@ void player::update_bodytemp()
 
 int player::warmth_in_sleep()
 {
-    const trap &trap_at_pos = g->m.tr_at(pos());
-    const ter_id ter_at_pos = g->m.ter(pos());
-    const furn_id furn_at_pos = g->m.furn(pos());
+    const trap &trap_at_pos = g->m.tr_at( pos() );
+    const ter_id ter_at_pos = g->m.ter( pos() );
+    const furn_id furn_at_pos = g->m.furn( pos() );
     // When the player is sleeping, he will use floor items for warmth
     int floor_item_warmth = 0;
     // When the player is sleeping, he will use floor bedding for warmth
     int floor_bedding_warmth = 0;
 
     // Search the floor for items
-    auto floor_item = g->m.i_at(pos());
+    auto floor_item = g->m.i_at( pos() );
     for( auto &elem : floor_item ) {
         if( !elem.is_armor() ) {
             continue;
@@ -1308,8 +1308,8 @@ int player::warmth_in_sleep()
 
     int vpart = -1;
     vehicle *veh = g->m.veh_at( pos(), vpart );
-    bool veh_bed = ( veh && veh->part_with_feature (vpart, "BED") >= 0 );
-    bool veh_seat = ( veh && veh->part_with_feature (vpart, "SEAT") >= 0 );
+    bool veh_bed = ( veh && veh->part_with_feature( vpart, "BED" ) >= 0 );
+    bool veh_seat = ( veh && veh->part_with_feature( vpart, "SEAT" ) >= 0 );
 
     // Search the floor for bedding
     if( furn_at_pos == f_bed ) {
@@ -1341,139 +1341,139 @@ int player::warmth_in_sleep()
     int floor_mut_warmth = bodytemp_modifier_traits_sleep();
     // DOWN doesn't provide floor insulation, though.
     // Better-than-light fur or being in one's shell does.
-    if ( (!(has_trait("DOWN"))) && (floor_mut_warmth >= 200)) {
-        floor_bedding_warmth = std::max(0, floor_bedding_warmth);
+    if( ( !( has_trait( "DOWN" ) ) ) && ( floor_mut_warmth >= 200 ) ) {
+        floor_bedding_warmth = std::max( 0, floor_bedding_warmth );
     }
-    return (floor_item_warmth + floor_bedding_warmth + floor_mut_warmth);
+    return ( floor_item_warmth + floor_bedding_warmth + floor_mut_warmth );
 }
 
 int player::bodytemp_modifier_fire()
 {
     int temp_conv = 0;
     // Being on fire increases very intensely the convergent temperature.
-    if (has_effect("onfire")) {
+    if( has_effect( "onfire" ) ) {
         temp_conv += 15000;
     }
 
-    const trap &trap_at_pos = g->m.tr_at(pos());
+    const trap &trap_at_pos = g->m.tr_at( pos() );
     // Same with standing on fire.
-    int tile_strength = g->m.get_field_strength( pos(), fd_fire);
-    if (tile_strength > 2 || trap_at_pos.loadid == tr_lava) {
+    int tile_strength = g->m.get_field_strength( pos(), fd_fire );
+    if( tile_strength > 2 || trap_at_pos.loadid == tr_lava ) {
         temp_conv += 15000;
     }
     // Standing in the hot air of a fire is nice.
-    tile_strength = g->m.get_field_strength( pos(), fd_hot_air1);
-    switch (tile_strength) {
-    case 3:
-        temp_conv += 500;
-        break;
-    case 2:
-        temp_conv += 300;
-        break;
-    case 1:
-        temp_conv += 100;
-        break;
-    default:
-        break;
+    tile_strength = g->m.get_field_strength( pos(), fd_hot_air1 );
+    switch( tile_strength ) {
+        case 3:
+            temp_conv += 500;
+            break;
+        case 2:
+            temp_conv += 300;
+            break;
+        case 1:
+            temp_conv += 100;
+            break;
+        default:
+            break;
     }
     tile_strength = g->m.get_field_strength( pos(), fd_hot_air2 );
-    switch (tile_strength) {
-    case 3:
-        temp_conv += 1000;
-        break;
-    case 2:
-        temp_conv += 800;
-        break;
-    case 1:
-        temp_conv += 300;
-        break;
-    default:
-        break;
+    switch( tile_strength ) {
+        case 3:
+            temp_conv += 1000;
+            break;
+        case 2:
+            temp_conv += 800;
+            break;
+        case 1:
+            temp_conv += 300;
+            break;
+        default:
+            break;
     }
     tile_strength = g->m.get_field_strength( pos(), fd_hot_air3 );
-    switch (tile_strength) {
-    case 3:
-        temp_conv += 3500;
-        break;
-    case 2:
-        temp_conv += 2000;
-        break;
-    case 1:
-        temp_conv += 800;
-        break;
-    default:
-        break;
+    switch( tile_strength ) {
+        case 3:
+            temp_conv += 3500;
+            break;
+        case 2:
+            temp_conv += 2000;
+            break;
+        case 1:
+            temp_conv += 800;
+            break;
+        default:
+            break;
     }
     tile_strength = g->m.get_field_strength( pos(), fd_hot_air4 );
-    switch (tile_strength) {
-    case 3:
-        temp_conv += 8000;
-        break;
-    case 2:
-        temp_conv += 5000;
-        break;
-    case 1:
-        temp_conv += 3500;
-        break;
-    default:
-        break;
+    switch( tile_strength ) {
+        case 3:
+            temp_conv += 8000;
+            break;
+        case 2:
+            temp_conv += 5000;
+            break;
+        case 1:
+            temp_conv += 3500;
+            break;
+        default:
+            break;
     }
     return temp_conv;
 }
 
-int player::bodytemp_modifier_traits(bool overheated)
+int player::bodytemp_modifier_traits( bool overheated )
 {
     int mod = 0;
 
     // Lightly furred
-    if( has_trait("LIGHTFUR") ) {
-        mod += (overheated ? 250 : 500);
+    if( has_trait( "LIGHTFUR" ) ) {
+        mod += ( overheated ? 250 : 500 );
     }
     // Furry or Lupine/Ursine Fur
-    if( has_trait("FUR") || has_trait("LUPINE_FUR") || has_trait("URSINE_FUR") ) {
-        mod += (overheated ? 750 : 1500);
+    if( has_trait( "FUR" ) || has_trait( "LUPINE_FUR" ) || has_trait( "URSINE_FUR" ) ) {
+        mod += ( overheated ? 750 : 1500 );
     }
     // Feline fur
-    if( has_trait("FELINE_FUR") ) {
-        mod += (overheated ? 500 : 1000);
+    if( has_trait( "FELINE_FUR" ) ) {
+        mod += ( overheated ? 500 : 1000 );
     }
     // Feathers: minor means minor.
-    if( has_trait("FEATHERS") ) {
-        mod += (overheated ? 50 : 100);
+    if( has_trait( "FEATHERS" ) ) {
+        mod += ( overheated ? 50 : 100 );
     }
-    if( has_trait("CHITIN_FUR") ) {
-        mod += (overheated ? 100 : 150);
+    if( has_trait( "CHITIN_FUR" ) ) {
+        mod += ( overheated ? 100 : 150 );
     }
-    if( has_trait("CHITIN_FUR2") || has_trait ("CHITIN_FUR3") ) {
-        mod += (overheated ? 150 : 250);
+    if( has_trait( "CHITIN_FUR2" ) || has_trait( "CHITIN_FUR3" ) ) {
+        mod += ( overheated ? 150 : 250 );
     }
     // Down; lets heat out more easily if needed but not as Warm
     // as full-blown fur.  So less miserable in Summer.
-    if( has_trait("DOWN") ) {
-        mod += (overheated ? 300 : 800);
+    if( has_trait( "DOWN" ) ) {
+        mod += ( overheated ? 300 : 800 );
     }
     // Fat deposits don't hold in much heat, but don't shift for temp
-    if( has_trait("FAT") ) {
+    if( has_trait( "FAT" ) ) {
         mod += 200;
     }
     // Being in the shell holds in heat, but lets out less in summer :-/
-    if( has_active_mutation("SHELL2") ) {
-        mod += (overheated ? 500 : 750);
+    if( has_active_mutation( "SHELL2" ) ) {
+        mod += ( overheated ? 500 : 750 );
     }
     // Disintegration
-    if (has_trait("ROT1")) {
+    if( has_trait( "ROT1" ) ) {
         mod -= 250;
-    } else if (has_trait("ROT2")) {
+    } else if( has_trait( "ROT2" ) ) {
         mod -= 750;
-    } else if (has_trait("ROT3")) {
+    } else if( has_trait( "ROT3" ) ) {
         mod -= 1500;
     }
     // Radioactive
-    if (has_trait("RADIOACTIVE1")) {
+    if( has_trait( "RADIOACTIVE1" ) ) {
         mod += 250;
-    } else if (has_trait("RADIOACTIVE2")) {
+    } else if( has_trait( "RADIOACTIVE2" ) ) {
         mod += 750;
-    } else if (has_trait("RADIOACTIVE3")) {
+    } else if( has_trait( "RADIOACTIVE3" ) ) {
         mod += 1500;
     }
     return mod;
@@ -1484,36 +1484,36 @@ int player::bodytemp_modifier_traits_sleep()
     int floor_mut_warmth = 0;
     // Fur, etc effects for sleeping  here.
     // Full-power fur is about as effective as a makeshift bed
-    if (has_trait("FUR") || has_trait("LUPINE_FUR") || has_trait("URSINE_FUR")) {
+    if( has_trait( "FUR" ) || has_trait( "LUPINE_FUR" ) || has_trait( "URSINE_FUR" ) ) {
         floor_mut_warmth += 500;
     }
     // Feline fur, not quite as warm.  Cats do better in warmer spots.
-    if (has_trait("FELINE_FUR")) {
+    if( has_trait( "FELINE_FUR" ) ) {
         floor_mut_warmth += 300;
     }
     // Light fur's better than nothing!
-    if (has_trait("LIGHTFUR")) {
+    if( has_trait( "LIGHTFUR" ) ) {
         floor_mut_warmth += 100;
     }
     // Spider hair really isn't meant for this sort of thing
-    if (has_trait("CHITIN_FUR")) {
+    if( has_trait( "CHITIN_FUR" ) ) {
         floor_mut_warmth += 50;
     }
-    if (has_trait("CHITIN_FUR2") || has_trait("CHITIN_FUR3")) {
+    if( has_trait( "CHITIN_FUR2" ) || has_trait( "CHITIN_FUR3" ) ) {
         floor_mut_warmth += 75;
     }
     // Down helps too
-    if (has_trait("DOWN")) {
+    if( has_trait( "DOWN" ) ) {
         floor_mut_warmth += 250;
     }
     // Curl up in your shell to conserve heat & stay warm
-    if (has_active_mutation("SHELL2")) {
+    if( has_active_mutation( "SHELL2" ) ) {
         floor_mut_warmth += 200;
     }
     return floor_mut_warmth;
 }
 
-int player::temp_corrected_by_climate_control(int temperature)
+int player::temp_corrected_by_climate_control( int temperature )
 {
     const int variation = BODYTEMP_NORM * 0.5;
     if( in_climate_control() && temperature < BODYTEMP_SCORCHING + variation &&
