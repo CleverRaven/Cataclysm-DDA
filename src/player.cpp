@@ -14442,39 +14442,42 @@ std::vector<mission*> player::get_failed_missions() const
 
 encumbrance_data player::get_encumbrance( size_t i ) const
 {
-    encumbrance_data e;
-    e.iBodyTempInt = ( temp_conv[i] / 100.0 ) * 2 - 100; // Scale of -100 to +100
-    e.iEnc = encumb( bp_aBodyPart[i], e.iLayers, e.iArmorEnc );
-    return e;
+    encumbrance_data enc_data;
+    enc_data.iBodyTempInt = ( temp_conv[i] / 100.0 ) * 2 - 100; // Scale of -100 to +100
+    enc_data.iEnc = encumb( bp_aBodyPart[i], enc_data.iLayers, enc_data.iArmorEnc );
+    return enc_data;
 }
 
 void player::print_encumbrance( WINDOW *win, int line ) const
 {
     int height, width;
     getmaxyx( win, height, width );
+    int orig_line = line;
 
     // fill a set with the indices of the body parts to display
-    int l = std::max( 0, line );
+    line = std::max( 0, line );
     std::set<int> parts;
-    // check and optionally enqueue l+0, l-1, l+1, l-2, l+2, ...
-    int o = 0; // offset from l
+    // check and optionally enqueue line+0, -1, +1, -2, +2, ...
+    int off = 0; // offset from line
     int skip[2] = {}; // how far to skip on next neg/pos jump
     do {
-        if ( !skip[o > 0] && l + o >= 0 && l + o < num_bp ) { // l+o is in bounds
-            parts.insert( l + o );
-            if ( l + o != ( int )bp_aiOther[l + o] &&
-                 get_encumbrance( l + o ) == get_encumbrance( bp_aiOther[l + o] ) ) { // part of a pair
-                skip[( int )bp_aiOther[l + o] > l + o ] = 1; // skip the next candidate in this direction
+        if ( !skip[off > 0] && line + off >= 0 && line + off < num_bp )   // line+off is in bounds
+        {
+            parts.insert( line + off );
+            if ( line + off != ( int )bp_aiOther[line + off] &&
+            get_encumbrance( line + off ) == get_encumbrance( bp_aiOther[line + off] ) ) { // part of a pair
+                skip[( int )bp_aiOther[line + off] > line + off ] = 1; // skip the next candidate in this direction
             }
         } else {
-            skip[o > 0] = 0;
+            skip[off > 0] = 0;
         }
-        if ( o < 0 ) {
-            o = -o;
+        if ( off < 0 )
+        {
+            off = -off;
         } else {
-            o = -o - 1;
+            off = -off - 1;
         }
-    } while ( o > -num_bp && ( int )parts.size() < height - 1 );
+    } while ( off > -num_bp && ( int )parts.size() < height - 1 );
 
     std::string out;
     /*** I chose to instead only display X+Y instead of X+Y=Z. More room was needed ***
@@ -14506,7 +14509,7 @@ void player::print_encumbrance( WINDOW *win, int line ) const
         row++;
     }
 
-    if ( o > -num_bp ) { // not every body part fit in the window
+    if ( off > -num_bp ) { // not every body part fit in the window
         //TODO: account for skipped paired body parts in scrollbar math
         draw_scrollbar( win, ( line >= 0 ) ? line : 0, height - 1, num_bp, 1 );
     }
