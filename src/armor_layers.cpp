@@ -128,7 +128,8 @@ std::vector<std::string> clothing_flags_description(item const &worn_item)
 } //namespace
 
 struct layering_item_info {
-    int damage, encumber;
+    int damage;
+    int encumber;
     std::string name;
     bool operator ==( const layering_item_info &o ) const
     {
@@ -350,14 +351,8 @@ void player::sort_armor()
                 combined = true;
             }
             if ( rightListSize >= rightListOffset && pos <= cont_h - 2 ) {
-                mvwprintz(
-                    w_sort_right,
-                    pos,
-                    1,
-                    ( cover == tabindex ? c_yellow : c_white ),
-                    "%s:",
-                    ( combined ? bpp_asText[cover] : bp_asText[cover] ).c_str()
-                );
+                mvwprintz( w_sort_right, pos, 1, ( cover == tabindex ? c_yellow : c_white ),
+                "%s:", ( combined ? bpp_asText[cover] : bp_asText[cover] ).c_str() );
                 pos++;
             }
             rightListSize++;

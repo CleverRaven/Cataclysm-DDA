@@ -3059,22 +3059,20 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
             wrefresh(w_info);
 
             action = ctxt.handle_input();
-            if ( action == "DOWN" )
-            {
-                if ( line < num_bp - 1 ) {
-                    if (
-                        bp_aiOther[line] == line + 1 && // first of a pair
-                        get_encumbrance( line ) == get_encumbrance( bp_aiOther[line] )
-                    ) {
-                        line += ( line < num_bp - 2 ) ? 2 : 0; // skip a line if we aren't at the last pair
-                    } else {
-                        line++; // unpaired or unequal
+                if ( action == "DOWN" )
+                {
+                    if ( line < num_bp - 1 ) {
+                        if ( bp_aiOther[line] == line + 1 && // first of a pair
+                        get_encumbrance( line ) == get_encumbrance( bp_aiOther[line] ) ) {
+                            line += ( line < num_bp - 2 ) ? 2 : 0; // skip a line if we aren't at the last pair
+                        } else {
+                            line++; // unpaired or unequal
+                        }
                     }
-                }
-            } else if ( action == "UP" )
-            {
-                if ( line > 0 ) {
-                    if (
+                } else if ( action == "UP" )
+                {
+                    if ( line > 0 ) {
+                        if (
                         bp_aiOther[line] == line - 1 && // second of a pair
                         get_encumbrance( line ) == get_encumbrance( bp_aiOther[line] )
                     ) {
