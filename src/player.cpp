@@ -14494,7 +14494,7 @@ void player::print_encumbrance( WINDOW *win, int line ) const
         out.clear();
         // limb, and possible color highlighting
         out = string_format( "%-7s", ( combine ? bpp_asText[bp] : bp_asText[bp] ).c_str() );
-        mvwprintz( win, row, 1, ( line == bp ) ? h_ltgray : c_ltgray, out.c_str() );
+        mvwprintz( win, row, 1, ( orig_line == bp ) ? h_ltgray : c_ltgray, out.c_str() );
         // take into account the new encumbrance system for layers
         out = string_format( "(%1d) ", static_cast<int>( e.iLayers / 10.0 ) );
         wprintz( win, c_ltgray, out.c_str() );
@@ -14511,7 +14511,7 @@ void player::print_encumbrance( WINDOW *win, int line ) const
 
     if ( off > -num_bp ) { // not every body part fit in the window
         //TODO: account for skipped paired body parts in scrollbar math
-        draw_scrollbar( win, ( line >= 0 ) ? line : 0, height - 1, num_bp, 1 );
+        draw_scrollbar( win, std::max(orig_line,0), height - 1, num_bp, 1 );
     }
 
 }
