@@ -1490,7 +1490,8 @@ bool worldfactory::load_world_options(WORLDPTR &world)
     }
 
     // for legacy saves, try to simulate old city_size based density
-    if(world->WORLD_OPTIONS.count("CITY_SPACING")==0) {
+    if ( world->WORLD_OPTIONS.count( "CITY_SPACING" ) == 0 )
+    {
         world->WORLD_OPTIONS["CITY_SPACING"].setValue(
             5 - world->WORLD_OPTIONS["CITY_SIZE"] / 3
         );
