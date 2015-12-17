@@ -902,26 +902,26 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
 
         // Checks crafting inventory for books providing the requested recipe.
         // Returns -1 to indicate recipe not found, otherwise difficulty to learn.
-        int has_recipe( const recipe *r, const inventory &crafting_inv ) const;
-        bool knows_recipe( const recipe *rec ) const;
-        void learn_recipe( const recipe *rec );
-        int exceeds_recipe_requirements(const recipe &rec) const;
-        bool has_recipe_requirements(const recipe *rec) const;
+        int has_recipe( const recipe * r, const inventory & crafting_inv ) const;
+        bool knows_recipe( const recipe * rec ) const;
+        void learn_recipe( const recipe * rec );
+        int exceeds_recipe_requirements( const recipe & rec ) const;
+        bool has_recipe_requirements( const recipe * rec ) const;
 
         bool studied_all_recipes(const itype &book) const;
 
         // crafting.cpp
-        bool crafting_allowed(const std::string &rec_name);
-        bool crafting_allowed(const recipe &rec);
-        float lighting_craft_speed_multiplier(const recipe& rec);
+        bool crafting_allowed( const std::string & rec_name );
+        bool crafting_allowed( const recipe & rec );
+        float lighting_craft_speed_multiplier( const recipe & rec );
         bool has_moral_to_craft();
-        bool can_make(const recipe *r, int batch_size = 1); // have components?
-        bool making_would_work(const std::string &id_to_make, int batch_size);
+        bool can_make( const recipe * r, int batch_size = 1 ); // have components?
+        bool making_would_work( const std::string & id_to_make, int batch_size );
         void craft();
         void recraft();
         void long_craft();
-        void make_craft(const std::string &id, int batch_size);
-        void make_all_craft(const std::string &id, int batch_size);
+        void make_craft( const std::string & id, int batch_size );
+        void make_all_craft( const std::string & id, int batch_size );
         void complete_craft();
 
         // also crafting.cpp
