@@ -4489,7 +4489,7 @@
         "points": 3,
         "traits": [
             "PARKOUR"
-        ],	
+        ],
         "skills": [
             {
                 "level": 4,
@@ -4511,7 +4511,6 @@
             "female": [
                 "sports_bra",
                 "boy_shorts"
-
             ]
         }
     }

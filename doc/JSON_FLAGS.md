@@ -83,6 +83,7 @@ List of known flags, used in both terrain.json and furniture.json
 - ```UNSTABLE``` Walking here cause the bouldering effect on the character.
 - ```HARVESTED``` Marks the harvested version of a terrain type (e.g. harvesting an apple tree turns it into a harvested tree, which later becomes an apple tree again).
 - ```ROAD``` Flat and hard enough to drive or skate (with rollerblades) on.
+- ```SALT_WATER``` Source of salt water (works for terrains with examine action "water_source").
 - ```DEEP_WATER```
 - ```AUTO_WALL_SYMBOL``` (only for terrain) The symbol of this terrain will be one of the line drawings (corner, T-intersection, straight line etc.) depending on the adjacent terrains.
 - ```ALLOW_FIELD_EFFECT``` Apply field effects to items inside ```SEALED``` terrain/furniture.
@@ -268,6 +269,7 @@ Flags used to describe monsters and define their properties and abilities.
 - ```CBM_TECH``` May produce a CBM or two from 'bionics_tech' item group and a power CBM when butchered.
 - ```FISHABLE``` It is fishable.
 - ```INTERIOR_AMMO``` Monster contains ammo inside itself, no need to load on launch. Prevents ammo from being dropped on disable.
+- ```NIGHT_INVISIBILITY``` Monster becomes invisible if it's more than one tile away and the lighting on its tile is LL_LOW or less. Visibility is not affected by night vision.
 
 ### Special attacks
 Some special attacks are also valid use actions for tools and weapons.

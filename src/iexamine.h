@@ -91,7 +91,6 @@ void shrub_wildveggies( player *p, map *m, const tripoint &examp );
 void recycler( player *p, map *m, const tripoint &examp );
 void trap( player *p, map *m, const tripoint &examp );
 void water_source( player *p, map *m, const tripoint &examp );
-void swater_source( player *p, map *m, const tripoint &examp );
 void kiln_empty( player *p, map *m, const tripoint &examp );
 void kiln_full( player *p, map *m, const tripoint &examp );
 void fvat_empty( player *p, map *m, const tripoint &examp );

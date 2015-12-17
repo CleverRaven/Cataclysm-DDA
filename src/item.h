@@ -753,21 +753,20 @@ public:
          * must be converted to one of those to be stored.
          * The set_var functions override the existing value.
          * The get_var function return the value (if the variable exists), or the default value
-         * otherwise. The type of the default value determines which get_var function is used:
+         * otherwise.  The type of the default value determines which get_var function is used.
+         * All numeric values are returned as doubles and may be cast to the desired type.
          * <code>
-         * auto v = itm.get_var("v", 0); // v will be an int
-         * auto l = itm.get_var("v", 0l); // l will be a long
-         * auto d = itm.get_var("v", 0.0); // d will be a double
-         * auto s = itm.get_var("v", ""); // s will be a std::string
+         * int v = itm.get_var("v", 0); // v will be an int
+         * long l = itm.get_var("v", 0l); // l will be a long
+         * double d = itm.get_var("v", 0.0); // d will be a double
+         * std::string s = itm.get_var("v", ""); // s will be a std::string
          * // no default means empty string as default:
          * auto n = itm.get_var("v"); // v will be a std::string
          * </code>
          */
         /*@{*/
         void set_var( const std::string &name, int value );
-        int get_var( const std::string &name, int default_value ) const;
         void set_var( const std::string &name, long value );
-        long get_var( const std::string &name, long default_value ) const;
         void set_var( const std::string &name, double value );
         double get_var( const std::string &name, double default_value ) const;
         void set_var( const std::string &name, const std::string &value );
@@ -1044,6 +1043,8 @@ public:
         long ammo_remaining() const;
         /** Maximum quantity of ammunition loadable for tool, gun or axuiliary gunmod */
         long ammo_capacity() const;
+        /** Quantity of ammunition consumed per usage of tool or with each shot of gun */
+        long ammo_required() const;
         /**
          * The id of the ammo type (@ref ammunition_type) that can be used by this item.
          * Will return "NULL" if the item does not use a specific ammo type. Items without

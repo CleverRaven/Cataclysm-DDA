@@ -2503,29 +2503,6 @@ void iexamine::water_source(player *p, map *m, const tripoint &examp)
     p->activity.values.push_back(water.poison);
     p->activity.values.push_back(water.bday);
 }
-void iexamine::swater_source(player *p, map *m, const tripoint &examp)
-{
-    item swater = m->swater_from( examp );
-    const std::string text = string_format(_("Container for %s"), swater.tname().c_str());
-    item *cont = g->inv_map_for_liquid(swater, text);
-    if (cont == NULL || cont->is_null()) {
-        // No container selected, try drinking from out hands
-        p->drink_from_hands(swater);
-    } else {
-        // Turns needed is the number of liquid units / 10 * 100 (because 100 moves in a turn).
-        int turns = cont->get_remaining_capacity_for_liquid( swater ) * 10;
-        if (turns > 0) {
-            if( turns/1000 > 1 ) {
-                // If it takes less than a minute, no need to inform the player about time.
-                p->add_msg_if_player(m_info, _("It will take around %d minutes to fill that container."), turns / 1000);
-            }
-            p->assign_activity(ACT_FILL_LIQUID, turns, -1, p->get_item_position(cont), cont->tname());
-            p->activity.str_values.push_back(swater.typeId());
-            p->activity.values.push_back(swater.poison);
-            p->activity.values.push_back(swater.bday);
-        }
-    }
-}
 
 itype *furn_t::crafting_pseudo_item_type() const
 {
@@ -3359,9 +3336,6 @@ iexamine_function iexamine_function_from_string(std::string const &function_name
     }
     if ("water_source" == function_name) {
         return &iexamine::water_source;
-    }
-    if ("swater_source" == function_name) {
-        return &iexamine::swater_source;
     }
     if ("reload_furniture" == function_name) {
         return &iexamine::reload_furniture;

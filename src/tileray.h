@@ -37,6 +37,7 @@ class tileray
         int dy() const;       // return dy of last advance (-1 to 1)
         int dir() const;      // return direction of ray (degrees)
         int dir4() const;     // return 4-sided direction (0 = east, 1 = south, 2 = west, 3 = north)
+        int dir8() const;     // return 8-sided direction (0 = east, 1 = southeast, 2 = south ...)
         long dir_symbol( long sym )
         const; // convert certain symbols from north-facing variant into current dir facing
         int ortho_dx( int od ) const; // return dx for point at "od" distance in orthogonal direction

@@ -2077,23 +2077,34 @@ void player::memorial( std::ofstream &memorial_file, std::string epitaph )
 
     int total_kills = 0;
 
+    std::map<std::tuple<std::string,std::string>,int> kill_counts;
+
+    // map <name, sym> to kill count
     for( const auto &monid : MonsterGenerator::generator().get_all_mtypes() ) {
         if( g->kill_count( monid.first ) > 0 ) {
-            memorial_file << "  " << monid.second->sym << " - "
-                          << string_format( "%4d", g->kill_count( monid.first ) ) << " "
-                          << monid.second->nname( g->kill_count( monid.first ) ) << "\n";
+            kill_counts[std::tuple<std::string,std::string>(
+                monid.second->nname(),
+                monid.second->sym
+            )] += g->kill_count( monid.first );
             total_kills += g->kill_count( monid.first );
         }
     }
-    if(total_kills == 0) {
-      memorial_file << indent << _("No monsters were killed.") << "\n";
+
+    for( const auto entry : kill_counts ) {
+        memorial_file << "  " << std::get<1>( entry.first ) << " - "
+                      << string_format( "%4d", entry.second ) << " "
+                      << std::get<0>( entry.first ) << "\n";
+    }
+
+    if( total_kills == 0 ) {
+      memorial_file << indent << _( "No monsters were killed." ) << "\n";
     } else {
-      memorial_file << string_format(_("Total kills: %d"), total_kills) << "\n";
+      memorial_file << string_format( _( "Total kills: %d" ), total_kills ) << "\n";
     }
     memorial_file << "\n";
 
     //Skills
-    memorial_file << _("Skills:") << "\n";
+    memorial_file << _( "Skills:" ) << "\n";
     for( auto &skill : Skill::skills ) {
         SkillLevel next_skill_level = get_skill_level( skill );
         memorial_file << indent << skill.name() << ": " << next_skill_level.level() << " ("
@@ -5826,7 +5837,7 @@ void player::regen( int rate_multiplier )
     }
 
     if( radiation > 0 ) {
-        radiation = std::min( 0, radiation - divide_roll_remainder( rate_multiplier * radiation / 3.0, 1.0f ) );
+        radiation = std::max( 0, radiation - divide_roll_remainder( rate_multiplier * radiation / 3.0, 1.0f ) );
     }
 }
 

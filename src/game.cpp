@@ -1883,6 +1883,7 @@ input_context get_default_mode_input_context()
 {
     input_context ctxt("DEFAULTMODE");
     // Because those keys move the character, they don't pan, as their original name says
+    ctxt.set_iso(true);
     ctxt.register_action("UP", _("Move North"));
     ctxt.register_action("RIGHTUP", _("Move Northeast"));
     ctxt.register_action("RIGHT", _("Move East"));
@@ -2167,6 +2168,10 @@ void game::rcdrive(int dx, int dy)
         return;
     }
     item *rc_car = rc_pair->second;
+
+    if(tile_iso) {
+        rotate_direction_cw(dx,dy);
+    }
 
     tripoint src( cx, cy, cz );
     tripoint dest( cx + dx, cy + dy, cz );
@@ -2710,7 +2715,7 @@ bool game::handle_action()
             break;
 
         case ACTION_UNLOAD:
-            unload( -1 );
+            unload();
             break;
 
         case ACTION_THROW:
@@ -4421,31 +4426,43 @@ void game::disp_kills()
     std::vector<std::string> data;
     int totalkills = 0;
     const int colum_width = (getmaxx(w) - 2) / 3; // minus border
+
+    std::map<std::tuple<std::string,std::string,std::string>,int> kill_counts;
+
+    // map <name, sym, color> to kill count
     for( auto &elem : kills ) {
         const mtype &m = elem.first.obj();
-        std::ostringstream buffer;
-        buffer << "<color_" << string_from_color(m.color) << ">";
-        buffer << m.sym << " " << m.nname();
-        buffer << "</color>";
-        const int w = colum_width - utf8_width(m.nname());
-        buffer.width(w - 3); // gap between cols, monster sym, space
-        buffer.fill(' ');
-        buffer << elem.second;
-        buffer.width(0);
-        data.push_back(buffer.str());
+        kill_counts[std::tuple<std::string,std::string,std::string>(
+            m.nname(),
+            m.sym,
+            string_from_color( m.color )
+        )] += elem.second;
         totalkills += elem.second;
     }
-    std::ostringstream buffer;
-    if (data.empty()) {
-        buffer << _("You haven't killed any monsters yet!");
-    } else {
-        buffer << string_format(_("KILL COUNT: %d"), totalkills);
-    }
-    display_table(w, buffer.str(), 3, data);
 
-    werase(w);
-    wrefresh(w);
-    delwin(w);
+    for( const auto &entry : kill_counts ) {
+        std::ostringstream buffer;
+        buffer << "<color_" << std::get<2>( entry.first ) << ">";
+        buffer << std::get<1>( entry.first ) << " " << std::get<0>( entry.first );
+        buffer << "</color>";
+        const int w = colum_width - utf8_width( std::get<0>( entry.first ) );
+        buffer.width( w - 3 ); // gap between cols, monster sym, space
+        buffer.fill(' ');
+        buffer << entry.second;
+        buffer.width( 0 );
+        data.push_back( buffer.str() );
+    }
+    std::ostringstream buffer;
+    if( data.empty() ) {
+        buffer << _( "You haven't killed any monsters yet!" );
+    } else {
+        buffer << string_format( _( "KILL COUNT: %d" ), totalkills );
+    }
+    display_table( w, buffer.str(), 3, data );
+
+    werase( w );
+    wrefresh( w );
+    delwin( w );
     refresh_all();
 }
 
@@ -5039,7 +5056,7 @@ void game::draw_sidebar()
         sPhase.insert(5 - ((iPhase < 4) ? iPhase+1 : 5), "<color_" + string_from_color(i_black) + ">");
     }
 
-    trim_and_print( w_location, 1, 0, 10, c_white, "Moon %s", sPhase.c_str() );
+    trim_and_print( w_location, 1, 0, 10, c_white, _("Moon %s"), sPhase.c_str() );
 
     const auto ll = get_light_level(g->u.fine_detail_vision_mod());
     mvwprintz(w_location, 1, 15, c_ltgray, "%s ", _("Lighting:"));
@@ -5172,7 +5189,7 @@ void game::draw_ter( const tripoint &center, const bool looking, const bool draw
         draw_veh_dir_indicator();
     }
     if(uquit == QUIT_WATCH) {
-        // This should remove the flickering the bar recieves
+        // This should remove the flickering the bar receives
         input_context ctxt("DEFAULTMODE");
         std::string message = string_format( _("Press %s to accept your fate..."),
                 ctxt.get_desc("QUIT").c_str() );
@@ -8915,6 +8932,7 @@ tripoint game::look_around( WINDOW *w_info, const tripoint &start_point,
 
     std::string action;
     input_context ctxt("LOOK");
+    ctxt.set_iso(true);
     ctxt.register_directions();
     ctxt.register_action("COORDINATE");
     ctxt.register_action("SELECT");
@@ -10894,23 +10912,15 @@ void game::plfire( bool burst, const tripoint &default_target )
             refresh_all();
         }
 
-        if( u.weapon.num_charges() == 0 && !u.weapon.has_flag("RELOAD_AND_SHOOT") &&
-            !u.weapon.has_flag("NO_AMMO") ) {
-            add_msg(m_info, _("You need to reload!"));
+        if( u.weapon.num_charges() < u.weapon.ammo_required() && !u.weapon.has_flag("RELOAD_AND_SHOOT") ) {
+            if( u.weapon.num_charges() == 0 ) {
+                add_msg(m_info, _("You need to reload!"));
+            } else {
+                add_msg(m_info, _("Your %s needs %i charges to fire!"), u.weapon.tname().c_str(), u.weapon.ammo_required() );
+            }
             return;
         }
-        if (u.weapon.has_flag("FIRE_100") && u.weapon.num_charges() < 100) {
-            add_msg(m_info, _("Your %s needs 100 charges to fire!"), u.weapon.tname().c_str());
-            return;
-        }
-        if (u.weapon.has_flag("FIRE_50") && u.weapon.num_charges() < 50) {
-            add_msg(m_info, _("Your %s needs 50 charges to fire!"), u.weapon.tname().c_str());
-            return;
-        }
-        if (u.weapon.has_flag("FIRE_20") && u.weapon.num_charges() < 20) {
-            add_msg(m_info, _("Your %s needs 20 charges to fire!"), u.weapon.tname().c_str());
-            return;
-        }
+
         const auto gun = u.weapon.type->gun.get();
 
         if( gun != nullptr && ( u.weapon.get_gun_ups_drain() > 0 ) ) {
@@ -11345,31 +11355,26 @@ void game::reload()
 // If it's a gun, some gunmods can also be loaded
 void game::unload(int pos)
 {
-    item &itm = u.i_at( pos );
-    if( !itm.is_null() ) {
-        unload( itm );
-    } else if( pos == -1 || pos == INT_MIN ) {
-        // Empty hands and unloading the weapon
-        // or explicitly requested unload item menu
-        auto filter = [&]( const item &it ) {
+    item *it = nullptr;
+
+    if( pos == INT_MIN ) {
+        it = inv_map_splice( [&]( const item &it ) {
             return u.rate_action_unload( it ) == HINT_GOOD;
-        };
+        }, _( "Unload item:" ), 1 ).get_item();
 
-        auto item_loc = inv_map_splice( filter, _("Unload item:") );
-        const int inv_pos = item_loc.get_inventory_position();
-        if( inv_pos != INT_MIN ) {
-            unload( inv_pos );
-            return;
-        }
-
-        item *it = item_loc.get_item();
         if( it == nullptr ) {
-            add_msg(_("Never mind."));
+            add_msg( _("Never mind.") );
             return;
         }
-
-        unload( *it );
+    } else {
+        it = &u.i_at( pos );
+        if( it->is_null() ) {
+            debugmsg( "Tried to unload non-existent item" );
+            return;
+        }
     }
+
+    unload( *it );
 }
 
 bool add_or_drop_with_msg( player &u, item &it )
@@ -11795,6 +11800,9 @@ bool game::plmove(int dx, int dy, int dz)
         dest_loc.y = rng(u.posy() - 1, u.posy() + 1);
         dest_loc.z = u.posz();
     } else {
+        if(tile_iso) {
+            rotate_direction_cw(dx,dy);
+        }
         dest_loc.x = u.posx() + dx;
         dest_loc.y = u.posy() + dy;
         dest_loc.z = u.posz() + dz;
