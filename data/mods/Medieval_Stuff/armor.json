@@ -294,7 +294,7 @@
             "holster_prompt": "Sheath sword",
             "holster_msg": "You sheath your %s",
             "max_volume": 12,
-            "draw_speed": 10,
+            "draw_cost": 10,
             "flags": ["SHEATH_SWORD"]
         }
     }
