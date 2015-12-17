@@ -193,10 +193,6 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         int calc_focus_equilibrium() const;
         /** Maintains body temperature */
         void update_bodytemp();
-        /** Value of the body temperature corrected by climate control **/
-        int temp_corrected_by_climate_control(int temperature);
-        /** Define blood loss (in percents) */
-        int blood_loss(body_part bp);
         /** Define color for displaying the body temperature */
         nc_color bodytemp_color(int bp) const;
         /** Returns the player's modified base movement cost */
@@ -1209,6 +1205,19 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
          * are included.
          */
         bool is_visible_in_range( const Creature &critter, int range ) const;
+
+        /** Calculate bonus warmth from furniture, items, and mutations for sleeping player **/
+        int warmth_in_sleep();
+        /** Correction factor of the body temperature due to fire **/
+        int bodytemp_modifier_fire();
+        /** Correction factor of the body temperature due to traits and mutations **/
+        int bodytemp_modifier_traits(bool overheated);
+        /** Correction factor of the body temperature due to traits and mutations for sleeping player **/
+        int bodytemp_modifier_traits_sleep();
+        /** Value of the body temperature corrected by climate control **/
+        int temp_corrected_by_climate_control(int temperature);
+        /** Define blood loss (in percents) */
+        int blood_loss(body_part bp);
 
         // Trigger and disable mutations that can be so toggled.
         void activate_mutation( const std::string &mutation );
