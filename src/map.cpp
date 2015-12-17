@@ -4656,6 +4656,11 @@ item &map::add_item_at( const tripoint &p,
 
 item map::water_from(const tripoint &p)
 {
+    if ( has_flag("SALT_WATER", p) ) {
+        item ret("salt_water", 0);
+        return ret;
+    }
+
     item ret("water", 0);
     if (ter( p ) == t_water_sh && one_in(3))
         ret.poison = rng(1, 4);
@@ -4663,13 +4668,6 @@ item map::water_from(const tripoint &p)
         ret.poison = rng(1, 4);
     else if (ter( p ) == t_sewage)
         ret.poison = rng(1, 7);
-    return ret;
-}
-item map::swater_from(const tripoint &p)
-{
-    (void)p;
-    item ret("salt_water", 0);
-
     return ret;
 }
 
