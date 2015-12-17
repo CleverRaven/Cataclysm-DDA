@@ -227,8 +227,9 @@ void player::sort_armor()
     // Subwindows (between lines)
     WINDOW *w_sort_cat    = newwin(1, win_w - 4, win_y + 1, win_x + 2);
     WINDOW *w_sort_left   = newwin(cont_h, left_w,   win_y + 3, win_x + 1);
-    WINDOW *w_sort_middle = newwin(cont_h, middle_w, win_y + 3, win_x + left_w + 2);
+    WINDOW *w_sort_middle = newwin(cont_h-num_bp-1, middle_w, win_y + 3, win_x + left_w + 2);
     WINDOW *w_sort_right  = newwin(cont_h, right_w,  win_y + 3, win_x + left_w + middle_w + 3);
+    WINDOW *w_encumb      = newwin(num_bp+1, middle_w, win_y+3+cont_h-num_bp-1, win_x+left_w+2);
 
     nc_color dam_color[] = {c_green, c_ltgreen, c_yellow, c_magenta, c_ltred, c_red};
 
@@ -271,6 +272,7 @@ void player::sort_armor()
         werase(w_sort_left);
         werase(w_sort_middle);
         werase(w_sort_right);
+        werase(w_encumb);
 
         // top bar
         wprintz(w_sort_cat, c_white, _("Sort Armor"));
@@ -332,28 +334,8 @@ void player::sort_armor()
             mvwprintz(w_sort_middle, 0, 1, c_white, _("Nothing to see here!"));
         }
 
-        // Player encumbrance - altered copy of '@' screen
-        // TODO deduplicate code here and @ screen
-        mvwprintz(w_sort_middle, cont_h - 13, 1, c_white, _("Encumbrance and Warmth"));
-        for (int i = 0; i < num_bp; ++i) {
-            int enc, armorenc, true_enc;
-            double layers;
-            layers = armorenc = 0;
-            enc = encumb(body_part(i), layers, armorenc);
-            if (leftListSize && (tmp_worn[leftListIndex]->covers(static_cast<body_part>(i)))) {
-                mvwprintz(w_sort_middle, cont_h - 12 + i, 2, c_green, "%s:", armor_cat[i].c_str());
-            } else {
-                mvwprintz(w_sort_middle, cont_h - 12 + i, 2, c_ltgray, "%s:", armor_cat[i].c_str());
-            }
-            true_enc = enc - armorenc;
-            // well, now I can't use my "Tom is my only friend" joke anymore
-            std::string enc_string = string_format("%3d+%-3d = ", armorenc, true_enc);
-            // TODO: perhaps make (middle_w - 20) something a bit more dynamic? (p.s. originally 'middle_w - 16')
-            mvwprintz(w_sort_middle, cont_h - 12 + i, (middle_w - 20), c_ltgray, enc_string.c_str());
-            wprintz(w_sort_middle, encumb_color(enc), "%-3d" , enc);
-            int bodyTempInt = (temp_conv[i] / 100.0) * 2 - 100; // Scale of -100 to +100
-            mvwprintz(w_sort_middle, cont_h - 12 + i, middle_w - 6, bodytemp_color(i), "(% 3d)", bodyTempInt);
-        }
+        mvwprintz(w_encumb, 0, 1, c_white, _("Encumbrance and Warmth"));
+        print_encumbrance(w_encumb);
 
         // Right header
         mvwprintz(w_sort_right, 0, 0, c_ltgray, _("(Innermost)"));
@@ -373,7 +355,7 @@ void player::sort_armor()
                     1,
                     (cover == tabindex ? c_yellow : c_white),
                     "%s:",
-                    (combined ? bpc_asText[cover/2-2] : bp_asText[cover]).c_str()
+                    (combined ? bpp_asText[cover] : bp_asText[cover]).c_str()
                 );
                 pos++;
             }
@@ -403,6 +385,7 @@ void player::sort_armor()
         wrefresh(w_sort_left);
         wrefresh(w_sort_middle);
         wrefresh(w_sort_right);
+        wrefresh(w_encumb);
 
         // A set of actions that we can only execute if is_player() is true
         static const std::set<std::string> not_allowed_npc = {{
@@ -583,4 +566,5 @@ The sum of these values is the effective encumbrance value your character has fo
     delwin(w_sort_middle);
     delwin(w_sort_right);
     delwin(w_sort_armor);
+    delwin(w_encumb);
 }
