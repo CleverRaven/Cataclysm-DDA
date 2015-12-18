@@ -2978,20 +2978,36 @@ bool overmap::build_lab(int x, int y, int z, int s, bool ice)
     std::vector<point> generated_lab;
     std::string labt = ice ? "ice_lab" : "lab";
     ter(x, y, z) = labt;
-    for (int n = 0; n <= 1; n++) { // Do it in two passes to allow diagonals
-        for (int i = 1; i <= s; i++) {
-            for (int lx = x - i; lx <= x + i; lx++) {
-                for (int ly = y - i; ly <= y + i; ly++) {
-                    if ((ter(lx - 1, ly, z) == labt ||
-                         ter(lx + 1, ly, z) == labt ||
-                         ter(lx, ly - 1, z) == labt ||
-                         ter(lx, ly + 1, z) == labt) && one_in(i)) {
-                        ter(lx, ly, z) = labt;
-                        generated_lab.push_back(point(lx, ly));
-                    }
+
+    // maintain a list of potential new lab maps
+    // grows outwards from previously placed lab maps
+    std::set<point> candidates;
+    candidates.insert( {point(x-1,y), point(x+1,y), point(x,y-1), point(x,y+1)} );
+    while(candidates.size()) {
+        auto cand = candidates.begin();
+        const int &cx = cand->x;
+        const int &cy = cand->y;
+        int dist = abs(x - cx)+abs(y - cy);
+        if(dist <= s*2) { // increase radius to compensate for sparser new algorithm
+            if(one_in(dist/2+1)) { // odds diminish farther away from the stairs
+                ter(cx, cy, z) = labt;
+                generated_lab.push_back(*cand);
+                // add new candidates, don't backtrack
+                if( ter(cx - 1, cy, z) != labt && abs(x-cx+1)+abs(y-cy) > dist ) {
+                    candidates.insert(point(cx - 1, cy));
+                }
+                if( ter(cx + 1, cy, z) != labt && abs(x-cx-1)+abs(y-cy) > dist ) {
+                    candidates.insert(point(cx + 1, cy));
+                }
+                if( ter(cx, cy - 1, z) != labt && abs(x-cx)+abs(y-cy+1) > dist ) {
+                    candidates.insert(point(cx, cy - 1));
+                }
+                if( ter(cx, cy + 1, z) != labt && abs(x-cx)+abs(y-cy-1) > dist ) {
+                    candidates.insert(point(cx, cy + 1));
                 }
             }
         }
+        candidates.erase(cand);
     }
 
     bool generate_stairs = true;
