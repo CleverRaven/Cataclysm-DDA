@@ -97,7 +97,9 @@ struct stats : public JsonSerializer, public JsonDeserializer {
 };
 
 struct encumbrance_data {
-    int iEnc = 0, iArmorEnc = 0 , iBodyTempInt = 0;
+    int iEnc = 0;
+    int iArmorEnc = 0;
+    int iBodyTempInt = 0;
     double iLayers = 0.0;
     bool operator == ( const encumbrance_data &RHS )
     {
@@ -1195,9 +1197,9 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         void on_mission_finished( mission &mission );
 
         // returns a struct describing the encumbrance of a body part
-        encumbrance_data get_encumbrance(size_t i) const;
+        encumbrance_data get_encumbrance( size_t i ) const;
         // formats and prints encumbrance info to specified window
-        void print_encumbrance(WINDOW *win, int line = -1) const;
+        void print_encumbrance( WINDOW * win, int line = -1 ) const;
 
         // Prints message(s) about current health
         void print_health() const;

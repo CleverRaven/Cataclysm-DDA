@@ -131,15 +131,14 @@ struct layering_item_info {
     int damage;
     int encumber;
     std::string name;
-    bool operator ==( const layering_item_info &o ) const
-    {
+    bool operator ==( const layering_item_info &o ) const {
         return this->damage == o.damage &&
                this->encumber == o.encumber &&
                this->name == o.name;
     }
 };
 
-std::vector<layering_item_info> items_cover_bp( int bp ){
+std::vector<layering_item_info> items_cover_bp( int bp ) {
     std::vector<layering_item_info> s;
     for ( auto &elem : g->u.worn ) {
         if ( elem.covers( static_cast<body_part>( bp ) ) ) {
@@ -269,11 +268,11 @@ void player::sort_armor()
                 return;
             }
         }
-        werase(w_sort_cat);
-        werase(w_sort_left);
-        werase(w_sort_middle);
-        werase(w_sort_right);
-        werase(w_encumb);
+        werase( w_sort_cat );
+        werase( w_sort_left );
+        werase( w_sort_middle );
+        werase( w_sort_right );
+        werase( w_encumb );
 
         // top bar
         wprintz(w_sort_cat, c_white, _("Sort Armor"));
@@ -343,9 +342,9 @@ void player::sort_armor()
         mvwprintz(w_sort_right, 0, right_w - utf8_width(_("Encumbrance")), c_ltgray, _("Encumbrance"));
 
         // Right list
+
         rightListSize = 0;
-        for ( int cover = 0, pos = 1; cover < num_bp; cover++ )
-        {
+        for ( int cover = 0, pos = 1; cover < num_bp; cover++ ) {
             bool combined = false;
             if ( cover > 3 && cover % 2 == 0 && items_cover_bp( cover ) == items_cover_bp( cover + 1 ) ) {
                 combined = true;
@@ -377,11 +376,11 @@ void player::sort_armor()
             mvwprintz(w_sort_right, cont_h - 1, right_w - utf8_width(_("<more>")), c_ltblue, _("<more>"));
         }
         // F5
-        wrefresh(w_sort_cat);
-        wrefresh(w_sort_left);
-        wrefresh(w_sort_middle);
-        wrefresh(w_sort_right);
-        wrefresh(w_encumb);
+        wrefresh( w_sort_cat );
+        wrefresh( w_sort_left );
+        wrefresh( w_sort_middle );
+        wrefresh( w_sort_right );
+        wrefresh( w_encumb );
 
         // A set of actions that we can only execute if is_player() is true
         static const std::set<std::string> not_allowed_npc = {{
@@ -557,10 +556,10 @@ The sum of these values is the effective encumbrance value your character has fo
         }
     }
 
-    delwin(w_sort_cat);
-    delwin(w_sort_left);
-    delwin(w_sort_middle);
-    delwin(w_sort_right);
-    delwin(w_sort_armor);
-    delwin(w_encumb);
+    delwin( w_sort_cat );
+    delwin( w_sort_left );
+    delwin( w_sort_middle );
+    delwin( w_sort_right );
+    delwin( w_sort_armor );
+    delwin( w_encumb );
 }

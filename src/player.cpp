@@ -3059,29 +3059,25 @@ Strength - 4;    Dexterity - 4;    Intelligence - 4;    Perception - 4"));
             wrefresh(w_info);
 
             action = ctxt.handle_input();
-                if ( action == "DOWN" )
-                {
-                    if ( line < num_bp - 1 ) {
-                        if ( bp_aiOther[line] == line + 1 && // first of a pair
-                        get_encumbrance( line ) == get_encumbrance( bp_aiOther[line] ) ) {
-                            line += ( line < num_bp - 2 ) ? 2 : 0; // skip a line if we aren't at the last pair
-                        } else {
-                            line++; // unpaired or unequal
-                        }
+            if ( action == "DOWN" ) {
+                if ( line < num_bp - 1 ) {
+                    if ( bp_aiOther[line] == line + 1 && // first of a pair
+                    get_encumbrance( line ) == get_encumbrance( bp_aiOther[line] ) ) {
+                        line += ( line < num_bp - 2 ) ? 2 : 0; // skip a line if we aren't at the last pair
+                    } else {
+                        line++; // unpaired or unequal
                     }
-                } else if ( action == "UP" )
-                {
-                    if ( line > 0 ) {
-                        if (
-                        bp_aiOther[line] == line - 1 && // second of a pair
-                        get_encumbrance( line ) == get_encumbrance( bp_aiOther[line] )
-                    ) {
+                }
+            } else if ( action == "UP" ) {
+                if ( line > 0 ) {
+                    if ( bp_aiOther[line] == line - 1 && // second of a pair
+                         get_encumbrance( line ) == get_encumbrance( bp_aiOther[line] ) ) {
                         line -= ( line < num_bp - 2 ) ? 2 : 0; // skip a line if we aren't at the first pair
                     } else {
                         line--; // unpaired or unequal
                     }
                 }
-            } else if (action == "NEXT_TAB") {
+            } else if ( action == "NEXT_TAB" ) {
                 mvwprintz(w_encumb, 0, 0, c_ltgray, header_spaces.c_str());
                 mvwprintz(w_encumb, 0, 13 - utf8_width(title_ENCUMB)/2, c_ltgray, title_ENCUMB);
                 wrefresh(w_encumb);
@@ -14461,18 +14457,16 @@ void player::print_encumbrance( WINDOW *win, int line ) const
     int off = 0; // offset from line
     int skip[2] = {}; // how far to skip on next neg/pos jump
     do {
-        if ( !skip[off > 0] && line + off >= 0 && line + off < num_bp )   // line+off is in bounds
-        {
+        if ( !skip[off > 0] && line + off >= 0 && line + off < num_bp ) { // line+off is in bounds
             parts.insert( line + off );
             if ( line + off != ( int )bp_aiOther[line + off] &&
-            get_encumbrance( line + off ) == get_encumbrance( bp_aiOther[line + off] ) ) { // part of a pair
+                 get_encumbrance( line + off ) == get_encumbrance( bp_aiOther[line + off] ) ) { // part of a pair
                 skip[( int )bp_aiOther[line + off] > line + off ] = 1; // skip the next candidate in this direction
             }
         } else {
             skip[off > 0] = 0;
         }
-        if ( off < 0 )
-        {
+        if ( off < 0 ) {
             off = -off;
         } else {
             off = -off - 1;
@@ -14511,7 +14505,7 @@ void player::print_encumbrance( WINDOW *win, int line ) const
 
     if ( off > -num_bp ) { // not every body part fit in the window
         //TODO: account for skipped paired body parts in scrollbar math
-        draw_scrollbar( win, std::max(orig_line,0), height - 1, num_bp, 1 );
+        draw_scrollbar( win, std::max( orig_line, 0 ), height - 1, num_bp, 1 );
     }
 
 }
