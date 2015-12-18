@@ -545,24 +545,13 @@ void player::fire_gun( const tripoint &targ_arg, bool burst )
             }
         }
 
-        // Use up a round (or 100)
-        if (used_weapon->has_flag("FIRE_100")) {
-            used_weapon->charges -= 100;
-        } else if (used_weapon->has_flag("FIRE_50")) {
-            used_weapon->charges -= 50;
-        } else if (used_weapon->has_flag("FIRE_20")) {
-            used_weapon->charges -= 20;
-        } else if( used_weapon->deactivate_charger_gun() ) {
-            // Done, charger gun is deactivated.
-        } else if (used_weapon->has_flag("BIO_WEAPON")) {
-            //The weapon used is a bio weapon.
-            //It should consume a charge to let the game (specific: bionics.cpp:player::activate_bionic)
-            //know the weapon has been fired.
-            //It should ignore the NO_AMMO tag for charges, and still use one.
-            //the charges are virtual anyway.
+        if( used_weapon->has_flag("BIO_WEAPON") ) {
+            // Consume a (virtual) charge to let player::activate_bionic know the weapon has been fired.
             used_weapon->charges--;
-        } else if (!used_weapon->has_flag("NO_AMMO")) {
-            used_weapon->charges--;
+        } else if ( used_weapon->deactivate_charger_gun() ) {
+            // Deactivated charger gun
+        } else {
+            used_weapon->charges -= used_weapon->ammo_required();
         }
 
         // Drain UPS power

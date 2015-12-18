@@ -10,7 +10,8 @@
                 "bio_torsionratchet",
                 "bio_power_storage",
                 "bio_tools",
-                "bio_sunglasses"
+                "bio_sunglasses",
+                "bio_blindfold"
             ],
             "skills": [
                 {
@@ -2782,6 +2783,7 @@
             "bio_razors",
             "bio_armor_eyes",
             "bio_sunglasses",
+            "bio_blindfold",
             "bio_dex_enhancer",
             "bio_ears",
             "bio_earplugs",

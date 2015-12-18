@@ -2366,7 +2366,7 @@ void complete_vehicle ()
             g->u.view_offset.y = py;
 
             int delta_x = headlight_target.x - (veh->global_x() + q.x);
-            int delta_y = headlight_target.y - (veh->global_y() + q.x);
+            int delta_y = headlight_target.y - (veh->global_y() + q.y);
 
             const double PI = 3.14159265358979f;
             int dir = int(atan2(static_cast<float>(delta_y), static_cast<float>(delta_x)) * 180.0 / PI);
