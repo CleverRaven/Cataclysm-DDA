@@ -408,7 +408,7 @@ bool ma_requirements::is_valid_player( const player &u ) const
     bool cqb = u.has_active_bionic("bio_cqb");
     bool valid = ((unarmed_allowed && u.unarmed_attack()) ||
                   (melee_allowed && !u.unarmed_attack() && is_valid_weapon(u.weapon)) ||
-                  (u.has_weapon() && martialarts[u.style_selected].has_weapon(u.weapon.type->id) &&
+                  (u.has_weapon() && u.style_selected.obj().has_weapon(u.weapon.type->id) &&
                    is_valid_weapon(u.weapon))) &&
                    // TODO: same list as in player.cpp
                    ///\EFFECT_MELEE determines which melee martial arts are available
