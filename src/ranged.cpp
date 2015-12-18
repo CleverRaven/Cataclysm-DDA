@@ -328,20 +328,15 @@ void player::fire_gun( const tripoint &targ, long burst_size )
 
 void player::fire_gun( const tripoint &targ_arg, bool burst )
 {
-    item *gunmod = weapon.active_gunmod();
-    const itype *curammo = NULL;
-    item *used_weapon = NULL;
-
-    if( gunmod != nullptr ) {
-        used_weapon = gunmod;
-    } else if( weapon.is_auxiliary_gunmod() ) {
+    if( weapon.is_auxiliary_gunmod() ) {
         add_msg( m_info, _( "The %s must be attached to a gun, it can not be fired separately." ), weapon.tname().c_str() );
         return;
-    } else {
-        used_weapon = &weapon;
     }
+
+    item *used_weapon = weapon.active_gunmod() ? weapon.active_gunmod() : &weapon;
+
     const bool is_charger_gun = used_weapon->update_charger_gun_ammo();
-    curammo = used_weapon->get_curammo();
+    const itype *curammo = used_weapon->get_curammo();
 
     if( !used_weapon->is_gun() || curammo == nullptr ) {
         debugmsg( "%s tried to fire empty or non-gun (%s).", name.c_str(), used_weapon->tname().c_str() );
