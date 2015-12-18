@@ -33,18 +33,6 @@ struct species_type {
     {
 
     }
-    species_type( const species_id &_id,
-                 std::set<m_flag> _flags,
-                 std::set<monster_trigger> _anger,
-                 std::set<monster_trigger> _fear,
-                 std::set<monster_trigger> _placate)
-    : id( _id )
-    , flags( _flags )
-    , anger_trig( _anger)
-    , fear_trig( _fear )
-    , placate_trig( _placate )
-    {
-    }
 
     void load( JsonObject &jo );
 };
