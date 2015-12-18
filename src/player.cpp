@@ -930,7 +930,7 @@ void player::update_bodytemp()
             add_effect( "blisters", 1, ( body_part )i );
         }
 
-        temp_conv[i] = bodytemp_modifier_fire();
+        temp_conv[i] += bodytemp_modifier_fire();
         // WEATHER
         if( g->weather == WEATHER_SUNNY && g->is_in_sunlight(pos()) ) {
             temp_conv[i] += 1000;
