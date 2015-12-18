@@ -11402,7 +11402,7 @@ void game::unload(item &it)
             }
             u.moves -= 40;
             return true;
-        } ) );
+        } ), it.contents.end() );
         return;
     }
 
