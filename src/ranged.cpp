@@ -343,14 +343,8 @@ void player::fire_gun( const tripoint &targ_arg, bool burst )
     const bool is_charger_gun = used_weapon->update_charger_gun_ammo();
     curammo = used_weapon->get_curammo();
 
-    if( curammo == nullptr ) {
-        debugmsg( "%s tried to fire an empty gun (%s).", name.c_str(),
-                  used_weapon->tname().c_str() );
-        return;
-    }
-    if( !used_weapon->is_gun() ) {
-        debugmsg("%s tried to fire a non-gun (%s).", name.c_str(),
-                 used_weapon->tname().c_str());
+    if( !used_weapon->is_gun() || curammo == nullptr ) {
+        debugmsg( "%s tried to fire empty or non-gun (%s).", name.c_str(), used_weapon->tname().c_str() );
         return;
     }
     const skill_id skill_used = used_weapon->gun_skill();
