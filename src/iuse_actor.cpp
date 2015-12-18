@@ -1772,7 +1772,7 @@ void holster_actor::load( JsonObject &obj )
     min_volume = obj.get_int( "min_volume", max_volume / 3 );
     max_weight = obj.get_int( "max_weight", max_weight );
     multi      = obj.get_int( "multi",      multi );
-    draw_speed = obj.get_int( "draw_speed", draw_speed );
+    draw_cost  = obj.get_int( "draw_cost",  draw_cost );
 
     auto tmp = obj.get_string_array( "skills" );
     std::transform( tmp.begin(), tmp.end(), std::back_inserter( skills ),
@@ -1821,7 +1821,7 @@ long holster_actor::use( player *p, item *it, bool, const tripoint & ) const
     }
 
     if( pos >= 0 ) {
-        p->wield_contents( it, pos, draw_speed );
+        p->wield_contents( it, pos, draw_cost );
     } else {
         item &obj = p->i_at( g->inv_for_filter( prompt, [&](const item& e) { return can_holster(e); } ) );
 
