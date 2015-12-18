@@ -433,15 +433,10 @@ void player::fire_gun( const tripoint &targ_arg, bool burst )
     // This is expensive, let's cache. todo: figure out if we need weapon.range(&p);
     const int weaponrange = used_weapon->gun_range( this );
 
-    // If the dispersion from the weapon is greater than the dispersion from your skill,
-    // you can't tell if you need to correct or the gun messed you up, so you can't learn.
-    const int weapon_dispersion = used_weapon->get_curammo()->ammo->dispersion +
-        used_weapon->gun_dispersion(false);
-    const int player_dispersion = skill_dispersion( used_weapon, false ) +
-        ranged_skill_offset( used_weapon->gun_skill() );
-    // High perception allows you to pick out details better, low perception interferes.
-    ///\EFFECT_PER allows you to learn more often while using less accurate ranged weapons
-    const bool train_skill = weapon_dispersion < player_dispersion + 15 * rng(0, get_per());
+    // If weapon dispersion exceeds skill dispersion you can't tell if you need to correct or if the gun messed
+    // up, so you can't learn. Higher perception allows you to learn more often with less accurate weapons
+    const int player_dispersion = skill_dispersion( used_weapon, false ) + ranged_skill_offset( skill_used );
+    const bool train_skill = used_weapon->gun_dispersion() < player_dispersion + 15 * rng( 0, get_per() );
     if( train_skill ) {
         practice( skill_used, 8 + 2 * num_shots );
     } else if( one_in(30) ) {
