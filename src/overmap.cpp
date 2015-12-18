@@ -1466,7 +1466,7 @@ bool overmap::generate_sub(int const z)
         }
     }
     for (auto &i : ice_lab_points) {
-        bool ice_lab = build_ice_lab(i.x, i.y, z, i.s);
+        bool ice_lab = build_lab(i.x, i.y, z, i.s, true);
         requires_sub |= ice_lab;
         if (!ice_lab && ter(i.x, i.y, z) == "ice_lab_core") {
             ter(i.x, i.y, z) = "ice_lab";
@@ -2973,19 +2973,20 @@ void overmap::make_road(int x, int y, int cs, int dir, city town)
     }
 }
 
-bool overmap::build_lab(int x, int y, int z, int s)
+bool overmap::build_lab(int x, int y, int z, int s, bool ice)
 {
     std::vector<point> generated_lab;
-    ter(x, y, z) = "lab";
+    std::string labt = ice ? "ice_lab" : "lab";
+    ter(x, y, z) = labt;
     for (int n = 0; n <= 1; n++) { // Do it in two passes to allow diagonals
         for (int i = 1; i <= s; i++) {
             for (int lx = x - i; lx <= x + i; lx++) {
                 for (int ly = y - i; ly <= y + i; ly++) {
-                    if ((ter(lx - 1, ly, z) == "lab" ||
-                         ter(lx + 1, ly, z) == "lab" ||
-                         ter(lx, ly - 1, z) == "lab" ||
-                         ter(lx, ly + 1, z) == "lab") && one_in(i)) {
-                        ter(lx, ly, z) = "lab";
+                    if ((ter(lx - 1, ly, z) == labt ||
+                         ter(lx + 1, ly, z) == labt ||
+                         ter(lx, ly - 1, z) == labt ||
+                         ter(lx, ly + 1, z) == labt) && one_in(i)) {
+                        ter(lx, ly, z) = labt;
                         generated_lab.push_back(point(lx, ly));
                     }
                 }
@@ -2995,16 +2996,16 @@ bool overmap::build_lab(int x, int y, int z, int s)
 
     bool generate_stairs = true;
     for( auto &elem : generated_lab ) {
-        if( ter( elem.x, elem.y, z + 1 ) == "lab_stairs" ) {
+        if( ter( elem.x, elem.y, z + 1 ) == (labt + "_stairs") ) {
             generate_stairs = false;
         }
     }
     if (generate_stairs && !generated_lab.empty()) {
         const point p = random_entry( generated_lab );
-        ter(p.x, p.y, z + 1) = "lab_stairs";
+        ter(p.x, p.y, z + 1) = (labt + "_stairs");
     }
 
-    ter(x, y, z) = "lab_core";
+    ter(x, y, z) = labt + "_core";
     int numstairs = 0;
     if (s > 0) { // Build stairs going down
         while (!one_in(6)) {
@@ -3014,9 +3015,9 @@ bool overmap::build_lab(int x, int y, int z, int s)
                 stairx = rng(x - s, x + s);
                 stairy = rng(y - s, y + s);
                 tries++;
-            } while (ter(stairx, stairy, z) != "lab" && tries < 15);
+            } while (ter(stairx, stairy, z) != labt && tries < 15);
             if (tries < 15) {
-                ter(stairx, stairy, z) = "lab_stairs";
+                ter(stairx, stairy, z) = (labt + "_stairs");
                 numstairs++;
             }
         }
@@ -3028,72 +3029,9 @@ bool overmap::build_lab(int x, int y, int z, int s)
             finalex = rng(x - s, x + s);
             finaley = rng(y - s, y + s);
             tries++;
-        } while (tries < 15 && ter(finalex, finaley, z) != "lab"
-                 && ter(finalex, finaley, z) != "lab_core");
-        ter(finalex, finaley, z) = "lab_finale";
-    }
-
-    return numstairs > 0;
-}
-
-bool overmap::build_ice_lab(int x, int y, int z, int s)
-{
-    std::vector<point> generated_ice_lab;
-    ter(x, y, z) = "ice_lab";
-    for (int n = 0; n <= 1; n++) { // Do it in two passes to allow diagonals
-        for (int i = 1; i <= s; i++) {
-            for (int lx = x - i; lx <= x + i; lx++) {
-                for (int ly = y - i; ly <= y + i; ly++) {
-                    if ((ter(lx - 1, ly, z) == "ice_lab" ||
-                         ter(lx + 1, ly, z) == "ice_lab" ||
-                         ter(lx, ly - 1, z) == "ice_lab" ||
-                         ter(lx, ly + 1, z) == "ice_lab") && one_in(i)) {
-                        ter(lx, ly, z) = "ice_lab";
-                        generated_ice_lab.push_back(point(lx, ly));
-                    }
-                }
-            }
-        }
-    }
-
-    bool generate_stairs = true;
-    for( auto &elem : generated_ice_lab ) {
-        if( ter( elem.x, elem.y, z + 1 ) == "ice_lab_stairs" ) {
-            generate_stairs = false;
-        }
-    }
-    if (generate_stairs && !generated_ice_lab.empty()) {
-        const point p = random_entry( generated_ice_lab );
-        ter(p.x, p.y, z + 1) = "ice_lab_stairs";
-    }
-
-    ter(x, y, z) = "ice_lab_core";
-    int numstairs = 0;
-    if (s > 0) { // Build stairs going down
-        while (!one_in(6)) {
-            int stairx, stairy;
-            int tries = 0;
-            do {
-                stairx = rng(x - s, x + s);
-                stairy = rng(y - s, y + s);
-                tries++;
-            } while (ter(stairx, stairy, z) != "ice_lab" && tries < 15);
-            if (tries < 15) {
-                ter(stairx, stairy, z) = "ice_lab_stairs";
-                numstairs++;
-            }
-        }
-    }
-    if (numstairs == 0) { // This is the bottom of the ice_lab;  We need a finale
-        int finalex, finaley;
-        int tries = 0;
-        do {
-            finalex = rng(x - s, x + s);
-            finaley = rng(y - s, y + s);
-            tries++;
-        } while (tries < 15 && ter(finalex, finaley, z) != "ice_lab"
-                 && ter(finalex, finaley, z) != "ice_lab_core");
-        ter(finalex, finaley, z) = "ice_lab_finale";
+        } while (tries < 15 && ter(finalex, finaley, z) != labt
+                 && ter(finalex, finaley, z) != (labt + "_core"));
+        ter(finalex, finaley, z) = labt + "_finale";
     }
 
     return numstairs > 0;
