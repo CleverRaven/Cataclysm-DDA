@@ -263,8 +263,7 @@ void player::craft()
     int batch_size = 0;
     const recipe *rec = select_crafting_recipe( batch_size );
     if (rec) {
-        if ( crafting_allowed( *rec ) )
-        {
+        if ( crafting_allowed( *rec ) ) {
             make_craft( rec->ident, batch_size );
         }
     }
@@ -284,8 +283,7 @@ void player::long_craft()
     int batch_size = 0;
     const recipe *rec = select_crafting_recipe( batch_size );
     if (rec) {
-        if ( crafting_allowed( *rec ) )
-        {
+        if ( crafting_allowed( *rec ) ) {
             make_all_craft( rec->ident, batch_size );
         }
     }
@@ -298,8 +296,7 @@ bool player::making_would_work(const std::string &id_to_make, int batch_size)
         return false;
     }
 
-    if ( !crafting_allowed( *making ) )
-    {
+    if ( !crafting_allowed( *making ) ) {
         return false;
     }
 
@@ -489,27 +486,24 @@ void batch_recipes(const inventory &crafting_inv,
     }
 }
 
-int recipe::batch_time(int batch) const
+int recipe::batch_time( int batch ) const
 {
     // 1.0f is full speed
     // 0.33f is 1/3 speed
     float lighting_speed = g->u.lighting_craft_speed_multiplier( *this );
-    if ( lighting_speed == 0.0f )
-    {
+    if ( lighting_speed == 0.0f ) {
         return time * batch; // how did we even get here?
     }
 
     float local_time = float( time ) / lighting_speed;
 
-    if ( batch_rscale == 0.0 )
-    {
+    if ( batch_rscale == 0.0 ) {
         return local_time * batch;
     }
 
     // NPCs around you should assist in batch production if they have the skills
     int assistants = 0;
-    for ( auto &elem : g->active_npc )
-    {
+    for ( auto &elem : g->active_npc ) {
         if ( rl_dist( elem->pos(), g->u.pos() ) < PICKUP_RANGE && elem->is_friend() ) {
             if ( elem->skillLevel( skill_used ) >= difficulty ) {
                 assistants++;
@@ -518,24 +512,21 @@ int recipe::batch_time(int batch) const
     }
 
     double total_time = 0.0;
-    double scale = batch_rsize / 6.0; // At batch_rsize, incremental time increase is 99.5% of batch_rscale
-    for ( int x = 0; x < batch; x++ )
-    {
+    // At batch_rsize, incremental time increase is 99.5% of batch_rscale
+    double scale = batch_rsize / 6.0;
+    for ( int x = 0; x < batch; x++ ) {
         // scaled logistic function output
         double logf = ( 2.0 / ( 1.0 + exp( -( ( double )x / scale ) ) ) ) - 1.0;
         total_time += ( double )local_time * ( 1.0 - ( batch_rscale * logf ) );
     }
 
     //Assistants can decrease the time for production but never less than that of one unit
-    if ( assistants == 1 )
-    {
+    if ( assistants == 1 ) {
         total_time = total_time * .75;
-    } else if ( assistants >= 2 )
-    {
+    } else if ( assistants >= 2 ) {
         total_time = total_time * .60;
     }
-    if ( total_time < local_time )
-    {
+    if ( total_time < local_time ) {
         total_time = local_time;
     }
 
@@ -1325,11 +1316,9 @@ void player::disassemble(item &dis_item, int dis_pos, bool ground)
             if ( !query_dissamble( dis_item ) ) {
                 return;
             }
-            assign_activity(
-                ACT_DISASSEMBLE,
+            assign_activity(ACT_DISASSEMBLE,
                 ( float( cur_recipe->time ) / lighting_craft_speed_multiplier( *cur_recipe ) ),
-                cur_recipe->id
-            );
+                cur_recipe->id );
             activity.values.push_back( dis_pos );
             if ( ground ) {
                 activity.values.push_back( 1 );

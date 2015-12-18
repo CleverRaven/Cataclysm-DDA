@@ -311,8 +311,7 @@ const recipe *select_crafting_recipe( int &batch_size )
                 }
             }
         }
-        if ( !current.empty() )
-        {
+        if ( !current.empty() ) {
             draw_can_craft_indicator( w_head, getmaxx( w_head ), 1, 0, *current[line] );
             wrefresh( w_head );
 
@@ -345,8 +344,7 @@ const recipe *select_crafting_recipe( int &batch_size )
             previous_subtab = subtab.cur();
             previous_item_line = line;
 
-            if ( display_mode == 0 )
-            {
+            if ( display_mode == 0 ) {
                 mvwprintz( w_data, ypos++, 30, col, _( "Skills used: %s" ),
                 ( !current[line]->skill_used ? _( "N/A" ) :
                 current[line]->skill_used.obj().name().c_str() ) );
@@ -366,12 +364,10 @@ const recipe *select_crafting_recipe( int &batch_size )
                 mvwprintz( w_data, ypos++, 30, col, _( "Dark craftable? %s" ),
                            current[line]->has_flag( "BLIND_EASY" ) ? _( "Easy" ) :
                            current[line]->has_flag( "BLIND_HARD" ) ? _( "Hard" ) :
-                           _( "Impossible" )
-                         );
+                           _( "Impossible" ) );
                 ypos += current[line]->print_items( w_data, ypos, 30, col, ( batch ) ? line + 1 : 1 );
             }
-            if ( display_mode == 0 || display_mode == 1 )
-            {
+            if ( display_mode == 0 || display_mode == 1 ) {
                 ypos += current[line]->requirements.print_tools(
                             w_data, ypos, 30, FULL_SCREEN_WIDTH - 30 - 1, col,
                             crafting_inv, ( batch ) ? line + 1 : 1 );
