@@ -2457,37 +2457,30 @@ void item::unset_flags()
     item_tags.clear();
 }
 
-bool item::has_flag( const std::string &f ) const
-{
-    bool ret = false;
-    // TODO: this might need checking against the firing code, that code should use the
-    // auxiliary gun mod item directly (and call has_flag on it, *not* on the gun),
-    // e.g. for the NEVER_JAMS flag, that should not be inherited to the gun mod
-    if (is_gun()) {
-        if (is_in_auxiliary_mode()) {
-            item const* gunmod = active_gunmod();
-            if( gunmod != NULL )
-                ret = gunmod->has_flag(f);
-            if (ret) return ret;
-        } else {
-            for( auto &elem : contents ) {
-                // Don't report flags from active gunmods for the gun.
-                if( elem.has_flag( f ) && !elem.is_auxiliary_gunmod() ) {
-                    ret = true;
-                    return ret;
-                }
+std::set<std::string> item::get_flags() const {
+    std::set<std::string> flags;
+
+    // consider both item type flags and item specific flags
+    std::merge( type->item_tags.begin(), type->item_tags.end(),
+                item_tags.begin(), item_tags.end(),
+                std::inserter( flags, flags.end() ) );
+
+    // guns inherit flags from all attached mods except auxiliary gun mods
+    if ( is_gun() ) {
+        for( const auto& mod : contents ) {
+            if ( !mod.is_auxiliary_gunmod() ) {
+                const auto modflags = mod.get_flags();
+                std::move( modflags.begin(), modflags.end(), std::inserter( flags, flags.end() ) );
             }
         }
     }
-    // other item type flags
-    ret = type->item_tags.count(f);
-    if (ret) {
-        return ret;
-    }
 
-    // now check for item specific flags
-    ret = item_tags.count(f);
-    return ret;
+    return flags;
+}
+
+bool item::has_flag( const std::string &f ) const
+{
+    return get_flags().count( f );
 }
 
 bool item::has_property( const std::string& prop ) const {
