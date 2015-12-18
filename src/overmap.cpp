@@ -35,6 +35,7 @@
 #include "weather.h"
 #include "ui.h"
 #include "mapbuffer.h"
+#include "map_iterator.h"
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_MAP_GEN) << __FILE__ << ":" << __LINE__ << ": "
 
@@ -1432,10 +1433,8 @@ bool overmap::generate_sub(int const z)
                 // but at this point we don't know
                 requires_sub = true;
             } else if (oter_above == "mine_finale") {
-                for (int x = i - 1; x <= i + 1; x++) {
-                    for (int y = j - 1; y <= j + 1; y++) {
-                        ter(x, y, z) = "spiral";
-                    }
+                for( auto &p : g->m.points_in_radius( tripoint(i,j,z), 1, 0 ) ) {
+                    ter(p.x,p.y,p.z) = "spiral";
                 }
                 ter(i, j, z) = "spiral_hub";
                 add_mon_group(mongroup( mongroup_id( "GROUP_SPIRAL" ), i * 2, j * 2, z, 2, 200));
