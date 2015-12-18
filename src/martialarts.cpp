@@ -16,71 +16,75 @@ std::map<matec_id, ma_technique> ma_techniques;
 void load_technique(JsonObject &jo)
 {
     ma_technique tec;
-
     tec.id = matec_id( jo.get_string("id") );
-    tec.name = jo.get_string("name", "");
-    if (!tec.name.empty()) {
-        tec.name = _(tec.name.c_str());
+    tec.load( jo );
+
+    ma_techniques[tec.id] = tec;
+}
+
+void ma_technique::load( JsonObject &jo )
+{
+    name = jo.get_string("name", "");
+    if (!name.empty()) {
+        name = _(name.c_str());
     }
 
     if( jo.has_member( "messages" ) ) {
         JsonArray jsarr = jo.get_array("messages");
-        tec.player_message = jsarr.get_string( 0 );
-        if( !tec.player_message.empty() ) {
-            tec.player_message = _(tec.player_message.c_str());
+        player_message = jsarr.get_string( 0 );
+        if( !player_message.empty() ) {
+            player_message = _(player_message.c_str());
         }
-        tec.npc_message = jsarr.get_string( 1 );
-        if( !tec.npc_message.empty() ) {
-            tec.npc_message = _(tec.npc_message.c_str());
+        npc_message = jsarr.get_string( 1 );
+        if( !npc_message.empty() ) {
+            npc_message = _(npc_message.c_str());
         }
     }
 
-    tec.reqs.unarmed_allowed = jo.get_bool("unarmed_allowed", false);
-    tec.reqs.melee_allowed = jo.get_bool("melee_allowed", false);
-    tec.reqs.min_melee = jo.get_int("min_melee", 0);
-    tec.reqs.min_unarmed = jo.get_int("min_unarmed", 0);
+    reqs.unarmed_allowed = jo.get_bool("unarmed_allowed", false);
+    reqs.melee_allowed = jo.get_bool("melee_allowed", false);
+    reqs.min_melee = jo.get_int("min_melee", 0);
+    reqs.min_unarmed = jo.get_int("min_unarmed", 0);
 
-    tec.reqs.min_bashing = jo.get_int("min_bashing", 0);
-    tec.reqs.min_cutting = jo.get_int("min_cutting", 0);
-    tec.reqs.min_stabbing = jo.get_int("min_stabbing", 0);
+    reqs.min_bashing = jo.get_int("min_bashing", 0);
+    reqs.min_cutting = jo.get_int("min_cutting", 0);
+    reqs.min_stabbing = jo.get_int("min_stabbing", 0);
 
-    tec.reqs.min_bashing_damage = jo.get_int("min_bashing_damage", 0);
-    tec.reqs.min_cutting_damage = jo.get_int("min_cutting_damage", 0);
+    reqs.min_bashing_damage = jo.get_int("min_bashing_damage", 0);
+    reqs.min_cutting_damage = jo.get_int("min_cutting_damage", 0);
 
     for( auto & s :jo.get_tags( "req_buffs" ) ) {
-        tec.reqs.req_buffs.insert( mabuff_id( s ) );
+        reqs.req_buffs.insert( mabuff_id( s ) );
     }
-    tec.reqs.req_flags = jo.get_tags("req_flags");
+    reqs.req_flags = jo.get_tags("req_flags");
 
-    tec.crit_tec = jo.get_bool("crit_tec", false);
-    tec.defensive = jo.get_bool("defensive", false);
-    tec.disarms = jo.get_bool("disarms", false);
-    tec.dodge_counter = jo.get_bool("dodge_counter", false);
-    tec.block_counter = jo.get_bool("block_counter", false);
-    tec.miss_recovery = jo.get_bool("miss_recovery", false);
-    tec.grab_break = jo.get_bool("grab_break", false);
-    tec.flaming = jo.get_bool("flaming", false);
+    crit_tec = jo.get_bool("crit_tec", false);
+    defensive = jo.get_bool("defensive", false);
+    disarms = jo.get_bool("disarms", false);
+    dodge_counter = jo.get_bool("dodge_counter", false);
+    block_counter = jo.get_bool("block_counter", false);
+    miss_recovery = jo.get_bool("miss_recovery", false);
+    grab_break = jo.get_bool("grab_break", false);
+    flaming = jo.get_bool("flaming", false);
 
-    tec.hit = jo.get_int("hit", 0);
-    tec.bash = jo.get_int("bash", 0);
-    tec.cut = jo.get_int("cut", 0);
-    tec.pain = jo.get_int("pain", 0);
+    hit = jo.get_int("hit", 0);
+    bash = jo.get_int("bash", 0);
+    cut = jo.get_int("cut", 0);
+    pain = jo.get_int("pain", 0);
 
-    tec.weighting = jo.get_int("weighting", 1);
+    weighting = jo.get_int("weighting", 1);
 
-    tec.bash_mult = jo.get_float("bash_mult", 1.0);
-    tec.cut_mult = jo.get_float("cut_mult", 1.0);
-    tec.speed_mult = jo.get_float("speed_mult", 1.0);
+    bash_mult = jo.get_float("bash_mult", 1.0);
+    cut_mult = jo.get_float("cut_mult", 1.0);
+    speed_mult = jo.get_float("speed_mult", 1.0);
 
-    tec.down_dur = jo.get_int("down_dur", 0);
-    tec.stun_dur = jo.get_int("stun_dur", 0);
-    tec.knockback_dist = jo.get_int("knockback_dist", 0);
-    tec.knockback_spread = jo.get_int("knockback_spread", 0);
+    down_dur = jo.get_int("down_dur", 0);
+    stun_dur = jo.get_int("stun_dur", 0);
+    knockback_dist = jo.get_int("knockback_dist", 0);
+    knockback_spread = jo.get_int("knockback_spread", 0);
 
-    tec.aoe = jo.get_string("aoe", "");
-    tec.flags = jo.get_tags("flags");
-
-    ma_techniques[tec.id] = tec;
+    aoe = jo.get_string("aoe", "");
+    flags = jo.get_tags("flags");
 }
 
 // Not implemented on purpose (martialart objects have no integer id)

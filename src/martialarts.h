@@ -58,6 +58,8 @@ class ma_technique
     public:
         ma_technique();
 
+        void load( JsonObject &jo );
+
         matec_id id;
         std::string name;
 
