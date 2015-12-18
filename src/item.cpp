@@ -2483,6 +2483,16 @@ bool item::has_flag( const std::string &f ) const
     return get_flags().count( f );
 }
 
+int item::get_flag_int( const std::string& format, int def ) {
+    int n = def;
+    for (const auto& e : get_flags() ) {
+        if ( sscanf( e.c_str(), format.c_str(), &n ) == 1 ) {
+            break;
+        }
+    }
+    return n;
+}
+
 bool item::has_property( const std::string& prop ) const {
    return type->properties.find(prop) != type->properties.end();
 }

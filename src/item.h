@@ -796,6 +796,14 @@ public:
         /*@{*/
         std::set<std::string> get_flags() const;
         bool has_flag( const std::string& flag ) const;
+
+        /**
+         * Extracts an integer value from the first item flag which matches the format string
+         * @param format a format string used to parse each flag (eg. STR%i_DRAW, RECOVER_%i)
+         * @param def the value to be returned if no matches
+         */
+        int get_flag_int( const std::string& format, int def = 0 );
+
         /** Removes all item specific flags. */
         void unset_flags();
         /*@}*/
