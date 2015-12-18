@@ -1376,6 +1376,7 @@ bool overmap::generate_sub(int const z)
             for( auto &elem : skip_above ) {
                 if( oter_above == elem ) {
                     skipme = true;
+                    break;
                 }
             }
             if (skipme) {
