@@ -1322,6 +1322,11 @@ bool player::uninstall_bionic(std::string const &b_id, int skill_level)
         popup(_("You must remove the Enhanced Hearing bionic to remove the Sound Dampeners."));
         return false;
     }
+	
+	if ( b_id == "bio_blindfold") {
+        popup(_("You must remove the Anti-glare Compensators bionic to remove the Optical Dampers."));
+        return false;
+    }
 
     // removal of bionics adds +2 difficulty over installation
     int chance_of_success;
@@ -1472,6 +1477,8 @@ bool player::install_bionics(const itype &type, int skill_level)
 
         if (bioid == "bio_ears") {
             add_bionic("bio_earplugs"); // automatically add the earplugs, they're part of the same bionic
+        } else if (bioid == "bio_sunglasses") {
+			add_bionic("bio_blindfold"); // automatically add the Optical Dampers, they're part of the same bionic
         } else if (bioid == "bio_reactor_upgrade") {
             remove_bionic("bio_reactor");
             remove_bionic("bio_reactor_upgrade");
@@ -1652,11 +1659,14 @@ void player::remove_bionic(std::string const &b) {
             continue;
         }
 
-        // Ears and earplugs go together like peanut butter and jelly.
+        // Ears and earplugs and sunglasses and blindfold go together like peanut butter and jelly.
         // Therefore, removing one, should remove the other.
         if ((b == "bio_ears" && i.id == "bio_earplugs") ||
             (b == "bio_earplugs" && i.id == "bio_ears")) {
             continue;
+        } else if ((b == "bio_sunglasses" && i.id == "bio_blindfold") ||
+		           (b == "bio_blindfold" && i.id == "bio_sunglasses")) {
+				   continue;
         }
 
         new_my_bionics.push_back(bionic(i.id, i.invlet));

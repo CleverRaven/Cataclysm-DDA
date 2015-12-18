@@ -369,6 +369,11 @@ void player::load(JsonObject &data)
     if (has_bionic("bio_ears") && !has_bionic("bio_earplugs")) {
         add_bionic("bio_earplugs");
     }
+	
+    // Add the blindfold.
+    if (has_bionic("bio_sunglasses") && !has_bionic("bio_blindfold")) {
+        add_bionic("bio_blindfold");
+    }
 
 }
 

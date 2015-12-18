@@ -1281,8 +1281,9 @@ bool cata_tiles::draw_from_id_string(std::string id, TILE_CATEGORY category,
     // seed the PRNG to get a reproducible random int
     // TODO faster solution here
     unsigned int seed = 0;
-    // FIXME determine correct Z value
-    int z_coord = 0;
+    // FUTURE TODO rework Z value if multiple z levels are being drawn
+    // z level is currently always focused on player location
+    int z_coord = g->u.pos().z;
     // TODO determine ways other than category to differentiate more types of sprites
     switch( category ) {
         case C_TERRAIN:
