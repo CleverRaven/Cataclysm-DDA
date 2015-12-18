@@ -56,8 +56,7 @@ class MonsterGenerator
 
             return generator;
         }
-        /** Default destructor */
-        virtual ~MonsterGenerator();
+        ~MonsterGenerator();
 
         // clear monster & species definitions
         void reset();
