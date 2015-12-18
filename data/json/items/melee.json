@@ -4862,6 +4862,22 @@
         "flags" : ["SPEAR", "REACH_ATTACK"],
         "price" : 2000
     },{
+        "id": "bullwhip",
+        "type": "GENERIC",
+        "symbol": "/",
+        "color": "brown",
+        "name": "bullwhip",
+        "description": "A long strip of braided leather with a handle on one end.  Originally developed to settle disagreements with cattle, it's better used now for flaying the rotten flesh off of walking corpses.  Great for when a problem comes along.",
+        "weight": 3460,
+        "volume": 8,
+        "price": 3500,
+        "material": ["leather", "null"],
+        "flags": ["REACH_ATTACK", "REACH3", "WHIP"],
+        "bashing": 0,
+        "cutting": 3,
+        "to_hit": 0,
+	"category": "weapons"
+    },{
         "type": "GENERIC",
         "id": "clay_pot",
         "symbol": ")",
