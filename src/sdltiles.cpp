@@ -2045,12 +2045,13 @@ void musicFinished() {
 
     // Load the next file to play.
     absolute_playlist_at++;
-    current_playlist_at = playlist_indexes.at( absolute_playlist_at );
 
     // Wrap around if we reached the end of the playlist.
     if( absolute_playlist_at >= list.entries.size() ) {
         absolute_playlist_at = 0;
     }
+
+    current_playlist_at = playlist_indexes.at( absolute_playlist_at );
 
     const auto &next = list.entries[current_playlist_at];
     play_music_file( next.file, next.volume );
