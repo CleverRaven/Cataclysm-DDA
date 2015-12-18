@@ -11380,7 +11380,7 @@ void game::unload(int pos)
 bool add_or_drop_with_msg( player &u, item &it )
 {
     if( it.made_of( LIQUID ) ) {
-        return g->handle_liquid( it, false, false, nullptr );
+        return g->handle_liquid( it, false, false, nullptr, nullptr, 1 );
     }
     if( !u.can_pickVolume( it.volume() ) ) {
         add_msg( _( "There's no room in your inventory for the %s, so you drop it." ),
