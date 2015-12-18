@@ -199,66 +199,71 @@ bool string_id<ma_buff>::is_valid() const
 void load_martial_art(JsonObject &jo)
 {
     martialart ma;
+    ma.id = matype_id( jo.get_string("id") );
+    ma.load( jo );
+
+    martialarts[ma.id] = ma;
+}
+
+void martialart::load( JsonObject &jo )
+{
     JsonArray jsarr;
 
-    ma.id = matype_id( jo.get_string("id") );
-    ma.name = _(jo.get_string("name").c_str());
-    ma.description = _(jo.get_string("description").c_str());
+    name = _(jo.get_string("name").c_str());
+    description = _(jo.get_string("description").c_str());
 
     jsarr = jo.get_array("static_buffs");
     while (jsarr.has_more()) {
         JsonObject jsobj = jsarr.next_object();
-        ma.static_buffs.push_back(load_buff(jsobj));
+        static_buffs.push_back(load_buff(jsobj));
     }
 
     jsarr = jo.get_array("onmove_buffs");
     while (jsarr.has_more()) {
         JsonObject jsobj = jsarr.next_object();
-        ma.onmove_buffs.push_back(load_buff(jsobj));
+        onmove_buffs.push_back(load_buff(jsobj));
     }
 
     jsarr = jo.get_array("onhit_buffs");
     while (jsarr.has_more()) {
         JsonObject jsobj = jsarr.next_object();
-        ma.onhit_buffs.push_back(load_buff(jsobj));
+        onhit_buffs.push_back(load_buff(jsobj));
     }
 
     jsarr = jo.get_array("onattack_buffs");
     while (jsarr.has_more()) {
         JsonObject jsobj = jsarr.next_object();
-        ma.onattack_buffs.push_back(load_buff(jsobj));
+        onattack_buffs.push_back(load_buff(jsobj));
     }
 
     jsarr = jo.get_array("ondodge_buffs");
     while (jsarr.has_more()) {
         JsonObject jsobj = jsarr.next_object();
-        ma.ondodge_buffs.push_back(load_buff(jsobj));
+        ondodge_buffs.push_back(load_buff(jsobj));
     }
 
     jsarr = jo.get_array("onblock_buffs");
     while (jsarr.has_more()) {
         JsonObject jsobj = jsarr.next_object();
-        ma.onblock_buffs.push_back(load_buff(jsobj));
+        onblock_buffs.push_back(load_buff(jsobj));
     }
 
     jsarr = jo.get_array("ongethit_buffs");
     while (jsarr.has_more()) {
         JsonObject jsobj = jsarr.next_object();
-        ma.ongethit_buffs.push_back(load_buff(jsobj));
+        ongethit_buffs.push_back(load_buff(jsobj));
     }
 
     for( auto & s :jo.get_tags( "techniques" ) ) {
-        ma.techniques.insert( matec_id( s ) );
+        techniques.insert( matec_id( s ) );
     }
-    ma.weapons = jo.get_tags("weapons");
+    weapons = jo.get_tags("weapons");
 
-    ma.leg_block = jo.get_int("leg_block", 99);
-    ma.arm_block = jo.get_int("arm_block", 99);
+    leg_block = jo.get_int("leg_block", 99);
+    arm_block = jo.get_int("arm_block", 99);
 
-    ma.arm_block_with_bio_armor_arms = jo.get_bool("arm_block_with_bio_armor_arms", false);
-    ma.leg_block_with_bio_armor_legs = jo.get_bool("leg_block_with_bio_armor_legs", false);
-
-    martialarts[ma.id] = ma;
+    arm_block_with_bio_armor_arms = jo.get_bool("arm_block_with_bio_armor_arms", false);
+    leg_block_with_bio_armor_legs = jo.get_bool("leg_block_with_bio_armor_legs", false);
 }
 
 // Not implemented on purpose (martialart objects have no integer id)

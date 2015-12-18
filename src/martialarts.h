@@ -228,6 +228,8 @@ class martialart
     public:
         martialart();
 
+        void load( JsonObject &jo );
+
         // modifies a player's "current" stats with various types of bonuses
         void apply_static_buffs( player &u ) const;
 
