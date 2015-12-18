@@ -2490,7 +2490,7 @@
         "id" : "PRED2",
         "name" : "Hunter",
         "points" : 3,
-        "description" : "Your brain has a lot more in common with predatory animal than a human.  Combat skills, which you use to hunt the prey, are easer to learn and control of misplaced reactions to some of necessary actions have improved.",
+        "description" : "Your brain has a lot more in common with predatory animal than a human, making it easer to control misplaced reactions to some of necessary actions.  Additionally, combat skills, which you use to hunt the prey, are easer to learn.",
         "purifiable" : false,
         "prereqs" : ["CARNIVORE", "THRESH_URSINE"],
         "prereqs2" : ["PRED1"],
