@@ -135,15 +135,15 @@ void map::generate(const int x, const int y, const int z, const int turn)
     overmapbuffer::sm_to_omt(overx, overy);
     const regional_settings *rsettings = &overmap_buffer.get_settings(overx, overy, z);
     oter_id terrain_type = overmap_buffer.ter(overx, overy, z);
-    oter_id t_above = overmap_buffer.ter(overx    , overy    , z + 1);
-    oter_id t_north = overmap_buffer.ter(overx    , overy - 1, z);
-    oter_id t_neast = overmap_buffer.ter(overx + 1, overy - 1, z);
-    oter_id t_east  = overmap_buffer.ter(overx + 1, overy    , z);
-    oter_id t_seast = overmap_buffer.ter(overx + 1, overy + 1, z);
-    oter_id t_south = overmap_buffer.ter(overx    , overy + 1, z);
-    oter_id t_swest = overmap_buffer.ter(overx - 1, overy + 1, z);
-    oter_id t_west  = overmap_buffer.ter(overx - 1, overy    , z);
-    oter_id t_nwest = overmap_buffer.ter(overx - 1, overy - 1, z);
+    oter_id t_above = overmap_buffer.ter( overx    , overy    , z + 1 );
+    oter_id t_north = overmap_buffer.ter( overx    , overy - 1, z );
+    oter_id t_neast = overmap_buffer.ter( overx + 1, overy - 1, z );
+    oter_id t_east  = overmap_buffer.ter( overx + 1, overy    , z );
+    oter_id t_seast = overmap_buffer.ter( overx + 1, overy + 1, z );
+    oter_id t_south = overmap_buffer.ter( overx    , overy + 1, z );
+    oter_id t_swest = overmap_buffer.ter( overx - 1, overy + 1, z );
+    oter_id t_west  = overmap_buffer.ter( overx - 1, overy    , z );
+    oter_id t_nwest = overmap_buffer.ter( overx - 1, overy - 1, z );
 
     // This attempts to scale density of zombies inversely with distance from the nearest city.
     // In other words, make city centers dense and perimiters sparse.
@@ -1658,7 +1658,7 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
     int nesw_fac[] = {0, 0, 0, 0, 0, 0, 0, 0};
     int &n_fac = nesw_fac[0], &e_fac = nesw_fac[1], &s_fac = nesw_fac[2], &w_fac = nesw_fac[3];
 
-    mapgendata dat(t_north, t_east, t_south, t_west, t_neast, t_seast, t_swest, t_nwest, t_above, zlevel, rsettings, this);
+    mapgendata dat( t_north, t_east, t_south, t_west, t_neast, t_seast, t_swest, t_nwest, t_above, zlevel, rsettings, this );
 
     computer *tmpcomp = NULL;
     bool terrain_type_found = true;
@@ -11196,38 +11196,33 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
         }
     }
 
-    int terrain_type_with_suffix_to_nesw_array(oter_id terrain_type, bool array[4]);
+    int terrain_type_with_suffix_to_nesw_array( oter_id terrain_type, bool array[4] );
 
     // finally, any terrain with SIDEWALKS should contribute sidewalks to neighboring diagonal roads
-    if (otermap[terrain_type].has_flag(has_sidewalk)) {
-        for(int dir=4;dir<8;dir++) { // NE SE SW NW
-            // printf("mapgen sidewalk fix %d\n",dir);
+    if ( otermap[terrain_type].has_flag( has_sidewalk ) ) {
+        for ( int dir = 4; dir < 8; dir++ ) { // NE SE SW NW
             bool n_roads_nesw[4] = {};
-            int n_num_dirs = terrain_type_with_suffix_to_nesw_array(oter_id(t_nesw[dir]), n_roads_nesw);
+            int n_num_dirs = terrain_type_with_suffix_to_nesw_array( oter_id( t_nesw[dir] ), n_roads_nesw );
             // only handle diagonal neighbors
-            // printf("%d roads_nesw %d %d %d %d\n",n_num_dirs,n_roads_nesw[0],n_roads_nesw[1],n_roads_nesw[2],n_roads_nesw[3]);
-            if( n_num_dirs==2 &&
-                n_roads_nesw[((dir-4)+3)%4] &&
-                n_roads_nesw[((dir-4)+2)%4]) {
+            if ( n_num_dirs == 2 &&
+                 n_roads_nesw[( ( dir - 4 ) + 3 ) % 4] &&
+                 n_roads_nesw[( ( dir - 4 ) + 2 ) % 4] ) {
                 // make drawing simpler by rotating the map back and forth
-                rotate(4-(dir-4));
+                rotate( 4 - ( dir - 4 ) );
                 // draw a small triangle of sidewalk in the northeast corner
-                for (int y=0; y<4; y++) {
-                    for (int x=SEEX*2-4; x<SEEX*2; x++) {
-                        if(x-y>SEEX*2-4) {
-                            if (
-                                //TODO more discriminating conditions
-                                ter(x,y) == t_grass ||
-                                ter(x,y) == t_dirt ||
-                                ter(x,y) == t_shrub )
-                            {
-                                // printf("%d,%d\n",x,y);
-                                ter_set(x, y, t_sidewalk);
+                for ( int y = 0; y < 4; y++ ) {
+                    for ( int x = SEEX * 2 - 4; x < SEEX * 2; x++ ) {
+                        if ( x - y > SEEX * 2 - 4 ) {
+                            //TODO more discriminating conditions
+                            if (ter( x, y ) == t_grass ||
+                                ter( x, y ) == t_dirt ||
+                                ter( x, y ) == t_shrub ) {
+                                ter_set( x, y, t_sidewalk );
                             }
                         }
                     }
                 }
-                rotate((dir-4));
+                rotate( ( dir - 4 ) );
             }
         }
     }
@@ -13870,49 +13865,64 @@ void map::create_anomaly( const tripoint &cp, artifact_natural_property prop )
 }
 ///////////////////// part of map
 
-void line(map *m, const ter_id type, int x1, int y1, int x2, int y2) {
-    m->draw_line_ter(type, x1, y1, x2, y2);
+void line( map *m, const ter_id type, int x1, int y1, int x2, int y2 )
+{
+    m->draw_line_ter( type, x1, y1, x2, y2 );
 }
-void line_furn(map *m, furn_id type, int x1, int y1, int x2, int y2) {
-    m->draw_line_furn(type, x1, y1, x2, y2);
+void line_furn( map *m, furn_id type, int x1, int y1, int x2, int y2 )
+{
+    m->draw_line_furn( type, x1, y1, x2, y2 );
 }
-void fill_background(map *m, ter_id type) {
-    m->draw_fill_background(type);
+void fill_background( map *m, ter_id type )
+{
+    m->draw_fill_background( type );
 }
-void fill_background(map *m, ter_id (*f)()) {
-    m->draw_fill_background(f);
+void fill_background( map *m, ter_id( *f )() )
+{
+    m->draw_fill_background( f );
 }
-void fill_background(map *m, const id_or_id<ter_t> & f) {
-    m->draw_fill_background(f);
+void fill_background( map *m, const id_or_id<ter_t> &f )
+{
+    m->draw_fill_background( f );
 }
-void square(map *m, ter_id type, int x1, int y1, int x2, int y2) {
-    m->draw_square_ter(type, x1, y1, x2, y2);
+void square( map *m, ter_id type, int x1, int y1, int x2, int y2 )
+{
+    m->draw_square_ter( type, x1, y1, x2, y2 );
 }
-void square_furn(map *m, furn_id type, int x1, int y1, int x2, int y2) {
-    m->draw_square_furn(type, x1, y1, x2, y2);
+void square_furn( map *m, furn_id type, int x1, int y1, int x2, int y2 )
+{
+    m->draw_square_furn( type, x1, y1, x2, y2 );
 }
-void square(map *m, ter_id (*f)(), int x1, int y1, int x2, int y2) {
-    m->draw_square_ter(f, x1, y1, x2, y2);
+void square( map *m, ter_id( *f )(), int x1, int y1, int x2, int y2 )
+{
+    m->draw_square_ter( f, x1, y1, x2, y2 );
 }
-void square(map *m, const id_or_id<ter_t> & f, int x1, int y1, int x2, int y2) {
-    m->draw_square_ter(f, x1, y1, x2, y2);
+void square( map *m, const id_or_id<ter_t> &f, int x1, int y1, int x2, int y2 )
+{
+    m->draw_square_ter( f, x1, y1, x2, y2 );
 }
-void rough_circle(map *m, ter_id type, int x, int y, int rad) {
-    m->draw_rough_circle(type, x, y, rad);
+void rough_circle( map *m, ter_id type, int x, int y, int rad )
+{
+    m->draw_rough_circle( type, x, y, rad );
 }
-void rough_circle_furn(map *m, furn_id type, int x, int y, int rad) {
-    m->draw_rough_circle_furn(type, x, y, rad);
+void rough_circle_furn( map *m, furn_id type, int x, int y, int rad )
+{
+    m->draw_rough_circle_furn( type, x, y, rad );
 }
-void circle(map *m, ter_id type, double x, double y, double rad) {
-    m->draw_circle(type, x, y, rad);
+void circle( map *m, ter_id type, double x, double y, double rad )
+{
+    m->draw_circle( type, x, y, rad );
 }
-void circle(map *m, ter_id type, int x, int y, int rad) {
-    m->draw_circle(type, x, y, rad);
+void circle( map *m, ter_id type, int x, int y, int rad )
+{
+    m->draw_circle( type, x, y, rad );
 }
-void circle_furn(map *m, furn_id type, int x, int y, int rad) {
-    m->draw_circle_furn(type, x, y, rad);
+void circle_furn( map *m, furn_id type, int x, int y, int rad )
+{
+    m->draw_circle_furn( type, x, y, rad );
 }
-void add_corpse(map *m, int x, int y) {
+void add_corpse( map *m, int x, int y )
+{
     m->add_corpse( tripoint( x, y, m->get_abs_sub().z ) );
 }
 
