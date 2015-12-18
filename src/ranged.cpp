@@ -400,18 +400,13 @@ void player::fire_gun( const tripoint &targ_arg, bool burst )
     // Use different amounts of time depending on the type of gun and our skill
     moves -= time_to_fire(*this, *used_weapon->type);
 
-    // Decide how many shots to fire
+    // Decide how many shots to fire limited by the ammount of remaining ammo
     long num_shots = 1;
-    if (burst) {
+    if ( burst || ( has_trait( "TRIGGERHAPPY" ) && one_in( 30 ) ) ) {
         num_shots = used_weapon->burst_size();
     }
-    if (num_shots > used_weapon->num_charges() &&
-        !is_charger_gun && !used_weapon->has_flag("NO_AMMO")) {
-        num_shots = used_weapon->num_charges();
-    }
-
-    if (num_shots == 0) {
-        debugmsg("game::fire() - num_shots = 0!");
+    if( !used_weapon->has_flag( "NO_AMMO" ) && !is_charger_gun ) {
+        num_shots = std::min(num_shots, used_weapon->ammo_remaining());
     }
 
     int ups_drain = 0;
