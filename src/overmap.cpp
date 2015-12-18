@@ -3132,21 +3132,19 @@ void overmap::build_tunnel(int x, int y, int z, int s, int dir)
     build_tunnel(next.x, next.y, z, s - 1, dir);
 }
 
-bool overmap::build_slimepit(int x, int y, int z, int s)
+bool overmap::build_slimepit( int x, int y, int z, int s )
 {
     bool requires_sub = false;
-    for (int n = 1; n <= s; n++) {
-        for (int i = x - n; i <= x + n; i++) {
-            for (int j = y - n; j <= y + n; j++) {
-                if (rng(1, s * 2) >= n) {
-                    chip_rock( i, j, z );
-                    if (one_in(8) && z > -OVERMAP_DEPTH) {
-                        ter(i, j, z) = "slimepit_down";
-                        requires_sub = true;
-                    } else {
-                        ter(i, j, z) = "slimepit";
-                    }
-                }
+    tripoint origin( x, y, z );
+    for ( auto p : g->m.points_in_radius( origin, s + z + 1, 0 ) ) {
+        int dist = square_dist( x, y, p.x, p.y );
+        if ( one_in( 2 * dist ) ) {
+            chip_rock( p.x, p.y, p.z );
+            if ( one_in( 8 ) && z > -OVERMAP_DEPTH ) {
+                ter( p.x, p.y, p.z ) = "slimepit_down";
+                requires_sub = true;
+            } else {
+                ter( p.x, p.y, p.z ) = "slimepit";
             }
         }
     }
