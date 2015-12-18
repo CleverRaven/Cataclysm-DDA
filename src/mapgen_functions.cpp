@@ -1152,7 +1152,7 @@ void mapgen_road( map *m, oter_id terrain_type, mapgendata dat, int turn, float 
                      ( ( x > 3 && y < ( SEEY * 2 - 4 ) ) || // middle, for both corners and diagonals
                        ( x < 4 && curvedir_nesw[0] < 0 ) || // diagonal heading northwest
                        ( y > ( SEEY * 2 - 5 ) && curvedir_nesw[1] > 0 ) ) ) { // diagonal heading southeast
-                    if ( x % 4 && ( x - y == SEEX - 1 + ( 1 - ( rot / 2 ) ) || x - y == SEEX + ( 1 - ( rot / 2 ) ) ) ) {
+                    if ( ( x + rot / 2 ) % 4 && ( x - y == SEEX - 1 + ( 1 - ( rot / 2 ) ) || x - y == SEEX + ( 1 - ( rot / 2 ) ) ) ) {
                         m->ter_set( x, y, t_pavement_y );
                     } else {
                         m->ter_set( x, y, t_pavement );
