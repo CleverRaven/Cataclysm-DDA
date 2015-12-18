@@ -527,7 +527,7 @@ void player::fire_gun( const tripoint &targ_arg, bool burst )
             return;
         }
 
-        make_gun_sound_effect(*this, burst, used_weapon);
+        make_gun_sound_effect(*this, num_shots > 1, used_weapon);
 
         double total_dispersion = get_weapon_dispersion(used_weapon, true);
         //debugmsg("%f",total_dispersion);
