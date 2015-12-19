@@ -927,9 +927,10 @@ item_location game::inv_map_splice(
                 } else {
                     int dist = square_dist( g->u.pos(), pos );
                     std::string dir_name = direction_name_short( direction_from( g->u.pos(), pos ) );
+                    std::string cat_id = string_format( "NEARBY %d", nearby_rank );
                     std::string cat_name = string_format( _( "NEARBY %d %s:" ), dist, trim( dir_name ).c_str() );
 
-                    item_category *nearby_cat = new item_category( cat_name, cat_name, nearby_rank );
+                    item_category *nearby_cat = new item_category( cat_id, cat_name, nearby_rank );
                     nearby_cats.push_back( nearby_cat );
                     nearby_rank -= 10;
 
