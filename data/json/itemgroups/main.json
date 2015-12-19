@@ -266,5 +266,29 @@
       ["rm103a_pistol", 10],
       ["needlepistol", 20]
     ]
+  },{
+    "type" : "item_group",
+    "id" : "smg",
+    "items":[
+      ["american_180", 15],
+      ["skorpion_61", 5],
+      ["skorpion_82", 5],
+      ["ppsh", 5],
+      ["sten", 10],
+      ["l_mp_9mm", 55],
+      ["uzi", 80],
+      ["tec9", 60],
+      ["calico", 25],
+      ["hk_mp5", 100],
+      ["tommygun", 20],
+      ["mac_10", 60],
+      ["hk_ump45", 40],
+      ["TDI", 40],
+      ["fn_p90", 40],
+      ["hk_mp7", 50],
+      ["briefcase_smg", 1],
+      ["rm360_carbine", 20],
+      ["rm2000_smg", 5]
+    ]
   }
  ]

@@ -2842,28 +2842,6 @@
     ]
   },{
     "type" : "item_group",
-    "id" : "smg",
-    "items":[
-      ["american_180", 2],
-      ["sten", 3],
-      ["tommygun", 1],
-      ["uzi", 8],
-      ["tec9", 10],
-      ["l_mp_9mm", 10],
-      ["calico", 6],
-      ["hk_mp5", 12],
-      ["mac_10", 10],
-      ["hk_ump45", 12],
-      ["l_mp_45", 10],
-      ["TDI", 4],
-      ["fn_p90", 7],
-      ["hk_mp7", 5],
-      ["needlegun", 4],
-      ["rm360_carbine", 2],
-      ["rm2000_smg", 1]
-    ]
-  },{
-    "type" : "item_group",
     "id" : "assault",
     "items":[
       ["hk_g3", 15],
