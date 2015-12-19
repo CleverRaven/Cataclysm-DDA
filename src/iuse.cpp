@@ -36,6 +36,7 @@
 #include "field.h"
 #include "weather_gen.h"
 #include "weather.h"
+#include "cata_utility.h"
 #include "map_iterator.h"
 
 #include <vector>
@@ -9039,9 +9040,13 @@ int iuse::weather_tool(player *p, item *it, bool, const tripoint& )
         }
         const oter_id &cur_om_ter = overmap_buffer.ter(p->global_omt_location());
         std::string omtername = otermap[cur_om_ter].name;
-        int windpower = get_local_windpower(weatherPoint.windpower + vehwindspeed, omtername, g->is_sheltered(g->u.pos()));
+        /* windpower defined in internal velocity units (=.01 mph) */
+        int windpower = int(100.0f * get_local_windpower(weatherPoint.windpower + vehwindspeed,
+                                                         omtername, g->is_sheltered(g->u.pos())));
 
-        p->add_msg_if_player(m_neutral, _("Wind Speed: %s."), print_windspeed((float)windpower).c_str());
+        p->add_msg_if_player(m_neutral, _("Wind Speed: %.1f %s."),
+                                        convert_velocity(windpower, true),
+                                        velocity_units(true).c_str());
         p->add_msg_if_player(m_neutral, _("Feels Like: %s."), print_temperature(get_local_windchill(weatherPoint.temperature, weatherPoint.humidity, windpower) + g->get_temperature()).c_str());
     }
 

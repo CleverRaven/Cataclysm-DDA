@@ -22,6 +22,7 @@
 #include "field.h"
 #include "weather_gen.h"
 #include "weather.h"
+#include "cata_utility.h"
 
 #include <math.h>    //sqrt
 #include <algorithm> //std::min
@@ -1033,12 +1034,15 @@ bool player::activate_bionic(int b, bool eff_only)
         }
         const oter_id &cur_om_ter = overmap_buffer.ter( global_omt_location() );
         std::string omtername = otermap[cur_om_ter].name;
-        int windpower = get_local_windpower(weatherPoint.windpower + vehwindspeed, omtername, g->is_sheltered(g->u.pos()));
-
+        /* windpower defined in internal velocity units (=.01 mph) */
+        double windpower = 100.0f * get_local_windpower(weatherPoint.windpower + vehwindspeed,
+                                                        omtername, g->is_sheltered(g->u.pos()));
         add_msg_if_player(m_info, _("Temperature: %s."), print_temperature(g->get_temperature()).c_str());
         add_msg_if_player(m_info, _("Relative Humidity: %s."), print_humidity(get_local_humidity(weatherPoint.humidity, g->weather, g->is_sheltered(g->u.pos()))).c_str());
         add_msg_if_player(m_info, _("Pressure: %s."), print_pressure((int)weatherPoint.pressure).c_str());
-        add_msg_if_player(m_info, _("Wind Speed: %s."), print_windspeed((float)windpower).c_str());
+        add_msg_if_player(m_info, _("Wind Speed: %.1f %s."),
+                                                 convert_velocity(int(windpower), true),
+                                                 velocity_units(true).c_str());
         add_msg_if_player(m_info, _("Feels Like: %s."), print_temperature(get_local_windchill(weatherPoint.temperature, weatherPoint.humidity, windpower) + g->get_temperature()).c_str());
     } else if(bio.id == "bio_claws") {
         if (weapon.has_flag ("NO_UNWIELD")) {
@@ -1322,7 +1326,7 @@ bool player::uninstall_bionic(std::string const &b_id, int skill_level)
         popup(_("You must remove the Enhanced Hearing bionic to remove the Sound Dampeners."));
         return false;
     }
-	
+
 	if ( b_id == "bio_blindfold") {
         popup(_("You must remove the Anti-glare Compensators bionic to remove the Optical Dampers."));
         return false;

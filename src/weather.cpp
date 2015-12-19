@@ -591,24 +591,6 @@ std::string print_temperature(float fahrenheit, int decimals)
 }
 
 /**
- * Print wind speed (and convert to m/s if km/h is enabled.)
- */
-std::string print_windspeed(float windspeed, int decimals)
-{
-    std::ostringstream ret;
-    ret.precision(decimals);
-    ret << std::fixed;
-
-    if (OPTIONS["USE_METRIC_SPEEDS"] == "mph") {
-        ret << windspeed;
-        return rmp_format(_("%s mph"), ret.str().c_str());
-    } else {
-        ret << windspeed * 0.44704;
-        return rmp_format(_("%s m/s"), ret.str().c_str());
-    }
-}
-
-/**
  * Print relative humidity (no conversions.)
  */
 std::string print_humidity(float humidity, int decimals)
