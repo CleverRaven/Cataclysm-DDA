@@ -237,6 +237,7 @@ const char*  velocity_units( const units_type vel_units )
             return _( "m/s" );
         }
     }
+    return "error: unknown units!";
 }
 
 const char* weight_units()
@@ -267,6 +268,9 @@ double convert_velocity( int velocity, const units_type vel_units )
     return ret;
 }
 
+/**
+* Convert weight in grams to units defined by user (kg or lbs)
+*/
 double convert_weight( int weight )
 {
     double ret;
