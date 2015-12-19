@@ -157,6 +157,8 @@ ifdef RELEASE
   OTHERS += $(RELEASE_FLAGS)
   DEBUG =
   DEFINES += -DRELEASE
+  # Do an astyle regression check on release builds.
+  ASTYLE = astyle-check
 endif
 
 ifdef CLANG
@@ -518,7 +520,7 @@ ifeq ($(USE_XDG_DIR),1)
   DEFINES += -DUSE_XDG_DIR
 endif
 
-all: version $(TARGET) $(L10N) tests
+all: version $(ASTYLE) $(TARGET) $(L10N) tests
 	@
 
 $(TARGET): $(ODIR) $(DDIR) $(OBJS)
