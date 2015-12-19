@@ -325,6 +325,7 @@ std::string vstring_format(const char *pattern, va_list argptr);
 std::string string_format(std::string pattern, ...);
 std::string vstring_format(std::string const &pattern, va_list argptr);
 /*@}*/
+std::string trim(const std::string &s); // Remove spaces from the start and the end of a string
 
 // TODO: move these elsewhere
 // string manipulations.

@@ -840,6 +840,12 @@ item_location game::inv_map_splice( item_filter filter, const std::string &title
     return inv_map_splice( filter, filter, filter, title, radius );
 }
 
+void clear_cats( std::vector<item_category *> &cats ) {
+    for( auto cat_ptr : cats ) {
+        delete cat_ptr;
+    }
+}
+
 item_location game::inv_map_splice(
     item_filter inv_filter, item_filter ground_filter, item_filter vehicle_filter,
     const std::string &title, int radius )
@@ -851,9 +857,12 @@ item_location game::inv_map_splice(
     u.inv.sort();
     inv_s.make_item_list( u.inv.slice_filter_by( inv_filter ) );
 
+    // nearby categories with distance and direction names
+    std::vector<item_category *> nearby_cats;
+    int nearby_rank = -2000;
+
     // items are stacked per tile considering vehicle and map tiles separately
     static const item_category ground_cat( "GROUND:",  _( "GROUND:" ),  -1000 );
-    static const item_category nearby_cat( "NEARBY:",  _( "NEARBY:" ),  -2000 );
     static const item_category vehicle_cat( "VEHICLE:", _( "VEHICLE:" ), -3000 );
 
     // in the below loops identical items on the same tile are grouped into lists
@@ -887,8 +896,10 @@ item_location game::inv_map_splice(
             auto &current_stack = stacks.back();
             current_stack.reserve( items.size() );
 
+            bool found_item = false;
             for( item &it : items ) {
                 if( ground_filter( it ) ) {
+                    found_item = true;
                     auto match = std::find_if( current_stack.begin(),
                     current_stack.end(), [&]( const std::list<item> &e ) {
                         return it.stacks_with( e.back() );
@@ -910,7 +921,21 @@ item_location game::inv_map_splice(
                     }
                 }
             }
-            inv_s.make_item_list( slices.back(), pos == g->u.pos() ? &ground_cat : &nearby_cat );
+            if ( found_item ) {
+                if( pos == g->u.pos() ) {
+                    inv_s.make_item_list( slices.back(), &ground_cat );
+                } else {
+                    int dist = square_dist( g->u.pos(), pos );
+                    std::string dir_name = direction_name_short( direction_from( g->u.pos(), pos ) );
+                    std::string cat_name = string_format( _( "NEARBY %d %s:" ), dist, trim( dir_name ).c_str() );
+
+                    item_category *nearby_cat = new item_category( cat_name, cat_name, nearby_rank );
+                    nearby_cats.push_back( nearby_cat );
+                    nearby_rank -= 10;
+
+                    inv_s.make_item_list( slices.back(), nearby_cat );
+                }
+            }
         }
 
         // finally get all matching items in vehicle cargo spaces
@@ -969,11 +994,13 @@ item_location game::inv_map_splice(
         if( item_pos != INT_MIN ) {
             // Indexed item in inventory
             inv_s.set_to_drop( item_pos, 0 );
+            clear_cats( nearby_cats );
             return item_location::on_character( u, inv_s.first_item );
 
         } else if( ch >= min_invlet && ch <= max_invlet ) {
             // Indexed item on ground or in vehicle
             if( (long)invlets.size() > ch - min_invlet ) {
+                clear_cats( nearby_cats );
                 return std::move( invlets[ch - min_invlet] );
             }
 
@@ -981,10 +1008,13 @@ item_location game::inv_map_splice(
             // continue with comparison below
 
         } else if( action == "QUIT" ) {
+            clear_cats( nearby_cats );
             return item_location::nowhere();
 
         } else if( action == "RIGHT" || action == "CONFIRM" ) {
             inv_s.set_selected_to_drop( 0 );
+
+            clear_cats( nearby_cats );
 
             // Item in inventory
             if( inv_s.get_selected_item_position() != INT_MIN ) {
