@@ -12,5 +12,31 @@
       ["honeycomb", 100],
       ["royal_jelly", 80]
     ]
+  },{
+    "type" : "item_group",
+    "id" : "hardware",
+	  "subtype": "distribution",
+    "entries" : [
+      { "group": "hardware_tools", "prob": 100 },
+      { "group": "hardware_parts", "prob": 50 },
+      { "group": "construction_tools", "prob": 50 },
+      { "group": "construction_parts", "prob": 50 },
+      { "group": "smithing_tools", "prob": 50 },
+      { "group": "farming_tools", "prob": 40 },
+      { "group": "mechanics_tools", "prob": 50 },
+      { "group": "vehicle_parts", "prob": 15 },
+      { "item": "nail", "prob": 10},
+      { "item": "chem_thermite", "prob": 2}
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "mechanics",
+    "subtype": "distribution",
+    "entries" : [
+      { "group": "basic_tools", "prob": 100 },
+      { "group": "mechanics_tools", "prob": 100 },
+      { "group": "mechanics_parts", "prob": 50 },
+      { "group": "vehicle_parts", "prob": 350 }
+    ]
   }
  ]
