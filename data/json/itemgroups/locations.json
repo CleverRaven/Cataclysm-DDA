@@ -1,0 +1,16 @@
+[
+  {
+    "type" : "item_group",
+    "id" : "hive",
+    "items":[
+      ["honeycomb", 100]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "hive_center",
+    "items":[
+      ["honeycomb", 100],
+      ["royal_jelly", 80]
+    ]
+  }
+ ]

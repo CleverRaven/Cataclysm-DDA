@@ -94,19 +94,6 @@
     ]
   },{
     "type" : "item_group",
-    "id" : "hive",
-    "items":[
-      ["honeycomb", 10]
-    ]
-  },{
-    "type" : "item_group",
-    "id" : "hive_center",
-    "items":[
-      ["honeycomb", 10],
-      ["royal_jelly", 8]
-    ]
-  },{
-    "type" : "item_group",
     "id" : "road",
     "items":[
       ["jumper_cable", 5],
