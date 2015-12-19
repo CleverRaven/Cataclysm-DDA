@@ -6410,19 +6410,6 @@
     ]
   },{
     "type" : "item_group",
-    "id" : "bots",
-    "items":[
-      ["bot_manhack", 2],
-      ["bot_grenade_hack", 2],
-      ["bot_flashbang_hack", 2],
-      ["bot_gasbomb_hack", 2],
-      ["bot_turret", 2],
-      ["bot_rifleturret", 2],
-      ["556", 2],
-      ["9mm", 2]
-    ]
-  },{
-    "type" : "item_group",
     "id" : "mil_hw",
     "items":[
       ["flamethrower", 20],
@@ -6529,24 +6516,6 @@
       ["waterproof_gunmod", 2],
       ["improve_sights", 5],
       ["rm11b_sniper_rifle", 1]
-    ]
-  },{
-    "type" : "item_group",
-    "id" : "grenades",
-    "comment" : "Super-high numbers here are to make the granade joke item rare enough.",
-    "items":[
-      ["grenade", 300],
-      ["grenade_inc", 300],
-      ["flashbang", 300],
-      ["EMPbomb", 200],
-      ["gasbomb", 150],
-      ["gasbomb_makeshift", 150],
-      ["smokebomb", 500],
-      ["dynamite", 500],
-      ["mininuke", 50],
-      ["granade", 1],
-      ["c4", 500],
-      ["tool_black_powder_bomb", 100]
     ]
   },{
     "type" : "item_group",

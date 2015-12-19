@@ -780,5 +780,47 @@
       ["small_repairkit", 50],
       ["large_repairkit", 25]
     ]
-  }
+  },{
+    "type" : "item_group",
+    "id" : "grenades",    
+    "comment" : "...Or anything thrown. High numbers here are to make the granade joke item rare enough.",
+      ["mininuke", 300],
+      ["c4", 1000],
+      ["grenade", 1000],
+      ["grenade_inc", 500],
+      ["flashbang", 500],
+      ["EMPbomb", 300],
+      ["scrambler", 10],
+      ["gasbomb", 300],
+      ["gasbomb_makeshift", 0],
+      ["smokebomb", 500],
+      ["dynamite", 500],
+      ["pipebomb", 0],
+      ["acidbomb", 250],
+      ["granade", 1]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "explosives",
+    "items":[
+      ["c4", 100],
+      ["dynamite", 100],
+      ["fertilizer_bomb", 0],
+      ["tool_black_powder_bomb", 0],
+      ["tool_anfo_charge", 45],
+      ["tool_rdx_sand_bomb", 40],
+      ["tool_rdx_charge", 5]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "bots",
+    "items":[
+      ["bot_manhack", 70],
+      ["bot_grenade_hack", 20],
+      ["bot_flashbang_hack", 50],
+      ["bot_gasbomb_hack", 50],
+      ["bot_turret", 50],
+      ["bot_rifleturret", 20]
+    ]
+  }  
  ]
