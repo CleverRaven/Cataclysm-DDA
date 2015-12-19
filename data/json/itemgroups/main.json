@@ -388,6 +388,7 @@
   },{
     "type" : "item_group",
     "id" : "assault",
+    "//" : "This is a general list. The US military guns are in gear.json.",
     "items":[
       ["m1918", 15],
       ["browning_blr", 10],
@@ -459,7 +460,29 @@
       ["8mm_fmj", 20],
       ["8mm_caseless", 10],
       ["8mm_civilian", 50],
+      ["5x50dart", 10],
+      ["5x50heavy", 5],
       ["700nx", 0]
+    ]
+  },{
+    "type" : "item_group",
+    "subtype": "distribution",
+    "id" : "allguns",
+    "entries" : [
+      { "group": "pistols", "prob": 1000 },
+      { "group": "shotguns", "prob": 1000 },
+      { "group": "smg", "prob": 1000 },
+      { "group": "rifles", "prob": 1000 },
+      { "group": "assault", "prob": 1000 }
+    ]
+  },{
+    "type" : "item_group",
+    "subtype": "distribution",
+    "id" : "ammo",
+    "entries" : [
+      { "group": "pistol_ammo", "prob": 1000 },
+      { "group": "shotgun_ammo", "prob": 1000 },
+      { "group": "rifle_ammo", "prob": 1000 }
     ]
   },{
     "type" : "item_group",
