@@ -509,7 +509,7 @@ void player::fire_gun( const tripoint &targ_arg, bool burst )
         } else if ( used_weapon->deactivate_charger_gun() ) {
             // Deactivated charger gun
         } else {
-            used_weapon->charges -= used_weapon->ammo_required();
+            used_weapon->ammo_consume( used_weapon->ammo_required() );
         }
 
         // Drain UPS power
@@ -585,10 +585,6 @@ void player::fire_gun( const tripoint &targ_arg, bool burst )
             practice( skill_used, damage_factor * range_multiplier / 5 );
         }
 
-    }
-
-    if (used_weapon->num_charges() == 0) {
-        used_weapon->unset_curammo();
     }
 
     if( train_skill ) {
