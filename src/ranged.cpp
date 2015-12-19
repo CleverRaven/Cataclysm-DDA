@@ -607,27 +607,19 @@ void player::fire_gun( const tripoint &targ_arg, bool burst )
         }
         sfx::generate_gun_sound( *this, *used_weapon );
 
+        // experience gain is limited by range and penalised proportional to inaccuracy
         int exp = std::min(range, 3 * ( skillLevel( skill_used ) + 1 ) ) * RANGED_EXPERIENCE_FACTOR;
         int penalty = sqrt( missed_by * RANGED_EXPERIENCE_PENALTY );
-        //debugmsg("Rangemult: %d, missed_by: %f, total_damage: %f", rangemult, missed_by, proj.impact.total_damage());
 
-        if (!train_skill) {
-            practice( skill_used, 0 ); // practice, but do not train
-        } else {
-            practice( skill_used, exp / penalty );
-        }
-
+        // even if we are not training we practice the skill to prevent rust
+        practice( skill_used, train_skill ? exp / penalty : 0 );
     }
 
     if (used_weapon->num_charges() == 0) {
         used_weapon->unset_curammo();
     }
 
-    if( train_skill ) {
-        practice( skill_gun, 15 );
-    } else {
-        practice( skill_gun, 0 );
-    }
+    practice( skill_gun, train_skill ? 15 : 0 );
 }
 
 dealt_projectile_attack player::throw_item( const tripoint &target, const item &to_throw )
