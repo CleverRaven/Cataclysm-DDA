@@ -960,5 +960,69 @@
       ["wakizashi_fake", 70],
       ["battleaxe_fake", 50]
     ]
-  }
+  },{
+    "type" : "item_group",
+    "id" : "western_medieval_weapons",
+    "items":[
+      ["broadsword", 75],
+      ["zweihander", 50],
+      ["rapier", 50],
+      ["cutlass", 30],
+      ["battleaxe", 50],
+      ["warhammer", 50],
+      ["cestus", 20],
+      ["mace", 50],
+      ["morningstar", 50],
+      ["pike", 50],
+      ["huge_crossbow", 40],
+      ["q_staff", 40],
+      ["i_staff", 50],
+      ["scythe_war", 20],
+      ["bullwhip", 40],
+      ["sword_bayonet", 30]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "western_medieval_armor",
+    "items":[
+      ["armor_lightplate", 80],
+      ["armor_plate", 40],
+      ["gloves_plate", 50],
+      ["boots_plate", 50],
+      ["helmet_plate", 50],
+      ["helmet_barbute", 50],
+      ["chainmail_suit", 10],
+      ["chainmail_hood", 40],
+      ["chainmail_vest", 40],
+      ["chainmail_arms", 40],
+      ["chainmail_legs", 40]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "eastern_medieval_weapons",
+    "items":[
+      ["katana", 75],
+      ["bokken", 10],
+      ["nodachi", 50],
+      ["wakizashi", 40],
+      ["tanto", 50],
+      ["q_staff", 80],
+      ["i_staff", 50],
+      ["sword_bayonet", 50],
+      ["bagh_nakha", 25],
+      ["kris", 25]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "eastern_medieval_armor",
+    "items":[
+      ["armor_samurai", 80],
+      ["helmet_kabuto", 50],
+      ["chainmail_suit", 10],
+      ["chainmail_hood", 10],
+      ["chainmail_vest", 10],
+      ["chainmail_arms", 10],
+      ["chainmail_legs", 10]
+    ]
+    }
  ]
