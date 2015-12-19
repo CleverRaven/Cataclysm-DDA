@@ -689,7 +689,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
          * Checks if player stats and skills meet minimum requirements for the item
          * @param interactive controls whether informative messages are printed if item requirements not met
          */
-	bool can_use( const item& it, bool interactive = true ) const;
+        bool can_use( const item& it, bool interactive = true ) const;
         /**
          * Calculate (but do not deduct) the number of moves required when handling (eg. storing, drawing etc.) an item
          * @param effects whether temporary player effects should be considered (eg. GRABBED, DOWNED)
