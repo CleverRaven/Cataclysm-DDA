@@ -1589,5 +1589,64 @@
       ["v_planter_item", 5],
       ["v_reaper_item", 5]
     ]
+  },{
+    "type" : "item_group",
+    "id" : "chemistry_tools",
+    "subtype": "distribution",
+    "entries":[
+      {"item": "chemistry_set", "prob": 100, "charges-min": 25, "charges-max": 200 },
+      {"item": "hotplate", "prob": 70, "charges-min": 0, "charges-max": 200 },
+      {"item": "gloves_medical", "prob": 30 },
+      {"item": "superglue", "prob": 30 },
+      {"item": "syringe", "prob": 10 },
+      {"item": "extinguisher", "prob": 50, "charges-min": 1, "charges-max": 60 },
+      {"item": "sm_extinguisher", "prob": 30, "charges-min": 1, "charges-max": 12 },
+      {"item": "adrenaline_injector", "prob": 25 },
+      {"item": "funnel", "prob": 40 },
+      {"item": "bottle_glass", "prob": 90 },
+      {"item": "jar_glass", "prob": 70 },
+      {"item": "jar_3l_glass", "prob": 25 },
+      {"item": "apron_leather", "prob": 20 },
+      {"item": "thermometer", "prob": 50 },
+      {"item": "hygrometer", "prob": 40 },
+      {"item": "barometer", "prob": 40 },
+      {"item": "towel", "prob": 50 },
+      {"item": "canister_empty", "prob": 25 }
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "chemicals",
+    "items":[
+      ["water_clean", 200],
+      ["salt_water", 100],
+      ["bleach", 100],
+      ["ammonia", 100],
+      ["charcoal", 100],
+      ["sugar",60],
+      ["salt",60],
+      ["lye_powder", 50],
+      ["oxy_powder", 50],
+      ["denat_alcohol", 50],
+      ["chem_hydrogen_peroxide", 40],
+      ["chem_sulphur", 40],
+      ["chem_aluminium_powder", 40],
+      ["chem_zinc_powder", 40],
+      ["chem_saltpetre", 40],
+      ["chem_carbide", 40],
+      ["chem_sulphur", 40],
+      ["chem_aluminium_powder", 40],
+      ["chem_hexamine", 40],
+      ["chem_saltpetre", 60],
+      ["chem_nitric_acid", 60],
+      ["chem_chromium_oxide", 50],
+      ["material_quicklime", 50],
+      ["material_sand", 50],
+      ["iodine", 50],
+      ["yeast", 50],
+      ["pur_tablets", 50],
+      ["mutagen", 0],
+      ["purifier", 0],
+      ["royal_jelly", 0]
+    ]
   }
  ]
