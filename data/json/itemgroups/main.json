@@ -1143,5 +1143,82 @@
       ["RAM", 50],
       ["antenna", 50]
     ]
+  },{
+    "type" : "item_group",
+    "id" : "electronics",
+    "subtype": "distribution",
+    "entries":[
+      { "item": "soldering_iron", "prob": 50, "charges-min": 25, "charges-max": 50 },
+      { "item": "battery", "prob": 50 },
+      { "item": "mp3", "prob": 30, "charges-min": 75, "charges-max": 100 },
+      { "item": "portable_game", "prob": 50 },
+      { "item": "flashlight", "prob": 150, "charges-min": 75, "charges-max": 100 },
+      { "item": "radio", "prob": 50, "charges-min": 75, "charges-max": 100 },
+      { "item": "mess_kit", "prob": 15, "charges-min": 75, "charges-max": 100 },
+      { "item": "hotplate", "prob": 50, "charges-min": 75, "charges-max": 200 },
+      { "item": "coffeemaker", "prob": 20, "charges-min": 75, "charges-max": 100 },
+      { "item": "tazer", "prob": 50, "charges-min": 75, "charges-max": 100 },
+      { "item": "vac_sealer", "prob": 20, "charges-min": 75, "charges-max": 100 },
+      { "item": "wristwatch", "prob": 100 },
+      { "item": "cell_phone", "prob": 100 },
+      { "item": "television", "prob": 100 },
+      { "item": "alarmclock", "prob": 50 },
+      { "item": "camera", "prob": 75, "charges-min": 75, "charges-max": 100 },
+      { "item": "camera_pro", "prob": 30, "charges-min": 75, "charges-max": 100 },
+      { "item": "radio_car_box", "prob": 10 },
+      { "item": "omnicamera", "prob": 10 },
+      { "item": "l-stick", "prob": 10 },
+      { "item": "camera_control", "prob": 10 },
+      { "item": "radiocontrol", "prob": 50, "charges-min": 25, "charges-max": 50 },
+      { "item": "smart_lamp", "prob": 10, "charges-min": 75, "charges-max": 100 },
+      { "item": "electric_lantern", "prob": 50, "charges-min": 100, "charges-max": 200 },
+      { "item": "weather_reader", "prob": 10, "charges-min": 75, "charges-max": 100 },
+      { "item": "geiger_off", "prob": 50, "charges-min": 75, "charges-max": 100 },
+      { "item": "rad_monitor", "prob": 20, "charges-min": 75, "charges-max": 100 }
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "digital_electronics",
+    "subtype": "distribution",
+    "items":[
+      { "item": "eink_tablet_pc", "prob": 50, "charges-min": 75, "charges-max": 100 },
+      { "item": "laptop", "prob": 50 },
+      { "item": "pda", "prob": 50, "charges-min": 75, "charges-max": 100 },
+      { "item": "mobile_memory_card", "prob": 50 },
+      { "item": "usb_drive", "prob": 100 },
+      { "item": "mobile_memory_card_science", "prob": 25 },
+      { "item": "mobile_memory_card", "prob": 100 },
+      { "item": "software_useless", "prob": 100 },
+      { "item": "software_hacking", "prob": 5 },
+      { "item": "software_medical", "prob": 25 },
+      { "item": "software_math", "prob": 25 }
+    ]  
+  },{
+    "type" : "item_group",
+    "id" : "adv_electronics",
+    "items":[
+      ["l-stick", 10]
+      ["teleporter", 10],
+      ["portal", 10],
+      ["UPS_off", 50],
+      ["adv_UPS_off", 30],
+      ["plut_cell", 50],
+      ["battery_ups", 30],
+      ["radio_mod", 30],
+      ["electrohack", 30],
+      ["eink_tablet_pc", 50],
+      ["remotevehcontrol", 20],
+      ["battery_compartment", 5],
+      ["double_plutonium_core", 1]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "consumer_electronics",
+    "subtype": "distribution",
+    "items":[
+      { "group": "electronics_tools", "prob": 50 },
+      { "group": "electronics", "prob": 100 },
+      { "group": "digital_electronics", "prob": 50 }
+    ]
   }
  ]
