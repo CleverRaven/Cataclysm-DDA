@@ -9206,20 +9206,13 @@ std::vector<map_item_stack> game::find_nearby_items(int iRadius)
 
             for( auto &elem : m.i_at( points_p_it ) ) {
                 const std::string name = elem.tname();
+                const tripoint relative_pos = points_p_it - u.pos();
 
-                if( temp_items.find( name ) == temp_items.end() || last_pos != points_p_it ) {
-                    last_pos = points_p_it;
-                    const tripoint relative_pos = points_p_it - u.pos();
-
-                    if (std::find(item_order.begin(), item_order.end(), name) == item_order.end()) {
-                        item_order.push_back(name);
-                        temp_items[name] = map_item_stack( &elem, relative_pos );
-                    } else {
-                        temp_items[name].addNewPos( &elem, relative_pos );
-                    }
-
+                if( std::find( item_order.begin(), item_order.end(), name ) == item_order.end() ) {
+                    item_order.push_back( name );
+                    temp_items[name] = map_item_stack( &elem, relative_pos );
                 } else {
-                    temp_items[name].incCount();
+                    temp_items[name].add_at_pos( &elem, relative_pos );
                 }
             }
         }

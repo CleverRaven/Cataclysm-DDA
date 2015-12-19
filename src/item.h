@@ -1303,39 +1303,41 @@ class map_item_stack
                 ~item_group() {};
         };
     public:
-        item *example; //an example item for showing stats, etc.
+        item const *example; //an example item for showing stats, etc.
         std::vector<item_group> vIG;
         int totalcount;
 
         //only expected to be used for things like lists and vectors
         map_item_stack()
         {
-            vIG.push_back(item_group());
+            vIG.push_back( item_group() );
             totalcount = 0;
         }
 
-        map_item_stack( item *it, const tripoint &pos )
+        map_item_stack( item const *it, const tripoint &pos )
         {
             example = it;
-            vIG.push_back(item_group(pos, (it->count_by_charges()) ? it->charges : 1));
-            totalcount = (it->count_by_charges()) ? it->charges : 1;
+            vIG.push_back( item_group( pos, ( it->count_by_charges() ) ? it->charges : 1 ) );
+            totalcount = ( it->count_by_charges() ) ? it->charges : 1;
         }
 
         ~map_item_stack() {};
 
-        void addNewPos( item *it, const tripoint &pos )
+        // This adds to an existing item group if the last current
+        // item group is the same position and otherwise creates and
+        // adds to a new item group. Note that it does not search
+        // through all older item groups for a match.
+        void add_at_pos( item const *it, const tripoint &pos )
         {
-            vIG.push_back(item_group(pos, (it->count_by_charges()) ?it->charges : 1));
-            totalcount += (it->count_by_charges()) ? it->charges : 1;
-        }
+            uint amount = ( it->count_by_charges() ) ? it->charges : 1;
 
-        void incCount()
-        {
-            const int iVGsize = vIG.size();
-            if (iVGsize > 0) {
-                vIG[iVGsize - 1].count++;
+            if( !vIG.size() || vIG[vIG.size() - 1].pos != pos ) {
+                vIG.push_back( item_group( pos, amount ) );
+            } else {
+                vIG[vIG.size() - 1].count += amount;
             }
-            totalcount++;
+
+            totalcount += amount;
         }
 
         static bool map_item_stack_sort(const map_item_stack &lhs, const map_item_stack &rhs)
