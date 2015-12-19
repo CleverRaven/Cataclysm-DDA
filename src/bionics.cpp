@@ -1041,8 +1041,8 @@ bool player::activate_bionic(int b, bool eff_only)
         add_msg_if_player(m_info, _("Relative Humidity: %s."), print_humidity(get_local_humidity(weatherPoint.humidity, g->weather, g->is_sheltered(g->u.pos()))).c_str());
         add_msg_if_player(m_info, _("Pressure: %s."), print_pressure((int)weatherPoint.pressure).c_str());
         add_msg_if_player(m_info, _("Wind Speed: %.1f %s."),
-                                                 convert_velocity(int(windpower), true),
-                                                 velocity_units(true));
+                                                 convert_velocity(int(windpower), VU_WIND),
+                                                 velocity_units(VU_WIND));
         add_msg_if_player(m_info, _("Feels Like: %s."), print_temperature(get_local_windchill(weatherPoint.temperature, weatherPoint.humidity, windpower) + g->get_temperature()).c_str());
     } else if(bio.id == "bio_claws") {
         if (weapon.has_flag ("NO_UNWIELD")) {

@@ -9045,8 +9045,8 @@ int iuse::weather_tool(player *p, item *it, bool, const tripoint& )
                                                          omtername, g->is_sheltered(g->u.pos())));
 
         p->add_msg_if_player(m_neutral, _("Wind Speed: %.1f %s."),
-                                        convert_velocity(windpower, true),
-                                        velocity_units(true));
+                                        convert_velocity(windpower, VU_WIND),
+                                        velocity_units(VU_WIND));
         p->add_msg_if_player(m_neutral, _("Feels Like: %s."), print_temperature(get_local_windchill(weatherPoint.temperature, weatherPoint.humidity, windpower) + g->get_temperature()).c_str());
     }
 
