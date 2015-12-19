@@ -33,6 +33,7 @@ const skill_id skill_gun( "gun" );
 const skill_id skill_melee( "melee" );
 
 int time_to_fire(player &p, const itype &firing);
+static inline void eject_casing( player& p, item& weap );
 int recoil_add(player &p, const item &gun);
 void make_gun_sound_effect(player &p, bool burst, item *weapon);
 extern bool is_valid_in_w_terrain(int, int);
@@ -500,33 +501,7 @@ void player::fire_gun( const tripoint &targ_arg, bool burst )
             }
         }
 
-        // Drop a shell casing if appropriate.
-        itype_id casing_type = curammo->ammo->casing;
-        if( casing_type != "NULL" && !casing_type.empty() ) {
-            if( used_weapon->has_flag("RELOAD_EJECT") ) {
-                const int num_casings = used_weapon->get_var( "CASINGS", 0 );
-                used_weapon->set_var( "CASINGS", num_casings + 1 );
-            } else {
-                item casing;
-                casing.make(casing_type);
-                // Casing needs a charges of 1 to stack properly with other casings.
-                casing.charges = 1;
-                if( used_weapon->has_gunmod("brass_catcher") != -1 ) {
-                    i_add( casing );
-                } else {
-                    tripoint brass = pos();
-                    int count = 0;
-                    do {
-                        brass.x = posx() + rng( -1, 1 );
-                        brass.y = posy() + rng( -1, 1 );
-                        count++;
-                        // Try not to drop the casing on a wall if at all possible.
-                    } while( g->m.move_cost( brass ) == 0 && count < 10 );
-                    g->m.add_item_or_charges(brass, casing);
-                    sfx::play_variant_sound( "fire_gun", "brass_eject", sfx::get_heard_volume( brass ), sfx::get_heard_angle( brass ));
-                }
-            }
-        }
+        eject_casing( *this, *used_weapon );
 
         if( used_weapon->has_flag("BIO_WEAPON") ) {
             // Consume a (virtual) charge to let player::activate_bionic know the weapon has been fired.
@@ -1267,6 +1242,40 @@ int time_to_fire(player &p, const itype &firingt)
     return std::max(info.min_time, info.base - info.reduction * p.skillLevel( skill_used ));
 }
 
+static inline void eject_casing( player& p, item& weap ) {
+    itype_id casing_type = weap.get_curammo()->ammo->casing;
+    if( casing_type == "NULL" || casing_type.empty() ) {
+        return;
+    }
+
+    if( weap.has_flag( "RELOAD_EJECT" ) ) {
+        const int num_casings = weap.get_var( "CASINGS", 0 );
+        weap.set_var( "CASINGS", num_casings + 1 );
+        return;
+    }
+
+    item casing( casing_type, calendar::turn, false );
+    casing.charges = 1; // needs charge 1 to stack properly with other casings
+
+    if( weap.has_gunmod( "brass_catcher" ) != -1 ) {
+        p.i_add( casing );
+        return;
+    }
+
+    // Eject casing in random direction avoiding walls using player position as fallback
+    auto brass = closest_tripoints_first( 1, p.pos() );
+    brass.erase( brass.begin() );
+    std::random_shuffle( brass.begin(), brass.end() );
+    brass.emplace_back( p.pos() );
+
+    for( auto& pos : brass ) {
+        if ( g->m.move_cost(pos) != 0 ) {
+            g->m.add_item_or_charges( pos, casing );
+            sfx::play_variant_sound( "fire_gun", "brass_eject", sfx::get_heard_volume( pos ), sfx::get_heard_angle( pos ) );
+            break;
+        }
+    }
+}
 
 void make_gun_sound_effect(player &p, bool burst, item *weapon)
 {
