@@ -191,7 +191,7 @@ ifeq ($(NATIVE), osx)
   ifeq ($(LOCALIZE), 1)
     LDFLAGS += -lintl
     ifeq ($(MACPORTS), 1)
-      LDFLAGS += -L$(shell ncursesw5-config --libdir)
+      LDFLAGS += -L$(shell ncursesw6-config --libdir)
     endif
   endif
   TARGETSYSTEM=LINUX
@@ -343,8 +343,8 @@ else
         ifeq ($(NATIVE), osx)
             LDFLAGS += -lncurses
         else
-            LDFLAGS += $(shell ncursesw5-config --libs)
-            CXXFLAGS += $(shell ncursesw5-config --cflags)
+            LDFLAGS += $(shell ncursesw6-config --libs)
+            CXXFLAGS += $(shell ncursesw6-config --cflags)
         endif
       endif
     else
@@ -354,8 +354,8 @@ else
   
   ifeq ($(TARGETSYSTEM),CYGWIN)
     ifeq ($(LOCALIZE),1)
-      LDFLAGS += $(shell ncursesw5-config --libs)
-      CXXFLAGS += $(shell ncursesw5-config --cflags)
+      LDFLAGS += $(shell ncursesw6-config --libs)
+      CXXFLAGS += $(shell ncursesw6-config --cflags)
       
       # Work around Cygwin not including gettext support in glibc
       LDFLAGS += -lintl -liconv
