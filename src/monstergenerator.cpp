@@ -178,7 +178,6 @@ void MonsterGenerator::init_death()
     death_map["KILL_BREATHERS"] = &mdeath::kill_breathers;// All breathers die
     death_map["BROKEN_AMMO"] = &mdeath::broken_ammo;// Gives a message about destroying ammo and then calls "BROKEN"
     death_map["SMOKEBURST"] = &mdeath::smokeburst;// Explode like a huge smoke bomb.
-    death_map["JABBERWOCKY"] = &mdeath::jabberwock; // Snicker-snack!
     death_map["DETONATE"] = &mdeath::detonate; // Take them with you
     death_map["GAMEOVER"] = &mdeath::gameover;// Game over!  Defense mode
     death_map["PREG_ROACH"] = &mdeath::preg_roach;// Spawn some cockroach nymphs
