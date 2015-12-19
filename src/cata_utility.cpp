@@ -228,17 +228,17 @@ int bound_mod_to_vals( int val, int mod, int max, int min )
 std::string velocity_units( bool to_alternative_units )
 {
     std::string units;
-    if ( OPTIONS["USE_METRIC_SPEEDS"].getValue() == "mph" ) {
-        units = _("mph");
+    if( OPTIONS["USE_METRIC_SPEEDS"].getValue() == "mph" ) {
+        units = _( "mph" );
     } else {
-        units = to_alternative_units ? _("m/s") : _("km/h");
+        units = to_alternative_units ? _( "m/s" ) : _( "km/h" );
     }
     return units;
 }
 
 std::string weight_units()
 {
-    return OPTIONS["USE_METRIC_WEIGHTS"].getValue() == "lbs" ? _("lbs") : _("kg");
+    return OPTIONS["USE_METRIC_WEIGHTS"].getValue() == "lbs" ? _( "lbs" ) : _( "kg" );
 }
 
 /* Convert internal velocity units to units defined by user */
@@ -248,7 +248,7 @@ double convert_velocity( int velocity, bool to_alternative_units )
     double ret = double( velocity ) / 100;
 
     if( OPTIONS["USE_METRIC_SPEEDS"] == "km/h" ) {
-        if ( to_alternative_units ) {
+        if( to_alternative_units ) {
             // mph to m/s conversion
             ret *= 0.447f;
         } else {
