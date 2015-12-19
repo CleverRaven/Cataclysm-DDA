@@ -10839,6 +10839,10 @@ void game::plfire( bool burst, const tripoint &default_target )
         add_msg( m_info, _( "The %s must be attached to a gun, it can not be fired separately." ), u.weapon.tname().c_str() );
         return;
     }
+    if( !u.can_use( u.weapon ) ) {
+        return;
+    }
+
     // Execute reach attack (instead of shooting) if our weapon can reach and
     // either we're not using a gun or using a gun set to use a non-gun gunmod
     bool reach_attack = u.weapon.has_flag( "REACH_ATTACK" ) &&
