@@ -3871,6 +3871,37 @@ long item::ammo_required() const {
     return res;
 }
 
+bool item::ammo_consume( int qty ) {
+    if( qty < 0 ) {
+        debugmsg( "Cannot consume negative quantity of ammo for %s", tname().c_str() );
+        return false;
+    }
+
+    if( qty > ammo_remaining() ) {
+        return false;
+    }
+
+    if( is_tool() ) {
+        charges -= qty;
+        if( charges == 0 ) {
+            unset_curammo();
+        }
+        return true;
+    }
+
+    if( is_gun() ) {
+        // includes auxiliary gunmods
+        // @todo handle magazines
+        charges -= qty;
+        if( charges == 0 ) {
+            unset_curammo();
+        }
+        return true;
+    }
+
+    return false;
+}
+
 ammotype item::ammo_type() const
 {
     if (is_gun()) {

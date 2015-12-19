@@ -1045,6 +1045,8 @@ public:
         long ammo_capacity() const;
         /** Quantity of ammunition consumed per usage of tool or with each shot of gun */
         long ammo_required() const;
+        /** If sufficient ammo available consume it, otherwise do nothing and return false */
+        bool ammo_consume( int qty );
         /**
          * The id of the ammo type (@ref ammunition_type) that can be used by this item.
          * Will return "NULL" if the item does not use a specific ammo type. Items without
