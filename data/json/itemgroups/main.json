@@ -868,6 +868,7 @@
     "items":[
       ["stick", 60],
       ["2x4", 60],
+      ["rebar", 60],      
       ["bat", 60],
       ["bat_metal", 60],
       ["knife_butcher", 50],
@@ -899,6 +900,7 @@
     "id" : "crafted_melee_weapons",
     "items":[
       ["spear_knife", 100],
+      ["spear_rebar", 50],
       ["nailbat", 10],
       ["bwirebat",10],
       ["scythe_war", 50],
@@ -908,7 +910,7 @@
       ["spear_wood", 15],
       ["spear_steel", 10],
       ["spear_survivor",10],
-      ["knuckle_katar", 50],
+      ["knuckle_nail", 50],
       ["rock_sock", 1],
       ["glass_shiv", 10],
       ["glass_macuahuitl",10],
@@ -918,6 +920,45 @@
       ["broadfire_off",1],
       ["zweifire_off",1],
       ["battletorch",10]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "unarmed_weapons",
+    "items":[
+      ["punch_dagger", 50],
+      ["bagh_nakha", 50],
+      ["knuckle_katar", 30],
+      ["cestus", 50],
+      ["knuckle_brass", 70],
+      ["knuckle_nail", 0],
+      ["knuckle_steel", 65]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "combat_knives",
+    "items":[
+      ["knife_combat", 70],
+      ["kukri", 50],
+      ["knife_rm42", 5],
+      ["knife_hunting", 45],
+      ["knife_rambo", 50],
+      ["throwing_knife", 50],
+      ["knife_trench", 50],
+      ["switchblade", 65]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "replica_weapons",
+    "items":[
+      ["katana_fake", 80],
+      ["cutlass_fake", 50],
+      ["broadsword_fake", 80],
+      ["rapier_fake", 50],
+      ["kris_fake", 40],
+      ["zweihander_fake", 50],
+      ["nodachi_fake", 50],
+      ["wakizashi_fake", 70],
+      ["battleaxe_fake", 50]
     ]
   }
  ]
