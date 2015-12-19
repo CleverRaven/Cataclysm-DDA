@@ -458,23 +458,6 @@ void player::fire_gun( const tripoint &targ_arg, bool burst )
         add_msg_if_player(m_info, _("You'll need a more accurate gun to keep improving your aim."));
     }
 
-    // chance to disarm an NPC with a whip if skill is high enough
-    ///\EFFECT_MELEE >5 allows disarming with a whip
-    if(proj.proj_effects.count("WHIP") && (this->skillLevel( skill_melee ) > 5) && one_in(3)) {
-        int npcdex = g->npc_at(targ_arg);
-        if(npcdex != -1) {
-            npc *p = g->active_npc[npcdex];
-            if(!p->weapon.is_null()) {
-                item weap = p->remove_weapon();
-                add_msg_if_player(m_good, _("You disarm %1$s's %2$s using your whip!"), p->name.c_str(),
-                                  weap.tname().c_str());
-                // Can probably send a weapon through a wall
-                tripoint random_point( targ_arg.x + rng(-1, 1), targ_arg.y + rng(-1, 1), targ_arg.z );
-                g->m.add_item_or_charges(random_point, weap);
-            }
-        }
-    }
-
     tripoint targ = targ_arg;
     const bool trigger_happy = has_trait( "TRIGGERHAPPY" );
     for (int curshot = 0; curshot < num_shots; curshot++) {

@@ -595,7 +595,6 @@ listings, as ids are constant throughout DDA's code.  Happy chambering!  :-)
 - ```LASER``` Creates a trail of laser (the field type)
 - ```NEVER_MISFIRES``` Firing ammo without this flag may trigger a misfiring, this is independent of the weapon flags.
 - ```RECYCLED``` (For handmade ammo) causes the gun to misfire sometimes, this independent of the weapon flags.
-- ```WHIP``` Special sounds for whips and has a chance of disarming the opponent.
 - ```NOGIB``` Prevents overkill damage on the target (target won't explode into gibs, see also the monster flag NO_GIBS).
 - ```WIDE``` Prevents `HARDTOSHOOT` monster flag from having any effect. Implied by ```SHOT``` or liquid ammo.
 - ```BLINDS_EYES``` Blinds the target if it hits the head (ranged projectiles can't actually hit the eyes at the moment).
@@ -782,6 +781,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```STAB``` Deals stabbing damage, with a moderate chance of getting stuck. The `STAB` flag is synonymous with the `SPEAR` flag.
 - ```SLICE``` Deals cutting damage, with a low chance of getting stuck.
 - ```MESSY``` Resistant to getting stuck in a monster. Potentially cause more gore in the future?
+- ```WHIP``` Has a chance of disarming the opponent.
 - ```NON_STUCK``` Resistant to getting stuck in a monster; not as large of an effect as `MESSY`.
 - ```UNARMED_WEAPON``` Wielding this item still counts as unarmed combat.
 - ```NO_UNWIELD``` Cannot unwield this item.
