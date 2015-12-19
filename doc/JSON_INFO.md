@@ -1250,7 +1250,7 @@ Each tileset has a tile_config.json describing how to map the contents of a spri
         "file": "moretiles.png",                  // another sprite sheet
         "tiles": [
           {
-            "id": "xxx",
+            "id": ["xxx","yyy"],                  // define two ids at once
             "fg": 1,
             "bg": 234
           }
