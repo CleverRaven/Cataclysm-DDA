@@ -241,7 +241,9 @@ std::string weight_units()
     return OPTIONS["USE_METRIC_WEIGHTS"].getValue() == "lbs" ? _( "lbs" ) : _( "kg" );
 }
 
-/* Convert internal velocity units to units defined by user */
+/**
+* Convert internal velocity units to units defined by user
+*/
 double convert_velocity( int velocity, bool to_alternative_units )
 {
     // internal units to mph conversion

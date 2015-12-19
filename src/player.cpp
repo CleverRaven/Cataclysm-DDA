@@ -3617,7 +3617,7 @@ void player::disp_status(WINDOW *w, WINDOW *w2)
         wprintz(w, c_green,  _("Engorged"));
 
     /// Find hottest/coldest bodypart
-    // Calculate the most extreme body tempearatures
+    // Calculate the most extreme body temperatures
     int current_bp_extreme = 0, conv_bp_extreme = 0;
     for (int i = 0; i < num_bp ; i++ ){
         if (abs(temp_cur[i] - BODYTEMP_NORM) > abs(temp_cur[current_bp_extreme] - BODYTEMP_NORM)) current_bp_extreme = i;
@@ -3773,22 +3773,26 @@ void player::disp_status(WINDOW *w, WINDOW *w2)
   int speedoy = sideStyle ? 5 :  3;
 
   bool metric = OPTIONS["USE_METRIC_SPEEDS"] == "km/h";
-  const char *units = metric ? _("km/h") : _("mph");
+  // Logic below is not applicable to translated units and should be changed
   int velx    = metric ? 4 : 3; // strlen(units) + 1
   int cruisex = metric ? 9 : 8; // strlen(units) + 6
-  float conv  = metric ? 0.0161f : 0.01f;
 
-  if (0 == sideStyle) {
-    if (!veh->cruise_on) speedox += 2;
-    if (!metric)         speedox++;
-  }
+    if( !sideStyle ){
+        if( !veh->cruise_on ) {
+            speedox += 2;
+        }
+        if( !metric ){
+            speedox++;
+        }
+    }
 
   const char *speedo = veh->cruise_on ? "%s....>...." : "%s....";
-  mvwprintz(w, speedoy, speedox,        col_indf1, speedo, units);
-  mvwprintz(w, speedoy, speedox + velx, col_vel,   "%4d", int(veh->velocity * conv));
-  if (veh->cruise_on)
-    mvwprintz(w, speedoy, speedox + cruisex, c_ltgreen, "%4d", int(veh->cruise_velocity * conv));
-
+  mvwprintz(w, speedoy, speedox,        col_indf1, speedo, velocity_units().c_str());
+  mvwprintz(w, speedoy, speedox + velx, col_vel,   "%4d", int(convert_velocity(veh->velocity)) );
+  if (veh->cruise_on) {
+    mvwprintz(w, speedoy, speedox + cruisex, c_ltgreen, "%4d",
+              int(convert_velocity(veh->cruise_velocity)) );
+  }
   if (veh->velocity != 0) {
    const int offset_from_screen_edge = sideStyle ? 13 : 8;
    nc_color col_indc = veh->skidding? c_red : c_green;
