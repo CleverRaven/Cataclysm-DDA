@@ -9141,30 +9141,6 @@
     ]
   },{
 "type" : "item_group",
-"id" : "farming_tools",
-"items" : [
-      ["hoe", 60],
-      ["shovel", 60],
-      ["g_shovel", 60],
-      ["trimmer_off", 60],
-      ["boots", 60],
-      ["gloves_rubber", 60],
-      ["fertilizer_liquid", 20],
-      ["fertilizer_commercial", 30],
-      ["sickle", 40],
-      ["toolbox", 10],
-      ["bullwhip", 30],
-      ["distaff_spindle", 2],
-      ["carding_paddles", 2],
-      ["scythe", 40],
-      ["material_quicklime", 30],
-      ["pitchfork", 40],
-      ["v_plow_item",41],
-      ["v_planter_item",41],
-      ["v_reaper_item",41]
-    ]
-  },{
-"type" : "item_group",
 "id" : "museum_primitive",
 "items" : [
       ["primitive_knife", 50],

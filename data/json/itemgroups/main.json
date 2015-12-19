@@ -1409,5 +1409,96 @@
       ["30gal_drum", 5],
       ["30gal_barrel", 5]
     ]
+  },{
+    "type" : "item_group",
+    "id" : "construction_tools",
+    "items":[
+      ["con_mix", 50],
+      ["brick_kiln", 50],
+      ["jackhammer", 30],
+      ["elec_jackhammer", 30],
+      ["jacqueshammer", 1],
+      ["hammer_sledge", 50],
+      ["chainsaw_off", 50],
+      ["elec_chainsaw_off", 20],
+      ["pickaxe", 10],
+      ["saw", 50],
+      ["toolbox", 30],
+      ["well_pump", 2],
+      ["wood_smoother", 30],
+      ["metal_smoother", 30]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "construction_parts",
+    "items" : [
+      ["2x4", 100],
+      ["material_quicklime", 50],
+      ["material_sand", 50],
+      ["concrete", 100],
+      ["rebar", 50],
+      ["well_pump", 2],
+      ["peephole", 10],
+      ["brick", 100],
+      ["pipe", 30]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "smithing_tools",
+    "items" : [
+      ["tongs", 80],
+      ["chisel", 80],
+      ["swage", 50],
+      ["forge", 20],
+      ["char_forge", 20],
+      ["char_kiln", 20],
+      ["crucible", 60],
+      ["anvil", 50]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "mining_tools",
+    "items" : [
+      ["jackhammer", 30],
+      ["elec_jackhammer", 30],
+      ["jacqueshammer", 1],
+      ["hammer_sledge", 50],
+      ["pickaxe", 10],
+      {"item": "dynamite", "prob": 50,  "count-min": 1, "count-max": 3},
+      ["rope_6", 50],
+      ["rope_30", 50],
+      ["grapnel", 30],
+      ["toolbox", 30],
+      ["radiocontrol", 30],
+      ["radio_mod", 50]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "farming_tools",
+    "items":[
+      ["hoe", 50],
+      ["shovel", 60],
+      ["scythe", 10],
+      ["sickle", 20],
+      ["pitchfork", 50],
+      ["ax", 80],
+      ["fertilizer_commercial", 100],
+      ["chainsaw_off", 50],
+      ["elec_chainsaw_off", 20],
+      ["trimmer_off", 50],
+      ["jerrycan_big", 75],
+      ["jerrycan", 75],
+      ["jack", 50],
+      ["toolbox", 30],
+      ["grapnel", 10],
+      ["rope_30", 50],
+      ["55gal_drum", 5],
+      ["30gal_drum", 5],
+      ["30gal_barrel", 5],
+      ["wooden_barrel", 15]
+      ["v_plow_item", 5],
+      ["v_planter_item", 5],
+      ["v_reaper_item", 5]
+    ]
   }
  ]
