@@ -692,10 +692,7 @@ void cata_tiles::load_tilejson_from_file( JsonObject &config, int offset, int si
         if ( entry.has_string( "id" ) ) {
             ids.push_back( entry.get_string( "id" ) );
         } else if ( entry.has_array( "id" ) ) {
-        JsonArray ida = entry.get_array( "id" );
-            while ( ida.has_more() ) {
-                ids.push_back( ida.next_string() );
-            }
+            ids = entry.get_string_array( "id" );
         }
         for ( auto t_id : ids ) {
         tile_type &curr_tile = load_tile( entry, t_id, offset, size );
