@@ -40,7 +40,9 @@ double logarithmic( double t );
 double logarithmic_range( int min, int max, int pos );
 
 int bound_mod_to_vals( int val, int mod, int max, int min );
+std::string velocity_units( bool to_alternative_units = false );
 std::string weight_units();
+double convert_velocity( int velocity, bool to_alternative_units = false );
 double convert_weight( int weight );
 
 /**
