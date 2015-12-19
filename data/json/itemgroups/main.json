@@ -227,5 +227,44 @@
       ["multi_cooker", 50],
       ["l-stick", 50]
     ]
+},{
+    "type" : "item_group",
+    "id" : "pistols",
+    "//" : "see gear for specific sets of guns. military, cops, etc.",
+    "items":[
+      ["sig_mosquito", 50],
+      ["cop_38", 5],
+      ["moss_brownie", 5],
+      ["sw_22", 50],
+      ["glock_19", 250],
+      ["usp_9mm", 50],
+      ["l_lookout_9mm", 50],
+      ["l_sp_9mm", 50],
+      ["l_mp_9mm", 30],
+      ["walther_ppk", 50],
+      ["sig_p230", 50],
+      ["sw_619", 50],
+      ["sw629", 75],
+      ["taurus_38", 50],
+      ["tokarev", 10],
+      ["makarov", 10],
+      ["sig_40", 40],
+      ["sw_610", 30],
+      ["ruger_redhawk", 50],
+      ["deagle_44", 20],
+      ["l_enforcer_45", 60],
+      ["l_sp_45", 10],
+      ["l_mp_45", 80],
+      ["usp_45", 50],
+      ["m1911", 110],
+      ["fn57", 20],
+      ["hk_ucp", 20],
+      ["raging_bull", 30],
+      ["sw_500", 10],
+      ["l_bak_223", 10],
+      ["rm99_pistol", 10],
+      ["rm103a_pistol", 10],
+      ["needlepistol", 20]
+    ]
   }
  ]

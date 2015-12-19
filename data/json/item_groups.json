@@ -2805,39 +2805,6 @@
     ]
   },{
     "type" : "item_group",
-    "id" : "pistols",
-    "items":[
-      ["sig_mosquito", 5],
-      ["sw_22", 5],
-      ["ruger_lcr_22", 5],
-      ["glock_19", 6],
-      ["usp_9mm", 5],
-      ["l_lookout_9mm", 5],
-      ["l_sp_9mm", 6],
-      ["sw_619", 4],
-      ["taurus_38", 4],
-      ["ruger_lcr_38", 4],
-      ["sig_40", 4],
-      ["sw_610", 2],
-      ["ruger_redhawk", 3],
-      ["sw629", 4],
-      ["deagle_44", 2],
-      ["l_enforcer_45", 6],
-      ["l_sp_45", 4],
-      ["usp_45", 5],
-      ["m1911", 4],
-      ["fn57", 2],
-      ["hk_ucp", 2],
-      ["raging_bull", 1],
-      ["sw_500", 1],
-      ["v29_cheap", 3],
-      ["l_bak_223", 3],
-      ["rm99_pistol", 2],
-      ["needlepistol", 2],
-      ["rm103a_pistol", 1]
-    ]
-  },{
-    "type" : "item_group",
     "id" : "shotguns",
     "items":[
       ["shotgun_s", 1],
