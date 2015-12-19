@@ -2519,7 +2519,7 @@
         "id" : "PRED4",
         "name" : "Apex Predator",
         "points" : 2,
-        "description" : "Your mind and brain have adapted to your new violent existence, resulting in almost effortless mastering of combat skills. Unfortunately, your critical thinking, so characteristic to humans, has atrophied: -3 INT.",
+        "description" : "Your mind and brain have adapted to your new violent existence, resulting in almost effortless mastering of combat skills.  Unfortunately, your critical thinking, so characteristic to humans, has atrophied: -3 INT.",
         "valid" : false,
         "purifiable" : false,
         "prereqs" : ["CARNIVORE", "THRESH_URSINE"],

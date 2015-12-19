@@ -448,7 +448,7 @@ void player::reset_stats()
         }
     }
 
-    Character::reset_stats();
+    Character::resetCHITIN_FUR3_stats();
 }
 
 void player::process_turn()
