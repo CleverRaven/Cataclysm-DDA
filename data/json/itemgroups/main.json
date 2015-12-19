@@ -1056,5 +1056,33 @@
       ["chainmail_arms", 10],
       ["chainmail_legs", 10]
     ]
-    }
+  },{
+    "type" : "item_group",
+    "id" : "fire_tools",
+    "subtype": "distribution",
+    "entries":[
+      {"item": "lighter", "prob": 100, "charges-min": 25, "charges-max": 99 },
+      {"item": "matches", "prob": 50, "charges-min": 5, "charges-max": 20 },
+      {"item": "ref_lighter", "prob": 10, "charges-min": 10, "charges-max": 25 },
+      {"item": "magnifying_glass", "prob": 5 },
+      {"item": "crude_firestarter", "prob": 1 }
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "lighting_tools",
+    "subtype" : "distribution",
+    "entries":[
+      {"item": "flashlight", "prob": 500, "charges-min": 75, "charges-max": 100 },
+      {"item": "heavy_flashlight", "prob": 50, "charges-min": 50, "charges-max": 200 },
+      {"item": "glowstick", "prob": 100 },
+      {"item": "handflare", "prob": 100 },
+      {"item": "gasoline_lantern", "prob": 50, "charges-min": 400, "charges-max": 500 },
+      {"item": "electric_lantern", "prob": 50, "charges-min": 300, "charges-max": 400 },
+      {"item": "oil_lamp", "prob": 50, "charges-min": 600, "charges-max": 800 },
+      {"item": "lamp_oil", "prob": 60 },
+      {"item": "smart_lamp", "prob": 5, "charges-min": 750, "charges-max": 100 },
+      {"item": "atomic_light", "prob": 2 },
+      {"item": "atomic_lamp", "prob": 1 }
+    ]
+  }
  ]
