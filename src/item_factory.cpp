@@ -968,6 +968,17 @@ void Item_factory::load_basic_info(JsonObject &jo, itype *new_item_template)
     new_item_template->melee_cut = jo.get_int("cutting");
     new_item_template->m_to_hit = jo.get_int("to_hit");
 
+    new_item_template->min_str = jo.get_int( "min_strength",     0 );
+    new_item_template->min_dex = jo.get_int( "min_dexterity",    0 );
+    new_item_template->min_int = jo.get_int( "min_intelligence", 0 );
+    new_item_template->min_per = jo.get_int( "min_perception",   0 );
+
+    JsonArray jarr = jo.get_array( "min_skills" );
+    while( jarr.has_more() ) {
+        JsonArray cur = jarr.next_array();
+        new_item_template->min_skills[skill_id( cur.get_string( 0 ) )] = cur.get_int( 1 );
+    }
+
     if (jo.has_member("explode_in_fire")) {
         JsonObject je = jo.get_object("explode_in_fire");
         je.read("power", new_item_template->explosion_on_fire_data.power);
