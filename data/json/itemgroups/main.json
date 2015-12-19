@@ -1084,5 +1084,64 @@
       {"item": "atomic_light", "prob": 2 },
       {"item": "atomic_lamp", "prob": 1 }
     ]
+  },{
+    "type" : "item_group",
+    "id" : "tailor_tools",
+    "items":[
+      ["sewing_kit", 50],
+      ["tailors_kit", 15],
+      ["thread", 50],
+      ["scissors", 25],
+      ["knitting_needles", 10],
+      ["needle_bone", 0],
+      ["needle_wood", 0]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "tailor_parts",
+    "items":[
+      ["thread", 50],
+      ["yarn", 50],
+      ["fur", 60],
+      ["leather", 60],
+      ["felt_patch", 60],
+      ["rag", 200],
+      ["chitin_piece", 10],
+      ["nomex", 25],
+      ["string_6", 20],
+      ["string_36", 5]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "electronics_tools", "//" : "i.e. tools for working on electronics.",
+    "subtype": "distribution",
+    "entries":[
+      {"item": "soldering_iron", "prob": 300, "charges-min": 75, "charges-max": 100 },
+      {"item": "solder_wire", "prob": 100 },
+      {"item": "battery", "prob": 100 },
+      {"item": "eink_tablet_pc", "prob": 20, "charges-min": 25, "charges-max": 50 },
+      {"item": "electrohack", "prob": 20, "charges-min": 25, "charges-max": 50 },
+      {"item": "screwdriver", "prob": 80 },
+      {"item": "hammer", "prob": 20 },
+      {"item": "wrench", "prob": 10 },
+      {"item": "magnifying_glass", "prob": 50 },
+      {"item": "duct_tape", "prob": 10 },
+      {"item": "superglue", "prob": 5 }
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "electronic_parts",
+    "items":[
+      ["battery", 100],
+      ["e_scrap", 50],
+      ["amplifier", 50],
+      ["receiver", 50],
+      ["transponder", 50],
+      ["solar_cell", 50],
+      ["processor", 50],
+      ["cable", 50],
+      ["RAM", 50],
+      ["antenna", 50]
+    ]
   }
  ]
