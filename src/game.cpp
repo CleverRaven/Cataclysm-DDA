@@ -10888,7 +10888,7 @@ void game::plfire( bool burst, const tripoint &default_target )
             }
 
             // Burn 2x the strength required to fire in stamina.
-            u.mod_stat( "stamina", std::min( u.weapon.type->min_str, 6 ) * -2 );
+            u.mod_stat( "stamina", u.weapon.type->min_str * -2 );
 
             // At low stamina levels, firing starts getting slow.
             int sta_percent = (100 * u.stamina) / u.get_stamina_max();
