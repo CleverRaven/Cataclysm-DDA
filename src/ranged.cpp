@@ -504,7 +504,10 @@ void player::fire_gun( const tripoint &targ_arg, bool burst )
         } else if ( used_weapon->deactivate_charger_gun() ) {
             // Deactivated charger gun
         } else {
-            used_weapon->ammo_consume( used_weapon->ammo_required() );
+            if(! used_weapon->ammo_consume( used_weapon->ammo_required() ) ) {
+                debugmsg( "Unexpected shortage of ammo whilst firing %s", used_weapon->tname().c_str() );
+                return;
+	    }
         }
 
         // Drain UPS power
