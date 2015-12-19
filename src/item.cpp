@@ -3778,7 +3778,7 @@ int item::gun_range( const player *p ) const
     }
 
     // Reduce bow range until player has twice minimm required strength
-    if( gun_skill() == skill_id("archery") ) {
+    if( has_flag( "STR_DRAW" ) ) {
         ret -= std::max( 0, type->min_str * 2 - p->get_str() );
     }
 

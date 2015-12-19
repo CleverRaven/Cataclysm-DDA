@@ -809,6 +809,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```STR_RELOAD``` Reload speed is affected by strength.
 - ```RELOAD_EJECT``` Ejects shell from gun on reload instead of when fired.
 - ```NO_BOOM``` Cancels the ammo effect "FLAME".
+- ```STR_DRAW``` Range with this weapon is reduced unless character has at least twice the required minimum strength
 - ```MOUNTED_GUN``` Gun can only be used on terrain / furniture with the "MOUNTABLE" flag.
 - ```WATERPROOF_GUN``` Gun does not rust and can be used underwater.
 - ```UNDERWATER_GUN``` Gun is optimized for usage underwater, does perform badly outside of water.
