@@ -607,24 +607,21 @@ void player::fire_gun( const tripoint &targ_arg, bool burst )
         }
         sfx::generate_gun_sound( *this, *used_weapon );
 
-        int range_multiplier = std::min( range, 3 * ( skillLevel( skill_used ) + 1 ) );
-        int damage_factor = 21;
+        int exp = std::min(range, 3 * ( skillLevel( skill_used ) + 1 ) ) * RANGED_EXPERIENCE_FACTOR;
         //debugmsg("Rangemult: %d, missed_by: %f, total_damage: %f", rangemult, missed_by, proj.impact.total_damage());
-
-
 
         if (!train_skill) {
             practice( skill_used, 0 ); // practice, but do not train
         } else if (missed_by <= .1) {
-            practice( skill_used, damage_factor * range_multiplier );
+            practice(skill_used, exp);
         } else if (missed_by <= .2) {
-            practice( skill_used, damage_factor * range_multiplier / 2 );
+            practice( skill_used, exp / 2 );
         } else if (missed_by <= .4) {
-            practice( skill_used, damage_factor * range_multiplier / 3 );
+            practice( skill_used, exp / 3 );
         } else if (missed_by <= .6) {
-            practice( skill_used, damage_factor * range_multiplier / 4 );
+            practice( skill_used, exp / 4 );
         } else if (missed_by <= 1.0) {
-            practice( skill_used, damage_factor * range_multiplier / 5 );
+            practice( skill_used, exp / 5 );
         }
 
     }
