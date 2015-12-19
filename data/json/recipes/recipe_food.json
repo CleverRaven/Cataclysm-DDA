@@ -10408,6 +10408,55 @@
 },
 {
   "type" : "recipe",
+  "result": "chai_tea",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_DRINKS",
+  "skill_used": ["cooking", 2 ],
+  "difficulty": 1,
+  "time": 15000,
+  "reversible": false,
+  "autolearn": true,
+  "batch_time_factors":[80, 4],
+  "qualities":[
+    {"id":"BOIL","level":1,"amount":1}
+  ], "tools": [
+    [
+      [ "hotplate", 2 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 2 ],
+      [ "atomic_coffeepot", -1 ],
+      [ "fire", -1 ],
+      [ "coffeemaker", 2]
+    ]
+  ],
+  "components": [
+    [
+      [ "tea_raw", 1 ]
+    ],
+    [
+      [ "water", 1 ],
+      [ "water_clean", 1 ]
+    ],
+    [
+      [ "milk", 1 ],
+      [ "milk_powder", 1 ],
+      [ "con_milk", 1 ]
+    ],
+    [
+      [ "sugar", 1 ],
+      [ "honey_bottled", 1 ],
+      [ "honey_glassed", 1 ]
+    ],
+    [
+      [ "pepper", 10 ]
+    ],
+    [
+      [ "cinnamon", 10 ]
+    ]
+  ]
+},
+{
+  "type" : "recipe",
   "result": "drink_beeknees",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_DRINKS",
