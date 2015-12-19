@@ -782,6 +782,38 @@
     ]
   },{
     "type" : "item_group",
+    "id" : "archery",
+    "items":[
+      ["crossbow", 80],
+      ["bullet_crossbow", 10],
+      ["hand_crossbow", 10],
+      ["huge_crossbow", 0],
+      ["longbow", 40],
+      ["compbow", 40],
+      ["compositebow", 40],
+      ["shortbow", 20],
+      ["recurbow", 40],
+      ["reflexbow", 20],
+      ["slingshot", 50],
+      ["wristrocket", 50],
+      ["blowgun", 5],
+      ["bow_sight",5],
+      ["bow_stabilizer",5],
+      ["arrowrest",5],
+      ["gun_crossbow", 4]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "archery_ammo",
+    "items":[
+      ["arrow_wood", 100],
+      ["arrow_metal", 50],
+      ["arrow_cf", 50],
+      ["bolt_steel", 50],
+      ["dart", 10]
+    ]
+  },{
+    "type" : "item_group",
     "id" : "grenades",    
     "comment" : "...Or anything thrown. High numbers here are to make the granade joke item rare enough.",
       ["mininuke", 300],
