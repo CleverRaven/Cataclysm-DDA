@@ -593,14 +593,14 @@ std::string print_temperature(float fahrenheit, int decimals)
 /**
  * Print relative humidity (no conversions.)
  */
-std::string print_humidity(float humidity, int decimals)
+std::string print_humidity( float humidity, int decimals )
 {
     std::ostringstream ret;
-    ret.precision(decimals);
+    ret.precision( decimals );
     ret << std::fixed;
 
     ret << humidity;
-    return rmp_format(_("%s %%"), ret.str().c_str());
+    return rmp_format( _( "%s%%" ), ret.str().c_str() );
 }
 
 /**
@@ -653,7 +653,7 @@ int get_local_windchill(double temperature, double humidity, double windpower)
 int get_local_humidity(double humidity, weather_type weather, bool sheltered)
 {
     int tmphumidity = humidity;
-    if (sheltered) {
+    if( sheltered ) {
         tmphumidity = humidity * (100 - humidity) / 100 + humidity; // norm for a house?
     } else if (weather == WEATHER_RAINY || weather == WEATHER_DRIZZLE || weather == WEATHER_THUNDER ||
                weather == WEATHER_LIGHTNING) {

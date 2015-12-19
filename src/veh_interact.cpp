@@ -1634,24 +1634,24 @@ void veh_interact::display_stats()
         }
     }
 
-    fold_and_print(w_stats, y[0], x[0], w[0], c_ltgray,
-                   _("Safe/Top Speed: <color_ltgreen>%3d</color>/<color_ltred>%3d</color> %s"),
-                   int(convert_velocity(veh->safe_velocity(false), VU_VEHICLE)),
-                   int(convert_velocity(veh->max_velocity(false), VU_VEHICLE)),
-                   velocity_units(VU_VEHICLE));
+    fold_and_print( w_stats, y[0], x[0], w[0], c_ltgray,
+                    _( "Safe/Top Speed: <color_ltgreen>%3d</color>/<color_ltred>%3d</color> %s" ),
+                    int( convert_velocity( veh->safe_velocity( false ), VU_VEHICLE ) ),
+                    int( convert_velocity( veh->max_velocity( false ), VU_VEHICLE ) ),
+                    velocity_units( VU_VEHICLE ) );
     //TODO: extract accelerations units to its own function
 
-    fold_and_print(w_stats, y[1], x[1], w[1], c_ltgray,
-                   //~ /t means per turn
-                   _("Acceleration: <color_ltblue>%3d</color> %s/t"),
-                   int(convert_velocity(veh->acceleration(false), VU_VEHICLE)),
-                   velocity_units(VU_VEHICLE));
-    fold_and_print(w_stats, y[2], x[2], w[2], c_ltgray,
-                   _("Mass: <color_ltblue>%5.0f</color> %s"),
-                   convert_weight(veh->total_mass() * 1000.0f), weight_units());
-    fold_and_print(w_stats, y[3], x[3], w[3], c_ltgray,
-                   _("Cargo Volume: <color_ltgray>%d/%d</color>"),
-                   total_cargo - free_cargo, total_cargo);
+    fold_and_print( w_stats, y[1], x[1], w[1], c_ltgray,
+                    //~ /t means per turn
+                    _( "Acceleration: <color_ltblue>%3d</color> %s/t" ),
+                    int( convert_velocity( veh->acceleration( false ), VU_VEHICLE ) ),
+                    velocity_units( VU_VEHICLE ) );
+    fold_and_print( w_stats, y[2], x[2], w[2], c_ltgray,
+                    _( "Mass: <color_ltblue>%5.0f</color> %s" ),
+                    convert_weight( veh->total_mass() * 1000.0f ), weight_units() );
+    fold_and_print( w_stats, y[3], x[3], w[3], c_ltgray,
+                    _( "Cargo Volume: <color_ltgray>%d/%d</color>" ),
+                    total_cargo - free_cargo, total_cargo);
     // Write the overall damage
     mvwprintz(w_stats, y[4], x[4], c_ltgray, _("Status:"));
     x[4] += utf8_width(_("Status:")) + 1;

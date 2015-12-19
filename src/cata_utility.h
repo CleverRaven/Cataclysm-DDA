@@ -45,8 +45,8 @@ double logarithmic( double t );
 double logarithmic_range( int min, int max, int pos );
 
 int bound_mod_to_vals( int val, int mod, int max, int min );
-const char* velocity_units( const units_type vel_units );
-const char* weight_units();
+const char *velocity_units( const units_type vel_units );
+const char *weight_units();
 double convert_velocity( int velocity, const units_type vel_units );
 double convert_weight( int weight );
 

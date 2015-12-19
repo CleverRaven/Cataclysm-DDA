@@ -225,22 +225,22 @@ int bound_mod_to_vals( int val, int mod, int max, int min )
     return mod;
 }
 
-const char*  velocity_units( const units_type vel_units )
+const char *velocity_units( const units_type vel_units )
 {
     if( OPTIONS["USE_METRIC_SPEEDS"].getValue() == "mph" ) {
         return _( "mph" );
     } else {
         switch( vel_units ) {
-        case VU_VEHICLE:
-            return _( "km/h" );
-        case VU_WIND:
-            return _( "m/s" );
+            case VU_VEHICLE:
+                return _( "km/h" );
+            case VU_WIND:
+                return _( "m/s" );
         }
     }
     return "error: unknown units!";
 }
 
-const char* weight_units()
+const char *weight_units()
 {
     return OPTIONS["USE_METRIC_WEIGHTS"].getValue() == "lbs" ? _( "lbs" ) : _( "kg" );
 }
@@ -255,14 +255,14 @@ double convert_velocity( int velocity, const units_type vel_units )
 
     if( OPTIONS["USE_METRIC_SPEEDS"] == "km/h" ) {
         switch( vel_units ) {
-        case VU_VEHICLE:
-            // mph to km/h conversion
-            ret *= 1.609f;
-            break;
-        case VU_WIND:
-            // mph to m/s conversion
-            ret *= 0.447f;
-            break;
+            case VU_VEHICLE:
+                // mph to km/h conversion
+                ret *= 1.609f;
+                break;
+            case VU_WIND:
+                // mph to m/s conversion
+                ret *= 0.447f;
+                break;
         }
     }
     return ret;
