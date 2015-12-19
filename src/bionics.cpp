@@ -1042,7 +1042,7 @@ bool player::activate_bionic(int b, bool eff_only)
         add_msg_if_player(m_info, _("Pressure: %s."), print_pressure((int)weatherPoint.pressure).c_str());
         add_msg_if_player(m_info, _("Wind Speed: %.1f %s."),
                                                  convert_velocity(int(windpower), true),
-                                                 velocity_units(true).c_str());
+                                                 velocity_units(true));
         add_msg_if_player(m_info, _("Feels Like: %s."), print_temperature(get_local_windchill(weatherPoint.temperature, weatherPoint.humidity, windpower) + g->get_temperature()).c_str());
     } else if(bio.id == "bio_claws") {
         if (weapon.has_flag ("NO_UNWIELD")) {

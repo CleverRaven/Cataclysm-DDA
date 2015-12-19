@@ -3787,7 +3787,7 @@ void player::disp_status(WINDOW *w, WINDOW *w2)
     }
 
   const char *speedo = veh->cruise_on ? "%s....>...." : "%s....";
-  mvwprintz(w, speedoy, speedox,        col_indf1, speedo, velocity_units().c_str());
+  mvwprintz(w, speedoy, speedox,        col_indf1, speedo, velocity_units());
   mvwprintz(w, speedoy, speedox + velx, col_vel,   "%4d", int(convert_velocity(veh->velocity)) );
   if (veh->cruise_on) {
     mvwprintz(w, speedoy, speedox + cruisex, c_ltgreen, "%4d",

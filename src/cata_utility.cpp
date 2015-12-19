@@ -225,9 +225,9 @@ int bound_mod_to_vals( int val, int mod, int max, int min )
     return mod;
 }
 
-std::string velocity_units( bool to_alternative_units )
+const char*  velocity_units( bool to_alternative_units )
 {
-    std::string units;
+    const char* units;
     if( OPTIONS["USE_METRIC_SPEEDS"].getValue() == "mph" ) {
         units = _( "mph" );
     } else {
@@ -236,7 +236,7 @@ std::string velocity_units( bool to_alternative_units )
     return units;
 }
 
-std::string weight_units()
+const char* weight_units()
 {
     return OPTIONS["USE_METRIC_WEIGHTS"].getValue() == "lbs" ? _( "lbs" ) : _( "kg" );
 }

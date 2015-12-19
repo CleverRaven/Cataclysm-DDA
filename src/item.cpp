@@ -562,7 +562,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
         info.push_back( iteminfo( "BASE", _( "<bold>Volume</bold>: " ), "", volume(), true, "", false,
                                   true ) );
         info.push_back( iteminfo( "BASE", space + _( "Weight: " ),
-                                  string_format( "<num> %s", weight_units().c_str() ),
+                                  string_format( "<num> %s", weight_units() ),
                                   convert_weight( weight() ), false, "", true, true ) );
 
         if( damage_bash() > 0 || damage_cut() > 0 ) {
