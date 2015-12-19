@@ -32,7 +32,7 @@ const skill_id skill_throw( "throw" );
 const skill_id skill_gun( "gun" );
 const skill_id skill_melee( "melee" );
 
-static inline projectile make_gun_projectile( const item &gun );
+static projectile make_gun_projectile( const item &gun );
 int time_to_fire(player &p, const itype &firing);
 int recoil_add(player &p, const item &gun);
 void make_gun_sound_effect(player &p, bool burst, item *weapon);
@@ -1200,7 +1200,7 @@ std::vector<tripoint> game::target( tripoint &p, const tripoint &low, const trip
     return ret;
 }
 
-static inline projectile make_gun_projectile( const item &gun) {
+static projectile make_gun_projectile( const item &gun) {
     projectile proj;
     proj.speed  = 1000;
     proj.impact = damage_instance::physical(0, gun.gun_damage(), 0, gun.gun_pierce());
