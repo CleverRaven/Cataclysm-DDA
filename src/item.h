@@ -616,6 +616,7 @@ public:
  bool is_food_container() const;      // Ignoring the ability to eat batteries, etc.
  bool is_ammo_container() const;
  bool is_bionic() const;
+ bool is_magazine() const;
  bool is_ammo() const;
  bool is_armor() const;
  bool is_book() const;
@@ -1045,6 +1046,8 @@ public:
         long ammo_capacity() const;
         /** Quantity of ammunition consumed per usage of tool or with each shot of gun */
         long ammo_required() const;
+        /** If sufficient ammo available consume it, otherwise do nothing and return false */
+        bool ammo_consume( int qty );
         /**
          * The id of the ammo type (@ref ammunition_type) that can be used by this item.
          * Will return "NULL" if the item does not use a specific ammo type. Items without
