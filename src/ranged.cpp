@@ -32,6 +32,7 @@ const skill_id skill_throw( "throw" );
 const skill_id skill_gun( "gun" );
 const skill_id skill_melee( "melee" );
 
+static inline projectile make_gun_projectile( const item &gun );
 int time_to_fire(player &p, const itype &firing);
 static inline void eject_casing( player& p, item& weap );
 int recoil_add(player &p, const item &gun);
@@ -344,41 +345,6 @@ void player::fire_gun( const tripoint &targ_arg, bool burst )
     }
     const skill_id skill_used = used_weapon->gun_skill();
 
-    projectile proj; // damage will be set later
-    proj.speed = 1000;
-
-    const auto &curammo_effects = curammo->ammo->ammo_effects;
-    const auto &gun_effects = used_weapon->type->gun->ammo_effects;
-    auto &proj_effects = proj.proj_effects;
-    proj_effects.insert(gun_effects.begin(), gun_effects.end());
-    proj_effects.insert(curammo_effects.begin(), curammo_effects.end());
-
-    if( !proj_effects.count("IGNITE") &&
-        !proj_effects.count("EXPLOSIVE") &&
-          (
-            (proj_effects.count("RECOVER_3") && !one_in(3)) ||
-            (proj_effects.count("RECOVER_5") && !one_in(5)) ||
-            (proj_effects.count("RECOVER_10") && !one_in(10)) ||
-            (proj_effects.count("RECOVER_15") && !one_in(15)) ||
-            (proj_effects.count("RECOVER_25") && !one_in(25))
-          )
-        ) {
-        // Prepare an item to drop
-        item drop( curammo->id, calendar::turn );
-        drop.charges = 1;
-        if( proj_effects.count( "ACT_ON_RANGED_HIT" ) > 0 ) {
-            drop.active = true;
-        }
-
-        proj.set_drop( drop );
-    }
-
-    if( curammo->phase == LIQUID ||
-        proj_effects.count("SHOT") ||
-        proj_effects.count("BOUNCE") ) {
-        proj_effects.insert( "WIDE" );
-    }
-
     if (has_trait("TRIGGERHAPPY") && one_in(30)) {
         burst = true;
     }
@@ -507,7 +473,7 @@ void player::fire_gun( const tripoint &targ_arg, bool burst )
             charge_power(-1 * bio_power_drain);
         }
 
-        if( !handle_gun_damage( *used_weapon->type, curammo_effects ) ) {
+        if( !handle_gun_damage( *used_weapon->type, curammo->ammo->ammo_effects ) ) {
             return;
         }
 
@@ -537,12 +503,7 @@ void player::fire_gun( const tripoint &targ_arg, bool burst )
             recoil += recoil_add(*this, *used_weapon) / (has_effect( "on_roof" ) ? 30 : 1);
         }
 
-        int adjusted_damage = used_weapon->gun_damage();
-        int armor_penetration = used_weapon->gun_pierce();
-
-        proj.impact = damage_instance::physical(0, adjusted_damage, 0, armor_penetration);
-
-        auto dealt = projectile_attack( proj, targ, total_dispersion );
+        auto dealt = projectile_attack( make_gun_projectile( *used_weapon ), targ, total_dispersion );
         double missed_by = dealt.missed_by;
         if (missed_by <= .1) { // TODO: check head existence for headshot
             lifetime_stats()->headshots++;
@@ -1178,6 +1139,37 @@ std::vector<tripoint> game::target( tripoint &p, const tripoint &low, const trip
     delwin( w_target );
     w_target = nullptr;
     return ret;
+}
+
+static inline projectile make_gun_projectile( const item &gun) {
+    projectile proj;
+    proj.speed  = 1000;
+    proj.impact = damage_instance::physical(0, gun.gun_damage(), 0, gun.gun_pierce());
+
+    // Consider both effects from the gun and ammo
+    auto &fx = proj.proj_effects;
+    fx.insert( gun.type->gun->ammo_effects.begin(), gun.type->gun->ammo_effects.end() );
+    fx.insert( gun.get_curammo()->ammo->ammo_effects.begin(), gun.get_curammo()->ammo->ammo_effects.end() );
+
+    if( gun.get_curammo()->phase == LIQUID || fx.count( "SHOT" ) || fx.count("BOUNCE" ) ) {
+        fx.insert( "WIDE" );
+    }
+
+    // Some projectiles have a chance of being recoverable
+    bool recover = std::any_of(fx.begin(), fx.end(), []( const std::string& e ) {
+        int n;
+        return sscanf( e.c_str(), "RECOVER_%i", &n ) == 1 && !one_in( n );
+    });
+
+    if( recover && !fx.count( "IGNITE" ) && !fx.count( "EXPLOSIVE" ) ) {
+        item drop( gun.get_curammo_id(), calendar::turn, false );
+        drop.charges = 1;
+        drop.active = fx.count( "ACT_ON_RANGED_HIT" );
+
+        proj.set_drop( drop );
+    }
+
+    return proj;
 }
 
 int time_to_fire(player &p, const itype &firingt)
