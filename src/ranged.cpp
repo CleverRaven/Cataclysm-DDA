@@ -990,7 +990,7 @@ std::vector<tripoint> game::target( tripoint &p, const tripoint &low, const trip
         // This chunk of code handles shifting the aim point around
         // at maximum range when using circular distance.
         // The range > 1 check ensures that you can alweays at least hit adjacent squares.
-        if(trigdist && range > 1 && trig_dist( from, p ) > range) {
+        if(trigdist && range > 1 && std::round(trig_dist( from, p )) > range) {
             bool cont = true;
             tripoint cp = p;
             for (size_t i = 0; i < ret.size() && cont; i++) {
