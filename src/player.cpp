@@ -10763,6 +10763,40 @@ hint_rating player::rate_action_change_side( const item &it ) const {
     return HINT_GOOD;
 }
 
+bool player::can_use( const item& it, bool interactive ) const {
+    // First check stats
+    std::string fail_stat;
+    if( it.type->min_str > get_str() ) {
+        fail_stat = "strength";
+    } else if( it.type->min_dex > get_dex() ) {
+        fail_stat = "dexterity";
+    } else if( it.type->min_int > get_int() ) {
+        fail_stat = "intelligence";
+    } else if( it.type->min_per > get_per() ) {
+        fail_stat = "perception";
+    }
+    if( !fail_stat.empty() ) {
+        if( interactive ) {
+            add_msg_if_player( m_bad, _( "You lack the %s to use the %s" ),
+                               fail_stat.c_str(), it.tname().c_str() );
+        }
+        return false;
+    }
+
+    // Then check skills
+    const auto& reqs = it.type->min_skills;
+    return std::none_of( reqs.begin(), reqs.end(), [&]( const std::pair<skill_id, int>& e ) {
+        if( get_skill_level( e.first ) >= e.second ) {
+            return false;
+        }
+        if( interactive ) {
+            add_msg_if_player( m_bad, _( "You lack the skill in %s to use the %s" ),
+			       e.first.obj().name().c_str(), it.tname().c_str() );
+        }
+        return true;
+    });
+}
+
 int player::item_handling_cost( const item& it, bool effects, int factor ) const {
     int mv = std::max( 1, it.volume() * factor );
     if( effects && has_effect( "grabbed" ) ) {
