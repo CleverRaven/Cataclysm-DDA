@@ -141,6 +141,7 @@ enum m_flag : int {
     MF_INTERIOR_AMMO,       // Monster contain's its ammo inside itself, no need to load on launch. Prevents ammo from being dropped on disable.
     MF_CLIMBS,              // Monsters that can climb certain terrain and furniture
     MF_PUSH_MON,            // Monsters that can push creatures out of their way
+    MF_NIGHT_INVISIBILITY,     // Monsters that are invisible in poor light conditions
     MF_MAX                  // Sets the length of the flags - obviously must be LAST
 };
 

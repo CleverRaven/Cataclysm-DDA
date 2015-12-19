@@ -10,7 +10,8 @@
                 "bio_torsionratchet",
                 "bio_power_storage",
                 "bio_tools",
-                "bio_sunglasses"
+                "bio_sunglasses",
+                "bio_blindfold"
             ],
             "skills": [
                 {
@@ -2739,6 +2740,38 @@
     },
     {
         "type": "profession",
+        "ident": "burglar",
+        "name": "Burglar",
+        "description": "You thought this would your lucky break.  Does it count as breaking and entering if everyone in town is undead?",
+        "points": 3,
+        "//" : "A ski mask would fit the stereotype better, but wool allergy breaks this.",
+        "items": {
+            "both": [
+                "socks",
+                "sneakers",
+                "pants",
+                "striped_shirt",
+                "hoodie",
+                "gloves_light",
+                "balclava",
+                "swag_bag",
+                "crowbar",
+                "hacksaw",
+                "boltcutters",
+                "stethoscope",
+                "picklocks"
+            ],
+            "male": [
+                "briefs"
+            ],
+            "female": [
+                "bra",
+                "panties"
+            ]
+        }
+    },
+    {
+        "type": "profession",
         "ident": "razorgirl",
         "name": {
             "male": "Razor Boy",
@@ -2750,6 +2783,7 @@
             "bio_razors",
             "bio_armor_eyes",
             "bio_sunglasses",
+            "bio_blindfold",
             "bio_dex_enhancer",
             "bio_ears",
             "bio_earplugs",
@@ -4457,7 +4491,7 @@
         "points": 3,
         "traits": [
             "PARKOUR"
-        ],	
+        ],
         "skills": [
             {
                 "level": 4,
@@ -4479,7 +4513,6 @@
             "female": [
                 "sports_bra",
                 "boy_shorts"
-
             ]
         }
     }

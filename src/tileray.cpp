@@ -83,191 +83,70 @@ int tileray::dir4 () const
     }
 }
 
+int tileray::dir8 () const
+{
+    int oct = 0;
+    int dir = direction;
+    if (dir < 23 || dir > 337) {
+        return 0;
+    }
+    while (dir > 22) {
+        dir -= 45;
+        oct += 1;
+    }
+    return oct;
+}
+
+// This function assumes a vehicle is being drawn.
+// It assumes horizontal lines are never skewed, vertical lines often skewed.
 long tileray::dir_symbol (long sym) const
 {
-    switch (sym) {
-    case 'j':
-        switch (dir4()) {
+    switch (sym)
+    {
+        // output.cpp special_symbol() converts yubn to corners, hj to lines, c to cross
+        case 'j': // vertical line
+            return "h\\j/h\\j/"[dir8()];
+        case 'h': // horizonal line
+            return "jhjh"[dir4()];
+        case 'y': // top left corner
+            return "unby"[dir4()];
+        case 'u': // top right corner
+            return "nbyu"[dir4()];
+        case 'n': // bottom right corner
+            return "byun"[dir4()];
+        case 'b': // bottom left corner
+            return "yunb"[dir4()];
+        case '^':
+            return ">v<^"[dir4()];
+        case '>':
+            return "v<^>"[dir4()];
+        case 'v':
+            return "<^>v"[dir4()];
+        case '<':
+            return "^>v<"[dir4()];
+        case 'c': // +
+            return "cXcXcXcX"[dir8()];
+        case 'X':
+            return "XcXcXcXc"[dir8()];
+        // [ not rotated to ] because they might represent different items
+        case '[':
+            return "-\\[/-\\[/"[dir8()];
+        case ']':
+            return "-\\]/-\\]/"[dir8()];
+        case '|':
+            return "-\\|/-\\|/"[dir8()];
+        case '-':
+            return "|/-\\|/-\\"[dir8()];
+        case '=':
+            return "H=H="[dir4()];
+        case 'H':
+            return "=H=H"[dir4()];
+        case '\\':
+            return "/-\\|/-\\|"[dir8()];
+        case '/':
+            return "\\|/-\\|/-"[dir8()];
         default:
-        case 0:
-            return 'h';
-        case 1:
-            return 'j';
-        case 2:
-            return 'h';
-        case 3:
-            return 'j';
-        }
-    case 'h':
-        switch (dir4()) {
-        default:
-        case 0:
-            return 'j';
-        case 1:
-            return 'h';
-        case 2:
-            return 'j';
-        case 3:
-            return 'h';
-        }
-    case 'y':
-        switch (dir4()) {
-        default:
-        case 0:
-            return 'u';
-        case 1:
-            return 'n';
-        case 2:
-            return 'b';
-        case 3:
-            return 'y';
-        }
-    case 'u':
-        switch (dir4()) {
-        default:
-        case 0:
-            return 'n';
-        case 1:
-            return 'b';
-        case 2:
-            return 'y';
-        case 3:
-            return 'u';
-        }
-    case 'n':
-        switch (dir4()) {
-        default:
-        case 0:
-            return 'b';
-        case 1:
-            return 'y';
-        case 2:
-            return 'u';
-        case 3:
-            return 'n';
-        }
-    case 'b':
-        switch (dir4()) {
-        default:
-        case 0:
-            return 'y';
-        case 1:
-            return 'u';
-        case 2:
-            return 'n';
-        case 3:
-            return 'b';
-        }
-    case '^':
-        switch (dir4()) {
-        default:
-        case 0:
-            return '>';
-        case 1:
-            return 'v';
-        case 2:
-            return '<';
-        case 3:
-            return '^';
-        }
-    case '[':
-        switch (dir4()) {
-        default:
-        case 0:
-            return '-';
-        case 1:
-            return '[';
-        case 2:
-            return '-';
-        case 3:
-            return '[';
-        }
-    case ']':
-        switch (dir4()) {
-        default:
-        case 0:
-            return '-';
-        case 1:
-            return ']';
-        case 2:
-            return '-';
-        case 3:
-            return ']';
-        }
-    case '|':
-        switch (dir4()) {
-        default:
-        case 0:
-            return '-';
-        case 1:
-            return '|';
-        case 2:
-            return '-';
-        case 3:
-            return '|';
-        }
-    case '-':
-        switch (dir4()) {
-        default:
-        case 0:
-            return '|';
-        case 1:
-            return '-';
-        case 2:
-            return '|';
-        case 3:
-            return '-';
-        }
-    case '=':
-        switch (dir4()) {
-        default:
-        case 0:
-            return 'H';
-        case 1:
-            return '=';
-        case 2:
-            return 'H';
-        case 3:
-            return '=';
-        }
-    case 'H':
-        switch (dir4()) {
-        default:
-        case 0:
-            return '=';
-        case 1:
-            return 'H';
-        case 2:
-            return '=';
-        case 3:
-            return 'H';
-        }
-    case '\\':
-        switch (dir4()) {
-        default:
-        case 0:
-            return '/';
-        case 1:
-            return '\\';
-        case 2:
-            return '/';
-        case 3:
-            return '\\';
-        }
-    case '/':
-        switch (dir4()) {
-        default:
-        case 0:
-            return '\\';
-        case 1:
-            return '/';
-        case 2:
-            return '\\';
-        case 3:
-            return '/';
-        }
-    default:
-        ;
+            ;
     }
     return sym;
 }

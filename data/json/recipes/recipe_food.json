@@ -2570,6 +2570,7 @@
 },{
   "type" : "recipe",
   "result": "milk",
+  "id_suffix": "from_powder",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_DRINKS",
   "skill_used": "cooking",
@@ -2577,11 +2578,29 @@
   "time": 1000,
   "reversible": false,
   "autolearn": true,
-  "qualities":[
-    {"id":"CONTAIN","level":1,"amount":1}
-  ], "components": [
+  "components": [
     [
       [ "milk_powder", 1 ]
+    ],
+    [
+      [ "water_clean", 1 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "milk",
+  "id_suffix": "from_condensed",
+  "result_mult": 2,
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_DRINKS",
+  "skill_used": "cooking",
+  "difficulty": 0,
+  "time": 1000,
+  "reversible": false,
+  "autolearn": true,
+  "components": [
+    [
+      [ "con_milk", 1 ]
     ],
     [
       [ "water_clean", 1 ]
@@ -2819,9 +2838,7 @@
   "time": 500,
   "reversible": false,
   "autolearn": true,
-  "qualities":[
-    {"id":"CONTAIN","level":1,"amount":1}
-  ], "components": [
+  "components": [
     [
       [ "lemonade_powder", 1 ]
     ],
@@ -5678,6 +5695,7 @@
       [ "seasoning_italian", 20 ],
       [ "wild_herbs", 20 ],
       [ "pepper", 20 ],
+      [ "cinnamon", 20 ],
       [ "seed_garlic", 6 ],
       [ "garlic", 1 ],
       [ "rehydrated_veggy", 1 ],

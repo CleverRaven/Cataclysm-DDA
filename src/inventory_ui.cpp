@@ -904,6 +904,8 @@ item_location game::inv_map_splice(
                         if( cur_invlet <= max_invlet ) {
                             current_stack.back().front().invlet = cur_invlet++;
                             invlets.emplace_back( item_location::on_map( pos, &it ) );
+                        } else {
+                            current_stack.back().front().invlet = 0;
                         }
                     }
                 }
@@ -945,6 +947,8 @@ item_location game::inv_map_splice(
                             if( cur_invlet <= max_invlet ) {
                                 current_stack.back().front().invlet = cur_invlet++;
                                 invlets.emplace_back( item_location::on_vehicle( *veh, veh->parts[part].mount, &it ) );
+                            } else {
+                                current_stack.back().front().invlet = 0;
                             }
                         }
                     }

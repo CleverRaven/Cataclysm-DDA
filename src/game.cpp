@@ -43,6 +43,7 @@
 #include "start_location.h"
 #include "debug.h"
 #include "catalua.h"
+#include "lua_console.h"
 #include "sounds.h"
 #include "iuse_actor.h"
 #include "mutation.h"
@@ -758,6 +759,7 @@ void game::start_game(std::string worldname)
     }
     if (scen->has_flag("BAD_DAY")){
         u.add_effect("flu", 10000);
+        ///\EFFECT_STR_MAX decreases drunkenness at start of BAD_DAY scenarios
         u.add_effect("drunk", 2700 - (12 * u.str_max));
         u.add_morale(MORALE_FEELING_BAD,-100,50,50,50);
     }
@@ -1881,6 +1883,7 @@ input_context get_default_mode_input_context()
 {
     input_context ctxt("DEFAULTMODE");
     // Because those keys move the character, they don't pan, as their original name says
+    ctxt.set_iso(true);
     ctxt.register_action("UP", _("Move North"));
     ctxt.register_action("RIGHTUP", _("Move Northeast"));
     ctxt.register_action("RIGHT", _("Move East"));
@@ -2165,6 +2168,10 @@ void game::rcdrive(int dx, int dy)
         return;
     }
     item *rc_car = rc_pair->second;
+
+    if(tile_iso) {
+        rotate_direction_cw(dx,dy);
+    }
 
     tripoint src( cx, cy, cz );
     tripoint dest( cx + dx, cy + dy, cz );
@@ -2708,7 +2715,7 @@ bool game::handle_action()
             break;
 
         case ACTION_UNLOAD:
-            unload( -1 );
+            unload();
             break;
 
         case ACTION_THROW:
@@ -3743,7 +3750,7 @@ void game::debug()
                       _("Test Item Group"), // 21
                       _("Damage Self"), //22
                       _("Show Sound Clustering"), //23
-                      _("Lua Command"), // 24
+                      _("Lua Console"), // 24
                       _("Display weather"), // 25
                       _("Change time"), // 26
                       _("Set automove route"), // 27
@@ -4314,8 +4321,8 @@ void game::debug()
     break;
 
     case 24: {
-        std::string luacode = string_input_popup(_("Lua:"), TERMX, "", "", "LUA");
-        call_lua(luacode);
+        lua_console console;
+        console.run();
     }
     break;
     case 25:
@@ -4419,31 +4426,43 @@ void game::disp_kills()
     std::vector<std::string> data;
     int totalkills = 0;
     const int colum_width = (getmaxx(w) - 2) / 3; // minus border
+
+    std::map<std::tuple<std::string,std::string,std::string>,int> kill_counts;
+
+    // map <name, sym, color> to kill count
     for( auto &elem : kills ) {
         const mtype &m = elem.first.obj();
-        std::ostringstream buffer;
-        buffer << "<color_" << string_from_color(m.color) << ">";
-        buffer << m.sym << " " << m.nname();
-        buffer << "</color>";
-        const int w = colum_width - utf8_width(m.nname());
-        buffer.width(w - 3); // gap between cols, monster sym, space
-        buffer.fill(' ');
-        buffer << elem.second;
-        buffer.width(0);
-        data.push_back(buffer.str());
+        kill_counts[std::tuple<std::string,std::string,std::string>(
+            m.nname(),
+            m.sym,
+            string_from_color( m.color )
+        )] += elem.second;
         totalkills += elem.second;
     }
-    std::ostringstream buffer;
-    if (data.empty()) {
-        buffer << _("You haven't killed any monsters yet!");
-    } else {
-        buffer << string_format(_("KILL COUNT: %d"), totalkills);
-    }
-    display_table(w, buffer.str(), 3, data);
 
-    werase(w);
-    wrefresh(w);
-    delwin(w);
+    for( const auto &entry : kill_counts ) {
+        std::ostringstream buffer;
+        buffer << "<color_" << std::get<2>( entry.first ) << ">";
+        buffer << std::get<1>( entry.first ) << " " << std::get<0>( entry.first );
+        buffer << "</color>";
+        const int w = colum_width - utf8_width( std::get<0>( entry.first ) );
+        buffer.width( w - 3 ); // gap between cols, monster sym, space
+        buffer.fill(' ');
+        buffer << entry.second;
+        buffer.width( 0 );
+        data.push_back( buffer.str() );
+    }
+    std::ostringstream buffer;
+    if( data.empty() ) {
+        buffer << _( "You haven't killed any monsters yet!" );
+    } else {
+        buffer << string_format( _( "KILL COUNT: %d" ), totalkills );
+    }
+    display_table( w, buffer.str(), 3, data );
+
+    werase( w );
+    wrefresh( w );
+    delwin( w );
     refresh_all();
 }
 
@@ -5037,7 +5056,7 @@ void game::draw_sidebar()
         sPhase.insert(5 - ((iPhase < 4) ? iPhase+1 : 5), "<color_" + string_from_color(i_black) + ">");
     }
 
-    trim_and_print( w_location, 1, 0, 10, c_white, "Moon %s", sPhase.c_str() );
+    trim_and_print( w_location, 1, 0, 10, c_white, _("Moon %s"), sPhase.c_str() );
 
     const auto ll = get_light_level(g->u.fine_detail_vision_mod());
     mvwprintz(w_location, 1, 15, c_ltgray, "%s ", _("Lighting:"));
@@ -5170,7 +5189,7 @@ void game::draw_ter( const tripoint &center, const bool looking, const bool draw
         draw_veh_dir_indicator();
     }
     if(uquit == QUIT_WATCH) {
-        // This should remove the flickering the bar recieves
+        // This should remove the flickering the bar receives
         input_context ctxt("DEFAULTMODE");
         std::string message = string_format( _("Press %s to accept your fate..."),
                 ctxt.get_desc("QUIT").c_str() );
@@ -7378,6 +7397,7 @@ void game::smash()
 {
     const int move_cost = int(u.weapon.is_null() ? 80 : u.weapon.attack_time() * 0.8);
     bool didit = false;
+    ///\EFFECT_STR increases smashing capability
     int smashskill = int(u.str_cur + u.weapon.type->melee_dam);
     tripoint smashp;
 
@@ -7564,6 +7584,7 @@ void game::exam_vehicle(vehicle &veh, const tripoint &p, int cx, int cy)
             diff = vehint.sel_vpart_info->difficulty + 3;
         }
         int setup = (calendar::turn == veh.last_repair_turn ? 0 : 1);
+        ///\EFFECT_MECHANICS reduces time spent examining vehicle
         int setuptime = std::max(setup * 3000, setup * 6000 - skill * 400);
         int dmg = 1000;
         if (vehint.sel_cmd == 'r') {
@@ -7908,6 +7929,9 @@ bool pet_menu(monster *z)
     if (swap_pos == choice) {
         g->u.moves -= 150;
 
+        ///\EFFECT_STR increases chance to successfuly swap positions with your pet
+
+        ///\EFFECT_DEX increases chance to successfuly swap positions with your pet
         if (!one_in((g->u.str_cur + g->u.dex_cur) / 6)) {
 
             bool t = z->has_effect("tied");
@@ -7937,6 +7961,7 @@ bool pet_menu(monster *z)
 
         g->u.moves -= 30;
 
+        ///\EFFECT_STR increases chance to successfuly push your pet
         if (!one_in(g->u.str_cur)) {
             add_msg(_("You pushed the %s."), pet_name.c_str());
         } else {
@@ -8137,6 +8162,9 @@ bool npc_menu( npc &who )
             add_msg( m_warning, _("%s has nowhere to go!"), who.name.c_str());
         }
     } else if( choice == examine_wounds ) {
+        ///\EFFECT_PER slightly increases precision when examining NPCs' wounds
+
+        ///\EFFECT_FIRSTAID increases precision when examining NPCs' wounds
         const bool precise = g->u.get_skill_level( skill_firstaid ) * 4 + g->u.per_cur >= 20;
         who.body_window( precise );
     } else if( choice == use_item ) {
@@ -8904,6 +8932,7 @@ tripoint game::look_around( WINDOW *w_info, const tripoint &start_point,
 
     std::string action;
     input_context ctxt("LOOK");
+    ctxt.set_iso(true);
     ctxt.register_directions();
     ctxt.register_action("COORDINATE");
     ctxt.register_action("SELECT");
@@ -9162,7 +9191,7 @@ std::vector<map_item_stack> game::find_nearby_items(int iRadius)
     std::vector<map_item_stack> ret;
     std::vector<std::string> item_order;
 
-    if (u.has_effect("blind") || u.worn_with_flag("BLIND")) {
+    if (u.has_effect("blind") || u.worn_with_flag("BLIND") || u.has_active_bionic("bio_blindfold")) {
         return ret;
     }
 
@@ -9494,6 +9523,7 @@ int game::list_items(const int iLastState)
     WINDOW_PTR w_item_infoptr( w_item_info );
 
     //Area to search +- of players position.
+    ///\EFFECT_PER increases range of interacting with items on the ground from a list
     const int iRadius = 12 + (u.per_cur * 2);
 
     bool sort_radius;
@@ -10838,6 +10868,7 @@ void game::plfire( bool burst, const tripoint &default_target )
             u.weapon.set_curammo( "generic_no_ammo" );
         }
 
+        ///\EFFECT_STR dictates which bows can be drawn at all
         if ((u.weapon.has_flag("STR8_DRAW") && u.str_cur < 4) ||
             (u.weapon.has_flag("STR10_DRAW") && u.str_cur < 5) ||
             (u.weapon.has_flag("STR12_DRAW") && u.str_cur < 6)) {
@@ -10881,23 +10912,15 @@ void game::plfire( bool burst, const tripoint &default_target )
             refresh_all();
         }
 
-        if( u.weapon.num_charges() == 0 && !u.weapon.has_flag("RELOAD_AND_SHOOT") &&
-            !u.weapon.has_flag("NO_AMMO") ) {
-            add_msg(m_info, _("You need to reload!"));
+        if( u.weapon.num_charges() < u.weapon.ammo_required() && !u.weapon.has_flag("RELOAD_AND_SHOOT") ) {
+            if( u.weapon.num_charges() == 0 ) {
+                add_msg(m_info, _("You need to reload!"));
+            } else {
+                add_msg(m_info, _("Your %s needs %i charges to fire!"), u.weapon.tname().c_str(), u.weapon.ammo_required() );
+            }
             return;
         }
-        if (u.weapon.has_flag("FIRE_100") && u.weapon.num_charges() < 100) {
-            add_msg(m_info, _("Your %s needs 100 charges to fire!"), u.weapon.tname().c_str());
-            return;
-        }
-        if (u.weapon.has_flag("FIRE_50") && u.weapon.num_charges() < 50) {
-            add_msg(m_info, _("Your %s needs 50 charges to fire!"), u.weapon.tname().c_str());
-            return;
-        }
-        if (u.weapon.has_flag("FIRE_20") && u.weapon.num_charges() < 20) {
-            add_msg(m_info, _("Your %s needs 20 charges to fire!"), u.weapon.tname().c_str());
-            return;
-        }
+
         const auto gun = u.weapon.type->gun.get();
 
         if( gun != nullptr && ( u.weapon.get_gun_ups_drain() > 0 ) ) {
@@ -11169,6 +11192,7 @@ void game::eat(int pos)
     if (u.has_active_mutation("GRAZER") && m.ter(u.pos()) == t_grass &&
         query_yn(_("Graze?"))) {
         u.moves -= 400;
+        ///\EFFECT_INT increases chance of leaving some grass growing when grazing
         if ((u.get_hunger() < 10) || one_in(20 - u.int_cur)) {
             add_msg(_("You eat some of the taller grass, careful to leave some growing."));
             u.mod_hunger(-2);
@@ -11331,31 +11355,26 @@ void game::reload()
 // If it's a gun, some gunmods can also be loaded
 void game::unload(int pos)
 {
-    item &itm = u.i_at( pos );
-    if( !itm.is_null() ) {
-        unload( itm );
-    } else if( pos == -1 || pos == INT_MIN ) {
-        // Empty hands and unloading the weapon
-        // or explicitly requested unload item menu
-        auto filter = [&]( const item &it ) {
+    item *it = nullptr;
+
+    if( pos == INT_MIN ) {
+        it = inv_map_splice( [&]( const item &it ) {
             return u.rate_action_unload( it ) == HINT_GOOD;
-        };
+        }, _( "Unload item:" ), 1 ).get_item();
 
-        auto item_loc = inv_map_splice( filter, _("Unload item:") );
-        const int inv_pos = item_loc.get_inventory_position();
-        if( inv_pos != INT_MIN ) {
-            unload( inv_pos );
-            return;
-        }
-
-        item *it = item_loc.get_item();
         if( it == nullptr ) {
-            add_msg(_("Never mind."));
+            add_msg( _("Never mind.") );
             return;
         }
-
-        unload( *it );
+    } else {
+        it = &u.i_at( pos );
+        if( it->is_null() ) {
+            debugmsg( "Tried to unload non-existent item" );
+            return;
+        }
     }
+
+    unload( *it );
 }
 
 bool add_or_drop_with_msg( player &u, item &it )
@@ -11649,6 +11668,9 @@ void game::pldrive(int x, int y)
     }
     veh->turn(turn_delta);
     if (veh->skidding && veh->valid_wheel_config()) {
+        ///\EFFECT_DEX increases chance of regaining control of a vehicle
+
+        ///\EFFECT_DRIVING increases chance of regaining control of a vehicle
         if (rng(0, veh->velocity) < u.dex_cur + u.skillLevel( skill_driving ) * 2) {
             add_msg(_("You regain control of the %s."), veh->name.c_str());
             u.practice( skill_driving, veh->velocity / 5 );
@@ -11778,6 +11800,9 @@ bool game::plmove(int dx, int dy, int dz)
         dest_loc.y = rng(u.posy() - 1, u.posy() + 1);
         dest_loc.z = u.posz();
     } else {
+        if(tile_iso) {
+            rotate_direction_cw(dx,dy);
+        }
         dest_loc.x = u.posx() + dx;
         dest_loc.y = u.posy() + dy;
         dest_loc.z = u.posz() + dz;
@@ -11969,7 +11994,7 @@ bool game::plmove(int dx, int dy, int dz)
     }
 
     // Invalid move
-    const bool waste_moves = u.has_effect("blind") || u.worn_with_flag("BLIND") || u.has_effect("stunned");
+    const bool waste_moves = u.has_effect("blind") || u.worn_with_flag("BLIND") || u.has_active_bionic("bio_blindfold") || u.has_effect("stunned");
     if( waste_moves || dest_loc.z != u.posz() ) {
         // Only lose movement if we're blind
         add_msg(_("You bump into a %s!"), m.name(dest_loc).c_str());
@@ -12133,7 +12158,7 @@ bool game::walk_move( const tripoint &dest_loc )
             }
         }
 
-        if (!(u.has_effect("blind") || u.worn_with_flag("BLIND"))) {
+        if (!(u.has_effect("blind") || u.worn_with_flag("BLIND") || u.has_active_bionic("bio_blindfold"))) {
             const trap &tr = m.tr_at(dest_loc);
             // Hack for now, later ledge should stop being a trap
             if( tr.can_see(dest_loc, u) && !tr.is_benign() &&
@@ -12163,6 +12188,9 @@ bool game::walk_move( const tripoint &dest_loc )
     u.burn_move_stamina( previous_moves - u.moves );
 
     // Adjust recoil down
+    ///\EFFECT_STR increases recoil recovery speed
+
+    ///\EFFECT_GUN inreases recoil recovery speed
     u.recoil -= int(u.str_cur / 2) + u.skillLevel( skill_id( "gun" ) );
     u.recoil = std::max( MIN_RECOIL * 2, u.recoil );
     u.recoil = int(u.recoil / 2);
@@ -12214,6 +12242,7 @@ void game::place_player( const tripoint &dest_loc )
             u.deal_damage( nullptr, bp_foot_l, damage_instance( DT_CUT, 1 ) );
         }
     }
+    ///\EFFECT_DEX increases chance of avoiding cuts on sharp terrain
     if( m.has_flag("SHARP", dest_loc) && !one_in(3) && !x_in_y(1+u.dex_cur/2, 40) &&
         (!u.in_vehicle) && (!u.has_trait("PARKOUR") || one_in(4)) ) {
         body_part bp = random_body_part();
@@ -12240,6 +12269,9 @@ void game::place_player( const tripoint &dest_loc )
         // so this shouldn't cause too much hardship
         // Presumed that if it's swimmable, they're
         // swimming and won't stick
+        ///\EFFECT_DEX decreases chance of tentacles getting stuck to the ground
+
+        ///\EFFECT_INT decreases chance of tentacles getting stuck to the ground
         if ((!(m.has_flag("SWIMMABLE", dest_loc)) && (one_in(80 + u.dex_cur + u.int_cur)))) {
             add_msg(_("Your tentacles stick to the ground, but you pull them free."));
             u.fatigue++;
@@ -12325,7 +12357,7 @@ void game::place_player( const tripoint &dest_loc )
 
     // List items here
     if( !m.has_flag( "SEALED", u.pos() ) ) {
-        if ((u.has_effect("blind") || u.worn_with_flag("BLIND")) && !m.i_at(u.pos()).empty()) {
+        if ((u.has_effect("blind") || u.worn_with_flag("BLIND") || u.has_active_bionic("bio_blindfold")) && !m.i_at(u.pos()).empty()) {
             add_msg(_("There's something here, but you can't see what it is."));
         } else if( m.has_items(u.pos()) ) {
             std::vector<std::string> names;
@@ -12530,8 +12562,10 @@ bool game::grabbed_veh_move( const tripoint &dp )
     }
 
     //final strength check and outcomes
+    ///\EFFECT_STR determines ability to drag vehicles
     if (str_req <= u.get_str() ) {
         //calculate exertion factor and movement penalty
+        ///\EFFECT_STR increases speed of dragging vehicles
         u.moves -= 100 * str_req / std::max( 1, u.get_str() );
         int ex = dice(1, 3) - 1 + str_req;
         if (ex > u.get_str() ) {
@@ -12671,6 +12705,7 @@ bool game::grabbed_furn_move( const tripoint &dp )
         add_msg( _("The %s collides with something."), furntype.name.c_str() );
         u.moves -= 50;
         return true;
+    ///\EFFECT_STR determins ability to drag furniture
     } else if ( str_req > u.get_str() &&
                 one_in(std::max(20 - str_req - u.get_str(), 2)) ) {
         add_msg(m_bad, _("You strain yourself trying to move the heavy %s!"),
@@ -12827,6 +12862,7 @@ void game::plswim( const tripoint &p )
                                     (u.shoe_type_count("swim_fins") == 1 && one_in(2)))) {
             add_msg(m_bad, _("You sink like a rock!"));
             u.set_underwater(true);
+            ///\EFFECT_STR increases breath-holding capacity while sinking
             u.oxygen = 30 + 2 * u.str_cur;
         }
     }
@@ -13041,7 +13077,13 @@ void game::vertical_move(int movez, bool force)
         add_msg(m_warning, _("You try to use the stairs. Suddenly you are blocked by a %s!"),
                 coming_to_stairs[0].name().c_str());
         // Roll.
+        ///\EFFECT_DEX increases chance of moving past monsters on stairs
+
+        ///\EFFECT_DODGE increases chance of moving past monsters on stairs
         int dexroll = dice(6, u.dex_cur + u.skillLevel( skill_dodge ) * 2);
+        ///\EFFECT_STR increases chance of moving past monsters on stairs
+
+        ///\EFFECT_MELEE increases chance of moving past monsters on stairs
         int strroll = dice(3, u.str_cur + u.skillLevel( skill_melee ) * 1.5);
         if (coming_to_stairs.size() > 4) {
             add_msg(_("The are a lot of them on the %s!"), m.tername(u.pos()).c_str());
@@ -13079,6 +13121,7 @@ void game::vertical_move(int movez, bool force)
                 return;
             }
             u.set_underwater(true);
+            ///\EFFECT_STR increases breath-holding capacity while diving
             u.oxygen = 30 + 2 * u.str_cur;
             add_msg(_("You dive underwater!"));
         } else {
@@ -13715,6 +13758,7 @@ void game::update_stair_monsters()
                         return;
                     }
                     std::string msg = "";
+                    ///\EFFECT_DODGE reduces chance of being downed when pushed off the stairs
                     if (!(resiststhrow) && (u.get_dodge() + rng(0, 3) < 12)) {
                         // dodge 12 - never get downed
                         // 11.. avoid 75%; 10.. avoid 50%; 9.. avoid 25%
@@ -14803,6 +14847,8 @@ int game::get_levz() const
 
 overmap &game::get_cur_om() const
 {
-    const tripoint pos_om = overmapbuffer::sm_to_om_copy( m.get_abs_sub() );
+    // The player is located in the middle submap of the map.
+    const tripoint sm = m.get_abs_sub() + tripoint( MAPSIZE / 2, MAPSIZE / 2, 0 );
+    const tripoint pos_om = overmapbuffer::sm_to_om_copy( sm );
     return overmap_buffer.get( pos_om.x, pos_om.y );
 }

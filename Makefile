@@ -137,7 +137,11 @@ LDFLAGS += $(PROFILE)
 # enable optimizations. slow to build
 ifdef RELEASE
   ifeq ($(NATIVE), osx)
-    CXXFLAGS += -O3
+    ifeq ($(shell $(CXX) -E -Os - < /dev/null > /dev/null 2>&1 && echo fos),fos)
+      CXXFLAGS += -Os
+    else
+      CXXFLAGS += -O3
+    endif
   else
     CXXFLAGS += -Os
     LDFLAGS += -s

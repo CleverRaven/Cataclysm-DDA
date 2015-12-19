@@ -327,7 +327,7 @@
              "holster_msg": "You sheath your %s",
              "multi": 2,
              "max_volume": 1,
-             "draw_speed": 80,
+             "draw_cost": 80,
              "flags": ["SHEATH_KNIFE"]
         }
     },
@@ -360,7 +360,7 @@
              "holster_msg": "You sheath your %s",
              "multi": 2,
              "max_volume": 1,
-             "draw_speed": 80,
+             "draw_cost": 80,
              "flags": ["SHEATH_KNIFE"]
         }
     },
@@ -393,7 +393,7 @@
              "holster_msg": "You sheath your %s",
              "multi": 2,
              "max_volume": 1,
-             "draw_speed": 80,
+             "draw_cost": 80,
              "flags": ["SHEATH_KNIFE"]
         }
     },
@@ -426,7 +426,7 @@
              "holster_msg": "You sheath your %s",
              "multi": 2,
              "max_volume": 1,
-             "draw_speed": 80,
+             "draw_cost": 80,
              "flags": ["SHEATH_KNIFE"]
         }
     },
@@ -483,7 +483,7 @@
              "holster_msg": "You sheath your %s",
              "multi": 2,
              "max_volume": 1,
-             "draw_speed": 80,
+             "draw_cost": 80,
              "flags": ["SHEATH_KNIFE"]
         }
     },
@@ -516,7 +516,7 @@
              "holster_msg": "You sheath your %s",
              "multi": 2,
              "max_volume": 1,
-             "draw_speed": 80,
+             "draw_cost": 80,
              "flags": ["SHEATH_KNIFE"]
         }
     },
@@ -550,7 +550,7 @@
              "holster_msg": "You sheath your %s",
              "multi": 2,
              "max_volume": 1,
-             "draw_speed": 80,
+             "draw_cost": 80,
              "flags": ["SHEATH_KNIFE"]
         }
     },
@@ -583,7 +583,7 @@
              "holster_msg": "You sheath your %s",
              "multi": 2,
              "max_volume": 1,
-             "draw_speed": 80,
+             "draw_cost": 80,
              "flags": ["SHEATH_KNIFE"]
         }
     },
@@ -616,7 +616,7 @@
              "holster_msg": "You sheath your %s",
              "multi": 2,
              "max_volume": 1,
-             "draw_speed": 80,
+             "draw_cost": 80,
              "flags": ["SHEATH_KNIFE"]
         }
     },
@@ -649,7 +649,7 @@
              "holster_msg": "You sheath your %s",
              "multi": 2,
              "max_volume": 1,
-             "draw_speed": 80,
+             "draw_cost": 80,
              "flags": ["SHEATH_KNIFE"]
         }
     },
@@ -868,7 +868,7 @@
              "holster_msg": "You sheath your %s",
              "multi": 2,
              "max_volume": 1,
-             "draw_speed": 80,
+             "draw_cost": 80,
              "flags": ["SHEATH_KNIFE"]
         }
     },
@@ -902,7 +902,7 @@
              "holster_msg": "You sheath your %s",
              "multi": 2,
              "max_volume": 1,
-             "draw_speed": 80,
+             "draw_cost": 80,
              "flags": ["SHEATH_KNIFE"]
         }
     },
@@ -936,7 +936,7 @@
              "holster_msg": "You sheath your %s",
              "multi": 2,
              "max_volume": 1,
-             "draw_speed": 80,
+             "draw_cost": 80,
              "flags": ["SHEATH_KNIFE"]
         }
     },
@@ -3158,7 +3158,7 @@
         "use_action" : {
             "type": "holster",
              "max_volume": 8,
-             "draw_speed": 5,
+             "draw_cost": 5,
              "skills": ["smg", "shotgun", "rifle"]
         }
     },
@@ -5014,7 +5014,7 @@
              "holster_msg": "You clip your %s to your %s",
              "max_volume": 2,
              "max_weight": 600,
-             "draw_speed": 50,
+             "draw_cost": 50,
              "flags": ["BELT_CLIP"]
         }
     },
@@ -5518,7 +5518,7 @@
              "holster_msg": "You sheath your %s",
              "multi": 2,
              "max_volume": 1,
-             "draw_speed": 80,
+             "draw_cost": 80,
              "flags": ["SHEATH_KNIFE"]
         }
     },
@@ -6484,7 +6484,7 @@
              "holster_msg": "You sheath your %s",
              "multi": 2,
              "max_volume": 1,
-             "draw_speed": 80,
+             "draw_cost": 80,
              "flags": ["SHEATH_KNIFE"]
         }
     },
@@ -6516,7 +6516,7 @@
              "holster_msg": "You clip your %s to your %s",
              "max_volume": 5,
              "max_weight": 3600,
-             "draw_speed": 50,
+             "draw_cost": 50,
              "flags": ["BELT_CLIP"]
         }
     },
@@ -7500,7 +7500,7 @@
         "use_action" : {
             "type": "holster",
             "max_volume": 4,
-            "draw_speed": 3,
+            "draw_cost": 3,
             "skills": ["pistol", "shotgun"]
         }
     },
@@ -7528,7 +7528,7 @@
         "use_action" : {
             "type": "holster",
             "max_volume": 15,
-            "draw_speed": 20,
+            "draw_cost": 20,
             "skills": ["smg", "shotgun", "rifle", "launcher"]
         }
     },
@@ -7556,7 +7556,7 @@
         "use_action" : {
             "type": "holster",
             "max_volume": 2,
-            "draw_speed": 30,
+            "draw_cost": 30,
             "skills": ["pistol"]
         }
     },
@@ -7586,7 +7586,7 @@
             "holster_prompt": "Sheath knife",
             "holster_msg": "You sheath your %s",
             "max_volume": 2,
-            "draw_speed": 30,
+            "draw_cost": 30,
             "flags": ["SHEATH_KNIFE"]
         }
     },
@@ -7617,7 +7617,7 @@
             "holster_prompt": "Sheath knife",
             "holster_msg": "You sheath your %s",
             "max_volume": 3,
-            "draw_speed": 3,
+            "draw_cost": 3,
             "flags": ["SHEATH_KNIFE"]
         }
     },
@@ -7768,7 +7768,7 @@
             "holster_prompt": "Sheath sword",
             "holster_msg": "You sheath your %s",
             "max_volume": 15,
-            "draw_speed": 20,
+            "draw_cost": 20,
             "flags": ["SHEATH_SWORD"]
         }
     },
@@ -9465,7 +9465,7 @@
              "holster_msg": "You sheath your %s",
              "multi": 2,
              "max_volume": 1,
-             "draw_speed": 80,
+             "draw_cost": 80,
              "flags": ["SHEATH_KNIFE"]
         }
     },
@@ -9574,7 +9574,7 @@
              "holster_msg": "You sheath your %s",
              "multi": 2,
              "max_volume": 1,
-             "draw_speed": 80,
+             "draw_cost": 80,
              "flags": ["SHEATH_KNIFE"]
         }
     },
@@ -9730,7 +9730,7 @@
              "holster_msg": "You sheath your %s",
              "multi": 2,
              "max_volume": 1,
-             "draw_speed": 80,
+             "draw_cost": 80,
              "flags": ["SHEATH_KNIFE"]
         }
     },
@@ -9886,7 +9886,7 @@
              "holster_msg": "You sheath your %s",
              "multi": 2,
              "max_volume": 1,
-             "draw_speed": 80,
+             "draw_cost": 80,
              "flags": ["SHEATH_KNIFE"]
         }
     },
@@ -9969,7 +9969,7 @@
              "holster_msg": "You sheath your %s",
              "multi": 2,
              "max_volume": 1,
-             "draw_speed": 80,
+             "draw_cost": 80,
              "flags": ["SHEATH_KNIFE"]
         }
     },
@@ -10003,7 +10003,7 @@
              "holster_msg": "You sheath your %s",
              "multi": 2,
              "max_volume": 1,
-             "draw_speed": 80,
+             "draw_cost": 80,
              "flags": ["SHEATH_KNIFE"]
         }
     },
@@ -10037,7 +10037,7 @@
              "holster_msg": "You sheath your %s",
              "multi": 2,
              "max_volume": 1,
-             "draw_speed": 80,
+             "draw_cost": 80,
              "flags": ["SHEATH_KNIFE"]
         }
     },
@@ -10797,6 +10797,28 @@
     },
     {
         "type" : "ARMOR",
+        "id" : "swag_bag",
+        "name" : "swag bag",
+        "weight" : 415,
+        "color" : "brown",
+        "covers" : ["ARMS", "HANDS"],
+        "to_hit" : -5,
+        "storage" : 60,
+        "symbol" : "[",
+        "description" : "A large canvas sack, re-purposed for makeshift storage.  Goes well with a striped shirt and a domino mask.",
+        "price" : 0,
+        "material" : "cotton",
+        "volume" : 4,
+        "cutting" : 0,
+        "warmth" : 0,
+        "phase" : "solid",
+        "encumbrance" : 50,
+        "bashing" : -3,
+        "coverage" : 5,
+        "material_thickness" : 1
+    },
+    {
+        "type" : "ARMOR",
         "id" : "briefcase",
         "name" : "briefcase",
         "weight" : 1700,
@@ -10987,7 +11009,7 @@
              "holster_msg": "You sheath your %s",
              "multi": 2,
              "max_volume": 1,
-             "draw_speed": 80,
+             "draw_cost": 80,
              "flags": ["SHEATH_KNIFE"]
         }
     },
@@ -11953,7 +11975,7 @@
             "type": "holster",
             "holster_prompt": "Sheath blade",
             "holster_msg": "You sheath your %s",
-            "draw_speed": 3,
+            "draw_cost": 3,
             "max_volume": 4,
             "flags": ["SHEATH_KNIFE", "SHEATH_SWORD"]
         }

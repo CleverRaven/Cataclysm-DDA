@@ -513,6 +513,7 @@ void player::process_turn()
     // auto-learning. This is here because skill-increases happens all over the place:
     // SkillLevel::readBook (has no connection to the skill or the player),
     // player::read, player::practice, ...
+    ///\EFFECT_UNARMED >1 allows spontaneous discovery of brawling martial art style
     if( get_skill_level( skill_unarmed ) >= 2 ) {
         const matype_id brawling( "style_brawling" );
         if( !has_martialart( brawling ) ) {
@@ -833,93 +834,7 @@ void player::update_bodytemp()
     int ambient_norm = (has_effect("sleep") ? 3100 : 1900);
     // This gets incremented in the for loop and used in the morale calculation
     int morale_pen = 0;
-    const trap &trap_at_pos = g->m.tr_at(pos());
-    const ter_id ter_at_pos = g->m.ter(pos());
-    const furn_id furn_at_pos = g->m.furn(pos());
-    // When the player is sleeping, he will use floor items for warmth
-    int floor_item_warmth = 0;
-    // When the player is sleeping, he will use floor bedding for warmth
-    int floor_bedding_warmth = 0;
-    // If the PC has fur, etc, that'll apply too
-    int floor_mut_warmth = 0;
-    if( in_sleep_state() ) {
-        // Search the floor for items
-        auto floor_item = g->m.i_at(pos());
 
-        for( auto &elem : floor_item ) {
-            if( !elem.is_armor() ) {
-                continue;
-            }
-            // Items that are big enough and covers the torso are used to keep warm.
-            // Smaller items don't do as good a job
-            if( elem.volume() > 1 &&
-                ( elem.covers( bp_torso ) || elem.covers( bp_leg_l ) ||
-                  elem.covers( bp_leg_r ) ) ) {
-                floor_item_warmth += 60 * elem.get_warmth() * elem.volume() / 10;
-            }
-        }
-
-        // Search the floor for bedding
-        if( furn_at_pos == f_bed ) {
-            floor_bedding_warmth += 1000;
-        } else if( furn_at_pos == f_makeshift_bed || furn_at_pos == f_armchair ||
-                   furn_at_pos == f_sofa ) {
-            floor_bedding_warmth += 500;
-        } else if( veh && veh->part_with_feature (vpart, "BED") >= 0 &&
-            veh->part_with_feature (vpart, "SEAT") >= 0) {
-            floor_bedding_warmth += 250; // BED+SEAT is intentionally worse than just BED
-        } else if( veh && veh->part_with_feature (vpart, "BED") >= 0 ) {
-            floor_bedding_warmth += 300;
-        } else if( veh && veh->part_with_feature (vpart, "SEAT") >= 0 ) {
-            floor_bedding_warmth += 200;
-        } else if( furn_at_pos == f_straw_bed ) {
-            floor_bedding_warmth += 200;
-        } else if( trap_at_pos.loadid == tr_fur_rollmat || furn_at_pos == f_hay ) {
-            floor_bedding_warmth += 0;
-        } else if( trap_at_pos.loadid == tr_cot || ter_at_pos == t_improvised_shelter ||
-                   furn_at_pos == f_tatami ) {
-            floor_bedding_warmth -= 500;
-        } else if( trap_at_pos.loadid == tr_rollmat ) {
-            floor_bedding_warmth -= 1000;
-        } else {
-            floor_bedding_warmth -= 2000;
-        }
-        // Fur, etc effects for sleeping here.
-        // Full-power fur is about as effective as a makeshift bed
-        if (has_trait("FUR") || has_trait("LUPINE_FUR") || has_trait("URSINE_FUR")) {
-            floor_mut_warmth += 500;
-        }
-        // Feline fur, not quite as warm.  Cats do better in warmer spots.
-        if (has_trait("FELINE_FUR")) {
-            floor_mut_warmth += 300;
-        }
-        // Light fur's better than nothing!
-        if (has_trait("LIGHTFUR")) {
-            floor_mut_warmth += 100;
-        }
-        // Spider hair really isn't meant for this sort of thing
-        if (has_trait("CHITIN_FUR")) {
-            floor_mut_warmth += 50;
-        }
-        if (has_trait("CHITIN_FUR2") || has_trait("CHITIN_FUR3")) {
-            floor_mut_warmth += 75;
-        }
-        // Down helps too
-        if (has_trait("DOWN")) {
-            floor_mut_warmth += 250;
-        }
-        // Curl up in your shell to conserve heat & stay warm
-        if (has_active_mutation("SHELL2")) {
-            floor_mut_warmth += 200;
-        }
-        // DOWN doesn't provide floor insulation, though.
-        // Better-than-light fur or being in one's shell does.
-        if ( (!(has_trait("DOWN"))) && (floor_mut_warmth >= 200)) {
-            if (floor_bedding_warmth < 0) {
-                floor_bedding_warmth = 0;
-            }
-        }
-    }
     // Current temperature and converging temperature calculations
     for( int i = 0 ; i < num_bp; i++ ) {
         // This adjusts the temperature scale to match the bodytemp scale,
@@ -947,6 +862,7 @@ void player::update_bodytemp()
                                                      sheltered),
                                              bp_windpower );
         // If you're standing in water, air temperature is replaced by water temperature. No wind.
+        const ter_id ter_at_pos = g->m.ter( pos() );
         // Convert to C.
         int water_temperature = 100 * (g->weather_gen->get_water_temperature() - 32) * 5 / 9;
         if ( (ter_at_pos == t_water_dp || ter_at_pos == t_water_pool || ter_at_pos == t_swater_dp) ||
@@ -1004,74 +920,17 @@ void player::update_bodytemp()
                 }
             }
         }
-        // TILES
-        int tile_strength = 0;
-        // Being on fire increases very intensely the convergent temperature.
-        if (has_effect("onfire")) {
-            temp_conv[i] += 15000;
+        // Bionic "Thermal Dissipation" says it prevents fire damage up to 2000F.
+        // 500 is picked at random...
+        if( has_bionic( "bio_heatsink" ) || is_wearing( "rm13_armor_on" ) ) {
+            blister_count -= 500;
         }
-        // Same with standing on fire.
-        tile_strength = g->m.get_field_strength( pos(), fd_fire);
-        if (tile_strength > 2 || trap_at_pos.loadid == tr_lava) {
-            temp_conv[i] += 15000;
+        // BLISTERS : Skin gets blisters from intense heat exposure.
+        if( blister_count - 10 * get_env_resist( body_part( i ) ) > 20 ) {
+            add_effect( "blisters", 1, ( body_part )i );
         }
-        // Standing in the hot air of a fire is nice.
-        tile_strength = g->m.get_field_strength( pos(), fd_hot_air1);
-        switch (tile_strength) {
-        case 3:
-            temp_conv[i] +=  500;
-            break;
-        case 2:
-            temp_conv[i] +=  300;
-            break;
-        case 1:
-            temp_conv[i] +=  100;
-            break;
-        default:
-            break;
-        }
-        tile_strength = g->m.get_field_strength( pos(), fd_hot_air2 );
-        switch (tile_strength) {
-        case 3:
-            temp_conv[i] += 1000;
-            break;
-        case 2:
-            temp_conv[i] +=  800;
-            break;
-        case 1:
-            temp_conv[i] +=  300;
-            break;
-        default:
-            break;
-        }
-        tile_strength = g->m.get_field_strength( pos(), fd_hot_air3 );
-        switch (tile_strength) {
-        case 3:
-            temp_conv[i] += 3500;
-            break;
-        case 2:
-            temp_conv[i] += 2000;
-            break;
-        case 1:
-            temp_conv[i] +=  800;
-            break;
-        default:
-            break;
-        }
-        tile_strength = g->m.get_field_strength( pos(), fd_hot_air4 );
-        switch (tile_strength) {
-        case 3:
-            temp_conv[i] += 8000;
-            break;
-        case 2:
-            temp_conv[i] += 5000;
-            break;
-        case 1:
-            temp_conv[i] += 3500;
-            break;
-        default:
-            break;
-        }
+
+        temp_conv[i] += bodytemp_modifier_fire();
         // WEATHER
         if( g->weather == WEATHER_SUNNY && g->is_in_sunlight(pos()) ) {
             temp_conv[i] += 1000;
@@ -1085,16 +944,6 @@ void player::update_bodytemp()
         }
         if( has_effect("common_cold") ) {
             temp_conv[i] -= 750;
-        }
-        // BIONICS
-        // Bionic "Thermal Dissipation" says it prevents fire damage up to 2000F.
-        // 500 is picked at random...
-        if( has_bionic("bio_heatsink") || is_wearing("rm13_armor_on")) {
-            blister_count -= 500;
-        }
-        // BLISTERS : Skin gets blisters from intense heat exposure.
-        if( blister_count - 10 * get_env_resist(body_part(i)) > 20 ) {
-            add_effect("blisters", 1, (body_part)i);
         }
         // Loss of blood results in loss of body heat, 1% bodyheat lost per 2% hp lost
         temp_conv[i] -= blood_loss(body_part(i)) * temp_conv[i] / 200;
@@ -1144,69 +993,19 @@ void player::update_bodytemp()
             temp_equalizer(bp_foot_r, bp_leg_r);
             break;
         }
-        // MUTATIONS and TRAITS
-        // Lightly furred
-        if( has_trait("LIGHTFUR") ) {
-            temp_conv[i] += (temp_cur[i] > BODYTEMP_NORM ? 250 : 500);
-        }
-        // Furry or Lupine/Ursine Fur
-        if( has_trait("FUR") || has_trait("LUPINE_FUR") || has_trait("URSINE_FUR") ) {
-            temp_conv[i] += (temp_cur[i] > BODYTEMP_NORM ? 750 : 1500);
-        }
-        // Feline fur
-        if( has_trait("FELINE_FUR") ) {
-            temp_conv[i] += (temp_cur[i] > BODYTEMP_NORM ? 500 : 1000);
-        }
-        // Feathers: minor means minor.
-        if( has_trait("FEATHERS") ) {
-            temp_conv[i] += (temp_cur[i] > BODYTEMP_NORM ? 50 : 100);
-        }
-        if( has_trait("CHITIN_FUR") ) {
-            temp_conv[i] += (temp_cur[i] > BODYTEMP_NORM ? 100 : 150);
-        }
-        if( has_trait("CHITIN_FUR2") || has_trait ("CHITIN_FUR3") ) {
-            temp_conv[i] += (temp_cur[i] > BODYTEMP_NORM ? 150 : 250);
-        }
-        // Down; lets heat out more easily if needed but not as Warm
-        // as full-blown fur.  So less miserable in Summer.
-        if( has_trait("DOWN") ) {
-            temp_conv[i] += (temp_cur[i] > BODYTEMP_NORM ? 300 : 800);
-        }
-        // Fat deposits don't hold in much heat, but don't shift for temp
-        if( has_trait("FAT") ) {
-            temp_conv[i] += (temp_cur[i] > BODYTEMP_NORM ? 200 : 200);
-        }
-        // Being in the shell holds in heat, but lets out less in summer :-/
-        if( has_active_mutation("SHELL2") ) {
-            temp_conv[i] += (temp_cur[i] > BODYTEMP_NORM ? 500 : 750);
-        }
-        // Disintegration
-        if (has_trait("ROT1")) {
-            temp_conv[i] -= 250;
-        } else if (has_trait("ROT2")) {
-            temp_conv[i] -= 750;
-        } else if (has_trait("ROT3")) {
-            temp_conv[i] -= 1500;
-        }
-        // Radioactive
-        if (has_trait("RADIOACTIVE1")) {
-            temp_conv[i] += 250;
-        } else if (has_trait("RADIOACTIVE2")) {
-            temp_conv[i] += 750;
-        } else if (has_trait("RADIOACTIVE3")) {
-            temp_conv[i] += 1500;
-        }
-        // Chemical Imbalance
-        // Added line in player::suffer()
+
+        // Correction of body temperature due to traits and mutations
+        temp_conv[i] += bodytemp_modifier_traits( temp_cur[i] > BODYTEMP_NORM );
 
         // Climate Control eases the effects of high and low ambient temps
-        temp_conv[i] = temp_corrected_by_climate_control(temp_conv[i]);
+        temp_conv[i] = temp_corrected_by_climate_control( temp_conv[i] );
 
         // FINAL CALCULATION : Increments current body temperature towards convergent.
         int bonus_warmth = 0;
-        if ( in_sleep_state() ) {
-            bonus_warmth = floor_bedding_warmth + floor_item_warmth + floor_mut_warmth;
-        } else if ( best_fire > 0 ) {
+        const furn_id furn_at_pos = g->m.furn( pos() );
+        if( in_sleep_state() ) {
+            bonus_warmth = warmth_in_sleep();
+        } else if( best_fire > 0 ) {
             // Warming up over a fire
             // Extremities are easier to extend over a fire
             switch (i) {
@@ -1260,8 +1059,8 @@ void player::update_bodytemp()
             // Spread the morale bonus in time.
             int mytime = MINUTES( i ) / MINUTES( num_bp );
             if( calendar::turn % MINUTES( 1 ) == mytime &&
-                get_effect_int( "cold", (body_part)num_bp ) == 0 &&
-                get_effect_int( "hot", (body_part)num_bp ) == 0 &&
+                get_effect_int( "cold", ( body_part )num_bp ) == 0 &&
+                get_effect_int( "hot", ( body_part )num_bp ) == 0 &&
                 temp_cur[i] > BODYTEMP_COLD && temp_cur[i] <= BODYTEMP_NORM ) {
                 add_morale( MORALE_COMFY, 1, 5, 20, 10, true );
             }
@@ -1482,7 +1281,239 @@ void player::update_bodytemp()
     }
 }
 
-int player::temp_corrected_by_climate_control(int temperature)
+int player::warmth_in_sleep()
+{
+    const trap &trap_at_pos = g->m.tr_at( pos() );
+    const ter_id ter_at_pos = g->m.ter( pos() );
+    const furn_id furn_at_pos = g->m.furn( pos() );
+    // When the player is sleeping, he will use floor items for warmth
+    int floor_item_warmth = 0;
+    // When the player is sleeping, he will use floor bedding for warmth
+    int floor_bedding_warmth = 0;
+
+    // Search the floor for items
+    auto floor_item = g->m.i_at( pos() );
+    for( auto &elem : floor_item ) {
+        if( !elem.is_armor() ) {
+            continue;
+        }
+        // Items that are big enough and covers the torso are used to keep warm.
+        // Smaller items don't do as good a job
+        if( elem.volume() > 1 &&
+            ( elem.covers( bp_torso ) || elem.covers( bp_leg_l ) ||
+              elem.covers( bp_leg_r ) ) ) {
+            floor_item_warmth += 60 * elem.get_warmth() * elem.volume() / 10;
+        }
+    }
+
+    int vpart = -1;
+    vehicle *veh = g->m.veh_at( pos(), vpart );
+    bool veh_bed = ( veh && veh->part_with_feature( vpart, "BED" ) >= 0 );
+    bool veh_seat = ( veh && veh->part_with_feature( vpart, "SEAT" ) >= 0 );
+
+    // Search the floor for bedding
+    if( furn_at_pos == f_bed ) {
+        floor_bedding_warmth += 1000;
+    } else if( furn_at_pos == f_makeshift_bed || furn_at_pos == f_armchair ||
+               furn_at_pos == f_sofa ) {
+        floor_bedding_warmth += 500;
+    } else if( veh_bed && veh_seat ) {
+        // BED+SEAT is intentionally worse than just BED
+        floor_bedding_warmth += 250;
+    } else if( veh_bed ) {
+        floor_bedding_warmth += 300;
+    } else if( veh_seat ) {
+        floor_bedding_warmth += 200;
+    } else if( furn_at_pos == f_straw_bed ) {
+        floor_bedding_warmth += 200;
+    } else if( trap_at_pos.loadid == tr_fur_rollmat || furn_at_pos == f_hay ) {
+        floor_bedding_warmth += 0;
+    } else if( trap_at_pos.loadid == tr_cot || ter_at_pos == t_improvised_shelter ||
+               furn_at_pos == f_tatami ) {
+        floor_bedding_warmth -= 500;
+    } else if( trap_at_pos.loadid == tr_rollmat ) {
+        floor_bedding_warmth -= 1000;
+    } else {
+        floor_bedding_warmth -= 2000;
+    }
+
+    // If the PC has fur, etc, that'll apply too
+    int floor_mut_warmth = bodytemp_modifier_traits_sleep();
+    // DOWN doesn't provide floor insulation, though.
+    // Better-than-light fur or being in one's shell does.
+    if( ( !( has_trait( "DOWN" ) ) ) && ( floor_mut_warmth >= 200 ) ) {
+        floor_bedding_warmth = std::max( 0, floor_bedding_warmth );
+    }
+    return ( floor_item_warmth + floor_bedding_warmth + floor_mut_warmth );
+}
+
+int player::bodytemp_modifier_fire()
+{
+    int temp_conv = 0;
+    // Being on fire increases very intensely the convergent temperature.
+    if( has_effect( "onfire" ) ) {
+        temp_conv += 15000;
+    }
+
+    const trap &trap_at_pos = g->m.tr_at( pos() );
+    // Same with standing on fire.
+    int tile_strength = g->m.get_field_strength( pos(), fd_fire );
+    if( tile_strength > 2 || trap_at_pos.loadid == tr_lava ) {
+        temp_conv += 15000;
+    }
+    // Standing in the hot air of a fire is nice.
+    tile_strength = g->m.get_field_strength( pos(), fd_hot_air1 );
+    switch( tile_strength ) {
+        case 3:
+            temp_conv += 500;
+            break;
+        case 2:
+            temp_conv += 300;
+            break;
+        case 1:
+            temp_conv += 100;
+            break;
+        default:
+            break;
+    }
+    tile_strength = g->m.get_field_strength( pos(), fd_hot_air2 );
+    switch( tile_strength ) {
+        case 3:
+            temp_conv += 1000;
+            break;
+        case 2:
+            temp_conv += 800;
+            break;
+        case 1:
+            temp_conv += 300;
+            break;
+        default:
+            break;
+    }
+    tile_strength = g->m.get_field_strength( pos(), fd_hot_air3 );
+    switch( tile_strength ) {
+        case 3:
+            temp_conv += 3500;
+            break;
+        case 2:
+            temp_conv += 2000;
+            break;
+        case 1:
+            temp_conv += 800;
+            break;
+        default:
+            break;
+    }
+    tile_strength = g->m.get_field_strength( pos(), fd_hot_air4 );
+    switch( tile_strength ) {
+        case 3:
+            temp_conv += 8000;
+            break;
+        case 2:
+            temp_conv += 5000;
+            break;
+        case 1:
+            temp_conv += 3500;
+            break;
+        default:
+            break;
+    }
+    return temp_conv;
+}
+
+int player::bodytemp_modifier_traits( bool overheated )
+{
+    int mod = 0;
+
+    // Lightly furred
+    if( has_trait( "LIGHTFUR" ) ) {
+        mod += ( overheated ? 250 : 500 );
+    }
+    // Furry or Lupine/Ursine Fur
+    if( has_trait( "FUR" ) || has_trait( "LUPINE_FUR" ) || has_trait( "URSINE_FUR" ) ) {
+        mod += ( overheated ? 750 : 1500 );
+    }
+    // Feline fur
+    if( has_trait( "FELINE_FUR" ) ) {
+        mod += ( overheated ? 500 : 1000 );
+    }
+    // Feathers: minor means minor.
+    if( has_trait( "FEATHERS" ) ) {
+        mod += ( overheated ? 50 : 100 );
+    }
+    if( has_trait( "CHITIN_FUR" ) ) {
+        mod += ( overheated ? 100 : 150 );
+    }
+    if( has_trait( "CHITIN_FUR2" ) || has_trait( "CHITIN_FUR3" ) ) {
+        mod += ( overheated ? 150 : 250 );
+    }
+    // Down; lets heat out more easily if needed but not as Warm
+    // as full-blown fur.  So less miserable in Summer.
+    if( has_trait( "DOWN" ) ) {
+        mod += ( overheated ? 300 : 800 );
+    }
+    // Fat deposits don't hold in much heat, but don't shift for temp
+    if( has_trait( "FAT" ) ) {
+        mod += 200;
+    }
+    // Being in the shell holds in heat, but lets out less in summer :-/
+    if( has_active_mutation( "SHELL2" ) ) {
+        mod += ( overheated ? 500 : 750 );
+    }
+    // Disintegration
+    if( has_trait( "ROT1" ) ) {
+        mod -= 250;
+    } else if( has_trait( "ROT2" ) ) {
+        mod -= 750;
+    } else if( has_trait( "ROT3" ) ) {
+        mod -= 1500;
+    }
+    // Radioactive
+    if( has_trait( "RADIOACTIVE1" ) ) {
+        mod += 250;
+    } else if( has_trait( "RADIOACTIVE2" ) ) {
+        mod += 750;
+    } else if( has_trait( "RADIOACTIVE3" ) ) {
+        mod += 1500;
+    }
+    return mod;
+}
+
+int player::bodytemp_modifier_traits_sleep()
+{
+    int floor_mut_warmth = 0;
+    // Fur, etc effects for sleeping  here.
+    // Full-power fur is about as effective as a makeshift bed
+    if( has_trait( "FUR" ) || has_trait( "LUPINE_FUR" ) || has_trait( "URSINE_FUR" ) ) {
+        floor_mut_warmth += 500;
+    }
+    // Feline fur, not quite as warm.  Cats do better in warmer spots.
+    if( has_trait( "FELINE_FUR" ) ) {
+        floor_mut_warmth += 300;
+    }
+    // Light fur's better than nothing!
+    if( has_trait( "LIGHTFUR" ) ) {
+        floor_mut_warmth += 100;
+    }
+    // Spider hair really isn't meant for this sort of thing
+    if( has_trait( "CHITIN_FUR" ) ) {
+        floor_mut_warmth += 50;
+    }
+    if( has_trait( "CHITIN_FUR2" ) || has_trait( "CHITIN_FUR3" ) ) {
+        floor_mut_warmth += 75;
+    }
+    // Down helps too
+    if( has_trait( "DOWN" ) ) {
+        floor_mut_warmth += 250;
+    }
+    // Curl up in your shell to conserve heat & stay warm
+    if( has_active_mutation( "SHELL2" ) ) {
+        floor_mut_warmth += 200;
+    }
+    return floor_mut_warmth;
+}
+
+int player::temp_corrected_by_climate_control( int temperature )
 {
     const int variation = BODYTEMP_NORM * 0.5;
     if( in_climate_control() && temperature < BODYTEMP_SCORCHING + variation &&
@@ -1773,18 +1804,23 @@ int player::run_cost(int base_cost, bool diag) const
 int player::swim_speed() const
 {
     int ret = 440 + weight_carried() / 60 - 50 * get_skill_level( skill_swimming );
+    ///\EFFECT_STR increases swim speed bonus from PAWS
     if (has_trait("PAWS")) {
         ret -= 20 + str_cur * 3;
     }
+    ///\EFFECT_STR increases swim speed bonus from PAWS_LARGE
     if (has_trait("PAWS_LARGE")) {
         ret -= 20 + str_cur * 4;
     }
+    ///\EFFECT_STR increases swim speed bonus from swim_fins
     if (is_wearing("swim_fins")) {
         ret -= (15 * str_cur) / (3 - shoe_type_count("swim_fins"));
     }
+    ///\EFFECT_STR increases swim speed bonus from WEBBED
     if (has_trait("WEBBED")) {
         ret -= 60 + str_cur * 5;
     }
+    ///\EFFECT_STR increases swim speed bonus from TAIL_FIN
     if (has_trait("TAIL_FIN")) {
         ret -= 100 + str_cur * 10;
     }
@@ -1797,6 +1833,7 @@ int player::swim_speed() const
     if (has_trait("FAT")) {
         ret -= 30;
     }
+    ///\EFFECT_SWIMMING increases swim speed
     ret += (50 - get_skill_level( skill_swimming ) * 2) * ((encumb(bp_leg_l) + encumb(bp_leg_r)) / 10);
     ret += (80 - get_skill_level( skill_swimming ) * 3) * (encumb(bp_torso) / 10);
     if (get_skill_level( skill_swimming ) < 10) {
@@ -1804,6 +1841,9 @@ int player::swim_speed() const
             ret += (i.volume() * (10 - get_skill_level( skill_swimming ))) / 2;
         }
     }
+    ///\EFFECT_STR increases swim speed
+
+    ///\EFFECT_DEX increases swim speed
     ret -= str_cur * 6 + dex_cur * 4;
     if( worn_with_flag("FLOTATION") ) {
         ret = std::min(ret, 400);
@@ -1851,6 +1891,13 @@ bool player::is_immune_effect( const efftype_id &effect ) const
 
 int player::stability_roll() const
 {
+    ///\EFFECT_STR improves player stability roll
+
+    ///\EFFECT_PER slightly improves player stability roll
+
+    ///\EFFECT_DEX slightly improves player stability roll
+
+    ///\EFFECT_MELEE improves player stability roll
     int stability = (get_melee()) + get_str() + (get_per() / 3) + (get_dex() / 4);
         return stability;
 }
@@ -2060,23 +2107,34 @@ void player::memorial( std::ofstream &memorial_file, std::string epitaph )
 
     int total_kills = 0;
 
+    std::map<std::tuple<std::string,std::string>,int> kill_counts;
+
+    // map <name, sym> to kill count
     for( const auto &monid : MonsterGenerator::generator().get_all_mtypes() ) {
         if( g->kill_count( monid.first ) > 0 ) {
-            memorial_file << "  " << monid.second->sym << " - "
-                          << string_format( "%4d", g->kill_count( monid.first ) ) << " "
-                          << monid.second->nname( g->kill_count( monid.first ) ) << "\n";
+            kill_counts[std::tuple<std::string,std::string>(
+                monid.second->nname(),
+                monid.second->sym
+            )] += g->kill_count( monid.first );
             total_kills += g->kill_count( monid.first );
         }
     }
-    if(total_kills == 0) {
-      memorial_file << indent << _("No monsters were killed.") << "\n";
+
+    for( const auto entry : kill_counts ) {
+        memorial_file << "  " << std::get<1>( entry.first ) << " - "
+                      << string_format( "%4d", entry.second ) << " "
+                      << std::get<0>( entry.first ) << "\n";
+    }
+
+    if( total_kills == 0 ) {
+      memorial_file << indent << _( "No monsters were killed." ) << "\n";
     } else {
-      memorial_file << string_format(_("Total kills: %d"), total_kills) << "\n";
+      memorial_file << string_format( _( "Total kills: %d" ), total_kills ) << "\n";
     }
     memorial_file << "\n";
 
     //Skills
-    memorial_file << _("Skills:") << "\n";
+    memorial_file << _( "Skills:" ) << "\n";
     for( auto &skill : Skill::skills ) {
         SkillLevel next_skill_level = get_skill_level( skill );
         memorial_file << indent << skill.name() << ": " << next_skill_level.level() << " ("
@@ -4190,6 +4248,9 @@ bool player::has_two_arms() const
 
 bool player::avoid_trap( const tripoint &pos, const trap &tr ) const
 {
+    ///\EFFECT_DEX increases chance to avoid traps
+
+    ///\EFFECT_DODGE increases chance to avoid traps
     int myroll = dice( 3, int(dex_cur + get_skill_level( skill_dodge ) * 1.5) );
     int traproll;
     if( tr.can_see( pos, *this ) ) {
@@ -4252,6 +4313,9 @@ bool player::has_watch() const
 void player::pause()
 {
     moves = 0;
+    ///\EFFECT_STR increases recoil recovery speed
+
+    ///\EFFECT_GUN increases recoil recovery speed
     recoil -= str_cur + 2 * get_skill_level( skill_gun );
     recoil = std::max(MIN_RECOIL * 2, recoil);
     recoil = int(recoil / 2);
@@ -4325,6 +4389,7 @@ void player::shout( std::string msg )
     // Masks and such dampen the sound
     // Balanced around  whisper for wearing bondage mask
     // and noise ~= 10(door smashing) for wearing dust mask for character with strength = 8
+    ///\EFFECT_STR increases shouting volume
     int noise = base + str_cur * shout_multiplier - encumb( bp_mouth ) * 3 / 2;
 
     // Minimum noise volume possible after all reductions.
@@ -4419,10 +4484,12 @@ int player::throw_range(int pos) const
         tmp.charges = 1;
     }
 
+    ///\EFFECT_STR determines maximum weight that can be thrown
     if( (tmp.weight() / 113) > int(str_cur * 15) ) {
         return 0;
     }
     // Increases as weight decreases until 150 g, then decreases again
+    ///\EFFECT_STR increases throwing range, vs item weight (high or low)
     int ret = (str_cur * 8) / (tmp.weight() >= 150 ? tmp.weight() / 113 : 10 - int(tmp.weight() / 15));
     ret -= int(tmp.volume() / 4);
     if( has_active_bionic("bio_railgun") && (tmp.made_of("iron") || tmp.made_of("steel"))) {
@@ -4432,6 +4499,9 @@ int player::throw_range(int pos) const
         return 1;
     }
     // Cap at double our strength + skill
+    ///\EFFECT_STR caps throwing range
+
+    ///\EFFECT_THROW caps throwing range
     if( ret > str_cur * 1.5 + get_skill_level( skill_throw ) ) {
         return str_cur * 1.5 + get_skill_level( skill_throw );
     }
@@ -4443,6 +4513,7 @@ int player::ranged_dex_mod() const
 {
     const int dex = get_dex();
 
+    ///\EFFECT_DEX <12 increases ranged penalty
     if (dex >= 12) { return 0; }
     return (12 - dex) * 15;
 }
@@ -4451,6 +4522,7 @@ int player::ranged_per_mod() const
 {
     const int per = get_per();
 
+    ///\EFFECT_PER <12 increases ranged penalty
     if (per >= 12) { return 0; }
     return (12 - per) * 15;
 }
@@ -4461,6 +4533,7 @@ int player::throw_dex_mod(bool return_stat_effect) const
  int dex = get_dex();
  if (dex == 8 || dex == 9)
   return 0;
+ ///\EFFECT_DEX increases throwing bonus
  if (dex >= 10)
   return (return_stat_effect ? 0 - rng(0, dex - 9) : 9 - dex);
 
@@ -4504,6 +4577,7 @@ int player::read_speed(bool return_stat_effect) const
 {
     // Stat window shows stat effects on based on current stat
     const int intel = get_int();
+    ///\EFFECT_INT increases reading speed
     int ret = 1000 - 50 * (intel - 8);
     if( has_trait("FASTREADER") ) {
         ret *= .8;
@@ -4528,6 +4602,7 @@ int player::rust_rate(bool return_stat_effect) const
 
     // Stat window shows stat effects on based on current stat
     int intel = (return_stat_effect ? get_int() : get_int());
+    ///\EFFECT_INT reduces skill rust
     int ret = ((OPTIONS["SKILL_RUST"] == "vanilla" || OPTIONS["SKILL_RUST"] == "capped") ? 500 : 500 - 35 * (intel - 8));
 
     if (has_trait("FORGETFUL")) {
@@ -4548,6 +4623,11 @@ int player::rust_rate(bool return_stat_effect) const
 
 int player::talk_skill() const
 {
+    ///\EFFECT_INT slightly increases talking skill
+
+    ///\EFFECT_PER slightly increases talking skill
+
+    ///\EFFECT_SPEECH increases talking skill
     int ret = get_int() + get_per() + get_skill_level( skill_id( "speech" ) ) * 3;
     if (has_trait("SAPIOVORE")) {
         ret -= 20; // Friendly convo with your prey? unlikely
@@ -4573,6 +4653,7 @@ int player::talk_skill() const
 
 int player::intimidation() const
 {
+    ///\EFFECT_STR increases intimidation factor
     int ret = get_str() * 2;
     if (weapon.is_gun()) {
         ret += 10;
@@ -4896,6 +4977,9 @@ dealt_damage_instance player::deal_damage(Creature* source, body_part bp, const 
         }
 
         if ( source->has_flag(MF_GRABS) && !source->is_hallucination() ) {
+            ///\EFFECT_DEX increases chance to avoid being grabbed, if DEX>STR
+
+            ///\EFFECT_STR increases chance to avoid being grabbed, if STR>DEX
             if (has_grab_break_tec() && get_grab_resist() > 0 && get_dex() > get_str() ?
                 rng(0, get_dex()) : rng( 0, get_str()) > rng( 0 , 10)) {
                 if (has_effect("grabbed")){
@@ -5089,6 +5173,9 @@ float player::fall_damage_mod() const
     float ret = 1.0f;
 
     // Ability to land properly is 2x as important as dexterity itself
+    ///\EFFECT_DEX decreases damage from falling
+
+    ///\EFFECT_DODGE decreases damage from falling
     float dex_dodge = dex_cur / 2 + get_skill_level( skill_dodge );
     // Penalize for wearing heavy stuff
     dex_dodge -= ( ( ( encumb(bp_leg_l) + encumb(bp_leg_r) ) / 2 ) + ( encumb(bp_torso) / 1 ) ) / 10;
@@ -5243,6 +5330,7 @@ void player::knock_back_from( const tripoint &p )
         monster *critter = &(g->zombie(mondex));
         deal_damage( critter, bp_torso, damage_instance( DT_BASH, critter->type->size ) );
         add_effect("stunned", 1);
+        ///\EFFECT_STR_MAX allows knocked back player to knock back, damage, stun some monsters
         if ((str_max - 6) / 4 > critter->type->size) {
             critter->knock_back_from(pos3()); // Chain reaction!
             critter->apply_damage( this, bp_torso, (str_max - 6) / 4);
@@ -5533,6 +5621,7 @@ void player::check_needs_extremes()
                 add_msg_if_player(m_warning, _("You're too tired to stop yawning."));
                 add_effect("lack_sleep", 50);
             }
+            ///\EFFECT_INT slightly decreases occurrence of short naps when dead tired
             if( one_in(50 + int_cur) ) {
                 // Rivet's idea: look out for microsleeps!
                 fall_asleep(5);
@@ -5542,6 +5631,7 @@ void player::check_needs_extremes()
                 add_msg_if_player(m_warning, _("How much longer until bedtime?"));
                 add_effect("lack_sleep", 50);
             }
+            ///\EFFECT_INT slightly decreases occurrence of short naps when exhausted
             if (one_in(100 + int_cur)) {
                 fall_asleep(5);
             }
@@ -5777,7 +5867,7 @@ void player::regen( int rate_multiplier )
     }
 
     if( radiation > 0 ) {
-        radiation = std::min( 0, radiation - divide_roll_remainder( rate_multiplier * radiation / 3.0, 1.0f ) );
+        radiation = std::max( 0, radiation - divide_roll_remainder( rate_multiplier * radiation / 3.0, 1.0f ) );
     }
 }
 
@@ -6549,6 +6639,7 @@ void player::hardcoded_effects(effect &it)
                 moves = -200;
                 mod_hunger(awfulness);
                 thirst += awfulness;
+                ///\EFFECT_STR decreases damage taken by fungus effect
                 apply_damage( nullptr, bp_torso, awfulness / std::max( str_cur, 1 ) ); // can't be healthy
             }
             it.mod_duration(1);
@@ -6673,6 +6764,9 @@ void player::hardcoded_effects(effect &it)
                         break;
 
                 }
+                ///\EFFECT_STR_NPC increases volume of hallucination sounds (NEGATIVE)
+
+                ///\EFFECT_INT_NPC decreases volume of hallucination sounds
                 int loudness = 20 + str_cur - int_cur;
                 loudness = (loudness > 5 ? loudness : 5);
                 loudness = (loudness < 30 ? loudness : 30);
@@ -7038,6 +7132,7 @@ void player::hardcoded_effects(effect &it)
         if (dur > 14400) {
             // Spawn some larvae!
             // Choose how many insects; more for large characters
+            ///\EFFECT_STR_MAX increases number of insects hatched from dermatik infection
             int num_insects = rng(1, std::min(3, str_max / 3));
             apply_damage( nullptr, bp, rng( 2, 4 ) * num_insects );
             // Figure out where they may be placed
@@ -7079,6 +7174,7 @@ void player::hardcoded_effects(effect &it)
             it.mod_duration(1);
         }
     } else if (id == "formication") {
+        ///\EFFECT_INT decreases occurence of itching from formication effect
         if (x_in_y(intense, 100 + 50 * get_int())) {
             if (!is_npc()) {
                 //~ %s is bodypart in accusative.
@@ -7626,7 +7722,7 @@ void player::hardcoded_effects(effect &it)
 
         bool woke_up = false;
         int tirednessVal = rng(5, 200) + rng(0, abs(fatigue * 2 * 5));
-        if (!has_effect("blind") && !worn_with_flag("BLIND")) {
+        if (!has_effect("blind") && !worn_with_flag("BLIND") && !has_active_bionic("bio_blindfold")) {
             if (has_trait("HEAVYSLEEPER2") && !has_trait("HIBERNATE")) {
                 // So you can too sleep through noon
                 if ((tirednessVal * 1.25) < g->m.ambient_light_at(pos()) && (fatigue < 10 || one_in(fatigue / 2))) {
@@ -7832,6 +7928,7 @@ void player::suffer()
             mod_healthy_mod(10, 50);
             // No losing oneself in the fertile embrace of rich
             // New England loam.  But it can be a near thing.
+            ///\EFFECT_INT decreases chance of losing focus points while eating soil with ROOTS3
             if ( (one_in(int_cur)) && (focus_pool >= 25) ) {
                 focus_pool--;
             }
@@ -10371,9 +10468,9 @@ bool player::wield(item* it, bool autodrop)
             return false;
         }
         if (autodrop || volume_carried() + weapon.volume() <= volume_capacity()) {
+            moves -= item_handling_cost(weapon);
             inv.add_item_keep_invlet(remove_weapon());
             inv.unsort();
-            moves -= 20;
             recoil = MIN_RECOIL;
             return true;
         } else if (query_yn(_("No space in inventory for your %s.  Drop it?"),
@@ -10401,8 +10498,8 @@ bool player::wield(item* it, bool autodrop)
 
     if( is_armed() ) {
         if( volume_carried() + weapon.volume() - it->volume() < volume_capacity() ) {
+            mv += item_handling_cost(weapon);
             inv.add_item_keep_invlet( remove_weapon() );
-            mv += 15;
         } else if( query_yn(_("No space in inventory for your %s.  Drop it?"),
                             weapon.tname().c_str() ) ) {
             g->m.add_item_or_charges( posx(), posy(), remove_weapon() );
@@ -10417,14 +10514,12 @@ bool player::wield(item* it, bool autodrop)
     // than a skilled player with a holster.
     // There is an additional penalty when wielding items from the inventory whilst currently grabbed.
 
+    mv += item_handling_cost(*it);
+
     if( is_worn( *it ) ) {
         it->on_takeoff( *this );
-        mv += it->volume() * 10;
     } else {
-        mv += it->volume() * 20;
-        if( has_effect( "grabbed" ) ) {
-            mv *= 2;
-        }
+        mv *= 2;
     }
 
     moves -= mv;
@@ -10668,6 +10763,13 @@ hint_rating player::rate_action_change_side( const item &it ) const {
     return HINT_GOOD;
 }
 
+int player::item_handling_cost( const item& it, bool effects, int factor ) const {
+    int mv = std::max( 1, it.volume() * factor );
+    if( effects && has_effect( "grabbed" ) ) {
+        mv *= 2;
+    }
+    return std::min(mv, MAX_HANDLING_COST);
+}
 
 bool player::wear(int inventory_position, bool interactive)
 {
@@ -11213,6 +11315,7 @@ hint_rating player::rate_action_use( const item &it ) const
             return HINT_GOOD;
         }
     } else if (it.is_gunmod()) {
+        ///\EFFECT_GUN >0 allows rating estimates for gun modifications
         if (get_skill_level( skill_gun ) == 0) {
             return HINT_IFFY;
         } else {
@@ -11327,6 +11430,7 @@ void player::use(int inventory_position)
         invoke_item( used );
     } else if (used->is_gunmod()) {
         const auto mod = used->type->gunmod.get();
+        ///\EFFECT_GUN allows installation of more difficult gun mods
         if (!(get_skill_level( skill_gun ) >= mod->req_skill)) {
             add_msg(m_info, _("You need to be at least level %d in the marksmanship skill before you \
 can install this mod."), mod->req_skill);
@@ -11626,6 +11730,7 @@ hint_rating player::rate_action_read( const item &it ) const
     int assistants = 0;
     for( auto &elem : g->active_npc ) {
         if (rl_dist( elem->pos(), g->u.pos() ) < PICKUP_RANGE && elem->is_friend()) {
+            ///\EFFECT_INT_NPC allows NPCs to read harder books for you
             if ((elem->int_cur+1) >= it.type->book->intel) {
                 assistants++;
             }
@@ -11666,6 +11771,7 @@ bool player::read(int inventory_position)
     int assistants = 0;
     for( auto &elem : g->active_npc ) {
         if (rl_dist( elem->pos(), g->u.pos() ) < PICKUP_RANGE && elem->is_friend()){
+            ///\EFFECT_INT_NPC allows NPCs to read harder books for you
             if ((elem->int_cur+1) >= it->type->book->intel)
                 assistants++;
         }
@@ -11717,6 +11823,7 @@ bool player::read(int inventory_position)
         time = tmp->time * read_speed() * (fine_detail_vision_mod());
         if (tmp->intel > int_cur) {
             // Lower int characters can read, at a speed penalty
+            ///\EFFECT_INT increases reading speed of difficult books
             time += (tmp->time * (tmp->intel - int_cur) * 100);
         }
         // We're just skimming, so it's 10x faster.
@@ -11798,6 +11905,7 @@ bool player::read(int inventory_position)
     if (tmp->intel > get_int() && !continuous) {
         add_msg(m_warning, _("This book is too complex for you to easily understand. It will take longer to read."));
         // Lower int characters can read, at a speed penalty
+        ///\EFFECT_INT increases reading speed of difficult books
         time += (tmp->time * (tmp->intel - get_int()) * 100);
     }
 
@@ -11936,6 +12044,7 @@ void player::do_read( item *book )
         get_skill_level( skill ).can_train() ) {
         auto &skill_level = skillLevel( skill );
         int originalSkillLevel = skill_level;
+        ///\EFFECT_INT increases reading speed
         int min_ex = reading->time / 10 + int_cur / 4;
         int max_ex = reading->time /  5 + int_cur / 2 - originalSkillLevel;
         if (min_ex < 1) {
@@ -12388,7 +12497,7 @@ float player::fine_detail_vision_mod()
     // PER_SLIME_OK implies you can get enough eyes around the bile
     // that you can generaly see.  There'll still be the haze, but
     // it's annoying rather than limiting.
-    if ( has_effect( "blind" ) || worn_with_flag( "BLIND" ) ||
+    if ( has_effect( "blind" ) || worn_with_flag( "BLIND" ) || has_active_bionic("bio_blindfold") ||
          ( ( has_effect( "boomered" ) || has_effect( "darkness" ) ) && !has_trait( "PER_SLIME_OK" ) ) ) {
         return 11.0;
     }
@@ -13506,8 +13615,8 @@ bool player::wield_contents(item *container, int pos, int factor)
     if( is_armed() ) {
         if( volume_carried() + weapon.volume() - container->contents[pos].volume() <
             volume_capacity() ) {
+            mv += item_handling_cost(weapon);
             inv.add_item_keep_invlet( remove_weapon() );
-            mv += 15;
         } else if( query_yn( _("No space in inventory for your %s.  Drop it?"),
                              weapon.tname().c_str() ) ) {
             g->m.add_item_or_charges( posx(), posy(), remove_weapon() );
@@ -13522,6 +13631,8 @@ bool player::wield_contents(item *container, int pos, int factor)
     last_item = itype_id( weapon.type->id );
     container->contents.erase( container->contents.begin() + pos );
 
+    // TODO Doxygen comment covering all possible gun and weapon skills
+    // documenting decrease in time spent wielding from a container
     int lvl = get_skill_level( weapon.is_gun() ? weapon.gun_skill() : weapon.weap_skill() );
 
     mv += (weapon.volume() * factor) / std::max( lvl, 1 );

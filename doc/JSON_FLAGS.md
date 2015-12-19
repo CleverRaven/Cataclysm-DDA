@@ -51,6 +51,7 @@ List of known flags, used in both terrain.json and furniture.json
 - ```PAINFUL``` May cause a small amount of pain.
 - ```ROUGH``` May hurt the player's feet.
 - ```SEALED``` Can't use `e` to retrieve items; must smash them open first.
+- ```LIQUIDCONT``` Furniture that contains liquid, allows for contents to be accessed in some checks even if 'SEALED'.
 - ```NOITEM``` Items 'fall off' this space.
 - ```DESTROY_ITEM``` Items that land here are destroyed.
 - ```GOES_DOWN``` Can use `>` to go down a level.
@@ -62,6 +63,8 @@ List of known flags, used in both terrain.json and furniture.json
 - ```NO_FLOOR```
 - ```RAMP```
 - ```RAMP_END```
+- ```SEEN_FROM_ABOVE```
+- ```LADDER``` This piece of furniture that makes climbing easy (works only with z-level mode).
 - ```MINEABLE``` Can be mined with a pickaxe/jackhammer.
 - ```INDOORS``` Has a roof over it; blocks rain, sunlight, etc.
 - ```THIN_OBSTACLE``` Passable by players and monsters; vehicles destroy it.
@@ -88,6 +91,7 @@ List of known flags, used in both terrain.json and furniture.json
 - ```UNSTABLE``` Walking here cause the bouldering effect on the character.
 - ```HARVESTED``` Marks the harvested version of a terrain type (e.g. harvesting an apple tree turns it into a harvested tree, which later becomes an apple tree again).
 - ```ROAD``` Flat and hard enough to drive or skate (with rollerblades) on.
+- ```SALT_WATER``` Source of salt water (works for terrains with examine action "water_source").
 - ```DEEP_WATER```
 - ```AUTO_WALL_SYMBOL``` (only for terrain) The symbol of this terrain will be one of the line drawings (corner, T-intersection, straight line etc.) depending on the adjacent terrains.
 - ```ALLOW_FIELD_EFFECT``` Apply field effects to items inside ```SEALED``` terrain/furniture.
@@ -220,6 +224,7 @@ Flags used to describe monsters and define their properties and abilities.
 - ```PARALYZE``` Attack may paralyze the player with venom.
 - ```BLEED``` Causes the player to bleed.
 - ```WEBWALK``` Doesn't destroy webs.
+- ```CLIMBS``` Can climb.
 - ```DIGS``` Digs through the ground.
 - ```CAN_DIG``` Can dig _and_ walk.
 - ```FLIES``` Can fly (over water, etc.)
@@ -273,6 +278,7 @@ Flags used to describe monsters and define their properties and abilities.
 - ```CBM_TECH``` May produce a CBM or two from 'bionics_tech' item group and a power CBM when butchered.
 - ```FISHABLE``` It is fishable.
 - ```INTERIOR_AMMO``` Monster contains ammo inside itself, no need to load on launch. Prevents ammo from being dropped on disable.
+- ```NIGHT_INVISIBILITY``` Monster becomes invisible if it's more than one tile away and the lighting on its tile is LL_LOW or less. Visibility is not affected by night vision.
 
 ### Special attacks
 Some special attacks are also valid use actions for tools and weapons.
@@ -428,6 +434,7 @@ These branches are also the valid entries for the categories of `dreams` in `dre
 - ```SHARP``` Striking a monster with this part does cutting damage instead of bashing damage, and prevents stunning the monster.
 - ```PROTRUSION``` Part sticks out so no other parts can be installed over it.
 - ```WHEEL``` Counts as a wheel in wheel calculations.
+- ```STEERABLE``` This wheel is steerable.
 - ```STABLE``` Similar to `WHEEL`, but if the vehicle is only a 1x1 section, this single wheel counts as enough wheels.
 - ```ENGINE``` Is an engine and contributes towards vehicle mechanical power.
 - ```ALTERNATOR``` Recharges batteries installed on the vehicle.
@@ -1040,6 +1047,8 @@ Those flags are added by the game code to specific items (that specific welder, 
 - ```WIN_START``` ... start in winter.
 - ```SUR_START``` ... surrounded start, zombies outside the starting shelter.
 - ```SCEN_ONLY``` Profession can be chosen only as part of the appropriate scenario.
+- ```BOARDED```
+- ```ALLOW_OUTSIDE```
 
 ## TODO
 

@@ -700,6 +700,7 @@ void player::complete_craft()
     }
 
     // Sides on dice is 16 plus your current intelligence
+    ///\EFFECT_INT increases crafting success chance
     int skill_sides = 16 + int_cur;
 
     int diff_dice = making->difficulty * 4; // Since skill level is * 4 also
@@ -797,6 +798,7 @@ void player::complete_craft()
                 // Worst case is lvl 10, which will typically take
                 // 10^4/10 (1,000) minutes, or about 16 hours of crafting it to learn.
                 int difficulty = has_recipe( making, crafting_inventory() );
+                ///\EFFECT_INT increases chance to learn recipe when crafting from a book
                 if( x_in_y( making->time, (1000 * 8 *
                             ( difficulty * difficulty * difficulty * difficulty ) ) /
                             ( std::max( get_skill_level( making->skill_used ).level(), 1 ) * std::max( get_int(), 1 ) ) ) ) {
@@ -1425,6 +1427,7 @@ void player::complete_disassemble()
     skill_dice += skillLevel(dis->skill_used);
 
     // Sides on dice is 16 plus your current intelligence
+    ///\EFFECT_INT increases success rate for disassembling items
     int skill_sides = 16 + int_cur;
 
     int diff_dice = dis->difficulty;

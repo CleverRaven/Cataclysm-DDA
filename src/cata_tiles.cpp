@@ -35,6 +35,7 @@
 
 extern int WindowHeight, WindowWidth;
 extern int fontwidth, fontheight;
+extern bool tile_iso;
 
 SDL_Color cursesColorToSDL(int color);
 
@@ -1280,8 +1281,9 @@ bool cata_tiles::draw_from_id_string(std::string id, TILE_CATEGORY category,
     // seed the PRNG to get a reproducible random int
     // TODO faster solution here
     unsigned int seed = 0;
-    // FIXME determine correct Z value
-    int z_coord = 0;
+    // FUTURE TODO rework Z value if multiple z levels are being drawn
+    // z level is currently always focused on player location
+    int z_coord = g->u.pos().z;
     // TODO determine ways other than category to differentiate more types of sprites
     switch( category ) {
         case C_TERRAIN:
@@ -1317,12 +1319,23 @@ bool cata_tiles::draw_from_id_string(std::string id, TILE_CATEGORY category,
             seed = g->mon_at( tripoint( x, y, z_coord ) );
             break;
     }
-    // this should preserve the deterministic nature of the game based on original seed
-    // even when a tileset changes
-    auto temp = rand();
-    srand( seed );
-    unsigned int loc_rand = rand();
-    srand( temp );
+
+    unsigned int loc_rand = 0;
+    // only bother mixing up a hash/random value if the tile has some sprites to randomly pick between
+    if(display_tile.fg.size()>1 || display_tile.bg.size()>1) {
+        // use a fair mix function to turn the "random" seed into a random int
+        // taken from public domain code at http://burtleburtle.net/bob/c/lookup3.c 2015/12/11
+#define rot32(x,k) (((x)<<(k)) | ((x)>>(32-(k))))
+        unsigned int a = seed, b = -seed, c = seed*seed;
+        c ^= b; c -= rot32(b,14);
+        a ^= c; a -= rot32(c,11);
+        b ^= a; b -= rot32(a,25);
+        c ^= b; c -= rot32(b,16);
+        a ^= c; a -= rot32(c, 4);
+        b ^= a; b -= rot32(a,14);
+        c ^= b; c -= rot32(b,24);
+        loc_rand = c;
+    }
 
     //draw it!
     draw_tile_at( display_tile, screen_x, screen_y, loc_rand, rota, ll, apply_night_vision_goggles );

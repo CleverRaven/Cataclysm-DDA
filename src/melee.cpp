@@ -72,6 +72,11 @@ bool player::handle_melee_wear()
         return true;
     }
 
+    ///\EFFECT_DEX reduces chance of damaging your melee weapon
+
+    ///\EFFECT_STR increases chance of damaging your melee weapon (NEGATIVE)
+
+    ///\EFFECT_MELEE reduces chance of damaging your melee weapon
     const float stat_factor = dex_cur / 2.0f + get_skill_level( skill_melee ) + ( 64.0f / std::max( str_cur, 4 ) );
     const float material_factor = weapon.chip_resistance();
     int damage_chance = static_cast<int>( stat_factor * material_factor );
@@ -130,24 +135,29 @@ int player::get_hit_weapon( const item &weap ) const
 
     // Are we unarmed?
     if( weap.has_flag("UNARMED_WEAPON") ) {
+        ///\EFFECT_UNARMED provides weapon bonus for UNARMED_WEAPON
         best_bonus = unarmed_skill / 2.0f;
     }
 
     // Using a bashing weapon?
     if( weap.is_bashing_weapon() ) {
+        ///\EFFECT_BASHING provides weapon bonus for bashing weapons
         best_bonus = std::max( best_bonus, bashing_skill / 3.0f );
     }
 
     // Using a cutting weapon?
     if( weap.is_cutting_weapon() ) {
+        ///\EFFECT_CUTTING provides weapon bonus for cutting weapons
         best_bonus = std::max( best_bonus, cutting_skill / 3.0f );
     }
 
     // Using a spear?
     if( weap.has_flag("SPEAR") || weap.has_flag("STAB") ) {
+        ///\EFFECT_STABBING provides weapon bonus for SPEAR or STAB weapons
         best_bonus = std::max( best_bonus, stabbing_skill / 3.0f );
     }
 
+    ///\EFFECT_MELEE adds to other weapon bonuses
     return int(melee_skill / 2.0f + best_bonus);
 }
 
@@ -384,8 +394,10 @@ void player::melee_attack(Creature &t, bool allow_special, const matec_id &force
     }
 
     const int melee = get_skill_level( skill_melee );
+    ///\EFFECT_STR reduces stamina cost for melee attack with heavier weapons
     const int weight_cost = weapon.weight() / ( 12 * std::max( 1, str_cur ) );
     const int encumbrance_cost = ( encumb( bp_arm_l ) + encumb( bp_arm_r ) ) / 5;
+    ///\EFFECT_MELEE reduces stamina cost of melee attacks
     const int mod_sta = ( weight_cost + encumbrance_cost - melee + 20 ) * -1;
     mod_stat("stamina", mod_sta);
 
@@ -400,6 +412,7 @@ void player::melee_attack(Creature &t, bool allow_special, const matec_id &force
 void player::reach_attack( const tripoint &p )
 {
     matec_id force_technique = tec_none;
+    ///\EFFECT_MELEE >5 allows WHIP_DISARM technique
     if( weapon.has_flag( "WHIP" ) && ( skillLevel( skill_melee ) > 5) && one_in( 3 ) ) {
         force_technique = matec_id( "WHIP_DISARM" );
     }
@@ -416,17 +429,20 @@ void player::reach_attack( const tripoint &p )
     for( const tripoint &p : path ) {
         // Possibly hit some unintended target instead
         Creature *inter = g->critter_at( p );
+        ///\EFFECT_STABBING decreases chance of hitting intervening target on reach attack
         if( inter != nullptr &&
               !x_in_y( ( target_size * target_size + 1 ) * skill,
                        ( inter->get_size() * inter->get_size() + 1 ) * 10 ) ) {
             // Even if we miss here, low roll means weapon is pushed away or something like that
             critter = inter;
             break;
+        ///\EFFECT_STABBING increases ability to reach attack through fences
         } else if( g->m.move_cost( p ) == 0 &&
                    // Fences etc. Spears can stab through those
                      !( weapon.has_flag( "SPEAR" ) &&
                         g->m.has_flag( "THIN_OBSTACLE", p ) &&
                         x_in_y( skill, 10 ) ) ) {
+            ///\EFFECT_STR increases bash effects when reach attacking past something
             g->m.bash( p, str_cur + weapon.type->melee_dam );
             handle_melee_wear();
             mod_moves( -move_cost );
@@ -458,6 +474,7 @@ int stumble(player &u)
     // 5 str with a battle axe: 26 + 49 = 75
     // Fist: 0
 
+    ///\EFFECT_STR reduces chance of stumbling with heavier weapons
     return ( 2 * u.weapon.volume() ) +
            ( u.weapon.weight() / ( u.str_cur * 10 + 13.0f ) );
 }
@@ -487,6 +504,7 @@ double player::crit_chance( int roll_hit, int target_dodge, const item &weap ) c
     double weapon_crit_chance = 0.5;
     if( weap.has_flag("UNARMED_WEAPON") ) {
         // Unarmed attack: 1/2 of unarmed skill is to-hit
+        ///\EFFECT_UNARMED increases crit chance with UNARMED_WEAPON
         weapon_crit_chance = 0.5 + unarmed_skill * 0.5;
     }
 
@@ -498,28 +516,36 @@ double player::crit_chance( int roll_hit, int target_dodge, const item &weap ) c
     }
 
     // Dexterity and perception
+    ///\EFFECT_DEX increases chance for critical hits
+
+    ///\EFFECT_PER increases chance for critical hits
     const double stat_crit_chance = 0.25 + 0.01 * dex_cur + ( 0.02 * per_cur );
 
     // Skill level roll
     int best_skill = 0;
 
     if( weap.is_bashing_weapon() && bashing_skill > best_skill ) {
+        ///\EFFECT_BASHING inreases crit chance with bashing weapons
         best_skill = bashing_skill;
     }
 
     if( weap.is_cutting_weapon() && cutting_skill > best_skill ) {
+        ///\EFFECT_CUTTING increases crit chance with cutting weapons
         best_skill = cutting_skill;
     }
 
     if( (weap.has_flag("SPEAR") || weap.has_flag("STAB")) &&
         stabbing_skill > best_skill ) {
+        ///\EFFECT_STABBING increases crit chance with SPEAR or STAB weapons
         best_skill = stabbing_skill;
     }
 
     if( weap.has_flag("UNARMED_WEAPON") && unarmed_skill > best_skill ) {
+        ///\EFFECT_UNARMED increases crit chance with UNARMED_WEAPON
         best_skill = unarmed_skill;
     }
 
+    ///\EFFECT_MELEE slightly increases crit chance with any melee weapon
     best_skill += melee_skill / 2.5;
 
     const double skill_crit_chance = 0.25 + best_skill * 0.025;
@@ -553,6 +579,7 @@ double player::crit_chance( int roll_hit, int target_dodge, const item &weap ) c
 
 int player::get_dodge_base() const {
     // Creature::get_dodge_base includes stat calculations already
+    ///\EFFECT_DODGE increases dodge_base
     return Character::get_dodge_base() + get_skill_level( skill_dodge );
 }
 
@@ -576,6 +603,9 @@ int player::get_dodge() const
 
 int player::dodge_roll()
 {
+    ///\EFFECT_DEX decreases chance of falling over when dodging on roller blades
+
+    ///\EFFECT_DODGE decreases chances of falling over when dodging on roller blades
     if ( (shoe_type_count("roller_blades") == 2 && one_in((get_dex() + get_skill_level( skill_dodge )) / 3 )) ||
           (shoe_type_count("roller_blades") == 1 && one_in((get_dex() + get_skill_level( skill_dodge )) / 8 ))) {
         if (!has_effect("downed")) {
@@ -599,6 +629,9 @@ int player::dodge_roll()
         }
     }
     //Fighting on a pair of quad skates isn't so hard, but fighting while wearing a single skate is.
+    ///\EFFECT_DEX decreases chance of falling over when dodging on one rollerskate
+
+    ///\EFFECT_DODGE decreases chances of falling over when dodging on one rollerskate
     if (shoe_type_count("rollerskates") == 1 && one_in((get_dex() + get_skill_level( skill_dodge )) / 8 )) {
         if (has_trait("PROF_SKATER")) {
             if (one_in(3)) {
@@ -618,6 +651,7 @@ int player::dodge_roll()
         }
     }
     if (has_effect("bouldering")) {
+        ///\EFFECT_DEX decreases chance of falling when dodging while bouldering
         if(one_in(get_dex())) {
             add_msg_if_player(m_bad, _("You slip as the ground shifts beneath your feet!"));
             add_effect("downed", 3);
@@ -627,6 +661,9 @@ int player::dodge_roll()
     int dodge_stat = get_dodge();
 
     if (dodges_left <= 0) { // We already dodged this turn
+        ///\EFFECT_DEX increases chance of being allowed to dodge multiple times per turn
+
+        ///\EFFECT_DODGE increases chance of being allowed to dodge multiple times per turn
         if (rng(0, get_skill_level( skill_dodge ) + dex_cur + 15) <= get_skill_level( skill_dodge ) + dex_cur) {
             dodge_stat = rng(dodge_stat/2, dodge_stat); //Penalize multiple dodges per turn
         } else {
@@ -642,12 +679,14 @@ int player::base_damage(bool real_life, int stat) const
     int dam = 0;
     if( real_life ) {
         if (stat == -999) {
+            ///\EFFECT_STR increases base damage in real life
             stat = get_str();
         }
 
         dam += rng(0, stat / 2);
     } else {
         if (stat == -999) {
+            ///\EFFECT_STR_MAX increases base damage in non-real-life situations (???)
             stat = str_max;
         }
 
@@ -684,6 +723,7 @@ void player::roll_bash_damage( bool crit, damage_instance &di, bool average, con
     const int skill = weap.has_flag("UNARMED_WEAPON") ? unarmed_skill : bashing_skill;
 
     // Kinda ugly
+    ///\EFFECT_STR increases bashing damage
     bash_dam = average ? base_damage( false, stat ) - (stat + 1) / 2 : base_damage( true, stat );
 
     // Drunken Master damage bonuses
@@ -704,10 +744,16 @@ void player::roll_bash_damage( bool crit, damage_instance &di, bool average, con
     }
 
     float weap_dam = int(stat / 2) + weap.damage_bash();
+    ///\EFFECT_UNARMED caps bash damage with unarmed weapons
+
+    ///\EFFECT_BASHING caps bash damage with bashing weapons
     float bash_cap = 5 + stat + skill;
     float bash_mul = 1.0f;
 
     if( weap.has_flag("UNARMED_WEAPON") ) {
+        ///\EFFECT_UNARMED increases bashing damage
+
+        ///\EFFECT_STR increases bashing damage
         const int maxdam = int(stat / 2) + unarmed_skill + weap.damage_bash();
         weap_dam = average ? maxdam * 0.5f : rng( 0, maxdam );
     } else {
@@ -731,6 +777,9 @@ void player::roll_bash_damage( bool crit, damage_instance &di, bool average, con
 
     weap_dam = average ? (bash_min + weap_dam) * 0.5f : rng(bash_min, weap_dam);
 
+    ///\EFFECT_UNARMED contributes to bashing damage in complex ways
+
+    ///\EFFECT_BASHING contributes to bashing damage in complex ways
     if( weap_dam < skill + int(stat / 2) ) {
         const float high = skill + int(stat / 2);
         weap_dam = average ? (weap_dam + high) * 0.5f : rng( weap_dam, high );
@@ -778,14 +827,17 @@ void player::roll_cut_damage( bool crit, damage_instance &di, bool average, cons
                 per_hand += 2;
             }
             if (has_trait("TALONS")) {
+                ///\EFFECT_UNARMED increases cutting damage with TALONS
                 per_hand += 3 + (unarmed_skill > 8 ? 4 : unarmed_skill / 2);
             }
             // Stainless Steel Claws do stabbing damage, too.
             if (has_trait("CLAWS_RAT") || has_trait("CLAWS_ST")) {
+                ///\EFFECT_UNARMED increases cutting damage with CLAWS_RAT and CLAWS_ST
                 per_hand += 1 + (unarmed_skill > 8 ? 4 : unarmed_skill / 2);
             }
             //TODO: add acidproof check back to slime hands (probably move it elsewhere)
             if (has_trait("SLIME_HANDS")) {
+                ///\EFFECT_UNARMED increases cutting damage with SLIME_HANDS
                 per_hand += average ? 2.5f : rng(2, 3);
             }
 
@@ -804,6 +856,7 @@ void player::roll_cut_damage( bool crit, damage_instance &di, bool average, cons
     int arpen = 0;
 
     // 80%, 88%, 96%, 104%, 112%, 116%, 120%, 124%, 128%, 132%
+    ///\EFFECT_CUTTING increases cutting damage multiplier
     if( cutting_skill < 5 ) {
         cut_mul *= 0.8 + 0.08 * cutting_skill;
     } else {
@@ -854,6 +907,7 @@ void player::roll_stab_damage( bool crit, damage_instance &di, bool average, con
             }
 
             if( has_trait("CLAWS_ST") ) {
+                ///\EFFECT_UNARMED increases stabbing damage with CLAWS_ST
                 per_hand += 3 + (unarmed_skill / 2);
             }
 
@@ -871,6 +925,7 @@ void player::roll_stab_damage( bool crit, damage_instance &di, bool average, con
 
     float stab_mul = 1.0f;
     // 66%, 76%, 86%, 96%, 106%, 116%, 122%, 128%, 134%, 140%
+    ///\EFFECT_STABBING increases stabbing damage multiplier
     if( stabbing_skill <= 5 ) {
         stab_mul = 0.66 + 0.1 * stabbing_skill;
     } else {
@@ -942,8 +997,12 @@ int player::roll_stuck_penalty(bool stabbing, const ma_technique &tec) const
     }
 
     // Reduce cost based on player skill, by 10.5 move/level on average.
+    ///\EFFECT_STABBING reduces duration of stuck stabbing weapon
+
+    ///\EFFECT_CUTTING reduces duration of stuck cutting weapon
     stuck_cost -= dice( attack_skill, 20 );
     // And also strength. This time totally reliable 5 moves per point
+    ///\EFFECT_STR reduce duration of weapon getting stuck
     stuck_cost -= 5 * str_cur;
     // Make sure cost doesn't go negative.
     stuck_cost = std::max( stuck_cost, 0 );
@@ -1288,6 +1347,7 @@ void player::perform_technique(const ma_technique &technique, Creature &t, damag
 
     //player has a very small chance, based on their intelligence, to learn a style whilst using the cqb bionic
     if (has_active_bionic("bio_cqb") && !has_martialart(style_selected)) {
+        ///\EFFECT_INT slightly increases chance to learn techniques when using CQB bionic
         if (one_in(1400 - (get_int() * 50))) {
             ma_styles.push_back(style_selected);
             add_msg_if_player(m_good, _("You have learnt %s from extensive practice with the CQB Bionic."),
@@ -1313,6 +1373,7 @@ void player::dodge_hit(Creature *source, int) {
 
     dodges_left--;
 
+    ///\EFFECT_MELEE increases dodge practice of a missed target player (NEGATIVE)
     practice( skill_dodge, source->get_melee() * 2, source->get_melee() );
 
     // check if we have any dodge counters
@@ -1353,8 +1414,14 @@ bool player::block_hit(Creature *source, body_part &bp_hit, damage_instance &dam
         } else if (weapon.has_technique( WBLOCK_1 )) {
             block_bonus = 4;
         }
+        ///\EFFECT_STR increases attack blocking effectiveness with a weapon
+
+        ///\EFFECT_MELEE increases attack blocking effectiveness with a weapon
         block_score = str_cur + block_bonus + (int)get_skill_level( skill_melee );
     } else if (can_limb_block()) {
+        ///\EFFECT_STR increases attack blocking effectiveness with a limb
+
+        ///\EFFECT_UNARMED increases attack blocking effectivness with a limb
         block_score = str_cur + (int)get_skill_level( skill_melee ) + (int)get_skill_level( skill_unarmed );
     }
 
@@ -1598,6 +1665,7 @@ std::string player::melee_special_effects(Creature &t, damage_instance &d, const
 
     // Glass weapons shatter sometimes
     if (weapon.made_of("glass") &&
+        ///\EFFECT_STR increases chance of breaking glass weapons (NEGATIVE)
         rng(0, weapon.volume() + 8) < weapon.volume() + str_cur) {
         if (is_player()) {
             dump << string_format(_("Your %s shatters!"), weapon.tname().c_str()) << std::endl;
@@ -1661,6 +1729,7 @@ std::string player::melee_special_effects(Creature &t, damage_instance &d, const
         }
     }
     // Getting your weapon stuck
+    ///\EFFECT_STR decreases chance of getting weapon stuck
     if (!unarmed_attack() && cutting_penalty > dice(str_cur * 2, 20) && !is_hallucination) {
         dump << string_format(_("Your %1$s gets stuck in %2$s, pulling it out of your hands!"),
                               weapon.tname().c_str(), target.c_str());
@@ -1684,6 +1753,9 @@ std::string player::melee_special_effects(Creature &t, damage_instance &d, const
         // Approximately "this would kill the target". Unless the target has limb-based hp.
         if( d.total_damage() > t.get_hp() ) {
             cutting_penalty /= 2;
+            ///\EFFECT_STABBING reduces chance of weapon getting stuck, if STABBING>CUTTING
+
+            ///\EFFECT_CUTTING reduces chance of weapon getting stuck, if CUTTING>STABBING
             cutting_penalty -= rng( used_skill, used_skill * 2 + 2);
         }
         if( cutting_penalty >= 50 && !is_hallucination ) {
@@ -1692,12 +1764,16 @@ std::string player::melee_special_effects(Creature &t, damage_instance &d, const
         }
 
         if( weapon.has_flag("SPEAR") ) {
+            ///\EFFECT_STABBING increases damage when pulling out a stuck spear
             const int stabbing_skill = get_skill_level( skill_stabbing );
             d.add_damage( DT_CUT, rng( 1, stabbing_skill ) ); //add some extra damage for pulling out a spear
             t.mod_moves(-30);
         }
     }
     if (cutting_penalty > 0) {
+        ///\EFFECT_STABBING reduces duration of weapon getting stuck, if STABBING>CUTTING
+
+        ///\EFFECT_CUTTING reduces duration of weapon getting stuck, if CUTTING>STABBING
         mod_moves(-cutting_penalty);
     }
 
@@ -1713,9 +1789,13 @@ std::vector<special_attack> player::mutation_attacks(Creature &t) const
 
     std::string target = t.disp_name();
 
+    ///\EFFECT_DEX increases chance of attacking with SABER_TEETH
+
+    ///\EFFECT_UNARMED increases chance of attacking with SABER_TEETH
     if ( (has_trait("SABER_TEETH")) && !natural_attack_restricted_on(bp_mouth) &&
          one_in(20 - dex_cur - get_skill_level( skill_unarmed )) ) {
         special_attack tmp;
+        ///\EFFECT_STR increases damage with SABER_TEETH attack
         tmp.stab = (25 + str_cur);
         if (is_player()) {
             tmp.text = string_format(_("You tear into %s with your saber teeth"),
@@ -1732,6 +1812,9 @@ std::vector<special_attack> player::mutation_attacks(Creature &t) const
 
     // Having lupine or croc jaws makes it much easier to sink your fangs into people;
     // Ursine/Feline, not so much.  Rat is marginally better.
+    ///\EFFECT_DEX increases chance of attacking with FANGS or FANGS + (MUZZLE, MUZZLE_RAT, MUZZLE_LONG)
+
+    ///\EFFECT_UNARMED increases chance of attacking with FANGS or FANGS + (MUZZLE, MUZZLE_RAT, MUZZLE_LONG)
     if (has_trait("FANGS") && (!natural_attack_restricted_on(bp_mouth)) &&
         ((!has_trait("MUZZLE") && !has_trait("MUZZLE_LONG") && !has_trait("MUZZLE_RAT") &&
           one_in(20 - dex_cur - get_skill_level( skill_unarmed ))) ||
@@ -1753,6 +1836,9 @@ std::vector<special_attack> player::mutation_attacks(Creature &t) const
         ret.push_back(tmp);
     }
 
+    ///\EFFECT_DEX increases chance of attacking with INCISORS
+
+    ///\EFFECT_UNARMED increases chance of attacking with INCISORS
     if (has_trait("INCISORS") && one_in(18 - dex_cur - get_skill_level( skill_unarmed )) &&
         (!natural_attack_restricted_on(bp_mouth))) {
         special_attack tmp;
@@ -1771,6 +1857,9 @@ std::vector<special_attack> player::mutation_attacks(Creature &t) const
         ret.push_back(tmp);
     }
 
+    ///\EFFECT_DEX increases chance of attacking with FANGS + MUZZLE
+
+    ///\EFFECT_UNARMED increases chance of attacking with FANGS + MUZZLE
     if (!has_trait("FANGS") && has_trait("MUZZLE") &&
         one_in(18 - dex_cur - get_skill_level( skill_unarmed )) &&
         (!natural_attack_restricted_on(bp_mouth))) {
@@ -1789,6 +1878,9 @@ std::vector<special_attack> player::mutation_attacks(Creature &t) const
         ret.push_back(tmp);
     }
 
+    ///\EFFECT_DEX increases chance of attacking with MUZZLE_BEAR
+
+    ///\EFFECT_UNARMED increases chance of attacking with MUZZLE_BEAR
     if (!has_trait("FANGS") && has_trait("MUZZLE_BEAR") &&
         one_in(20 - dex_cur - get_skill_level( skill_unarmed )) &&
         (!natural_attack_restricted_on(bp_mouth))) {
@@ -1807,6 +1899,9 @@ std::vector<special_attack> player::mutation_attacks(Creature &t) const
         ret.push_back(tmp);
     }
 
+    ///\EFFECT_DEX increases chance of attacking with MUZZLE_LONG
+
+    ///\EFFECT_UNARMED increases chance of attacking with MUZZLE_LONG
     if (!has_trait("FANGS") && has_trait("MUZZLE_LONG") &&
         one_in(18 - dex_cur - get_skill_level( skill_unarmed )) &&
         (!natural_attack_restricted_on(bp_mouth))) {
@@ -1825,6 +1920,9 @@ std::vector<special_attack> player::mutation_attacks(Creature &t) const
         ret.push_back(tmp);
     }
 
+    ///\EFFECT_DEX increases chance of attacking with MANDIBLES, trait FANGS_SPIDER
+
+    ///\EFFECT_UNARMED increases chance of attacking with MANDIBLES, trait FANGS_SPIDER
     if ((has_trait("MANDIBLES") || (has_trait("FANGS_SPIDER") && !has_active_mutation("FANGS_SPIDER"))) &&
         one_in(22 - dex_cur - get_skill_level( skill_unarmed )) && (!natural_attack_restricted_on(bp_mouth))) {
         special_attack tmp;
@@ -1841,6 +1939,10 @@ std::vector<special_attack> player::mutation_attacks(Creature &t) const
         }
         ret.push_back(tmp);
     }
+
+    ///\EFFECT_DEX increases chance of attacking with mutation FANGS_SPIDER
+
+    ///\EFFECT_UNARMED increases chance of attacking with mutation FANGS_SPIDER
     if (has_active_mutation("FANGS_SPIDER") && one_in(24 - dex_cur - get_skill_level( skill_unarmed )) &&
         (!natural_attack_restricted_on(bp_mouth)) ) {
         special_attack tmp;
@@ -1858,6 +1960,9 @@ std::vector<special_attack> player::mutation_attacks(Creature &t) const
         ret.push_back(tmp);
     }
 
+    ///\EFFECT_DEX increases chance of attacking with BEAK
+
+    ///\EFFECT_UNARMED increases chance of attacking with BEAK
     if (has_trait("BEAK") && one_in(15 - dex_cur - get_skill_level( skill_unarmed )) &&
         (!natural_attack_restricted_on(bp_mouth))) {
         special_attack tmp;
@@ -1872,10 +1977,16 @@ std::vector<special_attack> player::mutation_attacks(Creature &t) const
         ret.push_back(tmp);
     }
 
+    ///\EFFECT_DEX increases chance of attacking with BEAK_PECK
+
+    ///\EFFECT_UNARMED increases chance of attacking with BEAK_PECK
     if (has_trait("BEAK_PECK") && one_in(15 - dex_cur - get_skill_level( skill_unarmed )) &&
         (!natural_attack_restricted_on(bp_mouth))) {
         // method open to improvement, please feel free to suggest
         // a better way to simulate target's anti-peck efforts
+        ///\EFFECT_DEX increases number of hits with BEAK_PECK
+
+        ///\EFFECT_UNARMED increases number of hits with BEAK_PECK
         int num_hits = (dex_cur + get_skill_level( skill_unarmed ) - rng(4, 10));
         if (num_hits <= 0) {
             num_hits = 1;
@@ -1914,8 +2025,12 @@ std::vector<special_attack> player::mutation_attacks(Creature &t) const
         ret.push_back(tmp);
     }
 
+    ///\EFFECT_DEX increases chance of attacking with HOOVES
+
+    ///\EFFECT_UNARMED increases chance of attacking with HOOVES
     if (has_trait("HOOVES") && one_in(25 - dex_cur - 2 * get_skill_level( skill_unarmed ))) {
         special_attack tmp;
+        ///\EFFECT_STR increases damage with HOOVES
         tmp.bash = str_cur * 3;
         if (tmp.bash > 40) {
             tmp.bash = 40;
@@ -1933,8 +2048,12 @@ std::vector<special_attack> player::mutation_attacks(Creature &t) const
         ret.push_back(tmp);
     }
 
+    ///\EFFECT_DEX increases chance of attacking with RAP_TALONS
+
+    ///\EFFECT_UNARMED increases chance of attacking with RAP_TALONS
     if (has_trait("RAP_TALONS") && one_in(30 - dex_cur - 2 * get_skill_level( skill_unarmed ))) {
         special_attack tmp;
+        ///\EFFECT_STR increases damage with RAP_TALONS
         tmp.cut = str_cur * 4;
         if (tmp.cut > 60) {
             tmp.cut = 60;
@@ -1952,6 +2071,9 @@ std::vector<special_attack> player::mutation_attacks(Creature &t) const
         ret.push_back(tmp);
     }
 
+    ///\EFFECT_DEX increases chance of attacking with HORNS
+
+    ///\EFFECT_UNARMED increases chance of attacking with HORNS
     if (has_trait("HORNS") && one_in(20 - dex_cur - get_skill_level( skill_unarmed ))) {
         special_attack tmp;
         tmp.bash = 3;
@@ -1969,6 +2091,9 @@ std::vector<special_attack> player::mutation_attacks(Creature &t) const
         ret.push_back(tmp);
     }
 
+    ///\EFFECT_DEX increases chance of attacking with HORNS_CURLED
+
+    ///\EFFECT_UNARMED increases chance of attacking with HORNS_CURLED
     if (has_trait("HORNS_CURLED") && one_in(20 - dex_cur - get_skill_level( skill_unarmed ))) {
         special_attack tmp;
         tmp.bash = 14;
@@ -1985,6 +2110,9 @@ std::vector<special_attack> player::mutation_attacks(Creature &t) const
         ret.push_back(tmp);
     }
 
+    ///\EFFECT_DEX increases chance of attacking with HORNS_POINTED
+
+    ///\EFFECT_UNARMED increases chance of attacking with HORNS_POINTED
     if (has_trait("HORNS_POINTED") && one_in(22 - dex_cur - get_skill_level( skill_unarmed ))) {
         special_attack tmp;
         tmp.stab = 24;
@@ -1998,6 +2126,9 @@ std::vector<special_attack> player::mutation_attacks(Creature &t) const
         ret.push_back(tmp);
     }
 
+    ///\EFFECT_DEX increases chance of attacking with ANTLERS
+
+    ///\EFFECT_UNARMED increases chance of attacking with ANTLERS
     if (has_trait("ANTLERS") && one_in(20 - dex_cur - get_skill_level( skill_unarmed ))) {
         special_attack tmp;
         tmp.bash = 4;
@@ -2014,6 +2145,7 @@ std::vector<special_attack> player::mutation_attacks(Creature &t) const
         ret.push_back(tmp);
     }
 
+    ///\EFFECT_DEX increases chance of attacking with TAIL_STING
     if ( ((has_trait("TAIL_STING") && one_in(3)) || has_active_mutation("TAIL_STING")) &&
       one_in(10 - dex_cur)) {
         special_attack tmp;
@@ -2031,6 +2163,7 @@ std::vector<special_attack> player::mutation_attacks(Creature &t) const
         ret.push_back(tmp);
     }
 
+    ///\EFFECT_DEX increases chance of attacking with TAIL_CLUB
     if ( ((has_trait("TAIL_CLUB") && one_in(3)) || has_active_mutation("TAIL_CLUB")) &&
       one_in(10 - dex_cur)) {
         special_attack tmp;
@@ -2048,6 +2181,7 @@ std::vector<special_attack> player::mutation_attacks(Creature &t) const
         ret.push_back(tmp);
     }
 
+    ///\EFFECT_DEX increases chance of attacking with TAIL_THICK
     if (((has_trait("TAIL_THICK") && one_in(3)) || has_active_mutation("TAIL_THICK")) &&
       one_in(10 - dex_cur)) {
         special_attack tmp;
@@ -2100,6 +2234,7 @@ std::vector<special_attack> player::mutation_attacks(Creature &t) const
                 } else tmp.text = string_format(_("%1$s slaps %2$s with her tentacle"),
                                                     name.c_str(), target.c_str());
             }
+            ///\EFFECT_STR increases damage with ARM_TENTACLES*
             if (has_trait("CLAWS_TENTACLE")) {
                 tmp.cut = str_cur / 2 + 1;
             } else {
@@ -2126,6 +2261,7 @@ std::vector<special_attack> player::mutation_attacks(Creature &t) const
                 tmp.text = string_format(_("%1$s lashes %2$s with her vines"),
                                          name.c_str(), target.c_str());
             }
+            ///\EFFECT_STR increases damage with VINES*
             tmp.bash = str_cur / 2;
             ret.push_back(tmp);
         }
@@ -2331,7 +2467,9 @@ int player::attack_speed( const item &weap, const bool average ) const
 {
     const int base_move_cost = weap.attack_time() / 2;
     const int melee_skill = has_active_bionic("bio_cqb") ? 5 : (int)get_skill_level( skill_melee );
+    ///\EFFECT_MELEE increases melee attack speed
     const int skill_cost = (int)( base_move_cost / (std::pow(melee_skill, 3.0f)/400.0 + 1.0));
+    ///\EFFECT_DEX increases attack speed
     const int dexbonus = average ? dex_cur / 2 : rng( 0, dex_cur );
     const int encumbrance_penalty = encumb( bp_torso ) +
                                     ( encumb( bp_hand_l ) + encumb( bp_hand_r ) ) / 2;
@@ -2397,6 +2535,15 @@ double player::gun_value( const item &weap, long ammo ) const
     gun_value -= weap.gun_dispersion( false ) / 60.0 + def_ammo.dispersion / 100.0;
     gun_value -= weap.gun_recoil( false ) / 150.0 + def_ammo.recoil / 200.0;
 
+    ///\EFFECT_GUN increases apparent value of guns presented to NPCs
+
+    ///\EFFECT_PISTOL increases apparent value of pistols presented to NPCs
+
+    ///\EFFECT_RIFLE increases apparent value of rifles presented to NPCs
+
+    ///\EFFECT_SHOTGUN increases apparent value of shotguns presented to NPCs
+
+    ///\EFFECT_SMG increases apparent value of smgs presented to NPCs
     const double skill_scaling =
         (.5 + (.3 * get_skill_level( skill_id( "gun" ) ))) *
         (.3 + (.7 * get_skill_level(gun.skill_used)));

@@ -2,7 +2,7 @@
   {
     "type" : "mapgen",
     "om_terrain" : [
-	"s_gun"
+    "s_gun"
     ],
     "method" : "json",
     "weight" : 100,
