@@ -10872,14 +10872,6 @@ void game::plfire( bool burst, const tripoint &default_target )
             u.weapon.set_curammo( "generic_no_ammo" );
         }
 
-        ///\EFFECT_STR dictates which bows can be drawn at all
-        if ((u.weapon.has_flag("STR8_DRAW") && u.str_cur < 4) ||
-            (u.weapon.has_flag("STR10_DRAW") && u.str_cur < 5) ||
-            (u.weapon.has_flag("STR12_DRAW") && u.str_cur < 6)) {
-            add_msg(m_info, _("You're not strong enough to draw the bow!"));
-            return;
-        }
-
         if( u.weapon.has_flag("RELOAD_AND_SHOOT") && u.weapon.charges == 0 ) {
             const int reload_pos = u.weapon.pick_reload_ammo( u, true );
             if( reload_pos == INT_MIN ) {
@@ -10896,17 +10888,7 @@ void game::plfire( bool burst, const tripoint &default_target )
             }
 
             // Burn 2x the strength required to fire in stamina.
-            int strength_needed = 6;
-            if (u.weapon.has_flag("STR8_DRAW")) {
-                strength_needed = 8;
-            }
-            if (u.weapon.has_flag("STR10_DRAW")) {
-                strength_needed = 10;
-            }
-            if (u.weapon.has_flag("STR12_DRAW")) {
-                strength_needed = 12;
-            }
-            u.mod_stat("stamina", strength_needed * -2);
+            u.mod_stat( "stamina", std::min( u.weapon.type->min_str, 6 ) * -2 );
 
             // At low stamina levels, firing starts getting slow.
             int sta_percent = (100 * u.stamina) / u.get_stamina_max();
