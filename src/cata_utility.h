@@ -23,6 +23,11 @@ struct compare_by_dist_attitude {
     bool operator()( Creature *a, Creature *b ) const;
 };
 
+enum units_type {
+    VU_VEHICLE,
+    VU_WIND
+};
+
 bool isBetween( int test, int down, int up );
 
 bool list_items_match( const item *item, std::string sPattern );
@@ -40,7 +45,9 @@ double logarithmic( double t );
 double logarithmic_range( int min, int max, int pos );
 
 int bound_mod_to_vals( int val, int mod, int max, int min );
-std::string weight_units();
+const char* velocity_units( const units_type vel_units );
+const char* weight_units();
+double convert_velocity( int velocity, const units_type vel_units );
 double convert_weight( int weight );
 
 /**
