@@ -318,5 +318,41 @@
       ["5x50dart", 10],
       ["5x50heavy", 5]
     ]
+  },{
+    "type" : "item_group",
+    "id" : "shotguns",
+    "items":[
+      ["shotgun_s", 80],
+      ["shotgun_d", 100],
+      ["remington_870", 70],
+      ["mossberg_500", 200],
+      ["saiga_12", 50],
+      ["l_def_12", 50],
+      ["rm228", 20],
+      ["rm120c", 20],
+      ["rm20", 5],
+      ["ksg", 5],
+      ["combination_gun_shotgun", 3]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "shotgun_ammo",
+    "//" : "some set to 0 so they won't spawn in civilian areas.",
+    "items":[
+      ["shot_bird", 150],
+      ["shot_00", 200],
+      ["shot_flechette", 0],
+      ["shot_slug", 150],
+      ["shot_beanbag", 10],
+      ["shot_he", 0],
+      ["20x66_shot", 50],
+      ["20x66_exp", 0],
+      ["20x66_inc", 0],
+      ["20x66_flare", 10],
+      ["20x66_frag", 0],
+      ["20x66_slug", 50],
+      ["20x66_flechette", 0],
+      ["20x66_beanbag", 10]
+    ]
   }
  ]

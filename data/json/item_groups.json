@@ -2805,19 +2805,6 @@
     ]
   },{
     "type" : "item_group",
-    "id" : "shotguns",
-    "items":[
-      ["shotgun_s", 1],
-      ["shotgun_d", 2],
-      ["rm228", 2],
-      ["rm120c", 1],
-      ["l_def_12", 6],
-      ["remington_870", 8],
-      ["mossberg_500", 4],
-      ["ksg", 2]
-    ]
-  },{
-    "type" : "item_group",
     "id" : "rifles",
     "items":[
       ["marlin_9a", 14],
