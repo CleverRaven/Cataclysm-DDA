@@ -1,0 +1,51 @@
+[
+   {
+    "type" : "item_group",
+    "id" : "restricted",
+    "//" : "items that should only show up in special places, lab finales, vaults, bosses, etc.",
+    "items":[
+      ["jacket_leather_red", 0],
+      ["jeans_red", 0],
+      ["glove_jackson", 0],
+      ["plasma_engine", 0],
+      ["bio_time_freeze", 0],
+      ["bio_teleport", 0],
+      ["bio_probability_travel", 0],
+      ["rm13_armor", 0],
+      ["power_armor_light", 0],
+      ["power_armor_helmet_light", 0],
+      ["power_armor_heavy", 0],
+      ["power_armor_helmet_heavy", 0],
+      ["optical_cloak", 0]
+    ]
+ },{
+    "type" : "item_group",
+    "id" : "player_crafted",
+    "//" : "items that should only be crafted by the player. Excluded from all other item groups.",
+    "items":[
+      ["diamond_bayonet", 0],
+      ["diamond_knife", 0],
+      ["diamond_katana", 0],
+      ["diamond_machete", 0],
+      ["diamond_kukri", 0],
+      ["diamond_rapier", 0],
+      ["diamond_broadsword", 0],
+      ["diamond_zweihander", 0],
+      ["diamond_wakizashi", 0],
+      ["diamond_nodachi", 0],
+      ["m2browning_sawn", 0],
+      ["unbio_blaster_gun", 0],
+      ["mininuke_launcher", 0],
+      ["chemical_thrower", 0],
+      ["fertilizer_bomb", 0],
+      ["mutagen_elfa", 0],
+      ["iv_mutagen_elfa", 0],
+      ["mutagen_alpha", 0],
+      ["iv_mutagen_alpha", 0],
+      ["mutagen_medical", 0],
+      ["iv_mutagen_medical", 0],
+      ["mutagen_chimera", 0],
+      ["iv_mutagen_chimera", 0]
+    ]
+  }
+ ]
