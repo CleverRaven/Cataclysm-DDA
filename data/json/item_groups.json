@@ -1238,26 +1238,6 @@
     ]
   },{
     "type" : "item_group",
-    "id" : "dining",
-    "items":[
-      ["wrapper", 50],
-      ["knife_butter", 90],
-      ["knife_steak", 85],
-      ["fork", 90],
-      ["spoon", 90],
-      ["spork", 5],
-      ["foon", 5],
-      ["ketchup", 10],
-      ["mustard", 10],
-      ["soysauce", 5],
-      ["horseradish", 10],
-      ["glass", 90],
-      ["glass_bowl", 90],
-      ["glass_plate", 90],
-      ["bottle_glass", 10]
-    ]
-  },{
-    "type" : "item_group",
     "id" : "vending_food",
     "items":[
       ["chips", 65],
@@ -1841,35 +1821,6 @@
       ["garlic", 3],
       ["pine_nuts", 2],
       ["carrot", 3]
-    ]
-  },{
-    "type" : "item_group",
-    "id" : "cleaning",
-    "items":[
-      ["salt_water", 20],
-      ["bleach", 20],
-      ["ammonia", 24],
-      ["broom", 30],
-      ["mop", 30],
-      ["gloves_rubber", 20],
-      ["mask_dust", 65],
-      ["towel", 40],
-      ["bottle_plastic", 10],
-      ["bottle_plastic_small", 5],
-      ["sewing_kit", 30],
-      ["tailors_kit", 20],
-      ["thread", 40],
-      ["rag", 1],
-      ["scissors", 50],
-      ["string_36", 40],
-      ["vinegar", 10],
-      ["lye_powder", 5],
-      ["oxy_powder", 5],
-      ["boots_rubber", 20],
-      ["charcoal", 5],
-      ["fungicide", 2],
-      ["soap", 20],
-      ["chem_hydrogen_peroxide", 20]
     ]
   },{
     "type" : "item_group",
