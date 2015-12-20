@@ -530,6 +530,27 @@
       { "group": "cookbooks", "prob": 45 }
     ]
   },{
+    "type" : "item_group",
+    "id" : "mansion_books",
+    "//" : "Those rich mansion people have all sorts of weird books.",
+    "subtype": "distribution",
+    "entries" : [
+      { "group": "novels", "prob": 80 },
+      { "group": "cookbooks", "prob": 40 },
+      { "group": "holy_books", "prob": 50 },
+      { "item": "photo_album", "prob": 40 },
+      { "item": "textbook_armeast", "prob": 15 },
+      { "item": "textbook_armwest", "prob": 15 },
+      { "item": "textbook_weapeast", "prob": 15 },
+      { "item": "textbook_weapwest", "prob": 15 },
+      { "item": "textbook_gaswarfare", "prob": 10 },
+      { "item": "textbook_robots", "prob": 15 },
+      { "item": "cookbook_human", "prob": 5 },
+      { "item": "atomic_survival", "prob": 5 },
+      { "item": "manual_niten", "prob": 1 },
+      { "item": "manual_fencing", "prob": 3 }
+    ]
+  },{
     "type":"item_group",
     "id":"homeguns",
     "guns_with_ammo" : true,
@@ -552,6 +573,32 @@
       { "group": "gun_mods", "prob": 50 },
       { "item": "tazer", "prob": 3 },
       { "item": "bullwhip", "prob": 1 }
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "mansion_guns",
+    "subtype": "distribution",
+    "entries" : [
+      { "group": "pistols", "prob": 100 },
+      { "group": "smg", "prob": 25 },
+      { "group": "pistol_ammo", "prob": 125 },
+      { "group": "shotguns", "prob": 75 },
+      { "group": "shotgun_ammo", "prob": 75 },
+      { "group": "rifles", "prob": 100 },
+      { "group": "rifle_ammo", "prob": 75 },     
+      { "group": "antique_guns", "prob": 50 },
+      { "group": "antique_ammo", "prob": 75 },
+      { "group": "archery", "prob": 50 },
+      { "group": "archery_ammo", "prob": 75 },
+      { "item": "weatherby_5", "prob": 10 },
+      { "item": "combination_gun", "prob": 5 },
+      { "item": "trex_gun", "prob": 1 },
+      { "item": "700nx", "prob": 2 },
+      { "item": "small_repairkit", "prob": 15 },
+      { "item": "large_repairkit", "prob": 5 },
+      { "item": "tuned_mechanism", "prob": 5 },
+      { "item": "match_trigger", "prob": 5 },
+      { "item": "RPG", "prob": 1 }
     ]
   },{
     "type" : "item_group",
