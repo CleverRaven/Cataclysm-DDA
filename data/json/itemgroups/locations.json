@@ -364,6 +364,42 @@
     ]
   },{
     "type" : "item_group",
+    "id" : "bed",
+    "items":[
+      ["blanket", 75],
+      ["down_blanket", 50],
+      ["pillow", 50],
+      ["down_pillow", 25]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "dresser",
+    "subtype": "distribution",
+    "entries" : [
+      { "group": "clothes", "prob": 500 },
+      { "group": "everyday_gear", "prob": 50 },
+      { "group": "lighting_tools", "prob": 20 },
+      { "group": "tailor_tools", "prob": 50 },
+      { "group": "kink", "prob": 5 },
+      { "group": "winter_clothes", "prob": 50 },
+      { "item": "socks", "prob": 50 },
+      { "item": "socks_wool", "prob": 10 },
+      { "item": "towel", "prob": 10 },
+      { "item": "clown_suit", "prob": 1 },
+      { "item": "clownshoes", "prob": 1 },
+      { "item": "veil_wedding", "prob": 1 },
+      { "item": "dress_wedding", "prob": 1 },
+      { "item": "maid_dress", "prob": 1 },
+      { "item": "maid_hat", "prob": 1 },
+      { "item": "mask_guy_fawkes", "prob": 1 },
+      { "item": "jedi_cloak", "prob": 1 },
+      { "item": "wolfsuit", "prob": 1 },
+      { "item": "dinosuit", "prob": 1 },
+      { "item": "snuggie", "prob": 1 },
+      { "item": "survnote", "prob": 5 }
+    ]
+  },{
+    "type" : "item_group",
     "id" : "hardware",
 	  "subtype": "distribution",
     "entries" : [
