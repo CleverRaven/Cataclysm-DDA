@@ -1668,37 +1668,6 @@
     ]
   },{
     "type" : "item_group",
-    "id" : "produce",
-    "items":[
-      ["apple", 70],
-      ["orange", 65],
-      ["banana", 40],
-      ["lemon", 50],
-      ["pear", 50],
-      ["cherries", 30],
-      ["plums", 30],
-      ["grapes", 50],
-      ["cranberries", 7],
-      ["raspberries", 7],
-      ["blackberries", 7],
-      ["rhubarb", 20],
-      ["mushroom", 4],
-      ["potato_raw", 10],
-      ["blueberries", 3],
-      ["strawberries", 2],
-      ["tomato", 9],
-      ["broccoli", 9],
-      ["cucumber", 10],
-      ["zucchini", 7],
-      ["celery", 5],
-      ["wheat", 3],
-      ["onion", 3],
-      ["garlic", 3],
-      ["pine_nuts", 2],
-      ["carrot", 3]
-    ]
-  },{
-    "type" : "item_group",
     "id" : "mischw",
     "items":[
       ["jumper_cable", 4],

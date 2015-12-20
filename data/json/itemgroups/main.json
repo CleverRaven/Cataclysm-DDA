@@ -2314,5 +2314,14 @@
       ["irradiated_corn", 5],
       ["potato_irradiated", 50]
     ]
+  },{
+    "type" : "item_group",
+    "id" : "produce",
+	  "subtype": "distribution",
+    "entries" : [
+      { "group": "fruit", "prob": 35 },
+      { "group": "vegetables", "prob": 60 },
+      { "item": "withered", "prob": 5}
+    ]
   }
 ]    
