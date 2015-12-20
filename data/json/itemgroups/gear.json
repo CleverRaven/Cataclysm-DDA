@@ -344,5 +344,37 @@
       ["cowl_wool", 5],
       ["long_knit_scarf", 1]
     ]
+  },{
+    "type" : "item_group",
+    "id" : "storage",
+    "items":[
+      ["backpack", 50],
+      ["fanny", 10],
+      ["mbag", 50],
+      ["rucksack", 10],
+      ["backpack_leather", 30],
+      ["sheath", 10],
+      ["runner_bag", 15]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "water_storage",
+    "items":[
+      ["canteen", 50],
+      ["2lcanteen", 50],
+      ["camelbak", 10],
+      ["waterskin", 15],
+      ["waterskin2", 10],
+      ["waterskin3", 5]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "gun_storage",
+    "items":[
+      ["holster", 100],
+      ["sholster", 50],
+      ["back_holster", 50],
+      ["bootstrap", 25]
+    ]
   }
  ]
