@@ -276,5 +276,73 @@
       ["fire_gauntlets", 20],
       ["gloves_liner", 10]
     ]
+  },{
+     "type" : "item_group",
+    "id" : "eyewear",
+    "items":[
+      ["sunglasses", 200],
+      ["glasses_eye", 100],
+      ["glasses_reading", 100],
+      ["glasses_bifocal", 50],
+      ["fitover_sunglasses", 20],
+      ["fancy_sunglasses", 15],
+      ["goggles_ski", 1],
+      ["goggles_swim", 1]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "hats",
+    "items":[
+      ["hat_cotton", 80],
+      ["hat_hunting", 50],
+      ["hat_knit", 50],
+      ["hat_fur",  5],
+      ["hat_newsboy", 40],
+      ["fedora", 10],
+      ["straw_hat", 50],
+      ["straw_fedora", 20],
+      ["hat_chef", 1],
+      ["hat_ball", 100],
+      ["postman_hat", 1],
+      ["bowhat", 50],
+      ["cowboy_hat", 60],
+      ["10gal_hat", 50],
+      ["kufi", 30],
+      ["kippah", 30],
+      ["eboshi", 30],
+      ["porkpie", 30],
+      ["hood_rain", 40],
+      ["beret", 20]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "helmets",
+    "items":[
+      ["hat_hard", 100],
+      ["hat_hard_hooded", 30],
+      ["helmet_bike", 60],
+      ["helmet_motor", 50],
+      ["firehelmet", 50],
+      ["helmet_riot", 30],
+      ["helmet_army", 40],
+      ["tac_helmet", 20],
+      ["helmet_riot", 20],
+      ["tac_fullhelmet", 5],
+      ["pickelhaube", 1],
+      ["helmet_barbute", 2],
+      ["helmet_plate", 2]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "masks",
+    "items":[
+      ["mask_dust", 50],
+      ["bandana", 80],
+      ["balclava", 10],
+      ["scarf", 5],
+      ["knit_scarf", 5],
+      ["cowl_wool", 5],
+      ["long_knit_scarf", 1]
+    ]
   }
  ]
