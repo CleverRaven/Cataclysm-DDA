@@ -1907,5 +1907,132 @@
       ["two_way_radio", 10],
       ["camera_control", 5]
     ]
+  },{
+    "type" : "item_group",
+    "id" : "bookstore_misc",
+    "items":[
+      ["paper", 150],
+      ["wrapper", 25],
+      ["bubblewrap", 25],
+      ["permanent_marker", 50],
+      ["scissors", 25],
+      ["roadmap", 10],
+      ["touristmap", 5],
+      ["restaurantmap", 5],
+      ["magnifying_glass", 25],
+      ["glasses_reading", 50],
+      ["string_6", 25],
+      ["music_cd", 50],
+      ["candle", 20],
+      ["survnote", 1]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "hatstore_hats",
+    "subtype": "distribution",
+    "entries" : [
+      { "group": "hats", "prob": 100 }
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "hatstore_accessories",
+    "subtype": "distribution",
+    "entries" : [
+      { "group": "masks", "prob": 100 },
+      { "item": "hairpin", "prob": 20 },
+      { "item": "fc_hairpin", "prob": 20 },
+      { "item": "barrette", "prob": 20 }
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "shoestore_shoes",
+    "subtype": "distribution",
+    "entries" : [
+      { "group": "female_shoes", "prob": 100 },
+      { "group": "roller_shoes", "prob": 5 },
+      { "item": "sneakers", "prob": 25 },
+      { "item": "boots_rubber", "prob": 5 },
+      { "item": "clogs", "prob": 2 },
+      { "item": "dance_shoes", "prob": 10 }
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "shoestore_accessories",
+    "items":[
+      ["socks", 100],
+      ["thermal_socks", 25],
+      ["socks_wool", 50],
+      ["string_36", 200]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "dresses",
+    "items":[
+      ["dress", 55],
+      ["sundress", 43],
+      ["dress_wedding", 2]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "suits",
+    "items":[
+      ["dress_shirt", 100],
+      ["skinny_tie", 50],
+      ["tieclip", 30],
+      ["collarpin", 30],
+      ["undershirt", 100],
+      ["suit", 100],
+      ["waistcoat", 70],
+      ["tophat", 30],
+      ["tux", 50]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "fancyfurs",
+    "items":[
+      ["hat_fur", 400],
+      ["sleeveless_trenchcoat_fur", 10],
+      ["sleeveless_duster_fur", 10],
+      ["coat_fur_sf", 100],
+      ["coat_fur", 300],
+      ["gloves_fur", 300],
+      ["boots_fur", 200]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "bags",
+    "subtype": "distribution",
+    "entries" : [
+      { "group": "storage", "prob": 100 },
+      { "item": "briefcase", "prob": 15 },
+      { "item": "purse", "prob": 35 }
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "bags_trip",
+    "items" : [
+      ["suitcase_l", 37],
+      ["suitcase_m", 55],
+      ["duffelbag", 8]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "traveler",
+    "subtype": "distribution",
+    "entries" : [
+      { "group": "clothes", "prob": 300 },
+      { "group": "fire_tools", "prob": 15 },
+      { "group": "legal_drugs", "prob": 15 },
+      { "group": "everyday_gear", "prob": 25 },
+      { "item": "backpack", "prob": 50 },
+      { "item": "suitcase_m", "prob": 60 },
+      { "item": "suitcase_l", "prob": 50 },
+      { "item": "duffelbag", "prob": 40 },
+      { "item": "shavingkit", "prob": 10 },
+      { "item": "elec_hairtrimmer", "prob": 10 },
+      { "item": "roadmap", "prob": 5 },
+      { "item": "restaurantmap", "prob": 5 },
+      { "item": "touristmap", "prob": 5 }
+    ]
    } 
  ]
