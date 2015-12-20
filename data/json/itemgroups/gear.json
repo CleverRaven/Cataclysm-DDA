@@ -2036,5 +2036,163 @@
       ["bot_grenade_hack", 1],
       ["bot_turret", 1]
     ]
+  },{
+    "type" : "item_group",
+    "id" : "military_guns",
+    "//" : "guns commonly carried by US troops in 20xx. excludes foriegn and historic mil weapons. assault rifles set low due to number of variants.",
+    "items":[
+      ["glock_19", 40],
+      ["l_bak_223", 10],
+      ["rm103a_pistol", 5],
+      ["needlepistol", 5],
+      ["hk_mp5", 80],
+      ["rm2000_smg", 10],
+      ["saiga_12", 30],
+      ["l_def_12", 50],
+      ["m107a1", 50],
+      ["rm20", 30],
+      ["rm120c", 30],
+      ["m4a1", 100],
+      ["l_bak_223", 10],
+      ["l_car_223", 10],
+      ["l_mbr_223", 10],
+      ["l_dsr_223", 10],
+      ["l_lmg_223", 10],
+      ["m27iar", 10],
+      ["scar_l", 10],
+      ["scar_h", 30],
+      ["m14ebr", 50],
+      ["rm51_assault_rifle", 20],
+      ["rm88_battle_rifle", 10],
+      ["remington_700", 40],
+      ["rm11b_sniper_rifle", 10],
+      ["needlegun", 30],
+      ["m249", 80],
+      ["rm614_lmg", 10],
+      ["m320", 10],
+      ["mgl", 40],
+      ["rm802", 50],
+      ["flamethrower", 50],
+      ["rm451_flamethrower", 40]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "military_ammo",
+    "//" : "NATO and fictional. HP rounds banned by Hague Convention.",
+    "items":[
+      ["9mm", 100],
+      ["9mmfmj", 100],
+      ["556", 200],
+      ["556_incendiary", 20],
+      ["762_51", 100],
+      ["762_51_incendiary", 20],
+      ["3006", 30],
+      ["3006fmj", 50],
+      ["3006_incendiary", 20],
+      ["shot_00", 60],
+      ["shot_flechette", 10],
+      ["shot_slug", 50],
+      ["shot_beanbag", 40],
+      ["8mm_fmj", 50],
+      ["8mm_caseless", 60],
+      ["20x66_shot", 40],
+      ["20x66_exp", 10],
+      ["20x66_inc", 10],
+      ["20x66_flare", 10],
+      ["20x66_frag", 10],
+      ["20x66_slug", 30],
+      ["20x66_flechette", 10],
+      ["20x66_beanbag", 20],
+      ["5x50dart", 25],
+      ["5x50heavy", 15],
+      ["40mm_concussive", 10],
+      ["40mm_frag", 50],
+      ["40mm_flechette", 10],
+      ["40mm_flashbang", 10],
+      ["40mm_flare", 10],
+      ["40mm_teargas", 10],
+      ["40mm_smoke", 20],
+      ["40mm_incendiary", 10],
+      ["40mm_shot", 10]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "adv_military_guns",
+    "//" : "high tech military weapons carried by special forces, bio ops, power armor units, etc.",
+    "items":[
+      ["rm103a_pistol", 70],
+      ["needlepistol", 60],
+      ["rm2000_smg", 50],
+      ["rm20", 70],
+      ["rm120c", 70],
+      ["rm51_assault_rifle", 70],
+      ["rm88_battle_rifle", 40],
+      ["rm11b_sniper_rifle", 10],
+      ["needlegun", 50],
+      ["rm614_lmg", 50],
+      ["mgl", 50],
+      ["rm802", 60],
+      ["rm451_flamethrower", 40],
+      ["v29", 40],
+      ["plasma_rifle", 70],
+      ["laser_rifle", 70],
+      ["ftk93", 1],
+      ["nx17", 1],
+      ["hk_g80", 5]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "adv_military_ammo",
+    "//" : "high tech military ammo. mostly caseless. no HP rounds.",
+    "items":[
+      ["8mm_inc", 50],
+      ["8mm_hvp", 10],
+      ["8mm_fmj", 150],
+      ["8mm_caseless", 30],
+      ["20x66_shot", 20],
+      ["20x66_exp", 20],
+      ["20x66_inc", 20],
+      ["20x66_flare", 20],
+      ["20x66_frag", 20],
+      ["20x66_slug", 20],
+      ["20x66_flechette", 20],
+      ["5x50dart", 80],
+      ["5x50heavy", 50],
+      ["laser_capacitor", 40],
+      ["plut_cell", 80],
+      ["plasma", 80],
+      ["laser_pack", 50],
+      ["12mm", 20]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "power_full",
+    "items":[
+      ["power_armor_basic", 50]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "power_helmet",
+    "items":[
+      ["power_armor_helmet_basic", 50]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "power_extras",
+    "items":[
+      ["power_armor_frame", 50],
+      ["UPS_off", 50],
+      ["adv_UPS_off", 50]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "power_all",
+    "subtype": "collection",
+    "items":[
+      "power_armor_basic",
+      "power_armor_helmet_basic",
+      "power_armor_frame",
+      "UPS_off"
+    ]
   }
 ]

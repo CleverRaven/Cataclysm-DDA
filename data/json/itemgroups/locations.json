@@ -97,6 +97,62 @@
     ]
   },{
     "type" : "item_group",
+    "id" : "subway",
+    "subtype": "distribution",
+    "entries" : [
+      { "group": "outdoor_trash", "prob": 200 },
+      { "group": "paper_trash", "prob": 100 },
+      { "group": "nature_trash", "prob": 100 },
+      { "group": "vehicle_trash", "prob": 25 },
+      { "group": "wreckage", "prob": 100 },
+      { "item": "flashlight_on", "prob": 10 },
+      { "group": "lighting_tools", "prob": 50 },
+      { "group": "everyday_gear", "prob": 50 },
+      { "group": "magazines", "prob": 50 },
+      { "group": "home_tools", "prob": 30 },
+      { "group": "legal_drugs", "prob": 50 },
+      { "group": "illegal_drugs", "prob": 50 },
+      { "item": "survnote", "prob": 10 }
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "sewer",
+    "subtype": "distribution",
+    "entries" : [
+      { "group": "indoor_trash", "prob": 200 },
+      { "group": "outdoor_trash", "prob": 200 },
+      { "group": "wreckage", "prob": 100 },
+      { "group": "legal_drugs", "prob": 50 },
+      { "group": "illegal_drugs", "prob": 50 },
+      { "group": "mutagens", "prob": 10 },
+      { "item": "fetus", "prob": 1 },
+      { "item": "recipe_elfa", "prob": 1 },
+      { "item": "55gal_drum", "prob": 5 },
+      { "item": "30gal_drum", "prob": 5 },
+      { "item": "survnote", "prob": 10 }
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "cavern",
+    "subtype": "distribution",
+    "entries" : [
+      { "item": "rock", "prob": 150 },
+      { "item": "sharp_rock", "prob": 50 },
+      { "group": "indoor_trash", "prob": 100 },
+      { "group": "worker_gear", "prob": 50 },
+      { "group": "worker_helmets", "prob": 30 },
+      { "group": "worker_clothes", "prob": 50 },
+      { "group": "hardware_tools", "prob": 50 },
+      { "group": "construction_tools", "prob": 50 },
+      { "group": "lighting_tools", "prob": 50 },
+      { "group": "explosives", "prob": 5 },
+      { "item": "dynamite", "prob": 10 },
+      { "item": "grapnel", "prob": 1 },
+      { "item": "roadmap", "prob": 1 },
+      { "item": "survnote", "prob": 10 }
+    ]
+  },{
+    "type" : "item_group",
     "id" : "hive",
     "items":[
       ["honeycomb", 100]
