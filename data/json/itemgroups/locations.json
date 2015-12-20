@@ -1114,6 +1114,112 @@
       { "item": "battery", "prob": 40 },
       { "item": "survnote", "prob": 10 }
     ]
+ },{
+    "type" : "item_group",
+    "id" : "doctorsoffice",
+    "subtype": "distribution",
+    "entries" : [
+      { "group": "medical_gear", "prob": 200 },
+      { "group": "overcounter_drugs", "prob": 60 },
+      { "group": "prescription_drugs", "prob": 25 },
+      { "group": "emergency_drugs", "prob": 70 },
+      { "group": "science_coats", "prob": 75 },
+      { "item": "flu_shot", "prob": 5 },
+      { "item": "vaccine_shot", "prob": 5 },
+      { "item": "gloves_medical", "prob": 25 },
+      { "item": "mask_dust", "prob": 25 },
+      { "item": "vacutainer", "prob": 5 },
+      { "item": "emergency_book", "prob": 10 },
+      { "item": "survnote", "prob": 1 }
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "waitingroom",
+    "subtype": "distribution",
+    "entries" : [
+      { "group": "magazines", "prob": 75 },
+      { "group": "paper_trash", "prob": 50 },
+      { "item": "child_book", "prob": 5 },
+      { "item": "decoy_anarch", "prob": 5 },
+      { "item": "survnote", "prob": 5 }
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "surgery",
+    "subtype": "distribution",
+    "entries" : [
+      { "group": "medical_gear", "prob": 100 },
+      { "group": "emergency_drugs", "prob": 75 },
+      { "item": "scalpel", "prob": 20 },
+      { "item": "syringe", "prob": 20 },
+      { "item": "medical_gauze", "prob": 50 },
+      { "item": "medical_tape", "prob": 50 },
+      { "item": "mask_dust", "prob": 20 },
+      { "item": "rag_bloody", "prob": 10 },
+      { "item": "disinfectant", "prob": 50 },
+      { "item": "blood", "prob": 20 },
+      { "item": "vacutainer", "prob": 20 },
+      { "item": "stethoscope", "prob": 50 }
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "hospital_incubator",
+    "items" : [
+      ["blanket", 90],
+      ["child_book", 10]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "hospital_lab",
+    "entries" : [
+      { "group": "medical_gear", "prob": 300 },
+      { "group": "emergency_drugs", "prob": 300 },
+      { "group": "chemical_tools", "prob": 100 },
+      { "group": "cleaning", "prob": 80 },
+      { "group": "medical_books", "prob": 50 },
+      { "item": "gloves_medical", "prob": 70 },
+      { "item": "coat_lab", "prob": 20 },
+      { "item": "mask_dust", "prob": 65 },
+      { "item": "glasses_safety", "prob": 40 },
+      { "item": "stethoscope", "prob": 35 },
+      { "item": "cleansuit", "prob": 10 },
+      { "item": "hazmat_suit", "prob": 5 },
+      { "item": "vacutainer", "prob": 10 },
+      { "item": "blood", "prob": 20 },
+      { "item": "survnote", "prob": 1 }
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "hospital_bed",
+    "subtype": "distribution",
+    "entries" : [
+      { "item": "blanket", "prob": 300 },
+      { "item": "down_blanket", "prob": 50 },
+      { "item": "pillow", "prob": 100 },
+      { "item": "down_pillow", "prob": 25 },
+      { "group": "eyewear", "prob": 50 },
+      { "group": "magazines", "prob": 50 },
+      { "group": "child_books", "prob": 50 },
+      { "group": "holy_books", "prob": 10 },
+      { "group": "eyewear", "prob": 30 },
+      { "group": "everyday_gear", "prob": 65 },
+      { "item": "house_coat", "prob": 50 },
+      { "item": "gloves_medical", "prob": 50 },
+      { "item": "stethoscope", "prob": 75 },
+      { "item": "shavingkit", "prob": 50 },
+      { "item": "elec_hairtrimmer", "prob": 25 },
+      { "item": "vaccine_shot", "prob": 10 },
+      { "item": "flu_shot", "prob": 10 },
+      { "item": "fish_bowl", "prob": 1 },
+      { "item": "survnote", "prob": 1 }
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "hospital_samples",
+    "items":[
+      ["blood", 20],
+      ["vacutainer", 10]
+    ]
   },{
     "type" : "item_group",
     "id" : "hardware",
