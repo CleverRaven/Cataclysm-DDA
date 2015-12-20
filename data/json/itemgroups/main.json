@@ -1795,5 +1795,54 @@
       { "item": "shavingkit", "prob": 2},
       { "item": "elec_hairtrimmer", "prob": 2}
     ]
+  },{
+    "type" : "item_group",
+    "id" : "mutagens",
+    "items":[
+      ["mutagen", 800],
+      ["purifier", 400],
+      ["mutagen_alpha", 0],
+      ["mutagen_elfa", 0],
+      ["mutagen_plant", 50],
+      ["mutagen_insect", 50],
+      ["mutagen_spider", 50],
+      ["mutagen_fish", 50],
+      ["mutagen_slime", 50],
+      ["mutagen_rat", 50],
+      ["mutagen_beast", 50],
+      ["mutagen_cattle", 50],
+      ["mutagen_cephalopod", 50],
+      ["mutagen_bird", 50],
+      ["mutagen_lizard", 50],
+      ["mutagen_troglobite", 50],
+      ["mutagen_ursine", 50],
+      ["mutagen_feline", 50],
+      ["mutagen_lupine", 50]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "iv_mutagens",
+    "comment" : "Serums.",
+    "items":[
+      ["iv_mutagen", 800],
+      ["iv_purifier", 400],
+      ["iv_mutagen_alpha", 0],
+      ["iv_mutagen_elfa", 0],
+      ["iv_mutagen_plant", 50],
+      ["iv_mutagen_insect", 50],
+      ["iv_mutagen_spider", 50],
+      ["iv_mutagen_fish", 50],
+      ["iv_mutagen_slime", 50],
+      ["iv_mutagen_rat", 50],
+      ["iv_mutagen_beast", 50],
+      ["iv_mutagen_cattle", 50],
+      ["iv_mutagen_cephalopod", 50],
+      ["iv_mutagen_bird", 50],
+      ["iv_mutagen_lizard", 50],
+      ["iv_mutagen_troglobite", 50],
+      ["iv_mutagen_ursine", 50],
+      ["iv_mutagen_feline", 50],
+      ["iv_mutagen_lupine", 50]
+    ]
   }
  ]
