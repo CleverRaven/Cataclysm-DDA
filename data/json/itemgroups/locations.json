@@ -350,6 +350,133 @@
     ]
   },{
     "type" : "item_group",
+    "subtype": "distribution",
+    "id" : "chem_lab",
+    "entries" : [
+      { "group": "chemistry_tools", "prob": 150 },
+      { "group": "chemicals", "prob": 250 },
+      { "group": "science_eyewear", "prob": 50 },
+      { "group": "science_gloves", "prob": 50 },
+      { "group": "hazmat_clothes", "prob": 20 },
+      { "group": "medical_gear", "prob": 75 },
+      { "group": "emergency_drugs", "prob": 50 },
+      { "group": "medical_bionics", "prob": 1 },
+      { "group": "medical_books", "prob": 30 },
+      { "group": "mutagen_recipes", "prob": 20 },
+      { "group": "mutagens", "prob": 10 },
+      { "item": "water_clean", "prob": 110 },
+      { "item": "file", "prob": 70 },
+      { "item": "mobile_memory_card_science", "prob": 2 },
+      { "item": "mobile_memory_card", "prob": 5 },
+      { "item": "software_useless", "prob": 15 },
+      { "item": "purifier", "prob": 10 },
+      { "item": "mutagen", "prob": 10 },
+      { "item": "canister_goo", "prob": 5 },
+      { "item": "id_science", "prob": 5 }
+
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "mut_lab",
+	  "subtype": "distribution",
+    "entries" : [
+      { "group": "mutagens", "prob": 150 },
+      { "group": "iv_mutagens", "prob": 50 },
+      { "group": "mutagen_recipes", "prob": 50 },    
+      { "group": "chemicals", "prob": 100 },    
+      { "group": "chemistry_tools", "prob": 100 },    
+      { "group": "prescription_drugs", "prob": 10 },    
+      { "group": "science_eyewear", "prob": 50 },    
+      { "group": "science_gloves", "prob": 50 },    
+      { "group": "rad_gear", "prob": 10 },    
+      { "item": "pheromone", "count-min": 1, "count-max": 2,  "prob": 25 },    
+      { "item": "syringe", "prob": 25 },    
+      { "item": "meat_tainted", "count-min": 1, "count-max": 10,  "prob": 50 },    
+      { "item": "slime_scrap", "count-min": 1, "count-max": 10,  "prob": 50 },    
+      { "item": "veggy_tainted", "count-min": 1, "count-max": 10,  "prob": 50 } 
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "cloning_vat",
+    "items":[
+      ["fetus", 15],
+      { "item": "meat_tainted", "count-min": 1, "count-max": 3,  "prob": 50 },    
+      { "item": "bone", "count-min": 4, "count-max": 12,  "prob": 50 },    
+      ["arm", 50],
+      ["leg", 50]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "dissection",
+    "items":[ 
+      { "item": "machete", "prob": 15 },
+      { "item": "bandages", "prob": 30 },
+      { "item": "cotton_ball", "prob": 30 },
+      { "group": "medical_gear", "prob": 200 },
+      { "group": "science_eyewear", "prob": 50 },
+      { "group": "science_gloves", "prob": 50 },
+      { "group": "science_masks", "prob": 20 },
+      { "group": "chemicals", "prob": 100 },
+      { "group": "chemistry_tools", "prob": 75 },    
+      { "group": "chemicals", "prob": 100 },    
+      { "group": "emergency_drugs", "prob": 10 },    
+      { "group": "prescription_drugs", "prob": 10 },
+      { "group": "rad_gear", "prob": 10 },    
+      { "group": "medical_books", "prob": 25 },    
+      { "group": "mutagen_recipes", "prob": 5 },    
+      { "group": "rad_gear", "prob": 10 },    
+      { "group": "rad_gear", "prob": 10 },    
+      { "item": "subsuit_xl", "prob": 25 }
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "goo",
+	  "subtype": "distribution",
+    "entries" : [
+      { "group": "science_extras", "prob": 100 },
+      { "group": "science_masks", "prob": 75 },
+      { "group": "worker_helmets", "prob": 25 },
+      { "group": "worker_eyewear", "prob": 75 },
+      { "group": "science_gloves", "prob": 50 },
+      { "group": "mutagen_recipes", "prob": 25 },
+      { "group": "cleaning", "prob": 50 },
+      { "group": "rad_gear", "prob": 15 },
+      { "item": "shavingkit", "prob": 2 },
+      { "item": "elec_hairtrimmer", "prob": 2 },
+      { "item": "canister_empty", "prob": 75 },
+      { "item": "plut_cell", "prob": 5 },
+      { "item": "subsuit_xl", "prob": 80 },
+      { "item": "jumpsuit", "prob": 80 },
+      { "item": "canister_goo", "prob": 25 }
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "teleport",
+    "subtype": "collection",
+    "entries" : [
+      { "group": "electronic_parts",  "count-min": 5, "count-max": 10 },
+      { "group": "electronics_tools", "prob": 50 },
+      { "group": "adv_electronics", "prob": 10 },
+      { "distribution": [
+        { "group": "hazmat_suits", "prob": 50 },
+        { "group": "hazmat_gloves", "prob": 50 },
+        { "group": "hazmat_eyewear", "prob": 75 },
+        { "group": "rad_gear", "prob": 25 },
+        { "group": "worker_extras", "prob": 50 },
+        { "group": "digital_electronics", "prob": 50 },
+        { "group": "tech_books", "prob": 50 },
+        { "group": "hazmat_suits", "prob": 50 },
+        { "group": "future_guns", "prob": 1 },
+        { "group": "bots", "prob": 1 },
+        { "item": "plut_cell", "prob": 25 },
+        { "item": "teleporter", "prob": 25 },
+        { "item": "recipe_mininuke_launch", "prob": 25 },
+        { "item": "recipe_lab_cvd", "prob": 25 },
+        { "item": "recipe_lab_elec", "prob": 50 }
+      ]}
+    ]
+  },{
+    "type" : "item_group",
     "id" : "livingroom",
     "subtype": "distribution",
     "entries" : [
