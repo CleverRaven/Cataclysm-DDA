@@ -2462,5 +2462,62 @@
       ["energy_drink", 20],
       ["energy_drink_atomic", 5]
     ]
+  },{
+    "type" : "item_group",
+    "id" : "drinks", 
+    "//" : "clean water excluded here, added seperately on other lists because it's so common.",
+    "items":[
+      ["water_clean", 0],
+      ["water_mineral", 20],
+      ["oj", 50],
+      ["juice", 50],
+      ["cranberry_juice", 50],
+      ["sports_drink", 50],
+      ["apple_cider", 50],
+      ["lemonade", 50],
+      ["energy_drink", 50],
+      ["energy_drink_atomic", 5],
+      ["herbal_tea", 50],
+      ["V8", 15],
+      ["protein_drink", 10],
+      ["protein_shake", 25],
+      ["atomic_coffeepot", 1],
+      ["coffee", 50],
+      ["tea", 50]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "snacks",
+    "entries":[
+      { "group": "candy", "prob": 200 },
+      { "group": "junkfood", "prob": 100 },
+      { "group": "sugar_drinks", "prob": 100 },
+      { "item": "syrup", "prob": 20 },
+      { "item": "coffee_syrup", "prob": 20 },
+      { "item": "tea_raw", "prob": 20 },
+      { "item": "coffee_raw", "prob": 20 },
+      { "item": "pemmican", "prob": 20 },
+      { "item": "granola", "prob": 20 }
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "fridgesnacks",
+	  "subtype": "distribution",
+    "entries" : [
+      { "item": "water_clean", "prob": 50 },
+      { "group": "drinks", "prob": 300 },
+      { "group": "sugar_drinks", "prob": 300 },
+      { "item": "milk", "prob": 50 },
+      { "item": "yoghurt", "prob": 30 },
+      { "item": "pudding", "prob": 30 },
+      { "item": "bologna", "prob": 50 },
+      { "item": "lunchmeat", "prob": 50 },
+      { "item": "bacon", "prob": 50 },
+      { "item": "fruit_leather", "prob": 60 },
+      { "item": "pie", "prob": 50 },
+      { "item": "pie_veggy", "prob": 50 },
+      { "item": "pie_meat", "prob": 50 },
+      { "item": "pie_meat", "prob": 50 }
+    ]
   }
 ] 
