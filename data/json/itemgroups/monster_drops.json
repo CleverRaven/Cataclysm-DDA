@@ -63,6 +63,59 @@
     {
         "type" : "item_group",
         "subtype": "collection",
+        "id": "mon_zombie_swimmer_death_drops",
+        "entries":
+        [
+            { "distribution": [
+                { "group": "swim_suits", "damage-min": 1, "damage-max": 4, "prob": 10 },
+                { "collection": [
+                    { "group": "swim_hats", "damage-min": 1, "damage-max": 4, "prob": 75 },
+                    { "group": "swim_shirts", "damage-min": 1, "damage-max": 4, "prob": 33 },
+                    { "group": "swim_pants", "damage-min": 1, "damage-max": 4 },
+                    { "group": "swim_shoes", "damage-min": 1, "damage-max": 4, "prob": 25 }
+                ], "prob": 90 }
+            ] },
+            { "group": "everyday_gear", "prob": 15 }
+        ]
+    },
+    {
+        "type" : "item_group",
+        "subtype": "collection",
+        "id": "mon_zombie_scientist_death_drops",
+        "entries":
+        [
+            { "group": "science_shoes", "damage-min": 1, "damage-max": 4 },
+            { "group": "underwear", "damage-min": 1, "damage-max": 4 },
+            {"distribution": [
+                {"group": "science_suits","prob": 50},
+                {"collection": [
+                    { "group": "shirts"},
+                    { "group": "pants"}
+                ], "prob": 50}
+            ], "damage-min": 1, "damage-max": 4 },
+            { "group": "science_coats", "damage-min": 1, "damage-max": 4, "prob": 50 },
+            { "group": "science_gloves", "damage-min": 1, "damage-max": 4, "prob": 20 },
+            { "group": "science_eyewear", "damage-min": 1, "damage-max": 4, "prob": 33 },
+            { "group": "science_masks", "damage-min": 1, "damage-max": 4, "prob": 20 },
+            { "group": "science_extras", "damage-min": 1, "damage-max": 4, "prob": 10 },
+            { "distribution": [
+                { "group": "emergency_drugs", "prob": 60 },
+                { "group": "basic_tools", "prob": 50 },
+                { "group": "electronics_tools", "prob": 60 },
+                { "group": "chem_lab", "prob": 10 },
+                { "group": "teleport", "prob": 20 },
+                { "group": "goo", "prob": 20 },
+                { "group": "cloning_vat", "prob": 10 },
+                { "group": "dissection", "prob": 20 },
+                { "group": "electronics", "prob": 50 },
+                { "group": "textbooks", "prob": 30 }
+            ] },
+            { "group": "everyday_gear", "prob": 15 }
+        ]
+    },
+    {
+        "type" : "item_group",
+        "subtype": "collection",
         "id": "mon_zombie_cop_death_drops",
         "entries":
         [
