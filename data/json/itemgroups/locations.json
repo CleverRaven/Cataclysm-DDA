@@ -944,6 +944,30 @@
     ]
   },{
     "type" : "item_group",
+    "id" : "church",
+    "subtype": "distribution",
+    "entries" : [
+      { "item": "candlestick", "prob": 45 },
+      { "item": "holy_symbol", "prob": 40 },
+      { "group": "indoor_trash", "prob": 80 },
+      { "group": "holy_books", "prob": 200 },
+      { "group": "everyday_gear", "prob": 130 },
+      { "group": "eyewear", "prob": 20 },
+      { "group": "magazines", "prob": 10 },
+      { "item": "essay_book", "prob": 2 },
+      { "item": "poetry_book", "prob": 2 },
+      { "item": "philosophy_book", "prob": 2 },
+      { "item": "child_book", "prob": 2 },
+      { "item": "cassock", "prob": 5 },
+      { "item": "thawb", "prob": 5 },
+      { "item": "kufi", "prob": 5 },
+      { "item": "kittel", "prob": 5 },
+      { "item": "kippah", "prob": 5 },
+      { "item": "survivormap", "prob": 1 },
+      { "item": "survnote", "prob": 10 }
+    ]
+  },{
+    "type" : "item_group",
     "id" : "hardware",
 	  "subtype": "distribution",
     "entries" : [
