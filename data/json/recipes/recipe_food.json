@@ -11223,8 +11223,8 @@
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_DRINKS",
   "skill_used": "cooking",
-  "difficulty": 2,
-  "time": 30000,
+  "difficulty": 1,
+  "time": 5000,
   "reversible": false,
   "autolearn": false,
   "book_learn": [ ["family_cookbook", 2] ],
@@ -11241,18 +11241,18 @@
   ],
   "components": [
     [
-        ["egg_bird", 18 ],
-        ["egg_reptile", 18 ]
+        ["egg_bird", 3 ],
+        ["egg_reptile", 3 ]
     ],
     [
-      [ "milk", 6 ],
-      [ "milk_powder", 6 ]
+      [ "milk", 1 ],
+      [ "milk_powder", 1 ]
     ],
     [
-      [ "sugar", 3 ]
+      [ "sugar", 1 ]
     ],
     [
-      [ "con_milk", 3 ]
+      [ "con_milk", 1 ]
     ],
     [
       ["cinnamon", 1 ]
@@ -11264,8 +11264,8 @@
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_DRINKS",
   "skill_used": "cooking",
-  "difficulty": 2,
-  "time": 30000,
+  "difficulty": 1,
+  "time": 5000,
   "reversible": false,
   "autolearn": false,
   "book_learn": [ ["family_cookbook", 2] ],
@@ -11282,24 +11282,24 @@
   ],
   "components": [
     [
-        ["egg_bird", 18 ],
-        ["egg_reptile", 18 ]
+        ["egg_bird", 3 ],
+        ["egg_reptile", 3 ]
     ],
     [
-      [ "milk", 6 ],
-      [ "milk_powder", 6 ]
+      [ "milk", 1 ],
+      [ "milk_powder", 1 ]
     ],
     [
-      [ "sugar", 3 ]
+      [ "sugar", 1 ]
     ],
     [
-      [ "con_milk", 3 ]
+      [ "con_milk", 1 ]
     ],
     [
-      ["rum", 3 ],
-      ["brandy", 3 ],
-      ["whiskey", 3 ],
-      ["single_malt_whiskey", 3 ]
+      ["rum", 1 ],
+      ["brandy", 1 ],
+      ["whiskey", 1 ],
+      ["single_malt_whiskey", 1 ]
     ],	
     [
       ["cinnamon", 1 ]
