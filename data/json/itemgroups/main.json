@@ -2487,6 +2487,36 @@
     ]
   },{
     "type" : "item_group",
+    "id" : "prepared_food",
+    "items":[
+      ["sandwich_t", 30],
+      ["sandwich_pb", 30],
+      ["sandwich_pbj", 30],
+      ["sandwich_pbh", 30],
+      ["sandwich_cheese_grilled", 30],
+      ["sandwich_cheese", 30],
+      ["sandwich_jam", 30],
+      ["fish_sandwich", 30],
+      ["blt", 30],
+      ["taco", 50],
+      ["pizza_veggy", 70],
+      ["pizza_meat", 70],
+      ["fchicken", 70],
+      ["cheeseburger", 70],
+      ["hamburger", 90],
+      ["fish_fried", 50],
+      ["sloppyjoe", 50],
+      ["fries", 50],
+      ["cheese_fries", 50],
+      ["onion_rings", 50],
+      ["nachosmc", 50],
+      ["pie", 50],
+      ["pie_meat", 50],
+      ["chilidogs", 50],
+      ["currywurst", 20]
+    ]
+  },{
+    "type" : "item_group",
     "id" : "snacks",
     "entries":[
       { "group": "candy", "prob": 200 },
@@ -2501,9 +2531,22 @@
     ]
   },{
     "type" : "item_group",
+    "id" : "snacks_fancy",
+    "items":[
+      ["water_mineral", 60],
+      ["juice", 40],
+      ["granola", 30],
+      ["mintpatties", 16],
+      ["choco_coffee_beans", 16],
+      ["fruit_leather", 30],
+      ["pine_nuts", 8]
+    ]
+  },{
+    "type" : "item_group",
     "id" : "fridgesnacks",
 	  "subtype": "distribution",
     "entries" : [
+      { "group": "prepared_food", "prob": 200 },
       { "item": "water_clean", "prob": 50 },
       { "group": "drinks", "prob": 300 },
       { "group": "sugar_drinks", "prob": 300 },
@@ -2519,5 +2562,22 @@
       { "item": "pie_meat", "prob": 50 },
       { "item": "pie_meat", "prob": 50 }
     ]
-  }
+  },{
+    "type" : "item_group",
+    "id" : "vending_food",
+    "subtype": "distribution",
+    "entries" : [
+      { "group": "candy", "prob": 50 },
+      { "group": "junkfood", "prob": 50 }
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "vending_drink",
+    "subtype": "distribution",
+    "entries" : [
+      { "group": "drinks", "prob": 50 },
+      { "item": "water_clean", "prob": 20 },
+      { "group": "sugar_drinks", "prob": 50 }
+    ]
+  }    
 ] 
