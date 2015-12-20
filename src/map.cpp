@@ -5013,6 +5013,31 @@ long remove_charges_in_list(const itype *type, map_stack stack, long quantity)
 void use_charges_from_furn( const furn_t &f, const itype_id &type, long &quantity,
                             map *m, const tripoint &p, std::list<item> &ret )
 {
+    if( type == "water" && f.examine == &iexamine::toilet ) {
+        auto items = m->i_at( p );
+        auto water = items.begin();
+        for( ; water != items.end(); ++water ) {
+            if( water->typeId() == "water" ) {
+                break;
+            }
+        }
+
+        // If the toilet is not empty
+        if( water != items.end() ) {
+            long remaining_charges = water->charges;
+            water->charges -= quantity;
+            if( water->charges > 0 ) {
+                ret.push_back( *water );
+                quantity = 0;
+            } else {
+                items.erase( water );
+                quantity -= remaining_charges;
+            }
+        }
+
+        return;
+    }
+
     itype *itt = f.crafting_pseudo_item_type();
     if (itt == NULL || itt->id != type) {
         return;
