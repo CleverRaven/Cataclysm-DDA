@@ -22,7 +22,6 @@
         "city_sizes" : [4, 12],
         "occurrences" : [0, 10],
         "rotate" : false,
-        "required" : false,
         "flags" : [ "BLOB", "CLASSIC" ]
     },{
         "type" : "overmap_special",
@@ -47,7 +46,6 @@
         "city_sizes" : [4, 12], "//":"what city sizes should it spawn in",
         "occurrences" : [1, 2], "//":"how many per overmap",
         "rotate" : true, "//":"allow rotation",
-        "required" : false, "//":"is this special required for valid city sizes",
         "flags" : [ "CLASSIC" ]
 },{
         "type" : "overmap_special",
@@ -64,7 +62,6 @@
         "city_sizes" : [1, 12], "//":"what city sizes should it spawn in",
         "occurrences" : [2, 5], "//":"how many per overmap",
         "rotate" : true, "//":"allow rotation",
-        "required" : false, "//":"is this special required for valid city sizes",
         "flags" : [ "CLASSIC" ]
 },{
         "type" : "overmap_special",
@@ -97,7 +94,6 @@
         "city_sizes" : [1, 12], "//":"what city sizes should it spawn in",
         "occurrences" : [0, 1], "//":"how many per overmap",
         "rotate" : true, "//":"allow rotation",
-        "required" : false, "//":"is this special required for valid city sizes",
         "flags" : [ "CLASSIC" ]
     },{
         "type" : "overmap_special",
@@ -112,7 +108,6 @@
         "city_sizes" : [4, 12], "//":"what city sizes should it spawn in",
         "occurrences" : [0, 3], "//":"how many per overmap",
         "rotate" : false, "//":"allow rotation",
-        "required" : false, "//":"is this special required for valid city sizes",
         "flags" : [ "CLASSIC" ]
     },{
         "type" : "overmap_special",
@@ -136,7 +131,6 @@
         "city_sizes" : [4, 12], "//":"what city sizes should it spawn in",
         "occurrences" : [0, 4], "//":"how many per overmap",
         "rotate" : false, "//":"allow rotation",
-        "required" : false, "//":"is this special required for valid city sizes",
         "flags" : [ "CLASSIC" ]
     },{
         "type" : "overmap_special",
@@ -158,7 +152,6 @@
         "city_sizes" : [4, 12], "//":"what city sizes should it spawn in",
         "occurrences" : [0, 50], "//":"how many per overmap",
         "rotate" : false, "//":"allow rotation",
-        "required" : false, "//":"is this special required for valid city sizes",
         "spawns" : { "group" : "GROUP_BEE", "population":[20,60], "radius":[2,4] }
     },{
         "type" : "overmap_special",
@@ -172,7 +165,6 @@
         "city_sizes" : [1, 3], "//":"what city sizes should it spawn in",
         "occurrences" : [ 0,2 ], "//":"how many per overmap",
         "rotate" : true    , "//":"allow rotation",
-        "required" : false, "//":"is this special required for valid city sizes",
         "flags" : [ "CLASSIC" ]
     },{
         "type" : "overmap_special",
@@ -186,7 +178,6 @@
         "city_sizes" : [4, 12], "//":"what city sizes should it spawn in",
         "occurrences" : [2, 4], "//":"how many per overmap",
         "rotate" : true    , "//":"allow rotation",
-        "required" : false, "//":"is this special required for valid city sizes",
         "flags" : [ "CLASSIC" ]
     },{
         "type" : "overmap_special",
@@ -200,7 +191,6 @@
         "city_sizes" : [4, 12], "//":"what city sizes should it spawn in",
         "occurrences" : [0, 30], "//":"how many per overmap",
         "rotate" : false, "//":"allow rotation",
-        "required" : false, "//":"is this special required for valid city sizes",
         "flags" : [ "CLASSIC" ]
     },{
         "type" : "overmap_special",
@@ -215,7 +205,6 @@
         "city_sizes" : [4, 12], "//":"what city sizes should it spawn in",
         "occurrences" : [1, 1], "//":"how many per overmap",
         "rotate" : false, "//":"allow rotation",
-        "required" : false, "//":"is this special required for valid city sizes",
         "flags" : [ "CLASSIC" ]
     },{
         "type" : "overmap_special",
@@ -237,7 +226,6 @@
         "city_sizes" : [4, 12], "//":"what city sizes should it spawn in",
         "occurrences" : [0, 20], "//":"how many per overmap",
         "rotate" : false, "//":"allow rotation",
-        "required" : false, "//":"is this special required for valid city sizes",
         "flags" : [ "CLASSIC" ]
     },{
         "type" : "overmap_special",
@@ -255,8 +243,7 @@
         "city_distance" : [20, -1], "//":"how far from a city it should be",
         "city_sizes" : [4, 12], "//":"what city sizes should it spawn in",
         "occurrences" : [0, 3], "//":"how many per overmap",
-        "rotate" : false, "//":"allow rotation",
-        "required" : false, "//":"is this special required for valid city sizes"
+        "rotate" : false, "//":"allow rotation"
     },{
         "type" : "overmap_special",
         "id" : "Lab",
@@ -268,8 +255,7 @@
         "city_distance" : [8, -1], "//":"how far from a city it should be",
         "city_sizes" : [4, 12], "//":"what city sizes should it spawn in",
         "occurrences" : [0, 30], "//":"how many per overmap",
-        "rotate" : true, "//":"allow rotation",
-        "required" : false, "//":"is this special required for valid city sizes"
+        "rotate" : true, "//":"allow rotation"
     },{
         "type" : "overmap_special",
         "id" : "Ice Lab",
@@ -281,8 +267,7 @@
         "city_distance" : [8, -1], "//":"how far from a city it should be",
         "city_sizes" : [4, 12], "//":"what city sizes should it spawn in",
         "occurrences" : [0, 30], "//":"how many per overmap",
-        "rotate" : true, "//":"allow rotation",
-        "required" : false, "//":"is this special required for valid city sizes"
+        "rotate" : true, "//":"allow rotation"
     },{
         "type" : "overmap_special",
         "id" : "FEMA Camp",
@@ -303,7 +288,6 @@
         "city_sizes" : [4, 12], "//":"what city sizes should it spawn in",
         "occurrences" : [2, 5], "//":"how many per overmap",
         "rotate" : true, "//":"allow rotation",
-        "required" : false, "//":"is this special required for valid city sizes",
         "flags" : [ "CLASSIC" ]
     },{
         "type" : "overmap_special",
@@ -317,8 +301,7 @@
         "city_distance" : [4, -1], "//":"how far from a city it should be",
         "city_sizes" : [2, 10], "//":"what city sizes should it spawn in",
         "occurrences" : [0, 20], "//":"how many per overmap",
-        "rotate" : true, "//":"allow rotation",
-        "required" : false, "//":"is this special required for valid city sizes"
+        "rotate" : true, "//":"allow rotation"
     },{
         "type" : "overmap_special",
         "id" : "Military Outpost",
@@ -330,8 +313,7 @@
         "city_distance" : [4, -1], "//":"how far from a city it should be",
         "city_sizes" : [4, 12], "//":"what city sizes should it spawn in",
         "occurrences" : [0, 10], "//":"how many per overmap",
-        "rotate" : false, "//":"allow rotation",
-        "required" : false, "//":"is this special required for valid city sizes"
+        "rotate" : false, "//":"allow rotation"
     },{
         "type" : "overmap_special",
         "id" : "Missile Silo",
@@ -343,8 +325,7 @@
         "city_distance" : [30, -1], "//":"how far from a city it should be",
         "city_sizes" : [4, 12], "//":"what city sizes should it spawn in",
         "occurrences" : [0, 1], "//":"how many per overmap",
-        "rotate" : true, "//":"allow rotation",
-        "required" : false, "//":"is this special required for valid city sizes"
+        "rotate" : true, "//":"allow rotation"
     },{
         "type" : "overmap_special",
         "id" : "Radio Tower",
@@ -357,7 +338,6 @@
         "city_sizes" : [4, 12], "//":"what city sizes should it spawn in",
         "occurrences" : [1, 5], "//":"how many per overmap",
         "rotate" : true, "//":"allow rotation",
-        "required" : false, "//":"is this special required for valid city sizes",
         "flags" : [ "CLASSIC" ]
     },{
         "type" : "overmap_special",
@@ -379,7 +359,6 @@
         "city_sizes" : [4, 12], "//":"what city sizes should it spawn in",
         "occurrences" : [0, 8], "//":"how many per overmap",
         "rotate" : true, "//":"allow rotation",
-        "required" : false, "//":"is this special required for valid city sizes",
         "flags" : [ "CLASSIC" ]
     },{
         "type" : "overmap_special",
@@ -401,7 +380,6 @@
         "city_sizes" : [4, 12], "//":"what city sizes should it spawn in",
         "occurrences" : [0, 4], "//":"how many per overmap",
         "rotate" : true, "//":"allow rotation",
-        "required" : false, "//":"is this special required for valid city sizes",
         "flags" : [ "CLASSIC" ]
     },{
         "type" : "overmap_special",
@@ -423,7 +401,6 @@
         "city_sizes" : [4, 12], "//":"what city sizes should it spawn in",
         "occurrences" : [0, 5], "//":"how many per overmap",
         "rotate" : true, "//":"allow rotation",
-        "required" : false, "//":"is this special required for valid city sizes",
         "flags" : [ "CLASSIC" ]
     },{
         "type" : "overmap_special",
@@ -445,7 +422,6 @@
         "city_sizes" : [4, 12], "//":"what city sizes should it spawn in",
         "occurrences" : [1, 5], "//":"how many per overmap",
         "rotate" : true, "//":"allow rotation",
-        "required" : false, "//":"is this special required for valid city sizes",
         "flags" : [ "CLASSIC" ]
     },{
         "type" : "overmap_special",
@@ -462,7 +438,6 @@
         "city_sizes" : [4, 12], "//":"what city sizes should it spawn in",
         "occurrences" : [1, 3], "//":"how many per overmap",
         "rotate" : true, "//":"allow rotation",
-        "required" : false, "//":"is this special required for valid city sizes",
         "flags" : [ "CLASSIC" ]
     },{
         "type" : "overmap_special",
@@ -479,7 +454,6 @@
         "city_sizes" : [4, 12], "//":"what city sizes should it spawn in",
         "occurrences" : [1, 5], "//":"how many per overmap",
         "rotate" : true, "//":"allow rotation",
-        "required" : false, "//":"is this special required for valid city sizes",
         "flags" : [ "CLASSIC" ]
     },{
         "type" : "overmap_special",
@@ -496,7 +470,6 @@
         "city_sizes" : [4, 12], "//":"what city sizes should it spawn in",
         "occurrences" : [1, 4], "//":"how many per overmap",
         "rotate" : true, "//":"allow rotation",
-        "required" : false, "//":"is this special required for valid city sizes",
         "flags" : [ "CLASSIC" ]
     },{
         "type" : "overmap_special",
@@ -517,7 +490,6 @@
         "city_sizes" : [4, 12], "//":"what city sizes should it spawn in",
         "occurrences" : [1, 5], "//":"how many per overmap",
         "rotate" : true, "//":"allow rotation",
-        "required" : false, "//":"is this special required for valid city sizes",
         "flags" : [ "CLASSIC" ]
     },{
         "type" : "overmap_special",
@@ -536,7 +508,6 @@
         "city_sizes" : [6, 12], "//":"what city sizes should it spawn in",
         "occurrences" : [0, 5], "//":"how many per overmap",
         "rotate" : true, "//":"allow rotation",
-        "required" : false, "//":"is this special required for valid city sizes",
         "flags" : [ "CLASSIC" ]
     },{
         "type" : "overmap_special",
@@ -557,7 +528,6 @@
         "city_sizes" : [4, 12], "//":"what city sizes should it spawn in",
         "occurrences" : [1, 2], "//":"how many per overmap",
         "rotate" : true, "//":"allow rotation",
-        "required" : false, "//":"is this special required for valid city sizes",
         "flags" : [ "CLASSIC" ]
     },{
         "type" : "overmap_special",
@@ -579,7 +549,6 @@
         "city_sizes" : [4, 12], "//":"what city sizes should it spawn in",
         "occurrences" : [1, 3], "//":"how many per overmap",
         "rotate" : true, "//":"allow rotation",
-        "required" : false, "//":"is this special required for valid city sizes",
         "flags" : [ "CLASSIC" ]
     },{
         "type" : "overmap_special",
@@ -610,7 +579,6 @@
         "city_sizes" : [4, 12], "//":"what city sizes should it spawn in",
         "occurrences" : [1, 1], "//":"how many per overmap",
         "rotate" : false, "//":"allow rotation",
-        "required" : false, "//":"is this special required for valid city sizes",
         "flags" : [ "CLASSIC" ]
     },{
         "type" : "overmap_special",
@@ -624,8 +592,7 @@
         "city_distance" : [15, -1], "//":"how far from a city it should be",
         "city_sizes" : [4, 12], "//":"what city sizes should it spawn in",
         "occurrences" : [0, 5], "//":"how many per overmap",
-        "rotate" : false, "//":"allow rotation",
-        "required" : false, "//":"is this special required for valid city sizes"
+        "rotate" : false, "//":"allow rotation"
     },{
         "type" : "overmap_special",
         "id" : "Anthill",
@@ -638,7 +605,6 @@
         "city_sizes" : [4, 12], "//":"what city sizes should it spawn in",
         "occurrences" : [0, 30], "//":"how many per overmap",
         "rotate" : false, "//":"allow rotation",
-        "required" : false, "//":"is this special required for valid city sizes",
         "spawns" : { "group" : "GROUP_ANT", "population":[1000,2000], "radius":[10,30] }
     },{
         "type" : "overmap_special",
@@ -652,8 +618,7 @@
         "city_distance" : [0, -1], "//":"how far from a city it should be",
         "city_sizes" : [4, 12], "//":"what city sizes should it spawn in",
         "occurrences" : [0, 500], "//":"how many per overmap",
-        "rotate" : false, "//":"allow rotation",
-        "required" : false, "//":"is this special required for valid city sizes"
+        "rotate" : false, "//":"allow rotation"
     },{
         "type" : "overmap_special",
         "id" : "Slime Pit",
@@ -666,7 +631,6 @@
         "city_sizes" : [4, 12], "//":"what city sizes should it spawn in",
         "occurrences" : [0, 4], "//":"how many per overmap",
         "rotate" : false, "//":"allow rotation",
-        "required" : false, "//":"is this special required for valid city sizes",
         "spawns" : { "group" : "GROUP_GOO", "population":[100,200], "radius":[2,10] }
     },{
         "type" : "overmap_special",
@@ -680,7 +644,6 @@
         "city_sizes" : [4, 12], "//":"what city sizes should it spawn in",
         "occurrences" : [0, 3], "//":"how many per overmap",
         "rotate" : false, "//":"allow rotation",
-        "required" : false, "//":"is this special required for valid city sizes",
         "spawns" : { "group" : "GROUP_FUNGI", "population":[600,1200], "radius":[30,50] }
     },{
         "type" : "overmap_special",
@@ -694,7 +657,6 @@
         "city_sizes" : [4, 12], "//":"what city sizes should it spawn in",
         "occurrences" : [0, 2], "//":"how many per overmap",
         "rotate" : false, "//":"allow rotation",
-        "required" : false, "//":"is this special required for valid city sizes",
         "spawns" : { "group" : "GROUP_FUNGI_TOWER", "population":[125,175], "radius":[2,2] }
     },{
         "type" : "overmap_special",
@@ -708,7 +670,6 @@
         "city_sizes" : [4, 12], "//":"what city sizes should it spawn in",
         "occurrences" : [0, 2], "//":"how many per overmap",
         "rotate" : false, "//":"allow rotation",
-        "required" : false, "//":"is this special required for valid city sizes",
         "spawns" : { "group" : "GROUP_FUNGI_FLOWERS", "population":[50,100], "radius":[2,4] }
     },{
         "type" : "overmap_special",
@@ -724,7 +685,6 @@
         "city_sizes" : [4, 12], "//":"what city sizes should it spawn in",
         "occurrences" : [0, 4], "//":"how many per overmap",
         "rotate" : false, "//":"allow rotation",
-        "required" : false, "//":"is this special required for valid city sizes",
         "spawns" : { "group" : "GROUP_TRIFFID", "population":[800,1300], "radius":[12,20] }
     },{
         "type" : "overmap_special",
@@ -739,7 +699,6 @@
         "city_sizes" : [4, 12], "//":"what city sizes should it spawn in",
         "occurrences" : [5, 10], "//":"how many per overmap",
         "rotate" : false, "//":"allow rotation",
-        "required" : false, "//":"is this special required for valid city sizes",
         "flags" : [ "CLASSIC" ]
     },{
         "type" : "overmap_special",
@@ -752,8 +711,7 @@
         "city_distance" : [0, -1], "//":"how far from a city it should be",
         "city_sizes" : [4, 12], "//":"what city sizes should it spawn in",
         "occurrences" : [0, 30], "//":"how many per overmap",
-        "rotate" : false, "//":"allow rotation",
-        "required" : false, "//":"is this special required for valid city sizes"
+        "rotate" : false, "//":"allow rotation"
     },{
         "type" : "overmap_special",
         "id" : "Toxic Waste Dump",
@@ -766,7 +724,6 @@
         "city_sizes" : [4, 12], "//":"what city sizes should it spawn in",
         "occurrences" : [0, 5], "//":"how many per overmap",
         "rotate" : false, "//":"allow rotation",
-        "required" : false, "//":"is this special required for valid city sizes",
         "flags" : [ "CLASSIC" ]
     },{
         "type" : "overmap_special",
@@ -786,8 +743,7 @@
         "city_distance" : [15, -1], "//":"how far from a city it should be",
         "city_sizes" : [4, 12], "//":"what city sizes should it spawn in",
         "occurrences" : [1, 2], "//":"how many per overmap",
-        "rotate" : false, "//":"allow rotation",
-        "required" : false, "//":"is this special required for valid city sizes"
+        "rotate" : false, "//":"allow rotation"
     },{
         "type" : "overmap_special",
         "id" : "Mall",
@@ -888,7 +844,6 @@
         "city_sizes" : [1, 12], "//":"what city sizes should it spawn in",
         "occurrences" : [1, 1], "//":"how many per overmap",
         "rotate" : true, "//":"allow rotation",
-        "required" : false, "//":"is this special required for valid city sizes",
         "flags" : [ "ROTATE", "UNIQUE", "CLASSIC", "REQUIRED" ]
 },{
         "type" : "overmap_special",
@@ -1260,7 +1215,6 @@
         "city_sizes" : [1, 12], "//":"what city sizes should it spawn in",
         "occurrences" : [1, 1], "//":"how many per overmap",
         "rotate" : true, "//":"allow rotation",
-        "required" : false, "//":"is this special required for valid city sizes",
         "flags" : [ "ROTATE", "UNIQUE", "REQUIRED" ]
     },{
         "type" : "overmap_special",
@@ -1302,7 +1256,6 @@
         "city_sizes" : [1, 12], "//":"what city sizes should it spawn in",
         "occurrences" : [75, 100], "//":"how many per overmap",
         "rotate" : true, "//":"allow rotation",
-        "required" : false, "//":"is this special required for valid city sizes",
         "flags" : [ "UNIQUE" ]
     },{
         "type" : "overmap_special",
@@ -1316,7 +1269,6 @@
         "city_sizes" : [4, 12], "//":"what city sizes should it spawn in",
         "occurrences" : [1, 1], "//":"how many per overmap",
         "rotate" : false, "//":"allow rotation",
-        "required" : false, "//":"is this special required for valid city sizes",
         "flags" : [ "CLASSIC" ]
     },{
         "type" : "overmap_special",
@@ -1333,7 +1285,6 @@
         "city_sizes" : [4, 12], "//":"what city sizes should it spawn in",
         "occurrences" : [1, 1], "//":"how many per overmap",
         "rotate" : false, "//":"allow rotation",
-        "required" : false, "//":"is this special required for valid city sizes",
         "flags" : [ "CLASSIC" ]
     },{
         "type" : "overmap_special",
@@ -1346,8 +1297,7 @@
         "city_distance" : [-1, 2], "//":"how far from a city it should be",
         "city_sizes" : [2, 14], "//":"what city sizes should it spawn in",
         "occurrences" : [0, 4], "//":"how many per overmap",
-        "rotate" : true, "//":"allow rotation",
-        "required" : true, "//":"is this special required for valid city sizes"
+        "rotate" : true, "//":"allow rotation"
     },{
         "type" : "overmap_special",
         "id" : "power_station_small",
@@ -1360,7 +1310,6 @@
         "city_sizes" : [2, 14], "//":"what city sizes should it spawn in",
         "occurrences" : [0, 4], "//":"how many per overmap",
         "rotate" : true, "//":"allow rotation",
-        "required" : false, "//":"is this special required for valid city sizes",
         "spawns" : { "group" : "GROUP_SMALL_STATION", "population":[4, 10], "radius":[2, 4] }
     },{
         "type" : "overmap_special",
@@ -1377,7 +1326,6 @@
         "city_sizes" : [4, 14], "//":"what city sizes should it spawn in",
         "occurrences" : [1, 3], "//":"how many per overmap",
         "rotate" : false, "//":"allow rotation",
-        "required" : false, "//":"is this special required for valid city sizes",
         "spawns" : { "group" : "GROUP_LARGE_STATION", "population":[4, 10], "radius":[1, 2] }
     },{
         "type" : "overmap_special",
@@ -1388,7 +1336,6 @@
         "city_sizes" : [5, 12], "//":"what city sizes should it spawn in",
         "occurrences" : [0, 2], "//":"how many per overmap",
         "rotate" : true , "//":"allow rotation",
-        "required" : false, "//":"is this special required for valid city sizes",
         "flags" : [ "CLASSIC" ]
     },
     {
@@ -1408,7 +1355,6 @@
         "city_sizes" : [4, 20], "//":"what city sizes should it spawn in",
         "occurrences" : [1, 3], "//":"how many per overmap",
         "rotate" : false, "//":"allow rotation",
-        "required" : false, "//":"is this special required for valid city sizes",
         "flags" : [ "CLASSIC" ]
  },{
         "type" : "overmap_special",
@@ -1510,7 +1456,6 @@
         "city_sizes" : [1, 12], "//":"what city sizes should it spawn in",
         "occurrences" : [1,1], "//":"how many per overmap",
         "rotate" : false, "//":"allow rotation",
-        "required" : false, "//":"is this special required for valid city sizes",
         "flags" : [ "UNIQUE" ]
     },{
         "type" : "overmap_special",
@@ -1538,7 +1483,6 @@
         "city_sizes" : [4, 12], "//":"what city sizes should it spawn in",
         "occurrences" : [0, 5], "//":"how many per overmap",
         "rotate" : true, "//":"allow rotation",
-        "required" : false, "//":"is this special required for valid city sizes",
         "flags" : [ "CLASSIC" ]
     }
 ]

@@ -160,7 +160,6 @@ void load_overmap_specials(JsonObject &jo)
     }
 
     spec.rotatable = jo.get_bool("rotate", false);
-    spec.required = jo.get_bool("required", false);
 
     if(jo.has_object("spawns")) {
         JsonObject spawns = jo.get_object("spawns");
