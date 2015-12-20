@@ -1417,29 +1417,6 @@
     ]
   },{
     "type" : "item_group",
-    "id" : "pasta",
-    "items":[
-      ["spaghetti_raw", 40],
-      ["lasagne_raw", 40],
-      ["macaroni_raw", 40],
-      ["noodles_fast", 30],
-      ["ravioli", 25],
-      ["sauce_red", 20],
-      ["sauce_pesto", 15],
-      ["bread", 14],
-      ["cornbread", 7],
-      ["flatbread", 7],
-      ["crackers", 20],
-      ["grahmcrackers", 20],
-      ["marshmallow", 20],
-      ["biscuit", 12],
-      ["hardtack", 2],
-      ["pastaextruder", 5],
-      ["seasoning_salt", 25],
-      ["seasoning_italian", 25]
-    ]
-  },{
-    "type" : "item_group",
     "id" : "mischw",
     "items":[
       ["jumper_cable", 4],

@@ -2741,5 +2741,50 @@
       { "item": "catfood", "prob": 5 },
       { "item": "dogfood", "prob": 5 }
       ]
-  }  
+  },{
+    "type" : "item_group",
+    "id" : "pasta",
+    "items":[
+      ["spaghetti_raw", 90],
+      ["lasagne_raw", 90],
+      ["macaroni_raw", 90],
+      ["noodles_fast", 50],
+      ["ravioli", 50],
+      ["sauce_red", 50],
+      ["sauce_pesto", 50],
+      ["pastaextruder", 5],
+      ["seasoning_salt", 25],
+      ["seasoning_italian", 25]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "military_food",
+    "items":[
+      ["water_clean", 75],
+      ["chocolate", 50],
+      ["mre_beef_box", 50],
+      ["mre_chicken_box", 50],
+      ["mre_hotdog_box", 50],
+      ["mre_ravioli_box", 50],
+      ["mre_veggy_box", 50],
+      ["coffee_raw", 10],
+      ["can_spam", 50]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "camping_food",
+    "items":[
+      ["water_clean", 75],
+      ["fruit_leather", 100],
+      ["jerky", 100],
+      ["granola", 100],
+      ["pemmican", 20],
+      ["tea_raw", 30],
+      ["coffee_raw", 30],
+      ["hardtack", 50],
+      ["V8", 40],
+      ["protein_drink", 25],
+      ["protein_shake", 25]
+    ]
+  }
 ] 
