@@ -2198,5 +2198,121 @@
       ["ZSG", 10],
       ["mag_porn", 1]
     ]
+  },{
+    "type" : "item_group",
+    "id" : "fruit",
+    "items":[
+      ["apple", 90],
+      ["orange", 90],
+      ["banana", 90],
+      ["lemon", 60],
+      ["pear", 50],
+      ["grapefruit", 50],
+      ["cherries", 50],
+      ["plums", 50],
+      ["grapes", 50],
+      ["pineapple", 50],
+      ["peach", 50],
+      ["cranberries", 50],
+      ["blueberries", 50],
+      ["strawberries", 50],
+      ["watermelon", 10],
+      ["melon", 50],
+      ["raspberries", 50],
+      ["blackberries", 50],
+      ["mango", 20],
+      ["pomegranate", 20],
+      ["rhubarb", 20],
+      ["papaya", 40],
+      ["kiwi", 40],
+      ["apricot", 40],
+      ["coconut", 5],
+      ["marloss_berry", 0],
+      ["mycus_fruit", 0]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "local_fruit",
+    "items":[
+      ["apple", 90],
+      ["pear", 50],
+      ["cherries", 50],
+      ["plums", 50],
+      ["grapes", 50],
+      ["cranberries", 50],
+      ["raspberries", 50],
+      ["blackberries", 50],
+      ["blueberries", 50],
+      ["strawberries", 50],
+      ["rhubarb", 20],
+      ["apricot", 40]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "irradiated_fruit",
+    "items":[
+      ["irradiated_apple", 90],
+      ["irradiated_orange", 90],
+      ["irradiated_banana", 90],
+      ["irradiated_lemon", 30],
+      ["irradiated_pear", 50],
+      ["irradiated_grapefruit", 50],
+      ["irradiated_cherries", 50],
+      ["irradiated_plums", 50],
+      ["irradiated_grapes", 50],
+      ["irradiated_pineapple", 20],
+      ["irradiated_peach", 50],
+      ["irradiated_cranberries", 50],
+      ["irradiated_watermelon", 10],
+      ["irradiated_melon", 50],
+      ["irradiated_raspberries", 20],
+      ["irradiated_blackberries", 20],
+      ["irradiated_mango", 20],
+      ["irradiated_pomegranate", 20],
+      ["irradiated_rhubarb", 10],
+      ["irradiated_papaya", 20],
+      ["irradiated_kiwi", 20],
+      ["irradiated_apricot", 20]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "vegetables",
+    "items":[
+      { "item": "tomato", "prob": 90, "c":"see Nix v Hedden." },
+      ["potato_raw", 90],
+      ["corn", 90],
+      ["raw_beans", 50],
+      ["mushroom", 50],
+      ["broccoli", 50],
+      ["cucumber", 50],
+      ["zucchini", 50],
+      ["sugar_beet", 20],
+      ["celery", 50],
+      ["oats", 20],
+      ["wheat", 20],
+      ["buckwheat", 20],
+      ["barley", 20],
+      ["hops", 20],
+      ["onion", 50],
+      ["garlic", 50],
+      ["pine_nuts", 20],
+      ["carrot", 70],
+      ["lettuce", 70]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "irradiated_vegetables",
+    "items":[
+      ["irradiated_lettuce", 20],
+      ["irradiated_tomato", 50],
+      ["irradiated_cucumber", 50],
+      ["irradiated_celery", 50],
+      ["irradiated_broccoli", 50],
+      ["irradiated_zucchini", 50],
+      ["irradiated_onion", 50],
+      ["irradiated_carrot", 50],
+      ["irradiated_corn", 5],
+      ["potato_irradiated", 50]
+    ]
   }
 ]    
