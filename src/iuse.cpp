@@ -1848,13 +1848,10 @@ void spawn_spores( const player &p ) {
             continue;
         }
         float dist = trig_dist( dest, p.pos() );
-        if ( x_in_y( 1, dist ) ) { // slightly less frequent than previous code
+        if ( x_in_y( 1, dist ) ) {
             g->m.marlossify( dest );
         }
-        if ( dest == p.pos() ) { // on top of the player
-            continue;
-        }
-        if ( g->mon_at( dest ) != -1 ) { // there's already a monster there
+        if ( g->critter_at(dest) != nullptr ) {
             continue;
         }
         if ( one_in( 10 + 5 * dist ) && one_in( spores_spawned * 2 ) ) {
