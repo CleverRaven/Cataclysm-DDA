@@ -519,21 +519,6 @@
       ["skirt", 75]
     ]
   },{
-    "type" : "item_group",
-    "id" : "ambulance_equipment",
-    "items":[
-      ["stethoscope", 24],
-      ["scissors", 10],
-      ["scalpel", 10],
-      ["syringe", 10],
-      ["adrenaline_injector", 6],
-      ["vacutainer", 2],
-      ["gloves_medical", 15],
-      ["mask_dust", 10],
-      ["medical_tape", 10],
-      ["smoxygen_tank", 3]
-    ]
-  },{
     "type":"item_group",
     "id":"survivorweapons",
     "comment": "Please add only weapons and ammo that are easy to scavenge or create ",

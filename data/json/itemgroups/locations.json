@@ -76,7 +76,7 @@
   },{
     "type" : "item_group",
     "id" : "methlab",
-   "subtype": "distribution",
+    "subtype": "distribution",
     "entries" : [
       { "group": "illegal_drugs", "prob": 100 },
       { "group": "lighting_tools", "prob": 20 },
@@ -94,6 +94,21 @@
       { "item": "punch_dagger", "prob": 45 },
       { "item": "sunglasses", "prob": 15 },
       { "item": "survnote", "prob": 30 }
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "ambulance_equipment",
+    "subtype": "distribution",
+    "entries" : [
+      { "group": "emergency_drugs", "prob": 400 },
+      { "group": "prescription_drugs", "prob": 180 },
+      { "item": "stethoscope", "prob": 50 },
+      { "item": "scissors", "prob": 50 },
+      { "item": "scalpel", "prob": 50 },
+      { "item": "syringe", "prob": 50 },
+      { "item": "vacutainer", "prob": 10 },
+      { "item": "gloves_medical", "prob": 50 },
+      { "item": "mask_dust", "prob": 50 }
     ]
   },{
     "type" : "item_group",
