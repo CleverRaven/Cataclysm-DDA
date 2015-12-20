@@ -180,6 +180,7 @@
       ["power_armor_heavy", 50],
       ["power_armor_helmet_heavy", 50],
       ["trex_gun", 50],
+      ["lemat_revolver", 50],
       ["RPG", 50],
       ["RPG-7_ammo", 50],
       ["briefcase_smg", 50],
@@ -556,6 +557,7 @@
     "items" : [
       ["pistol_flintlock", 60],
       ["carbine_flintlock", 40],
+      ["lemat_revolver", 30],
       ["rifle_flintlock", 75],
       ["colt_army", 30],
       ["colt_navy", 30]
