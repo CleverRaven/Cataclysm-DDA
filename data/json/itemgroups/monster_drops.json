@@ -63,6 +63,22 @@
     {
         "type" : "item_group",
         "subtype": "collection",
+        "id": "mon_zombie_hulk_death_drops",
+        "entries":
+        [
+            { "item": "rag", "damage-min": 1, "damage-max": 4, "count-min": 0, "count-max": 3 },
+            { "item": "rag_bloody", "damage-min": 1, "damage-max": 4, "count-min": 0, "count-max": 3 },
+            { "distribution": [
+                { "item": "pants", "damage-min": 1, "damage-max": 4, "prob": 90 },
+                { "item": "subsuit_xl", "damage-min": 1, "damage-max": 4, "prob": 10 }
+            ] },            
+            { "group": "default_zombie_items" },
+            { "group": "everyday_gear", "damage-min": 1, "damage-max": 4, "prob": 30 }
+        ]
+    },
+    {
+        "type" : "item_group",
+        "subtype": "collection",
         "id": "mon_zombie_swimmer_death_drops",
         "entries":
         [
@@ -76,6 +92,36 @@
                 ], "prob": 90 }
             ] },
             { "group": "everyday_gear", "prob": 15 }
+        ]
+    },
+    {
+        "type" : "item_group",
+        "subtype": "collection",
+        "id": "mon_zombie_technician_death_drops",
+        "entries":
+        [
+            { "group": "technician_shirts", "damage-min": 1, "damage-max": 4 },
+            { "group": "technician_pants", "damage-min": 1, "damage-max": 4 },
+            { "group": "underwear", "damage-min": 1, "damage-max": 4 },
+            { "group": "worker_boots", "damage-min": 1, "damage-max": 4 },
+            { "group": "worker_helmets", "damage-min": 1, "damage-max": 4, "prob": 75 },
+            { "group": "worker_coats", "damage-min": 1, "damage-max": 4, "prob": 10 },
+            { "group": "worker_gloves", "damage-min": 1, "damage-max": 4, "prob": 25 },
+            { "group": "worker_eyewear", "damage-min": 1, "damage-max": 4, "prob": 10 },
+            { "group": "worker_masks", "damage-min": 1, "damage-max": 4, "prob": 10 },
+            { "group": "worker_extras", "damage-min": 1, "damage-max": 4, "prob": 20 },
+            { "group": "worker_storage", "damage-min": 1, "damage-max": 4, "prob": 10 },
+            {
+                "distribution": [
+                    { "group": "electronics_tools", "prob": 100 },
+                    { "group": "digital_electronics", "prob": 50 },
+                    { "group": "electronic_parts", "prob": 50 },
+                    { "group": "mechanics_tools", "prob": 50 },
+                    { "group": "tech_books", "damage-min": 1, "damage-max": 4, "prob": 25 }
+                ],
+                "damage-min": 1, "damage-max": 4
+            },
+            { "group": "everyday_gear", "prob": 30 }
         ]
     },
     {
@@ -111,6 +157,54 @@
                 { "group": "textbooks", "prob": 30 }
             ] },
             { "group": "everyday_gear", "prob": 15 }
+        ]
+    },
+    {
+        "type" : "item_group",
+        "subtype": "collection",
+        "id": "mon_zombie_hazmat_death_drops",
+        "entries":
+        [
+            { "distribution": [
+                { "group": "hazmat_full", "damage-min": 1, "damage-max": 4, "prob": 20 },
+                { "collection": [
+                    { "group": "hazmat_suits", "damage-min": 1, "damage-max": 4 },
+                    { "group": "hazmat_gloves", "damage-min": 1, "damage-max": 4 },
+                    { "group": "hazmat_boots", "damage-min": 1, "damage-max": 4 },
+                    { "group": "hazmat_masks", "damage-min": 1, "damage-max": 4 },
+                    { "group": "hazmat_eyewear", "damage-min": 1, "damage-max": 4, "prob": 33 }
+                ], "prob": 80 }
+            ] },
+            { "group": "underwear", "damage-min": 1, "damage-max": 4 },
+            { "distribution": [
+                { "group": "rad_gear", "prob": 100 },
+                { "group": "science_gear", "prob": 10 },
+                { "group": "medical_gear", "prob": 10 }
+            ] },
+            { "group": "everyday_gear", "prob": 30 }
+        ]
+    },
+    {
+        "type" : "item_group",
+        "subtype": "collection",
+        "id": "mon_zombie_fireman_death_drops",
+        "entries":
+        [
+            { "group": "fireman_coats", "damage-min": 1, "damage-max": 4 },
+            { "group": "fireman_pants", "damage-min": 1, "damage-max": 4 },
+            { "group": "fireman_gloves", "damage-min": 1, "damage-max": 4 },
+            { "group": "fireman_boots", "damage-min": 1, "damage-max": 4 },
+            { "group": "fireman_masks", "damage-min": 1, "damage-max": 4, "prob": 50 },
+            { "group": "fireman_helmets", "damage-min": 1, "damage-max": 4, "prob": 50 },
+            { "group": "fireman_extras", "damage-min": 1, "damage-max": 4, "prob": 33 },
+            { "group": "hazmat_eyes", "damage-min": 1, "damage-max": 4, "prob": 33 },
+            { "distribution": [
+                { "group": "fireman_gear", "prob": 50 },
+                { "group": "fireman_suits", "prob": 5 },
+                { "group": "emergency_gear", "prob": 65 },
+                { "group": "emergency_drugs", "prob": 10 }
+            ] },
+            { "group": "everyday_gear", "prob": 30 }
         ]
     },
     {

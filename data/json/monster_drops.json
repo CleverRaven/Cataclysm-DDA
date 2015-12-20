@@ -73,41 +73,6 @@
     {
         "type" : "item_group",
         "subtype": "collection",
-        "id": "mon_zombie_hulk_death_drops",
-        "entries":
-        [
-            { "item": "rag", "damage": [1, 4], "count": [1, 4] },
-            { "group": "pants", "damage": [1, 4] },
-            { "group": "default_zombie_items" },
-            { "item": "cash_card" }
-        ]
-    },
-    {
-        "type" : "item_group",
-        "subtype": "collection",
-        "id": "mon_zombie_hazmat_death_drops",
-        "entries":
-        [
-            { "distribution": [
-                { "group": "hazmat_full", "damage": [1, 4], "prob": 20 },
-                { "collection": [
-                    { "group": "hazmat_torso", "damage": [1, 4] },
-                    { "group": "hazmat_gloves", "damage": [1, 4] },
-                    { "group": "hazmat_boots", "damage": [1, 4] },
-                    { "group": "hazmat_mask", "damage": [1, 4] },
-                    { "group": "hazmat_eyes", "damage": [1, 4], "prob": 33 }
-                ], "prob": 80 }
-            ] },
-            { "group": "underwear", "damage": [1, 4] },
-            { "distribution": [
-                { "group": "rad_gear", "prob": 1 }
-            ] },
-            { "item": "cash_card" }
-        ]
-    },
-    {
-        "type" : "item_group",
-        "subtype": "collection",
         "id": "mon_zombie_bio_op_death_drops",
         "entries":
         [
@@ -130,25 +95,6 @@
                 { "group": "mil_accessories", "prob": 10 },
                 { "group": "mil_food", "prob": 5 },
                 { "group": "bionics_mil", "prob": 1 }
-            ] },
-            { "item": "cash_card" }
-        ]
-    },
-    {
-        "type" : "item_group",
-        "subtype": "collection",
-        "id": "mon_zombie_fireman_death_drops",
-        "entries":
-        [
-            { "group": "fireman_torso", "damage": [1, 4] },
-            { "group": "fireman_pants", "damage": [1, 4] },
-            { "group": "fireman_gloves", "damage": [1, 4] },
-            { "group": "fireman_boots", "damage": [1, 4] },
-            { "group": "fireman_mask", "damage": [1, 4] },
-            { "group": "fireman_head", "damage": [1, 4] },
-            { "group": "hazmat_eyes", "damage": [1, 4], "prob": 33 },
-            { "distribution": [
-                { "group": "fireman_gear", "prob": 1 }
             ] },
             { "item": "cash_card" }
         ]
@@ -217,24 +163,6 @@
             { "item": "socks", "prob": 100 },
             { "item": "dance_shoes", "prob": 100 },
             { "item": "glove_jackson", "prob": 100 }
-        ]
-    },
-    {
-        "type" : "item_group",
-        "subtype": "collection",
-        "id": "mon_zombie_technician_death_drops",
-        "entries":
-        [
-            { "group": "technician_shirts", "damage": [1, 4] },
-            { "group": "technician_pants", "damage": [1, 4] },
-            {
-                "distribution": [
-                    { "group": "underwear" }
-                ],
-                "damage": [1, 4]
-            },
-            { "item": "hat_hard" },
-            { "item": "boots" }
         ]
     },
     {
