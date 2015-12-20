@@ -181,17 +181,6 @@ struct map_layer {
     std::vector<om_note> notes;
 };
 
-struct node
-{
- int x;
- int y;
- int d;
- int p;
-
- node(int xp, int yp, int dir, int pri) {x = xp; y = yp; d = dir; p = pri;}
- bool operator< (const node &n) const { return this->p > n.p; }
-};
-
 class overmap
 {
  public:
@@ -283,6 +272,10 @@ class overmap
      */
     static tripoint draw_overmap(int z);
 
+    static tripoint draw_editor();
+
+    static oter_id rotate(const oter_id &oter, int dir);
+
   /** Get the x coordinate of the left border of this overmap. */
   int get_left_border();
 
@@ -361,12 +354,17 @@ public:
     void process_mongroups();
     void move_hordes();
 
+    static bool obsolete_terrain( const std::string &ter );
+    void convert_terrain( const std::unordered_map<tripoint, std::string> &needs_conversion );
+
     // drawing relevant data, e.g. what to draw
     struct draw_data_t {
         // draw monster groups on the overmap
         bool debug_mongroup = false;
         // draw weather, e.g. clouds etc.
         bool debug_weather = false;
+        // draw editor
+        bool debug_editor = false;
         // draw zone location
         tripoint select = tripoint(-1, -1, -1);
         int iZoneIndex = -1;
@@ -412,7 +410,6 @@ public:
   void chip_rock(int x, int y, int z);
   void good_road(const std::string &base, int x, int y, int z);
   void good_river(int x, int y, int z);
-  oter_id rotate(const oter_id &oter, int dir);
   bool allowed_terrain( const tripoint& p, int width, int height, const std::list<std::string>& allowed );
   bool allowed_terrain( const tripoint& p, const std::list<tripoint>& rotated_points,
                         const std::list<std::string>& allowed, const std::list<std::string>& disallowed );
@@ -449,5 +446,7 @@ void finalize_overmap_terrain();
 
 bool is_river(const oter_id &ter);
 bool is_ot_type(const std::string &otype, const oter_id &oter);
+
+inline tripoint rotate_tripoint( tripoint p, int rotations );
 
 #endif

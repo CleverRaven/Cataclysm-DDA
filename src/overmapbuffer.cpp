@@ -364,7 +364,7 @@ std::vector<mongroup*> overmapbuffer::groups_at(int x, int y, int z)
     overmap &om = get( omp.x, omp.y );
     for( auto it = om.zg.lower_bound( dpos ), end = om.zg.upper_bound( dpos ); it != end; ++it ) {
         auto &mg = it->second;
-        if( mg.population <= 0 ) {
+        if( mg.empty() ) {
             continue;
         }
         result.push_back( &mg );

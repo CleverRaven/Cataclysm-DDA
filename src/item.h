@@ -331,11 +331,9 @@ public:
   * @see item::use_charges - this is similar for items, not charges.
   * @param it Type of consumable item.
   * @param quantity How much to consumed.
-  * @param use_container If the contents of an item are used, also use the
-  * container it was in.
   * @param used On success all consumed items will be stored here.
   */
- bool use_amount(const itype_id &it, long &quantity, bool use_container, std::list<item> &used);
+ bool use_amount(const itype_id &it, long &quantity, std::list<item> &used);
 
     /**
      * @name Containers
@@ -350,6 +348,8 @@ public:
     bool is_container() const;
     /** Whether this is a container which can be used to store liquids. */
     bool is_watertight_container() const;
+    /** Whether this is sealable container which can be resealed after removing part of it's content */
+    bool is_sealable_container() const;
     /** Whether this item has no contents at all. */
     bool is_container_empty() const;
     /** Whether this item has no more free capacity for its current content. */
@@ -659,6 +659,8 @@ public:
  const itype* type;
  std::vector<item> contents;
 
+        /** Checks if item is a holster and currently capable of storing obj */
+        bool can_holster ( const item& obj ) const;
         /**
          * Returns @ref curammo, the ammo that is currently load in this item.
          * May return a null pointer.
@@ -752,21 +754,20 @@ public:
          * must be converted to one of those to be stored.
          * The set_var functions override the existing value.
          * The get_var function return the value (if the variable exists), or the default value
-         * otherwise. The type of the default value determines which get_var function is used:
+         * otherwise.  The type of the default value determines which get_var function is used.
+         * All numeric values are returned as doubles and may be cast to the desired type.
          * <code>
-         * auto v = itm.get_var("v", 0); // v will be an int
-         * auto l = itm.get_var("v", 0l); // l will be a long
-         * auto d = itm.get_var("v", 0.0); // d will be a double
-         * auto s = itm.get_var("v", ""); // s will be a std::string
+         * int v = itm.get_var("v", 0); // v will be an int
+         * long l = itm.get_var("v", 0l); // l will be a long
+         * double d = itm.get_var("v", 0.0); // d will be a double
+         * std::string s = itm.get_var("v", ""); // s will be a std::string
          * // no default means empty string as default:
          * auto n = itm.get_var("v"); // v will be a std::string
          * </code>
          */
         /*@{*/
         void set_var( const std::string &name, int value );
-        int get_var( const std::string &name, int default_value ) const;
         void set_var( const std::string &name, long value );
-        long get_var( const std::string &name, long default_value ) const;
         void set_var( const std::string &name, double value );
         double get_var( const std::string &name, double default_value ) const;
         void set_var( const std::string &name, const std::string &value );
@@ -1039,6 +1040,12 @@ public:
          * This also applies to tools.
          */
         int reload_time( const player &u ) const;
+        /** Quantity of ammunition currently loaded in tool, gun or axuiliary gunmod */
+        long ammo_remaining() const;
+        /** Maximum quantity of ammunition loadable for tool, gun or axuiliary gunmod */
+        long ammo_capacity() const;
+        /** Quantity of ammunition consumed per usage of tool or with each shot of gun */
+        long ammo_required() const;
         /**
          * The id of the ammo type (@ref ammunition_type) that can be used by this item.
          * Will return "NULL" if the item does not use a specific ammo type. Items without

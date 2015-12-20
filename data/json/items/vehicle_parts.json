@@ -516,6 +516,22 @@
     },
     {
         "type":"GENERIC",
+        "id" : "generator_7500w",
+        "name" : "7.5kW generator",
+        "description" : "An electrical generator designed to be attached to an engine.",
+        "weight" : 48000,
+        "to_hit" : -5,
+        "color" : "light_cyan",
+        "symbol" : ",",
+        "material" : ["steel", "null"],
+        "volume" : 30,
+        "bashing" : 4,
+        "cutting" : 0,
+        "category" : "veh_parts",
+        "price" : 30000
+    },
+    {
+        "type":"GENERIC",
         "id" : "storage_battery",
         "name" : "storage battery",
         "name_plural" : "storage batteries",

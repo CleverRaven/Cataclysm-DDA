@@ -515,6 +515,7 @@ bool map::vehproceed()
         if( one_in( 4 ) ) { // might turn uncontrollably while skidding
             veh.turn( one_in( 2 ) ? -15 : 15 );
         }
+    ///\EFFECT_DRIVING reduces chance of fumbling vehicle controls
     } else if( !should_fall && pl_ctrl && rng(0, 4) > g->u.skillLevel( skill_driving ) && one_in(20) ) {
         add_msg( m_warning, _("You fumble with the %s's controls."), veh.name.c_str() );
         veh.turn( one_in( 2 ) ? -15 : 15 );
@@ -698,7 +699,10 @@ void map::move_vehicle( vehicle &veh, const tripoint &dp, const tileray &facing 
     }
 
     tripoint pt = veh.global_pos3();
-    veh.precalc_mounts( 1, veh.skidding ? veh.turn_dir : facing.dir() );
+    veh.precalc_mounts( 1, veh.skidding ? veh.turn_dir : facing.dir(), veh.pivot_point() );
+
+    // cancel out any movement of the vehicle due only to a change in pivot
+    tripoint dp1 = dp - veh.pivot_displacement();
 
     int impulse = 0;
 
@@ -721,7 +725,7 @@ void map::move_vehicle( vehicle &veh, const tripoint &dp, const tileray &facing 
     do
     {
         collisions.clear();
-        veh.collision( collisions, dp, false );
+        veh.collision( collisions, dp1, false );
 
         // Vehicle collisions
         std::map<vehicle*, std::vector<veh_collision> > veh_collisions;
@@ -833,7 +837,7 @@ void map::move_vehicle( vehicle &veh, const tripoint &dp, const tileray &facing 
         }
         veh.on_move();
         // Actually change position
-        displace_vehicle( pt, dp );
+        displace_vehicle( pt, dp1 );
     } else if( !vertical ) {
         veh.stop();
     }
@@ -876,6 +880,7 @@ int map::shake_vehicle( vehicle &veh, const int velocity_before, const int direc
 
         bool throw_from_seat = false;
         if( veh.part_with_feature( ps, VPFLAG_SEATBELT ) == -1 ) {
+            ///\EFFECT_STR reduces chance of being thrown from your seat when not wearing a seatbelt
             throw_from_seat = d_vel * rng( 80, 120 ) / 100 > ( psg->str_cur * 1.5 + 5 );
         }
 
@@ -890,6 +895,9 @@ int map::shake_vehicle( vehicle &veh, const int velocity_before, const int direc
 
         if( veh.player_in_control( *psg ) ) {
             const int lose_ctrl_roll = rng( 0, d_vel );
+            ///\EFFECT_DEX reduces chance of losing control of vehicle when shaken
+
+            ///\EFFECT_DRIVING reduces chance of losing control of vehicle when shaken
             if( lose_ctrl_roll > psg->dex_cur * 2 + psg->skillLevel( skill_driving ) * 3 ) {
                 psg->add_msg_player_or_npc( m_warning,
                     _("You lose control of the %s."),
@@ -913,6 +921,7 @@ int map::shake_vehicle( vehicle &veh, const int velocity_before, const int direc
                 _("<npcname> is hurled from the %s's seat by the power of the impact!"),
                 veh.name.c_str());
             unboard_vehicle( part_pos );
+            ///\EFFECT_STR reduces distance thrown from seat in a vehicle impact
             g->fling_creature(psg, direction + rng(0, 60) - 30,
                 ( d_vel - psg->str_cur < 10 ) ? 10 : d_vel - psg->str_cur );
         }
@@ -1369,6 +1378,8 @@ void map::displace_vehicle( tripoint &p, const tripoint &dp )
     for( auto &prt : veh->parts ) {
         prt.precalc[0] = prt.precalc[1];
     }
+    veh->pivot_anchor[0] = veh->pivot_anchor[1];
+    veh->pivot_rotation[0] = veh->pivot_rotation[1];
 
     veh->posx = dst_offset_x;
     veh->posy = dst_offset_y;
@@ -1612,6 +1623,7 @@ bool map::can_move_furniture( const tripoint &pos, player *p ) {
         return false;
     }
 
+    ///\EFFECT_STR determines what furniture the player can move
     if( p != nullptr && p->str_cur < required_str ) {
         return false;
     }
@@ -2489,8 +2501,10 @@ int map::bash_rating_internal( const int str, const furn_t &furniture,
 {
     bool furn_smash = false;
     bool ter_smash = false;
+    ///\EFFECT_STR determines what furniture can be smashed
     if( furniture.loadid != f_null && furniture.bash.str_max != -1 ) {
         furn_smash = true;
+    ///\EFFECT_STR determines what terrain can be smashed
     } else if( terrain.bash.str_max != -1 && ( !terrain.bash.bash_below || allow_floor ) ) {
         ter_smash = true;
     }
@@ -2512,6 +2526,7 @@ int map::bash_rating_internal( const int str, const furn_t &furniture,
         return -1;
     }
 
+    ///\EFFECT_STR increases smashing damage
     if( str < bash_min ) {
         return 0;
     } else if( str >= bash_max ) {
@@ -3050,6 +3065,9 @@ void map::fungalize( const tripoint &sporep, Creature *origin, double spore_chan
         }
     } else if( g->u.pos() == sporep ) {
         player &pl = g->u; // TODO: Make this accept NPCs when they understand fungals
+        ///\EFFECT_DEX increases chance of knocking fungal spores away with your TAIL_CATTLE
+
+        ///\EFFECT_MELEE increases chance of knocking fungal sports away with your TAIL_CATTLE
         if( pl.has_trait("TAIL_CATTLE") &&
             one_in( 20 - pl.dex_cur - pl.skillLevel( skill_id( "melee" ) ) ) ) {
             pl.add_msg_if_player( _("The spores land on you, but you quickly swat them off with your tail!" ) );
@@ -4638,20 +4656,19 @@ item &map::add_item_at( const tripoint &p,
 
 item map::water_from(const tripoint &p)
 {
-    item ret("water", 0);
-    if (ter( p ) == t_water_sh && one_in(3))
-        ret.poison = rng(1, 4);
-    else if (ter( p ) == t_water_dp && one_in(4))
-        ret.poison = rng(1, 4);
-    else if (ter( p ) == t_sewage)
-        ret.poison = rng(1, 7);
-    return ret;
-}
-item map::swater_from(const tripoint &p)
-{
-    (void)p;
-    item ret("salt_water", 0);
+    if( has_flag( "SALT_WATER", p ) ) {
+        item ret( "salt_water", 0 );
+        return ret;
+    }
 
+    item ret( "water", 0 );
+    if( ter( p ) == t_water_sh && one_in( 3 ) ) {
+        ret.poison = rng(1, 4);
+    } else if( ter( p ) == t_water_dp && one_in( 4 ) ) {
+        ret.poison = rng(1, 4);
+    } else if( ter( p ) == t_sewage ) {
+        ret.poison = rng( 1, 7 );
+    }
     return ret;
 }
 
@@ -4901,12 +4918,11 @@ bool map::has_items( const tripoint &p ) const
 }
 
 template <typename Stack>
-std::list<item> use_amount_stack( Stack stack, const itype_id type, long &quantity,
-                                const bool use_container )
+std::list<item> use_amount_stack( Stack stack, const itype_id type, long &quantity )
 {
     std::list<item> ret;
     for( auto a = stack.begin(); a != stack.end() && quantity > 0; ) {
-        if( a->use_amount(type, quantity, use_container, ret) ) {
+        if( a->use_amount(type, quantity, ret) ) {
             a = stack.erase( a );
         } else {
             ++a;
@@ -4916,7 +4932,7 @@ std::list<item> use_amount_stack( Stack stack, const itype_id type, long &quanti
 }
 
 std::list<item> map::use_amount_square( const tripoint &p, const itype_id type,
-                                        long &quantity, const bool use_container )
+                                        long &quantity )
 {
     std::list<item> ret;
     int vpart = -1;
@@ -4926,17 +4942,17 @@ std::list<item> map::use_amount_square( const tripoint &p, const itype_id type,
         const int cargo = veh->part_with_feature(vpart, "CARGO");
         if( cargo >= 0 ) {
             std::list<item> tmp = use_amount_stack( veh->get_items(cargo), type,
-                                                    quantity, use_container );
+                                                    quantity );
             ret.splice( ret.end(), tmp );
         }
     }
-    std::list<item> tmp = use_amount_stack( i_at( p ), type, quantity, use_container );
+    std::list<item> tmp = use_amount_stack( i_at( p ), type, quantity );
     ret.splice( ret.end(), tmp );
     return ret;
 }
 
 std::list<item> map::use_amount( const tripoint &origin, const int range, const itype_id type,
-                                 long &quantity, const bool use_container )
+                                 long &quantity )
 {
     std::list<item> ret;
     for( int radius = 0; radius <= range && quantity > 0; radius++ ) {
@@ -4946,7 +4962,7 @@ std::list<item> map::use_amount( const tripoint &origin, const int range, const 
         for( x = origin.x - radius; x <= origin.x + radius; x++ ) {
             for( y = origin.y - radius; y <= origin.y + radius; y++ ) {
                 if( rl_dist( origin, p ) >= radius ) {
-                    std::list<item> tmp = use_amount_square( p , type, quantity, use_container );
+                    std::list<item> tmp = use_amount_square( p , type, quantity );
                     ret.splice( ret.end(), tmp );
                 }
             }
@@ -5297,8 +5313,6 @@ void map::add_trap( const tripoint &p, const trap_id t)
 
 void map::disarm_trap( const tripoint &p )
 {
-    int skillLevel = g->u.skillLevel( skill_traps ); // TODO: same as below?
-
     const trap &tr = tr_at( p );
     if( tr.is_null() ) {
         debugmsg( "Tried to disarm a trap where there was none (%d %d %d)", p.x, p.y, p.z );
@@ -5316,19 +5330,24 @@ void map::disarm_trap( const tripoint &p )
         return;
     }
 
+    ///\EFFECT_PER increases chance of disarming trap
+
+    ///\EFFECT_DEX increases chance of disarming trap
+
+    ///\EFFECT_TRAPS increases chance of disarming trap
     while ((rng(5, 20) < g->u.per_cur || rng(1, 20) < g->u.dex_cur) && roll < 50) {
         roll++;
     }
     if (roll >= diff) {
         add_msg(_("You disarm the trap!"));
         tr.on_disarmed( p );
-        if(diff > 1.25 * skillLevel) { // failure might have set off trap
-            g->u.practice( skill_traps, 1.5*(diff - skillLevel) );
+        if(diff > 1.25 * tSkillLevel) { // failure might have set off trap
+            g->u.practice( skill_traps, 1.5*(diff - tSkillLevel) );
         }
     } else if (roll >= diff * .8) {
         add_msg(_("You fail to disarm the trap."));
-        if(diff > 1.25 * skillLevel) {
-            g->u.practice( skill_traps, 1.5*(diff - skillLevel) );
+        if(diff > 1.25 * tSkillLevel) {
+            g->u.practice( skill_traps, 1.5*(diff - tSkillLevel) );
         }
     } else {
         add_msg(m_bad, _("You fail to disarm the trap, and you set it off!"));

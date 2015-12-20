@@ -1010,6 +1010,7 @@ int npc::confident_range(int position)
         item *thrown = &i_at(position);
         max = throw_range(position); // The max distance we can throw
         deviation = 0;
+        ///\EFFECT_THROW_NPC increases throwing confidence
         if (skillLevel( skill_throw ) < 8) {
             deviation += 8 - skillLevel( skill_throw );
         } else {
@@ -1018,6 +1019,7 @@ int npc::confident_range(int position)
 
         deviation += throw_dex_mod();
 
+        ///\EFFECT_PER_NPC increases throwing confidence
         if (per_cur < 6) {
             deviation += 8 - per_cur;
         } else if (per_cur > 8) {
@@ -1032,6 +1034,7 @@ int npc::confident_range(int position)
             deviation += 3;
         }
 
+        ///\EFFECT_STR_NPC decreases throwing confidence
         deviation += 1 + abs(str_cur - (thrown->weight() / 113));
     }
     //Account for rng's, *.5 for 50%
@@ -1217,6 +1220,9 @@ void npc::move_to( const tripoint &pt, bool no_bashing )
     }
 
     if (recoil > 0) { // Start by dropping recoil a little
+        ///\EFFECT_STR_NPC increases recoil recovery speed
+
+        ///\EFFECT_GUN_NPC increases recoil recovery speed
         if (int(str_cur / 2) + skillLevel( skill_gun ) >= (int)recoil) {
             recoil = MIN_RECOIL;
         } else {
@@ -1308,6 +1314,7 @@ void npc::move_to( const tripoint &pt, bool no_bashing )
     } else if( g->m.open_door( p, !g->m.is_outside( pos() ) ) ) {
         moves -= 100;
     } else if( g->m.has_flag_ter_or_furn( "CLIMBABLE", p ) ) {
+        ///\EFFECT_DEX_NPC increases chance to climb CLIMBABLE furniture or terrain
         int climb = dex_cur;
         if( one_in( climb ) ) {
             add_msg_if_npc( m_neutral, _( "%1$s falls tries to climb the %2$s but slips." ),
@@ -2064,6 +2071,7 @@ void npc::heal_player(player &patient)
         }
 
         int amount_healed = 0;
+        ///\EFFECT_FIRSTAID_NPC increases healing effects of first aid kit or bandages for player
         if (has_amount("1st_aid", 1)) {
             switch (worst) {
             case hp_head:
@@ -2125,6 +2133,7 @@ void npc::heal_self()
         }
     }
 
+    ///\EFFECT_FIRSTAID_NPC increases healing effects of first aid kit or bandages for self
     int amount_healed = 0;
     if (has_amount("1st_aid", 1)) {
         switch (worst) {

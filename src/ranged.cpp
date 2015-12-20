@@ -33,6 +33,7 @@ const skill_id skill_gun( "gun" );
 const skill_id skill_melee( "melee" );
 
 int time_to_fire(player &p, const itype &firing);
+static inline void eject_casing( player& p, item& weap );
 int recoil_add(player &p, const item &gun);
 void make_gun_sound_effect(player &p, bool burst, item *weapon);
 extern bool is_valid_in_w_terrain(int, int);
@@ -450,27 +451,12 @@ void player::fire_gun( const tripoint &targ_arg, bool burst )
     const int player_dispersion = skill_dispersion( used_weapon, false ) +
         ranged_skill_offset( used_weapon->gun_skill() );
     // High perception allows you to pick out details better, low perception interferes.
+    ///\EFFECT_PER allows you to learn more often while using less accurate ranged weapons
     const bool train_skill = weapon_dispersion < player_dispersion + 15 * rng(0, get_per());
     if( train_skill ) {
         practice( skill_used, 8 + 2 * num_shots );
     } else if( one_in(30) ) {
         add_msg_if_player(m_info, _("You'll need a more accurate gun to keep improving your aim."));
-    }
-
-    // chance to disarm an NPC with a whip if skill is high enough
-    if(proj.proj_effects.count("WHIP") && (this->skillLevel( skill_melee ) > 5) && one_in(3)) {
-        int npcdex = g->npc_at(targ_arg);
-        if(npcdex != -1) {
-            npc *p = g->active_npc[npcdex];
-            if(!p->weapon.is_null()) {
-                item weap = p->remove_weapon();
-                add_msg_if_player(m_good, _("You disarm %1$s's %2$s using your whip!"), p->name.c_str(),
-                                  weap.tname().c_str());
-                // Can probably send a weapon through a wall
-                tripoint random_point( targ_arg.x + rng(-1, 1), targ_arg.y + rng(-1, 1), targ_arg.z );
-                g->m.add_item_or_charges(random_point, weap);
-            }
-        }
     }
 
     tripoint targ = targ_arg;
@@ -479,6 +465,7 @@ void player::fire_gun( const tripoint &targ_arg, bool burst )
         // Burst-fire weapons allow us to pick a new target after killing the first
         const auto critter = g->critter_at( targ, true );
         if ( curshot > 0 && ( critter == nullptr || critter->is_dead_state() ) ) {
+            ///\EFFECT_GUN increases range for automatic retargeting during burst fire mode
             const int near_range = std::min( 2 + skillLevel( skill_gun ), weaponrange );
             auto new_targets = get_targetable_creatures( weaponrange );
             for( auto it = new_targets.begin(); it != new_targets.end(); ) {
@@ -505,6 +492,7 @@ void player::fire_gun( const tripoint &targ_arg, bool burst )
             if ( new_targets.empty() == false ) {    /* new victim! or last victim moved */
                 /* 1 victim list unless wildly spraying */
                 targ = random_entry( new_targets )->pos();
+            ///\EFFECT_GUN increases chance of firing multiple times in a burst
             } else if( ( !trigger_happy || one_in(3) ) &&
                        ( skillLevel( skill_gun ) >= 7 || one_in(7 - skillLevel( skill_gun )) ) ) {
                 // Triggerhappy has a higher chance of firing repeatedly.
@@ -513,52 +501,15 @@ void player::fire_gun( const tripoint &targ_arg, bool burst )
             }
         }
 
-        // Drop a shell casing if appropriate.
-        itype_id casing_type = curammo->ammo->casing;
-        if( casing_type != "NULL" && !casing_type.empty() ) {
-            if( used_weapon->has_flag("RELOAD_EJECT") ) {
-                const int num_casings = used_weapon->get_var( "CASINGS", 0 );
-                used_weapon->set_var( "CASINGS", num_casings + 1 );
-            } else {
-                item casing;
-                casing.make(casing_type);
-                // Casing needs a charges of 1 to stack properly with other casings.
-                casing.charges = 1;
-                if( used_weapon->has_gunmod("brass_catcher") != -1 ) {
-                    i_add( casing );
-                } else {
-                    tripoint brass = pos();
-                    int count = 0;
-                    do {
-                        brass.x = posx() + rng( -1, 1 );
-                        brass.y = posy() + rng( -1, 1 );
-                        count++;
-                        // Try not to drop the casing on a wall if at all possible.
-                    } while( g->m.move_cost( brass ) == 0 && count < 10 );
-                    g->m.add_item_or_charges(brass, casing);
-                    sfx::play_variant_sound( "fire_gun", "brass_eject", sfx::get_heard_volume( brass ), sfx::get_heard_angle( brass ));
-                }
-            }
-        }
+        eject_casing( *this, *used_weapon );
 
-        // Use up a round (or 100)
-        if (used_weapon->has_flag("FIRE_100")) {
-            used_weapon->charges -= 100;
-        } else if (used_weapon->has_flag("FIRE_50")) {
-            used_weapon->charges -= 50;
-        } else if (used_weapon->has_flag("FIRE_20")) {
-            used_weapon->charges -= 20;
-        } else if( used_weapon->deactivate_charger_gun() ) {
-            // Done, charger gun is deactivated.
-        } else if (used_weapon->has_flag("BIO_WEAPON")) {
-            //The weapon used is a bio weapon.
-            //It should consume a charge to let the game (specific: bionics.cpp:player::activate_bionic)
-            //know the weapon has been fired.
-            //It should ignore the NO_AMMO tag for charges, and still use one.
-            //the charges are virtual anyway.
+        if( used_weapon->has_flag("BIO_WEAPON") ) {
+            // Consume a (virtual) charge to let player::activate_bionic know the weapon has been fired.
             used_weapon->charges--;
-        } else if (!used_weapon->has_flag("NO_AMMO")) {
-            used_weapon->charges--;
+        } else if ( used_weapon->deactivate_charger_gun() ) {
+            // Deactivated charger gun
+        } else {
+            used_weapon->charges -= used_weapon->ammo_required();
         }
 
         // Drain UPS power
@@ -655,7 +606,9 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
     // Base move cost on moves per turn of the weapon
     // and our skill.
     int move_cost = thrown.attack_time() / 2;
+    ///\EFFECT_THROW speeds up throwing items
     int skill_cost = (int)(move_cost / (std::pow(skillLevel( skill_throw ), 3.0f) / 400.0 + 1.0));
+    ///\EFFECT_DEX speeds up throwing items
     const int dexbonus = (int)(std::pow(std::max(dex_cur - 8, 0), 0.8) * 3.0);
 
     move_cost += skill_cost;
@@ -685,20 +638,24 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
     // Throwing attempts below "Basic Competency" level are extra-bad
     int skill_level = skillLevel( skill_throw );
 
+    ///\EFFECT_THROW <8 randomly increases throwing deviation
     if( skill_level < 3 ) {
         deviation += rng(0, 8 - skill_level);
     }
 
     if( skill_level < 8 ) {
         deviation += rng(0, 8 - skill_level);
+    ///\EFFECT_THROW >7 decreases throwing deviation
     } else {
         deviation -= skill_level - 6;
     }
 
     deviation += throw_dex_mod();
 
+    ///\EFFECT_PER <6 randomly increases throwing deviation
     if (per_cur < 6) {
         deviation += rng(0, 8 - per_cur);
+    ///\EFFECT_PER >8 decreases throwing deviation
     } else if (per_cur > 8) {
         deviation -= per_cur - 8;
     }
@@ -711,6 +668,7 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
         deviation += rng(0, 3);
     }
 
+    ///\EFFECT_STR randomly decreases throwing deviation
     deviation += rng(0, std::max( 0, thrown.weight() / 113 - str_cur ) );
     deviation = std::max( 0, deviation );
 
@@ -730,6 +688,7 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
                       thrown.made_of_any( ferric );
 
     // The damage dealt due to item's weight and player's strength
+    ///\EFFECT_STR increases throwing damage
     int real_dam = ( (thrown.weight() / 452)
                      + (thrown.type->melee_dam / 2)
                      + (str_cur / 2) )
@@ -759,6 +718,7 @@ dealt_projectile_attack player::throw_item( const tripoint &target, const item &
     }
 
     // Item will shatter upon landing, destroying the item, dealing damage, and making noise
+    ///\EFFECT_STR increases chance of shattering thrown glass items (NEGATIVE)
     const bool shatter = !thrown.active && thrown.made_of("glass") &&
                          rng(0, thrown.volume() + 8) - rng(0, str_cur) < thrown.volume();
 
@@ -991,6 +951,7 @@ std::vector<tripoint> game::target( tripoint &p, const tripoint &low, const trip
     }
 
     input_context ctxt("TARGET");
+    ctxt.set_iso(true);
     // "ANY_INPUT" should be added before any real help strings
     // Or strings will be written on window border.
     ctxt.register_action("ANY_INPUT");
@@ -1281,6 +1242,40 @@ int time_to_fire(player &p, const itype &firingt)
     return std::max(info.min_time, info.base - info.reduction * p.skillLevel( skill_used ));
 }
 
+static inline void eject_casing( player& p, item& weap ) {
+    itype_id casing_type = weap.get_curammo()->ammo->casing;
+    if( casing_type == "NULL" || casing_type.empty() ) {
+        return;
+    }
+
+    if( weap.has_flag( "RELOAD_EJECT" ) ) {
+        const int num_casings = weap.get_var( "CASINGS", 0 );
+        weap.set_var( "CASINGS", num_casings + 1 );
+        return;
+    }
+
+    item casing( casing_type, calendar::turn, false );
+    casing.charges = 1; // needs charge 1 to stack properly with other casings
+
+    if( weap.has_gunmod( "brass_catcher" ) != -1 ) {
+        p.i_add( casing );
+        return;
+    }
+
+    // Eject casing in random direction avoiding walls using player position as fallback
+    auto brass = closest_tripoints_first( 1, p.pos() );
+    brass.erase( brass.begin() );
+    std::random_shuffle( brass.begin(), brass.end() );
+    brass.emplace_back( p.pos() );
+
+    for( auto& pos : brass ) {
+        if ( g->m.move_cost(pos) != 0 ) {
+            g->m.add_item_or_charges( pos, casing );
+            sfx::play_variant_sound( "fire_gun", "brass_eject", sfx::get_heard_volume( pos ), sfx::get_heard_angle( pos ) );
+            break;
+        }
+    }
+}
 
 void make_gun_sound_effect(player &p, bool burst, item *weapon)
 {
@@ -1410,6 +1405,7 @@ int player::skill_dispersion( item *weapon, bool random ) const
         dispersion += rand_or_max( random, 45 * (10 - weapon_skill_level) );
     }
     // Up to 0.25 deg per each skill point < 10.
+    ///\EFFECT_GUN <10 randomly increased dispesion of gunfire
     if( get_skill_level( skill_gun ) < 10) {
         dispersion += rand_or_max( random, 15 * (10 - get_skill_level( skill_gun )) );
     }
@@ -1463,7 +1459,17 @@ double player::get_weapon_dispersion(item *weapon, bool random) const
 int recoil_add(player &p, const item &gun)
 {
     int ret = gun.gun_recoil();
+    ///\EFFECT_STR reduces recoil when firing a ranged weapon
     ret -= rng(p.str_cur * 7, p.str_cur * 15);
+    ///\EFFECT_GUN randomly decreases recoil with appropriate guns
+
+    ///\EFFECT_PISTOL randomly decreases recoil with appropriate guns
+
+    ///\EFFECT_RIFLE randomly decreases recoil with appropriate guns
+
+    ///\EFFECT_SHOTGUN randomly decreases recoil with appropriate guns
+
+    ///\EFFECT_SMG randomly decreases recoil with appropriate guns
     ret -= rng(0, p.get_skill_level(gun.gun_skill()) * 7);
     if (ret > 0) {
         return ret;

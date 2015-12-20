@@ -21,9 +21,14 @@ extern int save_loading_version;
 class game;
 extern game *g;
 
+#ifdef TILES
+extern void try_sdl_update();
+#endif // TILES
+
 extern bool trigdist;
 extern bool use_tiles;
 extern bool fov_3d;
+extern bool tile_iso;
 
 extern const int savegame_version;
 extern int savegame_loading_version;
@@ -259,8 +264,6 @@ class game
         monster *monster_at( const tripoint &p, bool allow_hallucination = false );
         /** Returns true if there is no player, NPC, or monster on the tile and move_cost > 0. */
         bool is_empty( const tripoint &p );
-        /** Returns true if the value of test is between down and up. */
-        bool isBetween(int test, int down, int up);
         /** Returns true if p is outdoors and it is sunny. */
         bool is_in_sunlight( const tripoint &p );
         /** Returns true if p is indoors, underground, or in a car. */
@@ -385,11 +388,6 @@ class game
         // Shared method to print "look around" info
         void print_all_tile_info( const tripoint &lp, WINDOW *w_look, int column, int &line, bool mouse_hover );
 
-        bool list_items_match(const item *item, std::string sPattern);
-        int list_filter_high_priority(std::vector<map_item_stack> &stack, std::string prorities);
-        int list_filter_low_priority(std::vector<map_item_stack> &stack, int start, std::string prorities);
-        std::vector<map_item_stack> filter_item_stacks(std::vector<map_item_stack> stack,
-                std::string filter);
         std::vector<map_item_stack> find_nearby_items(int iRadius);
         void draw_item_filter_rules(WINDOW *window, int rows);
         std::string ask_item_priority_high(WINDOW *window, int rows);
@@ -403,7 +401,7 @@ class game
         int inv_activatable(std::string const &title);
         int inv_for_liquid(const item &liquid, const std::string &title, bool auto_choose_single);
         int inv_for_salvage(const std::string &title, const salvage_actor &actor );
-        item *inv_map_for_liquid(const item &liquid, const std::string &title);
+        item *inv_map_for_liquid(const item &liquid, const std::string &title, int radius = 0);
         int inv_for_flag(const std::string &flag, const std::string &title, bool auto_choose_single);
         int inv_for_filter(const std::string &title, item_filter filter);
         int inv_for_unequipped(std::string const &title, item_filter filter);
@@ -459,7 +457,7 @@ class game
          */
         void load_map( tripoint pos_sm );
         /**
-         * The overmap which is at the top left corner of the reality bubble.
+         * The overmap which contains the center submap of the reality bubble.
          */
         overmap &get_cur_om() const;
         scenario *scen;
@@ -496,7 +494,7 @@ class game
         void calc_driving_offset(vehicle *veh = NULL);
 
         bool handle_liquid(item &liquid, bool from_ground, bool infinite, item *source = NULL,
-                           item *cont = NULL);
+                           item *cont = NULL, int radius = 0);
 
         //Move_liquid returns the amount of liquid left if we didn't move all the liquid,
         //otherwise returns sentinel -1, signifies transaction fail.
@@ -661,10 +659,6 @@ class game
         void drop(int pos = INT_MIN); // Drop an item  'd'
         void drop_in_direction(); // Drop w/ direction  'D'
 
-        // calculate the time (in player::moves) it takes to drop the
-        // items in dropped and dropped_worn.
-        int calculate_drop_cost(std::vector<item> &dropped, const std::vector<item> &dropped_worn,
-                                int freed_volume_capacity) const;
         void reassign_item(int pos = INT_MIN); // Reassign the letter of an item  '='
         void butcher(); // Butcher a corpse  'B'
         void eat(int pos = INT_MIN); // Eat food or fuel  'E' (or 'a')

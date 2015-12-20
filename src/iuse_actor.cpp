@@ -534,6 +534,7 @@ long place_monster_iuse::use( player *p, item *it, bool, const tripoint &pos ) c
     if( skill2 ) {
         skill_offset += p->skillLevel( skill2 );
     }
+    ///\EFFECT_INT increases chance of a placed turret being friendly
     if( rng( 0, p->int_cur / 2 ) + skill_offset < rng( 0, difficulty ) ) {
         if( hostile_msg.empty() ) {
             p->add_msg_if_player( m_bad, _( "The %s scans you and makes angry beeping noises!" ),
@@ -683,7 +684,13 @@ long pick_lock_actor::use( player *p, item *it, bool, const tripoint& ) const
     }
 
     p->practice( skill_mechanics, 1 );
+    ///\EFFECT_DEX speeds up door lock picking
+
+    ///\EFFECT_MECHANICS speeds up door lock picking
     p->moves -= std::max(0, ( 1000 - ( pick_quality * 100 ) ) - ( p->dex_cur + p->skillLevel( skill_mechanics ) ) * 5);
+    ///\EFFECT_DEX improves chances of successfully picking door lock, reduces chances of bad outcomes
+
+    ///\EFFECT_MECHANICS improves chances of successfully picking door lock, reduces chances of bad outcomes
     int pick_roll = ( dice( 2, p->skillLevel( skill_mechanics ) ) + dice( 2, p->dex_cur ) - it->damage / 2 ) * pick_quality;
     int door_roll = dice( 4, 30 );
     if( pick_roll >= door_roll ) {
@@ -865,6 +872,7 @@ int extended_firestarter_actor::calculate_time_for_lens_fire( const player *p, f
     float moves_base = std::pow( 80 / light_level, 8 ) * 1000 ;
     // survival 0 takes 3 * moves_base, survival 1 takes 1,5 * moves_base,
     // max moves capped at moves_base
+    ///\EFFECT_SURVIVAL speeds up fire starting with lens
     float moves_modifier = 1 / ( p->get_skill_level( skill_survival ) * 0.33 + 0.33 );
     if( moves_modifier < 1 ) {
         moves_modifier = 1;
@@ -907,6 +915,7 @@ long extended_firestarter_actor::use( player *p, item *it, bool, const tripoint 
                 skillLevel = 0.536;
             }
             // At survival=5 modifier=1, at survival=1 modifier=~6.
+            ///\EFFECT_SURVIVAL speeds up fire starting
             float moves_modifier = std::pow( 5 / skillLevel, 1.113 );
             if (moves_modifier < 1) {
                 moves_modifier = 1; // activity time improvement is capped at skillevel 5
@@ -1060,6 +1069,7 @@ int salvage_actor::cut_up(player *p, item *it, item *cut) const
     // This can go awry if there is a volume / recipe mismatch.
     int count = cut->volume();
     // Chance of us losing a material component to entropy.
+    ///\EFFECT_FABRICATION reduces chance of losing components when cutting items up
     int entropy_threshold = std::max(5, 10 - p->skillLevel( skill_fabrication ) );
     // What material components can we get back?
     std::vector<std::string> cut_material_components = cut->made_of();
@@ -1087,6 +1097,7 @@ int salvage_actor::cut_up(player *p, item *it, item *cut) const
         count -= 1;
     }
     // Fail dex roll, potentially lose more parts.
+    ///\EFFECT_DEX randomly reduces component loss when cutting items up
     if (dice(3, 4) > p->dex_cur) {
         count -= rng(0, 2);
     }
@@ -1168,6 +1179,9 @@ void inscribe_actor::load( JsonObject &obj )
         material_whitelist.push_back("silver");
     }
 
+    verb = _(obj.get_string( "verb", "Carve" ).c_str());
+    gerund = _(obj.get_string( "gerund", "Carved" ).c_str());
+
     if( !on_items && !on_terrain ) {
         obj.throw_error( "Tried to create an useless inscribe_actor, at least on of \"on_items\" or \"on_terrain\" should be true" );
     }
@@ -1178,7 +1192,7 @@ iuse_actor *inscribe_actor::clone() const
     return new inscribe_actor( *this );
 }
 
-bool inscribe_actor::item_inscription( item *cut, std::string verb, std::string gerund ) const
+bool inscribe_actor::item_inscription( item *cut ) const
 {
     if( !cut->made_of(SOLID) ) {
         add_msg( m_info, _("You can't inscribe an item that isn't solid!") );
@@ -1254,7 +1268,7 @@ long inscribe_actor::use( player *p, item *it, bool t, const tripoint& ) const
     int choice = INT_MAX;
     if( on_terrain && on_items ) {
         uimenu imenu;
-        imenu.text = _("Write on what?");
+        imenu.text = string_format( _("%s on what?"), verb.c_str() );
         imenu.addentry( 0, true, MENU_AUTOASSIGN, _("The ground") );
         imenu.addentry( 1, true, MENU_AUTOASSIGN, _("An item") );
         imenu.addentry( 2, true, MENU_AUTOASSIGN, _("Cancel") );
@@ -1271,13 +1285,13 @@ long inscribe_actor::use( player *p, item *it, bool t, const tripoint& ) const
     }
 
     if( choice == 0 ) {
-        return iuse::handle_ground_graffiti( p, it, _("Write what?") );
+        return iuse::handle_ground_graffiti( p, it, string_format( _("%s what?"), verb.c_str()) );
     }
 
     int pos = g->inv( _("Inscribe which item?") );
     item *cut = &( p->i_at(pos) );
     // inscribe_item returns false if the action fails or is canceled somehow.
-    if( item_inscription( cut, verb, gerund ) ) {
+    if( item_inscription( cut ) ) {
         return it->type->charges_to_use();
     }
 
@@ -1420,6 +1434,7 @@ long enzlave_actor::use( player *p, item *it, bool t, const tripoint& ) const
 
     // Survival skill increases your willingness to get things done,
     // but it doesn't make you feel any less bad about it.
+    ///\EFFECT_SURVIVAL increases tolerance for enzlavement
     if( p->morale_level() <= (15 * (tolerance_level - p->skillLevel( skill_survival ) )) - 150 ) {
         add_msg(m_neutral, _("The prospect of cutting up the copse and letting it rise again as a slave is too much for you to deal with right now."));
         return 0;
@@ -1448,6 +1463,7 @@ long enzlave_actor::use( player *p, item *it, bool t, const tripoint& ) const
     } else {
         add_msg(m_bad, _("You feel horrible for mutilating and enslaving someone's corpse."));
 
+        ///\EFFECT_SURVIVAL decreases moral penalty and duration for enzlavement
         int moraleMalus = -50 * (5.0 / (float) p->skillLevel( skill_survival ));
         int maxMalus = -250 * (5.0 / (float)p->skillLevel( skill_survival ));
         int duration = 300 * (5.0 / (float)p->skillLevel( skill_survival ));
@@ -1476,11 +1492,17 @@ long enzlave_actor::use( player *p, item *it, bool t, const tripoint& ) const
     // An average zombie with an undamaged corpse is 0 + 8 + 14 = 22.
     int difficulty = (body->damage * 5) + (mt->hp / 10) + (mt->speed / 5);
     // 0 - 30
+    ///\EFFECT_DEX increases chance of success for enzlavement
+
+    ///\EFFECT_SURVIVAL increases chance of success for enzlavement
+
+    ///\EFFECT_FIRSTAID increases chance of success for enzlavement
     int skills = p->skillLevel( skill_survival ) + p->skillLevel( skill_firstaid ) + (p->dex_cur / 2);
     skills *= 2;
 
     int success = rng(0, skills) - rng(0, difficulty);
 
+    ///\EFFECT_FIRSTAID speeds up enzlavement
     const int moves = difficulty * 1200 / p->skillLevel( skill_firstaid );
 
     p->assign_activity(ACT_MAKE_ZLAVE, moves);
@@ -1491,6 +1513,9 @@ long enzlave_actor::use( player *p, item *it, bool t, const tripoint& ) const
 
 bool enzlave_actor::can_use( const player *p, const item*, bool, const tripoint& ) const
 {
+    ///\EFFECT_SURVIVAL >1 allows enzlavement
+
+    ///\EFFECT_FIRSTAID >1 allows enzlavement
     return p->get_skill_level( skill_survival ) > 1 && p->get_skill_level( skill_firstaid ) > 1;
 }
 
@@ -1701,6 +1726,7 @@ long musical_instrument_actor::use( player *p, item *it, bool t, const tripoint&
     }
 
     std::string desc = "";
+    ///\EFFECT_PER increases morale bonus when playing an instrument
     const int morale_effect = fun + fun_bonus * p->per_cur;
     if( morale_effect >= 0 && calendar::turn.once_every( description_frequency ) ) {
         if( !descriptions.empty() ) {
@@ -1746,7 +1772,7 @@ void holster_actor::load( JsonObject &obj )
     min_volume = obj.get_int( "min_volume", max_volume / 3 );
     max_weight = obj.get_int( "max_weight", max_weight );
     multi      = obj.get_int( "multi",      multi );
-    draw_speed = obj.get_int( "draw_speed", draw_speed );
+    draw_cost  = obj.get_int( "draw_cost",  draw_cost );
 
     auto tmp = obj.get_string_array( "skills" );
     std::transform( tmp.begin(), tmp.end(), std::back_inserter( skills ),
@@ -1755,6 +1781,17 @@ void holster_actor::load( JsonObject &obj )
     } );
 
     flags = obj.get_string_array( "flags" );
+}
+
+bool holster_actor::can_holster( const item& obj ) const {
+    if( obj.volume() > max_volume || obj.volume() < min_volume ) {
+        return false;
+    }
+    if( max_weight > 0 && obj.weight() > max_weight ) {
+        return false;
+    }
+    return std::any_of( flags.begin(), flags.end(), [&](const std::string& f) { return obj.has_flag(f); } ) ||
+           std::find( skills.begin(), skills.end(), obj.gun_skill() ) != skills.end();
 }
 
 long holster_actor::use( player *p, item *it, bool, const tripoint & ) const
@@ -1784,22 +1821,9 @@ long holster_actor::use( player *p, item *it, bool, const tripoint & ) const
     }
 
     if( pos >= 0 ) {
-        p->wield_contents( it, pos, draw_speed );
+        p->wield_contents( it, pos, draw_cost );
     } else {
-        item &obj = p->i_at( g->inv_for_filter( prompt, [&]( const item & e ) {
-            if( e.volume() > max_volume || e.volume() < min_volume ) {
-                return false;
-            }
-
-            if( max_weight > 0 && e.weight() > max_weight ) {
-                return false;
-            }
-
-            return std::any_of( flags.begin(), flags.end(), [&]( const std::string & f ) {
-                return e.has_flag( f );
-            } ) ||
-            std::find( skills.begin(), skills.end(), e.gun_skill() ) != skills.end();
-        } ) );
+        item &obj = p->i_at( g->inv_for_filter( prompt, [&](const item& e) { return can_holster(e); } ) );
 
         if( obj.is_null() ) {
             p->add_msg_if_player( _( "Never mind." ) );
@@ -1833,8 +1857,8 @@ long holster_actor::use( player *p, item *it, bool, const tripoint & ) const
         }
 
         p->add_msg_if_player( holster_msg.empty() ? _( "You holster your %s" ) : _( holster_msg.c_str() ),
-                              obj.tname().c_str() );
-        p->store( it, &obj, obj.is_gun() ? obj.gun_skill() : obj.weap_skill(), 10 );
+                              obj.tname().c_str(), it->tname().c_str() );
+        p->store( it, &obj, obj.is_gun() ? obj.gun_skill() : obj.weap_skill(), VOLUME_MOVE_COST );
     }
 
     return 0;

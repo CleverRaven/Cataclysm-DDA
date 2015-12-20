@@ -40,7 +40,7 @@
  * Changes that break backwards compatibility should bump this number, so the game can
  * load a legacy format loader.
  */
-const int savegame_version = 24;
+const int savegame_version = 25;
 
 /*
  * This is a global set by detected version header in .sav, maps.txt, or overmap.
@@ -290,6 +290,142 @@ void game::save_weather(std::ofstream &fout) {
     fout << "seed: " << weather_gen->get_seed();
 }
 
+bool overmap::obsolete_terrain( const std::string &ter ) {
+    static const std::unordered_set<std::string> obsolete = {
+        "apartments_con_tower_1", "apartments_con_tower_1_entrance",
+        "hotel_tower_1_1", "hotel_tower_1_2", "hotel_tower_1_3", "hotel_tower_1_4",
+        "hotel_tower_1_5", "hotel_tower_1_6", "hotel_tower_1_7", "hotel_tower_1_8",
+        "hotel_tower_1_9", "hotel_tower_b_1", "hotel_tower_b_2", "hotel_tower_b_3"
+    };
+
+    return obsolete.find( ter ) != obsolete.end();
+}
+
+/*
+ * Complex conversion of outdated overmap terrain ids.
+ * This is used when loading saved games with old oter_ids.
+ */
+void overmap::convert_terrain( const std::unordered_map<tripoint, std::string> &needs_conversion )
+{
+    for( const auto &convert : needs_conversion ) {
+        const tripoint pos = convert.first;
+        const std::string old = convert.second;
+        oter_id &new_id = ter( pos.x, pos.y, pos.z );
+
+        struct convert_nearby {
+            int xoffset;
+            std::string x_id;
+            int yoffset;
+            std::string y_id;
+            std::string new_id;
+        };
+
+        std::vector<convert_nearby> nearby;
+
+        if( old == "apartments_con_tower_1_entrance" ) {
+            const std::string other = "apartments_con_tower_1";
+            nearby.push_back( { 1, other, -1, other, "apartments_con_tower_SW_north" } );
+            nearby.push_back( { -1, other, 1, other, "apartments_con_tower_SW_south" } );
+            nearby.push_back( { 1, other, 1, other, "apartments_con_tower_SW_east" } );
+            nearby.push_back( { -1, other, -1, other , "apartments_con_tower_SW_west" } );
+
+        } else if( old == "apartments_con_tower_1" ) {
+            const std::string entr = "apartments_con_tower_1_entrance";
+            const std::string other = "apartments_con_tower_1";
+            nearby.push_back( { 1, other, 1, entr, "apartments_con_tower_NW_north" } );
+            nearby.push_back( { -1, other, -1, entr, "apartments_con_tower_NW_south" } );
+            nearby.push_back( { -1, entr, 1, other, "apartments_con_tower_NW_east" } );
+            nearby.push_back( { 1, entr, -1, other, "apartments_con_tower_NW_west" } );
+            nearby.push_back( { -1, other, 1, other, "apartments_con_tower_NE_north" } );
+            nearby.push_back( { 1, other, -1, other, "apartments_con_tower_NE_south" } );
+            nearby.push_back( { -1, other, -1, other, "apartments_con_tower_NE_east" } );
+            nearby.push_back( { 1, other, 1, other, "apartments_con_tower_NE_west" } );
+            nearby.push_back( { -1, entr, -1, other, "apartments_con_tower_SE_north" } );
+            nearby.push_back( { 1, entr, 1, other, "apartments_con_tower_SE_south" } );
+            nearby.push_back( { 1, other, -1, entr, "apartments_con_tower_SE_east" } );
+            nearby.push_back( { -1, other, 1, entr, "apartments_con_tower_SE_west" } );
+
+        } else if( old.compare( 0, 14, "hotel_tower_1_" ) == 0 ) {
+            const std::string hotel = "hotel_tower_1_";
+            if( old == hotel + "1" ) {
+                nearby.push_back( { -1, hotel + "2", 1, hotel + "4", hotel + "1_north" } );
+                nearby.push_back( { -1, hotel + "4", -1, hotel + "2", hotel + "1_east" } );
+                nearby.push_back( { 1, hotel + "2", -1, hotel + "4", hotel + "1_south" } );
+                nearby.push_back( { 1, hotel + "4", 1, hotel + "2", hotel + "1_west" } );
+            } else if( old == hotel + "2" ) {
+                nearby.push_back( { -1, hotel + "3", 1, hotel + "5", hotel + "2_north" } );
+                nearby.push_back( { -1, hotel + "5", -1, hotel + "3", hotel + "2_east" } );
+                nearby.push_back( { 1, hotel + "3", -1, hotel + "5", hotel + "2_south" } );
+                nearby.push_back( { 1, hotel + "5", 1, hotel + "3", hotel + "2_west" } );
+            } else if( old == hotel + "3" ) {
+                nearby.push_back( { 1, hotel + "2", 1, hotel + "6", hotel + "3_north" } );
+                nearby.push_back( { -1, hotel + "6", 1, hotel + "2", hotel + "3_east" } );
+                nearby.push_back( { -1, hotel + "2", -1, hotel + "6", hotel + "3_south" } );
+                nearby.push_back( { 1, hotel + "6", -1, hotel + "2", hotel + "3_west" } );
+            } else if( old == hotel + "4" ) {
+                nearby.push_back( { -1, hotel + "5", 1, hotel + "7", hotel + "4_north" } );
+                nearby.push_back( { -1, hotel + "7", -1, hotel + "5", hotel + "4_east" } );
+                nearby.push_back( { 1, hotel + "5", -1, hotel + "7", hotel + "4_south" } );
+                nearby.push_back( { 1, hotel + "7", 1, hotel + "5", hotel + "4_west" } );
+            } else if( old == hotel + "5" ) {
+                nearby.push_back( { -1, hotel + "6", 1, hotel + "8", hotel + "5_north" } );
+                nearby.push_back( { -1, hotel + "8", -1, hotel + "6", hotel + "5_east" } );
+                nearby.push_back( { 1, hotel + "6", -1, hotel + "8", hotel + "5_south" } );
+                nearby.push_back( { 1, hotel + "8", 1, hotel + "6", hotel + "5_west" } );
+            } else if( old == hotel + "6" ) {
+                nearby.push_back( { 1, hotel + "5", 1, hotel + "9", hotel + "6_north" } );
+                nearby.push_back( { -1, hotel + "9", 1, hotel + "5", hotel + "6_east" } );
+                nearby.push_back( { -1, hotel + "5", -1, hotel + "9", hotel + "6_south" } );
+                nearby.push_back( { 1, hotel + "9", -1, hotel + "5", hotel + "6_west" } );
+            } else if( old == hotel + "7" ) {
+                nearby.push_back( { -1, hotel + "8", -1, hotel + "4", hotel + "7_north" } );
+                nearby.push_back( { 1, hotel + "4", -1, hotel + "8", hotel + "7_east" } );
+                nearby.push_back( { 1, hotel + "8", 1, hotel + "4", hotel + "7_south" } );
+                nearby.push_back( { -1, hotel + "4", 1, hotel + "8", hotel + "7_west" } );
+            } else if( old == hotel + "8" ) {
+                nearby.push_back( { -1, hotel + "9", -1, hotel + "5", hotel + "8_north" } );
+                nearby.push_back( { 1, hotel + "5", -1, hotel + "9", hotel + "8_east" } );
+                nearby.push_back( { 1, hotel + "9", 1, hotel + "5", hotel + "8_south" } );
+                nearby.push_back( { -1, hotel + "5", 1, hotel + "9", hotel + "8_west" } );
+            } else if( old == hotel + "9" ) {
+                nearby.push_back( { 1, hotel + "8", -1, hotel + "6", hotel + "9_north" } );
+                nearby.push_back( { 1, hotel + "6", 1, hotel + "8", hotel + "9_east" } );
+                nearby.push_back( { -1, hotel + "8", 1, hotel + "6", hotel + "9_south" } );
+                nearby.push_back( { -1, hotel + "6", -1, hotel + "8", hotel + "9_west" } );
+            }
+
+        } else if( old.compare( 0, 14, "hotel_tower_b_" ) == 0 ) {
+            const std::string hotelb = "hotel_tower_b_";
+            if( old == hotelb + "1" ) {
+                nearby.push_back( { -1, hotelb + "2", 0, hotelb + "1", hotelb + "1_north" } );
+                nearby.push_back( { 0, hotelb + "1", -1, hotelb + "2", hotelb + "1_east" } );
+                nearby.push_back( { 1, hotelb + "2", 0, hotelb + "1", hotelb + "1_south" } );
+                nearby.push_back( { 0, hotelb + "1", 1, hotelb + "2", hotelb + "1_west" } );
+            } else if( old == hotelb + "2" ) {
+                nearby.push_back( { -1, hotelb + "3", 0, hotelb + "2", hotelb + "2_north" } );
+                nearby.push_back( { 0, hotelb + "2", -1, hotelb + "3", hotelb + "2_east" } );
+                nearby.push_back( { 1, hotelb + "3", 0, hotelb + "2", hotelb + "2_south" } );
+                nearby.push_back( { 0, hotelb + "2", 1, hotelb + "3", hotelb + "2_west" } );
+            } else if( old == hotelb + "3" ) {
+                nearby.push_back( { 1, hotelb + "2", 0, hotelb + "3", hotelb + "3_north" } );
+                nearby.push_back( { 0, hotelb + "3", 1, hotelb + "2", hotelb + "3_east" } );
+                nearby.push_back( { -1, hotelb + "2", 0, hotelb + "3", hotelb + "3_south" } );
+                nearby.push_back( { 0, hotelb + "3", -1, hotelb + "2", hotelb + "3_west" } );
+            }
+        }
+
+        for( const auto &conv : nearby ) {
+            const auto x_it = needs_conversion.find( tripoint( pos.x + conv.xoffset, pos.y, pos.z ) );
+            const auto y_it = needs_conversion.find( tripoint( pos.x, pos.y + conv.yoffset, pos.z ) );
+            if( x_it != needs_conversion.end() && x_it->second == conv.x_id && 
+                y_it != needs_conversion.end() && y_it->second == conv.y_id ) {
+                new_id = conv.new_id;
+                break;
+            }
+        }
+    }
+}
+
 // throws std::exception
 void overmap::unserialize( std::ifstream &fin ) {
 
@@ -313,6 +449,7 @@ void overmap::unserialize( std::ifstream &fin ) {
     while( !jsin.end_object() ) {
         const std::string name = jsin.get_member_name();
         if( name == "layers" ) {
+            std::unordered_map<tripoint, std::string> needs_conversion;
             jsin.start_array();
             for( int z = 0; z < OVERMAP_LAYERS; ++z ) {
                 jsin.start_array();
@@ -326,7 +463,13 @@ void overmap::unserialize( std::ifstream &fin ) {
                             jsin.read( tmp_ter );
                             jsin.read( count );
                             jsin.end_array();
-                            if( otermap.find( tmp_ter ) != otermap.end() ) {
+                            if( obsolete_terrain( tmp_ter ) ) {
+                                for( int p = i; p < i+count; p++ ) {
+                                    needs_conversion.emplace( tripoint( p, j, z-OVERMAP_DEPTH ),
+                                                              tmp_ter );
+                                }
+                                tmp_otid = 0;
+                            } else if( otermap.find( tmp_ter ) != otermap.end() ) {
                                 tmp_otid = tmp_ter;
                             } else {
                                 debugmsg("Loaded bad ter! ter %s", tmp_ter.c_str());
@@ -340,6 +483,7 @@ void overmap::unserialize( std::ifstream &fin ) {
                 jsin.end_array();
             }
             jsin.end_array();
+            convert_terrain( needs_conversion );
         } else if( name == "region_id" ) {
             std::string new_region_id;
             jsin.read( new_region_id );

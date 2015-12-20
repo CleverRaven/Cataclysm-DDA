@@ -8,6 +8,7 @@
 #include "player_activity.h"
 #include "morale.h"
 #include "weighted_list.h"
+#include "game_constants.h"
 
 #include <unordered_set>
 #include <bitset>
@@ -684,6 +685,13 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         virtual bool wield(item *it, bool autodrop = false);
         /** Creates the UI and handles player input for picking martial arts styles */
         bool pick_style();
+        /**
+         * Calculate (but do not deduct) the number of moves required when handling (eg. storing, drawing etc.) an item
+         * @param effects whether temporary player effects should be considered (eg. GRABBED, DOWNED)
+         * @param factor base move cost per unit volume before considering any other modifiers
+         * @return cost in moves ranging from 0 to MAX_HANDLING_COST
+         */
+        int item_handling_cost( const item& it, bool effects = true, int factor = VOLUME_MOVE_COST) const;
         /** Wear item; returns false on fail. If interactive is false, don't alert the player or drain moves on completion. */
         bool wear(int pos, bool interactive = true);
         /** Wear item; returns false on fail. If interactive is false, don't alert the player or drain moves on completion. */
@@ -698,7 +706,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Try to wield a contained item consuming moves proportional to weapon skill and volume.
          *  @param pos index of contained item to wield. Set to -1 to show menu if container has more than one item
          *  @param factor scales moves cost and can be set to zero if item should be wielded without any delay */
-        bool wield_contents(item *container, int pos = 0, int factor = 10);
+        bool wield_contents(item *container, int pos = 0, int factor = VOLUME_MOVE_COST);
         /** Stores an item inside another item, taking moves based on skill and volume of item being stored. */
         void store(item *container, item *put, const skill_id &skill_used, int volume_factor);
         /** Draws the UI and handles player input for the armor re-ordering window */
@@ -787,8 +795,8 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         int get_env_resist(body_part bp) const override;
         /** Returns true if the player is wearing something on the entered body_part */
         bool wearing_something_on(body_part bp) const;
-        /** Returns true if the player is wearing the given item */
-        bool is_wearing_item (const item& it) const;
+        /** Returns true if the player is wearing something on the entered body_part, ignoring items with the ALLOWS_NATURAL_ATTACKS flag */
+        bool natural_attack_restricted_on(body_part bp) const;
         /** Returns true if the player is wearing something on their feet that is not SKINTIGHT */
         bool is_wearing_shoes(std::string side = "both") const;
         /** Returns 1 if the player is wearing something on both feet, .5 if on one, and 0 if on neither */
@@ -811,7 +819,6 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         bool has_activity(const activity_type type) const;
         void cancel_activity();
 
-        double convert_weight(int weight) const;
         int net_morale(morale_point effect) const;
         int morale_level() const; // Modified by traits, &c
         void add_morale(morale_type type, int bonus, int max_bonus = 0,
@@ -864,7 +871,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
 
         // has_amount works ONLY for quantity.
         // has_charges works ONLY for charges.
-        std::list<item> use_amount(itype_id it, int quantity, bool use_container = false);
+        std::list<item> use_amount(itype_id it, int quantity);
         bool use_charges_if_avail(itype_id it, long quantity);// Uses up charges
         std::list<item> use_charges(itype_id it, long quantity);// Uses up charges
         bool has_amount(const itype_id &it, int quantity) const;
@@ -896,16 +903,13 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         bool has_gun_for_ammo( const ammotype &at ) const;
 
         bool has_weapon() const override;
-        // Check if the player can pickup stuff (fails if wielding
-        // certain bionic weapons).
-        // Print a message if print_msg is true and this isn't a NPC
-        bool can_pickup(bool print_msg) const;
 
         // Checks crafting inventory for books providing the requested recipe.
         // Returns -1 to indicate recipe not found, otherwise difficulty to learn.
         int has_recipe( const recipe *r, const inventory &crafting_inv ) const;
         bool knows_recipe( const recipe *rec ) const;
         void learn_recipe( const recipe *rec );
+        bool has_recipe_requirements(const recipe *rec) const;
 
         bool studied_all_recipes(const itype &book) const;
 
@@ -963,10 +967,6 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         std::vector<tripoint> &get_auto_move_route();
         action_id get_next_auto_move_direction();
         void shift_destination(int shiftx, int shifty);
-
-        // Library functions
-        double logistic(double t) const;
-        double logistic_range(int min, int max, int pos) const;
 
         /**
          * Global position, expressed in map square coordinate system
@@ -1205,6 +1205,19 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
          * are included.
          */
         bool is_visible_in_range( const Creature &critter, int range ) const;
+
+        /** Calculate bonus warmth from furniture, items, and mutations for sleeping player **/
+        int warmth_in_sleep();
+        /** Correction factor of the body temperature due to fire **/
+        int bodytemp_modifier_fire();
+        /** Correction factor of the body temperature due to traits and mutations **/
+        int bodytemp_modifier_traits( bool overheated );
+        /** Correction factor of the body temperature due to traits and mutations for sleeping player **/
+        int bodytemp_modifier_traits_sleep();
+        /** Value of the body temperature corrected by climate control **/
+        int temp_corrected_by_climate_control( int temperature );
+        /** Define blood loss (in percents) */
+        int blood_loss( body_part bp );
 
         // Trigger and disable mutations that can be so toggled.
         void activate_mutation( const std::string &mutation );

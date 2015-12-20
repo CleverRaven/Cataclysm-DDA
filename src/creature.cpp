@@ -170,6 +170,7 @@ bool Creature::sees( const Creature &critter ) const
         ( posz() == critter.posz() || g->m.valid_move( pos(), critter.pos(), false, true ) ) ) {
         return true;
     } else if( ( wanted_range > 1 && critter.digging() ) ||
+        (critter.has_flag(MF_NIGHT_INVISIBILITY) && g->m.light_at(critter.pos()) <= LL_LOW ) ||
         ( critter.is_underwater() && !is_underwater() && g->m.is_divable( critter.pos3() ) ) ) {
         return false;
     }
@@ -628,7 +629,7 @@ void Creature::deal_projectile_attack( Creature *source, dealt_projectile_attack
                     SCT.add(posx(), posy(),
                             direction_from(0, 0, posx() - source->posx(), posy() - source->posy()),
                             get_hp_bar(get_hp(), get_hp_max(), true).first, m_good,
-                            //~ “hit points”, used in scrolling combat text
+                            //~ "hit points", used in scrolling combat text
                             _("hp"), m_neutral, "hp");
                 } else {
                     SCT.removeCreatureHP();

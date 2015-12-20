@@ -85,6 +85,8 @@
             "knife_rambo",
             "knife_rm42",
             "switchblade",
+            "l-stick",
+            "l-stick_on",
             "bloodscourge",
             "scourge_staff",
             "spear_pestilence"
@@ -206,6 +208,8 @@
             "cudgel",
             "nodachi",
             "diamond_nodachi",
+            "l-stick",
+            "l-stick_on",
             "bloodscourge",
             "scourge_staff"
         ]

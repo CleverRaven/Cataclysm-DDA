@@ -42,6 +42,13 @@ enum advanced_inv_sortby {
     SORTBY_DAMAGE
 };
 
+struct sort_case_insensitive_less : public std::binary_function< char, char, bool >
+{
+    bool operator()( char x, char y ) const {
+        return toupper( static_cast< unsigned char >( x ) ) < toupper( static_cast< unsigned char >( y ) );
+    }
+};
+
 struct advanced_inv_listitem;
 
 /**
@@ -208,22 +215,38 @@ class advanced_inventory_pane
 {
     private:
         aim_location area = NUM_AIM_LOCATIONS;
+        aim_location prev_area = area;
         // pointer to the square this pane is pointing to
         bool viewing_cargo = false;
+        bool prev_viewing_cargo = false;
     public:
         // set the pane's area via its square, and whether it is viewing a vehicle's cargo
         void set_area(advanced_inv_area &square, bool in_vehicle_cargo = false)
         {
+            prev_area = area;
+            prev_viewing_cargo = viewing_cargo;
             area = square.id;
             viewing_cargo = square.can_store_in_vehicle() && in_vehicle_cargo;
+        }
+        void restore_area() {
+            area = prev_area;
+            viewing_cargo = prev_viewing_cargo;
         }
         aim_location get_area() const
         {
             return area;
         }
+        bool prev_in_vehicle() const
+        {
+            return prev_viewing_cargo;
+        }
         bool in_vehicle() const
         {
             return viewing_cargo;
+        }
+        bool on_ground() const
+        {
+            return area > AIM_INVENTORY && area < AIM_DRAGGED;
         }
         /**
          * Index of the selected item (index of @ref items),
@@ -367,7 +390,7 @@ class advanced_inventory
         void load_settings();
         // used to return back to AIM when other activities queued are finished
         void do_return_entry();
-        // returns true if currently processing a routine 
+        // returns true if currently processing a routine
         // (such as `MOVE_ALL_ITEMS' with `AIM_ALL' source)
         bool is_processing() const;
 
@@ -434,7 +457,7 @@ class advanced_inventory
          *      should be moved. A return value of true indicates that amount now contains
          *      a valid item count to be moved.
          */
-        bool query_charges(aim_location destarea, const advanced_inv_listitem &sitem, 
+        bool query_charges(aim_location destarea, const advanced_inv_listitem &sitem,
                 const std::string &action, long &amount);
 
         void menu_square(uimenu *menu);

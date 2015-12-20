@@ -25,6 +25,7 @@
 #include "monster.h"
 #include "overmap.h"
 #include "field.h"
+#include "ui.h"
 
 #include <fstream>
 #include <sstream>
@@ -307,8 +308,12 @@ bool editmap::eget_direction( tripoint &p, const std::string &action ) const
         p.z = -1;
     } else if( action == "LEVEL_UP" ) {
         p.z = 1;
-    }  else if( !input_context::get_direction( p.x, p.y, action ) ) {
-        return false;
+    } else {
+        input_context ctxt("EGET_DIRECTION");
+        ctxt.set_iso(true);
+        if( !ctxt.get_direction( p.x, p.y, action ) ) {
+            return false;
+        }
     }
     return true;
 }
@@ -346,6 +351,7 @@ tripoint editmap::edit()
 {
     target = g->u.pos() + g->u.view_offset;
     input_context ctxt( "EDITMAP" );
+    ctxt.set_iso(true);
     ctxt.register_directions();
     ctxt.register_action( "LEFT_WIDE" );
     ctxt.register_action( "RIGHT_WIDE" );
@@ -1540,6 +1546,7 @@ int editmap::select_shape( shapetype shape, int mode )
     tripoint orig = target;
     tripoint origor = origin;
     input_context ctxt( "EDITMAP_SHAPE" );
+    ctxt.set_iso(true);
     ctxt.register_directions();
     ctxt.register_action( "LEFT_WIDE" );
     ctxt.register_action( "RIGHT_WIDE" );
@@ -1866,6 +1873,7 @@ int editmap::mapgen_retarget()
 {
     int ret = 0;
     input_context ctxt( "EDITMAP_RETARGET" );
+    ctxt.set_iso(true);
     ctxt.register_directions();
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "CONFIRM" );

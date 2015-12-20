@@ -8,6 +8,10 @@
 #include "game.h"
 #include "translations.h"
 #include "catacharset.h"
+#include "output.h"
+#include "cata_utility.h"
+
+#include "debug.h"
 
 #include <algorithm>
 
@@ -19,32 +23,66 @@ enum TAB_MODE {
 
 std::vector<std::string> craft_cat_list;
 std::map<std::string, std::vector<std::string> > craft_subcat_list;
+std::map<std::string, std::string> normalized_names;
 
 static void draw_recipe_tabs( WINDOW *w, std::string tab, TAB_MODE mode = NORMAL );
 static void draw_recipe_subtabs( WINDOW *w, std::string tab, std::string subtab,
                                  TAB_MODE mode = NORMAL );
-static std::string first_craft_cat();
-static std::string next_craft_cat( const std::string cat );
-static std::string prev_craft_cat( const std::string cat );
-static std::string first_craft_subcat( const std::string cat );
-static std::string last_craft_subcat( const std::string cat );
-static std::string next_craft_subcat( const std::string cat, const std::string subcat );
-static std::string prev_craft_subcat( const std::string cat, const std::string subcat );
+
+std::string get_cat_name( std::string prefixed_name )
+{
+    return prefixed_name.substr( 3, prefixed_name.size() - 3 );
+}
 
 void load_recipe_category( JsonObject &jsobj )
 {
     JsonArray subcats;
     std::string category = jsobj.get_string( "id" );
+
+    if( category.find( "CC_" ) != 0 ) {
+        jsobj.throw_error( "Crafting category id has to be prefixed with 'CC_'" );
+    }
+
     // Don't store noncraft as a category.
     // We're storing the subcategory so we can look it up in load_recipes
     // for the fallback subcategory.
     if( category != "CC_NONCRAFT" ) {
         craft_cat_list.push_back( category );
     }
+
+    std::string cat_name = get_cat_name( category );
+
     craft_subcat_list[category] = std::vector<std::string>();
     subcats = jsobj.get_array( "recipe_subcategories" );
     while( subcats.has_more() ) {
-        craft_subcat_list[category].push_back( subcats.next_string() );
+        std::string subcat_id = subcats.next_string();
+        if( subcat_id.find( "CSC_" + cat_name + "_" ) != 0 && subcat_id != "CSC_ALL" &&
+            subcat_id != "CSC_NONCRAFT" ) {
+            jsobj.throw_error( "Crafting sub-category id has to be prefixed with CSC_<category_name>_" );
+        }
+        craft_subcat_list[category].push_back( subcat_id );
+    }
+}
+
+std::string get_subcat_name( const std::string &cat, std::string prefixed_name )
+{
+    std::string prefix = "CSC_" + get_cat_name( cat ) + "_";
+
+    if( prefixed_name.find( prefix ) == 0 ) {
+        return prefixed_name.substr( prefix.size(), prefixed_name.size() - prefix.size() );
+    }
+
+    return ( prefixed_name == "CSC_ALL" ? _( "ALL" ) : _( "NONCRAFT" ) );
+}
+
+void translate_all()
+{
+    for( const auto &cat : craft_cat_list ) {
+        normalized_names[cat] = get_cat_name( _( cat.c_str() ) );
+
+        for( const auto &subcat : craft_subcat_list[cat] ) {
+            normalized_names[subcat] =  get_subcat_name( cat, _( subcat.c_str() ) ) ;
+        }
     }
 }
 
@@ -54,79 +92,12 @@ void reset_recipe_categories()
     craft_subcat_list.clear();
 }
 
-static std::string first_craft_cat()
-{
-    return craft_cat_list.front();
-}
-
-static std::string next_craft_cat( const std::string cat )
-{
-    for( std::vector<std::string>::iterator iter = craft_cat_list.begin();
-         iter != craft_cat_list.end(); ++iter ) {
-        if( ( *iter ) == cat ) {
-            if( ++iter == craft_cat_list.end() ) {
-                return craft_cat_list.front();
-            }
-            return *iter;
-        }
-    }
-    return NULL;
-}
-
-static std::string prev_craft_cat( const std::string cat )
-{
-    for( std::vector<std::string>::iterator iter = craft_cat_list.begin();
-         iter != craft_cat_list.end(); ++iter ) {
-        if( ( *iter ) == cat ) {
-            if( iter == craft_cat_list.begin() ) {
-                return craft_cat_list.back();
-            }
-            return *( --iter );
-        }
-    }
-    return NULL;
-}
-
-static std::string first_craft_subcat( const std::string cat )
-{
-    return craft_subcat_list[cat].front();
-}
-
-static std::string last_craft_subcat( const std::string cat )
-{
-    return craft_subcat_list[cat].back();
-}
-
-static std::string next_craft_subcat( const std::string cat, const std::string subcat )
-{
-    for( std::vector<std::string>::iterator iter = craft_subcat_list[cat].begin();
-         iter != craft_subcat_list[cat].end(); ++iter ) {
-        if( ( *iter ) == subcat ) {
-            if( ++iter == craft_subcat_list[cat].end() ) {
-                return craft_subcat_list[cat].front();
-            }
-            return *iter;
-        }
-    }
-    return NULL;
-}
-
-static std::string prev_craft_subcat( const std::string cat, const std::string subcat )
-{
-    for( std::vector<std::string>::iterator iter = craft_subcat_list[cat].begin();
-         iter != craft_subcat_list[cat].end(); ++iter ) {
-        if( ( *iter ) == subcat ) {
-            if( iter == craft_subcat_list[cat].begin() ) {
-                return craft_subcat_list[cat].back();
-            }
-            return *( --iter );
-        }
-    }
-    return NULL;
-}
-
 const recipe *select_crafting_recipe( int &batch_size )
 {
+    if( normalized_names.empty() ) {
+        translate_all();
+    }
+
     const int headHeight = 3;
     const int subHeadHeight = 2;
     const int freeWidth = TERMX - FULL_SCREEN_WIDTH;
@@ -139,17 +110,34 @@ const recipe *select_crafting_recipe( int &batch_size )
     const int dataLines = TERMY - ( headHeight + subHeadHeight ) - tailHeight;
     const int dataHalfLines = dataLines / 2;
     const int dataHeight = TERMY - ( headHeight + subHeadHeight );
+    const int infoWidth = width - FULL_SCREEN_WIDTH - 1;
 
     int lastid = -1;
 
     WINDOW *w_head = newwin( headHeight, width, 0, wStart );
+    WINDOW_PTR w_head_ptr( w_head );
     WINDOW *w_subhead = newwin( subHeadHeight, width, 3, wStart );
+    WINDOW_PTR w_subhead_ptr( w_subhead );
     WINDOW *w_data = newwin( dataHeight, width, headHeight + subHeadHeight, wStart );
+    WINDOW_PTR w_data_ptr( w_data );
 
-    const int iInfoWidth = width - FULL_SCREEN_WIDTH - 3;
-    std::string item_info_text;
-    std::string tab = first_craft_cat();
-    std::string subtab = first_craft_subcat( tab );
+    int item_info_x = infoWidth;
+    int item_info_y = dataHeight - 3;
+    int item_info_width = wStart + width - infoWidth;
+    int item_info_height = headHeight + subHeadHeight;
+
+    if ( !isWide ) {
+        item_info_x = 1;
+        item_info_y = 1;
+        item_info_width = 1;
+        item_info_height = 1;
+    }
+
+    WINDOW *w_iteminfo = newwin( item_info_y, item_info_x, item_info_height, item_info_width );
+    WINDOW_PTR w_iteminfo_ptr( w_iteminfo );
+
+    list_circularizer<std::string> tab( craft_cat_list );
+    list_circularizer<std::string> subtab( craft_subcat_list[tab.cur()] );
     std::vector<const recipe *> current;
     std::vector<bool> available;
     std::vector<std::string> component_print_buffer;
@@ -160,7 +148,7 @@ const recipe *select_crafting_recipe( int &batch_size )
     std::string previous_tab = "";
     std::string previous_subtab = "";
     item tmp;
-    int line = 0, ypos;
+    int line = 0, ypos, scroll_pos = 0;
     bool redraw = true;
     bool keepline = false;
     bool done = false;
@@ -168,11 +156,15 @@ const recipe *select_crafting_recipe( int &batch_size )
     int batch_line = 0;
     int display_mode = 0;
     const recipe *chosen = NULL;
+    std::vector<iteminfo> thisItem, dummy;
+
     input_context ctxt( "CRAFTING" );
     ctxt.register_cardinal();
     ctxt.register_action( "QUIT" );
     ctxt.register_action( "CONFIRM" );
     ctxt.register_action( "CYCLE_MODE" );
+    ctxt.register_action( "SCROLL_UP" );
+    ctxt.register_action( "SCROLL_DOWN" );
     ctxt.register_action( "PREV_TAB" );
     ctxt.register_action( "NEXT_TAB" );
     ctxt.register_action( "FILTER" );
@@ -198,20 +190,24 @@ const recipe *select_crafting_recipe( int &batch_size )
             }
 
             TAB_MODE m = ( batch ) ? BATCH : ( filterstring == "" ) ? NORMAL : FILTERED;
-            draw_recipe_tabs( w_head, tab, m );
-            draw_recipe_subtabs( w_subhead, tab, subtab, m );
+            draw_recipe_tabs( w_head, tab.cur(), m );
+            draw_recipe_subtabs( w_subhead, tab.cur(), subtab.cur(), m );
             current.clear();
             available.clear();
             if( batch ) {
                 batch_recipes( crafting_inv, current, available, chosen );
             } else {
                 // Set current to all recipes in the current tab; available are possible to make
-                pick_recipes( crafting_inv, current, available, tab, subtab, filterstring );
+                pick_recipes( crafting_inv, current, available, tab.cur(), subtab.cur(), filterstring );
             }
         }
 
         // Clear the screen of recipe data, and draw it anew
         werase( w_data );
+
+        if ( isWide ) {
+            werase( w_iteminfo );
+        }
 
         if( isWide ) {
             mvwprintz( w_data, dataLines + 1, 5, c_white,
@@ -330,7 +326,7 @@ const recipe *select_crafting_recipe( int &batch_size )
             }
             if( component_print_buffer.size() < static_cast<size_t>( componentPrintOffset ) ) {
                 componentPrintOffset = 0;
-                if( previous_tab != tab || previous_subtab != subtab || previous_item_line != line ) {
+                if( previous_tab != tab.cur() || previous_subtab != subtab.cur() || previous_item_line != line ) {
                     display_mode = 2;
                 } else {
                     display_mode = 0;
@@ -339,8 +335,8 @@ const recipe *select_crafting_recipe( int &batch_size )
 
             //only used to preserve mode position on components when
             //moving to another item and the view is already scrolled
-            previous_tab = tab;
-            previous_subtab = subtab;
+            previous_tab = tab.cur();
+            previous_subtab = subtab.cur();
             previous_item_line = line;
 
             if( display_mode == 0 ) {
@@ -396,18 +392,19 @@ const recipe *select_crafting_recipe( int &batch_size )
                 if( lastid != current[line]->id ) {
                     lastid = current[line]->id;
                     tmp = current[line]->create_result();
-                    item_info_text = tmp.info( true );
+                    tmp.info(true, thisItem);
                 }
-                mvwprintz( w_data, 0, FULL_SCREEN_WIDTH + 1, col, "%s",
-                           utf8_truncate( tmp.type_name( 1 ), iInfoWidth ).c_str() );
-
-                fold_and_print( w_data, 1, FULL_SCREEN_WIDTH + 1, iInfoWidth, col, item_info_text );
+                draw_item_info(w_iteminfo, tmp.tname(), tmp.type_name(), thisItem, dummy,
+                               scroll_pos, true, true, true, false, true);
             }
-
         }
 
         draw_scrollbar( w_data, line, dataLines, recmax, 0 );
         wrefresh( w_data );
+
+        if ( isWide ) {
+            wrefresh( w_iteminfo );
+        }
 
         const std::string action = ctxt.handle_input();
         if( action == "CYCLE_MODE" ) {
@@ -416,18 +413,22 @@ const recipe *select_crafting_recipe( int &batch_size )
                 display_mode = 0;
             }
         } else if( action == "LEFT" ) {
-            subtab = prev_craft_subcat( tab, subtab );
+            subtab.prev();
             redraw = true;
+        } else if( action == "SCROLL_UP" ) {
+            scroll_pos--;
+        } else if( action == "SCROLL_DOWN" ) {
+            scroll_pos++;
         } else if( action == "PREV_TAB" ) {
-            tab = prev_craft_cat( tab );
-            subtab = first_craft_subcat( tab );//default ALL
+            tab.prev();
+            subtab = list_circularizer<std::string>( craft_subcat_list[tab.cur()] );//default ALL
             redraw = true;
         } else if( action == "RIGHT" ) {
-            subtab = next_craft_subcat( tab, subtab );
+            subtab.next();
             redraw = true;
         } else if( action == "NEXT_TAB" ) {
-            tab = next_craft_cat( tab );
-            subtab = first_craft_subcat( tab );//default ALL
+            tab.next();
+            subtab = list_circularizer<std::string>( craft_subcat_list[tab.cur()] );//default ALL
             redraw = true;
         } else if( action == "DOWN" ) {
             line++;
@@ -501,14 +502,6 @@ const recipe *select_crafting_recipe( int &batch_size )
         }
     } while( !done );
 
-    werase( w_head );
-    werase( w_subhead );
-    werase( w_data );
-    delwin( w_head );
-    delwin( w_subhead );
-    delwin( w_data );
-    g->refresh_all();
-
     return chosen;
 }
 
@@ -546,19 +539,10 @@ static void draw_recipe_tabs( WINDOW *w, std::string tab, TAB_MODE mode )
         case NORMAL: {
             int pos_x = 2;//draw the tabs on each other
             int tab_step = 3;//step between tabs, two for tabs border
-            draw_tab( w,  pos_x, _( "WEAPONS" ), tab == "CC_WEAPON" );
-            pos_x += utf8_width( _( "WEAPONS" ) ) + tab_step;
-            draw_tab( w, pos_x,  _( "AMMO" ),    tab == "CC_AMMO" );
-            pos_x += utf8_width( _( "AMMO" ) ) + tab_step;
-            draw_tab( w, pos_x,  _( "FOOD" ),    tab == "CC_FOOD" );
-            pos_x += utf8_width( _( "FOOD" ) ) + tab_step;
-            draw_tab( w, pos_x,  _( "CHEMS" ),   tab == "CC_CHEM" );
-            pos_x += utf8_width( _( "CHEMS" ) ) + tab_step;
-            draw_tab( w, pos_x,  _( "ELECTRICAL" ), tab == "CC_ELECTRONIC" );
-            pos_x += utf8_width( _( "ELECTRICAL" ) ) + tab_step;
-            draw_tab( w, pos_x,  _( "ARMOR" ),   tab == "CC_ARMOR" );
-            pos_x += utf8_width( _( "ARMOR" ) ) + tab_step;
-            draw_tab( w, pos_x,  _( "OTHER" ),   tab == "CC_OTHER" );
+            for( const auto &tt : craft_cat_list ) {
+                draw_tab( w, pos_x, normalized_names[tt], tab == tt );
+                pos_x += utf8_width( normalized_names[tt] ) + tab_step;
+            }
             break;
         }
         case FILTERED:
@@ -595,96 +579,9 @@ static void draw_recipe_subtabs( WINDOW *w, std::string tab, std::string subtab,
         case NORMAL: {
             int pos_x = 2;//draw the tabs on each other
             int tab_step = 3;//step between tabs, two for tabs border
-            draw_subtab( w, pos_x, _( "ALL" ), subtab == "CSC_ALL" ); //Add ALL subcategory to all tabs;
-            pos_x += utf8_width( _( "ALL" ) ) + tab_step;
-            if( tab == "CC_WEAPON" ) {
-                draw_subtab( w, pos_x, _( "BASHING" ), subtab == "CSC_WEAPON_BASHING" );
-                pos_x += utf8_width( _( "BASHING" ) ) + tab_step;
-                draw_subtab( w, pos_x, _( "CUTTING" ), subtab == "CSC_WEAPON_CUTTING" );
-                pos_x += utf8_width( _( "CUTTING" ) ) + tab_step;
-                draw_subtab( w, pos_x, _( "PIERCING" ), subtab == "CSC_WEAPON_PIERCING" );
-                pos_x += utf8_width( _( "PIERCING" ) ) + tab_step;
-                draw_subtab( w, pos_x, _( "RANGED" ), subtab == "CSC_WEAPON_RANGED" );
-                pos_x += utf8_width( _( "RANGED" ) ) + tab_step;
-                draw_subtab( w, pos_x, _( "EXPLOSIVE" ), subtab == "CSC_WEAPON_EXPLOSIVE" );
-                pos_x += utf8_width( _( "EXPLOSIVE" ) ) + tab_step;
-                draw_subtab( w, pos_x, _( "MODS" ), subtab == "CSC_WEAPON_MODS" );
-                pos_x += utf8_width( _( "MODS" ) ) + tab_step;
-                draw_subtab( w, pos_x, _( "OTHER" ), subtab == "CSC_WEAPON_OTHER" );
-            } else if( tab == "CC_AMMO" ) {
-                draw_subtab( w, pos_x, _( "BULLETS" ), subtab == "CSC_AMMO_BULLETS" );
-                pos_x += utf8_width( _( "BULLETS" ) ) + tab_step;
-                draw_subtab( w, pos_x, _( "ARROWS" ), subtab == "CSC_AMMO_ARROWS" );
-                pos_x += utf8_width( _( "ARROWS" ) ) + tab_step;
-                draw_subtab( w, pos_x, _( "COMPONENTS" ), subtab == "CSC_AMMO_COMPONENTS" );
-                pos_x += utf8_width( _( "COMPONENTS" ) ) + tab_step;
-                draw_subtab( w, pos_x, _( "OTHER" ), subtab == "CSC_AMMO_OTHER" );
-            } else if( tab == "CC_FOOD" ) {
-                draw_subtab( w, pos_x, _( "DRINKS" ), subtab == "CSC_FOOD_DRINKS" );
-                pos_x += utf8_width( _( "DRINKS" ) ) + tab_step;
-                draw_subtab( w, pos_x, _( "MEAT" ), subtab == "CSC_FOOD_MEAT" );
-                pos_x += utf8_width( _( "MEAT" ) ) + tab_step;
-                draw_subtab( w, pos_x, _( "VEGGI" ), subtab == "CSC_FOOD_VEGGI" );
-                pos_x += utf8_width( _( "VEGGI" ) ) + tab_step;
-                draw_subtab( w, pos_x, _( "SNACK" ), subtab == "CSC_FOOD_SNACK" );
-                pos_x += utf8_width( _( "SNACK" ) ) + tab_step;
-                draw_subtab( w, pos_x, _( "BREAD" ), subtab == "CSC_FOOD_BREAD" );
-                pos_x += utf8_width( _( "BREAD" ) ) + tab_step;
-                draw_subtab( w, pos_x, _( "PASTA" ), subtab == "CSC_FOOD_PASTA" );
-                pos_x += utf8_width( _( "PASTA" ) ) + tab_step;
-                draw_subtab( w, pos_x, _( "OTHER" ), subtab == "CSC_FOOD_OTHER" );
-            } else if( tab == "CC_CHEM" ) {
-                draw_subtab( w, pos_x, _( "DRUGS" ), subtab == "CSC_CHEM_DRUGS" );
-                pos_x += utf8_width( _( "DRUGS" ) ) + tab_step;
-                draw_subtab( w, pos_x, _( "MUTAGEN" ), subtab == "CSC_CHEM_MUTAGEN" );
-                pos_x += utf8_width( _( "MUTAGEN" ) ) + tab_step;
-                draw_subtab( w, pos_x, _( "CHEMICALS" ), subtab == "CSC_CHEM_CHEMICALS" );
-                pos_x += utf8_width( _( "CHEMICALS" ) ) + tab_step;
-                draw_subtab( w, pos_x, _( "OTHER" ), subtab == "CSC_CHEM_OTHER" );
-            } else if( tab == "CC_ELECTRONIC" ) {
-                draw_subtab( w, pos_x, _( "CBMS" ), subtab == "CSC_ELECTRONIC_CBMS" );
-                pos_x += utf8_width( _( "CBMS" ) ) + tab_step;
-                draw_subtab( w, pos_x, _( "TOOLS" ), subtab == "CSC_ELECTRONIC_TOOLS" );
-                pos_x += utf8_width( _( "TOOLS" ) ) + tab_step;
-                draw_subtab( w, pos_x, _( "PARTS" ), subtab == "CSC_ELECTRONIC_PARTS" );
-                pos_x += utf8_width( _( "PARTS" ) ) + tab_step;
-                draw_subtab( w, pos_x, _( "LIGHTING" ), subtab == "CSC_ELECTRONIC_LIGHTING" );
-                pos_x += utf8_width( _( "LIGHTING" ) ) + tab_step;
-                draw_subtab( w, pos_x, _( "COMPONENTS" ), subtab == "CSC_ELECTRONIC_COMPONENTS" );
-                pos_x += utf8_width( _( "COMPONENTS" ) ) + tab_step;
-                draw_subtab( w, pos_x, _( "OTHER" ), subtab == "CSC_ELECTRONIC_OTHER" );
-            } else if( tab == "CC_ARMOR" ) {
-                draw_subtab( w, pos_x, _( "STORAGE" ), subtab == "CSC_ARMOR_STORAGE" );
-                pos_x += utf8_width( _( "STORAGE" ) ) + tab_step;
-                draw_subtab( w, pos_x, _( "SUIT" ), subtab == "CSC_ARMOR_SUIT" );
-                pos_x += utf8_width( _( "SUIT" ) ) + tab_step;
-                draw_subtab( w, pos_x, _( "HEAD" ), subtab == "CSC_ARMOR_HEAD" );
-                pos_x += utf8_width( _( "HEAD" ) ) + tab_step;
-                draw_subtab( w, pos_x, _( "TORSO" ), subtab == "CSC_ARMOR_TORSO" );
-                pos_x += utf8_width( _( "TORSO" ) ) + tab_step;
-                draw_subtab( w, pos_x, _( "ARMS" ), subtab == "CSC_ARMOR_ARMS" );
-                pos_x += utf8_width( _( "ARMS" ) ) + tab_step;
-                draw_subtab( w, pos_x, _( "HANDS" ), subtab == "CSC_ARMOR_HANDS" );
-                pos_x += utf8_width( _( "HANDS" ) ) + tab_step;
-                draw_subtab( w, pos_x, _( "LEGS" ), subtab == "CSC_ARMOR_LEGS" );
-                pos_x += utf8_width( _( "LEGS" ) ) + tab_step;
-                draw_subtab( w, pos_x, _( "FEET" ), subtab == "CSC_ARMOR_FEET" );
-                pos_x += utf8_width( _( "FEET" ) ) + tab_step;
-                draw_subtab( w, pos_x, _( "OTHER" ), subtab == "CSC_ARMOR_OTHER" );
-            } else if( tab == "CC_OTHER" ) {
-                draw_subtab( w, pos_x, _( "TOOLS" ), subtab == "CSC_OTHER_TOOLS" );
-                pos_x += utf8_width( _( "TOOLS" ) ) + tab_step;
-                draw_subtab( w, pos_x, _( "MEDICAL" ), subtab == "CSC_OTHER_MEDICAL" );
-                pos_x += utf8_width( _( "MEDICAL" ) ) + tab_step;
-                draw_subtab( w, pos_x, _( "CONTAINERS" ), subtab == "CSC_OTHER_CONTAINERS" );
-                pos_x += utf8_width( _( "CONTAINERS" ) ) + tab_step;
-                draw_subtab( w, pos_x, _( "MATERIALS" ), subtab == "CSC_OTHER_MATERIALS" );
-                pos_x += utf8_width( _( "MATERIALS" ) ) + tab_step;
-                draw_subtab( w, pos_x, _( "PARTS" ), subtab == "CSC_OTHER_PARTS" );
-                pos_x += utf8_width( _( "PARTS" ) ) + tab_step;
-                draw_subtab( w, pos_x, _( "TRAPS" ), subtab == "CSC_OTHER_TRAPS" );
-                pos_x += utf8_width( _( "TRAPS" ) ) + tab_step;
-                draw_subtab( w, pos_x, _( "OTHER" ), subtab == "CSC_OTHER_OTHER" );
+            for( const auto stt : craft_subcat_list[tab] ) {
+                draw_subtab( w, pos_x, normalized_names[stt], subtab == stt );
+                pos_x += utf8_width( normalized_names[stt] ) + tab_step;
             }
             break;
         }
@@ -825,7 +722,7 @@ void pick_recipes( const inventory &crafting_inv,
     for( auto rec : available_recipes ) {
 
         if( subtab == "CSC_ALL" || rec->subcat == subtab ||
-            ( rec->subcat == "" && last_craft_subcat( tab ) == subtab ) ||
+            ( rec->subcat == "" && craft_subcat_list[tab].back() == subtab ) ||
             filter != "" ) {
             if( ( !g->u.knows_recipe( rec ) && -1 == g->u.has_recipe( rec, crafting_inv ) )
                 || ( rec->difficulty < 0 ) ) {

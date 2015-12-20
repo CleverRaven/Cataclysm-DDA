@@ -762,7 +762,7 @@ std::string string_input_popup(std::string title, int width, std::string input, 
 
 std::string string_input_win(WINDOW *w, std::string input, int max_length, int startx, int starty,
                              int endx, bool loop, long &ch, int &pos, std::string identifier,
-                             int w_x, int w_y, bool dorefresh, bool only_digits)
+                             int w_x, int w_y, bool dorefresh, bool only_digits, std::map<long, std::function<void()>> callbacks)
 {
     utf8_wrapper ret(input);
     nc_color string_color = c_magenta;
@@ -862,6 +862,9 @@ std::string string_input_win(WINDOW *w, std::string input, int max_length, int s
         const std::string action = ctxt.handle_input();
         const input_event ev = ctxt.get_raw_input();
         ch = ev.type == CATA_INPUT_KEYBOARD ? ev.get_first_input() : 0;
+        if( callbacks[ch] ) {
+            callbacks[ch]();
+        }
         if( ch == KEY_ESCAPE ) {
             return "";
         } else if (ch == '\n') {
@@ -958,6 +961,7 @@ std::string string_input_win(WINDOW *w, std::string input, int max_length, int s
             pos += t.length();
             redraw = true;
         }
+
         if (return_key) {//"/n" return code
             {
                 if(!identifier.empty() && !ret.empty() ) {
@@ -1070,6 +1074,9 @@ long popup(const std::string &text, PopupFlags flags)
     wrefresh(w);
     delwin(w);
     refresh();
+#ifdef TILES
+    try_sdl_update();
+#endif // TILES
     return ch;
 }
 
@@ -1107,12 +1114,13 @@ void full_screen_popup(const char *mes, ...)
 int draw_item_info(const int iLeft, const int iWidth, const int iTop, const int iHeight,
                    const std::string sItemName, const std::string sTypeName,
                    std::vector<iteminfo> &vItemDisplay, std::vector<iteminfo> &vItemCompare,
-                   int &selected, const bool without_getch, const bool without_border, const bool handle_scrolling)
+                   int &selected, const bool without_getch, const bool without_border,
+                   const bool handle_scrolling, const bool scrollbar_left, const bool use_full_win)
 {
     WINDOW *win = newwin(iHeight, iWidth, iTop + VIEW_OFFSET_Y, iLeft + VIEW_OFFSET_X);
 
     const auto result = draw_item_info(win, sItemName, sTypeName, vItemDisplay, vItemCompare,
-                          selected, without_getch, without_border, handle_scrolling);
+                          selected, without_getch, without_border, handle_scrolling, scrollbar_left, use_full_win);
     delwin( win );
     return result;
 }
@@ -1135,13 +1143,13 @@ std::string replace_colors( std::string text )
 {
     static const std::vector<std::pair<std::string, std::string>> info_colors = {
         {"info", get_all_colors().get_name( c_cyan )},
-        {"stat", get_all_colors().get_name( c_blue )},
+        {"stat", get_all_colors().get_name( c_ltblue )},
         {"header", get_all_colors().get_name( c_magenta )},
         {"bold", get_all_colors().get_name( c_white )},
         {"dark", get_all_colors().get_name( c_dkgray )},
         {"good", get_all_colors().get_name( c_green )},
         {"bad", get_all_colors().get_name( c_red )},
-        {"neutral", get_all_colors().get_name( c_brown )}
+        {"neutral", get_all_colors().get_name( c_yellow )}
     };
 
     for( auto &elem : info_colors ) {
@@ -1191,7 +1199,7 @@ std::string format_item_info( const std::vector<iteminfo> &vItemDisplay,
             }
 
             if (vItemDisplay[i].sValue != "-999") {
-                nc_color thisColor = c_brown;
+                nc_color thisColor = OPTIONS["INFO_HIGHLIGHT"] ? c_yellow : c_ltgray;
                 for (auto &k : vItemCompare) {
                     if (k.sValue != "-999") {
                         if (vItemDisplay[i].sName == k.sName && vItemDisplay[i].sType == k.sType) {
@@ -1237,10 +1245,11 @@ std::string format_item_info( const std::vector<iteminfo> &vItemDisplay,
 
 int draw_item_info(WINDOW *win, const std::string sItemName, const std::string sTypeName,
                    std::vector<iteminfo> &vItemDisplay, std::vector<iteminfo> &vItemCompare,
-                   int &selected, const bool without_getch, const bool without_border, const bool handle_scrolling)
+                   int &selected, const bool without_getch, const bool without_border,
+                   const bool handle_scrolling, const bool scrollbar_left, const bool use_full_win )
 {
     std::ostringstream buffer;
-    int line_num = 1;
+    int line_num = use_full_win || without_border ? 0 : 1;
     if (sItemName != "") {
         buffer << sItemName << "\n";
     }
@@ -1252,14 +1261,14 @@ int draw_item_info(WINDOW *win, const std::string sItemName, const std::string s
     int selected_ret = '\n';
     buffer << format_item_info( vItemDisplay, vItemCompare );
 
+    const auto b = use_full_win ? 0 : (without_border ? 1 : 2);
+    const auto width = getmaxx( win ) - (use_full_win ? 1 : b * 2);
+    const auto height = getmaxy( win ) - (use_full_win ? 0 : 2);
+
     int ch = (int)' ';
     while( true ) {
         int iLines = 0;
         if( !buffer.str().empty() ) {
-            const auto b = without_border ? 1 : 2;
-            const auto width = getmaxx( win ) - b * 2;
-            const auto height = getmaxy( win ) - 2;
-
             const auto vFolded = foldstring(buffer.str(), width);
             iLines = vFolded.size();
 
@@ -1271,9 +1280,10 @@ int draw_item_info(WINDOW *win, const std::string sItemName, const std::string s
                 selected = iLines - height;
             }
 
-            fold_and_print_from( win, line_num, b, width, selected, c_ltgray, buffer.str() );
+            fold_and_print_from( win, line_num, b, width - 1, selected, c_ltgray, buffer.str() );
 
-            draw_scrollbar( win, selected, height, iLines-height, 1, 0, BORDER_COLOR, true );
+            draw_scrollbar( win, selected, height, iLines-height, (without_border && use_full_win ? 0 : 1),
+                            scrollbar_left ? 0 : getmaxx( win ) - 1, BORDER_COLOR, true );
         }
 
         if( !without_border ) {
@@ -1623,6 +1633,7 @@ std::string vstring_format(char const *const format, va_list args)
 //
 std::string rewrite_vsnprintf(const char* msg)
 {
+    bool contains_positional = false;
     const char* orig_msg = msg;
     const char* formats = "diouxXeEfFgGaAcsCSpnm";
 
@@ -1664,6 +1675,11 @@ std::string rewrite_vsnprintf(const char* msg)
             ptr++;
         }
 
+        // If '$' ever follows a numeral, the string has a positional arg
+        if (*ptr == '$') {
+            contains_positional = true;
+        }
+
         // Check if it's expected argument
         if (*ptr == '$' && positional_arg == next_positional_arg) {
             next_positional_arg++;
@@ -1693,6 +1709,10 @@ std::string rewrite_vsnprintf(const char* msg)
         }
 
         msg = end + 1;
+    }
+
+    if (!contains_positional) {
+        return orig_msg;
     }
 
     if (next_positional_arg > 0){

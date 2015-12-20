@@ -510,6 +510,30 @@
     },
     {
         "type" : "keybinding",
+        "id": "SCROLL_UP",
+        "category": "CRAFTING",
+        "name": "Scroll item info up",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"PPAGE"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "SCROLL_DOWN",
+        "category": "CRAFTING",
+        "name": "Scroll item info down",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"NPAGE"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
         "id":"CENTER",
         "category":"OVERMAP",
         "name":"Center On Character",
@@ -772,6 +796,42 @@
     },
     {
         "type" : "keybinding",
+        "id": "PLACE_TERRAIN",
+        "category": "OVERMAP",
+        "name": "Place Overmap Terrain",
+        "bindings": [
+            {
+                "input_method": "keyboard",
+                "key": "t"
+            }
+        ]
+    },
+    {
+        "type": "keybinding",
+        "id": "PLACE_SPECIAL",
+        "category": "OVERMAP",
+        "name": "Place Overmap Special",
+        "bindings": [
+            {
+                "input_method": "keyboard",
+                "key": "s"
+            }
+        ]
+    },
+    {
+        "type": "keybinding",
+        "id": "ROTATE",
+        "category": "OVERMAP_EDITOR",
+        "name": "Rotate",
+        "bindings": [
+            {
+                "input_method": "keyboard",
+                "key": "r"
+            }
+        ]        
+    },
+    {
+        "type" : "keybinding",
         "id":"SEARCH",
         "name":"Search",
         "bindings":[
@@ -957,10 +1017,6 @@
             },
             {
                 "input_method":"keyboard",
-                "key":"NPAGE"
-            },
-            {
-                "input_method":"keyboard",
                 "key":">"
             }
         ]
@@ -973,10 +1029,6 @@
             {
                 "input_method":"keyboard",
                 "key":"BACKTAB"
-            },
-            {
-                "input_method":"keyboard",
-                "key":"PPAGE"
             },
             {
                 "input_method":"keyboard",
@@ -1138,6 +1190,19 @@
     },
     {
         "type" : "keybinding",
+        "id": "QUIT",
+        "category": "NEW_CHAR_DESCRIPTION",
+        "name": "Exit new character screen",
+        "comment": "separate entry, because the global entry also has 'q' and 'Q' listed, which conflicts with the character name entry feature of this dialog",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"ESC"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
         "id": "SORT",
         "category": "NEW_CHAR_PROFESSIONS",
         "name": "Toggle sorting order",
@@ -1157,6 +1222,30 @@
             {
                 "input_method":"keyboard",
                 "key":"s"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "SCROLL_UP",
+        "category": "NEW_CHAR_SKILLS",
+        "name": "Scroll description up",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"PPAGE"
+            }
+        ]
+    },
+    {
+        "type" : "keybinding",
+        "id": "SCROLL_DOWN",
+        "category": "NEW_CHAR_SKILLS",
+        "name": "Scroll description down",
+        "bindings":[
+            {
+                "input_method":"keyboard",
+                "key":"NPAGE"
             }
         ]
     },

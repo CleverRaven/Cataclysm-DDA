@@ -38,8 +38,6 @@
 #   ifndef strcasecmp
 #       define strcasecmp StrCmpI
 #   endif
-#else
-#   include <wordexp.h>
 #endif
 
 #include <SDL.h>
@@ -61,12 +59,15 @@ cata_tiles *tilecontext;
 static unsigned long lastupdate = 0;
 static unsigned long interval = 25;
 static bool needupdate = false;
+extern bool tile_iso;
 
 #ifdef SDL_SOUND
 /** The music we're currently playing. */
 Mix_Music *current_music = NULL;
 std::string current_playlist = "";
 size_t current_playlist_at = 0;
+size_t absolute_playlist_at = 0;
+std::vector<std::size_t> playlist_indexes;
 
 struct sound_effect {
     int volume;
@@ -96,6 +97,8 @@ struct music_playlist {
 };
 
 std::map<std::string, music_playlist> playlists;
+
+std::string current_soundpack_path = "";
 #endif
 
 /**
@@ -1291,7 +1294,6 @@ static void save_font_list()
     strcat(buf, "\\fonts");
     font_folder_list(fout, buf);
 #elif (defined _APPLE_ && defined _MACH_)
-
     /*
     // Well I don't know how osx actually works ....
     font_folder_list(fout, "/System/Library/Fonts");
@@ -1301,15 +1303,16 @@ static void save_font_list()
     wordexp("~/Library/Fonts", &exp, 0);
     font_folder_list(fout, exp.we_wordv[0]);
     wordfree(&exp);*/
-#elif (defined linux || defined __linux)
+#else // Other POSIX-ish systems
     font_folder_list(fout, "/usr/share/fonts");
     font_folder_list(fout, "/usr/local/share/fonts");
-    wordexp_t exp;
-    wordexp("~/.fonts", &exp, 0);
-    font_folder_list(fout, exp.we_wordv[0]);
-    wordfree(&exp);
+    char *home;
+    if( ( home = getenv( "HOME" ) ) ) {
+        std::string userfontdir = home;
+        userfontdir += "/.fonts";
+        font_folder_list( fout, userfontdir );
+    }
 #endif
-    //TODO: other systems
 
     bitmap_fonts->clear();
     delete bitmap_fonts;
@@ -1759,7 +1762,7 @@ bool input_context::get_coordinates(WINDOW* capture_win, int& x, int& y) {
         return false;
     }
 
-    if (tilecontext->tile_iso) {
+    if (tile_iso) {
         const int selected_column = (coordinate_x - win_left)/fw - (coordinate_y - win_top - fh - (capture_win->height * fh)/2)/(fw/2);
         const int selected_row = (coordinate_x - win_left)/fw + (coordinate_y - win_top - fh - (capture_win->height * fh)/2)/(fw/2);
         // add_msg( m_info, "c %d r %d", selected_column, selected_row );
@@ -2011,7 +2014,7 @@ SDL_Color cursesColorToSDL(int color) {
 void musicFinished();
 
 void play_music_file(std::string filename, int volume) {
-    const std::string path = (FILENAMES["datadir"] + "sound/" + filename);
+    const std::string path = ( current_soundpack_path + "/" + filename );
     current_music = Mix_LoadMUS(path.c_str());
     if( current_music == nullptr ) {
         dbg( D_ERROR ) << "Failed to load audio file " << path << ": " << Mix_GetError();
@@ -2041,12 +2044,14 @@ void musicFinished() {
     }
 
     // Load the next file to play.
-    current_playlist_at++;
+    absolute_playlist_at++;
 
     // Wrap around if we reached the end of the playlist.
-    if( current_playlist_at >= list.entries.size() ) {
-        current_playlist_at = 0;
+    if( absolute_playlist_at >= list.entries.size() ) {
+        absolute_playlist_at = 0;
     }
+
+    current_playlist_at = playlist_indexes.at( absolute_playlist_at );
 
     const auto &next = list.entries[current_playlist_at];
     play_music_file( next.file, next.volume );
@@ -2069,10 +2074,17 @@ void play_music(std::string playlist) {
         return;
     }
 
-    current_playlist = playlist;
-    current_playlist_at = 0;
+    for( size_t i = 0; i < list.entries.size(); i++ ) {
+        playlist_indexes.push_back( i );
+    }
+    if( list.shuffle ) {
+        std::random_shuffle( playlist_indexes.begin(), playlist_indexes.end() );
+    }
 
-    const auto &next = list.entries[0];
+    current_playlist = playlist;
+    current_playlist_at = playlist_indexes.at( absolute_playlist_at );
+
+    const auto &next = list.entries[current_playlist_at];
     play_music_file( next.file, next.volume );
 #else
     (void)playlist;
@@ -2089,7 +2101,7 @@ void sfx::load_sound_effects( JsonObject &jsobj ) {
     while( jsarr.has_more() ) {
         sound_effect new_sound_effect;
         const std::string file = jsarr.next_string();
-        std::string path = ( FILENAMES[ "datadir" ] + "sound/" + file );
+        std::string path = ( current_soundpack_path + "/" + file );
         new_sound_effect.chunk.reset( Mix_LoadWAV( path.c_str() ) );
         if( !new_sound_effect.chunk ) {
             dbg( D_ERROR ) << "Failed to load audio file " << path << ": " << Mix_GetError();
@@ -2268,8 +2280,32 @@ void sfx::play_ambient_variant_sound( std::string id, std::string variant, int v
 
 void load_soundset() {
 #ifdef SDL_SOUND
+    const std::string default_path = FILENAMES["defaultsounddir"];
+    const std::string default_soundpack = "basic";
+    std::string current_soundpack = OPTIONS["SOUNDPACKS"].getValue();
+    std::string soundpack_path;
+
+    // Get curent soundpack and it's directory path.
+    if (current_soundpack.empty()) {
+        dbg( D_ERROR ) << "Soundpack not set in OPTIONS. Corrupted options or empty soundpack name";
+        soundpack_path = default_path;
+        current_soundpack = default_soundpack;
+    } else {
+        dbg( D_INFO ) << "Current OPTIONS soundpack is: " << current_soundpack;
+        soundpack_path = SOUNDPACKS[current_soundpack];
+    }
+
+    if (soundpack_path.empty()) {
+        dbg( D_ERROR ) << "Soundpack with name " << current_soundpack << " can't be found or empty string";
+        soundpack_path = default_path;
+        current_soundpack = default_soundpack;
+    } else {
+        dbg( D_INFO ) << '"' << current_soundpack << '"' << " soundpack: found path: " << soundpack_path;
+    }
+
+    current_soundpack_path = soundpack_path;
     try {
-        DynamicDataLoader::get_instance().load_data_from_path( FILENAMES["datadir"] + "sound/" );
+        DynamicDataLoader::get_instance().load_data_from_path( soundpack_path );
     } catch( const std::exception &err ) {
         dbg( D_ERROR ) << "failed to load sounds: " << err.what();
     }

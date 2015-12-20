@@ -12,6 +12,7 @@
 #include "itype.h"
 #include "vehicle.h"
 #include "mapdata.h"
+#include "cata_utility.h"
 
 #include <map>
 #include <vector>
@@ -475,11 +476,6 @@ void Pickup::pick_up( const tripoint &pos, int min )
         return;
     }
 
-    //min == -1 is Autopickup
-    if (!g->u.can_pickup(min != -1)) { // no message on autopickup (-1)
-        return;
-    }
-
     if( !from_vehicle ) {
         bool isEmpty = (g->m.i_at(pos).empty());
 
@@ -826,8 +822,8 @@ void Pickup::pick_up( const tripoint &pos, int min )
                 }
                 mvwprintz(w_pickup, 0,  9,
                           (new_weight > g->u.weight_capacity() ? c_red : c_white),
-                          _("Wgt %.1f"), g->u.convert_weight(new_weight) + 0.05); // +0.05 to round up
-                wprintz(w_pickup, c_white, "/%.1f", g->u.convert_weight(g->u.weight_capacity()));
+                          _("Wgt %.1f"), convert_weight(new_weight) + 0.05); // +0.05 to round up
+                wprintz(w_pickup, c_white, "/%.1f", convert_weight(g->u.weight_capacity()));
                 mvwprintz(w_pickup, 0, 24,
                           (new_volume > g->u.volume_capacity() ? c_red : c_white),
                           _("Vol %d"), new_volume);

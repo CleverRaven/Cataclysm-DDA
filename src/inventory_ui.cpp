@@ -12,6 +12,8 @@
 #include "catacharset.h"
 #include "item_location.h"
 #include "vehicle.h"
+#include "cata_utility.h"
+
 #include <string>
 #include <vector>
 #include <map>
@@ -251,16 +253,15 @@ void inventory_selector::print_inv_weight_vol(int weight_carried, int vol_carrie
         int vol_capacity) const
 {
     // Print weight
-    mvwprintw(w_inv, 0, 32, _("Weight (%s): "),
-              OPTIONS["USE_METRIC_WEIGHTS"].getValue() == "lbs" ? _("lbs") : _("kg"));
+    mvwprintw(w_inv, 0, 32, _("Weight (%s): "), weight_units().c_str());
     nc_color weight_color;
     if (weight_carried > g->u.weight_capacity()) {
         weight_color = c_red;
     } else {
         weight_color = c_ltgray;
     }
-    wprintz(w_inv, weight_color, "%6.1f", g->u.convert_weight(weight_carried) + 0.05 ); // +0.05 to round up;
-    wprintz(w_inv, c_ltgray, "/%-6.1f", g->u.convert_weight(g->u.weight_capacity()));
+    wprintz(w_inv, weight_color, "%6.1f", convert_weight(weight_carried) + 0.05 ); // +0.05 to round up;
+    wprintz(w_inv, c_ltgray, "/%-6.1f", convert_weight(g->u.weight_capacity()));
 
     // Print volume
     mvwprintw(w_inv, 0, 61, _("Volume: "));
@@ -903,6 +904,8 @@ item_location game::inv_map_splice(
                         if( cur_invlet <= max_invlet ) {
                             current_stack.back().front().invlet = cur_invlet++;
                             invlets.emplace_back( item_location::on_map( pos, &it ) );
+                        } else {
+                            current_stack.back().front().invlet = 0;
                         }
                     }
                 }
@@ -944,6 +947,8 @@ item_location game::inv_map_splice(
                             if( cur_invlet <= max_invlet ) {
                                 current_stack.back().front().invlet = cur_invlet++;
                                 invlets.emplace_back( item_location::on_vehicle( *veh, veh->parts[part].mount, &it ) );
+                            } else {
+                                current_stack.back().front().invlet = 0;
                             }
                         }
                     }
@@ -968,7 +973,9 @@ item_location game::inv_map_splice(
 
         } else if( ch >= min_invlet && ch <= max_invlet ) {
             // Indexed item on ground or in vehicle
-            return std::move( invlets[ch - min_invlet] );
+            if( (long)invlets.size() > ch - min_invlet ) {
+                return std::move( invlets[ch - min_invlet] );
+            }
 
         } else if( inv_s.handle_movement( action ) ) {
             // continue with comparison below
@@ -994,13 +1001,13 @@ item_location game::inv_map_splice(
     }
 }
 
-item *game::inv_map_for_liquid(const item &liquid, const std::string &title)
+item *game::inv_map_for_liquid(const item &liquid, const std::string &title, int radius)
 {
     auto filter = [&]( const item &candidate ) {
         return candidate.get_remaining_capacity_for_liquid( liquid ) > 0;
     };
 
-    return inv_map_splice( filter, title ).get_item();
+    return inv_map_splice( filter, title, radius ).get_item();
 }
 
 int game::inv_for_flag(const std::string &flag, const std::string &title, bool const auto_choose_single)

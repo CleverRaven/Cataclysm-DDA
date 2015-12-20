@@ -1,4 +1,6 @@
 #include "item.h"
+
+#include "advanced_inv.h"
 #include "player.h"
 #include "output.h"
 #include "skill.h"
@@ -29,6 +31,7 @@
 #include "weather.h"
 #include "morale.h"
 #include "catacharset.h"
+#include "cata_utility.h"
 
 #include <cmath> // floor
 #include <sstream>
@@ -424,7 +427,6 @@ void item::put_in(item payload)
 {
     contents.push_back(payload);
 }
-const char ivaresc=001;
 
 void item::set_var( const std::string &name, const int value )
 {
@@ -434,30 +436,12 @@ void item::set_var( const std::string &name, const int value )
     item_vars[name] = tmpstream.str();
 }
 
-int item::get_var( const std::string &name, const int default_value ) const
-{
-    const auto it = item_vars.find( name );
-    if( it == item_vars.end() ) {
-        return default_value;
-    }
-    return atoi( it->second.c_str() );
-}
-
 void item::set_var( const std::string &name, const long value )
 {
     std::ostringstream tmpstream;
     tmpstream.imbue( std::locale::classic() );
     tmpstream << value;
     item_vars[name] = tmpstream.str();
-}
-
-long item::get_var( const std::string &name, const long default_value ) const
-{
-    const auto it = item_vars.find( name );
-    if( it == item_vars.end() ) {
-        return default_value;
-    }
-    return atol( it->second.c_str() );
 }
 
 void item::set_var( const std::string &name, const double value )
@@ -507,6 +491,8 @@ void item::clear_vars()
 {
     item_vars.clear();
 }
+
+const char ivaresc = 001;
 
 bool itag2ivar( std::string &item_tag, std::map<std::string, std::string> &item_vars )
 {
@@ -559,6 +545,8 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
     const bool debug = g != nullptr && ( debug_mode ||
                                          g->u.has_artifact_with( AEP_SUPER_CLAIRVOYANCE ) );
 
+    info.clear();
+
     auto insert_separation_line = [&]() {
         if( info.back().sName != "--" ) {
             info.push_back( iteminfo( "DESCRIPTION", "--" ) );
@@ -574,10 +562,8 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
         info.push_back( iteminfo( "BASE", _( "<bold>Volume</bold>: " ), "", volume(), true, "", false,
                                   true ) );
         info.push_back( iteminfo( "BASE", space + _( "Weight: " ),
-                                  string_format( "<num> %s",
-                                          OPTIONS["USE_METRIC_WEIGHTS"].getValue() == "lbs" ?
-                                          _( "lbs" ) : _( "kg" ) ),
-                                  g->u.convert_weight( weight() ), false, "", true, true ) );
+                                  string_format( "<num> %s", weight_units().c_str() ),
+                                  convert_weight( weight() ), false, "", true, true ) );
 
         if( damage_bash() > 0 || damage_cut() > 0 ) {
             info.push_back( iteminfo( "BASE", _( "Bash: " ), "", damage_bash(), true, "", false ) );
@@ -716,9 +702,9 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
         int ammo_recoil = 0;
         int ammo_pierce = 0;
         int ammo_dispersion = 0;
-        bool has_ammo = ( has_curammo() && charges > 0 );
-        if( has_ammo ) {
-            const auto curammo = get_curammo()->ammo.get();
+        bool has_ammo = (mod->has_curammo() && mod->ammo_remaining() > 0);
+        if (has_ammo) {
+            const auto curammo = mod->get_curammo()->ammo.get();
             ammo_dam = curammo->damage;
             ammo_range = curammo->range;
             ammo_recoil = curammo->recoil;
@@ -731,11 +717,11 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
         info.push_back( iteminfo( "GUN", _( "<bold>Ammunition</bold>: " ),
                                   string_format( ngettext( "<num> <stat>round of %s</stat>",
                                           "<num> <stat>rounds of %s</stat>",
-                                          mod->clip_size() ),
-                                          ammo_name( mod->ammo_type() ).c_str() ), mod->clip_size(), true ) );
+                                          mod->ammo_capacity() ),
+                                          ammo_name( mod->ammo_type() ).c_str() ), mod->ammo_capacity(), true ) );
 
-        info.push_back( iteminfo( "GUN", _( "Damage: " ), "", mod->gun_damage( false ), true, "", false,
-                                  false ) );
+        info.push_back( iteminfo( "GUN", _( "Damage: " ), "", mod->gun_damage( false ), true, "", false, false ) );
+
         if( has_ammo ) {
             temp1.str( "" );
             temp1 << ( ammo_dam >= 0 ? "+" : "" );
@@ -892,7 +878,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
 
         if( mod->newtype != "NULL" ) {
             info.push_back( iteminfo( "GUNMOD",
-                                      string_format( _( "Ammo: <stat>%s</stat>" ) + ammo_name( mod->newtype ) ) ) );
+                                      string_format( _( "Ammo: <stat>%s</stat>" ), ammo_name( mod->newtype ).c_str() ) ) );
         }
 
         temp1.str( "" );
@@ -976,7 +962,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
         } else if( covers( bp_arm_l ) ) {
             temp1 << _( "The <info>left arm</info>. " );
         } else if( covers( bp_arm_r ) ) {
-            temp1 << _( "The r<info>ight arm</info>. " );
+            temp1 << _( "The <info>right arm</info>. " );
         }
 
         if( is_sided() && ( covers( bp_hand_l ) || covers( bp_hand_r ) ) ) {
@@ -1109,9 +1095,9 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
                     // In case the recipe is known, but has a different name in the book, use the
                     // real name to avoid confusing the player.
                     const std::string name = item::nname( elem.recipe->result );
-                    recipe_list.push_back( string_format( "<color_ltgray>%s</color>", name.c_str() ) );
+                    recipe_list.push_back( "<bold>" + name + "</bold>" );
                 } else {
-                    recipe_list.push_back( elem.name );
+                    recipe_list.push_back( "<dark>" + elem.name + "</dark>" );
                 }
             }
             if( !recipe_list.empty() ) {
@@ -1130,6 +1116,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
                                               ngettext( "This book contains %1$d crafting recipe: %2$s",
                                                         "This book contains %1$d crafting recipes: %2$s", recipe_list.size() ),
                                               recipe_list.size(), recipes.c_str() );
+
                 insert_separation_line();
                 info.push_back( iteminfo( "DESCRIPTION", recipe_line ) );
             }
@@ -1171,81 +1158,75 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
     if( is_tool() ) {
         const auto tool = dynamic_cast<const it_tool *>( type );
 
-        if( ( tool->max_charges ) != 0 ) {
-            int t_max;
+        if( ammo_capacity() != 0 ) {
             std::string temp_fmt;
             const std::string t_ammo_name = ammo_name( tool->ammo_id );
 
-            info.push_back( iteminfo( "TOOL", string_format( _( "<bold>Charges</bold>: %d" ), charges ) ) );
+            info.push_back( iteminfo( "TOOL", string_format( _( "<bold>Charges</bold>: %d" ), ammo_remaining() ) ) );
 
             if( has_flag( "DOUBLE_AMMO" ) ) {
-                t_max = tool->max_charges * 2;
                 if( tool->ammo_id != "NULL" ) {
                     //~ "%s" is ammunition type. This types can't be plural.
                     temp_fmt = ngettext( "Maximum <num> charge (doubled) of %s.",
                                          "Maximum <num> charges (doubled) of %s.",
-                                         t_max );
+                                         ammo_capacity() );
                     temp_fmt = string_format( temp_fmt, t_ammo_name.c_str() );
                 } else {
                     temp_fmt = ngettext( "Maximum <num> charge (doubled).",
                                          "Maximum <num> charges (doubled).",
-                                         t_max );
+                                         ammo_capacity() );
                 }
             } else if( has_flag( "RECHARGE" ) ) {
-                t_max = tool->max_charges;
                 if( tool->ammo_id != "NULL" ) {
                     //~ "%s" is ammunition type. This types can't be plural.
                     temp_fmt = ngettext( "Maximum <num> charge (rechargeable) of %s",
                                          "Maximum <num> charges (rechargeable) of %s.",
-                                         t_max );
+                                         ammo_capacity() );
                     temp_fmt = string_format( temp_fmt, t_ammo_name.c_str() );
                 } else {
                     temp_fmt = ngettext( "Maximum <num> charge (rechargeable).",
                                          "Maximum <num> charges (rechargeable).",
-                                         t_max );
+                                         ammo_capacity() );
                 }
             } else if( has_flag( "DOUBLE_AMMO" ) && has_flag( "RECHARGE" ) ) {
-                t_max = tool->max_charges * 2;
                 if( tool->ammo_id != "NULL" ) {
                     //~ "%s" is ammunition type. This types can't be plural.
                     temp_fmt = ngettext( "Maximum <num> charge (rechargeable) (doubled) of %s.",
                                          "Maximum <num> charges (rechargeable) (doubled) of %s.",
-                                         t_max );
+                                         ammo_capacity() );
                     temp_fmt = string_format( temp_fmt, t_ammo_name.c_str() );
                 } else {
                     temp_fmt = ngettext( "Maximum <num> charge (rechargeable) (doubled).",
                                          "Maximum <num> charges (rechargeable) (doubled).",
-                                         t_max );
+                                         ammo_capacity() );
                 }
-                info.push_back( iteminfo( "TOOL", "", temp_fmt, t_max ) );
+                info.push_back( iteminfo( "TOOL", "", temp_fmt, ammo_capacity() ) );
             } else if( has_flag( "ATOMIC_AMMO" ) ) {
-                t_max = tool->max_charges * 100;
                 if( tool->ammo_id != "NULL" ) {
                     //~ "%s" is ammunition type. This types can't be plural.
                     temp_fmt = ngettext( "Maximum <num> charge of %s.",
                                          "Maximum <num> charges of %s.",
-                                         t_max );
+                                         ammo_capacity() );
                     temp_fmt = string_format( temp_fmt, ammo_name( "plutonium" ).c_str() );
                 } else {
                     temp_fmt = ngettext( "Maximum <num> charge.",
                                          "Maximum <num> charges.",
-                                         t_max );
+                                         ammo_capacity() );
                 }
             } else {
-                t_max = tool->max_charges;
                 if( tool->ammo_id != "NULL" ) {
                     //~ "%s" is ammunition type. This types can't be plural.
                     temp_fmt = ngettext( "Maximum <num> charge of %s.",
                                          "Maximum <num> charges of %s.",
-                                         t_max );
+                                         ammo_capacity() );
                     temp_fmt = string_format( temp_fmt, t_ammo_name.c_str() );
                 } else {
                     temp_fmt = ngettext( "Maximum <num> charge.",
                                          "Maximum <num> charges.",
-                                         t_max );
+                                         ammo_capacity() );
                 }
             }
-            info.push_back( iteminfo( "TOOL", "", temp_fmt, t_max ) );
+            info.push_back( iteminfo( "TOOL", "", temp_fmt, ammo_capacity() ) );
         }
     }
 
@@ -1395,6 +1376,10 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
             info.push_back( iteminfo( "DESCRIPTION",
                                       _( "* This piece of clothing is large enough to accommodate <info>mutated anatomy</info>." ) ) );
         }
+        if( is_armor() && has_flag( "ALLOWS_NATURAL_ATTACKS" ) ) {
+            info.push_back( iteminfo( "DESCRIPTION",
+                                      _( "* This piece of clothing won't hinder special attacks that involve <info>mutated anatomy</info>." ) ) );
+        }
         if( is_armor() && has_flag( "POCKETS" ) ) {
             info.push_back( iteminfo( "DESCRIPTION",
                                       _( "* This piece of clothing has <info>pockets</info> to warm your hands.  Put away your weapon to warm your hands in the pockets." ) ) );
@@ -1445,7 +1430,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
         }
         if( is_armor() && item_tags.count( "wooled" ) ) {
             info.push_back( iteminfo( "DESCRIPTION",
-                                      _( "* This piece of clothing has a wool lining sewn into it to <good>increase</good> its overall <info>warmth<info>." ) ) );
+                                      _( "* This piece of clothing has a wool lining sewn into it to <good>increase</good> its overall <info>warmth</info>." ) ) );
         }
         if( is_armor() && item_tags.count( "furred" ) ) {
             info.push_back( iteminfo( "DESCRIPTION",
@@ -1457,7 +1442,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
         }
         if( is_armor() && item_tags.count( "kevlar_padded" ) ) {
             info.push_back( iteminfo( "DESCRIPTION",
-                                      _( "* This gear has Kevlar inserted into strategic locations to <good>increase protection</good> with some <bad>increase to encumbrance<bad>." ) ) );
+                                      _( "* This gear has Kevlar inserted into strategic locations to <good>increase protection</good> with some <bad>increase to encumbrance</bad>." ) ) );
         }
         if( is_armor() && has_flag( "FLOTATION" ) ) {
             info.push_back( iteminfo( "DESCRIPTION",
@@ -1518,7 +1503,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
         }
         if( is_tool() && has_flag( "RECHARGE" ) ) {
             info.push_back( iteminfo( "DESCRIPTION",
-                                      _( "* This tool has been modified to use a <info>rechargeable power cell</info> and is <neutral>not compatible</neutral> with <info>standard batteries<info>." ) ) );
+                                      _( "* This tool has been modified to use a <info>rechargeable power cell</info> and is <neutral>not compatible</neutral> with <info>standard batteries</info>." ) ) );
         }
         if( is_tool() && has_flag( "USE_UPS" ) ) {
             info.push_back( iteminfo( "DESCRIPTION",
@@ -1568,11 +1553,13 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
                                       _( "* This object is <neutral>surrounded</neutral> by a <info>sickly green glow</info>." ) ) );
         }
 
+        ///\EFFECT_SURVIVAL >=3 allows detection of poisonous food
         if( is_food() && has_flag( "HIDDEN_POISON" ) && g->u.skillLevel( skill_survival ).level() >= 3 ) {
             info.push_back( iteminfo( "DESCRIPTION",
                                       _( "* On closer inspection, this appears to be <bad>poisonous</bad>." ) ) );
         }
 
+        ///\EFFECT_SURVIVAL >=5 allows detection of hallucinogenic food
         if( is_food() && has_flag( "HIDDEN_HALLU" ) && g->u.skillLevel( skill_survival ).level() >= 5 ) {
             info.push_back( iteminfo( "DESCRIPTION",
                                       _( "* On closer inspection, this appears to be <neutral>hallucinogenic</neutral>." ) ) );
@@ -1601,6 +1588,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
             }
         }
 
+        ///\EFFECT_MELEE >2 allows seeing melee damage stats on weapons
         if( debug_mode || ( g->u.get_skill_level( skill_melee ) > 2 && ( damage_bash() > 0 ||
                             damage_cut() > 0 ) ) ) {
             damage_instance non_crit;
@@ -1751,7 +1739,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
         }
     }
 
-    if( info.back().sName == "--" ) {
+    if( !info.empty() && info.back().sName == "--" ) {
         info.pop_back();
     }
 
@@ -1925,29 +1913,32 @@ void item::on_wield( player &p, int mv )
         g->add_artifact_messages( type->artifact->effects_wielded );
     }
 
-    if (has_flag("SLOW_WIELD") && (! is_gunmod())) {
-        int d = 32; // arbitrary linear scaling factor
-        if      (is_gun())  d /= std::max((int) p.skillLevel(gun_skill()),  1);
-        else if (is_weap()) d /= std::max((int) p.skillLevel(weap_skill()), 1);
+    if( has_flag("SLOW_WIELD") && !is_gunmod() ) {
+        float d = 32.0; // arbitrary linear scaling factor
+        if( is_gun() ) {
+            d /= std::max( (float)p.skillLevel( gun_skill() ),  1.0f );
+        } else if( is_weap() ) {
+            d /= std::max( (float)p.skillLevel( weap_skill() ), 1.0f );
+        }
 
-        int penalty = get_var("volume", (int) type->volume) * d;
+        int penalty = get_var( "volume", type->volume ) * d;
         p.moves -= penalty;
         mv += penalty;
     }
 
     std::string msg;
 
-    if (mv > 250) {
-        msg = _("It takes you much longer than usual to wield your %s.");
-    } else if (mv > 100) {
-        msg = _("It takes you longer than usual to wield your %s.");
-    } else if (mv > 50) {
-        msg = _("It takes you slightly longer than usual to wield your %s.");
+    if( mv > 250 ) {
+        msg = _( "It takes you a very long time to wield your %s." );
+    } else if( mv > 100 ) {
+        msg = _( "It takes you a long time to wield your %s." );
+    } else if( mv > 50 ) {
+        msg = _( "It takes you several seconds to wield your %s." );
     } else {
-        msg = _("You wield your %s.");
+        msg = _( "You wield your %s." );
     }
 
-    p.add_msg_if_player(msg.c_str(), tname().c_str());
+    p.add_msg_if_player( msg.c_str(), tname().c_str() );
 }
 
 void item::on_pickup( Character &p  )
@@ -2175,14 +2166,16 @@ std::string item::display_name(unsigned int quantity) const
             break;
     }
 
-    if( !is_gun() && contents.size() == 1 && contents[0].charges > 0 ) {
+    if( is_container() && contents.size() == 1 && contents[0].charges > 0 ) {
         // a container which is not empty
         qty = string_format(" (%i)", contents[0].charges);
     } else if( is_book() && get_chapters() > 0 ) {
         // a book which has remaining unread chapters
         qty = string_format(" (%i)", get_remaining_chapters(g->u));
-    } else if (charges >= 0 && !has_flag("NO_AMMO")) {
-        // everything else including tools and guns
+    } else if( ammo_capacity() > 0 ) {
+        // anything that can be reloaded including tools, guns and auxiliary gunmods
+        qty = string_format(" (%i)", ammo_remaining());
+    } else if( count_by_charges() ) {
         qty = string_format(" (%i)", charges);
     }
 
@@ -2687,7 +2680,8 @@ int item::get_encumber() const
 {
     const auto t = find_armor_data();
     if( t == nullptr ) {
-        return 0;
+        // handle wearable guns (eg. shoulder strap) as special case
+        return is_gun() ? volume() / 3 : 0;
     }
     // it_armor::encumber is signed char
     int encumber = static_cast<int>( t->encumber );
@@ -2996,6 +2990,7 @@ bool item::is_two_handed( const player &u ) const
     if( has_flag("ALWAYS_TWOHAND") ) {
         return true;
     }
+    ///\EFFECT_STR determines which weapons can be wielded with one hand
     return ((weight() / 113) > u.str_cur * 4);
 }
 
@@ -3260,6 +3255,11 @@ bool item::is_watertight_container() const
     return type->container && type->container->watertight && type->container->seals;
 }
 
+bool item::is_sealable_container() const
+{
+    return type->container && type->container->seals;
+}
+
 bool item::is_container_empty() const
 {
     return contents.empty();
@@ -3394,13 +3394,13 @@ bool item::operator<(const item& other) const
         const item *me = is_container() && !contents.empty() ? &contents[0] : this;
         const item *rhs = other.is_container() && !other.contents.empty() ? &other.contents[0] : &other;
 
-        if (me->type->id == rhs->type->id)
-        {
+        if (me->type->id == rhs->type->id) {
             return me->charges < rhs->charges;
-        }
-        else
-        {
-            return me->type->id < rhs->type->id;
+        } else {
+            std::string n1 = me->type->nname(1);
+            std::string n2 = rhs->type->nname(1);
+            return std::lexicographical_compare( n1.begin(), n1.end(),
+                                                 n2.begin(), n2.end(), sort_case_insensitive_less() );
         }
     }
 }
@@ -3428,6 +3428,7 @@ int item::reload_time( const player &u ) const
     }
 
     if (has_flag("STR_RELOAD")) {
+        ///\EFFECT_STR reduces reload time of some weapons
         ret -= u.str_cur * 20;
     }
     if (ret < 25) {
@@ -3777,6 +3778,7 @@ int item::gun_range( const player *p ) const
     if( p == nullptr ) {
         return ret;
     }
+    ///\EFFECT_STR allows use and increases range of some bows
     if( has_flag( "STR8_DRAW" ) ) {
         if( p->str_cur < 4 ) {
             return 0;
@@ -3800,6 +3802,78 @@ int item::gun_range( const player *p ) const
         }
     }
     return std::max( 0, ret );
+}
+
+long item::ammo_remaining() const
+{
+    if( is_tool() ) {
+        return charges;
+    }
+
+    if( is_gun() ) {
+        // includes auxiliary gunmods
+        // @todo handle magazines
+        return charges;
+    }
+
+    return 0;
+}
+
+long item::ammo_capacity() const
+{
+    long res = 0;
+
+    if( is_tool() ) {
+        res = type->maximum_charges();
+
+        if( has_flag("DOUBLE_AMMO") ) {
+            res *= 2;
+        }
+        if( has_flag("ATOMIC_AMMO") ) {
+            res *= 100;
+        }
+    }
+
+    if( is_gun() ) {
+        // @todo handle magazines
+        res = type->gun->clip;
+
+        for( auto &e : contents ) {
+            if( e.is_gunmod() && !e.is_auxiliary_gunmod() ) {
+                res += res * e.type->gunmod->clip / 100;
+            }
+        }
+    }
+
+    if( has_flag("NO_AMMO") ) {
+        res = 0;
+    }
+
+    return res;
+}
+
+long item::ammo_required() const {
+    long res = 0;
+
+    if( is_tool() ) {
+        type->charges_to_use();
+    }
+
+    if( is_gun() ) {
+        if( has_flag( "NO_AMMO" ) ) {
+            res = 0;
+        } else if( has_flag( "FIRE_100" ) ) {
+            res = 100;
+        } else if( has_flag( "FIRE_50" ) ) {
+            res = 50;
+        } else if( has_flag( "FIRE_20" ) ) {
+            res = 20;
+        } else {
+            res = 1;
+        }
+    }
+
+    return res;
 }
 
 ammotype item::ammo_type() const
@@ -3864,60 +3938,39 @@ item *item::get_usable_item( const std::string &use_name )
 
 int item::pick_reload_ammo( const player &u, bool interactive )
 {
-    if( is_null() ) {
-        return INT_MIN;
-    }
+    std::set<std::string> ammo_types; // for unloaded items any ammo will do
+    std::set<std::string> item_types; // for partially loaded require matching type
 
-    if( !is_gun() && !is_tool() ) {
-        debugmsg( "RELOADING NON-GUN NON-TOOL" );
-        return INT_MIN;
-    }
-    int has_spare_mag = has_gunmod( "spare_mag" );
-    // Ammo types that we could use.
-    std::set<std::string> ammo_types;
-    // Specific item types that we could use (in case of partially loaded guns).
-    std::set<std::string> item_types;
-    if( is_gun() ) {
-        if( charges <= 0 && has_spare_mag != -1 && contents[has_spare_mag].charges > 0 ) {
-            // Special return to use magazine for reloading.
-            return INT_MIN + 1;
+    // @todo deprecate handling of spare magazine as special case
+    auto spare = has_gunmod( "spare_mag" );
+    if( spare >= 0 ) {
+        if( ammo_remaining() <= 0 && contents[spare].charges > 0 ) {
+            return INT_MIN + 1; // special return to use spare magazine for reloading.
         }
-
-        // If there's room to load more ammo into the gun or a spare mag, stash the ammo.
-        // If the gun is partially loaded make sure the ammo matches.
-        // If the gun is empty, either the spare mag is empty too and anything goes,
-        // or the spare mag is loaded and we're doing a tactical reload.
-        if( charges < clip_size() ||
-            ( has_spare_mag != -1 && contents[has_spare_mag].charges < spare_mag_size() ) ) {
-            if( charges > 0 && has_curammo() ) {
-                item_types.insert( get_curammo_id() );
+        if( contents[spare].charges < ammo_remaining() ) {
+            if( contents[spare].charges > 0 || ammo_remaining() > 0 ) {
+                item_types.insert( get_curammo_id() ); // gun or spare mag partially loaded
             } else {
-                ammo_types.insert( ammo_type() );
+                ammo_types.insert( ammo_type() ); // neither loaded
             }
         }
-
-        // ammo for gun attachments (shotgun attachments, grenade attachments, etc.)
-        // for each attachment, find its associated ammo & append it to the ammo vector
-        for( auto & cont : contents ) {
-            if( !cont.is_auxiliary_gunmod() ) {
-                // not a gunmod, or has no separate firing mode and can not be load
-                continue;
-            }
-            const auto mod = cont.type->gun.get();
-            if( cont.charges >= mod->clip ) {
-                // already fully loaded
-                continue;
-            }
-            if( cont.charges > 0 && cont.has_curammo() ) {
-                item_types.insert( cont.get_curammo_id() );
-            } else {
-                ammo_types.insert( mod->ammo );
-            }
-        }
-    } else { //non-gun.
-        // this is probably a tool.
-        ammo_types.insert( ammo_type() );
     }
+
+    // checks if item reloadable and if so appends to either ammo_type or item_type
+    auto wants_ammo = [&ammo_types,&item_types](const item& it) {
+        if( it.ammo_remaining() < it.ammo_capacity() && !it.has_flag( "NO_RELOAD" ) ) {
+            if( it.ammo_remaining() > 0 ) {
+                item_types.insert( it.get_curammo_id() ); // partially loaded
+            } else {
+                ammo_types.insert( it.ammo_type() ); // not loaded
+            }
+        }
+    };
+
+    // consider both the item and any attached gunmods
+    wants_ammo( *this );
+    std::for_each( contents.begin(), contents.end(), wants_ammo );
+
     // Actual ammo items that can be used as ammo.
     std::vector<const item*> am = u.items_with( [&ammo_types, &item_types]( const item & it ) {
         if( !it.is_ammo() ) {
@@ -4035,163 +4088,115 @@ static void eject_casings( player &p, item *reload_target, itype_id casing_type 
 
 bool item::reload(player &u, int pos)
 {
-    bool single_load = false;
-    // set to true if the target of the reload is the spare magazine
-    bool reloading_spare_mag = false;
-    int max_load = 1;
-    item *reload_target = NULL;
-    item *ammo_to_use = &u.i_at(pos);
-    item *ammo_container = NULL;
+    long qty = 0;
+    item *target = nullptr;
+    item *ammo = &u.i_at(pos);
+    item *container = nullptr;
 
     // Handle ammo in containers, currently only gasoline and quivers
-    if (!ammo_to_use->contents.empty() && (ammo_to_use->is_container() ||
-                                           ammo_to_use->type->can_use("QUIVER"))) {
-        ammo_container = ammo_to_use;
-        ammo_to_use = &ammo_to_use->contents[0];
+    if ( (ammo->is_container() || ammo->type->can_use("QUIVER")) && !ammo->contents.empty() ) {
+        container = ammo;
+        ammo = &ammo->contents[0];
     }
 
-    bool const is_from_quiver = pos < -1 && ammo_container != nullptr && ammo_container->type->can_use( "QUIVER" );
-    if( is_from_quiver ) {
-        // chance to fail pulling an arrow at lower levels
+     // @todo deprecate reloading using a spare magazine
+     item *spare_mag = has_gunmod("spare_mag") >= 0 ? &contents[has_gunmod("spare_mag")] : nullptr;
+     if( spare_mag && spare_mag->charges > 0 && ammo_remaining() <= 0 ) {
+         charges = spare_mag->charges;
+         set_curammo( spare_mag->get_curammo_id() );
+         spare_mag->charges = 0;
+         spare_mag->unset_curammo();
+         return true;
+     }
+
+    if( ammo->is_null() ) {
+        return false;
+    }
+
+    // Chance to fail pulling an arrow at lower levels
+    if( container && container->type->can_use( "QUIVER" ) ) {
         int archery = u.skillLevel( skill_id( "archery" ) );
+        ///\EFFECT_ARCHERY increases reliability of pulling arrows from a quiver
         if( archery <= 2 && one_in( 10 ) ) {
             u.moves -= 30;
             u.add_msg_if_player( _( "You try to pull a %1$s from your %2$s, but fail!" ),
-                                ammo_to_use->tname().c_str(), ammo_container->type_name().c_str() );
+                                ammo->tname().c_str(), container->type_name().c_str() );
             return false;
         }
         u.add_msg_if_player( _( "You pull a %1$s from your %2$s and nock it." ),
-                             ammo_to_use->tname().c_str(), ammo_container->type_name().c_str() );
+                             ammo->tname().c_str(), container->type_name().c_str() );
     }
 
-    if (is_gun()) {
-        // Reload using a spare magazine
-        int spare_mag = has_gunmod("spare_mag");
-        if (charges <= 0 && spare_mag != -1 &&
-            contents[spare_mag].charges > 0) {
-            charges = contents[spare_mag].charges;
-            set_curammo( contents[spare_mag].get_curammo_id() );
-            contents[spare_mag].charges = 0;
-            contents[spare_mag].unset_curammo();
-            return true;
-        }
+    // First determine what we are trying to reload
+    if( is_gun() ) {
+        // In order of preference reload active gunmod, gun, spare magazine, any other auxiliary gunmod
+        std::vector<item *> opts = { active_gunmod(), this, spare_mag };
+        std::transform(contents.begin(), contents.end(), std::back_inserter(opts), [](item& mod){
+            return mod.is_auxiliary_gunmod() ? &mod : nullptr;
+        });
 
-        // Determine what we're reloading, the gun, a spare magazine, or another gunmod.
-        // Prefer the active gunmod if there is one
-        item* gunmod = active_gunmod();
-        if (gunmod && gunmod->ammo_type() == ammo_to_use->ammo_type() &&
-            (gunmod->charges <= 0 || gunmod->get_curammo_id() == ammo_to_use->typeId())) {
-            reload_target = gunmod;
-            // Then prefer the gun itself
-        } else if (charges < clip_size() &&
-                   ammo_type() == ammo_to_use->ammo_type() &&
-                   (charges <= 0 || get_curammo_id() == ammo_to_use->typeId())) {
-            reload_target = this;
-            // Then prefer a spare mag if present
-        } else if (spare_mag != -1 &&
-                   ammo_type() == ammo_to_use->ammo_type() &&
-                   contents[spare_mag].charges != spare_mag_size() &&
-                   (charges <= 0 || get_curammo_id() == ammo_to_use->typeId())) {
-            reload_target = &contents[spare_mag];
-            reloading_spare_mag = true;
-            // Finally consider other gunmods
-        } else {
-            for (size_t i = 0; i < contents.size(); i++) {
-                if (&contents[i] != gunmod && (int)i != spare_mag &&
-                    contents[i].is_auxiliary_gunmod() &&
-                    contents[i].ammo_type() == ammo_to_use->ammo_type() &&
-                    (contents[i].charges <= contents[i].spare_mag_size() ||
-                     (contents[i].charges <= 0 || contents[i].get_curammo_id() == ammo_to_use->typeId()))) {
-                    reload_target = &contents[i];
+        for( auto e : opts ) {
+            if( e != nullptr ) {
+                // @todo deprecate handling of spare magazines as a special case
+                if( e == spare_mag && ammo_type() == ammo->ammo_type() &&
+                    (!e->charges || e->get_curammo_id() == ammo->typeId()) &&
+                    e->charges < ammo_capacity() ) {
+
+                    qty = has_flag("RELOAD_ONE") ? 1 : ammo_capacity() - e->charges;
+                    target = e;
+                    break;
+                } // handle everything else (gun and auxiliary gunmods)
+                if( e->ammo_type() == ammo->ammo_type() &&
+                    (!e->ammo_remaining() || e->get_curammo_id() == ammo->typeId()) &&
+                    e->ammo_remaining() < e->ammo_capacity() ) {
+                    qty = e->ammo_capacity() - e->ammo_remaining();
+
+                    qty = e->has_flag("RELOAD_ONE") ? 1 : e->ammo_capacity() - e->ammo_remaining();
+                    target = e;
                     break;
                 }
             }
         }
-
-        if (reload_target == NULL) {
-            return false;
+    } else if( is_tool() ) {
+        qty = ammo_capacity() - ammo_remaining();
+        if( ammo_type() == ammo->ammo_type() && qty > 0 ) {
+            target = this;
         }
-
-        if (reload_target->is_gun() || reload_target->is_gunmod()) {
-            if (reload_target->is_gunmod() && reload_target->typeId() == "spare_mag") {
-                // Use gun numbers instead of the mod if it's a spare magazine
-                max_load = type->gun->clip;
-                single_load = has_flag("RELOAD_ONE");
-            } else {
-                single_load = reload_target->has_flag("RELOAD_ONE");
-                max_load = reload_target->clip_size();
-            }
-        }
-    } else if (is_tool()) {
-        const auto tool = dynamic_cast<const it_tool*>(type);
-        reload_target = this;
-        single_load = false;
-        max_load = tool->max_charges;
-    } else {
-        return false;
     }
 
-    if (has_flag("DOUBLE_AMMO")) {
-        max_load *= 2;
-    }
-
-    if (has_flag("ATOMIC_AMMO")) {
-        max_load *= 100;
-    }
-
-    if (pos != INT_MIN) {
-        // If the gun is currently loaded with a different type of ammo, reloading fails
-        if ((reload_target->is_gun() || reload_target->is_gunmod()) &&
-            reload_target->charges > 0 && reload_target->get_curammo_id() != ammo_to_use->typeId()) {
-            return false;
-        }
-        if (reload_target->is_gun() || reload_target->is_gunmod()) {
-            if (!ammo_to_use->is_ammo()) {
-                debugmsg("Tried to reload %s with %s!", tname().c_str(),
-                         ammo_to_use->tname().c_str());
-                return false;
-            }
-            reload_target->set_curammo( *ammo_to_use );
-        }
+    // If we found a suitable target, try and reload it
+    if ( target ) {
         if( has_curammo() ) {
-            eject_casings( u, reload_target, get_curammo()->ammo->casing );
+            eject_casings( u, target, get_curammo()->ammo->casing );
         }
-        if (single_load || max_load == 1) { // Only insert one cartridge!
-            reload_target->charges++;
-            ammo_to_use->charges--;
-        } else if( reload_target->ammo_type() == "plutonium" ) {
-            int charges_per_plut = 500;
-            long max_plut = floor( static_cast<float>((max_load - reload_target->charges) /
-                                                      charges_per_plut) );
-            int charges_used = std::min(ammo_to_use->charges, max_plut);
-            reload_target->charges += (charges_used * charges_per_plut);
-            ammo_to_use->charges -= charges_used;
+
+        if( target->is_gun() || target->is_gunmod() ) {
+            target->set_curammo( *ammo );
+        }
+
+        if( ammo_type() == "plutonium" ) {
+            // always consume at least one cell but never more than actually available
+            auto cells = std::min(qty / 500 + (qty % 500 != 0), ammo->charges);
+            ammo->charges -= cells;
+            // any excess is wasted rather than overfilling the target
+            target->charges += std::min(cells * 500, qty);
         } else {
-            // if this is the spare magazine use appropriate size, otherwise max_load
-            max_load = (reloading_spare_mag) ? spare_mag_size() : max_load;
-            reload_target->charges += ammo_to_use->charges;
-            ammo_to_use->charges = 0;
-            if (reload_target->charges > max_load) {
-                // More rounds than the clip holds, put some back
-                ammo_to_use->charges += reload_target->charges - max_load;
-                reload_target->charges = max_load;
-            }
+            qty = std::min(qty, ammo->charges);
+            ammo->charges   -= qty;
+            target->charges += qty;
         }
-        if (ammo_to_use->charges == 0) {
-            if (ammo_container != NULL) {
-                ammo_container->contents.erase(ammo_container->contents.begin());
-                // We just emptied a container, which might be part of stack,
-                // but empty and non-empty containers should not stack, force
-                // a re-stacking.
-                u.inv.restack(&u);
+
+        if( ammo->charges == 0 ) {
+            if( container != nullptr ) {
+                container->contents.erase(container->contents.begin());
+                u.inv.restack(&u); // emptied containers do not stack with non-empty ones
             } else {
                 u.i_rem(pos);
             }
         }
         return true;
-    } else {
-        return false;
     }
+    return false;
 }
 
 bool item::burn(int amount)
@@ -4412,22 +4417,18 @@ int item::amount_of(const itype_id &it, bool used_as_tool) const
     return count;
 }
 
-bool item::use_amount(const itype_id &it, long &quantity, bool use_container, std::list<item> &used)
+bool item::use_amount(const itype_id &it, long &quantity, std::list<item> &used)
 {
     // First, check contents
-    bool used_item_contents = false;
     for( auto a = contents.begin(); a != contents.end() && quantity > 0; ) {
-        if (a->use_amount(it, quantity, use_container, used)) {
+        if (a->use_amount(it, quantity, used)) {
             a = contents.erase(a);
-            used_item_contents = true;
         } else {
             ++a;
         }
     }
     // Now check the item itself
-    if (use_container && used_item_contents) {
-        return true;
-    } else if (type->id == it && quantity > 0 && contents.empty()) {
+    if (type->id == it && quantity > 0 && contents.empty()) {
         used.push_back(*this);
         quantity--;
         return true;
@@ -4733,6 +4734,24 @@ void item::mark_as_used_by_player(const player &p)
     // and always end with a ';'
     used_by_ids += string_format( "%d;", p.getID() );
 }
+
+bool item::can_holster ( const item& obj ) const {
+    if( !type->can_use("holster") ) {
+        return false; // item is not a holster
+    }
+
+    auto ptr = dynamic_cast<const holster_actor *>(type->get_use("holster")->get_actor_ptr());
+    if( !ptr->can_holster(obj) ) {
+        return false; // item is not a suitable holster for obj
+    }
+
+    if( (int) contents.size() >= ptr->multi ) {
+        return false; // item is already full
+    }
+
+    return true;
+}
+
 
 const itype *item::get_curammo() const
 {

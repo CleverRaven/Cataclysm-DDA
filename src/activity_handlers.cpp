@@ -139,6 +139,7 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
     int fats = 0;
     int sinews = 0;
     int feathers = 0;
+    int wool = 0;
     bool stomach = false;
 
     switch (corpse->size) {
@@ -149,6 +150,7 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
         fats = 1;
         sinews = 1;
         feathers = 2;
+        wool = 1;
         break;
     case MS_SMALL:
         pieces = 2;
@@ -157,6 +159,7 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
         fats = 2;
         sinews = 4;
         feathers = 6;
+        wool = 2;
         break;
     case MS_MEDIUM:
         pieces = 4;
@@ -165,6 +168,7 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
         fats = 4;
         sinews = 9;
         feathers = 11;
+        wool = 4;
         break;
     case MS_LARGE:
         pieces = 8;
@@ -173,6 +177,7 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
         fats = 8;
         sinews = 14;
         feathers = 17;
+        wool = 8;
         break;
     case MS_HUGE:
         pieces = 16;
@@ -181,6 +186,7 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
         fats = 16;
         sinews = 21;
         feathers = 24;
+        wool = 16;
         break;
     }
 
@@ -188,8 +194,11 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
 
     auto roll_butchery = [&] () {
         double skill_shift = 0.0;
+        ///\EFFECT_SURVIVAL randomly increases butcher rolls, slightly
         skill_shift += rng_float( 0, skill_level - 3 );
+        ///\EFFECT_DEX >8 randomly increases butcher rolls, slightly, <8 decreases
         skill_shift += rng_float( 0, p->dex_cur - 8 ) / 4.0;
+        ///\EFFECT_STR >4 randomly increases butcher rolls, <4 decreases
         if( p->str_cur < 4 ) {
             skill_shift -= rng_float( 0, 5 * ( 4 - p->str_cur ) ) / 4.0;
         }
@@ -212,6 +221,7 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
     fats +=     std::min( 0, roll_butchery() - 4 );
     sinews +=   std::min( 0, roll_butchery() - 8 );
     feathers += std::min( 0, roll_butchery() - 1 );
+    wool +=     std::min( 0, roll_butchery() );
     stomach = roll_butchery() >= 0;
 
     if( bones > 0 ) {
@@ -250,6 +260,14 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
                 g->m.spawn_item(p->pos(), "stomach_large", 1, 0, age);
                 add_msg(m_good, _("You harvest the stomach!"));
             }
+        } else if( meat == "human_flesh" ) {
+            if( corpse->size == MS_SMALL || corpse->size == MS_MEDIUM ) {
+                g->m.spawn_item(p->pos(), "hstomach", 1, 0, age);
+                add_msg(m_good, _("You harvest the stomach!"));
+            } else if( corpse->size == MS_LARGE || corpse->size == MS_HUGE ) {
+                g->m.spawn_item(p->pos(), "hstomach_large", 1, 0, age);
+                add_msg(m_good, _("You harvest the stomach!"));
+            }
         }
     }
 
@@ -258,6 +276,7 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
         add_msg(m_good, _("You manage to skin the %s!"), corpse->nname().c_str());
         int fur = 0;
         int leather = 0;
+        int human_leather = 0;
         int chitin = 0;
 
         while (skins > 0 ) {
@@ -272,20 +291,28 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
                 skins = std::max(skins, 0);
             }
             if( corpse->has_flag(MF_LEATHER) ) {
-                leather = rng(0, skins);
-                skins -= leather;
+                if( corpse->has_flag(MF_HUMAN) ) {
+                    human_leather = rng(0, skins);
+                    skins -= human_leather;
+                } else {
+                    leather = rng(0, skins);
+                    skins -= leather;
+                }
                 skins = std::max(skins, 0);
             }
         }
 
-        if( chitin ) {
+        if( chitin > 0 ) {
             g->m.spawn_item(p->pos(), "chitin_piece", chitin, 0, age);
         }
-        if( fur ) {
+        if( fur > 0 ) {
             g->m.spawn_item(p->pos(), "raw_fur", fur, 0, age);
         }
-        if( leather ) {
+        if( leather > 0 ) {
             g->m.spawn_item(p->pos(), "raw_leather", leather, 0, age);
+        }
+        if( human_leather ) {
+            g->m.spawn_item(p->pos(), "raw_hleather", leather, 0, age);
         }
     }
 
@@ -293,6 +320,13 @@ void activity_handlers::butcher_finish( player_activity *act, player *p )
         if( corpse->has_flag(MF_FEATHER) ) {
             g->m.spawn_item(p->pos(), "feather", feathers, 0, age);
             add_msg(m_good, _("You harvest some feathers!"));
+        }
+    }
+
+    if( wool > 0 ) {
+        if( corpse->has_flag(MF_WOOL) ) {
+            g->m.spawn_item(p->pos(), "wool_staple", wool, 0, age);
+            add_msg(m_good, _("You harvest some wool staples!"));
         }
     }
 
@@ -378,13 +412,12 @@ void activity_handlers::fill_liquid_do_turn( player_activity *act, player *p )
     //Filling a container takes time, not speed
     act->moves_left -= 100;
 
-    item *container = &p->i_at(act->position);
     item water = item(act->str_values[0], act->values[1]);
     water.poison = act->values[0];
     // Fill up 10 charges per time
     water.charges = 10;
 
-    if( g->handle_liquid(water, true, true, NULL, container) == false ) {
+    if( g->handle_liquid(water, true, true, NULL, NULL) == false ) {
         act->moves_left = 0;
     }
 
@@ -419,7 +452,7 @@ void activity_handlers::firstaid_finish( player_activity *act, player *p )
 // fish-with-rod fish catching function.
 static void rod_fish( player *p, int sSkillLevel, int fishChance )
 {
-    if( sSkillLevel > fishChance ) {
+   if( sSkillLevel > fishChance ) {
         std::vector<monster *> fishables = g->get_fishable(60); //get the nearby fish list.
         //if the vector is empty (no fish around) the player is still given a small chance to get a (let us say it was hidden) fish
         if( fishables.size() < 1 ) {
@@ -455,6 +488,7 @@ void activity_handlers::fish_finish( player_activity *act, player *p )
         sSkillLevel = p->skillLevel( skill_survival ) * 1.5 + dice(1, 6) + 3;
         fishChance = dice(1, 20);
     }
+    ///\EFFECT_SURVIVAL increases chance of fishing success
     rod_fish( p, sSkillLevel, fishChance );
     p->practice( skill_survival, rng(5, 15) );
     act->type = ACT_NULL;
@@ -490,6 +524,9 @@ void activity_handlers::forage_finish( player_activity *act, player *p )
 
     // Survival gives a bigger boost, and Peception is leveled a bit.
     // Both survival and perception affect time to forage
+    ///\EFFECT_SURVIVAL increases forage success chance
+
+    ///\EFFECT_PER slightly increases forage success chance
     if( veggy_chance < p->skillLevel( skill_survival ) * 3 + p->per_cur - 2 ) {
         const auto dropped = g->m.put_items_from_loc( loc, p->pos(), calendar::turn );
         for( const auto &it : dropped ) {
@@ -510,8 +547,9 @@ void activity_handlers::forage_finish( player_activity *act, player *p )
         add_msg(_("You didn't find anything."));
     }
 
-    // Intelligence limits the forage exp gain
+    ///\EFFECT_INT Intelligence caps survival skill gains from foraging
     const int max_forage_skill = p->int_cur / 3 + 1;
+    ///\EFFECT_SURVIVAL decreases survival skill gain from foraging (NEGATIVE)
     const int max_exp = 2 * ( max_forage_skill - p->skillLevel( skill_survival ) );
     // Award experience for foraging attempt regardless of success
     p->practice( skill_survival, rng(1, max_exp), max_forage_skill );
@@ -748,8 +786,10 @@ void activity_handlers::pulp_do_turn( player_activity *act, player *p )
     if( p->weapon.has_flag("STAB") || p->weapon.has_flag("SPEAR") ) {
         cut_power /= 2;
     }
+    ///\EFFECT_STR increases pulping power, with diminishing returns
     double pulp_power = sqrt((double)(p->str_cur + p->weapon.type->melee_dam)) *
         std::min(1.0, sqrt((double)(cut_power + 1)));
+    ///\EFFECT_STR caps pulping power
     pulp_power = std::min(pulp_power, (double)p->str_cur);
     pulp_power *= 20; // constant multiplier to get the chance right
     int moves = 0;
@@ -1195,7 +1235,7 @@ void activity_handlers::open_gate_finish( player_activity *act, player *p )
     } else {
         return;
     }
-    
+
     bool open = false;
     bool close = false;
 

@@ -66,7 +66,7 @@
         "ammo": "battery",
         "revert_to": "miner_hat",
         "use_action": {
-            "type": "auto_transform",
+            "type": "transform",
             "msg": "The %s flicks off.",
             "target": "miner_hat"
         },
@@ -204,7 +204,7 @@
         "ammo": "battery",
         "revert_to": "thermal_socks",
         "use_action": {
-            "type": "auto_transform",
+            "type": "transform",
             "msg": "Your %s deactivates.",
             "target": "thermal_socks"
         },
@@ -274,7 +274,7 @@
         "ammo": "battery",
         "revert_to": "thermal_suit",
         "use_action": {
-            "type": "auto_transform",
+            "type": "transform",
             "msg": "Your %s deactivates.",
             "target": "thermal_suit"
         },
@@ -345,7 +345,7 @@
         "ammo": "battery",
         "revert_to": "thermal_gloves",
         "use_action": {
-            "type": "auto_transform",
+            "type": "transform",
             "msg": "Your %s deactivates.",
             "target": "thermal_gloves"
         },
@@ -415,7 +415,7 @@
         "ammo": "battery",
         "revert_to": "thermal_mask",
         "use_action": {
-            "type": "auto_transform",
+            "type": "transform",
             "msg": "Your %s deactivates.",
             "target": "thermal_mask"
         },
@@ -435,7 +435,7 @@
         "description": "This is an LED head torch with an adjustable strap so as to be comfortably worn on your head or attached to your helmet.  Use it to turn it on.",
         "price": 4000,
         "material": ["plastic", "aluminum" ],
-        "flags" : ["OVERSIZE", "BELTED"],
+        "flags" : ["OVERSIZE", "BELTED", "ALLOWS_NATURAL_ATTACKS"],
         "weight" : 520,
         "volume": 2,
         "bashing": 1,
@@ -470,7 +470,7 @@
         "name": "head torch (on)",
         "name_plural": "head torches (on)",
         "description": "This is an LED head torch with an adjustable strap so as to be comfortably worn on your head or attached to your helmet.  It is turned on, and continually draining batteries.  Use it to turn it off.",
-        "flags": [ "LIGHT_300", "CHARGEDIM", "OVERSIZE", "BELTED"],
+        "flags": [ "LIGHT_300", "CHARGEDIM", "OVERSIZE", "BELTED", "ALLOWS_NATURAL_ATTACKS"],
         "price": 4000,
         "material": ["plastic", "aluminum"],
         "weight" : 520,
@@ -485,7 +485,7 @@
         "ammo": "battery",
         "revert_to": "wearable_light",
         "use_action": {
-            "type": "auto_transform",
+            "type": "transform",
             "msg": "The %s flicks off.",
             "target": "wearable_light"
         },
@@ -505,7 +505,7 @@
         "description": "This is a custom made LED head torch reinforced to be more durable, brighter, and with a larger and more efficient battery pack. The adjustable strap allows it to be comfortably worn on your head or attached to your helmet.  Use it to turn it on.",
         "price": 4000,
         "material": ["plastic", "aluminum" ],
-        "flags" : ["OVERSIZE", "BELTED"],
+        "flags" : ["OVERSIZE", "BELTED", "ALLOWS_NATURAL_ATTACKS"],
         "weight" : 620,
         "volume": 2,
         "bashing": 1,
@@ -540,7 +540,7 @@
         "name": "survivor head torch (on)",
         "name_plural": "survivor head torches (on)",
         "description": "This is a custom made LED head torch reinforced to be more durable, brighter, and with a larger and more efficient battery pack. The adjustable strap allows it to be comfortably worn on your head or attached to your helmet. It is turned on, and continually draining batteries.  Use it to turn it off.",
-        "flags": [ "LIGHT_350", "CHARGEDIM", "OVERSIZE", "BELTED"],
+        "flags": [ "LIGHT_350", "CHARGEDIM", "OVERSIZE", "BELTED", "ALLOWS_NATURAL_ATTACKS"],
         "price": 4000,
         "material": ["plastic", "aluminum"],
         "weight" : 620,
@@ -555,7 +555,7 @@
         "ammo": "battery",
         "revert_to": "survivor_light",
         "use_action": {
-            "type": "auto_transform",
+            "type": "transform",
             "msg": "The %s flicks off.",
             "target": "survivor_light"
         },
@@ -626,7 +626,7 @@
         "ammo": "battery",
         "revert_to": "mask_bunker",
         "use_action": {
-            "type": "auto_transform",
+            "type": "transform",
             "msg": "Your %s deactivates.",
             "target": "mask_bunker"
         },
@@ -761,7 +761,7 @@
         "ammo": "rebreather_filter",
         "revert_to": "rebreather",
         "use_action": {
-            "type": "auto_transform",
+            "type": "transform",
             "msg": "Your %s deactivates.",
             "target": "rebreather"
         },
@@ -833,7 +833,7 @@
         "ammo": "rebreather_filter",
         "revert_to": "rebreather_xl",
         "use_action": {
-            "type": "auto_transform",
+            "type": "transform",
             "msg": "Your %s deactivates.",
             "target": "rebreather_xl"
         },
@@ -906,7 +906,7 @@
         "ammo": "battery",
         "revert_to": "goggles_nv",
         "use_action": {
-            "type": "auto_transform",
+            "type": "transform",
             "msg": "Your %s deactivates.",
             "target": "goggles_nv"
         },
@@ -979,7 +979,7 @@
         "ammo": "battery",
         "revert_to": "goggles_ir",
         "use_action": {
-            "type": "auto_transform",
+            "type": "transform",
             "msg": "Your %s deactivates.",
             "target": "goggles_ir"
         },
@@ -1108,7 +1108,7 @@
         "ammo": "rebreather_filter",
         "revert_to": "mask_h20survivor",
         "use_action": {
-            "type": "auto_transform",
+            "type": "transform",
             "msg": "Your %s deactivates.",
             "target": "mask_h20survivor"
         },
@@ -1180,7 +1180,7 @@
         "ammo": "rebreather_filter",
         "revert_to": "mask_h20survivorxl",
         "use_action": {
-            "type": "auto_transform",
+            "type": "transform",
             "msg": "Your %s deactivates.",
             "target": "mask_h20survivorxl"
         },
@@ -1296,7 +1296,7 @@
         "revert_to": "emer_blanket",
         "use_action": "PACK_ITEM",
         "covers" : ["TORSO", "ARMS", "HANDS", "LEGS", "FEET"],
-        "flags" : ["OVERSIZE", "OUTER"],
+        "flags" : ["OVERSIZE", "OUTER", "ALLOWS_NATURAL_ATTACKS"],
         "warmth" : 50,
         "environmental_protection" : 1,
         "encumbrance" : 50,
@@ -1356,7 +1356,7 @@
             "type": "holster",
             "holster_prompt": "Sheath blade",
             "holster_msg": "You sheath your %s",
-            "draw_speed": 3,
+            "draw_cost": 3,
             "max_volume": 4,
             "flags": [ "SHEATH_KNIFE", "SHEATH_SWORD" ]
         }, "HAMMER", "HACKSAW", "LUMBER", "REMOVE_ALL_MODS" ],
@@ -1531,7 +1531,7 @@
         "turns_per_charge": 0,
         "ammo": "NULL",
         "use_action": {
-            "type": "auto_transform",
+            "type": "transform",
             "msg": "You loosen your %s.",
             "target": "patchwork_scarf_loose"
         },
@@ -1567,12 +1567,12 @@
         "ammo": "NULL",
         "revert_to": "patchwork_scarf",
         "use_action": {
-            "type": "auto_transform",
+            "type": "transform",
             "msg": "You wrap your scarf tighter.",
             "target": "patchwork_scarf"
         },
         "covers" : ["MOUTH"],
-        "flags" : ["OUTER"],
+        "flags" : ["OUTER", "ALLOWS_NATURAL_ATTACKS"],
         "warmth" : 10,
         "environmental_protection" : 1,
         "encumbrance" : 0,
@@ -1601,7 +1601,7 @@
         "turns_per_charge": 0,
         "ammo": "NULL",
         "use_action": {
-            "type": "auto_transform",
+            "type": "transform",
             "msg": "You loosen your %s.",
             "target": "long_patchwork_scarf_loose"
         },
@@ -1636,13 +1636,13 @@
         "turns_per_charge": 0,
         "ammo": "NULL",
         "use_action": {
-            "type": "auto_transform",
+            "type": "transform",
             "msg": "You wrap your scarf tighter.",
             "target": "long_patchwork_scarf"
         },
         "revert_to": "long_patchwork_scarf",
         "covers" : ["MOUTH"],
-        "flags" : ["OVERSIZE", "POCKETS", "OUTER"],
+        "flags" : ["OVERSIZE", "POCKETS", "OUTER", "ALLOWS_NATURAL_ATTACKS"],
         "warmth" : 10,
         "environmental_protection" : 1,
         "encumbrance" : 0,
@@ -1671,7 +1671,7 @@
         "turns_per_charge": 0,
         "ammo": "NULL",
         "use_action": {
-            "type": "auto_transform",
+            "type": "transform",
             "msg": "You loosen your %s.",
             "target": "knit_scarf_loose"
         },
@@ -1707,12 +1707,12 @@
         "ammo": "NULL",
         "revert_to": "knit_scarf",
         "use_action": {
-            "type": "auto_transform",
+            "type": "transform",
             "msg": "You wrap your scarf tighter.",
             "target": "knit_scarf"
         },
         "covers" : ["MOUTH"],
-        "flags" : ["OUTER"],
+        "flags" : ["OUTER", "ALLOWS_NATURAL_ATTACKS"],
         "warmth" : 15,
         "environmental_protection" : 1,
         "encumbrance" : 0,
@@ -1741,7 +1741,7 @@
         "turns_per_charge": 0,
         "ammo": "NULL",
         "use_action": {
-            "type": "auto_transform",
+            "type": "transform",
             "msg": "You loosen your %s.",
             "target": "long_knit_scarf_loose"
         },
@@ -1776,13 +1776,13 @@
         "turns_per_charge": 0,
         "ammo": "NULL",
         "use_action": {
-            "type": "auto_transform",
+            "type": "transform",
             "msg": "You wrap your scarf tighter.",
             "target": "long_knit_scarf"
         },
         "revert_to": "long_knit_scarf",
         "covers" : ["MOUTH"],
-        "flags" : ["OVERSIZE", "POCKETS", "OUTER"],
+        "flags" : ["OVERSIZE", "POCKETS", "OUTER", "ALLOWS_NATURAL_ATTACKS"],
         "warmth" : 15,
         "environmental_protection" : 1,
         "encumbrance" : 0,
@@ -1811,7 +1811,7 @@
         "turns_per_charge": 0,
         "ammo": "NULL",
         "use_action": {
-            "type": "auto_transform",
+            "type": "transform",
             "msg": "You loosen your %s.",
             "target": "scarf_loose"
         },
@@ -1847,12 +1847,12 @@
         "ammo": "NULL",
         "revert_to": "scarf",
         "use_action": {
-            "type": "auto_transform",
+            "type": "transform",
             "msg": "You wrap your scarf a bit tighter.",
             "target": "scarf"
         },
         "covers" : ["MOUTH"],
-        "flags" : ["OUTER"],
+        "flags" : ["OUTER", "ALLOWS_NATURAL_ATTACKS"],
         "warmth" : 25,
         "environmental_protection" : 1,
         "encumbrance" : 0,
@@ -1881,7 +1881,7 @@
         "turns_per_charge": 0,
         "ammo": "NULL",
         "use_action": {
-            "type": "auto_transform",
+            "type": "transform",
             "msg": "You loosen your %s.",
             "target": "scarf_long_loose"
         },
@@ -1916,13 +1916,13 @@
         "turns_per_charge": 0,
         "ammo": "NULL",
         "use_action": {
-            "type": "auto_transform",
+            "type": "transform",
             "msg": "You wrap your scarf tighter.",
             "target": "scarf_long"
         },
         "revert_to": "scarf_long",
         "covers" : ["MOUTH"],
-        "flags" : ["OVERSIZE", "POCKETS", "OUTER"],
+        "flags" : ["OVERSIZE", "POCKETS", "OUTER", "ALLOWS_NATURAL_ATTACKS"],
         "warmth" : 25,
         "environmental_protection" : 1,
         "encumbrance" : 0,
@@ -1951,7 +1951,7 @@
         "turns_per_charge": 0,
         "ammo": "NULL",
         "use_action": {
-            "type": "auto_transform",
+            "type": "transform",
             "msg": "You loosen your %s.",
             "target": "scarf_fur_loose"
         },
@@ -1987,12 +1987,12 @@
         "ammo": "NULL",
         "revert_to": "scarf_fur",
         "use_action": {
-            "type": "auto_transform",
+            "type": "transform",
             "msg": "You wrap your scarf a bit tighter.",
             "target": "scarf_fur"
         },
         "covers" : ["MOUTH"],
-        "flags" : ["OUTER"],
+        "flags" : ["OUTER", "ALLOWS_NATURAL_ATTACKS"],
         "warmth" : 35,
         "environmental_protection" : 2,
         "encumbrance" : 10,
@@ -2021,7 +2021,7 @@
         "turns_per_charge": 0,
         "ammo": "NULL",
         "use_action": {
-            "type": "auto_transform",
+            "type": "transform",
             "msg": "You loosen your %s.",
             "target": "scarf_fur_long_loose"
         },
@@ -2056,13 +2056,13 @@
         "turns_per_charge": 0,
         "ammo": "NULL",
         "use_action": {
-            "type": "auto_transform",
+            "type": "transform",
             "msg": "You wrap your scarf tighter.",
             "target": "scarf_fur_long"
         },
         "revert_to": "scarf_fur_long",
         "covers" : ["MOUTH"],
-        "flags" : ["OVERSIZE", "POCKETS", "OUTER"],
+        "flags" : ["OVERSIZE", "POCKETS", "OUTER", "ALLOWS_NATURAL_ATTACKS"],
         "warmth" : 35,
         "environmental_protection" : 2,
         "encumbrance" : 0,
@@ -2130,7 +2130,7 @@
         "ammo": "battery",
         "revert_to": "thermal_outfit",
         "use_action": {
-            "type": "auto_transform",
+            "type": "transform",
             "msg": "Your %s deactivates.",
             "target": "thermal_outfit"
         },
@@ -2155,7 +2155,7 @@
         "turns_per_charge": 0,
         "ammo": "NULL",
         "use_action": {
-            "type": "auto_transform",
+            "type": "transform",
             "msg": "You adjust your ski mask for less warmth.",
             "target": "mask_ski_loose"
         },
@@ -2190,7 +2190,7 @@
         "turns_per_charge": 0,
         "ammo": "NULL",
         "use_action": {
-            "type": "auto_transform",
+            "type": "transform",
             "msg": "You adjust your ski mask for more warmth.",
             "target": "mask_ski"
         },

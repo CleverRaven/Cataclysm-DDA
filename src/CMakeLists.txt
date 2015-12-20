@@ -123,6 +123,7 @@ SET(CATACLYSM_DDA_SOURCES
     ${CMAKE_SOURCE_DIR}/src/auto_pickup.cpp
     ${CMAKE_SOURCE_DIR}/src/iuse_actor.cpp
     ${CMAKE_SOURCE_DIR}/src/cata_tiles.cpp
+	${CMAKE_SOURCE_DIR}/src/cata_utility.cpp
     ${CMAKE_SOURCE_DIR}/src/profession.cpp
     ${CMAKE_SOURCE_DIR}/src/init.cpp
     ${CMAKE_SOURCE_DIR}/src/sounds.cpp
@@ -131,6 +132,7 @@ SET(CATACLYSM_DDA_SOURCES
     ${CMAKE_SOURCE_DIR}/src/clzones.cpp
     ${CMAKE_SOURCE_DIR}/src/character.cpp
     ${CMAKE_SOURCE_DIR}/src/live_view.cpp
+	${CMAKE_SOURCE_DIR}/src/lua_console.cpp
     ${CMAKE_SOURCE_DIR}/src/iexamine.cpp
     ${CMAKE_SOURCE_DIR}/src/gamemode.cpp
     ${CMAKE_SOURCE_DIR}/src/creature.cpp
@@ -148,6 +150,10 @@ SET(CATACLYSM_DDA_SOURCES
     ${CMAKE_SOURCE_DIR}/src/crafting.cpp
     ${CMAKE_SOURCE_DIR}/src/pathfinding.cpp
     ${CMAKE_SOURCE_DIR}/src/mission_companion.cpp
+    ${CMAKE_SOURCE_DIR}/src/recipe_dictionary.cpp
+    ${CMAKE_SOURCE_DIR}/src/craft_command.cpp
+    ${CMAKE_SOURCE_DIR}/src/crafting_gui.cpp
+    ${CMAKE_SOURCE_DIR}/src/iuse_software_minesweeper.cpp
 )
 
 SET (CATACLYSM_DDA_HEADERS
@@ -210,6 +216,7 @@ SET (CATACLYSM_DDA_HEADERS
     ${CMAKE_SOURCE_DIR}/src/scenario.h
     ${CMAKE_SOURCE_DIR}/src/auto_pickup.h
     ${CMAKE_SOURCE_DIR}/src/cata_tiles.h
+	${CMAKE_SOURCE_DIR}/src/cata_utility.h
     ${CMAKE_SOURCE_DIR}/src/char_validity_check.h
     ${CMAKE_SOURCE_DIR}/src/coordinates.h
     ${CMAKE_SOURCE_DIR}/src/field.h
@@ -237,6 +244,7 @@ SET (CATACLYSM_DDA_HEADERS
     ${CMAKE_SOURCE_DIR}/src/line.h
     ${CMAKE_SOURCE_DIR}/src/mtype.h
     ${CMAKE_SOURCE_DIR}/src/live_view.h
+	${CMAKE_SOURCE_DIR}/src/lua_console.h
     ${CMAKE_SOURCE_DIR}/src/character.h
     ${CMAKE_SOURCE_DIR}/src/name.h
     ${CMAKE_SOURCE_DIR}/src/tile_id_data.h
@@ -282,6 +290,10 @@ SET (CATACLYSM_DDA_HEADERS
     ${CMAKE_SOURCE_DIR}/src/input.h
     ${CMAKE_SOURCE_DIR}/src/item_stack.h
     ${CMAKE_SOURCE_DIR}/src/itype.h
+    ${CMAKE_SOURCE_DIR}/src/recipe_dictionary.h
+    ${CMAKE_SOURCE_DIR}/src/craft_command.h
+    ${CMAKE_SOURCE_DIR}/src/crafting_gui.h
+    ${CMAKE_SOURCE_DIR}/src/iuse_software_minesweeper.h
 )
 
 # Get GIT version strings

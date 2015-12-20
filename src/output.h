@@ -39,6 +39,10 @@ enum direction : unsigned;
 // a consistent border colour
 #define BORDER_COLOR c_ltgray
 
+#ifdef TILES
+extern void try_sdl_update();
+#endif // TILES
+
 // Display data
 extern int TERMX; // width available for display
 extern int TERMY; // height available for display
@@ -231,7 +235,8 @@ std::string string_input_popup(std::string title, int width = 0, std::string inp
 std::string string_input_win (WINDOW *w, std::string input, int max_length, int startx,
                               int starty, int endx, bool loop, long &key, int &pos,
                               std::string identifier = "", int w_x = -1, int w_y = -1,
-                              bool dorefresh = true, bool only_digits = false);
+                              bool dorefresh = true, bool only_digits = false,
+                              std::map<long, std::function<void()>> callbacks = std::map<long, std::function<void()>>());
 
 // for the next two functions, if cancelable is true, esc returns the last option
 int  menu_vec(bool cancelable, const char *mes, const std::vector<std::string> options);
@@ -285,13 +290,15 @@ void full_screen_popup(const char *mes, ...);
 int draw_item_info(WINDOW *win, const std::string sItemName, const std::string sTypeName,
                    std::vector<iteminfo> &vItemDisplay, std::vector<iteminfo> &vItemCompare,
                    int &selected, const bool without_getch = false, const bool without_border = false,
-                   const bool handle_scrolling = false);
+                   const bool handle_scrolling = false, const bool scrollbar_left = true,
+                   const bool use_full_win = false);
 
 int draw_item_info(const int iLeft, int iWidth, const int iTop, const int iHeight,
                    const std::string sItemName, const std::string sTypeName,
                    std::vector<iteminfo> &vItemDisplay, std::vector<iteminfo> &vItemCompare,
                    int &selected, const bool without_getch = false, const bool without_border = false,
-                   const bool handle_scrolling = false);
+                   const bool handle_scrolling = false, const bool scrollbar_left = true,
+                   const bool use_full_win = false);
 
 char rand_char();
 long special_symbol (long sym);
