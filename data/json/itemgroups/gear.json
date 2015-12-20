@@ -51,5 +51,66 @@
       ["newest_newspaper", 75],
       ["flyer", 10]
     ]
+  },{
+    "type" : "item_group",
+    "id" : "female_underwear_top",
+    "items":[
+      ["bra", 100],
+      ["sports_bra", 10]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "female_underwear_bottom",
+    "items":[
+      ["panties", 100],
+      ["boy_shorts", 30]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "male_underwear_top",
+    "items":[
+      ["undershirt", 50]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "male_underwear_bottom",
+    "items":[
+      ["boxer_shorts", 70],
+      ["briefs", 30],
+      ["boxer_briefs", 50]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "loincloth",
+    "items":[
+      ["loincloth", 100],
+      ["loincloth_wool", 50],
+      ["loincloth_fur", 25],
+      ["loincloth_leather", 25]
+    ]
+  },{
+    "type" : "item_group",
+    "subtype": "collection",
+    "id": "female_underwear",
+    "groups":[
+      "female_underwear_top",
+      "female_underwear_bottom"
+    ]
+  },{
+    "type" : "item_group",
+    "subtype": "collection",
+    "id": "male_underwear",
+    "groups":[
+      "male_underwear_top",
+      "male_underwear_bottom"
+    ]
+  },{
+    "type" : "item_group",
+    "subtype": "distribution",
+    "id": "underwear",
+    "groups":[
+      ["female_underwear", 50],
+      ["male_underwear", 50]
+    ]      
   }
  ]

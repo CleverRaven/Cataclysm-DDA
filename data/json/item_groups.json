@@ -2398,33 +2398,6 @@
     ]
   },{
     "type" : "item_group",
-    "id" : "female_underwear_top",
-    "items":[
-      ["bra", 90]
-    ]
-  },{
-    "type" : "item_group",
-    "id" : "female_underwear_bottom",
-    "items":[
-      ["panties", 70],
-      ["boy_shorts", 50]
-    ]
-  },{
-    "type" : "item_group",
-    "id" : "male_underwear_top",
-    "items":[
-      ["undershirt", 30]
-    ]
-  },{
-    "type" : "item_group",
-    "id" : "male_underwear_bottom",
-    "items":[
-      ["boxer_shorts", 70],
-      ["briefs", 30],
-      ["boxer_briefs", 50]
-    ]
-  },{
-    "type" : "item_group",
     "id" : "allclothes",
     "items":[
       ["jeans", 90],

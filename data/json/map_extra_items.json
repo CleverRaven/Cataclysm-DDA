@@ -106,32 +106,5 @@
             { "group": "cop_shoes", "damage-min": 1, "damage-max": 4 },
             { "group": "underwear", "damage-min": 1, "damage-max": 3 }
         ]
-    }, {
-        "type" : "item_group",
-        "subtype": "distribution",
-        "id": "underwear",
-        "groups":
-        [
-            ["female_underwear", 50],
-            ["male_underwear", 50]
-        ]
-    }, {
-        "type" : "item_group",
-        "subtype": "collection",
-        "id": "female_underwear",
-        "groups":
-        [
-            "female_underwear_top",
-            "female_underwear_bottom"
-        ]
-    }, {
-        "type" : "item_group",
-        "subtype": "collection",
-        "id": "male_underwear",
-        "groups":
-        [
-            "male_underwear_top",
-            "male_underwear_bottom"
-        ]
     }
 ]
