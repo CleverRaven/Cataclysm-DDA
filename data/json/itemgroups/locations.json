@@ -492,6 +492,19 @@
     ]
   },{
     "type" : "item_group",
+    "id" : "hydro",
+    "comment" : "greenhouses or hydroponics. survivor farms.",
+	  "subtype": "distribution",
+    "entries" : [
+      { "group": "farming_seeds", "prob": 100 },
+      { "group": "vegetables", "prob": 200 },
+      { "group": "local_fruit", "prob": 200 },
+      { "item": "cotton_boll", "prob":25 },
+      { "item": "withered", "prob": 75 },    
+      { "item": "straw_pile", "prob": 50 }
+    ]
+  },{
+    "type" : "item_group",
     "id" : "livingroom",
     "subtype": "distribution",
     "entries" : [
