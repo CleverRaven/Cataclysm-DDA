@@ -909,5 +909,102 @@
       ["pool_cue", 4],
       ["pool_ball", 50]
     ]
+  },{
+    "type" : "item_group",
+    "id" : "fishing_gear",
+    "items":[
+      ["fishing_rod_professional", 200],
+      ["fishing_waders", 50],
+      ["flotation_vest", 30],
+      ["fishing_hook_basic", 100],
+      ["fish_trap", 30],
+      ["speargun", 10],
+      ["minispeargun", 1],
+      ["doublespeargun", 1],
+      ["airspeargun", 1],
+      ["fishspear", 20],
+      ["m_fishspear", 20],
+      ["c_fishspear", 20]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "camping_gear",
+    "items":[
+      ["tent_kit", 200],
+      ["large_tent_kit", 100],
+      ["sleeping_bag", 100],
+      ["rollmat", 50],
+      ["cot", 40],
+      ["emer_blanket", 20],
+      ["UPS_off", 3],
+      ["adv_UPS_off", 2],
+      ["water_purifier", 10],
+      ["radio", 30],
+      ["hotplate", 50],
+      ["mess_kit", 10],
+      ["pot", 50],
+      ["teapot", 30],
+      ["pan", 30],
+      ["thermometer", 10],
+      ["hygrometer", 10],
+      ["barometer", 10],
+      ["binoculars", 30],
+      ["fishing_rod_professional", 50],
+      ["rope_30", 30],
+      ["hatchet", 50],
+      ["ax", 20],
+      ["misc_repairkit", 10],
+      ["firecracker_pack", 5],
+      ["folding_bicycle", 1],
+      ["machete", 5],
+      ["bb", 50],
+      ["bbgun", 30],
+      ["pocketwatch", 10],
+      ["pur_tablets", 50],
+      ["e_tool", 50],
+      ["flaregun", 20],
+      ["signal_flare", 50],
+      ["beartrap", 20],
+      ["bullwhip", 1],
+      ["grapnel", 20],
+      ["razor_blade", 50],
+      ["airhorn", 30]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "hunting_guns",
+    "items":[
+      ["shotgun_s", 30],
+      ["shotgun_d", 40],
+      ["remington_870", 50],
+      ["mossberg_500", 80],
+      ["marlin_9a", 80],
+      ["ruger_1022", 80],
+      ["ruger_mini", 75],
+      ["savage_111f", 70],
+      ["browning_blr", 80],
+      ["remington_700", 80],
+      ["win70", 60],
+      ["weatherby_5", 30],
+      ["combination_gun_shotgun", 3],
+      ["trex_gun", 1]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "hunting_ammo",
+    "items":[
+      ["shot_bird", 100],
+      ["shot_00", 100],
+      ["shot_slug", 50],
+      ["22_lr", 200],
+      ["22_ratshot", 30],
+      ["223", 50],
+      ["556", 10],
+      ["270", 70],
+      ["300_winmag", 70],
+      ["308", 70],
+      ["3006", 70],
+      ["700nx", 1]
+    ]
   }
  ]
