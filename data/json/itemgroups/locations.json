@@ -833,6 +833,48 @@
     ]
   },{
     "type" : "item_group",
+    "id" : "lmoe_guns",
+    "guns_with_ammo" : true,
+    "subtype": "distribution",
+    "entries" : [
+      { "group": "pistols", "prob": 35 },
+      { "group": "shotguns", "prob": 45 },
+      { "group": "smg", "prob": 65 },
+      { "group": "rifles", "prob": 50 },
+      { "group": "assault", "prob": 80 },
+      { "group": "machine_guns", "prob": 10 },
+      { "group": "antique_guns", "prob": 5 },
+      { "item": "ar15", "prob": 10 },
+      { "item": "flaregun", "prob": 45 },
+      { "item": "l_HFPack", "prob": 5 },
+      { "item": "small_repairkit", "prob": 10 },
+      { "item": "large_repairkit", "prob": 10 }
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "toxic_dump_equipment",
+    "subtype": "distribution",
+    "entries" : [
+      { "group": "rad_gear", "prob": 150 },
+      { "group": "hazmat_clothes", "prob": 75 },
+      { "group": "emergency_drugs", "prob": 35 },
+      { "group": "worker_clothes", "prob": 100 },
+      { "group": "cleaning", "prob": 100 },
+      { "item": "mask_gas", "prob": 15 },
+      { "item": "cleansuit", "prob": 15 },
+      { "item": "toolbox", "prob": 25 },
+      { "item": "misc_repairkit", "prob": 25 },
+      { "item": "sm_extinguisher", "prob": 25 },
+      { "item": "extinguisher", "prob": 50 },
+      { "item": "shovel", "prob": 50 },
+      { "item": "e_tool", "prob": 10 },
+      { "item": "55gal_drum", "prob": 15 },
+      { "item": "30gal_drum", "prob": 25 },
+      { "item": "decoy_elfa", "prob": 5 },
+      { "item": "recipe_elfa", "prob": 1 }
+    ]
+  },{
+    "type" : "item_group",
     "id" : "hardware",
 	  "subtype": "distribution",
     "entries" : [
