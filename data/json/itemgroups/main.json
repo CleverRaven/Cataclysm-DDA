@@ -2028,5 +2028,175 @@
       ["textbook_armwest", 20],
       ["textbook_armeast", 20]
     ]
+  },{
+    "type" : "item_group",
+    "id" : "mutagen_recipes",
+    "items":[
+      ["recipe_elfa", 5],
+      ["recipe_raptor", 50],
+      ["recipe_alpha", 10],
+      ["recipe_chimera", 40],
+      ["recipe_medicalmut", 40],
+      ["recipe_serum", 100],
+      ["recipe_creepy", 50],
+      ["recipe_animal", 50],
+      ["recipe_maiar", 50],
+      ["recipe_labchem", 50]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "medical_books",
+    "items":[
+      ["pocket_firstaid", 80],
+      ["manual_first_aid", 70],
+      ["textbook_firstaid", 50],
+      ["emergency_book", 50],
+      ["textbook_chemistry", 50],
+      ["adv_chemistry", 30],
+      ["textbook_gaswarfare", 15]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "tech_books",
+    "items":[
+      ["manual_mechanics", 20],
+      ["manual_computers", 50],
+      ["recipe_augs", 50],
+      ["howto_computer", 50],
+      ["manual_electronics", 50],
+      ["textbook_computer", 50],
+      ["computer_science", 50],
+      ["book_icef", 50],
+      ["textbook_electronics", 50],
+      ["advanced_electronics", 40],
+      ["adv_chemistry", 50],
+      ["textbook_chemistry", 50],
+      ["SICP", 30],
+      ["radio_book", 16],
+      ["textbook_robots", 40],
+      ["textbook_mechanics", 50],
+      ["welding_book", 20],
+      ["textbook_gaswarfare", 40],
+      ["recipe_caseless", 10],
+      ["recipe_labchem", 20],
+      ["atomic_survival", 5]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "martial_arts_manuals",
+    "items":[
+      ["manual_fencing", 50],
+      ["manual_karate", 50],
+      ["manual_judo", 50],
+      ["manual_aikido", 50],
+      ["manual_taekwondo", 50],
+      ["manual_tai_chi", 50],
+      ["manual_niten", 10]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "fight_books",
+    "items":[
+      ["mag_unarmed", 40],
+      ["mag_melee", 40],
+      ["mag_cutting", 30],
+      ["mag_stabbing", 30],
+      ["mag_archery", 20],
+      ["mag_shotgun", 50],
+      ["manual_brawl", 60],
+      ["manual_melee", 60],
+      ["manual_throw", 40],
+      ["manual_cutting", 50],
+      ["manual_bashing", 50],
+      ["manual_stabbing", 50],
+      ["manual_knives", 50],
+      ["manual_archery", 40]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "gun_books",
+    "items":[
+      ["mag_archery", 30],
+      ["mag_shotgun", 50],
+      ["mag_rifle", 50],
+      ["mag_pistol", 50],
+      ["mag_smg", 30],
+      ["mag_launcher", 10],
+      ["manual_gun", 70],
+      ["manual_archery", 50],
+      ["manual_shotgun", 60],
+      ["manual_rifle", 60],
+      ["manual_pistol", 50],
+      ["manual_smg", 20],
+      ["manual_launcher", 25]
+    ]
+  },{    
+    "type" : "item_group",
+    "id" : "camping_surv_books",
+    "items":[
+      ["mag_dude", 40],
+      ["mag_survival", 40],
+      ["mag_traps", 20],
+      ["fun_survival", 10],
+      ["mag_archery", 20],
+      ["mag_swimming", 10],
+      ["mag_fabrication", 30],
+      ["pocket_firstaid", 80],
+      ["pocket_survival", 80],
+      ["pocket_firearms", 70],
+      ["manual_archery", 50],
+      ["manual_first_aid", 90],
+      ["howto_traps", 40],
+      ["manual_traps", 30],
+      ["manual_survival", 50],
+      ["manual_swimming", 50],
+      ["brewing_cookbook", 40],
+      ["survival_book", 50],
+      ["recipe_bows", 40],
+      ["recipe_arrows", 40],
+      ["textbook_anarch", 10],
+      ["textbook_survival", 50],
+      ["modern_tanner", 40],
+      ["textbook_traps", 50],
+      ["atomic_survival", 10]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "cookbooks",
+    "items":[
+      ["cookbook", 150],
+      ["family_cookbook", 50],
+      ["brewing_cookbook", 25],
+      ["cookbook_italian", 50],
+      ["scots_cookbook", 25],
+      ["cookbook_sushi", 25],
+      ["cookbook_human", 1]
+    ]    
+  },{
+    "type" : "item_group",
+    "id" : "child_books",
+    "items":[
+      ["mag_comic", 300],
+      ["mag_gaming", 300],
+      ["tall_tales", 100],
+      ["story_book", 100],
+      ["fairy_tales", 50],
+      ["mag_computer", 20],
+      ["textbook_anarch", 1],
+      ["novel_spy", 30],
+      ["novel_sports", 60],
+      ["novel_samurai", 30],
+      ["novel_swash", 30],
+      ["novel_western", 30],
+      ["novel_war", 50],
+      ["novel_adventure", 60],
+      ["novel_scifi", 50],
+      ["novel_fantasy", 50],
+      ["novel_pulp", 20],
+      ["novel_crime", 50],
+      ["novel_horror", 20],
+      ["ZSG", 10],
+      ["mag_porn", 1]
+    ]
   }
- ]
+]    
