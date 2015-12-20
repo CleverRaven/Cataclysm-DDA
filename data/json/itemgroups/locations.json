@@ -2052,5 +2052,88 @@
       { "item": "touristmap", "prob": 2 },
       { "item": "noodles_fast", "prob": 30 }
       ]
-    } 
+  },{
+    "type" : "item_group",
+    "id" : "coffee_shop",
+    "subtype": "distribution",
+    "entries" : [
+      { "group": "drinks", "prob": 150 },
+      { "item": "water_clean", "prob": 100 },
+      { "group": "prepared_food", "prob": 50 },
+      { "group": "candy", "prob": 25 },
+      { "item": "water_clean", "prob": 75 },
+      { "item": "tea_raw", "prob": 15 },
+      { "item": "coffee_raw", "prob": 25 },
+      { "item": "coffee_syrup", "prob": 25 },
+      { "item": "coffee_bean", "prob": 25 },
+      { "item": "roasted_coffee_bean", "prob": 25 },
+      { "item": "choco_coffee_beans", "prob": 5 },
+      { "item": "brioche", "prob": 5 },
+      { "item": "pine_nuts", "prob": 5 },
+      { "item": "coffeemaker", "prob": 20 },
+      { "item": "atomic_coffeepot", "prob": 5 },
+      { "item": "touristmap", "prob": 15 },
+      { "item": "restaurantmap", "prob": 15 }
+    ]
+  },{
+    "type"  : "item_group",
+    "id"    : "coffee_display",
+    "items" : [
+      ["sandwich_t", 22],
+      ["jerky", 17],
+      ["porkstick", 18],
+      ["tea_raw", 50],
+      ["chips", 28],
+      ["chips2", 27],
+      ["chips3", 26],
+      ["cookies", 25],
+      ["coffee_raw", 90],
+      ["ceramic_cup", 10],
+      ["ceramic_plate", 10],
+      ["choco_coffee_beans", 60],
+      ["coffee_syrup", 25],
+      ["coffee_raw", 25]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "coffee_fridge",
+    "subtype": "distribution",
+    "entries" : [
+      { "group": "drinks", "prob": 300 },
+      { "item": "water_clean", "prob": 200 },
+      { "group": "fruit", "prob": 150 },
+      { "item": "cola", "prob": 50 },
+      { "item": "choc_drink", "prob": 50 },
+      { "item": "rootbeer", "prob": 50 },
+      { "item": "creamsoda", "prob": 50 },
+      { "item": "pie", "prob": 60 },
+      { "item": "pie_meat", "prob": 50 },
+      { "item": "pie_veggy", "prob": 50 },
+      { "item": "yoghurt", "prob": 50 }
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "coffee_table",
+    "subtype": "distribution",
+    "entries" : [
+      { "group": "paper_trash", "prob": 200 },
+      { "group": "magazines", "prob": 50 },
+      { "group": "everyday_gear", "prob": 50 },
+      { "group": "legal_drugs", "prob": 50 },
+      { "group": "junkfood", "prob": 50 },
+      { "group": "drinks", "prob": 70 },
+      { "item": "water_clean", "prob": 50 },
+      { "item": "coffee", "prob": 100 },
+      { "item": "tea", "prob":100 },
+      { "item": "atomic_coffee", "prob": 15 },
+      { "item": "cup_plastic", "prob": 15 },
+      { "item": "ceramic_cup", "prob": 15 },
+      { "item": "ceramic_plate", "prob": 15 },
+      { "item": "salt", "prob": 25},
+      { "item": "pepper", "prob": 25 },
+      { "item": "seasoning_salt", "prob": 15 },
+      { "item": "touristmap", "prob": 10 },
+      { "item": "restaurantmap", "prob": 25 }
+    ]
+  } 
  ]
