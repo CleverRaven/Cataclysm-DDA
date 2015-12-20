@@ -132,7 +132,6 @@ std::string weather_forecast( point const &abs_sm_pos );
 //
 // Use the decimals parameter to set number of decimal places returned in string.
 std::string print_temperature(float fahrenheit, int decimals = 0);
-std::string print_windspeed(float windspeed, int decimals = 0);
 std::string print_humidity(float humidity, int decimals = 0);
 std::string print_pressure(float pressure, int decimals = 0);
 
