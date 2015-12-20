@@ -1141,7 +1141,7 @@
     ] 
   },{
     "type" : "item_group",
-    "id" : "dining",
+    "id" : "dining_tools",
     "items":[
       ["knife_butter", 200],
       ["knife_steak", 100],

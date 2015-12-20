@@ -400,6 +400,60 @@
     ]
   },{
     "type" : "item_group",
+    "id" : "kitchen",
+    "subtype": "distribution",
+    "entries" : [
+      { "group": "kitchen_tools", "prob": 200 },
+      { "group": "lighting_tools", "prob": 20 },
+      { "group": "dining_tools", "prob": 100 },
+      { "group": "fire_tools", "prob": 20 },
+      { "group": "alcohol_wine", "prob": 25 },
+      { "group": "alcohol_beer", "prob": 25 },
+      { "group": "cleaning", "prob": 50 },
+      { "group": "fruit", "prob": 40 },
+      { "group": "vegetables", "prob": 60 },
+      { "group": "irradiated_fruit", "prob": 5 },
+      { "group": "irradiated_vegetables", "prob": 5 },
+      { "group": "perishable_food", "prob": 30 },
+      { "group": "imperishable_food", "prob": 100 },
+      { "group": "canned_food", "prob": 100 },
+      { "group": "condiments_spices", "prob": 50 },
+      { "group": "cookbooks", "prob": 50 },
+      { "item": "hat_chef", "prob": 2 },
+      { "item": "jacket_chef", "prob": 2 },
+      { "item": "dogfood", "prob": 5 },
+      { "item": "catfood", "prob": 5 }
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "knifeblock",
+    "subtype": "distribution",
+    "entries" : [
+      { "group": "combat_knives", "prob": 1 },
+      { "item": "knife_steak", "prob": 75 },
+      { "item": "knife_butcher", "prob": 25 },
+      { "item": "scissors", "prob": 10 },
+      { "item": "tongs", "prob": 25 }
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "oven",
+    "items":[
+      ["pan", 80],
+      ["waffleiron", 25],
+      ["teapot", 25],
+      ["pot", 80]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "dining",
+    "subtype": "distribution",
+    "entries" : [
+      { "group": "dining_tools", "prob": 200 },
+      { "group": "condiments_spices", "prob": 10 }
+    ]
+  },{
+    "type" : "item_group",
     "id" : "hardware",
 	  "subtype": "distribution",
     "entries" : [
