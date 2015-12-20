@@ -322,6 +322,34 @@
     ]
   },{
     "type" : "item_group",
+    "id" : "science",
+    "subtype": "distribution",
+    "entries" : [
+      { "group": "science_gear", "prob": 300 },
+      { "group": "science_clothes", "prob": 100 },
+      { "group": "hazmat_clothes", "prob": 20 },
+      { "group": "chemistry_tools", "prob": 75 },
+      { "group": "chemicals", "prob": 65 },
+      { "group": "emergency_drugs", "prob": 50 },
+      { "group": "electronics", "prob": 40 },
+      { "group": "adv_electronics", "prob": 10 },
+      { "group": "electronics_tools", "prob": 50 },
+      { "group": "electronic_parts", "prob": 25 },
+      { "group": "tech_books", "prob": 30 },
+      { "group": "medical_books", "prob": 30 },
+      { "item": "water_clean", "prob": 80 },
+      { "item": "file", "prob": 70 },
+      { "item": "recipe_mininuke_launch", "prob": 2 },
+      { "item": "mobile_memory_card_science", "prob": 20 },
+      { "item": "mobile_memory_card", "prob": 25 },
+      { "item": "software_useless", "prob": 15 },
+      { "item": "purifier", "prob": 40 },
+      { "item": "mutagen", "prob": 30 },
+      { "item": "canister_goo", "prob": 15 },
+      { "item": "id_science", "prob": 5 }
+    ]
+  },{
+    "type" : "item_group",
     "id" : "livingroom",
     "subtype": "distribution",
     "entries" : [
