@@ -1,5 +1,79 @@
 [
-  {
+ {
+    "type" : "item_group",
+    "id" : "field",
+    "subtype": "distribution",
+    "entries" : [
+      { "item": "rock", "prob": 90 },
+      { "item": "sharp_rock", "prob": 40 },
+      { "item": "stick", "prob": 10 },
+      { "group": "nature_trash", "prob": 10 },
+      { "group": "outdoor_trash", "prob": 2 }
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "forest",
+    "subtype": "distribution",
+    "entries" : [
+      { "item": "rock", "prob": 10 },
+      { "item": "sharp_rock", "prob": 5 },
+      { "item": "stick", "prob": 100 },
+      { "item": "pine_bough", "prob": 15 },
+      { "group": "outdoor_trash", "prob": 5 },
+      { "group": "nature_trash", "prob": 30 }
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "road",
+    "subtype": "distribution",
+    "entries" : [
+      { "item": "rock", "prob": 30 },
+      { "item": "sharp_rock", "prob": 5 },
+      { "item": "stick", "prob": 15 },
+      { "item": "pine_bough", "prob": 5 },
+      { "group": "outdoor_trash", "prob": 100 },
+      { "group": "nature_trash", "prob": 20 },
+      { "group": "vehicle_trash", "prob": 100 },
+      { "group": "wreckage", "prob": 20 }
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "car_kit",
+    "items":[
+      ["jack", 180],
+      ["wheel", 140],
+      ["jerrycan", 100],
+      ["jerrycan_big", 30],
+      ["hose", 70],
+      ["jumper_cable", 100],
+      ["sm_extinguisher", 70],
+      ["extinguisher", 20],
+      ["1st_aid", 50],
+      {"item": "duct_tape", "prob": 130, "charges-min": 20, "charges-max": 200},
+      ["screwdriver", 80],
+      ["screwdriver_set", 20],
+      ["toolbox", 10]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "car_misc",
+    "subtype": "distribution",
+    "entries" : [
+      { "group": "everyday_gear", "prob": 100 },
+      { "group": "overcounter_drugs", "prob": 15 },
+      { "group": "legal_drugs", "prob": 50 },
+      { "group": "illegal_drugs", "prob": 10 },
+      { "group": "lighting_tools", "prob": 50 },
+      { "group": "fire_tools", "prob": 30 },
+      { "group": "storage", "prob": 10 },
+      { "item": "umbrella", "prob": 10 },
+      { "item": "teleumbrella", "prob": 5 },
+      { "item": "sunglasses", "prob": 15 },
+      { "item": "survnote", "prob": 10 },
+      { "item": "touristmap", "prob": 5 },
+      { "item": "roadmap", "prob": 5 }
+    ]
+  },{
     "type" : "item_group",
     "id" : "hive",
     "items":[
