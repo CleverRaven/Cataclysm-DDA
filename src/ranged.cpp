@@ -994,7 +994,7 @@ std::vector<tripoint> game::target( tripoint &p, const tripoint &low, const trip
             bool cont = true;
             tripoint cp = p;
             for (size_t i = 0; i < ret.size() && cont; i++) {
-                if( trig_dist( from, ret[i] ) > range ) {
+                if( std::round(trig_dist( from, ret[i] )) > range ) {
                     ret.resize(i);
                     cont = false;
                 } else {
