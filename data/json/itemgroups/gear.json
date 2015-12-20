@@ -1268,5 +1268,72 @@
       { "group": "science_masks", "prob": 30 },
       { "group": "science_extras", "prob": 10 }
     ]
-   }
- ]
+  },{
+    "type" : "item_group",
+    "id" : "medical_gear",
+    "//" : "carried med tools. medicine goes in emergency_drugs.",
+    "items":[
+      ["scalpel", 150],
+      ["syringe", 100],
+      ["scissors", 50],
+      ["stethoscope", 1],
+      ["vacutainer", 10],
+      ["hacksaw", 10],
+      ["cleansuit", 5],
+      ["adrenaline_injector", 10],
+      ["magnifying_glass", 50],
+      ["shavingkit", 30],
+      ["elec_hairtrimmer", 30],
+      ["towel", 65],
+      ["smoxygen_tank", 50],
+      ["wrapped_rad_badge", 50],
+      ["blood", 35],
+      ["rag_bloody", 45],
+      ["software_medical", 20],
+      ["software_useless", 50],
+      ["usb_drive", 60]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "science_gear",
+    "items":[
+      {"item": "soldering_iron", "prob": 200, "charges-min": 5, "charges-max": 20 },
+      {"item": "flashlight", "prob": 100, "charges-min": 10, "charges-max": 100 },
+      ["battery", 100],
+      {"item": "mp3", "prob": 15, "charges-min": 10, "charges-max": 95 },
+      {"item": "radio", "prob": 20, "charges-min": 10, "charges-max": 95 },
+      {"item": "eink_tablet_pc", "prob": 45, "charges-min": 10, "charges-max": 50 },
+      ["laptop", 50],
+      ["mobile_memory_card", 60],
+      ["mobile_memory_card_science", 5],
+      ["software_useless", 10],
+      ["usb_drive", 80],
+      {"item": "two_way_radio", "prob": 20, "charges-min": 10, "charges-max": 95 },
+      {"item": "camera", "prob": 25, "charges-min": 10, "charges-max": 95 },
+      {"item": "camera_pro", "prob": 5, "charges-min": 10, "charges-max": 95 },
+      ["EMPbomb", 10],
+      ["scrambler", 1],
+      ["UPS_off", 30],
+      ["adv_UPS_off", 5],
+      {"item": "geiger_off", "prob": 50, "charges-min": 10, "charges-max": 95 },
+      ["thermometer", 50],
+      ["hygrometer", 40],
+      ["barometer", 40],
+      ["magnifying_glass", 50],
+      ["wrapped_rad_badge", 50],
+      ["throw_extinguisher", 2],
+      ["towel", 50],
+      ["bottle_glass", 50],
+      ["xacto", 50],
+      ["permanent_marker", 40],
+      ["screwdriver", 70],
+      ["hammer", 50],
+      ["wrench", 60],
+      ["pliers", 50],
+      ["hacksaw", 15],
+      ["multitool", 10],
+      ["toolbox", 5],
+      ["id_science", 15]
+    ]
+  }
+]
