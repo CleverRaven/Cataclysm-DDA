@@ -18,7 +18,7 @@
       ["power_armor_helmet_heavy", 0],
       ["optical_cloak", 0]
     ]
- },{
+  },{
     "type" : "item_group",
     "id" : "player_crafted",
     "//" : "items that should only be crafted by the player. Excluded from all other item groups.",
@@ -229,7 +229,7 @@
       ["multi_cooker", 50],
       ["l-stick", 50]
     ]
-},{
+  },{
     "type" : "item_group",
     "id" : "pistols",
     "//" : "see gear for specific sets of guns. military, cops, etc.",
@@ -538,7 +538,7 @@
       ["hk_g80", 20],
       ["cerberus_laser", 50]
     ]
- },{
+  },{
     "type" : "item_group",
     "id" : "future_ammo",
     "items":[
@@ -816,6 +816,7 @@
     "type" : "item_group",
     "id" : "grenades",    
     "comment" : "...Or anything thrown. High numbers here are to make the granade joke item rare enough.",
+     "items":[
       ["mininuke", 300],
       ["c4", 1000],
       ["grenade", 1000],
@@ -927,7 +928,7 @@
       ["hockey_stick", 60],
       ["golf_club", 60]
     ]
-    },{
+  },{
     "type" : "item_group",
     "id" : "crafted_melee_weapons",
     "items":[
@@ -1301,7 +1302,7 @@
       { "group": "electronics", "prob": 100 },
       { "group": "digital_electronics", "prob": 50 }
     ]
- },{
+  },{
     "type" : "item_group",
     "id" : "basic_tools",
     "items":[
@@ -2324,4 +2325,4 @@
       { "item": "withered", "prob": 5}
     ]
   }
-]    
+] 
