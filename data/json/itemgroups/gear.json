@@ -431,5 +431,72 @@
       ["ear_spool", 30],
       ["holy_symbol", 20]
     ]
-  }
+  },{
+    "type" : "item_group",
+    "id" : "allclothes",
+    "subtype": "distribution",
+    "entries" : [
+      { "group": "female_underwear_bottom", "prob": 20 },
+      { "group": "female_underwear_top", "prob": 20 },
+      { "group": "male_underwear_bottom", "prob": 20 },
+      { "group": "male_underwear_top", "prob": 20 },
+      { "group": "female_shoes", "prob": 50 },
+      { "group": "male_shoes", "prob": 50 },
+      { "item": "socks", "prob": 50 },
+      { "group": "female_pants", "prob": 80 },
+      { "group": "male_pants", "prob": 80 },
+      { "group": "female_shirts", "prob": 80 },
+      { "group": "male_shirts", "prob": 80 },
+      { "group": "jackets", "prob": 50 },
+      { "group": "gloves", "prob": 50 },
+      { "group": "eyewear", "prob": 30 },
+      { "group": "hats", "prob": 30 },
+      { "group": "masks", "prob": 30 },
+      { "group": "storage", "prob": 20 },
+      { "group": "female_extras", "prob": 20 },
+      { "group": "male_extras", "prob": 20 }
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "female_clothes",
+    "subtype": "distribution",
+    "entries" : [
+      { "group": "female_underwear_bottom", "prob": 30 },
+      { "group": "female_underwear_top", "prob": 30 },
+      { "group": "female_shoes", "prob": 60 },
+      { "distribution": [
+        { "item": "socks", "prob": 50 },
+        { "item": "tights", "prob": 50 },
+        { "item": "stockings", "prob": 50 },
+        { "item": "leggings", "prob": 50 }
+      ], "prob": 90 },
+      { "group": "female_pants", "prob": 90 },
+      { "group": "female_shirts", "prob": 90 },
+      { "group": "jackets", "prob": 50 },
+      { "group": "gloves", "prob": 50 },
+      { "group": "eyewear", "prob": 30 },
+      { "group": "hats", "prob": 30 },
+      { "group": "masks", "prob": 30 },
+      { "group": "storage", "prob": 20 },
+      { "group": "female_extras", "prob": 20 }
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "male_clothes",
+    "subtype": "distribution",
+    "entries" : [
+      { "group": "male_underwear_bottom", "prob": 30 },
+      { "group": "male_underwear_top", "prob": 30 },
+      { "group": "male_shoes", "prob": 60 },
+      { "group": "male_pants", "prob": 90 },
+      { "group": "male_shirts", "prob": 90 },
+      { "group": "jackets", "prob": 50 },
+      { "group": "gloves", "prob": 50 },
+      { "group": "eyewear", "prob": 30 },
+      { "group": "hats", "prob": 30 },
+      { "group": "masks", "prob": 30 },
+      { "group": "storage", "prob": 20 },
+      { "group": "male_extras", "prob": 20 }
+    ]
+   }
  ]
