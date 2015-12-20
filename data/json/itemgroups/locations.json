@@ -1220,6 +1220,73 @@
       ["blood", 20],
       ["vacutainer", 10]
     ]
+ },{
+    "type" : "item_group",
+    "id" : "cop_armory",
+    "subtype": "distribution",
+    "guns_with_ammo" : true,
+    "entries" : [
+      { "group": "cop_melee_weapons", "prob": 15 },
+      { "group": "cop_guns", "prob": 150 },
+      { "group": "cop_ammo", "prob": 100 }
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "cop_evidence",
+    "subtype": "distribution",
+    "entries" : [
+      { "group": "illegal_drugs", "prob": 500 },
+      { "group": "combat_knives", "prob": 100 },
+      { "group": "unarmed_weapons", "prob": 50 },
+      { "group": "crafted_melee_weapons", "prob": 50 },
+      { "group": "replica_weapons", "prob": 50 },
+      { "group": "explosives", "prob": 50 },
+      { "group": "jewelry", "prob": 200 },
+      { "item": "electrohack", "prob": 50 },
+      { "item": "software_hacking", "prob": 10 },
+      { "item": "textbook_gaswarfare", "prob": 10 },
+      { "item": "textbook_anarch", "prob": 10 },
+      { "item": "brewing_cookbook", "prob": 10 },
+      { "item": "recipe_bullets", "prob": 10 },
+      { "item": "spray_can", "prob": 100 },
+      { "item": "tazer", "prob": 100 },
+      { "item": "sf_watch", "prob": 10 },
+      { "item": "bondage_mask", "prob": 20 },
+      { "item": "RPG", "prob": 10 },
+      { "item": "RPG-7_ammo", "prob": 10 },
+      { "item": "bobburger", "prob": 10 }
+      { "collection": [
+          { "item": "clown_suit"},
+          { "item": "clownshoes"}
+        ]}
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "prison_weapons",
+    "subtype": "distribution",
+    "entries" : [
+      { "group": "cop_melee_weapons", "prob": 150 },
+      { "group": "shotguns", "prob": 150 },
+      { "item": "shot_beanbag", "prob": 50 },
+      { "item": "20x66_beanbag", "prob": 50 },
+      { "item": "remington_700", "prob": 50 },
+      { "item": "3006", "prob": 50 },
+      { "item": "m79", "prob": 50 },
+      { "item": "40mm_teargas", "prob": 25 },
+      { "item": "40mm_flashbang", "prob": 25 },
+      { "item": "40mm_beanbag", "prob": 25 }
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "prison_armor",
+    "items":[
+      ["helmet_riot", 50],
+      ["mask_gas", 50],
+      ["modularveststeel", 40],
+      ["gloves_tactical", 20],
+      ["armguard_hard", 40],
+      ["legguard_hard", 40]
+    ]
   },{
     "type" : "item_group",
     "id" : "hardware",
