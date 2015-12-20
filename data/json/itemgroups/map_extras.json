@@ -1,5 +1,29 @@
 [ 
     {
+      "type" : "item_group",
+      "id" : "college_camping",
+      "guns_with_ammo" : true,
+      "subtype": "distribution",
+      "entries" : 
+        [
+            { "group": "camping_gear", "prob": 100 },
+            { "group": "winter_clothes", "prob": 30 },
+            { "group": "camping_surv_books", "prob": 50 },
+            { "group": "camping_food", "prob": 50 },
+            { "group": "everyday_gear", "prob": 10 },
+            { "group": "lighting_tools", "prob": 100 },
+            { "group": "fire_tools", "prob": 100 },
+            { "group": "alcohol_beer", "prob": 100 },
+            { "group": "legal_drugs", "prob": 50 },
+            { "group": "emergency_drugs", "prob": 50 },
+            { "item": "knife_hunting", "prob": 10 },
+            { "item": "firecracker_pack", "prob": 10 },
+            { "item": "glock_19", "prob": 5 },
+            { "item": "camera", "prob": 10 },
+            { "item": "weed", "prob": 50 },
+            { "item": "roadmap", "prob": 1 }
+        ]
+    }, {
         "type" : "item_group",
         "subtype": "collection",
         "id": "map_extra_college_camping",
@@ -16,6 +40,28 @@
             { "group": "everyday_gear", "prob": 50 },
             { "group": "college_camping", "prob": 50 },
             { "group": "college_camping", "prob": 80 }
+        ]
+    }, {
+        "type" : "item_group",
+        "id" : "college_sports",
+        "subtype": "distribution",
+        "entries" : 
+        [
+            { "group": "everyday_gear", "prob": 50 },
+            { "group": "sports_gear", "prob": 100 },
+            { "group": "sports_clothes", "prob": 50 },
+            { "group": "sports_extras", "prob": 50 },
+            { "group": "roller_shoes", "prob": 20 },
+            { "group": "alcohol_beer", "prob": 200 },
+            { "item": "bat", "prob": 10 },
+            { "item": "bat_metal", "prob": 10 },
+            { "item": "towel", "prob": 20 },
+            { "item": "sports_drink", "prob": 50 },
+            { "item": "energy_drink", "prob": 20 },
+            { "item": "energy_drink_atomic", "prob": 1 },
+            { "item": "weed", "prob": 50 },
+            { "item": "inhaler", "prob": 10 },
+            { "item": "joint", "prob": 10 }
         ]
     }, {
         "type" : "item_group",
@@ -37,6 +83,28 @@
         ]
     }, {
         "type" : "item_group",
+        "id" : "college_lake",
+        "guns_with_ammo" : true,
+        "subtype": "distribution",
+        "entries" : 
+        [
+            { "item": "camera", "prob": 10 },
+            { "item": "weed", "prob": 50 },
+            { "item": "towel", "prob": 20 },
+            { "group": "camping_gear", "prob": 70 },
+            { "group": "fishing_gear", "prob": 200 },
+            { "group": "swim_clothes", "prob": 200 },
+            { "group": "camping_surv_books", "prob": 10 },
+            { "group": "camping_food", "prob": 10 },
+            { "group": "everyday_gear", "prob": 100 },
+            { "group": "lighting_tools", "prob": 50 },
+            { "group": "fire_tools", "prob": 50 },
+            { "group": "alcohol_beer", "prob": 200 },
+            { "group": "alcohol", "prob": 100 },
+            { "group": "legal_drugs", "prob": 50 }
+        ]
+    }, {
+        "type" : "item_group",
         "subtype": "collection",
         "id": "map_extra_college_lake",
         "entries":
@@ -54,35 +122,36 @@
             { "group": "college_lake", "prob": 70 }
         ]
     }, {
-    "type" : "item_group",
-    "id" : "drugdealer",
-    "subtype": "distribution",
-    "entries" : [
-      { "group": "everyday_gear", "prob": 80 },
-      { "group": "jewelry", "prob": 50 },
-      { "group": "male_extras", "prob": 20 },
-      { "group": "storage", "prob": 20 },
-      { "group": "legal_drugs", "prob": 80 },
-      { "group": "illegal_drugs", "prob": 50 },
-      { "group": "junkfood", "prob": 65 },
-      { "group": "sugar_drinks", "prob": 65 },
-      { "group": "alcohol", "prob": 10 },
-      { "group": "unarmed_weapons", "prob": 40 },
-      { "group": "combat_knives", "prob": 20 },
-      { "group": "smg", "prob": 10 },
-      { "group": "shotguns", "prob": 30 },
-      { "group": "pistols", "prob": 50 },
-      { "group": "shotgun_ammo", "prob": 30 },
-      { "group": "pistol_ammo", "prob": 60 },
-      { "group": "gun_mods", "prob": 10 },
-      { "item": "bandages", "prob": 40 },
-      { "item": "mag_porn", "prob": 20 },
-      { "item": "electrohack", "prob": 10 },
-      { "item": "bat", "prob": 10 },
-      { "item": "RPG", "prob": 1 },
-      { "item": "RPG-7_ammo", "prob": 2 },
-      { "item": "survnote", "prob": 10 }
-    ] 
+        "type" : "item_group",
+        "id" : "drugdealer",
+        "subtype": "distribution",
+        "entries" : 
+        [
+            { "group": "everyday_gear", "prob": 80 },
+            { "group": "jewelry", "prob": 50 },
+            { "group": "male_extras", "prob": 20 },
+            { "group": "storage", "prob": 20 },
+            { "group": "legal_drugs", "prob": 80 },
+            { "group": "illegal_drugs", "prob": 50 },
+            { "group": "junkfood", "prob": 65 },
+            { "group": "sugar_drinks", "prob": 65 },
+            { "group": "alcohol", "prob": 10 },
+            { "group": "unarmed_weapons", "prob": 40 },
+            { "group": "combat_knives", "prob": 20 },
+            { "group": "smg", "prob": 10 },
+            { "group": "shotguns", "prob": 30 },
+            { "group": "pistols", "prob": 50 },
+            { "group": "shotgun_ammo", "prob": 30 },
+            { "group": "pistol_ammo", "prob": 60 },
+            { "group": "gun_mods", "prob": 10 },
+            { "item": "bandages", "prob": 40 },
+            { "item": "mag_porn", "prob": 20 },
+            { "item": "electrohack", "prob": 10 },
+            { "item": "bat", "prob": 10 },
+            { "item": "RPG", "prob": 1 },
+            { "item": "RPG-7_ammo", "prob": 2 },
+            { "item": "survnote", "prob": 10 }
+        ] 
     }, {
         "type" : "item_group",
         "subtype": "collection",
