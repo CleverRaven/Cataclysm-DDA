@@ -3148,21 +3148,6 @@
     ]
   },{
     "type" : "item_group",
-    "id" : "postman_gear",
-    "items":[
-      ["postman_hat", 50],
-      ["postman_shirt", 70],
-      ["postman_shorts", 70],
-      ["mbag", 40],
-      ["newest_newspaper", 10],
-      ["wristwatch", 50],
-      ["leather_belt", 70],
-      ["briefs", 90],
-      ["socks", 70],
-      ["sneakers", 70]
-    ]
-  },{
-    "type" : "item_group",
     "id" : "plumber_gear",
     "items":[
       ["duct_tape", 50],
