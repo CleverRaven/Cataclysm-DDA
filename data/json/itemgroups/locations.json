@@ -209,16 +209,44 @@
     ]
   },{
     "type" : "item_group",
+    "id" : "spider",
+    "subtype": "distribution",
+    "entries" : [
+      { "group": "rare", "prob": 100 },
+      { "group": "indoor_trash", "prob": 150 },
+      { "group": "illegal_drugs", "prob": 5 },
+      { "group": "mutagens", "prob": 5 },
+      { "group": "iv_mutagens", "prob": 5 },
+      { "group": "future_guns", "prob": 5 },
+      { "group": "future_ammo", "prob": 5 },
+      { "group": "adv_electronics", "prob": 5 },
+      { "group": "digital_electronics", "prob": 5 },
+      { "group": "bots", "prob": 5 },
+      { "group": "explosives", "prob": 5 },
+      { "item": "meat", "prob": 25 },
+      { "item": "meat_tainted", "prob": 50 },
+      { "item": "arm", "prob":25},
+      { "item": "leg", "prob": 25 },
+      { "item": "corpse", "prob": 50 }
+    ]
+  },{
+    "type" : "item_group",
     "id" : "hive",
-    "items":[
-      ["honeycomb", 100]
+    "subtype": "distribution",
+    "entries" : [
+      { "item": "honeycomb", "prob": 100 },
+      { "group": "nature_trash", "prob": 10 },
+      { "item": "rock", "prob": 10 },
+      { "item": "wax", "prob": 10 },
+      { "item": "bee_sting", "prob": 10 }
     ]
   },{
     "type" : "item_group",
     "id" : "hive_center",
-    "items":[
-      ["honeycomb", 100],
-      ["royal_jelly", 80]
+    "subtype": "distribution",
+    "entries" : [
+      { "item": "honeycomb", "prob": 100 },
+      { "item": "royal_jelly", "prob": 100 }
     ]
   },{
     "type" : "item_group",
