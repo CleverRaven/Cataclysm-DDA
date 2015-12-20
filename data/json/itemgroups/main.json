@@ -3155,6 +3155,39 @@
       {"item": "gasoline", "prob": 80, "charges-min": 450, "charges-max": 8000, "container-item": "jerrycan"},
       {"item": "gasoline", "prob": 20, "charges-min": 2650, "charges-max": 20000, "container-item": "jerrycan_big"}
     ]  
+  },{
+    "type" : "item_group",
+    "id" : "kink",
+    "subtype": "collection",
+    "entries":[
+      { "item": "mag_porn", "prob": 90,  "count-min": 1, "count-max": 5 },
+      { "item": "vibrator", "prob": 80,  "count-min": 1, "count-max": 2 },
+      { "distribution": [
+        { "item": "wolfsuit", "prob": 50 },
+        { "collection": [
+          { "item": "maid_dress"},
+          { "item": "maid_hat"}
+        ], "prob": 50 },
+        { "collection": [
+          { "item": "clown_suit"},
+          { "item": "clownshoes"}
+        ], "prob": 50 },
+        { "collection": [
+          { "item": "bondage_suit"},
+          { "item": "bondage_mask"},
+          { "item": "bullwhip", "prob": 25 }
+        ], "prob": 50 },
+        { "collection": [
+          { "item": "corset", "prob": 50 },
+          { "item": "hot_pants_leather", "prob": 50 },
+          { "item": "blindfold", "prob": 75 },
+          { "item": "leather_collar", "prob": 75 },
+          { "item": "bullwhip"}
+        ], "prob": 50 },
+        { "item": "dinosuit", "prob": 50 }
+        ]
+      }
+    ]
   }
 ] 
 
