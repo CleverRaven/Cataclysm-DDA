@@ -109,7 +109,7 @@
       { "group": "lighting_tools", "prob": 50 },
       { "group": "everyday_gear", "prob": 50 },
       { "group": "magazines", "prob": 50 },
-      { "group": "home_tools", "prob": 30 },
+      { "group": "basic_tools", "prob": 30 },
       { "group": "legal_drugs", "prob": 50 },
       { "group": "illegal_drugs", "prob": 50 },
       { "item": "survnote", "prob": 10 }
@@ -469,6 +469,24 @@
       { "item": "cake3", "prob": 1 },
       { "item": "dogfood", "prob": 5 },
       { "item": "catfood", "prob": 5 }
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "home_hw",
+    "subtype": "distribution",
+    "entries" : [
+      { "group": "basic_tools", "prob": 300 },
+      { "group": "construction_parts", "prob": 50 },
+      { "group": "lighting_tools", "prob": 50 },
+      { "group": "fire_tools", "prob": 30 },
+      { "group": "worker_clothes", "prob": 50 },
+      { "group": "mechanics_tools", "prob": 10 },
+      { "group": "farming_tools", "prob": 10 },
+      { "item": "manual_carpentry", "prob": 10 },
+      { "item": "101_carpentry", "prob": 10 },
+      { "item": "manual_electronics", "prob": 5 },
+      { "item": "manual_mechanics", "prob": 5 },
+      { "item": "manual_fabrication", "prob": 10 }
     ]
   },{
     "type" : "item_group",
