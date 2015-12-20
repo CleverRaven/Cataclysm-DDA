@@ -61,6 +61,26 @@
         ]
     },
     {
+        "type" : "item_group",
+        "subtype": "collection",
+        "id": "mon_zombie_cop_death_drops",
+        "entries":
+        [
+            { "group": "underwear", "damage-min": 1, "damage-max": 4 },
+            { "group": "cop_shoes", "damage-min": 1, "damage-max": 4 },
+            { "group": "cop_shirts", "damage-min": 1, "damage-max": 4 },
+            { "group": "cop_pants", "damage-min": 1, "damage-max": 4 },
+            { "group": "cop_helmets", "damage-min": 1, "damage-max": 4, "prob": 10 },
+            { "group": "cop_masks", "damage-min": 1, "damage-max": 4, "prob": 5 },
+            { "group": "cop_armor", "damage-min": 1, "damage-max": 4, "prob": 5 },
+            { "group": "cop_melee_weapons", "damage-min": 0, "damage-max": 1, "prob": 15 },
+            { "group": "cop_guns", "damage-min": 0, "damage-max": 1, "prob": 15 },
+            { "group": "cop_ammo", "damage-min": 0, "damage-max": 1, "prob": 5 },
+            { "group": "cop_gear", "damage-min": 0, "damage-max": 1, "prob": 40 },
+            { "group": "everyday_gear", "prob": 15 }
+        ]
+    },
+    {
   "type" : "item_group",
     "id" : "shia_stuff",
     "items":[
