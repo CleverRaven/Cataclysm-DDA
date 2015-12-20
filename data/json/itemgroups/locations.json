@@ -1586,6 +1586,7 @@
     "subtype": "distribution",
     "entries" : [
       { "group": "camping_gear", "prob": 300 },
+      { "group": "camping_food", "prob": 100 },
       { "group": "camping_surv_books", "prob": 50 },
       { "group": "fishing_gear", "prob": 50 },
       { "group": "archery", "prob": 20 },
@@ -1593,5 +1594,37 @@
       { "group": "rain_gear", "prob": 20 },
       { "group": "rain_clothes", "prob": 15 }
     ]
-  }    
+  },{
+    "type" : "item_group",
+    "id" : "sports",
+    "subtype": "distribution",
+    "entries" : [
+      { "group": "sports_gear", "prob": 350 },
+      { "group": "sports_clothes", "prob": 250 },
+      { "group": "swim_clothes", "prob": 50 },
+      { "group": "roller_shoes", "prob": 50 },
+      { "group": "sports_extras", "prob": 50 },
+      { "group": "archery", "prob": 50 },
+      { "group": "archery_ammo", "prob": 20 },
+      { "group": "camping_surv_books", "prob": 20 },
+      { "group": "fishing_gear", "prob": 50 }
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "allsporting",
+    "subtype": "distribution",
+    "entries" : [
+      { "group": "camping_gear", "prob": 200 },
+      { "group": "sports_gear", "prob": 400 },
+      { "group": "sports_clothes", "prob": 200 },
+      { "group": "roller_shoes", "prob": 50 },
+      { "group": "sports_extras", "prob": 50 },
+      { "group": "combat_knives", "prob": 50 },
+      { "group": "archery", "prob": 50 },
+      { "group": "archery_ammo", "prob": 50 },
+      { "group": "camping_surv_books", "prob": 50 },
+      { "group": "gun_books", "prob": 20 },
+      { "group": "fishing_gear", "prob": 50 }
+    ]
+  } 
  ]
