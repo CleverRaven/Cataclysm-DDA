@@ -562,7 +562,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
         info.push_back( iteminfo( "BASE", _( "<bold>Volume</bold>: " ), "", volume(), true, "", false,
                                   true ) );
         info.push_back( iteminfo( "BASE", space + _( "Weight: " ),
-                                  string_format( "<num> %s", weight_units().c_str() ),
+                                  string_format( "<num> %s", weight_units() ),
                                   convert_weight( weight() ), false, "", true, true ) );
 
         if( damage_bash() > 0 || damage_cut() > 0 ) {
@@ -3869,6 +3869,37 @@ long item::ammo_required() const {
     }
 
     return res;
+}
+
+bool item::ammo_consume( int qty ) {
+    if( qty < 0 ) {
+        debugmsg( "Cannot consume negative quantity of ammo for %s", tname().c_str() );
+        return false;
+    }
+
+    if( qty > ammo_remaining() ) {
+        return false;
+    }
+
+    if( is_tool() ) {
+        charges -= qty;
+        if( charges == 0 ) {
+            unset_curammo();
+        }
+        return true;
+    }
+
+    if( is_gun() ) {
+        // includes auxiliary gunmods
+        // @todo handle magazines
+        charges -= qty;
+        if( charges == 0 ) {
+            unset_curammo();
+        }
+        return true;
+    }
+
+    return false;
 }
 
 ammotype item::ammo_type() const

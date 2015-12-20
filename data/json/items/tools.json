@@ -226,7 +226,22 @@
             "type": "extended_firestarter"
     }
   },
-
+  {
+    "type":"GENERIC",
+    "id": "electrohack",
+    "symbol": ",",
+    "color": "green",
+    "name": "electrohack",
+    "category" : "tools",
+    "description": "This device has many ports attached, allowing it to connect to almost any control panel or other electronic machine (but not computers).  With a little skill, it can be used to crack passwords and more.",
+    "price": 40000,
+    "material": ["plastic", "aluminum"],
+    "weight": 114,
+    "volume": 2,
+    "bashing": 5,
+    "cutting": 0,
+    "to_hit": 1
+  },
   {
     "id": "magnifying_glass",
     "type": "TOOL",
@@ -443,6 +458,49 @@
     "use_action": { "type": "knife" },
     "qualities": [["CUT", 1], ["BUTCHER", 3]]
   },
+  {
+    "id": "chipper",
+    "type": "TOOL",
+    "symbol": ";",
+    "color": "brown",
+    "name": "paint chipper",
+    "description": "A tool similar to a chisel, designed to remove paint.",
+    "price": 7000,
+    "material": ["steel", "wood"],
+    "weight": 60,
+    "volume": 2,
+    "bashing": 0,
+    "cutting": 2,
+    "to_hit": 1,
+    "max_charges": 0,
+    "initial_charges": 0,
+    "charges_per_use": 0,
+    "turns_per_charge": 0,
+    "ammo": "NULL",
+    "revert_to": "null"
+},
+{
+    "id": "paint_brush",
+    "type": "TOOL",
+    "symbol": ";",
+    "color": "brown",
+    "name": "paint brush",
+    "name_plural": "paint brushes",
+    "description": "A wide brush, suitable for painting walls.",
+    "price": 7000,
+    "material": ["wood", "null"],
+    "weight": 60,
+    "volume": 2,
+    "bashing": 0,
+    "cutting": 0,
+    "to_hit": 1,
+    "max_charges": 0,
+    "initial_charges": 0,
+    "charges_per_use": 0,
+    "turns_per_charge": 0,
+    "ammo": "NULL",
+    "revert_to": "null"
+},
   {
     "id": "oxygen_tank",
     "type": "TOOL",
