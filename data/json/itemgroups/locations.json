@@ -1342,6 +1342,31 @@
     ]
   },{
     "type" : "item_group",
+    "id" : "mischw",
+    "subtype": "distribution",
+    "entries" : [
+      { "group": "worker_clothes", "prob": 300 },
+      { "group": "worker_storage", "prob": 100 },
+      { "group": "worker_extras", "prob": 100 },
+      { "group": "basic_tools", "prob": 300 },
+      { "group": "hardware_tools", "prob": 200 },
+      { "group": "mechanics_tools", "prob": 75 },
+      { "group": "construction_tools", "prob": 75 },
+      { "group": "construction_parts", "prob": 75 },
+      { "item": "manual_mechanics", "prob": 35 },
+      { "item": "manual_carpentry", "prob": 10 },
+      { "item": "carpentry_book", "prob": 5 },
+      { "item": "manual_fabrication", "prob": 20 },
+      { "item": "mag_carpentry", "prob": 30 },
+      { "item": "101_carpentry", "prob": 20 },
+      { "item": "mag_mechanics", "prob": 35 },
+      { "item": "mag_fabrication", "prob": 12 },
+      { "item": "textbook_fabrication", "prob": 12 },
+      { "item": "textbook_mechanics", "prob": 12 },
+      { "item": "book_icef", "prob": 8 }
+    ]
+  },{
+    "type" : "item_group",
     "id" : "tools",
     "subtype": "distribution",
     "entries" : [
@@ -1403,5 +1428,54 @@
       { "group": "mechanics_parts", "prob": 50 },
       { "group": "vehicle_parts", "prob": 350 }
     ]
-  }
+  },{
+    "type" : "item_group",
+    "id" : "plumber_gear",
+    "subtype": "distribution",
+    "entries" : [
+      { "group": "worker_clothes", "prob": 350 },
+      { "group": "basic_tools", "prob": 300 },
+      { "item": "flashlight", "prob": 100 },
+      { "item": "toolbox", "prob": 20 },
+      { "item": "multitool", "prob": 100 },
+      { "item": "screwdriver_set", "prob": 10 },
+      { "item": "duct_tape", "prob": 50 },
+      { "item": "spray_can", "prob": 50 },
+      { "item": "permanent_marker", "prob": 50 },
+      { "item": "battery", "prob": 20 },
+      { "item": "fishing_waders", "prob": 20 },
+      { "item": "boots_rubber", "prob": 30 },
+      { "item": "bio_flashlight", "prob": 10 },
+      { "item": "bio_tools", "prob": 10 }
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "hardware_plumbing",
+    "subtype": "distribution",
+    "entries" : [
+      { "group": "worker_clothes", "prob": 200 },
+      { "group": "basic_tools", "prob": 200 },
+      { "item": "water_faucet", "prob": 150 },
+      { "item": "duct_tape", "prob": 100 },
+      { "item": "wire", "prob": 100 },
+      { "item": "funnel", "prob": 100 },
+      { "item": "superglue", "prob": 50 },
+      { "item": "string_6", "prob": 500 },
+      { "item": "string_36", "prob": 50 },
+      { "item": "rope_6", "prob": 50 },
+      { "item": "rope_30", "prob": 25 },
+      { "item": "hose", "prob": 150 },
+      { "item": "bubblewrap", "prob": 25 },
+      { "item": "spray_can", "prob": 50 },
+      { "item": "permanent_marker", "prob": 25 },
+      { "item": "battery", "prob": 25 },
+      { "item": "screwdriver_set", "prob": 15 },
+      { "item": "xacto", "prob": 5 },
+      { "item": "multitool", "prob": 25 },
+      { "item": "crowbar", "prob": 5 },
+      { "item": "misc_repairkit", "prob": 25 },
+      { "item": "flashlight", "prob": 50 },
+      { "item": "cordless_drill", "prob": 50 },
+      { "item": "survnote", "prob": 1 }
+    ]
  ]
