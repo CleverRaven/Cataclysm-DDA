@@ -1136,5 +1136,41 @@
       {"item": "scythe", "prob": 5 },
       {"item": "hoe", "prob": 50 }
     ]
-  }
+  },{
+    "type" : "item_group",
+    "id" : "postman_shirts",
+    "items":[
+      ["postman_shirt", 50]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "postman_pants",
+    "items":[
+      ["postman_shorts", 50]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "postman_hats",
+    "items":[
+      ["postman_hat", 50]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "postman_clothes",
+    "subtype": "distribution",
+    "entries" : [
+      { "group": "postman_pants", "prob": 50 },
+      { "group": "postman_shirts", "prob": 50 },
+      { "group": "postman_hats", "prob": 25 }
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "postman_gear",
+    "subtype": "collection",
+    "entries" : [
+      { "item": "mbag" },
+      { "item": "newest_newspaper", "count-min": 2, "count-max": 8 },
+      { "group": "paper_trash", "count-min": 2, "count-max": 8 } 
+    ]
+   }
  ]
