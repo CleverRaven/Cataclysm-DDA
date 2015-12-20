@@ -7792,22 +7792,6 @@
     ]
   },{
     "type" : "item_group",
-    "id" : "technician_shirts",
-    "items":[
-      ["technician_shirt_blue", 20],
-      ["technician_shirt_ltblue", 15],
-      ["technician_shirt_gray", 10]
-    ]
-  },{
-    "type" : "item_group",
-    "id" : "technician_pants",
-    "items":[
-      ["technician_pants_blue", 20],
-      ["technician_pants_ltblue", 15],
-      ["technician_pants_gray", 10]
-    ]
-  },{
-    "type" : "item_group",
     "id" : "bionics_tech",
     "subtype": "distribution",
     "note" : "Bionics used by technicians.",

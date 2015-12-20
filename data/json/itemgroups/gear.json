@@ -1172,5 +1172,101 @@
       { "item": "newest_newspaper", "count-min": 2, "count-max": 8 },
       { "group": "paper_trash", "count-min": 2, "count-max": 8 } 
     ]
+  },{
+    "type" : "item_group",
+    "id" : "technician_shirts",
+    "items":[
+      ["technician_shirt_blue", 50],
+      ["technician_shirt_ltblue", 40],
+      ["technician_shirt_gray", 30]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "technician_pants",
+    "items":[
+      ["technician_pants_blue", 50],
+      ["technician_pants_ltblue", 40],
+      ["technician_pants_gray", 30]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "science_shoes",
+    "items":[
+      ["boots_rubber", 100],
+      ["dress_shoes", 50],
+      ["sneakers", 50],
+      ["lowtops", 45]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "science_suits",
+    "items":[
+      ["jumpsuit", 100],
+      ["cleansuit", 15],
+      ["subsuit_xl", 0]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "science_coats",
+    "items":[
+      ["coat_lab", 200],
+      ["blazer", 5],
+      ["vest", 15],
+      ["apron_leather", 10]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "science_gloves",
+    "items":[
+      ["gloves_medical", 100],
+      ["gloves_rubber", 50],
+      ["fire_gauntlets", 5],
+      ["nomex_gloves", 5]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "science_eyewear",
+    "items":[
+      ["glasses_safety", 200],
+      ["sunglasses", 25],
+      ["glasses_eye", 50],
+      ["glasses_reading", 50],
+      ["glasses_bifocal", 50],
+      ["goggles_nv", 1],
+      ["goggles_ir", 1]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "science_masks",
+    "items":[
+      ["mask_dust", 100],
+      ["mask_gas", 1],
+      ["mask_filter", 50]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "science_extras",
+    "items":[
+      ["knee_pads", 15],
+      ["stethoscope", 1],
+      ["wearable_light", 50],
+      ["ear_plugs", 50],
+      ["rad_monitor", 10],
+      ["tool_belt", 50],
+      ["rx12_injector", 1]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "science_clothes",
+    "subtype": "distribution",
+    "entries" : [
+      { "group": "science_shoes", "prob": 50 },
+      { "group": "science_suits", "prob": 20 },
+      { "group": "science_coats", "prob": 100 },
+      { "group": "science_gloves", "prob": 50 },
+      { "group": "science_eyewear", "prob": 30 },
+      { "group": "science_masks", "prob": 30 },
+      { "group": "science_extras", "prob": 10 }
+    ]
    }
  ]
