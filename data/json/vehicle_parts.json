@@ -5205,7 +5205,7 @@
     },
     {
         "type" : "vehicle_part",
-        "id" : "door_wood",
+        "id" : "door_wood_opaque",
         "name" : "opaque wooden door",
         "symbol" : "+",
         "color" : "brown",
