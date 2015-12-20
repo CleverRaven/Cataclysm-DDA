@@ -75,6 +75,28 @@
     ]
   },{
     "type" : "item_group",
+    "id" : "methlab",
+   "subtype": "distribution",
+    "entries" : [
+      { "group": "illegal_drugs", "prob": 100 },
+      { "group": "lighting_tools", "prob": 20 },
+      { "group": "fire_tools", "prob": 20 },
+      { "item": "meth", "prob": 300 },
+      { "item": "pan", "prob": 50 },
+      { "item": "jar_glass", "prob": 50 },
+      { "item": "ammonia", "prob": 40 },
+      { "item": "bleach", "prob": 40 },
+      { "item": "chem_acetone", "prob": 20 },
+      { "item": "chem_hexamine", "prob": 20 },
+      { "item": "sewage", "prob": 20 },
+      { "item": "syringe", "prob": 30 },
+      { "item": "chemistry_set", "prob": 10 },
+      { "item": "punch_dagger", "prob": 45 },
+      { "item": "sunglasses", "prob": 15 },
+      { "item": "survnote", "prob": 30 }
+    ]
+  },{
+    "type" : "item_group",
     "id" : "hive",
     "items":[
       ["honeycomb", 100]
