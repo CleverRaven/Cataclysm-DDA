@@ -934,7 +934,7 @@
         "rotate" : true, "//":"allow rotation",
         "unique" : false, "//":"only allow one per city",
         "required" : false, "//":"is this special required for valid city sizes",
-        "flags" : [ "ROTATE", "UNIQUE", "CLASSIC", "REQUIRED" ]
+        "flags" : ["CLASSIC"]
 },{
         "type" : "overmap_special",
         "id" : "Necropolis",
@@ -1306,8 +1306,7 @@
         "occurrences" : [1, 1], "//":"how many per overmap",
         "rotate" : true, "//":"allow rotation",
         "unique" : false, "//":"only allow one per city",
-        "required" : false, "//":"is this special required for valid city sizes",
-        "flags" : [ "ROTATE", "UNIQUE", "REQUIRED" ]
+        "required" : false, "//":"is this special required for valid city sizes"
     },{
         "type" : "overmap_special",
         "id" : "evac_center",
@@ -1350,7 +1349,7 @@
         "rotate" : true, "//":"allow rotation",
         "unique" : true, "//":"only allow one per city",
         "required" : false, "//":"is this special required for valid city sizes",
-        "flags" : [ "UNIQUE" ]
+        "flags" : [ "CLASSIC" ]
     },{
         "type" : "overmap_special",
         "id" : "bandit_cabin",
@@ -1566,7 +1565,7 @@
         "rotate" : false, "//":"allow rotation",
         "unique" : true, "//":"only allow one per city",
         "required" : false, "//":"is this special required for valid city sizes",
-        "flags" : [ "UNIQUE" ]
+        "flags" : [ "CLASSIC" ]
     },{
         "type" : "overmap_special",
         "id" : "football_field",
