@@ -57,11 +57,11 @@
             { "point":[-1,1,0], "overmap": "motel_2_north"},
             { "point":[0,1,0], "overmap": "motel_3_north"}
         ],
-        "locations" : [ "by_hiway" ], "//":"what special locations does it spawn",
-        "city_distance" : [10, 120], "//":"how far from a city it should be",
-        "city_sizes" : [1, 12], "//":"what city sizes should it spawn in",
-        "occurrences" : [2, 5], "//":"how many per overmap",
-        "rotate" : true, "//":"allow rotation",
+        "locations" : [ "by_hiway" ],
+        "city_distance" : [10, 120],
+        "city_sizes" : [1, 12],
+        "occurrences" : [2, 5],
+        "rotate" : true,
         "flags" : [ "CLASSIC" ]
 },{
         "type" : "overmap_special",
@@ -89,11 +89,11 @@
             { "point":[1,-4,0], "overmap": "forest_aban1_north"}
 
         ],
-        "locations" : [ "forest" ], "//":"what special locations does it spawn",
-        "city_distance" : [0, -1], "//":"how far from a city it should be",
-        "city_sizes" : [1, 12], "//":"what city sizes should it spawn in",
-        "occurrences" : [0, 1], "//":"how many per overmap",
-        "rotate" : true, "//":"allow rotation",
+        "locations" : [ "forest" ],
+        "city_distance" : [0, -1],
+        "city_sizes" : [1, 12],
+        "occurrences" : [0, 1],
+        "rotate" : true,
         "flags" : [ "CLASSIC" ]
     },{
         "type" : "overmap_special",
@@ -103,11 +103,11 @@
             { "point":[0,0,0], "overmap": "lmoe"},
             { "point":[0,0,-1], "overmap": "lmoe_under"}
         ],
-        "locations" : [ "wilderness" ], "//":"what special locations does it spawn",
-        "city_distance" : [20, -1], "//":"how far from a city it should be",
-        "city_sizes" : [4, 12], "//":"what city sizes should it spawn in",
-        "occurrences" : [0, 3], "//":"how many per overmap",
-        "rotate" : false, "//":"allow rotation",
+        "locations" : [ "wilderness" ],
+        "city_distance" : [20, -1],
+        "city_sizes" : [4, 12],
+        "occurrences" : [0, 3],
+        "rotate" : false,
         "flags" : [ "CLASSIC" ]
     },{
         "type" : "overmap_special",
@@ -126,11 +126,11 @@
             { "point":[0,2,-1], "overmap": "sewage_treatment_under"},
             { "point":[1,2,-1], "overmap": "sewage_treatment_under"}
         ],
-        "locations" : [ "wilderness" ], "//":"what special locations does it spawn",
-        "city_distance" : [10, 20], "//":"how far from a city it should be",
-        "city_sizes" : [4, 12], "//":"what city sizes should it spawn in",
-        "occurrences" : [0, 4], "//":"how many per overmap",
-        "rotate" : false, "//":"allow rotation",
+        "locations" : [ "wilderness" ],
+        "city_distance" : [10, 20],
+        "city_sizes" : [4, 12],
+        "occurrences" : [0, 4],
+        "rotate" : false,
         "flags" : [ "CLASSIC" ]
     },{
         "type" : "overmap_special",
@@ -147,11 +147,11 @@
             { "point":[2,1,0], "overmap": "hive"},
             { "point":[2,2,0], "overmap": "hive"}
         ],
-        "locations" : [ "forest" ], "//":"what special locations does it spawn",
-        "city_distance" : [10, -1], "//":"how far from a city it should be",
-        "city_sizes" : [4, 12], "//":"what city sizes should it spawn in",
-        "occurrences" : [0, 50], "//":"how many per overmap",
-        "rotate" : false, "//":"allow rotation",
+        "locations" : [ "forest" ],
+        "city_distance" : [10, -1],
+        "city_sizes" : [4, 12],
+        "occurrences" : [0, 50],
+        "rotate" : false,
         "spawns" : { "group" : "GROUP_BEE", "population":[20,60], "radius":[2,4] }
     },{
         "type" : "overmap_special",
@@ -160,11 +160,11 @@
         [
             { "point":[0,0,0], "overmap": "s_gas_rural_north", "connect":"road"}
         ],
-        "locations" : [ "by_hiway" ], "//":"what special locations does it spawn",
-        "city_distance" : [10, 200], "//":"how far from a city it should be",
-        "city_sizes" : [1, 3], "//":"what city sizes should it spawn in",
-        "occurrences" : [ 0,2 ], "//":"how many per overmap",
-        "rotate" : true    , "//":"allow rotation",
+        "locations" : [ "by_hiway" ],
+        "city_distance" : [10, 200],
+        "city_sizes" : [1, 3],
+        "occurrences" : [ 0,2 ],
+        "rotate" : true,
         "flags" : [ "CLASSIC" ]
     },{
         "type" : "overmap_special",
@@ -173,11 +173,11 @@
         [
             { "point":[0,0,0], "overmap": "s_gas_north", "connect":"road"}
         ],
-        "locations" : [ "by_hiway" ], "//":"what special locations does it spawn",
-        "city_distance" : [10, 200], "//":"how far from a city it should be",
-        "city_sizes" : [4, 12], "//":"what city sizes should it spawn in",
-        "occurrences" : [2, 4], "//":"how many per overmap",
-        "rotate" : true    , "//":"allow rotation",
+        "locations" : [ "by_hiway" ],
+        "city_distance" : [10, 200],
+        "city_sizes" : [4, 12],
+        "occurrences" : [2, 4],
+        "rotate" : true,
         "flags" : [ "CLASSIC" ]
     },{
         "type" : "overmap_special",
@@ -186,11 +186,11 @@
         [
             { "point":[0,0,0], "overmap": "cabin"}
         ],
-        "locations" : [ "forest" ], "//":"what special locations does it spawn",
-        "city_distance" : [20, -1], "//":"how far from a city it should be",
-        "city_sizes" : [4, 12], "//":"what city sizes should it spawn in",
-        "occurrences" : [0, 30], "//":"how many per overmap",
-        "rotate" : false, "//":"allow rotation",
+        "locations" : [ "forest" ],
+        "city_distance" : [20, -1],
+        "city_sizes" : [4, 12],
+        "occurrences" : [0, 30],
+        "rotate" : false,
         "flags" : [ "CLASSIC" ]
     },{
         "type" : "overmap_special",
@@ -200,11 +200,11 @@
             { "point":[0,0,0], "overmap": "cabin_strange"},
             { "point":[0,0,-1], "overmap": "cabin_strange_b"}
         ],
-        "locations" : [ "forest" ], "//":"what special locations does it spawn",
-        "city_distance" : [20, -1], "//":"how far from a city it should be",
-        "city_sizes" : [4, 12], "//":"what city sizes should it spawn in",
-        "occurrences" : [1, 1], "//":"how many per overmap",
-        "rotate" : false, "//":"allow rotation",
+        "locations" : [ "forest" ],
+        "city_distance" : [20, -1],
+        "city_sizes" : [4, 12],
+        "occurrences" : [1, 1],
+        "rotate" : false,
         "flags" : [ "CLASSIC" ]
     },{
         "type" : "overmap_special",
@@ -221,11 +221,11 @@
             { "point":[1,2,0], "overmap": "farm_field"},
             { "point":[2,2,0], "overmap": "farm_field"}
         ],
-        "locations" : [ "wilderness" ], "//":"what special locations does it spawn",
-        "city_distance" : [20, -1], "//":"how far from a city it should be",
-        "city_sizes" : [4, 12], "//":"what city sizes should it spawn in",
-        "occurrences" : [0, 20], "//":"how many per overmap",
-        "rotate" : false, "//":"allow rotation",
+        "locations" : [ "wilderness" ],
+        "city_distance" : [20, -1],
+        "city_sizes" : [4, 12],
+        "occurrences" : [0, 20],
+        "rotate" : false,
         "flags" : [ "CLASSIC" ]
     },{
         "type" : "overmap_special",
@@ -239,11 +239,11 @@
             { "point":[0,0,-4], "overmap": "temple_stairs"},
             { "point":[0,0,-5], "overmap": "temple_finale"}
         ],
-        "locations" : [ "forest" ], "//":"what special locations does it spawn",
-        "city_distance" : [20, -1], "//":"how far from a city it should be",
-        "city_sizes" : [4, 12], "//":"what city sizes should it spawn in",
-        "occurrences" : [0, 3], "//":"how many per overmap",
-        "rotate" : false, "//":"allow rotation"
+        "locations" : [ "forest" ],
+        "city_distance" : [20, -1],
+        "city_sizes" : [4, 12],
+        "occurrences" : [0, 3],
+        "rotate" : false
     },{
         "type" : "overmap_special",
         "id" : "Lab",
@@ -251,11 +251,11 @@
         [
             { "point":[0,0,0], "overmap": "lab_stairs", "connect":"road"}
         ],
-        "locations" : [ "wilderness" ], "//":"what special locations does it spawn",
-        "city_distance" : [8, -1], "//":"how far from a city it should be",
-        "city_sizes" : [4, 12], "//":"what city sizes should it spawn in",
-        "occurrences" : [0, 30], "//":"how many per overmap",
-        "rotate" : true, "//":"allow rotation"
+        "locations" : [ "wilderness" ],
+        "city_distance" : [8, -1],
+        "city_sizes" : [4, 12],
+        "occurrences" : [0, 30],
+        "rotate" : true
     },{
         "type" : "overmap_special",
         "id" : "Ice Lab",
@@ -263,11 +263,11 @@
         [
             { "point":[0,0,0], "overmap": "ice_lab_stairs", "connect":"road"}
         ],
-        "locations" : [ "wilderness" ], "//":"what special locations does it spawn",
-        "city_distance" : [8, -1], "//":"how far from a city it should be",
-        "city_sizes" : [4, 12], "//":"what city sizes should it spawn in",
-        "occurrences" : [0, 30], "//":"how many per overmap",
-        "rotate" : true, "//":"allow rotation"
+        "locations" : [ "wilderness" ],
+        "city_distance" : [8, -1],
+        "city_sizes" : [4, 12],
+        "occurrences" : [0, 30],
+        "rotate" : true
     },{
         "type" : "overmap_special",
         "id" : "FEMA Camp",
@@ -283,11 +283,11 @@
             { "point":[1,2,0], "overmap": "fema"},
             { "point":[2,2,0], "overmap": "fema"}
         ],
-        "locations" : [ "wilderness" ], "//":"what special locations does it spawn",
-        "city_distance" : [8, -1], "//":"how far from a city it should be",
-        "city_sizes" : [4, 12], "//":"what city sizes should it spawn in",
-        "occurrences" : [2, 5], "//":"how many per overmap",
-        "rotate" : true, "//":"allow rotation",
+        "locations" : [ "wilderness" ],
+        "city_distance" : [8, -1],
+        "city_sizes" : [4, 12],
+        "occurrences" : [2, 5],
+        "rotate" : true,
         "flags" : [ "CLASSIC" ]
     },{
         "type" : "overmap_special",
@@ -297,11 +297,11 @@
             { "point":[0,0,0], "overmap": "bunker", "connect": "road"},
             { "point":[0,0,-1], "overmap": "bunker"}
         ],
-        "locations" : [ "wilderness" ], "//":"what special locations does it spawn",
-        "city_distance" : [4, -1], "//":"how far from a city it should be",
-        "city_sizes" : [2, 10], "//":"what city sizes should it spawn in",
-        "occurrences" : [0, 20], "//":"how many per overmap",
-        "rotate" : true, "//":"allow rotation"
+        "locations" : [ "wilderness" ],
+        "city_distance" : [4, -1],
+        "city_sizes" : [2, 10],
+        "occurrences" : [0, 20],
+        "rotate" : true
     },{
         "type" : "overmap_special",
         "id" : "Military Outpost",
@@ -309,11 +309,11 @@
         [
             { "point":[0,0,0], "overmap": "outpost"}
         ],
-        "locations" : [ "wilderness" ], "//":"what special locations does it spawn",
-        "city_distance" : [4, -1], "//":"how far from a city it should be",
-        "city_sizes" : [4, 12], "//":"what city sizes should it spawn in",
-        "occurrences" : [0, 10], "//":"how many per overmap",
-        "rotate" : false, "//":"allow rotation"
+        "locations" : [ "wilderness" ],
+        "city_distance" : [4, -1],
+        "city_sizes" : [4, 12],
+        "occurrences" : [0, 10],
+        "rotate" : false
     },{
         "type" : "overmap_special",
         "id" : "Missile Silo",
@@ -321,11 +321,11 @@
         [
             { "point":[0,0,0], "overmap": "silo", "connect": "road"}
         ],
-        "locations" : [ "wilderness" ], "//":"what special locations does it spawn",
-        "city_distance" : [30, -1], "//":"how far from a city it should be",
-        "city_sizes" : [4, 12], "//":"what city sizes should it spawn in",
-        "occurrences" : [0, 1], "//":"how many per overmap",
-        "rotate" : true, "//":"allow rotation"
+        "locations" : [ "wilderness" ],
+        "city_distance" : [30, -1],
+        "city_sizes" : [4, 12],
+        "occurrences" : [0, 1],
+        "rotate" : true
     },{
         "type" : "overmap_special",
         "id" : "Radio Tower",
@@ -333,11 +333,11 @@
         [
             { "point":[0,0,0], "overmap": "radio_tower", "connect": "road"}
         ],
-        "locations" : [ "wilderness" ], "//":"what special locations does it spawn",
-        "city_distance" : [0, 20], "//":"how far from a city it should be",
-        "city_sizes" : [4, 12], "//":"what city sizes should it spawn in",
-        "occurrences" : [1, 5], "//":"how many per overmap",
-        "rotate" : true, "//":"allow rotation",
+        "locations" : [ "wilderness" ],
+        "city_distance" : [0, 20],
+        "city_sizes" : [4, 12],
+        "occurrences" : [1, 5],
+        "rotate" : true,
         "flags" : [ "CLASSIC" ]
     },{
         "type" : "overmap_special",
@@ -354,11 +354,11 @@
             { "point":[1,2,0], "overmap": "mansion"},
             { "point":[2,2,0], "overmap": "mansion"}
         ],
-        "locations" : [ "wilderness" ], "//":"what special locations does it spawn",
-        "city_distance" : [0, -1], "//":"how far from a city it should be",
-        "city_sizes" : [4, 12], "//":"what city sizes should it spawn in",
-        "occurrences" : [0, 8], "//":"how many per overmap",
-        "rotate" : true, "//":"allow rotation",
+        "locations" : [ "wilderness" ],
+        "city_distance" : [0, -1],
+        "city_sizes" : [4, 12],
+        "occurrences" : [0, 8],
+        "rotate" : true,
         "flags" : [ "CLASSIC" ]
     },{
         "type" : "overmap_special",
@@ -375,11 +375,11 @@
             { "point":[1,2,0], "overmap": "mansion"},
             { "point":[2,2,0], "overmap": "mansion"}
         ],
-        "locations" : [ "wilderness" ], "//":"what special locations does it spawn",
-        "city_distance" : [10, -1], "//":"how far from a city it should be",
-        "city_sizes" : [4, 12], "//":"what city sizes should it spawn in",
-        "occurrences" : [0, 4], "//":"how many per overmap",
-        "rotate" : true, "//":"allow rotation",
+        "locations" : [ "wilderness" ],
+        "city_distance" : [10, -1],
+        "city_sizes" : [4, 12],
+        "occurrences" : [0, 4],
+        "rotate" : true,
         "flags" : [ "CLASSIC" ]
     },{
         "type" : "overmap_special",
@@ -396,11 +396,11 @@
             { "point":[1,2,0], "overmap": "megastore"},
             { "point":[2,2,0], "overmap": "megastore"}
         ],
-        "locations" : [ "wilderness" ], "//":"what special locations does it spawn",
-        "city_distance" : [0, 10], "//":"how far from a city it should be",
-        "city_sizes" : [4, 12], "//":"what city sizes should it spawn in",
-        "occurrences" : [0, 5], "//":"how many per overmap",
-        "rotate" : true, "//":"allow rotation",
+        "locations" : [ "wilderness" ],
+        "city_distance" : [0, 10],
+        "city_sizes" : [4, 12],
+        "occurrences" : [0, 5],
+        "rotate" : true,
         "flags" : [ "CLASSIC" ]
     },{
         "type" : "overmap_special",
@@ -417,11 +417,11 @@
             { "point":[1,2,0], "overmap": "hospital"},
             { "point":[2,2,0], "overmap": "hospital"}
         ],
-        "locations" : [ "wilderness" ], "//":"what special locations does it spawn",
-        "city_distance" : [3, 10], "//":"how far from a city it should be",
-        "city_sizes" : [4, 12], "//":"what city sizes should it spawn in",
-        "occurrences" : [1, 5], "//":"how many per overmap",
-        "rotate" : true, "//":"allow rotation",
+        "locations" : [ "wilderness" ],
+        "city_distance" : [3, 10],
+        "city_sizes" : [4, 12],
+        "occurrences" : [1, 5],
+        "rotate" : true,
         "flags" : [ "CLASSIC" ]
     },{
         "type" : "overmap_special",
@@ -433,11 +433,11 @@
             { "point":[0,1,0], "overmap": "public_works"},
             { "point":[1,1,0], "overmap": "public_works"}
         ],
-        "locations" : [ "wilderness" ], "//":"what special locations does it spawn",
-        "city_distance" : [2, 10], "//":"how far from a city it should be",
-        "city_sizes" : [4, 12], "//":"what city sizes should it spawn in",
-        "occurrences" : [1, 3], "//":"how many per overmap",
-        "rotate" : true, "//":"allow rotation",
+        "locations" : [ "wilderness" ],
+        "city_distance" : [2, 10],
+        "city_sizes" : [4, 12],
+        "occurrences" : [1, 3],
+        "rotate" : true,
         "flags" : [ "CLASSIC" ]
     },{
         "type" : "overmap_special",
@@ -449,11 +449,11 @@
             { "point":[0,1,0], "overmap": "apartments_con_tower_SW_north", "connect": "road"},
             { "point":[1,1,0], "overmap": "apartments_con_tower_SE_north"}
         ],
-        "locations" : [ "wilderness" ], "//":"what special locations does it spawn",
-        "city_distance" : [-1, 2], "//":"how far from a city it should be",
-        "city_sizes" : [4, 12], "//":"what city sizes should it spawn in",
-        "occurrences" : [1, 5], "//":"how many per overmap",
-        "rotate" : true, "//":"allow rotation",
+        "locations" : [ "wilderness" ],
+        "city_distance" : [-1, 2],
+        "city_sizes" : [4, 12],
+        "occurrences" : [1, 5],
+        "rotate" : true,
         "flags" : [ "CLASSIC" ]
     },{
         "type" : "overmap_special",
@@ -465,11 +465,11 @@
             { "point":[0,1,0], "overmap": "apartments_mod_tower_1"},
             { "point":[1,1,0], "overmap": "apartments_mod_tower_1"}
         ],
-        "locations" : [ "wilderness" ], "//":"what special locations does it spawn",
-        "city_distance" : [-1, 2], "//":"how far from a city it should be",
-        "city_sizes" : [4, 12], "//":"what city sizes should it spawn in",
-        "occurrences" : [1, 4], "//":"how many per overmap",
-        "rotate" : true, "//":"allow rotation",
+        "locations" : [ "wilderness" ],
+        "city_distance" : [-1, 2],
+        "city_sizes" : [4, 12],
+        "occurrences" : [1, 4],
+        "rotate" : true,
         "flags" : [ "CLASSIC" ]
     },{
         "type" : "overmap_special",
@@ -485,11 +485,11 @@
             { "point":[0,1,-1], "overmap": "office_tower_b"},
             { "point":[1,1,-1], "overmap": "office_tower_b"}
         ],
-        "locations" : [ "wilderness" ], "//":"what special locations does it spawn",
-        "city_distance" : [-1, 4], "//":"how far from a city it should be",
-        "city_sizes" : [4, 12], "//":"what city sizes should it spawn in",
-        "occurrences" : [1, 5], "//":"how many per overmap",
-        "rotate" : true, "//":"allow rotation",
+        "locations" : [ "wilderness" ],
+        "city_distance" : [-1, 4],
+        "city_sizes" : [4, 12],
+        "occurrences" : [1, 5],
+        "rotate" : true,
         "flags" : [ "CLASSIC" ]
     },{
         "type" : "overmap_special",
@@ -503,11 +503,11 @@
             { "point":[-1,1,0], "overmap": "office_tower_2_b2_north"},
             { "point":[0,1,0], "overmap": "office_tower_2_b3_north"}
         ],
-        "locations" : [ "wilderness" ], "//":"what special locations does it spawn",
-        "city_distance" : [-1, 4], "//":"how far from a city it should be",
-        "city_sizes" : [6, 12], "//":"what city sizes should it spawn in",
-        "occurrences" : [0, 5], "//":"how many per overmap",
-        "rotate" : true, "//":"allow rotation",
+        "locations" : [ "wilderness" ],
+        "city_distance" : [-1, 4],
+        "city_sizes" : [6, 12],
+        "occurrences" : [0, 5],
+        "rotate" : true,
         "flags" : [ "CLASSIC" ]
     },{
         "type" : "overmap_special",
@@ -523,11 +523,11 @@
             { "point":[0,1,-1], "overmap": "cathedral_b"},
             { "point":[1,1,-1], "overmap": "cathedral_b"}
         ],
-        "locations" : [ "wilderness" ], "//":"what special locations does it spawn",
-        "city_distance" : [-1, 2], "//":"how far from a city it should be",
-        "city_sizes" : [4, 12], "//":"what city sizes should it spawn in",
-        "occurrences" : [1, 2], "//":"how many per overmap",
-        "rotate" : true, "//":"allow rotation",
+        "locations" : [ "wilderness" ],
+        "city_distance" : [-1, 2],
+        "city_sizes" : [4, 12],
+        "occurrences" : [1, 2],
+        "rotate" : true,
         "flags" : [ "CLASSIC" ]
     },{
         "type" : "overmap_special",
@@ -544,11 +544,11 @@
             { "point":[1,2,0], "overmap": "school_8"},
             { "point":[2,2,0], "overmap": "school_7"}
         ],
-        "locations" : [ "wilderness" ], "//":"what special locations does it spawn",
-        "city_distance" : [1, 5], "//":"how far from a city it should be",
-        "city_sizes" : [4, 12], "//":"what city sizes should it spawn in",
-        "occurrences" : [1, 3], "//":"how many per overmap",
-        "rotate" : true, "//":"allow rotation",
+        "locations" : [ "wilderness" ],
+        "city_distance" : [1, 5],
+        "city_sizes" : [4, 12],
+        "occurrences" : [1, 3],
+        "rotate" : true,
         "flags" : [ "CLASSIC" ]
     },{
         "type" : "overmap_special",
@@ -574,11 +574,11 @@
             { "point":[0,2,-1], "overmap": "prison_b"},
             { "point":[1,2,-1], "overmap": "prison_b"}
         ],
-        "locations" : [ "land" ], "//":"what special locations does it spawn",
-        "city_distance" : [3, -1], "//":"how far from a city it should be",
-        "city_sizes" : [4, 12], "//":"what city sizes should it spawn in",
-        "occurrences" : [1, 1], "//":"how many per overmap",
-        "rotate" : false, "//":"allow rotation",
+        "locations" : [ "land" ],
+        "city_distance" : [3, -1],
+        "city_sizes" : [4, 12],
+        "occurrences" : [1, 1],
+        "rotate" : false,
         "flags" : [ "CLASSIC" ]
     },{
         "type" : "overmap_special",
@@ -588,11 +588,11 @@
             { "point":[0,0,0], "overmap": "s_lot", "connect":"road"},
             { "point":[0,1,0], "overmap": "mine_entrance"}
         ],
-        "locations" : [ "wilderness" ], "//":"what special locations does it spawn",
-        "city_distance" : [15, -1], "//":"how far from a city it should be",
-        "city_sizes" : [4, 12], "//":"what city sizes should it spawn in",
-        "occurrences" : [0, 5], "//":"how many per overmap",
-        "rotate" : false, "//":"allow rotation"
+        "locations" : [ "wilderness" ],
+        "city_distance" : [15, -1],
+        "city_sizes" : [4, 12],
+        "occurrences" : [0, 5],
+        "rotate" : false
     },{
         "type" : "overmap_special",
         "id" : "Anthill",
@@ -600,11 +600,11 @@
         [
             { "point":[0,0,0], "overmap": "anthill"}
         ],
-        "locations" : [ "wilderness" ], "//":"what special locations does it spawn",
-        "city_distance" : [10, -1], "//":"how far from a city it should be",
-        "city_sizes" : [4, 12], "//":"what city sizes should it spawn in",
-        "occurrences" : [0, 30], "//":"how many per overmap",
-        "rotate" : false, "//":"allow rotation",
+        "locations" : [ "wilderness" ],
+        "city_distance" : [10, -1],
+        "city_sizes" : [4, 12],
+        "occurrences" : [0, 30],
+        "rotate" : false,
         "spawns" : { "group" : "GROUP_ANT", "population":[1000,2000], "radius":[10,30] }
     },{
         "type" : "overmap_special",
@@ -614,11 +614,11 @@
             { "point":[0,0,0], "overmap": "spider_pit"},
             { "point":[0,0,-1], "overmap": "spider_pit_under"}
         ],
-        "locations" : [ "forest" ], "//":"what special locations does it spawn",
-        "city_distance" : [0, -1], "//":"how far from a city it should be",
-        "city_sizes" : [4, 12], "//":"what city sizes should it spawn in",
-        "occurrences" : [0, 500], "//":"how many per overmap",
-        "rotate" : false, "//":"allow rotation"
+        "locations" : [ "forest" ],
+        "city_distance" : [0, -1],
+        "city_sizes" : [4, 12],
+        "occurrences" : [0, 500],
+        "rotate" : false
     },{
         "type" : "overmap_special",
         "id" : "Slime Pit",
@@ -626,11 +626,11 @@
         [
             { "point":[0,0,0], "overmap": "slimepit_down"}
         ],
-        "locations" : [ "land" ], "//":"what special locations does it spawn",
-        "city_distance" : [0, -1], "//":"how far from a city it should be",
-        "city_sizes" : [4, 12], "//":"what city sizes should it spawn in",
-        "occurrences" : [0, 4], "//":"how many per overmap",
-        "rotate" : false, "//":"allow rotation",
+        "locations" : [ "land" ],
+        "city_distance" : [0, -1],
+        "city_sizes" : [4, 12],
+        "occurrences" : [0, 4],
+        "rotate" : false,
         "spawns" : { "group" : "GROUP_GOO", "population":[100,200], "radius":[2,10] }
     },{
         "type" : "overmap_special",
@@ -639,11 +639,11 @@
         [
             { "point":[0,0,0], "overmap": "fungal_bloom"}
         ],
-        "locations" : [ "wilderness" ], "//":"what special locations does it spawn",
-        "city_distance" : [5, -1], "//":"how far from a city it should be",
-        "city_sizes" : [4, 12], "//":"what city sizes should it spawn in",
-        "occurrences" : [0, 3], "//":"how many per overmap",
-        "rotate" : false, "//":"allow rotation",
+        "locations" : [ "wilderness" ],
+        "city_distance" : [5, -1],
+        "city_sizes" : [4, 12],
+        "occurrences" : [0, 3],
+        "rotate" : false,
         "spawns" : { "group" : "GROUP_FUNGI", "population":[600,1200], "radius":[30,50] }
     },{
         "type" : "overmap_special",
@@ -652,11 +652,11 @@
         [
             { "point":[0,0,0], "overmap": "fungal_tower"}
         ],
-        "locations" : [ "wilderness" ], "//":"what special locations does it spawn",
-        "city_distance" : [5, -1], "//":"how far from a city it should be",
-        "city_sizes" : [4, 12], "//":"what city sizes should it spawn in",
-        "occurrences" : [0, 2], "//":"how many per overmap",
-        "rotate" : false, "//":"allow rotation",
+        "locations" : [ "wilderness" ],
+        "city_distance" : [5, -1],
+        "city_sizes" : [4, 12],
+        "occurrences" : [0, 2],
+        "rotate" : false,
         "spawns" : { "group" : "GROUP_FUNGI_TOWER", "population":[125,175], "radius":[2,2] }
     },{
         "type" : "overmap_special",
@@ -665,11 +665,11 @@
         [
             { "point":[0,0,0], "overmap": "fungal_flowers"}
         ],
-        "locations" : [ "wilderness" ], "//":"what special locations does it spawn",
-        "city_distance" : [5, -1], "//":"how far from a city it should be",
-        "city_sizes" : [4, 12], "//":"what city sizes should it spawn in",
-        "occurrences" : [0, 2], "//":"how many per overmap",
-        "rotate" : false, "//":"allow rotation",
+        "locations" : [ "wilderness" ],
+        "city_distance" : [5, -1],
+        "city_sizes" : [4, 12],
+        "occurrences" : [0, 2],
+        "rotate" : false,
         "spawns" : { "group" : "GROUP_FUNGI_FLOWERS", "population":[50,100], "radius":[2,4] }
     },{
         "type" : "overmap_special",
@@ -680,11 +680,11 @@
             { "point":[0,0,-1], "overmap": "triffid_roots"},
             { "point":[0,0,-2], "overmap": "triffid_finale"}
         ],
-        "locations" : [ "forest" ], "//":"what special locations does it spawn",
-        "city_distance" : [0, -1], "//":"how far from a city it should be",
-        "city_sizes" : [4, 12], "//":"what city sizes should it spawn in",
-        "occurrences" : [0, 4], "//":"how many per overmap",
-        "rotate" : false, "//":"allow rotation",
+        "locations" : [ "forest" ],
+        "city_distance" : [0, -1],
+        "city_sizes" : [4, 12],
+        "occurrences" : [0, 4],
+        "rotate" : false,
         "spawns" : { "group" : "GROUP_TRIFFID", "population":[800,1300], "radius":[12,20] }
     },{
         "type" : "overmap_special",
@@ -694,11 +694,11 @@
             { "point":[0,0,0], "overmap": "shelter", "connect":"road"},
             { "point":[0,0,-1], "overmap": "shelter_under"}
         ],
-        "locations" : [ "wilderness" ], "//":"what special locations does it spawn",
-        "city_distance" : [5, 10], "//":"how far from a city it should be",
-        "city_sizes" : [4, 12], "//":"what city sizes should it spawn in",
-        "occurrences" : [5, 10], "//":"how many per overmap",
-        "rotate" : false, "//":"allow rotation",
+        "locations" : [ "wilderness" ],
+        "city_distance" : [5, 10],
+        "city_sizes" : [4, 12],
+        "occurrences" : [5, 10],
+        "rotate" : false,
         "flags" : [ "CLASSIC" ]
     },{
         "type" : "overmap_special",
@@ -707,11 +707,11 @@
         [
             { "point":[0,0,0], "overmap": "cave"}
         ],
-        "locations" : [ "wilderness" ], "//":"what special locations does it spawn",
-        "city_distance" : [0, -1], "//":"how far from a city it should be",
-        "city_sizes" : [4, 12], "//":"what city sizes should it spawn in",
-        "occurrences" : [0, 30], "//":"how many per overmap",
-        "rotate" : false, "//":"allow rotation"
+        "locations" : [ "wilderness" ],
+        "city_distance" : [0, -1],
+        "city_sizes" : [4, 12],
+        "occurrences" : [0, 30],
+        "rotate" : false
     },{
         "type" : "overmap_special",
         "id" : "Toxic Waste Dump",
@@ -719,11 +719,11 @@
         [
             { "point":[0,0,0], "overmap": "toxic_dump"}
         ],
-        "locations" : [ "wilderness" ], "//":"what special locations does it spawn",
-        "city_distance" : [15, -1], "//":"how far from a city it should be",
-        "city_sizes" : [4, 12], "//":"what city sizes should it spawn in",
-        "occurrences" : [0, 5], "//":"how many per overmap",
-        "rotate" : false, "//":"allow rotation",
+        "locations" : [ "wilderness" ],
+        "city_distance" : [15, -1],
+        "city_sizes" : [4, 12],
+        "occurrences" : [0, 5],
+        "rotate" : false,
         "flags" : [ "CLASSIC" ]
     },{
         "type" : "overmap_special",
@@ -739,11 +739,11 @@
             { "point":[0,1,-2], "overmap": "haz_sar_b1"},
             { "point":[1,1,-2], "overmap": "haz_sar_b1"}
         ],
-        "locations" : [ "wilderness" ], "//":"what special locations does it spawn",
-        "city_distance" : [15, -1], "//":"how far from a city it should be",
-        "city_sizes" : [4, 12], "//":"what city sizes should it spawn in",
-        "occurrences" : [1, 2], "//":"how many per overmap",
-        "rotate" : false, "//":"allow rotation"
+        "locations" : [ "wilderness" ],
+        "city_distance" : [15, -1],
+        "city_sizes" : [4, 12],
+        "occurrences" : [1, 2],
+        "rotate" : false
     },{
         "type" : "overmap_special",
         "id" : "Mall",
@@ -839,11 +839,11 @@
             { "point":[7,8,0], "overmap": "mall_a_80_north"},
             { "point":[8,8,0], "overmap": "mall_a_81_north"}
         ],
-        "locations" : [ "wilderness" ], "//":"what special locations does it spawn",
-        "city_distance" : [1, 5], "//":"how far from a city it should be",
-        "city_sizes" : [1, 12], "//":"what city sizes should it spawn in",
-        "occurrences" : [1, 1], "//":"how many per overmap",
-        "rotate" : true, "//":"allow rotation",
+        "locations" : [ "wilderness" ],
+        "city_distance" : [1, 5],
+        "city_sizes" : [1, 12],
+        "occurrences" : [1, 1],
+        "rotate" : true,
         "flags" : [ "CLASSIC" ]
 },{
         "type" : "overmap_special",
@@ -1210,11 +1210,11 @@
             { "point":[7,8,-3], "overmap": "necropolis_d_80_north"},
             { "point":[8,8,-3], "overmap": "necropolis_d_81_north"}
         ],
-        "locations" : [ "wilderness" ], "//":"what special locations does it spawn",
-        "city_distance" : [1, 5], "//":"how far from a city it should be",
-        "city_sizes" : [1, 12], "//":"what city sizes should it spawn in",
-        "occurrences" : [1, 1], "//":"how many per overmap",
-        "rotate" : true, "//":"allow rotation"
+        "locations" : [ "wilderness" ],
+        "city_distance" : [1, 5],
+        "city_sizes" : [1, 12],
+        "occurrences" : [1, 1],
+        "rotate" : true
     },{
         "type" : "overmap_special",
         "id" : "evac_center",
@@ -1250,11 +1250,11 @@
             { "point":[3,4,0], "overmap": "evac_center_24_north"},
             { "point":[4,4,0], "overmap": "evac_center_25_north"}
         ],
-        "locations" : [ "wilderness" ], "//":"what special locations does it spawn",
-        "city_distance" : [3, 5], "//":"how far from a city it should be",
-        "city_sizes" : [1, 12], "//":"what city sizes should it spawn in",
-        "occurrences" : [75, 100], "//":"how many per overmap",
-        "rotate" : true, "//":"allow rotation"
+        "locations" : [ "wilderness" ],
+        "city_distance" : [3, 5],
+        "city_sizes" : [1, 12],
+        "occurrences" : [75, 100],
+        "rotate" : true
     },{
         "type" : "overmap_special",
         "id" : "bandit_cabin",
@@ -1262,11 +1262,11 @@
         [
             { "point":[0,0,0], "overmap": "bandit_cabin"}
         ],
-        "locations" : [ "forest" ], "//":"what special locations does it spawn",
-        "city_distance" : [20, -1], "//":"how far from a city it should be",
-        "city_sizes" : [4, 12], "//":"what city sizes should it spawn in",
-        "occurrences" : [1, 1], "//":"how many per overmap",
-        "rotate" : false, "//":"allow rotation",
+        "locations" : [ "forest" ],
+        "city_distance" : [20, -1],
+        "city_sizes" : [4, 12],
+        "occurrences" : [1, 1],
+        "rotate" : false,
         "flags" : [ "CLASSIC" ]
     },{
         "type" : "overmap_special",
@@ -1278,11 +1278,11 @@
             { "point":[0,1,0], "overmap": "bandit_camp_3"},
             { "point":[1,1,0], "overmap": "bandit_camp_4"}
         ],
-        "locations" : [ "forest" ], "//":"what special locations does it spawn",
-        "city_distance" : [20, -1], "//":"how far from a city it should be",
-        "city_sizes" : [4, 12], "//":"what city sizes should it spawn in",
-        "occurrences" : [1, 1], "//":"how many per overmap",
-        "rotate" : false, "//":"allow rotation",
+        "locations" : [ "forest" ],
+        "city_distance" : [20, -1],
+        "city_sizes" : [4, 12],
+        "occurrences" : [1, 1],
+        "rotate" : false,
         "flags" : [ "CLASSIC" ]
     },{
         "type" : "overmap_special",
@@ -1291,11 +1291,11 @@
         [
             { "point":[0,0,0], "overmap": "sai", "connect":"road"}
         ],
-        "locations" : [ "wilderness" ], "//":"what special locations does it spawn",
-        "city_distance" : [-1, 2], "//":"how far from a city it should be",
-        "city_sizes" : [2, 14], "//":"what city sizes should it spawn in",
-        "occurrences" : [0, 4], "//":"how many per overmap",
-        "rotate" : true, "//":"allow rotation"
+        "locations" : [ "wilderness" ],
+        "city_distance" : [-1, 2],
+        "city_sizes" : [2, 14],
+        "occurrences" : [0, 4],
+        "rotate" : true
     },{
         "type" : "overmap_special",
         "id" : "power_station_small",
@@ -1303,11 +1303,11 @@
         [
             { "point":[0,0,0], "overmap": "pwr_sub_s", "connect":"road"}
         ],
-        "locations" : [ "wilderness" ], "//":"what special locations does it spawn",
-        "city_distance" : [-1, 6], "//":"how far from a city it should be",
-        "city_sizes" : [2, 14], "//":"what city sizes should it spawn in",
-        "occurrences" : [0, 4], "//":"how many per overmap",
-        "rotate" : true, "//":"allow rotation",
+        "locations" : [ "wilderness" ],
+        "city_distance" : [-1, 6],
+        "city_sizes" : [2, 14],
+        "occurrences" : [0, 4],
+        "rotate" : true,
         "spawns" : { "group" : "GROUP_SMALL_STATION", "population":[4, 10], "radius":[2, 4] }
     },{
         "type" : "overmap_special",
@@ -1319,21 +1319,21 @@
             { "point":[-1,0,0], "overmap": "pwr_large_3"},
             { "point":[0,0,0], "overmap": "pwr_large_4"}
         ],
-       "locations" : [ "wilderness" ], "//":"what special locations does it spawn",
-        "city_distance" : [5, 16], "//":"how far from a city it should be",
-        "city_sizes" : [4, 14], "//":"what city sizes should it spawn in",
-        "occurrences" : [1, 3], "//":"how many per overmap",
-        "rotate" : false, "//":"allow rotation",
+       "locations" : [ "wilderness" ],
+        "city_distance" : [5, 16],
+        "city_sizes" : [4, 14],
+        "occurrences" : [1, 3],
+        "rotate" : false,
         "spawns" : { "group" : "GROUP_LARGE_STATION", "population":[4, 10], "radius":[1, 2] }
     },{
         "type" : "overmap_special",
         "id" : "warehouse",
         "overmaps" : [ { "point":[0,0,0], "overmap": "warehouse_north", "connect":"road"} ],
-        "locations" : [ "by_hiway" ], "//":"what special locations does it spawn",
-        "city_distance" : [6, 20], "//":"how far from a city it should be",
-        "city_sizes" : [5, 12], "//":"what city sizes should it spawn in",
-        "occurrences" : [0, 2], "//":"how many per overmap",
-        "rotate" : true , "//":"allow rotation",
+        "locations" : [ "by_hiway" ],
+        "city_distance" : [6, 20],
+        "city_sizes" : [5, 12],
+        "occurrences" : [0, 2],
+        "rotate" : true ,
         "flags" : [ "CLASSIC" ]
     },
     {
@@ -1348,11 +1348,11 @@
             { "point":[-1,-1,0], "overmap": "hdwr_large_backroom"},
             { "point":[0,-1,0], "overmap": "hdwr_large_loadingbay"}
         ],
-        "locations" : [ "wilderness" ], "//":"what special locations does it spawn",
-        "city_distance" : [1, 10], "//":"how far from a city it should be",
-        "city_sizes" : [4, 20], "//":"what city sizes should it spawn in",
-        "occurrences" : [1, 3], "//":"how many per overmap",
-        "rotate" : false, "//":"allow rotation",
+        "locations" : [ "wilderness" ],
+        "city_distance" : [1, 10],
+        "city_sizes" : [4, 20],
+        "occurrences" : [1, 3],
+        "rotate" : false,
         "flags" : [ "CLASSIC" ]
  },{
         "type" : "overmap_special",
@@ -1449,11 +1449,11 @@
             { "point":[7,8,0], "overmap": "ranch_camp_80"},
             { "point":[8,8,0], "overmap": "ranch_camp_81"}
         ],
-        "locations" : [ "wilderness" ], "//":"what special locations does it spawn",
-        "city_distance" : [3, 10], "//":"how far from a city it should be",
-        "city_sizes" : [1, 12], "//":"what city sizes should it spawn in",
-        "occurrences" : [1,1], "//":"how many per overmap",
-        "rotate" : false, "//":"allow rotation"
+        "locations" : [ "wilderness" ],
+        "city_distance" : [3, 10],
+        "city_sizes" : [1, 12],
+        "occurrences" : [1, 1],
+        "rotate" : false
     },{
         "type" : "overmap_special",
         "id" : "football_field",
@@ -1475,11 +1475,11 @@
             { "point":[-1,0,0], "overmap": "football_field_a4_north"},
             { "point":[0,0,0], "overmap": "football_field_a5_north"}
         ],
-        "locations" : [ "wilderness" ], "//":"what special locations does it spawn",
-        "city_distance" : [-1, 4], "//":"how far from a city it should be",
-        "city_sizes" : [4, 12], "//":"what city sizes should it spawn in",
-        "occurrences" : [0, 5], "//":"how many per overmap",
-        "rotate" : true, "//":"allow rotation",
+        "locations" : [ "wilderness" ],
+        "city_distance" : [-1, 4],
+        "city_sizes" : [4, 12],
+        "occurrences" : [0, 5],
+        "rotate" : true,
         "flags" : [ "CLASSIC" ]
     }
 ]
