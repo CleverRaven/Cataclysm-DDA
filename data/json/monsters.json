@@ -6267,7 +6267,7 @@
     "death_function":"NORMAL",
     "special_attacks":[["BRANDISH", 10]],
     "description":"Living in the woods, \nkilling for sport, \neating all the bodies, \nactual cannibal Shia LaBeouf.",
-    "flags":["SEES", "HEARS", "WARM", "BASHES", "POISON", "LEATHER", "BONES", "BLEED", "NO_BREATHE"],
+    "flags":["SEES", "HEARS", "WARM", "BASHES", "POISON", "BONES", "BLEED", "NO_BREATHE"],
     "anger_triggers":["STALK", "PLAYER_WEAK", "HURT", "PLAYER_CLOSE", "BONES"],
     "fear_triggers":["FIRE"]
     },{
