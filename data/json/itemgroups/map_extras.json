@@ -1,0 +1,33 @@
+[
+  {
+    "type" : "item_group",
+    "id" : "drugdealer",
+    "subtype": "distribution",
+    "entries" : [
+      { "group": "everyday_gear", "prob": 80 },
+      { "group": "jewelry", "prob": 50 },
+      { "group": "male_extras", "prob": 20 },
+      { "group": "storage", "prob": 20 },
+      { "group": "legal_drugs", "prob": 80 },
+      { "group": "illegal_drugs", "prob": 50 },
+      { "group": "junkfood", "prob": 65 },
+      { "group": "sugar_drinks", "prob": 65 },
+      { "group": "alcohol", "prob": 10 },
+      { "group": "unarmed_weapons", "prob": 40 },
+      { "group": "combat_knives", "prob": 20 },
+      { "group": "smg", "prob": 10 },
+      { "group": "shotguns", "prob": 30 },
+      { "group": "pistols", "prob": 50 },
+      { "group": "shotgun_ammo", "prob": 30 },
+      { "group": "pistol_ammo", "prob": 60 },
+      { "group": "gun_mods", "prob": 10 },
+      { "item": "bandages", "prob": 40 },
+      { "item": "mag_porn", "prob": 20 },
+      { "item": "electrohack", "prob": 10 },
+      { "item": "bat", "prob": 10 },
+      { "item": "RPG", "prob": 1 },
+      { "item": "RPG-7_ammo", "prob": 2 },
+      { "item": "survnote", "prob": 10 }
+    ]
+  }
+]
