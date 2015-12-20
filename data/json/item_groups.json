@@ -1078,29 +1078,6 @@
     ]
   },{
     "type" : "item_group",
-    "id" : "construction_worker",
-    "items":[
-      ["boots", 70],
-      ["boots_steel", 50],
-      ["boots_hiking", 10],
-      ["jumpsuit", 20],
-      ["gloves_rubber", 20],
-      ["gloves_leather", 45],
-      ["gloves_work", 45],
-      ["mask_filter", 30],
-      ["glasses_safety", 40],
-      ["hat_hard", 50],
-      ["hat_hard_hooded", 25],
-      ["wearable_light", 5],
-      ["ear_plugs", 50],
-      ["battery", 50],
-      ["flashlight", 40],
-      ["boots_rubber", 20],
-      ["toolbox", 1],
-      ["apron_leather", 10]
-    ]
-  },{
-    "type" : "item_group",
     "id" : "biollante",
     "items":[
       ["biollante_bud", 1]
