@@ -1559,5 +1559,26 @@
     "groups" : [
       ["ammo_casings", 24]
     ]
+  },{
+    "type" : "item_group",
+    "id" : "vending_ammo_pistol",
+    "subtype": "distribution",
+    "entries" : [
+      { "group": "pistol_ammo", "prob": 50 }
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "vending_ammo_rifle",
+    "subtype": "distribution",
+    "entries" : [
+      { "group": "rifle_ammo", "prob": 50 }
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "vending_ammo_shotgun",
+    "subtype": "distribution",
+    "entries" : [
+      { "group": "shotgun_ammo", "prob": 50 }
+    ]
   }    
  ]
