@@ -625,5 +625,40 @@
       { "group": "winter_masks", "prob": 30 },
       { "group": "winter_extras", "prob": 20 }
     ]   
+  },{
+    "type" : "item_group",
+    "id" : "rain_boots",
+    "items":[
+      ["boots_rubber", 50]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "rain_coats",
+    "items":[
+      ["coat_rain", 50],
+      ["folding_poncho_on", 25]
+    ]  
+  },{
+    "type" : "item_group",
+    "id" : "rain_hats",
+    "items":[
+      ["hood_rain", 5]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "rain_clothes",
+    "subtype": "distribution",
+    "entries" : [
+      { "group": "rain_boots", "prob": 30 },
+      { "group": "rain_coats", "prob": 100 },
+      { "group": "rain_hats", "prob": 30 }
+    ]  
+  },{
+    "type" : "item_group",
+    "id" : "rain_gear",
+    "items":[
+      ["umbrella", 7],
+      ["teleumbrella", 3]
+    ]
   }
  ]
