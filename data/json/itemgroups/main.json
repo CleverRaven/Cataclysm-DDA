@@ -1648,5 +1648,152 @@
       ["purifier", 0],
       ["royal_jelly", 0]
     ]
+  },{
+    "type" : "item_group",
+    "id" : "emergency_drugs",
+    "items":[
+      ["1st_aid", 200],
+      ["bandages", 100],
+      ["medical_gauze", 20],
+      ["medical_tape", 20],
+      ["disinfectant", 50],
+      ["bfipowder", 50],
+      ["quikclot", 50],
+      ["antibiotics", 50],
+      ["antifungal", 20],
+      ["antiparasitic", 20],
+      ["oxycodone", 50],
+      ["morphine", 50],
+      ["aspirin", 100],
+      ["rx11_stimpack", 1],
+      ["stimpack_ammo", 30],
+      ["adrenaline_injector", 30],
+      ["ampoule", 50],
+      ["syringe", 100],
+      ["saline", 40],
+      ["pills_sleep", 20],
+      ["vaccine_shot", 10],
+      ["oxygen_tank", 50],
+      ["smoxygen_tank", 50],
+      ["eyedrops", 80],
+      ["inhaler", 20],
+      ["iodine", 10],
+      ["thorazine", 5]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "overcounter_drugs",
+    "items":[
+      ["aspirin", 120],
+      ["vitamins", 120],
+      ["dayquil", 100],
+      ["nyquil", 100],
+      ["bandages", 100],
+      ["cotton_ball", 50],
+      ["medical_gauze", 20],
+      ["medical_tape", 20],
+      ["1st_aid", 25],
+      ["saline", 40],
+      ["contacts", 40],
+      ["gummy_vitamins", 25],
+      ["caffeine", 50],
+      ["pills_sleep", 30],
+      ["iodine", 50],
+      ["disinfectant", 35],
+      ["vaccine_shot", 10],
+      ["protein_powder", 50],
+      ["caff_gum", 50],
+      ["oxygen_tank", 20],
+      ["smoxygen_tank", 50],
+      ["eyedrops", 50],
+      ["nic_gum", 50],
+      ["bfipowder", 50],
+      ["quikclot", 50],
+      ["syringe", 60]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "prescription_drugs",
+    "items":[
+      ["inhaler", 80],
+      ["codeine", 75],
+      ["oxycodone", 50],
+      ["morphine", 30],
+      ["tramadol", 50],
+      ["xanax", 50],
+      ["adderall", 60],
+      ["thorazine", 40],
+      ["prozac", 50],
+      ["antibiotics", 50],
+      ["antifungal", 20],
+      ["antiparasitic", 30],
+      ["diazepam", 40],
+      ["flu_shot", 50],
+      ["syringe", 80],
+      ["stimpack_ammo", 40],
+      ["adrenaline_injector", 25],
+      ["ampoule", 40]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "legal_drugs",
+    "items":[
+      {"item": "cig", "prob": 300, "charges-min": 1, "charges-max": 20,"container-item": "wrapper" },
+      ["chaw", 50],
+      ["cigar", 40],
+      ["ecig", 50],
+      ["advanced_ecig", 20],
+      {"item": "nicotine_liquid", "prob": 50, "charges-min": 10, "charges-max": 50, "container-item": "bottle_plastic_small"},
+      ["pipe_tobacco", 20],
+      ["tobacco", 65],
+      ["caff_gum", 20],
+      ["caffeine", 50],
+      ["nic_gum", 20],
+      ["pipe_glass", 20],
+      ["rolling_paper", 20]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "illegal_drugs",
+    "items":[
+      ["weed", 250],
+      ["brownie_weed", 5],
+      ["seed_weed", 25],
+      ["joint_roach", 100],
+      ["pipe_glass", 20],
+      ["crackpipe", 10], 
+      ["rolling_paper", 20],
+      ["lsd", 50],
+      ["crack", 50],
+      ["meth", 60],
+      ["coke", 60],
+      ["heroin", 50],
+      ["morphine", 50],
+      ["adderall", 50],
+      ["codeine", 25],
+      ["oxycodone", 40],
+      ["syringe", 60],
+      ["datura_seed", 1]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "softdrugs",
+	  "subtype": "distribution",
+    "entries" : [
+      { "group": "overcounter_drugs", "prob": 100 },
+      { "group": "emergency_drugs", "prob": 20 },
+      { "item": "shavingkit", "prob": 5},
+      { "item": "elec_hairtrimmer", "prob": 5}
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "harddrugs",
+	  "subtype": "distribution",
+    "entries" : [
+      { "group": "prescription_drugs", "prob": 100 },
+      { "group": "emergency_drugs", "prob": 20 },
+      { "item": "shavingkit", "prob": 2},
+      { "item": "elec_hairtrimmer", "prob": 2}
+    ]
   }
  ]
