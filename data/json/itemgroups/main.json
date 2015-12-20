@@ -2396,5 +2396,71 @@
       ["raw_beans", 50 ],
       ["seed_tomato", 50]
     ]
+  },{
+    "type" : "item_group",
+    "id" : "junkfood",
+    "items":[
+      ["chips", 90],
+      ["pretzels", 90],
+      ["chocpretzels", 50],
+      ["jerky", 80],
+      ["cracklins", 50],
+      ["porkstick", 50],
+      ["cookies", 80],
+      ["nachos", 90],
+      ["nachosm", 0],
+      ["nachosc", 0],
+      ["nachosmc", 0],
+      ["chips2", 50],
+      ["chips3", 20],
+      ["popcorn", 40],
+      ["popcorn2", 40],
+      ["popcorn3", 40],
+      ["fruit_leather", 50],
+      ["toastem", 20],
+      ["toastem2", 20],
+      ["toastem3", 20],
+      ["marshmallow", 20],
+      ["grahmcrackers", 20],
+      ["pudding", 10],
+      ["jihelucake", 0],
+      ["cake2", 0],
+      ["cake3", 0],
+      ["toasterpastryfrozen", 0]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "candy",
+    "items":[
+      ["chocolate", 80],
+      ["gum", 80],
+      ["candy", 50],
+      ["candy2", 50],
+      ["candy3", 50],
+      ["powder_candy", 50],
+      ["neccowafers", 50],
+      ["maltballs", 50],
+      ["candycigarette", 20],
+      ["choco_coffee_beans", 20],
+      ["mintpatties", 50]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "sugar_drinks",
+    "items":[
+      ["cola", 80],
+      ["creamsoda", 50],
+      ["lemonlime", 50],
+      ["orangesoda", 50],
+      ["crispycran", 50],
+      ["colamdew", 50],
+      ["crispycran", 50],
+      ["choc_drink", 50],
+      ["rootbeer", 50],
+      ["purple_drink", 50],
+      ["sports_drink", 50],
+      ["energy_drink", 20],
+      ["energy_drink_atomic", 5]
+    ]
   }
 ] 
