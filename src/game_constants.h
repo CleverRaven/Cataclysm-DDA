@@ -60,9 +60,4 @@
 /** Maximum move cost when handling an item */
 #define MAX_HANDLING_COST 800
 
-/** Amount by which to scale experience gain for ranged shots before any accuracy penalty is applied */
-#define RANGED_EXPERIENCE_FACTOR 20
-/** Controls how much the inaccuracy of a shot reduces the experience gained */
-#define RANGED_EXPERIENCE_PENALTY 36
-
 #endif

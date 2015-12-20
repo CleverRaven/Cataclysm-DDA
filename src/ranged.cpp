@@ -608,8 +608,8 @@ void player::fire_gun( const tripoint &targ_arg, bool burst )
         sfx::generate_gun_sound( *this, *used_weapon );
 
         // experience gain is limited by range and penalised proportional to inaccuracy
-        int exp = std::min(range, 3 * ( skillLevel( skill_used ) + 1 ) ) * RANGED_EXPERIENCE_FACTOR;
-        int penalty = sqrt( missed_by * RANGED_EXPERIENCE_PENALTY );
+        int exp = std::min(range, 3 * ( skillLevel( skill_used ) + 1 ) ) * 20;
+        int penalty = sqrt( missed_by * 36 );
 
         // even if we are not training we practice the skill to prevent rust
         practice( skill_used, train_skill ? exp / penalty : 0 );
