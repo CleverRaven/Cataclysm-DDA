@@ -1,5 +1,66 @@
 [
-  {
+    {
+        "type" : "item_group",
+        "subtype": "collection",
+        "comment": "cloth for an average zombie. lowered prob to reduce battlefield clutter.",
+        "id": "default_zombie_clothes",
+        "entries":
+        [
+            { "group": "shoes", "damage-min": 1, "damage-max": 4, "prob": 80 },
+            { "group": "pants", "damage-min": 1, "damage-max": 4, "prob": 80 },
+            { "group": "shirts", "damage-min": 1, "damage-max": 4, "prob": 80 },
+            { "group": "jackets", "damage-min": 1, "damage-max": 4, "prob": 20 },
+            { "group": "hats", "damage-min": 1, "damage-max": 4, "prob": 2 },
+            { "group": "clothing_extras", "damage-min": 1, "damage-max": 4, "prob": 15 },
+            { "group": "eyewear", "damage-min": 1, "damage-max": 4, "prob": 10 },
+            { "group": "storage", "damage-min": 1, "damage-max": 4, "prob": 6 }
+        ]
+    },
+    {
+        "type" : "item_group",
+        "subtype": "distribution",
+        "comment": "items that an average zombie carries around and drops on death",
+        "id": "default_zombie_items",
+        "groups": [
+            [ "indoor_trash", 100 ],
+            [ "improvised_melee_weapons", 75 ],
+            [ "overcounter_drugs", 50 ],
+            [ "legal_drugs", 75 ],
+            [ "illegal_drugs", 10 ],
+            [ "emergency_drugs", 10 ],
+            [ "hardware_tools", 50 ],
+            [ "dining_tools", 25 ],
+            [ "kitchen_tools", 25 ],
+            [ "mechanics_tools", 25 ],
+            [ "digital_electronics", 5 ],
+            [ "novels", 50 ],
+            [ "magazines", 50 ],
+            [ "manuals", 25 ],
+            [ "drinks", 50 ],
+            [ "sugar_drinks", 25 ],
+            [ "canned_food", 25 ],
+            [ "replica_weapons", 5 ],
+            [ "archery_weapons", 1 ],
+            [ "homemade_ammo", 5 ],
+            [ "pistols", 2 ],
+            [ "shotguns", 2 ],
+            [ "smg", 1 ]
+        ]
+    },
+    {
+        "type" : "item_group",
+        "subtype": "collection",
+        "comment": "contains cloth (always), a common item (15% chance) and a random item (40% chance)",
+        "id": "default_zombie_death_drops",
+        "entries":
+        [
+            { "group": "default_zombie_clothes" },
+            { "group": "default_zombie_items", "prob": 40 },
+            { "group": "everyday_gear", "prob": 15 },
+            { "item": "cash_card", "prob": 2 }
+        ]
+    },
+    {
   "type" : "item_group",
     "id" : "shia_stuff",
     "items":[

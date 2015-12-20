@@ -2,53 +2,6 @@
     {
         "type" : "item_group",
         "subtype": "collection",
-        "comment": "contains cloth for an average zombie",
-        "id": "default_zombie_clothes",
-        "entries":
-        [
-            { "group": "pants", "damage": [1, 4] },
-            { "group": "shirts", "damage": [1, 4] },
-            { "group": "shoes", "damage": [1, 4] },
-            { "group": "jackets", "damage": [1, 4], "prob": 20 },
-            { "group": "bags", "damage": [1, 4], "prob": 6 }
-        ]
-    },
-    {
-        "type" : "item_group",
-        "subtype": "distribution",
-        "comment": "items that an average zombie carries around and drops on death",
-        "id": "default_zombie_items",
-        "groups": [
-            [ "livingroom", 5 ],
-            [ "kitchen", 4 ],
-            [ "bedroom", 16 ],
-            [ "softdrugs", 5 ],
-            [ "harddrugs", 1 ],
-            [ "tools", 20 ],
-            [ "trash", 7 ],
-            [ "ammo", 1 ],
-            [ "pistols", 1 ],
-            [ "shotguns", 1 ],
-            [ "smg", 1 ],
-            [ "home_hw", 5 ],
-            [ "postman_gear", 5]
-        ]
-    },
-    {
-        "type" : "item_group",
-        "subtype": "collection",
-        "comment": "contains cloth (always), a cash card (10% chance) and a random item (50% chance)",
-        "id": "default_zombie_death_drops",
-        "entries":
-        [
-            { "group": "default_zombie_clothes" },
-            { "group": "default_zombie_items", "prob": 50 },
-            { "item": "cash_card", "prob": 10 }
-        ]
-    },
-    {
-        "type" : "item_group",
-        "subtype": "collection",
         "id": "mon_zombie_cop_death_drops",
         "entries":
         [
