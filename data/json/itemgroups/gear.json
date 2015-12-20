@@ -1624,5 +1624,150 @@
       ["toolbox", 10],
       ["roadmap", 15]
     ]
+  },{
+    "type" : "item_group",
+    "id" : "cop_melee_weapons",
+    "items":[
+      ["tazer", 50],
+      ["tonfa", 50],
+      ["tonfa_wood", 25],
+      ["shocktonfa_off", 15],
+      ["baton-extended", 8]
+    ]
+  },{
+    "type" : "item_group",
+    "subtype": "distribution",
+    "id" : "cop_weapons",
+    "entries" : [
+      { "group": "cop_guns", "prob": 60 },
+      { "group": "cop_melee_weapons", "prob": 40 }
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "cop_guns",
+    "//" : "standard issue and common police guns.",
+    "items":[
+      ["glock_19", 50],
+      ["usp_9mm", 20],
+      ["m9", 20],
+      ["l_mp_9mm", 40],
+      ["usp_45", 50],
+      ["m1911", 50],
+      ["mossberg_500", 100],
+      ["l_def_12", 20],
+      ["ruger_mini", 50],
+      ["ar15", 75]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "cop_ammo",
+    "items":[
+      ["9mm", 200],
+      ["9mmP2", 20],
+      ["45_acp", 100],
+      ["45_super", 20],
+      ["shot_00", 200],
+      ["shot_slug", 50],
+      ["shot_beanbag", 50],
+      ["223", 100],
+      ["556", 100]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "cop_melee_weapons",
+    "items":[
+      ["tazer", 50],
+      ["tonfa", 50],
+      ["tonfa_wood", 25],
+      ["shocktonfa_off", 15],
+      ["baton-extended", 8]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "cop_guns",
+    "//" : "standard issue and common police guns.",
+    "items":[
+      ["glock_19", 50],
+      ["usp_9mm", 20],
+      ["m9", 20],
+      ["l_mp_9mm", 40],
+      ["usp_45", 50],
+      ["m1911", 50],
+      ["mossberg_500", 100],
+      ["l_def_12", 20],
+      ["ruger_mini", 50],
+      ["ar15", 75]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "cop_ammo",
+    "items":[
+      ["9mm", 200],
+      ["9mmP2", 20],
+      ["45_acp", 100],
+      ["45_super", 20],
+      ["shot_00", 200],
+      ["shot_slug", 50],
+      ["shot_beanbag", 50],
+      ["223", 100],
+      ["556", 100]
+    ]
+  },{
+    "type" : "item_group",
+    "subtype": "distribution",
+    "id" : "cop_weapons",
+    "entries" : [
+      { "group": "cop_guns", "prob": 60 },
+      { "group": "cop_melee_weapons", "prob": 40 }
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "swat_guns",
+    "items":[
+      ["glock_19", 20],
+      ["l_mp_9mm", 50],
+      ["l_mp_45", 50],
+      ["m1911", 30],
+      ["l_bak_223", 10],
+      ["rm103a_pistol", 5],
+      ["needlepistol", 5],
+      ["hk_mp5", 50],
+      ["TDI", 50],
+      ["rm2000_smg", 10],
+      ["saiga_12", 30],
+      ["l_def_12", 50],
+      ["rm20", 10],
+      ["rm120c", 10],
+      ["savage_111f", 50],
+      ["m4a1", 50],
+      ["scar_h", 20],
+      ["remington_700", 25],
+      ["rm11b_sniper_rifle", 1],
+      ["rm51_assault_rifle", 1],
+      ["rm88_battle_rifle", 1],
+      ["needlegun", 10]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "swat_ammo",
+    "items":[
+      ["9mm", 100],
+      ["9mmP2", 20],
+      ["45_acp", 100],
+      ["45_super", 20],
+      ["shot_00", 100],
+      ["shot_slug", 50],
+      ["shot_beanbag", 60],
+      ["556", 200],
+      ["3006", 100],
+      ["8mm_caseless", 70],
+      ["20x66_shot", 20],
+      ["20x66_flare", 10],
+      ["20x66_slug", 20],
+      ["20x66_flechette", 5],
+      ["20x66_beanbag", 10],
+      ["5x50dart", 15],
+      ["5x50heavy", 5]
+    ]
   }
 ]
