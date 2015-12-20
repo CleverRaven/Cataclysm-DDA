@@ -764,5 +764,150 @@
       { "group": "swim_storage", "prob": 35 },
       { "group": "swim_extras", "prob": 20 }
     ]
+  },{
+    "type" : "item_group",
+    "id" : "sports_shoes",
+    "items":[
+      ["sneakers", 100],
+      ["boots_hiking", 20],
+      ["motorbike_boots", 10],
+      ["shoes_bowling", 10],
+      ["cleats", 40]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "roller_shoes",
+    "items":[
+      ["rollerskates", 10],
+      ["roller_blades", 75]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "sports_pants",
+    "items":[
+      ["shorts", 80],
+      ["under_armor_shorts", 60],
+      ["b_shorts", 45],
+      ["fencing_pants", 5],
+      ["motorbike_pants", 5]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "sports_shirts",
+    "items":[
+      ["tshirt", 50],
+      ["tank_top", 70],
+      ["sweatshirt", 25],
+      ["hoodie", 25],
+      ["under_armor", 60],
+      ["jersey", 60]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "sports_coats",
+    "items":[
+      ["flotation_vest", 10],
+      ["fencing_jacket", 8]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "sports_armor",
+    "items":[
+      ["football_armor", 50],
+      ["motorbike_armor", 50]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "sports_gloves",
+    "items":[
+      ["gloves_fingerless", 50],
+      ["boxing_gloves", 35]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "sports_helmets",
+    "items":[
+      ["helmet_bike", 50],
+      ["helmet_ball", 50],
+      ["headgear", 50],
+      ["helmet_football", 50],
+      ["helmet_skid", 50]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "sports_eyewear",
+    "items":[
+      ["goggles_swim", 50],
+      ["goggles_ski", 30]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "sports_masks",
+    "items":[
+      ["mask_hockey", 25],
+      ["mouthpiece", 15],
+      ["fencing_mask", 8]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "sports_storage",
+    "items":[
+      ["fanny", 5]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "sports_extras",
+    "items":[
+      ["diving_watch", 10],
+      ["arm_warmers", 20],
+      ["leg_warmers", 20],
+      ["leggings", 20],
+      ["armguard_soft", 40],
+      ["armguard_hard", 20],
+      ["legguard_hard", 15],
+      ["elbow_pads", 40],
+      ["knee_pads", 40]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "sports_clothes",
+    "subtype": "distribution",
+    "entries" : [
+      { "group": "sports_shoes", "prob": 70 },
+      { "group": "roller_shoes", "prob": 5 },
+      { "group": "sports_pants", "prob": 90 },
+      { "group": "sports_shirts", "prob": 90 },
+      { "group": "sports_coats", "prob": 10 },
+      { "group": "sports_armor", "prob": 3 },
+      { "group": "sports_gloves", "prob": 50 },
+      { "group": "sports_eyewear", "prob": 10 },
+      { "group": "sports_helmets", "prob": 40 },
+      { "group": "sports_masks", "prob": 40 },
+      { "group": "sports_storage", "prob": 20 },
+      { "group": "sports_extras", "prob": 60 }
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "sports_gear",
+    "//" : "held or carried sports equipment.",
+    "items":[
+      ["bat", 60],
+      ["bat_metal", 45],
+      ["golf_club", 50],
+      ["hockey_stick", 50],
+      ["puck", 50],
+      ["basketball", 60],
+      ["baseball", 60],
+      ["football", 60],
+      ["bowling_ball", 60],
+      ["fencing_foil", 15],
+      ["fencing_sabre", 10],
+      ["fencing_epee", 5],
+      ["bb", 50],
+      ["bbgun", 10],
+      ["lawn_dart", 30],
+      ["pool_cue", 4],
+      ["pool_ball", 50]
+    ]
   }
  ]
