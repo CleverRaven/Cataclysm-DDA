@@ -2815,6 +2815,7 @@ bool game::handle_action()
                                 _("new default binding is '^'.")).c_str());
             } else {
                 uimenu as_m;
+                as_m.return_invalid = true;
                 as_m.text = _("Are you sure you want to sleep?");
                 as_m.entries.push_back(uimenu_entry(0, true,
                                                     (OPTIONS["FORCE_CAPITAL_YN"] ? 'Y' : 'y'),
@@ -13914,6 +13915,7 @@ void game::wait()
 
     uimenu as_m;
     as_m.text = _("Wait for how long?");
+    as_m.return_invalid = true;
     as_m.entries.push_back(uimenu_entry(1, true, '1',
                                         (bHasWatch) ? _("5 Minutes") : _("Wait 300 heartbeats")));
     as_m.entries.push_back(uimenu_entry(2, true, '2',
