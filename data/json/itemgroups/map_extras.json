@@ -28,6 +28,23 @@
       { "item": "RPG", "prob": 1 },
       { "item": "RPG-7_ammo", "prob": 2 },
       { "item": "survnote", "prob": 10 }
-    ]
-  }
+    ] 
+    }, {
+        "type" : "item_group",
+        "subtype": "collection",
+        "id": "map_extra_drugdeal",
+        "entries":
+        [
+            { "item": "corpse", "damage": 3 },
+            { "group": "underwear", "damage-min": 1, "damage-max": 3 },
+            { "group": "shirts", "damage-min": 1, "damage-max": 4, "prob": 70 },
+            { "group": "jackets", "damage-min": 1, "damage-max": 4, "prob": 30 },
+            { "group": "pants", "damage-min": 1, "damage-max": 4, "prob": 70 },
+            { "group": "shoes", "damage-min": 1, "damage-max": 4, "prob": 50 },
+            { "item": "socks", "damage-min": 1, "damage-max": 4, "prob": 30 },
+            { "group": "hats", "damage-min": 1, "damage-max": 4, "prob": 20 },
+            { "group": "everyday_gear", "prob": 50 },
+            { "group": "drugdealer", "prob": 75 }
+        ]
+      }
 ]
