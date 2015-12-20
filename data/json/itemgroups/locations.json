@@ -2034,5 +2034,23 @@
       { "item": "restaurantmap", "prob": 5 },
       { "item": "touristmap", "prob": 5 }
     ]
-   } 
+  },{
+    "type" : "item_group",
+    "id" : "fast_food",
+    "subtype": "distribution",
+    "entries" : [
+      { "group": "sugar_drinks", "prob": 150 },
+      { "group": "prepared_food", "prob": 200 },
+      { "group": "condiments_spices", "prob": 100 },
+      { "group": "candy", "prob": 10 },
+      { "item": "water_clean", "prob": 75 },
+      { "item": "fork", "prob": 15 },
+      { "item": "spork", "prob": 1 },
+      { "item": "spoon", "prob": 15 },
+      { "item": "foon", "prob": 1 },
+      { "item": "restaurantmap", "prob": 5 },
+      { "item": "touristmap", "prob": 2 },
+      { "item": "noodles_fast", "prob": 30 }
+      ]
+    } 
  ]
