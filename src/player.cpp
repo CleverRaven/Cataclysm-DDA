@@ -11998,6 +11998,10 @@ void player::do_read( item *book )
     auto reading = book->type->book.get();
     const skill_id &skill = reading->skill;
 
+    if( reading == NULL ) {
+        activity.type = ACT_NULL;
+        return;
+    }
     if( !has_identified( book->type->id ) ) {
         // Note that we've read the book.
         items_identified.insert( book->type->id );
