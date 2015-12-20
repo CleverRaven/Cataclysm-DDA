@@ -1307,9 +1307,11 @@
     "id" : "basic_tools",
     "items":[
       ["screwdriver", 100],
+      ["screwdriver_set", 20],
       ["hammer", 100],
       ["wrench", 100],
       ["hacksaw", 50],
+      ["crowbar", 50],
       ["pliers", 50],
       ["saw", 50],
       ["boltcutters", 30] 

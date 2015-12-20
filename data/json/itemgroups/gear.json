@@ -1006,5 +1006,135 @@
       ["3006", 70],
       ["700nx", 1]
     ]
+  },{
+    "type" : "item_group",
+    "id" : "worker_boots",
+    "items":[
+      ["boots", 50],
+      ["boots_steel", 50],
+      ["boots_combat", 10],
+      ["boots_hiking", 10]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "worker_coats",
+    "items":[
+      ["vest", 50],
+      ["vest_leather", 50],
+      ["apron_leather", 20]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "worker_gloves",
+    "items":[
+      ["gloves_leather", 50],
+      ["gloves_work", 55]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "worker_helmets",
+    "items":[
+      ["miner_hat", 50],
+      ["hat_hard_hooded", 50],
+      ["hat_hard", 100]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "worker_eyewear",
+    "items":[
+      ["glasses_safety", 50],
+      ["goggles_welding", 20]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "worker_masks",
+    "items":[
+      ["mask_dust", 150],
+      ["mask_filter", 50],
+      ["bandana", 40]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "worker_storage",
+    "items":[
+      ["tool_belt", 100],
+      ["sheath", 50],
+      ["runner_bag", 5],
+      ["leather_pouch", 5]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "worker_extras",
+    "items":[
+      ["knee_pads", 50],
+      ["wearable_light", 50],
+      ["ear_plugs", 50]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "worker_clothes",
+    "subtype": "distribution",
+    "entries" : [
+      { "group": "worker_boots", "prob": 60 },
+      { "group": "worker_coats", "prob": 50 },
+      { "group": "worker_gloves", "prob": 50 },
+      { "group": "worker_eyewear", "prob": 30 },
+      { "group": "worker_helmets", "prob": 30 },
+      { "group": "worker_masks", "prob": 30 },
+      { "group": "worker_storage", "prob": 20 },
+      { "group": "worker_extras", "prob": 20 }
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "worker_gear",
+    "subtype": "distribution",
+    "entries":[
+      { "group": "basic_tools", "prob": 300 },
+      { "group": "hardware_tools", "prob": 300 },
+      { "group": "construction_tools", "prob": 300 },
+      {"item": "sm_extinguisher", "prob": 50 },
+      {"item": "jackhammer", "prob": 2 },
+      {"item": "hammer_sledge", "prob": 2 },
+      {"item": "elec_jackhammer", "prob": 2 },
+      {"item": "jacqueshammer", "prob": 2 },
+      {"item": "shovel", "prob": 5 },
+      {"item": "pickaxe", "prob": 1 },
+      {"item": "radio", "prob": 10 },
+      {"item": "two_way_radio", "prob": 10 },
+      {"item": "ref_lighter", "prob": 20 },
+      {"item": "spray_can", "prob": 25 }
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "mechanics_gear",
+    "items":[
+      ["hammer", 100],
+      ["wrench", 100],
+      ["screwdriver", 100],
+      ["hacksaw", 100],
+      ["pliers", 40],
+      ["goggles_welding", 100],
+      {"item": "welder", "prob": 30, "charges-min": 0, "charges-max": 500 },
+      {"item": "oxy_torch", "prob": 30, "charges-min": 0, "charges-max": 900 },
+      ["polisher", 45],
+      ["jumper_cable", 50],
+      ["jerrycan", 30],
+      ["jack", 5],
+      ["toolbox", 10]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "farming_gear",
+     "subtype": "distribution",
+    "entries":[
+      { "group": "basic_tools", "prob": 100 },
+      {"item": "g_shovel", "prob": 20 },
+      {"item": "sickle", "prob": 10 },
+      {"item": "pitchfork", "prob": 30 },
+      {"item": "jerrycan", "prob": 20 },
+      {"item": "shovel", "prob": 50 },
+      {"item": "scythe", "prob": 5 },
+      {"item": "hoe", "prob": 50 }
+    ]
   }
  ]
