@@ -11132,9 +11132,11 @@ void game::butcher()
         if( multisalvage ) {
             kmenu.addentry(corpses.size(), true, 'z', _("Cut up all you can"));
         }
-        kmenu.addentry(corpses.size() + multisalvage, true, 'q', _("Cancel"));
+        int last_pos = corpses.size() + (int)multisalvage;
+        kmenu.addentry(last_pos, true, 'q', _("Cancel"));
+        kmenu.return_invalid = true;
         kmenu.query();
-        if( kmenu.ret == (int)corpses.size() + multisalvage ) {
+        if( kmenu.ret == last_pos || kmenu.ret == UIMENU_INVALID ) {
             return;
         }
         butcher_corpse_index = kmenu.ret;
