@@ -922,6 +922,28 @@
     ]
   },{
     "type" : "item_group",
+    "id" : "radio",
+    "subtype": "distribution",
+    "entries" : [
+      { "group": "paper_trash", "prob": 100 },
+      { "group": "worker_clothes", "prob": 50 },
+      { "group": "electronics_tools", "prob": 50 },
+      { "group": "electronic_parts", "prob": 100 },
+      { "group": "digital_electronics", "prob": 20 },
+      { "group": "legal_drugs", "prob": 20 },
+      { "group": "lighting_tools", "prob": 20 },
+      { "item": "weather_reader", "prob": 50 },
+      { "item": "radio", "prob": 50 },
+      { "item": "music_cd", "prob": 50 },
+      { "item": "mp3", "prob": 50 },
+      { "item": "manual_electronics", "prob": 65 },
+      { "item": "radio_car_box", "prob": 5 },
+      { "item": "radiocontrol", "prob": 25 },
+      { "item": "remotevehcontrol", "prob": 25 },
+      { "item": "radio_mod", "prob": 25 }
+    ]
+  },{
+    "type" : "item_group",
     "id" : "hardware",
 	  "subtype": "distribution",
     "entries" : [
