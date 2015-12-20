@@ -1337,6 +1337,79 @@
     ]
   },{
     "type" : "item_group",
+    "id" : "hazmat_boots",
+    "items":[
+      ["boots_rubber", 50]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "hazmat_suits",
+    "items":[
+      ["cleansuit", 40],
+      ["jumpsuit", 60]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "hazmat_full",
+    "items":[
+      ["hazmat_suit", 80],
+      ["anbc_suit", 20]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "hazmat_gloves",
+    "items":[
+      ["gloves_medical", 60],
+      ["gloves_rubber", 40]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "hazmat_masks",
+    "items":[
+      ["mask_dust", 80],
+      ["mask_filter", 20],
+      ["mask_gas", 10]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "hazmat_eyewear",
+    "items":[
+      ["glasses_safety", 50]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "hazmat_extras",
+    "items":[
+      ["rad_monitor", 50],
+      ["wearable_rx12", 10]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "hazmat_clothes",
+    "subtype": "distribution",
+    "entries" : [
+      { "group": "hazmat_boots", "prob": 60 },
+      { "group": "hazmat_suits", "prob": 90 },
+      { "group": "hazmat_full", "prob": 50 },
+      { "group": "hazmat_gloves", "prob": 50 },
+      { "group": "hazmat_eyewear", "prob": 30 },
+      { "group": "hazmat_masks", "prob": 30 },
+      { "group": "hazmat_extras", "prob": 10 }
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "rad_gear",
+    "items":[
+      ["wrapped_rad_badge", 80],
+      ["geiger_off", 20],
+      ["rad_monitor", 10],
+      ["oxygen_tank", 10],
+      ["smoxygen_tank", 15],
+      ["adv_UPS_off", 2],
+      ["iodine", 50]
+    ]
+  },{
+    "type" : "item_group",
     "id" : "fireman_boots",
     "items":[
       ["boots_bunker", 70],
