@@ -112,5 +112,45 @@
       ["female_underwear", 50],
       ["male_underwear", 50]
     ]      
+  },{
+    "type" : "item_group",
+    "id" : "male_shoes",
+    "items":[
+      ["sneakers", 200],
+      ["boots", 75],
+      ["flip_flops", 35],
+      ["lowtops", 45],
+      ["dress_shoes", 50],
+      ["dance_shoes", 5],
+      ["boots_combat", 40],
+      ["boots_hiking", 20],
+      ["boots_western", 10],
+      ["leathersandals", 10]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "female_shoes",
+    "items":[
+      ["sneakers", 150],
+      ["heels", 50],
+      ["boots", 75],
+      ["knee_high_boots", 20],
+      ["flip_flops", 35],
+      ["lowtops", 45],
+      ["dress_shoes", 10],
+      ["dance_shoes", 5],
+      ["boots_combat", 40],
+      ["boots_hiking", 20],
+      ["boots_western", 10],
+      ["leathersandals", 10]
+    ]
+  },{
+    "type" : "item_group",
+    "subtype": "distribution",
+    "id": "shoes",
+    "groups":[
+      ["female_shoes", 50],
+      ["male_shoes", 50]
+    ] 
   }
  ]
