@@ -668,6 +668,13 @@
     ]
   },{
     "type" : "item_group",
+    "id" : "pool_table",
+    "items":[
+      ["pool_cue", 4],
+      ["pool_ball", 40]
+    ]
+  },{
+    "type" : "item_group",
     "id" : "home_hw",
     "subtype": "distribution",
     "entries" : [
@@ -798,23 +805,6 @@
     ]
   },{
     "type" : "item_group",
-    "id" : "hardware",
-	  "subtype": "distribution",
-    "entries" : [
-      { "group": "basic_tools", "prob": 30 },
-      { "group": "hardware_tools", "prob": 150 },
-      { "group": "hardware_parts", "prob": 50 },
-      { "group": "construction_tools", "prob": 50 },
-      { "group": "construction_parts", "prob": 50 },
-      { "group": "smithing_tools", "prob": 50 },
-      { "group": "farming_tools", "prob": 40 },
-      { "group": "mechanics_tools", "prob": 50 },
-      { "group": "vehicle_parts", "prob": 15 },
-      { "item": "nail", "prob": 20},
-      { "item": "chem_thermite", "prob": 2}
-    ]
-  },{
-    "type" : "item_group",
     "id" : "shelter",
     "subtype": "distribution",
     "entries" : [
@@ -840,6 +830,23 @@
       { "group": "overcounter_drugs", "prob": 50 },
       { "group": "camping_surv_books", "prob": 50 },
       { "group": "magazines", "prob": 70 }
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "hardware",
+	  "subtype": "distribution",
+    "entries" : [
+      { "group": "basic_tools", "prob": 30 },
+      { "group": "hardware_tools", "prob": 150 },
+      { "group": "hardware_parts", "prob": 50 },
+      { "group": "construction_tools", "prob": 50 },
+      { "group": "construction_parts", "prob": 50 },
+      { "group": "smithing_tools", "prob": 50 },
+      { "group": "farming_tools", "prob": 40 },
+      { "group": "mechanics_tools", "prob": 50 },
+      { "group": "vehicle_parts", "prob": 15 },
+      { "item": "nail", "prob": 20},
+      { "item": "chem_thermite", "prob": 2}
     ]
   },{
     "type" : "item_group",
