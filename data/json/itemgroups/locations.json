@@ -1790,5 +1790,47 @@
       ["gold_small", 90],
       ["diamond", 75]
     ]
-  } 
+  },{
+    "type" : "item_group",
+    "id" : "antique",
+    "subtype": "distribution",
+    "entries" : [
+      { "group": "jewelry", "prob": 500 },
+      { "group": "antique_guns", "prob": 200 },
+      { "group": "dining_tools", "prob": 300 },
+      { "item": "cow_bell", "prob": 80 },
+      { "item": "sickle", "prob": 50 },
+      { "item": "scythe", "prob": 50 },
+      { "item": "pitchfork", "prob": 50 },
+      { "item": "golf_club", "prob": 50 },
+      { "item": "bat", "prob": 60 },
+      { "item": "football", "prob": 50 },
+      { "item": "baseball", "prob": 50 },
+      { "item": "boxing_gloves", "prob": 50 },
+      { "item": "cane", "prob": 70 },
+      { "item": "pipe_tobacco", "prob": 50 },
+      { "item": "brazier", "prob": 40 },
+      { "item": "candle", "prob": 50 },
+      { "item": "alarmclock", "prob": 80 },
+      { "item": "talking_doll", "prob": 50 },
+      { "item": "straw_doll", "prob": 40 },
+      { "item": "spiral_stone", "prob": 1 },
+      { "item": "petrified_eye", "prob": 1 }
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "antique_rare",
+    "subtype": "distribution",
+    "entries" : [
+      { "group": "jewelry", "prob": 20 },
+      { "group": "western_medieval_armor", "prob": 50 },
+      { "group": "melee_weapons", "prob": 50 },
+      { "group": "western_medieval_weapons", "prob": 50 },
+      { "group": "eastern_medieval_weapons", "prob": 50 },
+      { "group": "antique_guns", "prob": 60 },
+      { "item": "trex_gun", "prob": 5 },
+      { "item": "spiral_stone", "prob": 10 },
+      { "item": "petrified_eye", "prob": 10 }
+    ]
+   } 
  ]
