@@ -5597,64 +5597,6 @@
     ]
   },{
     "type" : "item_group",
-    "id" : "ant_food",
-    "items":[
-      ["meat", 50],
-      ["veggy", 30],
-      ["meat_tainted", 60],
-      ["veggy_tainted", 35],
-      ["apple", 70],
-      ["orange", 65],
-      ["banana", 40],
-      ["mushroom", 4],
-      ["blueberries", 3],
-      ["strawberries", 2],
-      ["cucumber", 8],
-      ["tomato", 9],
-      ["broccoli", 9],
-      ["zucchini", 7],
-      ["celery", 2],
-      ["onion", 3],
-      ["carrot", 3],
-      ["potato_raw", 10],
-      ["pear", 65],
-      ["grapefruit", 1],
-      ["cherries", 5],
-      ["plums", 9],
-      ["grapes", 45],
-      ["pineapple", 2],
-      ["peach", 1],
-      ["cranberries", 15],
-      ["watermelon", 2],
-      ["melon", 1],
-      ["raspberries", 3],
-      ["blackberries", 3],
-      ["mango", 1],
-      ["pomegranate", 1],
-      ["rhubarb", 5],
-      ["papaya", 1],
-      ["kiwi", 1],
-      ["apricot", 1],
-      ["honeycomb", 10],
-      ["royal_jelly", 8],
-      ["arm", 4],
-      ["leg", 4],
-      ["rock", 40],
-      ["stick", 95],
-      ["bio_metabolics", 10],
-      ["survivormap", 1],
-      ["miner_hat", 10],
-      ["bio_blaster", 10],
-      ["tool_black_powder_charge", 1]
-    ]
-  },{
-    "type" : "item_group",
-    "id" : "ant_egg",
-    "items":[
-      ["ant_egg", 5]
-    ]
-  },{
-    "type" : "item_group",
     "id" : "biollante",
     "items":[
       ["biollante_bud", 1]

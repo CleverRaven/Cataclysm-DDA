@@ -250,6 +250,37 @@
     ]
   },{
     "type" : "item_group",
+    "id" : "ant_egg",
+    "items":[
+      ["ant_egg", 500]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "ant_food",
+    "subtype": "distribution",
+    "entries" : [
+      { "item": "stick", "prob": 50 },
+      { "item": "rock", "prob": 50 }, 
+      { "group": "outdoor_trash", "prob": 100 },
+      { "group": "nature_trash", "prob": 50 },
+      { "group": "local_fruit", "prob": 270 },
+      { "group": "vegetables", "prob": 300 },
+      { "item": "meat", "prob": 60 },
+      { "item": "fat", "prob": 30 },
+      { "item": "meat_tainted", "prob": 110 },
+      { "item": "veggy", "prob": 50 },
+      { "item": "veggy_tainted", "prob": 120 },
+      { "item": "human_flesh", "prob": 500 },
+      { "item": "arm", "prob": 50 },
+      { "item": "leg", "prob": 50 },
+      { "group": "clothes", "prob": 100, "damage-min": 2, "damage-max": 4 },
+      { "group": "helmets", "prob": 10, "damage-min": 1, "damage-max": 3 },
+      { "item": "honeycomb", "prob": 10 },
+      { "item": "royal_jelly", "prob": 5 },
+      { "item": "survivormap", "prob": 5 }
+    ]
+  },{
+    "type" : "item_group",
     "id" : "hardware",
 	  "subtype": "distribution",
     "entries" : [
