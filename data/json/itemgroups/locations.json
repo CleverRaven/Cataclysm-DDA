@@ -966,6 +966,59 @@
       { "item": "survivormap", "prob": 1 },
       { "item": "survnote", "prob": 10 }
     ]
+ },{
+    "type" : "item_group",
+    "id" : "school",
+    "subtype": "distribution",
+    "entries" : [
+      { "group": "indoor_trash", "prob": 25 },
+      { "group": "everyday_gear", "prob": 25 },
+      { "group": "magazines", "prob": 50 },
+      { "group": "novels", "prob": 50 },
+      { "group": "child_books", "prob": 70 },
+      { "group": "manuals", "prob": 40 },
+      { "group": "junkfood", "prob": 40 },
+      { "group": "candy", "prob": 40 },
+      { "group": "sugar_drinks", "prob": 40 },
+      { "group": "sports_gear", "prob": 100 },
+      { "group": "sports_clothes", "prob": 50 },
+      { "group": "roller_shoes", "prob": 20 },
+      { "item": "backpack", "prob": 35 },
+      { "item": "backpack_leather", "prob": 15 },
+      { "item": "mbag", "prob": 15 },
+      { "item": "fanny", "prob": 5 },
+      { "item": "glasses_eye", "prob": 25 },
+      { "item": "glasses_bifocal", "prob": 5 },
+      { "item": "glasses_reading", "prob": 25 },
+      { "item": "file", "prob": 25 },
+      { "item": "radio_car_box", "prob": 1 },
+      { "item": "radiocontrol", "prob": 2 },
+      { "item": "mask_guy_fawkes", "prob": 1 },
+      { "item": "survivormap", "prob": 1 },
+      { "item": "survnote", "prob": 10 }
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "chem_school",
+    "subtype": "distribution",
+    "entries" : [
+      { "group": "chemistry_tools", "prob": 100 },
+      { "group": "medical_gear", "prob": 25 },
+      { "group": "chemicals", "prob": 100 },
+      { "group": "cleaning", "prob": 50 },
+      { "group": "emergency_drugs", "prob": 20 },
+      { "item": "file", "prob": 35 },
+      { "item": "pocket_firstaid", "prob": 15 },
+      { "item": "textbook_chemistry", "prob": 15 },
+      { "item": "adv_chemistry", "prob": 5 },
+      { "item": "decoy_elfa", "prob": 2 },
+      { "item": "funnel", "prob": 15 },
+      { "item": "water_clean", "prob": 25 },
+      { "item": "extinguisher", "prob": 15 },
+      { "item": "saline", "prob": 2 },
+      { "item": "eyedrops", "prob": 2 },
+      { "item": "survnote", "prob": 1 }
+    ]
   },{
     "type" : "item_group",
     "id" : "hardware",
