@@ -2146,23 +2146,6 @@
     ]
   },{
     "type" : "item_group",
-    "id" : "jackets",
-    "items":[
-      ["jacket_light", 50],
-      ["jacket_windbreaker", 25],
-      ["jacket_jean", 35],
-      ["blazer", 35],
-      ["jacket_leather", 30],
-      ["coat_rain", 50],
-      ["trenchcoat", 12],
-      ["duster", 12],
-      ["skinny_tie", 5],
-      ["tieclip", 2],
-      ["collarpin", 2],
-      ["apron_leather", 1]
-    ]
-  },{
-    "type" : "item_group",
     "id" : "suits",
     "items":[
       ["dress_shirt", 100],

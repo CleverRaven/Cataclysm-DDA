@@ -243,5 +243,38 @@
       ["female_shirts", 50],
       ["male_shirts", 50]
     ]
+  },{
+    "type" : "item_group",
+    "id" : "jackets",
+    "items":[
+      ["jacket_light", 80],
+      ["jacket_jean", 65],
+      ["jacket_flannel", 50],
+      ["house_coat", 15],
+      ["blazer", 50],
+      ["jacket_leather", 50],
+      ["vest_leather", 10],
+      ["jacket_army", 5],
+      ["coat_rain", 50],
+      ["trenchcoat", 15],
+      ["sleeveless_trenchcoat", 5],
+      ["trenchcoat_leather", 5],
+      ["sleeveless_trenchcoat_leather", 2],
+      ["duster", 10],
+      ["sleeveless_duster", 2],
+      ["duster_leather", 5],
+      ["sleeveless_duster_leather", 2],
+      ["poncho", 10],
+      ["cloak", 1]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "gloves",
+    "items":[
+      ["gloves_leather", 50],
+      ["gloves_fingerless", 80],
+      ["fire_gauntlets", 20],
+      ["gloves_liner", 10]
+    ]
   }
  ]
