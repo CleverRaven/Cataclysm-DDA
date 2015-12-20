@@ -454,6 +454,24 @@
     ]
   },{
     "type" : "item_group",
+    "id" : "fridge",
+    "subtype": "distribution",
+    "entries" : [
+      { "group": "prepared_food", "prob": 100 },
+      { "group": "perishable_food", "prob": 300 },
+      { "group": "condiments_spices", "prob": 50 },
+      { "group": "fruit", "prob": 40 },
+      { "group": "vegetables", "prob": 60 },
+      { "group": "sugar_drinks", "prob": 100 },
+      { "group": "drinks", "prob": 100 },
+      { "group": "alcohol_beer", "prob": 50 },
+      { "item": "cake2", "prob": 1 },
+      { "item": "cake3", "prob": 1 },
+      { "item": "dogfood", "prob": 5 },
+      { "item": "catfood", "prob": 5 }
+    ]
+  },{
+    "type" : "item_group",
     "id" : "hardware",
 	  "subtype": "distribution",
     "entries" : [
