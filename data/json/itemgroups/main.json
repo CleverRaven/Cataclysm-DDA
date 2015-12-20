@@ -2786,5 +2786,72 @@
       ["protein_drink", 25],
       ["protein_shake", 25]
     ]
+  },{
+    "type" : "item_group",
+    "id" : "wines_worthy",
+    "items":[
+      ["wine_riesling", 40],
+      ["wine_chardonnay", 60],
+      ["wine_cabernet", 60],
+      ["wine_noir", 40]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "alcohol_beer",
+    "items":[
+      ["beer", 100],
+      ["european_pilsner", 50],
+      ["pale_ale", 50],
+      ["india_pale_ale", 50],
+      ["stout", 50],
+      ["belgian_ale", 30],
+      ["imperial_stout", 30]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "alcohol_hobo",
+    "items":[
+      ["moonshine", 90],
+      ["beer", 80],
+      ["bum_wine", 75],
+      ["whiskey", 40],
+      ["vodka", 40],
+      ["gin", 30],
+      ["rum", 40],
+      ["tequila", 40],
+      ["fruit_wine", 20],
+      ["drink_boozeberry", 20]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "alcohol_hard",
+    "items":[
+      ["moonshine", 0],
+      ["whiskey", 50],
+      ["vodka", 50],
+      ["gin", 50],
+      ["rum", 50],
+      ["tequila", 50],
+      ["triple_sec", 30],
+      ["brandy", 50],
+      ["single_malt_whiskey", 20]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "alcohol",
+	  "subtype": "distribution",
+    "entries" : [
+      { "group": "alcohol_hard", "prob": 150 },
+      { "group": "wines_worthy", "prob": 250 },
+      { "group": "alcohol_beer", "prob": 250 },
+      { "item": "long_island", "prob": 10 },
+      { "item": "drink_strawberry_surprise", "prob": 10 },
+      { "item": "drink_wild_apple", "prob": 10 },
+      { "item": "drink_screwdriver", "prob": 10 },
+      { "item": "drink_rumcola", "prob": 10 },
+      { "item": "drink_boozeberry", "prob": 10 },
+      { "item": "moonshine", "prob": 10 }
+      ]
   }
 ] 
+
