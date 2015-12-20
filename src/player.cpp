@@ -11996,6 +11996,10 @@ bool player::read(int inventory_position)
 void player::do_read( item *book )
 {
     auto reading = book->type->book.get();
+    if( reading == nullptr ) {
+        activity.type = ACT_NULL;
+        return;
+    }
     const skill_id &skill = reading->skill;
 
     if( !has_identified( book->type->id ) ) {
