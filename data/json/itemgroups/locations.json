@@ -815,6 +815,34 @@
     ]
   },{
     "type" : "item_group",
+    "id" : "shelter",
+    "subtype": "distribution",
+    "entries" : [
+      { "item": "1st_aid", "prob": 10 },
+      { "item": "bandages", "prob": 15 },
+      { "item": "water_clean", "prob": 100 },
+      { "item": "emer_blanket", "prob": 10 },
+      { "item": "spray_can", "prob": 5 },
+      { "item": "vaccine_shot", "prob": 1 },
+      { "item": "flu_shot", "prob": 1 },
+      { "item": "extinguisher", "prob": 10 },
+      { "item": "signal_flare", "prob": 10 },
+      { "group": "indoor_trash", "prob": 200 },
+      { "group": "lighting_tools", "prob": 50 },
+      { "group": "fire_tools", "prob": 50 },
+      { "group": "tailor_tools", "prob": 40 },
+      { "group": "camping_gear", "prob": 40 },
+      { "group": "clothes", "prob": 100 },
+      { "group": "storage", "prob": 20 },
+      { "group": "winter_clothes", "prob": 70 },
+      { "group": "canned_food", "prob": 60 },
+      { "group": "camping_food", "prob": 30 },
+      { "group": "overcounter_drugs", "prob": 50 },
+      { "group": "camping_surv_books", "prob": 50 },
+      { "group": "magazines", "prob": 70 }
+    ]
+  },{
+    "type" : "item_group",
     "id" : "tools",
     "subtype": "distribution",
     "entries" : [
