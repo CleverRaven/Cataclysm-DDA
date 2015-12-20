@@ -1289,6 +1289,42 @@
     ]
   },{
     "type" : "item_group",
+    "id" : "behindcounter",
+    "guns_with_ammo" : true,
+    "subtype": "distribution",
+    "entries" : [
+      { "group": "overcounter_drugs", "prob": 100 },
+      { "group": "legal_drugs", "prob": 200 },
+      { "group": "fire_tools", "prob": 100 },
+      { "group": "pistols", "prob": 20 },
+      { "group": "shotguns", "prob": 20 },
+      { "group": "magazines", "prob": 50 },
+      { "item": "money_bundle", "prob": 50 },
+      { "item": "tazer", "prob": 10 },
+      { "item": "extinguisher", "prob": 10 },
+      { "item": "flashlight", "prob": 30 },
+      { "item": "mag_porn", "prob": 50 },
+      { "item": "vibrator", "prob": 10 },
+      { "item": "mp3", "prob": 10 },
+      { "item": "portable_game", "prob": 10 },
+      { "item": "restaurantmap", "prob": 20 },
+      { "item": "touristmap", "prob": 20 },
+      { "item": "roadmap", "prob": 30 }
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "gas_charging_rack",
+    "items":[
+      { "item": "storage_battery", "prob": 15, "charges-min": 80000, "charges-max": 100000 },
+      { "item": "storage_battery", "prob": 40, "charges-min": 4000, "charges-max": 10000 },
+      { "item": "storage_battery", "prob": 60, "charges-min": 0, "charges-max": 2000 },
+      { "item": "small_storage_battery", "prob": 15, "charges-min": 600, "charges-max": 1000 },
+      { "item": "small_storage_battery", "prob": 40, "charges-min": 0, "charges-max": 200 },
+      { "item": "medium_storage_battery", "prob": 15, "charges-min": 0, "charges-max": 10000 },
+      { "item": "medium_storage_battery", "prob": 40, "charges-min": 0, "charges-max": 2000 },
+      ["it_battery_mount", 200]
+  },{
+    "type" : "item_group",
     "id" : "hardware",
 	  "subtype": "distribution",
     "entries" : [

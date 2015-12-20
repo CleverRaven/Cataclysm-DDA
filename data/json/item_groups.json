@@ -1,21 +1,5 @@
 [
- {
-    "type" : "item_group",
-    "id" : "gas_charging_rack",
-    "items":[
-      { "item": "storage_battery", "prob": 15, "charges-min": 80000, "charges-max": 100000 },
-      { "item": "storage_battery", "prob": 40, "charges-min": 4000, "charges-max": 10000 },
-      { "item": "storage_battery", "prob": 60, "charges-min": 0, "charges-max": 2000 },
-      { "item": "small_storage_battery", "prob": 15, "charges-min": 600, "charges-max": 1000 },
-      { "item": "small_storage_battery", "prob": 40, "charges-min": 0, "charges-max": 200 },
-      { "item": "medium_storage_battery", "prob": 15, "charges-min": 0, "charges-max": 10000 },
-      { "item": "medium_storage_battery", "prob": 40, "charges-min": 0, "charges-max": 2000 },
-      ["it_battery_mount", 90],
-      ["it_battery_mount", 50],
-      ["it_battery_mount", 40],
-      ["it_battery_mount", 10]
-    ]
-  },{
+  {
     "type" : "item_group",
     "id" : "fast_food",
     "items":[
@@ -144,55 +128,6 @@
       ["salt", 10],
       ["pine_nuts", 10],
       ["brioche", 50]
-    ]
-  },{
-    "type" : "item_group",
-    "id" : "behindcounter",
-    "guns_with_ammo" : true,
-    "items":[
-      ["aspirin", 85],
-      ["caffeine", 25],
-      ["cig", 60],
-      ["tobacco", 30],
-      ["chaw", 40],
-      ["cigar", 5],
-      ["ecig", 10],
-      ["advanced_ecig", 8],
-      ["nicotine_liquid", 8],
-      ["battery", 50],
-      ["l_enforcer_45", 4],
-      ["l_sp_45", 3],
-      ["l_mp_45", 2],
-      ["rm99_pistol", 1],
-      ["rm103a_pistol", 1],
-      ["shotgun_sawn", 2],
-      ["rm228", 2],
-      ["vibrator", 3],
-      ["mag_porn", 20],
-      ["lighter", 60],
-      ["ref_lighter", 5],
-      ["matches", 60],
-      ["flashlight", 40],
-      ["extinguisher", 20],
-      ["tazer", 3],
-      ["mp3", 18],
-      ["portable_game", 8],
-      ["game_watch", 2],
-      ["roadmap", 40],
-      ["file", 10],
-      ["touristmap", 20],
-      ["restaurantmap", 20],
-      ["money_bundle", 55],
-      ["gold_watch", 10],
-      ["gum", 30],
-      ["caff_gum", 10],
-      ["sm_extinguisher", 10],
-      ["nic_gum", 2],
-      ["razor_blade", 3],
-      ["knitting_needles", 1],
-      ["weeks_old_newspaper", 5],
-      ["newest_newspaper", 10],
-      ["survnote", 2]
     ]
   },{
     "type" : "item_group",
