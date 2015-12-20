@@ -498,5 +498,132 @@
       { "group": "storage", "prob": 20 },
       { "group": "male_extras", "prob": 20 }
     ]
-   }
+  },{
+    "type" : "item_group",
+    "id" : "winter_underwear_top",
+    "items":[
+      ["undershirt", 50],
+      ["long_undertop", 40]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "winter_underwear_bottom",
+    "items":[
+      ["long_underpants", 40],
+      ["thermal_suit", 10],
+      ["union_suit", 40]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "winter_pants",
+    "items":[
+      ["jeans", 40],
+      ["pants", 30],
+      ["pants_ski", 50],
+      ["pants_leather", 40],
+      ["winter_pants_army", 10]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "winter_shirts",
+    "items":[
+      ["longshirt", 50],
+      ["sweatshirt", 75],
+      ["sweater", 75],
+      ["hoodie", 65]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "winter_shoes",
+    "items":[
+      ["boots_winter", 100],
+      ["boots", 70],
+      ["boots_fur", 1],
+      ["knee_high_boots", 5],
+      ["boots_combat", 10],
+      ["boots_hiking", 20],
+      ["boots_western", 10]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "winter_jackets",
+    "items":[
+      ["coat_winter", 100],
+      ["coat_fur", 30],
+      ["coat_fur_sf", 5],
+      ["peacoat", 80],
+      ["jacket_leather", 50],
+      ["jacket_flannel", 50],
+      ["coat_rain", 60],
+      ["jacket_army", 30],
+      ["winter_jacket_army", 10],
+      ["trenchcoat_leather", 5],
+      ["trenchcoat_fur", 1],
+      ["duster_fur", 1],
+      ["duster_leather", 5],
+      ["cloak", 1],
+      ["cloak_wool", 1],
+      ["cloak_fur", 1]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "winter_gloves",
+    "items":[
+      ["gloves_winter", 80],
+      ["gloves_leather", 50],
+      ["gloves_wool", 50],
+      ["mittens", 50],
+      ["thermal_gloves", 10],
+      ["gloves_liner", 10],
+      ["winter_gloves_army", 5]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "winter_hats",
+    "items":[
+      ["hood_rain", 40],
+      ["hat_cotton", 50],
+      ["hat_knit", 40],
+      ["hat_fur",  10],
+      ["hat_boonie", 10],
+      ["beret_wool", 20]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "winter_masks",
+    "items":[
+      ["bandana", 10],
+      ["balclava", 100],
+      ["scarf", 100],
+      ["knit_scarf", 50],
+      ["cowl_wool", 40],
+      ["long_knit_scarf", 1],
+      ["thermal_mask", 10]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "winter_extras",
+    "items":[
+      ["thermal_socks", 10],
+      ["socks_wool", 100],
+      ["arm_warmers", 50],
+      ["leg_warmers", 50]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "winter",
+    "subtype": "distribution",
+    "entries" : [
+      { "group": "winter_underwear_bottom", "prob": 30 },
+      { "group": "winter_underwear_top", "prob": 30 },
+      { "group": "winter_boots", "prob": 60 },
+      { "group": "winter_pants", "prob": 90 },
+      { "group": "winter_shirts", "prob": 90 },
+      { "group": "winter_coats", "prob": 50 },
+      { "group": "winter_gloves", "prob": 50 },
+      { "group": "winter_hats", "prob": 30 },
+      { "group": "winter_masks", "prob": 30 },
+      { "group": "winter_extras", "prob": 20 }
+    ]   
+  }
  ]

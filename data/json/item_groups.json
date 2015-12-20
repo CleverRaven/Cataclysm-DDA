@@ -2162,41 +2162,6 @@
     ]
   },{
     "type" : "item_group",
-    "id" : "winter",
-    "items":[
-      ["coat_winter", 50],
-      ["peacoat", 30],
-      ["greatcoat", 15],
-      ["gloves_light", 35],
-      ["mittens", 30],
-      ["gloves_wool", 33],
-      ["thermal_socks", 10],
-      ["thermal_gloves", 10],
-      ["thermal_suit", 10],
-      ["thermal_mask", 10],
-      ["thermal_outfit", 5],
-      ["gloves_winter", 40],
-      ["gloves_liner", 25],
-      ["gloves_leather", 45],
-      ["scarf", 45],
-      ["knit_scarf", 35],
-      ["long_knit_scarf", 15],
-      ["scarf_long", 2],
-      ["hat_cotton", 45],
-      ["hat_newsboy", 20],
-      ["hat_knit", 25],
-      ["hat_fur", 15],
-      ["pants_ski", 60],
-      ["long_underpants", 40],
-      ["long_undertop", 40],
-      ["union_suit", 40],
-      ["tights", 20],
-      ["arm_warmers", 20],
-      ["leg_warmers", 20],
-      ["balclava", 15]
-    ]
-  },{
-    "type" : "item_group",
     "id" : "fancyfurs",
     "items":[
       ["hat_fur", 400],
