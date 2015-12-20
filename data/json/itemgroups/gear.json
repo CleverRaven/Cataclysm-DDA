@@ -1488,5 +1488,141 @@
       ["toolbox", 10],
       ["roadmap", 5]
     ]
+  },{
+    "type" : "item_group",
+    "id" : "cop_shoes",
+    "items":[
+      ["boots", 70],
+      ["boots_steel", 50],
+      ["boots_hiking", 20],
+      ["boots_western", 5],
+      ["boots_combat", 10]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "cop_pants",
+    "items":[
+      ["pants", 75],
+      ["pants_cargo", 70]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "cop_shirts",
+    "items":[
+      ["dress_shirt", 60],
+      ["under_armor", 20],
+      ["sheriffshirt", 5]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "cop_armor",
+    "items":[
+      ["kevlar", 100],
+      ["swat_armor", 10],
+      ["dragonskin", 10],
+      ["modularvest", 10],
+      ["modularveststeel", 5],
+      ["modularvestceramic", 5],
+      ["modularvestkevlar", 5]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "cop_helmets",
+    "items":[
+      ["helmet_riot", 25],
+      ["tac_helmet", 15],
+      ["tac_fullhelmet", 7]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "cop_gloves",
+    "items":[
+      ["gloves_leather", 60],
+      ["gloves_medical", 5],
+      ["gloves_tactical", 10]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "cop_eyewear",
+    "items":[
+      ["sunglasses", 50],
+      ["glasses_eye", 50],
+      ["fancy_sunglasses", 10],
+      ["glasses_bal", 10],
+      ["goggles_nv", 1],
+      ["goggles_ir", 1]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "cop_masks",
+    "items":[
+      ["mask_bal", 5],
+      ["mask_gas", 50],
+      ["mask_filter", 20]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "cop_storage",
+    "items":[
+      ["holster", 100],
+      ["sholster", 10],
+      ["dump_pouch", 20],
+      ["legrig", 70],
+      ["bootstrap", 10],
+      ["chestrig", 40],
+      ["molle_pack", 20]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "cop_extras",
+    "items":[
+      ["badge_deputy", 30],
+      ["badge_detective", 30],
+      ["armguard_hard", 40],
+      ["legguard_hard", 45],
+      ["knee_pads", 50],
+      ["elbow_pads", 50]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "cop_clothes",
+    "subtype": "distribution",
+    "entries" : [
+      { "group": "cop_shoes", "prob": 50 },
+      { "group": "cop_pants", "prob": 80 },
+      { "group": "cop_shirts", "prob": 80 },
+      { "group": "cop_armor", "prob": 50 },
+      { "group": "cop_helmets", "prob": 5 },
+      { "group": "cop_gloves", "prob": 50 },
+      { "group": "cop_eyewear", "prob": 30 },
+      { "group": "cop_masks", "prob": 5 },
+      { "group": "cop_storage", "prob": 25 },
+      { "group": "cop_extras", "prob": 20 }
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "cop_gear",
+    "items":[
+      ["tazer", 40],
+      ["gasbomb", 70],
+      ["flashbang", 70],
+      ["smokebomb", 70],
+      ["UPS_off", 20],
+      ["cell_phone", 45],
+      ["pda", 20],
+      ["eink_tablet_pc", 30],
+      ["mobile_memory_card", 10],
+      ["laptop", 30],
+      ["flaregun", 40],
+      ["signal_flare", 65],
+      ["handflare", 50],
+      ["flashlight", 100],
+      ["halligan", 20],
+      ["two_way_radio", 80],
+      ["emer_blanket", 50],
+      ["picklocks", 40],
+      ["toolbox", 10],
+      ["roadmap", 15]
+    ]
   }
 ]
