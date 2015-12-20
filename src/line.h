@@ -82,6 +82,7 @@ float trig_dist(const tripoint &loc1, const tripoint &loc2);
 // Roguelike distance; minimum of dX and dY
 int square_dist(int x1, int y1, int x2, int y2);
 int square_dist(const tripoint &loc1, const tripoint &loc2);
+// square_dist or round(trig_dist) depending on "Circular distance" setting
 int rl_dist(int x1, int y1, int x2, int y2);
 int rl_dist(const tripoint &loc1, const tripoint &loc2);
 int rl_dist(const point &a, const point &b);

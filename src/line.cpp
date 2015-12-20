@@ -2,6 +2,7 @@
 #include "game.h"
 #include "translations.h"
 #include <cstdlib>
+#include <cmath>
 
 #define SGN(a) (((a)<0) ? -1 : 1)
 
@@ -265,7 +266,7 @@ int rl_dist(const point &a, const point &b)
 int rl_dist(const tripoint &loc1, const tripoint &loc2)
 {
     if(trigdist) {
-        return trig_dist(loc1, loc2);
+        return std::round(trig_dist(loc1, loc2));
     }
     return square_dist(loc1, loc2);
 }
