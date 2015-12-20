@@ -2212,26 +2212,19 @@ int item::price() const
     if( count_by_charges() || made_of( LIQUID ) ) {
         ret = ret * charges / static_cast<double>( type->stack_size);
     }
-    const it_tool* ttype = dynamic_cast<const it_tool*>( type );
-    if( has_curammo() && charges > 0 ) {
+
+    // tools, guns and auxiliary gunmods may contain ammunition which can affect the price
+    if ( ammo_remaining() > 0 && has_curammo() ) {
         item tmp( get_curammo_id(), 0 );
         tmp.charges = charges;
         ret += tmp.price();
-    } else if( ttype != nullptr && !has_curammo() ) {
-        if( charges > 0 && ttype->ammo_id != "NULL" ) {
-            // Tools sometimes don't have a curammo, when they should, e.g. flashlight
-            // that has been reloaded, apparently item::reload does not set curammo for tools.
-            item tmp( default_ammo( ttype->ammo_id ), 0 );
-            tmp.charges = charges;
-            ret += tmp.price();
-        } else if( ttype->def_charges > 0 && ttype->ammo_id == "NULL" ) {
-            // If the tool uses specific ammo (like gasoline) it is handled above.
-            // This case is for tools that have no ammo, but charges (e.g. spray can)
-            // Full value when charges == default charges, otherwise scaled down
-            // (e.g. half price for half full spray).
-            ret = ret * charges / static_cast<double>( ttype->def_charges );
-        }
     }
+
+    // if tool has no ammo (eg. spray can) reduce price proportional to remaining charges
+    if ( is_tool() && ammo_type() == "NULL" ) {
+        ret *= ammo_remaining() / double( std::max( dynamic_cast<const it_tool *>( type )->def_charges, 1L ) );
+    }
+
     for( auto &elem : contents ) {
         ret += elem.price();
     }
@@ -4194,9 +4187,7 @@ bool item::reload(player &u, int pos)
             eject_casings( u, target, get_curammo()->ammo->casing );
         }
 
-        if( target->is_gun() || target->is_gunmod() ) {
-            target->set_curammo( *ammo );
-        }
+        target->set_curammo( *ammo );
 
         if( ammo_type() == "plutonium" ) {
             // always consume at least one cell but never more than actually available
