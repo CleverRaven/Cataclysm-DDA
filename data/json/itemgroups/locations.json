@@ -17,7 +17,8 @@
     "id" : "hardware",
 	  "subtype": "distribution",
     "entries" : [
-      { "group": "hardware_tools", "prob": 100 },
+      { "group": "basic_tools", "prob": 30 },
+      { "group": "hardware_tools", "prob": 150 },
       { "group": "hardware_parts", "prob": 50 },
       { "group": "construction_tools", "prob": 50 },
       { "group": "construction_parts", "prob": 50 },
@@ -25,8 +26,61 @@
       { "group": "farming_tools", "prob": 40 },
       { "group": "mechanics_tools", "prob": 50 },
       { "group": "vehicle_parts", "prob": 15 },
-      { "item": "nail", "prob": 10},
+      { "item": "nail", "prob": 20},
       { "item": "chem_thermite", "prob": 2}
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "tools",
+    "subtype": "distribution",
+    "entries" : [
+      { "group": "hardware_tools", "prob": 100 },
+      { "group": "construction_tools", "prob": 25 },
+      { "group": "construction_tools", "prob": 25 },
+      { "group": "mechanics_tools", "prob": 25 },
+      { "group": "smithing_tools", "prob": 15 },
+      { "group": "bullet_tools", "prob": 15 }
+    ]
+  },{
+    "type"  : "item_group",
+    "id"    : "hardware_bulk",
+    "subtype": "distribution",
+    "entries" : [
+      { "group": "construction_parts", "prob": 100 },
+      { "item": "nail", "prob": 10 },
+      { "item": "fertilizer_commercial", "prob": 10 },
+      { "item": "rock", "prob": 10 },
+      { "item": "coal", "prob": 5 }
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "bigtools",
+    "items":[
+      ["broom", 300],
+      ["mop", 300],
+      ["con_mix", 300],
+      ["brick_kiln", 300],
+      ["hoe", 300],
+      ["shovel", 400],
+      ["scythe", 50],
+      ["sickle", 30],
+      ["chainsaw_off", 70],
+      ["elec_chainsaw_off", 40],
+      ["trimmer_off", 100],
+      ["hammer_sledge", 60],
+      ["jackhammer", 20],
+      ["elec_jackhammer", 10],
+      ["jacqueshammer", 20],
+      ["pickaxe", 10],
+      ["welder", 250],
+      ["oxy_torch", 250],
+      ["ax", 80],
+      ["forge", 20],
+      ["char_forge", 20],
+      ["char_kiln", 10],
+      ["crucible", 20],
+      ["anvil", 40],
+      ["pitchfork", 20]
     ]
   },{
     "type" : "item_group",
