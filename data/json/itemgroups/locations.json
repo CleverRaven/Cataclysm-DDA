@@ -735,6 +735,29 @@
     ]
   },{
     "type" : "item_group",
+    "id" : "art",
+    "//" : "fancy stuff in mansions.",
+    "subtype": "distribution",
+    "entries" : [
+      { "group": "jewelry", "prob": 200 },
+      { "group": "antique", "prob": 100 },
+      { "group": "melee_weapons", "prob": 50 },
+      { "group": "antique_guns", "prob": 50 },
+      { "item": "cane", "prob": 50 },
+      { "item": "tophat", "prob": 20 },
+      { "item": "tux", "prob": 20 },
+      { "item": "candlestick", "prob": 50 },
+      { "item": "coat_fur_sf", "prob": 10 },
+      { "item": "sf_watch", "prob": 20 },
+      { "item": "fancy_sunglasses", "prob": 50 },
+      { "item": "heels", "prob": 85 },
+      { "item": "tricorne", "prob": 15 },
+      { "item": "diamond", "prob": 85 },
+      { "item": "petrified_eye", "prob": 2 },
+      { "item": "spiral_stone", "prob": 2 }
+    ]
+  },{
+    "type" : "item_group",
     "id" : "homebooks",
     "subtype": "distribution",
     "entries" : [
@@ -1906,6 +1929,20 @@
       ["flashlight", 40],
       ["two_way_radio", 10],
       ["camera_control", 5]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "medieval",
+    "subtype": "distribution",
+    "entries" : [
+      { "group": "western_medieval_armor", "prob": 50 },
+      { "group": "eastern_medieval_armor", "prob": 50 },
+      { "group": "western_medieval_weapons", "prob": 50 },
+      { "group": "eastern_medieval_weapons", "prob": 50 },
+      { "item": "textbook_weapwest", "prob": 15 },
+      { "item": "textbook_weapeast", "prob": 15 },
+      { "item": "textbook_armwest", "prob": 15 },
+      { "item": "textbook_armeast", "prob": 15 }
     ]
   },{
     "type" : "item_group",
