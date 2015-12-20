@@ -1842,5 +1842,199 @@
       ["5x50dart", 15],
       ["5x50heavy", 5]
     ]
+  },{
+    "type" : "item_group",
+    "id" : "military_boots",
+    "items":[
+      ["boots_combat", 100],
+      ["boots_steel", 10]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "military_pants",
+    "items":[
+      ["pants_army", 100],
+      ["winter_pants_army", 10]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "military_shirts",
+    "items":[
+      ["army_top", 100],
+      ["under_armor", 50],
+      ["tshirt", 20],
+      ["longshirt", 20],
+      ["polo_shirt", 20]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "military_coats",
+    "items":[
+      ["jacket_army", 100],
+      ["vest", 20],
+      ["winter_jacket_army", 10]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "military_full",
+    "items":[
+      ["anbc_suit", 50]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "military_armor",
+    "items":[
+      ["kevlar", 10],
+      ["modularvest", 15],
+      ["modularvestkevlar", 18],
+      ["modularvestceramic", 24],
+      ["modularveststeel", 18],
+      ["modularvestsuper", 8],
+      ["modularvesthard", 2]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "adv_military_armor",
+    "items":[
+      ["dragonskin", 50],
+      ["modularvestceramic", 40],
+      ["modularvestkevlar", 20]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "military_gloves",
+    "items":[
+      ["gloves_leather", 50],
+      ["winter_gloves_army", 5],
+      ["gloves_fingerless", 50],
+      ["gloves_tactical", 50]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "military_masks",
+    "items":[
+      ["mask_gas", 50],
+      ["mask_bal", 30],
+      ["keffiyeh", 20]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "military_eyewear",
+    "items":[
+      ["sunglasses", 40],
+      ["fancy_sunglasses", 60],
+      ["glasses_bal", 50],
+      ["glasses_safety", 50],
+      ["goggles_nv", 1],
+      ["goggles_ir", 1]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "military_hats",
+    "items":[
+      ["hat_boonie", 50],
+      ["helmet_liner", 60],
+      ["beret", 50],
+      ["beret_wool", 40]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "military_helmets",
+    "items":[
+      ["helmet_army", 50],
+      ["helmet_lobster", 20],
+      ["tac_helmet", 30],
+      ["tac_fullhelmet", 10]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "military_storage",
+    "items":[
+      ["chestrig", 50],
+      ["molle_pack", 60],
+      ["legrig", 50],
+      ["sheath", 10],
+      ["canteen", 25],
+      ["2lcanteen", 15],
+      ["dump_pouch", 25],
+      ["backpack", 30],
+      ["holster", 70],
+      ["sholster", 50],
+      ["bootstrap", 15],
+      ["helmet_netting", 20]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "military_extras",
+    "items":[
+      ["armguard_hard", 40],
+      ["legguard_hard", 40],
+      ["knee_pads", 70],
+      ["elbow_pads", 50],
+      ["rad_monitor", 10],
+      ["wearable_light", 25]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "military_clothes",
+    "subtype": "distribution",
+    "entries" : [
+      { "group": "military_boots", "prob": 40 },
+      { "group": "military_pants", "prob": 80 },
+      { "group": "military_shirts", "prob": 80 },
+      { "group": "military_coats", "prob": 50 },
+      { "group": "military_armor", "prob": 80 },
+      { "group": "military_full", "prob": 50 },
+      { "group": "military_gloves", "prob": 50 },
+      { "group": "military_eyewear", "prob": 30 },
+      { "group": "military_hats", "prob": 20 },
+      { "group": "military_helmets", "prob": 40 },
+      { "group": "military_masks", "prob": 20 },
+      { "group": "military_storage", "prob": 40 },
+      { "group": "military_extras", "prob": 20 }
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "military_gear",
+    "items":[
+      ["flashlight", 200],
+      ["handflare", 100],
+      ["glowstick", 100],
+      ["battery", 100],
+      ["throw_extinguisher", 10],
+      ["halligan", 20],
+      ["e_tool", 60],
+      ["shovel", 30],
+      ["rope_30", 50],
+      ["flaregun", 25],
+      ["signal_flare", 85],
+      ["two_way_radio", 50],
+      ["UPS_off", 50],
+      ["adv_UPS_off", 5],
+      ["emer_blanket", 50],
+      ["geiger_off", 50],
+      ["grapnel", 55],
+      ["toolbox", 40],
+      ["militarymap", 10],
+      ["small_repairkit", 50],
+      ["adrenaline_injector", 30],
+      ["mess_kit", 80],
+      ["mil_mess_kit", 30],
+      ["tent_kit", 50],
+      ["large_tent_kit", 50],
+      ["sleeping_bag", 50],
+      ["gasoline_lantern", 5],
+      ["electric_lantern", 50],
+      ["bayonet", 50],
+      ["landmine", 35],
+      ["jerrycan", 50],
+      ["heatpack", 80],
+      ["LAW_Packed", 50],
+      ["pur_tablets", 50],
+      ["knife_trench", 20],
+      ["bot_manhack", 5],
+      ["bot_grenade_hack", 1],
+      ["bot_turret", 1]
+    ]
   }
 ]
