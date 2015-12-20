@@ -466,8 +466,8 @@
     ]
   },{
     "type" : "item_group",
-    "subtype": "distribution",
     "id" : "allguns",
+    "subtype": "distribution",
     "entries" : [
       { "group": "pistols", "prob": 1000 },
       { "group": "shotguns", "prob": 1000 },
@@ -477,8 +477,8 @@
     ]
   },{
     "type" : "item_group",
-    "subtype": "distribution",
     "id" : "ammo",
+    "subtype": "distribution",
     "entries" : [
       { "group": "pistol_ammo", "prob": 1000 },
       { "group": "shotgun_ammo", "prob": 1000 },
@@ -1262,7 +1262,7 @@
     "type" : "item_group",
     "id" : "digital_electronics",
     "subtype": "distribution",
-    "items":[
+    "entries":[
       { "item": "eink_tablet_pc", "prob": 50, "charges-min": 75, "charges-max": 100 },
       { "item": "laptop", "prob": 50 },
       { "item": "pda", "prob": 50, "charges-min": 75, "charges-max": 100 },
@@ -1297,7 +1297,7 @@
     "type" : "item_group",
     "id" : "consumer_electronics",
     "subtype": "distribution",
-    "items":[
+    "entries":[
       { "group": "electronics_tools", "prob": 50 },
       { "group": "electronics", "prob": 100 },
       { "group": "digital_electronics", "prob": 50 }
