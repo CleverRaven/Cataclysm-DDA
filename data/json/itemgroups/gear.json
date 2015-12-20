@@ -660,5 +660,109 @@
       ["umbrella", 7],
       ["teleumbrella", 3]
     ]
+  },{
+    "type" : "item_group",
+    "id" : "swim_pants",
+    "items":[
+      ["trunks", 100]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "swim_shirts",
+    "items":[
+      ["bikini_top", 50]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "swim_suits",
+    "items":[
+      ["wetsuit", 50],
+      ["wetsuit_spring", 50]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "swim_full",
+    "items":[
+      ["shark_suit", 50]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "swim_coats",
+    "items":[
+      ["flotation_vest", 50]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "swim_shoes",
+    "items":[
+      ["swim_fins", 100],
+      ["wetsuit_booties", 50]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "swim_gloves",
+    "items":[
+      ["wetsuit_gloves", 50]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "swim_hats",
+    "items":[
+      ["wetsuit_hood", 50]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "swim_eyewear",
+    "items":[
+      ["goggles_swim", 50]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "swim_masks",
+    "items":[
+      ["rebreather", 50]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "swim_storage",
+    "items":[
+      ["dive_bag", 5]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "swim_extras",
+    "items":[
+      ["diving_watch", 10]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "swim_all_wetsuit",
+    "subtype": "collection",
+    "items":[
+      "wetsuit",
+      "wetsuit_hood",
+      "wetsuit_gloves",
+      "goggles_swim",
+      "rebreather",
+      "swim_fins"
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "swim_clothes",
+    "subtype": "distribution",
+    "entries" : [
+      { "group": "swim_shoes", "prob": 60 },
+      { "group": "swim_pants", "prob": 100 },
+      { "group": "swim_shirts", "prob": 50 },
+      { "group": "swim_suits", "prob": 40 },
+      { "group": "swim_full", "prob": 5 },
+      { "group": "swim_coats", "prob": 50 },
+      { "group": "swim_gloves", "prob": 50 },
+      { "group": "swim_eyewear", "prob": 50 },
+      { "group": "swim_hats", "prob": 25 },
+      { "group": "swim_masks", "prob": 50 },
+      { "group": "swim_storage", "prob": 35 },
+      { "group": "swim_extras", "prob": 20 }
+    ]
   }
  ]
