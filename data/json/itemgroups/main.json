@@ -2992,6 +2992,84 @@
       { "item": "touristmap", "prob": 10,"damage-min": 1, "damage-max": 3 },
       { "item": "survnote", "prob": 50 }
     ]
+  },{
+    "type" : "item_group",
+    "id" : "nature_trash",
+    "items":[
+      ["acorns", 50],
+      ["rock", 30],
+      ["pinecone", 50],
+      ["withered", 90],
+      ["straw_pile", 50],
+      ["splinter", 50],
+      ["bone", 80],
+      ["tanbark", 50]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "trash_forest",
+    "subtype": "distribution",
+    "entries" : [
+      { "item": "stick", "prob": 100 },
+      { "item": "pine_bough", "prob": 45 },
+      { "item": "rock", "prob": 30 },
+      { "group": "nature_trash", "prob": 50 },
+      { "group": "outdoor_trash", "prob": 20 }
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "vehicle_trash",
+    "subtype": "distribution",
+    "entries":[
+      { "item": "muffler","damage-min": 1,"damage-max": 4, "prob": 200 },
+      { "item": "pipe","damage-min": 1,"damage-max": 4, "prob": 200 },
+      { "item": "jumper_cable","damage-min": 1,"damage-max": 4, "prob": 50 },
+      { "item": "motor","damage-min": 1,"damage-max": 4, "prob": 20 },
+      { "item": "stereo","damage-min": 1,"damage-max": 4, "prob": 20 },
+      { "item": "horn_car","damage-min": 1,"damage-max": 4, "prob": 20 },
+      { "item": "horn_big","damage-min": 1,"damage-max": 4, "prob": 20 },
+      { "item": "horn_bicycle","damage-min": 1,"damage-max": 4, "prob": 20 },
+      { "item": "seat","damage-min": 1,"damage-max": 4, "prob": 70 },
+      { "item": "saddle","damage-min": 1,"damage-max": 4, "prob": 50 },
+      { "item": "wheel","damage-min": 1,"damage-max": 4, "prob": 60 },
+      { "item": "wheel_wide","damage-min": 1,"damage-max": 4, "prob": 50 },
+      { "item": "wheel_bicycle","damage-min": 1,"damage-max": 4, "prob": 50 },
+      { "item": "wheel_motorbike","damage-min": 1,"damage-max": 4, "prob": 50 },
+      { "item": "wheel_small","damage-min": 1,"damage-max": 4, "prob": 50 },
+      { "item": "1cyl_combustion","damage-min": 1,"damage-max": 4, "prob": 20 },
+      { "item": "v2_combustion","damage-min": 1,"damage-max": 4, "prob": 10 },
+      { "item": "i4_combustion","damage-min": 1,"damage-max": 4, "prob": 10 },
+      { "item": "v6_combustion","damage-min": 1,"damage-max": 4, "prob": 10 },
+      { "item": "v8_combustion","damage-min": 1,"damage-max": 4, "prob": 10 },
+      { "item": "1cyl_combustion_small","damage-min": 1,"damage-max": 4, "prob": 10 },
+      { "item": "battery_motorbike","damage-min": 1,"damage-max": 4, "prob": 10 },
+      { "item": "battery_car","damage-min": 1,"damage-max": 4, "prob": 10 },
+      { "item": "battery_truck","damage-min": 1,"damage-max": 4, "prob": 10 },
+      { "item": "alternator_motorbike","damage-min": 1,"damage-max": 4, "prob": 10 },
+      { "item": "alternator_car","damage-min": 1,"damage-max": 4, "prob": 10 },
+      { "item": "alternator_truck","damage-min": 1,"damage-max": 4, "prob": 10 },
+      { "item": "foot_crank","damage-min": 1,"damage-max": 4, "prob": 20 },
+      { "item": "55gal_drum","damage-min": 1,"damage-max": 4, "prob": 10 },
+      { "item": "chain","damage-min": 1,"damage-max": 4, "prob": 20 }
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "wreckage",
+    "subtype": "distribution",
+    "entries":[
+      { "item": "scrap", "prob": 50, "count-min": 4, "count-max": 8 },    
+      { "item": "glass_shard", "prob": 50, "count-min": 3, "count-max": 6 },    
+      { "item": "steel_chunk", "prob": 90, "count-min": 1, "count-max": 4 },    
+      { "item": "steel_lump", "prob": 80 },    
+      { "item": "wire", "prob": 50 },    
+      { "item": "pipe", "prob": 50 },    
+      { "item": "rock", "prob": 80 },
+      { "item": "cu_pipe", "prob": 50 },
+      { "item": "frame","damage-min": 1,"damage-max": 4, "prob": 50 },    
+      { "item": "hdframe","damage-min": 1,"damage-max": 4, "prob": 20 },    
+      { "item": "chain","damage-min": 1,"damage-max": 4, "prob": 20 },    
+      { "item": "spring","damage-min": 1,"damage-max": 4, "prob": 50 }    
+    ]
   }
 ] 
 

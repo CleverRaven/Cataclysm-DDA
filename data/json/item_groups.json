@@ -7332,21 +7332,6 @@
       ]
   },{
     "type" : "item_group",
-    "id" : "wreckage",
-    "items":[
-      ["chain", 20],
-      ["steel_chunk", 30],
-      ["spring", 50],
-      ["steel_lump", 30],
-      ["frame", 20],
-      ["hdframe", 20],
-      ["cu_pipe", 25],
-      ["scrap_copper", 50],
-      ["rock", 40],
-      ["survnote", 1]
-    ]
-  },{
-    "type" : "item_group",
     "id" : "fuel_diesel",
     "items":[
       {"item": "diesel", "prob": 70, "charges-min": 950, "charges-max": 8000, "container-item": "jerrycan"},
@@ -7920,57 +7905,6 @@
       ["gloves_tactical", 60],
       ["gloves_fingerless", 40],
       ["winter_gloves_army", 40]
-    ]
-  },{
-    "type" : "item_group",
-    "id" : "trash_forest",
-    "items":[
-      ["rock", 5],
-      ["ceramic_shard", 5],
-      ["stick", 5],
-      ["pine_bough", 2],
-      ["hickory_root", 2],
-      ["hickory_nut", 3],
-      ["acorns", 2],
-      ["pinecone", 3],
-      ["flyer", 1],
-      ["one_year_old_newspaper", 1],
-      ["months_old_newspaper", 2],
-      ["weeks_old_newspaper", 3],
-      ["newest_newspaper", 4],
-      ["bag_plastic", 3],
-      ["bottle_plastic", 2],
-      ["bottle_plastic_small", 1],
-      ["bag_canvas", 1],
-      ["bag_canvas_small", 1],
-      ["cup_plastic", 3],
-      ["bottle_glass", 1],
-      ["can_drink", 2],
-      ["can_food", 1],
-      ["box_small", 2],
-      ["jug_plastic", 1],
-      ["jar_glass", 2],
-      ["jar_3l_glass", 1],
-      ["wrapper", 3],
-      ["withered", 5],
-      ["straw_pile", 5],
-      ["string_6", 1],
-      ["cig_butt", 4],
-      ["string_36", 1],
-      ["steel_lump", 1],
-      ["steel_chunk", 1],
-      ["scrap", 2],
-      ["glass_shard", 3],
-      ["wire", 1],
-      ["wire_barbed", 1],
-      ["splinter", 3],
-      ["skewer", 3],
-      ["rag", 2],
-      ["rag_bloody", 1],
-      ["bone", 2],
-      ["syringe", 1],
-      ["spike", 1],
-      ["tanbark", 2]
     ]
   },{
 "type" : "item_group",
