@@ -152,5 +152,96 @@
       ["female_shoes", 50],
       ["male_shoes", 50]
     ] 
+  },{
+    "type" : "item_group",
+    "id" : "male_pants",
+    "items":[
+      ["jeans", 200],
+      ["pants", 200],
+      ["pants_checkered", 15],
+      ["shorts", 50],
+      ["shorts_denim", 50],
+      ["pants_leather", 50],
+      ["pants_cargo", 70],
+      ["shorts_cargo", 50],
+      ["under_armor_shorts", 20],
+      ["postman_shorts", 5],
+      ["b_shorts", 35],
+      ["kilt", 1]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "female_pants",
+    "items":[
+      ["jeans", 200],
+      ["pants", 200],
+      ["skirt", 100],
+      ["shorts", 50],
+      ["pants_checkered", 15],
+      ["shorts_denim", 35],
+      ["pants_leather", 30],
+      ["pants_cargo", 50],
+      ["shorts_cargo", 10],
+      ["skirt_leather", 30],
+      ["under_armor_shorts", 20],
+      ["postman_shorts", 5],
+      ["b_shorts", 2],
+      ["nanoskirt", 10]
+    ]
+  },{
+    "type" : "item_group",
+    "subtype": "distribution",
+    "id": "pants",
+    "groups":[
+      ["female_pants", 50],
+      ["male_pants", 50]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "male_shirts",
+    "items":[
+      ["tshirt", 200],
+      ["longshirt", 50],
+      ["polo_shirt", 65],
+      ["dress_shirt", 60],
+      ["tank_top", 50],
+      ["sweatshirt", 75],
+      ["sweater", 75],
+      ["hoodie", 65],
+      ["under_armor", 20],
+      ["jersey", 40],
+      ["postman_shirt", 5],
+      ["linuxtshirt", 10],
+      ["sleeveless_tunic", 5],
+      ["waistcoat", 5]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "female_shirts",
+    "items":[
+      ["tshirt", 200],
+      ["longshirt", 50],
+      ["polo_shirt", 65],
+      ["dress_shirt", 60],
+      ["tank_top", 50],
+      ["sweatshirt", 75],
+      ["sweater", 75],
+      ["hoodie", 65],
+      ["under_armor", 20],
+      ["jersey", 40],
+      ["camisole", 60],
+      ["postman_shirt", 5],
+      ["halter_top", 50],
+      ["linuxtshirt", 10],
+      ["sleeveless_tunic", 5]
+    ]
+  },{
+    "type" : "item_group",
+    "subtype": "distribution",
+    "id": "shirts",
+    "groups":[
+      ["female_shirts", 50],
+      ["male_shirts", 50]
+    ]
   }
  ]
