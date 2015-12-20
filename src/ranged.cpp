@@ -462,36 +462,9 @@ void player::fire_gun( const tripoint &targ_arg, bool burst )
             }
         }
 
-        eject_casing( *this, *used_weapon );
-
-        if( used_weapon->has_flag("BIO_WEAPON") ) {
-            // Consume a (virtual) charge to let player::activate_bionic know the weapon has been fired.
-            used_weapon->charges--;
-        } else if ( used_weapon->deactivate_charger_gun() ) {
-            // Deactivated charger gun
-        } else {
-            if( !used_weapon->ammo_consume( used_weapon->ammo_required() ) ) {
-                debugmsg( "Unexpected shortage of ammo whilst firing %s", used_weapon->tname().c_str() );
-                return;
-            }
-        }
-
-        // Drain UPS power
-        if( fake_ups_drain > 0 ) {
-            use_charges( "fake_UPS", fake_ups_drain );
-        } else if (has_charges("adv_UPS_off", adv_ups_drain)) {
-            use_charges("adv_UPS_off", adv_ups_drain);
-        } else if (has_charges("UPS_off", ups_drain)) {
-            use_charges("UPS_off", ups_drain);
-        } else if (has_bionic("bio_ups")) {
-            charge_power(-1 * bio_power_drain);
-        }
-
         if( !handle_gun_damage( *used_weapon->type, curammo->ammo->ammo_effects ) ) {
             return;
         }
-
-        make_gun_sound_effect(*this, num_shots > 1, used_weapon);
 
         double total_dispersion = get_weapon_dispersion(used_weapon, true);
         //debugmsg("%f",total_dispersion);
@@ -522,7 +495,35 @@ void player::fire_gun( const tripoint &targ_arg, bool burst )
         if (missed_by <= .1) { // TODO: check head existence for headshot
             lifetime_stats()->headshots++;
         }
+
+        make_gun_sound_effect(*this, num_shots > 1, used_weapon);
+
         sfx::generate_gun_sound( *this, *used_weapon );
+
+        eject_casing( *this, *used_weapon );
+
+        if( used_weapon->has_flag("BIO_WEAPON") ) {
+            // Consume a (virtual) charge to let player::activate_bionic know the weapon has been fired.
+            used_weapon->charges--;
+        } else if ( used_weapon->deactivate_charger_gun() ) {
+            // Deactivated charger gun
+        } else {
+            if( !used_weapon->ammo_consume( used_weapon->ammo_required() ) ) {
+                debugmsg( "Unexpected shortage of ammo whilst firing %s", used_weapon->tname().c_str() );
+                return;
+            }
+        }
+
+        // Drain UPS power
+        if( fake_ups_drain > 0 ) {
+            use_charges( "fake_UPS", fake_ups_drain );
+        } else if (has_charges("adv_UPS_off", adv_ups_drain)) {
+            use_charges("adv_UPS_off", adv_ups_drain);
+        } else if (has_charges("UPS_off", ups_drain)) {
+            use_charges("UPS_off", ups_drain);
+        } else if (has_bionic("bio_ups")) {
+            charge_power(-1 * bio_power_drain);
+        }
 
         int range_multiplier = std::min( range, 3 * ( skillLevel( skill_used ) + 1 ) );
         int damage_factor = 21;
