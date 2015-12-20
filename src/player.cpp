@@ -3561,7 +3561,7 @@ void player::print_stamina_bar( WINDOW *w ) const
     wprintz(w, sta_color, sta_bar.c_str());
 }
 
-void player::disp_status(WINDOW *w, WINDOW *w2)
+void player::disp_status( WINDOW *w, WINDOW *w2 )
 {
     bool sideStyle = use_narrow_sidebar();
     WINDOW *weapwin = sideStyle ? w2 : w;
@@ -3574,302 +3574,364 @@ void player::disp_status(WINDOW *w, WINDOW *w2)
 
     // Print currently used style or weapon mode.
     std::string style = "";
-    if (is_armed()) {
+    if( is_armed() ) {
         // Show normal if no martial style is selected,
         // or if the currently selected style does nothing for your weapon.
-        if (style_selected == matype_id( "style_none" ) ||
-            (!can_melee() && !style_selected.obj().has_weapon(weapon.type->id))) {
-            style = _("Normal");
+        if( style_selected == matype_id( "style_none" ) ||
+            ( !can_melee() && !style_selected.obj().has_weapon( weapon.type->id ) ) ) {
+            style = _( "Normal" );
         } else {
             style = style_selected.obj().name;
         }
 
-        int x = sideStyle ? (getmaxx(weapwin) - 13) : 0;
-        mvwprintz(weapwin, 1, x, c_red, style.c_str());
+        int x = sideStyle ? ( getmaxx( weapwin ) - 13 ) : 0;
+        mvwprintz( weapwin, 1, x, c_red, style.c_str() );
     } else {
-        if (style_selected == matype_id( "style_none" ) ) {
-            style = _("No Style");
+        if( style_selected == matype_id( "style_none" ) ) {
+            style = _( "No Style" );
         } else {
             style = style_selected.obj().name;
         }
-        if (style != "") {
-            int x = sideStyle ? (getmaxx(weapwin) - 13) : 0;
-            mvwprintz(weapwin, 1, x, c_blue, style.c_str());
+        if( style != "" ) {
+            int x = sideStyle ? ( getmaxx( weapwin ) - 13 ) : 0;
+            mvwprintz( weapwin, 1, x, c_blue, style.c_str() );
         }
     }
 
-    wmove(w, sideStyle ? 1 : 2, 0);
-    if (get_hunger() > 2800)
-        wprintz(w, c_red,    _("Starving!"));
-    else if (get_hunger() > 1400)
-        wprintz(w, c_ltred,  _("Near starving"));
-    else if (get_hunger() > 300)
-        wprintz(w, c_ltred,  _("Famished"));
-    else if (get_hunger() > 100)
-        wprintz(w, c_yellow, _("Very hungry"));
-    else if (get_hunger() > 40)
-        wprintz(w, c_yellow, _("Hungry"));
-    else if (get_hunger() < 0)
-        wprintz(w, c_green,  _("Full"));
-    else if (get_hunger() < -20)
-        wprintz(w, c_green,  _("Sated"));
-    else if (get_hunger() < -60)
-        wprintz(w, c_green,  _("Engorged"));
+    wmove( w, sideStyle ? 1 : 2, 0 );
+    if( get_hunger() > 2800 ) {
+        wprintz( w, c_red,    _( "Starving!" ) );
+    } else if( get_hunger() > 1400 ) {
+        wprintz( w, c_ltred,  _( "Near starving" ) );
+    } else if( get_hunger() > 300 ) {
+        wprintz( w, c_ltred,  _( "Famished" ) );
+    } else if( get_hunger() > 100 ) {
+        wprintz( w, c_yellow, _( "Very hungry" ) );
+    } else if( get_hunger() > 40 ) {
+        wprintz( w, c_yellow, _( "Hungry" ) );
+    } else if( get_hunger() < 0 ) {
+        wprintz( w, c_green,  _( "Full" ) );
+    } else if( get_hunger() < -20 ) {
+        wprintz( w, c_green,  _( "Sated" ) );
+    } else if( get_hunger() < -60 ) {
+        wprintz( w, c_green,  _( "Engorged" ) );
+    }
 
     /// Find hottest/coldest bodypart
-    // Calculate the most extreme body tempearatures
+    // Calculate the most extreme body temperatures
     int current_bp_extreme = 0, conv_bp_extreme = 0;
-    for (int i = 0; i < num_bp ; i++ ){
-        if (abs(temp_cur[i] - BODYTEMP_NORM) > abs(temp_cur[current_bp_extreme] - BODYTEMP_NORM)) current_bp_extreme = i;
-        if (abs(temp_conv[i] - BODYTEMP_NORM) > abs(temp_conv[conv_bp_extreme] - BODYTEMP_NORM)) conv_bp_extreme = i;
+    for( int i = 0; i < num_bp ; i++ ) {
+        if( abs( temp_cur[i] - BODYTEMP_NORM ) > abs( temp_cur[current_bp_extreme] - BODYTEMP_NORM ) ) {
+            current_bp_extreme = i;
+        }
+        if( abs( temp_conv[i] - BODYTEMP_NORM ) > abs( temp_conv[conv_bp_extreme] - BODYTEMP_NORM ) ) {
+            conv_bp_extreme = i;
+        }
     }
 
     // Assign zones for comparisons
     int cur_zone = 0, conv_zone = 0;
-    if      (temp_cur[current_bp_extreme] >  BODYTEMP_SCORCHING) cur_zone = 7;
-    else if (temp_cur[current_bp_extreme] >  BODYTEMP_VERY_HOT)  cur_zone = 6;
-    else if (temp_cur[current_bp_extreme] >  BODYTEMP_HOT)       cur_zone = 5;
-    else if (temp_cur[current_bp_extreme] >  BODYTEMP_COLD)      cur_zone = 4;
-    else if (temp_cur[current_bp_extreme] >  BODYTEMP_VERY_COLD) cur_zone = 3;
-    else if (temp_cur[current_bp_extreme] >  BODYTEMP_FREEZING)  cur_zone = 2;
-    else if (temp_cur[current_bp_extreme] <= BODYTEMP_FREEZING)  cur_zone = 1;
+    if( temp_cur[current_bp_extreme] >  BODYTEMP_SCORCHING ) {
+        cur_zone = 7;
+    } else if( temp_cur[current_bp_extreme] >  BODYTEMP_VERY_HOT ) {
+        cur_zone = 6;
+    } else if( temp_cur[current_bp_extreme] >  BODYTEMP_HOT ) {
+        cur_zone = 5;
+    } else if( temp_cur[current_bp_extreme] >  BODYTEMP_COLD ) {
+        cur_zone = 4;
+    } else if( temp_cur[current_bp_extreme] >  BODYTEMP_VERY_COLD ) {
+        cur_zone = 3;
+    } else if( temp_cur[current_bp_extreme] >  BODYTEMP_FREEZING ) {
+        cur_zone = 2;
+    } else if( temp_cur[current_bp_extreme] <= BODYTEMP_FREEZING ) {
+        cur_zone = 1;
+    }
 
-    if      (temp_conv[conv_bp_extreme] >  BODYTEMP_SCORCHING) conv_zone = 7;
-    else if (temp_conv[conv_bp_extreme] >  BODYTEMP_VERY_HOT)  conv_zone = 6;
-    else if (temp_conv[conv_bp_extreme] >  BODYTEMP_HOT)       conv_zone = 5;
-    else if (temp_conv[conv_bp_extreme] >  BODYTEMP_COLD)      conv_zone = 4;
-    else if (temp_conv[conv_bp_extreme] >  BODYTEMP_VERY_COLD) conv_zone = 3;
-    else if (temp_conv[conv_bp_extreme] >  BODYTEMP_FREEZING)  conv_zone = 2;
-    else if (temp_conv[conv_bp_extreme] <= BODYTEMP_FREEZING)  conv_zone = 1;
+    if( temp_conv[conv_bp_extreme] >  BODYTEMP_SCORCHING ) {
+        conv_zone = 7;
+    } else if( temp_conv[conv_bp_extreme] >  BODYTEMP_VERY_HOT ) {
+        conv_zone = 6;
+    } else if( temp_conv[conv_bp_extreme] >  BODYTEMP_HOT ) {
+        conv_zone = 5;
+    } else if( temp_conv[conv_bp_extreme] >  BODYTEMP_COLD ) {
+        conv_zone = 4;
+    } else if( temp_conv[conv_bp_extreme] >  BODYTEMP_VERY_COLD ) {
+        conv_zone = 3;
+    } else if( temp_conv[conv_bp_extreme] >  BODYTEMP_FREEZING ) {
+        conv_zone = 2;
+    } else if( temp_conv[conv_bp_extreme] <= BODYTEMP_FREEZING ) {
+        conv_zone = 1;
+    }
 
     // delta will be positive if temp_cur is rising
     int delta = conv_zone - cur_zone;
     // Decide if temp_cur is rising or falling
     const char *temp_message = "Error";
-    if      (delta >   2) temp_message = _(" (Rising!!)");
-    else if (delta ==  2) temp_message = _(" (Rising!)");
-    else if (delta ==  1) temp_message = _(" (Rising)");
-    else if (delta ==  0) temp_message = "";
-    else if (delta == -1) temp_message = _(" (Falling)");
-    else if (delta == -2) temp_message = _(" (Falling!)");
-    else if (delta <  -2) temp_message = _(" (Falling!!)");
+    if( delta >   2 ) {
+        temp_message = _( " (Rising!!)" );
+    } else if( delta ==  2 ) {
+        temp_message = _( " (Rising!)" );
+    } else if( delta ==  1 ) {
+        temp_message = _( " (Rising)" );
+    } else if( delta ==  0 ) {
+        temp_message = "";
+    } else if( delta == -1 ) {
+        temp_message = _( " (Falling)" );
+    } else if( delta == -2 ) {
+        temp_message = _( " (Falling!)" );
+    } else if( delta <  -2 ) {
+        temp_message = _( " (Falling!!)" );
+    }
 
     // printCur the hottest/coldest bodypart, and if it is rising or falling in temperature
-    wmove(w, sideStyle ? 6 : 1, sideStyle ? 0 : 9);
-    if      (temp_cur[current_bp_extreme] >  BODYTEMP_SCORCHING)
-        wprintz(w, c_red,   _("Scorching!%s"), temp_message);
-    else if (temp_cur[current_bp_extreme] >  BODYTEMP_VERY_HOT)
-        wprintz(w, c_ltred, _("Very hot!%s"), temp_message);
-    else if (temp_cur[current_bp_extreme] >  BODYTEMP_HOT)
-        wprintz(w, c_yellow,_("Warm%s"), temp_message);
-    else if (temp_cur[current_bp_extreme] >  BODYTEMP_COLD) // If you're warmer than cold, you are comfortable
-        wprintz(w, c_green, _("Comfortable%s"), temp_message);
-    else if (temp_cur[current_bp_extreme] >  BODYTEMP_VERY_COLD)
-        wprintz(w, c_ltblue,_("Chilly%s"), temp_message);
-    else if (temp_cur[current_bp_extreme] >  BODYTEMP_FREEZING)
-        wprintz(w, c_cyan,  _("Very cold!%s"), temp_message);
-    else if (temp_cur[current_bp_extreme] <= BODYTEMP_FREEZING)
-        wprintz(w, c_blue,  _("Freezing!%s"), temp_message);
+    wmove( w, sideStyle ? 6 : 1, sideStyle ? 0 : 9 );
+    if( temp_cur[current_bp_extreme] >  BODYTEMP_SCORCHING ) {
+        wprintz( w, c_red,   _( "Scorching!%s" ), temp_message );
+    } else if( temp_cur[current_bp_extreme] >  BODYTEMP_VERY_HOT ) {
+        wprintz( w, c_ltred, _( "Very hot!%s" ), temp_message );
+    } else if( temp_cur[current_bp_extreme] >  BODYTEMP_HOT ) {
+        wprintz( w, c_yellow, _( "Warm%s" ), temp_message );
+    } else if( temp_cur[current_bp_extreme] >
+               BODYTEMP_COLD ) { // If you're warmer than cold, you are comfortable
+        wprintz( w, c_green, _( "Comfortable%s" ), temp_message );
+    } else if( temp_cur[current_bp_extreme] >  BODYTEMP_VERY_COLD ) {
+        wprintz( w, c_ltblue, _( "Chilly%s" ), temp_message );
+    } else if( temp_cur[current_bp_extreme] >  BODYTEMP_FREEZING ) {
+        wprintz( w, c_cyan,  _( "Very cold!%s" ), temp_message );
+    } else if( temp_cur[current_bp_extreme] <= BODYTEMP_FREEZING ) {
+        wprintz( w, c_blue,  _( "Freezing!%s" ), temp_message );
+    }
 
     int x = 32;
     int y = sideStyle ?  0 :  1;
-    if(is_deaf()) {
-        mvwprintz(sideStyle ? w2 : w, y, x, c_red, _("Deaf!"), volume);
+    if( is_deaf() ) {
+        mvwprintz( sideStyle ? w2 : w, y, x, c_red, _( "Deaf!" ), volume );
     } else {
-        mvwprintz(sideStyle ? w2 : w, y, x, c_yellow, _("Sound %d"), volume);
+        mvwprintz( sideStyle ? w2 : w, y, x, c_yellow, _( "Sound %d" ), volume );
     }
     volume = 0;
 
-    wmove(w, 2, sideStyle ? 0 : 15);
-    if (thirst > 520)
-        wprintz(w, c_ltred,  _("Parched"));
-    else if (thirst > 240)
-        wprintz(w, c_ltred,  _("Dehydrated"));
-    else if (thirst > 80)
-        wprintz(w, c_yellow, _("Very thirsty"));
-    else if (thirst > 40)
-        wprintz(w, c_yellow, _("Thirsty"));
-    else if (thirst < 0)
-        wprintz(w, c_green,  _("Slaked"));
-    else if (thirst < -20)
-        wprintz(w, c_green,  _("Hydrated"));
-    else if (thirst < -60)
-        wprintz(w, c_green,  _("Turgid"));
+    wmove( w, 2, sideStyle ? 0 : 15 );
+    if( thirst > 520 ) {
+        wprintz( w, c_ltred,  _( "Parched" ) );
+    } else if( thirst > 240 ) {
+        wprintz( w, c_ltred,  _( "Dehydrated" ) );
+    } else if( thirst > 80 ) {
+        wprintz( w, c_yellow, _( "Very thirsty" ) );
+    } else if( thirst > 40 ) {
+        wprintz( w, c_yellow, _( "Thirsty" ) );
+    } else if( thirst < 0 ) {
+        wprintz( w, c_green,  _( "Slaked" ) );
+    } else if( thirst < -20 ) {
+        wprintz( w, c_green,  _( "Hydrated" ) );
+    } else if( thirst < -60 ) {
+        wprintz( w, c_green,  _( "Turgid" ) );
+    }
 
-    wmove(w, sideStyle ? 3 : 2, sideStyle ? 0 : 30);
-    if (fatigue > EXHAUSTED)
-        wprintz(w, c_red,    _("Exhausted"));
-    else if (fatigue > DEAD_TIRED)
-        wprintz(w, c_ltred,  _("Dead tired"));
-    else if (fatigue > TIRED)
-        wprintz(w, c_yellow, _("Tired"));
+    wmove( w, sideStyle ? 3 : 2, sideStyle ? 0 : 30 );
+    if( fatigue > EXHAUSTED ) {
+        wprintz( w, c_red,    _( "Exhausted" ) );
+    } else if( fatigue > DEAD_TIRED ) {
+        wprintz( w, c_ltred,  _( "Dead tired" ) );
+    } else if( fatigue > TIRED ) {
+        wprintz( w, c_yellow, _( "Tired" ) );
+    }
 
-    wmove(w, sideStyle ? 4 : 2, sideStyle ? 0 : 41);
-    wprintz(w, c_white, _("Focus"));
+    wmove( w, sideStyle ? 4 : 2, sideStyle ? 0 : 41 );
+    wprintz( w, c_white, _( "Focus" ) );
     nc_color col_xp = c_dkgray;
-    if (focus_pool >= 100)
+    if( focus_pool >= 100 ) {
         col_xp = c_white;
-    else if (focus_pool >  0)
+    } else if( focus_pool >  0 ) {
         col_xp = c_ltgray;
-    wprintz(w, col_xp, " %d", focus_pool);
+    }
+    wprintz( w, col_xp, " %d", focus_pool );
 
     nc_color col_pain = c_yellow;
-    if (pain - pkill >= 60)
+    if( pain - pkill >= 60 ) {
         col_pain = c_red;
-    else if (pain - pkill >= 40)
+    } else if( pain - pkill >= 40 ) {
         col_pain = c_ltred;
-    if (pain - pkill > 0)
-        mvwprintz(w, sideStyle ? 0 : 3, 0, col_pain, _("Pain %d"), pain - pkill);
+    }
+    if( pain - pkill > 0 ) {
+        mvwprintz( w, sideStyle ? 0 : 3, 0, col_pain, _( "Pain %d" ), pain - pkill );
+    }
 
-    int morale_cur = morale_level ();
+    int morale_cur = morale_level();
     nc_color col_morale = c_white;
-    if (morale_cur >= 10)
+    if( morale_cur >= 10 ) {
         col_morale = c_green;
-    else if (morale_cur <= -10)
+    } else if( morale_cur <= -10 ) {
         col_morale = c_red;
+    }
     const char *morale_str;
-    if      (morale_cur >= 200) morale_str = "8D";
-    else if (morale_cur >= 100) morale_str = ":D";
-    else if (has_trait("THRESH_FELINE") && morale_cur >= 10)  morale_str = ":3";
-    else if (!has_trait("THRESH_FELINE") && morale_cur >= 10)  morale_str = ":)";
-    else if (morale_cur > -10)  morale_str = ":|";
-    else if (morale_cur > -100) morale_str = "):";
-    else if (morale_cur > -200) morale_str = "D:";
-    else                        morale_str = "D8";
-    mvwprintz(w, sideStyle ? 0 : 3, sideStyle ? 11 : 9, col_morale, morale_str);
+    if( morale_cur >= 200 ) {
+        morale_str = "8D";
+    } else if( morale_cur >= 100 ) {
+        morale_str = ":D";
+    } else if( has_trait( "THRESH_FELINE" ) && morale_cur >= 10 ) {
+        morale_str = ":3";
+    } else if( !has_trait( "THRESH_FELINE" ) && morale_cur >= 10 ) {
+        morale_str = ":)";
+    } else if( morale_cur > -10 ) {
+        morale_str = ":|";
+    } else if( morale_cur > -100 ) {
+        morale_str = "):";
+    } else if( morale_cur > -200 ) {
+        morale_str = "D:";
+    } else {
+        morale_str = "D8";
+    }
+    mvwprintz( w, sideStyle ? 0 : 3, sideStyle ? 11 : 9, col_morale, morale_str );
 
     vehicle *veh = g->remoteveh();
     if( veh == nullptr && in_vehicle ) {
         veh = g->m.veh_at( pos() );
     }
     if( veh ) {
-  veh->print_fuel_indicators(w, sideStyle ? 2 : 3, sideStyle ? getmaxx(w) - 5 : 49);
-  nc_color col_indf1 = c_ltgray;
+        veh->print_fuel_indicators( w, sideStyle ? 2 : 3, sideStyle ? getmaxx( w ) - 5 : 49 );
+        nc_color col_indf1 = c_ltgray;
 
-  float strain = veh->strain();
-  nc_color col_vel = strain <= 0? c_ltblue :
-                     (strain <= 0.2? c_yellow :
-                     (strain <= 0.4? c_ltred : c_red));
+        float strain = veh->strain();
+        nc_color col_vel = strain <= 0 ? c_ltblue :
+                           ( strain <= 0.2 ? c_yellow :
+                             ( strain <= 0.4 ? c_ltred : c_red ) );
 
-    bool has_turrets = false;
-    for (size_t p = 0; p < veh->parts.size(); p++) {
-        if (veh->part_flag (p, "TURRET")) {
-            has_turrets = true;
-            break;
+        bool has_turrets = false;
+        for( size_t p = 0; p < veh->parts.size(); p++ ) {
+            if( veh->part_flag( p, "TURRET" ) ) {
+                has_turrets = true;
+                break;
+            }
         }
-    }
 
-  if (has_turrets) {
-   mvwprintz(w, 3, sideStyle ? 16 : 25, col_indf1, "Gun:");
-   wprintz(w, veh->turret_mode ? c_ltred : c_ltblue,
-              veh->turret_mode ? "auto" : "off ");
-  }
+        if( has_turrets ) {
+            mvwprintz( w, 3, sideStyle ? 16 : 25, col_indf1, "Gun:" );
+            wprintz( w, veh->turret_mode ? c_ltred : c_ltblue,
+                     veh->turret_mode ? "auto" : "off " );
+        }
 
-  //
-  // Draw the speedometer.
-  //
+        //
+        // Draw the speedometer.
+        //
 
-  int speedox = sideStyle ? 0 : 33;
-  int speedoy = sideStyle ? 5 :  3;
+        int speedox = sideStyle ? 0 : 33;
+        int speedoy = sideStyle ? 5 :  3;
 
-  bool metric = OPTIONS["USE_METRIC_SPEEDS"] == "km/h";
-  const char *units = metric ? _("km/h") : _("mph");
-  int velx    = metric ? 4 : 3; // strlen(units) + 1
-  int cruisex = metric ? 9 : 8; // strlen(units) + 6
-  float conv  = metric ? 0.0161f : 0.01f;
+        bool metric = OPTIONS["USE_METRIC_SPEEDS"] == "km/h";
+        // Logic below is not applicable to translated units and should be changed
+        int velx    = metric ? 4 : 3; // strlen(units) + 1
+        int cruisex = metric ? 9 : 8; // strlen(units) + 6
 
-  if (0 == sideStyle) {
-    if (!veh->cruise_on) speedox += 2;
-    if (!metric)         speedox++;
-  }
+        if( !sideStyle ) {
+            if( !veh->cruise_on ) {
+                speedox += 2;
+            }
+            if( !metric ) {
+                speedox++;
+            }
+        }
 
-  const char *speedo = veh->cruise_on ? "%s....>...." : "%s....";
-  mvwprintz(w, speedoy, speedox,        col_indf1, speedo, units);
-  mvwprintz(w, speedoy, speedox + velx, col_vel,   "%4d", int(veh->velocity * conv));
-  if (veh->cruise_on)
-    mvwprintz(w, speedoy, speedox + cruisex, c_ltgreen, "%4d", int(veh->cruise_velocity * conv));
+        const char *speedo = veh->cruise_on ? "%s....>...." : "%s....";
+        mvwprintz( w, speedoy, speedox,        col_indf1, speedo, velocity_units( VU_VEHICLE ) );
+        mvwprintz( w, speedoy, speedox + velx, col_vel,   "%4d",
+                   int( convert_velocity( veh->velocity, VU_VEHICLE ) ) );
+        if( veh->cruise_on ) {
+            mvwprintz( w, speedoy, speedox + cruisex, c_ltgreen, "%4d",
+                       int( convert_velocity( veh->cruise_velocity, VU_VEHICLE ) ) );
+        }
+        if( veh->velocity != 0 ) {
+            const int offset_from_screen_edge = sideStyle ? 13 : 8;
+            nc_color col_indc = veh->skidding ? c_red : c_green;
+            int dfm = veh->face.dir() - veh->move.dir();
+            wmove( w, sideStyle ? 4 : 3, getmaxx( w ) - offset_from_screen_edge );
+            if( dfm == 0 ) {
+                wprintz( w, col_indc, "^" );
+            } else if( dfm < 0 ) {
+                wprintz( w, col_indc, "<" );
+            } else {
+                wprintz( w, col_indc, ">" );
+            }
+        }
 
-  if (veh->velocity != 0) {
-   const int offset_from_screen_edge = sideStyle ? 13 : 8;
-   nc_color col_indc = veh->skidding? c_red : c_green;
-   int dfm = veh->face.dir() - veh->move.dir();
-   wmove(w, sideStyle ? 4 : 3, getmaxx(w) - offset_from_screen_edge);
-   if (dfm == 0)
-     wprintz(w, col_indc, "^");
-   else if (dfm < 0)
-     wprintz(w, col_indc, "<");
-   else
-     wprintz(w, col_indc, ">");
-  }
+        if( sideStyle ) {
+            // Make sure this is left-aligned.
+            mvwprintz( w, speedoy, getmaxx( w ) - 9, c_white, "%s", _( "Stm " ) );
+            print_stamina_bar( w );
+        }
+    } else {  // Not in vehicle
+        nc_color col_str = c_white, col_dex = c_white, col_int = c_white,
+                 col_per = c_white, col_spd = c_white, col_time = c_white;
+        int str_bonus = get_str_bonus();
+        int dex_bonus = get_dex_bonus();
+        int int_bonus = get_int_bonus();
+        int per_bonus = get_per_bonus();
+        int spd_bonus = get_speed_bonus();
+        if( str_bonus < 0 ) {
+            col_str = c_red;
+        }
+        if( str_bonus > 0 ) {
+            col_str = c_green;
+        }
+        if( dex_bonus  < 0 ) {
+            col_dex = c_red;
+        }
+        if( dex_bonus  > 0 ) {
+            col_dex = c_green;
+        }
+        if( int_bonus  < 0 ) {
+            col_int = c_red;
+        }
+        if( int_bonus  > 0 ) {
+            col_int = c_green;
+        }
+        if( per_bonus  < 0 ) {
+            col_per = c_red;
+        }
+        if( per_bonus  > 0 ) {
+            col_per = c_green;
+        }
+        if( spd_bonus < 0 ) {
+            col_spd = c_red;
+        }
+        if( spd_bonus > 0 ) {
+            col_spd = c_green;
+        }
 
-  if( sideStyle ) {
-      // Make sure this is left-aligned.
-      mvwprintz(w, speedoy, getmaxx(w) - 9, c_white, "%s", _("Stm "));
-      print_stamina_bar(w);
-  }
- } else {  // Not in vehicle
-  nc_color col_str = c_white, col_dex = c_white, col_int = c_white,
-           col_per = c_white, col_spd = c_white, col_time = c_white;
-  int str_bonus = get_str_bonus();
-  int dex_bonus = get_dex_bonus();
-  int int_bonus = get_int_bonus();
-  int per_bonus = get_per_bonus();
-  int spd_bonus = get_speed_bonus();
-  if (str_bonus < 0)
-   col_str = c_red;
-  if (str_bonus > 0)
-   col_str = c_green;
-  if (dex_bonus  < 0)
-   col_dex = c_red;
-  if (dex_bonus  > 0)
-   col_dex = c_green;
-  if (int_bonus  < 0)
-   col_int = c_red;
-  if (int_bonus  > 0)
-   col_int = c_green;
-  if (per_bonus  < 0)
-   col_per = c_red;
-  if (per_bonus  > 0)
-   col_per = c_green;
-  if (spd_bonus < 0)
-   col_spd = c_red;
-  if (spd_bonus > 0)
-   col_spd = c_green;
+        int x  = sideStyle ? 18 : 12;
+        int y  = sideStyle ?  0 :  3;
+        int dx = sideStyle ?  0 :  7;
+        int dy = sideStyle ?  1 :  0;
+        mvwprintz( w, y + dy * 0, x + dx * 0, col_str, _( "Str %d" ), str_cur );
+        mvwprintz( w, y + dy * 1, x + dx * 1, col_dex, _( "Dex %d" ), dex_cur );
+        mvwprintz( w, y + dy * 2, x + dx * 2, col_int, _( "Int %d" ), int_cur );
+        mvwprintz( w, y + dy * 3, x + dx * 3, col_per, _( "Per %d" ), per_cur );
 
-    int x  = sideStyle ? 18 : 12;
-    int y  = sideStyle ?  0 :  3;
-    int dx = sideStyle ?  0 :  7;
-    int dy = sideStyle ?  1 :  0;
-    mvwprintz( w, y + dy * 0, x + dx * 0, col_str, _("Str %d"), str_cur );
-    mvwprintz( w, y + dy * 1, x + dx * 1, col_dex, _("Dex %d"), dex_cur );
-    mvwprintz( w, y + dy * 2, x + dx * 2, col_int, _("Int %d"), int_cur );
-    mvwprintz( w, y + dy * 3, x + dx * 3, col_per, _("Per %d"), per_cur );
-
-    int spdx = sideStyle ?  0 : x + dx * 4 + 1;
-    int spdy = sideStyle ?  5 : y + dy * 4;
-    mvwprintz(w, spdy, spdx, col_spd, _("Spd %d"), get_speed());
-    if (this->weight_carried() > this->weight_capacity()) {
-        col_time = h_black;
-    }
-    if( this->volume_carried() > this->volume_capacity() ) {
+        int spdx = sideStyle ?  0 : x + dx * 4 + 1;
+        int spdy = sideStyle ?  5 : y + dy * 4;
+        mvwprintz( w, spdy, spdx, col_spd, _( "Spd %d" ), get_speed() );
         if( this->weight_carried() > this->weight_capacity() ) {
-            col_time = c_dkgray_magenta;
-        } else {
-            col_time = c_dkgray_red;
+            col_time = h_black;
+        }
+        if( this->volume_carried() > this->volume_capacity() ) {
+            if( this->weight_carried() > this->weight_capacity() ) {
+                col_time = c_dkgray_magenta;
+            } else {
+                col_time = c_dkgray_red;
+            }
+        }
+        wprintz( w, col_time, " %d", movecounter );
+
+        //~ Movement type: "walking". Max string length: one letter.
+        const auto str_walk = pgettext( "movement-type", "W" );
+        //~ Movement type: "running". Max string length: one letter.
+        const auto str_run = pgettext( "movement-type", "R" );
+        wprintz( w, c_white, " %s", move_mode == "walk" ? str_walk : str_run );
+        if( sideStyle ) {
+            mvwprintz( w, spdy, x + dx * 4 - 3, c_white, _( "Stm " ) );
+            print_stamina_bar( w );
         }
     }
-    wprintz(w, col_time, " %d", movecounter);
-
-    //~ Movement type: "walking". Max string length: one letter.
-    const auto str_walk = pgettext( "movement-type", "W" );
-    //~ Movement type: "running". Max string length: one letter.
-    const auto str_run = pgettext( "movement-type", "R" );
-    wprintz(w, c_white, " %s", move_mode == "walk" ? str_walk : str_run);
-    if( sideStyle ) {
-        mvwprintz(w, spdy, x + dx * 4 - 3, c_white, _("Stm "));
-        print_stamina_bar(w);
-    }
- }
 }
 
 bool player::has_conflicting_trait(const std::string &flag) const

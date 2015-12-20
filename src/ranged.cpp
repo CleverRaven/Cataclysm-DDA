@@ -32,7 +32,7 @@ const skill_id skill_throw( "throw" );
 const skill_id skill_gun( "gun" );
 const skill_id skill_melee( "melee" );
 
-static inline projectile make_gun_projectile( const item &gun );
+static projectile make_gun_projectile( const item &gun );
 int time_to_fire(player &p, const itype &firing);
 static inline void eject_casing( player& p, item& weap );
 int recoil_add(player &p, const item &gun);
@@ -355,18 +355,13 @@ void player::fire_gun( const tripoint &targ_arg, bool burst )
     // Use different amounts of time depending on the type of gun and our skill
     moves -= time_to_fire(*this, *used_weapon->type);
 
-    // Decide how many shots to fire
+    // Decide how many shots to fire limited by the ammount of remaining ammo
     long num_shots = 1;
-    if (burst) {
+    if ( burst || ( has_trait( "TRIGGERHAPPY" ) && one_in( 30 ) ) ) {
         num_shots = used_weapon->burst_size();
     }
-    if (num_shots > used_weapon->num_charges() &&
-        !is_charger_gun && !used_weapon->has_flag("NO_AMMO")) {
-        num_shots = used_weapon->num_charges();
-    }
-
-    if (num_shots == 0) {
-        debugmsg("game::fire() - num_shots = 0!");
+    if( !used_weapon->has_flag( "NO_AMMO" ) && !is_charger_gun ) {
+        num_shots = std::min( num_shots, used_weapon->ammo_remaining() );
     }
 
     int ups_drain = 0;
@@ -390,9 +385,9 @@ void player::fire_gun( const tripoint &targ_arg, bool burst )
 
     // cap our maximum burst size by the amount of UPS power left
     if( ups_drain > 0 || adv_ups_drain > 0 || bio_power_drain > 0 )
-        while (!(has_charges("UPS_off", ups_drain * num_shots) ||
-                 has_charges("adv_UPS_off", adv_ups_drain * num_shots) ||
-                 (has_bionic("bio_ups") && power_level >= (bio_power_drain * num_shots)))) {
+        while( !(has_charges( "UPS_off", ups_drain * num_shots) ||
+                 has_charges( "adv_UPS_off", adv_ups_drain * num_shots ) ||
+                 (has_bionic( "bio_ups" ) && power_level >= bio_power_drain * num_shots)) ) {
             num_shots--;
         }
 
@@ -459,7 +454,10 @@ void player::fire_gun( const tripoint &targ_arg, bool burst )
         } else if ( used_weapon->deactivate_charger_gun() ) {
             // Deactivated charger gun
         } else {
-            used_weapon->charges -= used_weapon->ammo_required();
+            if( !used_weapon->ammo_consume( used_weapon->ammo_required() ) ) {
+                debugmsg( "Unexpected shortage of ammo whilst firing %s", used_weapon->tname().c_str() );
+                return;
+            }
         }
 
         // Drain UPS power
@@ -477,7 +475,7 @@ void player::fire_gun( const tripoint &targ_arg, bool burst )
             return;
         }
 
-        make_gun_sound_effect(*this, burst, used_weapon);
+        make_gun_sound_effect(*this, num_shots > 1, used_weapon);
 
         double total_dispersion = get_weapon_dispersion(used_weapon, true);
         //debugmsg("%f",total_dispersion);
@@ -511,15 +509,11 @@ void player::fire_gun( const tripoint &targ_arg, bool burst )
         sfx::generate_gun_sound( *this, *used_weapon );
 
         // experience gain is limited by range and penalised proportional to inaccuracy
-        int exp = std::min(range, 3 * ( skillLevel( skill_used ) + 1 ) ) * RANGED_EXPERIENCE_FACTOR;
-        int penalty = sqrt( missed_by * RANGED_EXPERIENCE_PENALTY );
+        int exp = std::min(range, 3 * ( skillLevel( skill_used ) + 1 ) ) * 20;
+        int penalty = sqrt( missed_by * 36 );
 
         // even if we are not training we practice the skill to prevent rust
         practice( skill_used, train_skill ? exp / penalty : 0 );
-    }
-
-    if (used_weapon->num_charges() == 0) {
-        used_weapon->unset_curammo();
     }
 
     practice( skill_gun, train_skill ? 15 : 0 );
@@ -1141,10 +1135,10 @@ std::vector<tripoint> game::target( tripoint &p, const tripoint &low, const trip
     return ret;
 }
 
-static inline projectile make_gun_projectile( const item &gun) {
+static projectile make_gun_projectile( const item &gun) {
     projectile proj;
     proj.speed  = 1000;
-    proj.impact = damage_instance::physical(0, gun.gun_damage(), 0, gun.gun_pierce());
+    proj.impact = damage_instance::physical( 0, gun.gun_damage(), 0, gun.gun_pierce() );
 
     // Consider both effects from the gun and ammo
     auto &fx = proj.proj_effects;
