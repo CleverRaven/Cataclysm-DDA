@@ -47,4 +47,29 @@
             { "group": "drugdealer", "prob": 75 }
         ]
       }
+    }, {
+        "type" : "item_group",
+        "subtype": "collection",
+        "id": "map_extra_science",
+        "entries":
+        [
+            { "item": "corpse", "damage": 3, "c":"always a corpse, pulped!" },
+            { "item": "id_science", "prob": 50, "c":"half the time an id card" },
+            { "group": "underwear", "damage-min": 1, "damage-max": 3 },
+            { "group": "science_shoes", "damage-min": 1, "damage-max": 3 },
+            { "item": "socks", "damage-min": 1, "damage-max": 3, "prob": 50 },
+            { "group": "science_coats", "damage-min": 1, "damage-max": 3 },
+            { "distribution": [
+                { "collection": [
+                    { "group": "pants", "damage-min": 1, "damage-max": 3 },
+                    { "group": "shirts", "damage-min": 1, "damage-max": 3 }
+                ], "prob": 75  },
+                { "group": "science_suits", "damage-min": 1, "damage-max": 3, "prob": 50 }
+            ]},
+            { "group": "science_eyewear", "damage-min": 2, "damage-max": 3, "prob": 10 },
+            { "group": "science_extras", "damage-min": 2, "damage-max": 3, "prob": 20 },
+            { "group": "worker_storage", "damage-min": 2, "damage-max": 3, "prob": 10 },
+            { "group": "science_gear", "prob": 40 }
+        ]
+    }
 ]
