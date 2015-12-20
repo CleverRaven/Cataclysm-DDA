@@ -844,7 +844,7 @@
         "city_sizes" : [1, 12], "//":"what city sizes should it spawn in",
         "occurrences" : [1, 1], "//":"how many per overmap",
         "rotate" : true, "//":"allow rotation",
-        "flags" : [ "ROTATE", "CLASSIC", "REQUIRED" ]
+        "flags" : [ "ROTATE", "CLASSIC" ]
 },{
         "type" : "overmap_special",
         "id" : "Necropolis",
@@ -1215,7 +1215,7 @@
         "city_sizes" : [1, 12], "//":"what city sizes should it spawn in",
         "occurrences" : [1, 1], "//":"how many per overmap",
         "rotate" : true, "//":"allow rotation",
-        "flags" : [ "ROTATE", "REQUIRED" ]
+        "flags" : [ "ROTATE" ]
     },{
         "type" : "overmap_special",
         "id" : "evac_center",
