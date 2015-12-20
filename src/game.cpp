@@ -2815,6 +2815,7 @@ bool game::handle_action()
                                 _("new default binding is '^'.")).c_str());
             } else {
                 uimenu as_m;
+                as_m.return_invalid = true;
                 as_m.text = _("Are you sure you want to sleep?");
                 as_m.entries.push_back(uimenu_entry(0, true,
                                                     (OPTIONS["FORCE_CAPITAL_YN"] ? 'Y' : 'y'),
@@ -11124,9 +11125,11 @@ void game::butcher()
         if( multisalvage ) {
             kmenu.addentry(corpses.size(), true, 'z', _("Cut up all you can"));
         }
-        kmenu.addentry(corpses.size() + multisalvage, true, 'q', _("Cancel"));
+        int last_pos = corpses.size() + (int)multisalvage;
+        kmenu.addentry(last_pos, true, 'q', _("Cancel"));
+        kmenu.return_invalid = true;
         kmenu.query();
-        if( kmenu.ret == (int)corpses.size() + multisalvage ) {
+        if( kmenu.ret == last_pos || kmenu.ret == UIMENU_INVALID ) {
             return;
         }
         butcher_corpse_index = kmenu.ret;
@@ -13907,6 +13910,7 @@ void game::wait()
 
     uimenu as_m;
     as_m.text = _("Wait for how long?");
+    as_m.return_invalid = true;
     as_m.entries.push_back(uimenu_entry(1, true, '1',
                                         (bHasWatch) ? _("5 Minutes") : _("Wait 300 heartbeats")));
     as_m.entries.push_back(uimenu_entry(2, true, '2',
@@ -13925,7 +13929,7 @@ void game::wait()
     as_m.entries.push_back(uimenu_entry(10, true, 'm', _("Wait till midnight")));
     as_m.entries.push_back(uimenu_entry(11, true, 'w', _("Wait till weather changes")));
 
-    as_m.entries.push_back(uimenu_entry(12, true, 'x', _("Exit")));
+    as_m.entries.push_back(uimenu_entry(12, true, 'q', _("Exit")));
     as_m.query(); /* calculate key and window variables, generate window, and loop until we get a valid answer */
 
     const int iHour = calendar::turn.hours();
