@@ -49,6 +49,14 @@
     },
     {
         "type": "item_group",
+        "id": "ig_vp_cloth",
+        "subtype": "collection",
+        "entries": [
+            {"item": "rag", "count": [3, 6]}
+        ]
+    },
+    {
+        "type": "item_group",
         "id": "ig_vp_sheet_metal",
         "subtype": "collection",
         "entries": [
@@ -1270,6 +1278,216 @@
         "breaks_into": "ig_vp_wood_plate"
     },{
         "type" : "vehicle_part",
+        "id" : "clothboard_horizontal",
+        "name" : "cloth board",
+        "symbol" : "h",
+        "color" : "light_gray",
+        "broken_symbol" : "#",
+        "broken_color" : "dark_gray",
+        "durability" : 15,
+        "folded_volume": 15,
+        "item" : "sheet",
+        "difficulty" : 1,
+        "location" : "center",
+        "flags" : ["OPAQUE", "OBSTACLE", "FOLDABLE", "NAILABLE"],
+        "breaks_into": "ig_vp_cloth"
+    },{
+        "type" : "vehicle_part",
+        "id" : "clothboard_vertical",
+        "name" : "cloth board",
+        "symbol" : "j",
+        "color" : "light_gray",
+        "broken_symbol" : "#",
+        "broken_color" : "dark_gray",
+        "durability" : 15,
+        "folded_volume": 15,
+        "item" : "sheet",
+        "difficulty" : 1,
+        "location" : "center",
+        "flags" : ["OPAQUE", "OBSTACLE", "FOLDABLE", "NAILABLE"],
+        "breaks_into": "ig_vp_cloth"
+    },{
+        "type" : "vehicle_part",
+        "id" : "clothboard_nw",
+        "name" : "cloth board",
+        "symbol" : "y",
+        "color" : "light_gray",
+        "broken_symbol" : "#",
+        "broken_color" : "dark_gray",
+        "durability" : 15,
+        "folded_volume": 15,
+        "item" : "sheet",
+        "difficulty" : 1,
+        "location" : "center",
+        "flags" : ["OPAQUE", "OBSTACLE", "FOLDABLE", "NAILABLE"],
+        "breaks_into": "ig_vp_cloth"
+    },{
+        "type" : "vehicle_part",
+        "id" : "clothboard_ne",
+        "name" : "cloth board",
+        "symbol" : "u",
+        "color" : "light_gray",
+        "broken_symbol" : "#",
+        "broken_color" : "dark_gray",
+        "durability" : 15,
+        "folded_volume": 15,
+        "item" : "sheet",
+        "difficulty" : 1,
+        "location" : "center",
+        "flags" : ["OPAQUE", "OBSTACLE", "FOLDABLE", "NAILABLE"],
+        "breaks_into": "ig_vp_cloth"
+    },{
+        "type" : "vehicle_part",
+        "id" : "clothboard_se",
+        "name" : "cloth board",
+        "symbol" : "n",
+        "color" : "light_gray",
+        "broken_symbol" : "#",
+        "broken_color" : "dark_gray",
+        "durability" : 15,
+        "folded_volume": 15,
+        "item" : "sheet",
+        "difficulty" : 1,
+        "location" : "center",
+        "flags" : ["OPAQUE", "OBSTACLE", "FOLDABLE", "NAILABLE"],
+        "breaks_into": "ig_vp_cloth"
+    },{
+        "type" : "vehicle_part",
+        "id" : "clothboard_sw",
+        "name" : "cloth board",
+        "symbol" : "b",
+        "color" : "light_gray",
+        "broken_symbol" : "#",
+        "broken_color" : "dark_gray",
+        "durability" : 15,
+        "folded_volume": 15,
+        "item" : "sheet",
+        "difficulty" : 1,
+        "location" : "center",
+        "flags" : ["OPAQUE", "OBSTACLE", "FOLDABLE", "NAILABLE"],
+        "breaks_into": "ig_vp_cloth"
+    },{
+        "type" : "vehicle_part",
+        "id" : "cloth_halfboard_horizontal",
+        "name" : "cloth quarterpanel",
+        "symbol" : "h",
+        "color" : "light_gray",
+        "broken_symbol" : "#",
+        "broken_color" : "dark_gray",
+        "durability" : 15,
+        "folded_volume": 15,
+        "item" : "sheet",
+        "difficulty" : 1,
+        "location" : "center",
+        "flags" : ["OBSTACLE", "FOLDABLE", "NAILABLE"],
+        "breaks_into": "ig_vp_cloth"
+    },{
+        "type" : "vehicle_part",
+        "id" : "cloth_halfboard_vertical",
+        "name" : "cloth quarterpanel",
+        "symbol" : "j",
+        "color" : "light_gray",
+        "broken_symbol" : "#",
+        "broken_color" : "dark_gray",
+        "durability" : 15,
+        "folded_volume": 15,
+        "item" : "sheet",
+        "difficulty" : 1,
+        "location" : "center",
+        "flags" : ["OBSTACLE", "FOLDABLE", "NAILABLE"],
+        "breaks_into": "ig_vp_cloth"
+    },{
+        "type" : "vehicle_part",
+        "id" : "cloth_halfboard_nw",
+        "name" : "cloth quarterpanel",
+        "symbol" : "y",
+        "color" : "light_gray",
+        "broken_symbol" : "#",
+        "broken_color" : "dark_gray",
+        "durability" : 15,
+        "folded_volume": 15,
+        "item" : "sheet",
+        "difficulty" : 1,
+        "location" : "center",
+        "flags" : ["OBSTACLE", "FOLDABLE", "NAILABLE"],
+        "breaks_into": "ig_vp_cloth"
+    },{
+        "type" : "vehicle_part",
+        "id" : "cloth_halfboard_ne",
+        "name" : "cloth quarterpanel",
+        "symbol" : "u",
+        "color" : "light_gray",
+        "broken_symbol" : "#",
+        "broken_color" : "dark_gray",
+        "durability" : 15,
+        "folded_volume": 15,
+        "item" : "sheet",
+        "difficulty" : 1,
+        "location" : "center",
+        "flags" : ["OBSTACLE", "FOLDABLE", "NAILABLE"],
+        "breaks_into": "ig_vp_cloth"
+    },{
+        "type" : "vehicle_part",
+        "id" : "cloth_halfboard_se",
+        "name" : "cloth quarterpanel",
+        "symbol" : "n",
+        "color" : "light_gray",
+        "broken_symbol" : "#",
+        "broken_color" : "dark_gray",
+        "durability" : 15,
+        "folded_volume": 15,
+        "item" : "sheet",
+        "difficulty" : 1,
+        "location" : "center",
+        "flags" : ["OBSTACLE", "FOLDABLE", "NAILABLE"],
+        "breaks_into": "ig_vp_cloth"
+    },{
+        "type" : "vehicle_part",
+        "id" : "cloth_halfboard_sw",
+        "name" : "cloth quarterpanel",
+        "symbol" : "b",
+        "color" : "light_gray",
+        "broken_symbol" : "#",
+        "broken_color" : "dark_gray",
+        "durability" : 15,
+        "folded_volume": 15,
+        "item" : "sheet",
+        "difficulty" : 1,
+        "location" : "center",
+        "flags" : ["OBSTACLE", "FOLDABLE", "NAILABLE"],
+        "breaks_into": "ig_vp_cloth"
+    },{
+        "type" : "vehicle_part",
+        "id" : "cloth_halfboard_horizontal_2",
+        "name" : "cloth quarterpanel",
+        "symbol" : "=",
+        "color" : "light_gray",
+        "broken_symbol" : "#",
+        "broken_color" : "dark_gray",
+        "durability" : 15,
+        "folded_volume": 15,
+        "item" : "sheet",
+        "difficulty" : 1,
+        "location" : "center",
+        "flags" : ["OBSTACLE", "FOLDABLE", "NAILABLE"],
+        "breaks_into": "ig_vp_cloth"
+    },{
+        "type" : "vehicle_part",
+        "id" : "cloth_halfboard_vertical_2",
+        "name" : "cloth quarterpanel",
+        "symbol" : "H",
+        "color" : "light_gray",
+        "broken_symbol" : "#",
+        "broken_color" : "dark_gray",
+        "durability" : 15,
+        "folded_volume": 15,
+        "item" : "sheet",
+        "difficulty" : 1,
+        "location" : "center",
+        "flags" : ["OBSTACLE", "FOLDABLE", "NAILABLE"],
+        "breaks_into": "ig_vp_cloth"
+    },{
+        "type" : "vehicle_part",
         "id" : "halfboard_horizontal",
         "name" : "quarterpanel",
         "symbol" : "h",
@@ -1816,6 +2034,40 @@
         "breaks_into": "ig_vp_sheet_metal"
     },{
         "type" : "vehicle_part",
+        "id" : "wooden_aisle_horizontal",
+        "name" : "wooden aisle",
+        "symbol" : "=",
+        "color" : "brown",
+        "broken_symbol" : "#",
+        "broken_color" : "brown",
+        "durability" : 200,
+        "item" : "frame_wood",
+        "difficulty" : 1,
+        "location" : "center",
+        "flags" : ["AISLE", "BOARDABLE", "NAILABLE"],
+        "breaks_into" : [
+            {"item": "splinter", "count": [7, 9]},
+            {"item": "nail", "charges": [5, 10]}
+        ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "wooden_aisle_vertical",
+        "name" : "wooden aisle",
+        "symbol" : "H",
+        "color" : "brown",
+        "broken_symbol" : "#",
+        "broken_color" : "brown",
+        "durability" : 200,
+        "item" : "frame_wood",
+        "difficulty" : 1,
+        "location" : "center",
+        "flags" : ["AISLE", "BOARDABLE", "NAILABLE"],
+        "breaks_into" : [
+            {"item": "splinter", "count": [7, 9]},
+            {"item": "nail", "charges": [5, 10]}
+        ]
+    },{
+        "type" : "vehicle_part",
         "id" : "trunk_floor",
         "name" : "floor trunk",
         "symbol" : "=",
@@ -1871,9 +2123,7 @@
         "difficulty" : 1,
         "location" : "roof",
         "flags" : ["ROOF", "FOLDABLE", "NAILABLE"],
-        "breaks_into" : [
-            {"item": "rag", "count": [3, 6]}
-        ]
+        "breaks_into" : "ig_vp_cloth"
     },{
         "type" : "vehicle_part",
         "id" : "roof",
@@ -3333,6 +3583,27 @@
         ]
     },{
         "type" : "vehicle_part",
+        "id" : "dirty_water_tank_barrel",
+        "name" : "dirty water barrel",
+        "symbol" : "O",
+        "color" : "brown",
+        "broken_symbol" : "#",
+        "broken_color" : "brown",
+        "damage_modifier" : 80,
+        "durability" : 120,
+        "size" : 400,
+        "fuel_type" : "water",
+        "item" : "wooden_barrel",
+        "difficulty" : 0,
+        "location" : "fuel_source",
+        "flags" : ["FUEL_TANK", "NAILABLE"],
+        "breaks_into" : [
+            {"item": "splinter", "count": [3, 8]},
+            {"item": "2x4", "count": [2, 8]},
+            {"item": "scrap", "count": [1, 3]}
+        ]
+    },{
+        "type" : "vehicle_part",
         "id" : "minifridge",
         "name" : "minifridge",
         "symbol" : "H",
@@ -3443,6 +3714,23 @@
             {"item": "splinter", "count": [3, 5]},
             {"item": "nail", "charges": [10, 15]}
         ]
+    },{
+        "type" : "vehicle_part",
+        "id" : "cargo_bag",
+        "name" : "storage bag",
+        "symbol" : "o",
+        "color" : "light_gray",
+        "broken_symbol" : "#",
+        "broken_color" : "dark_gray",
+        "damage_modifier" : 60,
+        "durability" : 15,
+        "folded_volume": 4,
+        "size" : 60,
+        "item" : "bag_canvas",
+        "difficulty" : 1,
+        "location" : "center",
+        "flags" : ["CARGO", "BOARDABLE", "COVERED", "NAILABLE", "FOLDABLE"],
+        "breaks_into" : "ig_vp_cloth"
     },{
         "type" : "vehicle_part",
         "id" : "basketsm",
@@ -4911,6 +5199,24 @@
         "difficulty" : 2,
         "location" : "center",
         "flags" : ["OBSTACLE", "OPENABLE", "BOARDABLE", "WINDOW", "NAILABLE"],
+        "breaks_into" : [
+            {"item": "splinter", "count": [7, 9]}
+        ]
+    },
+    {
+        "type" : "vehicle_part",
+        "id" : "door_wood",
+        "name" : "opaque wooden door",
+        "symbol" : "+",
+        "color" : "brown",
+        "broken_symbol" : "&",
+        "broken_color" : "brown",
+        "damage_modifier" : 75,
+        "durability" : 170,
+        "item" : "frame_wood",
+        "difficulty" : 2,
+        "location" : "center",
+        "flags" : ["OBSTACLE", "OPENABLE", "BOARDABLE", "OPAQUE", "NAILABLE"],
         "breaks_into" : [
             {"item": "splinter", "count": [7, 9]}
         ]
