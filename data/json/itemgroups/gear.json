@@ -53,6 +53,27 @@
     ]
   },{
     "type" : "item_group",
+    "id" : "child_items",
+    "subtype": "distribution",
+    "entries" : [
+      { "group": "child_books", "prob": 150 },
+      { "group": "sugar_drinks", "prob": 150 },
+      { "group": "candy", "prob": 150 },
+      { "group": "junkfood", "prob": 180 },
+      { "group": "sports_clothes", "prob": 100 },
+      { "item": "backpack", "prob": 50 },
+      { "item": "talking_doll", "prob": 50 },
+      { "item": "pockknife", "prob": 25 },
+      { "item": "knife_swissarmy", "prob": 20 },
+      { "item": "wristwatch", "prob": 40 },
+      { "item": "radio_car_box", "prob": 5 },
+      { "item": "radiocontrol", "prob": 10 },
+      { "item": "bat", "prob": 50 },
+      { "item": "slingshot", "prob": 30 },
+      { "item": "wristrocket", "prob": 10 }
+    ]
+  },{
+    "type" : "item_group",
     "id" : "female_underwear_top",
     "items":[
       ["bra", 100],
