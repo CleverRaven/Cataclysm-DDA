@@ -6985,35 +6985,6 @@
     ]
   },{
     "type" : "item_group",
-    "id" : "fireman_pants",
-    "items":[
-      ["bunker_pants", 80],
-      ["nomex_suit", 40],
-      ["pants_cargo", 10]
-    ]
-  },{
-    "type" : "item_group",
-    "id" : "fireman_boots",
-    "items":[
-      ["boots_bunker", 70],
-      ["boots_steel", 20],
-      ["boots_combat", 5],
-      ["boots_rubber", 10],
-      ["boots_hiking", 5],
-      ["nomex_socks", 40]
-    ]
-  },{
-    "type" : "item_group",
-    "id" : "fireman_gloves",
-    "items":[
-      ["fire_gauntlets", 60],
-      ["gloves_medical", 5],
-      ["gloves_tactical", 20],
-      ["gloves_rubber", 10],
-      ["nomex_gloves", 30]
-    ]
-  },{
-    "type" : "item_group",
     "id" : "fireman_head",
     "items":[
       ["firehelmet", 60],
@@ -7033,72 +7004,6 @@
       ["mask_filter", 10],
       ["goggles_ir", 2],
       ["goggles_nv", 1]
-    ]
-  },{
-    "type" : "item_group",
-    "id" : "fireman_gear",
-    "items":[
-      ["extinguisher", 10],
-      ["sm_extinguisher", 20],
-      ["fire_ax", 60],
-      ["halligan", 50],
-      ["1st_aid", 10],
-      ["bandages", 5],
-      ["cotton_ball", 2],
-      ["crowbar", 15],
-      ["entry_suit", 10],
-      ["hammer_sledge", 15],
-      ["shovel", 20],
-      ["cell_phone", 10],
-      ["airhorn", 5],
-      ["boltcutters", 5],
-      ["chestrig", 10],
-      ["chainsaw_off", 1],
-      ["backpack", 15],
-      ["rope_30", 10],
-      ["rx12_injector", 1],
-      ["ampoule", 5],
-      ["rx11_stimpack", 1],
-      ["stimpack_ammo", 5],
-      ["flaregun", 5],
-      ["signal_flare", 5],
-      ["flamethrower", 1],
-      ["handflare", 20],
-      ["heavy_flashlight", 30],
-      ["glowstick", 10],
-      ["two_way_radio", 20],
-      ["emergency_book", 1],
-      ["textbook_firstaid", 5],
-      ["manual_first_aid", 5],
-      ["pocket_firstaid", 10],
-      ["pocketwatch", 5],
-      ["wristwatch", 10],
-      ["cigar", 5],
-      ["ecig", 10],
-      ["advanced_ecig", 8],
-      ["nicotine_liquid", 8],
-      ["chaw", 1],
-      ["ref_lighter", 1],
-      ["flask_hip", 1],
-      ["textbook_fireman", 10],
-      ["knee_pads", 5],
-      ["elbow_pads", 5],
-      ["legrig", 5],
-      ["UPS_off", 5],
-      ["adv_UPS_off", 2],
-      ["emer_blanket", 5],
-      ["battery", 10],
-      ["tool_belt", 5],
-      ["oxygen_tank", 15],
-      ["fireman_belt", 15],
-      ["jack", 5],
-      ["throw_extinguisher", 10],
-      ["grapnel", 5],
-      ["wearable_light", 5],
-      ["toolbox", 1],
-      ["smoxygen_tank", 35],
-      ["watercannon", 10],
-      ["l-stick", 1]
     ]
   },{
     "type" : "item_group",
