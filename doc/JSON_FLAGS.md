@@ -595,12 +595,11 @@ listings, as ids are constant throughout DDA's code.  Happy chambering!  :-)
 - ```LASER``` Creates a trail of laser (the field type)
 - ```NEVER_MISFIRES``` Firing ammo without this flag may trigger a misfiring, this is independent of the weapon flags.
 - ```RECYCLED``` (For handmade ammo) causes the gun to misfire sometimes, this independent of the weapon flags.
-- ```WHIP``` Special sounds for whips and has a chance of disarming the opponent.
 - ```NOGIB``` Prevents overkill damage on the target (target won't explode into gibs, see also the monster flag NO_GIBS).
 - ```WIDE``` Prevents `HARDTOSHOOT` monster flag from having any effect. Implied by ```SHOT``` or liquid ammo.
 - ```BLINDS_EYES``` Blinds the target if it hits the head (ranged projectiles can't actually hit the eyes at the moment).
 - ```ACID_DROP``` Creates a tiny field of weak acid.
-- ```RECOVER_[X]``` where X is any of 3, 5, 10, 15, 25 - Has a (X-1/X) chance to create a single charge of the used ammo at the point of impact.
+- ```RECOVER_[X]``` Has a (X-1/X) chance to create a single charge of the used ammo at the point of impact.
 - ```NO_EMBED``` When an item would be spawned from the projectile, it will always be spawned on the ground rather than in monster's inventory. Implied for active thrown items. Doesn't do anything on projectiles that do not drop items.
 - ```NO_ITEM_DAMAGE``` Will not damage items on the map even when it otherwise would try to.
 - ```DRAW_AS_LINE``` Doesn't go through regular bullet animation, instead draws a line and the bullet on its end for one frame.
@@ -782,6 +781,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```STAB``` Deals stabbing damage, with a moderate chance of getting stuck. The `STAB` flag is synonymous with the `SPEAR` flag.
 - ```SLICE``` Deals cutting damage, with a low chance of getting stuck.
 - ```MESSY``` Resistant to getting stuck in a monster. Potentially cause more gore in the future?
+- ```WHIP``` Has a chance of disarming the opponent.
 - ```NON_STUCK``` Resistant to getting stuck in a monster; not as large of an effect as `MESSY`.
 - ```UNARMED_WEAPON``` Wielding this item still counts as unarmed combat.
 - ```NO_UNWIELD``` Cannot unwield this item.

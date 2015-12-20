@@ -9206,20 +9206,13 @@ std::vector<map_item_stack> game::find_nearby_items(int iRadius)
 
             for( auto &elem : m.i_at( points_p_it ) ) {
                 const std::string name = elem.tname();
+                const tripoint relative_pos = points_p_it - u.pos();
 
-                if( temp_items.find( name ) == temp_items.end() || last_pos != points_p_it ) {
-                    last_pos = points_p_it;
-                    const tripoint relative_pos = points_p_it - u.pos();
-
-                    if (std::find(item_order.begin(), item_order.end(), name) == item_order.end()) {
-                        item_order.push_back(name);
-                        temp_items[name] = map_item_stack( &elem, relative_pos );
-                    } else {
-                        temp_items[name].addNewPos( &elem, relative_pos );
-                    }
-
+                if( std::find( item_order.begin(), item_order.end(), name ) == item_order.end() ) {
+                    item_order.push_back( name );
+                    temp_items[name] = map_item_stack( &elem, relative_pos );
                 } else {
-                    temp_items[name].incCount();
+                    temp_items[name].add_at_pos( &elem, relative_pos );
                 }
             }
         }
@@ -11397,116 +11390,112 @@ bool add_or_drop_with_msg( player &u, item &it )
     return true;
 }
 
-void game::unload(item &it)
+void game::unload( item &it )
 {
-    // NOTE: changes here should also be applied to player::rate_action_unload to make the UI consistent
+    // Unload a container consuming moves per item successfully removed
     if( it.is_container() && !it.contents.empty() ) {
-        // TODO (or not): containers and guns use item::contents to store different things:
-        // the gunmods / the container contents.
-        // Maybe the gunmods should go into their own member?
-        u.moves -= 40 * it.contents.size();
-        std::vector<item> old_contents = it.contents;
-        it.contents.clear();
-        for( auto &content : old_contents ) {
-            if( !add_or_drop_with_msg( u, content ) ) {
-                it.contents.push_back( content );
+        it.contents.erase( std::remove_if( it.contents.begin(), it.contents.end(), [this]( item& e ) {
+            if( !add_or_drop_with_msg( u, e ) ) {
+                return false;
             }
-        }
+            u.moves -= 40;
+            return true;
+        } ), it.contents.end() );
         return;
     }
-    if( it.is_gun() && !it.contents.empty() ) {
-        // TODO: same as above: item::contents is shared with containers
-        // Try unloading the active gunmod first as this is the most likely what the player wants.
-        item *active_gunmod = it.active_gunmod();
-        if( active_gunmod != nullptr && active_gunmod->charges > 0 ) {
-            unload( *active_gunmod );
-            return;
-        }
-        // Try to unload all the other gunmods.
-        for( auto &gunmod : it.contents ) {
-            if( gunmod.is_auxiliary_gunmod() && gunmod.charges > 0 ) {
-                unload( gunmod );
-                return;
-            } else if( gunmod.typeId() == "spare_mag" && gunmod.charges > 0 ) {
-                // TODO: ^^ this shall be a flag.
-                unload( gunmod );
-                return;
+
+    // If item can be unloaded more than once (currently only guns) prompt user to choose
+    std::vector<std::string> msgs( 1, it.tname() );
+    std::vector<item *> opts( 1, &it );
+
+    if( it.is_gun() ) {
+        for( auto &e : it.contents ) {
+            if( (e.ammo_remaining() > 0 && !e.has_flag("NO_UNLOAD")) ||
+                (e.typeId() == "spare_mag" && e.charges > 0) ) {
+                msgs.emplace_back( e.tname() );
+                opts.emplace_back( &e );
             }
         }
     }
 
-    if( it.is_null() ) {
-        add_msg(m_info, _("You're not wielding anything."));
-        return;
-    }
-    // At this point, the contents have been handled, and the item itself must be unloaded.
-    if( !it.is_gun() &&
-        !it.is_auxiliary_gunmod() &&
-        !( it.typeId() == "spare_mag" ) &&
-        ( !it.is_tool() || it.ammo_type() == "NULL" ) ) {
-        add_msg(m_info, _("You can't unload a %s!"), it.tname().c_str());
-        return;
-    }
-    if( it.charges <= 0 ) {
-        if( it.is_tool() ) {
-            add_msg( m_info, _( "Your %s isn't charged." ), it.tname().c_str() );
-        } else {
-            add_msg( m_info, _( "Your %s isn't loaded." ), it.tname().c_str() );
-        }
-        return;
-    }
-    if (it.has_flag("NO_UNLOAD")) {
-        if (it.has_flag("RECHARGE")) {
-            add_msg(m_info, _("You can't unload a rechargeable %s!"), it.tname().c_str());
-        } else {
-            add_msg(m_info, _("You can't unload a %s!"), it.tname().c_str());
+    item *target = opts.size() > 1 ? opts[ ( uimenu( false, _("Unload what?"), msgs ) ) - 1 ] : &it;
+
+    // @todo deprecate handling of spare magazine as special case
+    if( target->typeId() == "spare_mag" && target->charges > 0 ) {
+        item ammo( it.get_curammo_id(), calendar::turn );
+        ammo.charges = it.charges;
+        if( add_or_drop_with_msg( u, ammo ) ) {
+            target->charges = 0;
+            add_msg( _( "You unload your %s." ), target->tname().c_str() );
+            u.moves -= it.reload_time( u ) / 2;
         }
         return;
     }
 
-    u.moves -= int(it.reload_time(u) / 2);
-    item *weapon = &it;
-
-    item newam;
-
-    if( weapon->has_curammo() ) {
-        newam = item( weapon->get_curammo_id(), calendar::turn );
-    } else {
-        newam = item(default_ammo(weapon->ammo_type()), calendar::turn);
+    // Next check for any reasons why the item cannot be unloaded
+    if( target->ammo_type() == "NULL" || target->ammo_capacity() <= 0 ) {
+        add_msg( m_info, _("You can't unload a %s!"), target->tname().c_str() );
+        return;
     }
-    if( weapon->ammo_type() == "plutonium" ) {
-        int chargesPerPlutonium = 500;
-        int chargesRemoved = weapon->charges - (weapon->charges % chargesPerPlutonium);;
-        int plutoniumRemoved = chargesRemoved / chargesPerPlutonium;
-        if (chargesRemoved < weapon->charges) {
-            add_msg(m_info, _("You can't remove partially depleted plutonium!"));
-        }
-        if (plutoniumRemoved > 0) {
-            add_msg(_("You recover %i unused plutonium."), plutoniumRemoved);
-            newam.charges = plutoniumRemoved;
-            weapon->charges -= chargesRemoved;
+
+    if( target->has_flag( "NO_UNLOAD" ) ) {
+        if( target->has_flag( "RECHARGE" ) ) {
+            add_msg( m_info, _( "You can't unload a rechargeable %s!" ), target->tname().c_str() );
         } else {
+            add_msg( m_info, _( "You can't unload a %s!" ), target->tname().c_str() );
+        }
+        return;
+    }
+
+    if( target->ammo_remaining() <= 0 ) {
+        if( target->is_tool() ) {
+            add_msg( m_info, _( "Your %s isn't charged." ), target->tname().c_str() );
+        } else {
+            add_msg( m_info, _( "Your %s isn't loaded." ), target->tname().c_str() );
+        }
+        return;
+    }
+
+    // By default we remove all remaining ammo
+    long qty = target->ammo_remaining();
+
+    if( target->ammo_type() == "plutonium" ) {
+        qty = target->ammo_remaining() / 500;
+        if( qty > 0 ) {
+            add_msg( _( "You recover %i unused plutonium." ), qty );
+        } else {
+            add_msg( m_info, _( "You can't remove partially depleted plutonium!" ) );
             return;
         }
-    } else {
-        newam.charges = weapon->charges;
-        weapon->charges = 0;
     }
 
-    if( !add_or_drop_with_msg( u, newam ) ) {
-        weapon->charges += newam.charges; // Put it back in
-    } else {
-        add_msg( _( "You unload your %s." ), weapon->tname().c_str() );
+    // Construct a new ammo item and try to drop it
+    item ammo( target->has_curammo() ? target->get_curammo_id() :
+               default_ammo( target->ammo_type() ), calendar::turn );
+    ammo.charges = qty;
+
+    if( !add_or_drop_with_msg( u, ammo ) ) {
+        return;
     }
-    // null the curammo, but only if we did empty the item
-    if (weapon->charges == 0) {
-        weapon->unset_curammo();
-        // Tools need to be turned off, especially when they consume charges only every few turns,
-        // otherwise they stay active until they would consume the next charge.
-        if( weapon->active && weapon->is_tool() ) {
-            weapon->type->invoke( &u, weapon, u.pos3() );
+
+    // If we succeeded remove appropriate qty of ammo from the item
+    if( target->ammo_type() == "plutonium" ) {
+        qty *= 500;
+    }
+
+    target->charges -= qty;
+
+    // Unset curammo and turn off any active tools
+    if( target->ammo_remaining() == 0 ) {
+        target->unset_curammo();
+        if( target->is_tool() && target->active ) {
+            target->type->invoke( &u, target, u.pos3() );
         }
     }
+
+    // Notify the player and consume moves
+    add_msg( _( "You unload your %s." ), target->tname().c_str() );
+    u.moves -= target->reload_time( u ) / 2;
 }
 
 void game::wield( int pos )

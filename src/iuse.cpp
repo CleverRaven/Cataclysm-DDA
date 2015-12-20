@@ -36,6 +36,7 @@
 #include "field.h"
 #include "weather_gen.h"
 #include "weather.h"
+#include "cata_utility.h"
 #include "map_iterator.h"
 
 #include <vector>
@@ -9001,48 +9002,69 @@ int iuse::hairkit(player *p, item *it, bool, const tripoint&)
     return it->type->charges_to_use();
 }
 
-int iuse::weather_tool(player *p, item *it, bool, const tripoint& )
+int iuse::weather_tool( player *p, item *it, bool, const tripoint& )
 {
-    w_point const weatherPoint = g->weather_gen->get_weather( p->global_square_location(), calendar::turn );
+    w_point const weatherPoint = g->weather_gen->get_weather( p->global_square_location(),
+                                                              calendar::turn );
 
-    if (it->type->id == "weather_reader") {
-        p->add_msg_if_player(m_neutral, _("The %s's monitor slowly outputs the data..."), it->tname().c_str());
+    if( it->type->id == "weather_reader" ) {
+        p->add_msg_if_player( m_neutral, _( "The %s's monitor slowly outputs the data..." ),
+                              it->tname().c_str() );
     }
-    if (it->has_flag("THERMOMETER")) {
-        if (it->type->id == "thermometer") {
-            p->add_msg_if_player(m_neutral, _("The %1$s reads %2$s."), it->tname().c_str(), print_temperature(g->get_temperature()).c_str());
+    if( it->has_flag( "THERMOMETER" ) ) {
+        if( it->type->id == "thermometer" ) {
+            p->add_msg_if_player( m_neutral, _( "The %1$s reads %2$s." ), it->tname().c_str(),
+                                  print_temperature( g->get_temperature() ).c_str() );
         } else {
-            p->add_msg_if_player(m_neutral, _("Temperature: %s."), print_temperature(g->get_temperature()).c_str());
+            p->add_msg_if_player( m_neutral, _( "Temperature: %s." ),
+                                  print_temperature( g->get_temperature() ).c_str() );
         }
     }
-    if (it->has_flag("HYGROMETER")) {
-        if (it->type->id == "hygrometer") {
-            p->add_msg_if_player(m_neutral, _("The %1$s reads %2$s."), it->tname().c_str(), print_humidity(get_local_humidity(weatherPoint.humidity, g->weather, g->is_sheltered(g->u.pos()))).c_str());
+    if( it->has_flag( "HYGROMETER" ) ) {
+        if( it->type->id == "hygrometer" ) {
+            p->add_msg_if_player(
+                m_neutral, _( "The %1$s reads %2$s." ), it->tname().c_str(),
+                print_humidity( get_local_humidity( weatherPoint.humidity, g->weather,
+                                                    g->is_sheltered( g->u.pos() ) ) ).c_str() );
         } else {
-            p->add_msg_if_player(m_neutral, _("Relative Humidity: %s."), print_humidity(get_local_humidity(weatherPoint.humidity, g->weather, g->is_sheltered(g->u.pos()))).c_str());
+            p->add_msg_if_player(
+                m_neutral, _( "Relative Humidity: %s." ),
+                print_humidity( get_local_humidity( weatherPoint.humidity, g->weather,
+                                                    g->is_sheltered( g->u.pos() ) ) ).c_str() );
         }
     }
-    if (it->has_flag("BAROMETER")) {
-        if (it->type->id == "barometer") {
-            p->add_msg_if_player(m_neutral, _("The %1$s reads %2$s."), it->tname().c_str(), print_pressure((int)weatherPoint.pressure).c_str());
+    if( it->has_flag( "BAROMETER" ) ) {
+        if( it->type->id == "barometer" ) {
+            p->add_msg_if_player(
+                m_neutral, _( "The %1$s reads %2$s." ), it->tname().c_str(),
+                print_pressure( (int)weatherPoint.pressure ).c_str() );
         } else {
-            p->add_msg_if_player(m_neutral, _("Pressure: %s."), print_pressure((int)weatherPoint.pressure).c_str());
+            p->add_msg_if_player( m_neutral, _( "Pressure: %s." ),
+                                  print_pressure( (int)weatherPoint.pressure ).c_str() );
         }
     }
 
-    if (it->type->id == "weather_reader") {
+    if( it->type->id == "weather_reader" ) {
         int vpart = -1;
         vehicle *veh = g->m.veh_at( p->pos(), vpart );
         int vehwindspeed = 0;
         if( veh ) {
-            vehwindspeed = abs(veh->velocity / 100); // For mph
+            vehwindspeed = abs( veh->velocity / 100 ); // For mph
         }
-        const oter_id &cur_om_ter = overmap_buffer.ter(p->global_omt_location());
+        const oter_id &cur_om_ter = overmap_buffer.ter( p->global_omt_location() );
         std::string omtername = otermap[cur_om_ter].name;
-        int windpower = get_local_windpower(weatherPoint.windpower + vehwindspeed, omtername, g->is_sheltered(g->u.pos()));
+        /* windpower defined in internal velocity units (=.01 mph) */
+        int windpower = int(100.0f * get_local_windpower( weatherPoint.windpower + vehwindspeed,
+                                                          omtername, g->is_sheltered( g->u.pos() ) ) );
 
-        p->add_msg_if_player(m_neutral, _("Wind Speed: %s."), print_windspeed((float)windpower).c_str());
-        p->add_msg_if_player(m_neutral, _("Feels Like: %s."), print_temperature(get_local_windchill(weatherPoint.temperature, weatherPoint.humidity, windpower) + g->get_temperature()).c_str());
+        p->add_msg_if_player( m_neutral, _( "Wind Speed: %.1f %s." ),
+                              convert_velocity( windpower, VU_WIND ),
+                              velocity_units( VU_WIND ) );
+        p->add_msg_if_player(
+            m_neutral, _( "Feels Like: %s." ),
+            print_temperature(
+                get_local_windchill( weatherPoint.temperature, weatherPoint.humidity, windpower) +
+                g->get_temperature() ).c_str() );
     }
 
     return 0;
