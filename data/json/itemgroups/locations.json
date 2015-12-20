@@ -490,6 +490,47 @@
     ]
   },{
     "type" : "item_group",
+    "id" : "chem_home",
+    "subtype": "distribution",
+    "entries" : [
+      { "group": "chemistry_tools", "prob": 250 },
+      { "item": "salt_water", "prob": 85 },
+      { "item": "bleach", "prob": 110 },
+      { "item": "ammonia", "prob": 110 },
+      { "item": "charcoal", "prob": 65 },
+      { "item": "chem_hydrogen_peroxide", "prob": 40 },
+      { "item": "chem_carbide", "prob": 40 },
+      { "item": "lye_powder", "prob": 40 },
+      { "item": "oxy_powder", "prob": 40 },
+      { "item": "superglue", "prob": 30 },
+      { "item": "yeast", "prob": 30 },
+      { "item": "iodine", "prob": 40 },
+      { "item": "saline", "prob": 50 },
+      { "item": "eyedrops", "prob": 15 },
+      { "item": "pur_tablets", "prob": 35 },
+      { "item": "1st_aid", "prob": 40 },
+      { "item": "syringe", "prob": 60 },
+      { "item": "adrenaline_injector", "prob": 10 },
+      { "item": "textbook_chemistry", "prob": 70 },
+      { "item": "brewing_cookbook", "prob": 60 },
+      { "item": "adv_chemistry", "prob": 50 }
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "homebooks",
+    "subtype": "distribution",
+    "entries" : [
+      { "item": "phonebook", "prob": 10 },
+      { "group": "magazines", "prob": 100 },
+      { "group": "novels", "prob": 100 },
+      { "group": "holy_books", "prob": 50 },
+      { "group": "manuals", "prob": 25 },
+      { "group": "textbooks", "prob": 15 },
+      { "group": "martial_arts_manuals", "prob": 1 },
+      { "group": "cookbooks", "prob": 45 }
+    ]
+  },{
+    "type" : "item_group",
     "id" : "hardware",
 	  "subtype": "distribution",
     "entries" : [
