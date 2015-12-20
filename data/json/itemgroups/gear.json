@@ -376,5 +376,60 @@
       ["back_holster", 50],
       ["bootstrap", 25]
     ]
+ },{
+    "type" : "item_group",
+    "id" : "clothing_extras",
+    "items":[
+      ["leather_belt", 100],
+      ["arm_warmers", 10],
+      ["leg_warmers", 10],
+      ["gold_watch", 20],
+      ["sf_watch", 20],
+      ["wristwatch", 50],
+      ["necklace", 40],
+      ["holy_symbol", 40]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "male_extras",
+    "items":[
+      ["skinny_tie", 100],
+      ["tieclip", 30],
+      ["collarpin", 50],
+      ["ring", 30]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "female_extras",
+    "items":[
+      ["skinny_tie", 25],
+      ["gold_ear", 60],
+      ["brooch", 10],
+      ["pearl_collar", 10]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "jewelry",
+    "items":[
+      ["ring", 100],
+      ["gold_ear", 60],
+      ["gold_bracelet", 50],
+      ["gold_watch", 65],
+      ["gold_dental_grill", 15],
+      ["silver_ear", 60],
+      ["necklace", 50],
+      ["silver_bracelet", 50],
+      ["sf_watch", 50],
+      ["diamond_ring", 50],
+      ["diamond_dental_grill", 10],
+      ["brooch", 30],
+      ["copper_ear", 50],
+      ["pocketwatch", 30],
+      ["tieclip", 60],
+      ["pearl_collar", 40],
+      ["diamond", 30],
+      ["ear_spool", 30],
+      ["holy_symbol", 20]
+    ]
   }
  ]
