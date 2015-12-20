@@ -1283,21 +1283,18 @@ std::ostream &operator<<(std::ostream &, const item *);
 class map_item_stack
 {
     private:
-        class item_group
-        {
+        class item_group {
             public:
                 tripoint pos;
                 int count;
 
                 //only expected to be used for things like lists and vectors
-                item_group()
-                {
+                item_group() {
                     pos = tripoint( 0, 0, 0 );
                     count = 0;
                 }
 
-                item_group( const tripoint &p, const int arg_count )
-                {
+                item_group( const tripoint &p, const int arg_count ) {
                     pos = p;
                     count = arg_count;
                 }
@@ -1310,14 +1307,12 @@ class map_item_stack
         int totalcount;
 
         //only expected to be used for things like lists and vectors
-        map_item_stack()
-        {
+        map_item_stack() {
             vIG.push_back( item_group() );
             totalcount = 0;
         }
 
-        map_item_stack( item const *it, const tripoint &pos )
-        {
+        map_item_stack( item const *it, const tripoint &pos ) {
             example = it;
             vIG.push_back( item_group( pos, ( it->count_by_charges() ) ? it->charges : 1 ) );
             totalcount = ( it->count_by_charges() ) ? it->charges : 1;
@@ -1329,9 +1324,8 @@ class map_item_stack
         // item group is the same position and otherwise creates and
         // adds to a new item group. Note that it does not search
         // through all older item groups for a match.
-        void add_at_pos( item const *it, const tripoint &pos )
-        {
-            uint amount = ( it->count_by_charges() ) ? it->charges : 1;
+        void add_at_pos( item const *it, const tripoint &pos ) {
+            int amount = ( it->count_by_charges() ) ? it->charges : 1;
 
             if( !vIG.size() || vIG[vIG.size() - 1].pos != pos ) {
                 vIG.push_back( item_group( pos, amount ) );
@@ -1342,10 +1336,10 @@ class map_item_stack
             totalcount += amount;
         }
 
-        static bool map_item_stack_sort(const map_item_stack &lhs, const map_item_stack &rhs)
-        {
-            if ( lhs.example->get_category().sort_rank == rhs.example->get_category().sort_rank ) {
-                return square_dist(tripoint(0, 0, 0), lhs.vIG[0].pos) < square_dist(tripoint(0, 0, 0), rhs.vIG[0].pos);
+        static bool map_item_stack_sort( const map_item_stack &lhs, const map_item_stack &rhs ) {
+            if( lhs.example->get_category().sort_rank == rhs.example->get_category().sort_rank ) {
+                return square_dist( tripoint( 0, 0, 0 ), lhs.vIG[0].pos) <
+                    square_dist( tripoint( 0, 0, 0 ), rhs.vIG[0].pos );
             }
 
             return lhs.example->get_category().sort_rank < rhs.example->get_category().sort_rank;
