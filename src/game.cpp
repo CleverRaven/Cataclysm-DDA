@@ -4022,6 +4022,7 @@ void game::debug()
             case D_STATS:
             {
                 uimenu smenu;
+                smenu.return_invalid = true;
                 smenu.addentry( 0, true, 'S', "%s: %d", _("Maximum strength"), p.str_max );
                 smenu.addentry( 1, true, 'D', "%s: %d", _("Maximum dexterity"), p.dex_max );
                 smenu.addentry( 2, true, 'I', "%s: %d", _("Maximum intelligence"), p.int_max );
@@ -4085,6 +4086,7 @@ void game::debug()
             case D_HP:
             {
                 uimenu smenu;
+                smenu.return_invalid = true;
                 smenu.addentry( 0, true, 'q', "%s: %d", _("Torso"), p.hp_cur[hp_torso] );
                 smenu.addentry( 1, true, 'w', "%s: %d", _("Head"), p.hp_cur[hp_head] );
                 smenu.addentry( 2, true, 'a', "%s: %d", _("Left arm"), p.hp_cur[hp_arm_l] );
@@ -4136,6 +4138,7 @@ void game::debug()
             case D_NEEDS:
             {
                 uimenu smenu;
+                smenu.return_invalid = true;
                 smenu.addentry( 0, true, 'h', "%s: %d", _("Hunger"), p.get_hunger() );
                 smenu.addentry( 1, true, 't', "%s: %d", _("Thirst"), p.thirst );
                 smenu.addentry( 2, true, 'f', "%s: %d", _("Fatigue"), p.fatigue );
@@ -4182,6 +4185,7 @@ void game::debug()
             case D_HEALTHY:
             {
                 uimenu smenu;
+                smenu.return_invalid = true;
                 smenu.addentry( 0, true, 'h', "%s: %d", _("Health"), p.get_healthy() );
                 smenu.addentry( 1, true, 'm', "%s: %d", _("Health modifier"), p.get_healthy_mod() );
                 smenu.addentry( 999, true, 'q', "%s", _("[q]uit") );
@@ -4205,13 +4209,14 @@ void game::debug()
             case D_MISSION:
                 {
                     uimenu types;
+                    types.return_invalid = true;
                     types.text = _( "Choose mission type" );
                     for( auto &mt : mission_type::get_all() ) {
                         types.addentry( mt.id, true, -1, mt.name );
                     }
                     types.addentry( INT_MAX, true, -1, _( "Cancel" ) );
                     types.query();
-                    if( types.ret != INT_MAX ) {
+                    if( types.ret != INT_MAX && types.ret != UIMENU_INVALID ) {
                         np->add_new_mission( mission::reserve_new( static_cast<mission_type_id>( types.ret ), np->getID() ) );
                     }
                 }
@@ -4341,10 +4346,11 @@ void game::debug()
         };
 
         uimenu smenu;
-
+        smenu.return_invalid = true;
         do {
             const int iSel = smenu.ret;
             smenu.reset();
+            smenu.return_invalid = true;
             smenu.addentry( 0, true, 'y', "%s: %d", _("year"), calendar::turn.years() );
             smenu.addentry( 1, true, 's', "%s: %d", _("season"), int(calendar::turn.get_season()) );
             smenu.addentry( 2, true, 'd', "%s: %d", _("day"), calendar::turn.days() );
@@ -4378,7 +4384,7 @@ void game::debug()
             default:
                 break;
             }
-        } while (smenu.ret != 6);
+        } while (smenu.ret != 6 && smenu.ret != UIMENU_INVALID);
     }
     break;
     case 27:
@@ -7885,7 +7891,7 @@ bool pet_menu(monster *z)
     };
 
     uimenu amenu;
-
+    amenu.return_invalid = true;
     std::string pet_name = _("dog");
     if( z->type->in_species( ZOMBIE ) ) {
         pet_name = _("zombie slave");
@@ -7923,16 +7929,16 @@ bool pet_menu(monster *z)
     amenu.query();
     int choice = amenu.ret;
 
-    if (cancel == choice) {
+    if (cancel == choice || UIMENU_INVALID == choice) {
         return false;
     }
 
     if (swap_pos == choice) {
         g->u.moves -= 150;
 
-        ///\EFFECT_STR increases chance to successfuly swap positions with your pet
+        ///\EFFECT_STR increases chance to successfully swap positions with your pet
 
-        ///\EFFECT_DEX increases chance to successfuly swap positions with your pet
+        ///\EFFECT_DEX increases chance to successfully swap positions with your pet
         if (!one_in((g->u.str_cur + g->u.dex_cur) / 6)) {
 
             bool t = z->has_effect("tied");
