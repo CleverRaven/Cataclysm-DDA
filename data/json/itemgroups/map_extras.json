@@ -194,6 +194,36 @@
     }, {
         "type" : "item_group",
         "subtype": "collection",
+        "id": "map_extra_military",
+        "entries":
+        [
+            { "item": "corpse", "damage": 3 },
+            { "group": "underwear", "damage-min": 1, "damage-max": 3 },
+            { "group": "military_boots", "damage-min": 1, "damage-max": 4 },
+            { "item": "socks", "damage-min": 1, "damage-max": 4 },
+            { "distribution": [
+                { "collection": [
+                    { "group": "military_pants", "damage-min": 1, "damage-max": 4 },
+                    { "group": "military_shirts", "damage-min": 1, "damage-max": 4 }
+                ], "prob": 75  },
+                { "item": "jumpsuit", "damage-min": 1, "damage-max": 4, "prob": 25 }
+            ], "prob": 100 },           
+            { "group": "military_gloves", "damage-min": 1, "damage-max": 4, "prob": 15 },
+            { "group": "military_hats", "damage-min": 1, "damage-max": 4, "prob": 15 },
+            { "group": "military_helmets", "damage-min": 0, "damage-max": 3, "prob": 25 },
+            { "group": "military_eyewear", "damage-min": 1, "damage-max": 4, "prob": 15 },
+            { "group": "military_storage", "damage-min": 1, "damage-max": 4, "prob": 10 },
+            { "group": "military_extras", "damage-min": 0, "damage-max": 4, "prob": 10 },
+            { "distribution": [
+                { "group": "military_armor", "damage-min": 0, "damage-max": 4, "prob": 15 },
+                { "group": "military_coats", "damage-min": 1, "damage-max": 4, "prob": 85 }
+            ], "prob": 50 },
+            { "group": "military_gear", "prob": 86 },
+            { "item": "id_military", "prob": 12 }
+        ]
+    }, {
+        "type" : "item_group",
+        "subtype": "collection",
         "id": "map_extra_science",
         "entries":
         [
