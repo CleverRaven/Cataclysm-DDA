@@ -1832,5 +1832,80 @@
       { "item": "spiral_stone", "prob": 10 },
       { "item": "petrified_eye", "prob": 10 }
     ]
+ },{
+    "type" : "item_group",
+    "id" : "medieval",
+    "subtype": "distribution",
+    "entries" : [
+      { "group": "western_medieval_armor", "prob": 50 },
+      { "group": "eastern_medieval_armor", "prob": 50 },
+      { "group": "western_medieval_weapons", "prob": 50 },
+      { "group": "eastern_medieval_weapons", "prob": 50 },
+      { "item": "textbook_weapwest", "prob": 15 },
+      { "item": "textbook_weapeast", "prob": 15 },
+      { "item": "textbook_armwest", "prob": 15 },
+      { "item": "textbook_armeast", "prob": 15 }
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "museum_primitive",
+    "subtype": "distribution",
+    "entries" : [
+      { "group": "primitive_gear", "prob": 120 },
+      { "group": "primitive_range_weapons", "prob": 50 },
+      { "group": "primitive_ammo", "prob": 50 },
+      { "group": "primitive_melee_weapons", "prob": 100 },
+      { "group": "loincloth", "prob": 20 }
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "museum_armor",
+    "subtype": "distribution",
+    "entries" : [
+      { "group": "western_medieval_armor", "prob": 100 },
+      { "group": "eastern_medieval_armor", "prob": 50 }
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "museum_melee",
+    "subtype": "distribution",
+    "entries" : [
+      { "group": "replica_weapons", "prob": 100 },
+      { "group": "western_medieval_weapons", "prob": 50 },
+      { "group": "eastern_medieval_weapons", "prob": 50 }
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "museum_guns",
+    "subtype": "distribution",
+    "entries" : [
+      { "group": "antique_guns", "prob": 100 },
+      { "group": "antique_ammo", "prob": 25 }
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "museum_misc",
+    "items" : [
+      ["small_relic", 80],
+      ["holy_symbol", 80],
+      ["spiral_stone", 80],
+      ["petrified_eye",5],
+      ["etched_skull", 80],
+      ["ceramic_plate", 90],
+      ["ceramic_bowl", 90],
+      ["clay_hydria", 50],
+      ["ceramic_cup", 90]
+    ]
+  },{
+  "type" : "item_group",
+    "id" : "museum_security",
+    "items" : [
+      ["television", 90],
+      ["tonfa", 20],
+      ["tazer", 20],
+      ["flashlight", 40],
+      ["two_way_radio", 10],
+      ["camera_control", 5]
+    ]
    } 
  ]

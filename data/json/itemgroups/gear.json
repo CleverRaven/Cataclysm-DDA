@@ -2215,5 +2215,237 @@
       "power_armor_frame",
       "UPS_off"
     ]
+  },{
+    "type" : "item_group",
+    "id" : "primitive_underwear_top",
+    "items":[
+      ["chestwrap", 10],
+      ["chestwrap_wool", 20],
+      ["chestwrap_leather", 70],
+      ["chestwrap_fur", 20]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "primitive_underwear_bottom",
+    "items":[
+      ["loincloth", 10],
+      ["loincloth_leather", 70],
+      ["loincloth_fur", 50],
+      ["loincloth_wool", 20]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "primitive_pants",
+    "items":[
+      ["pants_leather", 70],
+      ["skirt_leather", 40],
+      ["pants_fur", 10],
+      ["tunic_rag", 30],
+      ["sleeveless_tunic", 5]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "primitive_shirts",
+    "items":[
+      ["null", 50],
+      ["tank_top", 10],
+      ["sweater", 5]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "primitive_coats",
+    "//" : "trenchcoats are set extra low due to the large number of variants.",
+    "items":[
+      ["vest_leather", 100],
+      ["jacket_leather", 40],
+      ["coat_fur", 20],
+      ["poncho", 80],
+      ["vest", 10],
+      ["trenchcoat_leather", 15],
+      ["trenchcoat_fur", 10],
+      ["sleeveless_trenchcoat", 10],
+      ["sleeveless_trenchcoat_leather", 20],
+      ["sleeveless_trenchcoat_fur", 5],
+      ["duster_leather", 20],
+      ["duster_fur", 10],
+      ["sleeveless_duster", 5],
+      ["sleeveless_duster_leather", 15],
+      ["sleeveless_duster_fur", 10],
+      ["cloak", 10],
+      ["cloak_wool", 60],
+      ["cloak_fur", 30],
+      ["cloak_leather", 50]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "primitive_armor",
+    "items":[
+      ["armor_larmor", 100],
+      ["armor_chitin", 40],
+      ["armor_bone", 50],
+      ["armor_blarmor", 40],
+      ["armor_farmor", 30]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "primitive_shoes",
+    "items":[
+      ["boots", 50],
+      ["leathersandals", 100],
+      ["bastsandals", 40],
+      ["straw_sandals", 50],
+      ["clogs", 30],
+      ["footrags", 5],
+      ["footrags_wool", 20],
+      ["footrags_leather", 40]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "primitive_gloves",
+    "items":[
+      ["gloves_wraps", 20],
+      ["gloves_wraps_leather", 80],
+      ["gloves_wraps_wool", 50],
+      ["gloves_leather", 50],
+      ["gloves_light", 10],
+      ["gloves_fingerless", 75],
+      ["gloves_fur", 30],
+      ["gloves_wool", 50],
+      ["gauntlets_chitin", 40],
+      ["gauntlets_bone", 40],
+      ["gauntlets_larmor", 50]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "primitive_hats",
+    "items":[
+      ["straw_hat", 100],
+      ["hat_fur",  50],
+      ["straw_fedora", 50],
+      ["hat_cotton", 10],
+      ["hat_knit", 10],
+      ["cowboy_hat", 1]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "primitive_helmets",
+    "items":[
+      ["helmet_larmor", 100],
+      ["helmet_chitin", 50],
+      ["helmet_bone",  50]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "primitive_masks",
+    "items":[
+      ["scarf", 10],
+      ["knit_scarf", 50],
+      ["scarf_fur", 50]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "primitive_storage",
+    "items":[
+      ["backpack_leather", 30],
+      ["ragpouch", 20],
+      ["leather_pouch", 50],
+      ["sheath", 50],
+      ["scabbard", 10],
+      ["quiver", 50],
+      ["quiver_large", 10],
+      ["waterskin", 20],
+      ["waterskin2", 10],
+      ["waterskin3", 10]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "primitive_extras",
+    "items":[
+      ["armguard_chitin", 50],
+      ["2byarm_guard", 10],
+      ["2byshin_guard", 10]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "primitive_clothes",
+    "//" : "caveman gear that can be made from rocks, plants, animals. no metal. cotton fabric set low.",
+    "subtype": "distribution",
+    "entries" : [
+      { "group": "primitive_underwear_bottom", "prob": 40 },
+      { "group": "primitive_underwear_top", "prob": 10 },
+      { "group": "primitive_shoes", "prob": 30 },
+      { "group": "primitive_pants", "prob": 90 },
+      { "group": "primitive_shirts", "prob": 10 },
+      { "group": "primitive_coats", "prob": 50 },
+      { "group": "primitive_gloves", "prob": 50 },
+      { "group": "primitive_hats", "prob": 50 },
+      { "group": "primitive_helmets", "prob": 30 },
+      { "group": "primitive_masks", "prob": 30 },
+      { "group": "primitive_storage", "prob": 40 },
+      { "group": "primitive_extras", "prob": 20 }
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "primitive_gear",
+    "items":[
+      ["stick", 50],
+      ["primitive_hammer", 50],
+      ["primitive_adze", 50],
+      ["primitive_axe", 50],
+      ["primitive_shovel", 50],
+      ["primitive_knife", 100],
+      ["needle_wood", 20],
+      ["needle_bone", 20],
+      ["fishing_rod_basic", 50],
+      ["pointy_stick", 20],
+      ["skewer", 50],
+      ["javelin", 20],
+      ["arrowhead", 50],
+      ["distaff_spindle", 50],
+      ["carding_paddles", 50],
+      ["vine_30", 50],
+      ["rope_6", 10],
+      ["fire_drill", 50],
+      ["fire_drill_large", 40],
+      ["rock_quern", 50],
+      ["rock_pot", 50],
+      ["clay_canister", 30],
+      ["clay_watercont", 30],
+      ["bowl_clay", 50],
+      ["jug_clay", 30]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "primitive_melee_weapons",
+    "items":[
+      ["spear_wood", 100],
+      ["primitive_axe", 50],
+      ["cudgel",50],
+      ["q_staff", 50],
+      ["bokken", 10],
+      ["pointy_stick", 30],
+      ["bullwhip", 10],
+      ["glass_macuahuitl",40]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "primitive_range_weapons",
+    "items":[
+      ["javelin", 100],
+      ["sling", 100],
+      ["blowgun", 10],
+      ["longbow", 20],
+      ["compositebow", 10],
+      ["shortbow", 50],
+      ["recurbow", 20],
+      ["reflexbow", 20]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "primitive_ammo",
+    "items":[
+      ["arrow_wood", 100],
+      ["dart", 20]
+    ]
   }
 ]
