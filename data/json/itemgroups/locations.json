@@ -1580,5 +1580,18 @@
     "entries" : [
       { "group": "shotgun_ammo", "prob": 50 }
     ]
+  },{
+    "type" : "item_group",
+    "id" : "camping",
+    "subtype": "distribution",
+    "entries" : [
+      { "group": "camping_gear", "prob": 300 },
+      { "group": "camping_surv_books", "prob": 50 },
+      { "group": "fishing_gear", "prob": 50 },
+      { "group": "archery", "prob": 20 },
+      { "group": "archery_ammo", "prob": 20 },
+      { "group": "rain_gear", "prob": 20 },
+      { "group": "rain_clothes", "prob": 15 }
+    ]
   }    
  ]
