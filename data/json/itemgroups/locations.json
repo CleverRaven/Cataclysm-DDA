@@ -1719,6 +1719,39 @@
       { "item": "700nx", "prob": 1 },
       { "item": "combination_gun", "prob": 5 },
       { "item": "trex_gun", "prob":1 }
+  },{
+    "type" : "item_group",
+    "id" : "arcade_prizes",
+    "subtype": "distribution",
+    "entries" : [
+      { "group": "child_books", "prob": 200 },
+      { "group": "candy", "prob": 300 },
+      { "group": "sugar_drinks", "prob": 200 },
+      { "item": "bbgun", "prob": 35 },
+      { "item": "bb", "prob": 80 },
+      { "item": "bat", "prob": 50 },
+      { "item": "wristrocket", "prob": 65 },
+      { "item": "marble", "prob": 50 },
+      { "item": "mp3", "prob": 40 },
+      { "item": "l-stick", "prob": 10 },
+      { "item": "portable_game", "prob": 65 },
+      { "item": "wristwatch", "prob": 40 },
+      { "item": "atomic_light", "prob": 10 },
+      { "item": "glowstick", "prob": 50 },
+      { "item": "folding_bicycle", "prob": 45 },
+      { "item": "talking_doll", "prob": 60 },
+      { "item": "creepy_doll", "prob": 5 },
+      { "item": "sunglasses", "prob": 25 },
+      { "item": "cowboy_hat", "prob": 25 },
+      { "item": "fc_hairpin", "prob": 50 },
+      { "item": "hairpin", "prob": 40 },
+      { "item": "fanny", "prob": 55 },
+      { "item": "flag_shirt", "prob": 55 },
+      { "item": "wolfsuit", "prob": 5 },
+      { "item": "dinosuit", "prob": 5 },
+      { "item": "clownshoes", "prob": 5 },
+      { "item": "clown_suit", "prob": 5 },
+      { "item": "jedi_cloak", "prob": 5 }
     ]
   } 
  ]
