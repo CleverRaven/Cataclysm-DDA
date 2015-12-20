@@ -153,6 +153,62 @@
     ]
   },{
     "type" : "item_group",
+    "id" : "mine_storage",
+    "subtype": "distribution",
+    "entries" : [
+      { "group": "mining_tools", "prob": 100 },
+      { "group": "lighting_tools", "prob": 50 },
+      { "item": "material_shrd_limestone", "prob": 80 },
+      { "item": "coal", "prob":50 },
+      { "item": "rock", "prob": 50 },
+      { "item": "shovel", "prob": 50 },
+      { "item": "pickaxe", "prob": 10 },
+      { "item": "toolbox", "prob": 10 },
+      { "item": "chem_rdx", "prob": 15 },
+      { "item": "chem_hmtd", "prob": 15 },
+      { "item": "tool_anfo_charge", "prob": 5 }
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "mine_equipment",
+    "subtype": "distribution",
+    "entries" : [
+      { "group": "worker_clothes", "prob": 100 },
+      { "group": "worker_helmets", "prob": 100 },
+      { "group": "worker_storage", "prob": 60 },
+      { "group": "water_storage", "prob": 20 },
+      { "group": "worker_extras", "prob": 45 },
+      { "group": "mining_tools", "prob": 200 },
+      { "group": "lighting_tools", "prob": 100 },
+      { "group": "fuel_gasoline", "prob": 50 },
+      { "group": "fuel_diesel", "prob": 50 },
+      { "item": "oil_lamp", "prob": 50 },
+      { "item": "water_clean", "prob": 80 },
+      { "item": "UPS_off", "prob":50 },
+      { "item": "1st_aid", "prob": 50 },
+      { "item": "jumpsuit", "prob": 3 },
+      { "item": "jerrycan", "prob": 30 },
+      { "item": "jerrycan_big", "prob": 30 },
+      { "item": "chain", "prob": 10 },
+      { "item": "toolbox", "prob": 15 },
+      { "item": "bio_tools", "prob": 10 },
+      { "item": "bio_flashlight", "prob": 10 },
+      { "item": "bio_magnet", "prob": 10 },
+      { "item": "bio_resonator", "prob": 10 },
+      { "item": "bio_hydraulics", "prob": 10 },
+      { "item": "goggles_nv", "prob": 5 },
+      { "item": "goggles_ir", "prob": 5 },
+      { "item": "remotevehcontrol", "prob": 10 }
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "spiral",
+    "items":[
+      ["spiral_stone", 20],
+      ["vortex_stone", 2]
+    ]
+  },{
+    "type" : "item_group",
     "id" : "hive",
     "items":[
       ["honeycomb", 100]
