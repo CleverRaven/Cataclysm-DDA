@@ -13934,7 +13934,7 @@ void game::wait()
     as_m.entries.push_back(uimenu_entry(10, true, 'm', _("Wait till midnight")));
     as_m.entries.push_back(uimenu_entry(11, true, 'w', _("Wait till weather changes")));
 
-    as_m.entries.push_back(uimenu_entry(12, true, 'x', _("Exit")));
+    as_m.entries.push_back(uimenu_entry(12, true, 'q', _("Exit")));
     as_m.query(); /* calculate key and window variables, generate window, and loop until we get a valid answer */
 
     const int iHour = calendar::turn.hours();
