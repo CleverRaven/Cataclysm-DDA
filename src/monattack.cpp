@@ -536,7 +536,9 @@ bool mattack::pull_metal_weapon(monster *z)
             int wp_skill = foe->skillLevel( skill_melee );
             z->moves -= att_cost_pull;   // It takes a while
             int success = 100;
+            ///\EFFECT_STR increases resistance to pull_metal_weapon special attack
             if ( foe->str_cur > min_str ) {
+                ///\EFFECT_MELEE increases resistance to pull_metal_weapon special attack
                 success = std::max(100 - (6 * (foe->str_cur - 6)) - (6 * wp_skill), 0);
             }
             auto m_type = foe == &g->u ? m_bad : m_neutral;
@@ -611,6 +613,7 @@ bool mattack::boomer(monster *z)
         }
     }
     if( !target->uncanny_dodge() ) {
+        ///\EFFECT_DODGE increases chance to avoid boomer effect
         if (rng(0, 10) > target->get_dodge() || one_in( target->get_dodge() ) ) {
             target->add_env_effect("boomered", bp_eyes, 3, 12);
         } else if( u_see ) {
@@ -650,6 +653,7 @@ bool mattack::boomer_glow(monster *z)
         }
     }
     if( !target->uncanny_dodge() ) {
+        ///\EFFECT_DODGE increases chance to avoid glowing boomer effect
         if (rng(0, 10) > target->get_dodge() || one_in( target->get_dodge() ) ) {
             target->add_env_effect("boomered", bp_eyes, 5, 25);
             target->on_dodge( z, 10 );
@@ -1037,6 +1041,7 @@ bool mattack::science(monster *const z) // I said SCIENCE again!
         bool const critial_fail = one_in(dodge_skill);
         bool const is_trivial   = dodge_skill > att_rad_dodge_diff;
 
+        ///\EFFECT_DODGE increases chance to avoid science effect
         if (!critial_fail && (is_trivial || dodge_skill > rng(0, att_rad_dodge_diff))) {
             target->add_msg_player_or_npc(_("You dodge the beam!"),
                                           _("<npcname> dodges the beam!"));
@@ -2029,10 +2034,16 @@ bool mattack::dermatik(monster *z)
 
     // Can we swat the bug away?
     int dodge_roll = z->dodge_roll();
+    ///\EFFECT_MELEE increases chance to deflect dermatik attack
+
+    ///\EFFECT_UNARMED increases chance to deflect dermatik attack
     int swat_skill = ( foe->skillLevel( skill_melee ) + foe->skillLevel( skill_unarmed ) * 2) / 3;
     int player_swat = dice(swat_skill, 10);
     if( foe->has_trait("TAIL_CATTLE") ) {
         target->add_msg_if_player(_("You swat at the %s with your tail!"), z->name().c_str());
+        ///\EFFECT_DEX increases chance of deflecting dermatik attack with TAIL_CATTLE
+
+        ///\EFFECT_UNARMED increases chance of deflecting dermatik attack with TAIL_CATTLE
         player_swat += ( ( foe->dex_cur + foe->skillLevel( skill_unarmed ) ) / 2 );
     }
     if( player_swat > dodge_roll ) {
@@ -2485,6 +2496,9 @@ bool mattack::grab(monster *z)
         return true;
     }
 
+    ///\EFFECT_DEX increases chance to avoid being grabbed if DEX>STR
+
+    ///\EFFECT_STR increases chance to avoid being grabbed if STR>DEX
     if ( pl->has_grab_break_tec() && pl->get_grab_resist() > 0 && pl->get_dex() > pl->get_str() ?
         rng(0, pl->get_dex()) : rng( 0, pl->get_str()) > rng( 0 , z->type->melee_sides + z->type->melee_dice)) {
         if (target->has_effect("grabbed")){
@@ -2634,6 +2648,7 @@ bool mattack::fear_paralyze(monster *z)
     if (g->u.sees( *z )) {
         if (g->u.has_artifact_with(AEP_PSYSHIELD) || (g->u.is_wearing("tinfoil_hat") && one_in(4))) {
             add_msg(_("The %s probes your mind, but is rebuffed!"), z->name().c_str());
+        ///\EFFECT_INT decreases chance of being paralyzed by fear attack
         } else if (rng(1, 20) > g->u.int_cur) {
             add_msg(m_bad, _("The terrifying visage of the %s paralyzes you."),
                     z->name().c_str());
@@ -4329,6 +4344,9 @@ bool mattack::thrown_by_judo(monster *z)
     // "Wimpy" Judo is about to pay off... :D
     if( foe->is_throw_immune() ) {
         // DX + Unarmed
+        ///\EFFECT_DEX increases chance judo-throwing a monster
+
+        ///\EFFECT_UNARMED increases chance of judo-throwing monster, vs their melee skill
         if ( ((foe->dex_cur + foe->skillLevel( skill_unarmed )) > (z->type->melee_skill + rng(0, 3))) ) {
             target->add_msg_if_player( m_good, _("but you grab its arm and flip it to the ground!") );
 
@@ -4426,6 +4444,7 @@ bool mattack::riotbot(monster *z)
 
         amenu.addentry(ur_arrest, true, 'a', _("Allow yourself to be arrested."));
         amenu.addentry(ur_resist, true, 'r', _("Resist arrest!"));
+        ///\EFFECT_INT >10 allows and increases chance whether you can feign death to avoid riot bot arrest
         if (foe->int_cur > 12 || (foe->int_cur > 10 && !one_in(foe->int_cur - 8))) {
             amenu.addentry(ur_trick, true, 't', _("Feign death."));
         }
@@ -4444,6 +4463,7 @@ bool mattack::riotbot(monster *z)
 
             const bool is_uncanny = foe->has_active_bionic("bio_uncanny_dodge") && foe->power_level > 74 &&
                                     !one_in(3);
+            ///\EFFECT_DEX >13 allows and increases chance to slip out of riot bot handcuffs
             const bool is_dex = foe->dex_cur > 13 && !one_in(foe->dex_cur - 11);
 
             if (is_uncanny || is_dex) {
@@ -4480,6 +4500,7 @@ bool mattack::riotbot(monster *z)
 
         if (choice == ur_trick) {
 
+            ///\EFFECT_INT >10 allows and increases chance of successful feign death against riot bot
             if (!one_in(foe->int_cur - 10)) {
 
                 add_msg(m_good,
@@ -5010,6 +5031,7 @@ bool mattack::stretch_attack(monster *z){
 }
 
 bool mattack::dodge_check(monster *z, Creature *target){
+    ///\EFFECT_DODGE increases chance of dodging, vs their melee skill
     int dodge = std::max( target->get_dodge() - rng(0, z->type->melee_skill), 0L );
     if (rng(0, 10000) < 10000 / (1 + (99 * exp(-.6 * dodge)))) {
         return true;

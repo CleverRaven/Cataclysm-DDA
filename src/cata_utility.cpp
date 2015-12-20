@@ -225,11 +225,52 @@ int bound_mod_to_vals( int val, int mod, int max, int min )
     return mod;
 }
 
-std::string weight_units()
+const char *velocity_units( const units_type vel_units )
 {
-    return OPTIONS["USE_METRIC_WEIGHTS"].getValue() == "lbs" ? _("lbs") : _("kg");
+    if( OPTIONS["USE_METRIC_SPEEDS"].getValue() == "mph" ) {
+        return _( "mph" );
+    } else {
+        switch( vel_units ) {
+            case VU_VEHICLE:
+                return _( "km/h" );
+            case VU_WIND:
+                return _( "m/s" );
+        }
+    }
+    return "error: unknown units!";
 }
 
+const char *weight_units()
+{
+    return OPTIONS["USE_METRIC_WEIGHTS"].getValue() == "lbs" ? _( "lbs" ) : _( "kg" );
+}
+
+/**
+* Convert internal velocity units to units defined by user
+*/
+double convert_velocity( int velocity, const units_type vel_units )
+{
+    // internal units to mph conversion
+    double ret = double( velocity ) / 100;
+
+    if( OPTIONS["USE_METRIC_SPEEDS"] == "km/h" ) {
+        switch( vel_units ) {
+            case VU_VEHICLE:
+                // mph to km/h conversion
+                ret *= 1.609f;
+                break;
+            case VU_WIND:
+                // mph to m/s conversion
+                ret *= 0.447f;
+                break;
+        }
+    }
+    return ret;
+}
+
+/**
+* Convert weight in grams to units defined by user (kg or lbs)
+*/
 double convert_weight( int weight )
 {
     double ret;

@@ -633,6 +633,7 @@ void talk_function::attack_random(std::vector<npc *> attacker, std::vector<npc *
     if (best != nullptr){
         best_score = att->skillLevel(best);
     }
+    ///\EFFECT_DODGE_NPC increases avoidance of random attacks
     if( rng( -1, best_score ) >= rng( 0, def->skillLevel( skill_dodge ) ) ){
         def->hp_cur[hp_torso] = 0;
         popup(_("%s is wasted by %s!"), def->name.c_str(), att->name.c_str());
@@ -944,6 +945,23 @@ bool talk_function::scavenging_patrol_return(npc *p)
     int experience = rng( 5, 20 );
     if (one_in(4)){
         popup(_("While scavenging, %s's party suddenly found itself set upon by a large mob of undead..."), comp->name.c_str());
+        // the following doxygen aliases do not yet exist. this is marked for future reference
+
+        ///\EFFECT_MELEE_NPC affects scavenging_patrol results
+
+        ///\EFFECT_SURVIVAL_NPC affects scavenging_patrol results
+
+        ///\EFFECT_BASHING_NPC affects scavenging_patrol results
+
+        ///\EFFECT_CUTTING_NPC affects scavenging_patrol results
+
+        ///\EFFECT_GUN_NPC affects scavenging_patrol results
+
+        ///\EFFECT_STABBING_NPC affects scavenging_patrol results
+
+        ///\EFFECT_UNARMED_NPC affects scavenging_patrol results
+
+        ///\EFFECT_DODGE_NPC affects scavenging_patrol results
         int skill = comp->skillLevel( skill_melee ) + (.5*comp->skillLevel( skill_survival )) + comp->skillLevel( skill_bashing ) +
             comp->skillLevel( skill_cutting ) + comp->skillLevel( skill_gun ) + comp->skillLevel( skill_stabbing )
             + comp->skillLevel( skill_unarmed ) + comp->skillLevel( skill_dodge ) + 4;
@@ -1018,6 +1036,23 @@ bool talk_function::scavenging_raid_return(npc *p)
     int experience = rng(10,20);
     if (one_in(2)){
         popup(_("While scavenging, %s's party suddenly found itself set upon by a large mob of undead..."), comp->name.c_str());
+        // the following doxygen aliases do not yet exist. this is marked for future reference
+
+        ///\EFFECT_MELEE_NPC affects scavenging_raid results
+
+        ///\EFFECT_SURVIVAL_NPC affects scavenging_raid results
+
+        ///\EFFECT_BASHING_NPC affects scavenging_raid results
+
+        ///\EFFECT_CUTTING_NPC affects scavenging_raid results
+
+        ///\EFFECT_GUN_NPC affects scavenging_raid results
+
+        ///\EFFECT_STABBING_NPC affects scavenging_raid results
+
+        ///\EFFECT_UNARMED_NPC affects scavenging_raid results
+
+        ///\EFFECT_DODGE_NPC affects scavenging_raid results
         int skill = comp->skillLevel( skill_melee ) + (.5*comp->skillLevel( skill_survival )) + comp->skillLevel( skill_bashing ) +
             comp->skillLevel( skill_cutting ) + comp->skillLevel( skill_gun ) + comp->skillLevel( skill_stabbing )
             + comp->skillLevel( skill_unarmed ) + comp->skillLevel( skill_dodge ) + 4;
@@ -1142,6 +1177,13 @@ bool talk_function::carpenter_return(npc *p)
     }
 
     if (one_in(20)){
+        // the following doxygen aliases do not yet exist. this is marked for future reference
+
+        ///\EFFECT_CARPENTRY_NPC affects carpenter mission results
+
+        ///\EFFECT_DODGE_NPC affects carpenter mission results
+
+        ///\EFFECT_SURVIVAL_NPC affects carpenter mission results
         int skill_1 = comp->skillLevel( skill_carpentry );
         int skill_2 = comp->skillLevel( skill_dodge );
         int skill_3 = comp->skillLevel( skill_survival );
@@ -1197,6 +1239,11 @@ bool talk_function::forage_return(npc *p)
 
     if (one_in(10)){
         popup(_("While foraging, a beast began to stalk %s..."), comp->name.c_str());
+        // the following doxygen aliases do not yet exist. this is marked for future reference
+
+        ///\EFFECT_SURVIVAL_NPC affects forage mission results
+
+        ///\EFFECT_DODGE_NPC affects forage mission results
         int skill_1 = comp->skillLevel( skill_survival );
         int skill_2 = comp->skillLevel( skill_dodge );
         if( skill_1 > rng( -2, 8 ) ){
@@ -1205,6 +1252,21 @@ bool talk_function::forage_return(npc *p)
             popup(_("As soon as the cougar sprang %s darted to the safety of the outpost!"), comp->name.c_str());
         } else {
             popup(_("%s was caught unaware and was forced to fight the creature at close range!"), comp->name.c_str());
+            // the following doxygen aliases do not yet exist. this is marked for future reference
+            
+            ///\EFFECT_MELEE_NPC affects forage mission results
+
+            ///\EFFECT_SURVIVAL_NPC affects forage mission results
+
+            ///\EFFECT_BASHING_NPC affects forage mission results
+
+            ///\EFFECT_CUTTING_NPC affects forage mission results
+
+            ///\EFFECT_STABBING_NPC affects forage mission results
+
+            ///\EFFECT_UNARMED_NPC affects forage mission results
+
+            ///\EFFECT_DODGE_NPC affects forage mission results
             int skill = comp->skillLevel( skill_melee ) + (.5*comp->skillLevel( skill_survival )) + comp->skillLevel( skill_bashing ) +
             comp->skillLevel( skill_cutting ) + comp->skillLevel( skill_stabbing ) + comp->skillLevel( skill_unarmed )
             + comp->skillLevel( skill_dodge );
@@ -1252,6 +1314,9 @@ bool talk_function::forage_return(npc *p)
     }
 
     popup(_("%s returns from working as a forager having earned $%d and a bit of experience..."), comp->name.c_str(),money);
+    // the following doxygen aliases do not yet exist. this is marked for future reference
+
+    ///\EFFECT_SURVIVAL_NPC affects forage mission results
     int skill = comp->skillLevel( skill_survival );
     if( skill > rng_float( -.5, 8 ) ) {
         std::string itemlist = "farming_seeds";

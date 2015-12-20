@@ -132,7 +132,6 @@ std::string weather_forecast( point const &abs_sm_pos );
 //
 // Use the decimals parameter to set number of decimal places returned in string.
 std::string print_temperature(float fahrenheit, int decimals = 0);
-std::string print_windspeed(float windspeed, int decimals = 0);
 std::string print_humidity(float humidity, int decimals = 0);
 std::string print_pressure(float pressure, int decimals = 0);
 
@@ -163,5 +162,10 @@ double funnel_charges_per_turn( double surface_area_mm2, double rain_depth_mm_pe
  * The returned value is in turns (at standard conditions it is endturn-startturn).
  */
 int get_rot_since( int startturn, int endturn, const tripoint &pos );
+
+/**
+ * Is it warm enough to plant seeds?
+ */
+bool warm_enough_to_plant();
 
 #endif

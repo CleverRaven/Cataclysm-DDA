@@ -253,7 +253,7 @@ void inventory_selector::print_inv_weight_vol(int weight_carried, int vol_carrie
         int vol_capacity) const
 {
     // Print weight
-    mvwprintw(w_inv, 0, 32, _("Weight (%s): "), weight_units().c_str());
+    mvwprintw(w_inv, 0, 32, _("Weight (%s): "), weight_units());
     nc_color weight_color;
     if (weight_carried > g->u.weight_capacity()) {
         weight_color = c_red;
@@ -904,6 +904,8 @@ item_location game::inv_map_splice(
                         if( cur_invlet <= max_invlet ) {
                             current_stack.back().front().invlet = cur_invlet++;
                             invlets.emplace_back( item_location::on_map( pos, &it ) );
+                        } else {
+                            current_stack.back().front().invlet = 0;
                         }
                     }
                 }
@@ -945,6 +947,8 @@ item_location game::inv_map_splice(
                             if( cur_invlet <= max_invlet ) {
                                 current_stack.back().front().invlet = cur_invlet++;
                                 invlets.emplace_back( item_location::on_vehicle( *veh, veh->parts[part].mount, &it ) );
+                            } else {
+                                current_stack.back().front().invlet = 0;
                             }
                         }
                     }
