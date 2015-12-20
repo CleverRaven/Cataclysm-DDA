@@ -1582,6 +1582,31 @@
     ]
   },{
     "type" : "item_group",
+    "id" : "mil_surplus",
+    "subtype": "distribution",
+    "entries" : [
+      { "group": "camping_gear", "prob": 430 },
+      { "group": "camping_surv_books", "prob": 50 },
+      { "group": "fight_books", "prob": 50 },
+      { "group": "gun_books", "prob": 50 },
+      { "group": "combat_knives", "prob": 100 },
+      { "group": "lighting_tools", "prob": 50 },
+      { "group": "military_storage", "prob": 100 },
+      { "item": "throwing_knife", "prob": 10 },
+      { "item": "throwing_axe", "prob": 10 },
+      { "item": "crossbow", "prob": 10 },
+      { "item": "bolt_steel", "prob": 30 },
+      { "item": "flaregun", "prob": 10 },
+      { "item": "signal_flare", "prob": 20 },
+      { "item": "geiger_off", "prob": 10 },
+      { "item": "rad_monitor", "prob": 10 },
+      { "item": "jerrycan", "prob": 20 },
+      { "item": "pur_tablets", "prob": 20 },
+      { "item": "binoculars", "prob": 35 },
+      { "item": "survnote", "prob": 1 }
+    ]
+  },{
+    "type" : "item_group",
     "id" : "camping",
     "subtype": "distribution",
     "entries" : [
