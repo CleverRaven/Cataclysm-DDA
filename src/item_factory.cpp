@@ -1086,6 +1086,7 @@ void Item_factory::load_basic_info(JsonObject &jo, itype *new_item_template)
     load_slot_optional( new_item_template->seed, jo, "seed_data" );
     load_slot_optional( new_item_template->software, jo, "software_data" );
     load_slot_optional( new_item_template->artifact, jo, "artifact_data" );
+    load_slot_optional( new_item_template->magazine, jo, "magazine_data" );
 }
 
 void Item_factory::load_item_category(JsonObject &jo)
