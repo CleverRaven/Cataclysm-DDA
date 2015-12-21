@@ -61,6 +61,20 @@
         ]
     },
     {
+       "type" : "item_group",
+       "id" : "bionics_common",
+       "note" : "CBMs butchered from shocker zombies, cyborgs, et al.",
+       "subtype": "distribution",
+       "entries" : 
+       [
+          { "group": "power_cbm", "prob": 20 },
+          { "group": "civilian_cbm", "prob": 115 },
+          { "group": "medical_cbm", "prob": 50 },
+          { "group": "sports_cbm", "prob": 10 },
+          { "group": "criminal_cbm", "prob": 5 }
+        ]
+    },
+    {
         "type" : "item_group",
         "subtype": "collection",
         "id": "mon_zombie_hulk_death_drops",
@@ -111,8 +125,7 @@
             { "group": "worker_masks", "damage-min": 1, "damage-max": 4, "prob": 10 },
             { "group": "worker_extras", "damage-min": 1, "damage-max": 4, "prob": 20 },
             { "group": "worker_storage", "damage-min": 1, "damage-max": 4, "prob": 10 },
-            {
-                "distribution": [
+            { "distribution": [
                     { "group": "electronics_tools", "prob": 100 },
                     { "group": "digital_electronics", "prob": 50 },
                     { "group": "electronic_parts", "prob": 50 },
@@ -123,6 +136,41 @@
             },
             { "group": "everyday_gear", "prob": 30 }
         ]
+    },
+    {
+    
+        "type" : "item_group",
+        "id" : "bionics_tech",
+        "subtype": "distribution",
+        "note" : "CBMs butchered from technicians.",
+        "entries" : 
+        [
+            { "group": "power_cbm", "prob": 30 },
+            { "group": "civilian_cbm", "prob": 50 },
+            { "group": "medical_cbm", "prob": 10 },
+            { "group": "science_cbm", "prob": 50 },
+            { "item": "bio_faraday", "prob": 25 },
+            { "item": "bio_heatsink", "prob": 15 },
+            { "item": "bio_magnet", "prob": 10 }
+        ]
+    },
+    {
+      "type" : "item_group",
+      "id" : "bionics_subs",
+      "subtype": "distribution",
+      "note" : "CBMs butchered from shocker brutes.",
+      "entries" : 
+      [
+            { "group": "power_cbm", "prob": 60 },
+            { "group": "civilian_cbm", "prob": 10 },
+            { "group": "medical_cbm", "prob": 10 },
+            { "group": "science_cbm", "prob": 20 },
+            { "item": "bio_blaster", "prob": 20 },
+            { "item": "bio_emp", "prob": 20 },
+            { "item": "bio_chain_lightning", "prob": 20 },
+            { "item": "bio_faraday", "prob": 20 },
+            { "item": "bio_adrenaline", "prob": 20 }
+      ]
     },
     {
         "type" : "item_group",
@@ -159,6 +207,20 @@
             ] },
             { "group": "everyday_gear", "prob": 15 }
         ]
+    },
+    {
+       "type" : "item_group",
+       "id" : "bionics_sci",
+       "note" : "CBMs butchered from scientist zombies. includes small chance of military stuff.",
+       "subtype": "distribution",
+       "entries" : 
+       [
+            { "group": "power_bionics", "prob": 10 },
+            { "group": "science_bionics", "prob": 150 },
+            { "group": "civilian_bionics", "prob": 15 },
+            { "group": "medical_bionics", "prob": 25 },
+            { "group": "military_bionics", "prob": 25 }
+       ]
     },
     {
         "type" : "item_group",
@@ -360,6 +422,33 @@
                 { "group": "bots", "prob": 5 }
             ], "prob": 90 },
             { "group": "everyday_gear", "prob": 30 }
+        ]
+    },
+        "type" : "item_group",
+        "id" : "bionics_mil",
+        "subtype": "distribution",
+        "entries" : 
+        [
+            { "group": "power_cbm", "prob": 25 },
+            { "group": "military_cbm", "prob": 120 },
+            { "group": "civilian_cbm", "prob": 25 },
+            { "group": "sports_cbm", "prob": 30 }
+        ]
+    },
+    {
+       "type" : "item_group",
+       "id" : "bionics_op",
+       "subtype": "distribution",
+       "note" : "CBMs butchered from bio operators.",
+       "entries" : 
+       [
+          { "group": "power_cbm", "prob": 10 },
+          { "group": "civilian_cbm", "prob": 15 },
+          { "group": "medical_cbm", "prob": 10 },
+          { "group": "science_cbm", "prob": 5 },
+          { "group": "military_cbm", "prob": 130 },
+          { "item": "bio_power_armor_interface", "prob": 10 },
+          { "item": "bio_power_armor_interface_mkII", "prob": 10 }
         ]
     },
     {

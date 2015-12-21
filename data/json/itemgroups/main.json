@@ -1875,6 +1875,10 @@
     "type" : "item_group",
     "id" : "bionics",
     "items":[
+      ["bio_str_enhancer", 10],
+      ["bio_dex_enhancer", 10],
+      ["bio_int_enhancer", 10],
+      ["bio_eye_enhancer", 10],
       ["bio_adrenaline", 10],
       ["bio_ads", 10],
       ["bio_alarm", 10],
@@ -1893,13 +1897,11 @@
       ["bio_claws", 10],
       ["bio_climate", 10],
       ["bio_cloak", 10],
-      ["bio_dex_enhancer", 10],
       ["bio_digestion", 10],
       ["bio_ears", 10],
       ["bio_emp", 10],
       ["bio_ethanol", 10],
       ["bio_evap", 10],
-      ["bio_eye_enhancer", 10],
       ["bio_face_mask", 10],
       ["bio_faraday", 10],
       ["bio_fingerhack", 10],
@@ -1913,7 +1915,6 @@
       ["bio_heatsink", 10],
       ["bio_hydraulics", 10],
       ["bio_infrared", 10],
-      ["bio_int_enhancer", 10],
       ["bio_laser", 10],
       ["bio_leukocyte", 10],
       ["bio_lighter", 10],
@@ -1944,7 +1945,6 @@
       ["bio_solar", 10],
       ["bio_speed", 5],
       ["bio_storage", 10],
-      ["bio_str_enhancer", 10],
       ["bio_sunglasses", 10],
       ["bio_targeting", 10],
       ["bio_teleport", 10],
@@ -1958,22 +1958,8 @@
     ]
   },{
     "type" : "item_group",
-    "id" : "power_cbms",
-    "subtype": "distribution",
-    "items":[
-      ["bio_power_storage", 200],
-      ["bio_power_storage_mkII", 25],
-      ["bio_batteries", 60],
-      ["bio_metabolics", 50],
-      ["bio_ethanol", 50],
-      ["bio_furnace", 50],
-      ["bio_solar", 25],
-      ["bio_torsionratchet", 40],
-      ["bio_ups", 10]
-    ]
-  },{
-    "type" : "item_group",
-    "id" : "civilian_cbms",
+    "id" : "civilian_cbm",
+    "note" : "For zed butchery results, see monster_drops. They use a composite of the following groups.",
     "items":[
       ["bio_tools", 110],
       ["bio_storage", 30],
@@ -1998,6 +1984,31 @@
       ["bio_heatsink", 50],
       ["bio_adrenaline", 10]
     ]
+ },{
+    "type" : "item_group",
+    "id" : "rare_cbm",
+    "items":[
+      ["bio_night", 50],
+      ["bio_blade", 50],
+      ["bio_teleport", 50],
+      ["bio_probability_travel", 50],
+      ["bio_time_freeze", 50],
+      ["bio_cloak", 50],
+      ["bio_speed", 50]
+  },{
+    "type" : "item_group",
+    "id" : "power_cbm",
+    "subtype": "distribution",
+    "items":[
+      ["bio_power_storage_mkII", 15],
+      ["bio_batteries", 60],
+      ["bio_metabolics", 50],
+      ["bio_ethanol", 50],
+      ["bio_furnace", 50],
+      ["bio_solar", 25],
+      ["bio_torsionratchet", 40],
+      ["bio_ups", 10]
+    ]
   },{
     "type" : "item_group",
     "id" : "medical_cbm",
@@ -2006,8 +2017,8 @@
       ["bio_eye_enhancer", 50],
       ["bio_purifier", 50],
       ["bio_blood_filter", 70],
-      ["bio_geiger", 100],
-      ["bio_painkiller", 50],
+      ["bio_geiger", 30],
+      ["bio_painkiller", 85],
       ["bio_nanobots", 50],
       ["bio_blood_anal", 70],
       ["bio_adrenaline", 50],
@@ -2018,11 +2029,11 @@
     ]
   },{
     "type" : "item_group",
-    "id" : "criminal_cbms",
+    "id" : "criminal_cbm",
     "items":[
       ["bio_night", 1],
       ["bio_tools", 50],
-      ["bio_ups", 20],
+      ["bio_face_mask", 10],
       ["bio_flashlight", 100],
       ["bio_magnet", 20],
       ["bio_ears", 50],
@@ -2074,9 +2085,9 @@
     ]
   },{
     "type" : "item_group",
-    "id" : "military_cbms",
+    "id" : "military_cbm",
     "items":[
-      ["bio_ups", 70],
+      ["bio_ups", 40],
       ["bio_ears", 70],
       ["bio_eye_enhancer", 70],
       ["bio_dex_enhancer", 60],
@@ -2084,22 +2095,22 @@
       ["bio_night_vision", 70],
       ["bio_infrared", 80],
       ["bio_scent_vision", 30],
-      ["bio_carbon", 60],
+      ["bio_carbon", 120],
       ["bio_armor_head", 50],
       ["bio_armor_torso", 80],
       ["bio_armor_arms", 50],
       ["bio_armor_legs", 50],
       ["bio_armor_eyes", 50],
-      ["bio_targeting", 50],
-      ["bio_scent_mask", 50],
+      ["bio_targeting", 250],
+      ["bio_scent_mask", 10],
       ["bio_fingerhack", 10],
       ["bio_lockpick", 10],
-      ["bio_nanobots", 40],
+      ["bio_nanobots", 80],
       ["bio_geiger", 40],
       ["bio_radscrubber", 40],
       ["bio_ads", 50],
       ["bio_ods", 50],
-      ["bio_uncanny_dodge", 50],
+      ["bio_uncanny_dodge", 100],
       ["bio_blaster", 50],
       ["bio_blade", 5],
       ["bio_emp", 60],
@@ -2108,12 +2119,12 @@
       ["bio_chain_lightning", 40],
       ["bio_power_armor_interface", 100],
       ["bio_cqb", 50],
-      ["bio_speed", 30],
+      ["bio_speed", 10],
       ["bio_power_armor_interface_mkII", 70]
     ]
   },{
     "type" : "item_group",
-    "id" : "sports_cbms",
+    "id" : "sports_cbm",
     "items":[
       ["bio_carbon", 60],
       ["bio_armor_head", 10],
