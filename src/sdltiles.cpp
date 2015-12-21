@@ -647,6 +647,14 @@ void try_sdl_update()
     }
 }
 
+//for resetting the render target after updating texture caches in cata_tiles.cpp
+void set_displaybuffer_rendertarget()
+{
+    if( SDL_SetRenderTarget( renderer, display_buffer ) != 0 ) {
+        dbg(D_ERROR) << "SDL_SetRenderTarget failed: " << SDL_GetError();
+    }
+}
+
 // line_id is one of the LINE_*_C constants
 // FG is a curses color
 void Font::draw_ascii_lines(unsigned char line_id, int drawx, int drawy, int FG) const

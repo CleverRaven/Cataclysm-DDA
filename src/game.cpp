@@ -2135,6 +2135,14 @@ input_context game::get_player_input(std::string &action)
                 break;
             }
             wrefresh(w_terrain);
+
+            //updating the pixel minimap here allows red flashing indicators for enemies to actually flicker
+            if(pixel_minimap_option && w_pixel_minimap){
+                werase(w_pixel_minimap);
+                //trick window into rendering
+                mvwputch(w_pixel_minimap, 0, 0, c_black, ' ');
+                wrefresh(w_pixel_minimap);
+            }
         }
         inp_mngr.set_timeout(-1);
     } else {
@@ -5099,6 +5107,8 @@ void game::draw_sidebar()
     // only do so if it is in use
     if(pixel_minimap_option && w_pixel_minimap){
         werase(w_pixel_minimap);
+        //trick window into rendering
+        mvwputch(w_pixel_minimap, 0, 0, c_black, ' ');
         wrefresh(w_pixel_minimap);
     }
 }

@@ -26,6 +26,7 @@
 #include <algorithm>
 #include <fstream>
 #include <stdlib.h>     /* srand, rand */
+#include <sstream>
 
 #include <SDL_image.h>
 
@@ -69,26 +70,6 @@ void SDL_Surface_deleter::operator()( SDL_Surface *const ptr )
     }
 }
 
-struct pixel {
-    int r;
-    int g;
-    int b;
-    int a;
-
-    pixel()
-    {
-        r = 0;
-        g = 0;
-        b = 0;
-        a = 0;
-    }
-
-    bool isBlack()
-    {
-        return (r == 0 && g == 0 && b == 0);
-    }
-};
-
 cata_tiles::cata_tiles(SDL_Renderer *render)
 {
     //ctor
@@ -110,6 +91,7 @@ cata_tiles::cata_tiles(SDL_Renderer *render)
     do_draw_zones = false;
 
     nv_goggles_activated = false;
+    minimap_prep = false;
 
     last_pos_x = 0;
     last_pos_y = 0;
@@ -237,6 +219,14 @@ inline static void set_pixel_color(SDL_Surface_Ptr &surf, int x, int y, int w, p
     pixel_ptr[1] = static_cast<unsigned char>(pix.g);
     pixel_ptr[2] = static_cast<unsigned char>(pix.b);
     pixel_ptr[3] = static_cast<unsigned char>(pix.a);
+}
+
+static void color_pixel_red_mix(pixel& pix, int percent)
+{
+    int otherpercent = 100 - percent;
+    pix.r = pix.r * otherpercent / 100 + 255 * percent / 100;
+    pix.g = pix.g * otherpercent / 100;
+    pix.b = pix.b * otherpercent / 100;
 }
 
 static void color_pixel_grayscale(pixel& pix)
@@ -972,51 +962,156 @@ void cata_tiles::draw_rhombus(int destx, int desty, int size, SDL_Color color, i
     }
 }
 
+//converts a submap x/y location to a string with the contents "x_y"
+//should be unique enough to track submaps ingame
+static std::string get_submap_id(const tripoint &t)
+{
+    std::stringstream ss;
+    ss << (t.x / SEEX) << "_" << (t.y / SEEY);
+    return ss.str();
+}
+
+//creates the texture that individual minimap updates are drawn to
+//later, the main texture is drawn to the display buffer
+//the surface is needed to determine the color format needed by the texture
+SDL_Texture_Ptr cata_tiles::create_minimap_cache_texture(int tile_width, int tile_height)
+{
+    SDL_Surface_Ptr temp = create_tile_surface();
+    SDL_Texture_Ptr tex ( SDL_CreateTexture(renderer, temp->format->format, SDL_TEXTUREACCESS_TARGET,
+                                            tile_width, tile_height) );
+    return tex;
+}
+
+//resets the touched and drawn properties of each active submap cache
+void cata_tiles::prepare_minimap_cache_for_updates()
+{
+    for(auto &mcp : minimap_cache) {
+        mcp.second->touched = false;
+        mcp.second->drawn = false;
+    }
+}
+
+//deletes the mapping of unused submap caches from the main map
+//the touched flag prevents deletion
+void cata_tiles::clear_unused_minimap_cache()
+{
+    std::vector<std::string> unused_ids;
+    for(auto &mcp : minimap_cache) {
+        if(!mcp.second->touched) {
+            unused_ids.push_back(mcp.first);
+        }
+    }
+    for(int i = 0; i < static_cast<int>(unused_ids.size()); i++) {
+        minimap_cache.erase(unused_ids[i]);
+    }
+}
+
+//draws individual updates to the submap cache texture
+void cata_tiles::process_minimap_cache_updates()
+{
+    for(auto &mcp : minimap_cache) {
+        if(!mcp.second->update_list.empty()) {
+            SDL_SetRenderTarget(renderer, mcp.second->minimap_tex.get());
+            SDL_Rect rectangle;
+            rectangle.w = minimap_tile_size_x;
+            rectangle.h = minimap_tile_size_y;
+            for(point &p : mcp.second->update_list) {
+                rectangle.x = p.x * minimap_tile_size_x;
+                rectangle.y = p.y * minimap_tile_size_y;
+                pixel &current_pix = mcp.second->minimap_colors[p.y][p.x];
+                SDL_Color c = current_pix.getSdlColor();
+                SDL_SetRenderDrawColor(renderer, c.r, c.g, c.b, c.a);
+                SDL_RenderFillRect(renderer, &rectangle);
+            }
+            mcp.second->update_list.clear();
+        }
+    }
+}
+
+//finds the correct submap cache and applies the new minimap color blip if it doesn't match the current one
+void cata_tiles::update_minimap_cache( const tripoint &loc, pixel &pix )
+{
+    std::string submap_id = get_submap_id( loc );
+    auto it = minimap_cache.find(submap_id);
+    if(it == minimap_cache.end()) {
+        minimap_cache.insert(std::pair<std::string, minimap_cache_ptr>(submap_id,
+                             minimap_cache_ptr(new minimap_submap_cache())));
+        it = minimap_cache.find(submap_id);
+        it->second->minimap_tex = create_minimap_cache_texture(minimap_tile_size_x * SEEX,
+                                  minimap_tile_size_y * SEEY);
+    }
+
+    it->second->touched = true;
+
+    int ox = loc.x % SEEX;
+    int oy = loc.y % SEEY;
+
+    pixel &current_pix = it->second->minimap_colors[oy][ox];
+    if(current_pix != pix) {
+        current_pix = pix;
+        it->second->update_list.push_back(point(ox, oy));
+    }
+}
+
+//store the known persistent values used in drawing the minimap
+//since modifying the minimap properties requires a restart
+void cata_tiles::init_minimap( int destx, int desty, int width, int height )
+{
+    minimap_prep = true;
+    minimap_minx = 0;
+    minimap_miny = 0;
+    minimap_maxx = MAPSIZE * SEEX;
+    minimap_maxy = MAPSIZE * SEEY;
+    minimap_tiles_range_x = (MAPSIZE - 2) * SEEX;
+    minimap_tiles_range_y = (MAPSIZE - 2) * SEEY;
+    minimap_tile_size_x = std::max(width / minimap_tiles_range_x, 1);
+    minimap_tile_size_y = std::max(height / minimap_tiles_range_y, 1);
+    minimap_tiles_x_limit = std::min(width / minimap_tile_size_x, minimap_tiles_range_x);
+    minimap_tiles_y_limit = std::min(height / minimap_tile_size_y, minimap_tiles_range_y);
+    // Center the drawn area within the total area.
+    minimap_drawn_width = minimap_tiles_x_limit * minimap_tile_size_x;
+    minimap_drawn_height = minimap_tiles_y_limit * minimap_tile_size_y;
+    minimap_border_width = std::max((width - minimap_drawn_width) / 2, 0);
+    minimap_border_height = std::max((height - minimap_drawn_height) / 2, 0);
+    //prepare the minimap clipped area
+    minimap_clip_rect.x = destx + minimap_border_width;
+    minimap_clip_rect.y = desty + minimap_border_height;
+    minimap_clip_rect.w = width - minimap_border_width * 2;
+    minimap_clip_rect.h = height - minimap_border_height * 2;
+}
+
+//the main call for drawing the pixel minimap to the screen
 void cata_tiles::draw_minimap( int destx, int desty, const tripoint &center, int width, int height )
 {
     if (!g) {
         return;
     }
 
-    const int minx = 0;
-    const int miny = 0;
-    const int maxx = MAPSIZE * SEEX;
-    const int maxy = MAPSIZE * SEEY;
+    //set up class variables on the first run
+    if(!minimap_prep) {
+        init_minimap( destx, desty, width, height );
+    }
 
-    const int tiles_range_x = (MAPSIZE - 2) * SEEX;
-    const int tiles_range_y = (MAPSIZE - 2) * SEEY;
-    const int tile_size_x = std::max(width / tiles_range_x, 1);
-    const int tile_size_y = std::max(height / tiles_range_y, 1);
-    const int tiles_x_limit = std::min(width / tile_size_x, tiles_range_x);
-    const int tiles_y_limit = std::min(height / tile_size_y, tiles_range_y);
-    const int start_x = center.x - tiles_x_limit / 2;
-    const int start_y = center.y - tiles_y_limit / 2;
+    //clear leftover flags for the current draw cycle
+    prepare_minimap_cache_for_updates();
 
-    // Center the drawn area within the total area.
-    const int drawn_width = tiles_x_limit * tile_size_x;
-    const int drawn_height = tiles_y_limit * tile_size_y;
-    const int border_width = std::max((width - drawn_width) / 2, 0);
-    const int border_height = std::max((height - drawn_height) / 2, 0);
+    const int start_x = center.x - minimap_tiles_x_limit / 2;
+    const int start_y = center.y - minimap_tiles_y_limit / 2;
 
     auto &ch = g->m.access_cache( center.z );
+    //retrieve night vision goggle status once per draw
+    auto vision_cache = g->u.get_vision_modes();
+    bool nv_goggle = vision_cache[NV_GOGGLES];
 
-    SDL_Rect rectangle;
-    rectangle.w = tile_size_x;
-    rectangle.h = tile_size_y;
 
-    // First draw terrain.
-    for( int y = 0; y < tiles_y_limit; y++) {
-        if(start_y + y < miny || start_y + y >= maxy){
-            continue;
-        }
-        for( int x = 0; x <= tiles_x_limit; x++) {
-            if(start_x + x < minx || start_x + x >= maxx){
-                continue;
-            }
-            tripoint p(start_x + x, start_y + y, center.z);
+    //check all of exposed submaps (MAPSIZE*MAPSIZE submaps) and apply new color changes to the cache
+    for( int y = 0; y < MAPSIZE * SEEY - 1; y++) {
+        for( int x = 0; x <= MAPSIZE * SEEX - 1; x++) {
+            tripoint p(x, y, center.z);
 
             lit_level lighting = ch.visibility_cache[p.x][p.y];
             SDL_Color color;
+            color.a = 255;
             if(lighting == LL_DARK || lighting == LL_BLANK) {
                 color.r = 12;
                 color.g = 12;
@@ -1027,43 +1122,117 @@ void cata_tiles::draw_minimap( int destx, int desty, const tripoint &center, int
                 if (veh != nullptr) {
                     color = cursesColorToSDL(veh->part_color(veh_part));
                 } else if ( g->m.has_furn( p ) ) {
-                    auto& furniture = g->m.furn_at( p );
+                    auto &furniture = g->m.furn_at( p );
                     color = cursesColorToSDL(furniture.color());
                 } else {
-                    auto& terrain = g->m.ter_at( p );
+                    auto &terrain = g->m.ter_at( p );
                     color = cursesColorToSDL(terrain.color());
                 }
             }
-            if(border_width + x * tile_size_x < width &&
-                border_height + y * tile_size_y < height){
-                SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, 255);
-                rectangle.x = destx + border_width + x * tile_size_x;
-                rectangle.y = desty + border_height + y * tile_size_y;
-                SDL_RenderFillRect(renderer, &rectangle);
+            pixel pix(color);
+            //color terrain according to lighting conditions
+            if(nv_goggle) {
+                if(lighting == LL_LOW) {
+                    color_pixel_nightvision(pix);
+                } else if(lighting != LL_DARK && lighting != LL_BLANK) {
+                    color_pixel_overexposed(pix);
+                }
+            } else if(lighting == LL_LOW) {
+                color_pixel_grayscale(pix);
             }
+            //add an individual color update to the cache
+            update_minimap_cache(p, pix);
         }
     }
 
-    // Now draw critters over terrain.
-    for( int y = 0; y < tiles_y_limit; y++) {
-        if(start_y + y < miny || start_y + y >= maxy){
+    //update minimap textures
+    process_minimap_cache_updates();
+    //prepare to copy to screen
+    set_displaybuffer_rendertarget();
+    //this hides the edges of submaps that are usually out of view
+    SDL_RenderSetClipRect(renderer, &minimap_clip_rect);
+
+    //attempt to draw the submap cache if any of its tiles are exposed in the minimap area
+    //the drawn flag prevents it from being drawn more than once
+    SDL_Rect drawrect;
+    drawrect.w = SEEX * minimap_tile_size_x;
+    drawrect.h = SEEY * minimap_tile_size_y;
+    for( int y = 0; y < minimap_tiles_y_limit; y++) {
+        if(start_y + y < minimap_miny || start_y + y >= minimap_maxy) {
             continue;
         }
-        for( int x = 0; x <= tiles_x_limit; x++) {
-            if(start_x + x < minx || start_x + x >= maxx){
+        for( int x = 0; x <= minimap_tiles_x_limit; x++) {
+            if(start_x + x < minimap_minx || start_x + x >= minimap_maxx) {
+                continue;
+            }
+            tripoint p(start_x + x, start_y + y, center.z);
+            std::string submap_id = get_submap_id( p );
+            auto it = minimap_cache.find(submap_id);
+
+            //a missing submap cache should be pretty improbable
+            if(it == minimap_cache.end()) {
+                continue;
+            }
+            if(it->second->drawn) {
+                continue;
+            }
+            it->second->drawn = true;
+
+            //the position of the submap texture has to account for the actual (current) 12x12 tile size
+            //the clipping rectangle handles the portions that need to hide
+            tripoint drawpoint((p.x / SEEX) * SEEX - start_x, (p.y / SEEY) * SEEY - start_y, p.z);
+            drawrect.x = drawpoint.x * minimap_tile_size_x + destx + minimap_border_width;
+            drawrect.y = drawpoint.y * minimap_tile_size_y + desty + minimap_border_height;
+            SDL_RenderCopy(renderer, it->second->minimap_tex.get(), NULL, &drawrect);
+        }
+    }
+    SDL_RenderSetClipRect(renderer, NULL);
+
+    //unused submap caches get deleted
+    clear_unused_minimap_cache();
+
+    //handles the enemy faction red highlights
+    //this value should be divisible by 200
+    const int indicator_length = 2000;
+    int indicator_tick = SDL_GetTicks() % indicator_length;
+    if(indicator_tick > indicator_length / 2) {
+        indicator_tick = indicator_length - indicator_tick;
+    }
+    indicator_tick /= (indicator_length / 200); //scale to 0-100 percent
+
+    // Now draw critters over terrain.
+    for( int y = 0; y < minimap_tiles_y_limit; y++) {
+        if(start_y + y < minimap_miny || start_y + y >= minimap_maxy) {
+            continue;
+        }
+        for( int x = 0; x <= minimap_tiles_x_limit; x++) {
+            if(start_x + x < minimap_minx || start_x + x >= minimap_maxx) {
                 continue;
             }
             tripoint p(start_x + x, start_y + y, center.z);
 
             lit_level lighting = ch.visibility_cache[p.x][p.y];
+
             if(lighting != LL_DARK && lighting != LL_BLANK) {
                 const auto critter = g->critter_at( p, true );
                 if( critter != nullptr ) {
+                    SDL_Color c = cursesColorToSDL(critter->symbol_color());
+                    c.a = 255;
+                    const auto m = dynamic_cast<monster *>( critter );
+                    if(m != nullptr) {
+                        //faction status (attacking or tracking) determines if red highlights get applied to creature
+                        monster_attitude matt = m->attitude(&(g->u));
+                        if (MATT_ATTACK == matt || MATT_FOLLOW == matt) {
+                            pixel p(c);
+                            color_pixel_red_mix(p, indicator_tick);
+                            c = p.getSdlColor();
+                        }
+                    }
                     draw_rhombus(
-                        destx + border_width + x * tile_size_x,
-                        desty + border_height + y * tile_size_y,
-                        tile_size_x,
-                        cursesColorToSDL(critter->symbol_color()),
+                        destx + minimap_border_width + x * minimap_tile_size_x,
+                        desty + minimap_border_height + y * minimap_tile_size_y,
+                        minimap_tile_size_x,
+                        c,
                         width,
                         height
                     );

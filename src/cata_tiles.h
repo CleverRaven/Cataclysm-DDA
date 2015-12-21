@@ -20,6 +20,8 @@
 class JsonObject;
 struct visibility_variables;
 
+extern void set_displaybuffer_rendertarget();
+
 /** Structures */
 struct tile_type
 {
@@ -126,6 +128,78 @@ struct tile_drawing_cache {
     }
 };
 
+struct pixel {
+    int r;
+    int g;
+    int b;
+    int a;
+
+    pixel()
+    {
+        r = 0;
+        g = 0;
+        b = 0;
+        a = 0;
+    }
+
+    pixel(SDL_Color c)
+    {
+        r = c.r;
+        g = c.g;
+        b = c.b;
+        a = c.a;
+    }
+
+    SDL_Color getSdlColor()
+    {
+        SDL_Color c;
+        c.r = static_cast<Uint8>(r);
+        c.g = static_cast<Uint8>(g);
+        c.b = static_cast<Uint8>(b);
+        c.a = static_cast<Uint8>(a);
+        return c;
+    }
+
+    bool isBlack()
+    {
+        return (r == 0 && g == 0 && b == 0);
+    }
+
+    operator==(const pixel &other)
+    {
+        return (r == other.r && g == other.g && b == other.b && a == other.a);
+    }
+    operator!=(const pixel &other)
+    {
+        return (r != other.r || g != other.g || b != other.b || a != other.a);
+    }
+};
+
+struct minimap_submap_cache {
+    //the color stored for each submap tile
+    std::vector< std::vector< pixel > > minimap_colors;
+    //checks if the submap has been looked at by the minimap routine
+    bool touched;
+    //the texture updates are drawn to
+    SDL_Texture_Ptr minimap_tex;
+    //the list of updates to apply to the texture
+    //reduces render target switching to once per submap
+    std::vector<point> update_list;
+    //if the submap has been drawn to screen during the current draw cycle
+    bool drawn;
+
+    //reserve the SEEX * SEEY submap tiles
+    minimap_submap_cache()
+    {
+        minimap_colors.resize(SEEY);
+        for(int i = 0; i < static_cast<int>(minimap_colors.size()); i++) {
+            minimap_colors[i].resize(SEEX);
+        }
+    }
+};
+
+using minimap_cache_ptr = std::unique_ptr< minimap_submap_cache >;
+
 class cata_tiles
 {
     public:
@@ -212,7 +286,7 @@ class cata_tiles
                                  const std::string &subcategory, int x, int y, int subtile, int rota,
                                  lit_level ll, bool apply_night_vision_goggles);
         bool draw_sprite_at(const weighted_int_list<std::vector<int>> &svlist, int x, int y, unsigned int loc_rand, int rota_fg, int rota, lit_level ll,
-                            bool apply_night_vision_goggles);  
+                            bool apply_night_vision_goggles);
         bool draw_tile_at(const tile_type &tile, int x, int y, unsigned int loc_rand, int rota, lit_level ll, bool apply_night_vision_goggles);
 
         /**
@@ -385,7 +459,33 @@ class cata_tiles
          */
         bool nv_goggles_activated;
 
+        //pixel minimap cache methods
+        SDL_Texture_Ptr create_minimap_cache_texture(int tile_width, int tile_height);
+        void process_minimap_cache_updates();
+        void update_minimap_cache( const tripoint& loc, pixel& pix );
+        void prepare_minimap_cache_for_updates();
+        void clear_unused_minimap_cache();
 
+        std::map< std::string, minimap_cache_ptr> minimap_cache;
+
+        //persistent tiled minimap values
+        void init_minimap( int destx, int desty, int width, int height );
+        bool minimap_prep;
+        int minimap_minx;
+        int minimap_miny;
+        int minimap_maxx;
+        int minimap_maxy;
+        int minimap_tiles_range_x;
+        int minimap_tiles_range_y;
+        int minimap_tile_size_x;
+        int minimap_tile_size_y;
+        int minimap_tiles_x_limit;
+        int minimap_tiles_y_limit;
+        int minimap_drawn_width;
+        int minimap_drawn_height;
+        int minimap_border_width;
+        int minimap_border_height;
+        SDL_Rect minimap_clip_rect;
 };
 
 #endif
