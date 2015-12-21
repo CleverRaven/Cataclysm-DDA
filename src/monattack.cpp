@@ -361,7 +361,7 @@ bool mattack::acid(monster *z)
     if( hit_critter == nullptr && g->m.hit_with_acid( hitp ) && g->u.sees( hitp ) ) {
         add_msg( _("A glob of acid hits the %s!"),
                  g->m.tername( hitp ).c_str());
-        if( g->m.move_cost( hitp ) == 0 ) {
+        if( g->m.impassable( hitp ) ) {
             // TODO: Allow it to spill on the side it hit from
             return true;
         }
@@ -370,7 +370,7 @@ bool mattack::acid(monster *z)
     for (int i = -3; i <= 3; i++) {
         for (int j = -3; j <= 3; j++) {
             tripoint dest = hitp + tripoint( i, j, 0 );
-            if (g->m.move_cost( dest ) > 0 &&
+            if (g->m.passable( dest ) &&
                 g->m.clear_path( dest, hitp, 6, 1, 100 ) &&
                 ((one_in(abs(j)) && one_in(abs(i))) || (i == 0 && j == 0))) {
                 g->m.add_field( dest, fd_acid, 2, 0 );
@@ -560,7 +560,7 @@ bool mattack::smokecloud(monster *z)
 {
     const auto place_smoke = [&]( const int x, const int y ) {
         tripoint dest( x, y, z->posz() );
-        if( g->m.move_cost( dest ) != 0 &&
+        if( g->m.passable( dest ) &&
             g->m.clear_path( z->pos(), dest, 3, 1, 100 ) ) {
             g->m.add_field( dest, fd_smoke, 2, 0 );
         }
@@ -604,7 +604,7 @@ bool mattack::boomer(monster *z)
     for (auto &i : line) {
         g->m.add_field( i, fd_bile, 1, 0 );
         // If bile hit a solid tile, return.
-        if (g->m.move_cost( i ) == 0) {
+        if (g->m.impassable( i )) {
             g->m.add_field( i, fd_bile, 3, 0 );
             if (g->u.sees( i ))
                 add_msg(_("Bile splatters on the %s!"),
@@ -645,7 +645,7 @@ bool mattack::boomer_glow(monster *z)
     }
     for (auto &i : line) {
         g->m.add_field(i, fd_bile, 1, 0);
-        if (g->m.move_cost(i) == 0) {
+        if (g->m.impassable(i)) {
             g->m.add_field(i, fd_bile, 3, 0);
             if (g->u.sees( i ))
                 add_msg(_("Bile splatters on the %s!"), g->m.tername(i).c_str());
@@ -1508,7 +1508,7 @@ bool mattack::fungus(monster *z)
             tripoint sporep( z->posx() + i, z->posy() + j, z->posz() );
             const int dist = rl_dist( z->pos(), sporep );
             if( !one_in( dist ) ||
-                g->m.move_cost(sporep) <= 0 ||
+                g->m.impassable(sporep) ||
                 ( dist > 1 && !g->m.clear_path( z->pos(), sporep, 2, 1, 10 ) ) ) {
                 continue;
             }
@@ -1912,7 +1912,7 @@ bool mattack::leap(monster *z)
             // check if monster has a clear path to the proposed point
             std::vector<tripoint> line = g->m.find_clear_path( z->pos(), dest );
             for (auto &i : line) {
-                if (g->m.move_cost( i ) == 0) {
+                if (g->m.impassable( i )) {
                     blocked_path = true;
                     break;
                 }
@@ -4389,7 +4389,7 @@ bool mattack::riotbot(monster *z)
         for (int i = -4; i <= 4; i++) {
             for (int j = -4; j <= 4; j++) {
                 tripoint dest( z->posx() + i, z->posy() + j, z->posz() );
-                if( g->m.move_cost( dest ) != 0 &&
+                if( g->m.passable( dest ) &&
                     g->m.clear_path( z->pos(), dest, 3, 1, 100 ) ) {
                     g->m.add_field( dest, fd_relax_gas, rng(1, 3), 0 );
                 }
@@ -4524,7 +4524,7 @@ bool mattack::riotbot(monster *z)
             for (int i = -2; i <= 2; i++) {
                 for (int j = -2; j <= 2; j++) {
                     tripoint dest( z->posx() + i, z->posy() + j, z->posz() );
-                    if( g->m.move_cost( dest ) != 0 &&
+                    if( g->m.passable( dest ) &&
                         g->m.clear_path( z->pos(), dest, 3, 1, 100 ) ) {
                         g->m.add_field( dest, fd_tear_gas, rng(1, 3), 0 );
                     }

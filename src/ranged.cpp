@@ -228,7 +228,7 @@ dealt_projectile_attack Creature::projectile_attack( const projectile &proj_arg,
         g->draw_bullet( g->u, tp, (int)i, trajectory, stream ? '#' : '*' );
     }
 
-    if( g->m.move_cost(tp) == 0 ) {
+    if( g->m.impassable(tp) ) {
         tp = prev_point;
     }
 
@@ -1225,7 +1225,7 @@ static inline void eject_casing( player& p, item& weap ) {
     brass.emplace_back( p.pos() );
 
     for( auto& pos : brass ) {
-        if ( g->m.move_cost(pos) != 0 ) {
+        if ( g->m.passable(pos) ) {
             g->m.add_item_or_charges( pos, casing );
             sfx::play_variant_sound( "fire_gun", "brass_eject", sfx::get_heard_volume( pos ), sfx::get_heard_angle( pos ) );
             break;
@@ -1468,7 +1468,7 @@ void splatter( const std::vector<tripoint> &trajectory, int dam, const Creature 
 
     for( auto &elem : spurt ) {
         g->m.adjust_field_strength( elem, blood, 1 );
-        if( g->m.move_cost( elem ) == 0 ) {
+        if( g->m.impassable( elem ) ) {
             // Blood splatters stop at walls.
             break;
         }

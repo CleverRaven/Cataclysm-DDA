@@ -261,14 +261,13 @@ static bool inscribe_item(player *p, std::string verb, std::string gerund, bool 
 // gas fields.
 // Those points must have a clear line of sight and a clear path to
 // the center of the explosion.
-// They must also be passable (move_cost > 0).
+// They must also be passable.
 std::vector<tripoint> points_for_gas_cloud(const tripoint &center, int radius)
 {
     const std::vector<tripoint> gas_sources = closest_tripoints_first( radius, center );
     std::vector<tripoint> result;
     for( const auto &p : gas_sources ) {
-        if (g->m.move_cost( p ) <= 0) {
-            // A wall
+        if (g->m.impassable( p )) {
             continue;
         }
         if( p != center ) {
@@ -922,7 +921,7 @@ int iuse::fungicide(player *p, item *it, bool, const tripoint& )
                     if (i == p->posx() && j == p->posy()) {
                         continue;
                     }
-                    if (g->m.move_cost(i, j) > 0 && x_in_y(spore_count, 8)) {
+                    if (g->m.passable(i, j) && x_in_y(spore_count, 8)) {
                         const int zid = g->mon_at(dest);
                         if (zid >= 0) {  // Spores hit a monster
                             if (g->u.sees(i, j) &&
@@ -1845,7 +1844,7 @@ int iuse::purify_iv(player *p, item *it, bool, const tripoint& )
 void spawn_spores( const player &p ) {
     int spores_spawned = 0;
     for( const tripoint &dest : closest_tripoints_first( 4, p.pos() ) ) {
-        if( g->m.move_cost( dest ) == 0 ) { // impassable terrain
+        if( g->m.impassable( dest ) ) {
             continue;
         }
         float dist = trig_dist( dest, p.pos() );
@@ -3166,7 +3165,7 @@ int iuse::extinguisher(player *p, item *it, bool, const tripoint& )
     }
 
     // Slightly reduce the strength of fire immediately behind the target tile.
-    if (g->m.move_cost(dest) != 0) {
+    if (g->m.passable(dest)) {
         dest.x += (dest.x - p->posx());
         dest.y += (dest.y - p->posy());
 
@@ -4569,7 +4568,7 @@ int iuse::can_goo(player *p, item *it, bool, const tripoint& )
         goop.x = p->posx() + rng(-2, 2);
         goop.y = p->posy() + rng(-2, 2);
         tries++;
-    } while (g->m.move_cost(goop) == 0 && tries < 10);
+    } while (g->m.impassable(goop) && tries < 10);
     if (tries == 10) {
         return 0;
     }
@@ -4600,7 +4599,7 @@ int iuse::can_goo(player *p, item *it, bool, const tripoint& )
             goop.x = p->posx() + rng(-2, 2);
             goop.y = p->posy() + rng(-2, 2);
             tries++;
-        } while (g->m.move_cost(goop) == 0 &&
+        } while (g->m.impassable(goop) &&
                  g->m.tr_at(goop).is_null() && tries < 10);
         if (tries < 10) {
             if (g->u.sees(goop)) {
@@ -4626,7 +4625,7 @@ int iuse::throwable_extinguisher_act(player *, item *it, bool, const tripoint &p
         for (int x = -1; x <= 1; x++) {
             for (int y = -1; y <= 1; y++) {
                 tripoint dest( pos.x + x, pos.y + y, pos.z );
-                if ((g->m.move_cost(dest) != 0) && (x == 0 || y == 0)) {
+                if ((g->m.passable(dest)) && (x == 0 || y == 0)) {
                     g->m.adjust_field_strength(dest, fd_fire, 0 - rng(0, 1));
                 }
             }

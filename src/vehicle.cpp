@@ -5818,7 +5818,7 @@ void vehicle::leak_fuel (int p)
         maxp.y += 2;
 
         for ( const tripoint &pt : g->m.points_in_rectangle(minp, maxp) ){
-            if (g->m.move_cost(pt) > 0 && one_in(2)) {
+            if (g->m.passable(pt) && one_in(2)) {
                 int leak_amount = rng(79, 121);
 
                 if (parts[p].amount < leak_amount) {
