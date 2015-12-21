@@ -1339,7 +1339,6 @@
         "phase" : "solid",
         "encumbrance" : 20,
         "bashing" : -5,
-        "flags" : ["VARSIZE", "OUTER"],
         "coverage" : 100,
         "material_thickness" : 4
     },
@@ -5255,7 +5254,7 @@
         "phase" : "solid",
         "encumbrance" : 80,
         "bashing" : -5,
-        "flags" : ["OVERSIZE"],
+        "flags" : ["OVERSIZE, OUTER"],
         "coverage" : 100,
         "material_thickness" : 4
     },
