@@ -12339,7 +12339,7 @@
         "phase" : "solid",
         "encumbrance" : 7,
         "bashing" : -5,
-        "flags" : ["WATERPROOF", "OVERSIZE"],
+        "flags" : ["WATERPROOF", "OVERSIZE", "OUTER"],
         "coverage" : 70,
         "material_thickness" : 1
     },
