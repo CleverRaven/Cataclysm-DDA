@@ -315,20 +315,6 @@
     ]
   },{
     "type" : "item_group",
-    "id" : "monparts",
-    "items":[
-      ["meat", 50],
-      ["veggy", 30],
-      ["meat_tainted", 60],
-      ["veggy_tainted", 35],
-      ["royal_jelly", 8],
-      ["ant_egg", 5],
-      ["bee_sting", 5],
-      ["fighter_sting", 5],
-      ["chitin_piece", 10]
-    ]
-  },{
-    "type" : "item_group",
     "id" : "bionics",
     "items":[
       ["bio_solar", 10],
