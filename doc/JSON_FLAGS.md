@@ -736,6 +736,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 
 - ```EATEN_HOT``` Morale bonus for eating hot.
 - ```EATEN_COLD``` Morale bonus for eating cold.
+- ```SPICY``` Chance of becoming sick with 'SPICYALLERGY'.
 - ```USE_EAT_VERB``` "You drink your %s." or "You eat your %s."
 - ```FERTILIZER``` Works as fertilizer for farming.
 - ```LENS``` Lens items can make fires via focusing light rays.

@@ -930,7 +930,7 @@
         "phase" : "liquid",
         "charges" : 2,
         "bashing" : 0,
-        "flags" : ["EATEN_HOT", "USE_EAT_VERB"],
+        "flags" : ["EATEN_HOT", "USE_EAT_VERB", "SPICY"],
         "fun" : 5
     },
     {
@@ -960,7 +960,7 @@
         "phase" : "liquid",
         "charges" : 2,
         "bashing" : 0,
-        "flags" : ["EATEN_HOT", "USE_EAT_VERB"],
+        "flags" : ["EATEN_HOT", "USE_EAT_VERB", "SPICY"],
         "fun" : 8
     },
     {
@@ -5709,7 +5709,7 @@
         "phase" : "solid",
         "charges" : 4,
         "bashing" : 0,
-        "flags" : ["EATEN_HOT"],
+        "flags" : ["EATEN_HOT", "SPICY"],
         "fun" : 15
     },
     {
@@ -5739,7 +5739,7 @@
         "phase" : "solid",
         "charges" : 4,
         "bashing" : 0,
-        "flags" : ["EATEN_HOT"],
+        "flags" : ["EATEN_HOT", "SPICY"],
         "fun" : 15
     },
     {
@@ -5914,7 +5914,7 @@
         "phase" : "solid",
         "charges" : 6,
         "bashing" : 0,
-        "flags" : ["EATEN_HOT"],
+        "flags" : ["EATEN_HOT", "SPICY"],
         "fun" : 10
     },
     {
@@ -5943,7 +5943,7 @@
         "phase" : "solid",
         "charges" : 6,
         "bashing" : 0,
-        "flags" : ["EATEN_HOT"],
+        "flags" : ["EATEN_HOT", "SPICY"],
         "fun" : 12
     },
     {
@@ -7624,6 +7624,7 @@
         "phase" : "solid",
         "charges" : 1,
         "bashing" : 0,
+        "flags" : ["SPICY"],
         "fun" : -5
     },
     {
@@ -7653,6 +7654,7 @@
         "phase" : "solid",
         "charges" : 1,
         "bashing" : 0,
+        "flags" : ["SPICY"],
         "fun" : -5
     },
     {
@@ -9867,7 +9869,7 @@
         "phase" : "solid",
         "charges" : 2,
         "bashing" : 0,
-        "flags" : ["EATEN_HOT"],
+        "flags" : ["EATEN_HOT", "SPICY"],
         "fun" : 5
     },
     {
@@ -9897,7 +9899,7 @@
         "phase" : "solid",
         "charges" : 2,
         "bashing" : 0,
-        "flags" : ["EATEN_HOT"],
+        "flags" : ["EATEN_HOT", "SPICY"],
         "fun" : 5
     },
     {
@@ -11663,6 +11665,7 @@
         "phase" : "solid",
         "charges" : 100,
         "bashing" : 0,
+        "flags" : ["SPICY"],
         "fun" : -5
     },
     {
@@ -18922,7 +18925,8 @@
         "healthy": 1,
         "fun": -20,
         "stim": 1,
-        "phase": "liquid"
+        "phase": "liquid",
+        "flags" : ["SPICY"]
     },
     {
         "type" : "COMESTIBLE",

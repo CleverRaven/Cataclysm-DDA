@@ -837,6 +837,14 @@
         "cancels" : ["STRONGSTOMACH"]
     },{
         "type" : "mutation",
+        "id" : "SPICYALLERGY",
+        "name" : "Spice Intolerance",
+        "points" : -1,
+        "description" : "Whether from ulcers, a weak stomach or genetics your body does not handle spicy food well.",
+        "starting_trait" : true,
+        "valid" : false,
+    },{
+        "type" : "mutation",
         "id" : "WOOLALLERGY",
         "name" : "Wool Allergy",
         "points" : -1,

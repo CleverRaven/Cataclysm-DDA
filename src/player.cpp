@@ -114,6 +114,7 @@ namespace {
             { _( "Ate Vegetables" ) },
             { _( "Ate Fruit" ) },
             { _( "Lactose Intolerance" ) },
+            { _( "Spice Intolerance" ) },
             { _( "Ate Junk Food" ) },
             { _( "Wheat Allergy" ) },
             { _( "Ate Indigestible Food" ) },
@@ -9941,6 +9942,10 @@ bool player::eat(item *eaten, const it_comest *comest)
         !query_yn(_("Really eat that %s?  Your stomach won't be happy."), eaten->tname().c_str())) {
         return false;
     }
+    if (has_trait("SPICYALLERGY") && eaten->has_flag("SPICY") && (!has_bionic("bio_digestion")) && !is_npc() &&
+        !query_yn(_("Really eat that %s?  Your stomach won't be happy."), eaten->tname().c_str())) {
+        return false;
+    }
     if (has_trait("ANTIFRUIT") && eaten->made_of("fruit") && !is_npc() &&
         !query_yn(_("Really eat that %s?  Your stomach won't be happy."), eaten->tname().c_str())) {
         return false;
@@ -10189,6 +10194,10 @@ bool player::eat(item *eaten, const it_comest *comest)
     if (has_trait("LACTOSE") && eaten->made_of("milk")) {
         add_msg_if_player(m_bad, _("Your stomach begins gurgling and you feel bloated and ill."));
         add_morale(MORALE_LACTOSE, -75, -400, 300, 240);
+    }
+    if (has_trait("SPICYALLERGY") && eaten->has_flag("SPICY")) {
+        add_msg_if_player(m_bad, _("Your stomach begins gurgling and you feel bloated and ill."));
+        add_morale(MORALE_SPICYALLERGY, -75, -400, 300, 240);
     }
     if (has_trait("ANTIFRUIT") && eaten->made_of("fruit")) {
         add_msg_if_player(m_bad, _("Yuck! How can anybody eat this stuff?"));
