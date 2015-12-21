@@ -2269,7 +2269,43 @@
       { "item": "antifungal", "prob": 5 },
       { "item": "antiparasitic", "prob": 5 }
     ]
-  },{
+ },{
+    "type" : "item_group",
+    "id" : "army_personal_locker",
+    "subtype": "distribution",
+    "entries" : [
+      { "group": "military_clothes", "prob": 200 },
+      { "group": "military_pants", "prob": 150 },
+      { "group": "military_coats", "prob": 150 },
+      { "group": "military_boots", "prob": 50 },
+      { "group": "eyewear", "prob": 30 },
+      { "group": "military_storage", "prob": 50 },
+      { "group": "female_underwear_top", "prob": 10 },
+      { "group": "female_underwear_bottom", "prob": 10 },
+      { "group": "male_underwear_top", "prob": 10 },
+      { "group": "male_underwear_bottom", "prob": 10 },
+      { "item": "jumpsuit", "prob": 40 },
+      { "item": "socks", "prob": 40 },
+      { "item": "army_top", "prob": 70 },
+      { "item": "battery", "prob": 40 },
+      { "item": "radio", "prob": 10, "charges-min": 10, "charges-max": 95 },
+      { "item": "bandages", "prob": 10, "charges-min": 1, "charges-max": 3 },
+      { "item": "cig", "prob": 60, "charges-min": 1, "charges-max": 20 },
+      { "item": "knife_combat", "prob": 30 },
+      { "item": "pockknife", "prob": 30 },
+      { "item": "glasses_safety", "prob": 45 },
+      { "item": "eyedrops", "prob": 10, "charges-min": 1, "charges-max": 10 },
+      { "item": "pda", "prob": 20, "charges-min": 10, "charges-max": 95 },      
+      { "item": "multitool", "prob": 5 },
+      { "item": "tool_belt", "prob": 20 },
+      { "item": "sleeping_bag", "prob": 20 },
+      { "item": "duffelbag", "prob": 25 },
+      { "item": "mil_mess_kit", "prob": 50 },
+      { "item": "flashlight", "prob": 50 },
+      { "item": "mag_comic", "prob": 20 },
+      { "item": "mag_guns", "prob": 20 }
+    ]
+    },{
     "type" : "item_group",
     "id" : "army_bed",
     "subtype": "distribution",
