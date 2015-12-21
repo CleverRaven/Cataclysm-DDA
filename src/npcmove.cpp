@@ -1121,7 +1121,7 @@ bool npc::is_blocking_position( const tripoint &p ) {
         right.y += dy;
     }
 
-    return (g->m.impassable(left) && g->m.impassable(right));
+    return g->m.impassable(left) && g->m.impassable(right);
 }
 
 bool npc::need_to_reload()

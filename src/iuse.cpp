@@ -4625,7 +4625,7 @@ int iuse::throwable_extinguisher_act(player *, item *it, bool, const tripoint &p
         for (int x = -1; x <= 1; x++) {
             for (int y = -1; y <= 1; y++) {
                 tripoint dest( pos.x + x, pos.y + y, pos.z );
-                if ((g->m.passable(dest)) && (x == 0 || y == 0)) {
+                if (g->m.passable(dest) && (x == 0 || y == 0)) {
                     g->m.adjust_field_strength(dest, fd_fire, 0 - rng(0, 1));
                 }
             }

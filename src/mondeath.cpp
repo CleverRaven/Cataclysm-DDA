@@ -366,7 +366,7 @@ void mdeath::blobsplit(monster *z)
     std::vector <tripoint> valid;
 
     for( auto &&dest : g->m.points_in_radius( z->pos(), 1 ) ) {
-        bool moveOK = (g->m.passable( dest ));
+        bool moveOK = g->m.passable( dest );
         bool monOK = g->mon_at( dest ) == -1;
         bool posOK = (g->u.pos() != dest);
         if (moveOK && monOK && posOK) {
