@@ -223,6 +223,40 @@
         ]
     }, {
         "type" : "item_group",
+        "id" : "helicopter",
+        "subtype": "distribution",
+        "entries" : 
+        [
+            { "group": "wreckage", "prob": 200 },
+            { "group": "everyday_gear", "prob": 80 },
+            { "group": "military_clothes", "prob": 50 },
+            { "group": "military_armor", "prob": 10 },
+            { "group": "military_helmets", "prob": 10 },
+            { "group": "military_gear", "prob": 50 },
+            { "group": "military_guns", "prob": 50 },
+            { "group": "military_ammo", "prob": 50 },
+            { "group": "adv_military_guns", "prob": 5 },
+            { "group": "adv_military_ammo", "prob": 10 },
+            { "group": "machine_guns", "prob": 10 },
+            { "group": "launchers", "prob": 2 },
+            { "group": "explosive_ammo", "prob": 10 },
+            { "item": "v8_combustion","damage-min": 1,"damage-max": 3, "prob": 15 },
+            { "item": "frame","damage-min": 1,"damage-max": 3, "prob": 15 },
+            { "item": "steel_plate","damage-min": 1,"damage-max": 3, "prob": 10 },
+            { "item": "mil_plate","damage-min": 1,"damage-max": 3, "prob": 5 },
+            { "item": "wheel_armor","damage-min": 1,"damage-max": 3, "prob": 5 },
+            { "item": "spiked_plate","damage-min": 1,"damage-max": 3, "prob": 5 },
+            { "item": "hard_plate","damage-min": 1,"damage-max": 3, "prob": 10 },
+            { "item": "motor","damage-min": 1,"damage-max": 3, "prob": 10 },
+            { "item": "motor_large","damage-min": 1,"damage-max": 3, "prob": 10 },
+            { "item": "robot_controls","damage-min": 1,"damage-max": 3, "prob": 5 },
+            { "item": "gobag","damage-min": 1,"damage-max": 3, "prob": 1 },
+            { "item": "extinguisher","prob": 5 },
+            { "item": "plut_cell","damage-min": 1,"damage-max": 3, "prob": 2 },
+            { "item": "adv_UPS_off","damage-min": 1,"damage-max": 3, "prob": 1 }
+        ]
+    }, {
+        "type" : "item_group",
         "subtype": "collection",
         "id": "map_extra_science",
         "entries":
