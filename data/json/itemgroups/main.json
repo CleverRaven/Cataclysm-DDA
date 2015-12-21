@@ -1130,6 +1130,14 @@
     ]
   },{
     "type" : "item_group",
+    "id" : "tailor",
+    "subtype" : "distribution",
+    "entries":[
+      {"item": "tailor_tools", "prob": 100 },
+      {"item": "tailor_parts", "prob": 20 }
+    ]
+  },{
+    "type" : "item_group",
     "id" : "cleaning",
     "items":[
       ["soap", 100],

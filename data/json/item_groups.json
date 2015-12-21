@@ -1479,50 +1479,6 @@
       ["mag_comic", 20],
       ["mag_guns", 20]
     ]
-  },{
-    "type" : "item_group",
-    "id" : "army_bed",
-    "items" : [
-      ["blanket", 70],
-      ["pillow", 70],
-      ["sheet", 70],
-      ["mag_porn", 40],
-      ["mag_comic", 10],
-      ["mag_guns", 10],
-      ["manual_brawl", 5],
-      ["manual_melee", 5],
-      ["manual_knives", 5],
-      ["manual_gun", 5],
-      ["manual_shotgun", 5],
-      ["manual_rifle", 5],
-      ["manual_pistol", 5],
-      ["mag_pistol", 10],
-      ["mag_rifle", 10]
-    ]
-  },{
-    "type" : "item_group",
-    "id" : "army_pistols",
-    "items" : [
-      ["m9", 50],
-      ["9mm", 50]
-    ]
-  },{
-    "type" : "item_group",
-    "id" : "army_rifles",
-    "items" : [
-      ["m4a1", 50],
-      ["m249", 10],
-      ["556", 50]
-    ]
-  },{
-    "type" : "item_group",
-    "id" : "tailor",
-    "items" : [
-      ["sewing_kit", 30],
-      ["tailors_kit", 20],
-      ["thread", 80],
-      ["scissors", 50]
-    ]
   }
 ]
 

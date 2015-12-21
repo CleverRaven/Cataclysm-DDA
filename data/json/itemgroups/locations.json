@@ -2269,5 +2269,31 @@
       { "item": "antifungal", "prob": 5 },
       { "item": "antiparasitic", "prob": 5 }
     ]
+  },{
+    "type" : "item_group",
+    "id" : "army_bed",
+    "subtype": "distribution",
+    "entries" : [
+      { "group": "bed", "prob": 100 },
+      { "group": "gun_books", "prob": 20 },
+      { "group": "fight_books", "prob": 20 },
+      { "item": "mag_comic", "count-min": 3, "count-max": 5 },
+      { "item": "mag_porn", "count-min": 2, "count-max": 4 }
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "army_pistols",
+    "items" : [
+      ["m9", 50],
+      ["9mm", 50]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "army_rifles",
+    "items" : [
+      ["m4a1", 50],
+      ["m249", 10],
+      ["556", 50]
+    ]
   } 
  ]
