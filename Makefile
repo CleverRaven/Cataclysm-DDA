@@ -105,7 +105,7 @@ LUASRC_DIR = src/lua
 # if you have LUAJIT installed, try make LUA_BINARY=luajit for extra speed
 LUA_BINARY = lua
 LOCALIZE = 1
-
+ASTYLE_BINARY = astyle
 
 # tiles object directories are because gcc gets confused # Appears that the default value of $LD is unsuitable on most systems
 
@@ -748,14 +748,14 @@ etags: $(SOURCES) $(HEADERS)
 	find data -name "*.json" -print0 | xargs -0 -L 50 etags --append
 
 astyle:
-	astyle --options=.astylerc -n $(shell cat data/astyled_whitelist)
+	$(ASTYLE_BINARY) --options=.astylerc -n $(shell cat data/astyled_whitelist)
 
 astyle-all: $(SOURCES) $(HEADERS)
-	astyle --options=.astylerc -n $(SOURCES) $(HEADERS)
+	$(ASTYLE_BINARY) --options=.astylerc -n $(SOURCES) $(HEADERS)
 
 # Test whether the system has a version of astyle that supports --dry-run
-ifeq ($(shell if astyle -Q -X --dry-run src/game.h > /dev/null; then echo foo; fi),foo)
-ASTYLE_CHECK=$(shell astyle --options=.astylerc --dry-run -X -Q $(shell cat data/astyled_whitelist))
+ifeq ($(shell if $(ASTYLE_BINARY) -Q -X --dry-run src/game.h > /dev/null; then echo foo; fi),foo)
+ASTYLE_CHECK=$(shell $(ASTYLE_BINARY) --options=.astylerc --dry-run -X -Q $(shell cat data/astyled_whitelist))
 endif
 
 astyle-check: $(SOURCES) $(HEADERS)
