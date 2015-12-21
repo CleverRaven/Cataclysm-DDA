@@ -1273,8 +1273,16 @@
       ["wearable_light", 50],
       ["ear_plugs", 50],
       ["rad_monitor", 10],
-      ["tool_belt", 50],
       ["rx12_injector", 1]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "science_storage",
+    "items":[
+      ["tool_belt", 100],
+      ["leather_belt", 5],
+      ["fanny", 15],
+      ["vest", 50]
     ]
   },{
     "type" : "item_group",

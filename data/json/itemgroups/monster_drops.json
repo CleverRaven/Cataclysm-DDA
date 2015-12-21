@@ -148,6 +148,7 @@
                 { "group": "emergency_drugs", "prob": 60 },
                 { "group": "basic_tools", "prob": 50 },
                 { "group": "electronics_tools", "prob": 60 },
+                { "group": "science_gear", "prob": 210 },
                 { "group": "chem_lab", "prob": 10 },
                 { "group": "teleport", "prob": 20 },
                 { "group": "goo", "prob": 20 },
@@ -155,6 +156,44 @@
                 { "group": "dissection", "prob": 20 },
                 { "group": "electronics", "prob": 50 },
                 { "group": "textbooks", "prob": 30 }
+            ] },
+            { "group": "everyday_gear", "prob": 15 }
+        ]
+    },
+    {
+        "type" : "item_group",
+        "subtype": "collection",
+        "id": "vault_wanderer",
+        "entries":
+        [
+            { "group": "science_shoes", "damage-min": 1, "damage-max": 4 },
+            { "group": "underwear", "damage-min": 1, "damage-max": 4 },
+            {"distribution": [
+                {"group": "science_suits","prob": 50},
+                {"collection": [
+                    { "group": "shirts"},
+                    { "group": "pants"}
+                ], "prob": 50}
+            ], "damage-min": 1, "damage-max": 4 },
+            { "group": "science_coats", "damage-min": 1, "damage-max": 4, "prob": 20 },
+            { "group": "science_gloves", "damage-min": 1, "damage-max": 4, "prob": 10 },
+            { "group": "science_eyewear", "damage-min": 1, "damage-max": 4, "prob": 33 },
+            { "group": "science_masks", "damage-min": 1, "damage-max": 4, "prob": 50 },
+            { "group": "science_extras", "damage-min": 1, "damage-max": 4, "prob": 40 },
+            { "distribution": [
+                { "group": "science_gear", "prob": 80 },
+                { "group": "emergency_drugs", "prob": 40 },
+                { "group": "electronics_tools", "prob": 100 },
+                { "group": "adv_electronics", "prob": 10 },
+                { "group": "digital_electronics", "prob": 40 },
+                { "item": "knife_combat", "prob": 10 },
+                {"collection": [
+                    { "group": "m9"},
+                    { "group": "9mm"}
+                ], "prob": 50},
+                {"item": "rad_monitor", "prob": 10, "charges-min": 2, "charges-max": 20 },
+                {"item": "geiger_off", "prob": 10, "charges-min": 10, "charges-max": 95 },
+                {"item": "cig", "prob": 30, "charges-min": 1, "charges-max": 20 }
             ] },
             { "group": "everyday_gear", "prob": 15 }
         ]
