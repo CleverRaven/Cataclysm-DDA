@@ -150,7 +150,7 @@ struct pixel {
         a = c.a;
     }
 
-    SDL_Color getSdlColor()
+    SDL_Color getSdlColor() const
     {
         SDL_Color c;
         c.r = static_cast<Uint8>(r);
@@ -160,24 +160,25 @@ struct pixel {
         return c;
     }
 
-    bool isBlack()
+    bool isBlack() const
     {
         return (r == 0 && g == 0 && b == 0);
     }
 
-    operator==(const pixel &other)
+    bool operator==(const pixel &other) const
     {
         return (r == other.r && g == other.g && b == other.b && a == other.a);
     }
-    operator!=(const pixel &other)
+
+    bool operator!=(const pixel &other) const
     {
-        return (r != other.r || g != other.g || b != other.b || a != other.a);
+        return !operator==(other);
     }
 };
 
 struct minimap_submap_cache {
     //the color stored for each submap tile
-    std::vector< std::vector< pixel > > minimap_colors;
+    std::vector< pixel > minimap_colors;
     //checks if the submap has been looked at by the minimap routine
     bool touched;
     //the texture updates are drawn to
@@ -191,10 +192,7 @@ struct minimap_submap_cache {
     //reserve the SEEX * SEEY submap tiles
     minimap_submap_cache()
     {
-        minimap_colors.resize(SEEY);
-        for(int i = 0; i < static_cast<int>(minimap_colors.size()); i++) {
-            minimap_colors[i].resize(SEEX);
-        }
+        minimap_colors.resize(SEEY * SEEX);
     }
 };
 
@@ -466,21 +464,16 @@ class cata_tiles
         void prepare_minimap_cache_for_updates();
         void clear_unused_minimap_cache();
 
-        std::map< std::string, minimap_cache_ptr> minimap_cache;
+        std::map< tripoint, minimap_cache_ptr> minimap_cache;
 
         //persistent tiled minimap values
         void init_minimap( int destx, int desty, int width, int height );
         bool minimap_prep;
-        int minimap_minx;
-        int minimap_miny;
-        int minimap_maxx;
-        int minimap_maxy;
-        int minimap_tiles_range_x;
-        int minimap_tiles_range_y;
-        int minimap_tile_size_x;
-        int minimap_tile_size_y;
-        int minimap_tiles_x_limit;
-        int minimap_tiles_y_limit;
+        point minimap_min;
+        point minimap_max;
+        point minimap_tiles_range;
+        point minimap_tile_size;
+        point minimap_tiles_limit;
         int minimap_drawn_width;
         int minimap_drawn_height;
         int minimap_border_width;
