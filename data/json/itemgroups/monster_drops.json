@@ -341,7 +341,136 @@
             { "item": "UPS_off", "damage-min": 2, "damage-max": 4, "prob": 15 },
             { "group": "adv_military_guns", "damage": 4, "prob": 5 }
         ]
-    },
+    },{
+    "type" : "item_group",
+    "id" : "robots",
+    "items":[
+      ["processor", 15],
+      ["RAM", 22],
+      ["power_supply", 16],
+      ["amplifier", 8],
+      ["solar_cell", 5],
+      ["transponder", 5],
+      ["receiver", 10],
+      ["antenna", 18],
+      ["steel_chunk", 30],
+      ["spring", 50],
+      ["steel_lump", 30],
+      ["kevlar_plate", 10],
+      ["ceramic_armor", 15],
+      ["motor", 2],
+      ["battery", 50],
+      ["plut_cell", 10]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "eyebot",
+    "items":[
+      ["flashlight", 40]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "manhack",
+    "items":[
+      ["knife_combat", 14]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "skitterbot",
+    "items":[
+      ["tazer", 3]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "secubot",
+    "items":[
+      ["9mm", 8],
+      ["steel_plate", 30]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "copbot",
+    "items":[
+      ["baton", 8],
+      ["tazer", 3],
+      ["kevlar_plate", 10],
+      ["ceramic_armor", 15],
+      ["tonfa", 10],
+      ["shocktonfa_off", 5],
+      ["alloy_plate", 10]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "molebot",
+    "items":[
+      ["spiked_plate", 15],
+      ["hard_plate", 30],
+      ["robot_controls", 5]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "tripod",
+    "items":[
+      ["flamethrower", 1],
+      ["kevlar_plate", 10],
+      ["ceramic_armor", 15],
+      ["alloy_plate", 10],
+      ["robot_controls", 3]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "chickenbot",
+    "items":[
+      ["9mm", 8],
+      ["kevlar_plate", 10],
+      ["ceramic_armor", 15],
+      ["alloy_plate", 10],
+      ["robot_controls", 5]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "tankbot",
+    "items":[
+      ["tazer", 3],
+      ["flamethrower", 1],
+      ["9mm", 8],
+      ["alloy_plate", 10],
+      ["kevlar_plate", 10],
+      ["ceramic_armor", 10],
+      ["hard_plate", 30],
+      ["robot_controls", 5]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "turret",
+    "items":[
+      ["9mm", 8]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "laserturret",
+    "items":[
+      ["cerberus_laser", 1],
+      ["laser_capacitor", 8]
+      ]
+  },{
+    "type" : "item_group",
+    "id" : "turret_rifle",
+    "items":[
+      ["556", 8]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "turret_bmg",
+    "items":[
+      ["50bmg", 8]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "turret_searchlight",
+    "items":[
+      ["lens", 15]
+    ]
     {
         "type" : "item_group",
         "subtype": "collection",
