@@ -842,7 +842,7 @@
         "points" : -1,
         "description" : "Whether from ulcers, a weak stomach or genetics your body does not handle spicy food well.",
         "starting_trait" : true,
-        "valid" : false,
+        "valid" : false
     },{
         "type" : "mutation",
         "id" : "WOOLALLERGY",
