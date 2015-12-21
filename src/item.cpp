@@ -3766,29 +3766,15 @@ int item::gun_range( const player *p ) const
     if( p == nullptr ) {
         return ret;
     }
-    ///\EFFECT_STR allows use and increases range of some bows
-    if( has_flag( "STR8_DRAW" ) ) {
-        if( p->str_cur < 4 ) {
-            return 0;
-        }
-        if( p->str_cur < 8 ) {
-            ret -= 2 * ( 8 - p->str_cur );
-        }
-    } else if( has_flag( "STR10_DRAW" ) ) {
-        if( p->str_cur < 5 ) {
-            return 0;
-        }
-        if( p->str_cur < 10 ) {
-            ret -= 2 * ( 10 - p->str_cur );
-        }
-    } else if( has_flag( "STR12_DRAW" ) ) {
-        if( p->str_cur < 6 ) {
-            return 0;
-        }
-        if( p->str_cur < 12 ) {
-            ret -= 2 * ( 12 - p->str_cur );
-        }
+    if( !p->can_use( *this, false ) ) {
+        return 0;
     }
+
+    // Reduce bow range until player has twice minimm required strength
+    if( has_flag( "STR_DRAW" ) ) {
+        ret -= std::max( 0, type->min_str * 2 - p->get_str() );
+    }
+
     return std::max( 0, ret );
 }
 
