@@ -329,29 +329,18 @@ void player::fire_gun( const tripoint &targ, long burst_size )
 
 void player::fire_gun( const tripoint &targ_arg, bool burst )
 {
-    item *gunmod = weapon.active_gunmod();
-    const itype *curammo = NULL;
-    item *used_weapon = NULL;
-
-    if( gunmod != nullptr ) {
-        used_weapon = gunmod;
-    } else if( weapon.is_auxiliary_gunmod() ) {
+    if( weapon.is_auxiliary_gunmod() ) {
         add_msg( m_info, _( "The %s must be attached to a gun, it can not be fired separately." ), weapon.tname().c_str() );
         return;
-    } else {
-        used_weapon = &weapon;
     }
-    const bool is_charger_gun = used_weapon->update_charger_gun_ammo();
-    curammo = used_weapon->get_curammo();
 
-    if( curammo == nullptr ) {
-        debugmsg( "%s tried to fire an empty gun (%s).", name.c_str(),
-                  used_weapon->tname().c_str() );
-        return;
-    }
-    if( !used_weapon->is_gun() ) {
-        debugmsg("%s tried to fire a non-gun (%s).", name.c_str(),
-                 used_weapon->tname().c_str());
+    item *used_weapon = weapon.active_gunmod() ? weapon.active_gunmod() : &weapon;
+
+    const bool is_charger_gun = used_weapon->update_charger_gun_ammo();
+    const itype *curammo = used_weapon->get_curammo();
+
+    if( !used_weapon->is_gun() || curammo == nullptr ) {
+        debugmsg( "%s tried to fire empty or non-gun (%s).", name.c_str(), used_weapon->tname().c_str() );
         return;
     }
     const skill_id skill_used = used_weapon->gun_skill();
@@ -405,18 +394,16 @@ void player::fire_gun( const tripoint &targ_arg, bool burst )
     // This is expensive, let's cache. todo: figure out if we need weapon.range(&p);
     const int weaponrange = used_weapon->gun_range( this );
 
-    // If the dispersion from the weapon is greater than the dispersion from your skill,
-    // you can't tell if you need to correct or the gun messed you up, so you can't learn.
-    const int weapon_dispersion = used_weapon->get_curammo()->ammo->dispersion +
-        used_weapon->gun_dispersion(false);
     const int player_dispersion = skill_dispersion( used_weapon, false ) +
-        ranged_skill_offset( used_weapon->gun_skill() );
-    // High perception allows you to pick out details better, low perception interferes.
-    ///\EFFECT_PER allows you to learn more often while using less accurate ranged weapons
-    const bool train_skill = weapon_dispersion < player_dispersion + 15 * rng(0, get_per());
+        ranged_skill_offset( skill_used );
+    // If weapon dispersion exceeds skill dispersion you can't tell
+    // if you need to correct or if the gun messed up, so you can't learn.
+    ///\EFFECT_PER allows you to learn more often with less accurate weapons.
+    const bool train_skill = used_weapon->gun_dispersion() <
+        player_dispersion + 15 * rng( 0, get_per() );
     if( train_skill ) {
         practice( skill_used, 8 + 2 * num_shots );
-    } else if( one_in(30) ) {
+    } else if( one_in( 30 ) ) {
         add_msg_if_player(m_info, _("You'll need a more accurate gun to keep improving your aim."));
     }
 
@@ -492,7 +479,7 @@ void player::fire_gun( const tripoint &targ_arg, bool burst )
 
         auto dealt = projectile_attack( make_gun_projectile( *used_weapon ), targ, total_dispersion );
         double missed_by = dealt.missed_by;
-        if (missed_by <= .1) { // TODO: check head existence for headshot
+        if( missed_by <= .1 ) { // TODO: check head existence for headshot
             lifetime_stats()->headshots++;
         }
 
@@ -525,33 +512,15 @@ void player::fire_gun( const tripoint &targ_arg, bool burst )
             charge_power( -1 * bio_power_drain );
         }
 
-        int range_multiplier = std::min( range, 3 * ( skillLevel( skill_used ) + 1 ) );
-        int damage_factor = 21;
-        //debugmsg("Rangemult: %d, missed_by: %f, total_damage: %f", rangemult, missed_by, proj.impact.total_damage());
+        // Experience gain is limited by range and penalised proportional to inaccuracy.
+        int exp = std::min( range, 3 * ( skillLevel( skill_used ) + 1 ) ) * 20;
+        int penalty = sqrt( missed_by * 36 );
 
-
-
-        if (!train_skill) {
-            practice( skill_used, 0 ); // practice, but do not train
-        } else if (missed_by <= .1) {
-            practice( skill_used, damage_factor * range_multiplier );
-        } else if (missed_by <= .2) {
-            practice( skill_used, damage_factor * range_multiplier / 2 );
-        } else if (missed_by <= .4) {
-            practice( skill_used, damage_factor * range_multiplier / 3 );
-        } else if (missed_by <= .6) {
-            practice( skill_used, damage_factor * range_multiplier / 4 );
-        } else if (missed_by <= 1.0) {
-            practice( skill_used, damage_factor * range_multiplier / 5 );
-        }
-
+        // Even if we are not training we practice the skill to prevent rust.
+        practice( skill_used, train_skill ? exp / penalty : 0 );
     }
 
-    if( train_skill ) {
-        practice( skill_gun, 15 );
-    } else {
-        practice( skill_gun, 0 );
-    }
+    practice( skill_gun, train_skill ? 15 : 0 );
 }
 
 dealt_projectile_attack player::throw_item( const tripoint &target, const item &to_throw )
