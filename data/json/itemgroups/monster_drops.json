@@ -341,7 +341,37 @@
             { "item": "UPS_off", "damage-min": 2, "damage-max": 4, "prob": 15 },
             { "group": "adv_military_guns", "damage": 4, "prob": 5 }
         ]
-    },{
+  },{
+    "type" : "item_group",
+    "id" : "dog_cop",
+    "items":[
+      ["kevlar_harness", 1]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "bees",
+    "items":[
+      ["bee_sting", 5]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "wasps",
+    "items":[
+      ["wasp_sting", 5]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "biollante",
+    "items":[
+      ["biollante_bud", 1]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "fungal_sting",
+    "items":[
+      ["fighter_sting", 5]
+    ]
+  },{
     "type" : "item_group",
     "id" : "robots",
     "items":[
