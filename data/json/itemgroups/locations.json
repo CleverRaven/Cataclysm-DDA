@@ -2202,5 +2202,72 @@
       { "item": "touristmap", "prob": 10 },
       { "item": "restaurantmap", "prob": 25 }
     ]
+  },{
+    "type" : "item_group",
+    "id" : "stash_ammo",
+    "comment": "non-civilian ammo added as items",
+    "subtype": "distribution",
+    "entries" : [
+      { "group": "homemade_ammo", "prob": 300 },
+      { "group": "pistol_ammo", "prob": 50 },
+      { "group": "shotgun_ammo", "prob": 50 },
+      { "group": "rifle_ammo", "prob": 50 },
+      { "group": "archery_ammo", "prob": 50 },
+      { "group": "bullet_parts", "prob": 20 },
+      { "group": "bullet_tools", "prob": 10 },
+      { "group": "ammo_casings", "prob": 20 },
+      { "item": "shot_flechette", "prob": 2 },
+      { "item": "shot_he", "prob": 2 },
+      { "item": "20x66_exp", "prob": 2 },
+      { "item": "20x66_inc", "prob": 4 },
+      { "item": "20x66_frag", "prob": 2 },
+      { "item": "20x66_flechette", "prob": 4 },
+      { "item": "545_ap", "prob": 6 },
+      { "item": "8mm_jhp", "prob": 4 },
+      { "item": "8mm_fmj", "prob": 4 },
+      { "item": "8mm_inc", "prob": 4 }
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "stash_wood",
+    "items":[
+      ["stick", 95],
+      ["ax", 8],
+      ["saw", 15],
+      ["2x4", 60],
+      ["log", 20]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "stash_food",
+    "subtype": "distribution",
+    "entries" : [
+      { "group": "canned_food", "prob": 100 },
+      { "group": "imperishable_food", "prob": 50 },
+      { "group": "camping_food", "prob": 50 },
+      { "group": "sugar_drinks", "prob": 100 },
+      { "item": "water_clean", "prob": 35, "container-item": "2lcanteen" },
+      { "item": "salt", "prob": 50 },
+      { "item": "seasoning_salt", "prob": 15 },
+      { "item": "vinegar", "prob": 25 }
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "stash_drugs",
+    "subtype": "distribution",
+    "entries" : [
+      { "group": "legal_drugs", "prob": 60 },
+      { "group": "illegal_drugs", "prob": 100 },
+      { "group": "prescription_drugs", "prob": 50 },
+      { "item": "oxycodone", "prob": 30 },
+      { "item": "morphine", "prob": 10 },
+      { "item": "adderall", "prob": 40 },
+      { "item": "weed", "prob": 80 },
+      { "item": "joint", "prob": 50 },
+      { "item": "seed_weed", "prob": 35 },
+      { "item": "adrenaline_injector", "prob": 5 },
+      { "item": "antifungal", "prob": 5 },
+      { "item": "antiparasitic", "prob": 5 }
+    ]
   } 
  ]
