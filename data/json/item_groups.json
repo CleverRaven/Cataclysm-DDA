@@ -55,46 +55,6 @@
       ["UPS_off", 10]
     ]
   },{
-    "type" : "item_group",
-    "id" : "lab_shoes",
-    "items":[
-      ["sneakers", 80],
-      ["boots", 70],
-      ["boots_steel", 50],
-      ["boots_hiking", 40],
-      ["dress_shoes", 50]
-    ]
-  },{
-    "type" : "item_group",
-    "id" : "lab_torso",
-    "items":[
-      ["coat_lab", 20],
-      ["coat_lab", 20],
-      ["coat_lab", 20],
-      ["coat_lab", 20],
-      ["tshirt", 80],
-      ["longshirt", 80],
-      ["polo_shirt", 65],
-      ["dress_shirt", 60],
-      ["dress", 70],
-      ["sweatshirt", 75],
-      ["sweater", 75],
-      ["hoodie", 65],
-      ["jumpsuit", 20],
-      ["hazmat_suit", 5],
-      ["cleansuit", 10]
-    ]
-  },{
-    "type" : "item_group",
-    "id" : "lab_pants",
-    "items":[
-      ["jeans", 90],
-      ["pants_checkered", 5],
-      ["pants", 75],
-      ["pants_cargo", 70],
-      ["skirt", 75]
-    ]
-  },{
     "type":"item_group",
     "id":"survivorweapons",
     "comment": "Please add only weapons and ammo that are easy to scavenge or create ",
