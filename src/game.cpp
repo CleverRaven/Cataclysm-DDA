@@ -11115,7 +11115,7 @@ void game::butcher()
         kmenu.addentry(last_pos, true, 'q', _("Cancel"));
         kmenu.return_invalid = true;
         kmenu.query();
-        if( kmenu.ret < 0 || kmenu.ret == last_pos || kmenu.ret == UIMENU_INVALID ) {
+        if( kmenu.ret < 0 || kmenu.ret == last_pos ) {
             return;
         }
         butcher_corpse_index = kmenu.ret;
