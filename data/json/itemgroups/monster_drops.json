@@ -215,11 +215,11 @@
        "subtype": "distribution",
        "entries" : 
        [
-            { "group": "power_bionics", "prob": 10 },
-            { "group": "science_bionics", "prob": 150 },
-            { "group": "civilian_bionics", "prob": 15 },
-            { "group": "medical_bionics", "prob": 25 },
-            { "group": "military_bionics", "prob": 25 }
+            { "group": "power_cbm", "prob": 10 },
+            { "group": "science_cbm", "prob": 150 },
+            { "group": "civilian_cbm", "prob": 15 },
+            { "group": "medical_cbm", "prob": 25 },
+            { "group": "military_cbm", "prob": 25 }
        ]
     },
     {
@@ -250,8 +250,8 @@
                 { "group": "digital_electronics", "prob": 40 },
                 { "item": "knife_combat", "prob": 10 },
                 {"collection": [
-                    { "group": "m9"},
-                    { "group": "9mm"}
+                    { "item": "m9"},
+                    { "item": "9mm"}
                 ], "prob": 50},
                 {"item": "rad_monitor", "prob": 10, "charges-min": 2, "charges-max": 20 },
                 {"item": "geiger_off", "prob": 10, "charges-min": 10, "charges-max": 95 },
@@ -298,7 +298,7 @@
             { "group": "fireman_masks", "damage-min": 1, "damage-max": 4, "prob": 50 },
             { "group": "fireman_helmets", "damage-min": 1, "damage-max": 4, "prob": 50 },
             { "group": "fireman_extras", "damage-min": 1, "damage-max": 4, "prob": 33 },
-            { "group": "hazmat_eyes", "damage-min": 1, "damage-max": 4, "prob": 33 },
+            { "group": "hazmat_eyewear", "damage-min": 1, "damage-max": 4, "prob": 33 },
             { "distribution": [
                 { "group": "fireman_gear", "prob": 50 },
                 { "group": "fireman_suits", "prob": 5 },
@@ -352,14 +352,14 @@
                 { "group": "military_full", "prob": 5 },
                 { "group": "military_food", "prob": 40 },
                 { "group": "emergency_drugs", "prob": 10 },
-                { "group": "military_books", "prob": 15 },
+                { "group": "gun_books", "prob": 15 },
                 { "group": "military_guns", "prob": 50 },
                 { "group": "military_ammo", "prob": 60 },
                 { "group": "combat_knives", "prob": 25 },
                 { "group": "launchers", "prob": 25 },
                 { "group": "grenades", "prob": 25 },
                 { "group": "bots", "prob": 5 },
-                { "group": "military_bionics", "prob": 1 }
+                { "group": "military_cbm", "prob": 1 }
             ] },
             { "group": "everyday_gear", "prob": 30 }
         ]

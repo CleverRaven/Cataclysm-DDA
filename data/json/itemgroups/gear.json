@@ -555,7 +555,7 @@
     ]
   },{
     "type" : "item_group",
-    "id" : "winter_shoes",
+    "id" : "winter_boots",
     "items":[
       ["boots_winter", 100],
       ["boots", 70],
@@ -567,7 +567,7 @@
     ]
   },{
     "type" : "item_group",
-    "id" : "winter_jackets",
+    "id" : "winter_coats",
     "items":[
       ["coat_winter", 100],
       ["coat_fur", 30],
