@@ -1,7 +1,10 @@
-# These options are mirrored in .astylerc, Cataclysm-DDA.sublime-project, CONTRIBUTING.md, doc/CODE_STYLE.txt
+# These options are mirrored in .astylerc, Cataclysm-DDA.sublime-project and doc/CODE_STYLE.txt
 
 # "One True Brace Style"
 --style=1tbs
+
+# Attach brackets to class and struct inline function definitions.
+--attach-inlines
 
 # 4 spaces per indentation level and per tab stop
 --indent=spaces=4

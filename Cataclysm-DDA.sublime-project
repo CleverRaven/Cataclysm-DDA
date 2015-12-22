@@ -73,10 +73,11 @@
 		{
 			"options_c++":
 			{
-				"comment" : "These options are mirrored in .astylerc, Cataclysm-DDA.sublime-project, CONTRIBUTING.md, doc/CODE_STYLE.txt",
+				"comment" : "These options are mirrored in .astylerc, Cataclysm-DDA.sublime-project and doc/CODE_STYLE.txt",
 				"additional_options":
 				[
 					"--style=1tbs",
+					"--attach-inlines"
 					"--indent=spaces=4",
 					"--align-pointer=name",
 					"--max-code-length=100",
