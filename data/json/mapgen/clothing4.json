@@ -16,6 +16,14 @@
     ]
   },{
     "type" : "item_group",
+    "id" : "dresses",
+    "items":[
+      ["dress", 55],
+      ["sundress", 43],
+      ["dress_wedding", 2]
+    ]
+  },{
+    "type" : "item_group",
     "id" : "dress_shoes",
     "items":[
       ["dress_shoes", 50],
