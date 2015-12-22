@@ -1,4 +1,4 @@
-# These options are mirrored in .astylerc, Cataclysm-DDA.sublime-project and doc/CODE_STYLE.txt
+# These options are mirrored in .astylerc and doc/CODE_STYLE.txt
 
 # "One True Brace Style"
 --style=1tbs
