@@ -1374,13 +1374,13 @@ bool overmap::generate_sub(int const z)
 
             // implicitly skip skip_above oter_ids
             bool skipme = false;
-            for ( auto &elem : skip_above ) {
-                if ( oter_above == elem ) {
+            for( auto &elem : skip_above ) {
+                if( oter_above == elem ) {
                     skipme = true;
                     break;
                 }
             }
-            if ( skipme )
+            if( skipme )
             {
                 continue;
             }
@@ -1433,14 +1433,13 @@ bool overmap::generate_sub(int const z)
                 // technically not all finales need a sub level,
                 // but at this point we don't know
                 requires_sub = true;
-            } else if ( oter_above == "mine_finale" ) {
-                for ( auto &p : g->m.points_in_radius( tripoint( i, j, z ), 1, 0 ) ) {
+            } else if( oter_above == "mine_finale" ) {
+                for( auto &p : g->m.points_in_radius( tripoint( i, j, z ), 1, 0 ) ) {
                     ter( p.x, p.y, p.z ) = "spiral";
                 }
                 ter( i, j, z ) = "spiral_hub";
                 add_mon_group( mongroup( mongroup_id( "GROUP_SPIRAL" ), i * 2, j * 2, z, 2, 200 ) );
-            } else if ( oter_above == "silo" )
-            {
+            } else if ( oter_above == "silo" ) {
                 if (rng(2, 7) < abs(z) || rng(2, 7) < abs(z)) {
                     ter(i, j, z) = "silo_finale";
                 } else {
@@ -2985,26 +2984,26 @@ bool overmap::build_lab( int x, int y, int z, int s, bool ice )
     // grows outwards from previously placed lab maps
     std::set<point> candidates;
     candidates.insert( {point( x - 1, y ), point( x + 1, y ), point( x, y - 1 ), point( x, y + 1 )} );
-    while ( candidates.size() ) {
+    while( candidates.size() ) {
         auto cand = candidates.begin();
         const int &cx = cand->x;
         const int &cy = cand->y;
         int dist = abs( x - cx ) + abs( y - cy );
-        if ( dist <= s * 2 ) { // increase radius to compensate for sparser new algorithm
-            if ( one_in( dist / 2 + 1 ) ) { // odds diminish farther away from the stairs
+        if( dist <= s * 2 ) { // increase radius to compensate for sparser new algorithm
+            if( one_in( dist / 2 + 1 ) ) { // odds diminish farther away from the stairs
                 ter( cx, cy, z ) = labt;
                 generated_lab.push_back( *cand );
                 // add new candidates, don't backtrack
-                if ( ter( cx - 1, cy, z ) != labt && abs( x - cx + 1 ) + abs( y - cy ) > dist ) {
+                if( ter( cx - 1, cy, z ) != labt && abs( x - cx + 1 ) + abs( y - cy ) > dist ) {
                     candidates.insert( point( cx - 1, cy ) );
                 }
-                if ( ter( cx + 1, cy, z ) != labt && abs( x - cx - 1 ) + abs( y - cy ) > dist ) {
+                if( ter( cx + 1, cy, z ) != labt && abs( x - cx - 1 ) + abs( y - cy ) > dist ) {
                     candidates.insert( point( cx + 1, cy ) );
                 }
-                if ( ter( cx, cy - 1, z ) != labt && abs( x - cx ) + abs( y - cy + 1 ) > dist ) {
+                if( ter( cx, cy - 1, z ) != labt && abs( x - cx ) + abs( y - cy + 1 ) > dist ) {
                     candidates.insert( point( cx, cy - 1 ) );
                 }
-                if ( ter( cx, cy + 1, z ) != labt && abs( x - cx ) + abs( y - cy - 1 ) > dist ) {
+                if( ter( cx, cy + 1, z ) != labt && abs( x - cx ) + abs( y - cy - 1 ) > dist ) {
                     candidates.insert( point( cx, cy + 1 ) );
                 }
             }
@@ -3013,41 +3012,41 @@ bool overmap::build_lab( int x, int y, int z, int s, bool ice )
     }
 
     bool generate_stairs = true;
-    for ( auto &elem : generated_lab ) {
-        if ( ter( elem.x, elem.y, z + 1 ) == ( labt + "_stairs" ) ) {
+    for( auto &elem : generated_lab ) {
+        if( ter( elem.x, elem.y, z + 1 ) == ( labt + "_stairs" ) ) {
             generate_stairs = false;
         }
     }
-    if ( generate_stairs && !generated_lab.empty() ) {
+    if( generate_stairs && !generated_lab.empty() ) {
         const point p = random_entry( generated_lab );
         ter( p.x, p.y, z + 1 ) = ( labt + "_stairs" );
     }
 
     ter( x, y, z ) = labt + "_core";
     int numstairs = 0;
-    if ( s > 0 ) { // Build stairs going down
-        while ( !one_in( 6 ) ) {
+    if( s > 0 ) { // Build stairs going down
+        while( !one_in( 6 ) ) {
             int stairx, stairy;
             int tries = 0;
             do {
                 stairx = rng( x - s, x + s );
                 stairy = rng( y - s, y + s );
                 tries++;
-            } while ( ter( stairx, stairy, z ) != labt && tries < 15 );
-            if ( tries < 15 ) {
+            } while( ter( stairx, stairy, z ) != labt && tries < 15 );
+            if( tries < 15 ) {
                 ter( stairx, stairy, z ) = ( labt + "_stairs" );
                 numstairs++;
             }
         }
     }
-    if ( numstairs == 0 ) { // This is the bottom of the lab;  We need a finale
+    if( numstairs == 0 ) { // This is the bottom of the lab;  We need a finale
         int finalex, finaley;
         int tries = 0;
         do {
             finalex = rng( x - s, x + s );
             finaley = rng( y - s, y + s );
             tries++;
-        } while ( tries < 15 && ter( finalex, finaley, z ) != labt
+        } while( tries < 15 && ter( finalex, finaley, z ) != labt
                   && ter( finalex, finaley, z ) != ( labt + "_core" ) );
         ter( finalex, finaley, z ) = labt + "_finale";
     }
@@ -3136,11 +3135,11 @@ bool overmap::build_slimepit( int x, int y, int z, int s )
 {
     bool requires_sub = false;
     tripoint origin( x, y, z );
-    for ( auto p : g->m.points_in_radius( origin, s + z + 1, 0 ) ) {
+    for( auto p : g->m.points_in_radius( origin, s + z + 1, 0 ) ) {
         int dist = square_dist( x, y, p.x, p.y );
-        if ( one_in( 2 * dist ) ) {
+        if( one_in( 2 * dist ) ) {
             chip_rock( p.x, p.y, p.z );
-            if ( one_in( 8 ) && z > -OVERMAP_DEPTH ) {
+            if( one_in( 8 ) && z > -OVERMAP_DEPTH ) {
                 ter( p.x, p.y, p.z ) = "slimepit_down";
                 requires_sub = true;
             } else {
