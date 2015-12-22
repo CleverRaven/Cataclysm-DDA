@@ -12497,7 +12497,7 @@ float player::fine_detail_vision_mod()
     // PER_SLIME_OK implies you can get enough eyes around the bile
     // that you can generaly see.  There'll still be the haze, but
     // it's annoying rather than limiting.
-    if ( has_effect( "blind" ) || worn_with_flag( "BLIND" ) || has_active_bionic("bio_blindfold") ||
+    if( has_effect( "blind" ) || worn_with_flag( "BLIND" ) || has_active_bionic("bio_blindfold") ||
          ( ( has_effect( "boomered" ) || has_effect( "darkness" ) ) && !has_trait( "PER_SLIME_OK" ) ) ) {
         return 11.0;
     }
@@ -13432,7 +13432,7 @@ void player::practice( const skill_id &s, int amount, int cap )
 int player::exceeds_recipe_requirements( const recipe &rec ) const
 {
     int over = rec.skill_used ? get_skill_level( rec.skill_used ) - rec.difficulty : 0;
-    for ( const auto &required_skill : rec.required_skills ) {
+    for( const auto &required_skill : rec.required_skills ) {
         over = std::min( over, get_skill_level( required_skill.first ) - required_skill.second );
     }
     return over;

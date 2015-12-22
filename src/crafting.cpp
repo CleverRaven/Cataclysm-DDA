@@ -212,12 +212,12 @@ bool player::crafting_allowed( const std::string &rec_name )
 
 bool player::crafting_allowed( const recipe &rec )
 {
-    if ( has_moral_to_craft() ) { // See morale.h
+    if( has_moral_to_craft() ) { // See morale.h
         add_msg( m_info, _( "Your morale is too low to craft..." ) );
         return false;
     }
 
-    if ( lighting_craft_speed_multiplier( rec ) == 0.0f ) {
+    if( lighting_craft_speed_multiplier( rec ) == 0.0f ) {
         add_msg( m_info, _( "You can't see to craft!" ) );
         return false;
     }
@@ -229,21 +229,21 @@ float player::lighting_craft_speed_multiplier( const recipe &rec )
 {
     // negative is bright, 0 is just bright enough, positive is dark, +7.0f is pitch black
     float darkness = fine_detail_vision_mod() - 4.0f;
-    if ( darkness <= 0.0f ) {
+    if( darkness <= 0.0f ) {
         return 1.0f; // it's bright, go for it
     }
     bool rec_blind = rec.has_flag( "BLIND_HARD" ) || rec.has_flag( "BLIND_EASY" );
-    if ( darkness > 0 && !rec_blind ) {
+    if( darkness > 0 && !rec_blind ) {
         return 0.0f; // it's dark and this recipe can't be crafted in the dark
     }
-    if ( rec.has_flag( "BLIND_EASY" ) ) {
+    if( rec.has_flag( "BLIND_EASY" ) ) {
         // 100% speed in well lit area at skill+0
         // 25% speed in pitch black at skill+0
         // skill+2 removes speed penalty
         return 1.0f - ( darkness / ( 7.0f / 0.75f ) ) * std::max( 0,
                 2 - exceeds_recipe_requirements( rec ) ) / 2.0f;
     }
-    if ( rec.has_flag( "BLIND_HARD" ) && exceeds_recipe_requirements( rec ) >= 2 ) {
+    if( rec.has_flag( "BLIND_HARD" ) && exceeds_recipe_requirements( rec ) >= 2 ) {
         // 100% speed in well lit area at skill+2
         // 25% speed in pitch black at skill+2
         // skill+8 removes speed penalty
@@ -296,7 +296,7 @@ bool player::making_would_work(const std::string &id_to_make, int batch_size)
         return false;
     }
 
-    if ( !crafting_allowed( *making ) ) {
+    if( !crafting_allowed( *making ) ) {
         return false;
     }
 
@@ -491,21 +491,21 @@ int recipe::batch_time( int batch ) const
     // 1.0f is full speed
     // 0.33f is 1/3 speed
     float lighting_speed = g->u.lighting_craft_speed_multiplier( *this );
-    if ( lighting_speed == 0.0f ) {
+    if( lighting_speed == 0.0f ) {
         return time * batch; // how did we even get here?
     }
 
     float local_time = float( time ) / lighting_speed;
 
-    if ( batch_rscale == 0.0 ) {
+    if( batch_rscale == 0.0 ) {
         return local_time * batch;
     }
 
     // NPCs around you should assist in batch production if they have the skills
     int assistants = 0;
-    for ( auto &elem : g->active_npc ) {
-        if ( rl_dist( elem->pos(), g->u.pos() ) < PICKUP_RANGE && elem->is_friend() ) {
-            if ( elem->skillLevel( skill_used ) >= difficulty ) {
+    for( auto &elem : g->active_npc ) {
+        if( rl_dist( elem->pos(), g->u.pos() ) < PICKUP_RANGE && elem->is_friend() ) {
+            if( elem->skillLevel( skill_used ) >= difficulty ) {
                 assistants++;
             }
         }
@@ -514,23 +514,23 @@ int recipe::batch_time( int batch ) const
     double total_time = 0.0;
     // At batch_rsize, incremental time increase is 99.5% of batch_rscale
     double scale = batch_rsize / 6.0;
-    for ( int x = 0; x < batch; x++ ) {
+    for( int x = 0; x < batch; x++ ) {
         // scaled logistic function output
         double logf = ( 2.0 / ( 1.0 + exp( -( ( double )x / scale ) ) ) ) - 1.0;
         total_time += ( double )local_time * ( 1.0 - ( batch_rscale * logf ) );
     }
 
     //Assistants can decrease the time for production but never less than that of one unit
-    if ( assistants == 1 ) {
+    if( assistants == 1 ) {
         total_time = total_time * .75;
-    } else if ( assistants >= 2 ) {
+    } else if( assistants >= 2 ) {
         total_time = total_time * .60;
     }
-    if ( total_time < local_time ) {
+    if( total_time < local_time ) {
         total_time = local_time;
     }
 
-    return ( int )total_time;
+    return int(total_time);
 }
 
 bool recipe::has_flag( const std::string &flag_name ) const
@@ -1295,7 +1295,7 @@ void player::disassemble(item &dis_item, int dis_pos, bool ground)
     const recipe *cur_recipe = get_disassemble_recipe( dis_item.type->id );
 
     //no disassembly without proper light
-    if ( lighting_craft_speed_multiplier(*cur_recipe) == 0.0f ) {
+    if( lighting_craft_speed_multiplier(*cur_recipe) == 0.0f ) {
         add_msg(m_info, _("You can't see to craft!"));
         return;
     }
@@ -1311,18 +1311,17 @@ void player::disassemble(item &dis_item, int dis_pos, bool ground)
         }
     }
 
-    if ( cur_recipe != NULL )
-    {
+    if( cur_recipe != NULL ) {
         const inventory &crafting_inv = crafting_inventory();
-        if ( can_disassemble( dis_item, cur_recipe, crafting_inv, true ) ) {
-            if ( !query_dissamble( dis_item ) ) {
+        if( can_disassemble( dis_item, cur_recipe, crafting_inv, true ) ) {
+            if( !query_dissamble( dis_item ) ) {
                 return;
             }
             assign_activity(ACT_DISASSEMBLE,
                 ( float( cur_recipe->time ) / lighting_craft_speed_multiplier( *cur_recipe ) ),
                 cur_recipe->id );
             activity.values.push_back( dis_pos );
-            if ( ground ) {
+            if( ground ) {
                 activity.values.push_back( 1 );
             }
         }
@@ -1330,7 +1329,7 @@ void player::disassemble(item &dis_item, int dis_pos, bool ground)
     }
     //if we're trying to disassemble a book or magazine
     if( dis_item.is_book() ) {
-        if (OPTIONS["QUERY_DISASSEMBLE"] &&
+        if(OPTIONS["QUERY_DISASSEMBLE"] &&
             !(query_yn(_("Do you want to tear %s into pages?"), dis_item.tname().c_str()))) {
             return;
         } else {
