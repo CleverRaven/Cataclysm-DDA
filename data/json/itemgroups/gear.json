@@ -2455,5 +2455,231 @@
       ["arrow_wood", 100],
       ["dart", 20]
     ]
+ },{
+    "type" : "item_group",
+    "id" : "scavenger_pants",
+    "subtype": "distribution",
+    "entries":[
+      { "item": "loincloth", "prob": 65, "damage-min": 0, "damage-max": 2 },
+      { "item": "hot_pants", "prob": 25, "damage-min": 0, "damage-max": 2 },
+      { "item": "hot_pants_leather", "prob": 45, "damage-min": 0, "damage-max": 2 },
+      { "item": "pants_checkered", "prob": 15, "damage-min": 0, "damage-max": 2 },
+      { "item": "pants_leather", "prob": 50, "damage-min": 0, "damage-max": 2 },
+      { "item": "shorts_cargo", "prob": 40, "damage-min": 0, "damage-max": 2 },
+      { "item": "under_armor_shorts", "prob": 30, "damage-min": 0, "damage-max": 2 },
+      { "item": "pants_ski", "prob": 20, "damage-min": 0, "damage-max": 2 },
+      { "item": "long_underpants", "prob": 40, "damage-min": 0, "damage-max": 2 },
+      { "item": "fishing_waders", "prob": 1, "damage-min": 0, "damage-max": 2 },
+      { "item": "bunker_pants", "prob": 5, "damage-min": 0, "damage-max": 2 },
+      { "item": "kilt", "prob": 5, "damage-min": 0, "damage-max": 2 }
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "scavenger_shirts",
+    "subtype": "distribution",
+    "entries":[
+      { "item": "tank_top", "prob": 70, "damage-min": 0, "damage-max": 2 },
+      { "item": "tunic_rag", "prob": 35, "damage-min": 0, "damage-max": 2 },
+      { "item": "bikini_top_leather", "prob": 10, "damage-min": 0, "damage-max": 2 },
+      { "item": "flag_shirt", "prob": 70, "damage-min": 0, "damage-max": 2 },
+      { "item": "corset", "prob": 20, "damage-min": 0, "damage-max": 2 },
+      { "item": "chestwrap", "prob": 40, "damage-min": 0, "damage-max": 2 },
+      { "item": "chestwrap_leather", "prob": 20, "damage-min": 0, "damage-max": 2 },
+      { "item": "long_undertop", "prob": 20, "damage-min": 0, "damage-max": 2 },
+      { "item": "army_top", "prob": 50, "damage-min": 0, "damage-max": 2 },
+      { "item": "sweatshirt", "prob": 35, "damage-min": 0, "damage-max": 2 },
+      { "item": "hoodie", "prob": 45, "damage-min": 0, "damage-max": 2 }
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "scavenger_boots",
+    "subtype": "distribution",
+    "entries":[
+      { "item": "footrags", "prob": 20 },
+      { "item": "footrags_leather", "prob": 20 },
+      { "item": "boots", "prob": 20, "damage-min": 0, "damage-max": 2 },
+      { "item": "boots_steel", "prob": 20, "damage-min": 0, "damage-max": 2 },
+      { "item": "boots_combat", "prob": 10, "damage-min": 0, "damage-max": 2 },
+      { "item": "boots_larmor", "prob": 60, "damage-min": 0, "damage-max": 2 },
+      { "item": "boots_hiking", "prob": 50, "damage-min": 0, "damage-max": 2 },
+      { "item": "knee_high_boots", "prob": 40, "damage-min": 0, "damage-max": 2 },
+      { "item": "boots_western", "prob": 10, "damage-min": 0, "damage-max": 2 },
+      { "item": "flip_flops", "prob": 10, "damage-min": 0, "damage-max": 1 },
+      { "item": "lowtops", "prob": 50, "damage-min": 0, "damage-max": 2 },
+      { "item": "dance_shoes", "prob": 50, "damage-min": 0, "damage-max": 2 },
+      { "item": "clogs", "prob": 50, "damage-min": 0, "damage-max": 1 },
+      { "item": "leathersandals", "prob": 80, "damage-min": 0, "damage-max": 2 },
+      { "item": "mocassins", "prob": 40, "damage-min": 0, "damage-max": 2 }
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "scavenger_gloves",
+    "subtype": "distribution",
+    "entries":[
+      { "item": "gloves_wraps", "prob": 50, "damage-min": 0, "damage-max": 2 },
+      { "item": "gloves_wraps_leather", "prob": 70, "damage-min": 0, "damage-max": 2 },
+      { "item": "gloves_fingerless", "prob": 80, "damage-min": 0, "damage-max": 2 },
+      { "item": "gloves_fingerless_mod", "prob": 50, "damage-min": 0, "damage-max": 2 },
+      { "item": "gloves_leather", "prob": 30, "damage-min": 0, "damage-max": 2 },
+      { "item": "gloves_work", "prob": 30, "damage-min": 0, "damage-max": 2 },
+      { "item": "gauntlets_larmor", "prob": 30, "damage-min": 0, "damage-max": 2 },
+      { "item": "gauntlets_chitin", "prob": 10, "damage-min": 0, "damage-max": 2 },
+      { "item": "fire_gauntlets", "prob": 20, "damage-min": 0, "damage-max": 2 }
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "scavenger_coats",
+    "subtype": "distribution",
+    "entries":[
+      { "item": "vest_leather", "prob": 100, "damage-min": 0, "damage-max": 2 },
+      { "item": "jacket_evac", "prob": 30, "damage-min": 0, "damage-max": 1 },
+      { "item": "poncho", "prob": 30, "damage-min": 0, "damage-max": 2 },
+      { "item": "flotation_vest", "prob": 30, "damage-min": 0, "damage-max": 2 },
+      { "item": "sleeveless_trenchcoat", "prob": 20, "damage-min": 0, "damage-max": 2 },
+      { "item": "vest", "prob": 30, "damage-min": 0, "damage-max": 2 },
+      { "item": "coat_lab", "prob": 10, "damage-min": 0, "damage-max": 1 },
+      { "item": "bunker_coat", "prob": 5, "damage-min": 0, "damage-max": 2 }
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "scavenger_suits",
+    "subtype": "distribution",
+    "entries":[
+      { "item": "suit", "prob": 25, "damage-min": 0, "damage-max": 1 },
+      { "item": "tux", "prob": 10, "damage-min": 0, "damage-max": 2 },
+      { "item": "bondage_suit", "prob": 50, "damage-min": 0, "damage-max": 2 },
+      { "item": "jumpsuit", "prob": 20, "damage-min": 0, "damage-max": 1 },
+      { "item": "wetsuit", "prob": 50, "damage-min": 1, "damage-max": 2 },
+      { "item": "touring_suit", "prob": 50, "damage-min": 0, "damage-max": 2 }
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "scavenger_armor",
+    "subtype": "distribution",
+    "entries":[
+      { "item": "football_armor", "prob": 50, "damage-min": 0, "damage-max": 2 },
+      { "item": "motorbike_armor", "prob": 50, "damage-min": 0, "damage-max": 2 },
+      { "item": "armor_scrapsuit", "prob": 50, "damage-min": 0, "damage-max": 2 },
+      { "item": "armor_chitin", "prob": 10, "damage-min": 0, "damage-max": 2 },
+      { "item": "armor_bone", "prob": 10, "damage-min": 0, "damage-max": 2 },
+      { "item": "armor_larmor", "prob": 80, "damage-min": 0, "damage-max": 2 },
+      { "item": "armor_blarmor", "prob": 80, "damage-min": 0, "damage-max": 2 },
+      { "item": "armor_plarmor", "prob": 80, "damage-min": 0, "damage-max": 2 },
+      { "item": "kevlar", "prob": 5, "damage-min": 1, "damage-max": 3 },
+      { "item": "armor_plate", "prob": 5, "damage-min": 0, "damage-max": 3 },
+      { "item": "armor_samurai", "prob": 5, "damage-min": 0, "damage-max": 2 }
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "scavenger_masks",
+    "subtype": "distribution",
+    "entries":[
+      { "item": "mask_hockey", "prob": 100, "damage-min": 0, "damage-max": 2 },
+      { "item": "mask_rioter", "prob": 50, "damage-min": 0, "damage-max": 2 },
+      { "item": "bondage_mask", "prob": 50, "damage-min": 0, "damage-max": 2 },
+      { "item": "mask_guy_fawkes", "prob": 3, "damage-min": 0, "damage-max": 2 },
+      { "item": "balclava", "prob": 3, "damage-min": 0, "damage-max": 1 },
+      { "item": "mask_gas", "prob": 10, "damage-min": 0, "damage-max": 2 },
+      { "item": "mask_dust", "prob": 50, "damage-min": 0, "damage-max": 2 },
+      { "item": "mask_filter", "prob": 50, "damage-min": 0, "damage-max": 2 }
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "scavenger_eyewear",
+    "subtype": "distribution",
+    "entries":[
+      { "item": "glasses_safety", "prob": 40, "damage-min": 0, "damage-max": 2 },
+      { "item": "goggles_swim", "prob": 50, "damage-min": 0, "damage-max": 2 },
+      { "item": "goggles_ski", "prob": 50, "damage-min": 0, "damage-max": 2 },
+      { "item": "glasses_monocle", "prob": 10, "damage-min": 0, "damage-max": 2 },
+      { "item": "sunglasses", "prob": 50, "damage-min": 0, "damage-max": 2 }
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "scavenger_hats",
+    "subtype": "distribution",
+    "entries":[
+      { "item": "helmet_liner", "prob": 10, "damage-min": 0, "damage-max": 2 },
+      { "item": "straw_hat", "prob": 50 },
+      { "item": "tophat", "prob": 50, "damage-min": 0, "damage-max": 2 },
+      { "item": "bowhat", "prob": 50, "damage-min": 0, "damage-max": 2 },
+      { "item": "cowboy_hat", "prob": 50, "damage-min": 0, "damage-max": 2 },
+      { "item": "10gal_hat", "prob": 50, "damage-min": 0, "damage-max": 2 },
+      { "item": "kufi", "prob": 30, "damage-min": 0, "damage-max": 2 },
+      { "item": "porkpie", "prob": 30, "damage-min": 0, "damage-max": 2 }
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "scavenger_helmets",
+    "subtype": "distribution",
+    "entries":[
+      { "item": "pot_helmet", "prob": 80, "damage-min": 0, "damage-max": 2 },
+      { "item": "pickelhaube", "prob": 60, "damage-min": 0, "damage-max": 2 },
+      { "item": "firehelmet", "prob": 20, "damage-min": 0, "damage-max": 2 },
+      { "item": "hat_hard_hooded", "prob": 20, "damage-min": 0, "damage-max": 2 },
+      { "item": "hat_hard", "prob": 20, "damage-min": 0, "damage-max": 2 },
+      { "item": "headgear", "prob": 20, "damage-min": 0, "damage-max": 2 },
+      { "item": "helmet_football", "prob": 50, "damage-min": 0, "damage-max": 2 },
+      { "item": "helmet_bike", "prob": 50, "damage-min": 0, "damage-max": 2 },
+      { "item": "helmet_motor", "prob": 50, "damage-min": 0, "damage-max": 2 },
+      { "item": "helmet_skid", "prob": 50, "damage-min": 0, "damage-max": 2 },
+      { "item": "helmet_ball", "prob": 50, "damage-min": 0, "damage-max": 2 },
+      { "item": "helmet_riot", "prob": 40, "damage-min": 0, "damage-max": 2 },
+      { "item": "helmet_larmor", "prob": 50, "damage-min": 0, "damage-max": 2 },
+      { "item": "helmet_chitin", "prob": 20, "damage-min": 0, "damage-max": 1 },
+      { "item": "helmet_bone", "prob": 20, "damage-min": 0, "damage-max": 2 },
+      { "item": "helmet_plate", "prob": 10, "damage-min": 0, "damage-max": 2 },
+      { "item": "helmet_kabuto", "prob": 10, "damage-min": 0, "damage-max": 2 }
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "scavenger_storage",
+    "subtype": "distribution",
+    "entries":[
+      { "item": "mbag", "prob": 20, "damage-min": 0, "damage-max": 2 },
+      { "item": "purse", "prob": 40, "damage-min": 0, "damage-max": 2 },
+      { "item": "tool_belt", "prob": 55, "damage-min": 0, "damage-max": 2 },
+      { "item": "fanny", "prob": 30, "damage-min": 0, "damage-max": 2 },
+      { "item": "canteen", "prob": 25, "damage-min": 0, "damage-max": 1 },
+      { "item": "holster", "prob": 45, "damage-min": 0, "damage-max": 2 },
+      { "item": "sholster", "prob": 45, "damage-min": 0, "damage-max": 2 },
+      { "item": "ragpouch", "prob": 65, "damage-min": 0, "damage-max": 2 },
+      { "item": "scabbard", "prob": 20, "damage-min": 0, "damage-max": 2 }
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "scavenger_extras",
+    "subtype": "distribution",
+    "entries":[
+      { "item": "leather_collar", "prob": 40, "damage-min": 0, "damage-max": 0 },
+      { "item": "armguard_paper", "prob": 10, "damage-min": 0, "damage-max": 2 },
+      { "item": "legguard_paper", "prob": 10, "damage-min": 0, "damage-max": 2 },
+      { "item": "armguard_soft", "prob": 30, "damage-min": 0, "damage-max": 3 },
+      { "item": "armguard_chitin", "prob": 50, "damage-min": 0, "damage-max": 2 },
+      { "item": "armguard_metal", "prob": 50, "damage-min": 0, "damage-max": 2 },
+      { "item": "legguard_metal", "prob": 50, "damage-min": 0, "damage-max": 2 },
+      { "item": "2byarm_guard", "prob": 30, "damage-min": 0, "damage-max": 2 },
+      { "item": "2byshin_guard", "prob": 30, "damage-min": 0, "damage-max": 2 }
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "scavenger_clothes",
+    "//" : "low quality scavenged and homemade gear. for Mad Max style enemies and desparate survivors.",
+    "subtype": "distribution",
+    "entries" : [
+      { "group": "scavenger_boots", "prob": 60 },
+      { "group": "scavenger_pants", "prob": 80 },
+      { "group": "scavenger_shirts", "prob": 80 },
+      { "group": "scavenger_coats", "prob": 50 },
+      { "group": "scavenger_suits", "prob": 30 },
+      { "group": "scavenger_armor", "prob": 70 },
+      { "group": "scavenger_gloves", "prob": 50 },
+      { "group": "scavenger_eyewear", "prob": 30 },
+      { "group": "scavenger_hats", "prob": 30 },
+      { "group": "scavenger_helmets", "prob": 50 },
+      { "group": "scavenger_masks", "prob": 30 },
+      { "group": "scavenger_storage", "prob": 20 },
+      { "group": "scavenger_extras", "prob": 70 }
+    ]
   }
 ]
