@@ -101,13 +101,10 @@ struct encumbrance_data {
     int iArmorEnc = 0;
     int iBodyTempInt = 0;
     double iLayers = 0.0;
-    bool operator == ( const encumbrance_data &RHS )
+    bool operator ==( const encumbrance_data &RHS )
     {
-        return
-            this->iEnc == RHS.iEnc &&
-            this->iArmorEnc == RHS.iArmorEnc &&
-            this->iBodyTempInt == RHS.iBodyTempInt &&
-            this->iLayers == RHS.iLayers;
+        return this->iEnc == RHS.iEnc && this->iArmorEnc == RHS.iArmorEnc &&
+            this->iBodyTempInt == RHS.iBodyTempInt && this->iLayers == RHS.iLayers;
     }
 };
 
