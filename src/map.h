@@ -349,6 +349,8 @@ public:
     * Similar behavior to `move_cost()`, but ignores vehicles.
     */
     int move_cost_ter_furn( const tripoint &p ) const;
+    bool impassable_ter_furn( const tripoint &p ) const;
+    bool passable_ter_furn( const tripoint &p ) const;
 
     /**
     * Cost to move out of one tile and into the next.

@@ -1406,7 +1406,7 @@ void veh_interact::move_cursor (int dx, int dy)
     int vdy = -ddy;
     point q = veh->coord_translate (point(vdx, vdy));
     tripoint vehp = veh->global_pos3() + q;
-    bool obstruct = g->m.move_cost_ter_furn( vehp ) == 0;
+    bool obstruct = g->m.impassable_ter_furn( vehp );
     vehicle *oveh = g->m.veh_at( vehp );
     if( oveh != nullptr && oveh != veh ) {
         obstruct = true;
