@@ -316,7 +316,7 @@ inline void FillRectDIB(int x, int y, int width, int height, unsigned char color
 void curses_drawwindow(WINDOW *win)
 {
     int i,j,drawx,drawy;
-    unsigned tmp;
+    wchar_t tmp;
     RECT update = {win->x * fontwidth, -1,
                    (win->x + win->width) * fontwidth, -1};
 
