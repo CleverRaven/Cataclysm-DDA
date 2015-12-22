@@ -1493,26 +1493,6 @@
     ]
   },{
     "type" : "item_group",
-    "id" : "plumber_gear",
-    "subtype": "distribution",
-    "entries" : [
-      { "group": "worker_clothes", "prob": 350 },
-      { "group": "basic_tools", "prob": 300 },
-      { "item": "flashlight", "prob": 100 },
-      { "item": "toolbox", "prob": 20 },
-      { "item": "multitool", "prob": 100 },
-      { "item": "screwdriver_set", "prob": 10 },
-      { "item": "duct_tape", "prob": 50 },
-      { "item": "spray_can", "prob": 50 },
-      { "item": "permanent_marker", "prob": 50 },
-      { "item": "battery", "prob": 20 },
-      { "item": "fishing_waders", "prob": 20 },
-      { "item": "boots_rubber", "prob": 30 },
-      { "item": "bio_flashlight", "prob": 10 },
-      { "item": "bio_tools", "prob": 10 }
-    ]
-  },{
-    "type" : "item_group",
     "id" : "hardware_plumbing",
     "subtype": "distribution",
     "entries" : [
@@ -1541,6 +1521,20 @@
       { "item": "cordless_drill", "prob": 50 },
       { "item": "survnote", "prob": 1 }
     ]
+  },{
+    "type" : "item_group",
+    "id" : "plumbing_bulk",
+    "items":[
+      ["pipe", 100],
+      ["cu_pipe", 100],
+      ["hose", 100],
+      ["mop", 20],
+      ["shovel", 40],
+      ["hammer_sledge", 5],
+      ["metal_tank_small", 25],
+      ["metal_tank_little", 50],
+      ["jerrycan", 10]
+      ]
   },{
     "type" : "item_group",
     "id" : "gunxtras",
