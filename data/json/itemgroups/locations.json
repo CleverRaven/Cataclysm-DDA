@@ -1675,6 +1675,18 @@
     ]
   },{
     "type" : "item_group",
+    "id" : "mil_food_nodrugs",
+    "//" : "comestibles found in military surplus store.",
+    "subtype": "distribution",
+    "entries" : [
+      { "group": "military_food", "prob": 100 },
+      { "item": "1st_aid", "prob": 35 },
+      { "item": "saline", "prob": 35 },
+      { "item": "sports_drink", "prob": 35 },
+      { "item": "water_clean", "prob": 15 }
+    ]
+  },{
+    "type" : "item_group",
     "id" : "camping",
     "subtype": "distribution",
     "entries" : [
