@@ -282,3 +282,8 @@ double convert_weight( int weight )
     }
     return ret;
 }
+
+double temp_to_celsius( float fahrenheit )
+{
+    return ( ( fahrenheit - 32.0 ) * 5.0 / 9.0 );
+}
