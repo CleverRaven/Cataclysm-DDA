@@ -5036,9 +5036,9 @@ void game::draw_sidebar()
 
     const tripoint omt = u.global_omt_location();
     const omt_knowledge_level seen = overmap_buffer.seen(omt.x, omt.y, get_levz());
-    if (seen==OKL_UPCLOSE) {
+    if(seen==OKL_UPCLOSE) {
         const std::string &closeup_name = overmap_buffer.closeup_name(omt.x,omt.y,get_levz());
-        if (!closeup_name.empty()) {
+        if(!closeup_name.empty()) {
             tername = closeup_name;
         }
     }
@@ -5434,7 +5434,7 @@ void game::draw_minimap()
                         }
                     }
                 }
-            } else if (seen==OKL_UNKNOWN) {
+            } else if ( seen == OKL_UNKNOWN ) {
                 ter_sym = ' ';
                 ter_color = c_black;
             } else if (vehicle_here) {

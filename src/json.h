@@ -262,9 +262,9 @@ class JsonIn
         read(T &u)
         {
             int temp;
-            if (!read(temp)) {
+            if(!read(temp)) {
                 bool temp2; // backwards compatibility, some now-ints used to be bools
-                if (!read(temp2)) {
+                if(!read(temp2)) {
                     return false;
                 }
                 temp = temp2;

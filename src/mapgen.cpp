@@ -150,8 +150,8 @@ void map::generate(const int x, const int y, const int z, const int turn)
     // This attempts to scale density of zombies inversely with distance from the nearest city.
     // In other words, make city centers dense and perimiters sparse.
     float density = 0.0;
-    for (int i = omtx - MON_RADIUS; i <= omtx + MON_RADIUS; i++) {
-        for (int j = omty - MON_RADIUS; j <= omty + MON_RADIUS; j++) {
+    for(int i = omtx - MON_RADIUS; i <= omtx + MON_RADIUS; i++) {
+        for(int j = omty - MON_RADIUS; j <= omty + MON_RADIUS; j++) {
             density += otermap[overmap_buffer.ter(i, j, z)].mondensity;
         }
     }
@@ -162,8 +162,8 @@ void map::generate(const int x, const int y, const int z, const int turn)
                  t_neast, t_seast, t_nwest, t_swest,
                  t_above, turn, density, z, rsettings);
 
-    if (!tname.empty()) {
-        overmap_buffer.set_closeup_name(omtx, omty, z, tname);
+    if( !tname.empty() ) {
+        overmap_buffer.set_closeup_name( omtx, omty, z, tname );
     }
 
     // At some point, we should add region information so we can grab the appropriate extras
@@ -1281,7 +1281,7 @@ bool mapgen_function_json::setup() {
 
         // something akin to mapgen fill_background.
         if ( jo.read("fill_ter", tmpval) ) {
-            if ( termap.find( tmpval ) == termap.end() ) {
+            if( termap.find( tmpval ) == termap.end() ) {
                 jo.throw_error(string_format("  fill_ter: invalid terrain '%s'",tmpval.c_str() ));
             }
             fill_ter = termap[ tmpval ].loadid;
@@ -1289,7 +1289,7 @@ bool mapgen_function_json::setup() {
             tmpval = "";
         }
 
-        if ( jo.read("upclose_name", tmpval) ) {
+        if( jo.read( "upclose_name", tmpval ) ) {
             upclose_name = tmpval;
             tmpval = "";
         }

@@ -926,12 +926,11 @@ omt_knowledge_level &overmap::seen(int x, int y, int z)
 
 std::string &overmap::terrain_closeup_name(int x, int y, int z)
 {
-    //debugmsg("[om::terrain_closeup_name %d %d %d %s]",x,y,z,layer[z + OVERMAP_DEPTH].terrain_closeup_name[point(x,y)].c_str());
-    if (x < 0 || x >= OMAPX || y < 0 || y >= OMAPY || z < -OVERMAP_DEPTH || z > OVERMAP_HEIGHT) {
+    if( x < 0 || x >= OMAPX || y < 0 || y >= OMAPY || z < -OVERMAP_DEPTH || z > OVERMAP_HEIGHT ) {
         nullstring = "";
         return nullstring;
     }
-    return layer[z + OVERMAP_DEPTH].terrain_closeup_name[point(x,y)];
+    return layer[ z + OVERMAP_DEPTH ].terrain_closeup_name[ point( x, y ) ];
 }
 
 bool &overmap::explored(int x, int y, int z)
@@ -1512,11 +1511,11 @@ bool overmap::generate_sub(int const z)
 std::vector<point> overmap::find_terrain(const std::string &term, int zlevel)
 {
     std::vector<point> found;
-    for (int x = 0; x < OMAPX; x++) {
-        for (int y = 0; y < OMAPY; y++) {
-            if ( seen(x, y, zlevel) != OKL_UNKNOWN &&
-                lcmatch( otermap[ter(x, y, zlevel)].name, term ) ) {
-                found.push_back( point( get_left_border() + x, get_top_border() + y) );
+    for( int x = 0; x < OMAPX; x++ ) {
+        for( int y = 0; y < OMAPY; y++ ) {
+            if( seen( x, y, zlevel ) != OKL_UNKNOWN &&
+                    lcmatch( otermap[ ter( x, y, zlevel ) ].name, term ) ) {
+                found.push_back( point( get_left_border() + x, get_top_border() + y ) );
             }
         }
     }
@@ -1716,9 +1715,9 @@ void overmap::draw(WINDOW *w, WINDOW *wbar, const tripoint &center,
             const int omy = j + offset_y;
 
             const omt_knowledge_level see = overmap_buffer.seen(omx, omy, z);
-            if (see != OKL_UNKNOWN) {
+            if( see != OKL_UNKNOWN ) {
                 // Only load terrain if we can actually see it
-                cur_ter = overmap_buffer.ter(omx, omy, z);
+                cur_ter = overmap_buffer.ter( omx, omy, z );
             }
 
             tripoint const cur_pos {omx, omy, z};
@@ -1968,7 +1967,7 @@ void overmap::draw(WINDOW *w, WINDOW *wbar, const tripoint &center,
     }
 
     // Draw text describing the overmap tile at the cursor position.
-    if (csee!=OKL_UNKNOWN) {
+    if(csee!=OKL_UNKNOWN) {
         if(!mgroups.empty()) {
             int line_number = 6;
             for( const auto &mgroup : mgroups ) {
@@ -1993,8 +1992,8 @@ void overmap::draw(WINDOW *w, WINDOW *wbar, const tripoint &center,
             // OMT terrain name
             int y = fold_and_print(wbar, 1, 3, 25, color, otermap[ccur_ter].name);
             // OMT terrain closeup name
-            if (csee == OKL_UPCLOSE) {
-                fold_and_print(wbar, y + 1, 1, 25, color, overmap_buffer.closeup_name(cursx,cursy,z));
+            if( csee == OKL_UPCLOSE ) {
+                fold_and_print( wbar, y + 1, 1, 25, color, overmap_buffer.closeup_name( cursx, cursy, z ) );
             }
         }
     } else {
