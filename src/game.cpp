@@ -4783,7 +4783,7 @@ faction *game::list_factions(std::string title)
     return cur_frac;
 }
 
-void init_missions_tab( tabbed_window &win, std::string &&tab_name, std::vector<mission *> &&data, std::string &&if_empty, bool can_confirm )
+void init_missions_tab( tabbed_window &win, input_broadcaster &ib, std::string &&tab_name, std::vector<mission *> &&data, std::string &&if_empty, bool can_confirm )
 {
     auto tab = win.create_tab( tab_name );
 
@@ -4803,6 +4803,8 @@ void init_missions_tab( tabbed_window &win, std::string &&tab_name, std::vector<
 
     auto _list = tab->create_child<ui_vertical_list<mission *, decltype(draw_lambda), nullptr>>( list_width, list_height, 0, 0, ui_anchor::top_left, draw_lambda );
     _list->set_items( data );
+
+    ib.subscribe( _list->default_action_handler() );
 
     auto _border = tab->create_child<ui_border>( 1, list_height );
     _border->after( *_list );
@@ -4851,14 +4853,17 @@ void game::list_missions()
 
     tabbed_window win( win_width, win_height, start_x, start_y );
 
-    init_missions_tab( win, _("ACTIVE MISSIONS"), u.get_active_missions(), _("You have no active missions!"), true );
-    init_missions_tab( win, _("COMPLETED MISSIONS"), u.get_completed_missions(), _("You haven't completed any missions!"), false );
-    init_missions_tab( win, _("FAILED MISSIONS"), u.get_failed_missions(), _("You haven't failed any missions!"), false );
+    input_broadcaster ib;
+    ib.subscribe( win.default_action_handler() );
+
+    init_missions_tab( win, ib, _("ACTIVE MISSIONS"), u.get_active_missions(), _("You have no active missions!"), true );
+    init_missions_tab( win, ib, _("COMPLETED MISSIONS"), u.get_completed_missions(), _("You haven't completed any missions!"), false );
+    init_missions_tab( win, ib, _("FAILED MISSIONS"), u.get_failed_missions(), _("You haven't failed any missions!"), false );
 
     while( true ) {
         win.draw();
 
-        if( win.handle_input() == "QUIT" ) {
+        if( ib.handle_input_and_broadcast() == "QUIT" ) {
             break;
         }
     }

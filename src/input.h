@@ -5,6 +5,8 @@
 #include <map>
 #include <vector>
 #include <utility>
+#include <functional>
+
 #include "cursesdef.h"
 
 // Compiling with SDL enables gamepad support.
@@ -475,6 +477,27 @@ class input_context
          * keybindings.
          */
         void clear_conflicting_keybindings(const input_event &event);
+};
+
+class input_broadcaster : input_context {
+    public:
+        input_broadcaster() : input_context() {};
+        input_broadcaster( std::string category ) : input_context( category ) {};
+
+        typedef std::function<void(const std::string &)> action;
+
+        struct listener {
+            std::vector<std::string> listens_to;
+            action l_action;
+
+            listener( std::vector<std::string> listens_to, action l_action ) : listens_to( listens_to ), l_action( l_action ) {}
+        };
+
+        void subscribe( listener );
+        const std::string &handle_input_and_broadcast();
+
+    private:
+        std::vector<action> listeners;
 };
 
 /**

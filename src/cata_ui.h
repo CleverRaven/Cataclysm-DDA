@@ -37,7 +37,7 @@ struct ui_rect {
     size_t size_x, size_y;
 
     /**
-    * The x and y position as offsets to the anchor (within the parent)
+    * The x and y position (as offsets to the anchor, within the parent)
     */
     int x, y;
 
@@ -110,7 +110,6 @@ class ui_element {
         virtual void draw( std::vector<WINDOW *> &render_batch );
         virtual void draw( WINDOW *win ) = 0;
         virtual WINDOW *get_win() const; /**< Getter for a window to draw with */
-        virtual void send_action( const std::string &action ) {}
     public:
         ui_element( const ui_rect &rect, ui_anchor anchor = ui_anchor::top_left );
         ui_element( size_t size_x, size_t size_y, int x = 0, int y = 0, ui_anchor anchor = ui_anchor::top_left );
@@ -157,8 +156,6 @@ class ui_window : public ui_element {
         std::vector<ui_element *> children;
 
         void calc_anchored_values() override;
-
-        input_context ctxt;
     protected:
         void draw( std::vector<WINDOW *> &render_batch ) override;
         void draw( WINDOW *win ) override { on_draw( win ); }
@@ -175,9 +172,6 @@ class ui_window : public ui_element {
         void draw();
 
         WINDOW *get_win() const override;
-
-        input_context &get_input_context();
-        virtual std::string handle_input();
 
         /**
         * Event meant to let a client do low-level drawing on the window, without the use of ui_elements.
@@ -267,7 +261,7 @@ class tabbed_window : public bordered_window {
         void previous_tab();
         std::string current_tab() const;
 
-        std::string handle_input() override;
+        input_broadcaster::listener default_action_handler();
 };
 
 auto default_draw_func = []( nc_color color, std::string txt )
@@ -362,17 +356,23 @@ class ui_vertical_list : public ui_element {
         ui_event<> on_select;
         ui_event<> on_scroll;
 
-        void send_action( const std::string &action ) override
+        input_broadcaster::listener default_action_handler()
         {
-            if( action == "UP" ) {
-                scroll_up();
-            } else if( action == "DOWN" ) {
-                scroll_down();
-            } else if( action == "CONFIRM" ) {
-                if( !items.empty() ) {
-                    on_select();
+            return {
+                {"UP", "DOWN", "CONFIRM"},
+                [this]( const std::string &action )
+                {
+                    if( action == "UP" ) {
+                        scroll_up();
+                    } else if( action == "DOWN" ) {
+                        scroll_down();
+                    } else if( action == "CONFIRM" ) {
+                        if( !items.empty() ) {
+                            on_select();
+                        }
+                    }
                 }
-            }
+            };
         }
 
         bool empty() const
@@ -404,7 +404,7 @@ class ui_horizontal_list : public ui_element {
         ui_event<> on_select;
         ui_event<> on_scroll;
 
-        void send_action( const std::string &action ) override;
+        input_broadcaster::listener default_action_handler();
 };
 
 /**

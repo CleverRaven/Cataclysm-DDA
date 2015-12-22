@@ -15,12 +15,6 @@ ui_rect::ui_rect( size_t size_x, size_t size_y, int x, int y ) : size_x( size_x 
 ui_window::ui_window( const ui_rect &rect, ui_anchor anchor ) : ui_element( rect, anchor ),
                     global_x( get_ax() ), global_y( get_ay() ), win( newwin( rect.size_y, rect.size_x, global_y, global_x ) )
 {
-    ctxt.register_directions();
-    ctxt.register_action("PREV_TAB");
-    ctxt.register_action("NEXT_TAB");
-
-    ctxt.register_action("QUIT");
-    ctxt.register_action("CONFIRM");
 }
 
 ui_window::ui_window( size_t size_x, size_t size_y, int x, int y, ui_anchor anchor ) : ui_window( ui_rect( size_x, size_y, x, y ), anchor )
@@ -65,24 +59,6 @@ void ui_window::draw_children( std::vector<WINDOW *> &render_batch )
             child->draw( render_batch );
         }
     }
-}
-
-input_context &ui_window::get_input_context()
-{
-    return ctxt;
-}
-
-std::string ui_window::handle_input()
-{
-    std::string action = ctxt.handle_input();
-
-    for( auto child : children ) {
-        if( child->is_visible() ) {
-            child->send_action( action );
-        }
-    }
-
-    return action;
 }
 
 void ui_window::calc_anchored_values() {
@@ -272,8 +248,8 @@ void ui_label::draw( WINDOW *win )
 
 void ui_label::set_text( std::string new_text )
 {
-    text = new_text;
-    set_rect( ui_rect( utf8_width( new_text.c_str() ), get_rect().size_y, get_rect().x, get_rect().y ) );
+    text = std::move( new_text );
+    set_rect( ui_rect( utf8_width( text.c_str() ), get_rect().size_y, get_rect().x, get_rect().y ) );
 }
 
 bordered_window::bordered_window( size_t size_x, size_t size_y, int x, int y ) : ui_window( size_x, size_y, x, y )
@@ -356,17 +332,18 @@ std::string tabbed_window::current_tab() const
     return tabs[tab_index].first;
 }
 
-std::string tabbed_window::handle_input()
+input_broadcaster::listener tabbed_window::default_action_handler()
 {
-    std::string action = ui_window::handle_input();
-
-    if( action == "PREV_TAB" ) {
-        previous_tab();
-    } else if( action == "NEXT_TAB" ) {
-        next_tab();
-    }
-
-    return action;
+    return {
+        { "PREV_TAB", "NEXT_TAB" },
+        [this]( const std::string &action ) {
+            if( action == "PREV_TAB" ) {
+                previous_tab();
+            } else if( action == "NEXT_TAB" ) {
+                next_tab();
+            }
+        }
+    };
 }
 
 ui_horizontal_list::ui_horizontal_list( int x, int y, ui_anchor anchor ) : ui_element( 0, 1, x, y, anchor )
@@ -415,13 +392,19 @@ const std::string &ui_horizontal_list::current() const
     return text[scroll];
 }
 
-void ui_horizontal_list::send_action( const std::string &action )
+input_broadcaster::listener ui_horizontal_list::default_action_handler()
 {
-    if( action == "LEFT" ) {
-        scroll_left();
-    } else if( action == "RIGHT" ) {
-        scroll_right();
-    }
+    return {
+        { "LEFT", "RIGHT" },
+        [this]( const std::string &action )
+        {
+            if( action == "LEFT" ) {
+                scroll_left();
+            } else if( action == "RIGHT" ) {
+                scroll_right();
+            }
+        }
+    };
 }
 
 ui_border::ui_border( size_t size_x, size_t size_y, int x, int y, ui_anchor anchor ) : ui_element( size_x, size_y, x, y, anchor ), borders( array_2d<long>( size_x, size_y ) )
