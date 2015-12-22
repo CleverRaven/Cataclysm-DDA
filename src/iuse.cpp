@@ -1843,19 +1843,19 @@ int iuse::purify_iv(player *p, item *it, bool, const tripoint& )
 
 void spawn_spores( const player &p ) {
     int spores_spawned = 0;
-    for ( const tripoint &dest : closest_tripoints_first( 4, p.pos() ) ) {
-        if ( g->m.move_cost( dest ) == 0 ) { // impassable terrain
+    for( const tripoint &dest : closest_tripoints_first( 4, p.pos() ) ) {
+        if( g->m.move_cost( dest ) == 0 ) { // impassable terrain
             continue;
         }
         float dist = trig_dist( dest, p.pos() );
-        if ( x_in_y( 1, dist ) ) {
+        if( x_in_y( 1, dist ) ) {
             g->m.marlossify( dest );
         }
-        if ( g->critter_at(dest) != nullptr ) {
+        if( g->critter_at(dest) != nullptr ) {
             continue;
         }
-        if ( one_in( 10 + 5 * dist ) && one_in( spores_spawned * 2 ) ) {
-            if ( g->summon_mon( mon_spore, dest ) ) {
+        if( one_in( 10 + 5 * dist ) && one_in( spores_spawned * 2 ) ) {
+            if( g->summon_mon( mon_spore, dest ) ) {
                 monster *spore = g->monster_at( dest );
                 spore->friendly = -1;
                 spores_spawned++;
