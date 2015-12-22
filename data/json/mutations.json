@@ -4677,26 +4677,6 @@
         "threshold" : true
     },{
         "type" : "mutation",
-        "id" : "DEBUG_FROSTY",
-        "name" : "Debug Frosty",
-        "points" : 99,
-        "bodytemp_modifiers" : [-5000, -3000],
-        "bodytemp_sleep" : -7500,
-        "valid" : false,
-        "description" : "Winter is coming out of you",
-        "threshold" : true
-    },{
-        "type" : "mutation",
-        "id" : "DEBUG_HOT_HOT_HOT",
-        "name" : "Debug Heaty",
-        "points" : 99,
-        "bodytemp_modifiers" : [4000, 9000],
-        "bodytemp_sleep" : 7500,
-        "valid" : false,
-        "description" : "HotHotHot!",
-        "threshold" : true
-    },{
-        "type" : "mutation",
         "id" : "DEBUG_NODMG",
         "name" : "Debug Invincibility",
         "points" : 99,
