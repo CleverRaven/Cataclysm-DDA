@@ -33,6 +33,32 @@
     ]
   },{
     "type" : "item_group",
+    "id" : "mil_food",
+    "items":[
+      ["water_clean", 75],
+      ["chocolate", 50],
+      ["mre_beef_box", 50],
+      ["mre_chicken_box", 50],
+      ["mre_hotdog_box", 50],
+      ["mre_ravioli_box", 50],
+      ["mre_veggy_box", 50],
+      ["coffee_raw", 10],
+      ["can_spam", 50]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "hazmat_mask",
+    "items":[
+      ["water_clean", 75]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "lab_torso",
+    "items":[
+      ["water_clean", 75]
+    ]
+  },{
+    "type" : "item_group",
     "id" : "swat_gear",
     "subtype": "distribution",
     "items":[
