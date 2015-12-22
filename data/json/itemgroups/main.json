@@ -1618,6 +1618,27 @@
     ]
   },{
     "type" : "item_group",
+    "id" : "wind_instruments",
+    "items" : [
+      ["tuba", 20],
+      ["trumpet", 50],
+      ["flute", 50],
+      ["clarinet", 50],
+      ["saxophone", 50],
+      ["harmonica_holder", 50],
+      ["bagpipes", 10]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "string_instruments",
+    "items" : [
+      ["acoustic_guitar", 100],
+      ["violin", 80],
+      ["ukulele", 50],
+      ["banjo", 50]
+    ]
+  },{
+    "type" : "item_group",
     "id" : "chemistry_tools",
     "subtype": "distribution",
     "entries":[

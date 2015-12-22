@@ -134,7 +134,7 @@
     "id" : "sewer",
     "subtype": "distribution",
     "entries" : [
-      { "group": "indoor_trash", "prob": 200 },
+      { "group": "trash", "prob": 200 },
       { "group": "outdoor_trash", "prob": 200 },
       { "group": "wreckage", "prob": 100 },
       { "group": "legal_drugs", "prob": 50 },
@@ -153,7 +153,7 @@
     "entries" : [
       { "item": "rock", "prob": 150 },
       { "item": "sharp_rock", "prob": 50 },
-      { "group": "indoor_trash", "prob": 100 },
+      { "group": "trash", "prob": 100 },
       { "group": "worker_gear", "prob": 50 },
       { "group": "worker_helmets", "prob": 30 },
       { "group": "worker_clothes", "prob": 50 },
@@ -228,7 +228,7 @@
     "subtype": "distribution",
     "entries" : [
       { "group": "rare", "prob": 100 },
-      { "group": "indoor_trash", "prob": 150 },
+      { "group": "trash", "prob": 150 },
       { "group": "illegal_drugs", "prob": 5 },
       { "group": "mutagens", "prob": 5 },
       { "group": "iv_mutagens", "prob": 5 },
@@ -288,7 +288,7 @@
       { "item": "human_flesh", "prob": 500 },
       { "item": "arm", "prob": 50 },
       { "item": "leg", "prob": 50 },
-      { "group": "clothes", "prob": 100, "damage-min": 2, "damage-max": 4 },
+      { "group": "allclothes", "prob": 100, "damage-min": 2, "damage-max": 4 },
       { "group": "helmets", "prob": 10, "damage-min": 1, "damage-max": 3 },
       { "item": "honeycomb", "prob": 10 },
       { "item": "royal_jelly", "prob": 5 },
@@ -309,7 +309,7 @@
       { "group": "fire_tools", "prob": 80 },
       { "group": "tailor_tools", "prob": 25 },
       { "group": "everyday_gear", "prob": 100 },
-      { "group": "clothes", "prob": 500 },
+      { "group": "allclothes", "prob": 500 },
       { "group": "eyewear", "prob": 75 },
       { "group": "storage", "prob": 50 },
       { "group": "wind_instruments", "prob": 10 },
@@ -508,7 +508,7 @@
     "id" : "livingroom",
     "subtype": "distribution",
     "entries" : [
-      { "group": "indoor_trash", "prob": 50 },
+      { "group": "trash", "prob": 50 },
       { "group": "lighting_tools", "prob": 50 },
       { "group": "fire_tools", "prob": 50 },
       { "group": "tailor_tools", "prob": 10 },
@@ -518,7 +518,7 @@
       { "group": "female_shoes", "prob": 200 },
       { "group": "everyday_gear", "prob": 100 },
       { "group": "storage", "prob": 20 },
-      { "group": "winter_clothes", "prob": 70 },
+      { "group": "winter", "prob": 70 },
       { "group": "sports_gear", "prob": 10 },
       { "group": "sports_extras", "prob": 10 },
       { "group": "magazines", "prob": 60 },
@@ -549,11 +549,11 @@
     "id" : "bedroom",
     "subtype": "distribution",
     "entries" : [
-      { "group": "indoor_trash", "prob": 15 },
+      { "group": "trash", "prob": 15 },
       { "group": "lighting_tools", "prob": 30 },
       { "group": "fire_tools", "prob": 50 },
       { "group": "tailor_tools", "prob": 25 },
-      { "group": "clothes", "prob": 500 },
+      { "group": "allclothes", "prob": 500 },
       { "group": "male_extras", "prob": 50 },
       { "group": "female_extras", "prob": 50 },
       { "group": "everyday_gear", "prob": 70 },
@@ -600,12 +600,12 @@
     "id" : "dresser",
     "subtype": "distribution",
     "entries" : [
-      { "group": "clothes", "prob": 500 },
+      { "group": "allclothes", "prob": 500 },
       { "group": "everyday_gear", "prob": 50 },
       { "group": "lighting_tools", "prob": 20 },
       { "group": "tailor_tools", "prob": 50 },
       { "group": "kink", "prob": 5 },
-      { "group": "winter_clothes", "prob": 50 },
+      { "group": "winter", "prob": 50 },
       { "item": "socks", "prob": 50 },
       { "item": "socks_wool", "prob": 10 },
       { "item": "towel", "prob": 10 },
@@ -821,8 +821,8 @@
       { "group": "archery", "prob": 20 },
       { "group": "archery_ammo", "prob": 50 },
       { "group": "homemade_ammo", "prob": 100 },
-      { "group": "bullet_parts", "prob": 40 },
-      { "group": "bullet_tools", "prob": 20 },
+      { "group": "ammo_parts", "prob": 40 },
+      { "group": "gun_tools", "prob": 20 },
       { "group": "ammo_casings", "prob": 50 },
       { "group": "gun_mods", "prob": 50 },
       { "item": "tazer", "prob": 3 },
@@ -868,14 +868,14 @@
       { "item": "flu_shot", "prob": 1 },
       { "item": "extinguisher", "prob": 10 },
       { "item": "signal_flare", "prob": 10 },
-      { "group": "indoor_trash", "prob": 200 },
+      { "group": "trash", "prob": 200 },
       { "group": "lighting_tools", "prob": 50 },
       { "group": "fire_tools", "prob": 50 },
       { "group": "tailor_tools", "prob": 40 },
       { "group": "camping_gear", "prob": 40 },
-      { "group": "clothes", "prob": 100 },
+      { "group": "allclothes", "prob": 100 },
       { "group": "storage", "prob": 20 },
-      { "group": "winter_clothes", "prob": 70 },
+      { "group": "winter", "prob": 70 },
       { "group": "canned_food", "prob": 60 },
       { "group": "camping_food", "prob": 30 },
       { "group": "overcounter_drugs", "prob": 50 },
@@ -1000,7 +1000,7 @@
     "entries" : [
       { "item": "candlestick", "prob": 45 },
       { "item": "holy_symbol", "prob": 40 },
-      { "group": "indoor_trash", "prob": 80 },
+      { "group": "trash", "prob": 80 },
       { "group": "holy_books", "prob": 200 },
       { "group": "everyday_gear", "prob": 130 },
       { "group": "eyewear", "prob": 20 },
@@ -1022,7 +1022,7 @@
     "id" : "school",
     "subtype": "distribution",
     "entries" : [
-      { "group": "indoor_trash", "prob": 25 },
+      { "group": "trash", "prob": 25 },
       { "group": "everyday_gear", "prob": 25 },
       { "group": "magazines", "prob": 50 },
       { "group": "novels", "prob": 50 },
@@ -1076,7 +1076,7 @@
     "subtype": "distribution",
     "entries" : [
       { "group": "paper_trash", "prob": 200 },
-      { "group": "indoor_trash", "prob": 15 },
+      { "group": "trash", "prob": 15 },
       { "group": "everyday_gear", "prob": 100 },
       { "group": "magazines", "prob": 20 },
       { "group": "eyewear", "prob": 50 },
@@ -1109,7 +1109,7 @@
     "subtype": "distribution",
     "entries" : [
       { "group": "paper_trash", "prob": 100 },
-      { "group": "indoor_trash", "prob": 15 },
+      { "group": "trash", "prob": 15 },
       { "group": "everyday_gear", "prob": 100 },
       { "group": "magazines", "prob": 20 },
       { "group": "novels", "prob": 15 },
@@ -1149,7 +1149,7 @@
     "subtype": "distribution",
     "entries" : [
       { "group": "paper_trash", "prob": 50 },
-      { "group": "indoor_trash", "prob": 30 },
+      { "group": "trash", "prob": 30 },
       { "group": "everyday_gear", "prob": 50 },
       { "group": "junkfood", "prob": 100 },
       { "group": "sugar_drinks", "prob": 75 },
@@ -1426,7 +1426,7 @@
       { "group": "construction_tools", "prob": 25 },
       { "group": "mechanics_tools", "prob": 25 },
       { "group": "smithing_tools", "prob": 15 },
-      { "group": "bullet_tools", "prob": 15 }
+      { "group": "gun_tools", "prob": 15 }
     ]
   },{
     "type"  : "item_group",
@@ -1553,7 +1553,7 @@
     "entries" : [
       { "group": "chemistry_tools", "prob": 500 },
       { "group": "smithing_tools", "prob": 500 },
-      { "group": "bullet_tools", "prob": 250 },
+      { "group": "gun_tools", "prob": 250 },
       { "item": "hotplate", "prob": 100 },
       { "item": "small_repairkit", "prob": 20 },
       { "item": "large_repairkit", "prob": 50 },
@@ -1594,7 +1594,7 @@
     "id" : "gunsmith_hazmat",
     "subtype": "distribution",
     "entries" : [
-      { "group": "bullet_parts", "prob": 50 },
+      { "group": "ammo_parts", "prob": 50 },
       { "item": "battery", "prob": 1 }
     ]
   },{
@@ -1604,8 +1604,8 @@
     "entries" : [
       { "group": "gun_books", "prob": 50 },
       { "group": "ammo_casings", "prob": 60 },
-      { "group": "bullet_parts", "prob": 50 },
-      { "group": "bullet_tools", "prob": 10 },
+      { "group": "ammo_parts", "prob": 50 },
+      { "group": "gun_tools", "prob": 10 },
       { "group": "gun_mods", "prob": 150 },
       { "group": "gun_storage", "prob": 100 },      
       { "item": "glasses_bal", "prob": 10 },
@@ -2110,7 +2110,7 @@
     "id" : "traveler",
     "subtype": "distribution",
     "entries" : [
-      { "group": "clothes", "prob": 300 },
+      { "group": "allclothes", "prob": 300 },
       { "group": "fire_tools", "prob": 15 },
       { "group": "legal_drugs", "prob": 15 },
       { "group": "everyday_gear", "prob": 25 },
@@ -2255,8 +2255,8 @@
       { "group": "shotgun_ammo", "prob": 50 },
       { "group": "rifle_ammo", "prob": 50 },
       { "group": "archery_ammo", "prob": 50 },
-      { "group": "bullet_parts", "prob": 20 },
-      { "group": "bullet_tools", "prob": 10 },
+      { "group": "ammo_parts", "prob": 20 },
+      { "group": "gun_tools", "prob": 10 },
       { "group": "ammo_casings", "prob": 20 },
       { "item": "shot_flechette", "prob": 2 },
       { "item": "shot_he", "prob": 2 },

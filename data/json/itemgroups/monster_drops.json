@@ -40,7 +40,7 @@
             [ "sugar_drinks", 25 ],
             [ "canned_food", 25 ],
             [ "replica_weapons", 5 ],
-            [ "archery_weapons", 1 ],
+            [ "archery", 1 ],
             [ "homemade_ammo", 5 ],
             [ "pistols", 2 ],
             [ "shotguns", 2 ],
