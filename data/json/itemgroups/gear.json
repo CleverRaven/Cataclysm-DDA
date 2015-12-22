@@ -2681,5 +2681,321 @@
       { "group": "scavenger_storage", "prob": 20 },
       { "group": "scavenger_extras", "prob": 70 }
     ]
+  },{
+    "type" : "item_group",
+    "id" : "elite_boots",
+    "items":[
+      ["boots", 50],
+      ["boots_combat", 100],
+      ["boots_steel", 50],
+      ["boots_hiking", 25],
+      ["motorbike_boots", 10],
+      ["boots_larmor", 25],
+      ["boots_lsurvivor", 50],
+      ["boots_survivor", 50],
+      ["boots_hsurvivor", 30],
+      ["boots_wsurvivor", 30],
+      ["boots_fsurvivor", 20],
+      ["boots_h20survivor", 10],
+      ["boots_fur", 20],
+      ["boots_bunker", 10]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "elite_pants",
+    "items":[
+      ["pants_cargo", 80],
+      ["shorts_cargo", 30],
+      ["pants_army", 50],
+      ["pants_survivor", 20],
+      ["winter_pants_army", 10],
+      ["bunker_pants", 10],
+      ["pants_leather", 50],
+      ["motorbike_pants", 20],
+      ["chainmail_legs", 10],
+      ["kilt", 1]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "elite_shirts",
+    "items":[
+      ["army_top", 50],
+      ["tank_top", 50],
+      ["tshirt", 50],
+      ["flag_shirt", 10],
+      ["under_armor", 20]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "elite_coats",
+    "//" : "trenchcoats are set extra low due to the large number of variants.",
+    "items":[
+      ["jacket_leather", 50],
+      ["vest_leather", 30],
+      ["vest", 30],
+      ["jacket_flannel", 15],
+      ["jacket_army", 60],
+      ["coat_rain", 60],
+      ["trenchcoat", 25],
+      ["trenchcoat_leather", 10],
+      ["trenchcoat_fur", 5],
+      ["sleeveless_trenchcoat", 5],
+      ["sleeveless_trenchcoat_leather", 5],
+      ["sleeveless_trenchcoat_fur", 1],
+      ["trenchcoat_survivor", 15],
+      ["sleeveless_trenchcoat_survivor", 5],
+      ["duster_survivor", 10],
+      ["sleeveless_duster_survivor", 1],
+      ["duster", 20],
+      ["duster_leather", 10],
+      ["duster_fur", 5],
+      ["sleeveless_duster", 10],
+      ["sleeveless_duster_leather", 5],
+      ["sleeveless_duster_fur", 2],
+      ["peacoat", 15],
+      ["bunker_coat", 5],
+      ["survivor_vest", 8]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "elite_suits",
+    "items":[
+      ["swat_armor", 50],
+      ["aep_suit", 40],
+      ["chainmail_suit", 10],
+      ["survivor_suit", 40],
+      ["lsurvivor_suit", 50],
+      ["hsurvivor_suit", 20],
+      ["wsurvivor_suit", 10],
+      ["fsurvivor_suit", 5],
+      ["h20survivor_suit", 2]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "elite_full",
+    "items":[
+      ["anbc_suit", 50]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "elite_armor",
+    "items":[
+      ["chainmail_vest", 10],
+      ["kevlar", 20],
+      ["modularvest", 80],
+      ["modularvestkevlar", 20],
+      ["modularvestceramic", 20],
+      ["modularveststeel", 10],
+      ["modularvestsuper", 10],
+      ["modularvesthard", 20],
+      ["dragonskin", 5]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "elite_gloves",
+    "items":[
+      ["gloves_leather", 80],
+      ["gloves_fingerless", 80],
+      ["gloves_tactical", 50],
+      ["gloves_fingerless", 50],
+      ["gloves_fingerless_mod", 50],
+      ["gauntlets_larmor", 14],
+      ["gloves_lsurvivor", 40],
+      ["gloves_survivor", 30],
+      ["gloves_hsurvivor", 10],
+      ["gloves_wsurvivor", 10],
+      ["gloves_fsurvivor", 5],
+      ["gloves_h20survivor", 1]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "elite_masks",
+    "items":[
+      ["scarf", 25],
+      ["long_knit_scarf", 25],
+      ["keffiyeh", 40],
+      ["mask_gas", 60],
+      ["mask_bal", 50],
+      ["mask_lsurvivor", 40],
+      ["mask_survivor", 30],
+      ["mask_hsurvivor", 10],
+      ["mask_h20survivor", 5],
+      ["mask_wsurvivor", 5],
+      ["mask_fsurvivor", 5],
+      ["mask_filter", 25],
+      ["mask_bunker", 25]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "elite_eyewear",
+    "items":[
+      ["sunglasses", 40],
+      ["fancy_sunglasses", 70],
+      ["glasses_bal", 80],
+      ["glasses_safety", 40],
+      ["goggles_nv", 5],
+      ["goggles_ir", 2]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "elite_helmets",
+    "items":[
+      ["chainmail_hood", 10],
+      ["helmet_army", 100],
+      ["tac_helmet", 50],
+      ["helmet_riot", 15],
+      ["helmet_lobster", 40],
+      ["tac_fullhelmet", 30],
+      ["hood_lsurvivor", 50],
+      ["hood_survivor", 50],
+      ["helmet_survivor", 40],
+      ["helmet_hsurvivor", 30],
+      ["hood_wsurvivor", 30],
+      ["hood_fsurvivor", 10],
+      ["hood_h20survivor", 5],
+      ["pickelhaube", 5],
+      ["firehelmet", 20],
+      ["helmet_barbute", 50],
+      ["hood_rain", 60]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "elite_storage",
+    "items":[
+      ["backpack", 20],
+      ["backpack_leather", 30],
+      ["runner_bag", 40],
+      ["mbag", 20],
+      ["dive_bag", 10],
+      ["molle_pack", 50],
+      ["rucksack", 40],
+      ["duffelbag", 40],
+      ["survivor_runner_pack", 40],
+      ["survivor_pack", 50],
+      ["survivor_rucksack", 40],
+      ["survivor_duffel_bag", 30],
+      ["tool_belt", 25],
+      ["fanny", 30],
+      ["dump_pouch", 60],
+      ["survivor_belt", 50],
+      ["chestrig", 50],
+      ["legrig", 50],
+      ["canteen", 25],
+      ["2lcanteen", 15],
+      ["waterskin2", 10],
+      ["holster", 45],
+      ["sholster", 45],
+      ["bootstrap", 65],
+      ["quiver", 40],
+      ["quiver_large", 20],
+      ["scabbard", 60]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "elite_extras",
+    "items":[
+      ["chainmail_arms", 30],
+      ["leggings", 30],
+      ["arm_warmers", 50],
+      ["leg_warmers", 50],
+      ["armguard_hard", 40],
+      ["legguard_hard", 40],
+      ["armguard_soft", 20],
+      ["knee_pads", 70],
+      ["elbow_pads", 70],
+      ["rad_monitor", 50],
+      ["wearable_light", 55],
+      ["rad_badge", 100],
+      ["badge_deputy", 5],
+      ["badge_swat", 1],
+      ["badge_detective", 5],
+      ["badge_marshal", 1],
+      ["ear_plugs", 1],
+      ["small_relic", 1],
+      ["holy_symbol", 10],
+      ["sf_watch", 50],
+      ["gold_watch", 50],
+      ["diving_watch", 80]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "elite_clothes",
+    "//" : "high quality gear for capable NPCs, survivors, allies, and enemy bosses.",
+    "subtype": "distribution",
+    "entries" : [
+      { "group": "elite_boots", "prob": 40 },
+      { "group": "elite_pants", "prob": 40 },
+      { "group": "elite_shirts", "prob": 40 },
+      { "group": "elite_coats", "prob": 50 },
+      { "group": "elite_suits", "prob": 50 },
+      { "group": "elite_armor", "prob": 40 },
+      { "group": "elite_gloves", "prob": 50 },
+      { "group": "elite_eyewear", "prob": 30 },
+      { "group": "elite_helmets", "prob": 50 },
+      { "group": "elite_masks", "prob": 30 },
+      { "group": "elite_storage", "prob": 50 },
+      { "group": "elite_extras", "prob": 50 }
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "elite_gear",
+    "//" : "carried equipment. meds, food, books, weapons, guns, and ammo all pull from different lists.",
+    "items":[
+      ["flashlight", 200],
+      ["lighter", 200],
+      ["pockknife", 200],
+      ["glowstick", 60],
+      ["tazer", 90],
+      ["gasbomb", 70],
+      ["flashbang", 70],
+      ["smokebomb", 70],
+      ["UPS_off", 80],
+      ["adv_UPS_off", 50],
+      ["eink_tablet_pc", 80],
+      ["camera_pro", 10],
+      ["mp3", 85],
+      ["radiocontrol", 15],
+      ["picklocks", 50],
+      ["folding_bicycle", 50],
+      ["throw_extinguisher", 10],
+      ["halligan", 20],
+      ["e_tool", 60],
+      ["flaregun", 25],
+      ["signal_flare", 85],
+      ["two_way_radio", 50],
+      ["UPS_off", 50],
+      ["adv_UPS_off", 35],
+      ["plut_cell", 40],
+      ["emer_blanket", 70],
+      ["geiger_off", 50],
+      ["grapnel", 55],
+      ["toolbox", 80],
+      ["multitool", 70],
+      ["knife_swissarmy", 50],
+      ["spork", 50],
+      ["survivormap", 15],
+      ["roadmap", 5],
+      ["militarymap", 1],
+      ["small_repairkit", 50],
+      ["misc_repairkit", 50],
+      ["mess_kit", 80],
+      ["mil_mess_kit", 30],
+      ["survivor_mess_kit", 25],
+      ["tent_kit", 10],
+      ["sleeping_bag", 5],
+      ["gasoline_lantern", 5],
+      ["electric_lantern", 50],
+      ["LAW_Packed", 50],
+      ["pur_tablets", 50],
+      ["bot_manhack", 45],
+      ["bot_grenade_hack", 1],
+      ["bot_turret", 5],
+      ["pickaxe", 40],
+      ["shavingkit", 10],
+      ["elec_hairtrimmer", 5],
+      ["survivor_shavingkit", 5],
+      ["survivor_hairtrimmer", 2],
+      ["survnote", 100]
+    ]
   }
 ]
