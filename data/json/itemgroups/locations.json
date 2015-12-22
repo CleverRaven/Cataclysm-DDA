@@ -2311,6 +2311,28 @@
       { "item": "antiparasitic", "prob": 5 }
     ]
   },{
+    "type":"item_group",
+    "id":"survivorweapons",
+    "comment": "Please add only weapons and ammo that are easy to scavenge or create ",
+    "guns_with_ammo" : true,
+    "subtype": "distribution",
+    "entries" : [
+      { "group": "scavenger_melee_weapons", "prob": 60 },
+      { "group": "scavenger_guns", "prob": 100 },
+      { "group": "scavenger_ammo", "prob": 50 },
+      { "item": "suppressor", "prob": 15 },
+      { "item": "bayonet", "prob": 5 },
+      { "item": "clip", "prob": 8 },
+      { "item": "spare_mag", "prob": 15 },
+      { "item": "rail_laser_sight", "prob": 10 },
+      { "item": "rifle_scope", "prob": 14 },
+      { "item": "pistol_scope", "prob": 17 },
+      { "item": "improve_sights", "prob": 20 },
+      { "item": "pipebomb", "prob": 10 },
+      { "item": "molotov", "prob": 10 },
+      { "item": "matchbomb", "prob": 10 }
+    ]
+  },{
     "type" : "item_group",
     "id" : "survival_armor",
     "subtype": "distribution",
