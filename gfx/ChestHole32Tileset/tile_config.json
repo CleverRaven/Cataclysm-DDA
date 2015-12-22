@@ -17672,8 +17672,13 @@
           "rotates": false
         },
         {
-          "id": "bottle_plastic_small",
-          "fg": 2850,
+         "id": "bottle_plastic_small",
+           "fg": [
+            { "weight":2, "sprite":2850},
+            { "weight":2, "sprite":3628},
+            { "weight":2, "sprite":3629},
+            { "weight":2, "sprite":3630} 
+        ], 
           "bg": 632
         },
         {
@@ -20494,7 +20499,10 @@
         },
         {
           "id": "t_wall",
-          "fg": [2918, 2919, 2918, 2919],
+          "fg": [
+            { "weight":1, "sprite":[2918, 3627, 2918, 3627]},
+            { "weight":99, "sprite":[2918, 2919, 2918, 2919]}
+           ], 
           "bg": 633,
           "rotates": true,
           "multitile": true,
@@ -20505,7 +20513,7 @@
             },
             {
               "id": "corner",
-              "fg": [2924, 2922, 2922, 2923]
+              "fg": [2924, 2917, 2922, 2923]
             },
             {
               "id": "end_piece",
@@ -21989,6 +21997,144 @@
         {
           "id": "mon_wasp",
           "fg": 1776,
+          "bg": 642,
+          "rotates": false
+        },
+        {
+          "id": "mon_wasp_small",
+          "fg": 3601,
+          "bg": 632,
+          "rotates": false
+        },
+       {
+          "id": "f_boulder_small",
+          "fg": 3602,
+          "bg": 632,
+          "rotates": false
+        },
+       {
+          "id": "f_boulder_medium",
+          "fg": 3603,
+          "bg": 632,
+          "rotates": false
+        },
+       {
+          "id": "f_boulder_large",
+          "fg": 3604,
+          "bg": 632,
+          "rotates": false
+        },
+        {
+          "id": "mon_zombie_biter",
+          "fg": 3605,
+          "bg": 632,
+          "rotates": false
+        }, 
+        {
+          "id": "mon_zombie_screecher",
+          "fg": 3606,
+          "bg": 632,
+          "rotates": false
+        },
+       {
+          "id": "f_ladder",
+          "fg": 3607,
+          "bg": 632,
+          "rotates": false
+        },
+       {
+          "id": "vp_seed_drill",
+          "fg": 3608,
+          "bg": 632,
+          "rotates": false
+        },
+       {
+          "id": "vp_seed_drill_advanced",
+          "fg": 3609,
+          "bg": 632,
+          "rotates": false
+        },
+       {
+          "id": "vp_reaper",
+          "fg": 3610,
+          "bg": 632,
+          "rotates": false
+        },
+       {
+          "id": "mon_giant_cockroach_nymph",
+          "fg": 3611,
+          "bg": 632,
+          "rotates": false
+        },
+       {
+          "id": "mon_pregnant_giant_cockroach",
+          "fg": 3612,
+          "bg": 632,
+          "rotates": false
+        },
+       {
+          "id": "cabbage",
+          "fg": 3613,
+          "bg": 632,
+          "rotates": false
+        },
+       {
+          "id": "can_peach",
+          "fg": 3614,
+          "bg": 632,
+          "rotates": false
+        },
+       {
+          "id": "game_watch",
+          "fg": 3615,
+          "bg": 632,
+          "rotates": false
+        },
+       {
+          "id": "pot_copper",
+          "fg": 3616,
+          "bg": 632,
+          "rotates": false
+        },
+       {
+          "id": "copper_ax",
+          "fg": 3617,
+          "bg": 632,
+          "rotates": false
+        },
+       {
+          "id": "copper_knife",
+          "fg": 3618,
+          "bg": 632,
+          "rotates": false
+        },
+       {
+          "id": "spear_copper",
+          "fg": 3619,
+          "bg": 632,
+          "rotates": false
+        },
+       {
+          "id": "mon_albino_penguin",
+          "fg": 3623,
+          "bg": 632,
+          "rotates": false
+        },
+       {
+          "id": "mon_giant_cockroach",
+          "fg": 3624,
+          "bg": 632,
+          "rotates": false
+        },
+       {
+          "id": "artifact_3090",
+          "fg": 3625,
+          "bg": 632,
+          "rotates": false
+        },  
+        {
+          "id": "mon_shia",
+          "fg": 3626,
           "bg": 642,
           "rotates": false
         },
