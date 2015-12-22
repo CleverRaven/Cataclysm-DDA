@@ -68,8 +68,8 @@
                 { "item": "fridgesnacks", "chance": 90, "x": 19, "y": [7,10], "repeat": [1,2] },
                 { "item": "fridgesnacks", "chance": 90, "x": [17,19], "y": 11, "repeat": [1,2] },
                 { "item": "behindcounter", "chance": 80, "x": [17,19], "y": [3,4], "repeat": [1,2] },
-                { "item": "liqstore_brew", "chance": 70, "x": 16, "y": [3,5], "repeat": [1,2] },
-                { "item": "liqstore_brew", "chance": 70, "x": [17,18], "y": 5, "repeat": [1,2] },
+                { "item": "alcohol_brewing", "chance": 70, "x": 16, "y": [3,5], "repeat": [1,2] },
+                { "item": "alcohol_brewing", "chance": 70, "x": [17,18], "y": 5, "repeat": [1,2] },
                 { "item": "trash", "chance": 30, "x": [5,7], "y": 14, "repeat": [1,2] },
                 { "item": "trash", "chance": 30, "x": 18, "y": [15,17], "repeat": [1,2] }
             ],

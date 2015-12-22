@@ -3111,6 +3111,16 @@
     ]
   },{
     "type" : "item_group",
+    "id" : "alcohol_brewing",
+    "items":[
+      ["still", 20],
+      ["yeast", 50],
+      ["sugar", 50],
+      ["hops", 25],
+      ["chem_ethanol", 25]
+    ]
+  },{
+    "type" : "item_group",
     "id" : "wines_worthy",
     "items":[
       ["wine_riesling", 40],
