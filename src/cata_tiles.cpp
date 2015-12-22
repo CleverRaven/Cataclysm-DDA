@@ -340,8 +340,8 @@ int cata_tiles::load_tileset(std::string img_path, int R, int G, int B, int spri
 
     /** split the atlas into tiles using SDL_Rect structs instead of slicing the atlas into individual surfaces */
     int tilecount = 0;
-    for (int y = 0; y < sy; y += sprite_height) {
-        for (int x = 0; x < sx; x += sprite_width) {
+    for( int y = 0; y < sy; y += sprite_height ) {
+        for( int x = 0; x < sx; x += sprite_width ) {
             source_rect.x = x;
             source_rect.y = y;
 
@@ -354,7 +354,7 @@ int cata_tiles::load_tileset(std::string img_path, int R, int G, int B, int spri
                 dbg( D_ERROR ) << "SDL_BlitSurface failed: " << SDL_GetError();
             }
 
-            if (R >= 0 && R <= 255 && G >= 0 && G <= 255 && B >= 0 && B <= 255) {
+            if( R >= 0 && R <= 255 && G >= 0 && G <= 255 && B >= 0 && B <= 255 ) {
                 Uint32 key = SDL_MapRGB(tile_surf->format, 0, 0, 0);
                 SDL_SetColorKey(tile_surf.get(), SDL_TRUE, key);
                 SDL_SetSurfaceRLE(tile_surf.get(), true);
@@ -900,8 +900,14 @@ void cata_tiles::draw( int destx, int desty, const tripoint &center, int width, 
         }
     }
 
-    for(auto f: {&cata_tiles::draw_furniture,&cata_tiles::draw_trap,&cata_tiles::draw_field_or_item,&cata_tiles::draw_vpart,&cata_tiles::draw_critter_at}) {
-        for(auto &p: draw_points) {(this->*f)( p, ch.visibility_cache[p.x][p.y] ); }
+    // for each of the drawing layers in order, back to front ...
+    for( auto f : { &cata_tiles::draw_furniture, &cata_tiles::draw_trap, 
+                    &cata_tiles::draw_field_or_item, &cata_tiles::draw_vpart, 
+                    &cata_tiles::draw_critter_at } ) {
+        // ... draw all the points we drew terrain for, in the same order
+        for( auto &p : draw_points ) {
+            (this->*f)( p, ch.visibility_cache[p.x][p.y] );
+        }
     }
 
     in_animation = do_draw_explosion || do_draw_custom_explosion ||
