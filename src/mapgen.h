@@ -9,7 +9,7 @@
 
 struct oter_id;
 struct mapgendata;
-typedef void (*building_gen_pointer)(map *,oter_id,mapgendata,int,float);
+typedef std::string (*building_gen_pointer)(map *,oter_id,mapgendata,int,float);
 
 //////////////////////////////////////////////////////////////////////////
 ///// function pointer class; provides absract referencing of
@@ -23,7 +23,7 @@ class mapgen_function {
     public:
     virtual ~mapgen_function() { }
     virtual bool setup() { return true; }
-    virtual void generate(map*, oter_id, mapgendata, int, float) = 0;
+    virtual std::string generate(map*, oter_id, mapgendata, int, float) = 0;
 };
 
 
@@ -34,7 +34,7 @@ class mapgen_function_builtin : public virtual mapgen_function {
     building_gen_pointer fptr;
     mapgen_function_builtin(building_gen_pointer ptr, int w = 1000) : mapgen_function( w ), fptr(ptr) {
     };
-    virtual void generate(map*m, oter_id o, mapgendata mgd, int i, float d) override;
+    virtual std::string generate(map*m, oter_id o, mapgendata mgd, int i, float d) override;
 };
 
 /////////////////////////////////////////////////////////////////////////////////
@@ -182,7 +182,7 @@ class mapgen_function_json : public virtual mapgen_function {
     bool check_inbounds( const jmapgen_int & var ) const;
     void setup_setmap(JsonArray &parray);
     virtual bool setup() override;
-    virtual void generate(map*, oter_id, mapgendata, int, float) override;
+    virtual std::string generate(map*, oter_id, mapgendata, int, float) override;
 
     mapgen_function_json( std::string s, int w = 1000 );
     ~mapgen_function_json() {
@@ -195,6 +195,7 @@ class mapgen_function_json : public virtual mapgen_function {
     ter_id fill_ter;
     std::unique_ptr<ter_furn_id[]> format;
     std::vector<jmapgen_setmap> setmap_points;
+    std::string upclose_name;
 
     /**
      * The mapping from character code (key) to a list of things that should be placed. This is
@@ -226,7 +227,7 @@ class mapgen_function_lua : public virtual mapgen_function {
     mapgen_function_lua(std::string s, int w = 1000) : mapgen_function( w ), scr(s) {
         // scr = s; // todo; if ( luaL_loadstring(L, scr.c_str() ) ) { error }
     }
-    virtual void generate(map*, oter_id, mapgendata, int, float) override;
+    virtual std::string generate(map*, oter_id, mapgendata, int, float) override;
 };
 /////////////////////////////////////////////////////////
 ///// global per-terrain mapgen function lists

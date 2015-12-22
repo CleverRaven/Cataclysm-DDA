@@ -888,7 +888,7 @@ void overmap::init_layers()
         for(int i = 0; i < OMAPX; ++i) {
             for(int j = 0; j < OMAPY; ++j) {
                 layer[z].terrain[i][j] = default_type;
-                layer[z].visible[i][j] = false;
+                layer[z].visible[i][j] = OKL_UNKNOWN;
                 layer[z].explored[i][j] = false;
             }
         }
@@ -915,13 +915,22 @@ const oter_id overmap::get_ter(const int x, const int y, const int z) const
     return layer[z + OVERMAP_DEPTH].terrain[x][y];
 }
 
-bool &overmap::seen(int x, int y, int z)
+omt_knowledge_level &overmap::seen(int x, int y, int z)
 {
     if (x < 0 || x >= OMAPX || y < 0 || y >= OMAPY || z < -OVERMAP_DEPTH || z > OVERMAP_HEIGHT) {
-        nullbool = false;
-        return nullbool;
+        nullokl = OKL_UNKNOWN;
+        return nullokl;
     }
     return layer[z + OVERMAP_DEPTH].visible[x][y];
+}
+
+std::string &overmap::terrain_closeup_name(int x, int y, int z)
+{
+    if( x < 0 || x >= OMAPX || y < 0 || y >= OMAPY || z < -OVERMAP_DEPTH || z > OVERMAP_HEIGHT ) {
+        nullstring = "";
+        return nullstring;
+    }
+    return layer[ z + OVERMAP_DEPTH ].terrain_closeup_name[ point( x, y ) ];
 }
 
 bool &overmap::explored(int x, int y, int z)
@@ -1502,11 +1511,11 @@ bool overmap::generate_sub(int const z)
 std::vector<point> overmap::find_terrain(const std::string &term, int zlevel)
 {
     std::vector<point> found;
-    for (int x = 0; x < OMAPX; x++) {
-        for (int y = 0; y < OMAPY; y++) {
-            if (seen(x, y, zlevel) &&
-                lcmatch( otermap[ter(x, y, zlevel)].name, term ) ) {
-                found.push_back( point( get_left_border() + x, get_top_border() + y) );
+    for( int x = 0; x < OMAPX; x++ ) {
+        for( int y = 0; y < OMAPY; y++ ) {
+            if( seen( x, y, zlevel ) != OKL_UNKNOWN &&
+                    lcmatch( otermap[ ter( x, y, zlevel ) ].name, term ) ) {
+                found.push_back( point( get_left_border() + x, get_top_border() + y ) );
             }
         }
     }
@@ -1634,7 +1643,7 @@ void overmap::draw(WINDOW *w, WINDOW *wbar, const tripoint &center,
     const tripoint target = g->u.get_active_mission_target();
     const bool has_target = target != overmap::invalid_tripoint;
     // seen status & terrain of center position
-    bool csee = false;
+    omt_knowledge_level csee = OKL_UNKNOWN;
     oter_id ccur_ter = "";
     // used inside the loop
     oter_id cur_ter = ot_null;
@@ -1705,15 +1714,15 @@ void overmap::draw(WINDOW *w, WINDOW *wbar, const tripoint &center,
             const int omx = i + offset_x;
             const int omy = j + offset_y;
 
-            const bool see = overmap_buffer.seen(omx, omy, z);
-            if (see) {
+            const omt_knowledge_level see = overmap_buffer.seen(omx, omy, z);
+            if( see != OKL_UNKNOWN ) {
                 // Only load terrain if we can actually see it
-                cur_ter = overmap_buffer.ter(omx, omy, z);
+                cur_ter = overmap_buffer.ter( omx, omy, z );
             }
 
             tripoint const cur_pos {omx, omy, z};
             // Check if location is within player line-of-sight
-            const bool los = see && g->u.overmap_los( cur_pos, sight_points );
+            const bool los = (see!=OKL_UNKNOWN) && g->u.overmap_los( cur_pos, sight_points );
 
             if (blink && cur_pos == orig) {
                 // Display player pos, should always be visible
@@ -1734,7 +1743,7 @@ void overmap::draw(WINDOW *w, WINDOW *wbar, const tripoint &center,
                 // Display notes in all situations, even when not seen
                 std::tie(ter_sym, ter_color, std::ignore) =
                     get_note_display_info(overmap_buffer.note(cur_pos));
-            } else if (!see) {
+            } else if (see==OKL_UNKNOWN) {
                 // All cases above ignore the seen-status,
                 ter_color = c_dkgray;
                 ter_sym   = '#';
@@ -1958,7 +1967,7 @@ void overmap::draw(WINDOW *w, WINDOW *wbar, const tripoint &center,
     }
 
     // Draw text describing the overmap tile at the cursor position.
-    if (csee) {
+    if(csee!=OKL_UNKNOWN) {
         if(!mgroups.empty()) {
             int line_number = 6;
             for( const auto &mgroup : mgroups ) {
@@ -1977,10 +1986,14 @@ void overmap::draw(WINDOW *w, WINDOW *wbar, const tripoint &center,
                           c_red, "x");
             }
         } else {
-            mvwputch(wbar, 1, 1, otermap[ccur_ter].color, otermap[ccur_ter].sym);
-            std::vector<std::string> name = foldstring(otermap[ccur_ter].name, 25);
-            for (size_t i = 0; i < name.size(); i++) {
-                mvwprintz(wbar, i + 1, 3, otermap[ccur_ter].color, "%s", name[i].c_str());
+            auto &color = otermap[ccur_ter].color;
+            // OMT symbol
+            mvwputch(wbar, 1, 1, color, otermap[ccur_ter].sym);
+            // OMT terrain name
+            int y = fold_and_print(wbar, 1, 3, 25, color, otermap[ccur_ter].name);
+            // OMT terrain closeup name
+            if( csee == OKL_UPCLOSE ) {
+                fold_and_print( wbar, y + 1, 1, 25, color, overmap_buffer.closeup_name( cursx, cursy, z ) );
             }
         }
     } else {
@@ -2344,7 +2357,7 @@ tripoint overmap::draw_overmap(const tripoint &orig, const draw_data_t &data)
                     } else if( action == "CONFIRM" ) { // Actually modify the overmap
                         if( terrain ) {
                             overmap_buffer.ter( curs ) = uistate.place_terrain->id.c_str();
-                            overmap_buffer.set_seen( curs.x, curs.y, curs.z, true );
+                            overmap_buffer.set_seen( curs.x, curs.y, curs.z, OKL_UPCLOSE );
                         } else {
                             for( const auto &s_ter : uistate.place_special->terrains ) {
                                 const tripoint pos = curs + rotate_tripoint( s_ter.p,
@@ -2354,7 +2367,7 @@ tripoint overmap::draw_overmap(const tripoint &orig, const draw_data_t &data)
                                     oter = rotate( oter, uistate.omedit_rotation );
                                 }
                                 overmap_buffer.ter( pos ) = oter;
-                                overmap_buffer.set_seen( pos.x, pos.y, pos.z, true );
+                                overmap_buffer.set_seen( pos.x, pos.y, pos.z, OKL_UPCLOSE );
                             }
                         }
                         break;

@@ -21,7 +21,7 @@ int lua_monster_move( monster *m );
  */
 int call_lua( std::string tocall );
 int lua_mapgen( map *m, std::string terrain_type, mapgendata md, int t, float d,
-                const std::string &scr );
+                const std::string &scr, std::string &upclose_name);
 
 /**
  * Execute a callback that can be overriden by all mods.

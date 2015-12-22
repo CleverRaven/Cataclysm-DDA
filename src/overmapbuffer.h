@@ -127,8 +127,10 @@ public:
     void delete_note(const tripoint& p) { delete_note(p.x, p.y, p.z); }
     bool is_explored(int x, int y, int z);
     void toggle_explored(int x, int y, int z);
-    bool seen(int x, int y, int z);
-    void set_seen(int x, int y, int z, bool seen = true);
+    omt_knowledge_level seen(int x, int y, int z);
+    void set_seen(int x, int y, int z, omt_knowledge_level okl = OKL_SEEN);
+    const std::string& closeup_name(int x, int y, int z);
+    void set_closeup_name(int x, int y, int z, const std::string &tname);
     bool has_npc(int x, int y, int z);
     bool has_vehicle(int x, int y, int z, bool require_pda = true);
     bool has_horde(int x, int y, int z);
@@ -436,6 +438,8 @@ private:
      */
     std::vector<overmap *> get_overmaps_near( const point &location, int radius );
     std::vector<overmap *> get_overmaps_near( const tripoint &location, int radius );
+
+    std::string nullstring;
 };
 
 extern overmapbuffer overmap_buffer;

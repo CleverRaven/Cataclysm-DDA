@@ -216,7 +216,7 @@ void defense_game::init_map()
     for (int x = 0; x < OMAPX; x++) {
         for (int y = 0; y < OMAPY; y++) {
             starting_om.ter(x, y, 0) = "field";
-            starting_om.seen(x, y, 0) = true;
+            starting_om.seen(x, y, 0) = OKL_SEEN;
         }
     }
 

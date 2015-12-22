@@ -7,6 +7,7 @@
         "method": "json",
         "weight": 300, "comment": "<--- low weight due to low randomness, remove when house mapgen pool is big",
         "object": {
+            "upclose_name": "Driveway Loop",
             "rows": [
                 ".x...SSSSSx..xSSSSS...x.",
                 ".x...SSSSSx..xSSSSS...x.",

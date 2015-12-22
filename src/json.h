@@ -256,6 +256,22 @@ class JsonIn
         bool read(short int &s);
         bool read(int &i);
         bool read(unsigned int &u);
+        // overload to read integers from json into enum types
+        template<typename T>
+        typename std::enable_if<std::is_enum<T>::value, bool>::type
+        read(T &u)
+        {
+            int temp;
+            if(!read(temp)) {
+                bool temp2; // backwards compatibility, some now-ints used to be bools
+                if(!read(temp2)) {
+                    return false;
+                }
+                temp = temp2;
+            }
+            u = static_cast<T>(temp);
+            return true;
+        }
         bool read(long &l);
         bool read(unsigned long &ul);
         bool read(float &f);

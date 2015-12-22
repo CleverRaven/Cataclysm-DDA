@@ -607,10 +607,11 @@ void overmap::unserialize( std::ifstream &fin ) {
     }
 }
 
-static void unserialize_array_from_compacted_sequence( JsonIn &jsin, bool (&array)[OMAPX][OMAPY] )
+template<typename T>
+static void unserialize_array_from_compacted_sequence( JsonIn &jsin, T (&array)[OMAPX][OMAPY] )
 {
     int count = 0;
-    bool value = false;
+    T value = static_cast<T>(0);
     for (int j = 0; j < OMAPY; j++) {
         for (int i = 0; i < OMAPX; i++) {
             if (count == 0) {
@@ -680,11 +681,29 @@ void overmap::unserialize_view(std::ifstream &fin)
                 }
             }
             jsin.end_array();
+        } else if( name == "terrain_closeup_name") {
+            jsin.start_array();
+            for( int z = 0; z < OVERMAP_LAYERS; ++z ) {
+                jsin.start_array();
+                while( !jsin.end_array() ) {
+                    int x, y;
+                    std::string name;
+                    jsin.start_array();
+                    jsin.read( x );
+                    jsin.read( y );
+                    jsin.read( name );
+                    jsin.end_array();
+
+                    layer[ z ].terrain_closeup_name[ point( x , y ) ] = name;
+                }
+            }
+            jsin.end_array();
         }
     }
 }
 
-static void serialize_array_to_compacted_sequence( JsonOut &json, const bool (&array)[OMAPX][OMAPY] ) {
+template<typename T>
+static void serialize_array_to_compacted_sequence( JsonOut &json, const T (&array)[OMAPX][OMAPY] ) {
     int count = 0;
     int lastval = -1;
     for( int j = 0; j < OMAPY; j++ ) {
@@ -697,7 +716,7 @@ static void serialize_array_to_compacted_sequence( JsonOut &json, const bool (&a
                 }
                 lastval = value;
                 json.start_array();
-                json.write( (bool)value );
+                json.write( (T)value );
                 count = 1;
             } else {
                 count++;
@@ -745,6 +764,22 @@ void overmap::serialize_view( std::ofstream &fout ) const
             json.write(i.x);
             json.write(i.y);
             json.write(i.text);
+            json.end_array();
+            fout << std::endl;
+        }
+        json.end_array();
+    }
+    json.end_array();
+
+    json.member( "terrain_closeup_name" );
+    json.start_array();
+    for( int z = 0; z < OVERMAP_LAYERS; ++z ) {
+        json.start_array();
+        for( auto &i : layer[z].terrain_closeup_name ) {
+            json.start_array();
+            json.write( i.first.x );
+            json.write( i.first.y );
+            json.write( i.second );
             json.end_array();
             fout << std::endl;
         }

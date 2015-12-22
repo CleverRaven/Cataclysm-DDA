@@ -295,7 +295,7 @@ void overmap::unserialize_legacy(std::ifstream & fin) {
                         }
                         count--;
                         layer[z].terrain[i][j] = tmp_otid; //otermap[tmp_ter].loadid;
-                        layer[z].visible[i][j] = false;
+                        layer[z].visible[i][j] = OKL_UNKNOWN;
                     }
                 }
                 convert_terrain( needs_conversion );
@@ -461,7 +461,7 @@ void overmap::unserialize_view_legacy( std::ifstream &fin )
                             fin >> vis >> count;
                         }
                         count--;
-                        layer[z].visible[i][j] = (vis == 1);
+                        layer[z].visible[i][j] = (vis == 1 ? OKL_SEEN : OKL_UNKNOWN);
                     }
                 }
             }

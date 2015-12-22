@@ -3830,7 +3830,7 @@ void game::debug()
         for (int i = 0; i < OMAPX; i++) {
             for (int j = 0; j < OMAPY; j++) {
                 for (int k = -OVERMAP_DEPTH; k <= OVERMAP_HEIGHT; k++) {
-                    cur_om.seen(i, j, k) = true;
+                    cur_om.seen(i, j, k) = OKL_UPCLOSE;
                 }
             }
         }
@@ -5034,6 +5034,15 @@ void game::draw_sidebar()
 
     std::string tername = otermap[cur_ter].name;
     werase(w_location);
+
+    const tripoint omt = u.global_omt_location();
+    const omt_knowledge_level seen = overmap_buffer.seen(omt.x, omt.y, get_levz());
+    if(seen==OKL_UPCLOSE) {
+        const std::string &closeup_name = overmap_buffer.closeup_name(omt.x,omt.y,get_levz());
+        if(!closeup_name.empty()) {
+            tername = closeup_name;
+        }
+    }
     mvwprintz(w_location, 0, 0, otermap[cur_ter].color, "%s", utf8_truncate(tername, 14).c_str());
 
     if (get_levz() < 0) {
@@ -5336,7 +5345,7 @@ void game::draw_minimap()
             const int omy = cursy + j;
             nc_color ter_color;
             long ter_sym;
-            const bool seen = overmap_buffer.seen(omx, omy, get_levz());
+            const omt_knowledge_level seen = overmap_buffer.seen(omx, omy, get_levz());
             const bool vehicle_here = overmap_buffer.has_vehicle(omx, omy, get_levz());
             if (overmap_buffer.has_note(omx, omy, get_levz())) {
 
@@ -5426,7 +5435,7 @@ void game::draw_minimap()
                         }
                     }
                 }
-            } else if (!seen) {
+            } else if ( seen == OKL_UNKNOWN ) {
                 ter_sym = ' ';
                 ter_color = c_black;
             } else if (vehicle_here) {
@@ -13422,7 +13431,7 @@ void game::vertical_notes( int z_before, int z_after )
         for (int y = -REVEAL_RADIUS; y <= REVEAL_RADIUS; y++) {
             const int cursx = gpos.x + x;
             const int cursy = gpos.y + y;
-            if( !overmap_buffer.seen( cursx, cursy, z_before ) ) {
+            if( overmap_buffer.seen( cursx, cursy, z_before ) == OKL_UNKNOWN ) {
                 continue;
             }
             if( overmap_buffer.has_note( cursx, cursy, z_after ) ) {
@@ -13433,11 +13442,11 @@ void game::vertical_notes( int z_before, int z_after )
             const oter_id &ter2 = overmap_buffer.ter(cursx, cursy, z_after);
             if( z_after > z_before && otermap[ter].has_flag(known_up) &&
                 !otermap[ter2].has_flag(known_down) ) {
-                overmap_buffer.set_seen(cursx, cursy, z_after, true);
+                overmap_buffer.set_seen(cursx, cursy, z_after, OKL_SEEN);
                 overmap_buffer.add_note(cursx, cursy, z_after, _(">:W;AUTO: goes down"));
             } else if ( z_after < z_before && otermap[ter].has_flag(known_down) &&
                 !otermap[ter2].has_flag(known_up) ) {
-                overmap_buffer.set_seen(cursx, cursy, z_after, true);
+                overmap_buffer.set_seen(cursx, cursy, z_after, OKL_SEEN);
                 overmap_buffer.add_note(cursx, cursy, z_after, _("<:W;AUTO: goes up"));
             }
         }
@@ -13541,7 +13550,7 @@ void game::update_overmap_seen()
     const tripoint ompos = u.global_omt_location();
     const int dist = u.overmap_sight_range(light_level( u.posz() ));
     // We can always see where we're standing
-    overmap_buffer.set_seen(ompos.x, ompos.y, ompos.z, true);
+    overmap_buffer.set_seen(ompos.x, ompos.y, ompos.z, OKL_SEEN);
     for (int x = ompos.x - dist; x <= ompos.x + dist; x++) {
         for (int y = ompos.y - dist; y <= ompos.y + dist; y++) {
             const std::vector<point> line = line_to(ompos.x, ompos.y, x, y, 0);
@@ -13553,7 +13562,7 @@ void game::update_overmap_seen()
                 sight_points -= cost;
             }
             if (sight_points >= 0) {
-                overmap_buffer.set_seen(x, y, ompos.z, true);
+                overmap_buffer.set_seen(x, y, ompos.z, OKL_SEEN);
             }
         }
     }
