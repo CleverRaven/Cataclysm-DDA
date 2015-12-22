@@ -1705,7 +1705,7 @@
             "place_items": [
                 { "item": "military_food", "chance": 90, "x": [ 10,10 ], "y": [ 0,3 ]},
                 { "item": "military_food", "chance": 90, "x": [ 12,15 ], "y": [ 0,1 ]},
-                { "item": "military_accessories", "chance": 75, "x": [ 14,15 ], "y": [ 3,3 ]},
+                { "item": "military_gear", "chance": 75, "x": [ 14,15 ], "y": [ 3,3 ]},
                 { "item": "army_personal_locker", "chance": 70, "x": [ 1,1 ], "y": [ 0,0 ]},
                 { "item": "army_personal_locker", "chance": 70, "x": [ 3,3 ], "y": [ 0,0 ]},
                 { "item": "gym", "chance": 50, "x": [ 0,0 ], "y": [ 17,17 ]},
