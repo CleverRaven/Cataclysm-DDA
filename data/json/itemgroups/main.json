@@ -1303,7 +1303,7 @@
     "type" : "item_group",
     "id" : "adv_electronics",
     "items":[
-      ["l-stick", 10]
+      ["l-stick", 10],
       ["teleporter", 10],
       ["portal", 10],
       ["UPS_off", 50],
@@ -1522,7 +1522,7 @@
       ["55gal_drum", 5],
       ["30gal_drum", 5],
       ["30gal_barrel", 5],
-      ["wooden_barrel", 15]
+      ["wooden_barrel", 15],
       ["v_plow_item", 5],
       ["v_planter_item", 5],
       ["v_reaper_item", 5]
@@ -1936,7 +1936,7 @@
       ["bio_railgun", 10],
       ["bio_razors", 10],
       ["bio_recycler", 10],
-      ["bio_remote", 10]
+      ["bio_remote", 10],
       ["bio_resonator", 10],
       ["bio_scent_mask", 10],
       ["bio_scent_vision", 10],
@@ -1954,7 +1954,7 @@
       ["bio_uncanny_dodge", 10],
       ["bio_ups", 10],
       ["bio_watch", 10],
-      ["bio_water_extractor", 10],
+      ["bio_water_extractor", 10]
     ]
   },{
     "type" : "item_group",
@@ -1995,6 +1995,7 @@
       ["bio_time_freeze", 50],
       ["bio_cloak", 50],
       ["bio_speed", 50]
+    ]
   },{
     "type" : "item_group",
     "id" : "power_cbm",
