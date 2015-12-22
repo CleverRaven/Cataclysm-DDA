@@ -11,6 +11,25 @@
       ["bag_plastic", 15],
       ["wrapper", 30],
       ["flyer", 15]
+    ]  
+  },{
+    "type" : "item_group",
+    "id" : "mil_books",
+    "items":[
+      ["mag_unarmed", 40],
+      ["mag_melee", 40],
+      ["mag_cutting", 30],
+      ["mag_stabbing", 30],
+      ["mag_archery", 20],
+      ["mag_shotgun", 50],
+      ["manual_brawl", 60],
+      ["manual_melee", 60],
+      ["manual_throw", 40],
+      ["manual_cutting", 50],
+      ["manual_bashing", 50],
+      ["manual_stabbing", 50],
+      ["manual_knives", 50],
+      ["manual_archery", 40]
     ]
   },{
     "type" : "item_group",
