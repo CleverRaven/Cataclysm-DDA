@@ -115,21 +115,6 @@
     ]
   },{
     "type" : "item_group",
-    "id" : "hazmat_torso",
-    "items":[
-      ["cleansuit", 40],
-      ["jumpsuit", 60]
-    ]
-  },{
-    "type" : "item_group",
-    "id" : "hazmat_mask",
-    "items":[
-      ["mask_dust", 80],
-      ["mask_filter", 20],
-      ["mask_gas", 10]
-    ]
-  },{
-    "type" : "item_group",
     "id" : "survivorzed_suits",
     "items":[
       ["survivor_suit", 8],
