@@ -2997,5 +2997,155 @@
       ["survivor_hairtrimmer", 2],
       ["survnote", 100]
     ]
+  },{
+    "type" : "item_group",
+    "id" : "survivor_boots",
+    "subtype": "distribution",
+    "entries":[
+      { "group": "shoes", "prob": 50 },
+      { "group": "elite_boots", "prob": 50 },
+      { "group": "scavenger_boots", "prob": 50 },
+      { "group": "primitive_shoes", "prob": 10 }
+    ] 
+  },{
+    "type" : "item_group",
+    "id" : "survivor_pants",
+    "subtype": "distribution",
+    "entries":[
+      { "group": "pants", "prob": 50 },
+      { "group": "elite_pants", "prob": 50 },
+      { "group": "scavenger_pants", "prob": 50 },
+      { "group": "primitive_pants", "prob": 10 }
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "survivor_shirts",
+    "subtype": "distribution",
+    "entries":[
+      { "group": "shirts", "prob": 50 },
+      { "group": "elite_shirts", "prob": 50 },
+      { "group": "scavenger_shirts", "prob": 50 },
+      { "group": "primitive_shirts", "prob": 10 }
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "survivor_coats",
+    "subtype": "distribution",
+    "entries":[
+      { "group": "jackets", "prob": 50 },
+      { "group": "elite_coats", "prob": 50 },
+      { "group": "scavenger_coats", "prob": 50 },
+      { "group": "primitive_coats", "prob": 10 }
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "survivor_suits",
+    "subtype": "distribution",
+    "entries":[
+      { "group": "hazmat_suits", "prob": 60 },
+      { "group": "elite_suits", "prob": 50 },
+      { "group": "scavenger_suits", "prob": 50 }
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "survivor_armor",
+    "subtype": "distribution",
+    "entries":[
+      { "group": "cop_armor", "prob": 50 },
+      { "group": "elite_armor", "prob": 50 },
+      { "group": "scavenger_armor", "prob": 50 },
+      { "group": "primitive_armor", "prob": 10 }
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "survivor_gloves",
+    "subtype": "distribution",
+    "entries":[
+      { "group": "gloves", "prob": 50 },
+      { "group": "elite_gloves", "prob": 50 },
+      { "group": "scavenger_gloves", "prob": 50 },
+      { "group": "primitive_gloves", "prob": 10 }
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "survivor_hats",
+    "subtype": "distribution",
+    "entries":[
+      { "group": "hats", "prob": 50 },
+      { "group": "military_hats", "prob": 50 },
+      { "group": "scavenger_hats", "prob": 50 },
+      { "group": "primitive_hats", "prob": 10 }
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "survivor_helmets",
+    "subtype": "distribution",
+    "entries":[
+      { "group": "helmets", "prob": 50 },
+      { "group": "elite_helmets", "prob": 50 },
+      { "group": "scavenger_helmets", "prob": 50 },
+      { "group": "primitive_helmets", "prob": 10 }
+    ]    
+  },{
+    "type" : "item_group",
+    "id" : "survivor_masks",
+    "subtype": "distribution",
+    "entries":[
+      { "group": "worker_masks", "prob": 50 },
+      { "group": "elite_masks", "prob": 50 },
+      { "group": "scavenger_masks", "prob": 50 },
+      { "group": "primitive_masks", "prob": 10 }
+    ]     
+  },{
+    "type" : "item_group",
+    "id" : "survivor_eyewear",
+    "subtype": "distribution",
+    "entries":[
+      { "group": "elite_eyewear", "prob": 50 },
+      { "group": "scavenger_eyewear", "prob": 50 }
+    ]     
+  },{
+    "type" : "item_group",
+    "id" : "survivor_storage",
+    "subtype": "distribution",
+    "entries":[
+      { "group": "storage", "prob": 50 },
+      { "group": "water_storage", "prob": 5 },
+      { "group": "elite_storage", "prob": 50 },
+      { "group": "scavenger_storage", "prob": 50 },
+      { "group": "primitive_storage", "prob": 10 }
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "survivor_extras",
+    "subtype": "distribution",
+    "entries":[
+      { "group": "clothing_extras", "prob": 25 },
+      { "group": "sports_extras", "prob": 25 },
+      { "group": "science_extras", "prob": 25 },
+      { "group": "elite_extras", "prob": 50 },
+      { "group": "scavenger_extras", "prob": 50 },
+      { "group": "primitive_extras", "prob": 10 }
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "survivor_clothes",
+    "//" : "mix of good and bad clothing. for NPCs and survivor zombies. much wider array of stuff since it draws from multiple lists.",
+    "subtype": "distribution",
+    "entries" : [
+      { "group": "survivor_boots", "prob": 40 },
+      { "group": "survivor_pants", "prob": 40 },
+      { "group": "survivor_shirts", "prob": 40 },
+      { "group": "survivor_coats", "prob": 50 },
+      { "group": "survivor_suits", "prob": 5 },
+      { "group": "survivor_armor", "prob": 40 },
+      { "group": "survivor_gloves", "prob": 50 },
+      { "group": "survivor_eyewear", "prob": 30 },
+      { "group": "survivor_hats", "prob": 20 },
+      { "group": "survivor_helmets", "prob": 50 },
+      { "group": "survivor_masks", "prob": 30 },
+      { "group": "survivor_storage", "prob": 50 },
+      { "group": "survivor_extras", "prob": 50 }
+    ]
   }
 ]
