@@ -512,37 +512,6 @@
     ]
   },{
     "type" : "item_group",
-    "id" : "mil_food",
-    "items":[
-      ["chocolate", 50],
-      ["neccowafers", 30],
-      ["can_beans", 40],
-      ["mre_beef_box", 45],
-      ["mre_veggy_box", 45],
-      ["mre_chicken_box", 45],
-      ["mre_hotdog_box", 60],
-      ["mre_ravioli_box", 30],
-      ["1st_aid", 35],
-      ["saline", 15],
-      ["con_milk", 5],
-      ["codeine", 15],
-      ["antibiotics", 25],
-      ["water_clean", 90],
-      ["purifier", 12],
-      ["heatpack", 60],
-      ["pur_tablets", 20],
-      ["fungicide", 5],
-      ["rx12_injector", 8],
-      ["ampoule", 12],
-      ["rx11_stimpack", 8],
-      ["stimpack_ammo", 12],
-      ["oxygen_tank", 10],
-      ["smoxygen_tank", 20],
-      ["bfipowder", 15],
-      ["quikclot", 10]
-    ]
-  },{
-    "type" : "item_group",
     "id" : "mil_food_nodrugs",
     "items":[
       ["chocolate", 50],
