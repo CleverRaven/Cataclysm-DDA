@@ -3416,7 +3416,7 @@
     "category": "weapons",
     "use_action": {
         "type": "transform",
-        "target": "MOLOTOV_LIT",
+        "target": "molotov_lit",
         "target_charges": 1,
         "active": true,
         "need_fire": 1,
