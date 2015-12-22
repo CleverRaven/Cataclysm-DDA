@@ -1073,6 +1073,20 @@
       ["chainmail_arms", 10],
       ["chainmail_legs", 10]
     ]
+ },{
+    "type" : "item_group",
+    "id" : "medieval",
+    "subtype": "distribution",
+    "entries" : [
+      { "group": "western_medieval_armor", "prob": 50 },
+      { "group": "eastern_medieval_armor", "prob": 50 },
+      { "group": "western_medieval_weapons", "prob": 50 },
+      { "group": "eastern_medieval_weapons", "prob": 50 },
+      { "item": "textbook_weapwest", "prob": 15 },
+      { "item": "textbook_weapeast", "prob": 15 },
+      { "item": "textbook_armwest", "prob": 15 },
+      { "item": "textbook_armeast", "prob": 15 }
+    ]
   },{
     "type" : "item_group",
     "id" : "fire_tools",
