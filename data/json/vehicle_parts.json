@@ -2987,7 +2987,7 @@
         "broken_color" : "red",
         "damage_modifier" : 80,
         "durability" : 200,
-        "size" : 2000,
+        "size" : 2500,
         "fuel_type" : "battery",
         "item" : "small_storage_battery",
         "difficulty" : 1,
@@ -4683,7 +4683,7 @@
     },{
         "type" : "vehicle_part",
         "id" : "recharge_station",
-        "name" : "recharging station",
+        "name" : "UPS-compatible recharging station",
         "symbol" : "#",
         "color" : "light_green",
         "broken_symbol" : "0",

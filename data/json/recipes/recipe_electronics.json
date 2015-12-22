@@ -37,6 +37,50 @@
     ]
 },{
   "type" : "recipe",
+  "result": "cordless_drill",
+  "category": "CC_ELECTRONIC",
+  "subcategory": "CSC_ELECTRONIC_TOOLS",
+  "skill_used": "fabrication",
+  "skills_required" : [ "electronics", 3 ],
+  "difficulty": 4,
+  "time": 20000,
+  "reversible": true,
+  "decomp_learn": 4,
+  "autolearn": false,
+  "book_learn": [["advanced_electronics", 3] , ["textbook_electronics", 3]],
+  "qualities" : [
+    {"id":"SCREW","level":1,"amount":1}
+  ],
+  "tools" : [
+    [ ["mold_plastic", -1] ],
+    [
+      ["hotplate", 10],
+      ["toolset", 10],
+      ["fire", -1]
+    ],
+    [
+      [ "soldering_iron", 10 ],
+      [ "toolset", 10 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "antenna", 1 ],
+      [ "screwdriver", 1 ],
+      [ "xacto", 1 ],
+      [ "knife_butter", 1 ]
+    ],
+    [ ["plastic_chunk", 6] ],
+    [ [ "motor_small", 1 ] ],
+    [ [ "power_supply", 1 ] ],
+    [ [ "cable", 5 ] ],
+    [ 
+      [ "scrap", 1 ],
+      [ "steel_chunk", 1 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
   "result": "trimmer_off",
   "category": "CC_ELECTRONIC",
   "subcategory": "CSC_ELECTRONIC_TOOLS",
@@ -486,31 +530,31 @@
   ]
 },{
   "type" : "recipe",
-  "result": "rechargeable_battery",
+  "result": "battery_ups",
   "category": "CC_ELECTRONIC",
-  "subcategory": "CSC_ELECTRONIC_PARTS",
-  "skill_used": "fabrication",
-  "skills_required": [ "electronics", 3 ],
+  "subcategory": "CSC_ELECTRONIC_COMPONENTS",
+  "skill_used": "electronics",
   "difficulty": 5,
   "time": 15000,
   "reversible": true,
   "decomp_learn": 4,
-  "autolearn": false,
-  "book_learn": [[ "manual_electronics", 3 ], [ "textbook_electronics", 3 ]],
+  "autolearn": true,
+  "book_learn": [[ "manual_electronics", 3 ], [ "textbook_electronics", 3 ], [ "advanced_electronics", 3] , [ "recipe_lab_elec", 3] , [ "textbook_anarch", 3]],
   "qualities" : [ {"id":"SCREW","level":1,"amount":1} ],
   "tools": [
     [
-      [ "soldering_iron", 5 ],
-      [ "toolset", 5 ]
+      [ "soldering_iron", 24 ],
+      [ "toolset", 24 ]
     ]
   ],
   "components": [
-    [ [ "scrap", 4 ] ],
-    [ [ "cable", 5 ] ],
+    [ [ "power_supply", 1 ] ],
     [
       [ "small_storage_battery", 1 ],
       [ "UPS_off", 1 ]
-    ]
+    ],
+    [ [ "scrap", 4 ] ],
+    [ [ "cable", 10 ] ]
   ]
 },{
   "type" : "recipe",
@@ -1009,31 +1053,6 @@
   ]
 },{
   "type" : "recipe",
-  "result": "battery_ups",
-  "category": "CC_ELECTRONIC",
-  "subcategory": "CSC_ELECTRONIC_COMPONENTS",
-  "skill_used": "electronics",
-  "difficulty": 5,
-  "time": 45000,
-  "reversible": true,
-  "decomp_learn": 4,
-  "autolearn": true,
-  "book_learn": [[ "advanced_electronics", 4] , [ "recipe_lab_elec", 4 ] , [ "textbook_anarch", 4]],
-  "qualities" : [ {"id":"SCREW","level":1,"amount":1} ],
-  "tools": [
-    [
-      [ "soldering_iron", 24 ],
-      [ "toolset", 24 ]
-    ]
-  ],
-  "components": [
-    [ [ "power_supply", 4 ] ],
-    [ [ "amplifier", 3 ] ],
-    [ [ "scrap", 4 ] ],
-    [ [ "cable", 10 ] ]
-  ]
-},{
-  "type" : "recipe",
   "result" : "adv_UPS_off",
   "category" : "CC_ELECTRONIC",
   "subcategory": "CSC_ELECTRONIC_COMPONENTS",
@@ -1298,6 +1317,33 @@
   "components": [
     [ [ "bio_reactor", 1 ] ],
     [ [ "bio_reactor_upgrade", 1 ] ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "bio_ups",
+  "category": "CC_ELECTRONIC",
+  "subcategory": "CSC_ELECTRONIC_CBMS",
+  "skill_used": "electronics",
+  "skills_required": [ "firstaid", 5 ],
+  "difficulty": 6,
+  "time": 50000,
+  "reversible": true,
+  "autolearn": false,
+  "book_learn": [[ "recipe_lab_elec", 7 ], [ "recipe_mil_augs", 6 ]],
+  "qualities" : [ {"id":"SCREW","level":1,"amount":1} ],
+  "tools": [
+    [
+      [ "soldering_iron", 20 ],
+      [ "toolset", 20 ]
+    ]
+  ],
+  "components": [
+    [[ "power_supply", 2]],
+    [[ "recharge_station", 1]],
+    [
+      [ "burnt_out_bionic", 1 ],
+      [ "processor", 2 ]
+    ]
   ]
 },{
   "type" : "recipe",
@@ -1570,7 +1616,7 @@
   "category": "CC_ELECTRONIC",
   "subcategory": "CSC_ELECTRONIC_PARTS",
   "skill_used": "electronics",
-  "difficulty": 8,
+  "difficulty": 6,
   "time": 50000,
   "reversible": true,
   "decomp_learn": 6,
@@ -1584,18 +1630,10 @@
     ]
   ],
   "components": [
-    [
-      [ "power_supply", 2 ]
-    ],
-    [
-      [ "processor", 2 ]
-    ],
-    [
-      [ "scrap", 5 ]
-    ],
-    [
-      [ "cable", 8 ]
-    ]
+    [["power_supply", 2]],
+    [["processor", 2]],
+    [["scrap", 5]],
+    [["cable", 8]]
   ]
 },{
   "type" : "recipe",
@@ -1795,7 +1833,7 @@
     ]
   ],
   "components": [
-    [ [ "small_storage_battery", 4 ] ],
+    [ [ "small_storage_battery", 6 ] ],
     [ [ "scrap", 1 ] ],
     [ [ "cable", 5 ] ]
   ]
@@ -2058,7 +2096,6 @@
     [ [ "laptop", 1 ] ],
     [ [ "receiver", 2 ] ],
     [ [ "e_scrap", 2 ] ],
-    [ [ "rechargeable_battery", 1 ] ],
     [ [ "antenna", 1] ]
   ]
 },{

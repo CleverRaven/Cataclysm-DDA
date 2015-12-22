@@ -6356,7 +6356,7 @@
       ["small_lcd_screen", 20],
       ["battery_compartment", 20],
       ["double_plutonium_core", 2],
-      ["rechargeable_battery", 15],
+      ["battery_ups", 15],
       ["cell_phone", 20],
       ["pda", 10],
       ["eink_tablet_pc", 8],
