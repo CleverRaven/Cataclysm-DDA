@@ -328,7 +328,7 @@
             { "group": "everyday_gear", "prob": 15 }
         ]
     },
-   {
+    {
         "type" : "item_group",
         "subtype": "collection",
         "id": "mon_zombie_soldier_death_drops",
@@ -469,7 +469,73 @@
             { "item": "UPS_off", "damage-min": 2, "damage-max": 4, "prob": 15 },
             { "group": "adv_military_guns", "damage": 4, "prob": 5 }
         ]
-  },{
+    },
+    {
+        "type" : "item_group",
+        "subtype": "collection",
+        "id": "mon_zombie_survivor_death_drops",
+        "entries":
+        [
+            { "group": "survivor_boots", "damage-min": 1, "damage-max": 4 },
+            { "group": "survivor_coats", "damage-min": 1, "damage-max": 4, "prob": 25 },
+            { "group": "survivor_hats", "damage-min": 1, "damage-max": 4, "prob": 15 },
+            { "group": "survivor_helmets", "damage-min": 1, "damage-max": 4, "prob": 15 },
+            { "group": "survivor_gloves", "damage-min": 1, "damage-max": 4, "prob": 25 },
+            { "group": "survivor_eyewear", "damage-min": 1, "damage-max": 4, "prob": 15 },
+            { "group": "survivor_masks", "damage-min": 1, "damage-max": 4, "prob": 10 },
+            { "group": "survivor_extras", "damage-min": 1, "damage-max": 4, "prob": 25 },
+            {
+                "distribution": [
+                    {
+                        "group": "survivor_suits",
+                        "prob": 25
+                    },
+                    {
+                        "collection": [
+                            { "group": "survivor_shirts", "prob": 50 },
+                            { "group": "survivor_pants", "prob": 50 }
+                        ],
+                        "prob": 75
+                    }
+                ], "damage-min": 1, "damage-max": 4
+            },
+            {
+                "comment": "1/3 chance of underwear, 2/3 chance of loincloth",
+                "distribution": [
+                    { "group": "underwear" },
+                    { "group": "loincloth" },
+                    { "group": "loincloth" }
+                ],
+                "damage-min": 1, "damage-max": 4
+            },
+            { "distribution": [
+                { "group": "survivor_armor", "prob": 100 },
+                { "group": "elite_gear", "prob": 200 },
+                { "group": "military_gear", "prob": 200 },
+                { "group": "homemade_ammo", "prob": 150 },
+                { "group": "ammo", "prob": 100 },
+                { "group": "emergency_drugs", "prob": 100 },
+                { "group": "homemade_guns", "prob": 100 },
+                { "group": "pistols", "prob": 50 },
+                { "group": "smg", "prob": 50 },
+                { "group": "shotguns", "prob": 10 },           
+                { "group": "rifles", "prob": 30 },           
+                { "group": "assault", "prob": 50 },           
+                { "group": "machine_guns", "prob": 5 },
+                { "group": "launchers", "prob": 10 },
+                { "group": "future_guns", "prob": 25 },           
+                { "group": "melee_weapons", "prob": 100 },           
+                { "group": "grenades", "prob": 50 },           
+                { "group": "gunxtras", "prob": 15 },
+                { "group": "canned_food", "prob": 70 },
+                { "group": "imperishable_food", "prob": 40 },
+                { "group": "military_food", "prob": 50 },
+                { "group": "drinks", "prob": 25 },
+                { "item": "water_clean", "prob": 25 }
+            ] },
+            { "group": "everyday_gear", "prob": 75 }
+        ]
+ },{
     "type" : "item_group",
     "id" : "dog_cop",
     "items":[
@@ -499,6 +565,15 @@
     "items":[
       ["fighter_sting", 5]
     ]
+  },{
+        "type" : "item_group",
+        "subtype": "collection",
+        "id": "marloss_yellow_drops",
+        "entries":
+        [
+            {"item": "marloss_gel"},
+            {"item": "fungal_seeds"}
+        ]
   },{
     "type" : "item_group",
     "id" : "robots",
