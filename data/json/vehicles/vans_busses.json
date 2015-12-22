@@ -912,7 +912,7 @@
         "items" : [
             {"x": 0, "y": 0, "chance": 5, "items": ["fancy_sunglasses"]},
             {"x": 0, "y": 0, "chance": 1, "items": "roadmap"},
-            {"x": 0, "y": 2, "chance": 16, "item_groups": "drugs_legal"},
+            {"x": 0, "y": 2, "chance": 16, "item_groups": "legal_drugs"},
             {"x": 0, "y": 2, "chance": 8, "items": "cig"},
             {"x": -2, "y": 0, "chance": 5, "item_groups": "fast_food"},
             {"x": -3, "y": 0, "chance": 5, "item_groups": "snacks"},
