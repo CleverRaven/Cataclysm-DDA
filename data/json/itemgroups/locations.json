@@ -1561,57 +1561,6 @@
     ]
   },{
     "type" : "item_group",
-    "id" : "gunsmith_tools",
-    "subtype": "distribution",
-    "entries" : [
-      { "group": "chemistry_tools", "prob": 500 },
-      { "group": "smithing_tools", "prob": 500 },
-      { "group": "gun_tools", "prob": 250 },
-      { "item": "hotplate", "prob": 100 },
-      { "item": "small_repairkit", "prob": 20 },
-      { "item": "large_repairkit", "prob": 50 },
-      { "item": "screwdriver", "prob": 50 },
-      { "item": "screwdriver_set", "prob": 20 },
-      { "item": "wrench", "prob": 50 },
-      { "item": "pliers", "prob": 20 },
-      { "item": "hammer", "prob": 50 },
-      { "item": "boltcutters", "prob": 30 },
-      { "item": "polisher", "prob": 50 },
-      { "item": "hacksaw", "prob": 30 },
-      { "item": "welder", "prob": 40 },
-      { "item": "goggles_welding", "prob": 50 }
-    ]
-  },{
-    "type" : "item_group",
-    "id" : "gunsmith_mat",
-    "items":[
-      ["rag",30],
-      ["plastic_chunk",60],
-      ["scrap",90],
-      ["steel_chunk",60],
-      ["steel_lump",20],
-      ["cable",60],
-      ["duct_tape",60],
-      ["pipe",70],
-      ["2x4",90],
-      ["spring",70],
-      ["string_6",10],
-      ["string_36",40],
-      ["superglue",40],
-      ["cu_pipe",40],
-      ["battery",30],
-      ["nail",40]
-    ]
-  },{
-    "type" : "item_group",
-    "id" : "gunsmith_hazmat",
-    "subtype": "distribution",
-    "entries" : [
-      { "group": "ammo_parts", "prob": 50 },
-      { "item": "battery", "prob": 1 }
-    ]
-  },{
-    "type" : "item_group",
     "id" : "gunxtras",
     "subtype": "distribution",
     "entries" : [
@@ -1625,41 +1574,6 @@
       { "item": "mask_bal", "prob": 5 },
       { "item": "goggles_ir", "prob": 1 },
       { "item": "goggles_nv", "prob": 1 }
-    ]
- },{
-    "type" : "item_group",
-    "id" : "gunsmith_gunparts",
-    "subtype": "distribution",
-    "groups" : [
-      ["gun_mods", 24]
-    ]
-  },{
-    "type" : "item_group",
-    "id" : "gunsmith_casings",
-    "subtype": "distribution",
-    "groups" : [
-      ["ammo_casings", 24]
-    ]
-  },{
-    "type" : "item_group",
-    "id" : "vending_ammo_pistol",
-    "subtype": "distribution",
-    "entries" : [
-      { "group": "pistol_ammo", "prob": 50 }
-    ]
-  },{
-    "type" : "item_group",
-    "id" : "vending_ammo_rifle",
-    "subtype": "distribution",
-    "entries" : [
-      { "group": "rifle_ammo", "prob": 50 }
-    ]
-  },{
-    "type" : "item_group",
-    "id" : "vending_ammo_shotgun",
-    "subtype": "distribution",
-    "entries" : [
-      { "group": "shotgun_ammo", "prob": 50 }
     ]
   },{
     "type" : "item_group",
