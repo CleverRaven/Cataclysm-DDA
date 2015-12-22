@@ -1734,6 +1734,30 @@
     ]
   },{
     "type" : "item_group",
+    "id" : "toy_store",
+    "items" : [
+      ["portable_game", 60],
+      ["bat", 60],
+      ["backpack", 40],
+      ["pockknife", 20],
+      ["wristwatch", 20],
+      ["teleumbrella", 5],
+      ["folding_bicycle", 5],
+      ["sunglasses", 25],
+      ["cowboy_hat", 25],
+      ["mp3", 40],
+      ["wolfsuit", 5],
+      ["dinosuit", 5],
+      ["gum", 10],
+      ["talking_doll", 50],
+      ["creepy_doll", 1],
+      ["jedi_cloak", 5],
+      ["clown_suit", 5],
+      ["clownshoes", 5],
+      ["radio_car_box", 10]
+      ]
+  },{
+    "type" : "item_group",
     "id" : "antique_rare",
     "subtype": "distribution",
     "entries" : [
