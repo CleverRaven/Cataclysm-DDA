@@ -1305,7 +1305,7 @@
       { "item": "bondage_mask", "prob": 20 },
       { "item": "RPG", "prob": 10 },
       { "item": "RPG-7_ammo", "prob": 10 },
-      { "item": "bobburger", "prob": 10 }
+      { "item": "bobburger", "prob": 10 },
       { "collection": [
           { "item": "clown_suit"},
           { "item": "clownshoes"}
@@ -1372,8 +1372,8 @@
       { "item": "small_storage_battery", "prob": 15, "charges-min": 600, "charges-max": 1000 },
       { "item": "small_storage_battery", "prob": 40, "charges-min": 0, "charges-max": 200 },
       { "item": "medium_storage_battery", "prob": 15, "charges-min": 0, "charges-max": 10000 },
-      { "item": "medium_storage_battery", "prob": 40, "charges-min": 0, "charges-max": 2000 },
-      ["it_battery_mount", 200]
+      { "item": "medium_storage_battery", "prob": 40, "charges-min": 0, "charges-max": 2000 }
+    ]
   },{
     "type" : "item_group",
     "id" : "hardware",
@@ -1794,6 +1794,7 @@
       { "item": "700nx", "prob": 1 },
       { "item": "combination_gun", "prob": 5 },
       { "item": "trex_gun", "prob":1 }
+    ]
   },{
     "type" : "item_group",
     "id" : "arcade_prizes",
@@ -2159,8 +2160,8 @@
     "items":[
       ["yeast", 5],
       ["hops", 40]
-  },{
     ]
+  },{
     "type" : "item_group",
     "id" : "coffee_shop",
     "subtype": "distribution",
