@@ -2703,7 +2703,8 @@
     "subtype": "distribution",
     "entries" : [
       { "group": "homemade_guns", "prob": 350 },
-      { "item": "sling", "prob": 10 },    
+      { "item": "sling", "prob": 10 },
+      { "item": "crossbow", "prob": 60 },
       { "item": "shortbow", "prob": 50 },    
       { "item": "sw_22", "prob": 50 },    
       { "item": "sw_619", "prob": 50 },    
@@ -2735,6 +2736,7 @@
     "items":[
       ["arrow_wood", 50],
       ["arrow_metal", 30],
+      ["bolt_steel", 50],
       ["9mm", 100],
       ["45_acp", 50],
       ["shot_bird", 30],
@@ -2743,7 +2745,16 @@
       ["22_lr", 100],
       ["223", 70],
       ["308", 20],
-      ["3006", 20]
+      ["3006", 20],
+      ["reloaded_9mm", 100],
+      ["reloaded_45_acp", 50],
+      ["reloaded_shot_bird", 30],
+      ["reloaded_shot_00", 50],
+      ["reloaded_shot_slug", 30], 
+      ["reloaded_22_lr", 100],
+      ["reloaded_223", 70],
+      ["reloaded_308", 20],
+      ["reloaded_3006", 20]
     ]
   },{
     "type" : "item_group",

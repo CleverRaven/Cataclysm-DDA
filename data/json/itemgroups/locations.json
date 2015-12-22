@@ -2317,9 +2317,9 @@
     "guns_with_ammo" : true,
     "subtype": "distribution",
     "entries" : [
-      { "group": "scavenger_melee_weapons", "prob": 60 },
-      { "group": "scavenger_guns", "prob": 100 },
-      { "group": "scavenger_ammo", "prob": 50 },
+      { "group": "scavenger_melee_weapons", "prob": 90 },
+      { "group": "scavenger_guns", "prob": 200 },
+      { "group": "scavenger_ammo", "prob": 200 },
       { "item": "suppressor", "prob": 15 },
       { "item": "bayonet", "prob": 5 },
       { "item": "clip", "prob": 8 },
