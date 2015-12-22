@@ -1654,8 +1654,8 @@ void map::draw_map(const oter_id terrain_type, const oter_id t_north, const oter
     // To distinguish between types of labs
     bool ice_lab = true;
 
-    oter_id t_nesw[] = {t_north, t_east, t_south, t_west, t_neast, t_seast, t_swest, t_nwest};
-    int nesw_fac[] = {0, 0, 0, 0, 0, 0, 0, 0};
+    oter_id t_nesw[] = { t_north, t_east, t_south, t_west, t_neast, t_seast, t_swest, t_nwest };
+    int nesw_fac[] = { 0, 0, 0, 0, 0, 0, 0, 0 };
     int &n_fac = nesw_fac[0], &e_fac = nesw_fac[1], &s_fac = nesw_fac[2], &w_fac = nesw_fac[3];
 
     mapgendata dat( t_north, t_east, t_south, t_west, t_neast, t_seast, t_swest, t_nwest, t_above, zlevel, rsettings, this );
@@ -11199,22 +11199,22 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
     int terrain_type_with_suffix_to_nesw_array( oter_id terrain_type, bool array[4] );
 
     // finally, any terrain with SIDEWALKS should contribute sidewalks to neighboring diagonal roads
-    if ( otermap[terrain_type].has_flag( has_sidewalk ) ) {
-        for ( int dir = 4; dir < 8; dir++ ) { // NE SE SW NW
+    if( otermap[terrain_type].has_flag( has_sidewalk ) ) {
+        for( int dir = 4; dir < 8; dir++ ) { // NE SE SW NW
             bool n_roads_nesw[4] = {};
             int n_num_dirs = terrain_type_with_suffix_to_nesw_array( oter_id( t_nesw[dir] ), n_roads_nesw );
             // only handle diagonal neighbors
-            if ( n_num_dirs == 2 &&
-                 n_roads_nesw[( ( dir - 4 ) + 3 ) % 4] &&
-                 n_roads_nesw[( ( dir - 4 ) + 2 ) % 4] ) {
+            if( n_num_dirs == 2 &&
+                n_roads_nesw[( ( dir - 4 ) + 3 ) % 4] &&
+                n_roads_nesw[( ( dir - 4 ) + 2 ) % 4] ) {
                 // make drawing simpler by rotating the map back and forth
                 rotate( 4 - ( dir - 4 ) );
                 // draw a small triangle of sidewalk in the northeast corner
-                for ( int y = 0; y < 4; y++ ) {
-                    for ( int x = SEEX * 2 - 4; x < SEEX * 2; x++ ) {
-                        if ( x - y > SEEX * 2 - 4 ) {
+                for( int y = 0; y < 4; y++ ) {
+                    for( int x = SEEX * 2 - 4; x < SEEX * 2; x++ ) {
+                        if( x - y > SEEX * 2 - 4 ) {
                             //TODO more discriminating conditions
-                            if (ter( x, y ) == t_grass ||
+                            if( ter( x, y ) == t_grass ||
                                 ter( x, y ) == t_dirt ||
                                 ter( x, y ) == t_shrub ) {
                                 ter_set( x, y, t_sidewalk );
@@ -11226,9 +11226,6 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
             }
         }
     }
-
-
-
 }
 
 void map::post_process(unsigned zones)
