@@ -10,6 +10,7 @@
 #include "translations.h"
 #include "weather_gen.h"
 #include "sounds.h"
+#include "cata_utility.h"
 
 #include <vector>
 #include <sstream>
@@ -581,7 +582,7 @@ std::string print_temperature(float fahrenheit, int decimals)
     ret << std::fixed;
 
     if(OPTIONS["USE_CELSIUS"] == "celsius") {
-        ret << ((fahrenheit - 32) * 5 / 9);
+        ret << temp_to_celsius( fahrenheit );
         return rmp_format(_("<Celsius>%sC"), ret.str().c_str());
     } else {
         ret << fahrenheit;
@@ -639,7 +640,7 @@ int get_local_windchill(double temperature, double humidity, double windpower)
 
         // Source : http://en.wikipedia.org/wiki/Wind_chill#Australian_Apparent_Temperature
         tmpwind = tmpwind * 0.44704; // Convert to meters per second.
-        tmptemp = (tmptemp - 32) * 5 / 9; // Convert to celsius.
+        tmptemp = temp_to_celsius( tmptemp );
 
         windchill = (0.33 * ((humidity / 100.00) * 6.105 * exp((17.27 * tmptemp) /
                              (237.70 + tmptemp))) - 0.70 * tmpwind - 4.00);

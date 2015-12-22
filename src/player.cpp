@@ -816,8 +816,8 @@ void player::update_bodytemp()
         return;
     }
     // NOTE : visit weather.h for some details on the numbers used
-    // Converts temperature to Celsius/10(Wito plans on using degrees Kelvin later)
-    int Ctemperature = 100 * (g->get_temperature() - 32) * 5 / 9;
+    // Converts temperature to Celsius/10
+    int Ctemperature = 100 * temp_to_celsius( g->get_temperature() );
     w_point const weather = g->weather_gen->get_weather( global_square_location(), calendar::turn );
     int vpart = -1;
     vehicle *veh = g->m.veh_at( pos(), vpart );
@@ -863,8 +863,8 @@ void player::update_bodytemp()
                                              bp_windpower );
         // If you're standing in water, air temperature is replaced by water temperature. No wind.
         const ter_id ter_at_pos = g->m.ter( pos() );
-        // Convert to C.
-        int water_temperature = 100 * (g->weather_gen->get_water_temperature() - 32) * 5 / 9;
+        // Convert to 0.01C
+        int water_temperature = 100 * temp_to_celsius( g->weather_gen->get_water_temperature() );
         if ( (ter_at_pos == t_water_dp || ter_at_pos == t_water_pool || ter_at_pos == t_swater_dp) ||
              ((ter_at_pos == t_water_sh || ter_at_pos == t_swater_sh || ter_at_pos == t_sewage) &&
               (i == bp_foot_l || i == bp_foot_r || i == bp_leg_l || i == bp_leg_r)) ) {

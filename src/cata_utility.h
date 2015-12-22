@@ -49,6 +49,7 @@ const char *velocity_units( const units_type vel_units );
 const char *weight_units();
 double convert_velocity( int velocity, const units_type vel_units );
 double convert_weight( int weight );
+double temp_to_celsius( float fahrenheit );
 
 /**
 * @brief Class used to access a list as if it were circular.
