@@ -1776,38 +1776,53 @@
   ]
 },{
   "type" : "recipe",
-  "result": "small_storage_battery",
+  "result": "medium_storage_battery",
   "category": "CC_ELECTRONIC",
   "subcategory": "CSC_ELECTRONIC_PARTS",
   "skill_used": "electronics",
   "skills_required": [ "fabrication", 1 ],
-  "difficulty": 3,
-  "time": 30000,
+  "difficulty": 2,
+  "time": 10000,
   "reversible": true,
   "decomp_learn": 2,
   "autolearn": false,
   "book_learn": [[ "manual_electronics", 2 ] , [ "mag_electronics", 2 ] , [ "manual_mechanics", 3]],
   "qualities" : [ {"id":"SCREW","level":1,"amount":1} ],
   "tools": [
-    [ ["mold_plastic", -1] ],
-    [
-      ["hotplate", 2],
-      ["toolset", 2],
-      ["fire", -1]
-    ],
     [
       [ "soldering_iron", 5 ],
       [ "toolset", 5 ]
     ]
   ],
   "components": [
-    [ [ "plastic_chunk", 3 ] ],
+    [ [ "small_storage_battery", 4 ] ],
     [ [ "scrap", 1 ] ],
-    [ [ "lead_plate", 2 ] ],
-    [ [ "water_clean", 3 ] ],
-    [ [ "acid", 1 ] ],
-    [ [ "rag", 1 ] ],
-    [ [ "cable", 1 ] ]
+    [ [ "cable", 5 ] ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "storage_battery",
+  "category": "CC_ELECTRONIC",
+  "subcategory": "CSC_ELECTRONIC_PARTS",
+  "skill_used": "electronics",
+  "skills_required": [ "fabrication", 1 ],
+  "difficulty": 2,
+  "time": 20000,
+  "reversible": true,
+  "decomp_learn": 2,
+  "autolearn": false,
+  "book_learn": [[ "manual_electronics", 2 ] , [ "mag_electronics", 2 ] , [ "manual_mechanics", 3]],
+  "qualities" : [ {"id":"SCREW","level":1,"amount":1} ],
+  "tools": [
+    [
+      [ "soldering_iron", 5 ],
+      [ "toolset", 5 ]
+    ]
+  ],
+  "components": [
+    [ [ "medium_storage_battery", 4 ] ],
+    [ [ "scrap", 2 ] ],
+    [ [ "cable", 10 ] ]
   ]
 },{
   "type" : "recipe",
