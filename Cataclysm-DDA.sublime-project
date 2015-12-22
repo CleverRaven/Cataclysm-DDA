@@ -73,26 +73,9 @@
 		{
 			"options_c++":
 			{
-				"comment" : "These options are mirrored in .astylerc, Cataclysm-DDA.sublime-project, CONTRIBUTING.md, doc/CODE_STYLE.txt",
-				"additional_options":
-				[
-					"--style=1tbs",
-					"--indent=spaces=4",
-					"--align-pointer=name",
-					"--max-code-length=100",
-					"--break-after-logical",
-					"--indent-classes",
-					"--indent-switches",
-					"--indent-preprocessor",
-					"--indent-col1-comments",
-					"--min-conditional-indent=0",
-					"--pad-oper",
-					"--add-brackets",
-					"--convert-tabs",
-					"--unpad-paren",
-					"--pad-paren-in"
-				]
-			}
+                "use_only_additional_options": true,
+                "additional_options_file": ".astylerc"
+            }
 		}
 	}
 }
