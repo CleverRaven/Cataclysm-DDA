@@ -3421,7 +3421,7 @@
         "active": true,
         "need_fire": 1,
         "need_fire_msg": "You need a source of fire!",
-        "msg": "You light the molotov cocktail"
+        "msg": "You light the Molotov cocktail"
     }
   },
 
