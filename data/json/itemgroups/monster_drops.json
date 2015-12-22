@@ -22,7 +22,7 @@
         "comment": "items that an average zombie carries around and drops on death",
         "id": "default_zombie_items",
         "groups": [
-            [ "indoor_trash", 100 ],
+            [ "trash", 100 ],
             [ "improvised_melee_weapons", 75 ],
             [ "overcounter_drugs", 50 ],
             [ "legal_drugs", 75 ],

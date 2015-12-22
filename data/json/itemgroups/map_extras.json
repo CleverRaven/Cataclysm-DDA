@@ -7,7 +7,7 @@
       "entries" : 
         [
             { "group": "camping_gear", "prob": 100 },
-            { "group": "winter_clothes", "prob": 30 },
+            { "group": "winter", "prob": 30 },
             { "group": "camping_surv_books", "prob": 50 },
             { "group": "camping_food", "prob": 50 },
             { "group": "everyday_gear", "prob": 10 },
