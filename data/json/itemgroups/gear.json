@@ -2681,6 +2681,70 @@
       { "group": "scavenger_storage", "prob": 20 },
       { "group": "scavenger_extras", "prob": 70 }
     ]
+   },{
+    "type" : "item_group",
+    "id" : "scavenger_melee_weapons",
+    "subtype": "distribution",
+    "entries" : [
+      { "group": "improvised_melee_weapons", "prob": 60 },
+      { "group": "crafted_melee_weapons", "prob": 60 },
+      { "group": "replica_weapons", "prob": 60 },
+      { "item": "cudgel", "prob": 60 },
+      { "item": "q_staff", "prob": 60 },
+      { "item": "switchblade", "prob": 60 },
+      { "item": "machete", "prob": 60 },
+      { "item": "knuckle_brass", "prob": 60 }
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "scavenger_guns",
+    "comment": "weapons that are easy to scavenge or create ",
+    "guns_with_ammo" : true,
+    "subtype": "distribution",
+    "entries" : [
+      { "group": "homemade_guns", "prob": 350 },
+      { "item": "sling", "prob": 10 },    
+      { "item": "shortbow", "prob": 50 },    
+      { "item": "sw_22", "prob": 50 },    
+      { "item": "sw_619", "prob": 50 },    
+      { "item": "sw629", "prob": 50 },    
+      { "item": "glock_19", "prob": 100 },    
+      { "item": "m1911", "prob": 100 },    
+      { "item": "tec9", "prob": 30 },    
+      { "item": "mac_10", "prob": 30 },    
+      { "item": "shotgun_s", "prob": 100 },    
+      { "item": "shotgun_d", "prob": 100 },    
+      { "item": "mossberg_500", "prob": 50 },    
+      { "item": "ruger_1022", "prob": 40 },    
+      { "item": "sks", "prob": 40 },    
+      { "item": "ruger_mini", "prob": 40 },    
+      { "item": "ar15", "prob": 30 },    
+      { "item": "garand", "prob": 40 }
+    ]
+  },{
+    "type" : "item_group",
+    "subtype": "distribution",
+    "id" : "scavenger_weapons",
+    "entries" : [
+      { "group": "scavenger_guns", "prob": 70 },
+      { "group": "scavenger_melee_weapons", "prob": 30 }
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "scavenger_ammo",
+    "items":[
+      ["arrow_wood", 50],
+      ["arrow_metal", 30],
+      ["9mm", 100],
+      ["45_acp", 50],
+      ["shot_bird", 30],
+      ["shot_00", 50],
+      ["shot_slug", 30], 
+      ["22_lr", 100],
+      ["223", 70],
+      ["308", 20],
+      ["3006", 20]
+    ]
   },{
     "type" : "item_group",
     "id" : "elite_boots",
