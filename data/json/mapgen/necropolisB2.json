@@ -15,6 +15,21 @@
     "items" : [
       ["newest_newspaper", 10],
       ["necropolis_leaflet", 50]
+    ]    
+},{
+    "type" : "item_group",
+    "id" : "army_pistols",
+    "items" : [
+      ["m9", 50],
+      ["9mm", 50]
+    ]
+},{
+    "type" : "item_group",
+    "id" : "army_rifles",
+    "items" : [
+      ["m4a1", 50],
+      ["m249", 10],
+      ["556", 50]
     ]
 },{
         "type" : "mapgen",

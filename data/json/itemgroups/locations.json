@@ -2006,21 +2006,6 @@
     ]
   },{
     "type" : "item_group",
-    "id" : "army_pistols",
-    "items" : [
-      ["m9", 50],
-      ["9mm", 50]
-    ]
-  },{
-    "type" : "item_group",
-    "id" : "army_rifles",
-    "items" : [
-      ["m4a1", 50],
-      ["m249", 10],
-      ["556", 50]
-    ]
-  },{
-    "type" : "item_group",
     "id" : "vault",
     "items":[
       ["money_bundle", 900],
