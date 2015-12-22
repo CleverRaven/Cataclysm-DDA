@@ -1157,6 +1157,47 @@
     ]
   },{
     "type" : "item_group",
+    "id" : "file_room",
+    "items" : [
+      ["file", 100],
+      ["record_accounting", 10],
+      ["paper", 80],
+      ["safe_box", 1]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "office_mess",
+    "items" : [
+      ["file", 100],
+      ["paper", 100],
+      ["laptop", 10],
+      ["inhaler", 5],
+      ["mbag", 10],
+      ["mop", 25],
+      ["cell_phone", 50],
+      ["duct_tape", 25],
+      ["battery", 25],
+      ["flashlight", 50],
+      ["umbrella", 25],
+      ["teleumbrella", 50],
+      ["survnote", 5],
+      ["clock", 10],
+      ["pda", 40],
+      ["coffeemaker", 10],
+      ["bubblewrap", 50],
+      ["glowstick", 50],
+      ["radio", 10],
+      ["fan", 25],
+      ["fan", 25],
+      ["cola", 50],
+      ["can_drink", 25],
+      ["cig", 25],
+      ["purse", 10],
+      ["pipe_tobacco", 5],
+      ["permanent_marker", 25]
+    ]
+  },{
+    "type" : "item_group",
     "id" : "office_breakroom",
     "subtype": "distribution",
     "entries" : [

@@ -11,48 +11,6 @@
         { "monster" : "mon_zombie_cop", "freq" : 20, "cost_multiplier" : 6 }
     ]
     },{
-    "type" : "item_group",
-    "id" : "file_room",
-    "items" : [
-        ["file", 99],
-        ["file", 99],
-        ["record_accounting", 10],
-        ["paper", 80],
-        ["safe_box", 1]
-    ]
-    },{
-    "type" : "item_group",
-    "id" : "office_mess",
-    "items" : [
-        ["file", 99],
-        ["paper", 60],
-        ["laptop", 2],
-        ["inhaler", 1],
-        ["mbag", 2],
-        ["mop", 5],
-        ["cell_phone", 10],
-        ["duct_tape", 5],
-        ["battery", 5],
-        ["flashlight", 10],
-        ["umbrella", 5],
-        ["teleumbrella", 10],
-        ["survnote", 1],
-        ["clock", 2],
-        ["pda", 8],
-        ["coffeemaker", 2],
-        ["bubblewrap", 10],
-        ["glowstick", 10],
-        ["radio", 2],
-        ["fan", 5],
-        ["fan", 5],
-        ["cola", 10],
-        ["can_drink", 5],
-        ["cig", 5],
-        ["purse", 2],
-        ["pipe_tobacco", 1],
-        ["permanent_marker", 5]
-    ]
-    },{
         "type": "mapgen",
         "om_terrain": [
             "office_tower_2_a1"
