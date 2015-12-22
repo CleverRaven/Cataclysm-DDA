@@ -2221,7 +2221,7 @@ int item::price() const
     }
 
     // if tool has no ammo (eg. spray can) reduce price proportional to remaining charges
-    if( is_tool() && ammo_type() == "NULL" ) {
+    if( is_tool() && ammo_type() == "NULL" && ammo_remaining() > -1 ) {
         ret *= ammo_remaining() / double( std::max( dynamic_cast<const it_tool *>( type )->def_charges, 1L ) );
     }
 

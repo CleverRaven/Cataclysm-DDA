@@ -11113,7 +11113,7 @@ void game::butcher()
         kmenu.addentry(last_pos, true, 'q', _("Cancel"));
         kmenu.return_invalid = true;
         kmenu.query();
-        if( kmenu.ret == last_pos || kmenu.ret == UIMENU_INVALID ) {
+        if( kmenu.ret < 0 || kmenu.ret == last_pos ) {
             return;
         }
         butcher_corpse_index = kmenu.ret;
@@ -11273,37 +11273,24 @@ void game::reload( int pos )
 {
     item *it = &u.i_at( pos );
 
-    // Make sure the item is actually reloadable
-    if( it->ammo_type() == "NULL" || it->ammo_capacity() <= 0 || it->has_flag( "NO_RELOAD" ) ) {
-        add_msg( m_info, _( "You can't reload a %s!." ), it->tname().c_str() );
+    // bows etc do not need to reload.
+    if( it->has_flag( "RELOAD_AND_SHOOT" ) ) {
+        add_msg( m_info, _( "Your %s does not need to be reloaded, it reloads and fires in a single motion." ),
+                 it->tname().c_str() );
         return;
     }
 
-    // Gun reloading is more complex.
-    if( it->is_gun() ) {
-
-        // bows etc do not need to reload.
-        if( it->has_flag( "RELOAD_AND_SHOOT" ) ) {
-            add_msg( m_info, _( "Your %s does not need to be reloaded, it reloads and fires "
-                              "a single motion." ), it->tname().c_str() );
+    switch( u.rate_action_reload( *it ) ) {
+        case HINT_IFFY:
+            add_msg( m_info, _( "Your %s is fully loaded!" ), it->tname().c_str() );
             return;
-        }
 
-        // See if the gun is fully loaded
-        if( it->ammo_remaining() >= it->ammo_capacity() ) {
-            if( std::none_of( it->contents.begin(), it->contents.end(),
-                              [&it]( const item& mod ) {
-                                  // @todo deprecate handling of spare magazine as separate case
-                                  if( mod.typeId() == "spare_mag" && mod.charges < it->ammo_capacity() ) {
-                                      return true;
-                                  }
-                                  return mod.is_auxiliary_gunmod() &&
-                                      mod.ammo_remaining() < mod.ammo_capacity();
-                              } ) ) {
-                add_msg(m_info, _("Your %s is fully loaded!"), it->tname().c_str());
-                return;
-            }
-        }
+        case HINT_CANT:
+            add_msg( m_info, _( "You can't reload a %s!." ), it->tname().c_str() );
+            return;
+
+        case HINT_GOOD:
+            break;
     }
 
     // pick ammo
