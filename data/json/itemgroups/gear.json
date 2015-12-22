@@ -1824,6 +1824,29 @@
     ]
   },{
     "type" : "item_group",
+    "id" : "swat_gear",
+    "items":[
+      ["tazer", 60],
+      ["gasbomb", 100],
+      ["flashbang", 200],
+      ["smokebomb", 100],
+      ["flashlight", 100],
+      ["halligan", 50],
+      ["two_way_radio", 40],
+      ["picklocks", 10],
+      ["toolbox", 10],
+      ["roadmap", 15],
+      ["kevlar", 40],
+      ["mgl", 10],
+      ["suppressor", 20],
+      ["holo_sight", 20],
+      ["clip", 20],
+      ["spare_mag", 20],
+      ["goggles_nv", 15],
+      ["UPS_off", 10]
+    ]
+  },{
+    "type" : "item_group",
     "id" : "swat_guns",
     "items":[
       ["glock_19", 20],

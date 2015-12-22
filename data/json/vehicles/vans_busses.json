@@ -244,9 +244,9 @@
             {"x": -3, "y": 0, "chance": 7, "items": ["jack", "wheel_wide"]},
             {"x": -2, "y": 2, "chance": 14, "items": ["2x4"]},
             {"x": -2, "y": 0, "chance": 15, "items": ["2x4"]},
-            {"x": -3, "y": 0, "chance": 2, "item_groups": ["bigtools"]},
+            {"x": -3, "y": 0, "chance": 2, "item_groups": ["mechanics_tools"]},
             {"x": -3, "y": 1, "chance": 10, "item_groups": ["mischw"]},
-            {"x": -3, "y": 2, "chance": 5, "item_groups": ["tools"]}
+            {"x": -3, "y": 2, "chance": 5, "item_groups": ["basic_tools"]}
         ]
     },{
         "type" : "vehicle",
@@ -369,9 +369,9 @@
             {"x": -4, "y": 3, "part": "roof"}
         ],
         "items" : [
-            {"x": -2, "y": 0, "chance": 5, "item_groups": ["tools"]},
+            {"x": -2, "y": 0, "chance": 5, "item_groups": ["basic_tools"]},
             {"x": -2, "y": 2, "chance": 5, "item_groups": ["tools"]},
-            {"x": -3, "y": 2, "chance": 2, "item_groups": ["bigtools"]}
+            {"x": -3, "y": 2, "chance": 2, "item_groups": ["tools"]}
         ]
     },{
         "type" : "vehicle",
@@ -912,7 +912,7 @@
         "items" : [
             {"x": 0, "y": 0, "chance": 5, "items": ["fancy_sunglasses"]},
             {"x": 0, "y": 0, "chance": 1, "items": "roadmap"},
-            {"x": 0, "y": 2, "chance": 16, "items": "cigar"},
+            {"x": 0, "y": 2, "chance": 16, "item_groups": "drugs_legal"},
             {"x": 0, "y": 2, "chance": 8, "items": "cig"},
             {"x": -2, "y": 0, "chance": 5, "item_groups": "fast_food"},
             {"x": -3, "y": 0, "chance": 5, "item_groups": "snacks"},

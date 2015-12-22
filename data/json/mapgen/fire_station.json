@@ -131,10 +131,10 @@
                     { "item": "fireman_boots",  "chance": 70, "x": [ 4,4 ],   "y": [ 19,19 ] },
                     { "item": "oven",           "chance": 70, "x": [ 3,3 ],   "y": [ 21,21 ] },
                     { "item": "fireman_gear",   "chance": 70, "x": [ 8,8 ],   "y": [ 21,21 ] },
-                    { "item": "fireman_torso",  "chance": 70, "x": [ 10,10 ], "y": [ 21,21 ] },
-                    { "item": "fireman_head",   "chance": 70, "x": [ 12,12 ], "y": [ 21,21 ] },
+                    { "item": "fireman_coats",  "chance": 70, "x": [ 10,10 ], "y": [ 21,21 ] },
+                    { "item": "fireman_helmets",   "chance": 70, "x": [ 12,12 ], "y": [ 21,21 ] },
                     { "item": "fireman_gloves", "chance": 70, "x": [ 16,16 ], "y": [ 21,21 ] },
-                    { "item": "fireman_mask",   "chance": 70, "x": [ 18,18 ], "y": [ 21,21 ] },
+                    { "item": "fireman_masks",   "chance": 70, "x": [ 18,18 ], "y": [ 21,21 ] },
                     { "item": "fireman_gear",   "chance": 70, "x": [ 20,20 ], "y": [ 21,21 ] }
                 ],
                 "place_vehicles": [
