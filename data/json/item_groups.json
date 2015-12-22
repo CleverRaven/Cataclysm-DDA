@@ -86,48 +86,6 @@
     ]
   },{
     "type" : "item_group",
-    "id" : "mil_armor_torso",
-    "items":[
-      ["kevlar", 10],
-      ["modularvest", 15],
-      ["modularvestkevlar", 18],
-      ["modularvestceramic", 25],
-      ["modularveststeel", 20],
-      ["modularvestsuper", 2],
-      ["modularvesthard", 1],
-      ["winter_jacket_army", 30],
-      ["vest", 15],
-      ["chestrig", 10],
-      ["molle_pack", 8],
-      ["under_armor", 20],
-      ["power_armor_basic", 5],
-      ["army_top", 30],
-      ["elbow_pads", 20]
-    ]
-  },{
-    "type" : "item_group",
-    "id" : "mil_armor_helmet",
-    "items":[
-      ["helmet_army", 40],
-      ["helmet_liner", 20],
-      ["helmet_netting", 20],
-      ["beret", 50],
-      ["beret_wool", 40],
-      ["mask_bal", 10]
-    ]
-  },{
-    "type" : "item_group",
-    "id" : "mil_armor_pants",
-    "items":[
-      ["pants_army", 10],
-      ["winter_pants_army", 40],
-      ["pants", 75],
-      ["pants_cargo", 70],
-      ["legrig", 10],
-      ["knee_pads", 20]
-    ]
-  },{
-    "type" : "item_group",
     "id" : "fireman_torso",
     "items":[
       ["bunker_coat", 80],
