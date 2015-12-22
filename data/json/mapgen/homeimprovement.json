@@ -1,28 +1,5 @@
 [
-
     {
-    "type" : "item_group",
-    "id" : "paint",
-    "items" : [
-        ["r_paint", 45],
-        ["b_paint", 45],
-        ["w_paint", 45],
-        ["g_paint", 45],
-        ["p_paint", 45],
-        ["y_paint", 45],
-        ["chipper", 55],
-        ["paint_brush", 55]
-        ]
-    },{
-    "type" : "item_group",
-    "id" : "rug",
-    "items" : [
-        ["r_carpet", 45],
-        ["g_carpet", 45],
-        ["y_carpet", 45],
-        ["p_carpet", 45]
-        ]
-    },{
         "type": "overmap_terrain",
         "id" : "home_improvement",
         "name" : "home improvement store",
