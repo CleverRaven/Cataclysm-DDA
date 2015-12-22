@@ -46,78 +46,6 @@
     ]
   },{
     "type" : "item_group",
-    "id" : "swat_gear",
-    "subtype": "distribution",
-    "items":[
-      ["swat_armor", 20],
-      ["kevlar", 40],
-      ["mgl", 10],
-      ["40mm_concussive", 5],
-      ["40mm_flashbang", 5],
-      ["40mm_teargas", 15],
-      ["40mm_smoke", 15],
-      ["holster", 20],
-      ["suppressor", 20],
-      ["holo_sight", 20],
-      ["clip", 20],
-      ["spare_mag", 20],
-      ["knife_combat", 5],
-      ["m9", 30],
-      ["hk_ump45", 15],
-      ["m4a1", 15],
-      ["m1014", 20],
-      ["remington_700", 5],
-      ["hk_mp7", 20],
-      ["smokebomb", 40],
-      ["gasbomb", 40],
-      ["flashbang", 40],
-      ["9mm", 70],
-      ["45_acp", 40],
-      ["pants_army", 20],
-      ["crowbar", 40],
-      ["1st_aid", 40],
-      ["556", 20],
-      ["shot_00", 50],
-      ["shot_slug", 50],
-      ["46mm", 15],
-      ["boots_combat", 20],
-      ["tac_helmet", 20],
-      ["helmet_lobster", 10],
-      ["goggles_nv", 5],
-      ["UPS_off", 10]
-    ]
-  },{
-    "type" : "item_group",
-    "id" : "mil_accessories",
-    "items":[
-      ["mask_gas", 10],
-      ["duffelbag", 15],
-      ["goggles_nv", 1],
-      ["goggles_ir", 1],
-      ["optical_cloak", 1],
-      ["mess_kit", 9],
-      ["mil_mess_kit", 1],
-      ["backpack", 38],
-      ["briefcase", 10],
-      ["UPS_off", 5],
-      ["adv_UPS_off", 3],
-      ["armguard_hard", 20],
-      ["legguard_hard", 15],
-      ["power_armor_frame", 4],
-      ["elbow_pads", 40],
-      ["knee_pads", 40],
-      ["mask_bal", 5],
-      ["e_tool", 10],
-      ["waterproof_gunmod", 8],
-      ["grapnel", 3],
-      ["glasses_bal", 30],
-      ["sheath", 10],
-      ["bootsheath", 8],
-      ["holster", 15],
-      ["sholster", 10]
-    ]
-  },{
-    "type" : "item_group",
     "id" : "fireman_torso",
     "items":[
       ["bunker_coat", 80],
@@ -144,28 +72,6 @@
       ["mask_filter", 10],
       ["goggles_ir", 2],
       ["goggles_nv", 1]
-    ]
-  },{
-    "type" : "item_group",
-    "id" : "survivorzed_boots",
-    "items":[
-      ["boots_lsurvivor", 10],
-      ["boots_survivor", 8],
-      ["boots_hsurvivor", 4],
-      ["boots_wsurvivor", 4],
-      ["boots_fsurvivor", 2],
-      ["boots_h20survivor", 1],
-      ["boots", 20],
-      ["boots_steel", 28],
-      ["boots_hiking", 24],
-      ["knee_high_boots", 8],
-      ["boots_combat", 12],
-      ["boots_larmor", 14],
-      ["boots_bone", 22],
-      ["boots_fur", 22],
-      ["boots_plate", 2],
-      ["boots_bunker", 8],
-      ["footrags", 1]
     ]
   }
 ]
