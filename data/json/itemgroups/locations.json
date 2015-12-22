@@ -2350,5 +2350,37 @@
       ["m249", 10],
       ["556", 50]
     ]
+  },{
+    "type" : "item_group",
+    "id" : "vault",
+    "items":[
+      ["money_bundle", 900],
+      ["silver", 300],
+      ["gold", 100],
+      ["purifier", 120],
+      ["plut_cell", 100],
+      ["ftk93", 10],
+      ["nx17", 10],
+      ["canister_goo", 80],
+      ["UPS_off", 50],
+      ["adv_UPS_off", 30],
+      ["plasma_engine", 10],
+      ["bio_time_freeze", 100],
+      ["bio_teleport", 100],
+      ["bio_probability_travel", 100],
+      ["recipe_mil_augs", 30],
+      ["power_armor_basic", 50],
+      ["rm13_armor", 20],
+      ["power_armor_light", 30],
+      ["power_armor_heavy", 30],
+      ["modularvesthard", 50],
+      ["minireactor", 10],
+      ["recipe_caseless", 50],
+      ["alloy_plate", 100],
+      ["pocketwatch", 50],
+      ["sf_watch", 100],
+      ["survnote", 30],
+      ["l-stick", 100]
+    ]
   } 
  ]

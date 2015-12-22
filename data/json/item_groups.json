@@ -283,38 +283,6 @@
     ]
   },{
     "type" : "item_group",
-    "id" : "vault",
-    "items":[
-      ["purifier", 12],
-      ["plut_cell", 10],
-      ["ftk93", 1],
-      ["nx17", 1],
-      ["canister_goo", 8],
-      ["UPS_off", 5],
-      ["adv_UPS_off", 3],
-      ["gold", 10],
-      ["silver", 30],
-      ["plasma_engine", 1],
-      ["bio_time_freeze", 10],
-      ["bio_teleport", 10],
-      ["bio_probability_travel", 10],
-      ["recipe_mil_augs", 3],
-      ["power_armor_basic", 5],
-      ["rm13_armor", 2],
-      ["power_armor_light", 3],
-      ["power_armor_heavy", 3],
-      ["modularvesthard", 5],
-      ["minireactor", 1],
-      ["recipe_caseless", 5],
-      ["alloy_plate", 10],
-      ["money_bundle", 90],
-      ["pocketwatch", 5],
-      ["sf_watch", 10],
-      ["survnote", 3],
-      ["l-stick", 1]
-    ]
-  },{
-    "type" : "item_group",
     "id" : "mil_hw",
     "items":[
       ["flamethrower", 20],
