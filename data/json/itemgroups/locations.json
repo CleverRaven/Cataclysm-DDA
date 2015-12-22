@@ -1687,6 +1687,16 @@
     ]
   },{
     "type" : "item_group",
+    "id" : "mil_armor",
+    "subtype": "distribution",
+    "entries" : [
+      { "group": "military_clothes", "prob": 100 },
+      { "group": "military_armor", "prob": 20 },
+      { "group": "military_extras", "prob": 20 },
+      { "group": "military_helmets", "prob": 30 }
+    ]
+  },{
+    "type" : "item_group",
     "id" : "camping",
     "subtype": "distribution",
     "entries" : [
