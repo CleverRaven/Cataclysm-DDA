@@ -424,6 +424,7 @@
             { "group": "everyday_gear", "prob": 30 }
         ]
     },
+    {
         "type" : "item_group",
         "id" : "bionics_mil",
         "subtype": "distribution",
@@ -704,7 +705,7 @@
     "items":[
       ["lens", 15]
     ]
-    {
+  },{
         "type" : "item_group",
         "subtype": "collection",
         "id": "jackson_drops",
