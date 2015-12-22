@@ -1948,25 +1948,6 @@
     ]
   },{
     "type" : "item_group",
-    "id" : "bookstore_misc",
-    "items":[
-      ["paper", 150],
-      ["wrapper", 25],
-      ["bubblewrap", 25],
-      ["permanent_marker", 50],
-      ["scissors", 25],
-      ["roadmap", 10],
-      ["touristmap", 5],
-      ["restaurantmap", 5],
-      ["magnifying_glass", 25],
-      ["glasses_reading", 50],
-      ["string_6", 25],
-      ["music_cd", 50],
-      ["candle", 20],
-      ["survnote", 1]
-    ]
-  },{
-    "type" : "item_group",
     "id" : "bags",
     "subtype": "distribution",
     "entries" : [
