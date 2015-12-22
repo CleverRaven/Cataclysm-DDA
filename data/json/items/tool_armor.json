@@ -1356,7 +1356,7 @@
             "type": "holster",
             "holster_prompt": "Sheath blade",
             "holster_msg": "You sheath your %s",
-            "draw_speed": 3,
+            "draw_cost": 3,
             "max_volume": 4,
             "flags": [ "SHEATH_KNIFE", "SHEATH_SWORD" ]
         }, "HAMMER", "HACKSAW", "LUMBER", "REMOVE_ALL_MODS" ],

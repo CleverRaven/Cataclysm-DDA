@@ -46,6 +46,7 @@ List of known flags, used in both terrain.json and furniture.json
 - ```PAINFUL``` May cause a small amount of pain.
 - ```ROUGH``` May hurt the player's feet.
 - ```SEALED``` Can't use `e` to retrieve items; must smash them open first.
+- ```LIQUIDCONT``` Furniture that contains liquid, allows for contents to be accessed in some checks even if 'SEALED'.
 - ```NOITEM``` Items 'fall off' this space.
 - ```DESTROY_ITEM``` Items that land here are destroyed.
 - ```GOES_DOWN``` Can use `>` to go down a level.
@@ -57,6 +58,8 @@ List of known flags, used in both terrain.json and furniture.json
 - ```NO_FLOOR```
 - ```RAMP```
 - ```RAMP_END```
+- ```SEEN_FROM_ABOVE```
+- ```LADDER``` This piece of furniture that makes climbing easy (works only with z-level mode).
 - ```MINEABLE``` Can be mined with a pickaxe/jackhammer.
 - ```INDOORS``` Has a roof over it; blocks rain, sunlight, etc.
 - ```THIN_OBSTACLE``` Passable by players and monsters; vehicles destroy it.
@@ -83,6 +86,7 @@ List of known flags, used in both terrain.json and furniture.json
 - ```UNSTABLE``` Walking here cause the bouldering effect on the character.
 - ```HARVESTED``` Marks the harvested version of a terrain type (e.g. harvesting an apple tree turns it into a harvested tree, which later becomes an apple tree again).
 - ```ROAD``` Flat and hard enough to drive or skate (with rollerblades) on.
+- ```SALT_WATER``` Source of salt water (works for terrains with examine action "water_source").
 - ```DEEP_WATER```
 - ```AUTO_WALL_SYMBOL``` (only for terrain) The symbol of this terrain will be one of the line drawings (corner, T-intersection, straight line etc.) depending on the adjacent terrains.
 - ```ALLOW_FIELD_EFFECT``` Apply field effects to items inside ```SEALED``` terrain/furniture.
@@ -204,7 +208,9 @@ Flags used to describe monsters and define their properties and abilities.
 - ```GRABS``` Its attacks may grab you!
 - ```BASHES``` Bashes down doors.
 - ```GROUP_BASH``` Gets help from monsters around it when bashing.
-- ```PUSH_MON```
+- ```GROUP_MORALE``` More courageous when near friends.
+- ```SWARMS``` Groups together and form loose packs.
+- ```PUSH_MON``` Can push creatures out of its way.
 - ```DESTROYS``` Bashes down walls and more. (2.5x bash multiplier, where base is the critter's max melee bashing)
 - ```BORES``` Tunnels through just about anything (15x bash multiplier: dark wyrms' bash skill 12->180)
 - ```POISON``` Poisonous to eat.
@@ -213,6 +219,7 @@ Flags used to describe monsters and define their properties and abilities.
 - ```PARALYZE``` Attack may paralyze the player with venom.
 - ```BLEED``` Causes the player to bleed.
 - ```WEBWALK``` Doesn't destroy webs.
+- ```CLIMBS``` Can climb.
 - ```DIGS``` Digs through the ground.
 - ```CAN_DIG``` Can dig _and_ walk.
 - ```FLIES``` Can fly (over water, etc.)
@@ -227,6 +234,7 @@ Flags used to describe monsters and define their properties and abilities.
 - ```ACIDTRAIL``` Leaves a trail of acid.
 - ```SLUDGEPROOF``` Ignores the effect of sludge trails.
 - ```SLUDGETRAIL``` Causes the monster to leave a sludge trap trail when moving.
+- ```FIREPROOF``` Immune to fire.
 - ```FIREY``` Burns stuff and is immune to fire.
 - ```QUEEN``` When it dies, local populations start to die off too.
 - ```ELECTRONIC``` e.g. A Robot; affected by emp blasts and other stuff.
@@ -257,11 +265,15 @@ Flags used to describe monsters and define their properties and abilities.
 - ```ACID_BLOOD``` Makes monster bleed acid. Fun stuff! Does not automatically dissolve in a pool of acid on death.
 - ```BILE_BLOOD``` Makes monster bleed bile.
 - ```REGEN_MORALE``` Will stop fleeing if at max hp, and regen anger and morale.
+- ```CBM_CIV``` May produce a common CBM a power CBM when butchered.
 - ```CBM_POWER``` May produce a power CBM when butchered, independent of CBM.
-- ```CBM_SCI``` May produce a cbm or two from bionics_sci when butchered.
-- ```CBM_OP``` May produce a cbm or two from bionics_op when butchered.
+- ```CBM_SUBS``` May produce a CBM or two from bionics_subs and a power CBM when butchered.
+- ```CBM_SCI``` May produce a CBM from 'bionics_sci' item group when butchered.
+- ```CBM_OP``` May produce a CBM or two from 'bionics_op' item group when butchered.
+- ```CBM_TECH``` May produce a CBM or two from 'bionics_tech' item group and a power CBM when butchered.
 - ```FISHABLE``` It is fishable.
 - ```INTERIOR_AMMO``` Monster contains ammo inside itself, no need to load on launch. Prevents ammo from being dropped on disable.
+- ```NIGHT_INVISIBILITY``` Monster becomes invisible if it's more than one tile away and the lighting on its tile is LL_LOW or less. Visibility is not affected by night vision.
 
 ### Special attacks
 Some special attacks are also valid use actions for tools and weapons.
@@ -417,6 +429,7 @@ These branches are also the valid entries for the categories of `dreams` in `dre
 - ```SHARP``` Striking a monster with this part does cutting damage instead of bashing damage, and prevents stunning the monster.
 - ```PROTRUSION``` Part sticks out so no other parts can be installed over it.
 - ```WHEEL``` Counts as a wheel in wheel calculations.
+- ```STEERABLE``` This wheel is steerable.
 - ```STABLE``` Similar to `WHEEL`, but if the vehicle is only a 1x1 section, this single wheel counts as enough wheels.
 - ```ENGINE``` Is an engine and contributes towards vehicle mechanical power.
 - ```ALTERNATOR``` Recharges batteries installed on the vehicle.
@@ -582,12 +595,11 @@ listings, as ids are constant throughout DDA's code.  Happy chambering!  :-)
 - ```LASER``` Creates a trail of laser (the field type)
 - ```NEVER_MISFIRES``` Firing ammo without this flag may trigger a misfiring, this is independent of the weapon flags.
 - ```RECYCLED``` (For handmade ammo) causes the gun to misfire sometimes, this independent of the weapon flags.
-- ```WHIP``` Special sounds for whips and has a chance of disarming the opponent.
 - ```NOGIB``` Prevents overkill damage on the target (target won't explode into gibs, see also the monster flag NO_GIBS).
 - ```WIDE``` Prevents `HARDTOSHOOT` monster flag from having any effect. Implied by ```SHOT``` or liquid ammo.
 - ```BLINDS_EYES``` Blinds the target if it hits the head (ranged projectiles can't actually hit the eyes at the moment).
 - ```ACID_DROP``` Creates a tiny field of weak acid.
-- ```RECOVER_[X]``` where X is any of 3, 5, 10, 15, 25 - Has a (X-1/X) chance to create a single charge of the used ammo at the point of impact.
+- ```RECOVER_[X]``` Has a (X-1/X) chance to create a single charge of the used ammo at the point of impact.
 - ```NO_EMBED``` When an item would be spawned from the projectile, it will always be spawned on the ground rather than in monster's inventory. Implied for active thrown items. Doesn't do anything on projectiles that do not drop items.
 - ```NO_ITEM_DAMAGE``` Will not damage items on the map even when it otherwise would try to.
 - ```DRAW_AS_LINE``` Doesn't go through regular bullet animation, instead draws a line and the bullet on its end for one frame.
@@ -769,6 +781,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```STAB``` Deals stabbing damage, with a moderate chance of getting stuck. The `STAB` flag is synonymous with the `SPEAR` flag.
 - ```SLICE``` Deals cutting damage, with a low chance of getting stuck.
 - ```MESSY``` Resistant to getting stuck in a monster. Potentially cause more gore in the future?
+- ```WHIP``` Has a chance of disarming the opponent.
 - ```NON_STUCK``` Resistant to getting stuck in a monster; not as large of an effect as `MESSY`.
 - ```UNARMED_WEAPON``` Wielding this item still counts as unarmed combat.
 - ```NO_UNWIELD``` Cannot unwield this item.
@@ -796,9 +809,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```STR_RELOAD``` Reload speed is affected by strength.
 - ```RELOAD_EJECT``` Ejects shell from gun on reload instead of when fired.
 - ```NO_BOOM``` Cancels the ammo effect "FLAME".
-- ```STR8_DRAW``` Character needs at least strength 8 to use the full range of this bow, can not be used with less than 4 strength.
-- ```STR10_DRAW``` Character needs at least strength 10 to use the full range of this bow, can not be used with less than 5 strength.
-- ```STR12_DRAW``` Character needs at least strength 12 to use the full range of this bow, can not be used with less than 6 strength.
+- ```STR_DRAW``` Range with this weapon is reduced unless character has at least twice the required minimum strength
 - ```MOUNTED_GUN``` Gun can only be used on terrain / furniture with the "MOUNTABLE" flag.
 - ```WATERPROOF_GUN``` Gun does not rust and can be used underwater.
 - ```UNDERWATER_GUN``` Gun is optimized for usage underwater, does perform badly outside of water.
@@ -1028,6 +1039,9 @@ Those flags are added by the game code to specific items (that specific welder, 
 - ```AUT_START``` ... start in autumn.
 - ```WIN_START``` ... start in winter.
 - ```SUR_START``` ... surrounded start, zombies outside the starting shelter.
+- ```SCEN_ONLY``` Profession can be chosen only as part of the appropriate scenario.
+- ```BOARDED```
+- ```ALLOW_OUTSIDE```
 
 ## TODO
 

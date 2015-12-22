@@ -187,12 +187,13 @@
             ["aapc-mg", 250],
             ["apc-gl", 125]
         ]
-    },{ "type":"vehicle_group",
-	"id":"farm_vehicles",
-	"vehicles":[
-		["tractor_plow",1000],
-		["tractor_seed",1000],
-		["tractor_reaper",1000]
-	 ]
-      }
+    },{
+        "type":"vehicle_group",
+        "id":"farm_vehicles",
+        "vehicles":[
+            ["tractor_plow", 1000],
+            ["tractor_seed", 1000],
+            ["tractor_reaper", 1000]
+        ]
+    }
 ]

@@ -8,6 +8,8 @@ TEST_CASE("Test vsnprintf_rewrite") {
     CHECK(rewrite_vsnprintf("%%") == "%%");
     CHECK(rewrite_vsnprintf("") == "");
     CHECK(rewrite_vsnprintf("%s") == "%s");
+    CHECK(rewrite_vsnprintf("%1s") == "%1s");
+    CHECK(rewrite_vsnprintf("%27s") == "%27s");
     CHECK(rewrite_vsnprintf("%1$s") == "%s");
     CHECK(rewrite_vsnprintf("%2$s") == "%2$s");
     CHECK(rewrite_vsnprintf("%1$0.4f") == "%0.4f");

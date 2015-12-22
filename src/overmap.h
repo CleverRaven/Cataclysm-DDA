@@ -181,17 +181,6 @@ struct map_layer {
     std::vector<om_note> notes;
 };
 
-struct node
-{
- int x;
- int y;
- int d;
- int p;
-
- node(int xp, int yp, int dir, int pri) {x = xp; y = yp; d = dir; p = pri;}
- bool operator< (const node &n) const { return this->p > n.p; }
-};
-
 class overmap
 {
  public:
@@ -366,7 +355,7 @@ public:
     void move_hordes();
 
     static bool obsolete_terrain( const std::string &ter );
-    void convert_terrain( std::unordered_map<tripoint, std::string> &needs_conversion );
+    void convert_terrain( const std::unordered_map<tripoint, std::string> &needs_conversion );
 
     // drawing relevant data, e.g. what to draw
     struct draw_data_t {

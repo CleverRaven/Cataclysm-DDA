@@ -115,15 +115,18 @@ const recipe *select_crafting_recipe( int &batch_size )
     int lastid = -1;
 
     WINDOW *w_head = newwin( headHeight, width, 0, wStart );
+    WINDOW_PTR w_head_ptr( w_head );
     WINDOW *w_subhead = newwin( subHeadHeight, width, 3, wStart );
+    WINDOW_PTR w_subhead_ptr( w_subhead );
     WINDOW *w_data = newwin( dataHeight, width, headHeight + subHeadHeight, wStart );
+    WINDOW_PTR w_data_ptr( w_data );
 
     int item_info_x = infoWidth;
     int item_info_y = dataHeight - 3;
     int item_info_width = wStart + width - infoWidth;
     int item_info_height = headHeight + subHeadHeight;
 
-    if ( !isWide ) {
+    if( !isWide ) {
         item_info_x = 1;
         item_info_y = 1;
         item_info_width = 1;
@@ -131,6 +134,7 @@ const recipe *select_crafting_recipe( int &batch_size )
     }
 
     WINDOW *w_iteminfo = newwin( item_info_y, item_info_x, item_info_height, item_info_width );
+    WINDOW_PTR w_iteminfo_ptr( w_iteminfo );
 
     list_circularizer<std::string> tab( craft_cat_list );
     list_circularizer<std::string> subtab( craft_subcat_list[tab.cur()] );
@@ -201,7 +205,7 @@ const recipe *select_crafting_recipe( int &batch_size )
         // Clear the screen of recipe data, and draw it anew
         werase( w_data );
 
-        if ( isWide ) {
+        if( isWide ) {
             werase( w_iteminfo );
         }
 
@@ -388,17 +392,17 @@ const recipe *select_crafting_recipe( int &batch_size )
                 if( lastid != current[line]->id ) {
                     lastid = current[line]->id;
                     tmp = current[line]->create_result();
-                    tmp.info(true, thisItem);
+                    tmp.info( true, thisItem );
                 }
-                draw_item_info(w_iteminfo, tmp.tname(), tmp.type_name(), thisItem, dummy,
-                               scroll_pos, true, true, true, false, true);
+                draw_item_info( w_iteminfo, tmp.tname(), tmp.type_name(), thisItem, dummy,
+                                scroll_pos, true, true, true, false, true );
             }
         }
 
         draw_scrollbar( w_data, line, dataLines, recmax, 0 );
         wrefresh( w_data );
 
-        if ( isWide ) {
+        if( isWide ) {
             wrefresh( w_iteminfo );
         }
 
@@ -497,14 +501,6 @@ const recipe *select_crafting_recipe( int &batch_size )
             line = 0;
         }
     } while( !done );
-
-    werase( w_head );
-    werase( w_subhead );
-    werase( w_data );
-    delwin( w_head );
-    delwin( w_subhead );
-    delwin( w_data );
-    g->refresh_all();
 
     return chosen;
 }

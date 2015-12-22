@@ -59,12 +59,15 @@ cata_tiles *tilecontext;
 static unsigned long lastupdate = 0;
 static unsigned long interval = 25;
 static bool needupdate = false;
+extern bool tile_iso;
 
 #ifdef SDL_SOUND
 /** The music we're currently playing. */
 Mix_Music *current_music = NULL;
 std::string current_playlist = "";
 size_t current_playlist_at = 0;
+size_t absolute_playlist_at = 0;
+std::vector<std::size_t> playlist_indexes;
 
 struct sound_effect {
     int volume;
@@ -1759,7 +1762,7 @@ bool input_context::get_coordinates(WINDOW* capture_win, int& x, int& y) {
         return false;
     }
 
-    if (tilecontext->tile_iso) {
+    if (tile_iso) {
         const int selected_column = (coordinate_x - win_left)/fw - (coordinate_y - win_top - fh - (capture_win->height * fh)/2)/(fw/2);
         const int selected_row = (coordinate_x - win_left)/fw + (coordinate_y - win_top - fh - (capture_win->height * fh)/2)/(fw/2);
         // add_msg( m_info, "c %d r %d", selected_column, selected_row );
@@ -2041,12 +2044,14 @@ void musicFinished() {
     }
 
     // Load the next file to play.
-    current_playlist_at++;
+    absolute_playlist_at++;
 
     // Wrap around if we reached the end of the playlist.
-    if( current_playlist_at >= list.entries.size() ) {
-        current_playlist_at = 0;
+    if( absolute_playlist_at >= list.entries.size() ) {
+        absolute_playlist_at = 0;
     }
+
+    current_playlist_at = playlist_indexes.at( absolute_playlist_at );
 
     const auto &next = list.entries[current_playlist_at];
     play_music_file( next.file, next.volume );
@@ -2069,10 +2074,17 @@ void play_music(std::string playlist) {
         return;
     }
 
-    current_playlist = playlist;
-    current_playlist_at = 0;
+    for( size_t i = 0; i < list.entries.size(); i++ ) {
+        playlist_indexes.push_back( i );
+    }
+    if( list.shuffle ) {
+        std::random_shuffle( playlist_indexes.begin(), playlist_indexes.end() );
+    }
 
-    const auto &next = list.entries[0];
+    current_playlist = playlist;
+    current_playlist_at = playlist_indexes.at( absolute_playlist_at );
+
+    const auto &next = list.entries[current_playlist_at];
     play_music_file( next.file, next.volume );
 #else
     (void)playlist;

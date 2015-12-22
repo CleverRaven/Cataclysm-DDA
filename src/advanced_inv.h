@@ -215,22 +215,38 @@ class advanced_inventory_pane
 {
     private:
         aim_location area = NUM_AIM_LOCATIONS;
+        aim_location prev_area = area;
         // pointer to the square this pane is pointing to
         bool viewing_cargo = false;
+        bool prev_viewing_cargo = false;
     public:
         // set the pane's area via its square, and whether it is viewing a vehicle's cargo
         void set_area(advanced_inv_area &square, bool in_vehicle_cargo = false)
         {
+            prev_area = area;
+            prev_viewing_cargo = viewing_cargo;
             area = square.id;
             viewing_cargo = square.can_store_in_vehicle() && in_vehicle_cargo;
+        }
+        void restore_area() {
+            area = prev_area;
+            viewing_cargo = prev_viewing_cargo;
         }
         aim_location get_area() const
         {
             return area;
         }
+        bool prev_in_vehicle() const
+        {
+            return prev_viewing_cargo;
+        }
         bool in_vehicle() const
         {
             return viewing_cargo;
+        }
+        bool on_ground() const
+        {
+            return area > AIM_INVENTORY && area < AIM_DRAGGED;
         }
         /**
          * Index of the selected item (index of @ref items),

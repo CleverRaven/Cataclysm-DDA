@@ -30,8 +30,10 @@
 # Disable gettext, on some platforms the dependencies are hard to wrangle.
 #  make LOCALIZE=0
 # Compile localization files for specified languages
-#  make LANGUAGES="<lang_id_1>[ lang_id_2][ ...]"
+#  make localization LANGUAGES="<lang_id_1>[ lang_id_2][ ...]"
 #  (for example: make LANGUAGES="zh_CN zh_TW" for Chinese)
+#  make localization LANGUAGES=all
+#  (for every .po file in lang/po)
 # Change mapsize (reality bubble size)
 #  make MAPSIZE=<size>
 # Install to system directories.
@@ -46,6 +48,12 @@
 #  make DYNAMIC_LINKING=1
 # Use MSYS2 as the build environment on Windows
 #  make MSYS2=1
+# Astyle the currently whitelisted source files.
+#  make astyle
+# Check if the currently whitelisted source files are styled properly (regression test).
+#  make astyle-check
+# Astyle all source files using the current rules (don't PR this, it's too many changes at once).
+#  make astyle-all
 
 # comment these to toggle them as one sees fit.
 # DEBUG is best turned on if you plan to debug in gdb -- please do!
@@ -97,7 +105,7 @@ LUASRC_DIR = src/lua
 # if you have LUAJIT installed, try make LUA_BINARY=luajit for extra speed
 LUA_BINARY = lua
 LOCALIZE = 1
-
+ASTYLE_BINARY = astyle
 
 # tiles object directories are because gcc gets confused # Appears that the default value of $LD is unsuitable on most systems
 
@@ -135,7 +143,11 @@ LDFLAGS += $(PROFILE)
 # enable optimizations. slow to build
 ifdef RELEASE
   ifeq ($(NATIVE), osx)
-    CXXFLAGS += -O3
+    ifeq ($(shell $(CXX) -E -Os - < /dev/null > /dev/null 2>&1 && echo fos),fos)
+      CXXFLAGS += -Os
+    else
+      CXXFLAGS += -O3
+    endif
   else
     CXXFLAGS += -Os
     LDFLAGS += -s
@@ -145,6 +157,8 @@ ifdef RELEASE
   OTHERS += $(RELEASE_FLAGS)
   DEBUG =
   DEFINES += -DRELEASE
+  # Do an astyle regression check on release builds.
+  ASTYLE = astyle-check
 endif
 
 ifdef CLANG
@@ -158,6 +172,14 @@ ifdef CLANG
   else
     CXX = $(CROSS)clang++
     LD  = $(CROSS)clang++
+  endif
+endif
+
+ifndef RELEASE
+  ifeq ($(shell $(CXX) -E -Og - < /dev/null > /dev/null 2>&1 && echo fog),fog)
+    CXXFLAGS += -Og
+  else
+    CXXFLAGS += -O0
   endif
 endif
 
@@ -498,7 +520,7 @@ ifeq ($(USE_XDG_DIR),1)
   DEFINES += -DUSE_XDG_DIR
 endif
 
-all: version $(TARGET) $(L10N) tests
+all: version $(ASTYLE) $(TARGET) $(L10N) tests
 	@
 
 $(TARGET): $(ODIR) $(DDIR) $(OBJS)
@@ -669,6 +691,12 @@ app: appclean version data/osx/AppIcon.icns $(TILESTARGET)
 	cp -R data/title $(APPDATADIR)
 	# bundle libc++ to fix bad buggy version on osx 10.7
 	LIBCPP=$$(otool -L $(TILESTARGET) | grep libc++ | sed -n 's/\(.*\.dylib\).*/\1/p') && cp $$LIBCPP $(APPRESOURCESDIR)/ && cp $$(otool -L $$LIBCPP | grep libc++abi | sed -n 's/\(.*\.dylib\).*/\1/p') $(APPRESOURCESDIR)/
+ifdef LANGUAGES
+	ditto lang/mo $(APPRESOURCESDIR)/lang/mo
+endif
+ifeq ($(LOCALIZE), 1)
+	LIBINTL=$$(otool -L $(TILESTARGET) | grep libintl | sed -n 's/\(.*\.dylib\).*/\1/p') && cp $$LIBINTL $(APPRESOURCESDIR)/
+endif
 ifdef SOUND
 	cp -R data/sound $(APPDATADIR)
 endif  # ifdef SOUND
@@ -718,6 +746,25 @@ ctags: $(SOURCES) $(HEADERS)
 etags: $(SOURCES) $(HEADERS)
 	etags $(SOURCES) $(HEADERS)
 	find data -name "*.json" -print0 | xargs -0 -L 50 etags --append
+
+astyle:
+	$(ASTYLE_BINARY) --options=.astylerc -n $(shell cat data/astyled_whitelist)
+
+astyle-all: $(SOURCES) $(HEADERS)
+	$(ASTYLE_BINARY) --options=.astylerc -n $(SOURCES) $(HEADERS)
+
+# Test whether the system has a version of astyle that supports --dry-run
+ifeq ($(shell if $(ASTYLE_BINARY) -Q -X --dry-run src/game.h > /dev/null; then echo foo; fi),foo)
+ASTYLE_CHECK=$(shell $(ASTYLE_BINARY) --options=.astylerc --dry-run -X -Q $(shell cat data/astyled_whitelist))
+endif
+
+astyle-check: $(SOURCES) $(HEADERS)
+ifdef ASTYLE_CHECK
+	@if [ "$(findstring Formatted,$(ASTYLE_CHECK))" = "" ]; then echo "no astyle regressions";\
+        else printf "astyle regressions found.\n$(ASTYLE_CHECK)\n" && false; fi
+else
+	@echo Cannot run an astyle check, your system either does not have astyle, or it is too old.
+endif
 
 tests: version cataclysm.a
 	$(MAKE) -C tests

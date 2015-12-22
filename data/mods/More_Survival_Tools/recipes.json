@@ -1153,9 +1153,9 @@
   "category": "CC_AMMO",
   "subcategory": "CSC_AMMO_ARROWS",
   "skill_used": "fabrication",
-  "skills_required": [ "archery", 1 ],
+  "skills_required": [[ "archery", 1 ], [ "survival", 1]],
   "difficulty": 2,
-  "time": 7500,
+  "time": 12500,
   "reversible": false,
   "autolearn": true,
   "qualities" : [
@@ -1163,11 +1163,11 @@
   ],
   "components": [
     [
-      [ "superglue", 10 ],
-      [ "bone_glue", 10 ],
-      [ "thread", 20, "NO_RECOVER" ],
-      [ "sinew", 20, "NO_RECOVER" ],
-      [ "plant_fibre", 20, "NO_RECOVER" ]
+      [ "superglue", 1 ],
+      [ "bone_glue", 1 ],
+      [ "thread", 20 ],
+      [ "sinew", 20 ],
+      [ "plant_fibre", 20 ]
     ],
     [
       [ "bone", 5 ],
@@ -1175,6 +1175,14 @@
       [ "bone_tainted", 10 ]
     ],
     [
+      [ "feather", 10 ],
+      [ "duct_tape", 40 ],
+      [ "bag_plastic", 1 ],
+      [ "bottle_plastic", 1 ],
+      [ "bottle_plastic_small", 1 ],
+      [ "box_small", 1 ],
+      [ "plastic_chunk", 1 ],
+      [ "aluminum_foil", 1 ],
       [ "fletching", 10 ]
     ]
   ]

@@ -18,14 +18,7 @@ There are a couple of guidelines we suggest sticking to:
 
 ## Code Style
 
-Current policy is to only update code to the standard style when changing a substantial portion of it, but **please** do this in a separate commit. Blocks of code can be passed through astyle
-to ensure that their formatting is correct:
-
-    astyle --style=1tbs --indent=spaces=4 --align-pointer=name --max-code-length=100 --break-after-logical --indent-classes --indent-switches --indent-preprocessor --indent-col1-comments --min-conditional-indent=0 --pad-oper --add-brackets --convert-tabs
-
-For example, from vi, set marks a and b around the block, then:
-
-    :'a,'b ! astyle --style=1tbs --indent=spaces=4 --align-pointer=name --max-code-length=100 --break-after-logical --indent-classes --indent-switches --indent-preprocessor --indent-col1-comments --min-conditional-indent=0 --pad-oper --add-brackets --convert-tabs
+Current policy is to only update code to the standard style when changing a substantial portion of it, but **please** do this in a separate commit. See doc/CODE_STYLE.txt for details
 
 ## Translations
 
