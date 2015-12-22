@@ -1894,8 +1894,7 @@
     ]
   },{
     "type":"item_group",
-    "id":"survivorweapons",
-    "comment": "Please add only weapons and ammo that are easy to scavenge or create ",
+    "id":"stash_weapons",
     "guns_with_ammo" : true,
     "subtype": "distribution",
     "entries" : [
@@ -1916,16 +1915,7 @@
     ]
   },{
     "type" : "item_group",
-    "id" : "survival_armor",
-    "subtype": "distribution",
-    "entries" : [
-      { "group": "survivor_clothes", "prob": 100 },
-      { "item": "UPS_off", "prob": 2 },
-      { "item": "adv_UPS_off", "prob": 1 }
-    ]
-  },{
-    "type" : "item_group",
-    "id" : "survival_tools",
+    "id" : "stash_tools",
     "subtype": "distribution",
     "entries" : [
       { "group": "camping_gear", "prob": 300 },
@@ -1957,6 +1947,15 @@
       { "item": "tinfoil_hat", "prob": 10 },
       { "item": "survivormap", "prob": 15 },
       { "item": "survnote", "prob": 50 }
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "survival_armor",
+    "subtype": "distribution",
+    "entries" : [
+      { "group": "survivor_clothes", "prob": 100 },
+      { "item": "UPS_off", "prob": 2 },
+      { "item": "adv_UPS_off", "prob": 1 }
     ]
   },{
     "type" : "item_group",
