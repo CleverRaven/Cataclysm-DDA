@@ -2288,7 +2288,51 @@
       { "item": "antifungal", "prob": 5 },
       { "item": "antiparasitic", "prob": 5 }
     ]
- },{
+  },{
+    "type" : "item_group",
+    "id" : "survival_armor",
+    "subtype": "distribution",
+    "entries" : [
+      { "group": "survivor_clothes", "prob": 100 },
+      { "item": "UPS_off", "prob": 2 },
+      { "item": "adv_UPS_off", "prob": 1 }
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "survival_tools",
+    "subtype": "distribution",
+    "entries" : [
+      { "group": "camping_gear", "prob": 300 },
+      { "group": "military_gear", "prob": 200 },
+      { "group": "lighting_tools", "prob": 60 },
+      { "group": "fire_tools", "prob": 60 },
+      { "group": "adv_electronics", "prob": 20 },
+      { "group": "military_extras", "prob": 50 },
+      { "group": "military_storage", "prob": 40 },
+      { "group": "gun_storage", "prob": 20 },
+      { "group": "water_storage", "prob": 10 },
+      { "group": "camping_surv_books", "prob": 30 },
+      { "group": "emergency_drugs", "prob": 70 },
+      { "group": "civilian_bionics", "prob": 10 },
+      { "item": "fire_ax", "prob": 25 },
+      { "item": "halligan", "prob": 30 },
+      { "item": "crowbar", "prob": 10 },
+      { "item": "toolbox", "prob": 60 },
+      { "item": "UPS_off", "prob": 10 },
+      { "item": "adv_UPS_off", "prob": 5 },
+      { "item": "binoculars", "prob": 50 },
+      { "item": "small_repairkit", "prob": 50 },
+      { "item": "gun_crossbow", "prob": 20 },
+      { "item": "signal_flare", "prob": 50 },
+      { "item": "grenade", "prob": 25 },
+      { "item": "EMPbomb", "prob": 25 },
+      { "item": "shavingkit", "prob": 15 },
+      { "item": "elec_hairtrimmer", "prob": 5 },
+      { "item": "tinfoil_hat", "prob": 10 },
+      { "item": "survivormap", "prob": 15 },
+      { "item": "survnote", "prob": 50 }
+    ]
+  },{
     "type" : "item_group",
     "id" : "army_personal_locker",
     "subtype": "distribution",
@@ -2324,7 +2368,7 @@
       { "item": "mag_comic", "prob": 20 },
       { "item": "mag_guns", "prob": 20 }
     ]
-    },{
+  },{
     "type" : "item_group",
     "id" : "army_bed",
     "subtype": "distribution",
