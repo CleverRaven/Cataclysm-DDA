@@ -3429,16 +3429,31 @@
       { "item": "scrap", "prob": 50, "count-min": 4, "count-max": 8 },    
       { "item": "glass_shard", "prob": 50, "count-min": 3, "count-max": 6 },    
       { "item": "steel_chunk", "prob": 90, "count-min": 1, "count-max": 4 },    
-      { "item": "steel_lump", "prob": 80 },    
+      { "item": "steel_lump", "prob": 120 },    
       { "item": "wire", "prob": 50 },    
       { "item": "pipe", "prob": 50 },    
-      { "item": "rock", "prob": 80 },
-      { "item": "cu_pipe", "prob": 50 },
-      { "item": "frame","damage-min": 1,"damage-max": 4, "prob": 50 },    
+      { "item": "bearing", "prob": 40 },
+      { "item": "cu_pipe", "prob": 30 },  
+      { "item": "steel_plate","damage-min": 1,"damage-max": 4, "prob": 30 },    
+      { "item": "hard_plate","damage-min": 1,"damage-max": 4, "prob": 30 },    
+      { "item": "frame","damage-min": 1,"damage-max": 4, "prob": 150 },    
       { "item": "hdframe","damage-min": 1,"damage-max": 4, "prob": 20 },    
       { "item": "chain","damage-min": 1,"damage-max": 4, "prob": 20 },    
       { "item": "spring","damage-min": 1,"damage-max": 4, "prob": 50 }    
     ]
+  },{
+    "type" : "item_group",
+    "id" : "building_rubble",
+    "items" : [
+      ["rock", 25],
+      ["scrap", 10],
+      ["splinter", 10],
+      ["rebar", 25],
+      ["nail", 5],
+      ["glass_shard", 15],
+      ["wire", 5],
+      ["splinter", 20]
+      ]
   },{
     "type" : "item_group",
     "id" : "forage_spring",
