@@ -14,15 +14,6 @@
     ]
   },{
     "type" : "item_group",
-    "id" : "cop_torso",
-    "items":[
-      ["dress_shirt", 60],
-      ["under_armor", 20],
-      ["sheriffshirt", 5],
-      ["jacket_light", 50]
-    ]
-  },{
-    "type" : "item_group",
     "id" : "swat_gear",
     "subtype": "distribution",
     "items":[
@@ -62,47 +53,6 @@
       ["helmet_lobster", 10],
       ["goggles_nv", 5],
       ["UPS_off", 10]
-    ]
-  },{
-    "type" : "item_group",
-    "id" : "swimmer_head",
-    "items":[
-      ["goggles_swim", 90],
-      ["wetsuit_hood", 30],
-      ["fancy_sunglasses", 1],
-      ["rebreather", 1],
-      ["fitover_sunglasses", 5],
-      ["sunglasses", 10]
-    ]
-  },{
-    "type" : "item_group",
-    "id" : "swimmer_torso",
-    "items":[
-      ["bikini_top", 50],
-      ["dive_bag", 5],
-      ["flotation_vest", 10]
-    ]
-  },{
-    "type" : "item_group",
-    "id" : "swimmer_pants",
-    "items":[
-      ["trunks", 80],
-      ["bikini_bottom", 35],
-      ["hot_pants", 30]
-    ]
-  },{
-    "type" : "item_group",
-    "id" : "swimmer_shoes",
-    "items":[
-      ["flip_flops", 80],
-      ["swim_fins", 20]
-    ]
-  },{
-    "type" : "item_group",
-    "id" : "swimmer_wetsuit",
-    "items":[
-        ["wetsuit", 90],
-        ["wetsuit_spring", 10]
     ]
   },{
     "type" : "item_group",
