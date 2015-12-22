@@ -680,28 +680,28 @@ void cata_tiles::load_ascii_set( JsonObject &entry, int offset, int size )
 
 void cata_tiles::load_tilejson_from_file( JsonObject &config, int offset, int size )
 {
-    if ( !config.has_member( "tiles" ) ) {
+    if( !config.has_member( "tiles" ) ) {
         config.throw_error( "\"tiles\" section missing" );
     }
 
     JsonArray tiles = config.get_array( "tiles" );
-    while ( tiles.has_more() ) {
+    while( tiles.has_more() ) {
         JsonObject entry = tiles.next_object();
 
         std::vector<std::string> ids;
-        if ( entry.has_string( "id" ) ) {
+        if( entry.has_string( "id" ) ) {
             ids.push_back( entry.get_string( "id" ) );
         } else if ( entry.has_array( "id" ) ) {
             ids = entry.get_string_array( "id" );
         }
-        for ( auto t_id : ids ) {
-        tile_type &curr_tile = load_tile( entry, t_id, offset, size );
+        for( auto t_id : ids ) {
+            tile_type &curr_tile = load_tile( entry, t_id, offset, size );
             bool t_multi = entry.get_bool( "multitile", false );
             bool t_rota = entry.get_bool( "rotates", t_multi );
-            if ( t_multi ) {
+            if( t_multi ) {
                 // fetch additional tiles
                 JsonArray subentries = entry.get_array( "additional_tiles" );
-                while ( subentries.has_more() ) {
+                while( subentries.has_more() ) {
                     JsonObject subentry = subentries.next_object();
                     const std::string s_id = subentry.get_string( "id" );
                     const std::string m_id = t_id + "_" + s_id;
