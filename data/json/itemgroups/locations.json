@@ -401,7 +401,6 @@
       { "item": "mutagen", "prob": 10 },
       { "item": "canister_goo", "prob": 5 },
       { "item": "id_science", "prob": 5 }
-
     ]
   },{
     "type" : "item_group",
@@ -1481,23 +1480,6 @@
       ["crucible", 20],
       ["anvil", 40],
       ["pitchfork", 20]
-    ]
-  },{
-    "type" : "item_group",
-    "id" : "construction_worker",
-    "subtype": "distribution",
-    "entries" : [
-      { "group": "worker_boots", "prob": 50 },
-      { "group": "worker_coats", "prob": 30 },
-      { "group": "worker_gloves", "prob": 60 },
-      { "group": "worker_helmets", "prob": 80 },
-      { "group": "worker_masks", "prob": 60 },
-      { "group": "worker_extras", "prob": 65 },
-      { "item": "flashlight", "prob": 80 },
-      { "item": "electric_lantern", "prob":50 },
-      { "item": "battery", "prob": 100 },
-      { "item": "jumpsuit", "prob": 50 },
-      { "item": "toolbox", "prob": 5 }
     ]
   },{
     "type" : "item_group",
