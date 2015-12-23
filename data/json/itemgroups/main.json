@@ -1110,6 +1110,7 @@
     "entries":[
       {"item": "flashlight", "prob": 500, "charges-min": 75, "charges-max": 100 },
       {"item": "heavy_flashlight", "prob": 50, "charges-min": 50, "charges-max": 200 },
+      {"item": "wearable_light_on", "prob": 50, "charges-min": 50, "charges-max": 200 },
       {"item": "glowstick", "prob": 100 },
       {"item": "handflare", "prob": 100 },
       {"item": "gasoline_lantern", "prob": 50, "charges-min": 400, "charges-max": 500 },
