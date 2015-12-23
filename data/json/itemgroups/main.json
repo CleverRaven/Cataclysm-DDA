@@ -925,6 +925,7 @@
       ["bat_metal", 60],
       ["knife_butcher", 50],
       ["machete", 40],
+      ["iceaxe", 30],
       ["chain", 20],
       ["hammer", 55],
       ["wrench", 40],
@@ -1114,6 +1115,7 @@
       {"item": "oil_lamp", "prob": 50, "charges-min": 600, "charges-max": 800 },
       {"item": "lamp_oil", "prob": 60 },
       {"item": "smart_lamp", "prob": 5, "charges-min": 750, "charges-max": 100 },
+      {"item": "l-stick", "prob": 1 },
       {"item": "atomic_light", "prob": 2 },
       {"item": "atomic_lamp", "prob": 1 }
     ]
@@ -1209,6 +1211,7 @@
       {"item": "aluminum_foil", "prob": 200 },
       {"item": "microwave", "prob": 200 },
       {"item": "pot", "prob": 200 },
+      {"item": "pot_copper", "prob": 50 },
       {"item": "teapot", "prob": 200 },
       {"item": "pan", "prob": 200 },
       {"item": "clock", "prob": 50 },
@@ -1377,6 +1380,7 @@
       ["halligan", 20],
       ["fire_ax", 20],
       ["machete", 30],
+      ["iceaxe", 30],
       ["nailgun", 70],
       ["carver_off", 50],
       ["bullwhip", 1],
@@ -2166,6 +2170,7 @@
       ["bio_memory", 50],
       ["bio_painkiller", 50],
       ["bio_ears", 50],
+      ["bio_armor_eyes", 20],
       ["bio_int_enhancer", 80],
       ["bio_night_vision", 40],
       ["bio_infrared", 40],
@@ -3495,7 +3500,6 @@
     "items" : [
       ["rock", 25],
       ["scrap", 10],
-      ["splinter", 10],
       ["rebar", 25],
       ["nail", 5],
       ["glass_shard", 15],
@@ -3598,6 +3602,7 @@
         { "item": "wolfsuit", "prob": 50 },
         { "collection": [
           { "item": "maid_dress"},
+          { "item": "long_glove_white"},
           { "item": "maid_hat"}
         ], "prob": 50 },
         { "collection": [

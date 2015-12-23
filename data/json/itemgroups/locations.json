@@ -665,7 +665,8 @@
       ["pan", 80],
       ["waffleiron", 25],
       ["teapot", 25],
-      ["pot", 80]
+      ["pot", 80],
+      ["pot_copper", 40]
     ]
   },{
     "type" : "item_group",
@@ -1145,11 +1146,12 @@
   },{
     "type" : "item_group",
     "id" : "file_room",
-    "items" : [
-      ["file", 100],
-      ["record_accounting", 10],
-      ["paper", 80],
-      ["safe_box", 1]
+    "entries" : [
+      { "group": "paper_trash", "prob": 50 },
+      { "item": "file", "prob": 100},
+      { "item": "record_accounting", "prob": 15 },
+      { "item": "paper", "prob": 80 },
+      { "item": "safe_box", "prob": 25 }
     ]
   },{
     "type" : "item_group",
@@ -1205,7 +1207,7 @@
       { "item": "battery", "prob": 40 },
       { "item": "survnote", "prob": 10 }
     ]
- },{
+  },{
     "type" : "item_group",
     "id" : "doctorsoffice",
     "subtype": "distribution",
