@@ -4954,24 +4954,6 @@ int iuse::arrow_flamable(player *p, item *it, bool, const tripoint& )
     return 1;
 }
 
-int iuse::molotov(player *p, item *it, bool, const tripoint& )
-{
-    if (p->is_underwater()) {
-        p->add_msg_if_player(m_info, _("You can't do that while underwater."));
-        return 0;
-    }
-    if (!p->use_charges_if_avail("fire", 1)) {
-        p->add_msg_if_player(m_info, _("You need a source of fire!"));
-        return 0;
-    }
-    p->add_msg_if_player(_("You light the Molotov cocktail."));
-    p->moves -= 150;
-    it->make("molotov_lit");
-    it->bday = int(calendar::turn);
-    it->active = true;
-    return it->type->charges_to_use();
-}
-
 int iuse::molotov_lit(player *p, item *it, bool t, const tripoint &pos)
 {
     int age = int(calendar::turn) - it->bday;

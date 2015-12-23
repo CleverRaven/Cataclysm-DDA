@@ -3603,7 +3603,15 @@
     "ammo": "NULL",
     "revert_to": "null",
     "category": "weapons",
-    "use_action": "MOLOTOV"
+    "use_action": {
+        "type": "transform",
+        "target": "molotov_lit",
+        "target_charges": 1,
+        "active": true,
+        "need_fire": 1,
+        "need_fire_msg": "You need a source of fire!",
+        "msg": "You light the Molotov cocktail."
+    }
   },
 
   {
