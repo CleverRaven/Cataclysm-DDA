@@ -446,7 +446,7 @@ void MonsterGenerator::load_monster(JsonObject &jo)
         newmon->sk_dodge = jo.get_int("dodge", 0);
         newmon->armor_bash = jo.get_int("armor_bash", 0);
         newmon->armor_cut = jo.get_int("armor_cut", 0);
-        newmon->armor_acid = jo.get_int("armor_acid", 0);
+        newmon->armor_acid = jo.get_int("armor_acid", newmon->armor_cut / 2);
         newmon->armor_fire = jo.get_int("armor_fire", 0);
         newmon->hp = jo.get_int("hp", 0);
         jo.read("starting_ammo", newmon->starting_ammo);
