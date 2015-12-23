@@ -11996,9 +11996,8 @@ bool game::ramp_move( const tripoint &dest_loc )
         return false;
     }
 
-    // We're moving from a ramp onto an obstacle
     if( !m.has_flag( TFLAG_RAMP, u.pos() ) ||
-        m.move_cost_ter_furn( dest_loc ) > 0 ) {
+        m.passable( dest_loc ) ) {
         return false;
     }
 
