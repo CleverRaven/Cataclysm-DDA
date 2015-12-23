@@ -7541,7 +7541,7 @@
         "price" : 9000,
         "symbol" : "[",
         "color" : "ltgray",
-        "description" : "A holster for larger sidearms. Slightly more cumbersome than a standard holster due to the straps that hold it flat against your leg, but has the benefit of accommodating heavily modified handguns and small shoulder-fired weapons. Activate to holster/draw a gun.",
+        "description" : "A holster for larger sidearms.  Slightly more cumbersome than a standard holster due to the straps that hold it flat against your leg, but has the benefit of accommodating heavily modified handguns and small shoulder-fired weapons.  Activate to holster/draw a gun.",
         "to_hit" : -1,
         "material" : ["leather", "iron"],
         "covers" : ["LEG_EITHER"],
