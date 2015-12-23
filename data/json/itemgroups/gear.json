@@ -673,7 +673,7 @@
     "id" : "rain_clothes",
     "subtype": "distribution",
     "entries" : [
-      { "group": "rain_boots", "prob": 30 },
+      { "group": "rain_footwear", "prob": 30 },
       { "group": "rain_outerwear", "prob": 100 },
       { "group": "rain_hats", "prob": 30 }
     ]
