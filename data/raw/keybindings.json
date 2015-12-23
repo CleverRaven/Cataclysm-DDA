@@ -2380,7 +2380,7 @@
     },
     {
         "type" : "keybinding",
-        "id": "SEW",
+        "id": "repair_fabric",
         "category": "ITEM_ACTIONS",
         "name": "Sew",
         "bindings":[
@@ -2416,7 +2416,7 @@
     },
     {
         "type" : "keybinding",
-        "id": "SOLDER_WELD",
+        "id": "repair_metal",
         "category": "ITEM_ACTIONS",
         "name": "Solder/Weld",
         "bindings":[

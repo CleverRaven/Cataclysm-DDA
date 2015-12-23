@@ -333,7 +333,17 @@
     "turns_per_charge": 0,
     "ammo": "thread",
     "revert_to": "null",
-    "use_action": "SEW"
+    "use_action": {
+        "type": "repair_item",
+        "item_action_type" : "repair_fabric",
+        "materials": [
+            "cotton", "leather", "wool", "fur", "nomex"
+        ],
+        "skill": "tailor",
+        "cost_scaling": 0,
+        "tool_quality": 0,
+        "move_cost": 1000
+    }
   },
 
   {
@@ -357,7 +367,19 @@
     "turns_per_charge": 0,
     "ammo": "thread",
     "revert_to": "null",
-    "use_action": "SEW_ADVANCED",
+    "use_action": [
+        {
+            "type": "repair_item",
+            "item_action_type" : "repair_fabric",
+            "materials": [
+                "cotton", "leather", "wool", "fur", "nomex"
+            ],
+            "skill": "tailor",
+            "cost_scaling": 0,
+            "tool_quality": 1,
+            "move_cost": 800
+        },
+        "SEW_ADVANCED" ],
     "qualities": [["CUT", 1]]
   },
 
@@ -1631,7 +1653,16 @@
     "ammo": "battery",
     "revert_to": "null",
     "use_action": [
-        "SOLDER_WELD",
+        {
+            "type": "repair_item",
+            "item_action_type" : "repair_metal",
+            "materials": [
+                "kevlar", "plastic", "iron", "steel", "hardsteel", "aluminum", "copper"
+            ],
+            "skill": "mechanics",
+            "cost_scaling": 0.25,
+            "move_cost": 1500
+        },
         {
             "type": "cauterize",
             "flame": false
@@ -4765,7 +4796,17 @@
     "ammo": "battery",
     "revert_to": "null",
     "use_action": [
-        "SOLDER_WELD",
+        {
+            "type": "repair_item",
+            "item_action_type" : "repair_metal",
+            "materials": [
+                "kevlar", "plastic", "iron", "steel", "hardsteel", "aluminum", "copper"
+            ],
+            "skill": "mechanics",
+            "cost_scaling": 0.25,
+            "move_cost": 500,
+            "tool_quality": 3
+        },
         {
             "type": "cauterize",
             "flame": false
@@ -6891,7 +6932,7 @@
     "symbol": ";",
     "color": "white",
     "name": "bone needle",
-    "description": "This is sharp needle made from a bone.  It would be useful for making rough clothing and items",
+    "description": "This is sharp needle made from a bone.  It would be useful for making rough clothing and items.  Its low quality makes it rather unsuitable for anything requiring speed or precision.",
     "price": 0,
     "material": "bone",
     "flags": "STAB",
@@ -6906,7 +6947,17 @@
     "turns_per_charge": 0,
     "ammo": "thread",
     "revert_to": "null",
-    "use_action": "SEW"
+    "use_action": {
+        "type": "repair_item",
+        "item_action_type" : "repair_fabric",
+        "materials": [
+            "cotton", "leather", "wool", "fur", "nomex"
+        ],
+        "skill": "tailor",
+        "cost_scaling": 0,
+        "tool_quality": -1,
+        "move_cost": 1300
+    }
   },
 
    {
@@ -6916,7 +6967,7 @@
     "symbol": ";",
     "color": "brown",
     "name": "wooden needle",
-    "description": "This is a wooden needle whittled down to a sharp point.  It has a narrow hole carved into the head for threading.",
+    "description": "This is a wooden needle whittled down to a sharp point.  It has a narrow hole carved into the head for threading.  Its low quality makes it rather unsuitable for anything requiring speed or precision.",
     "price": 0,
     "material": "wood",
     "flags": "STAB",
@@ -6931,7 +6982,17 @@
     "turns_per_charge": 0,
     "ammo": "thread",
     "revert_to": "null",
-    "use_action": "SEW"
+    "use_action": {
+        "type": "repair_item",
+        "item_action_type" : "repair_fabric",
+        "materials": [
+            "cotton", "leather", "wool", "fur", "nomex"
+        ],
+        "skill": "tailor",
+        "cost_scaling": 0,
+        "tool_quality": -1,
+        "move_cost": 1500
+    }
   },
 
   {
@@ -8111,7 +8172,17 @@
     "ammo": "battery",
     "revert_to": "null",
     "use_action": [
-        "SOLDER_WELD",
+        {
+            "type": "repair_item",
+            "item_action_type" : "repair_metal",
+            "materials": [
+                "kevlar", "plastic", "iron", "steel", "hardsteel", "aluminum", "copper"
+            ],
+            "skill": "mechanics",
+            "cost_scaling": 0.25,
+            "move_cost": 1000,
+            "tool_quality": 3
+        },
         {
             "type": "cauterize",
             "flame": false
