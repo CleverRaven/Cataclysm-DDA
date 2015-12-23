@@ -964,7 +964,7 @@ void Item_factory::load_basic_info(JsonObject &jo, itype *new_item_template)
     new_item_template->volume = jo.get_int("volume");
     new_item_template->weight = jo.get_int("weight");
     new_item_template->melee_dam = jo.get_int("bashing");
-    new_item_template->melee_cut = jo.get_int("cutting");
+    new_item_template->melee_cut = jo.get_int("cutting", 0);
     new_item_template->m_to_hit = jo.get_int("to_hit");
 
     new_item_template->min_str = jo.get_int( "min_strength",     0 );
