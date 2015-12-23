@@ -2253,6 +2253,34 @@
     ]
   },{
     "type" : "item_group",
+    "id" : "stalker_guns",
+    "//" : "cheeki breeki.",
+    "items":[
+      ["tokarev", 50],
+      ["makarov", 50],
+      ["skorpion_61", 35],
+      ["skorpion_82", 35],
+      ["sks", 50],
+      ["mosin91_30", 75],
+      ["mosin44", 50],
+      ["ak47", 100],
+      ["ak74", 50],
+      ["an94", 50]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "stalker_ammo",
+    "items":[
+      ["32_acp", 50],
+      ["9x18mm", 200],
+      ["545", 40],
+      ["762_m43", 100],
+      ["762_m87", 20],
+      ["762_25", 50],
+      ["762_54R", 50]
+    ]
+  },{
+    "type" : "item_group",
     "id" : "primitive_underwear_top",
     "items":[
       ["chestwrap", 10],

@@ -281,6 +281,7 @@
       ["raging_bull", 30],
       ["sw_500", 10],
       ["l_bak_223", 10],
+      ["lemat_revolver", 1],
       ["rm99_pistol", 10],
       ["rm103a_pistol", 10],
       ["needlepistol", 20]
@@ -352,6 +353,7 @@
       ["rm120c", 20],
       ["rm20", 5],
       ["ksg", 5],
+      ["lemat_revolver", 1],
       ["combination_gun_shotgun", 3]
     ]
   },{
