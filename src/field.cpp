@@ -1757,14 +1757,8 @@ void map::player_in_field( player &u )
             int total_damage = 0;
             // Use a helper for a bit less boilerplate
             const auto burn_part = [&]( body_part bp, const int scale ) {
-                const int corr = u.get_effect_int( "corroding", bp );
-                // Acid resistance itself protects the items,
-                //  environmental protection is needed to prevent it from getting inside.
-                // Also rescale arpen for different body parts - they get damaged less, but aren't
-                //  protected any better.
-                const int arpen = std::max<int>( 0, corr - u.get_env_resist( bp ) + (5 - scale) );
                 const int damage = std::max<int>( density, rng( 1, scale ) );
-                auto ddi = u.deal_damage( nullptr, bp, damage_instance( DT_ACID, damage, arpen ) );
+                auto ddi = u.deal_damage( nullptr, bp, damage_instance( DT_ACID, damage ) );
                 total_damage += ddi.total_damage();
                 // Represents acid seeping in rather than being splashed on
                 u.add_env_effect( "corroding", bp, 3, rng( 1, density ), bp, false, 0 );
