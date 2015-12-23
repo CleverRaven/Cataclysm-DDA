@@ -22,7 +22,7 @@
     "subtype": "distribution",
     "entries" : [
       { "group": "female_shoes", "prob": 100 },
-      { "group": "roller_shoes", "prob": 5 },
+      { "group": "roller_footwear", "prob": 5 },
       { "item": "sneakers", "prob": 25 },
       { "item": "boots_rubber", "prob": 5 },
       { "item": "clogs", "prob": 2 },

@@ -251,7 +251,7 @@
         [
             { "item": "corpse", "damage": 3 },
             { "group": "underwear", "damage-min": 1, "damage-max": 3 },
-            { "group": "military_boots", "damage-min": 1, "damage-max": 4 },
+            { "group": "military_footwear", "damage-min": 1, "damage-max": 4 },
             { "item": "socks", "damage-min": 1, "damage-max": 4 },
             { "distribution": [
                 { "collection": [
@@ -268,7 +268,7 @@
             { "group": "military_extras", "damage-min": 0, "damage-max": 4, "prob": 10 },
             { "distribution": [
                 { "group": "military_armor", "damage-min": 0, "damage-max": 4, "prob": 15 },
-                { "group": "military_coats", "damage-min": 1, "damage-max": 4, "prob": 85 }
+                { "group": "military_outerwear", "damage-min": 1, "damage-max": 4, "prob": 85 }
             ], "prob": 50 },
             { "group": "military_gear", "prob": 86 },
             { "item": "id_military", "prob": 12 }
@@ -318,7 +318,7 @@
             { "group": "underwear", "damage-min": 1, "damage-max": 3 },
             { "group": "science_footwear", "damage-min": 1, "damage-max": 3 },
             { "item": "socks", "damage-min": 1, "damage-max": 3, "prob": 50 },
-            { "group": "science_coats", "damage-min": 1, "damage-max": 3 },
+            { "group": "science_outerwear", "damage-min": 1, "damage-max": 3 },
             { "distribution": [
                 { "collection": [
                     { "group": "pants", "damage-min": 1, "damage-max": 3 },

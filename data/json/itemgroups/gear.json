@@ -277,7 +277,7 @@
       ["vest_leather", 10],
       ["jacket_army", 5],
       ["coat_rain", 50],
-      ["great_coat", 15],
+      ["greatcoat", 15],
       ["trenchcoat", 15],
       ["sleeveless_trenchcoat", 5],
       ["trenchcoat_leather", 5],
@@ -572,7 +572,7 @@
     "id" : "winter_outerwear",
     "items":[
       ["coat_winter", 100],
-      ["great_coat", 100],
+      ["greatcoat", 100],
       ["coat_fur", 30],
       ["coat_fur_sf", 5],
       ["peacoat", 80],
