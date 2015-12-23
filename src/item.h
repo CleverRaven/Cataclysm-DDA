@@ -33,6 +33,8 @@ using matec_id = string_id<ma_technique>;
 class Skill;
 using skill_id = string_id<Skill>;
 
+enum damage_type : int;
+
 std::string const& rad_badge_color(int rad);
 
 struct light_emission {
@@ -532,12 +534,20 @@ public:
      * Larger values means more resistance are thereby better, but there is no absolute value to
      * compare them to. The values can be interpreted as chance (@ref one_in) of damaging the item
      * when exposed to the type of damage.
+     * @param to_self If this is true, it returns item's own resistance, not one it gives to wearer.
      */
     /*@{*/
-    int bash_resist() const;
-    int cut_resist() const;
-    int acid_resist() const;
+    int bash_resist( bool to_self = false ) const;
+    int cut_resist ( bool to_self = false )  const;
+    int stab_resist( bool to_self = false ) const;
+    int acid_resist( bool to_self = false ) const;
+    int fire_resist( bool to_self = false ) const;
     /*@}*/
+
+    /**
+     * Resistance provided by this item against damage type given by an enum.
+     */
+    int damage_resist( damage_type dt, bool to_self = false ) const;
 
     /**
      * Returns resistance to being damaged by attack against the item itself.

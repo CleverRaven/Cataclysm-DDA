@@ -12792,6 +12792,34 @@ int player::get_armor_cut(body_part bp) const
     return get_armor_cut_base(bp) + armor_cut_bonus;
 }
 
+int player::get_armor_type( damage_type dt, body_part bp ) const
+{
+    switch( dt ) {
+        case DT_TRUE:
+            return 0;
+        case DT_BIOLOGICAL:
+            return 0;
+        case DT_BASH:
+            return get_armor_bash( bp );
+        case DT_CUT:
+            return get_armor_cut( bp );
+        case DT_ACID:
+            return get_armor_acid( bp );
+        case DT_STAB:
+            return get_armor_cut( bp ) * 0.8f;
+        case DT_HEAT:
+            return get_armor_fire( bp );
+        case DT_COLD:
+            return 0;
+        case DT_ELECTRIC:
+            return 0;
+        default:
+            debugmsg( "Invalid damage type: %d", dt );
+    }
+
+    return 0;
+}
+
 int player::get_armor_bash_base(body_part bp) const
 {
     int ret = 0;
@@ -12914,6 +12942,30 @@ int player::get_armor_cut_base(body_part bp) const
     return ret;
 }
 
+int player::get_armor_acid(body_part bp) const
+{
+    int ret = 0;
+    for( auto &i : worn ) {
+        if( i.covers( bp ) ) {
+            ret += i.acid_resist();
+        }
+    }
+
+    return ret;
+}
+
+int player::get_armor_fire(body_part bp) const
+{
+    int ret = 0;
+    for( auto &i : worn ) {
+        if( i.covers( bp ) ) {
+            ret += i.fire_resist();
+        }
+    }
+
+    return ret;
+}
+
 bool player::armor_absorb(damage_unit& du, item& armor) {
     if( rng( 1, 100 ) > armor.get_coverage() ) {
         return false;
@@ -12927,10 +12979,10 @@ bool player::armor_absorb(damage_unit& du, item& armor) {
     const float mitigation = std::min(effective_resist, du.amount);
     du.amount -= mitigation; // mitigate the damage first
 
-    if( mitigation <= 0 ) {
-        // If it doesn't protect from it at all, it's some weird type,
-        // like electricity (which should not damage clothing)
-        // or fire (for which resistance isn't implemented yet so it would slice power armor)
+    // We want armor's own resistance to this type, not the resistance it grants
+    const int armors_own_resist = resistances( armor, true ).type_resist( du.type );
+    if( armors_own_resist > 1000 ) {
+        // This is some weird type that doesn't damage armors
         return false;
     }
 
@@ -12945,48 +12997,56 @@ bool player::armor_absorb(damage_unit& du, item& armor) {
     // Don't damage armor as much when bypassed by armor piercing
     // Most armor piercing damage comes from bypassing armor, not forcing through
     const int raw_dmg = du.amount;
-    const int raw_armor = res.type_resist( du.type );
-    if( (raw_dmg > raw_armor && !one_in(du.amount) && one_in(2)) ||
-        // or if it isn't, but 1/50 chance
-        (raw_dmg <= raw_armor && !armor.has_flag("STURDY") &&
-         !armor.is_power_armor() && one_in(200)) ) {
-
-        auto &material = armor.get_random_material();
-        std::string damage_verb = ( du.type == DT_BASH ) ?
-            material.bash_dmg_verb() : material.cut_dmg_verb();
-
-        const std::string pre_damage_name = armor.tname();
-        const std::string pre_damage_adj = armor.get_base_material().
-            dmg_adj(armor.damage);
-
-        // add "further" if the damage adjective and verb are the same
-        std::string format_string = ( pre_damage_adj == damage_verb ) ?
-            _("Your %1$s is %2$s further!") : _("Your %1$s is %2$s!");
-        add_msg_if_player( m_bad, format_string.c_str(), pre_damage_name.c_str(),
-                           damage_verb.c_str());
-        //item is damaged
-        if( is_player() ) {
-            SCT.add(posx(), posy(), NORTH, remove_color_tags( pre_damage_name ),
-                    m_neutral, damage_verb, m_info);
+    if( raw_dmg > armors_own_resist ) {
+        // If damage is above armor value, the chance to avoid armor damage is
+        // 50% + 50% * 1/dmg
+        if( one_in( raw_dmg ) || one_in( 2 ) ) {
+            return false;
         }
-
-        if (armor.has_flag("FRAGILE")) {
-            armor.damage += rng(2,3);
-        } else {
-            armor.damage++;
-        }
-
-        if( armor.damage >= 5 ) {
-            //~ %s is armor name
-            add_memorial_log( pgettext("memorial_male", "Worn %s was completely destroyed."),
-                              pgettext("memorial_female", "Worn %s was completely destroyed."),
-                              pre_damage_name.c_str() );
-            add_msg_player_or_npc( m_bad, _("Your %s is completely destroyed!"),
-                                   _("<npcname>'s %s is completely destroyed!"),
-                                   pre_damage_name.c_str() );
-            return true;
+    } else {
+        // Sturdy items and power armors never take chip damage.
+        // Other armors have 0.5% of getting damaged from hits below their armor value.
+        if( armor.has_flag("STURDY") || armor.is_power_armor() || !one_in( 200 ) ) {
+            return false;
         }
     }
+
+    auto &material = armor.get_random_material();
+    std::string damage_verb = ( du.type == DT_BASH ) ?
+        material.bash_dmg_verb() : material.cut_dmg_verb();
+
+    const std::string pre_damage_name = armor.tname();
+    const std::string pre_damage_adj = armor.get_base_material().
+        dmg_adj(armor.damage);
+
+    // add "further" if the damage adjective and verb are the same
+    std::string format_string = ( pre_damage_adj == damage_verb ) ?
+        _("Your %1$s is %2$s further!") : _("Your %1$s is %2$s!");
+    add_msg_if_player( m_bad, format_string.c_str(), pre_damage_name.c_str(),
+                       damage_verb.c_str());
+    //item is damaged
+    if( is_player() ) {
+        SCT.add(posx(), posy(), NORTH, remove_color_tags( pre_damage_name ),
+                m_neutral, damage_verb, m_info);
+    }
+
+    if (armor.has_flag("FRAGILE")) {
+        armor.damage += rng(2,3);
+    } else {
+        armor.damage++;
+    }
+
+    if( armor.damage >= 5 ) {
+        //~ %s is armor name
+        add_memorial_log( pgettext("memorial_male", "Worn %s was completely destroyed."),
+                          pgettext("memorial_female", "Worn %s was completely destroyed."),
+                          pre_damage_name.c_str() );
+        add_msg_player_or_npc( m_bad, _("Your %s is completely destroyed!"),
+                               _("<npcname>'s %s is completely destroyed!"),
+                               pre_damage_name.c_str() );
+        return true;
+    }
+
     return false;
 }
 

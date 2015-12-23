@@ -230,7 +230,8 @@
         "remove_memorial_log": "Put out the fire.",
         "apply_message": "You're on fire!",
         "apply_memorial_log": "Caught on fire.",
-        "rating": "bad"
+        "rating": "bad",
+        "max_duration": 10
     },
     {
         "type": "effect_type",
