@@ -4209,7 +4209,7 @@ void game::debug()
                         }
                         types.addentry( INT_MAX, true, -1, _( "Cancel" ) );
                         types.query();
-                        if( types.ret != INT_MAX && types.ret != UIMENU_INVALID ) {
+                        if( types.ret != INT_MAX && types.ret >= 0 ) {
                             np->add_new_mission( mission::reserve_new( static_cast<mission_type_id>( types.ret ),
                                                  np->getID() ) );
                         }
@@ -7921,7 +7921,7 @@ bool pet_menu(monster *z)
     amenu.query();
     int choice = amenu.ret;
 
-    if (cancel == choice || UIMENU_INVALID == choice) {
+    if (cancel == choice || choice < 0) {
         return false;
     }
 
