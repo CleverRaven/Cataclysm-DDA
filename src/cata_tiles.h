@@ -27,6 +27,7 @@ struct tile_type
     weighted_int_list<std::vector<int>> fg, bg;
     bool multitile = false;
     bool rotates = false;
+    int height_3d = 0;
     point offset = {0,0};
 
     std::vector<std::string> available_subtiles;
@@ -209,13 +210,23 @@ class cata_tiles
         void get_window_tile_counts(const int width, const int height, int &columns, int &rows) const;
 
         bool draw_from_id_string(std::string id, int x, int y, int subtile, int rota, lit_level ll,
-                                 bool apply_night_vision_goggles);
+                                 bool apply_night_vision_goggles );
         bool draw_from_id_string(std::string id, TILE_CATEGORY category,
                                  const std::string &subcategory, int x, int y, int subtile, int rota,
-                                 lit_level ll, bool apply_night_vision_goggles);
-        bool draw_sprite_at(const tile_type &tile, const weighted_int_list<std::vector<int>> &svlist, int x, int y, unsigned int loc_rand, int rota_fg, int rota, lit_level ll,
-                            bool apply_night_vision_goggles);  
-        bool draw_tile_at(const tile_type &tile, int x, int y, unsigned int loc_rand, int rota, lit_level ll, bool apply_night_vision_goggles);
+                                 lit_level ll, bool apply_night_vision_goggles );
+        bool draw_from_id_string(std::string id, int x, int y, int subtile, int rota, lit_level ll,
+                                 bool apply_night_vision_goggles, int &height_3d );
+        bool draw_from_id_string(std::string id, TILE_CATEGORY category,
+                                 const std::string &subcategory, int x, int y, int subtile, int rota,
+                                 lit_level ll, bool apply_night_vision_goggles, int &height_3d );
+        bool draw_sprite_at( const tile_type & tile, const weighted_int_list<std::vector<int>> &svlist,
+                             int x, int y, unsigned int loc_rand, int rota_fg, int rota, lit_level ll,
+                             bool apply_night_vision_goggles );
+        bool draw_sprite_at( const tile_type & tile, const weighted_int_list<std::vector<int>> &svlist,
+                             int x, int y, unsigned int loc_rand, int rota_fg, int rota, lit_level ll,
+                             bool apply_night_vision_goggles, int &height_3d );
+        bool draw_tile_at( const tile_type & tile, int x, int y, unsigned int loc_rand, int rota,
+                           lit_level ll, bool apply_night_vision_goggles, int &height_3d );
 
         /**
          * Redraws all the tiles that have changed since the last frame.
@@ -233,16 +244,16 @@ class cata_tiles
 
         /** Drawing Layers */
         void draw_single_tile( const tripoint &p, const lit_level ll,
-                               const visibility_variables &cache );
+                               const visibility_variables &cache, int &height_3d );
         bool apply_vision_effects( int x, int y, const visibility_type visibility);
-        bool draw_terrain( const tripoint &p, lit_level ll );
-        bool draw_furniture( const tripoint &p, lit_level ll );
-        bool draw_trap( const tripoint &p, lit_level ll );
-        bool draw_field_or_item( const tripoint &p, lit_level ll );
-        bool draw_vpart( const tripoint &p, lit_level ll );
-        bool draw_critter_at( const tripoint &p, lit_level ll );
-        bool draw_entity( const Creature &critter, const tripoint &p, lit_level ll );
-        void draw_entity_with_overlays( const player &pl, const tripoint &p, lit_level ll );
+        bool draw_terrain( const tripoint &p, lit_level ll, int &height_3d );
+        bool draw_furniture( const tripoint &p, lit_level ll, int &height_3d );
+        bool draw_trap( const tripoint &p, lit_level ll, int &height_3d );
+        bool draw_field_or_item( const tripoint &p, lit_level ll, int &height_3d );
+        bool draw_vpart( const tripoint &p, lit_level ll, int &height_3d );
+        bool draw_critter_at( const tripoint &p, lit_level ll, int &height_3d );
+        bool draw_entity( const Creature &critter, const tripoint &p, lit_level ll, int &height_3d );
+        void draw_entity_with_overlays( const player &pl, const tripoint &p, lit_level ll, int &height_3d );
 
         bool draw_item_highlight(int x, int y);
 
