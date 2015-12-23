@@ -1969,6 +1969,13 @@
     ]
   },{
     "type" : "item_group",
+    "id" : "survival_tools",
+    "subtype": "distribution",
+    "entries" : [
+      { "group": "stash_tools", "prob": 100 }
+    ]
+  },{
+    "type" : "item_group",
     "id" : "army_personal_locker",
     "subtype": "distribution",
     "entries" : [
