@@ -576,9 +576,7 @@ void npc::execute_action(npc_action action, int target)
     }
 
     if( oldmoves == moves ) {
-        dbg(D_ERROR) << "map::execute_action: NPC didn't use its moves.";
-        debugmsg("NPC didn't use its moves.  Action %d.  Turning on debug mode.", action);
-        debug_mode = true;
+        add_msg( m_debug, "NPC didn't use its moves.  Action %d.", action);
     }
 }
 

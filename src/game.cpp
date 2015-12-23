@@ -6128,7 +6128,11 @@ void game::monmove()
         }
         // If we spun too long trying to decide what to do (without spending moves),
         // Invoke cranial detonation to prevent an infinite loop.
-        if( turns == 10 ) {
+        if( turns == 9 ) {
+            debugmsg( "NPC %s entered infinite loop. Turning on debug mode",
+                np->name.c_str() );
+            debug_mode = true;
+        } else if( turns == 10 ) {
             add_msg( _( "%s's brain explodes!" ), np->name.c_str() );
             np->die( nullptr );
         }
