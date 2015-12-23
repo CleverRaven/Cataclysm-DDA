@@ -275,7 +275,7 @@
     "subtype": "distribution",
     "entries" : [
       { "item": "stick", "prob": 50 },
-      { "item": "rock", "prob": 50 }, 
+      { "item": "rock", "prob": 50 },
       { "group": "outdoor_trash", "prob": 100 },
       { "group": "nature_trash", "prob": 50 },
       { "group": "local_fruit", "prob": 270 },
@@ -396,33 +396,33 @@
     "entries" : [
       { "group": "mutagens", "prob": 150 },
       { "group": "iv_mutagens", "prob": 50 },
-      { "group": "mutagen_recipes", "prob": 50 },    
-      { "group": "chemicals", "prob": 100 },    
-      { "group": "chemistry_tools", "prob": 100 },    
-      { "group": "prescription_drugs", "prob": 10 },    
-      { "group": "science_eyewear", "prob": 50 },    
-      { "group": "science_gloves", "prob": 50 },    
-      { "group": "rad_gear", "prob": 10 },    
-      { "item": "pheromone", "count-min": 1, "count-max": 2,  "prob": 25 },    
-      { "item": "syringe", "prob": 25 },    
-      { "item": "meat_tainted", "count-min": 1, "count-max": 10,  "prob": 50 },    
-      { "item": "slime_scrap", "count-min": 1, "count-max": 10,  "prob": 50 },    
-      { "item": "veggy_tainted", "count-min": 1, "count-max": 10,  "prob": 50 } 
+      { "group": "mutagen_recipes", "prob": 50 },
+      { "group": "chemicals", "prob": 100 },
+      { "group": "chemistry_tools", "prob": 100 },
+      { "group": "prescription_drugs", "prob": 10 },
+      { "group": "science_eyewear", "prob": 50 },
+      { "group": "science_gloves", "prob": 50 },
+      { "group": "rad_gear", "prob": 10 },
+      { "item": "pheromone", "count-min": 1, "count-max": 2,  "prob": 25 },
+      { "item": "syringe", "prob": 25 },
+      { "item": "meat_tainted", "count-min": 1, "count-max": 10,  "prob": 50 },
+      { "item": "slime_scrap", "count-min": 1, "count-max": 10,  "prob": 50 },
+      { "item": "veggy_tainted", "count-min": 1, "count-max": 10,  "prob": 50 }
     ]
   },{
     "type" : "item_group",
     "id" : "cloning_vat",
     "items":[
       ["fetus", 15],
-      { "item": "meat_tainted", "count-min": 1, "count-max": 3,  "prob": 50 },    
-      { "item": "bone", "count-min": 4, "count-max": 12,  "prob": 50 },    
+      { "item": "meat_tainted", "count-min": 1, "count-max": 3,  "prob": 50 },
+      { "item": "bone", "count-min": 4, "count-max": 12,  "prob": 50 },
       ["arm", 50],
       ["leg", 50]
     ]
   },{
     "type" : "item_group",
     "id" : "dissection",
-    "items":[ 
+    "items":[
       { "item": "machete", "prob": 15 },
       { "item": "bandages", "prob": 30 },
       { "item": "cotton_ball", "prob": 30 },
@@ -431,15 +431,15 @@
       { "group": "science_gloves", "prob": 50 },
       { "group": "science_masks", "prob": 20 },
       { "group": "chemicals", "prob": 100 },
-      { "group": "chemistry_tools", "prob": 75 },    
-      { "group": "chemicals", "prob": 100 },    
-      { "group": "emergency_drugs", "prob": 10 },    
+      { "group": "chemistry_tools", "prob": 75 },
+      { "group": "chemicals", "prob": 100 },
+      { "group": "emergency_drugs", "prob": 10 },
       { "group": "prescription_drugs", "prob": 10 },
-      { "group": "rad_gear", "prob": 10 },    
-      { "group": "medical_books", "prob": 25 },    
-      { "group": "mutagen_recipes", "prob": 5 },    
-      { "group": "rad_gear", "prob": 10 },    
-      { "group": "rad_gear", "prob": 10 },    
+      { "group": "rad_gear", "prob": 10 },
+      { "group": "medical_books", "prob": 25 },
+      { "group": "mutagen_recipes", "prob": 5 },
+      { "group": "rad_gear", "prob": 10 },
+      { "group": "rad_gear", "prob": 10 },
       { "item": "subsuit_xl", "prob": 25 }
     ]
   },{
@@ -499,7 +499,7 @@
       { "group": "vegetables", "prob": 200 },
       { "group": "local_fruit", "prob": 200 },
       { "item": "cotton_boll", "prob":25 },
-      { "item": "withered", "prob": 75 },    
+      { "item": "withered", "prob": 75 },
       { "item": "straw_pile", "prob": 50 }
     ]
   },{
@@ -839,7 +839,7 @@
       { "group": "shotguns", "prob": 75 },
       { "group": "shotgun_ammo", "prob": 75 },
       { "group": "rifles", "prob": 100 },
-      { "group": "rifle_ammo", "prob": 75 },     
+      { "group": "rifle_ammo", "prob": 75 },
       { "group": "antique_guns", "prob": 50 },
       { "group": "antique_ammo", "prob": 75 },
       { "group": "archery", "prob": 50 },
@@ -1545,7 +1545,7 @@
       { "group": "ammo_parts", "prob": 50 },
       { "group": "gun_tools", "prob": 10 },
       { "group": "gun_mods", "prob": 150 },
-      { "group": "gun_storage", "prob": 100 },      
+      { "group": "gun_storage", "prob": 100 },
       { "item": "glasses_bal", "prob": 10 },
       { "item": "mask_bal", "prob": 5 },
       { "item": "goggles_ir", "prob": 1 },
@@ -2000,7 +2000,7 @@
       { "item": "pockknife", "prob": 30 },
       { "item": "glasses_safety", "prob": 45 },
       { "item": "eyedrops", "prob": 10, "charges-min": 1, "charges-max": 10 },
-      { "item": "pda", "prob": 20, "charges-min": 10, "charges-max": 95 },      
+      { "item": "pda", "prob": 20, "charges-min": 10, "charges-max": 95 },
       { "item": "multitool", "prob": 5 },
       { "item": "tool_belt", "prob": 20 },
       { "item": "sleeping_bag", "prob": 20 },
@@ -2053,5 +2053,5 @@
       ["survnote", 30],
       ["l-stick", 100]
     ]
-  } 
+  }
  ]

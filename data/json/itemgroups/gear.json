@@ -132,7 +132,7 @@
     "groups":[
       ["female_underwear", 50],
       ["male_underwear", 50]
-    ]      
+    ]
   },{
     "type" : "item_group",
     "id" : "male_footwear",
@@ -172,7 +172,7 @@
     "groups":[
       ["female_footwear", 50],
       ["male_footwear", 50]
-    ] 
+    ]
   },{
     "type" : "item_group",
     "id" : "male_pants",
@@ -648,7 +648,7 @@
       { "group": "winter_hats", "prob": 30 },
       { "group": "winter_masks", "prob": 30 },
       { "group": "winter_extras", "prob": 20 }
-    ]   
+    ]
   },{
     "type" : "item_group",
     "id" : "rain_footwear",
@@ -661,7 +661,7 @@
     "items":[
       ["coat_rain", 50],
       ["folding_poncho_on", 25]
-    ]  
+    ]
   },{
     "type" : "item_group",
     "id" : "rain_hats",
@@ -676,7 +676,7 @@
       { "group": "rain_boots", "prob": 30 },
       { "group": "rain_outerwear", "prob": 100 },
       { "group": "rain_hats", "prob": 30 }
-    ]  
+    ]
   },{
     "type" : "item_group",
     "id" : "rain_gear",
@@ -1196,7 +1196,7 @@
     "entries" : [
       { "item": "mbag" },
       { "item": "newest_newspaper", "count-min": 2, "count-max": 8 },
-      { "group": "paper_trash", "count-min": 2, "count-max": 8 } 
+      { "group": "paper_trash", "count-min": 2, "count-max": 8 }
     ]
   },{
     "type" : "item_group",
@@ -1551,7 +1551,7 @@
       ["smoxygen_tank", 75],
       ["oxygen_tank", 50],
       ["fire_ax", 100],
-      ["halligan", 50], 
+      ["halligan", 50],
       ["crowbar", 50],
       ["hammer_sledge", 50],
       ["boltcutters", 50],
@@ -2762,21 +2762,21 @@
       { "item": "sling", "prob": 10 },
       { "item": "crossbow", "prob": 60 },
       { "item": "hand_crossbow", "prob": 20 },
-      { "item": "shortbow", "prob": 50 },    
-      { "item": "sw_22", "prob": 50 },    
-      { "item": "sw_619", "prob": 50 },    
-      { "item": "sw629", "prob": 50 },    
-      { "item": "glock_19", "prob": 100 },    
-      { "item": "m1911", "prob": 100 },    
-      { "item": "tec9", "prob": 30 },    
-      { "item": "mac_10", "prob": 30 },    
-      { "item": "shotgun_s", "prob": 100 },    
-      { "item": "shotgun_d", "prob": 100 },    
-      { "item": "mossberg_500", "prob": 50 },    
-      { "item": "ruger_1022", "prob": 40 },    
-      { "item": "sks", "prob": 40 },    
-      { "item": "ruger_mini", "prob": 40 },    
-      { "item": "ar15", "prob": 30 },    
+      { "item": "shortbow", "prob": 50 },
+      { "item": "sw_22", "prob": 50 },
+      { "item": "sw_619", "prob": 50 },
+      { "item": "sw629", "prob": 50 },
+      { "item": "glock_19", "prob": 100 },
+      { "item": "m1911", "prob": 100 },
+      { "item": "tec9", "prob": 30 },
+      { "item": "mac_10", "prob": 30 },
+      { "item": "shotgun_s", "prob": 100 },
+      { "item": "shotgun_d", "prob": 100 },
+      { "item": "mossberg_500", "prob": 50 },
+      { "item": "ruger_1022", "prob": 40 },
+      { "item": "sks", "prob": 40 },
+      { "item": "ruger_mini", "prob": 40 },
+      { "item": "ar15", "prob": 30 },
       { "item": "garand", "prob": 40 }
     ]
   },{
@@ -2798,7 +2798,7 @@
       ["45_acp", 50],
       ["shot_bird", 30],
       ["shot_00", 50],
-      ["shot_slug", 30], 
+      ["shot_slug", 30],
       ["22_lr", 100],
       ["223", 70],
       ["308", 20],
@@ -2807,7 +2807,7 @@
       ["reloaded_45_acp", 50],
       ["reloaded_shot_bird", 30],
       ["reloaded_shot_00", 50],
-      ["reloaded_shot_slug", 30], 
+      ["reloaded_shot_slug", 30],
       ["reloaded_22_lr", 100],
       ["reloaded_223", 70],
       ["reloaded_308", 20],
@@ -3138,7 +3138,7 @@
       { "group": "elite_footwear", "prob": 50 },
       { "group": "scavenger_footwear", "prob": 50 },
       { "group": "primitive_footwear", "prob": 10 }
-    ] 
+    ]
   },{
     "type" : "item_group",
     "id" : "survivor_pants",
@@ -3217,7 +3217,7 @@
       { "group": "elite_helmets", "prob": 50 },
       { "group": "scavenger_helmets", "prob": 50 },
       { "group": "primitive_helmets", "prob": 10 }
-    ]    
+    ]
   },{
     "type" : "item_group",
     "id" : "survivor_masks",
@@ -3227,7 +3227,7 @@
       { "group": "elite_masks", "prob": 50 },
       { "group": "scavenger_masks", "prob": 50 },
       { "group": "primitive_masks", "prob": 10 }
-    ]     
+    ]
   },{
     "type" : "item_group",
     "id" : "survivor_eyewear",
@@ -3235,7 +3235,7 @@
     "entries":[
       { "group": "elite_eyewear", "prob": 50 },
       { "group": "scavenger_eyewear", "prob": 50 }
-    ]     
+    ]
   },{
     "type" : "item_group",
     "id" : "survivor_storage",

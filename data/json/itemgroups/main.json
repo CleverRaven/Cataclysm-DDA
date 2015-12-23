@@ -466,7 +466,7 @@
       ["762_51_incendiary", 0],
       ["270", 50],
       ["300_winmag", 50],
-      ["308", 100], 
+      ["308", 100],
       ["3006", 50],
       ["3006fmj", 20],
       ["3006_incendiary", 0],
@@ -541,7 +541,7 @@
       ["84x246mm_smoke", 50],
       ["m202_flash", 4],
       ["66mm_HEAT", 0],
-      ["120mm_HEAT", 0], 
+      ["120mm_HEAT", 0],
       ["mininuke_mod", 0]
     ]
   },{
@@ -595,7 +595,7 @@
     "items":[
       ["nailrifle", 100],
       ["rifle_9mm", 150],
-      ["rifle_22", 150],   
+      ["rifle_22", 150],
       ["rifle_308", 100],
       ["pipe_shotgunsawn", 100],
       ["pipe_double_shotgun", 70],
@@ -637,7 +637,7 @@
       ["reloaded_9mm", 300],
       ["reloaded_9mmP", 20],
       ["reloaded_9mmP2", 20],
-      ["reloaded_9mmfmj", 20],      
+      ["reloaded_9mmfmj", 20],
       ["reloaded_9x18mm", 10],
       ["reloaded_9x18mmP2", 5],
       ["reloaded_9x18mmfmj", 5],
@@ -834,7 +834,7 @@
     ]
   },{
     "type" : "item_group",
-    "id" : "grenades",    
+    "id" : "grenades",
     "comment" : "...Or anything thrown. High numbers here are to make the granade joke item rare enough.",
      "items":[
       ["mininuke", 300],
@@ -922,7 +922,7 @@
     "items":[
       ["stick", 60],
       ["2x4", 60],
-      ["rebar", 60],      
+      ["rebar", 60],
       ["bat", 60],
       ["bat_metal", 60],
       ["knife_butcher", 50],
@@ -1182,7 +1182,7 @@
       ["charcoal", 5],
       ["fungicide", 2],
       ["chem_hydrogen_peroxide", 20]
-    ] 
+    ]
   },{
     "type" : "item_group",
     "id" : "dining_tools",
@@ -1204,7 +1204,7 @@
       ["ceramic_cup", 50],
       ["bowl_pewter", 15],
       ["tin_plate", 10]
-    ]    
+    ]
   },{
     "type" : "item_group",
     "id" : "kitchen_tools",
@@ -1320,7 +1320,7 @@
       { "item": "software_hacking", "prob": 5 },
       { "item": "software_medical", "prob": 25 },
       { "item": "software_math", "prob": 25 }
-    ]  
+    ]
   },{
     "type" : "item_group",
     "id" : "adv_electronics",
@@ -1361,7 +1361,7 @@
       ["pliers", 30],
       ["saw", 20],
       ["ax", 10],
-      ["boltcutters", 30] 
+      ["boltcutters", 30]
     ]
   },{
     "type" : "item_group",
@@ -1895,7 +1895,7 @@
       ["seed_weed", 25],
       ["joint_roach", 100],
       ["pipe_glass", 20],
-      ["crackpipe", 10], 
+      ["crackpipe", 10],
       ["rolling_paper", 20],
       ["lsd", 50],
       ["crack", 50],
@@ -2545,7 +2545,7 @@
       ["manual_smg", 20],
       ["manual_launcher", 25]
     ]
-  },{    
+  },{
     "type" : "item_group",
     "id" : "camping_surv_books",
     "items":[
@@ -2586,7 +2586,7 @@
       ["scots_cookbook", 25],
       ["cookbook_sushi", 25],
       ["cookbook_human", 1]
-    ]    
+    ]
   },{
     "type" : "item_group",
     "id" : "child_books",
@@ -2878,7 +2878,7 @@
     ]
   },{
     "type" : "item_group",
-    "id" : "drinks", 
+    "id" : "drinks",
     "//" : "clean water excluded here, added seperately on other lists because it's so common.",
     "items":[
       ["water_clean", 0],
@@ -3141,7 +3141,7 @@
       ["seasoning_salt", 50],
       ["curry_powder", 15],
       ["chilly-p", 15]
-    ] 
+    ]
   },{
     "type" : "item_group",
     "id" : "cannedfood",
@@ -3481,20 +3481,20 @@
     "id" : "wreckage",
     "subtype": "distribution",
     "entries":[
-      { "item": "scrap", "prob": 50, "count-min": 4, "count-max": 8 },    
-      { "item": "glass_shard", "prob": 50, "count-min": 3, "count-max": 6 },    
-      { "item": "steel_chunk", "prob": 90, "count-min": 1, "count-max": 4 },    
-      { "item": "steel_lump", "prob": 120 },    
-      { "item": "wire", "prob": 50 },    
-      { "item": "pipe", "prob": 50 },    
+      { "item": "scrap", "prob": 50, "count-min": 4, "count-max": 8 },
+      { "item": "glass_shard", "prob": 50, "count-min": 3, "count-max": 6 },
+      { "item": "steel_chunk", "prob": 90, "count-min": 1, "count-max": 4 },
+      { "item": "steel_lump", "prob": 120 },
+      { "item": "wire", "prob": 50 },
+      { "item": "pipe", "prob": 50 },
       { "item": "bearing", "prob": 40 },
-      { "item": "cu_pipe", "prob": 30 },  
-      { "item": "steel_plate","damage-min": 1,"damage-max": 4, "prob": 30 },    
-      { "item": "hard_plate","damage-min": 1,"damage-max": 4, "prob": 30 },    
-      { "item": "frame","damage-min": 1,"damage-max": 4, "prob": 150 },    
-      { "item": "hdframe","damage-min": 1,"damage-max": 4, "prob": 20 },    
-      { "item": "chain","damage-min": 1,"damage-max": 4, "prob": 20 },    
-      { "item": "spring","damage-min": 1,"damage-max": 4, "prob": 50 }    
+      { "item": "cu_pipe", "prob": 30 },
+      { "item": "steel_plate","damage-min": 1,"damage-max": 4, "prob": 30 },
+      { "item": "hard_plate","damage-min": 1,"damage-max": 4, "prob": 30 },
+      { "item": "frame","damage-min": 1,"damage-max": 4, "prob": 150 },
+      { "item": "hdframe","damage-min": 1,"damage-max": 4, "prob": 20 },
+      { "item": "chain","damage-min": 1,"damage-max": 4, "prob": 20 },
+      { "item": "spring","damage-min": 1,"damage-max": 4, "prob": 50 }
     ]
   },{
     "type" : "item_group",
@@ -3592,7 +3592,7 @@
     "items":[
       {"item": "gasoline", "prob": 80, "charges-min": 450, "charges-max": 8000, "container-item": "jerrycan"},
       {"item": "gasoline", "prob": 20, "charges-min": 2650, "charges-max": 20000, "container-item": "jerrycan_big"}
-    ]  
+    ]
   },{
     "type" : "item_group",
     "id" : "kink",
@@ -3628,5 +3628,5 @@
       }
     ]
   }
-] 
+]
 

@@ -1,10 +1,10 @@
-[ 
+[
     {
       "type" : "item_group",
       "id" : "college_camping",
       "guns_with_ammo" : true,
       "subtype": "distribution",
-      "entries" : 
+      "entries" :
         [
             { "group": "camping_gear", "prob": 100 },
             { "group": "winter", "prob": 30 },
@@ -45,7 +45,7 @@
         "type" : "item_group",
         "id" : "college_sports",
         "subtype": "distribution",
-        "entries" : 
+        "entries" :
         [
             { "group": "everyday_gear", "prob": 50 },
             { "group": "sports_gear", "prob": 100 },
@@ -86,7 +86,7 @@
         "id" : "college_lake",
         "guns_with_ammo" : true,
         "subtype": "distribution",
-        "entries" : 
+        "entries" :
         [
             { "item": "camera", "prob": 10 },
             { "item": "weed", "prob": 50 },
@@ -125,7 +125,7 @@
         "type" : "item_group",
         "id" : "drugdealer",
         "subtype": "distribution",
-        "entries" : 
+        "entries" :
         [
             { "group": "everyday_gear", "prob": 80 },
             { "group": "jewelry", "prob": 50 },
@@ -151,7 +151,7 @@
             { "item": "RPG", "prob": 1 },
             { "item": "RPG-7_ammo", "prob": 2 },
             { "item": "survnote", "prob": 10 }
-        ] 
+        ]
     }, {
         "type" : "item_group",
         "subtype": "collection",
@@ -195,7 +195,7 @@
         "type" : "item_group",
         "id" : "military",
         "subtype": "distribution",
-        "entries" : 
+        "entries" :
         [
             { "group": "emergency_gear", "prob": 250 },
             { "group": "emergency_drugs", "prob": 200 },
@@ -259,7 +259,7 @@
                     { "group": "military_shirts", "damage-min": 1, "damage-max": 4 }
                 ], "prob": 75  },
                 { "item": "jumpsuit", "damage-min": 1, "damage-max": 4, "prob": 25 }
-            ], "prob": 100 },           
+            ], "prob": 100 },
             { "group": "military_gloves", "damage-min": 1, "damage-max": 4, "prob": 15 },
             { "group": "military_hats", "damage-min": 1, "damage-max": 4, "prob": 15 },
             { "group": "military_helmets", "damage-min": 0, "damage-max": 3, "prob": 25 },
@@ -277,7 +277,7 @@
         "type" : "item_group",
         "id" : "helicopter",
         "subtype": "distribution",
-        "entries" : 
+        "entries" :
         [
             { "group": "wreckage", "prob": 200 },
             { "group": "everyday_gear", "prob": 80 },

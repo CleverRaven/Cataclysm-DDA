@@ -65,7 +65,7 @@
        "id" : "bionics_common",
        "note" : "CBMs butchered from shocker zombies, cyborgs, et al.",
        "subtype": "distribution",
-       "entries" : 
+       "entries" :
        [
           { "group": "power_cbm", "prob": 20 },
           { "group": "civilian_cbm", "prob": 115 },
@@ -85,7 +85,7 @@
             { "distribution": [
                 { "item": "pants", "damage-min": 1, "damage-max": 4, "prob": 90 },
                 { "item": "subsuit_xl", "damage-min": 1, "damage-max": 4, "prob": 10 }
-            ] },            
+            ] },
             { "group": "default_zombie_items" },
             { "group": "everyday_gear", "damage-min": 1, "damage-max": 4, "prob": 30 }
         ]
@@ -138,12 +138,12 @@
         ]
     },
     {
-    
+
         "type" : "item_group",
         "id" : "bionics_tech",
         "subtype": "distribution",
         "note" : "CBMs butchered from technicians.",
-        "entries" : 
+        "entries" :
         [
             { "group": "power_cbm", "prob": 30 },
             { "group": "civilian_cbm", "prob": 50 },
@@ -159,7 +159,7 @@
       "id" : "bionics_subs",
       "subtype": "distribution",
       "note" : "CBMs butchered from shocker brutes.",
-      "entries" : 
+      "entries" :
       [
             { "group": "power_cbm", "prob": 60 },
             { "group": "civilian_cbm", "prob": 10 },
@@ -213,7 +213,7 @@
        "id" : "bionics_sci",
        "note" : "CBMs butchered from scientist zombies. includes small chance of military stuff.",
        "subtype": "distribution",
-       "entries" : 
+       "entries" :
        [
             { "group": "power_cbm", "prob": 10 },
             { "group": "science_cbm", "prob": 150 },
@@ -333,7 +333,7 @@
         "subtype": "collection",
         "id": "mon_zombie_soldier_death_drops",
         "entries":
-        [        
+        [
             { "group": "military_footwear", "damage-min": 1, "damage-max": 4 },
             { "group": "military_pants", "damage-min": 1, "damage-max": 4 },
             { "group": "military_shirts", "damage-min": 1, "damage-max": 4 },
@@ -396,7 +396,7 @@
         "subtype": "collection",
         "id": "mon_zombie_bio_op_death_drops",
         "entries":
-        [        
+        [
             { "group": "military_footwear", "damage-min": 1, "damage-max": 4 },
             { "group": "military_pants", "damage-min": 1, "damage-max": 4 },
             { "group": "military_shirts", "damage-min": 1, "damage-max": 4 },
@@ -428,7 +428,7 @@
         "type" : "item_group",
         "id" : "bionics_mil",
         "subtype": "distribution",
-        "entries" : 
+        "entries" :
         [
             { "group": "power_cbm", "prob": 25 },
             { "group": "military_cbm", "prob": 120 },
@@ -441,7 +441,7 @@
        "id" : "bionics_op",
        "subtype": "distribution",
        "note" : "CBMs butchered from bio operators.",
-       "entries" : 
+       "entries" :
        [
           { "group": "power_cbm", "prob": 10 },
           { "group": "civilian_cbm", "prob": 15 },
@@ -519,14 +519,14 @@
                 { "group": "homemade_guns", "prob": 100 },
                 { "group": "pistols", "prob": 50 },
                 { "group": "smg", "prob": 50 },
-                { "group": "shotguns", "prob": 10 },           
-                { "group": "rifles", "prob": 30 },           
-                { "group": "assault", "prob": 50 },           
+                { "group": "shotguns", "prob": 10 },
+                { "group": "rifles", "prob": 30 },
+                { "group": "assault", "prob": 50 },
                 { "group": "machine_guns", "prob": 5 },
                 { "group": "launchers", "prob": 10 },
-                { "group": "future_guns", "prob": 25 },           
-                { "group": "melee_weapons", "prob": 100 },           
-                { "group": "grenades", "prob": 50 },           
+                { "group": "future_guns", "prob": 25 },
+                { "group": "melee_weapons", "prob": 100 },
+                { "group": "grenades", "prob": 50 },
                 { "group": "gunxtras", "prob": 15 },
                 { "group": "canned_food", "prob": 70 },
                 { "group": "imperishable_food", "prob": 40 },
