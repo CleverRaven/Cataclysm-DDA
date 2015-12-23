@@ -1525,9 +1525,9 @@
       ["pitchfork", 20]
     ]
   },{
-    "type"  : "item_group",
-    "id"    : "power_tools",
-    "items" : [
+    "type": "item_group",
+    "id": "power_tools",
+    "items": [
       ["chainsaw_off", 10],
       ["elec_chainsaw_off", 10],
       ["trimmer_off", 40],
@@ -1536,9 +1536,9 @@
       ["circsaw_off", 10]
     ]
   },{
-    "type" : "item_group",
-    "id" : "paint",
-    "items" : [
+    "type": "item_group",
+    "id": "paint",
+    "items": [
       ["r_paint", 45],
       ["b_paint", 45],
       ["w_paint", 45],

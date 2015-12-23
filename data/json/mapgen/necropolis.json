@@ -12204,7 +12204,7 @@
                 { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 }
             ],
             "place_items": [
-                { "item": "floor_trash", "chance": 90, "x": [ 11,11 ], "y": [ 2,2 ]},
+                { "item": "trash", "chance": 90, "x": [ 11,11 ], "y": [ 2,2 ]},
                 { "item": "fast_food", "chance": 70, "x": [ 15,16 ], "y": [ 9,9 ]},
                 { "item": "cleaning", "chance": 70, "x": [ 19,19 ], "y": [ 9,9 ]},
                 { "item": "produce", "chance": 70, "x": [ 12,12 ], "y": [ 8,8 ]},
@@ -12691,8 +12691,8 @@
                 { "item": "alcohol", "chance": 70, "x": [ 19,23 ], "y": [ 19,19 ]},
                 { "item": "magazines", "chance": 70, "x": [ 19,19 ], "y": [ 12,12 ]},
                 { "item": "snacks", "chance": 70, "x": [ 20,22 ], "y": [ 14,15 ]},
-                { "item": "floor_trash", "chance": 90, "x": [ 17,17 ], "y": [ 12,12 ]},
-                { "item": "floor_trash", "chance": 90, "x": [ 17,17 ], "y": [ 9,9 ]},
+                { "item": "trash", "chance": 90, "x": [ 17,17 ], "y": [ 12,12 ]},
+                { "item": "trash", "chance": 90, "x": [ 17,17 ], "y": [ 9,9 ]},
                 { "item": "magazines", "chance": 70, "x": [ 19,19 ], "y": [ 9,9 ]},
                 { "item": "snacks", "chance": 70, "x": [ 19,22 ], "y": [ 7,7 ]}
             ],
