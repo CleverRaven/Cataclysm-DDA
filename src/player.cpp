@@ -12213,12 +12213,12 @@ bool player::try_study_recipe( const itype &book )
     }
     for( auto const & elem : book.book->recipes ) {
         auto const r = elem.recipe;
-        if( knows_recipe( r ) ) {
+        if( knows_recipe( r ) || !r->valid_learn() ) {
             continue;
         }
         if( !r->skill_used || get_skill_level( r->skill_used ) >= elem.skill_level ) {
             if( !r->skill_used ||
-                rng(0, 4) <= (get_skill_level(r->skill_used) - elem.skill_level) / 2) {
+                rng(0, 4) <= (get_skill_level(r->skill_used) - elem.skill_level) / 2 ) {
                 learn_recipe( r );
                 add_msg(m_good, _("Learned a recipe for %1$s from the %2$s."),
                                 item::nname( r->result ).c_str(), book.nname(1).c_str());
@@ -13454,6 +13454,10 @@ void player::practice( const skill_id &s, int amount, int cap )
 
 bool player::has_recipe_requirements( const recipe *rec ) const
 {
+    if( !rec->valid_learn() ) {
+        return false;
+    }
+
     bool meets_requirements = false;
     if( !rec->skill_used || get_skill_level( rec->skill_used) >= rec->difficulty ) {
         meets_requirements = true;
@@ -13512,9 +13516,13 @@ int player::has_recipe( const recipe *r, const inventory &crafting_inv ) const
     return difficulty;
 }
 
-void player::learn_recipe( const recipe * const rec )
+void player::learn_recipe( const recipe * const rec, bool force )
 {
-    learned_recipes[rec->ident] = rec;
+    if( force || rec->valid_learn() ) {
+        learned_recipes[rec->ident] = rec;
+    } else {
+        debugmsg( "Tried to learn unlearnable recipe %s", rec->ident.c_str() );
+    }
 }
 
 void player::assign_activity(activity_type type, int moves, int index, int pos, std::string name)

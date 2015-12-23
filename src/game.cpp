@@ -3945,7 +3945,7 @@ void game::debug()
             add_msg( _( "Your eyes blink rapidly as knowledge floods your brain." ) );
             for( auto cur_recipe : recipe_dict ) {
                 if( !( u.learned_recipes.find( cur_recipe->ident ) != u.learned_recipes.end() ) )  {
-                    u.learn_recipe( ( recipe * )cur_recipe );
+                    u.learn_recipe( ( recipe * )cur_recipe, true );
                 }
             }
             add_msg( m_good, _( "You know how to craft that now." ) );

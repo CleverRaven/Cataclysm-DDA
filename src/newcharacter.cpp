@@ -387,8 +387,7 @@ int player::create(character_type type, std::string tempname)
     //Learn recipes
     for( auto &cur_recipe : recipe_dict ) {
         if( !cur_recipe->autolearn && has_recipe_requirements( cur_recipe ) &&
-            cur_recipe->ident.find( "uncraft" ) == std::string::npos &&
-            !( learned_recipes.find( cur_recipe->ident ) != learned_recipes.end() ) ) {
+            !( learned_recipes.find( cur_recipe->ident ) != learned_recipes.end()) ) {
 
             learn_recipe( (recipe *)cur_recipe );
         }
