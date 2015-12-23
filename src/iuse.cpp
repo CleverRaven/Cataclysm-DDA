@@ -1842,6 +1842,29 @@ int iuse::purify_iv(player *p, item *it, bool, const tripoint& )
     return it->type->charges_to_use();
 }
 
+void spawn_spores( const player &p ) {
+    int spores_spawned = 0;
+    for( const tripoint &dest : closest_tripoints_first( 4, p.pos() ) ) {
+        if( g->m.move_cost( dest ) == 0 ) { // impassable terrain
+            continue;
+        }
+        float dist = trig_dist( dest, p.pos() );
+        if( x_in_y( 1, dist ) ) {
+            g->m.marlossify( dest );
+        }
+        if( g->critter_at(dest) != nullptr ) {
+            continue;
+        }
+        if( one_in( 10 + 5 * dist ) && one_in( spores_spawned * 2 ) ) {
+            if( g->summon_mon( mon_spore, dest ) ) {
+                monster *spore = g->monster_at( dest );
+                spore->friendly = -1;
+                spores_spawned++;
+            }
+        }
+    }
+}
+
 int iuse::marloss(player *p, item *it, bool t, const tripoint &pos)
 {
     if (p->is_npc()) {
@@ -1868,28 +1891,8 @@ int iuse::marloss(player *p, item *it, bool t, const tripoint &pos)
         p->add_addiction(ADD_MARLOSS_B, 50);
         p->add_addiction(ADD_MARLOSS_Y, 50);
         p->set_hunger(-100);
-        int spore_spawned = 0;
-        for (int x = p->posx() - 4; x <= p->posx() + 4; x++) {
-            for (int y = p->posy() - 4; y <= p->posy() + 4; y++) {
-                tripoint dest( x, y, p->posz() );
-                if (rng(0, 10) > trig_dist(x, y, p->posx(), p->posy()) &&
-                    rng(0, 10) > trig_dist(x, y, p->posx(), p->posy())) {
-                    g->m.marlossify( dest );
-                }
-                bool moveOK = (g->m.move_cost(dest) > 0);
-                bool monOK = g->mon_at(dest) == -1;
-                bool posOK = (p->pos() != dest);
-                if (moveOK && monOK && posOK &&
-                    one_in(10 + 5 * trig_dist(x, y, p->posx(), p->posy())) &&
-                    (spore_spawned == 0 || one_in(spore_spawned * 2))) {
-                    if (g->summon_mon(mon_spore, tripoint(x, y, p->posz()))) {
-                        monster *spore = g->monster_at(tripoint(x, y, p->posz()));
-                        spore->friendly = -1;
-                        spore_spawned++;
-                    }
-                }
-            }
-        }
+        spawn_spores(*p);
+
         return it->type->charges_to_use();
     }
 
@@ -1995,28 +1998,8 @@ int iuse::marloss_seed(player *p, item *it, bool t, const tripoint &pos)
         p->add_addiction(ADD_MARLOSS_R, 50);
         p->add_addiction(ADD_MARLOSS_Y, 50);
         p->set_hunger(-100);
-        int spore_spawned = 0;
-        for (int x = p->posx() - 4; x <= p->posx() + 4; x++) {
-            for (int y = p->posy() - 4; y <= p->posy() + 4; y++) {
-                tripoint dest( x, y, p->posz() );
-                if (rng(0, 10) > trig_dist(x, y, p->posx(), p->posy()) &&
-                    rng(0, 10) > trig_dist(x, y, p->posx(), p->posy())) {
-                    g->m.marlossify( dest );
-                }
-                bool moveOK = (g->m.move_cost(dest) > 0);
-                bool monOK = g->mon_at(dest) == -1;
-                bool posOK = (p->pos() != dest);
-                if (moveOK && monOK && posOK &&
-                    one_in(10 + 5 * trig_dist(x, y, p->posx(), p->posy())) &&
-                    (spore_spawned == 0 || one_in(spore_spawned * 2))) {
-                    if (g->summon_mon(mon_spore, tripoint(x, y, p->posz()))) {
-                        monster *spore = g->monster_at(tripoint(x, y, p->posz()));
-                        spore->friendly = -1;
-                        spore_spawned++;
-                    }
-                }
-            }
-        }
+        spawn_spores(*p);
+
         return it->type->charges_to_use();
     }
 
@@ -2119,28 +2102,8 @@ int iuse::marloss_gel(player *p, item *it, bool t, const tripoint &pos)
         p->add_addiction(ADD_MARLOSS_R, 50);
         p->add_addiction(ADD_MARLOSS_B, 50);
         p->set_hunger(-100);
-        int spore_spawned = 0;
-        for (int x = p->posx() - 4; x <= p->posx() + 4; x++) {
-            for (int y = p->posy() - 4; y <= p->posy() + 4; y++) {
-                tripoint dest( x, y, p->posz() );
-                if (rng(0, 10) > trig_dist(x, y, p->posx(), p->posy()) &&
-                    rng(0, 10) > trig_dist(x, y, p->posx(), p->posy())) {
-                    g->m.marlossify( dest );
-                }
-                bool moveOK = (g->m.move_cost(dest) > 0);
-                bool monOK = g->mon_at(dest) == -1;
-                bool posOK = (p->pos() != dest);
-                if (moveOK && monOK && posOK &&
-                    one_in(10 + 5 * trig_dist(x, y, p->posx(), p->posy())) &&
-                    (spore_spawned == 0 || one_in(spore_spawned * 2))) {
-                    if (g->summon_mon(mon_spore, tripoint(x, y, p->posz()))) {
-                        monster *spore = g->monster_at(tripoint(x, y, p->posz()));
-                        spore->friendly = -1;
-                        spore_spawned++;
-                    }
-                }
-            }
-        }
+        spawn_spores(*p);
+
         return it->type->charges_to_use();
     }
 
