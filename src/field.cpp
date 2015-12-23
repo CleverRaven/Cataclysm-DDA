@@ -1850,8 +1850,8 @@ void map::player_in_field( player &u )
                     _("<npcname>s whole body is burning!")
                 }};
                 static const std::array<std::string, 4> player_warn_msg = {{
-                    _("There's fire under your feet!"),
-                    _("There's fire reaching your torso!"),
+                    _("You're standing in a fire!"),
+                    _("You're waist-deep in a fire!"),
                     _("You're surrounded by raging fire!"),
                     _("You're lying in fire!")
                 }};
