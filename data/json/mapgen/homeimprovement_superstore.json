@@ -14,18 +14,6 @@
             ["screwdriver", 35]
         ]
     },
-        {
-        "type"  : "item_group",
-        "id"    : "power_tools",
-        "items" : [
-            ["chainsaw_off", 10],
-            ["elec_chainsaw_off", 10],
-            ["trimmer_off", 40],
-            ["jackhammer", 50],
-            ["elec_jackhammer", 50],
-            ["circsaw_off", 10]
-        ]
-    },
     {
         "type"  : "item_group",
         "id"    : "raw_materials",

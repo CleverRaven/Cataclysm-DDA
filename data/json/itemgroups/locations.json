@@ -1481,36 +1481,6 @@
     ]
   },{
     "type" : "item_group",
-    "id" : "bigtools",
-    "items":[
-      ["broom", 300],
-      ["mop", 300],
-      ["con_mix", 300],
-      ["brick_kiln", 300],
-      ["hoe", 300],
-      ["shovel", 400],
-      ["scythe", 50],
-      ["sickle", 30],
-      ["chainsaw_off", 70],
-      ["elec_chainsaw_off", 40],
-      ["trimmer_off", 100],
-      ["hammer_sledge", 60],
-      ["jackhammer", 20],
-      ["elec_jackhammer", 10],
-      ["jacqueshammer", 20],
-      ["pickaxe", 10],
-      ["welder", 250],
-      ["oxy_torch", 250],
-      ["ax", 80],
-      ["forge", 20],
-      ["char_forge", 20],
-      ["char_kiln", 10],
-      ["crucible", 20],
-      ["anvil", 40],
-      ["pitchfork", 20]
-    ]
-  },{
-    "type" : "item_group",
     "id" : "mechanics",
     "subtype": "distribution",
     "entries" : [
