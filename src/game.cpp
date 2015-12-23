@@ -2169,7 +2169,7 @@ void game::rcdrive(int dx, int dy)
     }
     item *rc_car = rc_pair->second;
 
-    if(tile_iso) {
+    if( tile_iso && use_tiles ) {
         rotate_direction_cw(dx,dy);
     }
 
@@ -3945,7 +3945,7 @@ void game::debug()
             add_msg( _( "Your eyes blink rapidly as knowledge floods your brain." ) );
             for( auto cur_recipe : recipe_dict ) {
                 if( !( u.learned_recipes.find( cur_recipe->ident ) != u.learned_recipes.end() ) )  {
-                    u.learn_recipe( ( recipe * )cur_recipe );
+                    u.learn_recipe( ( recipe * )cur_recipe, true );
                 }
             }
             add_msg( m_good, _( "You know how to craft that now." ) );
@@ -6128,7 +6128,11 @@ void game::monmove()
         }
         // If we spun too long trying to decide what to do (without spending moves),
         // Invoke cranial detonation to prevent an infinite loop.
-        if( turns == 10 ) {
+        if( turns == 9 ) {
+            debugmsg( "NPC %s entered infinite loop. Turning on debug mode",
+                np->name.c_str() );
+            debug_mode = true;
+        } else if( turns == 10 ) {
             add_msg( _( "%s's brain explodes!" ), np->name.c_str() );
             np->die( nullptr );
         }
@@ -11763,7 +11767,7 @@ bool game::plmove(int dx, int dy, int dz)
         dest_loc.y = rng(u.posy() - 1, u.posy() + 1);
         dest_loc.z = u.posz();
     } else {
-        if(tile_iso) {
+        if( tile_iso && use_tiles ) {
             rotate_direction_cw(dx,dy);
         }
         dest_loc.x = u.posx() + dx;

@@ -7388,7 +7388,7 @@
         "container": "jar_glass"
     }
   },
-  
+
   {
     "id": "jar_tomato_canned",
     "type": "GENERIC",
@@ -7435,7 +7435,7 @@
         "container": "jar_glass"
     }
   },
-  
+
   {
     "id": "jar_sauerkraut_pickled",
     "type": "GENERIC",
@@ -7783,7 +7783,7 @@
         "target_charges": 10
     }
   },
-  
+
   {
     "id": "sauerkraut_ferment",
     "type": "GENERIC",
@@ -10746,6 +10746,8 @@
         "type": "transform",
         "target": "tool_anfo_charge_act",
         "target_charges": 20,
+        "need_fire": 1,
+        "need_fire_msg": "You need a source of fire!",
         "active": true,
         "msg": "You light the fuse on the ANFO charge.  Run survivor, run!"
     }
@@ -10807,6 +10809,8 @@
         "type": "transform",
         "target": "tool_black_powder_bomb_act",
         "target_charges": 2,
+        "need_fire": 1,
+        "need_fire_msg": "You need a source of fire!",
         "active": true,
         "msg": "You light the fuse on the black gunpowder bomb.  Throw it before it blows in your face!"
     }
@@ -10929,6 +10933,8 @@
         "type": "transform",
         "target": "tool_rdx_sand_bomb_act",
         "target_charges": 2,
+        "need_fire": 1,
+        "need_fire_msg": "You need a source of fire!",
         "active": true,
         "msg": "You light the fuse on the sand bomb.  Throw it!"
     }
@@ -11087,7 +11093,7 @@
         "fields_type": "fd_smoke",
         "fields_min_density": 2,
         "fields_max_density": 3
-    }    
+    }
   },
   {
     "type" : "TOOL",
@@ -11163,7 +11169,7 @@
     "phase" : "solid",
     "bashing" : 4
   },
-  
+
   {
     "type" : "TOOL",
     "id" : "trumpet",
@@ -11385,7 +11391,7 @@
     "bashing": 14,
     "cutting": 3,
     "flags" : ["DURABLE_MELEE"],
-    "techniques": ["WBLOCK_1"], 
+    "techniques": ["WBLOCK_1"],
     "to_hit": 2,
     "max_charges": 0,
     "initial_charges": 0,
@@ -11403,7 +11409,7 @@
     "color": "light_gray",
     "name": "L-stick (off)",
     "name_plural": "l-sticks (off)",
-    "description": "Produced by the Light corporation, this stylish staff not only functions as a light source, but doubles as a light-weight weapon, due to the superalloy materials it is made of.  Due to proprietary efficiency improvements over standard light sources, the l-stick or light stick as it is commonly called, batteries last longer than other light sources.", 
+    "description": "Produced by the Light corporation, this stylish staff not only functions as a light source, but doubles as a light-weight weapon, due to the superalloy materials it is made of.  Due to proprietary efficiency improvements over standard light sources, the l-stick or light stick as it is commonly called, batteries last longer than other light sources.",
     "price": 5000,
     "material": ["superalloy", "steel"],
     "techniques" : ["WBLOCK_1", "RAPID"],
