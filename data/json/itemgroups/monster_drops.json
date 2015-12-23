@@ -102,7 +102,7 @@
                     { "group": "swim_hats", "damage-min": 1, "damage-max": 4, "prob": 75 },
                     { "group": "swim_shirts", "damage-min": 1, "damage-max": 4, "prob": 33 },
                     { "group": "swim_pants", "damage-min": 1, "damage-max": 4 },
-                    { "group": "swim_shoes", "damage-min": 1, "damage-max": 4, "prob": 25 }
+                    { "group": "swim_footwear", "damage-min": 1, "damage-max": 4, "prob": 25 }
                 ], "prob": 90 }
             ] },
             { "group": "everyday_gear", "prob": 15 }
@@ -117,9 +117,9 @@
             { "group": "technician_shirts", "damage-min": 1, "damage-max": 4 },
             { "group": "technician_pants", "damage-min": 1, "damage-max": 4 },
             { "group": "underwear", "damage-min": 1, "damage-max": 4 },
-            { "group": "worker_boots", "damage-min": 1, "damage-max": 4 },
+            { "group": "worker_footwear", "damage-min": 1, "damage-max": 4 },
             { "group": "worker_helmets", "damage-min": 1, "damage-max": 4, "prob": 75 },
-            { "group": "worker_coats", "damage-min": 1, "damage-max": 4, "prob": 10 },
+            { "group": "worker_outerwear", "damage-min": 1, "damage-max": 4, "prob": 10 },
             { "group": "worker_gloves", "damage-min": 1, "damage-max": 4, "prob": 25 },
             { "group": "worker_eyewear", "damage-min": 1, "damage-max": 4, "prob": 10 },
             { "group": "worker_masks", "damage-min": 1, "damage-max": 4, "prob": 10 },
@@ -178,7 +178,7 @@
         "id": "mon_zombie_scientist_death_drops",
         "entries":
         [
-            { "group": "science_shoes", "damage-min": 1, "damage-max": 4 },
+            { "group": "science_footwear", "damage-min": 1, "damage-max": 4 },
             { "group": "underwear", "damage-min": 1, "damage-max": 4 },
             {"distribution": [
                 {"group": "science_suits","prob": 50},
@@ -187,7 +187,7 @@
                     { "group": "pants"}
                 ], "prob": 50}
             ], "damage-min": 1, "damage-max": 4 },
-            { "group": "science_coats", "damage-min": 1, "damage-max": 4, "prob": 50 },
+            { "group": "science_outerwear", "damage-min": 1, "damage-max": 4, "prob": 50 },
             { "group": "science_gloves", "damage-min": 1, "damage-max": 4, "prob": 20 },
             { "group": "science_eyewear", "damage-min": 1, "damage-max": 4, "prob": 33 },
             { "group": "science_masks", "damage-min": 1, "damage-max": 4, "prob": 20 },
@@ -228,7 +228,7 @@
         "id": "vault_wanderer",
         "entries":
         [
-            { "group": "science_shoes", "damage-min": 1, "damage-max": 4 },
+            { "group": "science_footwear", "damage-min": 1, "damage-max": 4 },
             { "group": "underwear", "damage-min": 1, "damage-max": 4 },
             {"distribution": [
                 {"group": "science_suits","prob": 50},
@@ -237,7 +237,7 @@
                     { "group": "pants"}
                 ], "prob": 50}
             ], "damage-min": 1, "damage-max": 4 },
-            { "group": "science_coats", "damage-min": 1, "damage-max": 4, "prob": 20 },
+            { "group": "science_outerwear", "damage-min": 1, "damage-max": 4, "prob": 20 },
             { "group": "science_gloves", "damage-min": 1, "damage-max": 4, "prob": 10 },
             { "group": "science_eyewear", "damage-min": 1, "damage-max": 4, "prob": 33 },
             { "group": "science_masks", "damage-min": 1, "damage-max": 4, "prob": 50 },
@@ -271,7 +271,7 @@
                 { "collection": [
                     { "group": "hazmat_suits", "damage-min": 1, "damage-max": 4 },
                     { "group": "hazmat_gloves", "damage-min": 1, "damage-max": 4 },
-                    { "group": "hazmat_boots", "damage-min": 1, "damage-max": 4 },
+                    { "group": "hazmat_footwear", "damage-min": 1, "damage-max": 4 },
                     { "group": "hazmat_masks", "damage-min": 1, "damage-max": 4 },
                     { "group": "hazmat_eyewear", "damage-min": 1, "damage-max": 4, "prob": 33 }
                 ], "prob": 80 }
@@ -291,10 +291,10 @@
         "id": "mon_zombie_fireman_death_drops",
         "entries":
         [
-            { "group": "fireman_coats", "damage-min": 1, "damage-max": 4 },
+            { "group": "fireman_outerwear", "damage-min": 1, "damage-max": 4 },
             { "group": "fireman_pants", "damage-min": 1, "damage-max": 4 },
             { "group": "fireman_gloves", "damage-min": 1, "damage-max": 4 },
-            { "group": "fireman_boots", "damage-min": 1, "damage-max": 4 },
+            { "group": "fireman_footwear", "damage-min": 1, "damage-max": 4 },
             { "group": "fireman_masks", "damage-min": 1, "damage-max": 4, "prob": 50 },
             { "group": "fireman_helmets", "damage-min": 1, "damage-max": 4, "prob": 50 },
             { "group": "fireman_extras", "damage-min": 1, "damage-max": 4, "prob": 33 },
@@ -315,7 +315,7 @@
         "entries":
         [
             { "group": "underwear", "damage-min": 1, "damage-max": 4 },
-            { "group": "cop_shoes", "damage-min": 1, "damage-max": 4 },
+            { "group": "cop_footwear", "damage-min": 1, "damage-max": 4 },
             { "group": "cop_shirts", "damage-min": 1, "damage-max": 4 },
             { "group": "cop_pants", "damage-min": 1, "damage-max": 4 },
             { "group": "cop_helmets", "damage-min": 1, "damage-max": 4, "prob": 10 },
@@ -334,10 +334,10 @@
         "id": "mon_zombie_soldier_death_drops",
         "entries":
         [        
-            { "group": "military_boots", "damage-min": 1, "damage-max": 4 },
+            { "group": "military_footwear", "damage-min": 1, "damage-max": 4 },
             { "group": "military_pants", "damage-min": 1, "damage-max": 4 },
             { "group": "military_shirts", "damage-min": 1, "damage-max": 4 },
-            { "group": "military_coats", "damage-min": 1, "damage-max": 4, "prob": 33 },
+            { "group": "military_outerwear", "damage-min": 1, "damage-max": 4, "prob": 33 },
             { "group": "military_gloves", "damage-min": 1, "damage-max": 4, "prob": 20 },
             { "group": "military_eyewear", "damage-min": 1, "damage-max": 4, "prob": 10 },
             { "group": "military_hats", "damage-min": 1, "damage-max": 4, "prob": 33 },
@@ -397,10 +397,10 @@
         "id": "mon_zombie_bio_op_death_drops",
         "entries":
         [        
-            { "group": "military_boots", "damage-min": 1, "damage-max": 4 },
+            { "group": "military_footwear", "damage-min": 1, "damage-max": 4 },
             { "group": "military_pants", "damage-min": 1, "damage-max": 4 },
             { "group": "military_shirts", "damage-min": 1, "damage-max": 4 },
-            { "group": "military_coats", "damage-min": 1, "damage-max": 4, "prob": 20 },
+            { "group": "military_outerwear", "damage-min": 1, "damage-max": 4, "prob": 20 },
             { "group": "military_gloves", "damage-min": 1, "damage-max": 4, "prob": 20 },
             { "group": "military_eyewear", "damage-min": 1, "damage-max": 4, "prob": 25 },
             { "group": "military_hats", "damage-min": 1, "damage-max": 4, "prob": 5 },
@@ -477,8 +477,8 @@
         "id": "mon_zombie_survivor_death_drops",
         "entries":
         [
-            { "group": "survivor_boots", "damage-min": 1, "damage-max": 4 },
-            { "group": "survivor_coats", "damage-min": 1, "damage-max": 4, "prob": 25 },
+            { "group": "survivor_footwear", "damage-min": 1, "damage-max": 4 },
+            { "group": "survivor_outerwear", "damage-min": 1, "damage-max": 4, "prob": 25 },
             { "group": "survivor_hats", "damage-min": 1, "damage-max": 4, "prob": 15 },
             { "group": "survivor_helmets", "damage-min": 1, "damage-max": 4, "prob": 15 },
             { "group": "survivor_gloves", "damage-min": 1, "damage-max": 4, "prob": 25 },

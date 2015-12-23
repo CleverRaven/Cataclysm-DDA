@@ -51,7 +51,7 @@
             { "group": "sports_gear", "prob": 100 },
             { "group": "sports_clothes", "prob": 50 },
             { "group": "sports_extras", "prob": 50 },
-            { "group": "roller_shoes", "prob": 20 },
+            { "group": "roller_footwear", "prob": 20 },
             { "group": "alcohol_beer", "prob": 200 },
             { "item": "bat", "prob": 10 },
             { "item": "bat_metal", "prob": 10 },
@@ -177,7 +177,7 @@
         [
             { "item": "corpse", "damage": 3 },
             { "group": "underwear", "damage-min": 1, "damage-max": 3 },
-            { "group": "cop_shoes", "damage-min": 1, "damage-max": 4 },
+            { "group": "cop_footwear", "damage-min": 1, "damage-max": 4 },
             { "item": "socks", "damage-min": 1, "damage-max": 4 },
             { "group": "cop_pants", "damage-min": 1, "damage-max": 4 },
             { "group": "cop_shirts", "damage-min": 1, "damage-max": 4 },
@@ -316,7 +316,7 @@
             { "item": "corpse", "damage": 3, "c":"always a corpse, pulped!" },
             { "item": "id_science", "prob": 50, "c":"half the time an id card" },
             { "group": "underwear", "damage-min": 1, "damage-max": 3 },
-            { "group": "science_shoes", "damage-min": 1, "damage-max": 3 },
+            { "group": "science_footwear", "damage-min": 1, "damage-max": 3 },
             { "item": "socks", "damage-min": 1, "damage-max": 3, "prob": 50 },
             { "group": "science_coats", "damage-min": 1, "damage-max": 3 },
             { "distribution": [

@@ -135,7 +135,7 @@
     ]      
   },{
     "type" : "item_group",
-    "id" : "male_shoes",
+    "id" : "male_footwear",
     "items":[
       ["sneakers", 200],
       ["boots", 75],
@@ -150,7 +150,7 @@
     ]
   },{
     "type" : "item_group",
-    "id" : "female_shoes",
+    "id" : "female_footwear",
     "items":[
       ["sneakers", 150],
       ["heels", 50],
@@ -170,8 +170,8 @@
     "subtype": "distribution",
     "id": "shoes",
     "groups":[
-      ["female_shoes", 50],
-      ["male_shoes", 50]
+      ["female_footwear", 50],
+      ["male_footwear", 50]
     ] 
   },{
     "type" : "item_group",
@@ -463,8 +463,8 @@
       { "group": "female_underwear_top", "prob": 20 },
       { "group": "male_underwear_bottom", "prob": 20 },
       { "group": "male_underwear_top", "prob": 20 },
-      { "group": "female_shoes", "prob": 50 },
-      { "group": "male_shoes", "prob": 50 },
+      { "group": "female_footwear", "prob": 50 },
+      { "group": "male_footwear", "prob": 50 },
       { "item": "socks", "prob": 50 },
       { "group": "female_pants", "prob": 80 },
       { "group": "male_pants", "prob": 80 },
@@ -486,7 +486,7 @@
     "entries" : [
       { "group": "female_underwear_bottom", "prob": 30 },
       { "group": "female_underwear_top", "prob": 30 },
-      { "group": "female_shoes", "prob": 60 },
+      { "group": "female_footwear", "prob": 60 },
       { "distribution": [
         { "item": "socks", "prob": 50 },
         { "item": "tights", "prob": 50 },
@@ -510,7 +510,7 @@
     "entries" : [
       { "group": "male_underwear_bottom", "prob": 30 },
       { "group": "male_underwear_top", "prob": 30 },
-      { "group": "male_shoes", "prob": 60 },
+      { "group": "male_footwear", "prob": 60 },
       { "group": "male_pants", "prob": 90 },
       { "group": "male_shirts", "prob": 90 },
       { "group": "jackets", "prob": 50 },
@@ -557,7 +557,7 @@
     ]
   },{
     "type" : "item_group",
-    "id" : "winter_boots",
+    "id" : "winter_footwear",
     "items":[
       ["boots_winter", 100],
       ["boots", 70],
@@ -569,7 +569,7 @@
     ]
   },{
     "type" : "item_group",
-    "id" : "winter_coats",
+    "id" : "winter_outerwear",
     "items":[
       ["coat_winter", 100],
       ["great_coat", 100],
@@ -640,10 +640,10 @@
     "entries" : [
       { "group": "winter_underwear_bottom", "prob": 30 },
       { "group": "winter_underwear_top", "prob": 30 },
-      { "group": "winter_boots", "prob": 60 },
+      { "group": "winter_footwear", "prob": 60 },
       { "group": "winter_pants", "prob": 90 },
       { "group": "winter_shirts", "prob": 90 },
-      { "group": "winter_coats", "prob": 50 },
+      { "group": "winter_outerwear", "prob": 50 },
       { "group": "winter_gloves", "prob": 50 },
       { "group": "winter_hats", "prob": 30 },
       { "group": "winter_masks", "prob": 30 },
@@ -651,13 +651,13 @@
     ]   
   },{
     "type" : "item_group",
-    "id" : "rain_boots",
+    "id" : "rain_footwear",
     "items":[
       ["boots_rubber", 50]
     ]
   },{
     "type" : "item_group",
-    "id" : "rain_coats",
+    "id" : "rain_outerwear",
     "items":[
       ["coat_rain", 50],
       ["folding_poncho_on", 25]
@@ -674,7 +674,7 @@
     "subtype": "distribution",
     "entries" : [
       { "group": "rain_boots", "prob": 30 },
-      { "group": "rain_coats", "prob": 100 },
+      { "group": "rain_outerwear", "prob": 100 },
       { "group": "rain_hats", "prob": 30 }
     ]  
   },{
@@ -711,13 +711,13 @@
     ]
   },{
     "type" : "item_group",
-    "id" : "swim_coats",
+    "id" : "swim_outerwear",
     "items":[
       ["flotation_vest", 50]
     ]
   },{
     "type" : "item_group",
-    "id" : "swim_shoes",
+    "id" : "swim_footwear",
     "items":[
       ["swim_fins", 100],
       ["wetsuit_booties", 50]
@@ -775,12 +775,12 @@
     "id" : "swim_clothes",
     "subtype": "distribution",
     "entries" : [
-      { "group": "swim_shoes", "prob": 60 },
+      { "group": "swim_footwear", "prob": 60 },
       { "group": "swim_pants", "prob": 100 },
       { "group": "swim_shirts", "prob": 50 },
       { "group": "swim_suits", "prob": 40 },
       { "group": "swim_full", "prob": 5 },
-      { "group": "swim_coats", "prob": 50 },
+      { "group": "swim_outerwear", "prob": 50 },
       { "group": "swim_gloves", "prob": 50 },
       { "group": "swim_eyewear", "prob": 50 },
       { "group": "swim_hats", "prob": 25 },
@@ -790,7 +790,7 @@
     ]
   },{
     "type" : "item_group",
-    "id" : "sports_shoes",
+    "id" : "sports_footwear",
     "items":[
       ["sneakers", 100],
       ["boots_hiking", 20],
@@ -800,7 +800,7 @@
     ]
   },{
     "type" : "item_group",
-    "id" : "roller_shoes",
+    "id" : "roller_footwear",
     "items":[
       ["rollerskates", 10],
       ["roller_blades", 75]
@@ -828,7 +828,7 @@
     ]
   },{
     "type" : "item_group",
-    "id" : "sports_coats",
+    "id" : "sports_outerwear",
     "items":[
       ["flotation_vest", 10],
       ["fencing_jacket", 8]
@@ -897,11 +897,11 @@
     "id" : "sports_clothes",
     "subtype": "distribution",
     "entries" : [
-      { "group": "sports_shoes", "prob": 70 },
-      { "group": "roller_shoes", "prob": 5 },
+      { "group": "sports_footwear", "prob": 70 },
+      { "group": "roller_footwear", "prob": 5 },
       { "group": "sports_pants", "prob": 90 },
       { "group": "sports_shirts", "prob": 90 },
-      { "group": "sports_coats", "prob": 10 },
+      { "group": "sports_outerwear", "prob": 10 },
       { "group": "sports_armor", "prob": 3 },
       { "group": "sports_gloves", "prob": 50 },
       { "group": "sports_eyewear", "prob": 10 },
@@ -1034,7 +1034,7 @@
     ]
   },{
     "type" : "item_group",
-    "id" : "worker_boots",
+    "id" : "worker_footwear",
     "items":[
       ["boots", 50],
       ["boots_steel", 50],
@@ -1043,7 +1043,7 @@
     ]
   },{
     "type" : "item_group",
-    "id" : "worker_coats",
+    "id" : "worker_outerwear",
     "items":[
       ["vest", 50],
       ["vest_leather", 50],
@@ -1101,8 +1101,8 @@
     "id" : "worker_clothes",
     "subtype": "distribution",
     "entries" : [
-      { "group": "worker_boots", "prob": 60 },
-      { "group": "worker_coats", "prob": 50 },
+      { "group": "worker_footwear", "prob": 60 },
+      { "group": "worker_outerwear", "prob": 50 },
       { "group": "worker_gloves", "prob": 50 },
       { "group": "worker_eyewear", "prob": 30 },
       { "group": "worker_helmets", "prob": 30 },
@@ -1216,7 +1216,7 @@
     ]
   },{
     "type" : "item_group",
-    "id" : "science_shoes",
+    "id" : "science_footwear",
     "items":[
       ["boots_rubber", 100],
       ["dress_shoes", 50],
@@ -1233,7 +1233,7 @@
     ]
   },{
     "type" : "item_group",
-    "id" : "science_coats",
+    "id" : "science_outerwear",
     "items":[
       ["coat_lab", 200],
       ["blazer", 5],
@@ -1294,9 +1294,9 @@
     "id" : "science_clothes",
     "subtype": "distribution",
     "entries" : [
-      { "group": "science_shoes", "prob": 50 },
+      { "group": "science_footwear", "prob": 50 },
       { "group": "science_suits", "prob": 20 },
-      { "group": "science_coats", "prob": 100 },
+      { "group": "science_outerwear", "prob": 100 },
       { "group": "science_gloves", "prob": 50 },
       { "group": "science_eyewear", "prob": 30 },
       { "group": "science_masks", "prob": 30 },
@@ -1371,7 +1371,7 @@
     ]
   },{
     "type" : "item_group",
-    "id" : "hazmat_boots",
+    "id" : "hazmat_footwear",
     "items":[
       ["boots_rubber", 50]
     ]
@@ -1422,7 +1422,7 @@
     "id" : "hazmat_clothes",
     "subtype": "distribution",
     "entries" : [
-      { "group": "hazmat_boots", "prob": 60 },
+      { "group": "hazmat_footwear", "prob": 60 },
       { "group": "hazmat_suits", "prob": 90 },
       { "group": "hazmat_full", "prob": 50 },
       { "group": "hazmat_gloves", "prob": 50 },
@@ -1444,7 +1444,7 @@
     ]
   },{
     "type" : "item_group",
-    "id" : "fireman_boots",
+    "id" : "fireman_footwear",
     "items":[
       ["boots_bunker", 70],
       ["boots_steel", 20],
@@ -1468,7 +1468,7 @@
     ]
   },{
     "type" : "item_group",
-    "id" : "fireman_coats",
+    "id" : "fireman_outerwear",
     "items":[
       ["bunker_coat", 80],
       ["vest", 30]
@@ -1531,9 +1531,9 @@
     "id" : "fireman_clothes",
     "subtype": "distribution",
     "entries" : [
-      { "group": "fireman_boots", "prob": 60 },
+      { "group": "fireman_footwear", "prob": 60 },
       { "group": "fireman_suits", "prob": 5 },
-      { "group": "fireman_coats", "prob": 50 },
+      { "group": "fireman_outerwear", "prob": 50 },
       { "group": "fireman_gloves", "prob": 50 },
       { "group": "fireman_eyewear", "prob": 30 },
       { "group": "fireman_helmets", "prob": 30 },
@@ -1597,7 +1597,7 @@
     ]
   },{
     "type" : "item_group",
-    "id" : "cop_shoes",
+    "id" : "cop_footwear",
     "items":[
       ["boots", 70],
       ["boots_steel", 50],
@@ -1695,7 +1695,7 @@
     "id" : "cop_clothes",
     "subtype": "distribution",
     "entries" : [
-      { "group": "cop_shoes", "prob": 50 },
+      { "group": "cop_footwear", "prob": 50 },
       { "group": "cop_pants", "prob": 80 },
       { "group": "cop_shirts", "prob": 80 },
       { "group": "cop_armor", "prob": 50 },
@@ -1901,7 +1901,7 @@
     ]
   },{
     "type" : "item_group",
-    "id" : "military_boots",
+    "id" : "military_footwear",
     "items":[
       ["boots_combat", 100],
       ["boots_steel", 10]
@@ -1925,7 +1925,7 @@
     ]
   },{
     "type" : "item_group",
-    "id" : "military_coats",
+    "id" : "military_outerwear",
     "items":[
       ["jacket_army", 100],
       ["vest", 20],
@@ -2036,10 +2036,10 @@
     "id" : "military_clothes",
     "subtype": "distribution",
     "entries" : [
-      { "group": "military_boots", "prob": 40 },
+      { "group": "military_footwear", "prob": 40 },
       { "group": "military_pants", "prob": 80 },
       { "group": "military_shirts", "prob": 80 },
-      { "group": "military_coats", "prob": 50 },
+      { "group": "military_outerwear", "prob": 50 },
       { "group": "military_armor", "prob": 80 },
       { "group": "military_full", "prob": 50 },
       { "group": "military_gloves", "prob": 50 },
@@ -2289,7 +2289,7 @@
     ]
   },{
     "type" : "item_group",
-    "id" : "primitive_coats",
+    "id" : "primitive_outerwear",
     "//" : "trenchcoats are set extra low due to the large number of variants.",
     "items":[
       ["vest_leather", 100],
@@ -2324,7 +2324,7 @@
     ]
   },{
     "type" : "item_group",
-    "id" : "primitive_shoes",
+    "id" : "primitive_footwear",
     "items":[
       ["boots", 50],
       ["leathersandals", 100],
@@ -2409,10 +2409,10 @@
     "entries" : [
       { "group": "primitive_underwear_bottom", "prob": 40 },
       { "group": "primitive_underwear_top", "prob": 10 },
-      { "group": "primitive_shoes", "prob": 30 },
+      { "group": "primitive_footwear", "prob": 30 },
       { "group": "primitive_pants", "prob": 90 },
       { "group": "primitive_shirts", "prob": 10 },
-      { "group": "primitive_coats", "prob": 50 },
+      { "group": "primitive_outerwear", "prob": 50 },
       { "group": "primitive_gloves", "prob": 50 },
       { "group": "primitive_hats", "prob": 50 },
       { "group": "primitive_helmets", "prob": 30 },
@@ -2520,7 +2520,7 @@
     ]
   },{
     "type" : "item_group",
-    "id" : "scavenger_boots",
+    "id" : "scavenger_footwear",
     "subtype": "distribution",
     "entries":[
       { "item": "footrags", "prob": 20 },
@@ -2556,7 +2556,7 @@
     ]
   },{
     "type" : "item_group",
-    "id" : "scavenger_coats",
+    "id" : "scavenger_outerwear",
     "subtype": "distribution",
     "entries":[
       { "item": "vest_leather", "prob": 100, "damage-min": 0, "damage-max": 2 },
@@ -2695,10 +2695,10 @@
     "//" : "low quality scavenged and homemade gear. for Mad Max style enemies and desparate survivors.",
     "subtype": "distribution",
     "entries" : [
-      { "group": "scavenger_boots", "prob": 60 },
+      { "group": "scavenger_footwear", "prob": 60 },
       { "group": "scavenger_pants", "prob": 80 },
       { "group": "scavenger_shirts", "prob": 80 },
-      { "group": "scavenger_coats", "prob": 50 },
+      { "group": "scavenger_outerwear", "prob": 50 },
       { "group": "scavenger_suits", "prob": 30 },
       { "group": "scavenger_armor", "prob": 70 },
       { "group": "scavenger_gloves", "prob": 50 },
@@ -2787,7 +2787,7 @@
     ]
   },{
     "type" : "item_group",
-    "id" : "elite_boots",
+    "id" : "elite_footwear",
     "items":[
       ["boots", 50],
       ["boots_combat", 100],
@@ -2831,7 +2831,7 @@
     ]
   },{
     "type" : "item_group",
-    "id" : "elite_coats",
+    "id" : "elite_outerwear",
     "//" : "trenchcoats are set extra low due to the large number of variants.",
     "items":[
       ["jacket_leather", 50],
@@ -3027,10 +3027,10 @@
     "//" : "high quality gear for capable NPCs, survivors, allies, and enemy bosses.",
     "subtype": "distribution",
     "entries" : [
-      { "group": "elite_boots", "prob": 40 },
+      { "group": "elite_footwear", "prob": 40 },
       { "group": "elite_pants", "prob": 40 },
       { "group": "elite_shirts", "prob": 40 },
-      { "group": "elite_coats", "prob": 50 },
+      { "group": "elite_outerwear", "prob": 50 },
       { "group": "elite_suits", "prob": 50 },
       { "group": "elite_armor", "prob": 40 },
       { "group": "elite_gloves", "prob": 50 },
@@ -3103,13 +3103,13 @@
     ]
   },{
     "type" : "item_group",
-    "id" : "survivor_boots",
+    "id" : "survivor_footwear",
     "subtype": "distribution",
     "entries":[
       { "group": "shoes", "prob": 50 },
-      { "group": "elite_boots", "prob": 50 },
-      { "group": "scavenger_boots", "prob": 50 },
-      { "group": "primitive_shoes", "prob": 10 }
+      { "group": "elite_footwear", "prob": 50 },
+      { "group": "scavenger_footwear", "prob": 50 },
+      { "group": "primitive_footwear", "prob": 10 }
     ] 
   },{
     "type" : "item_group",
@@ -3133,13 +3133,13 @@
     ]
   },{
     "type" : "item_group",
-    "id" : "survivor_coats",
+    "id" : "survivor_outerwear",
     "subtype": "distribution",
     "entries":[
       { "group": "jackets", "prob": 50 },
-      { "group": "elite_coats", "prob": 50 },
-      { "group": "scavenger_coats", "prob": 50 },
-      { "group": "primitive_coats", "prob": 10 }
+      { "group": "elite_outerwear", "prob": 50 },
+      { "group": "scavenger_outerwear", "prob": 50 },
+      { "group": "primitive_outerwear", "prob": 10 }
     ]
   },{
     "type" : "item_group",
@@ -3237,10 +3237,10 @@
     "//" : "mix of good and bad clothing. for NPCs and survivor zombies. much wider array of stuff since it draws from multiple lists.",
     "subtype": "distribution",
     "entries" : [
-      { "group": "survivor_boots", "prob": 40 },
+      { "group": "survivor_footwear", "prob": 40 },
       { "group": "survivor_pants", "prob": 40 },
       { "group": "survivor_shirts", "prob": 40 },
-      { "group": "survivor_coats", "prob": 50 },
+      { "group": "survivor_outerwear", "prob": 50 },
       { "group": "survivor_suits", "prob": 5 },
       { "group": "survivor_armor", "prob": 40 },
       { "group": "survivor_gloves", "prob": 50 },
