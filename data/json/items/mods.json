@@ -12,7 +12,6 @@
         "weight": 226,
         "volume": 1,
         "bashing": 3,
-        "cutting": 0,
         "to_hit": -1,
         "dispersion_modifier": 30,
         "ammo_modifier": "45",
@@ -34,7 +33,6 @@
         "weight": 100,
         "volume": 1,
         "bashing": 1,
-        "cutting": 0,
         "to_hit": -2,
         "flags": [ "IS_ARMOR", "BELTED" ],
         "mod_targets": ["rifle", "shotgun", "smg", "crossbow", "launcher"]
@@ -55,7 +53,6 @@
         "mod_targets" : ["pistol", "smg", "rifle"],
         "volume" : 2,
         "bashing" : 3,
-        "cutting" : 0,
         "recoil_modifier" : -2,
         "price" : 48000,
         "loudness_modifier" : -50
@@ -76,7 +73,6 @@
         "mod_targets" : ["shotgun"],
         "volume" : 4,
         "bashing" : 3,
-        "cutting" : 0,
         "recoil_modifier" : -2,
         "price" : 140000,
         "loudness_modifier" : -30
@@ -97,7 +93,6 @@
         "mod_targets" : ["pistol", "smg", "rifle"],
         "volume" : 3,
         "bashing" : 3,
-        "cutting" : 0,
         "recoil_modifier" : -1,
         "price" : 480,
         "loudness_modifier" : -30
@@ -117,7 +112,6 @@
         "mod_targets" : ["shotgun", "smg", "rifle", "crossbow", "launcher"],
         "volume" : 1,
         "bashing" : 0,
-        "cutting" : 0,
         "recoil_modifier" : -30,
         "price" : 6000,
         "skill_required": 1
@@ -138,7 +132,6 @@
         "mod_targets" : ["smg", "rifle", "shotgun", "pistol"],
         "volume" : 2,
         "bashing" : 5,
-        "cutting" : 0,
         "recoil_modifier" : 75,
         "price" : 20000,
         "skill_required": 5
@@ -158,7 +151,6 @@
         "mod_targets" : ["smg", "rifle", "shotgun"],
         "volume" : 0,
         "bashing" : -2,
-        "cutting" : 0,
         "recoil_modifier" : -90,
         "price" : 12000,
         "skill_required": 5,
@@ -180,7 +172,6 @@
         "mod_targets" : ["shotgun"],
         "volume" : 2,
         "bashing" : 3,
-        "cutting" : 0,
         "burst_modifier" : -1,
         "price" : 22000,
         "skill_required": 5
@@ -200,7 +191,6 @@
         "mod_targets" : ["pistol", "shotgun", "smg", "rifle"],
         "volume" : 1,
         "bashing" : -2,
-        "cutting" : 0,
         "price" : 5600
     },
     {
@@ -218,7 +208,6 @@
         "mod_targets" : ["shotgun", "smg", "rifle", "pistol"],
         "volume" : 2,
         "bashing" : 0,
-        "cutting" : 0,
         "price" : 7200
     },
     {
@@ -235,7 +224,6 @@
         "mod_targets" : ["pistol", "shotgun", "smg", "rifle"],
         "volume" : 1,
         "bashing" : 0,
-        "cutting" : 0,
         "price" : 5000
     },
     {
@@ -252,7 +240,6 @@
         "mod_targets" : ["shotgun", "smg", "rifle", "pistol", "launcher"],
         "volume" : 1,
         "bashing" : 0,
-        "cutting" : 0,
         "price" : 2000,
         "skill_required": 1
     },
@@ -271,7 +258,6 @@
         "mod_targets" : ["smg", "rifle", "crossbow"],
         "volume" : 3,
         "bashing" : 0,
-        "cutting" : 0,
         "recoil_modifier" : -60,
         "price" : 68000,
         "skill_required": 7,
@@ -292,7 +278,6 @@
         "mod_targets" : ["smg", "rifle"],
         "volume" : 1,
         "bashing" : 0,
-        "cutting" : 0,
         "burst_modifier" : 6,
         "price" : 70000,
         "skill_required": 6,
@@ -314,7 +299,6 @@
         "symbol" : ":",
         "material" : ["steel", "plastic"],
         "volume" : 1,
-        "cutting" : 0,
         "recoil_modifier" : 30,
         "acceptable_ammo" : ["22", "9mm", "38", "40", "57", "46"],
         "mod_targets" : ["pistol"],
@@ -336,7 +320,6 @@
         "symbol" : ":",
         "material" : ["steel", "null"],
         "volume" : 1,
-        "cutting" : 0,
         "acceptable_ammo" : ["38", "40", "44", "45"],
         "mod_targets" : ["pistol", "smg"],
         "bashing" : 0,
@@ -357,7 +340,6 @@
         "symbol" : ":",
         "material" : ["steel", "null"],
         "volume" : 1,
-        "cutting" : 0,
         "acceptable_ammo" : ["9mm", "38", "40", "57", "46", "762", "223"],
         "mod_targets" : ["pistol", "smg", "rifle"],
         "bashing" : -2,
@@ -378,7 +360,6 @@
         "symbol" : ":",
         "material" : ["steel", "null"],
         "volume" : 1,
-        "cutting" : 0,
         "acceptable_ammo" : ["22", "9mm", "38"],
         "mod_targets" : ["pistol", "smg"],
         "bashing" : -3,
@@ -399,7 +380,6 @@
         "symbol" : ":",
         "material" : ["steel", "null"],
         "volume" : 1,
-        "cutting" : 0,
         "acceptable_ammo" : ["22", "9mm", "38"],
         "mod_targets" : ["pistol", "smg"],
         "bashing" : -3,
@@ -421,7 +401,6 @@
         "symbol" : ":",
         "material" : ["steel", "null"],
         "volume" : 2,
-        "cutting" : 0,
         "acceptable_ammo" : ["shot", "762", "223", "3006"],
         "mod_targets" : ["shotgun", "rifle"],
         "bashing" : 4,
@@ -443,7 +422,6 @@
         "symbol" : ":",
         "material" : ["steel", "null"],
         "volume" : 2,
-        "cutting" : 0,
         "acceptable_ammo" : ["shot", "762", "3006", "308"],
         "mod_targets" : ["shotgun", "rifle"],
         "bashing" : 4,
@@ -467,7 +445,6 @@
         "mod_targets" : ["rifle"],
         "volume" : 2,
         "bashing" : 6,
-        "cutting" : 0,
         "burst_modifier" : 4,
         "recoil_modifier" : 60,
         "price" : 68000,
@@ -491,7 +468,6 @@
         "mod_targets" : ["rifle"],
         "volume" : 2,
         "bashing" : 0,
-        "cutting" : 0,
         "burst_modifier" : -99,
         "price" : 66000,
         "skill_required": 8,
@@ -512,7 +488,6 @@
         "symbol" : ":",
         "material" : ["steel", "plastic"],
         "volume" : 2,
-        "cutting" : 0,
         "mod_targets" : ["rifle", "crossbow"],
         "bashing" : 2,
         "gun_data" : {
@@ -556,7 +531,6 @@
         "weight": 1500,
         "volume": 2,
         "bashing": 2,
-        "cutting": 0,
         "to_hit": -3,
         "dispersion_modifier": 60,
         "skill_required": 2
@@ -575,7 +549,6 @@
         "symbol" : ":",
         "material" : ["steel", "null"],
         "volume" : 4,
-        "cutting" : 0,
         "mod_targets" : ["rifle", "shotgun", "smg", "crossbow"],
         "bashing" : 2,
         "flags" : ["FIRE_100"],
@@ -607,7 +580,6 @@
         "symbol" : ":",
         "material" : ["steel", "plastic"],
         "volume" : 3,
-        "cutting" : 0,
         "mod_targets" : ["rifle", "crossbow"],
         "bashing" : 4,
         "gun_data" : {
@@ -701,7 +673,6 @@
         "symbol" : ":",
         "material" : ["steel", "null"],
         "volume" : 0,
-        "cutting" : 0,
         "mod_targets" : ["pistol"],
         "bashing" : 0,
         "flags" : ["RELOAD_ONE", "IRREMOVABLE"],
@@ -735,7 +706,6 @@
         "symbol" : ":",
         "material" : ["steel", "null"],
         "volume" : 3,
-        "cutting" : 0,
         "mod_targets" : ["rifle", "crossbow"],
         "bashing" : 2,
         "flags" : ["RELOAD_ONE"],
@@ -767,7 +737,6 @@
         "symbol" : ":",
         "material" : ["steel", "null"],
         "volume" : 2,
-        "cutting" : 0,
         "mod_targets" : ["rifle", "crossbow"],
         "bashing" : 2,
         "flags" : ["RELOAD_ONE"],
@@ -799,7 +768,6 @@
         "symbol" : ":",
         "material" : ["steel", "plastic"],
         "volume" : 3,
-        "cutting" : 0,
         "mod_targets" : ["rifle", "crossbow"],
         "bashing" : 2,
         "gun_data" : {
@@ -830,7 +798,6 @@
         "symbol" : ":",
         "material" : ["steel", "null"],
         "volume" : 0,
-        "cutting" : 0,
         "mod_targets" : ["rifle"],
         "bashing" : 0,
         "flags" : ["RELOAD_ONE", "IRREMOVABLE"],
@@ -862,7 +829,6 @@
         "symbol" : ":",
         "material" : ["steel", "null"],
         "volume" : 4,
-        "cutting" : 0,
         "mod_targets" : ["rifle"],
         "bashing" : 0,
         "flags" : ["RELOAD_ONE", "IRREMOVABLE"],
@@ -896,7 +862,6 @@
         "symbol" : ":",
         "material" : ["steel", "null"],
         "volume" : 0,
-        "cutting" : 0,
         "mod_targets" : ["shotgun"],
         "bashing" : 0,
         "flags" : ["RELOAD_ONE", "IRREMOVABLE"],
@@ -930,7 +895,6 @@
         "symbol" : ":",
         "material" : ["steel", "wood"],
         "volume" : 2,
-        "cutting" : 0,
         "mod_targets" : ["shotgun", "rifle", "crossbow"],
         "bashing" : 2,
         "flags" : ["STR_RELOAD"],
@@ -965,7 +929,6 @@
         "mod_targets" : ["smg", "rifle", "pistol", "shotgun", "crossbow", "bow", "launcher"],
         "volume" : 1,
         "bashing" : 0,
-        "cutting" : 0,
         "price" : 68000
     },
     {
@@ -984,7 +947,6 @@
         "mod_targets" : ["bow"],
         "volume" : 1,
         "bashing" : 0,
-        "cutting" : 0,
         "price" : 5000
     },
     {
@@ -1002,7 +964,6 @@
         "mod_targets" : ["bow"],
         "volume" : 2,
         "bashing" : 0,
-        "cutting" : 0,
         "price" : 4000,
         "skill_required": 1
     },
@@ -1021,7 +982,6 @@
         "mod_targets" : ["bow"],
         "volume" : 0,
         "bashing" : 0,
-        "cutting" : 0,
         "price" : 4000,
         "skill_required": 1
     },
@@ -1041,7 +1001,6 @@
         "mod_targets" : ["smg", "rifle", "pistol", "shotgun", "crossbow", "launcher"],
         "volume" : 0,
         "bashing" : 0,
-        "cutting" : 0,
         "price" : 68000
     },
     {
@@ -1061,7 +1020,6 @@
         "mod_targets" : ["smg", "rifle", "pistol", "shotgun", "crossbow", "launcher"],
         "volume" : 0,
         "bashing" : 0,
-        "cutting" : 0,
         "price" : 72000,
         "skill_required": 1
     },
@@ -1081,7 +1039,6 @@
         "mod_targets" : ["smg", "rifle", "shotgun", "pistol", "crossbow", "launcher"],
         "volume" : 1,
         "bashing" : 0,
-        "cutting" : 0,
         "price" : 68000,
         "skill_required": 2
     },
@@ -1101,7 +1058,6 @@
         "mod_targets" : ["smg", "rifle", "shotgun", "crossbow", "pistol", "launcher"],
         "volume" : 1,
         "bashing" : 0,
-        "cutting" : 0,
         "price" : 68000,
         "skill_required": 3
     },
@@ -1121,7 +1077,6 @@
         "mod_targets" : ["rifle", "crossbow", "launcher"],
         "volume" : 2,
         "bashing" : 0,
-        "cutting" : 0,
         "price" : 68000,
         "skill_required": 5
     },
@@ -1141,7 +1096,6 @@
         "mod_targets" : ["pistol", "smg", "crossbow"],
         "volume" : 1,
         "bashing" : 0,
-        "cutting" : 0,
         "price" : 54000,
         "skill_required": 3
     },
@@ -1160,7 +1114,6 @@
         "mod_targets" : ["smg", "rifle", "pistol", "shotgun"],
         "volume" : 0,
         "bashing" : 0,
-        "cutting" : 0,
         "recoil_modifier" : -90,
         "price" : 72000,
         "skill_required": 6,
@@ -1181,7 +1134,6 @@
         "mod_targets" : ["rifle", "shotgun"],
         "volume" : 1,
         "bashing" : 0,
-        "cutting" : 0,
         "recoil_modifier" : -150,
         "price" : 84000,
         "skill_required": 2,
@@ -1202,7 +1154,6 @@
         "mod_targets" : ["smg", "rifle", "pistol", "shotgun", "crossbow", "launcher"],
         "volume" : 0,
         "bashing" : 0,
-        "cutting" : 0,
         "recoil_modifier" : -30,
         "price" : 38000,
         "skill_required": 2
@@ -1222,7 +1173,6 @@
         "mod_targets" : ["smg", "rifle", "shotgun", "crossbow", "launcher"],
         "volume" : 0,
         "bashing" : 0,
-        "cutting" : 0,
         "recoil_modifier" : -30,
         "price" : 38000,
         "skill_required": 2
@@ -1241,7 +1191,6 @@
         "mod_targets" : ["smg", "rifle", "shotgun", "launcher"],
         "volume" : 1,
         "bashing" : 0,
-        "cutting" : 0,
         "flags" : ["SLOW_WIELD", "COLLAPSIBLE_STOCK"],
         "price" : 42000,
         "skill_required": 2
@@ -1260,7 +1209,6 @@
         "mod_targets" : ["pistol", "smg", "rifle", "shotgun", "crossbow", "launcher"],
         "volume" : 0,
         "bashing" : 0,
-        "cutting" : 0,
         "flags" : ["REDUCED_WEIGHT", "REDUCED_BASHING"],
         "price" : 48000,
         "skill_required": 3
@@ -1279,7 +1227,6 @@
         "mod_targets" : ["smg", "rifle", "shotgun", "launcher"],
         "volume" : 1,
         "bashing" : 0,
-        "cutting" : 0,
         "recoil_modifier" : -90,
         "price" : 400,
         "skill_required": 3
@@ -1299,7 +1246,6 @@
         "mod_targets" : ["pistol", "crossbow"],
         "volume" : 2,
         "bashing" : 0,
-        "cutting" : 0,
         "recoil_modifier" : -75,
         "price" : 38000,
         "skill_required": 2
@@ -1318,7 +1264,6 @@
         "mod_targets" : ["smg", "rifle", "pistol", "shotgun", "launcher"],
         "volume" : 0,
         "bashing" : 0,
-        "cutting" : 0,
         "flags" : ["WATERPROOF_GUN"],
         "price" : 50000,
         "skill_required": 6
@@ -1338,7 +1283,6 @@
         "mod_targets" : ["smg", "rifle", "pistol", "shotgun", "launcher"],
         "volume" : 0,
         "bashing" : 0,
-        "cutting" : 0,
         "recoil_modifier" : -15,
         "flags" : ["NEVER_JAMS"],
         "price" : 2500,
@@ -1360,7 +1304,6 @@
         "mod_targets" : ["smg", "rifle", "pistol", "shotgun", "launcher"],
         "volume" : 0,
         "bashing" : 0,
-        "cutting" : 0,
         "price" : 1500,
         "skill_required": 6
     },
@@ -1378,7 +1321,6 @@
         "mod_targets" : ["rifle", "launcher"],
         "volume" : 2,
         "bashing" : 10,
-        "cutting" : 0,
         "recoil_modifier" : -15,
         "dispersion_modifier" : -45,
         "price" : 68000,
@@ -1463,7 +1405,6 @@
         "mod_targets" : ["smg", "rifle", "shotgun", "pistol"],
         "volume" : 2,
         "bashing" : 5,
-        "cutting" : 0,
         "recoil_modifier" : 75,
         "price" : 20000,
         "skill_required": 1,
