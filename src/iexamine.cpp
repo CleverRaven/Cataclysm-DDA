@@ -2373,7 +2373,7 @@ void iexamine::recycler(player *p, map *m, const tripoint &examp)
     const int norm_recover_weight = steel_weight * norm_recover_factor;
     uimenu as_m;
     const std::string weight_str = string_format("%.3f %s", convert_weight(steel_weight),
-                                                            weight_units().c_str());
+                                                            weight_units());
     as_m.text = string_format(_("Recycle %s metal into:"), weight_str.c_str());
     add_recyle_menu_entry(as_m, norm_recover_weight, 'l', "steel_lump");
     add_recyle_menu_entry(as_m, norm_recover_weight, 'S', "sheet_metal");

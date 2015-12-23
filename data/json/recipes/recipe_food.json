@@ -4846,7 +4846,6 @@
     ],
     [
       [ "honeycomb", 1 ],
-      [ "con_milk", 1 ],
       [ "honey_bottled", 4 ],
       [ "honey_glassed", 4],
       [ "sugar", 4 ],
@@ -10411,8 +10410,8 @@
   "result": "chai_tea",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_DRINKS",
-  "skill_used": ["cooking", 2 ],
-  "difficulty": 1,
+  "skill_used": "cooking",
+  "difficulty": 2,
   "time": 15000,
   "reversible": false,
   "autolearn": true,

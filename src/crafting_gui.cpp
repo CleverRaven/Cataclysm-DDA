@@ -126,7 +126,7 @@ const recipe *select_crafting_recipe( int &batch_size )
     int item_info_width = wStart + width - infoWidth;
     int item_info_height = headHeight + subHeadHeight;
 
-    if ( !isWide ) {
+    if( !isWide ) {
         item_info_x = 1;
         item_info_y = 1;
         item_info_width = 1;
@@ -205,7 +205,7 @@ const recipe *select_crafting_recipe( int &batch_size )
         // Clear the screen of recipe data, and draw it anew
         werase( w_data );
 
-        if ( isWide ) {
+        if( isWide ) {
             werase( w_iteminfo );
         }
 
@@ -392,17 +392,17 @@ const recipe *select_crafting_recipe( int &batch_size )
                 if( lastid != current[line]->id ) {
                     lastid = current[line]->id;
                     tmp = current[line]->create_result();
-                    tmp.info(true, thisItem);
+                    tmp.info( true, thisItem );
                 }
-                draw_item_info(w_iteminfo, tmp.tname(), tmp.type_name(), thisItem, dummy,
-                               scroll_pos, true, true, true, false, true);
+                draw_item_info( w_iteminfo, tmp.tname(), tmp.type_name(), thisItem, dummy,
+                                scroll_pos, true, true, true, false, true );
             }
         }
 
         draw_scrollbar( w_data, line, dataLines, recmax, 0 );
         wrefresh( w_data );
 
-        if ( isWide ) {
+        if( isWide ) {
             wrefresh( w_iteminfo );
         }
 

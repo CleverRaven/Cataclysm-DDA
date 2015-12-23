@@ -562,7 +562,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
         info.push_back( iteminfo( "BASE", _( "<bold>Volume</bold>: " ), "", volume(), true, "", false,
                                   true ) );
         info.push_back( iteminfo( "BASE", space + _( "Weight: " ),
-                                  string_format( "<num> %s", weight_units().c_str() ),
+                                  string_format( "<num> %s", weight_units() ),
                                   convert_weight( weight() ), false, "", true, true ) );
 
         if( damage_bash() > 0 || damage_cut() > 0 ) {
@@ -2212,26 +2212,19 @@ int item::price() const
     if( count_by_charges() || made_of( LIQUID ) ) {
         ret = ret * charges / static_cast<double>( type->stack_size);
     }
-    const it_tool* ttype = dynamic_cast<const it_tool*>( type );
-    if( has_curammo() && charges > 0 ) {
+
+    // tools, guns and auxiliary gunmods may contain ammunition which can affect the price
+    if( ammo_remaining() > 0 && has_curammo() ) {
         item tmp( get_curammo_id(), 0 );
         tmp.charges = charges;
         ret += tmp.price();
-    } else if( ttype != nullptr && !has_curammo() ) {
-        if( charges > 0 && ttype->ammo_id != "NULL" ) {
-            // Tools sometimes don't have a curammo, when they should, e.g. flashlight
-            // that has been reloaded, apparently item::reload does not set curammo for tools.
-            item tmp( default_ammo( ttype->ammo_id ), 0 );
-            tmp.charges = charges;
-            ret += tmp.price();
-        } else if( ttype->def_charges > 0 && ttype->ammo_id == "NULL" ) {
-            // If the tool uses specific ammo (like gasoline) it is handled above.
-            // This case is for tools that have no ammo, but charges (e.g. spray can)
-            // Full value when charges == default charges, otherwise scaled down
-            // (e.g. half price for half full spray).
-            ret = ret * charges / static_cast<double>( ttype->def_charges );
-        }
     }
+
+    // if tool has no ammo (eg. spray can) reduce price proportional to remaining charges
+    if( is_tool() && ammo_type() == "NULL" ) {
+        ret *= ammo_remaining() / double( std::max( dynamic_cast<const it_tool *>( type )->def_charges, 1L ) );
+    }
+
     for( auto &elem : contents ) {
         ret += elem.price();
     }
@@ -3773,29 +3766,15 @@ int item::gun_range( const player *p ) const
     if( p == nullptr ) {
         return ret;
     }
-    ///\EFFECT_STR allows use and increases range of some bows
-    if( has_flag( "STR8_DRAW" ) ) {
-        if( p->str_cur < 4 ) {
-            return 0;
-        }
-        if( p->str_cur < 8 ) {
-            ret -= 2 * ( 8 - p->str_cur );
-        }
-    } else if( has_flag( "STR10_DRAW" ) ) {
-        if( p->str_cur < 5 ) {
-            return 0;
-        }
-        if( p->str_cur < 10 ) {
-            ret -= 2 * ( 10 - p->str_cur );
-        }
-    } else if( has_flag( "STR12_DRAW" ) ) {
-        if( p->str_cur < 6 ) {
-            return 0;
-        }
-        if( p->str_cur < 12 ) {
-            ret -= 2 * ( 12 - p->str_cur );
-        }
+    if( !p->can_use( *this, false ) ) {
+        return 0;
     }
+
+    // Reduce bow range until player has twice minimm required strength
+    if( has_flag( "STR_DRAW" ) ) {
+        ret -= std::max( 0, type->min_str * 2 - p->get_str() );
+    }
+
     return std::max( 0, ret );
 }
 
@@ -3869,6 +3848,37 @@ long item::ammo_required() const {
     }
 
     return res;
+}
+
+bool item::ammo_consume( int qty ) {
+    if( qty < 0 ) {
+        debugmsg( "Cannot consume negative quantity of ammo for %s", tname().c_str() );
+        return false;
+    }
+
+    if( qty > ammo_remaining() ) {
+        return false;
+    }
+
+    if( is_tool() ) {
+        charges -= qty;
+        if( charges == 0 ) {
+            unset_curammo();
+        }
+        return true;
+    }
+
+    if( is_gun() ) {
+        // includes auxiliary gunmods
+        // @todo handle magazines
+        charges -= qty;
+        if( charges == 0 ) {
+            unset_curammo();
+        }
+        return true;
+    }
+
+    return false;
 }
 
 ammotype item::ammo_type() const
@@ -4163,9 +4173,7 @@ bool item::reload(player &u, int pos)
             eject_casings( u, target, get_curammo()->ammo->casing );
         }
 
-        if( target->is_gun() || target->is_gunmod() ) {
-            target->set_curammo( *ammo );
-        }
+        target->set_curammo( *ammo );
 
         if( ammo_type() == "plutonium" ) {
             // always consume at least one cell but never more than actually available
