@@ -61,6 +61,7 @@ enum monster_trigger : int {
 enum m_flag : int {
     MF_NULL = 0,            //
     MF_SEES,                // It can see you (and will run/follow)
+    MF_CONFIRMED_CONTACT,   // Confirms eye contact
     MF_VIS50,               // Vision -10
     MF_VIS40,               // Vision -20
     MF_VIS30,               // Vision -30
