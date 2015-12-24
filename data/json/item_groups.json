@@ -4658,13 +4658,6 @@
     ]
   },{
     "type" : "item_group",
-    "id" : "hospital_samples",
-    "items":[
-      ["blood", 20],
-      ["vacutainer", 10]
-    ]
-  },{
-    "type" : "item_group",
     "id" : "hospital_bed",
     "items":[
       ["child_book", 5],
