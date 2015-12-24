@@ -244,6 +244,7 @@ class Character : public Creature
          * @see item::visit
          **/
         VisitResponse visit_items( const std::function<VisitResponse(item&)>& func );
+        VisitResponse visit_items( const std::function<VisitResponse(const item&)>& func ) const;
 
         /**
          * Test whether an item in the possession of this player match a

@@ -666,6 +666,7 @@ public:
          * @return This method itself only ever returns VisitResponse::Next or VisitResponse::Abort.
          */
         VisitResponse visit( const std::function<VisitResponse(item&)>& func );
+        VisitResponse visit( const std::function<VisitResponse(const item&)>& func ) const;
 
         /** Checks if item is a holster and currently capable of storing obj */
         bool can_holster ( const item& obj ) const;

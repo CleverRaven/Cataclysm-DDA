@@ -4757,6 +4757,10 @@ VisitResponse item::visit( const std::function<VisitResponse(item&)>& func ) {
     return VisitResponse::Next;
 }
 
+VisitResponse item::visit( const std::function<VisitResponse(const item&)>& func ) const {
+    return const_cast<item *>( this )->visit( static_cast<const std::function<VisitResponse(item&)>&>( func ) );
+}
+
 bool item::can_holster ( const item& obj ) const {
     if( !type->can_use("holster") ) {
         return false; // item is not a holster

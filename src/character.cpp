@@ -464,6 +464,11 @@ VisitResponse Character::visit_items( const std::function<VisitResponse( item& )
     return inv.visit_items( func );
 }
 
+VisitResponse Character::visit_items( const std::function<VisitResponse( const item& )>& func ) const
+{
+    return const_cast<Character *>( this )->visit_items( static_cast<const std::function<VisitResponse(item&)>&>( func ) );
+}
+
 item& Character::i_add(item it)
 {
  itype_id item_type_id = "null";

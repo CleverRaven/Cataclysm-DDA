@@ -288,6 +288,7 @@ class inventory
          * @see item::visit
          **/
         VisitResponse visit_items( const std::function<VisitResponse(item&)>& func );
+        VisitResponse visit_items( const std::function<VisitResponse(const item&)>& func ) const;
 
         template<typename T>
         std::list<item> remove_items_with( T filter )
