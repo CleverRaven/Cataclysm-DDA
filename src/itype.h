@@ -494,6 +494,13 @@ public:
     std::set<std::string> item_tags;
     std::set<matec_id> techniques;
 
+    // Minimum stat(s) or skill(s) to use the item
+    int min_str = 0;
+    int min_dex = 0;
+    int min_int = 0;
+    int min_per = 0;
+    std::map<skill_id, int> min_skills;
+
     // Explosion that happens when the item is set on fire
     explosion_data explosion_on_fire_data;
 

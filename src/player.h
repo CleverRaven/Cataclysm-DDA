@@ -686,6 +686,11 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Creates the UI and handles player input for picking martial arts styles */
         bool pick_style();
         /**
+         * Checks if player stats and skills meet minimum requirements for the item
+         * @param interactive controls whether informative messages are printed if item requirements not met
+         */
+        bool can_use( const item& it, bool interactive = true ) const;
+        /**
          * Calculate (but do not deduct) the number of moves required when handling (eg. storing, drawing etc.) an item
          * @param effects whether temporary player effects should be considered (eg. GRABBED, DOWNED)
          * @param factor base move cost per unit volume before considering any other modifiers
@@ -753,7 +758,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Returns a value from 1.0 to 5.0 that acts as a multiplier
          * for the time taken to perform tasks that require detail vision,
          * above 4.0 means these activities cannot be performed. */
-        float fine_detail_vision_mod();
+        float fine_detail_vision_mod() const;
 
         /** Used to determine player feedback on item use for the inventory code.
          *  rates usability lower for non-tools (books, etc.) */
@@ -908,7 +913,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         // Returns -1 to indicate recipe not found, otherwise difficulty to learn.
         int has_recipe( const recipe *r, const inventory &crafting_inv ) const;
         bool knows_recipe( const recipe *rec ) const;
-        void learn_recipe( const recipe *rec );
+        void learn_recipe( const recipe *rec, bool force = false );
         bool has_recipe_requirements(const recipe *rec) const;
 
         bool studied_all_recipes(const itype &book) const;

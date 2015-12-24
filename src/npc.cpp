@@ -2529,6 +2529,9 @@ void npc::on_load()
     for( ; cur < now; cur++ ) {
         update_body( cur, cur + 1 );
     }
+
+    // Not necessarily true, but it's not a bad idea to set this
+    has_new_items = true;
 }
 
 void npc_chatbin::add_new_mission( mission *miss )

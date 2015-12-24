@@ -55,6 +55,11 @@ struct mutation_branch {
     int cost       = 0;
     // costs are consumed consumed every cooldown turns,
     int cooldown   = 0;
+    // bodytemp elements:
+    int bodytemp_min = 0;
+    int bodytemp_max = 0;
+    int bodytemp_sleep = 0;
+
     std::vector<std::string> prereqs; // Prerequisites; Only one is required
     std::vector<std::string> prereqs2; // Prerequisites; need one from here too
     std::vector<std::string> threshreq; // Prerequisites; dedicated slot to needing thresholds

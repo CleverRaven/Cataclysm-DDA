@@ -4574,7 +4574,7 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
         ret.type = veh_coll_bashable;
         terrain_collision_data( p, bash_floor, mass2, part_dens, e );
         ret.target_name = g->m.disp_name( p );
-    } else if( g->m.move_cost_ter_furn( p ) == 0 ||
+    } else if( g->m.impassable_ter_furn( p ) ||
                ( bash_floor && !g->m.has_flag( TFLAG_NO_FLOOR, p ) ) ) {
         ret.type = veh_coll_other; // not destructible
         mass2 = 1000;
@@ -4682,7 +4682,7 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
                     smashed = false;
                     terrain_collision_data( p, bash_floor, mass2, part_dens, e );
                     ret.target_name = g->m.disp_name( p );
-                } else if( g->m.move_cost_ter_furn( p ) == 0 ) {
+                } else if( g->m.impassable_ter_furn( p ) ) {
                     // There's new terrain there, but we can't smash it!
                     smashed = false;
                     ret.type = veh_coll_other;
@@ -5818,7 +5818,7 @@ void vehicle::leak_fuel (int p)
         maxp.y += 2;
 
         for ( const tripoint &pt : g->m.points_in_rectangle(minp, maxp) ){
-            if (g->m.move_cost(pt) > 0 && one_in(2)) {
+            if (g->m.passable(pt) && one_in(2)) {
                 int leak_amount = rng(79, 121);
 
                 if (parts[p].amount < leak_amount) {

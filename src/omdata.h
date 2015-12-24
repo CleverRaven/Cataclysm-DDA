@@ -74,7 +74,7 @@ struct oter_t {
       bool has_flag(oter_flags flag) const {
           return flags[flag];
       }
-      
+
       void set_flag(oter_flags flag, bool value = true) {
           flags[flag] = value;
       }
@@ -169,8 +169,6 @@ class overmap_special
         int min_occurrences, max_occurrences;
         int height, width;
         bool rotatable;
-        bool unique;
-        bool required;
         overmap_special_spawns spawns;
         std::list<std::string> locations;
         std::set<std::string> flags;

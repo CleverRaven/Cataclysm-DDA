@@ -10,6 +10,7 @@
 #include "translations.h"
 #include "weather_gen.h"
 #include "sounds.h"
+#include "cata_utility.h"
 
 #include <vector>
 #include <sstream>
@@ -574,18 +575,18 @@ std::string weather_forecast( point const &abs_sm_pos )
 /**
  * Print temperature (and convert to celsius if celsius display is enabled.)
  */
-std::string print_temperature(float fahrenheit, int decimals)
+std::string print_temperature( double fahrenheit, int decimals )
 {
     std::ostringstream ret;
-    ret.precision(decimals);
+    ret.precision( decimals );
     ret << std::fixed;
 
     if(OPTIONS["USE_CELSIUS"] == "celsius") {
-        ret << ((fahrenheit - 32) * 5 / 9);
-        return rmp_format(_("<Celsius>%sC"), ret.str().c_str());
+        ret << temp_to_celsius( fahrenheit );
+        return rmp_format( _( "<Celsius>%sC" ), ret.str().c_str() );
     } else {
         ret << fahrenheit;
-        return rmp_format(_("<Fahrenheit>%sF"), ret.str().c_str());
+        return rmp_format( _( "<Fahrenheit>%sF" ), ret.str().c_str() );
     }
 
 }
@@ -593,7 +594,7 @@ std::string print_temperature(float fahrenheit, int decimals)
 /**
  * Print relative humidity (no conversions.)
  */
-std::string print_humidity( float humidity, int decimals )
+std::string print_humidity( double humidity, int decimals )
 {
     std::ostringstream ret;
     ret.precision( decimals );
@@ -606,18 +607,18 @@ std::string print_humidity( float humidity, int decimals )
 /**
  * Print pressure (no conversions.)
  */
-std::string print_pressure(float pressure, int decimals)
+std::string print_pressure( double pressure, int decimals )
 {
     std::ostringstream ret;
-    ret.precision(decimals);
+    ret.precision( decimals );
     ret << std::fixed;
 
-    ret << pressure/10;
-    return rmp_format(_("%s kPa"), ret.str().c_str());
+    ret << pressure / 10;
+    return rmp_format( _( "%s kPa" ), ret.str().c_str() );
 }
 
 
-int get_local_windchill(double temperature, double humidity, double windpower)
+int get_local_windchill( double temperature, double humidity, double windpower )
 {
     double tmptemp = temperature;
     double tmpwind = windpower;
@@ -639,7 +640,7 @@ int get_local_windchill(double temperature, double humidity, double windpower)
 
         // Source : http://en.wikipedia.org/wiki/Wind_chill#Australian_Apparent_Temperature
         tmpwind = tmpwind * 0.44704; // Convert to meters per second.
-        tmptemp = (tmptemp - 32) * 5 / 9; // Convert to celsius.
+        tmptemp = temp_to_celsius( tmptemp );
 
         windchill = (0.33 * ((humidity / 100.00) * 6.105 * exp((17.27 * tmptemp) /
                              (237.70 + tmptemp))) - 0.70 * tmpwind - 4.00);
@@ -650,7 +651,7 @@ int get_local_windchill(double temperature, double humidity, double windpower)
     return windchill;
 }
 
-int get_local_humidity(double humidity, weather_type weather, bool sheltered)
+int get_local_humidity( double humidity, weather_type weather, bool sheltered )
 {
     int tmphumidity = humidity;
     if( sheltered ) {

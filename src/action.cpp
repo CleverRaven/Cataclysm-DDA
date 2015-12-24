@@ -762,7 +762,7 @@ bool choose_direction( const std::string &message, int &x, int &y )
 bool choose_direction( const std::string &message, tripoint &offset, bool allow_vertical )
 {
     input_context ctxt( "DEFAULTMODE" );
-    ctxt.set_iso(true);
+    ctxt.set_iso( true );
     ctxt.register_directions();
     ctxt.register_action( "pause" );
     ctxt.register_action( "QUIT" );

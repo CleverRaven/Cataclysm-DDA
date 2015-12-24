@@ -1663,6 +1663,11 @@ std::string dialogue::dynamic_line( const std::string &topic ) const
             return _("Changed your mind?");
         }
 
+        if( &given == &g->u.weapon && given.has_flag( "NO_UNWIELD" ) ) {
+            // Bio weapon or shackles
+            return _("How?");
+        }
+
         const bool allow_carry = topic == "TALK_GIVE_ITEM";
         if( given.is_dangerous() ) {
             return _("Are you <swear> insane!?");

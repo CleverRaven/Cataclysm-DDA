@@ -1863,3 +1863,337 @@ long holster_actor::use( player *p, item *it, bool, const tripoint & ) const
 
     return 0;
 }
+
+void repair_item_actor::load( JsonObject &obj )
+{
+    // Mandatory:
+    JsonArray jarr = obj.get_array( "materials" );
+    while( jarr.has_more() ) {
+        materials.push_back( jarr.next_string() );
+    }
+
+    // TODO: Make skill non-mandatory while still erroring on invalid skill
+    const std::string skill_string = obj.get_string( "skill" );
+    used_skill = skill_id( skill_string );
+    if( !used_skill.is_valid() ) {
+        obj.throw_error( "Invalid skill", "skill" );
+    }
+
+    cost_scaling = obj.get_float( "cost_scaling" );
+
+    // Kinda hacky: get subtype of the actor for item action menu
+    type = obj.get_string( "item_action_type" );
+
+    // Optional
+    tool_quality = obj.get_int( "tool_quality", 0 );
+    move_cost    = obj.get_int( "move_cost", 500 );
+}
+
+// TODO: This should be a property of material json, not a hardcoded hack
+const itype_id &material_component( const std::string &material_id )
+{
+    static const std::map< std::string, itype_id > material_id_map {
+        // Metals (welded)
+        { "kevlar", "kevlar_plate" },
+        { "plastic", "plastic_chunk" },
+        { "iron", "scrap" },
+        { "steel", "scrap" },
+        { "hardsteel", "scrap" },
+        { "aluminum", "material_aluminium_ingot" },
+        { "copper", "scrap_copper" },
+        // Fabrics (sewn)
+        { "cotton", "rag" },
+        { "leather", "leather" },
+        { "fur", "fur" },
+        { "nomex", "nomex" },
+        { "wool", "felt_patch" }
+    };
+
+    static const itype_id null_material = "";
+    const auto iter = material_id_map.find( material_id );
+    if( iter != material_id_map.end() ) {
+        return iter->second;
+    }
+
+    return null_material;
+}
+
+bool could_repair( const player &p, const item &it, bool print_msg )
+{
+    if( p.is_underwater() ) {
+        if( print_msg ) {
+            p.add_msg_if_player(m_info, _("You can't do that while underwater."));
+        }
+        return false;
+    }
+    if( p.fine_detail_vision_mod() > 4 ) {
+        if( print_msg ) {
+            p.add_msg_if_player(m_info, _("You can't see to solder!"));
+        }
+        return false;
+    }
+    int charges_used = dynamic_cast<const it_tool*>( it.type )->charges_to_use();
+    if( it.charges < charges_used ) {
+        if( print_msg ) {
+            p.add_msg_if_player( m_info, _("Your tool does not have enough charges to do that.") );
+        }
+        return false;
+    }
+
+    return true;
+}
+
+long repair_item_actor::use( player *p, item *it, bool, const tripoint & ) const
+{
+    if( !could_repair( *p, *it, true ) ) {
+        return 0;
+    }
+
+    int pos = g->inv_for_filter( _("Repair what?"), [this, it]( const item &itm ) {
+        return itm.made_of_any( materials ) && !itm.is_ammo() && !itm.is_firearm() && &itm != it;
+    } );
+
+    item &fix = p->i_at( pos );
+    if( fix.is_null() ) {
+        p->add_msg_if_player(m_info, _("You do not have that item!"));
+        return 0;
+    }
+
+    p->assign_activity( ACT_REPAIR_ITEM, 0, p->get_item_position( it ), pos );
+    // We also need to store the repair actor subtype in the activity
+    p->activity.str_values.push_back( type );
+    // All repairs are done in the activity, including charge cost
+    return 0;
+}
+
+iuse_actor *repair_item_actor::clone() const
+{
+    return new repair_item_actor( *this );
+}
+
+bool repair_item_actor::handle_components( player &pl, const item &fix,
+    bool print_msg, bool just_check ) const
+{
+    // Entries valid for repaired items
+    std::set<std::string> valid_entries;
+    for( const auto &mat : materials ) {
+        if( fix.made_of( mat ) ) {
+            valid_entries.insert( mat );
+        }
+    }
+
+    std::vector<item_comp> comps;
+    if( valid_entries.empty() ) {
+        if( print_msg ) {
+            pl.add_msg_if_player( m_info, _("Your %s is not made of any of:"),
+                                  fix.tname().c_str());
+            for( const auto &mat_name : materials ) {
+                const auto mat = material_type::find_material( mat_name );
+                const auto mat_comp = material_component( mat_name );
+                pl.add_msg_if_player( m_info, _("%s (repaired using %s)"),
+                                      mat->name().c_str(), item::nname( mat_comp, 2 ).c_str() );
+            }
+        }
+
+        return false;
+    }
+
+    // Repairing apparently doesn't always consume items;
+    // maybe it should just consume less or something?
+    // Anyway, don't ask for items if we won't need any.
+    if( !(fix.damage >= 3 || fix.damage == 0) ) {
+        return true;
+    }
+
+    const inventory &crafting_inv = pl.crafting_inventory();
+
+    // Repairing or modifying items requires at least 1 repair item,
+    //  otherwise number is related to size of item
+    const int items_needed = std::max<int>( 1, ceil( fix.volume() * cost_scaling ) );
+
+    // Go through all discovered repair items and see if we have any of them available
+    for( const auto &entry : valid_entries ) {
+        const auto component_id = material_component( entry );
+        if( crafting_inv.has_amount( component_id, items_needed ) ) {
+            // We've found enough of a material, add it to list
+            comps.push_back( item_comp( component_id, items_needed ) );
+        }
+    }
+
+    if( comps.empty() ) {
+        if( print_msg ) {
+            for( const auto &entry : valid_entries ) {
+                const auto &mat_comp = material_component( entry );
+                pl.add_msg_if_player( m_info,
+                    _("You don't have enough %s to do that. Have: %d, need: %d"),
+                    item::nname( mat_comp, 2 ).c_str(),
+                    crafting_inv.amount_of( mat_comp, false ), items_needed );
+            }
+        }
+
+        return false;
+    }
+
+    if( !just_check ) {
+        if( comps.empty() ) {
+            // This shouldn't happen - the check in can_repair should prevent it
+            // But report it, just in case
+            debugmsg( "Attempted repair with no components" );
+        }
+
+        pl.consume_items( comps );
+    }
+
+    return true;
+}
+
+bool repair_item_actor::can_repair( player &pl, const item &tool, const item &fix, bool print_msg ) const
+{
+    if( !could_repair( pl, tool, print_msg ) ) {
+        return false;
+    }
+
+    // In some rare cases (indices getting scrambled after inventory overflow)
+    //  our `fix` can be a different item.
+    if( fix.is_null() ) {
+        if( print_msg ) {
+            pl.add_msg_if_player( m_info, _("You do not have that item!") );
+        }
+        return false;
+    }
+    if( fix.is_firearm() ) {
+        if( print_msg ) {
+            pl.add_msg_if_player( m_info, _("That requires gunsmithing tools.") );
+        }
+        return false;
+    }
+    if( fix.is_ammo() ) {
+        if( print_msg ) {
+            pl.add_msg_if_player( m_info, _("You cannot repair this type of item.") );
+        }
+        return false;
+    }
+
+    if( &fix == &tool || any_of( materials.begin(), materials.end(), [&fix]( const std::string &mat ) {
+            return material_component( mat ) == fix.typeId();
+        } ) ) {
+        if( print_msg ) {
+            pl.add_msg_if_player( m_info, _("This can be used to repair other items, not itself.") );
+        }
+        return false;
+    }
+
+    if( !handle_components( pl, fix, print_msg, true ) ) {
+        return false;
+    }
+    
+    if( fix.damage == 0 && fix.has_flag("PRIMITIVE_RANGED_WEAPON") ) {
+        if( print_msg ) {
+            pl.add_msg_if_player( m_info, _("You cannot improve your %s any more this way."), fix.tname().c_str());
+        }
+        return false;
+    }
+
+    if( fix.damage >= 0 || (fix.has_flag("VARSIZE") && !fix.has_flag("FIT")) ) {
+        return true;
+    }
+
+    if( print_msg ) {
+        pl.add_msg_if_player( m_info, _("Your %s is already enhanced."), fix.tname().c_str() );
+    }
+    return false;
+}
+
+repair_item_actor::attempt_hint repair_item_actor::repair( player &pl, item &tool, item &fix ) const
+{
+    if( !can_repair( pl, tool, fix, true ) ) {
+        return AS_CANT;
+    }
+
+    pl.practice( used_skill, 8 );
+    ///\EFFECT_TAILOR randomly improves clothing repair efforts
+    ///\EFFECT_MECHANICS randomly improves metal repair efforts
+    // Let's make refitting/reinforcing as hard as recovering an almost-wrecked item
+    // TODO: Make difficulty depend on the item type (for example, on recipe's difficulty)
+    const int difficulty = fix.damage == 0 ? 4 : fix.damage;
+    float repair_chance = (5 + pl.get_skill_level( used_skill ) - difficulty) / 100.0f;
+    ///\EFFECT_DEX randomly reduces the chances of damaging an item when repairing
+    float damage_chance = (5 - (pl.dex_cur - tool_quality) / 5.0f) / 100.0f;
+    float roll_value = rng_float( 0.0, 1.0 );
+    enum roll_result {
+        SUCCESS,
+        FAILURE,
+        NEUTRAL
+    } roll;
+
+    if( roll_value > 1.0f - damage_chance ) {
+        roll = FAILURE;
+    } else if( roll_value < repair_chance ) {
+        roll = SUCCESS;
+    } else {
+        roll = NEUTRAL;
+    }
+
+    if( fix.damage > 0 ) {
+        if( roll == FAILURE ) {
+            pl.add_msg_if_player(m_bad, _("You damage your %s further!"), fix.tname().c_str());
+            fix.damage++;
+            if( fix.damage >= 5 ) {
+                pl.add_msg_if_player(m_bad, _("You destroy it!"));
+                const int pos = pl.get_item_position( &fix );
+                if( pos != INT_MIN ) {
+                    pl.i_rem_keep_contents( pos );
+                } else {
+                    // NOTE: Repairing items outside inventory is NOT yet supported!
+                    debugmsg( "Tried to remove an item that doesn't exist" );
+                }
+
+                return AS_DESTROYED;
+            }
+
+            return AS_FAILURE;
+        }
+
+        if( roll == SUCCESS ) {
+            pl.add_msg_if_player(m_good, _("You repair your %s!"), fix.tname().c_str());
+            handle_components( pl, fix, false, false );
+            fix.damage--;
+            return AS_SUCCESS;
+        }
+
+        return AS_RETRY;
+    }
+
+    if( fix.damage == 0 && fix.has_flag("PRIMITIVE_RANGED_WEAPON") ) {
+        pl.add_msg_if_player(m_info, _("You cannot improve your %s any more this way."), fix.tname().c_str());
+        return AS_CANT;
+    }
+
+    if( fix.damage == 0 || (fix.has_flag("VARSIZE") && !fix.has_flag("FIT")) ) {
+        if( roll == FAILURE ) {
+            pl.add_msg_if_player(m_bad, _("You damage your %s!"), fix.tname().c_str());
+            fix.damage++;
+            return AS_FAILURE;
+        }
+
+        if( roll == SUCCESS && fix.has_flag("VARSIZE") && !fix.has_flag("FIT") ) {
+            pl.add_msg_if_player(m_good, _("You take your %s in, improving the fit."),
+                                 fix.tname().c_str());
+            fix.item_tags.insert("FIT");
+            handle_components( pl, fix, false, false );
+            return AS_SUCCESS;
+        }
+
+        if( roll == SUCCESS && (fix.has_flag("FIT") || !fix.has_flag("VARSIZE")) ) {
+            pl.add_msg_if_player(m_good, _("You make your %s extra sturdy."), fix.tname().c_str());
+            fix.damage--;
+            handle_components( pl, fix, false, false );
+            return AS_SUCCESS;
+        }
+
+        return AS_RETRY;
+    }
+
+    pl.add_msg_if_player(m_info, _("Your %s is already enhanced."), fix.tname().c_str());
+    return AS_CANT;
+}

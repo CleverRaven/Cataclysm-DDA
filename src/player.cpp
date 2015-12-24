@@ -816,8 +816,8 @@ void player::update_bodytemp()
         return;
     }
     // NOTE : visit weather.h for some details on the numbers used
-    // Converts temperature to Celsius/10(Wito plans on using degrees Kelvin later)
-    int Ctemperature = 100 * (g->get_temperature() - 32) * 5 / 9;
+    // Converts temperature to Celsius/10
+    int Ctemperature = 100 * temp_to_celsius( g->get_temperature() );
     w_point const weather = g->weather_gen->get_weather( global_square_location(), calendar::turn );
     int vpart = -1;
     vehicle *veh = g->m.veh_at( pos(), vpart );
@@ -863,8 +863,8 @@ void player::update_bodytemp()
                                              bp_windpower );
         // If you're standing in water, air temperature is replaced by water temperature. No wind.
         const ter_id ter_at_pos = g->m.ter( pos() );
-        // Convert to C.
-        int water_temperature = 100 * (g->weather_gen->get_water_temperature() - 32) * 5 / 9;
+        // Convert to 0.01C
+        int water_temperature = 100 * temp_to_celsius( g->weather_gen->get_water_temperature() );
         if ( (ter_at_pos == t_water_dp || ter_at_pos == t_water_pool || ter_at_pos == t_swater_dp) ||
              ((ter_at_pos == t_water_sh || ter_at_pos == t_swater_sh || ter_at_pos == t_sewage) &&
               (i == bp_foot_l || i == bp_foot_r || i == bp_leg_l || i == bp_leg_r)) ) {
@@ -1424,93 +1424,20 @@ int player::bodytemp_modifier_fire()
 int player::bodytemp_modifier_traits( bool overheated )
 {
     int mod = 0;
-
-    // Lightly furred
-    if( has_trait( "LIGHTFUR" ) ) {
-        mod += ( overheated ? 250 : 500 );
-    }
-    // Furry or Lupine/Ursine Fur
-    if( has_trait( "FUR" ) || has_trait( "LUPINE_FUR" ) || has_trait( "URSINE_FUR" ) ) {
-        mod += ( overheated ? 750 : 1500 );
-    }
-    // Feline fur
-    if( has_trait( "FELINE_FUR" ) ) {
-        mod += ( overheated ? 500 : 1000 );
-    }
-    // Feathers: minor means minor.
-    if( has_trait( "FEATHERS" ) ) {
-        mod += ( overheated ? 50 : 100 );
-    }
-    if( has_trait( "CHITIN_FUR" ) ) {
-        mod += ( overheated ? 100 : 150 );
-    }
-    if( has_trait( "CHITIN_FUR2" ) || has_trait( "CHITIN_FUR3" ) ) {
-        mod += ( overheated ? 150 : 250 );
-    }
-    // Down; lets heat out more easily if needed but not as Warm
-    // as full-blown fur.  So less miserable in Summer.
-    if( has_trait( "DOWN" ) ) {
-        mod += ( overheated ? 300 : 800 );
-    }
-    // Fat deposits don't hold in much heat, but don't shift for temp
-    if( has_trait( "FAT" ) ) {
-        mod += 200;
-    }
-    // Being in the shell holds in heat, but lets out less in summer :-/
-    if( has_active_mutation( "SHELL2" ) ) {
-        mod += ( overheated ? 500 : 750 );
-    }
-    // Disintegration
-    if( has_trait( "ROT1" ) ) {
-        mod -= 250;
-    } else if( has_trait( "ROT2" ) ) {
-        mod -= 750;
-    } else if( has_trait( "ROT3" ) ) {
-        mod -= 1500;
-    }
-    // Radioactive
-    if( has_trait( "RADIOACTIVE1" ) ) {
-        mod += 250;
-    } else if( has_trait( "RADIOACTIVE2" ) ) {
-        mod += 750;
-    } else if( has_trait( "RADIOACTIVE3" ) ) {
-        mod += 1500;
+    for( auto &iter : my_mutations ) {
+        mod += overheated ? mutation_branch::get( iter.first ).bodytemp_min :
+                            mutation_branch::get( iter.first ).bodytemp_max;
     }
     return mod;
 }
 
 int player::bodytemp_modifier_traits_sleep()
 {
-    int floor_mut_warmth = 0;
-    // Fur, etc effects for sleeping  here.
-    // Full-power fur is about as effective as a makeshift bed
-    if( has_trait( "FUR" ) || has_trait( "LUPINE_FUR" ) || has_trait( "URSINE_FUR" ) ) {
-        floor_mut_warmth += 500;
+    int mod = 0;
+    for( auto &iter : my_mutations ) {
+        mod +=  mutation_branch::get( iter.first ).bodytemp_sleep;
     }
-    // Feline fur, not quite as warm.  Cats do better in warmer spots.
-    if( has_trait( "FELINE_FUR" ) ) {
-        floor_mut_warmth += 300;
-    }
-    // Light fur's better than nothing!
-    if( has_trait( "LIGHTFUR" ) ) {
-        floor_mut_warmth += 100;
-    }
-    // Spider hair really isn't meant for this sort of thing
-    if( has_trait( "CHITIN_FUR" ) ) {
-        floor_mut_warmth += 50;
-    }
-    if( has_trait( "CHITIN_FUR2" ) || has_trait( "CHITIN_FUR3" ) ) {
-        floor_mut_warmth += 75;
-    }
-    // Down helps too
-    if( has_trait( "DOWN" ) ) {
-        floor_mut_warmth += 250;
-    }
-    // Curl up in your shell to conserve heat & stay warm
-    if( has_active_mutation( "SHELL2" ) ) {
-        floor_mut_warmth += 200;
-    }
-    return floor_mut_warmth;
+    return mod;
 }
 
 int player::temp_corrected_by_climate_control( int temperature )
@@ -5425,7 +5352,7 @@ void player::knock_back_from( const tripoint &p )
             g->plswim( to );
         }
         // TODO: NPCs can't swim!
-    } else if (g->m.move_cost( to ) == 0) { // Wait, it's a wall (or water)
+    } else if (g->m.impassable( to )) { // Wait, it's a wall
 
         // It's some kind of wall.
         apply_damage( nullptr, bp_torso, 3 ); // TODO: who knocked us back? Maybe that creature should be the source of the damage?
@@ -7292,7 +7219,7 @@ void player::hardcoded_effects(effect &it)
                 tries++;
             } while ((dest == pos() || g->mon_at(dest) != -1) && tries < 10);
             if (tries < 10) {
-                if (g->m.move_cost( dest ) == 0) {
+                if (g->m.impassable( dest )) {
                     g->m.make_rubble( dest, f_rubble_rock, true);
                 }
                 MonsterGroupResult spawn_details = MonsterGroupManager::GetResultFromGroup( mongroup_id( "GROUP_NETHER" ) );
@@ -7375,7 +7302,7 @@ void player::hardcoded_effects(effect &it)
                     }
                 } while (((x == posx() && y == posy()) || g->mon_at( dest ) != -1));
                 if (tries < 10) {
-                    if (g->m.move_cost(x, y) == 0) {
+                    if (g->m.impassable(x, y)) {
                         g->m.make_rubble( tripoint( x, y, posz() ), f_rubble_rock, true);
                     }
                     MonsterGroupResult spawn_details = MonsterGroupManager::GetResultFromGroup( mongroup_id( "GROUP_NETHER" ) );
@@ -10825,6 +10752,40 @@ hint_rating player::rate_action_change_side( const item &it ) const {
     return HINT_GOOD;
 }
 
+bool player::can_use( const item& it, bool interactive ) const {
+    // First check stats
+    std::string fail_stat;
+    if( it.type->min_str > get_str() ) {
+        fail_stat = "strength";
+    } else if( it.type->min_dex > get_dex() ) {
+        fail_stat = "dexterity";
+    } else if( it.type->min_int > get_int() ) {
+        fail_stat = "intelligence";
+    } else if( it.type->min_per > get_per() ) {
+        fail_stat = "perception";
+    }
+    if( !fail_stat.empty() ) {
+        if( interactive ) {
+            add_msg_if_player( m_bad, _( "You lack the %s to use the %s" ),
+                               fail_stat.c_str(), it.tname().c_str() );
+        }
+        return false;
+    }
+
+    // Then check skills
+    const auto& reqs = it.type->min_skills;
+    return std::none_of( reqs.begin(), reqs.end(), [&]( const std::pair<skill_id, int>& e ) {
+        if( get_skill_level( e.first ) >= e.second ) {
+            return false;
+        }
+        if( interactive ) {
+            add_msg_if_player( m_bad, _( "You lack the skill in %s to use the %s" ),
+			       e.first.obj().name().c_str(), it.tname().c_str() );
+        }
+        return true;
+    });
+}
+
 int player::item_handling_cost( const item& it, bool effects, int factor ) const {
     int mv = std::max( 1, it.volume() * factor );
     if( effects && has_effect( "grabbed" ) ) {
@@ -12252,12 +12213,12 @@ bool player::try_study_recipe( const itype &book )
     }
     for( auto const & elem : book.book->recipes ) {
         auto const r = elem.recipe;
-        if( knows_recipe( r ) ) {
+        if( knows_recipe( r ) || !r->valid_learn() ) {
             continue;
         }
         if( !r->skill_used || get_skill_level( r->skill_used ) >= elem.skill_level ) {
             if( !r->skill_used ||
-                rng(0, 4) <= (get_skill_level(r->skill_used) - elem.skill_level) / 2) {
+                rng(0, 4) <= (get_skill_level(r->skill_used) - elem.skill_level) / 2 ) {
                 learn_recipe( r );
                 add_msg(m_good, _("Learned a recipe for %1$s from the %2$s."),
                                 item::nname( r->result ).c_str(), book.nname(1).c_str());
@@ -12554,7 +12515,7 @@ std::string player::is_snuggling() const
 
 // Returned values range from 1.0 (unimpeded vision) to 5.0 (totally blind).
 // LIGHT_AMBIENT DIM is enough light for detail work, but held items get a boost.
-float player::fine_detail_vision_mod()
+float player::fine_detail_vision_mod() const
 {
     // PER_SLIME_OK implies you can get enough eyes around the bile
     // that you can generaly see.  There'll still be the haze, but
@@ -13493,6 +13454,10 @@ void player::practice( const skill_id &s, int amount, int cap )
 
 bool player::has_recipe_requirements( const recipe *rec ) const
 {
+    if( !rec->valid_learn() ) {
+        return false;
+    }
+
     bool meets_requirements = false;
     if( !rec->skill_used || get_skill_level( rec->skill_used) >= rec->difficulty ) {
         meets_requirements = true;
@@ -13551,9 +13516,13 @@ int player::has_recipe( const recipe *r, const inventory &crafting_inv ) const
     return difficulty;
 }
 
-void player::learn_recipe( const recipe * const rec )
+void player::learn_recipe( const recipe * const rec, bool force )
 {
-    learned_recipes[rec->ident] = rec;
+    if( force || rec->valid_learn() ) {
+        learned_recipes[rec->ident] = rec;
+    } else {
+        debugmsg( "Tried to learn unlearnable recipe %s", rec->ident.c_str() );
+    }
 }
 
 void player::assign_activity(activity_type type, int moves, int index, int pos, std::string name)
@@ -13809,7 +13778,7 @@ tripoint player::adjacent_tile() const
             continue;
         }
         const trap &curtrap = g->m.tr_at( p );
-        if( g->mon_at( p ) == -1 && g->npc_at( p ) == -1 && g->m.move_cost( p ) > 0 &&
+        if( g->mon_at( p ) == -1 && g->npc_at( p ) == -1 && g->m.passable( p ) &&
             (curtrap.is_null() || curtrap.is_benign()) ) {
             // Only consider tile if unoccupied, passable and has no traps
             dangerous_fields = 0;

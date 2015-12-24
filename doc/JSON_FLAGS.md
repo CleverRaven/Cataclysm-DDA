@@ -809,9 +809,7 @@ Some armor flags, such as `WATCH` and `ALARMCLOCK` are compatible with other ite
 - ```STR_RELOAD``` Reload speed is affected by strength.
 - ```RELOAD_EJECT``` Ejects shell from gun on reload instead of when fired.
 - ```NO_BOOM``` Cancels the ammo effect "FLAME".
-- ```STR8_DRAW``` Character needs at least strength 8 to use the full range of this bow, can not be used with less than 4 strength.
-- ```STR10_DRAW``` Character needs at least strength 10 to use the full range of this bow, can not be used with less than 5 strength.
-- ```STR12_DRAW``` Character needs at least strength 12 to use the full range of this bow, can not be used with less than 6 strength.
+- ```STR_DRAW``` Range with this weapon is reduced unless character has at least twice the required minimum strength
 - ```MOUNTED_GUN``` Gun can only be used on terrain / furniture with the "MOUNTABLE" flag.
 - ```WATERPROOF_GUN``` Gun does not rust and can be used underwater.
 - ```UNDERWATER_GUN``` Gun is optimized for usage underwater, does perform badly outside of water.
