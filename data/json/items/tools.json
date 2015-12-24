@@ -276,9 +276,10 @@
     "color": "dark_green",
     "name": "survivor telescope",
     "name_plural": "survivor telescopes",
-    "description": "A homemade collapsible telescope. Too large and inaccurate to use as a weapon scope, but carrying this item in your inventory will double the distance that is mapped around you during your travels.",
+    "description": "A homemade collapsible telescope.  Too large and inaccurate to use as a weapon scope, but carrying this item in your inventory will double the distance that is mapped around you during your travels.",
     "price": 600,
     "material": ["glass", "plastic"],
+    "flags": [ "LENS", "ZOOM" ],
     "weight": 500,
     "volume": 1,
     "bashing": 0,
@@ -289,7 +290,11 @@
     "max_charges": 0,
     "initial_charges": 0,
     "charges_per_use": 0,
-    "turns_per_charge": 0
+    "turns_per_charge": 0,
+    "use_action": {
+            "type": "extended_firestarter",
+            "need_sunlight": true
+    }
   },
   {
     "id": "rock_quern",
