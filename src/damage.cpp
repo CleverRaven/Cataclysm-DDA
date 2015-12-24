@@ -184,7 +184,7 @@ void ammo_effects( const tripoint &p, const std::set<std::string> &effects )
         g->explosion( p, 450 );
         for( auto && pt : g->m.points_in_radius( p, 6, 0 ) ) {
             if( g->m.sees( p, pt, 3 ) &&
-                g->m.move_cost( pt ) > 0 ) {
+                g->m.passable( pt ) ) {
                 g->m.add_field( pt, fd_nuke_gas, 3, 0 );
             }
         }

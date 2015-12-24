@@ -1375,14 +1375,14 @@ bool map::process_fields_in_submap( submap *const current_submap,
                     case fd_electricity:
                         if (!one_in(5)) {   // 4 in 5 chance to spread
                             std::vector<tripoint> valid;
-                            if (move_cost( p ) == 0 && cur->getFieldDensity() > 1) { // We're grounded
+                            if (impassable( p ) && cur->getFieldDensity() > 1) { // We're grounded
                                 int tries = 0;
                                 tripoint pnt;
                                 pnt.z = p.z;
                                 while (tries < 10 && cur->getFieldAge() < 50 && cur->getFieldDensity() > 1) {
                                     pnt.x = p.x + rng(-1, 1);
                                     pnt.y = p.y + rng(-1, 1);
-                                    if( move_cost( pnt ) != 0 ) {
+                                    if( passable( pnt ) ) {
                                         add_field( pnt, fd_electricity, 1, cur->getFieldAge() + 1);
                                         cur->setFieldDensity(cur->getFieldDensity() - 1);
                                         tries = 0;
@@ -1394,7 +1394,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                 for (int a = -1; a <= 1; a++) {
                                     for (int b = -1; b <= 1; b++) {
                                         tripoint dst( p.x + a, p.y + b, p.z );
-                                        if( move_cost( dst ) == 0 ) // Grounded tiles first
+                                        if( impassable( dst ) ) // Grounded tiles first
 
                                         {
                                             valid.push_back( dst );
@@ -1404,11 +1404,11 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                 if( valid.empty() ) {    // Spread to adjacent space, then
                                     tripoint dst( p.x + rng(-1, 1), p.y + rng(-1, 1), p.z );
                                     field_entry *elec = get_field( dst ).findField( fd_electricity );
-                                    if( move_cost( dst ) > 0 && elec != nullptr &&
+                                    if( passable( dst ) && elec != nullptr &&
                                         elec->getFieldDensity() < 3) {
                                         elec->setFieldDensity( elec->getFieldDensity() + 1 );
                                         cur->setFieldDensity(cur->getFieldDensity() - 1);
-                                    } else if( move_cost( dst ) > 0) {
+                                    } else if( passable( dst ) ) {
                                         add_field( dst, fd_electricity, 1, cur->getFieldAge() + 1 );
                                     }
                                     cur->setFieldDensity(cur->getFieldDensity() - 1);
@@ -2352,7 +2352,7 @@ void map::monster_in_field( monster &z )
                     newpos.x = rng(z.posx() - SEEX, z.posx() + SEEX);
                     newpos.y = rng(z.posy() - SEEY, z.posy() + SEEY);
                     tries++;
-                } while (move_cost(newpos) == 0 && tries != 10);
+                } while (impassable(newpos) && tries != 10);
 
                 if (tries == 10) {
                     z.die_in_explosion( nullptr );

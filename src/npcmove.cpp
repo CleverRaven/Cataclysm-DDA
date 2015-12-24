@@ -91,7 +91,7 @@ bool npc::sees_dangerous_field( const tripoint &p ) const
 
 bool npc::could_move_onto( const tripoint &p ) const
 {
-    return g->m.move_cost( p ) != 0 && !sees_dangerous_field( p );
+    return g->m.passable( p ) && !sees_dangerous_field( p );
 }
 
 // class npc functions!
@@ -576,9 +576,7 @@ void npc::execute_action(npc_action action, int target)
     }
 
     if( oldmoves == moves ) {
-        dbg(D_ERROR) << "map::execute_action: NPC didn't use its moves.";
-        debugmsg("NPC didn't use its moves.  Action %d.  Turning on debug mode.", action);
-        debug_mode = true;
+        add_msg( m_debug, "NPC didn't use its moves.  Action %d.", action);
     }
 }
 
@@ -822,6 +820,9 @@ npc_action npc::address_needs(int danger)
         }
 
         if( rules.allow_sleep || fatigue > MASSIVE_FATIGUE ) {
+            return npc_sleep;
+        } else if( g->u.in_sleep_state() ) {
+            // TODO: "Guard me while I sleep" command
             return npc_sleep;
         } else if( g->u.sees( *this ) && !has_effect( "npc_said" ) &&
                    one_in( 10000 / ( fatigue + 1 ) ) ) {
@@ -1121,7 +1122,7 @@ bool npc::is_blocking_position( const tripoint &p ) {
         right.y += dy;
     }
 
-    return (g->m.move_cost(left) == 0 && g->m.move_cost(right) == 0);
+    return g->m.impassable(left) && g->m.impassable(right);
 }
 
 bool npc::need_to_reload()
@@ -1191,7 +1192,7 @@ bool npc::can_move_to( const tripoint &p, bool no_bashing ) const
     // Allow moving into any bashable spots, but penalize them during pathing
     return( rl_dist( pos(), p ) <= 1 &&
               (
-                g->m.move_cost( p ) > 0 ||
+                g->m.passable( p ) ||
                 ( !no_bashing && g->m.bash_rating( smash_ability(), p ) > 0 ) ||
                 g->m.open_door( p, !g->m.is_outside( pos() ), true )
               )
@@ -1307,7 +1308,7 @@ void npc::move_to( const tripoint &pt, bool no_bashing )
         // TODO: Make it properly find the tile to move to
         moves -= 100;
         moved = true;
-    } else if( g->m.move_cost( p ) > 0 ) {
+    } else if( g->m.passable( p ) ) {
         bool diag = trigdist && posx() != p.x && posy() != p.y;
         moves -= run_cost( g->m.combined_movecost( pos(), p ), diag );
         moved = true;
@@ -2489,7 +2490,7 @@ void npc::go_to_destination()
     // sx and sy are now equal to the direction we need to move in
     tripoint dest( posx() + 8 * sx, posy() + 8 * sy, posz() );
     for( int i = 0; i < 8; i++ ) {
-        if( ( g->m.move_cost( dest ) > 0 ||
+        if( ( g->m.passable( dest ) ||
              //Needs 20% chance of bashing success to be considered for pathing
              g->m.bash_rating( smash_ability(), dest ) >= 2 ||
              g->m.open_door( dest, true, true ) ) &&

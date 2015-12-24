@@ -1762,7 +1762,7 @@ bool input_context::get_coordinates(WINDOW* capture_win, int& x, int& y) {
         return false;
     }
 
-    if (tile_iso) {
+    if ( tile_iso && use_tiles ) {
         const int selected_column = (coordinate_x - win_left)/fw - (coordinate_y - win_top - fh - (capture_win->height * fh)/2)/(fw/2);
         const int selected_row = (coordinate_x - win_left)/fw + (coordinate_y - win_top - fh - (capture_win->height * fh)/2)/(fw/2);
         // add_msg( m_info, "c %d r %d", selected_column, selected_row );

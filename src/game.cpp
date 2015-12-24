@@ -2169,13 +2169,13 @@ void game::rcdrive(int dx, int dy)
     }
     item *rc_car = rc_pair->second;
 
-    if(tile_iso) {
+    if( tile_iso && use_tiles ) {
         rotate_direction_cw(dx,dy);
     }
 
     tripoint src( cx, cy, cz );
     tripoint dest( cx + dx, cy + dy, cz );
-    if( m.move_cost(dest) == 0 || !m.can_put_items(dest) ||
+    if( m.impassable(dest) || !m.can_put_items(dest) ||
         m.has_furn(dest) ) {
         sounds::sound(dest, 7, _("sound of a collision with an obstacle."));
         return;
@@ -3945,7 +3945,7 @@ void game::debug()
             add_msg( _( "Your eyes blink rapidly as knowledge floods your brain." ) );
             for( auto cur_recipe : recipe_dict ) {
                 if( !( u.learned_recipes.find( cur_recipe->ident ) != u.learned_recipes.end() ) )  {
-                    u.learn_recipe( ( recipe * )cur_recipe );
+                    u.learn_recipe( ( recipe * )cur_recipe, true );
                 }
             }
             add_msg( m_good, _( "You know how to craft that now." ) );
@@ -6128,7 +6128,11 @@ void game::monmove()
         }
         // If we spun too long trying to decide what to do (without spending moves),
         // Invoke cranial detonation to prevent an infinite loop.
-        if( turns == 10 ) {
+        if( turns == 9 ) {
+            debugmsg( "NPC %s entered infinite loop. Turning on debug mode",
+                np->name.c_str() );
+            debug_mode = true;
+        } else if( turns == 10 ) {
             add_msg( _( "%s's brain explodes!" ), np->name.c_str() );
             np->die( nullptr );
         }
@@ -6179,7 +6183,7 @@ void game::do_blast( const tripoint &p, const float power,
             continue;
         }
 
-        if( m.move_cost( pt ) == 0 && pt != p ) {
+        if( m.impassable( pt ) && pt != p ) {
             // Don't propagate further
             continue;
         }
@@ -6239,7 +6243,7 @@ void game::do_blast( const tripoint &p, const float power,
     // Draw the explosion
     std::map<tripoint, nc_color> explosion_colors;
     for( auto &pt : closed ) {
-        if( m.move_cost( pt ) == 0 ) {
+        if( m.impassable( pt ) ) {
             continue;
         }
 
@@ -6530,7 +6534,7 @@ void game::knockback( std::vector<tripoint> &traj, int force, int stun, int dam_
             add_msg(_("%s was stunned!"), targ->name().c_str());
         }
         for (size_t i = 1; i < traj.size(); i++) {
-            if (m.move_cost(traj[i].x, traj[i].y) == 0) {
+            if (m.impassable(traj[i].x, traj[i].y)) {
                 targ->setpos(traj[i - 1]);
                 force_remaining = traj.size() - i;
                 if (stun != 0) {
@@ -6590,7 +6594,7 @@ void game::knockback( std::vector<tripoint> &traj, int force, int stun, int dam_
             add_msg(_("%s was stunned!"), targ->name.c_str());
         }
         for (size_t i = 1; i < traj.size(); i++) {
-            if (m.move_cost(traj[i].x, traj[i].y) == 0) { // oops, we hit a wall!
+            if (m.impassable(traj[i].x, traj[i].y)) { // oops, we hit a wall!
                 targ->setpos( traj[i - 1] );
                 force_remaining = traj.size() - i;
                 if (stun != 0) {
@@ -6657,7 +6661,7 @@ void game::knockback( std::vector<tripoint> &traj, int force, int stun, int dam_
                     stun);
         }
         for (size_t i = 1; i < traj.size(); i++) {
-            if( m.move_cost( traj[i] ) == 0 ) { // oops, we hit a wall!
+            if( m.impassable( traj[i] ) ) { // oops, we hit a wall!
                 u.setpos( traj[i - 1] );
                 force_remaining = traj.size() - i;
                 if (stun != 0) {
@@ -7157,7 +7161,7 @@ bool game::swap_critters( Creature &a, Creature &b )
 
 bool game::is_empty( const tripoint &p )
 {
-    return ( m.move_cost( p ) > 0 || m.has_flag( "LIQUID", p ) ) &&
+    return ( m.passable( p ) || m.has_flag( "LIQUID", p ) ) &&
                critter_at( p ) == nullptr;
 }
 
@@ -8317,7 +8321,7 @@ void game::peek()
         return;
     }
 
-    if( m.move_cost( p ) == 0 ) {
+    if( m.impassable( p ) ) {
         return;
     }
 
@@ -8361,7 +8365,7 @@ void game::print_terrain_info( const tripoint &lp, WINDOW *w_look, int column, i
         tile += "; " + m.furnname( lp );
     }
 
-    if (m.move_cost( lp ) == 0) {
+    if (m.impassable( lp )) {
         mvwprintw(w_look, line, column, _("%s; Impassable"), tile.c_str());
     } else {
         mvwprintw(w_look, line, column, _("%s; Movement cost %d"), tile.c_str(),
@@ -10535,7 +10539,7 @@ void game::drop(std::vector<item> &dropped, std::vector<item> &dropped_worn,
         }
     }
 
-    bool can_move_there = m.move_cost(dir) != 0;
+    bool can_move_there = m.passable(dir);
 
     itype_id first = itype_id(dropped[0].type->id);
     bool same = true;
@@ -11763,7 +11767,7 @@ bool game::plmove(int dx, int dy, int dz)
         dest_loc.y = rng(u.posy() - 1, u.posy() + 1);
         dest_loc.z = u.posz();
     } else {
-        if(tile_iso) {
+        if( tile_iso && use_tiles ) {
             rotate_direction_cw(dx,dy);
         }
         dest_loc.x = u.posx() + dx;
@@ -11996,9 +12000,8 @@ bool game::ramp_move( const tripoint &dest_loc )
         return false;
     }
 
-    // We're moving from a ramp onto an obstacle
     if( !m.has_flag( TFLAG_RAMP, u.pos() ) ||
-        m.move_cost_ter_furn( dest_loc ) > 0 ) {
+        m.passable( dest_loc ) ) {
         return false;
     }
 
@@ -12080,10 +12083,9 @@ bool game::walk_move( const tripoint &dest_loc )
         u.grab_point = tripoint_zero;
     }
 
-    if( m.move_cost( dest_loc ) <= 0 && !pushing && !shifting_furniture ) {
+    if( m.impassable( dest_loc ) && !pushing && !shifting_furniture ) {
         return false;
     }
-    // move_cost() of 0 = impassible (e.g. a wall)
     u.set_underwater(false);
 
     if( !shifting_furniture ) {
@@ -12419,7 +12421,7 @@ bool game::phasing_move( const tripoint &dest_loc )
     int tunneldist = 0;
     const int dx = sgn( dest.x - u.posx() );
     const int dy = sgn( dest.y - u.posy() );
-    while( m.move_cost( dest ) == 0 ||
+    while( m.impassable( dest ) ||
            ( critter_at( dest ) != nullptr && tunneldist > 0 ) ) {
         //add 1 to tunnel distance for each impassable tile in the line
         tunneldist += 1;
@@ -12636,7 +12638,7 @@ bool game::grabbed_furn_move( const tripoint &dp )
     // Unfortunately, game::is_empty fails for tiles we're standing on,
     // which will forbid pulling, so:
     const bool canmove = (
-        m.move_cost(fdest) > 0 &&
+        m.passable(fdest) &&
         npc_at(fdest) == -1 &&
         mon_at(fdest) == -1 &&
         ( !pulling_furniture || is_empty( u.pos() + dp ) ) &&
@@ -12742,7 +12744,7 @@ bool game::grabbed_furn_move( const tripoint &dp )
         return true; // We moved furniture but stayed still.
     }
 
-    if( pushing_furniture && m.move_cost( fpos ) <= 0 ) {
+    if( pushing_furniture && m.impassable( fpos ) ) {
         // Not sure how that chair got into a wall, but don't let player follow.
         add_msg( _("You let go of the %1$s as it slides past %2$s"),
                  furntype.name.c_str(), m.ter_at( fdest ).name.c_str() );
@@ -12916,7 +12918,7 @@ void game::fling_creature(Creature *c, const int &dir, float flvel, bool control
             if( !critter.is_dead() ) {
                 thru = false;
             }
-        } else if( m.move_cost( pt ) == 0 ) {
+        } else if( m.impassable( pt ) ) {
             int part = -1;
             vehicle *veh = m.veh_at( pt, part );
             if( veh != nullptr ) {
@@ -12937,7 +12939,7 @@ void game::fling_creature(Creature *c, const int &dir, float flvel, bool control
             if( m.is_bashable( pt ) ) {
                 // Only go through if we successfully make the tile passable
                 m.bash( pt, flvel );
-                thru = m.move_cost( pt ) != 0;
+                thru = m.passable( pt );
             } else {
                 thru = false;
             }
@@ -13118,7 +13120,7 @@ void game::vertical_move(int movez, bool force)
 
         std::vector<tripoint> pts;
         for( const auto &pt : m.points_in_radius( stairs, 1 ) ) {
-            if( m.move_cost( pt ) > 0 &&
+            if( m.passable( pt ) &&
                 m.has_floor_or_support( pt ) ) {
                 pts.push_back( pt );
             }
@@ -13290,7 +13292,7 @@ tripoint game::find_or_make_stairs( map &mp, const int z_after, bool &rope_ladde
         return stairs;
     }
 
-    if( mp.move_cost( stairs ) == 0 ) {
+    if( mp.impassable( stairs ) ) {
         popup(_("Halfway down, the way down becomes blocked off."));
         return tripoint_min;
     }
@@ -13984,14 +13986,14 @@ void game::teleport(player *p, bool add_teleglow)
         newx = p->posx() + rng(0, SEEX * 2) - SEEX;
         newy = p->posy() + rng(0, SEEY * 2) - SEEY;
         tries++;
-    } while (tries < 15 && m.move_cost(newx, newy) == 0);
+    } while (tries < 15 && m.impassable(newx, newy));
     bool can_see = (is_u || u.sees(newx, newy));
     if (p->in_vehicle) {
         m.unboard_vehicle(p->pos());
     }
     p->setx( newx );
     p->sety( newy );
-    if (m.move_cost(newx, newy) == 0) { //Teleported into a wall
+    if (m.impassable(newx, newy)) { //Teleported into a wall
         if (can_see) {
             if (is_u) {
                 add_msg(_("You teleport into the middle of a %s!"),

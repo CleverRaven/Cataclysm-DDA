@@ -230,7 +230,7 @@ void mdeath::fungus(monster *z)
     sounds::sound(z->pos(), 10, _("Pouf!"));
 
     for( auto &&sporep : g->m.points_in_radius( z->pos(), 1 ) ) {
-        if( g->m.move_cost( sporep ) == 0 ) {
+        if( g->m.impassable( sporep ) ) {
             continue;
         }
         // z is dead, don't credit it with the kill
@@ -366,7 +366,7 @@ void mdeath::blobsplit(monster *z)
     std::vector <tripoint> valid;
 
     for( auto &&dest : g->m.points_in_radius( z->pos(), 1 ) ) {
-        bool moveOK = (g->m.move_cost( dest ) > 0);
+        bool moveOK = g->m.passable( dest );
         bool monOK = g->mon_at( dest ) == -1;
         bool posOK = (g->u.pos() != dest);
         if (moveOK && monOK && posOK) {

@@ -414,6 +414,12 @@ bool recipe::can_make_with_inventory(const inventory &crafting_inv, int batch) c
     return requirements.can_make_with_inventory(crafting_inv, batch);
 }
 
+bool recipe::valid_learn() const
+{
+    static const std::string ncraft = "CC_NONCRAFT";
+    return cat != ncraft;
+}
+
 const inventory& player::crafting_inventory()
 {
     if (cached_moves == moves

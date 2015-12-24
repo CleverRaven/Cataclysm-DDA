@@ -146,6 +146,11 @@
   "reversible": true,
   "autolearn": false,
   "decomp_learn": 4,
+  "tools": [
+    [
+      [ "sewing_kit", 30 ]
+    ]
+  ],
   "components": [
     [
       [ "kevlar_plate", 24 ]
@@ -7034,6 +7039,34 @@
         [ "thread", 60 ],
         [ "plant_fibre", 60 ]
       ]
+    ]
+  },
+  {
+    "type" : "recipe",
+    "result": "XL_holster",
+    "category": "CC_ARMOR",
+    "subcategory": "CSC_ARMOR_STORAGE",
+    "skill_used": "tailor",
+    "skills_required": [ "pistol", 3 ],
+    "difficulty": 5,
+    "time": 15000,
+    "reversible": false,
+    "autolearn": true,
+    "qualities":[ {"id":"HAMMER","level":2,"amount":1} ], 
+    "tools": [ [ [ "sewing_kit", 40 ] ] ],
+    "components": [
+      [
+        [ "leather", 9 ],
+        [ "tanned_hide", 1 ]
+      ],
+      [
+        [ "string_36", 2 ],
+        [ "string_6", 12 ],
+        [ "sinew", 40 ],
+        [ "thread", 40 ],
+        [ "plant_fibre", 40 ]
+      ],
+      [ [ "scrap", 3 ] ]
     ]
   },
   {

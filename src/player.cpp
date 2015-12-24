@@ -5352,7 +5352,7 @@ void player::knock_back_from( const tripoint &p )
             g->plswim( to );
         }
         // TODO: NPCs can't swim!
-    } else if (g->m.move_cost( to ) == 0) { // Wait, it's a wall (or water)
+    } else if (g->m.impassable( to )) { // Wait, it's a wall
 
         // It's some kind of wall.
         apply_damage( nullptr, bp_torso, 3 ); // TODO: who knocked us back? Maybe that creature should be the source of the damage?
@@ -7219,7 +7219,7 @@ void player::hardcoded_effects(effect &it)
                 tries++;
             } while ((dest == pos() || g->mon_at(dest) != -1) && tries < 10);
             if (tries < 10) {
-                if (g->m.move_cost( dest ) == 0) {
+                if (g->m.impassable( dest )) {
                     g->m.make_rubble( dest, f_rubble_rock, true);
                 }
                 MonsterGroupResult spawn_details = MonsterGroupManager::GetResultFromGroup( mongroup_id( "GROUP_NETHER" ) );
@@ -7302,7 +7302,7 @@ void player::hardcoded_effects(effect &it)
                     }
                 } while (((x == posx() && y == posy()) || g->mon_at( dest ) != -1));
                 if (tries < 10) {
-                    if (g->m.move_cost(x, y) == 0) {
+                    if (g->m.impassable(x, y)) {
                         g->m.make_rubble( tripoint( x, y, posz() ), f_rubble_rock, true);
                     }
                     MonsterGroupResult spawn_details = MonsterGroupManager::GetResultFromGroup( mongroup_id( "GROUP_NETHER" ) );
@@ -12213,12 +12213,12 @@ bool player::try_study_recipe( const itype &book )
     }
     for( auto const & elem : book.book->recipes ) {
         auto const r = elem.recipe;
-        if( knows_recipe( r ) ) {
+        if( knows_recipe( r ) || !r->valid_learn() ) {
             continue;
         }
         if( !r->skill_used || get_skill_level( r->skill_used ) >= elem.skill_level ) {
             if( !r->skill_used ||
-                rng(0, 4) <= (get_skill_level(r->skill_used) - elem.skill_level) / 2) {
+                rng(0, 4) <= (get_skill_level(r->skill_used) - elem.skill_level) / 2 ) {
                 learn_recipe( r );
                 add_msg(m_good, _("Learned a recipe for %1$s from the %2$s."),
                                 item::nname( r->result ).c_str(), book.nname(1).c_str());
@@ -12515,7 +12515,7 @@ std::string player::is_snuggling() const
 
 // Returned values range from 1.0 (unimpeded vision) to 5.0 (totally blind).
 // LIGHT_AMBIENT DIM is enough light for detail work, but held items get a boost.
-float player::fine_detail_vision_mod()
+float player::fine_detail_vision_mod() const
 {
     // PER_SLIME_OK implies you can get enough eyes around the bile
     // that you can generaly see.  There'll still be the haze, but
@@ -13514,6 +13514,10 @@ void player::practice( const skill_id &s, int amount, int cap )
 
 bool player::has_recipe_requirements( const recipe *rec ) const
 {
+    if( !rec->valid_learn() ) {
+        return false;
+    }
+
     bool meets_requirements = false;
     if( !rec->skill_used || get_skill_level( rec->skill_used) >= rec->difficulty ) {
         meets_requirements = true;
@@ -13572,9 +13576,13 @@ int player::has_recipe( const recipe *r, const inventory &crafting_inv ) const
     return difficulty;
 }
 
-void player::learn_recipe( const recipe * const rec )
+void player::learn_recipe( const recipe * const rec, bool force )
 {
-    learned_recipes[rec->ident] = rec;
+    if( force || rec->valid_learn() ) {
+        learned_recipes[rec->ident] = rec;
+    } else {
+        debugmsg( "Tried to learn unlearnable recipe %s", rec->ident.c_str() );
+    }
 }
 
 void player::assign_activity(activity_type type, int moves, int index, int pos, std::string name)
@@ -13830,7 +13838,7 @@ tripoint player::adjacent_tile() const
             continue;
         }
         const trap &curtrap = g->m.tr_at( p );
-        if( g->mon_at( p ) == -1 && g->npc_at( p ) == -1 && g->m.move_cost( p ) > 0 &&
+        if( g->mon_at( p ) == -1 && g->npc_at( p ) == -1 && g->m.passable( p ) &&
             (curtrap.is_null() || curtrap.is_benign()) ) {
             // Only consider tile if unoccupied, passable and has no traps
             dangerous_fields = 0;

@@ -544,7 +544,7 @@ void trapfunc::telepad( Creature *c, const tripoint &p )
                 newposx = rng( z->posx() - SEEX, z->posx() + SEEX );
                 newposy = rng( z->posy() - SEEY, z->posy() + SEEY );
                 tries++;
-            } while( g->m.move_cost( newposx, newposy ) == 0 && tries != 10 );
+            } while( g->m.impassable( newposx, newposy ) && tries != 10 );
 
             if( tries == 10 ) {
                 z->die_in_explosion( nullptr );
@@ -904,7 +904,7 @@ void trapfunc::sinkhole( Creature *c, const tripoint &p )
         int &j = tmp.y;
         for( i = pl->posx() - 1; i <= pl->posx() + 1; i++ ) {
             for( j = pl->posy() - 1; j <= pl->posy() + 1; j++ ) {
-                if( g->m.move_cost( tmp ) > 0 && g->m.tr_at( tmp ).loadid != tr_pit ) {
+                if( g->m.passable( tmp ) && g->m.tr_at( tmp ).loadid != tr_pit ) {
                     safe.push_back( tmp );
                 }
             }

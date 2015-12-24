@@ -3153,6 +3153,12 @@ bool item::is_gun() const
     return type->gun.get() != nullptr;
 }
 
+bool item::is_firearm() const
+{
+    static const std::string primitive_flag( "PRIMITIVE_RANGED_WEAPON" );
+    return is_gun() && !has_flag( primitive_flag );
+}
+
 bool item::is_silent() const
 {
     return gun_noise().volume < 5;

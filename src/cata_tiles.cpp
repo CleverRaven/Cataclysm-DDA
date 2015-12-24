@@ -860,11 +860,12 @@ void cata_tiles::draw( int destx, int desty, const tripoint &center, int width, 
 
     // in isometric mode, render the whole reality bubble
     // TODO: make this smarter
-    const int min_x = tile_iso ? MAPSIZE * SEEX : o_x;
-    const int max_x = tile_iso ? 0 : sx + o_x;
-    const int dx = tile_iso ? -1 : 1; // iso mode renders right to left, for overlap reasons
-    const int min_y = tile_iso ? 0 : o_y;
-    const int max_y = tile_iso ? MAPSIZE * SEEX : sy + o_y;
+    const bool iso_mode = tile_iso && use_tiles;
+    const int min_x = iso_mode ? MAPSIZE * SEEX : o_x;
+    const int max_x = iso_mode ? 0 : sx + o_x;
+    const int dx = iso_mode ? -1 : 1; // iso mode renders right to left, for overlap reasons
+    const int min_y = iso_mode ? 0 : o_y;
+    const int max_y = iso_mode ? MAPSIZE * SEEX : sy + o_y;
     const int dy = 1;
 
     //limit the render area to what is available in the visibility cache
@@ -893,9 +894,9 @@ void cata_tiles::draw( int destx, int desty, const tripoint &center, int width, 
     for( y = min_y; y * dy < max_y * dy; y += dy) {
         for( x = min_x; x * dx < max_x * dx; x += dx) {
             //if the render area is outside the visibility cache, default to the darkened tile
-            if(!tile_iso && ((y < min_visible_y || y > max_visible_y) || (x < min_visible_x ||
-                             x > max_visible_x))) {
-                apply_vision_effects(x, y, offscreen_type);
+            if( !iso_mode && ( ( y < min_visible_y || y > max_visible_y ) ||
+                               ( x < min_visible_x || x > max_visible_x ) ) ) {
+                apply_vision_effects( x, y, offscreen_type );
             } else {
                 draw_single_tile( temp, ch.visibility_cache[x][y], cache );
             }
@@ -1104,7 +1105,7 @@ bool cata_tiles::draw_from_id_string(std::string id, TILE_CATEGORY category,
 
     // check to make sure that we are drawing within a valid area
     // [0->width|height / tile_width|height]
-    if( !tile_iso &&
+    if( !( tile_iso && use_tiles ) &&
         ( x - o_x < 0 || x - o_x >= screentile_width ||
           y - o_y < 0 || y - o_y >= screentile_height )
       ) {
@@ -1264,7 +1265,7 @@ bool cata_tiles::draw_from_id_string(std::string id, TILE_CATEGORY category,
 
     // translate from player-relative to screen relative tile position
     int screen_x, screen_y;
-    if (tile_iso) {
+    if ( tile_iso && use_tiles ) {
         screen_x = ((x-o_x) - (o_y-y)) * tile_width / 2 +
             op_x;
         // y uses tile_width because width is definitive for iso tiles
@@ -1376,7 +1377,7 @@ bool cata_tiles::draw_sprite_at( const weighted_int_list<std::vector<int>> &svli
             sprite_num = 0;
         } else if( spritelist.size() == 1 ) {
             // just one tile, apply SDL sprite rotation if not in isometric mode
-            rotate_sprite = !tile_iso;
+            rotate_sprite = !( tile_iso && use_tiles );
             sprite_num = 0;
         } else {
             // multiple rotated tiles defined, don't apply sprite rotation after picking one

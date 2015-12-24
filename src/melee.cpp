@@ -437,7 +437,7 @@ void player::reach_attack( const tripoint &p )
             critter = inter;
             break;
         ///\EFFECT_STABBING increases ability to reach attack through fences
-        } else if( g->m.move_cost( p ) == 0 &&
+        } else if( g->m.impassable( p ) &&
                    // Fences etc. Spears can stab through those
                      !( weapon.has_flag( "SPEAR" ) &&
                         g->m.has_flag( "THIN_OBSTACLE", p ) &&
