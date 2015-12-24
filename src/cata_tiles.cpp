@@ -903,7 +903,7 @@ void cata_tiles::draw( int destx, int desty, const tripoint &center, int width, 
                 continue;
             }
 
-            int height_3d;
+            int height_3d = 0;
 
             // light level is now used for choosing between grayscale filter and normal lit tiles.
             // Draw Terrain if possible. If not possible then we need to continue on to the next part of loop
