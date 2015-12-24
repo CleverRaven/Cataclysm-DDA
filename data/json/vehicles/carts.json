@@ -58,7 +58,7 @@
             {"x": 0, "y": 0, "part": "basketlg"}
         ],
         "items" : [
-            {"x": 0, "y": 0, "chance": 35, "item_groups": ["trash_cart"]}
+            {"x": 0, "y": 0, "chance": 35, "item_groups": ["trash"]}
         ]
     },{
         "type" : "vehicle",

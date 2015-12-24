@@ -1,0 +1,335 @@
+[
+    {
+      "type" : "item_group",
+      "id" : "college_camping",
+      "guns_with_ammo" : true,
+      "subtype": "distribution",
+      "entries" :
+        [
+            { "group": "camping_gear", "prob": 100 },
+            { "group": "winter", "prob": 30 },
+            { "group": "camping_surv_books", "prob": 50 },
+            { "group": "camping_food", "prob": 50 },
+            { "group": "everyday_gear", "prob": 10 },
+            { "group": "lighting_tools", "prob": 100 },
+            { "group": "fire_tools", "prob": 100 },
+            { "group": "alcohol_beer", "prob": 100 },
+            { "group": "legal_drugs", "prob": 50 },
+            { "group": "emergency_drugs", "prob": 50 },
+            { "item": "knife_hunting", "prob": 10 },
+            { "item": "firecracker_pack", "prob": 10 },
+            { "item": "glock_19", "prob": 5 },
+            { "item": "camera", "prob": 10 },
+            { "item": "weed", "prob": 50 },
+            { "item": "roadmap", "prob": 1 }
+        ]
+    }, {
+        "type" : "item_group",
+        "subtype": "collection",
+        "id": "map_extra_college_camping",
+        "entries":
+        [
+            { "item": "corpse", "damage": 3 },
+            { "group": "underwear", "damage-min": 1, "damage-max": 3 },
+            { "group": "shirts", "damage-min": 1, "damage-max": 4 },
+            { "group": "jackets", "damage-min": 1, "damage-max": 4, "prob": 30 },
+            { "group": "pants", "damage-min": 1, "damage-max": 4 },
+            { "group": "shoes", "damage-min": 1, "damage-max": 4 },
+            { "item": "socks", "damage-min": 1, "damage-max": 4 },
+            { "group": "hats", "damage-min": 1, "damage-max": 4, "prob": 40 },
+            { "group": "everyday_gear", "prob": 50 },
+            { "group": "college_camping", "prob": 50 },
+            { "group": "college_camping", "prob": 80 }
+        ]
+    }, {
+        "type" : "item_group",
+        "id" : "college_sports",
+        "subtype": "distribution",
+        "entries" :
+        [
+            { "group": "everyday_gear", "prob": 50 },
+            { "group": "sports_gear", "prob": 100 },
+            { "group": "sports_clothes", "prob": 50 },
+            { "group": "sports_extras", "prob": 50 },
+            { "group": "roller_footwear", "prob": 20 },
+            { "group": "alcohol_beer", "prob": 200 },
+            { "item": "bat", "prob": 10 },
+            { "item": "bat_metal", "prob": 10 },
+            { "item": "towel", "prob": 20 },
+            { "item": "sports_drink", "prob": 50 },
+            { "item": "energy_drink", "prob": 20 },
+            { "item": "energy_drink_atomic", "prob": 1 },
+            { "item": "weed", "prob": 50 },
+            { "item": "inhaler", "prob": 10 },
+            { "item": "joint", "prob": 10 }
+        ]
+    }, {
+        "type" : "item_group",
+        "subtype": "collection",
+        "id": "map_extra_college_sports",
+        "entries":
+        [
+            { "item": "corpse", "damage": 3 },
+            { "group": "underwear", "damage-min": 1, "damage-max": 3 },
+            { "group": "shirts", "damage-min": 1, "damage-max": 4 },
+            { "group": "jackets", "damage-min": 1, "damage-max": 4, "prob": 30 },
+            { "group": "pants", "damage-min": 1, "damage-max": 4 },
+            { "group": "shoes", "damage-min": 1, "damage-max": 4 },
+            { "item": "socks", "damage-min": 1, "damage-max": 4 },
+            { "group": "hats", "damage-min": 1, "damage-max": 4, "prob": 40 },
+            { "group": "everyday_gear", "prob": 50 },
+            { "group": "college_sports", "prob": 50 },
+            { "group": "college_sports", "prob": 90 }
+        ]
+    }, {
+        "type" : "item_group",
+        "id" : "college_lake",
+        "guns_with_ammo" : true,
+        "subtype": "distribution",
+        "entries" :
+        [
+            { "item": "camera", "prob": 10 },
+            { "item": "weed", "prob": 50 },
+            { "item": "towel", "prob": 20 },
+            { "group": "camping_gear", "prob": 70 },
+            { "group": "fishing_gear", "prob": 200 },
+            { "group": "swim_clothes", "prob": 200 },
+            { "group": "camping_surv_books", "prob": 10 },
+            { "group": "camping_food", "prob": 10 },
+            { "group": "everyday_gear", "prob": 100 },
+            { "group": "lighting_tools", "prob": 50 },
+            { "group": "fire_tools", "prob": 50 },
+            { "group": "alcohol_beer", "prob": 200 },
+            { "group": "alcohol", "prob": 100 },
+            { "group": "legal_drugs", "prob": 50 }
+        ]
+    }, {
+        "type" : "item_group",
+        "subtype": "collection",
+        "id": "map_extra_college_lake",
+        "entries":
+        [
+            { "item": "corpse", "damage": 3 },
+            { "group": "underwear", "damage-min": 1, "damage-max": 3 },
+            { "group": "shirts", "damage-min": 1, "damage-max": 4 },
+            { "group": "jackets", "damage-min": 1, "damage-max": 4, "prob": 30 },
+            { "group": "pants", "damage-min": 1, "damage-max": 4 },
+            { "group": "shoes", "damage-min": 1, "damage-max": 4 },
+            { "item": "socks", "damage-min": 1, "damage-max": 4 },
+            { "group": "hats", "damage-min": 1, "damage-max": 4, "prob": 40 },
+            { "group": "everyday_gear", "prob": 50 },
+            { "group": "college_lake", "prob": 50 },
+            { "group": "college_lake", "prob": 70 }
+        ]
+    }, {
+        "type" : "item_group",
+        "id" : "drugdealer",
+        "subtype": "distribution",
+        "entries" :
+        [
+            { "group": "everyday_gear", "prob": 80 },
+            { "group": "jewelry", "prob": 50 },
+            { "group": "male_extras", "prob": 20 },
+            { "group": "storage", "prob": 20 },
+            { "group": "legal_drugs", "prob": 80 },
+            { "group": "illegal_drugs", "prob": 50 },
+            { "group": "junkfood", "prob": 65 },
+            { "group": "sugar_drinks", "prob": 65 },
+            { "group": "alcohol", "prob": 10 },
+            { "group": "unarmed_weapons", "prob": 40 },
+            { "group": "combat_knives", "prob": 20 },
+            { "group": "smg", "prob": 10 },
+            { "group": "shotguns", "prob": 30 },
+            { "group": "pistols", "prob": 50 },
+            { "group": "shotgun_ammo", "prob": 30 },
+            { "group": "pistol_ammo", "prob": 60 },
+            { "group": "gun_mods", "prob": 10 },
+            { "item": "bandages", "prob": 40 },
+            { "item": "mag_porn", "prob": 20 },
+            { "item": "electrohack", "prob": 10 },
+            { "item": "bat", "prob": 10 },
+            { "item": "RPG", "prob": 1 },
+            { "item": "RPG-7_ammo", "prob": 2 },
+            { "item": "survnote", "prob": 10 }
+        ]
+    }, {
+        "type" : "item_group",
+        "subtype": "collection",
+        "id": "map_extra_drugdeal",
+        "entries":
+        [
+            { "item": "corpse", "damage": 3 },
+            { "group": "underwear", "damage-min": 1, "damage-max": 3 },
+            { "group": "shirts", "damage-min": 1, "damage-max": 4, "prob": 70 },
+            { "group": "jackets", "damage-min": 1, "damage-max": 4, "prob": 30 },
+            { "group": "pants", "damage-min": 1, "damage-max": 4, "prob": 70 },
+            { "group": "shoes", "damage-min": 1, "damage-max": 4, "prob": 50 },
+            { "item": "socks", "damage-min": 1, "damage-max": 4, "prob": 30 },
+            { "group": "hats", "damage-min": 1, "damage-max": 4, "prob": 20 },
+            { "group": "everyday_gear", "prob": 50 },
+            { "group": "drugdealer", "prob": 75 }
+        ]
+    }, {
+        "type" : "item_group",
+        "subtype": "collection",
+        "id": "map_extra_police",
+        "entries":
+        [
+            { "item": "corpse", "damage": 3 },
+            { "group": "underwear", "damage-min": 1, "damage-max": 3 },
+            { "group": "cop_footwear", "damage-min": 1, "damage-max": 4 },
+            { "item": "socks", "damage-min": 1, "damage-max": 4 },
+            { "group": "cop_pants", "damage-min": 1, "damage-max": 4 },
+            { "group": "cop_shirts", "damage-min": 1, "damage-max": 4 },
+            { "group": "cop_armor", "damage-min": 0, "damage-max": 3, "prob": 45 },
+            { "group": "cop_gloves", "damage-min": 1, "damage-max": 4, "prob": 15 },
+            { "group": "cop_helmets", "damage-min": 0, "damage-max": 3, "prob": 15 },
+            { "group": "cop_eyewear", "damage-min": 1, "damage-max": 4, "prob": 15 },
+            { "group": "cop_masks", "damage-min": 1, "damage-max": 4, "prob": 15 },
+            { "group": "cop_storage", "damage-min": 1, "damage-max": 4, "prob": 25 },
+            { "group": "cop_extras", "damage-min": 0, "damage-max": 3, "prob": 20 },
+            { "group": "cop_gear", "prob": 15 },
+            { "group": "cop_weapons", "prob": 86 }
+        ]
+    }, {
+        "type" : "item_group",
+        "id" : "military",
+        "subtype": "distribution",
+        "entries" :
+        [
+            { "group": "emergency_gear", "prob": 250 },
+            { "group": "emergency_drugs", "prob": 200 },
+            { "group": "military_food", "prob": 300 },
+            { "group": "camping_gear", "prob": 100 },
+            { "group": "military_gear", "prob": 700 },
+            { "group": "military_clothes", "prob": 50 },
+            { "group": "military_storage", "prob": 100 },
+            { "group": "military_extras", "prob": 50 },
+            { "group": "military_helmets", "prob": 50 },
+            { "group": "military_armor", "prob": 700 },
+            { "group": "adv_military_armor", "prob": 30 },
+            { "group": "military_guns", "prob": 500 },
+            { "group": "military_ammo", "prob": 600 },
+            { "group": "machine_guns", "prob": 150 },
+            { "group": "adv_military_guns", "prob": 100 },
+            { "group": "adv_military_ammo", "prob": 150 },
+            { "group": "launchers", "prob": 100 },
+            { "group": "explosive_ammo", "prob": 200 },
+            { "group": "grenades", "prob": 100 },
+            { "group": "gun_mods", "prob": 200 },
+            { "item": "rx12_injector", "prob": 10 },
+            { "item": "ampoule", "prob": 40 },
+            { "item": "rx11_stimpack", "prob": 10 },
+            { "item": "stimpack_ammo", "prob": 60 },
+            { "item": "antibiotics", "prob": 10 },
+            { "item": "antifungal", "prob": 10 },
+            { "item": "antiparasitic", "prob": 10 },
+            { "item": "ugl_buttstock", "prob": 10 },
+            { "item": "pistol_bayonet", "prob": 30 },
+            { "item": "bayonet", "prob": 70 },
+            { "item": "small_repairkit", "prob": 20 },
+            { "item": "mil_mess_kit", "prob": 10 },
+            { "item": "militarymap", "prob": 50 },
+            { "item": "survnote", "prob": 10 },
+            { "item": "battery_ups", "prob": 10 },
+            { "item": "gobag", "prob": 10 },
+            { "item": "l-stick", "prob": 10 },
+            { "item": "goggles_ir", "prob": 15 },
+            { "item": "goggles_nv", "prob": 15 },
+            { "item": "knife_rm42", "prob": 35 },
+            { "item": "rm11b_sniper_rifle", "prob": 45 },
+            { "item": "power_armor_basic", "prob": 15 },
+            { "item": "power_armor_helmet_basic", "prob": 15 },
+            { "item": "power_armor_frame", "prob": 15 },
+            { "item": "optical_cloak", "prob": 1 }
+        ]
+    }, {
+        "type" : "item_group",
+        "subtype": "collection",
+        "id": "map_extra_military",
+        "entries":
+        [
+            { "item": "corpse", "damage": 3 },
+            { "group": "underwear", "damage-min": 1, "damage-max": 3 },
+            { "group": "military_footwear", "damage-min": 1, "damage-max": 4 },
+            { "item": "socks", "damage-min": 1, "damage-max": 4 },
+            { "distribution": [
+                { "collection": [
+                    { "group": "military_pants", "damage-min": 1, "damage-max": 4 },
+                    { "group": "military_shirts", "damage-min": 1, "damage-max": 4 }
+                ], "prob": 75  },
+                { "item": "jumpsuit", "damage-min": 1, "damage-max": 4, "prob": 25 }
+            ], "prob": 100 },
+            { "group": "military_gloves", "damage-min": 1, "damage-max": 4, "prob": 15 },
+            { "group": "military_hats", "damage-min": 1, "damage-max": 4, "prob": 15 },
+            { "group": "military_helmets", "damage-min": 0, "damage-max": 3, "prob": 25 },
+            { "group": "military_eyewear", "damage-min": 1, "damage-max": 4, "prob": 15 },
+            { "group": "military_storage", "damage-min": 1, "damage-max": 4, "prob": 10 },
+            { "group": "military_extras", "damage-min": 0, "damage-max": 4, "prob": 10 },
+            { "distribution": [
+                { "group": "military_armor", "damage-min": 0, "damage-max": 4, "prob": 15 },
+                { "group": "military_outerwear", "damage-min": 1, "damage-max": 4, "prob": 85 }
+            ], "prob": 50 },
+            { "group": "military_gear", "prob": 86 },
+            { "item": "id_military", "prob": 12 }
+        ]
+    }, {
+        "type" : "item_group",
+        "id" : "helicopter",
+        "subtype": "distribution",
+        "entries" :
+        [
+            { "group": "wreckage", "prob": 200 },
+            { "group": "everyday_gear", "prob": 80 },
+            { "group": "military_clothes", "prob": 50 },
+            { "group": "military_armor", "prob": 10 },
+            { "group": "military_helmets", "prob": 10 },
+            { "group": "military_gear", "prob": 50 },
+            { "group": "military_guns", "prob": 50 },
+            { "group": "military_ammo", "prob": 50 },
+            { "group": "adv_military_guns", "prob": 5 },
+            { "group": "adv_military_ammo", "prob": 10 },
+            { "group": "machine_guns", "prob": 10 },
+            { "group": "launchers", "prob": 2 },
+            { "group": "explosive_ammo", "prob": 10 },
+            { "item": "v8_combustion","damage-min": 1,"damage-max": 3, "prob": 15 },
+            { "item": "frame","damage-min": 1,"damage-max": 3, "prob": 15 },
+            { "item": "steel_plate","damage-min": 1,"damage-max": 3, "prob": 10 },
+            { "item": "mil_plate","damage-min": 1,"damage-max": 3, "prob": 5 },
+            { "item": "wheel_armor","damage-min": 1,"damage-max": 3, "prob": 5 },
+            { "item": "spiked_plate","damage-min": 1,"damage-max": 3, "prob": 5 },
+            { "item": "hard_plate","damage-min": 1,"damage-max": 3, "prob": 10 },
+            { "item": "motor","damage-min": 1,"damage-max": 3, "prob": 10 },
+            { "item": "motor_large","damage-min": 1,"damage-max": 3, "prob": 10 },
+            { "item": "robot_controls","damage-min": 1,"damage-max": 3, "prob": 5 },
+            { "item": "gobag","damage-min": 1,"damage-max": 3, "prob": 1 },
+            { "item": "extinguisher","prob": 5 },
+            { "item": "plut_cell","damage-min": 1,"damage-max": 3, "prob": 2 },
+            { "item": "adv_UPS_off","damage-min": 1,"damage-max": 3, "prob": 1 }
+        ]
+    }, {
+        "type" : "item_group",
+        "subtype": "collection",
+        "id": "map_extra_science",
+        "entries":
+        [
+            { "item": "corpse", "damage": 3, "c":"always a corpse, pulped!" },
+            { "item": "id_science", "prob": 50, "c":"half the time an id card" },
+            { "group": "underwear", "damage-min": 1, "damage-max": 3 },
+            { "group": "science_footwear", "damage-min": 1, "damage-max": 3 },
+            { "item": "socks", "damage-min": 1, "damage-max": 3, "prob": 50 },
+            { "group": "science_outerwear", "damage-min": 1, "damage-max": 3 },
+            { "distribution": [
+                { "collection": [
+                    { "group": "pants", "damage-min": 1, "damage-max": 3 },
+                    { "group": "shirts", "damage-min": 1, "damage-max": 3 }
+                ], "prob": 75  },
+                { "group": "science_suits", "damage-min": 1, "damage-max": 3, "prob": 50 }
+            ]},
+            { "group": "science_eyewear", "damage-min": 2, "damage-max": 3, "prob": 10 },
+            { "group": "science_extras", "damage-min": 2, "damage-max": 3, "prob": 20 },
+            { "group": "worker_storage", "damage-min": 2, "damage-max": 3, "prob": 10 },
+            { "group": "science_gear", "prob": 40 }
+        ]
+    }
+]

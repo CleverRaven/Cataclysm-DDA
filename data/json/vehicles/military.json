@@ -146,9 +146,9 @@
         ],
         "items" : [
             {"x": 0, "y": 0, "chance": 6, "items": "id_military"},
-            {"x": 0, "y": 1, "chance": 3, "item_groups": ["mil_food_nodrugs"]},
-            {"x": 0, "y": 1, "chance": 2, "item_groups": ["mil_accessories"]},
-            {"x": 0, "y": 2, "chance": 2, "item_groups": ["mil_accessories"]}
+            {"x": 0, "y": 1, "chance": 3, "item_groups": ["military_food"]},
+            {"x": 0, "y": 1, "chance": 2, "item_groups": ["military_gear"]},
+            {"x": 0, "y": 2, "chance": 2, "item_groups": ["military_extras"]}
         ]
     },{
         "type" : "vehicle",

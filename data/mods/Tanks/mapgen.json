@@ -301,8 +301,8 @@
                 { "item": "paint",              "x": [12,13], "y": [14,15], "chance": 80, "repeat": [2,3] },
                 { "item": "farming_tools",      "x": [11,12], "y": [17,18], "chance": 60 },
                 { "item": "power_tools",        "x": 15, "y": 15, "chance": 80 },
-                { "item": "hardware_clothing",  "x": [16,17], "y": [14,16], "chance": 70, "repeat": [1,2] },
-                { "item": "hardware_trash",     "x": 19, "y": 22, "chance": 100, "repeat": [2,8] },
+                { "item": "worker_clothes",  "x": [16,17], "y": [14,16], "chance": 70, "repeat": [1,2] },
+                { "item": "trash",     "x": 19, "y": 22, "chance": 100, "repeat": [2,8] },
                 { "item": "vending_drink",      "x": 1, "y": 22, "chance": 90, "repeat": [1,2] }
                 ]
         }
@@ -670,7 +670,7 @@
             "place_items": [
                 { "item": "fridge", "chance": 65,  "x": [12,12 ], "y": [11,11 ] },
                 { "item": "kitchen", "chance": 70,  "x": [13,14 ], "y": [11,11 ] },
-                { "item": "moonshine_brew", "chance": 65,  "x": [13,14 ], "y": [11,11 ] },
+                { "item": "alcohol_brewing", "chance": 65,  "x": [13,14 ], "y": [11,11 ] },
                 { "item": "dresser", "chance": 80,  "x": [19,19 ], "y": [18,18 ] },
                 { "item": "dresser", "chance": 80,  "x": [22,22 ], "y": [18,18 ] },
                 { "item": "bedroom", "chance": 65,  "x": [15,22 ], "y": [15,18 ] },
@@ -773,7 +773,7 @@
             "place_items": [
                 { "item": "fridge", "chance": 65,  "x": [12,12 ], "y": [11,11 ] },
                 { "item": "kitchen", "chance": 70,  "x": [13,14 ], "y": [11,11 ] },
-                { "item": "moonshine_brew", "chance": 65,  "x": [13,14 ], "y": [11,11 ] },
+                { "item": "alcohol_brewing", "chance": 65,  "x": [13,14 ], "y": [11,11 ] },
                 { "item": "dresser", "chance": 80,  "x": [19,19 ], "y": [18,18 ] },
                 { "item": "dresser", "chance": 80,  "x": [22,22 ], "y": [18,18 ] },
                 { "item": "bedroom", "chance": 65,  "x": [15,22 ], "y": [15,18 ] },

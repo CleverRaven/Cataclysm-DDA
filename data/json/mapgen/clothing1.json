@@ -9,6 +9,20 @@
         ["textbook_tailor", 30]
       ]
     },{
+    "type" : "item_group",
+    "id" : "suits",
+    "items":[
+      ["dress_shirt", 100],
+      ["skinny_tie", 50],
+      ["tieclip", 30],
+      ["collarpin", 30],
+      ["undershirt", 100],
+      ["suit", 100],
+      ["waistcoat", 70],
+      ["tophat", 30],
+      ["tux", 50]
+    ]
+    },{
         "type": "mapgen",
         "om_terrain": [
             "s_clothes"

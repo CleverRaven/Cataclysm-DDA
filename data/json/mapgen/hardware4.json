@@ -1,19 +1,25 @@
 [
-    {
-      "type" : "item_group",
-      "id" : "plumbing_bulk",
-      "items":[
-        ["pipe", 100],
-        ["cu_pipe", 100],
-        ["hose", 100],
-        ["mop", 20],
-        ["shovel", 40],
-        ["hammer_sledge", 5],
-        ["metal_tank_small", 25],
-        ["metal_tank_little", 50],
-        ["jerrycan", 10]
-      ]
-    },{
+  {
+    "type" : "item_group",
+    "id" : "plumber",
+    "subtype": "distribution",
+    "entries" : [
+      { "group": "worker_clothes", "prob": 350 },
+      { "group": "basic_tools", "prob": 300 },
+      { "item": "flashlight", "prob": 100 },
+      { "item": "toolbox", "prob": 20 },
+      { "item": "multitool", "prob": 100 },
+      { "item": "screwdriver_set", "prob": 10 },
+      { "item": "duct_tape", "prob": 50 },
+      { "item": "spray_can", "prob": 50 },
+      { "item": "permanent_marker", "prob": 50 },
+      { "item": "battery", "prob": 20 },
+      { "item": "fishing_waders", "prob": 20 },
+      { "item": "boots_rubber", "prob": 30 },
+      { "item": "bio_flashlight", "prob": 10 },
+      { "item": "bio_tools", "prob": 10 }
+    ]
+    },{    
         "type": "mapgen",
         "om_terrain": [
             "s_hardware"
@@ -84,7 +90,7 @@
                 { "item": "hardware_plumbing", "chance": 45, "x": 2,   "y": [7,11],      "repeat": [2,4] },
                 { "item": "hardware_plumbing", "chance": 45, "x": 4,   "y": [7,10],      "repeat": [2,3] },
                 { "item": "hardware_plumbing", "chance": 45, "x": 9,   "y": [5,7],      "repeat": [1,2] },
-                { "item": "plumber_gear", "chance": 60, "x": [10,13],   "y": 18,      "repeat": [1,3] },
+                { "item": "plumber", "chance": 60, "x": [10,13],   "y": 18,      "repeat": [1,3] },
                 { "item": "hardware", "chance": 30, "x": [14,19],   "y": [16,18],      "repeat": [1,2] },
                 { "item": "office", "chance": 50, "x": 6,   "y": [17,18] }
             ],

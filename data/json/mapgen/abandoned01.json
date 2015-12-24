@@ -1,17 +1,4 @@
 [
-  {
-        "type" : "item_group",
-        "subtype": "collection",
-        "id": "stash_water",
-        "entries":
-        [
-
-            { "item": "water_clean", "charges-min": 7, "charges-max": 15, "container-item": "jug_plastic" },
-            { "item": "water_clean", "container-item": "bottle_plastic"},
-            { "item": "funnel"},
-            { "item": "water_clean", "charges-min": 150, "charges-max": 350, "container-item": "30gal_drum"}
-        ]
-    },
     {
         "type" : "item_group",
         "subtype": "collection",

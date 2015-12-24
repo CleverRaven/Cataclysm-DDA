@@ -1,0 +1,3286 @@
+[
+  {
+    "type" : "item_group",
+    "id" : "everyday_gear",
+    "//" : "small common items carried in a person's pockets, purse, etc.",
+    "items":[
+      ["cash_card", 500],
+      ["cell_phone", 200],
+      {"item": "cig", "prob": 250, "charges-min": 1, "charges-max": 20 },
+      ["lighter", 200],
+      ["joint", 10],
+      ["ref_lighter", 50],
+      ["matches", 50],
+      ["ecig", 15],
+      ["chaw", 5],
+      ["cigar", 5],
+      ["advanced_ecig", 10],
+      ["nicotine_liquid", 25],
+      ["permanent_marker", 10],
+      ["dog_whistle", 5],
+      ["multitool", 1],
+      ["cane", 25],
+      ["pocketwatch", 50],
+      ["pockknife", 50],
+      ["knife_swissarmy", 10],
+      ["teleumbrella", 20],
+      ["umbrella", 20],
+      ["aspirin", 100],
+      ["vitamins", 100],
+      ["eyedrops", 50],
+      ["inhaler", 50],
+      ["flashlight", 50],
+      ["heavy_flashlight", 15],
+      ["camera", 30],
+      ["camera_pro", 5],
+      ["pda", 30],
+      ["eink_tablet_pc", 30],
+      ["laptop", 15],
+      ["mobile_memory_card", 50],
+      ["usb_drive", 50],
+      ["mp3", 20],
+      ["portable_game", 50],
+      ["vibrator", 5],
+      ["gum", 50],
+      ["battery", 50],
+      ["wrapper", 50],
+      ["string_6", 50],
+      ["pocket_firstaid", 5],
+      ["pocket_survival", 5],
+      ["pocket_firearms", 5],
+      ["newest_newspaper", 75],
+      ["flyer", 10]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "child_items",
+    "subtype": "distribution",
+    "entries" : [
+      { "group": "child_books", "prob": 150 },
+      { "group": "sugar_drinks", "prob": 150 },
+      { "group": "candy", "prob": 150 },
+      { "group": "junkfood", "prob": 180 },
+      { "group": "sports_clothes", "prob": 100 },
+      { "item": "backpack", "prob": 50 },
+      { "item": "talking_doll", "prob": 50 },
+      { "item": "pockknife", "prob": 25 },
+      { "item": "knife_swissarmy", "prob": 20 },
+      { "item": "wristwatch", "prob": 40 },
+      { "item": "radio_car_box", "prob": 5 },
+      { "item": "radiocontrol", "prob": 10 },
+      { "item": "bat", "prob": 50 },
+      { "item": "slingshot", "prob": 30 },
+      { "item": "wristrocket", "prob": 10 }
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "female_underwear_top",
+    "items":[
+      ["bra", 100],
+      ["sports_bra", 10]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "female_underwear_bottom",
+    "items":[
+      ["panties", 100],
+      ["boy_shorts", 30]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "male_underwear_top",
+    "items":[
+      ["undershirt", 50]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "male_underwear_bottom",
+    "items":[
+      ["boxer_shorts", 70],
+      ["briefs", 30],
+      ["boxer_briefs", 50]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "loincloth",
+    "items":[
+      ["loincloth", 100],
+      ["loincloth_wool", 50],
+      ["loincloth_fur", 25],
+      ["loincloth_leather", 25]
+    ]
+  },{
+    "type" : "item_group",
+    "subtype": "collection",
+    "id": "female_underwear",
+    "groups":[
+      "female_underwear_top",
+      "female_underwear_bottom"
+    ]
+  },{
+    "type" : "item_group",
+    "subtype": "collection",
+    "id": "male_underwear",
+    "groups":[
+      "male_underwear_top",
+      "male_underwear_bottom"
+    ]
+  },{
+    "type" : "item_group",
+    "subtype": "distribution",
+    "id": "underwear",
+    "groups":[
+      ["female_underwear", 50],
+      ["male_underwear", 50]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "male_footwear",
+    "items":[
+      ["sneakers", 200],
+      ["boots", 75],
+      ["flip_flops", 35],
+      ["lowtops", 45],
+      ["dress_shoes", 50],
+      ["dance_shoes", 5],
+      ["boots_combat", 40],
+      ["boots_hiking", 20],
+      ["boots_western", 10],
+      ["leathersandals", 10]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "female_footwear",
+    "items":[
+      ["sneakers", 150],
+      ["heels", 50],
+      ["boots", 75],
+      ["knee_high_boots", 20],
+      ["flip_flops", 35],
+      ["lowtops", 45],
+      ["dress_shoes", 10],
+      ["dance_shoes", 5],
+      ["boots_combat", 40],
+      ["boots_hiking", 20],
+      ["boots_western", 10],
+      ["leathersandals", 10]
+    ]
+  },{
+    "type" : "item_group",
+    "subtype": "distribution",
+    "id": "shoes",
+    "groups":[
+      ["female_footwear", 50],
+      ["male_footwear", 50]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "male_pants",
+    "items":[
+      ["jeans", 200],
+      ["pants", 200],
+      ["pants_checkered", 15],
+      ["shorts", 50],
+      ["shorts_denim", 50],
+      ["pants_leather", 50],
+      ["pants_cargo", 70],
+      ["shorts_cargo", 50],
+      ["under_armor_shorts", 20],
+      ["postman_shorts", 5],
+      ["b_shorts", 35],
+      ["kilt", 1]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "female_pants",
+    "items":[
+      ["jeans", 200],
+      ["pants", 200],
+      ["skirt", 100],
+      ["shorts", 50],
+      ["pants_checkered", 15],
+      ["shorts_denim", 35],
+      ["pants_leather", 30],
+      ["pants_cargo", 50],
+      ["shorts_cargo", 10],
+      ["skirt_leather", 30],
+      ["under_armor_shorts", 20],
+      ["postman_shorts", 5],
+      ["b_shorts", 2],
+      ["nanoskirt", 10]
+    ]
+  },{
+    "type" : "item_group",
+    "subtype": "distribution",
+    "id": "pants",
+    "groups":[
+      ["female_pants", 50],
+      ["male_pants", 50]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "male_shirts",
+    "items":[
+      ["tshirt", 200],
+      ["longshirt", 50],
+      ["polo_shirt", 65],
+      ["dress_shirt", 60],
+      ["tank_top", 50],
+      ["sweatshirt", 75],
+      ["sweater", 75],
+      ["hoodie", 65],
+      ["under_armor", 20],
+      ["jersey", 40],
+      ["postman_shirt", 5],
+      ["linuxtshirt", 10],
+      ["sleeveless_tunic", 5],
+      ["waistcoat", 5]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "female_shirts",
+    "items":[
+      ["tshirt", 200],
+      ["longshirt", 50],
+      ["polo_shirt", 65],
+      ["dress_shirt", 60],
+      ["tank_top", 50],
+      ["sweatshirt", 75],
+      ["sweater", 75],
+      ["hoodie", 65],
+      ["under_armor", 20],
+      ["jersey", 40],
+      ["camisole", 60],
+      ["postman_shirt", 5],
+      ["halter_top", 50],
+      ["linuxtshirt", 10],
+      ["sleeveless_tunic", 5]
+    ]
+  },{
+    "type" : "item_group",
+    "subtype": "distribution",
+    "id": "shirts",
+    "groups":[
+      ["female_shirts", 50],
+      ["male_shirts", 50]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "jackets",
+    "items":[
+      ["jacket_light", 80],
+      ["jacket_jean", 65],
+      ["jacket_flannel", 50],
+      ["house_coat", 15],
+      ["blazer", 50],
+      ["jacket_leather", 50],
+      ["vest_leather", 10],
+      ["jacket_army", 5],
+      ["coat_rain", 50],
+      ["greatcoat", 15],
+      ["trenchcoat", 15],
+      ["sleeveless_trenchcoat", 5],
+      ["trenchcoat_leather", 5],
+      ["sleeveless_trenchcoat_leather", 2],
+      ["duster", 10],
+      ["sleeveless_duster", 2],
+      ["duster_leather", 5],
+      ["sleeveless_duster_leather", 2],
+      ["poncho", 10],
+      ["cloak", 1]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "gloves",
+    "items":[
+      ["gloves_leather", 50],
+      ["gloves_fingerless", 80],
+      ["fire_gauntlets", 20],
+      ["gloves_liner", 10]
+    ]
+  },{
+     "type" : "item_group",
+    "id" : "eyewear",
+    "items":[
+      ["sunglasses", 200],
+      ["glasses_eye", 100],
+      ["glasses_reading", 100],
+      ["glasses_bifocal", 50],
+      ["fitover_sunglasses", 20],
+      ["fancy_sunglasses", 15],
+      ["goggles_ski", 1],
+      ["goggles_swim", 1]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "hats",
+    "items":[
+      ["hat_cotton", 80],
+      ["hat_hunting", 50],
+      ["hat_knit", 50],
+      ["hat_fur",  5],
+      ["hat_newsboy", 40],
+      ["fedora", 10],
+      ["straw_hat", 50],
+      ["straw_fedora", 20],
+      ["hat_chef", 1],
+      ["hat_ball", 100],
+      ["postman_hat", 1],
+      ["bowhat", 50],
+      ["cowboy_hat", 60],
+      ["10gal_hat", 50],
+      ["kufi", 30],
+      ["kippah", 30],
+      ["eboshi", 30],
+      ["porkpie", 30],
+      ["hood_rain", 40],
+      ["beret", 20]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "helmets",
+    "items":[
+      ["hat_hard", 100],
+      ["hat_hard_hooded", 30],
+      ["helmet_bike", 60],
+      ["helmet_motor", 50],
+      ["firehelmet", 50],
+      ["helmet_riot", 30],
+      ["helmet_army", 40],
+      ["tac_helmet", 20],
+      ["helmet_riot", 20],
+      ["tac_fullhelmet", 5],
+      ["pickelhaube", 1],
+      ["helmet_barbute", 2],
+      ["helmet_plate", 2]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "masks",
+    "items":[
+      ["mask_dust", 50],
+      ["bandana", 80],
+      ["balclava", 10],
+      ["scarf", 5],
+      ["knit_scarf", 5],
+      ["cowl_wool", 5],
+      ["long_knit_scarf", 1]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "storage",
+    "items":[
+      ["backpack", 50],
+      ["fanny", 10],
+      ["mbag", 50],
+      ["slingpack", 40],
+      ["rucksack", 10],
+      ["backpack_leather", 30],
+      ["sheath", 10],
+      ["runner_bag", 15]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "water_storage",
+    "items":[
+      ["canteen", 50],
+      ["2lcanteen", 50],
+      ["camelbak", 10],
+      ["waterskin", 15],
+      ["waterskin2", 10],
+      ["waterskin3", 5]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "gun_storage",
+    "items":[
+      ["holster", 100],
+      ["sholster", 50],
+      ["back_holster", 50],
+      ["bootstrap", 25]
+    ]
+ },{
+    "type" : "item_group",
+    "id" : "clothing_extras",
+    "items":[
+      ["leather_belt", 100],
+      ["arm_warmers", 10],
+      ["leg_warmers", 10],
+      ["gold_watch", 20],
+      ["sf_watch", 20],
+      ["wristwatch", 50],
+      ["necklace", 40],
+      ["holy_symbol", 40]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "male_extras",
+    "items":[
+      ["skinny_tie", 100],
+      ["tieclip", 30],
+      ["collarpin", 50],
+      ["ring", 30]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "female_extras",
+    "items":[
+      ["skinny_tie", 25],
+      ["gold_ear", 60],
+      ["brooch", 10],
+      ["pearl_collar", 10]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "jewelry",
+    "items":[
+      ["ring", 100],
+      ["gold_ear", 60],
+      ["gold_bracelet", 50],
+      ["gold_watch", 65],
+      ["gold_dental_grill", 15],
+      ["silver_ear", 60],
+      ["necklace", 50],
+      ["silver_bracelet", 50],
+      ["sf_watch", 50],
+      ["diamond_ring", 50],
+      ["diamond_dental_grill", 10],
+      ["brooch", 30],
+      ["copper_ear", 50],
+      ["pocketwatch", 30],
+      ["tieclip", 60],
+      ["pearl_collar", 40],
+      ["diamond", 30],
+      ["ear_spool", 30],
+      ["holy_symbol", 20]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "allclothes",
+    "subtype": "distribution",
+    "entries" : [
+      { "group": "female_underwear_bottom", "prob": 20 },
+      { "group": "female_underwear_top", "prob": 20 },
+      { "group": "male_underwear_bottom", "prob": 20 },
+      { "group": "male_underwear_top", "prob": 20 },
+      { "group": "female_footwear", "prob": 50 },
+      { "group": "male_footwear", "prob": 50 },
+      { "item": "socks", "prob": 50 },
+      { "group": "female_pants", "prob": 80 },
+      { "group": "male_pants", "prob": 80 },
+      { "group": "female_shirts", "prob": 80 },
+      { "group": "male_shirts", "prob": 80 },
+      { "group": "jackets", "prob": 50 },
+      { "group": "gloves", "prob": 50 },
+      { "group": "eyewear", "prob": 30 },
+      { "group": "hats", "prob": 30 },
+      { "group": "masks", "prob": 30 },
+      { "group": "storage", "prob": 20 },
+      { "group": "female_extras", "prob": 20 },
+      { "group": "male_extras", "prob": 20 }
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "female_clothes",
+    "subtype": "distribution",
+    "entries" : [
+      { "group": "female_underwear_bottom", "prob": 30 },
+      { "group": "female_underwear_top", "prob": 30 },
+      { "group": "female_footwear", "prob": 60 },
+      { "distribution": [
+        { "item": "socks", "prob": 50 },
+        { "item": "tights", "prob": 50 },
+        { "item": "stockings", "prob": 50 },
+        { "item": "leggings", "prob": 50 }
+      ], "prob": 90 },
+      { "group": "female_pants", "prob": 90 },
+      { "group": "female_shirts", "prob": 90 },
+      { "group": "jackets", "prob": 50 },
+      { "group": "gloves", "prob": 50 },
+      { "group": "eyewear", "prob": 30 },
+      { "group": "hats", "prob": 30 },
+      { "group": "masks", "prob": 30 },
+      { "group": "storage", "prob": 20 },
+      { "group": "female_extras", "prob": 20 }
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "male_clothes",
+    "subtype": "distribution",
+    "entries" : [
+      { "group": "male_underwear_bottom", "prob": 30 },
+      { "group": "male_underwear_top", "prob": 30 },
+      { "group": "male_footwear", "prob": 60 },
+      { "group": "male_pants", "prob": 90 },
+      { "group": "male_shirts", "prob": 90 },
+      { "group": "jackets", "prob": 50 },
+      { "group": "gloves", "prob": 50 },
+      { "group": "eyewear", "prob": 30 },
+      { "group": "hats", "prob": 30 },
+      { "group": "masks", "prob": 30 },
+      { "group": "storage", "prob": 20 },
+      { "group": "male_extras", "prob": 20 }
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "winter_underwear_top",
+    "items":[
+      ["undershirt", 50],
+      ["long_undertop", 40]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "winter_underwear_bottom",
+    "items":[
+      ["long_underpants", 40],
+      ["thermal_suit", 10],
+      ["union_suit", 40]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "winter_pants",
+    "items":[
+      ["jeans", 40],
+      ["pants", 30],
+      ["pants_ski", 50],
+      ["pants_leather", 40],
+      ["winter_pants_army", 10]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "winter_shirts",
+    "items":[
+      ["longshirt", 50],
+      ["sweatshirt", 75],
+      ["sweater", 75],
+      ["hoodie", 65]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "winter_footwear",
+    "items":[
+      ["boots_winter", 100],
+      ["boots", 70],
+      ["boots_fur", 1],
+      ["knee_high_boots", 5],
+      ["boots_combat", 10],
+      ["boots_hiking", 20],
+      ["boots_western", 10]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "winter_outerwear",
+    "items":[
+      ["coat_winter", 100],
+      ["greatcoat", 100],
+      ["coat_fur", 30],
+      ["coat_fur_sf", 5],
+      ["peacoat", 80],
+      ["jacket_leather", 50],
+      ["jacket_flannel", 50],
+      ["coat_rain", 60],
+      ["jacket_army", 30],
+      ["winter_jacket_army", 10],
+      ["trenchcoat_leather", 5],
+      ["trenchcoat_fur", 1],
+      ["duster_fur", 1],
+      ["duster_leather", 5],
+      ["cloak", 1],
+      ["cloak_wool", 1],
+      ["cloak_fur", 1]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "winter_gloves",
+    "items":[
+      ["gloves_winter", 80],
+      ["gloves_leather", 50],
+      ["gloves_wool", 50],
+      ["mittens", 50],
+      ["thermal_gloves", 10],
+      ["gloves_liner", 10],
+      ["winter_gloves_army", 5]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "winter_hats",
+    "items":[
+      ["hood_rain", 40],
+      ["hat_cotton", 50],
+      ["hat_knit", 40],
+      ["hat_fur",  10],
+      ["hat_boonie", 10],
+      ["beret_wool", 20]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "winter_masks",
+    "items":[
+      ["bandana", 10],
+      ["balclava", 100],
+      ["scarf", 100],
+      ["knit_scarf", 50],
+      ["cowl_wool", 40],
+      ["long_knit_scarf", 1],
+      ["thermal_mask", 10]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "winter_extras",
+    "items":[
+      ["thermal_socks", 10],
+      ["socks_wool", 100],
+      ["arm_warmers", 50],
+      ["leg_warmers", 50]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "winter",
+    "subtype": "distribution",
+    "entries" : [
+      { "group": "winter_underwear_bottom", "prob": 30 },
+      { "group": "winter_underwear_top", "prob": 30 },
+      { "group": "winter_footwear", "prob": 60 },
+      { "group": "winter_pants", "prob": 90 },
+      { "group": "winter_shirts", "prob": 90 },
+      { "group": "winter_outerwear", "prob": 50 },
+      { "group": "winter_gloves", "prob": 50 },
+      { "group": "winter_hats", "prob": 30 },
+      { "group": "winter_masks", "prob": 30 },
+      { "group": "winter_extras", "prob": 20 }
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "rain_footwear",
+    "items":[
+      ["boots_rubber", 50]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "rain_outerwear",
+    "items":[
+      ["coat_rain", 50],
+      ["folding_poncho_on", 25]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "rain_hats",
+    "items":[
+      ["hood_rain", 5]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "rain_clothes",
+    "subtype": "distribution",
+    "entries" : [
+      { "group": "rain_footwear", "prob": 30 },
+      { "group": "rain_outerwear", "prob": 100 },
+      { "group": "rain_hats", "prob": 30 }
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "rain_gear",
+    "items":[
+      ["umbrella", 7],
+      ["teleumbrella", 3]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "swim_pants",
+    "items":[
+      ["trunks", 100]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "swim_shirts",
+    "items":[
+      ["bikini_top", 50]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "swim_suits",
+    "items":[
+      ["wetsuit", 50],
+      ["wetsuit_spring", 50]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "swim_full",
+    "items":[
+      ["shark_suit", 50]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "swim_outerwear",
+    "items":[
+      ["flotation_vest", 50]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "swim_footwear",
+    "items":[
+      ["swim_fins", 100],
+      ["wetsuit_booties", 50]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "swim_gloves",
+    "items":[
+      ["wetsuit_gloves", 50]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "swim_hats",
+    "items":[
+      ["wetsuit_hood", 50]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "swim_eyewear",
+    "items":[
+      ["goggles_swim", 50]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "swim_masks",
+    "items":[
+      ["rebreather", 50]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "swim_storage",
+    "items":[
+      ["dive_bag", 5]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "swim_extras",
+    "items":[
+      ["diving_watch", 10]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "swim_all_wetsuit",
+    "subtype": "collection",
+    "items":[
+      "wetsuit",
+      "wetsuit_hood",
+      "wetsuit_gloves",
+      "goggles_swim",
+      "rebreather",
+      "swim_fins"
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "swim_clothes",
+    "subtype": "distribution",
+    "entries" : [
+      { "group": "swim_footwear", "prob": 60 },
+      { "group": "swim_pants", "prob": 100 },
+      { "group": "swim_shirts", "prob": 50 },
+      { "group": "swim_suits", "prob": 40 },
+      { "group": "swim_full", "prob": 5 },
+      { "group": "swim_outerwear", "prob": 50 },
+      { "group": "swim_gloves", "prob": 50 },
+      { "group": "swim_eyewear", "prob": 50 },
+      { "group": "swim_hats", "prob": 25 },
+      { "group": "swim_masks", "prob": 50 },
+      { "group": "swim_storage", "prob": 35 },
+      { "group": "swim_extras", "prob": 20 }
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "sports_footwear",
+    "items":[
+      ["sneakers", 100],
+      ["boots_hiking", 20],
+      ["motorbike_boots", 10],
+      ["shoes_bowling", 10],
+      ["cleats", 40]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "roller_footwear",
+    "items":[
+      ["rollerskates", 10],
+      ["roller_blades", 75]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "sports_pants",
+    "items":[
+      ["shorts", 80],
+      ["under_armor_shorts", 60],
+      ["b_shorts", 45],
+      ["fencing_pants", 5],
+      ["motorbike_pants", 5]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "sports_shirts",
+    "items":[
+      ["tshirt", 50],
+      ["tank_top", 70],
+      ["sweatshirt", 25],
+      ["hoodie", 25],
+      ["under_armor", 60],
+      ["jersey", 60]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "sports_outerwear",
+    "items":[
+      ["flotation_vest", 10],
+      ["fencing_jacket", 8]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "sports_armor",
+    "items":[
+      ["football_armor", 50],
+      ["motorbike_armor", 50]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "sports_gloves",
+    "items":[
+      ["gloves_fingerless", 50],
+      ["boxing_gloves", 35]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "sports_helmets",
+    "items":[
+      ["helmet_bike", 50],
+      ["helmet_ball", 50],
+      ["headgear", 50],
+      ["helmet_football", 50],
+      ["helmet_skid", 50]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "sports_eyewear",
+    "items":[
+      ["goggles_swim", 50],
+      ["goggles_ski", 30]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "sports_masks",
+    "items":[
+      ["mask_hockey", 25],
+      ["mouthpiece", 15],
+      ["fencing_mask", 8]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "sports_storage",
+    "items":[
+      ["fanny", 5]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "sports_extras",
+    "items":[
+      ["diving_watch", 10],
+      ["arm_warmers", 20],
+      ["leg_warmers", 20],
+      ["leggings", 20],
+      ["armguard_soft", 40],
+      ["armguard_hard", 20],
+      ["legguard_hard", 15],
+      ["elbow_pads", 40],
+      ["knee_pads", 40]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "sports_clothes",
+    "subtype": "distribution",
+    "entries" : [
+      { "group": "sports_footwear", "prob": 70 },
+      { "group": "roller_footwear", "prob": 5 },
+      { "group": "sports_pants", "prob": 90 },
+      { "group": "sports_shirts", "prob": 90 },
+      { "group": "sports_outerwear", "prob": 10 },
+      { "group": "sports_armor", "prob": 3 },
+      { "group": "sports_gloves", "prob": 50 },
+      { "group": "sports_eyewear", "prob": 10 },
+      { "group": "sports_helmets", "prob": 40 },
+      { "group": "sports_masks", "prob": 40 },
+      { "group": "sports_storage", "prob": 20 },
+      { "group": "sports_extras", "prob": 60 }
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "sports_gear",
+    "//" : "held or carried sports equipment.",
+    "items":[
+      ["bat", 60],
+      ["bat_metal", 45],
+      ["golf_club", 50],
+      ["hockey_stick", 50],
+      ["puck", 50],
+      ["basketball", 60],
+      ["baseball", 60],
+      ["football", 60],
+      ["bowling_ball", 60],
+      ["fencing_foil", 15],
+      ["fencing_sabre", 10],
+      ["fencing_epee", 5],
+      ["bb", 50],
+      ["bbgun", 10],
+      ["lawn_dart", 30],
+      ["pool_cue", 4],
+      ["pool_ball", 50]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "fishing_gear",
+    "items":[
+      ["fishing_rod_professional", 200],
+      ["fishing_waders", 50],
+      ["flotation_vest", 30],
+      ["fishing_hook_basic", 100],
+      ["fish_trap", 30],
+      ["speargun", 10],
+      ["minispeargun", 1],
+      ["doublespeargun", 1],
+      ["airspeargun", 1],
+      ["fishspear", 20],
+      ["m_fishspear", 20],
+      ["c_fishspear", 20]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "camping_gear",
+    "items":[
+      ["tent_kit", 200],
+      ["large_tent_kit", 100],
+      ["sleeping_bag", 100],
+      ["rollmat", 50],
+      ["cot", 40],
+      ["emer_blanket", 20],
+      ["UPS_off", 3],
+      ["adv_UPS_off", 2],
+      ["water_purifier", 10],
+      ["radio", 30],
+      ["hotplate", 50],
+      ["mess_kit", 80],
+      ["popcan_stove", 10],
+      ["pot", 50],
+      ["teapot", 30],
+      ["pan", 30],
+      ["thermometer", 10],
+      ["hygrometer", 10],
+      ["barometer", 10],
+      ["binoculars", 30],
+      ["fishing_rod_professional", 50],
+      ["rope_30", 30],
+      ["hatchet", 50],
+      ["ax", 20],
+      ["iceaxe", 20],
+      ["misc_repairkit", 10],
+      ["firecracker_pack", 5],
+      ["folding_bicycle", 1],
+      ["machete", 5],
+      ["bb", 50],
+      ["bbgun", 30],
+      ["pocketwatch", 10],
+      ["pur_tablets", 50],
+      ["e_tool", 50],
+      ["flaregun", 20],
+      ["signal_flare", 50],
+      ["beartrap", 20],
+      ["bullwhip", 1],
+      ["grapnel", 20],
+      ["razor_blade", 50],
+      ["airhorn", 30]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "hunting_guns",
+    "items":[
+      ["shotgun_s", 30],
+      ["shotgun_d", 40],
+      ["remington_870", 50],
+      ["mossberg_500", 80],
+      ["marlin_9a", 80],
+      ["ruger_1022", 80],
+      ["ruger_mini", 75],
+      ["savage_111f", 70],
+      ["browning_blr", 80],
+      ["remington_700", 80],
+      ["win70", 60],
+      ["weatherby_5", 30],
+      ["combination_gun_shotgun", 3],
+      ["trex_gun", 1]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "hunting_ammo",
+    "items":[
+      ["shot_bird", 100],
+      ["shot_00", 100],
+      ["shot_slug", 50],
+      ["22_lr", 200],
+      ["22_ratshot", 30],
+      ["223", 50],
+      ["556", 10],
+      ["270", 70],
+      ["300_winmag", 70],
+      ["308", 70],
+      ["3006", 70],
+      ["700nx", 1]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "worker_footwear",
+    "items":[
+      ["boots", 50],
+      ["boots_steel", 50],
+      ["boots_combat", 10],
+      ["boots_hiking", 10]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "worker_outerwear",
+    "items":[
+      ["vest", 50],
+      ["vest_leather", 50],
+      ["apron_leather", 20]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "worker_gloves",
+    "items":[
+      ["gloves_leather", 50],
+      ["gloves_work", 55]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "worker_helmets",
+    "items":[
+      ["miner_hat", 50],
+      ["hat_hard_hooded", 50],
+      ["hat_hard", 100]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "worker_eyewear",
+    "items":[
+      ["glasses_safety", 50],
+      ["goggles_welding", 20]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "worker_masks",
+    "items":[
+      ["mask_dust", 150],
+      ["mask_filter", 50],
+      ["bandana", 40]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "worker_storage",
+    "items":[
+      ["tool_belt", 100],
+      ["sheath", 50],
+      ["runner_bag", 5],
+      ["leather_pouch", 5]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "worker_extras",
+    "items":[
+      ["knee_pads", 50],
+      ["wearable_light", 50],
+      ["ear_plugs", 50]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "worker_clothes",
+    "subtype": "distribution",
+    "entries" : [
+      { "group": "worker_footwear", "prob": 60 },
+      { "group": "worker_outerwear", "prob": 50 },
+      { "group": "worker_gloves", "prob": 50 },
+      { "group": "worker_eyewear", "prob": 30 },
+      { "group": "worker_helmets", "prob": 30 },
+      { "group": "worker_masks", "prob": 30 },
+      { "group": "worker_storage", "prob": 20 },
+      { "group": "worker_extras", "prob": 20 }
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "worker_gear",
+    "subtype": "distribution",
+    "entries":[
+      { "group": "basic_tools", "prob": 300 },
+      { "group": "hardware_tools", "prob": 300 },
+      { "group": "construction_tools", "prob": 300 },
+      {"item": "sm_extinguisher", "prob": 50 },
+      {"item": "jackhammer", "prob": 2 },
+      {"item": "hammer_sledge", "prob": 2 },
+      {"item": "elec_jackhammer", "prob": 2 },
+      {"item": "jacqueshammer", "prob": 2 },
+      {"item": "shovel", "prob": 5 },
+      {"item": "pickaxe", "prob": 1 },
+      {"item": "radio", "prob": 10 },
+      {"item": "two_way_radio", "prob": 10 },
+      {"item": "ref_lighter", "prob": 20 },
+      {"item": "spray_can", "prob": 25 }
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "mechanics_gear",
+    "items":[
+      ["hammer", 100],
+      ["wrench", 100],
+      ["screwdriver", 100],
+      ["hacksaw", 100],
+      ["pliers", 40],
+      ["goggles_welding", 100],
+      {"item": "welder", "prob": 30, "charges-min": 0, "charges-max": 500 },
+      {"item": "oxy_torch", "prob": 30, "charges-min": 0, "charges-max": 900 },
+      ["polisher", 45],
+      ["jumper_cable", 50],
+      ["jerrycan", 30],
+      ["jack", 5],
+      ["toolbox", 10]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "farming_gear",
+     "subtype": "distribution",
+    "entries":[
+      { "group": "basic_tools", "prob": 100 },
+      {"item": "g_shovel", "prob": 20 },
+      {"item": "sickle", "prob": 10 },
+      {"item": "pitchfork", "prob": 30 },
+      {"item": "jerrycan", "prob": 20 },
+      {"item": "shovel", "prob": 50 },
+      {"item": "scythe", "prob": 5 },
+      {"item": "hoe", "prob": 50 }
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "postman_shirts",
+    "items":[
+      ["postman_shirt", 50]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "postman_pants",
+    "items":[
+      ["postman_shorts", 50]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "postman_hats",
+    "items":[
+      ["postman_hat", 50]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "postman_clothes",
+    "subtype": "distribution",
+    "entries" : [
+      { "group": "postman_pants", "prob": 50 },
+      { "group": "postman_shirts", "prob": 50 },
+      { "group": "postman_hats", "prob": 25 }
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "postman_gear",
+    "subtype": "collection",
+    "entries" : [
+      { "item": "mbag" },
+      { "item": "newest_newspaper", "count-min": 2, "count-max": 8 },
+      { "group": "paper_trash", "count-min": 2, "count-max": 8 }
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "technician_shirts",
+    "items":[
+      ["technician_shirt_blue", 50],
+      ["technician_shirt_ltblue", 40],
+      ["technician_shirt_gray", 30]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "technician_pants",
+    "items":[
+      ["technician_pants_blue", 50],
+      ["technician_pants_ltblue", 40],
+      ["technician_pants_gray", 30]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "science_footwear",
+    "items":[
+      ["boots_rubber", 100],
+      ["dress_shoes", 50],
+      ["sneakers", 50],
+      ["lowtops", 45]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "science_suits",
+    "items":[
+      ["jumpsuit", 100],
+      ["cleansuit", 15],
+      ["subsuit_xl", 0]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "science_outerwear",
+    "items":[
+      ["coat_lab", 200],
+      ["blazer", 5],
+      ["vest", 15],
+      ["apron_leather", 10]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "science_gloves",
+    "items":[
+      ["gloves_medical", 100],
+      ["gloves_rubber", 50],
+      ["fire_gauntlets", 5],
+      ["nomex_gloves", 5]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "science_eyewear",
+    "items":[
+      ["glasses_safety", 200],
+      ["sunglasses", 25],
+      ["glasses_eye", 50],
+      ["glasses_reading", 50],
+      ["glasses_bifocal", 50],
+      ["goggles_nv", 1],
+      ["goggles_ir", 1]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "science_masks",
+    "items":[
+      ["mask_dust", 100],
+      ["mask_gas", 1],
+      ["mask_filter", 50]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "science_extras",
+    "items":[
+      ["knee_pads", 15],
+      ["stethoscope", 1],
+      ["wearable_light", 50],
+      ["ear_plugs", 50],
+      ["rad_monitor", 10],
+      ["rx12_injector", 1]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "science_storage",
+    "items":[
+      ["tool_belt", 100],
+      ["leather_belt", 5],
+      ["fanny", 15],
+      ["vest", 50]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "science_clothes",
+    "subtype": "distribution",
+    "entries" : [
+      { "group": "science_footwear", "prob": 50 },
+      { "group": "science_suits", "prob": 20 },
+      { "group": "science_outerwear", "prob": 100 },
+      { "group": "science_gloves", "prob": 50 },
+      { "group": "science_eyewear", "prob": 30 },
+      { "group": "science_masks", "prob": 30 },
+      { "group": "science_extras", "prob": 10 }
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "medical_gear",
+    "//" : "carried med tools. medicine goes in emergency_drugs.",
+    "items":[
+      ["scalpel", 150],
+      ["syringe", 100],
+      ["scissors", 50],
+      ["stethoscope", 1],
+      ["vacutainer", 10],
+      ["hacksaw", 10],
+      ["cleansuit", 5],
+      ["adrenaline_injector", 10],
+      ["magnifying_glass", 50],
+      ["shavingkit", 30],
+      ["elec_hairtrimmer", 30],
+      ["towel", 65],
+      ["smoxygen_tank", 50],
+      ["wrapped_rad_badge", 50],
+      ["blood", 35],
+      ["rag_bloody", 45],
+      ["software_medical", 20],
+      ["software_useless", 50],
+      ["usb_drive", 60]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "science_gear",
+    "items":[
+      {"item": "soldering_iron", "prob": 200, "charges-min": 5, "charges-max": 20 },
+      {"item": "flashlight", "prob": 100, "charges-min": 10, "charges-max": 100 },
+      ["battery", 100],
+      {"item": "mp3", "prob": 15, "charges-min": 10, "charges-max": 95 },
+      {"item": "radio", "prob": 20, "charges-min": 10, "charges-max": 95 },
+      {"item": "eink_tablet_pc", "prob": 45, "charges-min": 10, "charges-max": 50 },
+      ["laptop", 50],
+      ["mobile_memory_card", 60],
+      ["mobile_memory_card_science", 5],
+      ["software_useless", 10],
+      ["usb_drive", 80],
+      {"item": "two_way_radio", "prob": 20, "charges-min": 10, "charges-max": 95 },
+      {"item": "camera", "prob": 25, "charges-min": 10, "charges-max": 95 },
+      {"item": "camera_pro", "prob": 5, "charges-min": 10, "charges-max": 95 },
+      ["EMPbomb", 10],
+      ["scrambler", 1],
+      ["UPS_off", 30],
+      ["adv_UPS_off", 5],
+      {"item": "geiger_off", "prob": 50, "charges-min": 10, "charges-max": 95 },
+      ["thermometer", 50],
+      ["hygrometer", 40],
+      ["barometer", 40],
+      ["magnifying_glass", 50],
+      ["wrapped_rad_badge", 50],
+      ["throw_extinguisher", 2],
+      ["towel", 50],
+      ["bottle_glass", 50],
+      ["xacto", 50],
+      ["permanent_marker", 40],
+      ["screwdriver", 70],
+      ["hammer", 50],
+      ["wrench", 60],
+      ["pliers", 50],
+      ["hacksaw", 15],
+      ["multitool", 10],
+      ["toolbox", 5],
+      ["id_science", 15]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "hazmat_footwear",
+    "items":[
+      ["boots_rubber", 50]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "hazmat_suits",
+    "items":[
+      ["cleansuit", 40],
+      ["jumpsuit", 60]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "hazmat_full",
+    "items":[
+      ["hazmat_suit", 80],
+      ["anbc_suit", 20]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "hazmat_gloves",
+    "items":[
+      ["gloves_medical", 60],
+      ["gloves_rubber", 40]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "hazmat_masks",
+    "items":[
+      ["mask_dust", 80],
+      ["mask_filter", 20],
+      ["mask_gas", 10]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "hazmat_eyewear",
+    "items":[
+      ["glasses_safety", 50]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "hazmat_extras",
+    "items":[
+      ["rad_monitor", 50],
+      ["wearable_rx12", 10]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "hazmat_clothes",
+    "subtype": "distribution",
+    "entries" : [
+      { "group": "hazmat_footwear", "prob": 60 },
+      { "group": "hazmat_suits", "prob": 90 },
+      { "group": "hazmat_full", "prob": 50 },
+      { "group": "hazmat_gloves", "prob": 50 },
+      { "group": "hazmat_eyewear", "prob": 30 },
+      { "group": "hazmat_masks", "prob": 30 },
+      { "group": "hazmat_extras", "prob": 10 }
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "rad_gear",
+    "items":[
+      ["wrapped_rad_badge", 80],
+      ["geiger_off", 20],
+      ["rad_monitor", 10],
+      ["oxygen_tank", 10],
+      ["smoxygen_tank", 15],
+      ["adv_UPS_off", 2],
+      ["iodine", 50]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "fireman_footwear",
+    "items":[
+      ["boots_bunker", 70],
+      ["boots_steel", 20],
+      ["boots_combat", 5],
+      ["boots_rubber", 10],
+      ["boots_hiking", 5]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "fireman_pants",
+    "items":[
+      ["bunker_pants", 80],
+      ["pants_cargo", 10]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "fireman_suits",
+    "items":[
+      ["nomex_suit", 40],
+      ["entry_suit", 40]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "fireman_outerwear",
+    "items":[
+      ["bunker_coat", 80],
+      ["vest", 30]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "fireman_gloves",
+    "items":[
+      ["fire_gauntlets", 60],
+      ["gloves_medical", 5],
+      ["gloves_tactical", 20],
+      ["gloves_rubber", 10],
+      ["nomex_gloves", 30]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "fireman_helmets",
+    "items":[
+      ["firehelmet", 60],
+      ["nomex_hood", 40],
+      ["hat_hard", 5],
+      ["hat_hard_hooded", 5],
+      ["hat_noise_cancelling", 5]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "fireman_masks",
+    "items":[
+      ["mask_bunker", 70],
+      ["mask_dust", 30],
+      ["mask_gas", 20],
+      ["mask_filter", 10]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "fireman_eyewear",
+    "items":[
+      ["glasses_safety", 200],
+      ["sunglasses", 50],
+      ["glasses_eye", 50],
+      ["goggles_nv", 1],
+      ["goggles_ir", 1]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "fireman_extras",
+    "items":[
+     ["fireman_belt", 75],
+     ["tool_belt", 50],
+     ["wearable_light", 50],
+     ["nomex_socks", 50],
+     ["chestrig", 10],
+     ["rx12_injector", 1],
+     ["knee_pads", 55],
+     ["elbow_pads", 55],
+     ["legrig", 35]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "fireman_clothes",
+    "subtype": "distribution",
+    "entries" : [
+      { "group": "fireman_footwear", "prob": 60 },
+      { "group": "fireman_suits", "prob": 5 },
+      { "group": "fireman_outerwear", "prob": 50 },
+      { "group": "fireman_gloves", "prob": 50 },
+      { "group": "fireman_eyewear", "prob": 30 },
+      { "group": "fireman_helmets", "prob": 30 },
+      { "group": "fireman_masks", "prob": 30 },
+      { "group": "fireman_extras", "prob": 20 }
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "fireman_gear",
+    "items":[
+      ["extinguisher", 200],
+      ["sm_extinguisher", 100],
+      ["throw_extinguisher", 50],
+      ["watercannon", 50],
+      ["smoxygen_tank", 75],
+      ["oxygen_tank", 50],
+      ["fire_ax", 100],
+      ["halligan", 50],
+      ["crowbar", 50],
+      ["hammer_sledge", 50],
+      ["boltcutters", 50],
+      ["shovel", 60],
+      ["chainsaw_off", 40],
+      ["bio_climate", 3],
+      ["bio_heatsink", 3],
+      ["flamethrower", 1]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "emergency_gear",
+    "items":[
+      ["heavy_flashlight", 200],
+      ["handflare", 100],
+      ["glowstick", 100],
+      ["extinguisher", 50],
+      ["sm_extinguisher", 50],
+      ["throw_extinguisher", 10],
+      ["smoxygen_tank", 50],
+      ["oxygen_tank", 40],
+      ["halligan", 20],
+      ["crowbar", 50],
+      ["hammer_sledge", 50],
+      ["boltcutters", 50],
+      ["binoculars", 50],
+      ["shovel", 60],
+      ["airhorn", 15],
+      ["chainsaw_off", 40],
+      ["rope_30", 50],
+      ["flaregun", 5],
+      ["signal_flare", 25],
+      ["flamethrower", 1],
+      ["two_way_radio", 50],
+      ["UPS_off", 50],
+      ["emer_blanket", 50],
+      ["picklocks", 5],
+      ["geiger_off", 50],
+      ["battery", 70],
+      ["jack", 35],
+      ["grapnel", 45],
+      ["toolbox", 10],
+      ["roadmap", 5]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "cop_footwear",
+    "items":[
+      ["boots", 70],
+      ["boots_steel", 50],
+      ["boots_hiking", 20],
+      ["boots_western", 5],
+      ["boots_combat", 10]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "cop_pants",
+    "items":[
+      ["pants", 75],
+      ["pants_cargo", 70]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "cop_shirts",
+    "items":[
+      ["dress_shirt", 60],
+      ["under_armor", 20],
+      ["sheriffshirt", 5]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "cop_armor",
+    "items":[
+      ["kevlar", 100],
+      ["swat_armor", 10],
+      ["dragonskin", 10],
+      ["modularvest", 10],
+      ["modularveststeel", 5],
+      ["modularvestceramic", 5],
+      ["modularvestkevlar", 5]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "cop_helmets",
+    "items":[
+      ["helmet_riot", 25],
+      ["tac_helmet", 15],
+      ["tac_fullhelmet", 7]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "cop_gloves",
+    "items":[
+      ["gloves_leather", 60],
+      ["gloves_medical", 5],
+      ["gloves_tactical", 10]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "cop_eyewear",
+    "items":[
+      ["sunglasses", 50],
+      ["glasses_eye", 50],
+      ["fancy_sunglasses", 10],
+      ["glasses_bal", 10],
+      ["goggles_nv", 1],
+      ["goggles_ir", 1]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "cop_masks",
+    "items":[
+      ["mask_bal", 5],
+      ["mask_gas", 50],
+      ["mask_filter", 20]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "cop_storage",
+    "items":[
+      ["holster", 100],
+      ["sholster", 10],
+      ["dump_pouch", 20],
+      ["legrig", 70],
+      ["bootstrap", 10],
+      ["chestrig", 40],
+      ["molle_pack", 20]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "cop_extras",
+    "items":[
+      ["badge_deputy", 30],
+      ["badge_detective", 30],
+      ["armguard_hard", 40],
+      ["legguard_hard", 45],
+      ["knee_pads", 50],
+      ["elbow_pads", 50]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "cop_clothes",
+    "subtype": "distribution",
+    "entries" : [
+      { "group": "cop_footwear", "prob": 50 },
+      { "group": "cop_pants", "prob": 80 },
+      { "group": "cop_shirts", "prob": 80 },
+      { "group": "cop_armor", "prob": 50 },
+      { "group": "cop_helmets", "prob": 5 },
+      { "group": "cop_gloves", "prob": 50 },
+      { "group": "cop_eyewear", "prob": 30 },
+      { "group": "cop_masks", "prob": 5 },
+      { "group": "cop_storage", "prob": 25 },
+      { "group": "cop_extras", "prob": 20 }
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "cop_gear",
+    "items":[
+      ["tazer", 40],
+      ["gasbomb", 70],
+      ["flashbang", 70],
+      ["smokebomb", 70],
+      ["UPS_off", 20],
+      ["cell_phone", 45],
+      ["pda", 20],
+      ["eink_tablet_pc", 30],
+      ["mobile_memory_card", 10],
+      ["laptop", 30],
+      ["flaregun", 40],
+      ["signal_flare", 65],
+      ["handflare", 50],
+      ["flashlight", 100],
+      ["halligan", 20],
+      ["two_way_radio", 80],
+      ["emer_blanket", 50],
+      ["picklocks", 40],
+      ["toolbox", 10],
+      ["roadmap", 15]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "cop_melee_weapons",
+    "items":[
+      ["tazer", 50],
+      ["tonfa", 50],
+      ["tonfa_wood", 25],
+      ["shocktonfa_off", 15],
+      ["baton-extended", 8]
+    ]
+  },{
+    "type" : "item_group",
+    "subtype": "distribution",
+    "id" : "cop_weapons",
+    "entries" : [
+      { "group": "cop_guns", "prob": 60 },
+      { "group": "cop_melee_weapons", "prob": 40 }
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "cop_guns",
+    "//" : "standard issue and common police guns.",
+    "items":[
+      ["glock_19", 50],
+      ["usp_9mm", 20],
+      ["m9", 20],
+      ["l_mp_9mm", 40],
+      ["usp_45", 50],
+      ["m1911", 50],
+      ["mossberg_500", 100],
+      ["l_def_12", 20],
+      ["ruger_mini", 50],
+      ["ar15", 75]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "cop_ammo",
+    "items":[
+      ["9mm", 200],
+      ["9mmP2", 20],
+      ["45_acp", 100],
+      ["45_super", 20],
+      ["shot_00", 200],
+      ["shot_slug", 50],
+      ["shot_beanbag", 50],
+      ["223", 100],
+      ["556", 100]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "cop_melee_weapons",
+    "items":[
+      ["tazer", 50],
+      ["tonfa", 50],
+      ["tonfa_wood", 25],
+      ["shocktonfa_off", 15],
+      ["baton-extended", 8]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "cop_guns",
+    "//" : "standard issue and common police guns.",
+    "items":[
+      ["glock_19", 50],
+      ["usp_9mm", 20],
+      ["m9", 20],
+      ["l_mp_9mm", 40],
+      ["usp_45", 50],
+      ["m1911", 50],
+      ["mossberg_500", 100],
+      ["l_def_12", 20],
+      ["ruger_mini", 50],
+      ["ar15", 75]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "cop_ammo",
+    "items":[
+      ["9mm", 200],
+      ["9mmP2", 20],
+      ["45_acp", 100],
+      ["45_super", 20],
+      ["shot_00", 200],
+      ["shot_slug", 50],
+      ["shot_beanbag", 50],
+      ["223", 100],
+      ["556", 100]
+    ]
+  },{
+    "type" : "item_group",
+    "subtype": "distribution",
+    "id" : "cop_weapons",
+    "entries" : [
+      { "group": "cop_guns", "prob": 60 },
+      { "group": "cop_melee_weapons", "prob": 40 }
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "swat_gear",
+    "items":[
+      ["tazer", 60],
+      ["gasbomb", 100],
+      ["flashbang", 200],
+      ["smokebomb", 100],
+      ["flashlight", 100],
+      ["halligan", 50],
+      ["two_way_radio", 40],
+      ["binoculars", 50],
+      ["picklocks", 10],
+      ["toolbox", 10],
+      ["roadmap", 15],
+      ["kevlar", 40],
+      ["mgl", 10],
+      ["suppressor", 20],
+      ["holo_sight", 20],
+      ["clip", 20],
+      ["spare_mag", 20],
+      ["goggles_nv", 15],
+      ["UPS_off", 10]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "swat_guns",
+    "items":[
+      ["glock_19", 20],
+      ["l_mp_9mm", 50],
+      ["l_mp_45", 50],
+      ["m1911", 30],
+      ["l_bak_223", 10],
+      ["rm103a_pistol", 5],
+      ["needlepistol", 5],
+      ["hk_mp5", 50],
+      ["TDI", 50],
+      ["rm2000_smg", 10],
+      ["saiga_12", 30],
+      ["l_def_12", 50],
+      ["rm20", 10],
+      ["rm120c", 10],
+      ["savage_111f", 50],
+      ["m4a1", 50],
+      ["scar_h", 20],
+      ["remington_700", 25],
+      ["rm11b_sniper_rifle", 1],
+      ["rm51_assault_rifle", 1],
+      ["rm88_battle_rifle", 1],
+      ["needlegun", 10]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "swat_ammo",
+    "items":[
+      ["9mm", 100],
+      ["9mmP2", 20],
+      ["45_acp", 100],
+      ["45_super", 20],
+      ["shot_00", 100],
+      ["shot_slug", 50],
+      ["shot_beanbag", 60],
+      ["556", 200],
+      ["3006", 100],
+      ["8mm_caseless", 70],
+      ["20x66_shot", 20],
+      ["20x66_flare", 10],
+      ["20x66_slug", 20],
+      ["20x66_flechette", 5],
+      ["20x66_beanbag", 10],
+      ["5x50dart", 15],
+      ["5x50heavy", 5]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "military_footwear",
+    "items":[
+      ["boots_combat", 100],
+      ["boots_steel", 10]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "military_pants",
+    "items":[
+      ["pants_army", 100],
+      ["winter_pants_army", 10]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "military_shirts",
+    "items":[
+      ["army_top", 100],
+      ["under_armor", 50],
+      ["tshirt", 20],
+      ["longshirt", 20],
+      ["polo_shirt", 20]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "military_outerwear",
+    "items":[
+      ["jacket_army", 100],
+      ["vest", 20],
+      ["winter_jacket_army", 10]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "military_full",
+    "items":[
+      ["anbc_suit", 50]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "military_armor",
+    "items":[
+      ["kevlar", 10],
+      ["modularvest", 15],
+      ["modularvestkevlar", 18],
+      ["modularvestceramic", 24],
+      ["modularveststeel", 18],
+      ["modularvestsuper", 8],
+      ["modularvesthard", 2]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "adv_military_armor",
+    "items":[
+      ["dragonskin", 50],
+      ["modularvestceramic", 40],
+      ["modularvestkevlar", 20]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "military_gloves",
+    "items":[
+      ["gloves_leather", 50],
+      ["winter_gloves_army", 5],
+      ["gloves_fingerless", 50],
+      ["gloves_tactical", 50]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "military_masks",
+    "items":[
+      ["mask_gas", 50],
+      ["mask_bal", 30],
+      ["keffiyeh", 20]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "military_eyewear",
+    "items":[
+      ["sunglasses", 40],
+      ["fancy_sunglasses", 60],
+      ["glasses_bal", 50],
+      ["glasses_safety", 50],
+      ["goggles_nv", 1],
+      ["goggles_ir", 1]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "military_hats",
+    "items":[
+      ["hat_boonie", 50],
+      ["helmet_liner", 60],
+      ["beret", 50],
+      ["beret_wool", 40]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "military_helmets",
+    "items":[
+      ["helmet_army", 50],
+      ["helmet_lobster", 20],
+      ["tac_helmet", 30],
+      ["tac_fullhelmet", 10]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "military_storage",
+    "items":[
+      ["chestrig", 50],
+      ["molle_pack", 60],
+      ["legrig", 50],
+      ["sheath", 10],
+      ["canteen", 25],
+      ["2lcanteen", 15],
+      ["dump_pouch", 25],
+      ["backpack", 30],
+      ["holster", 70],
+      ["sholster", 50],
+      ["bootstrap", 15],
+      ["helmet_netting", 20]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "military_extras",
+    "items":[
+      ["armguard_hard", 40],
+      ["legguard_hard", 40],
+      ["knee_pads", 70],
+      ["elbow_pads", 50],
+      ["rad_monitor", 10],
+      ["wearable_light", 25]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "military_clothes",
+    "subtype": "distribution",
+    "entries" : [
+      { "group": "military_footwear", "prob": 40 },
+      { "group": "military_pants", "prob": 80 },
+      { "group": "military_shirts", "prob": 80 },
+      { "group": "military_outerwear", "prob": 50 },
+      { "group": "military_armor", "prob": 80 },
+      { "group": "military_full", "prob": 50 },
+      { "group": "military_gloves", "prob": 50 },
+      { "group": "military_eyewear", "prob": 30 },
+      { "group": "military_hats", "prob": 20 },
+      { "group": "military_helmets", "prob": 40 },
+      { "group": "military_masks", "prob": 20 },
+      { "group": "military_storage", "prob": 40 },
+      { "group": "military_extras", "prob": 20 }
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "military_gear",
+    "items":[
+      ["heavy_flashlight", 200],
+      ["handflare", 100],
+      ["glowstick", 100],
+      ["battery", 100],
+      ["binoculars", 50],
+      ["throw_extinguisher", 10],
+      ["halligan", 20],
+      ["e_tool", 60],
+      ["shovel", 30],
+      ["rope_30", 50],
+      ["flaregun", 25],
+      ["signal_flare", 85],
+      ["two_way_radio", 50],
+      ["UPS_off", 50],
+      ["adv_UPS_off", 5],
+      ["emer_blanket", 50],
+      ["geiger_off", 50],
+      ["grapnel", 55],
+      ["toolbox", 40],
+      ["militarymap", 10],
+      ["small_repairkit", 50],
+      ["adrenaline_injector", 30],
+      ["mess_kit", 80],
+      ["mil_mess_kit", 30],
+      ["tent_kit", 50],
+      ["large_tent_kit", 50],
+      ["sleeping_bag", 50],
+      ["gasoline_lantern", 5],
+      ["electric_lantern", 50],
+      ["bayonet", 50],
+      ["landmine", 35],
+      ["jerrycan", 50],
+      ["heatpack", 80],
+      ["LAW_Packed", 50],
+      ["pur_tablets", 50],
+      ["knife_trench", 20],
+      ["bot_manhack", 5],
+      ["bot_grenade_hack", 1],
+      ["bot_turret", 1]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "military_guns",
+    "//" : "guns commonly carried by US troops in 20xx. excludes foriegn and historic mil weapons. assault rifles set low due to number of variants.",
+    "items":[
+      ["glock_19", 40],
+      ["l_bak_223", 10],
+      ["rm103a_pistol", 5],
+      ["needlepistol", 5],
+      ["hk_mp5", 80],
+      ["rm2000_smg", 10],
+      ["saiga_12", 30],
+      ["l_def_12", 50],
+      ["m107a1", 50],
+      ["rm20", 30],
+      ["rm120c", 30],
+      ["m4a1", 100],
+      ["l_bak_223", 10],
+      ["l_car_223", 10],
+      ["l_mbr_223", 10],
+      ["l_dsr_223", 10],
+      ["l_lmg_223", 10],
+      ["m27iar", 10],
+      ["scar_l", 10],
+      ["scar_h", 30],
+      ["m14ebr", 50],
+      ["rm51_assault_rifle", 20],
+      ["rm88_battle_rifle", 10],
+      ["remington_700", 40],
+      ["rm11b_sniper_rifle", 10],
+      ["needlegun", 30],
+      ["m249", 80],
+      ["rm614_lmg", 10],
+      ["m320", 10],
+      ["mgl", 40],
+      ["rm802", 50],
+      ["flamethrower", 50],
+      ["rm451_flamethrower", 40]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "military_ammo",
+    "//" : "NATO and fictional. HP rounds banned by Hague Convention.",
+    "items":[
+      ["9mm", 100],
+      ["9mmfmj", 100],
+      ["556", 200],
+      ["556_incendiary", 20],
+      ["762_51", 100],
+      ["762_51_incendiary", 20],
+      ["3006", 30],
+      ["3006fmj", 50],
+      ["3006_incendiary", 20],
+      ["shot_00", 60],
+      ["shot_flechette", 10],
+      ["shot_slug", 50],
+      ["shot_beanbag", 40],
+      ["8mm_fmj", 50],
+      ["8mm_caseless", 60],
+      ["20x66_shot", 40],
+      ["20x66_exp", 10],
+      ["20x66_inc", 10],
+      ["20x66_flare", 10],
+      ["20x66_frag", 10],
+      ["20x66_slug", 30],
+      ["20x66_flechette", 10],
+      ["20x66_beanbag", 20],
+      ["5x50dart", 25],
+      ["5x50heavy", 15],
+      ["40mm_concussive", 10],
+      ["40mm_frag", 50],
+      ["40mm_flechette", 10],
+      ["40mm_flashbang", 10],
+      ["40mm_flare", 10],
+      ["40mm_teargas", 10],
+      ["40mm_smoke", 20],
+      ["40mm_incendiary", 10],
+      ["40mm_shot", 10]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "adv_military_guns",
+    "//" : "high tech military weapons carried by special forces, bio ops, power armor units, etc.",
+    "items":[
+      ["rm103a_pistol", 70],
+      ["needlepistol", 60],
+      ["rm2000_smg", 50],
+      ["rm20", 70],
+      ["rm120c", 70],
+      ["rm51_assault_rifle", 70],
+      ["rm88_battle_rifle", 40],
+      ["rm11b_sniper_rifle", 10],
+      ["needlegun", 50],
+      ["rm614_lmg", 50],
+      ["mgl", 50],
+      ["rm802", 60],
+      ["rm451_flamethrower", 40],
+      ["v29", 40],
+      ["plasma_rifle", 70],
+      ["laser_rifle", 70],
+      ["ftk93", 1],
+      ["nx17", 1],
+      ["hk_g80", 5]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "adv_military_ammo",
+    "//" : "high tech military ammo. mostly caseless. no HP rounds.",
+    "items":[
+      ["8mm_inc", 50],
+      ["8mm_hvp", 10],
+      ["8mm_fmj", 150],
+      ["8mm_caseless", 30],
+      ["20x66_shot", 20],
+      ["20x66_exp", 20],
+      ["20x66_inc", 20],
+      ["20x66_flare", 20],
+      ["20x66_frag", 20],
+      ["20x66_slug", 20],
+      ["20x66_flechette", 20],
+      ["5x50dart", 80],
+      ["5x50heavy", 50],
+      ["laser_capacitor", 40],
+      ["plut_cell", 80],
+      ["plasma", 80],
+      ["laser_pack", 50],
+      ["12mm", 20]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "power_full",
+    "items":[
+      ["power_armor_basic", 50]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "power_helmet",
+    "items":[
+      ["power_armor_helmet_basic", 50]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "power_extras",
+    "items":[
+      ["power_armor_frame", 50],
+      ["UPS_off", 50],
+      ["adv_UPS_off", 50]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "power_all",
+    "subtype": "collection",
+    "items":[
+      "power_armor_basic",
+      "power_armor_helmet_basic",
+      "power_armor_frame",
+      "UPS_off"
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "stalker_guns",
+    "//" : "cheeki breeki.",
+    "items":[
+      ["tokarev", 50],
+      ["makarov", 50],
+      ["skorpion_61", 35],
+      ["skorpion_82", 35],
+      ["sks", 50],
+      ["mosin91_30", 75],
+      ["mosin44", 50],
+      ["ak47", 100],
+      ["ak74", 50],
+      ["an94", 50]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "stalker_ammo",
+    "items":[
+      ["32_acp", 50],
+      ["9x18mm", 200],
+      ["545", 40],
+      ["762_m43", 100],
+      ["762_m87", 20],
+      ["762_25", 50],
+      ["762_54R", 50]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "primitive_underwear_top",
+    "items":[
+      ["chestwrap", 10],
+      ["chestwrap_wool", 20],
+      ["chestwrap_leather", 70],
+      ["chestwrap_fur", 20]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "primitive_underwear_bottom",
+    "items":[
+      ["loincloth", 10],
+      ["loincloth_leather", 70],
+      ["loincloth_fur", 50],
+      ["loincloth_wool", 20]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "primitive_pants",
+    "items":[
+      ["pants_leather", 70],
+      ["skirt_leather", 40],
+      ["pants_fur", 10],
+      ["tunic_rag", 30],
+      ["sleeveless_tunic", 5]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "primitive_shirts",
+    "items":[
+      ["null", 50],
+      ["tank_top", 10],
+      ["sweater", 5]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "primitive_outerwear",
+    "//" : "trenchcoats are set extra low due to the large number of variants.",
+    "items":[
+      ["vest_leather", 100],
+      ["jacket_leather", 40],
+      ["coat_fur", 20],
+      ["poncho", 80],
+      ["vest", 10],
+      ["trenchcoat_leather", 15],
+      ["trenchcoat_fur", 10],
+      ["sleeveless_trenchcoat", 10],
+      ["sleeveless_trenchcoat_leather", 20],
+      ["sleeveless_trenchcoat_fur", 5],
+      ["duster_leather", 20],
+      ["duster_fur", 10],
+      ["sleeveless_duster", 5],
+      ["sleeveless_duster_leather", 15],
+      ["sleeveless_duster_fur", 10],
+      ["cloak", 10],
+      ["cloak_wool", 60],
+      ["cloak_fur", 30],
+      ["cloak_leather", 50]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "primitive_armor",
+    "items":[
+      ["armor_larmor", 100],
+      ["armor_chitin", 40],
+      ["armor_bone", 50],
+      ["armor_blarmor", 40],
+      ["armor_farmor", 30]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "primitive_footwear",
+    "items":[
+      ["boots", 50],
+      ["leathersandals", 100],
+      ["bastsandals", 40],
+      ["straw_sandals", 50],
+      ["clogs", 30],
+      ["footrags", 5],
+      ["footrags_wool", 20],
+      ["footrags_leather", 40]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "primitive_gloves",
+    "items":[
+      ["gloves_wraps", 20],
+      ["gloves_wraps_leather", 80],
+      ["gloves_wraps_wool", 50],
+      ["gloves_leather", 50],
+      ["gloves_light", 10],
+      ["gloves_fingerless", 75],
+      ["gloves_fur", 30],
+      ["gloves_wool", 50],
+      ["gauntlets_chitin", 40],
+      ["gauntlets_bone", 40],
+      ["gauntlets_larmor", 50]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "primitive_hats",
+    "items":[
+      ["straw_hat", 100],
+      ["hat_fur",  50],
+      ["straw_fedora", 50],
+      ["hat_cotton", 10],
+      ["hat_knit", 10],
+      ["cowboy_hat", 1]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "primitive_helmets",
+    "items":[
+      ["helmet_larmor", 100],
+      ["helmet_chitin", 50],
+      ["helmet_bone",  50]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "primitive_masks",
+    "items":[
+      ["scarf", 10],
+      ["knit_scarf", 50],
+      ["scarf_fur", 50]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "primitive_storage",
+    "items":[
+      ["backpack_leather", 30],
+      ["ragpouch", 20],
+      ["leather_pouch", 50],
+      ["sheath", 50],
+      ["scabbard", 10],
+      ["quiver", 50],
+      ["quiver_large", 10],
+      ["waterskin", 20],
+      ["waterskin2", 10],
+      ["waterskin3", 10]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "primitive_extras",
+    "items":[
+      ["armguard_chitin", 50],
+      ["2byarm_guard", 10],
+      ["2byshin_guard", 10]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "primitive_clothes",
+    "//" : "caveman gear that can be made from rocks, plants, animals. no metal. cotton fabric set low.",
+    "subtype": "distribution",
+    "entries" : [
+      { "group": "primitive_underwear_bottom", "prob": 40 },
+      { "group": "primitive_underwear_top", "prob": 10 },
+      { "group": "primitive_footwear", "prob": 30 },
+      { "group": "primitive_pants", "prob": 90 },
+      { "group": "primitive_shirts", "prob": 10 },
+      { "group": "primitive_outerwear", "prob": 50 },
+      { "group": "primitive_gloves", "prob": 50 },
+      { "group": "primitive_hats", "prob": 50 },
+      { "group": "primitive_helmets", "prob": 30 },
+      { "group": "primitive_masks", "prob": 30 },
+      { "group": "primitive_storage", "prob": 40 },
+      { "group": "primitive_extras", "prob": 20 }
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "primitive_gear",
+    "items":[
+      ["stick", 50],
+      ["primitive_hammer", 50],
+      ["primitive_adze", 50],
+      ["primitive_axe", 50],
+      ["primitive_shovel", 50],
+      ["primitive_knife", 100],
+      ["needle_wood", 20],
+      ["needle_bone", 20],
+      ["fishing_rod_basic", 50],
+      ["pointy_stick", 20],
+      ["skewer", 50],
+      ["javelin", 20],
+      ["arrowhead", 50],
+      ["distaff_spindle", 50],
+      ["carding_paddles", 50],
+      ["vine_30", 50],
+      ["rope_6", 10],
+      ["fire_drill", 50],
+      ["fire_drill_large", 40],
+      ["rock_quern", 50],
+      ["rock_pot", 50],
+      ["clay_canister", 30],
+      ["clay_watercont", 30],
+      ["bowl_clay", 50],
+      ["jug_clay", 30]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "primitive_melee_weapons",
+    "items":[
+      ["spear_wood", 100],
+      ["primitive_axe", 50],
+      ["cudgel",50],
+      ["q_staff", 50],
+      ["bokken", 10],
+      ["pointy_stick", 30],
+      ["bullwhip", 10],
+      ["glass_macuahuitl",40]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "primitive_range_weapons",
+    "items":[
+      ["javelin", 100],
+      ["sling", 100],
+      ["blowgun", 10],
+      ["longbow", 20],
+      ["compositebow", 10],
+      ["shortbow", 50],
+      ["recurbow", 20],
+      ["reflexbow", 20]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "primitive_ammo",
+    "items":[
+      ["arrow_wood", 100],
+      ["dart", 20]
+    ]
+ },{
+    "type" : "item_group",
+    "id" : "scavenger_pants",
+    "subtype": "distribution",
+    "entries":[
+      { "item": "loincloth", "prob": 65, "damage-min": 0, "damage-max": 2 },
+      { "item": "hot_pants", "prob": 25, "damage-min": 0, "damage-max": 2 },
+      { "item": "hot_pants_leather", "prob": 45, "damage-min": 0, "damage-max": 2 },
+      { "item": "pants_checkered", "prob": 15, "damage-min": 0, "damage-max": 2 },
+      { "item": "pants_leather", "prob": 50, "damage-min": 0, "damage-max": 2 },
+      { "item": "shorts_cargo", "prob": 40, "damage-min": 0, "damage-max": 2 },
+      { "item": "under_armor_shorts", "prob": 30, "damage-min": 0, "damage-max": 2 },
+      { "item": "pants_ski", "prob": 20, "damage-min": 0, "damage-max": 2 },
+      { "item": "long_underpants", "prob": 40, "damage-min": 0, "damage-max": 2 },
+      { "item": "fishing_waders", "prob": 1, "damage-min": 0, "damage-max": 2 },
+      { "item": "bunker_pants", "prob": 5, "damage-min": 0, "damage-max": 2 },
+      { "item": "kilt", "prob": 5, "damage-min": 0, "damage-max": 2 }
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "scavenger_shirts",
+    "subtype": "distribution",
+    "entries":[
+      { "item": "tank_top", "prob": 70, "damage-min": 0, "damage-max": 2 },
+      { "item": "tunic_rag", "prob": 35, "damage-min": 0, "damage-max": 2 },
+      { "item": "bikini_top_leather", "prob": 10, "damage-min": 0, "damage-max": 2 },
+      { "item": "flag_shirt", "prob": 70, "damage-min": 0, "damage-max": 2 },
+      { "item": "corset", "prob": 20, "damage-min": 0, "damage-max": 2 },
+      { "item": "chestwrap", "prob": 40, "damage-min": 0, "damage-max": 2 },
+      { "item": "chestwrap_leather", "prob": 20, "damage-min": 0, "damage-max": 2 },
+      { "item": "long_undertop", "prob": 20, "damage-min": 0, "damage-max": 2 },
+      { "item": "army_top", "prob": 50, "damage-min": 0, "damage-max": 2 },
+      { "item": "sweatshirt", "prob": 35, "damage-min": 0, "damage-max": 2 },
+      { "item": "hoodie", "prob": 45, "damage-min": 0, "damage-max": 2 }
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "scavenger_footwear",
+    "subtype": "distribution",
+    "entries":[
+      { "item": "footrags", "prob": 20 },
+      { "item": "footrags_leather", "prob": 20 },
+      { "item": "boots", "prob": 20, "damage-min": 0, "damage-max": 2 },
+      { "item": "boots_steel", "prob": 20, "damage-min": 0, "damage-max": 2 },
+      { "item": "boots_combat", "prob": 10, "damage-min": 0, "damage-max": 2 },
+      { "item": "boots_larmor", "prob": 60, "damage-min": 0, "damage-max": 2 },
+      { "item": "boots_hiking", "prob": 50, "damage-min": 0, "damage-max": 2 },
+      { "item": "knee_high_boots", "prob": 40, "damage-min": 0, "damage-max": 2 },
+      { "item": "boots_western", "prob": 10, "damage-min": 0, "damage-max": 2 },
+      { "item": "flip_flops", "prob": 10, "damage-min": 0, "damage-max": 1 },
+      { "item": "lowtops", "prob": 50, "damage-min": 0, "damage-max": 2 },
+      { "item": "dance_shoes", "prob": 50, "damage-min": 0, "damage-max": 2 },
+      { "item": "clogs", "prob": 50, "damage-min": 0, "damage-max": 1 },
+      { "item": "leathersandals", "prob": 80, "damage-min": 0, "damage-max": 2 },
+      { "item": "mocassins", "prob": 40, "damage-min": 0, "damage-max": 2 }
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "scavenger_gloves",
+    "subtype": "distribution",
+    "entries":[
+      { "item": "gloves_wraps", "prob": 50, "damage-min": 0, "damage-max": 2 },
+      { "item": "gloves_wraps_leather", "prob": 70, "damage-min": 0, "damage-max": 2 },
+      { "item": "gloves_fingerless", "prob": 80, "damage-min": 0, "damage-max": 2 },
+      { "item": "gloves_fingerless_mod", "prob": 50, "damage-min": 0, "damage-max": 2 },
+      { "item": "gloves_leather", "prob": 30, "damage-min": 0, "damage-max": 2 },
+      { "item": "gloves_work", "prob": 30, "damage-min": 0, "damage-max": 2 },
+      { "item": "gauntlets_larmor", "prob": 30, "damage-min": 0, "damage-max": 2 },
+      { "item": "gauntlets_chitin", "prob": 10, "damage-min": 0, "damage-max": 2 },
+      { "item": "fire_gauntlets", "prob": 20, "damage-min": 0, "damage-max": 2 }
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "scavenger_outerwear",
+    "subtype": "distribution",
+    "entries":[
+      { "item": "vest_leather", "prob": 100, "damage-min": 0, "damage-max": 2 },
+      { "item": "jacket_evac", "prob": 30, "damage-min": 0, "damage-max": 1 },
+      { "item": "poncho", "prob": 30, "damage-min": 0, "damage-max": 2 },
+      { "item": "flotation_vest", "prob": 30, "damage-min": 0, "damage-max": 2 },
+      { "item": "sleeveless_trenchcoat", "prob": 20, "damage-min": 0, "damage-max": 2 },
+      { "item": "vest", "prob": 30, "damage-min": 0, "damage-max": 2 },
+      { "item": "coat_lab", "prob": 10, "damage-min": 0, "damage-max": 1 },
+      { "item": "bunker_coat", "prob": 5, "damage-min": 0, "damage-max": 2 }
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "scavenger_suits",
+    "subtype": "distribution",
+    "entries":[
+      { "item": "suit", "prob": 25, "damage-min": 0, "damage-max": 1 },
+      { "item": "tux", "prob": 10, "damage-min": 0, "damage-max": 2 },
+      { "item": "bondage_suit", "prob": 50, "damage-min": 0, "damage-max": 2 },
+      { "item": "jumpsuit", "prob": 20, "damage-min": 0, "damage-max": 1 },
+      { "item": "wetsuit", "prob": 50, "damage-min": 1, "damage-max": 2 },
+      { "item": "touring_suit", "prob": 50, "damage-min": 0, "damage-max": 2 }
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "scavenger_armor",
+    "subtype": "distribution",
+    "entries":[
+      { "item": "football_armor", "prob": 50, "damage-min": 0, "damage-max": 2 },
+      { "item": "motorbike_armor", "prob": 50, "damage-min": 0, "damage-max": 2 },
+      { "item": "armor_scrapsuit", "prob": 50, "damage-min": 0, "damage-max": 2 },
+      { "item": "armor_chitin", "prob": 10, "damage-min": 0, "damage-max": 2 },
+      { "item": "armor_bone", "prob": 10, "damage-min": 0, "damage-max": 2 },
+      { "item": "armor_larmor", "prob": 80, "damage-min": 0, "damage-max": 2 },
+      { "item": "armor_blarmor", "prob": 80, "damage-min": 0, "damage-max": 2 },
+      { "item": "armor_plarmor", "prob": 80, "damage-min": 0, "damage-max": 2 },
+      { "item": "kevlar", "prob": 5, "damage-min": 1, "damage-max": 3 },
+      { "item": "armor_plate", "prob": 5, "damage-min": 0, "damage-max": 3 },
+      { "item": "armor_samurai", "prob": 5, "damage-min": 0, "damage-max": 2 }
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "scavenger_masks",
+    "subtype": "distribution",
+    "entries":[
+      { "item": "mask_hockey", "prob": 100, "damage-min": 0, "damage-max": 2 },
+      { "item": "mask_rioter", "prob": 50, "damage-min": 0, "damage-max": 2 },
+      { "item": "bondage_mask", "prob": 50, "damage-min": 0, "damage-max": 2 },
+      { "item": "mask_guy_fawkes", "prob": 3, "damage-min": 0, "damage-max": 2 },
+      { "item": "balclava", "prob": 3, "damage-min": 0, "damage-max": 1 },
+      { "item": "mask_gas", "prob": 10, "damage-min": 0, "damage-max": 2 },
+      { "item": "mask_dust", "prob": 50, "damage-min": 0, "damage-max": 2 },
+      { "item": "mask_filter", "prob": 50, "damage-min": 0, "damage-max": 2 }
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "scavenger_eyewear",
+    "subtype": "distribution",
+    "entries":[
+      { "item": "glasses_safety", "prob": 40, "damage-min": 0, "damage-max": 2 },
+      { "item": "goggles_swim", "prob": 50, "damage-min": 0, "damage-max": 2 },
+      { "item": "goggles_ski", "prob": 50, "damage-min": 0, "damage-max": 2 },
+      { "item": "glasses_monocle", "prob": 10, "damage-min": 0, "damage-max": 2 },
+      { "item": "sunglasses", "prob": 50, "damage-min": 0, "damage-max": 2 }
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "scavenger_hats",
+    "subtype": "distribution",
+    "entries":[
+      { "item": "helmet_liner", "prob": 10, "damage-min": 0, "damage-max": 2 },
+      { "item": "straw_hat", "prob": 50 },
+      { "item": "tophat", "prob": 50, "damage-min": 0, "damage-max": 2 },
+      { "item": "bowhat", "prob": 50, "damage-min": 0, "damage-max": 2 },
+      { "item": "cowboy_hat", "prob": 50, "damage-min": 0, "damage-max": 2 },
+      { "item": "10gal_hat", "prob": 50, "damage-min": 0, "damage-max": 2 },
+      { "item": "kufi", "prob": 30, "damage-min": 0, "damage-max": 2 },
+      { "item": "porkpie", "prob": 30, "damage-min": 0, "damage-max": 2 }
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "scavenger_helmets",
+    "subtype": "distribution",
+    "entries":[
+      { "item": "pot_helmet", "prob": 80, "damage-min": 0, "damage-max": 2 },
+      { "item": "pickelhaube", "prob": 60, "damage-min": 0, "damage-max": 2 },
+      { "item": "firehelmet", "prob": 20, "damage-min": 0, "damage-max": 2 },
+      { "item": "hat_hard_hooded", "prob": 20, "damage-min": 0, "damage-max": 2 },
+      { "item": "hat_hard", "prob": 20, "damage-min": 0, "damage-max": 2 },
+      { "item": "headgear", "prob": 20, "damage-min": 0, "damage-max": 2 },
+      { "item": "helmet_football", "prob": 50, "damage-min": 0, "damage-max": 2 },
+      { "item": "helmet_bike", "prob": 50, "damage-min": 0, "damage-max": 2 },
+      { "item": "helmet_motor", "prob": 50, "damage-min": 0, "damage-max": 2 },
+      { "item": "helmet_skid", "prob": 50, "damage-min": 0, "damage-max": 2 },
+      { "item": "helmet_ball", "prob": 50, "damage-min": 0, "damage-max": 2 },
+      { "item": "helmet_riot", "prob": 40, "damage-min": 0, "damage-max": 2 },
+      { "item": "helmet_larmor", "prob": 50, "damage-min": 0, "damage-max": 2 },
+      { "item": "helmet_chitin", "prob": 20, "damage-min": 0, "damage-max": 1 },
+      { "item": "helmet_bone", "prob": 20, "damage-min": 0, "damage-max": 2 },
+      { "item": "helmet_plate", "prob": 10, "damage-min": 0, "damage-max": 2 },
+      { "item": "helmet_kabuto", "prob": 10, "damage-min": 0, "damage-max": 2 }
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "scavenger_storage",
+    "subtype": "distribution",
+    "entries":[
+      { "item": "mbag", "prob": 20, "damage-min": 0, "damage-max": 2 },
+      { "item": "purse", "prob": 40, "damage-min": 0, "damage-max": 2 },
+      { "item": "tool_belt", "prob": 55, "damage-min": 0, "damage-max": 2 },
+      { "item": "fanny", "prob": 30, "damage-min": 0, "damage-max": 2 },
+      { "item": "canteen", "prob": 25, "damage-min": 0, "damage-max": 1 },
+      { "item": "holster", "prob": 45, "damage-min": 0, "damage-max": 2 },
+      { "item": "sholster", "prob": 45, "damage-min": 0, "damage-max": 2 },
+      { "item": "ragpouch", "prob": 65, "damage-min": 0, "damage-max": 2 },
+      { "item": "scabbard", "prob": 20, "damage-min": 0, "damage-max": 2 }
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "scavenger_extras",
+    "subtype": "distribution",
+    "entries":[
+      { "item": "leather_collar", "prob": 40, "damage-min": 0, "damage-max": 0 },
+      { "item": "armguard_paper", "prob": 10, "damage-min": 0, "damage-max": 2 },
+      { "item": "legguard_paper", "prob": 10, "damage-min": 0, "damage-max": 2 },
+      { "item": "armguard_soft", "prob": 30, "damage-min": 0, "damage-max": 3 },
+      { "item": "armguard_chitin", "prob": 50, "damage-min": 0, "damage-max": 2 },
+      { "item": "armguard_metal", "prob": 50, "damage-min": 0, "damage-max": 2 },
+      { "item": "legguard_metal", "prob": 50, "damage-min": 0, "damage-max": 2 },
+      { "item": "2byarm_guard", "prob": 30, "damage-min": 0, "damage-max": 2 },
+      { "item": "2byshin_guard", "prob": 30, "damage-min": 0, "damage-max": 2 }
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "scavenger_clothes",
+    "//" : "low quality scavenged and homemade gear. for Mad Max style enemies and desparate survivors.",
+    "subtype": "distribution",
+    "entries" : [
+      { "group": "scavenger_footwear", "prob": 60 },
+      { "group": "scavenger_pants", "prob": 80 },
+      { "group": "scavenger_shirts", "prob": 80 },
+      { "group": "scavenger_outerwear", "prob": 50 },
+      { "group": "scavenger_suits", "prob": 30 },
+      { "group": "scavenger_armor", "prob": 70 },
+      { "group": "scavenger_gloves", "prob": 50 },
+      { "group": "scavenger_eyewear", "prob": 30 },
+      { "group": "scavenger_hats", "prob": 30 },
+      { "group": "scavenger_helmets", "prob": 50 },
+      { "group": "scavenger_masks", "prob": 30 },
+      { "group": "scavenger_storage", "prob": 20 },
+      { "group": "scavenger_extras", "prob": 70 }
+    ]
+   },{
+    "type" : "item_group",
+    "id" : "scavenger_melee_weapons",
+    "subtype": "distribution",
+    "entries" : [
+      { "group": "improvised_melee_weapons", "prob": 60 },
+      { "group": "crafted_melee_weapons", "prob": 60 },
+      { "group": "replica_weapons", "prob": 60 },
+      { "item": "cudgel", "prob": 60 },
+      { "item": "q_staff", "prob": 60 },
+      { "item": "switchblade", "prob": 60 },
+      { "item": "machete", "prob": 60 },
+      { "item": "knuckle_brass", "prob": 60 }
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "scavenger_guns",
+    "comment": "weapons that are easy to scavenge or create ",
+    "guns_with_ammo" : true,
+    "subtype": "distribution",
+    "entries" : [
+      { "group": "homemade_guns", "prob": 350 },
+      { "item": "sling", "prob": 10 },
+      { "item": "crossbow", "prob": 60 },
+      { "item": "hand_crossbow", "prob": 20 },
+      { "item": "shortbow", "prob": 50 },
+      { "item": "sw_22", "prob": 50 },
+      { "item": "sw_619", "prob": 50 },
+      { "item": "sw629", "prob": 50 },
+      { "item": "glock_19", "prob": 100 },
+      { "item": "m1911", "prob": 100 },
+      { "item": "tec9", "prob": 30 },
+      { "item": "mac_10", "prob": 30 },
+      { "item": "shotgun_s", "prob": 100 },
+      { "item": "shotgun_d", "prob": 100 },
+      { "item": "mossberg_500", "prob": 50 },
+      { "item": "ruger_1022", "prob": 40 },
+      { "item": "sks", "prob": 40 },
+      { "item": "ruger_mini", "prob": 40 },
+      { "item": "ar15", "prob": 30 },
+      { "item": "garand", "prob": 40 }
+    ]
+  },{
+    "type" : "item_group",
+    "subtype": "distribution",
+    "id" : "scavenger_weapons",
+    "entries" : [
+      { "group": "scavenger_guns", "prob": 70 },
+      { "group": "scavenger_melee_weapons", "prob": 30 }
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "scavenger_ammo",
+    "items":[
+      ["arrow_wood", 50],
+      ["arrow_metal", 30],
+      ["bolt_steel", 50],
+      ["9mm", 100],
+      ["45_acp", 50],
+      ["shot_bird", 30],
+      ["shot_00", 50],
+      ["shot_slug", 30],
+      ["22_lr", 100],
+      ["223", 70],
+      ["308", 20],
+      ["3006", 20],
+      ["reloaded_9mm", 100],
+      ["reloaded_45_acp", 50],
+      ["reloaded_shot_bird", 30],
+      ["reloaded_shot_00", 50],
+      ["reloaded_shot_slug", 30],
+      ["reloaded_22_lr", 100],
+      ["reloaded_223", 70],
+      ["reloaded_308", 20],
+      ["reloaded_3006", 20]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "elite_footwear",
+    "items":[
+      ["boots", 50],
+      ["boots_combat", 100],
+      ["boots_steel", 50],
+      ["boots_hiking", 25],
+      ["motorbike_boots", 10],
+      ["boots_larmor", 25],
+      ["boots_lsurvivor", 50],
+      ["boots_survivor", 50],
+      ["boots_hsurvivor", 30],
+      ["boots_wsurvivor", 30],
+      ["boots_fsurvivor", 20],
+      ["boots_h20survivor", 10],
+      ["boots_fur", 20],
+      ["boots_bunker", 10]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "elite_pants",
+    "items":[
+      ["pants_cargo", 80],
+      ["shorts_cargo", 30],
+      ["pants_army", 50],
+      ["pants_survivor", 20],
+      ["winter_pants_army", 10],
+      ["bunker_pants", 10],
+      ["pants_leather", 50],
+      ["motorbike_pants", 20],
+      ["chainmail_legs", 10],
+      ["kilt", 1]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "elite_shirts",
+    "items":[
+      ["army_top", 50],
+      ["tank_top", 50],
+      ["tshirt", 50],
+      ["flag_shirt", 10],
+      ["under_armor", 20]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "elite_outerwear",
+    "//" : "trenchcoats are set extra low due to the large number of variants.",
+    "items":[
+      ["jacket_leather", 50],
+      ["vest_leather", 30],
+      ["vest", 30],
+      ["jacket_flannel", 15],
+      ["jacket_army", 60],
+      ["coat_rain", 60],
+      ["trenchcoat", 25],
+      ["trenchcoat_leather", 10],
+      ["trenchcoat_fur", 5],
+      ["sleeveless_trenchcoat", 5],
+      ["sleeveless_trenchcoat_leather", 5],
+      ["sleeveless_trenchcoat_fur", 1],
+      ["trenchcoat_survivor", 15],
+      ["sleeveless_trenchcoat_survivor", 5],
+      ["duster_survivor", 10],
+      ["sleeveless_duster_survivor", 1],
+      ["duster", 20],
+      ["duster_leather", 10],
+      ["duster_fur", 5],
+      ["sleeveless_duster", 10],
+      ["sleeveless_duster_leather", 5],
+      ["sleeveless_duster_fur", 2],
+      ["peacoat", 15],
+      ["bunker_coat", 5],
+      ["survivor_vest", 8]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "elite_suits",
+    "items":[
+      ["swat_armor", 50],
+      ["aep_suit", 40],
+      ["chainmail_suit", 10],
+      ["survivor_suit", 40],
+      ["lsurvivor_suit", 50],
+      ["hsurvivor_suit", 20],
+      ["wsurvivor_suit", 10],
+      ["fsurvivor_suit", 5],
+      ["h20survivor_suit", 2]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "elite_full",
+    "items":[
+      ["anbc_suit", 50]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "elite_armor",
+    "items":[
+      ["chainmail_vest", 10],
+      ["kevlar", 20],
+      ["modularvest", 80],
+      ["modularvestkevlar", 20],
+      ["modularvestceramic", 20],
+      ["modularveststeel", 10],
+      ["modularvestsuper", 10],
+      ["modularvesthard", 20],
+      ["dragonskin", 5]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "elite_gloves",
+    "items":[
+      ["gloves_leather", 80],
+      ["gloves_fingerless", 80],
+      ["gloves_tactical", 50],
+      ["gloves_fingerless", 50],
+      ["gloves_fingerless_mod", 50],
+      ["gauntlets_larmor", 14],
+      ["gloves_lsurvivor", 40],
+      ["gloves_survivor", 30],
+      ["gloves_hsurvivor", 10],
+      ["gloves_wsurvivor", 10],
+      ["gloves_fsurvivor", 5],
+      ["gloves_h20survivor", 1]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "elite_masks",
+    "items":[
+      ["scarf", 25],
+      ["long_knit_scarf", 25],
+      ["keffiyeh", 40],
+      ["mask_gas", 60],
+      ["mask_bal", 50],
+      ["mask_lsurvivor", 40],
+      ["mask_survivor", 30],
+      ["mask_hsurvivor", 10],
+      ["mask_h20survivor", 5],
+      ["mask_wsurvivor", 5],
+      ["mask_fsurvivor", 5],
+      ["mask_filter", 25],
+      ["mask_bunker", 25]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "elite_eyewear",
+    "items":[
+      ["sunglasses", 40],
+      ["fancy_sunglasses", 70],
+      ["glasses_bal", 80],
+      ["glasses_safety", 40],
+      ["goggles_nv", 5],
+      ["goggles_ir", 2]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "elite_helmets",
+    "items":[
+      ["chainmail_hood", 10],
+      ["helmet_army", 100],
+      ["tac_helmet", 50],
+      ["helmet_riot", 15],
+      ["helmet_lobster", 40],
+      ["tac_fullhelmet", 30],
+      ["hood_lsurvivor", 50],
+      ["hood_survivor", 50],
+      ["helmet_survivor", 40],
+      ["helmet_hsurvivor", 30],
+      ["hood_wsurvivor", 30],
+      ["hood_fsurvivor", 10],
+      ["hood_h20survivor", 5],
+      ["pickelhaube", 5],
+      ["firehelmet", 20],
+      ["helmet_barbute", 50],
+      ["hood_rain", 60]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "elite_storage",
+    "items":[
+      ["backpack", 20],
+      ["backpack_leather", 30],
+      ["runner_bag", 40],
+      ["mbag", 20],
+      ["dive_bag", 10],
+      ["molle_pack", 50],
+      ["rucksack", 40],
+      ["duffelbag", 40],
+      ["survivor_runner_pack", 40],
+      ["survivor_pack", 50],
+      ["survivor_rucksack", 40],
+      ["survivor_duffel_bag", 30],
+      ["tool_belt", 25],
+      ["fanny", 30],
+      ["dump_pouch", 60],
+      ["survivor_belt", 50],
+      ["chestrig", 50],
+      ["legrig", 50],
+      ["canteen", 25],
+      ["2lcanteen", 15],
+      ["waterskin2", 10],
+      ["holster", 45],
+      ["sholster", 45],
+      ["bootstrap", 65],
+      ["quiver", 40],
+      ["quiver_large", 20],
+      ["scabbard", 60]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "elite_extras",
+    "items":[
+      ["chainmail_arms", 30],
+      ["leggings", 30],
+      ["arm_warmers", 50],
+      ["leg_warmers", 50],
+      ["armguard_hard", 40],
+      ["legguard_hard", 40],
+      ["armguard_soft", 20],
+      ["knee_pads", 70],
+      ["elbow_pads", 70],
+      ["rad_monitor", 50],
+      ["wearable_light", 55],
+      ["rad_badge", 100],
+      ["badge_deputy", 5],
+      ["badge_swat", 1],
+      ["badge_detective", 5],
+      ["badge_marshal", 1],
+      ["ear_plugs", 1],
+      ["small_relic", 1],
+      ["holy_symbol", 10],
+      ["sf_watch", 50],
+      ["gold_watch", 50],
+      ["diving_watch", 80]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "elite_clothes",
+    "//" : "high quality gear for capable NPCs, survivors, allies, and enemy bosses.",
+    "subtype": "distribution",
+    "entries" : [
+      { "group": "elite_footwear", "prob": 40 },
+      { "group": "elite_pants", "prob": 40 },
+      { "group": "elite_shirts", "prob": 40 },
+      { "group": "elite_outerwear", "prob": 50 },
+      { "group": "elite_suits", "prob": 50 },
+      { "group": "elite_armor", "prob": 40 },
+      { "group": "elite_gloves", "prob": 50 },
+      { "group": "elite_eyewear", "prob": 30 },
+      { "group": "elite_helmets", "prob": 50 },
+      { "group": "elite_masks", "prob": 30 },
+      { "group": "elite_storage", "prob": 50 },
+      { "group": "elite_extras", "prob": 50 }
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "elite_gear",
+    "//" : "carried equipment. meds, food, books, weapons, guns, and ammo all pull from different lists.",
+    "items":[
+      ["heavy_flashlight", 200],
+      ["lighter", 200],
+      ["pockknife", 200],
+      ["glowstick", 60],
+      ["tazer", 90],
+      ["gasbomb", 70],
+      ["flashbang", 70],
+      ["smokebomb", 70],
+      ["UPS_off", 80],
+      ["adv_UPS_off", 50],
+      ["eink_tablet_pc", 80],
+      ["camera_pro", 10],
+      ["mp3", 85],
+      ["radiocontrol", 15],
+      ["picklocks", 50],
+      ["folding_bicycle", 50],
+      ["throw_extinguisher", 10],
+      ["halligan", 20],
+      ["e_tool", 60],
+      ["flaregun", 25],
+      ["signal_flare", 85],
+      ["two_way_radio", 50],
+      ["UPS_off", 50],
+      ["adv_UPS_off", 35],
+      ["plut_cell", 40],
+      ["emer_blanket", 70],
+      ["geiger_off", 50],
+      ["grapnel", 55],
+      ["toolbox", 80],
+      ["multitool", 70],
+      ["knife_swissarmy", 50],
+      ["spork", 50],
+      ["survivormap", 15],
+      ["roadmap", 5],
+      ["militarymap", 1],
+      ["small_repairkit", 50],
+      ["misc_repairkit", 50],
+      ["mess_kit", 80],
+      ["mil_mess_kit", 30],
+      ["survivor_mess_kit", 25],
+      ["tent_kit", 10],
+      ["sleeping_bag", 5],
+      ["gasoline_lantern", 5],
+      ["electric_lantern", 50],
+      ["LAW_Packed", 50],
+      ["pur_tablets", 50],
+      ["bot_manhack", 45],
+      ["bot_grenade_hack", 1],
+      ["bot_turret", 5],
+      ["pickaxe", 40],
+      ["shavingkit", 10],
+      ["elec_hairtrimmer", 5],
+      ["survivor_shavingkit", 5],
+      ["survivor_hairtrimmer", 2],
+      ["survnote", 100]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "survivor_footwear",
+    "subtype": "distribution",
+    "entries":[
+      { "group": "shoes", "prob": 50 },
+      { "group": "elite_footwear", "prob": 50 },
+      { "group": "scavenger_footwear", "prob": 50 },
+      { "group": "primitive_footwear", "prob": 10 }
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "survivor_pants",
+    "subtype": "distribution",
+    "entries":[
+      { "group": "pants", "prob": 50 },
+      { "group": "elite_pants", "prob": 50 },
+      { "group": "scavenger_pants", "prob": 50 },
+      { "group": "primitive_pants", "prob": 10 }
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "survivor_shirts",
+    "subtype": "distribution",
+    "entries":[
+      { "group": "shirts", "prob": 50 },
+      { "group": "elite_shirts", "prob": 50 },
+      { "group": "scavenger_shirts", "prob": 50 },
+      { "group": "primitive_shirts", "prob": 10 }
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "survivor_outerwear",
+    "subtype": "distribution",
+    "entries":[
+      { "group": "jackets", "prob": 50 },
+      { "group": "elite_outerwear", "prob": 50 },
+      { "group": "scavenger_outerwear", "prob": 50 },
+      { "group": "primitive_outerwear", "prob": 10 }
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "survivor_suits",
+    "subtype": "distribution",
+    "entries":[
+      { "group": "hazmat_suits", "prob": 60 },
+      { "group": "elite_suits", "prob": 50 },
+      { "group": "scavenger_suits", "prob": 50 }
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "survivor_armor",
+    "subtype": "distribution",
+    "entries":[
+      { "group": "cop_armor", "prob": 50 },
+      { "group": "elite_armor", "prob": 50 },
+      { "group": "scavenger_armor", "prob": 50 },
+      { "group": "primitive_armor", "prob": 10 }
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "survivor_gloves",
+    "subtype": "distribution",
+    "entries":[
+      { "group": "gloves", "prob": 50 },
+      { "group": "elite_gloves", "prob": 50 },
+      { "group": "scavenger_gloves", "prob": 50 },
+      { "group": "primitive_gloves", "prob": 10 }
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "survivor_hats",
+    "subtype": "distribution",
+    "entries":[
+      { "group": "hats", "prob": 50 },
+      { "group": "military_hats", "prob": 50 },
+      { "group": "scavenger_hats", "prob": 50 },
+      { "group": "primitive_hats", "prob": 10 }
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "survivor_helmets",
+    "subtype": "distribution",
+    "entries":[
+      { "group": "helmets", "prob": 50 },
+      { "group": "elite_helmets", "prob": 50 },
+      { "group": "scavenger_helmets", "prob": 50 },
+      { "group": "primitive_helmets", "prob": 10 }
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "survivor_masks",
+    "subtype": "distribution",
+    "entries":[
+      { "group": "worker_masks", "prob": 50 },
+      { "group": "elite_masks", "prob": 50 },
+      { "group": "scavenger_masks", "prob": 50 },
+      { "group": "primitive_masks", "prob": 10 }
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "survivor_eyewear",
+    "subtype": "distribution",
+    "entries":[
+      { "group": "elite_eyewear", "prob": 50 },
+      { "group": "scavenger_eyewear", "prob": 50 }
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "survivor_storage",
+    "subtype": "distribution",
+    "entries":[
+      { "group": "storage", "prob": 50 },
+      { "group": "water_storage", "prob": 5 },
+      { "group": "elite_storage", "prob": 50 },
+      { "group": "scavenger_storage", "prob": 50 },
+      { "group": "primitive_storage", "prob": 10 }
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "survivor_extras",
+    "subtype": "distribution",
+    "entries":[
+      { "group": "clothing_extras", "prob": 25 },
+      { "group": "sports_extras", "prob": 25 },
+      { "group": "science_extras", "prob": 25 },
+      { "group": "elite_extras", "prob": 50 },
+      { "group": "scavenger_extras", "prob": 50 },
+      { "group": "primitive_extras", "prob": 10 }
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "survivor_clothes",
+    "//" : "mix of good and bad clothing. for NPCs and survivor zombies. much wider array of stuff since it draws from multiple lists.",
+    "subtype": "distribution",
+    "entries" : [
+      { "group": "survivor_footwear", "prob": 40 },
+      { "group": "survivor_pants", "prob": 40 },
+      { "group": "survivor_shirts", "prob": 40 },
+      { "group": "survivor_outerwear", "prob": 50 },
+      { "group": "survivor_suits", "prob": 5 },
+      { "group": "survivor_armor", "prob": 40 },
+      { "group": "survivor_gloves", "prob": 50 },
+      { "group": "survivor_eyewear", "prob": 30 },
+      { "group": "survivor_hats", "prob": 20 },
+      { "group": "survivor_helmets", "prob": 50 },
+      { "group": "survivor_masks", "prob": 30 },
+      { "group": "survivor_storage", "prob": 50 },
+      { "group": "survivor_extras", "prob": 50 }
+    ]
+  }
+]

@@ -9,36 +9,6 @@
                     { "monster" : "mon_irradiated_wanderer_2", "freq" : 10, "cost_multiplier" : 1 },
                     { "monster" : "mon_irradiated_wanderer_3", "freq" : 1, "cost_multiplier" : 1 }
             ]
-    },{
-            "type" : "item_group",
-            "id" : "building_rubble",
-            "items" : [
-                ["rock", 25],
-                ["scrap", 10],
-                ["splinter", 10],
-                ["rebar", 25],
-                ["nail", 5],
-                ["glass_shard", 15],
-                ["wire", 5],
-                ["splinter", 20]
-            ]
-       },{
-            "type" : "item_group",
-            "id" : "vehicle_scrapped",
-            "items" : [
-                ["chain", 10],
-                ["steel_chunk", 30],
-                ["spring", 5],
-                ["steel_lump", 30],
-                ["steel_plate", 30],
-                ["hard_plate", 30],
-                ["frame", 20],
-                ["bearing", 5],
-                ["cu_pipe", 5],
-                ["scrap", 20],
-                ["glass_shard", 10],
-                ["wire",  5]
-            ]
        },{
         "type" : "mapgen",
         "om_terrain" : ["necropolis_a_1"],
@@ -3704,7 +3674,7 @@
                 { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 }
             ],
             "place_items": [
-                { "item": "vehicle_scrapped", "chance": 75, "x": [ 18,23 ], "y": [ 2,8 ]},
+                { "item": "wreckage", "chance": 75, "x": [ 18,23 ], "y": [ 2,8 ]},
                 { "item": "allclothes", "chance": 75, "x": [ 14,15 ], "y": [ 23,23 ]},
                 { "item": "building_rubble", "chance": 20, "x": [ 0,23 ], "y": [ 0,23 ]}
             ],
@@ -12234,7 +12204,7 @@
                 { "monster": "GROUP_NECROPOLIS", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.10 }
             ],
             "place_items": [
-                { "item": "floor_trash", "chance": 90, "x": [ 11,11 ], "y": [ 2,2 ]},
+                { "item": "trash", "chance": 90, "x": [ 11,11 ], "y": [ 2,2 ]},
                 { "item": "fast_food", "chance": 70, "x": [ 15,16 ], "y": [ 9,9 ]},
                 { "item": "cleaning", "chance": 70, "x": [ 19,19 ], "y": [ 9,9 ]},
                 { "item": "produce", "chance": 70, "x": [ 12,12 ], "y": [ 8,8 ]},
@@ -12721,8 +12691,8 @@
                 { "item": "alcohol", "chance": 70, "x": [ 19,23 ], "y": [ 19,19 ]},
                 { "item": "magazines", "chance": 70, "x": [ 19,19 ], "y": [ 12,12 ]},
                 { "item": "snacks", "chance": 70, "x": [ 20,22 ], "y": [ 14,15 ]},
-                { "item": "floor_trash", "chance": 90, "x": [ 17,17 ], "y": [ 12,12 ]},
-                { "item": "floor_trash", "chance": 90, "x": [ 17,17 ], "y": [ 9,9 ]},
+                { "item": "trash", "chance": 90, "x": [ 17,17 ], "y": [ 12,12 ]},
+                { "item": "trash", "chance": 90, "x": [ 17,17 ], "y": [ 9,9 ]},
                 { "item": "magazines", "chance": 70, "x": [ 19,19 ], "y": [ 9,9 ]},
                 { "item": "snacks", "chance": 70, "x": [ 19,22 ], "y": [ 7,7 ]}
             ],

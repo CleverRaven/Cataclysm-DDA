@@ -150,8 +150,8 @@
             {"x": 1, "y": 1, "part": "board_ne"}
         ],
         "items" : [
-            {"x": -2, "y": 0, "chance": 50, "item_groups": ["trash", "trash", "trash", "trash", "trash", "trash"]},
-            {"x": -1, "y": 0, "chance": 100, "item_groups": ["trash", "trash", "trash", "trash", "trash", "trash", "trash", "trash", "trash", "trash", "trash", "trash", "trash", "trash", "trash", "trash", "trash", "trash"]}
+            {"x": -2, "y": 0, "chance": 50, "item_groups": ["outdoor_trash", "outdoor_trash", "trash", "trash", "trash", "trash"]},
+            {"x": -1, "y": 0, "chance": 100, "item_groups": ["outdoor_trash", "outdoor_trash", "nature_trash", "nature_trash", "trash", "trash", "trash", "trash", "trash", "trash", "trash", "trash", "trash", "trash", "trash", "trash", "trash", "trash"]}
         ]
     },{
         "type" : "vehicle",

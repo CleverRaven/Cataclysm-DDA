@@ -85,7 +85,7 @@
                 { "item": "cleaning", "chance": 50, "x": 11,   "y": [10,14],       "repeat": [1,4] },
                 { "item": "hardware", "chance": 50, "x": 20,   "y": [17,20],       "repeat": [1,4] },
                 { "item": "bigtools", "chance": 50, "x": 17,   "y": [17,20],       "repeat": [1,4] },
-                { "item": "construction_worker", "chance": 40, "x": 14,   "y": [17,20],       "repeat": [1,4] },
+                { "item": "worker_clothes", "chance": 40, "x": 14,   "y": [17,20],       "repeat": [1,4] },
                 { "item": "farming_seeds", "chance": 50, "x": 2,   "y": [11,14],       "repeat": [1,2] },
                 { "item": "farming_tools", "chance": 35, "x": 2,   "y": [16,20],       "repeat": [1,4] },
                 { "item": "farming_seeds", "chance": 50, "x": 5,   "y": [11,14],       "repeat": [1,2] },

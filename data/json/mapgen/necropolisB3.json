@@ -873,8 +873,8 @@
                 { "item": "surgery", "chance": 60, "x": [ 15,15 ], "y": [ 17,18 ]},
                 { "item": "surgery", "chance": 40, "x": [ 17,17 ], "y": [ 18,18 ]},
                 { "item": "cleaning", "chance": 40, "x": [ 10,10 ], "y": [ 22,22 ]},
-                { "item": "lab_torso", "chance": 70, "x": [ 18,18 ], "y": [ 2,5 ]},
-                { "item": "lab_torso", "chance": 70, "x": [ 22,22 ], "y": [ 2,5 ]},
+                { "item": "science_outerwear", "chance": 70, "x": [ 18,18 ], "y": [ 2,5 ]},
+                { "item": "science_outerwear", "chance": 70, "x": [ 22,22 ], "y": [ 2,5 ]},
                 { "item": "dining", "chance": 40, "x": [ 8,9 ], "y": [ 3,4 ]},
                 { "item": "fridgesnacks", "chance": 70, "x": [ 16,16 ], "y": [ 2,2 ]}
             ],
@@ -1039,8 +1039,8 @@
                 { "item": "hospital_incubator", "chance": 40, "x": [ 5,5 ], "y": [ 11,11 ]},
                 { "item": "hospital_incubator", "chance": 40, "x": [ 7,7 ], "y": [ 11,11 ]},
                 { "item": "hospital_incubator", "chance": 70, "x": [ 0,0 ], "y": [ 14,17 ]},
-                { "item": "lab_torso", "chance": 70, "x": [ 0,0 ], "y": [ 2,5 ]},
-                { "item": "lab_torso", "chance": 70, "x": [ 4,4 ], "y": [ 2,5 ]}
+                { "item": "science_outerwear", "chance": 70, "x": [ 0,0 ], "y": [ 2,5 ]},
+                { "item": "science_outerwear", "chance": 70, "x": [ 4,4 ], "y": [ 2,5 ]}
             ],
             "place_monsters": [
                 { "monster": "GROUP_NECROPOLIS_VAULT3", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.30 },

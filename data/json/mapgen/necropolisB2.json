@@ -15,6 +15,21 @@
     "items" : [
       ["newest_newspaper", 10],
       ["necropolis_leaflet", 50]
+    ]    
+},{
+    "type" : "item_group",
+    "id" : "army_pistols",
+    "items" : [
+      ["m9", 50],
+      ["9mm", 50]
+    ]
+},{
+    "type" : "item_group",
+    "id" : "army_rifles",
+    "items" : [
+      ["m4a1", 50],
+      ["m249", 10],
+      ["556", 50]
     ]
 },{
         "type" : "mapgen",
@@ -54,7 +69,7 @@
                 { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.70 }
             ],
             "place_items": [
-                { "item": "mil_books", "chance": 50, "x": [ 8,8 ], "y": [ 6,6 ]},
+                { "item": "gun_books", "chance": 50, "x": [ 8,8 ], "y": [ 6,6 ]},
                 { "item": "office", "chance": 70, "x": [ 12,14 ], "y": [ 6,6 ]},
                 { "item": "cleaning", "chance": 70, "x": [ 15,15 ], "y": [ 17,17 ]},
                 { "item": "cleaning", "chance": 70, "x": [ 23,23 ], "y": [ 17,17 ]},
@@ -227,15 +242,15 @@
                 { "monster": "GROUP_NECROPOLIS_VAULT2", "x": [ 1, 22 ], "y": [ 1, 22 ], "density": 0.70 }
             ],
             "place_items": [
-                { "item": "mil_food", "chance": 90, "x": [ 10,10 ], "y": [ 16,23 ]},
-                { "item": "mil_accessories", "chance": 75, "x": [ 11,16 ], "y": [ 16,16 ]},
-                { "item": "mil_armor", "chance": 80, "x": [ 12,15 ], "y": [ 18,19 ]},
-                { "item": "mil_armor", "chance": 80, "x": [ 12,15 ], "y": [ 21,22 ]},
+                { "item": "military_food", "chance": 90, "x": [ 10,10 ], "y": [ 16,23 ]},
+                { "item": "military_gear", "chance": 75, "x": [ 11,16 ], "y": [ 16,16 ]},
+                { "item": "military_armor", "chance": 80, "x": [ 12,15 ], "y": [ 18,19 ]},
+                { "item": "military_clothes", "chance": 80, "x": [ 12,15 ], "y": [ 21,22 ]},
                 { "item": "office", "chance": 60, "x": [ 20,22 ], "y": [ 19,19 ]},
                 { "item": "army_rifles", "chance": 85, "x": [ 11,23 ], "y": [ 8,8 ]},
                 { "item": "army_pistols", "chance": 85, "x": [ 10,10 ], "y": [ 8,12 ]},
                 { "item": "bionics_mil", "chance": 50, "x": [ 13,15 ], "y": [ 10,11 ]},
-                { "item": "mil_books", "chance": 50, "x": [ 6,6 ], "y": [ 6,6 ]},
+                { "item": "gun_books", "chance": 50, "x": [ 6,6 ], "y": [ 6,6 ]},
                 { "item": "office", "chance": 70, "x": [ 0,2 ], "y": [ 6,6 ]},
                 { "item": "army_bed", "chance": 70, "x": [ 5,6], "y": [ 23,23 ]},
                 { "item": "army_bed", "chance": 70, "x": [ 5,6 ], "y": [ 19,19 ]},
@@ -410,7 +425,7 @@
                 { "item": "army_rifles", "chance": 85, "x": [ 0,5 ], "y": [ 8,8 ]},
                 { "item": "grenades", "chance": 85, "x": [ 6,6 ], "y": [ 8,12 ]},
                 { "item": "launchers", "chance": 70, "x": [ 1,3 ], "y": [ 10,11 ]},
-                { "item": "mil_books", "chance": 50, "x": [ 10,10 ], "y": [ 6,6 ]},
+                { "item": "gun_books", "chance": 50, "x": [ 10,10 ], "y": [ 6,6 ]},
                 { "item": "office", "chance": 70, "x": [ 14,16 ], "y": [ 6,6 ]},
                 { "item": "army_bed", "chance": 70, "x": [ 11,12 ], "y": [ 3,4 ]},
                 { "item": "army_bed", "chance": 70, "x": [ 10,11], "y": [ 11,11 ]},
@@ -583,7 +598,7 @@
                 { "item": "army_personal_locker", "chance": 70, "x": [ 3,3 ], "y": [ 16,16]},
                 { "item": "army_personal_locker", "chance": 70, "x": [ 5,5 ], "y": [ 10,10]},
                 { "item": "army_personal_locker", "chance": 70, "x": [ 3,3 ], "y": [ 10,10]},
-                { "item": "mil_books", "chance": 50, "x": [ 8,8 ], "y": [ 6,6 ]},
+                { "item": "gun_books", "chance": 50, "x": [ 8,8 ], "y": [ 6,6 ]},
                 { "item": "office", "chance": 70, "x": [ 2,4 ], "y": [ 6,6 ]},
                 { "item": "cleaning", "chance": 70, "x": [ 1,1 ], "y": [ 17,17 ]},
                 { "item": "army_personal_locker", "chance": 70, "x": [ 8,8 ], "y": [ 3,3 ]},
@@ -1703,9 +1718,9 @@
                 { "vehicle": "golf_cart", "x": 16, "y": 8, "rotation": 90, "chance": 75}
             ],
             "place_items": [
-                { "item": "mil_food", "chance": 90, "x": [ 10,10 ], "y": [ 0,3 ]},
-                { "item": "mil_food", "chance": 90, "x": [ 12,15 ], "y": [ 0,1 ]},
-                { "item": "mil_accessories", "chance": 75, "x": [ 14,15 ], "y": [ 3,3 ]},
+                { "item": "military_food", "chance": 90, "x": [ 10,10 ], "y": [ 0,3 ]},
+                { "item": "military_food", "chance": 90, "x": [ 12,15 ], "y": [ 0,1 ]},
+                { "item": "military_gear", "chance": 75, "x": [ 14,15 ], "y": [ 3,3 ]},
                 { "item": "army_personal_locker", "chance": 70, "x": [ 1,1 ], "y": [ 0,0 ]},
                 { "item": "army_personal_locker", "chance": 70, "x": [ 3,3 ], "y": [ 0,0 ]},
                 { "item": "gym", "chance": 50, "x": [ 0,0 ], "y": [ 17,17 ]},
@@ -3110,7 +3125,7 @@
             ],
             "place_items": [
                 { "item": "rad_gear", "chance": 85, "x": [ 21,23 ], "y": [ 16,16 ]},
-                { "item": "hazmat_mask", "chance": 85, "x": [ 17,19 ], "y": [ 16,16 ]},
+                { "item": "hazmat_masks", "chance": 85, "x": [ 17,19 ], "y": [ 16,16 ]},
                 { "item": "fireman_gear", "chance": 85, "x": [ 13,15 ], "y": [ 16,16 ]}
             ],
             "terrain": {
@@ -3259,7 +3274,7 @@
             ],
             "place_items": [
                 { "item": "rad_gear", "chance": 85, "x": [ 19,19 ], "y": [ 15,18 ]},
-                { "item": "hazmat_mask", "chance": 85, "x": [ 22,23 ], "y": [ 15,15 ]},
+                { "item": "hazmat_masks", "chance": 85, "x": [ 22,23 ], "y": [ 15,15 ]},
                 { "item": "fireman_gear", "chance": 85, "x": [ 6,8 ], "y": [ 20,20 ]}
             ],
             "terrain": {
@@ -3412,7 +3427,7 @@
             ],
             "place_items": [
                 { "item": "hazmat_full", "chance": 85, "x": [ 3,3 ], "y": [ 15,18 ]},
-                { "item": "hazmat_mask", "chance": 85, "x": [ 0,0 ], "y": [ 15,15 ]},
+                { "item": "hazmat_masks", "chance": 85, "x": [ 0,0 ], "y": [ 15,15 ]},
                 { "item": "mechanics", "chance": 85, "x": [ 2,3 ], "y": [ 20,20 ]}
             ],
             "terrain": {
@@ -5402,7 +5417,7 @@
             "place_items": [
                 { "item": "museum_misc", "chance": 80, "x": [ 8,9 ], "y": [ 22,22 ]},
                 { "item": "museum_melee", "chance": 80, "x": [ 13,14 ], "y": [ 22,22 ]},
-                { "item": "mil_books", "chance": 70, "x": [ 16,17 ], "y": [ 5,5 ]},
+                { "item": "gun_books", "chance": 70, "x": [ 16,17 ], "y": [ 5,5 ]},
                 { "item": "cop_gear", "chance": 50, "x": [ 19,19 ], "y": [ 1,3 ]}
             ],
             "terrain": {

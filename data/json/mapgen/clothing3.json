@@ -1,5 +1,43 @@
 [
     {
+        "type" : "item_group",
+    "id" : "hatstore_hats",
+    "subtype": "distribution",
+    "entries" : [
+      { "group": "hats", "prob": 100 }
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "hatstore_accessories",
+    "subtype": "distribution",
+    "entries" : [
+      { "group": "masks", "prob": 100 },
+      { "item": "hairpin", "prob": 20 },
+      { "item": "fc_hairpin", "prob": 20 },
+      { "item": "barrette", "prob": 20 }
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "shoestore_shoes",
+    "subtype": "distribution",
+    "entries" : [
+      { "group": "female_footwear", "prob": 100 },
+      { "group": "roller_footwear", "prob": 5 },
+      { "item": "sneakers", "prob": 25 },
+      { "item": "boots_rubber", "prob": 5 },
+      { "item": "clogs", "prob": 2 },
+      { "item": "dance_shoes", "prob": 10 }
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "shoestore_accessories",
+    "items":[
+      ["socks", 100],
+      ["thermal_socks", 25],
+      ["socks_wool", 50],
+      ["string_36", 200]
+    ]
+  },{
         "type": "mapgen",
         "om_terrain": [
             "s_clothes"
