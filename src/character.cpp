@@ -341,10 +341,10 @@ void Character::recalc_sight_limits()
     if( has_trait("DEBUG_NIGHTVISION") ) {
         vision_mode_cache.set( DEBUG_NIGHTVISION );
     }
-    if( has_nv() || is_wearing("rm13_armor_on") ) {
+    if( has_nv() ) {
         vision_mode_cache.set( NV_GOGGLES );
     }
-    if( has_active_mutation("NIGHTVISION3") ) {
+    if( has_active_mutation("NIGHTVISION3") || is_wearing("rm13_armor_on") ) {
         vision_mode_cache.set( NIGHTVISION_3 );
     }
     if( has_active_mutation("ELFA_FNV") ) {
