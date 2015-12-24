@@ -7555,8 +7555,8 @@
         "material_thickness" : 1,
         "use_action" : {
             "type": "holster",
-            "max_volume": 12,
-            "draw_cost": 16,
+            "max_volume": 9,
+            "draw_cost": 12,
             "skills": ["pistol", "smg", "shotgun"]
         }
     },
