@@ -1185,3 +1185,14 @@ std::set<char> inventory::allocated_invlets() const
     }
     return invlets;
 }
+
+VisitResponse inventory::visit_items( const std::function<VisitResponse(item&)>& func ) {
+    for( auto &stack : items ) {
+        for( auto &it : stack ) {
+            if( it.visit( func ) == VisitResponse::Abort ) {
+                return VisitResponse::Abort;
+            }
+        }
+    }
+    return VisitResponse::Next;
+}
