@@ -1164,6 +1164,10 @@ public:
          * for non-guns it always returns 0.
          */
         int get_free_mod_locations( const std::string& location ) const;
+        /**
+         * Does it require gunsmithing tools to repair.
+         */
+        bool is_firearm() const;
         /*@}*/
 
         /**

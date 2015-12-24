@@ -184,7 +184,6 @@ void Item_factory::init()
     iuse_function_list["CATFOOD"] = &iuse::catfood;
     iuse_function_list["CAPTURE_MONSTER_ACT"] = &iuse::capture_monster_act;
     // TOOLS
-    iuse_function_list["SEW"] = &iuse::sew;
     iuse_function_list["SEW_ADVANCED"] = &iuse::sew_advanced;
     iuse_function_list["EXTRA_BATTERY"] = &iuse::extra_battery;
     iuse_function_list["DOUBLE_REACTOR"] = &iuse::double_reactor;
@@ -192,7 +191,6 @@ void Item_factory::init()
     iuse_function_list["EXTINGUISHER"] = &iuse::extinguisher;
     iuse_function_list["HAMMER"] = &iuse::hammer;
     iuse_function_list["DIRECTIONAL_ANTENNA"] = &iuse::directional_antenna;
-    iuse_function_list["SOLDER_WELD"] = &iuse::solder_weld;
     iuse_function_list["WATER_PURIFIER"] = &iuse::water_purifier;
     iuse_function_list["TWO_WAY_RADIO"] = &iuse::two_way_radio;
     iuse_function_list["RADIO_OFF"] = &iuse::radio_off;
@@ -231,7 +229,6 @@ void Item_factory::init()
     iuse_function_list["ACIDBOMB_ACT"] = &iuse::acidbomb_act;
     iuse_function_list["GRENADE_INC_ACT"] = &iuse::grenade_inc_act;
     iuse_function_list["ARROW_FLAMABLE"] = &iuse::arrow_flamable;
-    iuse_function_list["MOLOTOV"] = &iuse::molotov;
     iuse_function_list["MOLOTOV_LIT"] = &iuse::molotov_lit;
     iuse_function_list["FIRECRACKER_PACK"] = &iuse::firecracker_pack;
     iuse_function_list["FIRECRACKER_PACK_ACT"] = &iuse::firecracker_pack_act;
@@ -965,8 +962,19 @@ void Item_factory::load_basic_info(JsonObject &jo, itype *new_item_template)
     new_item_template->volume = jo.get_int("volume");
     new_item_template->weight = jo.get_int("weight");
     new_item_template->melee_dam = jo.get_int("bashing");
-    new_item_template->melee_cut = jo.get_int("cutting");
+    new_item_template->melee_cut = jo.get_int("cutting", 0);
     new_item_template->m_to_hit = jo.get_int("to_hit");
+
+    new_item_template->min_str = jo.get_int( "min_strength",     0 );
+    new_item_template->min_dex = jo.get_int( "min_dexterity",    0 );
+    new_item_template->min_int = jo.get_int( "min_intelligence", 0 );
+    new_item_template->min_per = jo.get_int( "min_perception",   0 );
+
+    JsonArray jarr = jo.get_array( "min_skills" );
+    while( jarr.has_more() ) {
+        JsonArray cur = jarr.next_array();
+        new_item_template->min_skills[skill_id( cur.get_string( 0 ) )] = cur.get_int( 1 );
+    }
 
     if (jo.has_member("explode_in_fire")) {
         JsonObject je = jo.get_object("explode_in_fire");
@@ -1474,6 +1482,8 @@ void Item_factory::set_uses_from_object(JsonObject obj, std::vector<use_function
         newfun = load_actor<musical_instrument_actor>( obj );
     } else if( type == "holster" ) {
         newfun = load_actor<holster_actor>( obj );
+    } else if( type == "repair_item" ) {
+        newfun = load_actor<repair_item_actor>( obj );
     } else if( type == "knife" ) {
         use_methods.push_back( load_actor<salvage_actor>( obj, "salvage" ) );
         use_methods.push_back( load_actor<inscribe_actor>( obj, "inscribe" ) );

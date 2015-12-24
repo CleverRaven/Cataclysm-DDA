@@ -10,7 +10,7 @@ class minesweeper_game
 {
     private:
         bool check_win();
-        void new_level(WINDOW *w_minesweeper);
+        void new_level( WINDOW *w_minesweeper );
         int iMaxX, iMaxY, iMinX, iMinY;
         int iLevelX, iLevelY;
         int iOffsetX, iOffsetY;

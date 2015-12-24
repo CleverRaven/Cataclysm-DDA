@@ -76,7 +76,6 @@ public:
     int catfood             ( player*, item*, bool, const tripoint& );
 
 // TOOLS
-    int sew                 ( player*, item*, bool, const tripoint& );
     int sew_advanced        ( player*, item*, bool, const tripoint& );
     int extra_battery       ( player*, item*, bool, const tripoint& );
     int double_reactor      ( player*, item*, bool, const tripoint& );
@@ -84,7 +83,6 @@ public:
     int scissors            ( player*, item*, bool, const tripoint& );
     int extinguisher        ( player*, item*, bool, const tripoint& );
     int hammer              ( player*, item*, bool, const tripoint& );
-    int solder_weld         ( player*, item*, bool, const tripoint& );
     int water_purifier      ( player*, item*, bool, const tripoint& );
     int two_way_radio       ( player*, item*, bool, const tripoint& );
     int directional_antenna ( player*, item*, bool, const tripoint& );

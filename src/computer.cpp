@@ -1295,16 +1295,16 @@ void computer::activate_failure(computer_failure fail)
                     int leak_size = rng(4, 10);
                     for (int i = 0; i < leak_size; i++) {
                         std::vector<point> next_move;
-                        if (g->m.move_cost(p.x, p.y - 1) > 0) {
+                        if (g->m.passable(p.x, p.y - 1)) {
                             next_move.push_back( point(p.x, p.y - 1) );
                         }
-                        if (g->m.move_cost(p.x + 1, p.y) > 0) {
+                        if (g->m.passable(p.x + 1, p.y)) {
                             next_move.push_back( point(p.x + 1, p.y) );
                         }
-                        if (g->m.move_cost(p.x, p.y + 1) > 0) {
+                        if (g->m.passable(p.x, p.y + 1)) {
                             next_move.push_back( point(p.x, p.y + 1) );
                         }
-                        if (g->m.move_cost(p.x - 1, p.y) > 0) {
+                        if (g->m.passable(p.x - 1, p.y)) {
                             next_move.push_back( point(p.x - 1, p.y) );
                         }
 

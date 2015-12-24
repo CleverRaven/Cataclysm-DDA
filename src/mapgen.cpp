@@ -189,7 +189,7 @@ void map::generate(const int x, const int y, const int z, const int turn)
                 monx = rng( 0, SEEX * 2 - 1 );
                 mony = rng( 0, SEEY * 2 - 1 );
                 tries--;
-            } while( move_cost( monx, mony ) == 0 && tries > 0 );
+            } while( impassable( monx, mony ) && tries > 0 );
             if( tries > 0 ) {
                 add_spawn( spawn_details.name, spawn_details.pack_size, monx, mony );
             }
@@ -4588,7 +4588,7 @@ ff.......|....|WWWWWWWW|\n\
             bool generator_ok = false;
             for (int i = 0; i < 20; i++){
                 int rnx = rng(3, 20), rny = rng(3, 20);
-                 if (move_cost(rnx, rny) != 0) {
+                 if (passable(rnx, rny)) {
                     generator_ok = true;
                     ter_set(rnx, rny, t_plut_generator);
                     break;
@@ -4606,7 +4606,7 @@ ff.......|....|WWWWWWWW|\n\
         // Finally, scatter dead bodies / mil zombies
         for (int i = 0; i < 20; i++) {
             int rnx = rng(3, 20), rny = rng(3, 20);
-            if (move_cost(rnx, rny) != 0) {
+            if (passable(rnx, rny)) {
                 if (one_in(5)) { // Military zombie
                     add_spawn(mon_zombie_soldier, 1, rnx, rny);
                 } else if (one_in(2)) {
@@ -9173,7 +9173,7 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
            int zx = rng(0, SEEX * 2 - 1), zy = rng(0, SEEY * 2 - 1);
            if (ter(zx, zy) == t_bed || one_in(3))
             add_item(zx, zy, body);
-           else if (move_cost(zx, zy) > 0) {
+           else if (passable(zx, zy)) {
             mon_id zom = mon_zombie;
             if (one_in(6))
              zom = mon_zombie_spitter;
@@ -9538,7 +9538,7 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
             item body;
             body.make_corpse();
             int zx = rng(0, SEEX * 2 - 1), zy = rng(0, SEEY * 2 - 1);
-            if (move_cost(zx, zy) > 0) {
+            if (passable(zx, zy)) {
                 if (furn(zx, zy) == f_bed || one_in(3)) {
                     add_item(zx, zy, body);
                 } else {
@@ -9756,7 +9756,7 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
         if (t_west != "mansion_entrance" && t_west != "mansion") {
             int consecutive = 0;
             for (int i = 1; i < SEEY; i++) {
-                if (move_cost(1, i) != 0 && move_cost(1, SEEY * 2 - 1 - i) != 0) {
+                if (passable(1, i) && passable(1, SEEY * 2 - 1 - i)) {
                     if (consecutive == 3) {
                         consecutive = 0;    // No really long windows
                     } else {
@@ -9772,8 +9772,8 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
         if (t_south != "mansion_entrance" && t_south != "mansion") {
             int consecutive = 0;
             for (int i = 1; i < SEEX; i++) {
-                if (move_cost(i, SEEY * 2 - 2) != 0 &&
-                    move_cost(SEEX * 2 - 1 - i, SEEY * 2 - 2) != 0) {
+                if (passable(i, SEEY * 2 - 2) &&
+                    passable(SEEX * 2 - 1 - i, SEEY * 2 - 2)) {
                     if (consecutive == 3) {
                         consecutive = 0;    // No really long windows
                     } else {
@@ -9789,8 +9789,8 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
         if (t_east != "mansion_entrance" && t_east != "mansion") {
             int consecutive = 0;
             for (int i = 1; i < SEEY; i++) {
-                if (move_cost(SEEX * 2 - 2, i) != 0 &&
-                    move_cost(SEEX * 2 - 2, SEEY * 2 - 1 - i) != 0) {
+                if (passable(SEEX * 2 - 2, i) &&
+                    passable(SEEX * 2 - 2, SEEY * 2 - 1 - i)) {
                     if (consecutive == 3) {
                         consecutive = 0;    // No really long windows
                     } else {
@@ -9807,7 +9807,7 @@ FFFFFFFFFFFFFFFFFFFFFFFF\n\
         if (t_north != "mansion_entrance" && t_north != "mansion") {
             int consecutive = 0;
             for (int i = 1; i < SEEX; i++) {
-                if (move_cost(i, 1) != 0 && move_cost(SEEX * 2 - 1 - i, 1) != 0) {
+                if (passable(i, 1) && passable(SEEX * 2 - 1 - i, 1)) {
                     if (consecutive == 3) {
                         consecutive = 0;    // No really long windows
                     } else {
@@ -10439,7 +10439,7 @@ void map::post_process(unsigned zones)
             int num_corpses = rng(1, 8);
             for (int i = 0; i < num_corpses; i++) {
                 int x = rng(0, 23), y = rng(0, 23);
-                if (move_cost(x, y) > 0) {
+                if (passable(x, y)) {
                     add_corpse( tripoint( x, y, abs_sub.z ) );
                 }
             }
@@ -10495,7 +10495,7 @@ void map::place_spawns(const mongroup_id& group, const int chance,
                 x = rng(x1, x2);
                 y = rng(y1, y2);
                 tries--;
-            } while( move_cost(x, y) == 0 && tries );
+            } while( impassable(x, y) && tries );
 
             // Pick a monster type
             MonsterGroupResult spawn_details = MonsterGroupManager::GetResultFromGroup( group, &num );
@@ -10747,7 +10747,7 @@ vehicle *map::add_vehicle_to_map(vehicle *veh, const bool merge_wrecks)
 
         // Don't spawn shopping carts on top of another vehicle or other obstacle.
         if (veh->type == vproto_id( "shopping_cart" ) ) {
-            if (veh_at( p ) != nullptr || move_cost( p ) == 0) {
+            if (veh_at( p ) != nullptr || impassable( p )) {
                 delete veh;
                 return nullptr;
             }
@@ -10813,7 +10813,7 @@ vehicle *map::add_vehicle_to_map(vehicle *veh, const bool merge_wrecks)
             //Try again with the wreckage
             return add_vehicle_to_map(wreckage, true);
 
-        } else if (move_cost(p.x, p.y) == 0) {
+        } else if (impassable(p.x, p.y)) {
             if( !merge_wrecks ) {
                 delete veh;
                 return NULL;
@@ -12429,7 +12429,7 @@ void mx_military(map &m, const tripoint &)
             x = rng(0, SEEX * 2 - 1);
             y = rng(0, SEEY * 2 - 1);
             tries++;
-        } while (tries < 10 && m.move_cost(x, y) == 0);
+        } while (tries < 10 && m.impassable(x, y));
 
         if (tries < 10) { // We found a valid spot!
             if (one_in(10)) {
@@ -12469,7 +12469,7 @@ void mx_science(map &m, const tripoint &)
             x = rng(0, SEEX * 2 - 1);
             y = rng(0, SEEY * 2 - 1);
             tries++;
-        } while (tries < 10 && m.move_cost(x, y) == 0);
+        } while (tries < 10 && m.impassable(x, y));
 
         if (tries < 10) { // We found a valid spot!
             if (one_in(10)) {
@@ -12502,7 +12502,7 @@ void mx_collegekids(map &m, const tripoint &)
             x = rng(0, SEEX * 2 - 1);
             y = rng(0, SEEY * 2 - 1);
             tries++;
-        } while (tries < 10 && m.move_cost(x, y) == 0);
+        } while (tries < 10 && m.impassable(x, y));
 
         if (tries < 10) { // We found a valid spot!
             if (one_in(10)) {
@@ -12572,7 +12572,7 @@ void mx_roadblock(map &m, const tripoint &abs_sub)
                 x = rng(0, SEEX * 2 - 1);
                 y = rng(0, SEEY * 2 - 1);
                 tries++;
-            } while (tries < 10 && m.move_cost(x, y) == 0);
+            } while (tries < 10 && m.impassable(x, y));
 
             if (tries < 10) { // We found a valid spot!
                 if (one_in(8)) {
@@ -12600,7 +12600,7 @@ void mx_roadblock(map &m, const tripoint &abs_sub)
                 x = rng(0, SEEX * 2 - 1);
                 y = rng(0, SEEY * 2 - 1);
                 tries++;
-            } while (tries < 10 && m.move_cost(x, y) == 0);
+            } while (tries < 10 && m.impassable(x, y));
 
             if (tries < 10) { // We found a valid spot!
                 if (one_in(8)) {
@@ -12667,7 +12667,7 @@ void mx_drugdeal(map &m, const tripoint &abs_sub)
                 y_offset = 0;
             }
             tries++;
-        } while (tries < 10 && m.move_cost(x, y) == 0);
+        } while (tries < 10 && m.impassable(x, y));
 
         if (tries < 10) { // We found a valid spot!
             if (one_in(10)) {
@@ -12705,7 +12705,7 @@ void mx_drugdeal(map &m, const tripoint &abs_sub)
                 y_offset = 0;
             }
             tries++;
-        } while (tries < 10 && m.move_cost(x, y) == 0);
+        } while (tries < 10 && m.impassable(x, y));
 
         if (tries < 10) { // We found a valid spot!
             if (one_in(20)) {
@@ -12748,7 +12748,7 @@ void mx_supplydrop(map &m, const tripoint &abs_sub)
             x = rng(0, SEEX * 2 - 1);
             y = rng(0, SEEY * 2 - 1);
             tries++;
-        } while (tries < 10 && m.move_cost(x, y) == 0);
+        } while (tries < 10 && m.impassable(x, y));
         m.furn_set(x, y, f_crate_c);
         std::string item_group;
         switch (rng(1, 10)) {

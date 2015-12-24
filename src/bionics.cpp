@@ -984,16 +984,16 @@ bool player::activate_bionic(int b, bool eff_only)
                                 g->zombie(index).check_dead_state();
                                 g->m.add_item_or_charges(it->x, it->y, tmp_item);
                                 break;
-                            } else if (g->m.move_cost(it->x, it->y) == 0) {
+                            } else if (g->m.impassable(it->x, it->y)) {
                                 if (it != traj.begin()) {
                                     g->m.bash( tripoint( it->x, it->y, posz() ), tmp_item.weight() / 225 );
-                                    if (g->m.move_cost(it->x, it->y) == 0) {
+                                    if (g->m.impassable(it->x, it->y)) {
                                         g->m.add_item_or_charges((it - 1)->x, (it - 1)->y, tmp_item);
                                         break;
                                     }
                                 } else {
                                     g->m.bash( *it, tmp_item.weight() / 225 );
-                                    if (g->m.move_cost(it->x, it->y) == 0) {
+                                    if (g->m.impassable(it->x, it->y)) {
                                         break;
                                     }
                                 }

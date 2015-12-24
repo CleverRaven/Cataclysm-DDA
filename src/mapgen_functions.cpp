@@ -2663,7 +2663,7 @@ void mapgen_generic_house(map *m, oter_id terrain_type, mapgendata dat, int turn
                                 }
                             }
                         }
-                    } else if (m->move_cost(i, j) > 0 && one_in(5)) {
+                    } else if (m->passable(i, j) && one_in(5)) {
                         madd_field( m, x, y, fd_web, 1);
                     }
                 }
@@ -3490,7 +3490,7 @@ void mapgen_basement_spiders(map *m, oter_id terrain_type, mapgendata dat, int t
                 if (!(one_in(3))){
                 madd_field( m, i, j, fd_web, rng(1, 3));
                 }
-                if( one_in( 30 ) && m->move_cost( i, j ) > 0 ) {
+                if( one_in( 30 ) && m->passable( i, j ) ) {
                     m->furn_set(i, j, f_egg_sackbw);
                     m->add_spawn(mon_spider_widow_giant, rng(3, 6), i, j); //hope you like'em spiders
                     m->remove_field({i, j, m->get_abs_sub().z}, fd_web);
@@ -5241,7 +5241,7 @@ void mapgen_cavern(map *m, oter_id, mapgendata dat, int, float)
         do {
             x = rng(0, SEEX * 2 - 1);
             y = rng(0, SEEY * 2 - 1);
-        } while (m->move_cost(x, y) == 0);
+        } while (m->impassable(x, y));
         if (!one_in(3)) {
             m->spawn_item(x, y, "jackhammer");
         }

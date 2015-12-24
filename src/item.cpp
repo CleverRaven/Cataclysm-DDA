@@ -2221,7 +2221,7 @@ int item::price() const
     }
 
     // if tool has no ammo (eg. spray can) reduce price proportional to remaining charges
-    if( is_tool() && ammo_type() == "NULL" ) {
+    if( is_tool() && ammo_type() == "NULL" && ammo_remaining() > -1 ) {
         ret *= ammo_remaining() / double( std::max( dynamic_cast<const it_tool *>( type )->def_charges, 1L ) );
     }
 
@@ -3090,6 +3090,12 @@ bool item::is_gun() const
     return type->gun.get() != nullptr;
 }
 
+bool item::is_firearm() const
+{
+    static const std::string primitive_flag( "PRIMITIVE_RANGED_WEAPON" );
+    return is_gun() && !has_flag( primitive_flag );
+}
+
 bool item::is_silent() const
 {
     return gun_noise().volume < 5;
@@ -3766,29 +3772,15 @@ int item::gun_range( const player *p ) const
     if( p == nullptr ) {
         return ret;
     }
-    ///\EFFECT_STR allows use and increases range of some bows
-    if( has_flag( "STR8_DRAW" ) ) {
-        if( p->str_cur < 4 ) {
-            return 0;
-        }
-        if( p->str_cur < 8 ) {
-            ret -= 2 * ( 8 - p->str_cur );
-        }
-    } else if( has_flag( "STR10_DRAW" ) ) {
-        if( p->str_cur < 5 ) {
-            return 0;
-        }
-        if( p->str_cur < 10 ) {
-            ret -= 2 * ( 10 - p->str_cur );
-        }
-    } else if( has_flag( "STR12_DRAW" ) ) {
-        if( p->str_cur < 6 ) {
-            return 0;
-        }
-        if( p->str_cur < 12 ) {
-            ret -= 2 * ( 12 - p->str_cur );
-        }
+    if( !p->can_use( *this, false ) ) {
+        return 0;
     }
+
+    // Reduce bow range until player has twice minimm required strength
+    if( has_flag( "STR_DRAW" ) ) {
+        ret -= std::max( 0, type->min_str * 2 - p->get_str() );
+    }
+
     return std::max( 0, ret );
 }
 
