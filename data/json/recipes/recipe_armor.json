@@ -146,6 +146,11 @@
   "reversible": true,
   "autolearn": false,
   "decomp_learn": 4,
+  "tools": [
+    [
+      [ "sewing_kit", 30 ]
+    ]
+  ],
   "components": [
     [
       [ "kevlar_plate", 24 ]
