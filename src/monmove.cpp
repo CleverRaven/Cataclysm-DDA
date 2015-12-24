@@ -34,7 +34,7 @@ bool monster::wander()
 bool monster::can_move_to( const tripoint &p ) const
 {
     const bool can_climb = has_flag( MF_CLIMBS ) || has_flag( MF_FLIES );
-    if( g->m.move_cost( p ) == 0 && !( can_climb && g->m.has_flag( "CLIMBABLE", p ) ) ) {
+    if( g->m.impassable( p ) && !( can_climb && g->m.has_flag( "CLIMBABLE", p ) ) ) {
         return false;
     }
 
@@ -1082,7 +1082,7 @@ bool monster::move_to( const tripoint &p, bool force, const float stagger_adjust
     // Allows climbing monsters to move on terrain with movecost <= 0
     Creature *critter = g->critter_at( p, is_hallucination() );
     if( g->m.has_flag( "CLIMBABLE", p ) ) {
-        if( g->m.move_cost( p ) == 0 && critter == nullptr ) {
+        if( g->m.impassable( p ) && critter == nullptr ) {
             if( flies ) {
                 moves -= 100;
                 force = true;
@@ -1489,7 +1489,7 @@ void monster::knock_back_from( const tripoint &p )
         }
     }
 
-    if( g->m.move_cost( to ) == 0 ) {
+    if( g->m.impassable( to ) ) {
 
         // It's some kind of wall.
         apply_damage( nullptr, bp_torso, type->size );
@@ -1560,7 +1560,7 @@ int monster::turns_to_reach( int x, int y )
     double turns = 0.;
     for( size_t i = 0; i < path.size(); i++ ) {
         const tripoint &next = path[i];
-        if( g->m.move_cost( next ) == 0 ) {
+        if( g->m.impassable( next ) ) {
             // No bashing through, it looks stupid when you go back and find
             // the doors intact.
             return 999;

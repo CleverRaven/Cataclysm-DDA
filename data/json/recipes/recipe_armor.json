@@ -417,7 +417,7 @@
   "subcategory": "CSC_ARMOR_FEET",
   "skill_used": "tailor",
   "difficulty": 3,
-  "time": 30000,
+  "time": 40000,
   "reversible": false,
   "autolearn": true,
   "components": [
@@ -426,12 +426,12 @@
       [ "string_6", 4 ]
     ],
     [
-      [ "chitin_piece", 4 ]
+      [ "chitin_piece", 8 ]
     ],
     [
-      [ "leather", 2 ],
-      [ "fur", 2 ],
-      [ "rag", 2 ]
+      [ "leather", 4 ],
+      [ "fur", 4 ],
+      [ "rag", 4 ]
     ]
   ]
 },{
@@ -441,7 +441,7 @@
   "subcategory": "CSC_ARMOR_FEET",
   "skill_used": "tailor",
   "difficulty": 3,
-  "time": 30000,
+  "time": 40000,
   "reversible": false,
   "autolearn": true,
   "book_learn": [[ "manual_tailor", 2 ] , ["textbook_tailor", 2]],
@@ -460,8 +460,8 @@
       [ "bone_tainted", 36 ]
     ],
     [
-      [ "leather", 2 ],
-      [ "fur", 2 ]
+      [ "leather", 6 ],
+      [ "fur", 6 ]
     ]
   ]
 },{
@@ -471,7 +471,7 @@
   "subcategory": "CSC_ARMOR_FEET",
   "skill_used": "tailor",
   "difficulty": 2,
-  "time": 30000,
+  "time": 40000,
   "reversible": false,
   "autolearn": false,
   "book_learn": [[ "textbook_tailor", 3 ] , [ "tailor_portfolio", 4 ] , ["textbook_survival", 3] , ["trappers_companion", 3] , ["survival_book", 3] , ["textbook_armwest", 5]],
@@ -507,7 +507,7 @@
   ],
   "tools": [
     [
-      [ "sewing_kit", 100 ]
+      [ "sewing_kit", 20 ]
     ]
   ],
   "components": [

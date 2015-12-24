@@ -5,12 +5,12 @@ Note that versions of astyle before 2.05 will handle many c++11 constructs incor
 
 Blocks of code can be passed through astyle to ensure that their formatting is correct:
 
-astyle --style=1tbs --indent=spaces=4 --align-pointer=name --max-code-length=100 --break-after-logical --indent-classes --indent-preprocessor --indent-switches --indent-col1-comments --min-conditional-indent=0 --pad-oper --unpad-paren --pad-paren-in --add-brackets --convert-tabs
+astyle --style=1tbs --attach-inlines --indent=spaces=4 --align-pointer=name --max-code-length=100 --break-after-logical --indent-classes --indent-preprocessor --indent-switches --indent-col1-comments --min-conditional-indent=0 --pad-oper --unpad-paren --pad-paren-in --add-brackets --convert-tabs
 
-These options are mirrored in .astylerc, Cataclysm-DDA.sublime-project, CONTRIBUTING.md, doc/CODE_STYLE.txt
+These options are mirrored in .astylerc, Cataclysm-DDA.sublime-project and doc/CODE_STYLE.txt
 
 For example, from vi, set marks a and b around the block, then:
-:'a,'b ! astyle  --style=1tbs --indent=spaces=4 --align-pointer=name --max-code-length=100 --break-after-logical --indent-classes --indent-preprocessor --indent-switches --indent-col1-comments --min-conditional-indent=0 --pad-oper --unpad-paren --pad-paren-in --add-brackets --convert-tabs
+:'a,'b ! astyle  --style=1tbs --attach-inlines --indent=spaces=4 --align-pointer=name --max-code-length=100 --break-after-logical --indent-classes --indent-preprocessor --indent-switches --indent-col1-comments --min-conditional-indent=0 --pad-oper --unpad-paren --pad-paren-in --add-brackets --convert-tabs
 
 Here's an example that illustrates the most common points of style.
 
@@ -37,3 +37,21 @@ int foo( int arg1, int *arg2 )
     }
     return 0;
 }
+
+Here's a helpful workflow to astyle some low-hanging fruit:
+# Astyle all the things.
+make astyle-all
+# List the changed files.
+# |             Sort by number of lines changed.
+# |             |           Truncate away the first part of the list.
+# |             |           |           Truncate away the summary line.
+# |             |           |           |           Trim off the fields except the filename.
+# |             |           |           |           |                 Revert the listed files to the upstream version.
+git diff --stat | sort -k 3 | tail -201 | head -200 | cut -d ' ' -f 2 | xargs git checkout
+# Refresh astyle whitelist with all the files that pass now.
+astyle --dry-run --options=.astylerc src/*.cpp src/*.h | grep Unchanged | cut -d ' ' -f 3 > data/astyled_whitelist
+# Add the changed files, please examine the changes to make sure they make sense, astyle occasionally messes up.
+git add -p
+# commit and push!
+git commit -m "Updated astyling coverage."
+git push

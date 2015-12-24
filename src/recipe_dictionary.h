@@ -53,7 +53,7 @@ class recipe_dictionary
          * Goes over all recipes and calls the predicate, if it returns true, the recipe
          * is removed *and* deleted.
          */
-        void delete_if( const std::function<bool(recipe &)> &pred );
+        void delete_if( const std::function<bool( recipe & )> &pred );
 
     private:
         std::list<recipe *> recipes;

@@ -89,6 +89,9 @@ struct recipe {
     bool can_make_with_inventory(const inventory &crafting_inv, int batch = 1) const;
     bool check_eligible_containers_for_crafting(int batch = 1) const;
 
+    // Can this recipe be memorized?
+    bool valid_learn() const;
+
     int print_items(WINDOW *w, int ypos, int xpos, nc_color col, int batch = 1) const;
     void print_item(WINDOW *w, int ypos, int xpos, nc_color col,
                     const byproduct &bp, int batch = 1) const;

@@ -735,7 +735,7 @@ bool construct::check_support(point p)
 {
     // need two or more orthogonally adjacent supports
     int num_supports = 0;
-    if (g->m.move_cost(p.x, p.y) == 0) {
+    if (g->m.impassable(p.x, p.y)) {
         return false;
     }
     if (g->m.has_flag("SUPPORTS_ROOF", p.x, p.y - 1)) {
@@ -896,7 +896,7 @@ std::vector<point> find_safe_places( point const &center )
     std::vector<point> safe;
     for( int i = center.x - 1; i <= center.x + 1; i++ ) {
         for( int j = center.y - 1; j <= center.y + 1; j++ ) {
-            if( m.move_cost( i, j ) > 0 ) {
+            if( m.passable( i, j ) ) {
                 safe.push_back( point( i, j ) );
             }
         }
@@ -975,7 +975,7 @@ void construct::done_digormine_stair( point p, bool dig )
             }
         }
     }
-    if( tmpmap.move_cost( local_tmp.x, local_tmp.y ) == 0 ) { // Solid rock or a wall.  Safe enough.
+    if( tmpmap.impassable( local_tmp.x, local_tmp.y ) ) { // Solid rock or a wall.  Safe enough.
         if( g->u.has_trait( "PAINRESIST_TROGLO" ) || g->u.has_trait( "STOCKY_TROGLO" ) ) {
             if( dig ) {
                 add_msg( _( "You strike deeply into the earth." ) );
@@ -1222,7 +1222,7 @@ void construct::done_mine_upstair( point p )
           return;
       }
   }
-  if (tmpmap.move_cost(p.x % SEEX, p.y % SEEY) == 0) { // Solid rock or a wall.  Safe enough.
+  if (tmpmap.impassable(p.x % SEEX, p.y % SEEY)) { // Solid rock or a wall.  Safe enough.
       if (g->u.has_trait("PAINRESIST_TROGLO") || g->u.has_trait("STOCKY_TROGLO")) {
           add_msg(_("You carve upward and breach open a space."));
           g->u.mod_hunger(35);
