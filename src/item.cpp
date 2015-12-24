@@ -4742,6 +4742,21 @@ void item::mark_as_used_by_player(const player &p)
     used_by_ids += string_format( "%d;", p.getID() );
 }
 
+VisitResponse item::visit( const std::function<VisitResponse(item&)>& func ) {
+    for( auto& e : contents ) {
+        auto r = func( e );
+
+        if( r == VisitResponse::Next ) {
+            r = e.visit( func );
+        }
+
+        if ( r == VisitResponse::Abort ) {
+            return VisitResponse::Abort;
+        }
+    }
+    return VisitResponse::Next;
+}
+
 bool item::can_holster ( const item& obj ) const {
     if( !type->can_use("holster") ) {
         return false; // item is not a holster

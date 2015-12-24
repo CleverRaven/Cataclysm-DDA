@@ -658,6 +658,15 @@ public:
  const itype* type;
  std::vector<item> contents;
 
+        /** Traverses child items contained by this item using a visitor pattern
+         * @pram func visitor function called for each node which controls whether traversal continues.
+         * Typically a lambda making use of captured state it should return VisitResponse::Next to
+         * recursively process child items, VisitResponse::Skip to ignore children of the current node
+         * or VisitResponse::Abort to skip further processing of any nodes.
+         * @return This method itself only ever returns VisitResponse::Next or VisitResponse::Abort.
+         */
+        VisitResponse visit( const std::function<VisitResponse(item&)>& func );
+
         /** Checks if item is a holster and currently capable of storing obj */
         bool can_holster ( const item& obj ) const;
         /**
