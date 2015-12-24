@@ -823,7 +823,7 @@ bool input_context::get_direction(int &dx, int &dy, const std::string &action)
         dy = -2;
         return false;
     }
-    if(iso_mode && tile_iso) {
+    if(iso_mode && tile_iso && use_tiles ) {
         rotate_direction_cw(dx,dy);
     }
     return true;
