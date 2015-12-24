@@ -1283,7 +1283,7 @@
   "reversible": true,
   "decomp_learn": 2,
   "autolearn": false,
-  "book_learn" : [[ "recipe_bows", 2 ] , [ "manual_archery", 4] , [ "book_archery", 3], [ "scots_cookbook", 6 ]],
+  "book_learn" : [[ "recipe_bows", 2 ] , [ "manual_archery", 4] , [ "book_archery", 3], [ "scots_cookbook", 6 ], [ "textbook_armschina", 5 ]],
   "qualities" : [
     {"id":"SCREW","level":1,"amount":1},
     {"id":"WRENCH","level":1,"amount":1}
