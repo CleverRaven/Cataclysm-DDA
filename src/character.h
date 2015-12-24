@@ -239,6 +239,12 @@ class Character : public Creature
             return false;
         }
 
+        /** Traverses wielded, worn and inventory items and using a visitor function
+         * @return Similar to item::visit returns only VisitResponse::Next or VisitResponse::Abort
+         * @see item::visit
+         **/
+        VisitResponse visit_items( const std::function<VisitResponse(item&)>& func );
+
         /**
          * Test whether an item in the possession of this player match a
          * certain filter.

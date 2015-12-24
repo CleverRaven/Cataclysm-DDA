@@ -449,6 +449,21 @@ bool Character::has_active_bionic(const std::string & b) const
     return false;
 }
 
+VisitResponse Character::visit_items( const std::function<VisitResponse( item& )>& func )
+{
+    if( !weapon.is_null() && weapon.visit( func ) == VisitResponse::Abort ) {
+        return VisitResponse::Abort;
+    }
+
+    for( auto& e : worn ) {
+        if( e.visit( func ) == VisitResponse::Abort ) {
+            return VisitResponse::Abort;
+        }
+    }
+
+    return inv.visit_items( func );
+}
+
 item& Character::i_add(item it)
 {
  itype_id item_type_id = "null";
