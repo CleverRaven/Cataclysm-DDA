@@ -469,6 +469,19 @@ VisitResponse Character::visit_items( const std::function<VisitResponse( const i
     return const_cast<Character *>( this )->visit_items( static_cast<const std::function<VisitResponse(item&)>&>( func ) );
 }
 
+bool Character::has_item_with( const std::function<bool(const item&)>& filter ) const
+{
+    bool found = false;
+    visit_items( [&found, &filter]( const item& it ) {
+        if( filter( it ) ) {
+            found = true;
+            return VisitResponse::Abort;
+        }
+        return VisitResponse::Next;
+    });
+    return found;
+}
+
 item& Character::i_add(item it)
 {
  itype_id item_type_id = "null";

@@ -247,33 +247,14 @@ class Character : public Creature
         VisitResponse visit_items( const std::function<VisitResponse(const item&)>& func ) const;
 
         /**
-         * Test whether an item in the possession of this player match a
-         * certain filter.
+         * Test whether an item in the playerts possession matches a certain filter.
          * The items might be inside other items (containers / quiver / etc.),
          * the filter is recursively applied to all item contents.
-         * If this returns true, the vector returned by @ref items_with
-         * (with the same filter) will be non-empty.
-         * @param filter some object that when invoked with the () operator
-         * returns true for item that should checked for.
-         * @return Returns true when at least one item matches the filter,
-         * if no item matches the filter it returns false.
+         * @param filter functor returning true for item that should checked for.
+         * @return Returns true when at least one item matches the filter, otherwise false
          */
-        template<typename T>
-        bool has_item_with(T filter) const
-        {
-            if( inv.has_item_with( filter ) ) {
-                return true;
-            }
-            if( !weapon.is_null() && inventory::has_item_with_recursive( weapon, filter ) ) {
-                return true;
-            }
-            for( auto &w : worn ) {
-                if( inventory::has_item_with_recursive( w, filter ) ) {
-                    return true;
-                }
-            }
-            return false;
-        }
+        bool has_item_with( const std::function<bool(const item&)>& filter ) const;
+
         /**
          * Gather all items that match a certain filter.
          * The returned vector contains pointers to items in the possession
