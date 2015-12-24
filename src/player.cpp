@@ -10229,29 +10229,34 @@ bool player::eat(item *eaten, const it_comest *comest)
 
 int player::nutrition_for(const it_comest *comest)
 {
-    /* thresholds:
-    **  100 : 1x
-    **  300 : 2x
-    ** 1400 : 4x
-    ** 2800 : 6x
-    ** 6000 : 10x
-    */
+    // First value is hunger, second is nutrition multiplier
+    using threshold_pair = std::pair<int, float>;
+    static const std::array<threshold_pair, 7> thresholds = {{
+        { INT_MIN, 1.0f },
+        { 100, 1.0f },
+        { 300, 2.0f },
+        { 1400, 4.0f },
+        { 2800, 6.0f },
+        { 6000, 10.0f },
+        { INT_MAX, 10.0f }
+    }};
 
-    float nutr;
-
-    if (get_hunger() < 100) {
-        nutr = comest->nutr;
-    } else if (get_hunger() <= 300) {
-        nutr = ((float)get_hunger()/300) * 2 * comest->nutr;
-    } else if (get_hunger() <= 1400) {
-        nutr = ((float)get_hunger()/1400) * 4 * comest->nutr;
-    } else if (get_hunger() <= 2800) {
-        nutr = ((float)get_hunger()/2800) * 6 * comest->nutr;
-    } else {
-        nutr = ((float)get_hunger()/6000)* 10 * comest->nutr;
+    const int hng = get_hunger();
+    // Find the first threshold > hunger
+    int i = 1;
+    while( thresholds[i].first <= hng ) {
+        i++;
     }
 
-    return (int)nutr;
+    // How far are we along the way from last threshold to current one
+    const float t = (hng - thresholds[i - 1].first) /
+            (thresholds[i].first - thresholds[i - 1].first);
+
+    // Linear interpolation of values at relevant thresholds
+    const float modifier = (t * thresholds[i].second) +
+        ((1 - t) * thresholds[i - 1].second);
+
+    return (int)(comest->nutr * modifier);
 }
 
 void player::consume_effects(item *eaten, const it_comest *comest, bool rotten)
