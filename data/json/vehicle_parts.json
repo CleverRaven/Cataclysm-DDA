@@ -5314,7 +5314,7 @@
         "id" : "reaper",
         "name" : "reaper",
         "symbol" : "/",
-        "color" : "light_grey",
+        "color" : "light_gray",
         "broken_symbol" : "*",
         "broken_color" : "light_blue",
         "damage_modifier" : 120,

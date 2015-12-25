@@ -693,7 +693,7 @@
     "id": "whistle_multitool",
     "type": "TOOL",
     "symbol": ";",
-    "color": "dark_grey",
+    "color": "dark_gray",
     "name": "whistle multitool",
     "description": "A cheap gadget combining a whistle, thermometer, magnifying glass, and button compass.",
     "price": 200,
