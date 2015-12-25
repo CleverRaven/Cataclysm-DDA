@@ -301,6 +301,7 @@ void MonsterGenerator::init_flags()
     // see mtype.h for commentary
     flag_map["NULL"] = MF_NULL;
     flag_map["SEES"] = MF_SEES;
+    flag_map["CONFIRMED_CONTACT"] = MF_CONFIRMED_CONTACT;
     flag_map["VIS50"] = MF_VIS50;
     flag_map["VIS40"] = MF_VIS40;
     flag_map["VIS30"] = MF_VIS30;

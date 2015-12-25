@@ -208,8 +208,23 @@ bool Creature::sees( const tripoint &t, bool is_player ) const
         } else {
             range = range_min;
         }
+        if ( has_flag( MF_CONFIRMED_CONTACT ) && is_player ) {
+            if (g->m.sees( pos3(), t, range )) {
+                add_msg("I see your place.");
+            } else {
+                add_msg("I don't see your place.");
+            }
+            bool see_u = range >= wanted_range &&
+                g->m.get_cache_ref(pos().z).seen_cache[pos().x][pos().y] > LIGHT_TRANSPARENCY_SOLID;
+            if( see_u ) {
+                add_msg("I see you!");
+            } else {
+                add_msg("Where are you darling? Where?");
+            }
+        }
         if( is_player ) {
             // Special case monster -> player visibility, forcing it to be symmetric with player vision.
+
             return range >= wanted_range &&
                 g->m.get_cache_ref(pos().z).seen_cache[pos().x][pos().y] > LIGHT_TRANSPARENCY_SOLID;
         } else {
