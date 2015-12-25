@@ -2136,6 +2136,11 @@ static void poly_keep_speed( monster &mon, const mtype_id& id )
 
 static bool blobify( monster &blob, monster &target )
 {
+    if( g->u.sees( target ) ) {
+        add_msg( m_warning, _("%s is engulfed by %s!"),
+            target.disp_name().c_str(), blob.disp_name().c_str() );
+    }
+
     switch( target.get_size() ) {
         case MS_TINY:
             // Just consume it
@@ -2153,6 +2158,7 @@ static bool blobify( monster &blob, monster &target )
             break;
         case MS_HUGE:
             // No polymorphing huge stuff
+            target.add_effect( "slimed", rng( 2, 10 ) );
             break;
         default:
             debugmsg("Tried to blobify %s with invalid size: %d",
@@ -2226,7 +2232,7 @@ bool mattack::formblob(monster *z)
         } else if( (othermon.made_of("flesh") ||
                     othermon.made_of("veggy") ||
                     othermon.made_of("iflesh") ) &&
-                   rng(0, z->get_hp()) > othermon.get_hp() ) {
+                   rng( 0, z->get_hp() ) > rng( othermon.get_hp() / 2, othermon.get_hp() ) ) {
             didit = blobify( *z, othermon );
         }
     }
