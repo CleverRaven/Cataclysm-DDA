@@ -113561,7 +113561,7 @@ msgid "Description: [NONE]\n"
 msgstr "Descripción: [NINGUNA]\n"
 
 #: src/mod_manager_ui.cpp
-msgid "This mod requires Lua but your CDDA build not support it!"
+msgid "This mod requires Lua but your CDDA build doesn't support it!"
 msgstr "¡Este mod necesita Lua pero tu versión de CDDA no lo soporta!"
 
 #: src/monattack.cpp
