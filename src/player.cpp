@@ -10240,15 +10240,15 @@ int player::nutrition_for(const it_comest *comest)
     float nutr;
 
     if (get_hunger() < 100) {
-        nutr = comest->nutr;
+        nutr = comest->get_nutrition();
     } else if (get_hunger() <= 300) {
-        nutr = ((float)get_hunger()/300) * 2 * comest->nutr;
+        nutr = ((float)get_hunger()/300) * 2 * comest->get_nutrition();
     } else if (get_hunger() <= 1400) {
-        nutr = ((float)get_hunger()/1400) * 4 * comest->nutr;
+        nutr = ((float)get_hunger()/1400) * 4 * comest->get_nutrition();
     } else if (get_hunger() <= 2800) {
-        nutr = ((float)get_hunger()/2800) * 6 * comest->nutr;
+        nutr = ((float)get_hunger()/2800) * 6 * comest->get_nutrition();
     } else {
-        nutr = ((float)get_hunger()/6000)* 10 * comest->nutr;
+        nutr = ((float)get_hunger()/6000)* 10 * comest->get_nutrition();
     }
 
     return (int)nutr;

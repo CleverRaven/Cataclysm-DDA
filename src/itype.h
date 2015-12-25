@@ -603,11 +603,18 @@ public:
 
 // Includes food drink and drugs
 struct it_comest : itype {
+    friend class Item_factory;
+
     std::string tool;       // Tool needed to consume (e.g. lighter for cigarettes)
     std::string comesttype; // FOOD, DRINK, MED
     long        def_charges = 0;  // Defaults # of charges (drugs, loaf of bread? etc)
     int         quench      = 0;  // Many things make you thirstier!
-    unsigned    nutr        = 0;  // Nutrition imparted
+private:
+    // Both values are kept to ease migration
+    // Negative nutr means it is unset - use calories
+    int         nutr        = 0;  // Nutrition imparted
+    int         kcal        = 0;  // Replacement for the above
+public:
     /**
      * How long it takes to spoil (turns), rotten food is handled differently
      * (chance of bad thinks happen when eating etc).
@@ -642,6 +649,10 @@ struct it_comest : itype {
             return def_charges > 1 ;
         }
     }
+
+    int get_nutrition() const;
+
+    int get_calories() const;
 };
 
 struct it_tool : itype {
