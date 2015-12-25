@@ -78,6 +78,7 @@ color_id color_manager::name_to_id( const std::string &name ) const
 {
     auto iter = name_map.find( name );
     if( iter == name_map.end() ) {
+        DebugLog( D_ERROR, DC_ALL) << "couldn't parse color: " << name ;
         return def_c_unset;
     }
 
@@ -533,7 +534,6 @@ nc_color color_from_string(const std::string &color)
         return col;
     }
 
-    debugmsg("color_from_string: couldn't parse color: %s", color.c_str());
     return c_unset;
 }
 
