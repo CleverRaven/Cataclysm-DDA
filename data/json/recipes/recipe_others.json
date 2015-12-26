@@ -6541,7 +6541,7 @@
   "autolearn": true,
   "components": [
     [ ["pockknife", 1], ["primitive_knife", 1], ["switchblade", 1], ["knife_steak", 1] ],
-    [ [ "screwdriver", 1 ] ],
+    [ [ "screwdriver_set", 1 ] ],
     [ [ "hacksaw", 1 ] ],
     [ [ "wrench", 1 ] ],
     [ [ "saw", 1 ] ],
