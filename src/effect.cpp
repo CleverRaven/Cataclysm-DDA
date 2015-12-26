@@ -12,6 +12,7 @@ std::map<std::string, effect_type> effect_types;
 
 void weed_msg(player *p) {
     int howhigh = p->get_effect_dur("weed_high");
+    ///\EFFECT_INT changes messages when smoking weed
     int smarts = p->get_int();
     if(howhigh > 125 && one_in(7)) {
         int msg = rng(0,5);
@@ -404,6 +405,13 @@ bool effect_type::load_decay_msgs(JsonObject &jo, std::string member)
         return true;
     }
     return false;
+}
+
+effect effect::null_effect;
+
+bool effect::is_null() const
+{
+    return this == &null_effect;
 }
 
 std::string effect::disp_name() const

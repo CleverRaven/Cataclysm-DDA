@@ -1,19 +1,15 @@
 #ifndef CATA_TILES_H
 #define CATA_TILES_H
 
-// make sure that SDL systems are included: Until testing is available for other systems, keep Windows specific
-#if !(defined _WIN32 || defined WINDOWS)
-#include <wordexp.h>
-#endif
-
-#include "SDL2/SDL.h"
-#include "SDL2/SDL_ttf.h"
+#include <SDL.h>
+#include <SDL_ttf.h>
 
 #include "animation.h"
 #include "map.h"
 #include "weather.h"
 #include "tile_id_data.h"
 #include "enums.h"
+#include "weighted_list.h"
 
 #include <list>
 #include <map>
@@ -27,16 +23,12 @@ struct visibility_variables;
 /** Structures */
 struct tile_type
 {
-    std::vector<int> fg, bg;
-    bool multitile, rotates;
+    // fg and bg are both a weighted list of lists of sprite IDs
+    weighted_int_list<std::vector<int>> fg, bg;
+    bool multitile = false;
+    bool rotates = false;
 
     std::vector<std::string> available_subtiles;
-
-    tile_type()
-    {
-        multitile = rotates = false;
-        available_subtiles.clear();
-    }
 };
 
 struct tile
@@ -90,11 +82,15 @@ enum TILE_CATEGORY
 };
 
 /** Typedefs */
-typedef std::vector<SDL_Texture *> tile_map;
-typedef std::unordered_map<std::string, tile_type *> tile_id_map;
+struct SDL_Texture_deleter {
+    void operator()( SDL_Texture *const ptr );
+};
+using SDL_Texture_Ptr = std::unique_ptr<SDL_Texture, SDL_Texture_deleter>;
 
-typedef tile_map::iterator tile_iterator;
-typedef tile_id_map::iterator tile_id_iterator;
+struct SDL_Surface_deleter {
+    void operator()( SDL_Surface *const ptr );
+};
+using SDL_Surface_Ptr = std::unique_ptr<SDL_Surface, SDL_Surface_deleter>;
 
 // Cache of a single tile, used to avoid redrawing what didn't change.
 struct tile_drawing_cache {
@@ -192,23 +188,32 @@ class cata_tiles
          * If it's in that interval, adds offset to it, if it's not in the
          * interval (and not -1), throw an std::string error.
          */
-        tile_type *load_tile(JsonObject &entry, const std::string &id, int offset, int size);
+        tile_type &load_tile(JsonObject &entry, const std::string &id, int offset, int size);
 
+        void load_tile_spritelists(JsonObject &entry, weighted_int_list<std::vector<int>> &vs, int offset, int size, const std::string &objname);
         void load_ascii_tilejson_from_file(JsonObject &config, int offset, int size);
         void load_ascii_set(JsonObject &entry, int offset, int size);
-        void add_ascii_subtile(tile_type *curr_tile, const std::string &t_id, int fg, const std::string &s_id);
+        void add_ascii_subtile(tile_type &curr_tile, const std::string &t_id, int fg, const std::string &s_id);
+        void process_variations_after_loading(weighted_int_list<std::vector<int>> &v, int offset);
     public:
         /** Draw to screen */
         void draw( int destx, int desty, const tripoint &center, int width, int height );
+
+        /** Minimap functionality */
+        void draw_minimap( int destx, int desty, const tripoint &center, int width, int height);
+        void draw_rhombus( int destx, int desty, int size, SDL_Color color, int widthLimit, int heightLimit);
     protected:
         /** How many rows and columns of tiles fit into given dimensions **/
         void get_window_tile_counts(const int width, const int height, int &columns, int &rows) const;
 
-        bool draw_from_id_string(std::string id, int x, int y, int subtile, int rota);
+        bool draw_from_id_string(std::string id, int x, int y, int subtile, int rota, lit_level ll,
+                                 bool apply_night_vision_goggles);
         bool draw_from_id_string(std::string id, TILE_CATEGORY category,
-                                 const std::string &subcategory, int x, int y, int subtile, int rota);
-        bool draw_sprite_at(std::vector<int>& spritelist, int x, int y, int rota);
-        bool draw_tile_at(tile_type *tile, int x, int y, int rota);
+                                 const std::string &subcategory, int x, int y, int subtile, int rota,
+                                 lit_level ll, bool apply_night_vision_goggles);
+        bool draw_sprite_at(const weighted_int_list<std::vector<int>> &svlist, int x, int y, unsigned int loc_rand, int rota_fg, int rota, lit_level ll,
+                            bool apply_night_vision_goggles);  
+        bool draw_tile_at(const tile_type &tile, int x, int y, unsigned int loc_rand, int rota, lit_level ll, bool apply_night_vision_goggles);
 
         /**
          * Redraws all the tiles that have changed since the last frame.
@@ -216,7 +221,7 @@ class cata_tiles
         void clear_buffer();
 
         /** Surface/Sprite rotation specifics */
-        SDL_Surface *create_tile_surface();
+        SDL_Surface_Ptr create_tile_surface();
 
         /* Tile Picking */
         void get_tile_values(const int t, const int *tn, int &subtile, int &rotation);
@@ -228,15 +233,19 @@ class cata_tiles
         void draw_single_tile( const tripoint &p, const lit_level ll,
                                const visibility_variables &cache );
         bool apply_vision_effects( int x, int y, const visibility_type visibility);
-        bool draw_terrain( const tripoint &p );
-        bool draw_furniture( const tripoint &p );
-        bool draw_trap( const tripoint &p );
-        bool draw_field_or_item( const tripoint &p );
-        bool draw_vpart( const tripoint &p );
-        bool draw_entity( const Creature &critter, const tripoint &p );
-        void draw_entity_with_overlays( const player &pl, const tripoint &p );
+        bool draw_terrain( const tripoint &p, lit_level ll );
+        bool draw_furniture( const tripoint &p, lit_level ll );
+        bool draw_trap( const tripoint &p, lit_level ll );
+        bool draw_field_or_item( const tripoint &p, lit_level ll );
+        bool draw_vpart( const tripoint &p, lit_level ll );
+        bool draw_entity( const Creature &critter, const tripoint &p, lit_level ll );
+        void draw_entity_with_overlays( const player &pl, const tripoint &p, lit_level ll );
 
         bool draw_item_highlight(int x, int y);
+
+    private:
+        //surface manipulation
+        SDL_Surface_Ptr create_tile_surface(int w, int h);
 
     public:
         // Animation layers
@@ -298,7 +307,6 @@ class cata_tiles
         float get_tile_ratiox() const { return tile_ratiox; }
         float get_tile_ratioy() const { return tile_ratioy; }
         void do_tile_loading_report();
-        bool tile_iso;
     protected:
         void get_tile_information(std::string dir_path, std::string &json_path, std::string &tileset_path);
         template <typename maptype>
@@ -318,8 +326,8 @@ class cata_tiles
 
         /** Variables */
         SDL_Renderer *renderer;
-        tile_map tile_values;
-        tile_id_map tile_ids;
+        std::vector<SDL_Texture_Ptr> tile_values;
+        std::unordered_map<std::string, tile_type> tile_ids;
 
         int tile_height, tile_width, default_tile_width, default_tile_height;
         // The width and height of the area we can draw in,
@@ -365,10 +373,19 @@ class cata_tiles
         // offset for drawing, in pixels.
         int op_x, op_y;
 
-    protected:
     private:
         void create_default_item_highlight();
         int last_pos_x, last_pos_y;
+        std::vector<SDL_Texture_Ptr> shadow_tile_values;
+        std::vector<SDL_Texture_Ptr> night_tile_values;
+        std::vector<SDL_Texture_Ptr> overexposed_tile_values;
+        /**
+         * Tracks active night vision goggle status for each draw call.
+         * Allows usage of night vision tilesets during sprite rendering.
+         */
+        bool nv_goggles_activated;
+
+
 };
 
 #endif

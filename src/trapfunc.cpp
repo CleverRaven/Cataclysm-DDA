@@ -194,6 +194,7 @@ void trapfunc::tripwire( Creature *c, const tripoint &p )
                 n->setpos( random_entry( valid ) );
             }
             n->moves -= 150;
+            ///\EFFECT_DEX decreases chance of taking damage from a tripwire trap
             if( rng( 5, 20 ) > n->dex_cur ) {
                 n->hurtall( rng( 1, 4 ), nullptr );
             }
@@ -216,6 +217,7 @@ void trapfunc::crossbow( Creature *c, const tripoint &p )
         monster *z = dynamic_cast<monster *>( c );
         player *n = dynamic_cast<player *>( c );
         if( n != nullptr ) {
+            ///\EFFECT_DODGE reducts chance of being hit by crossbow trap
             if( !one_in( 4 ) && rng( 8, 20 ) > n->get_dodge() ) {
                 body_part hit = num_bp;
                 switch( rng( 1, 10 ) ) {
@@ -307,10 +309,12 @@ void trapfunc::shotgun( Creature *c, const tripoint &p )
         monster *z = dynamic_cast<monster *>( c );
         player *n = dynamic_cast<player *>( c );
         if( n != nullptr ) {
+            ///\EFFECT_STR_MAX increases chance of two shots from shotgun trap
             shots = ( one_in( 8 ) || one_in( 20 - n->str_max ) ? 2 : 1 );
             if( g->m.tr_at( p ).loadid == tr_shotgun_1 ) {
                 shots = 1;
             }
+            ///\EFFECT_DODGE reduces chance of being hit by shotgun trap
             if( rng( 5, 50 ) > n->get_dodge() ) {
                 body_part hit = num_bp;
                 switch( rng( 1, 10 ) ) {
@@ -501,7 +505,7 @@ void trapfunc::landmine( Creature *c, const tripoint &p )
         c->add_memorial_log( pgettext( "memorial_male", "Stepped on a land mine." ),
                              pgettext( "memorial_female", "Stepped on a land mine." ) );
     }
-    g->explosion( p, 10, 8, false );
+    g->explosion( p, 18, 0.5, 8 );
     g->m.remove_trap( p );
 }
 
@@ -513,7 +517,7 @@ void trapfunc::boobytrap( Creature *c, const tripoint &p )
         c->add_memorial_log( pgettext( "memorial_male", "Triggered a booby trap." ),
                              pgettext( "memorial_female", "Triggered a booby trap." ) );
     }
-    g->explosion( p, 18, 12, false );
+    g->explosion( p, 18, 0.6, 12 );
     g->m.remove_trap( p );
 }
 
@@ -540,7 +544,7 @@ void trapfunc::telepad( Creature *c, const tripoint &p )
                 newposx = rng( z->posx() - SEEX, z->posx() + SEEX );
                 newposy = rng( z->posy() - SEEY, z->posy() + SEEY );
                 tries++;
-            } while( g->m.move_cost( newposx, newposy ) == 0 && tries != 10 );
+            } while( g->m.impassable( newposx, newposy ) && tries != 10 );
 
             if( tries == 10 ) {
                 z->die_in_explosion( nullptr );
@@ -644,6 +648,7 @@ void trapfunc::pit( Creature *c, const tripoint &p )
                 n->add_msg_if_player( _( "You flap your wings and flutter down gracefully." ) );
             } else {
                 int dodge = n->get_dodge();
+                ///\EFFECT_DODGE reduces damage taken falling into a pit
                 int damage = eff * rng( 10, 20 ) - rng( dodge, dodge * 5 );
                 if( damage > 0 ) {
                     n->add_msg_if_player( m_bad, _( "You hurt yourself!" ) );
@@ -681,6 +686,7 @@ void trapfunc::pit_spikes( Creature *c, const tripoint &p )
             if( ( n->has_trait( "WINGS_BIRD" ) ) || ( ( one_in( 2 ) ) &&
                     ( n->has_trait( "WINGS_BUTTERFLY" ) ) ) ) {
                 n->add_msg_if_player( _( "You flap your wings and flutter down gracefully." ) );
+            ///\EFFECT_DODGE reduces chance of landing on spikes in spiked pit
             } else if( 0 == damage || rng( 5, 30 ) < dodge ) {
                 n->add_msg_if_player( _( "You avoid the spikes within." ) );
             } else {
@@ -754,6 +760,7 @@ void trapfunc::pit_glass( Creature *c, const tripoint &p )
             if( ( n->has_trait( "WINGS_BIRD" ) ) || ( ( one_in( 2 ) ) &&
                     ( n->has_trait( "WINGS_BUTTERFLY" ) ) ) ) {
                 n->add_msg_if_player( _( "You flap your wings and flutter down gracefully." ) );
+            ///\EFFECT_DODGE reduces chance of landing on glass in glass pit
             } else if( 0 == damage || rng( 5, 30 ) < dodge ) {
                 n->add_msg_if_player( _( "You avoid the glass shards within." ) );
             } else {
@@ -877,6 +884,11 @@ void trapfunc::sinkhole( Creature *c, const tripoint &p )
 
     const auto safety_roll = [&]( const std::string &itemname,
                                   const int diff ) {
+        ///\EFFECT_STR increases chance to attach grapnel, bullwhip, or rope when falling into a sinkhole
+
+        ///\EFFECT_DEX increases chance to attach grapnel, bullwhip, or rope when falling into a sinkhole
+
+        ///\EFFECT_THROW increases chance to attach grapnel, bullwhip, or rope when falling into a sinkhole
         const int roll = rng( pl->skillLevel( skill_throw ),
                               pl->skillLevel( skill_throw ) + pl->str_cur + pl->dex_cur );
         if( roll < diff ) {
@@ -892,7 +904,7 @@ void trapfunc::sinkhole( Creature *c, const tripoint &p )
         int &j = tmp.y;
         for( i = pl->posx() - 1; i <= pl->posx() + 1; i++ ) {
             for( j = pl->posy() - 1; j <= pl->posy() + 1; j++ ) {
-                if( g->m.move_cost( tmp ) > 0 && g->m.tr_at( tmp ).loadid != tr_pit ) {
+                if( g->m.passable( tmp ) && g->m.tr_at( tmp ).loadid != tr_pit ) {
                     safe.push_back( tmp );
                 }
             }

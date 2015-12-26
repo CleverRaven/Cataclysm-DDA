@@ -369,6 +369,11 @@ void player::load(JsonObject &data)
     if (has_bionic("bio_ears") && !has_bionic("bio_earplugs")) {
         add_bionic("bio_earplugs");
     }
+	
+    // Add the blindfold.
+    if (has_bionic("bio_sunglasses") && !has_bionic("bio_blindfold")) {
+        add_bionic("bio_blindfold");
+    }
 
 }
 
@@ -942,6 +947,8 @@ void npc::load(JsonObject &data)
         data.read("misc_rules", rules);
         data.read("combat_rules", rules);
     }
+
+    last_updated = data.get_int( "last_updated", calendar::turn );
 }
 
 /*
@@ -1002,6 +1009,8 @@ void npc::store(JsonOut &json) const
     json.member("companion_mission", companion_mission);
     json.member("companion_mission_time", companion_mission_time);
     json.member("restock", restock);
+
+    json.member("last_updated", last_updated);
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1111,19 +1120,46 @@ void monster::load(JsonObject &data)
 
     data.read("hp", hp);
 
+    // sp_timeout indicates an old save, prior to the special_attacks refactor
     if (data.has_array("sp_timeout")) {
         JsonArray parray = data.get_array("sp_timeout");
         if ( !parray.empty() ) {
+            int index = 0;
             int ptimeout = 0;
-            while ( parray.has_more() ) {
+            while ( parray.has_more() && index < (int)(type->special_attacks_names.size()) ) {
                 if ( parray.read_next(ptimeout) ) {
-                    sp_timeout.push_back(ptimeout);
+                    // assume timeouts saved in same order as current monsters.json listing
+                    const std::string &aname = type->special_attacks_names[index++];
+                    auto &entry = special_attacks[aname];
+                    if ( ptimeout >= 0 ) {
+                        entry.cooldown = ptimeout;
+                    } else { // -1 means disabled, unclear what <-1 values mean in old saves
+                        entry.cooldown = type->special_attacks.at(aname).cooldown;
+                        entry.enabled = false;
+                    }
                 }
             }
         }
     }
-    for (size_t i = sp_timeout.size(); i < type->sp_freq.size(); ++i) {
-        sp_timeout.push_back(rng(0, type->sp_freq[i]));
+
+    // special_attacks indicates a save after the special_attacks refactor
+    if (data.has_object("special_attacks")) {
+        JsonObject pobject = data.get_object("special_attacks");
+        for( const std::string &aname : pobject.get_member_names()) {
+            JsonObject saobject = pobject.get_object(aname);
+            auto &entry = special_attacks[aname];
+            entry.cooldown = saobject.get_int("cooldown");
+            entry.enabled = saobject.get_bool("enabled");
+        }
+    }
+
+    // make sure the loaded monster has every special attack its type says it should have
+    for ( auto &sa : type->special_attacks ) {
+        const std::string &aname = sa.first;
+        if (special_attacks.find(aname) == special_attacks.end()) {
+            auto &entry = special_attacks[aname];
+            entry.cooldown = rng(0, sa.second.cooldown);
+        }
     }
 
     data.read("friendly", friendly);
@@ -1159,6 +1195,7 @@ void monster::load(JsonObject &data)
     }
 
     faction = mfaction_str_id( data.get_string( "faction", "" ) );
+    last_updated = data.get_int( "last_updated", calendar::turn );
 }
 
 /*
@@ -1186,7 +1223,7 @@ void monster::store(JsonOut &json) const
     json.member("wandz", wander_pos.z);
     json.member("wandf", wandf);
     json.member("hp", hp);
-    json.member("sp_timeout", sp_timeout);
+    json.member("special_attacks", special_attacks);
     json.member("friendly", friendly);
     json.member("faction", faction.id().str());
     json.member("mission_id", mission_id);
@@ -1202,8 +1239,17 @@ void monster::store(JsonOut &json) const
     json.member( "underwater", underwater );
     json.member("upgrades", upgrades);
     json.member("upgrade_time", upgrade_time);
+    json.member("last_updated", last_updated);
 
     json.member( "inv", inv );
+}
+
+void mon_special_attack::serialize(JsonOut &json) const
+{
+    json.start_object();
+    json.member("cooldown",cooldown);
+    json.member("enabled",enabled);
+    json.end_object();
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1257,7 +1303,6 @@ void item::io( Archive& archive )
     archive.io( "components", components, io::empty_default_tag() );
     archive.template io<const itype>( "curammo", curammo, load_curammo, []( const itype& i ) { return i.id; } );
     archive.template io<const mtype>( "corpse", corpse, load_corpse, []( const mtype& i ) { return i.id.str(); } );
-    archive.io( "covers", covered_bodyparts, io::default_tag() );
     archive.io( "light", light.luminance, nolight.luminance );
     archive.io( "light_width", light.width, nolight.width );
     archive.io( "light_dir", light.direction, nolight.direction );
@@ -1292,15 +1337,6 @@ void item::io( Archive& archive )
     if( archive.read( "mode", mode ) ) {
         // only for backward compatibility (nowadays mode is stored in item_vars)
         set_gun_mode( mode );
-    }
-
-    const auto armor = type->armor.get();
-    if( armor != nullptr && covered_bodyparts.none() ) {
-        // Fix armor that had no body_part covered, but its type definition says it should
-        covered_bodyparts = armor->covers;
-        if (armor->sided.any()) {
-            make_handed( one_in( 2 ) ? LEFT : RIGHT );
-        }
     }
 }
 
@@ -1451,6 +1487,15 @@ void vehicle::deserialize(JsonIn &jsin)
 
     data.read("parts", parts);
 
+    // we persist the pivot anchor so that if the rules for finding
+    // the pivot change, existing vehicles do not shift around.
+    // Loading vehicles that predate the pivot logic is a special
+    // case of this, they will load with an anchor of (0,0) which
+    // is what they're expecting.
+    data.read("pivot", pivot_anchor[0]);
+    pivot_anchor[1] = pivot_anchor[0];
+    pivot_rotation[1] = pivot_rotation[0] = fdir;
+
     // Need to manually backfill the active item cache since the part loader can't call its vehicle.
     for( auto cargo_index : all_parts_with_feature(VPFLAG_CARGO, true) ) {
         auto it = parts[cargo_index].items.begin();
@@ -1466,6 +1511,12 @@ void vehicle::deserialize(JsonIn &jsin)
     if ( savegame_loading_version < 11 ) {
         add_missing_frames();
     }
+
+    // Handle steering changes
+    if (savegame_loading_version < 25) {
+        add_steerable_wheels();
+    }
+
     refresh();
 
     data.read("tags", tags);
@@ -1528,6 +1579,7 @@ void vehicle::serialize(JsonOut &json) const
     json.member("plow_on",plow_on);
     json.member("reaper_on",reaper_on);
     json.member("planter_on",planter_on);
+    json.member("pivot",pivot_anchor[0]);
     json.end_object();
 }
 

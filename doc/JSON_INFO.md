@@ -16,7 +16,19 @@
 * mutations.json     - traits/mutations
 * vehicle_groups.json - vehicle spawn groups
 * vehicle_parts.json - vehicle parts, does NOT affect flag effects
-* vehicles.json      - vehicle definitions
+
+##raw/vehicles
+groups of vehicle definitions with self-explanatory names of files:
+* bikes.json
+* cars.json
+* carts.json
+* emergency.json
+* farm.json
+* military.json
+* trucks.json
+* utility.json
+* vans_busses.json
+* vehicles.json
 
 ##raw/items
 * archery.json       - bows and arrows
@@ -99,7 +111,7 @@ The syntax listed here is still valid.
   { "monster" : "mon_ant_soldier", "freq" : 90, "multiplier" : 5 }, // the default monster will fill in the remaining. "multiplier" increases
   { "monster" : "mon_ant_queen", "freq" : 0, "multiplier" : 0 }     // how much each monster counts for in a spawn group (i.e. will spawn 5 larva or 1 soldier)
   { "monster" : "mon_thing",              // Monsters id
-    "freq" : 100,                         // Chance of occurence, out of a thousand
+    "freq" : 100,                         // Chance of occurrence, out of a thousand
     "multiplier" : 0,                     // How many monsters each monster in this definition should count as, if spawning a limited number of monsters
     // The minimum and maximum number of monsters in this group that should spawn together. Optional, defaults [1,1]
     "pack_size" : [3,5],                    
@@ -254,6 +266,8 @@ The syntax listed here is still valid.
 "points": 2,         // Point cost of the trait. Positive values cost points and negative values give points
 "visibility": 0,     // Visibility of the trait for purposes of NPC interaction (default: 0)
 "ugliness": 0,       // Ugliness of the trait for purposes of NPC interaction (default: 0)
+"bodytemp_modifiers" : [100, 150], // Range of additional bodytemp units (these units are described in 'weather.h'. First value is used if the person is already overheated, second one if it's not.
+"bodytemp_sleep" : 50, // Additional units of bodytemp which are applied when sleeping
 "initial_ma_styles": [ "style_crane" ], // (optional) A list of ids of martial art styles of which the player can choose one when starting a game.
 "mixed_effect": false, // Wheather the trait has both positive and negative effects. This is purely declarative and is only used for the user interface. (default: false)
 "description": "Nothing gets you down!" // In-game description
@@ -307,11 +321,11 @@ The syntax listed here is still valid.
 ```
 ###VEHICLE PLACEMENT
 ```C++
-"id":"road_straight_wrecks",            // Unique ID. Must be one continuous word, use underscores if necessary
-"locations":[ {                 // List of potential vehicle locations. When this placement is used, one of those locations will be chosen at random.
-  "x" : [0,19],           //    The x placement. Can be a single value or a range of possibilities.
-  "y" : 8,          //    The y placement. Can be a single value or a range of possibilities.
-  "facing" : [90,270] // The facing of the vehicle. Can be a single value or an array of possible values.
+"id":"road_straight_wrecks",  // Unique ID. Must be one continuous word, use underscores if necessary
+"locations":[ {               // List of potential vehicle locations. When this placement is used, one of those locations will be chosen at random.
+  "x" : [0,19],               // The x placement. Can be a single value or a range of possibilities.
+  "y" : 8,                    // The y placement. Can be a single value or a range of possibilities.
+  "facing" : [90,270]         // The facing of the vehicle. Can be a single value or an array of possible values.
 } ]
 ```
 ###VEHICLE SPAWN
@@ -355,13 +369,13 @@ The syntax listed here is still valid.
 "price" : 500,        // Used when bartering with NPC's
 "name" : "birdshot",  // In-game name displayed
 "symbol" : "=",       // ASCII character used in-game
-"color" : "red",      // ASCII character colour
+"color" : "red",      // ASCII character color
 "description" : "Weak shotgun ammunition. Designed for hunting birds and other small game, its applications in combat are very limited.", // In-game description
 "material" : "plastic", // Material types.  See materials.json for possible options
 "volume" : 2,         // Volume, measured in 1/4 liters
-"weight" : 34,        // Weight, measuted in grams
+"weight" : 34,        // Weight, measured in grams
 "bashing" : 1,        // Bashing damage caused by using it as a melee weapon
-"cutting" : 0,        // Cutting damage caused by using it as a melee weapon
+"cutting" : 0,        // Cutting damage caused by using it as a melee weapon (optional parameter, default value is 0).
 "to_hit" : 0,         // To-hit bonus if using it as a melee weapon
 "ammo_type" : "shot", // Determines what it can be loaded in
 "damage" : 18,        // Ranged damage when fired
@@ -379,12 +393,12 @@ The syntax listed here is still valid.
 "id" : "socks",       // Unique ID. Must be one continuous word, use underscores if necessary
 "name" : "socks",     // The name appearing in the examine box.  Can be more than one word separated by spaces
 "weight" : 350,       // Weight of the item in grams
-"color" : "blue",     // ASCII character colour
+"color" : "blue",     // ASCII character color
 "to_hit" : 0,         // To-hit bonus if using it as a melee weapon (whatever for?)
 "symbol" : "[",       // ASCII character used in-game
 "description" : "Socks. Put 'em on your feet.", // Description of the item
 "price" : 100,        // Used when bartering with NPCs
-"material" : ["COTTON"],    // Material types, can abe as many as you want.  See materials.json for possible options
+"material" : ["COTTON"],    // Material types, can be as many as you want.  See materials.json for possible options
 "volume" : 1,         // Volume, measured in 1/4 liters
 "cutting" : 0,        // Cutting damage caused by using it as a melee weapon
 "phase" : "solid",    // What phase it is
@@ -401,9 +415,9 @@ Armor can be define like this:
 "storage" : 0,        // How many volume storage slots it adds
 "warmth" : 10,        // How much warmth clothing provides
 "environmental_protection" : 0,  // How much environmental protection it affords
-"encumberance" : 0,   // Base encumbrance (unfitted value)
+"encumbrance" : 0,   // Base encumbrance (unfitted value)
 "coverage" : 80,      // What percentage of body part
-"material_thickness" : 1  // Thickness of material, in millimetre units (approximately).  Generally ranges between 1 - 5, more unusual armour types go up to 10 or more
+"material_thickness" : 1  // Thickness of material, in millimetre units (approximately).  Generally ranges between 1 - 5, more unusual armor types go up to 10 or more
 "power_armor" : false, // If this is a power armor item (those are special).
 ```
 Alternately, every item (book, tool, gun, even food) can be used as armor if it has armor_data:
@@ -415,7 +429,7 @@ Alternately, every item (book, tool, gun, even food) can be used as armor if it 
     "storage" : 0,
     "warmth" : 10,
     "environmental_protection" : 0,
-    "encumberance" : 0,
+    "encumbrance" : 0,
     "coverage" : 80,
     "material_thickness" : 1
     "power_armor" : false
@@ -472,7 +486,7 @@ Never use `yellow` and `red`, those colors are reserved for sounds and infrared 
 "id" : "crack",       // Unique ID. Must be one continuous word, use underscores if necessary
 "name" : "crack",     // In-game name displayed
 "weight" : 1,         // Weight, measured in grams
-"color" : "white",    // ASCII character colour
+"color" : "white",    // ASCII character color
 "addiction_type" : "crack", // Addiction type
 "spoils_in" : 0,      // How long a comestible is good for. 0 = no spoilage
 "use_action" : "CRACK", // What effects a comestible has when used, see special definitions below
@@ -516,12 +530,12 @@ Alternately, every item can be used as container:
 }
 ```
 This defines a armor (you need to add all the armor specific entries), but makes it usable as container.
-It could also be written as a generic item ("tpye": "GENERIC") with "armor_data" and "container_data" entries.
+It could also be written as a generic item ("type": "GENERIC") with "armor_data" and "container_data" entries.
 ###MELEE
 ```C++
 "id": "hatchet",      // Unique ID. Must be one continuous word, use underscores if necessary
 "symbol": ";",        // ASCII character used in-game
-"color": "light_gray", // ASCII character colour
+"color": "light_gray", // ASCII character color
 "name": "hatchet",    // In-game name displayed
 "description": "A one-handed hatchet. Makes a great melee weapon, and is useful both for cutting wood, and for use as a hammer.", // In-game description
 "price": 95,          // Used when bartering with NPCs
@@ -573,7 +587,7 @@ Alternately, every item (book, tool, armor, even food) can be used as gun if it 
 "id": "torch_lit",    // Unique ID. Must be one continuous word, use underscores if necessary
 "type": "TOOL",       // Defines this as a TOOL
 "symbol": "/",        // ASCII character used in-game
-"color": "brown",     // ASCII character colour
+"color": "brown",     // ASCII character color
 "name": "torch (lit)", // In-game name displayed
 "description": "A large stick, wrapped in gasoline soaked rags. This is burning, producing plenty of light", // In-game description
 "price": 0,           // Used when bartering with NPCs
@@ -614,6 +628,103 @@ Every item type can have optional seed data, if the item has seed data, it's con
                 // A value 91 means 3 full seasons, a value of 30 would mean 1 season.
 }
 ```
+
+###ARTIFACT DATA
+Every item type can have optional artifact properties (which makes it an artifact):
+```JSON
+"artifact_data" : {
+    "charge_type": "ARTC_PAIN",
+    "effects_carried": ["AEP_INT_DOWN"],
+    "effects_wielded": ["AEP_DEX_UP"],
+    "effects_activated": ["AEA_BLOOD", "AEA_NOISE"],
+    "effects_worn": ["AEP_STR_UP"]
+}
+```
+
+#### charge_type
+(optional, default: "ARTC_NULL") How the item is recharged. For this to work, the item needs to be a tool that consumes charges upon invocation and has non-zero max_charges. Possible values (see src/artifact.h for an up-to-date list):
+- "ARTC_NULL" Never recharges!
+- "ARTC_TIME" Very slowly recharges with time
+- "ARTC_SOLAR" Recharges in sunlight
+- "ARTC_PAIN" Creates pain to recharge
+- "ARTC_HP" Drains HP to recharge
+
+#### effects_carried
+(optional, default: empty list) Effects of the artifact when it's in the inventory (main inventory, wielded, or worn) of the player. Possible values (see src/enums.h for an up-to-date list):
+- "AEP_STR_UP" Strength + 4
+- "AEP_DEX_UP" Dexterity + 4
+- "AEP_PER_UP" Perception + 4
+- "AEP_INT_UP" Intelligence + 4
+- "AEP_ALL_UP" All stats + 2
+- "AEP_SPEED_UP" +20 speed
+- "AEP_IODINE" Reduces radiation
+- "AEP_SNAKES" Summons friendly snakes when you're hit
+- "AEP_INVISIBLE" Makes you invisible
+- "AEP_CLAIRVOYANCE" See through walls
+- "AEP_SUPER_CLAIRVOYANCE" See through walls to a great distance
+- "AEP_STEALTH" Your steps are quieted
+- "AEP_EXTINGUISH" May extinguish nearby flames
+- "AEP_GLOW" Four-tile light source
+- "AEP_PSYSHIELD" Protection from stare attacks
+- "AEP_RESIST_ELECTRICITY" Protection from electricity
+- "AEP_CARRY_MORE" Increases carrying capacity by 200
+- "AEP_SAP_LIFE" Killing non-zombie monsters may heal you
+- "AEP_HUNGER" Increases hunger
+- "AEP_THIRST" Increases thirst
+- "AEP_SMOKE" Emits smoke occasionally
+- "AEP_EVIL" Addiction to the power
+- "AEP_SCHIZO" Mimicks schizophrenia
+- "AEP_RADIOACTIVE" Increases your radiation
+- "AEP_MUTAGENIC" Mutates you slowly
+- "AEP_ATTENTION" Draws netherworld attention slowly
+- "AEP_STR_DOWN" Strength - 3
+- "AEP_DEX_DOWN" Dex - 3
+- "AEP_PER_DOWN" Per - 3
+- "AEP_INT_DOWN" Int - 3
+- "AEP_ALL_DOWN" All stats - 2
+- "AEP_SPEED_DOWN" -20 speed
+- "AEP_FORCE_TELEPORT" Occasionally force a teleport
+- "AEP_MOVEMENT_NOISE" Makes noise when you move
+- "AEP_BAD_WEATHER" More likely to experience bad weather
+- "AEP_SICK" Decreases health over time
+
+#### effects_worn
+(optional, default: empty list) Effects of the artifact when it's worn (it must be an armor item to be worn). Possible values are the same as for effects_carried.
+
+#### effects_wielded
+(optional, default: empty list) Effects of the artifact when it's wielded. Possible values are the same as for effects_carried.
+
+#### effects_activated
+(optional, default: empty list) Effects of the artifact when it's activated (which require it to have a `"use_action": "ARTIFACT"` and it must have a non-zero max_charges value). Possible values (see src/artifact.h for an up-to-date list):
+- "AEA_STORM" Emits shock fields
+- "AEA_FIREBALL" Targeted
+- "AEA_ADRENALINE" Adrenaline rush
+- "AEA_MAP" Maps the area around you
+- "AEA_BLOOD" Shoots blood all over
+- "AEA_FATIGUE" Creates interdimensional fatigue
+- "AEA_ACIDBALL" Targeted acid
+- "AEA_PULSE" Destroys adjacent terrain
+- "AEA_HEAL" Heals minor damage
+- "AEA_CONFUSED" Confuses all monsters in view
+- "AEA_ENTRANCE" Chance to make nearby monsters friendly
+- "AEA_BUGS" Chance to summon friendly insects
+- "AEA_TELEPORT" Teleports you
+- "AEA_LIGHT" Temporary light source
+- "AEA_GROWTH" Grow plants, a la triffid queen
+- "AEA_HURTALL" Hurts all monsters!
+- "AEA_RADIATION" Spew radioactive gas
+- "AEA_PAIN" Increases player pain
+- "AEA_MUTATE" Chance of mutation
+- "AEA_PARALYZE" You lose several turns
+- "AEA_FIRESTORM" Spreads minor fire all around you
+- "AEA_ATTENTION" Attention from sub-prime denizens
+- "AEA_TELEGLOW" Teleglow disease
+- "AEA_NOISE" Loud noise
+- "AEA_SCREAM" Noise & morale penalty
+- "AEA_DIM" Darkens the sky slowly
+- "AEA_FLASH" Flashbang
+- "AEA_VOMIT" User vomits
+- "AEA_SHADOWS" Summon shadow creatures
 
 ###SOFTWARE DATA
 Every item type can have software data, it does not have any behavior:
@@ -784,6 +895,18 @@ The contents of use_action fields can either be a string indicating a built-in f
         "You play a beautiful piece on your flute.",
         "You play a piece on your flute that sounds harmonious with nature."
     ]
+},
+"use_action": {
+    "type": "holster", // Holster or draw a weapon
+    "holster_prompt": "Holster item", // Prompt to use when selecting an item
+    "holster_msg": "You holster your %s", // Message to show when holstering an item
+    "max_volume": 6, // Maximum volume of each item that can be holstered
+    "min_volume": 3,  // Minimum volume of each item that can be holstered or 1/3 max_volume if unspecified
+    "max_weight": 2000, // Maximum weight of each item. If unspecified no weight limit is imposed
+    "multi": 1, // Total number of items that holster can contain
+    "draw_cost": 10, // Base move cost per unit volume when wielding the contained item
+    "skills": ["pistol", "shotgun"], // Guns using any of these skills can be holstered
+    "flags": ["SHEATH_KNIFE", "SHEATH_SWORD"] // Items with any of these flags set can be holstered
 },
 "use_action": {
     "type": "reveal_map", // reveal specific terrains on the overmap

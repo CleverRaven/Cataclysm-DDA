@@ -21,7 +21,8 @@
             { "group": "shirts", "damage": [1, 4]},
             { "group": "pants", "damage": [1, 4]},
             { "group": "shoes", "damage": [1, 4]},
-            { "group": "summoner_drops", "damage": [1, 4], "prob": 25 },
+            { "group": "summoner_drops", "prob": 25 },
+            { "group": "magic_consumables", "prob": 10 },
             { "item": "corpse"}
         ]
   },{
@@ -153,7 +154,7 @@
                 },
                 "Z": {
                     "items": { "item": "bed", "chance": 60 },
-                    "furniture": "f_desk"
+                    "furniture": "f_bed"
                 },
                 "r": {
                     "items": { "item": "summoner_drops", "chance": 40 },

@@ -226,7 +226,22 @@
             "type": "extended_firestarter"
     }
   },
-
+  {
+    "type":"GENERIC",
+    "id": "electrohack",
+    "symbol": ",",
+    "color": "green",
+    "name": "electrohack",
+    "category" : "tools",
+    "description": "This device has many ports attached, allowing it to connect to almost any control panel or other electronic machine (but not computers).  With a little skill, it can be used to crack passwords and more.",
+    "price": 40000,
+    "material": ["plastic", "aluminum"],
+    "weight": 114,
+    "volume": 2,
+    "bashing": 5,
+    "cutting": 0,
+    "to_hit": 1
+  },
   {
     "id": "magnifying_glass",
     "type": "TOOL",
@@ -254,7 +269,28 @@
             "need_sunlight": true
     }
   },
-
+  {
+    "id": "survivor_scope",
+    "type": "TOOL",
+    "symbol": "o",
+    "color": "dark_green",
+    "name": "survivor telescope",
+    "name_plural": "survivor telescopes",
+    "description": "A homemade collapsible telescope. Too large and inaccurate to use as a weapon scope, but carrying this item in your inventory will double the distance that is mapped around you during your travels.",
+    "price": 600,
+    "material": ["glass", "plastic"],
+    "weight": 500,
+    "volume": 1,
+    "bashing": 0,
+    "cutting": -5,
+    "to_hit": -1,
+    "ammo": "NULL",
+    "revert_to": "null",
+    "max_charges": 0,
+    "initial_charges": 0,
+    "charges_per_use": 0,
+    "turns_per_charge": 0
+  },
   {
     "id": "rock_quern",
     "type": "TOOL",
@@ -297,11 +333,22 @@
     "turns_per_charge": 0,
     "ammo": "thread",
     "revert_to": "null",
-    "use_action": "SEW"
+    "use_action": {
+        "type": "repair_item",
+        "item_action_type" : "repair_fabric",
+        "materials": [
+            "cotton", "leather", "wool", "fur", "nomex"
+        ],
+        "skill": "tailor",
+        "cost_scaling": 0,
+        "tool_quality": 0,
+        "move_cost": 1000
+    }
   },
 
   {
     "id": "tailors_kit",
+    "sub": "sewing_kit",
     "type": "TOOL",
     "symbol": ";",
     "color": "red",
@@ -320,7 +367,19 @@
     "turns_per_charge": 0,
     "ammo": "thread",
     "revert_to": "null",
-    "use_action": "SEW_ADVANCED",
+    "use_action": [
+        {
+            "type": "repair_item",
+            "item_action_type" : "repair_fabric",
+            "materials": [
+                "cotton", "leather", "wool", "fur", "nomex"
+            ],
+            "skill": "tailor",
+            "cost_scaling": 0,
+            "tool_quality": 1,
+            "move_cost": 800
+        },
+        "SEW_ADVANCED" ],
     "qualities": [["CUT", 1]]
   },
 
@@ -370,6 +429,7 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
+    "flags": ["BELT_CLIP"],
     "use_action": "HAMMER",
     "qualities": [["HAMMER", 3], ["HAMMER_FINE", 1]]
   },
@@ -379,13 +439,13 @@
     "type": "TOOL",
     "symbol": ";",
     "color": "red",
-    "name": "fire extinguisher",
-    "description": "This is a large emergency fire extinguisher.  It would be useful for putting out adjacent fires.",
+    "name": "large fire extinguisher",
+    "description": "This is an emergency fire extinguisher containing three gallons of fire retardant foam.  It would be useful for putting out adjacent fires.",
     "price": 5000,
-    "material": "aluminum",
-    "weight": 9100,
-    "volume": 8,
-    "bashing": 13,
+    "material": "steel",
+    "weight": 9071,
+    "volume": 46,
+    "bashing": 16,
     "cutting": 0,
     "to_hit": -4,
     "max_charges": 60,
@@ -421,6 +481,49 @@
     "qualities": [["CUT", 1], ["BUTCHER", 3]]
   },
   {
+    "id": "chipper",
+    "type": "TOOL",
+    "symbol": ";",
+    "color": "brown",
+    "name": "paint chipper",
+    "description": "A tool similar to a chisel, designed to remove paint.",
+    "price": 7000,
+    "material": ["steel", "wood"],
+    "weight": 60,
+    "volume": 2,
+    "bashing": 0,
+    "cutting": 2,
+    "to_hit": 1,
+    "max_charges": 0,
+    "initial_charges": 0,
+    "charges_per_use": 0,
+    "turns_per_charge": 0,
+    "ammo": "NULL",
+    "revert_to": "null"
+},
+{
+    "id": "paint_brush",
+    "type": "TOOL",
+    "symbol": ";",
+    "color": "brown",
+    "name": "paint brush",
+    "name_plural": "paint brushes",
+    "description": "A wide brush, suitable for painting walls.",
+    "price": 7000,
+    "material": ["wood", "null"],
+    "weight": 60,
+    "volume": 2,
+    "bashing": 0,
+    "cutting": 0,
+    "to_hit": 1,
+    "max_charges": 0,
+    "initial_charges": 0,
+    "charges_per_use": 0,
+    "turns_per_charge": 0,
+    "ammo": "NULL",
+    "revert_to": "null"
+},
+  {
     "id": "oxygen_tank",
     "type": "TOOL",
     "symbol": ";",
@@ -428,9 +531,9 @@
     "name": "oxygen tank",
     "description": "This is tank of compressed medical oxygen with a regulator and mask.  Commonly used in emergency situations, it provides immediate relief for asthma attacks or smoke inhalation, and can provide a brief burst of energy.",
     "price": 6000,
-    "material": ["aluminum", "plastic"],
-    "weight": 3200,
-    "volume": 8,
+    "material": ["steel", "plastic"],
+    "weight": 2268,
+    "volume": 6,
     "bashing": 10,
     "cutting": 0,
     "to_hit": -4,
@@ -447,13 +550,13 @@
     "id": "smoxygen_tank",
     "type": "TOOL",
     "symbol": ";",
-    "color": "red",
+    "color": "light_gray",
     "name": "emergency oxygen pack",
     "description": "This is a small tank of compressed medical oxygen with a folding regulator and mask.  Commonly used in emergency situations, it provides immediate relief for asthma attacks or smoke inhalation, and can provide a brief burst of energy.",
     "price": 4000,
-    "material": ["plastic", "aluminum"],
-    "weight": 1740,
-    "volume": 4,
+    "material": ["aluminum", "plastic"],
+    "weight": 1134,
+    "volume": 3,
     "bashing": 6,
     "cutting": 0,
     "to_hit": -3,
@@ -718,7 +821,7 @@
     "ammo": "battery",
     "revert_to": "electric_lantern",
     "use_action": {
-        "type": "auto_transform",
+        "type": "transform",
         "target": "electric_lantern",
         "msg": "The lantern is extinguished."
     }
@@ -731,7 +834,7 @@
     "color": "blue",
     "name": "flashlight (off)",
     "name_plural": "flashlights (off)",
-    "description": "This is a heavy duty LED flashlight.  Using this flashlight will turn it on and provide light, assuming it is charged with batteries.",
+    "description": "This is a typical household flashlight with a plastic handle. Using this flashlight will turn it on and provide light, assuming it is charged with batteries.",
     "price": 500,
     "material": ["plastic", "aluminum"],
     "weight": 400,
@@ -762,10 +865,10 @@
     "color": "blue",
     "name": "flashlight (on)",
     "name_plural": "flashlights (on)",
-    "description": "This is a heavy duty LED flashlight.  This flashlight is turned on, and continually draining its batteries.  Use it to turn it off.",
+    "description": "This is a typical household flashlight with a plastic handle. This flashlight is turned on, and continually draining its batteries.  Use it to turn it off.",
     "price": 500,
     "material": ["plastic", "aluminum"],
-    "flags": [ "LIGHT_450", "CHARGEDIM" ],
+    "flags": [ "LIGHT_300", "CHARGEDIM" ],
     "weight": 400,
     "volume": 2,
     "bashing": 1,
@@ -774,13 +877,73 @@
     "max_charges": 100,
     "initial_charges": 100,
     "charges_per_use": 0,
-    "turns_per_charge": 15,
+    "turns_per_charge": 20,
     "ammo": "battery",
     "revert_to": "flashlight",
     "use_action": {
-        "type": "auto_transform",
+        "type": "transform",
         "msg": "You turn the flashlight off.",
         "target": "flashlight"
+    }
+  },
+
+  {
+    "id": "heavy_flashlight",
+    "type": "TOOL",
+    "symbol": ";",
+    "color": "blue",
+    "name": "heavy duty flashlight (off)",
+    "name_plural": "heavy duty flashlights (off)",
+    "description": "This is a heavy duty tubular aluminium LED flashlight as often used by security guards. Makes for a passable melee weapon. Using this flashlight will turn it on and provide light, assuming it is charged with batteries.",
+    "price": 950,
+    "material": ["aluminum"],
+    "weight": 650,
+    "volume": 3,
+    "bashing": 8,
+    "cutting": 0,
+    "to_hit": 2,
+    "max_charges": 200,
+    "initial_charges": 200,
+    "charges_per_use": 1,
+    "turns_per_charge": 0,
+    "ammo": "battery",
+    "revert_to": "null",
+    "use_action": {
+        "type": "transform",
+        "msg": "You turn the heavy duty flashlight on.",
+        "target": "heavy_flashlight_on",
+        "active": true,
+        "need_charges": 1,
+        "need_charges_msg": "The heavy duty flashlight's batteries are dead."
+    }
+  },
+
+  {
+    "id": "heavy_flashlight_on",
+    "type": "TOOL",
+    "symbol": ";",
+    "color": "blue",
+    "name": "heavy duty flashlight (on)",
+    "name_plural": "heavy duty flashlights (on)",
+    "description": "This is a heavy duty tubular aluminium LED flashlight as often used by security guards. Makes for a passable melee weapon. This flashlight is turned on, and continually draining its batteries.  Use it to turn it off.",
+    "price": 950,
+    "material": ["aluminum"],
+    "flags": [ "LIGHT_500", "CHARGEDIM" ],
+    "weight": 650,
+    "volume": 3,
+    "bashing": 8,
+    "cutting": 0,
+    "to_hit": 2,
+    "max_charges": 200,
+    "initial_charges": 200,
+    "charges_per_use": 0,
+    "turns_per_charge": 12,
+    "ammo": "battery",
+    "revert_to": "heavy_flashlight",
+    "use_action": {
+        "type": "transform",
+        "msg": "You turn the heavy duty flashlight off.",
+        "target": "heavy_flashlight"
     }
   },
 
@@ -1126,7 +1289,7 @@
     "symbol": ";",
     "color": "light_gray",
     "name": "soda can stove kit",
-    "description": "This is an ultra-light alcohol-burning stove with simmer ring, crafted by hand from a couple of aluminum soda cans. It comes with a 500ml plastic bottle to hold concentrated alcohol fuel.",
+    "description": "This is an ultra-light alcohol-burning stove with simmer ring, crafted by hand from a couple of aluminum soda cans.  It comes with a 500 ml plastic bottle to hold concentrated alcohol fuel.",
     "price" : 250,
     "material" : "aluminum",
     "weight": 45,
@@ -1212,6 +1375,195 @@
     "revert_to": "null",
     "use_action": "HOTPLATE",
     "qualities": [["BOIL", 1]]
+  },
+  {
+    "type":"GENERIC",
+    "id": "atomic_coffeepot",
+    "category" : "tools",
+    "symbol": ",",
+    "color": "light_green",
+    "name": "atomic coffee maker",
+    "description": "Never sacrifice taste for convenience, when you can have both with the Rivtech atomic coffee maker! Its simple and robust atomic-age construction guarantees a service life of at least 160 million years.",
+    "price": 100000,
+    "material": ["plastic", "aluminum"],
+    "flags": ["LEAK_DAM", "RADIOACTIVE", "DURABLE_MELEE"],
+    "weight": 4102,
+    "volume": 3,
+    "bashing": 5,
+    "cutting": 0,
+    "to_hit": -2,
+    "use_action": "HOTPLATE",
+    "qualities": [["BOIL", 1]]
+  },
+  {
+    "type":"GENERIC",
+    "id": "rock_pot",
+    "category" : "tools",
+    "symbol": ";",
+    "color": "dark_gray",
+    "name": "stone pot",
+    "description": "A large stone, roughly hollowed out into a pot.",
+    "price": 0,
+    "material": "stone",
+    "weight": 1500,
+    "volume": 10,
+    "bashing": 4,
+    "cutting": 0,
+    "to_hit": -1,
+    "qualities": [["COOK", 3], ["BOIL", 2], ["CONTAIN", 1], ["CHEM", 1]]
+  },
+  {
+    "type":"GENERIC",
+    "id": "pot_copper",
+    "symbol": ")",
+    "color": "light_red",
+    "name": "copper pot",
+    "description": "Useful for boiling water when cooking spaghetti and more.  Made from copper, with a lining of tin to prevent metal from leaching into acidic foods.",
+    "price": 4500,
+    "material": "copper",
+    "weight": 1090,
+    "volume": 8,
+    "bashing": 6,
+    "cutting": 0,
+    "category" : "tools",
+    "to_hit": 1,
+    "qualities": [["COOK", 3], ["BOIL", 2], ["CONTAIN", 1], ["CHEM", 1]]
+  },
+  {
+    "type":"GENERIC",
+    "id": "pot",
+    "symbol": ")",
+    "color": "light_gray",
+    "name": "pot",
+    "description": "Useful for boiling water when cooking spaghetti and more.",
+    "price": 4500,
+    "material": "steel",
+    "weight": 550,
+    "volume": 8,
+    "bashing": 6,
+    "cutting": 0,
+    "category" : "tools",
+    "to_hit": 1,
+    "qualities": [["COOK", 3], ["BOIL", 2], ["CONTAIN", 1], ["CHEM", 1]]
+  },
+  {
+    "type":"GENERIC",
+    "id": "pan",
+    "symbol": ")",
+    "color": "dark_gray",
+    "name": "frying pan",
+    "description": "A cast-iron pan.  Makes a decent melee weapon, and is used for cooking.",
+    "price": 3000,
+    "material": "iron",
+    "weight": 2628,
+    "volume": 4,
+    "bashing": 10,
+    "cutting": 0,
+    "category" : "tools",
+    "to_hit": 2,
+    "qualities": [["COOK", 2], ["BOIL", 2], ["CONTAIN", 1]]
+  },
+  {
+    "type":"GENERIC",
+    "id": "waffleiron",
+    "symbol": ")",
+    "color": "dark_gray",
+    "name": "waffle iron",
+    "description": "A waffle iron.  For making waffles.",
+    "price": 2000,
+    "material": "iron",
+    "weight": 2628,
+    "volume": 4,
+    "bashing": 10,
+    "cutting": 0,
+    "category" : "tools",
+    "to_hit": 2
+  },
+  {
+    "type":"GENERIC",
+    "id": "pastaextruder",
+    "symbol": ")",
+    "color": "dark_gray",
+    "name": "pasta extruder",
+    "description": "A pasta extruder run by a hand-crank.  Useful in making pasta.  It comes with various heads to make various kinds of pasta.",
+    "price": 2000,
+    "material": "iron",
+    "weight": 2628,
+    "volume": 4,
+    "bashing": 10,
+    "cutting": 0,
+    "category" : "tools",
+    "to_hit": 2
+  },
+  {
+    "type":"GENERIC",
+    "id": "teapot",
+    "symbol": ")",
+    "color": "dark_gray",
+    "name": "teapot",
+    "description": "A small metal teapot.  Teatime wouldn't be complete without one.",
+    "price": 1000,
+    "material": "steel",
+    "weight": 229,
+    "volume": 2,
+    "bashing": 3,
+    "cutting": 0,
+    "category" : "tools",
+    "to_hit": 2,
+    "qualities": [["BOIL", 1]]
+  },
+  {
+    "type":"GENERIC",
+    "category" : "tools",
+    "id" : "distaff_spindle",
+    "name" : "distaff and spindle",
+    "name_plural" : "distaves and spindles",
+    "description" : "A pair of specialized wooden rods used to spin fibers into thread and yarn.",
+    "weight" : 612,
+    "to_hit" : 1,
+    "color" : "brown",
+    "symbol" : "/",
+    "material" : ["wood", "null"],
+    "techniques" : ["WBLOCK_1"],
+    "volume" : 6,
+    "bashing" : 4,
+    "cutting" : 0,
+    "price" : 7000
+  },
+  {
+    "type":"GENERIC",
+    "category" : "tools",
+    "id" : "carding_paddles",
+    "name" : "carding paddles",
+    "name_plural" : "pairs of carding paddles",
+    "description" : "A pair of toothy wooden paddles used to clean fibers for use in textile production.",
+    "weight" : 360,
+    "to_hit" : 1,
+    "color" : "brown",
+    "symbol" : ";",
+    "material" : ["wood", "null"],
+    "volume" : 2,
+    "bashing" : 3,
+    "cutting" : 0,
+    "price" : 3000
+  },
+  {
+    "type":"GENERIC",
+    "category" : "tools",
+    "id": "knitting_needles",
+    "symbol": ",",
+    "color": "brown",
+    "name": "knitting needles",
+    "name_plural" : "pairs of knitting needles",
+    "description": "A pair of stout wooden needles with round ends used to turn thread and yarn into cloth.",
+    "price": 600,
+    "material": "wood",
+    "weight": 56,
+    "volume": 0,
+    "bashing": 0,
+    "cutting": 1,
+    "to_hit": 0,
+    "flags" : ["STAB"]
   },
   {
     "type":"TOOL",
@@ -1301,7 +1653,16 @@
     "ammo": "battery",
     "revert_to": "null",
     "use_action": [
-        "SOLDER_WELD",
+        {
+            "type": "repair_item",
+            "item_action_type" : "repair_metal",
+            "materials": [
+                "kevlar", "plastic", "iron", "steel", "hardsteel", "aluminum", "copper"
+            ],
+            "skill": "mechanics",
+            "cost_scaling": 0.25,
+            "move_cost": 1500
+        },
         {
             "type": "cauterize",
             "flame": false
@@ -1680,6 +2041,7 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
+    "flags": ["BELT_CLIP"],
     "use_action": "CROWBAR"
   },
 
@@ -1693,7 +2055,7 @@
     "price": 7500,
     "material": "steel",
     "techniques": ["WIDE", "BRUTAL"],
-    "flags" : ["DURABLE_MELEE"],
+    "flags" : ["DURABLE_MELEE", "BELT_CLIP"],
     "weight": 3600,
     "volume": 5,
     "bashing": 20,
@@ -1728,6 +2090,7 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
+    "flags": ["BELT_CLIP"],
     "use_action": "CROWBAR"
   },
 
@@ -3271,7 +3634,16 @@
     "ammo": "NULL",
     "revert_to": "null",
     "category": "weapons",
-    "use_action": "MOLOTOV"
+    "use_action": {
+        "type": "transform",
+        "target": "molotov_lit",
+        "target_charges": 1,
+        "active": true,
+        "need_fire": 1,
+        "need_fire_msg": "You need a source of fire!",
+        "msg": "You light the Molotov cocktail.",
+        "moves": 75
+    }
   },
 
   {
@@ -4425,7 +4797,17 @@
     "ammo": "battery",
     "revert_to": "null",
     "use_action": [
-        "SOLDER_WELD",
+        {
+            "type": "repair_item",
+            "item_action_type" : "repair_metal",
+            "materials": [
+                "kevlar", "plastic", "iron", "steel", "hardsteel", "aluminum", "copper"
+            ],
+            "skill": "mechanics",
+            "cost_scaling": 0.25,
+            "move_cost": 500,
+            "tool_quality": 3
+        },
         {
             "type": "cauterize",
             "flame": false
@@ -4588,8 +4970,8 @@
     "type": "TOOL",
     "symbol": "/",
     "color": "dark_gray",
-    "name": "No.  9 (off)",
-    "name_plural": "No.  9's (off)",
+    "name": "No. 9 (off)",
+    "name_plural": "No. 9's (off)",
     "description": "This huge steel knife has been modified with a fuel tank, insulated handguard, and ignition system.  When filled with gasoline, a system of torches heats the blade, burning your target.",
     "price": 28000,
     "material": "steel",
@@ -4629,8 +5011,8 @@
     "type": "TOOL",
     "symbol": "/",
     "color": "red",
-    "name": "No.  9 (on)",
-    "name_plural": "No.  9's (on)",
+    "name": "No. 9 (on)",
+    "name_plural": "No. 9's (on)",
     "description": "This huge steel knife has been modified with a fuel tank, insulated handguard, and ignition system.  The blade is glowing with heat, making it a great plant scorcher and nightlight.",
     "price": 28000,
     "material": "steel",
@@ -4737,7 +5119,7 @@
     "weight": 510,
     "volume": 4,
     "bashing": 4,
-    "cutting": 28,
+    "cutting": 32,
     "flags" : ["CHOP", "NON_STUCK", "DURABLE_MELEE", "SHEATH_SWORD"],
     "to_hit": 2,
     "max_charges": 0,
@@ -4764,7 +5146,7 @@
     "weight": 1100,
     "volume": 8,
     "bashing": 4,
-    "cutting": 46,
+    "cutting": 38,
     "to_hit": 1,
     "max_charges": 0,
     "initial_charges": 0,
@@ -4844,7 +5226,7 @@
     "weight": 835,
     "volume": 6,
     "bashing": 3,
-    "cutting": 28,
+    "cutting": 24,
     "to_hit": 1,
     "max_charges": 0,
     "initial_charges": 0,
@@ -4870,7 +5252,7 @@
     "weight": 1133,
     "volume": 8,
     "bashing": 4,
-    "cutting": 38,
+    "cutting": 31,
     "to_hit": 1,
     "max_charges": 0,
     "initial_charges": 0,
@@ -4894,10 +5276,10 @@
     "material": "steel",
     "flags": ["FIRE", "SLICE", "DURABLE_MELEE", "SHEATH_SWORD", "IAIJUTSU"],
     "techniques": ["RAPID", "WBLOCK_2"],
-    "weight": 2041,
-    "volume": 10,
+    "weight": 1400,
+    "volume": 9,
     "bashing": 4,
-    "cutting": 38,
+    "cutting": 31,
     "to_hit": 0,
     "max_charges": 50,
     "initial_charges": 0,
@@ -4933,10 +5315,10 @@
     "material": "steel",
     "flags": ["FIRE", "SLICE", "LIGHT_240", "CHARGEDIM", "FLAMING", "DURABLE_MELEE"],
     "techniques": ["RAPID", "WBLOCK_2"],
-    "weight": 2041,
-    "volume": 10,
+    "weight": 1400,
+    "volume": 9,
     "bashing": 4,
-    "cutting": 38,
+    "cutting": 31,
     "to_hit": 0,
     "max_charges": 50,
     "initial_charges": 0,
@@ -5030,10 +5412,10 @@
     "material": ["iron", "wood"],
     "techniques" : ["IMPALE", "WBLOCK_2"],
     "flags" : ["DURABLE_MELEE", "SPEAR", "REACH_ATTACK", "REACH3"],
-    "weight": 8000,
+    "weight": 6000,
     "volume": 14,
-    "bashing": 10,
-    "cutting": 30,
+    "bashing": 15,
+    "cutting": 45,
     "to_hit": 2,
     "max_charges": 0,
     "initial_charges": 0,
@@ -5086,7 +5468,7 @@
     "techniques": ["WBLOCK_1", "WIDE", "BRUTAL"],
     "weight": 3176,
     "volume": 13,
-    "bashing": 15,
+    "bashing": 17,
     "cutting": 40,
     "to_hit": 1,
     "max_charges": 0,
@@ -5114,7 +5496,7 @@
     "techniques": ["WBLOCK_1", "WIDE", "BRUTAL"],
     "weight": 3400,
     "volume": 15,
-    "bashing": 15,
+    "bashing": 17,
     "cutting": 40,
     "to_hit": 0,
     "max_charges": 50,
@@ -5154,7 +5536,7 @@
     "techniques": ["WBLOCK_1", "WIDE", "BRUTAL"],
     "weight": 3400,
     "volume": 15,
-    "bashing": 15,
+    "bashing": 17,
     "cutting": 40,
     "to_hit": 0,
     "max_charges": 50,
@@ -5542,7 +5924,7 @@
     "price": 20000,
     "material": ["steel", "wood"],
     "techniques": ["BRUTAL"],
-    "weight": 2720,
+    "weight": 2520,
     "volume": 8,
     "bashing": 20,
     "cutting": 20,
@@ -5564,13 +5946,13 @@
     "symbol": "/",
     "color": "light_gray",
     "name": "battle axe",
-    "description": "This is a massive axe designed for warfare.  Though intended for use as a weapon, it can also be pressed into service as a rather clumsy woodcutting tool.",
+    "description": "This is a huge axe designed for warfare.  Though intended for use as a weapon, it can also be pressed into service as a rather clumsy woodcutting tool.",
     "price": 40000,
     "material": ["steel", "wood"],
-    "weight": 3102,
-    "volume": 13,
+    "weight": 2002,
+    "volume": 10,
     "bashing": 20,
-    "cutting": 22,
+    "cutting": 30,
     "flags" : ["CHOP", "DURABLE_MELEE"],
     "to_hit": 1,
     "max_charges": 0,
@@ -6299,7 +6681,13 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
-    "use_action": "SPRAY_CAN"
+    "use_action": {
+        "type": "inscribe",
+        "verb": "Write",
+        "gerund": "Written",
+        "on_terrain": true,
+        "material_restricted": false
+    }
   },
 
   {
@@ -6322,7 +6710,13 @@
     "turns_per_charge": 0,
     "ammo": "NULL",
     "revert_to": "null",
-    "use_action": "SPRAY_CAN"
+    "use_action": {
+        "type": "inscribe",
+        "verb": "Write",
+        "gerund": "Written",
+        "on_terrain": true,
+        "material_restricted": false
+    }
   },
 
   {
@@ -6452,7 +6846,7 @@
     "ammo": "battery",
     "revert_to": "pda",
     "use_action": {
-        "type": "auto_transform",
+        "type": "transform",
         "msg": "The PDA screen goes blank.",
         "target": "pda"
     }
@@ -6534,11 +6928,12 @@
 
    {
     "id": "needle_bone",
+    "sub": "sewing_kit",
     "type": "TOOL",
     "symbol": ";",
     "color": "white",
     "name": "bone needle",
-    "description": "This is sharp needle made from a bone.  It would be useful for making rough clothing and items",
+    "description": "This is sharp needle made from a bone.  It would be useful for making rough clothing and items.  Its low quality makes it rather unsuitable for anything requiring speed or precision.",
     "price": 0,
     "material": "bone",
     "flags": "STAB",
@@ -6553,16 +6948,27 @@
     "turns_per_charge": 0,
     "ammo": "thread",
     "revert_to": "null",
-    "use_action": "SEW"
+    "use_action": {
+        "type": "repair_item",
+        "item_action_type" : "repair_fabric",
+        "materials": [
+            "cotton", "leather", "wool", "fur", "nomex"
+        ],
+        "skill": "tailor",
+        "cost_scaling": 0,
+        "tool_quality": -1,
+        "move_cost": 1300
+    }
   },
 
    {
     "id": "needle_wood",
+    "sub": "sewing_kit",
     "type": "TOOL",
     "symbol": ";",
     "color": "brown",
     "name": "wooden needle",
-    "description": "This is a wooden needle whittled down to a sharp point.  It has a narrow hole carved into the head for threading.",
+    "description": "This is a wooden needle whittled down to a sharp point.  It has a narrow hole carved into the head for threading.  Its low quality makes it rather unsuitable for anything requiring speed or precision.",
     "price": 0,
     "material": "wood",
     "flags": "STAB",
@@ -6577,7 +6983,17 @@
     "turns_per_charge": 0,
     "ammo": "thread",
     "revert_to": "null",
-    "use_action": "SEW"
+    "use_action": {
+        "type": "repair_item",
+        "item_action_type" : "repair_fabric",
+        "materials": [
+            "cotton", "leather", "wool", "fur", "nomex"
+        ],
+        "skill": "tailor",
+        "cost_scaling": 0,
+        "tool_quality": -1,
+        "move_cost": 1500
+    }
   },
 
   {
@@ -6972,7 +7388,7 @@
     "description": "This is a sealed glass jar containing human meat.  Use to open and eat to enjoy - if you really want to.",
     "price": 0,
     "material": ["glass", "hflesh"],
-    "weight": 502,
+    "weight": 565,
     "volume": 2,
     "bashing": 4,
     "cutting": 0,
@@ -6996,7 +7412,7 @@
     "description": "This is a sealed glass jar containing mixed vegetables.  Use to open and eat to enjoy.",
     "price": 650,
     "material": ["glass", "veggy"],
-    "weight": 504,
+    "weight": 500,
     "volume": 2,
     "bashing": 4,
     "cutting": 0,
@@ -7020,7 +7436,7 @@
     "description": "This is a sealed glass jar containing sliced fruits.  Use to open and eat to enjoy.",
     "price": 500,
     "material": ["glass", "veggy"],
-    "weight": 414,
+    "weight": 600,
     "volume": 2,
     "bashing": 4,
     "cutting": 0,
@@ -7034,7 +7450,7 @@
         "container": "jar_glass"
     }
   },
-  
+
   {
     "id": "jar_tomato_canned",
     "type": "GENERIC",
@@ -7045,7 +7461,7 @@
     "description": "This is a sealed glass jar containing tomatoes.  Use to open and eat to enjoy.",
     "price": 650,
     "material": ["glass", "veggy"],
-    "weight": 504,
+    "weight": 600,
     "volume": 2,
     "bashing": 4,
     "cutting": 0,
@@ -7068,7 +7484,7 @@
     "description": "This is a sealed glass jar containing pickled vegetables.  Use to open and eat to enjoy.",
     "price": 600,
     "material": ["glass", "veggy"],
-    "weight": 414,
+    "weight": 533,
     "volume": 2,
     "bashing": 4,
     "cutting": 0,
@@ -7081,7 +7497,7 @@
         "container": "jar_glass"
     }
   },
-  
+
   {
     "id": "jar_sauerkraut_pickled",
     "type": "GENERIC",
@@ -7092,7 +7508,7 @@
     "description": "This is a sealed glass jar containing sauerkraut.  Use to open and eat to enjoy.",
     "price": 650,
     "material": ["glass", "veggy"],
-    "weight": 504,
+    "weight": 550,
     "volume": 2,
     "bashing": 4,
     "cutting": 0,
@@ -7189,7 +7605,7 @@
     "description": "This is a sealed glass jar containing woods soup.  Use to open and eat to enjoy.",
     "price": 500,
     "material": ["glass", "flesh", "veggy"],
-    "weight": 552,
+    "weight": 650,
     "volume": 2,
     "bashing": 4,
     "cutting": 0,
@@ -7214,7 +7630,7 @@
     "description": "This is a sealed glass jar containing meat soup.  Use to open and eat to enjoy.",
     "price": 600,
     "material": ["glass", "flesh"],
-    "weight": 553,
+    "weight": 650,
     "volume": 2,
     "bashing": 4,
     "cutting": 0,
@@ -7239,7 +7655,7 @@
     "description": "This is a sealed glass jar containing fish soup.  Use to open and eat to enjoy.",
     "price": 600,
     "material": ["glass", "flesh"],
-    "weight": 553,
+    "weight": 650,
     "volume": 2,
     "bashing": 4,
     "cutting": 0,
@@ -7264,7 +7680,7 @@
     "description": "This is a sealed glass jar containing vegetable soup.  Use to open and eat to enjoy.",
     "price": 600,
     "material": ["glass", "veggy"],
-    "weight": 552,
+    "weight": 650,
     "volume": 2,
     "bashing": 4,
     "cutting": 0,
@@ -7289,7 +7705,7 @@
     "description": "This is a sealed glass jar containing sap soup.  Use to open and eat to enjoy.",
     "price": 0,
     "material": ["glass", "hflesh"],
-    "weight": 553,
+    "weight": 650,
     "volume": 2,
     "bashing": 4,
     "cutting": 0,
@@ -7312,9 +7728,9 @@
     "name": "sealed jar of broth",
     "name_plural": "sealed jars of broth",
     "description": "This is a sealed glass jar containing broth.  Use to open and eat to enjoy.",
-    "price": 350,
+    "price": 250,
     "material": ["glass", "veggy"],
-    "weight": 520,
+    "weight": 400,
     "volume": 2,
     "bashing": 4,
     "cutting": 0,
@@ -7337,9 +7753,9 @@
     "name": "sealed jar of bone broth",
     "name_plural": "sealed jars of bone broth",
     "description": "This is a sealed glass jar containing bone broth.  Use to open and eat to enjoy.",
-    "price": 350,
+    "price": 200,
     "material": ["glass", "bone"],
-    "weight": 518,
+    "weight": 400,
     "volume": 2,
     "bashing": 4,
     "cutting": 0,
@@ -7359,14 +7775,14 @@
     "symbol": "%",
     "color": "yellow",
     "name": "sealed jar of human broth",
-    "name_plural": "sealed jars of bone broth",
+    "name_plural": "sealed jars of human broth",
     "description": "This is a sealed glass jar containing human bone broth.  Use to open and eat to enjoy - if you really want to.",
-    "price": 350,
+    "price": 200,
     "material": ["glass", "bone"],
-    "weight": 518,
-    "volume": 1,
-    "bashing": 8,
-    "cutting": 1,
+    "weight": 400,
+    "volume": 2,
+    "bashing": 4,
+    "cutting": 0,
     "to_hit": 0,
     "category" : "food",
     "use_action": {
@@ -7405,7 +7821,7 @@
 
   {
     "id": "flask_yeast",
-    "type": "TOOL",
+    "type": "GENERIC",
     "symbol": "%",
     "color": "white",
     "name": "sealed yeast culture",
@@ -7417,12 +7833,6 @@
     "bashing": 8,
     "cutting": 0,
     "to_hit": 0,
-    "max_charges": 1,
-    "initial_charges": 1,
-    "charges_per_use": 1,
-    "turns_per_charge": 0,
-    "ammo": "NULL",
-    "revert_to": "null",
     "category" : "food",
     "use_action": {
         "type": "delayed_transform",
@@ -7435,14 +7845,14 @@
         "target_charges": 10
     }
   },
-  
+
   {
     "id": "sauerkraut_ferment",
-    "type": "TOOL",
+    "type": "GENERIC",
     "symbol": "%",
     "color": "white",
     "name": "fermenting sauerkraut jar",
-    "description": "This jar contains a batch of sauerkraut set to ferment. You can seal up the jar once the process is completed.",
+    "description": "This jar contains a batch of sauerkraut set to ferment.  You can seal up the jar once the process is completed.",
     "price": 10,
     "material": ["glass", "veggy"],
     "weight": 52,
@@ -7450,12 +7860,6 @@
     "bashing": 8,
     "cutting": 0,
     "to_hit": 0,
-    "max_charges": 1,
-    "initial_charges": 1,
-    "charges_per_use": 1,
-    "turns_per_charge": 0,
-    "ammo": "NULL",
-    "revert_to": "null",
     "category" : "food",
     "use_action": {
         "type": "delayed_transform",
@@ -7769,7 +8173,17 @@
     "ammo": "battery",
     "revert_to": "null",
     "use_action": [
-        "SOLDER_WELD",
+        {
+            "type": "repair_item",
+            "item_action_type" : "repair_metal",
+            "materials": [
+                "kevlar", "plastic", "iron", "steel", "hardsteel", "aluminum", "copper"
+            ],
+            "skill": "mechanics",
+            "cost_scaling": 0.25,
+            "move_cost": 1000,
+            "tool_quality": 3
+        },
         {
             "type": "cauterize",
             "flame": false
@@ -8108,7 +8522,7 @@
     "flags": ["SLICE", "DURABLE_MELEE", "SHEATH_SWORD"],
     "techniques": ["RAPID", "WIDE", "BRUTAL"],
     "weight": 2822,
-    "volume": 17,
+    "volume": 13,
     "bashing": 5,
     "cutting": 50,
     "to_hit": 1,
@@ -8328,7 +8742,22 @@
     "revert_to": "null",
     "use_action": "WATER_PURIFIER"
   },
-
+  {
+    "type":"GENERIC",
+    "id": "char_kiln",
+    "symbol": ";",
+    "color": "dark_gray",
+    "name": "charcoal kiln",
+    "category" : "tools",
+    "description": "A stout metal box used for producing charcoal via pyrolysis; the incomplete burning of organic materials in the absence of oxygen.",
+    "price": 16000,
+    "material": "steel",
+    "weight": 6400,
+    "volume": 30,
+    "bashing": 10,
+    "cutting": 0,
+    "to_hit": -2
+  },
   {
     "id": "kiln_full",
     "type": "TOOL",
@@ -8566,16 +8995,16 @@
     "symbol": ";",
     "color": "red",
     "name": "small fire extinguisher",
-    "description": "This is a small emergency fire extinguisher.  It would be useful for putting out adjacent fires.",
+    "description": "This is a hand held fire extinguisher containing a liter of highly compressed C02 gas.  It would be useful for putting out adjacent fires.",
     "price": 4000,
-    "material": "aluminum",
-    "weight": 2300,
-    "volume": 4,
-    "bashing": 7,
+    "material": ["steel","plastic"],
+    "weight": 2267,
+    "volume": 6,
+    "bashing": 4,
     "cutting": 0,
     "to_hit": -1,
-    "max_charges": 12,
-    "initial_charges": 12,
+    "max_charges": 10,
+    "initial_charges": 10,
     "charges_per_use": 1,
     "turns_per_charge": 0,
     "ammo": "NULL",
@@ -8786,7 +9215,7 @@
     "volume": 3,
     "bashing": 2,
     "cutting": 20,
-    "flags" : ["STAB", "DURABLE_MELEE", "SHEATH_SWORD"],
+    "flags" : ["STAB", "DURABLE_MELEE", "SHEATH_KNIFE"],
     "to_hit": 2,
     "max_charges": 0,
     "initial_charges": 0,
@@ -9408,6 +9837,20 @@
     "cutting" : 3,
     "to_hit" : 0
   },{
+    "type" : "GENERIC",
+    "id" : "fishing_hook_bone",
+    "symbol" : ",",
+    "color" : "white",
+    "name" : "improvised fishing hook",
+    "description" : "An improvised fishing hook carved from wood or bone.",
+    "price" : 25,
+    "material" : "bone",
+    "weight" : 1,
+    "volume" : 0,
+    "bashing" : -3,
+    "cutting" : 3,
+    "to_hit" : 0
+  },{
     "id": "toolset",
     "type": "TOOL",
     "symbol": ";",
@@ -9506,7 +9949,7 @@
     "description": "A tablet PC using an efficient color e-ink display.  Before the cataclysm, these were nifty gadgets; now, it's an almost priceless resource.  Runs on conventional batteries.",
     "price": 20000,
     "material": "plastic",
-    "weight": 2000,
+    "weight": 250,
     "volume": 1,
     "bashing": -1,
     "cutting": 0,
@@ -10105,6 +10548,29 @@
     }
   },
   {
+    "id": "wool_staple",
+    "type": "TOOL",
+    "category" : "spare_parts",
+    "symbol": ",",
+    "color": "white",
+    "name": "wool staple",
+    "description": "The natural cluster of wool fibres.  Could be processed to the felt patches or yarns.",
+    "price": 0,
+    "material": ["wool"],
+    "flags": ["NO_SALVAGE"],
+    "weight": 200,
+    "volume": 2,
+    "bashing": 0,
+    "cutting": 0,
+    "to_hit": -4,
+    "max_charges": 0,
+    "initial_charges": 0,
+    "charges_per_use": 0,
+    "turns_per_charge": 0,
+    "ammo": "NULL",
+    "revert_to": "null"
+  },
+  {
     "id": "lobotomizer",
     "type": "TOOL",
     "symbol": "/",
@@ -10137,12 +10603,12 @@
     "description": "This common gardening tool has been customized and rebalanced to improve its performance as a weapon.",
     "price": 2800,
     "material": "steel",
-    "techniques": ["WBLOCK_1", "RAPID", "BRUTAL", "PRECISE"],
-    "weight": 478,
-    "volume": 5,
-    "bashing": 7,
-    "cutting": 22,
-    "flags" : ["CHOP", "DURABLE_MELEE", "SHEATH_SWORD", "IAIJUTSU"],
+    "techniques": ["WBLOCK_1", "PRECISE"],
+    "weight": 425,
+    "volume": 3,
+    "bashing": 5,
+    "cutting": 20,
+    "flags" : ["SLICE", "DURABLE_MELEE", "SHEATH_SWORD", "IAIJUTSU"],
     "to_hit": 2,
     "max_charges": 0,
     "initial_charges": 0,
@@ -10219,8 +10685,8 @@
     "techniques": ["WBLOCK_2", "WIDE", "BRUTAL"],
     "weight": 3083,
     "volume": 13,
-    "bashing": 15,
-    "cutting": 48,
+    "bashing": 17,
+    "cutting": 50,
     "to_hit": 1,
     "max_charges": 0,
     "initial_charges": 0,
@@ -10271,9 +10737,9 @@
     "flags": ["SLICE", "DURABLE_MELEE", "SHEATH_SWORD", "VORPAL"],
     "techniques": ["RAPID", "WIDE", "BRUTAL"],
     "weight": 2740,
-    "volume": 17,
+    "volume": 13,
     "bashing": 5,
-    "cutting": 61,
+    "cutting": 56,
     "to_hit": 1,
     "max_charges": 0,
     "initial_charges": 0,
@@ -10352,6 +10818,8 @@
         "type": "transform",
         "target": "tool_anfo_charge_act",
         "target_charges": 20,
+        "need_fire": 1,
+        "need_fire_msg": "You need a source of fire!",
         "active": true,
         "msg": "You light the fuse on the ANFO charge.  Run survivor, run!"
     }
@@ -10413,6 +10881,8 @@
         "type": "transform",
         "target": "tool_black_powder_bomb_act",
         "target_charges": 2,
+        "need_fire": 1,
+        "need_fire_msg": "You need a source of fire!",
         "active": true,
         "msg": "You light the fuse on the black gunpowder bomb.  Throw it before it blows in your face!"
     }
@@ -10535,6 +11005,8 @@
         "type": "transform",
         "target": "tool_rdx_sand_bomb_act",
         "target_charges": 2,
+        "need_fire": 1,
+        "need_fire_msg": "You need a source of fire!",
         "active": true,
         "msg": "You light the fuse on the sand bomb.  Throw it!"
     }
@@ -10693,7 +11165,7 @@
         "fields_type": "fd_smoke",
         "fields_min_density": 2,
         "fields_max_density": 3
-    }    
+    }
   },
   {
     "type" : "TOOL",
@@ -10769,7 +11241,7 @@
     "phase" : "solid",
     "bashing" : 4
   },
-  
+
   {
     "type" : "TOOL",
     "id" : "trumpet",
@@ -10991,7 +11463,7 @@
     "bashing": 14,
     "cutting": 3,
     "flags" : ["DURABLE_MELEE"],
-    "techniques": ["WBLOCK_1"], 
+    "techniques": ["WBLOCK_1"],
     "to_hit": 2,
     "max_charges": 0,
     "initial_charges": 0,
@@ -11001,5 +11473,68 @@
     "revert_to": "null",
     "use_action": "CROWBAR",
     "qualities": [["HAMMER", 2], ["HAMMER_FINE", 1]]
+  },
+  {
+    "id": "l-stick",
+    "type": "TOOL",
+    "symbol": "/",
+    "color": "light_gray",
+    "name": "L-stick (off)",
+    "name_plural": "l-sticks (off)",
+    "description": "Produced by the Light corporation, this stylish staff not only functions as a light source, but doubles as a light-weight weapon, due to the superalloy materials it is made of.  Due to proprietary efficiency improvements over standard light sources, the l-stick or light stick as it is commonly called, batteries last longer than other light sources.",
+    "price": 5000,
+    "material": ["superalloy", "steel"],
+    "techniques" : ["WBLOCK_1", "RAPID"],
+    "flags": ["DURABLE_MELEE"],
+    "weight": 1000,
+    "volume": 12,
+    "bashing": 18,
+    "cutting": 0,
+    "to_hit": 3,
+    "category" : "weapons",
+    "max_charges": 1000,
+    "initial_charges": 0,
+    "charges_per_use": 1,
+    "turns_per_charge": 0,
+    "ammo": "battery",
+    "revert_to": "null",
+    "use_action": {
+        "type": "transform",
+        "msg": "The L-stick(tm) lights up.",
+        "target": "l-stick_on",
+        "active": true,
+        "need_charges": 1,
+        "need_charges_msg": "The L-stick(tm)'s batteries are empty."
+    }
+  },
+  {
+    "id": "l-stick_on",
+    "type": "TOOL",
+    "symbol": ";",
+    "color": "blue",
+    "name": "L-stick (on)",
+    "name_plural": "L-sticks (on)",
+    "description": "Produced by the Light corporation, this stylish staff not only functions as a light source, but doubles as a light-weight weapon, due to the superalloy materials it is made of.  Due to proprietary efficiency improvements over standard light sources, the l-stick or light stick as it is commonly called, batteries last longer than other light sources.  The staff is glowing brightly, which is slowly draining the batteries",
+    "price": 8000,
+    "material": ["superalloy", "steel"],
+    "techniques" : ["WBLOCK_1", "RAPID"],
+    "flags": [ "LIGHT_300", "DURABLE_MELEE"],
+    "weight": 1000,
+    "volume": 12,
+    "bashing": 18,
+    "cutting": 0,
+    "to_hit": 3,
+    "category" : "weapons",
+    "max_charges": 1000,
+    "initial_charges": 0,
+    "charges_per_use": 0,
+    "turns_per_charge": 40,
+    "ammo": "battery",
+    "revert_to": "l-stick",
+    "use_action": {
+        "type": "transform",
+        "msg": "The l-stick(tm)'s light fades away",
+        "target": "l-stick"
+    }
   }
 ]

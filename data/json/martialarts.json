@@ -448,7 +448,9 @@
             "diamond_kukri",
             "knife_rambo",
             "knife_rm42",
-            "switchblade"
+            "switchblade",
+            "l-stick",
+            "l-stick_on"
         ]
     },{
         "type" : "martial_art",
@@ -564,7 +566,9 @@
             "q_staff",
             "cudgel",
             "nodachi",
-            "diamond_nodachi"
+            "diamond_nodachi",
+            "l-stick",
+            "l-stick_on"
         ]
       
     },{
@@ -647,7 +651,9 @@
             "kukri",
             "diamond_kukri",
             "knife_rambo",
-            "knife_rm42"
+            "knife_rm42",
+            "l-stick",
+            "l-stick_on"
         ]
     },{
         "type" : "martial_art",

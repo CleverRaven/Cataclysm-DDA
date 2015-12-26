@@ -35,9 +35,12 @@ int getfoldedwidth (std::vector<std::string> foldedstring)
 }
 
 ////////////////////////////////////
-uimenu::uimenu()
+uimenu::uimenu( const std::string &hotkeys_override )
 {
     init();
+    if( !hotkeys_override.empty() ) {
+        hotkeys = hotkeys_override;
+    }
 }
 
 // here we emulate the old int ret=menu(bool, "header", "option1", "option2", ...);
@@ -314,6 +317,8 @@ void uimenu::setup()
     bool w_auto = (w_width == -1 || w_width == -2 );
     bool w_autofold = ( w_width == -2);
 
+    // Space for a line between text and entries. Only needed if there is actually text.
+    const int text_separator_line = text.empty() ? 0 : 1;
     if ( w_auto ) {
         w_width = 4;
         if ( !title.empty() ) {
@@ -434,7 +439,7 @@ void uimenu::setup()
     }
 
     if (h_auto) {
-        w_height = 3 + textformatted.size() + entries.size();
+        w_height = 2 + text_separator_line + textformatted.size() + entries.size();
         if (desc_enabled) {
             int w_height_final = w_height + desc_lines + 1; // add one for border
             if (w_height_final > TERMY) {
@@ -452,8 +457,8 @@ void uimenu::setup()
     }
 
     vmax = entries.size();
-    if ( vmax + 3 + (int)textformatted.size() > w_height ) {
-        vmax = w_height - 3 - textformatted.size();
+    if ( vmax + 2 + text_separator_line + (int)textformatted.size() > w_height ) {
+        vmax = w_height - (2 + text_separator_line) - textformatted.size();
         if ( vmax < 1 ) {
             if (textformatted.empty()) {
                 popup("Can't display menu options, 0 %d available screen rows are occupied\nThis is probably a bug.\n",
@@ -569,17 +574,20 @@ void uimenu::show()
     }
     std::string padspaces = std::string(w_width - 2 - pad_left - pad_right, ' ');
     const int text_lines = textformatted.size();
-    for ( int i = 0; i < text_lines; i++ ) {
-        trim_and_print(window, 1 + i, 2, getmaxx(window) - 4, text_color, "%s", textformatted[i].c_str());
+    int estart = 1;
+    if( !textformatted.empty() ) {
+        for ( int i = 0; i < text_lines; i++ ) {
+            trim_and_print(window, 1 + i, 2, getmaxx(window) - 4, text_color, "%s", textformatted[i].c_str());
+        }
+
+        mvwputch(window, text_lines + 1, 0, border_color, LINE_XXXO);
+        for ( int i = 1; i < w_width - 1; ++i) {
+            mvwputch(window, text_lines + 1, i, border_color, LINE_OXOX);
+        }
+        mvwputch(window, text_lines + 1, w_width - 1, border_color, LINE_XOXX);
+        estart += text_lines + 1; // +1 for the horizontal line.
     }
 
-    mvwputch(window, text_lines + 1, 0, border_color, LINE_XXXO);
-    for ( int i = 1; i < w_width - 1; ++i) {
-        mvwputch(window, text_lines + 1, i, border_color, LINE_OXOX);
-    }
-    mvwputch(window, text_lines + 1, w_width - 1, border_color, LINE_XOXX);
-
-    int estart = text_lines + 2;
 
     calcStartPos( vshift, fselected, vmax, fentries.size() );
 
@@ -639,8 +647,10 @@ void uimenu::show()
             }
         }
 
-        // draw description
-        fold_and_print(window, w_height - desc_lines - 1, 2, w_width - 4, text_color, entries[selected].desc.c_str());
+        if( static_cast<size_t>( selected ) < entries.size() ){
+            fold_and_print( window, w_height - desc_lines - 1, 2, w_width - 4, text_color,
+                            entries[selected].desc );
+        }
     }
 
     if ( !filter.empty() ) {

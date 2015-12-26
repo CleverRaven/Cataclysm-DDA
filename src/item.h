@@ -100,7 +100,7 @@ class item : public JsonSerializer, public JsonDeserializer
 {
 public:
  item();
- item(const std::string new_type, int turn, bool rand = true, handedness handed = NONE);
+ item(const std::string new_type, int turn, bool rand = true);
 
         /**
          * Make this a corpse of the given monster type.
@@ -156,7 +156,7 @@ public:
         item &operator=(item &&) = default;
         item &operator=(const item &) = default;
  virtual ~item();
- void make( const std::string new_type );
+ void make( const std::string new_type, bool scrub = false );
 
     /**
      * Returns the default color of the item (e.g. @ref itype::color).
@@ -331,11 +331,9 @@ public:
   * @see item::use_charges - this is similar for items, not charges.
   * @param it Type of consumable item.
   * @param quantity How much to consumed.
-  * @param use_container If the contents of an item are used, also use the
-  * container it was in.
   * @param used On success all consumed items will be stored here.
   */
- bool use_amount(const itype_id &it, long &quantity, bool use_container, std::list<item> &used);
+ bool use_amount(const itype_id &it, long &quantity, std::list<item> &used);
 
     /**
      * @name Containers
@@ -350,6 +348,8 @@ public:
     bool is_container() const;
     /** Whether this is a container which can be used to store liquids. */
     bool is_watertight_container() const;
+    /** Whether this is sealable container which can be resealed after removing part of it's content */
+    bool is_sealable_container() const;
     /** Whether this item has no contents at all. */
     bool is_container_empty() const;
     /** Whether this item has no more free capacity for its current content. */
@@ -628,6 +628,8 @@ public:
  bool is_var_veh_part() const;
  bool is_artifact() const;
 
+        bool is_dangerous() const; // Is it an active grenade or something similar that will hurt us?
+
         /**
          * Does the item provide the artifact effect when it is wielded?
          */
@@ -656,6 +658,8 @@ public:
  const itype* type;
  std::vector<item> contents;
 
+        /** Checks if item is a holster and currently capable of storing obj */
+        bool can_holster ( const item& obj ) const;
         /**
          * Returns @ref curammo, the ammo that is currently load in this item.
          * May return a null pointer.
@@ -695,10 +699,16 @@ public:
          */
         void on_wear( player &p );
         /**
+         * Callback when a player takes off an item. The item is still in the worn items
+         * vector but will be removed immediately after the function returns
+         */
+        void on_takeoff (player &p);
+        /**
          * Callback when a player starts wielding the item. The item is already in the weapon
          * slot and is called from there.
+         * @param mv number of moves *already* spent wielding the weapon
          */
-        void on_wield( player &p );
+        void on_wield( player &p, int mv = 0 );
         /**
          * Callback when a player starts carrying the item. The item is already in the inventory
          * and is called from there. This is not called when the item is added to the inventory
@@ -743,21 +753,20 @@ public:
          * must be converted to one of those to be stored.
          * The set_var functions override the existing value.
          * The get_var function return the value (if the variable exists), or the default value
-         * otherwise. The type of the default value determines which get_var function is used:
+         * otherwise.  The type of the default value determines which get_var function is used.
+         * All numeric values are returned as doubles and may be cast to the desired type.
          * <code>
-         * auto v = itm.get_var("v", 0); // v will be an int
-         * auto l = itm.get_var("v", 0l); // l will be a long
-         * auto d = itm.get_var("v", 0.0); // d will be a double
-         * auto s = itm.get_var("v", ""); // s will be a std::string
+         * int v = itm.get_var("v", 0); // v will be an int
+         * long l = itm.get_var("v", 0l); // l will be a long
+         * double d = itm.get_var("v", 0.0); // d will be a double
+         * std::string s = itm.get_var("v", ""); // s will be a std::string
          * // no default means empty string as default:
          * auto n = itm.get_var("v"); // v will be a std::string
          * </code>
          */
         /*@{*/
         void set_var( const std::string &name, int value );
-        int get_var( const std::string &name, int default_value ) const;
         void set_var( const std::string &name, long value );
-        long get_var( const std::string &name, long default_value ) const;
         void set_var( const std::string &name, double value );
         double get_var( const std::string &name, double default_value ) const;
         void set_var( const std::string &name, const std::string &value );
@@ -787,6 +796,24 @@ public:
         bool has_flag( const std::string& flag ) const;
         /** Removes all item specific flags. */
         void unset_flags();
+        /*@}*/
+
+        /**
+         * @name Item properties
+         *
+         * Properties are specific to an item type so unlike flags the meaning of a property
+         * may not be the same for two different item types. Each item type can have mutliple
+         * properties however duplicate property names are not permitted.
+         *
+         */
+        /*@{*/
+        bool has_property (const std::string& prop) const;
+        /**
+          * Get typed property for item.
+          * Return same type as the passed default value, or string where no default provided
+          */
+        std::string get_property_string( const std::string &prop, const std::string& def = "" ) const;
+        long get_property_long( const std::string& prop, long def = 0 ) const;
         /*@}*/
 
         /**
@@ -842,15 +869,6 @@ public:
          */
         /*@{*/
         /**
-         * Make this item into a handed item.
-         * All previous handed info is erased and reset.
-         * Does nothing if the item is no armor at all. If the item type is not handed, it is only
-         * reset to be non-handed regardless of the requested handedness.
-         * @param handed The new handedness. If NONE, the item is made non-handed - all handed
-         * information is erased and only the default coverage (@ref islot_armor::covers) is applied.
-         */
-        void make_handed( handedness handed );
-        /**
          * Whether this item (when worn) covers the given body part.
          */
         bool covers( body_part bp ) const;
@@ -861,7 +879,19 @@ public:
          * For testing only a single body part, use @ref covers instead. This function allows you
          * to get the whole covering data in one call.
          */
-        const std::bitset<num_bp> &get_covered_body_parts() const;
+        std::bitset<num_bp> get_covered_body_parts() const;
+        /**
+          * Returns true if item is armor and can be worn on different sides of the body
+          */
+        bool is_sided() const;
+        /**
+         *  Returns side item currently worn on. Returns BOTH if item is not sided or no side currently set
+         */
+        int get_side() const;
+        /**
+          * Change the side on which the item is worn. Returns false if the item is not sided
+          */
+        bool set_side (side s);
         /**
          * Returns the warmth value that this item has when worn. See player class for temperature
          * related code, or @ref player::warmth. Returned values should be positive. A value
@@ -1009,6 +1039,14 @@ public:
          * This also applies to tools.
          */
         int reload_time( const player &u ) const;
+        /** Quantity of ammunition currently loaded in tool, gun or axuiliary gunmod */
+        long ammo_remaining() const;
+        /** Maximum quantity of ammunition loadable for tool, gun or axuiliary gunmod */
+        long ammo_capacity() const;
+        /** Quantity of ammunition consumed per usage of tool or with each shot of gun */
+        long ammo_required() const;
+        /** If sufficient ammo available consume it, otherwise do nothing and return false */
+        bool ammo_consume( int qty );
         /**
          * The id of the ammo type (@ref ammunition_type) that can be used by this item.
          * Will return "NULL" if the item does not use a specific ammo type. Items without
@@ -1126,6 +1164,10 @@ public:
          * for non-guns it always returns 0.
          */
         int get_free_mod_locations( const std::string& location ) const;
+        /**
+         * Does it require gunsmithing tools to repair.
+         */
+        bool is_firearm() const;
         /*@}*/
 
         /**
@@ -1190,6 +1232,14 @@ public:
          */
         static bool type_is_defined( const itype_id &id );
 
+        /**
+        * Returns true if item has "item_label" itemvar
+        */
+        bool has_label() const;
+        /**
+        * Returns label from "item_label" itemvar and quantity
+        */
+        std::string label( unsigned int quantity = 0 ) const;
     private:
         /** Reset all members to default, making this a null item. */
         void init();
@@ -1197,7 +1247,6 @@ public:
         enum LIQUID_FILL_ERROR : int;
         LIQUID_FILL_ERROR has_valid_capacity_for_liquid(const item &liquid) const;
         std::string name;
-        std::bitset<num_bp> covered_bodyparts;
         const itype* curammo;
         std::map<std::string, std::string> item_vars;
         const mtype* corpse;
@@ -1226,7 +1275,7 @@ public:
 
  int quiver_store_arrow(item &arrow);
  int max_charges_from_flag(std::string flagName);
- int get_gun_ups_drain() const; 
+ int get_gun_ups_drain() const;
 };
 
 bool item_compare_by_charges( const item& left, const item& right);
@@ -1238,21 +1287,18 @@ std::ostream &operator<<(std::ostream &, const item *);
 class map_item_stack
 {
     private:
-        class item_group
-        {
+        class item_group {
             public:
                 tripoint pos;
                 int count;
 
                 //only expected to be used for things like lists and vectors
-                item_group()
-                {
+                item_group() {
                     pos = tripoint( 0, 0, 0 );
                     count = 0;
                 }
 
-                item_group( const tripoint &p, const int arg_count )
-                {
+                item_group( const tripoint &p, const int arg_count ) {
                     pos = p;
                     count = arg_count;
                 }
@@ -1260,45 +1306,44 @@ class map_item_stack
                 ~item_group() {};
         };
     public:
-        item *example; //an example item for showing stats, etc.
+        item const *example; //an example item for showing stats, etc.
         std::vector<item_group> vIG;
         int totalcount;
 
         //only expected to be used for things like lists and vectors
-        map_item_stack()
-        {
-            vIG.push_back(item_group());
+        map_item_stack() {
+            vIG.push_back( item_group() );
             totalcount = 0;
         }
 
-        map_item_stack( item *it, const tripoint &pos )
-        {
+        map_item_stack( item const *it, const tripoint &pos ) {
             example = it;
-            vIG.push_back(item_group(pos, 1));
-            totalcount = 1;
+            vIG.push_back( item_group( pos, ( it->count_by_charges() ) ? it->charges : 1 ) );
+            totalcount = ( it->count_by_charges() ) ? it->charges : 1;
         }
 
         ~map_item_stack() {};
 
-        void addNewPos( const tripoint &pos )
-        {
-            vIG.push_back(item_group(pos, 1));
-            totalcount++;
-        }
+        // This adds to an existing item group if the last current
+        // item group is the same position and otherwise creates and
+        // adds to a new item group. Note that it does not search
+        // through all older item groups for a match.
+        void add_at_pos( item const *it, const tripoint &pos ) {
+            int amount = ( it->count_by_charges() ) ? it->charges : 1;
 
-        void incCount()
-        {
-            const int iVGsize = vIG.size();
-            if (iVGsize > 0) {
-                vIG[iVGsize - 1].count++;
+            if( !vIG.size() || vIG[vIG.size() - 1].pos != pos ) {
+                vIG.push_back( item_group( pos, amount ) );
+            } else {
+                vIG[vIG.size() - 1].count += amount;
             }
-            totalcount++;
+
+            totalcount += amount;
         }
 
-        static bool map_item_stack_sort(const map_item_stack &lhs, const map_item_stack &rhs)
-        {
-            if ( lhs.example->get_category().sort_rank == rhs.example->get_category().sort_rank ) {
-                return square_dist(tripoint(0, 0, 0), lhs.vIG[0].pos) < square_dist(tripoint(0, 0, 0), rhs.vIG[0].pos);
+        static bool map_item_stack_sort( const map_item_stack &lhs, const map_item_stack &rhs ) {
+            if( lhs.example->get_category().sort_rank == rhs.example->get_category().sort_rank ) {
+                return square_dist( tripoint( 0, 0, 0 ), lhs.vIG[0].pos) <
+                    square_dist( tripoint( 0, 0, 0 ), rhs.vIG[0].pos );
             }
 
             return lhs.example->get_category().sort_rank < rhs.example->get_category().sort_rank;

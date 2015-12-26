@@ -87,6 +87,8 @@ int rl_dist(const tripoint &loc1, const tripoint &loc2);
 int rl_dist(const point &a, const point &b);
 std::pair<double, double> slope_of(const std::vector<point> &line);
 std::pair<std::pair<double, double>, double> slope_of(const std::vector<tripoint> &line);
+// Get the magnitude of the slope ranging from 0.0 to 1.0
+float get_normalized_angle( const point &start, const point &end );
 std::vector<point> continue_line(const std::vector<point> &line, int distance);
 std::vector<tripoint> continue_line(const std::vector<tripoint> &line, int distance);
 std::vector<point> squares_in_direction( int x1, int y1, int x2, int y2 );

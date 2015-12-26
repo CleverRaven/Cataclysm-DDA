@@ -10,7 +10,8 @@
     "price": 179500,
     "material": ["gold", "silver"],
     "skill": "magic",
-    "ammo": "essence_blood_type",
+    "ammo": "essence_type",
+    "flags" : ["NEVER_JAMS", "PRIMITIVE_RANGED_WEAPON"],
     "weight": 3000,
     "volume": 5,
     "bashing": 12,
@@ -27,7 +28,11 @@
     "clip_size": 5,
     "reload": 400,
     "loudness" : 150,
-    "ammo_effects": ["LIGHTNING","BOUNCE"]
+    "ammo_effects": ["LIGHTNING","BOUNCE"],
+    "artifact_data" : {
+      "effects_carried": ["AEP_BAD_WEATHER"],
+      "effects_wielded": ["AEP_RESIST_ELECTRICITY"]
+    }
 },{
     "id": "bloodscourge",
     "type": "GUN",
@@ -41,7 +46,7 @@
     "skill": "magic",
     "ammo": "essence_blood_type",
     "techniques" : ["WBLOCK_1", "RAPID"],
-    "flags" : ["MODE_BURST", "BURST_ONLY", "DURABLE_MELEE"],
+    "flags" : ["MODE_BURST", "BURST_ONLY", "NEVER_JAMS", "DURABLE_MELEE", "PRIMITIVE_RANGED_WEAPON", "NO_SALVAGE"],
     "weight": 2800,
     "volume": 12,
     "bashing": 19,
@@ -59,7 +64,7 @@
     "clip_size": 15,
     "reload": 400,
     "loudness" : 100,
-    "ammo_effects": ["FLAME", "STREAM", "INCENDIARY", "FLARE", "SHOT"]
+    "ammo_effects": ["FLAME", "STREAM", "INCENDIARY", "FLARE"]
 },{
       "id" : "ethereal_crossbow", "//" : "Unlike the Heretic version, this one is more effective against ghostly monsters.",
       "type" : "GUN",
@@ -71,12 +76,13 @@
       "material" : ["steel", "wood", "gold"],
       "skill" : "magic",
       "ammo" : "essence_dull_type",
+      "flags" : ["NEVER_JAMS", "PRIMITIVE_RANGED_WEAPON", "NO_SALVAGE"],
       "weight" : 2928,
       "volume" : 6,
       "bashing" : 11,
       "cutting" : 0,
       "to_hit" : 1,
-      "ranged_damage" : 30,
+      "ranged_damage" : 25,
       "pierce" : 50,
       "range" : 15,
       "dispersion" : 200,
@@ -93,17 +99,17 @@
     "symbol": "/",
     "color": "yellow",
     "name": "demon claw",
-    "description": "An ornate weapon resembling tiger claws, with blades perpetually glowing red-hot.  Despite this the weapon seems safe to wield.  Firing it will smite your enemies with wicked fire, to sate the god of blood.",
+    "description": "An ornate weapon resembling a clawed gauntlet, blades perpetually glowing red-hot.  Despite this, the weapon seems safe to wield.  Firing it will smite your enemies with wicked fire, to sate the god of blood.",
     "price": 200000,
     "material": ["steel", "essencemat"],
     "skill": "magic",
-    "ammo": "essence_type",
-    "techniques" : ["WBLOCK_1", "RAPID"],
-    "flags" : ["UNARMED_WEAPON", "UNBREAKABLE_MELEE", "FIRE", "SLICE", "LIGHT_240", "FLAMING"],
+    "ammo": "essence_blood_type",
+    "techniques" : ["WBLOCK_1"],
+    "flags" : ["UNARMED_WEAPON", "NEVER_JAMS", "UNBREAKABLE_MELEE", "FIRE", "SLICE", "LIGHT_240", "FLAMING", "PRIMITIVE_RANGED_WEAPON"],
     "weight": 92,
     "volume": 0,
-    "bashing": 1,
-    "cutting": 6,
+    "bashing": 8,
+    "cutting": 16,
     "to_hit": 3,
     "ranged_damage": 10,
     "pierce": 0,
@@ -116,8 +122,11 @@
     "clip_size": 1,
     "reload": 400,
     "loudness" : 500,
-    "ammo_effects": ["EXPLOSIVE_BIG", "NAPALM_BIG", "TRAIL"],
-    "qualities": [["BUTCHER", 14]]
+    "ammo_effects": ["EXPLOSIVE", "NAPALM_BIG", "TRAIL"],
+    "qualities": [["BUTCHER", 12]],
+    "artifact_data" : {
+      "effects_wielded": ["AEP_SAP_LIFE", "AEP_EVIL"]
+    }
 },{
     "id": "scourge_staff",
     "type": "GUN",
@@ -127,11 +136,11 @@
     "name_plural": "bane staves",
     "description": "A wooden staff decorated with gold, capped with a dark blue gem.  The wood gives off a faintly acrid smell.  Firing it will produce pools of acid and toxic fumes.",
     "price": 45600,
-    "material": ["wood", "gold"],
+    "material": ["wood", "gold", "essencemat"],
     "skill": "magic",
     "ammo": "essence_type",
     "techniques" : ["WBLOCK_1", "RAPID"],
-    "flags" : ["DURABLE_MELEE"],
+    "flags" : ["UNBREAKABLE_MELEE", "NEVER_JAMS", "PRIMITIVE_RANGED_WEAPON", "NO_SALVAGE"],
     "weight": 2800,
     "volume": 12,
     "bashing": 19,

@@ -30,7 +30,51 @@
         "occurrences" : [1, 1], "//":"how many per overmap",
         "rotate" : false, "//":"allow rotation",
         "unique" : false, "//":"only allow one per city",
-        "required" : false, "//":"is this special required for valid city sizes"
+        "required" : false, "//":"is this special required for valid city sizes",
+        "flags" : [ "CLASSIC" ]
+    },{
+        "type" : "overmap_special",
+        "id" : "Floating Temple",
+        "overmaps" :
+        [
+            { "point":[0,0,0], "overmap": "impact_site"},
+            { "point":[0,0,1], "overmap": "impact_platforms_center"},
+            { "point":[-1,0,1], "overmap": "impact_platforms_left"},
+            { "point":[1,0,1], "overmap": "impact_platforms_right"},
+            { "point":[-1,0,2], "overmap": "impact_temple_left"},
+            { "point":[1,0,2], "overmap": "impact_temple_right"},
+            { "point":[0,0,2], "overmap": "impact_temple_center"}
+        ],
+        "locations" : [ "forest" ], "//":"what special locations does it spawn",
+        "city_distance" : [20, -1], "//":"how far from a city it should be",
+        "city_sizes" : [4, 12], "//":"what city sizes should it spawn in",
+        "occurrences" : [1, 1], "//":"how many per overmap",
+        "rotate" : false, "//":"allow rotation",
+        "unique" : false, "//":"only allow one per city",
+        "required" : false, "//":"is this special required for valid city sizes",
+        "flags" : [ "CLASSIC" ]
+    },{
+        "type" : "overmap_special",
+        "id" : "Island Temple",
+        "overmaps" :
+        [
+            { "point":[0,0,0], "overmap": "island_temple_1"},
+            { "point":[1,0,0], "overmap": "island_temple_2"},
+            { "point":[0,1,0], "overmap": "island_temple_3"},
+            { "point":[1,1,0], "overmap": "island_temple_4"},
+            { "point":[0,0,-1], "overmap": "island_temple_b_1"},
+            { "point":[1,0,-1], "overmap": "island_temple_b_2"},
+            { "point":[0,1,-1], "overmap": "island_temple_b_3"},
+            { "point":[1,1,-1], "overmap": "island_temple_b_4"}
+        ],
+        "locations" : [ "forest" ], "//":"what special locations does it spawn",
+        "city_distance" : [20, -1], "//":"how far from a city it should be",
+        "city_sizes" : [4, 12], "//":"what city sizes should it spawn in",
+        "occurrences" : [1, 1], "//":"how many per overmap",
+        "rotate" : false, "//":"allow rotation",
+        "unique" : false, "//":"only allow one per city",
+        "required" : false, "//":"is this special required for valid city sizes",
+        "flags" : [ "CLASSIC" ]
     }
 ]
 

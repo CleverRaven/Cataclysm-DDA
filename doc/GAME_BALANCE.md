@@ -97,6 +97,92 @@ A measure of how well-suited the item is for being swung/thrust/etc. This factor
 
 +1 - Well-balanced for swinging or stabbing.  Baseball bat, golf club, swords, quarterstaff, knives.
 
+##Damage
+Weapon's relative strength is based on an approximate formula involving its damage, to-hit, techniques and few other factors.
+This strength will be expressed in "points" or dpt (damage per turn) as damage per turn is the most significant balancing factor.
+
+### Damage per turn
+Melee weapon's relative strength is measured by damage per turn (more precisely: damage per 100 moves). The damage is sum of all damage types (average of min/max where random) from the weapon alone, without including strength in the calculation.
+For bashing weapons, it is assumed the character can achieve the maximum damage, but this strength isn't added to damage (or critical damage).
+
+### To-hit
+While not a direct measure of damage, to-hit bonus has to be included in the calculations, as it has a significant effect on actual damage output (through hit and crit rate).
+
+Each point of to-hit is "worth" roughly a 10% increase/decrease in damage per turn or 2.5 points of damage per turn (whichever is higher).
+
+### Techniques
+Rapid strike technique increases damage per turn by 0.66 / 0.5 = 132%
+Other techniques are generally too situational to be worth any points here.
+
+### Weapon tiers
+Damage per turn should put the weapon into one of those categories:
+
+<10 - Not weapons. Those items may be pressed into service, but are unlikely to be better than fists. Plastic bottles, rocks, boots.
+
+11-15 - Tools not meant to strike and improvised weapons. Two-by-fours, pointy sticks, pipes, hammers.
+
+16-25 - Dangerous tools or crude dedicated weapons. Golf clubs, two-by-swords, wooden spears, knife spears, hatchets, switchblades, tonfas, quarterstaves.
+
+26-35 - Good dedicated weapons or the most dangerous of tools. Wood and fire axes, steel spears, electric carvers, kukris, bokken, machetes, barbed wire bats.
+
+36-45 - Weapons of war, well designed to kill humans. Wakizashis, katanas, broadswords, zweihanders, combat knifes, battle axes, war hammers, maces, morningstars.
+
+46+ - Sci-fi stuff. Diamond katanas, monomolecular blades, lightsabers and chainswords.
+
+## Other melee balancing factors
+### Attack speed
+Out of two weapons with same dpt, the faster one is generally better.
+Faster weapons allow more damage granularity (less overkill), make it less likely to miss a turn (and thus dodge/block recharges) and make positioning easier.
+Slower weapons will pierce armor better, but currently most enemies are very lightly armored.
+
+### Damage type
+At low skill, piercing damage suffers from scaling and bashing damage from damage limit due to low strength and skill. Cutting damage is not affected.
+At high skill, bashing damage is generally the strongest, but still suffers from the damage limit.
+Exotic damage types (currently only fire) do not scale with skills or crits.
+
+# RANGE WEAPONS
+## Ammo stats
+The damage of ammunition is the square root of a round's muzzle energy in joules rounded to the nearest integer with an arbitrary increase or decrease to account for terminal ballistics. A similar system for calculating recoil is planned but not currently being worked on. The figures used to calculate stats and any other relevant information are presented in table below. Damage of handloaded ammo is set to 92% (rounded down) of their factory counterparts.
+
+Ammo ID            | Description                 | Muzzle Energy, J | Damage     | Applied Modifiers / Comments |
+-------------------|-----------------------------|------------------|------------|---------|
+.22LR              | 40gr unjacketed bullet      | 141              | √141 = 12  |         |
+.22LR FMJ          | 30gr FMJ bullet             | 277              | √277 = 17  |         |
+9x19mm FMJ         | 115gr FMJ bullet            | 420              | √420 = 24  |         |
+9x19mm +P          | 115gr JHP bullet            | 632              | √632 = 25  |         |
+9x19mm +P+         | 115gr JHP bullet            | 678              | √678 = 26  |         |
+9x19mm JHP         | 116gr JHP bullet            | 533              | √533 = 23  | damage increased by 3 |
+9x18mm 57-N-181S   | 93gr FMJ bullet             | 251              | √251 = 16  |         |
+9x18mm SP-7        | 93gr bullet                 | 417              | √417 = 20  |         |
+9x18mm RG028       | 93gr hardened steel core bullet | 317          | √317 = 18  | damage reduced by 4 |
+.38 Special        | 130gr FMJ bullet            | 256              | √256 = 16  |         |
+.38 Super          | 90gr JHP bullet             | 658              | √658 = 26  |         |
+.38 FMJ            | 130gr FMJ bullet            | 256              | √256 = 16  |         |
+10mm auto          | 180gr FMJ bullet            | 575              | √575 = 24  |         |
+.40 S&W            | 135gr JHP bullet            | 575              | √575 = 24  |         |
+.40 FMJ            | 180gr FMJ bullet            | 598              | √598 = 24  |         |
+.44 magnum         | 240gr JHP bullet            | 1570             | √1570 = 40 |         |
+.45 ACP JHP        | 185gr JHP bullet            | 614              | √614 = 25  |         |
+.45 ACP FMJ        | 230gr FMJ bullet            | 447              | √447 = 21  |         |
+.45 ACP +P         | 200gr JHP bullet            | 702              | √702 = 26  |         |
+.454 Casull        | 300gr JSP bullet            | 2459             | √2459 = 50 |         |
+.500 S&W Magnum    | 500gr bullet                | 3056             | √3056 = 55 |         |
+5.7x28mm SS190     | 31gr AP FMJ bullet          | 534              | √534 = 23  | damage reduced by 3   |
+4.6x30mm           | 31gr copper plated steel bullet | 505          | √505 = 22  | damage reduced by 4   |
+7.62x39mm M43      | 123gr steel core FMJ bullet | 1607             | √1607 = 47 | damage lowered by 15  |
+7.62x39mm M67      | 123gr steel core FMJ bullet | 1607             | √1607 = 47 | damage lowered by 9   |
+5.45x39mm 7N10     | 56gr FMJ bullet             | 1402             | √1402 = 37 | damage increased by 3 |
+5.45x39mm 7N22     | 57gr steel core FMJ bullet  | 1461             | √1461 = 38 |         |
+.223 Remington     | 36gr JHP bullet             | 1524             | √1524 = 39 | damage increased by 5 |
+.308 Winchester    | 168gr hollow point bullet   | 3570             | √3570 = 60 |         |
+7.62 NATO M80      | 147gr FMJ bullet            | 3304             | √3304 = 57 |         |
+7.62 NATO M62      | 147gr FMJ bullet            | 3304             | √3304 = 57 | Belt with 1/5 tracer rounds |
+.270 Winchester    | 130gr soft point bullet     | 3663             | √3663 = 61 |         |
+.30-06 Springfield | 165gr soft point bullet     | 3894             | √3894 = 62 | damage increased by 4 |
+.30-06 M2          | 165gr FMJ bullet            | 3894             | √3894 = 62 | damage reduced by 10 |
+.30-06 M14A1       | Incendiary ammunition       | 3894             | √3894 = 62 | damage reduced by 10 |
+.300 Winchester Magnum | 220gr JHP bullet        | 5299             | √5299 = 73 | damage increased by 5 |
+7.62x54mmR         | 150gr FMJ bullet            | 2677             | √2677 = 52 |         |
 
 # LIQUIDS:
 Multi-charge items are weighed by the charge/use.  If you have an item that contains 40 uses, it'll weigh 40x as much (when found in-game) as you entered in the JSON. Liquids are priced by the 250mL unit, but handled in containers.  This can cause problems if you create something that comes in (say) a gallon jug (15 charges) and price it at the cost of a jug's worth: it'll be 15x as expensive as intended.

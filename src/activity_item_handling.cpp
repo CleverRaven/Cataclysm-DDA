@@ -235,15 +235,15 @@ static void activity_on_turn_drop_or_stash( enum activity_type act )
                                                          selected_worn_items, worn_item_quantities );
 
     // Consume the list as long as we don't run out of moves.
-    while( g->u.moves >= 0 && !selected_worn_items.empty() ) {
-        place_item_activity( selected_items, item_quantities,
-                             selected_worn_items, worn_item_quantities,
-                             (act == ACT_DROP) ? DROP_WORN : STASH_WORN, drop_target, to_vehicle );
-    }
     while( g->u.moves >= 0 && !selected_items.empty() ) {
         place_item_activity( selected_items, item_quantities,
                              selected_worn_items, worn_item_quantities,
                              (act == ACT_DROP ) ? DROP_NOT_WORN : STASH_NOT_WORN, drop_target, to_vehicle );
+    }
+    while( g->u.moves >= 0 && !selected_worn_items.empty() ) {
+        place_item_activity( selected_items, item_quantities,
+                             selected_worn_items, worn_item_quantities,
+                             (act == ACT_DROP) ? DROP_WORN : STASH_WORN, drop_target, to_vehicle );
     }
     if( selected_items.empty() && selected_worn_items.empty() ) {
         // Yay we're done, just exit.

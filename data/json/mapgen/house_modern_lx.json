@@ -125,7 +125,7 @@
                 { "item": "softdrugs", "chance": 75, "x": [ 17,22 ], "y": [ 21,22 ] }
             ],
             "place_monsters": [
-                { "monster": "GROUP_ZOMBIE", "chance": 90, "x": [ 2, 21 ], "y": [ 2, 21 ] }
+                { "monster": "GROUP_ZOMBIE", "chance": 2, "x": [ 2, 21 ], "y": [ 2, 21 ] }
             ],
             "comment": "end of mapgen json definition ---v"
         },

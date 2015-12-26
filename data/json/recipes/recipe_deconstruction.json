@@ -753,6 +753,9 @@
       [ "1cyl_combustion", 1 ]
     ],
     [
+      [ "metal_tank_little", 1 ]
+    ],
+    [
       [ "pipe", 3 ]
     ]
   ]
@@ -2266,6 +2269,87 @@
   "tools": [ [ [ "welder", 500 ], [ "toolset", 750 ] ] ],
   "components": [ [ [ "steel_plate", 10 ] ], [ [ "steel_lump", 70 ] ] ]
 },{
+  "type" : "recipe",
+  "result": "oxy_torch",
+  "category": "CC_NONCRAFT",
+  "subcategory": "CSC_NONCRAFT",
+  "skill_used": "fabrication",
+  "difficulty": 2,
+  "time": 1500,
+  "reversible": true,
+  "autolearn": false,
+  "qualities" : [ {"id":"WRENCH","level":1,"amount":1} ], 
+  "components": [
+    [ [ "scrap", 5 ] ],
+    [ [ "cu_pipe", 1 ] ],
+    [ [ "pilot_light", 1 ] ],
+    [ [ "rag", 5 ] ],
+    [ [ "metal_tank_little", 2 ] ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "oxygen_tank",
+  "category": "CC_NONCRAFT",
+  "subcategory": "CSC_NONCRAFT",
+  "skill_used": "fabrication",
+  "difficulty": 1,
+  "time": 500,
+  "reversible": true,
+  "autolearn": false,
+  "qualities" : [ {"id":"WRENCH","level":1,"amount":1} ], 
+  "components": [
+    [ [ "scrap", 1 ] ],
+    [ [ "plastic_chunk", 1 ] ],
+    [ [ "metal_tank_little", 1 ] ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "smoxygen_tank",
+  "category": "CC_NONCRAFT",
+  "subcategory": "CSC_NONCRAFT",
+  "skill_used": "fabrication",
+  "difficulty": 1,
+  "time": 500,
+  "reversible": true,
+  "autolearn": false,
+  "qualities" : [ {"id":"WRENCH","level":1,"amount":1} ], 
+  "components": [
+    [ [ "plastic_chunk", 2 ] ],
+    [ [ "canister_empty", 1 ] ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "extinguisher",
+  "category": "CC_NONCRAFT",
+  "subcategory": "CSC_NONCRAFT",
+  "skill_used": "fabrication",
+  "difficulty": 1,
+  "time": 500,
+  "reversible": true,
+  "autolearn": false,
+  "qualities" : [ {"id":"WRENCH","level":1,"amount":1} ], 
+  "components": [
+    [ [ "scrap", 3 ] ],
+    [ [ "hose", 1 ] ],
+    [ [ "metal_tank_small", 1 ] ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "sm_extinguisher",
+  "category": "CC_NONCRAFT",
+  "subcategory": "CSC_NONCRAFT",
+  "skill_used": "fabrication",
+  "difficulty": 1,
+  "time": 500,
+  "reversible": true,
+  "autolearn": false,
+  "qualities" : [ {"id":"WRENCH","level":1,"amount":1} ], 
+  "components": [
+    [ [ "scrap", 1 ] ],
+    [ [ "plastic_chunk", 1 ] ],
+    [ [ "metal_tank_little", 1 ] ]
+  ]
+},{
     "type" : "recipe",
     "result": "roadmap",
     "id_suffix": "uncraft",
@@ -2626,24 +2710,6 @@
     "autolearn": false,
     "qualities" : [ {"id":"HAMMER","level":1,"amount":1} ],
     "components": [ [ [ "tin", 100 ] ] ]
-},{
-    "type" : "recipe",
-    "result": "toolbox",
-    "id_suffix": "uncraft",
-    "category": "CC_NONCRAFT",
-    "subcategory": "CSC_NONCRAFT",
-    "difficulty": 0,
-    "time": 500,
-    "reversible": true,
-    "autolearn": false,
-    "components": [
-      [ [ "hammer", 1 ] ],
-      [ [ "wrench", 1 ] ],
-      [ [ "screwdriver", 1 ] ],
-      [ [ "hacksaw", 1 ] ],
-      [ [ "saw", 1 ] ],
-      [ [ "pockknife", 1 ] ]
-    ]
 },{
     "type" : "recipe",
     "result": "robot_controls",

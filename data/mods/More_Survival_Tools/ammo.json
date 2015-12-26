@@ -89,5 +89,27 @@
     "recoil" : 0,
     "container" : "box_small",
     "count" : 50
+   },{
+    "type" : "AMMO",
+    "id" : "bolt_bone",
+    "price" : 500,
+    "name" : "bone crossbow bolt",
+    "symbol" : "=",
+    "color" : "white",
+    "description" : "A sharpened bolt carved from bone, with fletching attached.  It's light, providing decent damage and accuracy.  Stands a good chance of remaining intact once fired.",
+    "material" : "bone",
+    "volume" : 1,
+    "weight" : 54,
+    "bashing" : 1,
+    "cutting" : 0,
+    "to_hit" : 0,
+    "ammo_type" : "bolt",
+    "damage" : 12,
+    "pierce" : 3,
+    "range" : 1,
+    "dispersion" : 145,
+    "recoil" : 0,
+    "count" : 10,
+    "effects" : ["RECOVER_10"]
    }
 ]

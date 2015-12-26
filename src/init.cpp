@@ -14,6 +14,7 @@
 #include "item_factory.h"
 #include "vehicle_group.h"
 #include "crafting.h"
+#include "crafting_gui.h"
 #include "computer.h"
 #include "help.h"
 #include "mapdata.h"

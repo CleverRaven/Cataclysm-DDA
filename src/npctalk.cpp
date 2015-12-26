@@ -533,13 +533,14 @@ void npc_chatbin::check_missions()
 
 void npc::talk_to_u()
 {
+    const bool has_mind_control = g->u.has_trait( "DEBUG_MIND_CONTROL" );
     // This is necessary so that we don't bug the player over and over
-    if (attitude == NPCATT_TALK) {
+    if( attitude == NPCATT_TALK ) {
         attitude = NPCATT_NULL;
-    } else if (attitude == NPCATT_FLEE) {
+    } else if( attitude == NPCATT_FLEE && !has_mind_control ) {
         add_msg(_("%s is fleeing from you!"), name.c_str());
         return;
-    } else if (attitude == NPCATT_KILL) {
+    } else if( attitude == NPCATT_KILL && !has_mind_control ) {
         add_msg(_("%s is hostile!"), name.c_str());
         return;
     }
@@ -609,7 +610,7 @@ void npc::talk_to_u()
         d.topic_stack.push_back( "TALK_WAKE_UP" );
     }
 
-    if (d.topic_stack.back() == "TALK_NONE") {
+    if( d.topic_stack.back() == "TALK_NONE" ) {
         d.topic_stack.back() = pick_talk_topic(&(g->u));
     }
 
@@ -643,11 +644,11 @@ void npc::talk_to_u()
             int cat = topic_category(d.topic_stack.back());
             do {
                 d.topic_stack.pop_back();
-            } while (cat != -1 && topic_category(d.topic_stack.back()) == cat);
+            } while( cat != -1 && topic_category(d.topic_stack.back()) == cat );
         }
         if (next == "TALK_DONE" || d.topic_stack.empty()) {
             d.done = true;
-        } else if (next != "TALK_NONE") {
+        } else if( next != "TALK_NONE" ) {
             d.topic_stack.push_back(next);
         }
     } while (!d.done);
@@ -1330,7 +1331,8 @@ std::string dialogue::dynamic_line( const std::string &topic ) const
             return _("<no><punc> <fuck_you>!");
         }
 
-    } else if( topic == "TALK_TRAIN" ) {
+    } 
+    if( topic == "TALK_TRAIN" ) {
         if( !g->u.backlog.empty() && g->u.backlog.front().type == ACT_TRAIN ) {
             return _("Shall we resume?");
         }
@@ -1552,6 +1554,9 @@ std::string dialogue::dynamic_line( const std::string &topic ) const
         }
 
     } else if( topic == "TALK_SIZE_UP" ) {
+        ///\EFFECT_PER affects whether player can size up NPCs
+
+        ///\EFFECT_INT slightly affects whether player can size up NPCs
         int ability = g->u.per_cur * 3 + g->u.int_cur;
         if (ability <= 10) {
             return "&You can't make anything out.";
@@ -1650,11 +1655,22 @@ std::string dialogue::dynamic_line( const std::string &topic ) const
 
         return status.str();
 
-    } else if( topic == "TALK_GIVE_ITEM" ) {
+    } else if( topic == "TALK_USE_ITEM" || topic == "TALK_GIVE_ITEM" ) {
+        // TODO: Clean it up and break it apart, it is huge now
         const int inv_pos = g->inv( _("Offer what?") );
         item &given = g->u.i_at( inv_pos );
         if( given.is_null() ) {
             return _("Changed your mind?");
+        }
+
+        if( &given == &g->u.weapon && given.has_flag( "NO_UNWIELD" ) ) {
+            // Bio weapon or shackles
+            return _("How?");
+        }
+
+        const bool allow_carry = topic == "TALK_GIVE_ITEM";
+        if( given.is_dangerous() ) {
+            return _("Are you <swear> insane!?");
         }
 
         long our_ammo = 0;
@@ -1670,10 +1686,11 @@ std::string dialogue::dynamic_line( const std::string &topic ) const
         add_msg( m_debug, "NPC evaluates own %s (%d ammo): %0.1f",
                  p->weapon.tname().c_str(), our_ammo, cur_weapon_value );
         bool taken = false;
-        const double new_melee = p->melee_value( given );
+        const double new_melee_value = p->melee_value( given );
+        double new_weapon_value = new_melee_value;
         add_msg( m_debug, "NPC evaluates your %s as melee weapon: %0.1f",
-                 given.tname().c_str(), new_melee );
-        if( new_melee > cur_weapon_value ) {
+                 given.tname().c_str(), new_melee_value );
+        if( new_melee_value > cur_weapon_value ) {
             p->wield( &given );
             taken = true;
         }
@@ -1686,18 +1703,26 @@ std::string dialogue::dynamic_line( const std::string &topic ) const
                 ammo_count += amm->charges;
             }
             // TODO: Flamethrowers (why would player give a NPC one anyway?) and other multi-charge guns
-            double new_any = p->weapon_value( given, ammo_count );
+            new_weapon_value = p->weapon_value( given, ammo_count );
 
             add_msg( m_debug, "NPC evaluates your %s (%d ammo): %0.1f",
-                     given.tname().c_str(), ammo_count, new_any );
-            if( new_any > cur_weapon_value ) {
+                     given.tname().c_str(), ammo_count, new_weapon_value );
+            if( new_weapon_value > cur_weapon_value ) {
                 p->wield( &given );
                 taken = true;
             }
         }
 
-        if( !taken && p->wear_if_wanted( given ) ) {
+        // is_gun here is a hack to prevent NPCs wearing guns if they don't want to use them
+        if( !taken && !given.is_gun() && p->wear_if_wanted( given ) ) {
             taken = true;
+        }
+
+        if( !taken && allow_carry &&
+            p->can_pickVolume( given.volume() ) &&
+            p->can_pickWeight( given.weight() ) ) {
+            taken = true;
+            p->i_add( given );
         }
 
         // TODO: Allow NPCs accepting meds, food, ammo etc.
@@ -1706,8 +1731,41 @@ std::string dialogue::dynamic_line( const std::string &topic ) const
             g->u.moves -= 100;
             return _("Thanks!");
         } else {
-            return _("Nope...");
+            std::stringstream reason;
+            reason << _("Nope.");
+            reason << std::endl;
+            reason << _("My current weapon is better than this.");
+            reason << std::endl;
+            reason << string_format( _("(new weapon value: %.1f vs %.1f)."),
+                new_weapon_value, cur_weapon_value );
+            if( !given.is_gun() && given.is_armor() ) {
+                reason << std::endl;
+                reason << string_format( _("It's too encumbering to wear.") );
+            }
+            if( allow_carry ) {
+                if( !p->can_pickVolume( given.volume() ) ) {
+                    const int free_space = p->volume_capacity() - p->volume_carried();
+                    reason << std::endl;
+                    reason << string_format( _("I have no space to store it.") );
+                    reason << std::endl;
+                    if( free_space > 0 ) {
+                        reason << string_format( _("I can only store %.2f liters more."),
+                            free_space / 4.0f );
+                    } else {
+                        reason << string_format( _("...or to store anything else for that matter.") );
+                    }
+                }
+                if( !p->can_pickWeight( given.weight() ) ) {
+                    reason << std::endl;
+                    reason << string_format( _("It is too heavy for me to carry.") );
+                }
+            }
+
+            return reason.str();
         }
+    } else if( topic == "TALK_MIND_CONTROL" ) {
+        p->attitude = NPCATT_FOLLOW;
+        return _("YES MASTER");
     }
 
     return string_format("I don't know what to say for %s. (BUG (npctalk.cpp:dynamic_line))", topic.c_str() );
@@ -1779,6 +1837,7 @@ void dialogue::gen_responses( const std::string &topic )
             return;
         }
     }
+    // Can be nullptr! Check before deferencing
     mission *miss = p->chatbin.mission_selected;
 
     if( topic == "TALK_GUARD" ) {
@@ -1804,8 +1863,8 @@ void dialogue::gen_responses( const std::string &topic )
             add_response( _("I have news."), "TALK_MISSION_INQUIRE", missions_assigned.front() );
             add_response_none( _("Never mind.") );
         } else {
-            for( auto &miss : missions_assigned ) {
-                add_response( miss->get_type().name, "TALK_MISSION_INQUIRE", miss );
+            for( auto &miss_it : missions_assigned ) {
+                add_response( miss_it->get_type().name, "TALK_MISSION_INQUIRE", miss_it );
             }
             add_response_none( _("Never mind.") );
         }
@@ -1834,7 +1893,9 @@ void dialogue::gen_responses( const std::string &topic )
 
     } else if( topic == "TALK_MISSION_INQUIRE" ) {
         const auto mission = p->chatbin.mission_selected;
-        if( mission->has_failed() ) {
+        if( mission == nullptr ) {
+            debugmsg( "dialogue::gen_responses(\"TALK_MISSION_INQUIRE\") called for null mission" );
+        } else if( mission->has_failed() ) {
             RESPONSE(_("I'm sorry... I failed."));
                 SUCCESS("TALK_MISSION_FAILURE");
                     SUCCESS_OPINION(-1, 0, -1, 1, 0);
@@ -1896,10 +1957,16 @@ void dialogue::gen_responses( const std::string &topic )
         }
 
     } else if( topic == "TALK_MISSION_SUCCESS" ) {
+        int mission_value = 0;
+        if( miss == nullptr ) {
+            debugmsg( "dialogue::gen_responses(\"TALK_MISSION_SUCCESS\") called for null mission" );
+        } else {
+            mission_value = miss->get_value();
+        }
         RESPONSE(_("Glad to help.  I need no payment."));
             SUCCESS("TALK_NONE");
-                SUCCESS_OPINION(miss->get_value() / (OWED_VAL * 4), -1,
-                                miss->get_value() / (OWED_VAL * 2), -1, 0 - miss->get_value());
+                SUCCESS_OPINION(mission_value / (OWED_VAL * 4), -1,
+                                mission_value / (OWED_VAL * 2), -1, 0 - mission_value);
                 SUCCESS_ACTION(&talk_function::clear_mission);
         add_response( _("How about some items as payment?"), "TALK_MISSION_REWARD",
                       &talk_function::mission_reward );
@@ -1907,7 +1974,6 @@ void dialogue::gen_responses( const std::string &topic )
               && p->myclass != NC_EVAC_SHOPKEEP) {
             RESPONSE(_("Maybe you can teach me something as payment."));
                 SUCCESS("TALK_TRAIN");
-                    SUCCESS_ACTION(&talk_function::clear_mission);
         }
         add_response( _("I'll take cash if you got it!"), "TALK_MISSION_REWARD",
                       &talk_function::mission_reward_cash );
@@ -1915,7 +1981,7 @@ void dialogue::gen_responses( const std::string &topic )
             SUCCESS("TALK_DONE");
                 SUCCESS_ACTION(&talk_function::clear_mission);
                 SUCCESS_OPINION(p->op_of_u.owed / (OWED_VAL * 4), -1,
-                                p->op_of_u.owed / (OWED_VAL * 2), -1, 0 - miss->get_value());
+                                p->op_of_u.owed / (OWED_VAL * 2), -1, 0 - mission_value);
 
     } else if( topic == "TALK_MISSION_SUCCESS_LIE" ) {
         add_response( _("Well, um, sorry."), "TALK_NONE", &talk_function::clear_mission );
@@ -1945,6 +2011,7 @@ void dialogue::gen_responses( const std::string &topic )
     } else if( topic == "TALK_EVAC_MERCHANT_PLANS" ) {
         add_response( _("It's just as bad out here, if not worse."), "TALK_EVAC_MERCHANT_PLANS2" );
     } else if( topic == "TALK_EVAC_MERCHANT_PLANS2" ) {
+        ///\EFFECT_INT >11 adds useful dialog option in TALK_EVAC_MERCHANT
         if (g->u.int_cur >= 12){
             add_response( _("[INT 12] Wait, six buses and refugees... how many people do you still have crammed in here?"),
                               "TALK_EVAC_MERCHANT_PLANS3" );
@@ -1962,10 +2029,14 @@ void dialogue::gen_responses( const std::string &topic )
         add_response( _("Fine... *coughupyourscough*"), "TALK_EVAC_MERCHANT" );
 
     } else if( topic == "TALK_EVAC_MERCHANT_ASK_JOIN" ) {
+            ///\EFFECT_INT >10 adds bad dialog option in TALK_EVAC_MERCHANT (NEGATIVE)
             if (g->u.int_cur > 10){
                 add_response( _("[INT 11] I'm sure I can organize salvage operations to increase the bounty scavengers bring in!"),
                                   "TALK_EVAC_MERCHANT_NO" );
             }
+            ///\EFFECT_INT <7 allows bad dialog option in TALK_EVAC_MERCHANT
+
+            ///\EFFECT_STR >10 allows bad dialog option in TALK_EVAC_MERCHANT
             if (g->u.int_cur <= 6 && g->u.str_cur > 10){
                 add_response( _("[STR 11] I punch things in face real good!"), "TALK_EVAC_MERCHANT_NO" );
             }
@@ -2109,8 +2180,8 @@ void dialogue::gen_responses( const std::string &topic )
 
     } else if( topic == "TALK_OLD_GUARD_NEC_COMMO" ) {
             if (g->u.has_trait("PROF_FED")){
-                for( auto miss : g->u.get_active_missions() ) {
-                    if( miss->name() == "Locate Commo Team" && !p->has_effect(_("gave_quest_item"))){
+                for( auto miss_it : g->u.get_active_missions() ) {
+                    if( miss_it->name() == "Locate Commo Team" && !p->has_effect(_("gave_quest_item"))){
                         add_response( _("[MISSION] The captain sent me to get a frequency list from you."),
                                           "TALK_OLD_GUARD_NEC_COMMO_FREQ" );
                     }
@@ -2234,8 +2305,8 @@ void dialogue::gen_responses( const std::string &topic )
     } else if( topic == "TALK_FREE_MERCHANT_STOCKS_DELIVERED" ) {
             add_response( _("You might be seeing more of me..."), "TALK_FREE_MERCHANT_STOCKS" );
     } else if( topic == "TALK_RANCH_FOREMAN" ) {
-            for( auto miss : g->u.get_active_missions() ) {
-                if( miss->name() == "Retrieve Prospectus" && !p->has_effect(_("gave_quest_item"))){
+            for( auto miss_it : g->u.get_active_missions() ) {
+                if( miss_it->name() == "Retrieve Prospectus" && !p->has_effect(_("gave_quest_item"))){
                     add_response( _("[MISSION] The merchant at the Refugee Center sent me to get a prospectus from you."), "TALK_RANCH_FOREMAN_PROSPECTUS" );
                 }
             }
@@ -2445,7 +2516,8 @@ void dialogue::gen_responses( const std::string &topic )
             add_response( _("Maybe another time..."), "TALK_DONE" );
     } else if( topic == "TALK_RANCH_BARBER_JOB" ) {
             add_response( _("..."), "TALK_RANCH_BARBER" );
-    } else if( topic == "TALK_RANCH_BARBER_HIRE" ) {
+    } 
+    if( topic == "TALK_RANCH_BARBER_HIRE" ) {
             add_response( _("..."), "TALK_RANCH_BARBER" );
     } else if( topic == "TALK_RANCH_BARBER_CUT" ) {
             add_response( _("Thanks..."), "TALK_DONE" );
@@ -2716,9 +2788,11 @@ void dialogue::gen_responses( const std::string &topic )
                 }
             }
             if( p->is_following() ) {
-                add_response( _("I want you to use this item"), "TALK_GIVE_ITEM" );
+                add_response( _("I want you to use this item"), "TALK_USE_ITEM" );
+                add_response( _("Hold on to this item"), "TALK_GIVE_ITEM" );
+                add_response( _("Miscellaneous rules..."), "TALK_MISC_RULES" );
             }
-            add_response( _("Miscellaneous rules..."), "TALK_MISC_RULES" );
+
             add_response( _("I'm going to go my own way for a while."), "TALK_LEAVE" );
             add_response_done( _("Let's go.") );
 
@@ -2849,6 +2923,7 @@ void dialogue::gen_responses( const std::string &topic )
                         SUCCESS("TALK_DEMAND_LEAVE");
                     }
                     SUCCESS_ACTION(&talk_function::player_weapon_drop);
+
             } else if (topic == "TALK_MUG") {
                 int chance = 35 + p->personality.bravery - 3 * p->personality.aggression +
                                  2 * p->personality.altruism - 2 * p->op_of_u.fear +
@@ -2922,6 +2997,11 @@ void dialogue::gen_responses( const std::string &topic )
 
     }
 
+    if( g->u.has_trait( "DEBUG_MIND_CONTROL" ) && !p->is_friend() ) {
+        add_response( _("OBEY ME!"), "TALK_MIND_CONTROL" );
+        add_response_done( _("Bye.") );
+    }
+
     if (ret.empty()) {
         add_response_done( _("Bye.") );
     }
@@ -2930,140 +3010,137 @@ void dialogue::gen_responses( const std::string &topic )
 int talk_trial::calc_chance( const dialogue &d ) const
 {
     player &u = *d.alpha;
+    if( u.has_trait( "DEBUG_MIND_CONTROL" ) ) {
+        return 100;
+    }
+
     npc &p = *d.beta;
- int chance = difficulty;
- switch (type) {
-  case TALK_TRIAL_NONE:
-  case NUM_TALK_TRIALS:
-   dbg( D_ERROR ) << "called calc_chance with invalid talk_trial value: " << type;
-   break;
-  case TALK_TRIAL_LIE:
-   chance += u.talk_skill() - p.talk_skill() + p.op_of_u.trust * 3;
-   if (u.has_trait("TRUTHTELLER")) {
-      chance -= 40;
-   }
-   if (u.has_trait("TAIL_FLUFFY")) {
-      chance -= 20;
-   }
-   else if (u.has_trait("LIAR")) {
-      chance += 40;
-   }
-   if (u.has_trait("ELFAEYES")) {
-      chance += 10;
-   }
-   if ((u.has_trait("WINGS_BUTTERFLY")) || (u.has_trait("FLOWERS"))) {
-      chance += 10;
-   }
-   if (u.has_bionic("bio_voice")) { //come on, who would suspect a robot of lying?
-      chance += 10;
-   }
-   if (u.has_bionic("bio_face_mask")) {
-   chance += 20;
-   }
-   break;
+    int chance = difficulty;
+    switch (type) {
+    case TALK_TRIAL_NONE:
+    case NUM_TALK_TRIALS:
+        dbg( D_ERROR ) << "called calc_chance with invalid talk_trial value: " << type;
+        break;
+    case TALK_TRIAL_LIE:
+        chance += u.talk_skill() - p.talk_skill() + p.op_of_u.trust * 3;
+        if (u.has_trait("TRUTHTELLER")) {
+          chance -= 40;
+        }
+        if (u.has_trait("TAIL_FLUFFY")) {
+          chance -= 20;
+        }
+        else if (u.has_trait("LIAR")) {
+          chance += 40;
+        }
+        if (u.has_trait("ELFAEYES")) {
+          chance += 10;
+        }
+        if ((u.has_trait("WINGS_BUTTERFLY")) || (u.has_trait("FLOWERS"))) {
+          chance += 10;
+        }
+        if (u.has_bionic("bio_voice")) { //come on, who would suspect a robot of lying?
+          chance += 10;
+        }
+        if (u.has_bionic("bio_face_mask")) {
+        chance += 20;
+        }
+        break;
+    case TALK_TRIAL_PERSUADE:
+        chance += u.talk_skill() - int(p.talk_skill() / 2) +
+               p.op_of_u.trust * 2 + p.op_of_u.value;
+        if (u.has_trait("ELFAEYES")) {
+          chance += 20;
+        }
+        if (u.has_trait("TAIL_FLUFFY")) {
+          chance += 10;
+        }
+        if (u.has_trait("WINGS_BUTTERFLY")) {
+          chance += 15; // Flutter your wings at 'em
+        }
+        if (u.has_bionic("bio_face_mask")) {
+          chance += 10;
+        }
+        if (u.has_trait("GROWL")) {
+          chance -= 25;
+        }
+        if (u.has_trait("HISS")) {
+          chance -= 25;
+        }
+        if (u.has_trait("SNARL")) {
+          chance -= 60;
+        }
+        if (u.has_bionic("bio_deformity")) {
+          chance -= 50;
+        }
+        if (u.has_bionic("bio_voice")) {
+          chance -= 20;
+        }
+        break;
+    case TALK_TRIAL_INTIMIDATE:
+        chance += u.intimidation() - p.intimidation() + p.op_of_u.fear * 2 -
+               p.personality.bravery * 2;
+        if (u.has_trait("MINOTAUR")) {
+          chance += 15;
+        }
+        if (u.has_trait("MUZZLE")) {
+          chance += 6;
+        }
+        if (u.has_trait("MUZZLE_LONG")) {
+          chance += 20;
+        }
+        if (u.has_trait("SABER_TEETH")) {
+          chance += 15;
+        }
+        if (u.has_trait("TERRIFYING")) {
+          chance += 15;
+        }
+        if (u.has_trait("ELFAEYES")) {
+          chance += 10;
+        }
+        //if (p.has_trait("TERRIFYING")) // This appears to do nothing, since NPCs don't seem to actually check for it.
+        // chance -= 15;
+        if (u.has_trait("GROWL")) {
+          chance += 15;
+        }
+        if (u.has_trait("HISS")) {
+          chance += 15;
+        }
+        if (u.has_trait("SNARL")) {
+          chance += 30;
+        }
+        if (u.has_trait("WINGS_BUTTERFLY")) {
+          chance -= 20; // Butterflies are not terribly threatening.  :-(
+        }
+        if (u.has_bionic("bio_face_mask")) {
+          chance += 10;
+        }
+        if (u.has_bionic("bio_armor_eyes")) {
+          chance += 10;
+        }
+        if (u.has_bionic("bio_deformity")) {
+          chance += 20;
+        }
+        if (u.has_bionic("bio_voice")) {
+          chance += 20;
+        }
+        break;
+    }
 
-  case TALK_TRIAL_PERSUADE:
-   chance += u.talk_skill() - int(p.talk_skill() / 2) +
-           p.op_of_u.trust * 2 + p.op_of_u.value;
-   if (u.has_trait("ELFAEYES")) {
-      chance += 20;
-   }
-   if (u.has_trait("TAIL_FLUFFY")) {
-      chance += 10;
-   }
-   if (u.has_trait("WINGS_BUTTERFLY")) {
-      chance += 15; // Flutter your wings at 'em
-   }
-   if (u.has_bionic("bio_face_mask")) {
-      chance += 10;
-   }
-   if (u.has_trait("GROWL")) {
-      chance -= 25;
-   }
-   if (u.has_trait("HISS")) {
-      chance -= 25;
-   }
-   if (u.has_trait("SNARL")) {
-      chance -= 60;
-   }
-   if (u.has_bionic("bio_deformity")) {
-      chance -= 50;
-   }
-   if (u.has_bionic("bio_voice")) {
-      chance -= 20;
-   }
-   break;
-
-  case TALK_TRIAL_INTIMIDATE:
-   chance += u.intimidation() - p.intimidation() + p.op_of_u.fear * 2 -
-           p.personality.bravery * 2;
-   if (u.has_trait("MINOTAUR")) {
-      chance += 15;
-   }
-   if (u.has_trait("MUZZLE")) {
-      chance += 6;
-   }
-   if (u.has_trait("MUZZLE_LONG")) {
-      chance += 20;
-   }
-   if (u.has_trait("SABER_TEETH")) {
-      chance += 15;
-   }
-   if (u.has_trait("TERRIFYING")) {
-      chance += 15;
-   }
-   if (u.has_trait("ELFAEYES")) {
-      chance += 10;
-   }
- //if (p.has_trait("TERRIFYING")) // This appears to do nothing, since NPCs don't seem to actually check for it.
- // chance -= 15;
-   if (u.has_trait("GROWL")) {
-      chance += 15;
-   }
-   if (u.has_trait("HISS")) {
-      chance += 15;
-   }
-   if (u.has_trait("SNARL")) {
-      chance += 30;
-   }
-   if (u.has_trait("WINGS_BUTTERFLY")) {
-      chance -= 20; // Butterflies are not terribly threatening.  :-(
-   }
-   if (u.has_bionic("bio_face_mask")) {
-      chance += 10;
-   }
-   if (u.has_bionic("bio_armor_eyes")) {
-      chance += 10;
-   }
-   if (u.has_bionic("bio_deformity")) {
-      chance += 20;
-   }
-   if (u.has_bionic("bio_voice")) {
-      chance += 20;
-   }
-   break;
-
- }
-
- if (chance < 0)
-  return 0;
- if (chance > 100)
-  return 100;
-
- return chance;
+    return std::max( 0, std::min( 100, chance ) );
 }
 
 bool talk_trial::roll( dialogue &d ) const
 {
-    if( type == TALK_TRIAL_NONE ) {
+    player &u = *d.alpha;
+    if( type == TALK_TRIAL_NONE || u.has_trait( "DEBUG_MIND_CONTROL" ) ) {
         return true;
     }
     int const chance = calc_chance( d );
     bool const success = rng( 0, 99 ) < chance;
     if( success ) {
-        d.alpha->practice( skill_speech, ( 100 - chance ) / 10 );
+        u.practice( skill_speech, ( 100 - chance ) / 10 );
     } else {
-        d.alpha->practice( skill_speech, ( 100 - chance ) / 7 );
+        u.practice( skill_speech, ( 100 - chance ) / 7 );
     }
     return success;
 }
@@ -3666,19 +3743,25 @@ void talk_function::start_training( npc *p )
     int cost;
     int time;
     std::string name;
-    if( p->chatbin.skill == NULL ) {
+    if( p->chatbin.skill != nullptr ) {
+        const Skill *skill = p->chatbin.skill;
+        cost = calc_skill_training_cost( skill );
+        time = calc_skill_training_time( skill );
+        name = skill->ident().str();
+    } else if( p->chatbin.style.is_valid() ) {
         auto &ma_style_id = p->chatbin.style;
         cost = calc_ma_style_training_cost( ma_style_id );
         time = calc_ma_style_training_time( ma_style_id );
         name = p->chatbin.style.str();
     } else {
-        const Skill *skill = p->chatbin.skill;
-        cost = calc_skill_training_cost( skill );
-        time = calc_skill_training_time( skill );
-        name = skill->ident().str();
+        debugmsg( "start_training with no skill or style set" );
+        return;
     }
 
-    if( p->op_of_u.owed >= cost ) {
+    mission *miss = p->chatbin.mission_selected;
+    if( miss != nullptr ) {
+        clear_mission( p );
+    } else if( p->op_of_u.owed >= cost ) {
         p->op_of_u.owed -= cost;
     } else if( !trade( p, -cost, _( "Pay for training:" ) ) ) {
         return;
@@ -3911,26 +3994,31 @@ std::string talk_response::effect_t::apply( dialogue &d ) const
 
 std::string dialogue::opt( const std::string &topic )
 {
- std::string challenge = dynamic_line( topic );
- gen_responses( topic );
-// Put quotes around challenge (unless it's an action)
- if (challenge[0] != '*' && challenge[0] != '&') {
-  std::stringstream tmp;
-  tmp << "\"" << challenge << "\"";
- }
-// Parse any tags in challenge
- parse_tags(challenge, alpha, beta);
- capitalize_letter(challenge);
-// Prepend "My Name: "
- if (challenge[0] == '&') // No name prepended!
-  challenge = challenge.substr(1);
- else if (challenge[0] == '*')
-  challenge = rmp_format(_("<npc does something>%s %s"), beta->name.c_str(),
-     challenge.substr(1).c_str());
- else
-  challenge = rmp_format(_("<npc says something>%s: %s"), beta->name.c_str(),
-     challenge.c_str());
- history.push_back(""); // Empty line between lines of dialogue
+    std::string challenge = dynamic_line( topic );
+    gen_responses( topic );
+    // Put quotes around challenge (unless it's an action)
+    if( challenge[0] != '*' && challenge[0] != '&' ) {
+        std::stringstream tmp;
+        tmp << "\"" << challenge << "\"";
+    }
+
+    // Parse any tags in challenge
+    parse_tags( challenge, alpha, beta );
+    capitalize_letter( challenge );
+
+    // Prepend "My Name: "
+    if( challenge[0] == '&' ) {
+        // No name prepended!
+        challenge = challenge.substr(1);
+    } else if( challenge[0] == '*' ) {
+        challenge = rmp_format( _("<npc does something>%s %s"), beta->name.c_str(),
+                                challenge.substr(1).c_str() );
+    } else {
+        challenge = rmp_format( _("<npc says something>%s: %s"), beta->name.c_str(),
+                                challenge.c_str() );
+    }
+
+    history.push_back(""); // Empty line between lines of dialogue
 
     // Number of lines to highlight
     size_t const hilight_lines = add_to_history( challenge );
@@ -3938,37 +4026,43 @@ std::string dialogue::opt( const std::string &topic )
         responses[i].do_formatting( *this, 'a' + i );
     }
 
- int ch;
- bool okay;
- do {
-  do {
-   ch = choose_response( hilight_lines );
-        auto st = special_talk(ch);
-        if( st != "TALK_NONE") {
-            return st;
+    int ch;
+    bool okay;
+    do {
+        do {
+            ch = choose_response( hilight_lines );
+            auto st = special_talk(ch);
+            if( st != "TALK_NONE" ) {
+                return st;
+            }
+            ch -= 'a';
+        } while ((ch < 0 || ch >= (int)responses.size()));
+        okay = false;
+        if( responses[ch].color == c_white || responses[ch].color == c_green) {
+            okay = true;
+        } else if( responses[ch].color == c_red && query_yn(_("You may be attacked! Proceed?"))) {
+            okay = true;
+        } else if( responses[ch].color == c_ltred && query_yn(_("You'll be helpless! Proceed?"))) {
+            okay = true;
         }
-    ch -= 'a';
-  } while ((ch < 0 || ch >= (int)responses.size()));
-  okay = false;
-  if (responses[ch].color == c_white || responses[ch].color == c_green)
-   okay = true;
-  else if (responses[ch].color == c_red && query_yn(_("You may be attacked! Proceed?")))
-   okay = true;
-  else if (responses[ch].color == c_ltred && query_yn(_("You'll be helpless! Proceed?")))
-   okay = true;
- } while (!okay);
- history.push_back("");
+    } while( !okay );
+    history.push_back("");
 
- std::string response_printed = rmp_format(_("<you say something>You: %s"), responses[ch].text.c_str());
+    std::string response_printed = rmp_format(_("<you say something>You: %s"), responses[ch].text.c_str());
     add_to_history( response_printed );
 
- talk_response chosen = responses[ch];
- if (chosen.mission_selected != nullptr)
-  beta->chatbin.mission_selected = chosen.mission_selected;
- if (chosen.skill != NULL)
-  beta->chatbin.skill = chosen.skill;
- if (!chosen.style.str().empty())
-  beta->chatbin.style = chosen.style;
+    talk_response chosen = responses[ch];
+    if( chosen.mission_selected != nullptr) {
+        beta->chatbin.mission_selected = chosen.mission_selected;
+    }
+
+    if( chosen.skill != NULL) {
+        beta->chatbin.skill = chosen.skill;
+    }
+
+    if( !chosen.style.str().empty()) {
+        beta->chatbin.style = chosen.style;
+    }
 
     const bool success = chosen.trial.roll( *this );
     const auto &effects = success ? chosen.success : chosen.failure;
@@ -4029,13 +4123,24 @@ TAB key to switch lists, letters to pick items, Enter to finalize, Esc to quit,\
     std::vector<item_pricing> yours = p->init_buying( g->u.inv );
 
     // Adjust the prices based on your barter skill.
-    const auto their_adjust = (price_adjustment(p->skillLevel( skill_barter ) - g->u.skillLevel( skill_barter )) +
+    // cap adjustment so nothing is ever sold below value
+    ///\EFFECT_INT_NPC slightly increases bartering price changes, relative to your INT
+
+    ///\EFFECT_BARTER_NPC increases bartering price changes, relative to your BARTER
+    double their_adjust = (price_adjustment(p->skillLevel( skill_barter ) - g->u.skillLevel( skill_barter )) +
                               (p->int_cur - g->u.int_cur) / 20.0);
+    if (their_adjust < 1)
+        their_adjust = 1;
     for( item_pricing &p : theirs ) {
         p.price *= their_adjust;
     }
-    const auto your_adjust = (price_adjustment(g->u.skillLevel( skill_barter ) - p->skillLevel( skill_barter )) +
+    ///\EFFECT_INT slightly increases bartering price changes, relative to NPC INT
+
+    ///\EFFECT_BARTER increases bartering price changes, relative to NPC BARTER
+    double your_adjust = (price_adjustment(g->u.skillLevel( skill_barter ) - p->skillLevel( skill_barter )) +
                              (g->u.int_cur - p->int_cur) / 20.0);
+    if (your_adjust < 1)
+        your_adjust = 1;
     for( item_pricing &p : yours ) {
         p.price *= your_adjust;
     }
@@ -4456,6 +4561,18 @@ dynamic_line_t::dynamic_line_t( JsonObject jo )
         function = [item_id, yes, no]( const dialogue &d ) {
             const bool wearing = d.alpha->is_wearing( item_id );
             return ( wearing ? yes : no )( d );
+        };
+    } else if( jo.has_member( "u_has_any_trait" ) ) {
+        const std::vector<std::string> traits_to_check = jo.get_string_array( "u_has_any_trait" );
+        const dynamic_line_t yes = from_member( jo, "yes" );
+        const dynamic_line_t no = from_member( jo, "no" );
+        function = [traits_to_check, yes, no]( const dialogue &d ) {
+            for( const auto &trait : traits_to_check ) {
+                if( d.alpha->has_trait( trait ) ) {
+                    return yes( d );
+                }
+            }
+            return no ( d );
         };
     } else {
         jo.throw_error( "no supported" );

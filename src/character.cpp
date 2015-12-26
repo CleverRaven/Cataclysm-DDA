@@ -9,6 +9,8 @@
 #include "field.h"
 #include "messages.h"
 #include "input.h"
+#include "monster.h"
+#include "mtype.h"
 
 Character::Character()
 {
@@ -70,8 +72,6 @@ void Character::mod_stat( const std::string &stat, int modifier )
         mod_int_bonus( modifier );
     } else if( stat == "healthy" ) {
         mod_healthy( modifier );
-    } else if( stat == "healthy_mod" ) {
-        mod_healthy_mod( modifier );
     } else if( stat == "hunger" ) {
         mod_hunger( modifier );
     } else if( stat == "speed" ) {
@@ -98,6 +98,9 @@ void Character::mod_stat( const std::string &stat, int modifier )
 bool Character::move_effects(bool attacking)
 {
     if (has_effect("downed")) {
+        ///\EFFECT_DEX increases chance to stand up when knocked down
+
+        ///\EFFECT_STR increases chance to stand up when knocked down, slightly
         if (rng(0, 40) > get_dex() + get_str() / 2) {
             add_msg_if_player(_("You struggle to stand."));
         } else {
@@ -108,6 +111,7 @@ bool Character::move_effects(bool attacking)
         return false;
     }
     if (has_effect("webbed")) {
+        ///\EFFECT_STR increases chance to escape webs
         if (x_in_y(get_str(), 6 * get_effect_int("webbed"))) {
             add_msg_player_or_npc(m_good, _("You free yourself from the webs!"),
                                     _("<npcname> frees themselves from the webs!"));
@@ -118,6 +122,9 @@ bool Character::move_effects(bool attacking)
         return false;
     }
     if (has_effect("lightsnare")) {
+        ///\EFFECT_STR increases chance to escape light snare
+
+        ///\EFFECT_DEX increases chance to escape light snare
         if(x_in_y(get_str(), 12) || x_in_y(get_dex(), 8)) {
             remove_effect("lightsnare");
             add_msg_player_or_npc(m_good, _("You free yourself from the light snare!"),
@@ -132,6 +139,9 @@ bool Character::move_effects(bool attacking)
         return false;
     }
     if (has_effect("heavysnare")) {
+        ///\EFFECT_STR increases chance to escape heavy snare, slightly
+
+        ///\EFFECT_DEX increases chance to escape light snare
         if(x_in_y(get_str(), 32) || x_in_y(get_dex(), 16)) {
             remove_effect("heavysnare");
             add_msg_player_or_npc(m_good, _("You free yourself from the heavy snare!"),
@@ -151,6 +161,7 @@ bool Character::move_effects(bool attacking)
            (at which point the player could later remove it from the leg with the right tools).
            As such we are currently making it a bit easier for players and NPC's to get out of bear traps.
         */
+        ///\EFFECT_STR increases chance to escape bear trap
         if(x_in_y(get_str(), 100)) {
             remove_effect("beartrap");
             add_msg_player_or_npc(m_good, _("You free yourself from the bear trap!"),
@@ -163,7 +174,9 @@ bool Character::move_effects(bool attacking)
         return false;
     }
     if (has_effect("crushed")) {
-        // Strength helps in getting free, but dex also helps you worm your way out of the rubble
+        ///\EFFECT_STR increases chance to escape crushing rubble
+
+        ///\EFFECT_DEX increases chance to escape crushing rubble, slightly
         if(x_in_y(get_str() + get_dex() / 4, 100)) {
             remove_effect("crushed");
             add_msg_player_or_npc(m_good, _("You free yourself from the rubble!"),
@@ -178,6 +191,9 @@ bool Character::move_effects(bool attacking)
     // Currently we only have one thing that forces movement if you succeed, should we get more
     // than this will need to be reworked to only have success effects if /all/ checks succeed
     if (has_effect("in_pit")) {
+        ///\EFFECT_STR increases chance to escape pit
+
+        ///\EFFECT_DEX increases chance to escape pit, slightly
         if (rng(0, 40) > get_str() + get_dex() / 2) {
             add_msg_if_player(m_bad, _("You try to escape the pit, but slip back in."));
             return false;
@@ -187,28 +203,36 @@ bool Character::move_effects(bool attacking)
             remove_effect("in_pit");
         }
     }
-    if (has_effect("grabbed")){
+    if( has_effect( "grabbed" ) && !attacking ) {
         int zed_number = 0;
         for( auto &&dest : g->m.points_in_radius( pos(), 1, 0 ) ){
-            if (g->mon_at(dest) != -1){
+            if( g->mon_at( dest ) != -1 &&
+                ( g->zombie( g->mon_at( dest ) ).has_flag( MF_GRABS ) ||
+                  g->zombie( g->mon_at( dest ) ).type->has_special_attack( "GRAB" ) ) ) {
                 zed_number ++;
             }
         }
-        if (attacking || zed_number == 0){
-            return true;
-        }
-        if (get_dex() > get_str() ? rng(0, get_dex()) : rng( 0, get_str()) < rng( get_effect_int("grabbed") , 8) ){
-            add_msg_player_or_npc(m_bad, _("You try break out of the grab, but fail!"),
-                                            _("<npcname> tries to break out of the grab, but fails!"));
+        if( zed_number == 0 ) {
+            add_msg_player_or_npc( m_good, _( "You find yourself no longer grabbed." ),
+                                   _( "<npcname> finds themselves no longer grabbed." ) );
+            remove_effect( "grabbed" );
+        ///\EFFECT_DEX increases chance to escape grab, if >STR
+
+        ///\EFFECT_STR increases chance to escape grab, if >DEX
+        } else if( rng( 0, std::max( get_dex(), get_str() ) ) < rng( get_effect_int( "grabbed" ), 8 ) ) {
+            // Randomly compare higher of dex or str to grab intensity.
+            add_msg_player_or_npc( m_bad, _( "You try break out of the grab, but fail!" ),
+                                   _( "<npcname> tries to break out of the grab, but fails!" ) );
             return false;
         } else {
-            add_msg_player_or_npc(m_good, _("You break out of the grab!"),
-                                            _("<npcname> breaks out of the grab!"));
-            remove_effect("grabbed");
+            add_msg_player_or_npc( m_good, _( "You break out of the grab!" ),
+                                   _( "<npcname> breaks out of the grab!" ) );
+            remove_effect( "grabbed" );
         }
     }
-    return Creature::move_effects(attacking);
+    return Creature::move_effects( attacking );
 }
+
 void Character::add_effect( efftype_id eff_id, int dur, body_part bp,
                             bool permanent, int intensity, bool force )
 {
@@ -225,6 +249,7 @@ void Character::recalc_hp()
 {
     int new_max_hp[num_hp_parts];
     for( auto &elem : new_max_hp ) {
+        ///\EFFECT_STR_MAX increases base hp
         elem = 60 + str_max * 3;
         if (has_trait("HUGE")) {
             // Bad-Huge doesn't quite have the cardio/skeletal/etc to support the mass,
@@ -262,13 +287,11 @@ void Character::recalc_hp()
             elem *= 1.4;
         }
     }
-    if (has_trait("GLASSJAW"))
-    {
+    if( has_trait( "GLASSJAW" ) ) {
         new_max_hp[hp_head] *= 0.8;
     }
-    for (int i = 0; i < num_hp_parts; i++)
-    {
-        hp_cur[i] *= (float)new_max_hp[i]/(float)hp_max[i];
+    for( int i = 0; i < num_hp_parts; i++ ) {
+        hp_cur[i] *= (float)new_max_hp[i] / (float)hp_max[i];
         hp_max[i] = new_max_hp[i];
     }
 }
@@ -290,7 +313,7 @@ void Character::recalc_sight_limits()
     vision_mode_cache.reset();
 
     // Set sight_max.
-    if (has_effect("blind") || worn_with_flag("BLIND")) {
+    if (has_effect("blind") || worn_with_flag("BLIND") || has_active_bionic("bio_blindfold")) {
         sight_max = 0;
     } else if( has_effect("boomered") && (!(has_trait("PER_SLIME_OK"))) ) {
         sight_max = 1;
@@ -634,6 +657,7 @@ int Character::weight_capacity() const
     // Get base capacity from creature,
     // then apply player-only mutation and trait effects.
     int ret = Creature::weight_capacity();
+    ///\EFFECT_STR increases carrying capacity
     ret += get_str() * 4000;
     if (has_trait("BADBACK")) {
         ret = int(ret * .65);
@@ -892,7 +916,9 @@ void Character::reset_stats()
         mod_dodge_bonus(-4);
     }
 
+    ///\EFFECT_STR_MAX above 15 decreases Dodge bonus by 1 (NEGATIVE)
     if (str_max >= 16) {mod_dodge_bonus(-1);} // Penalty if we're huge
+    ///\EFFECT_STR_MAX below 6 increases Dodge bonus by 1
     else if (str_max <= 5) {mod_dodge_bonus(1);} // Bonus if we're small
 
     nv_cached = false;
@@ -1061,9 +1087,37 @@ void Character::set_healthy_mod(int nhealthy_mod)
 {
     healthy_mod = nhealthy_mod;
 }
-void Character::mod_healthy_mod(int nhealthy_mod)
+void Character::mod_healthy_mod(int nhealthy_mod, int cap)
 {
+    // TODO: This really should be a full morale-like system, with per-effect caps
+    //       and durations.  This version prevents any single effect from exceeding its
+    //       intended ceiling, but multiple effects will overlap instead of adding.
+
+    // Cap indicates how far the mod is allowed to shift in this direction.
+    // It can have a different sign to the mod, e.g. for items that treat
+    // extremely low health, but can't make you healthy.
+    int low_cap;
+    int high_cap;
+    if( nhealthy_mod < 0 ) {
+        low_cap = cap;
+        high_cap = 200;
+    } else {
+        low_cap = -200;
+        high_cap = cap;
+    }
+
+    // If we're already out-of-bounds, we don't need to do anything.
+    if( (healthy_mod <= low_cap && nhealthy_mod < 0) ||
+        (healthy_mod >= high_cap && nhealthy_mod > 0) ) {
+        return;
+    }
+
     healthy_mod += nhealthy_mod;
+
+    // Since we already bailed out if we were out-of-bounds, we can
+    // just clamp to the boundaries here.
+    healthy_mod = std::min( healthy_mod, high_cap );
+    healthy_mod = std::max( healthy_mod, low_cap );
 }
 
 int Character::get_hunger() const
@@ -1115,20 +1169,28 @@ void Character::reset_bonuses()
     Creature::reset_bonuses();
 }
 
-void Character::update_health(int base_threshold)
+void Character::update_health(int external_modifiers)
 {
+    // Limit healthy_mod to [-200, 200].
+    // This also sets approximate bounds for the character's health.
     if( get_healthy_mod() > 200 ) {
         set_healthy_mod( 200 );
     } else if( get_healthy_mod() < -200 ) {
         set_healthy_mod( -200 );
     }
+
+    // Over the long run, health tends toward healthy_mod.
+    int break_even = get_healthy() - get_healthy_mod() + external_modifiers;
+
+    // But we allow some random variation.
     const long roll = rng( -100, 100 );
-    base_threshold += get_healthy() - get_healthy_mod();
-    if( roll > base_threshold ) {
+    if( roll > break_even ) {
         mod_healthy( 1 );
-    } else if( roll < base_threshold ) {
+    } else if( roll < break_even ) {
         mod_healthy( -1 );
     }
+
+    // And healthy_mod decays over time.
     set_healthy_mod( get_healthy_mod() * 3 / 4 );
 
     add_msg( m_debug, "Health: %d, Health mod: %d", get_healthy(), get_healthy_mod() );
@@ -1136,10 +1198,12 @@ void Character::update_health(int base_threshold)
 
 int Character::get_dodge_base() const
 {
+    ///\EFFECT_DEX increases dodge base
     return Creature::get_dodge_base() + (get_dex() / 2);
 }
 int Character::get_hit_base() const
 {
+    ///\EFFECT_DEX increases hit base, slightly
     return Creature::get_hit_base() + (get_dex() / 4) + 3;
 }
 

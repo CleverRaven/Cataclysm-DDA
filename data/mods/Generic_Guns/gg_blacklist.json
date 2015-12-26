@@ -89,7 +89,6 @@
         "mosin44_ebr",
         "m1903",
         "garand",
-        "abzats",
         "22_lr",
         "22_fmj",
         "22_cb",
@@ -172,7 +171,28 @@
         "retool_57",
         "retool_46",
         "retool_308",
-        "retool_223"
+        "retool_223",
+        "9x18mm",
+        "9x18mmP2",
+        "9x18mmfmj",
+        "reloaded_9x18mm",
+        "reloaded_9x18mmP2",
+        "reloaded_9x18mmfmj",
+        "9x18mm_casing",
+        "545",
+        "545_ap",
+        "545_casing",
+        "reloaded_545",
+        "reloaded_545_ap",
+        "makarov",
+        "skorpion_61",
+        "skorpion_82",
+        "combination_gun",
+        "lemat_revolver",
+        "ksg",
+        "ak74",
+        "an94",
+        "pipe_combination_gun"
     ]
   }
 ]

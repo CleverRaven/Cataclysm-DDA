@@ -136,6 +136,12 @@ class effect : public JsonSerializer, public JsonDeserializer
         effect(const effect &) = default;
         effect &operator=(const effect &) = default;
 
+        /** Dummy effect effect returned when getting an effect that doesn't exist. */
+        static effect null_effect;
+
+        /** Compares pointers of this effect with the dummy above. */
+        bool is_null() const;
+
         /** Returns the name displayed in the player status window. */
         std::string disp_name() const;
         /** Returns the description displayed in the player status window. */

@@ -6,6 +6,7 @@
     "name": "No Powered Armor",
     "author": "Rivet-the-Zombie",
     "description": "Removes powered armor.",
+    "category": "item_exclude",
     "path": "modinfo.json"
 },{
     "type": "ITEM_BLACKLIST",

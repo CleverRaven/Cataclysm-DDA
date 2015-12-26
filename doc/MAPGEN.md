@@ -18,14 +18,14 @@
 	* 2.1.1 "furniture":
         * 2.3 "set": [ ...
 	        * 2.3.0 "point" { ...
-		        * 2.3.0.0 "id": "..."
-		        * 2.3.0.1 "x" & "y": 123 | [ 12, 34 ]
+		        * 2.3.0.0 "x" & "y": 123 | [ 12, 34 ]
+		        * 2.3.0.1 "id": "..."
 		        * 2.3.0.2 "chance": 123
 		        * 2.3.0.3 "repeat": [ 1, 23 ]
 	        * 2.3.1 "line" {}
-		        * 2.3.1.0 "id"
-		        * 2.3.1.1 "x" & "y"
-		        * 2.3.1.2 "x2" & "y2"
+		        * 2.3.1.0 "x" & "y"
+		        * 2.3.1.1 "x2" & "y2"
+		        * 2.3.1.2 "id"
 		        * 2.3.1.3 "chance"
 		        * 2.3.1.4 "repeat"
 	        * 2.3.2 "square" {}
@@ -62,7 +62,8 @@
                 * 2.7.12 "terrain"
                 * 2.7.13 "monster"
                 * 2.7.14 "rubble"
-        * 2.6 "rotation":
+                * 2.7.15 "place_liquid"
+        * 2.8 "rotation":
 
 * 3 Method: lua
 	* 3.0 Tested functions
@@ -360,14 +361,17 @@ The arguments are exactly the same as "line", but "x", "y" and "x2", "y2" define
 Example: { "monster": "GROUP_ZOMBIE", "x": [ 13, 15 ], "y": 15, "chance": 10 }
 
 #### 2.4.0.0 "x" / "y"
-**required** Spawn coordinates ( specific or random )
+**required** Spawn coordinates ( specific or area rectangle )
 > Value: 0-23
 
 -or-
 
 > Value: [ 0-23, 0-23 ] - random point between [ a, b ]
+When using a range, the minimum and maximum values will be used in creating rectangle coordinates to be used by map::place_spawns.
+Each monster generated from the monster group will be placed in a different random location within the rectangle.
 
 Example: "x": 12, "y": [ 5, 15 ]
+These values will produce a rectangle for map::place_spawns from ( 12, 5 ) to ( 12, 15 ) inclusive.
 
 #### 2.4.0.1 "density"
 **optional** magic sauce spawn amount number. Someone else describe this better >.>
@@ -384,14 +388,17 @@ Example: "x": 12, "y": [ 5, 15 ]
 Example: { "item": "livingroom", "x": [ 13, 15 ], "y": 15, "chance": 50 }
 
 #### 2.4.1.0 "x" / "y"
-**required** Spawn coordinates ( specific or random )
+**required** Spawn coordinates ( specific or area rectangle )
 > Value: 0-23
 
 -or-
 
-> Value: [ 0-23, 0-23 ] - random point between [ a, b ]
+> Value: [ 0-23, 0-23 ] - a range between [ a, b ] inclusive
+When using a range, the minimum and maximum values will be used in creating rectangle coordinates to be used by map::place_items.
+Each item from the item group will be placed in a different random location within the rectangle.
 
 Example: "x": 12, "y": [ 5, 15 ]
+These values will produce a rectangle for map::place_items from ( 12, 5 ) to ( 12, 15 ) inclusive.
 
 #### 2.4.1.1 "chance"
 **required** unlike everything else, this is a percentage. Maybe
@@ -540,8 +547,9 @@ Places a new NPC. Values:
 - "class": (required, string) the npc class id, see data/json/npcs/npc.json or define your own npc class.
 
 ### 2.7.2 "signs"
-Places a sign (furniture f_sign) with a message written on it. Values:
-- "signage": (required, string) the message that should appear on the sign.
+Places a sign (furniture f_sign) with a message written on it. Either "signage" or "snippet" must be defined.  The message may include tags like \<full_name\>, \<given_name\>, and \<family_name\> that will insert a randomly generated name, or \<city\> that will insert the nearest city name.  Values:
+- "signage": (optional, string) the message that should appear on the sign.
+- "snippet": (optional, string) a category of snippets that can appear on the sign.
 
 ### 2.7.3 "vendingmachines"
 Places a vending machine (furniture) and fills it with items. The machine can sometimes spawn as broken one. Values:
@@ -559,26 +567,26 @@ Places a gas pump with gasoline (or sometimes diesel) in it. Values:
 ### 2.7.6 "items"
 Places items from an item group. Values:
 - "item": (required, string) the item group to use.
-- "chance": (optional, integer or min/max array) the chance to spawn multiple items (see `map::place_items`).
+- "chance": (optional, integer or min/max array) x in 100 chance that a loop will continue to spawn items from the group (which itself may spawn multiple items or not depending on its type, see `ITEM_SPAWN.md`), unless the chance is 100, in which case it will trigger the item group spawn exactly 1 time (see `map::place_items`).
 
 ### 2.7.7 "monsters"
 Places a monster spawn point, the actual monsters are spawned when the map is loaded. Values:
 - "monster": (required, string) a monster group id, when the map is loaded, a random monsters from that group are spawned.
 - "density": (optional, float) if defined, it overrides the default monster density at the location (monster density is bigger towards the city centers) (see `map::place_spawns`).
-- "chance": (optional, integer or min/max array) chance of monster (see `map::place_spawns`).
+- "chance": (optional, integer or min/max array) one in x chance of spawn point being created (see `map::place_spawns`).
 
 ### 2.7.8 "vehicles"
 Places a vehicle. Values:
 - "vehicle": (required, string) type of the vehicle or id of a vehicle group.
-- "chance": (optional, integer or min/max array) chance of the vehicle spawning at all (in percent, 100 = always). The default is 1 (which means 1% probability that the vehicle spawns, you probably want something larger).
+- "chance": (optional, integer or min/max array) x in 100 chance of the vehicle spawning at all. The default is 1 (which means 1% probability that the vehicle spawns, you probably want something larger).
 - "rotation": (optional, integer) the direction the vehicle faces.
 - "fuel": (optional, integer) the fuel status. Default is -1 which makes the tanks 1-7% full. Positive values are interpreted as percentage of the vehicles tanks to fill (e.g. 100 means completely full). 
-    - "status": (optional, integer) default is -1 (no damage at all), a value of 1 means some damage.
+- "status": (optional, integer) default is -1 (light damage), a value of 0 means perfect condition, 1 means heavily damaged.
 
 ### 2.7.9 "item"
 Places a specific item. Values:
 - "item": (required, string) the item type id of the new item.
-- "chance": (optional, integer or min/max array) the chance to spawn multiple items (see `map::place_items`). This is a one_in(chance) check, 1 (the default) means it will always spawn.
+- "chance": (optional, integer or min/max array) one in x chance that the item will spawn. Default is 1, meaning it will always spawn.
 - "amount": (optional, integer or min/max array) the number of items to spawn, default is 1.
 
 To use this type with explicit coordinates use the name "add" (this if for backwards compatibility) like this:
@@ -622,6 +630,20 @@ To use this type with explicit coordinates use the name "place_rubble" (no plura
 "place_rubble": [
     { "x": 10, "y": 1 }
 ]
+```
+
+### 2.7.15 "place_liquids"
+Creates a liquid item at the specified location. Liquids can't currently be picked up (except for gasoline in tanks or pumps), but can be used to add flavor to mapgen.
+Values:
+- "liquid": (required, item id) the item (a liquid)
+- "amount": (optional, integer/min-max array) amount of liquid to place (a value of 0 defaults to the item's default charges)
+- "chance": (optional, integer/min-max array) one in x chance of spawning a liquid, default value is 1 (100%)
+
+Example for dropping a default amount of gasoline (200 units) on the ground:
+```JSON
+"place_liquid": [
+    { "liquid": "gasoline", "x": 3, "y": 5 }
+],
 ```
 
 # 2.8 "rotation"

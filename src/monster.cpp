@@ -106,66 +106,31 @@ monster::monster()
     ignoring = 0;
     upgrades = false;
     upgrade_time = -1;
+    last_updated = 0;
 }
 
-monster::monster( const mtype_id& id )
+monster::monster( const mtype_id& id ) : monster()
 {
-    position.x = 20;
-    position.y = 10;
-    position.z = -500; // Some arbitrary number that will cause debugmsgs
-    unset_dest();
-    wandf = 0;
     type = &id.obj();
     moves = type->speed;
     Creature::set_speed_base(type->speed);
     hp = type->hp;
-    for( auto &elem : type->sp_freq ) {
-        sp_timeout.push_back( rng( 0, elem ) );
+    for( auto &sa : type->special_attacks ) {
+        auto &entry = special_attacks[sa.first];
+        entry.cooldown = rng(0,sa.second.cooldown);
     }
     def_chance = type->def_chance;
-    friendly = 0;
     anger = type->agro;
     morale = type->morale;
     faction = type->default_faction;
-    mission_id = -1;
-    no_extra_death_drops = false;
-    dead = false;
-    made_footstep = false;
-    unique_name = "";
-    hallucination = false;
-    ignoring = 0;
     ammo = type->starting_ammo;
     upgrades = type->upgrades;
-    upgrade_time = -1;
 }
 
-monster::monster( const mtype_id& id, const tripoint &p )
+monster::monster( const mtype_id& id, const tripoint &p ) : monster(id)
 {
     position = p;
     unset_dest();
-    wandf = 0;
-    type = &id.obj();
-    moves = type->speed;
-    Creature::set_speed_base(type->speed);
-    hp = type->hp;
-    for( auto &elem : type->sp_freq ) {
-        sp_timeout.push_back( elem );
-    }
-    def_chance = type->def_chance;
-    friendly = 0;
-    anger = type->agro;
-    morale = type->morale;
-    faction = type->default_faction;
-    mission_id = -1;
-    no_extra_death_drops = false;
-    dead = false;
-    made_footstep = false;
-    unique_name = "";
-    hallucination = false;
-    ignoring = 0;
-    ammo = type->starting_ammo;
-    upgrades = type->upgrades;
-    upgrade_time = -1;
 }
 
 monster::~monster()
@@ -200,9 +165,10 @@ void monster::poly( const mtype_id& id )
     anger = type->agro;
     morale = type->morale;
     hp = int(hp_percentage * type->hp);
-    sp_timeout.clear();
-    for( auto &elem : type->sp_freq ) {
-        sp_timeout.push_back( elem );
+    special_attacks.clear();
+    for( auto &sa : type->special_attacks ) {
+        auto &entry = special_attacks[sa.first];
+        entry.cooldown = sa.second.cooldown;
     }
     def_chance = type->def_chance;
     faction = type->default_faction;
@@ -230,7 +196,7 @@ void monster::hasten_upgrade() {
 // Checking for return value of -1 is necessary.
 int monster::next_upgrade_time() {
     const int scaled_half_life = type->half_life * ACTIVE_WORLD_OPTIONS["MONSTER_UPGRADE_FACTOR"];
-    int day = 0;
+    int day = scaled_half_life;
     for (int i = 0; i < UPGRADE_MAX_ITERS; i++) {
         if (one_in(2)) {
             day += rng(0, scaled_half_life);
@@ -409,6 +375,8 @@ int monster::print_info(WINDOW* w, int vStart, int vLines, int column) const
         wprintz(w, h_white, _("Trapped"));
     } else if (has_effect("tied")) {
         wprintz(w, h_white, _("Tied"));
+    } else if (has_effect("shrieking")) {
+        wprintz(w, h_white, _("Shrieking"));
     }
     std::string damage_info;
     nc_color col;
@@ -706,6 +674,10 @@ monster_attitude monster::attitude(player *u) const
             if (effective_anger < 10) {
                 effective_morale -= 5;
             }
+        }
+        if( type->in_species( FUNGUS ) && u->has_trait("MYCUS_THRESH") ) {
+            // We. Are. The Mycus.
+            effective_anger = 0;
         }
     }
 
@@ -1086,7 +1058,7 @@ void monster::deal_projectile_attack( Creature *source, dealt_projectile_attack 
     const auto &proj = attack.proj;
     double &missed_by = attack.missed_by; // We can change this here
     const auto &effects = proj.proj_effects;
-    
+
     // Whip has a chance to scare wildlife even if it misses
     if( effects.count("WHIP") && type->in_category("WILDLIFE") && one_in(3) ) {
         add_effect("run", rng(3, 5));
@@ -1164,9 +1136,21 @@ void monster::deal_damage_handle_type(const damage_unit& du, body_part bp, int& 
     Creature::deal_damage_handle_type(du, bp, damage, pain);
 }
 
-void monster::heal( const int delta_hp )
+int monster::heal( const int delta_hp, bool overheal )
 {
+    const int maxhp = type->hp;
+    if( delta_hp <= 0 || (hp >= maxhp && !overheal) ) {
+        return 0;
+    }
+
     hp += delta_hp;
+    if( hp > maxhp && !overheal ) {
+        const int old_hp = hp;
+        hp = maxhp;
+        return maxhp - old_hp;
+    }
+
+    return delta_hp;
 }
 
 void monster::set_hp( const int hp )
@@ -1307,13 +1291,13 @@ int monster::get_armor_cut(body_part bp) const
 {
     (void) bp;
     // TODO: Add support for worn armor?
-    return int(type->armor_cut) + armor_bash_bonus;
+    return int(type->armor_cut) + armor_cut_bonus;
 }
 
 int monster::get_armor_bash(body_part bp) const
 {
     (void) bp;
-    return int(type->armor_bash) + armor_cut_bonus;
+    return int(type->armor_bash) + armor_bash_bonus;
 }
 
 int monster::hit_roll() const {
@@ -1455,35 +1439,24 @@ int monster::impact( const int force, const tripoint &p )
     return total_dealt;
 }
 
-void monster::reset_special(int index)
+void monster::reset_special(const std::string &special_name)
 {
-    if (index < 0) {
-        return;
-    }
-
-    sp_timeout[index] = type->sp_freq[index];
+    special_attacks[special_name].cooldown = type->special_attacks.at(special_name).cooldown;;
 }
 
-void monster::reset_special_rng(int index)
+void monster::reset_special_rng(const std::string &special_name)
 {
-    if (index < 0) {
-        return;
-    }
-
-    sp_timeout[index] = rng(0, type->sp_freq[index]);
+    special_attacks[special_name].cooldown = rng(0,type->special_attacks.at(special_name).cooldown);
 }
 
-void monster::set_special(int index, int time)
+void monster::set_special(const std::string &special_name, int time)
 {
-    if (index < 0) {
-        return;
-    }
+    special_attacks[special_name].cooldown = time;
+}
 
-    // -1 is used for disabling specials
-    if (time < -1) {
-        time = 0;
-    }
-    sp_timeout[index] = time;
+void monster::disable_special(const std::string &special_name)
+{
+    special_attacks[special_name].enabled = false;
 }
 
 void monster::normalize_ammo( const int old_ammo )
@@ -1549,7 +1522,7 @@ void monster::explode()
                 } else if( type_gib != fd_null ) {
                     g->m.add_field( tarp, type_gib, rng( 1, j + 1 ), 0 );
                 }
-                if( g->m.move_cost( tarp ) == 0 ) {
+                if( g->m.impassable( tarp ) ) {
                     if( !g->m.bash( tarp, 3 ).success ) {
                         // Target is obstacle, not destroyed by bashing,
                         // stop trajectory in front of it, if this is the first
@@ -1728,28 +1701,19 @@ void monster::process_effects()
         }
     }
 
-    //If this monster has the ability to heal in combat, do it now.
-    if( has_flag( MF_REGENERATES_50 ) ) {
-        if( hp < type->hp ) {
-            if( one_in( 2 ) && g->u.sees( *this ) ) {
-                add_msg( m_warning, _( "The %s is visibly regenerating!" ), name().c_str() );
-            }
-            hp += 50;
-            if( hp > type->hp ) {
-                hp = type->hp;
-            }
-        }
+    // Like with player/NPCs - keep the speed above 0
+    const int min_speed_bonus = -0.75 * get_speed_base();
+    if( get_speed_bonus() < min_speed_bonus ) {
+        set_speed_bonus( min_speed_bonus );
     }
-    if( has_flag( MF_REGENERATES_10 ) ) {
-        if( hp < type->hp ) {
-            if( one_in( 2 ) && g->u.sees( *this ) ) {
-                add_msg( m_warning, _( "The %s seems a little healthier." ), name().c_str() );
-            }
-            hp += 10;
-            if( hp > type->hp ) {
-                hp = type->hp;
-            }
-        }
+
+    //If this monster has the ability to heal in combat, do it now.
+    if( has_flag( MF_REGENERATES_50 ) && heal( 50 ) > 0 && one_in( 2 ) && g->u.sees( *this ) ) {
+        add_msg( m_warning, _( "The %s is visibly regenerating!" ), name().c_str() );
+    }
+
+    if( has_flag( MF_REGENERATES_10 ) && heal( 10 ) > 0 && one_in( 2 ) && g->u.sees( *this ) ) {
+        add_msg( m_warning, _( "The %s seems a little healthier." ), name().c_str() );
     }
 
     //Monster will regen morale and aggression if it is on max HP
@@ -2049,3 +2013,35 @@ void monster::hear_sound( const tripoint &source, const int vol, const int dist 
         wander_to( tripoint( 2 * posx() - target_x, 2 * posy() - target_y, 2 * posz() - source.z ), wander_turns );
     }
 }
+
+void monster::on_unload()
+{
+    last_updated = calendar::turn;
+}
+
+void monster::on_load()
+{
+    // Possible TODO: Integrate monster upgrade
+    const int dt = calendar::turn - last_updated;
+    last_updated = calendar::turn;
+    if( dt <= 0 ) {
+        return;
+    }
+
+    float regen = 0.0f;
+    if( has_flag( MF_REGENERATES_50 ) ) {
+        regen = 50.0f;
+    } else if( has_flag( MF_REGENERATES_10 ) ) {
+        regen = 10.0f;
+    } else if( has_flag( MF_REVIVES ) ) {
+        regen = 1.0f / HOURS(1);
+    } else if( type->has_material( "flesh" ) || type->has_material( "veggy" ) ) {
+        // Most living stuff here
+        regen = 0.25f / HOURS(1);
+    }
+
+    const int heal_amount = divide_roll_remainder( regen * dt, 1.0 );
+    const int healed = heal( heal_amount );
+    add_msg( m_debug, "on_load() by %s, %d turns, healed %d", name().c_str(), dt, healed );
+}
+

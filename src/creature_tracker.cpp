@@ -13,21 +13,21 @@ Creature_tracker::~Creature_tracker()
     clear();
 }
 
-monster &Creature_tracker::find(int index)
+monster &Creature_tracker::find( int index )
 {
-    return const_cast<monster &>( const_cast<const Creature_tracker*>(this)->find( index ) );
+    return const_cast<monster &>( const_cast<const Creature_tracker *>( this )->find( index ) );
 }
 
 const monster &Creature_tracker::find( int index ) const
 {
     static monster nullmon;
-    if( index < 0 || index >= (int)monsters_list.size() ) {
+    if( index < 0 || index >= ( int )monsters_list.size() ) {
         debugmsg( "Tried to find monster with invalid index %d. Monster num: %d",
                   index, monsters_list.size() );
         return nullmon;
     }
 
-    return *(monsters_list[index]);
+    return *( monsters_list[index] );
 }
 
 int Creature_tracker::mon_at( const tripoint &coords ) const
@@ -36,7 +36,7 @@ int Creature_tracker::mon_at( const tripoint &coords ) const
     if( iter != monsters_by_location.end() ) {
         const int critter_id = iter->second;
         if( !monsters_list[critter_id]->is_dead() ) {
-            return (int)critter_id;
+            return ( int )critter_id;
         }
     }
 
@@ -58,7 +58,7 @@ bool Creature_tracker::add( monster &critter )
         } else if( critter.is_hallucination() ) {
             return false;
         } else {
-            debugmsg( "add_zombie: there's already a monster at %d,%d,%d", 
+            debugmsg( "add_zombie: there's already a monster at %d,%d,%d",
                       critter.posx(), critter.posy(), critter.posz() );
             return false;
         }
@@ -69,7 +69,7 @@ bool Creature_tracker::add( monster &critter )
     }
 
     monsters_by_location[critter.pos()] = monsters_list.size();
-    monsters_list.push_back(new monster(critter));
+    monsters_list.push_back( new monster( critter ) );
     return true;
 }
 
@@ -78,7 +78,7 @@ size_t Creature_tracker::size() const
     return monsters_list.size();
 }
 
-bool Creature_tracker::update_pos(const monster &critter, const tripoint &new_pos)
+bool Creature_tracker::update_pos( const monster &critter, const tripoint &new_pos )
 {
     const auto old_pos = critter.pos();
     if( critter.is_dead() ) {
@@ -117,9 +117,9 @@ bool Creature_tracker::update_pos(const monster &critter, const tripoint &new_po
     } else {
         // We're changing the x/y/z coordinates of a zombie that hasn't been added
         // to the game yet. add_zombie() will update monsters_by_location for us.
-        debugmsg("update_zombie_pos: no %s at %d,%d,%d (moving to %d,%d,%d)",
-                 critter.disp_name().c_str(),
-                 old_pos.x, old_pos.y, old_pos.z, new_pos.x, new_pos.y, new_pos.z );
+        debugmsg( "update_zombie_pos: no %s at %d,%d,%d (moving to %d,%d,%d)",
+                  critter.disp_name().c_str(),
+                  old_pos.x, old_pos.y, old_pos.z, new_pos.x, new_pos.y, new_pos.z );
         // Rebuild cache in case the monster actually IS in the game, just bugged
         rebuild_cache();
         return false;
@@ -142,7 +142,7 @@ void Creature_tracker::remove_from_location_map( const monster &critter )
 
 void Creature_tracker::remove( const int idx )
 {
-    if( idx < 0 || idx >= (int)monsters_list.size() ) {
+    if( idx < 0 || idx >= ( int )monsters_list.size() ) {
         debugmsg( "Tried to remove monster with invalid index %d. Monster num: %d",
                   idx, monsters_list.size() );
         return;
@@ -156,7 +156,7 @@ void Creature_tracker::remove( const int idx )
 
     // Fix indices in monsters_by_location for any zombies that were just moved down 1 place.
     for( auto &elem : monsters_by_location ) {
-        if( elem.second > (size_t)idx ) {
+        if( elem.second > ( size_t )idx ) {
             --elem.second;
         }
     }

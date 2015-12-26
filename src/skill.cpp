@@ -152,11 +152,18 @@ SkillLevel::SkillLevel(int minLevel, int maxLevel, int minExercise, int maxExerc
 {
 }
 
-void SkillLevel::train(int amount)
+void SkillLevel::train(int amount, bool skip_scaling)
 {
-    _exercise += amount;
+    if( skip_scaling ) {
+        _exercise += amount;
+    } else {
+        const double scaling = OPTIONS["SKILL_TRAINING_SPEED"];
+        if( scaling > 0.0 ) {
+            _exercise += divide_roll_remainder( amount * scaling, 1.0 );
+        }
+    }
 
-    if (_exercise >= 100 * (_level + 1) * (_level + 1)) {
+    if( _exercise >= 100 * (_level + 1) * (_level + 1) ) {
         _exercise = 0;
         ++_level;
     }
@@ -219,6 +226,11 @@ void SkillLevel::readBook(int minimumGain, int maximumGain, int maximumLevel)
     }
 
     practice();
+}
+
+bool SkillLevel::can_train() const
+{
+    return OPTIONS["SKILL_TRAINING_SPEED"] > 0.0;
 }
 
 //Actually take the difference in barter skill between the two parties involved

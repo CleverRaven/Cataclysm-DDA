@@ -19,11 +19,11 @@
 #include "mapdata.h"
 #include <chrono>
 #ifdef SDL_SOUND
-#include "SDL2/SDL_mixer.h"
-#include <thread>
-#if (defined _WIN32 || defined WINDOWS)
-#   include "mingw.thread.h"
-#endif
+#   include <SDL_mixer.h>
+#   include <thread>
+#   if (defined _WIN32 || defined WINDOWS)
+#       include "mingw.thread.h"
+#   endif
 #endif
 
 #define dbg(x) DebugLog((DebugLevel)(x),D_SDL) << __FILE__ << ":" << __LINE__ << ": "
@@ -165,7 +165,9 @@ void sounds::process_sounds()
         // --- Monster sound handling here ---
         // Alert all hordes
         if( vol > 20 && g->get_levz() == 0 ) {
-            int sig_power = ( ( vol > 140 ) ? 140 : vol ) - 20;
+            int sig_power = ( ( vol > 140 ) ? 140 : vol );
+            // With this, volume 100 reaches 20 overmap tiles away.
+            sig_power /= 5;
             const point abs_ms = g->m.getabs( source.x, source.y );
             const point abs_sm = overmapbuffer::ms_to_sm_copy( abs_ms );
             const tripoint target( abs_sm.x, abs_sm.y, source.z );
@@ -630,8 +632,8 @@ sfx::sound_thread::sound_thread( const tripoint &source, const tripoint &target,
     } else {
         p = g->active_npc[npc_index];
         ang_src = get_heard_angle( source );
-        vol_src = heard_volume - 30;
-        vol_targ = heard_volume - 20;
+        vol_src = std::max(heard_volume - 30, 0);
+        vol_targ = std::max(heard_volume - 20, 0);
     }
     ang_targ = get_heard_angle( target );
     weapon_skill = p->weapon.weap_skill();

@@ -22,6 +22,13 @@ struct itype;
 struct mtype;
 using mtype_id = string_id<mtype>;
 
+enum hack_result {
+    HACK_UNABLE,
+    HACK_FAIL,
+    HACK_NOTHING,
+    HACK_SUCCESS
+};
+
 namespace iexamine
 {
 /**
@@ -30,7 +37,7 @@ namespace iexamine
     * Also spawns eggs.
     * @param montype The monster type of the created spiders.
     */
-void egg_sack_generic( player *p, map *m, const tripoint &examp, const mtype_id& montype );
+void egg_sack_generic( player *p, map *m, const tripoint &examp, const mtype_id &montype );
 
 void none( player *p, map *m, const tripoint &examp );
 
@@ -84,7 +91,6 @@ void shrub_wildveggies( player *p, map *m, const tripoint &examp );
 void recycler( player *p, map *m, const tripoint &examp );
 void trap( player *p, map *m, const tripoint &examp );
 void water_source( player *p, map *m, const tripoint &examp );
-void swater_source( player *p, map *m, const tripoint &examp );
 void kiln_empty( player *p, map *m, const tripoint &examp );
 void kiln_full( player *p, map *m, const tripoint &examp );
 void fvat_empty( player *p, map *m, const tripoint &examp );
@@ -95,11 +101,13 @@ void curtains( player *p, map *m, const tripoint &examp );
 void sign( player *p, map *m, const tripoint &examp );
 void pay_gas( player *p, map *m, const tripoint &examp );
 void climb_down( player *p, map *m, const tripoint &examp );
+hack_result hack_attempt( player &p );
 
 /**
  * Items that appear when a generic plant is harvested. Seed @ref islot_seed.
  * @param type The seed type, must have a @ref itype::seed slot.
- * @param plant_count Number of fruits to generate.
+ * @param plant_count Number of fruits to generate. For charge-based items, this
+ *     specifies multiples of the default charge.
  * @param seed_count Number of seeds to generate.
  * @param byproducts If true, byproducts (like straw, withered plants, see
  * @ref islot_seed::byproducts) are included.

@@ -91,7 +91,7 @@ bool npc::sees_dangerous_field( const tripoint &p ) const
 
 bool npc::could_move_onto( const tripoint &p ) const
 {
-    return g->m.move_cost( p ) != 0 && !sees_dangerous_field( p );
+    return g->m.passable( p ) && !sees_dangerous_field( p );
 }
 
 // class npc functions!
@@ -576,9 +576,7 @@ void npc::execute_action(npc_action action, int target)
     }
 
     if( oldmoves == moves ) {
-        dbg(D_ERROR) << "map::execute_action: NPC didn't use its moves.";
-        debugmsg("NPC didn't use its moves.  Action %d.  Turning on debug mode.", action);
-        debug_mode = true;
+        add_msg( m_debug, "NPC didn't use its moves.  Action %d.", action);
     }
 }
 
@@ -823,6 +821,9 @@ npc_action npc::address_needs(int danger)
 
         if( rules.allow_sleep || fatigue > MASSIVE_FATIGUE ) {
             return npc_sleep;
+        } else if( g->u.in_sleep_state() ) {
+            // TODO: "Guard me while I sleep" command
+            return npc_sleep;
         } else if( g->u.sees( *this ) && !has_effect( "npc_said" ) &&
                    one_in( 10000 / ( fatigue + 1 ) ) ) {
             say( "<yawn>" );
@@ -1010,6 +1011,7 @@ int npc::confident_range(int position)
         item *thrown = &i_at(position);
         max = throw_range(position); // The max distance we can throw
         deviation = 0;
+        ///\EFFECT_THROW_NPC increases throwing confidence
         if (skillLevel( skill_throw ) < 8) {
             deviation += 8 - skillLevel( skill_throw );
         } else {
@@ -1018,6 +1020,7 @@ int npc::confident_range(int position)
 
         deviation += throw_dex_mod();
 
+        ///\EFFECT_PER_NPC increases throwing confidence
         if (per_cur < 6) {
             deviation += 8 - per_cur;
         } else if (per_cur > 8) {
@@ -1032,6 +1035,7 @@ int npc::confident_range(int position)
             deviation += 3;
         }
 
+        ///\EFFECT_STR_NPC decreases throwing confidence
         deviation += 1 + abs(str_cur - (thrown->weight() / 113));
     }
     //Account for rng's, *.5 for 50%
@@ -1118,7 +1122,7 @@ bool npc::is_blocking_position( const tripoint &p ) {
         right.y += dy;
     }
 
-    return (g->m.move_cost(left) == 0 && g->m.move_cost(right) == 0);
+    return g->m.impassable(left) && g->m.impassable(right);
 }
 
 bool npc::need_to_reload()
@@ -1188,7 +1192,7 @@ bool npc::can_move_to( const tripoint &p, bool no_bashing ) const
     // Allow moving into any bashable spots, but penalize them during pathing
     return( rl_dist( pos(), p ) <= 1 &&
               (
-                g->m.move_cost( p ) > 0 ||
+                g->m.passable( p ) ||
                 ( !no_bashing && g->m.bash_rating( smash_ability(), p ) > 0 ) ||
                 g->m.open_door( p, !g->m.is_outside( pos() ), true )
               )
@@ -1217,6 +1221,9 @@ void npc::move_to( const tripoint &pt, bool no_bashing )
     }
 
     if (recoil > 0) { // Start by dropping recoil a little
+        ///\EFFECT_STR_NPC increases recoil recovery speed
+
+        ///\EFFECT_GUN_NPC increases recoil recovery speed
         if (int(str_cur / 2) + skillLevel( skill_gun ) >= (int)recoil) {
             recoil = MIN_RECOIL;
         } else {
@@ -1281,35 +1288,64 @@ void npc::move_to( const tripoint &pt, bool no_bashing )
         }
     }
 
-    if( p.z != posz() ) {
-        // Z-level move
-        // For now just teleport to the destination
-        // TODO: Make it properly find the tile to move to
-        moves -= 100;
-        setpos( p );
-        return;
-    }
-
     // Boarding moving vehicles is fine, unboarding isn't
+    bool moved = false;
     const vehicle *veh = g->m.veh_at( pos() );
     if( veh != nullptr ) {
         int other_part = -1;
         const vehicle *oveh = g->m.veh_at( p, other_part );
         if( abs(veh->velocity) > 0 &&
             ( oveh != veh ||
-              veh->part_with_feature( other_part, VPFLAG_BOARDABLE ) >= 0 ) ) {
+              veh->part_with_feature( other_part, VPFLAG_BOARDABLE ) < 0 ) ) {
             move_pause();
             return;
         }
-
-        if( in_vehicle ) {        
-            g->m.unboard_vehicle( pos() );
-        }
     }
 
-    if( g->m.move_cost( p ) > 0 ) {
+    if( p.z != posz() ) {
+        // Z-level move
+        // For now just teleport to the destination
+        // TODO: Make it properly find the tile to move to
+        moves -= 100;
+        moved = true;
+    } else if( g->m.passable( p ) ) {
         bool diag = trigdist && posx() != p.x && posy() != p.y;
         moves -= run_cost( g->m.combined_movecost( pos(), p ), diag );
+        moved = true;
+    } else if( g->m.open_door( p, !g->m.is_outside( pos() ) ) ) {
+        moves -= 100;
+    } else if( g->m.has_flag_ter_or_furn( "CLIMBABLE", p ) ) {
+        ///\EFFECT_DEX_NPC increases chance to climb CLIMBABLE furniture or terrain
+        int climb = dex_cur;
+        if( one_in( climb ) ) {
+            add_msg_if_npc( m_neutral, _( "%1$s falls tries to climb the %2$s but slips." ),
+                            name.c_str(), g->m.tername(p).c_str() );
+            moves -= 400;
+        } else {
+            add_msg_if_npc( m_neutral, _( "%1$s climbs over the %2$s." ), name.c_str(),
+                            g->m.tername( p ).c_str() );
+            moves -= (500 - (rng(0,climb) * 20));
+            moved = true;
+        }
+    } else if( !no_bashing && smash_ability() > 0 && g->m.is_bashable( p ) &&
+               g->m.bash_rating( smash_ability(), p ) > 0 ) {
+        moves -= int(weapon.is_null() ? 80 : weapon.attack_time() * 0.8);
+        g->m.bash( p, smash_ability() );
+    } else {
+        if( attitude == NPCATT_MUG ||
+            attitude == NPCATT_KILL ||
+            attitude == NPCATT_WAIT_FOR_LEAVE ) {
+            attitude = NPCATT_FLEE;
+        }
+
+        moves = 0;
+    }
+
+    if( moved ) {
+        if( in_vehicle ) {
+            g->m.unboard_vehicle( pos() );
+        }
+
         setpos( p );
         int part;
         vehicle *veh = g->m.veh_at( p, part );
@@ -1319,34 +1355,6 @@ void npc::move_to( const tripoint &pt, bool no_bashing )
 
         g->m.creature_on_trap( *this );
         g->m.creature_in_field( *this );
-    } else if( g->m.open_door( p, !g->m.is_outside( pos() ) ) ) {
-        moves -= 100;
-    } else {
-        if( g->m.has_flag_ter_or_furn( "CLIMBABLE", p ) ) {
-            int climb = dex_cur;
-            if( one_in( climb ) ) {
-                add_msg_if_npc( m_neutral, _( "%1$s falls tries to climb the %2$s but slips." ),
-                                name.c_str(), g->m.tername(p).c_str() );
-                moves -= 400;
-            } else {
-                add_msg_if_npc( m_neutral, _( "%1$s climbs over the %2$s." ), name.c_str(),
-                                g->m.tername( p ).c_str() );
-                moves -= (500 - (rng(0,climb) * 20));
-                setpos( p );
-            }
-        } else if( !no_bashing && smash_ability() > 0 && g->m.is_bashable( p ) &&
-                   g->m.bash_rating( smash_ability(), p ) > 0 ) {
-            moves -= int(weapon.is_null() ? 80 : weapon.attack_time() * 0.8);
-            g->m.bash( p, smash_ability() );
-        } else {
-            if( attitude == NPCATT_MUG ||
-                attitude == NPCATT_KILL ||
-                attitude == NPCATT_WAIT_FOR_LEAVE ) {
-                attitude = NPCATT_FLEE;
-            }
-
-            moves = 0;
-        }
     }
 }
 
@@ -2064,6 +2072,7 @@ void npc::heal_player(player &patient)
         }
 
         int amount_healed = 0;
+        ///\EFFECT_FIRSTAID_NPC increases healing effects of first aid kit or bandages for player
         if (has_amount("1st_aid", 1)) {
             switch (worst) {
             case hp_head:
@@ -2125,6 +2134,7 @@ void npc::heal_self()
         }
     }
 
+    ///\EFFECT_FIRSTAID_NPC increases healing effects of first aid kit or bandages for self
     int amount_healed = 0;
     if (has_amount("1st_aid", 1)) {
         switch (worst) {
@@ -2480,7 +2490,7 @@ void npc::go_to_destination()
     // sx and sy are now equal to the direction we need to move in
     tripoint dest( posx() + 8 * sx, posy() + 8 * sy, posz() );
     for( int i = 0; i < 8; i++ ) {
-        if( ( g->m.move_cost( dest ) > 0 ||
+        if( ( g->m.passable( dest ) ||
              //Needs 20% chance of bashing success to be considered for pathing
              g->m.bash_rating( smash_ability(), dest ) >= 2 ||
              g->m.open_door( dest, true, true ) ) &&

@@ -461,23 +461,24 @@
             [ [ "glass_sheet", 1 ] ]
         ],
         "pre_terrain" : "t_window_empty",
-        "post_terrain" : "t_window"
+        "post_terrain" : "t_window_no_curtains"
     },{
         "type" : "construction",
         "description" : "Build Window", "//": "Step 3: window with curtains",
         "category" : "CONSTRUCT",
         "difficulty" : 2,
         "time" : 30,
-        "qualities": [ [
-            { "id": "SAW_W", "level": 1 }
-        ] ],
+        "qualities": [
+            [ { "id": "SAW_W", "level": 1 } ],
+            [ { "id": "HAMMER", "level": 2 } ]
+        ],
         "components" : [
             [ [ "nail", 4 ] ],
             [ [ "sheet", 2 ] ],
             [ [ "stick", 1 ] ],
             [ [ "string_36", 1 ] ]
         ],
-        "pre_terrain" : "t_window",
+        "pre_terrain" : "t_window_no_curtains",
         "post_terrain" : "t_window_domestic"
     },{
         "type" : "construction",
@@ -522,6 +523,17 @@
         "post_terrain" : "t_window_alarm_taped"
     },{
         "type" : "construction",
+        "description" : "Tape Up window", "//": "Need a recipe for each type of window tapable due to how code works",
+        "category" : "REINFORCE",
+        "difficulty" : 0,
+        "time" : 5,
+        "components" : [
+            [ [ "duct_tape", 50 ] ]
+        ],
+        "pre_terrain" : "t_window_no_curtains",
+        "post_terrain" : "t_window_no_curtains_taped"
+    },{
+        "type" : "construction",
         "description" : "Remove Tape from Window", "//": "Need a recipe for each type of window tapable due to how code works",
         "category" : "REINFORCE",
         "difficulty" : 0,
@@ -553,6 +565,17 @@
         ] ],
         "pre_terrain" : "t_window_alarm_taped",
         "post_terrain" : "t_window_alarm"
+    },{
+        "type" : "construction",
+        "description" : "Remove Tape from Window", "//": "Need a recipe for each type of window tapable due to how code works",
+        "category" : "REINFORCE",
+        "difficulty" : 0,
+        "time" : 2,
+        "qualities": [ [
+            { "id": "CUT", "level": 1 }
+        ] ],
+        "pre_terrain" : "t_window_no_curtains_taped",
+        "post_terrain" : "t_window_no_curtains"
     },{
         "type" : "construction",
         "description" : "Board Up Window", "//": "Board up normal window",
@@ -899,7 +922,7 @@
                 { "id": "SMOOTH", "level": 1 }
         ] ],
         "components" : [
-                [ [ "concrete", 4] ], 
+                [ [ "concrete", 4] ],
                 [ [ "2x4", 12] ],
                 [ [ "water", 4] ]
         ],
@@ -1195,7 +1218,7 @@
         "category" : "CONSTRUCT",
         "difficulty" : 2,
         "time" : 30,
-        "qualities": [ 
+        "qualities": [
             [
             { "id": "HAMMER", "level": 2 }
             ],
@@ -1988,7 +2011,7 @@
         "post_special" : "done_mine_upstair"
     },{
         "type" : "construction",
-        "description" : "Start Vehicle Construction", "//": "Rest of vehicle construction done in the vehicle construction menu", 
+        "description" : "Start Vehicle Construction", "//": "Rest of vehicle construction done in the vehicle construction menu",
         "category" : "OTHER",
         "difficulty" : 0,
         "time" : 10,
@@ -2007,7 +2030,7 @@
         "post_special" : "done_vehicle"
     },{
         "type" : "construction",
-        "description" : "Build Road Barricade", 
+        "description" : "Build Road Barricade",
         "category" : "OTHER",
         "difficulty" : 1,
         "time" : 30,
@@ -2054,7 +2077,7 @@
         "post_terrain" : "t_dock"
     },{
         "type" : "construction",
-        "description" : "Cut Down Grass", 
+        "description" : "Cut Down Grass",
         "category" : "OTHER",
         "difficulty" : -1,
         "time" : 6,

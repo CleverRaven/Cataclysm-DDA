@@ -5,88 +5,90 @@ class monster;
 class Creature;
 
 namespace mattack {
-void none               (monster *z, int index);
-void antqueen           (monster *z, int index);
-void shriek             (monster *z, int index);
-void howl               (monster *z, int index);
-void rattle             (monster *z, int index);
-void acid               (monster *z, int index);
-void acid_accurate      (monster *z, int index);
-void acid_barf          (monster *z, int index);
-void shockstorm         (monster *z, int index);
-void pull_metal_weapon  (monster *z, int index);
-void smokecloud         (monster *z, int index);
-void boomer             (monster *z, int index);
-void boomer_glow        (monster *z, int index);
-void resurrect          (monster *z, int index);
-void smash              (monster *z, int index);
-void science            (monster *z, int index);
-void growplants         (monster *z, int index);
-void grow_vine          (monster *z, int index);
-void vine               (monster *z, int index);
-void spit_sap           (monster *z, int index);
-void triffid_heartbeat  (monster *z, int index);
-void fungus             (monster *z, int index); // Generic fungal spore-launch
-void fungus_haze        (monster *z, int index); // Broadly scatter aerobics
-void fungus_big_blossom (monster *z, int index); // Aerobic & anaerobic, as needed
-void fungus_inject      (monster *z, int index); // Directly inject the spores
-void fungus_bristle     (monster *z, int index); // Fungal hedgrow rake & inject
-void fungus_growth      (monster *z, int index); // Sporeling -> fungal creature
-void fungus_sprout      (monster *z, int index); // Grow fungal walls
-void fungus_fortify     (monster *z, int index); // Grow fungal hedgerows
-void leap               (monster *z, int index);
-void impale             (monster *z, int index);
-void dermatik           (monster *z, int index);
-void dermatik_growth    (monster *z, int index);
-void plant              (monster *z, int index);
-void disappear          (monster *z, int index);
-void formblob           (monster *z, int index);
-void callblobs          (monster *z, int index);
-void jackson            (monster *z, int index);
-void dance              (monster *z, int index);
-void dogthing           (monster *z, int index);
-void tentacle           (monster *z, int index);
-void vortex             (monster *z, int index);
-void gene_sting         (monster *z, int index);
-void para_sting         (monster *z, int index);
-void triffid_growth     (monster *z, int index);
-void stare              (monster *z, int index);
-void fear_paralyze      (monster *z, int index);
-void photograph         (monster *z, int index);
-void tazer              (monster *z, int index);
-void smg                (monster *z, int index); // Automated MP5
-void laser              (monster *z, int index);
-void rifle_tur          (monster *z, int index); // Automated M4
-void bmg_tur            (monster *z, int index); // Automated M107 >:-D
-void flamethrower       (monster *z, int index);
-void searchlight        (monster *z, int index);
-void copbot             (monster *z, int index);
-void chickenbot         (monster *z, int index); // Pick from tazer, M4, MGL
-void multi_robot        (monster *z, int index); // Tazer, flame, M4, MGL, or 120mm!
-void ratking            (monster *z, int index);
-void generator          (monster *z, int index);
-void upgrade            (monster *z, int index);
-void breathe            (monster *z, int index);
-void bite               (monster *z, int index);
-void brandish           (monster *z, int index);
-void flesh_golem        (monster *z, int index);
-void lunge              (monster *z, int index);
-void longswipe          (monster *z, int index);
-void parrot             (monster *z, int index);
-void darkman            (monster *z, int index);
-void slimespring        (monster *z, int index);
-void bio_op_takedown    (monster *z, int index);
-void ranged_pull        (monster *z, int index);
-void grab               (monster *z, int index);
-void grab_drag          (monster *z, int index);
-void suicide            (monster *z, int index);
-bool thrown_by_judo     (monster *z, int index); //handles zombie getting thrown when u.is_throw_immune()
-void riotbot            (monster *z, int index);
-void stretch_attack     (monster *z, int index);
-void stretch_bite       (monster *z, int index);
-void kamikaze           (monster *z, int index);
-void grenadier          (monster *z, int index);
-void grenadier_elite    (monster *z, int index);
+bool none               (monster *z);
+bool antqueen           (monster *z);
+bool shriek             (monster *z);
+bool shriek_alert       (monster *z);
+bool shriek_stun        (monster *z);
+bool howl               (monster *z);
+bool rattle             (monster *z);
+bool acid               (monster *z);
+bool acid_accurate      (monster *z);
+bool acid_barf          (monster *z);
+bool shockstorm         (monster *z);
+bool pull_metal_weapon  (monster *z);
+bool smokecloud         (monster *z);
+bool boomer             (monster *z);
+bool boomer_glow        (monster *z);
+bool resurrect          (monster *z);
+bool smash              (monster *z);
+bool science            (monster *z);
+bool growplants         (monster *z);
+bool grow_vine          (monster *z);
+bool vine               (monster *z);
+bool spit_sap           (monster *z);
+bool triffid_heartbeat  (monster *z);
+bool fungus             (monster *z); // Generic fungal spore-launch
+bool fungus_haze        (monster *z); // Broadly scatter aerobics
+bool fungus_big_blossom (monster *z); // Aerobic & anaerobic, as needed
+bool fungus_inject      (monster *z); // Directly inject the spores
+bool fungus_bristle     (monster *z); // Fungal hedgrow rake & inject
+bool fungus_growth      (monster *z); // Sporeling -> fungal creature
+bool fungus_sprout      (monster *z); // Grow fungal walls
+bool fungus_fortify     (monster *z); // Grow fungal hedgerows
+bool leap               (monster *z);
+bool impale             (monster *z);
+bool dermatik           (monster *z);
+bool dermatik_growth    (monster *z);
+bool plant              (monster *z);
+bool disappear          (monster *z);
+bool formblob           (monster *z);
+bool callblobs          (monster *z);
+bool jackson            (monster *z);
+bool dance              (monster *z);
+bool dogthing           (monster *z);
+bool tentacle           (monster *z);
+bool vortex             (monster *z);
+bool gene_sting         (monster *z);
+bool para_sting         (monster *z);
+bool triffid_growth     (monster *z);
+bool stare              (monster *z);
+bool fear_paralyze      (monster *z);
+bool photograph         (monster *z);
+bool tazer              (monster *z);
+bool smg                (monster *z); // Automated MP5
+bool laser              (monster *z);
+bool rifle_tur          (monster *z); // Automated M4
+bool bmg_tur            (monster *z); // Automated M107 >:-D
+bool flamethrower       (monster *z);
+bool searchlight        (monster *z);
+bool copbot             (monster *z);
+bool chickenbot         (monster *z); // Pick from tazer, M4, MGL
+bool multi_robot        (monster *z); // Tazer, flame, M4, MGL, or 120mm!
+bool ratking            (monster *z);
+bool generator          (monster *z);
+bool upgrade            (monster *z);
+bool breathe            (monster *z);
+bool bite               (monster *z);
+bool brandish           (monster *z);
+bool flesh_golem        (monster *z);
+bool lunge              (monster *z);
+bool longswipe          (monster *z);
+bool parrot             (monster *z);
+bool darkman            (monster *z);
+bool slimespring        (monster *z);
+bool bio_op_takedown    (monster *z);
+bool ranged_pull        (monster *z);
+bool grab               (monster *z);
+bool grab_drag          (monster *z);
+bool suicide            (monster *z);
+bool thrown_by_judo     (monster *z); //handles zombie getting thrown when u.is_throw_immune()
+bool riotbot            (monster *z);
+bool stretch_attack     (monster *z);
+bool stretch_bite       (monster *z);
+bool kamikaze           (monster *z);
+bool grenadier          (monster *z);
+bool grenadier_elite    (monster *z);
 
 void taze               (monster *z, Creature *target);
 void rifle              (monster *z, Creature *target); // Automated M4

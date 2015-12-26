@@ -6,7 +6,7 @@
 #include <vector>
 #include <memory>
 
-std::vector< trap* > traplist;
+std::vector< std::unique_ptr<trap> > traplist;
 std::unordered_map< trap_str_id, trap_id > trapmap;
 
 template<>
@@ -93,7 +93,6 @@ void trap::load( JsonObject &jo )
         t.name = _( t.name.c_str() );
     }
     t.id = trap_str_id( jo.get_string( "id" ) );
-    t.loadid = trap_id( traplist.size() );
     t.color = color_from_string( jo.get_string( "color" ) );
     t.sym = jo.get_string( "symbol" ).at( 0 );
     t.visibility = jo.get_int( "visibility" );
@@ -104,19 +103,19 @@ void trap::load( JsonObject &jo )
     t.funnel_radius_mm = jo.get_int( "funnel_radius", 0 );
     t.trigger_weight = jo.get_int( "trigger_weight", -1 );
 
-    trapmap[t.id] = t.loadid;
-    traplist.push_back( &t );
-    trap_ptr.release();
-    if( t.is_funnel() ) {
-        funnel_traps.push_back( &t );
+    const auto iter = trapmap.find( t.id );
+    if( iter == trapmap.end() ) {
+        t.loadid = trap_id( traplist.size() );
+        traplist.push_back( std::move( trap_ptr ) );
+    } else {
+        t.loadid = iter->second;
+        traplist[t.loadid.to_i()] = std::move( trap_ptr );
     }
+    trapmap[t.id] = t.loadid;
 }
 
 void trap::reset()
 {
-    for( auto & tptr : traplist ) {
-        delete tptr;
-    }
     traplist.clear();
     trapmap.clear();
     funnel_traps.clear();
@@ -131,10 +130,12 @@ bool trap::detect_trap( const tripoint &pos, const player &p ) const
     // * ...and an average character should at least have a minor chance of
     //   noticing a buried landmine if standing right next to it.
     // Effective Perception...
+    ///\EFFECT_PER increases chance of detecting a trap
     return (p.per_cur - (p.encumb(bp_eyes) / 10)) +
            // ...small bonus from stimulants...
            (p.stim > 10 ? rng(1, 2) : 0) +
            // ...bonus from trap skill...
+           ///\EFFECT_TRAPS increases chance of detecting a trap
            (p.get_skill_level( skill_traps ) * 2) +
            // ...luck, might be good, might be bad...
            rng(-4, 4) -
@@ -267,6 +268,11 @@ void trap::check_consistency()
 
 void trap::finalize()
 {
+    for( auto & tptr : traplist ) {
+        if( tptr->is_funnel() ) {
+            funnel_traps.push_back( tptr.get() );
+        }
+    }
     const auto trapfind = []( const char *id ) {
         return trap_str_id( id ).id();
     };

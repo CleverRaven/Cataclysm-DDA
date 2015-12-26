@@ -18,6 +18,42 @@
 #define MOD_SEARCH_FILE "modinfo.json"
 
 static std::unordered_set<std::string> obsolete_mod_list;
+// These accessors are to delay the initialization of the strings in the respective containers until after gettext is initialized.
+const std::vector<std::pair<std::string, std::string> > &get_mod_list_categories() {
+    static const std::vector<std::pair<std::string, std::string> > mod_list_categories = {
+        {"items", _("ITEM ADDIDION MODS")},
+        {"creatures", _("CREATURE MODS")},
+        {"buildings", _("BUILDINGS MODS")},
+        {"vehicles", _("VEHICLE MODS")},
+        {"rebalance", _("REBALANCING MODS")},
+        {"magical", _("MAGICAL MODS")},
+        {"item_exclude", _("ITEM EXCLUSION MODS")},
+        {"monster_exclude", _("MONSTER EXCLUSION MODS")},
+        {"", _("NO CATEGORY")}
+    };
+
+    return mod_list_categories;
+}
+
+const std::vector<std::pair<std::string, std::string> > &get_mod_list_tabs() {
+    static const std::vector<std::pair<std::string, std::string> > mod_list_tabs = {
+        {"tab_default", _("Default")},
+        {"tab_blacklist", _("Blacklist")},
+        {"tab_balance", _("Balance")}
+    };
+
+    return mod_list_tabs;
+}
+
+const std::map<std::string, std::string> &get_mod_list_cat_tab() {
+    static const std::map<std::string, std::string> mod_list_cat_tab = {
+        {"item_exclude", "tab_blacklist"},
+        {"monster_exclude", "tab_blacklist"},
+        {"rebalance", "tab_balance"}
+    };
+
+    return mod_list_cat_tab;
+}
 
 static void load_obsolete_mods( const std::string path )
 {
@@ -143,6 +179,7 @@ void mod_manager::load_modfile(JsonObject &jo, const std::string &main_path)
         // Ignore anything that is not a mod-info
         return;
     }
+
     std::string m_ident = jo.get_string("ident");
     if (has_mod(m_ident)) {
         // TODO: change this to make unique ident for the mod
@@ -160,6 +197,7 @@ void mod_manager::load_modfile(JsonObject &jo, const std::string &main_path)
             m_authors.push_back(jo.get_string("author"));
         }
     }
+
     std::string m_name = jo.get_string("name", "");
     if (m_name.empty()) {
         // "No name" gets confusing if many mods have no name
@@ -168,12 +206,34 @@ void mod_manager::load_modfile(JsonObject &jo, const std::string &main_path)
     } else {
         m_name = _(m_name.c_str());
     }
+
     std::string m_desc = jo.get_string("description", "");
     if (m_desc.empty()) {
         m_desc = _("No description");
     } else {
         m_desc = _(m_desc.c_str());
     }
+
+    std::string m_cat = jo.get_string("category", "");
+    std::pair<int, std::string> p_cat = {-1, ""};
+    bool bCatFound = false;
+
+    do {
+        for( size_t i = 0; i < get_mod_list_categories().size(); ++i ) {
+            if( get_mod_list_categories()[i].first == m_cat ) {
+                p_cat = { i, get_mod_list_categories()[i].second };
+                bCatFound = true;
+                break;
+            }
+        }
+
+        if( !bCatFound && m_cat != "" ) {
+            m_cat = "";
+        } else {
+            break;
+        }
+    } while( !bCatFound );
+
     std::string m_path;
     if (jo.has_string("path")) {
         m_path = jo.get_string("path");
@@ -230,6 +290,7 @@ void mod_manager::load_modfile(JsonObject &jo, const std::string &main_path)
     modfile->name = m_name;
     modfile->description = m_desc;
     modfile->dependencies = m_dependencies;
+    modfile->category = p_cat;
     modfile->path = m_path;
     modfile->need_lua = m_need_lua;
 
@@ -408,9 +469,7 @@ void mod_manager::save_mods_list(WORLDPTR world) const
     if( world->active_mod_order.empty() ) {
         // If we were called from load_mods_list to prune the list,
         // and it's empty now, delete the file.
-        if( file_exist(path) ) {
-            remove_file(path);
-        }
+        remove_file(path);
         return;
     }
     std::ofstream mods_list_file(path.c_str(), std::ios::out | std::ios::binary);

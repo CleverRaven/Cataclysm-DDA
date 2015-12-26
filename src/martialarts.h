@@ -35,8 +35,7 @@ struct ma_requirements {
     std::set<mabuff_id> req_buffs; // other buffs required to trigger this bonus
     std::set<std::string> req_flags; // any item flags required for this technique
 
-    ma_requirements()
-    {
+    ma_requirements() {
         unarmed_allowed = false; // does this bonus work when unarmed?
         melee_allowed = false; // what about with a melee weapon?
 
@@ -136,7 +135,7 @@ class ma_buff
         bool is_valid_player( const player &u ) const;
 
         // apply static bonuses to a player
-        void apply_player(player &u) const;
+        void apply_player( player &u ) const;
 
         // returns the stat bonus for the on-hit stat (for rolls)
         int hit_bonus( const player &u ) const;
@@ -230,24 +229,24 @@ class martialart
         martialart();
 
         // modifies a player's "current" stats with various types of bonuses
-        void apply_static_buffs(player &u) const;
+        void apply_static_buffs( player &u ) const;
 
-        void apply_onmove_buffs(player &u) const;
+        void apply_onmove_buffs( player &u ) const;
 
-        void apply_onhit_buffs(player &u) const;
+        void apply_onhit_buffs( player &u ) const;
 
-        void apply_onattack_buffs(player &u) const;
+        void apply_onattack_buffs( player &u ) const;
 
-        void apply_ondodge_buffs(player &u) const;
+        void apply_ondodge_buffs( player &u ) const;
 
-        void apply_onblock_buffs(player &u) const;
+        void apply_onblock_buffs( player &u ) const;
 
-        void apply_ongethit_buffs(player &u) const;
+        void apply_ongethit_buffs( player &u ) const;
 
         // determines if a technique is valid or not for this style
         bool has_technique( const player &u, matec_id tech ) const;
         // determines if a weapon is valid for this style
-        bool has_weapon(std::string item) const;
+        bool has_weapon( std::string item ) const;
 
         matype_id id;
         std::string name;
@@ -267,8 +266,8 @@ class martialart
         std::vector<ma_buff> ongethit_buffs;
 };
 
-void load_technique(JsonObject &jo);
-void load_martial_art(JsonObject &jo);
+void load_technique( JsonObject &jo );
+void load_martial_art( JsonObject &jo );
 void check_martialarts();
 void clear_techniques_and_martial_arts();
 void finialize_martial_arts();

@@ -39,16 +39,21 @@ mtype::mtype ()
     upgrade_into = NULL_ID;
     upgrade_group = NULL_ID;
     dies.push_back(&mdeath::normal);
-    sp_attack.push_back(nullptr);
     sp_defense = nullptr;
     luminance = 0;
     flags.insert(MF_HUMAN);
     flags.insert(MF_BONES);
+    flags.insert(MF_LEATHER);
 }
 
 std::string mtype::nname(unsigned int quantity) const
 {
     return ngettext(name.c_str(), name_plural.c_str(), quantity);
+}
+
+bool mtype::has_special_attack( const std::string &attack_name ) const
+{
+    return special_attacks.find( attack_name ) != special_attacks.end();
 }
 
 bool mtype::has_flag(m_flag flag) const
@@ -189,4 +194,3 @@ itype_id mtype::get_meat_itype() const
     }
     return "null";
 }
-

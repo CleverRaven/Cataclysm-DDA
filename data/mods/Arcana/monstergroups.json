@@ -8,6 +8,26 @@
       { "monster" : "mon_hunting_horror", "freq" : 240, "cost_multiplier" : 0 },
       { "monster" : "mon_flaming_eye", "freq" : 120, "cost_multiplier" : 0 }
     ]
+  },{
+    "type":"monstergroup",
+    "name" : "GROUP_IMPACT",
+    "default" : "mon_dementia",
+    "monsters" : [
+      { "monster" : "mon_dementia", "freq" : 25, "cost_multiplier" : 0 },
+      { "monster" : "mon_homunculus", "freq" : 75, "cost_multiplier" : 0 },
+      { "monster" : "mon_flesh_angel", "freq" : 100, "cost_multiplier" : 0 },
+      { "monster" : "mon_flying_polyp", "freq" : 120, "cost_multiplier" : 0 },
+      { "monster" : "mon_mi_go", "freq" : 50, "cost_multiplier" : 0 }
+    ]
+  },{
+    "type":"monstergroup",
+    "name" : "GROUP_IMPACT_FLYING",
+    "default" : "mon_vortex",
+    "monsters" : [
+      { "monster" : "mon_vortex", "freq" : 50, "cost_multiplier" : 0 },
+      { "monster" : "mon_flying_polyp", "freq" : 75, "cost_multiplier" : 0 },
+      { "monster" : "mon_flaming_eye", "freq" : 120, "cost_multiplier" : 0 }
+    ]
   }
 ]
 

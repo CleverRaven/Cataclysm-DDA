@@ -34,7 +34,7 @@ const use_function *itype::get_use( const std::string &iuse_name ) const
     const use_function *func = item_controller->get_iuse( iuse_name );
     if( func != nullptr ) {
         if( std::find( use_methods.cbegin(), use_methods.cend(),
-                         *func ) != use_methods.cend() ) {
+                       *func ) != use_methods.cend() ) {
             return func;
         }
     }
@@ -80,23 +80,23 @@ long itype::invoke( player *p, item *it, const tripoint &pos, const std::string 
     const use_function *use = get_use( iuse_name );
     if( use == nullptr ) {
         debugmsg( "Tried to invoke %s on a %s, which doesn't have this use_function",
-                  iuse_name.c_str(), nname(1).c_str() );
+                  iuse_name.c_str(), nname( 1 ).c_str() );
         return 0;
     }
 
     return use->call( p, it, false, pos );
 }
 
-std::string ammo_name(std::string const &t)
+std::string ammo_name( std::string const &t )
 {
-    std::string ret = ammunition_type::find_ammunition_type(t).name();
-    if (ret != "none") {
-        ret = _(ret.c_str());
+    std::string ret = ammunition_type::find_ammunition_type( t ).name();
+    if( ret != "none" ) {
+        ret = _( ret.c_str() );
     }
     return ret;
 }
 
-itype_id const& default_ammo(std::string const &t)
+itype_id const &default_ammo( std::string const &t )
 {
-    return ammunition_type::find_ammunition_type(t).default_ammotype();
+    return ammunition_type::find_ammunition_type( t ).default_ammotype();
 }

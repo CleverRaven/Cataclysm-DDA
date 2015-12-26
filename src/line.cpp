@@ -336,6 +336,19 @@ std::pair<std::pair<double, double>, double> slope_of(const std::vector<tripoint
     return ret;
 }
 
+float get_normalized_angle( const point &start, const point &end )
+{
+    // Taking the abs value of the difference puts the values in the first quadrant.
+    const float absx = std::abs( std::max(start.x, end.x) - std::min(start.x, end.x) );
+    const float absy = std::abs( std::max(start.y, end.y) - std::min(start.y, end.y) );
+    const float max = std::max( absx, absy );
+    if( max == 0 ) {
+        return 0;
+    }
+    const float min = std::min( absx, absy );
+    return min / max;
+}
+
 std::vector<point> continue_line(const std::vector<point> &line, const int distance)
 {
     const point start = line.back();

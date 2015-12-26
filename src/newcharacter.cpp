@@ -1,5 +1,7 @@
+#include "cata_utility.h"
 #include "player.h"
 #include "profession.h"
+#include "recipe_dictionary.h"
 #include "scenario.h"
 #include "start_location.h"
 #include "input.h"
@@ -18,6 +20,8 @@
 #include "addiction.h"
 #include "ui.h"
 #include "mutation.h"
+
+
 #ifndef _MSC_VER
 #include <unistd.h>
 #endif
@@ -67,9 +71,13 @@ void save_template(player *u);
 
 bool lcmatch(const std::string &str, const std::string &findstr); // ui.cpp
 
-void Character::pick_name()
+void Character::pick_name(bool bUseDefault)
 {
-    name = Name::generate(male);
+    if (bUseDefault && OPTIONS["DEF_CHAR_NAME"]) {
+        name = OPTIONS["DEF_CHAR_NAME"].getValue();
+    } else {
+        name = Name::generate(male);
+    }
 }
 
 matype_id choose_ma_style( const character_type type, const std::vector<matype_id> &styles )
@@ -126,7 +134,7 @@ int player::create(character_type type, std::string tempname)
             g->u.male = (rng(1, 100) > 50);
 
             if(!MAP_SHARING::isSharing()) {
-                g->u.pick_name();
+                g->u.pick_name(true);
             } else {
                 g->u.name = MAP_SHARING::getUsername();
             }
@@ -134,7 +142,7 @@ int player::create(character_type type, std::string tempname)
         case PLTYPE_RANDOM: {
             g->u.male = (rng(1, 100) > 50);
             if(!MAP_SHARING::isSharing()) {
-                g->u.pick_name();
+                g->u.pick_name(true);
             } else {
                 g->u.name = MAP_SHARING::getUsername();
             }
@@ -376,6 +384,14 @@ int player::create(character_type type, std::string tempname)
     ret_null = item("null", 0);
     weapon = ret_null;
 
+    //Learn recipes
+    for( auto &cur_recipe : recipe_dict ) {
+        if( !cur_recipe->autolearn && has_recipe_requirements( cur_recipe ) &&
+            !( learned_recipes.find( cur_recipe->ident ) != learned_recipes.end()) ) {
+
+            learn_recipe( (recipe *)cur_recipe );
+        }
+    }
 
     item tmp; //gets used several times
     item tmp2;
@@ -395,8 +411,7 @@ int player::create(character_type type, std::string tempname)
         prof_items.push_back("glasses_reading");
     }
     for( auto &itd : prof_items ) {
-        // Spawn left-handed items as a placeholder, shouldn't affect non-handed items
-        tmp = item(itd.type_id, 0, false, LEFT);
+        tmp = item(itd.type_id, 0, false);
         if( !itd.snippet_id.empty() ) {
             tmp.set_snippet( itd.snippet_id );
         }
@@ -408,18 +423,6 @@ int player::create(character_type type, std::string tempname)
             // If wearing an item fails we fail silently.
             wear_item(tmp, false);
 
-            // If item is part of a pair give a second one for the other side
-            if (tmp.has_flag("PAIRED")) {
-                tmp2 = item(itd.type_id, 0, false, RIGHT);
-                if( !itd.snippet_id.empty() ) {
-                    tmp2.set_snippet( itd.snippet_id );
-                }
-                if(tmp2.has_flag("VARSIZE")) {
-                    tmp2.item_tags.insert("FIT");
-                }
-                // If wearing an item fails we fail silently.
-                wear_item(tmp2, false);
-            }
             // if something is wet, start it as active with some time to dry off
         } else if(tmp.has_flag("WET")) {
             tmp.active = true;
@@ -581,6 +584,7 @@ int set_stats(WINDOW *w, player *u, int &points)
     ctxt.register_action("PREV_TAB");
     ctxt.register_action("HELP_KEYBINDINGS");
     ctxt.register_action("NEXT_TAB");
+    ctxt.register_action("QUIT");
     int read_spd;
     WINDOW *w_description = newwin(8, FULL_SCREEN_WIDTH - iSecondColumn - 1, 6 + getbegy(w),
                                    iSecondColumn + getbegx(w));
@@ -640,8 +644,7 @@ int set_stats(WINDOW *w, player *u, int &points)
             u->recalc_hp();
             mvwprintz(w_description, 0, 0, COL_STAT_NEUTRAL, _("Base HP: %d"), u->hp_max[0]);
             mvwprintz(w_description, 1, 0, COL_STAT_NEUTRAL, _("Carry weight: %.1f %s"),
-                      u->convert_weight(u->weight_capacity()),
-                      OPTIONS["USE_METRIC_WEIGHTS"] == "kg" ? _("kg") : _("lbs"));
+                      convert_weight(u->weight_capacity()), weight_units());
             mvwprintz(w_description, 2, 0, COL_STAT_NEUTRAL, _("Melee damage: %d"),
                       u->base_damage(false));
             fold_and_print(w_description, 4, 0, getmaxx(w_description) - 1, COL_STAT_NEUTRAL,
@@ -775,6 +778,9 @@ int set_stats(WINDOW *w, player *u, int &points)
         } else if (action == "NEXT_TAB") {
             delwin(w_description);
             return 1;
+        } else if (action == "QUIT" && query_yn(_("Return to main menu?"))) {
+            delwin(w_description);
+            return -4;
         }
     } while (true);
 }
@@ -835,6 +841,7 @@ int set_traits(WINDOW *w, player *u, int &points, int max_trait_points)
     ctxt.register_action("PREV_TAB");
     ctxt.register_action("NEXT_TAB");
     ctxt.register_action("HELP_KEYBINDINGS");
+    ctxt.register_action("QUIT");
 
     do {
         mvwprintz(w, 3, 2, c_ltgray, _("Points left:%4d "), points);
@@ -922,10 +929,8 @@ int set_traits(WINDOW *w, player *u, int &points, int max_trait_points)
                 }
             }
 
-            //Draw Scrollbar Good Traits
+            //Draw Scrollbar, one for good and one for bad traits
             draw_scrollbar(w, iCurrentLine[0], iContentHeight, traits_size[0], 5);
-
-            //Draw Scrollbar Bad Traits
             draw_scrollbar(w, iCurrentLine[1], iContentHeight, traits_size[1], 5, getmaxx(w) - 1);
         }
 
@@ -1016,6 +1021,9 @@ int set_traits(WINDOW *w, player *u, int &points, int max_trait_points)
         } else if (action == "NEXT_TAB") {
             delwin(w_description);
             return 1;
+        } else if (action == "QUIT" && query_yn(_("Return to main menu?"))) {
+            delwin(w_description);
+            return -3;
         }
     } while (true);
 }
@@ -1067,6 +1075,7 @@ int set_profession(WINDOW *w, player *u, int &points)
     ctxt.register_action("SORT");
     ctxt.register_action("HELP_KEYBINDINGS");
     ctxt.register_action("FILTER");
+    ctxt.register_action("QUIT");
 
     bool recalc_profs = true;
     int profs_length = 0;
@@ -1274,7 +1283,6 @@ int set_profession(WINDOW *w, player *u, int &points)
                   ctxt.get_desc("CHANGE_GENDER").c_str(),
                   sorted_profs[cur_id]->gender_appropriate_name(!u->male).c_str());
 
-        //Draw Scrollbar
         draw_scrollbar(w, cur_id, iContentHeight, profs_length, 5);
 
         wrefresh(w);
@@ -1324,6 +1332,8 @@ int set_profession(WINDOW *w, player *u, int &points)
             filterstring = string_input_popup(_("Search:"), 60, filterstring,
                 _("Search by profession name."));
             recalc_profs = true;
+        } else if (action == "QUIT" && query_yn(_("Return to main menu?"))) {
+            retval = -2;
         }
 
     } while (retval == 0);
@@ -1350,12 +1360,16 @@ int set_skills(WINDOW *w, player *u, int &points)
     const int num_skills = Skill::skills.size();
     int cur_pos = 0;
     const Skill* currentSkill = sorted_skills[cur_pos];
+    int selected = 0;
 
     input_context ctxt("NEW_CHAR_SKILLS");
     ctxt.register_cardinal();
+    ctxt.register_action("SCROLL_DOWN");
+    ctxt.register_action("SCROLL_UP");
     ctxt.register_action("PREV_TAB");
     ctxt.register_action("NEXT_TAB");
     ctxt.register_action("HELP_KEYBINDINGS");
+    ctxt.register_action("QUIT");
 
     do {
         mvwprintz(w, 3, 2, c_ltgray, _("Points left:%4d "), points);
@@ -1366,8 +1380,69 @@ int set_skills(WINDOW *w, player *u, int &points)
         mvwprintz(w, 3, 31, points >= cost ? COL_SKILL_USED : c_ltred,
                   ngettext("Upgrading %s costs %d point", "Upgrading %s costs %d points", cost),
                   currentSkill->name().c_str(), cost);
-        fold_and_print(w_description, 0, 0, getmaxx(w_description), COL_SKILL_USED,
-                       currentSkill->description());
+
+        std::map<std::string, std::vector<std::pair<std::string, int> > > recipes;
+        for( auto cur_recipe : recipe_dict ) {
+            //Find out if the current skill and its level is in the requirement list
+            auto req_skill = cur_recipe->required_skills.find( currentSkill->ident() );
+            int skill = (req_skill != cur_recipe->required_skills.end()) ? req_skill->second : 0;
+
+            // Filter out autolearend recipes, recipes that don't use the current skill,
+            // recipes we're missing prerequisites for, and uncraft recipes.
+            if( !cur_recipe->autolearn &&
+                ( cur_recipe->skill_used == currentSkill->ident() || skill > 0 ) &&
+                u->has_recipe_requirements( cur_recipe ) &&
+                cur_recipe->ident.find("uncraft") == std::string::npos )  {
+
+                recipes[cur_recipe->skill_used.obj().name()].push_back(
+                    make_pair( item::nname( cur_recipe->result ),
+                               (skill > 0) ? skill : cur_recipe->difficulty ) );
+            }
+        }
+
+        std::string rec_disp = "";
+
+        for( auto &elem : recipes ) {
+            std::sort( elem.second.begin(), elem.second.end(),
+                       []( const std::pair<std::string, int>& lhs,
+                           const std::pair<std::string, int>& rhs ) {
+                           return lhs.second < rhs.second ||
+                                               ( lhs.second == rhs.second && lhs.first < rhs.first );
+                       } );
+
+            std::string rec_temp = "";
+            for( auto rec = elem.second.begin(); rec != elem.second.end(); ++rec ) {
+                if( !rec_temp.empty() ) {
+                    rec_temp += ", ";
+                }
+                rec_temp += rec->first + " (" + to_string(rec->second) + ")";
+            }
+
+            if( elem.first == currentSkill->name() ) {
+                rec_disp = "\n \n<color_c_brown>" + rec_temp + "</color>" + rec_disp;
+            } else {
+                rec_disp += "\n \n<color_c_ltgray>[" + elem.first + "]\n" + rec_temp + "</color>";
+            }
+        }
+
+        rec_disp = currentSkill->description() + rec_disp;
+
+        const auto vFolded = foldstring( rec_disp, getmaxx( w_description ) );
+        int iLines = vFolded.size();
+
+        if( selected < 0 ) {
+            selected = 0;
+        } else if( iLines < iContentHeight ) {
+            selected = 0;
+        } else if( selected >= iLines - iContentHeight ) {
+            selected = iLines - iContentHeight;
+        }
+
+        fold_and_print_from( w_description, 0, 0, getmaxx( w_description ),
+                             selected, COL_SKILL_USED, rec_disp );
+
+        draw_scrollbar( w, selected, iContentHeight, iLines - iContentHeight,
+                        5, getmaxx(w) - 1, BORDER_COLOR, true );
 
         int first_i, end_i, base_y;
         if (cur_pos < iHalf) {
@@ -1406,7 +1481,6 @@ int set_skills(WINDOW *w, player *u, int &points)
             }
         }
 
-        //Draw Scrollbar
         draw_scrollbar(w, cur_pos, iContentHeight, num_skills, 5);
 
         wrefresh(w);
@@ -1446,12 +1520,19 @@ int set_skills(WINDOW *w, player *u, int &points)
                     level.level(level + 1);
                 }
             }
+        } else if (action == "SCROLL_DOWN") {
+            selected++;
+        } else if (action == "SCROLL_UP") {
+            selected--;
         } else if (action == "PREV_TAB") {
             delwin(w_description);
             return -1;
         } else if (action == "NEXT_TAB") {
             delwin(w_description);
             return 1;
+        } else if (action == "QUIT" && query_yn(_("Return to main menu?"))) {
+            delwin(w_description);
+            return -5;
         }
     } while (true);
 }
@@ -1518,6 +1599,7 @@ int set_scenario(WINDOW *w, player *u, int &points)
     ctxt.register_action("SORT");
     ctxt.register_action("HELP_KEYBINDINGS");
     ctxt.register_action("FILTER");
+    ctxt.register_action("QUIT");
 
     bool recalc_scens = true;
     int scens_length = 0;
@@ -1756,6 +1838,8 @@ int set_scenario(WINDOW *w, player *u, int &points)
             filterstring = string_input_popup(_("Search:"), 60, filterstring,
                 _("Search by scenario name."));
             recalc_scens = true;
+        } else if (action == "QUIT" && query_yn(_("Return to main menu?"))) {
+            return -1;
         }
     } while (retval == 0);
 
@@ -1807,6 +1891,7 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
     ctxt.register_action("REROLL_CHARACTER");
     ctxt.register_action("REROLL_CHARACTER_WITH_SCENARIO");
     ctxt.register_action("ANY_INPUT");
+    ctxt.register_action("QUIT");
 
     uimenu select_location;
     select_location.text = _("Select a starting location.");
@@ -1824,6 +1909,8 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
     select_location.setup();
     if(MAP_SHARING::isSharing()) {
         u->name = MAP_SHARING::getUsername();  // set the current username as default character name
+    } else if (OPTIONS["DEF_CHAR_NAME"]) {
+        u->name = OPTIONS["DEF_CHAR_NAME"].getValue();
     }
     do {
         if (redraw) {
@@ -2050,6 +2137,8 @@ int set_description(WINDOW *w, player *u, character_type type, int &points)
                 wrap.append( ctxt.get_raw_input().text );
                 u->name = wrap.str();
             }
+        } else if (action == "QUIT" && query_yn(_("Return to main menu?"))) {
+            return -6;
         }
     } while (true);
 }

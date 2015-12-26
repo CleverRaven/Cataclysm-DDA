@@ -668,39 +668,9 @@ bool map::process_fields_in_submap( submap *const current_submap,
 
                     case fd_acid:
                     {
-                        std::vector<item> contents;
                         const auto &ter = map_tile.get_ter_t();
-                        const auto &frn = map_tile.get_furn_t();
                         if( ter.has_flag( TFLAG_SWIMMABLE ) ) { // Dissipate faster in water
                             cur->setFieldAge( cur->getFieldAge() + 20 );
-                        }
-                        if( ter_furn_has_flag( ter, frn, TFLAG_SEALED ) &&
-                            !ter_furn_has_flag( ter, frn, TFLAG_ALLOW_FIELD_EFFECT ) ) {
-                            break;
-                        }
-                        auto items = i_at( p );
-                        for( auto melting = items.begin(); melting != items.end(); ) {
-                            // see DEVELOPER_FAQ.txt for how acid resistance is calculated
-                            int chance = melting->acid_resist();
-                            if (chance == 0) {
-                                melting->damage++;
-                            } else if (chance > 0 && chance <= 9) {
-                                if (one_in(chance)) {
-                                    melting->damage++;
-                                }
-                            }
-                            if (melting->damage >= 5) {
-                                //Destroy the object, age the field.
-                                cur->setFieldAge(cur->getFieldAge() + melting->volume());
-                                contents.insert( contents.begin(),
-                                                 melting->contents.begin(), melting->contents.end() );
-                                melting = items.erase( melting );
-                            } else {
-                                melting++;
-                            }
-                        }
-                        for( auto &c : contents ) {
-                            add_item_or_charges( p, c );
                         }
 
                         // Try to fall by a z-level
@@ -781,7 +751,6 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                     // Make a copy and let the copy explode.
                                     item tmp = *explosive;
                                     i_rem( p, explosive );
-                                    // TODO: Z
                                     tmp.detonate( p );
                                     // Just restart from the beginning.
                                     explosive = items_here.begin();
@@ -850,9 +819,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                             // large intrinsic effect blows up with half
                                             // the ammos damage in force, for each bullet,
                                             // just creating shrapnel.
-                                            // TODO: Z
-                                            g->explosion( p, ammo_type->damage / 2,
-                                                          true, false, false );
+                                            g->explosion( p, ammo_type->damage / 2, 0.5f, 1 );
                                         } else if( special ) {
                                             // If it has a special effect just trigger it.
                                             ammo_effects( p, ammo_type->ammo_effects );
@@ -1408,14 +1375,14 @@ bool map::process_fields_in_submap( submap *const current_submap,
                     case fd_electricity:
                         if (!one_in(5)) {   // 4 in 5 chance to spread
                             std::vector<tripoint> valid;
-                            if (move_cost( p ) == 0 && cur->getFieldDensity() > 1) { // We're grounded
+                            if (impassable( p ) && cur->getFieldDensity() > 1) { // We're grounded
                                 int tries = 0;
                                 tripoint pnt;
                                 pnt.z = p.z;
                                 while (tries < 10 && cur->getFieldAge() < 50 && cur->getFieldDensity() > 1) {
                                     pnt.x = p.x + rng(-1, 1);
                                     pnt.y = p.y + rng(-1, 1);
-                                    if( move_cost( pnt ) != 0 ) {
+                                    if( passable( pnt ) ) {
                                         add_field( pnt, fd_electricity, 1, cur->getFieldAge() + 1);
                                         cur->setFieldDensity(cur->getFieldDensity() - 1);
                                         tries = 0;
@@ -1427,7 +1394,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                 for (int a = -1; a <= 1; a++) {
                                     for (int b = -1; b <= 1; b++) {
                                         tripoint dst( p.x + a, p.y + b, p.z );
-                                        if( move_cost( dst ) == 0 ) // Grounded tiles first
+                                        if( impassable( dst ) ) // Grounded tiles first
 
                                         {
                                             valid.push_back( dst );
@@ -1437,11 +1404,11 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                 if( valid.empty() ) {    // Spread to adjacent space, then
                                     tripoint dst( p.x + rng(-1, 1), p.y + rng(-1, 1), p.z );
                                     field_entry *elec = get_field( dst ).findField( fd_electricity );
-                                    if( move_cost( dst ) > 0 && elec != nullptr &&
+                                    if( passable( dst ) && elec != nullptr &&
                                         elec->getFieldDensity() < 3) {
                                         elec->setFieldDensity( elec->getFieldDensity() + 1 );
                                         cur->setFieldDensity(cur->getFieldDensity() - 1);
-                                    } else if( move_cost( dst ) > 0) {
+                                    } else if( passable( dst ) ) {
                                         add_field( dst, fd_electricity, 1, cur->getFieldAge() + 1 );
                                     }
                                     cur->setFieldDensity(cur->getFieldDensity() - 1);
@@ -2028,19 +1995,23 @@ void map::player_in_field( player &u )
             break;
 
         case fd_electricity:
-            if ( u.is_elec_immune() ) {
-                u.add_msg_player_or_npc( _("The electric cloud doesn't affect you."),
-                                         _("The electric cloud doesn't seem to affect <npcname>.") );
-            } else {
-                u.add_msg_player_or_npc(m_bad, _("You're electrocuted!"), _("<npcname> is electrocuted!"));
-                //small universal damage based on density.
-                u.hurtall(rng(1, cur->getFieldDensity()), nullptr);
-                if (one_in(8 - cur->getFieldDensity()) && !one_in(30 - u.str_cur)) {
-                    //str of 30 stops this from happening.
-                    u.add_msg_player_or_npc(m_bad, _("You're paralyzed!"), _("<npcname> is paralyzed!"));
-                    u.moves -= rng(cur->getFieldDensity() * 150, cur->getFieldDensity() * 200);
-                }
+        {
+            // Small universal damage based on density.
+            int total_damage = 0;
+            for( size_t i = 0; i < num_hp_parts; i++ ) {
+                const body_part bp = player::hp_to_bp( static_cast<hp_part>( i ) );
+                const int dmg = rng( 1, cur->getFieldDensity() );
+                total_damage += u.deal_damage( nullptr, bp, damage_instance( DT_ELECTRIC, dmg ) ).total_damage();
             }
+
+            if( total_damage > 0 ) {
+                u.add_msg_player_or_npc(m_bad, _("You're electrocuted!"), _("<npcname> is electrocuted!"));
+            } else {
+                u.add_msg_player_or_npc( _("The electric cloud doesn't affect you."),
+                                     _("The electric cloud doesn't seem to affect <npcname>.") );
+            }
+        }
+
             break;
 
         case fd_fatigue:
@@ -2360,12 +2331,9 @@ void map::monster_in_field( monster &z )
             break;
 
         case fd_electricity:
-            if( !z.is_elec_immune() ) {
-                dam += rng(1, cur->getFieldDensity());
-                if (one_in(8 - cur->getFieldDensity())) {
-                    z.moves -= cur->getFieldDensity() * 150;
-                }
-            }
+            // We don't want to increase dam, but deal a separate hit so that it can apply effects
+            z.deal_damage( nullptr, bp_torso,
+                           damage_instance( DT_ELECTRIC, rng( 1, cur->getFieldDensity() * 3 ) ) );
             break;
 
         case fd_fatigue:
@@ -2377,7 +2345,7 @@ void map::monster_in_field( monster &z )
                     newpos.x = rng(z.posx() - SEEX, z.posx() + SEEX);
                     newpos.y = rng(z.posy() - SEEY, z.posy() + SEEY);
                     tries++;
-                } while (move_cost(newpos) == 0 && tries != 10);
+                } while (impassable(newpos) && tries != 10);
 
                 if (tries == 10) {
                     z.die_in_explosion( nullptr );

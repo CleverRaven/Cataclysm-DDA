@@ -7475,8 +7475,12 @@
           "rotates": false
         },
         {
-          "id": "bag_plastic",
-          "fg": 2792,
+          "id": "bag_plastic", 
+          "fg": [
+            { "weight":2, "sprite":3639},
+            { "weight":2, "sprite":2792}, 
+            { "weight":2, "sprite":3640} 
+          ], 
           "bg": 632,
           "rotates": false
         },
@@ -8431,8 +8435,12 @@
           "rotates": false
         },
         {
-          "id": "box_small",
-          "fg": 2795,
+          "id": "box_small", 
+          "fg": [
+            { "weight":2, "sprite":2795},
+            { "weight":2, "sprite":3636},
+            { "weight":2, "sprite":3637} 
+        ], 
           "bg": 632
         },
         {
@@ -8740,13 +8748,22 @@
           "rotates": false
         },
         {
-          "id": "can_drink",
-          "fg": 2798,
+          "id": "can_drink",  
+          "fg": [
+            { "weight":2, "sprite":2798},
+            { "weight":20, "sprite":3638} 
+         ], 
           "bg": 632
         },
         {
-          "id": "can_food",
-          "fg": 1016,
+          "id": "can_food", 
+          "fg": [
+            { "weight":2, "sprite":1016},
+            { "weight":20, "sprite":3632},
+            { "weight":20, "sprite":3633},
+            { "weight":20, "sprite":3634},
+            { "weight":20, "sprite":3635} 
+        ], 
           "bg": 632,
           "rotates": false
         },
@@ -17673,7 +17690,12 @@
         },
         {
           "id": "bottle_plastic_small",
-          "fg": 2850,
+           "fg": [
+            { "weight":2, "sprite":2850},
+            { "weight":80, "sprite":3629},
+            { "weight":80, "sprite":3630},
+            { "weight":80, "sprite":3631} 
+        ], 
           "bg": 632
         },
         {
@@ -20489,7 +20511,7 @@
             },
             {
               "id": "corner",
-              "fg": [2924, 2922, 2922, 2923]
+              "fg": [2924, 2917, 2922, 2923]
             },
             {
               "id": "end_piece",
@@ -21782,12 +21804,6 @@
           "rotates": false
         },
         {
-          "id": "mon_shia",
-          "fg": 1741,
-          "bg": 642,
-          "rotates": false
-        },
-        {
           "id": "mon_shoggoth",
           "fg": 2816,
           "rotates": false
@@ -21973,6 +21989,144 @@
         {
           "id": "mon_wasp",
           "fg": 1776,
+          "bg": 642,
+          "rotates": false
+        }, 
+       {
+          "id": "mon_wasp_small",
+          "fg": 3601,
+          "bg": 632,
+          "rotates": false
+        },
+       {
+          "id": "f_boulder_small",
+          "fg": 3602,
+          "bg": 632,
+          "rotates": false
+        },
+       {
+          "id": "f_boulder_medium",
+          "fg": 3603,
+          "bg": 632,
+          "rotates": false
+        },
+       {
+          "id": "f_boulder_large",
+          "fg": 3604,
+          "bg": 632,
+          "rotates": false
+        },
+        {
+          "id": "mon_zombie_biter",
+          "fg": 3605,
+          "bg": 632,
+          "rotates": false
+        }, 
+        {
+          "id": "mon_zombie_screecher",
+          "fg": 3606,
+          "bg": 632,
+          "rotates": false
+        },
+       {
+          "id": "f_ladder",
+          "fg": 3607,
+          "bg": 632,
+          "rotates": false
+        },
+       {
+          "id": "vp_seed_drill",
+          "fg": 3608,
+          "bg": 632,
+          "rotates": false
+        },
+       {
+          "id": "vp_seed_drill_advanced",
+          "fg": 3609,
+          "bg": 632,
+          "rotates": false
+        },
+       {
+          "id": "vp_reaper",
+          "fg": 3610,
+          "bg": 632,
+          "rotates": false
+        },
+       {
+          "id": "mon_giant_cockroach_nymph",
+          "fg": 3611,
+          "bg": 632,
+          "rotates": false
+        },
+       {
+          "id": "mon_pregnant_giant_cockroach",
+          "fg": 3612,
+          "bg": 632,
+          "rotates": false
+        },
+       {
+          "id": "cabbage",
+          "fg": 3613,
+          "bg": 632,
+          "rotates": false
+        },
+       {
+          "id": "can_peach",
+          "fg": 3614,
+          "bg": 632,
+          "rotates": false
+        },
+       {
+          "id": "game_watch",
+          "fg": 3615,
+          "bg": 632,
+          "rotates": false
+        },
+       {
+          "id": "pot_copper",
+          "fg": 3616,
+          "bg": 632,
+          "rotates": false
+        },
+       {
+          "id": "copper_ax",
+          "fg": 3617,
+          "bg": 632,
+          "rotates": false
+        },
+       {
+          "id": "copper_knife",
+          "fg": 3618,
+          "bg": 632,
+          "rotates": false
+        },
+       {
+          "id": "spear_copper",
+          "fg": 3619,
+          "bg": 632,
+          "rotates": false
+        },
+       {
+          "id": "mon_albino_penguin",
+          "fg": 3623,
+          "bg": 632,
+          "rotates": false
+        },
+       {
+          "id": "mon_giant_cockroach",
+          "fg": 3624,
+          "bg": 632,
+          "rotates": false
+        },
+       {
+          "id": "artifact_3090",
+          "fg": 3625,
+          "bg": 632,
+          "rotates": false
+        },  
+        {
+          "id": "mon_shia",
+          "fg": 3626,
           "bg": 642,
           "rotates": false
         },
@@ -29269,12 +29423,12 @@
         },
         {
           "id": "t_door_boarded_damaged_peep",
-          "fg": 2000,
+          "fg": 3626,
           "rotates": true
         },
         {
           "id": "t_door_boarded_damaged",
-          "fg": 2000,
+          "fg": 3626,
           "rotates": true
         },
         {
@@ -29515,7 +29669,7 @@
         },
         {
           "id": "t_rdoor_boarded_damaged",
-          "fg": 2105,
+          "fg": 3626,
           "rotates": false
         },
         {

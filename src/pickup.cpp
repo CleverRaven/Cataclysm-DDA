@@ -12,6 +12,7 @@
 #include "itype.h"
 #include "vehicle.h"
 #include "mapdata.h"
+#include "cata_utility.h"
 
 #include <map>
 #include <vector>
@@ -29,19 +30,19 @@ Pickup::interact_results Pickup::interact_with_vehicle( vehicle *veh, const trip
     const bool has_items_on_ground = g->m.sees_some_items( pos, g->u );
     const bool items_are_sealed = g->m.has_flag( "SEALED", pos );
 
-    const int k_part = veh->part_with_feature(veh_root_part, "KITCHEN");
-    const int wtr_part = veh->part_with_feature(veh_root_part, "FAUCET");
-    const int w_part = veh->part_with_feature(veh_root_part, "WELDRIG");
-    const int craft_part = veh->part_with_feature(veh_root_part, "CRAFTRIG");
-    const int chempart = veh->part_with_feature(veh_root_part, "CHEMLAB");
+    const bool has_kitchen = (veh->part_with_feature(veh_root_part, "KITCHEN") >= 0);
+    const bool has_faucet = (veh->part_with_feature(veh_root_part, "FAUCET") >= 0);
+    const bool has_weldrig = (veh->part_with_feature(veh_root_part, "WELDRIG") >= 0);
+    const bool has_craftrig = (veh->part_with_feature(veh_root_part, "CRAFTRIG") >= 0);
+    const bool has_chemlab = (veh->part_with_feature(veh_root_part, "CHEMLAB") >= 0);
+    const bool has_purify = (veh->part_with_feature(veh_root_part, "WATER_PURIFIER") >=0);
+    const bool has_controls = ((veh->part_with_feature(veh_root_part, "CONTROLS") >= 0) ||
+                               (veh->part_with_feature(veh_root_part, "CTRL_ELECTRONIC") >=0));
     const int cargo_part = veh->part_with_feature(veh_root_part, "CARGO", false);
-    const int ctrl_part = veh->part_with_feature(veh_root_part, "CONTROLS");
-    const int purify_part = veh->part_with_feature(veh_root_part, "WATER_PURIFIER");
     const bool from_vehicle = veh && cargo_part >= 0 && !veh->get_items(cargo_part).empty();
     const bool can_be_folded = veh->is_foldable();
     const bool is_convertible = (veh->tags.count("convertible") > 0);
     const bool remotely_controlled = g->remoteveh() == veh;
-
     typedef enum {
         EXAMINE, CONTROL, GET_ITEMS, GET_ITEMS_ON_GROUND, FOLD_VEHICLE, USE_HOTPLATE,
         FILL_CONTAINER, DRINK, USE_WELDER, USE_PURIFIER, PURIFY_TANK,
@@ -50,7 +51,7 @@ Pickup::interact_results Pickup::interact_with_vehicle( vehicle *veh, const trip
 
     selectmenu.addentry( EXAMINE, true, 'e', _("Examine vehicle") );
 
-    if (ctrl_part >= 0) {
+    if( has_controls ) {
         selectmenu.addentry( CONTROL, true, 'v', _("Control vehicle") );
     }
 
@@ -66,25 +67,25 @@ Pickup::interact_results Pickup::interact_with_vehicle( vehicle *veh, const trip
         selectmenu.addentry( FOLD_VEHICLE, true, 'f', _("Fold vehicle") );
     }
 
-    if((k_part >= 0 || chempart >= 0) && veh->fuel_left("battery") > 0) {
+    if( ( has_kitchen || has_chemlab ) && veh->fuel_left("battery") > 0) {
         selectmenu.addentry( USE_HOTPLATE, true, 'h', _("Use the hotplate") );
     }
 
-    if((k_part >= 0 || wtr_part >= 0) && veh->fuel_left("water_clean") > 0) {
+    if( ( has_kitchen || has_faucet ) && veh->fuel_left("water_clean") > 0) {
         selectmenu.addentry( FILL_CONTAINER, true, 'c', _("Fill a container with water") );
 
         selectmenu.addentry( DRINK, true, 'd', _("Have a drink") );
     }
 
-    if(w_part >= 0 && veh->fuel_left("battery") > 0) {
+    if( has_weldrig && veh->fuel_left("battery") > 0 ) {
         selectmenu.addentry( USE_WELDER, true, 'w', _("Use the welding rig?") );
     }
 
-    if( ( craft_part >= 0 || purify_part >= 0 ) && veh->fuel_left("battery") > 0 ) {
+    if( ( has_craftrig || has_purify ) && veh->fuel_left("battery") > 0 ) {
         selectmenu.addentry( USE_PURIFIER, true, 'p', _("Purify water in carried container") );
     }
 
-    if( ( craft_part >= 0 || purify_part >= 0 ) && veh->fuel_left("battery") > 0 &&
+    if( ( has_craftrig || has_purify ) && veh->fuel_left("battery") > 0 &&
         veh->fuel_left("water") > 0 &&
         veh->fuel_capacity("water_clean") > veh->fuel_left("water_clean") ) {
         selectmenu.addentry( PURIFY_TANK, true, 'P', _("Purify water in vehicle's tank") );
@@ -187,7 +188,7 @@ Pickup::interact_results Pickup::interact_with_vehicle( vehicle *veh, const trip
 
     case CONTROL:
         if( veh->interact_vehicle_locked() ) {
-            veh->use_controls();
+            veh->use_controls(pos);
         }
         return DONE;
 
@@ -219,24 +220,25 @@ static bool select_autopickup_items( std::vector<item> &here, std::vector<bool> 
                 iNumChecked++;
                 const std::string sItemName = here[i].tname( 1, false );
 
-                //Auto Pickup all items with 0 Volume and Weight <= AUTO_PICKUP_ZERO * 50
-                if (OPTIONS["AUTO_PICKUP_ZERO"]) {
-                    if (here[i].volume() == 0 &&
-                        here[i].weight() <= OPTIONS["AUTO_PICKUP_ZERO"] * 50 &&
-                        checkExcludeRules(sItemName)) {
+                //Check the Pickup Rules
+                if ( get_auto_pickup().check_item(sItemName) == "true" ) {
+                    bPickup = true;
+                } else if ( get_auto_pickup().check_item(sItemName) != "false" ) {
+                    //No prematched pickup rule found
+                    //items with damage, (fits) or a container
+                    get_auto_pickup().create_rules(sItemName);
+
+                    if ( get_auto_pickup().check_item(sItemName) == "true" ) {
                         bPickup = true;
                     }
                 }
 
-                //Check the Pickup Rules
-                if ( mapAutoPickupItems[sItemName] == "true" ) {
-                    bPickup = true;
-                } else if ( mapAutoPickupItems[sItemName] != "false" ) {
-                    //No prematched pickup rule found
-                    //items with damage, (fits) or a container
-                    createPickupRules(sItemName);
-
-                    if ( mapAutoPickupItems[sItemName] == "true" ) {
+                //Auto Pickup all items with 0 Volume and Weight <= AUTO_PICKUP_ZERO * 50
+                //items will either be in the autopickup list ("true") or unmatched ("")
+                if (!bPickup && OPTIONS["AUTO_PICKUP_ZERO"]) {
+                    if (here[i].volume() == 0 &&
+                        here[i].weight() <= OPTIONS["AUTO_PICKUP_ZERO"] * 50 &&
+                        get_auto_pickup().check_item(sItemName) != "false") {
                         bPickup = true;
                     }
                 }
@@ -474,11 +476,6 @@ void Pickup::pick_up( const tripoint &pos, int min )
         return;
     }
 
-    //min == -1 is Autopickup
-    if (!g->u.can_pickup(min != -1)) { // no message on autopickup (-1)
-        return;
-    }
-
     if( !from_vehicle ) {
         bool isEmpty = (g->m.i_at(pos).empty());
 
@@ -604,7 +601,7 @@ void Pickup::pick_up( const tripoint &pos, int min )
         bool update = true;
         mvwprintw(w_pickup, 0, 0, _("PICK UP"));
         int selected = 0;
-        int last_selected = -1;
+        int iScrollPos = 0;
 
         if(g->was_fullscreen) {
             g->draw_ter();
@@ -626,7 +623,11 @@ void Pickup::pick_up( const tripoint &pos, int min )
                 if( itemcount < 0 ) {
                     itemcount = 0;
                 }
-            } else if ( ch == '<' || ch == KEY_PPAGE ) {
+            } else if ( ch == KEY_PPAGE) {
+                iScrollPos--;
+            } else if ( ch == KEY_NPAGE) {
+                iScrollPos++;
+            } else if ( ch == '<' ) {
                 if ( start > 0 ) {
                     start -= maxitems;
                 } else {
@@ -634,16 +635,18 @@ void Pickup::pick_up( const tripoint &pos, int min )
                 }
                 selected = start;
                 mvwprintw(w_pickup, maxitems + 2, 0, "         ");
-            } else if ( ch == '>' || ch == KEY_NPAGE ) {
+            } else if ( ch == '>' ) {
                 if ( start + maxitems < (int)here.size() ) {
                     start += maxitems;
                 } else {
                     start = 0;
                 }
+                iScrollPos = 0;
                 selected = start;
                 mvwprintw(w_pickup, maxitems + 2, pickupH, "            ");
             } else if ( ch == KEY_UP ) {
                 selected--;
+                iScrollPos = 0;
                 if ( selected < 0 ) {
                     selected = here.size() - 1;
                     start = (int)( here.size() / maxitems ) * maxitems;
@@ -655,6 +658,7 @@ void Pickup::pick_up( const tripoint &pos, int min )
                 }
             } else if ( ch == KEY_DOWN ) {
                 selected++;
+                iScrollPos = 0;
                 if ( selected >= (int)here.size() ) {
                     selected = 0;
                     start = 0;
@@ -678,6 +682,7 @@ void Pickup::pick_up( const tripoint &pos, int min )
                 }
             } else {
                 idx = ( ch <= 127 ) ? pickup_chars.find(ch) : -1;
+                iScrollPos = 0;
             }
 
             if( idx >= 0 && idx < (int)here.size()) {
@@ -726,20 +731,17 @@ void Pickup::pick_up( const tripoint &pos, int min )
                 update = true;
             }
 
-            if ( selected != last_selected ) {
-                last_selected = selected;
-                werase(w_item_info);
-                if ( selected >= 0 && selected <= (int)here.size() - 1 ) {
-                    std::vector<iteminfo> vThisItem, vDummy;
-                    here[selected].info(true, vThisItem);
+            werase(w_item_info);
+            if ( selected >= 0 && selected <= (int)here.size() - 1 ) {
+                std::vector<iteminfo> vThisItem, vDummy;
+                here[selected].info(true, vThisItem);
 
-                    draw_item_info(w_item_info, "", vThisItem, vDummy, 0, true, true);
-                }
-                draw_border(w_item_info);
-                mvwprintw(w_item_info, 0, 2, "< ");
-                trim_and_print(w_item_info, 0, 4, itemsW - 8, c_white, "%s >", here[selected].display_name().c_str());
-                wrefresh(w_item_info);
+                draw_item_info(w_item_info, "", "", vThisItem, vDummy, iScrollPos, true, true);
             }
+            draw_custom_border(w_item_info, false);
+            mvwprintw(w_item_info, 0, 2, "< ");
+            trim_and_print(w_item_info, 0, 4, itemsW - 8, c_white, "%s >", here[selected].display_name().c_str());
+            wrefresh(w_item_info);
 
             if (ch == ',') {
                 int count = 0;
@@ -806,9 +808,9 @@ void Pickup::pick_up( const tripoint &pos, int min )
             mvwprintw(w_pickup, maxitems + 1, 0,                         unmark);
             mvwprintw(w_pickup, maxitems + 1, (pw - std::strlen(scroll)) / 2, scroll);
             mvwprintw(w_pickup, maxitems + 1,  pw - std::strlen(mark),        mark);
-            const char *prev = _("[pgup] Prev");
+            const char *prev = _("[<] Prev");
             const char *all = _("[,] All");
-            const char *next   = _("[pgdn] Next");
+            const char *next   = _("[>] Next");
             mvwprintw(w_pickup, maxitems + 2, 0, prev);
             mvwprintw(w_pickup, maxitems + 2, (pw - std::strlen(all)) / 2, all);
             mvwprintw(w_pickup, maxitems + 2, pw - std::strlen(next), next);
@@ -820,8 +822,8 @@ void Pickup::pick_up( const tripoint &pos, int min )
                 }
                 mvwprintz(w_pickup, 0,  9,
                           (new_weight > g->u.weight_capacity() ? c_red : c_white),
-                          _("Wgt %.1f"), g->u.convert_weight(new_weight) + 0.05); // +0.05 to round up
-                wprintz(w_pickup, c_white, "/%.1f", g->u.convert_weight(g->u.weight_capacity()));
+                          _("Wgt %.1f"), convert_weight(new_weight) + 0.05); // +0.05 to round up
+                wprintz(w_pickup, c_white, "/%.1f", convert_weight(g->u.weight_capacity()));
                 mvwprintz(w_pickup, 0, 24,
                           (new_volume > g->u.volume_capacity() ? c_red : c_white),
                           _("Vol %d"), new_volume);

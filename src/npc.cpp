@@ -550,6 +550,7 @@ void npc::randomize(npc_class type)
  boost_skill_level( skill_barter, rng(2, 4));
 
  for (int i = 0; i < num_hp_parts; i++) {
+  ///\EFFECT_HP_MAX increases max hp for NPCs
   hp_max[i] = 60 + str_max * 3;
   hp_cur[i] = hp_max[i];
  }
@@ -792,7 +793,11 @@ void npc::randomize_from_faction(faction *fac)
 void npc::set_fac(std::string fac_name)
 {
     my_fac = g->faction_by_ident(fac_name);
-    fac_id = my_fac->id;
+    if ( my_fac == nullptr ) {
+        debugmsg("The game could not find the %s faction", fac_name.c_str());
+    } else {
+        fac_id = my_fac->id;
+    }
 }
 
 // item id from group "<class-name>_<what>" or from fallback group
@@ -1094,8 +1099,27 @@ bool npc::wear_if_wanted( const item &it )
         29, // bp_foot_r
     }};
 
+    // Splints ignore limits, but only when being equipped on a broken part
+    // TODO: Drop splints when healed
+    bool splint = it.has_flag( "SPLINT" );
+    if( splint ) {
+        splint = false;
+        for( int i = 0; i < num_hp_parts; i++ ) {
+            hp_part hpp = hp_part( i );
+            body_part bp = player::hp_to_bp( hpp );
+            if( hp_cur[i] <= 0 && it.covers( bp ) ) {
+                splint = true;
+                break;
+            }
+        }
+    }
+
+    if( splint ) {
+        return wear_item( it, false );
+    }
+
     bool encumb_ok = true;
-    while( !worn.empty() ) {
+    do {
         // Strip until we can put the new item on
         // This is one of the reasons this command is not used by the AI
         for( size_t i = 0; i < num_bp; i++ ) {
@@ -1142,7 +1166,7 @@ bool npc::wear_if_wanted( const item &it )
             // Shouldn't happen, but does
             return wear_item( it, false );
         }
-    }
+    } while( !worn.empty() );
 
     return false;
 }
@@ -1227,6 +1251,7 @@ void npc::form_opinion(player *u)
         op_of_u.fear -= 3;
     }
 
+    ///\EFFECT_STR increases NPC fear of the player
     if( u->str_max >= 16 ) {
         op_of_u.fear += 2;
     } else if( u->str_max >= 12 ) {
@@ -1538,6 +1563,7 @@ void npc::decide_needs()
     if (weapon.is_gun()) {
         needrank[need_ammo] = 5 * get_ammo(weapon.type->gun->ammo).size();
     }
+    ///\EFFECT_UNARMED_NPC <4 drives need for a weapon
     if (weapon.type->id == "null" && skillLevel( skill_unarmed ) < 4) {
         needrank[need_weapon] = 1;
     } else {
@@ -1545,6 +1571,15 @@ void npc::decide_needs()
                                 weapon.type->m_to_hit;
     }
     if (!weapon.is_gun()) {
+        ///\EFFECT_UNARMED_NPC lowers need for a gun
+
+        ///\EFFECT_MELEE_NPC lowers need for a gun
+
+        ///\EFFECT_BASHING_NPC lowers need for a gun
+
+        ///\EFFECT_CUTTING_NPC lowers need for a gun
+
+        ///\EFFECT_GUN_NPC increases need for a gun
         needrank[need_gun] = skillLevel( skill_unarmed ) + skillLevel( skill_melee ) +
                             skillLevel( skill_bashing ) + skillLevel( skill_cutting ) -
                             skillLevel( skill_gun ) * 2 + 5;
@@ -1701,6 +1736,11 @@ void npc::update_worst_item_value()
 
 int npc::value(const item &it)
 {
+    if( it.is_dangerous() ) {
+        // Live grenade or something similar
+        return -1000;
+    }
+
     int ret = it.price() / 50;
     int weapon_val = weapon_value( it ) - weapon_value( weapon );
     if( weapon_val > 0 ) {
@@ -1732,6 +1772,7 @@ int npc::value(const item &it)
 
     if( it.is_book() ) {
         auto &book = *it.type->book;
+        ///\EFFECT_INT_NPC allows valuing books based on their morale boost
         if( book.intel <= int_cur ) {
             ret += book.fun;
             if( book.skill && skillLevel( book.skill ) < book.level &&
@@ -1843,6 +1884,7 @@ Creature::Attitude npc::attitude_to( const Creature &other ) const
 int npc::smash_ability() const
 {
     if( !is_following() || rules.allow_bash ) {
+        ///\EFFECT_STR_NPC increases smash ability
         return str_cur + weapon.type->melee_dam;
     }
 
@@ -1988,6 +2030,7 @@ int npc::speed_estimate( const Creature &what ) const
     // TODO: Modify based on abilities
     // Players run, zombies stumble and leap
     const auto speed = what.get_speed();
+    ///\EFFECT_PER_NPC determines accuracy of estimating others' speed
     if( per_cur == 0 ) {
         return rng(0, speed * 2);
     }
@@ -2012,6 +2055,16 @@ nc_color npc::basic_symbol_color() const
         return c_ltgreen;
     }
     return c_pink;
+}
+
+nc_color npc::symbol_color() const
+{
+    nc_color basic = basic_symbol_color();
+    if( in_sleep_state() ) {
+        return hilite( basic );
+    }
+
+    return basic;
 }
 
 int npc::print_info(WINDOW* w, int line, int vLines, int column) const
@@ -2449,6 +2502,36 @@ void npc::add_msg_player_or_npc(game_message_type type, const char *, const char
 void npc::add_new_mission( class mission *miss )
 {
     chatbin.add_new_mission( miss );
+}
+
+void npc::on_unload()
+{
+    last_updated = calendar::turn;
+}
+
+void npc::on_load()
+{
+    const int now = calendar::turn;
+    // TODO: Sleeping, healing etc.
+    int dt = now - last_updated;
+    last_updated = calendar::turn;
+    // Cap at some reasonable number, say 2 days (2 * 48 * 30 minutes)
+    dt = std::min( dt, 2 * 48 * MINUTES(30) );
+    int cur = now - dt;
+    add_msg( m_debug, "on_load() by %s, %d turns", name.c_str(), dt );
+    // First update with 30 minute granularity, then 5 minutes, then turns
+    for( ; cur < now - MINUTES(30); cur += MINUTES(30) + 1 ) {
+        update_body( cur, cur + MINUTES(30) );
+    }
+    for( ; cur < now - MINUTES(5); cur += MINUTES(5) + 1 ) {
+        update_body( cur, cur + MINUTES(5) );
+    }
+    for( ; cur < now; cur++ ) {
+        update_body( cur, cur + 1 );
+    }
+
+    // Not necessarily true, but it's not a bad idea to set this
+    has_new_items = true;
 }
 
 void npc_chatbin::add_new_mission( mission *miss )

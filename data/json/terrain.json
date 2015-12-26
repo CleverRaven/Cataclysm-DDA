@@ -468,6 +468,22 @@
         }
     },{
         "type" : "terrain",
+        "id" : "t_grass_white",
+        "name": "white grass",
+        "symbol": ".",
+        "color": "white",
+        "move_cost": 2,
+        "flags": ["TRANSPARENT", "DIGGABLE", "FLAT"],
+        "bash": {
+                "sound": "thump",
+                "ter_set": "t_null",
+                "str_min": 40,
+                "str_max": 100,
+                "str_min_supported": 100,
+                "bash_below": true
+        }
+    },{
+        "type" : "terrain",
         "id" : "t_metal_floor",
         "name": "metal floor",
         "symbol": ".",
@@ -903,7 +919,7 @@
             "sound_fail": "whump!",
             "ter_set": "t_null",
             "items": [
-                { "item": "rock", "count": [1, 3] },
+                { "item": "rock", "count": [10, 22] },
                 { "item": "rebar", "count": [0, 2] }
             ]
         }
@@ -1153,7 +1169,7 @@
         "move_cost": 2,
         "flags": [
             "FLAMMABLE_ASH", "TRANSPARENT",
-            "FLAT", "BARRICADABLE_DOOR", "CONNECT_TO_WALL"
+            "FLAT", "BARRICADABLE_DOOR", "CONNECT_TO_WALL", "ROAD"
         ],
         "deconstruct": {
             "ter_set": "t_door_frame",
@@ -1870,7 +1886,7 @@
         "color": "ltcyan",
         "move_cost": 0,
         "flags": [
-            "TRANSPARENT", "DOOR", "NOITEM", "CONNECT_TO_WALL", "ROAD"
+            "TRANSPARENT", "DOOR", "NOITEM", "CONNECT_TO_WALL"
         ],
         "open": "t_door_glass_o",
         "deconstruct": {
@@ -1897,7 +1913,7 @@
         "symbol": "'",
         "color": "ltcyan",
         "move_cost": 2,
-        "flags": ["TRANSPARENT", "FLAT", "CONNECT_TO_WALL"],
+        "flags": ["TRANSPARENT", "FLAT", "CONNECT_TO_WALL", "ROAD"],
         "close": "t_door_glass_c",
         "deconstruct": {
             "ter_set": "t_door_frame",
@@ -2007,9 +2023,9 @@
     },{
         "type" : "terrain",
         "id" : "t_window_domestic",
-        "name": "window",
+        "name": "window with curtains",
         "symbol": "\"",
-        "color": "ltcyan",
+        "color": "ltgray",
         "move_cost": 0,
         "flags": [
             "TRANSPARENT", "FLAMMABLE", "NOITEM", "OPENCLOSE_INSIDE",
@@ -2043,6 +2059,77 @@
         }
     },{
         "type" : "terrain",
+        "id" : "t_window_no_curtains",
+        "name": "window without curtains",
+        "symbol": "\"",
+        "color": "white",
+        "move_cost": 0,
+        "flags": [
+            "TRANSPARENT", "FLAMMABLE", "NOITEM", "OPENCLOSE_INSIDE",
+            "BARRICADABLE_WINDOW", "REDUCE_SCENT", "CONNECT_TO_WALL"
+        ],
+        "open": "t_window_no_curtains_open",
+        "deconstruct": {
+            "ter_set": "t_window_empty",
+            "items": [
+                { "item": "glass_sheet", "count": 1 }
+            ]
+        },
+        "bash": {
+            "str_min": 3, "str_max": 6,
+            "sound": "glass breaking!",
+            "sound_fail": "whack!",
+            "sound_vol": 16,
+            "sound_fail_vol": 10,
+            "ter_set": "t_window_frame",
+            "items": [
+                { "item": "glass_shard", "count": 3 }
+            ]
+        }
+    },{
+        "type" : "terrain",
+        "id" : "t_window_no_curtains_open",
+        "name": "open window without curtains",
+        "symbol": "'",
+        "color": "white",
+        "move_cost": 4,
+        "flags": ["TRANSPARENT", "FLAMMABLE", "NOITEM", "OPENCLOSE_INSIDE", "MOUNTABLE", "CONNECT_TO_WALL" ],
+        "close": "t_window_no_curtains",
+        "bash": {
+            "str_min": 3, "str_max": 6,
+            "sound": "glass breaking!",
+            "sound_fail": "whack!",
+            "sound_vol": 16,
+            "sound_fail_vol": 10,
+            "ter_set": "t_window_frame",
+            "items": [
+                { "item": "glass_shard", "count": 3 }
+            ]
+        }
+    },{
+        "type" : "terrain",
+        "id" : "t_window_no_curtains_taped",
+        "name": "taped window",
+        "comment": "Taped window without curtains",
+        "symbol": "\"",
+        "color": "dkgray",
+        "move_cost": 0,
+        "flags": [
+            "FLAMMABLE", "NOITEM", "WALL"
+        ],
+        "bash": {
+            "str_min": 6, "str_max": 12,
+            "sound": "glass breaking!",
+            "sound_fail": "whack!",
+            "sound_vol": 16,
+            "sound_fail_vol": 10,
+            "ter_set": "t_window_frame",
+            "items": [
+                { "item": "glass_shard", "count": 3 }
+            ]
+        }
+    },{
+        "type" : "terrain",
         "id" : "t_window_domestic_taped",
         "name": "taped window",
         "comment": "Taped window with curtains",
@@ -2069,9 +2156,9 @@
     },{
         "type" : "terrain",
         "id" : "t_window_open",
-        "name": "open window",
+        "name": "open window with curtains",
         "symbol": "'",
-        "color": "ltcyan",
+        "color": "ltgray",
         "move_cost": 4,
         "flags": ["TRANSPARENT", "FLAMMABLE", "NOITEM", "OPENCLOSE_INSIDE", "MOUNTABLE", "CONNECT_TO_WALL" ],
         "close": "t_window_domestic",
@@ -2092,12 +2179,12 @@
     },{
         "type" : "terrain",
         "id" : "t_curtains",
-        "name": "closed curtains",
+        "name": "window with closed curtains",
         "symbol": "\"",
         "color": "dkgray",
         "move_cost": 0,
         "flags": [
-            "FLAMMABLE", "NOITEM", "OPENCLOSE_INSIDE", "REDUCE_SCENT", 
+            "FLAMMABLE", "NOITEM", "OPENCLOSE_INSIDE", "REDUCE_SCENT",
             "BARRICADABLE_WINDOW_CURTAINS", "CONNECT_TO_WALL" ],
         "open": "t_window_domestic",
         "examine_action" : "curtains",
@@ -2407,7 +2494,8 @@
             "ter_set": "t_rock_floor",
             "items": [
                 { "item": "rock", "count": [3, 7] },
-                { "item": "material_limestone", "charges": [10, 25], "prob": 80 }
+                { "item": "material_limestone", "charges": [10, 25], "prob": 80 },
+                { "item": "material_rocksalt", "count": [0, 1], "prob": 20 }
             ]
         }
     },{
@@ -3587,8 +3675,8 @@
         "symbol": "~",
         "color": "ltblue",
         "move_cost": 5,
-        "flags": ["TRANSPARENT", "LIQUID", "SWIMMABLE", "FISHABLE"],
-        "examine_action": "swater_source"
+        "flags": ["TRANSPARENT", "LIQUID", "SWIMMABLE", "SALT_WATER", "FISHABLE"],
+        "examine_action": "water_source"
     },{
         "type" : "terrain",
         "id" : "t_swater_dp",
@@ -3596,8 +3684,8 @@
         "symbol": "~",
         "color": "blue",
         "move_cost": 8,
-        "flags": ["TRANSPARENT", "LIQUID", "SWIMMABLE", "DEEP_WATER", "FISHABLE"],
-        "examine_action": "swater_source"
+        "flags": ["TRANSPARENT", "LIQUID", "SWIMMABLE", "SALT_WATER", "DEEP_WATER", "FISHABLE"],
+        "examine_action": "water_source"
     },{
         "type" : "terrain",
         "id" : "t_water_pool",
@@ -5574,7 +5662,7 @@
             "sound_fail": "splosh!",
             "ter_set": "t_water_dp",
             "items": [
-                { "item": "clay_lump", "count": [5, 10] }
+                { "item": "clay_lump", "count": [6, 12] }
             ]
         }
     },{
@@ -5591,7 +5679,7 @@
             "sound_fail": "splosh!",
             "ter_set": "t_water_dp",
             "items": [
-                { "item": "material_sand", "charges": [800, 1200] }
+                { "item": "material_sand", "charges": [300, 600] }
             ]
         }
     },{

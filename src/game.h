@@ -21,9 +21,14 @@ extern int save_loading_version;
 class game;
 extern game *g;
 
+#ifdef TILES
+extern void try_sdl_update();
+#endif // TILES
+
 extern bool trigdist;
 extern bool use_tiles;
 extern bool fov_3d;
+extern bool tile_iso;
 
 extern const int savegame_version;
 extern int savegame_loading_version;
@@ -195,8 +200,15 @@ class game
         void add_event(event_type type, int on_turn, int faction_id = -1);
         void add_event(event_type type, int on_turn, int faction_id, tripoint where);
         bool event_queued(event_type type) const;
-        /** Create explosion at p of intensity (power) with (shrapnel) chunks of shrapnel. */
-        void explosion( const tripoint &p, int power, int shrapnel, bool fire, bool blast = true );
+        /** Create explosion at p of intensity (power) with (shrapnel) chunks of shrapnel.
+            Explosion intensity formula is roughly power*factor^distance.
+            If factor <= 0, no blast is produced */
+        void explosion( const tripoint &p, float power, float factor = 0.8f,
+                        int shrapnel = 0, bool fire = false );
+        /** Helper for explosion, does the actual blast. */
+        void do_blast( const tripoint &p, float power, float factor, bool fire );
+        /** Shoot shrapnel from point p */
+        void shrapnel( const tripoint &p, int power, int count, int radius );
         /** Triggers a flashbang explosion at p. */
         void flashbang( const tripoint &p, bool player_immune = false );
         /** Moves the player vertically. If force == true then they are falling. */
@@ -252,8 +264,6 @@ class game
         monster *monster_at( const tripoint &p, bool allow_hallucination = false );
         /** Returns true if there is no player, NPC, or monster on the tile and move_cost > 0. */
         bool is_empty( const tripoint &p );
-        /** Returns true if the value of test is between down and up. */
-        bool isBetween(int test, int down, int up);
         /** Returns true if p is outdoors and it is sunny. */
         bool is_in_sunlight( const tripoint &p );
         /** Returns true if p is indoors, underground, or in a car. */
@@ -308,8 +318,12 @@ class game
         /** Returns the next available mission id. */
         int assign_mission_id();
         npc *find_npc(int id);
-        /** Makes any nearby NPC's on the overmap active. */
+        /** Makes any nearby NPCs on the overmap active. */
         void load_npcs();
+        /** Unloads all NPCs */
+        void unload_npcs();
+        /** Unloads, then loads the NPCs */
+        void reload_npcs();
         /** Pulls the NPCs that were dumped into the world map on save back into mission_npcs */
         void load_mission_npcs();
         /** Returns the number of kills of the given mon_id by the player. */
@@ -374,11 +388,6 @@ class game
         // Shared method to print "look around" info
         void print_all_tile_info( const tripoint &lp, WINDOW *w_look, int column, int &line, bool mouse_hover );
 
-        bool list_items_match(const item *item, std::string sPattern);
-        int list_filter_high_priority(std::vector<map_item_stack> &stack, std::string prorities);
-        int list_filter_low_priority(std::vector<map_item_stack> &stack, int start, std::string prorities);
-        std::vector<map_item_stack> filter_item_stacks(std::vector<map_item_stack> stack,
-                std::string filter);
         std::vector<map_item_stack> find_nearby_items(int iRadius);
         void draw_item_filter_rules(WINDOW *window, int rows);
         std::string ask_item_priority_high(WINDOW *window, int rows);
@@ -392,19 +401,26 @@ class game
         int inv_activatable(std::string const &title);
         int inv_for_liquid(const item &liquid, const std::string &title, bool auto_choose_single);
         int inv_for_salvage(const std::string &title, const salvage_actor &actor );
-        item *inv_map_for_liquid(const item &liquid, const std::string &title);
+        item *inv_map_for_liquid(const item &liquid, const std::string &title, int radius = 0);
         int inv_for_flag(const std::string &flag, const std::string &title, bool auto_choose_single);
         int inv_for_filter(const std::string &title, item_filter filter);
         int inv_for_unequipped(std::string const &title, item_filter filter);
         int display_slice(indexed_invslice const&, const std::string &, bool show_worn = true, int position = INT_MIN);
-        int inventory_item_menu(int pos, int startx = 0, int width = 50, int position = 0);
+        enum inventory_item_menu_positon {
+            RIGHT_TERMINAL_EDGE,
+            LEFT_OF_INFO,
+            RIGHT_OF_INFO,
+            LEFT_TERMINAL_EDGE,
+        };
+        int inventory_item_menu(int pos, int startx = 0, int width = 50, inventory_item_menu_positon position = RIGHT_OF_INFO);
 
-        // Combines filtered player inventory with filtered ground and vehicle items to create a pseudo-inventory.
+        // Combines filtered player inventory with filtered ground and vehicle items within radius to create a pseudo-inventory.
         item_location inv_map_splice( item_filter inv_filter,
                                       item_filter ground_filter,
                                       item_filter vehicle_filter,
-                                      const std::string &title );
-        item_location inv_map_splice( item_filter filter, const std::string &title );
+                                      const std::string &title,
+                                      int radius = 0 );
+        item_location inv_map_splice( item_filter filter, const std::string &title, int radius = 0 );
 
         // Select items to drop.  Returns a list of pairs of position, quantity.
         std::list<std::pair<int, int>> multidrop();
@@ -419,6 +435,7 @@ class game
         void reenter_fullscreen(void);
         void zoom_in();
         void zoom_out();
+        void reset_zoom();
 
         std::unique_ptr<weather_generator> weather_gen;
         signed char temperature;              // The air temperature
@@ -440,7 +457,7 @@ class game
          */
         void load_map( tripoint pos_sm );
         /**
-         * The overmap which is at the top left corner of the reality bubble.
+         * The overmap which contains the center submap of the reality bubble.
          */
         overmap &get_cur_om() const;
         scenario *scen;
@@ -456,6 +473,7 @@ class game
         WINDOW *w_overmap;
         WINDOW *w_omlegend;
         WINDOW *w_minimap;
+        WINDOW *w_pixel_minimap;
         WINDOW *w_HP;
         WINDOW *w_messages;
         WINDOW *w_location;
@@ -476,16 +494,13 @@ class game
         void calc_driving_offset(vehicle *veh = NULL);
 
         bool handle_liquid(item &liquid, bool from_ground, bool infinite, item *source = NULL,
-                           item *cont = NULL);
+                           item *cont = NULL, int radius = 0);
 
         //Move_liquid returns the amount of liquid left if we didn't move all the liquid,
         //otherwise returns sentinel -1, signifies transaction fail.
         int move_liquid(item &liquid);
 
         void open_gate( const tripoint &p, const ter_id handle_type );
-
-        // Helper because explosion was getting too big.
-        void do_blast( const tripoint &p, const int power, const bool fire );
 
         // Knockback functions: knock target at t along a line, either calculated
         // from source position s using force parameter or passed as an argument;
@@ -644,10 +659,6 @@ class game
         void drop(int pos = INT_MIN); // Drop an item  'd'
         void drop_in_direction(); // Drop w/ direction  'D'
 
-        // calculate the time (in player::moves) it takes to drop the
-        // items in dropped and dropped_worn.
-        int calculate_drop_cost(std::vector<item> &dropped, const std::vector<item> &dropped_worn,
-                                int freed_volume_capacity) const;
         void reassign_item(int pos = INT_MIN); // Reassign the letter of an item  '='
         void butcher(); // Butcher a corpse  'B'
         void eat(int pos = INT_MIN); // Eat food or fuel  'E' (or 'a')
@@ -655,6 +666,7 @@ class game
         void use_wielded_item();
         void wear(int pos = INT_MIN); // Wear armor  'W' (or 'a')
         void takeoff(int pos = INT_MIN); // Remove armor  'T'
+        void change_side(int pos = INT_MIN); // Change the side on which an item is worn 'c'
         void reload(); // Reload a wielded gun/tool  'r'
         void reload(int pos);
         void unload(item &it); // Unload a gun/tool  'U'
@@ -795,6 +807,9 @@ class game
 
         void move_save_to_graveyard();
         bool save_player_data();
+
+        //pixel minimap management
+        int pixel_minimap_option;
 };
 
 #endif

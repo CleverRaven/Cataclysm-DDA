@@ -3,7 +3,6 @@
 
 #include "item.h"         // item
 #include "requirements.h" // requirement_data
-#include "bodypart.h"     // handedness::NONE
 #include "cursesdef.h"    // WINDOW
 #include "string_id.h"
 
@@ -12,6 +11,7 @@
 #include <map>
 #include <list>
 
+class recipe_dictionary;
 class JsonObject;
 class Skill;
 using skill_id = string_id<Skill>;
@@ -23,11 +23,6 @@ enum body_part : int; // From bodypart.h
 typedef int nc_color; // From color.h
 
 using itype_id     = std::string; // From itype.h
-
-// Global list of valid recipes
-extern std::map<std::string, std::vector<recipe *>> recipes;
-// Global reverse lookup
-extern std::map<itype_id, std::vector<recipe *>> recipes_by_component;
 
 struct byproduct {
     itype_id result;
@@ -64,7 +59,6 @@ struct recipe {
     double batch_rscale;
     int batch_rsize; // minimum batch size to needed to reach batch_rscale
     int result_mult; // used by certain batch recipes that create more than one stack of the result
-    bool paired;
 
     // only used during loading json data: book_id is the id of an book item, other stuff is copied
     // into @ref islot_book::recipes.
@@ -80,13 +74,12 @@ struct recipe {
     // Format: skill_name(amount), skill_name(amount)
     std::string required_skills_string() const;
 
-    ~recipe();
     recipe();
 
     // Create an item instance as if the recipe was just finished,
     // Contain charges multiplier
-    item create_result(handedness handed = NONE) const;
-    std::vector<item> create_results(int batch = 1, handedness handed = NONE) const;
+    item create_result() const;
+    std::vector<item> create_results(int batch = 1) const;
 
     // Create byproduct instances as if the recipe was just finished
     std::vector<item> create_byproducts(int batch = 1) const;
@@ -95,6 +88,9 @@ struct recipe {
 
     bool can_make_with_inventory(const inventory &crafting_inv, int batch = 1) const;
     bool check_eligible_containers_for_crafting(int batch = 1) const;
+
+    // Can this recipe be memorized?
+    bool valid_learn() const;
 
     int print_items(WINDOW *w, int ypos, int xpos, nc_color col, int batch = 1) const;
     void print_item(WINDOW *w, int ypos, int xpos, nc_color col,
@@ -112,8 +108,6 @@ void remove_ammo(item *dis_item, player &p);
 // same as above but for each item in the list
 void remove_ammo(std::list<item> &dis_items, player &p);
 
-void load_recipe_category(JsonObject &jsobj);
-void reset_recipe_categories();
 void load_recipe(JsonObject &jsobj);
 void reset_recipes();
 const recipe *recipe_by_index(int index);
@@ -132,7 +126,6 @@ void batch_recipes(const inventory &crafting_inv,
                    std::vector<const recipe *> &current,
                    std::vector<bool> &available, const recipe* r);
 
-const recipe *find_recipe( std::string id );
 void check_recipe_definitions();
 
 void set_item_spoilage(item &newit, float used_age_tally, int used_age_count);

@@ -8,8 +8,9 @@
 #define HOURS(x)   ((x) * 600)
 #define DAYS(x)    ((x) * 14400)
 
-// How much light moon provides--double for full moon
-#define MOONLIGHT_LEVEL 4.5
+// How much light the moon provides per quater
+#define MOONLIGHT_PER_QUATER 2.25
+
 // How much light is provided in full daylight
 #define DAYLIGHT_LEVEL 100
 
@@ -25,8 +26,14 @@ enum season_type {
 
 enum moon_phase {
     MOON_NEW = 0,
-    MOON_HALF,
-    MOON_FULL
+    MOON_WAXING_CRESCENT,
+    MOON_HALF_MOON_WAXING,
+    MOON_WAXING_GIBBOUS,
+    MOON_FULL,
+    MOON_WANING_GIBBOUS,
+    MOON_HALF_MOON_WANING,
+    MOON_WANING_CRESCENT,
+    MOON_PHASE_MAX
 };
 
 class calendar
@@ -75,7 +82,7 @@ class calendar
         int minutes_past_midnight() const;
         /** Returns the number of seconds past midnight. Used for sunrise/set calculations. */
         int seconds_past_midnight() const;
-        /** Returns the current phase of the moon. */
+        /** Returns the current light level of the moon. */
         moon_phase moon() const;
         /** Returns the current sunrise time based on the time of year. */
         calendar sunrise() const;
@@ -133,7 +140,7 @@ class calendar
             return season_length() * 4;
         }
         static int season_length(); // In days
-        
+
         static float season_ratio() //returns relative length of game season to irl season
         {
             return static_cast<float>(season_length()) / REAL_WORLD_SEASON_LENGTH;
@@ -157,5 +164,7 @@ class calendar
 
         static   calendar start;
         static   calendar turn;
+        static season_type initial_season;
+        static bool eternal_season;
 };
 #endif

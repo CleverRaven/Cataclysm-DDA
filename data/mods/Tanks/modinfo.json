@@ -4,6 +4,7 @@
     "ident": "Tanks",
     "name": "Tanks and Other Vehicles",
     "description": "Adds a few armored fighting vehicles and other such things, requires Vehicle Additions Pack.",
+    "category": "vehicles",
     "author": "Chaosvolt",
     "path": "",
     "dependencies": ["blazemod"]

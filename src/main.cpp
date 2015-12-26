@@ -23,11 +23,6 @@
 #include <libintl.h>
 #endif
 #include "translations.h"
-#if (defined OSX_SDL_FW)
-#include "SDL.h"
-#elif (defined OSX_SDL_LIBS)
-#include "SDL/SDL.h"
-#endif
 
 void exit_handler(int s);
 
@@ -362,8 +357,8 @@ int main(int argc, char *argv[])
     }
 
     // Options strings loaded with system locale
-    init_options();
-    load_options();
+    get_options().init();
+    get_options().load();
 
     set_language(true);
 

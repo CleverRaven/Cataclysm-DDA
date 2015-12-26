@@ -14,8 +14,8 @@ void init_global_game_state() {
     PATH_INFO::init_user_dir("./");
     PATH_INFO::set_standard_filenames();
 
-    init_options();
-    load_options();
+    get_options().init();
+    get_options().load();
     init_colors();
 
     g = new game;
@@ -31,7 +31,7 @@ void init_global_game_state() {
 
     g->u = player();
     g->u.create(PLTYPE_NOW);
-    g->m = std::move( map( static_cast<bool>( ACTIVE_WORLD_OPTIONS["ZLEVELS"] ) ) );
+    g->m = map( static_cast<bool>( ACTIVE_WORLD_OPTIONS["ZLEVELS"] ) );
 
     g->m.load( g->get_levx(), g->get_levy(), g->get_levz(), false );
 }

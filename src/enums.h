@@ -83,7 +83,7 @@ enum special_game_id {
     NUM_SPECIAL_GAMES
 };
 
-enum art_effect_passive {
+enum art_effect_passive : int {
     AEP_NULL = 0,
     // Good
     AEP_STR_UP, // Strength + 4

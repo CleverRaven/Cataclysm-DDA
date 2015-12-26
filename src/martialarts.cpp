@@ -61,7 +61,7 @@ void load_technique(JsonObject &jo)
     tec.grab_break = jo.get_bool("grab_break", false);
     tec.flaming = jo.get_bool("flaming", false);
 
-    tec.hit = jo.get_int("pain", 0);
+    tec.hit = jo.get_int("hit", 0);
     tec.bash = jo.get_int("bash", 0);
     tec.cut = jo.get_int("cut", 0);
     tec.pain = jo.get_int("pain", 0);
@@ -411,10 +411,15 @@ bool ma_requirements::is_valid_player( const player &u ) const
                   (u.has_weapon() && martialarts[u.style_selected].has_weapon(u.weapon.type->id) &&
                    is_valid_weapon(u.weapon))) &&
                    // TODO: same list as in player.cpp
+                   ///\EFFECT_MELEE determines which melee martial arts are available
                  ((u.get_skill_level(skill_id("melee")) >= min_melee &&
+                   ///\EFFECT_UNARMED determines which unarmed martial arts are available
                    u.get_skill_level(skill_id("unarmed")) >= min_unarmed &&
+                   ///\EFFECT_BASHING determines which bashing martial arts are available
                    u.get_skill_level(skill_id("bashing")) >= min_bashing &&
+                   ///\EFFECT_CUTTING determines which cutting martial arts are available
                    u.get_skill_level(skill_id("cutting")) >= min_cutting &&
+                   ///\EFFECT_STABBING determines which stabbing martial arts are available
                    u.get_skill_level(skill_id("stabbing")) >= min_stabbing) || cqb);
 
     return valid;
@@ -549,23 +554,35 @@ void ma_buff::apply_player(player &u) const
 
 int ma_buff::hit_bonus( const player &u ) const
 {
+    ///\EFFECT_STR increases martial arts hit bonus
     return hit + u.str_cur * hit_str +
+    ///\EFFECT_DEX increases martial arts hit bonus
            u.dex_cur * hit_dex +
+    ///\EFFECT_INT increases martial arts hit bonus
            u.int_cur * hit_int +
+    ///\EFFECT_PER increases martial arts hit bonus
            u.per_cur * hit_per;
 }
 int ma_buff::dodge_bonus( const player &u ) const
 {
+    ///\EFFECT_STR increases martial arts dodge bonus
     return dodge + u.str_cur * dodge_str +
+    ///\EFFECT_DEX increases martial arts dodge bonus
            u.dex_cur * dodge_dex +
+    ///\EFFECT_INT increases martial arts dodge bonus
            u.int_cur * dodge_int +
+    ///\EFFECT_PER increases martial arts dodge bonus
            u.per_cur * dodge_per;
 }
 int ma_buff::block_bonus( const player &u ) const
 {
+    ///\EFFECT_STR increases martial arts block bonus
     return block + u.str_cur * block_str +
+    ///\EFFECT_DEX increases martial arts block bonus
            u.dex_cur * block_dex +
+    ///\EFFECT_INT increases martial arts block bonus
            u.int_cur * block_int +
+    ///\EFFECT_PER increases martial arts block bonus
            u.per_cur * block_per;
 }
 int ma_buff::speed_bonus( const player &u ) const
@@ -589,9 +606,13 @@ float ma_buff::bash_mult() const
 }
 int ma_buff::bash_bonus( const player &u ) const
 {
+    ///\EFFECT_STR increases martial arts bash bonus
     return bash + u.str_cur * bash_str +
+    ///\EFFECT_DEX increases martial arts bash bonus
            u.dex_cur * bash_dex +
+    ///\EFFECT_INT increases martial arts bash bonus
            u.int_cur * bash_int +
+    ///\EFFECT_PER increases martial arts bash bonus
            u.per_cur * bash_per;
 }
 float ma_buff::cut_mult() const
@@ -600,9 +621,13 @@ float ma_buff::cut_mult() const
 }
 int ma_buff::cut_bonus( const player &u ) const
 {
+    ///\EFFECT_STR increases martial arts cut bonus
     return cut + u.str_cur * cut_str +
+    ///\EFFECT_DEX increases martial arts cut bonus
            u.dex_cur * cut_dex +
+    ///\EFFECT_INT increases martial arts cut bonus
            u.int_cur * cut_int +
+    ///\EFFECT_PER increases martial arts cut bonus
            u.per_cur * cut_per;
 }
 bool ma_buff::is_throw_immune() const
@@ -734,6 +759,7 @@ bool player::has_grab_break_tec() const
 bool player::can_leg_block() const
 {
     const martialart &ma = style_selected.obj();
+    ///\EFFECT_UNARMED increases ability to perform leg block
     int unarmed_skill = has_active_bionic("bio_cqb") ? 5 : (int)get_skill_level(skill_id("unarmed"));
 
     // Success conditions.
@@ -751,6 +777,7 @@ bool player::can_leg_block() const
 bool player::can_arm_block() const
 {
     const martialart &ma = style_selected.obj();
+    ///\EFFECT_UNARMED increases ability to perform arm block
     int unarmed_skill = has_active_bionic("bio_cqb") ? 5 : (int)get_skill_level(skill_id("unarmed"));
 
     // Success conditions.

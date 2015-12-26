@@ -11,7 +11,6 @@
 extern cata_tiles *tilecontext; // obtained from sdltiles.cpp
 #endif
 
-extern void try_update();
 bool is_valid_in_w_terrain(int x, int y); // see game.cpp
 
 namespace {
@@ -32,6 +31,10 @@ tripoint relative_view_pos( player const &u, tripoint const &p ) noexcept
 
 void draw_animation_delay(long const scale = 1)
 {
+#ifdef TILES
+    try_sdl_update();
+#endif // TILES
+
     auto const delay = static_cast<long>(OPTIONS["ANIMATION_DELAY"]) * scale * 1000000l;
 
     timespec const ts = {0, delay};
@@ -127,9 +130,6 @@ void draw_custom_explosion_curses( game &g, const std::list< std::map<point, exp
         }
 
         wrefresh(g.w_terrain);
-#if defined(TILES)
-        try_update();
-#endif
         draw_animation_delay(EXPLOSION_MULTIPLIER);
     }
 }
@@ -146,7 +146,6 @@ void game::draw_explosion( const tripoint &p, int const r, nc_color const col )
     for (int i = 1; i <= r; i++) {
         tilecontext->init_explosion( p, i ); // TODO not xpos ypos?
         wrefresh(w_terrain);
-        try_update();
         draw_animation_delay(EXPLOSION_MULTIPLIER);
     }
 
@@ -286,7 +285,6 @@ void game::draw_custom_explosion( const tripoint &, const std::map<tripoint, nc_
         combined_layer.insert( layer.begin(), layer.end() );
         tilecontext->init_custom_explosion_layer( combined_layer );
         wrefresh(w_terrain);
-        try_update();
         draw_animation_delay(EXPLOSION_MULTIPLIER);
     }
 
@@ -351,7 +349,6 @@ void game::draw_bullet(Creature const &p, const tripoint &t, int const i,
     wrefresh(w_terrain);
 
     if( p.is_player() ) {
-        try_update();
         draw_animation_delay();
     }
 
@@ -389,7 +386,6 @@ void game::draw_hit_mon( const tripoint &p, const monster &m, bool const dead )
 
     tilecontext->init_draw_hit( p, m.type->id.str() );
     wrefresh(w_terrain);
-    try_update();
     draw_animation_delay();
 }
 #else
@@ -428,7 +424,6 @@ void game::draw_hit_player(player const &p, const int dam)
 
     tilecontext->init_draw_hit( p.pos3(), type );
     wrefresh(w_terrain);
-    try_update();
     draw_animation_delay();
 }
 #else

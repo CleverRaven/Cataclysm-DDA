@@ -92,9 +92,7 @@
   ],
   "components": [
     [ [ "gold_small", 625 ] ],
-    [
-      [ "holy_symbol", 1 ]
-    ],
+    [ [ "holy_symbol", 1 ] ],
     [
       [ "essence", 2 ],
       [ "essence_blood", 6 ]
@@ -185,21 +183,18 @@
     {"id":"CUT","level":1,"amount":1}
   ],
   "tools": [
-    [      [ "book_summoning", -1 ]    ],
-    [      [ "tongs", -1 ]    ],
-    [      [ "chisel", -1 ]    ],
-    [      [ "anvil", -1 ]    ],
-    [      [ "swage", -1 ]    ],
+    [ [ "book_summoning", -1 ] ],
+    [ [ "tongs", -1 ] ],
+    [ [ "chisel", -1 ] ],
+    [ [ "anvil", -1 ] ],
+    [ [ "swage", -1 ] ],
     [
       [ "forge", 50],
       [ "char_forge", 10],
       [ "oxy_torch", 10]
     ]
   ],
-  "components": [
-    [
-      [ "silver_small", 95 ]
-    ]
+  "components": [ [ [ "silver_small", 95 ] ]
   ]
 },{
   "type" : "recipe",
@@ -212,13 +207,9 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [[ "book_summoning", 6 ]],
-  "qualities":[
-    {"id":"CUT","level":1,"amount":1}
-  ],
+  "qualities":[ {"id":"CUT","level":1,"amount":1} ],
   "tools": [
-    [
-      [ "book_summoning", -1 ]
-    ],
+    [ [ "book_summoning", -1 ] ],
     [
       [ "offering_chalice", -1 ],
       [ "bowl_pewter", -1 ],
@@ -226,21 +217,15 @@
       [ "ceramic_bowl", -1 ],
       [ "glass_bowl", -1 ]
     ],
-    [
-      [ "fire", -1 ]
-    ]
+    [ [ "fire", -1 ] ]
   ],
   "components": [
-    [
-      [ "silver_glyph", 1 ]
-    ],
+    [ [ "silver_glyph", 1 ] ],
     [
       [ "tallow", 1 ],
       [ "tallow_tainted", 1 ]
     ],
-    [
-      [ "essence", 1 ]
-    ]
+    [ [ "essence", 1 ] ]
   ]
 },{
   "type" : "recipe",
@@ -253,13 +238,9 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [[ "book_summoning", 6 ]],
-  "qualities":[
-    {"id":"CUT","level":1,"amount":1}
-  ],
+  "qualities":[ {"id":"CUT","level":1,"amount":1} ],
   "tools": [
-    [
-      [ "book_summoning", -1 ]
-    ],
+    [ [ "book_summoning", -1 ] ],
     [
       [ "offering_chalice", -1 ],
       [ "bowl_pewter", -1 ],
@@ -267,20 +248,12 @@
       [ "ceramic_bowl", -1 ],
       [ "glass_bowl", -1 ]
     ],
-    [
-      [ "fire", -1 ]
-    ]
+    [ [ "fire", -1 ] ]
   ],
   "components": [
-    [
-      [ "silver_glyph", 1 ]
-    ],
-    [
-      [ "paper", 7 ]
-    ],
-    [
-      [ "essence", 1 ]
-    ]
+    [ [ "silver_glyph", 1 ] ],
+    [ [ "paper", 7 ] ],
+    [ [ "essence", 1 ] ]
   ]
 },{
   "type" : "recipe",
@@ -293,13 +266,9 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [[ "book_summoning", 7 ]],
-  "qualities":[
-    {"id":"CUT","level":1,"amount":1}
-  ],
+  "qualities":[ {"id":"CUT","level":1,"amount":1} ],
   "tools": [
-    [
-      [ "book_summoning", -1 ]
-    ],
+    [ [ "book_summoning", -1 ] ],
     [
       [ "offering_chalice", -1 ],
       [ "bowl_pewter", -1 ],
@@ -307,20 +276,12 @@
       [ "ceramic_bowl", -1 ],
       [ "glass_bowl", -1 ]
     ],
-    [
-      [ "fire", -1 ]
-    ]
+    [ [ "fire", -1 ] ]
   ],
   "components": [
-    [
-      [ "silver_glyph", 1 ]
-    ],
-    [
-      [ "lens", 1 ]
-    ],
-    [
-      [ "essence", 2 ]
-    ]
+    [ [ "silver_glyph", 1 ] ],
+    [ [ "lens", 1 ] ],
+    [ [ "essence", 2 ] ]
   ]
 },{
   "type" : "recipe",
@@ -333,13 +294,9 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [[ "book_summoning", 7 ]],
-  "qualities":[
-    {"id":"CUT","level":1,"amount":1}
-  ],
+  "qualities":[ {"id":"CUT","level":1,"amount":1} ],
   "tools": [
-    [
-      [ "book_summoning", -1 ]
-    ],
+    [ [ "book_summoning", -1 ] ],
     [
       [ "offering_chalice", -1 ],
       [ "bowl_pewter", -1 ],
@@ -347,25 +304,19 @@
       [ "ceramic_bowl", -1 ],
       [ "glass_bowl", -1 ]
     ],
-    [
-      [ "fire", -1 ]
-    ]
+    [ [ "fire", -1 ] ]
   ],
   "components": [
-    [
-      [ "silver_glyph", 1 ]
-    ],
+    [ [ "silver_glyph", 1 ] ],
     [
       [ "cured_pelt", 1 ],
       [ "cured_hide", 1 ]
     ],
-    [
-      [ "essence", 2 ]
-    ]
+    [ [ "essence", 2 ] ]
   ]
 },{
   "type" : "recipe",
-  "result": "summon_flying_polyp",
+  "result": "summon_dark_wyrm",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_TOOLS",
   "skill_used": "magic",
@@ -374,13 +325,9 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [[ "book_summoning", 8 ]],
-  "qualities":[
-    {"id":"CUT","level":1,"amount":1}
-  ],
+  "qualities":[ {"id":"CUT","level":1,"amount":1} ],
   "tools": [
-    [
-      [ "book_summoning", -1 ]
-    ],
+    [ [ "book_summoning", -1 ] ],
     [
       [ "offering_chalice", -1 ],
       [ "bowl_pewter", -1 ],
@@ -388,20 +335,16 @@
       [ "ceramic_bowl", -1 ],
       [ "glass_bowl", -1 ]
     ],
-    [
-      [ "fire", -1 ]
-    ]
+    [ [ "fire", -1 ] ]
   ],
   "components": [
+    [ [ "silver_glyph", 1 ] ],
     [
-      [ "silver_glyph", 1 ]
+      [ "acid", 1 ],
+      [ "water_acid", 2 ],
+      [ "water_acid_weak", 4 ]
     ],
-    [
-      [ "salt_water", 4 ]
-    ],
-    [
-      [ "essence", 3 ]
-    ]
+    [ [ "essence", 3 ] ]
   ]
 },{
   "type" : "recipe",
@@ -414,13 +357,9 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [[ "book_summoning", 8 ]],
-  "qualities":[
-    {"id":"CUT","level":1,"amount":1}
-  ],
+  "qualities":[ {"id":"CUT","level":1,"amount":1} ],
   "tools": [
-    [
-      [ "book_summoning", -1 ]
-    ],
+    [ [ "book_summoning", -1 ] ],
     [
       [ "offering_chalice", -1 ],
       [ "bowl_pewter", -1 ],
@@ -428,27 +367,21 @@
       [ "ceramic_bowl", -1 ],
       [ "glass_bowl", -1 ]
     ],
-    [
-      [ "fire", -1 ]
-    ]
+    [ [ "fire", -1 ] ]
   ],
   "components": [
-    [
-      [ "silver_glyph", 1 ]
-    ],
+    [ [ "silver_glyph", 1 ] ],
     [
       [ "seed_mushroom", 2 ],
       [ "seed_mushroom_magic", 2 ],
       [ "seed_mushroom_poison", 2 ],
       [ "seed_mushroom_morel", 2 ]
     ],
-    [
-      [ "essence", 3 ]
-    ]
+    [ [ "essence", 3 ] ]
   ]
 },{
   "type" : "recipe",
-  "result": "summon_yugg",
+  "result": "summon_jabberwock",
   "category": "CC_OTHER",
   "subcategory": "CSC_OTHER_TOOLS",
   "skill_used": "magic",
@@ -457,13 +390,9 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [[ "book_summoning", 9 ]],
-  "qualities":[
-    {"id":"CUT","level":1,"amount":1}
-  ],
+  "qualities":[ {"id":"CUT","level":1,"amount":1} ],
   "tools": [
-    [
-      [ "book_summoning", -1 ]
-    ],
+    [ [ "book_summoning", -1 ] ],
     [
       [ "offering_chalice", -1 ],
       [ "bowl_pewter", -1 ],
@@ -471,23 +400,73 @@
       [ "ceramic_bowl", -1 ],
       [ "glass_bowl", -1 ]
     ],
-    [
-      [ "fire", -1 ]
-    ]
+    [ [ "fire", -1 ] ]
   ],
   "components": [
+    [ [ "silver_glyph", 1 ] ],
+    [ [ "mirror", 1 ] ],
+    [ [ "essence", 4 ] ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "summon_flying_polyp",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_TOOLS",
+  "skill_used": "magic",
+  "difficulty": 9,
+  "time": 60000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "book_summoning", 9 ]],
+  "qualities":[ {"id":"CUT","level":1,"amount":1} ],
+  "tools": [
+    [ [ "book_summoning", -1 ] ],
     [
-      [ "silver_glyph", 1 ]
+      [ "offering_chalice", -1 ],
+      [ "bowl_pewter", -1 ],
+      [ "bowl_clay", -1 ],
+      [ "ceramic_bowl", -1 ],
+      [ "glass_bowl", -1 ]
     ],
+    [ [ "fire", -1 ] ]
+  ],
+  "components": [
+    [ [ "silver_glyph", 1 ] ],
+    [ [ "salt_water", 4 ] ],
+    [ [ "essence", 4 ] ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "summon_yugg",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_TOOLS",
+  "skill_used": "magic",
+  "difficulty": 10,
+  "time": 60000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "book_summoning", 10 ]],
+  "qualities":[ {"id":"CUT","level":1,"amount":1} ],
+  "tools": [
+    [ [ "book_summoning", -1 ] ],
+    [
+      [ "offering_chalice", -1 ],
+      [ "bowl_pewter", -1 ],
+      [ "bowl_clay", -1 ],
+      [ "ceramic_bowl", -1 ],
+      [ "glass_bowl", -1 ]
+    ],
+    [ [ "fire", -1 ] ]
+  ],
+  "components": [
+    [ [ "silver_glyph", 1 ] ],
     [
       [ "diamond", 1 ],
       [ "gold_small", 25 ],
       [ "silver_small", 50 ],
       [ "copper", 100 ]
     ],
-    [
-      [ "essence", 4 ]
-    ]
+    [ [ "essence", 5 ] ]
   ]
 },{
   "type" : "recipe",
@@ -500,13 +479,9 @@
   "reversible": false,
   "autolearn": false,
   "book_learn": [[ "book_summoning", 10 ]],
-  "qualities":[
-    {"id":"CUT","level":1,"amount":1}
-  ],
+  "qualities":[ {"id":"CUT","level":1,"amount":1} ],
   "tools": [
-    [
-      [ "book_summoning", -1 ]
-    ],
+    [ [ "book_summoning", -1 ] ],
     [
       [ "offering_chalice", -1 ],
       [ "bowl_pewter", -1 ],
@@ -514,19 +489,200 @@
       [ "ceramic_bowl", -1 ],
       [ "glass_bowl", -1 ]
     ],
-    [
-      [ "fire", -1 ]
-    ]
+    [ [ "fire", -1 ] ]
   ],
   "components": [
+    [ [ "silver_glyph", 1 ] ],
+    [ [ "slime_scrap", 8 ] ],
+    [ [ "essence", 5 ] ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "scroll_blank",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_TOOLS",
+  "skill_used": "magic",
+  "skills_required": [ "fabrication", 2 ],
+  "difficulty": 2,
+  "time": 20000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "book_scrollcraft", 3 ]],
+  "qualities":[ {"id":"CUT","level":1,"amount":1} ],
+  "tools": [ [ [ "book_scrollcraft", -1 ] ] ],
+  "components": [
+    [ [ "paper", 5 ] ],
     [
-      [ "silver_glyph", 1 ]
+      [ "stick", 1 ],
+      [ "2x4", 1 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "scroll_sun",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_TOOLS",
+  "skill_used": "magic",
+  "difficulty": 3,
+  "time": 20000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "book_scrollcraft", 3 ]],
+  "tools": [
+    [ [ "book_scrollcraft", -1 ] ],
+    [
+      [ "torch_lit", -1 ],
+      [ "candle_lit", -1 ],
+      [ "oil_lamp_on", -1 ]
     ],
+    [ [ "feather", -1 ] ]
+  ],
+  "components": [
+    [ [ "scroll_blank", 1 ] ],
+    [ [ "copper", 8 ] ],
     [
-      [ "slime_scrap", 8 ]
+      [ "essence", 1 ],
+      [ "essence_blood", 3 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "scroll_moon",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_TOOLS",
+  "skill_used": "magic",
+  "difficulty": 3,
+  "time": 20000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "book_scrollcraft", 3 ]],
+  "tools": [
+    [ [ "book_scrollcraft", -1 ] ],
+    [
+      [ "torch_lit", -1 ],
+      [ "candle_lit", -1 ],
+      [ "oil_lamp_on", -1 ]
     ],
+    [ [ "feather", -1 ] ]
+  ],
+  "components": [
+    [ [ "scroll_blank", 1 ] ],
+    [ [ "tin", 8 ] ],
     [
-      [ "essence", 5 ]
+      [ "essence", 1 ],
+      [ "essence_blood", 3 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "scroll_artiface",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_TOOLS",
+  "skill_used": "magic",
+  "difficulty": 4,
+  "time": 20000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "book_scrollcraft", 4 ]],
+  "tools": [
+    [ [ "book_scrollcraft", -1 ] ],
+    [
+      [ "torch_lit", -1 ],
+      [ "candle_lit", -1 ],
+      [ "oil_lamp_on", -1 ]
+    ],
+    [ [ "feather", -1 ] ]
+  ],
+  "components": [
+    [ [ "scroll_blank", 1 ] ],
+    [ [ "material_limestone", 12 ] ],
+    [
+      [ "essence", 2 ],
+      [ "essence_blood", 6 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "scroll_nature",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_TOOLS",
+  "skill_used": "magic",
+  "difficulty": 4,
+  "time": 20000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "book_scrollcraft", 4 ]],
+  "tools": [
+    [ [ "book_scrollcraft", -1 ] ],
+    [
+      [ "torch_lit", -1 ],
+      [ "candle_lit", -1 ],
+      [ "oil_lamp_on", -1 ]
+    ],
+    [ [ "feather", -1 ] ]
+  ],
+  "components": [
+    [ [ "scroll_blank", 1 ] ],
+    [ [ "plant_fibre", 12 ] ],
+    [
+      [ "essence", 2 ],
+      [ "essence_blood", 6 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "scroll_destruction",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_TOOLS",
+  "skill_used": "magic",
+  "difficulty": 5,
+  "time": 20000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "book_scrollcraft", 5 ]],
+  "tools": [
+    [ [ "book_scrollcraft", -1 ] ],
+    [
+      [ "torch_lit", -1 ],
+      [ "candle_lit", -1 ],
+      [ "oil_lamp_on", -1 ]
+    ],
+    [ [ "feather", -1 ] ]
+  ],
+  "components": [
+    [ [ "scroll_blank", 1 ] ],
+    [ [ "chem_black_powder", 16 ] ],
+    [
+      [ "essence", 3 ],
+      [ "essence_blood", 9 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "scroll_subversion",
+  "category": "CC_OTHER",
+  "subcategory": "CSC_OTHER_TOOLS",
+  "skill_used": "magic",
+  "difficulty": 5,
+  "time": 20000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "book_scrollcraft", 5 ]],
+  "tools": [
+    [ [ "book_scrollcraft", -1 ] ],
+    [
+      [ "torch_lit", -1 ],
+      [ "candle_lit", -1 ],
+      [ "oil_lamp_on", -1 ]
+    ],
+    [ [ "feather", -1 ] ]
+  ],
+  "components": [
+    [ [ "scroll_blank", 1 ] ],
+    [ [ "meal_bone_tainted", 16 ] ],
+    [
+      [ "essence", 3 ],
+      [ "essence_blood", 9 ]
     ]
   ]
 }

@@ -194,6 +194,8 @@ void MonsterGenerator::init_attack()
     attack_map["NONE"] = &mattack::none;
     attack_map["ANTQUEEN"] = &mattack::antqueen;
     attack_map["SHRIEK"] = &mattack::shriek;
+    attack_map["SHRIEK_ALERT"] = &mattack::shriek_alert;
+    attack_map["SHRIEK_STUN"] = &mattack::shriek_stun;
     attack_map["RATTLE"] = &mattack::rattle;
     attack_map["HOWL"] = &mattack::howl;
     attack_map["ACID"] = &mattack::acid;
@@ -345,6 +347,7 @@ void MonsterGenerator::init_flags()
     flag_map["ELECTRONIC"] = MF_ELECTRONIC;
     flag_map["FUR"] = MF_FUR;
     flag_map["LEATHER"] = MF_LEATHER;
+    flag_map["WOOL"] = MF_WOOL;
     flag_map["FEATHER"] = MF_FEATHER;
     flag_map["CBM_CIV"] = MF_CBM_CIV;
     flag_map["BONES"] = MF_BONES;
@@ -362,7 +365,6 @@ void MonsterGenerator::init_flags()
     flag_map["VERMIN"] = MF_VERMIN;
     flag_map["NOGIB"] = MF_NOGIB;
     flag_map["HUNTS_VERMIN"] = MF_HUNTS_VERMIN;
-    flag_map["SMALL_BITER"] = MF_SMALL_BITER;
     flag_map["ABSORBS"] = MF_ABSORBS;
     flag_map["LARVA"] = MF_LARVA;
     flag_map["ARTHROPOD_BLOOD"] = MF_ARTHROPOD_BLOOD;
@@ -378,6 +380,7 @@ void MonsterGenerator::init_flags()
     flag_map["CLIMBS"] = MF_CLIMBS;
     flag_map["GROUP_MORALE"] = MF_GROUP_MORALE;
     flag_map["INTERIOR_AMMO"] = MF_INTERIOR_AMMO;
+    flag_map["NIGHT_INVISIBILITY"] = MF_NIGHT_INVISIBILITY;
     flag_map["PUSH_MON"] = MF_PUSH_MON;
 }
 
@@ -570,7 +573,7 @@ std::vector<mtype_id> MonsterGenerator::get_all_mtype_ids() const
     return hold;
 }
 
-const mtype_id &MonsterGenerator::get_valid_hallucination() const
+mtype_id MonsterGenerator::get_valid_hallucination() const
 {
     std::vector<mtype_id> potentials;
     for( auto &elem : mon_templates ) {
@@ -610,25 +613,23 @@ std::vector<mon_action_death> MonsterGenerator::get_death_functions(JsonObject &
 }
 
 void MonsterGenerator::load_special_attacks(mtype *m, JsonObject &jo, std::string member) {
-    m->sp_attack.clear(); // make sure we're running with
-    m->sp_freq.clear();   // everything cleared
+    m->special_attacks.clear(); // make sure we're running with everything cleared
 
     if (jo.has_array(member)) {
         JsonArray outer = jo.get_array(member);
         while (outer.has_more()) {
             JsonArray inner = outer.next_array();
-            if ( attack_map.find(inner.get_string(0)) != attack_map.end() ) {
-                m->sp_attack.push_back(attack_map[inner.get_string(0)]);
-                m->sp_freq.push_back(inner.get_int(1));
+            const auto &aname = inner.get_string(0);
+            if ( attack_map.find(aname) != attack_map.end() ) {
+                auto &entry = m->special_attacks[aname];
+                entry.attack = attack_map[aname];
+                entry.cooldown = inner.get_int(1);
+
+                m->special_attacks_names.push_back(aname);
             } else {
                 inner.throw_error("Invalid special_attacks");
             }
         }
-    }
-
-    if (m->sp_attack.empty()) {
-        m->sp_attack.push_back(attack_map["NONE"]);
-        m->sp_freq.push_back(0);
     }
 }
 

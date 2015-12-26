@@ -1096,12 +1096,12 @@ void display_help()
         break;
 
         case '2':
-            show_options(true);
+            get_options().show(true);
             werase(w_help);
             break;
 
         case '3':
-            show_auto_pickup();
+            get_auto_pickup().show();
             werase(w_help);
             break;
 
