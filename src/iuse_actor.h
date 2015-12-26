@@ -11,6 +11,7 @@
 struct vehicle_prototype;
 using vproto_id = string_id<vehicle_prototype>;
 enum field_id : int;
+enum hp_part : int;
 struct mtype;
 using mtype_id = string_id<mtype>;
 class JsonObject;
@@ -467,7 +468,7 @@ class cauterize_actor : public iuse_actor
         // Use flame. If false, uses item charges instead.
         bool flame;
 
-        bool cauterize_effect( player *p, item *it, bool force ) const;
+        static bool cauterize_effect( player *p, item *it, bool force );
 
         cauterize_actor() : iuse_actor(), flame( true ) { }
         virtual ~cauterize_actor() { }
@@ -668,6 +669,56 @@ class repair_item_actor : public iuse_actor
 
         repair_item_actor() : iuse_actor() { }
         virtual ~repair_item_actor() { }
+        virtual void load( JsonObject &jo );
+        virtual long use( player *, item *, bool, const tripoint & ) const override;
+        virtual iuse_actor *clone() const override;
+};
+
+class heal_actor : public iuse_actor
+{
+    public:
+        /** How much hp to restore when healing limbs? */
+        int limb_power;
+        /** How much hp to restore when healing head? */
+        int head_power;
+        /** How much hp to restore when healing torso? */
+        int torso_power;
+        /** Chance to remove bleed effect. */
+        float bleed;
+        /** Chance to remove bite effect. */
+        float bite;
+        /** Chance to remove infected effect. */
+        float infect;
+        /** Cost in moves to use the item. */
+        int move_cost;
+        /** Is using this item a long action. */
+        bool long_action;
+        /** Scales extra healed hp gained from first aid skill. */
+        float bonus_scaling;
+
+        /** How much hp would `healer` heal using this actor on `healed` body part. */
+        int get_heal_value( const player &healer, hp_part healed ) const;
+
+        /** Does the actual healing. Used by both long and short actions. Returns charges used. */
+        long finish_using( player &healer, player &patient, const item &it, hp_part part ) const;
+
+        hp_part use_healing_item(
+            player &healer, player &patient,
+            const item &it, bool force ) const;
+
+        heal_actor()
+            : iuse_actor()
+            , limb_power( 0 )
+            , head_power( 0 )
+            , torso_power( 0 )
+            , bleed( 0.0f )
+            , bite( 0.0f )
+            , infect( 0.0f )
+            , move_cost( 100 )
+            , long_action( false )
+            , bonus_scaling( 1.0f )
+            { }
+        virtual ~heal_actor() { }
         virtual void load( JsonObject &jo );
         virtual long use( player *, item *, bool, const tripoint & ) const override;
         virtual iuse_actor *clone() const override;

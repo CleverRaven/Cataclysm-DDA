@@ -441,10 +441,29 @@ void activity_handlers::pickup_finish(player_activity *act, player *p)
 
 void activity_handlers::firstaid_finish( player_activity *act, player *p )
 {
-    item &it = p->i_at(act->position);
-    iuse tmp;
-    tmp.completefirstaid( p, &it, false, p->pos() );
-    p->reduce_charges(act->position, 1);
+    static const std::string iuse_name_string( "heal" );
+
+    item &it = p->i_at( act->position );
+    item *used_tool = it.get_usable_item( iuse_name_string );
+    if( used_tool == nullptr ) {
+        debugmsg( "Lost tool used for healing" );
+        act->type = ACT_NULL;
+        return;
+    }
+
+    const auto use_fun = used_tool->get_use( iuse_name_string );
+    const auto *actor = dynamic_cast<const heal_actor *>( use_fun->get_actor_ptr() );
+    if( actor == nullptr ) {
+        debugmsg( "iuse_actor type descriptor and actual type mismatch" );
+        act->type = ACT_NULL;
+        return;
+    }
+
+    // TODO: Store the patient somehow, retrieve here
+    player &patient = *p;
+    hp_part healed = (hp_part)act->values[0];
+    long charges_consumed = actor->finish_using( *p, patient, *used_tool, healed );
+    p->reduce_charges( act->position, charges_consumed );
     // Erase activity and values.
     act->type = ACT_NULL;
     act->values.clear();
