@@ -5654,10 +5654,9 @@
   "type" : "recipe",
   "result": "choco_coffee_beans",
   "category": "CC_FOOD",
-  "subcategory": "CSC_FOOD_OTHER",
+  "subcategory": "CSC_FOOD_SNACK",
   "skill_used": "cooking",
   "difficulty": 1,
-  "result_mult": 5,
   "time": 6000,
   "reversible": false,
   "autolearn": true,
@@ -5673,7 +5672,7 @@
   ],
   "components": [
     [
-      [ "roasted_coffee_bean", 5 ]
+      [ "roasted_coffee_bean", 1 ]
     ],
     [
       [ "chocolate", 1 ]
@@ -5683,10 +5682,9 @@
   "type" : "recipe",
   "result": "chocpretzels",
   "category": "CC_FOOD",
-  "subcategory": "CSC_FOOD_OTHER",
+  "subcategory": "CSC_FOOD_SNACK",
   "skill_used": "cooking",
   "difficulty": 1,
-  "result_mult": 3,
   "time": 6000,
   "reversible": false,
   "autolearn": true,
