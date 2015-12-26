@@ -8777,7 +8777,6 @@
         "color" : "white",
         "addiction_type" : "none",
         "spoils_in" : 0,
-        "use_action" : "BANDAGE",
         "stim" : 0,
         "container" : "bag_plastic",
         "to_hit" : 0,
@@ -8797,7 +8796,15 @@
         "charges" : 2,
         "bashing" : 0,
         "flags" : ["USE_ON_NPC"],
-        "fun" : 0
+        "fun" : 0,
+        "use_action" : {
+            "type" : "heal",
+            "limb_power" : 3,
+            "head_power" : 1,
+            "torso_power" : 4,
+            "bleed" : 0.9,
+            "move_cost" : 300
+        }
     },
     {
         "type" : "COMESTIBLE",
@@ -13449,7 +13456,6 @@
         "color" : "white",
         "addiction_type" : "none",
         "spoils_in" : 0,
-        "use_action" : "BANDAGE",
         "stim" : 0,
         "container" : "null",
         "to_hit" : 0,
@@ -13470,7 +13476,15 @@
         "stack_size": 9,
         "bashing" : 0,
         "flags" : ["USE_ON_NPC"],
-        "fun" : 0
+        "fun" : 0,
+        "use_action" : {
+            "type" : "heal",
+            "limb_power" : 3,
+            "head_power" : 1,
+            "torso_power" : 4,
+            "bleed" : 0.9,
+            "move_cost" : 300
+        }
     },
     {
         "type" : "COMESTIBLE",
@@ -13480,7 +13494,6 @@
         "color" : "red",
         "addiction_type" : "none",
         "spoils_in" : 0,
-        "use_action" : "FIRSTAID",
         "stim" : 0,
         "container" : "null",
         "to_hit" : 0,
@@ -13501,7 +13514,18 @@
         "stack_size" : 6,
         "bashing" : 0,
         "flags" : ["USE_ON_NPC"],
-        "fun" : 0
+        "fun" : 0,
+        "use_action" : {
+            "type" : "heal",
+            "limb_power" : 14,
+            "head_power" : 10,
+            "torso_power" : 18,
+            "bleed" : 0.95,
+            "bite" : 0.99,
+            "infect" : 0.95,
+            "move_cost" : 6000,
+            "long_action" : true
+        }
     },
     {
         "type" : "COMESTIBLE",
@@ -14862,7 +14886,6 @@
         "color" : "light_cyan",
         "addiction_type" : "none",
         "spoils_in" : 0,
-        "use_action" : "DISINFECTANT",
         "stim" : 0,
         "container" : "bottle_plastic",
         "to_hit" : 0,
@@ -14882,7 +14905,15 @@
         "charges" : 2,
         "bashing" : 0,
         "flags" : ["USE_ON_NPC"],
-        "fun" : 0
+        "fun" : 0,
+        "use_action" : {
+            "type" : "heal",
+            "limb_power" : 6,
+            "head_power" : 5,
+            "torso_power" : 9,
+            "bite" : 0.95,
+            "move_cost" : 100
+        }
     },
     {
         "type" : "COMESTIBLE",
@@ -14893,7 +14924,6 @@
         "color" : "white",
         "addiction_type" : "none",
         "spoils_in" : 0,
-        "use_action" : "DISINFECTANT",
         "stim" : 0,
         "container" : "bottle_glass",
         "to_hit" : 0,
@@ -14912,7 +14942,15 @@
         "phase" : "liquid",
         "charges" : 1,
         "bashing" : 0,
-        "fun" : 0
+        "fun" : 0,
+        "use_action" : {
+            "type" : "heal",
+            "limb_power" : 6,
+            "head_power" : 5,
+            "torso_power" : 9,
+            "bite" : 0.95,
+            "move_cost" : 100
+        }
     },
     {
         "id": "mayonnaise",
@@ -16250,7 +16288,6 @@
         "color" : "light_gray",
         "addiction_type" : "none",
         "spoils_in" : 0,
-        "use_action" : "BANDAGE",
         "stim" : 0,
         "container" : "bag_plastic",
         "to_hit" : 0,
@@ -16271,7 +16308,15 @@
         "stack_size" : 60,
         "bashing" : 0,
         "flags" : ["USE_ON_NPC"],
-        "fun" : 0
+        "fun" : 0,
+        "use_action" : {
+            "type" : "heal",
+            "limb_power" : 3,
+            "head_power" : 1,
+            "torso_power" : 4,
+            "bleed" : 90,
+            "move_cost" : 100
+        }
     },
     {
         "type" : "COMESTIBLE",
@@ -16282,7 +16327,6 @@
         "color" : "white",
         "addiction_type" : "none",
         "spoils_in" : 0,
-        "use_action" : "DISINFECTANT",
         "stim" : 0,
         "container" : "bottle_plastic_small",
         "to_hit" : 0,
@@ -16303,7 +16347,15 @@
         "stack_size" : 40,
         "bashing" : 0,
         "flags" : ["USE_ON_NPC"],
-        "fun" : 0
+        "fun" : 0,
+        "use_action" : {
+            "type" : "heal",
+            "limb_power" : 6,
+            "head_power" : 5,
+            "torso_power" : 9,
+            "bite" : 0.95,
+            "move_cost" : 100
+        }
     },
     {   "type" : "AMMO",
         "id" : "fungal_seeds",
@@ -19994,7 +20046,6 @@
         "description" : "Some essential oil made from thyme, which can act as a mildly irritating disinfectant.",
         "material" : "null",
         "comestible_type" : "MED",
-        "use_action" : "DISINFECTANT",
         "container" : "null",
         "addiction_type" : "none",
         "spoils_in" : 672,
@@ -20012,7 +20063,15 @@
         "bashing" : -8,
         "cutting" : 0,
         "charges" : 1,
-        "price" : 0
+        "price" : 0,
+        "use_action" : {
+            "type" : "heal",
+            "limb_power" : 6,
+            "head_power" : 5,
+            "torso_power" : 9,
+            "bite" : 0.95,
+            "move_cost" : 100
+        }
     },{   
         "type" : "COMESTIBLE",
         "id" : "seed_canola",

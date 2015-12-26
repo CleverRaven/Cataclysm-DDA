@@ -2219,9 +2219,9 @@ void heal_actor::load( JsonObject &obj )
     head_power = obj.get_int( "head_power", 0.8f * limb_power );
     torso_power = obj.get_int( "torso_power", 1.5f * limb_power );
 
-    bleed = obj.get_float( "cure_bleed_chance", 0.0f );
-    bite = obj.get_float( "cure_bite_chance", 0.0f );
-    infect = obj.get_float( "cure_infection_chance", 0.0f );
+    bleed = obj.get_float( "bleed", 0.0f );
+    bite = obj.get_float( "bite", 0.0f );
+    infect = obj.get_float( "infect", 0.0f );
 
     long_action = obj.get_bool( "long_action", false );
 }
@@ -2284,10 +2284,10 @@ int heal_actor::get_heal_value( const player &healer, hp_part healed ) const
 {
     int heal_base;
     float bonus_mult;
-    if (healed == hp_head) {
+    if( healed == hp_head ) {
         heal_base = head_power;
         bonus_mult = 0.8f;
-    } else if (healed == hp_torso) {
+    } else if( healed == hp_torso ) {
         heal_base = torso_power;
         bonus_mult = 1.5f;
     } else {
