@@ -355,10 +355,4 @@ inline bool operator<(const tripoint &a, const tripoint &b)
 static const tripoint tripoint_min { INT_MIN, INT_MIN, INT_MIN };
 static const tripoint tripoint_zero { 0, 0, 0 };
 
-enum class VisitResponse {
-    Abort, // Stop processing after this node
-    Next,  // Descend vertically to any child nodes and then horizontally to next sibling
-    Skip   // Skip any child nodes and move directly to the next sibling
-};
-
 #endif

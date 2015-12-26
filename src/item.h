@@ -76,6 +76,12 @@ enum layer_level {
     MAX_CLOTHING_LAYER
 };
 
+enum class VisitResponse {
+    ABORT, // Stop processing after this node
+    NEXT,  // Descend vertically to any child nodes and then horizontally to next sibling
+    SKIP   // Skip any child nodes and move directly to the next sibling
+};
+
 class item_category
 {
     public:

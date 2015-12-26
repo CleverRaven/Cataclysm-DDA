@@ -4746,15 +4746,15 @@ VisitResponse item::visit( const std::function<VisitResponse(item&)>& func ) {
     for( auto& e : contents ) {
         auto r = func( e );
 
-        if( r == VisitResponse::Next ) {
+        if( r == VisitResponse::NEXT ) {
             r = e.visit( func );
         }
 
-        if ( r == VisitResponse::Abort ) {
-            return VisitResponse::Abort;
+        if ( r == VisitResponse::ABORT ) {
+            return VisitResponse::ABORT;
         }
     }
-    return VisitResponse::Next;
+    return VisitResponse::NEXT;
 }
 
 VisitResponse item::visit( const std::function<VisitResponse(const item&)>& func ) const {

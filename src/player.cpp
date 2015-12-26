@@ -14436,10 +14436,10 @@ bool player::has_items_with_quality( const std::string &quality_id, int level, i
         if( it.has_quality( quality_id, level ) ) {
             // Each suitable item decreases the require count until it reaches 0, where the requirement is fulfilled.
             if( --amount <= 0) {
-                return VisitResponse::Abort;
+                return VisitResponse::ABORT;
             }
         }
-        return VisitResponse::Next;
+        return VisitResponse::NEXT;
     } );
 
     return amount <= 0;
