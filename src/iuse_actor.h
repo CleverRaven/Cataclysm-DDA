@@ -695,16 +695,22 @@ class heal_actor : public iuse_actor
         bool long_action;
         /** Scales extra healed hp gained from first aid skill. */
         float bonus_scaling;
+        /** Effects to apply to patient on finished healing. */
+        std::vector<effect_data> effects;
+        /**
+         * Item produced on finished healing. For example, bloody rag.
+         * If the used item is a tool it, it will be turned into the used up item.
+         * If it is not a tool a new item with this id will be created.
+         */
+        std::string used_up_item;
 
         /** How much hp would `healer` heal using this actor on `healed` body part. */
         int get_heal_value( const player &healer, hp_part healed ) const;
 
         /** Does the actual healing. Used by both long and short actions. Returns charges used. */
-        long finish_using( player &healer, player &patient, const item &it, hp_part part ) const;
+        long finish_using( player &healer, player &patient, item &it, hp_part part ) const;
 
-        hp_part use_healing_item(
-            player &healer, player &patient,
-            const item &it, bool force ) const;
+        hp_part use_healing_item( player &healer, player &patient, item &it, bool force ) const;
 
         heal_actor()
             : iuse_actor()

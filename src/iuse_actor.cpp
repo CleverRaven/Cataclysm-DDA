@@ -347,6 +347,12 @@ iuse_actor *consume_drug_iuse::clone() const
     return new consume_drug_iuse(*this);
 }
 
+static effect_data load_effect_data( JsonObject &e )
+{
+    return effect_data( e.get_string( "id", "null" ), e.get_int( "duration", 0 ),
+        get_body_part_token( e.get_string( "bp", "NUM_BP" ) ), e.get_bool( "permanent", false ) );
+}
+
 void consume_drug_iuse::load( JsonObject &obj )
 {
     obj.read( "activation_message", activation_message );
@@ -357,9 +363,7 @@ void consume_drug_iuse::load( JsonObject &obj )
         JsonArray jsarr = obj.get_array( "effects" );
         while( jsarr.has_more() ) {
             JsonObject e = jsarr.next_object();
-            effect_data new_eff( e.get_string( "id", "null" ), e.get_int( "duration", 0 ),
-                                 get_body_part_token( e.get_string( "bp", "NUM_BP" ) ), e.get_bool( "permanent", false ) );
-            effects.push_back( new_eff );
+            effects.push_back( load_effect_data( e ) );
         }
     }
     obj.read( "stat_adjustments", stat_adjustments );
@@ -2224,6 +2228,16 @@ void heal_actor::load( JsonObject &obj )
     infect = obj.get_float( "infect", 0.0f );
 
     long_action = obj.get_bool( "long_action", false );
+
+    if( obj.has_array( "effects" ) ) {
+        JsonArray jsarr = obj.get_array( "effects" );
+        while( jsarr.has_more() ) {
+            JsonObject e = jsarr.next_object();
+            effects.push_back( load_effect_data( e ) );
+        }
+    }
+
+    used_up_item = obj.get_string( "used_up_item", used_up_item );
 }
 
 player &get_patient( player &healer, const tripoint &pos )
@@ -2259,18 +2273,23 @@ long heal_actor::use( player *p, item *it, bool, const tripoint &pos ) const
         return 0;
     }
 
-    // For now make "long healing" instant when used on somebody else
+    int cost = move_cost;
+    if( long_action ) {
+        // A hack: long action healing on NPCs isn't done yet.
+        // So just heal at start and paralyze the player for 5 minutes.
+        cost /= (p->skillLevel( skill_firstaid ) + 1);
+    }
+
     if( long_action && &patient == p ) {
         // Assign first aid long action.
         ///\EFFECT_FIRSTAID speeds up firstaid activity
-        const int action_moves = move_cost / (p->skillLevel( skill_firstaid ) + 1);
-        p->assign_activity( ACT_FIRSTAID, action_moves, 0, p->get_item_position( it ), it->tname() );
+        p->assign_activity( ACT_FIRSTAID, cost, 0, p->get_item_position( it ), it->tname() );
         p->activity.values.push_back( hpp );
         p->moves = 0;
         return 0;
     }
 
-    p->moves -= move_cost;
+    p->moves -= cost;
     p->add_msg_if_player(m_good, _("You use your %s."), it->tname().c_str());
     return it->type->charges_to_use();
 }
@@ -2304,7 +2323,7 @@ int heal_actor::get_heal_value( const player &healer, hp_part healed ) const
     return heal_base;
 }
 
-long heal_actor::finish_using( player &healer, player &patient, const item &it, hp_part healed ) const
+long heal_actor::finish_using( player &healer, player &patient, item &it, hp_part healed ) const
 {
     healer.practice( skill_firstaid, 8 );
     const int dam = get_heal_value( healer, healed );
@@ -2365,8 +2384,25 @@ long heal_actor::finish_using( player &healer, player &patient, const item &it, 
 
     if( long_action ) {
         healer.add_msg_if_player( _("You finish using the %s."), it.tname().c_str() );
-        // TODO: jsonize this effect
-        patient.add_effect( "pkill1", 120 );
+    }
+
+    for( auto eff : effects ) {
+        if( eff.id == "null" ) {
+            continue;
+        }
+
+        patient.add_effect( eff.id, eff.duration, eff.bp, eff.permanent );
+    }
+
+    if( !used_up_item.empty() ) {
+        // If the item is a tool, `make` it the new form
+        // Otherwise it probably was consumed, so create a new one
+        if( it.is_tool() ) {
+            it.make( used_up_item );
+        } else {
+            item used_up( used_up_item, it.bday );
+            healer.i_add_or_drop( used_up );
+        }
     }
 
     return it.type->charges_to_use();
@@ -2424,7 +2460,7 @@ hp_part pick_part_to_heal(
     return num_hp_parts;
 }
 
-hp_part heal_actor::use_healing_item( player &healer, player &patient, const item &it, bool force ) const
+hp_part heal_actor::use_healing_item( player &healer, player &patient, item &it, bool force ) const
 {
     hp_part healed = num_hp_parts;
     const int head_bonus = get_heal_value( healer, hp_head );

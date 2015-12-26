@@ -13524,7 +13524,13 @@
             "bite" : 0.99,
             "infect" : 0.95,
             "move_cost" : 6000,
-            "long_action" : true
+            "long_action" : true,
+            "effects" : [
+                {
+                    "id": "pkill1",
+                    "duration": 120
+                }
+            ]
         }
     },
     {
@@ -20560,7 +20566,7 @@
             "fruit": "mushroom_magic",
             "grow" : 91
         }
-},{   
+    },{
         "type" : "COMESTIBLE",
         "id" : "seed_mushroom_poison",
         "category": "other",
@@ -20588,5 +20594,46 @@
             "fruit": "mushroom_poison",
             "grow" : 91
         }
-}
+    },{
+        "type" : "COMESTIBLE",
+        "id" : "chloroform_rag",
+        "name" : "chloroform soaked rag",
+        "weight" : 240,
+        "color" : "red",
+        "addiction_type" : "none",
+        "spoils_in" : 0,
+        "stim" : 0,
+        "container" : "null",
+        "to_hit" : 0,
+        "comestible_type" : "MED",
+        "symbol" : "!",
+        "quench" : 0,
+        "healthy" : 0,
+        "addiction_potential" : 0,
+        "nutrition" : 0,
+        "description" : "A debug item that lets you put NPCs (or yourself) to sleep.",
+        "price" : 3000,
+        "material" : "cotton",
+        "tool" : "null",
+        "volume" : 1,
+        "cutting" : 0,
+        "phase" : "solid",
+        "charges" : 1,
+        "stack_size" : 1,
+        "bashing" : 0,
+        "flags" : ["USE_ON_NPC"],
+        "fun" : 0,
+        "use_action" : {
+            "type" : "heal",
+            "limb_power" : 1,
+            "move_cost" : 100,
+            "effects" : [
+                {
+                    "id": "sleep",
+                    "duration": 1000
+                }
+            ],
+            "used_up_item" : "rag"
+        }
+    }
 ]
