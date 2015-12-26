@@ -3117,20 +3117,23 @@ static int cauterize_elec(player *p, item *it)
 
 int iuse::water_purifier(player *p, item *it, bool, const tripoint& )
 {
-    int pos = g->inv_for_filter( _("Purify what?"), []( const item & itm ) {
+    auto loc = g->inv_map_splice( []( const item & itm ) {
         return !itm.contents.empty() &&
                ( itm.contents[0].type->id == "water" ||
                  itm.contents[0].type->id == "salt_water" );
-    } );
-    if (!p->has_item(pos)) {
+    }, _( "Purify what?" ), 1 );
+
+    item *target = loc.get_item();
+    if( target == nullptr ) {
         p->add_msg_if_player(m_info, _("You do not have that item!"));
         return 0;
     }
-    if (p->i_at(pos).contents.empty()) {
+    if( target->contents.empty() ) {
         p->add_msg_if_player(m_info, _("You can only purify water."));
         return 0;
     }
-    item *pure = &(p->i_at(pos).contents[0]);
+
+    item *pure = &target->contents[0];
     if (pure->type->id != "water" && pure->type->id != "salt_water") {
         p->add_msg_if_player(m_info, _("You can only purify water."));
         return 0;
@@ -3140,6 +3143,7 @@ int iuse::water_purifier(player *p, item *it, bool, const tripoint& )
                              _("You don't have enough charges in your purifier to purify all of the water."));
         return 0;
     }
+
     p->moves -= 150;
     pure->make("water_clean");
     pure->poison = 0;
