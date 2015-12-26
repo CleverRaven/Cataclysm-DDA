@@ -16531,7 +16531,7 @@
         "container": "bag_plastic",
         "price" : 50,
         "name" : "roasted coffee beans",
-        "name_plural" : "coffee beans",
+        "name_plural" : "roasted coffee beans",
         "symbol" : ".",
         "color" : "brown",
         "description" : "Some roasted coffee beans, can be ground into powder.",
