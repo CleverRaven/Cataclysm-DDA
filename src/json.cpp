@@ -22,7 +22,7 @@ bool is_whitespace(char ch)
 }
 
 // for parsing \uxxxx escapes
-std::string utf16_to_utf8(wchar_t ch)
+std::string utf16_to_utf8(uint32_t ch)
 {
     char out[5];
     char *buf = out;
@@ -1006,7 +1006,7 @@ std::string JsonIn::get_string()
                 // insert the appropriate unicode character in utf8
                 // TODO: verify that unihex is in fact 4 hex digits.
                 char **endptr = 0;
-                wchar_t u = (wchar_t)strtoul(unihex, endptr, 16);
+                uint32_t u = (uint32_t)strtoul(unihex, endptr, 16);
                 try {
                     s += utf16_to_utf8(u);
                 } catch( const std::exception &err ) {

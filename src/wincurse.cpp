@@ -20,7 +20,7 @@
 //Globals                           *
 //***********************************
 
-const wchar_t *szWindowClass = L"CataCurseWindow";    //Class name :D
+const uint32_t *szWindowClass = L"CataCurseWindow";    //Class name :D
 HINSTANCE WindowINST;   //the instance of the window
 HWND WindowHandle;      //the handle of the window
 HDC WindowDC;           //Device Context of the window, used for backbuffer

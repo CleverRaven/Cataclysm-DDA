@@ -1401,7 +1401,7 @@ std::string word_rewrap (const std::string &in, int width)
     for (int j = 0, x = 0; j < (int)in.size(); ) {
         const char *ins = instr + j;
         int len = ANY_LENGTH;
-        wchar_t uc = UTF8_getch(&ins, &len);
+        uint32_t uc = UTF8_getch(&ins, &len);
 
         if (uc == '<') { // maybe skip non-printing tag
             std::vector<size_t>::iterator it;

@@ -1125,7 +1125,7 @@ bool cata_tiles::draw_from_id_string(std::string id, TILE_CATEGORY category,
     }
 
     if (it == tile_ids.end()) {
-        wchar_t sym = UNKNOWN_UNICODE;
+        uint32_t sym = UNKNOWN_UNICODE;
         nc_color col = c_white;
         if (category == C_FURNITURE) {
             if (furnmap.count(id) > 0) {
