@@ -1373,13 +1373,13 @@
     },{
         "type" : "mutation",
         "id" : "LUPINE_FUR",
-        "name" : "Grey Fur",
+        "name" : "Gray Fur",
         "points" : 2,
         "visibility" : 10,
         "ugliness" : 3,
         "bodytemp_modifiers" : [750, 1500],
         "bodytemp_sleep" : 500,
-        "description" : "Dense grey fur has grown to cover your entire body, providing a marginal protection against attacks, and considerable protection from cold.",
+        "description" : "Dense gray fur has grown to cover your entire body, providing a marginal protection against attacks, and considerable protection from cold.",
         "cancels" : ["SCALES", "FEATHERS", "CHITIN", "PLANTSKIN", "FELINE_FUR", "FUR", "CHITIN_FUR"],
         "prereqs" : ["LIGHTFUR"],
         "category" : ["MUTCAT_LUPINE"]
