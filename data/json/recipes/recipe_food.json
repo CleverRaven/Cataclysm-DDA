@@ -5657,6 +5657,7 @@
   "subcategory": "CSC_FOOD_SNACK",
   "skill_used": "cooking",
   "difficulty": 1,
+  "result_mult": 2,
   "time": 6000,
   "reversible": false,
   "autolearn": true,
@@ -5685,6 +5686,7 @@
   "subcategory": "CSC_FOOD_SNACK",
   "skill_used": "cooking",
   "difficulty": 1,
+  "result_mult": 2,
   "time": 6000,
   "reversible": false,
   "autolearn": true,
@@ -5700,7 +5702,7 @@
   ],
   "components": [
     [
-      [ "pretzels", 3 ]
+      [ "pretzels", 6 ]
     ],
     [
       [ "chocolate", 1 ]
