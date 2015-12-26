@@ -468,10 +468,6 @@ void player::fire_gun( const tripoint &targ_arg, bool burst )
         }
 
         if (curshot > 0) {
-            // TODO: or should use the recoil of the whole gun, not just the auxiliary gunmod?
-            if (recoil_add(*this, *used_weapon) % 2 == 1) {
-                recoil++;
-            }
             recoil += recoil_add(*this, *used_weapon) / (has_effect( "on_roof" ) ? 90 : 2);
         } else {
             recoil += recoil_add(*this, *used_weapon) / (has_effect( "on_roof" ) ? 30 : 1);
