@@ -164,7 +164,9 @@ void Character::mutation_effect(std::string mut)
 
     } else if (mut == "HUGE") {
         // And there goes your clothing; by now you shouldn't need it anymore
-        add_msg(m_bad, _("You rip out of your clothing!"));
+        add_msg_player_or_npc(m_bad,
+            _("You rip out of your clothing!"),
+            _("<npcname> rips out of their clothing!"));
         destroy = true;
         bps.push_back(bp_torso);
         bps.push_back(bp_leg_l);
@@ -335,7 +337,7 @@ void player::activate_mutation( const std::string &mut )
     if ((mdata.hunger && get_hunger() >= 700) || (mdata.thirst && thirst >= 260) ||
       (mdata.fatigue && fatigue >= EXHAUSTED)) {
       // Insufficient Foo to *maintain* operation is handled in player::suffer
-        add_msg(m_warning, _("You feel like using your %s would kill you!"), mdata.name.c_str());
+        add_msg_if_player(m_warning, _("You feel like using your %s would kill you!"), mdata.name.c_str());
         return;
     }
     if (tdata.powered && tdata.charge > 0) {
@@ -364,44 +366,44 @@ void player::activate_mutation( const std::string &mut )
 
     if( mut == "WEB_WEAVER" ) {
         g->m.add_field(pos(), fd_web, 1, 0);
-        add_msg(_("You start spinning web with your spinnerets!"));
+        add_msg_if_player(_("You start spinning web with your spinnerets!"));
     } else if (mut == "BURROW"){
-        if (g->u.is_underwater()) {
+        if( is_underwater() ) {
             add_msg_if_player(m_info, _("You can't do that while underwater."));
             tdata.powered = false;
             return;
         }
-        int dirx, diry;
-        if (!choose_adjacent(_("Burrow where?"), dirx, diry)) {
+        tripoint dirp;
+        if (!choose_adjacent(_("Burrow where?"), dirp)) {
             tdata.powered = false;
             return;
         }
 
-        if (dirx == g->u.posx() && diry == g->u.posy()) {
+        if( dirp == pos() ) {
             add_msg_if_player(_("You've got places to go and critters to beat."));
             add_msg_if_player(_("Let the lesser folks eat their hearts out."));
             tdata.powered = false;
             return;
         }
         int turns;
-        if (g->m.is_bashable(dirx, diry) && g->m.has_flag("SUPPORTS_ROOF", dirx, diry) &&
-            g->m.ter(dirx, diry) != t_tree) {
+        if (g->m.is_bashable(dirp) && g->m.has_flag("SUPPORTS_ROOF", dirp) &&
+            g->m.ter(dirp) != t_tree) {
             // Takes about 100 minutes (not quite two hours) base time.
             // Being better-adapted to the task means that skillful Survivors can do it almost twice as fast.
             ///\EFFECT_CARPENTRY speeds up burrowing
-            turns = (100000 - 5000 * g->u.skillLevel( skill_id( "carpentry" ) ));
-        } else if (g->m.move_cost(dirx, diry) == 2 && g->get_levz() == 0 &&
-                   g->m.ter(dirx, diry) != t_dirt && g->m.ter(dirx, diry) != t_grass) {
+            turns = (100000 - 5000 * skillLevel( skill_id( "carpentry" ) ));
+        } else if (g->m.move_cost(dirp) == 2 && g->get_levz() == 0 &&
+                   g->m.ter(dirp) != t_dirt && g->m.ter(dirp) != t_grass) {
             turns = 18000;
         } else {
             add_msg_if_player(m_info, _("You can't burrow there."));
             tdata.powered = false;
             return;
         }
-        g->u.assign_activity(ACT_BURROW, turns, -1, 0);
-        g->u.activity.placement = tripoint(dirx, diry,0);
+        assign_activity(ACT_BURROW, turns, -1, 0);
+        activity.placement = dirp;
         add_msg_if_player(_("You tear into the %s with your teeth and claws."),
-                          g->m.tername(dirx, diry).c_str());
+                          g->m.tername(dirp).c_str());
         tdata.powered = false;
         return; // handled when the activity finishes
     } else if (mut == "SLIMESPAWNER") {
@@ -416,11 +418,11 @@ void player::activate_mutation( const std::string &mut )
         }
         // Oops, no room to divide!
         if (valid.size() == 0) {
-            add_msg(m_bad, _("You focus, but are too hemmed in to birth a new slimespring!"));
+            add_msg_if_player(m_bad, _("You focus, but are too hemmed in to birth a new slimespring!"));
             tdata.powered = false;
             return;
         }
-        add_msg(m_good, _("You focus, and with a pleasant splitting feeling, birth a new slimespring!"));
+        add_msg_if_player(m_good, _("You focus, and with a pleasant splitting feeling, birth a new slimespring!"));
         int numslime = 1;
         for (int i = 0; i < numslime && !valid.empty(); i++) {
             const tripoint target = random_entry_removed( valid );
@@ -431,11 +433,11 @@ void player::activate_mutation( const std::string &mut )
         }
         //~ Usual enthusiastic slimespring small voices! :D
         if (one_in(3)) {
-            add_msg(m_good, _("wow! you look just like me! we should look out for each other!"));
+            add_msg_if_player(m_good, _("wow! you look just like me! we should look out for each other!"));
         } else if (one_in(2)) {
-            add_msg(m_good, _("come on, big me, let's go!"));
+            add_msg_if_player(m_good, _("come on, big me, let's go!"));
         } else {
-            add_msg(m_good, _("we're a team, we've got this!"));
+            add_msg_if_player(m_good, _("we're a team, we've got this!"));
         }
         tdata.powered = false;
         return;
@@ -454,15 +456,15 @@ void player::activate_mutation( const std::string &mut )
     } else if (mut == "VINES3"){
         item newit("vine_30", calendar::turn, false);
         if (!can_pickVolume(newit.volume())) { //Accounts for result_mult
-            add_msg(_("You detach a vine but don't have room to carry it, so you drop it."));
-            g->m.add_item_or_charges(posx(), posy(), newit);
+            add_msg_if_player(_("You detach a vine but don't have room to carry it, so you drop it."));
+            g->m.add_item_or_charges(pos(), newit);
         } else if (!can_pickWeight(newit.weight(), !OPTIONS["DANGEROUS_PICKUPS"])) {
-            add_msg(_("Your freshly-detached vine is too heavy to carry, so you drop it."));
-            g->m.add_item_or_charges(posx(), posy(), newit);
+            add_msg_if_player(_("Your freshly-detached vine is too heavy to carry, so you drop it."));
+            g->m.add_item_or_charges(pos(), newit);
         } else {
             inv.assign_empty_invlet(newit);
             newit = i_add(newit);
-            add_msg(m_info, "%c - %s", newit.invlet == 0 ? ' ' : newit.invlet, newit.tname().c_str());
+            add_msg_if_player(m_info, "%c - %s", newit.invlet == 0 ? ' ' : newit.invlet, newit.tname().c_str());
         }
         tdata.powered = false;
         return;
@@ -735,7 +737,7 @@ void player::power_mutations()
             if (menu_mode == "activating") {
                 if (mut_data.activated) {
                     if (my_mutations[mut_id].powered) {
-                        add_msg(m_neutral, _("You stop using your %s."), mut_data.name.c_str());
+                        add_msg_if_player(m_neutral, _("You stop using your %s."), mut_data.name.c_str());
 
                         deactivate_mutation( mut_id );
                         delwin(w_title);
@@ -754,7 +756,7 @@ void player::power_mutations()
                         delwin(w_description);
                         delwin(wBio);
                         g->draw();
-                        add_msg( m_neutral, _("You activate your %s."), mut_data.name.c_str() );
+                        add_msg_if_player( m_neutral, _("You activate your %s."), mut_data.name.c_str() );
                         activate_mutation( mut_id );
                         // Action done, leave screen
                         break;
@@ -1069,7 +1071,7 @@ bool player::mutate_towards( const std::string &mut )
     // It shouldn't pick a Threshold anyway--they're supposed to be non-Valid
     // and aren't categorized. This can happen if someone makes a threshold mut. into a prereq.
     if (threshold) {
-        add_msg(_("You feel something straining deep inside you, yearning to be free..."));
+        add_msg_if_player(_("You feel something straining deep inside you, yearning to be free..."));
         return false;
     }
     if (profession) {
@@ -1085,7 +1087,7 @@ bool player::mutate_towards( const std::string &mut )
 
     // No crossing The Threshold by simply not having it
     if (!has_threshreq && !threshreq.empty()) {
-        add_msg(_("You feel something straining deep inside you, yearning to be free..."));
+        add_msg_if_player(_("You feel something straining deep inside you, yearning to be free..."));
         return false;
     }
 
@@ -1136,7 +1138,7 @@ bool player::mutate_towards( const std::string &mut )
         } else {
             rating = m_neutral;
         }
-        add_msg(rating, _("Your %1$s mutation turns into %2$s!"),
+        add_msg_if_player(rating, _("Your %1$s mutation turns into %2$s!"),
                 replace_mdata.name.c_str(), mdata.name.c_str());
         add_memorial_log(pgettext("memorial_male", "'%s' mutation turned into '%s'"),
                          pgettext("memorial_female", "'%s' mutation turned into '%s'"),
@@ -1157,7 +1159,7 @@ bool player::mutate_towards( const std::string &mut )
         } else {
             rating = m_neutral;
         }
-        add_msg(rating, _("Your %1$s mutation turns into %2$s!"),
+        add_msg_if_player(rating, _("Your %1$s mutation turns into %2$s!"),
                 replace_mdata.name.c_str(), mdata.name.c_str());
         add_memorial_log(pgettext("memorial_male", "'%s' mutation turned into '%s'"),
                          pgettext("memorial_female", "'%s' mutation turned into '%s'"),
@@ -1181,7 +1183,7 @@ bool player::mutate_towards( const std::string &mut )
             rating = m_mixed;
         }
         // If this new mutation cancels a base trait, remove it and add the mutation at the same time
-        add_msg(rating, _("Your innate %1$s trait turns into %2$s!"),
+        add_msg_if_player(rating, _("Your innate %1$s trait turns into %2$s!"),
                 cancel_mdata.name.c_str(), mdata.name.c_str());
         add_memorial_log(pgettext("memorial_male", "'%s' mutation turned into '%s'"),
                         pgettext("memorial_female", "'%s' mutation turned into '%s'"),
@@ -1201,7 +1203,7 @@ bool player::mutate_towards( const std::string &mut )
         } else {
             rating = m_neutral;
         }
-        add_msg(rating, _("You gain a mutation called %s!"), mdata.name.c_str());
+        add_msg_if_player(rating, _("You gain a mutation called %s!"), mdata.name.c_str());
         add_memorial_log(pgettext("memorial_male", "Gained the mutation '%s'."),
                          pgettext("memorial_female", "Gained the mutation '%s'."),
                          mdata.name.c_str());
@@ -1309,7 +1311,7 @@ void player::remove_mutation( const std::string &mut )
         } else {
             rating = m_neutral;
         }
-        add_msg(rating, _("Your %1$s mutation turns into %2$s."), mdata.name.c_str(),
+        add_msg_if_player(rating, _("Your %1$s mutation turns into %2$s."), mdata.name.c_str(),
                 replace_mdata.name.c_str());
         set_mutation(replacing);
         mutation_loss_effect(mut);
@@ -1327,7 +1329,7 @@ void player::remove_mutation( const std::string &mut )
         } else {
             rating = m_neutral;
         }
-        add_msg(rating, _("Your %1$s mutation turns into %2$s."), mdata.name.c_str(),
+        add_msg_if_player(rating, _("Your %1$s mutation turns into %2$s."), mdata.name.c_str(),
                 replace_mdata.name.c_str());
         set_mutation(replacing2);
         mutation_loss_effect(mut);
@@ -1344,7 +1346,7 @@ void player::remove_mutation( const std::string &mut )
         } else {
             rating = m_neutral;
         }
-        add_msg(rating, _("You lose your %s mutation."), mdata.name.c_str());
+        add_msg_if_player(rating, _("You lose your %s mutation."), mdata.name.c_str());
         mutation_loss_effect(mut);
     }
 
