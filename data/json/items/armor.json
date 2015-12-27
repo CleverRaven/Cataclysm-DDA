@@ -4934,7 +4934,7 @@
         "warmth" : 50,
         "phase" : "solid",
         "environmental_protection" : 1,
-        "encumbrance" : 25,
+        "encumbrance" : 20,
         "bashing" : -4,
         "flags" : ["VARSIZE", "POCKETS", "COLLAR", "OUTER"],
         "coverage" : 90,
