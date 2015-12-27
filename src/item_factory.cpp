@@ -133,9 +133,6 @@ void Item_factory::init()
     iuse_function_list["SEWAGE"] = &iuse::sewage;
     iuse_function_list["HONEYCOMB"] = &iuse::honeycomb;
     iuse_function_list["ROYAL_JELLY"] = &iuse::royal_jelly;
-    iuse_function_list["BANDAGE"] = &iuse::bandage;
-    iuse_function_list["FIRSTAID"] = &iuse::firstaid;
-    iuse_function_list["DISINFECTANT"] = &iuse::disinfectant;
     iuse_function_list["CAFF"] = &iuse::caff;
     iuse_function_list["ATOMIC_CAFF"] = &iuse::atomic_caff;
     iuse_function_list["ALCOHOL"] = &iuse::alcohol_medium;
@@ -258,7 +255,6 @@ void Item_factory::init()
     iuse_function_list["BOLTCUTTERS"] = &iuse::boltcutters;
     iuse_function_list["MOP"] = &iuse::mop;
     iuse_function_list["SPRAY_CAN"] = &iuse::spray_can;
-    iuse_function_list["RAG"] = &iuse::rag;
     iuse_function_list["LAW"] = &iuse::LAW;
     iuse_function_list["HEATPACK"] = &iuse::heatpack;
     iuse_function_list["QUIVER"] = &iuse::quiver;
@@ -1484,6 +1480,8 @@ void Item_factory::set_uses_from_object(JsonObject obj, std::vector<use_function
         newfun = load_actor<holster_actor>( obj );
     } else if( type == "repair_item" ) {
         newfun = load_actor<repair_item_actor>( obj );
+    } else if( type == "heal" ) {
+        newfun = load_actor<heal_actor>( obj );
     } else if( type == "knife" ) {
         use_methods.push_back( load_actor<salvage_actor>( obj, "salvage" ) );
         use_methods.push_back( load_actor<inscribe_actor>( obj, "inscribe" ) );

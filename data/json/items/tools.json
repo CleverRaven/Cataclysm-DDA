@@ -6745,8 +6745,14 @@
     "ammo": "NULL",
     "revert_to": "null",
     "category" : "spare_parts",
-    "use_action": "RAG",
-    "flags": ["NO_SALVAGE"]
+    "flags": ["NO_SALVAGE"],
+        "use_action" : {
+            "type" : "heal",
+            "limb_power" : 0,
+            "bleed" : 0.5,
+            "move_cost" : 200,
+            "used_up_item" : "rag_bloody"
+        }
   },
 
   {
@@ -8081,7 +8087,12 @@
     "ammo": "NULL",
     "revert_to": "null",
     "category" : "drugs",
-    "use_action": "RAG"
+        "use_action" : {
+            "type" : "heal",
+            "limb_power" : 0,
+            "bleed" : 0.5,
+            "move_cost" : 200
+        }
   },
 
   {
