@@ -13519,8 +13519,18 @@ void game::update_map(int &x, int &y)
     // Make sure map cache is consistent since it may have shifted.
     m.build_map_cache( get_levz() );
 
+    //needs to be refactored into actually updating the player's location here
+    //location updates need to be removed from callers of update_map
+    //currently a temporary fix for update_overmap_seen using wrong submap
+    tripoint previous_loc = u.pos();
+    tripoint temp_loc(x, y, get_levz());
+    u.setpos(temp_loc);
+
     // Update what parts of the world map we can see
     update_overmap_seen();
+
+    //restore player position, it is currently updated in callers of update_map
+    u.setpos(previous_loc);
 }
 
 void game::update_overmap_seen()
