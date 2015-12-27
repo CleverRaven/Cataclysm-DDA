@@ -1153,15 +1153,16 @@ bool player::can_disassemble( const item &dis_item, const inventory &crafting_in
 bool player::can_disassemble( const item &dis_item, const recipe *cur_recipe,
                               const inventory &crafting_inv, bool print_msg ) const
 {
+    const std::string dis_name = dis_item.tname().c_str();
     if (dis_item.count_by_charges()) {
         // Create a new item to get the default charges
         const item tmp = cur_recipe->create_result();
         if (dis_item.charges < tmp.charges) {
             if (print_msg) {
-                popup(ngettext("You need at least %d charge of that item to disassemble it.",
-                               "You need at least %d charges of that item to disassemble it.",
-                               tmp.charges),
-                      tmp.charges);
+                popup(ngettext("You need at least %d charge of %s to disassemble it.",
+                               "You need at least %d charges of %s to disassemble it.",
+                               tmp.charges ),
+                      tmp.charges, dis_name.c_str() );
             }
             return false;
         }
@@ -1173,8 +1174,8 @@ bool player::can_disassemble( const item &dis_item, const recipe *cur_recipe,
         for( const auto &it : itq ) {
             if( !it.has( crafting_inv ) ) {
                 if( print_msg ) {
-                    add_msg( m_info, _("To disassemble this, you need %s"),
-                        it.to_string().c_str() );
+                    add_msg( m_info, _("To disassemble %s, you need %s"),
+                        dis_name.c_str(), it.to_string().c_str() );
                 }
 
                 have_all_qualities = false;
@@ -1207,13 +1208,13 @@ bool player::can_disassemble( const item &dis_item, const recipe *cur_recipe,
             if( print_msg ) {
                 int req = it[0].count;
                 if( req <= 0 ) {
-                    add_msg(m_info, _("You need a %s to disassemble this."),
-                            item::nname(it[0].type).c_str());
+                    add_msg(m_info, _("You need a %s to disassemble %s."),
+                            item::nname(it[0].type).c_str(), dis_name.c_str() );
                 } else {
-                    add_msg(m_info, ngettext("You need a %s with %d charge to disassemble this.",
-                                             "You need a %s with %d charges to disassemble this.",
-                                             req),
-                            item::nname(it[0].type).c_str(), req);
+                    add_msg(m_info, ngettext("You need a %s with %d charge to disassemble %s.",
+                                             "You need a %s with %d charges to disassemble %s.",
+                                             req ),
+                            item::nname(it[0].type).c_str(), req, dis_name.c_str() );
                 }
             }
         }
