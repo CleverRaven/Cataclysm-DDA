@@ -730,8 +730,8 @@ void pick_recipes( const inventory &crafting_inv,
             }
             if( filter != "" ) {
                 if( ( search_name && !lcmatch( item::nname( rec->result ), filter ) )
-                    || ( search_tool && !lcmatch_any( rec->requirements.tools, filter ) )
-                    || ( search_component && !lcmatch_any( rec->requirements.components, filter ) ) ) {
+                    || ( search_tool && !lcmatch_any( rec->requirements.get_tools(), filter ) )
+                    || ( search_component && !lcmatch_any( rec->requirements.get_components(), filter ) ) ) {
                     continue;
                 }
                 bool match_found = false;
@@ -748,7 +748,7 @@ void pick_recipes( const inventory &crafting_inv,
                     }
                 }
                 if( search_qualities ) {
-                    for( auto quality_reqs : rec->requirements.qualities ) {
+                    for( auto quality_reqs : rec->requirements.get_qualities() ) {
                         for( auto quality : quality_reqs ) {
                             if( lcmatch( quality.to_string(), filter ) ) {
                                 match_found = true;

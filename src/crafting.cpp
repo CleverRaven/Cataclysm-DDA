@@ -698,11 +698,11 @@ void player::complete_craft()
         if( last_craft.has_cached_selections() ) {
             last_craft.consume_components();
         } else {
-            for( const auto &it : making->requirements.components ) {
+            for( const auto &it : making->requirements.get_components() ) {
                 consume_items( it, batch_size );
             }
 
-            for( const auto &it : making->requirements.tools ) {
+            for( const auto &it : making->requirements.get_tools() ) {
                 consume_tools( it, batch_size );
             }
         }
@@ -724,11 +724,11 @@ void player::complete_craft()
     if( last_craft.has_cached_selections() ) {
         used = last_craft.consume_components();
     } else {
-        for( const auto &it : making->requirements.components ) {
+        for( const auto &it : making->requirements.get_components() ) {
             std::list<item> tmp = consume_items( it, batch_size );
             used.splice(used.end(), tmp);
         }
-        for( const auto &it : making->requirements.tools ) {
+        for( const auto &it : making->requirements.get_tools() ) {
             consume_tools( it, batch_size );
         }
     }
@@ -835,11 +835,11 @@ void set_item_inventory(item &newit)
         if (!g->u.can_pickVolume(newit.volume())) { //Accounts for result_mult
             add_msg(_("There's no room in your inventory for the %s, so you drop it."),
                     newit.tname().c_str());
-            g->m.add_item_or_charges(g->u.posx(), g->u.posy(), newit);
+            g->m.add_item_or_charges(g->u.pos(), newit);
         } else if (!g->u.can_pickWeight(newit.weight(), !OPTIONS["DANGEROUS_PICKUPS"])) {
             add_msg(_("The %s is too heavy to carry, so you drop it."),
                     newit.tname().c_str());
-            g->m.add_item_or_charges(g->u.posx(), g->u.posy(), newit);
+            g->m.add_item_or_charges(g->u.pos(), newit);
         } else {
             newit = g->u.i_add(newit);
             add_msg(m_info, "%c - %s", newit.invlet == 0 ? ' ' : newit.invlet, newit.tname().c_str());
@@ -1166,64 +1166,60 @@ bool player::can_disassemble( const item &dis_item, const recipe *cur_recipe,
             return false;
         }
     }
+
+    bool have_all_qualities = true;
+    const auto &dis_requirements = cur_recipe->requirements.disassembly_requirements();
+    for( const auto &itq : dis_requirements.get_qualities() ) {
+        for( const auto &it : itq ) {
+            if( !it.has( crafting_inv ) ) {
+                if( print_msg ) {
+                    add_msg( m_info, _("To disassemble this, you need %s"),
+                        it.to_string().c_str() );
+                }
+
+                have_all_qualities = false;
+            }
+        }
+    }
+
     // ok, a valid recipe exists for the item, and it is reversible
     // assign the activity
     // check tools are available
     // loop over the tools and see what's required...again
     bool have_all_tools = true;
-    for( const auto &it : cur_recipe->requirements.tools ) {
+    for( const auto &it : dis_requirements.get_tools() ) {
         bool have_this_tool = false;
         for( const auto &tool : it ) {
             itype_id type = tool.type;
             int req = tool.count; // -1 => 1
 
-            if ((req <= 0 && crafting_inv.has_tools (type, 1)) ||
-                // No welding, no goggles needed.
-                (req <= 0 && type == "goggles_welding") ||
-                (req <= 0 && type == "crucible" &&
-                 cur_recipe->result != "anvil") ||
-                // No mold needed for disassembly.
-                (req <= 0 && type == "mold_plastic") ||
-                (req >  0 && crafting_inv.has_charges(type, req))) {
+            if( ( req <= 0 && crafting_inv.has_tools( type, 1 ) ) ||
+                ( req >  0 && crafting_inv.has_charges( type, req ) ) ) {
                 have_this_tool = true;
-            }
-
-            // If crafting recipe required a welder,
-            // disassembly requires a hacksaw or super toolkit.
-            if (type == "welder") {
-                have_this_tool = crafting_inv.has_items_with_quality( "SAW_M_FINE", 1, 1 );
-            }
-
-            if (type == "sewing_kit") {
-                have_this_tool = crafting_inv.has_items_with_quality( "CUT", 1, 1 );
             }
 
             if( have_this_tool ) {
                 break;
             }
         }
-        if (!have_this_tool) {
+        if( !have_this_tool ) {
             have_all_tools = false;
-            if (print_msg) {
+            if( print_msg ) {
                 int req = it[0].count;
-                if (it[0].type == "welder") {
-                    add_msg(m_info, _("You need an item with %s of 1 or more to disassemble this."), quality::get_name( "SAW_M_FINE" ).c_str() );
+                if( req <= 0 ) {
+                    add_msg(m_info, _("You need a %s to disassemble this."),
+                            item::nname(it[0].type).c_str());
                 } else {
-                    if (req <= 0) {
-                        add_msg(m_info, _("You need a %s to disassemble this."),
-                                item::nname(it[0].type).c_str());
-                    } else {
-                        add_msg(m_info, ngettext("You need a %s with %d charge to disassemble this.",
-                                                 "You need a %s with %d charges to disassemble this.",
-                                                 req),
-                                item::nname(it[0].type).c_str(), req);
-                    }
+                    add_msg(m_info, ngettext("You need a %s with %d charge to disassemble this.",
+                                             "You need a %s with %d charges to disassemble this.",
+                                             req),
+                            item::nname(it[0].type).c_str(), req);
                 }
             }
         }
     }
-    // all tools present, so assign the activity
-    return have_all_tools;
+    // All tools present, so assign the activity
+    return have_all_qualities && have_all_tools;
 }
 
 bool query_dissamble(const item &dis_item)
@@ -1290,7 +1286,7 @@ void player::disassemble(item &dis_item, int dis_pos, bool ground)
         } else {
             //twice the volume then multiplied by 10 (a book with volume 3 will give 60 pages)
             int num_pages = (dis_item.volume() * 2) * 10;
-            g->m.spawn_item(posx(), posy(), "paper", 0, num_pages);
+            g->m.spawn_item(pos(), "paper", 0, num_pages);
             i_rem(dis_pos);
         }
         return;
@@ -1319,21 +1315,24 @@ void player::complete_disassemble()
     // which recipe was it?
     const int item_pos = activity.values[0];
     const bool from_ground = activity.values.size() > 1 && activity.values[1] == 1;
-    const recipe *dis = recipe_by_index(activity.index); // Which recipe is it?
-    if( dis == nullptr ) {
+    const recipe *dis_ptr = recipe_by_index(activity.index); // Which recipe is it?
+    if( dis_ptr == nullptr ) {
         debugmsg( "no recipe with id %d found", activity.index );
         activity.type = ACT_NULL;
         return;
     }
+    const auto dis = *dis_ptr;
+    // Get the proper recipe - the one for disassembly, not assembly
+    const auto dis_requirements = dis.requirements.disassembly_requirements();
     item *org_item;
-    auto items_on_ground = g->m.i_at(posx(), posy());
+    auto items_on_ground = g->m.i_at(pos());
     if (from_ground) {
         if (static_cast<size_t>(item_pos) >= items_on_ground.size()) {
             add_msg(_("The item has vanished."));
             return;
         }
         org_item = &items_on_ground[item_pos];
-        if (org_item->type->id != dis->result) {
+        if (org_item->type->id != dis.result) {
             add_msg(_("The item might be gone, at least it is not at the expected position anymore."));
             return;
         }
@@ -1358,44 +1357,45 @@ void player::complete_disassemble()
 
     if (dis_item.count_by_charges()) {
         // remove the charges that one would get from crafting it
-        org_item->charges -= dis->create_result().charges;
+        org_item->charges -= dis.create_result().charges;
     }
     // remove the item, except when it's counted by charges and still has some
     if (!org_item->count_by_charges() || org_item->charges <= 0) {
         if (from_ground) {
-            g->m.i_rem( posx(), posy(), item_pos );
+            g->m.i_rem( pos(), item_pos );
         } else {
             i_rem(item_pos);
         }
     }
 
-    // consume tool charges
-    for (const auto &it : dis->requirements.tools) {
-        consume_tools(it);
+    // Consume tool charges
+    for( const auto &it : dis_requirements.get_tools() ) {
+        consume_tools( it );
     }
 
     // add the components to the map
     // Player skills should determine how many components are returned
 
-    int skill_dice = 2 + skillLevel(dis->skill_used) * 3;
-    skill_dice += skillLevel(dis->skill_used);
+    int skill_dice = 2 + skillLevel(dis.skill_used) * 3;
+    skill_dice += skillLevel(dis.skill_used);
 
     // Sides on dice is 16 plus your current intelligence
     ///\EFFECT_INT increases success rate for disassembling items
     int skill_sides = 16 + int_cur;
 
-    int diff_dice = dis->difficulty;
+    int diff_dice = dis.difficulty;
     int diff_sides = 24; // 16 + 8 (default intelligence)
 
     // disassembly only nets a bit of practice
-    if (dis->skill_used) {
-        practice( dis->skill_used, (dis->difficulty) * 2, dis->difficulty );
+    if( dis.skill_used ) {
+        practice( dis.skill_used, (dis.difficulty) * 2, dis.difficulty );
     }
 
-    for (const auto &altercomps : dis->requirements.components) {
+    for (const auto &altercomps : dis_requirements.get_components()) {
         const item_comp comp = find_component( altercomps, dis_item );
         int compcount = comp.count;
         item newit( comp.type, calendar::turn );
+        // TODO: Move this check to requirement_data::disassembly_requirements()
         if( !comp.recoverable || newit.has_flag( "UNRECOVERABLE" ) ) {
             continue;
         }
@@ -1413,7 +1413,7 @@ void player::complete_disassemble()
 
         for( ; compcount > 0; compcount--) {
             const bool comp_success = (dice(skill_dice, skill_sides) > dice(diff_dice,  diff_sides));
-            if (dis->difficulty != 0 && !comp_success) {
+            if (dis.difficulty != 0 && !comp_success) {
                 add_msg(m_bad, _("You fail to recover %s."), newit.tname().c_str());
                 continue;
             }
@@ -1443,15 +1443,15 @@ void player::complete_disassemble()
             } else if (veh != NULL && veh->add_item(veh_part, act_item)) {
                 // add_item did put the items in the vehicle, nothing further to be done
             } else {
-                g->m.add_item_or_charges(posx(), posy(), act_item);
+                g->m.add_item_or_charges(pos(), act_item);
             }
         }
     }
 
-    if (dis->learn_by_disassembly >= 0 && !knows_recipe(dis)) {
-        if( !dis->skill_used || dis->learn_by_disassembly <= skillLevel(dis->skill_used)) {
+    if (dis.learn_by_disassembly >= 0 && !knows_recipe(&dis)) {
+        if( !dis.skill_used || dis.learn_by_disassembly <= skillLevel(dis.skill_used)) {
             if (one_in(4)) {
-                learn_recipe((recipe *)dis);
+                learn_recipe( &dis );
                 add_msg(m_good, _("You learned a recipe from disassembling it!"));
             } else {
                 add_msg(m_info, _("You might be able to learn a recipe if you disassemble another."));

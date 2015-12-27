@@ -565,3 +565,86 @@ bool requirement_data::remove_item( const std::string &type )
 {
     return remove_item( type, tools ) || remove_item( type, components );
 }
+
+const requirement_data::alter_tool_comp_vector &requirement_data::get_tools() const
+{
+    return tools;
+}
+
+const requirement_data::alter_quali_req_vector &requirement_data::get_qualities() const
+{
+    return qualities;
+}
+
+const requirement_data::alter_item_comp_vector &requirement_data::get_components() const
+{
+    return components;
+}
+
+const requirement_data requirement_data::disassembly_requirements() const
+{
+    // TODO:
+    // Allow jsonizing those tool replacements
+
+    // Make a copy
+    // Maybe TODO: Cache it somewhere and return a reference instead
+    requirement_data ret = *this;
+    auto new_qualities = std::vector<quality_requirement>();
+    for( auto &it : ret.tools ) {
+        bool replaced = false;
+        for( const auto &tool : it ) {
+            const itype_id &type = tool.type;
+
+            // If crafting recipe required a welder,
+            // disassembly requires a hacksaw or super toolkit.
+            if( type == "welder" ||
+                type == "welder_crude" ||
+                type == "oxy_torch" ) {
+                new_qualities.push_back( quality_requirement( "SAW_M_FINE", 1, 1 ) );
+                replaced = true;
+                break;
+            } else if( type == "sewing_kit" ||
+                type == "mold_plastic" ) {
+                new_qualities.push_back( quality_requirement( "CUT", 1, 1 ) );
+                replaced = true;
+                break;
+            } else if( type == "goggles_welding" ||
+                type == "crucible" ) {
+                replaced = true;
+                break;
+            }
+        }
+
+        if( replaced ) {
+            // Replace the entire blocks
+            // This avoids the pesky integrated toolset
+            it.clear();
+        }
+    }
+
+    // Warning: This depends on the fact that tool qualities
+    // are all mandatory (don't use variants)
+    // If this ever changes, this will be wrong!
+    if( ret.qualities.empty() ) {
+        ret.qualities.resize( 1 );
+    }
+
+    auto qualities = ret.qualities[0];
+    qualities.insert( qualities.end(), new_qualities.begin(), new_qualities.end() );
+    // Remove duplicate qualities
+    {
+        auto itr = std::unique( qualities.begin(), qualities.end(),
+            []( const quality_requirement &a, const quality_requirement &b ) {
+                return a.type == b.type;
+            } );
+        qualities.resize( std::distance( qualities.begin(), itr ) );
+    }
+
+    // Remove empty variant sections
+    ret.tools.erase( std::remove_if( ret.tools.begin(), ret.tools.end(),
+    []( const std::vector<tool_comp> &tcv ) {
+        return tcv.empty();
+    } ), ret.tools.end() );
+
+    return std::move( ret );
+}
