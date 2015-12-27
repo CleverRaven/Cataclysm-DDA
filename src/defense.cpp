@@ -297,8 +297,6 @@ void defense_game::init_map()
     int x = g->u.posx();
     int y = g->u.posy();
     g->update_map(x, y);
-    g->u.setx(x);
-    g->u.sety(y);
     monster generator( mtype_id( "mon_generator" ),
                        tripoint( g->u.posx() + 1, g->u.posy() + 1, g->u.posz() ) );
     // Find a valid spot to spawn the generator
