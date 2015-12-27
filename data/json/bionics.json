@@ -154,7 +154,7 @@
         "id": "bio_eye_optic",
         "name": "Telescopic Eyes",
         "description": "Much of the material in your inner eye has been removed and replaced with an array of high-powered, auto-focusing lenses.  You can now see much farther and more clearer than before, any vision problems you might have had are now gone."
-	},{
+    },{
         "type": "bionic",
         "id": "bio_targeting",
         "name": "Targeting System",
