@@ -286,6 +286,9 @@ void player::melee_attack(Creature &t, bool allow_special, const matec_id &force
             else
                 add_msg(_("%s misses."),name.c_str());
         }
+
+        t.on_dodge( this );
+
         if( !has_active_bionic("bio_cqb") ) {
             // No practice if you're relying on bio_cqb to fight for you
             melee_practice( *this, false, unarmed_attack(),

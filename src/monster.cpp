@@ -911,7 +911,6 @@ void monster::melee_attack(Creature &target, bool, const matec_id&) {
     bp_hit = dealt_dam.bp_hit;
 
     if (hitspread < 0) { // a miss
-        // TODO: characters practice dodge when a hit misses 'em
         if (target.is_player()) {
             if (u_see_me) {
                 add_msg(_("You dodge %s."), disp_name().c_str());
@@ -923,6 +922,9 @@ void monster::melee_attack(Creature &target, bool, const matec_id&) {
                 add_msg(_("The %1$s dodges %2$s attack."), name().c_str(),
                             target.disp_name(true).c_str());
             }
+        }
+        if( !is_hallucination() ) {
+            target.on_dodge( this );
         }
     //Hallucinations always produce messages but never actually deal damage
     } else if (is_hallucination() || dealt_dam.total_damage() > 0) {
@@ -1037,21 +1039,6 @@ void monster::hit_monster(monster &other)
             other.on_dodge( this );
         }
     }
-}
-
-int monster::deal_melee_attack(Creature *source, int hitroll)
-{
-    int roll = Creature::deal_melee_attack(source, hitroll);
-    if( is_hallucination() ) {
-        return roll;
-    }
-
-    if( roll < 0 ) {
-        // on_hit is in deal_melee_hit
-        on_dodge( source );
-    }
-
-    return roll;
 }
 
 void monster::deal_projectile_attack( Creature *source, dealt_projectile_attack &attack ) {
