@@ -1035,10 +1035,6 @@ void monster::hit_monster(monster &other)
         if( g->u.sees( *this ) ) {
             add_msg(_("The %1$s misses the %2$s!"), name().c_str(), other.name().c_str());
         }
-
-        if( !is_hallucination() ) {
-            other.on_dodge( this );
-        }
     }
 }
 
