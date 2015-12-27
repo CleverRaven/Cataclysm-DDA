@@ -13523,8 +13523,7 @@ void game::update_map(int &x, int &y)
     //location updates need to be removed from callers of update_map
     //currently a temporary fix for update_overmap_seen using wrong submap
     tripoint previous_loc = u.pos();
-    tripoint temp_loc(x, y, get_levz());
-    u.setpos(temp_loc);
+    u.setpos( tripoint(x, y, get_levz()) );
 
     // Update what parts of the world map we can see
     update_overmap_seen();
