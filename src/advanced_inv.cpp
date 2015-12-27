@@ -1174,10 +1174,9 @@ bool advanced_inventory::move_all_items(bool nested_call)
 
     // Make sure source and destination are different, otherwise items will disappear
     // Need to check actual position to account for dragged vehicles
-    if( sarea.pos == darea.pos &&
-        spane.in_vehicle() == dpane.in_vehicle() &&
-        spane.on_ground() == dpane.on_ground() &&
-        ( spane.in_vehicle() || spane.on_ground() || spane.get_area() == dpane.get_area() ) ) {
+    if( dpane.get_area() == AIM_DRAGGED && sarea.pos == darea.pos && spane.in_vehicle() == dpane.in_vehicle() ) {
+        return false;
+    } else if ( spane.get_area() == dpane.get_area() && spane.in_vehicle() == dpane.in_vehicle() ) {
         return false;
     }
 

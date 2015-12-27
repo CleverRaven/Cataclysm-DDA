@@ -4168,31 +4168,28 @@ int player::overmap_sight_range(int light_level) const
     if( sight <= SEEX * 4) {
         return (sight / (SEEX / 2) );
     }
-    if ((has_amount("binoculars", 1) || has_amount("rifle_scope", 1) ||
-        has_amount("survivor_scope", 1) || -1 != weapon.has_gunmod("rifle_scope") ) &&
-        !has_trait("EAGLEEYED"))  {
-         if (has_trait("BIRD_EYE")) {
+    if ( has_item_with_flag( "ZOOM" ) &&
+        !has_trait( "EAGLEEYED" ) )  {
+         if ( has_trait( "BIRD_EYE" ) ) {
              return 25;
          }
         return 20;
     }
-    else if (!(has_amount("binoculars", 1) || has_amount("rifle_scope", 1) ||
-        has_amount("survivor_scope", 1) || -1 != weapon.has_gunmod("rifle_scope") ) &&
-        has_trait("EAGLEEYED"))  {
-         if (has_trait("BIRD_EYE")) {
+    else if ( !has_item_with_flag( "ZOOM" ) &&
+        has_trait( "EAGLEEYED" ) )  {
+         if ( has_trait( "BIRD_EYE" ) ) {
              return 25;
          }
         return 20;
     }
-    else if ((has_amount("binoculars", 1) || has_amount("rifle_scope", 1) ||
-        has_amount("survivor_scope", 1) || -1 != weapon.has_gunmod("rifle_scope") ) &&
-        has_trait("EAGLEEYED"))  {
-         if (has_trait("BIRD_EYE")) {
+    else if ( has_item_with_flag( "ZOOM" ) &&
+        has_trait( "EAGLEEYED" ) )  {
+         if ( has_trait( "BIRD_EYE" ) ) {
              return 30;
          }
         return 25;
     }
-    else if (has_trait("BIRD_EYE")) {
+    else if ( has_trait( "BIRD_EYE" ) ) {
             return 15;
         }
     return 10;
@@ -11270,20 +11267,16 @@ void player::use_wielded() {
 
 hint_rating player::rate_action_reload( const item &it ) const
 {
-    if( it.ammo_capacity() <= 0 || it.ammo_type() == "NULL" ) {
-        return HINT_CANT;
-    }
-
-    if( it.has_flag("NO_RELOAD") || it.has_flag("RELOAD_AND_SHOOT") ) {
-        return HINT_CANT;
-    }
-
-    if ( it.ammo_remaining() < it.ammo_capacity() ) {
-        return HINT_GOOD;
-    }
-
+    // Guns may contain additional reloadable mods so check these first
     if( it.is_gun() ) {
         for( const auto& mod : it.contents ) {
+            if( mod.ammo_capacity() <= 0 ||
+                mod.ammo_type() == "NULL" ||
+                mod.has_flag( "NO_RELOAD" ) ||
+                mod.has_flag( "RELOAD_AND_SHOOT" ) ) {
+                continue;
+            }
+
             // @todo deprecate spare magazine
             if( mod.typeId() == "spare_mag" && mod.charges < it.ammo_capacity() ) {
                 return HINT_GOOD;
@@ -11294,7 +11287,15 @@ hint_rating player::rate_action_reload( const item &it ) const
         }
     }
 
-   return HINT_IFFY;
+    // Now check the base item
+    if( it.ammo_capacity() <= 0 ||
+        it.ammo_type() == "NULL" ||
+        it.has_flag( "NO_RELOAD" ) ||
+        it.has_flag( "RELOAD_AND_SHOOT" ) ) {
+        return HINT_CANT;
+    }
+
+    return it.ammo_remaining() < it.ammo_capacity() ? HINT_GOOD : HINT_IFFY;
 }
 
 hint_rating player::rate_action_unload( const item &it ) const
