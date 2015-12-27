@@ -4168,21 +4168,21 @@ int player::overmap_sight_range(int light_level) const
     if( sight <= SEEX * 4) {
         return (sight / (SEEX / 2) );
     }
-    if ( has_item_with_flag( "ZOOM" ) &&
+    if ( ( has_item_with_flag( "ZOOM" ) || has_bionic( "bio_optic" ) ) &&
         !has_trait( "EAGLEEYED" ) )  {
          if ( has_trait( "BIRD_EYE" ) ) {
              return 25;
          }
         return 20;
     }
-    else if ( !has_item_with_flag( "ZOOM" ) &&
+    else if ( !( has_item_with_flag( "ZOOM" ) || has_bionic( "bio_optic" ) ) &&
         has_trait( "EAGLEEYED" ) )  {
          if ( has_trait( "BIRD_EYE" ) ) {
              return 25;
          }
         return 20;
     }
-    else if ( has_item_with_flag( "ZOOM" ) &&
+    else if ( ( has_item_with_flag( "ZOOM" ) || has_bionic( "bio_optic" ) ) &&
         has_trait( "EAGLEEYED" ) )  {
          if ( has_trait( "BIRD_EYE" ) ) {
              return 30;
