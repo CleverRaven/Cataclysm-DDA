@@ -290,7 +290,7 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
 
         int stability_roll() const override;
         // We just dodged an attack from something
-        void on_dodge( Creature *source, int difficulty = INT_MIN ) override;
+        void on_dodge( Creature *source, int difficulty ) override;
         // Something hit us (possibly null source)
         void on_hit( Creature *source, body_part bp_hit = num_bp,
                      int difficulty = INT_MIN, dealt_projectile_attack const* const proj = nullptr ) override;
