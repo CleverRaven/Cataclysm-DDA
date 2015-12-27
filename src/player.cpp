@@ -935,7 +935,6 @@ void player::update_bodytemp()
         if( blister_count - get_env_resist( body_part( i ) ) > 10 ) {
             add_effect( "blisters", 1, ( body_part )i );
         }
-if(blister_count > 0 ) add_msg(m_debug, "%d blisters", blister_count);
 
         temp_conv[i] += bodytemp_modifier_fire();
         // WEATHER
