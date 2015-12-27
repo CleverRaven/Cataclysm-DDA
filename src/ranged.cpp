@@ -364,32 +364,15 @@ void player::fire_gun( const tripoint &targ_arg, bool burst )
         num_shots = std::min( num_shots, used_weapon->ammo_remaining() );
     }
 
-    int ups_drain = 0;
-    int adv_ups_drain = 0;
-    int bio_power_drain = 0;
-    if( used_weapon->get_gun_ups_drain() > 0 ) {
-        ups_drain = used_weapon->get_gun_ups_drain();
-        adv_ups_drain = std::max( 1, ups_drain * 3 / 5 );
-        bio_power_drain = std::max( 1, ups_drain / 5 );
-    }
-
-    // Fake UPS - used for vehicle mounted turrets
-    int fake_ups_drain = 0;
-    if( ups_drain > 0 && !worn.empty() && worn.back().type->id == "fake_UPS" ) {
-        num_shots = std::min( num_shots, worn.back().charges / ups_drain );
-        fake_ups_drain = ups_drain;
-        ups_drain = 0;
-        adv_ups_drain = 0;
-        bio_power_drain = 0;
-    }
-
     // cap our maximum burst size by the amount of UPS power left
-    if( ups_drain > 0 || adv_ups_drain > 0 || bio_power_drain > 0 )
-        while( !(has_charges( "UPS_off", ups_drain * num_shots) ||
-                 has_charges( "adv_UPS_off", adv_ups_drain * num_shots ) ||
-                 (has_bionic( "bio_ups" ) && power_level >= bio_power_drain * num_shots)) ) {
-            num_shots--;
+    if( used_weapon->get_gun_ups_drain() > 0 ) {
+        // @todo refactor handling of vehicle turrets to separate function
+        if( !worn.empty() && worn.back().type->id == "fake_UPS" ) {
+            num_shots = std::min(num_shots, worn.back().charges / used_weapon->get_gun_ups_drain() );
+        } else {
+            num_shots = std::min(num_shots, charges_of( "UPS" ) / used_weapon->get_gun_ups_drain() );
         }
+    }
 
     // This is expensive, let's cache. todo: figure out if we need weapon.range(&p);
     const int weaponrange = used_weapon->gun_range( this );
@@ -468,10 +451,6 @@ void player::fire_gun( const tripoint &targ_arg, bool burst )
         }
 
         if (curshot > 0) {
-            // TODO: or should use the recoil of the whole gun, not just the auxiliary gunmod?
-            if (recoil_add(*this, *used_weapon) % 2 == 1) {
-                recoil++;
-            }
             recoil += recoil_add(*this, *used_weapon) / (has_effect( "on_roof" ) ? 90 : 2);
         } else {
             recoil += recoil_add(*this, *used_weapon) / (has_effect( "on_roof" ) ? 30 : 1);
@@ -501,15 +480,11 @@ void player::fire_gun( const tripoint &targ_arg, bool burst )
             }
         }
 
-        // Drain UPS power
-        if( fake_ups_drain > 0 ) {
-            use_charges( "fake_UPS", fake_ups_drain );
-        } else if( has_charges("adv_UPS_off", adv_ups_drain ) ) {
-            use_charges( "adv_UPS_off", adv_ups_drain );
-        } else if( has_charges("UPS_off", ups_drain ) ) {
-            use_charges( "UPS_off", ups_drain );
-        } else if( has_bionic("bio_ups" ) ) {
-            charge_power( -1 * bio_power_drain );
+        // @todo refactor handling of vehicle turrets to separate function
+        if ( !worn.empty() && worn.back().type->id == "fake_UPS" ) {
+            use_charges( "fake_UPS", used_weapon->get_gun_ups_drain() );
+        } else {
+            use_charges( "UPS", used_weapon->get_gun_ups_drain() );
         }
 
         // Experience gain is limited by range and penalised proportional to inaccuracy.

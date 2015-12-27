@@ -276,9 +276,10 @@
     "color": "dark_green",
     "name": "survivor telescope",
     "name_plural": "survivor telescopes",
-    "description": "A homemade collapsible telescope. Too large and inaccurate to use as a weapon scope, but carrying this item in your inventory will double the distance that is mapped around you during your travels.",
+    "description": "A homemade collapsible telescope.  Too large and inaccurate to use as a weapon scope, but carrying this item in your inventory will double the distance that is mapped around you during your travels.",
     "price": 600,
     "material": ["glass", "plastic"],
+    "flags": [ "LENS", "ZOOM" ],
     "weight": 500,
     "volume": 1,
     "bashing": 0,
@@ -289,7 +290,11 @@
     "max_charges": 0,
     "initial_charges": 0,
     "charges_per_use": 0,
-    "turns_per_charge": 0
+    "turns_per_charge": 0,
+    "use_action": {
+            "type": "extended_firestarter",
+            "need_sunlight": true
+    }
   },
   {
     "id": "rock_quern",
@@ -3641,7 +3646,8 @@
         "active": true,
         "need_fire": 1,
         "need_fire_msg": "You need a source of fire!",
-        "msg": "You light the Molotov cocktail."
+        "msg": "You light the Molotov cocktail.",
+        "moves": 75
     }
   },
 
@@ -9666,7 +9672,7 @@
     "description": "This is a stout metal box containing a complete tool kit suitable for most household maintenance and construction activities.  In addition, when supplied with duct tape, it serves as a vital tool for fixing items made of wood, paper, bone, or chitin.  It requires 25 units of duct tape per use.",
     "price": 12999,
     "material": "steel",
-    "weight": 3364,
+    "weight": 3522,
     "volume": 10,
     "bashing": 8,
     "cutting": 0,
