@@ -157,7 +157,7 @@
     [ "toolset", 10 ],
     [ "fire", -1 ]
   ]],
-  "components": [[[ "raw_leather", 1 ], [ "raw_hleather", 1 ]]]
+  "components": [[[ "raw_leather", 1 ], [ "raw_tainted_leather", 1 ], [ "raw_hleather", 1 ]]]
 },
 {
   "type" : "recipe",
@@ -179,7 +179,7 @@
     [ "toolset", 10 ],
     [ "fire", -1 ]
   ]],
-  "components": [[[ "raw_fur", 1 ]]]
+  "components": [[[ "raw_fur", 1 ], [ "raw_tainted_fur", 1 ]]]
 },{
   "type" : "recipe",
   "result": "resin_cord",
