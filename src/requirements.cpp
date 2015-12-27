@@ -603,12 +603,16 @@ const requirement_data requirement_data::disassembly_requirements() const
                 new_qualities.push_back( quality_requirement( "SAW_M_FINE", 1, 1 ) );
                 replaced = true;
                 break;
-            } else if( type == "sewing_kit" ||
+            }
+
+            if( type == "sewing_kit" ||
                 type == "mold_plastic" ) {
                 new_qualities.push_back( quality_requirement( "CUT", 1, 1 ) );
                 replaced = true;
                 break;
-            } else if( type == "goggles_welding" ||
+            }
+
+            if( type == "goggles_welding" ||
                 type == "crucible" ) {
                 replaced = true;
                 break;
@@ -616,7 +620,7 @@ const requirement_data requirement_data::disassembly_requirements() const
         }
 
         if( replaced ) {
-            // Replace the entire blocks
+            // Replace the entire block of variants
             // This avoids the pesky integrated toolset
             it.clear();
         }
@@ -624,12 +628,12 @@ const requirement_data requirement_data::disassembly_requirements() const
 
     // Warning: This depends on the fact that tool qualities
     // are all mandatory (don't use variants)
-    // If this ever changes, this will be wrong!
+    // If that ever changes, this will be wrong!
     if( ret.qualities.empty() ) {
         ret.qualities.resize( 1 );
     }
 
-    auto qualities = ret.qualities[0];
+    auto &qualities = ret.qualities[0];
     qualities.insert( qualities.end(), new_qualities.begin(), new_qualities.end() );
     // Remove duplicate qualities
     {
