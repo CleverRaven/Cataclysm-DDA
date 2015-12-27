@@ -12211,7 +12211,7 @@
     {
         "type" : "COMESTIBLE",
         "id" : "frenchtoast",
-        "name" : "french toast",
+        "name" : "French toast",
         "name_plural" : "french toasts",
         "weight" : 246,
         "color" : "brown",
