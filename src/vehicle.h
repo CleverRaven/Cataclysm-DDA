@@ -555,8 +555,11 @@ public:
     // fuel consumption of vehicle engines of given type, in one-hundreth of fuel
     int basic_consumption (const itype_id &ftype) const;
 
-    void consume_fuel( double load );
+    //fuel consumption by various units (non-engines)
+    int supplemental_consumption( const itype_id &ftype ) const;
 
+    void consume_fuel( double load );
+    void disable_devices( const itype_id &ftype );
     void power_parts();
 
     /**
@@ -952,6 +955,7 @@ public:
     bool check_environmental_effects= false; // has bloody or smoking parts
     bool insides_dirty              = true;  // "inside" flags are outdated and need refreshing
     bool falling                    = false; // Is the vehicle hanging in the air and expected to fall down in the next turn?
+    bool chainsaw_on                = false; // Is the vehicle running a chainsaw?
     bool plow_on                    = false; // Is the vehicle running a plow?
     bool planter_on                 = false; // Is the vehicle sprawing seeds everywhere?
     bool scoop_on                   = false; //Does the vehicle have a scoop? Which picks up items.

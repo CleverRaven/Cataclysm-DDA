@@ -103,6 +103,7 @@ enum vehicle_controls {
  toggle_camera,
  release_remote_control,
  toggle_chimes,
+ toggle_chainsaw,
  toggle_plow,
  toggle_planter,
  toggle_reaper,
@@ -966,6 +967,7 @@ void vehicle::use_controls(const tripoint &pos)
     bool has_camera_control = false;
     bool has_aisle_lights = false;
     bool has_dome_lights = false;
+    bool has_chainsaw = false;
     bool has_plow = false;
     bool has_planter = false;
     bool has_scoop = false;
@@ -1024,6 +1026,8 @@ void vehicle::use_controls(const tripoint &pos)
             } else {
                 has_camera = true;
             }
+        } else if( part_flag( p, "CHAINSAW" ) ) {
+            has_chainsaw = true;
         } else if( part_flag(p,"PLOW") ) {
             has_plow = true;
         } else if( part_flag(p,"PLANTER") ) {
@@ -1143,6 +1147,10 @@ void vehicle::use_controls(const tripoint &pos)
     if( has_electronic_controls && (camera_on || ( has_camera && has_camera_control )) ) {
         menu.addentry( toggle_camera, true, 'M', camera_on ?
                        _("Turn off camera system") : _("Turn on camera system") );
+    }
+    if( has_electronic_controls && has_chainsaw ){
+        menu.addentry( toggle_chainsaw, true, MENU_AUTOASSIGN, chainsaw_on ?
+                       _( "Turn chainsaw off" ) : _( "Turn chainsaw on" ) );
     }
     if( has_electronic_controls && has_plow ){
         menu.addentry( toggle_plow, true, MENU_AUTOASSIGN, plow_on ?
@@ -1346,6 +1354,9 @@ void vehicle::use_controls(const tripoint &pos)
         } else {
             add_msg( _("Camera system won't turn on") );
         }
+        break;
+    case toggle_chainsaw:
+        chainsaw_on = !chainsaw_on;
         break;
     case toggle_plow:
         add_msg( plow_on ? _("Plow system stopped"): _("Plow system started"));
@@ -1664,7 +1675,8 @@ const vpart_info& vehicle::part_info (int index, bool include_removed) const
 int vehicle::part_power(int const index, bool const at_full_hp) const
 {
     if( !part_flag(index, VPFLAG_ENGINE) &&
-        !part_flag(index, VPFLAG_ALTERNATOR) ) {
+        !part_flag(index, VPFLAG_ALTERNATOR) &&
+        !part_flag(index, "CHAINSAW") ) {
        return 0; // not an engine.
     }
     int pwr;
@@ -3193,6 +3205,43 @@ int vehicle::basic_consumption(const itype_id &ftype) const
     return fcon;
 }
 
+int vehicle::supplemental_consumption( const itype_id &ftype ) const
+{
+    int fcon = 0;
+    if( chainsaw_on ) {
+        std::vector<int> all_chainsaws = all_parts_with_feature("CHAINSAW");
+        for( size_t c = 0; c < all_chainsaws.size(); ++c ) {
+            if( part_info( all_chainsaws[c] ).fuel_type == ftype ) {
+                fcon += part_power( all_chainsaws[c] );
+                if( one_in( 8 ) ) {
+                    tripoint part_pos = global_pos3() + parts[ all_chainsaws[c] ].precalc[0];
+                    //~ sound of working chainsaw
+                    sounds::sound(part_pos, 20, _( "vrr-vrr-vroom!" ));
+                }
+            }
+        }
+    }
+    return fcon;
+}
+
+void vehicle::disable_devices( const itype_id &ftype )
+{
+    //fixme: running out of any fuel type used by chainsaw(s) disables all chainsaws
+    if( chainsaw_on ) {
+        std::vector<int> all_chainsaws = all_parts_with_feature( "CHAINSAW" );
+        for( size_t c = 0; c < all_chainsaws.size(); ++c ) {
+            if( part_info( all_chainsaws[c] ).fuel_type == ftype ) {
+                chainsaw_on = false;
+                if( player_in_control( g->u ) || g->u.sees( global_pos3() ) ) {
+                     //~ %1s is vehicle name and %2s is fuel type
+                     add_msg( _( "The %1$s's ran out of %2$s!" ), name.c_str(),  ftype.c_str() );
+                }
+                break;
+            }
+        }
+    }
+}
+
 int vehicle::total_power(bool const fueled) const
 {
     int pwr = 0;
@@ -3605,13 +3654,18 @@ void vehicle::consume_fuel( double load = 1.0 )
     for( auto &ft : get_fuel_types() ) {
         // if no engines use this fuel, skip
         int amnt_fuel_use = basic_consumption( ft.id );
-        if (amnt_fuel_use == 0) continue;
 
         //get exact amount of fuel needed
         double amnt_precise = double(amnt_fuel_use) / ft.coeff;
 
-        amnt_precise *= load * (1.0 + st * st * 100);
-        int amnt = int(amnt_precise);
+        amnt_precise *= load * ( 1.0 + st * st * 100.0 );
+        // supplemental consumption doesn't take into account load & strain
+        amnt_precise += double( supplemental_consumption( ft.id ) ) / ft.coeff;
+
+        int amnt = int( amnt_precise );
+        if( amnt == 0 ) {
+            continue;
+        }
         // consumption remainder results in chance at additional fuel consumption
         if( x_in_y(int(amnt_precise*1000) % 1000, 1000) ) {
             amnt += 1;
@@ -3625,6 +3679,7 @@ void vehicle::consume_fuel( double load = 1.0 )
                 } else {
                     amnt -= parts[elem].amount;
                     parts[elem].amount = 0;
+                    disable_devices( ft.id );
                 }
             }
         }
@@ -4528,6 +4583,12 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
     }
 
     int dmg_mod = part_info( ret.part ).dmg_mod;
+    add_msg("dmg: %d", dmg_mod);
+    if( chainsaw_on && part_info( ret.part ).has_flag( "CHAINSAW" ) &&
+        parts[part].hp > 0 ) {
+        dmg_mod *= 5.0;
+        //TODO: Add sounds of chainsaw COLLIDED TO FLESH
+    }
     // Let's calculate type of collision & mass of object we hit
     float mass2 = 0;
     float e = 0.3; // e = 0 -> plastic collision
