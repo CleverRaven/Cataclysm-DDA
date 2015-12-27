@@ -4168,31 +4168,28 @@ int player::overmap_sight_range(int light_level) const
     if( sight <= SEEX * 4) {
         return (sight / (SEEX / 2) );
     }
-    if ((has_amount("binoculars", 1) || has_amount("rifle_scope", 1) ||
-        has_amount("survivor_scope", 1) || -1 != weapon.has_gunmod("rifle_scope") ) &&
-        !has_trait("EAGLEEYED"))  {
-         if (has_trait("BIRD_EYE")) {
+    if ( has_item_with_flag( "ZOOM" ) &&
+        !has_trait( "EAGLEEYED" ) )  {
+         if ( has_trait( "BIRD_EYE" ) ) {
              return 25;
          }
         return 20;
     }
-    else if (!(has_amount("binoculars", 1) || has_amount("rifle_scope", 1) ||
-        has_amount("survivor_scope", 1) || -1 != weapon.has_gunmod("rifle_scope") ) &&
-        has_trait("EAGLEEYED"))  {
-         if (has_trait("BIRD_EYE")) {
+    else if ( !has_item_with_flag( "ZOOM" ) &&
+        has_trait( "EAGLEEYED" ) )  {
+         if ( has_trait( "BIRD_EYE" ) ) {
              return 25;
          }
         return 20;
     }
-    else if ((has_amount("binoculars", 1) || has_amount("rifle_scope", 1) ||
-        has_amount("survivor_scope", 1) || -1 != weapon.has_gunmod("rifle_scope") ) &&
-        has_trait("EAGLEEYED"))  {
-         if (has_trait("BIRD_EYE")) {
+    else if ( has_item_with_flag( "ZOOM" ) &&
+        has_trait( "EAGLEEYED" ) )  {
+         if ( has_trait( "BIRD_EYE" ) ) {
              return 30;
          }
         return 25;
     }
-    else if (has_trait("BIRD_EYE")) {
+    else if ( has_trait( "BIRD_EYE" ) ) {
             return 15;
         }
     return 10;
