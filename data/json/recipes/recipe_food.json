@@ -2749,9 +2749,6 @@
     [
       [ "irradiated_orange", 2 ],
       [ "orange", 2 ]
-    ],
-    [
-      [ "water_clean", 1 ]
     ]
   ]
 },{
@@ -9783,7 +9780,6 @@
 },{
   "type" : "recipe",
   "result": "juice",
-  "result_mult": 2,
   "byproducts": "juice_pulp",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_DRINKS",
