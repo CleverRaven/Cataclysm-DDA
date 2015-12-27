@@ -7033,7 +7033,8 @@
       [ "salt", 1 ]
     ],
     [
-      [ "raw_fur", 1 ]
+      [ "raw_fur", 1 ],
+      [ "raw_tainted_fur", 1 ]
     ]
   ]
 },{
