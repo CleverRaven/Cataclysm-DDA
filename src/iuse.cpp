@@ -3117,20 +3117,23 @@ static int cauterize_elec(player *p, item *it)
 
 int iuse::water_purifier(player *p, item *it, bool, const tripoint& )
 {
-    int pos = g->inv_for_filter( _("Purify what?"), []( const item & itm ) {
+    auto loc = g->inv_map_splice( []( const item & itm ) {
         return !itm.contents.empty() &&
                ( itm.contents[0].type->id == "water" ||
                  itm.contents[0].type->id == "salt_water" );
-    } );
-    if (!p->has_item(pos)) {
+    }, _( "Purify what?" ), 1 );
+
+    item *target = loc.get_item();
+    if( target == nullptr ) {
         p->add_msg_if_player(m_info, _("You do not have that item!"));
         return 0;
     }
-    if (p->i_at(pos).contents.empty()) {
+    if( target->contents.empty() ) {
         p->add_msg_if_player(m_info, _("You can only purify water."));
         return 0;
     }
-    item *pure = &(p->i_at(pos).contents[0]);
+
+    item *pure = &target->contents[0];
     if (pure->type->id != "water" && pure->type->id != "salt_water") {
         p->add_msg_if_player(m_info, _("You can only purify water."));
         return 0;
@@ -3140,6 +3143,7 @@ int iuse::water_purifier(player *p, item *it, bool, const tripoint& )
                              _("You don't have enough charges in your purifier to purify all of the water."));
         return 0;
     }
+
     p->moves -= 150;
     pure->make("water_clean");
     pure->poison = 0;
@@ -6100,15 +6104,17 @@ int iuse::handle_ground_graffiti(player *p, item *it, const std::string prefix)
  */
 static bool heat_item(player *p)
 {
-    int inventory_index = g->inv_for_filter( _("Heat up what?"), []( const item & itm ) {
+   auto loc = g->inv_map_splice( []( const item & itm ) {
         return (itm.is_food() && itm.has_flag("EATEN_HOT")) ||
             (itm.is_food_container() && itm.contents[0].has_flag("EATEN_HOT"));
-    } );
-    item *heat = &( p->i_at(inventory_index ) );
-    if (heat->type->id == "null") {
+    }, _( "Heat up what?" ), 1 );
+
+    item *heat = loc.get_item();
+    if( heat == nullptr ) {
         add_msg(m_info, _("You do not have that item!"));
         return false;
     }
+
     item *target = heat->is_food_container() ? &(heat->contents[0]) : heat;
     if ((target->is_food()) && (target->has_flag("EATEN_HOT"))) {
         p->moves -= 300;

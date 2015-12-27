@@ -1077,6 +1077,7 @@
         "mod_targets" : ["rifle", "crossbow", "launcher"],
         "volume" : 2,
         "bashing" : 0,
+        "flags" : ["ZOOM"],
         "price" : 68000,
         "skill_required": 5
     },

@@ -14,12 +14,12 @@ class JsonArray;
 class JsonObject;
 class addiction;
 enum add_type : int;
-class Skill;
-using skill_id = string_id<Skill>;
+    class Skill;
+    using skill_id = string_id<Skill>;
 
-typedef std::map<std::string, profession> profmap;
+    typedef std::map<std::string, profession> profmap;
 
-class profession
+    class profession
 {
     public:
         typedef std::pair<skill_id, int> StartingSkill;
@@ -29,11 +29,9 @@ class profession
             /** Snippet id, @see snippet_library. */
             std::string snippet_id;
             // compatible with when this was just a std::string
-            itypedec(const char *t) : type_id( t ), snippet_id()
-            {
+            itypedec( const char *t ) : type_id( t ), snippet_id() {
             }
-            itypedec(const std::string &t, const std::string &d) : type_id( t ), snippet_id( d )
-            {
+            itypedec( const std::string &t, const std::string &d ) : type_id( t ), snippet_id( d ) {
             }
         };
         typedef std::vector<itypedec> itypedecvec;
@@ -54,31 +52,31 @@ class profession
         std::set<std::string> flags; // flags for some special properties of the profession
         StartingSkillList  _starting_skills;
 
-        void add_items_from_jsonarray(JsonArray jsarr, std::string gender);
-        void add_item(const itypedec &entry, const std::string &gender);
-        void add_addiction(add_type, int);
-        void add_CBM(std::string CBM);
-        void add_trait(std::string trait);
+        void add_items_from_jsonarray( JsonArray jsarr, std::string gender );
+        void add_item( const itypedec &entry, const std::string &gender );
+        void add_addiction( add_type, int );
+        void add_CBM( std::string CBM );
+        void add_trait( std::string trait );
         // Starting skills will boost the players level in those skills by a
         // given amount.
-        void add_skill(const skill_id &skill_name, const int level);
+        void add_skill( const skill_id &skill_name, const int level );
 
-        void check_item_definitions(const itypedecvec &items) const;
+        void check_item_definitions( const itypedecvec &items ) const;
 
         static profmap _all_profs;
     public:
         //these three aren't meant for external use, but had to be made public regardless
         profession();
-        profession(std::string ident, std::string name, std::string description, signed int points);
+        profession( std::string ident, std::string name, std::string description, signed int points );
 
-        static void load_profession(JsonObject &jsobj);
+        static void load_profession( JsonObject &jsobj );
 
         // these should be the only ways used to get at professions
-        static profession *prof(std::string ident);
+        static profession *prof( std::string ident );
         static profession *generic(); // points to the generic, default profession
         // return a random profession, weighted for use w/ random character creation or npcs
         static profession *weighted_random();
-        static bool exists(std::string ident);
+        static bool exists( std::string ident );
         static profmap::const_iterator begin();
         static profmap::const_iterator end();
         static int count();
@@ -92,11 +90,11 @@ class profession
         void check_definition() const;
 
         std::string ident() const;
-        std::string gender_appropriate_name(bool male) const;
-        std::string description(bool male) const;
+        std::string gender_appropriate_name( bool male ) const;
+        std::string description( bool male ) const;
         std::string gender_req() const;
         signed int point_cost() const;
-        itypedecvec items(bool male) const;
+        itypedecvec items( bool male ) const;
         std::vector<addiction> addictions() const;
         std::vector<std::string> CBMs() const;
         std::vector<std::string> traits() const;
@@ -107,7 +105,7 @@ class profession
          *
          * Current flags: none
          */
-        bool has_flag(std::string flag) const;
+        bool has_flag( std::string flag ) const;
 
         /**
          * Check if the given player can pick this job with the given amount
@@ -115,7 +113,7 @@ class profession
          *
          * @return true, if player can pick profession. Otherwise - false.
          */
-        bool can_pick(player *u, int points) const;
+        bool can_pick( player *u, int points ) const;
 
 };
 
