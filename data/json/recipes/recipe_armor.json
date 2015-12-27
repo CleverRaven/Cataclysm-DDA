@@ -4066,7 +4066,7 @@
   "skill_used": "survival",
   "difficulty": 0,
   "time": 800,
-  "reversible": false,
+  "reversible": true,
   "autolearn": true,
   "components": [
     [
@@ -4105,7 +4105,7 @@
   "skill_used": "survival",
   "difficulty": 0,
   "time": 800,
-  "reversible": false,
+  "reversible": true,
   "autolearn": true,
   "components": [
     [
