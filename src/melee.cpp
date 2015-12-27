@@ -1367,23 +1367,6 @@ bool player::can_weapon_block() const
 }
 
 void player::dodge_hit(Creature *source, int) {
-    if( dodges_left < 1 ) {
-        return;
-    }
-
-    ma_ondodge_effects(); // fire martial arts block-triggered effects
-
-    dodges_left--;
-
-    ///\EFFECT_MELEE increases dodge practice of a missed target player (NEGATIVE)
-    practice( skill_dodge, source->get_melee() * 2, source->get_melee() );
-
-    // check if we have any dodge counters
-    matec_id tec = pick_technique(*source, false, true, false);
-
-    if( tec != tec_none ) {
-        melee_attack(*source, false, tec);
-    }
 }
 
 bool player::block_hit(Creature *source, body_part &bp_hit, damage_instance &dam) {
