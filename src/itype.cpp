@@ -103,7 +103,7 @@ itype_id const &default_ammo( std::string const &t )
 
 // 1 nutr per 5 minutes = 12 * 24 = 288 per day
 // Assuming 2500 kcal per day, 1 nutr ~= 8.7 kcal
-constexpr float kcal_per_nutr = 2500.0f / (12 * 24);
+constexpr float kcal_per_nutr = 2500.0f / ( 12 * 24 );
 
 int it_comest::get_nutrition() const
 {
