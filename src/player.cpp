@@ -835,6 +835,10 @@ void player::update_bodytemp()
     // This gets incremented in the for loop and used in the morale calculation
     int morale_pen = 0;
 
+    // Let's cache this not to check it num_bp times
+    const bool has_bark = has_trait( "BARK" );
+    const bool has_sleep = has_effect( "sleep" );
+    const bool has_heatsink = has_bionic( "bio_heatsink" ) || is_wearing( "rm13_armor_on" );
     // Current temperature and converging temperature calculations
     for( int i = 0 ; i < num_bp; i++ ) {
         // This adjusts the temperature scale to match the bodytemp scale,
@@ -886,12 +890,12 @@ void player::update_bodytemp()
         // HUNGER
         temp_conv[i] -= get_hunger() / 6 + 100;
         // FATIGUE
-        if( !has_effect("sleep") ) {
+        if( !has_sleep ) {
             temp_conv[i] -= std::max(0.0, 1.5 * fatigue);
         }
         // CONVECTION HEAT SOURCES (generates body heat, helps fight frostbite)
-        // Bark : lowers blister count to -100; harder to get blisters
-        int blister_count = (has_trait("BARK") ? -100 : 0); // If the counter is high, your skin starts to burn
+        // Bark : lowers blister count to -10; harder to get blisters
+        int blister_count = (has_bark ? -10 : 0); // If the counter is high, your skin starts to burn
         int best_fire = 0;
         for (int j = -6 ; j <= 6 ; j++) {
             for (int k = -6 ; k <= 6 ; k++) {
@@ -904,31 +908,34 @@ void player::update_bodytemp()
                 } else if (g->m.tr_at( dest ).loadid == tr_lava ) {
                     heat_intensity = 3;
                 }
-                if( heat_intensity > 0 &&
-                    g->m.sees( pos(), dest, -1 ) ) {
-                    // Ensure fire_dist >= 1 to avoid divide-by-zero errors.
-                    int fire_dist = std::max(1, std::max( std::abs( j ), std::abs( k ) ) );
-                    if (frostbite_timer[i] > 0) {
-                        frostbite_timer[i] -= heat_intensity - fire_dist / 2;
-                    }
-                    temp_conv[i] +=  300 * heat_intensity * heat_intensity / (fire_dist);
-                    blister_count += heat_intensity / (fire_dist * fire_dist);
-                    if( fire_dist <= 1 ) {
-                        // Extend limbs/lean over a single adjacent fire to warm up
-                        best_fire = std::max( best_fire, heat_intensity );
-                    }
+                if( heat_intensity == 0 || !g->m.sees( pos(), dest, -1 ) ) {
+                    // No heat source here
+                    continue;
+                }
+                // Ensure fire_dist >= 1 to avoid divide-by-zero errors.
+                int fire_dist = std::max( 1, std::max( std::abs( j ), std::abs( k ) ) );
+                if( frostbite_timer[i] > 0 ) {
+                    frostbite_timer[i] -= std::max( 0, heat_intensity - fire_dist / 2 );
+                }
+                int heat_here = heat_intensity * heat_intensity / fire_dist;
+                temp_conv[i] += 300 * heat_here;
+                blister_count += heat_here;
+                if( fire_dist <= 1 ) {
+                    // Extend limbs/lean over a single adjacent fire to warm up
+                    best_fire = std::max( best_fire, heat_intensity );
                 }
             }
         }
         // Bionic "Thermal Dissipation" says it prevents fire damage up to 2000F.
-        // 500 is picked at random...
-        if( has_bionic( "bio_heatsink" ) || is_wearing( "rm13_armor_on" ) ) {
-            blister_count -= 500;
+        // But it's kinda hard to get the balance right, let's go with 20 blisters
+        if( has_heatsink ) {
+            blister_count -= 20;
         }
         // BLISTERS : Skin gets blisters from intense heat exposure.
-        if( blister_count - 10 * get_env_resist( body_part( i ) ) > 20 ) {
+        if( blister_count - get_env_resist( body_part( i ) ) > 10 ) {
             add_effect( "blisters", 1, ( body_part )i );
         }
+if(blister_count > 0 ) add_msg(m_debug, "%d blisters", blister_count);
 
         temp_conv[i] += bodytemp_modifier_fire();
         // WEATHER
@@ -939,7 +946,7 @@ void player::update_bodytemp()
             temp_conv[i] += 500;
         }
         // DISEASES
-        if( has_effect("flu") && i == bp_head ) {
+        if( i == bp_head && has_effect("flu") ) {
             temp_conv[i] += 1500;
         }
         if( has_effect("common_cold") ) {
