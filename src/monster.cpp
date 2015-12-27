@@ -867,9 +867,6 @@ bool monster::is_dead_state() const {
     return hp <= 0;
 }
 
-void monster::dodge_hit(Creature *, int) {
-}
-
 bool monster::block_hit(Creature *, body_part &, damage_instance &) {
     return false;
 }

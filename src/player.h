@@ -479,8 +479,6 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Handles reach melee attacks */
         void reach_attack( const tripoint &target );
 
-        /** Activates any on-dodge effects and checks for dodge counter techniques */
-        void dodge_hit(Creature *source, int hit_spread) override;
         /** Checks for valid block abilities and reduces damage accordingly. Returns true if the player blocks */
         bool block_hit(Creature *source, body_part &bp_hit, damage_instance &dam) override;
         /**

@@ -1366,9 +1366,6 @@ bool player::can_weapon_block() const
             weapon.has_technique( WBLOCK_3 ));
 }
 
-void player::dodge_hit(Creature *source, int) {
-}
-
 bool player::block_hit(Creature *source, body_part &bp_hit, damage_instance &dam) {
 
     //Shouldn't block if player is asleep; this only seems to be used by player.

@@ -162,9 +162,6 @@ class Creature
         dealt_projectile_attack projectile_attack( const projectile &proj, const tripoint &target,
                                                    double total_dispersion );
 
-        // handles dodges and misses, allowing triggering of martial arts counter
-        virtual void dodge_hit(Creature *source, int hit_spread) = 0;
-
         // handles blocking of damage instance. mutates &dam
         virtual bool block_hit(Creature *source, body_part &bp_hit,
                                damage_instance &dam) = 0;

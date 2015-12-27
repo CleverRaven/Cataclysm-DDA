@@ -239,7 +239,6 @@ class monster : public Creature, public JsonSerializer, public JsonDeserializer
         bool is_immune_damage( const damage_type ) const override;
 
         void absorb_hit(body_part bp, damage_instance &dam) override;
-        void dodge_hit(Creature *source, int hit_spread) override;
         bool block_hit(Creature *source, body_part &bp_hit, damage_instance &d) override;
         using Creature::melee_attack;
         void melee_attack(Creature &p, bool allow_special, const matec_id &force_technique) override;

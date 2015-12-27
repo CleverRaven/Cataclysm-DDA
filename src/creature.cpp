@@ -363,15 +363,13 @@ void Creature::melee_attack(Creature &t, bool allow_special)
  * Damage-related functions
  */
 
-int Creature::deal_melee_attack(Creature *source, int hitroll)
+int Creature::deal_melee_attack( Creature *source, int hitroll )
 {
-    int dodgeroll = dodge_roll();
-    int hit_spread = hitroll - dodgeroll;
-    bool missed = hit_spread <= 0;
+    int hit_spread = hitroll - dodge_roll();
 
-    if (missed) {
-        dodge_hit(source, hit_spread);
-        return hit_spread;
+    // If attacker missed call targets on_dodge event
+    if( hit_spread <= 0 && !source->is_hallucination() ) {
+        on_dodge( source, source->get_melee() );
     }
 
     return hit_spread;
