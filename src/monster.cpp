@@ -1325,10 +1325,13 @@ int monster::get_armor_type( damage_type dt, body_part bp ) const
             return 0;
         case DT_ELECTRIC:
             return 0;
-        default:
-            debugmsg( "Invalid damage type: %d", dt );
+        case DT_NULL:
+        case NUM_DT:
+            // Let it error below
+            break;
     }
 
+    debugmsg( "Invalid damage type: %d", dt );
     return 0;
 }
 

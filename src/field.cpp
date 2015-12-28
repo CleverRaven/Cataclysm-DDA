@@ -1852,7 +1852,7 @@ void map::player_in_field( player &u )
 
                 int burn_min = adjusted_intensity;
                 int burn_max = 3 * adjusted_intensity + 3;
-                std::list<int> parts_burned;
+                std::list<body_part> parts_burned;
                 int msg_num = adjusted_intensity - 1;
                 if( !u.is_on_ground() ) {
                     switch( adjusted_intensity ) {
@@ -1875,13 +1875,13 @@ void map::player_in_field( player &u )
                     // Lying in the fire is BAAAD news, hits every body part.
                     msg_num = 3;
                     for( int i = 0; i < num_bp; ++i ) {
-                        parts_burned.push_back( i );
+                        parts_burned.push_back( (body_part)i );
                     }
                 }
 
                 int total_damage = 0;
                 for( auto part_burned : parts_burned ) {
-                    const auto dealt = u.deal_damage( nullptr, (body_part)part_burned,
+                    const auto dealt = u.deal_damage( nullptr, part_burned,
                         damage_instance( DT_HEAT, rng( burn_min, burn_max ) ) );
                     total_damage += dealt.type_damage( DT_HEAT );
                 }
