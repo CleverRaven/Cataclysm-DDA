@@ -1358,13 +1358,14 @@ void vehicle::use_controls(const tripoint &pos)
     case toggle_chainsaw:
         chainsaw_on = !chainsaw_on;
         if( chainsaw_on ) {
-            for( size_t index = 0; index < parts.size(); ++index ) {
-                // find first activated chainsaw and play sound for it only
-                if( part_info( index ).has_flag( "CHAINSAW" ) && parts[index].hp > 0 ) {
+            bool msg_shown = false;
+            for( auto &index : all_parts_with_feature( "CHAINSAW" ) ) {
+                if( parts[index].hp > 0 ) {
                     tripoint part_pos = global_pos3() + parts[index].precalc[0];
+                    // emit noise for all found chainsaws but show onomatopoeia in log only once
                     //~ sound of starting chainsaw
-                    sounds::sound( part_pos, 30, _( "brum-brum-graGRAHHHN!" ));
-                    break;
+                    sounds::sound( part_pos, 30, msg_shown ? "" : _( "brum-brum-graGRAHHHN!" ) );
+                    msg_shown = true;
                 }
             }
         }
@@ -3234,17 +3235,17 @@ int vehicle::supplemental_consumption( const itype_id &ftype ) const
     return fcon;
 }
 
-void vehicle::disable_devices( const itype_id &ftype )
+void vehicle::disable_chainsaws( const itype_id &ftype )
 {
     //fixme: running out of any fuel type used by chainsaw(s) disables all chainsaws
     if( chainsaw_on ) {
-        std::vector<int> all_chainsaws = all_parts_with_feature( "CHAINSAW" );
-        for( size_t c = 0; c < all_chainsaws.size(); ++c ) {
-            if( part_info( all_chainsaws[c] ).fuel_type == ftype ) {
+        for( auto &part : all_parts_with_feature( "CHAINSAW" ) ) {
+            if( part_info( part ).fuel_type == ftype ) {
                 chainsaw_on = false;
-                if( player_in_control( g->u ) || g->u.sees( global_pos3() ) ) {
+                if( g->m.veh_at( g->u.pos() ) == this ) {
                      //~ %1s is vehicle name and %2s is fuel type
-                     add_msg( _( "The %1$s's ran out of %2$s!" ), name.c_str(),  ftype.c_str() );
+                     add_msg( _( "The %1$s's ran out of %2$s!" ),
+                              name.c_str(), item::nname( ftype ).c_str() );
                 }
                 break;
             }
@@ -3689,7 +3690,7 @@ void vehicle::consume_fuel( double load = 1.0 )
                 } else {
                     amnt -= parts[elem].amount;
                     parts[elem].amount = 0;
-                    disable_devices( ft.id );
+                    disable_chainsaws( ft.id );
                 }
             }
         }

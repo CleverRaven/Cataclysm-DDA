@@ -559,7 +559,7 @@ public:
     int supplemental_consumption( const itype_id &ftype ) const;
 
     void consume_fuel( double load );
-    void disable_devices( const itype_id &ftype );
+    void disable_chainsaws( const itype_id &ftype );
     void power_parts();
 
     /**
