@@ -5853,7 +5853,7 @@ void player::regen( int rate_multiplier )
     }
 
     if( radiation > 0 ) {
-        radiation = std::max( 0, radiation - divide_roll_remainder( rate_multiplier * radiation / 3.0, 1.0f ) );
+        radiation = std::max( 0, radiation - divide_roll_remainder( rate_multiplier / 3.0f, 1.0f ) );
     }
 }
 
