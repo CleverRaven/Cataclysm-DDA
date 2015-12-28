@@ -1498,7 +1498,9 @@ int iuse::mutagen(player *p, item *it, bool, const tripoint& )
             p->mod_hunger(10);
             p->fatigue += 5;
             p->thirst += 10;
-            p->add_msg_if_player(m_bad, _("Oops.  You must've blacked out for a minute there."));
+            p->add_msg_player_or_npc( m_bad,
+                _("Oops.  You must've blacked out for a minute there."),
+                _("<npcname> suddenly collapses!") );
             //Should be about 3 min, less 6 sec/IN point.
             ///\EFFECT_INT reduces sleep duration when using mutagen
             p->fall_asleep((30 - p->int_cur));
@@ -1653,7 +1655,10 @@ int iuse::mut_iv(player *p, item *it, bool, const tripoint& )
         } else {
             p->add_msg_if_player(m_bad, _("You inject yoursel-arRGH!"));
             ///\EFFECT_STR increases volume of painful shouting with strong mutagen
-            sounds::sound(p->pos(), 15 + 3 * p->str_cur, _("You scream in agony!!"));
+            std::string scream = p->is_player() ?
+                _("You scream in agony!!") :
+                _("an agonized scream!");
+            sounds::sound( p->pos(), 15 + 3 * p->str_cur, scream.c_str() );
         }
         p->mutate();
         p->mod_pain(1 * rng(1, 4));
@@ -1719,7 +1724,8 @@ int iuse::mut_iv(player *p, item *it, bool, const tripoint& )
                     //there is only the one case, so no json, unless there is demand for it.
                     p->add_msg_if_player(m_category.iv_message.c_str());
                 }
-                if (!(p->has_trait("NOPAIN")) && m_category.iv_sound) {
+                // TODO: Remove the "is_player" part, implement NPC screams
+                if( p->is_player() && !(p->has_trait("NOPAIN")) && m_category.iv_sound ) {
                     p->mod_pain(m_category.iv_pain);
                     ///\EFFECT_STR increases volume of painful shouting when using IV mutagen
                     sounds::sound(p->pos(), m_category.iv_noise + p->str_cur, m_category.iv_sound_message);

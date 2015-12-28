@@ -4551,6 +4551,56 @@ void load_talk_topic( JsonObject &jo )
     }
 }
 
+// Returns true if we destroyed the item through consumption
+bool try_consume( npc &p, item &it, bool &used, std::string &reason )
+{
+    item &to_eat = it.is_food_container( &p ) ?
+        it.contents[0] : it;
+    const auto comest = dynamic_cast<const it_comest*>( to_eat.type );
+    if( comest == nullptr ) {
+        // Don't inform the player that we don't want to eat the lighter
+        return false;
+    }
+
+    // TODO: Make it not a copy+paste from player::consume_item
+    int amount_used = 1;
+    if( comest->comesttype == "FOOD" || comest->comesttype == "DRINK" ) {
+        if( !p.eat( &to_eat, comest ) ) {
+            reason = _("It doesn't look like a good idea to consume this...");
+            return false;
+        }
+    } else if (comest->comesttype == "MED") {
+        if (comest->tool != "null") {
+            bool has = p.has_amount( comest->tool, 1 );
+            if( item::count_by_charges( comest->tool ) ) {
+                has = p.has_charges( comest->tool, 1 );
+            }
+            if (!has) {
+                reason = string_format( _("I need a %s to consume that!"),
+                    item::nname( comest->tool ).c_str() );
+                return false;
+            }
+            p.use_charges( comest->tool, 1 );
+        }
+        if (comest->has_use()) {
+            amount_used = comest->invoke( &p, &to_eat, p.pos() );
+            if( amount_used <= 0 ) {
+                reason = _("It doesn't look like a good idea to consume this..");
+                return false;
+            }
+        }
+
+        p.consume_effects( &to_eat, comest );
+        p.moves -= 250;
+    } else {
+        debugmsg("Unknown comestible type of item: %s\n", to_eat.tname().c_str());
+    }
+
+    used = true;
+    to_eat.charges -= amount_used;
+    return to_eat.charges <= 0;
+}
+
 std::string give_item_to( npc &p, bool allow_use, bool allow_carry )
 {
     const int inv_pos = g->inv( _("Offer what?") );
@@ -4566,6 +4616,19 @@ std::string give_item_to( npc &p, bool allow_use, bool allow_carry )
 
     if( given.is_dangerous() ) {
         return _("Are you <swear> insane!?");
+    }
+
+    bool used = false;
+    std::string no_consume_reason;
+    if( allow_use ) {
+        // Eating first, to avoid evaluating bread as a weapon
+        if( try_consume( p, given, used, no_consume_reason ) ) {
+            g->u.i_rem( inv_pos );
+        }
+        if( used ) {
+            g->u.moves -= 100;
+            return _("Here we go...");
+        }
     }
 
     long our_ammo = 0;
@@ -4622,7 +4685,6 @@ std::string give_item_to( npc &p, bool allow_use, bool allow_carry )
         p.i_add( given );
     }
 
-    // TODO: Allow NPCs accepting meds, food, ammo etc.
     if( taken ) {
         g->u.i_rem( inv_pos );
         g->u.moves -= 100;
@@ -4634,6 +4696,11 @@ std::string give_item_to( npc &p, bool allow_use, bool allow_carry )
     reason << _("Nope.");
     reason << std::endl;
     if( allow_use ) {
+        if( !no_consume_reason.empty() ) {
+            reason << no_consume_reason;
+            reason << std::endl;
+        }
+
         reason << _("My current weapon is better than this.");
         reason << std::endl;
         reason << string_format( _("(new weapon value: %.1f vs %.1f)."),
