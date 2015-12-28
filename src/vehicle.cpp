@@ -1357,10 +1357,20 @@ void vehicle::use_controls(const tripoint &pos)
         break;
     case toggle_chainsaw:
         chainsaw_on = !chainsaw_on;
+
         if( chainsaw_on ) {
             bool msg_shown = false;
             for( auto &index : all_parts_with_feature( "CHAINSAW" ) ) {
                 if( parts[index].hp > 0 ) {
+                    auto &ftype = part_info( index ).fuel_type;
+                    // TODO: more accurate check is required
+                    if( fuel_left( ftype ) == 0 ) {
+                        //~ %1$s is vehicle name and %2$s is fuel type
+                        add_msg( _("Looks like the %1$s is out of %2$s."),
+                                  name.c_str(), item::nname( ftype ).c_str() );
+                        chainsaw_on = false;
+                        break;
+                    }
                     tripoint part_pos = global_pos3() + parts[index].precalc[0];
                     // emit noise for all found chainsaws but show onomatopoeia in log only once
                     //~ sound of starting chainsaw
@@ -3219,6 +3229,7 @@ int vehicle::basic_consumption(const itype_id &ftype) const
 
 int vehicle::supplemental_consumption( const itype_id &ftype ) const
 {
+    //TODO: split consumption calcs and sound processing to separate functions
     int fcon = 0;
     if( chainsaw_on ) {
         std::vector<int> all_chainsaws = all_parts_with_feature( "CHAINSAW" );
@@ -3243,7 +3254,7 @@ void vehicle::disable_chainsaws( const itype_id &ftype )
             if( part_info( part ).fuel_type == ftype ) {
                 chainsaw_on = false;
                 if( g->m.veh_at( g->u.pos() ) == this ) {
-                     //~ %1s is vehicle name and %2s is fuel type
+                     //~ %1$s is vehicle name and %2$s is fuel type
                      add_msg( _( "The %1$s's ran out of %2$s!" ),
                               name.c_str(), item::nname( ftype ).c_str() );
                 }
@@ -3686,13 +3697,16 @@ void vehicle::consume_fuel( double load = 1.0 )
                 if( parts[elem].amount >= amnt ) {
                     // enough fuel located in this part
                     parts[elem].amount -= amnt;
+                    amnt = 0;
                     break;
                 } else {
                     amnt -= parts[elem].amount;
                     parts[elem].amount = 0;
-                    disable_chainsaws( ft.id );
                 }
             }
+        }
+        if( amnt > 0 ) {
+            disable_chainsaws( ft.id );
         }
     }
     //do this with chance proportional to current load
