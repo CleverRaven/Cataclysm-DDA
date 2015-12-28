@@ -846,7 +846,9 @@ int iuse::ecig(player *p, item *it, bool, const tripoint& )
 
 int iuse::antibiotic(player *p, item *it, bool, const tripoint& )
 {
-    p->add_msg_if_player(m_neutral, _("You take some antibiotics."));
+    p->add_msg_player_or_npc( m_neutral,
+        _("You take some antibiotics."),
+        _("<npcname> takes some antibiotics.") );
     if (p->has_effect("infected")) {
         // cheap model of antibiotic resistance, but it's something.
         if (x_in_y(95, 100)) {

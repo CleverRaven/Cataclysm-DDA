@@ -14545,3 +14545,11 @@ void player::print_encumbrance(WINDOW *win, int min, int max, int line) const
     }
 }
 
+bool player::query_yn( const char *mes, ... ) const
+{
+    va_list ap;
+    va_start( ap, mes );
+    bool ret = internal_query_yn( mes, ap );
+    va_end( ap );
+    return ret;
+}

@@ -443,6 +443,11 @@ class Character : public Creature
         virtual void normalize() override;
         virtual void die(Creature *nkiller) override;
 
+        /**
+         * It is supposed to hide the query_yn to simplify player vs. npc code.
+         */
+        virtual bool query_yn( const char *mes, ... ) const = 0;
+
         /** Returns true if the player has some form of night vision */
         bool has_nv();
 

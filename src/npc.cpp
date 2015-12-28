@@ -2638,3 +2638,9 @@ void epilogue::random_by_group(std::string group, std::string name)
 }
 
 const tripoint npc::no_goal_point(INT_MIN, INT_MIN, INT_MIN);
+
+bool npc::query_yn( const char *, ... ) const
+{
+    // NPCs don't like queries - most of them are in the form of "Do you want to get hurt?".
+    return false;
+}

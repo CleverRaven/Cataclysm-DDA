@@ -1188,6 +1188,8 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         // Prints message(s) about current health
         void print_health() const;
 
+        bool query_yn( const char *mes, ... ) const override;
+
     protected:
         // The player's position on the local map.
         tripoint position;

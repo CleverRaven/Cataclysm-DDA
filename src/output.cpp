@@ -597,15 +597,21 @@ void draw_tabs(WINDOW *w, int active_tab, ...)
     }
 }
 
-// yn to make an immediate selection
-// esc to cancel, returns false
-// enter or space to accept, any other key to toggle
 bool query_yn(const char *mes, ...)
 {
     va_list ap;
     va_start(ap, mes);
-    const std::string text = vstring_format(mes, ap);
+    bool ret = internal_query_yn( mes, ap );
     va_end(ap);
+    return ret;
+}
+
+// yn to make an immediate selection
+// esc to cancel, returns false
+// enter or space to accept, any other key to toggle
+bool internal_query_yn(const char *mes, va_list ap )
+{
+    const std::string text = vstring_format(mes, ap);
 
     bool const force_uc = !!OPTIONS["FORCE_CAPITAL_YN"];
 

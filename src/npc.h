@@ -780,6 +780,8 @@ public:
 
 // The preceding are in npcmove.cpp
 
+    bool query_yn( const char *mes, ... ) const override;
+
 
 
 // #############   VALUES   ################
