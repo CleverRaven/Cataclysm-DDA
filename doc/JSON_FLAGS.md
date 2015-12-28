@@ -481,7 +481,7 @@ These branches are also the valid entries for the categories of `dreams` in `dre
 - ```DIFFICULTY_REMOVE```
 - ```NAILABLE```
 - ```FOLDABLE```
-- ```CHAINSAW``` Part works as mountable chainsaw (x5 damage when active).
+- ```CHAINSAW``` Part works as mountable chainsaw (it provides extra damage when active).
 - ```SCOOP``` Pulls items from underneath the vehicle to the cargo space of the part. Also mops up liquids. 
   - Uses the ```bonus``` tag to determine the maximum size of the item picked up.
 - ```PLANTER``` Plants seeds into tilled dirt, spilling them when the terrain underneath is unsuitable. It is damaged by running it over non-```DIGGABLE``` surfaces.

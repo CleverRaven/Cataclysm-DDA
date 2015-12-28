@@ -4608,12 +4608,6 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
     }
 
     int dmg_mod = part_info( ret.part ).dmg_mod;
-    add_msg("dmg: %d", dmg_mod);
-    if( chainsaw_on && part_info( ret.part ).has_flag( "CHAINSAW" ) &&
-        parts[part].hp > 0 ) {
-        dmg_mod *= 5.0;
-        //TODO: Add sounds of chainsaw COLLIDED TO FLESH
-    }
     // Let's calculate type of collision & mass of object we hit
     float mass2 = 0;
     float e = 0.3; // e = 0 -> plastic collision
@@ -4779,7 +4773,12 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
                 }
             }
         } else if( ret.type == veh_coll_body ) {
-            int dam = obj_dmg*dmg_mod/100;
+            int dam = obj_dmg * dmg_mod / 100;
+            if( chainsaw_on && part_info( ret.part ).has_flag( "CHAINSAW" ) &&
+                parts[part].hp > 0 ) {
+                dam += 66;
+                //TODO: Add sounds of chainsaw COLLIDED TO FLESH
+            }
 
             // No blood from hallucinations
             if( !critter->is_hallucination() ) {
