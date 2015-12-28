@@ -249,12 +249,18 @@ void Character::mutation_effect(std::string mut)
             return false;
         }
         if( destroy ) {
-            add_msg_if_player( m_bad, _("Your %s is destroyed!"), armor.tname().c_str() );
+            add_msg_player_or_npc( m_bad,
+                _("Your %s is destroyed!"),
+                _("<npcname>'s %s is destroyed!"),
+                armor.tname().c_str() );
             for( item& remain : armor.contents ) {
                 g->m.add_item_or_charges( pos(), remain );
             }
         } else {
-            add_msg_if_player( m_bad, _("Your %s is pushed off."), armor.tname().c_str() );
+            add_msg_player_or_npc( m_bad,
+                _("Your %s is pushed off!"),
+                _("<npcname>'s %s is pushed off!"),
+                armor.tname().c_str() );
             g->m.add_item_or_charges( pos(), armor );
         }
         return true;
@@ -524,6 +530,11 @@ std::string Character::trait_by_invlet( const long ch ) const
 
 void player::power_mutations()
 {
+    if( !is_player() ) {
+        // TODO: Implement NPCs activating muts
+        return;
+    }
+
     std::vector <std::string> passive;
     std::vector <std::string> active;
     for( auto &mut : my_mutations ) {
@@ -1138,8 +1149,13 @@ bool player::mutate_towards( const std::string &mut )
         } else {
             rating = m_neutral;
         }
-        add_msg_if_player(rating, _("Your %1$s mutation turns into %2$s!"),
-                replace_mdata.name.c_str(), mdata.name.c_str());
+        // TODO: Limit this to visible mutations
+        // TODO: In case invisible mutation turns into visible or vice versa
+        //  print only the visible mutation appearing/disappearing
+        add_msg_player_or_npc(rating,
+            _("Your %1$s mutation turns into %2$s!"),
+            _("<npcname>'s %1$s mutation turns into %2$s!")
+            replace_mdata.name.c_str(), mdata.name.c_str());
         add_memorial_log(pgettext("memorial_male", "'%s' mutation turned into '%s'"),
                          pgettext("memorial_female", "'%s' mutation turned into '%s'"),
                          replace_mdata.name.c_str(), mdata.name.c_str());
@@ -1159,8 +1175,10 @@ bool player::mutate_towards( const std::string &mut )
         } else {
             rating = m_neutral;
         }
-        add_msg_if_player(rating, _("Your %1$s mutation turns into %2$s!"),
-                replace_mdata.name.c_str(), mdata.name.c_str());
+        add_msg_player_or_npc(rating,
+            _("Your %1$s mutation turns into %2$s!"),
+            _("<npcname>'s %1$s mutation turns into %2$s!")
+            replace_mdata.name.c_str(), mdata.name.c_str());
         add_memorial_log(pgettext("memorial_male", "'%s' mutation turned into '%s'"),
                          pgettext("memorial_female", "'%s' mutation turned into '%s'"),
                          replace_mdata.name.c_str(), mdata.name.c_str());
@@ -1183,8 +1201,10 @@ bool player::mutate_towards( const std::string &mut )
             rating = m_mixed;
         }
         // If this new mutation cancels a base trait, remove it and add the mutation at the same time
-        add_msg_if_player(rating, _("Your innate %1$s trait turns into %2$s!"),
-                cancel_mdata.name.c_str(), mdata.name.c_str());
+        add_msg_player_or_npc( rating,
+            _("Your innate %1$s trait turns into %2$s!"),
+            _("<npcname>'s innate %1$s trait turns into %2$s!")
+            cancel_mdata.name.c_str(), mdata.name.c_str() );
         add_memorial_log(pgettext("memorial_male", "'%s' mutation turned into '%s'"),
                         pgettext("memorial_female", "'%s' mutation turned into '%s'"),
                         cancel_mdata.name.c_str(), mdata.name.c_str());
@@ -1203,7 +1223,11 @@ bool player::mutate_towards( const std::string &mut )
         } else {
             rating = m_neutral;
         }
-        add_msg_if_player(rating, _("You gain a mutation called %s!"), mdata.name.c_str());
+        // TODO: Limit to visible mutations
+        add_msg_player_or_npc( rating,
+            _("You gain a mutation called %s!"),
+            _("<npcname> gains a mutation called %s!"),
+            mdata.name.c_str() );
         add_memorial_log(pgettext("memorial_male", "Gained the mutation '%s'."),
                          pgettext("memorial_female", "Gained the mutation '%s'."),
                          mdata.name.c_str());
@@ -1311,8 +1335,10 @@ void player::remove_mutation( const std::string &mut )
         } else {
             rating = m_neutral;
         }
-        add_msg_if_player(rating, _("Your %1$s mutation turns into %2$s."), mdata.name.c_str(),
-                replace_mdata.name.c_str());
+        add_msg_if_player( rating,
+            _("Your %1$s mutation turns into %2$s."),
+            _("<npcname>'s %1$s mutation turns into %2$s."),
+            mdata.name.c_str(), replace_mdata.name.c_str() );
         set_mutation(replacing);
         mutation_loss_effect(mut);
         mutation_effect(replacing);
@@ -1329,8 +1355,10 @@ void player::remove_mutation( const std::string &mut )
         } else {
             rating = m_neutral;
         }
-        add_msg_if_player(rating, _("Your %1$s mutation turns into %2$s."), mdata.name.c_str(),
-                replace_mdata.name.c_str());
+        add_msg_if_player( rating,
+            _("Your %1$s mutation turns into %2$s."),
+            _("<npcname>'s %1$s mutation turns into %2$s."),
+            mdata.name.c_str(), replace_mdata.name.c_str() );
         set_mutation(replacing2);
         mutation_loss_effect(mut);
         mutation_effect(replacing2);
@@ -1346,6 +1374,10 @@ void player::remove_mutation( const std::string &mut )
         } else {
             rating = m_neutral;
         }
+        add_msg_if_player( rating,
+            _("You lose your %s mutation."),
+            _("<npcname> loses their %s mutation."),
+            mdata.name.c_str() );
         add_msg_if_player(rating, _("You lose your %s mutation."), mdata.name.c_str());
         mutation_loss_effect(mut);
     }
