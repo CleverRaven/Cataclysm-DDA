@@ -1357,6 +1357,17 @@ void vehicle::use_controls(const tripoint &pos)
         break;
     case toggle_chainsaw:
         chainsaw_on = !chainsaw_on;
+        if( chainsaw_on ) {
+            for( size_t index = 0; index < parts.size(); ++index ) {
+                // find first activated chainsaw and play sound for it only
+                if( part_info( index ).has_flag( "CHAINSAW" ) && parts[index].hp > 0 ) {
+                    tripoint part_pos = global_pos3() + parts[index].precalc[0];
+                    //~ sound of starting chainsaw
+                    sounds::sound( part_pos, 30, _( "brum-brum-graGRAHHHN!" ));
+                    break;
+                }
+            }
+        }
         break;
     case toggle_plow:
         add_msg( plow_on ? _("Plow system stopped"): _("Plow system started"));
@@ -3209,15 +3220,14 @@ int vehicle::supplemental_consumption( const itype_id &ftype ) const
 {
     int fcon = 0;
     if( chainsaw_on ) {
-        std::vector<int> all_chainsaws = all_parts_with_feature("CHAINSAW");
+        std::vector<int> all_chainsaws = all_parts_with_feature( "CHAINSAW" );
         for( size_t c = 0; c < all_chainsaws.size(); ++c ) {
             if( part_info( all_chainsaws[c] ).fuel_type == ftype ) {
                 fcon += part_power( all_chainsaws[c] );
-                if( one_in( 8 ) ) {
-                    tripoint part_pos = global_pos3() + parts[ all_chainsaws[c] ].precalc[0];
-                    //~ sound of working chainsaw
-                    sounds::sound(part_pos, 20, _( "vrr-vrr-vroom!" ));
-                }
+                tripoint part_pos = global_pos3() + parts[ all_chainsaws[c] ].precalc[0];
+                // show onomatopoeia rarely but emit noise all time
+                //~ sound of working chainsaw
+                sounds::sound( part_pos, 20, one_in( 13 ) ? _( "brrr!" ) : "" );
             }
         }
     }
