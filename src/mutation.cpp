@@ -1154,8 +1154,8 @@ bool player::mutate_towards( const std::string &mut )
         //  print only the visible mutation appearing/disappearing
         add_msg_player_or_npc(rating,
             _("Your %1$s mutation turns into %2$s!"),
-            _("<npcname>'s %1$s mutation turns into %2$s!")
-            replace_mdata.name.c_str(), mdata.name.c_str());
+            _("<npcname>'s %1$s mutation turns into %2$s!"),
+            replace_mdata.name.c_str(), mdata.name.c_str() );
         add_memorial_log(pgettext("memorial_male", "'%s' mutation turned into '%s'"),
                          pgettext("memorial_female", "'%s' mutation turned into '%s'"),
                          replace_mdata.name.c_str(), mdata.name.c_str());
@@ -1177,8 +1177,8 @@ bool player::mutate_towards( const std::string &mut )
         }
         add_msg_player_or_npc(rating,
             _("Your %1$s mutation turns into %2$s!"),
-            _("<npcname>'s %1$s mutation turns into %2$s!")
-            replace_mdata.name.c_str(), mdata.name.c_str());
+            _("<npcname>'s %1$s mutation turns into %2$s!"),
+            replace_mdata.name.c_str(), mdata.name.c_str() );
         add_memorial_log(pgettext("memorial_male", "'%s' mutation turned into '%s'"),
                          pgettext("memorial_female", "'%s' mutation turned into '%s'"),
                          replace_mdata.name.c_str(), mdata.name.c_str());
@@ -1203,7 +1203,7 @@ bool player::mutate_towards( const std::string &mut )
         // If this new mutation cancels a base trait, remove it and add the mutation at the same time
         add_msg_player_or_npc( rating,
             _("Your innate %1$s trait turns into %2$s!"),
-            _("<npcname>'s innate %1$s trait turns into %2$s!")
+            _("<npcname>'s innate %1$s trait turns into %2$s!"),
             cancel_mdata.name.c_str(), mdata.name.c_str() );
         add_memorial_log(pgettext("memorial_male", "'%s' mutation turned into '%s'"),
                         pgettext("memorial_female", "'%s' mutation turned into '%s'"),

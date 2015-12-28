@@ -1364,7 +1364,10 @@ static int marloss_reject_mutagen( player *p, item *it )
         return 0;
     }
     if (p->has_trait("THRESH_MARLOSS")) {
-        p->add_msg_if_player(m_warning, _("The %s burns white-hot inside you, and you collapse to the ground!"), it->tname().c_str());
+        p->add_msg_if_player( m_warning,
+            _("The %s sears your insides white-hot, and you collapse to the ground!"),
+            _("<npcname> writhes in agony and collapses to the ground!"),
+            it->tname().c_str());
         p->vomit();
         p->mod_pain(35);
         // Lose a significant amount of HP, probably about 25-33%
@@ -1403,7 +1406,10 @@ static int marloss_reject_mut_iv( player *p, item *it )
         return 0;
     }
     if (p->has_trait("THRESH_MARLOSS")) {
-        p->add_msg_if_player(m_warning, _("The %s sears your insides white-hot, and you collapse to the ground!"), it->tname().c_str());
+        p->add_msg_if_player( m_warning,
+            _("The %s sears your insides white-hot, and you collapse to the ground!"),
+            _("<npcname> writhes in agony and collapses to the ground!"),
+            it->tname().c_str());
         p->vomit();
         p->mod_pain(55);
         // Lose a significant amount of HP, probably about 25-33%
@@ -1433,7 +1439,7 @@ static int marloss_reject_mut_iv( player *p, item *it )
         if( p->has_trait("M_SPORES") || p->has_trait("M_FERTILE") ||
             p->has_trait("M_BLOSSOMS") || p->has_trait("M_BLOOM") ) {
             p->add_msg_if_player(m_good, _("We empty the %s and reflexively dispense spores onto the mess."));
-            g->m.ter_set(p->posx(), p->posy(), t_fungus);
+            g->m.ter_set( p->pos(), t_fungus );
             p->add_memorial_log(pgettext("memorial_male", "Destroyed a harmful invader."),
                                 pgettext("memorial_female", "Destroyed a harmful invader."));
             return it->type->charges_to_use();
@@ -1458,7 +1464,7 @@ int iuse::mutagen(player *p, item *it, bool, const tripoint& )
                             pgettext("memorial_female", "Consumed mutagen."));
     }
 
-    if( marloss_reject_mutagen( p, it) ) {
+    if( marloss_reject_mutagen( p, it ) ) {
         return it->type->charges_to_use();
     }
 
@@ -1466,6 +1472,7 @@ int iuse::mutagen(player *p, item *it, bool, const tripoint& )
         p->add_msg_if_player(m_good, _("You quiver with anticipation..."));
         p->add_morale(MORALE_MUTAGEN, 5, 50);
     }
+    bool downed = false;
     std::string mutation_category;
     // Generic "mutagen".
     if (it->has_flag("MUTAGEN_STRONG")) {
@@ -1482,8 +1489,7 @@ int iuse::mutagen(player *p, item *it, bool, const tripoint& )
             p->fatigue += 5;
             p->thirst += 10;
             if (one_in(4)) {
-                p->add_msg_if_player(m_bad, _("You suddenly feel dizzy, and collapse to the ground."));
-                p->add_effect("downed", 1, num_bp, false, 0, true );
+                downed = true;
             }
         }
         if (one_in(2)) {
@@ -1508,8 +1514,7 @@ int iuse::mutagen(player *p, item *it, bool, const tripoint& )
             p->fatigue += 5;
             p->thirst += 10;
             if (one_in(4)) {
-                p->add_msg_if_player(m_bad, _("You suddenly feel dizzy, and collapse to the ground."));
-                p->add_effect("downed", 1, num_bp, false, 0, true );
+                downed = true;
             }
         }
     } else {
@@ -1529,9 +1534,16 @@ int iuse::mutagen(player *p, item *it, bool, const tripoint& )
         }
         // Yep, orals take a bit out of you too
         if (one_in(4)) {
-            p->add_msg_if_player(m_bad, _("You suddenly feel dizzy, and collapse to the ground."));
-            p->add_effect("downed", 1, num_bp, false, 0, true );
+            downed = true;
         }
+    }
+
+    // Don't print downed message for sleeping player
+    if( downed && !p->in_sleep_state() ) {
+        p->add_msg_player_or_npc( m_bad,
+            _("You suddenly feel dizzy, and collapse to the ground."),
+            _("<npcname> suddenly collapses to the ground!") );
+        p->add_effect("downed", 1, num_bp, false, 0, true );
     }
     return it->type->charges_to_use();
 }
@@ -1631,6 +1643,7 @@ int iuse::mut_iv(player *p, item *it, bool, const tripoint& )
         // 3 guaranteed mutations, 75%/66%/66% for the 4th/5th/6th,
         // 6-16 Pain per shot and potential knockdown/KO.
         mutation_category = "";
+        // TODO: Make MUT_JUNKIE NPCs like the player for giving them some of that stuff
         if (p->has_trait("MUT_JUNKIE")) {
             p->add_msg_if_player(m_good, _("Oh, yeah! That's the stuff!"));
             ///\EFFECT_STR increases volume of shouting with strong mutagen
@@ -1670,7 +1683,9 @@ int iuse::mut_iv(player *p, item *it, bool, const tripoint& )
             p->mod_hunger(10);
             p->fatigue += 5;
             p->thirst += 10;
-            p->add_msg_if_player(m_bad, _("You writhe and collapse to the ground."));
+            p->add_msg_if_player( m_bad,
+                _("You writhe and collapse to the ground."),
+                _("<npcname> writhes and collapses to the ground.") );
             p->add_effect("downed", rng( 1, 4 ), num_bp, false, 0, true );
         }
         if (!one_in(3)) {
@@ -1679,7 +1694,9 @@ int iuse::mut_iv(player *p, item *it, bool, const tripoint& )
             p->mod_hunger(10);
             p->fatigue += 5;
             p->thirst += 10;
-            p->add_msg_if_player(m_bad, _("It all goes dark..."));
+            p->add_msg_if_player( m_bad,
+                _("It all goes dark..."),
+                _("<npcname> suddenly falls over!") );
             //Should be about 40 min, less 30 sec/IN point.
             ///\EFFECT_INT decreases sleep duration with IV mutagen
             p->fall_asleep((400 - p->int_cur * 5));
