@@ -17286,7 +17286,7 @@
         "nutrition" : 30,
         "description" : "A thick and tasty beverage made from pure refined human protein and nutritious fruit.",
         "price" : 300,
-        "material" : [ "fruit", "hflesh" ]
+        "material" : [ "fruit", "hflesh" ],
         "tool" : "null",
         "volume" : 1,
         "cutting" : 0,
