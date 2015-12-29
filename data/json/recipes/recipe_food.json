@@ -950,8 +950,34 @@
   "components": [
     [
       [ "dry_meat", 2 ],
-      [ "dry_hflesh", 2 ],
       [ "dry_fish", 2 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "hflesh_powder",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_OTHER",
+  "skill_used": "cooking",
+  "difficulty": 4,
+  "time": 12000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [ [ "cookbook_human", 4 ] ],
+  "batch_time_factors":[83, 3],
+  "qualities":[
+    {"id":"CHEM","level":2,"amount":1}
+  ], "tools": [
+    [
+      [ "hotplate", 25 ],
+      [ "toolset", 25 ],
+      [ "fire", -1 ],
+      [ "char_smoker", 3 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "dry_hflesh", 2 ]
     ]
   ]
 },{
@@ -974,6 +1000,25 @@
   ]
 },{
   "type" : "recipe",
+  "result": "hflesh_drink",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_DRINKS",
+  "skill_used": "cooking",
+  "difficulty": 0,
+  "time": 4000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [ [ "cookbook_human", 0 ] ],
+  "components": [
+    [
+      [ "hflesh_powder", 1 ]
+    ],
+    [
+      [ "water_clean", 1 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
   "result": "protein_shake",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_DRINKS",
@@ -988,6 +1033,82 @@
   "components": [
     [
       [ "protein_powder", 1 ]
+    ],
+    [
+      [ "water_clean", 1 ]
+    ],
+    [
+      ["lemonade_powder", 1],
+      ["apple", 1],
+      ["apricot", 1],
+      ["banana", 1],
+      ["blackberries", 1],
+      ["blueberries", 1],
+      ["cherries", 1],
+      ["coconut", 1],
+      ["cranberries", 3],
+      ["dry_fruit", 1],
+      ["grapefruit", 1],
+      ["grapes", 2],
+      ["irradiated_apple", 1],
+      ["irradiated_apricot", 1],
+      ["irradiated_banana", 1],
+      ["irradiated_blackberries", 1],
+      ["irradiated_blueberries", 1],
+      ["irradiated_cherries", 1],
+      ["irradiated_cranberries", 3],
+      ["irradiated_grapefruit", 1],
+      ["irradiated_grapes", 2],
+      ["irradiated_kiwi", 1],
+      ["irradiated_lemon", 1],
+      ["irradiated_mango", 1],
+      ["irradiated_melon", 2],
+      ["irradiated_orange", 1],
+      ["irradiated_papaya", 1],
+      ["irradiated_peach", 1],
+      ["irradiated_pear", 1],
+      ["irradiated_pineapple", 1],
+      ["irradiated_plums", 1],
+      ["irradiated_pomegranate", 1],
+      ["irradiated_raspberries", 1],
+      ["irradiated_strawberries", 1],
+      ["irradiated_watermelon", 1],
+      ["juice_pulp", 2],
+      ["kiwi", 1],
+      ["lemon", 1],
+      ["mango", 1],
+      ["melon", 2],
+      ["orange", 1],
+      ["papaya", 1],
+      ["peach", 1],
+      ["pear", 1],
+      ["pineapple", 1],
+      ["plums", 1],
+      ["pomegranate", 1],
+      ["raspberries", 1],
+      ["rehydrated_fruit", 1],
+      ["can_peach", 1],
+      ["strawberries", 1],
+      ["watermelon", 1]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "hflesh_shake",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_DRINKS",
+  "skill_used": "cooking",
+  "difficulty": 0,
+  "time": 4000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [ [ "cookbook_human", 0 ] ],
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "components": [
+    [
+      [ "hflesh_powder", 1 ]
     ],
     [
       [ "water_clean", 1 ]
