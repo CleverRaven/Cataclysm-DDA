@@ -697,7 +697,7 @@ public:
     bool bravery_check(int diff);
     bool emergency(int danger);
     bool is_active() const;
-    void say( const std::string &line, ...) const;
+    void say( const std::string line, ...) const;
     void decide_needs();
     void die(Creature* killer) override;
     bool is_dead() const;

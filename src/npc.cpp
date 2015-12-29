@@ -1626,7 +1626,7 @@ void npc::decide_needs()
     }
 }
 
-void npc::say( const std::string &line, ... ) const
+void npc::say( const std::string line, ... ) const
 {
     va_list ap;
     va_start(ap, line);
