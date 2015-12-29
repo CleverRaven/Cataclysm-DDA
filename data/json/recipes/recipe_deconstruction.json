@@ -793,38 +793,6 @@
     ]
   ]
 },{
-  "type" : "recipe",
-  "result": "tshirt",
-  "id_suffix": "uncraft",
-  "category": "CC_NONCRAFT",
-  "subcategory": "CSC_NONCRAFT",
-  "skill_used": "tailor",
-  "difficulty": 0,
-  "time": 500,
-  "reversible": true,
-  "autolearn": false,
-  "components": [
-    [
-      [ "rag", 5 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "tank_top",
-  "id_suffix": "uncraft",
-  "category": "CC_NONCRAFT",
-  "subcategory": "CSC_NONCRAFT",
-  "skill_used": "tailor",
-  "difficulty": 0,
-  "time": 500,
-  "reversible": true,
-  "autolearn": false,
-  "components": [
-    [
-      [ "rag", 4 ]
-    ]
-  ]
-},{
     "type" : "recipe",
     "result": "boots_steel",
     "id_suffix": "uncraft",
@@ -1035,39 +1003,6 @@
   "components": [
     [
       [ "burnt_out_bionic", 1 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "bindle",
-  "id_suffix": "uncraft",
-  "category": "CC_NONCRAFT",
-  "subcategory": "CSC_NONCRAFT",
-  "difficulty": 0,
-  "time": 100,
-  "reversible": true,
-  "autolearn": false,
-  "components": [
-    [
-      [ "rag", 4 ]
-    ],
-    [
-      [ "stick", 1 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
-  "result": "makeshift_sling",
-  "id_suffix": "uncraft",
-  "category": "CC_NONCRAFT",
-  "subcategory": "CSC_NONCRAFT",
-  "difficulty": 0,
-  "time": 100,
-  "reversible": true,
-  "autolearn": false,
-  "components": [
-    [
-      [ "sheet", 1 ]
     ]
   ]
 },{
@@ -1619,7 +1554,7 @@
   "difficulty": 8,
   "time": 80000,
   "reversible": true,
-  "autolearn": true,
+  "autolearn": false,
   "qualities":[
     {"id":"SAW_M","level":1,"amount":1},
     {"id":"SCREW","level":1,"amount":1},
@@ -1660,7 +1595,7 @@
   "difficulty": 7,
   "time": 80000,
   "reversible": true,
-  "autolearn": true,
+  "autolearn": false,
   "qualities":[
     {"id":"SAW_M","level":1,"amount":1},
     {"id":"SCREW","level":1,"amount":1},

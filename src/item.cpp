@@ -1238,7 +1238,7 @@ std::string item::info( bool showtext, std::vector<iteminfo> &info ) const
         if( dis_recipe != nullptr ) {
             std::ostringstream buffer;
             bool first_component = true;
-            for( const auto &it : dis_recipe->requirements.components ) {
+            for( const auto &it : dis_recipe->requirements.get_components() ) {
                 if( first_component ) {
                     first_component = false;
                 } else {
