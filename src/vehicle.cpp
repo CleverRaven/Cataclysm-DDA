@@ -1363,7 +1363,7 @@ void vehicle::use_controls(const tripoint &pos)
             for( auto &index : all_parts_with_feature( "CHAINSAW" ) ) {
                 if( parts[index].hp > 0 ) {
                     auto &ftype = part_info( index ).fuel_type;
-                    // TODO: more accurate check is required
+                    // TODO: take into account supplemental_consumption( ftype ) and fuel coeff
                     if( fuel_left( ftype ) == 0 ) {
                         //~ %1$s is vehicle name and %2$s is fuel type
                         add_msg( _("Looks like the %1$s is out of %2$s."),
@@ -3229,17 +3229,11 @@ int vehicle::basic_consumption(const itype_id &ftype) const
 
 int vehicle::supplemental_consumption( const itype_id &ftype ) const
 {
-    //TODO: split consumption calcs and sound processing to separate functions
     int fcon = 0;
     if( chainsaw_on ) {
-        std::vector<int> all_chainsaws = all_parts_with_feature( "CHAINSAW" );
-        for( size_t c = 0; c < all_chainsaws.size(); ++c ) {
-            if( part_info( all_chainsaws[c] ).fuel_type == ftype ) {
-                fcon += part_power( all_chainsaws[c] );
-                tripoint part_pos = global_pos3() + parts[ all_chainsaws[c] ].precalc[0];
-                // show onomatopoeia rarely but emit noise all time
-                //~ sound of working chainsaw
-                sounds::sound( part_pos, 20, one_in( 13 ) ? _( "brrr!" ) : "" );
+        for( auto &part : all_parts_with_feature( "CHAINSAW" ) ) {
+            if( part_info( part ).fuel_type == ftype ) {
+                fcon += part_power( part );
             }
         }
     }
@@ -3707,6 +3701,13 @@ void vehicle::consume_fuel( double load = 1.0 )
         }
         if( amnt > 0 ) {
             disable_chainsaws( ft.id );
+        } else if( chainsaw_on ) {
+            for( auto &part : all_parts_with_feature( "CHAINSAW" ) ) {
+                tripoint part_pos = global_pos3() + parts[ part ].precalc[0];
+                // show onomatopoeia rarely but emit noise all time
+                //~ sound of working chainsaw
+                sounds::sound( part_pos, 20, one_in( 15 ) ? _( "brrr!" ) : "" );
+            }
         }
     }
     //do this with chance proportional to current load
