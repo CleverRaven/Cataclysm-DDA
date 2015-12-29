@@ -1363,7 +1363,7 @@ void vehicle::use_controls(const tripoint &pos)
             for( auto &index : all_parts_with_feature( "CHAINSAW" ) ) {
                 if( parts[index].hp > 0 ) {
                     auto &ftype = part_info( index ).fuel_type;
-                    // TODO: take into account supplemental_consumption( ftype ) and fuel coeff
+                    // TODO: take into account supplemental_consumption( ftype ) and fuel coeff ~illi-kun
                     if( fuel_left( ftype ) == 0 ) {
                         //~ %1$s is vehicle name and %2$s is fuel type
                         add_msg( _("Looks like the %1$s is out of %2$s."),
@@ -2817,7 +2817,9 @@ int vehicle::print_part_desc(WINDOW *win, int y1, int width, int p, int hl /*= -
  */
 bool vehicle::should_print_fuel_indicator (itype_id fuel_type, bool fullsize) const
 {
-    return fuel_capacity( fuel_type ) > 0 && ( basic_consumption( fuel_type ) > 0 || fullsize );
+    bool consumer_exists = ( basic_consumption( fuel_type ) > 0 ||
+                             supplemental_consumption( fuel_type ) > 0 );
+    return fuel_capacity( fuel_type ) > 0 && ( consumer_exists || fullsize );
 }
 
 /**
@@ -3668,11 +3670,8 @@ void vehicle::consume_fuel( double load = 1.0 )
 {
     float st = strain();
     for( auto &ft : get_fuel_types() ) {
-        // if no engines use this fuel, skip
-        int amnt_fuel_use = basic_consumption( ft.id );
-
         //get exact amount of fuel needed
-        double amnt_precise = double(amnt_fuel_use) / ft.coeff;
+        double amnt_precise = double( basic_consumption( ft.id ) ) / ft.coeff;
 
         amnt_precise *= load * ( 1.0 + st * st * 100.0 );
         // supplemental consumption doesn't take into account load & strain
@@ -4778,7 +4777,10 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
             if( chainsaw_on && part_info( ret.part ).has_flag( "CHAINSAW" ) &&
                 parts[part].hp > 0 ) {
                 dam += 66;
-                //TODO: Add sounds of chainsaw COLLIDED TO FLESH
+                //TODO: REMOVE THIS DEBUG MESSAGE after testing ~illi-kun
+                add_msg("EXTRA DMG!");
+                //TODO: Damage should depends on material type of collided object (or its armor) ~illi-kun
+                //TODO: Add sounds of chainsaw COLLIDED TO FLESH ~illi-kun
             }
 
             // No blood from hallucinations
