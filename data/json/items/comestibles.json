@@ -17139,7 +17139,7 @@
         "healthy" : 1,
         "addiction_potential" : 0,
         "nutrition" : 10,
-        "description" : "Raw, refined protein made of people!  While quite nutritious, it is difficult to enjoy in its pure form.",
+        "description" : "Raw, refined protein made out of people!  While quite nutritious, it is difficult to enjoy in its pure form.",
         "price" : 1100,
         "material" : [ "powder", "hflesh" ],
         "tool" : "null",
