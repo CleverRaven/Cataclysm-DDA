@@ -4562,6 +4562,12 @@ bool try_consume( npc &p, item &it, bool &used, std::string &reason )
         return false;
     }
 
+    if( p.op_of_u.trust < 5 && !g->u.has_trait( "DEBUG_MIND_CONTROL" ) ) {
+        // TODO: Get some better check here
+        reason = _("I don't <swear> trust you enough to eat from your hand...");
+        return false;
+    }
+
     // TODO: Make it not a copy+paste from player::consume_item
     int amount_used = 1;
     if( comest->comesttype == "FOOD" || comest->comesttype == "DRINK" ) {

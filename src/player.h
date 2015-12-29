@@ -1135,6 +1135,8 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         virtual void add_msg_player_or_npc(const char *player_str, const char *npc_str, ...) const override;
         virtual void add_msg_player_or_npc(game_message_type type, const char *player_str,
                                            const char *npc_str, ...) const override;
+        virtual void add_msg_player_or_say( const char *, const char *, ... ) const override;
+        virtual void add_msg_player_or_say( game_message_type, const char *, const char *, ... ) const override;
 
         typedef std::map<tripoint, std::string> trap_map;
         bool knows_trap( const tripoint &pos ) const;

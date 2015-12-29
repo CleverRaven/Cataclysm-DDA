@@ -448,6 +448,8 @@ class Creature
         virtual void add_msg_if_npc(game_message_type, const char *, ...) const {};
         virtual void add_msg_player_or_npc(const char *, const char *, ...) const {};
         virtual void add_msg_player_or_npc(game_message_type, const char *, const char *, ...) const {};
+        virtual void add_msg_player_or_say( const char *, const char *, ... ) const {};
+        virtual void add_msg_player_or_say( game_message_type, const char *, const char *, ... ) const {};
 
         virtual void add_memorial_log(const char *, const char *, ...) {};
 

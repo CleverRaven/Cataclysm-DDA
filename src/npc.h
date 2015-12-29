@@ -697,7 +697,7 @@ public:
     bool bravery_check(int diff);
     bool emergency(int danger);
     bool is_active() const;
-    void say(std::string line, ...) const;
+    void say( const std::string &line, ...) const;
     void decide_needs();
     void die(Creature* killer) override;
     bool is_dead() const;
@@ -777,6 +777,8 @@ public:
  virtual void add_msg_if_player(game_message_type, const char *, ...) const override{};
  virtual void add_memorial_log(const char*, const char*, ...) override {};
  virtual void add_miss_reason(const char *, unsigned int) {};
+    virtual void add_msg_player_or_say( const char *, const char *, ... ) const override;
+    virtual void add_msg_player_or_say( game_message_type, const char *, const char *, ... ) const override;
 
 // The preceding are in npcmove.cpp
 

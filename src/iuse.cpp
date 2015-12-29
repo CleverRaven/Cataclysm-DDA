@@ -6210,20 +6210,18 @@ int iuse::radglove(player *p, item *it, bool, const tripoint& )
         p->add_msg_if_player(_("You activate your radiation biomonitor."));
         if (p->radiation >= 1) {
             p->add_msg_if_player(m_warning, _("You are currently irradiated."));
-            add_msg(m_info, _("Your radiation level: %d"), p->radiation);
+            p->add_msg_player_or_say( m_info,
+                _("Your radiation level: %d"),
+                _("It says here that my radiation level is %d"),
+                p->radiation );
         } else {
-            p->add_msg_if_player(m_info, _("You are not currently irradiated."));
+            p->add_msg_player_or_say( m_info,
+                _("You are not currently irradiated."),
+                _("It says I'm not irradiated") );
         }
         p->add_msg_if_player(_("Have a nice day!"));
     }
-    if( p->is_npc() ) {
-        const npc *np = dynamic_cast<const npc *>( p );
-        if( np->radiation > 0 ) {
-            np->say( _("It says here that my radiation level is %d"), np->radiation );
-        } else {
-            np->say( _("It says I'm not irradiated") );
-        }
-    }
+
     return it->type->charges_to_use();
 }
 
