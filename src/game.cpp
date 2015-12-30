@@ -13458,10 +13458,13 @@ void game::update_map(int &x, int &y)
     }
 
     if( shiftx == 0 && shifty == 0 ) {
-        // Not actually shifting, all the stuff below would do nothing
+        // adjust player position
+        u.setpos( tripoint(x, y, get_levz()) );
+        // Not actually shifting the submaps, all the stuff below would do nothing
         return;
     }
 
+    // this handles loading/unloading submaps that have scrolled on or off the viewport
     m.shift( shiftx, shifty );
 
     // Shift monsters
@@ -13512,7 +13515,7 @@ void game::update_map(int &x, int &y)
     m.build_map_cache( get_levz() );
 
     // Also ensure the player is on current z-level
-    // This should later be removed, when there is no longer such a thing
+    // get_levz() should later be removed, when there is no longer such a thing
     // as "current z-level"
     u.setpos( tripoint(x, y, get_levz()) );
 
