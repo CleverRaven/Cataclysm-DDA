@@ -124,7 +124,6 @@
         "material" : ["plastic", "powder"],
         "volume" : 1,
         "weight" : 46,
-        "bashing" : 0,
         "to_hit" : 0,
         "ammo_type" : "shot",
         "casing" : "shot_hull",
