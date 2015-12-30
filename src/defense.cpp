@@ -1424,7 +1424,7 @@ void defense_game::spawn_wave_monster( const mtype_id &type )
         }
     }
     monster tmp( type, tripoint( pnt, g->get_levz() ) );
-    tmp.wander_pos = g->u.pos3();
+    tmp.wander_pos = g->u.pos();
     tmp.wandf = 150;
     // We wanna kill!
     tmp.anger = 100;

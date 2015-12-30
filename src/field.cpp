@@ -1463,7 +1463,7 @@ bool map::process_fields_in_submap( submap *const current_submap,
                                 if (!valid.empty()) {
                                     tripoint newp = random_entry( valid );
                                     add_item_or_charges( newp, tmp );
-                                    if( g->u.pos3() == newp ) {
+                                    if( g->u.pos() == newp ) {
                                         add_msg(m_bad, _("A %s hits you!"), tmp.tname().c_str());
                                         body_part hit = random_body_part();
                                         g->u.deal_damage( nullptr, hit, damage_instance( DT_BASH, 6 ) );
@@ -1589,8 +1589,8 @@ bool map::process_fields_in_submap( submap *const current_submap,
                         } else {
                             // Bees chase the player if in range, wander randomly otherwise.
                             if( !g->u.is_underwater() &&
-                                rl_dist( p, g->u.pos3() ) < 10 &&
-                                clear_path( p, g->u.pos3(), 10, 0, 100 ) ) {
+                                rl_dist( p, g->u.pos() ) < 10 &&
+                                clear_path( p, g->u.pos(), 10, 0, 100 ) ) {
 
                                 std::vector<point> candidate_positions =
                                     squares_in_direction( p.x, p.y, g->u.posx(), g->u.posy() );
@@ -1693,7 +1693,7 @@ If you wish for a field effect to do something over time (propagate, interact wi
 void map::player_in_field( player &u )
 {
     // A copy of the current field for reference. Do not add fields to it, use map::add_field
-    field &curfield = get_field( u.pos3() );
+    field &curfield = get_field( u.pos() );
     int veh_part; // vehicle part existing on this tile.
     vehicle *veh = NULL; // Vehicle reference if there is one.
     bool inside = false; // Are we inside?
@@ -1703,7 +1703,7 @@ void map::player_in_field( player &u )
     //If we are in a vehicle figure out if we are inside (reduces effects usually)
     // and what part of the vehicle we need to deal with.
     if (u.in_vehicle) {
-        veh = veh_at( u.pos3(), veh_part );
+        veh = veh_at( u.pos(), veh_part );
         inside = (veh && veh->is_inside(veh_part));
     }
 
@@ -2145,7 +2145,7 @@ void map::monster_in_field( monster &z )
     if (z.digging()) {
         return; // Digging monsters are immune to fields
     }
-    field &curfield = get_field( z.pos3() );
+    field &curfield = get_field( z.pos() );
 
     int dam = 0;
     // Iterate through all field effects on this tile.

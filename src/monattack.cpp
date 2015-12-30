@@ -695,7 +695,7 @@ bool mattack::resurrect(monster *z)
     std::vector<std::pair<tripoint, item*>> corpses;
     // Find all corpses that we can see within 10 tiles.
     int range = 10;
-    tripoint tmp = z->pos3();
+    tripoint tmp = z->pos();
     int x = tmp.x;
     int y = tmp.y;
     bool found_eligible_corpse = false;
@@ -704,7 +704,7 @@ bool mattack::resurrect(monster *z)
         for (int j = y - range; j < y + range; j++) {
             tmp.x = i;
             tmp.y = j;
-            if (g->is_empty(tmp) && g->m.sees(z->pos3(), tmp, -1)) {
+            if (g->is_empty(tmp) && g->m.sees(z->pos(), tmp, -1)) {
                 for( auto &i : g->m.i_at( tmp ) ) {
                     if( i.is_corpse() && i.active && i.get_mtype()->has_flag(MF_REVIVES) &&
                         i.get_mtype()->in_species( ZOMBIE ) ) {

@@ -456,10 +456,10 @@ bool can_interact_at( action_id action, const tripoint &p )
 {
     switch( action ) {
         case ACTION_OPEN:
-            return g->m.open_door( p, !g->m.is_outside( g->u.pos3() ), true );
+            return g->m.open_door( p, !g->m.is_outside( g->u.pos() ), true );
             break;
         case ACTION_CLOSE:
-            return g->m.close_door( p, !g->m.is_outside( g->u.pos3() ), true );
+            return g->m.close_door( p, !g->m.is_outside( g->u.pos() ), true );
             break;
         case ACTION_BUTCHER:
             return can_butcher_at( p );
@@ -809,7 +809,7 @@ bool choose_adjacent( std::string message, tripoint &p, bool allow_vertical )
     if( !choose_direction( message, p, allow_vertical ) ) {
         return false;
     }
-    p += g->u.pos3();
+    p += g->u.pos();
     return true;
 }
 

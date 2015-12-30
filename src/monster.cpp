@@ -139,7 +139,7 @@ monster::~monster()
 
 void monster::setpos( const tripoint &p )
 {
-    if( p == pos3() ) {
+    if( p == pos() ) {
         return;
     }
 
@@ -573,7 +573,7 @@ bool monster::is_fleeing(player &u) const
         return true;
     }
     monster_attitude att = attitude(&u);
-    return (att == MATT_FLEE || (att == MATT_FOLLOW && rl_dist( pos3(), u.pos3() ) <= 4));
+    return (att == MATT_FLEE || (att == MATT_FOLLOW && rl_dist( pos(), u.pos() ) <= 4));
 }
 
 Creature::Attitude monster::attitude_to( const Creature &other ) const
@@ -1665,7 +1665,7 @@ void monster::drop_items_on_death()
     if (type->death_drops.empty()) {
         return;
     }
-    g->m.put_items_from_loc( type->death_drops, pos3(), calendar::turn );
+    g->m.put_items_from_loc( type->death_drops, pos(), calendar::turn );
 }
 
 void monster::process_effects()

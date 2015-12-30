@@ -2792,7 +2792,7 @@ bool item::ready_to_revive( const tripoint &pos ) const
         // If we're a special revival zombie, wait to get up until the player is nearby.
         const bool isReviveSpecial = has_flag("REVIVE_SPECIAL");
         if( isReviveSpecial ) {
-            const int distance = rl_dist( pos, g->u.pos3() );
+            const int distance = rl_dist( pos, g->u.pos() );
             if (distance > 3) {
                 return false;
             }
