@@ -4668,7 +4668,7 @@ void player::on_dodge( Creature *source, int difficulty )
     }
 
     // Even if we are not to train still call practice to prevent skill rust
-    practice( skill_dodge, std::min( difficulty, 0 ) );
+    practice( skill_dodge, std::max( difficulty, 0 ) );
 
     ma_ondodge_effects();
 
