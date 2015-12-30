@@ -11314,7 +11314,13 @@ void game::reload( int pos )
     // pick ammo
     int am_pos = it->pick_reload_ammo( u, true );
     if( am_pos == INT_MIN ) {
-        add_msg( m_info, _( "Out of %s!" ), it->is_gun() ? _("ammo") : ammo_name( it->ammo_type() ).c_str() );
+       if( it->is_gun() ) {
+            add_msg( m_info, _( "Out of ammo!" ) );
+        } else if( it->has_curammo() ) {
+            add_msg( m_info, _( "Out of %s!" ), item::nname( it->get_curammo_id() ).c_str() );
+        } else {
+            add_msg( m_info, _( "Out of %s!" ), ammo_name( it->ammo_type() ).c_str() );
+        }
     } else if( am_pos == INT_MIN + 2 ) {
         add_msg( m_info, _( "Never mind." ) );
     } else {
