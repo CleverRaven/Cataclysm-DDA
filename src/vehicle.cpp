@@ -3707,11 +3707,12 @@ void vehicle::consume_fuel( double load = 1.0 )
         if( amnt > 0 ) {
             disable_chainsaws( ft.id );
         } else if( chainsaw_on ) {
+            //~ sounds of working chainsaw
+            const char *sound_msgs[] = { _( "brrr!" ), _( "grrr!" ), _( "GRRZRRZ!" ) };
             for( auto &part : all_parts_with_feature( "CHAINSAW" ) ) {
                 tripoint part_pos = global_pos3() + parts[ part ].precalc[0];
                 // show onomatopoeia rarely but emit noise all time
-                //~ sound of working chainsaw
-                sounds::sound( part_pos, 20, one_in( 15 ) ? _( "brrr!" ) : "" );
+                sounds::sound( part_pos, 20, one_in( 15 ) ? sound_msgs[rng( 0, 2 )] : "" );
             }
         }
     }
