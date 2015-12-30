@@ -12954,6 +12954,8 @@ void game::fling_creature(Creature *c, const int &dir, float flvel, bool control
                 // If we're flinging the player around, make sure the map stays centered on them.
                 if( is_u ) {
                     update_map( pt.x, pt.y );
+                } else {
+                    p->setpos( pt );
                 }
             } else if( mon_at( pt ) < 0 ) {
                 // Dying monster doesn't always leave an empty tile (blob spawning etc.)
