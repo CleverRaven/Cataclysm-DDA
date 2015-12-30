@@ -4673,7 +4673,7 @@ void player::on_dodge( Creature *source, int difficulty )
     ma_ondodge_effects();
 
     // For adjacent attackers check for techniques usable upon successful dodge
-    if( source && g->m.valid_move( pos(), source->pos() ) ) {
+    if( source && square_dist( pos(), source->pos() ) == 1 ) {
         matec_id tec = pick_technique( *source, false, true, false );
         if( tec != matec_id( "tec_none" ) ) {
             melee_attack( *source, false, tec );
