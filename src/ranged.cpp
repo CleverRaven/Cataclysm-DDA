@@ -489,7 +489,8 @@ void player::fire_gun( const tripoint &targ_arg, bool burst )
 
         // Experience gain is limited by range and penalised proportional to inaccuracy.
         int exp = std::min( range, 3 * ( skillLevel( skill_used ) + 1 ) ) * 20;
-        int penalty = sqrt( missed_by * 36 );
+        // Make sure the penalty doesn't become 0
+        int penalty = sqrt( missed_by * 36 ) + 1;
 
         // Even if we are not training we practice the skill to prevent rust.
         practice( skill_used, train_skill ? exp / penalty : 0 );
