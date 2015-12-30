@@ -1363,7 +1363,7 @@ void vehicle::use_controls(const tripoint &pos)
             for( auto &index : all_parts_with_feature( "CHAINSAW" ) ) {
                 if( parts[index].hp > 0 ) {
                     auto &ftype = part_info( index ).fuel_type;
-                    // TODO: take into account supplemental_consumption( ftype ) and fuel coeff ~illi-kun
+                    // TODO: take into account supplemental_consumption( ftype ) and fuel coeff
                     if( fuel_left( ftype ) == 0 ) {
                         //~ %1$s is vehicle name and %2$s is fuel type
                         add_msg( _("Looks like the %1$s is out of %2$s."),
@@ -4774,13 +4774,22 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
             }
         } else if( ret.type == veh_coll_body ) {
             int dam = obj_dmg * dmg_mod / 100;
-            if( chainsaw_on && part_info( ret.part ).has_flag( "CHAINSAW" ) &&
-                parts[part].hp > 0 ) {
-                dam += 66;
-                //TODO: REMOVE THIS DEBUG MESSAGE after testing ~illi-kun
-                add_msg("EXTRA DMG!");
-                //TODO: Damage should depends on material type of collided object (or its armor) ~illi-kun
-                //TODO: Add sounds of chainsaw COLLIDED TO FLESH ~illi-kun
+            //TODO: move this to idle() & on_move() functions
+            if( is_body_collision && chainsaw_on &&
+                part_info( ret.part ).has_flag( "CHAINSAW" ) && parts[part].hp > 0 ) {
+                    std::string mat = critter->get_material();
+                    if( mat == "steel" ) {
+                        dam += 5;
+                        damage_direct(part, 100, DT_TRUE);
+                    } else if( mat == "bone" ) {
+                        dam += 10;
+                        damage_direct(part, 20, DT_TRUE);
+                    } else if( mat == "protoplasmic" ) {
+                        dmg += 0;
+                    } else {
+                    // default case: flesh, iflesh, veggy
+                        dam += 70;
+                    }
             }
 
             // No blood from hallucinations
