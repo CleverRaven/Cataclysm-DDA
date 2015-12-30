@@ -2870,9 +2870,6 @@
     [
       [ "irradiated_orange", 2 ],
       [ "orange", 2 ]
-    ],
-    [
-      [ "water_clean", 1 ]
     ]
   ]
 },{
@@ -9904,7 +9901,6 @@
 },{
   "type" : "recipe",
   "result": "juice",
-  "result_mult": 2,
   "byproducts": "juice_pulp",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_DRINKS",
@@ -9928,7 +9924,19 @@
       ["cherries", 2],
       ["cranberries", 6],
       ["grapefruit", 2],
-      ["grapes", 4],
+      ["grapes", 2],
+      ["kiwi", 2],
+      ["mango", 2],
+      ["melon", 4],
+      ["papaya", 2],
+      ["peach", 2],
+      ["pear", 2],
+      ["pineapple", 2],
+      ["plums", 2],
+      ["pomegranate", 2],
+      ["raspberries", 2],
+      ["strawberries", 2],
+      ["watermelon", 1],
       ["irradiated_apple", 2],
       ["irradiated_apricot", 2],
       ["irradiated_banana", 2],
@@ -9939,10 +9947,8 @@
       ["irradiated_grapefruit", 2],
       ["irradiated_grapes", 4],
       ["irradiated_kiwi", 2],
-      ["irradiated_lemon", 2],
       ["irradiated_mango", 2],
       ["irradiated_melon", 4],
-      ["irradiated_orange", 2],
       ["irradiated_papaya", 2],
       ["irradiated_peach", 2],
       ["irradiated_pear", 2],
@@ -9951,21 +9957,7 @@
       ["irradiated_pomegranate", 2],
       ["irradiated_raspberries", 2],
       ["irradiated_strawberries", 2],
-      ["irradiated_watermelon", 1],
-      ["kiwi", 2],
-      ["lemon", 2],
-      ["mango", 2],
-      ["melon", 4],
-      ["orange", 2],
-      ["papaya", 2],
-      ["peach", 2],
-      ["pear", 2],
-      ["pineapple", 2],
-      ["plums", 2],
-      ["pomegranate", 2],
-      ["raspberries", 2],
-      ["strawberries", 2],
-      ["watermelon", 1]
+      ["irradiated_watermelon", 1]
     ],
     [
       [ "water_clean", 1 ]
