@@ -5286,9 +5286,9 @@
       [ "can_coconut", 1 ]
     ],
     [
-      [ "powder_eggs", 10 ],
-      [ "egg_bird", 2 ],
-      [ "egg_reptile", 2 ]
+      [ "powder_eggs", 5 ],
+      [ "egg_bird", 1 ],
+      [ "egg_reptile", 1 ]
     ],
     [
       [ "cinnamon", 20 ]

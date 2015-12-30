@@ -12225,7 +12225,7 @@
         "quench" : 0,
         "healthy" : 1,
         "addiction_potential" : 0,
-        "nutrition" : 25,
+        "nutrition" : 60,
         "description" : "Slices of bread dipped in a milk and egg mixture then fried.",
         "price" : 600,
         "material" : "wheat",
@@ -12236,7 +12236,7 @@
         "charges" : 2,
         "bashing" : 0,
         "flags" : ["EATEN_HOT"],
-        "fun" : 5
+        "fun" : 7
     },
     {
         "type" : "COMESTIBLE",
