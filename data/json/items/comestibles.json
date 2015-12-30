@@ -4006,6 +4006,7 @@
         "type" : "COMESTIBLE",
         "id" : "coffee",
         "name" : "coffee",
+        "name_plural" : "coffee",
         "weight" : 254,
         "color" : "brown",
         "addiction_type" : "caffeine",
