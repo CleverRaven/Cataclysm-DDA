@@ -1360,23 +1360,27 @@ void vehicle::use_controls(const tripoint &pos)
 
         if( chainsaw_on ) {
             bool msg_shown = false;
-            for( auto &index : all_parts_with_feature( "CHAINSAW" ) ) {
-                if( parts[index].hp > 0 ) {
-                    auto &ftype = part_info( index ).fuel_type;
-                    // TODO: take into account supplemental_consumption( ftype ) and fuel coeff
-                    if( fuel_left( ftype ) == 0 ) {
-                        //~ %1$s is vehicle name and %2$s is fuel type
-                        add_msg( _("Looks like the %1$s is out of %2$s."),
-                                  name.c_str(), item::nname( ftype ).c_str() );
-                        chainsaw_on = false;
-                        break;
-                    }
+            for( auto &index : all_parts_with_feature( "CHAINSAW", true ) ) {
+                auto &ftype = part_info( index ).fuel_type;
+                // TODO: take into account supplemental_consumption( ftype ) and fuel coeff
+                if( fuel_left( ftype ) == 0 ) {
+                    //~ %1$s is vehicle name and %2$s is fuel type
+                    add_msg( _("Looks like the %1$s is out of %2$s."),
+                              name.c_str(), item::nname( ftype ).c_str() );
+                    chainsaw_on = false;
+                    break;
+                } else {
+                    toggle_specific_part( index, true );
                     tripoint part_pos = global_pos3() + parts[index].precalc[0];
                     // emit noise for all found chainsaws but show onomatopoeia in log only once
                     //~ sound of starting chainsaw
                     sounds::sound( part_pos, 30, msg_shown ? "" : _( "brum-brum-graGRAHHHN!" ) );
                     msg_shown = true;
                 }
+            }
+        } else {
+            for( auto &index : all_parts_with_feature( "CHAINSAW" ) ) {
+                toggle_specific_part( index, false );
             }
         }
         break;
@@ -3233,8 +3237,8 @@ int vehicle::supplemental_consumption( const itype_id &ftype ) const
 {
     int fcon = 0;
     if( chainsaw_on ) {
-        for( auto &part : all_parts_with_feature( "CHAINSAW" ) ) {
-            if( part_info( part ).fuel_type == ftype ) {
+        for( auto &part : all_parts_with_feature( "CHAINSAW", true ) ) {
+            if( part_info( part ).fuel_type == ftype && parts[ part ].enabled ) {
                 fcon += part_power( part );
             }
         }
@@ -3246,15 +3250,17 @@ void vehicle::disable_chainsaws( const itype_id &ftype )
 {
     //fixme: running out of any fuel type used by chainsaw(s) disables all chainsaws
     if( chainsaw_on ) {
+        bool shown = false;
         for( auto &part : all_parts_with_feature( "CHAINSAW" ) ) {
             if( part_info( part ).fuel_type == ftype ) {
                 chainsaw_on = false;
-                if( g->m.veh_at( g->u.pos() ) == this ) {
-                     //~ %1$s is vehicle name and %2$s is fuel type
-                     add_msg( _( "The %1$s's ran out of %2$s!" ),
-                              name.c_str(), item::nname( ftype ).c_str() );
+                toggle_specific_part( part, false );
+                if( g->m.veh_at( g->u.pos() ) == this && !shown ) {
+                    //~ %1$s is vehicle name and %2$s is fuel type
+                    add_msg( _( "The %1$s's ran out of %2$s!" ),
+                                name.c_str(), item::nname( ftype ).c_str() );
+                    shown = true;
                 }
-                break;
             }
         }
     }
@@ -4817,7 +4823,7 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
                     critter->get_armor_bash( bp_torso );
                 dam = std::max( 0, dam - armor );
                 critter->apply_damage( driver, bp_torso, dam );
-                add_msg( m_debug, "Critter collision damage: %d", dam );
+                add_msg( "Critter collision damage: %d", dam );
             }
 
             // Don't fling if vertical - critter got smashed into the ground
