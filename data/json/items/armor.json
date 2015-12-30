@@ -4912,7 +4912,7 @@
         "phase" : "solid",
         "encumbrance" : 20,
         "bashing" : -4,
-        "flags" : ["VARSIZE", "POCKETS", "COLLAR", "OUTER"],
+        "flags" : ["VARSIZE", "POCKETS", "COLLAR", "OUTER", "FANCY"],
         "coverage" : 85,
         "material_thickness" : 4
     },
@@ -4924,7 +4924,7 @@
         "color" : "blue",
         "covers" : ["TORSO", "ARMS", "LEGS"],
         "to_hit" : -3,
-        "storage" : 26,
+        "storage" : 22,
         "symbol" : "[",
         "description" : "A heavy, full-length wool coat.  Cumbersome, but warm and with deep pockets.",
         "price" : 18000,
@@ -4934,10 +4934,10 @@
         "warmth" : 50,
         "phase" : "solid",
         "environmental_protection" : 1,
-        "encumbrance" : 20,
+        "encumbrance" : 23,
         "bashing" : -4,
         "flags" : ["VARSIZE", "POCKETS", "COLLAR", "OUTER"],
-        "coverage" : 90,
+        "coverage" : 95,
         "material_thickness" : 4
     },
     {
