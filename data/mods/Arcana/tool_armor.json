@@ -316,7 +316,6 @@
         "material" : ["silver", "essencemat"],
         "coverage" : 0,
         "symbol" : "[",
-        "bashing" : 0,
         "warmth" : 0,
         "phase" : "solid",
         "flags" : ["FANCY"]
