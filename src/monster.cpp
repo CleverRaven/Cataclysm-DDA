@@ -824,7 +824,11 @@ bool monster::is_elec_immune() const
 bool monster::is_immune_effect( const efftype_id &effect ) const
 {
     if( effect == "onfire" ) {
-        return is_immune_damage( DT_HEAT );
+        return is_immune_damage( DT_HEAT ) ||
+            made_of(LIQUID) ||
+            made_of("stone") ||
+            made_of("steel") ||
+            has_flag(MF_FIREY);
     }
 
     return false;
@@ -1298,6 +1302,37 @@ int monster::get_armor_bash(body_part bp) const
 {
     (void) bp;
     return int(type->armor_bash) + armor_bash_bonus;
+}
+
+int monster::get_armor_type( damage_type dt, body_part bp ) const
+{
+    switch( dt ) {
+        case DT_TRUE:
+            return 0;
+        case DT_BIOLOGICAL:
+            return 0;
+        case DT_BASH:
+            return get_armor_bash( bp );
+        case DT_CUT:
+            return get_armor_cut( bp );
+        case DT_ACID:
+            return int(type->armor_acid);
+        case DT_STAB:
+            return int(type->armor_stab) + armor_cut_bonus * 0.8f;
+        case DT_HEAT:
+            return int(type->armor_fire);
+        case DT_COLD:
+            return 0;
+        case DT_ELECTRIC:
+            return 0;
+        case DT_NULL:
+        case NUM_DT:
+            // Let it error below
+            break;
+    }
+
+    debugmsg( "Invalid damage type: %d", dt );
+    return 0;
 }
 
 int monster::hit_roll() const {

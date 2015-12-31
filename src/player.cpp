@@ -835,6 +835,10 @@ void player::update_bodytemp()
     // This gets incremented in the for loop and used in the morale calculation
     int morale_pen = 0;
 
+    // Let's cache this not to check it num_bp times
+    const bool has_bark = has_trait( "BARK" );
+    const bool has_sleep = has_effect( "sleep" );
+    const bool has_heatsink = has_bionic( "bio_heatsink" ) || is_wearing( "rm13_armor_on" );
     // Current temperature and converging temperature calculations
     for( int i = 0 ; i < num_bp; i++ ) {
         // This adjusts the temperature scale to match the bodytemp scale,
@@ -886,12 +890,12 @@ void player::update_bodytemp()
         // HUNGER
         temp_conv[i] -= get_hunger() / 6 + 100;
         // FATIGUE
-        if( !has_effect("sleep") ) {
+        if( !has_sleep ) {
             temp_conv[i] -= std::max(0.0, 1.5 * fatigue);
         }
         // CONVECTION HEAT SOURCES (generates body heat, helps fight frostbite)
-        // Bark : lowers blister count to -100; harder to get blisters
-        int blister_count = (has_trait("BARK") ? -100 : 0); // If the counter is high, your skin starts to burn
+        // Bark : lowers blister count to -10; harder to get blisters
+        int blister_count = (has_bark ? -10 : 0); // If the counter is high, your skin starts to burn
         int best_fire = 0;
         for (int j = -6 ; j <= 6 ; j++) {
             for (int k = -6 ; k <= 6 ; k++) {
@@ -904,29 +908,31 @@ void player::update_bodytemp()
                 } else if (g->m.tr_at( dest ).loadid == tr_lava ) {
                     heat_intensity = 3;
                 }
-                if( heat_intensity > 0 &&
-                    g->m.sees( pos(), dest, -1 ) ) {
-                    // Ensure fire_dist >= 1 to avoid divide-by-zero errors.
-                    int fire_dist = std::max(1, std::max( std::abs( j ), std::abs( k ) ) );
-                    if (frostbite_timer[i] > 0) {
-                        frostbite_timer[i] -= heat_intensity - fire_dist / 2;
-                    }
-                    temp_conv[i] +=  300 * heat_intensity * heat_intensity / (fire_dist);
-                    blister_count += heat_intensity / (fire_dist * fire_dist);
-                    if( fire_dist <= 1 ) {
-                        // Extend limbs/lean over a single adjacent fire to warm up
-                        best_fire = std::max( best_fire, heat_intensity );
-                    }
+                if( heat_intensity == 0 || !g->m.sees( pos(), dest, -1 ) ) {
+                    // No heat source here
+                    continue;
+                }
+                // Ensure fire_dist >= 1 to avoid divide-by-zero errors.
+                int fire_dist = std::max( 1, std::max( std::abs( j ), std::abs( k ) ) );
+                if( frostbite_timer[i] > 0 ) {
+                    frostbite_timer[i] -= std::max( 0, heat_intensity - fire_dist / 2 );
+                }
+                int heat_here = heat_intensity * heat_intensity / fire_dist;
+                temp_conv[i] += 300 * heat_here;
+                blister_count += heat_here;
+                if( fire_dist <= 1 ) {
+                    // Extend limbs/lean over a single adjacent fire to warm up
+                    best_fire = std::max( best_fire, heat_intensity );
                 }
             }
         }
         // Bionic "Thermal Dissipation" says it prevents fire damage up to 2000F.
-        // 500 is picked at random...
-        if( has_bionic( "bio_heatsink" ) || is_wearing( "rm13_armor_on" ) ) {
-            blister_count -= 500;
+        // But it's kinda hard to get the balance right, let's go with 20 blisters
+        if( has_heatsink ) {
+            blister_count -= 20;
         }
         // BLISTERS : Skin gets blisters from intense heat exposure.
-        if( blister_count - 10 * get_env_resist( body_part( i ) ) > 20 ) {
+        if( blister_count - get_env_resist( body_part( i ) ) > 10 ) {
             add_effect( "blisters", 1, ( body_part )i );
         }
 
@@ -939,7 +945,7 @@ void player::update_bodytemp()
             temp_conv[i] += 500;
         }
         // DISEASES
-        if( has_effect("flu") && i == bp_head ) {
+        if( i == bp_head && has_effect("flu") ) {
             temp_conv[i] += 1500;
         }
         if( has_effect("common_cold") ) {
@@ -12793,6 +12799,37 @@ int player::get_armor_cut(body_part bp) const
     return get_armor_cut_base(bp) + armor_cut_bonus;
 }
 
+int player::get_armor_type( damage_type dt, body_part bp ) const
+{
+    switch( dt ) {
+        case DT_TRUE:
+            return 0;
+        case DT_BIOLOGICAL:
+            return 0;
+        case DT_BASH:
+            return get_armor_bash( bp );
+        case DT_CUT:
+            return get_armor_cut( bp );
+        case DT_ACID:
+            return get_armor_acid( bp );
+        case DT_STAB:
+            return get_armor_cut( bp ) * 0.8f;
+        case DT_HEAT:
+            return get_armor_fire( bp );
+        case DT_COLD:
+            return 0;
+        case DT_ELECTRIC:
+            return 0;
+        case DT_NULL:
+        case NUM_DT:
+            // Let it error below
+            break;
+    }
+
+    debugmsg( "Invalid damage type: %d", dt );
+    return 0;
+}
+
 int player::get_armor_bash_base(body_part bp) const
 {
     int ret = 0;
@@ -12915,6 +12952,30 @@ int player::get_armor_cut_base(body_part bp) const
     return ret;
 }
 
+int player::get_armor_acid(body_part bp) const
+{
+    int ret = 0;
+    for( auto &i : worn ) {
+        if( i.covers( bp ) ) {
+            ret += i.acid_resist();
+        }
+    }
+
+    return ret;
+}
+
+int player::get_armor_fire(body_part bp) const
+{
+    int ret = 0;
+    for( auto &i : worn ) {
+        if( i.covers( bp ) ) {
+            ret += i.fire_resist();
+        }
+    }
+
+    return ret;
+}
+
 bool player::armor_absorb(damage_unit& du, item& armor) {
     if( rng( 1, 100 ) > armor.get_coverage() ) {
         return false;
@@ -12928,10 +12989,10 @@ bool player::armor_absorb(damage_unit& du, item& armor) {
     const float mitigation = std::min(effective_resist, du.amount);
     du.amount -= mitigation; // mitigate the damage first
 
-    if( mitigation <= 0 ) {
-        // If it doesn't protect from it at all, it's some weird type,
-        // like electricity (which should not damage clothing)
-        // or fire (for which resistance isn't implemented yet so it would slice power armor)
+    // We want armor's own resistance to this type, not the resistance it grants
+    const int armors_own_resist = resistances( armor, true ).type_resist( du.type );
+    if( armors_own_resist > 1000 ) {
+        // This is some weird type that doesn't damage armors
         return false;
     }
 
@@ -12946,48 +13007,56 @@ bool player::armor_absorb(damage_unit& du, item& armor) {
     // Don't damage armor as much when bypassed by armor piercing
     // Most armor piercing damage comes from bypassing armor, not forcing through
     const int raw_dmg = du.amount;
-    const int raw_armor = res.type_resist( du.type );
-    if( (raw_dmg > raw_armor && !one_in(du.amount) && one_in(2)) ||
-        // or if it isn't, but 1/50 chance
-        (raw_dmg <= raw_armor && !armor.has_flag("STURDY") &&
-         !armor.is_power_armor() && one_in(200)) ) {
-
-        auto &material = armor.get_random_material();
-        std::string damage_verb = ( du.type == DT_BASH ) ?
-            material.bash_dmg_verb() : material.cut_dmg_verb();
-
-        const std::string pre_damage_name = armor.tname();
-        const std::string pre_damage_adj = armor.get_base_material().
-            dmg_adj(armor.damage);
-
-        // add "further" if the damage adjective and verb are the same
-        std::string format_string = ( pre_damage_adj == damage_verb ) ?
-            _("Your %1$s is %2$s further!") : _("Your %1$s is %2$s!");
-        add_msg_if_player( m_bad, format_string.c_str(), pre_damage_name.c_str(),
-                           damage_verb.c_str());
-        //item is damaged
-        if( is_player() ) {
-            SCT.add(posx(), posy(), NORTH, remove_color_tags( pre_damage_name ),
-                    m_neutral, damage_verb, m_info);
+    if( raw_dmg > armors_own_resist ) {
+        // If damage is above armor value, the chance to avoid armor damage is
+        // 50% + 50% * 1/dmg
+        if( one_in( raw_dmg ) || one_in( 2 ) ) {
+            return false;
         }
-
-        if (armor.has_flag("FRAGILE")) {
-            armor.damage += rng(2,3);
-        } else {
-            armor.damage++;
-        }
-
-        if( armor.damage >= 5 ) {
-            //~ %s is armor name
-            add_memorial_log( pgettext("memorial_male", "Worn %s was completely destroyed."),
-                              pgettext("memorial_female", "Worn %s was completely destroyed."),
-                              pre_damage_name.c_str() );
-            add_msg_player_or_npc( m_bad, _("Your %s is completely destroyed!"),
-                                   _("<npcname>'s %s is completely destroyed!"),
-                                   pre_damage_name.c_str() );
-            return true;
+    } else {
+        // Sturdy items and power armors never take chip damage.
+        // Other armors have 0.5% of getting damaged from hits below their armor value.
+        if( armor.has_flag("STURDY") || armor.is_power_armor() || !one_in( 200 ) ) {
+            return false;
         }
     }
+
+    auto &material = armor.get_random_material();
+    std::string damage_verb = ( du.type == DT_BASH ) ?
+        material.bash_dmg_verb() : material.cut_dmg_verb();
+
+    const std::string pre_damage_name = armor.tname();
+    const std::string pre_damage_adj = armor.get_base_material().
+        dmg_adj(armor.damage);
+
+    // add "further" if the damage adjective and verb are the same
+    std::string format_string = ( pre_damage_adj == damage_verb ) ?
+        _("Your %1$s is %2$s further!") : _("Your %1$s is %2$s!");
+    add_msg_if_player( m_bad, format_string.c_str(), pre_damage_name.c_str(),
+                       damage_verb.c_str());
+    //item is damaged
+    if( is_player() ) {
+        SCT.add(posx(), posy(), NORTH, remove_color_tags( pre_damage_name ),
+                m_neutral, damage_verb, m_info);
+    }
+
+    if (armor.has_flag("FRAGILE")) {
+        armor.damage += rng(2,3);
+    } else {
+        armor.damage++;
+    }
+
+    if( armor.damage >= 5 ) {
+        //~ %s is armor name
+        add_memorial_log( pgettext("memorial_male", "Worn %s was completely destroyed."),
+                          pgettext("memorial_female", "Worn %s was completely destroyed."),
+                          pre_damage_name.c_str() );
+        add_msg_player_or_npc( m_bad, _("Your %s is completely destroyed!"),
+                               _("<npcname>'s %s is completely destroyed!"),
+                               pre_damage_name.c_str() );
+        return true;
+    }
+
     return false;
 }
 

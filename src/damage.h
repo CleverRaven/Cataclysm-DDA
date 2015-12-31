@@ -17,7 +17,7 @@ class item;
 class monster;
 class Creature;
 
-enum damage_type {
+enum damage_type : int {
     DT_NULL = 0, // null damage, doesn't exist
     DT_TRUE, // typeless damage, should always go through
     DT_BIOLOGICAL, // internal damage, like from smoke or poison
@@ -75,7 +75,8 @@ struct resistances {
 
     resistances();
 
-    resistances(item &armor);
+    // If to_self is true, we want armor's own resistance, not one it provides to wearer
+    resistances( item &armor, bool to_self = false );
     resistances(monster &monster);
     void set_resist(damage_type dt, int amount);
     int type_resist(damage_type dt) const;
