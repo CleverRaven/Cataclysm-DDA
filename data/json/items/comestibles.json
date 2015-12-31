@@ -20305,6 +20305,7 @@
         "seed_data": {
             "plant_name": "pumpkin",
             "fruit": "pumpkin",
+            "fruit_div": 3,
             "byproducts": [ "withered" ],
             "grow" : 91
         }

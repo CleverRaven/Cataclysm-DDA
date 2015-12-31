@@ -828,6 +828,7 @@ void Item_factory::load_container(JsonObject &jo)
 void Item_factory::load( islot_seed &slot, JsonObject &jo )
 {
     slot.grow = jo.get_int( "grow" );
+    slot.fruit_div = jo.get_int( "fruit_div", 1 );
     slot.plant_name = _( jo.get_string( "plant_name" ).c_str() );
     slot.fruit_id = jo.get_string( "fruit" );
     slot.spawn_seeds = jo.get_bool( "seeds", true );
