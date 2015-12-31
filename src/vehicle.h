@@ -527,6 +527,7 @@ public:
     int global_y() const;
     point global_pos() const;
     tripoint global_pos3() const;
+    tripoint global_part_pos3( const int &index ) const;
     /**
      * Really global absolute coordinates in map squares.
      * This includes the overmap, the submap, and the map square.

@@ -1371,7 +1371,7 @@ void vehicle::use_controls(const tripoint &pos)
                     break;
                 } else {
                     toggle_specific_part( index, true );
-                    tripoint part_pos = global_pos3() + parts[index].precalc[0];
+                    tripoint part_pos = global_part_pos3( index );
                     // emit noise for all found chainsaws but show onomatopoeia in log only once
                     //~ sound of starting chainsaw
                     sounds::sound( part_pos, 30, msg_shown ? "" : _( "brum-brum-graGRAHHHN!" ) );
@@ -1533,7 +1533,7 @@ bool vehicle::start_engine( const int e )
         if( einfo.fuel_type == fuel_type_gasoline && dmg > 0.75 && one_in( 20 ) ) {
             backfire( e );
         } else {
-            const tripoint pos = global_pos3() + parts[engines[e]].precalc[0];
+            const tripoint pos = global_part_pos3( engines[e] );
             sounds::ambient_sound( pos, engine_start_time( e ) / 10, "" );
         }
     }
@@ -1590,7 +1590,7 @@ void vehicle::start_engines( const bool take_control )
 void vehicle::backfire( const int e )
 {
     const int power = part_power( engines[e], true );
-    const tripoint pos = global_pos3() + parts[engines[e]].precalc[0];
+    const tripoint pos = global_part_pos3( engines[e] );
     sounds::ambient_sound( pos, 40 + (power / 30), "BANG!" );
 }
 
@@ -1613,7 +1613,7 @@ void vehicle::honk_horn()
             honked = true;
         }
         //Get global position of horn
-        const auto horn_pos = global_pos3() + parts[p].precalc[0];
+        const auto horn_pos = global_part_pos3( p );
         //Determine sound
         if( horn_type.bonus >= 40 ) {
             sounds::sound( horn_pos, horn_type.bonus, _("HOOOOORNK!") );
@@ -1647,10 +1647,8 @@ void vehicle::beeper_sound()
         }
 
         const vpart_info &beeper_type = part_info( p );
-        //Get global position of backup beeper
-        const tripoint beeper_pos = global_pos3() + parts[p].precalc[0];
         //Determine sound
-        sounds::sound( beeper_pos, beeper_type.bonus, _("beep!") );
+        sounds::sound( global_part_pos3( p ), beeper_type.bonus, _("beep!") );
     }
 }
 
@@ -3012,6 +3010,11 @@ tripoint vehicle::global_pos3() const
     return tripoint( smx * SEEX + posx, smy * SEEY + posy, smz );
 }
 
+tripoint vehicle::global_part_pos3( const int &index ) const
+{
+    return global_pos3() + parts[index].precalc[0];
+}
+
 point vehicle::real_global_pos() const
 {
     return g->m.getabs( global_x(), global_y() );
@@ -3321,7 +3324,7 @@ bool vehicle::do_environmental_effects()
     bool needed = false;
     // check for smoking parts
     for( size_t p = 0; p < parts.size(); p++ ) {
-        auto part_pos = global_pos3() + parts[p].precalc[0];
+        auto part_pos = global_part_pos3( p );
 
         /* Only lower blood level if:
          * - The part is outside.
@@ -3710,9 +3713,9 @@ void vehicle::consume_fuel( double load = 1.0 )
             //~ sounds of working chainsaw
             const char *sound_msgs[] = { _( "brrr!" ), _( "grrr!" ), _( "GRRZRRZ!" ) };
             for( auto &part : all_parts_with_feature( "CHAINSAW" ) ) {
-                tripoint part_pos = global_pos3() + parts[ part ].precalc[0];
                 // show onomatopoeia rarely but emit noise all time
-                sounds::sound( part_pos, 20, one_in( 15 ) ? sound_msgs[rng( 0, 2 )] : "" );
+                sounds::sound( global_part_pos3( part ), 20,
+                               one_in( 15 ) ? sound_msgs[rng( 0, 2 )] : "" );
             }
         }
     }
@@ -4091,7 +4094,7 @@ void vehicle::on_move(){
 
 void vehicle::operate_plow(){
     for( const int plow_id : all_parts_with_feature( "PLOW" ) ){
-        const tripoint start_plow = global_pos3() + parts[plow_id].precalc[0];
+        const tripoint start_plow = global_part_pos3( plow_id );
         if( g->m.has_flag("DIGGABLE", start_plow) ){
             g->m.ter_set( start_plow, t_dirtmound );
         } else {
@@ -4128,7 +4131,7 @@ void vehicle::operate_reaper(){
 void vehicle::operate_planter(){
     std::vector<int> planters = all_parts_with_feature("PLANTER");
     for( int planter_id : planters ){
-        const tripoint &loc = global_pos3() + parts[planter_id].precalc[0];
+        const tripoint &loc = global_part_pos3( planter_id );
         vehicle_stack v = get_items(planter_id);
         for( auto i = v.begin(); i != v.end(); i++ ){
             if( i->is_seed() ){
@@ -4167,11 +4170,11 @@ void vehicle::operate_scoop()
         const int chance_to_damage_item = 9;
         int max_pickup_size = parts[scoop].info().size / 10;
         const char *sound_msgs[] = {_("Whirrrr"), _("Ker-chunk"), _("Swish"), _("Cugugugugug")};
-        sounds::sound( global_pos3() + parts[scoop].precalc[0], rng( 20, 35 ),
+        sounds::sound( global_part_pos3( scoop ), rng( 20, 35 ),
                        sound_msgs[rng( 0, 3 )] );
         std::vector<tripoint> parts_points;
         for( const tripoint &current :
-                 g->m.points_in_radius( global_pos3() + parts[scoop].precalc[0], 1 ) ) {
+                 g->m.points_in_radius( global_part_pos3( scoop ), 1 ) ) {
             parts_points.push_back( current );
         }
         for( const tripoint &position : parts_points ) {
@@ -5519,7 +5522,7 @@ void vehicle::remove_remote_part(int part_num) {
 
     // If the target vehicle is still there, ask it to remove its part
     if (veh != nullptr) {
-        auto pos = global_pos3() + parts[part_num].precalc[0];
+        auto pos = global_part_pos3( part_num );
         tripoint local_abs = g->m.getabs( pos );
 
         for( size_t j = 0; j < veh->loose_parts.size(); j++) {
@@ -6003,7 +6006,7 @@ turret_fire_ability vehicle::turret_can_shoot( const int p, const tripoint &pos 
     }
 
     const int turrange = get_turret_range( p, true );
-    tripoint tpos( global_pos3() + parts[p].precalc[0] );
+    tripoint tpos( global_part_pos3( p ) );
     if( rl_dist( tpos, pos ) > turrange ) {
         return turret_out_of_range;
     }
@@ -6046,7 +6049,7 @@ bool vehicle::aim_turrets()
             continue;
         }
 
-        tripoint tpos = global_pos3() + parts[turret_index].precalc[0];
+        tripoint tpos = global_part_pos3( turret_index );
         bounds.push_back( { tpos.x + turrange, tpos.y, tpos.z } );
         bounds.push_back( { tpos.x - turrange, tpos.y, tpos.z } );
         bounds.push_back( { tpos.x, tpos.y + turrange, tpos.z } );
