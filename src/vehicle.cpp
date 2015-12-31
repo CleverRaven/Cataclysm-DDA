@@ -4781,20 +4781,20 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
             }
         } else if( ret.type == veh_coll_body ) {
             int dam = obj_dmg * dmg_mod / 100;
-            //TODO: move this to idle() & on_move() functions
-            if( is_body_collision && chainsaw_on &&
-                part_info( ret.part ).has_flag( "CHAINSAW" ) && parts[part].hp > 0 ) {
+            if( is_body_collision && parts[ret.part].enabled &&
+                part_info( ret.part ).has_flag( "CHAINSAW" ) ) {
                     std::string mat = critter->get_material();
-                    if( mat == "steel" ) {
+                    if( mat == "steel" || mat == "iron" || mat == "gold" || mat == "silver" ||
+                        mat == "stone" ) {
                         dam += 5;
-                        damage_direct(part, 100, DT_TRUE);
+                        damage_direct(ret.part, 100, DT_TRUE);
                     } else if( mat == "bone" ) {
                         dam += 10;
-                        damage_direct(part, 20, DT_TRUE);
-                    } else if( mat == "protoplasmic" ) {
+                        damage_direct(ret.part, 30, DT_TRUE);
+                    } else if( mat == "protoplasmic" || mat == "kevlar" ) {
                         dmg += 0;
                     } else {
-                    // default case: flesh, iflesh, veggy
+                    // default case: flesh, iflesh, veggy, wood, cotton, wool, etc.
                         dam += 70;
                     }
             }
