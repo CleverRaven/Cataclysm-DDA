@@ -1664,36 +1664,6 @@
   ]
 },{
   "type" : "recipe",
-  "result": "rifle_50",
-  "category": "CC_WEAPON",
-  "subcategory": "CSC_WEAPON_RANGED",
-  "skill_used": "mechanics",
-  "skills_required": [ "gun", 6 ],
-  "difficulty": 8,
-  "time": 660000,
-  "reversible": false,
-  "autolearn": true,
-  "tools": [
-    [ ["goggles_welding", -1] ],
-    [
-      ["oxy_torch", 60],
-      ["welder", 300],
-      ["welder_crude", 450],
-      ["small_repairkit", 300],
-      ["large_repairkit", 450],
-      ["toolset", 450]
-    ],
-    [
-      ["large_repairkit", 250]
-    ]
-  ], "components": [
-    [ [ "pipe", 6 ] ],
-    [ [ "spring", 3 ] ],
-    [ [ "steel_lump", 4 ] ],
-    [ [ "plastic_chunk", 4 ] ]
-  ]
-},{
-  "type" : "recipe",
   "result": "triple_launcher_simple",
   "category": "CC_WEAPON",
   "subcategory": "CSC_WEAPON_RANGED",
