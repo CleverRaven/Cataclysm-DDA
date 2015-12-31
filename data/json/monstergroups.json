@@ -1293,6 +1293,15 @@
     ]
   },{
     "type":"monstergroup",
+    "name" : "GROUP_CHILD_ZOMBIE_UPGRADE",
+    "default" : "mon_zombie_spitter",
+    "//" : "this is a sub-group of mutated zombie types that can only evolve from zombified human children",
+    "monsters" : [
+      { "monster" : "mon_zombie_anklebiter", "freq" : 10, "cost_multiplier" : 5 },
+      { "monster" : "mon_zombie_waif", "freq" : 30, "cost_multiplier" : 7 }
+    ]
+  },{
+    "type":"monstergroup",
     "name" : "GROUP_SAFE",
     "is_safe" : true,
     "default" : "mon_null",

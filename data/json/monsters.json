@@ -2901,11 +2901,89 @@
             [ "child_items", 65 ]
         ]
     },
+    "upgrades":{
+        "into_group": "GROUP_CHILD_ZOMBIE_UPGRADE",
+        "half_life": 28
+    },
     "hp":40,
     "death_function":["NORMAL"],
     "description":"It was only a child, and little is different about it now aside from the hungry look in its eyes.  You'd be hard pressed to not feel like you were killing an actual child by putting it down.",
     "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "BLEED", "POISON", "GUILT", "NO_BREATHE", "REVIVES", "BONES"],
     "categories":["CLASSIC"]
+    },{
+    "type" : "MONSTER",
+    "id" : "mon_zombie_anklebiter",
+    "name": "feral anklebiter",
+    "species":"ZOMBIE",
+    "default_faction":"zombie",
+    "symbol":"z",
+    "color":"brown",
+    "size":"SMALL",
+    "material":"flesh",
+    "diff":3,
+    "aggression":100,
+    "morale":100,
+    "speed":95,
+    "melee_skill":4,
+    "melee_dice":2,
+    "melee_dice_sides":4,
+    "melee_cut":2,
+    "dodge":3,
+    "armor_bash":0,
+    "armor_cut":0,
+    "vision_day":30,
+    "vision_night":3,
+    "death_drops": {
+        "subtype": "collection",
+        "//": "cloth as any other zombie (always), additional items from child_items (sometimes)",
+        "groups": [
+            [ "default_zombie_clothes", 100 ],
+            [ "child_items", 65 ]
+        ]
+    },
+    "hp":35,
+    "death_function":["NORMAL"],
+    "special_attacks":[["BITE", 2]],
+    "description":"This horrifying little mutated wretch looks to have once been a chid, but its massive gaping jaws are now far more suggestive of a predatory beast.",
+    "//": "no GUILT because it no longer looks enough like a child to evoke pity",
+    "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BASHES", "BLEED", "POISON", "NO_BREATHE", "REVIVES", "BONES"]
+    },{
+    "type" : "MONSTER",
+    "id" : "mon_zombie_waif",
+    "name": "zombie waif",
+    "species":"ZOMBIE",
+    "default_faction":"zombie",
+    "symbol":"z",
+    "color":"white",
+    "size":"SMALL",
+    "material":"bone",
+    "diff":3,
+    "aggression":80,
+    "morale":100,
+    "speed":65,
+    "melee_skill":2,
+    "melee_dice":2,
+    "melee_dice_sides":2,
+    "melee_cut":1,
+    "dodge":1,
+    "armor_bash":0,
+    "armor_cut":0,
+    "vision_day":30,
+    "vision_night":3,
+    "death_drops": {
+        "subtype": "collection",
+        "//": "cloth as any other zombie (always), additional items from child_items (sometimes)",
+        "groups": [
+            [ "default_zombie_clothes", 100 ],
+            [ "child_items", 65 ]
+        ]
+    },
+    "hp":15,
+    "death_function":["NORMAL"],
+    "special_attacks":[["SHRIEK", 15]],
+    "description":"Undeath has not been kind to the children of the apocalypse.  This one is little more than a reanimated membrane of skin stretched across tiny brittle bones.",
+    "//": "GUILT because it still looks enough like a child to evoke pity",
+    "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BLEED", "GUILT", "POISON", "NO_BREATHE", "REVIVES", "BONES", "HARDTOSHOOT"]
     },{
         "type" : "MONSTER",
         "id" : "mon_jabberwock",
