@@ -803,7 +803,7 @@ class player : public Character, public JsonSerializer, public JsonDeserializer
         /** Returns overall fire resistance for the body part */
         int get_armor_fire(body_part bp) const;
         /** Returns overall resistance to given type on the bod part */
-        int get_armor_type( damage_type dt, body_part bp ) const;
+        int get_armor_type( damage_type dt, body_part bp ) const override;
         /** Returns true if the player is wearing something on the entered body_part */
         bool wearing_something_on(body_part bp) const;
         /** Returns true if the player is wearing something on the entered body_part, ignoring items with the ALLOWS_NATURAL_ATTACKS flag */
