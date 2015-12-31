@@ -4174,31 +4174,14 @@ int player::overmap_sight_range(int light_level) const
     if( sight <= SEEX * 4) {
         return (sight / (SEEX / 2) );
     }
-    if ( has_item_with_flag( "ZOOM" ) &&
-        !has_trait( "EAGLEEYED" ) )  {
-         if ( has_trait( "BIRD_EYE" ) ) {
-             return 25;
-         }
-        return 20;
+    sight = has_trait( "BIRD_EYE" ) ? 15 : 10;
+    bool has_optic = ( has_item_with_flag( "ZOOM" ) || has_bionic( "bio_optic" ) );
+    if( has_optic && has_trait( "EAGLEEYED" ) ) {
+        sight += 15;
+    } else if( has_optic != has_trait( "EAGLEEYED" ) ) {
+        sight += 10;
     }
-    else if ( !has_item_with_flag( "ZOOM" ) &&
-        has_trait( "EAGLEEYED" ) )  {
-         if ( has_trait( "BIRD_EYE" ) ) {
-             return 25;
-         }
-        return 20;
-    }
-    else if ( has_item_with_flag( "ZOOM" ) &&
-        has_trait( "EAGLEEYED" ) )  {
-         if ( has_trait( "BIRD_EYE" ) ) {
-             return 30;
-         }
-        return 25;
-    }
-    else if ( has_trait( "BIRD_EYE" ) ) {
-            return 15;
-        }
-    return 10;
+    return sight;
 }
 
 #define MAX_CLAIRVOYANCE 40

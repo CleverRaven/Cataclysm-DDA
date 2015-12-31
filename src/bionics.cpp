@@ -1335,8 +1335,13 @@ bool player::uninstall_bionic(std::string const &b_id, int skill_level)
         return false;
     }
 
-	if ( b_id == "bio_blindfold") {
-        popup(_("You must remove the Anti-glare Compensators bionic to remove the Optical Dampers."));
+	if( b_id == "bio_eye_optic" ) {
+        popup(_("The Telescopic Lenses are part of your eyes now.  Removing them would leave you blind.") );
+        return false;
+    }
+
+	if( b_id == "bio_blindfold" ) {
+        popup(_("You must remove the Anti-glare Compensators bionic to remove the Optical Dampers.") );
         return false;
     }
 
@@ -1491,6 +1496,10 @@ bool player::install_bionics(const itype &type, int skill_level)
             add_bionic("bio_earplugs"); // automatically add the earplugs, they're part of the same bionic
         } else if (bioid == "bio_sunglasses") {
 			add_bionic("bio_blindfold"); // automatically add the Optical Dampers, they're part of the same bionic
+        } else if (bioid == "bio_eye_optic" && g->u.has_trait( "HYPEROPIC" ) ) {
+            g->u.remove_mutation( "HYPEROPIC" );
+        } else if (bioid == "bio_eye_optic" && g->u.has_trait( "MYOPIC" ) ) {
+            g->u.remove_mutation( "MYOPIC" );
         } else if (bioid == "bio_reactor_upgrade") {
             remove_bionic("bio_reactor");
             remove_bionic("bio_reactor_upgrade");
