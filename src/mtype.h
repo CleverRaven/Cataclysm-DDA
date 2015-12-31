@@ -209,6 +209,9 @@ struct mtype {
         unsigned char sk_dodge;    // Dodge skill; should be 0 to 5
         unsigned char armor_bash;  // Natural armor vs. bash
         unsigned char armor_cut;   // Natural armor vs. cut
+        unsigned char armor_stab;  // Natural armor vs. stabbing
+        unsigned char armor_acid;  // Natural armor vs. acid
+        unsigned char armor_fire;  // Natural armor vs. fire
         std::map<std::string, int> starting_ammo; // Amount of ammo the monster spawns with.
         // Name of item group that is used to create item dropped upon death, or empty.
         std::string death_drops;

@@ -699,28 +699,6 @@
     },
     {
         "type":"GENERIC",
-        "id": "binoculars",
-        "category" : "tools",
-        "symbol": ";",
-        "color": "dark_gray",
-        "name": "pair of binoculars",
-        "name_plural": "pairs of binoculars",
-        "description": "A tool useful for seeing long distances.  Simply carrying this item in your inventory will double the distance that is mapped around you during your travels.  You could also use them to focus the sunlight.",
-        "price": 30000,
-        "material": ["plastic", "glass"],
-        "flags": [ "LENS" ],
-        "weight": 708,
-        "volume": 2,
-        "bashing": 4,
-        "cutting": 0,
-        "to_hit": -1,
-        "use_action": {
-            "type": "extended_firestarter",
-            "need_sunlight": true
-        }
-    },
-    {
-        "type":"GENERIC",
         "id": "usb_drive",
         "symbol": ",",
         "color": "white",

@@ -11028,6 +11028,7 @@ void game::butcher()
     const int factor = u.butcher_factor();
     bool has_corpse = false;
     bool has_item = false;
+    const item *first_item_without_tools = nullptr;
     // indices of corpses / items that can be disassembled
     std::vector<int> corpses;
     auto items = m.i_at(u.pos());
@@ -11063,14 +11064,22 @@ void game::butcher()
             }
         }
     }
-    // then get items to disassemble
-    for (size_t i = 0; i < items.size(); i++) {
-        if( !items[i].is_corpse() ) {
-            const recipe *cur_recipe = get_disassemble_recipe(items[i].type->id);
-            if (cur_recipe != NULL && u.can_disassemble(items[i], cur_recipe, crafting_inv, false)) {
-                corpses.push_back(i);
-                has_item = true;
-            }
+    // Then get items to disassemble
+    for( size_t i = 0; i < items.size(); i++ ) {
+        if( items[i].is_corpse() ) {
+            continue;
+        }
+
+        const recipe *cur_recipe = get_disassemble_recipe(items[i].type->id);
+        if( cur_recipe == nullptr ) {
+            continue;
+        }
+
+        if( u.can_disassemble( items[i], cur_recipe, crafting_inv, false ) ) {
+            corpses.push_back(i);
+            has_item = true;
+        } else if( first_item_without_tools == nullptr ) {
+            first_item_without_tools = &items[i];
         }
     }
     // Now salvageable items
@@ -11087,9 +11096,14 @@ void game::butcher()
 
     if (corpses.empty()) {
         if( factor > INT_MIN ) {
-            add_msg(m_info, _("There are no corpses here to butcher."));
+            add_msg( m_info, _("There are no corpses here to butcher.") );
+        } else if( first_item_without_tools != nullptr ) {
+            add_msg( m_info, _("You don't have the necessary tools to disassemble any items here.") );
+            const recipe *cur_recipe = get_disassemble_recipe( first_item_without_tools->type->id );
+            // Just for the "You need x to disassemble y" messages
+            u.can_disassemble( *first_item_without_tools, cur_recipe, crafting_inv, true );
         } else {
-            add_msg(m_info, _("You don't have a sharp item to butcher with."));
+            add_msg( m_info, _("You don't have a sharp item to butcher with.") );
         }
         return;
     }
@@ -11325,7 +11339,13 @@ void game::reload( int pos )
     // pick ammo
     int am_pos = it->pick_reload_ammo( u, true );
     if( am_pos == INT_MIN ) {
-        add_msg( m_info, _( "Out of %s!" ), it->is_gun() ? _("ammo") : ammo_name( it->ammo_type() ).c_str() );
+       if( it->is_gun() ) {
+            add_msg( m_info, _( "Out of ammo!" ) );
+        } else if( it->has_curammo() ) {
+            add_msg( m_info, _( "Out of %s!" ), item::nname( it->get_curammo_id() ).c_str() );
+        } else {
+            add_msg( m_info, _( "Out of %s!" ), ammo_name( it->ammo_type() ).c_str() );
+        }
     } else if( am_pos == INT_MIN + 2 ) {
         add_msg( m_info, _( "Never mind." ) );
     } else {

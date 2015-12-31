@@ -341,10 +341,10 @@ void Character::recalc_sight_limits()
     if( has_trait("DEBUG_NIGHTVISION") ) {
         vision_mode_cache.set( DEBUG_NIGHTVISION );
     }
-    if( has_nv() || is_wearing("rm13_armor_on") ) {
+    if( has_nv() ) {
         vision_mode_cache.set( NV_GOGGLES );
     }
-    if( has_active_mutation("NIGHTVISION3") ) {
+    if( has_active_mutation("NIGHTVISION3") || is_wearing("rm13_armor_on") ) {
         vision_mode_cache.set( NIGHTVISION_3 );
     }
     if( has_active_mutation("ELFA_FNV") ) {
@@ -1215,7 +1215,7 @@ hp_part Character::body_window( bool precise ) const
 hp_part Character::body_window( const std::string &menu_header,
                                 bool show_all, bool precise,
                                 int normal_bonus, int head_bonus, int torso_bonus,
-                                int bleed, int bite, int infect ) const
+                                bool bleed, bool bite, bool infect ) const
 {
     WINDOW *hp_window = newwin(10, 31, (TERMY - 10) / 2, (TERMX - 31) / 2);
     draw_border(hp_window);

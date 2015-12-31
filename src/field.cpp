@@ -1757,14 +1757,8 @@ void map::player_in_field( player &u )
             int total_damage = 0;
             // Use a helper for a bit less boilerplate
             const auto burn_part = [&]( body_part bp, const int scale ) {
-                const int corr = u.get_effect_int( "corroding", bp );
-                // Acid resistance itself protects the items,
-                //  environmental protection is needed to prevent it from getting inside.
-                // Also rescale arpen for different body parts - they get damaged less, but aren't
-                //  protected any better.
-                const int arpen = std::max<int>( 0, corr - u.get_env_resist( bp ) + (5 - scale) );
                 const int damage = std::max<int>( density, rng( 1, scale ) );
-                auto ddi = u.deal_damage( nullptr, bp, damage_instance( DT_ACID, damage, arpen ) );
+                auto ddi = u.deal_damage( nullptr, bp, damage_instance( DT_ACID, damage ) );
                 total_damage += ddi.total_damage();
                 // Represents acid seeping in rather than being splashed on
                 u.add_env_effect( "corroding", bp, 3, rng( 1, density ), bp, false, 0 );
@@ -1836,58 +1830,71 @@ void map::player_in_field( player &u )
                 }
             }
             {
-                std::list<int> parts_burned;
-                int burn_min = 0;
-                int burn_max = 0;
-                // first is for the player, second for the npc
-                std::string burn_message[2];
-                switch( adjusted_intensity ) {
-                case 3:
-                    burn_message[0] = _("You're set ablaze!");
-                    burn_message[1] = _("<npcname> is set ablaze!");
-                    burn_min = 4;
-                    burn_max = 12;
-                    parts_burned.push_back( bp_hand_l );
-                    parts_burned.push_back( bp_hand_r );
-                    parts_burned.push_back( bp_arm_l );
-                    parts_burned.push_back( bp_arm_r );
-                    // Only blazing fires set you ablaze.
-                    u.add_effect("onfire", 5);
-                    // Fallthrough intentional.
-                case 2:
-                    if( burn_message[0].empty() ) {
-                        burn_message[0] = _("You're burning up!");
-                        burn_message[1] = _("<npcname> is burning up!");
-                        burn_min = 2;
-                        burn_max = 9;
+                // Burn message by intensity
+                static const std::array<std::string, 4> player_burn_msg = {{
+                    _("You burn your legs and feet!"),
+                    _("You're burning up!"),
+                    _("You're set ablaze!"),
+                    _("Your whole body is burning!")
+                }};
+                static const std::array<std::string, 4> npc_burn_msg = {{
+                    _("<npcname> burns their legs and feet!"),
+                    _("<npcname> is burning up!"),
+                    _("<npcname> is set ablaze!"),
+                    _("<npcname>s whole body is burning!")
+                }};
+                static const std::array<std::string, 4> player_warn_msg = {{
+                    _("You're standing in a fire!"),
+                    _("You're waist-deep in a fire!"),
+                    _("You're surrounded by raging fire!"),
+                    _("You're lying in fire!")
+                }};
+
+                int burn_min = adjusted_intensity;
+                int burn_max = 3 * adjusted_intensity + 3;
+                std::list<body_part> parts_burned;
+                int msg_num = adjusted_intensity - 1;
+                if( !u.is_on_ground() ) {
+                    switch( adjusted_intensity ) {
+                        case 3:
+                            parts_burned.push_back( bp_hand_l );
+                            parts_burned.push_back( bp_hand_r );
+                            parts_burned.push_back( bp_arm_l );
+                            parts_burned.push_back( bp_arm_r );
+                            // Fallthrough intentional.
+                        case 2:
+                            parts_burned.push_back( bp_torso );
+                            // Fallthrough intentional.
+                        case 1:
+                            parts_burned.push_back( bp_foot_l );
+                            parts_burned.push_back( bp_foot_r );
+                            parts_burned.push_back( bp_leg_l );
+                            parts_burned.push_back( bp_leg_r );
                     }
-                    parts_burned.push_back( bp_torso );
-                    // Fallthrough intentional.
-                case 1:
-                    if( burn_message[0].empty() ) {
-                        burn_message[0] = _("You burn your legs and feet!");
-                        burn_message[1] = _("<npcname> burns their legs and feet!");
-                        burn_min = 1;
-                        burn_max = 6;
-                    }
-                    parts_burned.push_back( bp_foot_l );
-                    parts_burned.push_back( bp_foot_r );
-                    parts_burned.push_back( bp_leg_l );
-                    parts_burned.push_back( bp_leg_r );
-                }
-                if( u.is_on_ground() ) {
+                } else {
                     // Lying in the fire is BAAAD news, hits every body part.
-                    burn_message[0] = _("Your whole body is burning!");
-                    burn_message[1] = _("<npcname>s whole body is burning!");
-                    parts_burned.clear();
+                    msg_num = 3;
                     for( int i = 0; i < num_bp; ++i ) {
-                        parts_burned.push_back( i );
+                        parts_burned.push_back( (body_part)i );
                     }
                 }
-                u.add_msg_player_or_npc( m_bad, burn_message[0].c_str(), burn_message[1].c_str() );
+
+                int total_damage = 0;
                 for( auto part_burned : parts_burned ) {
-                    u.deal_damage( nullptr, (enum body_part)part_burned,
-                                      damage_instance( DT_HEAT, rng( burn_min, burn_max ) ) );
+                    const auto dealt = u.deal_damage( nullptr, part_burned,
+                        damage_instance( DT_HEAT, rng( burn_min, burn_max ) ) );
+                    total_damage += dealt.type_damage( DT_HEAT );
+                }
+                if( total_damage > 10 ) {
+                    u.add_effect( "onfire", 2 + adjusted_intensity );
+                }
+                if( total_damage > 0 ) {
+                    u.add_msg_player_or_npc( m_bad,
+                        player_burn_msg[msg_num].c_str(),
+                        npc_burn_msg[msg_num].c_str() );
+                } else {
+                    u.add_msg_if_player( m_warning,
+                        player_warn_msg[msg_num].c_str() );
                 }
                 u.check_dead_state();
             }
@@ -2196,6 +2203,7 @@ void map::monster_in_field( monster &z )
             if (z.has_flag(MF_FIREPROOF)){
                 return;
             }
+            // TODO: Replace the section below with proper json values
             if ( z.made_of("flesh") || z.made_of("hflesh") || z.made_of("iflesh") ) {
                 dam += 3;
             }
@@ -2212,6 +2220,7 @@ void map::monster_in_field( monster &z )
             if (z.has_flag(MF_FLIES)) {
                 dam -= 15;
             }
+            dam -= z.get_armor_type( DT_HEAT, bp_torso );
 
             if (cur->getFieldDensity() == 1) {
                 dam += rng(2, 6);
@@ -2219,18 +2228,16 @@ void map::monster_in_field( monster &z )
                 dam += rng(6, 12);
                 if (!z.has_flag(MF_FLIES)) {
                     z.moves -= 20;
-                    if (!z.made_of(LIQUID) && !z.made_of("stone") && !z.made_of("kevlar") &&
-                        !z.made_of("steel") && !z.has_flag(MF_FIREY)) {
-                        z.add_effect("onfire", rng(3, 8));
+                    if( dam > 0 ) {
+                        z.add_effect("onfire", rng(dam / 2, dam * 2));
                     }
                 }
             } else if (cur->getFieldDensity() == 3) {
                 dam += rng(10, 20);
                 if (!z.has_flag(MF_FLIES) || one_in(3)) {
                     z.moves -= 40;
-                    if (!z.made_of(LIQUID) && !z.made_of("stone") && !z.made_of("kevlar") &&
-                        !z.made_of("steel") && !z.has_flag(MF_FIREY)) {
-                        z.add_effect("onfire", rng(8, 12));
+                    if( dam > 0 ) {
+                        z.add_effect("onfire", rng(dam / 2, dam * 2));
                     }
                 }
             }

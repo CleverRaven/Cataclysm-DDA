@@ -111,7 +111,6 @@
         "material" : ["steel", "plastic"],
         "mod_targets" : ["shotgun", "smg", "rifle", "crossbow", "launcher"],
         "volume" : 1,
-        "bashing" : 0,
         "recoil_modifier" : -30,
         "price" : 6000,
         "skill_required": 1
@@ -207,7 +206,6 @@
         "material" : ["steel", "plastic"],
         "mod_targets" : ["shotgun", "smg", "rifle", "pistol"],
         "volume" : 2,
-        "bashing" : 0,
         "price" : 7200
     },
     {
@@ -223,7 +221,6 @@
         "material" : ["steel", "plastic"],
         "mod_targets" : ["pistol", "shotgun", "smg", "rifle"],
         "volume" : 1,
-        "bashing" : 0,
         "price" : 5000
     },
     {
@@ -239,7 +236,6 @@
         "material" : ["cotton", "null"],
         "mod_targets" : ["shotgun", "smg", "rifle", "pistol", "launcher"],
         "volume" : 1,
-        "bashing" : 0,
         "price" : 2000,
         "skill_required": 1
     },
@@ -257,7 +253,6 @@
         "material" : ["aluminum", "plastic"],
         "mod_targets" : ["smg", "rifle", "crossbow"],
         "volume" : 3,
-        "bashing" : 0,
         "recoil_modifier" : -60,
         "price" : 68000,
         "skill_required": 7,
@@ -277,7 +272,6 @@
         "material" : ["steel", "null"],
         "mod_targets" : ["smg", "rifle"],
         "volume" : 1,
-        "bashing" : 0,
         "burst_modifier" : 6,
         "price" : 70000,
         "skill_required": 6,
@@ -322,7 +316,6 @@
         "volume" : 1,
         "acceptable_ammo" : ["38", "40", "44", "45"],
         "mod_targets" : ["pistol", "smg"],
-        "bashing" : 0,
         "skill_required": 6,
         "ammo_modifier" : "9mm"
     },
@@ -467,7 +460,6 @@
         "material" : ["steel", "null"],
         "mod_targets" : ["rifle"],
         "volume" : 2,
-        "bashing" : 0,
         "burst_modifier" : -99,
         "price" : 66000,
         "skill_required": 8,
@@ -614,7 +606,6 @@
         "flags" : ["NON_STUCK", "SPEAR", "REACH_ATTACK", "BAYONET"],
         "recoil_modifier" : 45,
         "mod_targets" : ["shotgun", "smg", "rifle", "crossbow", "launcher"],
-        "bashing" : 0,
         "qualities": [["CUT", 1]]
     },
     {
@@ -635,7 +626,6 @@
         "flags" : ["NON_STUCK", "CHOP", "REACH_ATTACK", "BAYONET"],
         "recoil_modifier" : 105,
         "mod_targets" : ["shotgun", "rifle", "crossbow", "launcher"],
-        "bashing" : 0,
         "qualities": [["CUT", 1]]
     },
     {
@@ -655,7 +645,6 @@
         "cutting" : 6,
         "recoil_modifier" : 45,
         "mod_targets" : ["pistol", "smg", "crossbow"],
-        "bashing" : 0,
         "flags" : ["STAB", "BAYONET"],
         "qualities": [["CUT", 1]]
     },
@@ -674,7 +663,6 @@
         "material" : ["steel", "null"],
         "volume" : 0,
         "mod_targets" : ["pistol"],
-        "bashing" : 0,
         "flags" : ["RELOAD_ONE", "IRREMOVABLE"],
         "gun_data" : {
             "skill": "shotgun",
@@ -799,7 +787,6 @@
         "material" : ["steel", "null"],
         "volume" : 0,
         "mod_targets" : ["rifle"],
-        "bashing" : 0,
         "flags" : ["RELOAD_ONE", "IRREMOVABLE"],
         "gun_data" : {
             "skill": "shotgun",
@@ -830,7 +817,6 @@
         "material" : ["steel", "null"],
         "volume" : 4,
         "mod_targets" : ["rifle"],
-        "bashing" : 0,
         "flags" : ["RELOAD_ONE", "IRREMOVABLE"],
         "gun_data" : {
             "skill": "shotgun", "//" : "Derived from pipe shotgun",
@@ -863,7 +849,6 @@
         "material" : ["steel", "null"],
         "volume" : 0,
         "mod_targets" : ["shotgun"],
-        "bashing" : 0,
         "flags" : ["RELOAD_ONE", "IRREMOVABLE"],
         "gun_data" : {
             "skill": "shotgun", "//" : "Stats should mirror the main weapon.",
@@ -928,7 +913,6 @@
         "material" : ["plastic", "steel"],
         "mod_targets" : ["smg", "rifle", "pistol", "shotgun", "crossbow", "bow", "launcher"],
         "volume" : 1,
-        "bashing" : 0,
         "price" : 68000
     },
     {
@@ -946,7 +930,6 @@
         "material" : ["aluminum", "plastic"],
         "mod_targets" : ["bow"],
         "volume" : 1,
-        "bashing" : 0,
         "price" : 5000
     },
     {
@@ -963,7 +946,6 @@
         "material" : ["aluminum", "plastic"],
         "mod_targets" : ["bow"],
         "volume" : 2,
-        "bashing" : 0,
         "price" : 4000,
         "skill_required": 1
     },
@@ -981,7 +963,6 @@
         "material" : ["plastic", "aluminum"],
         "mod_targets" : ["bow"],
         "volume" : 0,
-        "bashing" : 0,
         "price" : 4000,
         "skill_required": 1
     },
@@ -1000,7 +981,6 @@
         "material" : ["plastic", "steel"],
         "mod_targets" : ["smg", "rifle", "pistol", "shotgun", "crossbow", "launcher"],
         "volume" : 0,
-        "bashing" : 0,
         "price" : 68000
     },
     {
@@ -1019,7 +999,6 @@
         "material" : ["plastic", "steel"],
         "mod_targets" : ["smg", "rifle", "pistol", "shotgun", "crossbow", "launcher"],
         "volume" : 0,
-        "bashing" : 0,
         "price" : 72000,
         "skill_required": 1
     },
@@ -1038,7 +1017,6 @@
         "material" : ["plastic", "steel"],
         "mod_targets" : ["smg", "rifle", "shotgun", "pistol", "crossbow", "launcher"],
         "volume" : 1,
-        "bashing" : 0,
         "price" : 68000,
         "skill_required": 2
     },
@@ -1057,7 +1035,6 @@
         "material" : ["plastic", "steel"],
         "mod_targets" : ["smg", "rifle", "shotgun", "crossbow", "pistol", "launcher"],
         "volume" : 1,
-        "bashing" : 0,
         "price" : 68000,
         "skill_required": 3
     },
@@ -1076,7 +1053,7 @@
         "material" : ["aluminum", "glass"],
         "mod_targets" : ["rifle", "crossbow", "launcher"],
         "volume" : 2,
-        "bashing" : 0,
+        "flags" : ["ZOOM"],
         "price" : 68000,
         "skill_required": 5
     },
@@ -1095,7 +1072,6 @@
         "material" : ["aluminum", "glass"],
         "mod_targets" : ["pistol", "smg", "crossbow"],
         "volume" : 1,
-        "bashing" : 0,
         "price" : 54000,
         "skill_required": 3
     },
@@ -1113,7 +1089,6 @@
         "material" : ["steel", "null"],
         "mod_targets" : ["smg", "rifle", "pistol", "shotgun"],
         "volume" : 0,
-        "bashing" : 0,
         "recoil_modifier" : -90,
         "price" : 72000,
         "skill_required": 6,
@@ -1133,7 +1108,6 @@
         "material" : ["steel", "null"],
         "mod_targets" : ["rifle", "shotgun"],
         "volume" : 1,
-        "bashing" : 0,
         "recoil_modifier" : -150,
         "price" : 84000,
         "skill_required": 2,
@@ -1153,7 +1127,6 @@
         "material" : ["steel", "null"],
         "mod_targets" : ["smg", "rifle", "pistol", "shotgun", "crossbow", "launcher"],
         "volume" : 0,
-        "bashing" : 0,
         "recoil_modifier" : -30,
         "price" : 38000,
         "skill_required": 2
@@ -1172,7 +1145,6 @@
         "material" : ["plastic", "steel"],
         "mod_targets" : ["smg", "rifle", "shotgun", "crossbow", "launcher"],
         "volume" : 0,
-        "bashing" : 0,
         "recoil_modifier" : -30,
         "price" : 38000,
         "skill_required": 2
@@ -1190,7 +1162,6 @@
         "material" : ["plastic", "steel"],
         "mod_targets" : ["smg", "rifle", "shotgun", "launcher"],
         "volume" : 1,
-        "bashing" : 0,
         "flags" : ["SLOW_WIELD", "COLLAPSIBLE_STOCK"],
         "price" : 42000,
         "skill_required": 2
@@ -1208,7 +1179,6 @@
         "material" : ["plastic"],
         "mod_targets" : ["pistol", "smg", "rifle", "shotgun", "crossbow", "launcher"],
         "volume" : 0,
-        "bashing" : 0,
         "flags" : ["REDUCED_WEIGHT", "REDUCED_BASHING"],
         "price" : 48000,
         "skill_required": 3
@@ -1226,7 +1196,6 @@
         "material" : ["plastic", "steel"],
         "mod_targets" : ["smg", "rifle", "shotgun", "launcher"],
         "volume" : 1,
-        "bashing" : 0,
         "recoil_modifier" : -90,
         "price" : 400,
         "skill_required": 3
@@ -1245,7 +1214,6 @@
         "material" : ["plastic", "steel"],
         "mod_targets" : ["pistol", "crossbow"],
         "volume" : 2,
-        "bashing" : 0,
         "recoil_modifier" : -75,
         "price" : 38000,
         "skill_required": 2
@@ -1263,7 +1231,6 @@
         "material" : ["plastic", "null"],
         "mod_targets" : ["smg", "rifle", "pistol", "shotgun", "launcher"],
         "volume" : 0,
-        "bashing" : 0,
         "flags" : ["WATERPROOF_GUN"],
         "price" : 50000,
         "skill_required": 6
@@ -1282,7 +1249,6 @@
         "material" : ["steel", "superalloy"],
         "mod_targets" : ["smg", "rifle", "pistol", "shotgun", "launcher"],
         "volume" : 0,
-        "bashing" : 0,
         "recoil_modifier" : -15,
         "flags" : ["NEVER_JAMS"],
         "price" : 2500,
@@ -1303,7 +1269,6 @@
         "material" : ["steel", "superalloy"],
         "mod_targets" : ["smg", "rifle", "pistol", "shotgun", "launcher"],
         "volume" : 0,
-        "bashing" : 0,
         "price" : 1500,
         "skill_required": 6
     },
@@ -1344,7 +1309,6 @@
         "flags" : ["NON_STUCK", "SPEAR", "BAYONET"],
         "recoil_modifier" : 45,
         "mod_targets" : ["shotgun", "smg", "rifle", "crossbow", "launcher"],
-        "bashing" : 0,
         "qualities": [["CUT", 1]]
     },
     {
@@ -1365,7 +1329,6 @@
         "flags" : ["NON_STUCK", "CHOP", "BAYONET"],
         "recoil_modifier" : 105,
         "mod_targets" : ["shotgun", "rifle", "crossbow", "launcher"],
-        "bashing" : 0,
         "qualities": [["CUT", 1]]
     },
     {
@@ -1385,7 +1348,6 @@
         "cutting" : 22,
         "recoil_modifier" : 45,
         "mod_targets" : ["pistol", "smg", "crossbow"],
-        "bashing" : 0,
         "flags" : ["STAB", "BAYONET"],
         "qualities": [["CUT", 1]]
     },
