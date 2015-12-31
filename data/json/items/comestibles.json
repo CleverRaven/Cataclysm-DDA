@@ -6967,8 +6967,7 @@
     {
         "type" : "COMESTIBLE",
         "id" : "chocpretzels",
-        "name" : "chocolate covered pretzels",
-        "name_plural" : "chocolate covered pretzels",
+        "name" : "chocolate-covered pretzel",
         "weight" : 185,
         "color" : "brown",
         "addiction_type" : "none",
