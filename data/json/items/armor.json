@@ -5234,7 +5234,7 @@
         "encumbrance" : 10,
         "bashing" : -5,
         "flags" : ["STURDY", "BELTED"],
-        "coverage" : 50,
+        "coverage" : 75,
         "material_thickness" : 4
     },
     {
