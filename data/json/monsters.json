@@ -3126,8 +3126,8 @@
             [ "child_items", 65 ]
         ]
     },
-    "hp":15,
-    "death_function":["BOOMER"],
+    "hp":25,
+    "death_function":["NORMAL"],
     "special_attacks":[["GRAB", 5]],
     "description":"This swollen, gooey looking mutant child looks bad, even for a zombie.  Maybe that's why it seems to want a hug so badly.",
     "//": "GUILT because it still looks enough like a child to evoke pity",
