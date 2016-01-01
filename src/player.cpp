@@ -4658,6 +4658,8 @@ bool player::is_dead_state() const
 
 void player::on_dodge( Creature *source, int difficulty )
 {
+    static const matec_id tec_none( "tec_none" );
+
     // Each avoided hit consumes an available dodge
     // When no more available we are likely to fail player::dodge_roll
     dodges_left--;
@@ -4675,7 +4677,7 @@ void player::on_dodge( Creature *source, int difficulty )
     // For adjacent attackers check for techniques usable upon successful dodge
     if( source && square_dist( pos(), source->pos() ) == 1 ) {
         matec_id tec = pick_technique( *source, false, true, false );
-        if( tec != matec_id( "tec_none" ) ) {
+        if( tec != tec_none ) {
             melee_attack( *source, false, tec );
         }
     }
