@@ -184,7 +184,6 @@
     "phase" : "solid",
     "charges" : 2,
     "stack_size": 9,
-    "bashing" : 0,
     "fun" : 0
   },{
     "type" : "AMMO",
@@ -513,7 +512,6 @@
     "phase" : "solid",
     "charges" : 1,
     "stack_size": 4,
-    "bashing" : 0,
     "flags" : ["EATEN_HOT"],
     "fun" : 0
   },{

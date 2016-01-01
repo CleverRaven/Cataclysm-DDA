@@ -31,7 +31,6 @@
         "symbol" : "?",
         "material" : ["paper"],
         "volume" : 3,
-        "bashing" : 0,
         "price" : 0,
         "book_data" : {
             "max_level" : 0,

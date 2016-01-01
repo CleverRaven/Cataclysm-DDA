@@ -23,11 +23,9 @@
         "material" : "fruit",
         "tool" : "null",
         "volume" : 1,
-        "cutting" : 0,
         "phase" : "solid",
         "charges" : 1,
         "stack_size" : 4,
-        "bashing" : 0,
         "fun" : 0
     },
     {
@@ -85,11 +83,9 @@
         "material" : "fruit",
         "tool" : "null",
         "volume" : 0,
-        "cutting" : 0,
         "phase" : "solid",
         "charges" : 1,
         "stack_size" : 10,
-        "bashing" : 0,
         "fun" : 30
     },
     {
@@ -116,11 +112,9 @@
         "material" : "fruit",
         "tool" : "null",
         "volume" : 1,
-        "cutting" : 0,
         "phase" : "solid",
         "charges" : 1,
         "stack_size" : 4,
-        "bashing" : 0,
         "fun" : 0
     }
 ]
