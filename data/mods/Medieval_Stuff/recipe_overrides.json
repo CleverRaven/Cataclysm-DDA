@@ -46,7 +46,8 @@
       [ "hotplate", 20 ],
       [ "toolset", 20 ],
       [ "fire", -1 ]
-    ]
+    ],
+    [ [ "sewing_kit", 4 ] ]
   ],
   "components": [
     [
@@ -61,7 +62,8 @@
       [ "pine_bough", 20 ]
     ],
     [ [ "salt", 5 ] ],
-    [ [ "armor_larmor", 1 ] ]
+    [ [ "armor_larmor", 1 ] ],
+    [ [ "armguard_larmor", 1 ] ]
   ]
 },{
   "type" : "recipe",
@@ -78,7 +80,7 @@
   "book_learn": [[ "textbook_tailor", 5 ], [ "tailor_portfolio", 5 ], ["textbook_armwest", 4], ["textbook_armschina", 4]],
   "tools": [
     [
-      [ "sewing_kit", 22 ]
+      [ "sewing_kit", 26 ]
     ]
   ],
   "components": [

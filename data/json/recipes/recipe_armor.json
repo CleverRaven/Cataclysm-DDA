@@ -3658,7 +3658,8 @@
       [ "hotplate", 20 ],
       [ "toolset", 20 ],
       [ "fire", -1 ]
-    ]
+    ],
+    [ [ "sewing_kit", 4 ] ]
   ],
   "components": [
     [
@@ -3696,7 +3697,7 @@
   "book_learn": [[ "textbook_tailor", 5 ] , [ "tailor_portfolio", 5 ] , ["textbook_armwest", 4]],
   "tools": [
     [
-      [ "sewing_kit", 22 ]
+      [ "sewing_kit", 26 ]
     ]
   ],
   "components": [

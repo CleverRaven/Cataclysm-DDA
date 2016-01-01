@@ -68,11 +68,12 @@
     [ ["book_bloodmagic", -1] ],
     [ ["blood_athame", -1] ],
     [
-      [ "sewing_kit", 18 ]
+      [ "sewing_kit", 22 ]
     ]
   ],
   "components": [
     [ [ "armor_larmor", 1 ] ],
+    [ [ "armguard_larmor", 1 ] ],
     [ [ "brooch", 1 ] ],
     [
       [ "acid", 1 ],
