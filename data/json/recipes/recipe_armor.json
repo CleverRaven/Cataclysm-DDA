@@ -2057,6 +2057,89 @@
   ]
 },{
   "type" : "recipe",
+  "result": "vambrace_larmor",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_ARMS",
+  "skill_used": "tailor",
+  "difficulty": 2,
+  "time": 30000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "tools": [
+    [
+      [ "sewing_kit", 8 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "leather", 4 ],
+      [ "tanned_hide", 1 ],
+      [ "fur", 4 ],
+      [ "tanned_pelt", 1 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "armguard_larmor",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_ARMS",
+  "skill_used": "tailor",
+  "difficulty": 3,
+  "time": 30000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "tools": [
+    [
+      [ "sewing_kit", 16 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "leather", 12 ],
+      [ "tanned_hide", 2 ],
+      [ "fur", 12 ],
+      [ "tanned_pelt", 2 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "armguard_bone",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_ARMS",
+  "skill_used": "tailor",
+  "difficulty": 4,
+  "time": 30000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "tools": [
+    [
+      [ "sewing_kit", 11 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "bone", 10 ],
+      [ "bone_human", 10 ],
+      [ "bone_tainted", 20 ]
+    ],
+    [
+      [ "leather", 6 ],
+      [ "tanned_hide", 1 ],
+      [ "fur", 6 ],
+      [ "tanned_pelt", 1 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
   "result": "armguard_chitin",
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_ARMS",
@@ -3483,26 +3566,26 @@
   "time": 30000,
   "reversible": false,
   "autolearn": true,
-  "book_learn": [[ "textbook_tailor", 5 ] , [ "tailor_portfolio", 6 ]],
+  "book_learn": [[ "textbook_tailor", 4 ] , [ "tailor_portfolio", 5 ]],
   "qualities" : [
     {"id":"CUT","level":1,"amount":1}
   ],
   "tools": [
     [
-      [ "sewing_kit", 54 ]
+      [ "sewing_kit", 43 ]
     ]
   ],
   "components": [
     [
-      [ "bone", 50 ],
-      [ "bone_human", 50 ],
-      [ "bone_tainted", 100 ]
+      [ "bone", 40 ],
+      [ "bone_human", 40 ],
+      [ "bone_tainted", 80 ]
     ],
     [
-      [ "leather", 20 ],
-      [ "tanned_hide", 3 ],
-      [ "fur", 20 ],
-      [ "tanned_pelt", 3 ]
+      [ "leather", 12 ],
+      [ "tanned_hide", 2 ],
+      [ "fur", 12 ],
+      [ "tanned_pelt", 2 ]
     ]
   ]
 },{
@@ -3511,7 +3594,7 @@
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_SUIT",
   "skill_used": "tailor",
-  "difficulty": 4,
+  "difficulty": 5,
   "note": "Whilst the trenchcoat needs 6 skill this'll need at least 4.",
   "time": 28000,
   "reversible": false,
@@ -3521,15 +3604,15 @@
   ],
   "tools": [
     [
-      [ "sewing_kit", 68 ]
+      [ "sewing_kit", 52 ]
     ]
   ],
   "components": [
     [
-      [ "leather", 42 ],
-      [ "tanned_hide", 7 ],
-      [ "fur", 42 ],
-      [ "tanned_pelt", 7 ]
+      [ "leather", 30 ],
+      [ "tanned_hide", 5 ],
+      [ "fur", 30 ],
+      [ "tanned_pelt", 5 ]
     ]
   ]
 },{
@@ -3538,7 +3621,7 @@
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_SUIT",
   "skill_used": "tailor",
-  "difficulty": 4,
+  "difficulty": 5,
   "time": 28000,
   "reversible": false,
   "autolearn": true,
@@ -3594,6 +3677,9 @@
     ],
     [
       [ "armor_larmor", 1 ]
+    ],
+    [
+      [ "armguard_larmor", 1 ]
     ]
   ]
 },{
@@ -3620,6 +3706,9 @@
     ],
     [
       [ "armor_larmor", 1 ]
+    ],
+    [
+      [ "armguard_larmor", 1 ]
     ]
   ]
 },{
