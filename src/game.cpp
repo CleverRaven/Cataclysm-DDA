@@ -12968,14 +12968,15 @@ void game::fling_creature(Creature *c, const int &dir, float flvel, bool control
         flvel -= force;
         if( thru ) {
             if( p != nullptr ) {
-                // If we're flinging the player around, make sure the map stays centered on them.
-                if( is_u ) {
-                    update_map( pt.x, pt.y );
-                }
                 if( p->in_vehicle ) {
                     m.unboard_vehicle( p->pos() );
                 }
-                p->setpos( pt );
+                // If we're flinging the player around, make sure the map stays centered on them.
+                if( is_u ) {
+                    update_map( pt.x, pt.y );
+                } else {
+                    p->setpos( pt );
+                }
             } else if( mon_at( pt ) < 0 ) {
                 // Dying monster doesn't always leave an empty tile (blob spawning etc.)
                 // Just don't setpos if it happens - next iteration will do so
@@ -13246,7 +13247,6 @@ void game::vertical_move(int movez, bool force)
     vertical_shift( z_after );
     if( !force ) {
         update_map( stairs.x, stairs.y );
-        u.setpos( stairs );
     }
 
     if( rope_ladder ) {
@@ -13456,12 +13456,6 @@ void game::update_map( player *p )
     int x = p->posx();
     int y = p->posy();
     update_map( x, y );
-    p->setx( x );
-    p->sety( y );
-    // Also ensure the player is on current z-level
-    // This should later be removed, when there is no longer such a thing
-    // as "current z-level"
-    p->setz( get_levz() );
 }
 
 void game::update_map(int &x, int &y)
@@ -13486,10 +13480,13 @@ void game::update_map(int &x, int &y)
     }
 
     if( shiftx == 0 && shifty == 0 ) {
-        // Not actually shifting, all the stuff below would do nothing
+        // adjust player position
+        u.setpos( tripoint(x, y, get_levz()) );
+        // Not actually shifting the submaps, all the stuff below would do nothing
         return;
     }
 
+    // this handles loading/unloading submaps that have scrolled on or off the viewport
     m.shift( shiftx, shifty );
 
     // Shift monsters
@@ -13538,6 +13535,11 @@ void game::update_map(int &x, int &y)
 
     // Make sure map cache is consistent since it may have shifted.
     m.build_map_cache( get_levz() );
+
+    // Also ensure the player is on current z-level
+    // get_levz() should later be removed, when there is no longer such a thing
+    // as "current z-level"
+    u.setpos( tripoint(x, y, get_levz()) );
 
     // Update what parts of the world map we can see
     update_overmap_seen();
