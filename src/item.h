@@ -664,7 +664,7 @@ public:
  const itype* type;
  std::vector<item> contents;
 
-        /** Traverses child items contained by this item using a visitor pattern
+        /** Traverses this item and any child items contained using a visitor pattern
          * @pram func visitor function called for each node which controls whether traversal continues.
          * Typically a lambda making use of captured state it should return VisitResponse::Next to
          * recursively process child items, VisitResponse::Skip to ignore children of the current node

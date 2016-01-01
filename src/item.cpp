@@ -4743,6 +4743,17 @@ void item::mark_as_used_by_player(const player &p)
 }
 
 VisitResponse item::visit( const std::function<VisitResponse(item&)>& func ) {
+    switch( func( *this ) ) {
+        case VisitResponse::ABORT:
+            return VisitResponse::ABORT;
+
+        case VisitResponse::SKIP:
+            return VisitResponse::NEXT;
+
+        case VisitResponse::NEXT:
+            ; /* Continue below */
+    }
+
     for( auto& e : contents ) {
         auto r = func( e );
 
