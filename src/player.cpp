@@ -11259,6 +11259,11 @@ hint_rating player::rate_action_reload( const item &it ) const
     // Guns may contain additional reloadable mods so check these first
     if( it.is_gun() ) {
         for( const auto& mod : it.contents ) {
+            // @todo deprecate spare magazine
+            if( mod.typeId() == "spare_mag" && mod.charges < it.ammo_capacity() ) {
+                return HINT_GOOD;
+            }
+
             if( mod.ammo_capacity() <= 0 ||
                 mod.ammo_type() == "NULL" ||
                 mod.has_flag( "NO_RELOAD" ) ||
@@ -11266,10 +11271,6 @@ hint_rating player::rate_action_reload( const item &it ) const
                 continue;
             }
 
-            // @todo deprecate spare magazine
-            if( mod.typeId() == "spare_mag" && mod.charges < it.ammo_capacity() ) {
-                return HINT_GOOD;
-            }
             if (mod.is_auxiliary_gunmod() && mod.ammo_remaining() < mod.ammo_capacity() ) {
                 return HINT_GOOD;
             }
