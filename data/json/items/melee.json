@@ -3313,7 +3313,7 @@
         "bashing": 1,
         "cutting": 2,
         "to_hit": 2,
-        "techniques" : ["PRECISE", "RAPID"],
+        "techniques" : ["PRECISE", "RAPID", "WBLOCK_2"],
         "flags": ["STAB", "SHEATH_SWORD"]
     },
     {
@@ -3330,7 +3330,7 @@
         "bashing": 3,
         "cutting": 7,
         "to_hit": 2,
-        "techniques" : ["PRECISE", "RAPID"],
+        "techniques" : ["PRECISE", "RAPID", "WBLOCK_2"],
         "flags": ["STAB", "SHEATH_SWORD"]
     },
     {
@@ -3347,7 +3347,7 @@
         "bashing": 1,
         "cutting": 6,
         "to_hit": 2,
-        "techniques" : ["PRECISE", "RAPID"],
+        "techniques" : ["PRECISE", "RAPID", "WBLOCK_2"],
         "flags": ["STAB", "SHEATH_SWORD"]
     },
     {
@@ -3434,7 +3434,7 @@
     "price": 12000,
     "material": "aluminum",
     "flags" : ["BASH", "SHEATH_SWORD"],
-    "techniques": "WBLOCK_1",
+    "techniques": "WBLOCK_2",
     "weight": 753,
     "volume": 7,
     "bashing": 10,
