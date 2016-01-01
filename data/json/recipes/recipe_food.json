@@ -5379,6 +5379,48 @@
   ]
 },{
   "type" : "recipe",
+  "result": "frenchtoast",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_BREAD",
+  "skill_used": "cooking",
+  "difficulty": 3,
+  "time": 12000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities" : [
+     {"id":"COOK","level":2,"amount":1} ],
+  "tools": [
+    [
+      [ "hotplate", 8 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 8 ],
+      [ "fire", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "milk", 1 ],
+      [ "con_milk", 1 ],
+      [ "can_coconut", 1 ]
+    ],
+    [
+      [ "powder_eggs", 5 ],
+      [ "egg_bird", 1 ],
+      [ "egg_reptile", 1 ]
+    ],
+    [
+      [ "cinnamon", 20 ]
+    ],
+    [
+      [ "flatbread", 2 ],
+      [ "bread", 2 ],
+      [ "cornbread", 2 ],
+      [ "wastebread", 2 ],
+      [ "hardtack", 4]
+    ]
+  ]
+},{
+  "type" : "recipe",
   "result": "waffles",
   "category": "CC_FOOD",
   "subcategory": "CSC_FOOD_BREAD",
