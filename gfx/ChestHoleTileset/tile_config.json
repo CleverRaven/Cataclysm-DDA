@@ -29899,6 +29899,27 @@
           "rotates": true
         },
         {
+          "fg": [
+            2938,
+            2904,
+            2938,
+            2904
+          ],
+          "id": "t_window_no_curtains",
+          "rotates": true
+        },
+        {
+          "bg": 661,
+          "fg": [
+            2939,
+            2912,
+            2939,
+            2912
+          ],
+          "id": "t_window_no_curtains_open",
+          "rotates": true
+        },
+        {
           "id": "t_window_alarm",
           "fg": 2286,
           "rotates": true
