@@ -12982,7 +12982,7 @@
         "nutrition" : 1,
         "description" : "Dehydrated milk powder.  Mix with water to make drinkable milk.",
         "price" : 1100,
-        "material" : "milk",
+        "material" : [ "powder", "milk" ],
         "tool" : "null",
         "volume" : 1,
         "cutting" : 0,
