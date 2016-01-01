@@ -2913,7 +2913,7 @@
     },{
     "type" : "MONSTER",
     "id" : "mon_zombie_anklebiter",
-    "name": "feral anklebiter",
+    "name": "anklebiter",
     "species":"ZOMBIE",
     "default_faction":"zombie",
     "symbol":"z",
@@ -2987,7 +2987,7 @@
     },{
     "type" : "MONSTER",
     "id" : "mon_zombie_sproglodyte",
-    "name": "zombie sproglodyte",
+    "name": "sproglodyte",
     "species":"ZOMBIE",
     "default_faction":"zombie",
     "symbol":"z",
