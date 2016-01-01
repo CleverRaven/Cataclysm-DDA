@@ -526,7 +526,7 @@
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_HEAD",
   "skill_used": "tailor",
-  "difficulty": 3,
+  "difficulty": 4,
   "time": 30000,
   "reversible": false,
   "autolearn": true,

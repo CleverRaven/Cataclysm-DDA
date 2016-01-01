@@ -92,34 +92,6 @@
   ]
 },{
   "type" : "recipe",
-  "result": "boots_larmor",
-  "override": true,
-  "category": "CC_ARMOR",
-  "subcategory": "CSC_ARMOR_FEET",
-  "skill_used": "tailor",
-  "difficulty": 2,
-  "time": 30000,
-  "reversible": false,
-  "autolearn": false,
-  "book_learn": [[ "textbook_tailor", 3 ], [ "tailor_portfolio", 4 ], ["textbook_survival", 3], ["trappers_companion", 3], ["survival_book", 3], ["textbook_armwest", 5], ["textbook_armschina", 5]],
-  "qualities" : [
-    {"id":"CUT","level":1,"amount":1}
-  ],
-  "tools": [
-    [
-      [ "sewing_kit", 24 ]
-    ]
-  ],
-  "components": [
-    [
-      [ "leather", 18 ],
-      [ "tanned_hide", 3 ],
-      [ "fur", 18 ],
-      [ "tanned_pelt", 3 ]
-    ]
-  ]
-},{
-  "type" : "recipe",
   "result": "chem_black_powder",
   "override": true,
   "category": "CC_CHEM",
