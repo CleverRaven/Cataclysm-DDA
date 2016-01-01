@@ -4032,11 +4032,24 @@
     ]
   ],
   "components": [
-    [ [ "flour", 3 ] ],
-    [ [ "water", 2 ], [ "water_clean", 2 ] ],
-    [ [ "chocolate", 1] ],
-    [ [ "powder_eggs", 1] ],
-    [ [ "weed", 5] ]
+    [
+      [ "flour", 3 ]
+    ],
+    [
+      [ "water", 2 ],
+      [ "water_clean", 2 ]
+    ],
+    [
+      [ "chocolate", 1]
+    ],
+    [
+      [ "powder_eggs", 10 ],
+      [ "egg_bird", 2 ],
+      [ "egg_reptile", 2 ]
+    ],
+    [
+      [ "weed", 5]
+    ]
   ]
 },{
   "type" : "recipe",
