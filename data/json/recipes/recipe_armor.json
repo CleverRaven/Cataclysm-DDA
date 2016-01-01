@@ -7753,7 +7753,7 @@
   ],
   "components": [
     [
-      [ "felt_patch", 40 ]
+      [ "felt_patch", 33 ]
     ]
   ]
 },{
@@ -7827,7 +7827,7 @@
   ],
   "components": [
     [
-      [ "rag", 15 ]
+      [ "rag", 24 ]
     ]
   ]
 },{
@@ -7848,14 +7848,14 @@
   ],
   "components": [
     [
-      [ "rag", 12 ]
+      [ "rag", 19 ]
     ]
   ]
 },{
   "type" : "recipe",
   "result": "sleeveless_duster",
   "id_suffix": "from_duster",
-  "byproducts": { "id" : "rag", "amount" : 2 },
+  "byproducts": { "id" : "rag", "amount" : 5 },
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_TORSO",
   "skill_used": "tailor",
@@ -7890,8 +7890,8 @@
   ],
   "components": [
     [
-      [ "fur", 15 ],
-      [ "tanned_pelt", 3 ]
+      [ "fur", 40 ],
+      [ "tanned_pelt", 7 ]
     ]
   ]
 },{
@@ -7913,15 +7913,15 @@
   ],
   "components": [
     [
-      [ "fur", 12 ],
-      [ "tanned_pelt", 2 ]
+      [ "fur", 34 ],
+      [ "tanned_pelt", 6 ]
     ]
   ]
 },{
   "type" : "recipe",
   "result": "sleeveless_duster_fur",
   "id_suffix": "from_duster_fur",
-  "byproducts": { "id" : "fur", "amount" : 2 },
+  "byproducts": { "id" : "fur", "amount" : 6 },
   "category": "CC_ARMOR",
   "subcategory": "CSC_ARMOR_TORSO",
   "skill_used": "tailor",
@@ -7979,7 +7979,7 @@
   ],
   "components": [
     [
-      [ "leather", 24 ],
+      [ "leather", 25 ],
       [ "tanned_hide", 4 ]
     ]
   ]
