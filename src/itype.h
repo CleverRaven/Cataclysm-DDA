@@ -412,7 +412,7 @@ struct islot_seed {
      */
     int grow = 0;
 	/**
-     * Amount of harvested fruits is divided by this number.
+     * Amount of harvested charges of fruits is divided by this number.
      */
     int fruit_div = 1;
     /**
