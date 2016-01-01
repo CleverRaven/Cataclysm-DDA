@@ -11207,13 +11207,13 @@ void game::eat(int pos)
         return;
     }
 
-    auto filter = [&]( const item &it ) {
-        return (it.is_food( &u ) || it.is_food_container( &u )) &&
-                it.type->id != "1st_aid"; // temporary "solution" to #12991
-    };
-
     // Can consume items from inventory or within one tile (including in vehicles)
-    auto item_loc = inv_map_splice( filter, _("Consume item:"), 1);
+    auto item_loc = inv_map_splice( [&]( const item &it ) {
+        if( it.type->id == "1st_aid" ) {
+            return false; // temporary fix for #12991
+        }
+        return it.made_of( SOLID ) && (it.is_food( &u ) || it.is_food_container( &u ) );
+    }, _( "Consume item:" ), 1 );
 
     const int inv_pos = item_loc.get_inventory_position();
     if( inv_pos != INT_MIN ) {
