@@ -4154,6 +4154,7 @@
   ],
   "components": [
     [
+      [ "cooking_oil", 1 ],
       [ "tallow", 1 ],
       [ "lard", 1 ]
     ],
@@ -4188,6 +4189,7 @@
   ],
   "components": [
     [
+      [ "cooking_oil", 1 ],
       [ "tallow", 1 ],
       [ "lard", 1 ]
     ],
