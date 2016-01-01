@@ -411,6 +411,10 @@ struct islot_seed {
      * Time it takes for a seed to grow (in days, based of off a season length of 91)
      */
     int grow = 0;
+	/**
+     * Amount of harvested charges of fruits is divided by this number.
+     */
+    int fruit_div = 1;
     /**
      * Name of the plant, already translated.
      */
