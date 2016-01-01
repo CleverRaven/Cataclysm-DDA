@@ -2985,6 +2985,43 @@
     "//": "GUILT because it still looks enough like a child to evoke pity",
     "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BLEED", "GUILT", "POISON", "NO_BREATHE", "REVIVES", "BONES", "HARDTOSHOOT"]
     },{
+    "type" : "MONSTER",
+    "id" : "mon_zombie_sproglodyte",
+    "name": "zombie sproglodyte",
+    "species":"ZOMBIE",
+    "default_faction":"zombie",
+    "symbol":"z",
+    "color":"ltgray",
+    "size":"SMALL",
+    "material":"flesh",
+    "diff":3,
+    "aggression":100,
+    "morale":100,
+    "speed":85,
+    "melee_skill":3,
+    "melee_dice":2,
+    "melee_dice_sides":4,
+    "melee_cut":3,
+    "dodge":3,
+    "armor_bash":0,
+    "armor_cut":0,
+    "vision_day":3,
+    "vision_night":30,
+    "death_drops": {
+        "subtype": "collection",
+        "//": "cloth as any other zombie (always), additional items from child_items (sometimes)",
+        "groups": [
+            [ "default_zombie_clothes", 100 ],
+            [ "child_items", 65 ]
+        ]
+    },
+    "hp":30,
+    "death_function":["NORMAL"],
+    "special_attacks":[["LEAP", 10]],
+    "description":"This crouching child-mutant's face is dominated by a pair of huge black eyes and its fingertips end in sharp claws.",
+    "//": "GUILT because it still looks enough like a child to evoke pity",
+    "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BLEED", "GUILT", "POISON", "NO_BREATHE", "REVIVES", "BONES"]
+    },{
         "type" : "MONSTER",
         "id" : "mon_jabberwock",
         "name": "jabberwock",

@@ -1298,6 +1298,7 @@
     "//" : "this is a sub-group of mutated zombie types that can only evolve from zombified human children",
     "monsters" : [
       { "monster" : "mon_zombie_anklebiter", "freq" : 10, "cost_multiplier" : 5 },
+      { "monster" : "mon_zombie_sproglodyte", "freq" : 20, "cost_multiplier" : 5 },
       { "monster" : "mon_zombie_waif", "freq" : 30, "cost_multiplier" : 7 }
     ]
   },{
