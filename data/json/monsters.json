@@ -3059,6 +3059,43 @@
     "//": "GUILT because it still looks enough like a child to evoke pity",
     "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BLEED", "GUILT", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "BONES"]
     },{
+    "type" : "MONSTER",
+    "id" : "mon_zombie_creepy",
+    "name": "creepy crawler",
+    "species":"ZOMBIE",
+    "default_faction":"zombie",
+    "symbol":"z",
+    "color":"dkgray",
+    "size":"SMALL",
+    "material":"flesh",
+    "diff":3,
+    "aggression":80,
+    "morale":100,
+    "speed":55,
+    "melee_skill":2,
+    "melee_dice":2,
+    "melee_dice_sides":2,
+    "melee_cut":1,
+    "dodge":1,
+    "armor_bash":0,
+    "armor_cut":0,
+    "vision_day":3,
+    "vision_night":30,
+    "death_drops": {
+        "subtype": "collection",
+        "//": "cloth as any other zombie (always), additional items from child_items (sometimes)",
+        "groups": [
+            [ "default_zombie_clothes", 100 ],
+            [ "child_items", 65 ]
+        ]
+    },
+    "hp":25,
+    "death_function":["NORMAL"],
+    "special_attacks":[["SHRIEK", 5]],
+    "description":"What was once a child is now a mutant beast with blackened skin and massive eyes.  This abomination's vile form makes mockery of its human origin.",
+    "//": "no GUILT because it no longer looks enough like a child to evoke pity",
+    "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BLEED", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "BONES"]
+    },{
         "type" : "MONSTER",
         "id" : "mon_jabberwock",
         "name": "jabberwock",

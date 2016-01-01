@@ -1300,6 +1300,7 @@
       { "monster" : "mon_zombie_anklebiter", "freq" : 10, "cost_multiplier" : 5 },
       { "monster" : "mon_zombie_sproglodyte", "freq" : 20, "cost_multiplier" : 5 },
       { "monster" : "mon_zombie_shriekling", "freq" : 30, "cost_multiplier" : 7 },
+      { "monster" : "mon_zombie_creepy", "freq" : 30, "cost_multiplier" : 7 },
       { "monster" : "mon_zombie_waif", "freq" : 30, "cost_multiplier" : 7 }
     ]
   },{
