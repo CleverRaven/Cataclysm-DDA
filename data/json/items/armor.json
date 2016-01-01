@@ -2726,7 +2726,7 @@
         "encumbrance" : 23,
         "bashing" : 2,
         "flags" : ["VARSIZE", "STURDY"],
-        "coverage" : 85,
+        "coverage" : 90,
         "material_thickness" : 4
     },
     {
@@ -2750,7 +2750,7 @@
         "encumbrance" : 28,
         "bashing" : 2,
         "flags" : ["VARSIZE", "STURDY"],
-        "coverage" : 85,
+        "coverage" : 90,
         "material_thickness" : 5
     },
     {
@@ -5184,7 +5184,7 @@
         "encumbrance" : 23,
         "bashing" : -5,
         "flags" : ["VARSIZE", "STURDY"],
-        "coverage" : 85,
+        "coverage" : 90,
         "material_thickness" : 4
     },
     {
