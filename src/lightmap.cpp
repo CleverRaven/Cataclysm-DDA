@@ -589,6 +589,8 @@ void cast_zlight(
                 if( check( current_transparency, last_intensity ) ) {
                     float next_cumulative_transparency =
                         ((distance - 1) * cumulative_transparency + current_transparency) / distance;
+                    // Blocks can be merged if they are actually a single rectangle
+                    // rather than rectangle + line shorter than rectangle's width
                     const bool merge_blocks = end_minor <= trailing_edge_minor;
                     // trailing_edge_major can be less than start_major
                     const float trailing_clipped = std::max( trailing_edge_major, start_major );
