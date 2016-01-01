@@ -3269,6 +3269,17 @@ void vehicle::disable_chainsaws( const itype_id &ftype )
     }
 }
 
+int vehicle::damage_from_chainsaw( int part_index, std::string target_material_id )
+{
+    material_type *mtype = material_type::find_material( target_material_id );
+    int target_hardness = mtype->cut_resist();
+    // it's too hard to cut it without self-damage
+    if( target_hardness > 3 ) {
+        damage_direct( part_index, 33 * ( target_hardness - 3 ) , DT_TRUE );
+    }
+    return std::max( 70 - 10 * target_hardness, 0 );
+}
+
 int vehicle::total_power(bool const fueled) const
 {
     int pwr = 0;
@@ -4784,22 +4795,10 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
             }
         } else if( ret.type == veh_coll_body ) {
             int dam = obj_dmg * dmg_mod / 100;
+
             if( is_body_collision && parts[ret.part].enabled &&
                 part_info( ret.part ).has_flag( "CHAINSAW" ) ) {
-                    std::string mat = critter->get_material();
-                    if( mat == "steel" || mat == "iron" || mat == "gold" || mat == "silver" ||
-                        mat == "stone" ) {
-                        dam += 5;
-                        damage_direct(ret.part, 100, DT_TRUE);
-                    } else if( mat == "bone" ) {
-                        dam += 10;
-                        damage_direct(ret.part, 30, DT_TRUE);
-                    } else if( mat == "protoplasmic" || mat == "kevlar" ) {
-                        dmg += 0;
-                    } else {
-                    // default case: flesh, iflesh, veggy, wood, cotton, wool, etc.
-                        dam += 70;
-                    }
+                dam += damage_from_chainsaw( ret.part, critter->get_material() );
             }
 
             // No blood from hallucinations

@@ -392,12 +392,14 @@ public:
     // Engine backfire, making a loud noise
     void backfire( const int e );
 
-    // Honk the vehicle's horn, if there are any
     void honk_horn();
     void beeper_sound();
     void play_music();
     void play_chimes();
     void operate_planter();
+    void disable_chainsaws( const itype_id &ftype );
+    int damage_from_chainsaw( int part_index, std::string target_material_id );
+
     // get vpart type info for part number (part at given vector index)
     const vpart_info& part_info (int index, bool include_removed = false) const;
 
@@ -560,7 +562,6 @@ public:
     int supplemental_consumption( const itype_id &ftype ) const;
 
     void consume_fuel( double load );
-    void disable_chainsaws( const itype_id &ftype );
     void power_parts();
 
     /**
