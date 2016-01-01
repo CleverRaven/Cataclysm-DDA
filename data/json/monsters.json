@@ -3096,6 +3096,43 @@
     "//": "no GUILT because it no longer looks enough like a child to evoke pity",
     "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BLEED", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "BONES"]
     },{
+    "type" : "MONSTER",
+    "id" : "mon_zombie_snotgobbler",
+    "name": "snotgobbler",
+    "species":"ZOMBIE",
+    "default_faction":"zombie",
+    "symbol":"z",
+    "color":"pink",
+    "size":"SMALL",
+    "material":"flesh",
+    "diff":3,
+    "aggression":100,
+    "morale":100,
+    "speed":65,
+    "melee_skill":4,
+    "melee_dice":2,
+    "melee_dice_sides":4,
+    "melee_cut":2,
+    "dodge":1,
+    "armor_bash":1,
+    "armor_cut":0,
+    "vision_day":30,
+    "vision_night":3,
+    "death_drops": {
+        "subtype": "collection",
+        "//": "cloth as any other zombie (always), additional items from child_items (sometimes)",
+        "groups": [
+            [ "default_zombie_clothes", 100 ],
+            [ "child_items", 65 ]
+        ]
+    },
+    "hp":15,
+    "death_function":["BOOMER"],
+    "special_attacks":[["GRAB", 5]],
+    "description":"This swollen, gooey looking mutant child looks bad, even for a zombie.  Maybe that's why it seems to want a hug so badly.",
+    "//": "GUILT because it still looks enough like a child to evoke pity",
+    "flags":["SEES", "HEARS", "STUMBLES", "WARM", "BLEED", "GUILT", "POISON", "NO_BREATHE", "REVIVES", "BONES"]
+    },{
         "type" : "MONSTER",
         "id" : "mon_jabberwock",
         "name": "jabberwock",
