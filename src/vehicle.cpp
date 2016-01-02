@@ -3271,13 +3271,17 @@ void vehicle::disable_chainsaws( const itype_id &ftype )
 
 int vehicle::damage_from_chainsaw( int part_index, std::string target_material_id )
 {
-    material_type *mtype = material_type::find_material( target_material_id );
-    int target_hardness = mtype->cut_resist();
-    // it's too hard to cut it without self-damage
-    if( target_hardness > 3 ) {
-        damage_direct( part_index, 33 * ( target_hardness - 3 ) , DT_TRUE );
+    int dmg = 0;
+    if( part_info( part_index ).has_flag( "CHAINSAW" ) ) {
+        material_type *mtype = material_type::find_material( target_material_id );
+        int target_hardness = mtype->cut_resist();
+        // it's too hard to cut it without self-damage
+        if( target_hardness > 3 ) {
+            damage_direct( part_index, 33 * ( target_hardness - 3 ) , DT_TRUE );
+        }
+        dmg = std::max( 70 - 10 * target_hardness, 0 );
     }
-    return std::max( 70 - 10 * target_hardness, 0 );
+    return dmg;
 }
 
 int vehicle::total_power(bool const fueled) const
@@ -4796,8 +4800,7 @@ veh_collision vehicle::part_collision( int part, const tripoint &p,
         } else if( ret.type == veh_coll_body ) {
             int dam = obj_dmg * dmg_mod / 100;
 
-            if( is_body_collision && parts[ret.part].enabled &&
-                part_info( ret.part ).has_flag( "CHAINSAW" ) ) {
+            if( is_body_collision && parts[ret.part].enabled ) {
                 dam += damage_from_chainsaw( ret.part, critter->get_material() );
             }
 
