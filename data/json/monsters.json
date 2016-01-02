@@ -2837,7 +2837,18 @@
     "death_drops": "default_zombie_death_drops",
     "hp":90,
     "death_function":["NORMAL"],
-    "special_attacks":[["LEAP", 5], ["BITE", 5], ["IMPALE", 25]],
+    "special_attacks": [
+        {
+            "type" : "leap",
+            "cooldown" : 10,
+            "max_range" : 8,
+            "min_consider_range" : 3,
+            "max_consider_range" : 7,
+            "allow_no_target" : false
+        },
+        ["BITE", 5],
+        ["IMPALE", 25]
+    ],
     "description":"With its joints in odd places and angles, this humanoid creature prowls across the landscape with suprising speed.  Its teeth and arms are sharpened into fine points, and black ooze seeps out from cuts between its muscles.",
     "flags":["SEES", "HEARS", "SMELLS", "WARM", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "BONES", "PUSH_MON"]
     },{

@@ -498,13 +498,15 @@ void monster::move()
         if( !local_attack_data.enabled ) {
             continue;
         }
+
         if( local_attack_data.cooldown > 0 ) {
             local_attack_data.cooldown--;
         }
         if( local_attack_data.cooldown == 0 && !pacified && !is_hallucination() ) {
-            if( !sp_type.second.attack( this ) ) {
+            if( !sp_type.second.call( *this ) ) {
                 continue;
             }
+
             // `special_attacks` might have changed at this point. Sadly `reset_special`
             // doesn't check the attack name, so we need to do it here.
             if( special_attacks.count( special_name ) == 0 ) {

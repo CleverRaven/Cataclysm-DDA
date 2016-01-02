@@ -3,6 +3,7 @@
 
 class monster;
 class Creature;
+using mon_action_attack = bool (*)(monster*);
 
 namespace mattack {
 bool none               (monster *z);
@@ -98,5 +99,6 @@ void flame              (monster *z, Creature *target);
 
 bool dodge_check        (monster *z, Creature *target);
 } //namespace mattack
+
 
 #endif
