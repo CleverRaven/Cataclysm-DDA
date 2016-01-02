@@ -12181,7 +12181,7 @@
         "quench" : 0,
         "healthy" : 0,
         "addiction_potential" : 0,
-        "nutrition" : 10,
+        "nutrition" : 20,
         "description" : "This is definitely not how grandma used to bake them.",
         "price" : 5000,
         "material" : "wheat",
