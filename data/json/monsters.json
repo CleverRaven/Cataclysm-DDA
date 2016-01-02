@@ -4147,7 +4147,15 @@
     "vision_day":40,
     "hp":70,
     "death_function":"NORMAL",
-    "special_attacks":[["LEAP", 5]],
+    "special_attacks" : [
+        {
+            "type" : "leap",
+            "cooldown" : 10,
+            "max_range" : 10,
+            "min_consider_range" : 2,
+            "move_cost" : 0
+        }
+    ],
     "description":"A mutated bullfrog taller than you are.  It stares with amber eyes as it considers the easiest way to swallow you whole.",
     "flags":["SEES", "SMELLS", "HEARS", "SWIMS", "LEATHER", "ATTACKMON", "BONES", "FAT"],
     "anger_triggers":["STALK", "PLAYER_WEAK", "PLAYER_CLOSE"]
