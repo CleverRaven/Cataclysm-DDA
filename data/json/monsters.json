@@ -2950,7 +2950,7 @@
     },{
     "type" : "MONSTER",
     "id" : "mon_zombie_waif",
-    "name": "zombie waif",
+    "name": "howling waif",
     "species":"ZOMBIE",
     "default_faction":"zombie",
     "symbol":"z",
