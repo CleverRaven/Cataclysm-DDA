@@ -151,6 +151,17 @@ Pickup::interact_results Pickup::interact_with_vehicle( vehicle *veh, const trip
                 g->u.invoke_item( &tmp_welder );
                 tmp_welder.charges -= tmptool->charges_per_use;
                 veh->refill( "battery", tmp_welder.charges );
+                // Evil hack incoming
+                auto &act = g->u.activity;
+                if( act.type == ACT_REPAIR_ITEM ) {
+                    // Magic: first tell activity the item doesn't really exist
+                    act.index = INT_MIN;
+                    // Then tell it to search it on `pos`
+                    act.coords.push_back( pos );
+                    // Finally tell it it is the vehicle part with weldrig
+                    act.values.resize( 2 );
+                    act.values[1] = veh->part_with_feature( veh_root_part, "WELDRIG" );
+                }
             }
         }
         return DONE;
