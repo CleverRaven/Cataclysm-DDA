@@ -303,6 +303,8 @@ int draw_item_info(const int iLeft, int iWidth, const int iTop, const int iHeigh
 char rand_char();
 long special_symbol (long sym);
 
+std::string trim(const std::string &s); // Remove spaces from the start and the end of a string
+
 /**
  * @name printf-like string formatting.
  *

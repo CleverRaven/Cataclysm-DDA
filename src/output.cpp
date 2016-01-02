@@ -1367,6 +1367,12 @@ long special_symbol (long sym)
     }
 }
 
+std::string trim( const std::string &s )
+{
+   auto wsfront = std::find_if_not( s.begin(), s.end(), []( int c ) { return std::isspace( c ); });
+   return std::string( wsfront, std::find_if_not( s.rbegin(), std::string::const_reverse_iterator( wsfront ), []( int c ){ return std::isspace( c ); }).base());
+}
+
 // find the position of each non-printing tag in a string
 std::vector<size_t> get_tag_positions(const std::string &s)
 {

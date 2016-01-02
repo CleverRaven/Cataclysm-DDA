@@ -181,5 +181,7 @@ extern std::map<int, std::vector<std::string> > mPageItems;
 extern int iWorldOptPage;
 
 options_manager &get_options();
+
 std::string trim( const std::string &s ); // Remove spaces from the start and the end of a string
+
 #endif
