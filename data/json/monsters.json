@@ -3019,8 +3019,8 @@
     "death_function":["NORMAL"],
     "special_attacks":[["LEAP", 10]],
     "description":"This crouching child-mutant's face is dominated by a pair of huge black eyes and its fingertips end in sharp claws.",
-    "//": "GUILT because it still looks enough like a child to evoke pity",
-    "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BLEED", "GUILT", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "BONES"]
+    "//": "no GUILT because it no longer looks enough like a child to evoke pity",
+    "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BLEED", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "BONES"]
     },{
     "type" : "MONSTER",
     "id" : "mon_zombie_shriekling",
@@ -3127,7 +3127,7 @@
         ]
     },
     "hp":25,
-    "death_function":["ACID", "NORMAL"],
+    "death_function":["BOOMER"],
     "special_attacks":[["GRAB", 5]],
     "description":"This swollen, gooey looking mutant child looks bad, even for a zombie.  Maybe that's why it seems to want a hug so badly.",
     "//": "GUILT because it still looks enough like a child to evoke pity",
