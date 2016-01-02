@@ -1294,7 +1294,7 @@
   },{
     "type":"monstergroup",
     "name" : "GROUP_CHILD_ZOMBIE_UPGRADE",
-    "default" : "mon_zombie_spitter",
+    "default" : "mon_zombie_shriekling",
     "//" : "this is a sub-group of mutated zombie types that can only evolve from zombified human children",
     "monsters" : [
       { "monster" : "mon_zombie_anklebiter", "freq" : 5, "cost_multiplier" : 10 },
