@@ -536,16 +536,13 @@ void species_type::load( JsonObject &jo )
 {
     MonsterGenerator &gen = MonsterGenerator::generator();
 
-    std::set<std::string> sflags, sanger, sfear, splacate;
-    sflags = jo.get_tags("flags");
-    sanger = jo.get_tags("anger_triggers");
-    sfear  = jo.get_tags("fear_triggers");
-    splacate = jo.get_tags("placate_triggers");
+    const typed_flag_reader<decltype( gen.flag_map )> flag_reader{ gen.flag_map, "invalid monster flag" };
+    optional( jo, was_loaded, "flags", flags, flag_reader, {} );
 
-    flags = gen.get_set_from_tags( sflags, gen.flag_map, MF_NULL );
-    anger_trig = gen.get_set_from_tags( sanger, gen.trigger_map, MTRIG_NULL );
-    fear_trig = gen.get_set_from_tags( sfear, gen.trigger_map, MTRIG_NULL );
-    placate_trig = gen.get_set_from_tags( splacate, gen.trigger_map, MTRIG_NULL );
+    const typed_flag_reader<decltype( gen.trigger_map )> trigger_reader{ gen.trigger_map, "invalid monster trigger" };
+    optional( jo, was_loaded, "anger_triggers", anger_trig, trigger_reader, {} );
+    optional( jo, was_loaded, "placate_triggers", placate_trig, trigger_reader, {} );
+    optional( jo, was_loaded, "fear_triggers", fear_trig, trigger_reader, {} );
 }
 
 std::vector<const mtype *> MonsterGenerator::get_all_mtypes() const

@@ -29,6 +29,7 @@ class generic_factory;
 
 struct species_type {
     species_id id;
+    bool was_loaded = false;
     std::set<m_flag> flags;
     std::set<monster_trigger> anger_trig, fear_trig, placate_trig;
 
