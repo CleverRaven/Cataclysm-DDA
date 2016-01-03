@@ -18028,11 +18028,21 @@
               "id": "center"
             },
             {
-              "fg": 1063,
+              "fg": [
+                1063,
+                3945, 
+                3946,
+                3947
+              ],
               "id": "corner"
             },
             {
-              "fg": 1064,
+              "fg": [
+                1064,
+                3948,
+                3949,
+                3950
+              ],
               "id": "edge"
             },
             {
@@ -18045,7 +18055,12 @@
               "id": "end_piece"
             },
             {
-              "fg": 1066,
+              "fg": [
+                1066,
+                3951,
+                3952,
+                3953
+              ],
               "id": "t_connection"
             }
           ],
@@ -20486,6 +20501,24 @@
           "id": "t_tree",
           "rotates": false
         },
+        { 
+            "id": "t_tree_hickory",
+            "fg": 3591,
+            "bg": 632,
+            "rotates": false
+          },
+          {
+            "id": "t_tree_hickory_harvested",
+            "fg": 3592,
+            "bg": 632,
+            "rotates": false
+          },
+          {
+            "id": "t_tree_hickory_season_winter",
+            "fg": 3593,
+            "bg": 632,
+             "rotates": false
+          },
         {
           "bg": 640,
           "fg": 3559,
@@ -22042,6 +22075,12 @@
           "bg": 642,
           "fg": 1741,
           "id": "mon_shia",
+          "rotates": false
+        },
+        {
+          "id": "mon_zombie_shady",
+          "fg": 3632,
+          "bg": 642,
           "rotates": false
         },
         {
@@ -26301,11 +26340,21 @@
               "id": "center"
             },
             {
-              "fg": 1123,
+              "fg": [
+                1123,
+                4785,
+                4786,
+                4787
+                ],
               "id": "edge"
             },
             {
-              "fg": 1124,
+              "fg": [
+                1124,
+                4788,
+                4789,
+                4790
+              ],
               "id": "corner"
             },
             {
@@ -26318,11 +26367,21 @@
               "id": "end_piece"
             },
             {
-              "fg": 1126,
+              "fg": [
+                1126,
+                4791,
+                4792,
+                4793
+              ],
               "id": "t_connection"
             }
           ],
-          "fg": 1123,
+          "fg": [
+            1123,
+            3893,
+            3894,
+            3895
+          ],
           "id": "f_rack",
           "height_3d": 10,
           "multitile": true
