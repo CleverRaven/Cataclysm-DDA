@@ -569,17 +569,13 @@ bool MonsterGenerator::has_species( const species_id &species ) const
     return mon_species.count(species) > 0;
 }
 
-std::map<mtype_id, mtype *> MonsterGenerator::get_all_mtypes() const
+std::vector<const mtype *> MonsterGenerator::get_all_mtypes() const
 {
-    return mon_templates;
-}
-std::vector<mtype_id> MonsterGenerator::get_all_mtype_ids() const
-{
-    std::vector<mtype_id> hold;
-    for( const auto &elem : mon_templates ) {
-        hold.push_back( elem.first );
+    std::vector<const mtype *> result;
+    for( auto &e : mon_templates  ) {
+        result.push_back( e.second );
     }
-    return hold;
+    return result;
 }
 
 mtype_id MonsterGenerator::get_valid_hallucination() const

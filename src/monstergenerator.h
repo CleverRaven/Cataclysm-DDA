@@ -75,8 +75,7 @@ class MonsterGenerator
         species_type &get_species( const species_id& id );
         bool has_mtype( const mtype_id &id ) const;
         bool has_species( const species_id &species ) const;
-        std::map<mtype_id, mtype *> get_all_mtypes() const;
-        std::vector<mtype_id> get_all_mtype_ids() const;
+        std::vector<const mtype *> get_all_mtypes() const;
         mtype_id get_valid_hallucination() const;
         friend struct mtype;
     protected:
