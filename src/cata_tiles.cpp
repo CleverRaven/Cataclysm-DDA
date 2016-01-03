@@ -1193,7 +1193,7 @@ bool cata_tiles::draw_from_id_string(std::string id, TILE_CATEGORY category,
             case LINE_XXXX: sym = LINE_XXXX_C; break;
             default: break; // sym goes unchanged
         }
-        if (sym != 0 && sym < 256 && sym >= 0) {
+        if( sym != 0 && sym < 256 ) {
             // see cursesport.cpp, function wattron
             const int pairNumber = (col & A_COLOR) >> 17;
             const pairs &colorpair = colorpairs[pairNumber];
