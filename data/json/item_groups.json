@@ -2366,6 +2366,7 @@
       ["shortbow", 5],
       ["recurbow", 2],
       ["reflexbow", 2],
+      ["vambrace_larmor", 1],
       ["quiver", 3],
       ["hand_crossbow", 1],
       ["arrow_wood", 7],
@@ -9199,6 +9200,10 @@
       ["gauntlets_larmor", 14],
       ["gauntlets_chitin", 2],
       ["gauntlets_bone", 12],
+      ["armguard_larmor", 7],
+      ["vambrace_larmor", 6],
+      ["armguard_chitin", 1],
+      ["armguard_bone", 6],
       ["gloves_fur", 4],
       ["gloves_leather", 22],
       ["gloves_work", 22],
@@ -9772,6 +9777,8 @@
       ["helmet_larmor", 40],
       ["boots_larmor", 40],
       ["armor_larmor", 40],
+      ["armguard_larmor", 40],
+      ["vambrace_larmor", 20],
       ["legguard_metal", 10]
     ]
   },{

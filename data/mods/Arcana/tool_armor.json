@@ -135,7 +135,7 @@
         "storage" : 8,
         "warmth" : 25,
         "encumbrance" : 23,
-        "coverage" : 85,
+        "coverage" : 90,
         "material_thickness" : 4
     },{
         "id": "revenant_crown",

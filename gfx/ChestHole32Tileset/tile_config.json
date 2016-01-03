@@ -4026,8 +4026,13 @@
           "rotates": false
         },
         {
-          "id": "overlay_worn_armor_larmor",
-          "fg": 435,
+          "id": "overlay_female_worn_armor_larmor",
+          "fg": 3697,
+          "rotates": false
+        },
+        {
+          "id": "overlay_male_worn_armor_larmor",
+          "fg": 3700,
           "rotates": false
         },
         {
@@ -4315,8 +4320,13 @@
           "rotates": false
         },
         {
-          "id": "overlay_worn_bondage_suit",
-          "fg": 449,
+          "id": "overlay_male_worn_bondage_suit",
+          "fg": 3760,
+          "rotates": false
+        },
+        {
+          "id": "overlay_female_worn_bondage_suit",
+          "fg": 3761,
           "rotates": false
         },
         {
@@ -5053,7 +5063,7 @@
         },
         {
           "id": "overlay_worn_nomex_gloves",
-          "fg": 3711,
+          "fg": 3710,
           "rotates": false
         },
         {
@@ -20404,6 +20414,24 @@
           "bg": 640,
           "rotates": false
         },
+        { 
+            "id": "t_tree_hickory",
+            "fg": 3591,
+            "bg": 632,
+            "rotates": false
+          },
+          {
+            "id": "t_tree_hickory_harvested",
+            "fg": 3592,
+            "bg": 632,
+            "rotates": false
+          },
+          {
+            "id": "t_tree_hickory_season_winter",
+            "fg": 3593,
+            "bg": 632,
+             "rotates": false
+          },
         {
           "id": "t_tree_birch",
           "fg": 3559,
@@ -22238,6 +22266,12 @@
         {
           "id": "mon_shia",
           "fg": 3626,
+          "bg": 642,
+          "rotates": false
+        },
+        {
+          "id": "mon_zombie_shady",
+          "fg": 3632,
           "bg": 642,
           "rotates": false
         },
@@ -27367,13 +27401,11 @@
         },
         {
           "id": "entry_suit",
-          "fg": 3212,
-          "bg": 632
+          "fg": 3725
         },
         {
           "id": "overlay_worn_entry_suit",
-          "fg": 3212,
-          "bg": 632
+          "fg": 3725
         },
         {
           "id": "ak47",

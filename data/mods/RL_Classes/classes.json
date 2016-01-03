@@ -85,6 +85,7 @@
         "items": {
             "both": [
                 "armor_larmor",
+                "armguard_larmor",
                 "boots_larmor",
                 "gauntlets_larmor",
                 "backpack_leather",
@@ -249,6 +250,7 @@
         "items": {
             "both": [
                 "armor_larmor",
+                "vambraces_larmor",
                 "gauntlets_larmor",
                 "boots_larmor",
                 "knit_scarf",
