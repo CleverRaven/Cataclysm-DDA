@@ -180,7 +180,7 @@ static void place_item_activity( std::list<item *> &selected_items, std::list<in
     int prev_volume = g->u.volume_capacity();
     bool taken_off = false;
     // Make the relative coordinates absolute.
-    drop_target += g->u.pos3();
+    drop_target += g->u.pos();
     if( type == DROP_WORN || type == STASH_WORN ) {
         // TODO: Add the logic where dropping a worn container drops a number of contents as well.
         // Stash previous volume and compare it to volume after taking off each article of clothing.
@@ -270,7 +270,7 @@ void activity_on_turn_pickup()
     // indices of items on map, and quantities of same.
     bool from_vehicle = g->u.activity.values.front();
     tripoint pickup_target = g->u.activity.placement;
-    tripoint true_target = g->u.pos3();
+    tripoint true_target = g->u.pos();
     true_target += pickup_target;
     // Auto_resume implies autopickup.
     bool autopickup = g->u.activity.auto_resume;

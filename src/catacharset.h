@@ -7,7 +7,7 @@
 #define UNKNOWN_UNICODE 0xFFFD
 
 // get a unicode character from a utf8 string
-unsigned UTF8_getch(const char **src, int *srclen);
+uint32_t UTF8_getch(const char **src, int *srclen);
 // from wcwidth.c, return "cell" width of a unicode char
 int mk_wcwidth(uint32_t ucs);
 // convert cursorx value to byte position
@@ -26,7 +26,7 @@ int utf8_width(const std::string &str, const bool ignore_tags = false);
 */
 int center_text_pos(const char *text, int start_pos, int end_pos);
 std::string utf8_substr(std::string s, int start, int size = -1);
-std::string utf32_to_utf8(unsigned ch);
+std::string utf32_to_utf8(uint32_t ch);
 std::string utf8_truncate(std::string s, size_t length);
 
 std::string base64_encode(std::string str);

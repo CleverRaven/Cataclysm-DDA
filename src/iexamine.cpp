@@ -818,7 +818,7 @@ void iexamine::portable_structure(player *p, map *m, const tripoint &examp)
 void iexamine::pit(player *p, map *m, const tripoint &examp)
 {
     inventory map_inv;
-    map_inv.form_from_map( p->pos3(), 1);
+    map_inv.form_from_map( p->pos(), 1);
 
     bool player_has = p->has_amount("2x4", 1);
     bool map_has = map_inv.has_amount("2x4", 1);
@@ -834,7 +834,7 @@ void iexamine::pit(player *p, map *m, const tripoint &examp)
         if (player_has && map_has) {
             if (query_yn(_("Use the plank at your feet?"))) {
                 long quantity = 1;
-                m->use_amount( p->pos3(), 1, "2x4", quantity);
+                m->use_amount( p->pos(), 1, "2x4", quantity);
             } else {
                 p->use_amount("2x4", 1);
             }
@@ -842,7 +842,7 @@ void iexamine::pit(player *p, map *m, const tripoint &examp)
             p->use_amount("2x4", 1);
         } else if (!player_has && map_has) { // only map has plank
             long quantity = 1;
-            m->use_amount( p->pos3(), 1, "2x4", quantity);
+            m->use_amount( p->pos(), 1, "2x4", quantity);
         }
 
         if( m->ter(examp) == t_pit ) {
@@ -1412,10 +1412,10 @@ void iexamine::examine_cattails(player *p, map *m, const tripoint &examp)
         return;
     }
     if (calendar::turn.get_season() != WINTER) {
-        m->spawn_item( p->pos3(), "cattail_stalk", rng( 1, 4 ), 0, calendar::turn );
+        m->spawn_item( p->pos(), "cattail_stalk", rng( 1, 4 ), 0, calendar::turn );
     }
     m->furn_set(examp, f_null);
-    m->spawn_item( p->pos3(), "cattail_rhizome", 1, 0, calendar::turn );
+    m->spawn_item( p->pos(), "cattail_rhizome", 1, 0, calendar::turn );
 }
 
 void iexamine::flower_marloss(player *p, map *m, const tripoint &examp)

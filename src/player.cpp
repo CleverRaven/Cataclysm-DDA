@@ -465,7 +465,7 @@ void player::process_turn()
     }
 
     remove_items_with( [this]( item &itm ) {
-        return itm.process_artifact( this, pos3() );
+        return itm.process_artifact( this, pos() );
     } );
 
     suffer();
@@ -5307,7 +5307,7 @@ void player::knock_back_from( const tripoint &p )
         add_effect("stunned", 1);
         ///\EFFECT_STR_MAX allows knocked back player to knock back, damage, stun some monsters
         if ((str_max - 6) / 4 > critter->type->size) {
-            critter->knock_back_from(pos3()); // Chain reaction!
+            critter->knock_back_from(pos()); // Chain reaction!
             critter->apply_damage( this, bp_torso, (str_max - 6) / 4);
             critter->add_effect("stunned", 1);
         } else if ((str_max - 6) / 4 == critter->type->size) {
@@ -8297,8 +8297,8 @@ void player::suffer()
         rad_mut = 1;
     }
     if( rad_mut > 0 ) {
-        if( g->m.get_radiation( pos3() ) < rad_mut - 1 && one_in( 600 / rad_mut ) ) {
-            g->m.adjust_radiation( pos3(), 1 );
+        if( g->m.get_radiation( pos() ) < rad_mut - 1 && one_in( 600 / rad_mut ) ) {
+            g->m.adjust_radiation( pos(), 1 );
         } else if( one_in( 300 / rad_mut ) ) {
             radiation++;
         }
@@ -8321,7 +8321,7 @@ void player::suffer()
     int selfRadiation = 0;
     selfRadiation = leak_level("RADIOACTIVE");
 
-    int localRadiation = g->m.get_radiation( pos3() );
+    int localRadiation = g->m.get_radiation( pos() );
 
     if (localRadiation || selfRadiation) {
         bool has_helmet = false;
@@ -9054,21 +9054,21 @@ void player::rem_morale(morale_type type, const itype* item_type)
 
 void player::process_active_items()
 {
-    if( weapon.needs_processing() && weapon.process( this, pos3(), false ) ) {
+    if( weapon.needs_processing() && weapon.process( this, pos(), false ) ) {
         weapon = ret_null;
     }
 
     std::vector<item *> inv_active = inv.active_items();
     for( auto tmp_it : inv_active ) {
 
-        if( tmp_it->process( this, pos3(), false ) ) {
+        if( tmp_it->process( this, pos(), false ) ) {
             inv.remove_item(tmp_it);
         }
     }
 
     // worn items
     remove_worn_items_with( [this]( item &itm ) {
-        return itm.needs_processing() && itm.process( this, pos3(), false );
+        return itm.needs_processing() && itm.process( this, pos(), false );
     } );
 
     long ch_UPS = charges_of( "UPS" );
@@ -9263,7 +9263,7 @@ bool player::has_fire(const int quantity) const
 {
 // TODO: Replace this with a "tool produces fire" flag.
 
-    if( g->m.has_nearby_fire( pos3() ) ) {
+    if( g->m.has_nearby_fire( pos() ) ) {
         return true;
     } else if (has_charges("torch_lit", 1)) {
         return true;
@@ -9317,7 +9317,7 @@ void player::use_fire(const int quantity)
 // (home made, military), hotplate, welder in that order.
 // bio_lighter, bio_laser, bio_tools, has_active_bionic("bio_tools"
 
-    if( g->m.has_nearby_fire( pos3() ) ) {
+    if( g->m.has_nearby_fire( pos() ) ) {
         return;
     } else if (has_charges("torch_lit", 1)) {
         return;
@@ -9722,7 +9722,7 @@ bool player::consume_item( item &target )
             }
             if (comest->has_use()) {
                 //Check special use
-                amount_used = comest->invoke( this, to_eat, pos3() );
+                amount_used = comest->invoke( this, to_eat, pos() );
                 if( amount_used <= 0 ) {
                     return false;
                 }
@@ -10030,7 +10030,7 @@ bool player::eat(item *eaten, const it_comest *comest)
     }
 
     if (comest->has_use()) {
-        to_eat = comest->invoke( this, eaten, pos3() );
+        to_eat = comest->invoke( this, eaten, pos() );
         if( to_eat <= 0 ) {
             return false;
         }
@@ -12162,7 +12162,7 @@ void player::do_read( item *book )
     }
 
     for( auto &m : reading->use_methods ) {
-        m.call( this, book, false, pos3() );
+        m.call( this, book, false, pos() );
     }
 
     activity.type = ACT_NULL;
@@ -12434,7 +12434,7 @@ bool player::can_sleep()
         // Sleep ain't happening until that meth wears off completely.
         return false;
     }
-    int sleepy = sleep_spot( pos3() );
+    int sleepy = sleep_spot( pos() );
     sleepy += rng( -8, 8 );
     if( sleepy > 0 ) {
         return true;
@@ -13947,7 +13947,7 @@ action_id player::get_next_auto_move_direction()
     }
 
     if (next_expected_position != tripoint_min ) {
-        if( pos3() != next_expected_position ) {
+        if( pos() != next_expected_position ) {
             // We're off course, possibly stumbling or stuck, cancel auto move
             return ACTION_NULL;
         }
@@ -13956,7 +13956,7 @@ action_id player::get_next_auto_move_direction()
     next_expected_position = auto_move_route.front();
     auto_move_route.erase(auto_move_route.begin());
 
-    tripoint dp = next_expected_position - pos3();
+    tripoint dp = next_expected_position - pos();
 
     // Make sure the direction is just one step and that
     // all diagonal moves have 0 z component
@@ -14090,7 +14090,7 @@ Creature::Attitude player::attitude_to( const Creature &other ) const
 bool player::sees( const tripoint &t, bool ) const
 {
     static const std::string str_bio_night("bio_night");
-    const int wanted_range = rl_dist( pos3(), t );
+    const int wanted_range = rl_dist( pos(), t );
     bool can_see = is_player() ? g->m.pl_sees( t, wanted_range ) :
         Creature::sees( t );;
     // Only check if we need to override if we already came to the opposite conclusion.
@@ -14112,7 +14112,7 @@ bool player::sees( const tripoint &t, bool ) const
 bool player::sees( const Creature &critter ) const
 {
     // This handles only the player/npc specific stuff (monsters don't have traits or bionics).
-    const int dist = rl_dist( pos3(), critter.pos3() );
+    const int dist = rl_dist( pos(), critter.pos() );
     if (dist <= 3 && has_trait("ANTENNAE")) {
         return true;
     }
@@ -14231,13 +14231,13 @@ bool player::can_hear( const tripoint &source, const int volume ) const
     }
 
     // source is in-ear and at our square, we can hear it
-    if ( source == pos3() && volume == 0 ) {
+    if ( source == pos() && volume == 0 ) {
         return true;
     }
 
     // TODO: sound attenuation due to weather
 
-    const int dist = rl_dist( source, pos3() );
+    const int dist = rl_dist( source, pos() );
     const float volume_multiplier = hearing_ability();
     return volume * volume_multiplier >= dist;
 }

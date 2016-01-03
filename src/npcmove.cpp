@@ -119,8 +119,8 @@ void npc::move()
     }
 
     // This bypasses the logic to determine the npc action, but this all needs to be rewritten anyway.
-    if( sees_dangerous_field( pos3() ) ) {
-        auto targets = closest_tripoints_first( 1, pos3() );
+    if( sees_dangerous_field( pos() ) ) {
+        auto targets = closest_tripoints_first( 1, pos() );
         targets.erase( targets.begin() ); // current location
         auto filter = [this](const tripoint &p) {
             return !could_move_onto( p );
@@ -134,7 +134,7 @@ void npc::move()
 
     if( is_enemy() ) {
         int pl_danger = player_danger( &(g->u) );
-        if( ( pl_danger > danger || rl_dist( pos3(), g->u.pos3() ) <= 1 ) || target == INT_MIN ) {
+        if( ( pl_danger > danger || rl_dist( pos(), g->u.pos() ) <= 1 ) || target == INT_MIN ) {
             target = TARGET_PLAYER;
             danger = pl_danger;
             add_msg( m_debug, "NPC %s: Set target to PLAYER, danger = %d", name.c_str(), danger );
@@ -228,11 +228,11 @@ void npc::move()
 void npc::execute_action(npc_action action, int target)
 {
     int oldmoves = moves;
-    tripoint tar = pos3();
+    tripoint tar = pos();
     if( target == TARGET_PLAYER ) {
-        tar = g->u.pos3();
+        tar = g->u.pos();
     } else if( target >= 0 && g->num_zombies() > (size_t)target ) {
-        tar = g->zombie(target).pos3();
+        tar = g->zombie(target).pos();
     }
     /*
       debugmsg("%s ran execute_action() with target = %d! Action %s",
@@ -254,8 +254,8 @@ void npc::execute_action(npc_action action, int target)
     */
 
     std::vector<tripoint> line;
-    if( tar != pos3() ) {
-        line = g->m.find_clear_path( pos3(), tar );
+    if( tar != pos() ) {
+        line = g->m.find_clear_path( pos(), tar );
     }
 
     switch (action) {
@@ -274,7 +274,7 @@ void npc::execute_action(npc_action action, int target)
         if (g->u.sees( *this )) {
             add_msg(_("%1$s reloads their %2$s."), name.c_str(),
                     weapon.tname().c_str());
-            sfx::play_variant_sound( "reload", weapon.typeId(), sfx::get_heard_volume(pos3()), sfx::get_heard_angle( pos3()));
+            sfx::play_variant_sound( "reload", weapon.typeId(), sfx::get_heard_volume(pos()), sfx::get_heard_angle( pos()));
         }
     }
     break;
@@ -422,7 +422,7 @@ void npc::execute_action(npc_action action, int target)
         break;
 
     case npc_heal_player:
-        update_path( g->u.pos3() );
+        update_path( g->u.pos() );
         if (path.size() == 1) { // We're adjacent to u, and thus can heal u
             heal_player(g->u);
         } else if (!path.empty()) {
@@ -544,7 +544,7 @@ void npc::execute_action(npc_action action, int target)
         break;
 
     case npc_mug_player:
-        update_path( g->u.pos3() );
+        update_path( g->u.pos() );
         if (path.size() == 1) { // We're adjacent to u, and thus can mug u
             mug_player(g->u);
         } else if (!path.empty()) {
@@ -663,7 +663,7 @@ npc_action npc::method_of_fleeing(int enemy)
     int speed = (enemy == TARGET_PLAYER ? g->u.get_speed() :
                  g->zombie(enemy).get_speed());
     tripoint enemy_loc = enemy == TARGET_PLAYER ?
-        g->u.pos3() : g->zombie(enemy).pos3();
+        g->u.pos() : g->zombie(enemy).pos();
     int distance = rl_dist(pos(), enemy_loc);
 
     if (choose_escape_item() != INT_MIN) { // We have an escape item!
@@ -728,7 +728,7 @@ npc_action npc::method_of_attack(int target, int danger)
                 }
             } else if (target == TARGET_PLAYER && !sees( g->u )) {
                 return npc_melee;//Can't see target
-            } else if (rl_dist( pos3(), tar ) > weapon.gun_range( this ) &&
+            } else if (rl_dist( pos(), tar ) > weapon.gun_range( this ) &&
                        sees( tar )) {
                 return npc_melee; // If out of range, move closer to the target
             } else if (dist <= confident_range() / 3 && weapon.charges >= weapon.type->gun->burst &&
@@ -1053,14 +1053,14 @@ int npc::confident_range(int position)
 bool npc::wont_hit_friend( const tripoint &tar, int weapon_index )
 {
     int confident = confident_range(weapon_index);
-    if( rl_dist( pos3(), tar ) == 1 ) {
+    if( rl_dist( pos(), tar ) == 1 ) {
         return true;    // If we're *really* sure that our aim is dead-on
     }
 
-    std::vector<tripoint> traj = g->m.find_clear_path( pos3(), tar );
+    std::vector<tripoint> traj = g->m.find_clear_path( pos(), tar );
 
     for( auto &i : traj ) {
-        int dist = rl_dist( pos3(), i );
+        int dist = rl_dist( pos(), i );
         int deviation = 1 + int(dist / confident);
         for (int x = i.x - deviation; x <= i.x + deviation; x++) {
             for (int y = i.y - deviation; y <= i.y + deviation; y++) {
@@ -1211,7 +1211,7 @@ void npc::move_to( const tripoint &pt, bool no_bashing )
     if( sees_dangerous_field( pt ) ) {
         // Move to a neighbor field instead, if possible.
         // Maybe this code already exists somewhere?
-        auto other_points = g->m.get_dir_circle( pos3(), pt );
+        auto other_points = g->m.get_dir_circle( pos(), pt );
         for( const tripoint &ot : other_points ) {
             if( could_move_onto( ot ) ) {
                 p = ot;
@@ -2004,10 +2004,10 @@ void npc::activate_item(int item_index)
     item *it = &i_at(item_index);
     if (it->is_tool()) {
         const auto tool = dynamic_cast<const it_tool *>(it->type);
-        tool->invoke( this, it, pos3() );
+        tool->invoke( this, it, pos() );
     } else if (it->is_food()) {
         const auto comest = dynamic_cast<const it_comest *>(it->type);
-        comest->invoke( this, it, pos3() );
+        comest->invoke( this, it, pos() );
     }
 
     if( moves == oldmoves ) {
@@ -2029,10 +2029,10 @@ bool thrown_item(item *used)
 
 void npc::heal_player(player &patient)
 {
-    int dist = rl_dist( pos3(), patient.pos3() );
+    int dist = rl_dist( pos(), patient.pos() );
 
     if (dist > 1) { // We need to move to the player
-        update_path( patient.pos3() );
+        update_path( patient.pos() );
         move_to_next();
     } else { // Close enough to heal!
         int lowest_HP = 400;
@@ -2235,7 +2235,7 @@ void npc::pick_and_eat()
 void npc::mug_player(player &mark)
 {
     if( rl_dist( pos(), mark.pos() ) > 1 ) { // We have to travel
-        update_path( mark.pos3() );
+        update_path( mark.pos() );
         move_to_next();
     } else {
         bool u_see_me   = g->u.sees( *this ),

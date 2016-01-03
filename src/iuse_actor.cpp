@@ -795,7 +795,7 @@ bool firestarter_actor::prep_firestarter_use( const player *p, const item *it, t
     if( !choose_adjacent(_("Light where?"), pos ) ) {
         return false;
     }
-    if( pos == p->pos3() ) {
+    if( pos == p->pos() ) {
         p->add_msg_if_player(m_info, _("You would set yourself on fire."));
         p->add_msg_if_player(_("But you're already smokin' hot."));
         return false;

@@ -120,7 +120,7 @@ item_action_map item_action_generator::map_actions_to_items( player &p, const st
             // Can't just test for charges_per_use > charges, because charges can be -1
             if( ufunc == nullptr ||
                 ( ufunc->get_actor_ptr() != nullptr && 
-                    !ufunc->get_actor_ptr()->can_use( &p, actual_item, false, p.pos3() ) ) ||
+                    !ufunc->get_actor_ptr()->can_use( &p, actual_item, false, p.pos() ) ) ||
                 ( tool != nullptr && tool->charges_per_use > 0 && 
                     tool->charges_per_use > actual_item->charges ) ) {
                 continue;

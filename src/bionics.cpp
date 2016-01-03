@@ -965,7 +965,7 @@ bool player::activate_bionic(int b, bool eff_only)
         for (int i = posx() - 10; i <= posx() + 10; i++) {
             for (int j = posy() - 10; j <= posy() + 10; j++) {
                 if (g->m.i_at(i, j).size() > 0) {
-                    traj = g->m.find_clear_path( {i, j, posz()}, pos3() );
+                    traj = g->m.find_clear_path( {i, j, posz()}, pos() );
                 }
                 traj.insert(traj.begin(), {i, j, posz()});
                 if( g->m.has_flag( "SEALED", i, j ) ) {
@@ -1020,9 +1020,9 @@ bool player::activate_bionic(int b, bool eff_only)
             // TODO: damage the player / their bionics
         }
     } else if(bio.id == "bio_flashbang") {
-        g->flashbang( pos3(), true);
+        g->flashbang( pos(), true);
     } else if(bio.id == "bio_shockwave") {
-        g->shockwave( pos3(), 3, 4, 2, 8, true );
+        g->shockwave( pos(), 3, 4, 2, 8, true );
         add_msg_if_player(m_neutral, _("You unleash a powerful shockwave!"));
     } else if(bio.id == "bio_meteorologist") {
         // Calculate local wind power
