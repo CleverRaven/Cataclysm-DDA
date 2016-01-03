@@ -2137,12 +2137,7 @@ input_context game::get_player_input(std::string &action)
             wrefresh(w_terrain);
 
             //updating the pixel minimap here allows red flashing indicators for enemies to actually flicker
-            if(pixel_minimap_option && w_pixel_minimap){
-                werase(w_pixel_minimap);
-                //trick window into rendering
-                mvwputch(w_pixel_minimap, 0, 0, c_black, ' ');
-                wrefresh(w_pixel_minimap);
-            }
+            draw_pixel_minimap();
         }
         inp_mngr.set_timeout(-1);
     } else {
@@ -4968,6 +4963,18 @@ void game::draw()
 #endif // TILES
 }
 
+void game::draw_pixel_minimap()
+{
+    // Force a refresh of the pixel minimap.
+    // only do so if it is in use
+    if(pixel_minimap_option && w_pixel_minimap){
+        werase(w_pixel_minimap);
+        //trick window into rendering
+        mvwputch(w_pixel_minimap, 0, 0, c_black, ' ');
+        wrefresh(w_pixel_minimap);
+    }
+}
+
 void game::draw_sidebar()
 {
     if (fullscreen) {
@@ -5103,15 +5110,9 @@ void game::draw_sidebar()
 
     draw_minimap();
 
-    // Force a refresh of the pixel minimap.
-    // only do so if it is in use
-    if(pixel_minimap_option && w_pixel_minimap){
-        werase(w_pixel_minimap);
-        //trick window into rendering
-        mvwputch(w_pixel_minimap, 0, 0, c_black, ' ');
-        wrefresh(w_pixel_minimap);
-    }
+    draw_pixel_minimap();
 }
+
 
 void game::draw_critter( const Creature &critter, const tripoint &center )
 {
@@ -8924,6 +8925,12 @@ tripoint game::look_around( WINDOW *w_info, const tripoint &start_point,
     }
 
     draw_ter( lp );
+
+    //change player location to peek location temporarily for minimap update
+    tripoint current_pos = u.pos();
+    u.setpos(lp);
+    draw_pixel_minimap();
+    u.setpos(current_pos);
 
     int soffset = (int)OPTIONS["MOVE_VIEW_OFFSET"];
     bool fast_scroll = false;
