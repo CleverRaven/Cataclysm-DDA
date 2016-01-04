@@ -1,5 +1,5 @@
 [
-  },{
+  {
     "type":"item_group",
     "id":"homeguns",
     "guns_with_ammo" : true,
@@ -28,7 +28,9 @@
       { "item": "airspeargun", "prob": 2 }, 
       { "item": "fishspear", "prob": 4 }, 
       { "item": "m_fishspear", "prob": 2 }, 
-      { "item": "c_fishspear", "prob": 2 } 
+      { "item": "c_fishspear", "prob": 2 },
+      { "item": "flaregun", "prob": 15 },
+      { "item": "signal_flare", "prob": 10 }
     ]
   },{
     "type" : "item_group",
@@ -70,7 +72,8 @@
       { "group": "machine_guns", "prob": 10 },
       { "group": "antique_guns", "prob": 5 },
       { "item": "ar15", "prob": 10 },
-      { "item": "flaregun", "prob": 45 },
+      { "item": "flaregun", "prob": 25 },
+      { "item": "signal_flare", "prob": 20 },
       { "item": "l_HFPack", "prob": 5 },
       { "item": "small_repairkit", "prob": 10 },
       { "item": "large_repairkit", "prob": 10 }
