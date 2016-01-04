@@ -1,0 +1,209 @@
+[
+{
+  "type" : "recipe",
+  "result": "shield_wooden",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_OTHER",
+  "skill_used": "fabrication",
+  "difficulty": 2,
+  "time": 200000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities": [
+    {"id":"CUT","level":1,"amount":1},
+    {"id":"HAMMER","level":2,"amount":1}
+  ],
+  "components": [
+    [ [ "nail", 8 ] ],
+    [ [ "2x4", 4 ] ],
+    [ [ "leather", 1 ] ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "shield_wooden_large",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_OTHER",
+  "skill_used": "fabrication",
+  "difficulty": 3,
+  "time": 400000,
+  "reversible": false,
+  "autolearn": true,
+  "qualities": [
+    {"id":"CUT","level":1,"amount":1},
+    {"id":"HAMMER","level":2,"amount":1}
+  ],
+  "components": [
+    [ [ "nail", 16 ] ],
+    [ [ "2x4", 8 ] ],
+    [ [ "leather", 1 ] ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "shield_hoplon",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_OTHER",
+  "skill_used": "fabrication",
+  "difficulty": 5,
+  "time": 400000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "textbook_armwest", 4 ]],
+  "qualities": [
+    {"id":"CUT","level":1,"amount":1},
+    {"id":"HAMMER","level":3,"amount":1}
+  ],
+  "tools":[
+    [ [ "tongs", -1 ] ],
+    [ [ "crucible", -1 ] ],
+    [
+      [ "forge", 200 ],
+      [ "char_forge", 40 ],
+      [ "oxy_torch", 40 ]
+    ]
+  ],
+  "components": [
+    [ [ "scrap_bronze", 4 ] ],
+    [ [ "2x4", 4 ] ],
+    [
+      [ "leather", 3 ],
+      [ "tanned_hide", 1 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "shield_scutum",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_OTHER",
+  "skill_used": "fabrication",
+  "difficulty": 5,
+  "time": 400000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "textbook_armwest", 4 ]],
+  "qualities": [
+    {"id":"CUT","level":1,"amount":1},
+    {"id":"HAMMER","level":3,"amount":1}
+  ],
+  "tools":[
+    [ [ "tongs", -1 ] ],
+    [ [ "chisel", -1 ] ],
+    [ [ "anvil", -1 ] ],
+    [ [ "swage", -1 ] ],
+    [
+      [ "forge", 450 ],
+      [ "char_forge", 90 ],
+      [ "oxy_torch", 90 ]
+    ]
+  ],
+  "components": [
+    [ [ "scrap", 4 ] ],
+    [ [ "2x4", 8 ] ],
+    [
+      [ "leather", 3 ],
+      [ "tanned_hide", 1 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "shield_round",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_OTHER",
+  "skill_used": "fabrication",
+  "difficulty": 4,
+  "time": 400000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "textbook_armwest", 3 ]],
+  "qualities": [
+    {"id":"CUT","level":1,"amount":1},
+    {"id":"HAMMER","level":3,"amount":1}
+  ],
+  "tools":[
+    [ [ "tongs", -1 ] ],
+    [ [ "chisel", -1 ] ],
+    [ [ "anvil", -1 ] ],
+    [ [ "swage", -1 ] ],
+    [
+      [ "forge", 450 ],
+      [ "char_forge", 90 ],
+      [ "oxy_torch", 90 ]
+    ]
+  ],
+  "components": [
+    [ [ "scrap", 4 ] ],
+    [ [ "2x4", 4 ] ],
+    [
+      [ "leather", 3 ],
+      [ "tanned_hide", 1 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "shield_heater",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_OTHER",
+  "skill_used": "fabrication",
+  "difficulty": 5,
+  "time": 300000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "textbook_armwest", 4 ]],
+  "qualities": [
+    {"id":"CUT","level":1,"amount":1}
+ ],
+  "components": [
+    [ [ "2x4", 4 ] ],
+    [
+      [ "leather", 6 ],
+      [ "tanned_hide", 2 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "shield_kite",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_OTHER",
+  "skill_used": "fabrication",
+  "difficulty": 6,
+  "time": 400000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "textbook_armwest", 5 ]],
+  "qualities": [
+    {"id":"CUT","level":1,"amount":1}
+  ],
+  "components": [
+    [ [ "2x4", 7 ] ],
+    [
+      [ "leather", 10 ],
+      [ "tanned_hide", 3 ]
+    ]
+  ]
+},{
+  "type" : "recipe",
+  "result": "shield_buckler",
+  "category": "CC_ARMOR",
+  "subcategory": "CSC_ARMOR_OTHER",
+  "skill_used": "fabrication",
+  "difficulty": 7,
+  "time": 400000,
+  "reversible": false,
+  "autolearn": false,
+  "book_learn": [[ "textbook_armwest", 5 ]],
+  "qualities": [
+    {"id":"HAMMER","level":3,"amount":1}
+  ],
+  "tools": [
+    [ [ "tongs", -1 ] ],
+    [ [ "chisel", -1 ] ],
+    [ [ "anvil", -1 ] ],
+    [ [ "swage", -1 ] ],
+    [
+      [ "forge", 450 ],
+      [ "char_forge", 90 ],
+      [ "oxy_torch", 90 ]
+    ]
+  ],
+  "components": [ [ [ "scrap", 5 ] ] ]
+}
+]

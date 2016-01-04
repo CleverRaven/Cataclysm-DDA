@@ -4208,8 +4208,9 @@ bool player::sight_impaired() const
 bool player::has_two_arms() const
 {
  if ((has_bionic("bio_blaster") || hp_cur[hp_arm_l] < 10 || hp_cur[hp_arm_r] < 10) ||
-   has_active_mutation("SHELL2")) {
+   has_active_mutation("SHELL2") || worn_with_flag("RESTRICT_HANDS")) {
     // You can't effectively use both arms to wield something when they're in your shell
+    // Some worn items may restrict use of a hand
     return false;
  }
  return true;
@@ -10419,6 +10420,10 @@ bool player::can_wield( const item &it, bool interactive ) const
         } else {
             if( interactive ) {
                 add_msg( m_info, _("You are too weak to wield %s with only one arm."),
+                         it.tname().c_str() );
+            }
+            if( worn_with_flag("RESTRICT_HANDS") ) {
+                add_msg( m_info, _("You are wearing something that hinders the use of both hands."),
                          it.tname().c_str() );
             }
         }
