@@ -9,14 +9,6 @@
       ["halberd", 20],
       ["glaive", 10],
       ["scimitar", 20],
-      ["helmet_nasal", 1],
-      ["helmet_galea", 1],
-      ["helmet_conical", 1],
-      ["gambeson", 3],
-      ["armor_lamellar", 2],
-      ["tunic", 1],
-      ["baldric", 4],
-      ["textbook_armschina", 5]
     ]
   },{
     "type" : "item_group",
@@ -28,9 +20,6 @@
       ["halberd", 20],
       ["glaive", 10],
       ["scimitar", 20],
-      ["armor_lamellar", 2],
-      ["helmet_conical", 1],
-      ["baldric", 4]
     ]
   },{
     "type"  : "item_group",
@@ -95,12 +84,6 @@
     ]
   },{
     "type" : "item_group",
-    "id" : "textbooks",
-    "items":[
-      ["textbook_armschina", 3]
-    ]
-  },{
-    "type" : "item_group",
     "id" : "mansion_guns",
     "items":[
       ["fire_lance", 2],
@@ -111,8 +94,7 @@
     "type" : "item_group",
     "id" : "mansion_books",
     "items":[
-      ["manual_swordsmanship", 3],
-      ["textbook_armschina", 5]
+      ["manual_swordsmanship", 3]
     ]
   },{
       "type" : "item_group",
@@ -121,23 +103,11 @@
       ["manual_pankration", 1]
     ]
   },{
-    "type" : "item_group",
-    "id" : "npc_hacker",
-    "items":[
-      ["textbook_armschina", 2]
-    ]
-  },{
 "type" : "item_group",
 "id" : "museum_armor",
 "items" : [
-      ["helmet_nasal", 50],
       ["helmet_corinthian", 45],
-      ["helmet_galea", 40],
-      ["helmet_conical", 30],
-      ["gambeson", 50],
-      ["armor_lamellar", 20],
       ["armor_cuirass", 25],
-      ["armor_lorica", 25],
       ["legguard_bronze", 20]
     ]
     },{
