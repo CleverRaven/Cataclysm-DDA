@@ -2,6 +2,7 @@
     {
     "type" : "MONSTER",
     "id" : "mon_ant_queen",
+    "edit-mode" : "override",
     "name": "queen ant",
     "species":"INSECT",
     "default_faction":"ant",
@@ -36,6 +37,7 @@
     },{
     "type" : "MONSTER",
     "id" : "mon_graboid",
+    "edit-mode" : "override",
     "name": "graboid",
     "species":"WORM",
     "default_faction":"worm",
@@ -68,6 +70,7 @@
     },{
     "type" : "MONSTER",
     "id" : "mon_sludge_crawler",
+    "edit-mode" : "override",
     "name": "sludge crawler",
     "species":"MUTANT",
     "default_faction":"mutant",
@@ -102,6 +105,7 @@
     },{
     "type" : "MONSTER",
     "id" : "mon_zombie_shady",
+    "edit-mode" : "override",
     "name": "shady zombie",
     "species":"ZOMBIE",
     "default_faction":"zombie",
@@ -132,6 +136,7 @@
     },{
     "type" : "MONSTER",
     "id" : "mon_zombie_necro",
+    "edit-mode" : "override",
     "name": "zombie necromancer",
     "species":"ZOMBIE",
     "default_faction":"zombie",
@@ -162,6 +167,7 @@
     },{
     "type" : "MONSTER",
     "id" : "mon_zombie_master",
+    "edit-mode" : "override",
     "name": "zombie master",
     "species":"ZOMBIE",
     "default_faction":"zombie",
@@ -192,6 +198,7 @@
     },{
     "type" : "MONSTER",
     "id" : "mon_zombie_hollow",
+    "edit-mode" : "override",
     "name": "zombie hollow",
     "species":"ZOMBIE",
     "default_faction":"zombie",
@@ -227,6 +234,7 @@
     },{
         "type" : "MONSTER",
         "id" : "mon_jabberwock",
+        "edit-mode" : "override",
         "name": "jabberwock",
         "species":"ABERRATION",
         "default_faction":"jabberwock",
@@ -263,6 +271,7 @@
     },{
     "type" : "MONSTER",
     "id" : "mon_charred_nightmare",
+    "edit-mode" : "override",
     "name": "charred nightmare",
     "species":"ABERRATION",
     "default_faction":"zombie",
@@ -292,6 +301,7 @@
     },{
     "type" : "MONSTER",
     "id" : "mon_triffid",
+    "edit-mode" : "override",
     "name": "triffid",
     "species":"PLANT",
     "default_faction":"triffid",
@@ -324,6 +334,7 @@
     },{
     "type" : "MONSTER",
     "id" : "mon_triffid_young",
+    "edit-mode" : "override",
     "name": "triffid sprout",
     "species":"PLANT",
     "default_faction":"triffid",
@@ -357,6 +368,7 @@
     },{
     "type" : "MONSTER",
     "id" : "mon_fungal_fighter",
+    "edit-mode" : "override",
     "name": "fungal fighter",
     "species":"PLANT",
     "default_faction":"triffid",
@@ -406,6 +418,7 @@
     },{
     "type" : "MONSTER",
     "id" : "mon_triffid_queen",
+    "edit-mode" : "override",
     "name": "triffid queen",
     "species":"PLANT",
     "default_faction":"triffid",
@@ -439,6 +452,7 @@
     },{
     "type" : "MONSTER",
     "id" : "mon_creeper_hub",
+    "edit-mode" : "override",
     "name": "creeper hub",
     "species":"PLANT",
     "default_faction":"triffid",
@@ -472,6 +486,7 @@
     },{
     "type" : "MONSTER",
     "id" : "mon_biollante",
+    "edit-mode" : "override",
     "name": "biollante",
     "species":"PLANT",
     "default_faction":"triffid",
@@ -506,6 +521,7 @@
     },{
     "type" : "MONSTER",
     "id" : "mon_vinebeast",
+    "edit-mode" : "override",
     "name": "vine beast",
     "species":"PLANT",
     "default_faction":"triffid",
@@ -538,6 +554,7 @@
     },{
     "type" : "MONSTER",
     "id" : "mon_triffid_heart",
+    "edit-mode" : "override",
     "name": "triffid heart",
     "species":"PLANT",
     "default_faction":"triffid",
@@ -571,6 +588,7 @@
     },{
     "type" : "MONSTER",
     "id" : "mon_fungaloid",
+    "edit-mode" : "override",
     "name": "fungaloid",
     "species":"FUNGUS",
     "default_faction":"fungus",
@@ -604,6 +622,7 @@
     },{
     "type" : "MONSTER",
     "id" : "mon_fungaloid_young",
+    "edit-mode" : "override",
     "name": "fungal sporeling",
     "species":"FUNGUS",
     "default_faction":"fungus",
@@ -637,6 +656,7 @@
     },{
     "type" : "MONSTER",
     "id" : "mon_fungaloid_queen",
+    "edit-mode" : "override",
     "name": "fungal spire",
     "species":"FUNGUS",
     "default_faction":"fungus",
@@ -670,6 +690,7 @@
     },{
       "type" : "MONSTER",
     "id" : "mon_fungaloid_seeder",
+    "edit-mode" : "override",
     "name": "giant fungal blossom",
     "species":"FUNGUS",
     "default_faction":"fungus",
@@ -704,6 +725,7 @@
     },{
     "type" : "MONSTER",
     "id" : "mon_fungal_tendril",
+    "edit-mode" : "override",
     "name": "fungal tendril",
     "species":"FUNGUS",
     "default_faction":"fungus",
@@ -737,6 +759,7 @@
     },{
     "type" : "MONSTER",
     "id" : "mon_fungal_blossom",
+    "edit-mode" : "override",
     "name": "fungal blossom",
     "species":"FUNGUS",
     "default_faction":"fungus",
@@ -771,6 +794,7 @@
     },{
   "type" : "MONSTER",
         "id" : "mon_blob_brain",
+        "edit-mode" : "override",
         "name": "brain blob",
         "species": ["NETHER", "BLOB"],
         "default_faction":"blob",
@@ -805,6 +829,7 @@
     },{
   "type" : "MONSTER",
         "id" : "mon_blob_large",
+        "edit-mode" : "override",
         "name": "big blob",
         "species": ["NETHER", "BLOB"],
         "default_faction":"blob",
@@ -839,6 +864,7 @@
     },{
   "type" : "MONSTER",
         "id" : "mon_blob",
+        "edit-mode" : "override",
         "name": "blob",
         "species": ["NETHER", "BLOB"],
         "default_faction":"blob",
@@ -873,6 +899,7 @@
     },{
     "type" : "MONSTER",
     "id" : "mon_one_eye",
+    "edit-mode" : "override",
     "name": "cyclopean",
     "species":"MUTANT",
     "default_faction":"mutant",
@@ -910,6 +937,7 @@
     },{
     "type" : "MONSTER",
     "id" : "mon_crawler",
+    "edit-mode" : "override",
     "name": "crawler",
     "species":"ABERRATION",
     "default_faction":"mutant",
@@ -944,6 +972,7 @@
     },{
     "type" : "MONSTER",
     "id" : "mon_rat_king",
+    "edit-mode" : "override",
     "name": "rat king",
     "species":"MAMMAL",
     "default_faction":"rat",
@@ -976,6 +1005,7 @@
     },{
     "type" : "MONSTER",
     "id" : "mon_dermatik_larva",
+    "edit-mode" : "override",
     "name": "dermatik larva",
     "species":"INSECT",
     "default_faction":"dermatik",
@@ -1009,6 +1039,7 @@
     },{
     "type" : "MONSTER",
     "id" : "mon_dermatik",
+    "edit-mode" : "override",
     "name": "dermatik",
     "species":"INSECT",
     "default_faction":"dermatik",
@@ -1043,6 +1074,7 @@
     },{
     "type" : "MONSTER",
     "id" : "mon_dark_wyrm",
+    "edit-mode" : "override",
     "name": "dark wyrm",
     "species":"MUTANT",
     "default_faction":"mutant",
@@ -1075,6 +1107,7 @@
     },{
     "type" : "MONSTER",
     "id" : "mon_amigara_horror",
+    "edit-mode" : "override",
     "name": "amigara horror",
     "species":"HORROR",
     "default_faction":"mutant",
@@ -1108,6 +1141,7 @@
     },{
     "type" : "MONSTER",
     "id" : "mon_thing",
+    "edit-mode" : "override",
     "name": "thing",
     "species":"NETHER",
     "default_faction":"mutant",
@@ -1141,6 +1175,7 @@
     },{
     "type" : "MONSTER",
     "id" : "mon_human_snail",
+    "edit-mode" : "override",
     "name": "human snail",
     "species":"ABERRATION",
     "default_faction":"mutant",
@@ -1175,6 +1210,7 @@
     },{
     "type" : "MONSTER",
     "id" : "mon_twisted_body",
+    "edit-mode" : "override",
     "name": "twisted body",
     "name_plural": "twisted bodies",
     "species":"HORROR",
@@ -1209,6 +1245,7 @@
     },{
     "type" : "MONSTER",
     "id" : "mon_vortex",
+    "edit-mode" : "override",
     "name": "vortex",
     "name_plural": "vortexes",
     "species":"UNKNOWN",
@@ -1242,6 +1279,7 @@
     },{
     "type" : "MONSTER",
     "id" : "mon_flying_polyp",
+    "edit-mode" : "override",
     "name": "flying polyp",
     "species":"NETHER",
     "default_faction":"nether",
@@ -1274,6 +1312,7 @@
     },{
     "type" : "MONSTER",
     "id" : "mon_hunting_horror",
+    "edit-mode" : "override",
     "name": "hunting horror",
     "species":"NETHER",
     "default_faction":"nether",
@@ -1307,6 +1346,7 @@
     },{
     "type" : "MONSTER",
     "id" : "mon_mi_go",
+    "edit-mode" : "override",
     "name": "mi-go",
     "species":"NETHER",
     "default_faction":"nether",
@@ -1341,6 +1381,7 @@
     },{
     "type" : "MONSTER",
     "id" : "mon_yugg",
+    "edit-mode" : "override",
     "name": "yugg",
     "species":"NETHER",
     "default_faction":"nether",
@@ -1375,6 +1416,7 @@
     },{
     "type" : "MONSTER",
     "id" : "mon_gelatin",
+    "edit-mode" : "override",
     "name": "amoebic mold",
     "species":"NETHER",
     "default_faction":"blob",
@@ -1409,6 +1451,7 @@
     },{
     "type" : "MONSTER",
     "id" : "mon_flaming_eye",
+    "edit-mode" : "override",
     "name": "flaming eye",
     "species":"NETHER",
     "default_faction":"nether",
@@ -1445,6 +1488,7 @@
     },{
     "type" : "MONSTER",
     "id" : "mon_kreck",
+    "edit-mode" : "override",
     "name": "kreck",
     "species":"NETHER",
     "default_faction":"nether",
@@ -1478,6 +1522,7 @@
     },{
     "type" : "MONSTER",
     "id" : "mon_gracke",
+    "edit-mode" : "override",
     "name": "gracken",
     "species":"NETHER",
     "default_faction":"nether",
@@ -1510,6 +1555,7 @@
     },{
     "type" : "MONSTER",
     "id" : "mon_blank",
+    "edit-mode" : "override",
     "name": "blank body",
     "name_plural": "blank bodies",
     "species":"NETHER",
@@ -1544,6 +1590,7 @@
     },{
     "type" : "MONSTER",
     "id" : "mon_gozu",
+    "edit-mode" : "override",
     "name": "gozu",
     "species":"NETHER",
     "default_faction":"nether",
@@ -1578,6 +1625,7 @@
     },{
     "type" : "MONSTER",
     "id" : "mon_shadow",
+    "edit-mode" : "override",
     "name": "shadow",
     "species":"NETHER",
     "default_faction":"nether",
@@ -1613,6 +1661,7 @@
     },{
     "type" : "MONSTER",
     "id" : "mon_darkman",
+    "edit-mode" : "override",
     "name": "wraith",
     "species":"NETHER",
     "default_faction":"nether",
@@ -1648,6 +1697,7 @@
     },{
     "type" : "MONSTER",
     "id" : "mon_breather_hub",
+    "edit-mode" : "override",
     "name": "breather",
     "species":"NETHER",
     "default_faction":"nether",
@@ -1681,6 +1731,7 @@
     },{
     "type" : "MONSTER",
     "id" : "mon_breather",
+    "edit-mode" : "override",
     "name": "breather",
     "species":"NETHER",
     "default_faction":"nether",
@@ -1714,6 +1765,7 @@
     },{
     "type" : "MONSTER",
     "id" : "mon_shadow_snake",
+    "edit-mode" : "override",
     "name": "shadow snake",
     "species":"NETHER",
     "default_faction":"nether",
@@ -1747,6 +1799,7 @@
     },{
     "type" : "MONSTER",
     "id" : "mon_shoggoth",
+    "edit-mode" : "override",
     "name": "shoggoth",
     "species":"NETHER",
     "default_faction":"nether",
@@ -1780,6 +1833,7 @@
     },{
     "type" : "MONSTER",
     "id" : "mon_dementia",
+    "edit-mode" : "override",
     "name": "dementia",
     "species":"ZOMBIE",
     "default_faction":"cult",
@@ -1806,6 +1860,7 @@
     },{
     "type" : "MONSTER",
     "id" : "mon_homunculus",
+    "edit-mode" : "override",
     "name": "homunculus",
     "name_plural": "homunculuses",
     "species":"ZOMBIE",
@@ -1833,6 +1888,7 @@
     },{
     "type" : "MONSTER",
     "id" : "mon_blood_sacrifice",
+    "edit-mode" : "override",
     "name": "blood sacrifice",
     "species":"ZOMBIE",
     "default_faction":"cult",
@@ -1860,6 +1916,7 @@
     },{
     "type" : "MONSTER",
     "id" : "mon_flesh_angel",
+    "edit-mode" : "override",
     "name": "flesh angel",
     "species":"ZOMBIE",
     "default_faction":"cult",
@@ -1887,6 +1944,7 @@
     },{
     "type" : "MONSTER",
     "id" : "mon_player_blob",
+    "edit-mode" : "override",
     "name": "slimespring",
     "species":"MUTANT",
     "default_faction":"player",
@@ -1923,6 +1981,7 @@
     },{
     "type" : "MONSTER",
     "id" : "mon_shia",
+    "edit-mode" : "override",
     "name": "Shia LaBeouf",
     "name_plural": "Shia LaBeouf",
     "species":"ZOMBIE",
@@ -1955,6 +2014,7 @@
     },{
     "type" : "MONSTER",
     "id" : "mon_zombie_dancer",
+    "edit-mode" : "override",
     "name": "zombie dancer",
     "species":"ZOMBIE",
     "default_faction":"zombie",

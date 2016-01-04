@@ -172,6 +172,9 @@ struct mtype {
         std::set< const species_type* > species_ptrs;
     public:
         mtype_id id;
+        // TODO: maybe make this private as well? It must be set to `true` only once,
+        // and must never be set back to `false`.
+        bool was_loaded = false;
         std::string description;
         std::set<species_id> species;
         std::set<std::string> categories;

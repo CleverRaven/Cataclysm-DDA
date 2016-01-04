@@ -421,101 +421,110 @@ void mtype::load( JsonObject &jo )
 {
     MonsterGenerator &gen = MonsterGenerator::generator();
 
-    name = jo.get_string( "name" ).c_str();
-        if(jo.has_member("name_plural")) {
-        name_plural = jo.get_string( "name_plural" );
-        } else {
-            // default behaviour: Assume the regular plural form (appending an “s”)
-        name_plural = name + "s";
-        }
-    description = _( jo.get_string( "description" ).c_str() );
+    // Name and name plural are not translated here, but when needed in
+    // combination with the actual count in `mtype::nname`.
+    mandatory( jo, was_loaded, "name", name );
+    // default behaviour: Assume the regular plural form (appending an “s”)
+    optional( jo, was_loaded, "name_plural", name_plural, name + "s" );
+    mandatory( jo, was_loaded, "description", description, translated_string_reader );
 
-        // Have to overwrite the default { "hflesh" } here
-    mat = { jo.get_string( "material" ) };
+    // Have to overwrite the default { "hflesh" } here
+    if( !was_loaded || jo.has_member( "material" ) ) {
+        mat = { jo.get_string( "material" ) };
+    }
+    optional( jo, was_loaded, "species", species, auto_flags_reader<species_id> {}, {} );
+    optional( jo, was_loaded, "categories", categories, auto_flags_reader<> {}, {} );
 
-        for( auto &s : jo.get_tags( "species" ) ) {
-        species.insert( species_id( s ) );
-        }
-    categories = jo.get_tags( "categories" );
+    // See monfaction.cpp
+    if( !was_loaded || jo.has_member( "default_faction" ) ) {
+        const auto faction = mfaction_str_id( jo.get_string( "default_faction" ) );
+        default_faction = monfactions::get_or_add_faction( faction );
+    }
 
-        // See monfaction.cpp
-    default_faction =
-            monfactions::get_or_add_faction( mfaction_str_id( jo.get_string("default_faction") ) );
-
-    sym = jo.get_string( "symbol" );
-    if( utf8_wrapper( sym ).display_width() != 1 ) {
+    if( !was_loaded || jo.has_member( "symbol" ) ) {
+        sym = jo.get_string( "symbol" );
+        if( utf8_wrapper( sym ).display_width() != 1 ) {
             jo.throw_error( "monster symbol should be exactly one console cell width", "symbol" );
         }
-    color = color_from_string( jo.get_string( "color" ) );
-    size = gen.get_from_string( jo.get_string( "size", "MEDIUM" ), Creature::size_map, MS_MEDIUM );
-    phase = gen.get_from_string( jo.get_string( "phase", "SOLID" ), gen.phase_map, SOLID );
+    }
 
-    difficulty = jo.get_int( "diff", 0 );
-    agro = jo.get_int( "aggression", 0 );
-    morale = jo.get_int( "morale", 0 );
-    speed = jo.get_int( "speed", 0 );
-    attack_cost = jo.get_int( "attack_cost", 100 );
-    melee_skill = jo.get_int( "melee_skill", 0 );
-    melee_dice = jo.get_int( "melee_dice", 0 );
-    melee_sides = jo.get_int( "melee_dice_sides", 0 );
-    melee_cut = jo.get_int( "melee_cut", 0 );
-    sk_dodge = jo.get_int( "dodge", 0 );
-    armor_bash = jo.get_int( "armor_bash", 0 );
-    armor_cut = jo.get_int( "armor_cut", 0 );
-    armor_acid = jo.get_int( "armor_acid", armor_cut / 2 );
-    armor_fire = jo.get_int( "armor_fire", 0 );
-    hp = jo.get_int( "hp", 0 );
-    jo.read( "starting_ammo", starting_ammo );
-    luminance = jo.get_float( "luminance", 0 );
-    revert_to_itype = jo.get_string( "revert_to_itype", "" );
-    vision_day = jo.get_int( "vision_day", 40 );
-    vision_night = jo.get_int( "vision_night", 1 );
+    mandatory( jo, was_loaded, "color", color, color_reader{} );
+    const typed_flag_reader<decltype( Creature::size_map )> size_reader{ Creature::size_map, "invalid creature size" };
+    optional( jo, was_loaded, "size", size, size_reader, MS_MEDIUM );
+    const typed_flag_reader<decltype( gen.phase_map )> phase_reader{ gen.phase_map, "invalid phase id" };
+    optional( jo, was_loaded, "phase", phase, phase_reader, SOLID );
 
-        // Stab armor is optional, use 80% cut armor if it isn't set
-        if( jo.has_int("armor_stab") ) {
-        armor_stab = jo.get_int( "armor_stab", 0 );
-        } else {
-        armor_stab = 0.8f * armor_cut;
-        }
+    optional( jo, was_loaded, "diff", difficulty, 0 );
+    optional( jo, was_loaded, "aggression", agro, 0 );
+    optional( jo, was_loaded, "morale", morale, 0 );
+    optional( jo, was_loaded, "speed", speed, 0 );
+    optional( jo, was_loaded, "attack_cost", attack_cost, 100 );
+    optional( jo, was_loaded, "melee_skill", melee_skill, 0 );
+    optional( jo, was_loaded, "melee_dice", melee_dice, 0 );
+    optional( jo, was_loaded, "melee_dice_sides", melee_sides, 0 );
+    optional( jo, was_loaded, "melee_cut", melee_cut, 0 );
+    optional( jo, was_loaded, "dodge", sk_dodge, 0 );
+    optional( jo, was_loaded, "armor_bash", armor_bash, 0 );
+    optional( jo, was_loaded, "armor_cut", armor_cut, 0 );
+    optional( jo, was_loaded, "armor_acid", armor_acid, armor_cut / 2 );
+    optional( jo, was_loaded, "armor_fire", armor_fire, 0 );
+    optional( jo, was_loaded, "hp", hp, 0 );
+    optional( jo, was_loaded, "starting_ammo", starting_ammo, {} );
+    optional( jo, was_loaded, "luminance", luminance, 0 );
+    optional( jo, was_loaded, "revert_to_itype", revert_to_itype, "" );
+    optional( jo, was_loaded, "vision_day", vision_day, 40 );
+    optional( jo, was_loaded, "vision_night", vision_night, 1 );
+    optional( jo, was_loaded, "armor_stab", armor_stab, 0.8f * armor_cut );
 
-        if (jo.has_array("attack_effs")) {
-            JsonArray jsarr = jo.get_array("attack_effs");
-            while (jsarr.has_more()) {
-                JsonObject e = jsarr.next_object();
-                mon_effect_data new_eff(e.get_string("id", "null"), e.get_int("duration", 0),
-                                    get_body_part_token( e.get_string("bp", "NUM_BP") ), e.get_bool("permanent", false),
-                                    e.get_int("chance", 100));
+    // TODO: allow adding/removing specific entries if `was_loaded` is true
+    if( jo.has_array( "attack_effs" ) ) {
+        JsonArray jsarr = jo.get_array( "attack_effs" );
+        while( jsarr.has_more() ) {
+            JsonObject e = jsarr.next_object();
+            mon_effect_data new_eff( e.get_string( "id", "null" ), e.get_int( "duration", 0 ),
+                                     get_body_part_token( e.get_string( "bp", "NUM_BP" ) ), e.get_bool( "permanent", false ),
+                                     e.get_int( "chance", 100 ) );
             atk_effs.push_back( new_eff );
-            }
         }
+    }
 
-        if( jo.has_member( "death_drops" ) ) {
-            JsonIn& stream = *jo.get_raw( "death_drops" );
+    if( jo.has_member( "death_drops" ) ) {
+        JsonIn &stream = *jo.get_raw( "death_drops" );
         death_drops = item_group::load_item_group( stream, "distribution" );
-        }
+    }
 
-    dies = gen.get_death_functions( jo, "death_function" );
+    const typed_flag_reader<decltype( gen.death_map )> death_reader{ gen.death_map, "invalid monster death function" };
+    optional( jo, was_loaded, "death_function", dies, death_reader, {} );
+    if( dies.empty() ) {
+        // TODO: really needed? Is an empty `dies` container not allowed?
+        dies.push_back( mdeath::normal );
+    }
+
+    // TODO: allow overriding/adding/removing those if `was_loaded` is true
     gen.load_special_defense( this, jo, "special_when_hit" );
     gen.load_special_attacks( this, jo, "special_attacks" );
 
-        if (jo.has_member("upgrades")) {
-            JsonObject upgrades = jo.get_object("upgrades");
-        half_life = upgrades.get_int( "half_life", -1 );
-        upgrade_group = mongroup_id( upgrades.get_string( "into_group", mongroup_id::NULL_ID.str() ) );
-        upgrade_into = mtype_id( upgrades.get_string( "into", mtype_id::NULL_ID.str() ) );
-        this->upgrades = true;
+        // Disable upgrading when JSON contains `"upgrades": false`, but fallback to the
+        // normal behavior (including error checking) if "upgrades" is not boolean or not `false`.
+    if( jo.has_bool( "upgrades" ) && !jo.get_bool( "upgrades" ) ) {
+            upgrade_group = mongroup_id::NULL_ID;
+            upgrade_into = mtype_id::NULL_ID;
+            upgrades = false;
+    } else if( jo.has_member( "upgrades" ) ) {
+            JsonObject up = jo.get_object( "upgrades" );
+            optional( up, was_loaded, "half_life", half_life, -1 );
+            optional( up, was_loaded, "into_group", upgrade_group, auto_flags_reader<mongroup_id> {}, mongroup_id::NULL_ID );
+            optional( up, was_loaded, "into", upgrade_into, auto_flags_reader<mtype_id> {}, mtype_id::NULL_ID );
+            upgrades = true;
         }
 
-        std::set<std::string> flags, anger_trig, placate_trig, fear_trig;
-        flags = jo.get_tags("flags");
-        anger_trig = jo.get_tags("anger_triggers");
-        placate_trig = jo.get_tags("placate_triggers");
-        fear_trig = jo.get_tags("fear_triggers");
+    const typed_flag_reader<decltype( gen.flag_map )> flag_reader{ gen.flag_map, "invalid monster flag" };
+    optional( jo, was_loaded, "flags", flags, flag_reader, {} );
 
-    this->flags = gen.get_set_from_tags( flags, gen.flag_map, MF_NULL );
-    anger = gen.get_set_from_tags( anger_trig, gen.trigger_map, MTRIG_NULL );
-    fear = gen.get_set_from_tags( fear_trig, gen.trigger_map, MTRIG_NULL );
-    placate = gen.get_set_from_tags( placate_trig, gen.trigger_map, MTRIG_NULL );
+    const typed_flag_reader<decltype( gen.trigger_map )> trigger_reader{ gen.trigger_map, "invalid monster trigger" };
+    optional( jo, was_loaded, "anger_triggers", anger, trigger_reader, {} );
+    optional( jo, was_loaded, "placate_triggers", placate, trigger_reader, {} );
+    optional( jo, was_loaded, "fear_triggers", fear, trigger_reader, {} );
 }
 
 void MonsterGenerator::load_species(JsonObject &jo)

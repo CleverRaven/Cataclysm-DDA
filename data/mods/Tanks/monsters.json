@@ -2,6 +2,7 @@
     {
     "type" : "MONSTER",
     "id" : "mon_tankbot",
+    "edit-mode" : "override",
     "name": "tank drone",
     "species":"ROBOT",
     "default_faction":"military",
