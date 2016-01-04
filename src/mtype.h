@@ -267,6 +267,9 @@ struct mtype {
         // The item id of the meat items that are produced by this monster (or "null")
         // if there is no matching item type. e.g. "veggy" for plant monsters.
         itype_id get_meat_itype() const;
+
+        // Historically located in monstergenerator.cpp
+        void load( JsonObject &jo );
 };
 
 #endif

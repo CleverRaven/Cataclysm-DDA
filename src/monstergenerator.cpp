@@ -424,7 +424,7 @@ void MonsterGenerator::set_species_ids( mtype &mon )
 
 void MonsterGenerator::load_monster(JsonObject &jo)
 {
-    const mtype_id mid = mtype_id( jo.get_string("id") );
+    const mtype_id mid( jo.get_string( "id" ) );
         if (mon_templates.count(mid) > 0) {
             delete mon_templates[mid];
         }
@@ -432,61 +432,70 @@ void MonsterGenerator::load_monster(JsonObject &jo)
         mtype *newmon = new mtype;
 
         newmon->id = mid;
-        newmon->name = jo.get_string("name").c_str();
+    newmon->load( jo );
+
+    mon_templates[mid] = newmon;
+}
+
+void mtype::load( JsonObject &jo )
+{
+    MonsterGenerator &gen = MonsterGenerator::generator();
+
+    name = jo.get_string( "name" ).c_str();
         if(jo.has_member("name_plural")) {
-            newmon->name_plural = jo.get_string("name_plural");
+        name_plural = jo.get_string( "name_plural" );
         } else {
             // default behaviour: Assume the regular plural form (appending an “s”)
-            newmon->name_plural = newmon->name + "s";
+        name_plural = name + "s";
         }
-        newmon->description = _(jo.get_string("description").c_str());
+    description = _( jo.get_string( "description" ).c_str() );
 
         // Have to overwrite the default { "hflesh" } here
-        newmon->mat = { jo.get_string("material") };
+    mat = { jo.get_string( "material" ) };
 
         for( auto &s : jo.get_tags( "species" ) ) {
-            newmon->species.insert( species_id( s ) );
+        species.insert( species_id( s ) );
         }
-        newmon->categories = jo.get_tags("categories");
+    categories = jo.get_tags( "categories" );
 
         // See monfaction.cpp
-        newmon->default_faction =
+    default_faction =
             monfactions::get_or_add_faction( mfaction_str_id( jo.get_string("default_faction") ) );
 
-        newmon->sym = jo.get_string("symbol");
-        if( utf8_wrapper( newmon->sym ).display_width() != 1 ) {
+    sym = jo.get_string( "symbol" );
+    if( utf8_wrapper( sym ).display_width() != 1 ) {
             jo.throw_error( "monster symbol should be exactly one console cell width", "symbol" );
         }
-        newmon->color = color_from_string(jo.get_string("color"));
-        newmon->size = get_from_string(jo.get_string("size", "MEDIUM"), Creature::size_map, MS_MEDIUM);
-        newmon->phase = get_from_string(jo.get_string("phase", "SOLID"), phase_map, SOLID);
+    color = color_from_string( jo.get_string( "color" ) );
+    size = gen.get_from_string( jo.get_string( "size", "MEDIUM" ), Creature::size_map, MS_MEDIUM );
+    phase = gen.get_from_string( jo.get_string( "phase", "SOLID" ), gen.phase_map, SOLID );
 
-        newmon->difficulty = jo.get_int("diff", 0);
-        newmon->agro = jo.get_int("aggression", 0);
-        newmon->morale = jo.get_int("morale", 0);
-        newmon->speed = jo.get_int("speed", 0);
-        newmon->attack_cost = jo.get_int("attack_cost", 100);
-        newmon->melee_skill = jo.get_int("melee_skill", 0);
-        newmon->melee_dice = jo.get_int("melee_dice", 0);
-        newmon->melee_sides = jo.get_int("melee_dice_sides", 0);
-        newmon->melee_cut = jo.get_int("melee_cut", 0);
-        newmon->sk_dodge = jo.get_int("dodge", 0);
-        newmon->armor_bash = jo.get_int("armor_bash", 0);
-        newmon->armor_cut = jo.get_int("armor_cut", 0);
-        newmon->armor_acid = jo.get_int("armor_acid", newmon->armor_cut / 2);
-        newmon->armor_fire = jo.get_int("armor_fire", 0);
-        newmon->hp = jo.get_int("hp", 0);
-        jo.read("starting_ammo", newmon->starting_ammo);
-        newmon->luminance = jo.get_float("luminance", 0);
-        newmon->revert_to_itype = jo.get_string( "revert_to_itype", "" );
-        newmon->vision_day = jo.get_int("vision_day", 40);
-        newmon->vision_night = jo.get_int("vision_night", 1);
+    difficulty = jo.get_int( "diff", 0 );
+    agro = jo.get_int( "aggression", 0 );
+    morale = jo.get_int( "morale", 0 );
+    speed = jo.get_int( "speed", 0 );
+    attack_cost = jo.get_int( "attack_cost", 100 );
+    melee_skill = jo.get_int( "melee_skill", 0 );
+    melee_dice = jo.get_int( "melee_dice", 0 );
+    melee_sides = jo.get_int( "melee_dice_sides", 0 );
+    melee_cut = jo.get_int( "melee_cut", 0 );
+    sk_dodge = jo.get_int( "dodge", 0 );
+    armor_bash = jo.get_int( "armor_bash", 0 );
+    armor_cut = jo.get_int( "armor_cut", 0 );
+    armor_acid = jo.get_int( "armor_acid", armor_cut / 2 );
+    armor_fire = jo.get_int( "armor_fire", 0 );
+    hp = jo.get_int( "hp", 0 );
+    jo.read( "starting_ammo", starting_ammo );
+    luminance = jo.get_float( "luminance", 0 );
+    revert_to_itype = jo.get_string( "revert_to_itype", "" );
+    vision_day = jo.get_int( "vision_day", 40 );
+    vision_night = jo.get_int( "vision_night", 1 );
 
         // Stab armor is optional, use 80% cut armor if it isn't set
         if( jo.has_int("armor_stab") ) {
-            newmon->armor_stab = jo.get_int("armor_stab", 0);
+        armor_stab = jo.get_int( "armor_stab", 0 );
         } else {
-            newmon->armor_stab = 0.8f * newmon->armor_cut;
+        armor_stab = 0.8f * armor_cut;
         }
 
         if (jo.has_array("attack_effs")) {
@@ -496,25 +505,25 @@ void MonsterGenerator::load_monster(JsonObject &jo)
                 mon_effect_data new_eff(e.get_string("id", "null"), e.get_int("duration", 0),
                                     get_body_part_token( e.get_string("bp", "NUM_BP") ), e.get_bool("permanent", false),
                                     e.get_int("chance", 100));
-                newmon->atk_effs.push_back(new_eff);
+            atk_effs.push_back( new_eff );
             }
         }
 
         if( jo.has_member( "death_drops" ) ) {
             JsonIn& stream = *jo.get_raw( "death_drops" );
-            newmon->death_drops = item_group::load_item_group( stream, "distribution" );
+        death_drops = item_group::load_item_group( stream, "distribution" );
         }
 
-        newmon->dies = get_death_functions(jo, "death_function");
-        load_special_defense(newmon, jo, "special_when_hit");
-        load_special_attacks(newmon, jo, "special_attacks");
+    dies = gen.get_death_functions( jo, "death_function" );
+    gen.load_special_defense( this, jo, "special_when_hit" );
+    gen.load_special_attacks( this, jo, "special_attacks" );
 
         if (jo.has_member("upgrades")) {
             JsonObject upgrades = jo.get_object("upgrades");
-            newmon->half_life = upgrades.get_int("half_life", -1);
-            newmon->upgrade_group = mongroup_id( upgrades.get_string("into_group", mongroup_id::NULL_ID.str() ) );
-            newmon->upgrade_into = mtype_id( upgrades.get_string("into", mtype_id::NULL_ID.str() ) );
-            newmon->upgrades = true;
+        half_life = upgrades.get_int( "half_life", -1 );
+        upgrade_group = mongroup_id( upgrades.get_string( "into_group", mongroup_id::NULL_ID.str() ) );
+        upgrade_into = mtype_id( upgrades.get_string( "into", mtype_id::NULL_ID.str() ) );
+        this->upgrades = true;
         }
 
         std::set<std::string> flags, anger_trig, placate_trig, fear_trig;
@@ -523,13 +532,12 @@ void MonsterGenerator::load_monster(JsonObject &jo)
         placate_trig = jo.get_tags("placate_triggers");
         fear_trig = jo.get_tags("fear_triggers");
 
-        newmon->flags = get_set_from_tags(flags, flag_map, MF_NULL);
-        newmon->anger = get_set_from_tags(anger_trig, trigger_map, MTRIG_NULL);
-        newmon->fear = get_set_from_tags(fear_trig, trigger_map, MTRIG_NULL);
-        newmon->placate = get_set_from_tags(placate_trig, trigger_map, MTRIG_NULL);
-
-        mon_templates[mid] = newmon;
+    this->flags = gen.get_set_from_tags( flags, gen.flag_map, MF_NULL );
+    anger = gen.get_set_from_tags( anger_trig, gen.trigger_map, MTRIG_NULL );
+    fear = gen.get_set_from_tags( fear_trig, gen.trigger_map, MTRIG_NULL );
+    placate = gen.get_set_from_tags( placate_trig, gen.trigger_map, MTRIG_NULL );
 }
+
 void MonsterGenerator::load_species(JsonObject &jo)
 {
     const species_id sid( jo.get_string( "id" ) );
