@@ -104,7 +104,7 @@ void monster::wander_to( const tripoint &p, int f )
 
 float monster::rate_target( Creature &c, float best, bool smart ) const
 {
-    const int d = rl_dist( pos3(), c.pos3() );
+    const int d = rl_dist( pos(), c.pos() );
     if( d <= 0 ) {
         return INT_MAX;
     }
@@ -272,8 +272,8 @@ void monster::plan( const mfactions &factions )
         // Grow restless with no targets
         friendly--;
     } else if( friendly < 0 && sees( g->u ) ) {
-        if( rl_dist( pos3(), g->u.pos3() ) > 2 ) {
-            set_dest( g->u.pos3() );
+        if( rl_dist( pos(), g->u.pos() ) > 2 ) {
+            set_dest( g->u.pos() );
         } else {
             unset_dest();
         }
@@ -470,13 +470,13 @@ void monster::move()
     //The monster can consume objects it stands on. Check if there are any.
     //If there are. Consume them.
     if( !is_hallucination() && has_flag( MF_ABSORBS ) && !g->m.has_flag( TFLAG_SEALED, pos() ) ) {
-        if( !g->m.i_at( pos3() ).empty() ) {
+        if( !g->m.i_at( pos() ).empty() ) {
             add_msg( _( "The %s flows around the objects on the floor and they are quickly dissolved!" ),
                      name().c_str() );
-            for( auto &elem : g->m.i_at( pos3() ) ) {
+            for( auto &elem : g->m.i_at( pos() ) ) {
                 hp += elem.volume(); // Yeah this means it can get more HP than normal.
             }
-            g->m.i_clear( pos3() );
+            g->m.i_clear( pos() );
         }
     }
 
@@ -549,11 +549,11 @@ void monster::move()
     // Set attitude to attitude to our current target
     monster_attitude current_attitude = attitude( nullptr );
     if( !wander() ) {
-        if( goal == g->u.pos3() ) {
+        if( goal == g->u.pos() ) {
             current_attitude = attitude( &( g->u ) );
         } else {
             for( auto &i : g->active_npc ) {
-                if( goal == i->pos3() ) {
+                if( goal == i->pos() ) {
                     current_attitude = attitude( i );
                 }
             }
@@ -716,7 +716,7 @@ tripoint monster::scent_move()
     const bool can_bash = has_flag( MF_BASHES ) || has_flag( MF_BORES );
     for( const auto &dest : g->m.points_in_radius( pos(), 1 ) ) {
         int smell = g->scent( dest );
-        if( ( can_move_to( dest ) || ( dest == g->u.pos3() ) ||
+        if( ( can_move_to( dest ) || ( dest == g->u.pos() ) ||
               ( can_bash && g->m.bash_rating( bash_estimate(), dest ) > 0 ) ) ) {
             if( ( !fleeing && smell > bestsmell ) || ( fleeing && smell < bestsmell ) ) {
                 smoves.clear();
@@ -993,7 +993,7 @@ int monster::group_bash_skill( const tripoint &target )
 
     // pileup = more bashskill, but only help bashing mob directly infront of target
     const int max_helper_depth = 5;
-    const std::vector<tripoint> bzone = get_bashing_zone( target, pos3(), max_helper_depth );
+    const std::vector<tripoint> bzone = get_bashing_zone( target, pos(), max_helper_depth );
 
     for( const tripoint &candidate : bzone ) {
         // Drawing this line backwards excludes the target and includes the candidate.
@@ -1032,7 +1032,7 @@ bool monster::attack_at( const tripoint &p )
         return false; // TODO: Remove this
     }
 
-    if( p == g->u.pos3() ) {
+    if( p == g->u.pos() ) {
         melee_attack( g->u, true );
         return true;
     }
@@ -1127,7 +1127,7 @@ bool monster::move_to( const tripoint &p, bool force, const float stagger_adjust
     }
 
     //Check for moving into/out of water
-    bool was_water = g->m.is_divable( pos3() );
+    bool was_water = g->m.is_divable( pos() );
     bool will_be_water = on_ground && can_submerge() && g->m.is_divable( p );
 
     if( was_water && !will_be_water && g->u.sees( p ) ) {
@@ -1386,7 +1386,7 @@ void monster::stumble( )
                 //But let them wander OUT of water if they are there.
                 !( avoid_water &&
                    g->m.has_flag( TFLAG_SWIMMABLE, dest ) &&
-                   !g->m.has_flag( TFLAG_SWIMMABLE, pos3() ) ) &&
+                   !g->m.has_flag( TFLAG_SWIMMABLE, pos() ) ) &&
                 ( g->critter_at( dest, is_hallucination() ) == nullptr ) ) {
                 valid_stumbles.push_back( dest );
             }
@@ -1415,14 +1415,14 @@ void monster::stumble( )
 
 void monster::knock_back_from( const tripoint &p )
 {
-    if( p == pos3() ) {
+    if( p == pos() ) {
         return; // No effect
     }
     if( is_hallucination() ) {
         die( nullptr );
         return;
     }
-    tripoint to = pos3();;
+    tripoint to = pos();;
     if( p.x < posx() ) {
         to.x++;
     }
@@ -1445,7 +1445,7 @@ void monster::knock_back_from( const tripoint &p )
         apply_damage( z, bp_torso, z->type->size );
         add_effect( "stunned", 1 );
         if( type->size > 1 + z->type->size ) {
-            z->knock_back_from( pos3() ); // Chain reaction!
+            z->knock_back_from( pos() ); // Chain reaction!
             z->apply_damage( this, bp_torso, type->size );
             z->add_effect( "stunned", 1 );
         } else if( type->size > z->type->size ) {
@@ -1534,8 +1534,8 @@ bool monster::will_reach( int x, int y )
         return false;
     }
 
-    if( has_flag( MF_SMELLS ) && g->scent( pos3() ) > 0 &&
-        g->scent( { x, y, posz() } ) > g->scent( pos3() ) ) {
+    if( has_flag( MF_SMELLS ) && g->scent( pos() ) > 0 &&
+        g->scent( { x, y, posz() } ) > g->scent( pos() ) ) {
         return true;
     }
 
@@ -1567,7 +1567,7 @@ int monster::turns_to_reach( int x, int y )
             // the doors intact.
             return 999;
         } else if( i == 0 ) {
-            turns += double( calc_movecost( pos3(), next ) ) / get_speed();
+            turns += double( calc_movecost( pos(), next ) ) / get_speed();
         } else {
             turns += double( calc_movecost( path[i - 1], next ) ) / get_speed();
         }

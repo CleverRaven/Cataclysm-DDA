@@ -573,7 +573,7 @@ public:
      * @param carrier The player / npc that carries the item. This can be null when
      * the item is not carried by anyone (laying on ground)!
      * @param pos The location of the item on the map, same system as
-     * @ref player::pos3 used. If the item is carried, it should be the
+     * @ref player::pos used. If the item is carried, it should be the
      * location of the carrier.
      * @param activate Whether the item should be activated (true), or
      * processed as an active item.

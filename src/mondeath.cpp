@@ -430,12 +430,12 @@ void mdeath::amigara(monster *z)
         add_msg(_("Your obsession with the fault fades away..."));
     }
 
-    g->m.spawn_artifact( z->pos3() );
+    g->m.spawn_artifact( z->pos() );
 }
 
 void mdeath::thing(monster *z)
 {
-    g->summon_mon(mon_thing, z->pos3());
+    g->summon_mon(mon_thing, z->pos());
 }
 
 void mdeath::explode(monster *z)
@@ -658,7 +658,7 @@ void mdeath::detonate(monster *z)
             add_msg(m_bad, _("The %s's hands fly to its remaining pockets, opening them!"), z->name().c_str());
         }
     }
-    const tripoint det_point = z->pos3();
+    const tripoint det_point = z->pos();
     // HACK, used to stop them from having ammo on respawn
     z->add_effect("no_ammo", 1, num_bp, true);
 

@@ -774,7 +774,7 @@ static int draw_targeting_window( WINDOW *w_target, item *relevant, player &p, t
 static int find_target( std::vector <Creature *> &t, const tripoint &tpos ) {
     int target = -1;
     for( int i = 0; i < (int)t.size(); i++ ) {
-        if( t[i]->pos3() == tpos ) {
+        if( t[i]->pos() == tpos ) {
             target = i;
             break;
         }
@@ -786,7 +786,7 @@ static void do_aim( player *p, std::vector <Creature *> &t, int &target,
                     item *relevant, const tripoint &tpos )
 {
     // If we've changed targets, reset aim, unless it's above the minimum.
-    if( t[target]->pos3() != tpos ) {
+    if( t[target]->pos() != tpos ) {
         target = find_target( t, tpos );
         // TODO: find radial offset between targets and
         // spend move points swinging the gun around.
@@ -824,7 +824,7 @@ std::vector<tripoint> game::target( tripoint &p, const tripoint &low, const trip
     std::vector<tripoint> ret;
     tripoint from = from_arg;
     if( from == tripoint_min ) {
-        from = u.pos3();
+        from = u.pos();
     }
     int range = ( high.x - from.x );
     // First, decide on a target among the monsters, if there are any in range
@@ -832,7 +832,7 @@ std::vector<tripoint> game::target( tripoint &p, const tripoint &low, const trip
         if( static_cast<size_t>( target ) >= t.size() ) {
             target = 0;
         }
-        p = t[target]->pos3();
+        p = t[target]->pos();
     } else {
         target = -1; // No monsters in range, don't use target, reset to -1
     }
@@ -908,7 +908,7 @@ std::vector<tripoint> game::target( tripoint &p, const tripoint &low, const trip
         if (snap_to_target) {
             center = p;
         } else {
-            center = u.pos3() + u.view_offset;
+            center = u.pos() + u.view_offset;
         }
         // Clear the target window.
         for (int i = 1; i <= getmaxy(w_target) - num_instruction_lines - 2; i++) {

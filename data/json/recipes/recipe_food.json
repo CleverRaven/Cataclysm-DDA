@@ -4098,11 +4098,24 @@
     ]
   ],
   "components": [
-    [ [ "flour", 3 ] ],
-    [ [ "water", 2 ], [ "water_clean", 2 ] ],
-    [ [ "chocolate", 1] ],
-    [ [ "powder_eggs", 1] ],
-    [ [ "weed", 5] ]
+    [
+      [ "flour", 3 ]
+    ],
+    [
+      [ "water", 2 ],
+      [ "water_clean", 2 ]
+    ],
+    [
+      [ "chocolate", 1 ]
+    ],
+    [
+      [ "powder_eggs", 10 ],
+      [ "egg_bird", 2 ],
+      [ "egg_reptile", 2 ]
+    ],
+    [
+      [ "weed", 5 ]
+    ]
   ]
 },{
   "type" : "recipe",
@@ -4197,8 +4210,42 @@
       [ "water", 1 ]
     ]
   ]
-},
-{
+},{
+  "type" : "recipe",
+  "result": "tortilla_corn",
+  "category": "CC_FOOD",
+  "subcategory": "CSC_FOOD_BREAD",
+  "skill_used": "cooking",
+  "difficulty": 2,
+  "time": 18000,
+  "batch_time_factors":[50, 4],
+  "reversible": false,
+  "autolearn": true,
+  "qualities":[
+    {"id":"COOK","level":2,"amount":1}
+  ], "tools": [
+    [
+      [ "hotplate", 8 ],
+      [ "char_smoker", 1 ],
+      [ "toolset", 8 ],
+      [ "fire", -1 ]
+    ]
+  ],
+  "components": [
+    [
+      [ "cooking_oil", 1 ],
+      [ "tallow", 1 ],
+      [ "lard", 1 ]
+    ],
+    [
+      [ "cornmeal", 3 ]
+    ],
+    [
+      [ "water", 2 ],
+      [ "water_clean", 2 ]
+    ]
+  ]
+},{
   "type" : "recipe",
   "result": "cornbread",
   "category": "CC_FOOD",
@@ -9001,8 +9048,7 @@
       [ "can_chicken", 2 ]
     ],
     [
-      [ "flour", 2 ],
-      [ "cornmeal", 2]
+      [ "tortilla_corn", 3 ]
     ],
     [
       [ "salt", 2 ]
@@ -9037,8 +9083,7 @@
       [ "rehydrated_hflesh", 2]
     ],
     [
-      [ "flour", 2 ],
-      [ "cornmeal", 2]
+      [ "tortilla_corn", 3 ]
     ],
     [
       [ "salt", 2 ]

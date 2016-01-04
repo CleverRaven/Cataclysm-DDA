@@ -40,7 +40,7 @@ void craft_command::execute()
 
     bool need_selections = true;
     inventory map_inv;
-    map_inv.form_from_map( crafter->pos3(), PICKUP_RANGE );
+    map_inv.form_from_map( crafter->pos(), PICKUP_RANGE );
 
     if( has_cached_selections() ) {
         std::vector<comp_selection<item_comp>> missing_items = check_item_components_missing( map_inv );

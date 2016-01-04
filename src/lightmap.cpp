@@ -459,7 +459,7 @@ bool map::pl_sees( const tripoint &t, const int max_range ) const
         return false;
     }
 
-    if( max_range >= 0 && square_dist( t, g->u.pos3() ) > max_range ) {
+    if( max_range >= 0 && square_dist( t, g->u.pos() ) > max_range ) {
         return false;    // Out of range!
     }
     const auto &map_cache = get_cache_ref( t.z );

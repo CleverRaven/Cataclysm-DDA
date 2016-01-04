@@ -424,10 +424,10 @@ const inventory& player::crafting_inventory()
 {
     if (cached_moves == moves
             && cached_turn == calendar::turn.get_turn()
-            && cached_position == pos3()) {
+            && cached_position == pos()) {
         return cached_crafting_inventory;
     }
-    cached_crafting_inventory.form_from_map(pos3(), PICKUP_RANGE, false);
+    cached_crafting_inventory.form_from_map(pos(), PICKUP_RANGE, false);
     cached_crafting_inventory += inv;
     cached_crafting_inventory += weapon;
     cached_crafting_inventory += worn;
@@ -438,7 +438,7 @@ const inventory& player::crafting_inventory()
     }
     cached_moves = moves;
     cached_turn = calendar::turn.get_turn();
-    cached_position = pos3();
+    cached_position = pos();
     return cached_crafting_inventory;
 }
 
@@ -966,7 +966,7 @@ std::list<item> player::consume_items(const comp_selection<item_comp> &is, int b
 
     item_comp selected_comp = is.comp;
 
-    const tripoint &loc = pos3();
+    const tripoint &loc = pos();
     const bool by_charges = (item::count_by_charges( selected_comp.type ) && selected_comp.count > 0);
     // Count given to use_amount/use_charges, changed by those functions!
     long real_count = (selected_comp.count > 0) ? selected_comp.count * batch : abs(selected_comp.count);
@@ -1010,7 +1010,7 @@ In that case, consider using select_item_component with 1 pre-created map invent
 to consume_items */
 std::list<item> player::consume_items( const std::vector<item_comp> &components, int batch ) {
     inventory map_inv;
-    map_inv.form_from_map(pos3(), PICKUP_RANGE);
+    map_inv.form_from_map(pos(), PICKUP_RANGE);
     return consume_items( select_item_component( components, batch, map_inv ), batch );
 }
 
@@ -1106,7 +1106,7 @@ void player::consume_tools(const comp_selection<tool_comp> &tool, int batch) {
     }
     if (tool.use_from & use_from_map) {
         long quantity = tool.comp.count * batch;
-        g->m.use_charges(pos3(), PICKUP_RANGE, tool.comp.type, quantity);
+        g->m.use_charges(pos(), PICKUP_RANGE, tool.comp.type, quantity);
     }
 
     // else, use_from_none (or cancel), so we don't use up any tools;
@@ -1118,7 +1118,7 @@ to consume_tools */
 void player::consume_tools( const std::vector<tool_comp> &tools, int batch, const std::string &hotkeys )
 {
     inventory map_inv;
-    map_inv.form_from_map(pos3(), PICKUP_RANGE);
+    map_inv.form_from_map(pos(), PICKUP_RANGE);
     consume_tools( select_tool_component( tools, batch, map_inv, hotkeys ), batch );
 }
 
