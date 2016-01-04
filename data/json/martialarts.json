@@ -506,9 +506,9 @@
                  "name" : "Niten Ichi-Ryu",
                  "description" : "Perception increases dodging and damage.",
                  "min_melee" : 2,
-                 "cut_per" : 1.1,
-                 "bash_per" : 1.1,
-                 "dodge_per" : 0.5
+                 "cut_per" : 1.0225,
+                 "bash_per" : 1.0225,
+                 "dodge_per" : 0.9125
             }
         ],
         "onmove_buffs" : [
