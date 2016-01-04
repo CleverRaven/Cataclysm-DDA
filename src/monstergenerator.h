@@ -45,6 +45,8 @@ struct species_type {
     , placate_trig( _placate )
     {
     }
+
+    void load( JsonObject &jo );
 };
 
 class MonsterGenerator
@@ -74,6 +76,8 @@ class MonsterGenerator
         std::vector<const mtype *> get_all_mtypes() const;
         mtype_id get_valid_hallucination() const;
         friend struct mtype;
+        friend struct species_type;
+
     protected:
         m_flag m_flag_from_string( std::string flag ) const;
     private:

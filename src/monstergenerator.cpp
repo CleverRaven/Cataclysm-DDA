@@ -545,21 +545,27 @@ void MonsterGenerator::load_species(JsonObject &jo)
         delete mon_species[sid];
     }
 
+    species_type *new_species = new species_type();
+    new_species->id = sid;
+    new_species->load( jo );
+
+    mon_species[sid] = new_species;
+}
+
+void species_type::load( JsonObject &jo )
+{
+    MonsterGenerator &gen = MonsterGenerator::generator();
+
     std::set<std::string> sflags, sanger, sfear, splacate;
     sflags = jo.get_tags("flags");
     sanger = jo.get_tags("anger_triggers");
     sfear  = jo.get_tags("fear_triggers");
     splacate = jo.get_tags("placate_triggers");
 
-    std::set<m_flag> flags = get_set_from_tags(sflags, flag_map, MF_NULL);
-    std::set<monster_trigger> anger, fear, placate;
-    anger = get_set_from_tags(sanger, trigger_map, MTRIG_NULL);
-    fear = get_set_from_tags(sfear, trigger_map, MTRIG_NULL);
-    placate = get_set_from_tags(splacate, trigger_map, MTRIG_NULL);
-
-    species_type *new_species = new species_type(sid, flags, anger, fear, placate);
-
-    mon_species[sid] = new_species;
+    flags = gen.get_set_from_tags( sflags, gen.flag_map, MF_NULL );
+    anger_trig = gen.get_set_from_tags( sanger, gen.trigger_map, MTRIG_NULL );
+    fear_trig = gen.get_set_from_tags( sfear, gen.trigger_map, MTRIG_NULL );
+    placate_trig = gen.get_set_from_tags( splacate, gen.trigger_map, MTRIG_NULL );
 }
 
 std::vector<const mtype *> MonsterGenerator::get_all_mtypes() const
