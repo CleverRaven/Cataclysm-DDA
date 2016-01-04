@@ -4747,26 +4747,17 @@ VisitResponse item::visit( const std::function<VisitResponse(item&)>& func ) {
         case VisitResponse::ABORT:
             return VisitResponse::ABORT;
 
+        case VisitResponse::NEXT:
+            for( auto& e : contents ) {
+                if( e.visit( func ) == VisitResponse::ABORT ) {
+                    return VisitResponse::ABORT;
+                }
+            }
+        /* intentional fallthrough */
+
         case VisitResponse::SKIP:
             return VisitResponse::NEXT;
-
-        case VisitResponse::NEXT:
-            ; /* Descend to any child items */
     }
-
-    for( auto& e : contents ) {
-        switch( e.visit( func ) ) {
-            case VisitResponse::ABORT:
-                return VisitResponse::ABORT;
-
-            case VisitResponse::SKIP:
-                return VisitResponse::NEXT;
-
-            case VisitResponse::NEXT:
-                ; /* Continue to next sibling */
-        }
-    }
-    return VisitResponse::NEXT;
 }
 
 VisitResponse item::visit( const std::function<VisitResponse(const item&)>& func ) const {
