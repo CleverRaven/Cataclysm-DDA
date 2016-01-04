@@ -32,6 +32,25 @@
     ]
   },{
     "type" : "item_group",
+    "id" : "lmoe_guns",
+    "guns_with_ammo" : true,
+    "subtype": "distribution",
+    "entries" : [
+      { "group": "pistols", "prob": 35 },
+      { "group": "shotguns", "prob": 45 },
+      { "group": "smg", "prob": 65 },
+      { "group": "rifles", "prob": 50 },
+      { "group": "assault", "prob": 80 },
+      { "group": "machine_guns", "prob": 10 },
+      { "group": "antique_guns", "prob": 5 },
+      { "item": "ar15", "prob": 10 },
+      { "item": "flaregun", "prob": 45 },
+      { "item": "l_HFPack", "prob": 5 },
+      { "item": "small_repairkit", "prob": 10 },
+      { "item": "large_repairkit", "prob": 10 }
+    ]
+  },{
+    "type" : "item_group",
     "id" : "hospital_samples",
     "items":[
       ["blood", 20],
