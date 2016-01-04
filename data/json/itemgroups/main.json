@@ -290,6 +290,10 @@
     "type" : "item_group",
     "id" : "pistol_ammo",
     "items":[
+      ["22_lr", 50],
+      ["22_fmj", 50],
+      ["22_cb", 50],
+      ["22_ratshot", 10],
       ["9mm", 300],
       ["9mmP", 20],
       ["9mmP2", 20],
