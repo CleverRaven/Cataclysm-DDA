@@ -13,6 +13,7 @@
 #include "mondeath.h"
 #include "monfaction.h"
 #include "mtype.h"
+#include "generic_factory.h"
 
 const mtype_id mon_generator( "mon_generator" );
 const mtype_id mon_zombie_dog( "mon_zombie_dog" );
@@ -24,12 +25,11 @@ const mtype_id string_id<mtype>::NULL_ID( "mon_null" );
 template<>
 const mtype& string_id<mtype>::obj() const
 {
-    auto &mon_templates = MonsterGenerator::generator().mon_templates;
+    auto &factory = *MonsterGenerator::generator().mon_templates;
 
     // first do the look-up as it is most likely to succeed
-    const auto iter = mon_templates.find( *this );
-    if( iter != mon_templates.end() ) {
-        return *iter->second;
+    if( factory.is_valid( *this ) ) {
+        return factory.obj( *this );
     }
 
     // second most likely are outdated ids from old saves, this compares against strings, not
@@ -43,13 +43,13 @@ const mtype& string_id<mtype>::obj() const
 
     // this is most unlikely and therefor checked last.
     debugmsg( "Could not find monster with type %s", c_str() );
-    return *mon_templates[mtype_id::NULL_ID];
+    return factory.obj( mtype_id::NULL_ID );
 }
 
 template<>
 bool string_id<mtype>::is_valid() const
 {
-    return MonsterGenerator::generator().mon_templates.count( *this ) > 0;
+    return MonsterGenerator::generator().mon_templates->is_valid( *this );
 }
 
 template<>
@@ -58,27 +58,22 @@ const species_id string_id<species_type>::NULL_ID( "spec_null" );
 template<>
 const species_type& string_id<species_type>::obj() const
 {
-    auto &mon_species = MonsterGenerator::generator().mon_species;
-
-    const auto iter = mon_species.find( *this );
-    if( iter != mon_species.end() ) {
-        return *iter->second;
-    }
-
-    debugmsg( "Could not find species %s", c_str() );
-    return *mon_species[species_id::NULL_ID];
+    auto &factory = *MonsterGenerator::generator().mon_species;
+    return factory.obj( *this );
 }
 
 template<>
 bool string_id<species_type>::is_valid() const
 {
-    return MonsterGenerator::generator().mon_species.count( *this ) > 0;
+    return MonsterGenerator::generator().mon_species->is_valid( *this );
 }
 
 MonsterGenerator::MonsterGenerator()
+: mon_templates( new generic_factory<mtype>( "monster type" ) )
+, mon_species( new generic_factory<species_type>( "species" ) )
 {
-    mon_templates[mtype_id::NULL_ID] = new mtype();
-    mon_species[species_id::NULL_ID] = new species_type();
+    mon_templates->insert( mtype() );
+    mon_species->insert( species_type() );
     //ctor
     init_phases();
     init_attack();
@@ -95,22 +90,17 @@ MonsterGenerator::~MonsterGenerator()
 
 void MonsterGenerator::reset()
 {
-    for( auto &elem : mon_templates ) {
-        delete elem.second;
-    }
-    mon_templates.clear();
-    for( auto &elem : mon_species ) {
-        delete elem.second;
-    }
-    mon_species.clear();
-    mon_templates[mtype_id::NULL_ID] = new mtype();
-    mon_species[species_id::NULL_ID] = new species_type();
+    mon_templates->reset();
+    mon_templates->insert( mtype() );
+
+    mon_species->reset();
+    mon_species->insert( species_type() );
 }
 
 void MonsterGenerator::finalize_mtypes()
 {
-    for( auto &elem : mon_templates ) {
-        mtype &mon = *elem.second;
+    for( auto &elem : mon_templates->all_ref() ) {
+        mtype &mon = const_cast<mtype&>( elem.second );
         apply_species_attributes( mon );
         set_mtype_flags( mon );
         set_species_ids( mon );
@@ -424,17 +414,7 @@ void MonsterGenerator::set_species_ids( mtype &mon )
 
 void MonsterGenerator::load_monster(JsonObject &jo)
 {
-    const mtype_id mid( jo.get_string( "id" ) );
-        if (mon_templates.count(mid) > 0) {
-            delete mon_templates[mid];
-        }
-
-        mtype *newmon = new mtype;
-
-        newmon->id = mid;
-    newmon->load( jo );
-
-    mon_templates[mid] = newmon;
+    mon_templates->load( jo );
 }
 
 void mtype::load( JsonObject &jo )
@@ -540,16 +520,7 @@ void mtype::load( JsonObject &jo )
 
 void MonsterGenerator::load_species(JsonObject &jo)
 {
-    const species_id sid( jo.get_string( "id" ) );
-    if (mon_species.count(sid) > 0) {
-        delete mon_species[sid];
-    }
-
-    species_type *new_species = new species_type();
-    new_species->id = sid;
-    new_species->load( jo );
-
-    mon_species[sid] = new_species;
+    mon_species->load( jo );
 }
 
 void species_type::load( JsonObject &jo )
@@ -570,19 +541,16 @@ void species_type::load( JsonObject &jo )
 
 std::vector<const mtype *> MonsterGenerator::get_all_mtypes() const
 {
-    std::vector<const mtype *> result;
-    for( auto &e : mon_templates  ) {
-        result.push_back( e.second );
-    }
-    return result;
+    return mon_templates->get_all();
 }
 
 mtype_id MonsterGenerator::get_valid_hallucination() const
 {
     std::vector<mtype_id> potentials;
-    for( auto &elem : mon_templates ) {
-        if( elem.first != NULL_ID && elem.first != mon_generator ) {
-            potentials.push_back( elem.first );
+    for( auto &elem : mon_templates->all_ref() ) {
+        const mtype &mon = elem.second;
+        if( mon.id != NULL_ID && mon.id != mon_generator ) {
+            potentials.push_back( mon.id );
         }
     }
 
@@ -686,8 +654,8 @@ T MonsterGenerator::get_from_string(std::string tag, std::map<std::string, T> co
 
 void MonsterGenerator::check_monster_definitions() const
 {
-    for( const auto &elem : mon_templates ) {
-        const mtype *mon = elem.second;
+    for( const auto &elem : mon_templates->all_ref() ) {
+        const mtype *mon = &elem.second;
         for( auto &spec : mon->species ) {
             if( !spec.is_valid() ) {
                 debugmsg("monster %s has invalid species %s", mon->id.c_str(), spec.c_str());

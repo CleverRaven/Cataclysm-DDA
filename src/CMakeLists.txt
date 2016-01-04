@@ -230,6 +230,7 @@ SET (CATACLYSM_DDA_HEADERS
     ${CMAKE_SOURCE_DIR}/src/veh_interact.h
     ${CMAKE_SOURCE_DIR}/src/morale.h
     ${CMAKE_SOURCE_DIR}/src/game.h
+    ${CMAKE_SOURCE_DIR}/src/generic_factory.h
     ${CMAKE_SOURCE_DIR}/src/help.h
     ${CMAKE_SOURCE_DIR}/src/lightmap.h
     ${CMAKE_SOURCE_DIR}/src/mutation.h

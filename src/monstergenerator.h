@@ -6,6 +6,7 @@
 #include "string_id.h"
 
 #include <map>
+#include <memory>
 #include <set>
 
 class Creature;
@@ -23,6 +24,8 @@ using mon_action_defend = void (*)(monster&, Creature*, dealt_projectile_attack 
 using mtype_id = string_id<mtype>;
 struct species_type;
 using species_id = string_id<species_type>;
+template<typename T>
+class generic_factory;
 
 struct species_type {
     species_id id;
@@ -101,8 +104,9 @@ class MonsterGenerator
         friend class string_id<mtype>;
         friend class string_id<species_type>;
 
-        std::map<mtype_id, mtype *> mon_templates;
-        std::map<species_id, species_type *> mon_species;
+        // Using unique_ptr here to avoid including generic_factory.h in this header.
+        std::unique_ptr<generic_factory<mtype>> mon_templates;
+        std::unique_ptr<generic_factory<species_type>> mon_species;
 
         std::map<std::string, phase_id> phase_map;
         std::map<std::string, mon_action_death> death_map;
