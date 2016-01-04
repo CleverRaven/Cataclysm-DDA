@@ -4751,18 +4751,19 @@ VisitResponse item::visit( const std::function<VisitResponse(item&)>& func ) {
             return VisitResponse::NEXT;
 
         case VisitResponse::NEXT:
-            ; /* Continue below */
+            ; /* Descend to any child items */
     }
 
     for( auto& e : contents ) {
-        auto r = func( e );
+        switch( e.visit( func ) ) {
+            case VisitResponse::ABORT:
+                return VisitResponse::ABORT;
 
-        if( r == VisitResponse::NEXT ) {
-            r = e.visit( func );
-        }
+            case VisitResponse::SKIP:
+                return VisitResponse::NEXT;
 
-        if ( r == VisitResponse::ABORT ) {
-            return VisitResponse::ABORT;
+            case VisitResponse::NEXT:
+                ; /* Continue to next sibling */
         }
     }
     return VisitResponse::NEXT;
