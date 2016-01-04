@@ -252,6 +252,7 @@ class JsonIn
         bool read(bool &b);
         bool read(char &c);
         bool read(signed char &c);
+        bool read( unsigned char &c );
         bool read(short unsigned int &s);
         bool read(short int &s);
         bool read(int &i);
