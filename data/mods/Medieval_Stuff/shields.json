@@ -19,7 +19,7 @@
         "encumbrance" : 5,
         "bashing" : 3,
         "symbol" : "[",
-        "flags" : ["OVERSIZE", "STURDY", "BELTED"],
+        "flags" : ["OVERSIZE", "STURDY", "BELTED", "RESTRICT_HANDS"],
         "techniques" : ["WBLOCK_1"],
         "coverage" : 50,
         "material_thickness" : 2
@@ -43,7 +43,7 @@
         "encumbrance" : 10,
         "bashing" : 4,
         "symbol" : "[",
-        "flags" : ["OVERSIZE", "STURDY", "BELTED"],
+        "flags" : ["OVERSIZE", "STURDY", "BELTED", "RESTRICT_HANDS"],
         "techniques" : ["WBLOCK_1"],
         "coverage" : 80,
         "material_thickness" : 2
@@ -67,7 +67,7 @@
         "encumbrance" : 5,
         "bashing" : 4,
         "symbol" : "[",
-        "flags" : ["OVERSIZE", "STURDY", "BELTED"],
+        "flags" : ["OVERSIZE", "STURDY", "BELTED", "RESTRICT_HANDS"],
         "techniques" : ["WBLOCK_1"],
         "coverage" : 60,
         "material_thickness" : 5
@@ -91,7 +91,7 @@
         "encumbrance" : 5,
         "bashing" : 4,
         "symbol" : "[",
-        "flags" : ["OVERSIZE", "STURDY", "BELTED"],
+        "flags" : ["OVERSIZE", "STURDY", "BELTED", "RESTRICT_HANDS"],
         "techniques" : ["WBLOCK_1"],
         "coverage" : 70,
         "material_thickness" : 5
@@ -115,7 +115,7 @@
         "encumbrance" : 7,
         "bashing" : 5,
         "symbol" : "[",
-        "flags" : ["OVERSIZE", "STURDY", "BELTED"],
+        "flags" : ["OVERSIZE", "STURDY", "BELTED", "RESTRICT_HANDS"],
         "techniques" : ["WBLOCK_1"],
         "coverage" : 60,
         "material_thickness" : 4
@@ -139,7 +139,7 @@
         "encumbrance" : 15,
         "bashing" : 10,
         "symbol" : "[",
-        "flags" : ["OVERSIZE", "STURDY", "BELTED"],
+        "flags" : ["OVERSIZE", "STURDY", "BELTED", "RESTRICT_HANDS"],
         "techniques" : ["WBLOCK_1"],
         "coverage" : 70,
         "material_thickness" : 4
@@ -164,7 +164,7 @@
         "encumbrance" : 10,
         "bashing" : 10,
         "symbol" : "[",
-        "flags" : ["OVERSIZE", "STURDY", "BELTED"],
+        "flags" : ["OVERSIZE", "STURDY", "BELTED", "RESTRICT_HANDS"],
         "techniques" : ["WBLOCK_1"],
         "coverage" : 80,
         "material_thickness" : 4
@@ -188,7 +188,7 @@
         "encumbrance" : 0,
         "bashing" : 8,
         "symbol" : "[",
-        "flags" : ["OVERSIZE", "STURDY", "BELTED"],
+        "flags" : ["OVERSIZE", "STURDY", "BELTED", "RESTRICT_HANDS"],
         "techniques" : ["WBLOCK_1"],
         "coverage" : 30,
         "material_thickness" : 4
