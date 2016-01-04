@@ -194,7 +194,7 @@
   },{
     "type" : "item_group",
     "id" : "player_crafted",
-    "//" : "items that should only be crafted by the player. Excluded from all other item groups.",
+    "//" : "items that should only be crafted by the player. Excluded from all other item groups. this is just an FYI list, it's not used to spawn items in game.",
     "items":[
       ["chemical_thrower", 0],
       ["diamond_bayonet", 0],

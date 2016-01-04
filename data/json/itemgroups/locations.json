@@ -1,5 +1,36 @@
 [
- {
+  },{
+    "type":"item_group",
+    "id":"homeguns",
+    "guns_with_ammo" : true,
+    "subtype": "distribution",
+    "entries" : [
+      { "group": "pistols", "prob": 150 },
+      { "group": "shotguns", "prob": 150 },
+      { "group": "smg", "prob": 20 },
+      { "group": "rifles", "prob": 100 },
+      { "group": "pistol_ammo", "prob": 150 },
+      { "group": "shotgun_ammo", "prob": 150 },
+      { "group": "rifle_ammo", "prob": 100 },
+      { "group": "reloaded_pistol_ammo", "prob": 50 },
+      { "group": "reloaded_shotgun_ammo", "prob": 50 },
+      { "group": "reloaded_rifle_ammo", "prob": 50 },     
+      { "group": "gun_mods", "prob": 100 },     
+      { "group": "ammo_casings", "prob": 100 },     
+      { "group": "archery", "prob": 50 },     
+      { "group": "archery_mods", "prob": 5 }, 
+      { "group": "archery_ammo", "prob": 50 }, 
+      { "item": "holster", "prob": 25 }, 
+      { "item": "tazer", "prob": 10 }, 
+      { "item": "speargun", "prob": 4 }, 
+      { "item": "minispeargun", "prob": 2 }, 
+      { "item": "doublespeargun", "prob": 2 }, 
+      { "item": "airspeargun", "prob": 2 }, 
+      { "item": "fishspear", "prob": 4 }, 
+      { "item": "m_fishspear", "prob": 2 }, 
+      { "item": "c_fishspear", "prob": 2 } 
+    ]
+  },{
     "type" : "item_group",
     "id" : "hospital_samples",
     "items":[
