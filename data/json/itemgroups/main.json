@@ -802,6 +802,43 @@
       ["small_repairkit", 50],
       ["large_repairkit", 25]
     ]
+  },{
+    "type" : "item_group",
+    "id" : "archery",
+    "items":[
+      ["crossbow", 80],
+      ["bullet_crossbow", 10],
+      ["hand_crossbow", 10],
+      ["huge_crossbow", 5],
+      ["longbow", 40],
+      ["compbow", 40],
+      ["compositebow", 40],
+      ["shortbow", 20],
+      ["recurbow", 40],
+      ["reflexbow", 20],
+      ["slingshot", 50],
+      ["wristrocket", 50],
+      ["blowgun", 5]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "archery_mods",
+    "items":[
+      ["bow_sight", 50],
+      ["bow_stabilizer", 50],
+      ["arrowrest", 50],
+      ["gun_crossbow", 40]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "archery_ammo",
+    "items":[
+      ["arrow_wood", 100],
+      ["arrow_metal", 50],
+      ["arrow_cf", 50],
+      ["bolt_steel", 50],
+      ["dart", 10]
+    ]
   }
 ]
 
