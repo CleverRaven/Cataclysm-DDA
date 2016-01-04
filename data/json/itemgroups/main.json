@@ -479,6 +479,47 @@
       { "group": "shotgun_ammo", "prob": 1000 },
       { "group": "rifle_ammo", "prob": 1000 }
     ]
+  },{
+    "type" : "item_group",
+    "id" : "launchers",
+    "items":[
+      ["m79", 10],
+      ["m320", 50],
+      ["mgl", 60],
+      ["rm802", 40],
+      ["m203", 50],
+      ["LAW_Packed", 80],
+      ["m3_carlgustav", 10],
+      ["m202_flash", 20],
+      ["RPG", 40],
+      ["flamethrower", 50],
+      ["rm451_flamethrower", 40]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "explosive_ammo",
+    "items":[
+      ["napalm", 50],
+      ["40mm_concussive", 20],
+      ["40mm_frag", 50],
+      ["40mm_flechette", 20],
+      ["40mm_flashbang", 20],
+      ["40mm_flare", 20],
+      ["40mm_teargas", 20],
+      ["40mm_smoke", 20],
+      ["40mm_incendiary", 20],
+      ["40mm_acidbomb", 20],
+      ["40mm_shot", 20],
+      ["RPG-7_ammo", 80],
+      ["m235tpa", 50],
+      ["84x246mm_he", 50],
+      ["84x246mm_hedp", 50],
+      ["84x246mm_smoke", 50],
+      ["m202_flash", 4],
+      ["66mm_HEAT", 0],
+      ["120mm_HEAT", 0],
+      ["mininuke_mod", 0]
+    ]
   }
 ]
 

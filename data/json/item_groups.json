@@ -6448,33 +6448,6 @@
     ]
   },{
     "type" : "item_group",
-    "id" : "launchers",
-    "items":[
-      ["40mm_concussive", 10],
-      ["40mm_frag", 8],
-      ["40mm_incendiary", 6],
-      ["40mm_teargas", 5],
-      ["40mm_smoke", 4],
-      ["40mm_flare", 4],
-      ["40mm_flashbang", 8],
-      ["40mm_beanbag", 15],
-      ["m79", 5],
-      ["m320", 10],
-      ["mgl", 6],
-      ["rm802", 5],
-      ["m203", 2],
-      ["LAW_Packed", 30],
-      ["m3_carlgustav", 2],
-      ["84x246mm_he", 6],
-      ["84x246mm_hedp", 4],
-      ["84x246mm_smoke", 9],
-      ["m202_flash", 4],
-      ["40mm_shot", 12],
-      ["40mm_flechette", 6],
-      ["m235tpa", 6]
-    ]
-  },{
-    "type" : "item_group",
     "id" : "mil_hw",
     "items":[
       ["flamethrower", 20],
