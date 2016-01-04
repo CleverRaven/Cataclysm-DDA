@@ -29,7 +29,7 @@
     "symbol": "/",
     "color": "light_gray",
     "name": "longsword",
-    "description": "This is a dull, chealy-made replica of the classic medieval longsword.  It requires a larger baldric or scabbard, compared to smaller swords.",
+    "description": "This is a dull, cheaply-made replica of the classic medieval longsword.  It requires a larger baldric or scabbard, compared to smaller swords.",
     "price": 13000,
     "material": "aluminum",
     "flags" : ["BASH", "SHEATH_SWORD"],
