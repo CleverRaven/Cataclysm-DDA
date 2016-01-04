@@ -779,6 +779,29 @@
       ["40mm_casing", 20],
       ["5x50_hull", 10]
     ]
+  },{
+    "type" : "item_group",
+    "id" : "ammo_parts",
+    "items":[
+      ["gunpowder",300],
+      ["lead",150],
+      ["incendiary",15],
+      ["shotgun_primer", 65],
+      ["smpistol_primer", 65],
+      ["lgpistol_primer", 50],
+      ["smrifle_primer", 60],
+      ["lgrifle_primer", 50]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "gun_tools",
+    "items":[
+      ["press", 100],
+      ["puller", 100],
+      ["chemistry_set", 20],
+      ["small_repairkit", 50],
+      ["large_repairkit", 25]
+    ]
   }
 ]
 
