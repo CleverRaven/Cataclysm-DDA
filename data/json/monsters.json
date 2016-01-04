@@ -313,7 +313,13 @@
     "vision_night":10,
     "hp":60,
     "death_function":"NORMAL",
-    "special_attacks":[["LEAP", 5]],
+    "special_attacks":[
+        {
+            "type" : "leap",
+            "cooldown" : 5,
+            "max_range" : 5
+        }
+    ],
     "description":"The Eastern cougar, a large feline predator.  Once thought extinct in this region, conservation efforts were successful in restoring a thriving population.",
     "flags":["SEES", "HEARS", "GOODHEARING", "SMELLS", "ANIMAL", "WARM", "FUR", "HIT_AND_RUN", "KEENNOSE", "BLEED", "ATTACKMON", "BONES", "FAT"],
     "anger_triggers":["STALK", "PLAYER_WEAK", "HURT", "PLAYER_CLOSE", "FRIEND_ATTACKED"],
@@ -2807,7 +2813,14 @@
     },
     "hp":90,
     "death_function":["NORMAL"],
-    "special_attacks":[["LEAP", 5], ["BITE", 5]],
+    "special_attacks":[
+        {
+            "type" : "leap",
+            "cooldown" : 5,
+            "max_range" : 5
+        },
+        ["BITE", 5]
+    ],
     "description":"This once-human body is barely recognizable, scrambling about on all fours, its nails and teeth both sharpened into dangerous looking spikes.",
     "flags":["SEES", "HEARS", "SMELLS", "WARM", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "BONES", "CLIMBS", "PUSH_MON"]
     },{
@@ -3028,7 +3041,13 @@
     },
     "hp":30,
     "death_function":["NORMAL"],
-    "special_attacks":[["LEAP", 10]],
+    "special_attacks":[
+        {
+            "type" : "leap",
+            "cooldown" : 10,
+            "max_range" : 5
+        }
+    ],
     "description":"This crouching child-mutant's face is dominated by a pair of huge black eyes and its fingertips end in sharp claws.",
     "//": "no GUILT because it no longer looks enough like a child to evoke pity",
     "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "BLEED", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "BONES", "CLIMBS"]
@@ -4345,7 +4364,13 @@
     "armor_cut":0,
     "hp":3,
     "death_function":"NORMAL",
-    "special_attacks":[["LEAP", 5]],
+    "special_attacks":[
+        {
+            "type" : "leap",
+            "cooldown" : 10,
+            "max_range" : 5
+        }
+    ],
     "description":"The American bullfrog, in its natural habitat.  It feeds on insects, mice, lizards and any other living thing it can stuff down its gullet.",
     "flags":["SEES", "SMELLS", "HEARS", "SWIMS", "HUNTS_VERMIN"],
     "fear_triggers":["PLAYER_CLOSE"]
@@ -4649,7 +4674,13 @@
     "vision_night":5,
     "hp":30,
     "death_function":"NORMAL",
-    "special_attacks":[["LEAP", 2]],
+    "special_attacks":[
+        {
+            "type" : "leap",
+            "cooldown" : 2,
+            "max_range" : 5
+        }
+    ],
     "description":"A giant spider with big forelegs and two pairs of inquisitive-looking eyes.  It can leap quite quickly, even into the treetops.",
     "flags":["SEES", "SMELLS", "HEARS", "VENOM", "HIT_AND_RUN", "CHITIN", "CLIMBS"],
     "anger_triggers":["PLAYER_CLOSE"]
@@ -6672,7 +6703,13 @@
     "vision_night":10,
     "hp":65,
     "death_function":"NORMAL",
-    "special_attacks":[["LEAP", 10]],
+    "special_attacks":[
+        {
+            "type" : "leap",
+            "cooldown" : 10,
+            "max_range" : 5
+        }
+    ],
     "description":"An otherwise normal-looking cougar, except that its hind legs are swollen, and its eyes bulge with black goo.",
     "flags":["SEES", "HEARS", "SMELLS", "STUMBLES", "WARM", "KEENNOSE", "GOODHEARING", "BASHES", "POISON", "NO_BREATHE", "REVIVES", "FUR", "BONES"],
     "anger_triggers":["PLAYER_CLOSE", "HURT"],
