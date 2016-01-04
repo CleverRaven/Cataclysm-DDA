@@ -565,6 +565,137 @@
       ["36navy", 50],
       ["44army", 50]
     ]
+  },{
+    "type" : "item_group",
+    "id" : "homemade_guns",
+    "items":[
+      ["nailrifle", 100],
+      ["rifle_9mm", 150],
+      ["rifle_22", 150],
+      ["rifle_308", 100],
+      ["pipe_shotgunsawn", 100],
+      ["pipe_double_shotgun", 70],
+      ["blunderbuss", 50],
+      ["2_shot_special", 80],
+      ["surv_six_shooter", 70],
+      ["surv_hand_cannon", 80],
+      ["survivor_special_700", 50],
+      ["surv_carbine_223", 50],
+      ["flamethrower_simple", 5],
+      ["launcher_simple", 5],
+      ["coilgun", 20],
+      ["rebar_rifle", 10],
+      ["heavy_rail_rifle", 5],
+      ["ashot", 5],
+      ["tihar", 5],
+      ["helsing", 5],
+      ["bigun", 5],
+      ["mininuke_launcher", 0],
+      ["unbio_blaster_gun", 0],
+      ["surv_rocket_launcher", 0],
+      ["chemical_thrower", 0]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "homemade_ammo",
+    "items":[
+      ["rebar_rail", 10],
+      ["steel_rail", 10],
+      ["combatnail", 50],
+      ["blun_slug", 20],
+      ["blun_shot", 20],
+      ["blun_flechette", 20],
+      ["spiked_rocket", 20],
+      ["explosive_hm_rocket", 10],
+      ["incendiary_hm_rocket", 10],
+      ["reloaded_40mm_flechette", 20],
+      ["reloaded_40mm_shot", 20],
+      ["reloaded_laser_pack", 5]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "reloaded_pistol_ammo",
+    "items":[      
+      ["reloaded_9mm", 300],
+      ["reloaded_9mmP", 20],
+      ["reloaded_9mmP2", 20],
+      ["reloaded_9mmfmj", 20],
+      ["reloaded_9x18mm", 10],
+      ["reloaded_9x18mmP2", 5],
+      ["reloaded_9x18mmfmj", 5],
+      ["reloaded_57mm", 50],
+      ["reloaded_46mm", 50],
+      ["reloaded_32_acp", 50],
+      ["reloaded_38_special", 50],
+      ["reloaded_38_super", 20],
+      ["reloaded_38_fmj", 20],
+      ["reloaded_10mm", 50],
+      ["reloaded_40sw", 20],
+      ["reloaded_40fmj", 20],
+      ["reloaded_44magnum", 50],
+      ["reloaded_45_acp", 50],
+      ["reloaded_45_jhp", 20],
+      ["reloaded_45_super", 20],
+      ["reloaded_454_Casull", 20],
+      ["reloaded_500_Magnum", 20],
+      ["8mm_bootleg_jsp", 5],
+      ["8mm_bootleg", 5],
+      ["reloaded_5x50dart", 5]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "reloaded_shotgun_ammo",
+    "items":[        
+      ["shot_scrap", 50],
+      ["shot_scrapslug", 50],
+      ["shot_scrapbag", 50],
+      ["reloaded_shot_bird", 150],
+      ["reloaded_shot_00", 200],
+      ["reloaded_shot_flechette", 50],
+      ["reloaded_shot_slug", 150],
+      ["reloaded_shot_beanbag", 10],
+      ["reloaded_shot_he", 50],
+      ["20x66_bootleg_shot", 20],
+      ["20x66_bootleg_flechette", 20],
+      ["20x66_bootleg_slug", 20]
+    ]
+  },{
+    "type" : "item_group",
+    "id" : "reloaded_rifle_ammo",
+    "items":[      
+      ["reloaded_22_lr", 300],
+      ["reloaded_22_fmj", 50],
+      ["reloaded_22_cb", 50],
+      ["reloaded_22_ratshot", 50],
+      ["reloaded_762_54R", 30],
+      ["reloaded_762_m43", 50],
+      ["reloaded_762_m87", 50],
+      ["reloaded_223", 50],
+      ["reloaded_556", 200],
+      ["reloaded_556_incendiary", 50],
+      ["reloaded_270", 50],
+      ["reloaded_300_winmag", 50],
+      ["reloaded_308", 100],
+      ["reloaded_762_51", 200],
+      ["reloaded_762_51_incendiary", 50],
+      ["reloaded_3006", 50],
+      ["reloaded_3006_incendiary", 50],
+      ["reloaded_50bmg", 50],
+      ["reloaded_50ss", 50],
+      ["reloaded_50_incendiary", 50],
+      ["reloaded_700nx", 0],
+      ["8mm_bootleg_jsp", 20],
+      ["8mm_bootleg", 20],
+      ["reloaded_5x50dart", 10]
+  },{
+    "type" : "item_group",
+    "id" : "reloaded_ammo",
+    "subtype": "distribution",
+    "entries" : [
+      { "group": "reloaded_pistol_ammo", "prob": 1000 },
+      { "group": "reloaded_shotgun_ammo", "prob": 1000 },
+      { "group": "reloaded_rifle_ammo", "prob": 1000 }
+    ]
   }
 ]
 
