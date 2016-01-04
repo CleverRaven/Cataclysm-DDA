@@ -591,14 +591,13 @@ int player::get_dodge_base() const {
 int player::get_dodge() const
 {
     //If we're asleep or busy we can't dodge
-    if (in_sleep_state()) {
+    if( in_sleep_state() ) {
         return 0;
     }
-    if (activity.type != ACT_NULL) {return 0;}
 
     int ret = Creature::get_dodge();
     // Chop in half if we are unable to move
-    if (has_effect("beartrap") || has_effect("lightsnare") || has_effect("heavysnare")) {
+    if( has_effect( "beartrap" ) || has_effect( "lightsnare" ) || has_effect( "heavysnare" ) ) {
         ret /= 2;
     }
     return ret;
